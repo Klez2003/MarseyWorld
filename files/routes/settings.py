@@ -281,7 +281,7 @@ def settings_personal_post(v):
 
 		success = v.charge_account('coins', cost)
 		if not success:
-			success = v.charge_account('marseybux', cost)
+			success = v.charge_account('procoins', cost)
 		if not success: abort(403)
 
 		if house == "None": house = '' 
@@ -358,16 +358,16 @@ def gumroad(v):
 	tier = tiers[response["variants_and_quantity"]]
 	if v.patron == tier: abort(400, f"{patron} rewards already claimed")
 
-	marseybux = marseybux_li[tier] - marseybux_li[v.patron]
-	if marseybux < 0: abort(400, f"{patron} rewards already claimed")
+	procoins = procoins_li[tier] - procoins_li[v.patron]
+	if procoins < 0: abort(400, f"{patron} rewards already claimed")
 
 	existing = g.db.query(User.id).filter(User.email == v.email, User.is_activated == True, User.patron >= tier).first()
 	if existing: abort(400, f"{patron} rewards already claimed on another account")
 
 	v.patron = tier
 
-	v.pay_account('marseybux', marseybux)
-	send_repeatable_notification(v.id, f"You have received {marseybux} Marseybux! You can use them to buy awards in the [shop](/shop).")
+	v.procoins += procoins
+	send_repeatable_notification(v.id, f"You have received {procoins} Marseybux! You can use them to buy awards in the [shop](/shop).")
 
 	g.db.add(v)
 
@@ -462,7 +462,6 @@ def settings_security_post(v):
 
 		v.mfa_secret = None
 		g.db.add(v)
-		g.db.commit()
 		return render_template("settings/security.html", v=v, msg="Two-factor authentication disabled.")
 
 @app.post("/settings/log_out_all_others")
@@ -581,7 +580,7 @@ def settings_security(v):
 
 @app.post("/settings/block")
 @limiter.limit("1/second;20/day")
-@ratelimit_user("1/second;20/day")
+@limiter.limit("1/second;20/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
 def settings_block_user(v):
 	user = get_user(request.values.get("username"), graceful=True)
@@ -671,7 +670,7 @@ def settings_name_change(v):
 @app.post("/settings/song_change_mp3")
 @feature_required('USERS_PROFILE_SONG')
 @limiter.limit("3/second;10/day")
-@ratelimit_user("3/second;10/day")
+@limiter.limit("3/second;10/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
 def settings_song_change_mp3(v):
 	file = request.files['file']
@@ -699,7 +698,7 @@ def settings_song_change_mp3(v):
 @app.post("/settings/song_change")
 @feature_required('USERS_PROFILE_SONG')
 @limiter.limit("3/second;10/day")
-@ratelimit_user("3/second;10/day")
+@limiter.limit("3/second;10/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
 def settings_song_change(v):
 	song=request.values.get("song").strip()
@@ -717,13 +716,11 @@ def settings_song_change(v):
 	elif song.startswith("https://youtu.be/"):
 		id = song.split("https://youtu.be/")[1]
 	else:
-		return render_template("settings/personal.html", v=v, error="Not a YouTube link"), 400
+		return render_template("settings/personal.html", v=v, error="Not a youtube link.")
 
 	if "?" in id: id = id.split("?")[0]
 	if "&" in id: id = id.split("&")[0]
 
-	if not yt_id_regex.fullmatch(id):
-		return render_template("settings/personal.html", v=v, error="Not a YouTube link"), 400
 	if path.isfile(f'/songs/{id}.mp3'): 
 		v.song = id
 		g.db.add(v)
@@ -733,15 +730,15 @@ def settings_song_change(v):
 	req = requests.get(f"https://www.googleapis.com/youtube/v3/videos?id={id}&key={YOUTUBE_KEY}&part=contentDetails", timeout=5).json()
 	duration = req['items'][0]['contentDetails']['duration']
 	if duration == 'P0D':
-		return render_template("settings/personal.html", v=v, error="Can't use a live youtube video!"), 400
+		return render_template("settings/personal.html", v=v, error="Can't use a live youtube video!")
 
 	if "H" in duration:
-		return render_template("settings/personal.html", v=v, error="Duration of the video must not exceed 15 minutes."), 400
+		return render_template("settings/personal.html", v=v, error="Duration of the video must not exceed 15 minutes.")
 
 	if "M" in duration:
 		duration = int(duration.split("PT")[1].split("M")[0])
 		if duration > 15: 
-			return render_template("settings/personal.html", v=v, error="Duration of the video must not exceed 15 minutes."), 400
+			return render_template("settings/personal.html", v=v, error="Duration of the video must not exceed 15 minutes.")
 
 
 	if v.song and path.isfile(f"/songs/{v.song}.mp3") and g.db.query(User).filter_by(song=v.song).count() == 1:
@@ -763,7 +760,7 @@ def settings_song_change(v):
 			print(e, flush=True)
 			return render_template("settings/personal.html",
 						v=v,
-						error="Age-restricted videos aren't allowed."), 400
+						error="Age-restricted videos aren't allowed.")
 
 	files = os.listdir("/songs/")
 	paths = [path.join("/songs/", basename) for basename in files]

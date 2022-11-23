@@ -1,5 +1,6 @@
 {% extends "settings.html" %}
-{% block pagetitle %}Personal Settings{% endblock %}
+{% block pagetitle %}Personal Settings - {{SITE_NAME}}{% endblock %}
+{% import 'settings/common.html' as common with context %}
 {% block content %}
 <style>
 	.bg-image {
@@ -94,7 +95,7 @@
 									<p>Join a house (cost: {{cost}} coins or marseybux).</p>
 								{% endif %}
 								<div class="input-group mb2">
-									<select {% if v.coins < cost and v.marseybux < cost or v.bite %}disabled{% endif %} autocomplete="off" id='house' class="form-control" form="profile-settings" name="house" onchange="postToastReload(this,'/settings/personal?house='+document.getElementById('house').value)">
+									<select {% if v.coins < cost and v.procoins < cost or v.bite %}disabled{% endif %} autocomplete="off" id='house' class="form-control" form="profile-settings" name="house" onchange="postToastReload(this,'/settings/personal?house='+document.getElementById('house').value)">
 										{% for entry in HOUSES %}
 											<option value="{{entry}}" {% if v.house == entry %} selected {% endif %}>
 												{{entry}}
@@ -166,13 +167,13 @@
 						</div>
 					</div>
 					{{common.color_section('namecolor', '/settings/namecolor', 'namecolor', 'Name Color', v.name_color)}}
-					{{common.line_text_section('pronouns', '/settings/pronouns_change', 'pronouns', 'Pronouns', v.pronouns, '{2-5 characters} / {2-5 characters}', 'Enter pronouns here', 'Change Pronouns', false, 3, 11, '([a-zA-Z]{1,5})/[a-zA-Z]{1,5}(/[a-zA-Z]{1,5})?', FEATURES['PRONOUNS'], false)}}
-					{# common.line_text_section(id, form_action, form_name, section_title, contents, below_text, placeholder_text, button_text, show_marseys, minlength, maxlength, pattern, show_if, disabled) #}
-					{{common.line_text_section('flair', '/settings/title_change', 'title', 'Flair', v.customtitleplain, 'Limit of 100 characters', 'Enter a flair here', 'Change Flair', true, 0, 100, '.*', true, v.flairchanged)}}
+					{{common.line_text_section('pronouns', '/settings/pronouns_change', 'pronouns', 'Pronouns', v.pronouns, '{2-5 characters} / {2-5 characters}', 'Enter pronouns here', 'Change Pronouns', false, 3, 11, '([a-zA-Z]{1,5})/[a-zA-Z]{1,5}(/[a-zA-Z]{1,5})?', FEATURES['PRONOUNS'])}}
+					{# common.line_text_section(id, form_action, form_name, section_title, contents, below_text, placeholder_text, button_text, show_marseys, minlength, maxlength, pattern, show_if) #}
+					{{common.line_text_section('flair', '/settings/title_change', 'title', 'Flair', v.customtitleplain, 'Limit of 100 characters', 'Enter a flair here', 'Change Flair', true, 0, 100, '.*', true)}}
 					{{common.color_section('flaircolor', '/settings/titlecolor', 'titlecolor', 'Flair Color', v.titlecolor)}}
 					{% if v.verified %}
 						{{common.color_section('verifiedcolor', '/settings/verifiedcolor', 'verifiedcolor', 'Checkmark Color', v.verifiedcolor)}}
-						{{common.line_text_section('checkmark_text', '/settings/checkmark_text', 'checkmark-text', 'Checkmark Text', v.verified, 'Limit of 100 characters', 'Enter checkmark hover text here', 'Change Text', false, 0, 100, '.*', v.verified, false)}}
+						{{common.line_text_section('checkmark_text', '/settings/checkmark_text', 'checkmark-text', 'Checkmark Text', v.verified, 'Limit of 100 characters', 'Enter checkmark hover text here', 'Change Text', false, 0, 100, '.*', v.verified)}}
 					{% endif %}
 					{% if FEATURES['USERS_PROFILE_SONG'] -%}
 						<div class="d-lg-flex border-bottom">
@@ -262,11 +263,9 @@
 
 {% if v.flairchanged %}
 	<script>
-		document.addEventListener('DOMContentLoaded', function() {
-			const date = formatDate(new Date({{v.flairchanged}}*1000));
-			const text = ` - Your flair has been locked until ${date}`;
-			document.getElementById('flair-body').value += text;
-		});
+		const date = new Date({{v.flairchanged}}*1000).toString();
+		const text = ` - Your flair has been locked until ${date}`
+		document.getElementById('customtitlebody').value += text;
 	</script>
 {% endif %}
 

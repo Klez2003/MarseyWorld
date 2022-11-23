@@ -128,7 +128,7 @@ def downvoting_posts(v, username, uid):
 def downvoting_comments(v, username, uid):
 	return upvoting_downvoting(v, username, uid, Comment, CommentVote, -1, "userpage/voted_comments.html", True)
 
-def user_voted(v, username, cls, vote_cls, template, standalone):
+def user_voted(v, username, cls, vote_cls, vote_dir, template, standalone):
 	u = get_user(username, v=v, include_shadowbanned=False)
 	if not u.is_visible_to(v): abort(403)
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
@@ -142,6 +142,7 @@ def user_voted(v, username, cls, vote_cls, template, standalone):
 			cls.deleted_utc == 0,
 			cls.author_id != u.id,
 			vote_cls.user_id == u.id,
+			vote_cls.vote_type == vote_dir
 		).order_by(cls.created_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
 
 	listing = [p.id for p in listing]
@@ -156,16 +157,16 @@ def user_voted(v, username, cls, vote_cls, template, standalone):
 
 	return render_template(template, next_exists=next_exists, listing=listing, page=page, v=v, standalone=standalone)
 
-@app.get("/@<username>/voted/posts")
+@app.get("/@<username>/upvoted/posts")
 @auth_required
-def user_voted_posts(v, username):
-	return user_voted(v, username, Submission, Vote, "userpage/voted_posts.html", None)
+def user_upvoted_posts(v, username):
+	return user_voted(v, username, Submission, Vote, 1, "userpage/voted_posts.html", None)
 
 
-@app.get("/@<username>/voted/comments")
+@app.get("/@<username>/upvoted/comments")
 @auth_required
-def user_voted_comments(v, username):
-	return user_voted(v, username, Comment, CommentVote, "userpage/voted_comments.html", True)
+def user_upvoted_comments(v, username):
+	return user_voted(v, username, Comment, CommentVote, 1, "userpage/voted_comments.html", True)
 
 
 @app.get("/grassed")
@@ -180,7 +181,7 @@ def grassed(v):
 @app.get("/chuds")
 @auth_required
 def chuds(v):
-	users = g.db.query(User).filter(User.agendaposter == 1)
+	users = g.db.query(User).filter(User.agendaposter > 0)
 	if not v.can_see_shadowbanned:
 		users = users.filter(User.shadowbanned == None)
 	users = users.order_by(User.username).all()
@@ -254,7 +255,7 @@ def downvoting(v, username):
 @app.post("/@<username>/suicide")
 @feature_required('USERS_SUICIDE')
 @limiter.limit("1/second;5/day")
-@ratelimit_user("1/second;5/day")
+@limiter.limit("1/second;5/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
 def suicide(v, username):
 	
@@ -272,23 +273,24 @@ def get_coins(v, username):
 	user = get_user(username, v=v, include_shadowbanned=False)
 	return {"coins": user.coins}
 
-def transfer_currency(v:User, username:str, currency_name:Literal['coins', 'marseybux'], apply_tax:bool):
+def transfer_currency(v:User, username:str, currency_name:Literal['coins', 'procoins'], apply_tax:bool):
 	MIN_CURRENCY_TRANSFER = 100
 	TAX_PCT = 0.03
+	friendly_currency_name = 'marseybux' if currency_name == 'procoins' else 'coins'
 	receiver = get_user(username, v=v, include_shadowbanned=False)
-	if receiver.id == v.id: abort(400, f"You can't transfer {currency_name} to yourself!")
+	if receiver.id == v.id: abort(400, f"You can't transfer {friendly_currency_name} to yourself!")
 	amount = request.values.get("amount", "").strip()
 	amount = int(amount) if amount.isdigit() else None
 
-	if amount is None or amount <= 0: abort(400, f"Invalid number of {currency_name}")
-	if amount < MIN_CURRENCY_TRANSFER: abort(400, f"You have to gift at least {MIN_CURRENCY_TRANSFER} {currency_name}")
+	if amount is None or amount <= 0: abort(400, f"Invalid number of {friendly_currency_name}")
+	if amount < MIN_CURRENCY_TRANSFER: abort(400, f"You have to gift at least {MIN_CURRENCY_TRANSFER} {friendly_currency_name}")
 	tax = 0
 	if apply_tax and not v.patron and not receiver.patron and not v.alts_patron and not receiver.alts_patron:
 		tax = math.ceil(amount*TAX_PCT)
 
 	reason = request.values.get("reason", "").strip()
-	log_message = f"@{v.username} has transferred {amount} {currency_name} to @{receiver.username}"
-	notif_text = f":marseycapitalistmanlet: @{v.username} has gifted you {amount-tax} {currency_name}!"
+	log_message = f"@{v.username} has transferred {amount} {friendly_currency_name} to @{receiver.username}"
+	notif_text = f":marseycapitalistmanlet: @{v.username} has gifted you {amount-tax} {friendly_currency_name}!"
 
 	if reason:
 		if len(reason) > TRANSFER_MESSAGE_LENGTH_LIMIT: abort(400, f"Reason is too long, max {TRANSFER_MESSAGE_LENGTH_LIMIT} characters")
@@ -296,20 +298,20 @@ def transfer_currency(v:User, username:str, currency_name:Literal['coins', 'mars
 		log_message += f"\n\n> {reason}"
 
 	if not v.charge_account(currency_name, amount):
-		abort(400, f"You don't have enough {currency_name}")
+		abort(400, f"You don't have enough {friendly_currency_name}")
 
 	if not v.shadowbanned:
-		if currency_name == 'marseybux':
-			receiver.pay_account('marseybux', amount - tax)
+		if currency_name == 'procoins':
+			receiver.procoins += amount - tax
 		elif currency_name == 'coins':
-			receiver.pay_account('coins', amount - tax)
+			receiver.coins += amount - tax
 		else:
 			raise ValueError(f"Invalid currency '{currency_name}' got when transferring {amount} from {v.id} to {receiver.id}")
 		g.db.add(receiver)
 		if GIFT_NOTIF_ID: send_repeatable_notification(GIFT_NOTIF_ID, log_message)
 		send_repeatable_notification(receiver.id, notif_text)
 	g.db.add(v)
-	return {"message": f"{amount - tax} {currency_name} have been transferred to @{receiver.username}"}
+	return {"message": f"{amount - tax} {friendly_currency_name} have been transferred to @{receiver.username}"}
 	
 @app.post("/@<username>/transfer_coins")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
@@ -319,12 +321,12 @@ def transfer_coins(v, username):
 	return transfer_currency(v, username, 'coins', True)
 
 @app.post("/@<username>/transfer_bux")
-@feature_required('MARSEYBUX')
+@feature_required('PROCOINS')
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @is_not_permabanned
 @ratelimit_user()
 def transfer_bux(v, username):
-	return transfer_currency(v, username, 'marseybux', False)
+	return transfer_currency(v, username, 'procoins', False)
 
 @app.get("/leaderboard")
 @auth_required
@@ -414,7 +416,7 @@ def unsubscribe(v, post_id):
 
 @app.post("/@<username>/message")
 @limiter.limit("1/second;10/minute;20/hour;50/day")
-@ratelimit_user("1/second;10/minute;20/hour;50/day")
+@limiter.limit("1/second;10/minute;20/hour;50/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @is_not_permabanned
 def message2(v, username):
 	user = get_user(username, v=v, include_blocks=True, include_shadowbanned=False)
@@ -479,7 +481,7 @@ def message2(v, username):
 
 @app.post("/reply")
 @limiter.limit("1/second;6/minute;50/hour;200/day")
-@ratelimit_user("1/second;6/minute;50/hour;200/day")
+@limiter.limit("1/second;6/minute;50/hour;200/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
 def messagereply(v):
 	body = sanitize_raw_body(request.values.get("body"), False)
@@ -1050,7 +1052,6 @@ def bid_list(v, bid):
 						users=users,
 						next_exists=next_exists,
 						page=page,
-						user_cards_title="Badge Owners",
 						)
 
 
@@ -1106,9 +1107,9 @@ def settings_kofi(v):
 
 	tier = kofi_tiers[transaction.amount]
 
-	marseybux = marseybux_li[tier]
-	v.pay_account('marseybux', marseybux)
-	send_repeatable_notification(v.id, f"You have received {marseybux} Marseybux! You can use them to buy awards in the [shop](/shop).")
+	procoins = procoins_li[tier]
+	v.procoins += procoins
+	send_repeatable_notification(v.id, f"You have received {procoins} Marseybux! You can use them to buy awards in the [shop](/shop).")
 	g.db.add(v)
 
 	if tier > v.patron:

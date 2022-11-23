@@ -68,7 +68,7 @@ def buy(v, award):
 		if award == "grass":
 			abort(403, "You can't buy the grass award with marseybux.")
 
-		charged = v.charge_account('marseybux', price)
+		charged = v.charge_account('procoins', price)
 		if not charged:
 			abort(400, "Not enough marseybux.")
 	else:
@@ -163,7 +163,7 @@ def award_thing(v, thing_type, id):
 	note = request.values.get("note", "").strip()
 
 
-	if SITE == 'rdrama.net' and author.id in (PIZZASHILL_ID, CARP_ID) and v.id not in (AEVANN_ID, SNAKES_ID):
+	if SITE == 'rdrama.net' and author.id in (PIZZASHILL_ID, CARP_ID):
 		abort(403, f"@{author.username} is immune to awards.")
 
 	if kind == "benefactor" and author.id == v.id:
@@ -201,7 +201,7 @@ def award_thing(v, thing_type, id):
 		elif kind != 'spider':
 			awarded_coins = int(AWARDS[kind]['price'] * COSMETIC_AWARD_COIN_AWARD_PCT) if AWARDS[kind]['cosmetic'] else 0
 			if AWARDS[kind]['cosmetic']:
-				author.pay_account('coins', awarded_coins)
+				author.coins += awarded_coins
 
 			msg = f"@{v.username} has given your [{thing_type}]({thing.shortlink}) the {AWARDS[kind]['title']} Award"
 			if awarded_coins > 0:
@@ -331,7 +331,7 @@ def award_thing(v, thing_type, id):
 		author.patron = 1
 		if author.patron_utc: author.patron_utc += 2629746
 		else: author.patron_utc = int(time.time()) + 2629746
-		author.pay_account('marseybux', 2500)
+		author.procoins += 2500
 		badge_grant(user=v, badge_id=103)
 	elif kind == "rehab":
 		if author.rehab: author.rehab += 86400
@@ -390,6 +390,10 @@ def award_thing(v, thing_type, id):
 		if author.spider: author.spider += 86400
 		else: author.spider = int(time.time()) + 86400
 		badge_grant(user=author, badge_id=179, notify=False)
+	elif FEATURES['HOLIDAY_EVENT']:
+		from events import EVENT_AWARDS, award_thing_event
+		if kind in EVENT_AWARDS:
+			award_thing_event(v, kind, author)
 
 	if author.received_award_count: author.received_award_count += 1
 	else: author.received_award_count = 1

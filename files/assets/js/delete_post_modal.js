@@ -1,9 +1,13 @@
-function delete_postModal(t, id) {
+function delete_postModal(id) {
 	document.getElementById("deletePostButton").onclick = function() {
-		postToast(t, `/delete_post/${id}`,
-			{
-			},
-			() => {
+		const xhr = createXhrWithFormKey(`/delete_post/${id}`);
+		xhr[0].onload = function() {
+			let data
+			try {data = JSON.parse(xhr[0].response)}
+			catch(e) {console.log(e)}
+			success = xhr[0].status >= 200 && xhr[0].status < 300;
+			showToast(success, getMessageFromJsonData(success, data));
+			if (success && data["message"]) {
 				if (window.location.pathname == '/admin/reported/posts')
 				{
 					document.getElementById("flaggers-"+id).remove()
@@ -17,7 +21,10 @@ function delete_postModal(t, id) {
 					document.getElementById(`delete2-${id}`).classList.add('d-none');
 					document.getElementById(`undelete2-${id}`).classList.remove('d-none');
 				}
+			} else {
+				showToast(false, getMessageFromJsonData(false, data));
 			}
-		);
+		};
+		xhr[0].send(xhr[1]);
 	};
 }

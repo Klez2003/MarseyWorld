@@ -113,7 +113,7 @@ class User(Base):
 	login_nonce = Column(Integer, default=0)
 	coins = Column(Integer, default=0)
 	truescore = Column(Integer, default=0)
-	marseybux = Column(Integer, default=0)
+	procoins = Column(Integer, default=0)
 	mfa_secret = deferred(Column(String))
 	is_private = Column(Boolean, default=False)
 	stored_subscriber_count = Column(Integer, default=0)
@@ -175,7 +175,7 @@ class User(Base):
 		if currency == 'coins':
 			g.db.query(User).filter(User.id == self.id).update({ User.coins: User.coins + amount })
 		else:
-			g.db.query(User).filter(User.id == self.id).update({ User.marseybux: User.marseybux + amount })
+			g.db.query(User).filter(User.id == self.id).update({ User.procoins: User.procoins + amount })
 
 		g.db.flush()
 		
@@ -192,11 +192,11 @@ class User(Base):
 			if not should_check_balance or account_balance >= amount:
 				g.db.query(User).filter(User.id == self.id).update({ User.coins: User.coins - amount })
 				succeeded = True
-		elif currency == 'marseybux':
-			account_balance = in_db.marseybux
+		elif currency == 'procoins':
+			account_balance = in_db.procoins
 			
 			if not should_check_balance or account_balance >= amount:
-				g.db.query(User).filter(User.id == self.id).update({ User.marseybux: User.marseybux - amount })
+				g.db.query(User).filter(User.id == self.id).update({ User.procoins: User.procoins - amount })
 				succeeded = True
 
 		if succeeded: g.db.flush()
@@ -261,9 +261,6 @@ class User(Base):
 		if self.is_cakeday:
 			return '/i/hats/Cakeday.webp'
 
-		if self.age < 86400 * 7:
-			return '/i/new-user.webp'
-
 		if self.forced_hat:
 			return f'/i/hats/{self.forced_hat[0]}.webp'
 
@@ -279,9 +276,6 @@ class User(Base):
 
 		if self.is_cakeday:
 			return "I've spent another year rotting my brain with dramaposting, please ridicule me 🤓"
-
-		if self.age < 86400 * 7:
-			return "Hi, I'm new here! Please be gentle :)"
 
 		if self.forced_hat:
 			return self.forced_hat[1]
@@ -309,7 +303,6 @@ class User(Base):
 	@lazy
 	def mods(self, sub):
 		if self.is_suspended_permanently or self.shadowbanned: return False
-		if self.id in (AEVANN_ID, SNAKES_ID): return True
 		try:
 			return any(map(lambda x: x.sub == sub, self.sub_mods))
 		except:
@@ -591,7 +584,7 @@ class User(Base):
 					Notification.user_id == self.id,
 					Comment.is_banned == False,
 					Comment.deleted_utc == 0,
-					not_(and_(Comment.sentto != None, Comment.sentto == MODMAIL_ID, User.is_muted)),
+					not_(and_(Comment.sentto == MODMAIL_ID, User.is_muted)),
 				))
 		
 		if not self.can_see_shadowbanned:

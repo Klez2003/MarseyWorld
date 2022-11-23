@@ -73,7 +73,7 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 	execute_shadowban_viewers_and_voters(v, post)
 	execute_shadowban_viewers_and_voters(v, comment)
 			
-	if v and v.client: return top_comment.json(db=g.db)
+	if v and v.client: return top_comment.json
 	else: 
 		if post.is_banned and not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or post.author_id == v.id)): template = "submission_banned.html"
 		else: template = "submission.html"
@@ -81,7 +81,7 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 
 @app.post("/comment")
 @limiter.limit("1/second;20/minute;200/hour;1000/day")
-@ratelimit_user("1/second;20/minute;200/hour;1000/day")
+@limiter.limit("1/second;20/minute;200/hour;1000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
 def comment(v):
 	if v.is_suspended: abort(403, "You can't perform this action while banned.")
@@ -361,14 +361,14 @@ def comment(v):
 
 	g.db.flush()
 
-	if v.client: return c.json(db=g.db)
+	if v.client: return c.json(g.db)
 	return {"comment": render_template("comments.html", v=v, comments=[c])}
 
 
 
 @app.post("/edit_comment/<cid>")
 @limiter.limit("1/second;10/minute;100/hour;200/day")
-@ratelimit_user("1/second;10/minute;100/hour;200/day")
+@limiter.limit("1/second;10/minute;100/hour;200/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @is_not_permabanned
 def edit_comment(cid, v):
 	c = get_comment(cid, v=v)

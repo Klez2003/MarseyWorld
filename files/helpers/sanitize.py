@@ -38,7 +38,7 @@ TLDS = ( # Original gTLDs and ccTLDs
 	# New gTLDs
 	'app','cleaning','club','dev','farm','florist','fun','gay','lgbt','life','lol',
 	'moe','mom','monster','new','news','online','pics','press','pub','site',
-	'vip','win','world','wtf','xyz','video','host','art',
+	'vip','win','world','wtf','xyz', 'video',
 	)
 
 allowed_tags = ('b','blockquote','br','code','del','em','h1','h2','h3','h4','h5','h6','hr','i',
@@ -362,9 +362,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 		if isinstance(t, str): t = t.replace('s','')
 
 		htmlsource = f'{i.group(1)}<lite-youtube videoid="{i.group(3)}" params="autoplay=1&modestbranding=1'
-		if t:
-			try: htmlsource += f'&start={int(t)}'
-			except: pass
+		if t: htmlsource += f'&start={t}'
 		htmlsource += '"></lite-youtube>'
 
 		sanitized = sanitized.replace(i.group(0), htmlsource)

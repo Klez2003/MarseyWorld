@@ -1,10 +1,14 @@
 {% extends "default.html" %}
+
+
 {% block pagetype %}userpage{% endblock %}
-{% block pagetitle %}@{{u.username}}'s profile{% endblock %}
-{% block head_final %}
-	{% if u and u.profilecss and not request.values.get('nocss') %}
-		<link rel="stylesheet" href="/{{u.id}}/profilecss">
-	{% endif %}
+
+{% block title %}
+
+{% if u and u.profilecss and not request.values.get('nocss') %}
+	<link rel="stylesheet" href="/{{u.id}}/profilecss">
+{% endif %}
+
 {% endblock %}
 
 {% import 'userpage/admintools.html' as userpage_admintools with context %}
@@ -70,15 +74,15 @@
 				{% endif %}
 				
 				{% if v and (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']) -%}
-				<div class="font-weight-bolder mb-2" id="profile--simphate"><a class="mr-1" href="/@{{u.username}}/upvoters">Simps</a> | <a class="mx-1" href="/@{{u.username}}/downvoters">Haters</a> | <a class="mx-1" href="/@{{u.username}}/upvoting">Simps For</a> | <a class="mx-1" href="/@{{u.username}}/downvoting">Hates</a> | <a class="ml-1" href="/@{{u.username}}/voted/posts">Voted</a></div>
+				<div class="font-weight-bolder mb-2" id="profile--simphate"><a class="mr-1" href="/@{{u.username}}/upvoters">Simps</a> | <a class="mx-1" href="/@{{u.username}}/downvoters">Haters</a> | <a class="mx-1" href="/@{{u.username}}/upvoting">Simps For</a> | <a class="mx-1" href="/@{{u.username}}/downvoting">Hates</a> | <a class="ml-1" href="/@{{u.username}}/upvoted/posts">Upvoted</a></div>
 				{%- endif %}
 
 				<div class="font-weight-bolder">
 					<span id="profile-coins-amount">{{u.coins}}</span>
 					<img alt="coins" class="ml-1 mb-1 mr-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Coins" height="20" src="{{'coins.webp' | asset_siteimg}}">
 
-					{% if FEATURES['MARSEYBUX'] %}
-						<span id="profile-bux-amount">{{u.marseybux}}</span>
+					{% if FEATURES['PROCOINS'] %}
+						<span id="profile-bux-amount">{{u.procoins}}</span>
 						<img alt="marseybux" class="ml-1 mb-1 mr-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Marseybux" height="20" width="46" src="/i/marseybux.webp?v=2000">
 					{% endif %}
 
@@ -151,7 +155,7 @@
 									<button type="button" class="btn btn-primary" onclick="postToastSwitch(this,'/@{{u.username}}/suicide')">Get Them Help</button>
 								{%- endif %}
 								<button type="button" class="btn btn-primary" onclick="toggleElement('coin-transfer', 'coin-transfer-amount')">Gift Coins</button>
-								{% if FEATURES['MARSEYBUX'] -%}
+								{% if FEATURES['PROCOINS'] -%}
 									<button type="button" class="btn btn-primary" onclick="toggleElement('bux-transfer', 'bux-transfer-amount')">Gift Marseybux</button>
 								{%- endif %}
 
@@ -192,7 +196,9 @@
 						{% endif %}
 
 						{% if FEATURES['USERS_PROFILE_SONG'] and u.song and v and (v.id == u.id or v.mute and not u.unmutable) %}
-							<button type="button" class="btn btn-secondary" onclick="toggle()" {% if v.id == u.id %}style="margin-bottom:0!important;padding:0.3rem 0.75rem!important"{% endif %}>Toggle anthem</button>
+							<span>
+								<button type="button" class="btn btn-secondary" onclick="toggle()">Toggle anthem</button>
+							</span>
 						{% endif %}
 					</div>
 					
@@ -302,15 +308,15 @@
 				{% endif %}
 
 				{% if v and (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']) -%}
-				<div class="font-weight-bolder mb-2" id="profile-mobile--simphate"><a class="mr-1" href="/@{{u.username}}/upvoters">Simps</a> | <a class="mx-1" href="/@{{u.username}}/downvoters">Haters</a> | <a class="mx-1" href="/@{{u.username}}/upvoting">Simps For</a> | <a class="mx-1" href="/@{{u.username}}/downvoting">Hates</a> | <a class="ml-1" href="/@{{u.username}}/voted/posts">Voted</a></div>
+				<div class="font-weight-bolder mb-2" id="profile-mobile--simphate"><a class="mr-1" href="/@{{u.username}}/upvoters">Simps</a> | <a class="mx-1" href="/@{{u.username}}/downvoters">Haters</a> | <a class="mx-1" href="/@{{u.username}}/upvoting">Simps For</a> | <a class="mx-1" href="/@{{u.username}}/downvoting">Hates</a> | <a class="ml-1" href="/@{{u.username}}/upvoted/posts">Upvoted</a></div>
 				{%- endif %}
 
 				<div class="font-weight-normal">
 					<span id="profile-coins-amount-mobile" class="font-weight-bold">{{u.coins}}</span>
 					<img alt="coins" class="ml-1 mb-1 mr-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Coins" height="15" src="{{'coins.webp' | asset_siteimg}}">
 
-					{% if FEATURES['MARSEYBUX'] %}
-						<span id="profile-bux-amount-mobile" class="font-weight-bold">{{u.marseybux}}</span>
+					{% if FEATURES['PROCOINS'] %}
+						<span id="profile-bux-amount-mobile" class="font-weight-bold">{{u.procoins}}</span>
 						<img alt="marseybux" class="ml-1 mb-1 mr-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Marseybux" height="15" width="35" src="/i/marseybux.webp?v=2000">
 					{% endif %}
 
@@ -389,7 +395,9 @@
 					{% endif %}
 
 					{% if FEATURES['USERS_PROFILE_SONG'] and u.song and v and (v.id == u.id or v.mute and not u.unmutable) %}
-						<button type="button" class="btn btn-secondary" onclick="toggle()" {% if v.id == u.id %}style="margin-bottom:0!important;padding:0.3rem 0.75rem!important"{% endif %}>Toggle anthem</button>
+						<span>
+							<button type="button" class="btn btn-secondary" onclick="toggle()">Toggle anthem</button>
+						</span>
 					{% endif %}
 
 					{% if v and v.id != u.id %}
@@ -402,7 +410,7 @@
 							<button type="button" class="btn btn-primary" onclick="postToastSwitch(this,'/@{{u.username}}/suicide')">Get Them Help</button>
 						{%- endif %}
 						<button type="button" class="btn btn-primary" onclick="toggleElement('coin-transfer-mobile', 'coin-transfer-amount-mobile')">Gift Coins</button>
-						{% if FEATURES['MARSEYBUX'] -%}
+						{% if FEATURES['PROCOINS'] -%}
 							<button type="button" class="btn btn-primary" onclick="toggleElement('bux-transfer-mobile', 'bux-transfer-amount-mobile')">Gift Marseybux</button>
 						{%- endif %}
 
@@ -451,7 +459,7 @@
 							<span id="profile-mobile--alts"><a href="/@{{u.username}}/alts">Alts</a>:</span>
 						{% else %}
 							<span id="profile-mobile--alts">Alts:</span>
-						{% endif %}
+						{% endif %}:
 						<ul id="profile-mobile--alts-list">
 						{% for account in u.alts_unique if not account._alt_deleted and (v.can_see_shadowbanned or not account.shadowbanned) %}
 							<li><a href="{{account.url}}">@{{account.username}}</a>{% if account._is_manual %} [m]{% endif %}</li>
@@ -594,8 +602,7 @@
 {% endif %}
 
 {% if not request.path.endswith('/comments') %}
-	<script defer src="{{'js/vendor/marked.js' | asset}}"></script>
-	<script defer src="{{'js/markdown.js' | asset}}"></script>
+	<script defer src="{{'js/marked.js' | asset}}"></script>
 {% endif %}
 
 {% if v and v.id != u.id and '/comments' not in request.path %}
@@ -604,4 +611,5 @@
 
 {% endblock %}
 
-{% block GIFpicker %}{% endblock %}
+{% block GIFpicker %}
+{% endblock %}

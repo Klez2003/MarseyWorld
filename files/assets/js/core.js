@@ -180,14 +180,19 @@ function smoothScrollTop()
 }
 
 // Click navbar to scroll back to top
-document.getElementsByTagName('nav')[0].addEventListener('click', (e) => {
-	if (e.target.id === "navbar" ||
-		e.target.classList.contains("container-fluid") ||
-		e.target.id == "navbarResponsive" ||
-		e.target.id == "logo-container" ||
-		e.target.classList.contains("srd"))
-		smoothScrollTop();
-}, false);
+(() => {
+	for (const i of document.querySelectorAll('nav'))
+	{
+		i.addEventListener('click', (e) => {
+			if (e.target.id === "navbar" ||
+				e.target.classList.contains("container-fluid") ||
+				e.target.id == "navbarResponsive" ||
+				e.target.id == "logo-container" ||
+				e.target.classList.contains("srd"))
+				smoothScrollTop();
+		}, false);
+	}
+})();
 
 // Dynamic shadow when the user scrolls
 document.addEventListener('scroll',function (event) {
@@ -255,7 +260,7 @@ function bs_trigger(e) {
 		}
 	})
 
-	if (typeof update_speed_emoji_modal == 'function') {
+	if (typeof update_speed_emoji_modal != 'undefined') {
 		let forms = e.querySelectorAll("textarea, .allow-emojis");
 		forms.forEach(i => {
 			let pseudo_div = document.createElement("div");
@@ -353,9 +358,12 @@ function prepare_to_pause(audio) {
 		});
 	}
 
-	window.addEventListener('click', (e) => {
-		if (e.target.tagName.toLowerCase() == "lite-youtube" && !audio.paused) audio.pause();
-	});
+	for (const e of document.getElementsByTagName('lite-youtube'))
+	{
+		e.addEventListener('click', (event) => {
+			if (!audio.paused) audio.pause();
+		});
+	}
 }
 
 function sendFormXHR(e, extraActionsOnSuccess) {
@@ -403,10 +411,4 @@ function sendFormXHRSwitch(e) {
 			e.target.classList.add('d-none');
 		}
 	)
-}
-
-if ("serviceWorker" in navigator) {
-	navigator.serviceWorker.register("/service-worker.js?v=3")
-		.then((registration) => registration.update())
-		.catch((e) => console.log("Service worker update failed with error", e));
 }

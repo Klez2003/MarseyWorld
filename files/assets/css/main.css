@@ -1692,10 +1692,10 @@ button.close {
 }
 .modal-dialog-scrollable {
 	display: flex;
-	max-height: calc(100% - 3.5rem);
+	max-height: calc(100% - 1rem);
 }
 .modal-dialog-scrollable .modal-content {
-	max-height: calc(100vh - 3.5rem);
+	max-height: calc(100vh - 1rem);
 	overflow: hidden;
 }
 .modal-dialog-scrollable .modal-header, .modal-dialog-scrollable .modal-footer {
@@ -1707,11 +1707,11 @@ button.close {
 .modal-dialog-centered {
 	display: flex;
 	align-items: center;
-	max-height: calc(100% - 3.5rem);
+	min-height: calc(100% - 1rem);
 }
 .modal-dialog-centered::before {
 	display: block;
-	height: calc(100vh - 3.5rem);
+	height: calc(100vh - 1rem);
 	content: "";
 }
 .modal-dialog-centered.modal-dialog-scrollable {
@@ -1788,16 +1788,16 @@ button.close {
 	margin: 0.25rem;
 }
 .modal-dialog-scrollable {
-	max-height: calc(100% - 3.5rem);
+	max-height: calc(100% - 5rem);
 }
 .modal-dialog-scrollable .modal-content {
-	max-height: calc(100vh - 3.5rem);
+	max-height: calc(100vh - 5rem);
 }
 .modal-dialog-centered {
-	max-height: calc(100% - 3.5rem);
+	max-height: calc(100% - 5rem);
 }
 .modal-dialog-centered::before {
-	height: calc(100vh - 3.5rem);
+	height: calc(100vh - 5rem);
 }
 @media (min-width: 992px) {
 	.modal-xl {
@@ -4694,7 +4694,7 @@ textarea {
 	}
 }
 .container, .container-fluid {
-	padding-bottom: 8vh;
+	padding-bottom: 50px;
 }
 .navbar {
 	padding: 0.2rem 0 0 0.2rem;
@@ -5022,22 +5022,6 @@ img[src="/i/hand.webp"]+img[glow]:not([data-src]) {
 	pat-pfp-anim .3s infinite;
 }
 
-@keyframes rb {
-	10% { color: red; }
-	20% { color: orange; }
-	30% { color: yellow; }
-	40% { color: green; }
-	50% { color: cyan; }
-	70% { color: blue; }
-	80% { color: indigo; }
-	90% { color: violet; }
-}
-
-.zozbot {
-	font-weight: bold;
-	animation: rb 8s linear infinite;
-}
-
 .text-black {
 	color: var(--black);
 }
@@ -5280,8 +5264,8 @@ li > .sidebar {
 }
 
 .navsettings {
-	padding-left: 1.2rem !important;
-	padding-right: 1.2rem !important;
+	padding-left: 0.9rem !important;
+	padding-right: 0.9rem !important;
 }
 
 @media (max-width: 768px) {
@@ -5995,11 +5979,10 @@ g {
 .fa-volume:before{content:"\f6a8"}
 .fa-volume-mute:before{content:"\f6a9"}
 .fa-times:before{content:"\f00d"}
-.fa-mobile:before{content:"\f3ce"}
+.fa-android:before{content:"\f17b"}
 .fa-discord:before{content:"\f392"}
 .fa-github:before{content:"\f09b"}
 .fa-twitter:before{content:"\f099"}
-.fa-git-alt:before{content:"\f841"}
 .fa-head-side:before{content:"\f6e9"}
 .fa-crab:before{content:"\e3ff"}
 .fa-socks:before{content:"\f696"}
@@ -6100,11 +6083,15 @@ g {
 	font-size: 20px;
 }
 
-@media (max-width: 374px) {
+@media (max-width: 370px) {
 	.smol-fp {
-		font-size: 3.3vw;
-		padding-left: 2.4vw;
-		padding-right: 2.4vw;
+		font-size: 0.9rem;
+	}
+}
+
+@media (max-width: 345px) {
+	.smol-fp {
+		font-size: 0.7rem;
 	}
 }
 
@@ -6356,7 +6343,7 @@ div.markdown {
 	margin-bottom: 10px !important;
 }
 #desktop-expanded-image {
-	max-height:80vh;
+	max-height:90vh;
 	border:5px white solid;
 	-o-object-fit: contain;
 	object-fit: contain;

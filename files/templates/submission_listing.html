@@ -65,11 +65,11 @@
 
 			{% else %}
 
-				<div tabindex="0" role="button" onclick="vote('post', '{{p.id}}', '1')" class="post-{{p.id}}-up mx-auto arrow-up" onclick="location.href='/login?redirect={{request.full_path | urlencode}}';"></div>
+				<div tabindex="0" role="button" onclick="vote('post', '{{p.id}}', '1')" class="post-{{p.id}}-up mx-auto arrow-up" onclick="location.href='/login';"></div>
 
 				<span class="post-{{p.id}}-score-none score{% if p.controversial %} controversial{% endif %}"{% if not p.is_banned %} data-bs-toggle="tooltip" data-bs-placement="right" title="+{{ups}} | -{{downs}}"{% endif %}style="cursor: default">{{score}}</span>
 
-				<div {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" role="button" onclick="vote('post', '{{p.id}}', '-1')" class="post-{{p.id}}-down text-muted mx-auto arrow-down" onclick="location.href='/login?redirect={{request.full_path | urlencode}}';"></div>
+				<div {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" role="button" onclick="vote('post', '{{p.id}}', '-1')" class="post-{{p.id}}-down text-muted mx-auto arrow-down" onclick="location.href='/login';"></div>
 
 			{% endif %}
 
@@ -80,26 +80,26 @@
 			{% if not v_forbid_deleted %}
 			<div class="card-thumbnail mt-3">
 				{% if p.club and not (v and (v.paid_dues or v.id == p.author_id)) %}
-					<img alt="post thumbnail" loading="lazy" src="/e/marseyglow.webp" class="post-img">
+					<img alt="post thumnail" loading="lazy" src="/e/marseyglow.webp" class="post-img">
 				{% elif not p.url %}
-					<a {% if v and v.newtab %}data-target="t"target="_blank"{% endif %} href="{{p.permalink}}">
-						<img alt="post thumbnail" loading="lazy" src="{{p.thumb_url}}" class="post-img">
+					<a {% if v and v.newtab and not g.webview %}target="_blank"{% endif %} href="{{p.permalink}}">
+						<img alt="post thumnail" loading="lazy" src="{{p.thumb_url}}" class="post-img">
 					</a>
 				{% elif p.is_image %}
 					<a href="{{p.realurl(v)}}" rel="nofollow noopener">
-						<img onclick="expandDesktopImage('{{p.realurl(v)}}')" alt="post thumbnail" loading="lazy" src="{{p.thumb_url}}" class="post-img">
+						<img onclick="expandDesktopImage('{{p.realurl(v)}}')" alt="post thumnail" loading="lazy" src="{{p.thumb_url}}" class="post-img">
 					</a>
 				{% elif p.is_video or p.is_audio %}
 					<a href="{{p.realurl(v)}}" rel="nofollow noopener">
-						<img onclick="togglevideo('{{p.id}}')" alt="post thumbnail" loading="lazy" src="{{p.thumb_url}}" class="post-img">
+						<img onclick="togglevideo('{{p.id}}')" alt="post thumnail" loading="lazy" src="{{p.thumb_url}}" class="post-img">
 					</a>
 				{% elif p.is_youtube %}
 					<a href="{{p.realurl(v)}}" rel="nofollow noopener">
-						<img onclick="toggleyoutube('{{p.id}}')" alt="post thumbnail" loading="lazy" src="{{p.thumb_url}}" class="post-img">
+						<img onclick="toggleyoutube('{{p.id}}')" alt="post thumnail" loading="lazy" src="{{p.thumb_url}}" class="post-img">
 					</a>
 				{% else %}
 					<a {% if not v or v.newtabexternal %}target="_blank"{% endif %} rel="nofollow noopener" href="{{p.realurl(v)}}">
-						<img alt="post thumbnail" loading="lazy" src="{{p.thumb_url}}" class="post-img">
+						<img alt="post thumnail" loading="lazy" src="{{p.thumb_url}}" class="post-img">
 						<i class="ext-link fas fa-external-link"></i>
 					</a>
 				{% endif %}
@@ -111,13 +111,95 @@
 		 
 		 
 		<div class="card-block text-left x-scroll-parent w-100">
+
 			<div class="post-meta text-left x-scroll mb-md-2">
-				<div style="white-space:nowrap;width:0">
-					{{ macros.post_meta(p) }}
-				</div>
+			<div style="white-space:nowrap;width:0">
+				{% if p.sub %}
+					{% if not HOLE_STYLE_FLAIR -%}
+						<a class="mr-2" href='/h/{{p.sub}}'>/h/{{p.sub}}</a>
+					{%- else -%}
+						<a href='/h/{{p.sub}}' class="sub-flair">{{p.sub|capitalize}}</a>
+					{%- endif %}
+				{% endif %}
+
+				{% if p.sub and p.author.exiled_from(p.sub) %}
+					<a><i class="fas fa-campfire text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="User has been exiled from {% if not HOLE_STYLE_FLAIR %}/h/{% endif %}{{p.sub}}"></i></a>
+				{% endif %}
+				
+				{% if p.bannedfor %}
+					<i class="fas fa-hammer-crash text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="User was banned for this post {{p.bannedfor}}"></i>
+				{% endif %}
+
+				{% if p.chuddedfor %}
+					<i class="fas fa-face-sleeping text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="User was chudded for this post {{p.chuddedfor}}"></i>
+				{% endif %}
+
+				{% for a in p.awards %}
+					<i class="{{a.class_list}} px-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{a.title}} Award given by @{{a.user.username}}"></i>
+				{% endfor %}
+
+				{% if v and v.admin_level >= PERMS['USER_SHADOWBAN'] and p.author.shadowbanned %}
+					<i class="fas fa-user-times text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title='Shadowbanned by @{{p.author.shadowbanned}} for "{{p.author.ban_reason}}"'></i>
+				{% endif %}
+
+				{% if p.stickied %}
+					<i id='pinned-{{p.id}}' class="fas fa-thumbtack fa-rotate--45 text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Pinned by @{{p.stickied}}" {% if p.stickied_utc %}onmouseover="pinned_timestamp('pinned-{{p.id}}')" data-timestamp={{p.stickied_utc}} {% endif %}></i>
+				{% endif %}
+
+				{% if p.hole_pinned %}
+					<i id='hole-pinned-{{p.id}}' class="fas fa-thumbtack fa-rotate--45 text-blue" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Pinned to /h/{{p.sub}} by @{{p.hole_pinned}}"></i>
+				{% endif %}
+
+				{% if p.distinguish_level %}<i class="fas fa-broom text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{SITE_NAME}} Admin, speaking officially"></i>{% endif %}
+				{% if p.is_pinned and request.path.startswith('/@') %}<i class="fas fa-thumbtack fa-rotate--45 text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Pinned to profile"></i>{% endif %}
+				{% if p.over_18 %}<span class="badge badge-danger text-small-extra mr-1">+18</span>{% endif %}
+				{% if p.is_bot %} <i class="fas fa-robot text-info" data-bs-toggle="tooltip" data-bs-placement="bottom"	title="Bot"></i>{% endif %}
+				{% if p.is_blocking and not p.ghost %}<i class="fas fa-user-minus text-warning" data-bs-toggle="tooltip" data-bs-placement="bottom" title="You're blocking this user, but you can see this post because you're an admin."></i>{% endif %}
+				{% if p.is_blocked %}<i class="fas fa-user-minus text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="This user is blocking you."></i>{% endif %}
+				{% if p.private %}<span class="badge border-warning border-1 text-small-extra">Draft</span>{% endif %}
+				{% if p.active_flags(v) %}<button type="button" class="btn btn-primary" style="padding:1px 5px; font-size:10px"onclick="document.getElementById('flaggers-{{p.id}}').classList.toggle('d-none')">{{p.active_flags(v)}} Report{{macros.plural(p.active_flags(v))}}</button>{% endif %}
+				
+				{% if p.ghost %}
+					<span {% if p.distinguish_level %}class="mod"{% endif %}>👻</span>
+				{% else %}
+					{% if FEATURES['PATRON_ICONS'] and p.author.patron %}
+						<img loading="lazy" src="/i/{{SITE_NAME}}/patron_badges/2{{p.author.patron}}.webp?v=1" height="20" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{p.author.patron_tooltip}}" alt="{{p.author.patron_tooltip}}">
+					{% endif %}
+
+					{% if FEATURES['HOUSES'] and p.author.house %}
+						<img loading="lazy" src="/i/{{SITE_NAME}}/houses/{{p.author.house}}.webp?v=2000" height="20" data-bs-toggle="tooltip" data-bs-placement="bottom" title="House {{p.author.house}}" alt="House {{p.author.house}}">
+					{% endif %}
+
+					{% if p.author.verified %}<i class="fas fa-badge-check align-middle ml-1 {% if p.author.verified=='Glowiefied' %}glow{% endif %}" style="color:{% if p.author.verifiedcolor %}#{{p.author.verifiedcolor}}{% else %}#1DA1F2{% endif %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{p.author.verified}}"></i>
+					{% endif %}
+					<a class="user-name text-decoration-none" href="{{p.author.url}}" data-pop-info='{{p.author.json_popover(v) | tojson}}' onclick='popclick(event)' data-bs-placement="bottom" data-bs-toggle="popover" data-bs-trigger="click" data-content-id="popover" tabindex="0" style="color: #{{p.author.name_color}}; font-weight: bold;">
+						<div class="profile-pic-30-wrapper" style="margin-top:9px">
+							<img loading="lazy" src="{{p.author.profile_url}}" class="profile-pic-30 mr-2">
+							{% if p.author.hat_active -%}
+								<img class="profile-pic-30-hat hat" loading="lazy" src="{{p.author.hat_active}}?h=7" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{p.author.hat_tooltip(v)}}">
+							{%- endif %}
+						</div>
+						<span {% if p.author.patron and not p.distinguish_level %}class="patron" style="background-color:#{{p.author.name_color}};"{% elif p.distinguish_level %}class="mod"{% endif %}>{{p.author_name}}</span>
+					</a>
+					{% if FEATURES['PRONOUNS'] %}
+						<span class="pronouns" style="color:#{{p.author.titlecolor}};border-color:#{{p.author.titlecolor}}">{{p.author.pronouns}}</span>
+					{% endif %}
+					{% if p.author.customtitle %}
+						<bdi class="ml-2" style="color: #{{p.author.titlecolor}}">{{p.author.customtitle | safe}}</bdi>
+					{% endif %}
+				{% endif %}
+				<span data-bs-toggle="tooltip" data-bs-placement="bottom" onmouseover="timestamp('timestamp-{{p.id}}','{{p.created_utc}}')" id="timestamp-{{p.id}}">&nbsp;{{p.age_string}}</span>
+				&nbsp;
+				({% if p.is_image %}image post{% elif p.is_video %}video post{% elif p.is_audio %}audio post{% elif p.domain %}<a href="/search/posts/?q=domain%3A{{p.domain}}&sort=new&t=all" class="post-meta-domain" {% if v and v.newtab and not g.webview %}target="_blank"{% endif %}>{{p.domain|truncate(50, True)}}</a>{% else %}text post{% endif %})
+				{% if p.edited_utc %}
+					<span class="ml-2">Edited <span data-bs-toggle="tooltip" data-bs-placement="bottom" id="edited_timestamp-{{p.id}}" onmouseover="timestamp('edited_timestamp-{{p.id}}','{{p.edited_utc}}')">{{p.edited_string}}</span></span>
+				{% endif %}
+				<span class="ml-2">{{p.views}} thread views</span>
 			</div>
+			</div>
+
 			<h5 class="card-title post-title text-left w-lg-95 pb-0 pb-md-1">
-				<a id="{{p.id}}-title" {% if v and v.newtab %}data-target="t"target="_blank"{% endif %} href="{{p.permalink}}" class="{% if p.sub %}sub{% endif %} stretched-link {% if p.author.agendaposter and p.sub != 'chudrama' %}agendaposter{% endif %}">
+				<a id="{{p.id}}-title" {% if v and v.newtab and not g.webview %}target="_blank"{% endif %} href="{{p.permalink}}" class="{% if p.sub %}sub{% endif %} stretched-link {% if p.author.agendaposter and p.sub != 'chudrama' %}agendaposter{% endif %}">
 				{% if p.club %}<span class="patron font-weight-bolder mr-1" style="background-color:red; font-size:12px; line-height:2;">{{CC}}</span>{% endif %}
 				{% if p.flair %}<span class="patron font-weight-bolder mr-1" style="background-color:var(--primary); font-size:12px; line-height:2;">{{p.flair | safe}}</span>{% endif %}
 				{{p.realtitle(v) | safe}}
@@ -131,7 +213,7 @@
 		{% if p.realbody(v, listing=True) %}
 			<button type="button" class="list-inline-item ml-2" onclick="expandText('{{p.id}}')"><i class="fas fa-expand-alt mx-0 text-expand-icon-{{p.id}}"></i></button>
 		{% endif %}
-		<a class="list-inline-item" {% if v and v.newtab %}data-target="t"target="_blank"{% endif %} href="{{p.permalink}}">
+		<a class="list-inline-item" {% if v and v.newtab and not g.webview %}target="_blank"{% endif %} href="{{p.permalink}}">
 			<i class="fas fa-comment-dots mr-2"></i>{{p.comment_count}}
 			<span class="text-info d-none {{p.id}}-new-comments"></span>
 		</a>
@@ -143,7 +225,7 @@
 	<div class="post-actions">
 		<ul class="list-inline text-right d-flex">
 			<li class="list-inline-item mr-auto">
-				<a {% if v and v.newtab %}data-target="t"target="_blank"{% endif %} href="{{p.permalink}}">
+				<a {% if v and v.newtab and not g.webview %}target="_blank"{% endif %} href="{{p.permalink}}">
 					<i class="fas fa-comment-dots ml-0 mr-2"></i>{{p.comment_count}}
 					<span class="text-info d-none {{p.id}}-new-comments"></span>
 				</a>
@@ -188,13 +270,13 @@
 				</li>
 			{% else %}
 				<li id="voting-{{p.id}}-mobile" class="voting list-inline-item d-md-none">
-					<span tabindex="0" class="arrow-{{p.id}}-mobile-up mx-0 pr-1 arrow-mobile-up" onclick="location.href='/login?redirect={{request.full_path | urlencode}}';">
+					<span tabindex="0" class="arrow-{{p.id}}-mobile-up mx-0 pr-1 arrow-mobile-up" onclick="location.href='/login';">
 						<i class="fas fa-arrow-alt-up mx-0" aria-hidden="true"></i>
 					</span>
 
 					<span class="post-mobile-score-{{p.id}} score{% if p.controversial %} controversial{% endif %}"{% if not p.is_banned %} data-bs-toggle="tooltip" data-bs-placement="top" title="+{{ups}} | -{{downs}}"{% endif %}style="cursor: default">{{score}}</span>
 
-					<span tabindex="0" class="arrow-{{p.id}}-mobile-down arrow-mobile-down mx-0 pl-1 my-0" onclick="location.href='/login?redirect={{request.full_path | urlencode}}';">
+					<span tabindex="0" class="arrow-{{p.id}}-mobile-down arrow-mobile-down mx-0 pl-1 my-0" onclick="location.href='/login';">
 						<i class="fas fa-arrow-alt-down mx-0" aria-hidden="true"></i>
 					</span>
 				</li>
@@ -246,7 +328,7 @@
 
 	{% if p.is_image and not p.over_18 and ((v and v.cardview) or (not v and CARD_VIEW)) %}
 		<div style="text-align: center" class="mt-3 mb-4">
-			<a {% if v and v.newtab %}data-target="t"target="_blank"{% endif %} rel="nofollow noopener" href="{{p.realurl(v)}}">
+			<a {% if v and v.newtab and not g.webview %}target="_blank"{% endif %} rel="nofollow noopener" href="{{p.realurl(v)}}">
 				<img loading="lazy" data-src="{{p.realurl(v)}}" src="/i/l.webp" class="img-fluid" style="max-height:20rem" alt="Unable to load image">
 			</a>
 		</div>
@@ -340,7 +422,7 @@
 	{% endif %}
 {% endif %}
 
-<script defer src="{{'js/vendor/clipboard.js' | asset}}"></script>
+<script defer src="{{'js/clipboard.js' | asset}}"></script>
 <script defer src="{{'js/comments+submission_listing.js' | asset}}"></script>
 <script defer src="{{'js/submission_listing.js' | asset}}"></script>
 {% if v and v.admin_level >= PERMS['POST_COMMENT_MODERATION']  %}

@@ -69,6 +69,7 @@ def webm_to_mp4(old, new, vid, db):
 	subprocess.run(["ffmpeg", "-y", "-loglevel", "warning", "-nostats", "-threads:v", "1", "-i", old, "-map_metadata", "-1", tmp], check=True, stderr=subprocess.STDOUT)
 	os.replace(tmp, new)
 	os.remove(old)
+	purge_files_in_cache(f"{SITE_FULL}{new}")
 
 	media = db.query(Media).filter_by(filename=new, kind='video').one_or_none()
 	if media: db.delete(media)
@@ -82,9 +83,6 @@ def webm_to_mp4(old, new, vid, db):
 	db.add(media)
 	db.commit()
 	db.close()
-
-	purge_files_in_cache(f"{SITE_FULL}{new}")
-
 
 
 def process_video(file, v):
@@ -142,9 +140,7 @@ def process_image(filename:str, v, resize=0, trim=False, uploader_id:Optional[in
 
 	try:
 		with Image.open(filename) as i:
-			params = ["magick", filename, "-strip", "-auto-orient"]
-			if i.format.lower() != 'webp':
-				params.extend(["-coalesce", "-quality", "88", "-define", "webp:method=5"])
+			params = ["convert", "-coalesce", filename, "-quality", "88", "-define", "webp:method=5", "-strip", "-auto-orient"]
 			if trim and len(list(Iterator(i))) == 1:
 				params.append("-trim")
 			if resize and i.width > resize:

@@ -1,59 +1,64 @@
 {% extends "default.html" %}
+
 {% block title %}
 	{% if sub %}
-		<title>/h/{{sub.name}}</title>
-	{% elif request.path == '/' %}
-		<title>{{SITE_NAME}}</title>
+
+		{% if sub.bannerurl %}
+			{% set preview = sub.bannerurl %}
+		{% elif sub.sidebarurl %}
+			{% set preview = sub.sidebarurl %}
+		{% else %}
+			{% set preview = sub.banner_url %}
+		{% endif %}
+
+		<title>/h/{{sub}}</title>
+
+		<meta property="og:type" content="article">
+		<meta property="og:title" content="/h/{{sub}}">
+		<meta property="og:site_name" content="{{SITE}}">
+		<meta property="og:image" content="{{preview}}">
+		<meta property="og:url" content="{{request.full_path}}">
+		<meta property="og:author" name="author" content="{{SITE_FULL}}">
+
+		<meta name="twitter:card" content="summary_large_image">
+		<meta name="twitter:site" content="{{SITE_FULL}}">
+		<meta name="twitter:title" content="/h/{{sub}}">
+		<meta name="twitter:creator" content="{{SITE_FULL}}">
+		<meta name="twitter:image" content="{{preview}}">
+		<meta name="twitter:url" content="{{request.full_path}}">
+
+		{% if sub.sidebar %}
+			<meta property="og:description" name="description" content="{{sub.sidebar}}">
+			<meta name="twitter:description" content="{{sub.sidebar}}">
+		{% endif %}
 	{% else %}
 		{{super()}}
 	{% endif %}
 {% endblock %}
-{% block pagetitle %}{{SITE_NAME if not sub else '/h/' ~ sub.name}}{% endblock %}
 
-{% block head_final %}
-{% set preview = sub.siderbarurl if sub and sub.sidebarurl else sub.bannerurl %}
-{% if sub %}
-<meta property="og:type" content="article">
-<meta property="og:title" content="/h/{{sub}}">
-<meta property="og:site_name" content="{{SITE}}">
-<meta property="og:image" content="{{preview}}">
-<meta property="og:url" content="{{request.full_path}}">
-<meta property="og:author" name="author" content="{{SITE_FULL}}">
-
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:site" content="{{SITE_FULL}}">
-<meta name="twitter:title" content="/h/{{sub.name}}">
-<meta name="twitter:creator" content="{{SITE_FULL}}">
-<meta name="twitter:image" content="{{preview}}">
-<meta name="twitter:url" content="{{request.full_path}}">
-{% endif %}
-{% if sub.sidebar %}
-	<meta property="og:description" name="description" content="{{sub.sidebar}}">
-	<meta name="twitter:description" content="{{sub.sidebar}}">
-{% endif %}
-{% endblock %}
 {% block desktopBanner %}
+
 <div class="row" style="overflow: visible;padding-top:5px;">
 	<div class="col">
-		<a class="btn btn-primary btn-block mt-3" href="{% if sub %}/h/{{sub.name}}{% endif %}/submit"><i class="fas fa-feather-alt mr-2"></i>Create Post</a>
+		<a class="btn btn-primary btn-block mt-3" href="{% if sub %}/h/{{sub}}{% endif %}/submit"><i class="fas fa-feather-alt mr-2"></i>Create Post</a>
 
 		{% if sub %}
 			{% if v %}
 				{%- set hole_prefix = '/h/' if not HOLE_STYLE_FLAIR else '' -%}
 
 				{% if sub.stealth %}
-					<button type="button" id="subscribe-sub" class="btn btn-primary btn-block {% if v.subscribes(sub.name) %}d-none{% endif %}" onclick="postToastSwitch(this,'/h/{{sub.name}}/subscribe','subscribe-sub','unsubscribe-sub','d-none')"><i class="fas fa-eye mr-2"></i>Unblock {{hole_prefix}}{{sub.name}}</button>
-					<button type="button" id="unsubscribe-sub" class="btn btn-primary btn-block {% if not v.subscribes(sub.name) %}d-none{% endif %}" onclick="postToastSwitch(this,'/h/{{sub.name}}/unsubscribe','subscribe-sub','unsubscribe-sub','d-none')"><i class="fas fa-eye-slash mr-2"></i>Block {{hole_prefix}}{{sub.name}}</button>
+					<button type="button" id="subscribe-sub" class="btn btn-primary btn-block {% if v.subscribes(sub.name) %}d-none{% endif %}" onclick="postToastSwitch(this,'/h/{{sub}}/subscribe','subscribe-sub','unsubscribe-sub','d-none')"><i class="fas fa-eye mr-2"></i>Unblock {{hole_prefix}}{{sub}}</button>
+					<button type="button" id="unsubscribe-sub" class="btn btn-primary btn-block {% if not v.subscribes(sub.name) %}d-none{% endif %}" onclick="postToastSwitch(this,'/h/{{sub}}/unsubscribe','subscribe-sub','unsubscribe-sub','d-none')"><i class="fas fa-eye-slash mr-2"></i>Block {{hole_prefix}}{{sub}}</button>					
 				{% else %}
-					<button type="button" id="block-sub" class="btn btn-primary btn-block mt-3 {% if v.blocks(sub.name) %}d-none{% endif %}" onclick="postToastSwitch(this,'/h/{{sub.name}}/block','block-sub','unblock-sub','d-none')"><i class="fas fa-eye-slash mr-2"></i>Block {{hole_prefix}}{{sub.name}}</button>
-					<button type="button" id="unblock-sub" class="btn btn-primary btn-block mt-3 {% if not v.blocks(sub.name) %}d-none{% endif %}" onclick="postToastSwitch(this,'/h/{{sub.name}}/unblock','block-sub','unblock-sub','d-none')"><i class="fas fa-eye mr-2"></i>Unblock {{hole_prefix}}{{sub.name}}</button>
+					<button type="button" id="block-sub" class="btn btn-primary btn-block mt-3 {% if v.blocks(sub.name) %}d-none{% endif %}" onclick="postToastSwitch(this,'/h/{{sub}}/block','block-sub','unblock-sub','d-none')"><i class="fas fa-eye-slash mr-2"></i>Block {{hole_prefix}}{{sub}}</button>
+					<button type="button" id="unblock-sub" class="btn btn-primary btn-block mt-3 {% if not v.blocks(sub.name) %}d-none{% endif %}" onclick="postToastSwitch(this,'/h/{{sub}}/unblock','block-sub','unblock-sub','d-none')"><i class="fas fa-eye mr-2"></i>Unblock {{hole_prefix}}{{sub}}</button>
 				{% endif %}
 
-				<button type="button" id="follow-sub" class="btn btn-primary btn-follow {% if v.follows(sub.name) %}d-none{% endif %}" onclick="postToastSwitch(this,'/h/{{sub.name}}/follow','follow-sub','unfollow-sub','d-none')"><i class="fas fa-bell mr-2"></i>Follow {{hole_prefix}}{{sub.name}}</button>
-				<button type="button" id="unfollow-sub" class="btn btn-primary btn-follow {% if not v.follows(sub.name) %}d-none{% endif %}" onclick="postToastSwitch(this,'/h/{{sub.name}}/unfollow','follow-sub','unfollow-sub','d-none')"><i class="fas fa-bell-slash mr-2"></i>Unfollow {{hole_prefix}}{{sub.name}}</button>
+				<button type="button" id="follow-sub" class="btn btn-primary btn-follow {% if v.follows(sub.name) %}d-none{% endif %}" onclick="postToastSwitch(this,'/h/{{sub}}/follow','follow-sub','unfollow-sub','d-none')"><i class="fas fa-bell mr-2"></i>Follow {{hole_prefix}}{{sub}}</button>
+				<button type="button" id="unfollow-sub" class="btn btn-primary btn-follow {% if not v.follows(sub.name) %}d-none{% endif %}" onclick="postToastSwitch(this,'/h/{{sub}}/unfollow','follow-sub','unfollow-sub','d-none')"><i class="fas fa-bell-slash mr-2"></i>Unfollow {{hole_prefix}}{{sub}}</button>
 			{% else %}
-				<a class="btn btn-primary btn-block" href="/login?redirect={{request.full_path | urlencode}}"><i class="fas fa-eye-slash mr-2"></i>Block {{hole_prefix}}{{sub.name}}</a>
-				<a class="btn btn-primary btn-block" href="/login?redirect={{request.full_path | urlencode}}"><i class="fas fa-bell mr-2"></i>Follow {{hole_prefix}}{{sub.name}}</a>
+				<a class="btn btn-primary btn-block" href="/login"><i class="fas fa-eye-slash mr-2"></i>Block {{hole_prefix}}{{sub}}</a>
+				<a class="btn btn-primary btn-block" href="/login"><i class="fas fa-bell mr-2"></i>Follow {{hole_prefix}}{{sub}}</a>
 			{% endif %}
 		{% endif %}
 
@@ -61,11 +66,21 @@
 
 			{% block navbar %}
 			<div class="d-flex align-items-center">
-				{% set pcolor = "primary" if pins else "secondary" %}
+				{% if pins %}
+					{% set pcolor = "primary" %}
+				{% else %}
+					{% set pcolor = "secondary" %}
+				{% endif %}
+
 				<a class="btn btn-{{pcolor}} text-{{pcolor}} mx-2 smol-fp" href="/toggle_pins/{{sort}}"><i class="fas fas fa-thumbtack fa-rotate--45 mr-2 "></i>Pins</a>
 
 				{% if SITE_NAME != 'WPD' and not sub %}
-					{% set hcolor = "primary" if holes else "secondary" %}
+					{% if holes %}
+						{% set hcolor = "primary" %}
+					{% else %}
+						{% set hcolor = "secondary" %}
+					{% endif %}
+
 					<a class="btn btn-{{hcolor}} text-{{hcolor}} mx-2 smol-fp" href="/toggle_holes"><i class="fas fas fa-manhole mr-2 "></i>Holes</a>
 				{% endif %}
 
@@ -121,7 +136,8 @@
 
 {% endblock %}
 
-{% block PseudoSubmitForm %}{% endblock %}
+{% block PseudoSubmitForm %}
+{% endblock %}
 
 {% block content %}
 
@@ -160,7 +176,7 @@
 {% if request.path == '/' and PUSHER_ID != DEFAULT_CONFIG_VALUE and v %}
 	<div class="d-none" id="strid">{{SITE}}{{v.id}}</div>
 	<div class="d-none" id="pusherid">{{PUSHER_ID}}</div>
-	<script defer src="{{'js/vendor/pusher.js' | asset}}"></script>
+	<script defer src="{{'js/pusher.js' | asset}}"></script>
 	<script>
 		if (typeof Android != 'undefined') {
 			Android.Subscribe('{{SITE}}{{v.id}}');
@@ -168,36 +184,34 @@
 	</script>
 {% endif %}
 
-{% if request.path == '/' and time.time() > session.get('tooltip_last_dismissed',0)+86400*30 %}
+{% if request.path == '/' and time.time() > session.get('tooltip_last_dismissed',0)+60*60*24*30 and not g.webview %}
 	<style>
-		.dismiss-beg {
+		.beg-icon {
 			color: #919191;
 			float: left;
-			font-size: 14px;
-			padding-top: 0.25rem;
-			padding-right: 0.25rem;
+			font-size: 10px;
+			margin-top: 0.25rem;
+			margin-right: 0.25rem;
 		}
 	</style>
 
 	<div id="mobile-prompt-container" class="fixed-top">
-		<div id="mobile-prompt" data-bs-toggle="tooltip" data-bs-container="#mobile-prompt-container" data-bs-placement="top" data-bs-trigger="click" data-bs-html="true" title="<i class='dismiss-beg fas fa-x'></i>Click me to install the {{SITE_NAME}} mobile app!"></div>
+		<div id="mobile-prompt" data-bs-toggle="tooltip" data-bs-container="#mobile-prompt-container" data-bs-placement="top" data-bs-trigger="click" data-bs-html="true" title="<i class='beg-icon fas fa-x'></i>Install the {{SITE_NAME}} webapp by saving this page to your home screen!"></div>
 	</div>
 
 	<script>
-		if (!window.matchMedia('(display-mode: minimal-ui)')['matches']) {
+		if (!("standalone" in window.navigator) && !(window.navigator.standalone)) {
 			if (window.innerWidth <= 737) {
 				document.addEventListener('DOMContentLoaded', function() {
 					const tt = bootstrap.Tooltip.getOrCreateInstance(document.getElementById('mobile-prompt'))
 					tt.show()
-					document.getElementsByClassName('tooltip')[0].onclick = function(e) {
+					document.getElementsByClassName('tooltip')[0].onclick = function() {
 						tt.hide()
 						var xhr = new XMLHttpRequest();
 						xhr.withCredentials=true;
 						xhr.open("POST", '/dismiss_mobile_tip', true);
 						xhr.setRequestHeader('xhr', 'xhr');
 						xhr.send();
-						if (!e.target.classList.contains('dismiss-beg'))
-							location.href = "/app"
 					}
 				})
 			}
@@ -229,7 +243,7 @@
 				script.onload = resolve;
 				script.onerror = reject;
 				script.async = true;
-				script.src = "{{'js/vendor/fp.js' | asset}}";
+				script.src = "{{'js/fp.js' | asset}}";
 				document.head.appendChild(script);
 			})
 				.then(() => FingerprintJS.load({token: '{{FP}}'}));
@@ -241,4 +255,11 @@
 	{% endif %}
 {% endif %}
 
+{% endblock %}
+
+
+{% block music %}
+	{% if EVENT_MUSIC %}
+		{% include 'event/' + EVENT_MUSIC %}
+	{% endif %}
 {% endblock %}

@@ -24,7 +24,7 @@ from .front import frontlist
 def kippy(v):
 	if SITE != 'pcmemes.net': abort(404)
 	kippy = get_account(KIPPY_ID)
-	kippy.pay_account('marseybux', 10000)
+	kippy.procoins += 10000
 	g.db.add(kippy)
 	return '10k marseybux printed!'
 
@@ -88,7 +88,7 @@ def merge(v, id1, id2):
 			g.db.add(exile)
 			g.db.flush()
 
-	for kind in ('comment_count', 'post_count', 'winnings', 'received_award_count', 'coins_spent', 'lootboxes_bought', 'coins', 'truescore', 'marseybux'):
+	for kind in ('comment_count', 'post_count', 'winnings', 'received_award_count', 'coins_spent', 'lootboxes_bought', 'coins', 'truescore', 'procoins'):
 		amount = getattr(user1, kind) + getattr(user2, kind)
 		setattr(user1, kind, amount)
 		setattr(user2, kind, 0)
@@ -138,7 +138,7 @@ def merge_all(v, id):
 			g.db.flush()
 
 	for alt in user.alts_unique:
-		for kind in ('comment_count', 'post_count', 'winnings', 'received_award_count', 'coins_spent', 'lootboxes_bought', 'coins', 'truescore', 'marseybux'):
+		for kind in ('comment_count', 'post_count', 'winnings', 'received_award_count', 'coins_spent', 'lootboxes_bought', 'coins', 'truescore', 'procoins'):
 			amount = getattr(user, kind) + getattr(alt, kind)
 			setattr(user, kind, amount)
 			setattr(alt, kind, 0)
@@ -224,7 +224,7 @@ def distribute(v, option_id):
 	cid = notif_comment(f"You won {coinsperperson} coins betting on [{post.title}]({post.shortlink}) :marseyparty:")
 	for vote in votes:
 		u = vote.user
-		u.pay_account('coins', coinsperperson)
+		u.coins += coinsperperson
 		add_notif(cid, u.id)
 
 
@@ -449,8 +449,8 @@ def admin_git_head():
 			with open('.git/' + head_path, encoding='utf_8') as ref_f:
 				gitref = ref_f.read()[0:short_len]
 	except:
-		return '<unable to read>', ''
-	return (gitref, head_txt)
+		return '<unable to read>'
+	return gitref
 
 @app.post("/admin/site_settings/<setting>")
 @admin_level_required(PERMS['SITE_SETTINGS'])
@@ -619,7 +619,6 @@ def users_list(v):
 						users=users,
 						next_exists=next_exists,
 						page=page,
-						user_cards_title="Users Feed",
 						)
 
 
@@ -880,7 +879,13 @@ def shadowban(user_id, v):
 	reason = request.values.get("reason").strip()[:256]
 	user.ban_reason = reason
 	g.db.add(user)
-	check_for_alts(user, False)
+
+	if request.values.get("alts"):
+		for alt in user.alts:
+			if alt.admin_level: continue
+			alt.shadowbanned = v.username
+			alt.ban_reason = reason
+			g.db.add(alt)
 
 	ma = ModAction(
 		kind="shadowban",
@@ -1098,7 +1103,7 @@ def unban_user(user_id, v):
 	if not user.is_banned:
 		abort(400)
 
-	if FEATURES['AWARDS'] and user.ban_reason and user.ban_reason.startswith('1-Day ban award'):
+	if FEATURES["AWARDS"] and user.ban_reason and user.ban_reason.startswith('1-Day ban award'):
 		abort(403, "You can't undo a ban award!")
 
 	user.is_banned = 0
@@ -1168,7 +1173,7 @@ def remove_post(post_id, v):
 	post = get_post(post_id)
 	post.is_banned = True
 	post.is_approved = None
-	if not FEATURES['AWARDS'] or not post.stickied or not post.stickied.endswith(PIN_AWARD_TEXT):
+	if FEATURES["AWARDS"] and post.stickied and not post.stickied.endswith(PIN_AWARD_TEXT):
 		post.stickied = None
 	post.is_pinned = False
 	post.ban_reason = v.username
@@ -1183,7 +1188,7 @@ def remove_post(post_id, v):
 
 	cache.delete_memoized(frontlist)
 
-	v.pay_account('coins', 1)
+	v.coins += 1
 	g.db.add(v)
 	purge_files_in_cache(f"https://{SITE}/")
 	return {"message": "Post removed!"}
@@ -1252,23 +1257,24 @@ def distinguish_post(post_id, v):
 def sticky_post(post_id, v):
 	post = get_post(post_id)
 	if post.is_banned: abort(403, "Can't sticky removed posts!")
-	if FEATURES['AWARDS'] and post.stickied and post.stickied.endswith(PIN_AWARD_TEXT):
+	if FEATURES["AWARDS"] and post.stickied and post.stickied.endswith(PIN_AWARD_TEXT):
 		abort(403, "Can't pin award pins!")
 
 	pins = g.db.query(Submission).filter(Submission.stickied != None, Submission.is_banned == False).count()
+	extra_pin_slots = 1 if post.stickied else 0
+	sticky_time = int(time.time()) + 3600 if not post.stickied else None
+
+	if pins >= PIN_LIMIT + extra_pin_slots and not sticky_time:
+		abort(403, f"Can't exceed {PIN_LIMIT} pinned posts limit!")
 
 	if not post.stickied_utc:
-		post.stickied_utc = int(time.time()) + 3600
+		post.stickied_utc = sticky_time
 		pin_time = 'for 1 hour'
-		code = 200
 		if v.id != post.author_id:
 			send_repeatable_notification(post.author_id, f"@{v.username} (Admin) has pinned [{post.title}](/post/{post_id})!")
 	else:
-		if pins >= PIN_LIMIT + 1:
-			abort(403, f"Can't exceed {PIN_LIMIT} pinned posts limit!")
-		post.stickied_utc = None
+		post.stickied_utc = sticky_time
 		pin_time = 'permanently'
-		code = 201
 
 	post.stickied = v.username
 
@@ -1284,15 +1290,14 @@ def sticky_post(post_id, v):
 
 	cache.delete_memoized(frontlist)
 
-	return {"message": f"Post pinned {pin_time}!"}, code
-
+	return {"message": f"Post pinned {pin_time}!", "length": pin_time}, 201
 
 @app.post("/unsticky/<post_id>")
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def unsticky_post(post_id, v):
 	post = get_post(post_id)
 	if post.stickied:
-		if FEATURES['AWARDS'] and post.stickied.endswith(PIN_AWARD_TEXT): abort(403, "Can't unpin award pins!")
+		if FEATURES["AWARDS"] and post.stickied.endswith(PIN_AWARD_TEXT): abort(403, "Can't unpin award pins!")
 		if post.author_id == LAWLZ_ID and post.stickied_utc and SITE_NAME == 'rDrama': abort(403, "Can't unpin lawlzposts!")
 		
 		post.stickied = None
@@ -1315,6 +1320,7 @@ def unsticky_post(post_id, v):
 @app.post("/sticky_comment/<cid>")
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def sticky_comment(cid, v):
+	
 	comment = get_comment(cid, v=v)
 
 	if not comment.stickied:
@@ -1341,7 +1347,7 @@ def unsticky_comment(cid, v):
 	comment = get_comment(cid, v=v)
 	
 	if comment.stickied:
-		if FEATURES['AWARDS'] and comment.stickied.endswith(PIN_AWARD_TEXT): abort(403, "Can't unpin award pins!")
+		if FEATURES["AWARDS"] and comment.stickied.endswith(PIN_AWARD_TEXT): abort(403, "Can't unpin award pins!")
 
 		comment.stickied = None
 		g.db.add(comment)
@@ -1384,7 +1390,9 @@ def remove_comment(c_id, v):
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def approve_comment(c_id, v):
+
 	comment = get_comment(c_id)
+	if not comment: abort(404)
 	
 	if comment.author.id == v.id and comment.author.agendaposter and AGENDAPOSTER_PHRASE not in comment.body.lower() and comment.post.sub != 'chudrama':
 		abort(400, "You can't bypass the chud award!")
@@ -1409,6 +1417,8 @@ def approve_comment(c_id, v):
 @app.post("/distinguish_comment/<c_id>")
 @admin_level_required(PERMS['POST_COMMENT_DISTINGUISH'])
 def admin_distinguish_comment(c_id, v):
+	
+	
 	comment = get_comment(c_id, v=v)
 
 	if comment.distinguish_level:

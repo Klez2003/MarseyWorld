@@ -1,15 +1,18 @@
-{%- extends 'root.html' -%}
-{% if IS_LOCALHOST %}
+{%- import 'util/macros.html' as macros with context -%}
+{%- import 'html_head.html' as html_head with context -%}
+<!DOCTYPE html>
+<html lang="en">
+{% if SITE == 'localhost' %}
 	{% set csp="script-src 'self' 'unsafe-inline' rdrama.net; connect-src 'self'; object-src 'none';" %}
 {% else %}
 	{% set csp=none %}
 {% endif %}
-{% block pagetitle %}Chat{% endblock %}
-{% block pagetype %}chat{% endblock %}
-{% block body %}
+{{html_head.html_head(true, true, true, csp, "Chat", false)}}
+<body>
 	{% include "header.html" %}
 	{% include "modals/expanded_image.html" %}
 	{% include "modals/emoji.html" %}
+
 	<div
 		id="root"
 		data-id="{{v.id}}"
@@ -23,11 +26,11 @@
 		data-hat="{{v.hat_active}}">
 	</div>
 	<script>window.global = window</script>
-	{% if IS_LOCALHOST %}
+	{% if SITE == 'localhost' %}
 		<script defer src="https://rdrama.net/assets/js/chat_done.js"></script>
 	{% else %}
 		<script defer src="{{'js/chat_done.js' | asset}}"></script>
 	{% endif %}
-	<script defer src="{{'js/vendor/lozad.js' | asset}}"></script>
-	<script defer src="{{'js/vendor/lite-youtube.js' | asset}}"></script>
-{% endblock %}
+	<script defer src="{{'js/lozad.js' | asset}}"></script>
+	<script defer src="{{'js/lite-youtube.js' | asset}}"></script>
+</body>

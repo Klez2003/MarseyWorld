@@ -27,13 +27,22 @@ function report_commentModal(id, author) {
 
 	reportCommentButton.onclick = function() {
 		this.innerHTML='Reporting comment';
+		this.disabled = true;
+		this.classList.add('disabled');
+		const form = new FormData();
+		form.append("reason", reason_comment.value);
+		const xhr = createXhrWithFormKey("/report/comment/" + id, "POST", form);
 
-		postToast(this, `/report/comment/${id}`,
-			{
-				"reason": reason_comment.value
-			},
-			() => {}
-		);
+		xhr[0].onload = function() {
+			let data
+			try {data = JSON.parse(xhr[0].response)}
+			catch(e) {console.log(e)}
+			success = xhr[0].status >= 200 && xhr[0].status < 300;
+			showToast(success, getMessageFromJsonData(success, data));
+		};
+
+		xhr[0].onerror=function(){alert(errortext)};
+		xhr[0].send(xhr[1]);
 	}
 
 };
@@ -86,12 +95,14 @@ function toggleEdit(id){
 };
 
 
-function delete_commentModal(t, id) {
+function delete_commentModal(id) {
 	document.getElementById("deleteCommentButton").onclick = function() {
-		postToast(t, `/delete/comment/${id}`,
-			{
-			},
-			() => {
+		const xhr = createXhrWithFormKey(`/delete/comment/${id}`);
+		xhr[0].onload = function() {
+			let data
+			try {data = JSON.parse(xhr[0].response)}
+			catch(e) {console.log(e)}
+			if (xhr[0].status >= 200 && xhr[0].status < 300 && data && data['message']) {
 				if (window.location.pathname == '/admin/reported/comments')
 				{
 					document.getElementById("post-info-"+id).remove()
@@ -105,8 +116,12 @@ function delete_commentModal(t, id) {
 					document.getElementById(`delete2-${id}`).classList.add('d-none');
 					document.getElementById(`undelete2-${id}`).classList.remove('d-none');
 				}
+				showToast(true, getMessageFromJsonData(true, data));
+			} else {
+				showToast(false, getMessageFromJsonData(false, data));
 			}
-		);
+		};
+		xhr[0].send(xhr[1]);
 	};
 }
 
@@ -234,7 +249,6 @@ function post_comment(fullname, hide){
 
 			document.getElementById('reply-form-body-'+fullname).value = ''
 			document.getElementById('form-preview-'+fullname).innerHTML = ''
-			document.getElementById('charcount-'+fullname).innerHTML = ''
 			document.getElementById('filename-show-reply-' + fullname).innerHTML = '<i class="fas fa-file"></i>';
 		}
 		else {

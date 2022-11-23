@@ -42,5 +42,6 @@ def check_for_treasure(in_text, from_comment):
 					from_comment.treasure_amount = f'l{ticket_count}'
 					return
 
-			user.pay_account('coins', amount)
+			
+			user.coins += amount
 			from_comment.treasure_amount = str(amount)

@@ -206,7 +206,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 			g.db.add(pin)
 		elif pin.level > 1:
 			pinned2.add(pin.top_comment(g.db))
-			if pin.top_comment(g.db) in comments:
+			if pin.top_comment in comments:
 				comments.remove(pin.top_comment(g.db))
 		else:
 			pinned2.add(pin)
@@ -310,7 +310,7 @@ def morecomments(v, cid):
 
 @app.post("/edit_post/<pid>")
 @limiter.limit("1/second;10/minute;100/hour;200/day")
-@ratelimit_user("1/second;10/minute;100/hour;200/day")
+@limiter.limit("1/second;10/minute;100/hour;200/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @is_not_permabanned
 def edit_post(pid, v):
 	p = get_post(pid)
@@ -712,16 +712,18 @@ def submit_post(v, sub=None):
 			yt_id = url.split('https://youtube.com/watch?v=')[1].split('&')[0].split('%')[0]
 
 			if yt_id_regex.fullmatch(yt_id):
-				params = parse_qs(urlparse(url).query, keep_blank_values=True)
-				t = params.get('t', params.get('start', [0]))[0]
-				if isinstance(t, str): t = t.replace('s','')
+				req = requests.get(f"https://www.googleapis.com/youtube/v3/videos?id={yt_id}&key={YOUTUBE_KEY}&part=contentDetails", timeout=5).json()
+				if req.get('items'):
+					params = parse_qs(urlparse(url).query, keep_blank_values=True)
+					t = params.get('t', params.get('start', [0]))[0]
+					if isinstance(t, str): t = t.replace('s','')
 
-				embed = f'<lite-youtube videoid="{yt_id}" params="autoplay=1&modestbranding=1'
-				if t:
-					try: embed += f'&start={int(t)}'
-					except: pass
-				embed += '"></lite-youtube>'
-
+					embed = f'<lite-youtube videoid="{yt_id}" params="autoplay=1&modestbranding=1'
+					if t:
+						try: embed += f'&start={int(t)}'
+						except: pass
+					embed += '"></lite-youtube>'
+			
 		elif SITE in domain and "/post/" in url and "context" not in url and url.count('/') < 6:
 			id = url.split("/post/")[1]
 			if "/" in id: id = id.split("/")[0]
@@ -731,7 +733,7 @@ def submit_post(v, sub=None):
 	if not url and not body and not request.files.get("file") and not request.files.get("file-url"):
 		return error("Please enter a url or some text.")
 
-	if not IS_LOCALHOST: 
+	if SITE != 'localhost': 
 		dup = g.db.query(Submission).filter(
 			Submission.author_id == v.id,
 			Submission.deleted_utc == 0,
@@ -787,6 +789,9 @@ def submit_post(v, sub=None):
 
 	if url and url.startswith(SITE_FULL):
 		url = url.split(SITE_FULL)[1]
+
+	if SITE == 'rdrama.net' and v.agendaposter == 1:
+		sub = 'chudrama'
 
 	post = Submission(
 		private=flag_private,
@@ -1072,7 +1077,7 @@ extensions = IMAGE_FORMATS + VIDEO_FORMATS + AUDIO_FORMATS
 
 @app.get("/submit/title")
 @limiter.limit("3/minute")
-@ratelimit_user("3/minute")
+@limiter.limit("3/minute", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
 def get_post_title(v):
 	url = request.values.get("url")

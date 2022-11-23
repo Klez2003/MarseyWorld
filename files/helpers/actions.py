@@ -16,17 +16,12 @@ from files.helpers.get import *
 from files.helpers.sanitize import *
 from files.helpers.slots import check_slots_command
 
+headers = {'User-Agent': 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'}
 
 def _archiveorg(url):
-	headers = {'User-Agent': 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'}
-	try:
-		requests.get(f'https://web.archive.org/save/{url}',
-			headers=headers, timeout=10, proxies=proxies)
+	try: requests.get(f'https://web.archive.org/save/{url}', headers=headers, timeout=10, proxies=proxies)
 	except: pass
-	try:
-		requests.post('https://ghostarchive.org/archive2', data={"archive": url},
-			headers=headers, timeout=10, proxies=proxies)
-	except: pass
+	requests.post('https://ghostarchive.org/archive2', data={"archive": url}, headers=headers, timeout=10, proxies=proxies)
 
 
 def archive_url(url):	
@@ -79,7 +74,7 @@ def execute_snappy(post, v):
 			elif body.startswith('You had your chance. Downvoted and reported'):
 				flag = Flag(post_id=post.id, user_id=SNAPPY_ID, reason='Retard')
 				g.db.add(flag)
-		elif body.startswith('▲') or body.startswith(':#marseyupvote'):
+		elif body.startswith('▲'):
 			body = body[1:]
 			vote = Vote(user_id=SNAPPY_ID,
 						vote_type=1,
@@ -164,7 +159,7 @@ def execute_snappy(post, v):
 		check_slots_command(v, snappy, c)
 
 		snappy.comment_count += 1
-		snappy.pay_account('coins', 1)
+		snappy.coins += 1
 		g.db.add(snappy)
 
 		if FEATURES['PINS'] and (body.startswith(':#marseypin:') or body.startswith(':#marseypin2:')):
@@ -203,7 +198,7 @@ def execute_zozbot(c, level, parent_submission, v):
 		level=level+1,
 		is_bot=True,
 		body="zoz",
-		body_html='<p class="zozbot">zoz</p>',
+		body_html="<p>zoz</p>",
 		top_comment_id=c.top_comment_id,
 		ghost=c.ghost,
 		distinguish_level=6
@@ -220,7 +215,7 @@ def execute_zozbot(c, level, parent_submission, v):
 		level=level+2,
 		is_bot=True,
 		body="zle",
-		body_html='<p class="zozbot">zle</p>',
+		body_html="<p>zle</p>",
 		top_comment_id=c.top_comment_id,
 		ghost=c.ghost,
 		distinguish_level=6
@@ -236,7 +231,7 @@ def execute_zozbot(c, level, parent_submission, v):
 		level=level+3,
 		is_bot=True,
 		body="zozzle",
-		body_html='<p class="zozbot">zozzle</p>',
+		body_html="<p>zozzle</p>",
 		top_comment_id=c.top_comment_id,
 		ghost=c.ghost,
 		distinguish_level=6
@@ -246,7 +241,7 @@ def execute_zozbot(c, level, parent_submission, v):
 
 	zozbot = get_account(ZOZBOT_ID)
 	zozbot.comment_count += 3
-	zozbot.pay_account('coins', 1)
+	zozbot.coins += 3
 	g.db.add(zozbot)
 
 def execute_longpostbot(c, level, body, body_html, parent_submission, v):
@@ -278,7 +273,7 @@ def execute_longpostbot(c, level, body, body_html, parent_submission, v):
 
 	longpostbot = get_account(LONGPOSTBOT_ID)
 	longpostbot.comment_count += 1
-	longpostbot.pay_account('coins', 1)
+	longpostbot.coins += 1
 	g.db.add(longpostbot)
 	g.db.flush()
 	n = Notification(comment_id=c2.id, user_id=v.id)

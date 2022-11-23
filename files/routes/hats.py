@@ -48,17 +48,17 @@ def buy_hat(v, hat_id):
 		abort(403, "This hat is not for sale.")
 
 	if request.values.get("mb"):
-		charged = v.charge_account('marseybux', hat.price)
+		charged = v.charge_account('procoins', hat.price)
 		if not charged: abort(400, "Not enough marseybux.")
 
-		hat.author.pay_account('marseybux', hat.price * 0.1)
+		hat.author.procoins += hat.price * 0.1
 		currency = "marseybux"
 	else:
 		charged = v.charge_account('coins', hat.price)
 		if not charged: abort(400, "Not enough coins.")
 
 		v.coins_spent_on_hats += hat.price
-		hat.author.pay_account('coins', hat.price * 0.1)
+		hat.author.coins += hat.price * 0.1
 		currency = "coins"
 
 	new_hat = Hat(user_id=v.id, hat_id=hat.id)
@@ -129,5 +129,4 @@ def hat_owners(v, hat_id):
 						users=users,
 						next_exists=next_exists,
 						page=page,
-						user_cards_title="Hat Owners",
 						)

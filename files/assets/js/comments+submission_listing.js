@@ -1,11 +1,8 @@
 function pinned_timestamp(id) {
 	const el = document.getElementById(id)
+	const time = new Date(parseInt(el.dataset.timestamp)*1000)
 	const pintooltip = el.getAttribute("data-bs-original-title")
-	if (!pintooltip.includes('until'))
-		{
-			const time = formatDate(new Date(parseInt(el.dataset.timestamp)*1000))
-			el.setAttribute("data-bs-original-title", `${pintooltip} until ${time}`)
-		}
+	if (!pintooltip.includes('until')) el.setAttribute("data-bs-original-title", `${pintooltip} until ${time}`)
 }
 
 /** @type {HTMLImageElement} */
@@ -113,22 +110,17 @@ function poll_vote_1(oid, parentid, kind) {
 	curr.value = full_oid
 }
 
-function bet_vote(t, oid) {
-	postToast(t, `/vote/post/option/${oid}`,
-		{
-		},
-		() => {
-			for(let el of document.getElementsByClassName('bet')) {
-				el.disabled = true;
-			}
-			for(let el of document.getElementsByClassName('cost')) {
-				el.classList.add('d-none')
-			}
-			var scoretext = document.getElementById('option-' + oid);
-			var score = Number(scoretext.textContent);
-			scoretext.textContent = score + 1;
+function bet_vote(oid) {
+	for(let el of document.getElementsByClassName('bet')) {
+		el.disabled = true;
+	}
+	for(let el of document.getElementsByClassName('cost')) {
+		el.classList.add('d-none')
+	}
+	var scoretext = document.getElementById('option-' + oid);
+	var score = Number(scoretext.textContent);
+	scoretext.textContent = score + 1;
+	post(`/vote/post/option/${oid}`);
 
-			document.getElementById("user-coins-amount").innerText = parseInt(document.getElementById("user-coins-amount").innerText) - 200;
-		}
-	);
+	document.getElementById("user-coins-amount").innerText = parseInt(document.getElementById("user-coins-amount").innerText) - 200;
 }

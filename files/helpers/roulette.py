@@ -10,24 +10,13 @@ from files.helpers.alerts import *
 from files.helpers.get import get_account
 
 class RouletteAction(str, Enum):
-	STRAIGHT_UP_BET = "STRAIGHT_UP_BET", 
+	STRAIGHT_UP_BET = "STRAIGHT_UP_BET"
 	LINE_BET = "LINE_BET"
 	COLUMN_BET = "COLUMN_BET"
 	DOZEN_BET = "DOZEN_BET"
 	EVEN_ODD_BET = "EVEN_ODD_BET"
 	RED_BLACK_BET = "RED_BLACK_BET"
 	HIGH_LOW_BET = "HIGH_LOW_BET"
-
-	@property
-	def validation_function(self):
-		if self == self.__class__.STRAIGHT_UP_BET: return lambda x: x is not None and x >= 0 and x <= 37
-		if self == self.__class__.LINE_BET: return lambda x: x in LINES
-		if self == self.__class__.COLUMN_BET: return lambda x: x in COLUMNS
-		if self == self.__class__.DOZEN_BET: return lambda x: x in DOZENS
-		if self == self.__class__.EVEN_ODD_BET: return lambda x: x in [y.value for y in RouletteEvenOdd]
-		if self == self.__class__.RED_BLACK_BET: return lambda x: x in [y.value for y in RouletteRedBlack]
-		if self == self.__class__.HIGH_LOW_BET: return lambda x: x in [y.value for y in RouletteHighLow]
-		raise ValueError("Unhandled validation function for RouletteAction")
 
 
 class RouletteEvenOdd(str, Enum):
@@ -167,7 +156,12 @@ def spin_roulette_wheel():
 	if len(participants) > 0:
 		number = randint(0, 37)  # 37 is 00
 
-		winners, payouts, rewards_by_game_id = determine_roulette_winners(number, bets)
+		if number > 0 and number < 37: # 0 and 00 do not pay anything
+			winners, payouts, rewards_by_game_id = determine_roulette_winners(number, bets)
+		else:
+			winners = []
+			payouts = {}
+			rewards_by_game_id = {}
 
 		if number == 37: number = '00'
 
@@ -176,10 +170,10 @@ def spin_roulette_wheel():
 			gambler = get_account(user_id)
 			gambler_payout = payouts[user_id]
 			coin_winnings = gambler_payout['coins']
-			procoin_winnings = gambler_payout['marseybux']
+			procoin_winnings = gambler_payout['procoins']
 
 			gambler.pay_account('coins', coin_winnings)
-			gambler.pay_account('marseybux', procoin_winnings)
+			gambler.pay_account('procoins', procoin_winnings)
 
 			# Notify the winners.
 			notification_text = f"Winning number: {number}\nCongratulations! One or more of your roulette bets paid off!\n"
@@ -236,7 +230,7 @@ def determine_roulette_winners(number, bets):
 		if not payouts.get(gambler_id):
 			payouts[gambler_id] = {
 				'coins': 0,
-				'marseybux': 0
+				'procoins': 0
 			}
 
 		if not rewards_by_game_id.get(game_id):
@@ -248,10 +242,6 @@ def determine_roulette_winners(number, bets):
 	for bet in bets[RouletteAction.STRAIGHT_UP_BET]:
 		if int(bet['which']) == number:
 			add_to_winnings(bet)
-
-	if number == 0 or number == 37:
-		return winners, payouts, rewards_by_game_id
-
 
 	# Line Bet
 	line = -1

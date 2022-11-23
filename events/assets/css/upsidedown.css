@@ -1,0 +1,56 @@
+/* <body> tag 'background-color' is boilerplate here. We only care about the box-shadow and filter effects. We can add a woods background-image for added effect. */
+
+body {
+  background-size: cover;
+  background-attachment: fixed;
+  background-color: #000;
+  filter: sepia(100%) hue-rotate(180deg) saturate(300%);
+  box-shadow: 0 0 900px rgba(0, 0, 0, 0.9) inset;
+  overflow-x: hidden;
+}
+
+canvas.particles {
+  pointer-events: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 1;
+  filter: blur(1.5px);
+  animation: flicker 4s infinite;
+}
+
+@keyframes flicker {
+  0% {
+    filter: brightness(30%);
+  }
+  48% {
+    filter: brightness(30%);
+  }
+  50% {
+    filter: contrast(1.5) brightness(40%);
+  }
+  60% {
+    filter: contrast(1.5) brightness(40%);
+  }
+  62% {
+    filter: brightness(30%);
+  }
+  78% {
+    filter: brightness(20%);
+  }
+  84% {
+    filter: brightness(40%);
+  }
+  88% {
+    filter: brightness(30%);
+  }
+  96% {
+    filter: brightness(80%);
+  }
+  98% {
+    filter: brightness(30%);
+  }
+  100% {
+    filter: brightness(90%);
+  }
+}

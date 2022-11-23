@@ -16,7 +16,7 @@ from files.__main__ import app, limiter
 @auth_required
 def casino(v):
 	if v.rehab:
-		return render_template("casino/rehab.html", v=v), 403
+		return render_template("casino/rehab.html", v=v)
 
 	return render_template("casino.html", v=v)
 
@@ -26,13 +26,12 @@ def casino(v):
 @auth_required
 def casino_game_page(v, game):
 	if v.rehab:
-		return render_template("casino/rehab.html", v=v), 403
+		return render_template("casino/rehab.html", v=v)
 	elif game not in CASINO_GAME_KINDS:
 		abort(404)
 
 	feed = json.dumps(get_game_feed(game, g.db))
 	leaderboard = json.dumps(get_game_leaderboard(game, g.db))
-	v_stats = get_user_stats(v, game, g.db, game == 'blackjack')
 
 	game_state = ''
 	if game == 'blackjack':
@@ -45,7 +44,6 @@ def casino_game_page(v, game):
 		game=game,
 		feed=feed,
 		leaderboard=leaderboard,
-		v_stats=v_stats,
 		game_state=game_state
 	)
 
@@ -89,20 +87,22 @@ def pull_slots(v):
 
 	try:
 		currency = request.values.get("currency", "").lower()
-		if currency not in ('coins', 'marseybux'): raise ValueError()
+		if currency not in ('coins', 'procoins'): raise ValueError()
 	except:
-		abort(400, "Invalid currency (expected 'coins' or 'marseybux').")
+		abort(400, "Invalid currency (expected 'coins' or 'procoins').")
 
-	if (currency == "coins" and wager > v.coins) or (currency == "marseybux" and wager > v.marseybux):
-		abort(400, f"Not enough {currency} to make that bet")
+	friendly_currency_name = "coins" if currency == "coins" else "marseybux"
+
+	if (currency == "coins" and wager > v.coins) or (currency == "procoins" and wager > v.procoins):
+		abort(400, f"Not enough {friendly_currency_name} to make that bet")
 
 	game_id, game_state = casino_slot_pull(v, wager, currency)
 	success = bool(game_id)
 
 	if success:
-		return {"game_state": game_state, "gambler": {"coins": v.coins, "marseybux": v.marseybux}}
+		return {"game_state": game_state, "gambler": {"coins": v.coins, "procoins": v.procoins}}
 	else:
-		abort(400, f"Wager must be 5 {currency} or more")
+		abort(400, f"Wager must be 5 {friendly_currency_name} or more")
 
 
 # 21
@@ -120,7 +120,7 @@ def blackjack_deal_to_player(v):
 		state = dispatch_action(v, BlackjackAction.DEAL)
 		feed = get_game_feed('blackjack', g.db)
 
-		return {"success": True, "state": state, "feed": feed, "gambler": {"coins": v.coins, "marseybux": v.marseybux}}
+		return {"success": True, "state": state, "feed": feed, "gambler": {"coins": v.coins, "procoins": v.procoins}}
 	except Exception as e:
 		abort(400, str(e))
 
@@ -135,7 +135,7 @@ def blackjack_player_hit(v):
 	try:
 		state = dispatch_action(v, BlackjackAction.HIT)
 		feed = get_game_feed('blackjack', g.db)
-		return {"success": True, "state": state, "feed": feed, "gambler": {"coins": v.coins, "marseybux": v.marseybux}}
+		return {"success": True, "state": state, "feed": feed, "gambler": {"coins": v.coins, "procoins": v.procoins}}
 	except:
 		abort(400, "Unable to hit.")
 
@@ -150,7 +150,7 @@ def blackjack_player_stay(v):
 	try:
 		state = dispatch_action(v, BlackjackAction.STAY)
 		feed = get_game_feed('blackjack', g.db)
-		return {"success": True, "state": state, "feed": feed, "gambler": {"coins": v.coins, "marseybux": v.marseybux}}
+		return {"success": True, "state": state, "feed": feed, "gambler": {"coins": v.coins, "procoins": v.procoins}}
 	except:
 		abort(400, "Unable to stay.")
 
@@ -165,7 +165,7 @@ def blackjack_player_doubled_down(v):
 	try:
 		state = dispatch_action(v, BlackjackAction.DOUBLE_DOWN)
 		feed = get_game_feed('blackjack', g.db)
-		return {"success": True, "state": state, "feed": feed, "gambler": {"coins": v.coins, "marseybux": v.marseybux}}
+		return {"success": True, "state": state, "feed": feed, "gambler": {"coins": v.coins, "procoins": v.procoins}}
 	except:
 		abort(400, "Unable to double down.")
 
@@ -180,7 +180,7 @@ def blackjack_player_bought_insurance(v):
 	try:
 		state = dispatch_action(v, BlackjackAction.BUY_INSURANCE)
 		feed = get_game_feed('blackjack', g.db)
-		return {"success": True, "state": state, "feed": feed, "gambler": {"coins": v.coins, "marseybux": v.marseybux}}
+		return {"success": True, "state": state, "feed": feed, "gambler": {"coins": v.coins, "procoins": v.procoins}}
 	except:
 		abort(403, "Unable to buy insurance.")
 
@@ -194,7 +194,7 @@ def roulette_get_bets(v):
 
 	bets = get_roulette_bets()
 
-	return {"success": True, "bets": bets, "gambler": {"coins": v.coins, "marseybux": v.marseybux}}
+	return {"success": True, "bets": bets, "gambler": {"coins": v.coins, "procoins": v.procoins}}
 
 
 @app.post("/casino/roulette/place-bet")
@@ -204,26 +204,19 @@ def roulette_player_placed_bet(v):
 	if v.rehab:
 		abort(403, "You are under Rehab award effect!")
 
-	bet = request.values.get("bet")
-	which = request.values.get("which", None)
-	amount = request.values.get("wager", None, int)
-	currency = request.values.get("currency")
-
-	try: bet_type = RouletteAction(bet)
-	except: abort(400, "Not a valid roulette bet type")
-
-	if not amount or amount < 5: abort(400, f"Minimum bet is 5 {currency}.")
-	if not which: abort(400, "Not a valid roulette bet")
-
-	try: which_int = int(which)
-	except: which_int = None
-
-	if not bet_type.validation_function(which if which_int is None else which_int):
-		abort(400, f"Not a valid roulette bet for bet type {bet_type.value[0]}")
-
 	try:
+		bet = request.values.get("bet")
+		which = request.values.get("which")
+		amount = int(request.values.get("wager"))
+		currency = request.values.get("currency")
+
+		if amount < 5:
+			abort(400, f"Minimum bet is 5 {currency}.")
+
 		gambler_placed_roulette_bet(v, bet, which, amount, currency)
+
 		bets = get_roulette_bets()
-		return {"success": True, "bets": bets, "gambler": {"coins": v.coins, "marseybux": v.marseybux}}
+
+		return {"success": True, "bets": bets, "gambler": {"coins": v.coins, "procoins": v.procoins}}
 	except:
 		abort(400, "Unable to place a bet.")

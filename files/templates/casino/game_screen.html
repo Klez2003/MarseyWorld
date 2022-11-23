@@ -1,6 +1,6 @@
-{% extends "default.html" %}
-{% block pagetitle %}{{game.capitalize()}}{% endblock %} 
-{% block content %}
+{% extends "default.html" %} {% block title %}
+<title>{{game.capitalize()}}</title>
+{% endblock %} {% block content %}
 <style>
 	.game_screen-title {
 		display: flex;
@@ -54,8 +54,8 @@
 			document.getElementById("user-coins-amount").innerText = updated.coins;
 		}
 
-		if (updated.marseybux) {
-			document.getElementById("user-bux-amount").innerText = updated.marseybux;
+		if (updated.procoins) {
+			document.getElementById("user-bux-amount").innerText = updated.procoins;
 		}
 	}
 
@@ -64,7 +64,7 @@
 		const currency = document.querySelector(
 			'input[name="wagerCurrency"]:checked'
 		).value;
-		const genericCurrency = currency == 'marseybux' ? 'marseybux' : 'coins';
+		const genericCurrency = currency == 'marseybux' ? 'procoins' : 'coins';
 
 		return { amount, currency: genericCurrency, localCurrency: currency };
 	}
@@ -72,13 +72,13 @@
 	function disableWager() {
 		document.getElementById("wagerAmount").disabled = true;
 		document.getElementById("wagerCoins").disabled = true;
-		document.getElementById("wagerMarseybux").disabled = true;
+		document.getElementById("wagerProcoins").disabled = true;
 	}
 
 	function enableWager() {
 		document.getElementById("wagerAmount").disabled = false;
 		document.getElementById("wagerCoins").disabled = false;
-		document.getElementById("wagerMarseybux").disabled = false;
+		document.getElementById("wagerProcoins").disabled = false;
 	}
 
 	function updateResult(text, className) {
@@ -162,7 +162,7 @@
 		const [biggestWinnerAllTime, biggestWinner24h, biggestLoser24h, biggestLoserAllTime] = [
 			'biggestWinnerAllTime', 'biggestWinner24h', 'biggestLoser24h', 'biggestLoserAllTime'
 		].map(id => document.getElementById(id));
-		const formatLocalCurrencyName = currency => ({ coins: 'coins', marseybux: 'marseybux' })[currency];
+		const formatLocalCurrencyName = currency => ({ coins: 'coins', procoins: 'marseybux' })[currency];
 
 		biggestWinnerAllTime.innerHTML = `
 			<a href="/@${leaderboardData.all_time.biggest_win.user}">${leaderboardData.all_time.biggest_win.user}</a> <br><small>${leaderboardData.all_time.biggest_win.amount} ${formatLocalCurrencyName(leaderboardData.all_time.biggest_win.currency)}</small>
@@ -312,7 +312,7 @@
 		transform: scaleX(-1) scaleY(-1);
 	}
 
-	#casinoGameResult, #casinoGameStats {
+	#casinoGameResult {
 		text-transform: uppercase;
 		text-align: center;
 		letter-spacing: 3px;
@@ -366,12 +366,6 @@
 			</div>
 		</div>
 		<div class="col">
-			{% set stats_alert_class = 'success' if v_stats[0] >= v_stats[2] else 'danger' %}
-			<div id="casinoGameStats" class="alert alert-{{stats_alert_class}}" role="alert">
-				{{v_stats[0]}} win{{macros.plural(v_stats[0])}}{% if v_stats[1] %} - {{v_stats[1]}} tie{{macros.plural(v_stats[1])}}{% endif %} - {{v_stats[2]}} loss{{macros.plural(v_stats[2], 'es')}}
-			</div>
-		</div>
-		<div class="col">
 			<div class="row row-cols-2">
 				<div class="col">
 					<div class="game_screen-title">
@@ -392,9 +386,9 @@
 							<img src="/i/rDrama/coins.webp?v=3009" alt="coin" width="32" data-bs-toggle="tooltip"
 								data-bs-placement="bottom" title="Coin" aria-label="Coin">
 						</label>
-						<input type="radio" class="btn-check ml-2" name="wagerCurrency" autocomplete="off" id="wagerMarseybux"
+						<input type="radio" class="btn-check ml-2" name="wagerCurrency" autocomplete="off" id="wagerProcoins"
 							value="marseybux">
-						<label for="wagerMarseybux" class="btn btn-primary">
+						<label for="wagerProcoins" class="btn btn-primary">
 							<img src="/i/marseybux.webp?v=2000" alt="marseybux" width="32" data-bs-toggle="tooltip"
 								data-bs-placement="bottom" title="Marseybux" aria-label="Marseybux">
 						</label>
@@ -425,22 +419,50 @@
 				<hr>
 			</div>
 			<div id="gameLeaderboard" data-leaderboard="{{leaderboard}}">
-				{%- macro leaderboard(text, css_class, marsey, color) -%}
+				<!-- Biggest Winner All Time -->
 				<div class="casino-game-leaderboard">
 					<div class="leaderboard-marsey-trophy">
-						<img class="leaderboard-marsey-trophy__marsey" src="/e/{{marsey}}.webp">
-						<i class="fas fa-trophy leaderboard-marsey-trophy__trophy" style="color: {{color}};"></i>
+						<img class="leaderboard-marsey-trophy__marsey" src="/e/marseyhappytears.webp">
+						<i class="fas fa-trophy leaderboard-marsey-trophy__trophy" style="color: gold;"></i>
 					</div>
 					<div class="casino-game-leaderboard-info">
-						<small>{{text}}</small>
-						<h3 id="{{css_class}}">-</h3>
+						<small>Biggest Winner (All Time)</small>
+						<h3 id="biggestWinnerAllTime">-</h3>
 					</div>
 				</div>
-				{%- endmacro -%}
-				{{leaderboard('Biggest Winner (All Time)', 'biggestWinnerAllTime', 'marseyhappytears', 'gold')}}
-				{{leaderboard('Biggest Winner (Last 24h)', 'biggestWinner24h', 'marseyexcited', 'gold')}}
-				{{leaderboard('Biggest Loser (Last 24h)', 'biggestLoser24h', 'marseycry', 'darkred')}}
-				{{leaderboard('Biggest Loser (All Time)', 'biggestLoserAllTime', 'marseyrain', 'darkred')}}
+				<!-- Biggest Winner 24h -->
+				<div class="casino-game-leaderboard">
+					<div class="leaderboard-marsey-trophy">
+						<img class="leaderboard-marsey-trophy__marsey" src="/e/marseyexcited.webp">
+						<i class="fas fa-trophy leaderboard-marsey-trophy__trophy" style="color: gold;"></i>
+					</div>
+					<div class="casino-game-leaderboard-info">
+						<small>Biggest Winner (Last 24h)</small>
+						<h3 id="biggestWinner24h">-</h3>
+					</div>
+				</div>
+				<!-- Biggest Loser 24h -->
+				<div class="casino-game-leaderboard">
+					<div class="leaderboard-marsey-trophy">
+						<img class="leaderboard-marsey-trophy__marsey" src="/e/marseycry.webp">
+						<i class="fas fa-trophy leaderboard-marsey-trophy__trophy" style="color: darkred;"></i>
+					</div>
+					<div class="casino-game-leaderboard-info">
+						<small>Biggest Loser (Last 24h)</small>
+						<h3 id="biggestLoser24h">-</h3>
+					</div>
+				</div>
+				<!-- Biggest Loser All Time -->
+				<div class="casino-game-leaderboard">
+					<div class="leaderboard-marsey-trophy">
+						<img class="leaderboard-marsey-trophy__marsey" src="/e/marseyrain.webp">
+						<i class="fas fa-trophy leaderboard-marsey-trophy__trophy" style="color: darkred;"></i>
+					</div>
+					<div class="casino-game-leaderboard-info">
+						<small>Biggest Loser (All Time)</small>
+						<h3 id="biggestLoserAllTime">-</h3>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

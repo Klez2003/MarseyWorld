@@ -232,7 +232,7 @@ def sub_followers(v, sub):
 
 @app.post("/h/<sub>/add_mod")
 @limiter.limit("1/second;30/day")
-@ratelimit_user("1/second;30/day")
+@limiter.limit("1/second;30/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @is_not_permabanned
 def add_mod(v, sub):
 	if SITE_NAME == 'WPD': abort(403)
@@ -360,8 +360,7 @@ def kick(v, pid):
 
 	old = post.sub
 	post.sub = None
-	post.hole_pinned = None
-
+	
 	ma = SubAction(
 		sub=old,
 		kind='kick_post',
@@ -457,7 +456,7 @@ def get_sub_css(sub):
 
 @app.post("/h/<sub>/banner")
 @limiter.limit("1/second;10/day")
-@ratelimit_user("1/second;10/day")
+@limiter.limit("1/second;10/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @is_not_permabanned
 def sub_banner(v, sub):
 	if g.is_tor: abort(403, "Image uploads are not allowed through TOR.")
@@ -490,7 +489,7 @@ def sub_banner(v, sub):
 
 @app.post("/h/<sub>/sidebar_image")
 @limiter.limit("1/second;10/day")
-@ratelimit_user("1/second;10/day")
+@limiter.limit("1/second;10/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @is_not_permabanned
 def sub_sidebar(v, sub):
 	if g.is_tor: abort(403, "Image uploads are not allowed through TOR.")
@@ -522,7 +521,7 @@ def sub_sidebar(v, sub):
 
 @app.post("/h/<sub>/marsey_image")
 @limiter.limit("1/second;10/day")
-@ratelimit_user("1/second;10/day")
+@limiter.limit("1/second;10/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @is_not_permabanned
 def sub_marsey(v, sub):
 	if g.is_tor: abort(403, "Image uploads are not allowed through TOR.")

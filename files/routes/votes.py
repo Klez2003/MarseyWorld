@@ -82,7 +82,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 	if existing and existing.vote_type == new: return "", 204
 	if existing:
 		if existing.vote_type == 0 and new != 0:
-			target.author.pay_account('coins', coin_value)
+			target.author.coins += coin_value
 			target.author.truescore += coin_delta
 			g.db.add(target.author)
 			existing.vote_type = new
@@ -97,7 +97,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 			existing.vote_type = new
 			g.db.add(existing)
 	elif new != 0:
-		target.author.pay_account('coins', coin_value)
+		target.author.coins += coin_value
 		target.author.truescore += coin_delta
 		g.db.add(target.author)
 
@@ -148,13 +148,14 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 		if target.author.progressivestack or target.author.id in BOOSTED_USERS:
 			mul = 2
 		elif cls == Submission:
-			if target.domain.endswith('.win') or (target.domain in BOOSTED_SITES and not target.url.startswith('/')) or target.sub in BOOSTED_HOLES:
+			if target.domain.endswith('.win') or target.domain in BOOSTED_SITES or target.sub in BOOSTED_HOLES:
 				mul = 2
-			elif not target.sub and target.body_html and target.author.id not in BOOSTED_USERS_EXCLUDED:
+			elif target.sub and target.sub not in ('space','istory','dino','slackernews'):
+				mul = 0.7
+			elif not target.sub and target.body_html:
 				x = target.body_html.count('" target="_blank" rel="nofollow noopener">')
 				x += target.body_html.count('<a href="/images/')
-				target.realupvotes += min(x*2, 20)
-				mul = 1 + x/10
+				mul = 1 + x/20
 
 		mul = min(mul, 2)
 		target.realupvotes *= mul
@@ -164,16 +165,14 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 
 @app.post("/vote/post/<post_id>/<new>")
 @limiter.limit("5/second;60/minute;1000/hour;2000/day")
+@limiter.limit("5/second;60/minute;1000/hour;2000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @is_not_permabanned
-@ratelimit_user("5/second;60/minute;1000/hour;2000/day")
-@limiter.limit("1/second", key_func=lambda:f'{g.v.id}-{request.full_path}')
 def vote_post(post_id, new, v):
 	return vote_post_comment(post_id, new, v, Submission, Vote)
 
 @app.post("/vote/comment/<comment_id>/<new>")
 @limiter.limit("5/second;60/minute;1000/hour;2000/day")
+@limiter.limit("5/second;60/minute;1000/hour;2000/day", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @is_not_permabanned
-@ratelimit_user("5/second;60/minute;1000/hour;2000/day")
-@limiter.limit("1/second", key_func=lambda:f'{g.v.id}-{request.full_path}')
 def vote_comment(comment_id, new, v):
 	return vote_post_comment(comment_id, new, v, Comment, CommentVote)

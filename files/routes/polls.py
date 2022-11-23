@@ -20,13 +20,11 @@ def vote_option(option_id, v):
 		abort(403, f"You need to be a member of House {sub.capitalize()} to vote on polls in /h/{sub}")
 
 	if option.exclusive == 2:
-		if option.post.total_bet_voted(v):
-			abort(403, "You can't bet on a closed poll!")
 		if not v.charge_account('coins', POLL_BET_COINS): 
 			abort(400, f"You don't have {POLL_BET_COINS} coins!")
 		g.db.add(v)
 		autojanny = get_account(AUTOJANNY_ID)
-		autojanny.pay_account('coins', POLL_BET_COINS)
+		autojanny.coins += POLL_BET_COINS
 		g.db.add(autojanny)
 
 	if option.exclusive:
@@ -49,7 +47,7 @@ def vote_option(option_id, v):
 	elif existing and not option.exclusive:
 		g.db.delete(existing)
 
-	return {"message": "Bet successful!"}
+	return "", 204
 
 @app.get("/votes/post/option/<option_id>")
 @auth_required

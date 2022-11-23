@@ -1,6 +1,12 @@
 {% extends "default.html" %}
-{% block pagetitle %}{{"Badge Grant" if grant else "Badge Remove"}}{% endblock %}
+{% if grant %}
+	{% set title="Badge Grant" %}
+{% else %}
+	{% set title="Badge Remove" %}
+{% endif %}
+{% block pagetitle %}{{title}}{% endblock %}
 {% block pagetype %}message{% endblock %}
+
 {% block content %}
 		{% if error %}
 		<div class="alert alert-danger alert-dismissible fade show my-3" role="alert">
@@ -26,7 +32,12 @@
 		{% endif %}
 
 <h5 class="mt-2">{{title}}</h5>
-{% set form_action = "/admin/badge_grant" if grant else "/admin/badge_remove" %}
+
+{% if grant %}
+	{% set form_action="/admin/badge_grant" %}
+{% else %}
+	{% set form_action="/admin/badge_remove" %}
+{% endif %}
 
 <form action="{{form_action}}" method="post">
 <input type="hidden" name="formkey" value="{{v|formkey}}">

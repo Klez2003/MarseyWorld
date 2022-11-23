@@ -88,7 +88,7 @@
 		{% endif %}
 
 		{% if c.post.sub %}
-			<span class="ml-1"> in <a href="/h/{{c.post.sub}}" {% if v and v.newtab %}data-target="t"target="_blank"{% endif %}>/h/{{c.post.sub}}</a></span>
+			<span class="ml-1"> in <a href="/h/{{c.post.sub}}" {% if v and v.newtab and not g.webview %}target="_blank"{% endif %}>/h/{{c.post.sub}}</a></span>
 		{% endif %}
 	{% elif c.author_id==AUTOJANNY_ID %}
 		<span class="font-weight-bold">Notification</span>
@@ -211,7 +211,7 @@
 					<em style="position: relative; top: 2px; margin-left: 0.5rem">{{c.slots_result}}</em>
 				{% elif c.casino_game_id %}
 					{% set game_state = c.casino_game.game_state_json %}
-					<em style="position: relative; top: 2px; margin-left: 0.5rem">{{game_state['symbols'].replace(',','')}} {{game_state['text']}}</em>
+					<em style="position: relative; top: 2px; margin-left: 0.5rem">{{game_state['symbols'].replace(',','')}} {{game_state['text'].replace('procoins', 'marseybux')}}</em>
 				{% endif %}
 
 				{% if c.blackjack_result %}
@@ -291,7 +291,7 @@
 						<button type="button" id="cancel-edit-{{c.id}}" onclick="toggleEdit('{{c.id}}');remove_dialog()" class="btn btn-link text-muted ml-auto cancel-form fl-r commentmob">Cancel</button> 
 					</form>
 					<div id="preview-edit-{{c.id}}" class="preview mb-3 mt-5"></div>
-					<div class="form-text text-small p-0 m-0"><a href="/formatting" {% if v and v.newtab %}data-target="t"target="_blank"{% endif %}>Formatting help</a></div>
+					<div class="form-text text-small p-0 m-0"><a href="/formatting" {% if v and v.newtab and not g.webview %}target="_blank"{% endif %}>Formatting help</a></div>
 				</div>
 				{% endif %}
 				<div id="comment-{{c.id}}-actions" class="comment-actions{% if voted==1 %} upvoted{% elif voted==-1 %} downvoted{% endif %}">
@@ -345,13 +345,13 @@
 									</li>
 								{% else %}
 									<li id="voting-{{c.id}}-mobile" class="voting list-inline-item d-md-none">
-										<span tabindex="0" class="arrow-{{c.id}}-mobile-up mx-0 pr-1 arrow-mobile-up" onclick="location.href='/login?redirect={{request.full_path | urlencode}}';">
+										<span tabindex="0" class="arrow-{{c.id}}-mobile-up mx-0 pr-1 arrow-mobile-up" onclick="location.href='/login';">
 											<i class="fas fa-arrow-alt-up mx-0" aria-hidden="true"></i>
 										</span>
 								
 										<span class="comment-mobile-score-{{c.id}} score{% if c.controversial %} controversial{% endif %}"{% if not c.is_banned %} data-bs-toggle="tooltip" data-bs-placement="top" title="+{{ups}} | -{{downs}}"{% endif %}style="cursor: default">{{score}}</span>
 								
-										<span tabindex="0" class="arrow-{{c.id}}-mobile-down arrow-mobile-down mx-0 pl-1 my-0" onclick="location.href='/login?redirect={{request.full_path | urlencode}}';">
+										<span tabindex="0" class="arrow-{{c.id}}-mobile-down arrow-mobile-down mx-0 pl-1 my-0" onclick="location.href='/login';">
 											<i class="fas fa-arrow-alt-down mx-0" aria-hidden="true"></i>
 										</span>
 									</li>
@@ -379,7 +379,7 @@
 							<button type="button" tabindex="0" onclick="vote('comment', '{{c.id}}', '1')" class="comment-{{c.id}}-up btn caction py-0 m-0 px-3 nobackground arrow-up upvote-button mx-0 comment-{{c.id}}-up {% if voted==1 %}active{% endif %}"></button>
 						
 						{% else %}
-							<button type="button" tabindex="0" class="comment-{{c.id}}-up btn caction nobackground py-0 m-0 px-3 arrow-up" onclick="location.href='/login?redirect={{request.full_path | urlencode}}';"></button>
+							<button type="button" tabindex="0" class="comment-{{c.id}}-up btn caction nobackground py-0 m-0 px-3 arrow-up" onclick="location.href='/login';"></button>
 						
 						{% endif %}
 						
@@ -396,7 +396,7 @@
 						
 						{% else %}
 						
-							<button type="button" {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" class="comment-{{c.id}}-down btn caction py-0 m-0 px-3 nobackground arrow-down" onclick="location.href='/login?redirect={{request.full_path | urlencode}}';"></button>
+							<button type="button" {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" class="comment-{{c.id}}-down btn caction py-0 m-0 px-3 nobackground arrow-down" onclick="location.href='/login';"></button>
 						
 						{% endif %}
 						
@@ -428,7 +428,7 @@
 								
 								<button type="button" id="undelete-{{c.id}}" class="btn caction py-0 nobackground px-1 text-muted {% if not c.deleted_utc %}d-none{% endif %}" onclick="postToastSwitch(this,'/undelete/comment/{{c.id}}','delete-{{c.id}}','undelete-{{c.id}}','d-none');document.getElementById('comment-{{c.id}}').classList.remove('deleted')"><i class="fas fa-trash-alt fa-fw"></i>Undelete</button>
 
-								<button type="button" id="delete-{{c.id}}" class="btn caction py-0 nobackground px-1 text-muted {% if c.deleted_utc %}d-none{% endif %}" data-bs-toggle="modal" data-bs-target="#deleteCommentModal" onclick="delete_commentModal(this, '{{c.id}}')"><i class="fas fa-trash-alt fa-fw"></i>Delete</button>
+								<button type="button" id="delete-{{c.id}}" class="btn caction py-0 nobackground px-1 text-muted {% if c.deleted_utc %}d-none{% endif %}" data-bs-toggle="modal" data-bs-target="#deleteCommentModal" onclick="delete_commentModal('{{c.id}}')"><i class="fas fa-trash-alt fa-fw"></i>Delete</button>
 							{% elif v and c.body %}
 								<button type="button" class="btn caction py-0 nobackground px-1 text-muted" onclick="expandMarkdown('{{c.id}}','c')"><i class="fas text-expand-icon-{{c.id}} fa-expand-alt"></i><span class="expand-text-c-{{c.id}}">View source</span></button>
 							{% endif %}
@@ -518,9 +518,9 @@
 					<input type="hidden" name="formkey" value="{{v|formkey}}"> 
 					<input type="hidden" name="parent_fullname" value="{{c.fullname}}"> 
 					<input autocomplete="off" id="reply-form-submission-{{c.fullname}}" type="hidden" name="submission" value="{{c.post.id}}"> 
-					<textarea required autocomplete="off" {% if v.longpost %}minlength="280"{% else %}minlength="1"{% endif %} maxlength="{% if v.bird %}140{% else %}10000{% endif %}" data-preview="form-preview-{{c.fullname}}" oninput="markdown(this);charLimit('reply-form-body-{{c.fullname}}','charcount-{{c.fullname}}')" id="reply-form-body-{{c.fullname}}" data-fullname="{{c.fullname}}" name="body" form="reply-to-c_{{c.id}}" class="comment-box form-control rounded" aria-label="With textarea" placeholder="Add your comment..." rows="3"></textarea> 
+					<textarea required autocomplete="off" {% if v.longpost %}minlength="280"{% else %}minlength="1"{% endif %} maxlength="{% if v.bird %}140{% else %}10000{% endif %}" data-preview="form-preview-{{c.fullname}}" oninput="markdown(this);charLimit('reply-form-body-{{c.fullname}}','charcount-{{c.id}}')" id="reply-form-body-{{c.fullname}}" data-fullname="{{c.fullname}}" name="body" form="reply-to-c_{{c.id}}" class="comment-box form-control rounded" aria-label="With textarea" placeholder="Add your comment..." rows="3"></textarea> 
 
-					<div class="text-small font-weight-bold mt-1" id="charcount-{{c.fullname}}" style="right: 1rem; bottom: 0.5rem; z-index: 3;"></div>
+					<div class="text-small font-weight-bold mt-1" id="charcount-{{c.id}}" style="right: 1rem; bottom: 0.5rem; z-index: 3;"></div>
 
 					<div class="comment-format" id="comment-format-bar-{{c.id}}"> 
 						<label class="btn btn-secondary format m-0" for="gif-reply-btn-{{c.fullname}}" onclick="commentForm('reply-form-body-{{c.fullname}}');getGif()" aria-hidden="true" data-bs-toggle="modal" data-bs-target="#gifModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add GIF">
@@ -540,7 +540,7 @@
 					<button type="button" onclick="document.getElementById('reply-to-{{c.id}}').classList.add('d-none');remove_dialog()" class="btn btn-link text-muted ml-auto cancel-form fl-r commentmob">Cancel</button> 
 				</form>
 				<div id="form-preview-{{c.fullname}}" class="preview mb-3 mt-5"></div>
-				<div class="form-text text-small p-0 m-0"><a href="/formatting" {% if v and v.newtab %}data-target="t"target="_blank"{% endif %}>Formatting help</a></div>
+				<div class="form-text text-small p-0 m-0"><a href="/formatting" {% if v and v.newtab and not g.webview %}target="_blank"{% endif %}>Formatting help</a></div>
 			</div>
 		</div>
 
@@ -636,7 +636,7 @@
 							
 							<button type="button" id="undelete2-{{c.id}}" class="{% if not c.deleted_utc %}d-none{% endif %} list-group-item text-success" onclick="postToastSwitch(this,'/undelete/comment/{{c.id}}', 'delete2-{{c.id}}', 'undelete2-{{c.id}}','d-none');document.getElementById('comment-{{c.id}}').classList.remove('deleted')" data-bs-dismiss="modal"><i class="far fa-trash-alt text-success mr-2"></i>Undelete</button>
 
-							<button type="button" id="delete2-{{c.id}}" class="{% if c.deleted_utc %}d-none{% endif %} list-group-item text-danger" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#deleteCommentModal" onclick="delete_commentModal(this, '{{c.id}}')"><i class="far fa-trash-alt text-danger mr-2"></i>Delete</button>
+							<button type="button" id="delete2-{{c.id}}" class="{% if c.deleted_utc %}d-none{% endif %} list-group-item text-danger" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#deleteCommentModal" onclick="delete_commentModal('{{c.id}}')"><i class="far fa-trash-alt text-danger mr-2"></i>Delete</button>
 						{% else %}
 							{% if c.body %}
 								<button type="button" data-bs-dismiss="modal" onclick="expandMarkdown('{{c.id}}','c')" class="list-group-item"><i class="fas text-expand-icon-{{c.id}} fa-expand-alt mr-2"></i><span class="expand-text-c-{{c.id}}">View source</span></button>
@@ -719,7 +719,10 @@
 						{% endif %}
 
 						{% if v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
-							<button type="button" id="remove2-{{c.id}}" class="{% if c.is_banned %}d-none{% endif %} list-group-item text-danger" onclick="removeComment(this,'{{c.id}}','approve2-{{c.id}}','remove2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-ban text-danger mr-2"></i>Remove</button>
+							{% if v.id != c.author.id %}
+								<button type="button" id="remove2-{{c.id}}" class="{% if c.is_banned %}d-none{% endif %} list-group-item text-danger" onclick="removeComment(this,'{{c.id}}','approve2-{{c.id}}','remove2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-ban text-danger mr-2"></i>Remove</button>
+							{% endif %}
+
 							<button type="button" id="approve2-{{c.id}}" class="{% if not c.is_banned and request.path != '/admin/reported/comments' %}d-none{% endif %} list-group-item text-success" onclick="approveComment(this,'{{c.id}}','approve2-{{c.id}}','remove2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-check text-success mr-2"></i>Approve</button>
 						{% endif %}
 
@@ -801,12 +804,11 @@
 	{% endif %}
 
 	{% if v %}
-		<script defer src="{{'js/vendor/marked.js' | asset}}"></script>
-		<script defer src="{{'js/markdown.js' | asset}}"></script>
+		<script defer src="{{'js/marked.js' | asset}}"></script>
 		<script defer src="{{'js/comments_v.js' | asset}}"></script>
 	{% endif %}
 
-	<script defer src="{{'js/vendor/clipboard.js' | asset}}"></script>
+	<script defer src="{{'js/clipboard.js' | asset}}"></script>
 
 	{% if v and v.admin_level >= PERMS['POST_COMMENT_MODERATION_TOOLS_VISIBLE'] %}
 		<script defer src="{{'js/comments_admin.js' | asset}}"></script>
