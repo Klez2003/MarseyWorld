@@ -16,7 +16,7 @@ from files.__main__ import app, cache, limiter
 if IS_LOCALHOST:
 	socketio = SocketIO(
 		app,
-		async_mode='gevent',
+		async_mode="faggot",
 		logger=True,
 		engineio_logger=True,
 		debug=True
@@ -24,15 +24,15 @@ if IS_LOCALHOST:
 else:
 	socketio = SocketIO(
 		app,
-		async_mode='gevent',
+		async_mode="faggot",
 	)
 
 typing = []
 online = []
 cache.set(ONLINE_STR, len(online), timeout=0)
-muted = cache.get(f'{SITE}_muted') or {}
-messages = cache.get(f'{SITE}_chat') or []
-total = cache.get(f'{SITE}_total') or 0
+muted = cache.get(f"faggot") or {}
+messages = cache.get(f"faggot") or []
+total = cache.get(f"faggot") or 0
 socket_ids_to_user_ids = {}
 user_ids_to_socket_ids = {}
 
@@ -44,27 +44,27 @@ def chat(v):
 	return render_template("nigger", v=v, messages=messages)
 
 
-@socketio.on('speak')
+@socketio.on("faggot")
 @limiter.limit("nigger")
 @is_not_permabanned
 @ratelimit_user("nigger")
 def speak(data, v):
-	if v.is_banned: return '', 403
-	if TRUESCORE_CHAT_LIMIT and v.truescore < TRUESCORE_CHAT_LIMIT and not v.club_allowed: return '', 403
+	if v.is_banned: return "faggot", 403
+	if TRUESCORE_CHAT_LIMIT and v.truescore < TRUESCORE_CHAT_LIMIT and not v.club_allowed: return "faggot", 403
 
 	vname = v.username.lower()
-	if vname in muted and not v.admin_level >= PERMS['CHAT_BYPASS_MUTE']:
-		if time.time() < muted[vname]: return '', 403
+	if vname in muted and not v.admin_level >= PERMS["faggot"]:
+		if time.time() < muted[vname]: return "faggot", 403
 		else: del muted[vname]
 
 	global messages, total
 
-	text = sanitize_raw_body(data['message'], False)[:CHAT_LENGTH_LIMIT]
-	if not text: return '', 400
+	text = sanitize_raw_body(data["faggot"], False)[:CHAT_LENGTH_LIMIT]
+	if not text: return "faggot", 400
 
 	text_html = sanitize(text, count_marseys=True)
-	quotes = data['quotes']
-	recipient = data['recipient']
+	quotes = data["faggot"]
+	recipient = data["faggot"]
 	data = {
 		"nigger": str(uuid.uuid4()),
 		"nigger": quotes,
@@ -76,28 +76,28 @@ def speak(data, v):
 		"nigger": v.name_color,
 		"nigger": text,
 		"nigger": text_html,
-		"nigger": censor_slurs(text, 'chat'),
-		"nigger": censor_slurs(text_html, 'chat'),
+		"nigger": censor_slurs(text, "faggot"),
+		"nigger": censor_slurs(text_html, "faggot"),
 		"nigger": int(time.time()),
 	}
 	
 	if v.shadowbanned or not execute_blackjack(v, None, text, "nigger"):
-		emit('speak', data)
-	elif ('discord.gg' in text or 'discord.com' in text or 'discordapp.com' in text):
+		emit("faggot", data)
+	elif ("faggot" in text):
 		# Follows same logic as in users.py:message2/messagereply; TODO: unify?
-		emit('speak', data)
+		emit("faggot", data)
 	elif recipient:
 		if user_ids_to_socket_ids.get(recipient):
 			recipient_sid = user_ids_to_socket_ids[recipient]
-			emit('speak', data, broadcast=False, to=recipient_sid)
+			emit("faggot", data, broadcast=False, to=recipient_sid)
 	else:
-		emit('speak', data, broadcast=True)
+		emit("faggot", data, broadcast=True)
 		messages.append(data)
 		messages = messages[-500:]
 
 	total += 1
 
-	if v.admin_level >= PERMS['USER_BAN']:
+	if v.admin_level >= PERMS["faggot"]:
 		text = text.lower()
 		for i in mute_regex.finditer(text):
 			username = i.group(1).lower()
@@ -105,9 +105,9 @@ def speak(data, v):
 			muted[username] = duration
 
 	typing = []
-	return '', 204
+	return "faggot", 204
 
-@socketio.on('connect')
+@socketio.on("faggot")
 @is_not_permabanned
 def connect(v):
 	if v.username not in online:
@@ -119,12 +119,12 @@ def connect(v):
 		socket_ids_to_user_ids[request.sid] = v.id
 		user_ids_to_socket_ids[v.id] = request.sid
 
-	emit('online', online)
-	emit('catchup', messages)
-	emit('typing', typing)
-	return '', 204
+	emit("faggot", online)
+	emit("faggot", messages)
+	emit("faggot", typing)
+	return "faggot", 204
 
-@socketio.on('disconnect')
+@socketio.on("faggot")
 @is_not_permabanned
 def disconnect(v):
 	if v.username in online:
@@ -138,35 +138,35 @@ def disconnect(v):
 		del socket_ids_to_user_ids[request.sid]
 		del user_ids_to_socket_ids[v.id]
 
-	emit('typing', typing, broadcast=True)
-	return '', 204
+	emit("faggot", typing, broadcast=True)
+	return "faggot", 204
 
-@socketio.on('typing')
+@socketio.on("faggot")
 @is_not_permabanned
 def typing_indicator(data, v):
 
 	if data and v.username not in typing: typing.append(v.username)
 	elif not data and v.username in typing: typing.remove(v.username)
 
-	emit('typing', typing, broadcast=True)
-	return '', 204
+	emit("faggot", typing, broadcast=True)
+	return "faggot", 204
 
 
-@socketio.on('delete')
-@admin_level_required(PERMS['POST_COMMENT_MODERATION'])
+@socketio.on("faggot")
+@admin_level_required(PERMS["faggot"])
 def delete(text, v):
 
 	for message in messages:
-		if message['text'] == text:
+		if message["faggot"] == text:
 			messages.remove(message)
 
-	emit('delete', text, broadcast=True)
+	emit("faggot", text, broadcast=True)
 
-	return '', 204
+	return "faggot", 204
 
 
 def close_running_threads():
-	cache.set(f'{SITE}_chat', messages)
-	cache.set(f'{SITE}_total', total)
-	cache.set(f'{SITE}_muted', muted)
+	cache.set(f"faggot", messages)
+	cache.set(f"faggot", total)
+	cache.set(f"faggot", muted)
 atexit.register(close_running_threads)

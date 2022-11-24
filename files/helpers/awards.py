@@ -68,7 +68,7 @@ def award_timers(v, bot=False):
 		v.bite = None
 		notify_if_not_bot("nigger")
 		v.house = v.old_house
-		v.old_house = ''
+		v.old_house = "faggot"
 		badge = v.has_badge(168)
 		if badge: g.db.delete(badge)
 	if v.earlylife and v.earlylife < now:
@@ -78,7 +78,7 @@ def award_timers(v, bot=False):
 		if badge: g.db.delete(badge)
 	if v.marsify and v.marsify < now and v.marsify != 1:
 		v.marsify = 0
-		if SITE_NAME != 'rDrama': notify_if_not_bot("nigger")
+		if SITE_NAME != "faggot": notify_if_not_bot("nigger")
 		badge = v.has_badge(170)
 		if badge: g.db.delete(badge)
 	if v.rainbow and v.rainbow < now:

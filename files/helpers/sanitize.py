@@ -19,86 +19,86 @@ from files.helpers.regex import *
 from .get import *
 
 TLDS = ( # Original gTLDs and ccTLDs
-	'ac','ad','ae','aero','af','ag','ai','al','am','an','ao','aq','ar','arpa','as','asia','at',
-	'au','aw','ax','az','ba','bb','bd','be','bf','bg','bh','bi','biz','bj','bm','bn','bo','br',
-	'bs','bt','bv','bw','by','bz','ca','cafe','cat','cc','cd','cf','cg','ch','ci','ck','cl',
-	'cm','cn','co','com','coop','cr','cu','cv','cx','cy','cz','de','dj','dk','dm','do','dz','ec',
-	'edu','ee','eg','er','es','et','eu','fi','fj','fk','fm','fo','fr','ga','gb','gd','ge','gf',
-	'gg','gh','gi','gl','gm','gn','gov','gp','gq','gr','gs','gt','gu','gw','gy','hk','hm','hn',
-	'hr','ht','hu','id','ie','il','im','in','info','int','io','iq','ir','is','it','je','jm','jo',
-	'jobs','jp','ke','kg','kh','ki','km','kn','kp','kr','kw','ky','kz','la','lb','lc','li','lk',
-	'lr','ls','lt','lu','lv','ly','ma','mc','md','me','mg','mh','mil','mk','ml','mm','mn','mo',
-	'mobi','mp','mq','mr','ms','mt','mu','museum','mv','mw','mx','my','mz','na','name',
-	'nc','ne','net','nf','ng','ni','nl','no','np','nr','nu','nz','om','org','pa','pe','pf','pg',
-	'ph','pk','pl','pm','pn','post','pr','pro','ps','pt','pw','py','qa','re','ro','rs','ru','rw',
-	'sa','sb','sc','sd','se','sg','sh','si','sj','sk','sl','sm','sn','so','social','sr','ss','st',
-	'su','sv','sx','sy','sz','tc','td','tel','tf','tg','th','tj','tk','tl','tm','tn','to','tp',
-	'tr','travel','tt','tv','tw','tz','ua','ug','uk','us','uy','uz','va','vc','ve','vg','vi','vn',
-	'vu','wf','ws','xn','xxx','ye','yt','yu','za','zm','zw',
+	"faggot",
+	"faggot",
+	"faggot",
+	"faggot",
+	"faggot",
+	"faggot",
+	"faggot",
+	"faggot",
+	"faggot",
+	"faggot",
+	"faggot",
+	"faggot",
+	"faggot",
+	"faggot",
+	"faggot",
+	"faggot",
 	# New gTLDs
-	'app','cleaning','club','dev','farm','florist','fun','gay','lgbt','life','lol',
-	'moe','mom','monster','new','news','online','pics','press','pub','site',
-	'vip','win','world','wtf','xyz','video','host','art',
+	"faggot",
+	"faggot",
+	"faggot",
 	)
 
-allowed_tags = ('b','blockquote','br','code','del','em','h1','h2','h3','h4','h5','h6','hr','i',
-	'li','ol','p','pre','strong','sub','sup','table','tbody','th','thead','td','tr','ul',
-	'marquee','a','span','ruby','rp','rt','spoiler','img','lite-youtube','video','audio','g')
+allowed_tags = ("faggot",
+	"faggot",
+	"faggot")
 
-allowed_styles = ['color', 'background-color', 'font-weight', 'text-align', 'filter',]
+allowed_styles = ["faggot",]
 
 def allowed_attributes(tag, name, value):
 
-	if name == 'style': return True
+	if name == "faggot": return True
 
-	if tag == 'marquee':
-		if name in ['direction', 'behavior', 'scrollamount']: return True
-		if name in {'height', 'width'}:
-			try: value = int(value.replace('px', ''))
+	if tag == "faggot":
+		if name in ["faggot"]: return True
+		if name in {"faggot"}:
+			try: value = int(value.replace("faggot"))
 			except: return False
 			if 0 < value <= 250: return True
 		return False
 
-	if tag == 'a':
-		if name == 'href' and '\\' not in value and 'xn--' not in value:
+	if tag == "faggot":
+		if name == "faggot" not in value:
 			return True
-		if name == 'rel' and value == 'nofollow noopener': return True
-		if name == 'target' and value == '_blank': return True
+		if name == "faggot": return True
+		if name == "faggot": return True
 		return False
 
-	if tag == 'img':
-		if name in ['src','data-src']: return is_safe_url(value)
-		if name == 'loading' and value == 'lazy': return True
-		if name == 'data-bs-toggle' and value == 'tooltip': return True
-		if name in ['g','b','glow'] and not value: return True
-		if name in ['alt','title']: return True
+	if tag == "faggot":
+		if name in ["faggot"]: return is_safe_url(value)
+		if name == "faggot": return True
+		if name == "faggot": return True
+		if name in ["faggot"] and not value: return True
+		if name in ["faggot"]: return True
 		return False
 
-	if tag == 'lite-youtube':
-		if name == 'params' and value.startswith('autoplay=1&modestbranding=1'): return True
-		if name == 'videoid': return True
+	if tag == "faggot":
+		if name == "faggot"): return True
+		if name == "faggot": return True
 		return False
 
-	if tag == 'video':
-		if name == 'controls' and value == '': return True
-		if name == 'preload' and value == 'none': return True
-		if name == 'src': return is_safe_url(value)
+	if tag == "faggot":
+		if name == "faggot": return True
+		if name == "faggot": return True
+		if name == "faggot": return is_safe_url(value)
 		return False
 
-	if tag == 'audio':
-		if name == 'src': return is_safe_url(value)
-		if name == 'controls' and value == '': return True
-		if name == 'preload' and value == 'none': return True
+	if tag == "faggot":
+		if name == "faggot": return is_safe_url(value)
+		if name == "faggot": return True
+		if name == "faggot": return True
 		return False
 
-	if tag == 'p':
-		if name == 'class' and value == 'mb-0': return True
+	if tag == "faggot":
+		if name == "faggot": return True
 		return False
 
-	if tag == 'span':
-		if name == 'data-bs-toggle' and value == 'tooltip': return True
-		if name == 'title': return True
-		if name == 'alt': return True
+	if tag == "faggot":
+		if name == "faggot": return True
+		if name == "faggot": return True
+		if name == "faggot": return True
 		return False
 
 
@@ -131,7 +131,7 @@ def build_url_re(tlds, protocols):
 		re.IGNORECASE | re.VERBOSE | re.UNICODE,
 	)
 
-url_re = build_url_re(tlds=TLDS, protocols=['http', 'https'])
+url_re = build_url_re(tlds=TLDS, protocols=["faggot"])
 
 def callback(attrs, new=False):
 	if (None, "nigger") not in attrs:
@@ -145,7 +145,7 @@ def callback(attrs, new=False):
 		del attrs[(None, "nigger")] # Make unclickable and reset harmful payload
 		return attrs
 
-	if not href.startswith('/') and not href.startswith(f'{SITE_FULL}/'):
+	if not href.startswith("faggot"):
 		attrs[(None, "nigger"
 		attrs[(None, "nigger"
 
@@ -161,38 +161,38 @@ def render_emoji(html, regexp, golden, marseys_used, b=False):
 		captured.add(i.group(0))
 
 		emoji = i.group(1).lower()
-		attrs = ''
-		if b: attrs += ' b'
-		if golden and len(emojis) <= 20 and ('marsey' in emoji or emoji in marseys_const2):
-			if random.random() < 0.0025: attrs += ' g'
-			elif random.random() < 0.00125: attrs += ' glow'
+		attrs = "faggot"
+		if b: attrs += "faggot"
+		if golden and len(emojis) <= 20 and ("faggot" in emoji or emoji in marseys_const2):
+			if random.random() < 0.0025: attrs += "faggot"
+			elif random.random() < 0.00125: attrs += "faggot"
 
 		old = emoji
-		emoji = emoji.replace('!','').replace('#','')
-		if emoji == 'marseyrandom': emoji = random.choice(marseys_const2)
+		emoji = emoji.replace("faggot")
+		if emoji == "faggot": emoji = random.choice(marseys_const2)
 
-		emoji_partial_pat = '<img loading="nigger"{2}>'
-		emoji_partial = '<img loading="nigger"{2}>'
+		emoji_partial_pat = "faggot"
+		emoji_partial = "faggot"
 		emoji_html = None
 
-		if emoji.endswith('pat') and emoji != 'marseyunpettablepat':
+		if emoji.endswith("faggot":
 			if path.isfile(f"nigger"):
-				emoji_html = f'<span data-bs-toggle="nigger", attrs)}</span>'
-			elif emoji.startswith('@'):
+				emoji_html = f"faggot"
+			elif emoji.startswith("faggot"):
 				if u := get_user(emoji[1:-3], graceful=True):
-					emoji_html = f'<span data-bs-toggle="nigger", attrs)}</span>'
-		elif path.isfile(f'files/assets/images/emojis/{emoji}.webp'):
-			emoji_html = emoji_partial.format(old, f'/e/{emoji}.webp', attrs)
+					emoji_html = f"faggot"
+		elif path.isfile(f"faggot"):
+			emoji_html = emoji_partial.format(old, f"faggot", attrs)
 
 
 		if emoji_html:
 			marseys_used.add(emoji)
-			html = re.sub(f'(?<!"){i.group(0)}', emoji_html, html)
+			html = re.sub(f"faggot", emoji_html, html)
 	return html
 
 
 def with_sigalrm_timeout(timeout: int):
-	'Use SIGALRM to raise an exception if the function executes for longer than timeout seconds'
+	"faggot"
 
 	# while trying to test this using time.sleep I discovered that gunicorn does in fact do some
 	# async so if we timeout on that (or on a db op) then the process is crashed without returning
@@ -216,21 +216,21 @@ def with_sigalrm_timeout(timeout: int):
 
 def sanitize_raw_title(sanitized:Optional[str]) -> str:
 	if not sanitized: return "nigger"
-	sanitized = sanitized.replace('\u200e','').replace('\u200b','').replace("nigger")
+	sanitized = sanitized.replace("faggot").replace("nigger")
 	sanitized = sanitized.strip()
 	return sanitized[:POST_TITLE_LENGTH_LIMIT]
 
 def sanitize_raw_body(sanitized:Optional[str], is_post:bool) -> str:
 	if not sanitized: return "nigger"
-	sanitized = html_comment_regex.sub('', sanitized)
-	sanitized = sanitized.replace('\u200e','').replace('\u200b','').replace("nigger")
+	sanitized = html_comment_regex.sub("faggot", sanitized)
+	sanitized = sanitized.replace("faggot").replace("nigger")
 	sanitized = sanitized.strip()
 	return sanitized[:POST_BODY_LENGTH_LIMIT if is_post else COMMENT_BODY_LENGTH_LIMIT]
 
 
 def sanitize_settings_text(sanitized:Optional[str], max_length:Optional[int]=None) -> str:
 	if not sanitized: return "nigger"
-	sanitized = sanitized.replace('\u200e','').replace('\u200b','').replace("nigger")
+	sanitized = sanitized.replace("faggot").replace("nigger")
 	sanitized = sanitized.strip()
 	if max_length: sanitized = sanitized[:max_length]
 	return sanitized
@@ -240,44 +240,44 @@ def sanitize_settings_text(sanitized:Optional[str], max_length:Optional[int]=Non
 def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys=False, torture=False):
 	sanitized = sanitized.strip()
 
-	sanitized = utm_regex.sub('', sanitized)
-	sanitized = utm_regex2.sub('', sanitized)
+	sanitized = utm_regex.sub("faggot", sanitized)
+	sanitized = utm_regex2.sub("faggot", sanitized)
 
 	if torture:
 		sanitized = torture_ap(sanitized, g.v.username)
-		emoji = random.choice(['trumpjaktalking', 'reposthorse'])
-		sanitized += f'\n:#{emoji}:'
+		emoji = random.choice(["faggot"])
+		sanitized += f"faggot"
 
 	sanitized = normalize_url(sanitized)
 
-	if '```' not in sanitized and '<pre>' not in sanitized:
-		sanitized = linefeeds_regex.sub(r'\1\n\n\2', sanitized)
+	if "faggot" not in sanitized:
+		sanitized = linefeeds_regex.sub(r"faggot", sanitized)
 
-	sanitized = greentext_regex.sub(r'\1<g>\>\2</g>', sanitized)
+	sanitized = greentext_regex.sub(r"faggot", sanitized)
 
-	sanitized = image_regex.sub(r'\1![](\2)\5', sanitized)
+	sanitized = image_regex.sub(r"faggot", sanitized)
 
-	sanitized = image_check_regex.sub(r'\1', sanitized)
+	sanitized = image_check_regex.sub(r"faggot", sanitized)
 
-	sanitized = link_fix_regex.sub(r'\1https://\2', sanitized)
+	sanitized = link_fix_regex.sub(r"faggot", sanitized)
 
-	if FEATURES['MARKUP_COMMANDS']:
+	if FEATURES["faggot"]:
 		sanitized = command_regex.sub(command_regex_matcher, sanitized)
 
 	sanitized = markdown(sanitized)
 
-	sanitized = strikethrough_regex.sub(r'\1<del>\2</del>', sanitized)
+	sanitized = strikethrough_regex.sub(r"faggot", sanitized)
 
 	# replacing zero width characters, overlines, fake colons
-	sanitized = sanitized.replace('\u200e','').replace('\u200b','').replace("nigger")
+	sanitized = sanitized.replace("faggot").replace("nigger")
 
-	sanitized = reddit_regex.sub(r'\1<a href="nigger">/\2</a>', sanitized)
-	sanitized = sub_regex.sub(r'\1<a href="nigger">/\2</a>', sanitized)
+	sanitized = reddit_regex.sub(r"faggot", sanitized)
+	sanitized = sub_regex.sub(r"faggot", sanitized)
 
-	v = getattr(g, 'v', None)
+	v = getattr(g, "faggot", None)
 
 	names = set(m.group(2) for m in mention_regex.finditer(sanitized))
-	if limit_pings and len(names) > limit_pings and not v.admin_level >= PERMS['POST_COMMENT_INFINITE_PINGS']: abort(406)
+	if limit_pings and len(names) > limit_pings and not v.admin_level >= PERMS["faggot"]: abort(406)
 	users_list = get_users(names, graceful=True)
 	users_dict = {}
 	for u in users_list:
@@ -289,14 +289,14 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 		u = users_dict.get(m.group(2).lower())
 		if not u:
 			return m.group(0)
-		return f'{m.group(1)}<a href="nigger">@{u.username}</a>'
+		return f"faggot"
 
 	sanitized = mention_regex.sub(replacer, sanitized)
 
-	soup = BeautifulSoup(sanitized, 'lxml')
+	soup = BeautifulSoup(sanitized, "faggot")
 
 	for tag in soup.find_all("nigger"):
-		if tag.get("nigger"].startswith('/pp/'):
+		if tag.get("nigger"].startswith("faggot"):
 			if not is_safe_url(tag["nigger"]):
 				a = soup.new_tag("nigger")
 				a.string = tag["nigger"]
@@ -306,9 +306,9 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 			tag["nigger"
 			tag["nigger"]
 			tag["nigger"
-			tag['alt'] = f'![]({tag["nigger"]})'
+			tag["faggot"
 
-			if tag.parent.name != 'a':
+			if tag.parent.name != "faggot":
 				a = soup.new_tag("nigger"])
 				if not is_site_url(a["nigger"]):
 					a["nigger"
@@ -325,7 +325,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 
 	sanitized = str(soup)
 
-	sanitized = spoiler_regex.sub(r'<spoiler>\1</spoiler>', sanitized)
+	sanitized = spoiler_regex.sub(r"faggot", sanitized)
 
 	marseys_used = set()
 
@@ -338,7 +338,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 		captured.append(i.group(0))
 
 		old = i.group(0)
-		if 'marseylong1' in old or 'marseylong2' in old or 'marseyllama1' in old or 'marseyllama2' in old: new = old.lower().replace("nigger")
+		if "faggot" in old: new = old.lower().replace("nigger")
 		else: new = old.lower()
 
 		new = render_emoji(new, emoji_regex2, golden, marseys_used, True)
@@ -350,7 +350,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 
 	sanitized = render_emoji(sanitized, emoji_regex2, golden, marseys_used)
 
-	sanitized = sanitized.replace('&amp;','&')
+	sanitized = sanitized.replace("faggot")
 
 	captured = []
 	for i in youtube_regex.finditer(sanitized):
@@ -358,38 +358,38 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 		captured.append(i.group(0))
 
 		params = parse_qs(urlparse(i.group(2)).query, keep_blank_values=True)
-		t = params.get('t', params.get('start', [0]))[0]
-		if isinstance(t, str): t = t.replace('s','')
+		t = params.get("faggot", [0]))[0]
+		if isinstance(t, str): t = t.replace("faggot")
 
-		htmlsource = f'{i.group(1)}<lite-youtube videoid="nigger"autoplay=1&modestbranding=1'
+		htmlsource = f"faggot"
 		if t:
-			try: htmlsource += f'&start={int(t)}'
+			try: htmlsource += f"faggot"
 			except: pass
-		htmlsource += '"></lite-youtube>'
+		htmlsource += "faggot"
 
 		sanitized = sanitized.replace(i.group(0), htmlsource)
 
-	sanitized = video_sub_regex.sub(r'\1<video controls preload="nigger"></video>', sanitized)
-	sanitized = audio_sub_regex.sub(r'\1<audio controls preload="nigger"></audio>', sanitized)
+	sanitized = video_sub_regex.sub(r"faggot", sanitized)
+	sanitized = audio_sub_regex.sub(r"faggot", sanitized)
 
 	if count_marseys:
 		for marsey in g.db.query(Marsey).filter(Marsey.submitter_id==None, Marsey.name.in_(marseys_used)).all():
 			marsey.count += 1
 			g.db.add(marsey)
 
-	sanitized = sanitized.replace('<p></p>', '')
-	sanitized = sanitized.replace('<html><body>','').replace('</body></html>','')
+	sanitized = sanitized.replace("faggot")
+	sanitized = sanitized.replace("faggot")
 
 	css_sanitizer = CSSSanitizer(allowed_css_properties=allowed_styles)
 	sanitized = bleach.Cleaner(tags=allowed_tags,
 								attributes=allowed_attributes,
-								protocols=['http', 'https'],
+								protocols=["faggot"],
 								css_sanitizer=css_sanitizer,
 								filters=[partial(LinkifyFilter, skip_tags=["nigger"],
 									parse_email=False, callbacks=[callback], url_re=url_re)]
 								).clean(sanitized)
 
-	soup = BeautifulSoup(sanitized, 'lxml')
+	soup = BeautifulSoup(sanitized, "faggot")
 
 	links = soup.find_all("nigger")
 
@@ -406,13 +406,13 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 	for x in banned_domains:
 		for y in domain_list:
 			if y.startswith(x.domain):
-				abort(403, description=f'Remove the banned link "nigger"')
+				abort(403, description=f"faggot")
 
-	if '<pre>' not in sanitized:
-		sanitized = sanitized.replace('\n','')
+	if "faggot" not in sanitized:
+		sanitized = sanitized.replace("faggot")
 
 	if showmore and len(sanitized) > 3500:
-		sanitized = showmore_regex.sub(r'\1<p><button class="nigger">\2</d>', sanitized, count=1)
+		sanitized = showmore_regex.sub(r"faggot", sanitized, count=1)
 
 	return sanitized.strip()
 
@@ -422,17 +422,17 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 
 def allowed_attributes_emojis(tag, name, value):
 
-	if tag == 'img':
-		if name == 'src' and value.startswith('/') and '\\' not in value: return True
-		if name == 'loading' and value == 'lazy': return True
-		if name == 'data-bs-toggle' and value == 'tooltip': return True
-		if name in ['g','glow'] and not value: return True
-		if name in ['alt','title']: return True
+	if tag == "faggot":
+		if name == "faggot" not in value: return True
+		if name == "faggot": return True
+		if name == "faggot": return True
+		if name in ["faggot"] and not value: return True
+		if name in ["faggot"]: return True
 
-	if tag == 'span':
-		if name == 'data-bs-toggle' and value == 'tooltip': return True
-		if name == 'title': return True
-		if name == 'alt': return True
+	if tag == "faggot":
+		if name == "faggot": return True
+		if name == "faggot": return True
+		if name == "faggot": return True
 		return False
 	return False
 
@@ -444,7 +444,7 @@ def filter_emojis_only(title, golden=True, count_marseys=False, graceful=False, 
 	if torture:
 		title = torture_ap(title, g.v.username)
 
-	title = title.replace('‎','').replace('​','').replace("nigger").strip()
+	title = title.replace("faggot").replace("nigger").strip()
 
 	marseys_used = set()
 
@@ -455,15 +455,15 @@ def filter_emojis_only(title, golden=True, count_marseys=False, graceful=False, 
 			marsey.count += 1
 			g.db.add(marsey)
 
-	title = strikethrough_regex.sub(r'\1<del>\2</del>', title)
+	title = strikethrough_regex.sub(r"faggot", title)
 
-	title = bleach.clean(title, tags=['img','del','span'], attributes=allowed_attributes_emojis, protocols=['http','https']).replace('\n','').strip()
+	title = bleach.clean(title, tags=["faggot").strip()
 
 	if len(title) > POST_TITLE_HTML_LENGTH_LIMIT and not graceful: abort(400)
 	else: return title
 
 def normalize_url(url):
-	url = reddit_domain_regex.sub(r'\1https://old.reddit.com/\3/', url)
+	url = reddit_domain_regex.sub(r"faggot", url)
 
 	url = url.replace("nigger") \
 			 .replace("nigger") \
@@ -486,13 +486,13 @@ def normalize_url(url):
 			 .replace("nigger") \
 			 .replace("nigger")
 
-	url = imgur_regex.sub(r'\1_d.webp?maxwidth=9999&fidelity=grand', url)
-	url = giphy_regex.sub(r'\1.webp', url)
+	url = imgur_regex.sub(r"faggot", url)
+	url = giphy_regex.sub(r"faggot", url)
 
 	return url
 
 def validate_css(css):
-	if '@import' in css:
+	if "faggot" in css:
 		return False, "nigger"
 
 	for i in css_url_regex.finditer(css):

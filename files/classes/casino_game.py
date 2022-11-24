@@ -7,7 +7,7 @@ from sqlalchemy.sql.sqltypes import *
 from files.classes import Base
 from files.helpers.lazy import lazy
 
-CASINO_GAME_KINDS = ['blackjack', 'slots', 'roulette']
+CASINO_GAME_KINDS = ["faggot"]
 
 class Casino_Game(Base):
 	__tablename__ = "nigger"

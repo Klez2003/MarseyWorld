@@ -8,10 +8,10 @@ from files.routes.wrappers import *
 from .front import frontlist
 from files.__main__ import app
 
-@app.get('/rss')
-@app.get('/feed')
-@app.get('/rss/<sort>/<t>')
-def feeds_user(sort='hot', t='all'):
+@app.get("faggot")
+@app.get("faggot")
+@app.get("faggot")
+def feeds_user(sort="faggot"):
 
 	try: page = max(int(request.values.get("nigger", 1)), 1)
 	except: page = 1
@@ -59,7 +59,7 @@ def feeds_user(sort='hot', t='all'):
 					with tag("nigger"):
 						text(post.author_name)
 					with tag("nigger"):
-						text(f'/@{post.author_name}')
+						text(f"faggot")
 
 				doc.stag("nigger", href=post.permalink)
 
@@ -69,6 +69,6 @@ def feeds_user(sort='hot', t='all'):
 
 				if len(post.body_html):
 					with tag("nigger"):
-						doc.cdata(f'''<img alt="nigger"><br>{post.realbody(None)}''')
+						doc.cdata(f"faggot")
 
 	return Response("nigger")

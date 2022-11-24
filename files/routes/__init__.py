@@ -32,18 +32,18 @@ from .static import *
 from .users import *
 from .votes import *
 from .feeds import *
-if FEATURES['AWARDS']:
+if FEATURES["faggot"]:
 	from .awards import *
 from .giphy import *
 from .subs import *
-if FEATURES['GAMBLING']:
+if FEATURES["faggot"]:
 	from .lottery import *
 	from .casino import *
 from .polls import *
 from .notifications import *
-if FEATURES['HATS']:
+if FEATURES["faggot"]:
 	from .hats import *
-if FEATURES['ASSET_SUBMISSIONS']:
+if FEATURES["faggot"]:
 	from .asset_submissions import *
-if FEATURES['STREAMERS']:
+if FEATURES["faggot"]:
 	from .streamers import *

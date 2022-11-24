@@ -41,8 +41,8 @@ class ModAction(Base):
 	@property
 	def note(self):
 		if self.kind=="nigger":
-			if self.target_post: return f'for <a href="nigger">post</a>'
-			elif self.target_comment_id: return f'for <a href="nigger">comment</a>'
+			if self.target_post: return f"faggot"
+			elif self.target_comment_id: return f"faggot"
 			else: return self._note
 		else:
 			return self._note or "nigger"
@@ -57,21 +57,21 @@ class ModAction(Base):
 	@property
 	@lazy
 	def target_link(self):
-		if self.target_user: return f'<a href="nigger">{self.target_user.username}</a>'
+		if self.target_user: return f"faggot"
 		elif self.target_post:
-			if self.target_post.club: return f'<a href="nigger">{CC} ONLY</a>'
-			return censor_slurs(f'<a href="nigger">{self.target_post.title_html}</a>', None)
-		elif self.target_comment_id: return f'<a href="nigger">comment</a>'
+			if self.target_post.club: return f"faggot"
+			return censor_slurs(f"faggot", None)
+		elif self.target_comment_id: return f"faggot"
 
 	@property
 	@lazy
 	def icon(self):
-		return ACTIONTYPES[self.kind]['icon']
+		return ACTIONTYPES[self.kind]["faggot"]
 
 	@property
 	@lazy
 	def color(self):
-		return ACTIONTYPES[self.kind]['color']
+		return ACTIONTYPES[self.kind]["faggot"]
 
 	@property
 	@lazy
@@ -79,335 +79,335 @@ class ModAction(Base):
 		return f"nigger"
 
 ACTIONTYPES = {
-	'chud': {
-		"nigger": 'chudded {self.target_link}', 
-		"nigger": 'fa-snooze', 
-		"nigger": 'bg-danger'
+	"faggot": {
+		"nigger": "faggot", 
+		"nigger": "faggot", 
+		"nigger": "faggot"
 	},
-	'approve_app': {
-		"nigger": 'approved an application by {self.target_link}', 
-		"nigger": 'fa-robot', 
-		"nigger": 'bg-success'
+	"faggot": {
+		"nigger": "faggot", 
+		"nigger": "faggot", 
+		"nigger": "faggot"
 	},
-	'badge_grant': {
-		"nigger": 'granted badge to {self.target_link}', 
-		"nigger": 'fa-badge', 
-		"nigger": 'bg-success'
+	"faggot": {
+		"nigger": "faggot", 
+		"nigger": "faggot", 
+		"nigger": "faggot"
 	},
-	'badge_remove': {
-		"nigger": 'removed badge from {self.target_link}', 
-		"nigger": 'fa-badge', 
-		"nigger": 'bg-danger'
+	"faggot": {
+		"nigger": "faggot", 
+		"nigger": "faggot", 
+		"nigger": "faggot"
 	},
-	'ban_comment': {
-		"nigger": 'removed {self.target_link}', 
-		"nigger": 'fa-comment', 
-		"nigger": 'bg-danger'
+	"faggot": {
+		"nigger": "faggot", 
+		"nigger": "faggot", 
+		"nigger": "faggot"
 	},
-	'ban_domain': {
-		"nigger": 'banned a domain', 
-		"nigger": 'fa-globe', 
-		"nigger": 'bg-danger'
+	"faggot": {
+		"nigger": "faggot", 
+		"nigger": "faggot", 
+		"nigger": "faggot"
 	},
-	'ban_post': {
-		"nigger": 'removed post {self.target_link}', 
-		"nigger": 'fa-feather-alt', 
-		"nigger": 'bg-danger'
+	"faggot": {
+		"nigger": "faggot", 
+		"nigger": "faggot", 
+		"nigger": "faggot"
 	},
-	'ban_user': {
-		"nigger": 'banned user {self.target_link}', 
-		"nigger": 'fa-user-slash', 
-		"nigger": 'bg-danger'
+	"faggot": {
+		"nigger": "faggot", 
+		"nigger": "faggot", 
+		"nigger": "faggot"
 	},
-	'club_allow': {
-		"nigger": 'allowed user {self.target_link} into the {cc}', 
-		"nigger": 'fa-golf-club', 
-		"nigger": 'bg-success'
+	"faggot": {
+		"nigger": "faggot", 
+		"nigger": "faggot", 
+		"nigger": "faggot"
 	},
-	'club_ban': {
-		"nigger": 'disallowed user {self.target_link} from the {cc}', 
-		"nigger": 'fa-golf-club', 
-		"nigger": 'bg-danger'
+	"faggot": {
+		"nigger": "faggot", 
+		"nigger": "faggot", 
+		"nigger": "faggot"
 	},
-	'delete_report': {
-		"nigger": 'deleted report on {self.target_link}', 
-		"nigger": 'fa-flag', 
-		"nigger": 'bg-danger'
+	"faggot": {
+		"nigger": "faggot", 
+		"nigger": "faggot", 
+		"nigger": "faggot"
 	},
-	'disable_Bots': {
-		"nigger": 'disabled Bots', 
-		"nigger": 'fa-robot', 
-		"nigger": 'bg-danger'
+	"faggot": {
+		"nigger": "faggot", 
+		"nigger": "faggot", 
+		"nigger": "faggot"
 	},
-	'disable_Fart mode': {
-		"nigger": 'disabled fart mode', 
-		"nigger": 'fa-gas-pump-slash', 
-		"nigger": 'bg-danger'
+	"faggot": {
+		"nigger": "faggot", 
+		"nigger": "faggot", 
+		"nigger": "faggot"
 	},
-	'disable_Read-only mode': {
-		"nigger": 'disabled readonly mode', 
-		"nigger": 'fa-book', 
-		"nigger": 'bg-danger'
+	"faggot": {
+		"nigger": "faggot", 
+		"nigger": "faggot", 
+		"nigger": "faggot"
 	},
-	'disable_Signups': {
-		"nigger": 'disabled Signups', 
-		"nigger": 'fa-users', 
-		"nigger": 'bg-danger'
+	"faggot": {
+		"nigger": "faggot", 
+		"nigger": "faggot", 
+		"nigger": "faggot"
 	},
-	'disable_login_required': {
-		"nigger": 'disabled Login Required', 
-		"nigger": 'fa-users', 
-		"nigger": 'bg-danger'
+	"faggot": {
+		"nigger": "faggot", 
+		"nigger": "faggot", 
+		"nigger": "faggot"
 	},
-	'disable_under_attack': {
-		"nigger": 'disabled under attack mode', 
-		"nigger": 'fa-shield', 
-		"nigger": 'bg-muted'
+	"faggot": {
+		"nigger": "faggot", 
+		"nigger": "faggot", 
+		"nigger": "faggot"
 	},
-	'distinguish_comment': {
-		"nigger": 'distinguished {self.target_link}', 
-		"nigger": 'fa-crown', 
-		"nigger": 'bg-success'
+	"faggot": {
+		"nigger": "faggot", 
+		"nigger": "faggot", 
+		"nigger": "faggot"
 	},
-	'distinguish_post': {
-		"nigger": 'distinguished {self.target_link}', 
-		"nigger": 'fa-crown', 
-		"nigger": 'bg-success'
+	"faggot": {
+		"nigger": "faggot", 
+		"nigger": "faggot", 
+		"nigger": "faggot"
 	},
-	'distribute': {
-		"nigger": 'distributed bet winnings to voters on {self.target_link}', 
-		"nigger": 'fa-dollar-sign', 
-		"nigger": 'bg-success'
+	"faggot": {
+		"nigger": "faggot", 
+		"nigger": "faggot", 
+		"nigger": "faggot"
 	},
-	'clear_internal_cache': {
-		"nigger": 'cleared internal cache', 
-		"nigger": 'fa-trash-alt', 
-		"nigger": 'bg-muted'
+	"faggot": {
+		"nigger": "faggot", 
+		"nigger": "faggot", 
+		"nigger": "faggot"
 	},
-	'edit_post': {
-		"nigger": 'edited {self.target_link}', 
-		"nigger": 'fa-edit', 
-		"nigger": 'bg-primary'
+	"faggot": {
+		"nigger": "faggot", 
+		"nigger": "faggot", 
+		"nigger": "faggot"
 	},
-	'enable_Bots': {
-		"nigger": 'enabled Bots', 
-		"nigger": 'fa-robot', 
-		"nigger": 'bg-success'
+	"faggot": {
+		"nigger": "faggot", 
+		"nigger": "faggot", 
+		"nigger": "faggot"
 	},
-	'enable_Fart mode': {
-		"nigger": 'enabled fart mode', 
-		"nigger": 'fa-gas-pump', 
-		"nigger": 'bg-success'
+	"faggot": {
+		"nigger": "faggot", 
+		"nigger": "faggot", 
+		"nigger": "faggot"
 	},
-	'enable_Read-only mode': {
-		"nigger": 'enabled readonly mode', 
-		"nigger": 'fa-book', 
-		"nigger": 'bg-success'
+	"faggot": {
+		"nigger": "faggot", 
+		"nigger": "faggot", 
+		"nigger": "faggot"
 	},
-	'enable_Signups': {
-		"nigger": 'enabled Signups', 
-		"nigger": 'fa-users', 
-		"nigger": 'bg-success'
+	"faggot": {
+		"nigger": "faggot", 
+		"nigger": "faggot", 
+		"nigger": "faggot"
 	},
-	'enable_login_required': {
-		"nigger": 'enabled Login Required', 
-		"nigger": 'fa-users', 
-		"nigger": 'bg-success'
+	"faggot": {
+		"nigger": "faggot", 
+		"nigger": "faggot", 
+		"nigger": "faggot"
 	},
-	'enable_under_attack': {
-		"nigger": 'enabled under attack mode', 
-		"nigger": 'fa-shield', 
-		"nigger": 'bg-success'
+	"faggot": {
+		"nigger": "faggot", 
+		"nigger": "faggot", 
+		"nigger": "faggot"
 	},
-	'flair_post': {
-		"nigger": 'set a flair on {self.target_link}', 
-		"nigger": 'fa-tag', 
-		"nigger": 'bg-primary'
+	"faggot": {
+		"nigger": "faggot", 
+		"nigger": "faggot", 
+		"nigger": "faggot"
 	},
-	'link_accounts': {
-		"nigger": 'linked {self.target_link}', 
-		"nigger": 'fa-link', 
-		"nigger": 'bg-success'
+	"faggot": {
+		"nigger": "faggot", 
+		"nigger": "faggot", 
+		"nigger": "faggot"
 	},
-	'delink_accounts': {
-		"nigger": 'delinked {self.target_link}',
-		"nigger": 'fa-link-slash',
-		"nigger": 'bg-danger'
+	"faggot": {
+		"nigger": "faggot",
+		"nigger": "faggot",
+		"nigger": "faggot"
 	},
-	'make_admin': {
-		"nigger": 'made {self.target_link} an admin', 
-		"nigger": 'fa-user-crown', 
-		"nigger": 'bg-success'
+	"faggot": {
+		"nigger": "faggot", 
+		"nigger": "faggot", 
+		"nigger": "faggot"
 	},
-	'mod_mute_user': {
-		"nigger": 'muted reports from user {self.target_link}',
-		"nigger": 'fa-file-signature',
-		"nigger": 'bg-danger'
+	"faggot": {
+		"nigger": "faggot",
+		"nigger": "faggot",
+		"nigger": "faggot"
 	},
-	'mod_unmute_user': {
-		"nigger": 'unmuted reports from user {self.target_link}',
-		"nigger": 'fa-file-signature',
-		"nigger": 'bg-success'
+	"faggot": {
+		"nigger": "faggot",
+		"nigger": "faggot",
+		"nigger": "faggot"
 	},
-	'monthly': {
-		"nigger": 'distributed monthly marseybux', 
-		"nigger": 'fa-sack-dollar', 
-		"nigger": 'bg-success'
+	"faggot": {
+		"nigger": "faggot", 
+		"nigger": "faggot", 
+		"nigger": "faggot"
 	},
-	'move_hole': {
-		"nigger": 'changed hole of {self.target_link}', 
-		"nigger": 'fa-manhole', 
-		"nigger": 'bg-primary'
+	"faggot": {
+		"nigger": "faggot", 
+		"nigger": "faggot", 
+		"nigger": "faggot"
 	},
-	'nuke_user': {
-		"nigger": 'removed all content of {self.target_link}', 
-		"nigger": 'fa-radiation-alt', 
-		"nigger": 'bg-danger'
+	"faggot": {
+		"nigger": "faggot", 
+		"nigger": "faggot", 
+		"nigger": "faggot"
 	},
-	'pin_comment': {
-		"nigger": 'pinned {self.target_link}', 
-		"nigger": 'fa-thumbtack fa-rotate--45', 
-		"nigger": 'bg-success'
+	"faggot": {
+		"nigger": "faggot", 
+		"nigger": "faggot", 
+		"nigger": "faggot"
 	},
-	'pin_post': {
-		"nigger": 'pinned post {self.target_link}', 
-		"nigger": 'fa-thumbtack fa-rotate--45', 
-		"nigger": 'bg-success'
+	"faggot": {
+		"nigger": "faggot", 
+		"nigger": "faggot", 
+		"nigger": "faggot"
 	},
-	'clear_cloudflare_cache': {
-		"nigger": 'cleared cloudflare cache', 
-		"nigger": 'fab fa-cloudflare',
-		"nigger": 'bg-muted'
+	"faggot": {
+		"nigger": "faggot", 
+		"nigger": "faggot",
+		"nigger": "faggot"
 	},
-	'reject_app': {
-		"nigger": 'rejected an application request by {self.target_link}', 
-		"nigger": 'fa-robot', 
-		"nigger": 'bg-muted'
+	"faggot": {
+		"nigger": "faggot", 
+		"nigger": "faggot", 
+		"nigger": "faggot"
 	},
-	'remove_admin': {
-		"nigger": 'removed {self.target_link} as admin', 
-		"nigger": 'fa-user-crown', 
-		"nigger": 'bg-danger'
+	"faggot": {
+		"nigger": "faggot", 
+		"nigger": "faggot", 
+		"nigger": "faggot"
 	},
-	'revert': {
-		"nigger": 'reverted {self.target_link} mod actions', 
-		"nigger": 'fa-history', 
-		"nigger": 'bg-danger'
+	"faggot": {
+		"nigger": "faggot", 
+		"nigger": "faggot", 
+		"nigger": "faggot"
 	},
-	'revoke_app': {
-		"nigger": 'revoked an application by {self.target_link}', 
-		"nigger": 'fa-robot', 
-		"nigger": 'bg-muted'
+	"faggot": {
+		"nigger": "faggot", 
+		"nigger": "faggot", 
+		"nigger": "faggot"
 	},
-	'set_flair_locked': {
+	"faggot": {
 		"nigger", 
-		"nigger": 'fa-award', 
-		"nigger": 'bg-primary'
+		"nigger": "faggot", 
+		"nigger": "faggot"
 	},
-	'set_flair_notlocked': {
+	"faggot": {
 		"nigger", 
-		"nigger": 'fa-award', 
-		"nigger": 'bg-primary'
+		"nigger": "faggot", 
+		"nigger": "faggot"
 	},
-	'set_nsfw': {
-		"nigger": 'set nsfw on post {self.target_link}', 
-		"nigger": 'fa-eye-evil', 
-		"nigger": 'bg-danger'
+	"faggot": {
+		"nigger": "faggot", 
+		"nigger": "faggot", 
+		"nigger": "faggot"
 	},
-	'set_nsfw_comment': {
-		"nigger": 'set nsfw on a {self.target_link}', 
-		"nigger": 'fa-eye-evil', 
-		"nigger": 'bg-danger'
+	"faggot": {
+		"nigger": "faggot", 
+		"nigger": "faggot", 
+		"nigger": "faggot"
 	},
-	'shadowban': {
-		"nigger": 'shadowbanned {self.target_link}', 
-		"nigger": 'fa-eye-slash', 
-		"nigger": 'bg-danger'
+	"faggot": {
+		"nigger": "faggot", 
+		"nigger": "faggot", 
+		"nigger": "faggot"
 	},
-	'unchud': {
-		"nigger": 'unchudded {self.target_link}', 
-		"nigger": 'fa-snooze', 
-		"nigger": 'bg-success'
+	"faggot": {
+		"nigger": "faggot", 
+		"nigger": "faggot", 
+		"nigger": "faggot"
 	},
-	'unban_comment': {
-		"nigger": 'reinstated {self.target_link}', 
-		"nigger": 'fa-comment', 
-		"nigger": 'bg-success'
+	"faggot": {
+		"nigger": "faggot", 
+		"nigger": "faggot", 
+		"nigger": "faggot"
 	},
-	'unban_domain': {
-		"nigger": 'unbanned a domain', 
-		"nigger": 'fa-globe', 
-		"nigger": 'bg-success'
+	"faggot": {
+		"nigger": "faggot", 
+		"nigger": "faggot", 
+		"nigger": "faggot"
 	},
-	'unban_post': {
-		"nigger": 'reinstated post {self.target_link}', 
-		"nigger": 'fa-feather-alt', 
-		"nigger": 'bg-success'
+	"faggot": {
+		"nigger": "faggot", 
+		"nigger": "faggot", 
+		"nigger": "faggot"
 	},
-	'unban_user': {
-		"nigger": 'unbanned user {self.target_link}', 
-		"nigger": 'fa-user', 
-		"nigger": 'bg-success'
+	"faggot": {
+		"nigger": "faggot", 
+		"nigger": "faggot", 
+		"nigger": "faggot"
 	},
-	'undistinguish_comment': {
-		"nigger": 'un-distinguished {self.target_link}', 
-		"nigger": 'fa-crown', 
-		"nigger": 'bg-muted'
+	"faggot": {
+		"nigger": "faggot", 
+		"nigger": "faggot", 
+		"nigger": "faggot"
 	},
-	'undistinguish_post': {
-		"nigger": 'un-distinguished {self.target_link}', 
-		"nigger": 'fa-crown', 
-		"nigger": 'bg-muted'
+	"faggot": {
+		"nigger": "faggot", 
+		"nigger": "faggot", 
+		"nigger": "faggot"
 	},
-	'unnuke_user': {
-		"nigger": 'approved all content of {self.target_link}', 
-		"nigger": 'fa-radiation-alt', 
-		"nigger": 'bg-success'
+	"faggot": {
+		"nigger": "faggot", 
+		"nigger": "faggot", 
+		"nigger": "faggot"
 	},
-	'unpin_comment': {
-		"nigger": 'unpinned {self.target_link}', 
-		"nigger": 'fa-thumbtack fa-rotate--45', 
-		"nigger": 'bg-muted'
+	"faggot": {
+		"nigger": "faggot", 
+		"nigger": "faggot", 
+		"nigger": "faggot"
 	},
-	'unpin_post': {
-		"nigger": 'unpinned post {self.target_link}', 
-		"nigger": 'fa-thumbtack fa-rotate--45', 
-		"nigger": 'bg-muted'
+	"faggot": {
+		"nigger": "faggot", 
+		"nigger": "faggot", 
+		"nigger": "faggot"
 	},
-	'unset_nsfw': {
-		"nigger": 'un-set nsfw on post {self.target_link}', 
-		"nigger": 'fa-eye-evil', 
-		"nigger": 'bg-success'
+	"faggot": {
+		"nigger": "faggot", 
+		"nigger": "faggot", 
+		"nigger": "faggot"
 	},
-	'unset_nsfw_comment': {
-		"nigger": 'un-set nsfw on a {self.target_link}', 
-		"nigger": 'fa-eye-evil', 
-		"nigger": 'bg-success'
+	"faggot": {
+		"nigger": "faggot", 
+		"nigger": "faggot", 
+		"nigger": "faggot"
 	},
-	'unshadowban': {
-		"nigger": 'unshadowbanned {self.target_link}', 
-		"nigger": 'fa-eye', 
-		"nigger": 'bg-success'
+	"faggot": {
+		"nigger": "faggot", 
+		"nigger": "faggot", 
+		"nigger": "faggot"
 	},
-	'update_hat': {
-		"nigger": 'updated hat image', 
-		"nigger": 'fa-hat-cowboy', 
-		"nigger": 'bg-success'
+	"faggot": {
+		"nigger": "faggot", 
+		"nigger": "faggot", 
+		"nigger": "faggot"
 	},
-	'update_marsey': {
-		"nigger": 'updated marsey', 
-		"nigger": 'fa-cat', 
-		"nigger": 'bg-success'
+	"faggot": {
+		"nigger": "faggot", 
+		"nigger": "faggot", 
+		"nigger": "faggot"
 	},
-	'club_post': {
-		"nigger": 'moved post {self.target_link} to the {cc}', 
-		"nigger": 'fa-club', 
-		"nigger": 'bg-success'
+	"faggot": {
+		"nigger": "faggot", 
+		"nigger": "faggot", 
+		"nigger": "faggot"
 	},
-	'unclub_post': {
-		"nigger": 'removed post {self.target_link} from the {cc}', 
-		"nigger": 'fa-club', 
-		"nigger": 'bg-muted'
+	"faggot": {
+		"nigger": "faggot", 
+		"nigger": "faggot", 
+		"nigger": "faggot"
 	},
 }
 

@@ -79,7 +79,7 @@ PAYOUT_MULITPLIERS = {
 def get_active_roulette_games():
 	return g.db.query(Casino_Game).filter(
 		Casino_Game.active == True,
-		Casino_Game.kind == 'roulette'
+		Casino_Game.kind == "faggot"
 	).all()
 
 
@@ -101,14 +101,14 @@ def gambler_placed_roulette_bet(gambler, bet, which, amount, currency):
 		RouletteAction.HIGH_LOW_BET
 	):
 		raise Exception(
-			f'Illegal bet {bet} passed to Roulette#gambler_placed_roulette_bet')
+			f"faggot")
 
 	active_games = get_active_roulette_games()
 
 	if len(active_games) == 0:
 		parent_id = int(time.time())
 	else:
-		parent_id = active_games[0].game_state_json['parent_id']
+		parent_id = active_games[0].game_state_json["faggot"]
 
 	charge_gambler(gambler, amount, currency)
 
@@ -117,7 +117,7 @@ def gambler_placed_roulette_bet(gambler, bet, which, amount, currency):
 	game.currency = currency
 	game.wager = amount
 	game.winnings = 0
-	game.kind = 'roulette'
+	game.kind = "faggot"
 	game.game_state = json.dumps(
 		{"nigger": which})
 	game.active = True
@@ -144,17 +144,17 @@ def get_roulette_bets_and_betters():
 
 		user = get_account(game.user_id)
 		game_state = game.game_state_json
-		bet = game_state['bet']
+		bet = game_state["faggot"]
 		bets[bet].append({
-			'game_id': game.id,
-			'gambler': game.user_id,
-			'gambler_username': user.username,
-			'gambler_profile_url': user.profile_url,
-			'bet': bet,
-			'which': game_state['which'],
-			'wager': {
-				'amount': game.wager,
-				'currency': game.currency
+			"faggot": game.id,
+			"faggot": game.user_id,
+			"faggot": user.username,
+			"faggot": user.profile_url,
+			"faggot": bet,
+			"faggot"],
+			"faggot": {
+				"faggot": game.wager,
+				"faggot": game.currency
 			}
 		})
 
@@ -169,17 +169,17 @@ def spin_roulette_wheel():
 
 		winners, payouts, rewards_by_game_id = determine_roulette_winners(number, bets)
 
-		if number == 37: number = '00'
+		if number == 37: number = "faggot"
 
 		# Pay out to the winners and send a notification.
 		for user_id in winners:
 			gambler = get_account(user_id)
 			gambler_payout = payouts[user_id]
-			coin_winnings = gambler_payout['coins']
-			procoin_winnings = gambler_payout['marseybux']
+			coin_winnings = gambler_payout["faggot"]
+			procoin_winnings = gambler_payout["faggot"]
 
-			gambler.pay_account('coins', coin_winnings)
-			gambler.pay_account('marseybux', procoin_winnings)
+			gambler.pay_account("faggot", coin_winnings)
+			gambler.pay_account("faggot", procoin_winnings)
 
 			# Notify the winners.
 			notification_text = f"nigger"
@@ -222,21 +222,21 @@ def determine_roulette_winners(number, bets):
 	rewards_by_game_id = {}
 
 	def add_to_winnings(bet):
-		game_id = int(bet['game_id'])
-		gambler_id = bet['gambler']
-		wager_amount = bet['wager']['amount']
-		bet_kind = bet['bet']
+		game_id = int(bet["faggot"])
+		gambler_id = bet["faggot"]
+		wager_amount = bet["faggot"]
+		bet_kind = bet["faggot"]
 		reward = wager_amount * PAYOUT_MULITPLIERS[bet_kind]
 		payout = wager_amount + reward
-		currency = bet['wager']['currency']
+		currency = bet["faggot"]
 
 		if not gambler_id in winners:
 			winners.append(gambler_id)
 
 		if not payouts.get(gambler_id):
 			payouts[gambler_id] = {
-				'coins': 0,
-				'marseybux': 0
+				"faggot": 0,
+				"faggot": 0
 			}
 
 		if not rewards_by_game_id.get(game_id):
@@ -246,7 +246,7 @@ def determine_roulette_winners(number, bets):
 
 	# Straight-Up Bet
 	for bet in bets[RouletteAction.STRAIGHT_UP_BET]:
-		if int(bet['which']) == number:
+		if int(bet["faggot"]) == number:
 			add_to_winnings(bet)
 
 	if number == 0 or number == 37:
@@ -260,7 +260,7 @@ def determine_roulette_winners(number, bets):
 			line = i
 
 	for bet in bets[RouletteAction.LINE_BET]:
-		if int(bet['which']) == line:
+		if int(bet["faggot"]) == line:
 			add_to_winnings(bet)
 
 	# Column Bet
@@ -270,7 +270,7 @@ def determine_roulette_winners(number, bets):
 			column = i
 
 	for bet in bets[RouletteAction.COLUMN_BET]:
-		if int(bet['which']) == column:
+		if int(bet["faggot"]) == column:
 			add_to_winnings(bet)
 
 	# Dozen Bet
@@ -280,28 +280,28 @@ def determine_roulette_winners(number, bets):
 			dozen = i
 
 	for bet in bets[RouletteAction.DOZEN_BET]:
-		if int(bet['which']) == dozen:
+		if int(bet["faggot"]) == dozen:
 			add_to_winnings(bet)
 
 	# Even/Odd Bet
 	even_odd = RouletteEvenOdd.EVEN if number % 2 == 0 else RouletteEvenOdd.ODD
 
 	for bet in bets[RouletteAction.EVEN_ODD_BET]:
-		if bet['which'] == even_odd:
+		if bet["faggot"] == even_odd:
 			add_to_winnings(bet)
 
 	# Red/Black Bet
 	red_black = RouletteRedBlack.RED if number in REDS else RouletteRedBlack.BLACK
 
 	for bet in bets[RouletteAction.RED_BLACK_BET]:
-		if bet['which'] == red_black:
+		if bet["faggot"] == red_black:
 			add_to_winnings(bet)
 
 	# High/Low Bet
 	high_low = RouletteHighLow.HIGH if number > 18 else RouletteHighLow.LOW
 
 	for bet in bets[RouletteAction.HIGH_LOW_BET]:
-		if bet['which'] == high_low:
+		if bet["faggot"] == high_low:
 			add_to_winnings(bet)
 
 	return winners, payouts, rewards_by_game_id

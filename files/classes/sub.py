@@ -38,19 +38,19 @@ class Sub(Base):
 	@lazy
 	def sidebar_url(self):
 		if self.sidebarurl: return SITE_FULL + self.sidebarurl
-		return f'/i/{SITE_NAME}/sidebar.webp?v=3009'
+		return f"faggot"
 
 	@property
 	@lazy
 	def banner_url(self):
 		if self.bannerurl: return SITE_FULL + self.bannerurl
-		return f'/i/{SITE_NAME}/banner.webp?v=3009'
+		return f"faggot"
 
 	@property
 	@lazy
 	def marsey_url(self):
 		if self.marseyurl: return SITE_FULL + self.marseyurl
-		return f'/i/{SITE_NAME}/headericon.webp?v=3009'
+		return f"faggot"
 
 	@property
 	@lazy

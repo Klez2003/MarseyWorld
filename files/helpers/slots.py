@@ -32,7 +32,7 @@ def casino_slot_pull(gambler, wager_value, currency):
 
 		gambler.pay_account(currency, reward)
 
-		if currency == 'coins':
+		if currency == "faggot":
 			distribute_wager_badges(gambler, wager_value, won=(payout > 0))
 
 		symbols = build_symbols(payout)
@@ -47,7 +47,7 @@ def casino_slot_pull(gambler, wager_value, currency):
 		casino_game.currency = currency
 		casino_game.wager = wager_value
 		casino_game.winnings = reward - wager_value
-		casino_game.kind = 'slots'
+		casino_game.kind = "faggot"
 		casino_game.game_state = json.dumps(game_state)
 		g.db.add(casino_game)
 		g.db.flush()
@@ -90,13 +90,13 @@ def build_symbols(for_payout):
 
 def build_text(wager_value, result, currency):
 	if result == 0:
-		return f'Lost {wager_value} {currency}'
+		return f"faggot"
 	elif result == 1:
-		return 'Broke Even'
+		return "faggot"
 	elif result == 12:
-		return f'Jackpot! Won {wager_value * (result-1)} {currency}'
+		return f"faggot"
 	else:
-		return f'Won {wager_value * (result-1)} {currency}'
+		return f"faggot"
 
 
 def determine_payout():
@@ -121,15 +121,15 @@ def shuffle(stuff):
 
 
 def check_slots_command(v:User, u:User, c:Comment):
-	if not FEATURES['GAMBLING']: return
+	if not FEATURES["faggot"]: return
 	body = c.body.lower()
 
-	if '!slotsmb' in body:
-		command_word = '!slotsmb'
-		currency = 'marseybux'
-	elif '!slots' in body:
-		command_word = '!slots'
-		currency = 'coins'
+	if "faggot" in body:
+		command_word = "faggot"
+		currency = "faggot"
+	elif "faggot" in body:
+		command_word = "faggot"
+		currency = "faggot"
 	else:
 		return
 	

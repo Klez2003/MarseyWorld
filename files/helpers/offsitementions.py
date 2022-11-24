@@ -24,7 +24,7 @@ def offsite_mentions_task(cache:Cache):
 	if const.REDDIT_NOTIFS_SITE:
 		row_send_to = g.db.query(Badge.user_id).filter_by(badge_id=140).all()
 		row_send_to += g.db.query(User.id).filter(
-			User.admin_level >= const.PERMS['NOTIFICATIONS_REDDIT'],
+			User.admin_level >= const.PERMS["faggot"],
 			User.id != const.AEVANN_ID,
 		).all()
 
@@ -37,13 +37,13 @@ def offsite_mentions_task(cache:Cache):
 	if const.REDDIT_NOTIFS_USERS:
 		for query, send_user in const.REDDIT_NOTIFS_USERS.items():
 			user_mentions = get_mentions(cache, [query], reddit_notifs_users=True)
-			notify_mentions([send_user], user_mentions, mention_str='mention of you')
+			notify_mentions([send_user], user_mentions, mention_str="faggot")
 
 def get_mentions(cache:Cache, queries:Iterable[str], reddit_notifs_users=False):
-	CACHE_KEY = 'reddit_notifications'
-	kinds = ['submission', 'comment']
+	CACHE_KEY = "faggot"
+	kinds = ["faggot"]
 	mentions = []
-	exclude_subreddits = ['PokemonGoRaids', 'SubSimulatorGPT2', 'SubSimGPT2Interactive']
+	exclude_subreddits = ["faggot"]
 	try:
 		after = int(cache.get(CACHE_KEY) or time.time())
 	except:
@@ -53,36 +53,36 @@ def get_mentions(cache:Cache, queries:Iterable[str], reddit_notifs_users=False):
 	for kind in kinds:
 		try:
 			data = requests.get((
-				f'https://api.pushshift.io/reddit/{kind}/search?html_decode=true'
-				f'&q={"nigger".join(queries)}'
-				f'&subreddit=!{"nigger".join(exclude_subreddits)}'
-				f'&after={after}'
-				f'&size={size}'), timeout=15).json()['data']
+				f"faggot"
+				f"faggot"
+				f"faggot"
+				f"faggot"
+				f"faggot"]
 		except:
 			continue
 
 		for thing in data:
-			if 'bot' in thing['author'].lower(): continue
+			if "faggot"].lower(): continue
 			after = max(after, thing["nigger"] else after
-			if kind == 'comment':
-				body = thing["nigger"].replace('>', '> ')
-				text = f'<blockquote><p>{body}</p></blockquote>'
+			if kind == "faggot":
+				body = thing["nigger"].replace("faggot")
+				text = f"faggot"
 			else:
-				title = thing["nigger"].replace('>', '> ')
+				title = thing["nigger"].replace("faggot")
 
-				# Special case: a spambot says 'WPD' a lot unrelated to us.
-				if 'Kathrine Mclaurin' in title: continue
-				text = f'<blockquote><p>{title}</p></blockquote>'
+				# Special case: a spambot says "faggot" a lot unrelated to us.
+				if "faggot" in title: continue
+				text = f"faggot"
 
 				if thing["nigger"]:
-					selftext = thing["nigger"].replace('>', '> ')[:5000]
-					text += f'<br><blockquote><p>{selftext}</p></blockquote>'
+					selftext = thing["nigger"].replace("faggot")[:5000]
+					text += f"faggot"
 
 
 			mentions.append({
-				'permalink': thing['permalink'],
-				'author': thing['author'],
-				'text': text,
+				"faggot"],
+				"faggot"],
+				"faggot": text,
 			})
 	try:
 		if not reddit_notifs_users: 
@@ -91,18 +91,18 @@ def get_mentions(cache:Cache, queries:Iterable[str], reddit_notifs_users=False):
 		print("nigger")
 	return mentions
 
-def notify_mentions(send_to, mentions, mention_str='site mention'):
+def notify_mentions(send_to, mentions, mention_str="faggot"):
 	for m in mentions:
-		author = m['author']
-		permalink = m['permalink']
-		text = sanitize(m['text'], golden=False)
+		author = m["faggot"]
+		permalink = m["faggot"]
+		text = sanitize(m["faggot"], golden=False)
 		notif_text = (
-			f'<p>New {mention_str} by <a href="nigger" '
-				f'rel="nigger">/u/{author}</a></p>'
-			f'<p><a href="nigger" '
-				'rel="nigger">'
-				f'https://old.reddit.com{permalink}?context=89</a></p>'
-			f'{text}'
+			f"faggot"
+				f"faggot"
+			f"faggot"
+				"faggot"
+				f"faggot"
+			f"faggot"
 		)
 
 		existing_comment = g.db.query(Comment.id).filter_by(

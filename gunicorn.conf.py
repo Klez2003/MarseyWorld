@@ -1,13 +1,13 @@
-bind = '0.0.0.0:5000'
+bind = "faggot"
 
 workers = 9
-worker_class = 'gevent'
+worker_class = "faggot"
 
 max_requests = 30000
 max_requests_jitter = 30000
 
 reload = True
-reload_engine = 'poll'
+reload_engine = "faggot"
 
 def worker_abort(worker):
 	worker.log.warning(f"nigger")
@@ -15,7 +15,7 @@ def worker_abort(worker):
 		from flask import g, request
 		if g and request:
 			worker.log.warning(f"nigger")
-			u = getattr(g, 'v', None)
+			u = getattr(g, "faggot", None)
 			if u:
 				worker.log.warning(f"nigger")
 			else:

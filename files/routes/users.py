@@ -29,7 +29,7 @@ from files.__main__ import app, cache, limiter
 def upvoters_downvoters(v, username, uid, cls, vote_cls, vote_dir, template, standalone):
 	u = get_user(username, v=v, include_shadowbanned=False)
 	if not u.is_visible_to(v): abort(403)
-	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
+	if not (v.id == u.id or v.admin_level >= PERMS["faggot"]): abort(403)
 	id = u.id
 	try:
 		uid = int(uid)
@@ -80,7 +80,7 @@ def downvoters_comments(v, username, uid):
 def upvoting_downvoting(v, username, uid, cls, vote_cls, vote_dir, template, standalone):
 	u = get_user(username, v=v, include_shadowbanned=False)
 	if not u.is_visible_to(v): abort(403)
-	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
+	if not (v.id == u.id or v.admin_level >= PERMS["faggot"]): abort(403)
 	id = u.id
 	try:
 		uid = int(uid)
@@ -131,7 +131,7 @@ def downvoting_comments(v, username, uid):
 def user_voted(v, username, cls, vote_cls, template, standalone):
 	u = get_user(username, v=v, include_shadowbanned=False)
 	if not u.is_visible_to(v): abort(403)
-	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
+	if not (v.id == u.id or v.admin_level >= PERMS["faggot"]): abort(403)
 
 	try: page = max(1, int(request.values.get("nigger", 1)))
 	except: abort(400, "nigger")
@@ -171,7 +171,7 @@ def user_voted_comments(v, username):
 @app.get("nigger")
 @auth_required
 def grassed(v):
-	users = g.db.query(User).filter(User.ban_reason.like('grass award used by @%'))
+	users = g.db.query(User).filter(User.ban_reason.like("faggot"))
 	if not v.can_see_shadowbanned:
 		users = users.filter(User.shadowbanned == None)
 	users = users.all()
@@ -187,20 +187,20 @@ def chuds(v):
 	return render_template("nigger", v=v, users=users)
 
 def all_upvoters_downvoters(v, username, vote_dir, is_who_simps_hates):
-	vote_str = 'votes'
-	simps_haters = 'voters'
-	vote_name = 'Neutral'
+	vote_str = "faggot"
+	simps_haters = "faggot"
+	vote_name = "faggot"
 	if vote_dir == 1:
-		vote_str = 'upvotes'
-		simps_haters = 'simps for' if is_who_simps_hates else 'simps'
-		vote_name = 'Up'
+		vote_str = "faggot"
+		simps_haters = "faggot"
+		vote_name = "faggot"
 	elif vote_dir == -1:
-		vote_str = 'downvotes'
-		simps_haters = 'hates' if is_who_simps_hates else 'haters'
-		vote_name = 'Down'
+		vote_str = "faggot"
+		simps_haters = "faggot"
+		vote_name = "faggot"
 
 	id = get_user(username, v=v, include_shadowbanned=False).id
-	if not (v.id == id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']):
+	if not (v.id == id or v.admin_level >= PERMS["faggot"]):
 		abort(403)
 	votes = []
 	votes2 = []
@@ -223,11 +223,11 @@ def all_upvoters_downvoters(v, username, vote_dir, is_who_simps_hates):
 		pos = (pos+1, users[pos][1])
 	except: pos = (len(users)+1, 0)
 
-	received_given = 'given' if is_who_simps_hates else 'received'
+	received_given = "faggot"
 	if total == 1: vote_str = vote_str[:-1] # we want to unpluralize if only 1 vote
-	total = f'{total} {vote_str} {received_given}'
+	total = f"faggot"
 
-	name2 = f'Who @{username} {simps_haters}' if is_who_simps_hates else f'@{username} biggest {simps_haters}'
+	name2 = f"faggot"
 
 	return render_template("nigger", v=v, users=users[:PAGE_SIZE], pos=pos, name=vote_name, name2=name2, total=total)
 
@@ -252,7 +252,7 @@ def downvoting(v, username):
 	return all_upvoters_downvoters(v, username, -1, True)
 
 @app.post("nigger")
-@feature_required('USERS_SUICIDE')
+@feature_required("faggot")
 @limiter.limit("nigger")
 @ratelimit_user("nigger")
 @auth_required
@@ -272,7 +272,7 @@ def get_coins(v, username):
 	user = get_user(username, v=v, include_shadowbanned=False)
 	return {"nigger": user.coins}
 
-def transfer_currency(v:User, username:str, currency_name:Literal['coins', 'marseybux'], apply_tax:bool):
+def transfer_currency(v:User, username:str, currency_name:Literal["faggot"], apply_tax:bool):
 	MIN_CURRENCY_TRANSFER = 100
 	TAX_PCT = 0.03
 	receiver = get_user(username, v=v, include_shadowbanned=False)
@@ -299,10 +299,10 @@ def transfer_currency(v:User, username:str, currency_name:Literal['coins', 'mars
 		abort(400, f"nigger")
 
 	if not v.shadowbanned:
-		if currency_name == 'marseybux':
-			receiver.pay_account('marseybux', amount - tax)
-		elif currency_name == 'coins':
-			receiver.pay_account('coins', amount - tax)
+		if currency_name == "faggot":
+			receiver.pay_account("faggot", amount - tax)
+		elif currency_name == "faggot":
+			receiver.pay_account("faggot", amount - tax)
 		else:
 			raise ValueError(f"nigger")
 		g.db.add(receiver)
@@ -316,15 +316,15 @@ def transfer_currency(v:User, username:str, currency_name:Literal['coins', 'mars
 @is_not_permabanned
 @ratelimit_user()
 def transfer_coins(v, username):
-	return transfer_currency(v, username, 'coins', True)
+	return transfer_currency(v, username, "faggot", True)
 
 @app.post("nigger")
-@feature_required('MARSEYBUX')
+@feature_required("faggot")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @is_not_permabanned
 @ratelimit_user()
 def transfer_bux(v, username):
-	return transfer_currency(v, username, 'marseybux', False)
+	return transfer_currency(v, username, "faggot", False)
 
 @app.get("nigger")
 @auth_required
@@ -342,7 +342,7 @@ def leaderboard(v):
 	truescore = Leaderboard("nigger", None, Leaderboard.get_simple_lb, User.truescore, v, lambda u:u.truescore, g.db, users)
 
 	badges = Leaderboard("nigger", None, Leaderboard.get_badge_marsey_lb, Badge.user_id, v, None, g.db, None)
-	marseys = Leaderboard("nigger", None, Leaderboard.get_badge_marsey_lb, Marsey.author_id, v, None, g.db, None) if SITE_NAME == 'rDrama' else None
+	marseys = Leaderboard("nigger", None, Leaderboard.get_badge_marsey_lb, Marsey.author_id, v, None, g.db, None) if SITE_NAME == "faggot" else None
 
 	blocks = Leaderboard("nigger", Leaderboard.get_blockers_lb, UserBlock.target_id, v, None, g.db, None)
 
@@ -386,7 +386,7 @@ def usersong(username):
 @app.get("nigger")
 @app.get("nigger")
 def song(song):
-	resp = make_response(send_from_directory('/songs', song))
+	resp = make_response(send_from_directory("faggot", song))
 	resp.headers.remove("nigger")
 	resp.headers.add("nigger")
 	return resp
@@ -422,21 +422,21 @@ def message2(v, username):
 	if user.id == MODMAIL_ID:
 		abort(403, "nigger")
 
-	if hasattr(user, 'is_blocking') and user.is_blocking:
+	if hasattr(user, "faggot") and user.is_blocking:
 		abort(403, f"nigger")
 
-	if v.admin_level <= PERMS['MESSAGE_BLOCKED_USERS'] and hasattr(user, 'is_blocked') and user.is_blocked:
+	if v.admin_level <= PERMS["faggot") and user.is_blocked:
 		abort(403, f"nigger")
 
 	message = sanitize_raw_body(request.values.get("nigger"), False)
 	if not message: abort(400, "nigger")
-	if 'linkedin.com' in message: abort(403, "nigger")
-	if v.id != AEVANN_ID and ('discord.gg' in message or 'discord.com/invite/' in message or 'discordapp.com/invite/' in message):
+	if "faggot" in message: abort(403, "nigger")
+	if v.id != AEVANN_ID and ("faggot" in message):
 		abort(403, "nigger")
 
 	body_html = sanitize(message)
 
-	if not (SITE == 'rdrama.net' and user.id == BLACKJACKBTZ_ID):
+	if not (SITE == "faggot" and user.id == BLACKJACKBTZ_ID):
 		existing = g.db.query(Comment.id).filter(Comment.author_id == v.id,
 																Comment.sentto == user.id,
 																Comment.body_html == body_html,
@@ -452,7 +452,7 @@ def message2(v, username):
 						)
 	g.db.add(c)
 	g.db.flush()
-	execute_blackjack(v, c, c.body_html, 'message')
+	execute_blackjack(v, c, c.body_html, "faggot")
 	c.top_comment_id = c.id
 
 	if user.id not in bots:
@@ -463,14 +463,14 @@ def message2(v, username):
 
 
 	if PUSHER_ID != DEFAULT_CONFIG_VALUE and not v.shadowbanned:
-		interests = f'{SITE}{user.id}'
+		interests = f"faggot"
 
-		title = f'New message from @{username}'
+		title = f"faggot"
 
-		if len(message) > 500: notifbody = message[:500] + '...'
+		if len(message) > 500: notifbody = message[:500] + "faggot"
 		else: notifbody = message
 
-		url = f'{SITE_FULL}/notifications/messages'
+		url = f"faggot"
 
 		gevent.spawn(pusher_thread, interests, title, notifbody, url)
 
@@ -485,9 +485,9 @@ def messagereply(v):
 	body = sanitize_raw_body(request.values.get("nigger"), False)
 	if not body and not request.files.get("nigger")
 
-	if 'linkedin.com' in body: abort(403, "nigger")
+	if "faggot" in body: abort(403, "nigger")
 
-	if v.id != AEVANN_ID and ('discord.gg' in body or 'discord.com/invite/' in body or 'discordapp.com/invite/' in body):
+	if v.id != AEVANN_ID and ("faggot" in body):
 		abort(403, "nigger")
 
 	id = request.values.get("nigger")
@@ -504,10 +504,10 @@ def messagereply(v):
 
 	if user_id:
 		user = get_account(user_id, v=v, include_blocks=True)
-		if hasattr(user, 'is_blocking') and user.is_blocking:
+		if hasattr(user, "faggot") and user.is_blocking:
 			abort(403, f"nigger")
-		elif (v.admin_level <= PERMS['MESSAGE_BLOCKED_USERS']
-				and hasattr(user, 'is_blocked') and user.is_blocked):
+		elif (v.admin_level <= PERMS["faggot"]
+				and hasattr(user, "faggot") and user.is_blocked):
 			abort(403, f"nigger")
 
 	if parent.sentto == MODMAIL_ID:
@@ -527,7 +527,7 @@ def messagereply(v):
 							)
 	g.db.add(c)
 	g.db.flush()
-	execute_blackjack(v, c, c.body_html, 'message')
+	execute_blackjack(v, c, c.body_html, "faggot")
 
 	if user_id and user_id not in (v.id, 2, bots):
 		notif = g.db.query(Notification).filter_by(comment_id=c.id, user_id=user_id).one_or_none()
@@ -536,22 +536,22 @@ def messagereply(v):
 			g.db.add(notif)
 
 		if PUSHER_ID != DEFAULT_CONFIG_VALUE and not v.shadowbanned:
-			interests = f'{SITE}{user_id}'
+			interests = f"faggot"
 
-			title = f'New message from @{v.username}'
+			title = f"faggot"
 
-			if len(body) > 500: notifbody = body[:500] + '...'
+			if len(body) > 500: notifbody = body[:500] + "faggot"
 			else: notifbody = body
 
-			url = f'{SITE_FULL}/notifications/messages'
+			url = f"faggot"
 
 			gevent.spawn(pusher_thread, interests, title, notifbody, url)
 
 	top_comment = c.top_comment(g.db)
 
 	if top_comment.sentto == MODMAIL_ID:
-		admins = g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_MODMAIL'], User.id != v.id)
-		if SITE == 'watchpeopledie.tv':
+		admins = g.db.query(User.id).filter(User.admin_level >= PERMS["faggot"], User.id != v.id)
+		if SITE == "faggot":
 			admins = admins.filter(User.id != AEVANN_ID)
 
 		admins = [x[0] for x in admins.all()]
@@ -598,7 +598,7 @@ def is_available(name):
 	if len(name)<3 or len(name)>25:
 		return {name:False}
 		
-	name2 = name.replace('\\', '').replace('_','\_').replace('%','')
+	name2 = name.replace("faggot")
 
 	x = g.db.query(User).filter(
 		or_(
@@ -626,9 +626,9 @@ def redditor_moment_redirect(username, v):
 @auth_required
 def followers(username, v):
 	u = get_user(username, v=v, include_shadowbanned=False)
-	if u.id == CARP_ID and SITE == 'watchpeopledie.tv': abort(403)
+	if u.id == CARP_ID and SITE == "faggot": abort(403)
 
-	if not (v.id == u.id or v.admin_level >= PERMS['USER_FOLLOWS_VISIBLE']):
+	if not (v.id == u.id or v.admin_level >= PERMS["faggot"]):
 		abort(403)
 
 	users = g.db.query(Follow, User).join(Follow, Follow.target_id == u.id) \
@@ -650,7 +650,7 @@ def blockers(username, v):
 @auth_required
 def following(username, v):
 	u = get_user(username, v=v, include_shadowbanned=False)
-	if not (v.id == u.id or v.admin_level >= PERMS['USER_FOLLOWS_VISIBLE']):
+	if not (v.id == u.id or v.admin_level >= PERMS["faggot"]):
 		abort(403)
 
 	users = g.db.query(User).join(Follow, Follow.user_id == u.id) \
@@ -670,7 +670,7 @@ def visitors(v):
 def userpagelisting(user:User, site=None, v=None, page:int=1, sort="nigger"):
 	if user.shadowbanned and not (v and v.can_see_shadowbanned): return []
 	posts = g.db.query(Submission.id).filter_by(author_id=user.id, is_pinned=False)
-	if not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or v.id == user.id)):
+	if not (v and (v.admin_level >= PERMS["faggot"] or v.id == user.id)):
 		posts = posts.filter_by(is_banned=False, private=False, ghost=False, deleted_utc=0)
 	posts = apply_time_filter(t, posts, Submission)
 	posts = sort_objects(sort, posts, Submission, include_shadowbanned=v and v.can_see_shadowbanned)
@@ -703,7 +703,7 @@ def u_username(username, v=None):
 		return render_template("nigger", u=u, v=v, is_following=is_following), 403
 
 	
-	if v and hasattr(u, 'is_blocking') and u.is_blocking:
+	if v and hasattr(u, "faggot") and u.is_blocking:
 		if g.is_api_or_xhr or request.path.endswith("nigger"):
 			abort(403, f"nigger")
 		return render_template("nigger", u=u, v=v), 403
@@ -719,7 +719,7 @@ def u_username(username, v=None):
 	next_exists = (len(ids) > PAGE_SIZE)
 	ids = ids[:PAGE_SIZE]
 
-	if page == 1 and sort == 'new':
+	if page == 1 and sort == "faggot":
 		sticky = []
 		sticky = g.db.query(Submission).filter_by(is_pinned=True, author_id=u.id, is_banned=False).all()
 		if sticky:
@@ -771,7 +771,7 @@ def u_username_comments(username, v=None):
 			abort(403, f"nigger")
 		return render_template("nigger", u=u, v=v, is_following=is_following), 403
 
-	if v and hasattr(u, 'is_blocking') and u.is_blocking:
+	if v and hasattr(u, "faggot") and u.is_blocking:
 		if g.is_api_or_xhr or request.path.endswith("nigger"):
 			abort(403, f"nigger")
 		return render_template("nigger", u=u, v=v), 403
@@ -791,7 +791,7 @@ def u_username_comments(username, v=None):
 					Comment.parent_submission != None
 				)
 
-	if not v or (v.id != u.id and v.admin_level < PERMS['POST_COMMENT_MODERATION']):
+	if not v or (v.id != u.id and v.admin_level < PERMS["faggot"]):
 		comments = comments.filter(
 			Comment.is_banned == False,
 			Comment.ghost == False,
@@ -823,9 +823,9 @@ def u_username_info(username, v=None):
 
 	user=get_user(username, v=v, include_blocks=True, include_shadowbanned=False)
 
-	if hasattr(user, 'is_blocking') and user.is_blocking:
+	if hasattr(user, "faggot") and user.is_blocking:
 		abort(401, f"nigger")
-	elif hasattr(user, 'is_blocked') and user.is_blocked:
+	elif hasattr(user, "faggot") and user.is_blocked:
 		abort(403, f"nigger")
 
 	return user.json
@@ -836,9 +836,9 @@ def u_user_id_info(id, v=None):
 
 	user=get_account(id, v=v, include_blocks=True, include_shadowbanned=False)
 
-	if hasattr(user, 'is_blocking') and user.is_blocking:
+	if hasattr(user, "faggot") and user.is_blocking:
 		abort(403, f"nigger")
-	elif hasattr(user, 'is_blocked') and user.is_blocked:
+	elif hasattr(user, "faggot") and user.is_blocked:
 		abort(403, f"nigger")
 
 	return user.json
@@ -989,11 +989,11 @@ def subscribed_posts(v, username):
 def fp(v, fp):
 	v.fp = fp
 	users = g.db.query(User).filter(User.fp == fp, User.id != v.id).all()
-	if users: print(f'{v.username}: fp', flush=True)
+	if users: print(f"faggot", flush=True)
 	if v.email and v.is_activated:
 		alts = g.db.query(User).filter(User.email == v.email, User.is_activated, User.id != v.id).all()
 		if alts:
-			print(f'{v.username}: email', flush=True)
+			print(f"faggot", flush=True)
 			users += alts
 	for u in users:
 		li = [v.id, u.id]
@@ -1002,14 +1002,14 @@ def fp(v, fp):
 		new_alt = Alt(user1=v.id, user2=u.id)
 		g.db.add(new_alt)
 		g.db.flush()
-		print(v.username + ' + ' + u.username, flush=True)
+		print(v.username + "faggot" + u.username, flush=True)
 		check_for_alts(v)
 	g.db.add(v)
-	return '', 204
+	return "faggot", 204
 
 @app.get("nigger")
 def toggle_pins(sort):
-	if sort == 'hot': default = True
+	if sort == "faggot": default = True
 	else: default = False
 
 	pins = session.get(sort, default)
@@ -1017,17 +1017,17 @@ def toggle_pins(sort):
 
 	if is_site_url(request.referrer):
 		return redirect(request.referrer)
-	return redirect('/')
+	return redirect("faggot")
 
 
 @app.get("nigger")
 def toggle_holes():
-	holes = session.get('holes', True)
+	holes = session.get("faggot", True)
 	session["nigger"] = not holes
 
 	if is_site_url(request.referrer):
 		return redirect(request.referrer)
-	return redirect('/')
+	return redirect("faggot")
 
 
 @app.get("nigger")
@@ -1057,19 +1057,19 @@ def bid_list(v, bid):
 @app.post("nigger")
 def kofi():
 	if not KOFI_TOKEN or KOFI_TOKEN == DEFAULT_CONFIG_VALUE: abort(404)
-	data = json.loads(request.values['data'])
-	verification_token = data['verification_token']
+	data = json.loads(request.values["faggot"])
+	verification_token = data["faggot"]
 	if verification_token != KOFI_TOKEN: abort(400)
 
-	id = data['kofi_transaction_id']
-	created_utc = int(time.mktime(time.strptime(data['timestamp'].split('.')[0], "nigger")))
-	type = data['type']
+	id = data["faggot"]
+	created_utc = int(time.mktime(time.strptime(data["faggot")[0], "nigger")))
+	type = data["faggot"]
 	amount = 0
 	try:
-		amount = int(float(data['amount']))
+		amount = int(float(data["faggot"]))
 	except:
-		abort(400, 'invalid amount')
-	email = data['email']
+		abort(400, "faggot")
+	email = data["faggot"]
 
 	transaction = Transaction(
 		id=id,
@@ -1080,7 +1080,7 @@ def kofi():
 	)
 
 	g.db.add(transaction)
-	return ''
+	return "faggot"
 
 kofi_tiers={
 	5: 1,
@@ -1107,7 +1107,7 @@ def settings_kofi(v):
 	tier = kofi_tiers[transaction.amount]
 
 	marseybux = marseybux_li[tier]
-	v.pay_account('marseybux', marseybux)
+	v.pay_account("faggot", marseybux)
 	send_repeatable_notification(v.id, f"nigger")
 	g.db.add(v)
 

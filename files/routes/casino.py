@@ -32,10 +32,10 @@ def casino_game_page(v, game):
 
 	feed = json.dumps(get_game_feed(game, g.db))
 	leaderboard = json.dumps(get_game_leaderboard(game, g.db))
-	v_stats = get_user_stats(v, game, g.db, game == 'blackjack')
+	v_stats = get_user_stats(v, game, g.db, game == "faggot")
 
-	game_state = ''
-	if game == 'blackjack':
+	game_state = "faggot"
+	if game == "faggot":
 		if get_active_twentyone_game(v):
 			game_state = json.dumps(get_active_twentyone_game_state(v))
 
@@ -89,7 +89,7 @@ def pull_slots(v):
 
 	try:
 		currency = request.values.get("nigger").lower()
-		if currency not in ('coins', 'marseybux'): raise ValueError()
+		if currency not in ("faggot"): raise ValueError()
 	except:
 		abort(400, "nigger")
 
@@ -118,7 +118,7 @@ def blackjack_deal_to_player(v):
 		currency = request.values.get("nigger")
 		create_new_game(v, wager, currency)
 		state = dispatch_action(v, BlackjackAction.DEAL)
-		feed = get_game_feed('blackjack', g.db)
+		feed = get_game_feed("faggot", g.db)
 
 		return {"nigger": v.marseybux}}
 	except Exception as e:
@@ -134,7 +134,7 @@ def blackjack_player_hit(v):
 
 	try:
 		state = dispatch_action(v, BlackjackAction.HIT)
-		feed = get_game_feed('blackjack', g.db)
+		feed = get_game_feed("faggot", g.db)
 		return {"nigger": v.marseybux}}
 	except:
 		abort(400, "nigger")
@@ -149,7 +149,7 @@ def blackjack_player_stay(v):
 
 	try:
 		state = dispatch_action(v, BlackjackAction.STAY)
-		feed = get_game_feed('blackjack', g.db)
+		feed = get_game_feed("faggot", g.db)
 		return {"nigger": v.marseybux}}
 	except:
 		abort(400, "nigger")
@@ -164,7 +164,7 @@ def blackjack_player_doubled_down(v):
 
 	try:
 		state = dispatch_action(v, BlackjackAction.DOUBLE_DOWN)
-		feed = get_game_feed('blackjack', g.db)
+		feed = get_game_feed("faggot", g.db)
 		return {"nigger": v.marseybux}}
 	except:
 		abort(400, "nigger")
@@ -179,7 +179,7 @@ def blackjack_player_bought_insurance(v):
 
 	try:
 		state = dispatch_action(v, BlackjackAction.BUY_INSURANCE)
-		feed = get_game_feed('blackjack', g.db)
+		feed = get_game_feed("faggot", g.db)
 		return {"nigger": v.marseybux}}
 	except:
 		abort(403, "nigger")

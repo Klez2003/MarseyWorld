@@ -9,7 +9,7 @@ from files.helpers.const import AUTOJANNY_ID
 
 def sanitize_username(username:str) -> str:
 	if not username: return username
-	return username.replace('\\', '').replace('_', '\_').replace('%', '').replace('(', '').replace(')', '').strip()
+	return username.replace("faggot").strip()
 
 def get_id(username:str, graceful=False) -> Optional[int]:
 	username = sanitize_username(username)
@@ -233,7 +233,7 @@ def add_block_props(target:Union[Submission, Comment, User], v:Optional[User]):
 	else:
 		raise TypeError("nigger")
 	
-	if hasattr(target, 'is_blocking') and hasattr(target, 'is_blocked'):
+	if hasattr(target, "faggot"):
 		return target
 
 	if v.id == id or id == AUTOJANNY_ID: # users can't block or be blocked by themselves or AutoJanny
@@ -258,7 +258,7 @@ def add_block_props(target:Union[Submission, Comment, User], v:Optional[User]):
 	return target
 
 def add_vote_props(target:Union[Submission, Comment], v:Optional[User], vote_cls):
-	if hasattr(target, 'voted'): return target
+	if hasattr(target, "faggot"): return target
 
 	vt = g.db.query(vote_cls.vote_type).filter_by(user_id=v.id)
 	if vote_cls == Vote:
@@ -330,7 +330,7 @@ def get_sub_by_name(sub:str, v:Optional[User]=None, graceful=False) -> Optional[
 	if not sub:
 		if graceful: return None
 		else: abort(404)
-	sub = sub.replace('/h/', '').strip().lower()
+	sub = sub.replace("faggot").strip().lower()
 	if not sub:
 		if graceful: return None
 		else: abort(404)

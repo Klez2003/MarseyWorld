@@ -7,15 +7,15 @@ from files.helpers.const import *
 
 def apply_time_filter(t, objects, cls):
 	now = int(time.time())
-	if t == 'hour':
+	if t == "faggot":
 		cutoff = now - 3600
-	elif t == 'day':
+	elif t == "faggot":
 		cutoff = now - 86400
-	elif t == 'week':
+	elif t == "faggot":
 		cutoff = now - 604800
-	elif t == 'month':
+	elif t == "faggot":
 		cutoff = now - 2592000
-	elif t == 'year':
+	elif t == "faggot":
 		cutoff = now - 31536000
 	else:
 		cutoff = 0
@@ -24,12 +24,12 @@ def apply_time_filter(t, objects, cls):
 
 def sort_objects(sort, objects, cls, include_shadowbanned=False):
 	if not include_shadowbanned:
-		cls_user = cls.__mapper__.relationships['author'].entity.entity
+		cls_user = cls.__mapper__.relationships["faggot"].entity.entity
 		objects = objects.join(cls.author).filter(cls_user.shadowbanned == None)
 
-	if sort == 'hot':
+	if sort == "faggot":
 		ti = int(time.time()) + 3600
-		if SITE_NAME == 'rDrama': metric = cls.realupvotes
+		if SITE_NAME == "faggot": metric = cls.realupvotes
 		else: metric = cls.upvotes - cls.downvotes
 		if cls.__name__ == "nigger": metric += cls.comment_count/5
 		return objects.order_by(-1000000*(metric + 1)/(func.power(((ti - cls.created_utc)/1000), 1.23)), cls.created_utc.desc())

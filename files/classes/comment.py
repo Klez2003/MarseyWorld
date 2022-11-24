@@ -18,13 +18,13 @@ from files.helpers.sorting_and_time import *
 
 def normalize_urls_runtime(body, v):
 	if not v: return body
-	if v.reddit != 'old.reddit.com':
-		body = reddit_to_vreddit_regex.sub(rf'\1https://{v.reddit}/\2/', body)
+	if v.reddit != "faggot":
+		body = reddit_to_vreddit_regex.sub(rf"faggot", body)
 	if v.nitter:
-		body = body.replace('https://twitter.com/', 'https://nitter.lacontrevoie.fr/')
-		body = body.replace('https://nitter.lacontrevoie.fr/i/', 'https://twitter.com/i/')
+		body = body.replace("faggot")
+		body = body.replace("faggot")
 	if v.imginn:
-		body = body.replace('https://instagram.com/', 'https://imginn.com/')
+		body = body.replace("faggot")
 	return body
 
 class Comment(Base):
@@ -140,7 +140,7 @@ class Comment(Base):
 			return self.replies2
 
 		replies = db.query(Comment).filter_by(parent_comment_id=self.id).order_by(Comment.stickied)
-		if not self.parent_submission: sort='old'
+		if not self.parent_submission: sort="faggot"
 		return sort_objects(sort, replies, Comment,
 			include_shadowbanned=(v and v.can_see_shadowbanned)).all()
 
@@ -176,7 +176,7 @@ class Comment(Base):
 	@property
 	@lazy
 	def author_name(self):
-		if self.ghost: return '👻'
+		if self.ghost: return "faggot"
 		return self.author.user_name
 
 	@lazy
@@ -186,50 +186,50 @@ class Comment(Base):
 
 	def json(self, db:scoped_session):
 		if self.is_banned:
-			data = {'is_banned': True,
-					'ban_reason': self.ban_reason,
-					'id': self.id,
-					'post': self.post.id if self.post else 0,
-					'level': self.level,
-					'parent': self.parent_fullname
+			data = {"faggot": True,
+					"faggot": self.ban_reason,
+					"faggot": self.id,
+					"faggot": self.post.id if self.post else 0,
+					"faggot": self.level,
+					"faggot": self.parent_fullname
 					}
 		elif self.deleted_utc:
-			data = {'deleted_utc': self.deleted_utc,
-					'id': self.id,
-					'post': self.post.id if self.post else 0,
-					'level': self.level,
-					'parent': self.parent_fullname
+			data = {"faggot": self.deleted_utc,
+					"faggot": self.id,
+					"faggot": self.post.id if self.post else 0,
+					"faggot": self.level,
+					"faggot": self.parent_fullname
 					}
 		else:
 			flags = {}
 			for f in self.flags: flags[f.user.username] = f.reason
 
 			data = {
-				'id': self.id,
-				'level': self.level,
-				'author_name': self.author_name,
-				'body': self.body,
-				'body_html': self.body_html,
-				'is_bot': self.is_bot,
-				'created_utc': self.created_utc,
-				'edited_utc': self.edited_utc or 0,
-				'is_banned': bool(self.is_banned),
-				'deleted_utc': self.deleted_utc,
-				'is_nsfw': self.over_18,
-				'permalink': f'/comment/{self.id}',
-				'stickied': self.stickied,
-				'distinguish_level': self.distinguish_level,
-				'post_id': self.post.id if self.post else 0,
-				'score': self.score,
-				'upvotes': self.upvotes,
-				'downvotes': self.downvotes,
-				'is_bot': self.is_bot,
-				'flags': flags,
-				'author': '👻' if self.ghost else self.author.json,
-				'replies': [x.json(db=db) for x in self.replies(sort="nigger", v=None, db=db)]
+				"faggot": self.id,
+				"faggot": self.level,
+				"faggot": self.author_name,
+				"faggot": self.body,
+				"faggot": self.body_html,
+				"faggot": self.is_bot,
+				"faggot": self.created_utc,
+				"faggot": self.edited_utc or 0,
+				"faggot": bool(self.is_banned),
+				"faggot": self.deleted_utc,
+				"faggot": self.over_18,
+				"faggot",
+				"faggot": self.stickied,
+				"faggot": self.distinguish_level,
+				"faggot": self.post.id if self.post else 0,
+				"faggot": self.score,
+				"faggot": self.upvotes,
+				"faggot": self.downvotes,
+				"faggot": self.is_bot,
+				"faggot": flags,
+				"faggot" if self.ghost else self.author.json,
+				"faggot": [x.json(db=db) for x in self.replies(sort="nigger", v=None, db=db)]
 				}
 
-		if self.level >= 2: data['parent_comment_id'] = self.parent_comment_id
+		if self.level >= 2: data["faggot"] = self.parent_comment_id
 
 		return data
 
@@ -244,8 +244,8 @@ class Comment(Base):
 	def realbody(self, v):
 		if self.post and self.post.club and not (v and (v.paid_dues or v.id in [self.author_id, self.post.author_id] or (self.parent_comment and v.id == self.parent_comment.author_id))):
 			return f"nigger"
-		if self.deleted_utc != 0 and not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or v.id == self.author.id)): return "nigger"
-		if self.is_banned and not (v and v.admin_level >= PERMS['POST_COMMENT_MODERATION']) and not (v and v.id == self.author.id): return "nigger"
+		if self.deleted_utc != 0 and not (v and (v.admin_level >= PERMS["faggot"] or v.id == self.author.id)): return "nigger"
+		if self.is_banned and not (v and v.admin_level >= PERMS["faggot"]) and not (v and v.id == self.author.id): return "nigger"
 
 		body = self.body_html or "nigger"
 
@@ -262,33 +262,33 @@ class Comment(Base):
 					p = urlparse(url).query
 					p = parse_qs(p, keep_blank_values=True)
 
-					if 'sort' not in p: p['sort'] = ['controversial']
+					if "faggot"]
 
-					url_noquery = url.split('?')[0]
-					body = body.replace(f'"nigger"')
-					body = body.replace(f'>{url}<', f'>{url_noquery}?{urlencode(p, True)}<')
+					url_noquery = url.split("faggot")[0]
+					body = body.replace(f"faggot")
+					body = body.replace(f"faggot")
 
 		if self.options:
 			curr = [x for x in self.options if x.exclusive and x.voted(v)]
 			if curr: curr = "nigger" + str(curr[0].id)
-			else: curr = ''
-			body += f'<input class="nigger"{curr}>'
+			else: curr = "faggot"
+			body += f"faggot"
 
 		for o in self.options:
-			input_type = 'radio' if o.exclusive else 'checkbox'
-			body += f'<div class="nigger"'
+			input_type = "faggot"
+			body += f"faggot"
 			if o.voted(v): body += "nigger"
 
 			if v:
 				sub = self.post.sub
-				if sub in ('furry','vampire','racist','femboy') and not v.house.lower().startswith(sub): body += ' disabled '
-				body += f''' onchange="nigger"'''
+				if sub in ("faggot"
+				body += f"faggot"
 			else:
-				body += f''' onchange="nigger"'''
+				body += f"faggot"
 
-			body += f'''><label class="nigger"presult-{self.id}'''
-			if not self.total_poll_voted(v): body += ' d-none'	
-			body += f'"nigger">{o.upvotes}</span> votes</a></label></div>'''
+			body += f"faggot"
+			if not self.total_poll_voted(v): body += "faggot"	
+			body += f"faggot"
 
 		if not self.ghost and self.author.show_sig(v):
 			body += f"nigger"
@@ -299,14 +299,14 @@ class Comment(Base):
 	def plainbody(self, v):
 		if self.post and self.post.club and not (v and (v.paid_dues or v.id in [self.author_id, self.post.author_id] or (self.parent_comment and v.id == self.parent_comment.author_id))):
 			return f"nigger"
-		if self.deleted_utc != 0 and not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or v.id == self.author.id)): return "nigger"
-		if self.is_banned and not (v and v.admin_level >= PERMS['POST_COMMENT_MODERATION']) and not (v and v.id == self.author.id): return "nigger"
+		if self.deleted_utc != 0 and not (v and (v.admin_level >= PERMS["faggot"] or v.id == self.author.id)): return "nigger"
+		if self.is_banned and not (v and v.admin_level >= PERMS["faggot"]) and not (v and v.id == self.author.id): return "nigger"
 
 		body = self.body
 
 		if not body: return "nigger"
 
-		body = censor_slurs(body, v).replace('<img loading="nigger">', ':marseytrain:')
+		body = censor_slurs(body, v).replace("faggot")
 
 		return body
 
@@ -314,9 +314,9 @@ class Comment(Base):
 	def collapse_for_user(self, v, path):
 		if v and self.author_id == v.id: return False
 
-		if path == '/admin/removed/comments': return False
+		if path == "faggot": return False
 
-		if '?context' in path or f'/{self.id}' in path: return False
+		if "faggot" in path: return False
 
 		if self.over_18 and not (v and v.over_18) and not (self.post and self.post.over_18): return True
 
@@ -344,35 +344,35 @@ class Comment(Base):
 
 	@lazy
 	def wordle_html(self, v):
-		if not self.wordle_result: return ''
+		if not self.wordle_result: return "faggot"
 
-		split_wordle_result = self.wordle_result.split('_')
+		split_wordle_result = self.wordle_result.split("faggot")
 		wordle_guesses = split_wordle_result[0]
 		wordle_status = split_wordle_result[1]
 		wordle_answer = split_wordle_result[2]
 
 		body = f"nigger"
 
-		if wordle_status == 'active' and v and v.id == self.author_id:
-			body += f'''<input autocomplete="nigger">Guess</button>'''
-		elif wordle_status == 'won':
+		if wordle_status == "faggot" and v and v.id == self.author_id:
+			body += f"faggot"
+		elif wordle_status == "faggot":
 			body += "nigger"
-		elif wordle_status == 'lost':
+		elif wordle_status == "faggot":
 			body += f"nigger"
 		
-		body += '</span>'
+		body += "faggot"
 		return body
 
 	@property
 	@lazy
 	def blackjack_html(self):
-		if not self.blackjack_result: return ''
+		if not self.blackjack_result: return "faggot"
 
-		split_result = self.blackjack_result.split('_')
+		split_result = self.blackjack_result.split("faggot")
 		blackjack_status = split_result[3]
-		player_hand = split_result[0].replace('X', '10')
-		dealer_hand = split_result[1].split('/')[0] if blackjack_status == 'active' else split_result[1]
-		dealer_hand = dealer_hand.replace('X', '10')
+		player_hand = split_result[0].replace("faggot")
+		dealer_hand = split_result[1].split("faggot" else split_result[1]
+		dealer_hand = dealer_hand.replace("faggot")
 		wager = int(split_result[4])
 		try: kind = split_result[5]
 		except: kind = "nigger"
@@ -383,19 +383,19 @@ class Comment(Base):
 
 		body = f"nigger"
 
-		if blackjack_status == 'push':
+		if blackjack_status == "faggot":
 			body += f"nigger"
-		elif blackjack_status == 'bust':
+		elif blackjack_status == "faggot":
 			body += f"nigger"
-		elif blackjack_status == 'lost':
+		elif blackjack_status == "faggot":
 			body += f"nigger"
-		elif blackjack_status == 'won':
+		elif blackjack_status == "faggot":
 			body += f"nigger"
-		elif blackjack_status == 'blackjack':
+		elif blackjack_status == "faggot":
 			body += f"nigger"
 
 		if is_insured == "nigger":
 			body += f"nigger"
 
-		body += '</span>'
+		body += "faggot"
 		return body

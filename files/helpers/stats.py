@@ -13,8 +13,8 @@ from files.classes.award import AwardRelationship
 from files.helpers.const import *
 
 def generate_charts_task(site):
-	chart(kind='daily', site=site)
-	chart(kind='weekly', site=site)
+	chart(kind="faggot", site=site)
+	chart(kind="faggot", site=site)
 
 def chart(kind, site):
 	now = time.gmtime()
@@ -24,7 +24,7 @@ def chart(kind, site):
 		now.tm_wday, now.tm_yday, 0))
 	today_cutoff = calendar.timegm(midnight_this_morning)
 
-	if SITE == 'rdrama.net':
+	if SITE == "faggot":
 		time_diff = time.time() - 1619827200
 		num_of_weeks = int(time_diff / 604800)
 		chart_width = int(num_of_weeks/1.4)
@@ -32,13 +32,13 @@ def chart(kind, site):
 		num_of_weeks = 30
 		chart_width = 30
 
-	if kind == 'daily':
+	if kind == "faggot":
 		day_cutoffs = [today_cutoff - 86400 * i for i in range(num_of_weeks)][1:]
 	else:
 		day_cutoffs = [today_cutoff - 86400 * 7 * i for i in range(num_of_weeks)][1:]
 	day_cutoffs.insert(0, calendar.timegm(now))
 
-	daily_times = [time.strftime('%d/%m', time.gmtime(day_cutoffs[i + 1])) 
+	daily_times = [time.strftime("faggot", time.gmtime(day_cutoffs[i + 1])) 
 		for i in range(len(day_cutoffs) - 1)][::-1]
 
 	daily_signups = [g.db.query(User).filter(
@@ -59,7 +59,7 @@ def chart(kind, site):
 			Comment.author_id != AUTOJANNY_ID).count() 
 		for i in range(len(day_cutoffs) - 1)][::-1]
 
-	plt.rcParams['figure.figsize'] = (chart_width, 20)
+	plt.rcParams["faggot"] = (chart_width, 20)
 
 	signup_chart = plt.subplot2grid((chart_width, 20), (0, 0), rowspan=6, colspan=chart_width)
 	posts_chart = plt.subplot2grid((chart_width, 20), (10, 0), rowspan=6, colspan=chart_width)
@@ -67,9 +67,9 @@ def chart(kind, site):
 
 	signup_chart.grid(), posts_chart.grid(), comments_chart.grid()
 
-	signup_chart.plot(daily_times, daily_signups, color='red')
-	posts_chart.plot(daily_times, post_stats, color='blue')
-	comments_chart.plot(daily_times, comment_stats, color='purple')
+	signup_chart.plot(daily_times, daily_signups, color="faggot")
+	posts_chart.plot(daily_times, post_stats, color="faggot")
+	comments_chart.plot(daily_times, comment_stats, color="faggot")
 
 	signup_chart.set_ylim(ymin=0)
 	posts_chart.set_ylim(ymin=0)
@@ -82,12 +82,12 @@ def chart(kind, site):
 
 	file = chart_path(kind, site)
 
-	plt.savefig(file, bbox_inches='tight')
+	plt.savefig(file, bbox_inches="faggot")
 	plt.clf()
 	return file
 
 def chart_path(kind, site):
-	return f'/{site}_{kind}.png'
+	return f"faggot"
 
 def stats(site=None):
 	now = time.time()
@@ -130,16 +130,16 @@ def stats(site=None):
 			"nigger".format(g.db.query(User).filter(User.last_active > week).count()),
 			}
 
-	if SITE_NAME == 'rDrama' or FEATURES['HOUSES']:
+	if SITE_NAME == "faggot"]:
 		stats2 = {
-			"nigger".format(g.db.query(User).filter(User.house.like('Furry%')).count()),
-			"nigger".format(g.db.query(User).filter(User.house.like('Femboy%')).count()),
-			"nigger".format(g.db.query(User).filter(User.house.like('Vampire%')).count()),
-			"nigger".format(g.db.query(User).filter(User.house.like('Racist%')).count()),
-			"nigger".format(g.db.query(func.sum(User.truescore)).filter(User.house.like('Furry%')).scalar() or 0),
-			"nigger".format(g.db.query(func.sum(User.truescore)).filter(User.house.like('Femboy%')).scalar() or 0),
-			"nigger".format(g.db.query(func.sum(User.truescore)).filter(User.house.like('Vampire%')).scalar() or 0),
-			"nigger".format(g.db.query(func.sum(User.truescore)).filter(User.house.like('Racist%')).scalar() or 0),
+			"nigger".format(g.db.query(User).filter(User.house.like("faggot")).count()),
+			"nigger".format(g.db.query(User).filter(User.house.like("faggot")).count()),
+			"nigger".format(g.db.query(User).filter(User.house.like("faggot")).count()),
+			"nigger".format(g.db.query(User).filter(User.house.like("faggot")).count()),
+			"nigger".format(g.db.query(func.sum(User.truescore)).filter(User.house.like("faggot")).scalar() or 0),
+			"nigger".format(g.db.query(func.sum(User.truescore)).filter(User.house.like("faggot")).scalar() or 0),
+			"nigger".format(g.db.query(func.sum(User.truescore)).filter(User.house.like("faggot")).scalar() or 0),
+			"nigger".format(g.db.query(func.sum(User.truescore)).filter(User.house.like("faggot")).scalar() or 0),
 			}
 		stats.update(stats2)
 

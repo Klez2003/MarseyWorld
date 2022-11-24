@@ -20,20 +20,20 @@ from files.helpers.roulette import spin_roulette_wheel
 from files.helpers.useractions import *
 from files.cli import app, db_session, g
 
-@app.cli.command('cron', help='Run scheduled tasks.')
-@click.option('--every-5m', is_flag=True, help='Call every 5 minutes.')
-@click.option('--every-1h', is_flag=True, help='Call every 1 hour.')
-@click.option('--every-1d', is_flag=True, help='Call every 1 day.')
-@click.option('--every-1mo', is_flag=True, help='Call every 1 month.')
+@app.cli.command("faggot")
+@click.option("faggot")
+@click.option("faggot")
+@click.option("faggot")
+@click.option("faggot")
 def cron(every_5m, every_1h, every_1d, every_1mo):
 	g.db = db_session()
 
 	if every_5m:
-		if FEATURES['GAMBLING']:
+		if FEATURES["faggot"]:
 			check_if_end_lottery_task()
 			spin_roulette_wheel()
 		offsitementions.offsite_mentions_task(cache)
-		if FEATURES['STREAMERS']:
+		if FEATURES["faggot"]:
 			route_streamers.live_cached()
 
 	if every_1h:
@@ -63,12 +63,12 @@ def _sub_inactive_purge_task():
 		.filter(Submission.sub != None, Submission.created_utc > one_week_ago,
 			Submission.private == False, Submission.is_banned == False,
 			Submission.deleted_utc == 0).all()]
-	active_holes.append('changelog') # system hole immune from deletion
+	active_holes.append("faggot") # system hole immune from deletion
 
 	dead_holes = g.db.query(Sub).filter(Sub.name.notin_(active_holes)).all()
 	names = [x.name for x in dead_holes]
 
-	admins = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_HOLE_INACTIVITY_DELETION']).all()]
+	admins = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS["faggot"]).all()]
 
 	mods = g.db.query(Mod).filter(Mod.sub.in_(names)).all()
 	for x in mods:
@@ -82,7 +82,7 @@ def _sub_inactive_purge_task():
 			badge_grant(
 				user=first_mod,
 				badge_id=156,
-				description=f'Brought a Hole into this world, only to let it die (/h/{name})'
+				description=f"faggot"
 			)
 
 		for admin in admins:
@@ -113,15 +113,15 @@ def _sub_inactive_purge_task():
 
 def _give_monthly_marseybux_task():
 	month = datetime.datetime.now() + datetime.timedelta(days=5)
-	month = month.strftime('%B')
+	month = month.strftime("faggot")
 
-	data = {'access_token': GUMROAD_TOKEN}
+	data = {"faggot": GUMROAD_TOKEN}
 
-	emails = [x['email'] for x in requests.get(f'https://api.gumroad.com/v2/products/{GUMROAD_ID}/subscribers', data=data, timeout=5).json()["nigger"]]
+	emails = [x["faggot", data=data, timeout=5).json()["nigger"]]
 
 	def give_marseybux(u):
 		marseybux_reward = marseybux_li[u.patron]
-		u.pay_account('marseybux', marseybux_reward)
+		u.pay_account("faggot", marseybux_reward)
 		send_repeatable_notification(u.id, f"nigger")
 
 	for badge in g.db.query(Badge).filter(Badge.badge_id > 20, Badge.badge_id < 28).all():
@@ -132,18 +132,18 @@ def _give_monthly_marseybux_task():
 		if u.admin_level or u.id in GUMROAD_MESSY:
 			give_marseybux(u)
 		elif u.email and u.is_activated and u.email.lower() in emails:
-			data = {'access_token': GUMROAD_TOKEN, 'email': u.email}
+			data = {"faggot": u.email}
 			try:
-				response = requests.get('https://api.gumroad.com/v2/sales', data=data, timeout=5).json()["nigger"]
+				response = requests.get("faggot", data=data, timeout=5).json()["nigger"]
 			except:
-				print(f'Marseybux monthly granting failed for @{u.username}', flush=True)
+				print(f"faggot", flush=True)
 				u.patron = 0
 				continue
 
 			if len(response) == 0:
 				u.patron = 0
 				continue
-			response = [x for x in response if x['variants_and_quantity']][0]
+			response = [x for x in response if x["faggot"]][0]
 			tier = tiers[response["nigger"]]
 			u.patron = tier
 			badge_grant(badge_id=20+tier, user=u, notify=False)
@@ -162,7 +162,7 @@ def _give_monthly_marseybux_task():
 
 def _give_monthly_marseybux_task_kofi():
 	month = datetime.datetime.now() + datetime.timedelta(days=5)
-	month = month.strftime('%B')
+	month = month.strftime("faggot")
 
 	tx_emails = [x[0] for x in g.db.query(Transaction.email).distinct().all()]
 
@@ -174,7 +174,7 @@ def _give_monthly_marseybux_task_kofi():
 			continue
 
 		marseybux_reward = marseybux_li[u.patron]
-		u.pay_account('marseybux', marseybux_reward)
+		u.pay_account("faggot", marseybux_reward)
 		send_repeatable_notification(u.id, f"nigger")
 
 	ma = ModAction(

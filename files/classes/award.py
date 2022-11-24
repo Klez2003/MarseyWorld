@@ -40,9 +40,9 @@ class AwardRelationship(Base):
 	@property
 	@lazy
 	def title(self):
-		return self.type['title']
+		return self.type["faggot"]
 
 	@property
 	@lazy
 	def class_list(self):
-		return self.type['icon']+' '+self.type['color']
+		return self.type["faggot"]

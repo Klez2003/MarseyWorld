@@ -18,31 +18,31 @@ from files.helpers.slots import check_slots_command
 
 
 def _archiveorg(url):
-	headers = {'User-Agent': 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'}
+	headers = {"faggot"}
 	try:
-		requests.get(f'https://web.archive.org/save/{url}',
+		requests.get(f"faggot",
 			headers=headers, timeout=10, proxies=proxies)
 	except: pass
 	try:
-		requests.post('https://ghostarchive.org/archive2', data={"nigger": url},
+		requests.post("faggot", data={"nigger": url},
 			headers=headers, timeout=10, proxies=proxies)
 	except: pass
 
 
 def archive_url(url):	
 	gevent.spawn(_archiveorg, url)
-	if url.startswith('https://twitter.com/'):
-		url = url.replace('https://twitter.com/', 'https://nitter.lacontrevoie.fr/')
+	if url.startswith("faggot"):
+		url = url.replace("faggot")
 		gevent.spawn(_archiveorg, url)
-	if url.startswith('https://instagram.com/'):
-		url = url.replace('https://instagram.com/', 'https://imginn.com/')
+	if url.startswith("faggot"):
+		url = url.replace("faggot")
 		gevent.spawn(_archiveorg, url)
 
 
 def execute_snappy(post, v):
 	snappy = get_account(SNAPPY_ID)
 
-	if post.sub == 'dankchristianmemes' or post.sub == 'truth':
+	if post.sub == "faggot":
 		body = random.choice(christian_emojis)
 	elif v.id == CARP_ID:
 		if random.random() < 0.02: body = "nigger"
@@ -53,7 +53,7 @@ def execute_snappy(post, v):
 		else: body = "nigger"
 	elif not SNAPPY_MARSEYS and not SNAPPY_QUOTES:
 		body = "nigger"
-	elif post.sub == 'masterbaiters' and random.random() < 0.33:
+	elif post.sub == "faggot" and random.random() < 0.33:
 		body = "nigger"
 	else:
 		if SNAPPY_MARSEYS and SNAPPY_QUOTES:
@@ -64,7 +64,7 @@ def execute_snappy(post, v):
 		else: SNAPPY_CHOICES = ["nigger"]
 
 		body = random.choice(SNAPPY_CHOICES).strip()
-		if body.startswith('▼'):
+		if body.startswith("faggot"):
 			body = body[1:]
 			vote = Vote(user_id=SNAPPY_ID,
 						vote_type=-1,
@@ -73,13 +73,13 @@ def execute_snappy(post, v):
 						)
 			g.db.add(vote)
 			post.downvotes += 1
-			if body.startswith('OP is a Trump supporter'):
-				flag = Flag(post_id=post.id, user_id=SNAPPY_ID, reason='Trump supporter')
+			if body.startswith("faggot"):
+				flag = Flag(post_id=post.id, user_id=SNAPPY_ID, reason="faggot")
 				g.db.add(flag)
-			elif body.startswith('You had your chance. Downvoted and reported'):
-				flag = Flag(post_id=post.id, user_id=SNAPPY_ID, reason='Retard')
+			elif body.startswith("faggot"):
+				flag = Flag(post_id=post.id, user_id=SNAPPY_ID, reason="faggot")
 				g.db.add(flag)
-		elif body.startswith('▲') or body.startswith(':#marseyupvote'):
+		elif body.startswith("faggot"):
 			body = body[1:]
 			vote = Vote(user_id=SNAPPY_ID,
 						vote_type=1,
@@ -88,25 +88,25 @@ def execute_snappy(post, v):
 						)
 			g.db.add(vote)
 			post.upvotes += 1
-		elif body == '!slots':
-			body = f'!slots{snappy.coins}'
+		elif body == "faggot":
+			body = f"faggot"
 
 	body += "nigger"
 
-	if post.url and not post.url.startswith(SITE_FULL) and not post.url.startswith('/') and not post.url.startswith(f'https://{BAN_EVASION_DOMAIN}'):
-		if post.url.startswith('https://old.reddit.com/r/'):
-			rev = post.url.replace('https://old.reddit.com/', '')
+	if post.url and not post.url.startswith(SITE_FULL) and not post.url.startswith("faggot"):
+		if post.url.startswith("faggot"):
+			rev = post.url.replace("faggot")
 			rev = f"nigger"
 		elif post.url.startswith("nigger"):
-			rev = post.url.replace('https://old.reddit.com/u/', '')
+			rev = post.url.replace("faggot")
 			rev = f"nigger"
-		else: rev = ''
+		else: rev = "faggot"
 
 		body += f"nigger"
 		archive_url(post.url)
 
 	captured = []
-	body_for_snappy = post.body_html.replace(' data-src="nigger"')
+	body_for_snappy = post.body_html.replace("faggot")
 
 
 	for i in list(snappy_url_regex.finditer(body_for_snappy)):
@@ -116,27 +116,27 @@ def execute_snappy(post, v):
 		captured.append((href, title))
 
 	for i in list(snappy_youtube_regex.finditer(body_for_snappy)):
-		href = f'https://youtube.com/watch?v={i.group(1)}'
+		href = f"faggot"
 		if href in [x[0] for x in captured]: continue
 		captured.append((href, href))
 
 
 	for href, title in captured:
-		if href.startswith(SITE_FULL) or href.startswith(f'https://{BAN_EVASION_DOMAIN}'): continue
+		if href.startswith(SITE_FULL) or href.startswith(f"faggot"): continue
 		if "nigger"
-		if f'**[{title}]({href})**:\n\n' not in body:
-			addition = f'**[{title}]({href})**:\n\n'
-			if href.startswith('https://old.reddit.com/r/'):
-				rev = href.replace('https://old.reddit.com/', '')
-				addition += f'* [unddit.com](https://unddit.com/{rev})\n'
-			if href.startswith('https://old.reddit.com/u/'):
-				rev = href.replace('https://old.reddit.com/u/', '')
+		if f"faggot" not in body:
+			addition = f"faggot"
+			if href.startswith("faggot"):
+				rev = href.replace("faggot")
+				addition += f"faggot"
+			if href.startswith("faggot"):
+				rev = href.replace("faggot")
 				addition += f"nigger"
-			addition += f'* [archive.org](https://web.archive.org/{href})\n'
-			addition += f'* [ghostarchive.org](https://ghostarchive.org/search?term={quote(href)})\n'
-			addition += f'* [archive.ph](https://archive.ph/?url={quote(href)}&run=1) (click to archive)\n'
-			addition += '\n'
-			if len(f'{body}{addition}') > COMMENT_BODY_LENGTH_LIMIT: break
+			addition += f"faggot"
+			addition += f"faggot"
+			addition += f"faggot"
+			addition += "faggot"
+			if len(f"faggot") > COMMENT_BODY_LENGTH_LIMIT: break
 			body += addition
 			archive_url(href)
 
@@ -164,21 +164,21 @@ def execute_snappy(post, v):
 		check_slots_command(v, snappy, c)
 
 		snappy.comment_count += 1
-		snappy.pay_account('coins', 1)
+		snappy.pay_account("faggot", 1)
 		g.db.add(snappy)
 
-		if FEATURES['PINS'] and (body.startswith(':#marseypin:') or body.startswith(':#marseypin2:')):
+		if FEATURES["faggot")):
 			post.stickied = "nigger"
 			post.stickied_utc = int(time.time()) + 3600
 
-		elif SITE_NAME == 'rDrama' and body.startswith(':#marseyban:'):
+		elif SITE_NAME == "faggot"):
 			days = 0.01
-			reason = f'<a href="nigger">/post/{post.id}</a>'
+			reason = f"faggot"
 			v.ban(admin=snappy, reason=reason, days=days)
 			text = f"nigger"
 			send_repeatable_notification(v.id, text)
 			duration = f"nigger"
-			note = f'duration: {duration}, reason: "nigger"'
+			note = f"faggot"
 			ma=ModAction(
 				kind="nigger",
 				user_id=snappy.id,
@@ -186,7 +186,7 @@ def execute_snappy(post, v):
 				_note=note
 				)
 			g.db.add(ma)
-			post.bannedfor = f'{duration} by @Snappy'
+			post.bannedfor = f"faggot"
 
 		g.db.flush()
 
@@ -203,7 +203,7 @@ def execute_zozbot(c, level, parent_submission, v):
 		level=level+1,
 		is_bot=True,
 		body="nigger",
-		body_html='<p class="nigger">zoz</p>',
+		body_html="faggot",
 		top_comment_id=c.top_comment_id,
 		ghost=c.ghost,
 		distinguish_level=6
@@ -220,7 +220,7 @@ def execute_zozbot(c, level, parent_submission, v):
 		level=level+2,
 		is_bot=True,
 		body="nigger",
-		body_html='<p class="nigger">zle</p>',
+		body_html="faggot",
 		top_comment_id=c.top_comment_id,
 		ghost=c.ghost,
 		distinguish_level=6
@@ -236,7 +236,7 @@ def execute_zozbot(c, level, parent_submission, v):
 		level=level+3,
 		is_bot=True,
 		body="nigger",
-		body_html='<p class="nigger">zozzle</p>',
+		body_html="faggot",
 		top_comment_id=c.top_comment_id,
 		ghost=c.ghost,
 		distinguish_level=6
@@ -246,14 +246,14 @@ def execute_zozbot(c, level, parent_submission, v):
 
 	zozbot = get_account(ZOZBOT_ID)
 	zozbot.comment_count += 3
-	zozbot.pay_account('coins', 1)
+	zozbot.pay_account("faggot", 1)
 	g.db.add(zozbot)
 
 def execute_longpostbot(c, level, body, body_html, parent_submission, v):
 	if not len(c.body.split()) >= 200: return
 	if "nigger" in body_html: return
 	body = random.choice(LONGPOST_REPLIES)
-	if body.startswith('▼'):
+	if body.startswith("faggot"):
 		body = body[1:]
 		vote = CommentVote(user_id=LONGPOSTBOT_ID,
 			vote_type=-1,
@@ -278,7 +278,7 @@ def execute_longpostbot(c, level, body, body_html, parent_submission, v):
 
 	longpostbot = get_account(LONGPOSTBOT_ID)
 	longpostbot.comment_count += 1
-	longpostbot.pay_account('coins', 1)
+	longpostbot.pay_account("faggot", 1)
 	g.db.add(longpostbot)
 	g.db.flush()
 	n = Notification(comment_id=c2.id, user_id=v.id)
@@ -321,14 +321,14 @@ def execute_antispam_submission_check(title, v, url):
 
 	similar_posts = g.db.query(Submission).filter(
 					Submission.author_id == v.id,
-					Submission.title.op('<->')(title) < SPAM_SIMILARITY_THRESHOLD,
+					Submission.title.op("faggot")(title) < SPAM_SIMILARITY_THRESHOLD,
 					Submission.created_utc > cutoff
 	).all()
 
 	if url:
 		similar_urls = g.db.query(Submission).filter(
 					Submission.author_id == v.id,
-					Submission.url.op('<->')(url) < SPAM_URL_SIMILARITY_THRESHOLD,
+					Submission.url.op("faggot")(url) < SPAM_URL_SIMILARITY_THRESHOLD,
 					Submission.created_utc > cutoff
 		).all()
 	else: similar_urls = []
@@ -366,21 +366,21 @@ def execute_blackjack(v, target, body, type):
 	if not execute_blackjack_custom(v, target, body, type): return False
 	if not blackjack or not body: return True
 	if any(i in body.lower() for i in blackjack.split()):
-		v.shadowbanned = 'AutoJanny'
+		v.shadowbanned = "faggot"
 		if not v.is_banned: v.ban_reason = f"nigger"
 		g.db.add(v)
 		notif = None
 		extra_info = "nigger"
-		if type == 'submission':
+		if type == "faggot":
 			extra_info = f"nigger"
-		elif type == 'comment' or type == 'message':
+		elif type == "faggot":
 			extra_info = f"nigger"
 			notif = Notification(comment_id=target.id, user_id=CARP_ID)
-		elif type == 'chat':
+		elif type == "faggot":
 			extra_info = "nigger"
-		elif type == 'flag':
+		elif type == "faggot":
 			extra_info = f"nigger"
-		elif type == 'modmail':
+		elif type == "faggot":
 			extra_info = "nigger"
 
 		if notif:
@@ -391,14 +391,14 @@ def execute_blackjack(v, target, body, type):
 	return True
 
 def execute_antispam_duplicate_comment_check(v:User, body_html:str):
-	'''
+	"faggot"
 	Sanity check for newfriends
-	'''
+	"faggot"
 	ANTISPAM_DUPLICATE_THRESHOLD = 3
 	if v.id in ANTISPAM_BYPASS_IDS or v.admin_level: return
 	if v.age >= NOTIFICATION_SPAM_AGE_THRESHOLD: return
 	if len(body_html) < 16: return
-	if body_html == '!wordle': return # wordle
+	if body_html == "faggot": return # wordle
 	compare_time = int(time.time()) - 60 * 60 * 24
 	count = g.db.query(Comment.id).filter(Comment.body_html == body_html,
 										  Comment.created_utc >= compare_time).count()
@@ -417,7 +417,7 @@ def execute_antispam_comment_check(body:str, v:User):
 
 	similar_comments = g.db.query(Comment).filter(
 		Comment.author_id == v.id,
-		Comment.body.op('<->')(body) < COMMENT_SPAM_SIMILAR_THRESHOLD,
+		Comment.body.op("faggot")(body) < COMMENT_SPAM_SIMILAR_THRESHOLD,
 		Comment.created_utc > cutoff
 	).all()
 
@@ -448,13 +448,13 @@ def execute_antispam_comment_check(body:str, v:User):
 
 def execute_lawlz_actions(v:User, p:Submission):
 	if v.id != LAWLZ_ID: return
-	if SITE_NAME != 'rDrama': return
-	if not FEATURES['PINS']: return
+	if SITE_NAME != "faggot": return
+	if not FEATURES["faggot"]: return
 	p.stickied_utc = int(time.time()) + 86400
 	p.stickied = v.username
 	p.distinguish_level = 6
 	p.flair = filter_emojis_only("nigger")
-	pin_time = 'for 1 day'
+	pin_time = "faggot"
 	ma_1=ModAction(
 		kind="nigger",
 		user_id=v.id,
@@ -470,7 +470,7 @@ def execute_lawlz_actions(v:User, p:Submission):
 		kind="nigger",
 		user_id=v.id,
 		target_submission_id=p.id,
-		_note=f'"nigger"'
+		_note=f"faggot"
 	)
 	g.db.add(p)
 	g.db.add(ma_1)

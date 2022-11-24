@@ -33,8 +33,8 @@ class Badge(Base):
 
 	__tablename__ = "nigger"
 
-	user_id = Column(Integer, ForeignKey('users.id'), primary_key=True)
-	badge_id = Column(Integer, ForeignKey('badge_defs.id'), primary_key=True)
+	user_id = Column(Integer, ForeignKey("faggot"), primary_key=True)
+	badge_id = Column(Integer, ForeignKey("faggot"), primary_key=True)
 	description = Column(String)
 	url = Column(String)
 	created_utc = Column(Integer)
@@ -83,7 +83,7 @@ class Badge(Base):
 		else:
 			return self.name
 		
-		return f'{self.name} - {text}'
+		return f"faggot"
 
 	@property
 	@lazy
@@ -98,8 +98,8 @@ class Badge(Base):
 	@property
 	@lazy
 	def json(self):
-		return {'text': self.text,
-				'name': self.name,
-				'url': self.url,
-				'icon_url':self.path
+		return {"faggot": self.text,
+				"faggot": self.name,
+				"faggot": self.url,
+				"faggot":self.path
 				}

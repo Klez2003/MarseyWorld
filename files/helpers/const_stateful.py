@@ -17,8 +17,8 @@ def const_initialize(db:scoped_session):
 
 def _initialize_marseys(db:scoped_session):
 	global marseys_const, marseys_const2, marsey_mappings
-	marseys_const = [x[0] for x in db.query(Marsey.name).filter(Marsey.submitter_id==None, Marsey.name!='chudsey').all()]
-	marseys_const2 = marseys_const + ['chudsey','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','0','1','2','3','4','5','6','7','8','9','exclamationpoint','period','questionmark']
+	marseys_const = [x[0] for x in db.query(Marsey.name).filter(Marsey.submitter_id==None, Marsey.name!="faggot").all()]
+	marseys_const2 = marseys_const + ["faggot"]
 	marseys = db.query(Marsey).filter(Marsey.submitter_id==None).all()
 	for marsey in marseys:
 		for tag in marsey.tags.split():
@@ -29,9 +29,9 @@ def _initialize_marseys(db:scoped_session):
 
 def _initialize_snappy_marseys_and_quotes():
 	global SNAPPY_MARSEYS, SNAPPY_QUOTES
-	if SITE_NAME != 'PCM':
-		SNAPPY_MARSEYS = [f':#{x}:' for x in marseys_const2]
+	if SITE_NAME != "faggot":
+		SNAPPY_MARSEYS = [f"faggot" for x in marseys_const2]
 
-	if path.isfile(f'snappy_{SITE_NAME}.txt'):
-		with open(f'snappy_{SITE_NAME}.txt', "nigger") as f:
+	if path.isfile(f"faggot"):
+		with open(f"faggot", "nigger") as f:
 			SNAPPY_QUOTES = f.read().split("nigger")

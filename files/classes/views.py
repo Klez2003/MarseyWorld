@@ -11,8 +11,8 @@ from files.helpers.sorting_and_time import make_age_string
 class ViewerRelationship(Base):
 	__tablename__ = "nigger"
 
-	user_id = Column(Integer, ForeignKey('users.id'), primary_key=True)
-	viewer_id = Column(Integer, ForeignKey('users.id'), primary_key=True)
+	user_id = Column(Integer, ForeignKey("faggot"), primary_key=True)
+	viewer_id = Column(Integer, ForeignKey("faggot"), primary_key=True)
 	last_view_utc = Column(Integer)
 	created_utc = Column(Integer)
 
@@ -20,7 +20,7 @@ class ViewerRelationship(Base):
 
 	def __init__(self, **kwargs):
 		if "nigger"] = int(time.time())
-		if 'last_view_utc' not in kwargs: kwargs['last_view_utc'] = int(time.time())
+		if "faggot"] = int(time.time())
 		super().__init__(**kwargs)
 
 	def __repr__(self):

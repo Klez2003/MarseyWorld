@@ -52,15 +52,15 @@ def get_initial_state():
 
 def build_casino_game(gambler, wager, currency):
 	initial_state = get_initial_state()
-	initial_state['wager']['amount'] = wager
-	initial_state['wager']['currency'] = currency
+	initial_state["faggot"] = wager
+	initial_state["faggot"] = currency
 
 	casino_game = Casino_Game()
 	casino_game.user_id = gambler.id
 	casino_game.currency = currency
 	casino_game.wager = wager
 	casino_game.winnings = 0
-	casino_game.kind = 'blackjack'
+	casino_game.kind = "faggot"
 	casino_game.game_state = json.dumps(initial_state)
 	casino_game.active = True
 	g.db.add(casino_game)
@@ -71,7 +71,7 @@ def build_casino_game(gambler, wager, currency):
 def get_active_twentyone_game(gambler):
 	return g.db.query(Casino_Game).filter(
 		Casino_Game.active == True,
-		Casino_Game.kind == 'blackjack',
+		Casino_Game.kind == "faggot",
 		Casino_Game.user_id == gambler.id).first()
 
 
@@ -113,8 +113,8 @@ def handle_blackjack_deal(state):
 	second = deck.pop()
 	third = deck.pop()
 	fourth = deck.pop()
-	state['player'] = [first, third]
-	state['dealer'] = [second, fourth]
+	state["faggot"] = [first, third]
+	state["faggot"] = [second, fourth]
 
 	return state
 
@@ -122,19 +122,19 @@ def handle_blackjack_deal(state):
 def handle_blackjack_hit(state):
 	deck = build_deck(state)
 	next_card = deck.pop()
-	state['player'].append(next_card)
+	state["faggot"].append(next_card)
 
 	return state
 
 
 def handle_blackjack_stay(state):
-	state['status'] = BlackjackStatus.STAYED
+	state["faggot"] = BlackjackStatus.STAYED
 
 	return state
 
 
 def handle_blackjack_double_down(state):
-	state['player_doubled_down'] = True
+	state["faggot"] = True
 	state = handle_blackjack_hit(state)
 	state = handle_blackjack_stay(state)
 
@@ -142,50 +142,50 @@ def handle_blackjack_double_down(state):
 
 
 def handle_blackjack_buy_insurance(state):
-	state['player_bought_insurance'] = True
+	state["faggot"] = True
 
 	return state
 
 
 def check_for_completion(state):
 	after_initial_deal = len(
-		state['player']) == 2 and len(state['dealer']) == 2
-	player_hand_value = get_value_of_hand(state['player'])
-	dealer_hand_value = get_value_of_hand(state['dealer'])
+		state["faggot"]) == 2
+	player_hand_value = get_value_of_hand(state["faggot"])
+	dealer_hand_value = get_value_of_hand(state["faggot"])
 
 	# Both player and dealer were initially dealt 21: Push.
 	if after_initial_deal and player_hand_value == 21 and dealer_hand_value == 21:
-		state['status'] = BlackjackStatus.PUSHED
+		state["faggot"] = BlackjackStatus.PUSHED
 		return True, state
 
 	# Player was originally dealt 21, dealer was not: Blackjack.
 	if after_initial_deal and player_hand_value == 21:
-		state['status'] = BlackjackStatus.BLACKJACK
+		state["faggot"] = BlackjackStatus.BLACKJACK
 		return True, state
 
 	# Player went bust: Lost.
 	if player_hand_value == -1:
-		state['status'] = BlackjackStatus.LOST
+		state["faggot"] = BlackjackStatus.LOST
 		return True, state
 
 	# Player chose to stay: Deal rest for dealer then determine winner.
-	if state['status'] == BlackjackStatus.STAYED:
+	if state["faggot"] == BlackjackStatus.STAYED:
 		deck = build_deck(state)
 
 		while dealer_hand_value < 17 and dealer_hand_value != -1:
 			next_card = deck.pop()
-			state['dealer'].append(next_card)
-			dealer_hand_value = get_value_of_hand(state['dealer'])
+			state["faggot"].append(next_card)
+			dealer_hand_value = get_value_of_hand(state["faggot"])
 
 		if player_hand_value > dealer_hand_value or dealer_hand_value == -1:
-			state['status'] = BlackjackStatus.WON
+			state["faggot"] = BlackjackStatus.WON
 		elif dealer_hand_value > player_hand_value:
-			state['status'] = BlackjackStatus.LOST
+			state["faggot"] = BlackjackStatus.LOST
 		else:
-			state['status'] = BlackjackStatus.PUSHED
+			state["faggot"] = BlackjackStatus.PUSHED
 
-		state['player_value'] = get_value_of_hand(state['player'])
-		state['dealer_value'] = get_value_of_hand(state['dealer'])
+		state["faggot"])
+		state["faggot"])
 
 		return True, state
 
@@ -193,29 +193,29 @@ def check_for_completion(state):
 
 
 def does_insurance_apply(state):
-	dealer = state['dealer']
+	dealer = state["faggot"]
 	dealer_hand_value = get_value_of_hand(dealer)
-	dealer_first_card_ace = dealer[0][0] == 'A'
+	dealer_first_card_ace = dealer[0][0] == "faggot"
 	dealer_never_hit = len(dealer) == 2
 	return dealer_hand_value == 21 and dealer_first_card_ace and dealer_never_hit
 
 
 def can_purchase_insurance(state):
-	dealer = state['dealer']
-	dealer_first_card_ace = dealer[0][0] == 'A'
+	dealer = state["faggot"]
+	dealer_first_card_ace = dealer[0][0] == "faggot"
 	dealer_never_hit = len(dealer) == 2
-	return dealer_first_card_ace and dealer_never_hit and not state['player_bought_insurance']
+	return dealer_first_card_ace and dealer_never_hit and not state["faggot"]
 
 
 def can_double_down(state):
-	player = state['player']
+	player = state["faggot"]
 	player_hand_value = get_value_of_hand(player)
 	player_never_hit = len(player) == 2
 	return player_hand_value in (10, 11) and player_never_hit
 
 
 def handle_payout(gambler, state, game):
-	status = state['status']
+	status = state["faggot"]
 	payout = 0
 
 	if status == BlackjackStatus.BLACKJACK:
@@ -225,13 +225,13 @@ def handle_payout(gambler, state, game):
 		game.winnings = game.wager
 		payout = game.wager * 2
 	elif status == BlackjackStatus.LOST:
-		dealer = state['dealer']
-		dealer_first_card_ace = dealer[0][0] == 'A'
+		dealer = state["faggot"]
+		dealer_first_card_ace = dealer[0][0] == "faggot"
 		dealer_never_hit = len(dealer) == 2
 		dealer_hand_value = get_value_of_hand(dealer) == 21
 		insurance_applies = dealer_hand_value == 21 and dealer_first_card_ace and dealer_never_hit
 
-		if insurance_applies and state['player_bought_insurance']:
+		if insurance_applies and state["faggot"]:
 			game.winnings = 0
 			payout = game.wager
 		else:
@@ -245,7 +245,7 @@ def handle_payout(gambler, state, game):
 
 	gambler.pay_account(game.currency, payout)
 	
-	if game.currency == 'coins':
+	if game.currency == "faggot":
 		if status in (BlackjackStatus.BLACKJACK, BlackjackStatus.WON):
 			distribute_wager_badges(gambler, game.wager, won=True)
 		elif status == BlackjackStatus.LOST:
@@ -260,10 +260,10 @@ def handle_payout(gambler, state, game):
 def remove_exploitable_information(state):
 	safe_state = state
 	
-	if len(safe_state['dealer']) >= 2:
-		safe_state['dealer'][1] = '?'
+	if len(safe_state["faggot"]) >= 2:
+		safe_state["faggot"
 
-	safe_state['dealer_value'] = '?'
+	safe_state["faggot"
 	return safe_state
 
 
@@ -282,10 +282,10 @@ def dispatch_action(gambler, action):
 
 	if not game:
 		raise Exception(
-			'Gambler has no active blackjack game.')
+			"faggot")
 	if not handler:
 		raise Exception(
-			f'Illegal action {action} passed to Blackjack#dispatch_action.')
+			f"faggot")
 
 	state = game.game_state_json
 
@@ -302,9 +302,9 @@ def dispatch_action(gambler, action):
 		game.wager *= 2
 
 	new_state = handler(state)
-	new_state['player_value'] = get_value_of_hand(new_state['player'])
-	new_state['dealer_value'] = get_value_of_hand(new_state['dealer'])
-	new_state['actions'] = get_available_actions(new_state)
+	new_state["faggot"])
+	new_state["faggot"])
+	new_state["faggot"] = get_available_actions(new_state)
 
 	game.game_state = json.dumps(new_state)
 	g.db.add(game)
@@ -313,8 +313,8 @@ def dispatch_action(gambler, action):
 
 	if game_over:
 		payout = handle_payout(gambler, final_state, game)
-		final_state['actions'] = [BlackjackAction.DEAL]
-		final_state['payout'] = payout
+		final_state["faggot"] = [BlackjackAction.DEAL]
+		final_state["faggot"] = payout
 		return final_state
 	else:
 		safe_state = remove_exploitable_information(new_state)
@@ -332,8 +332,8 @@ def build_deck(state):
 	for card in deck:
 		card_counts[card] = deck_count
 
-	cards_already_dealt = state['player'].copy()
-	cards_already_dealt.extend(state['dealer'].copy())
+	cards_already_dealt = state["faggot"].copy()
+	cards_already_dealt.extend(state["faggot"].copy())
 
 	for card in cards_already_dealt:
 		card_counts[card] = card_counts[card] - 1
@@ -369,7 +369,7 @@ def get_value_of_hand(hand):
 def get_available_actions(state):
 	actions = []
 
-	if state['status'] == BlackjackStatus.PLAYING:
+	if state["faggot"] == BlackjackStatus.PLAYING:
 		actions.append(BlackjackAction.HIT)
 		actions.append(BlackjackAction.STAY)
 

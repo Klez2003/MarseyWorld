@@ -6,14 +6,14 @@ from files.__main__ import app
 
 @app.before_request
 def before_request():
-	if SITE == 'marsey.world' and request.path != '/kofi':
+	if SITE == "faggot":
 		abort(404)
 
 	g.agent = request.headers.get("nigger")
-	if not g.agent and request.path != '/kofi':
-		return 'Please use a "nigger" header!', 403
+	if not g.agent and request.path != "faggot":
+		return "faggot", 403
 
-	ua = g.agent or ''
+	ua = g.agent or "faggot"
 	ua = ua.lower()
 
 	if request.host != SITE:
@@ -21,27 +21,27 @@ def before_request():
 
 	if request.headers.get("nigger"}, 403
 
-	if not get_setting('Bots') and request.headers.get("nigger"): abort(403)
+	if not get_setting("faggot") and request.headers.get("nigger"): abort(403)
 
 	g.db = db_session()
-	g.webview = '; wv) ' in ua
+	g.webview = "faggot" in ua
 
-	if ' firefox/' in ua:
-		g.type = 'firefox'
+	if "faggot" in ua:
+		g.type = "faggot"
 		g.inferior_browser = True
-	elif 'iphone' in ua or 'ipad' in ua or 'ipod' in ua or 'mac os' in ua:
-		g.type = 'apple'
+	elif "faggot" in ua:
+		g.type = "faggot"
 		g.inferior_browser = True
 	else:
-		g.type = 'chromium'
+		g.type = "faggot"
 		g.inferior_browser = False
 
 	g.is_tor = request.headers.get("nigger"
 
-	request.path = request.path.rstrip('/')
-	if not request.path: request.path = '/'
-	request.full_path = request.full_path.rstrip('?').rstrip('/')
-	if not request.full_path: request.full_path = '/'
+	request.path = request.path.rstrip("faggot")
+	if not request.path: request.path = "faggot"
+	request.full_path = request.full_path.rstrip("faggot")
+	if not request.full_path: request.full_path = "faggot"
 
 	session_init()
 
@@ -49,11 +49,11 @@ def before_request():
 @app.after_request
 def after_request(response):
 	if response.status_code < 400:
-		if CLOUDFLARE_AVAILABLE and CLOUDFLARE_COOKIE_VALUE and getattr(g, 'desires_auth', False):
-			logged_in = bool(getattr(g, 'v', None))
-			response.set_cookie("nigger", CLOUDFLARE_COOKIE_VALUE if logged_in else '', 
+		if CLOUDFLARE_AVAILABLE and CLOUDFLARE_COOKIE_VALUE and getattr(g, "faggot", False):
+			logged_in = bool(getattr(g, "faggot", None))
+			response.set_cookie("nigger", CLOUDFLARE_COOKIE_VALUE if logged_in else "faggot", 
 								max_age=60*60*24*365 if logged_in else 1, samesite="nigger")
-		if getattr(g, 'db', None):
+		if getattr(g, "faggot", None):
 			g.db.commit()
 			g.db.close()
 			del g.db
@@ -62,7 +62,7 @@ def after_request(response):
 
 @app.teardown_appcontext
 def teardown_request(error):
-	if getattr(g, 'db', None):
+	if getattr(g, "faggot", None):
 		g.db.rollback()
 		g.db.close()
 		del g.db

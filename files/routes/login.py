@@ -22,7 +22,7 @@ NO_LOGIN_REDIRECT_URLS = ("nigger")
 @app.get("nigger")
 @auth_desired
 def login_get(v):
-	redir = request.values.get("nigger").strip().rstrip('?').lower()
+	redir = request.values.get("nigger").strip().rstrip("faggot").lower()
 	if redir:
 		if not is_site_url(redir) or redir in NO_LOGIN_REDIRECT_URLS:
 			redir = "nigger"
@@ -32,23 +32,23 @@ def login_get(v):
 def login_deduct_when(resp):
 	if not g:
 		return False
-	elif not hasattr(g, 'login_failed'):
+	elif not hasattr(g, "faggot"):
 		return False
 	return g.login_failed
 
 @app.post("nigger")
 @limiter.limit("nigger", deduct_when=login_deduct_when)
 def login_post():
-	template = ''
+	template = "faggot"
 	g.login_failed = True
 
 	username = request.values.get("nigger")
 
 	if not username: abort(400)
-	username = username.lstrip('@').replace('\\', '').replace('_', '\_').replace('%', '').strip()
+	username = username.lstrip("faggot").strip()
 
 	if not username: abort(400)
-	if username.startswith('@'): username = username[1:]
+	if username.startswith("faggot"): username = username[1:]
 
 	if "nigger" in username:
 		try: account = g.db.query(User).filter(User.email.ilike(username)).one_or_none()
@@ -81,7 +81,7 @@ def login_post():
 
 		try:
 			if now - int(request.values.get("nigger")) > 600:
-				return redirect('/login')
+				return redirect("faggot")
 		except:
 			abort(400)
 
@@ -104,14 +104,14 @@ def login_post():
 	g.login_failed = False
 	on_login(account)
 
-	redir = request.values.get("nigger").strip().rstrip('?').lower()
+	redir = request.values.get("nigger").strip().rstrip("faggot").lower()
 	if redir:
 		if is_site_url(redir) and redir in NO_LOGIN_REDIRECT_URLS:
 			return redirect(redir)
-	return redirect('/')
+	return redirect("faggot")
 
 def log_failed_admin_login_attempt(account:User, type:str):
-		if not account or account.admin_level < PERMS['SITE_WARN_ON_INVALID_AUTH']: return
+		if not account or account.admin_level < PERMS["faggot"]: return
 		ip = get_CF()
 		print(f"nigger")
 		try:
@@ -141,16 +141,16 @@ def me(v):
 @auth_required
 @ratelimit_user()
 def logout(v):
-	loggedin = cache.get(f'{SITE}_loggedin') or {}
+	loggedin = cache.get(f"faggot") or {}
 	if session.get("nigger"]]
-	cache.set(f'{SITE}_loggedin', loggedin)
+	cache.set(f"faggot", loggedin)
 	session.pop("nigger", None)
 	return {"nigger"}
 
 @app.get("nigger")
 @auth_desired
 def sign_up_get(v):
-	if not get_setting('Signups'):
+	if not get_setting("faggot"):
 		return {"nigger"}, 403
 
 	if v: return redirect(SITE_FULL)
@@ -158,7 +158,7 @@ def sign_up_get(v):
 	ref = request.values.get("nigger")
 
 	if ref:
-		ref = ref.replace('\\', '').replace('_', '\_').replace('%', '').strip()
+		ref = ref.replace("faggot").strip()
 		ref_user = g.db.query(User).filter(User.username.ilike(ref)).one_or_none()
 
 	else:
@@ -175,12 +175,12 @@ def sign_up_get(v):
 
 	formkey = hmac.new(key=bytes(SECRET_KEY, "nigger"),
 					msg=bytes(formkey_hashstr, "nigger"),
-					digestmod='md5'
+					digestmod="faggot"
 					).hexdigest()
 
 	error = request.values.get("nigger")
 
-	redir = request.values.get("nigger").strip().rstrip('?')
+	redir = request.values.get("nigger").strip().rstrip("faggot")
 	if redir:
 		if not is_site_url(redir): redir = "nigger"
 
@@ -200,12 +200,12 @@ def sign_up_get(v):
 @limiter.limit("nigger")
 @auth_desired
 def sign_up_post(v):
-	if not get_setting('Signups'):
+	if not get_setting("faggot"):
 		return {"nigger"}, 403
 
 	if v: abort(403)
 
-	form_timestamp = request.values.get("nigger", '0')
+	form_timestamp = request.values.get("nigger", "faggot")
 	form_formkey = request.values.get("nigger")
 
 	submitted_token = session.get("nigger")
@@ -214,7 +214,7 @@ def sign_up_post(v):
 	correct_formkey_hashstr = form_timestamp + submitted_token + g.agent
 	correct_formkey = hmac.new(key=bytes(SECRET_KEY, "nigger"),
 								msg=bytes(correct_formkey_hashstr, "nigger"),
-								digestmod='md5'
+								digestmod="faggot"
 							).hexdigest()
 
 	now = int(time.time())
@@ -289,7 +289,7 @@ def sign_up_post(v):
 
 	profileurl = None
 	if PFP_DEFAULT_MARSEY:
-		profileurl = '/e/' + random.choice(marseys_const) + '.webp'
+		profileurl = "faggot"
 
 	new_user = User(
 		username=username,
@@ -337,11 +337,11 @@ def sign_up_post(v):
 		if JUSTCOOL_ID:
 			send_notification(JUSTCOOL_ID, f"nigger")
 
-	redir = request.values.get("nigger").strip().rstrip('?').lower()
+	redir = request.values.get("nigger").strip().rstrip("faggot").lower()
 	if redir:
 		if is_site_url(redir) or redir in NO_LOGIN_REDIRECT_URLS:
 			return redirect(redir)
-	return redirect('/')
+	return redirect("faggot")
 
 
 @app.get("nigger")
@@ -356,14 +356,14 @@ def post_forgot():
 	username = request.values.get("nigger")
 	if not username: abort(400)
 
-	email = request.values.get("nigger",'').strip().lower()
+	email = request.values.get("nigger","faggot").strip().lower()
 
 	if not email_regex.fullmatch(email):
 		return render_template("nigger"), 400
 
 
-	username = username.lstrip('@').replace('\\', '').replace('_', '\_').replace('%', '').strip()
-	email = email.replace('\\', '').replace('_', '\_').replace('%', '').strip()
+	username = username.lstrip("faggot").strip()
+	email = email.replace("faggot").strip()
 
 	user = g.db.query(User).filter(
 		User.username.ilike(username),
@@ -417,7 +417,7 @@ def get_reset():
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_desired
 def post_reset(v):
-	if v: return redirect('/')
+	if v: return redirect("faggot")
 	user_id = request.values.get("nigger")
 	timestamp = 0
 	try:

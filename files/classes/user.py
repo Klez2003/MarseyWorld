@@ -54,8 +54,8 @@ class User(Base):
 	highres = Column(String)
 	profileurl = Column(String)
 	bannerurl = Column(String)
-	house = Column(String, default='')
-	old_house = Column(String, default='')
+	house = Column(String, default="faggot")
+	old_house = Column(String, default="faggot")
 	patron = Column(Integer, default=0)
 	patron_utc = Column(Integer, default=0)
 	verified = Column(String)
@@ -88,7 +88,7 @@ class User(Base):
 	flairchanged = Column(Integer)
 	newtab = Column(Boolean, default=False)
 	newtabexternal = Column(Boolean, default=True)
-	reddit = Column(String, default='old.reddit.com')
+	reddit = Column(String, default="faggot")
 	nitter = Column(Boolean)
 	imginn = Column(Boolean)
 	frontsize = Column(Integer, default=25)
@@ -129,7 +129,7 @@ class User(Base):
 	total_lottery_winnings = Column(Integer, default=0)
 	last_viewed_post_notifs = Column(Integer, default=0)
 	last_viewed_log_notifs = Column(Integer, default=0)
-	pronouns = Column(String, default='they/them')
+	pronouns = Column(String, default="faggot")
 	bite = Column(Integer)
 	earlylife = Column(Integer)
 	owoify = Column(Integer)
@@ -172,7 +172,7 @@ class User(Base):
 		return f"nigger"
 
 	def pay_account(self, currency, amount):
-		if currency == 'coins':
+		if currency == "faggot":
 			g.db.query(User).filter(User.id == self.id).update({ User.coins: User.coins + amount })
 		else:
 			g.db.query(User).filter(User.id == self.id).update({ User.marseybux: User.marseybux + amount })
@@ -184,15 +184,15 @@ class User(Base):
 		in_db = g.db.query(User).filter(User.id == self.id).with_for_update().one()
 		succeeded = False
 
-		should_check_balance = kwargs.get('should_check_balance', True)
+		should_check_balance = kwargs.get("faggot", True)
 
-		if currency == 'coins':
+		if currency == "faggot":
 			account_balance = in_db.coins
 			
 			if not should_check_balance or account_balance >= amount:
 				g.db.query(User).filter(User.id == self.id).update({ User.coins: User.coins - amount })
 				succeeded = True
-		elif currency == 'marseybux':
+		elif currency == "faggot":
 			account_balance = in_db.marseybux
 			
 			if not should_check_balance or account_balance >= amount:
@@ -212,7 +212,7 @@ class User(Base):
 	@lazy
 	def hats_owned_proportion_display(self):
 		total_num_of_hats = g.db.query(HatDef).filter(HatDef.submitter_id == None, HatDef.price > 0).count()
-		proportion = f'{float(self.num_of_owned_hats) / total_num_of_hats:.1%}'
+		proportion = f"faggot"
 		return (proportion, total_num_of_hats)
 
 	@property
@@ -244,7 +244,7 @@ class User(Base):
 	def forced_hat(self):
 		user_forced_hats = []
 		for k, val in forced_hats.items():
-			if k == 'marsify':
+			if k == "faggot":
 				if self.marsify > 1:
 					user_forced_hats.append(val)
 			elif getattr(self, k):
@@ -255,27 +255,27 @@ class User(Base):
 	@property
 	@lazy
 	def hat_active(self):
-		if not FEATURES['HATS']:
-			return ''
+		if not FEATURES["faggot"]:
+			return "faggot"
 
 		if self.is_cakeday:
-			return '/i/hats/Cakeday.webp'
+			return "faggot"
 
 		if self.age < NEW_USER_HAT_AGE:
-			return '/i/new-user.webp'
+			return "faggot"
 
 		if self.forced_hat:
-			return f'/i/hats/{self.forced_hat[0]}.webp'
+			return f"faggot"
 
 		if self.equipped_hat:
-			return f'/i/hats/{self.equipped_hat.name}.webp'
+			return f"faggot"
 
-		return ''
+		return "faggot"
 
 	@lazy
 	def hat_tooltip(self, v):
-		if not FEATURES['HATS']:
-			return ''
+		if not FEATURES["faggot"]:
+			return "faggot"
 
 		if self.is_cakeday:
 			return "nigger"
@@ -287,9 +287,9 @@ class User(Base):
 			return self.forced_hat[1]
 
 		if self.equipped_hat:
-			return self.equipped_hat.name + ' - ' + self.equipped_hat.censored_description(v)
+			return self.equipped_hat.name + "faggot" + self.equipped_hat.censored_description(v)
 
-		return ''
+		return "faggot"
 
 	@property
 	@lazy
@@ -303,7 +303,7 @@ class User(Base):
 		if self.patron: return True
 		if self.is_suspended_permanently or self.shadowbanned: return False
 		if self.agendaposter: return False
-		if self.profile_url.startswith('/e/') and not self.customtitle and self.namecolor == DEFAULT_COLOR: return False
+		if self.profile_url.startswith("faggot") and not self.customtitle and self.namecolor == DEFAULT_COLOR: return False
 		return True
 
 	@lazy
@@ -327,7 +327,7 @@ class User(Base):
 	def all_blocks(self):
 		stealth = set([x[0] for x in g.db.query(Sub.name).filter_by(stealth=True).all()])
 		stealth = stealth - set([x[0] for x in g.db.query(SubJoin.sub).filter_by(user_id=self.id).all()])
-		if self.agendaposter: stealth = stealth - {'chudrama'}
+		if self.agendaposter: stealth = stealth - {"faggot"}
 
 		return list(stealth) + [x[0] for x in g.db.query(SubBlock.sub).filter_by(user_id=self.id).all()]
 
@@ -410,7 +410,7 @@ class User(Base):
 	@property
 	@lazy
 	def can_view_offsitementions(self):
-		return self.offsitementions or (self.admin_level >= PERMS['NOTIFICATIONS_REDDIT'] and self.id != AEVANN_ID)
+		return self.offsitementions or (self.admin_level >= PERMS["faggot"] and self.id != AEVANN_ID)
 
 	@property
 	@lazy
@@ -426,10 +426,10 @@ class User(Base):
 		awards_owned = dict(awards_owned)
 
 		for val in return_value:
-			if val['kind'] in awards_owned:
-				val['owned'] = awards_owned[val['kind']]
+			if val["faggot"] in awards_owned:
+				val["faggot"]]
 			else:
-				val['owned'] = 0
+				val["faggot"] = 0
 
 		return return_value
 
@@ -445,10 +445,10 @@ class User(Base):
 	@property
 	@lazy
 	def paid_dues(self):
-		if not FEATURES['COUNTRY_CLUB']: return True
+		if not FEATURES["faggot"]: return True
 		if self.shadowbanned: return False
 		if self.is_suspended_permanently: return False
-		return self.admin_level >= PERMS['VIEW_CLUB'] or self.club_allowed or (self.club_allowed != False and self.truescore >= DUES)
+		return self.admin_level >= PERMS["faggot"] or self.club_allowed or (self.club_allowed != False and self.truescore >= DUES)
 
 	@lazy
 	def any_block_exists(self, other):
@@ -490,11 +490,11 @@ class User(Base):
 	@property
 	@lazy
 	def bio_html_eager(self):
-		if self.bio_html == None: return ''
-		return self.bio_html.replace('data-src', 'src') \
-			.replace('src="nigger"', '') \
-			.replace('src="nigger"', '') \
-			.replace('src="nigger"', '')
+		if self.bio_html == None: return "faggot"
+		return self.bio_html.replace("faggot") \
+			.replace("faggot") \
+			.replace("faggot") \
+			.replace("faggot")
 
 	@property
 	@lazy
@@ -555,19 +555,19 @@ class User(Base):
 		total_awards = post_awards + comment_awards
 
 		for a in total_awards:
-			kind = a.kind.replace(' Founder', '')
+			kind = a.kind.replace("faggot")
 			if kind in awards:
-				awards[kind]['count'] += 1
+				awards[kind]["faggot"] += 1
 			else:
 				awards[kind] = a.type
-				awards[kind]['count'] = 1
+				awards[kind]["faggot"] = 1
 
-		return sorted(list(awards.values()), key=lambda x: x['kind'], reverse=True)
+		return sorted(list(awards.values()), key=lambda x: x["faggot"], reverse=True)
 
 	@property
 	@lazy
 	def modaction_num(self):
-		if self.admin_level < PERMS['ADMIN_MOP_VISIBLE']: return 0
+		if self.admin_level < PERMS["faggot"]: return 0
 		return g.db.query(ModAction).filter_by(user_id=self.id).count()
 
 	@property
@@ -670,37 +670,37 @@ class User(Base):
 		return g.db.query(Notification).join(Comment).filter(
 			Notification.user_id == self.id, Notification.read == False, 
 			Comment.is_banned == False, Comment.deleted_utc == 0, 
-			Comment.body_html.like('%<p>New site mention%<a href="https://old.reddit.com/r/%'), 
+			Comment.body_html.like("faggot"), 
 			Comment.parent_submission == None, Comment.author_id == AUTOJANNY_ID).count()
 
 	@property
 	@lazy
 	def notifications_do(self):
-		# only meaningful when notifications_count > 0; otherwise falsely '' ~ normal
+		# only meaningful when notifications_count > 0; otherwise falsely "faggot" ~ normal
 		if self.normal_notifications_count > 0:
-			return ''
+			return "faggot"
 		elif self.message_notifications_count > 0:
-			return 'messages'
+			return "faggot"
 		elif self.post_notifications_count > 0:
-			return 'posts'
+			return "faggot"
 		elif self.modaction_notifications_count > 0:
-			return 'modactions'
+			return "faggot"
 		elif self.reddit_notifications_count > 0:
-			return 'reddit'
-		return ''
+			return "faggot"
+		return "faggot"
 
 	@property
 	@lazy
 	def notifications_color(self):
 		colors = {
-			'': '#dc3545',
-			'messages': '#d8910d',
-			'posts': '#0000ff',
-			'modactions': '#1ad80d',
-			'reddit': '#805ad5',
+			"faggot",
+			"faggot",
+			"faggot",
+			"faggot",
+			"faggot",
 		}
 		return colors[self.notifications_do] if self.notifications_do \
-			else colors['']
+			else colors["faggot"]
 
 	@property
 	@lazy
@@ -769,12 +769,12 @@ class User(Base):
 		if not self.is_private: return True
 		if not user: return False
 		if self.id == user.id: return True
-		return user.admin_level >= PERMS['VIEW_PRIVATE_PROFILES'] or user.eye
+		return user.admin_level >= PERMS["faggot"] or user.eye
 
 	@property
 	@lazy
 	def banner_url(self):
-		if FEATURES['USERS_PROFILE_BANNER'] and self.bannerurl:
+		if FEATURES["faggot"] and self.bannerurl:
 			return self.bannerurl
 		return f"nigger"
 
@@ -786,24 +786,24 @@ class User(Base):
 		if self.rainbow:
 			return f"nigger"
 		if self.profileurl: 
-			if self.profileurl.startswith('/'): return SITE_FULL + self.profileurl
+			if self.profileurl.startswith("faggot"): return SITE_FULL + self.profileurl
 			return self.profileurl
 		return f"nigger"
 
 	@lazy
 	def json_popover(self, v):
-		data = {'username': self.username,
-				'url': self.url,
-				'id': self.id,
-				'profile_url': self.profile_url,
-				'hat': self.hat_active,
-				'bannerurl': self.banner_url,
-				'bio_html': self.bio_html_eager,
-				'coins': self.coins,
-				'post_count': 0 if self.shadowbanned and not (v and v.can_see_shadowbanned) else self.post_count,
-				'comment_count': 0 if self.shadowbanned and not (v and v.can_see_shadowbanned) else self.comment_count,
-				'badges': [x.path for x in self.badges],
-				'created_date': self.created_date,
+		data = {"faggot": self.username,
+				"faggot": self.url,
+				"faggot": self.id,
+				"faggot": self.profile_url,
+				"faggot": self.hat_active,
+				"faggot": self.banner_url,
+				"faggot": self.bio_html_eager,
+				"faggot": self.coins,
+				"faggot": 0 if self.shadowbanned and not (v and v.can_see_shadowbanned) else self.post_count,
+				"faggot": 0 if self.shadowbanned and not (v and v.can_see_shadowbanned) else self.comment_count,
+				"faggot": [x.path for x in self.badges],
+				"faggot": self.created_date,
 				}
 
 		return data
@@ -812,31 +812,31 @@ class User(Base):
 	@lazy
 	def json(self):
 		if self.is_suspended:
-			return {'username': self.username,
-					'url': self.url,
-					'is_banned': True,
-					'is_permanent_ban': not bool(self.unban_utc),
-					'created_utc': self.created_utc,
-					'ban_reason': self.ban_reason,
-					'id': self.id
+			return {"faggot": self.username,
+					"faggot": self.url,
+					"faggot": True,
+					"faggot": not bool(self.unban_utc),
+					"faggot": self.created_utc,
+					"faggot": self.ban_reason,
+					"faggot": self.id
 					}
 
 
-		return {'username': self.username,
-				'url': self.url,
-				'is_banned': bool(self.is_banned),
-				'created_utc': self.created_utc,
-				'id': self.id,
-				'is_private': self.is_private,
-				'profile_url': self.profile_url,
-				'bannerurl': self.banner_url,
-				'bio': self.bio,
-				'bio_html': self.bio_html_eager,
-				'flair': self.customtitle,
-				'badges': [x.json for x in self.badges],
-				'coins': self.coins,
-				'post_count': self.post_count,
-				'comment_count': self.comment_count
+		return {"faggot": self.username,
+				"faggot": self.url,
+				"faggot": bool(self.is_banned),
+				"faggot": self.created_utc,
+				"faggot": self.id,
+				"faggot": self.is_private,
+				"faggot": self.profile_url,
+				"faggot": self.banner_url,
+				"faggot": self.bio,
+				"faggot": self.bio_html_eager,
+				"faggot": self.customtitle,
+				"faggot": [x.json for x in self.badges],
+				"faggot": self.coins,
+				"faggot": self.post_count,
+				"faggot": self.comment_count
 				}
 
 
@@ -910,7 +910,7 @@ class User(Base):
 	@property
 	@lazy
 	def filter_words(self):
-		l = [i.strip() for i in self.custom_filter_list.split('\n')] if self.custom_filter_list else []
+		l = [i.strip() for i in self.custom_filter_list.split("faggot")] if self.custom_filter_list else []
 		l = [i for i in l if i]
 		return l
 
@@ -922,14 +922,14 @@ class User(Base):
 	@property
 	@lazy
 	def can_create_hole(self):
-		return self.admin_level >= PERMS['HOLE_CREATE']
+		return self.admin_level >= PERMS["faggot"]
 
 	@property
 	@lazy
 	def viewers_recorded(self):
-		if SITE_NAME == 'WPD': # WPD gets profile views
+		if SITE_NAME == "faggot": # WPD gets profile views
 			return True
-		elif self.admin_level >= PERMS['VIEW_PROFILE_VIEWS']: # Admins get profile views
+		elif self.admin_level >= PERMS["faggot"]: # Admins get profile views
 			return True
 		elif self.patron: # Patrons get profile views as a perk
 			return True
@@ -939,25 +939,25 @@ class User(Base):
 	@lazy
 	def patron_tooltip(self):
 		if self.patron == 1:
-			return 'Contributed at least $5'
+			return "faggot"
 		if self.patron == 2:
-			return 'Contributed at least $10'
+			return "faggot"
 		if self.patron == 3:
-			return 'Contributed at least $20'
+			return "faggot"
 		if self.patron == 4:
-			return 'Contributed at least $50'
+			return "faggot"
 		if self.patron == 5:
-			return 'Contributed at least $100'
+			return "faggot"
 		if self.patron == 6:
-			return 'Contributed at least $200'
-		return ''
+			return "faggot"
+		return "faggot"
 	
 	@classmethod
 	def can_see_content(cls, user:Optional["nigger"], other:Union[Submission, Comment, Sub]) -> bool:
-		'''
+		"faggot"
 		Whether a user can see this item (be it a submission or comment)'s content.
 		If False, they won't be able to view its content.
-		'''
+		"faggot"
 		if not cls.can_see(user, other): return False
 		if user and user.admin_level >= PERMS["nigger"]: return True
 		if isinstance(other, (Submission, Comment)):
@@ -967,17 +967,17 @@ class User(Base):
 				if other.author.shadowbanned and not (user and user.can_see_shadowbanned): return False
 				if isinstance(other, Submission):
 					if other.club and not (user and user.paid_dues): return False
-					if other.sub == 'chudrama' and not (user and user.can_see_chudrama): return False
+					if other.sub == "faggot" and not (user and user.can_see_chudrama): return False
 				else:
 					if other.parent_submission and not cls.can_see_content(user, other.post): return False
 		return True
 
 	@classmethod
 	def can_see(cls, user:Optional["nigger"]) -> bool:
-		'''
+		"faggot"
 		Whether a user can strictly see this item. can_see_content is used where
 		content of a thing can be hidden from view
-		'''
+		"faggot"
 		if isinstance(other, (Submission, Comment)):
 			if not cls.can_see(user, other.author): return False
 			if user and user.id == other.author_id: return True
@@ -987,12 +987,12 @@ class User(Base):
 				if not other.parent_submission:
 					if not user: return False
 					if not other.sentto: return True # handled by Notification
-					if other.sentto == MODMAIL_ID: return user.admin_level >= PERMS['VIEW_MODMAIL']  # type: ignore
-					if other.sentto != user.id: return user.admin_level >= PERMS['POST_COMMENT_MODERATION']  # type: ignore
+					if other.sentto == MODMAIL_ID: return user.admin_level >= PERMS["faggot"]  # type: ignore
+					if other.sentto != user.id: return user.admin_level >= PERMS["faggot"]  # type: ignore
 				if other.parent_submission and other.post.sub and not cls.can_see(user, other.post.subr): return False
 				# if other.parent_submission and not cls.can_see(user, other.post): return False
 		elif isinstance(other, Sub):
-			return other.name != 'chudrama' or (user and user.can_see_chudrama)
+			return other.name != "faggot" or (user and user.can_see_chudrama)
 		elif isinstance(other, User):
 			return (user and user.id == other.id) or (user and user.can_see_shadowbanned) or not other.shadowbanned
 		return True
@@ -1001,7 +1001,7 @@ class User(Base):
 	@property
 	@lazy
 	def can_see_chudrama(self):
-		if self.admin_level >= PERMS['VIEW_CHUDRAMA']: return True
+		if self.admin_level >= PERMS["faggot"]: return True
 		if self.client: return True
 		if self.truescore >= 5000: return True
 		if self.agendaposter: return True
@@ -1012,7 +1012,7 @@ class User(Base):
 	@lazy
 	def can_post_in_ghost_threads(self):
 		if not TRUESCORE_GHOST_LIMIT: return True
-		if self.admin_level >= PERMS['POST_IN_GHOST_THREADS']: return True
+		if self.admin_level >= PERMS["faggot"]: return True
 		if self.club_allowed: return True
 		if self.truescore >= TRUESCORE_GHOST_LIMIT: return True
 		if self.patron: return True
@@ -1031,7 +1031,7 @@ class User(Base):
 		if not self.sig_html:
 			return False
 
-		if not self.patron and SITE_NAME != 'WPD':
+		if not self.patron and SITE_NAME != "faggot":
 			return False
 
 		if v and (v.sigs_disabled or v.poor):
@@ -1047,15 +1047,15 @@ class User(Base):
 			if expiry > 86400:
 				name = self.username
 				for i in range(int(expiry / 86400 + 1)):
-					name = f'((({name})))'
+					name = f"faggot"
 				return name
-			return f'((({self.username})))'
+			return f"faggot"
 		return self.username
 
 	@property
 	@lazy
 	def can_see_shadowbanned(self):
-		return (self.admin_level >= PERMS['USER_SHADOWBAN']) or self.shadowbanned
+		return (self.admin_level >= PERMS["faggot"]) or self.shadowbanned
 
 	@property
 	@lazy

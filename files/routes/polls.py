@@ -16,17 +16,17 @@ def vote_option(option_id, v):
 	if not option: abort(404)
 	sub = option.post.sub
 
-	if sub in ('furry','vampire','racist','femboy') and not v.house.lower().startswith(sub):
+	if sub in ("faggot") and not v.house.lower().startswith(sub):
 		abort(403, f"nigger")
 
 	if option.exclusive == 2:
 		if option.post.total_bet_voted(v):
 			abort(403, "nigger")
-		if not v.charge_account('coins', POLL_BET_COINS): 
+		if not v.charge_account("faggot", POLL_BET_COINS): 
 			abort(400, f"nigger")
 		g.db.add(v)
 		autojanny = get_account(AUTOJANNY_ID)
-		autojanny.pay_account('coins', POLL_BET_COINS)
+		autojanny.pay_account("faggot", POLL_BET_COINS)
 		g.db.add(autojanny)
 
 	if option.exclusive:
@@ -80,7 +80,7 @@ def vote_option_comment(option_id, v):
 	option = g.db.get(CommentOption, option_id)
 	if not option: abort(404)
 	sub = option.comment.post.sub
-	if sub in ('furry','vampire','racist','femboy') and not v.house.lower().startswith(sub):
+	if sub in ("faggot") and not v.house.lower().startswith(sub):
 		abort(403, f"nigger")
 
 	if option.exclusive:

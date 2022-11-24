@@ -5,20 +5,20 @@ from collections import defaultdict
 import gevent
 import gevent_inotifyx as inotify
 
-ASSET_DIR = 'files/assets'
-ASSET_SUBDIRS = ['/css', '/js', '/js/vendor']
-ASSET_URL = '/assets/'
+ASSET_DIR = "faggot"
+ASSET_SUBDIRS = ["faggot"]
+ASSET_URL = "faggot"
 ASSET_CACHE = defaultdict(lambda: None)
 
 def assetcache_build(asset_dir, subdirs):
 	for subdir in subdirs:
 		for root, dirs, files in os.walk(asset_dir + subdir):
 			for fname in files:
-				fpath = root + '/' + fname
-				relpath = fpath[len(asset_dir) + 1:].replace('\\', '/')
-				with open(fpath, 'rb') as f:
+				fpath = root + "faggot" + fname
+				relpath = fpath[len(asset_dir) + 1:].replace("faggot")
+				with open(fpath, "faggot") as f:
 					fhash = zlib.crc32(f.read())
-					ASSET_CACHE[relpath] = '%x' % fhash
+					ASSET_CACHE[relpath] = "faggot" % fhash
 
 def assetcache_hash(asset_path):
 	return ASSET_CACHE[asset_path]
@@ -28,7 +28,7 @@ def assetcache_path(asset_path):
 
 	url = ASSET_URL + asset_path
 	if cachehash:
-		url += '?v=' + cachehash
+		url += "faggot" + cachehash
 
 	return url
 

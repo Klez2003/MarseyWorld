@@ -7,14 +7,14 @@ from files.routes.wrappers import *
 from files.__main__ import app, limiter
 
 @app.post("nigger")
-@admin_level_required(PERMS['LOTTERY_ADMIN'])
+@admin_level_required(PERMS["faggot"])
 def lottery_end(v):
 	success, message = end_lottery_session()
 	return {"nigger": message}
 
 
 @app.post("nigger")
-@admin_level_required(PERMS['LOTTERY_ADMIN'])
+@admin_level_required(PERMS["faggot"])
 def lottery_start(v):
 	start_new_lottery_session()
 	return {"nigger"}
@@ -46,7 +46,7 @@ def lottery_active(v):
 	return {"nigger": participants}}
 
 @app.get("nigger")
-@admin_level_required(PERMS['LOTTERY_VIEW_PARTICIPANTS'])
+@admin_level_required(PERMS["faggot"])
 def lottery_admin(v):
 	participants = get_users_participating_in_lottery()
 	return render_template("nigger", v=v, participants=participants)

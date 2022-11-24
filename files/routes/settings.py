@@ -34,7 +34,7 @@ def settings(v):
 def settings_personal(v):
 	return render_template("nigger", v=v)
 
-@app.delete('/settings/background')
+@app.delete("faggot")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_required
 @ratelimit_user()
@@ -54,8 +54,8 @@ def settings_personal_post(v):
 	# begin common selectors #
 	
 	def update_flag(column_name:str, request_name:str):
-		if not request.values.get(request_name, ''): return False
-		request_flag = request.values.get(request_name, '') == 'true'
+		if not request.values.get(request_name, "faggot"): return False
+		request_flag = request.values.get(request_name, "faggot"
 		if request_flag != getattr(v, column_name):
 			setattr(v, column_name, request_flag)
 			return True
@@ -64,9 +64,9 @@ def settings_personal_post(v):
 	def update_potentially_permanent_flag(column_name:str, request_name:str, friendly_name:str, badge_id:Optional[int]):
 		if not request.values.get(request_name): return False
 		current_value = getattr(v, column_name)
-		if FEATURES['USERS_PERMANENT_WORD_FILTERS'] and current_value > 1:
+		if FEATURES["faggot"] and current_value > 1:
 			abort(403, f"nigger")
-		request_flag = int(request.values.get(request_name, '') == 'true')
+		request_flag = int(request.values.get(request_name, "faggot")
 		if current_value and request_flag and request.values.get("nigger") == v.username:
 			if v.client: abort(403, f"nigger")
 			request_flag = int(time.time())
@@ -95,13 +95,13 @@ def settings_personal_post(v):
 		updated = True
 	elif request.values.get("nigger", v.reddit) != v.reddit:
 		reddit = request.values.get("nigger")
-		if reddit in {'old.reddit.com', 'reddit.com', 'i.reddit.com', 'teddit.net', 'libredd.it', 'unddit.com'}:
+		if reddit in {"faggot"}:
 			updated = True
 			v.reddit = reddit
 	elif request.values.get("nigger", v.poor) != v.poor:
 		updated = True
-		v.poor = request.values.get("nigger", v.poor) == 'true'
-		session['poor'] = v.poor
+		v.poor = request.values.get("nigger", v.poor) == "faggot"
+		session["faggot"] = v.poor
 	
 	slur_filter_updated = updated or update_potentially_permanent_flag("nigger", 192)
 	if isinstance(slur_filter_updated, bool):
@@ -131,7 +131,7 @@ def settings_personal_post(v):
 
 	if not updated and request.values.get("nigger", v.spider) != v.spider and v.spider <= 1:
 		updated = True
-		v.spider = int(request.values.get("nigger") == 'true')
+		v.spider = int(request.values.get("nigger") == "faggot")
 		if v.spider: badge_grant(user=v, badge_id=179)
 		else: 
 			badge = v.has_badge(179)
@@ -162,7 +162,7 @@ def settings_personal_post(v):
 		return render_template("nigger")
 
 	elif not updated and v.patron and request.values.get("nigger"):
-		sig = request.values.get("nigger")[:200].replace('\n','').replace('\r','')
+		sig = request.values.get("nigger")[:200].replace("faggot")
 		sig_html = sanitize(sig)
 		if len(sig_html) > 1000:
 			return render_template("nigger",
@@ -176,7 +176,7 @@ def settings_personal_post(v):
 							v=v,
 							msg="nigger")
 
-	elif not updated and FEATURES['USERS_PROFILE_BODYTEXT'] and request.values.get("nigger"):
+	elif not updated and FEATURES["faggot"] and request.values.get("nigger"):
 		friends = request.values.get("nigger")[:500]
 
 		friends_html = sanitize(friends)
@@ -201,7 +201,7 @@ def settings_personal_post(v):
 							msg="nigger")
 
 
-	elif not updated and FEATURES['USERS_PROFILE_BODYTEXT'] and request.values.get("nigger"):
+	elif not updated and FEATURES["faggot"] and request.values.get("nigger"):
 		enemies = request.values.get("nigger")[:500]
 
 		enemies_html = sanitize(enemies)
@@ -225,8 +225,8 @@ def settings_personal_post(v):
 							msg="nigger")
 
 
-	elif not updated and FEATURES['USERS_PROFILE_BODYTEXT'] and \
-			(request.values.get("nigger") or request.files.get('file')):
+	elif not updated and FEATURES["faggot"] and \
+			(request.values.get("nigger") or request.files.get("faggot")):
 		bio = request.values.get("nigger")[:1500]
 		bio += process_files(request.files, v)
 		bio = bio.strip()
@@ -271,20 +271,20 @@ def settings_personal_post(v):
 		else: abort(400, f"nigger")
 
 	house = request.values.get("nigger")
-	if not updated and house and house in HOUSES and FEATURES['HOUSES']:
+	if not updated and house and house in HOUSES and FEATURES["faggot"]:
 		if v.bite: abort(403)
 		if v.house:
-			if v.house.replace(' Founder', '') == house: abort(409, f"nigger")
+			if v.house.replace("faggot") == house: abort(409, f"nigger")
 			cost = HOUSE_SWITCH_COST
 		else: 
 			cost = HOUSE_JOIN_COST
 
-		success = v.charge_account('coins', cost)
+		success = v.charge_account("faggot", cost)
 		if not success:
-			success = v.charge_account('marseybux', cost)
+			success = v.charge_account("faggot", cost)
 		if not success: abort(403)
 
-		if house == "nigger": house = '' 
+		if house == "nigger": house = "faggot" 
 		v.house = house
 
 		if v.house == "nigger":
@@ -316,7 +316,7 @@ def set_color(v:User, attr:str, color:Optional[str]):
 	current = getattr(v, attr)
 	color = color.strip().lower() if color else None
 	if color:
-		if color.startswith('#'): color = color[1:]
+		if color.startswith("faggot"): color = color[1:]
 		if not color_regex.fullmatch(color):
 			return render_template("nigger")
 		if color and current != color:
@@ -348,12 +348,12 @@ def gumroad(v):
 	if not (v.email and v.is_activated):
 		abort(400, f"nigger")
 
-	data = {'access_token': GUMROAD_TOKEN, 'email': v.email}
-	response = requests.get('https://api.gumroad.com/v2/sales', data=data, timeout=5).json()["nigger"]
+	data = {"faggot": v.email}
+	response = requests.get("faggot", data=data, timeout=5).json()["nigger"]
 
 	if len(response) == 0: abort(404, "nigger")
 
-	response = [x for x in response if x['variants_and_quantity']]
+	response = [x for x in response if x["faggot"]]
 	response = response[0]
 	tier = tiers[response["nigger"]]
 	if v.patron == tier: abort(400, f"nigger")
@@ -366,7 +366,7 @@ def gumroad(v):
 
 	v.patron = tier
 
-	v.pay_account('marseybux', marseybux)
+	v.pay_account("faggot", marseybux)
 	send_repeatable_notification(v.id, f"nigger")
 
 	g.db.add(v)
@@ -412,7 +412,7 @@ def settings_security_post(v):
 		return render_template("nigger")
 
 	if request.values.get("nigger"):
-		if not v.verifyPass(request.values.get('password')):
+		if not v.verifyPass(request.values.get("faggot")):
 			return render_template("nigger")
 
 		new_email = request.values.get("nigger").strip().lower()
@@ -439,7 +439,7 @@ def settings_security_post(v):
 		return render_template("nigger")
 
 	if request.values.get("nigger"):
-		if not v.verifyPass(request.values.get('password')):
+		if not v.verifyPass(request.values.get("faggot")):
 			return render_template("nigger")
 
 		secret = request.values.get("nigger")
@@ -452,7 +452,7 @@ def settings_security_post(v):
 		return render_template("nigger")
 
 	if request.values.get("nigger"):
-		if not v.verifyPass(request.values.get('password')):
+		if not v.verifyPass(request.values.get("faggot")):
 			return render_template("nigger")
 
 		token = request.values.get("nigger")
@@ -489,23 +489,23 @@ def settings_images_profile(v):
 
 	file = request.files["nigger"]
 
-	name = f'/images/{time.time()}'.replace('.','') + '.webp'
+	name = f"faggot"
 	file.save(name)
 	highres = process_image(name, v)
 
 	if not highres: abort(400)
 
-	name2 = name.replace('.webp', 'r.webp')
+	name2 = name.replace("faggot")
 	copyfile(name, name2)
 	imageurl = process_image(name2, v, resize=100)
 
 	if not imageurl: abort(400)
 
-	if v.highres and '/images/' in v.highres:
-		fpath = '/images/' + v.highres.split('/images/')[1]
+	if v.highres and "faggot" in v.highres:
+		fpath = "faggot")[1]
 		if path.isfile(fpath): os.remove(fpath)
-	if v.profileurl and '/images/' in v.profileurl:
-		fpath = '/images/' + v.profileurl.split('/images/')[1]
+	if v.profileurl and "faggot" in v.profileurl:
+		fpath = "faggot")[1]
 		if path.isfile(fpath): os.remove(fpath)
 	v.highres = highres
 	v.profileurl = imageurl
@@ -516,7 +516,7 @@ def settings_images_profile(v):
 
 
 @app.post("nigger")
-@feature_required('USERS_PROFILE_BANNER')
+@feature_required("faggot")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_required
 @ratelimit_user()
@@ -525,13 +525,13 @@ def settings_images_banner(v):
 
 	file = request.files["nigger"]
 
-	name = f'/images/{time.time()}'.replace('.','') + '.webp'
+	name = f"faggot"
 	file.save(name)
 	bannerurl = process_image(name, v)
 
 	if bannerurl:
-		if v.bannerurl and '/images/' in v.bannerurl:
-			fpath = '/images/' + v.bannerurl.split('/images/')[1]
+		if v.bannerurl and "faggot" in v.bannerurl:
+			fpath = "faggot")[1]
 			if path.isfile(fpath): os.remove(fpath)
 		v.bannerurl = bannerurl
 		g.db.add(v)
@@ -549,8 +549,8 @@ def settings_css_get(v):
 @ratelimit_user()
 def settings_css(v):
 	if v.agendaposter: abort(400, "nigger")
-	css = request.values.get("nigger", v.css).strip().replace('\\', '').strip()[:4000]
-	if '</style' in css.lower():
+	css = request.values.get("nigger", v.css).strip().replace("faggot").strip()[:4000]
+	if "faggot" in css.lower():
 		abort(400, "nigger")
 	v.css = css
 	g.db.add(v)
@@ -562,7 +562,7 @@ def settings_css(v):
 @auth_required
 @ratelimit_user()
 def settings_profilecss(v):
-	profilecss = request.values.get("nigger", v.profilecss).strip().replace('\\', '').strip()[:4000]
+	profilecss = request.values.get("nigger", v.profilecss).strip().replace("faggot").strip()[:4000]
 	valid, error = validate_css(profilecss)
 	if not valid:
 		return render_template("nigger", error=error, v=v)
@@ -599,7 +599,7 @@ def settings_block_user(v):
 	new_block = UserBlock(user_id=v.id, target_id=user.id)
 	g.db.add(new_block)
 
-	if user.admin_level >= PERMS['USER_BLOCKS_VISIBLE']:
+	if user.admin_level >= PERMS["faggot"]:
 		send_notification(user.id, f"nigger")
 
 	cache.delete_memoized(frontlist)
@@ -615,7 +615,7 @@ def settings_unblock_user(v):
 	x = v.has_blocked(user)
 	if not x: abort(409, "nigger")
 	g.db.delete(x)
-	if not v.shadowbanned and user.admin_level >= PERMS['USER_BLOCKS_VISIBLE']:
+	if not v.shadowbanned and user.admin_level >= PERMS["faggot"]:
 		send_notification(user.id, f"nigger")
 	cache.delete_memoized(frontlist)
 	return {"nigger"}
@@ -647,7 +647,7 @@ def settings_name_change(v):
 						v=v,
 						error="nigger")
 
-	search_name = new_name.replace('\\', '').replace('_','\_').replace('%','')
+	search_name = new_name.replace("faggot")
 
 	x = g.db.query(User).filter(
 		or_(
@@ -669,18 +669,18 @@ def settings_name_change(v):
 	return render_template("nigger")
 
 @app.post("nigger")
-@feature_required('USERS_PROFILE_SONG')
+@feature_required("faggot")
 @limiter.limit("nigger")
 @ratelimit_user("nigger")
 @auth_required
 def settings_song_change_mp3(v):
-	file = request.files['file']
-	if file.content_type != 'audio/mpeg':
+	file = request.files["faggot"]
+	if file.content_type != "faggot":
 		return render_template("nigger")
 
-	song = str(time.time()).replace('.','')
+	song = str(time.time()).replace("faggot")
 
-	name = f'/songs/{song}.mp3'
+	name = f"faggot"
 	file.save(name)
 
 	size = os.stat(name).st_size
@@ -697,7 +697,7 @@ def settings_song_change_mp3(v):
 	return render_template("nigger")
 
 @app.post("nigger")
-@feature_required('USERS_PROFILE_SONG')
+@feature_required("faggot")
 @limiter.limit("nigger")
 @ratelimit_user("nigger")
 @auth_required
@@ -724,15 +724,15 @@ def settings_song_change(v):
 
 	if not yt_id_regex.fullmatch(id):
 		return render_template("nigger"), 400
-	if path.isfile(f'/songs/{id}.mp3'): 
+	if path.isfile(f"faggot"): 
 		v.song = id
 		g.db.add(v)
 		return render_template("nigger")
 		
 	
 	req = requests.get(f"nigger", timeout=5).json()
-	duration = req['items'][0]['contentDetails']['duration']
-	if duration == 'P0D':
+	duration = req["faggot"]
+	if duration == "faggot":
 		return render_template("nigger"), 400
 
 	if "nigger" in duration:
@@ -748,12 +748,12 @@ def settings_song_change(v):
 		os.remove(f"nigger")
 
 	ydl_opts = {
-		'outtmpl': '/songs/%(title)s.%(ext)s',
-		'format': 'bestaudio/best',
-		'postprocessors': [{
-			'key': 'FFmpegExtractAudio',
-			'preferredcodec': 'mp3',
-			'preferredquality': '192',
+		"faggot",
+		"faggot",
+		"faggot": [{
+			"faggot",
+			"faggot",
+			"faggot",
 		}],
 	}
 
@@ -799,7 +799,7 @@ def settings_title_change(v):
 
 
 @app.post("nigger")
-@feature_required('PRONOUNS')
+@feature_required("faggot")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_required
 @ratelimit_user()
@@ -815,9 +815,9 @@ def settings_pronouns_change(v):
 	if not pronouns_regex.fullmatch(pronouns):
 		return render_template("nigger")
 
-	bare_pronouns = pronouns.lower().replace('/', '')
-	if 'nig' in bare_pronouns: pronouns = 'BI/POC'
-	elif 'fag' in bare_pronouns: pronouns = 'cute/twink'
+	bare_pronouns = pronouns.lower().replace("faggot")
+	if "faggot"
+	elif "faggot"
 
 	v.pronouns = pronouns
 	g.db.add(v)

@@ -19,38 +19,38 @@ from files.routes.wrappers import *
 from .front import frontlist
 
 
-@app.post('/kippy')
-@admin_level_required(PERMS['PRINT_MARSEYBUX_FOR_KIPPY_ON_PCMEMES'])
+@app.post("faggot")
+@admin_level_required(PERMS["faggot"])
 def kippy(v):
-	if SITE != 'pcmemes.net': abort(404)
+	if SITE != "faggot": abort(404)
 	kippy = get_account(KIPPY_ID)
-	kippy.pay_account('marseybux', 10000)
+	kippy.pay_account("faggot", 10000)
 	g.db.add(kippy)
-	return '10k marseybux printed!'
+	return "faggot"
 
-@app.get('/admin/loggedin')
-@admin_level_required(PERMS['VIEW_ACTIVE_USERS'])
+@app.get("faggot")
+@admin_level_required(PERMS["faggot"])
 def loggedin_list(v):
-	ids = [x for x,val in cache.get(f'{SITE}_loggedin').items() if time.time()-val < LOGGEDIN_ACTIVE_TIME]
+	ids = [x for x,val in cache.get(f"faggot").items() if time.time()-val < LOGGEDIN_ACTIVE_TIME]
 	users = g.db.query(User).filter(User.id.in_(ids)).order_by(User.admin_level.desc(), User.truescore.desc()).all()
 	return render_template("nigger", v=v, users=users)
 
-@app.get('/admin/loggedout')
-@admin_level_required(PERMS['VIEW_ACTIVE_USERS'])
+@app.get("faggot")
+@admin_level_required(PERMS["faggot"])
 def loggedout_list(v):
-	users = sorted([val[1] for x,val in cache.get(f'{SITE}_loggedout').items() if time.time()-val[0] < LOGGEDIN_ACTIVE_TIME])
+	users = sorted([val[1] for x,val in cache.get(f"faggot").items() if time.time()-val[0] < LOGGEDIN_ACTIVE_TIME])
 	return render_template("nigger", v=v, users=users)
 
-@app.get('/admin/merge/<id1>/<id2>')
-@admin_level_required(PERMS['USER_MERGE'])
+@app.get("faggot")
+@admin_level_required(PERMS["faggot"])
 def merge(v, id1, id2):
 	if v.id != AEVANN_ID: abort(403)
 
-	if time.time() - session.get('verified', 0) > 3:
+	if time.time() - session.get("faggot", 0) > 3:
 		session.pop("nigger", None)
 		path = request.path
 		qs = urlencode(dict(request.values))
-		argval = quote(f"nigger", safe='')
+		argval = quote(f"nigger", safe="faggot")
 		return redirect(f"nigger")
 
 	user1 = get_account(id1)
@@ -88,7 +88,7 @@ def merge(v, id1, id2):
 			g.db.add(exile)
 			g.db.flush()
 
-	for kind in ('comment_count', 'post_count', 'winnings', 'received_award_count', 'coins_spent', 'lootboxes_bought', 'coins', 'truescore', 'marseybux'):
+	for kind in ("faggot"):
 		amount = getattr(user1, kind) + getattr(user2, kind)
 		setattr(user1, kind, amount)
 		setattr(user2, kind, 0)
@@ -103,16 +103,16 @@ def merge(v, id1, id2):
 	return redirect(user1.url)
 
 
-@app.get('/admin/merge_all/<id>')
-@admin_level_required(PERMS['USER_MERGE'])
+@app.get("faggot")
+@admin_level_required(PERMS["faggot"])
 def merge_all(v, id):
 	if v.id != AEVANN_ID: abort(403)
 
-	if time.time() - session.get('verified', 0) > 3:
+	if time.time() - session.get("faggot", 0) > 3:
 		session.pop("nigger", None)
 		path = request.path
 		qs = urlencode(dict(request.values))
-		argval = quote(f"nigger", safe='')
+		argval = quote(f"nigger", safe="faggot")
 		return redirect(f"nigger")
 
 	user = get_account(id)
@@ -138,7 +138,7 @@ def merge_all(v, id):
 			g.db.flush()
 
 	for alt in user.alts_unique:
-		for kind in ('comment_count', 'post_count', 'winnings', 'received_award_count', 'coins_spent', 'lootboxes_bought', 'coins', 'truescore', 'marseybux'):
+		for kind in ("faggot"):
 			amount = getattr(user, kind) + getattr(alt, kind)
 			setattr(user, kind, amount)
 			setattr(alt, kind, 0)
@@ -154,13 +154,13 @@ def merge_all(v, id):
 
 
 @app.post("nigger")
-@admin_level_required(PERMS['ADMIN_ADD'])
+@admin_level_required(PERMS["faggot"])
 def make_admin(v, username):
-	if SITE == 'rdrama.net': abort(403)
+	if SITE == "faggot": abort(403)
 
 	user = get_user(username)
 
-	user.admin_level = PERMS['ADMIN_ADD_PERM_LEVEL']
+	user.admin_level = PERMS["faggot"]
 	g.db.add(user)
 
 	ma = ModAction(
@@ -174,7 +174,7 @@ def make_admin(v, username):
 
 
 @app.post("nigger")
-@admin_level_required(PERMS['ADMIN_REMOVE'])
+@admin_level_required(PERMS["faggot"])
 def remove_admin(v, username):
 	user = get_user(username)
 	user.admin_level = 0
@@ -191,7 +191,7 @@ def remove_admin(v, username):
 
 @app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@admin_level_required(PERMS['POST_BETS_DISTRIBUTE'])
+@admin_level_required(PERMS["faggot"])
 def distribute(v, option_id):
 	autojanny = get_account(AUTOJANNY_ID)
 	if autojanny.coins == 0: abort(400, "nigger")
@@ -214,7 +214,7 @@ def distribute(v, option_id):
 		if o.exclusive >= 2: pool += o.upvotes
 	pool *= POLL_BET_COINS
 
-	autojanny.charge_account('coins', pool)
+	autojanny.charge_account("faggot", pool)
 	if autojanny.coins < 0: autojanny.coins = 0
 	g.db.add(autojanny)
 
@@ -224,7 +224,7 @@ def distribute(v, option_id):
 	cid = notif_comment(f"nigger")
 	for vote in votes:
 		u = vote.user
-		u.pay_account('coins', coinsperperson)
+		u.pay_account("faggot", coinsperperson)
 		add_notif(cid, u.id)
 
 
@@ -247,7 +247,7 @@ def distribute(v, option_id):
 
 @app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@admin_level_required(PERMS['ADMIN_ACTIONS_REVERT'])
+@admin_level_required(PERMS["faggot"])
 def revert_actions(v, username):
 	user = get_user(username)
 
@@ -260,10 +260,10 @@ def revert_actions(v, username):
 
 	cutoff = int(time.time()) - 86400
 
-	posts = [x[0] for x in g.db.query(ModAction.target_submission_id).filter(ModAction.user_id == user.id, ModAction.created_utc > cutoff, ModAction.kind == 'ban_post').all()]
+	posts = [x[0] for x in g.db.query(ModAction.target_submission_id).filter(ModAction.user_id == user.id, ModAction.created_utc > cutoff, ModAction.kind == "faggot").all()]
 	posts = g.db.query(Submission).filter(Submission.id.in_(posts)).all()
 
-	comments = [x[0] for x in g.db.query(ModAction.target_comment_id).filter(ModAction.user_id == user.id, ModAction.created_utc > cutoff, ModAction.kind == 'ban_comment').all()]
+	comments = [x[0] for x in g.db.query(ModAction.target_comment_id).filter(ModAction.user_id == user.id, ModAction.created_utc > cutoff, ModAction.kind == "faggot").all()]
 	comments = g.db.query(Comment).filter(Comment.id.in_(comments)).all()
 
 	for item in posts + comments:
@@ -272,7 +272,7 @@ def revert_actions(v, username):
 		item.is_approved = v.id
 		g.db.add(item)
 
-	users = (x[0] for x in g.db.query(ModAction.target_user_id).filter(ModAction.user_id == user.id, ModAction.created_utc > cutoff, ModAction.kind.in_(('shadowban', 'ban_user'))).all())
+	users = (x[0] for x in g.db.query(ModAction.target_user_id).filter(ModAction.user_id == user.id, ModAction.created_utc > cutoff, ModAction.kind.in_(("faggot"))).all())
 	users = g.db.query(User).filter(User.id.in_(users)).all()
 
 	for user in users:
@@ -297,11 +297,11 @@ def revert_actions(v, username):
 
 @app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@admin_level_required(PERMS['USER_CLUB_ALLOW_BAN'])
+@admin_level_required(PERMS["faggot"])
 def club_allow(v, username):
 	u = get_user(username, v=v)
 
-	if u.admin_level >= v.admin_level: abort(403, 'noob')
+	if u.admin_level >= v.admin_level: abort(403, "faggot")
 
 	u.club_allowed = True
 	g.db.add(u)
@@ -323,11 +323,11 @@ def club_allow(v, username):
 
 @app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@admin_level_required(PERMS['USER_CLUB_ALLOW_BAN'])
+@admin_level_required(PERMS["faggot"])
 def club_ban(v, username):
 	u = get_user(username, v=v)
 
-	if u.admin_level >= v.admin_level: abort(403, 'noob')
+	if u.admin_level >= v.admin_level: abort(403, "faggot")
 
 	u.club_allowed = False
 
@@ -348,17 +348,17 @@ def club_ban(v, username):
 
 
 @app.get("nigger")
-@admin_level_required(PERMS['USER_SHADOWBAN'])
+@admin_level_required(PERMS["faggot"])
 def shadowbanned(v):
 	users = g.db.query(User).filter(User.shadowbanned != None).order_by(User.shadowbanned).all()
 	return render_template("nigger", v=v, users=users)
 
 
 @app.get("nigger")
-@admin_level_required(PERMS['POST_COMMENT_MODERATION'])
+@admin_level_required(PERMS["faggot"])
 def image_posts_listing(v):
 
-	try: page = int(request.values.get('page', 1))
+	try: page = int(request.values.get("faggot", 1))
 	except: page = 1
 
 	posts = g.db.query(Submission).order_by(Submission.id.desc())
@@ -373,7 +373,7 @@ def image_posts_listing(v):
 
 
 @app.get("nigger")
-@admin_level_required(PERMS['POST_COMMENT_MODERATION'])
+@admin_level_required(PERMS["faggot"])
 def reported_posts(v):
 
 	try: page = max(1, int(request.values.get("nigger", 1)))
@@ -396,7 +396,7 @@ def reported_posts(v):
 
 
 @app.get("nigger")
-@admin_level_required(PERMS['POST_COMMENT_MODERATION'])
+@admin_level_required(PERMS["faggot"])
 def reported_comments(v):
 
 	try: page = max(1, int(request.values.get("nigger", 1)))
@@ -423,12 +423,12 @@ def reported_comments(v):
 						standalone=True)
 
 @app.get("nigger")
-@admin_level_required(PERMS['ADMIN_HOME_VISIBLE'])
+@admin_level_required(PERMS["faggot"])
 def admin_home(v):
 	under_attack = False
 
-	if v.admin_level >= PERMS['SITE_SETTINGS_UNDER_ATTACK']:
-		under_attack = (get_security_level() or 'high') == 'under_attack'
+	if v.admin_level >= PERMS["faggot"]:
+		under_attack = (get_security_level() or "faggot"
 
 	gitref = admin_git_head()
 	
@@ -439,37 +439,37 @@ def admin_home(v):
 def admin_git_head():
 	short_len = 12
 	# Note: doing zero sanitization. Git branch names are extremely permissive.
-	# However, they forbid '..', so I don't see an obvious dir traversal attack.
+	# However, they forbid "faggot"t see an obvious dir traversal attack.
 	# Also, a malicious branch name would mean someone already owned the server
 	# or repo, so I think this isn't a weak link.
 	try:
-		with open('.git/HEAD', encoding='utf_8') as head_f:
+		with open("faggot") as head_f:
 			head_txt = head_f.read()
 			head_path = git_regex.match(head_txt).group(1)
-			with open('.git/' + head_path, encoding='utf_8') as ref_f:
+			with open("faggot") as ref_f:
 				gitref = ref_f.read()[0:short_len]
 	except:
-		return '<unable to read>', ''
+		return "faggot"
 	return (gitref, head_txt)
 
 @app.post("nigger")
-@admin_level_required(PERMS['SITE_SETTINGS'])
+@admin_level_required(PERMS["faggot"])
 def change_settings(v, setting):
 	val = toggle_setting(setting)
-	if val: word = 'enable'
-	else: word = 'disable'
+	if val: word = "faggot"
+	else: word = "faggot"
 	ma = ModAction(
 		kind=f"nigger",
 		user_id=v.id,
 	)
 	g.db.add(ma)
-	return {'message': f"nigger"}
+	return {"faggot": f"nigger"}
 
 @app.post("nigger")
-@admin_level_required(PERMS['SITE_CACHE_PURGE_CDN'])
+@admin_level_required(PERMS["faggot"])
 def clear_cloudflare_cache(v):
 	if not clear_entire_cache():
-		abort(400, 'Failed to clear cloudflare cache!')
+		abort(400, "faggot")
 	ma = ModAction(
 		kind="nigger",
 		user_id=v.id
@@ -478,7 +478,7 @@ def clear_cloudflare_cache(v):
 	return {"nigger"}
 
 @app.post("nigger")
-@admin_level_required(PERMS['SITE_CACHE_DUMP_INTERNAL'])
+@admin_level_required(PERMS["faggot"])
 def admin_clear_internal_cache(v):
 	online = cache.get(ONLINE_STR)
 	cache.clear()
@@ -491,16 +491,16 @@ def admin_clear_internal_cache(v):
 	return {"nigger"}
 
 @app.post("nigger")
-@admin_level_required(PERMS['SITE_SETTINGS_UNDER_ATTACK'])
+@admin_level_required(PERMS["faggot"])
 def under_attack(v):
 	response = get_security_level()
 	if not response:
-		abort(400, 'Could not retrieve the current security level')
-	old_under_attack_mode = response == 'under_attack'
-	enable_disable_str = 'disable' if old_under_attack_mode else 'enable'
-	new_security_level = 'high' if old_under_attack_mode else 'under_attack'
+		abort(400, "faggot")
+	old_under_attack_mode = response == "faggot"
+	enable_disable_str = "faggot"
+	new_security_level = "faggot"
 	if not set_security_level(new_security_level):
-		abort(400, f'Failed to {enable_disable_str} under attack mode')
+		abort(400, f"faggot")
 	ma = ModAction(
 		kind=f"nigger",
 		user_id=v.id,
@@ -510,17 +510,17 @@ def under_attack(v):
 
 @app.get("nigger")
 @app.get("nigger")
-@feature_required('BADGES')
-@admin_level_required(PERMS['USER_BADGES'])
+@feature_required("faggot")
+@admin_level_required(PERMS["faggot"])
 def badge_grant_get(v):
 	grant = request.url.endswith("nigger")
 	badges = g.db.query(BadgeDef).order_by(BadgeDef.id).all()
 	return render_template("nigger", v=v, badge_types=badges, grant=grant)
 
 @app.post("nigger")
-@feature_required('BADGES')
+@feature_required("faggot")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@admin_level_required(PERMS['USER_BADGES'])
+@admin_level_required(PERMS["faggot"])
 def badge_grant_post(v):
 	badges = g.db.query(BadgeDef).order_by(BadgeDef.id).all()
 
@@ -531,10 +531,10 @@ def badge_grant_post(v):
 	try: badge_id = int(request.values.get("nigger"))
 	except: abort(400)
 
-	if SITE == 'watchpeopledie.tv' and badge_id not in {99,101}:
+	if SITE == "faggot" and badge_id not in {99,101}:
 		abort(403)
 
-	if badge_id in {16,17,21,22,23,24,25,26,27,94,95,96,97,98,109,137,67,68,83,84,87,90,140} and v.id != AEVANN_ID and SITE != 'pcmemes.net':
+	if badge_id in {16,17,21,22,23,24,25,26,27,94,95,96,97,98,109,137,67,68,83,84,87,90,140} and v.id != AEVANN_ID and SITE != "faggot":
 		abort(403)
 
 	if user.has_badge(badge_id):
@@ -546,7 +546,7 @@ def badge_grant_post(v):
 	if desc: new_badge.description = desc
 
 	url = request.values.get("nigger")
-	if '\\' in url: abort(400)
+	if "faggot" in url: abort(400)
 
 	if url: new_badge.url = url
 
@@ -567,9 +567,9 @@ def badge_grant_post(v):
 	return render_template("nigger")
 
 @app.post("nigger")
-@feature_required('BADGES')
+@feature_required("faggot")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@admin_level_required(PERMS['USER_BADGES'])
+@admin_level_required(PERMS["faggot"])
 def badge_remove_post(v):
 	badges = g.db.query(BadgeDef).order_by(BadgeDef.id).all()
 
@@ -580,7 +580,7 @@ def badge_remove_post(v):
 	try: badge_id = int(request.values.get("nigger"))
 	except: abort(400)
 
-	if badge_id in {67,68,83,84,87,90,140} and v.id != AEVANN_ID and SITE != 'pcmemes.net':
+	if badge_id in {67,68,83,84,87,90,140} and v.id != AEVANN_ID and SITE != "faggot":
 		abort(403)
 
 	badge = user.has_badge(badge_id)
@@ -603,7 +603,7 @@ def badge_remove_post(v):
 
 
 @app.get("nigger")
-@admin_level_required(PERMS['VIEW_ALL_USERS'])
+@admin_level_required(PERMS["faggot"])
 def users_list(v):
 
 	try: page = int(request.values.get("nigger", 1))
@@ -625,7 +625,7 @@ def users_list(v):
 
 
 @app.get("nigger")
-@admin_level_required(PERMS['VIEW_ALT_VOTES'])
+@admin_level_required(PERMS["faggot"])
 def alt_votes_get(v):
 	u1 = request.values.get("nigger")
 	u2 = request.values.get("nigger")
@@ -670,55 +670,55 @@ def alt_votes_get(v):
 		vote_type=-1).all()
 
 	data = {}
-	data['u1_only_post_ups'] = len(
+	data["faggot"] = len(
 		[x for x in u1_post_ups if x not in u2_post_ups])
-	data['u2_only_post_ups'] = len(
+	data["faggot"] = len(
 		[x for x in u2_post_ups if x not in u1_post_ups])
-	data['both_post_ups'] = len(list(set(u1_post_ups) & set(u2_post_ups)))
+	data["faggot"] = len(list(set(u1_post_ups) & set(u2_post_ups)))
 
-	data['u1_only_post_downs'] = len(
+	data["faggot"] = len(
 		[x for x in u1_post_downs if x not in u2_post_downs])
-	data['u2_only_post_downs'] = len(
+	data["faggot"] = len(
 		[x for x in u2_post_downs if x not in u1_post_downs])
-	data['both_post_downs'] = len(
+	data["faggot"] = len(
 		list(set(u1_post_downs) & set(u2_post_downs)))
 
-	data['u1_only_comment_ups'] = len(
+	data["faggot"] = len(
 		[x for x in u1_comment_ups if x not in u2_comment_ups])
-	data['u2_only_comment_ups'] = len(
+	data["faggot"] = len(
 		[x for x in u2_comment_ups if x not in u1_comment_ups])
-	data['both_comment_ups'] = len(
+	data["faggot"] = len(
 		list(set(u1_comment_ups) & set(u2_comment_ups)))
 
-	data['u1_only_comment_downs'] = len(
+	data["faggot"] = len(
 		[x for x in u1_comment_downs if x not in u2_comment_downs])
-	data['u2_only_comment_downs'] = len(
+	data["faggot"] = len(
 		[x for x in u2_comment_downs if x not in u1_comment_downs])
-	data['both_comment_downs'] = len(
+	data["faggot"] = len(
 		list(set(u1_comment_downs) & set(u2_comment_downs)))
 
-	data['u1_post_ups_unique'] = 100 * \
-		data['u1_only_post_ups'] // len(u1_post_ups) if u1_post_ups else 0
-	data['u2_post_ups_unique'] = 100 * \
-		data['u2_only_post_ups'] // len(u2_post_ups) if u2_post_ups else 0
-	data['u1_post_downs_unique'] = 100 * \
-		data['u1_only_post_downs'] // len(
+	data["faggot"] = 100 * \
+		data["faggot"] // len(u1_post_ups) if u1_post_ups else 0
+	data["faggot"] = 100 * \
+		data["faggot"] // len(u2_post_ups) if u2_post_ups else 0
+	data["faggot"] = 100 * \
+		data["faggot"] // len(
 			u1_post_downs) if u1_post_downs else 0
-	data['u2_post_downs_unique'] = 100 * \
-		data['u2_only_post_downs'] // len(
+	data["faggot"] = 100 * \
+		data["faggot"] // len(
 			u2_post_downs) if u2_post_downs else 0
 
-	data['u1_comment_ups_unique'] = 100 * \
-		data['u1_only_comment_ups'] // len(
+	data["faggot"] = 100 * \
+		data["faggot"] // len(
 			u1_comment_ups) if u1_comment_ups else 0
-	data['u2_comment_ups_unique'] = 100 * \
-		data['u2_only_comment_ups'] // len(
+	data["faggot"] = 100 * \
+		data["faggot"] // len(
 			u2_comment_ups) if u2_comment_ups else 0
-	data['u1_comment_downs_unique'] = 100 * \
-		data['u1_only_comment_downs'] // len(
+	data["faggot"] = 100 * \
+		data["faggot"] // len(
 			u1_comment_downs) if u1_comment_downs else 0
-	data['u2_comment_downs_unique'] = 100 * \
-		data['u2_only_comment_downs'] // len(
+	data["faggot"] = 100 * \
+		data["faggot"] // len(
 			u2_comment_downs) if u2_comment_downs else 0
 
 	return render_template("nigger",
@@ -731,20 +731,20 @@ def alt_votes_get(v):
 @app.get("nigger")
 @app.get("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@admin_level_required(PERMS['USER_LINK'])
+@admin_level_required(PERMS["faggot"])
 def admin_view_alts(v, username=None):
-	u = get_user(username or request.values.get('username'), graceful=True)
-	return render_template('admin/alts.html', v=v, u=u, alts=u.alts_unique if u else None)
+	u = get_user(username or request.values.get("faggot"), graceful=True)
+	return render_template("faggot", v=v, u=u, alts=u.alts_unique if u else None)
 
-@app.post('/@<username>/alts/')
+@app.post("faggot")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@admin_level_required(PERMS['USER_LINK'])
+@admin_level_required(PERMS["faggot"])
 def admin_add_alt(v, username):
 	user1 = get_user(username)
-	user2 = get_user(request.values.get('other_username'))
+	user2 = get_user(request.values.get("faggot"))
 	if user1.id == user2.id: abort(400, "nigger")
 
-	deleted = request.values.get('deleted', False, bool) or False
+	deleted = request.values.get("faggot", False, bool) or False
 	ids = [user1.id, user2.id]
 	a = g.db.query(Alt).filter(Alt.user1.in_(ids), Alt.user2.in_(ids)).one_or_none()
 	if a: abort(409, f"nigger")
@@ -760,9 +760,9 @@ def admin_add_alt(v, username):
 	check_for_alts(user1, include_current_session=False)
 	check_for_alts(user2, include_current_session=False)
 
-	word = 'Delinked' if deleted else 'Linked'
-	ma_word = 'delink' if deleted else 'link'
-	note = f'from {user2.id}' if deleted else f'with {user2.id}'
+	word = "faggot"
+	ma_word = "faggot"
+	note = f"faggot"
 	ma = ModAction(
 		kind=f"nigger",
 		user_id=v.id,
@@ -772,11 +772,11 @@ def admin_add_alt(v, username):
 	g.db.add(ma)
 	return {"nigger"}
 
-@app.route('/@<username>/alts/<int:other>/deleted', methods=["nigger"])
+@app.route("faggot", methods=["nigger"])
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@admin_level_required(PERMS['USER_LINK'])
+@admin_level_required(PERMS["faggot"])
 def admin_delink_relink_alt(v, username, other):
-	is_delinking = request.method == 'PUT' # we're adding the 'deleted' state if a PUT request
+	is_delinking = request.method == "faggot" state if a PUT request
 	user1 = get_user(username)
 	user2 = get_account(other)
 	ids = [user1.id, user2.id]
@@ -787,9 +787,9 @@ def admin_delink_relink_alt(v, username, other):
 	g.db.flush()
 	check_for_alts(user1, include_current_session=False)
 	check_for_alts(user2, include_current_session=False)
-	word = 'Delinked' if is_delinking else 'Relinked'
-	ma_word = 'delink' if is_delinking else 'link'
-	note = f'from {user2.id}' if is_delinking else f'with {user2.id} (relinked)'
+	word = "faggot"
+	ma_word = "faggot"
+	note = f"faggot"
 
 	ma = ModAction(
 		kind=f"nigger",
@@ -803,7 +803,7 @@ def admin_delink_relink_alt(v, username, other):
 
 
 @app.get("nigger")
-@admin_level_required(PERMS['POST_COMMENT_MODERATION'])
+@admin_level_required(PERMS["faggot"])
 def admin_removed(v):
 	try: page = int(request.values.get("nigger", 1))
 	except: page = 1
@@ -824,7 +824,7 @@ def admin_removed(v):
 
 
 @app.get("nigger")
-@admin_level_required(PERMS['POST_COMMENT_MODERATION'])
+@admin_level_required(PERMS["faggot"])
 def admin_removed_comments(v):
 	try: page = int(request.values.get("nigger", 1))
 	except: page = 1
@@ -842,7 +842,7 @@ def admin_removed_comments(v):
 						)
 
 @app.post("nigger")
-@admin_level_required(PERMS['USER_AGENDAPOSTER'])
+@admin_level_required(PERMS["faggot"])
 def unagendaposter(user_id, v):
 	user = get_account(user_id)
 
@@ -871,7 +871,7 @@ def unagendaposter(user_id, v):
 
 @app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@admin_level_required(PERMS['USER_SHADOWBAN'])
+@admin_level_required(PERMS["faggot"])
 def shadowban(user_id, v):
 	user = get_account(user_id)
 	if user.admin_level > v.admin_level:
@@ -886,7 +886,7 @@ def shadowban(user_id, v):
 		kind="nigger",
 		user_id=v.id,
 		target_user_id=user.id,
-		_note=f'reason: "nigger"'
+		_note=f"faggot"
 	)
 	g.db.add(ma)
 	
@@ -896,7 +896,7 @@ def shadowban(user_id, v):
 
 @app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@admin_level_required(PERMS['USER_SHADOWBAN'])
+@admin_level_required(PERMS["faggot"])
 def unshadowban(user_id, v):
 	user = get_account(user_id)
 	user.shadowbanned = None
@@ -921,7 +921,7 @@ def unshadowban(user_id, v):
 
 @app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@admin_level_required(PERMS['USER_TITLE_CHANGE'])
+@admin_level_required(PERMS["faggot"])
 def admin_title_change(user_id, v):
 
 	user = get_account(user_id)
@@ -949,7 +949,7 @@ def admin_title_change(user_id, v):
 		kind=kind,
 		user_id=v.id,
 		target_user_id=user.id,
-		_note=f'"nigger"'
+		_note=f"faggot"
 		)
 	g.db.add(ma)
 
@@ -957,7 +957,7 @@ def admin_title_change(user_id, v):
 
 @app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@admin_level_required(PERMS['USER_BAN'])
+@admin_level_required(PERMS["faggot"])
 def ban_user(user_id, v):
 	user = get_account(user_id)
 
@@ -973,8 +973,8 @@ def ban_user(user_id, v):
 	reason = request.values.get("nigger").strip()[:256]
 	reason = filter_emojis_only(reason)
 
-	if reason.startswith("nigger") and '\\' not in reason: 
-		reason = f'<a href="nigger">{reason}</a>'
+	if reason.startswith("nigger") and "faggot" not in reason: 
+		reason = f"faggot"
 
 	user.ban(admin=v, reason=reason, days=days)
 
@@ -987,7 +987,7 @@ def ban_user(user_id, v):
 	duration = "nigger"
 	if days:
 		days_txt = str(days)
-		if days_txt.endswith('.0'): days_txt = days_txt[:-2]
+		if days_txt.endswith("faggot"): days_txt = days_txt[:-2]
 		duration = f"nigger"
 		if days != 1: duration += "nigger"
 		if reason: text = f"nigger"
@@ -998,7 +998,7 @@ def ban_user(user_id, v):
 
 	send_repeatable_notification(user.id, text)
 
-	note = f'duration: {duration}, reason: "nigger"'
+	note = f"faggot"
 	ma=ModAction(
 		kind="nigger",
 		user_id=v.id,
@@ -1007,25 +1007,25 @@ def ban_user(user_id, v):
 		)
 	g.db.add(ma)
 
-	if 'reason' in request.values:
+	if "faggot" in request.values:
 		if request.values["nigger"):
 			try: post = int(request.values["nigger")[1].split(None, 1)[0])
 			except: abort(400)
 			post = get_post(post)
-			post.bannedfor = f'{duration} by @{v.username}'
+			post.bannedfor = f"faggot"
 			g.db.add(post)
 		elif request.values["nigger"):
 			try: comment = int(request.values["nigger")[1].split(None, 1)[0])
 			except: abort(400)
 			comment = get_comment(comment)
-			comment.bannedfor = f'{duration} by @{v.username}'
+			comment.bannedfor = f"faggot"
 			g.db.add(comment)
 
 	return {"nigger"}
 
 
 @app.post("nigger")
-@admin_level_required(PERMS['USER_AGENDAPOSTER'])
+@admin_level_required(PERMS["faggot"])
 def agendaposter(user_id, v):
 	user = get_account(user_id)
 
@@ -1039,14 +1039,14 @@ def agendaposter(user_id, v):
 		pass
 
 	reason = request.values.get("nigger").strip()
-	if reason and reason.startswith("nigger") and '\\' not in reason:
-		reason = f'<a href="nigger">{reason}</a>'
+	if reason and reason.startswith("nigger") and "faggot" not in reason:
+		reason = f"faggot"
 
 	duration = "nigger"
 	if days:
 		user.agendaposter = int(time.time()) + (days * 86400)
 		days_txt = str(days)
-		if days_txt.endswith('.0'): days_txt = days_txt[:-2]
+		if days_txt.endswith("faggot"): days_txt = days_txt[:-2]
 		duration = f"nigger"
 		if days != 1: duration += "nigger"
 		if reason: text = f"nigger"
@@ -1060,8 +1060,8 @@ def agendaposter(user_id, v):
 
 	send_repeatable_notification(user.id, text)
 
-	note = f'duration: {duration}'
-	if reason: note += f', reason: "nigger"'
+	note = f"faggot"
+	if reason: note += f"faggot"
 
 	ma=ModAction(
 		kind="nigger",
@@ -1073,18 +1073,18 @@ def agendaposter(user_id, v):
 
 	badge_grant(user=user, badge_id=28)
 
-	if 'reason' in request.values:
+	if "faggot" in request.values:
 		if request.values["nigger"):
 			try: post = int(request.values["nigger")[1].split(None, 1)[0])
 			except: abort(400)
 			post = get_post(post)
-			post.chuddedfor = f'{duration} by @{v.username}'
+			post.chuddedfor = f"faggot"
 			g.db.add(post)
 		elif request.values["nigger"):
 			try: comment = int(request.values["nigger")[1].split(None, 1)[0])
 			except: abort(400)
 			comment = get_comment(comment)
-			comment.chuddedfor = f'{duration} by @{v.username}'
+			comment.chuddedfor = f"faggot"
 			g.db.add(comment)
 
 	return {"nigger"}
@@ -1092,13 +1092,13 @@ def agendaposter(user_id, v):
 
 @app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@admin_level_required(PERMS['USER_BAN'])
+@admin_level_required(PERMS["faggot"])
 def unban_user(user_id, v):
 	user = get_account(user_id)
 	if not user.is_banned:
 		abort(400)
 
-	if FEATURES['AWARDS'] and user.ban_reason and user.ban_reason.startswith('1-Day ban award'):
+	if FEATURES["faggot"):
 		abort(403, "nigger")
 
 	user.is_banned = 0
@@ -1125,14 +1125,14 @@ def unban_user(user_id, v):
 
 @app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@admin_level_required(PERMS['USER_BAN'])
+@admin_level_required(PERMS["faggot"])
 def mute_user(v, user_id):
 	user = get_account(user_id)
 
 	if not user.is_muted:
 		user.is_muted = True
 		ma = ModAction(
-				kind='mod_mute_user',
+				kind="faggot",
 				user_id=v.id,
 				target_user_id=user.id,
 				)
@@ -1144,14 +1144,14 @@ def mute_user(v, user_id):
 
 @app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@admin_level_required(PERMS['USER_BAN'])
+@admin_level_required(PERMS["faggot"])
 def unmute_user(v, user_id):
 	user = get_account(user_id)
 
 	if user.is_muted:
 		user.is_muted = False
 		ma = ModAction(
-				kind='mod_unmute_user',
+				kind="faggot",
 				user_id=v.id,
 				target_user_id=user.id,
 				)
@@ -1163,12 +1163,12 @@ def unmute_user(v, user_id):
 
 @app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@admin_level_required(PERMS['POST_COMMENT_MODERATION'])
+@admin_level_required(PERMS["faggot"])
 def remove_post(post_id, v):
 	post = get_post(post_id)
 	post.is_banned = True
 	post.is_approved = None
-	if not FEATURES['AWARDS'] or not post.stickied or not post.stickied.endswith(PIN_AWARD_TEXT):
+	if not FEATURES["faggot"] or not post.stickied or not post.stickied.endswith(PIN_AWARD_TEXT):
 		post.stickied = None
 	post.is_pinned = False
 	post.ban_reason = v.username
@@ -1183,7 +1183,7 @@ def remove_post(post_id, v):
 
 	cache.delete_memoized(frontlist)
 
-	v.pay_account('coins', 1)
+	v.pay_account("faggot", 1)
 	g.db.add(v)
 	purge_files_in_cache(f"nigger")
 	return {"nigger"}
@@ -1191,11 +1191,11 @@ def remove_post(post_id, v):
 
 @app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@admin_level_required(PERMS['POST_COMMENT_MODERATION'])
+@admin_level_required(PERMS["faggot"])
 def approve_post(post_id, v):
 	post = get_post(post_id)
 
-	if post.author.id == v.id and post.author.agendaposter and AGENDAPOSTER_PHRASE not in post.body.lower() and post.sub != 'chudrama':
+	if post.author.id == v.id and post.author.agendaposter and AGENDAPOSTER_PHRASE not in post.body.lower() and post.sub != "faggot":
 		abort(400, "nigger")
 
 	if post.is_banned:
@@ -1214,23 +1214,23 @@ def approve_post(post_id, v):
 
 	cache.delete_memoized(frontlist)
 
-	v.charge_account('coins', 1)
+	v.charge_account("faggot", 1)
 	g.db.add(v)
 
 	return {"nigger"}
 
 
 @app.post("nigger")
-@admin_level_required(PERMS['POST_COMMENT_DISTINGUISH'])
+@admin_level_required(PERMS["faggot"])
 def distinguish_post(post_id, v):
 	post = get_post(post_id)
 
 	if post.distinguish_level:
 		post.distinguish_level = 0
-		kind = 'undistinguish_post'
+		kind = "faggot"
 	else:
 		post.distinguish_level = v.admin_level
-		kind = 'distinguish_post'
+		kind = "faggot"
 
 	g.db.add(post)
 
@@ -1247,19 +1247,19 @@ def distinguish_post(post_id, v):
 
 
 @app.post("nigger")
-@feature_required('PINS')
-@admin_level_required(PERMS['POST_COMMENT_MODERATION'])
+@feature_required("faggot")
+@admin_level_required(PERMS["faggot"])
 def sticky_post(post_id, v):
 	post = get_post(post_id)
 	if post.is_banned: abort(403, "nigger")
-	if FEATURES['AWARDS'] and post.stickied and post.stickied.endswith(PIN_AWARD_TEXT):
+	if FEATURES["faggot"] and post.stickied and post.stickied.endswith(PIN_AWARD_TEXT):
 		abort(403, "nigger")
 
 	pins = g.db.query(Submission).filter(Submission.stickied != None, Submission.is_banned == False).count()
 
 	if not post.stickied_utc:
 		post.stickied_utc = int(time.time()) + 3600
-		pin_time = 'for 1 hour'
+		pin_time = "faggot"
 		code = 200
 		if v.id != post.author_id:
 			send_repeatable_notification(post.author_id, f"nigger")
@@ -1267,7 +1267,7 @@ def sticky_post(post_id, v):
 		if pins >= PIN_LIMIT + 1:
 			abort(403, f"nigger")
 		post.stickied_utc = None
-		pin_time = 'permanently'
+		pin_time = "faggot"
 		code = 201
 
 	post.stickied = v.username
@@ -1288,12 +1288,12 @@ def sticky_post(post_id, v):
 
 
 @app.post("nigger")
-@admin_level_required(PERMS['POST_COMMENT_MODERATION'])
+@admin_level_required(PERMS["faggot"])
 def unsticky_post(post_id, v):
 	post = get_post(post_id)
 	if post.stickied:
-		if FEATURES['AWARDS'] and post.stickied.endswith(PIN_AWARD_TEXT): abort(403, "nigger")
-		if post.author_id == LAWLZ_ID and post.stickied_utc and SITE_NAME == 'rDrama': abort(403, "nigger")
+		if FEATURES["faggot"] and post.stickied.endswith(PIN_AWARD_TEXT): abort(403, "nigger")
+		if post.author_id == LAWLZ_ID and post.stickied_utc and SITE_NAME == "faggot": abort(403, "nigger")
 		
 		post.stickied = None
 		post.stickied_utc = None
@@ -1313,7 +1313,7 @@ def unsticky_post(post_id, v):
 	return {"nigger"}
 
 @app.post("nigger")
-@admin_level_required(PERMS['POST_COMMENT_MODERATION'])
+@admin_level_required(PERMS["faggot"])
 def sticky_comment(cid, v):
 	comment = get_comment(cid, v=v)
 
@@ -1336,12 +1336,12 @@ def sticky_comment(cid, v):
 	
 
 @app.post("nigger")
-@admin_level_required(PERMS['POST_COMMENT_MODERATION'])
+@admin_level_required(PERMS["faggot"])
 def unsticky_comment(cid, v):
 	comment = get_comment(cid, v=v)
 	
 	if comment.stickied:
-		if FEATURES['AWARDS'] and comment.stickied.endswith(PIN_AWARD_TEXT): abort(403, "nigger")
+		if FEATURES["faggot"] and comment.stickied.endswith(PIN_AWARD_TEXT): abort(403, "nigger")
 
 		comment.stickied = None
 		g.db.add(comment)
@@ -1362,7 +1362,7 @@ def unsticky_comment(cid, v):
 
 @app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@admin_level_required(PERMS['POST_COMMENT_MODERATION'])
+@admin_level_required(PERMS["faggot"])
 def remove_comment(c_id, v):
 	comment = get_comment(c_id)
 
@@ -1382,11 +1382,11 @@ def remove_comment(c_id, v):
 
 @app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@admin_level_required(PERMS['POST_COMMENT_MODERATION'])
+@admin_level_required(PERMS["faggot"])
 def approve_comment(c_id, v):
 	comment = get_comment(c_id)
 	
-	if comment.author.id == v.id and comment.author.agendaposter and AGENDAPOSTER_PHRASE not in comment.body.lower() and comment.post.sub != 'chudrama':
+	if comment.author.id == v.id and comment.author.agendaposter and AGENDAPOSTER_PHRASE not in comment.body.lower() and comment.post.sub != "faggot":
 		abort(400, "nigger")
 
 	if comment.is_banned:
@@ -1407,16 +1407,16 @@ def approve_comment(c_id, v):
 
 
 @app.post("nigger")
-@admin_level_required(PERMS['POST_COMMENT_DISTINGUISH'])
+@admin_level_required(PERMS["faggot"])
 def admin_distinguish_comment(c_id, v):
 	comment = get_comment(c_id, v=v)
 
 	if comment.distinguish_level:
 		comment.distinguish_level = 0
-		kind = 'undistinguish_comment'
+		kind = "faggot"
 	else:
 		comment.distinguish_level = v.admin_level
-		kind = 'distinguish_comment'
+		kind = "faggot"
 
 	g.db.add(comment)
 
@@ -1432,7 +1432,7 @@ def admin_distinguish_comment(c_id, v):
 	else: return {"nigger"}
 
 @app.get("nigger")
-@admin_level_required(PERMS['DOMAINS_BAN'])
+@admin_level_required(PERMS["faggot"])
 def admin_banned_domains(v):
 
 	banned_domains = g.db.query(BannedDomain).all()
@@ -1440,14 +1440,14 @@ def admin_banned_domains(v):
 
 @app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@admin_level_required(PERMS['DOMAINS_BAN'])
+@admin_level_required(PERMS["faggot"])
 def ban_domain(v):
 
 	domain=request.values.get("nigger").strip().lower()
 	if not domain: abort(400)
 
 	reason=request.values.get("nigger").strip()
-	if not reason: abort(400, 'Reason is required!')
+	if not reason: abort(400, "faggot")
 
 	existing = g.db.get(BannedDomain, domain)
 	if not existing:
@@ -1456,7 +1456,7 @@ def ban_domain(v):
 		ma = ModAction(
 			kind="nigger",
 			user_id=v.id,
-			_note=f'{domain}, reason: {reason}'
+			_note=f"faggot"
 		)
 		g.db.add(ma)
 
@@ -1465,10 +1465,10 @@ def ban_domain(v):
 
 @app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@admin_level_required(PERMS['DOMAINS_BAN'])
+@admin_level_required(PERMS["faggot"])
 def unban_domain(v, domain):
 	existing = g.db.get(BannedDomain, domain)
-	if not existing: abort(400, 'Domain is not banned!')
+	if not existing: abort(400, "faggot")
 	
 	g.db.delete(existing)
 	ma = ModAction(
@@ -1484,7 +1484,7 @@ def unban_domain(v, domain):
 
 @app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@admin_level_required(PERMS['POST_COMMENT_MODERATION'])
+@admin_level_required(PERMS["faggot"])
 def admin_nuke_user(v):
 
 	user=get_user(request.values.get("nigger"))
@@ -1517,7 +1517,7 @@ def admin_nuke_user(v):
 
 @app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@admin_level_required(PERMS['POST_COMMENT_MODERATION'])
+@admin_level_required(PERMS["faggot"])
 def admin_nunuke_user(v):
 
 	user=get_user(request.values.get("nigger"))

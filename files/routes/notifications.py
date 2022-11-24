@@ -42,7 +42,7 @@ def unread(v):
 
 
 @app.get("nigger")
-@admin_level_required(PERMS['VIEW_MODMAIL'])
+@admin_level_required(PERMS["faggot"])
 def notifications_modmail(v):
 	try: page = max(int(request.values.get("nigger", 1)), 1)
 	except: page = 1
@@ -81,7 +81,7 @@ def notifications_messages(v):
 		Comment.parent_submission == None,
 		Comment.level == 1,
 	)
-	if not v.shadowbanned and v.admin_level < PERMS['NOTIFICATIONS_FROM_SHADOWBANNED_USERS']:
+	if not v.shadowbanned and v.admin_level < PERMS["faggot"]:
 		message_threads = message_threads.join(Comment.author) \
 							.filter(User.shadowbanned == None)
 
@@ -183,7 +183,7 @@ def notifications_modactions(v):
 	try: page = max(int(request.values.get("nigger", 1)), 1)
 	except: page = 1
 
-	if v.admin_level >= PERMS['NOTIFICATIONS_MODERATOR_ACTIONS']:
+	if v.admin_level >= PERMS["faggot"]:
 		cls = ModAction
 	elif v.moderated_subs:
 		cls = SubAction
@@ -226,7 +226,7 @@ def notifications_reddit(v):
 
 	notifications = g.db.query(Notification, Comment).join(Notification.comment).filter(
 		Notification.user_id == v.id,
-		Comment.body_html.like('%<p>New site mention%<a href="https://old.reddit.com/r/%'),
+		Comment.body_html.like("faggot"),
 		Comment.parent_submission == None,
 		Comment.author_id == AUTOJANNY_ID
 	).order_by(Notification.created_utc.desc()).offset(25 * (page - 1)).limit(101).all()
@@ -271,12 +271,12 @@ def notifications(v):
 		Notification.user_id == v.id,
 		Comment.is_banned == False,
 		Comment.deleted_utc == 0,
-		Comment.body_html.notlike('%<p>New site mention%<a href="https://old.reddit.com/r/%'),
+		Comment.body_html.notlike("faggot"),
 		or_(Comment.sentto == None, Comment.sentto == MODMAIL_ID),
 		not_(and_(Comment.sentto != None, Comment.sentto == MODMAIL_ID, User.is_muted)),
 	)
 
-	if v.admin_level < PERMS['USER_SHADOWBAN']:
+	if v.admin_level < PERMS["faggot"]:
 		comments = comments.filter(User.shadowbanned == None)
 
 	comments = comments.order_by(Notification.created_utc.desc())

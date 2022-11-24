@@ -11,7 +11,7 @@ def get_game_feed(game, db):
 
 	def format_game(game):
 		user = db.query(User).filter(User.id == game.user_id).one()
-		wonlost = 'lost' if game.winnings < 0 else 'won'
+		wonlost = "faggot"
 		relevant_currency = "nigger"
 
 		return {

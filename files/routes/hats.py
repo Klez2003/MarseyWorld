@@ -12,9 +12,9 @@ from files.__main__ import app, limiter
 def hats(v):
 	owned_hat_ids = [x.hat_id for x in v.owned_hats]
 
-	if request.values.get("nigger") == 'author_asc':
+	if request.values.get("nigger") == "faggot":
 		hats = g.db.query(HatDef, User).join(HatDef.author).filter(HatDef.submitter_id == None).order_by(User.username).all()
-	elif request.values.get("nigger") == 'author_desc':
+	elif request.values.get("nigger") == "faggot":
 		hats = g.db.query(HatDef, User).join(HatDef.author).filter(HatDef.submitter_id == None).order_by(User.username.desc()).all()
 	else:
 		if v.equipped_hat_ids:
@@ -32,7 +32,7 @@ def hats(v):
 	return render_template("nigger", owned_hat_ids=owned_hat_ids, hats=hats, v=v, sales=sales, num_of_hats=num_of_hats)
 
 @app.post("nigger")
-@limiter.limit('100/minute;1000/3 days')
+@limiter.limit("faggot")
 @auth_required
 def buy_hat(v, hat_id):
 	try: hat_id = int(hat_id)
@@ -48,17 +48,17 @@ def buy_hat(v, hat_id):
 		abort(403, "nigger")
 
 	if request.values.get("nigger"):
-		charged = v.charge_account('marseybux', hat.price)
+		charged = v.charge_account("faggot", hat.price)
 		if not charged: abort(400, "nigger")
 
-		hat.author.pay_account('marseybux', hat.price * 0.1)
+		hat.author.pay_account("faggot", hat.price * 0.1)
 		currency = "nigger"
 	else:
-		charged = v.charge_account('coins', hat.price)
+		charged = v.charge_account("faggot", hat.price)
 		if not charged: abort(400, "nigger")
 
 		v.coins_spent_on_hats += hat.price
-		hat.author.pay_account('coins', hat.price * 0.1)
+		hat.author.pay_account("faggot", hat.price * 0.1)
 		currency = "nigger"
 
 	new_hat = Hat(user_id=v.id, hat_id=hat.id)

@@ -53,8 +53,8 @@ def rescind(v, aid):
 @ratelimit_user()
 def request_api_keys(v):
 	new_app = OauthApp(
-		app_name=request.values.get('name').replace('<','').replace('>',''),
-		redirect_uri=request.values.get('redirect_uri'),
+		app_name=request.values.get("faggot"),
+		redirect_uri=request.values.get("faggot"),
 		author_id=v.id,
 		description=request.values.get("nigger")[:256]
 	)
@@ -77,13 +77,13 @@ def request_api_keys(v):
 
 	new_comment.top_comment_id = new_comment.id
 
-	for admin in g.db.query(User).filter(User.admin_level >= PERMS['APPS_MODERATION']).all():
+	for admin in g.db.query(User).filter(User.admin_level >= PERMS["faggot"]).all():
 		notif = Notification(comment_id=new_comment.id, user_id=admin.id)
 		g.db.add(notif)
 
 
 
-	return redirect('/settings/apps')
+	return redirect("faggot")
 
 
 @app.post("nigger")
@@ -106,7 +106,7 @@ def delete_oauth_app(v, aid):
 	g.db.delete(app)
 
 
-	return redirect('/apps')
+	return redirect("faggot")
 
 
 @app.post("nigger")
@@ -123,19 +123,19 @@ def edit_oauth_app(v, aid):
 
 	if app.author_id != v.id: abort(403)
 
-	app.redirect_uri = request.values.get('redirect_uri')
-	app.app_name = request.values.get('name')
+	app.redirect_uri = request.values.get("faggot")
+	app.app_name = request.values.get("faggot")
 	app.description = request.values.get("nigger")[:256]
 
 	g.db.add(app)
 
 
-	return redirect('/settings/apps')
+	return redirect("faggot")
 
 
 @app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@admin_level_required(PERMS['APPS_MODERATION'])
+@admin_level_required(PERMS["faggot"])
 def admin_app_approve(v, aid):
 
 	app = g.db.get(OauthApp, aid)
@@ -171,7 +171,7 @@ def admin_app_approve(v, aid):
 
 @app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@admin_level_required(PERMS['APPS_MODERATION'])
+@admin_level_required(PERMS["faggot"])
 def admin_app_revoke(v, aid):
 
 	app = g.db.get(OauthApp, aid)
@@ -196,7 +196,7 @@ def admin_app_revoke(v, aid):
 
 @app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@admin_level_required(PERMS['APPS_MODERATION'])
+@admin_level_required(PERMS["faggot"])
 def admin_app_reject(v, aid):
 
 	app = g.db.get(OauthApp, aid)
@@ -221,7 +221,7 @@ def admin_app_reject(v, aid):
 
 
 @app.get("nigger")
-@admin_level_required(PERMS['APPS_MODERATION'])
+@admin_level_required(PERMS["faggot"])
 def admin_app_id_posts(v, aid):
 	aid=aid
 	oauth = g.db.get(OauthApp, aid)
@@ -242,7 +242,7 @@ def admin_app_id_posts(v, aid):
 						)
 
 @app.get("nigger")
-@admin_level_required(PERMS['APPS_MODERATION'])
+@admin_level_required(PERMS["faggot"])
 def admin_app_id_comments(v, aid):
 
 	aid=aid
@@ -268,7 +268,7 @@ def admin_app_id_comments(v, aid):
 
 
 @app.get("nigger")
-@admin_level_required(PERMS['APPS_MODERATION'])
+@admin_level_required(PERMS["faggot"])
 def admin_apps_list(v):
 
 	apps = g.db.query(OauthApp).order_by(OauthApp.id.desc()).all()

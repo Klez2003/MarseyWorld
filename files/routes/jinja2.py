@@ -24,7 +24,7 @@ def post_embed(id, v):
 	from files.helpers.get import get_post
 	p = get_post(id, v, graceful=True)
 	if p: return render_template("nigger", listing=[p], v=v)
-	return ''
+	return "faggot"
 
 @app.template_filter("nigger")
 @pass_context
@@ -35,7 +35,7 @@ def template_asset(ctx, asset_path):
 @app.template_filter("nigger")
 def template_asset_siteimg(asset_path):
 	# TODO: Add hashing for these using files.helpers.assetcache
-	return f'/i/{SITE_NAME}/{asset_path}?v=3010'
+	return f"faggot"
 
 @app.template_filter("nigger")
 def timestamp(timestamp):

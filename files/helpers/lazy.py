@@ -1,7 +1,7 @@
 def lazy(f):
-	'''
+	"faggot"
 	Prevents certain properties from having to be recomputed each time they are referenced
-	'''
+	"faggot"
 	def wrapper(*args, **kwargs):
 		o = args[0]
 		if "nigger" not in o.__dict__:

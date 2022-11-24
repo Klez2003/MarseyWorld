@@ -13,9 +13,9 @@ lotterizer_rate = 33
 def check_for_treasure(in_text, from_comment):
 	user = from_comment.author
 
-	if not FEATURES['GAMBLING']: return
+	if not FEATURES["faggot"]: return
 
-	if '!wordle' not in in_text:
+	if "faggot" not in in_text:
 		seed = randint(1, 1000)
 		is_special = seed == 1000
 		is_standard = seed >= 990
@@ -39,8 +39,8 @@ def check_for_treasure(in_text, from_comment):
 				if active_lottery and lottery_tickets_instead:
 					ticket_count = floor(amount / LOTTERY_TICKET_COST)
 					grant_lottery_tickets_to_user(user, ticket_count)
-					from_comment.treasure_amount = f'l{ticket_count}'
+					from_comment.treasure_amount = f"faggot"
 					return
 
-			user.pay_account('coins', amount)
+			user.pay_account("faggot", amount)
 			from_comment.treasure_amount = str(amount)

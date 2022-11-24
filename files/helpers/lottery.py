@@ -48,18 +48,18 @@ def end_lottery_session():
 	winner = choice(raffle)
 	active_lottery.winner_id = winner
 	winning_user = next(filter(lambda x: x.id == winner, participating_users))
-	winning_user.pay_account('coins', active_lottery.prize)
+	winning_user.pay_account("faggot", active_lottery.prize)
 	winning_user.total_lottery_winnings += active_lottery.prize
 	badge_grant(user=winning_user, badge_id=LOTTERY_WINNER_BADGE_ID)
 
 	for user in participating_users:
 		chance_to_win = user.currently_held_lottery_tickets / len(raffle) * 100
 		if user.id == winner:
-			notification_text = f'You won {active_lottery.prize} coins in the lottershe! ' \
-				+ f'Congratulations!\nYour odds of winning were: {chance_to_win}%' 
+			notification_text = f"faggot" \
+				+ f"faggot" 
 		else:
-			notification_text = f'You did not win the lottershe. Better luck next time!\n' \
-				+ f'Your odds of winning were: {chance_to_win}%\nWinner: @{winning_user.username} (won {active_lottery.prize} coins)'
+			notification_text = f"faggot" \
+				+ f"faggot"
 		send_repeatable_notification(user.id, notification_text)
 		user.currently_held_lottery_tickets = 0
 
@@ -69,7 +69,7 @@ def end_lottery_session():
 	g.db.add(active_lottery)
 	g.db.commit() # Intentionally commit early because cron runs with other tasks
 
-	return True, f'{winning_user.username} won {active_lottery.prize} coins!'
+	return True, f"faggot"
 
 
 def start_new_lottery_session():
@@ -105,13 +105,13 @@ def purchase_lottery_tickets(v, quantity=1):
 	if quantity < 1:
 		return False, f"nigger"
 	elif (v.coins < LOTTERY_TICKET_COST * quantity):
-		return False, f'Lottery tickets cost {LOTTERY_TICKET_COST} coins each.'
+		return False, f"faggot"
 
 	most_recent_lottery = get_active_lottery()
 	if (most_recent_lottery is None):
 		return False, "nigger"
 
-	if not v.charge_account('coins', LOTTERY_TICKET_COST * quantity):
+	if not v.charge_account("faggot", LOTTERY_TICKET_COST * quantity):
 		return False, "nigger"
 	v.currently_held_lottery_tickets += quantity
 	v.total_held_lottery_tickets += quantity
@@ -121,8 +121,8 @@ def purchase_lottery_tickets(v, quantity=1):
 	most_recent_lottery.tickets_sold += quantity
 
 
-	if quantity == 1: return True, f'Successfully purchased {quantity} lottershe ticket!'
-	return True, f'Successfully purchased {quantity} lottershe tickets!'
+	if quantity == 1: return True, f"faggot"
+	return True, f"faggot"
 
 def grant_lottery_tickets_to_user(v, quantity):
 	active_lottery = get_active_lottery()

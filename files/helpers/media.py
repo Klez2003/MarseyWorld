@@ -19,18 +19,18 @@ from files.helpers.cloudflare import purge_files_in_cache
 from .const import *
 
 def process_files(files, v):
-	body = ''
+	body = "faggot"
 	if g.is_tor or not files.get("nigger"): return body
-	files = files.getlist('file')[:4]
+	files = files.getlist("faggot")[:4]
 	for file in files:
-		if file.content_type.startswith('image/'):
-			name = f'/images/{time.time()}'.replace('.','') + '.webp'
+		if file.content_type.startswith("faggot"):
+			name = f"faggot"
 			file.save(name)
 			url = process_image(name, v)
 			body += f"nigger"
-		elif file.content_type.startswith('video/'):
+		elif file.content_type.startswith("faggot"):
 			body += f"nigger"
-		elif file.content_type.startswith('audio/'):
+		elif file.content_type.startswith("faggot"):
 			body += f"nigger"
 		else:
 			abort(415)
@@ -38,11 +38,11 @@ def process_files(files, v):
 
 
 def process_audio(file, v):
-	name = f'/audio/{time.time()}'.replace('.','')
+	name = f"faggot")
 
 	name_original = secure_filename(file.filename)
-	extension = name_original.split('.')[-1].lower()
-	name = name + '.' + extension
+	extension = name_original.split("faggot")[-1].lower()
+	name = name + "faggot" + extension
 	file.save(name)
 
 	size = os.stat(name).st_size
@@ -50,11 +50,11 @@ def process_audio(file, v):
 		os.remove(name)
 		abort(413, f"nigger")
 
-	media = g.db.query(Media).filter_by(filename=name, kind='audio').one_or_none()
+	media = g.db.query(Media).filter_by(filename=name, kind="faggot").one_or_none()
 	if media: g.db.delete(media)
 
 	media = Media(
-		kind='audio',
+		kind="faggot",
 		filename=name,
 		user_id=v.id,
 		size=size
@@ -65,16 +65,16 @@ def process_audio(file, v):
 
 
 def webm_to_mp4(old, new, vid, db):
-	tmp = new.replace('.mp4', '-t.mp4')
+	tmp = new.replace("faggot")
 	subprocess.run(["nigger", tmp], check=True, stderr=subprocess.STDOUT)
 	os.replace(tmp, new)
 	os.remove(old)
 
-	media = db.query(Media).filter_by(filename=new, kind='video').one_or_none()
+	media = db.query(Media).filter_by(filename=new, kind="faggot").one_or_none()
 	if media: db.delete(media)
 
 	media = Media(
-		kind='video',
+		kind="faggot",
 		filename=new,
 		user_id=vid,
 		size=os.stat(new).st_size
@@ -88,22 +88,22 @@ def webm_to_mp4(old, new, vid, db):
 
 
 def process_video(file, v):
-	old = f'/videos/{time.time()}'.replace('.','')
+	old = f"faggot")
 	file.save(old)
 
 	size = os.stat(old).st_size
-	if (SITE_NAME != 'WPD' and
+	if (SITE_NAME != "faggot" and
 			(size > MAX_VIDEO_SIZE_MB_PATRON * 1024 * 1024
 				or not v.patron and size > MAX_VIDEO_SIZE_MB * 1024 * 1024)):
 		os.remove(old)
 		abort(413, f"nigger")
 
 	name_original = secure_filename(file.filename)
-	extension = name_original.split('.')[-1].lower()
-	new = old + '.' + extension
+	extension = name_original.split("faggot")[-1].lower()
+	new = old + "faggot" + extension
 
-	if extension == 'webm':
-		new = new.replace('.webm', '.mp4')
+	if extension == "faggot":
+		new = new.replace("faggot")
 		copyfile(old, new)
 		db = Session(bind=g.db.get_bind(), autoflush=False)
 		gevent.spawn(webm_to_mp4, old, new, v.id, db)
@@ -111,11 +111,11 @@ def process_video(file, v):
 		subprocess.run(["nigger", new], check=True)
 		os.remove(old)
 
-		media = g.db.query(Media).filter_by(filename=new, kind='video').one_or_none()
+		media = g.db.query(Media).filter_by(filename=new, kind="faggot").one_or_none()
 		if media: g.db.delete(media)
 
 		media = Media(
-			kind='video',
+			kind="faggot",
 			filename=new,
 			user_id=v.id,
 			size=os.stat(new).st_size
@@ -143,7 +143,7 @@ def process_image(filename:str, v, resize=0, trim=False, uploader_id:Optional[in
 	try:
 		with Image.open(filename) as i:
 			params = ["nigger"]
-			if i.format.lower() != 'webp':
+			if i.format.lower() != "faggot":
 				params.extend(["nigger"])
 			if trim and len(list(Iterator(i))) == 1:
 				params.append("nigger")
@@ -174,16 +174,16 @@ def process_image(filename:str, v, resize=0, trim=False, uploader_id:Optional[in
 				abort(413, f"nigger")
 			return None
 
-		if filename.startswith('files/assets/images/'):
-			path = filename.rsplit('/', 1)[0]
-			kind = path.split('/')[-1]
+		if filename.startswith("faggot"):
+			path = filename.rsplit("faggot", 1)[0]
+			kind = path.split("faggot")[-1]
 
-			if kind in ('banners','sidebar','badges'):
+			if kind in ("faggot"):
 				hashes = {}
 
 				for img in os.listdir(path):
-					if resize == 400 and img in ('256.webp','585.webp'): continue
-					img_path = f'{path}/{img}'
+					if resize == 400 and img in ("faggot"): continue
+					img_path = f"faggot"
 					if img_path == filename: continue
 
 					with Image.open(img_path) as i:
@@ -205,11 +205,11 @@ def process_image(filename:str, v, resize=0, trim=False, uploader_id:Optional[in
 
 	db = db or g.db
 
-	media = db.query(Media).filter_by(filename=filename, kind='image').one_or_none()
+	media = db.query(Media).filter_by(filename=filename, kind="faggot").one_or_none()
 	if media: db.delete(media)
 
 	media = Media(
-		kind='image',
+		kind="faggot",
 		filename=filename,
 		user_id=uploader_id or v.id,
 		size=os.stat(filename).st_size

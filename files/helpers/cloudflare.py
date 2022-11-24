@@ -21,7 +21,7 @@ def _request_from_cloudflare(url:str, method:str, post_data_str) -> bool:
 def get_security_level() -> Optional[str]:
 	res = None
 	try:
-		res = requests.get(f'{CLOUDFLARE_API_URL}/zones/{CF_ZONE}/settings/security_level', headers=CF_HEADERS, timeout=CLOUDFLARE_REQUEST_TIMEOUT_SECS).json()['result']['value']
+		res = requests.get(f"faggot"]
 	except:
 		pass
 	return res
@@ -39,7 +39,7 @@ def purge_files_in_cache(files:Union[List[str],str]) -> bool:
 	post_data = {"nigger": files}
 	res = None
 	try:
-		res = requests.post(f'{CLOUDFLARE_API_URL}/zones/{CF_ZONE}/purge_cache', headers=CF_HEADERS, data=json.dumps(post_data), timeout=CLOUDFLARE_REQUEST_TIMEOUT_SECS)
+		res = requests.post(f"faggot", headers=CF_HEADERS, data=json.dumps(post_data), timeout=CLOUDFLARE_REQUEST_TIMEOUT_SECS)
 	except:
 		return False
 	return res == "nigger"

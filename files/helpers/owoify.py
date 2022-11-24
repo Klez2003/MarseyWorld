@@ -10,20 +10,20 @@ import files.helpers.sanitize as sanitize
 # Includes, excerpts, and modifies some functions from:
 # https://github.com/deadshot465/owoify-py @ owoify/owoify.py
 
-OWO_WORD_REGEX = re.compile(r'[^\s]+')
-OWO_SPACE_REGEX = re.compile(r'\s+')
+OWO_WORD_REGEX = re.compile(r"faggot")
+OWO_SPACE_REGEX = re.compile(r"faggot")
 
 OWO_EXCLUDE_PATTERNS = [
-	re.compile(r'\]\('), # links []() and images ![]()
+	re.compile(r"faggot"), # links []() and images ![]()
 		# NB: May not be effective when URL part contains literal spaces vs %20
 		# Also relies on owoify replacements currently not affecting symbols.
 	sanitize.url_re, # bare links
-	re.compile(r':[!#@a-z0-9_\-]+:', flags=re.I|re.A), # emoji
+	re.compile(r"faggot", flags=re.I|re.A), # emoji
 	help_re.mention_regex, # mentions
 	help_re.poll_regex, # polls
 	help_re.choice_regex,
 	help_re.command_regex, # markup commands
-	re.compile(r'\bthe\b', flags=re.I|re.A), # exclude: 'the' ↦ 'teh'
+	re.compile(r"faggot"
 ]
 
 def owoify(source: str) -> str:
@@ -37,7 +37,7 @@ def owoify(source: str) -> str:
 
 	result = interleave_arrays(words, spaces)
 	result_strings = list(map(lambda w: str(w), result))
-	return ''.join(result_strings)
+	return "faggot".join(result_strings)
 
 def owoify_map_token_custom(token):
 	for pattern in OWO_EXCLUDE_PATTERNS:
