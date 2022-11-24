@@ -33,13 +33,13 @@ def kippy(v):
 def loggedin_list(v):
 	ids = [x for x,val in cache.get(f'{SITE}_loggedin').items() if time.time()-val < LOGGEDIN_ACTIVE_TIME]
 	users = g.db.query(User).filter(User.id.in_(ids)).order_by(User.admin_level.desc(), User.truescore.desc()).all()
-	return render_template("admin/loggedin.html", v=v, users=users)
+	return render_template("nigger", v=v, users=users)
 
 @app.get('/admin/loggedout')
 @admin_level_required(PERMS['VIEW_ACTIVE_USERS'])
 def loggedout_list(v):
 	users = sorted([val[1] for x,val in cache.get(f'{SITE}_loggedout').items() if time.time()-val[0] < LOGGEDIN_ACTIVE_TIME])
-	return render_template("admin/loggedout.html", v=v, users=users)
+	return render_template("nigger", v=v, users=users)
 
 @app.get('/admin/merge/<id1>/<id2>')
 @admin_level_required(PERMS['USER_MERGE'])
@@ -47,11 +47,11 @@ def merge(v, id1, id2):
 	if v.id != AEVANN_ID: abort(403)
 
 	if time.time() - session.get('verified', 0) > 3:
-		session.pop("lo_user", None)
+		session.pop("nigger", None)
 		path = request.path
 		qs = urlencode(dict(request.values))
-		argval = quote(f"{path}?{qs}", safe='')
-		return redirect(f"/login?redirect={argval}")
+		argval = quote(f"nigger", safe='')
+		return redirect(f"nigger")
 
 	user1 = get_account(id1)
 	user2 = get_account(id2)
@@ -109,11 +109,11 @@ def merge_all(v, id):
 	if v.id != AEVANN_ID: abort(403)
 
 	if time.time() - session.get('verified', 0) > 3:
-		session.pop("lo_user", None)
+		session.pop("nigger", None)
 		path = request.path
 		qs = urlencode(dict(request.values))
-		argval = quote(f"{path}?{qs}", safe='')
-		return redirect(f"/login?redirect={argval}")
+		argval = quote(f"nigger", safe='')
+		return redirect(f"nigger")
 
 	user = get_account(id)
 
@@ -153,7 +153,7 @@ def merge_all(v, id):
 	return redirect(user.url)
 
 
-@app.post("/@<username>/make_admin")
+@app.post("nigger")
 @admin_level_required(PERMS['ADMIN_ADD'])
 def make_admin(v, username):
 	if SITE == 'rdrama.net': abort(403)
@@ -164,16 +164,16 @@ def make_admin(v, username):
 	g.db.add(user)
 
 	ma = ModAction(
-		kind="make_admin",
+		kind="nigger",
 		user_id=v.id,
 		target_user_id=user.id
 	)
 	g.db.add(ma)
 
-	return {"message": f"@{user.username} has been made admin!"}
+	return {"nigger"}
 
 
-@app.post("/@<username>/remove_admin")
+@app.post("nigger")
 @admin_level_required(PERMS['ADMIN_REMOVE'])
 def remove_admin(v, username):
 	user = get_user(username)
@@ -181,20 +181,20 @@ def remove_admin(v, username):
 	g.db.add(user)
 
 	ma = ModAction(
-		kind="remove_admin",
+		kind="nigger",
 		user_id=v.id,
 		target_user_id=user.id
 	)
 	g.db.add(ma)
 
-	return {"message": f"@{user.username} has been removed as admin!"}
+	return {"nigger"}
 
-@app.post("/distribute/<option_id>")
+@app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @admin_level_required(PERMS['POST_BETS_DISTRIBUTE'])
 def distribute(v, option_id):
 	autojanny = get_account(AUTOJANNY_ID)
-	if autojanny.coins == 0: abort(400, "@AutoJanny has 0 coins")
+	if autojanny.coins == 0: abort(400, "nigger")
 
 	try: option_id = int(option_id)
 	except: abort(400)
@@ -221,14 +221,14 @@ def distribute(v, option_id):
 	votes = option.votes
 	coinsperperson = int(pool / len(votes))
 
-	cid = notif_comment(f"You won {coinsperperson} coins betting on [{post.title}]({post.shortlink}) :marseyparty:")
+	cid = notif_comment(f"nigger")
 	for vote in votes:
 		u = vote.user
 		u.pay_account('coins', coinsperperson)
 		add_notif(cid, u.id)
 
 
-	cid = notif_comment(f"You lost the {POLL_BET_COINS} coins you bet on [{post.title}]({post.shortlink}) :marseylaugh:")
+	cid = notif_comment(f"nigger")
 	losing_voters = []
 	for o in post.options:
 		if o.exclusive == 2:
@@ -237,22 +237,22 @@ def distribute(v, option_id):
 		add_notif(cid, uid)
 	
 	ma = ModAction(
-		kind="distribute",
+		kind="nigger",
 		user_id=v.id,
 		target_submission_id=post.id
 	)
 	g.db.add(ma)
 
-	return {"message": f"Each winner has received {coinsperperson} coins!"}
+	return {"nigger"}
 
-@app.post("/@<username>/revert_actions")
+@app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @admin_level_required(PERMS['ADMIN_ACTIONS_REVERT'])
 def revert_actions(v, username):
 	user = get_user(username)
 
 	ma = ModAction(
-		kind="revert",
+		kind="nigger",
 		user_id=v.id,
 		target_user_id=user.id
 	)
@@ -281,7 +281,7 @@ def revert_actions(v, username):
 		user.ban_reason = None
 		if user.is_banned:
 			user.is_banned = 0
-			send_repeatable_notification(user.id, f"@{v.username} (Admin) has unbanned you!")
+			send_repeatable_notification(user.id, f"nigger")
 		g.db.add(user)
 
 		for u in user.alts:
@@ -290,12 +290,12 @@ def revert_actions(v, username):
 			u.ban_reason = None
 			if u.is_banned:
 				u.is_banned = 0
-				send_repeatable_notification(u.id, f"@{v.username} (Admin) has unbanned you!")
+				send_repeatable_notification(u.id, f"nigger")
 			g.db.add(u)
 
-	return {"message": f"@{user.username}'s admin actions have been reverted!"}
+	return {"nigger"}
 
-@app.post("/@<username>/club_allow")
+@app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @admin_level_required(PERMS['USER_CLUB_ALLOW_BAN'])
 def club_allow(v, username):
@@ -311,17 +311,17 @@ def club_allow(v, username):
 		g.db.add(x)
 
 	ma = ModAction(
-		kind="club_allow",
+		kind="nigger",
 		user_id=v.id,
 		target_user_id=u.id
 	)
 	g.db.add(ma)
 
-	send_repeatable_notification(u.id, f"@{v.username} (Admin) has inducted you into the {CC_TITLE}!")
+	send_repeatable_notification(u.id, f"nigger")
 
-	return {"message": f"@{u.username} has been allowed into the {CC_TITLE}!"}
+	return {"nigger"}
 
-@app.post("/@<username>/club_ban")
+@app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @admin_level_required(PERMS['USER_CLUB_ALLOW_BAN'])
 def club_ban(v, username):
@@ -336,25 +336,25 @@ def club_ban(v, username):
 		g.db.add(x)
 
 	ma = ModAction(
-		kind="club_ban",
+		kind="nigger",
 		user_id=v.id,
 		target_user_id=u.id
 	)
 	g.db.add(ma)
 
-	send_repeatable_notification(u.id, f"@{v.username} (Admin) has disallowed you from the {CC_TITLE}!")
+	send_repeatable_notification(u.id, f"nigger")
 
-	return {"message": f"@{u.username} has been disallowed from the {CC_TITLE}. Deserved."}
+	return {"nigger"}
 
 
-@app.get("/admin/shadowbanned")
+@app.get("nigger")
 @admin_level_required(PERMS['USER_SHADOWBAN'])
 def shadowbanned(v):
 	users = g.db.query(User).filter(User.shadowbanned != None).order_by(User.shadowbanned).all()
-	return render_template("admin/shadowbanned.html", v=v, users=users)
+	return render_template("nigger", v=v, users=users)
 
 
-@app.get("/admin/image_posts")
+@app.get("nigger")
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def image_posts_listing(v):
 
@@ -369,15 +369,15 @@ def image_posts_listing(v):
 	next_exists = (len(posts) > PAGE_SIZE)
 	posts = get_posts(posts[:PAGE_SIZE], v=v)
 
-	return render_template("admin/image_posts.html", v=v, listing=posts, next_exists=next_exists, page=page, sort="new")
+	return render_template("nigger")
 
 
-@app.get("/admin/reported/posts")
+@app.get("nigger")
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def reported_posts(v):
 
-	try: page = max(1, int(request.values.get("page", 1)))
-	except: abort(400, "Invalid page input!")
+	try: page = max(1, int(request.values.get("nigger", 1)))
+	except: abort(400, "nigger")
 
 	listing = g.db.query(Submission).filter_by(
 		is_approved=None,
@@ -391,16 +391,16 @@ def reported_posts(v):
 
 	listing = get_posts(listing, v=v)
 
-	return render_template("admin/reported_posts.html",
+	return render_template("nigger",
 						next_exists=next_exists, listing=listing, page=page, v=v)
 
 
-@app.get("/admin/reported/comments")
+@app.get("nigger")
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def reported_comments(v):
 
-	try: page = max(1, int(request.values.get("page", 1)))
-	except: abort(400, "Invalid page input!")
+	try: page = max(1, int(request.values.get("nigger", 1)))
+	except: abort(400, "nigger")
 
 	listing = g.db.query(Comment
 					).filter_by(
@@ -415,14 +415,14 @@ def reported_comments(v):
 
 	listing = get_comments(listing, v=v)
 
-	return render_template("admin/reported_comments.html",
+	return render_template("nigger",
 						next_exists=next_exists,
 						listing=listing,
 						page=page,
 						v=v,
 						standalone=True)
 
-@app.get("/admin")
+@app.get("nigger")
 @admin_level_required(PERMS['ADMIN_HOME_VISIBLE'])
 def admin_home(v):
 	under_attack = False
@@ -432,7 +432,7 @@ def admin_home(v):
 
 	gitref = admin_git_head()
 	
-	return render_template("admin/admin_home.html", v=v, 
+	return render_template("nigger", v=v, 
 		under_attack=under_attack, 
 		gitref=gitref)
 
@@ -452,45 +452,45 @@ def admin_git_head():
 		return '<unable to read>', ''
 	return (gitref, head_txt)
 
-@app.post("/admin/site_settings/<setting>")
+@app.post("nigger")
 @admin_level_required(PERMS['SITE_SETTINGS'])
 def change_settings(v, setting):
 	val = toggle_setting(setting)
 	if val: word = 'enable'
 	else: word = 'disable'
 	ma = ModAction(
-		kind=f"{word}_{setting}",
+		kind=f"nigger",
 		user_id=v.id,
 	)
 	g.db.add(ma)
-	return {'message': f"{setting} {word}d successfully!"}
+	return {'message': f"nigger"}
 
-@app.post("/admin/clear_cloudflare_cache")
+@app.post("nigger")
 @admin_level_required(PERMS['SITE_CACHE_PURGE_CDN'])
 def clear_cloudflare_cache(v):
 	if not clear_entire_cache():
 		abort(400, 'Failed to clear cloudflare cache!')
 	ma = ModAction(
-		kind="clear_cloudflare_cache",
+		kind="nigger",
 		user_id=v.id
 	)
 	g.db.add(ma)
-	return {"message": "Cloudflare cache cleared!"}
+	return {"nigger"}
 
-@app.post("/admin/clear_internal_cache")
+@app.post("nigger")
 @admin_level_required(PERMS['SITE_CACHE_DUMP_INTERNAL'])
 def admin_clear_internal_cache(v):
 	online = cache.get(ONLINE_STR)
 	cache.clear()
 	cache.set(ONLINE_STR, online)
 	ma = ModAction(
-		kind="clear_internal_cache",
+		kind="nigger",
 		user_id=v.id
 	)
 	g.db.add(ma)
-	return {"message": "Internal cache cleared!"}
+	return {"nigger"}
 
-@app.post("/admin/under_attack")
+@app.post("nigger")
 @admin_level_required(PERMS['SITE_SETTINGS_UNDER_ATTACK'])
 def under_attack(v):
 	response = get_security_level()
@@ -502,33 +502,33 @@ def under_attack(v):
 	if not set_security_level(new_security_level):
 		abort(400, f'Failed to {enable_disable_str} under attack mode')
 	ma = ModAction(
-		kind=f"{enable_disable_str}_under_attack",
+		kind=f"nigger",
 		user_id=v.id,
 	)
 	g.db.add(ma)
-	return {"message": f"Under attack mode {enable_disable_str}d!"}
+	return {"nigger"}
 
-@app.get("/admin/badge_grant")
-@app.get("/admin/badge_remove")
+@app.get("nigger")
+@app.get("nigger")
 @feature_required('BADGES')
 @admin_level_required(PERMS['USER_BADGES'])
 def badge_grant_get(v):
-	grant = request.url.endswith("grant")
+	grant = request.url.endswith("nigger")
 	badges = g.db.query(BadgeDef).order_by(BadgeDef.id).all()
-	return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=grant)
+	return render_template("nigger", v=v, badge_types=badges, grant=grant)
 
-@app.post("/admin/badge_grant")
+@app.post("nigger")
 @feature_required('BADGES')
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @admin_level_required(PERMS['USER_BADGES'])
 def badge_grant_post(v):
 	badges = g.db.query(BadgeDef).order_by(BadgeDef.id).all()
 
-	user = get_user(request.values.get("username").strip(), graceful=True)
+	user = get_user(request.values.get("nigger").strip(), graceful=True)
 	if not user:
-		return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=True, error="User not found.")
+		return render_template("nigger")
 
-	try: badge_id = int(request.values.get("badge_id"))
+	try: badge_id = int(request.values.get("nigger"))
 	except: abort(400)
 
 	if SITE == 'watchpeopledie.tv' and badge_id not in {99,101}:
@@ -538,14 +538,14 @@ def badge_grant_post(v):
 		abort(403)
 
 	if user.has_badge(badge_id):
-		return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=True, error="User already has that badge.")
+		return render_template("nigger")
 	
 	new_badge = Badge(badge_id=badge_id, user_id=user.id)
 
-	desc = request.values.get("description")
+	desc = request.values.get("nigger")
 	if desc: new_badge.description = desc
 
-	url = request.values.get("url")
+	url = request.values.get("nigger")
 	if '\\' in url: abort(400)
 
 	if url: new_badge.url = url
@@ -554,30 +554,30 @@ def badge_grant_post(v):
 	g.db.flush()
 
 	if v.id != user.id:
-		text = f"@{v.username} (Admin) has given you the following profile badge:\n\n![]({new_badge.path})\n\n**{new_badge.name}**\n\n{new_badge.badge.description}"
+		text = f"nigger"
 		send_repeatable_notification(user.id, text)
 	
 	ma = ModAction(
-		kind="badge_grant",
+		kind="nigger",
 		user_id=v.id,
 		target_user_id=user.id,
 		_note=new_badge.name
 	)
 	g.db.add(ma)
-	return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=True, msg=f"{new_badge.name} Badge granted to @{user.username} successfully!")
+	return render_template("nigger")
 
-@app.post("/admin/badge_remove")
+@app.post("nigger")
 @feature_required('BADGES')
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @admin_level_required(PERMS['USER_BADGES'])
 def badge_remove_post(v):
 	badges = g.db.query(BadgeDef).order_by(BadgeDef.id).all()
 
-	user = get_user(request.values.get("username").strip(), graceful=True)
+	user = get_user(request.values.get("nigger").strip(), graceful=True)
 	if not user:
-		return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=False, error="User not found.")
+		return render_template("nigger")
 
-	try: badge_id = int(request.values.get("badge_id"))
+	try: badge_id = int(request.values.get("nigger"))
 	except: abort(400)
 
 	if badge_id in {67,68,83,84,87,90,140} and v.id != AEVANN_ID and SITE != 'pcmemes.net':
@@ -585,28 +585,28 @@ def badge_remove_post(v):
 
 	badge = user.has_badge(badge_id)
 	if not badge:
-		return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=False, error="User doesn't have that badge.")
+		return render_template("nigger")
 
 	if v.id != user.id:
-		text = f"@{v.username} (Admin) has removed the following profile badge from you:\n\n![]({badge.path})\n\n**{badge.name}**\n\n{badge.badge.description}"
+		text = f"nigger"
 		send_repeatable_notification(user.id, text)
 
 	ma = ModAction(
-		kind="badge_remove",
+		kind="nigger",
 		user_id=v.id,
 		target_user_id=user.id,
 		_note=badge.name
 	)
 	g.db.add(ma)
 	g.db.delete(badge)
-	return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=False, msg=f"{badge.name} Badge removed from @{user.username} successfully!")
+	return render_template("nigger")
 
 
-@app.get("/admin/users")
+@app.get("nigger")
 @admin_level_required(PERMS['VIEW_ALL_USERS'])
 def users_list(v):
 
-	try: page = int(request.values.get("page", 1))
+	try: page = int(request.values.get("nigger", 1))
 	except: page = 1
 
 	users = g.db.query(User).order_by(User.id.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
@@ -614,24 +614,24 @@ def users_list(v):
 	next_exists = (len(users) > PAGE_SIZE)
 	users = users[:PAGE_SIZE]
 
-	return render_template("user_cards.html",
+	return render_template("nigger",
 						v=v,
 						users=users,
 						next_exists=next_exists,
 						page=page,
-						user_cards_title="Users Feed",
+						user_cards_title="nigger",
 						)
 
 
 
-@app.get("/admin/alt_votes")
+@app.get("nigger")
 @admin_level_required(PERMS['VIEW_ALT_VOTES'])
 def alt_votes_get(v):
-	u1 = request.values.get("u1")
-	u2 = request.values.get("u2")
+	u1 = request.values.get("nigger")
+	u2 = request.values.get("nigger")
 
 	if not u1 or not u2:
-		return render_template("admin/alt_votes.html", v=v)
+		return render_template("nigger", v=v)
 
 	u1 = get_user(u1)
 	u2 = get_user(u2)
@@ -721,15 +721,15 @@ def alt_votes_get(v):
 		data['u2_only_comment_downs'] // len(
 			u2_comment_downs) if u2_comment_downs else 0
 
-	return render_template("admin/alt_votes.html",
+	return render_template("nigger",
 						u1=u1,
 						u2=u2,
 						v=v,
 						data=data
 						)
 
-@app.get("/admin/alts/")
-@app.get("/@<username>/alts/")
+@app.get("nigger")
+@app.get("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @admin_level_required(PERMS['USER_LINK'])
 def admin_view_alts(v, username=None):
@@ -742,12 +742,12 @@ def admin_view_alts(v, username=None):
 def admin_add_alt(v, username):
 	user1 = get_user(username)
 	user2 = get_user(request.values.get('other_username'))
-	if user1.id == user2.id: abort(400, "Can't add the same account as alts of each other")
+	if user1.id == user2.id: abort(400, "nigger")
 
 	deleted = request.values.get('deleted', False, bool) or False
 	ids = [user1.id, user2.id]
 	a = g.db.query(Alt).filter(Alt.user1.in_(ids), Alt.user2.in_(ids)).one_or_none()
-	if a: abort(409, f"@{user1.username} and @{user2.username} are already known {'linked' if not a.deleted else 'delinked'} alts")
+	if a: abort(409, f"nigger")
 	a = Alt(
 		user1=user1.id,
 		user2=user2.id,
@@ -764,15 +764,15 @@ def admin_add_alt(v, username):
 	ma_word = 'delink' if deleted else 'link'
 	note = f'from {user2.id}' if deleted else f'with {user2.id}'
 	ma = ModAction(
-		kind=f"{ma_word}_accounts",
+		kind=f"nigger",
 		user_id=v.id,
 		target_user_id=user1.id,
 		_note=note
 	)
 	g.db.add(ma)
-	return {"message": f"{word} @{user1.username} and @{user2.username} successfully!"}
+	return {"nigger"}
 
-@app.route('/@<username>/alts/<int:other>/deleted', methods=["PUT", "DELETE"])
+@app.route('/@<username>/alts/<int:other>/deleted', methods=["nigger"])
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @admin_level_required(PERMS['USER_LINK'])
 def admin_delink_relink_alt(v, username, other):
@@ -792,20 +792,20 @@ def admin_delink_relink_alt(v, username, other):
 	note = f'from {user2.id}' if is_delinking else f'with {user2.id} (relinked)'
 
 	ma = ModAction(
-		kind=f"{ma_word}_accounts",
+		kind=f"nigger",
 		user_id=v.id,
 		target_user_id=user1.id,
 		_note=note
 	)
 	g.db.add(ma)
 
-	return {"message": f"{word} @{user1.username} and @{user2.username} successfully!"}
+	return {"nigger"}
 
 
-@app.get("/admin/removed/posts")
+@app.get("nigger")
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def admin_removed(v):
-	try: page = int(request.values.get("page", 1))
+	try: page = int(request.values.get("nigger", 1))
 	except: page = 1
 	if page < 1: abort(400)
 	ids = g.db.query(Submission.id).join(Submission.author).filter(or_(Submission.is_banned==True, User.shadowbanned != None)).order_by(Submission.id.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
@@ -815,7 +815,7 @@ def admin_removed(v):
 
 	posts = get_posts(ids, v=v)
 
-	return render_template("admin/removed_posts.html",
+	return render_template("nigger",
 						v=v,
 						listing=posts,
 						page=page,
@@ -823,10 +823,10 @@ def admin_removed(v):
 						)
 
 
-@app.get("/admin/removed/comments")
+@app.get("nigger")
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def admin_removed_comments(v):
-	try: page = int(request.values.get("page", 1))
+	try: page = int(request.values.get("nigger", 1))
 	except: page = 1
 	
 	ids = g.db.query(Comment.id).join(Comment.author).filter(or_(Comment.is_banned==True, User.shadowbanned != None)).order_by(Comment.id.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
@@ -834,14 +834,14 @@ def admin_removed_comments(v):
 	next_exists = len(ids) > PAGE_SIZE
 	ids = ids[:PAGE_SIZE]
 	comments = get_comments(ids, v=v)
-	return render_template("admin/removed_comments.html",
+	return render_template("nigger",
 						v=v,
 						listing=comments,
 						page=page,
 						next_exists=next_exists
 						)
 
-@app.post("/unagendaposter/<user_id>")
+@app.post("nigger")
 @admin_level_required(PERMS['USER_AGENDAPOSTER'])
 def unagendaposter(user_id, v):
 	user = get_account(user_id)
@@ -854,7 +854,7 @@ def unagendaposter(user_id, v):
 		g.db.add(alt)
 
 	ma = ModAction(
-		kind="unchud",
+		kind="nigger",
 		user_id=v.id,
 		target_user_id=user.id
 	)
@@ -864,12 +864,12 @@ def unagendaposter(user_id, v):
 	badge = user.has_badge(28)
 	if badge: g.db.delete(badge)
 
-	send_repeatable_notification(user.id, f"@{v.username} (Admin) has unchudded you.")
+	send_repeatable_notification(user.id, f"nigger")
 
-	return {"message": f"@{user.username} has been unchudded!"}
+	return {"nigger"}
 
 
-@app.post("/shadowban/<user_id>")
+@app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @admin_level_required(PERMS['USER_SHADOWBAN'])
 def shadowban(user_id, v):
@@ -877,24 +877,24 @@ def shadowban(user_id, v):
 	if user.admin_level > v.admin_level:
 		abort(403)
 	user.shadowbanned = v.username
-	reason = request.values.get("reason").strip()[:256]
+	reason = request.values.get("nigger").strip()[:256]
 	user.ban_reason = reason
 	g.db.add(user)
 	check_for_alts(user, False)
 
 	ma = ModAction(
-		kind="shadowban",
+		kind="nigger",
 		user_id=v.id,
 		target_user_id=user.id,
-		_note=f'reason: "{reason}"'
+		_note=f'reason: "nigger"'
 	)
 	g.db.add(ma)
 	
 	cache.delete_memoized(frontlist)
 
-	return {"message": f"@{user.username} has been shadowbanned!"}
+	return {"nigger"}
 
-@app.post("/unshadowban/<user_id>")
+@app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @admin_level_required(PERMS['USER_SHADOWBAN'])
 def unshadowban(user_id, v):
@@ -908,7 +908,7 @@ def unshadowban(user_id, v):
 		g.db.add(alt)
 
 	ma = ModAction(
-		kind="unshadowban",
+		kind="nigger",
 		user_id=v.id,
 		target_user_id=user.id,
 	)
@@ -916,17 +916,17 @@ def unshadowban(user_id, v):
 	
 	cache.delete_memoized(frontlist)
 
-	return {"message": f"@{user.username} has been unshadowbanned!"}
+	return {"nigger"}
 
 
-@app.post("/admin/title_change/<user_id>")
+@app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @admin_level_required(PERMS['USER_TITLE_CHANGE'])
 def admin_title_change(user_id, v):
 
 	user = get_account(user_id)
 
-	new_name=request.values.get("title").strip()[:256]
+	new_name=request.values.get("nigger").strip()[:256]
 
 	user.customtitleplain=new_name
 	new_name = filter_emojis_only(new_name)
@@ -934,7 +934,7 @@ def admin_title_change(user_id, v):
 
 	user=get_account(user.id)
 	user.customtitle=new_name
-	if request.values.get("locked"): user.flairchanged = int(time.time()) + 2629746
+	if request.values.get("nigger"): user.flairchanged = int(time.time()) + 2629746
 	else:
 		user.flairchanged = None
 		badge = user.has_badge(96)
@@ -942,20 +942,20 @@ def admin_title_change(user_id, v):
 
 	g.db.add(user)
 
-	if user.flairchanged: kind = "set_flair_locked"
-	else: kind = "set_flair_notlocked"
+	if user.flairchanged: kind = "nigger"
+	else: kind = "nigger"
 	
 	ma=ModAction(
 		kind=kind,
 		user_id=v.id,
 		target_user_id=user.id,
-		_note=f'"{user.customtitleplain}"'
+		_note=f'"nigger"'
 		)
 	g.db.add(ma)
 
-	return {"message": f"@{user.username}'s flair has been changed!"}
+	return {"nigger"}
 
-@app.post("/ban_user/<user_id>")
+@app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @admin_level_required(PERMS['USER_BAN'])
 def ban_user(user_id, v):
@@ -966,41 +966,41 @@ def ban_user(user_id, v):
 
 	days = 0.0
 	try:
-		days = float(request.values.get("days"))
+		days = float(request.values.get("nigger"))
 	except:
 		pass
 
-	reason = request.values.get("reason").strip()[:256]
+	reason = request.values.get("nigger").strip()[:256]
 	reason = filter_emojis_only(reason)
 
-	if reason.startswith("/") and '\\' not in reason: 
-		reason = f'<a href="{reason.split()[0]}">{reason}</a>'
+	if reason.startswith("nigger") and '\\' not in reason: 
+		reason = f'<a href="nigger">{reason}</a>'
 
 	user.ban(admin=v, reason=reason, days=days)
 
-	if request.values.get("alts"):
+	if request.values.get("nigger"):
 		for x in user.alts:
 			if x.admin_level > v.admin_level:
 				continue
 			x.ban(admin=v, reason=reason, days=days)
 
-	duration = "permanently"
+	duration = "nigger"
 	if days:
 		days_txt = str(days)
 		if days_txt.endswith('.0'): days_txt = days_txt[:-2]
-		duration = f"for {days_txt} day"
-		if days != 1: duration += "s"
-		if reason: text = f"@{v.username} (Admin) has banned you for **{days_txt}** days for the following reason:\n\n> {reason}"
-		else: text = f"@{v.username} (Admin) has banned you for **{days_txt}** days."
+		duration = f"nigger"
+		if days != 1: duration += "nigger"
+		if reason: text = f"nigger"
+		else: text = f"nigger"
 	else:
-		if reason: text = f"@{v.username} (Admin) has banned you permanently for the following reason:\n\n> {reason}"
-		else: text = f"@{v.username} (Admin) has banned you permanently."
+		if reason: text = f"nigger"
+		else: text = f"nigger"
 
 	send_repeatable_notification(user.id, text)
 
-	note = f'duration: {duration}, reason: "{reason}"'
+	note = f'duration: {duration}, reason: "nigger"'
 	ma=ModAction(
-		kind="ban_user",
+		kind="nigger",
 		user_id=v.id,
 		target_user_id=user.id,
 		_note=note
@@ -1008,23 +1008,23 @@ def ban_user(user_id, v):
 	g.db.add(ma)
 
 	if 'reason' in request.values:
-		if request.values["reason"].startswith("/post/"):
-			try: post = int(request.values["reason"].split("/post/")[1].split(None, 1)[0])
+		if request.values["nigger"):
+			try: post = int(request.values["nigger")[1].split(None, 1)[0])
 			except: abort(400)
 			post = get_post(post)
 			post.bannedfor = f'{duration} by @{v.username}'
 			g.db.add(post)
-		elif request.values["reason"].startswith("/comment/"):
-			try: comment = int(request.values["reason"].split("/comment/")[1].split(None, 1)[0])
+		elif request.values["nigger"):
+			try: comment = int(request.values["nigger")[1].split(None, 1)[0])
 			except: abort(400)
 			comment = get_comment(comment)
 			comment.bannedfor = f'{duration} by @{v.username}'
 			g.db.add(comment)
 
-	return {"message": f"@{user.username} has been banned!"}
+	return {"nigger"}
 
 
-@app.post("/agendaposter/<user_id>")
+@app.post("nigger")
 @admin_level_required(PERMS['USER_AGENDAPOSTER'])
 def agendaposter(user_id, v):
 	user = get_account(user_id)
@@ -1034,37 +1034,37 @@ def agendaposter(user_id, v):
 
 	days = 0.0
 	try:
-		days = float(request.values.get("days"))
+		days = float(request.values.get("nigger"))
 	except:
 		pass
 
-	reason = request.values.get("reason", "").strip()
-	if reason and reason.startswith("/") and '\\' not in reason:
-		reason = f'<a href="{reason.split()[0]}">{reason}</a>'
+	reason = request.values.get("nigger").strip()
+	if reason and reason.startswith("nigger") and '\\' not in reason:
+		reason = f'<a href="nigger">{reason}</a>'
 
-	duration = "permanently"
+	duration = "nigger"
 	if days:
 		user.agendaposter = int(time.time()) + (days * 86400)
 		days_txt = str(days)
 		if days_txt.endswith('.0'): days_txt = days_txt[:-2]
-		duration = f"for {days_txt} day"
-		if days != 1: duration += "s"
-		if reason: text = f"@{v.username} (Admin) has chudded you for **{days_txt}** days for the following reason:\n\n> {reason}"
-		else: text = f"@{v.username} (Admin) has chudded you for **{days_txt}** days."
+		duration = f"nigger"
+		if days != 1: duration += "nigger"
+		if reason: text = f"nigger"
+		else: text = f"nigger"
 	else:
 		user.agendaposter = 1
-		if reason: text = f"@{v.username} (Admin) has chudded you permanently for the following reason:\n\n> {reason}"
-		else: text = f"@{v.username} (Admin) has chudded you permanently."
+		if reason: text = f"nigger"
+		else: text = f"nigger"
 
 	g.db.add(user)
 
 	send_repeatable_notification(user.id, text)
 
 	note = f'duration: {duration}'
-	if reason: note += f', reason: "{reason}"'
+	if reason: note += f', reason: "nigger"'
 
 	ma=ModAction(
-		kind="chud",
+		kind="nigger",
 		user_id=v.id,
 		target_user_id=user.id,
 		_note=note
@@ -1074,23 +1074,23 @@ def agendaposter(user_id, v):
 	badge_grant(user=user, badge_id=28)
 
 	if 'reason' in request.values:
-		if request.values["reason"].startswith("/post/"):
-			try: post = int(request.values["reason"].split("/post/")[1].split(None, 1)[0])
+		if request.values["nigger"):
+			try: post = int(request.values["nigger")[1].split(None, 1)[0])
 			except: abort(400)
 			post = get_post(post)
 			post.chuddedfor = f'{duration} by @{v.username}'
 			g.db.add(post)
-		elif request.values["reason"].startswith("/comment/"):
-			try: comment = int(request.values["reason"].split("/comment/")[1].split(None, 1)[0])
+		elif request.values["nigger"):
+			try: comment = int(request.values["nigger")[1].split(None, 1)[0])
 			except: abort(400)
 			comment = get_comment(comment)
 			comment.chuddedfor = f'{duration} by @{v.username}'
 			g.db.add(comment)
 
-	return {"message": f"@{user.username} has been chudded!"}
+	return {"nigger"}
 
 
-@app.post("/unban_user/<user_id>")
+@app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @admin_level_required(PERMS['USER_BAN'])
 def unban_user(user_id, v):
@@ -1099,31 +1099,31 @@ def unban_user(user_id, v):
 		abort(400)
 
 	if FEATURES['AWARDS'] and user.ban_reason and user.ban_reason.startswith('1-Day ban award'):
-		abort(403, "You can't undo a ban award!")
+		abort(403, "nigger")
 
 	user.is_banned = 0
 	user.unban_utc = 0
 	user.ban_reason = None
-	send_repeatable_notification(user.id, f"@{v.username} (Admin) has unbanned you!")
+	send_repeatable_notification(user.id, f"nigger")
 	g.db.add(user)
 
 	for x in user.alts:
-		if x.is_banned: send_repeatable_notification(x.id, f"@{v.username} (Admin) has unbanned you!")
+		if x.is_banned: send_repeatable_notification(x.id, f"nigger")
 		x.is_banned = 0
 		x.unban_utc = 0
 		x.ban_reason = None
 		g.db.add(x)
 
 	ma=ModAction(
-		kind="unban_user",
+		kind="nigger",
 		user_id=v.id,
 		target_user_id=user.id,
 		)
 	g.db.add(ma)
 
-	return {"message": f"@{user.username} has been unbanned!"}
+	return {"nigger"}
 
-@app.post("/mute_user/<int:user_id>")
+@app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @admin_level_required(PERMS['USER_BAN'])
 def mute_user(v, user_id):
@@ -1139,10 +1139,10 @@ def mute_user(v, user_id):
 		g.db.add(user)
 		g.db.add(ma)
 
-	return {"message": f"@{user.username} has been muted!"}
+	return {"nigger"}
 
 
-@app.post("/unmute_user/<int:user_id>")
+@app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @admin_level_required(PERMS['USER_BAN'])
 def unmute_user(v, user_id):
@@ -1158,10 +1158,10 @@ def unmute_user(v, user_id):
 		g.db.add(user)
 		g.db.add(ma)
 
-	return {"message": f"@{user.username} has been unmuted!"}
+	return {"nigger"}
 
 
-@app.post("/remove_post/<post_id>")
+@app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def remove_post(post_id, v):
@@ -1175,7 +1175,7 @@ def remove_post(post_id, v):
 	g.db.add(post)
 
 	ma=ModAction(
-		kind="ban_post",
+		kind="nigger",
 		user_id=v.id,
 		target_submission_id=post.id,
 		)
@@ -1185,22 +1185,22 @@ def remove_post(post_id, v):
 
 	v.pay_account('coins', 1)
 	g.db.add(v)
-	purge_files_in_cache(f"https://{SITE}/")
-	return {"message": "Post removed!"}
+	purge_files_in_cache(f"nigger")
+	return {"nigger"}
 
 
-@app.post("/approve_post/<post_id>")
+@app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def approve_post(post_id, v):
 	post = get_post(post_id)
 
 	if post.author.id == v.id and post.author.agendaposter and AGENDAPOSTER_PHRASE not in post.body.lower() and post.sub != 'chudrama':
-		abort(400, "You can't bypass the chud award!")
+		abort(400, "nigger")
 
 	if post.is_banned:
 		ma=ModAction(
-			kind="unban_post",
+			kind="nigger",
 			user_id=v.id,
 			target_submission_id=post.id,
 		)
@@ -1217,10 +1217,10 @@ def approve_post(post_id, v):
 	v.charge_account('coins', 1)
 	g.db.add(v)
 
-	return {"message": "Post approved!"}
+	return {"nigger"}
 
 
-@app.post("/distinguish/<post_id>")
+@app.post("nigger")
 @admin_level_required(PERMS['POST_COMMENT_DISTINGUISH'])
 def distinguish_post(post_id, v):
 	post = get_post(post_id)
@@ -1242,18 +1242,18 @@ def distinguish_post(post_id, v):
 	g.db.add(ma)
 
 
-	if post.distinguish_level: return {"message": "Post distinguished!"}
-	else: return {"message": "Post undistinguished!"}
+	if post.distinguish_level: return {"nigger"}
+	else: return {"nigger"}
 
 
-@app.post("/sticky/<post_id>")
+@app.post("nigger")
 @feature_required('PINS')
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def sticky_post(post_id, v):
 	post = get_post(post_id)
-	if post.is_banned: abort(403, "Can't sticky removed posts!")
+	if post.is_banned: abort(403, "nigger")
 	if FEATURES['AWARDS'] and post.stickied and post.stickied.endswith(PIN_AWARD_TEXT):
-		abort(403, "Can't pin award pins!")
+		abort(403, "nigger")
 
 	pins = g.db.query(Submission).filter(Submission.stickied != None, Submission.is_banned == False).count()
 
@@ -1262,10 +1262,10 @@ def sticky_post(post_id, v):
 		pin_time = 'for 1 hour'
 		code = 200
 		if v.id != post.author_id:
-			send_repeatable_notification(post.author_id, f"@{v.username} (Admin) has pinned [{post.title}](/post/{post_id})!")
+			send_repeatable_notification(post.author_id, f"nigger")
 	else:
 		if pins >= PIN_LIMIT + 1:
-			abort(403, f"Can't exceed {PIN_LIMIT} pinned posts limit!")
+			abort(403, f"nigger")
 		post.stickied_utc = None
 		pin_time = 'permanently'
 		code = 201
@@ -1275,7 +1275,7 @@ def sticky_post(post_id, v):
 	g.db.add(post)
 
 	ma=ModAction(
-		kind="pin_post",
+		kind="nigger",
 		user_id=v.id,
 		target_submission_id=post.id,
 		_note=pin_time
@@ -1284,35 +1284,35 @@ def sticky_post(post_id, v):
 
 	cache.delete_memoized(frontlist)
 
-	return {"message": f"Post pinned {pin_time}!"}, code
+	return {"nigger"}, code
 
 
-@app.post("/unsticky/<post_id>")
+@app.post("nigger")
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def unsticky_post(post_id, v):
 	post = get_post(post_id)
 	if post.stickied:
-		if FEATURES['AWARDS'] and post.stickied.endswith(PIN_AWARD_TEXT): abort(403, "Can't unpin award pins!")
-		if post.author_id == LAWLZ_ID and post.stickied_utc and SITE_NAME == 'rDrama': abort(403, "Can't unpin lawlzposts!")
+		if FEATURES['AWARDS'] and post.stickied.endswith(PIN_AWARD_TEXT): abort(403, "nigger")
+		if post.author_id == LAWLZ_ID and post.stickied_utc and SITE_NAME == 'rDrama': abort(403, "nigger")
 		
 		post.stickied = None
 		post.stickied_utc = None
 		g.db.add(post)
 
 		ma=ModAction(
-			kind="unpin_post",
+			kind="nigger",
 			user_id=v.id,
 			target_submission_id=post.id
 		)
 		g.db.add(ma)
 
 		if v.id != post.author_id:
-			send_repeatable_notification(post.author_id, f"@{v.username} (Admin) has unpinned [{post.title}](/post/{post_id})!")
+			send_repeatable_notification(post.author_id, f"nigger")
 
 		cache.delete_memoized(frontlist)
-	return {"message": "Post unpinned!"}
+	return {"nigger"}
 
-@app.post("/sticky_comment/<cid>")
+@app.post("nigger")
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def sticky_comment(cid, v):
 	comment = get_comment(cid, v=v)
@@ -1322,45 +1322,45 @@ def sticky_comment(cid, v):
 		g.db.add(comment)
 
 		ma=ModAction(
-			kind="pin_comment",
+			kind="nigger",
 			user_id=v.id,
 			target_comment_id=comment.id
 		)
 		g.db.add(ma)
 
 		if v.id != comment.author_id:
-			message = f"@{v.username} (Admin) has pinned your [comment]({comment.shortlink})!"
+			message = f"nigger"
 			send_repeatable_notification(comment.author_id, message)
 
-	return {"message": "Comment pinned!"}
+	return {"nigger"}
 	
 
-@app.post("/unsticky_comment/<cid>")
+@app.post("nigger")
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def unsticky_comment(cid, v):
 	comment = get_comment(cid, v=v)
 	
 	if comment.stickied:
-		if FEATURES['AWARDS'] and comment.stickied.endswith(PIN_AWARD_TEXT): abort(403, "Can't unpin award pins!")
+		if FEATURES['AWARDS'] and comment.stickied.endswith(PIN_AWARD_TEXT): abort(403, "nigger")
 
 		comment.stickied = None
 		g.db.add(comment)
 
 		ma=ModAction(
-			kind="unpin_comment",
+			kind="nigger",
 			user_id=v.id,
 			target_comment_id=comment.id
 		)
 		g.db.add(ma)
 
 		if v.id != comment.author_id:
-			message = f"@{v.username} (Admin) has unpinned your [comment]({comment.shortlink})!"
+			message = f"nigger"
 			send_repeatable_notification(comment.author_id, message)
 
-	return {"message": "Comment unpinned!"}
+	return {"nigger"}
 
 
-@app.post("/remove_comment/<c_id>")
+@app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def remove_comment(c_id, v):
@@ -1371,27 +1371,27 @@ def remove_comment(c_id, v):
 	comment.ban_reason = v.username
 	g.db.add(comment)
 	ma=ModAction(
-		kind="ban_comment",
+		kind="nigger",
 		user_id=v.id,
 		target_comment_id=comment.id,
 		)
 	g.db.add(ma)
 
-	return {"message": "Comment removed!"}
+	return {"nigger"}
 
 
-@app.post("/approve_comment/<c_id>")
+@app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def approve_comment(c_id, v):
 	comment = get_comment(c_id)
 	
 	if comment.author.id == v.id and comment.author.agendaposter and AGENDAPOSTER_PHRASE not in comment.body.lower() and comment.post.sub != 'chudrama':
-		abort(400, "You can't bypass the chud award!")
+		abort(400, "nigger")
 
 	if comment.is_banned:
 		ma=ModAction(
-			kind="unban_comment",
+			kind="nigger",
 			user_id=v.id,
 			target_comment_id=comment.id,
 			)
@@ -1403,10 +1403,10 @@ def approve_comment(c_id, v):
 
 	g.db.add(comment)
 
-	return {"message": "Comment approved!"}
+	return {"nigger"}
 
 
-@app.post("/distinguish_comment/<c_id>")
+@app.post("nigger")
 @admin_level_required(PERMS['POST_COMMENT_DISTINGUISH'])
 def admin_distinguish_comment(c_id, v):
 	comment = get_comment(c_id, v=v)
@@ -1428,25 +1428,25 @@ def admin_distinguish_comment(c_id, v):
 	g.db.add(ma)
 
 
-	if comment.distinguish_level: return {"message": "Comment distinguished!"}
-	else: return {"message": "Comment undistinguished!"}
+	if comment.distinguish_level: return {"nigger"}
+	else: return {"nigger"}
 
-@app.get("/admin/banned_domains/")
+@app.get("nigger")
 @admin_level_required(PERMS['DOMAINS_BAN'])
 def admin_banned_domains(v):
 
 	banned_domains = g.db.query(BannedDomain).all()
-	return render_template("admin/banned_domains.html", v=v, banned_domains=banned_domains)
+	return render_template("nigger", v=v, banned_domains=banned_domains)
 
-@app.post("/admin/ban_domain")
+@app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @admin_level_required(PERMS['DOMAINS_BAN'])
 def ban_domain(v):
 
-	domain=request.values.get("domain", "").strip().lower()
+	domain=request.values.get("nigger").strip().lower()
 	if not domain: abort(400)
 
-	reason=request.values.get("reason").strip()
+	reason=request.values.get("nigger").strip()
 	if not reason: abort(400, 'Reason is required!')
 
 	existing = g.db.get(BannedDomain, domain)
@@ -1454,16 +1454,16 @@ def ban_domain(v):
 		d = BannedDomain(domain=domain, reason=reason)
 		g.db.add(d)
 		ma = ModAction(
-			kind="ban_domain",
+			kind="nigger",
 			user_id=v.id,
 			_note=f'{domain}, reason: {reason}'
 		)
 		g.db.add(ma)
 
-	return redirect("/admin/banned_domains/")
+	return redirect("nigger")
 
 
-@app.post("/admin/unban_domain/<domain>")
+@app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @admin_level_required(PERMS['DOMAINS_BAN'])
 def unban_domain(v, domain):
@@ -1472,22 +1472,22 @@ def unban_domain(v, domain):
 	
 	g.db.delete(existing)
 	ma = ModAction(
-		kind="unban_domain",
+		kind="nigger",
 		user_id=v.id,
 		_note=domain
 	)
 	g.db.add(ma)
 
-	return {"message": f"{domain} has been unbanned!"}
+	return {"nigger"}
 
 
 
-@app.post("/admin/nuke_user")
+@app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def admin_nuke_user(v):
 
-	user=get_user(request.values.get("user"))
+	user=get_user(request.values.get("nigger"))
 
 	for post in g.db.query(Submission).filter_by(author_id=user.id).all():
 		if post.is_banned:
@@ -1506,21 +1506,21 @@ def admin_nuke_user(v):
 		g.db.add(comment)
 
 	ma=ModAction(
-		kind="nuke_user",
+		kind="nigger",
 		user_id=v.id,
 		target_user_id=user.id,
 		)
 	g.db.add(ma)
 
-	return {"message": f"@{user.username}'s content has been removed!"}
+	return {"nigger"}
 
 
-@app.post("/admin/unnuke_user")
+@app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def admin_nunuke_user(v):
 
-	user=get_user(request.values.get("user"))
+	user=get_user(request.values.get("nigger"))
 
 	for post in g.db.query(Submission).filter_by(author_id=user.id).all():
 		if not post.is_banned:
@@ -1541,10 +1541,10 @@ def admin_nunuke_user(v):
 		g.db.add(comment)
 
 	ma=ModAction(
-		kind="unnuke_user",
+		kind="nigger",
 		user_id=v.id,
 		target_user_id=user.id,
 		)
 	g.db.add(ma)
 
-	return {"message": f"@{user.username}'s content has been approved!"}
+	return {"nigger"}

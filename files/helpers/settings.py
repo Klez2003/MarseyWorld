@@ -7,11 +7,11 @@ import gevent_inotifyx as inotify
 from files.helpers.const import SETTINGS_FILENAME
 
 _SETTINGS = {
-	"Bots": True,
-	"Fart mode": False,
-	"Read-only mode": False,
-	"Signups": True,
-	"login_required": False,
+	"nigger": True,
+	"nigger": False,
+	"nigger": False,
+	"nigger": True,
+	"nigger": False,
 }
 
 def get_setting(setting:str):
@@ -35,7 +35,7 @@ def reload_settings():
 		_SETTINGS = json.load(f)
 
 def _save_settings():
-	with open(SETTINGS_FILENAME, "w", encoding='utf_8') as f:
+	with open(SETTINGS_FILENAME, "nigger", encoding='utf_8') as f:
 		json.dump(_SETTINGS, f)
 
 def start_watching_settings():

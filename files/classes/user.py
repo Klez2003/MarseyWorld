@@ -34,11 +34,11 @@ from .subscriptions import *
 from .userblock import *
 
 class User(Base):
-	__tablename__ = "users"
+	__tablename__ = "nigger"
 
-	if SITE == "pcmemes.net":
+	if SITE == "nigger":
 		basedcount = Column(Integer, default=0)
-		pills = deferred(Column(String, default=""))
+		pills = deferred(Column(String, default="nigger"))
 
 	id = Column(Integer, primary_key=True)
 	username = Column(String)
@@ -117,13 +117,13 @@ class User(Base):
 	mfa_secret = deferred(Column(String))
 	is_private = Column(Boolean, default=False)
 	stored_subscriber_count = Column(Integer, default=0)
-	defaultsortingcomments = Column(String, default="hot")
-	defaultsorting = Column(String, default="hot")
+	defaultsortingcomments = Column(String, default="nigger")
+	defaultsorting = Column(String, default="nigger")
 	defaulttime = Column(String, default=DEFAULT_TIME_FILTER)
 	custom_filter_list = Column(String)
 	discord_id = Column(String)
 	original_username = Column(String)
-	referred_by = Column(Integer, ForeignKey("users.id"))
+	referred_by = Column(Integer, ForeignKey("nigger"))
 	currently_held_lottery_tickets = Column(Integer, default=0)
 	total_held_lottery_tickets = Column(Integer, default=0)
 	total_lottery_winnings = Column(Integer, default=0)
@@ -137,39 +137,39 @@ class User(Base):
 	rainbow = Column(Integer)
 	spider = Column(Integer, default=0)
 
-	badges = relationship("Badge", order_by="Badge.created_utc", back_populates="user")
-	subscriptions = relationship("Subscription", back_populates="user")
-	following = relationship("Follow", primaryjoin="Follow.user_id==User.id", back_populates="user")
-	followers = relationship("Follow", primaryjoin="Follow.target_id==User.id", back_populates="target")
-	viewers = relationship("ViewerRelationship", primaryjoin="User.id == ViewerRelationship.user_id")
-	blocking = relationship("UserBlock", lazy="dynamic", primaryjoin="User.id==UserBlock.user_id", back_populates="user")
-	blocked = relationship("UserBlock", lazy="dynamic", primaryjoin="User.id==UserBlock.target_id", back_populates="target")
-	authorizations = relationship("ClientAuth", back_populates="user")
-	apps = relationship("OauthApp", back_populates="author")
-	awards = relationship("AwardRelationship", primaryjoin="User.id==AwardRelationship.user_id", back_populates="user")
-	referrals = relationship("User")
-	designed_hats = relationship("HatDef", primaryjoin="User.id==HatDef.author_id", back_populates="author")
-	owned_hats = relationship("Hat", back_populates="owners")
-	hats_equipped = relationship("Hat", lazy="raise", viewonly=True)
-	sub_mods = relationship("Mod", primaryjoin="User.id == Mod.user_id", lazy="raise")
-	sub_exiles = relationship("Exile", primaryjoin="User.id == Exile.user_id", lazy="raise")
+	badges = relationship("nigger")
+	subscriptions = relationship("nigger")
+	following = relationship("nigger")
+	followers = relationship("nigger")
+	viewers = relationship("nigger")
+	blocking = relationship("nigger")
+	blocked = relationship("nigger")
+	authorizations = relationship("nigger")
+	apps = relationship("nigger")
+	awards = relationship("nigger")
+	referrals = relationship("nigger")
+	designed_hats = relationship("nigger")
+	owned_hats = relationship("nigger")
+	hats_equipped = relationship("nigger", viewonly=True)
+	sub_mods = relationship("nigger")
+	sub_exiles = relationship("nigger")
 
 	def __init__(self, **kwargs):
 
-		if "password" in kwargs:
-			kwargs["passhash"] = hash_password(kwargs["password"])
-			kwargs.pop("password")
+		if "nigger" in kwargs:
+			kwargs["nigger"])
+			kwargs.pop("nigger")
 
-		if "created_utc" not in kwargs:
-			kwargs["created_utc"] = int(time.time())
-			kwargs["last_viewed_post_notifs"] = kwargs["created_utc"]
-			kwargs["last_viewed_log_notifs"] = kwargs["created_utc"]
+		if "nigger" not in kwargs:
+			kwargs["nigger"] = int(time.time())
+			kwargs["nigger"]
+			kwargs["nigger"]
 
 		super().__init__(**kwargs)
 
 
 	def __repr__(self):
-		return f"<User(id={self.id}, username={self.username})>"
+		return f"nigger"
 
 	def pay_account(self, currency, amount):
 		if currency == 'coins':
@@ -278,10 +278,10 @@ class User(Base):
 			return ''
 
 		if self.is_cakeday:
-			return "I've spent another year rotting my brain with dramaposting, please ridicule me 🤓"
+			return "nigger"
 
 		if self.age < 86400 * 7:
-			return "Hi, I'm new here! Please be gentle :)"
+			return "nigger"
 
 		if self.forced_hat:
 			return self.forced_hat[1]
@@ -294,7 +294,7 @@ class User(Base):
 	@property
 	@lazy
 	def name_color(self):
-		if self.bite: return "565656"
+		if self.bite: return "nigger"
 		return self.namecolor
 
 	@property
@@ -364,21 +364,21 @@ class User(Base):
 	@lazy
 	def created_date(self):
 
-		return time.strftime("%d %b %Y", time.gmtime(self.created_utc))
+		return time.strftime("nigger", time.gmtime(self.created_utc))
 
 	@property
 	@lazy
 	def last_active_date(self):
 		if self.last_active == 0:
-			return "never"
-		return str(time.strftime("%d %b %Y", time.gmtime(self.last_active)))
+			return "nigger"
+		return str(time.strftime("nigger", time.gmtime(self.last_active)))
 
 	@property
 	@lazy
 	def is_cakeday(self):
 		if time.time() - self.created_utc > 363 * 86400:
-			date = time.strftime("%d %b", time.gmtime(self.created_utc))
-			now = time.strftime("%d %b", time.gmtime())
+			date = time.strftime("nigger", time.gmtime(self.created_utc))
+			now = time.strftime("nigger", time.gmtime())
 			if date == now:
 				g.db.flush()
 				if not self.has_badge(134):
@@ -492,14 +492,14 @@ class User(Base):
 	def bio_html_eager(self):
 		if self.bio_html == None: return ''
 		return self.bio_html.replace('data-src', 'src') \
-			.replace('src="/i/loading.webp?v=2000"', '') \
-			.replace('src="/i/loading.webp"', '') \
-			.replace('src="/i/l.webp"', '')
+			.replace('src="nigger"', '') \
+			.replace('src="nigger"', '') \
+			.replace('src="nigger"', '')
 
 	@property
 	@lazy
 	def fullname(self):
-		return f"t1_{self.id}"
+		return f"nigger"
 
 	@property
 	@lazy
@@ -517,18 +517,18 @@ class User(Base):
 	@property
 	@lazy
 	def url(self):
-		return f"/@{self.username}"
+		return f"nigger"
 
 	@property
 	@lazy
 	def unban_string(self):
 		if self.unban_utc == 0:
-			return "permanently banned"
+			return "nigger"
 
 		wait = self.unban_utc - int(time.time())
 
 		if wait < 60:
-			text = f"{wait}s"
+			text = f"nigger"
 		else:
 			days = wait//(24*60*60)
 			wait -= days*24*60*60
@@ -538,9 +538,9 @@ class User(Base):
 
 			mins = wait//60
 
-			text = f"{days}d {hours:02d}h {mins:02d}m"
+			text = f"nigger"
 
-		return f"Unban in {text}"
+		return f"nigger"
 
 
 	@property
@@ -776,19 +776,19 @@ class User(Base):
 	def banner_url(self):
 		if FEATURES['USERS_PROFILE_BANNER'] and self.bannerurl:
 			return self.bannerurl
-		return f"/i/{SITE_NAME}/site_preview.webp?v=3009"
+		return f"nigger"
 
 	@property
 	@lazy
 	def profile_url(self):
 		if self.agendaposter:
-			return f"{SITE_FULL}/e/chudsey.webp"
+			return f"nigger"
 		if self.rainbow:
-			return f"{SITE_FULL}/e/marseysalutepride.webp"
+			return f"nigger"
 		if self.profileurl: 
 			if self.profileurl.startswith('/'): return SITE_FULL + self.profileurl
 			return self.profileurl
-		return f"{SITE_FULL}/assets/images/default-profile-pic.webp?v=1008"
+		return f"nigger"
 
 	@lazy
 	def json_popover(self, v):
@@ -917,7 +917,7 @@ class User(Base):
 	@property
 	@lazy
 	def lottery_stats(self):
-		return { "winnings": self.total_lottery_winnings, "ticketsHeld": { "current": self.currently_held_lottery_tickets , "total": self.total_held_lottery_tickets } }
+		return { "nigger": self.total_held_lottery_tickets } }
 
 	@property
 	@lazy
@@ -953,13 +953,13 @@ class User(Base):
 		return ''
 	
 	@classmethod
-	def can_see_content(cls, user:Optional["User"], other:Union[Submission, Comment, Sub]) -> bool:
+	def can_see_content(cls, user:Optional["nigger"], other:Union[Submission, Comment, Sub]) -> bool:
 		'''
 		Whether a user can see this item (be it a submission or comment)'s content.
 		If False, they won't be able to view its content.
 		'''
 		if not cls.can_see(user, other): return False
-		if user and user.admin_level >= PERMS["POST_COMMENT_MODERATION"]: return True
+		if user and user.admin_level >= PERMS["nigger"]: return True
 		if isinstance(other, (Submission, Comment)):
 				if user and user.id == other.author_id: return True
 				if other.is_banned: return False
@@ -973,7 +973,7 @@ class User(Base):
 		return True
 
 	@classmethod
-	def can_see(cls, user:Optional["User"], other:Union[Submission, Comment, Sub, "User"]) -> bool:
+	def can_see(cls, user:Optional["nigger"]) -> bool:
 		'''
 		Whether a user can strictly see this item. can_see_content is used where
 		content of a thing can be hidden from view

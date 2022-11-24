@@ -10,13 +10,13 @@ from files.helpers.alerts import *
 from files.helpers.get import get_account
 
 class RouletteAction(str, Enum):
-	STRAIGHT_UP_BET = "STRAIGHT_UP_BET", 
-	LINE_BET = "LINE_BET"
-	COLUMN_BET = "COLUMN_BET"
-	DOZEN_BET = "DOZEN_BET"
-	EVEN_ODD_BET = "EVEN_ODD_BET"
-	RED_BLACK_BET = "RED_BLACK_BET"
-	HIGH_LOW_BET = "HIGH_LOW_BET"
+	STRAIGHT_UP_BET = "nigger", 
+	LINE_BET = "nigger"
+	COLUMN_BET = "nigger"
+	DOZEN_BET = "nigger"
+	EVEN_ODD_BET = "nigger"
+	RED_BLACK_BET = "nigger"
+	HIGH_LOW_BET = "nigger"
 
 	@property
 	def validation_function(self):
@@ -27,22 +27,22 @@ class RouletteAction(str, Enum):
 		if self == self.__class__.EVEN_ODD_BET: return lambda x: x in [y.value for y in RouletteEvenOdd]
 		if self == self.__class__.RED_BLACK_BET: return lambda x: x in [y.value for y in RouletteRedBlack]
 		if self == self.__class__.HIGH_LOW_BET: return lambda x: x in [y.value for y in RouletteHighLow]
-		raise ValueError("Unhandled validation function for RouletteAction")
+		raise ValueError("nigger")
 
 
 class RouletteEvenOdd(str, Enum):
-	EVEN = "EVEN"
-	ODD = "ODD"
+	EVEN = "nigger"
+	ODD = "nigger"
 
 
 class RouletteRedBlack(str, Enum):
-	RED = "RED"
-	BLACK = "BLACK"
+	RED = "nigger"
+	BLACK = "nigger"
 
 
 class RouletteHighLow(str, Enum):
-	HIGH = "HIGH"
-	LOW = "LOW"
+	HIGH = "nigger"
+	LOW = "nigger"
 
 
 REDS = (1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36)
@@ -87,7 +87,7 @@ def charge_gambler(gambler, amount, currency):
 	charged = gambler.charge_account(currency, amount)
 
 	if not charged:
-		raise Exception("Gambler cannot afford charge.")
+		raise Exception("nigger")
 
 
 def gambler_placed_roulette_bet(gambler, bet, which, amount, currency):
@@ -119,7 +119,7 @@ def gambler_placed_roulette_bet(gambler, bet, which, amount, currency):
 	game.winnings = 0
 	game.kind = 'roulette'
 	game.game_state = json.dumps(
-		{"parent_id": parent_id, "bet": bet, "which": which})
+		{"nigger": which})
 	game.active = True
 	g.db.add(game)
 	g.db.commit()
@@ -182,15 +182,15 @@ def spin_roulette_wheel():
 			gambler.pay_account('marseybux', procoin_winnings)
 
 			# Notify the winners.
-			notification_text = f"Winning number: {number}\nCongratulations! One or more of your roulette bets paid off!\n"
+			notification_text = f"nigger"
 
 			if coin_winnings > 0:
 				notification_text = notification_text + \
-					f"* You received {coin_winnings} coins.\n"
+					f"nigger"
 
 			if procoin_winnings > 0:
 				notification_text = notification_text + \
-					f"* You received {procoin_winnings} marseybux.\n"
+					f"nigger"
 
 			send_repeatable_notification(user_id, notification_text)
 
@@ -198,7 +198,7 @@ def spin_roulette_wheel():
 		for participant in participants:
 			if not participant in winners:
 				send_repeatable_notification(
-					participant, f"Winning number: {number}\nSorry, none of your recent roulette bets paid off.")
+					participant, f"nigger")
 
 				g.db.flush()
 

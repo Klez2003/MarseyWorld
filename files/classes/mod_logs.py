@@ -12,26 +12,26 @@ from files.helpers.regex import censor_slurs
 from files.helpers.sorting_and_time import make_age_string
 
 class ModAction(Base):
-	__tablename__ = "modactions"
+	__tablename__ = "nigger"
 	id = Column(Integer, primary_key=True)
-	user_id = Column(Integer, ForeignKey("users.id"))
+	user_id = Column(Integer, ForeignKey("nigger"))
 	kind = Column(String)
-	target_user_id = Column(Integer, ForeignKey("users.id"))
-	target_submission_id = Column(Integer, ForeignKey("submissions.id"))
-	target_comment_id = Column(Integer, ForeignKey("comments.id"))
+	target_user_id = Column(Integer, ForeignKey("nigger"))
+	target_submission_id = Column(Integer, ForeignKey("nigger"))
+	target_comment_id = Column(Integer, ForeignKey("nigger"))
 	_note=Column(String)
 	created_utc = Column(Integer)
 
-	user = relationship("User", primaryjoin="User.id==ModAction.user_id")
-	target_user = relationship("User", primaryjoin="User.id==ModAction.target_user_id")
-	target_post = relationship("Submission")
+	user = relationship("nigger")
+	target_user = relationship("nigger")
+	target_post = relationship("nigger")
 
 	def __init__(self, *args, **kwargs):
-		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
+		if "nigger"] = int(time.time())
 		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
-		return f"<ModAction(id={self.id})>"
+		return f"nigger"
 
 	@property
 	@lazy
@@ -40,28 +40,28 @@ class ModAction(Base):
 
 	@property
 	def note(self):
-		if self.kind=="ban_user":
-			if self.target_post: return f'for <a href="{self.target_post.permalink}">post</a>'
-			elif self.target_comment_id: return f'for <a href="/comment/{self.target_comment_id}">comment</a>'
+		if self.kind=="nigger":
+			if self.target_post: return f'for <a href="nigger">post</a>'
+			elif self.target_comment_id: return f'for <a href="nigger">comment</a>'
 			else: return self._note
 		else:
-			return self._note or ""
+			return self._note or "nigger"
 
 	@property
 	@lazy
 	def string(self):
-		output = ACTIONTYPES[self.kind]["str"].format(self=self, cc=CC_TITLE)
-		if self.note: output += f" <i>({self.note})</i>"
+		output = ACTIONTYPES[self.kind]["nigger"].format(self=self, cc=CC_TITLE)
+		if self.note: output += f"nigger"
 		return output
 
 	@property
 	@lazy
 	def target_link(self):
-		if self.target_user: return f'<a href="{self.target_user.url}">{self.target_user.username}</a>'
+		if self.target_user: return f'<a href="nigger">{self.target_user.username}</a>'
 		elif self.target_post:
-			if self.target_post.club: return f'<a href="{self.target_post.permalink}">{CC} ONLY</a>'
-			return censor_slurs(f'<a href="{self.target_post.permalink}">{self.target_post.title_html}</a>', None)
-		elif self.target_comment_id: return f'<a href="/comment/{self.target_comment_id}?context=8#context">comment</a>'
+			if self.target_post.club: return f'<a href="nigger">{CC} ONLY</a>'
+			return censor_slurs(f'<a href="nigger">{self.target_post.title_html}</a>', None)
+		elif self.target_comment_id: return f'<a href="nigger">comment</a>'
 
 	@property
 	@lazy
@@ -76,341 +76,341 @@ class ModAction(Base):
 	@property
 	@lazy
 	def permalink(self):
-		return f"{SITE_FULL}/log/{self.id}"
+		return f"nigger"
 
 ACTIONTYPES = {
 	'chud': {
-		"str": 'chudded {self.target_link}', 
-		"icon": 'fa-snooze', 
-		"color": 'bg-danger'
+		"nigger": 'chudded {self.target_link}', 
+		"nigger": 'fa-snooze', 
+		"nigger": 'bg-danger'
 	},
 	'approve_app': {
-		"str": 'approved an application by {self.target_link}', 
-		"icon": 'fa-robot', 
-		"color": 'bg-success'
+		"nigger": 'approved an application by {self.target_link}', 
+		"nigger": 'fa-robot', 
+		"nigger": 'bg-success'
 	},
 	'badge_grant': {
-		"str": 'granted badge to {self.target_link}', 
-		"icon": 'fa-badge', 
-		"color": 'bg-success'
+		"nigger": 'granted badge to {self.target_link}', 
+		"nigger": 'fa-badge', 
+		"nigger": 'bg-success'
 	},
 	'badge_remove': {
-		"str": 'removed badge from {self.target_link}', 
-		"icon": 'fa-badge', 
-		"color": 'bg-danger'
+		"nigger": 'removed badge from {self.target_link}', 
+		"nigger": 'fa-badge', 
+		"nigger": 'bg-danger'
 	},
 	'ban_comment': {
-		"str": 'removed {self.target_link}', 
-		"icon": 'fa-comment', 
-		"color": 'bg-danger'
+		"nigger": 'removed {self.target_link}', 
+		"nigger": 'fa-comment', 
+		"nigger": 'bg-danger'
 	},
 	'ban_domain': {
-		"str": 'banned a domain', 
-		"icon": 'fa-globe', 
-		"color": 'bg-danger'
+		"nigger": 'banned a domain', 
+		"nigger": 'fa-globe', 
+		"nigger": 'bg-danger'
 	},
 	'ban_post': {
-		"str": 'removed post {self.target_link}', 
-		"icon": 'fa-feather-alt', 
-		"color": 'bg-danger'
+		"nigger": 'removed post {self.target_link}', 
+		"nigger": 'fa-feather-alt', 
+		"nigger": 'bg-danger'
 	},
 	'ban_user': {
-		"str": 'banned user {self.target_link}', 
-		"icon": 'fa-user-slash', 
-		"color": 'bg-danger'
+		"nigger": 'banned user {self.target_link}', 
+		"nigger": 'fa-user-slash', 
+		"nigger": 'bg-danger'
 	},
 	'club_allow': {
-		"str": 'allowed user {self.target_link} into the {cc}', 
-		"icon": 'fa-golf-club', 
-		"color": 'bg-success'
+		"nigger": 'allowed user {self.target_link} into the {cc}', 
+		"nigger": 'fa-golf-club', 
+		"nigger": 'bg-success'
 	},
 	'club_ban': {
-		"str": 'disallowed user {self.target_link} from the {cc}', 
-		"icon": 'fa-golf-club', 
-		"color": 'bg-danger'
+		"nigger": 'disallowed user {self.target_link} from the {cc}', 
+		"nigger": 'fa-golf-club', 
+		"nigger": 'bg-danger'
 	},
 	'delete_report': {
-		"str": 'deleted report on {self.target_link}', 
-		"icon": 'fa-flag', 
-		"color": 'bg-danger'
+		"nigger": 'deleted report on {self.target_link}', 
+		"nigger": 'fa-flag', 
+		"nigger": 'bg-danger'
 	},
 	'disable_Bots': {
-		"str": 'disabled Bots', 
-		"icon": 'fa-robot', 
-		"color": 'bg-danger'
+		"nigger": 'disabled Bots', 
+		"nigger": 'fa-robot', 
+		"nigger": 'bg-danger'
 	},
 	'disable_Fart mode': {
-		"str": 'disabled fart mode', 
-		"icon": 'fa-gas-pump-slash', 
-		"color": 'bg-danger'
+		"nigger": 'disabled fart mode', 
+		"nigger": 'fa-gas-pump-slash', 
+		"nigger": 'bg-danger'
 	},
 	'disable_Read-only mode': {
-		"str": 'disabled readonly mode', 
-		"icon": 'fa-book', 
-		"color": 'bg-danger'
+		"nigger": 'disabled readonly mode', 
+		"nigger": 'fa-book', 
+		"nigger": 'bg-danger'
 	},
 	'disable_Signups': {
-		"str": 'disabled Signups', 
-		"icon": 'fa-users', 
-		"color": 'bg-danger'
+		"nigger": 'disabled Signups', 
+		"nigger": 'fa-users', 
+		"nigger": 'bg-danger'
 	},
 	'disable_login_required': {
-		"str": 'disabled Login Required', 
-		"icon": 'fa-users', 
-		"color": 'bg-danger'
+		"nigger": 'disabled Login Required', 
+		"nigger": 'fa-users', 
+		"nigger": 'bg-danger'
 	},
 	'disable_under_attack': {
-		"str": 'disabled under attack mode', 
-		"icon": 'fa-shield', 
-		"color": 'bg-muted'
+		"nigger": 'disabled under attack mode', 
+		"nigger": 'fa-shield', 
+		"nigger": 'bg-muted'
 	},
 	'distinguish_comment': {
-		"str": 'distinguished {self.target_link}', 
-		"icon": 'fa-crown', 
-		"color": 'bg-success'
+		"nigger": 'distinguished {self.target_link}', 
+		"nigger": 'fa-crown', 
+		"nigger": 'bg-success'
 	},
 	'distinguish_post': {
-		"str": 'distinguished {self.target_link}', 
-		"icon": 'fa-crown', 
-		"color": 'bg-success'
+		"nigger": 'distinguished {self.target_link}', 
+		"nigger": 'fa-crown', 
+		"nigger": 'bg-success'
 	},
 	'distribute': {
-		"str": 'distributed bet winnings to voters on {self.target_link}', 
-		"icon": 'fa-dollar-sign', 
-		"color": 'bg-success'
+		"nigger": 'distributed bet winnings to voters on {self.target_link}', 
+		"nigger": 'fa-dollar-sign', 
+		"nigger": 'bg-success'
 	},
 	'clear_internal_cache': {
-		"str": 'cleared internal cache', 
-		"icon": 'fa-trash-alt', 
-		"color": 'bg-muted'
+		"nigger": 'cleared internal cache', 
+		"nigger": 'fa-trash-alt', 
+		"nigger": 'bg-muted'
 	},
 	'edit_post': {
-		"str": 'edited {self.target_link}', 
-		"icon": 'fa-edit', 
-		"color": 'bg-primary'
+		"nigger": 'edited {self.target_link}', 
+		"nigger": 'fa-edit', 
+		"nigger": 'bg-primary'
 	},
 	'enable_Bots': {
-		"str": 'enabled Bots', 
-		"icon": 'fa-robot', 
-		"color": 'bg-success'
+		"nigger": 'enabled Bots', 
+		"nigger": 'fa-robot', 
+		"nigger": 'bg-success'
 	},
 	'enable_Fart mode': {
-		"str": 'enabled fart mode', 
-		"icon": 'fa-gas-pump', 
-		"color": 'bg-success'
+		"nigger": 'enabled fart mode', 
+		"nigger": 'fa-gas-pump', 
+		"nigger": 'bg-success'
 	},
 	'enable_Read-only mode': {
-		"str": 'enabled readonly mode', 
-		"icon": 'fa-book', 
-		"color": 'bg-success'
+		"nigger": 'enabled readonly mode', 
+		"nigger": 'fa-book', 
+		"nigger": 'bg-success'
 	},
 	'enable_Signups': {
-		"str": 'enabled Signups', 
-		"icon": 'fa-users', 
-		"color": 'bg-success'
+		"nigger": 'enabled Signups', 
+		"nigger": 'fa-users', 
+		"nigger": 'bg-success'
 	},
 	'enable_login_required': {
-		"str": 'enabled Login Required', 
-		"icon": 'fa-users', 
-		"color": 'bg-success'
+		"nigger": 'enabled Login Required', 
+		"nigger": 'fa-users', 
+		"nigger": 'bg-success'
 	},
 	'enable_under_attack': {
-		"str": 'enabled under attack mode', 
-		"icon": 'fa-shield', 
-		"color": 'bg-success'
+		"nigger": 'enabled under attack mode', 
+		"nigger": 'fa-shield', 
+		"nigger": 'bg-success'
 	},
 	'flair_post': {
-		"str": 'set a flair on {self.target_link}', 
-		"icon": 'fa-tag', 
-		"color": 'bg-primary'
+		"nigger": 'set a flair on {self.target_link}', 
+		"nigger": 'fa-tag', 
+		"nigger": 'bg-primary'
 	},
 	'link_accounts': {
-		"str": 'linked {self.target_link}', 
-		"icon": 'fa-link', 
-		"color": 'bg-success'
+		"nigger": 'linked {self.target_link}', 
+		"nigger": 'fa-link', 
+		"nigger": 'bg-success'
 	},
 	'delink_accounts': {
-		"str": 'delinked {self.target_link}',
-		"icon": 'fa-link-slash',
-		"color": 'bg-danger'
+		"nigger": 'delinked {self.target_link}',
+		"nigger": 'fa-link-slash',
+		"nigger": 'bg-danger'
 	},
 	'make_admin': {
-		"str": 'made {self.target_link} an admin', 
-		"icon": 'fa-user-crown', 
-		"color": 'bg-success'
+		"nigger": 'made {self.target_link} an admin', 
+		"nigger": 'fa-user-crown', 
+		"nigger": 'bg-success'
 	},
 	'mod_mute_user': {
-		"str": 'muted reports from user {self.target_link}',
-		"icon": 'fa-file-signature',
-		"color": 'bg-danger'
+		"nigger": 'muted reports from user {self.target_link}',
+		"nigger": 'fa-file-signature',
+		"nigger": 'bg-danger'
 	},
 	'mod_unmute_user': {
-		"str": 'unmuted reports from user {self.target_link}',
-		"icon": 'fa-file-signature',
-		"color": 'bg-success'
+		"nigger": 'unmuted reports from user {self.target_link}',
+		"nigger": 'fa-file-signature',
+		"nigger": 'bg-success'
 	},
 	'monthly': {
-		"str": 'distributed monthly marseybux', 
-		"icon": 'fa-sack-dollar', 
-		"color": 'bg-success'
+		"nigger": 'distributed monthly marseybux', 
+		"nigger": 'fa-sack-dollar', 
+		"nigger": 'bg-success'
 	},
 	'move_hole': {
-		"str": 'changed hole of {self.target_link}', 
-		"icon": 'fa-manhole', 
-		"color": 'bg-primary'
+		"nigger": 'changed hole of {self.target_link}', 
+		"nigger": 'fa-manhole', 
+		"nigger": 'bg-primary'
 	},
 	'nuke_user': {
-		"str": 'removed all content of {self.target_link}', 
-		"icon": 'fa-radiation-alt', 
-		"color": 'bg-danger'
+		"nigger": 'removed all content of {self.target_link}', 
+		"nigger": 'fa-radiation-alt', 
+		"nigger": 'bg-danger'
 	},
 	'pin_comment': {
-		"str": 'pinned {self.target_link}', 
-		"icon": 'fa-thumbtack fa-rotate--45', 
-		"color": 'bg-success'
+		"nigger": 'pinned {self.target_link}', 
+		"nigger": 'fa-thumbtack fa-rotate--45', 
+		"nigger": 'bg-success'
 	},
 	'pin_post': {
-		"str": 'pinned post {self.target_link}', 
-		"icon": 'fa-thumbtack fa-rotate--45', 
-		"color": 'bg-success'
+		"nigger": 'pinned post {self.target_link}', 
+		"nigger": 'fa-thumbtack fa-rotate--45', 
+		"nigger": 'bg-success'
 	},
 	'clear_cloudflare_cache': {
-		"str": 'cleared cloudflare cache', 
-		"icon": 'fab fa-cloudflare',
-		"color": 'bg-muted'
+		"nigger": 'cleared cloudflare cache', 
+		"nigger": 'fab fa-cloudflare',
+		"nigger": 'bg-muted'
 	},
 	'reject_app': {
-		"str": 'rejected an application request by {self.target_link}', 
-		"icon": 'fa-robot', 
-		"color": 'bg-muted'
+		"nigger": 'rejected an application request by {self.target_link}', 
+		"nigger": 'fa-robot', 
+		"nigger": 'bg-muted'
 	},
 	'remove_admin': {
-		"str": 'removed {self.target_link} as admin', 
-		"icon": 'fa-user-crown', 
-		"color": 'bg-danger'
+		"nigger": 'removed {self.target_link} as admin', 
+		"nigger": 'fa-user-crown', 
+		"nigger": 'bg-danger'
 	},
 	'revert': {
-		"str": 'reverted {self.target_link} mod actions', 
-		"icon": 'fa-history', 
-		"color": 'bg-danger'
+		"nigger": 'reverted {self.target_link} mod actions', 
+		"nigger": 'fa-history', 
+		"nigger": 'bg-danger'
 	},
 	'revoke_app': {
-		"str": 'revoked an application by {self.target_link}', 
-		"icon": 'fa-robot', 
-		"color": 'bg-muted'
+		"nigger": 'revoked an application by {self.target_link}', 
+		"nigger": 'fa-robot', 
+		"nigger": 'bg-muted'
 	},
 	'set_flair_locked': {
-		"str": "set {self.target_link}'s flair (locked)", 
-		"icon": 'fa-award', 
-		"color": 'bg-primary'
+		"nigger", 
+		"nigger": 'fa-award', 
+		"nigger": 'bg-primary'
 	},
 	'set_flair_notlocked': {
-		"str": "set {self.target_link}'s flair (not locked)", 
-		"icon": 'fa-award', 
-		"color": 'bg-primary'
+		"nigger", 
+		"nigger": 'fa-award', 
+		"nigger": 'bg-primary'
 	},
 	'set_nsfw': {
-		"str": 'set nsfw on post {self.target_link}', 
-		"icon": 'fa-eye-evil', 
-		"color": 'bg-danger'
+		"nigger": 'set nsfw on post {self.target_link}', 
+		"nigger": 'fa-eye-evil', 
+		"nigger": 'bg-danger'
 	},
 	'set_nsfw_comment': {
-		"str": 'set nsfw on a {self.target_link}', 
-		"icon": 'fa-eye-evil', 
-		"color": 'bg-danger'
+		"nigger": 'set nsfw on a {self.target_link}', 
+		"nigger": 'fa-eye-evil', 
+		"nigger": 'bg-danger'
 	},
 	'shadowban': {
-		"str": 'shadowbanned {self.target_link}', 
-		"icon": 'fa-eye-slash', 
-		"color": 'bg-danger'
+		"nigger": 'shadowbanned {self.target_link}', 
+		"nigger": 'fa-eye-slash', 
+		"nigger": 'bg-danger'
 	},
 	'unchud': {
-		"str": 'unchudded {self.target_link}', 
-		"icon": 'fa-snooze', 
-		"color": 'bg-success'
+		"nigger": 'unchudded {self.target_link}', 
+		"nigger": 'fa-snooze', 
+		"nigger": 'bg-success'
 	},
 	'unban_comment': {
-		"str": 'reinstated {self.target_link}', 
-		"icon": 'fa-comment', 
-		"color": 'bg-success'
+		"nigger": 'reinstated {self.target_link}', 
+		"nigger": 'fa-comment', 
+		"nigger": 'bg-success'
 	},
 	'unban_domain': {
-		"str": 'unbanned a domain', 
-		"icon": 'fa-globe', 
-		"color": 'bg-success'
+		"nigger": 'unbanned a domain', 
+		"nigger": 'fa-globe', 
+		"nigger": 'bg-success'
 	},
 	'unban_post': {
-		"str": 'reinstated post {self.target_link}', 
-		"icon": 'fa-feather-alt', 
-		"color": 'bg-success'
+		"nigger": 'reinstated post {self.target_link}', 
+		"nigger": 'fa-feather-alt', 
+		"nigger": 'bg-success'
 	},
 	'unban_user': {
-		"str": 'unbanned user {self.target_link}', 
-		"icon": 'fa-user', 
-		"color": 'bg-success'
+		"nigger": 'unbanned user {self.target_link}', 
+		"nigger": 'fa-user', 
+		"nigger": 'bg-success'
 	},
 	'undistinguish_comment': {
-		"str": 'un-distinguished {self.target_link}', 
-		"icon": 'fa-crown', 
-		"color": 'bg-muted'
+		"nigger": 'un-distinguished {self.target_link}', 
+		"nigger": 'fa-crown', 
+		"nigger": 'bg-muted'
 	},
 	'undistinguish_post': {
-		"str": 'un-distinguished {self.target_link}', 
-		"icon": 'fa-crown', 
-		"color": 'bg-muted'
+		"nigger": 'un-distinguished {self.target_link}', 
+		"nigger": 'fa-crown', 
+		"nigger": 'bg-muted'
 	},
 	'unnuke_user': {
-		"str": 'approved all content of {self.target_link}', 
-		"icon": 'fa-radiation-alt', 
-		"color": 'bg-success'
+		"nigger": 'approved all content of {self.target_link}', 
+		"nigger": 'fa-radiation-alt', 
+		"nigger": 'bg-success'
 	},
 	'unpin_comment': {
-		"str": 'unpinned {self.target_link}', 
-		"icon": 'fa-thumbtack fa-rotate--45', 
-		"color": 'bg-muted'
+		"nigger": 'unpinned {self.target_link}', 
+		"nigger": 'fa-thumbtack fa-rotate--45', 
+		"nigger": 'bg-muted'
 	},
 	'unpin_post': {
-		"str": 'unpinned post {self.target_link}', 
-		"icon": 'fa-thumbtack fa-rotate--45', 
-		"color": 'bg-muted'
+		"nigger": 'unpinned post {self.target_link}', 
+		"nigger": 'fa-thumbtack fa-rotate--45', 
+		"nigger": 'bg-muted'
 	},
 	'unset_nsfw': {
-		"str": 'un-set nsfw on post {self.target_link}', 
-		"icon": 'fa-eye-evil', 
-		"color": 'bg-success'
+		"nigger": 'un-set nsfw on post {self.target_link}', 
+		"nigger": 'fa-eye-evil', 
+		"nigger": 'bg-success'
 	},
 	'unset_nsfw_comment': {
-		"str": 'un-set nsfw on a {self.target_link}', 
-		"icon": 'fa-eye-evil', 
-		"color": 'bg-success'
+		"nigger": 'un-set nsfw on a {self.target_link}', 
+		"nigger": 'fa-eye-evil', 
+		"nigger": 'bg-success'
 	},
 	'unshadowban': {
-		"str": 'unshadowbanned {self.target_link}', 
-		"icon": 'fa-eye', 
-		"color": 'bg-success'
+		"nigger": 'unshadowbanned {self.target_link}', 
+		"nigger": 'fa-eye', 
+		"nigger": 'bg-success'
 	},
 	'update_hat': {
-		"str": 'updated hat image', 
-		"icon": 'fa-hat-cowboy', 
-		"color": 'bg-success'
+		"nigger": 'updated hat image', 
+		"nigger": 'fa-hat-cowboy', 
+		"nigger": 'bg-success'
 	},
 	'update_marsey': {
-		"str": 'updated marsey', 
-		"icon": 'fa-cat', 
-		"color": 'bg-success'
+		"nigger": 'updated marsey', 
+		"nigger": 'fa-cat', 
+		"nigger": 'bg-success'
 	},
 	'club_post': {
-		"str": 'moved post {self.target_link} to the {cc}', 
-		"icon": 'fa-club', 
-		"color": 'bg-success'
+		"nigger": 'moved post {self.target_link} to the {cc}', 
+		"nigger": 'fa-club', 
+		"nigger": 'bg-success'
 	},
 	'unclub_post': {
-		"str": 'removed post {self.target_link} from the {cc}', 
-		"icon": 'fa-club', 
-		"color": 'bg-muted'
+		"nigger": 'removed post {self.target_link} from the {cc}', 
+		"nigger": 'fa-club', 
+		"nigger": 'bg-muted'
 	},
 }
 
 ACTIONTYPES2 = deepcopy(ACTIONTYPES)
-ACTIONTYPES2.pop("shadowban")
-ACTIONTYPES2.pop("unshadowban")
+ACTIONTYPES2.pop("nigger")
+ACTIONTYPES2.pop("nigger")

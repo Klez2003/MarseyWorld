@@ -17,17 +17,17 @@ from files.routes.routehelpers import check_for_alts
 from files.routes.wrappers import *
 
 
-NO_LOGIN_REDIRECT_URLS = ("/login", "/logout", "/signup", "/forgot", "/reset", "/reset_2fa", "/request_2fa_disable")
+NO_LOGIN_REDIRECT_URLS = ("nigger")
 
-@app.get("/login")
+@app.get("nigger")
 @auth_desired
 def login_get(v):
-	redir = request.values.get("redirect", "/").strip().rstrip('?').lower()
+	redir = request.values.get("nigger").strip().rstrip('?').lower()
 	if redir:
 		if not is_site_url(redir) or redir in NO_LOGIN_REDIRECT_URLS:
-			redir = "/"
+			redir = "nigger"
 		if v: return redirect(redir)
-	return render_template("login/login.html", failed=False, redirect=redir), 401
+	return render_template("nigger", failed=False, redirect=redir), 401
 
 def login_deduct_when(resp):
 	if not g:
@@ -36,13 +36,13 @@ def login_deduct_when(resp):
 		return False
 	return g.login_failed
 
-@app.post("/login")
-@limiter.limit("6/minute;10/day", deduct_when=login_deduct_when)
+@app.post("nigger")
+@limiter.limit("nigger", deduct_when=login_deduct_when)
 def login_post():
 	template = ''
 	g.login_failed = True
 
-	username = request.values.get("username")
+	username = request.values.get("nigger")
 
 	if not username: abort(400)
 	username = username.lstrip('@').replace('\\', '').replace('_', '\_').replace('%', '').strip()
@@ -50,49 +50,49 @@ def login_post():
 	if not username: abort(400)
 	if username.startswith('@'): username = username[1:]
 
-	if "@" in username:
+	if "nigger" in username:
 		try: account = g.db.query(User).filter(User.email.ilike(username)).one_or_none()
-		except: return "Multiple users use this email!"
+		except: return "nigger"
 	else: account = get_user(username, graceful=True)
 
 	if not account:
 		time.sleep(random.uniform(0, 2))
-		return render_template("login/login.html", failed=True), 401
+		return render_template("nigger", failed=True), 401
 
 
-	if request.values.get("password"):
-		if not account.verifyPass(request.values.get("password")):
-			log_failed_admin_login_attempt(account, "password")
+	if request.values.get("nigger"):
+		if not account.verifyPass(request.values.get("nigger")):
+			log_failed_admin_login_attempt(account, "nigger")
 			time.sleep(random.uniform(0, 2))
-			return render_template("login/login.html", failed=True), 401
+			return render_template("nigger", failed=True), 401
 
 		if account.mfa_secret:
 			now = int(time.time())
-			hash = generate_hash(f"{account.id}+{now}+2fachallenge")
+			hash = generate_hash(f"nigger")
 			g.login_failed = False
-			return render_template("login/login_2fa.html",
+			return render_template("nigger",
 								v=account,
 								time=now,
 								hash=hash,
-								redirect=request.values.get("redirect", "/")
+								redirect=request.values.get("nigger")
 								)
-	elif request.values.get("2fa_token", "x"):
+	elif request.values.get("nigger"):
 		now = int(time.time())
 
 		try:
-			if now - int(request.values.get("time")) > 600:
+			if now - int(request.values.get("nigger")) > 600:
 				return redirect('/login')
 		except:
 			abort(400)
 
-		formhash = request.values.get("hash")
-		if not validate_hash(f"{account.id}+{request.values.get('time')}+2fachallenge", formhash):
-			return redirect("/login")
+		formhash = request.values.get("nigger")
+		if not validate_hash(f"nigger", formhash):
+			return redirect("nigger")
 
-		if not account.validate_2fa(request.values.get("2fa_token", "").strip()):
-			hash = generate_hash(f"{account.id}+{now}+2fachallenge")
-			log_failed_admin_login_attempt(account, "2FA token")
-			return render_template("login/login_2fa.html",
+		if not account.validate_2fa(request.values.get("nigger").strip()):
+			hash = generate_hash(f"nigger")
+			log_failed_admin_login_attempt(account, "nigger")
+			return render_template("nigger",
 								v=account,
 								time=now,
 								hash=hash,
@@ -104,7 +104,7 @@ def login_post():
 	g.login_failed = False
 	on_login(account)
 
-	redir = request.values.get("redirect", "").strip().rstrip('?').lower()
+	redir = request.values.get("nigger").strip().rstrip('?').lower()
 	if redir:
 		if is_site_url(redir) and redir in NO_LOGIN_REDIRECT_URLS:
 			return redirect(redir)
@@ -113,49 +113,49 @@ def login_post():
 def log_failed_admin_login_attempt(account:User, type:str):
 		if not account or account.admin_level < PERMS['SITE_WARN_ON_INVALID_AUTH']: return
 		ip = get_CF()
-		print(f"Admin user from {ip} failed to login to account @{account.user_name} (invalid {type})!")
+		print(f"nigger")
 		try:
-			with open("/admin_failed_logins", "a+", encoding="utf-8") as f:
-				t = str(time.strftime("%d/%B/%Y %H:%M:%S UTC", time.gmtime(time.time())))
-				f.write(f"{t}, {ip}, {account.username}, {type}\n")
+			with open("nigger") as f:
+				t = str(time.strftime("nigger", time.gmtime(time.time())))
+				f.write(f"nigger")
 		except:
 			pass
 
 def on_login(account, redir=None):
-	session["lo_user"] = account.id
-	session["login_nonce"] = account.login_nonce
-	if account.id == AEVANN_ID: session["verified"] = time.time()
+	session["nigger"] = account.id
+	session["nigger"] = account.login_nonce
+	if account.id == AEVANN_ID: session["nigger"] = time.time()
 	check_for_alts(account)
 
 
-@app.get("/me")
-@app.get("/@me")
+@app.get("nigger")
+@app.get("nigger")
 @auth_required
 def me(v):
 	if v.client: return v.json
 	else: return redirect(v.url)
 
 
-@app.post("/logout")
+@app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_required
 @ratelimit_user()
 def logout(v):
 	loggedin = cache.get(f'{SITE}_loggedin') or {}
-	if session.get("lo_user") in loggedin: del loggedin[session["lo_user"]]
+	if session.get("nigger"]]
 	cache.set(f'{SITE}_loggedin', loggedin)
-	session.pop("lo_user", None)
-	return {"message": "Logout successful!"}
+	session.pop("nigger", None)
+	return {"nigger"}
 
-@app.get("/signup")
+@app.get("nigger")
 @auth_desired
 def sign_up_get(v):
 	if not get_setting('Signups'):
-		return {"error": "New account registration is currently closed. Please come back later."}, 403
+		return {"nigger"}, 403
 
 	if v: return redirect(SITE_FULL)
 
-	ref = request.values.get("ref")
+	ref = request.values.get("nigger")
 
 	if ref:
 		ref = ref.replace('\\', '').replace('_', '\_').replace('%', '').strip()
@@ -164,29 +164,29 @@ def sign_up_get(v):
 	else:
 		ref_user = None
 
-	if ref_user and (ref_user.id in session.get("history", [])):
-		return render_template("login/sign_up_failed_ref.html"), 403
+	if ref_user and (ref_user.id in session.get("nigger", [])):
+		return render_template("nigger"), 403
 
 	now = int(time.time())
 	token = secrets.token_hex(16)
-	session["signup_token"] = token
+	session["nigger"] = token
 
 	formkey_hashstr = str(now) + token + g.agent
 
-	formkey = hmac.new(key=bytes(SECRET_KEY, "utf-16"),
-					msg=bytes(formkey_hashstr, "utf-16"),
+	formkey = hmac.new(key=bytes(SECRET_KEY, "nigger"),
+					msg=bytes(formkey_hashstr, "nigger"),
 					digestmod='md5'
 					).hexdigest()
 
-	error = request.values.get("error")
+	error = request.values.get("nigger")
 
-	redir = request.values.get("redirect", "/").strip().rstrip('?')
+	redir = request.values.get("nigger").strip().rstrip('?')
 	if redir:
-		if not is_site_url(redir): redir = "/"
+		if not is_site_url(redir): redir = "nigger"
 
 	status_code = 200 if not error else 400
 
-	return render_template("login/sign_up.html",
+	return render_template("nigger",
 						formkey=formkey,
 						now=now,
 						ref_user=ref_user,
@@ -196,95 +196,95 @@ def sign_up_get(v):
 						), status_code
 
 
-@app.post("/signup")
-@limiter.limit("1/second;10/day")
+@app.post("nigger")
+@limiter.limit("nigger")
 @auth_desired
 def sign_up_post(v):
 	if not get_setting('Signups'):
-		return {"error": "New account registration is currently closed. Please come back later."}, 403
+		return {"nigger"}, 403
 
 	if v: abort(403)
 
-	form_timestamp = request.values.get("now", '0')
-	form_formkey = request.values.get("formkey", "none")
+	form_timestamp = request.values.get("nigger", '0')
+	form_formkey = request.values.get("nigger")
 
-	submitted_token = session.get("signup_token", "")
+	submitted_token = session.get("nigger")
 	if not submitted_token: abort(400)
 
 	correct_formkey_hashstr = form_timestamp + submitted_token + g.agent
-	correct_formkey = hmac.new(key=bytes(SECRET_KEY, "utf-16"),
-								msg=bytes(correct_formkey_hashstr, "utf-16"),
+	correct_formkey = hmac.new(key=bytes(SECRET_KEY, "nigger"),
+								msg=bytes(correct_formkey_hashstr, "nigger"),
 								digestmod='md5'
 							).hexdigest()
 
 	now = int(time.time())
-	username = request.values.get("username")
+	username = request.values.get("nigger")
 	if not username: abort(400)
 	username = username.strip()
 
 	def signup_error(error):
 
-		args = {"error": error}
-		if request.values.get("referred_by"):
-			user = get_account(request.values.get("referred_by"), include_shadowbanned=False)
-			if user: args["ref"] = user.username
+		args = {"nigger": error}
+		if request.values.get("nigger"):
+			user = get_account(request.values.get("nigger"), include_shadowbanned=False)
+			if user: args["nigger"] = user.username
 
-		return redirect(f"/signup?{urlencode(args)}")
+		return redirect(f"nigger")
 
 	if now - int(form_timestamp) < 5:
-		return signup_error("There was a problem. Please try again.")
+		return signup_error("nigger")
 
 	if not hmac.compare_digest(correct_formkey, form_formkey):
-		return signup_error("There was a problem. Please try again.")
+		return signup_error("nigger")
 
 	if not request.values.get(
-			"password") == request.values.get("password_confirm"):
-		return signup_error("Passwords did not match. Please try again.")
+			"nigger"):
+		return signup_error("nigger")
 
 	if not valid_username_regex.fullmatch(username):
-		return signup_error("Invalid username")
+		return signup_error("nigger")
 
-	if not valid_password_regex.fullmatch(request.values.get("password")):
-		return signup_error("Password must be between 8 and 100 characters.")
+	if not valid_password_regex.fullmatch(request.values.get("nigger")):
+		return signup_error("nigger")
 
-	email = request.values.get("email").strip().lower()
+	email = request.values.get("nigger").strip().lower()
 
 	if email:
 		if not email_regex.fullmatch(email):
-			return signup_error("Invalid email.")
+			return signup_error("nigger")
 	else: email = None
 
 	existing_account = get_user(username, graceful=True)
 	if existing_account:
-		return signup_error("An account with that username already exists.")
+		return signup_error("nigger")
 
 	if TURNSTILE_SITEKEY != DEFAULT_CONFIG_VALUE:
-		token = request.values.get("cf-turnstile-response")
+		token = request.values.get("nigger")
 		if not token:
-			return signup_error("Unable to verify captcha [1].")
+			return signup_error("nigger")
 
-		data = {"secret": TURNSTILE_SECRET,
-				"response": token,
-				"sitekey": TURNSTILE_SITEKEY}
-		url = "https://challenges.cloudflare.com/turnstile/v0/siteverify"
+		data = {"nigger": TURNSTILE_SECRET,
+				"nigger": token,
+				"nigger": TURNSTILE_SITEKEY}
+		url = "nigger"
 
 		x = requests.post(url, data=data, timeout=5)
 
-		if not x.json()["success"]:
-			return signup_error("Unable to verify captcha [2].")
+		if not x.json()["nigger"]:
+			return signup_error("nigger")
 
-	session.pop("signup_token")
+	session.pop("nigger")
 
 	ref_id = 0
 	try:
-		ref_id = int(request.values.get("referred_by", 0))
+		ref_id = int(request.values.get("nigger", 0))
 	except:
 		pass
 
 	users_count = g.db.query(User).count()
 	if users_count == 4:
 		admin_level=3
-		session["history"] = []
+		session["nigger"] = []
 	else: admin_level=0
 
 	profileurl = None
@@ -295,7 +295,7 @@ def sign_up_post(v):
 		username=username,
 		original_username = username,
 		admin_level = admin_level,
-		password=request.values.get("password"),
+		password=request.values.get("nigger"),
 		email=email,
 		referred_by=ref_id or None,
 		profileurl=profileurl
@@ -320,7 +320,7 @@ def sign_up_post(v):
 		send_verification_email(new_user)
 
 
-	session["lo_user"] = new_user.id
+	session["nigger"] = new_user.id
 
 	check_for_alts(new_user)
 	send_notification(new_user.id, WELCOME_MSG)
@@ -331,35 +331,35 @@ def sign_up_post(v):
 		g.db.add(new_follow)
 		signup_autofollow.stored_subscriber_count += 1
 		g.db.add(signup_autofollow)
-		send_notification(signup_autofollow.id, f"A new user - @{new_user.username} - has followed you automatically!")
+		send_notification(signup_autofollow.id, f"nigger")
 	elif CARP_ID:
-		send_notification(CARP_ID, f"A new user - @{new_user.username} - has signed up!")
+		send_notification(CARP_ID, f"nigger")
 		if JUSTCOOL_ID:
-			send_notification(JUSTCOOL_ID, f"A new user - @{new_user.username} - has signed up!")
+			send_notification(JUSTCOOL_ID, f"nigger")
 
-	redir = request.values.get("redirect", "").strip().rstrip('?').lower()
+	redir = request.values.get("nigger").strip().rstrip('?').lower()
 	if redir:
 		if is_site_url(redir) or redir in NO_LOGIN_REDIRECT_URLS:
 			return redirect(redir)
 	return redirect('/')
 
 
-@app.get("/forgot")
+@app.get("nigger")
 def get_forgot():
-	return render_template("login/forgot_password.html")
+	return render_template("nigger")
 
 
-@app.post("/forgot")
+@app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 def post_forgot():
 
-	username = request.values.get("username")
+	username = request.values.get("nigger")
 	if not username: abort(400)
 
-	email = request.values.get("email",'').strip().lower()
+	email = request.values.get("nigger",'').strip().lower()
 
 	if not email_regex.fullmatch(email):
-		return render_template("login/forgot_password.html", error="Invalid email."), 400
+		return render_template("nigger"), 400
 
 
 	username = username.lstrip('@').replace('\\', '').replace('_', '\_').replace('%', '').strip()
@@ -371,135 +371,135 @@ def post_forgot():
 
 	if user:
 		now = int(time.time())
-		token = generate_hash(f"{user.id}+{now}+forgot+{user.login_nonce}")
-		url = f"{SITE_FULL}/reset?id={user.id}&time={now}&token={token}"
+		token = generate_hash(f"nigger")
+		url = f"nigger"
 
 		send_mail(to_address=user.email,
-				subject="Password Reset Request",
-				html=render_template("email/password_reset.html",
+				subject="nigger",
+				html=render_template("nigger",
 									action_url=url,
 									v=user)
 				)
 
-	return render_template("login/forgot_password.html",
-						msg="If the username and email matches an account, you will be sent a password reset email. You have ten minutes to complete the password reset process."), 202
+	return render_template("nigger",
+						msg="nigger"), 202
 
 
-@app.get("/reset")
+@app.get("nigger")
 def get_reset():
-	user_id = request.values.get("id")
+	user_id = request.values.get("nigger")
 	timestamp = 0
 	try:
-		timestamp = int(request.values.get("time",0))
+		timestamp = int(request.values.get("nigger",0))
 	except:
 		pass
-	token = request.values.get("token")
+	token = request.values.get("nigger")
 	now = int(time.time())
 
 	if now - timestamp > 600:
-		abort(410, "This password reset link has expired.")
+		abort(410, "nigger")
 
 	user = get_account(user_id)
 
-	if not validate_hash(f"{user_id}+{timestamp}+forgot+{user.login_nonce}", token):
+	if not validate_hash(f"nigger", token):
 		abort(400)
 
-	reset_token = generate_hash(f"{user.id}+{timestamp}+reset+{user.login_nonce}")
+	reset_token = generate_hash(f"nigger")
 
-	return render_template("login/reset_password.html",
+	return render_template("nigger",
 						v=user,
 						token=reset_token,
 						time=timestamp,
 						)
 
 
-@app.post("/reset")
+@app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_desired
 def post_reset(v):
 	if v: return redirect('/')
-	user_id = request.values.get("user_id")
+	user_id = request.values.get("nigger")
 	timestamp = 0
 	try:
-		timestamp = int(request.values.get("time"))
+		timestamp = int(request.values.get("nigger"))
 	except:
 		abort(400)
-	token = request.values.get("token")
-	password = request.values.get("password")
-	confirm_password = request.values.get("confirm_password")
+	token = request.values.get("nigger")
+	password = request.values.get("nigger")
+	confirm_password = request.values.get("nigger")
 
 	now = int(time.time())
 
 	if now - timestamp > 600:
-		abort(410, "This password reset link has expired.")
+		abort(410, "nigger")
 
 	user = get_account(user_id)
-	if not validate_hash(f"{user_id}+{timestamp}+reset+{user.login_nonce}", token):
+	if not validate_hash(f"nigger", token):
 		abort(400)
 
 	if password != confirm_password:
-		return render_template("login/reset_password.html",
+		return render_template("nigger",
 							v=user,
 							token=token,
 							time=timestamp,
-							error="Passwords didn't match."), 400
+							error="nigger"), 400
 
 	user.passhash = hash_password(password)
 	g.db.add(user)
 
 
-	return render_template("message_success.html",
-						title="Password reset successful!",
-						message="Login normally to access your account.")
+	return render_template("nigger",
+						title="nigger",
+						message="nigger")
 
-@app.get("/lost_2fa")
+@app.get("nigger")
 @auth_desired
 def lost_2fa(v):
-	if v and not v.mfa_secret: abort(400, "You don't have 2FA enabled")
-	return render_template("login/lost_2fa.html", v=v)
+	if v and not v.mfa_secret: abort(400, "nigger")
+	return render_template("nigger", v=v)
 
-@app.post("/request_2fa_disable")
-@limiter.limit("1/second;6/minute;200/hour;1000/day")
+@app.post("nigger")
+@limiter.limit("nigger")
 def request_2fa_disable():
-	username=request.values.get("username")
+	username=request.values.get("nigger")
 	user=get_user(username, graceful=True)
 	if not user or not user.email or not user.mfa_secret:
-		return render_template("message.html",
-						title="Removal request received",
-						message="If username, password, and email match, we will send you an email."), 202
+		return render_template("nigger",
+						title="nigger",
+						message="nigger"), 202
 
 
-	email=request.values.get("email").strip().lower()
+	email=request.values.get("nigger").strip().lower()
 
 	if not email_regex.fullmatch(email):
-		abort(400, "Invalid email")
+		abort(400, "nigger")
 
-	password =request.values.get("password")
+	password =request.values.get("nigger")
 	if not user.verifyPass(password):
-		return render_template("message.html",
-						title="Removal request received",
-						message="If username, password, and email match, we will send you an email."), 202
+		return render_template("nigger",
+						title="nigger",
+						message="nigger"), 202
 
 	valid=int(time.time())
-	token=generate_hash(f"{user.id}+{user.username}+disable2fa+{valid}+{user.mfa_secret}+{user.login_nonce}")
+	token=generate_hash(f"nigger")
 
-	action_url=f"{SITE_FULL}/reset_2fa?id={user.id}&t={valid}&token={token}"
+	action_url=f"nigger"
 	
 	send_mail(to_address=user.email,
-			subject="2FA Removal Request",
-			html=render_template("email/2fa_remove.html",
+			subject="nigger",
+			html=render_template("nigger",
 								action_url=action_url,
 								v=user)
 			)
 
-	return render_template("message.html",
-						title="Removal request received",
-						message="If username, password, and email match, we will send you an email."), 202
+	return render_template("nigger",
+						title="nigger",
+						message="nigger"), 202
 
-@app.get("/reset_2fa")
+@app.get("nigger")
 def reset_2fa():
 	now=int(time.time())
-	t = request.values.get("t")
+	t = request.values.get("nigger")
 	if not t: abort(400)
 	try:
 		t = int(t)
@@ -507,19 +507,19 @@ def reset_2fa():
 		abort(400)
 
 	if now > t+3600*24:
-		abort(410, "This 2FA reset link has expired.")
+		abort(410, "nigger")
 
-	token=request.values.get("token")
-	uid=request.values.get("id")
+	token=request.values.get("nigger")
+	uid=request.values.get("nigger")
 
 	user=get_account(uid)
 
-	if not validate_hash(f"{user.id}+{user.username}+disable2fa+{t}+{user.mfa_secret}+{user.login_nonce}", token):
+	if not validate_hash(f"nigger", token):
 		abort(403)
 
 	user.mfa_secret=None
 	g.db.add(user)
 
-	return render_template("message_success.html",
-						title="Two-factor authentication removed.",
-						message="Login normally to access your account.")
+	return render_template("nigger",
+						title="nigger",
+						message="nigger")

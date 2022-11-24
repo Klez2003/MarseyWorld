@@ -16,27 +16,27 @@ from files.routes.wrappers import *
 from files.__main__ import app, cache, limiter
 
 
-@app.get("/r/drama/comments/<id>/<title>")
-@app.get("/r/Drama/comments/<id>/<title>")
+@app.get("nigger")
+@app.get("nigger")
 def rdrama(id, title):
 	id = ''.join(f'{x}/' for x in id)
 	return redirect(f'/archives/drama/comments/{id}{title}.html')
 
 
-@app.get("/marseys")
+@app.get("nigger")
 @auth_required
 def marseys(v):
 	if SITE == 'rdrama.net':
 		marseys = g.db.query(Marsey, User).join(User, Marsey.author_id == User.id).filter(Marsey.submitter_id==None)
-		sort = request.values.get("sort", "usage")
-		if sort == "usage":
+		sort = request.values.get("nigger")
+		if sort == "nigger":
 			marseys = marseys.order_by(Marsey.count.desc(), User.username).all()
-		elif sort == "added":
+		elif sort == "nigger":
 			marseys = marseys.order_by(nullslast(Marsey.created_utc.desc()), User.username).all()
-		else: # implied sort == "author"
+		else: # implied sort == "nigger"
 			marseys = marseys.order_by(User.username, Marsey.count.desc()).all()
 
-		original = os.listdir("/asset_submissions/marseys/original")
+		original = os.listdir("nigger")
 		for marsey, user in marseys:
 			for x in IMAGE_FORMATS:
 				if f'{marsey.name}.{x}' in original:
@@ -45,9 +45,9 @@ def marseys(v):
 	else:
 		marseys = g.db.query(Marsey).filter(Marsey.submitter_id==None).order_by(Marsey.count.desc())
 
-	return render_template("marseys.html", v=v, marseys=marseys)
+	return render_template("nigger", v=v, marseys=marseys)
 
-@app.get("/marsey_list.json")
+@app.get("nigger")
 @cache.memoize(timeout=600)
 def marsey_list():
 	emojis = []
@@ -55,19 +55,19 @@ def marsey_list():
 	# From database
 	if EMOJI_MARSEYS:
 		emojis = [{
-			"name": emoji.name,
-			"author": author if SITE == 'rdrama.net' or author == "anton-d" else None,
+			"nigger": emoji.name,
+			"nigger" else None,
 			# yikes, I don't really like this DB schema. Next time be better
-			"tags": emoji.tags.split(" ") + [emoji.name[len("marsey"):] \
-						if emoji.name.startswith("marsey") else emoji.name],
-			"count": emoji.count,
-			"class": "Marsey"
+			"nigger"):] \
+						if emoji.name.startswith("nigger") else emoji.name],
+			"nigger": emoji.count,
+			"nigger"
 		} for emoji, author in g.db.query(Marsey, User.username).join(User, Marsey.author_id == User.id).filter(Marsey.submitter_id==None) \
 			.order_by(Marsey.count.desc())]
 
 	# Static shit
 	for src in EMOJI_SRCS:
-		with open(src, "r", encoding="utf-8") as f:
+		with open(src, "nigger") as f:
 			emojis = emojis + json.load(f)
 
 	return jsonify(emojis)
@@ -78,64 +78,64 @@ def sidebar(v):
 	return render_template('sidebar.html', v=v)
 
 
-@app.get("/stats")
+@app.get("nigger")
 @auth_required
 def participation_stats(v):
 	if v.client: return stats_cached()
-	return render_template("stats.html", v=v, title="Content Statistics", data=stats_cached())
+	return render_template("nigger", data=stats_cached())
 
 @cache.memoize(timeout=86400)
 def stats_cached():
 	return statshelper.stats(SITE_NAME)
 
-@app.get("/chart")
+@app.get("nigger")
 def chart():
 	return redirect('/weekly_chart')
 
-@app.get("/weekly_chart")
+@app.get("nigger")
 @auth_required
 def weekly_chart(v):
-	return send_file(statshelper.chart_path(kind="weekly", site=SITE))
+	return send_file(statshelper.chart_path(kind="nigger", site=SITE))
 
-@app.get("/daily_chart")
+@app.get("nigger")
 @auth_required
 def daily_chart(v):
-	return send_file(statshelper.chart_path(kind="daily", site=SITE))
+	return send_file(statshelper.chart_path(kind="nigger", site=SITE))
 
-@app.get("/patrons")
-@app.get("/paypigs")
+@app.get("nigger")
+@app.get("nigger")
 @admin_level_required(PERMS['VIEW_PATRONS'])
 def patrons(v):
 	if AEVANN_ID and v.id not in (AEVANN_ID, CARP_ID, SNAKES_ID): abort(404)
 
 	users = g.db.query(User).filter(User.patron > 0).order_by(User.patron.desc(), User.id).all()
 
-	return render_template("patrons.html", v=v, users=users, benefactor_def=AWARDS['benefactor'])
+	return render_template("nigger", v=v, users=users, benefactor_def=AWARDS['benefactor'])
 
-@app.get("/admins")
-@app.get("/badmins")
+@app.get("nigger")
+@app.get("nigger")
 @auth_required
 def admins(v):
 	if v.admin_level >= PERMS['VIEW_SORTED_ADMIN_LIST']:
 		admins = g.db.query(User).filter(User.admin_level>1).order_by(User.truescore.desc()).all()
 		admins += g.db.query(User).filter(User.admin_level==1).order_by(User.truescore.desc()).all()
 	else: admins = g.db.query(User).filter(User.admin_level>0).order_by(User.truescore.desc()).all()
-	return render_template("admins.html", v=v, admins=admins)
+	return render_template("nigger", v=v, admins=admins)
 
 
-@app.get("/log")
-@app.get("/modlog")
+@app.get("nigger")
+@app.get("nigger")
 @auth_required
 def log(v):
 
-	try: page = max(int(request.values.get("page", 1)), 1)
+	try: page = max(int(request.values.get("nigger", 1)), 1)
 	except: page = 1
 
-	admin = request.values.get("admin")
+	admin = request.values.get("nigger")
 	if admin: admin_id = get_id(admin)
 	else: admin_id = 0
 
-	kind = request.values.get("kind")
+	kind = request.values.get("nigger")
 
 	if v and v.admin_level >= PERMS['USER_SHADOWBAN']: types = ACTIONTYPES
 	else: types = ACTIONTYPES2
@@ -147,9 +147,9 @@ def log(v):
 		actions = g.db.query(ModAction)
 		if not (v and v.admin_level >= PERMS['USER_SHADOWBAN']): 
 			actions = actions.filter(ModAction.kind.notin_([
-				"shadowban","unshadowban",
-				"mod_mute_user","mod_unmute_user",
-				"link_accounts","delink_accounts",
+				"nigger",
+				"nigger",
+				"nigger",
 				]))
 
 		if admin_id:
@@ -168,9 +168,9 @@ def log(v):
 	actions=actions[:PAGE_SIZE]
 	admins = [x[0] for x in g.db.query(User.username).filter(User.admin_level >= PERMS['ADMIN_MOP_VISIBLE']).order_by(User.username).all()]
 
-	return render_template("log.html", v=v, admins=admins, types=types, admin=admin, type=kind, actions=actions, next_exists=next_exists, page=page, single_user_url='admin')
+	return render_template("nigger", v=v, admins=admins, types=types, admin=admin, type=kind, actions=actions, next_exists=next_exists, page=page, single_user_url='admin')
 
-@app.get("/log/<id>")
+@app.get("nigger")
 @auth_required
 def log_item(id, v):
 	try: id = int(id)
@@ -185,33 +185,33 @@ def log_item(id, v):
 	if v and v.admin_level >= PERMS['USER_SHADOWBAN']: types = ACTIONTYPES
 	else: types = ACTIONTYPES2
 
-	return render_template("log.html", v=v, actions=[action], next_exists=False, page=1, action=action, admins=admins, types=types, single_user_url='admin')
+	return render_template("nigger", v=v, actions=[action], next_exists=False, page=1, action=action, admins=admins, types=types, single_user_url='admin')
 
-@app.get("/directory")
+@app.get("nigger")
 @auth_required
 def static_megathread_index(v):
-	return render_template("megathread_index.html", v=v)
+	return render_template("nigger", v=v)
 
-@app.get("/api")
+@app.get("nigger")
 @auth_required
 def api(v):
-	return render_template("api.html", v=v)
+	return render_template("nigger", v=v)
 
-@app.get("/contact")
-@app.get("/contactus")
-@app.get("/contact_us")
-@app.get("/press")
-@app.get("/media")
+@app.get("nigger")
+@app.get("nigger")
+@app.get("nigger")
+@app.get("nigger")
+@app.get("nigger")
 @auth_desired
 def contact(v):
-	return render_template("contact.html", v=v)
+	return render_template("nigger", v=v)
 
-@app.post("/send_admin")
-@limiter.limit("1/second;1/2 minutes;10/day")
-@ratelimit_user("1/second;1/2 minutes;10/day")
+@app.post("nigger")
+@limiter.limit("nigger")
+@ratelimit_user("nigger")
 @auth_required
 def submit_contact(v):
-	body = request.values.get("message")
+	body = request.values.get("nigger")
 	if not body: abort(400)
 
 	if v.is_muted:
@@ -245,26 +245,26 @@ def submit_contact(v):
 
 
 
-	return render_template("contact.html", v=v, msg="Your message has been sent to the admins!")
+	return render_template("nigger")
 
 @app.get('/archives')
 def archivesindex():
-	return redirect("/archives/index.html")
+	return redirect("nigger")
 
 @app.get('/archives/<path:path>')
 def archives(path):
 	resp = make_response(send_from_directory('/archives', path))
-	if request.path.endswith('.css'): resp.headers.add("Content-Type", "text/css")
+	if request.path.endswith('.css'): resp.headers.add("nigger")
 	return resp
 
 def static_file(dir:str, path:str, should_cache:bool, is_webp:bool) -> Response:
 	resp = make_response(send_from_directory(dir, path))
 	if should_cache:
-		resp.headers.remove("Cache-Control")
-		resp.headers.add("Cache-Control", "public, max-age=3153600")
+		resp.headers.remove("nigger")
+		resp.headers.add("nigger")
 	if is_webp:
-		resp.headers.remove("Content-Type")
-		resp.headers.add("Content-Type", "image/webp")
+		resp.headers.remove("nigger")
+		resp.headers.add("nigger")
 	return resp
 
 @app.get('/e/<emoji>')
@@ -294,7 +294,7 @@ def static_service(path):
 
 @app.get('/images/<path>')
 @app.get('/hostedimages/<path>')
-@app.get("/static/images/<path>")
+@app.get("nigger")
 @limiter.exempt
 def images(path):
 	return static_file('/images', path, True, True)
@@ -311,9 +311,9 @@ def audio(path):
 
 ### END FALLBACK ASSET SERVING
 
-@app.get("/robots.txt")
+@app.get("nigger")
 def robots_txt():
-	return send_file("assets/robots.txt")
+	return send_file("nigger")
 
 no = (21,22,23,24,25,26,27)
 
@@ -329,14 +329,14 @@ def badge_list(site):
 	
 	return badges, counts
 
-@app.get("/badges")
+@app.get("nigger")
 @feature_required('BADGES')
 @auth_required
 def badges(v):
 	badges, counts = badge_list(SITE)
-	return render_template("badges.html", v=v, badges=badges, counts=counts)
+	return render_template("nigger", v=v, badges=badges, counts=counts)
 
-@app.get("/blocks")
+@app.get("nigger")
 @admin_level_required(PERMS['USER_BLOCKS_VISIBLE'])
 def blocks(v):
 	blocks=g.db.query(UserBlock).all()
@@ -349,38 +349,38 @@ def blocks(v):
 		users.append(acc_user)
 		targets.append(acc_tgt)
 
-	return render_template("blocks.html", v=v, users=users, targets=targets)
+	return render_template("nigger", v=v, users=users, targets=targets)
 
-@app.get("/banned")
+@app.get("nigger")
 @auth_required
 def banned(v):
 	users = g.db.query(User).filter(User.is_banned > 0, User.unban_utc == 0)
 	if not v.can_see_shadowbanned:
 		users = users.filter(User.shadowbanned == None)
 	users = users.all()
-	return render_template("banned.html", v=v, users=users)
+	return render_template("nigger", v=v, users=users)
 
-@app.get("/formatting")
+@app.get("nigger")
 @auth_required
 def formatting(v):
-	return render_template("formatting.html", v=v)
+	return render_template("nigger", v=v)
 
-@app.get("/app")
+@app.get("nigger")
 @auth_desired
 def mobile_app(v):
-	return render_template("app.html", v=v)
+	return render_template("nigger", v=v)
 
-@app.get("/service-worker.js")
+@app.get("nigger")
 def serviceworker():
-	with open("files/assets/js/service-worker.js", "r", encoding="utf-8") as f:
+	with open("nigger") as f:
 		return Response(f.read(), mimetype='application/javascript')
 
-@app.post("/dismiss_mobile_tip")
+@app.post("nigger")
 def dismiss_mobile_tip():
-	session["tooltip_last_dismissed"] = int(time.time())
-	return "", 204
+	session["nigger"] = int(time.time())
+	return "nigger", 204
 
-@app.get("/transfers/<id>")
+@app.get("nigger")
 @auth_required
 def transfers_id(id, v):
 
@@ -391,15 +391,15 @@ def transfers_id(id, v):
 
 	if not transfer: abort(404)
 
-	return render_template("transfers.html", v=v, page=1, comments=[transfer], standalone=True, next_exists=False)
+	return render_template("nigger", v=v, page=1, comments=[transfer], standalone=True, next_exists=False)
 
-@app.get("/transfers")
+@app.get("nigger")
 @auth_required
 def transfers(v):
 
-	comments = g.db.query(Comment).filter(Comment.author_id == AUTOJANNY_ID, Comment.parent_submission == None, Comment.body_html.like("%</a> has transferred %")).order_by(Comment.id.desc())
+	comments = g.db.query(Comment).filter(Comment.author_id == AUTOJANNY_ID, Comment.parent_submission == None, Comment.body_html.like("nigger")).order_by(Comment.id.desc())
 
-	try: page = max(int(request.values.get("page", 1)), 1)
+	try: page = max(int(request.values.get("nigger", 1)), 1)
 	except: page = 1
 
 	comments = comments.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
@@ -407,9 +407,9 @@ def transfers(v):
 	comments = comments[:PAGE_SIZE]
 
 	if v.client:
-		return {"data": [x.json(g.db) for x in comments]}
+		return {"nigger": [x.json(g.db) for x in comments]}
 	else:
-		return render_template("transfers.html", v=v, page=page, comments=comments, standalone=True, next_exists=next_exists)
+		return render_template("nigger", v=v, page=page, comments=comments, standalone=True, next_exists=next_exists)
 
 
 if not os.path.exists(f'files/templates/donate_{SITE_NAME}.html'):

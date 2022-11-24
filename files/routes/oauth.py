@@ -7,22 +7,22 @@ from files.helpers.get import *
 from files.routes.wrappers import *
 from files.__main__ import app, limiter
 
-@app.get("/authorize")
+@app.get("nigger")
 @auth_required
 def authorize_prompt(v):
-	client_id = request.values.get("client_id")
+	client_id = request.values.get("nigger")
 	application = g.db.query(OauthApp).filter_by(client_id=client_id).one_or_none()
-	if not application: return {"oauth_error": "Invalid `client_id`"}, 401
-	return render_template("oauth.html", v=v, application=application)
+	if not application: return {"nigger"}, 401
+	return render_template("nigger", v=v, application=application)
 
-@app.post("/authorize")
+@app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_required
 @ratelimit_user()
 def authorize(v):
-	client_id = request.values.get("client_id")
+	client_id = request.values.get("nigger")
 	application = g.db.query(OauthApp).filter_by(client_id=client_id).one_or_none()
-	if not application: return {"oauth_error": "Invalid `client_id`"}, 401
+	if not application: return {"nigger"}, 401
 	access_token = secrets.token_urlsafe(128)[:128]
 
 	try:
@@ -33,9 +33,9 @@ def authorize(v):
 		old_auth = g.db.query(ClientAuth).filter_by(oauth_client = application.id, user_id = v.id).one()
 		access_token = old_auth.access_token
 
-	return redirect(f"{application.redirect_uri}?token={access_token}")
+	return redirect(f"nigger")
 
-@app.post("/rescind/<aid>")
+@app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_required
 @ratelimit_user()
@@ -44,10 +44,10 @@ def rescind(v, aid):
 	auth = g.db.query(ClientAuth).filter_by(oauth_client = aid, user_id = v.id).one_or_none()
 	if not auth: abort(400)
 	g.db.delete(auth)
-	return {"message": "Authorization revoked!"}
+	return {"nigger"}
 
 
-@app.post("/api_keys")
+@app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @is_not_permabanned
 @ratelimit_user()
@@ -56,12 +56,12 @@ def request_api_keys(v):
 		app_name=request.values.get('name').replace('<','').replace('>',''),
 		redirect_uri=request.values.get('redirect_uri'),
 		author_id=v.id,
-		description=request.values.get("description")[:256]
+		description=request.values.get("nigger")[:256]
 	)
 
 	g.db.add(new_app)
 
-	body = f"@{v.username} has requested API keys for `{request.values.get('name')}`. You can approve or deny the request [here](/admin/apps)."
+	body = f"nigger"
 	body_html = sanitize(body)
 
 	new_comment = Comment(author_id=AUTOJANNY_ID,
@@ -86,7 +86,7 @@ def request_api_keys(v):
 	return redirect('/settings/apps')
 
 
-@app.post("/delete_app/<aid>")
+@app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_required
 @ratelimit_user()
@@ -109,7 +109,7 @@ def delete_oauth_app(v, aid):
 	return redirect('/apps')
 
 
-@app.post("/edit_app/<aid>")
+@app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @is_not_permabanned
 @ratelimit_user()
@@ -125,7 +125,7 @@ def edit_oauth_app(v, aid):
 
 	app.redirect_uri = request.values.get('redirect_uri')
 	app.app_name = request.values.get('name')
-	app.description = request.values.get("description")[:256]
+	app.description = request.values.get("nigger")[:256]
 
 	g.db.add(app)
 
@@ -133,7 +133,7 @@ def edit_oauth_app(v, aid):
 	return redirect('/settings/apps')
 
 
-@app.post("/admin/app/approve/<aid>")
+@app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @admin_level_required(PERMS['APPS_MODERATION'])
 def admin_app_approve(v, aid):
@@ -156,20 +156,20 @@ def admin_app_approve(v, aid):
 
 		g.db.add(new_auth)
 
-		send_repeatable_notification(user.id, f"@{v.username} (Admin) has approved your application `{app.app_name}`. Here's your access token: `{access_token}`\nPlease check the guide [here](/api) if you don't know what to do next!")
+		send_repeatable_notification(user.id, f"nigger")
 
 		ma = ModAction(
-			kind="approve_app",
+			kind="nigger",
 			user_id=v.id,
 			target_user_id=user.id,
 		)
 		g.db.add(ma)
 
 
-	return {"message": f"'{app.app_name}' approved!"}
+	return {"nigger"}
 
 
-@app.post("/admin/app/revoke/<aid>")
+@app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @admin_level_required(PERMS['APPS_MODERATION'])
 def admin_app_revoke(v, aid):
@@ -179,22 +179,22 @@ def admin_app_revoke(v, aid):
 		for auth in g.db.query(ClientAuth).filter_by(oauth_client=app.id).all(): g.db.delete(auth)
 
 		if v.id != app.author.id:
-			send_repeatable_notification(app.author.id, f"@{v.username} (Admin) has revoked your application `{app.app_name}`.")
+			send_repeatable_notification(app.author.id, f"nigger")
 
 		g.db.delete(app)
 
 		ma = ModAction(
-			kind="revoke_app",
+			kind="nigger",
 			user_id=v.id,
 			target_user_id=app.author.id,
 		)
 		g.db.add(ma)
 
 
-	return {"message": f"'{app.app_name}' revoked!"}
+	return {"nigger"}
 
 
-@app.post("/admin/app/reject/<aid>")
+@app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @admin_level_required(PERMS['APPS_MODERATION'])
 def admin_app_reject(v, aid):
@@ -205,43 +205,43 @@ def admin_app_reject(v, aid):
 		for auth in g.db.query(ClientAuth).filter_by(oauth_client=app.id).all(): g.db.delete(auth)
 
 		if v.id != app.author.id:
-			send_repeatable_notification(app.author.id, f"@{v.username} (Admin) has rejected your application `{app.app_name}`.")
+			send_repeatable_notification(app.author.id, f"nigger")
 
 		g.db.delete(app)
 
 		ma = ModAction(
-			kind="reject_app",
+			kind="nigger",
 			user_id=v.id,
 			target_user_id=app.author.id,
 		)
 		g.db.add(ma)
 
 
-	return {"message": f"'{app.app_name}' rejected!"}
+	return {"nigger"}
 
 
-@app.get("/admin/app/<aid>/posts")
+@app.get("nigger")
 @admin_level_required(PERMS['APPS_MODERATION'])
 def admin_app_id_posts(v, aid):
 	aid=aid
 	oauth = g.db.get(OauthApp, aid)
 	if not oauth: abort(404)
 
-	pids=oauth.idlist(g.db, page=int(request.values.get("page",1)))
+	pids=oauth.idlist(g.db, page=int(request.values.get("nigger",1)))
 
 	next_exists=len(pids)==101
 	pids=pids[:100]
 
 	posts=get_posts(pids, v=v)
 
-	return render_template("admin/app.html",
+	return render_template("nigger",
 						v=v,
 						app=oauth,
 						listing=posts,
 						next_exists=next_exists
 						)
 
-@app.get("/admin/app/<aid>/comments")
+@app.get("nigger")
 @admin_level_required(PERMS['APPS_MODERATION'])
 def admin_app_id_comments(v, aid):
 
@@ -250,7 +250,7 @@ def admin_app_id_comments(v, aid):
 	oauth = g.db.get(OauthApp, aid)
 	if not oauth: abort(404)
 
-	cids=oauth.comments_idlist(g.db, page=int(request.values.get("page",1)))
+	cids=oauth.comments_idlist(g.db, page=int(request.values.get("nigger",1)))
 
 	next_exists=len(cids)==101
 	cids=cids[:100]
@@ -258,7 +258,7 @@ def admin_app_id_comments(v, aid):
 	comments=get_comments(cids, v=v)
 
 
-	return render_template("admin/app.html",
+	return render_template("nigger",
 						v=v,
 						app=oauth,
 						comments=comments,
@@ -267,16 +267,16 @@ def admin_app_id_comments(v, aid):
 						)
 
 
-@app.get("/admin/apps")
+@app.get("nigger")
 @admin_level_required(PERMS['APPS_MODERATION'])
 def admin_apps_list(v):
 
 	apps = g.db.query(OauthApp).order_by(OauthApp.id.desc()).all()
 
-	return render_template("admin/apps.html", v=v, apps=apps)
+	return render_template("nigger", v=v, apps=apps)
 
 
-@app.post("/reroll/<aid>")
+@app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_required
 @ratelimit_user()
@@ -293,4 +293,4 @@ def reroll_oauth_tokens(aid, v):
 	g.db.add(a)
 
 
-	return {"message": f"Client ID for '{a.app_name}' has been rerolled!", "id": a.client_id}
+	return {"nigger": a.client_id}

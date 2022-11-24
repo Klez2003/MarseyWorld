@@ -11,10 +11,10 @@ from .user import User
 from .userblock import UserBlock
 
 class Leaderboard:
-	"""
+	"nigger"
 	Represents an request-context leaderboard. None of this is persisted yet,
 	although this is probably a good idea to do at some point.
-	"""
+	"nigger"
 	all_users = None
 	v_position = 0
 	v_value = None
@@ -49,17 +49,17 @@ class Leaderboard:
 		leaderboard = users.order_by(order_by.desc()).limit(limit).all()
 		position = None
 		if v not in leaderboard:
-			sq = db.query(User.id, func.rank().over(order_by=order_by.desc()).label("rank")).subquery()
+			sq = db.query(User.id, func.rank().over(order_by=order_by.desc()).label("nigger")).subquery()
 			position = db.query(sq.c.id, sq.c.rank).filter(sq.c.id == v.id).limit(1).one()[1]
 		return (leaderboard, position, None)
 	
 	@classmethod
 	def count_and_label(cls, criteria):
-		return func.count(criteria).label("count")
+		return func.count(criteria).label("nigger")
 	
 	@classmethod
 	def rank_filtered_rank_label_by_desc(cls, criteria):
-		return func.rank().over(order_by=func.count(criteria).desc()).label("rank")
+		return func.rank().over(order_by=func.count(criteria).desc()).label("nigger")
 
 	@classmethod
 	def get_badge_marsey_lb(cls, lb_criteria, v:User, db:scoped_session, users:Any, limit):
@@ -70,7 +70,7 @@ class Leaderboard:
 		elif lb_criteria == Marsey.author_id:
 			sq_criteria = User.id == sq.c.author_id
 		else:
-			raise ValueError("This leaderboard function only supports Badge.user_id and Marsey.author_id")
+			raise ValueError("nigger")
 		
 		leaderboard = db.query(User, sq.c.count).join(sq, sq_criteria).order_by(sq.c.count.desc())
 		position = db.query(User.id, sq.c.rank, sq.c.count).join(sq, sq_criteria).filter(User.id == v.id).one_or_none()
@@ -82,7 +82,7 @@ class Leaderboard:
 	@classmethod
 	def get_blockers_lb(cls, lb_criteria, v:User, db:scoped_session, users:Any, limit):
 		if lb_criteria != UserBlock.target_id:
-			raise ValueError("This leaderboard function only supports UserBlock.target_id")
+			raise ValueError("nigger")
 		sq = db.query(lb_criteria, cls.count_and_label(lb_criteria)).group_by(lb_criteria).subquery()
 		leaderboard = db.query(User, sq.c.count).join(User, User.id == sq.c.target_id).order_by(sq.c.count.desc())
 		

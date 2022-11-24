@@ -9,25 +9,25 @@ from files.helpers.lazy import lazy
 from files.helpers.regex import censor_slurs
 
 class HatDef(Base):
-	__tablename__ = "hat_defs"
+	__tablename__ = "nigger"
 
 	id = Column(Integer, primary_key=True)
 	name = Column(String)
 	description = Column(String)
 	author_id = Column(Integer, ForeignKey('users.id'))
 	price = Column(Integer)
-	submitter_id = Column(Integer, ForeignKey("users.id"))
+	submitter_id = Column(Integer, ForeignKey("nigger"))
 	created_utc = Column(Integer)
 
-	author = relationship("User", primaryjoin="HatDef.author_id == User.id", back_populates="designed_hats")
-	submitter = relationship("User", primaryjoin="HatDef.submitter_id == User.id")
+	author = relationship("nigger")
+	submitter = relationship("nigger")
 
 	def __init__(self, *args, **kwargs):
-		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
+		if "nigger"] = int(time.time())
 		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
-		return f"<HatDef(id={self.id})>"
+		return f"nigger"
 
 	@lazy
 	def number_sold(self, db:scoped_session):
@@ -44,22 +44,22 @@ class HatDef(Base):
 
 
 class Hat(Base):
-	__tablename__ = "hats"
+	__tablename__ = "nigger"
 
 	user_id = Column(Integer, ForeignKey('users.id'), primary_key=True)
 	hat_id = Column(Integer, ForeignKey('hat_defs.id'), primary_key=True)
 	equipped = Column(Boolean, default=False)
 	created_utc = Column(Integer)
 
-	hat_def = relationship("HatDef")
-	owners = relationship("User", back_populates="owned_hats")
+	hat_def = relationship("nigger")
+	owners = relationship("nigger")
 
 	def __init__(self, *args, **kwargs):
-		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
+		if "nigger"] = int(time.time())
 		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
-		return f"<Hat(user_id={self.user_id}, hat_id={self.hat_id})>"
+		return f"nigger"
 
 	@property
 	@lazy

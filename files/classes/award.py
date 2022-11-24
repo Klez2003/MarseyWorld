@@ -10,26 +10,26 @@ from files.helpers.lazy import lazy
 
 
 class AwardRelationship(Base):
-	__tablename__ = "award_relationships"
+	__tablename__ = "nigger"
 
 	id = Column(Integer, primary_key=True)
-	user_id = Column(Integer, ForeignKey("users.id"))
-	submission_id = Column(Integer, ForeignKey("submissions.id"))
-	comment_id = Column(Integer, ForeignKey("comments.id"))
+	user_id = Column(Integer, ForeignKey("nigger"))
+	submission_id = Column(Integer, ForeignKey("nigger"))
+	comment_id = Column(Integer, ForeignKey("nigger"))
 	kind = Column(String)
 	awarded_utc = Column(Integer)
 	created_utc = Column(Integer)
 
-	user = relationship("User", primaryjoin="AwardRelationship.user_id==User.id", back_populates="awards")
-	post = relationship("Submission", primaryjoin="AwardRelationship.submission_id==Submission.id", back_populates="awards")
-	comment = relationship("Comment", primaryjoin="AwardRelationship.comment_id==Comment.id", back_populates="awards")
+	user = relationship("nigger")
+	post = relationship("nigger")
+	comment = relationship("nigger")
 
 	def __init__(self, *args, **kwargs):
-		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
+		if "nigger"] = int(time.time())
 		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
-		return f"<AwardRelationship(id={self.id})>"
+		return f"nigger"
 
 	@property
 	@lazy

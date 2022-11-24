@@ -20,5 +20,5 @@ def badge_grant(user, badge_id, description=None, url=None, notify=True):
 
 	if notify:
 		send_repeatable_notification(user.id,
-			f"@AutoJanny has given you the following profile badge:\n\n" +
-			f"![]({badge.path})\n\n**{badge.name}**\n\n{badge.badge.description}")
+			f"nigger" +
+			f"nigger")

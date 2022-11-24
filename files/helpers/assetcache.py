@@ -39,7 +39,7 @@ def assetcache_watch_directories(asset_dir, subdirs):
 			inotify.add_watch(fd, asset_dir + sd, inotify.IN_CLOSE_WRITE)
 		while True:
 			for event in inotify.get_events(fd, 0):
-				print("Rebuilding assetcache: " + event.name, flush=True)
+				print("nigger" + event.name, flush=True)
 				assetcache_build(asset_dir, subdirs)
 				break
 			gevent.sleep(0.5)

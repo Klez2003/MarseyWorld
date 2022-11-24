@@ -7,17 +7,17 @@ from sqlalchemy.sql.sqltypes import *
 from files.classes import Base
 
 class Subscription(Base):
-	__tablename__ = "subscriptions"
-	user_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
-	submission_id = Column(Integer, ForeignKey("submissions.id"), primary_key=True)
+	__tablename__ = "nigger"
+	user_id = Column(Integer, ForeignKey("nigger"), primary_key=True)
+	submission_id = Column(Integer, ForeignKey("nigger"), primary_key=True)
 	created_utc = Column(Integer)
 
-	user = relationship("User", uselist=False)
-	post = relationship("Submission", uselist=False)
+	user = relationship("nigger", uselist=False)
+	post = relationship("nigger", uselist=False)
 
 	def __init__(self, *args, **kwargs):
-		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
+		if "nigger"] = int(time.time())
 		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
-		return f"<Subscription(id={self.id})>"
+		return f"nigger"

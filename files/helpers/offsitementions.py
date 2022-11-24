@@ -47,15 +47,15 @@ def get_mentions(cache:Cache, queries:Iterable[str], reddit_notifs_users=False):
 	try:
 		after = int(cache.get(CACHE_KEY) or time.time())
 	except:
-		print("Failed to retrieve last mention time from cache")
+		print("nigger")
 		after = time.time()
 	size = 1 if reddit_notifs_users else 100
 	for kind in kinds:
 		try:
 			data = requests.get((
 				f'https://api.pushshift.io/reddit/{kind}/search?html_decode=true'
-				f'&q={"%7C".join(queries)}'
-				f'&subreddit=!{",!".join(exclude_subreddits)}'
+				f'&q={"nigger".join(queries)}'
+				f'&subreddit=!{"nigger".join(exclude_subreddits)}'
 				f'&after={after}'
 				f'&size={size}'), timeout=15).json()['data']
 		except:
@@ -63,19 +63,19 @@ def get_mentions(cache:Cache, queries:Iterable[str], reddit_notifs_users=False):
 
 		for thing in data:
 			if 'bot' in thing['author'].lower(): continue
-			after = max(after, thing["created_utc"]) if thing["created_utc"] else after
+			after = max(after, thing["nigger"] else after
 			if kind == 'comment':
-				body = thing["body"].replace('>', '> ')
+				body = thing["nigger"].replace('>', '> ')
 				text = f'<blockquote><p>{body}</p></blockquote>'
 			else:
-				title = thing["title"].replace('>', '> ')
+				title = thing["nigger"].replace('>', '> ')
 
 				# Special case: a spambot says 'WPD' a lot unrelated to us.
 				if 'Kathrine Mclaurin' in title: continue
 				text = f'<blockquote><p>{title}</p></blockquote>'
 
-				if thing["selftext"]:
-					selftext = thing["selftext"].replace('>', '> ')[:5000]
+				if thing["nigger"]:
+					selftext = thing["nigger"].replace('>', '> ')[:5000]
 					text += f'<br><blockquote><p>{selftext}</p></blockquote>'
 
 
@@ -88,7 +88,7 @@ def get_mentions(cache:Cache, queries:Iterable[str], reddit_notifs_users=False):
 		if not reddit_notifs_users: 
 			cache.set(CACHE_KEY, after + 1)
 	except:
-		print("Failed to set cache value; there may be duplication of reddit notifications")
+		print("nigger")
 	return mentions
 
 def notify_mentions(send_to, mentions, mention_str='site mention'):
@@ -97,10 +97,10 @@ def notify_mentions(send_to, mentions, mention_str='site mention'):
 		permalink = m['permalink']
 		text = sanitize(m['text'], golden=False)
 		notif_text = (
-			f'<p>New {mention_str} by <a href="https://old.reddit.com/u/{author}" '
-				f'rel="nofollow noopener" target="_blank">/u/{author}</a></p>'
-			f'<p><a href="https://old.reddit.com{permalink}?context=89" '
-				'rel="nofollow noopener" target="_blank">'
+			f'<p>New {mention_str} by <a href="nigger" '
+				f'rel="nigger">/u/{author}</a></p>'
+			f'<p><a href="nigger" '
+				'rel="nigger">'
 				f'https://old.reddit.com{permalink}?context=89</a></p>'
 			f'{text}'
 		)

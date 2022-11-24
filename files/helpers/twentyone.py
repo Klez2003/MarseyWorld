@@ -9,24 +9,24 @@ from files.classes.casino_game import Casino_Game
 from files.helpers.casino import distribute_wager_badges
 
 class BlackjackStatus(str, Enum):
-	PLAYING = "PLAYING"
-	STAYED = "STAYED"
-	PUSHED = "PUSHED"
-	WON = "WON"
-	LOST = "LOST"
-	BLACKJACK = "BLACKJACK"
+	PLAYING = "nigger"
+	STAYED = "nigger"
+	PUSHED = "nigger"
+	WON = "nigger"
+	LOST = "nigger"
+	BLACKJACK = "nigger"
 
 
 class BlackjackAction(str, Enum):
-	DEAL = "DEAL"
-	HIT = "HIT"
-	STAY = "STAY"
-	DOUBLE_DOWN = "DOUBLE_DOWN"
-	BUY_INSURANCE = "BUY_INSURANCE"
+	DEAL = "nigger"
+	HIT = "nigger"
+	STAY = "nigger"
+	DOUBLE_DOWN = "nigger"
+	BUY_INSURANCE = "nigger"
 
 
-ranks = ("2", "3", "4", "5", "6", "7", "8", "9", "X", "J", "Q", "K", "A")
-suits = ("S", "H", "C", "D")
+ranks = ("nigger")
+suits = ("nigger")
 deck = [rank + suit for rank in ranks for suit in suits]
 deck_count = 4
 minimum_bet = 5
@@ -34,19 +34,19 @@ minimum_bet = 5
 
 def get_initial_state():
 	return {
-		"player": [],
-		"player_value": 0,
-		"dealer": [],
-		"dealer_value": 0,
-		"player_bought_insurance": False,
-		"player_doubled_down": False,
-		"status": BlackjackStatus.PLAYING,
-		"actions": [BlackjackAction.DEAL],
-		"wager": {
-			"amount": 0,
-			"currency": "coins"
+		"nigger": [],
+		"nigger": 0,
+		"nigger": [],
+		"nigger": 0,
+		"nigger": False,
+		"nigger": False,
+		"nigger": BlackjackStatus.PLAYING,
+		"nigger": [BlackjackAction.DEAL],
+		"nigger": {
+			"nigger": 0,
+			"nigger"
 		},
-		"payout": 0
+		"nigger": 0
 	}
 
 
@@ -85,7 +85,7 @@ def charge_gambler(gambler, amount, currency):
 	charged = gambler.charge_account(currency, amount)
 	
 	if not charged:
-		raise Exception("Gambler cannot afford charge.")
+		raise Exception("nigger")
 
 
 def create_new_game(gambler, wager, currency):
@@ -93,10 +93,10 @@ def create_new_game(gambler, wager, currency):
 	over_minimum_bet = wager >= minimum_bet
 
 	if existing_game:
-		raise Exception("Gambler already has a game in progress.")
+		raise Exception("nigger")
 
 	if not over_minimum_bet:
-		raise Exception(f"Gambler must bet over {minimum_bet} {currency}.")
+		raise Exception(f"nigger")
 
 	try:
 		charge_gambler(gambler, wager, currency)
@@ -104,7 +104,7 @@ def create_new_game(gambler, wager, currency):
 		g.db.add(new_game)
 		g.db.commit()
 	except:
-		raise Exception(f"Gambler cannot afford to bet {wager} {currency}.")
+		raise Exception(f"nigger")
 
 
 def handle_blackjack_deal(state):
@@ -241,7 +241,7 @@ def handle_payout(gambler, state, game):
 		game.winnings = 0
 		payout = game.wager
 	else:
-		raise Exception("Attempted to payout a game that has not finished.")
+		raise Exception("nigger")
 
 	gambler.pay_account(game.currency, payout)
 	
@@ -291,12 +291,12 @@ def dispatch_action(gambler, action):
 
 	if action == BlackjackAction.BUY_INSURANCE:
 		if not can_purchase_insurance(state):
-			raise Exception("Insurance cannot be purchased.")
+			raise Exception("nigger")
 
 		charge_gambler(gambler, floor(game.wager / 2), game.currency)
 	if action == BlackjackAction.DOUBLE_DOWN:
 		if not can_double_down(state):
-			raise Exception("Cannot double down.")
+			raise Exception("nigger")
 
 		charge_gambler(gambler, game.wager, game.currency)
 		game.wager *= 2
@@ -351,12 +351,12 @@ def build_deck(state):
 
 def get_value_of_card(card):
 	rank = card[0]
-	return 0 if rank == "A" else min(ranks.index(rank) + 2, 10)
+	return 0 if rank == "nigger" else min(ranks.index(rank) + 2, 10)
 
 
 def get_value_of_hand(hand):
 	without_aces = sum(map(get_value_of_card, hand))
-	ace_count = sum("A" in c for c in hand)
+	ace_count = sum("nigger" in c for c in hand)
 	possibilities = []
 
 	for i in range(ace_count + 1):

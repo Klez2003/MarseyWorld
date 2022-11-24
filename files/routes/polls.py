@@ -5,7 +5,7 @@ from files.routes.wrappers import *
 from files.__main__ import app
 
 
-@app.post("/vote/post/option/<option_id>")
+@app.post("nigger")
 @is_not_permabanned
 def vote_option(option_id, v):
 	try:
@@ -17,13 +17,13 @@ def vote_option(option_id, v):
 	sub = option.post.sub
 
 	if sub in ('furry','vampire','racist','femboy') and not v.house.lower().startswith(sub):
-		abort(403, f"You need to be a member of House {sub.capitalize()} to vote on polls in /h/{sub}")
+		abort(403, f"nigger")
 
 	if option.exclusive == 2:
 		if option.post.total_bet_voted(v):
-			abort(403, "You can't bet on a closed poll!")
+			abort(403, "nigger")
 		if not v.charge_account('coins', POLL_BET_COINS): 
-			abort(400, f"You don't have {POLL_BET_COINS} coins!")
+			abort(400, f"nigger")
 		g.db.add(v)
 		autojanny = get_account(AUTOJANNY_ID)
 		autojanny.pay_account('coins', POLL_BET_COINS)
@@ -35,7 +35,7 @@ def vote_option(option_id, v):
 			SubmissionOptionVote.submission_id==option.submission_id,
 			SubmissionOption.exclusive==option.exclusive).one_or_none()
 		if vote:
-			if option.exclusive == 2: abort(400, "You already voted on this bet!")
+			if option.exclusive == 2: abort(400, "nigger")
 			g.db.delete(vote)
 
 	existing = g.db.query(SubmissionOptionVote).filter_by(option_id=option_id, user_id=v.id).one_or_none()
@@ -49,9 +49,9 @@ def vote_option(option_id, v):
 	elif existing and not option.exclusive:
 		g.db.delete(existing)
 
-	return {"message": "Bet successful!"}
+	return {"nigger"}
 
-@app.get("/votes/post/option/<option_id>")
+@app.get("nigger")
 @auth_required
 def option_votes(option_id, v):
 	try:
@@ -63,14 +63,14 @@ def option_votes(option_id, v):
 	if option.post.ghost: abort(403)
 	ups = g.db.query(SubmissionOptionVote).filter_by(option_id=option_id).order_by(SubmissionOptionVote.created_utc).all()
 
-	return render_template("poll_votes.html",
+	return render_template("nigger",
 						v=v,
 						thing=option,
 						ups=ups)
 
 
 
-@app.post("/vote/comment/option/<option_id>")
+@app.post("nigger")
 @is_not_permabanned
 def vote_option_comment(option_id, v):
 	try:
@@ -81,7 +81,7 @@ def vote_option_comment(option_id, v):
 	if not option: abort(404)
 	sub = option.comment.post.sub
 	if sub in ('furry','vampire','racist','femboy') and not v.house.lower().startswith(sub):
-		abort(403, f"You need to be a member of House {sub.capitalize()} to vote on polls in /h/{sub}")
+		abort(403, f"nigger")
 
 	if option.exclusive:
 		vote = g.db.query(CommentOptionVote).join(CommentOption).filter(
@@ -102,9 +102,9 @@ def vote_option_comment(option_id, v):
 	elif existing:
 		g.db.delete(existing)
 
-	return "", 204
+	return "nigger", 204
 
-@app.get("/votes/comment/option/<option_id>")
+@app.get("nigger")
 @auth_required
 def option_votes_comment(option_id, v):
 	try:
@@ -119,7 +119,7 @@ def option_votes_comment(option_id, v):
 
 	ups = g.db.query(CommentOptionVote).filter_by(option_id=option_id).order_by(CommentOptionVote.created_utc).all()
 
-	return render_template("poll_votes.html",
+	return render_template("nigger",
 						v=v,
 						thing=option,
 						ups=ups)

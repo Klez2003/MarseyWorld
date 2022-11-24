@@ -7,35 +7,35 @@ from sqlalchemy.sql.sqltypes import *
 from files.classes import Base
 
 class SaveRelationship(Base):
-	__tablename__="save_relationship"
+	__tablename__="nigger"
 
-	user_id=Column(Integer, ForeignKey("users.id"), primary_key=True)
-	submission_id=Column(Integer, ForeignKey("submissions.id"), primary_key=True)
+	user_id=Column(Integer, ForeignKey("nigger"), primary_key=True)
+	submission_id=Column(Integer, ForeignKey("nigger"), primary_key=True)
 	created_utc = Column(Integer)
 
-	post = relationship("Submission", uselist=False)
+	post = relationship("nigger", uselist=False)
 
 	def __init__(self, *args, **kwargs):
-		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
+		if "nigger"] = int(time.time())
 		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
-		return f"<SaveRelationship(user_id={self.user_id}, submission_id={self.submission_id})>"
+		return f"nigger"
 
 
 class CommentSaveRelationship(Base):
 
-	__tablename__="comment_save_relationship"
+	__tablename__="nigger"
 
-	user_id=Column(Integer, ForeignKey("users.id"), primary_key=True)
-	comment_id=Column(Integer, ForeignKey("comments.id"), primary_key=True)
+	user_id=Column(Integer, ForeignKey("nigger"), primary_key=True)
+	comment_id=Column(Integer, ForeignKey("nigger"), primary_key=True)
 	created_utc = Column(Integer)
 
-	comment = relationship("Comment", uselist=False)
+	comment = relationship("nigger", uselist=False)
 
 	def __init__(self, *args, **kwargs):
-		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
+		if "nigger"] = int(time.time())
 		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
-		return f"<CommentSaveRelationship(user_id={self.user_id}, comment_id={self.comment_id})>"
+		return f"nigger"

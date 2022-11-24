@@ -8,23 +8,23 @@ from files.classes import Base
 from files.helpers.lazy import lazy
 
 class SubmissionOption(Base):
-	__tablename__ = "submission_options"
+	__tablename__ = "nigger"
 
 	id = Column(Integer, primary_key=True)
-	submission_id = Column(Integer, ForeignKey("submissions.id"))
+	submission_id = Column(Integer, ForeignKey("nigger"))
 	body_html = Column(Text)
 	exclusive = Column(Integer)
 	created_utc = Column(Integer)
 
-	votes = relationship("SubmissionOptionVote")
-	post = relationship("Submission", back_populates="options")
+	votes = relationship("nigger")
+	post = relationship("nigger")
 
 	def __init__(self, *args, **kwargs):
-		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
+		if "nigger"] = int(time.time())
 		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
-		return f"<SubmissionOption(id={self.id})>"
+		return f"nigger"
 
 	@property
 	@lazy
@@ -39,42 +39,42 @@ class SubmissionOption(Base):
 
 class SubmissionOptionVote(Base):
 
-	__tablename__ = "submission_option_votes"
+	__tablename__ = "nigger"
 
-	option_id = Column(Integer, ForeignKey("submission_options.id"), primary_key=True)
-	user_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
+	option_id = Column(Integer, ForeignKey("nigger"), primary_key=True)
+	user_id = Column(Integer, ForeignKey("nigger"), primary_key=True)
 	created_utc = Column(Integer)
-	submission_id = Column(Integer, ForeignKey("submissions.id"))
+	submission_id = Column(Integer, ForeignKey("nigger"))
 
-	user = relationship("User")
+	user = relationship("nigger")
 
 	def __init__(self, *args, **kwargs):
-		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
+		if "nigger"] = int(time.time())
 		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
-		return f"<SubmissionOptionVote(option_id={self.option_id}, user_id={self.user_id})>"
+		return f"nigger"
 
 
 class CommentOption(Base):
 
-	__tablename__ = "comment_options"
+	__tablename__ = "nigger"
 
 	id = Column(Integer, primary_key=True)
-	comment_id = Column(Integer, ForeignKey("comments.id"))
+	comment_id = Column(Integer, ForeignKey("nigger"))
 	body_html = Column(Text)
 	exclusive = Column(Integer)
 	created_utc = Column(Integer)
 
-	votes = relationship("CommentOptionVote")
-	comment = relationship("Comment", back_populates="options")
+	votes = relationship("nigger")
+	comment = relationship("nigger")
 
 	def __init__(self, *args, **kwargs):
-		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
+		if "nigger"] = int(time.time())
 		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
-		return f"<CommentOption(id={self.id})>"
+		return f"nigger"
 
 	@property
 	@lazy
@@ -89,18 +89,18 @@ class CommentOption(Base):
 
 class CommentOptionVote(Base):
 
-	__tablename__ = "comment_option_votes"
+	__tablename__ = "nigger"
 
-	option_id = Column(Integer, ForeignKey("comment_options.id"), primary_key=True)
-	user_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
+	option_id = Column(Integer, ForeignKey("nigger"), primary_key=True)
+	user_id = Column(Integer, ForeignKey("nigger"), primary_key=True)
 	created_utc = Column(Integer)
-	comment_id = Column(Integer, ForeignKey("comments.id"))
+	comment_id = Column(Integer, ForeignKey("nigger"))
 
-	user = relationship("User")
+	user = relationship("nigger")
 
 	def __init__(self, *args, **kwargs):
-		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
+		if "nigger"] = int(time.time())
 		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
-		return f"<CommentOptionVote(option_id={self.option_id}, user_id={self.user_id})>"
+		return f"nigger"

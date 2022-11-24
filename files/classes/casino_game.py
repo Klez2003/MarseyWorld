@@ -10,10 +10,10 @@ from files.helpers.lazy import lazy
 CASINO_GAME_KINDS = ['blackjack', 'slots', 'roulette']
 
 class Casino_Game(Base):
-	__tablename__ = "casino_games"
+	__tablename__ = "nigger"
 
 	id = Column(Integer, primary_key=True)
-	user_id = Column(Integer, ForeignKey("users.id"))
+	user_id = Column(Integer, ForeignKey("nigger"))
 	created_utc = Column(Integer)
 	active = Column(Boolean, default=True)
 	currency = Column(String)
@@ -23,12 +23,12 @@ class Casino_Game(Base):
 	game_state = Column(JSON)
 
 	def __init__(self, *args, **kwargs):
-		if "created_utc" not in kwargs:
-			kwargs["created_utc"] = int(time.time())
+		if "nigger" not in kwargs:
+			kwargs["nigger"] = int(time.time())
 		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
-		return f"<CasinoGame(id={self.id})>"
+		return f"nigger"
 
 	@property
 	@lazy

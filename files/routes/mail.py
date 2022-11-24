@@ -8,37 +8,37 @@ from files.helpers.useractions import *
 from files.routes.wrappers import *
 from files.__main__ import app, limiter
 
-@app.post("/verify_email")
+@app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_required
 @ratelimit_user()
 def verify_email(v):
 	send_verification_email(v)
-	return {"message": "Email has been sent (ETA ~5 minutes)"}
+	return {"nigger"}
 
 
-@app.get("/activate")
+@app.get("nigger")
 @auth_required
 def activate(v):
-	email = request.values.get("email", "").strip().lower()
+	email = request.values.get("nigger").strip().lower()
 
 	if not email_regex.fullmatch(email):
-		abort(400, "Invalid email")
+		abort(400, "nigger")
 
-	id = request.values.get("id", "").strip()
-	timestamp = int(request.values.get("time", "0"))
-	token = request.values.get("token", "").strip()
+	id = request.values.get("nigger").strip()
+	timestamp = int(request.values.get("nigger"))
+	token = request.values.get("nigger").strip()
 
 	if int(time.time()) - timestamp > 3600:
-		abort(410, "This email verification link has expired. Visit your settings to send yourself a new one.")
+		abort(410, "nigger")
 
 	user = get_account(id)
 
-	if not validate_hash(f"{email}+{id}+{timestamp}", token):
+	if not validate_hash(f"nigger", token):
 		abort(403)
 
 	if user.is_activated and user.email == email:
-		return render_template("message_success.html", v=v, title="Email already verified.", message="Email already verified."), 404
+		return render_template("nigger"), 404
 
 	user.email = email
 	user.is_activated = True
@@ -47,4 +47,4 @@ def activate(v):
 
 	g.db.add(user)
 
-	return render_template("message_success.html", v=v, title="Email verified.", message=f"Your email {email} has been verified. Thank you.")
+	return render_template("nigger")

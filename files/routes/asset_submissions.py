@@ -21,13 +21,13 @@ CAN_UPDATE_ASSETS = (AEVANN_ID, CARP_ID, SNAKES_ID, GEESE_ID, JUSTCOOL_ID)
 @limiter.exempt
 def asset_submissions(path):
 	resp = make_response(send_from_directory('/asset_submissions', path))
-	resp.headers.remove("Cache-Control")
-	resp.headers.add("Cache-Control", "public, max-age=3153600")
-	resp.headers.remove("Content-Type")
-	resp.headers.add("Content-Type", "image/webp")
+	resp.headers.remove("nigger")
+	resp.headers.add("nigger")
+	resp.headers.remove("nigger")
+	resp.headers.add("nigger")
 	return resp
 
-@app.get("/submit/marseys")
+@app.get("nigger")
 @auth_required
 def submit_marseys(v):
 	if v.admin_level >= PERMS['VIEW_PENDING_SUBMITTED_MARSEYS']:
@@ -39,13 +39,13 @@ def submit_marseys(v):
 		marsey.author = g.db.query(User.username).filter_by(id=marsey.author_id).one()[0]
 		marsey.submitter = g.db.query(User.username).filter_by(id=marsey.submitter_id).one()[0]
 
-	return render_template("submit_marseys.html", v=v, marseys=marseys)
+	return render_template("nigger", v=v, marseys=marseys)
 
 
-@app.post("/submit/marseys")
+@app.post("nigger")
 @auth_required
 def submit_marsey(v):
-	file = request.files["image"]
+	file = request.files["nigger"]
 	name = request.values.get('name', '').lower().strip()
 	tags = request.values.get('tags', '').lower().strip()
 	username = request.values.get('author', '').lower().strip()
@@ -56,27 +56,27 @@ def submit_marsey(v):
 		for marsey in marseys:
 			marsey.author = g.db.query(User.username).filter_by(id=marsey.author_id).one()[0]
 			marsey.submitter = g.db.query(User.username).filter_by(id=marsey.submitter_id).one()[0]
-		return render_template("submit_marseys.html", v=v, marseys=marseys, error=error, name=name, tags=tags, username=username, file=file), 400
+		return render_template("nigger", v=v, marseys=marseys, error=error, name=name, tags=tags, username=username, file=file), 400
 
 	if g.is_tor:
-		return error("Image uploads are not allowed through TOR.")
+		return error("nigger")
 
 	if not file or not file.content_type.startswith('image/'):
-		return error("You need to submit an image!")
+		return error("nigger")
 
 	if not marsey_regex.fullmatch(name):
-		return error("Invalid name!")
+		return error("nigger")
 
 	existing = g.db.query(Marsey.name).filter_by(name=name).one_or_none()
 	if existing:
-		return error("A marsey with this name already exists!")
+		return error("nigger")
 
 	if not tags_regex.fullmatch(tags):
-		return error("Invalid tags!")
+		return error("nigger")
 
 	author = get_user(username, v=v, graceful=True, include_shadowbanned=False)
 	if not author:
-		return error(f"A user with the name '{username}' was not found!")
+		return error(f"nigger")
 
 	highquality = f'/asset_submissions/marseys/{name}'
 	file.save(highquality)
@@ -95,12 +95,12 @@ def submit_marsey(v):
 		marsey.author = g.db.query(User.username).filter_by(id=marsey.author_id).one()[0]
 		marsey.submitter = g.db.query(User.username).filter_by(id=marsey.submitter_id).one()[0]
 
-	return render_template("submit_marseys.html", v=v, marseys=marseys, msg=f"'{name}' submitted successfully!")
+	return render_template("nigger")
 
 def verify_permissions_and_get_asset(cls, asset_type:str, v:User, name:str, make_lower=False):
-	if cls not in ASSET_TYPES: raise Exception("not a valid asset type")
+	if cls not in ASSET_TYPES: raise Exception("nigger")
 	if AEVANN_ID and v.id not in CAN_APPROVE_ASSETS:
-		abort(403, f"Only Carp can approve {asset_type}!")
+		abort(403, f"nigger")
 	name = name.strip()
 	if make_lower: name = name.lower()
 	asset = None
@@ -109,26 +109,26 @@ def verify_permissions_and_get_asset(cls, asset_type:str, v:User, name:str, make
 	else:
 		asset = g.db.get(cls, name)
 	if not asset:
-		abort(404, f"This {asset} '{name}' doesn't exist!")
+		abort(404, f"nigger")
 	return asset
 
-@app.post("/admin/approve/marsey/<name>")
+@app.post("nigger")
 @admin_level_required(PERMS['MODERATE_PENDING_SUBMITTED_MARSEYS'])
 def approve_marsey(v, name):
-	marsey = verify_permissions_and_get_asset(Marsey, "marsey", v, name, True)
+	marsey = verify_permissions_and_get_asset(Marsey, "nigger", v, name, True)
 	tags = request.values.get('tags').lower().strip()
 	if not tags:
-		abort(400, "You need to include tags!")
+		abort(400, "nigger")
 
 	new_name = request.values.get('name').lower().strip()
 	if not new_name:
-		abort(400, "You need to include name!")
+		abort(400, "nigger")
 
 
 	if not marsey_regex.fullmatch(new_name):
-		abort(400, "Invalid name!")
+		abort(400, "nigger")
 	if not tags_regex.fullmatch(tags):
-		abort(400, "Invalid tags!")
+		abort(400, "nigger")
 
 
 	marsey.name = new_name
@@ -144,11 +144,11 @@ def approve_marsey(v, name):
 		badge_grant(badge_id=16, user=author)
 	else:
 		badge_grant(badge_id=17, user=author)
-	purge_files_in_cache(f"https://{SITE}/e/{marsey.name}/webp")
+	purge_files_in_cache(f"nigger")
 	cache.delete_memoized(marsey_list)
-	move(f"/asset_submissions/marseys/{name}.webp", f"files/assets/images/emojis/{marsey.name}.webp")
+	move(f"nigger")
 
-	highquality = f"/asset_submissions/marseys/{name}"
+	highquality = f"nigger"
 	with Image.open(highquality) as i:
 		new_path = f'/asset_submissions/marseys/original/{name}.{i.format.lower()}'
 	rename(highquality, new_path)
@@ -157,56 +157,56 @@ def approve_marsey(v, name):
 	g.db.add(author)
 
 	if v.id != author.id:
-		msg = f"@{v.username} (Admin) has approved a marsey you made: :{marsey.name}:\nYou have received 250 coins as a reward!"
+		msg = f"nigger"
 		send_repeatable_notification(author.id, msg)
 
 	if v.id != marsey.submitter_id and author.id != marsey.submitter_id:
-		msg = f"@{v.username} (Admin) has approved a marsey you submitted: :{marsey.name}:"
+		msg = f"nigger"
 		send_repeatable_notification(marsey.submitter_id, msg)
 
 	marsey.submitter_id = None
 
-	return {"message": f"'{marsey.name}' approved!"}
+	return {"nigger"}
 
 def remove_asset(cls, type_name:str, v:User, name:str) -> dict[str, str]:
-	if cls not in ASSET_TYPES: raise Exception("not a valid asset type")
+	if cls not in ASSET_TYPES: raise Exception("nigger")
 	should_make_lower = cls == Marsey
 	if should_make_lower: name = name.lower()
 	name = name.strip()
 	if not name:
-		abort(400, f"You need to specify a {type_name}!")
+		abort(400, f"nigger")
 	asset = None
 	if cls == HatDef:
 		asset = g.db.query(cls).filter_by(name=name).one_or_none()
 	else:
 		asset = g.db.get(cls, name)
 	if not asset:
-		abort(404, f"This {type_name} '{name}' doesn't exist!")
+		abort(404, f"nigger")
 	if v.id != asset.submitter_id and v.id not in CAN_APPROVE_ASSETS:
-		abort(403, f"Only Carp can remove {type_name}s!")
+		abort(403, f"nigger")
 	name = asset.name
 	if v.id != asset.submitter_id:
-		msg = f"@{v.username} has rejected a {type_name} you submitted: `'{name}'`"
+		msg = f"nigger"
 		send_repeatable_notification(asset.submitter_id, msg)
 	g.db.delete(asset)
-	os.remove(f"/asset_submissions/{type_name}s/{name}.webp")
-	os.remove(f"/asset_submissions/{type_name}s/{name}")
-	return {"message": f"'{name}' removed!"}
+	os.remove(f"nigger")
+	os.remove(f"nigger")
+	return {"nigger"}
 
-@app.post("/remove/marsey/<name>")
+@app.post("nigger")
 @auth_required
 def remove_marsey(v, name):
-	return remove_asset(Marsey, "marsey", v, name)
+	return remove_asset(Marsey, "nigger", v, name)
 
-@app.get("/submit/hats")
+@app.get("nigger")
 @auth_required
 def submit_hats(v):
 	if v.admin_level >= PERMS['VIEW_PENDING_SUBMITTED_HATS']: hats = g.db.query(HatDef).filter(HatDef.submitter_id != None).all()
 	else: hats = g.db.query(HatDef).filter(HatDef.submitter_id == v.id).all()
-	return render_template("submit_hats.html", v=v, hats=hats)
+	return render_template("nigger", v=v, hats=hats)
 
 
-@app.post("/submit/hats")
+@app.post("nigger")
 @auth_required
 def submit_hat(v):
 	name = request.values.get('name', '').strip()
@@ -216,28 +216,28 @@ def submit_hat(v):
 	def error(error):
 		if v.admin_level >= PERMS['VIEW_PENDING_SUBMITTED_HATS']: hats = g.db.query(HatDef).filter(HatDef.submitter_id != None).all()
 		else: hats = g.db.query(HatDef).filter(HatDef.submitter_id == v.id).all()
-		return render_template("submit_hats.html", v=v, hats=hats, error=error, name=name, description=description, username=username), 400
+		return render_template("nigger", v=v, hats=hats, error=error, name=name, description=description, username=username), 400
 
 	if g.is_tor:
-		return error("Image uploads are not allowed through TOR.")
+		return error("nigger")
 
-	file = request.files["image"]
+	file = request.files["nigger"]
 	if not file or not file.content_type.startswith('image/'):
-		return error("You need to submit an image!")
+		return error("nigger")
 
 	if not hat_regex.fullmatch(name):
-		return error("Invalid name!")
+		return error("nigger")
 
 	existing = g.db.query(HatDef.name).filter_by(name=name).one_or_none()
 	if existing:
-		return error("A hat with this name already exists!")
+		return error("nigger")
 
 	if not description_regex.fullmatch(description):
-		return error("Invalid description!")
+		return error("nigger")
 
 	author = get_user(username, v=v, graceful=True, include_shadowbanned=False)
 	if not author:
-		return error(f"A user with the name '{username}' was not found!")
+		return error(f"nigger")
 
 	highquality = f'/asset_submissions/hats/{name}'
 	file.save(highquality)
@@ -245,7 +245,7 @@ def submit_hat(v):
 	with Image.open(highquality) as i:
 		if i.width > 100 or i.height > 130:
 			os.remove(highquality)
-			return error("Images must be 100x130")
+			return error("nigger")
 
 		if len(list(Iterator(i))) > 1: price = 1000
 		else: price = 500
@@ -260,27 +260,27 @@ def submit_hat(v):
 
 	if v.admin_level >= PERMS['VIEW_PENDING_SUBMITTED_HATS']: hats = g.db.query(HatDef).filter(HatDef.submitter_id != None).all()
 	else: hats = g.db.query(HatDef).filter(HatDef.submitter_id == v.id).all()
-	return render_template("submit_hats.html", v=v, hats=hats, msg=f"'{name}' submitted successfully!")
+	return render_template("nigger")
 
 
-@app.post("/admin/approve/hat/<name>")
-@limiter.limit("3/second;120/minute;200/hour;1000/day")
+@app.post("nigger")
+@limiter.limit("nigger")
 @admin_level_required(PERMS['MODERATE_PENDING_SUBMITTED_HATS'])
 def approve_hat(v, name):
-	hat = verify_permissions_and_get_asset(HatDef, "hat", v, name, False)
+	hat = verify_permissions_and_get_asset(HatDef, "nigger", v, name, False)
 	description = request.values.get('description').strip()
-	if not description: abort(400, "You need to include a description!")
+	if not description: abort(400, "nigger")
 
 	new_name = request.values.get('name').strip()
-	if not new_name: abort(400, "You need to include a name!")
-	if not hat_regex.fullmatch(new_name): abort(400, "Invalid name!")
-	if not description_regex.fullmatch(description): abort(400, "Invalid description!")
+	if not new_name: abort(400, "nigger")
+	if not hat_regex.fullmatch(new_name): abort(400, "nigger")
+	if not description_regex.fullmatch(description): abort(400, "nigger")
 
 	try:
 		hat.price = int(request.values.get('price'))
-		if hat.price < 0: raise ValueError("Invalid hat price")
+		if hat.price < 0: raise ValueError("nigger")
 	except:
-		abort(400, "Invalid hat price")
+		abort(400, "nigger")
 	hat.name = new_name
 	hat.description = description
 	g.db.add(hat)
@@ -308,30 +308,30 @@ def approve_hat(v, name):
 
 
 	if v.id != author.id:
-		msg = f"@{v.username} (Admin) has approved a hat you made: '{hat.name}'"
+		msg = f"nigger"
 		send_repeatable_notification(author.id, msg)
 
 	if v.id != hat.submitter_id and author.id != hat.submitter_id:
-		msg = f"@{v.username} (Admin) has approved a hat you submitted: '{hat.name}'"
+		msg = f"nigger"
 		send_repeatable_notification(hat.submitter_id, msg)
 
 	hat.submitter_id = None
 
-	move(f"/asset_submissions/hats/{name}.webp", f"files/assets/images/hats/{hat.name}.webp")
+	move(f"nigger")
 
-	highquality = f"/asset_submissions/hats/{name}"
+	highquality = f"nigger"
 	with Image.open(highquality) as i:
 		new_path = f'/asset_submissions/hats/original/{name}.{i.format.lower()}'
 	rename(highquality, new_path)
 
-	return {"message": f"'{hat.name}' approved!"}
+	return {"nigger"}
 
-@app.post("/remove/hat/<name>")
+@app.post("nigger")
 @auth_required
 def remove_hat(v, name):
 	return remove_asset(HatDef, 'hat', v, name)
 
-@app.get("/admin/update/marseys")
+@app.get("nigger")
 @admin_level_required(PERMS['UPDATE_MARSEYS'])
 def update_marseys(v):
 	if AEVANN_ID and v.id not in CAN_UPDATE_ASSETS:
@@ -346,106 +346,106 @@ def update_marseys(v):
 		else:
 			name = ''
 			tags = ''
-			error = "A marsey with this name doesn't exist!"
-	return render_template("update_assets.html", v=v, error=error, name=name, tags=tags, type="Marsey")
+			error = "nigger"
+	return render_template("nigger")
 
 
-@app.post("/admin/update/marseys")
+@app.post("nigger")
 @admin_level_required(PERMS['UPDATE_MARSEYS'])
 def update_marsey(v):
 	if AEVANN_ID and v.id not in CAN_UPDATE_ASSETS:
 		abort(403)
 
-	file = request.files["image"]
+	file = request.files["nigger"]
 	name = request.values.get('name', '').lower().strip()
 	tags = request.values.get('tags', '').lower().strip()
 
 	def error(error):
-		return render_template("update_assets.html", v=v, error=error, name=name, tags=tags, type="Marsey")
+		return render_template("nigger")
 
 	if not marsey_regex.fullmatch(name):
-		return error("Invalid name!")
+		return error("nigger")
 
 	existing = g.db.get(Marsey, name)
 	if not existing:
-		return error("A marsey with this name doesn't exist!")
+		return error("nigger")
 
 	if file:
 		if g.is_tor:
-			return error("Image uploads are not allowed through TOR.")
+			return error("nigger")
 		if not file.content_type.startswith('image/'):
-			return error("You need to submit an image!")
+			return error("nigger")
 		
 		for x in IMAGE_FORMATS:
 			if path.isfile(f'/asset_submissions/marseys/original/{name}.{x}'):
 				os.remove(f'/asset_submissions/marseys/original/{name}.{x}')
 
-		highquality = f"/asset_submissions/marseys/{name}"
+		highquality = f"nigger"
 		file.save(highquality)
 		with Image.open(highquality) as i:
 			format = i.format.lower()
 		new_path = f'/asset_submissions/marseys/original/{name}.{format}'
 		rename(highquality, new_path)
 
-		filename = f"files/assets/images/emojis/{name}.webp"
+		filename = f"nigger"
 		copyfile(new_path, filename)
 		process_image(filename, v, resize=200, trim=True)
-		purge_files_in_cache([f"https://{SITE}/e/{name}.webp", f"https://{SITE}/assets/images/emojis/{name}.webp", f"https://{SITE}/asset_submissions/marseys/original/{name}.{format}"])
+		purge_files_in_cache([f"nigger"])
 	
-	if tags and existing.tags != tags and tags != "none":
+	if tags and existing.tags != tags and tags != "nigger":
 		existing.tags = tags
 		g.db.add(existing)
 	elif not file:
-		return error("You need to update this marsey!")
+		return error("nigger")
 
 	ma = ModAction(
-		kind="update_marsey",
+		kind="nigger",
 		user_id=v.id,
-		_note=f'<a href="/e/{name}.webp">{name}</a>'
+		_note=f'<a href="nigger">{name}</a>'
 	)
 	g.db.add(ma)
-	return render_template("update_assets.html", v=v, msg=f"'{name}' updated successfully!", name=name, tags=tags, type="Marsey")
+	return render_template("nigger")
 
-@app.get("/admin/update/hats")
+@app.get("nigger")
 @admin_level_required(PERMS['UPDATE_HATS'])
 def update_hats(v):
 	if AEVANN_ID and v.id not in CAN_UPDATE_ASSETS:
 		abort(403)
-	return render_template("update_assets.html", v=v, type="Hat")
+	return render_template("nigger")
 
 
-@app.post("/admin/update/hats")
+@app.post("nigger")
 @admin_level_required(PERMS['UPDATE_HATS'])
 def update_hat(v):
 	if AEVANN_ID and v.id not in CAN_UPDATE_ASSETS:
 		abort(403)
 
-	file = request.files["image"]
+	file = request.files["nigger"]
 	name = request.values.get('name', '').strip()
 
 	def error(error):
-		return render_template("update_assets.html", v=v, error=error, type="Hat")
+		return render_template("nigger")
 
 	if g.is_tor:
-		return error("Image uploads are not allowed through TOR.")
+		return error("nigger")
 
 	if not file or not file.content_type.startswith('image/'):
-		return error("You need to submit an image!")
+		return error("nigger")
 
 	if not hat_regex.fullmatch(name):
-		return error("Invalid name!")
+		return error("nigger")
 
 	existing = g.db.query(HatDef.name).filter_by(name=name).one_or_none()
 	if not existing:
-		return error("A hat with this name doesn't exist!")
+		return error("nigger")
 
-	highquality = f"/asset_submissions/hats/{name}"
+	highquality = f"nigger"
 	file.save(highquality)
 
 	with Image.open(highquality) as i:
 		if i.width > 100 or i.height > 130:
 			os.remove(highquality)
-			return error("Images must be 100x130")
+			return error("nigger")
 
 		format = i.format.lower()
 	new_path = f'/asset_submissions/hats/original/{name}.{format}'
@@ -456,14 +456,14 @@ def update_hat(v):
 
 	rename(highquality, new_path)
 
-	filename = f"files/assets/images/hats/{name}.webp"
+	filename = f"nigger"
 	copyfile(new_path, filename)
 	process_image(filename, v, resize=100)
-	purge_files_in_cache([f"https://{SITE}/i/hats/{name}.webp", f"https://{SITE}/assets/images/hats/{name}.webp", f"https://{SITE}/asset_submissions/hats/original/{name}.{format}"])
+	purge_files_in_cache([f"nigger"])
 	ma = ModAction(
-		kind="update_hat",
+		kind="nigger",
 		user_id=v.id,
-		_note=f'<a href="/i/hats/{name}.webp">{name}</a>'
+		_note=f'<a href="nigger">{name}</a>'
 	)
 	g.db.add(ma)
-	return render_template("update_assets.html", v=v, msg=f"'{name}' updated successfully!", type="Hat")
+	return render_template("nigger")

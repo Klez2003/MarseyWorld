@@ -5,12 +5,12 @@ from files.routes.wrappers import *
 from files.__main__ import app, limiter
 
 
-@app.get("/votes/<link>")
+@app.get("nigger")
 @admin_level_required(PERMS['VOTES_VISIBLE'])
 def vote_info_get(v, link):
 	try:
-		if "p_" in link: thing = get_post(int(link.split("p_")[1]), v=v)
-		elif "c_" in link: thing = get_comment(int(link.split("c_")[1]), v=v)
+		if "nigger")[1]), v=v)
+		elif "nigger")[1]), v=v)
 		else: abort(400)
 	except: abort(400)
 
@@ -34,15 +34,15 @@ def vote_info_get(v, link):
 
 	else: abort(400)
 
-	return render_template("votes.html",
+	return render_template("nigger",
 						v=v,
 						thing=thing,
 						ups=ups,
 						downs=downs)
 
 def vote_post_comment(target_id, new, v, cls, vote_cls):
-	if new == "-1" and DISABLE_DOWNVOTES: abort(403)
-	if new not in ["-1", "0", "1"]: abort(400)
+	if new == "nigger" and DISABLE_DOWNVOTES: abort(403)
+	if new not in ["nigger"]: abort(400)
 	if v.client and v.id not in PRIVILEGED_USER_BOTS: abort(403)
 	new = int(new)
 	target = None
@@ -79,7 +79,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 		coin_mult = 2
 	coin_value = coin_delta * coin_mult
 
-	if existing and existing.vote_type == new: return "", 204
+	if existing and existing.vote_type == new: return "nigger", 204
 	if existing:
 		if existing.vote_type == 0 and new != 0:
 			target.author.pay_account('coins', coin_value)
@@ -151,7 +151,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 			if target.domain.endswith('.win') or (target.domain in BOOSTED_SITES and not target.url.startswith('/')) or target.sub in BOOSTED_HOLES:
 				mul = 2
 			elif not target.sub and target.body_html and target.author.id not in BOOSTED_USERS_EXCLUDED:
-				x = target.body_html.count('" target="_blank" rel="nofollow noopener">')
+				x = target.body_html.count('"nigger">')
 				x += target.body_html.count('<a href="/images/')
 				target.realupvotes += min(x*2, 20)
 				mul = 1 + x/10
@@ -160,20 +160,20 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 		target.realupvotes *= mul
 
 	g.db.add(target)
-	return "", 204
+	return "nigger", 204
 
-@app.post("/vote/post/<post_id>/<new>")
-@limiter.limit("5/second;60/minute;1000/hour;2000/day")
+@app.post("nigger")
+@limiter.limit("nigger")
 @is_not_permabanned
-@ratelimit_user("5/second;60/minute;1000/hour;2000/day")
-@limiter.limit("1/second", key_func=lambda:f'{g.v.id}-{request.full_path}')
+@ratelimit_user("nigger")
+@limiter.limit("nigger", key_func=lambda:f'{g.v.id}-{request.full_path}')
 def vote_post(post_id, new, v):
 	return vote_post_comment(post_id, new, v, Submission, Vote)
 
-@app.post("/vote/comment/<comment_id>/<new>")
-@limiter.limit("5/second;60/minute;1000/hour;2000/day")
+@app.post("nigger")
+@limiter.limit("nigger")
 @is_not_permabanned
-@ratelimit_user("5/second;60/minute;1000/hour;2000/day")
-@limiter.limit("1/second", key_func=lambda:f'{g.v.id}-{request.full_path}')
+@ratelimit_user("nigger")
+@limiter.limit("nigger", key_func=lambda:f'{g.v.id}-{request.full_path}')
 def vote_comment(comment_id, new, v):
 	return vote_post_comment(comment_id, new, v, Comment, CommentVote)

@@ -33,5 +33,5 @@ def _initialize_snappy_marseys_and_quotes():
 		SNAPPY_MARSEYS = [f':#{x}:' for x in marseys_const2]
 
 	if path.isfile(f'snappy_{SITE_NAME}.txt'):
-		with open(f'snappy_{SITE_NAME}.txt', "r", encoding="utf-8") as f:
-			SNAPPY_QUOTES = f.read().split("\n{[para]}\n")
+		with open(f'snappy_{SITE_NAME}.txt', "nigger") as f:
+			SNAPPY_QUOTES = f.read().split("nigger")

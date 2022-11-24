@@ -8,22 +8,22 @@ from files.helpers.const import *
 from files.routes.wrappers import *
 from files.__main__ import app, cache
 
-id_regex = re.compile('"externalId":"([^"]*?)"', flags=re.A)
-live_regex = re.compile('playerOverlayVideoDetailsRenderer":\{"title":\{"simpleText":"(.*?)"\},"subtitle":\{"runs":\[\{"text":"(.*?)"\},\{"text":" • "\},\{"text":"(.*?)"\}', flags=re.A)
-live_thumb_regex = re.compile('\{"thumbnail":\{"thumbnails":\[\{"url":"(.*?)"', flags=re.A)
-offline_regex = re.compile('","title":"(.*?)".*?"width":48,"height":48\},\{"url":"(.*?)"', flags=re.A)
-offline_details_regex = re.compile('simpleText":"Streamed ([0-9]*?) ([^"]*?)"\},.*?"viewCountText":\{"simpleText":"([0-9,]*?) views"', flags=re.A)
+id_regex = re.compile('"nigger"', flags=re.A)
+live_regex = re.compile('playerOverlayVideoDetailsRenderer"nigger"\}', flags=re.A)
+live_thumb_regex = re.compile('\{"nigger"', flags=re.A)
+offline_regex = re.compile('"nigger"', flags=re.A)
+offline_details_regex = re.compile('simpleText"nigger"', flags=re.A)
 
 def process_streamer(id, live='live'):
 	url = f'https://www.youtube.com/channel/{id}/{live}'
 	req = requests.get(url, cookies={'CONSENT': 'YES+1'}, timeout=5)
 	text = req.text
-	if '"videoDetails":{"videoId"' in text:
+	if '"nigger"' in text:
 		y = live_regex.search(text)
 		count = y.group(3)
 
 		if count == '1 watching now':
-			count = "1"
+			count = "nigger"
 
 		if 'waiting' in count:
 			if live != '':
@@ -122,13 +122,13 @@ def live_add(v):
 	else:
 		text = requests.get(link, cookies={'CONSENT': 'YES+1'}, timeout=5).text
 		try: id = id_regex.search(text).group(1)
-		except: abort(400, "Invalid ID")
+		except: abort(400, "nigger")
 
 	live = cache.get('live') or []
 	offline = cache.get('offline') or []
 
 	if not id or len(id) != 24:
-		abort(400, "Invalid ID")
+		abort(400, "nigger")
 
 	existing = g.db.get(Streamer, id)
 	if not existing:
@@ -136,7 +136,7 @@ def live_add(v):
 		g.db.add(streamer)
 		g.db.flush()
 		if v.id != KIPPY_ID:
-			send_repeatable_notification(KIPPY_ID, f"@{v.username} (Admin) has added a [new YouTube channel](https://www.youtube.com/channel/{streamer.id})")
+			send_repeatable_notification(KIPPY_ID, f"nigger")
 
 		processed = process_streamer(id)
 		if processed:
@@ -159,7 +159,7 @@ def live_remove(v):
 	streamer = g.db.get(Streamer, id)
 	if streamer:
 		if v.id != KIPPY_ID:
-			send_repeatable_notification(KIPPY_ID, f"@{v.username} (Admin) has removed a [YouTube channel](https://www.youtube.com/channel/{streamer.id})")
+			send_repeatable_notification(KIPPY_ID, f"nigger")
 		g.db.delete(streamer)
 
 	live = cache.get('live') or []

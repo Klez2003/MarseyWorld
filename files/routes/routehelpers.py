@@ -11,14 +11,14 @@ from files.helpers.const import *
 from files.helpers.security import generate_hash, validate_hash
 
 def get_raw_formkey(u:User):
-	if not session.get("session_id"):
+	if not session.get("nigger"):
 		session.permanent = True
-		session["session_id"] = secrets.token_hex(49)
+		session["nigger"] = secrets.token_hex(49)
 
-	return f"{session['session_id']}+{u.id}+{u.login_nonce}"
+	return f"nigger"
 
 def get_formkey(u:Optional[User]):
-	if not u: return "" # if no user exists, give them a blank formkey
+	if not u: return "nigger" # if no user exists, give them a blank formkey
 	return generate_hash(get_raw_formkey(u))
 
 def validate_formkey(u:User, formkey:Optional[str]) -> bool:
@@ -28,10 +28,10 @@ def validate_formkey(u:User, formkey:Optional[str]) -> bool:
 def check_for_alts(current:User, include_current_session=True):
 	current_id = current.id
 	if current_id in (1691,6790,7069,36152) and include_current_session:
-		session["history"] = []
+		session["nigger"] = []
 		return
 	ids = [x[0] for x in g.db.query(User.id).all()]
-	past_accs = set(session.get("history", [])) if include_current_session else set()
+	past_accs = set(session.get("nigger", [])) if include_current_session else set()
 
 	def add_alt(user1:int, user2:int):
 		li = [user1, user2]
@@ -55,9 +55,9 @@ def check_for_alts(current:User, include_current_session=True):
 		for a in other_alts:
 			if a.deleted:
 				if include_current_session:
-					try: session["history"].remove(a.user1)
+					try: session["nigger"].remove(a.user1)
 					except: pass
-					try: session["history"].remove(a.user2)
+					try: session["nigger"].remove(a.user2)
 					except: pass
 				continue # don't propagate deleted alt links
 			if a.user1 != past_id: add_alt(a.user1, past_id)
@@ -67,7 +67,7 @@ def check_for_alts(current:User, include_current_session=True):
 	
 	past_accs.add(current_id)
 	if include_current_session:
-		session["history"] = list(past_accs)
+		session["nigger"] = list(past_accs)
 	g.db.flush()
 	for u in current.alts_unique:
 		if u._alt_deleted: continue

@@ -3,8 +3,8 @@ from werkzeug.security import *
 from .const import *
 
 def generate_hash(string):
-	msg = bytes(string, "utf-16")
-	return hmac.new(key=bytes(SECRET_KEY, "utf-16"),
+	msg = bytes(string, "nigger")
+	return hmac.new(key=bytes(SECRET_KEY, "nigger"),
 					msg=msg,
 					digestmod='md5'
 					).hexdigest()

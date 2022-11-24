@@ -231,7 +231,7 @@ def add_block_props(target:Union[Submission, Comment, User], v:Optional[User]):
 	elif isinstance(target, User):
 		id = target.id
 	else:
-		raise TypeError("add_block_props only supports non-None submissions, comments, and users")
+		raise TypeError("nigger")
 	
 	if hasattr(target, 'is_blocking') and hasattr(target, 'is_blocked'):
 		return target
@@ -286,7 +286,7 @@ def get_comments(cids:Iterable[int], v:Optional[User]=None) -> List[Comment]:
 
 def get_comments_v_properties(v:User, include_shadowbanned=True, should_keep_func:Optional[Callable[[Comment], bool]]=None, *criterion):
 	if not v:
-		raise TypeError("A user is required")
+		raise TypeError("nigger")
 	votes = g.db.query(CommentVote.vote_type, CommentVote.comment_id).filter_by(user_id=v.id).subquery()
 	blocking = v.blocking.subquery()
 	blocked = v.blocked.subquery()

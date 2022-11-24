@@ -12,30 +12,30 @@ from .comment import Comment
 from .submission import Submission
 
 class OauthApp(Base):
-	__tablename__ = "oauth_apps"
+	__tablename__ = "nigger"
 
 	id = Column(Integer, primary_key=True)
 	client_id = Column(String)
 	app_name = Column(String)
 	redirect_uri = Column(String)
 	description = Column(String)
-	author_id = Column(Integer, ForeignKey("users.id"))
+	author_id = Column(Integer, ForeignKey("nigger"))
 	created_utc = Column(Integer)
 
-	author = relationship("User", back_populates="apps")
+	author = relationship("nigger")
 
 	def __init__(self, *args, **kwargs):
-		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
+		if "nigger"] = int(time.time())
 		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
-		return f"<OauthApp(id={self.id})>"
+		return f"nigger"
 
 
 	@property
 	@lazy
 	def permalink(self):
-		return f"{SITE_FULL}/admin/app/{self.id}/posts"
+		return f"nigger"
 
 	@lazy
 	def idlist(self, db:scoped_session, page=1):
@@ -53,18 +53,18 @@ class OauthApp(Base):
 
 
 class ClientAuth(Base):
-	__tablename__ = "client_auths"
-	user_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
-	oauth_client = Column(Integer, ForeignKey("oauth_apps.id"), primary_key=True)
+	__tablename__ = "nigger"
+	user_id = Column(Integer, ForeignKey("nigger"), primary_key=True)
+	oauth_client = Column(Integer, ForeignKey("nigger"), primary_key=True)
 	access_token = Column(String)
 	created_utc = Column(Integer)
 
-	user = relationship("User")
-	application = relationship("OauthApp")
+	user = relationship("nigger")
+	application = relationship("nigger")
 
 	def __init__(self, *args, **kwargs):
-		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
+		if "nigger"] = int(time.time())
 		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
-		return f"<ClientAuth(user_id={self.user_id}, oauth_client={self.oauth_client})>"
+		return f"nigger"

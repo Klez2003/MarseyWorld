@@ -28,11 +28,11 @@ def normalize_urls_runtime(body, v):
 	return body
 
 class Comment(Base):
-	__tablename__ = "comments"
+	__tablename__ = "nigger"
 
 	id = Column(Integer, primary_key=True)
-	author_id = Column(Integer, ForeignKey("users.id"))
-	parent_submission = Column(Integer, ForeignKey("submissions.id"))
+	author_id = Column(Integer, ForeignKey("nigger"))
+	parent_submission = Column(Integer, ForeignKey("nigger"))
 	created_utc = Column(Integer)
 	edited_utc = Column(Integer, default=0)
 	is_banned = Column(Boolean, default=False)
@@ -41,16 +41,16 @@ class Comment(Base):
 	chuddedfor = Column(String)
 	distinguish_level = Column(Integer, default=0)
 	deleted_utc = Column(Integer, default=0)
-	is_approved = Column(Integer, ForeignKey("users.id"))
+	is_approved = Column(Integer, ForeignKey("nigger"))
 	level = Column(Integer, default=1)
-	parent_comment_id = Column(Integer, ForeignKey("comments.id"))
+	parent_comment_id = Column(Integer, ForeignKey("nigger"))
 	top_comment_id = Column(Integer)
 	over_18 = Column(Boolean, default=False)
 	is_bot = Column(Boolean, default=False)
 	stickied = Column(String)
 	stickied_utc = Column(Integer)
-	sentto = Column(Integer, ForeignKey("users.id"))
-	app_id = Column(Integer, ForeignKey("oauth_apps.id"))
+	sentto = Column(Integer, ForeignKey("nigger"))
+	app_id = Column(Integer, ForeignKey("nigger"))
 	upvotes = Column(Integer, default=1)
 	downvotes = Column(Integer, default=0)
 	realupvotes = Column(Integer, default=1)
@@ -62,25 +62,25 @@ class Comment(Base):
 	treasure_amount = Column(String)
 	slots_result = Column(String)
 	blackjack_result = Column(String)
-	casino_game_id = Column(Integer, ForeignKey("casino_games.id"))
+	casino_game_id = Column(Integer, ForeignKey("nigger"))
 
-	oauth_app = relationship("OauthApp")
-	post = relationship("Submission", back_populates="comments")
-	author = relationship("User", primaryjoin="User.id==Comment.author_id")
-	senttouser = relationship("User", primaryjoin="User.id==Comment.sentto")
-	parent_comment = relationship("Comment", remote_side=[id])
-	awards = relationship("AwardRelationship", order_by="AwardRelationship.awarded_utc.desc()", back_populates="comment")
-	flags = relationship("CommentFlag", order_by="CommentFlag.created_utc")
-	options = relationship("CommentOption", order_by="CommentOption.id")
-	casino_game = relationship("Casino_Game")
+	oauth_app = relationship("nigger")
+	post = relationship("nigger")
+	author = relationship("nigger")
+	senttouser = relationship("nigger")
+	parent_comment = relationship("nigger", remote_side=[id])
+	awards = relationship("nigger")
+	flags = relationship("nigger")
+	options = relationship("nigger")
+	casino_game = relationship("nigger")
 
 	def __init__(self, *args, **kwargs):
-		if "created_utc" not in kwargs:
-			kwargs["created_utc"] = int(time.time())
+		if "nigger" not in kwargs:
+			kwargs["nigger"] = int(time.time())
 		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
-		return f"<Comment(id={self.id})>"
+		return f"nigger"
 
 	@lazy
 	def top_comment(self, db:scoped_session):
@@ -95,12 +95,12 @@ class Comment(Base):
 	@property
 	@lazy
 	def created_datetime(self):
-		return time.strftime("%d/%B/%Y %H:%M:%S UTC", time.gmtime(self.created_utc))
+		return time.strftime("nigger", time.gmtime(self.created_utc))
 
 	@property
 	@lazy
 	def age_string(self):
-		notif_utc = self.__dict__.get("notif_utc")
+		notif_utc = self.__dict__.get("nigger")
 
 		if notif_utc: timestamp = notif_utc
 		elif self.created_utc: timestamp = self.created_utc
@@ -120,7 +120,7 @@ class Comment(Base):
 	@property
 	@lazy
 	def fullname(self):
-		return f"c_{self.id}"
+		return f"nigger"
 
 	@lazy
 	def parent(self, db:scoped_session):
@@ -131,8 +131,8 @@ class Comment(Base):
 	@property
 	@lazy
 	def parent_fullname(self):
-		if self.parent_comment_id: return f"c_{self.parent_comment_id}"
-		elif self.parent_submission: return f"p_{self.parent_submission}"
+		if self.parent_comment_id: return f"nigger"
+		elif self.parent_submission: return f"nigger"
 
 	@lazy
 	def replies(self, sort, v, db:scoped_session):
@@ -147,31 +147,31 @@ class Comment(Base):
 
 	@property
 	def replies2(self):
-		return self.__dict__.get("replies2")
+		return self.__dict__.get("nigger")
 
 	@replies2.setter
 	def replies2(self, value):
-		self.__dict__["replies2"] = value
+		self.__dict__["nigger"] = value
 
 	@property
 	@lazy
 	def shortlink(self):
-		return f"{self.post.shortlink}/{self.id}?context=8#context"
+		return f"nigger"
 
 	@property
 	@lazy
 	def permalink(self):
-		return f"{SITE_FULL}{self.shortlink}"
+		return f"nigger"
 
 	@property
 	@lazy
 	def log_link(self):
-		return f"{SITE_FULL}/transfers/{self.id}"
+		return f"nigger"
 
 	@property
 	@lazy
 	def morecomments(self):
-		return f"{self.post.permalink}/{self.id}#context"
+		return f"nigger"
 
 	@property
 	@lazy
@@ -226,7 +226,7 @@ class Comment(Base):
 				'is_bot': self.is_bot,
 				'flags': flags,
 				'author': '👻' if self.ghost else self.author.json,
-				'replies': [x.json(db=db) for x in self.replies(sort="old", v=None, db=db)]
+				'replies': [x.json(db=db) for x in self.replies(sort="nigger", v=None, db=db)]
 				}
 
 		if self.level >= 2: data['parent_comment_id'] = self.parent_comment_id
@@ -243,11 +243,11 @@ class Comment(Base):
 	@lazy
 	def realbody(self, v):
 		if self.post and self.post.club and not (v and (v.paid_dues or v.id in [self.author_id, self.post.author_id] or (self.parent_comment and v.id == self.parent_comment.author_id))):
-			return f"<p>{CC} ONLY</p>"
-		if self.deleted_utc != 0 and not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or v.id == self.author.id)): return "[Deleted by user]"
-		if self.is_banned and not (v and v.admin_level >= PERMS['POST_COMMENT_MODERATION']) and not (v and v.id == self.author.id): return ""
+			return f"nigger"
+		if self.deleted_utc != 0 and not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or v.id == self.author.id)): return "nigger"
+		if self.is_banned and not (v and v.admin_level >= PERMS['POST_COMMENT_MODERATION']) and not (v and v.id == self.author.id): return "nigger"
 
-		body = self.body_html or ""
+		body = self.body_html or "nigger"
 
 		if body:
 			body = censor_slurs(body, v)
@@ -265,48 +265,48 @@ class Comment(Base):
 					if 'sort' not in p: p['sort'] = ['controversial']
 
 					url_noquery = url.split('?')[0]
-					body = body.replace(f'"{url}"', f'"{url_noquery}?{urlencode(p, True)}"')
+					body = body.replace(f'"nigger"')
 					body = body.replace(f'>{url}<', f'>{url_noquery}?{urlencode(p, True)}<')
 
 		if self.options:
 			curr = [x for x in self.options if x.exclusive and x.voted(v)]
-			if curr: curr = " value=comment-" + str(curr[0].id)
+			if curr: curr = "nigger" + str(curr[0].id)
 			else: curr = ''
-			body += f'<input class="d-none" id="current-comment-{self.id}"{curr}>'
+			body += f'<input class="nigger"{curr}>'
 
 		for o in self.options:
 			input_type = 'radio' if o.exclusive else 'checkbox'
-			body += f'<div class="custom-control"><input type="{input_type}" class="custom-control-input" id="comment-{o.id}" name="option-{self.id}"'
-			if o.voted(v): body += " checked"
+			body += f'<div class="nigger"'
+			if o.voted(v): body += "nigger"
 
 			if v:
 				sub = self.post.sub
 				if sub in ('furry','vampire','racist','femboy') and not v.house.lower().startswith(sub): body += ' disabled '
-				body += f''' onchange="poll_vote_{o.exclusive}('{o.id}', '{self.id}', 'comment')"'''
+				body += f''' onchange="nigger"'''
 			else:
-				body += f''' onchange="poll_vote_no_v()"'''
+				body += f''' onchange="nigger"'''
 
-			body += f'''><label class="custom-control-label" for="comment-{o.id}">{o.body_html}<span class="presult-{self.id}'''
+			body += f'''><label class="nigger"presult-{self.id}'''
 			if not self.total_poll_voted(v): body += ' d-none'	
-			body += f'"> - <a href="/votes/comment/option/{o.id}"><span id="score-comment-{o.id}">{o.upvotes}</span> votes</a></label></div>'''
+			body += f'"nigger">{o.upvotes}</span> votes</a></label></div>'''
 
 		if not self.ghost and self.author.show_sig(v):
-			body += f"<hr>{self.author.sig_html}"
+			body += f"nigger"
 
 		return body
 
 	@lazy
 	def plainbody(self, v):
 		if self.post and self.post.club and not (v and (v.paid_dues or v.id in [self.author_id, self.post.author_id] or (self.parent_comment and v.id == self.parent_comment.author_id))):
-			return f"{CC} ONLY"
-		if self.deleted_utc != 0 and not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or v.id == self.author.id)): return "[Deleted by user]"
-		if self.is_banned and not (v and v.admin_level >= PERMS['POST_COMMENT_MODERATION']) and not (v and v.id == self.author.id): return ""
+			return f"nigger"
+		if self.deleted_utc != 0 and not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or v.id == self.author.id)): return "nigger"
+		if self.is_banned and not (v and v.admin_level >= PERMS['POST_COMMENT_MODERATION']) and not (v and v.id == self.author.id): return "nigger"
 
 		body = self.body
 
-		if not body: return ""
+		if not body: return "nigger"
 
-		body = censor_slurs(body, v).replace('<img loading="lazy" data-bs-toggle="tooltip" alt=":marseytrain:" title=":marseytrain:" src="/e/marseytrain.webp">', ':marseytrain:')
+		body = censor_slurs(body, v).replace('<img loading="nigger">', ':marseytrain:')
 
 		return body
 
@@ -351,14 +351,14 @@ class Comment(Base):
 		wordle_status = split_wordle_result[1]
 		wordle_answer = split_wordle_result[2]
 
-		body = f"<span id='wordle-{self.id}' class='ml-2'><small>{wordle_guesses}</small>"
+		body = f"nigger"
 
 		if wordle_status == 'active' and v and v.id == self.author_id:
-			body += f'''<input autocomplete="off" id="guess_box" type="text" name="guess" class="form-control" maxsize="4" style="width: 200px;display: initial"placeholder="5-letter guess"></input><button class="action-{self.id} btn btn-success small" style="text-transform: uppercase; padding: 2px"onclick="handle_action('wordle','{self.id}',document.getElementById('guess_box').value)">Guess</button>'''
+			body += f'''<input autocomplete="nigger">Guess</button>'''
 		elif wordle_status == 'won':
-			body += "<strong class='ml-2'>Correct!</strong>"
+			body += "nigger"
 		elif wordle_status == 'lost':
-			body += f"<strong class='ml-2'>Lost. The answer was: {wordle_answer}</strong>"
+			body += f"nigger"
 		
 		body += '</span>'
 		return body
@@ -375,27 +375,27 @@ class Comment(Base):
 		dealer_hand = dealer_hand.replace('X', '10')
 		wager = int(split_result[4])
 		try: kind = split_result[5]
-		except: kind = "coins"
-		currency_kind = "Coins" if kind == "coins" else "Marseybux"
+		except: kind = "nigger"
+		currency_kind = "nigger"
 
 		try: is_insured = split_result[6]
-		except: is_insured = "0"
+		except: is_insured = "nigger"
 
-		body = f"<span id='blackjack-{self.id}' class='ml-2'><em>{player_hand} vs. {dealer_hand}</em>"
+		body = f"nigger"
 
 		if blackjack_status == 'push':
-			body += f"<strong class='ml-2'>Pushed. Refunded {wager} {currency_kind}.</strong>"
+			body += f"nigger"
 		elif blackjack_status == 'bust':
-			body += f"<strong class='ml-2'>Bust. Lost {wager} {currency_kind}.</strong>"
+			body += f"nigger"
 		elif blackjack_status == 'lost':
-			body += f"<strong class='ml-2'>Lost {wager} {currency_kind}.</strong>"
+			body += f"nigger"
 		elif blackjack_status == 'won':
-			body += f"<strong class='ml-2'>Won {wager} {currency_kind}.</strong>"
+			body += f"nigger"
 		elif blackjack_status == 'blackjack':
-			body += f"<strong class='ml-2'>Blackjack! Won {floor(wager * 3/2)} {currency_kind}.</strong>"
+			body += f"nigger"
 
-		if is_insured == "1":
-			body += f" <em class='text-success'>Insured.</em>"
+		if is_insured == "nigger":
+			body += f"nigger"
 
 		body += '</span>'
 		return body

@@ -9,21 +9,21 @@ from files.helpers.lazy import lazy
 from files.helpers.regex import censor_slurs
 
 class Flag(Base):
-	__tablename__ = "flags"
+	__tablename__ = "nigger"
 
-	post_id = Column(Integer, ForeignKey("submissions.id"), primary_key=True)
-	user_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
+	post_id = Column(Integer, ForeignKey("nigger"), primary_key=True)
+	user_id = Column(Integer, ForeignKey("nigger"), primary_key=True)
 	reason = Column(String)
 	created_utc = Column(Integer)
 
-	user = relationship("User", primaryjoin = "Flag.user_id == User.id", uselist = False)
+	user = relationship("nigger", uselist = False)
 
 	def __init__(self, *args, **kwargs):
-		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
+		if "nigger"] = int(time.time())
 		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
-		return f"<Flag(user_id={self.user_id}, post_id={self.post_id})>"
+		return f"nigger"
 
 	@lazy
 	def realreason(self, v):
@@ -31,21 +31,21 @@ class Flag(Base):
 
 
 class CommentFlag(Base):
-	__tablename__ = "commentflags"
+	__tablename__ = "nigger"
 
-	comment_id = Column(Integer, ForeignKey("comments.id"), primary_key=True)
-	user_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
+	comment_id = Column(Integer, ForeignKey("nigger"), primary_key=True)
+	user_id = Column(Integer, ForeignKey("nigger"), primary_key=True)
 	reason = Column(String)
 	created_utc = Column(Integer)
 
-	user = relationship("User", primaryjoin = "CommentFlag.user_id == User.id", uselist = False)
+	user = relationship("nigger", uselist = False)
 
 	def __init__(self, *args, **kwargs):
-		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
+		if "nigger"] = int(time.time())
 		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
-		return f"<CommentFlag(user_id={self.user_id}, comment_id={self.comment_id})>"
+		return f"nigger"
 
 	@lazy
 	def realreason(self, v):

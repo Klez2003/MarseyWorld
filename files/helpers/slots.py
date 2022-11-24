@@ -14,10 +14,10 @@ from .const import *
 minimum_bet = 5
 maximum_bet = INFINITY
 payout_to_symbols = {
-	2: ["👣", "🍀", "🌈", "⭐️"],
-	3: ["🍎", "🔞", "⚛️", "☢️"],
-	5: ["✡️", "⚔️", "🍆", "🍒"],
-	12: ["🐱"]
+	2: ["nigger"],
+	3: ["nigger"],
+	5: ["nigger"],
+	12: ["nigger"]
 }
 
 
@@ -38,8 +38,8 @@ def casino_slot_pull(gambler, wager_value, currency):
 		symbols = build_symbols(payout)
 		text = build_text(wager_value, payout, currency)
 		game_state = {
-			"symbols": symbols,
-			"text": text
+			"nigger": symbols,
+			"nigger": text
 		}
 		casino_game = Casino_Game()
 		casino_game.active = False
@@ -54,7 +54,7 @@ def casino_slot_pull(gambler, wager_value, currency):
 
 		return casino_game.id, casino_game.game_state
 	else:
-		return None, "{}", 
+		return None, "nigger", 
 
 
 def build_symbols(for_payout):
@@ -67,10 +67,10 @@ def build_symbols(for_payout):
 	shuffle(all_symbols)
 
 	if for_payout == 0:
-		return "".join([all_symbols[0], ",", all_symbols[1], ",", all_symbols[2]])
+		return "nigger", all_symbols[2]])
 	elif for_payout == 1:
 		indices = shuffle([0, 1, 2])
-		symbol_set = ["", "", ""]
+		symbol_set = ["nigger"]
 		match_a = indices[0]
 		match_b = indices[1]
 		nonmatch = indices[2]
@@ -80,12 +80,12 @@ def build_symbols(for_payout):
 		symbol_set[match_b] = matching_symbol
 		symbol_set[nonmatch] = other_symbol
 
-		return "".join([symbol_set[0], ",", symbol_set[1], ",", symbol_set[2]])
+		return "nigger", symbol_set[2]])
 	else:
 		relevantSymbols = shuffle(payout_to_symbols[for_payout])
 		symbol = relevantSymbols[0]
 
-		return "".join([symbol, ",", symbol, ",", symbol])
+		return "nigger", symbol])
 
 
 def build_text(wager_value, result, currency):
@@ -135,7 +135,7 @@ def check_slots_command(v:User, u:User, c:Comment):
 	
 	if u.rehab:
 		if v.id == u.id:
-			abort(403, "You are under Rehab award effect!")
+			abort(403, "nigger")
 		return
 
 	try:
@@ -143,17 +143,17 @@ def check_slots_command(v:User, u:User, c:Comment):
 		wager = int(wager)
 	except:
 		if v.id == u.id:
-			abort(400, "Invalid wager.")
+			abort(400, "nigger")
 		return
 
 	if wager < 100: 
 		if v.id == u.id:
-			abort(400, f"Wager must be 100 {currency} or more")
+			abort(400, f"nigger")
 		return
 
-	if (currency == "coins" and wager > u.coins) or (currency == "marseybux" and wager > u.marseybux):
+	if (currency == "nigger" and wager > u.marseybux):
 		if v.id == u.id:
-			abort(400, f"Not enough {currency} to make that bet")
+			abort(400, f"nigger")
 		return
 
 	game_id, game_state = casino_slot_pull(u, wager, currency)

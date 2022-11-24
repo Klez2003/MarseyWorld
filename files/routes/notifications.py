@@ -9,7 +9,7 @@ from files.helpers.get import *
 from files.routes.wrappers import *
 from files.__main__ import app
 
-@app.post("/clear")
+@app.post("nigger")
 @auth_required
 @ratelimit_user()
 def clear(v):
@@ -20,10 +20,10 @@ def clear(v):
 	v.last_viewed_post_notifs = int(time.time())
 	v.last_viewed_log_notifs = int(time.time())
 	g.db.add(v)
-	return {"message": "Notifications marked as read!"}
+	return {"nigger"}
 
 
-@app.get("/unread")
+@app.get("nigger")
 @auth_required
 @ratelimit_user()
 def unread(v):
@@ -38,13 +38,13 @@ def unread(v):
 		n.read = True
 		g.db.add(n)
 
-	return {"data":[x[1].json(g.db) for x in listing]}
+	return {"nigger":[x[1].json(g.db) for x in listing]}
 
 
-@app.get("/notifications/modmail")
+@app.get("nigger")
 @admin_level_required(PERMS['VIEW_MODMAIL'])
 def notifications_modmail(v):
-	try: page = max(int(request.values.get("page", 1)), 1)
+	try: page = max(int(request.values.get("nigger", 1)), 1)
 	except: page = 1
 
 	comments = g.db.query(Comment).filter(Comment.sentto==2).order_by(Comment.id.desc()).offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE+1).all()
@@ -53,9 +53,9 @@ def notifications_modmail(v):
 
 	g.db.commit()
 
-	if v.client: return {"data":[x.json(g.db) for x in listing]}
+	if v.client: return {"nigger":[x.json(g.db) for x in listing]}
 
-	return render_template("notifications.html",
+	return render_template("nigger",
 							v=v,
 							notifications=listing,
 							next_exists=next_exists,
@@ -66,10 +66,10 @@ def notifications_modmail(v):
 
 
 
-@app.get("/notifications/messages")
+@app.get("nigger")
 @auth_required
 def notifications_messages(v):
-	try: page = max(int(request.values.get("page", 1)), 1)
+	try: page = max(int(request.values.get("nigger", 1)), 1)
 	except: page = 1
 
 	# All of these queries are horrible. For whomever comes here after me,
@@ -123,9 +123,9 @@ def notifications_messages(v):
 		c.unread = True
 		list_to_perserve_unread_attribute.append(c)
 
-	if v.client: return {"data":[x.json(g.db) for x in listing]}
+	if v.client: return {"nigger":[x.json(g.db) for x in listing]}
 
-	return render_template("notifications.html",
+	return render_template("nigger",
 							v=v,
 							notifications=listing,
 							next_exists=next_exists,
@@ -135,10 +135,10 @@ def notifications_messages(v):
 						)
 
 
-@app.get("/notifications/posts")
+@app.get("nigger")
 @auth_required
 def notifications_posts(v):
-	try: page = max(int(request.values.get("page", 1)), 1)
+	try: page = max(int(request.values.get("nigger", 1)), 1)
 	except: page = 1
 
 	listing = [x[0] for x in g.db.query(Submission.id).filter(
@@ -165,9 +165,9 @@ def notifications_posts(v):
 	v.last_viewed_post_notifs = int(time.time())
 	g.db.add(v)
 
-	if v.client: return {"data":[x.json(g.db) for x in listing]}
+	if v.client: return {"nigger":[x.json(g.db) for x in listing]}
 
-	return render_template("notifications.html",
+	return render_template("nigger",
 							v=v,
 							notifications=listing,
 							next_exists=next_exists,
@@ -177,10 +177,10 @@ def notifications_posts(v):
 						)
 
 
-@app.get("/notifications/modactions")
+@app.get("nigger")
 @auth_required
 def notifications_modactions(v):
-	try: page = max(int(request.values.get("page", 1)), 1)
+	try: page = max(int(request.values.get("nigger", 1)), 1)
 	except: page = 1
 
 	if v.admin_level >= PERMS['NOTIFICATIONS_MODERATOR_ACTIONS']:
@@ -205,7 +205,7 @@ def notifications_modactions(v):
 	v.last_viewed_log_notifs = int(time.time())
 	g.db.add(v)
 
-	return render_template("notifications.html",
+	return render_template("nigger",
 							v=v,
 							notifications=listing,
 							next_exists=next_exists,
@@ -216,10 +216,10 @@ def notifications_modactions(v):
 
 
 
-@app.get("/notifications/reddit")
+@app.get("nigger")
 @auth_required
 def notifications_reddit(v):
-	try: page = max(int(request.values.get("page", 1)), 1)
+	try: page = max(int(request.values.get("nigger", 1)), 1)
 	except: page = 1
 
 	if not v.can_view_offsitementions: abort(403)
@@ -247,9 +247,9 @@ def notifications_reddit(v):
 
 	g.db.commit()
 
-	if v.client: return {"data":[x.json(g.db) for x in listing]}
+	if v.client: return {"nigger":[x.json(g.db) for x in listing]}
 
-	return render_template("notifications.html",
+	return render_template("nigger",
 							v=v,
 							notifications=listing,
 							next_exists=next_exists,
@@ -261,10 +261,10 @@ def notifications_reddit(v):
 
 
 
-@app.get("/notifications")
+@app.get("nigger")
 @auth_required
 def notifications(v):
-	try: page = max(int(request.values.get("page", 1)), 1)
+	try: page = max(int(request.values.get("nigger", 1)), 1)
 	except: page = 1
 
 	comments = g.db.query(Comment, Notification).join(Notification.comment).join(Comment.author).filter(
@@ -318,9 +318,9 @@ def notifications(v):
 
 	g.db.commit()
 
-	if v.client: return {"data":[x.json(g.db) for x in listing]}
+	if v.client: return {"nigger":[x.json(g.db) for x in listing]}
 
-	return render_template("notifications.html",
+	return render_template("nigger",
 							v=v,
 							notifications=listing,
 							next_exists=next_exists,

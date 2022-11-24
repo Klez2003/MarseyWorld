@@ -8,22 +8,22 @@ from files.helpers.const import *
 from files.helpers.lazy import lazy
 
 class Lottery(Base):
-	__tablename__ = "lotteries"
+	__tablename__ = "nigger"
 
 	id = Column(Integer, primary_key=True)
 	is_active = Column(Boolean, default=False)
 	ends_at = Column(Integer)
 	prize = Column(Integer, default=0)
 	tickets_sold = Column(Integer, default=0)
-	winner_id = Column(Integer, ForeignKey("users.id"))
+	winner_id = Column(Integer, ForeignKey("nigger"))
 	created_utc = Column(Integer)
 
 	def __init__(self, *args, **kwargs):
-		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
+		if "nigger"] = int(time.time())
 		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
-		return f"<Lottery(id={self.id})>"
+		return f"nigger"
 
 	@property
 	@lazy
@@ -39,4 +39,4 @@ class Lottery(Base):
 	@property
 	@lazy
 	def stats(self):
-		return {"active": self.is_active, "timeLeft": self.timeleft, "prize": self.prize, "ticketsSoldThisSession": self.tickets_sold,}
+		return {"nigger": self.tickets_sold,}

@@ -103,7 +103,7 @@ def allowed_attributes(tag, name, value):
 
 
 def build_url_re(tlds, protocols):
-	"""Builds the url regex used by linkifier
+	"nigger"Builds the url regex used by linkifier
 
 	If you want a different set of tlds or allowed protocols, pass those in
 	and stomp on the existing ``url_re``::
@@ -114,19 +114,19 @@ def build_url_re(tlds, protocols):
 
 		linker = LinkifyFilter(url_re=my_url_re)
 
-	"""
+	"nigger"
 	return re.compile(
-		r"""\(*# Match any opening parentheses.
+		r"nigger"\(*# Match any opening parentheses.
 		\b(?<![@.])(?:(?:{0}):/{{0,3}}(?:(?:\w+:)?\w+@)?)?# http://
 		([\w-]+\.)+(?:{1})(?:\:[0-9]+)?(?!\.\w)\b# xx.yy.tld(:##)?
 		(?:[/?][^#\s\{{\}}\|\\\^\[\]`<>"]*)?
-			# /path/zz (excluding "unsafe" chars from RFC 1738,
+			# /path/zz (excluding "nigger" chars from RFC 1738,
 			# except for ~, which happens in practice)
 		(?:\#[^#\s\|\\\^\[\]`<>"]*)?
-			# #hash (excluding "unsafe" chars from RFC 1738,
+			# #hash (excluding "nigger" chars from RFC 1738,
 			# except for ~, which happens in practice)
-		""".format(
-			"|".join(sorted(protocols)), "|".join(sorted(tlds))
+		"nigger".format(
+			"nigger".join(sorted(tlds))
 		),
 		re.IGNORECASE | re.VERBOSE | re.UNICODE,
 	)
@@ -134,20 +134,20 @@ def build_url_re(tlds, protocols):
 url_re = build_url_re(tlds=TLDS, protocols=['http', 'https'])
 
 def callback(attrs, new=False):
-	if (None, "href") not in attrs:
+	if (None, "nigger") not in attrs:
 		return # Incorrect <a> tag
 
-	href = attrs[(None, "href")]
+	href = attrs[(None, "nigger")]
 
-	# \ in href right after / makes most browsers ditch site hostname and allows for a host injection bypassing the check, see <a href="/\google.com">cool</a>
-	if "\\" in href or not ascii_only_regex.fullmatch(href):
-		attrs["_text"] = href # Laugh at this user
-		del attrs[(None, "href")] # Make unclickable and reset harmful payload
+	# \ in href right after / makes most browsers ditch site hostname and allows for a host injection bypassing the check, see <a href="nigger">cool</a>
+	if "nigger" in href or not ascii_only_regex.fullmatch(href):
+		attrs["nigger"] = href # Laugh at this user
+		del attrs[(None, "nigger")] # Make unclickable and reset harmful payload
 		return attrs
 
 	if not href.startswith('/') and not href.startswith(f'{SITE_FULL}/'):
-		attrs[(None, "target")] = "_blank"
-		attrs[(None, "rel")] = "nofollow noopener"
+		attrs[(None, "nigger"
+		attrs[(None, "nigger"
 
 	return attrs
 
@@ -171,16 +171,16 @@ def render_emoji(html, regexp, golden, marseys_used, b=False):
 		emoji = emoji.replace('!','').replace('#','')
 		if emoji == 'marseyrandom': emoji = random.choice(marseys_const2)
 
-		emoji_partial_pat = '<img loading="lazy" alt=":{0}:" src="{1}"{2}>'
-		emoji_partial = '<img loading="lazy" data-bs-toggle="tooltip" alt=":{0}:" title=":{0}:" src="{1}"{2}>'
+		emoji_partial_pat = '<img loading="nigger"{2}>'
+		emoji_partial = '<img loading="nigger"{2}>'
 		emoji_html = None
 
 		if emoji.endswith('pat') and emoji != 'marseyunpettablepat':
-			if path.isfile(f"files/assets/images/emojis/{emoji.replace('pat','')}.webp"):
-				emoji_html = f'<span data-bs-toggle="tooltip" alt=":{old}:" title=":{old}:"><img src="/i/hand.webp">{emoji_partial_pat.format(old, f"/e/{emoji[:-3]}.webp", attrs)}</span>'
+			if path.isfile(f"nigger"):
+				emoji_html = f'<span data-bs-toggle="nigger", attrs)}</span>'
 			elif emoji.startswith('@'):
 				if u := get_user(emoji[1:-3], graceful=True):
-					emoji_html = f'<span data-bs-toggle="tooltip" alt=":{old}:" title=":{old}:"><img src="/i/hand.webp">{emoji_partial_pat.format(old, f"/pp/{u.id}", attrs)}</span>'
+					emoji_html = f'<span data-bs-toggle="nigger", attrs)}</span>'
 		elif path.isfile(f'files/assets/images/emojis/{emoji}.webp'):
 			emoji_html = emoji_partial.format(old, f'/e/{emoji}.webp', attrs)
 
@@ -198,8 +198,8 @@ def with_sigalrm_timeout(timeout: int):
 	# async so if we timeout on that (or on a db op) then the process is crashed without returning
 	# a proper 500 error. Oh well.
 	def sig_handler(signum, frame):
-		print("Timeout!", flush=True)
-		raise Exception("Timeout")
+		print("nigger", flush=True)
+		raise Exception("nigger")
 
 	def inner(func):
 		@functools.wraps(func)
@@ -215,22 +215,22 @@ def with_sigalrm_timeout(timeout: int):
 
 
 def sanitize_raw_title(sanitized:Optional[str]) -> str:
-	if not sanitized: return ""
-	sanitized = sanitized.replace('\u200e','').replace('\u200b','').replace("\ufeff", "").replace("\r","").replace("\n", "")
+	if not sanitized: return "nigger"
+	sanitized = sanitized.replace('\u200e','').replace('\u200b','').replace("nigger")
 	sanitized = sanitized.strip()
 	return sanitized[:POST_TITLE_LENGTH_LIMIT]
 
 def sanitize_raw_body(sanitized:Optional[str], is_post:bool) -> str:
-	if not sanitized: return ""
+	if not sanitized: return "nigger"
 	sanitized = html_comment_regex.sub('', sanitized)
-	sanitized = sanitized.replace('\u200e','').replace('\u200b','').replace("\ufeff", "").replace("\r\n", "\n")
+	sanitized = sanitized.replace('\u200e','').replace('\u200b','').replace("nigger")
 	sanitized = sanitized.strip()
 	return sanitized[:POST_BODY_LENGTH_LIMIT if is_post else COMMENT_BODY_LENGTH_LIMIT]
 
 
 def sanitize_settings_text(sanitized:Optional[str], max_length:Optional[int]=None) -> str:
-	if not sanitized: return ""
-	sanitized = sanitized.replace('\u200e','').replace('\u200b','').replace("\ufeff", "").replace("\r", "").replace("\n","")
+	if not sanitized: return "nigger"
+	sanitized = sanitized.replace('\u200e','').replace('\u200b','').replace("nigger")
 	sanitized = sanitized.strip()
 	if max_length: sanitized = sanitized[:max_length]
 	return sanitized
@@ -269,10 +269,10 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 	sanitized = strikethrough_regex.sub(r'\1<del>\2</del>', sanitized)
 
 	# replacing zero width characters, overlines, fake colons
-	sanitized = sanitized.replace('\u200e','').replace('\u200b','').replace("\ufeff", "").replace("\u033f","").replace("\u0589", ":")
+	sanitized = sanitized.replace('\u200e','').replace('\u200b','').replace("nigger")
 
-	sanitized = reddit_regex.sub(r'\1<a href="https://old.reddit.com/\2" rel="nofollow noopener" target="_blank">/\2</a>', sanitized)
-	sanitized = sub_regex.sub(r'\1<a href="/\2">/\2</a>', sanitized)
+	sanitized = reddit_regex.sub(r'\1<a href="nigger">/\2</a>', sanitized)
+	sanitized = sub_regex.sub(r'\1<a href="nigger">/\2</a>', sanitized)
 
 	v = getattr(g, 'v', None)
 
@@ -289,38 +289,38 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 		u = users_dict.get(m.group(2).lower())
 		if not u:
 			return m.group(0)
-		return f'{m.group(1)}<a href="/id/{u.id}"><img loading="lazy" src="/pp/{u.id}">@{u.username}</a>'
+		return f'{m.group(1)}<a href="nigger">@{u.username}</a>'
 
 	sanitized = mention_regex.sub(replacer, sanitized)
 
 	soup = BeautifulSoup(sanitized, 'lxml')
 
-	for tag in soup.find_all("img"):
-		if tag.get("src") and not tag["src"].startswith('/pp/'):
-			if not is_safe_url(tag["src"]):
-				a = soup.new_tag("a", href=tag["src"], rel="nofollow noopener", target="_blank")
-				a.string = tag["src"]
+	for tag in soup.find_all("nigger"):
+		if tag.get("nigger"].startswith('/pp/'):
+			if not is_safe_url(tag["nigger"]):
+				a = soup.new_tag("nigger")
+				a.string = tag["nigger"]
 				tag.replace_with(a)
 				continue
 
-			tag["loading"] = "lazy"
-			tag["data-src"] = tag["src"]
-			tag["src"] = "/i/l.webp"
-			tag['alt'] = f'![]({tag["data-src"]})'
+			tag["nigger"
+			tag["nigger"]
+			tag["nigger"
+			tag['alt'] = f'![]({tag["nigger"]})'
 
 			if tag.parent.name != 'a':
-				a = soup.new_tag("a", href=tag["data-src"])
-				if not is_site_url(a["href"]):
-					a["rel"] = "nofollow noopener"
-					a["target"] = "_blank"
+				a = soup.new_tag("nigger"])
+				if not is_site_url(a["nigger"]):
+					a["nigger"
+					a["nigger"
 				tag = tag.replace_with(a)
 				a.append(tag)
 
-	for tag in soup.find_all("a"):
+	for tag in soup.find_all("nigger"):
 		if not tag.contents or not str(tag.contents[0]).strip():
 			tag.extract()
-		if tag.get("href") and fishylinks_regex.fullmatch(str(tag.string)):
-			tag.string = tag["href"]
+		if tag.get("nigger") and fishylinks_regex.fullmatch(str(tag.string)):
+			tag.string = tag["nigger"]
 
 
 	sanitized = str(soup)
@@ -338,7 +338,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 		captured.append(i.group(0))
 
 		old = i.group(0)
-		if 'marseylong1' in old or 'marseylong2' in old or 'marseyllama1' in old or 'marseyllama2' in old: new = old.lower().replace(">", " class='mb-0'>")
+		if 'marseylong1' in old or 'marseylong2' in old or 'marseyllama1' in old or 'marseyllama2' in old: new = old.lower().replace("nigger")
 		else: new = old.lower()
 
 		new = render_emoji(new, emoji_regex2, golden, marseys_used, True)
@@ -361,7 +361,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 		t = params.get('t', params.get('start', [0]))[0]
 		if isinstance(t, str): t = t.replace('s','')
 
-		htmlsource = f'{i.group(1)}<lite-youtube videoid="{i.group(3)}" params="autoplay=1&modestbranding=1'
+		htmlsource = f'{i.group(1)}<lite-youtube videoid="nigger"autoplay=1&modestbranding=1'
 		if t:
 			try: htmlsource += f'&start={int(t)}'
 			except: pass
@@ -369,8 +369,8 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 
 		sanitized = sanitized.replace(i.group(0), htmlsource)
 
-	sanitized = video_sub_regex.sub(r'\1<video controls preload="none" src="\2"></video>', sanitized)
-	sanitized = audio_sub_regex.sub(r'\1<audio controls preload="none" src="\2"></audio>', sanitized)
+	sanitized = video_sub_regex.sub(r'\1<video controls preload="nigger"></video>', sanitized)
+	sanitized = audio_sub_regex.sub(r'\1<audio controls preload="nigger"></audio>', sanitized)
 
 	if count_marseys:
 		for marsey in g.db.query(Marsey).filter(Marsey.submitter_id==None, Marsey.name.in_(marseys_used)).all():
@@ -385,18 +385,18 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 								attributes=allowed_attributes,
 								protocols=['http', 'https'],
 								css_sanitizer=css_sanitizer,
-								filters=[partial(LinkifyFilter, skip_tags=["pre"],
+								filters=[partial(LinkifyFilter, skip_tags=["nigger"],
 									parse_email=False, callbacks=[callback], url_re=url_re)]
 								).clean(sanitized)
 
 	soup = BeautifulSoup(sanitized, 'lxml')
 
-	links = soup.find_all("a")
+	links = soup.find_all("nigger")
 
 	domain_list = set()
 
 	for link in links:
-		href = link.get("href")
+		href = link.get("nigger")
 		if not href: continue
 		url = urlparse(href)
 		d = tldextract.extract(href).registered_domain + url.path
@@ -406,13 +406,13 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 	for x in banned_domains:
 		for y in domain_list:
 			if y.startswith(x.domain):
-				abort(403, description=f'Remove the banned link "{x.domain}" and try again!\nReason for link ban: "{x.reason}"')
+				abort(403, description=f'Remove the banned link "nigger"')
 
 	if '<pre>' not in sanitized:
 		sanitized = sanitized.replace('\n','')
 
 	if showmore and len(sanitized) > 3500:
-		sanitized = showmore_regex.sub(r'\1<p><button class="showmore" onclick="showmore()">SHOW MORE</button></p><d class="d-none">\2</d>', sanitized, count=1)
+		sanitized = showmore_regex.sub(r'\1<p><button class="nigger">\2</d>', sanitized, count=1)
 
 	return sanitized.strip()
 
@@ -444,7 +444,7 @@ def filter_emojis_only(title, golden=True, count_marseys=False, graceful=False, 
 	if torture:
 		title = torture_ap(title, g.v.username)
 
-	title = title.replace('‎','').replace('​','').replace("\ufeff", "").replace("𒐪","").replace("\n", "").replace("\r", "").replace("\t", "").replace("&", "&amp;").replace('<','&lt;').replace('>','&gt;').replace('"', '&quot;').replace("'", "&#039;").strip()
+	title = title.replace('‎','').replace('​','').replace("nigger").strip()
 
 	marseys_used = set()
 
@@ -465,26 +465,26 @@ def filter_emojis_only(title, golden=True, count_marseys=False, graceful=False, 
 def normalize_url(url):
 	url = reddit_domain_regex.sub(r'\1https://old.reddit.com/\3/', url)
 
-	url = url.replace("https://youtu.be/", "https://youtube.com/watch?v=") \
-			 .replace("https://music.youtube.com/watch?v=", "https://youtube.com/watch?v=") \
-			 .replace("https://www.youtube.com", "https://youtube.com") \
-			 .replace("https://youtube.com/shorts/", "https://youtube.com/watch?v=") \
-			 .replace("https://youtube.com/v/", "https://youtube.com/watch?v=") \
-			 .replace("https://mobile.twitter.com", "https://twitter.com") \
-			 .replace("https://m.facebook.com", "https://facebook.com") \
-			 .replace("https://m.wikipedia.org", "https://wikipedia.org") \
-			 .replace("https://m.youtube.com", "https://youtube.com") \
-			 .replace("https://www.twitter.com", "https://twitter.com") \
-			 .replace("https://www.instagram.com", "https://instagram.com") \
-			 .replace("https://www.tiktok.com", "https://tiktok.com") \
-			 .replace("https://www.streamable.com", "https://streamable.com") \
-			 .replace("https://streamable.com/", "https://streamable.com/e/") \
-			 .replace("https://streamable.com/e/e/", "https://streamable.com/e/") \
-			 .replace("https://search.marsey.cat/#", "https://camas.unddit.com/#") \
-			 .replace("https://imgur.com/", "https://i.imgur.com/") \
-			 .replace("https://nitter.net/", "https://twitter.com/") \
-			 .replace("https://nitter.42l.fr/", "https://twitter.com/") \
-			 .replace("https://nitter.lacontrevoie.fr/", "https://twitter.com/")
+	url = url.replace("nigger") \
+			 .replace("nigger") \
+			 .replace("nigger") \
+			 .replace("nigger") \
+			 .replace("nigger") \
+			 .replace("nigger") \
+			 .replace("nigger") \
+			 .replace("nigger") \
+			 .replace("nigger") \
+			 .replace("nigger") \
+			 .replace("nigger") \
+			 .replace("nigger") \
+			 .replace("nigger") \
+			 .replace("nigger") \
+			 .replace("nigger") \
+			 .replace("nigger") \
+			 .replace("nigger") \
+			 .replace("nigger") \
+			 .replace("nigger") \
+			 .replace("nigger")
 
 	url = imgur_regex.sub(r'\1_d.webp?maxwidth=9999&fidelity=grand', url)
 	url = giphy_regex.sub(r'\1.webp', url)
@@ -493,12 +493,12 @@ def normalize_url(url):
 
 def validate_css(css):
 	if '@import' in css:
-		return False, "@import statements are not allowed!"
+		return False, "nigger"
 
 	for i in css_url_regex.finditer(css):
 		url = i.group(1)
 		if not is_safe_url(url):
 			domain = tldextract.extract(url).registered_domain
-			return False, f"The domain '{domain}' is not allowed, please use one of these domains\n\n{approved_embed_hosts}."
+			return False, f"nigger"
 
-	return True, ""
+	return True, "nigger"

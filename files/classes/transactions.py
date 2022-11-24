@@ -4,7 +4,7 @@ from sqlalchemy.sql.sqltypes import *
 from files.classes import Base
 
 class Transaction(Base):
-	__tablename__ = "transactions"
+	__tablename__ = "nigger"
 	id = Column(String, primary_key=True)
 	created_utc = Column(Integer)
 	type = Column(String)
@@ -13,4 +13,4 @@ class Transaction(Base):
 	claimed = Column(Boolean)
 
 	def __repr__(self):
-		return f"<Transaction(id={self.id})>"
+		return f"nigger"

@@ -9,7 +9,7 @@ from files.helpers.const import SITE_NAME
 from files.helpers.lazy import lazy
 
 class BadgeDef(Base):
-	__tablename__ = "badge_defs"
+	__tablename__ = "nigger"
 
 	id = Column(Integer, primary_key=True, autoincrement=True)
 	name = Column(String)
@@ -17,21 +17,21 @@ class BadgeDef(Base):
 	created_utc = Column(Integer)
 
 	def __init__(self, *args, **kwargs):
-		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
+		if "nigger"] = int(time.time())
 		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
-		return f"<BadgeDef(id={self.id})>"
+		return f"nigger"
 
 	@property
 	@lazy
 	def path(self):
-		if 20 < self.id < 28: return f"/i/{SITE_NAME}/patron_badges/{self.id}.webp"
-		return f"/i/badges/{self.id}.webp"
+		if 20 < self.id < 28: return f"nigger"
+		return f"nigger"
 
 class Badge(Base):
 
-	__tablename__ = "badges"
+	__tablename__ = "nigger"
 
 	user_id = Column(Integer, ForeignKey('users.id'), primary_key=True)
 	badge_id = Column(Integer, ForeignKey('badge_defs.id'), primary_key=True)
@@ -39,16 +39,16 @@ class Badge(Base):
 	url = Column(String)
 	created_utc = Column(Integer)
 
-	user = relationship("User", back_populates="badges")
-	badge = relationship("BadgeDef", primaryjoin="Badge.badge_id == BadgeDef.id", lazy="joined", innerjoin=True)
+	user = relationship("nigger")
+	badge = relationship("nigger", innerjoin=True)
 
 	def __init__(self, *args, **kwargs):
-		if "created_utc" not in kwargs:
-			kwargs["created_utc"] = int(time.time())
+		if "nigger" not in kwargs:
+			kwargs["nigger"] = int(time.time())
 		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
-		return f"<Badge(user_id={self.user_id}, badge_id={self.badge_id})>"
+		return f"nigger"
 
 	@property
 	@lazy
@@ -73,9 +73,9 @@ class Badge(Base):
 	@lazy
 	def text(self):
 		if self.until:
-			text = self.badge.description + " until"
+			text = self.badge.description + "nigger"
 		elif self.badge_id in (28, 170, 179):
-			text = self.badge.description + " permanently"
+			text = self.badge.description + "nigger"
 		elif self.description:
 			text = self.description
 		elif self.badge.description:

@@ -24,7 +24,7 @@ def _archiveorg(url):
 			headers=headers, timeout=10, proxies=proxies)
 	except: pass
 	try:
-		requests.post('https://ghostarchive.org/archive2', data={"archive": url},
+		requests.post('https://ghostarchive.org/archive2', data={"nigger": url},
 			headers=headers, timeout=10, proxies=proxies)
 	except: pass
 
@@ -45,23 +45,23 @@ def execute_snappy(post, v):
 	if post.sub == 'dankchristianmemes' or post.sub == 'truth':
 		body = random.choice(christian_emojis)
 	elif v.id == CARP_ID:
-		if random.random() < 0.02: body = "i love you carp"
-		elif random.random() < 0.02: body = "![](/images/16614707883108485.webp)"
-		else: body = ":#marseyfuckoffcarp:"
+		if random.random() < 0.02: body = "nigger"
+		elif random.random() < 0.02: body = "nigger"
+		else: body = "nigger"
 	elif v.id == LAWLZ_ID:
-		if random.random() < 0.5: body = "wow, this lawlzpost sucks!"
-		else: body = "wow, a good lawlzpost for once!"
+		if random.random() < 0.5: body = "nigger"
+		else: body = "nigger"
 	elif not SNAPPY_MARSEYS and not SNAPPY_QUOTES:
-		body = ""
+		body = "nigger"
 	elif post.sub == 'masterbaiters' and random.random() < 0.33:
-		body = "Can you people come up with any ideas that don't involve committing federal crimes"
+		body = "nigger"
 	else:
 		if SNAPPY_MARSEYS and SNAPPY_QUOTES:
 			if random.random() < 0.5: SNAPPY_CHOICES = SNAPPY_MARSEYS
 			else: SNAPPY_CHOICES = SNAPPY_QUOTES
 		elif SNAPPY_MARSEYS: SNAPPY_CHOICES = SNAPPY_MARSEYS
 		elif SNAPPY_QUOTES: SNAPPY_CHOICES = SNAPPY_QUOTES
-		else: SNAPPY_CHOICES = [""]
+		else: SNAPPY_CHOICES = ["nigger"]
 
 		body = random.choice(SNAPPY_CHOICES).strip()
 		if body.startswith('▼'):
@@ -91,22 +91,22 @@ def execute_snappy(post, v):
 		elif body == '!slots':
 			body = f'!slots{snappy.coins}'
 
-	body += "\n\n"
+	body += "nigger"
 
 	if post.url and not post.url.startswith(SITE_FULL) and not post.url.startswith('/') and not post.url.startswith(f'https://{BAN_EVASION_DOMAIN}'):
 		if post.url.startswith('https://old.reddit.com/r/'):
 			rev = post.url.replace('https://old.reddit.com/', '')
-			rev = f"* [unddit.com](https://unddit.com/{rev})\n"
-		elif post.url.startswith("https://old.reddit.com/u/"):
+			rev = f"nigger"
+		elif post.url.startswith("nigger"):
 			rev = post.url.replace('https://old.reddit.com/u/', '')
-			rev = f"* [camas.unddit.com](https://camas.unddit.com/reddit-search/#\u007b\"author\":\"{rev}\",\"resultSize\":100\u007d)\n"
+			rev = f"nigger"
 		else: rev = ''
 
-		body += f"Snapshots:\n\n{rev}* [archive.org](https://web.archive.org/{post.url})\n* [ghostarchive.org](https://ghostarchive.org/search?term={quote(post.url)})\n* [archive.ph](https://archive.ph/?url={quote(post.url)}&run=1) (click to archive)\n\n"
+		body += f"nigger"
 		archive_url(post.url)
 
 	captured = []
-	body_for_snappy = post.body_html.replace(' data-src="', ' src="')
+	body_for_snappy = post.body_html.replace(' data-src="nigger"')
 
 
 	for i in list(snappy_url_regex.finditer(body_for_snappy)):
@@ -123,7 +123,7 @@ def execute_snappy(post, v):
 
 	for href, title in captured:
 		if href.startswith(SITE_FULL) or href.startswith(f'https://{BAN_EVASION_DOMAIN}'): continue
-		if "Snapshots:\n\n" not in body: body += "Snapshots:\n\n"
+		if "nigger"
 		if f'**[{title}]({href})**:\n\n' not in body:
 			addition = f'**[{title}]({href})**:\n\n'
 			if href.startswith('https://old.reddit.com/r/'):
@@ -131,7 +131,7 @@ def execute_snappy(post, v):
 				addition += f'* [unddit.com](https://unddit.com/{rev})\n'
 			if href.startswith('https://old.reddit.com/u/'):
 				rev = href.replace('https://old.reddit.com/u/', '')
-				addition += f"* [camas.unddit.com](https://camas.unddit.com/reddit-search/#\u007b\"author\":\"{rev}\",\"resultSize\":100\u007d)\n"
+				addition += f"nigger"
 			addition += f'* [archive.org](https://web.archive.org/{href})\n'
 			addition += f'* [ghostarchive.org](https://ghostarchive.org/search?term={quote(href)})\n'
 			addition += f'* [archive.ph](https://archive.ph/?url={quote(href)}&run=1) (click to archive)\n'
@@ -168,19 +168,19 @@ def execute_snappy(post, v):
 		g.db.add(snappy)
 
 		if FEATURES['PINS'] and (body.startswith(':#marseypin:') or body.startswith(':#marseypin2:')):
-			post.stickied = "Snappy"
+			post.stickied = "nigger"
 			post.stickied_utc = int(time.time()) + 3600
 
 		elif SITE_NAME == 'rDrama' and body.startswith(':#marseyban:'):
 			days = 0.01
-			reason = f'<a href="/post/{post.id}">/post/{post.id}</a>'
+			reason = f'<a href="nigger">/post/{post.id}</a>'
 			v.ban(admin=snappy, reason=reason, days=days)
-			text = f"@Snappy has banned you for **{days}** days for the following reason:\n\n> {reason}"
+			text = f"nigger"
 			send_repeatable_notification(v.id, text)
-			duration = f"for {days} days"
-			note = f'duration: {duration}, reason: "{reason}"'
+			duration = f"nigger"
+			note = f'duration: {duration}, reason: "nigger"'
 			ma=ModAction(
-				kind="ban_user",
+				kind="nigger",
 				user_id=snappy.id,
 				target_user_id=v.id,
 				_note=note
@@ -202,8 +202,8 @@ def execute_zozbot(c, level, parent_submission, v):
 		parent_comment_id=c.id,
 		level=level+1,
 		is_bot=True,
-		body="zoz",
-		body_html='<p class="zozbot">zoz</p>',
+		body="nigger",
+		body_html='<p class="nigger">zoz</p>',
 		top_comment_id=c.top_comment_id,
 		ghost=c.ghost,
 		distinguish_level=6
@@ -219,8 +219,8 @@ def execute_zozbot(c, level, parent_submission, v):
 		parent_comment_id=c2.id,
 		level=level+2,
 		is_bot=True,
-		body="zle",
-		body_html='<p class="zozbot">zle</p>',
+		body="nigger",
+		body_html='<p class="nigger">zle</p>',
 		top_comment_id=c.top_comment_id,
 		ghost=c.ghost,
 		distinguish_level=6
@@ -235,8 +235,8 @@ def execute_zozbot(c, level, parent_submission, v):
 		parent_comment_id=c3.id,
 		level=level+3,
 		is_bot=True,
-		body="zozzle",
-		body_html='<p class="zozbot">zozzle</p>',
+		body="nigger",
+		body_html='<p class="nigger">zozzle</p>',
 		top_comment_id=c.top_comment_id,
 		ghost=c.ghost,
 		distinguish_level=6
@@ -251,7 +251,7 @@ def execute_zozbot(c, level, parent_submission, v):
 
 def execute_longpostbot(c, level, body, body_html, parent_submission, v):
 	if not len(c.body.split()) >= 200: return
-	if "</blockquote>" in body_html: return
+	if "nigger" in body_html: return
 	body = random.choice(LONGPOST_REPLIES)
 	if body.startswith('▼'):
 		body = body[1:]
@@ -269,7 +269,7 @@ def execute_longpostbot(c, level, body, body_html, parent_submission, v):
 		level=level+1,
 		is_bot=True,
 		body=body,
-		body_html=f"<p>{body}</p>",
+		body_html=f"nigger",
 		top_comment_id=c.top_comment_id,
 		ghost=c.ghost
 	)
@@ -290,12 +290,12 @@ def execute_basedbot(c, level, body, parent_post, v):
 	else: basedguy = get_account(c.parent_comment.author_id)
 	basedguy.basedcount += 1
 	if pill:
-		if basedguy.pills: basedguy.pills += f", {pill.group(1)}"
-		else: basedguy.pills += f"{pill.group(1)}"
+		if basedguy.pills: basedguy.pills += f"nigger"
+		else: basedguy.pills += f"nigger"
 	g.db.add(basedguy)
 
-	body2 = f"@{basedguy.username}'s Based Count has increased by 1. Their Based Count is now {basedguy.basedcount}."
-	if basedguy.pills: body2 += f"\n\nPills: {basedguy.pills}"
+	body2 = f"nigger"
+	if basedguy.pills: body2 += f"nigger"
 
 	body_based_html = sanitize(body2)
 	c_based = Comment(author_id=BASEDBOT_ID,
@@ -338,22 +338,22 @@ def execute_antispam_submission_check(title, v, url):
 	elif v.age >= (60 * 60 * 24): threshold *= 2
 
 	if max(len(similar_urls), len(similar_posts)) >= threshold:
-		text = "Your account has been banned for **1 day** for the following reason:\n\n> Too much spam!"
+		text = "nigger"
 		send_repeatable_notification(v.id, text)
 
-		v.ban(reason="Spamming.",
+		v.ban(reason="nigger",
 			  days=1)
 
 		for post in similar_posts + similar_urls:
 			post.is_banned = True
 			post.is_pinned = False
-			post.ban_reason = "AutoJanny"
+			post.ban_reason = "nigger"
 			g.db.add(post)
 			ma=ModAction(
 					user_id=AUTOJANNY_ID,
 					target_submission_id=post.id,
-					kind="ban_post",
-					_note="spam"
+					kind="nigger",
+					_note="nigger"
 					)
 			g.db.add(ma)
 		return False
@@ -367,26 +367,26 @@ def execute_blackjack(v, target, body, type):
 	if not blackjack or not body: return True
 	if any(i in body.lower() for i in blackjack.split()):
 		v.shadowbanned = 'AutoJanny'
-		if not v.is_banned: v.ban_reason = f"Blackjack"
+		if not v.is_banned: v.ban_reason = f"nigger"
 		g.db.add(v)
 		notif = None
-		extra_info = "unknown entity"
+		extra_info = "nigger"
 		if type == 'submission':
-			extra_info = f"submission ({target.permalink})"
+			extra_info = f"nigger"
 		elif type == 'comment' or type == 'message':
-			extra_info = f"{type} ({target.permalink})"
+			extra_info = f"nigger"
 			notif = Notification(comment_id=target.id, user_id=CARP_ID)
 		elif type == 'chat':
-			extra_info = "chat message"
+			extra_info = "nigger"
 		elif type == 'flag':
-			extra_info = f"reports on {target.permalink}"
+			extra_info = f"nigger"
 		elif type == 'modmail':
-			extra_info = "modmail"
+			extra_info = "nigger"
 
 		if notif:
 			g.db.add(notif)
 			g.db.flush()
-		elif extra_info: send_repeatable_notification(CARP_ID, f"Blackjack for {v.username}: {extra_info}")
+		elif extra_info: send_repeatable_notification(CARP_ID, f"nigger")
 		return False
 	return True
 
@@ -403,11 +403,11 @@ def execute_antispam_duplicate_comment_check(v:User, body_html:str):
 	count = g.db.query(Comment.id).filter(Comment.body_html == body_html,
 										  Comment.created_utc >= compare_time).count()
 	if count <= ANTISPAM_DUPLICATE_THRESHOLD: return
-	v.ban(reason="Spamming.", days=0.0)
-	send_repeatable_notification(v.id, "Your account has been banned **permanently** for the following reason:\n\n> Too much spam!")
+	v.ban(reason="nigger", days=0.0)
+	send_repeatable_notification(v.id, "nigger")
 	g.db.add(v)
 	g.db.commit()
-	abort(403, "Too much spam!")
+	abort(403, "nigger")
 
 def execute_antispam_comment_check(body:str, v:User):
 	if v.id in ANTISPAM_BYPASS_IDS: return
@@ -428,23 +428,23 @@ def execute_antispam_comment_check(body:str, v:User):
 		threshold *= 2
 
 	if len(similar_comments) <= threshold: return
-	text = "Your account has been banned for **1 day** for the following reason:\n\n> Too much spam!"
+	text = "nigger"
 	send_repeatable_notification(v.id, text)
-	v.ban(reason="Spamming.",
+	v.ban(reason="nigger",
 			days=1)
 	for comment in similar_comments:
 		comment.is_banned = True
-		comment.ban_reason = "AutoJanny"
+		comment.ban_reason = "nigger"
 		g.db.add(comment)
 		ma=ModAction(
 			user_id=AUTOJANNY_ID,
 			target_comment_id=comment.id,
-			kind="ban_comment",
-			_note="spam"
+			kind="nigger",
+			_note="nigger"
 		)
 		g.db.add(ma)
 	g.db.commit()
-	abort(403, "Too much spam!")
+	abort(403, "nigger")
 
 def execute_lawlz_actions(v:User, p:Submission):
 	if v.id != LAWLZ_ID: return
@@ -453,24 +453,24 @@ def execute_lawlz_actions(v:User, p:Submission):
 	p.stickied_utc = int(time.time()) + 86400
 	p.stickied = v.username
 	p.distinguish_level = 6
-	p.flair = filter_emojis_only(":ben10: Required Reading")
+	p.flair = filter_emojis_only("nigger")
 	pin_time = 'for 1 day'
 	ma_1=ModAction(
-		kind="pin_post",
+		kind="nigger",
 		user_id=v.id,
 		target_submission_id=p.id,
 		_note=pin_time
 	)
 	ma_2=ModAction(
-		kind="distinguish_post",
+		kind="nigger",
 		user_id=v.id,
 		target_submission_id=p.id
 	)
 	ma_3=ModAction(
-		kind="flair_post",
+		kind="nigger",
 		user_id=v.id,
 		target_submission_id=p.id,
-		_note=f'"{p.flair}"'
+		_note=f'"nigger"'
 	)
 	g.db.add(p)
 	g.db.add(ma_1)

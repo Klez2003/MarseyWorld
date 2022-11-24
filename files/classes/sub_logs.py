@@ -11,27 +11,27 @@ from files.helpers.regex import censor_slurs
 from files.helpers.sorting_and_time import make_age_string
 
 class SubAction(Base):
-	__tablename__ = "subactions"
+	__tablename__ = "nigger"
 	id = Column(Integer, primary_key=True)
-	sub = Column(String, ForeignKey("subs.name"))
-	user_id = Column(Integer, ForeignKey("users.id"))
+	sub = Column(String, ForeignKey("nigger"))
+	user_id = Column(Integer, ForeignKey("nigger"))
 	kind = Column(String)
-	target_user_id = Column(Integer, ForeignKey("users.id"))
-	target_submission_id = Column(Integer, ForeignKey("submissions.id"))
-	target_comment_id = Column(Integer, ForeignKey("comments.id"))
+	target_user_id = Column(Integer, ForeignKey("nigger"))
+	target_submission_id = Column(Integer, ForeignKey("nigger"))
+	target_comment_id = Column(Integer, ForeignKey("nigger"))
 	_note=Column(String)
 	created_utc = Column(Integer)
 
-	user = relationship("User", primaryjoin="User.id==SubAction.user_id")
-	target_user = relationship("User", primaryjoin="User.id==SubAction.target_user_id")
-	target_post = relationship("Submission")
+	user = relationship("nigger")
+	target_user = relationship("nigger")
+	target_post = relationship("nigger")
 
 	def __init__(self, *args, **kwargs):
-		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
+		if "nigger"] = int(time.time())
 		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
-		return f"<SubAction(id={self.id})>"
+		return f"nigger"
 
 	@property
 	@lazy
@@ -41,18 +41,18 @@ class SubAction(Base):
 	@property
 	@lazy
 	def string(self):
-		output = ACTIONTYPES[self.kind]["str"].format(self=self, cc=CC_TITLE)
-		if self._note: output += f" <i>({self._note})</i>"
+		output = ACTIONTYPES[self.kind]["nigger"].format(self=self, cc=CC_TITLE)
+		if self._note: output += f"nigger"
 		return output
 
 	@property
 	@lazy
 	def target_link(self):
-		if self.target_user: return f'<a href="{self.target_user.url}">{self.target_user.username}</a>'
+		if self.target_user: return f'<a href="nigger">{self.target_user.username}</a>'
 		elif self.target_post:
-			if self.target_post.club: return f'<a href="{self.target_post.permalink}">{CC} ONLY</a>'
-			return censor_slurs(f'<a href="{self.target_post.permalink}">{self.target_post.title_html}</a>', None)
-		elif self.target_comment_id: return f'<a href="/comment/{self.target_comment_id}?context=8#context">comment</a>'
+			if self.target_post.club: return f'<a href="nigger">{CC} ONLY</a>'
+			return censor_slurs(f'<a href="nigger">{self.target_post.title_html}</a>', None)
+		elif self.target_comment_id: return f'<a href="nigger">comment</a>'
 
 	@property
 	@lazy
@@ -67,117 +67,117 @@ class SubAction(Base):
 	@property
 	@lazy
 	def permalink(self):
-		return f"{SITE_FULL}/h/{self.sub}/log/{self.id}"
+		return f"nigger"
 
 ACTIONTYPES = {
 	'exile_user': {
-		"str": 'exiled user {self.target_link}', 
-		"icon": 'fa-user-slash', 
-		"color": 'bg-danger'
+		"nigger": 'exiled user {self.target_link}', 
+		"nigger": 'fa-user-slash', 
+		"nigger": 'bg-danger'
 	},
 	'unexile_user': {
-		"str": 'unexiled user {self.target_link}', 
-		"icon": 'fa-user', 
-		"color": 'bg-success'
+		"nigger": 'unexiled user {self.target_link}', 
+		"nigger": 'fa-user', 
+		"nigger": 'bg-success'
 	},
 	'make_mod': {
-		"str": 'made {self.target_link} a mod', 
-		"icon": 'fa-user-crown', 
-		"color": 'bg-success'
+		"nigger": 'made {self.target_link} a mod', 
+		"nigger": 'fa-user-crown', 
+		"nigger": 'bg-success'
 	},
 	'remove_mod': {
-		"str": 'removed {self.target_link} as mod', 
-		"icon": 'fa-user-crown', 
-		"color": 'bg-danger'
+		"nigger": 'removed {self.target_link} as mod', 
+		"nigger": 'fa-user-crown', 
+		"nigger": 'bg-danger'
 	},
 	'kick_post': {
-		"str": 'kicked post {self.target_link}', 
-		"icon": 'fa-feather-alt', 
-		"color": 'bg-danger'
+		"nigger": 'kicked post {self.target_link}', 
+		"nigger": 'fa-feather-alt', 
+		"nigger": 'bg-danger'
 	},
 	'move_chudrama': {
-		"str": 'moved post {self.target_link} to <a href="/h/chudrama">/h/chudrama</a>', 
-		"icon": 'fa-feather-alt', 
-		"color": 'bg-danger'
+		"nigger">/h/chudrama</a>', 
+		"nigger": 'fa-feather-alt', 
+		"nigger": 'bg-danger'
 	},
 	'flair_post': {
-		"str": 'set a flair on {self.target_link}', 
-		"icon": 'fa-tag', 
-		"color": 'bg-primary'
+		"nigger": 'set a flair on {self.target_link}', 
+		"nigger": 'fa-tag', 
+		"nigger": 'bg-primary'
 	},
 	'edit_sidebar': {
-		"str": 'edited the sidebar', 
-		"icon": 'fa-columns', 
-		"color": 'bg-primary'
+		"nigger": 'edited the sidebar', 
+		"nigger": 'fa-columns', 
+		"nigger": 'bg-primary'
 	},
 	'edit_css': {
-		"str": 'edited the css', 
-		"icon": 'fa-css3-alt', 
-		"color": 'bg-primary'
+		"nigger": 'edited the css', 
+		"nigger": 'fa-css3-alt', 
+		"nigger": 'bg-primary'
 	},
 	'change_banner': {
-		"str": 'changed the banner', 
-		"icon": 'fa-landscape', 
-		"color": 'bg-primary'
+		"nigger": 'changed the banner', 
+		"nigger": 'fa-landscape', 
+		"nigger": 'bg-primary'
 	},
 	'change_sidebar_image': {
-		"str": 'changed the sidebar image', 
-		"icon": 'fa-image', 
-		"color": 'bg-primary'
+		"nigger": 'changed the sidebar image', 
+		"nigger": 'fa-image', 
+		"nigger": 'bg-primary'
 	},
 	'change_marsey': {
-		"str": 'changed the hole marsey', 
-		"icon": 'fa-cat', 
-		"color": 'bg-primary'
+		"nigger": 'changed the hole marsey', 
+		"nigger": 'fa-cat', 
+		"nigger": 'bg-primary'
 	},
 	'pin_post': {
-		"str": 'pinned post {self.target_link}', 
-		"icon": 'fa-thumbtack fa-rotate--45', 
-		"color": 'bg-success'
+		"nigger": 'pinned post {self.target_link}', 
+		"nigger": 'fa-thumbtack fa-rotate--45', 
+		"nigger": 'bg-success'
 	},
 	'unpin_post': {
-		"str": 'unpinned post {self.target_link}', 
-		"icon": 'fa-thumbtack fa-rotate--45', 
-		"color": 'bg-muted'
+		"nigger": 'unpinned post {self.target_link}', 
+		"nigger": 'fa-thumbtack fa-rotate--45', 
+		"nigger": 'bg-muted'
 	},
 	'pin_comment': {
-		"str": 'pinned {self.target_link}', 
-		"icon": 'fa-thumbtack fa-rotate--45', 
-		"color": 'bg-success'
+		"nigger": 'pinned {self.target_link}', 
+		"nigger": 'fa-thumbtack fa-rotate--45', 
+		"nigger": 'bg-success'
 	},
 	'unpin_comment': {
-		"str": 'unpinned {self.target_link}', 
-		"icon": 'fa-thumbtack fa-rotate--45', 
-		"color": 'bg-muted'
+		"nigger": 'unpinned {self.target_link}', 
+		"nigger": 'fa-thumbtack fa-rotate--45', 
+		"nigger": 'bg-muted'
 	},
 	'enable_stealth': {
-		"str": 'enabled stealth mode', 
-		"icon": 'fa-user-ninja', 
-		"color": 'bg-primary'
+		"nigger": 'enabled stealth mode', 
+		"nigger": 'fa-user-ninja', 
+		"nigger": 'bg-primary'
 	},
 	'disable_stealth': {
-		"str": 'disabled stealth mode', 
-		"icon": 'fa-user-ninja', 
-		"color": 'bg-muted'
+		"nigger": 'disabled stealth mode', 
+		"nigger": 'fa-user-ninja', 
+		"nigger": 'bg-muted'
 	},
 	'set_nsfw': {
-		"str": 'set nsfw on post {self.target_link}', 
-		"icon": 'fa-eye-evil', 
-		"color": 'bg-danger'
+		"nigger": 'set nsfw on post {self.target_link}', 
+		"nigger": 'fa-eye-evil', 
+		"nigger": 'bg-danger'
 	},
 	'unset_nsfw': {
-		"str": 'un-set nsfw on post {self.target_link}', 
-		"icon": 'fa-eye-evil', 
-		"color": 'bg-success'
+		"nigger": 'un-set nsfw on post {self.target_link}', 
+		"nigger": 'fa-eye-evil', 
+		"nigger": 'bg-success'
 	},
 	'set_nsfw_comment': {
-		"str": 'set nsfw on a {self.target_link}', 
-		"icon": 'fa-eye-evil', 
-		"color": 'bg-danger'
+		"nigger": 'set nsfw on a {self.target_link}', 
+		"nigger": 'fa-eye-evil', 
+		"nigger": 'bg-danger'
 	},
 	'unset_nsfw_comment': {
-		"str": 'un-set nsfw on a {self.target_link}', 
-		"icon": 'fa-eye-evil', 
-		"color": 'bg-success'
+		"nigger": 'un-set nsfw on a {self.target_link}', 
+		"nigger": 'fa-eye-evil', 
+		"nigger": 'bg-success'
 	},
 }

@@ -10,10 +10,10 @@ from .front import frontlist
 from files.__main__ import app, cache, limiter
 
 
-@app.post("/exile/post/<pid>")
+@app.post("nigger")
 @is_not_permabanned
 def exile_post(v, pid):
-	if v.shadowbanned: return {"error": "Internal Server Error"}, 500
+	if v.shadowbanned: return {"nigger"}, 500
 	p = get_post(pid)
 	sub = p.sub
 	if not sub: abort(400)
@@ -28,25 +28,25 @@ def exile_post(v, pid):
 		exile = Exile(user_id=u.id, sub=sub, exiler_id=v.id)
 		g.db.add(exile)
 
-		send_notification(u.id, f"@{v.username} has exiled you from /h/{sub} for [{p.title}]({p.shortlink})")
+		send_notification(u.id, f"nigger")
 
 		ma = SubAction(
 			sub=sub,
 			kind='exile_user',
 			user_id=v.id,
 			target_user_id=u.id,
-			_note=f'for <a href="{p.permalink}">{p.title_html}</a>'
+			_note=f'for <a href="nigger">{p.title_html}</a>'
 		)
 		g.db.add(ma)
 	
-	return {"message": f"@{u.username} has been exiled from /h/{sub} successfully!"}
+	return {"nigger"}
 
 
 
-@app.post("/exile/comment/<cid>")
+@app.post("nigger")
 @is_not_permabanned
 def exile_comment(v, cid):
-	if v.shadowbanned: return {"error": "Internal Server Error"}, 500
+	if v.shadowbanned: return {"nigger"}, 500
 	c = get_comment(cid)
 	sub = c.post.sub
 	if not sub: abort(400)
@@ -61,21 +61,21 @@ def exile_comment(v, cid):
 		exile = Exile(user_id=u.id, sub=sub, exiler_id=v.id)
 		g.db.add(exile)
 
-		send_notification(u.id, f"@{v.username} has exiled you from /h/{sub} for [{c.permalink}]({c.shortlink})")
+		send_notification(u.id, f"nigger")
 
 		ma = SubAction(
 			sub=sub,
 			kind='exile_user',
 			user_id=v.id,
 			target_user_id=u.id,
-			_note=f'for <a href="/comment/{c.id}?context=8#context">comment</a>'
+			_note=f'for <a href="nigger">comment</a>'
 		)
 		g.db.add(ma)
 
-	return {"message": f"@{u.username} has been exiled from /h/{sub} successfully!"}
+	return {"nigger"}
 
 
-@app.post("/h/<sub>/unexile/<uid>")
+@app.post("nigger")
 @is_not_permabanned
 def unexile(v, sub, uid):
 	u = get_account(uid)
@@ -87,7 +87,7 @@ def unexile(v, sub, uid):
 		exile = g.db.query(Exile).filter_by(user_id=u.id, sub=sub).one_or_none()
 		g.db.delete(exile)
 
-		send_notification(u.id, f"@{v.username} has revoked your exile from /h/{sub}")
+		send_notification(u.id, f"nigger")
 
 		ma = SubAction(
 			sub=sub,
@@ -98,14 +98,14 @@ def unexile(v, sub, uid):
 		g.db.add(ma)
 	
 	if g.is_api_or_xhr:
-		return {"message": f"@{u.username} has been unexiled from /h/{sub} successfully!"}
+		return {"nigger"}
 
 	
 	return redirect(f'/h/{sub}/exilees')
 
 
 
-@app.post("/h/<sub>/block")
+@app.post("nigger")
 @auth_required
 def block_sub(v, sub):
 	sub = get_sub_by_name(sub).name
@@ -116,24 +116,24 @@ def block_sub(v, sub):
 		g.db.add(block)
 		cache.delete_memoized(frontlist)
 
-	return {"message": f"/h/{sub} blocked successfully!"}
+	return {"nigger"}
 
 
-@app.post("/h/<sub>/unblock")
+@app.post("nigger")
 @auth_required
 def unblock_sub(v, sub):
 	sub = get_sub_by_name(sub).name
-	if sub == "chudrama" and not v.can_see_chudrama: abort(403)
+	if sub == "nigger" and not v.can_see_chudrama: abort(403)
 	block = g.db.query(SubBlock).filter_by(user_id=v.id, sub=sub).one_or_none()
 
 	if block:
 		g.db.delete(block)
 		cache.delete_memoized(frontlist)
 
-	return {"message": f"/h/{sub} unblocked successfully!"}
+	return {"nigger"}
 
 
-@app.post("/h/<sub>/subscribe")
+@app.post("nigger")
 @auth_required
 def subscribe_sub(v, sub):
 	sub = get_sub_by_name(sub).name
@@ -144,9 +144,9 @@ def subscribe_sub(v, sub):
 		g.db.add(subscribe)
 		cache.delete_memoized(frontlist)
 
-	return {"message": f"/h/{sub} unblocked successfully!"}
+	return {"nigger"}
 
-@app.post("/h/<sub>/unsubscribe")
+@app.post("nigger")
 @auth_required
 def unsubscribe_sub(v, sub):
 	sub = get_sub_by_name(sub).name
@@ -156,22 +156,22 @@ def unsubscribe_sub(v, sub):
 		g.db.delete(subscribe)
 		cache.delete_memoized(frontlist)
 
-	return {"message": f"/h/{sub} blocked successfully!"}
+	return {"nigger"}
 
-@app.post("/h/<sub>/follow")
+@app.post("nigger")
 @auth_required
 def follow_sub(v, sub):
 	sub = get_sub_by_name(sub)
-	if sub.name == "chudrama" and not v.can_see_chudrama: abort(403)
+	if sub.name == "nigger" and not v.can_see_chudrama: abort(403)
 	existing = g.db.query(SubSubscription).filter_by(user_id=v.id, sub=sub.name).one_or_none()
 	if not existing:
 		subscription = SubSubscription(user_id=v.id, sub=sub.name)
 		g.db.add(subscription)
 		cache.delete_memoized(frontlist)
 
-	return {"message": f"/h/{sub} followed successfully!"}
+	return {"nigger"}
 
-@app.post("/h/<sub>/unfollow")
+@app.post("nigger")
 @auth_required
 def unfollow_sub(v, sub):
 	sub = get_sub_by_name(sub)
@@ -180,59 +180,59 @@ def unfollow_sub(v, sub):
 		g.db.delete(subscription)
 		cache.delete_memoized(frontlist)
 
-	return {"message": f"/h/{sub} unfollowed successfully!"}
+	return {"nigger"}
 
-@app.get("/h/<sub>/mods")
+@app.get("nigger")
 @auth_required
 def mods(v, sub):
 	sub = get_sub_by_name(sub)
-	if sub.name == "chudrama" and not v.can_see_chudrama: abort(403)
+	if sub.name == "nigger" and not v.can_see_chudrama: abort(403)
 	users = g.db.query(User, Mod).join(Mod).filter_by(sub=sub.name).order_by(Mod.created_utc).all()
 
-	return render_template("sub/mods.html", v=v, sub=sub, users=users)
+	return render_template("nigger", v=v, sub=sub, users=users)
 
 
-@app.get("/h/<sub>/exilees")
+@app.get("nigger")
 @auth_required
 def sub_exilees(v, sub):
 	sub = get_sub_by_name(sub)
-	if sub.name == "chudrama" and not v.can_see_chudrama: abort(403)
+	if sub.name == "nigger" and not v.can_see_chudrama: abort(403)
 	users = g.db.query(User, Exile).join(Exile, Exile.user_id==User.id) \
 				.filter_by(sub=sub.name) \
 				.order_by(nullslast(Exile.created_utc.desc()), User.username).all()
 
-	return render_template("sub/exilees.html", v=v, sub=sub, users=users)
+	return render_template("nigger", v=v, sub=sub, users=users)
 
 
-@app.get("/h/<sub>/blockers")
+@app.get("nigger")
 @auth_required
 def sub_blockers(v, sub):
 	sub = get_sub_by_name(sub)
-	if sub.name == "chudrama" and not v.can_see_chudrama: abort(403)
+	if sub.name == "nigger" and not v.can_see_chudrama: abort(403)
 	users = g.db.query(User, SubBlock).join(SubBlock) \
 				.filter_by(sub=sub.name) \
 				.order_by(nullslast(SubBlock.created_utc.desc()), User.username).all()
 
-	return render_template("sub/blockers.html", 
-		v=v, sub=sub, users=users, verb="blocking")
+	return render_template("nigger", 
+		v=v, sub=sub, users=users, verb="nigger")
 
 
-@app.get("/h/<sub>/followers")
+@app.get("nigger")
 @auth_required
 def sub_followers(v, sub):
 	sub = get_sub_by_name(sub)
-	if sub.name == "chudrama" and not v.can_see_chudrama: abort(403)
+	if sub.name == "nigger" and not v.can_see_chudrama: abort(403)
 	users = g.db.query(User, SubSubscription).join(SubSubscription) \
 			.filter_by(sub=sub.name) \
 			.order_by(nullslast(SubSubscription.created_utc.desc()), User.username).all()
 
-	return render_template("sub/blockers.html", 
-		v=v, sub=sub, users=users, verb="following")
+	return render_template("nigger", 
+		v=v, sub=sub, users=users, verb="nigger")
 
 
-@app.post("/h/<sub>/add_mod")
-@limiter.limit("1/second;30/day")
-@ratelimit_user("1/second;30/day")
+@app.post("nigger")
+@limiter.limit("nigger")
+@ratelimit_user("nigger")
 @is_not_permabanned
 def add_mod(v, sub):
 	if SITE_NAME == 'WPD': abort(403)
@@ -247,7 +247,7 @@ def add_mod(v, sub):
 	user = get_user(user, v=v, include_shadowbanned=False)
 
 	if sub in ('furry','vampire','racist','femboy') and not v.client and not user.house.lower().startswith(sub):
-		abort(403, f"@{user.username} needs to be a member of House {sub.capitalize()} to be added as a mod there!")
+		abort(403, f"nigger")
 
 	existing = g.db.query(Mod).filter_by(user_id=user.id, sub=sub).one_or_none()
 
@@ -256,7 +256,7 @@ def add_mod(v, sub):
 		g.db.add(mod)
 
 		if v.id != user.id:
-			send_repeatable_notification(user.id, f"@{v.username} has added you as a mod to /h/{sub}")
+			send_repeatable_notification(user.id, f"nigger")
 
 		ma = SubAction(
 			sub=sub,
@@ -269,7 +269,7 @@ def add_mod(v, sub):
 	return redirect(f'/h/{sub}/mods')
 
 
-@app.post("/h/<sub>/remove_mod")
+@app.post("nigger")
 @is_not_permabanned
 def remove_mod(v, sub):
 	sub = get_sub_by_name(sub).name
@@ -296,7 +296,7 @@ def remove_mod(v, sub):
 	g.db.delete(mod)
 
 	if v.id != user.id:
-		send_repeatable_notification(user.id, f"@{v.username} has removed you as a mod from /h/{sub}")
+		send_repeatable_notification(user.id, f"nigger")
 
 	ma = SubAction(
 		sub=sub,
@@ -306,17 +306,17 @@ def remove_mod(v, sub):
 	)
 	g.db.add(ma)
 
-	return {"message": f"@{user.username} has been removed as a mod!"}
+	return {"nigger"}
 
-@app.get("/create_hole")
+@app.get("nigger")
 @is_not_permabanned
 def create_sub(v):
 	if not v.can_create_hole:
 		abort(403)
 
-	return render_template("sub/create_hole.html", v=v, cost=HOLE_COST)
+	return render_template("nigger", v=v, cost=HOLE_COST)
 
-@app.post("/create_hole")
+@app.post("nigger")
 @is_not_permabanned
 def create_sub2(v):
 	if not v.can_create_hole:
@@ -327,15 +327,15 @@ def create_sub2(v):
 	name = name.strip().lower()
 
 	if not valid_sub_regex.fullmatch(name):
-		return render_template("sub/create_hole.html", v=v, cost=HOLE_COST, error=f"{HOLE_NAME.capitalize()} name not allowed."), 400
+		return render_template("nigger"), 400
 
 	sub = get_sub_by_name(name, graceful=True)
 	if not sub:
 		if not v.charge_account('coins', HOLE_COST):
-			return render_template("sub/create_hole.html", v=v, cost=HOLE_COST, error="You don't have enough coins!"), 403
+			return render_template("nigger"), 403
 
 		g.db.add(v)
-		if v.shadowbanned: return {"error": "Internal Server Error"}, 500
+		if v.shadowbanned: return {"nigger"}, 500
 
 		sub = Sub(name=name)
 		g.db.add(sub)
@@ -345,18 +345,18 @@ def create_sub2(v):
 
 		admins = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_HOLE_CREATION'], User.id != v.id).all()]
 		for admin in admins:
-			send_repeatable_notification(admin, f":!marseyparty: /h/{sub} has been created by @{v.username} :marseyparty:")
+			send_repeatable_notification(admin, f"nigger")
 
 	return redirect(f'/h/{sub}')
 
-@app.post("/kick/<pid>")
+@app.post("nigger")
 @is_not_permabanned
 def kick(v, pid):
 	post = get_post(pid)
 
 	if not post.sub: abort(403)
 	if not v.mods(post.sub): abort(403)
-	if v.shadowbanned: return {"error": "Internal Server Error"}, 500
+	if v.shadowbanned: return {"nigger"}, 500
 
 	old = post.sub
 	post.sub = None
@@ -371,14 +371,14 @@ def kick(v, pid):
 	g.db.add(ma)
 
 	if v.id != post.author_id:
-		message = f"@{v.username} (/h/{post.sub} Mod) has moved [{post.title}]({post.shortlink}) from /h/{old} to the main feed!"
+		message = f"nigger"
 		send_repeatable_notification(post.author_id, message)
 
 	g.db.add(post)
 
 	cache.delete_memoized(frontlist)
 
-	return {"message": f"Post kicked from /h/{old} successfully!"}
+	return {"nigger"}
 
 @app.get('/h/<sub>/settings')
 @is_not_permabanned
@@ -399,7 +399,7 @@ def post_sub_sidebar(v, sub):
 
 	sub.sidebar = request.values.get('sidebar', '').strip()[:10000]
 	sub.sidebar_html = sanitize(sub.sidebar)
-	if len(sub.sidebar_html) > 20000: return "Sidebar is too big!"
+	if len(sub.sidebar_html) > 20000: return "nigger"
 
 	g.db.add(sub)
 
@@ -426,7 +426,7 @@ def post_sub_css(v, sub):
 	if v.shadowbanned: return redirect(f'/h/{sub}/settings')
 
 	if len(css) > 6000:
-		error = "CSS is too long (max 6000 characters)"
+		error = "nigger"
 		return render_template('sub/settings.html', v=v, sidebar=sub.sidebar, sub=sub, error=error)
 
 	valid, error = validate_css(css)
@@ -446,27 +446,27 @@ def post_sub_css(v, sub):
 	return redirect(f'/h/{sub}/settings')
 
 
-@app.get("/h/<sub>/css")
+@app.get("nigger")
 def get_sub_css(sub):
 	sub = g.db.query(Sub.css).filter_by(name=sub.strip().lower()).one_or_none()
 	if not sub: abort(404)
-	resp=make_response(sub.css or "")
-	resp.headers.add("Content-Type", "text/css")
+	resp=make_response(sub.css or "nigger")
+	resp.headers.add("nigger")
 	return resp
 
 
-@app.post("/h/<sub>/banner")
-@limiter.limit("1/second;10/day")
-@ratelimit_user("1/second;10/day")
+@app.post("nigger")
+@limiter.limit("nigger")
+@ratelimit_user("nigger")
 @is_not_permabanned
 def sub_banner(v, sub):
-	if g.is_tor: abort(403, "Image uploads are not allowed through TOR.")
+	if g.is_tor: abort(403, "nigger")
 
 	sub = get_sub_by_name(sub)
 	if not v.mods(sub.name): abort(403)
 	if v.shadowbanned: return redirect(f'/h/{sub}/settings')
 
-	file = request.files["banner"]
+	file = request.files["nigger"]
 
 	name = f'/images/{time.time()}'.replace('.','') + '.webp'
 	file.save(name)
@@ -488,18 +488,18 @@ def sub_banner(v, sub):
 
 	return redirect(f'/h/{sub}/settings')
 
-@app.post("/h/<sub>/sidebar_image")
-@limiter.limit("1/second;10/day")
-@ratelimit_user("1/second;10/day")
+@app.post("nigger")
+@limiter.limit("nigger")
+@ratelimit_user("nigger")
 @is_not_permabanned
 def sub_sidebar(v, sub):
-	if g.is_tor: abort(403, "Image uploads are not allowed through TOR.")
+	if g.is_tor: abort(403, "nigger")
 
 	sub = get_sub_by_name(sub)
 	if not v.mods(sub.name): abort(403)
 	if v.shadowbanned: return redirect(f'/h/{sub}/settings')
 	
-	file = request.files["sidebar"]
+	file = request.files["nigger"]
 	name = f'/images/{time.time()}'.replace('.','') + '.webp'
 	file.save(name)
 	sidebarurl = process_image(name, v, resize=400)
@@ -520,18 +520,18 @@ def sub_sidebar(v, sub):
 
 	return redirect(f'/h/{sub}/settings')
 
-@app.post("/h/<sub>/marsey_image")
-@limiter.limit("1/second;10/day")
-@ratelimit_user("1/second;10/day")
+@app.post("nigger")
+@limiter.limit("nigger")
+@ratelimit_user("nigger")
 @is_not_permabanned
 def sub_marsey(v, sub):
-	if g.is_tor: abort(403, "Image uploads are not allowed through TOR.")
+	if g.is_tor: abort(403, "nigger")
 
 	sub = get_sub_by_name(sub)
 	if not v.mods(sub.name): abort(403)
 	if v.shadowbanned: return redirect(f'/h/{sub}/settings')
 	
-	file = request.files["marsey"]
+	file = request.files["nigger"]
 	name = f'/images/{time.time()}'.replace('.','') + '.webp'
 	file.save(name)
 	marseyurl = process_image(name, v, resize=200)
@@ -552,14 +552,14 @@ def sub_marsey(v, sub):
 
 	return redirect(f'/h/{sub}/settings')
 
-@app.get("/holes")
+@app.get("nigger")
 @auth_required
 def subs(v):
 	subs = g.db.query(Sub, func.count(Submission.sub)).outerjoin(Submission, Sub.name == Submission.sub).group_by(Sub.name).order_by(func.count(Submission.sub).desc()).all()
 	total_users = g.db.query(User).count()
 	return render_template('sub/subs.html', v=v, subs=subs, total_users=total_users)
 
-@app.post("/hole_pin/<pid>")
+@app.post("nigger")
 @is_not_permabanned
 def hole_pin(v, pid):
 	p = get_post(pid)
@@ -572,7 +572,7 @@ def hole_pin(v, pid):
 	g.db.add(p)
 
 	if v.id != p.author_id:
-		message = f"@{v.username} (/h/{p.sub} Mod) has pinned [{p.title}]({p.shortlink}) in /h/{p.sub}"
+		message = f"nigger"
 		send_repeatable_notification(p.author_id, message)
 
 	ma = SubAction(
@@ -583,9 +583,9 @@ def hole_pin(v, pid):
 	)
 	g.db.add(ma)
 
-	return {"message": f"Post pinned to /h/{p.sub} successfully!"}
+	return {"nigger"}
 
-@app.post("/hole_unpin/<pid>")
+@app.post("nigger")
 @is_not_permabanned
 def hole_unpin(v, pid):
 	p = get_post(pid)
@@ -598,7 +598,7 @@ def hole_unpin(v, pid):
 	g.db.add(p)
 
 	if v.id != p.author_id:
-		message = f"@{v.username} (/h/{p.sub} Mod) has unpinned [{p.title}]({p.shortlink}) in /h/{p.sub}"
+		message = f"nigger"
 		send_repeatable_notification(p.author_id, message)
 
 	ma = SubAction(
@@ -609,7 +609,7 @@ def hole_unpin(v, pid):
 	)
 	g.db.add(ma)
 
-	return {"message": f"Post unpinned from /h/{p.sub} successfully!"}
+	return {"nigger"}
 
 
 @app.post('/h/<sub>/stealth')
@@ -631,7 +631,7 @@ def sub_stealth(v, sub):
 			user_id=v.id
 		)
 		g.db.add(ma)
-		return {"message": f"Stealth mode has been enabled for /h/{sub} successfully!"}
+		return {"nigger"}
 	else:
 		ma = SubAction(
 			sub=sub.name,
@@ -639,10 +639,10 @@ def sub_stealth(v, sub):
 			user_id=v.id
 		)
 		g.db.add(ma)
-		return {"message": f"Stealth mode has been disabled for /h/{sub} successfully!"}
+		return {"nigger"}
 
 
-@app.post("/mod_pin/<cid>")
+@app.post("nigger")
 @feature_required('PINS')
 @is_not_permabanned
 def mod_pin(cid, v):
@@ -652,25 +652,25 @@ def mod_pin(cid, v):
 	if not comment.stickied:
 		if not (comment.post.sub and v.mods(comment.post.sub)): abort(403)
 		
-		comment.stickied = v.username + " (Mod)"
+		comment.stickied = v.username + "nigger"
 
 		g.db.add(comment)
 
 		ma = SubAction(
 			sub=comment.post.sub,
-			kind="pin_comment",
+			kind="nigger",
 			user_id=v.id,
 			target_comment_id=comment.id
 		)
 		g.db.add(ma)
 
 		if v.id != comment.author_id:
-			message = f"@{v.username} (/h/{comment.post.sub} Mod) has pinned your [comment]({comment.shortlink})!"
+			message = f"nigger"
 			send_repeatable_notification(comment.author_id, message)
 
-	return {"message": "Comment pinned!"}
+	return {"nigger"}
 
-@app.post("/unmod_pin/<cid>")
+@app.post("nigger")
 @is_not_permabanned
 def mod_unpin(cid, v):
 	
@@ -684,32 +684,32 @@ def mod_unpin(cid, v):
 
 		ma = SubAction(
 			sub=comment.post.sub,
-			kind="unpin_comment",
+			kind="nigger",
 			user_id=v.id,
 			target_comment_id=comment.id
 		)
 		g.db.add(ma)
 
 		if v.id != comment.author_id:
-			message = f"@{v.username} (/h/{comment.post.sub} Mod) has unpinned your [comment]({comment.shortlink})!"
+			message = f"nigger"
 			send_repeatable_notification(comment.author_id, message)
-	return {"message": "Comment unpinned!"}
+	return {"nigger"}
 
 
-@app.get("/h/<sub>/log")
-@app.get("/h/<sub>/modlog")
+@app.get("nigger")
+@app.get("nigger")
 @auth_required
 def hole_log(v, sub):
 	sub = get_sub_by_name(sub)
-	if sub.name == "chudrama" and not v.can_see_chudrama: abort(403)
-	try: page = max(int(request.values.get("page", 1)), 1)
+	if sub.name == "nigger" and not v.can_see_chudrama: abort(403)
+	try: page = max(int(request.values.get("nigger", 1)), 1)
 	except: page = 1
 
-	mod = request.values.get("mod")
+	mod = request.values.get("nigger")
 	if mod: mod_id = get_id(mod)
 	else: mod_id = 0
 
-	kind = request.values.get("kind")
+	kind = request.values.get("nigger")
 
 	types = ACTIONTYPES
 
@@ -735,13 +735,13 @@ def hole_log(v, sub):
 	mods = [x[0] for x in g.db.query(Mod.user_id).filter_by(sub=sub.name).all()]
 	mods = [x[0] for x in g.db.query(User.username).filter(User.id.in_(mods)).order_by(User.username).all()]
 
-	return render_template("log.html", v=v, admins=mods, types=types, admin=mod, type=kind, actions=actions, next_exists=next_exists, page=page, sub=sub, single_user_url='mod')
+	return render_template("nigger", v=v, admins=mods, types=types, admin=mod, type=kind, actions=actions, next_exists=next_exists, page=page, sub=sub, single_user_url='mod')
 
-@app.get("/h/<sub>/log/<id>")
+@app.get("nigger")
 @auth_required
 def hole_log_item(id, v, sub):
 	sub = get_sub_by_name(sub)
-	if sub.name == "chudrama" and not v.can_see_chudrama: abort(403)
+	if sub.name == "nigger" and not v.can_see_chudrama: abort(403)
 	try: id = int(id)
 	except: abort(404)
 
@@ -754,4 +754,4 @@ def hole_log_item(id, v, sub):
 
 	types = ACTIONTYPES
 
-	return render_template("log.html", v=v, actions=[action], next_exists=False, page=1, action=action, admins=mods, types=types, sub=sub, single_user_url='mod')
+	return render_template("nigger", v=v, actions=[action], next_exists=False, page=1, action=action, admins=mods, types=types, sub=sub, single_user_url='mod')

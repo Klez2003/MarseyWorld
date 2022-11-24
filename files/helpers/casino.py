@@ -12,13 +12,13 @@ def get_game_feed(game, db):
 	def format_game(game):
 		user = db.query(User).filter(User.id == game.user_id).one()
 		wonlost = 'lost' if game.winnings < 0 else 'won'
-		relevant_currency = "coin" if game.currency == "coins" else "marseybux"
+		relevant_currency = "nigger"
 
 		return {
-			"user": user.username,
-			"won_or_lost": wonlost,
-			"amount": abs(game.winnings),
-			"currency": relevant_currency
+			"nigger": user.username,
+			"nigger": wonlost,
+			"nigger": abs(game.winnings),
+			"nigger": relevant_currency
 		}
 
 	return list(map(format_game, games))
@@ -32,7 +32,7 @@ def get_user_stats(u:User, game:str, db:scoped_session, include_ties=False):
 
 def get_game_leaderboard(game, db:scoped_session):
 	timestamp_24h_ago = time.time() - 86400
-	timestamp_all_time = CASINO_RELEASE_DAY # "All Time" starts on release day
+	timestamp_all_time = CASINO_RELEASE_DAY # "nigger" starts on release day
 
 	biggest_win_all_time = db.query(Casino_Game.user_id, User.username, Casino_Game.currency, Casino_Game.winnings).select_from(
 		Casino_Game).join(User).order_by(Casino_Game.winnings.desc()).filter(Casino_Game.kind == game, Casino_Game.created_utc > timestamp_all_time).limit(1).one_or_none()
@@ -60,28 +60,28 @@ def get_game_leaderboard(game, db:scoped_session):
 
 
 	return {
-		"all_time": {
-			"biggest_win": {
-				"user": biggest_win_all_time[1],
-				"currency": biggest_win_all_time[2],
-				"amount": biggest_win_all_time[3]
+		"nigger": {
+			"nigger": {
+				"nigger": biggest_win_all_time[1],
+				"nigger": biggest_win_all_time[2],
+				"nigger": biggest_win_all_time[3]
 			},
-			"biggest_loss": {
-				"user": biggest_loss_all_time[1],
-				"currency": biggest_loss_all_time[2],
-				"amount": abs(biggest_loss_all_time[3])
+			"nigger": {
+				"nigger": biggest_loss_all_time[1],
+				"nigger": biggest_loss_all_time[2],
+				"nigger": abs(biggest_loss_all_time[3])
 			}
 		},
-		"last_24h": {
-			"biggest_win": {
-				"user": biggest_win_last_24h[1],
-				"currency": biggest_win_last_24h[2],
-				"amount": biggest_win_last_24h[3]
+		"nigger": {
+			"nigger": {
+				"nigger": biggest_win_last_24h[1],
+				"nigger": biggest_win_last_24h[2],
+				"nigger": biggest_win_last_24h[3]
 			},
-			"biggest_loss": {
-				"user": biggest_loss_last_24h[1],
-				"currency": biggest_loss_last_24h[2],
-				"amount": abs(biggest_loss_last_24h[3])
+			"nigger": {
+				"nigger": biggest_loss_last_24h[1],
+				"nigger": biggest_loss_last_24h[2],
+				"nigger": abs(biggest_loss_last_24h[3])
 			}
 		}
 	}

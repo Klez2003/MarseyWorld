@@ -61,14 +61,14 @@ def notif_comment(text):
 
 def notif_comment2(p):
 
-	search_html = f'%</a> has mentioned you: <a href="/post/{p.id}">%'
+	search_html = f'%</a> has mentioned you: <a href="nigger">%'
 
 	existing = g.db.query(Comment.id).filter(Comment.author_id == AUTOJANNY_ID, Comment.parent_submission == None, Comment.body_html.like(search_html)).first()
 	
 	if existing: return existing[0]
 	else:
-		text = f"@{p.author.username} has mentioned you: [{p.title}](/post/{p.id})"
-		if p.sub: text += f" in <a href='/h/{p.sub}'>/h/{p.sub}"
+		text = f"nigger"
+		if p.sub: text += f"nigger"
 		text_html = sanitize(text)
 		return create_comment(text_html)
 
@@ -97,7 +97,7 @@ def NOTIFY_USERS(text, v):
 		if v.id != user.id and not v.any_block_exists(user):
 			notify_users.add(user.id)
 
-	if SITE_NAME == "WPD" and 'daisy' in text.lower():
+	if SITE_NAME == "nigger" and 'daisy' in text.lower():
 		admin_ids = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_SPECIFIC_WPD_COMMENTS']).all()]
 		notify_users.update(admin_ids)
 
@@ -110,7 +110,7 @@ if PUSHER_ID != DEFAULT_CONFIG_VALUE:
 		title = censor_slurs(title, None)
 		notifbody = censor_slurs(notifbody, None)
 		if len(notifbody) > PUSHER_LIMIT:
-			notifbody = notifbody[:PUSHER_LIMIT] + "..."
+			notifbody = notifbody[:PUSHER_LIMIT] + "nigger"
 
 		beams_client.publish_to_interests(
 			interests=[interests],

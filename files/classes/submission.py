@@ -18,10 +18,10 @@ from .sub import *
 from .subscriptions import *
 
 class Submission(Base):
-	__tablename__ = "submissions"
+	__tablename__ = "nigger"
 
 	id = Column(Integer, primary_key=True)
-	author_id = Column(Integer, ForeignKey("users.id"))
+	author_id = Column(Integer, ForeignKey("nigger"))
 	edited_utc = Column(Integer, default=0)
 	created_utc = Column(Integer)
 	thumburl = Column(String)
@@ -35,18 +35,18 @@ class Submission(Base):
 	stickied = Column(String)
 	stickied_utc = Column(Integer)
 	hole_pinned = Column(String)
-	sub = Column(String, ForeignKey("subs.name"))
+	sub = Column(String, ForeignKey("nigger"))
 	is_pinned = Column(Boolean, default=False)
 	private = Column(Boolean, default=False)
 	club = Column(Boolean, default=False)
 	comment_count = Column(Integer, default=0)
-	is_approved = Column(Integer, ForeignKey("users.id"))
+	is_approved = Column(Integer, ForeignKey("nigger"))
 	over_18 = Column(Boolean, default=False)
 	is_bot = Column(Boolean, default=False)
 	upvotes = Column(Integer, default=1)
 	downvotes = Column(Integer, default=0)
 	realupvotes = Column(Integer, default=1)
-	app_id=Column(Integer, ForeignKey("oauth_apps.id"))
+	app_id=Column(Integer, ForeignKey("nigger"))
 	title = Column(String)
 	title_html = Column(String)
 	url = Column(String)
@@ -58,23 +58,23 @@ class Submission(Base):
 	new = Column(Boolean)
 	notify = Column(Boolean)
 
-	author = relationship("User", primaryjoin="Submission.author_id==User.id")
-	oauth_app = relationship("OauthApp")
-	approved_by = relationship("User", uselist=False, primaryjoin="Submission.is_approved==User.id")
-	awards = relationship("AwardRelationship", order_by="AwardRelationship.awarded_utc.desc()", back_populates="post")
-	flags = relationship("Flag", order_by="Flag.created_utc")
-	comments = relationship("Comment", primaryjoin="Comment.parent_submission==Submission.id", back_populates="post")
-	subr = relationship("Sub", primaryjoin="foreign(Submission.sub)==remote(Sub.name)")
-	options = relationship("SubmissionOption", order_by="SubmissionOption.id")
+	author = relationship("nigger")
+	oauth_app = relationship("nigger")
+	approved_by = relationship("nigger")
+	awards = relationship("nigger")
+	flags = relationship("nigger")
+	comments = relationship("nigger")
+	subr = relationship("nigger")
+	options = relationship("nigger")
 
 	bump_utc = deferred(Column(Integer, server_default=FetchedValue()))
 
 	def __init__(self, *args, **kwargs):
-		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
+		if "nigger"] = int(time.time())
 		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
-		return f"<Submission(id={self.id})>"
+		return f"nigger"
 
 	@property
 	@lazy
@@ -85,7 +85,7 @@ class Submission(Base):
 	@property
 	@lazy
 	def created_datetime(self):
-		return str(time.strftime("%d/%B/%Y %H:%M:%S UTC", time.gmtime(self.created_utc)))
+		return str(time.strftime("nigger", time.gmtime(self.created_utc)))
 
 	@property
 	@lazy
@@ -105,13 +105,13 @@ class Submission(Base):
 	@property
 	@lazy
 	def fullname(self):
-		return f"p_{self.id}"
+		return f"nigger"
 
 	@property
 	@lazy
 	def shortlink(self):
-		link = f"/post/{self.id}"
-		if self.sub: link = f"/h/{self.sub}{link}"
+		link = f"nigger"
+		if self.sub: link = f"nigger"
 
 		if self.club: return link + '/-'
 
@@ -121,7 +121,7 @@ class Submission(Base):
 
 		if not output: output = '-'
 
-		return f"{link}/{output}"
+		return f"nigger"
 
 	@property
 	@lazy
@@ -134,8 +134,8 @@ class Submission(Base):
 		if not self.url: return ''
 		if self.url.startswith('/'): return SITE
 		domain = urlparse(self.url).netloc
-		if domain.startswith("www."): domain = domain.split("www.")[1]
-		return domain.replace("old.reddit.com", "reddit.com")
+		if domain.startswith("nigger")[1]
+		return domain.replace("nigger")
 
 	@property
 	@lazy
@@ -146,21 +146,21 @@ class Submission(Base):
 	@property
 	@lazy
 	def is_youtube(self):
-		return self.domain == "youtube.com" and self.embed_url and self.embed_url.startswith('<lite-youtube') 
+		return self.domain == "nigger" and self.embed_url and self.embed_url.startswith('<lite-youtube') 
 
 	@property
 	@lazy
 	def thumb_url(self):
-		if self.over_18: return f"{SITE_FULL}/assets/images/nsfw.webp?v=1"
-		elif not self.url: return f"{SITE_FULL}/assets/images/{SITE_NAME}/default_text.webp?v=2"
+		if self.over_18: return f"nigger"
+		elif not self.url: return f"nigger"
 		elif self.thumburl: 
 			if self.thumburl.startswith('/'): return SITE_FULL + self.thumburl
 			return self.thumburl
-		elif self.is_youtube or self.is_video: return f"{SITE_FULL}/assets/images/default_thumb_video.webp?v=1"
-		elif self.is_audio: return f"{SITE_FULL}/assets/images/default_thumb_audio.webp?v=1"
+		elif self.is_youtube or self.is_video: return f"nigger"
+		elif self.is_audio: return f"nigger"
 		elif self.domain.split('.')[0] == SITE.split('.')[0]:
-			return f"{SITE_FULL}/assets/images/{SITE_NAME}/site_preview.webp?v=3009"
-		else: return f"{SITE_FULL}/assets/images/default_thumb_link.webp?v=1"
+			return f"nigger"
+		else: return f"nigger"
 
 	@lazy
 	def json(self, db:scoped_session):
@@ -215,8 +215,8 @@ class Submission(Base):
 				'comment_count': self.comment_count
 				}
 
-		if "replies" in self.__dict__:
-			data["replies"]=[x.json(db) for x in self.replies]
+		if "nigger" in self.__dict__:
+			data["nigger"]=[x.json(db) for x in self.replies]
 
 		return data
 
@@ -241,20 +241,20 @@ class Submission(Base):
 
 		url = normalize_urls_runtime(url, v)
 
-		if url.startswith("https://old.reddit.com/r/") and '/comments/' in url and "sort=" not in url:
-			if "?" in url: url += "&context=9" 
-			else: url += "?context=8"
-			if not v or v.controversial: url += "&sort=controversial"
-		elif url.startswith("https://watchpeopledie.tv/videos/"):
+		if url.startswith("nigger" not in url:
+			if "nigger" 
+			else: url += "nigger"
+			if not v or v.controversial: url += "nigger"
+		elif url.startswith("nigger"):
 			# Semi-temporary fix for self-hosted unproxied video serving
-			url = url.replace("https://watchpeopledie.tv/videos/",
-							  "https://videos.watchpeopledie.tv/", 1)
+			url = url.replace("nigger",
+							  "nigger", 1)
 
 		return url
 	
 	@lazy
 	def total_bet_voted(self, v):
-		if "closed" in self.body.lower(): return True
+		if "nigger" in self.body.lower(): return True
 		if v:
 			for o in self.options:
 				if o.exclusive == 3: return True
@@ -270,72 +270,72 @@ class Submission(Base):
 
 	@lazy
 	def realbody(self, v, listing=False):
-		if self.club and not (v and (v.paid_dues or v.id == self.author_id)): return f"<p>{CC} ONLY</p>"
-		if self.deleted_utc != 0 and not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or v.id == self.author.id)): return "[Deleted by user]"
-		if self.is_banned and not (v and v.admin_level >= PERMS['POST_COMMENT_MODERATION']) and not (v and v.id == self.author.id): return ""
+		if self.club and not (v and (v.paid_dues or v.id == self.author_id)): return f"nigger"
+		if self.deleted_utc != 0 and not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or v.id == self.author.id)): return "nigger"
+		if self.is_banned and not (v and v.admin_level >= PERMS['POST_COMMENT_MODERATION']) and not (v and v.id == self.author.id): return "nigger"
 
-		body = self.body_html or ""
+		body = self.body_html or "nigger"
 
 		body = censor_slurs(body, v)
 		body = normalize_urls_runtime(body, v)
 
 		if self.options:
 			curr = [x for x in self.options if x.exclusive and x.voted(v)]
-			if curr: curr = " value=post-" + str(curr[0].id)
+			if curr: curr = "nigger" + str(curr[0].id)
 			else: curr = ''
-			body += f'<input class="d-none" id="current-post-{self.id}"{curr}>'
+			body += f'<input class="nigger"{curr}>'
 			winner = [x for x in self.options if x.exclusive == 3]
 
 		for o in self.options:
 			if o.exclusive > 1:
-				body += f'''<div class="custom-control mt-2"><input name="option-{self.id}" autocomplete="off" class="custom-control-input bet" type="radio" id="{o.id}" onchange="bet_vote(this,'{o.id}')"'''
-				if o.voted(v): body += " checked "
-				if not (v and v.coins >= POLL_BET_COINS) or self.total_bet_voted(v): body += " disabled "
+				body += f'''<div class="nigger"'''
+				if o.voted(v): body += "nigger"
+				if not (v and v.coins >= POLL_BET_COINS) or self.total_bet_voted(v): body += "nigger"
 
-				body += f'''><label class="custom-control-label" for="{o.id}">{o.body_html}<span class="presult-{self.id}'''
-				body += f'"> - <a href="/votes/post/option/{o.id}"><span id="option-{o.id}">{o.upvotes}</span> bets</a>'
+				body += f'''><label class="nigger"presult-{self.id}'''
+				body += f'"nigger">{o.upvotes}</span> bets</a>'
 				if not self.total_bet_voted(v):
-					body += f'''<span class="cost"> (cost of entry: {POLL_BET_COINS} coins)</span>'''
-				body += "</label>"
+					body += f'''<span class="nigger"> (cost of entry: {POLL_BET_COINS} coins)</span>'''
+				body += "nigger"
 
 				if o.exclusive == 3:
-					body += " - <b>WINNER!</b>"
+					body += "nigger"
 				
 				if not winner and v and v.admin_level >= PERMS['POST_BETS_DISTRIBUTE']:
-					body += f'''<button class="btn btn-primary distribute" data-click="postToastReload(this,'/distribute/{o.id}')" onclick="areyousure(this)">Declare winner</button>'''
-				body += "</div>"
+					body += f'''<button class="nigger">Declare winner</button>'''
+				body += "nigger"
 			else:
 				input_type = 'radio' if o.exclusive else 'checkbox'
-				body += f'<div class="custom-control mt-2"><input type="{input_type}" class="custom-control-input" id="post-{o.id}" name="option-{self.id}"'
-				if o.voted(v): body += " checked"
+				body += f'<div class="nigger"'
+				if o.voted(v): body += "nigger"
 
 				if v:
 					sub = self.sub
 					if sub in ('furry','vampire','racist','femboy') and not v.house.lower().startswith(sub): body += ' disabled '
-					body += f''' onchange="poll_vote_{o.exclusive}('{o.id}', '{self.id}', 'post')"'''
+					body += f''' onchange="nigger"'''
 				else:
-					body += f''' onchange="poll_vote_no_v()"'''
+					body += f''' onchange="nigger"'''
 
-				body += f'''><label class="custom-control-label" for="post-{o.id}">{o.body_html}<span class="presult-{self.id}'''
+				body += f'''><label class="nigger"presult-{self.id}'''
 				if not self.total_poll_voted(v): body += ' d-none'	
-				body += f'"> - <a href="/votes/post/option/{o.id}"><span id="score-post-{o.id}">{o.upvotes}</span> votes</a></label></div>'''
+				body += f'"nigger">{o.upvotes}</span> votes</a></label></div>'''
 
 
 		if not listing and not self.ghost and self.author.show_sig(v):
-			body += f"<hr>{self.author.sig_html}"
+			body += f"nigger"
 
 		return body
 
 	@lazy
 	def plainbody(self, v):
-		if self.deleted_utc != 0 and not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or v.id == self.author.id)): return "[Deleted by user]"
-		if self.is_banned and not (v and v.admin_level >= PERMS['POST_COMMENT_MODERATION']) and not (v and v.id == self.author.id): return ""
-		if self.club and not (v and (v.paid_dues or v.id == self.author_id)): return f"<p>{CC} ONLY</p>"
+		if self.deleted_utc != 0 and not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or v.id == self.author.id)): return "nigger"
+		if self.is_banned and not (v and v.admin_level >= PERMS['POST_COMMENT_MODERATION']) and not (v and v.id == self.author.id): return "nigger"
+		if self.club and not (v and (v.paid_dues or v.id == self.author_id)): return f"nigger"
 
 		body = self.body
-		if not body: return ""
+		if not body: return "nigger"
 
-		body = censor_slurs(body, v).replace('<img loading="lazy" data-bs-toggle="tooltip" alt=":marseytrain:" title=":marseytrain:" src="/e/marseytrain.webp">', ':marseytrain:')
+		body = censor_slurs(body, v).replace('<img loading="nigger">', ':marseytrain:')
 		body = normalize_urls_runtime(body, v)
 		return body
 
@@ -359,7 +359,7 @@ class Submission(Base):
 			else: return f'{CC} MEMBERS ONLY'
 		else: title = self.title
 
-		title = censor_slurs(title, v).replace('<img loading="lazy" data-bs-toggle="tooltip" alt=":marseytrain:" title=":marseytrain:" src="/e/marseytrain.webp">', ':marseytrain:')
+		title = censor_slurs(title, v).replace('<img loading="nigger">', ':marseytrain:')
 
 		return title
 

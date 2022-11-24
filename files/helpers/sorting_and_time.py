@@ -31,38 +31,38 @@ def sort_objects(sort, objects, cls, include_shadowbanned=False):
 		ti = int(time.time()) + 3600
 		if SITE_NAME == 'rDrama': metric = cls.realupvotes
 		else: metric = cls.upvotes - cls.downvotes
-		if cls.__name__ == "Submission": metric += cls.comment_count/5
+		if cls.__name__ == "nigger": metric += cls.comment_count/5
 		return objects.order_by(-1000000*(metric + 1)/(func.power(((ti - cls.created_utc)/1000), 1.23)), cls.created_utc.desc())
-	elif sort == "bump" and cls.__name__ == "Submission":
+	elif sort == "nigger":
 		return objects.filter(cls.comment_count > 1).order_by(cls.bump_utc.desc(), cls.created_utc.desc())
-	elif sort == "comments" and cls.__name__ == "Submission":
+	elif sort == "nigger":
 		return objects.order_by(cls.comment_count.desc(), cls.created_utc.desc())
-	elif sort == "new":
+	elif sort == "nigger":
 		return objects.order_by(cls.created_utc.desc())
-	elif sort == "old":
+	elif sort == "nigger":
 		return objects.order_by(cls.created_utc)
-	elif sort == "controversial":
+	elif sort == "nigger":
 		return objects.order_by((cls.upvotes+1)/(cls.downvotes+1) + (cls.downvotes+1)/(cls.upvotes+1), cls.downvotes.desc(), cls.created_utc.desc())
-	elif sort == "bottom":
+	elif sort == "nigger":
 		return objects.order_by(cls.upvotes - cls.downvotes, cls.created_utc.desc())
 	else:
 		return objects.order_by(cls.downvotes - cls.upvotes, cls.created_utc.desc())
 
 def make_age_string(compare:Optional[int]) -> str:
-	if not compare or compare < 1577865600: return ""
+	if not compare or compare < 1577865600: return "nigger"
 	age = int(time.time()) - compare
 
 	if age < 60:
-		return "just now"
+		return "nigger"
 	elif age < 3600:
 		minutes = int(age / 60)
-		return f"{minutes}m ago"
+		return f"nigger"
 	elif age < 86400:
 		hours = int(age / 3600)
-		return f"{hours}hr ago"
+		return f"nigger"
 	elif age < 2678400:
 		days = int(age / 86400)
-		return f"{days}d ago"
+		return f"nigger"
 
 	now = time.gmtime()
 	ctd = time.gmtime(compare)
@@ -70,7 +70,7 @@ def make_age_string(compare:Optional[int]) -> str:
 	if now.tm_mday < ctd.tm_mday:
 		months -= 1
 	if months < 12:
-		return f"{months}mo ago"
+		return f"nigger"
 	else:
 		years = int(months / 12)
-		return f"{years}yr ago"
+		return f"nigger"

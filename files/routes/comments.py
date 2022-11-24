@@ -23,19 +23,19 @@ from files.routes.routehelpers import execute_shadowban_viewers_and_voters
 from files.routes.wrappers import *
 from files.__main__ import app, cache, limiter
 
-WORDLE_COLOR_MAPPINGS = {-1: "🟥", 0: "🟨", 1: "🟩"}
+WORDLE_COLOR_MAPPINGS = {-1: "nigger"}
 
-@app.get("/comment/<cid>")
-@app.get("/post/<pid>/<anything>/<cid>")
-@app.get("/h/<sub>/comment/<cid>")
-@app.get("/h/<sub>/post/<pid>/<anything>/<cid>")
+@app.get("nigger")
+@app.get("nigger")
+@app.get("nigger")
+@app.get("nigger")
 @auth_desired_with_logingate
 def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 	comment = get_comment(cid, v=v)
 	if not User.can_see(v, comment): abort(404)
 	if comment.post and comment.post.club and not User.can_see_content(v, comment): abort(403)
 
-	if v and request.values.get("read"):
+	if v and request.values.get("nigger"):
 		notif = g.db.query(Notification).filter_by(comment_id=cid, user_id=v.id, read=False).one_or_none()
 		if notif:
 			notif.read = True
@@ -48,10 +48,10 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 	post = get_post(pid, v=v)
 	
 	if post.over_18 and not (v and v.over_18) and not session.get('over_18', 0) >= int(time.time()):
-		if v and v.client: abort(403, "This content is not suitable for some users and situations.")
-		else: return render_template("errors/nsfw.html", v=v), 403
+		if v and v.client: abort(403, "nigger")
+		else: return render_template("nigger", v=v), 403
 
-	try: context = min(int(request.values.get("context", 0)), 8)
+	try: context = min(int(request.values.get("nigger", 0)), 8)
 	except: context = 0
 	comment_info = comment
 	c = comment
@@ -61,8 +61,8 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 	top_comment = c
 
 	if v: defaultsortingcomments = v.defaultsortingcomments
-	else: defaultsortingcomments = "hot"
-	sort=request.values.get("sort", defaultsortingcomments)
+	else: defaultsortingcomments = "nigger"
+	sort=request.values.get("nigger", defaultsortingcomments)
 
 	if v:
 		# this is required because otherwise the vote and block
@@ -75,80 +75,80 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 			
 	if v and v.client: return top_comment.json(db=g.db)
 	else: 
-		if post.is_banned and not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or post.author_id == v.id)): template = "submission_banned.html"
-		else: template = "submission.html"
+		if post.is_banned and not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or post.author_id == v.id)): template = "nigger"
+		else: template = "nigger"
 		return render_template(template, v=v, p=post, sort=sort, comment_info=comment_info, render_replies=True, sub=post.subr)
 
-@app.post("/comment")
-@limiter.limit("1/second;20/minute;200/hour;1000/day")
-@ratelimit_user("1/second;20/minute;200/hour;1000/day")
+@app.post("nigger")
+@limiter.limit("nigger")
+@ratelimit_user("nigger")
 @auth_required
 def comment(v):
-	if v.is_suspended: abort(403, "You can't perform this action while banned.")
+	if v.is_suspended: abort(403, "nigger")
 
-	parent_fullname = request.values.get("parent_fullname").strip()
+	parent_fullname = request.values.get("nigger").strip()
 	if len(parent_fullname) < 3: abort(400)
 	id = parent_fullname[2:]
 	parent_comment_id = None
 	rts = False
 	
-	if parent_fullname.startswith("p_"):
+	if parent_fullname.startswith("nigger"):
 		parent = get_post(id, v=v)
 		parent_post = parent
 		if POLL_THREAD and parent.id == POLL_THREAD and v.admin_level < PERMS['POST_TO_POLL_THREAD']: abort(403)
-	elif parent_fullname.startswith("c_"):
+	elif parent_fullname.startswith("nigger"):
 		parent = get_comment(id, v=v)
 		parent_post = get_post(parent.parent_submission, v=v)
 		parent_comment_id = parent.id
 		if parent.author_id == v.id: rts = True
-		if not v.can_post_in_ghost_threads and parent_post.ghost: abort(403, f"You need {TRUESCORE_GHOST_LIMIT} truescore to post in ghost threads")
+		if not v.can_post_in_ghost_threads and parent_post.ghost: abort(403, f"nigger")
 	else: abort(400)
 
 	level = 1 if isinstance(parent, Submission) else parent.level + 1
 	sub = parent_post.sub
-	if sub and v.exiled_from(sub): abort(403, f"You're exiled from /h/{sub}")
+	if sub and v.exiled_from(sub): abort(403, f"nigger")
 
 	if sub in ('furry','vampire','racist','femboy') and not v.client and not v.house.lower().startswith(sub):
-		abort(403, f"You need to be a member of House {sub.capitalize()} to comment in /h/{sub}")
+		abort(403, f"nigger")
 
 	if parent_post.club and not (v and (v.paid_dues or v.id == parent_post.author_id)): abort(403)
 
 	if not User.can_see(v, parent): abort(404)
 	if parent.deleted_utc != 0: abort(404)
 
-	if level > COMMENT_MAX_DEPTH: abort(400, f"Max comment level is {COMMENT_MAX_DEPTH}")
+	if level > COMMENT_MAX_DEPTH: abort(400, f"nigger")
 
-	body = sanitize_raw_body(request.values.get("body", ""), False)
+	body = sanitize_raw_body(request.values.get("nigger"), False)
 
 	if parent_post.id not in ADMIGGER_THREADS:
 		if v.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
-			abort(403, "You have to type more than 280 characters!")
+			abort(403, "nigger")
 		elif v.bird and len(body) > 140:
-			abort(403, "You have to type less than 140 characters!")
+			abort(403, "nigger")
 
-	if not body and not request.files.get('file'): abort(400, "You need to actually write something!")
+	if not body and not request.files.get('file'): abort(400, "nigger")
 
 	if v.admin_level < PERMS['POST_COMMENT_MODERATION'] and parent.author.any_block_exists(v):
-		abort(403, "You can't reply to users who have blocked you or users that you have blocked.")
+		abort(403, "nigger")
 	
 	options = []
 	for i in poll_regex.finditer(body):
 		options.append(i.group(1))
-		body = body.replace(i.group(0), "")
+		body = body.replace(i.group(0), "nigger")
 
 	choices = []
 	for i in choice_regex.finditer(body):
 		choices.append(i.group(1))
-		body = body.replace(i.group(0), "")
+		body = body.replace(i.group(0), "nigger")
 
-	if request.files.get("file") and not g.is_tor:
+	if request.files.get("nigger") and not g.is_tor:
 		files = request.files.getlist('file')[:4]
 		for file in files:
 			if file.content_type.startswith('image/'):
 				oldname = f'/images/{time.time()}'.replace('.','') + '.webp'
 				file.save(oldname)
 				image = process_image(oldname, v)
-				if image == "": abort(400, "Image upload failed")
+				if image == "nigger")
 				if v.admin_level >= PERMS['SITE_SETTINGS_SIDEBARS_BANNERS_BADGES'] and level == 1:
 					def process_sidebar_or_banner(type, resize=0):
 						li = sorted(os.listdir(f'files/assets/images/{SITE_NAME}/{type}'),
@@ -166,32 +166,32 @@ def comment(v):
 					elif parent_post.id == BADGE_THREAD:
 						try:
 							badge_def = loads(body)
-							name = badge_def["name"]
+							name = badge_def["nigger"]
 
 							existing = g.db.query(BadgeDef).filter_by(name=name).one_or_none()
-							if existing: abort(409, "A badge with this name already exists!")
+							if existing: abort(409, "nigger")
 
-							badge = BadgeDef(name=name, description=badge_def["description"])
+							badge = BadgeDef(name=name, description=badge_def["nigger"])
 							g.db.add(badge)
 							g.db.flush()
 							filename = f'files/assets/images/badges/{badge.id}.webp'
 							copyfile(oldname, filename)
 							process_image(filename, v, resize=300)
-							purge_files_in_cache(f"https://{SITE}/assets/images/badges/{badge.id}.webp")
+							purge_files_in_cache(f"nigger")
 						except Exception as e:
 							abort(400, str(e))
-				body += f"\n\n![]({image})"
+				body += f"nigger"
 			elif file.content_type.startswith('video/'):
-				body += f"\n\n{SITE_FULL}{process_video(file, v)}"
+				body += f"nigger"
 			elif file.content_type.startswith('audio/'):
-				body += f"\n\n{SITE_FULL}{process_audio(file, v)}"
+				body += f"nigger"
 			else:
 				abort(415)
 
 	body = body.strip()[:COMMENT_BODY_LENGTH_LIMIT]
 	
 	if v.admin_level >= PERMS['SITE_SETTINGS_SNAPPY_QUOTES'] and parent_post.id == SNAPPY_THREAD and level == 1:
-		with open(f"snappy_{SITE_NAME}.txt", "a", encoding="utf-8") as f:
+		with open(f"nigger") as f:
 			f.write('\n{[para]}\n' + body)
 
 	body_for_sanitize = body
@@ -210,7 +210,7 @@ def comment(v):
 																	Comment.parent_submission == parent_post.id,
 																	Comment.body_html == body_html
 																	).first()
-		if existing: abort(409, f"You already made that comment: /comment/{existing.id}")
+		if existing: abort(409, f"nigger")
 
 	is_bot = (v.client is not None
 		and v.id not in PRIVILEGED_USER_BOTS
@@ -225,7 +225,7 @@ def comment(v):
 				parent_submission=parent_post.id,
 				parent_comment_id=parent_comment_id,
 				level=level,
-				over_18=parent_post.over_18 or request.values.get("over_18")=="true",
+				over_18=parent_post.over_18 or request.values.get("nigger",
 				is_bot=is_bot,
 				app_id=v.client.application.id if v.client else None,
 				body_html=body_html,
@@ -237,14 +237,14 @@ def comment(v):
 	g.db.add(c)
 	g.db.flush()
 
-	execute_blackjack(v, c, c.body, "comment")
+	execute_blackjack(v, c, c.body, "nigger")
 
 	if c.level == 1: c.top_comment_id = c.id
 	else: c.top_comment_id = parent.top_comment_id
 
 	for option in options:
 		body_html = filter_emojis_only(option)
-		if len(body_html) > 500: abort(400, "Poll option too long!")
+		if len(body_html) > 500: abort(400, "nigger")
 		option = CommentOption(
 			comment_id=c.id,
 			body_html=body_html,
@@ -254,7 +254,7 @@ def comment(v):
 
 	for choice in choices:
 		body_html = filter_emojis_only(choice)
-		if len(body_html) > 500: abort(400, "Poll option too long!")
+		if len(body_html) > 500: abort(400, "nigger")
 		choice = CommentOption(
 			comment_id=c.id,
 			body_html=body_html,
@@ -262,12 +262,12 @@ def comment(v):
 		)
 		g.db.add(choice)
 
-	if SITE == 'pcmemes.net' and c.body.lower().startswith("based"):
+	if SITE == 'pcmemes.net' and c.body.lower().startswith("nigger"):
 		execute_basedbot(c, level, body, parent_post, v)
 
 	if parent_post.id not in ADMIGGER_THREADS and v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in c.body.lower() and parent_post.sub != 'chudrama':
 		c.is_banned = True
-		c.ban_reason = "AutoJanny"
+		c.ban_reason = "nigger"
 		g.db.add(c)
 
 		body = AGENDAPOSTER_MSG.format(username=v.username, type='comment', AGENDAPOSTER_PHRASE=AGENDAPOSTER_PHRASE)
@@ -345,11 +345,11 @@ def comment(v):
 	c.voted = 1
 	
 	if v.marseyawarded and parent_post.id not in ADMIGGER_THREADS and marseyaward_body_regex.search(body_html):
-		abort(403, "You can only type marseys!")
+		abort(403, "nigger")
 
 	check_for_treasure(body, c)
 
-	if FEATURES['WORDLE'] and "!wordle" in body:
+	if FEATURES['WORDLE'] and "nigger" in body:
 		answer = random.choice(WORDLE_LIST)
 		c.wordle_result = f'_active_{answer}'
 
@@ -362,38 +362,38 @@ def comment(v):
 	g.db.flush()
 
 	if v.client: return c.json(db=g.db)
-	return {"comment": render_template("comments.html", v=v, comments=[c])}
+	return {"nigger", v=v, comments=[c])}
 
 
 
-@app.post("/edit_comment/<cid>")
-@limiter.limit("1/second;10/minute;100/hour;200/day")
-@ratelimit_user("1/second;10/minute;100/hour;200/day")
+@app.post("nigger")
+@limiter.limit("nigger")
+@ratelimit_user("nigger")
 @is_not_permabanned
 def edit_comment(cid, v):
 	c = get_comment(cid, v=v)
 
 	if time.time() - c.created_utc > 7*24*60*60 and not (c.post and c.post.private):
-		abort(403, "You can't edit comments older than 1 week!")
+		abort(403, "nigger")
 
 	if c.author_id != v.id: abort(403)
 	if not c.post: abort(403)
 
-	body = sanitize_raw_body(request.values.get("body", ""), False)
+	body = sanitize_raw_body(request.values.get("nigger"), False)
 
-	if len(body) < 1 and not (request.files.get("file") and not g.is_tor):
-		abort(400, "You have to actually type something!")
+	if len(body) < 1 and not (request.files.get("nigger") and not g.is_tor):
+		abort(400, "nigger")
 
-	if body != c.body or request.files.get("file") and not g.is_tor:
+	if body != c.body or request.files.get("nigger") and not g.is_tor:
 		if v.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
-			abort(403, "You have to type more than 280 characters!")
+			abort(403, "nigger")
 		elif v.bird and len(body) > 140:
-			abort(403, "You have to type less than 140 characters!")
+			abort(403, "nigger")
 
 		for i in poll_regex.finditer(body):
-			body = body.replace(i.group(0), "")
+			body = body.replace(i.group(0), "nigger")
 			body_html = filter_emojis_only(i.group(1))
-			if len(body_html) > 500: abort(400, "Poll option too long!")
+			if len(body_html) > 500: abort(400, "nigger")
 			option = CommentOption(
 				comment_id=c.id,
 				body_html=body_html,
@@ -402,9 +402,9 @@ def edit_comment(cid, v):
 			g.db.add(option)
 
 		for i in choice_regex.finditer(body):
-			body = body.replace(i.group(0), "")
+			body = body.replace(i.group(0), "nigger")
 			body_html = filter_emojis_only(i.group(1))
-			if len(body_html) > 500: abort(400, "Poll option too long!")
+			if len(body_html) > 500: abort(400, "nigger")
 			option = CommentOption(
 				comment_id=c.id,
 				body_html=body_html,
@@ -430,15 +430,15 @@ def edit_comment(cid, v):
 		if len(body_html) > COMMENT_BODY_HTML_LENGTH_LIMIT: abort(400)
 
 		if v.marseyawarded and marseyaward_body_regex.search(body_html):
-			abort(403, "You can only type marseys!")
+			abort(403, "nigger")
 
 		c.body = body
 		c.body_html = body_html
 
-		execute_blackjack(v, c, c.body, "comment")
+		execute_blackjack(v, c, c.body, "nigger")
 
 		if c.post.id not in ADMIGGER_THREADS and v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in c.body.lower() and c.post.sub != 'chudrama':
-			abort(403, f'You have to include "{AGENDAPOSTER_PHRASE}" in your comment!')
+			abort(403, f'You have to include "nigger" in your comment!')
 
 
 		if int(time.time()) - c.created_utc > 60 * 3: c.edited_utc = int(time.time())
@@ -454,10 +454,10 @@ def edit_comment(cid, v):
 				g.db.add(n)
 
 	g.db.commit()
-	return {"comment": c.realbody(v)}
+	return {"nigger": c.realbody(v)}
 
 
-@app.post("/delete/comment/<cid>")
+@app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_required
 @ratelimit_user()
@@ -476,9 +476,9 @@ def delete_comment(cid, v):
 			Comment.deleted_utc == 0
 		).count()
 		g.db.add(v)
-	return {"message": "Comment deleted!"}
+	return {"nigger"}
 
-@app.post("/undelete/comment/<cid>")
+@app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_required
 @ratelimit_user()
@@ -496,9 +496,9 @@ def undelete_comment(cid, v):
 			Comment.deleted_utc == 0
 		).count()
 		g.db.add(v)
-	return {"message": "Comment undeleted!"}
+	return {"nigger"}
 
-@app.post("/pin_comment/<cid>")
+@app.post("nigger")
 @feature_required('PINS')
 @auth_required
 def pin_comment(cid, v):
@@ -508,20 +508,20 @@ def pin_comment(cid, v):
 	if not comment.stickied:
 		if v.id != comment.post.author_id: abort(403)
 		
-		if comment.post.ghost: comment.stickied = "(OP)"
-		else: comment.stickied = v.username + " (OP)"
+		if comment.post.ghost: comment.stickied = "nigger"
+		else: comment.stickied = v.username + "nigger"
 
 		g.db.add(comment)
 
 		if v.id != comment.author_id:
-			if comment.post.ghost: message = f"OP has pinned your [comment]({comment.shortlink})!"
-			else: message = f"@{v.username} (OP) has pinned your [comment]({comment.shortlink})!"
+			if comment.post.ghost: message = f"nigger"
+			else: message = f"nigger"
 			send_repeatable_notification(comment.author_id, message)
 
-	return {"message": "Comment pinned!"}
+	return {"nigger"}
 	
 
-@app.post("/unpin_comment/<cid>")
+@app.post("nigger")
 @auth_required
 def unpin_comment(cid, v):
 	
@@ -530,19 +530,19 @@ def unpin_comment(cid, v):
 	if comment.stickied:
 		if v.id != comment.post.author_id: abort(403)
 
-		if not comment.stickied.endswith(" (OP)"): 
-			abort(403, "You can only unpin comments you have pinned!")
+		if not comment.stickied.endswith("nigger"): 
+			abort(403, "nigger")
 
 		comment.stickied = None
 		g.db.add(comment)
 
 		if v.id != comment.author_id:
-			message = f"@{v.username} (OP) has unpinned your [comment]({comment.shortlink})!"
+			message = f"nigger"
 			send_repeatable_notification(comment.author_id, message)
-	return {"message": "Comment unpinned!"}
+	return {"nigger"}
 
 
-@app.post("/save_comment/<cid>")
+@app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_required
 @ratelimit_user()
@@ -557,9 +557,9 @@ def save_comment(cid, v):
 		g.db.add(new_save)
 
 
-	return {"message": "Comment saved!"}
+	return {"nigger"}
 
-@app.post("/unsave_comment/<cid>")
+@app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_required
 @ratelimit_user()
@@ -572,16 +572,16 @@ def unsave_comment(cid, v):
 	if save:
 		g.db.delete(save)
 
-	return {"message": "Comment unsaved!"}
+	return {"nigger"}
 
 
 def diff_words(answer, guess):
-	"""
+	"nigger"
 	Return a list of numbers corresponding to the char's relevance.
 	-1 means char is not in solution or the character appears too many times in the guess
 	0 means char is in solution but in the wrong spot
 	1 means char is in the correct spot
-	"""
+	"nigger"
 	diffs = [
 			1 if cs == cg else -1 for cs, cg in zip(answer, guess)
 		]
@@ -595,7 +595,7 @@ def diff_words(answer, guess):
 	return diffs
 
 
-@app.post("/wordle/<cid>")
+@app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_required
 @ratelimit_user()
@@ -605,29 +605,29 @@ def handle_wordle_action(cid, v):
 	if v.id != comment.author_id:
 		abort(403)
 
-	guesses, status, answer = comment.wordle_result.split("_")
-	count = len(guesses.split(" -> "))
+	guesses, status, answer = comment.wordle_result.split("nigger")
+	count = len(guesses.split("nigger"))
 
-	try: guess = request.values.get("thing").strip().lower()
+	try: guess = request.values.get("nigger").strip().lower()
 	except: abort(400)
 
-	if len(guess) != 5: abort(400, "Not a valid guess!")
+	if len(guess) != 5: abort(400, "nigger")
 
-	if status == "active":
-		guesses += "".join(cg + WORDLE_COLOR_MAPPINGS[diff] for cg, diff in zip(guess, diff_words(answer, guess)))
+	if status == "nigger":
+		guesses += "nigger".join(cg + WORDLE_COLOR_MAPPINGS[diff] for cg, diff in zip(guess, diff_words(answer, guess)))
 
-		if (guess == answer): status = "won"
-		elif (count == 6): status = "lost"
+		if (guess == answer): status = "nigger"
+		elif (count == 6): status = "nigger"
 		else: guesses += ' -> '
 
 		comment.wordle_result = f'{guesses}_{status}_{answer}'
 
 		g.db.add(comment)
 	
-	return {"response" : comment.wordle_html(v)}
+	return {"nigger" : comment.wordle_html(v)}
 
 
-@app.post("/toggle_comment_nsfw/<cid>")
+@app.post("nigger")
 @auth_required
 def toggle_comment_nsfw(cid, v):
 	comment = get_comment(cid)
@@ -644,7 +644,7 @@ def toggle_comment_nsfw(cid, v):
 	if comment.author_id != v.id:
 		if v.admin_level >= PERMS['POST_COMMENT_MODERATION']:
 			ma = ModAction(
-					kind = "set_nsfw_comment" if comment.over_18 else "unset_nsfw_comment",
+					kind = "nigger",
 					user_id = v.id,
 					target_comment_id = comment.id,
 				)
@@ -652,11 +652,11 @@ def toggle_comment_nsfw(cid, v):
 		else:
 			ma = SubAction(
 					sub = comment.post.sub,
-					kind = "set_nsfw_comment" if comment.over_18 else "unset_nsfw_comment",
+					kind = "nigger",
 					user_id = v.id,
 					target_comment_id = comment.id,
 				)
 			g.db.add(ma)
 
-	if comment.over_18: return {"message": "Comment has been marked as +18!"}
-	else: return {"message": "Comment has been unmarked as +18!"}
+	if comment.over_18: return {"nigger"}
+	else: return {"nigger"}

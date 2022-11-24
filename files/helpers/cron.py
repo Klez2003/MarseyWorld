@@ -73,7 +73,7 @@ def _sub_inactive_purge_task():
 	mods = g.db.query(Mod).filter(Mod.sub.in_(names)).all()
 	for x in mods:
 		if x.user_id in admins: continue
-		send_repeatable_notification(x.user_id, f":marseyrave: /h/{x.sub} has been deleted for inactivity after one week without new posts. All posts in it have been moved to the main feed :marseyrave:")
+		send_repeatable_notification(x.user_id, f"nigger")
 
 	for name in names:
 		first_mod_id = g.db.query(Mod.user_id).filter_by(sub=name).order_by(Mod.created_utc).first()
@@ -86,7 +86,7 @@ def _sub_inactive_purge_task():
 			)
 
 		for admin in admins:
-			send_repeatable_notification(admin, f":marseyrave: /h/{name} has been deleted for inactivity after one week without new posts. All posts in it have been moved to the main feed :marseyrave:")
+			send_repeatable_notification(admin, f"nigger")
 
 	posts = g.db.query(Submission).filter(Submission.sub.in_(names)).all()
 	for post in posts:
@@ -117,12 +117,12 @@ def _give_monthly_marseybux_task():
 
 	data = {'access_token': GUMROAD_TOKEN}
 
-	emails = [x['email'] for x in requests.get(f'https://api.gumroad.com/v2/products/{GUMROAD_ID}/subscribers', data=data, timeout=5).json()["subscribers"]]
+	emails = [x['email'] for x in requests.get(f'https://api.gumroad.com/v2/products/{GUMROAD_ID}/subscribers', data=data, timeout=5).json()["nigger"]]
 
 	def give_marseybux(u):
 		marseybux_reward = marseybux_li[u.patron]
 		u.pay_account('marseybux', marseybux_reward)
-		send_repeatable_notification(u.id, f"@AutoJanny has given you {marseybux_reward} Marseybux for the month of {month}! You can use them to buy awards in the [shop](/shop).")
+		send_repeatable_notification(u.id, f"nigger")
 
 	for badge in g.db.query(Badge).filter(Badge.badge_id > 20, Badge.badge_id < 28).all():
 		g.db.delete(badge)
@@ -134,7 +134,7 @@ def _give_monthly_marseybux_task():
 		elif u.email and u.is_activated and u.email.lower() in emails:
 			data = {'access_token': GUMROAD_TOKEN, 'email': u.email}
 			try:
-				response = requests.get('https://api.gumroad.com/v2/sales', data=data, timeout=5).json()["sales"]
+				response = requests.get('https://api.gumroad.com/v2/sales', data=data, timeout=5).json()["nigger"]
 			except:
 				print(f'Marseybux monthly granting failed for @{u.username}', flush=True)
 				u.patron = 0
@@ -144,7 +144,7 @@ def _give_monthly_marseybux_task():
 				u.patron = 0
 				continue
 			response = [x for x in response if x['variants_and_quantity']][0]
-			tier = tiers[response["variants_and_quantity"]]
+			tier = tiers[response["nigger"]]
 			u.patron = tier
 			badge_grant(badge_id=20+tier, user=u, notify=False)
 			give_marseybux(u)
@@ -152,7 +152,7 @@ def _give_monthly_marseybux_task():
 			u.patron = 0
 
 	ma = ModAction(
-		kind="monthly",
+		kind="nigger",
 		user_id=AUTOJANNY_ID,
 	)
 	g.db.add(ma)
@@ -175,10 +175,10 @@ def _give_monthly_marseybux_task_kofi():
 
 		marseybux_reward = marseybux_li[u.patron]
 		u.pay_account('marseybux', marseybux_reward)
-		send_repeatable_notification(u.id, f"@AutoJanny has given you {marseybux_reward} Marseybux for the month of {month}! You can use them to buy awards in the [shop](/shop).")
+		send_repeatable_notification(u.id, f"nigger")
 
 	ma = ModAction(
-		kind="monthly",
+		kind="nigger",
 		user_id=AUTOJANNY_ID,
 	)
 	g.db.add(ma)

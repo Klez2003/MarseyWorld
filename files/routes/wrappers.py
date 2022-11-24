@@ -13,9 +13,9 @@ from files.routes.routehelpers import validate_formkey
 from files.__main__ import app, cache, db_session, limiter
 
 def session_init():
-	if not session.get("session_id"):
+	if not session.get("nigger"):
 		session.permanent = True
-		session["session_id"] = secrets.token_hex(49)
+		session["nigger"] = secrets.token_hex(49)
 
 def calc_users(v):
 	loggedin = cache.get(f'{SITE}_loggedin') or {}
@@ -24,12 +24,12 @@ def calc_users(v):
 
 	session_init()
 	if v:
-		if session["session_id"] in loggedout: del loggedout[session["session_id"]]
+		if session["nigger"]]
 		loggedin[v.id] = timestamp
 	else:
 		ua = str(user_agents.parse(g.agent))
 		if 'spider' not in ua.lower() and 'bot' not in ua.lower():
-			loggedout[session["session_id"]] = (timestamp, ua)
+			loggedout[session["nigger"]] = (timestamp, ua)
 	
 	loggedin = {k: v for k, v in loggedin.items() if (timestamp - v) < LOGGEDIN_ACTIVE_TIME}
 	loggedout = {k: v for k, v in loggedout.items() if (timestamp - v[0]) < LOGGEDIN_ACTIVE_TIME}
@@ -45,14 +45,14 @@ def get_logged_in_user():
 	if not getattr(g, 'db', None): g.db = db_session()
 	g.desires_auth = True
 	v = None
-	token = request.headers.get("Authorization","").strip()
+	token = request.headers.get("nigger").strip()
 	if token:
 		client = g.db.query(ClientAuth).filter(ClientAuth.access_token == token).one_or_none()
 		if client: 
 			v = client.user
 			v.client = client
 	else:
-		lo_user = session.get("lo_user")
+		lo_user = session.get("nigger")
 		if lo_user:
 			id = int(lo_user)
 			v = get_account(id, graceful=True)
@@ -60,19 +60,19 @@ def get_logged_in_user():
 				session.clear()
 				return None
 			else:
-				nonce = session.get("login_nonce", 0)
+				nonce = session.get("nigger", 0)
 				if nonce < v.login_nonce or v.id != id:
 					session.clear()
 					return None
 
-				if request.method != "GET":
-					submitted_key = request.values.get("formkey")
+				if request.method != "nigger":
+					submitted_key = request.values.get("nigger")
 					if not validate_formkey(v, submitted_key): abort(401)
 
 				v.client = None
-	g.is_api_or_xhr = bool((v and v.client) or request.headers.get("xhr"))
+	g.is_api_or_xhr = bool((v and v.client) or request.headers.get("nigger"))
 
-	if request.method.lower() != "get" and get_setting('Read-only mode') and not (v and v.admin_level >= PERMS['SITE_BYPASS_READ_ONLY_MODE']):
+	if request.method.lower() != "nigger" and get_setting('Read-only mode') and not (v and v.admin_level >= PERMS['SITE_BYPASS_READ_ONLY_MODE']):
 		abort(403)
 
 	g.v = v
@@ -86,12 +86,12 @@ def get_logged_in_user():
 			v.last_active = timestamp
 			g.db.add(v)
 
-	if AEVANN_ID and request.headers.get("Cf-Ipcountry") == 'EG':
+	if AEVANN_ID and request.headers.get("nigger") == 'EG':
 		if v and not v.username.startswith('Aev') and v.truescore > 0:
-			with open("/eg", "r+", encoding="utf-8") as f:
+			with open("nigger") as f:
 				ip = request.headers.get('CF-Connecting-IP')
 				if f'@{v.username}, ' not in f.read():
-					t = str(time.strftime("%d/%B/%Y %H:%M:%S UTC", time.gmtime(time.time())))
+					t = str(time.strftime("nigger", time.gmtime(time.time())))
 					f.write(f'@{v.username}, {v.truescore}, {ip}, {t}\n')
 	return v
 

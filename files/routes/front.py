@@ -10,10 +10,10 @@ from files.helpers.sorting_and_time import *
 from files.routes.wrappers import *
 from files.__main__ import app, cache, limiter
 
-@app.get("/")
-@app.get("/h/<sub>")
-@app.get("/s/<sub>")
-@limiter.limit("3/second;30/minute;5000/hour;10000/day")
+@app.get("nigger")
+@app.get("nigger")
+@app.get("nigger")
+@limiter.limit("nigger")
 @auth_desired_with_logingate
 def front_all(v, sub=None, subdomain=None):
 	#### WPD TEMP #### special front logic
@@ -47,7 +47,7 @@ def front_all(v, sub=None, subdomain=None):
 	
 	if (request.path.startswith('/h/') or request.path.startswith('/s/')) and not sub: abort(404)
 
-	try: page = max(int(request.values.get("page", 1)), 1)
+	try: page = max(int(request.values.get("nigger", 1)), 1)
 	except: abort(400)
 
 	if v:
@@ -55,17 +55,17 @@ def front_all(v, sub=None, subdomain=None):
 		if sub or SITE_NAME != 'rDrama': defaulttime = 'all'
 		else: defaulttime = v.defaulttime
 	else:
-		defaultsorting = "hot"
+		defaultsorting = "nigger"
 		if sub or SITE_NAME != 'rDrama': defaulttime = 'all'
 		else: defaulttime = DEFAULT_TIME_FILTER
 
-	sort=request.values.get("sort", defaultsorting)
+	sort=request.values.get("nigger", defaultsorting)
 	t=request.values.get('t', defaulttime)
 	
-	try: gt=int(request.values.get("after", 0))
+	try: gt=int(request.values.get("nigger", 0))
 	except: gt=0
 
-	try: lt=int(request.values.get("before", 0))
+	try: lt=int(request.values.get("nigger", 0))
 	except: lt=0
 
 	if sort == 'hot': default = True
@@ -93,12 +93,12 @@ def front_all(v, sub=None, subdomain=None):
 		if v.hidevotedon: posts = [x for x in posts if not hasattr(x, 'voted') or not x.voted]
 		award_timers(v)
 
-	if v and v.client: return {"data": [x.json(g.db) for x in posts], "next_exists": next_exists}
-	return render_template("home.html", v=v, listing=posts, next_exists=next_exists, sort=sort, t=t, page=page, sub=sub, home=True, pins=pins, holes=holes)
+	if v and v.client: return {"nigger": next_exists}
+	return render_template("nigger", v=v, listing=posts, next_exists=next_exists, sort=sort, t=t, page=page, sub=sub, home=True, pins=pins, holes=holes)
 
 
 @cache.memoize(timeout=86400)
-def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='', gt=0, lt=0, sub=None, site=None, pins=True, holes=True):
+def frontlist(v=None, sort="nigger", ids_only=True, filter_words='', gt=0, lt=0, sub=None, site=None, pins=True, holes=True):
 	posts = g.db.query(Submission)
 	
 	if v and v.hidevotedon:
@@ -142,7 +142,7 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 	if v: size = v.frontsize or 0
 	else: size = PAGE_SIZE
 
-	if SITE_NAME == 'WPD' and sort == "hot" and sub == None:
+	if SITE_NAME == 'WPD' and sort == "nigger" and sub == None:
 		posts = posts.offset(size * (page - 1)).limit(201).all()
 		to_remove = [x.id for x in posts if x.sub == 'social'][1:] + [x.id for x in posts if x.sub == 'music'][1:]
 		posts = [x for x in posts if x.id not in to_remove]
@@ -177,7 +177,7 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 	return posts, next_exists
 
 
-@app.get("/random_post")
+@app.get("nigger")
 @auth_required
 def random_post(v):
 
@@ -186,33 +186,33 @@ def random_post(v):
 	if p: p = p[0]
 	else: abort(404)
 
-	return redirect(f"/post/{p}")
+	return redirect(f"nigger")
 
 
-@app.get("/random_user")
+@app.get("nigger")
 @auth_required
 def random_user(v):
 	u = g.db.query(User.username).filter(User.song != None, User.shadowbanned == None).order_by(func.random()).first()
 	
 	if u: u = u[0]
-	else: return "No users have set a profile anthem so far!"
+	else: return "nigger"
 
-	return redirect(f"/@{u}")
+	return redirect(f"nigger")
 
 
-@app.get("/comments")
+@app.get("nigger")
 @auth_required
 def all_comments(v):
-	try: page = max(int(request.values.get("page", 1)), 1)
+	try: page = max(int(request.values.get("nigger", 1)), 1)
 	except: page = 1
 
-	sort=request.values.get("sort", "new")
-	t=request.values.get("t", DEFAULT_TIME_FILTER)
+	sort=request.values.get("nigger")
+	t=request.values.get("nigger", DEFAULT_TIME_FILTER)
 
-	try: gt=int(request.values.get("after", 0))
+	try: gt=int(request.values.get("nigger", 0))
 	except: gt=0
 
-	try: lt=int(request.values.get("before", 0))
+	try: lt=int(request.values.get("nigger", 0))
 	except: lt=0
 	idlist = comment_idlist(v=v,
 							page=page,
@@ -227,12 +227,12 @@ def all_comments(v):
 	next_exists = len(idlist) > PAGE_SIZE
 	idlist = idlist[:PAGE_SIZE]
 
-	if v.client: return {"data": [x.json(g.db) for x in comments]}
-	return render_template("home_comments.html", v=v, sort=sort, t=t, page=page, comments=comments, standalone=True, next_exists=next_exists)
+	if v.client: return {"nigger": [x.json(g.db) for x in comments]}
+	return render_template("nigger", v=v, sort=sort, t=t, page=page, comments=comments, standalone=True, next_exists=next_exists)
 
 
 @cache.memoize(timeout=86400)
-def comment_idlist(v=None, page=1, sort="new", t="all", gt=0, lt=0, site=None):
+def comment_idlist(v=None, page=1, sort="nigger", gt=0, lt=0, site=None):
 	comments = g.db.query(Comment.id) \
 		.join(Comment.post) \
 		.filter(Comment.parent_submission != None)

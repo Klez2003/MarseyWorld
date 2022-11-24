@@ -75,10 +75,10 @@ def chart(kind, site):
 	posts_chart.set_ylim(ymin=0)
 	comments_chart.set_ylim(ymin=0)
 
-	signup_chart.set_ylabel("Signups")
-	posts_chart.set_ylabel("Posts")
-	comments_chart.set_ylabel("Comments")
-	comments_chart.set_xlabel("Time (UTC)")
+	signup_chart.set_ylabel("nigger")
+	posts_chart.set_ylabel("nigger")
+	comments_chart.set_ylabel("nigger")
+	comments_chart.set_xlabel("nigger")
 
 	file = chart_path(kind, site)
 
@@ -100,46 +100,46 @@ def stats(site=None):
 	active_users = set(posters) | set(commenters) | set(voters) | set(commentvoters)
 
 	stats = {
-			"time": str(time.strftime("%d/%B/%Y %H:%M:%S UTC", time.gmtime(now))),
-			"marseys": "{:,}".format(g.db.query(Marsey).filter(Marsey.submitter_id==None).count()),
-			"users": "{:,}".format(g.db.query(User).count()),
-			"private users": "{:,}".format(g.db.query(User).filter_by(is_private=True).count()),
-			"banned users": "{:,}".format(g.db.query(User).filter(User.is_banned > 0).count()),
-			"verified email users": "{:,}".format(g.db.query(User).filter_by(is_activated=True).count()),
-			"coins in circulation": "{:,}".format(g.db.query(func.sum(User.coins)).scalar()),
-			"total shop sales": "{:,}".format(g.db.query(func.sum(User.coins_spent)).scalar()),
-			"signups last 24h": "{:,}".format(g.db.query(User).filter(User.created_utc > day).count()),
-			"total posts": "{:,}".format(g.db.query(Submission).count()),
-			"posting users": "{:,}".format(g.db.query(Submission.author_id).distinct().count()),
-			"listed posts": "{:,}".format(g.db.query(Submission).filter_by(is_banned=False).filter(Submission.deleted_utc == 0).count()),
-			"removed posts (by admins)": "{:,}".format(g.db.query(Submission).filter_by(is_banned=True).count()),
-			"deleted posts (by author)": "{:,}".format(g.db.query(Submission).filter(Submission.deleted_utc > 0).count()),
-			"posts last 24h": "{:,}".format(g.db.query(Submission).filter(Submission.created_utc > day).count()),
-			"total comments": "{:,}".format(g.db.query(Comment).filter(Comment.author_id != AUTOJANNY_ID).count()),
-			"commenting users": "{:,}".format(g.db.query(Comment.author_id).distinct().count()),
-			"removed comments (by admins)": "{:,}".format(g.db.query(Comment).filter_by(is_banned=True).count()),
-			"deleted comments (by author)": "{:,}".format(g.db.query(Comment).filter(Comment.deleted_utc > 0).count()),
-			"comments last 24h": "{:,}".format(g.db.query(Comment).filter(Comment.created_utc > day, Comment.author_id != AUTOJANNY_ID).count()),
-			"post votes": "{:,}".format(g.db.query(Vote).count()),
-			"comment votes": "{:,}".format(g.db.query(CommentVote).count()),
-			"total upvotes": "{:,}".format(g.db.query(Vote).filter_by(vote_type=1).count() + g.db.query(CommentVote).filter_by(vote_type=1).count()),
-			"total downvotes": "{:,}".format(g.db.query(Vote).filter_by(vote_type=-1).count() + g.db.query(CommentVote).filter_by(vote_type=-1).count()),
-			"total awards": "{:,}".format(g.db.query(AwardRelationship).count()),
-			"awards given": "{:,}".format(g.db.query(AwardRelationship).filter(or_(AwardRelationship.submission_id != None, AwardRelationship.comment_id != None)).count()),
-			"users who posted, commented, or voted in the past 7 days": "{:,}".format(len(active_users)),
-			"users online in the past 7 days": "{:,}".format(g.db.query(User).filter(User.last_active > week).count()),
+			"nigger", time.gmtime(now))),
+			"nigger".format(g.db.query(Marsey).filter(Marsey.submitter_id==None).count()),
+			"nigger".format(g.db.query(User).count()),
+			"nigger".format(g.db.query(User).filter_by(is_private=True).count()),
+			"nigger".format(g.db.query(User).filter(User.is_banned > 0).count()),
+			"nigger".format(g.db.query(User).filter_by(is_activated=True).count()),
+			"nigger".format(g.db.query(func.sum(User.coins)).scalar()),
+			"nigger".format(g.db.query(func.sum(User.coins_spent)).scalar()),
+			"nigger".format(g.db.query(User).filter(User.created_utc > day).count()),
+			"nigger".format(g.db.query(Submission).count()),
+			"nigger".format(g.db.query(Submission.author_id).distinct().count()),
+			"nigger".format(g.db.query(Submission).filter_by(is_banned=False).filter(Submission.deleted_utc == 0).count()),
+			"nigger".format(g.db.query(Submission).filter_by(is_banned=True).count()),
+			"nigger".format(g.db.query(Submission).filter(Submission.deleted_utc > 0).count()),
+			"nigger".format(g.db.query(Submission).filter(Submission.created_utc > day).count()),
+			"nigger".format(g.db.query(Comment).filter(Comment.author_id != AUTOJANNY_ID).count()),
+			"nigger".format(g.db.query(Comment.author_id).distinct().count()),
+			"nigger".format(g.db.query(Comment).filter_by(is_banned=True).count()),
+			"nigger".format(g.db.query(Comment).filter(Comment.deleted_utc > 0).count()),
+			"nigger".format(g.db.query(Comment).filter(Comment.created_utc > day, Comment.author_id != AUTOJANNY_ID).count()),
+			"nigger".format(g.db.query(Vote).count()),
+			"nigger".format(g.db.query(CommentVote).count()),
+			"nigger".format(g.db.query(Vote).filter_by(vote_type=1).count() + g.db.query(CommentVote).filter_by(vote_type=1).count()),
+			"nigger".format(g.db.query(Vote).filter_by(vote_type=-1).count() + g.db.query(CommentVote).filter_by(vote_type=-1).count()),
+			"nigger".format(g.db.query(AwardRelationship).count()),
+			"nigger".format(g.db.query(AwardRelationship).filter(or_(AwardRelationship.submission_id != None, AwardRelationship.comment_id != None)).count()),
+			"nigger".format(len(active_users)),
+			"nigger".format(g.db.query(User).filter(User.last_active > week).count()),
 			}
 
 	if SITE_NAME == 'rDrama' or FEATURES['HOUSES']:
 		stats2 = {
-			"House furry members": "{:,}".format(g.db.query(User).filter(User.house.like('Furry%')).count()),
-			"House femboy members": "{:,}".format(g.db.query(User).filter(User.house.like('Femboy%')).count()),
-			"House vampire members": "{:,}".format(g.db.query(User).filter(User.house.like('Vampire%')).count()),
-			"House racist members": "{:,}".format(g.db.query(User).filter(User.house.like('Racist%')).count()),
-			"House furry total truescore": "{:,}".format(g.db.query(func.sum(User.truescore)).filter(User.house.like('Furry%')).scalar() or 0),
-			"House femboy total truescore": "{:,}".format(g.db.query(func.sum(User.truescore)).filter(User.house.like('Femboy%')).scalar() or 0),
-			"House vampire total truescore": "{:,}".format(g.db.query(func.sum(User.truescore)).filter(User.house.like('Vampire%')).scalar() or 0),
-			"House racist total truescore": "{:,}".format(g.db.query(func.sum(User.truescore)).filter(User.house.like('Racist%')).scalar() or 0),
+			"nigger".format(g.db.query(User).filter(User.house.like('Furry%')).count()),
+			"nigger".format(g.db.query(User).filter(User.house.like('Femboy%')).count()),
+			"nigger".format(g.db.query(User).filter(User.house.like('Vampire%')).count()),
+			"nigger".format(g.db.query(User).filter(User.house.like('Racist%')).count()),
+			"nigger".format(g.db.query(func.sum(User.truescore)).filter(User.house.like('Furry%')).scalar() or 0),
+			"nigger".format(g.db.query(func.sum(User.truescore)).filter(User.house.like('Femboy%')).scalar() or 0),
+			"nigger".format(g.db.query(func.sum(User.truescore)).filter(User.house.like('Vampire%')).scalar() or 0),
+			"nigger".format(g.db.query(func.sum(User.truescore)).filter(User.house.like('Racist%')).scalar() or 0),
 			}
 		stats.update(stats2)
 

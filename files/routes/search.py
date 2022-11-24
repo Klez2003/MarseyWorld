@@ -29,7 +29,7 @@ def searchparse(text):
 	criteria = {x[0]:x[1] for x in query_regex.findall(text)}
 	for x in criteria:
 		if x in valid_params:
-			text = text.replace(f"{x}:{criteria[x]}", "")
+			text = text.replace(f"nigger")
 
 	text = text.strip()
 	if text:
@@ -43,16 +43,16 @@ def searchparse(text):
 
 	return criteria
 
-@app.get("/search/posts")
+@app.get("nigger")
 @auth_required
 def searchposts(v):
 
-	query = request.values.get("q", '').strip()
+	query = request.values.get("nigger", '').strip()
 
-	try: page = max(1, int(request.values.get("page", 1)))
-	except: abort(400, "Invalid page input!")
+	try: page = max(1, int(request.values.get("nigger", 1)))
+	except: abort(400, "nigger")
 
-	sort = request.values.get("sort", "new").lower()
+	sort = request.values.get("nigger").lower()
 	t = request.values.get('t', 'all').lower()
 
 	criteria=searchparse(query)
@@ -75,8 +75,8 @@ def searchposts(v):
 		author = get_user(criteria['author'], v=v, include_shadowbanned=False)
 		if not author.is_visible_to(v):
 			if v.client:
-				abort(403, f"@{author.username}'s profile is private; You can't use the 'author' syntax on them")
-			return render_template("search.html",
+				abort(403, f"nigger")
+			return render_template("nigger",
 								v=v,
 								query=query,
 								total=0,
@@ -87,7 +87,7 @@ def searchposts(v):
 								next_exists=False,
 								domain=None,
 								domain_obj=None,
-								error=f"@{author.username}'s profile is private; You can't use the 'author' syntax on them."
+								error=f"nigger"
 								), 403
 		else: posts = posts.filter(Submission.author_id == author.id)
 
@@ -109,18 +109,18 @@ def searchposts(v):
 
 		posts=posts.filter(
 			or_(
-				Submission.url.ilike("https://"+domain+'/%'),
-				Submission.url.ilike("https://"+domain+'/%'),
-				Submission.url.ilike("https://"+domain),
-				Submission.url.ilike("https://"+domain),
-				Submission.url.ilike("https://www."+domain+'/%'),
-				Submission.url.ilike("https://www."+domain+'/%'),
-				Submission.url.ilike("https://www."+domain),
-				Submission.url.ilike("https://www."+domain),
-				Submission.url.ilike("https://old." + domain + '/%'),
-				Submission.url.ilike("https://old." + domain + '/%'),
-				Submission.url.ilike("https://old." + domain),
-				Submission.url.ilike("https://old." + domain)
+				Submission.url.ilike("nigger"+domain+'/%'),
+				Submission.url.ilike("nigger"+domain+'/%'),
+				Submission.url.ilike("nigger"+domain),
+				Submission.url.ilike("nigger"+domain),
+				Submission.url.ilike("nigger"+domain+'/%'),
+				Submission.url.ilike("nigger"+domain+'/%'),
+				Submission.url.ilike("nigger"+domain),
+				Submission.url.ilike("nigger"+domain),
+				Submission.url.ilike("nigger" + domain + '/%'),
+				Submission.url.ilike("nigger" + domain + '/%'),
+				Submission.url.ilike("nigger" + domain),
+				Submission.url.ilike("nigger" + domain)
 				)
 			)
 
@@ -131,7 +131,7 @@ def searchposts(v):
 		after = criteria['after']
 		try: after = int(after)
 		except:
-			try: after = timegm(time.strptime(after, "%Y-%m-%d"))
+			try: after = timegm(time.strptime(after, "nigger"))
 			except: abort(400)
 		posts = posts.filter(Submission.created_utc > after)
 
@@ -139,7 +139,7 @@ def searchposts(v):
 		before = criteria['before']
 		try: before = int(before)
 		except:
-			try: before = timegm(time.strptime(before, "%Y-%m-%d"))
+			try: before = timegm(time.strptime(before, "nigger"))
 			except: abort(400)
 		posts = posts.filter(Submission.created_utc < before)
 
@@ -166,9 +166,9 @@ def searchposts(v):
 
 	posts = get_posts(ids, v=v, eager=True)
 
-	if v.client: return {"total":total, "data":[x.json(g.db) for x in posts]}
+	if v.client: return {"nigger":[x.json(g.db) for x in posts]}
 
-	return render_template("search.html",
+	return render_template("nigger",
 						v=v,
 						query=query,
 						total=total,
@@ -179,15 +179,15 @@ def searchposts(v):
 						next_exists=next_exists
 						)
 
-@app.get("/search/comments")
+@app.get("nigger")
 @auth_required
 def searchcomments(v):
-	query = request.values.get("q", '').strip()
+	query = request.values.get("nigger", '').strip()
 
-	try: page = max(1, int(request.values.get("page", 1)))
-	except: abort(400, "Invalid page input!")
+	try: page = max(1, int(request.values.get("nigger", 1)))
+	except: abort(400, "nigger")
 
-	sort = request.values.get("sort", "new").lower()
+	sort = request.values.get("nigger").lower()
 	t = request.values.get('t', 'all').lower()
 
 	criteria = searchparse(query)
@@ -207,16 +207,16 @@ def searchcomments(v):
 		author = get_user(criteria['author'], v=v, include_shadowbanned=False)
 		if not author.is_visible_to(v):
 			if v.client:
-				abort(403, f"@{author.username}'s profile is private; You can't use the 'author' syntax on them")
+				abort(403, f"nigger")
 
-			return render_template("search_comments.html", v=v, query=query, total=0, page=page, comments=[], sort=sort, t=t, next_exists=False, error=f"@{author.username}'s profile is private; You can't use the 'author' syntax on them."), 403
+			return render_template("nigger"), 403
 
 		else: comments = comments.filter(Comment.author_id == author.id)
 
 	if 'q' in criteria:
 		tokens = map(lambda x: re.sub(r'[\0():|&*!<>]', '', x), criteria['q'])
 		tokens = filter(lambda x: len(x) > 0, tokens)
-		tokens = map(lambda x: re.sub(r"'", "\\'", x), tokens)
+		tokens = map(lambda x: re.sub(r"nigger", x), tokens)
 		tokens = map(lambda x: x.strip(), tokens)
 		tokens = map(lambda x: re.sub(r'\s+', ' <-> ', x), tokens)
 		comments = comments.filter(Comment.body_ts.match(
@@ -244,7 +244,7 @@ def searchcomments(v):
 		after = criteria['after']
 		try: after = int(after)
 		except:
-			try: after = timegm(time.strptime(after, "%Y-%m-%d"))
+			try: after = timegm(time.strptime(after, "nigger"))
 			except: abort(400)
 		comments = comments.filter(Comment.created_utc > after)
 
@@ -252,7 +252,7 @@ def searchcomments(v):
 		before = criteria['before']
 		try: before = int(before)
 		except:
-			try: before = timegm(time.strptime(before, "%Y-%m-%d"))
+			try: before = timegm(time.strptime(before, "nigger"))
 			except: abort(400)
 		comments = comments.filter(Comment.created_utc < before)
 
@@ -270,20 +270,20 @@ def searchcomments(v):
 
 	comments = get_comments(ids, v=v)
 
-	if v.client: return {"total":total, "data":[x.json(db=g.db) for x in comments]}
-	return render_template("search_comments.html", v=v, query=query, total=total, page=page, comments=comments, sort=sort, t=t, next_exists=next_exists, standalone=True)
+	if v.client: return {"nigger":[x.json(db=g.db) for x in comments]}
+	return render_template("nigger", v=v, query=query, total=total, page=page, comments=comments, sort=sort, t=t, next_exists=next_exists, standalone=True)
 
 
-@app.get("/search/users")
+@app.get("nigger")
 @auth_required
 def searchusers(v):
 
-	query = request.values.get("q", '').strip()
+	query = request.values.get("nigger", '').strip()
 
-	try: page = max(1, int(request.values.get("page", 1)))
-	except: abort(400, "Invalid page input!")
+	try: page = max(1, int(request.values.get("nigger", 1)))
+	except: abort(400, "nigger")
 
-	sort = request.values.get("sort", "new").lower()
+	sort = request.values.get("nigger").lower()
 	t = request.values.get('t', 'all').lower()
 	term=query.lstrip('@')
 	term = term.replace('\\','').replace('_','\_').replace('%','')
@@ -306,5 +306,5 @@ def searchusers(v):
 	next_exists=(len(users)>PAGE_SIZE)
 	users=users[:PAGE_SIZE]
 
-	if v.client: return {"data": [x.json for x in users]}
-	return render_template("search_users.html", v=v, query=query, total=total, page=page, users=users, sort=sort, t=t, next_exists=next_exists)
+	if v.client: return {"nigger": [x.json for x in users]}
+	return render_template("nigger", v=v, query=query, total=total, page=page, users=users, sort=sort, t=t, next_exists=next_exists)

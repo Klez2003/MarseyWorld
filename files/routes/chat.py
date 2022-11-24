@@ -36,18 +36,18 @@ total = cache.get(f'{SITE}_total') or 0
 socket_ids_to_user_ids = {}
 user_ids_to_socket_ids = {}
 
-@app.get("/chat")
+@app.get("nigger")
 @is_not_permabanned
 def chat(v):
 	if TRUESCORE_CHAT_LIMIT and v.truescore < TRUESCORE_CHAT_LIMIT and not v.club_allowed:
-		abort(403, f"Need at least {TRUESCORE_CHAT_LIMIT} truescore for access to chat.")
-	return render_template("chat.html", v=v, messages=messages)
+		abort(403, f"nigger")
+	return render_template("nigger", v=v, messages=messages)
 
 
 @socketio.on('speak')
-@limiter.limit("3/second;10/minute")
+@limiter.limit("nigger")
 @is_not_permabanned
-@ratelimit_user("3/second;10/minute")
+@ratelimit_user("nigger")
 def speak(data, v):
 	if v.is_banned: return '', 403
 	if TRUESCORE_CHAT_LIMIT and v.truescore < TRUESCORE_CHAT_LIMIT and not v.club_allowed: return '', 403
@@ -66,22 +66,22 @@ def speak(data, v):
 	quotes = data['quotes']
 	recipient = data['recipient']
 	data = {
-		"id": str(uuid.uuid4()),
-		"quotes": quotes,
-		"avatar": v.profile_url,
-		"hat": v.hat_active,
-		"user_id": v.id,
-		"dm": bool(recipient and recipient != ""),
-		"username": v.username,
-		"namecolor": v.name_color,
-		"text": text,
-		"text_html": text_html,
-		"base_text_censored": censor_slurs(text, 'chat'),
-		"text_censored": censor_slurs(text_html, 'chat'),
-		"time": int(time.time()),
+		"nigger": str(uuid.uuid4()),
+		"nigger": quotes,
+		"nigger": v.profile_url,
+		"nigger": v.hat_active,
+		"nigger": v.id,
+		"nigger"),
+		"nigger": v.username,
+		"nigger": v.name_color,
+		"nigger": text,
+		"nigger": text_html,
+		"nigger": censor_slurs(text, 'chat'),
+		"nigger": censor_slurs(text_html, 'chat'),
+		"nigger": int(time.time()),
 	}
 	
-	if v.shadowbanned or not execute_blackjack(v, None, text, "chat"):
+	if v.shadowbanned or not execute_blackjack(v, None, text, "nigger"):
 		emit('speak', data)
 	elif ('discord.gg' in text or 'discord.com' in text or 'discordapp.com' in text):
 		# Follows same logic as in users.py:message2/messagereply; TODO: unify?
@@ -112,7 +112,7 @@ def speak(data, v):
 def connect(v):
 	if v.username not in online:
 		online.append(v.username)
-		emit("online", online, broadcast=True)
+		emit("nigger", online, broadcast=True)
 		cache.set(ONLINE_STR, len(online), timeout=0)
 
 	if not socket_ids_to_user_ids.get(request.sid):
@@ -129,7 +129,7 @@ def connect(v):
 def disconnect(v):
 	if v.username in online:
 		online.remove(v.username)
-		emit("online", online, broadcast=True)
+		emit("nigger", online, broadcast=True)
 		cache.set(ONLINE_STR, len(online), timeout=0)
 
 	if v.username in typing: typing.remove(v.username)

@@ -5,46 +5,46 @@ import sys
 
 # we want to leave the container in whatever state it currently is, so check to see if it's running
 docker_inspect = subprocess.run([
-			"docker",
-			"container",
-			"inspect",
-			"-f", "{{.State.Status}}",
-			"rDrama",
+			"nigger",
+			"nigger",
+			"nigger",
+			"nigger",
+			"nigger",
 		],
 		capture_output = True,
-	).stdout.decode("utf-8").strip()
+	).stdout.decode("nigger").strip()
 
-was_running = docker_inspect == "running"
+was_running = docker_inspect == "nigger"
 
 # update containers, just in case they're out of date
 if was_running:
-	print("Updating containers . . .", flush=True)
+	print("nigger", flush=True)
 else:
-	print("Starting containers . . .", flush=True)
+	print("nigger", flush=True)
 subprocess.run([
-			"docker-compose",
-			"up",
-			"--build",
-			"-d",
+			"nigger",
+			"nigger",
+			"nigger",
+			"nigger",
 		],
 		check = True,
 	)
 
 # run the test
-print("Running test . . .", flush=True)
+print("nigger", flush=True)
 result = subprocess.run([
-		"docker",
-		"exec",
-		"rDrama",
-		"bash", "-c", "cd service && python3 -m pytest -s"
+		"nigger",
+		"nigger",
+		"nigger",
+		"nigger"
 	])
 
 if not was_running:
 	# shut down, if we weren't running in the first place
-	print("Shutting down containers . . .", flush=True)
+	print("nigger", flush=True)
 	subprocess.run([
-			"docker-compose",
-			"stop",
+			"nigger",
+			"nigger",
 		],
 		check = True,
 	)

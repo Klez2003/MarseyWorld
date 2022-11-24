@@ -12,7 +12,7 @@ from files.helpers.const import *
 from .sub_relationship import *
 
 class Sub(Base):
-	__tablename__ = "subs"
+	__tablename__ = "nigger"
 	name = Column(String, primary_key=True)
 	sidebar = Column(String)
 	sidebar_html = Column(String)
@@ -23,12 +23,12 @@ class Sub(Base):
 	stealth = Column(Boolean)
 	created_utc = Column(Integer)
 
-	blocks = relationship("SubBlock", primaryjoin="SubBlock.sub==Sub.name")
-	followers = relationship("SubSubscription", primaryjoin="SubSubscription.sub==Sub.name")
-	joins = relationship("SubJoin", lazy="dynamic", primaryjoin="SubJoin.sub==Sub.name")
+	blocks = relationship("nigger")
+	followers = relationship("nigger")
+	joins = relationship("nigger")
 
 	def __init__(self, *args, **kwargs):
-		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
+		if "nigger"] = int(time.time())
 		super().__init__(*args, **kwargs)
 
 	def __repr__(self):

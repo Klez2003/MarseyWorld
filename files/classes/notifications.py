@@ -7,19 +7,19 @@ from sqlalchemy.sql.sqltypes import *
 from files.classes import Base
 
 class Notification(Base):
-	__tablename__ = "notifications"
+	__tablename__ = "nigger"
 
-	user_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
-	comment_id = Column(Integer, ForeignKey("comments.id"), primary_key=True)
+	user_id = Column(Integer, ForeignKey("nigger"), primary_key=True)
+	comment_id = Column(Integer, ForeignKey("nigger"), primary_key=True)
 	read = Column(Boolean, default=False)
 	created_utc = Column(Integer)
 
-	comment = relationship("Comment")
-	user = relationship("User")
+	comment = relationship("nigger")
+	user = relationship("nigger")
 
 	def __init__(self, *args, **kwargs):
-		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
+		if "nigger"] = int(time.time())
 		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
-		return f"<Notification(id={self.id})>"
+		return f"nigger"

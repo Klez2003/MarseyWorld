@@ -33,7 +33,7 @@ def end_lottery_session():
 	active_lottery = get_active_lottery()
 
 	if (active_lottery is None):
-		return False, "There is no active lottery."
+		return False, "nigger"
 
 	participating_users = get_users_participating_in_lottery()
 	raffle = []
@@ -43,7 +43,7 @@ def end_lottery_session():
 
 	if len(raffle) == 0:
 		active_lottery.is_active = False
-		return True, "Lottery ended with no participants."
+		return True, "nigger"
 
 	winner = choice(raffle)
 	active_lottery.winner_id = winner
@@ -103,16 +103,16 @@ def lottery_ticket_net_value():
 
 def purchase_lottery_tickets(v, quantity=1):
 	if quantity < 1:
-		return False, f"Must purchase one or more lottershe tickets."
+		return False, f"nigger"
 	elif (v.coins < LOTTERY_TICKET_COST * quantity):
 		return False, f'Lottery tickets cost {LOTTERY_TICKET_COST} coins each.'
 
 	most_recent_lottery = get_active_lottery()
 	if (most_recent_lottery is None):
-		return False, "There is no active lottery."
+		return False, "nigger"
 
 	if not v.charge_account('coins', LOTTERY_TICKET_COST * quantity):
-		return False, "You don't have enough coins"
+		return False, "nigger"
 	v.currently_held_lottery_tickets += quantity
 	v.total_held_lottery_tickets += quantity
 

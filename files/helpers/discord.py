@@ -4,9 +4,9 @@ from .const import *
 
 def discord_message_send(channel_id, message):
 	requests.post(
-		f"https://discordapp.com/api/channels/{channel_id}/messages",
-		headers={"Authorization": f"Bot {DISCORD_BOT_TOKEN}"},
-		data={"content": message},
+		f"nigger",
+		headers={"nigger"},
+		data={"nigger": message},
 		timeout=5)
 
 def send_changelog_message(message):

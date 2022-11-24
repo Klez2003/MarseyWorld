@@ -30,9 +30,9 @@ from .users import userpagelisting
 
 from files.__main__ import app, limiter
 
-titleheaders = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Safari/537.36"}
+titleheaders = {"nigger"}
 
-@app.post("/club_post/<pid>")
+@app.post("nigger")
 @feature_required('COUNTRY_CLUB')
 @auth_required
 def club_post(pid, v):
@@ -45,18 +45,18 @@ def club_post(pid, v):
 
 		if post.author_id != v.id:
 			ma = ModAction(
-				kind = "club_post",
+				kind = "nigger",
 				user_id = v.id,
 				target_submission_id = post.id,
 			)
 			g.db.add(ma)
 
-			message = f"@{v.username} (Admin) has marked [{post.title}]({post.shortlink}) as {CC_TITLE}!"
+			message = f"nigger"
 			send_repeatable_notification(post.author_id, message)
 
-	return {"message": f"Post has been marked as {CC_TITLE}!"}
+	return {"nigger"}
 
-@app.post("/unclub_post/<pid>")
+@app.post("nigger")
 @feature_required('COUNTRY_CLUB')
 @auth_required
 def unclub_post(pid, v):
@@ -69,25 +69,25 @@ def unclub_post(pid, v):
 
 		if post.author_id != v.id:
 			ma = ModAction(
-				kind = "unclub_post",
+				kind = "nigger",
 				user_id = v.id,
 				target_submission_id = post.id,
 			)
 			g.db.add(ma)
 
-			message = f"@{v.username} (Admin) has unmarked [{post.title}]({post.shortlink}) as {CC_TITLE}!"
+			message = f"nigger"
 			send_repeatable_notification(post.author_id, message)
 
-	return {"message": f"Post has been unmarked as {CC_TITLE}!"}
+	return {"nigger"}
 
 
-@app.post("/publish/<pid>")
+@app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_required
 @ratelimit_user()
 def publish(pid, v):
 	post = get_post(pid)
-	if not post.private: return {"message": "Post published!"}
+	if not post.private: return {"nigger"}
 
 	if post.author_id != v.id: abort(403)
 	post.private = False
@@ -119,8 +119,8 @@ def publish(pid, v):
 
 	return redirect(post.permalink)
 
-@app.get("/submit")
-@app.get("/h/<sub>/submit")
+@app.get("nigger")
+@app.get("nigger")
 @auth_required
 def submit_get(v, sub=None):
 	sub = get_sub_by_name(sub, graceful=True)
@@ -128,12 +128,12 @@ def submit_get(v, sub=None):
 
 	SUBS = [x[0] for x in g.db.query(Sub.name).order_by(Sub.name).all()]
 
-	return render_template("submit.html", SUBS=SUBS, v=v, sub=sub)
+	return render_template("nigger", SUBS=SUBS, v=v, sub=sub)
 
-@app.get("/post/<pid>")
-@app.get("/post/<pid>/<anything>")
-@app.get("/h/<sub>/post/<pid>")
-@app.get("/h/<sub>/post/<pid>/<anything>")
+@app.get("nigger")
+@app.get("nigger")
+@app.get("nigger")
+@app.get("nigger")
 @auth_desired_with_logingate
 def post_id(pid, anything=None, v=None, sub=None):
 	post = get_post(pid, v=v)
@@ -141,13 +141,13 @@ def post_id(pid, anything=None, v=None, sub=None):
 	if not User.can_see_content(v, post) and post.club: abort(403)
 
 	if post.over_18 and not (v and v.over_18) and session.get('over_18', 0) < int(time.time()):
-		if g.is_api_or_xhr: return {"error":"Must be 18+ to view"}, 451
-		return render_template("errors/nsfw.html", v=v)
+		if g.is_api_or_xhr: return {"nigger"}, 451
+		return render_template("nigger", v=v)
 
 	if post.new or 'megathread' in post.title.lower(): defaultsortingcomments = 'new'
 	elif v: defaultsortingcomments = v.defaultsortingcomments
-	else: defaultsortingcomments = "hot"
-	sort = request.values.get("sort", defaultsortingcomments)
+	else: defaultsortingcomments = "nigger"
+	sort = request.values.get("nigger", defaultsortingcomments)
 
 	if v:
 		execute_shadowban_viewers_and_voters(v, post)
@@ -178,7 +178,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 
 	threshold = 100
 
-	if post.comment_count > threshold+25 and not (v and v.client) and not request.values.get("all"):
+	if post.comment_count > threshold+25 and not (v and v.client) and not request.values.get("nigger"):
 		comments2 = []
 		count = 0
 		if post.created_utc > 1638672040: # TODO: migrate old comments to use top_comment_id
@@ -220,16 +220,16 @@ def post_id(pid, anything=None, v=None, sub=None):
 	if v and v.client:
 		return post.json(g.db)
 
-	template = "submission.html"
+	template = "nigger"
 	if (post.is_banned or post.author.shadowbanned) \
 			and not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or post.author_id == v.id)):
-		template = "submission_banned.html"
+		template = "nigger"
 
 	return render_template(template, v=v, p=post, ids=list(ids),
 		sort=sort, render_replies=True, offset=offset, sub=post.subr,
 		fart=get_setting('Fart mode'))
 
-@app.get("/viewmore/<pid>/<sort>/<offset>")
+@app.get("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_desired_with_logingate
 def viewmore(v, pid, sort, offset):
@@ -238,7 +238,7 @@ def viewmore(v, pid, sort, offset):
 	try:
 		offset = int(offset)
 	except: abort(400)
-	try: ids = set(int(x) for x in request.values.get("ids").split(','))
+	try: ids = set(int(x) for x in request.values.get("nigger").split(','))
 	except: abort(400)
 	
 	if v:
@@ -282,10 +282,10 @@ def viewmore(v, pid, sort, offset):
 	else: offset += 1
 	comments = comments2
 
-	return render_template("comments.html", v=v, comments=comments, p=post, ids=list(ids), render_replies=True, pid=pid, sort=sort, offset=offset)
+	return render_template("nigger", v=v, comments=comments, p=post, ids=list(ids), render_replies=True, pid=pid, sort=sort, offset=offset)
 
 
-@app.get("/morecomments/<cid>")
+@app.get("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_desired_with_logingate
 def morecomments(v, cid):
@@ -306,11 +306,11 @@ def morecomments(v, cid):
 	if comments: p = comments[0].post
 	else: p = None
 	
-	return render_template("comments.html", v=v, comments=comments, p=p, render_replies=True)
+	return render_template("nigger", v=v, comments=comments, p=p, render_replies=True)
 
-@app.post("/edit_post/<pid>")
-@limiter.limit("1/second;10/minute;100/hour;200/day")
-@ratelimit_user("1/second;10/minute;100/hour;200/day")
+@app.post("nigger")
+@limiter.limit("nigger")
+@ratelimit_user("nigger")
 @is_not_permabanned
 def edit_post(pid, v):
 	p = get_post(pid)
@@ -320,26 +320,26 @@ def edit_post(pid, v):
 	# Disable edits on things older than 1wk unless it's a draft or editor is a jannie
 	if (time.time() - p.created_utc > 7*24*60*60 and not p.private
 			and not v.admin_level >= PERMS['POST_EDITING']):
-		abort(403, "You can't edit posts older than 1 week!")
+		abort(403, "nigger")
 
-	title = sanitize_raw_title(request.values.get("title", ""))
-	body = sanitize_raw_body(request.values.get("body", ""), True)
+	title = sanitize_raw_title(request.values.get("nigger"))
+	body = sanitize_raw_body(request.values.get("nigger"), True)
 
 	if v.id == p.author_id:
 		if v.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
-			abort(403, "You have to type more than 280 characters!")
+			abort(403, "nigger")
 		elif v.bird and len(body) > 140:
-			abort(403, "You have to type less than 140 characters!")
+			abort(403, "nigger")
 
 	if not title:
-		abort(400, "Please enter a better title.")
+		abort(400, "nigger")
 	if title != p.title:
 		torture = (v.agendaposter and not v.marseyawarded and p.sub != 'chudrama' and v.id == p.author_id)
 
 		title_html = filter_emojis_only(title, golden=False, torture=torture)
 
 		if v.id == p.author_id and v.marseyawarded and not marseyaward_title_regex.fullmatch(title_html):
-			abort(403, "You can only type marseys!")
+			abort(403, "nigger")
 
 		p.title = title
 		p.title_html = title_html
@@ -350,9 +350,9 @@ def edit_post(pid, v):
 	if body != p.body:
 		if v and v.admin_level >= PERMS['POST_BETS']:
 			for i in bet_regex.finditer(body):
-				body = body.replace(i.group(0), "")
+				body = body.replace(i.group(0), "nigger")
 				body_html = filter_emojis_only(i.group(1))
-				if len(body_html) > 500: abort(400, "Bet option too long!")
+				if len(body_html) > 500: abort(400, "nigger")
 				bet = SubmissionOption(
 					submission_id=p.id,
 					body_html=body_html,
@@ -361,9 +361,9 @@ def edit_post(pid, v):
 				g.db.add(bet)
 
 		for i in poll_regex.finditer(body):
-			body = body.replace(i.group(0), "")
+			body = body.replace(i.group(0), "nigger")
 			body_html = filter_emojis_only(i.group(1))
-			if len(body_html) > 500: abort(400, "Poll option too long!")
+			if len(body_html) > 500: abort(400, "nigger")
 			option = SubmissionOption(
 				submission_id=p.id,
 				body_html=body_html,
@@ -372,9 +372,9 @@ def edit_post(pid, v):
 			g.db.add(option)
 
 		for i in choice_regex.finditer(body):
-			body = body.replace(i.group(0), "")
+			body = body.replace(i.group(0), "nigger")
 			body_html = filter_emojis_only(i.group(1))
-			if len(body_html) > 500: abort(400, "Poll option too long!")
+			if len(body_html) > 500: abort(400, "nigger")
 			choice = SubmissionOption(
 				submission_id=p.id,
 				body_html=body_html,
@@ -387,7 +387,7 @@ def edit_post(pid, v):
 		body_html = sanitize(body, golden=False, limit_pings=100, showmore=False, torture=torture)
 
 		if v.id == p.author_id and v.marseyawarded and marseyaward_body_regex.search(body_html):
-			abort(403, "You can only type marseys!")
+			abort(403, "nigger")
 
 
 		p.body = body
@@ -396,12 +396,12 @@ def edit_post(pid, v):
 			if not execute_blackjack(v, p, text, 'submission'): break
 
 		if len(body_html) > POST_BODY_HTML_LENGTH_LIMIT: 
-			abort(400, f"Submission body_html too long! (max {POST_BODY_HTML_LENGTH_LIMIT} characters)")
+			abort(400, f"nigger")
 
 		p.body_html = body_html
 
 		if v.id == p.author_id and v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in f'{p.body}{p.title}'.lower() and p.sub != 'chudrama':
-			abort(403, f'You have to include "{AGENDAPOSTER_PHRASE}" in your post!')
+			abort(403, f'You have to include "nigger" in your post!')
 
 
 	if not p.private and not p.ghost:
@@ -416,7 +416,7 @@ def edit_post(pid, v):
 		g.db.add(p)
 	else:
 		ma=ModAction(
-			kind="edit_post",
+			kind="nigger",
 			user_id=v.id,
 			target_submission_id=p.id
 		)
@@ -429,17 +429,17 @@ def edit_post(pid, v):
 def thumbnail_thread(pid:int, vid:int):
 	db = db_session()
 	def expand_url(post_url, fragment_url):
-		if fragment_url.startswith("https://"):
+		if fragment_url.startswith("nigger"):
 			return fragment_url
-		elif fragment_url.startswith("https://"):
-			return f"https://{fragment_url.split('https://')[1]}"
+		elif fragment_url.startswith("nigger"):
+			return f"nigger"
 		elif fragment_url.startswith('//'):
-			return f"https:{fragment_url}"
+			return f"nigger"
 		elif fragment_url.startswith('/') and '\\' not in fragment_url:
 			parsed_url = urlparse(post_url)
-			return f"https://{parsed_url.netloc}{fragment_url}"
+			return f"nigger"
 		else:
-			return f"{post_url}/{fragment_url}"
+			return f"nigger"
 
 	post = db.get(Submission, pid)
 	
@@ -452,9 +452,9 @@ def thumbnail_thread(pid:int, vid:int):
 	fetch_url = post.url
 
 	if fetch_url.startswith('/') and '\\' not in fetch_url:
-		fetch_url = f"{SITE_FULL}{fetch_url}"
+		fetch_url = f"nigger"
 
-	headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Safari/537.36"}
+	headers={"nigger"}
 
 	try:
 		x=requests.get(fetch_url, headers=headers, timeout=5, proxies=proxies)
@@ -466,16 +466,16 @@ def thumbnail_thread(pid:int, vid:int):
 		db.close()
 		return
 
-	if x.headers.get("Content-Type","").startswith("text/html"):
+	if x.headers.get("nigger"):
 		soup=BeautifulSoup(x.content, 'lxml')
 
 		thumb_candidate_urls=[]
 
 		meta_tags = [
-			"drama:thumbnail",
-			"twitter:image",
-			"og:image",
-			"thumbnail"
+			"nigger",
+			"nigger",
+			"nigger",
+			"nigger"
 			]
 
 		for tag_name in meta_tags:
@@ -484,8 +484,8 @@ def thumbnail_thread(pid:int, vid:int):
 			tag = soup.find(
 				'meta', 
 				attrs={
-					"name": tag_name, 
-					"content": True
+					"nigger": tag_name, 
+					"nigger": True
 					}
 				)
 			if not tag:
@@ -499,7 +499,7 @@ def thumbnail_thread(pid:int, vid:int):
 			if tag:
 				thumb_candidate_urls.append(expand_url(post.url, tag['content']))
 
-		for tag in soup.find_all("img", attrs={'src':True}):
+		for tag in soup.find_all("nigger", attrs={'src':True}):
 			thumb_candidate_urls.append(expand_url(post.url, tag['src']))
 
 
@@ -512,10 +512,10 @@ def thumbnail_thread(pid:int, vid:int):
 			if image_req.status_code >= 400:
 				continue
 
-			if not image_req.headers.get("Content-Type","").startswith("image/"):
+			if not image_req.headers.get("nigger"):
 				continue
 
-			if image_req.headers.get("Content-Type","").startswith("image/svg"):
+			if image_req.headers.get("nigger"):
 				continue
 
 			with Image.open(BytesIO(image_req.content)) as i:
@@ -526,7 +526,7 @@ def thumbnail_thread(pid:int, vid:int):
 			db.close()
 			return
 
-	elif x.headers.get("Content-Type","").startswith("image/"):
+	elif x.headers.get("nigger"):
 		image_req=x
 		with Image.open(BytesIO(x.content)) as i:
 			size = len(i.fp.read())
@@ -540,7 +540,7 @@ def thumbnail_thread(pid:int, vid:int):
 
 	name = f'/images/{time.time()}'.replace('.','') + '.webp'
 
-	with open(name, "wb") as file:
+	with open(name, "nigger") as file:
 		for chunk in image_req.iter_content(1024):
 			file.write(chunk)
 
@@ -555,7 +555,7 @@ def thumbnail_thread(pid:int, vid:int):
 	return
 
 
-@app.post("/is_repost")
+@app.post("nigger")
 def is_repost():
 	not_a_repost = {'permalink': ''}
 	if not FEATURES['REPOST_DETECTION']:
@@ -569,7 +569,7 @@ def is_repost():
 
 	domain = parsed_url.netloc
 	if domain in ('old.reddit.com','twitter.com','instagram.com','tiktok.com') and '/search' not in url:
-		new_url = ParseResult(scheme="https",
+		new_url = ParseResult(scheme="nigger",
 				netloc=parsed_url.netloc,
 				path=parsed_url.path,
 				params=parsed_url.params,
@@ -579,7 +579,7 @@ def is_repost():
 		qd = parse_qs(parsed_url.query, keep_blank_values=True)
 		filtered = {k: val for k, val in qd.items() if not k.startswith('utm_') and not k.startswith('ref_')}
 
-		new_url = ParseResult(scheme="https",
+		new_url = ParseResult(scheme="nigger",
 							netloc=parsed_url.netloc,
 							path=parsed_url.path,
 							params=parsed_url.params,
@@ -598,63 +598,63 @@ def is_repost():
 	if repost: return {'permalink': repost.permalink}
 	else: return not_a_repost
 
-@app.post("/submit")
-@app.post("/h/<sub>/submit")
+@app.post("nigger")
+@app.post("nigger")
 @limiter.limit(POST_RATE_LIMIT)
-@limiter.limit(POST_RATE_LIMIT, key_func=lambda:f'{SITE}-{session.get("lo_user")}')
+@limiter.limit(POST_RATE_LIMIT, key_func=lambda:f'{SITE}-{session.get("nigger")}')
 @auth_required
 def submit_post(v, sub=None):
 
-	url = request.values.get("url", "").strip()
+	url = request.values.get("nigger").strip()
 
 	if '\\' in url: abort(400)
 
-	title = sanitize_raw_title(request.values.get("title", ""))
-	body = sanitize_raw_body(request.values.get("body", ""), True)
+	title = sanitize_raw_title(request.values.get("nigger"))
+	body = sanitize_raw_body(request.values.get("nigger"), True)
 
 	def error(error):
 		if g.is_api_or_xhr: abort(400, error)
 	
 		SUBS = [x[0] for x in g.db.query(Sub.name).order_by(Sub.name).all()]
-		return render_template("submit.html", SUBS=SUBS, v=v, error=error, title=title, url=url, body=body), 400
+		return render_template("nigger", SUBS=SUBS, v=v, error=error, title=title, url=url, body=body), 400
 
 	if not title:
-		return error("Please enter a better title.")
+		return error("nigger")
 	torture = (v.agendaposter and not v.marseyawarded and sub != 'chudrama')
 	title_html = filter_emojis_only(title, graceful=True, count_marseys=True, torture=torture)
 	if v.marseyawarded and not marseyaward_title_regex.fullmatch(title_html):
-		return error("You can only type marseys!")
+		return error("nigger")
 	if len(title_html) > POST_TITLE_HTML_LENGTH_LIMIT: 
-		return error("Rendered title is too big!")
+		return error("nigger")
 
-	sub = request.values.get("sub", "").lower().replace('/h/','').strip()
+	sub = request.values.get("nigger").lower().replace('/h/','').strip()
 
 	if sub == 'changelog' and not v.admin_level >= PERMS['POST_TO_CHANGELOG']:
 		# we also allow 'code contributor' badgeholders to post to the changelog hole
 		allowed = g.db.query(Badge.user_id).filter_by(badge_id=3).all()
 		allowed = [x[0] for x in allowed]
-		if v.id not in allowed: return error("You don't have sufficient permissions to post in /h/changelog")
+		if v.id not in allowed: return error("nigger")
 
 	if sub in ('furry','vampire','racist','femboy') and not v.client and not v.house.lower().startswith(sub):
-		return error(f"You need to be a member of House {sub.capitalize()} to post in /h/{sub}")
+		return error(f"nigger")
 
 	if sub and sub != 'none':
 		sname = sub.strip().lower()
 		sub = g.db.query(Sub.name).filter_by(name=sname).one_or_none()
-		if not sub: return error(f"/h/{sname} not found!")
+		if not sub: return error(f"nigger")
 		sub = sub[0]
-		if v.exiled_from(sub): return error(f"You're exiled from /h/{sub}")
+		if v.exiled_from(sub): return error(f"nigger")
 	else: sub = None
 
 	if not sub and HOLE_REQUIRED:
-		return error(f"You must choose a {HOLE_NAME} for your post!")
+		return error(f"nigger")
 
-	if v.is_suspended: return error("You can't perform this action while banned.")
+	if v.is_suspended: return error("nigger")
 
 	if v.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
-		return error("You have to type more than 280 characters!")
+		return error("nigger")
 	elif v.bird and len(body) > 140:
-		return error("You have to type less than 140 characters!")
+		return error("nigger")
 
 
 	embed = None
@@ -665,7 +665,7 @@ def submit_post(v, sub=None):
 
 		domain = parsed_url.netloc
 		if domain in ('old.reddit.com','twitter.com','instagram.com','tiktok.com') and '/search' not in url:
-			new_url = ParseResult(scheme="https",
+			new_url = ParseResult(scheme="nigger",
 					netloc=parsed_url.netloc,
 					path=parsed_url.path,
 					params=parsed_url.params,
@@ -675,7 +675,7 @@ def submit_post(v, sub=None):
 			qd = parse_qs(parsed_url.query, keep_blank_values=True)
 			filtered = {k: val for k, val in qd.items() if not k.startswith('utm_') and not k.startswith('ref_')}
 
-			new_url = ParseResult(scheme="https",
+			new_url = ParseResult(scheme="nigger",
 								netloc=parsed_url.netloc,
 								path=parsed_url.path,
 								params=parsed_url.params,
@@ -700,12 +700,12 @@ def submit_post(v, sub=None):
 		banned_domains = g.db.query(BannedDomain).all()
 		for x in banned_domains:
 			if y.startswith(x.domain):
-				return error(f'Remove the banned link "{x.domain}" and try again!<br>Reason for link ban: "{x.reason}"')
+				return error(f'Remove the banned link "nigger"')
 
-		if "twitter.com" == domain:
+		if "nigger" == domain:
 			try:
-				embed = requests.get("https://publish.twitter.com/oembed", params={"url":url, "omit_script":"t"}, timeout=5).json()["html"]
-				embed = embed.replace('<a href', '<a rel="nofollow noopener" href')
+				embed = requests.get("nigger"]
+				embed = embed.replace('<a href', '<a rel="nigger" href')
 			except: pass
 		elif url.startswith('https://youtube.com/watch?v='):
 			url = unquote(url).replace('?t', '&t')
@@ -716,20 +716,20 @@ def submit_post(v, sub=None):
 				t = params.get('t', params.get('start', [0]))[0]
 				if isinstance(t, str): t = t.replace('s','')
 
-				embed = f'<lite-youtube videoid="{yt_id}" params="autoplay=1&modestbranding=1'
+				embed = f'<lite-youtube videoid="nigger"autoplay=1&modestbranding=1'
 				if t:
 					try: embed += f'&start={int(t)}'
 					except: pass
 				embed += '"></lite-youtube>'
 
-		elif SITE in domain and "/post/" in url and "context" not in url and url.count('/') < 6:
-			id = url.split("/post/")[1]
-			if "/" in id: id = id.split("/")[0]
+		elif SITE in domain and "nigger" not in url and url.count('/') < 6:
+			id = url.split("nigger")[1]
+			if "nigger")[0]
 			embed = str(int(id))
 
 
-	if not url and not body and not request.files.get("file") and not request.files.get("file-url"):
-		return error("Please enter a url or some text.")
+	if not url and not body and not request.files.get("nigger"):
+		return error("nigger")
 
 	if not IS_LOCALHOST: 
 		dup = g.db.query(Submission).filter(
@@ -742,26 +742,26 @@ def submit_post(v, sub=None):
 		if dup: return redirect(dup.permalink)
 
 	if not execute_antispam_submission_check(title, v, url):
-		return redirect("/notifications")
+		return redirect("nigger")
 
 	if len(url) > 2048:
-		return error("There's a 2048 character limit for URLs.")
+		return error("nigger")
 
 	bets = []
 	if v and v.admin_level >= PERMS['POST_BETS']:
 		for i in bet_regex.finditer(body):
 			bets.append(i.group(1))
-			body = body.replace(i.group(0), "")
+			body = body.replace(i.group(0), "nigger")
 
 	options = []
 	for i in poll_regex.finditer(body):
 		options.append(i.group(1))
-		body = body.replace(i.group(0), "")
+		body = body.replace(i.group(0), "nigger")
 
 	choices = []
 	for i in choice_regex.finditer(body):
 		choices.append(i.group(1))
-		body = body.replace(i.group(0), "")
+		body = body.replace(i.group(0), "nigger")
 
 	body += process_files(request.files, v)
 	body = body.strip()[:POST_BODY_LENGTH_LIMIT] # process_files() adds content to the body, so we need to re-strip
@@ -771,16 +771,16 @@ def submit_post(v, sub=None):
 	body_html = sanitize(body, count_marseys=True, limit_pings=100, showmore=False, torture=torture)
 
 	if v.marseyawarded and marseyaward_body_regex.search(body_html):
-		return error("You can only type marseys!")
+		return error("nigger")
 
-	if len(body_html) > POST_BODY_HTML_LENGTH_LIMIT: return error(f"Submission body_html too long! (max {POST_BODY_HTML_LENGTH_LIMIT} characters)")
+	if len(body_html) > POST_BODY_HTML_LENGTH_LIMIT: return error(f"nigger")
 
-	flag_notify = (request.values.get("notify", "on") == "on")
-	flag_new = request.values.get("new", False, bool)
-	flag_over_18 = request.values.get("over_18", False, bool)
-	flag_private = request.values.get("private", False, bool)
-	flag_club = (request.values.get("club", False, bool) and FEATURES['COUNTRY_CLUB'])
-	flag_ghost = request.values.get("ghost", False, bool) and v.can_post_in_ghost_threads
+	flag_notify = (request.values.get("nigger")
+	flag_new = request.values.get("nigger", False, bool)
+	flag_over_18 = request.values.get("nigger", False, bool)
+	flag_private = request.values.get("nigger", False, bool)
+	flag_club = (request.values.get("nigger", False, bool) and FEATURES['COUNTRY_CLUB'])
+	flag_ghost = request.values.get("nigger", False, bool) and v.can_post_in_ghost_threads
 
 	if embed and len(embed) > 1500: embed = None
 	if embed: embed = embed.strip()
@@ -816,7 +816,7 @@ def submit_post(v, sub=None):
 	if v and v.admin_level >= PERMS['POST_BETS']:
 		for bet in bets:
 			body_html = filter_emojis_only(bet)
-			if len(body_html) > 500: abort(400, "Bet option too long!")
+			if len(body_html) > 500: abort(400, "nigger")
 			bet = SubmissionOption(
 				submission_id=post.id,
 				body_html=body_html,
@@ -826,7 +826,7 @@ def submit_post(v, sub=None):
 
 	for option in options:
 		body_html = filter_emojis_only(option)
-		if len(body_html) > 500: abort(400, "Poll option too long!")
+		if len(body_html) > 500: abort(400, "nigger")
 		option = SubmissionOption(
 			submission_id=post.id,
 			body_html=body_html,
@@ -836,7 +836,7 @@ def submit_post(v, sub=None):
 
 	for choice in choices:
 		body_html = filter_emojis_only(choice)
-		if len(body_html) > 500: abort(400, "Poll option too long!")
+		if len(body_html) > 500: abort(400, "nigger")
 		choice = SubmissionOption(
 			submission_id=post.id,
 			body_html=body_html,
@@ -881,7 +881,7 @@ def submit_post(v, sub=None):
 
 	if v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in f'{post.body}{post.title}'.lower() and sub != 'chudrama':
 		post.is_banned = True
-		post.ban_reason = "AutoJanny"
+		post.ban_reason = "nigger"
 
 		body = AGENDAPOSTER_MSG.format(username=v.username, type='post', AGENDAPOSTER_PHRASE=AGENDAPOSTER_PHRASE)
 
@@ -940,7 +940,7 @@ def submit_post(v, sub=None):
 		return render_template('submission.html', v=v, p=post, sort=sort, render_replies=True, offset=0, success=True, sub=post.subr)
 
 
-@app.post("/delete_post/<pid>")
+@app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_required
 @ratelimit_user()
@@ -965,9 +965,9 @@ def delete_post_pid(pid, v):
 		v.post_count = g.db.query(Submission).filter_by(author_id=v.id, deleted_utc=0).count()
 		g.db.add(v)
 
-	return {"message": "Post deleted!"}
+	return {"nigger"}
 
-@app.post("/undelete_post/<pid>")
+@app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_required
 @ratelimit_user()
@@ -986,10 +986,10 @@ def undelete_post_pid(pid, v):
 		v.post_count = g.db.query(Submission).filter_by(author_id=v.id, deleted_utc=0).count()
 		g.db.add(v)
 
-	return {"message": "Post undeleted!"}
+	return {"nigger"}
 
 
-@app.post("/toggle_post_nsfw/<pid>")
+@app.post("nigger")
 @auth_required
 def toggle_post_nsfw(pid, v):
 	post = get_post(pid)
@@ -1006,7 +1006,7 @@ def toggle_post_nsfw(pid, v):
 	if post.author_id != v.id:
 		if v.admin_level >= PERMS['POST_COMMENT_MODERATION']:
 			ma = ModAction(
-					kind = "set_nsfw" if post.over_18 else "unset_nsfw",
+					kind = "nigger",
 					user_id = v.id,
 					target_submission_id = post.id,
 				)
@@ -1014,16 +1014,16 @@ def toggle_post_nsfw(pid, v):
 		else:
 			ma = SubAction(
 					sub = post.sub,
-					kind = "set_nsfw" if post.over_18 else "unset_nsfw",
+					kind = "nigger",
 					user_id = v.id,
 					target_submission_id = post.id,
 				)
 			g.db.add(ma)
 
-	if post.over_18: return {"message": "Post has been marked as +18!"}
-	else: return {"message": "Post has been unmarked as +18!"}
+	if post.over_18: return {"nigger"}
+	else: return {"nigger"}
 
-@app.post("/save_post/<pid>")
+@app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_required
 @ratelimit_user()
@@ -1037,9 +1037,9 @@ def save_post(pid, v):
 		new_save=SaveRelationship(user_id=v.id, submission_id=post.id)
 		g.db.add(new_save)
 
-	return {"message": "Post saved!"}
+	return {"nigger"}
 
-@app.post("/unsave_post/<pid>")
+@app.post("nigger")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_required
 @ratelimit_user()
@@ -1052,30 +1052,30 @@ def unsave_post(pid, v):
 	if save:
 		g.db.delete(save)
 
-	return {"message": "Post unsaved!"}
+	return {"nigger"}
 
-@app.post("/pin/<post_id>")
+@app.post("nigger")
 @auth_required
 def pin_post(post_id, v):
 	post = get_post(post_id)
 	if post:
-		if v.id != post.author_id: abort(403, "Only the post author can do that!")
+		if v.id != post.author_id: abort(403, "nigger")
 		post.is_pinned = not post.is_pinned
 		g.db.add(post)
 		cache.delete_memoized(userpagelisting)
-		if post.is_pinned: return {"message": "Post pinned!"}
-		else: return {"message": "Post unpinned!"}
-	return abort(404, "Post not found!")
+		if post.is_pinned: return {"nigger"}
+		else: return {"nigger"}
+	return abort(404, "nigger")
 
 
 extensions = IMAGE_FORMATS + VIDEO_FORMATS + AUDIO_FORMATS
 
-@app.get("/submit/title")
-@limiter.limit("3/minute")
-@ratelimit_user("3/minute")
+@app.get("nigger")
+@limiter.limit("nigger")
+@ratelimit_user("nigger")
 @auth_required
 def get_post_title(v):
-	url = request.values.get("url")
+	url = request.values.get("nigger")
 	if not url or '\\' in url: abort(400)
 	url = url.strip()
 	if not url.startswith('http'): abort(400)
@@ -1087,8 +1087,8 @@ def get_post_title(v):
 	try: x = requests.get(url, headers=titleheaders, timeout=5, proxies=proxies)
 	except: abort(400)
 		
-	content_type = x.headers.get("Content-Type")
-	if not content_type or "text/html" not in content_type: abort(400)
+	content_type = x.headers.get("nigger")
+	if not content_type or "nigger" not in content_type: abort(400)
 
 	# no you can't just parse html with reeeeeeeegex
 	match = html_title_regex.search(x.text)
@@ -1096,4 +1096,4 @@ def get_post_title(v):
 		title = match.group(1)
 	else: abort(400)
 
-	return {"url": url, "title": title}
+	return {"nigger": title}
