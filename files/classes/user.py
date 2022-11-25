@@ -246,7 +246,7 @@ class User(Base):
 		for k, val in forced_hats.items():
 			if k == 'marsify':
 				if self.marsify > 1:
-					user_forced_hats.append(val)			
+					user_forced_hats.append(val)	
 			elif getattr(self, k):
 				if k == 'agendaposter':
 					user_forced_hats.append(random.choice(val))
