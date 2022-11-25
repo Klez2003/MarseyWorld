@@ -3,6 +3,7 @@
 	pointer-events: none;
 	z-index:9999;
 }
+
 #awards-container > div {
 	position: absolute;
 }
@@ -19,8 +20,8 @@
 	}
 }
 
-.wholesome {animation: sealX 9s linear 0s infinite}
-.wholesome img {animation: sealY 10s linear 0s infinite}
+.wholesome {animation: sealX 9s linear infinite}
+.wholesome img {animation: sealY 10s linear infinite}
 
 .wholesome1 {animation-direction: alternate}
 .wholesome1 img {animation-direction: alternate}
@@ -60,7 +61,8 @@
 		height: 20px !important;
 	}
 }
-.train{animation: train 11s linear 0s infinite;}
+
+.train{animation: train 11s linear infinite;}
 .train:nth-of-type(odd) {animation-direction: reverse;}
 .train:nth-of-type(odd) img {transform: scaleX(-1);}
 
@@ -76,7 +78,7 @@
 	}
 }
 
-.scooter {animation: train 11s linear 0s infinite;}
+.scooter {animation: train 11s linear infinite;}
 .scooter:nth-of-type(even) {animation-direction: reverse;}
 .scooter:nth-of-type(even) img {transform: scaleX(-1);}
 
@@ -92,57 +94,66 @@
 }
 
 /*ricardo*/
+.ricardo {
+	position: fixed !important;
+	bottom: 0;
+}
 .ricardo img {
 	max-height: min(30vw,15rem);
 }
 
-.ricardoleft {animation: ricardoleft 2.9s 2 alternate !important;}
-.ricardoright {animation: ricardoright 2.9s 2 alternate !important;}
+.ricardo1 {animation: ricardo1Xa 5.8s linear infinite, ricardo1Xb 11.6s linear infinite, ricardo1Y 23.2s linear infinite;}
+.ricardo2 {animation: ricardo2 8.5s linear infinite;}
+.ricardo3 {animation: ricardo3 10s linear infinite;}
 
-@keyframes ricardoleft {
-	from {}
-	to {transform: translateX(200px);}
+@keyframes ricardo1Xa {
+	0% {right: -200px}
+	50% {right: 200px}
+	100% {right: -200px}
 }
 
-@keyframes ricardoright {
-	from {transform: translateX(110vw);}
-	to {transform: translateX(95vw);}
+@keyframes ricardo1Xb {
+	0%{left:unset}
+	49% {left: unset}
+	50% {left: -200px}
+	75% {left:200px}
+	100% {left: -200px}
 }
 
-#ricardo1 {
-	top:60%;
-	left:-10%;
+@keyframes ricardo1Y {
+	0% {bottom:20vh}
+		24% {bottom: 20vh}
+	25% {bottom: 60vh}
+		49% {bottom: 60vh}
+	50% {bottom: 10vh}
+		74% {bottom: 10vh}
+	75% {bottom: 50vh}
+		99% {bottom: 50vh}
+	100% {bottom: 20vh}
 }
 
-#ricardo2 {
-	top:70%;
-	left:50%;
-	animation: ricardo2 1.7s linear infinite !important;
-	max-height:200px;
-}
-
-#ricardo3 {
-	top:75%;
-	animation: ricardo3 10s linear infinite !important;
-	max-height:150px;
-}
 
 @keyframes ricardo2 {
-	0% {opacity:20%}
-	50% {opacity:100%}
-	100% {opacity:0%}
+	0% { opacity: 1; left: 0; right: unset;}
+	18% {opacity: 0; left: 0; right: unset;}
+	19% {opacity: 0; left: unset; right: 20vw;}
+	20% {opacity: 1; left: unset; right: 20vw;}
+	38% {opacity: 0; left: unset; right: 20vw;}
+	39% {opacity: 0; left: 20vw; right: unset;}
+	40% {opacity: 1; left: 20vw; right: unset;}
+	58% {opacity: 0; left: 20vw; right: unset;}
+	59% {opacity: 0; left: unset;right: 60vw;}
+	60% {opacity: 1; left: unset; right: 60vw;}
+	78% {opacity: 0; left: unset; right: 60vw;}
+	79% {opacity: 0; left: 80vw; right: unset;}
+	80% {opacity: 1; left: 80vw; right: unset;}
+	98% {opacity: 0; left: 80vw; right: unset;}
+	99% {opacity: 0; left: 0; right: unset;}
+	100% {opacity: 1; left: 0; right: unset;}
 }
 
 @keyframes ricardo3 {
-	50% {transform: translateX(105vw);}
-	51% {transform: translate(105vw,-86vh) rotate(180deg);}
-	100% {transform: translate(-15vw,-86vh) rotate(180deg);}
-}
-
-@media (max-width: 768px) {
-	@keyframes ricardo3 {
-		50% {transform: translateX(105vw);}
-		51% {transform: translate(105vw,-86vh) rotate(180deg);}
-		100% {transform: translate(-70vw,-86vh) rotate(180deg);}
-	}
+	50% {transform: translateX(100vw); top: unset; bottom: 0;}
+	51% {transform: translateX(100vw) rotate(180deg); top: 0; bottom: unset;}
+	100% {transform: translateX(-15vw) rotate(180deg); top: 0; bottom: unset;}
 }

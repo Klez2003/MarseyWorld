@@ -30,9 +30,8 @@
 {% endif %}
 
 {% if p.award_count("ricardo", v) %}
-	<script defer src="{{'js/ricardo.js' | asset}}"></script>
 	{% for i in range(min(p.award_count("ricardo", v), 3)) %}
-		<div id="ricardo{{i+1}}" class="ricardo">
+		<div class="ricardo ricardo{{i+1}}">
 			<img src="/i/ricardo{{i+1}}.webp">
 		</div>
 	{% endfor %}
