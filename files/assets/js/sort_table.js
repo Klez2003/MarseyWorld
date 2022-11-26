@@ -24,7 +24,7 @@ function sort_table(n) {
 		items.sort((a, b) => a.attr > b.attr);
 		sortAscending[n] = false;
 	} else {
-		items.sort((a, b) => b.attr < a.attr);
+		items.sort((a, b) => a.attr < b.attr);
 		sortAscending[n] = true;
 	}
 
