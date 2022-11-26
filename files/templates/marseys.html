@@ -29,7 +29,7 @@
 	{% set user = marsey.user %}
 	<td data-sort-key="{{user.username}}">{% include "user_in_table.html" %}</td>
 	{% endif %}
-	<td data-sort-key="{{marsey.created_utc}}" {% if marsey.created_utc != None %}data-time="{{marsey.created_utc}}"{% endif %}></td>
+	<td data-sort-key="{{marsey.created_utc or 0}}" {% if marsey.created_utc != None %}data-time="{{marsey.created_utc}}"{% endif %}></td>
 	{% if FEATURES['ASSET_SUBMISSIONS'] %}
 	<td>
 		{% if marsey.og %}
