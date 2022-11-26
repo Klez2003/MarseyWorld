@@ -26,6 +26,7 @@
 	<td><img class="marsey" loading="lazy" data-bs-toggle="tooltip" alt=":#{{marsey.name}}:" title=":{{marsey.name}}:" src="/e/{{marsey.name}}.webp"></td>
 	<td>{{marsey.count}}</td>
 	{% if FEATURES['ASSET_SUBMISSIONS'] %}
+	{% set user = marsey.user %}
 	<td>{% include "user_in_table.html" %}</td>
 	{% endif %}
 	<td {% if marsey.created_utc != None %}data-time="{{marsey.created_utc}}"{% endif %}></td>
