@@ -47,7 +47,7 @@ def get_marseys(db:scoped_session):
 	marseys = []
 	for marsey, author in db.query(Marsey, User).join(User, Marsey.author_id == User.id).filter(Marsey.submitter_id == None).order_by(Marsey.count.desc()):
 		marsey.author = author.username if FEATURES['ASSET_SUBMISSIONS'] or author == "anton-d" else None
-		marsey.tags = marsey.tags.split(" ") + [emoji.name[len("marsey"):]]
+		marsey.tags = marsey.tags.split(" ") + [marsey.name[len("marsey"):]]
 		setattr(marsey, "class", "Marsey")
 		marseys.append(marsey)
 	return marseys
