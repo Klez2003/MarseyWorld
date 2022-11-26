@@ -98,12 +98,12 @@ def get_account(id:Union[str, int], v:Optional[User]=None, graceful=False, inclu
 def get_accounts_dict(ids:Union[Iterable[str], Iterable[int]], v:Optional[User]=None, graceful=False, include_shadowbanned=True) -> Optional[dict[int, User]]:
 	if not ids: return {}
 	try: 
-		ids = [int(id) for id in ids]
+		ids = set([int(id) for id in ids])
 	except:
 		if graceful: return None
 		abort(404)
 
-	users = g.db.query(User).filter(any_(ids))
+	users = g.db.query(User).filter(User.id.in_(ids))
 	if not (include_shadowbanned or (v and v.can_see_shadowbanned)):
 		users = users.filter(User.shadowbanned == None)
 	users = users.all()
