@@ -38,7 +38,7 @@ def marseys(v):
 	return render_template("marseys.html", v=v, marseys=marseys)
 
 @app.get("/emojis")
-def marsey_list():
+def emoji_list():
 	return jsonify(get_emojis(g.db))
 
 @cache.cached(timeout=86400, key_prefix=MARSEYS_CACHE_KEY)
@@ -54,7 +54,7 @@ def get_marseys(db:scoped_session):
 
 @cache.cached(timeout=600, key_prefix=EMOJIS_CACHE_KEY)
 def get_emojis(db:scoped_session):
-	emojis = get_marseys(db)
+	emojis = [m.json() for m in get_marseys(db)]
 	for src in EMOJI_SRCS:
 		with open(src, "r", encoding="utf-8") as f:
 			emojis = emojis + json.load(f)

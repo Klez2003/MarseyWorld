@@ -21,3 +21,13 @@ class Marsey(Base):
 
 	def __repr__(self):
 		return f"<Marsey(name={self.name})>"
+
+	def json(self):
+		return {
+			"name": self.name,
+			"author_id": self.author_id,
+			"submitter_id": self.submitter_id,
+			"tags": self.tags.split(' '),
+			"count": self.count,
+			"created_utc": self.created_utc
+		}
