@@ -5,15 +5,15 @@
 <div class="overflow-x-auto mt-3"><table class="table table-striped mb-5">
 <thead class="bg-primary text-white">
 	<tr>
-		<th>#</th>
-		<th>Name</th>
+		<th onclick="sort_table(0)">#</th>
+		<th onclick="sort_table(1)">Name</th>
 		<th>Marsey</th>
-		<th>Usage</th>
+		<th onclick="sort_table(2)">Usage</th>
 		{% if SITE == 'rdrama.net' %}
-			<th><a href="?sort=author">Author</a></th>
-			<th><a href="?sort=added">Added on</a></th>
-			<th>Original File</th>
+			<th onclick="sort_table(4)">Author</th>
 		{% endif %}
+		<th onclick="sort_table(5)">Added on</th>
+		<th>Original File</th>
 	</tr>
 </thead>
 <tbody id="marseys-table">
@@ -43,8 +43,7 @@
 		</tr>
 	{% endfor %}
 {% endif %}
-
 </tbody>
 </table>
-
+<script defer src="{{'js/sort_table.js' | asset}}"></script>
 {% endblock %}
