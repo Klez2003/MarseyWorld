@@ -7,7 +7,9 @@ function sort_table(n) {
 	for (let i = 1; i < rows.length; i++) {
 		const ele = rows[i];
 		let x = rows[i].getElementsByTagName("TD")[n];
-		x = x.getElementsByTagName('a')[0] || x;
+		if (!('sortKey' in x.dataset)) {
+			x = x.getElementsByTagName('a')[0] || x;
+		}
 		var attr;
 		if ('sortKey' in x.dataset) {
 			attr = x.dataset.sortKey;
