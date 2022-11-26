@@ -8,7 +8,14 @@ function sort_table(n) {
 		const ele = rows[i];
 		let x = rows[i].getElementsByTagName("TD")[n];
 		x = x.getElementsByTagName('a')[0] || x;
-		const attr = x.dataset.time ? parseInt(x.dataset.time) : parseInt(x.innerHTML.replace(/,/g, ''));
+		var attr;
+		if ('sortKey' in x.dataset) {
+			attr = x.dataset.sortKey;
+		} else if ('time' in x.dataset) {
+			attr = parseInt(x.dataset.time);
+		} else {
+			attr = parseInt(x.innerHTML.replace(/,/g, ''));
+		}
 		items.push({ ele, attr });
 	}
 	if (sortAscending[n]) {
