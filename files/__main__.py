@@ -84,4 +84,8 @@ if "load_chat" in argv:
 else:
 	from files.routes import *
 
+if FEATURES['HOLIDAY_EVENT']:
+	from events import *
+	init_event()
+
 stdout.flush()
