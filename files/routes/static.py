@@ -106,7 +106,6 @@ def admins(v:User):
 	admins = g.db.query(User).filter(User.admin_level >= PERMS['ADMIN_MOP_VISIBLE']).order_by(User.truescore.desc()).all()
 	return render_template("admins.html", v=v, admins=admins)
 
-
 @app.get("/log")
 @app.get("/modlog")
 @auth_required
