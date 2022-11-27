@@ -9,7 +9,6 @@ from sqlalchemy import inspect
 from files.helpers.const import AWARDS2, AWARDS_DISABLED
 
 from .table import Event
-from .columns import *
 
 from events.classes import *
 from events.helpers import *

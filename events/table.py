@@ -8,6 +8,11 @@ class Event(Base):
 	__tablename__ = "event"
 	id = Column(Integer, ForeignKey("users.id"), primary_key=True)
 
+	#event specific columns
+	hw_zombie = Column(Integer, default=0, nullable=False)
+	jumpscare = Column(Integer, default=0)
+	hwmusic = Column(Boolean, default=False)
+
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
 

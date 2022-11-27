@@ -3,22 +3,21 @@ from files.classes.award import AwardRelationship
 from files.helpers.alerts import send_repeatable_notification
 from files.helpers.useractions import badge_grant
 
-from events import Event, COLUMN_DEFAULTS
+from events import Event
 
 def award_thing_event(v, kind, author):
+	event_author = g.db.get(Event, author.id)
+	event_v = g.db.get(Event, v.id)
 
-	def event_user(user):
-		event_user = g.db.get(Event, user.id)
-		if not event_user:
-			event_user = Event(id=user.id)
-			for column in COLUMN_DEFAULTS:
-				event_user.column = COLUMN_DEFAULTS[column]["default"]
-			g.db.add(event_user)
-			g.db.commit()
-		return event_user
+	if not event_author:
+		event_author = Event(id=author.id)
+		g.db.add(event_author)
 
-	event_author = event_user(author)
-	event_v = event_user(v)
+	if not event_v:
+		event_v = Event(id=v.id)
+		g.db.add(event_v)
+
+	g.db.flush()
 
 	if kind == "hw-bite":
 		if event_author.hw_zombie < 0:
