@@ -32,4 +32,4 @@ ON bet_won.user_id = bet_lost.user_id
 ORDER BY bets_won DESC, bets_total ASC;''').all()
 	if g.is_api_or_xhr: return jsonify(result)
 	users = get_accounts_dict([r[0] for r in result], v=v, include_shadowbanned=False)
-	return render_template("events/worldcup22_leaderboard.html", v=v, result=result, users=users)
+	return render_template("event/worldcup22_leaderboard.html", v=v, result=result, users=users)
