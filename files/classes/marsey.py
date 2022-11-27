@@ -32,5 +32,6 @@ class Marsey(Base):
 			"submitter_id": self.submitter_id,
 			"tags": self.tags_list(),
 			"count": self.count,
-			"created_utc": self.created_utc
+			"created_utc": self.created_utc,
+			"class": "Marsey",
 		}
