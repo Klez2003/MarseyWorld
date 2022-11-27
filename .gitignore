@@ -1,23 +1,10 @@
-image.*
-video.mp4
-unsanitized.mp4
-cache/
-__pycache__/
-.idea/
-**/.pytest_cache/
+.*
 venv/
-.vscode/
-.sass-cache/
-flask_session/
-.DS_Store
-site_settings.json
-/files/test.py
-tags
+__pycache__/
 
 # Chat environment
 chat/node_modules
 chat/build
-chat/.env
 
 # Chat artefacts
 files/assets/css/chat_done.css

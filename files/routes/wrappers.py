@@ -21,7 +21,7 @@ def calc_users(v):
 	if g.is_api_or_xhr: 
 		g.loggedin_counter = 0
 		g.loggedout_counter = 0
-		return
+		return ''
 	loggedin = cache.get(f'{SITE}_loggedin') or {}
 	loggedout = cache.get(f'{SITE}_loggedout') or {}
 	timestamp = int(time.time())

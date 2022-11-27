@@ -141,7 +141,6 @@ class User(Base):
 	subscriptions = relationship("Subscription", back_populates="user")
 	following = relationship("Follow", primaryjoin="Follow.user_id==User.id", back_populates="user")
 	followers = relationship("Follow", primaryjoin="Follow.target_id==User.id", back_populates="target")
-	viewers = relationship("ViewerRelationship", primaryjoin="User.id == ViewerRelationship.user_id")
 	blocking = relationship("UserBlock", lazy="dynamic", primaryjoin="User.id==UserBlock.user_id", back_populates="user")
 	blocked = relationship("UserBlock", lazy="dynamic", primaryjoin="User.id==UserBlock.target_id", back_populates="target")
 	authorizations = relationship("ClientAuth", back_populates="user")
@@ -248,7 +247,10 @@ class User(Base):
 				if self.marsify > 1:
 					user_forced_hats.append(val)
 			elif getattr(self, k):
-				user_forced_hats.append(val)
+				if k == 'agendaposter':
+					user_forced_hats.append(random.choice(val))
+				else:
+					user_forced_hats.append(val)
 		if user_forced_hats: return random.choice(user_forced_hats)
 		else: return None
 
@@ -875,7 +877,7 @@ class User(Base):
 
 	def get_relationship_count(self, relationship_cls):
 		# TODO: deduplicate (see routes/users.py)
-		if relationship_cls in [SaveRelationship, Subscription]:
+		if relationship_cls in {SaveRelationship, Subscription}:
 			query = relationship_cls.submission_id
 			join = relationship_cls.post
 			cls = Submission
@@ -944,17 +946,6 @@ class User(Base):
 
 	@property
 	@lazy
-	def viewers_recorded(self):
-		if SITE_NAME == 'WPD': # WPD gets profile views
-			return True
-		elif self.admin_level >= PERMS['VIEW_PROFILE_VIEWS']: # Admins get profile views
-			return True
-		elif self.patron: # Patrons get profile views as a perk
-			return True
-		return False
-
-	@property
-	@lazy
 	def patron_tooltip(self):
 		if self.patron == 1:
 			return 'Contributed at least $5'
@@ -1000,6 +991,7 @@ class User(Base):
 			if not cls.can_see(user, other.author): return False
 			if user and user.id == other.author_id: return True
 			if isinstance(other, Submission):
+				if "!YOU!" in other.title and not user: return False
 				if other.sub and not cls.can_see(user, other.subr): return False
 			else:
 				if not other.parent_submission:
@@ -1015,7 +1007,6 @@ class User(Base):
 			return (user and user.id == other.id) or (user and user.can_see_shadowbanned) or not other.shadowbanned
 		return True
 
-		
 	@property
 	@lazy
 	def can_see_chudrama(self):
@@ -1029,10 +1020,10 @@ class User(Base):
 	@property
 	@lazy
 	def can_post_in_ghost_threads(self):
-		if not TRUESCORE_GHOST_LIMIT: return True
+		if not TRUESCORE_GHOST_MINIMUM: return True
 		if self.admin_level >= PERMS['POST_IN_GHOST_THREADS']: return True
 		if self.club_allowed: return True
-		if self.truescore >= TRUESCORE_GHOST_LIMIT: return True
+		if self.truescore >= TRUESCORE_GHOST_MINIMUM: return True
 		if self.patron: return True
 		return False
 

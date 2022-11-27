@@ -79,10 +79,11 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 		else: template = "submission.html"
 		return render_template(template, v=v, p=post, sort=sort, comment_info=comment_info, render_replies=True, sub=post.subr)
 
+#- API
 @app.post("/comment")
 @limiter.limit("1/second;20/minute;200/hour;1000/day")
-@ratelimit_user("1/second;20/minute;200/hour;1000/day")
 @auth_required
+@ratelimit_user("1/second;20/minute;200/hour;1000/day")
 def comment(v):
 	if v.is_suspended: abort(403, "You can't perform this action while banned.")
 
@@ -91,7 +92,7 @@ def comment(v):
 	id = parent_fullname[2:]
 	parent_comment_id = None
 	rts = False
-	
+
 	if parent_fullname.startswith("p_"):
 		parent = get_post(id, v=v)
 		parent_post = parent
@@ -101,7 +102,7 @@ def comment(v):
 		parent_post = get_post(parent.parent_submission, v=v)
 		parent_comment_id = parent.id
 		if parent.author_id == v.id: rts = True
-		if not v.can_post_in_ghost_threads and parent_post.ghost: abort(403, f"You need {TRUESCORE_GHOST_LIMIT} truescore to post in ghost threads")
+		if not v.can_post_in_ghost_threads and parent_post.ghost: abort(403, f"You need {TRUESCORE_GHOST_MINIMUM} truescore to post in ghost threads")
 	else: abort(400)
 
 	level = 1 if isinstance(parent, Submission) else parent.level + 1
@@ -359,6 +360,13 @@ def comment(v):
 
 	check_slots_command(v, v, c)
 
+	if c.level > 5:
+		n = g.db.query(Notification).filter_by(
+			comment_id=c.parent_comment.parent_comment.parent_comment.parent_comment_id,
+			user_id=c.parent_comment.author_id,
+		).one_or_none()
+		if n: g.db.delete(n)
+
 	g.db.flush()
 
 	if v.client: return c.json(db=g.db)
@@ -368,8 +376,8 @@ def comment(v):
 
 @app.post("/edit_comment/<cid>")
 @limiter.limit("1/second;10/minute;100/hour;200/day")
-@ratelimit_user("1/second;10/minute;100/hour;200/day")
 @is_not_permabanned
+@ratelimit_user("1/second;10/minute;100/hour;200/day")
 def edit_comment(cid, v):
 	c = get_comment(cid, v=v)
 

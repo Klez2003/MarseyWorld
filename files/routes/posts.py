@@ -1,5 +1,6 @@
 import os
 import time
+import html
 from io import BytesIO
 from os import path
 from shutil import copyfile
@@ -122,7 +123,7 @@ def publish(pid, v):
 @app.get("/submit")
 @app.get("/h/<sub>/submit")
 @auth_required
-def submit_get(v, sub=None):
+def submit_get(v:User, sub=None):
 	sub = get_sub_by_name(sub, graceful=True)
 	if request.path.startswith('/h/') and not sub: abort(404)
 
@@ -310,8 +311,8 @@ def morecomments(v, cid):
 
 @app.post("/edit_post/<pid>")
 @limiter.limit("1/second;10/minute;100/hour;200/day")
-@ratelimit_user("1/second;10/minute;100/hour;200/day")
 @is_not_permabanned
+@ratelimit_user("1/second;10/minute;100/hour;200/day")
 def edit_post(pid, v):
 	p = get_post(pid)
 	if v.id != p.author_id and v.admin_level < PERMS['POST_EDITING']:
@@ -392,7 +393,7 @@ def edit_post(pid, v):
 
 		p.body = body
 
-		for text in [p.body, p.title, p.url]:
+		for text in {p.body, p.title, p.url}:
 			if not execute_blackjack(v, p, text, 'submission'): break
 
 		if len(body_html) > POST_BODY_HTML_LENGTH_LIMIT: 
@@ -603,7 +604,7 @@ def is_repost():
 @limiter.limit(POST_RATE_LIMIT)
 @limiter.limit(POST_RATE_LIMIT, key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
-def submit_post(v, sub=None):
+def submit_post(v:User, sub=None):
 
 	url = request.values.get("url", "").strip()
 
@@ -810,7 +811,7 @@ def submit_post(v, sub=None):
 	g.db.add(post)
 	g.db.flush()
 
-	for text in [post.body, post.title, post.url]:
+	for text in {post.body, post.title, post.url}:
 		if not execute_blackjack(v, post, text, 'submission'): break
 
 	if v and v.admin_level >= PERMS['POST_BETS']:
@@ -1072,8 +1073,8 @@ extensions = IMAGE_FORMATS + VIDEO_FORMATS + AUDIO_FORMATS
 
 @app.get("/submit/title")
 @limiter.limit("3/minute")
-@ratelimit_user("3/minute")
 @auth_required
+@ratelimit_user("3/minute")
 def get_post_title(v):
 	POST_TITLE_TIMEOUT = 5
 	url = request.values.get("url")
@@ -1097,5 +1098,7 @@ def get_post_title(v):
 	if match and match.lastindex >= 1:
 		title = match.group(1)
 	else: abort(400)
+
+	title = html.unescape(title)
 
 	return {"url": url, "title": title}

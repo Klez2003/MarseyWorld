@@ -26,12 +26,12 @@ from files.__main__ import app, cache, limiter
 
 @app.get("/settings")
 @auth_required
-def settings(v):
+def settings(v:User):
 	return redirect("/settings/personal")
 
 @app.get("/settings/personal")
 @auth_required
-def settings_personal(v):
+def settings_personal(v:User):
 	return render_template("settings/personal.html", v=v)
 
 @app.delete('/settings/background')
@@ -301,7 +301,7 @@ def settings_personal_post(v):
 
 @app.post("/settings/filters")
 @auth_required
-def filters(v):
+def filters(v:User):
 	filters=request.values.get("filters")[:1000].strip()
 
 	if filters == v.custom_filter_list:
@@ -540,7 +540,7 @@ def settings_images_banner(v):
 
 @app.get("/settings/css")
 @auth_required
-def settings_css_get(v):
+def settings_css_get(v:User):
 	return render_template("settings/css.html", v=v)
 
 @app.post("/settings/css")
@@ -572,7 +572,7 @@ def settings_profilecss(v):
 
 @app.get("/settings/security")
 @auth_required
-def settings_security(v):
+def settings_security(v:User):
 	return render_template("settings/security.html",
 						v=v,
 						mfa_secret=pyotp.random_base32() if not v.mfa_secret else None,
@@ -581,8 +581,8 @@ def settings_security(v):
 
 @app.post("/settings/block")
 @limiter.limit("1/second;20/day")
-@ratelimit_user("1/second;20/day")
 @auth_required
+@ratelimit_user("1/second;20/day")
 def settings_block_user(v):
 	user = get_user(request.values.get("username"), graceful=True)
 	if not user: abort(404, "This user doesn't exist.")
@@ -622,12 +622,12 @@ def settings_unblock_user(v):
 
 @app.get("/settings/apps")
 @auth_required
-def settings_apps(v):
+def settings_apps(v:User):
 	return render_template("settings/apps.html", v=v)
 
 @app.get("/settings/advanced")
 @auth_required
-def settings_advanced_get(v):
+def settings_advanced_get(v:User):
 	return render_template("settings/advanced.html", v=v)
 
 @app.post("/settings/name_change")
@@ -671,8 +671,8 @@ def settings_name_change(v):
 @app.post("/settings/song_change_mp3")
 @feature_required('USERS_PROFILE_SONG')
 @limiter.limit("3/second;10/day")
-@ratelimit_user("3/second;10/day")
 @auth_required
+@ratelimit_user("3/second;10/day")
 def settings_song_change_mp3(v):
 	file = request.files['file']
 	if file.content_type != 'audio/mpeg':
@@ -699,8 +699,8 @@ def settings_song_change_mp3(v):
 @app.post("/settings/song_change")
 @feature_required('USERS_PROFILE_SONG')
 @limiter.limit("3/second;10/day")
-@ratelimit_user("3/second;10/day")
 @auth_required
+@ratelimit_user("3/second;10/day")
 def settings_song_change(v):
 	song=request.values.get("song").strip()
 

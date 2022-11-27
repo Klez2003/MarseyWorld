@@ -546,9 +546,11 @@ def badge_grant_post(v):
 	if desc: new_badge.description = desc
 
 	url = request.values.get("url")
-	if '\\' in url: abort(400)
-
-	if url: new_badge.url = url
+	if url:
+		if '\\' in url: abort(400)
+		if url.startswith(SITE_FULL):
+			url = url.split(SITE_FULL, 1)[1]
+		new_badge.url = url
 
 	g.db.add(new_badge)
 	g.db.flush()
@@ -829,7 +831,7 @@ def admin_removed_comments(v):
 	try: page = int(request.values.get("page", 1))
 	except: page = 1
 	
-	ids = g.db.query(Comment.id).join(Comment.author).filter(or_(Comment.is_banned==True, User.shadowbanned != None)).order_by(Comment.id.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
+	ids = g.db.query(Comment.id).join(Comment.author).filter(or_(Comment.is_banned==True, User.shadowbanned != None)).order_by(Comment.id.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
 	ids=[x[0] for x in ids]
 	next_exists = len(ids) > PAGE_SIZE
 	ids = ids[:PAGE_SIZE]
@@ -1332,6 +1334,12 @@ def sticky_comment(cid, v):
 			message = f"@{v.username} (Admin) has pinned your [comment]({comment.shortlink})"
 			send_repeatable_notification(comment.author_id, message)
 
+		c = comment
+		while c.level > 2:
+			c = c.parent_comment
+			c.stickied_child_id = comment.id
+			g.db.add(c)
+
 	return {"message": "Comment pinned!"}
 	
 
@@ -1356,6 +1364,11 @@ def unsticky_comment(cid, v):
 		if v.id != comment.author_id:
 			message = f"@{v.username} (Admin) has unpinned your [comment]({comment.shortlink})"
 			send_repeatable_notification(comment.author_id, message)
+
+		cleanup = g.db.query(Comment).filter_by(stickied_child_id=comment.id).all()
+		for c in cleanup:
+			c.stickied_child_id = None
+			g.db.add(c)
 
 	return {"message": "Comment unpinned!"}
 

@@ -22,7 +22,7 @@ from .front import frontlist
 @app.get("/shop")
 @app.get("/settings/shop")
 @auth_required
-def shop(v):
+def shop(v:User):
 	AWARDS = deepcopy(AWARDS2)
 
 	if v.house:
@@ -46,7 +46,7 @@ def shop(v):
 @app.post("/buy/<award>")
 @limiter.limit("100/minute;200/hour;1000/day")
 @auth_required
-def buy(v, award):
+def buy(v:User, award):
 	if award == 'benefactor' and not request.values.get("mb"):
 		abort(403, "You can only buy the Benefactor award with marseybux.")
 
@@ -200,7 +200,7 @@ def award_thing(v, thing_type, id):
 			author = v
 		elif kind != 'spider':
 			awarded_coins = int(AWARDS[kind]['price'] * COSMETIC_AWARD_COIN_AWARD_PCT) if AWARDS[kind]['cosmetic'] else 0
-			if AWARDS[kind]['cosmetic']:
+			if AWARDS[kind]['cosmetic'] and kind != 'shit':
 				author.pay_account('coins', awarded_coins)
 
 			msg = f"@{v.username} has given your [{thing_type}]({thing.shortlink}) the {AWARDS[kind]['title']} Award"

@@ -98,6 +98,7 @@ AJ_REPLACEMENTS = {
 
 SLURS = {
 	"nigger": "BIPOC",
+	"negroid": "BIPOC",
 	"niglet": 'BIPOClet',
 	"negress": "BIPOC woman",
 	'nigga': 'neighbor',
@@ -149,6 +150,7 @@ if SITE_NAME == 'rDrama':
 		"republican": 'republiKKKan',
 		"america": 'ameriKKKa',
 		"it's almost as if": "I'm a retard but",
+		"my brother in christ": "my brother in Allah",
 	}
 	SLURS.update(RDRAMA_SLURS)
 
@@ -197,6 +199,7 @@ WPD_CHANNEL_ID = 1013990963846332456
 PIN_AWARD_TEXT = " (pin award)"
 
 THEMES = ["4chan","classic","classic_dark","coffee","dark","dramblr","light","midnight","transparent","tron","win98"]
+BACKGROUND_CATEGORIES = ["glitter", "anime", "fantasy", "solarpunk", "pixelart"]
 COMMENT_SORTS = ["hot", "new", "old", "top", "bottom", "controversial"]
 SORTS = COMMENT_SORTS + ["bump", "comments"]
 TIME_FILTERS = ["hour", "day", "week", "month", "year", "all"]
@@ -255,8 +258,6 @@ PERMS = { # Minimum admin_level to perform action.
 	'VIEW_CHUDRAMA': 1,
 	'VIEW_PRIVATE_PROFILES': 2,
 	'VIEW_ALTS': 2,
-	'VIEW_PROFILE_VIEWS': 2,
-	'VIEW_SORTED_ADMIN_LIST': 3,
 	'VIEW_ACTIVE_USERS': 2,
 	'VIEW_ALL_USERS': 2,
 	'VIEW_ALT_VOTES': 2,
@@ -390,10 +391,10 @@ COMMENT_MAX_DEPTH = 200
 TRANSFER_MESSAGE_LENGTH_LIMIT = 200 # do not make larger than 10000 characters (comment limit) without altering the table
 MIN_REPOST_CHECK_URL_LENGTH = 9 # also change the constant in checkRepost() of submit.js
 CHAT_LENGTH_LIMIT = 1000
-TRUESCORE_DONATE_LIMIT = 100
 COSMETIC_AWARD_COIN_AWARD_PCT = 0.10
-TRUESCORE_CHAT_LIMIT = 0
-TRUESCORE_GHOST_LIMIT = 0
+TRUESCORE_CHAT_MINIMUM = 0
+TRUESCORE_DONATE_MINIMUM = 100
+TRUESCORE_GHOST_MINIMUM = 0
 
 LOGGEDIN_ACTIVE_TIME = 15 * 60
 PFP_DEFAULT_MARSEY = True
@@ -461,7 +462,8 @@ MAX_VIDEO_SIZE_MB = 32
 MAX_VIDEO_SIZE_MB_PATRON = 64
 MAX_IMAGE_CONVERSION_TIMEOUT = 15 # seconds
 
-ANTISPAM_BYPASS_IDS = ()
+ANTISPAM_BYPASS_IDS = set()
+BOOSTED_USERS_EXCLUDED = set()
 
 PAGE_SIZE = 25
 LEADERBOARD_LIMIT = PAGE_SIZE
@@ -495,8 +497,8 @@ if SITE == 'rdrama.net':
 	NOTIFICATION_THREAD = 6489
 
 	CHAT_LENGTH_LIMIT = 200
-	TRUESCORE_CHAT_LIMIT = 10
-	TRUESCORE_GHOST_LIMIT = 10
+	TRUESCORE_CHAT_MINIMUM = 10
+	TRUESCORE_GHOST_MINIMUM = 10
 	NEW_USER_HAT_AGE = 7 * 86400
 
 	HOLE_COST = 50000
@@ -530,7 +532,34 @@ if SITE == 'rdrama.net':
 	GEESE_ID = 1710
 	BLACKJACKBTZ_ID = 12732
 
-	ANTISPAM_BYPASS_IDS = (1703, 13427)
+	ANTISPAM_BYPASS_IDS = {1703, 13427}
+
+	BOOSTED_HOLES = {
+		'furry',
+		'femboy',
+		'anime',
+		'gaybros',
+		'againsthateholes',
+		'masterbaiters',
+		'changelog',
+	}
+
+	BOOSTED_USERS = {
+		IMPASSIONATA_ID,
+		PIZZASHILL_ID,
+		SNAKES_ID,
+		JUSTCOOL_ID,
+		2008, #TransGirlTradWife
+		29, #QuadNarca
+		JOAN_ID,
+	}
+
+	BOOSTED_USERS_EXCLUDED = {
+		8768,
+		3402,
+		5214,
+		12719
+	}
 
 	GIFT_NOTIF_ID = CARP_ID
 
@@ -576,35 +605,40 @@ elif SITE == 'watchpeopledie.tv':
 	PERMS['HOLE_CREATE'] = 2
 	PERMS['POST_EDITING'] = 2
 	PERMS['ADMIN_ADD'] = 4
-	
-	ERROR_TITLES[400] = "Bad Request"
-	ERROR_TITLES[401] = "Unauthorized"
-	ERROR_TITLES[403] = "Forbidden"
-	ERROR_TITLES[404] = "Not Found"
-	ERROR_TITLES[405] = "Method Not Allowed"
-	ERROR_TITLES[406] = "Too Many Pings"
-	ERROR_TITLES[409] = "Mortal Conflict"
-	ERROR_TITLES[410] = "Dead"
-	ERROR_TITLES[413] = "Payload Too Large"
-	ERROR_TITLES[415] = "Unsupported Media Type"
-	ERROR_TITLES[500] = "Internal Server Error"
-	ERROR_MSGS[400] = "That request is invalid"
-	ERROR_MSGS[401] = "You need to login or sign up to do that"
-	ERROR_MSGS[403] = "You're not allowed to do that"
-	ERROR_MSGS[404] = "That wasn't found"
-	ERROR_MSGS[405] = "You can't use this method here... if you keep getting this error tell us it's prolly something borked"
-	ERROR_MSGS[409] = "There's a conflict between what you're trying to do and what you or someone else has done and because of that you can't do what you're trying to do."
-	ERROR_MSGS[410] = "This link is dead. Request a new one to try again"
-	ERROR_MSGS[413] = "You need to upload a smaller file please"
-	ERROR_MSGS[429] = "Please wait a bit before doing that"
+
+	ERROR_TITLES.update({
+		400: "Bad Request",
+		401: "Unauthorized",
+		403: "Forbidden",
+		404: "Not Found",
+		405: "Method Not Allowed",
+		406: "Too Many Pings",
+		409: "Mortal Conflict",
+		410: "Dead",
+		413: "Payload Too Large",
+		415: "Unsupported Media Type",
+		500: "Internal Server Error",
+	})
+
+	ERROR_MSGS.update({
+		400: "That request is invalid",
+		401: "You need to login or sign up to do that",
+		403: "You're not allowed to do that",
+		404: "That wasn't found",
+		405: "You can't use this method here... if you keep getting this error tell us it's prolly something borked",
+		409: "There's a conflict between what you're trying to do and what you or someone else has done and because of that you can't do what you're trying to do.",
+		410: "This link is dead. Request a new one to try again",
+		413: "You need to upload a smaller file please",
+		429: "Please wait a bit before doing that",
+	})
 
 	POLL_THREAD = 13225
 
 	SIDEBAR_THREAD = 5403
 	BANNER_THREAD = 9869
 
-	TRUESCORE_CHAT_LIMIT = 10
-	TRUESCORE_GHOST_LIMIT = 10
+	TRUESCORE_CHAT_MINIMUM = 10
+	TRUESCORE_GHOST_MINIMUM = 10
 
 	HOLE_NAME = 'flair'
 	HOLE_STYLE_FLAIR = True
@@ -1419,9 +1453,7 @@ NOTIFIED_USERS = {
 }
 
 FORTUNE_REPLIES = ('<b style="color:#6023f8">Your fortune: Allah Wills It</b>','<b style="color:#d302a7">Your fortune: Inshallah, Only Good Things Shall Come To Pass</b>','<b style="color:#e7890c">Your fortune: Allah Smiles At You This Day</b>','<b style="color:#7fec11">Your fortune: Your Bussy Is In For A Blasting</b>','<b style="color:#43fd3b">Your fortune: You Will Be Propositioned By A High-Tier Twink</b>','<b style="color:#9d05da">Your fortune: Repent, You Have Displeased Allah And His Vengeance Is Nigh</b>','<b style="color:#f51c6a">Your fortune: Reply Hazy, Try Again</b>','<b style="color:#00cbb0">Your fortune: lmao you just lost 100 coins</b>','<b style="color:#2a56fb">Your fortune: Yikes 😬</b>','<b style="color:#0893e1">Your fortune: You Will Be Blessed With Many Black Bulls</b>','<b style="color:#16f174">Your fortune: NEETmax, The Day Is Lost If You Venture Outside</b>','<b style="color:#fd4d32">Your fortune: A Taste Of Jannah Awaits You Today</b>','<b style="color:#bac200">Your fortune: Watch Your Back</b>','<b style="color:#6023f8">Your fortune: Outlook good</b>','<b style="color:#d302a7">Your fortune: Godly Luck</b>','<b style="color:#e7890c">Your fortune: Good Luck</b>','<b style="color:#7fec11">Your fortune: Bad Luck</b>','<b style="color:#43fd3b">Your fortune: Good news will come to you by mail</b>','<b style="color:#9d05da">Your fortune: Very Bad Luck</b>','<b style="color:#00cbb0">Your fortune: ｷﾀ━━━━━━(ﾟ∀ﾟ)━━━━━━ !!!!</b>','<b style="color:#2a56fb">Your fortune: Better not tell you now</b>','<b style="color:#0893e1">Your fortune: You will meet a dark handsome stranger</b>','<b style="color:#16f174">Your fortune: （　´_ゝ`）ﾌｰﾝ</b>','<b style="color:#fd4d32">Your fortune: Excellent Luck</b>','<b style="color:#bac200">Your fortune: Average Luck</b>')
-
 FACTCHECK_REPLIES = ('<b style="color:#6023f8">Factcheck: This claim has been confirmed as correct by experts. </b>','<b style="color:#d302a7">Factcheck: This claim has been classified as misogynistic.</b>','<b style="color:#e7890c">Factcheck: This claim is currently being debunked.</b>','<b style="color:#7fec11">Factcheck: This claim is 100% true.</b>','<b style="color:#9d05da">Factcheck: This claim hurts trans lives.</b>','<b style="color:#f51c6a">Factcheck: [REDACTED].</b>','<b style="color:#00cbb0">Factcheck: This claim is both true and false.</b>','<b style="color:#2a56fb">Factcheck: You really believe that shit? Lmao dumbass nigga 🤣</b>','<b style="color:#0893e1">Factcheck: None of this is real.</b>','<b style="color:#16f174">Factcheck: Yes.</b>','<b style="color:#fd4d32">Factcheck: This claim has not been approved by experts.</b>','<b style="color:#bac200">Factcheck: This claim is a gross exageration of reality.</b>','<b style="color:#ff2200">Factcheck: WARNING! THIS CLAIM HAS BEEN CLASSIFIED AS DANGEROUS. PLEASE REMAIN STILL, AN AGENT WILL COME TO MEET YOU SHORTLY.</b>')
-
 EIGHTBALL_REPLIES = ('<b style="color:#7FEC11">The 8-Ball Says: It is certain.</b>', '<b style="color:#7FEC11">The 8-Ball Says: It is decidedly so.</b>', '<b style="color:#7FEC11">The 8-Ball Says: Without a doubt.</b>', '<b style="color:#7FEC11">The 8-Ball Says: Yes definitely.</b>', '<b style="color:#7FEC11">The 8-Ball Says: You may rely on it.</b>', '<b style="color:#7FEC11">The 8-Ball Says: As I see it, yes.</b>', '<b style="color:#7FEC11">The 8-Ball Says: Most likely.</b>', '<b style="color:#7FEC11">The 8-Ball Says: Outlook good.</b>', '<b style="color:#7FEC11">The 8-Ball Says: Yes.</b>', '<b style="color:#7FEC11">The 8-Ball Says: Signs point to yes.</b>', '<b style="color:#E7890C">The 8-Ball Says: Reply hazy, try again.</b>', '<b style="color:#E7890C">The 8-Ball Says: Ask again later.</b>', '<b style="color:#E7890C">The 8-Ball Says: Better not tell you now.</b>', '<b style="color:#E7890C">The 8-Ball Says: Cannot predict now.</b>', '<b style="color:#E7890C">The 8-Ball Says: Concentrate and ask again.</b>', '<b style="color:#FD4D32">The 8-Ball Says: Don\'t count on it.</b>', '<b style="color:#FD4D32">The 8-Ball Says: My reply is no.</b>', '<b style="color:#FD4D32">The 8-Ball Says: My sources say no.</b>', '<b style="color:#FD4D32">The 8-Ball Says: Outlook not so good.</b>', '<b style="color:#FD4D32">The 8-Ball Says: Very doubtful.</b>')
 
 REDDIT_NOTIFS_SITE = set()
@@ -1588,7 +1620,12 @@ forced_hats = {
 	"earlylife": ("The Merchant", "SHUT IT DOWN, the goys know!"),
 	"marsify": ("Marsified", "I can't pick my own Marseys, help!"),
 	"is_suspended": ("Behind Bars", "This user is banned and needs to do better!"),
-	"agendaposter": ("Egg_irl", "This user is getting in touch with xir identity!")
+	"agendaposter": (("Egg_irl", "This user is getting in touch with xir identity!"), 
+				("Trans Flag", "Just in case you forgot, trans lives matter."),
+				("Trans Flag II", "Your egg is cracked; wear it with pride!"),
+				("Pride Flag", "Never forget that this is a primarily gay community. Dude bussy lmao."),
+				("Pride Flag II", "This user is a proud supporter of LGBTQ+ rights."))
+
 }
 
 EMAIL_REGEX_PATTERN = '[A-Za-z0-9._%+-]{1,64}@[A-Za-z0-9.-]{2,63}\.[A-Za-z]{2,63}'
@@ -1662,6 +1699,7 @@ if SITE_NAME == 'rDrama':
 		'backloggd.com',
 		'tildes.net',
 		'blacktwitterapp.com',
+		'dailystormer.in',
 
 		#fediverse
 		'rdrama.cc',
@@ -1675,26 +1713,6 @@ if SITE_NAME == 'rDrama':
 		'sneed.social',
 		'seal.cafe',
 	}
-
-	BOOSTED_HOLES = {
-		'furry',
-		'femboy',
-		'anime',
-		'gaybros',
-		'againsthateholes',
-		'masterbaiters',
-		'changelog',
-	}
-
-	BOOSTED_USERS = {
-		IMPASSIONATA_ID,
-		PIZZASHILL_ID,
-		SNAKES_ID,
-		JUSTCOOL_ID,
-		2008, #TransGirlTradWife
-	}
-
-	BOOSTED_USERS_EXCLUDED = {8768, 5214, 12719, 3402}
 
 IMAGE_FORMATS = ['png','gif','jpg','jpeg','webp']
 VIDEO_FORMATS = ['mp4','webm','mov','avi','mkv','flv','m4v','3gp']
