@@ -29,7 +29,7 @@ FULL OUTER JOIN (
     SELECT user_id, COUNT(*) AS count_lost FROM bet_votes
     WHERE exclusive = 2 GROUP BY user_id) AS bet_lost
 ON bet_won.user_id = bet_lost.user_id
-ORDER BY bets_won DESC, bets_total ASC;''')
+ORDER BY bets_won DESC, bets_total ASC;''').all()
 	if g.is_api_or_xhr: return jsonify(result)
 	users = get_accounts_dict(result[0], v=v, include_shadowbanned=False)
 	return render_template("events/worldcup22_leaderboard.html", v=v, result=result, users=users)
