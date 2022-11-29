@@ -11,74 +11,6 @@
 	{% if request.path != '/sidebar' %}
 		<a href="{{image}}" style="text-decoration:none">
 			<img class="mb-4" alt="sidebar image" onclick="expandDesktopImage()" loading="lazy" src="{{image}}" width=100%>
-			{% if not sub %}
-				{% set coordsLookup = ({
-					"1.webp":({
-						"left":({
-							"x":"72px",
-							"y":"-205px"
-						}),
-						"right":({
-							"x":"112px",
-							"y":"-209px"
-						})
-					}),
-					"2.webp":({
-						"left":({
-							"x":"35px",
-							"y":"-335px"
-						}),
-						"right":({
-							"x":"60px",
-							"y":"-337px"
-						})
-					}),
-					"3.webp":({
-						"left":({
-							"x":"88px",
-							"y":"-272px"
-						}),
-						"right":({
-							"x":"112px",
-							"y":"-276px"
-						})
-					}),
-					"4.webp":({
-						"left":({
-							"x":"28px",
-							"y":"-152px"
-						}),
-						"right":({
-							"x":"32px",
-							"y":"-152px"
-						})
-					}),
-					"5.webp":({
-						"left":({
-							"x":"58px",
-							"y":"-155px"
-						}),
-						"right":({
-							"x":"82px",
-							"y":"-160px"
-						})
-					}),
-					"6.webp":({
-						"left":({
-							"x":"125px",
-							"y":"-219px"
-						}),
-						"right":({
-							"x":"153px",
-							"y":"-219px"
-						})
-					})
-				}) %}
-				<div class="d-none d-lg-block" style="position:absolute">
-					<img id="left-eye" class="eye" src="/assets/images/event/eye.webp" loading="lazy" style="left:{{[coordsLookup][0][selected_image]['left']['x']}};top:{{[coordsLookup][0][selected_image]['left']['y']}}">
-					<img id="right-eye" class="eye" src="/assets/images/event/eye.webp" loading="lazy" style="left:{{[coordsLookup][0][selected_image]['right']['x']}};top:{{[coordsLookup][0][selected_image]['right']['y']}}">
-				</div>
-			{% endif %}
 		</a>
 	{% endif %}
 
@@ -91,16 +23,6 @@
 		<a class="sidebar-link" href="/random_post" data-bs-toggle="tooltip" data-bs-placement="top" title="Random Post"><i class="fas fa-random"></i></a>
 		<span class="sidebar-link" onclick="if(localStorage.getItem('setting_upsidedown')=='true'){localStorage.setItem('setting_upsidedown', 'false')}else{localStorage.setItem('setting_upsidedown', 'true')};location.reload()" style="display:inline" data-bs-toggle="tooltip" data-bs-placement="top" title="???"><i class="fas fa-trees"></i></span>
 	</p>
-
-	{% set healthy = range(50,70) | random %}
-	<div class="progress">
-		<div style="--width:{{bar_position[0]}}%;" class="bar-left"></div>
-		<div style="--width:{{bar_position[1]}}%;" class="bar-right"></div>
-		<div class="legend">
-			<span title="{{bar_position[2]}}">{{bar_position[0]}}% Vaxxed</span>
-			<span title="{{bar_position[3]}}">{{bar_position[1]}}% Infected</span>
-		</div>
-	</div>
 
 	{% if sub %}
 		{% if sub.sidebar_html %}
@@ -154,5 +76,3 @@
 
 	</pre>
 </div>
-
-<script defer src="{{'js/event/eye-tracking.js' | asset}}" ></script>
