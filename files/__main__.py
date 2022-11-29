@@ -82,12 +82,11 @@ def no_step_on_jc():
 
 if app.config['SERVICE'] == Service.RDRAMA:
 	from files.routes import *
-elif app.config['SERVICE'] == Service.CHAT:
-	from files.routes.chat import *
 
-if FEATURES['HOLIDAY_EVENT']:
-	if app.config['SERVICE'] == Service.RDRAMA:
+	if HOLIDAY_EVENT:
 		from files.events import *
 		event_init()
+elif app.config['SERVICE'] == Service.CHAT:
+	from files.routes.chat import *
 
 stdout.flush()
