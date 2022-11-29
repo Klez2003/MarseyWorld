@@ -209,7 +209,7 @@ PAGE_SIZES = {10, 25, 50, 100}
 ### SITE SPECIFIC CONSTANTS
 ################################################################################
 
-HOLIDAY_EVENT = 'homoween22'
+HOLIDAY_EVENT = None
 
 PERMS = { # Minimum admin_level to perform action.
 	'ADMIN_ADD': 3,
