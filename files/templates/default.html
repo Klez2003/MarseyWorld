@@ -36,7 +36,7 @@
 		{% block sidebar %}
 			{% if has_sidebar and (home or p) %}
 				{% set sidebar = "sidebar_" + SITE_NAME + ".html" %}
-				{% include sidebar if not EVENT_SIDEBAR else ['event/', sidebar]|join %}
+				{% include sidebar if not EVENT_SIDEBAR else 'event/' + sidebar %}
 			{% endif %}
 		{% endblock %}
 	</div>
