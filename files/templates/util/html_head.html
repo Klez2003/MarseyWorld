@@ -150,7 +150,7 @@
 		<link rel="stylesheet" href="/assets/css/event/{{EVENT_STYLES}}">
 	{% endif %}
 
-	{% if 'chat' in request.path %}
+	{% if request.path == '/chat' %}
 		{% if IS_LOCALHOST %}
 			<link rel="stylesheet" href="https://rdrama.net/assets/css/chat_done.css">
 		{% else %}
