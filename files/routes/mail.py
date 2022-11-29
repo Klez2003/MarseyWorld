@@ -19,7 +19,7 @@ def verify_email(v):
 
 @app.get("/activate")
 @auth_required
-def activate(v):
+def activate(v:User):
 	email = request.values.get("email", "").strip().lower()
 
 	if not email_regex.fullmatch(email):
@@ -38,7 +38,7 @@ def activate(v):
 		abort(403)
 
 	if user.is_activated and user.email == email:
-		return render_template("message_success.html", v=v, title="Email already verified.", message="Email already verified."), 404
+		abort(400, "Email already verified!")
 
 	user.email = email
 	user.is_activated = True

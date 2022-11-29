@@ -508,21 +508,32 @@ def under_attack(v):
 	g.db.add(ma)
 	return {"message": f"Under attack mode {enable_disable_str}d!"}
 
+def admin_badges_grantable_list(v):
+	query = g.db.query(BadgeDef)
+	if BADGE_BLACKLIST and v.id != AEVANN_ID and SITE != 'pcmemes.net':
+		query = query.filter(BadgeDef.id.notin_(BADGE_BLACKLIST))
+	if BADGE_WHITELIST:
+		query = query.filter(BadgeDef.id.in_(BADGE_WHITELIST))
+	badge_types = query.order_by(BadgeDef.id).all()
+	return badge_types
+
 @app.get("/admin/badge_grant")
 @app.get("/admin/badge_remove")
 @feature_required('BADGES')
 @admin_level_required(PERMS['USER_BADGES'])
 def badge_grant_get(v):
 	grant = request.url.endswith("grant")
-	badges = g.db.query(BadgeDef).order_by(BadgeDef.id).all()
-	return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=grant)
+	badge_types = admin_badges_grantable_list(v)
+
+	return render_template("admin/badge_admin.html", v=v,
+		badge_types=badge_types, grant=grant)
 
 @app.post("/admin/badge_grant")
 @feature_required('BADGES')
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @admin_level_required(PERMS['USER_BADGES'])
 def badge_grant_post(v):
-	badges = g.db.query(BadgeDef).order_by(BadgeDef.id).all()
+	badges = admin_badges_grantable_list(v)
 
 	user = get_user(request.values.get("username").strip(), graceful=True)
 	if not user:
@@ -531,10 +542,7 @@ def badge_grant_post(v):
 	try: badge_id = int(request.values.get("badge_id"))
 	except: abort(400)
 
-	if SITE == 'watchpeopledie.tv' and badge_id not in {99,101}:
-		abort(403)
-
-	if badge_id in {16,17,21,22,23,24,25,26,27,94,95,96,97,98,109,137,67,68,83,84,87,90,140} and v.id != AEVANN_ID and SITE != 'pcmemes.net':
+	if badge_id not in [b.id for b in badges]:
 		abort(403)
 
 	if user.has_badge(badge_id):
@@ -573,7 +581,7 @@ def badge_grant_post(v):
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @admin_level_required(PERMS['USER_BADGES'])
 def badge_remove_post(v):
-	badges = g.db.query(BadgeDef).order_by(BadgeDef.id).all()
+	badges = admin_badges_grantable_list(v)
 
 	user = get_user(request.values.get("username").strip(), graceful=True)
 	if not user:
@@ -582,7 +590,7 @@ def badge_remove_post(v):
 	try: badge_id = int(request.values.get("badge_id"))
 	except: abort(400)
 
-	if badge_id in {67,68,83,84,87,90,140} and v.id != AEVANN_ID and SITE != 'pcmemes.net':
+	if badge_id not in [b.id for b in badges]:
 		abort(403)
 
 	badge = user.has_badge(badge_id)
@@ -831,7 +839,7 @@ def admin_removed_comments(v):
 	try: page = int(request.values.get("page", 1))
 	except: page = 1
 	
-	ids = g.db.query(Comment.id).join(Comment.author).filter(or_(Comment.is_banned==True, User.shadowbanned != None)).order_by(Comment.id.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
+	ids = g.db.query(Comment.id).join(Comment.author).filter(or_(Comment.is_banned==True, User.shadowbanned != None)).order_by(Comment.id.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
 	ids=[x[0] for x in ids]
 	next_exists = len(ids) > PAGE_SIZE
 	ids = ids[:PAGE_SIZE]

@@ -56,25 +56,25 @@ def upvoters_downvoters(v, username, uid, cls, vote_cls, vote_dir, template, sta
 
 @app.get("/@<username>/upvoters/<uid>/posts")
 @auth_required
-def upvoters_posts(v, username, uid):
+def upvoters_posts(v:User, username, uid):
 	return upvoters_downvoters(v, username, uid, Submission, Vote, 1, "userpage/voted_posts.html", None)
 
 
 @app.get("/@<username>/upvoters/<uid>/comments")
 @auth_required
-def upvoters_comments(v, username, uid):
+def upvoters_comments(v:User, username, uid):
 	return upvoters_downvoters(v, username, uid, Comment, CommentVote, 1, "userpage/voted_comments.html", True)
 
 
 @app.get("/@<username>/downvoters/<uid>/posts")
 @auth_required
-def downvoters_posts(v, username, uid):
+def downvoters_posts(v:User, username, uid):
 	return upvoters_downvoters(v, username, uid, Submission, Vote, -1, "userpage/voted_posts.html", None)
 
 
 @app.get("/@<username>/downvoters/<uid>/comments")
 @auth_required
-def downvoters_comments(v, username, uid):
+def downvoters_comments(v:User, username, uid):
 	return upvoters_downvoters(v, username, uid, Comment, CommentVote, -1, "userpage/voted_comments.html", True)
 
 def upvoting_downvoting(v, username, uid, cls, vote_cls, vote_dir, template, standalone):
@@ -107,25 +107,25 @@ def upvoting_downvoting(v, username, uid, cls, vote_cls, vote_dir, template, sta
 
 @app.get("/@<username>/upvoting/<uid>/posts")
 @auth_required
-def upvoting_posts(v, username, uid):
+def upvoting_posts(v:User, username, uid):
 	return upvoting_downvoting(v, username, uid, Submission, Vote, 1, "userpage/voted_posts.html", None)
 
 
 @app.get("/@<username>/upvoting/<uid>/comments")
 @auth_required
-def upvoting_comments(v, username, uid):
+def upvoting_comments(v:User, username, uid):
 	return upvoting_downvoting(v, username, uid, Comment, CommentVote, 1, "userpage/voted_comments.html", True)
 
 
 @app.get("/@<username>/downvoting/<uid>/posts")
 @auth_required
-def downvoting_posts(v, username, uid):
+def downvoting_posts(v:User, username, uid):
 	return upvoting_downvoting(v, username, uid, Submission, Vote, -1, "userpage/voted_posts.html", None)
 
 
 @app.get("/@<username>/downvoting/<uid>/comments")
 @auth_required
-def downvoting_comments(v, username, uid):
+def downvoting_comments(v:User, username, uid):
 	return upvoting_downvoting(v, username, uid, Comment, CommentVote, -1, "userpage/voted_comments.html", True)
 
 def user_voted(v, username, cls, vote_cls, template, standalone):
@@ -158,19 +158,19 @@ def user_voted(v, username, cls, vote_cls, template, standalone):
 
 @app.get("/@<username>/voted/posts")
 @auth_required
-def user_voted_posts(v, username):
+def user_voted_posts(v:User, username):
 	return user_voted(v, username, Submission, Vote, "userpage/voted_posts.html", None)
 
 
 @app.get("/@<username>/voted/comments")
 @auth_required
-def user_voted_comments(v, username):
+def user_voted_comments(v:User, username):
 	return user_voted(v, username, Comment, CommentVote, "userpage/voted_comments.html", True)
 
 
 @app.get("/grassed")
 @auth_required
-def grassed(v):
+def grassed(v:User):
 	users = g.db.query(User).filter(User.ban_reason.like('grass award used by @%'))
 	if not v.can_see_shadowbanned:
 		users = users.filter(User.shadowbanned == None)
@@ -179,8 +179,9 @@ def grassed(v):
 
 @app.get("/chuds")
 @auth_required
-def chuds(v):
-	users = g.db.query(User).filter(User.agendaposter == 1)
+def chuds(v:User):
+	after_30_days = int(time.time()) + 86400 * 30
+	users = g.db.query(User).filter(or_(User.agendaposter == 1, User.agendaposter > after_30_days))
 	if not v.can_see_shadowbanned:
 		users = users.filter(User.shadowbanned == None)
 	users = users.order_by(User.username).all()
@@ -227,28 +228,35 @@ def all_upvoters_downvoters(v, username, vote_dir, is_who_simps_hates):
 	if total == 1: vote_str = vote_str[:-1] # we want to unpluralize if only 1 vote
 	total = f'{total} {vote_str} {received_given}'
 
-	name2 = f'Who @{username} {simps_haters}' if is_who_simps_hates else f'@{username} biggest {simps_haters}'
+	name2 = f'Who @{username} {simps_haters}' if is_who_simps_hates else f"@{username}'s {simps_haters}"
 
-	return render_template("userpage/voters.html", v=v, users=users[:PAGE_SIZE], pos=pos, name=vote_name, name2=name2, total=total)
+	try: page = int(request.values.get("page", 1))
+	except: page = 1
+	
+	users = users[PAGE_SIZE * (page-1):]
+	next_exists = (len(users) > PAGE_SIZE)
+	users = users[:PAGE_SIZE]
+
+	return render_template("userpage/voters.html", v=v, users=users, pos=pos, name=vote_name, name2=name2, total=total, page=page, next_exists=next_exists)
 
 @app.get("/@<username>/upvoters")
 @auth_required
-def upvoters(v, username):
+def upvoters(v:User, username):
 	return all_upvoters_downvoters(v, username, 1, False)
 
 @app.get("/@<username>/downvoters")
 @auth_required
-def downvoters(v, username):
+def downvoters(v:User, username):
 	return all_upvoters_downvoters(v, username, -1, False)
 
 @app.get("/@<username>/upvoting")
 @auth_required
-def upvoting(v, username):
+def upvoting(v:User, username):
 	return all_upvoters_downvoters(v, username, 1, True)
 
 @app.get("/@<username>/downvoting")
 @auth_required
-def downvoting(v, username):
+def downvoting(v:User, username):
 	return all_upvoters_downvoters(v, username, -1, True)
 
 @app.post("/@<username>/suicide")
@@ -266,7 +274,7 @@ def suicide(v, username):
 
 @app.get("/@<username>/coins")
 @auth_required
-def get_coins(v, username):
+def get_coins(v:User, username):
 	user = get_user(username, v=v, include_shadowbanned=False)
 	return {"coins": user.coins}
 
@@ -326,13 +334,13 @@ def transfer_bux(v, username):
 
 @app.get("/leaderboard")
 @auth_required
-def leaderboard(v):
+def leaderboard(v:User):
 	users = g.db.query(User)
 	if not v.can_see_shadowbanned:
 		users = users.filter(User.shadowbanned == None)
 
 	coins = Leaderboard("Coins", "coins", "coins", "Coins", None, Leaderboard.get_simple_lb, User.coins, v, lambda u:u.coins, g.db, users)
-	subscribers = Leaderboard("Followers", "followers", "followers", "Followers", None, Leaderboard.get_simple_lb, User.stored_subscriber_count, v, lambda u:u.stored_subscriber_count, g.db, users)
+	subscribers = Leaderboard("Followers", "followers", "followers", "Followers", "followers", Leaderboard.get_simple_lb, User.stored_subscriber_count, v, lambda u:u.stored_subscriber_count, g.db, users)
 	posts = Leaderboard("Posts", "post count", "posts", "Posts", "", Leaderboard.get_simple_lb, User.post_count, v, lambda u:u.post_count, g.db, users)
 	comments = Leaderboard("Comments", "comment count", "comments", "Comments", "comments", Leaderboard.get_simple_lb, User.comment_count, v, lambda u:u.comment_count, g.db, users)
 	received_awards = Leaderboard("Awards", "received awards", "awards", "Awards", None, Leaderboard.get_simple_lb, User.received_award_count, v, lambda u:u.received_award_count, g.db, users)
@@ -340,14 +348,16 @@ def leaderboard(v):
 	truescore = Leaderboard("Truescore", "truescore", "truescore", "Truescore", None, Leaderboard.get_simple_lb, User.truescore, v, lambda u:u.truescore, g.db, users)
 
 	badges = Leaderboard("Badges", "badges", "badges", "Badges", None, Leaderboard.get_badge_marsey_lb, Badge.user_id, v, None, g.db, None)
-	marseys = Leaderboard("Marseys", "Marseys made", "marseys", "Marseys", None, Leaderboard.get_badge_marsey_lb, Marsey.author_id, v, None, g.db, None) if SITE_NAME == 'rDrama' else None
 
 	blocks = Leaderboard("Blocked", "most blocked", "blocked", "Blocked By", "blockers", Leaderboard.get_blockers_lb, UserBlock.target_id, v, None, g.db, None)
 
 	owned_hats = Leaderboard("Owned hats", "owned hats", "owned-hats", "Owned Hats", None, Leaderboard.get_hat_lb, User.owned_hats, v, None, g.db, None)
-	designed_hats = Leaderboard("Designed hats", "designed hats", "designed-hats", "Designed Hats", None, Leaderboard.get_hat_lb, User.designed_hats, v, None, g.db, None)	
 
-	leaderboards = [coins, coins_spent, truescore, subscribers, posts, comments, received_awards, badges, marseys, blocks, owned_hats, designed_hats]
+	leaderboards = [coins, coins_spent, truescore, subscribers, posts, comments, received_awards, badges, blocks, owned_hats]
+
+	if SITE == 'rdrama.net':
+		leaderboards.append(Leaderboard("Designed hats", "designed hats", "designed-hats", "Designed Hats", None, Leaderboard.get_hat_lb, User.designed_hats, v, None, g.db, None))
+		leaderboards.append(Leaderboard("Marseys", "Marseys made", "marseys", "Marseys", None, Leaderboard.get_badge_marsey_lb, Marsey.author_id, v, None, g.db, None))
 
 	return render_template("leaderboard.html", v=v, leaderboards=leaderboards)
 
@@ -622,25 +632,40 @@ def redditor_moment_redirect(username, v):
 @auth_required
 def followers(username, v):
 	u = get_user(username, v=v, include_shadowbanned=False)
-	if u.id == CARP_ID and SITE == 'watchpeopledie.tv': abort(403)
 
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_FOLLOWS_VISIBLE']):
 		abort(403)
 
+	try: page = int(request.values.get("page", 1))
+	except: page = 1
+
 	users = g.db.query(Follow, User).join(Follow, Follow.target_id == u.id) \
 		.filter(Follow.user_id == User.id) \
-		.order_by(Follow.created_utc).all()
-	return render_template("userpage/followers.html", v=v, u=u, users=users)
+		.order_by(Follow.created_utc.desc()) \
+		.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
+
+	next_exists = (len(users) > PAGE_SIZE)
+	users = users[:PAGE_SIZE]
+
+	return render_template("userpage/followers.html", v=v, u=u, users=users, page=page, next_exists=next_exists)
 
 @app.get("/@<username>/blockers")
 @auth_required
 def blockers(username, v):
 	u = get_user(username, v=v, include_shadowbanned=False)
 
+	try: page = int(request.values.get("page", 1))
+	except: page = 1
+
 	users = g.db.query(UserBlock, User).join(UserBlock, UserBlock.target_id == u.id) \
 		.filter(UserBlock.user_id == User.id) \
-		.order_by(UserBlock.created_utc).all()
-	return render_template("userpage/blockers.html", v=v, u=u, users=users)
+		.order_by(UserBlock.created_utc.desc()) \
+		.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
+
+	next_exists = (len(users) > PAGE_SIZE)
+	users = users[:PAGE_SIZE]
+
+	return render_template("userpage/blockers.html", v=v, u=u, users=users, page=page, next_exists=next_exists)
 
 @app.get("/@<username>/following")
 @auth_required
@@ -649,18 +674,33 @@ def following(username, v):
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_FOLLOWS_VISIBLE']):
 		abort(403)
 
+	try: page = int(request.values.get("page", 1))
+	except: page = 1
+
 	users = g.db.query(User).join(Follow, Follow.user_id == u.id) \
 		.filter(Follow.target_id == User.id) \
-		.order_by(Follow.created_utc).all()
-	return render_template("userpage/following.html", v=v, u=u, users=users)
+		.order_by(Follow.created_utc.desc()) \
+		.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
 
-@app.get("/views")
+	next_exists = (len(users) > PAGE_SIZE)
+	users = users[:PAGE_SIZE]
+
+	return render_template("userpage/following.html", v=v, u=u, users=users, page=page, next_exists=next_exists)
+
+@app.get("/@<username>/views")
 @auth_required
-def visitors(v):
-	if not v.viewers_recorded:
-		return render_template("errors/patron.html", v=v)
-	viewers=sorted(v.viewers, key = lambda x: x.last_view_utc, reverse=True)
-	return render_template("userpage/viewers.html", v=v, viewers=viewers)
+def visitors(username, v:User):
+	u = get_user(username, v=v, include_shadowbanned=False)
+
+	try: page = int(request.values.get("page", 1))
+	except: page = 1
+
+	views = g.db.query(ViewerRelationship).filter_by(user_id=u.id).order_by(ViewerRelationship.last_view_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
+
+	next_exists = (len(views) > PAGE_SIZE)
+	views = views[:PAGE_SIZE]
+
+	return render_template("userpage/views.html", v=v, u=u, views=views, next_exists=next_exists, page=page)
 
 @cache.memoize(timeout=86400)
 def userpagelisting(user:User, site=None, v=None, page:int=1, sort="new", t="all"):
@@ -682,7 +722,7 @@ def u_username(username, v=None):
 		return redirect(SITE_FULL + request.full_path.replace(username, u.username))
 	is_following = v and u.has_follower(v)
 
-	if v and v.id not in (u.id, DAD_ID) and u.viewers_recorded:
+	if v and v.id != u.id:
 		g.db.flush()
 		view = g.db.query(ViewerRelationship).filter_by(viewer_id=v.id, user_id=u.id).one_or_none()
 
@@ -963,7 +1003,7 @@ def get_saves_and_subscribes(v, template, relationship_cls, page:int, standalone
 
 @app.get("/@<username>/saved/posts")
 @auth_required
-def saved_posts(v, username):
+def saved_posts(v:User, username):
 	try: page = max(1, int(request.values.get("page", 1)))
 	except: abort(400, "Invalid page input!")
 
@@ -971,7 +1011,7 @@ def saved_posts(v, username):
 
 @app.get("/@<username>/saved/comments")
 @auth_required
-def saved_comments(v, username):
+def saved_comments(v:User, username):
 	try: page = max(1, int(request.values.get("page", 1)))
 	except: abort(400, "Invalid page input!")
 
@@ -979,7 +1019,7 @@ def saved_comments(v, username):
 
 @app.get("/@<username>/subscribed/posts")
 @auth_required
-def subscribed_posts(v, username):
+def subscribed_posts(v:User, username):
 	try: page = max(1, int(request.values.get("page", 1)))
 	except: abort(400, "Invalid page input!")
 
@@ -987,7 +1027,7 @@ def subscribed_posts(v, username):
 
 @app.post("/fp/<fp>")
 @auth_required
-def fp(v, fp):
+def fp(v:User, fp):
 	v.fp = fp
 	users = g.db.query(User).filter(User.fp == fp, User.id != v.id).all()
 	if users: print(f'{v.username}: fp', flush=True)
@@ -1033,7 +1073,7 @@ def toggle_holes():
 
 @app.get("/badge_owners/<bid>")
 @auth_required
-def bid_list(v, bid):
+def bid_list(v:User, bid):
 
 	try: bid = int(bid)
 	except: abort(400)
@@ -1095,7 +1135,7 @@ kofi_tiers={
 @app.post("/settings/kofi")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_required
-def settings_kofi(v):
+def settings_kofi(v:User):
 	if not KOFI_TOKEN or KOFI_TOKEN == DEFAULT_CONFIG_VALUE: abort(404)
 	if not (v.email and v.is_activated):
 		abort(400, f"You must have a verified email to verify {patron} status and claim your rewards!")

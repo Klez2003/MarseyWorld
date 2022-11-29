@@ -302,7 +302,7 @@ class Submission(Base):
 					body += " - <b>WINNER!</b>"
 				
 				if not winner and v and v.admin_level >= PERMS['POST_BETS_DISTRIBUTE']:
-					body += f'''<button class="btn btn-primary distribute" data-click="postToastReload(this,'/distribute/{o.id}')" onclick="areyousure(this)">Declare winner</button>'''
+					body += f'''<button class="btn btn-primary distribute" data-click2="postToastReload(this,'/distribute/{o.id}')" onclick="areyousure(this)">Declare winner</button>'''
 				body += "</div>"
 			else:
 				input_type = 'radio' if o.exclusive else 'checkbox'
@@ -322,7 +322,10 @@ class Submission(Base):
 
 
 		if not listing and not self.ghost and self.author.show_sig(v):
-			body += f"<hr>{self.author.sig_html}"
+			body += f'<section id="signature-{self.author.id}" class="user-signature"><hr>{self.author.sig_html}</section>'
+
+		if v:
+			body = body.replace("!YOU!", v.username)
 
 		return body
 
@@ -337,6 +340,10 @@ class Submission(Base):
 
 		body = censor_slurs(body, v).replace('<img loading="lazy" data-bs-toggle="tooltip" alt=":marseytrain:" title=":marseytrain:" src="/e/marseytrain.webp">', ':marseytrain:')
 		body = normalize_urls_runtime(body, v)
+
+		if v:
+			body = body.replace("!YOU!", v.username)
+
 		return body
 
 	@lazy

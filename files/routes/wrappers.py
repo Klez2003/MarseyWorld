@@ -18,19 +18,10 @@ def session_init():
 		session["session_id"] = secrets.token_hex(49)
 
 def calc_users(v):
-	# temp logging code
-	if not hasattr(g, 'is_api_or_xhr'):
-		print("calc_users called with missing context data")
-		if request:
-			print(f"while serving {request.method} {request.full_path}")
-			print(f"user agent: {getattr(g, 'agent', '-attribute not present-')}")
-			print(f"xhr? {request.headers.get('xhr')} / API client? {bool(request.headers.get('Authorization'))}")
-		else:
-			print("no request context")
-		print(f"v: {v}")
-		print(f"db?: {hasattr(g, 'db')}")
-		abort(500, "hi!! it's @justcool393! If you get this could you PM me and tell me how you got this? i'm trying to figure something out and if you can help I'll really appreciate it <3")
-	# end temp logging code
+	if g.is_api_or_xhr: 
+		g.loggedin_counter = 0
+		g.loggedout_counter = 0
+		return ''
 	loggedin = cache.get(f'{SITE}_loggedin') or {}
 	loggedout = cache.get(f'{SITE}_loggedout') or {}
 	timestamp = int(time.time())
@@ -69,20 +60,20 @@ def get_logged_in_user():
 		if lo_user:
 			id = int(lo_user)
 			v = get_account(id, graceful=True)
-			if not v:
-				session.clear()
-				return None
-			else:
+			if v:
+				v.client = None
 				nonce = session.get("login_nonce", 0)
 				if nonce < v.login_nonce or v.id != id:
-					session.clear()
-					return None
+					session.pop("lo_user")
+					v = None
 
-				if request.method != "GET":
+				if v and request.method != "GET":
 					submitted_key = request.values.get("formkey")
-					if not validate_formkey(v, submitted_key): abort(401)
+					if not validate_formkey(v, submitted_key):
+						v = None
+			else:
+				session.pop("lo_user")
 
-				v.client = None
 	g.is_api_or_xhr = bool((v and v.client) or request.headers.get("xhr"))
 
 	if request.method.lower() != "get" and get_setting('Read-only mode') and not (v and v.admin_level >= PERMS['SITE_BYPASS_READ_ONLY_MODE']):

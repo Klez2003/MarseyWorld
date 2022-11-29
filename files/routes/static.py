@@ -22,65 +22,67 @@ def rdrama(id, title):
 	id = ''.join(f'{x}/' for x in id)
 	return redirect(f'/archives/drama/comments/{id}{title}.html')
 
+@app.get("/r/<subreddit>")
+@auth_desired
+def subreddit(subreddit, v):
+	reddit = v.reddit if v else "old.reddit.com"
+	return redirect(f'https://{reddit}/r/{subreddit}')
+
+@app.get("/reddit/<subreddit>/comments/<path:path>")
+@app.get("/r/<subreddit>/comments/<path:path>")
+@auth_desired
+def reddit_post(subreddit, v, path):
+	post_id = path.rsplit("/", 1)[0].replace('/', '')
+	reddit = v.reddit if v else "old.reddit.com"
+	return redirect(f'https://{reddit}/{post_id}')
+
 
 @app.get("/marseys")
 @auth_required
-def marseys(v):
-	if SITE == 'rdrama.net':
-		marseys = g.db.query(Marsey, User).join(User, Marsey.author_id == User.id).filter(Marsey.submitter_id==None)
-		sort = request.values.get("sort", "usage")
-		if sort == "usage":
-			marseys = marseys.order_by(Marsey.count.desc(), User.username).all()
-		elif sort == "added":
-			marseys = marseys.order_by(nullslast(Marsey.created_utc.desc()), User.username).all()
-		else: # implied sort == "author"
-			marseys = marseys.order_by(User.username, Marsey.count.desc()).all()
+def marseys(v:User):
 
-		original = os.listdir("/asset_submissions/marseys/original")
-		for marsey, user in marseys:
-			for x in IMAGE_FORMATS:
-				if f'{marsey.name}.{x}' in original:
-					marsey.og = f'{marsey.name}.{x}'
-					break
-	else:
-		marseys = g.db.query(Marsey).filter(Marsey.submitter_id==None).order_by(Marsey.count.desc())
-
+	marseys = get_marseys(g.db)
+	authors = get_accounts_dict([m.author_id for m in marseys], v=v, graceful=True, include_shadowbanned=False)
+	original = os.listdir("/asset_submissions/marseys/original")
+	for marsey in marseys:
+		marsey.user = authors.get(marsey.author_id)
+		for x in IMAGE_FORMATS:
+			if f'{marsey.name}.{x}' in original:
+				marsey.og = f'{marsey.name}.{x}'
+				break
 	return render_template("marseys.html", v=v, marseys=marseys)
 
-@app.get("/marsey_list.json")
-@cache.memoize(timeout=600)
-def marsey_list():
-	emojis = []
+@app.get("/emojis")
+def emoji_list():
+	return jsonify(get_emojis(g.db))
 
-	# From database
-	if EMOJI_MARSEYS:
-		emojis = [{
-			"name": emoji.name,
-			"author": author if SITE == 'rdrama.net' or author == "anton-d" else None,
-			# yikes, I don't really like this DB schema. Next time be better
-			"tags": emoji.tags.split(" ") + [emoji.name[len("marsey"):] \
-						if emoji.name.startswith("marsey") else emoji.name],
-			"count": emoji.count,
-			"class": "Marsey"
-		} for emoji, author in g.db.query(Marsey, User.username).join(User, Marsey.author_id == User.id).filter(Marsey.submitter_id==None) \
-			.order_by(Marsey.count.desc())]
+@cache.cached(timeout=86400, key_prefix=MARSEYS_CACHE_KEY)
+def get_marseys(db:scoped_session):
+	if not FEATURES['MARSEYS']: return []
+	marseys = []
+	for marsey, author in db.query(Marsey, User).join(User, Marsey.author_id == User.id).filter(Marsey.submitter_id == None).order_by(Marsey.count.desc()):
+		marsey.author = author.username if FEATURES['ASSET_SUBMISSIONS'] else None
+		setattr(marsey, "class", "Marsey")
+		marseys.append(marsey)
+	return marseys
 
-	# Static shit
+@cache.cached(timeout=600, key_prefix=EMOJIS_CACHE_KEY)
+def get_emojis(db:scoped_session):
+	emojis = [m.json() for m in get_marseys(db)]
 	for src in EMOJI_SRCS:
 		with open(src, "r", encoding="utf-8") as f:
 			emojis = emojis + json.load(f)
-
-	return jsonify(emojis)
+	return emojis
 
 @app.get('/sidebar')
 @auth_desired
-def sidebar(v):
+def sidebar(v:Optional[User]):
 	return render_template('sidebar.html', v=v)
 
 
 @app.get("/stats")
 @auth_required
-def participation_stats(v):
+def participation_stats(v:User):
 	if v.client: return stats_cached()
 	return render_template("stats.html", v=v, title="Content Statistics", data=stats_cached())
 
@@ -94,12 +96,12 @@ def chart():
 
 @app.get("/weekly_chart")
 @auth_required
-def weekly_chart(v):
+def weekly_chart(v:User):
 	return send_file(statshelper.chart_path(kind="weekly", site=SITE))
 
 @app.get("/daily_chart")
 @auth_required
-def daily_chart(v):
+def daily_chart(v:User):
 	return send_file(statshelper.chart_path(kind="daily", site=SITE))
 
 @app.get("/patrons")
@@ -115,14 +117,14 @@ def patrons(v):
 @app.get("/admins")
 @app.get("/badmins")
 @auth_required
-def admins(v):
+def admins(v:User):
 	admins = g.db.query(User).filter(User.admin_level >= PERMS['ADMIN_MOP_VISIBLE']).order_by(User.truescore.desc()).all()
 	return render_template("admins.html", v=v, admins=admins)
 
 @app.get("/log")
 @app.get("/modlog")
 @auth_required
-def log(v):
+def log(v:User):
 
 	try: page = max(int(request.values.get("page", 1)), 1)
 	except: page = 1
@@ -185,7 +187,7 @@ def log_item(id, v):
 
 @app.get("/directory")
 @auth_required
-def static_megathread_index(v):
+def static_megathread_index(v:User):
 	return render_template("megathread_index.html", v=v)
 
 @app.get("/api")
@@ -199,7 +201,7 @@ def api(v):
 @app.get("/press")
 @app.get("/media")
 @auth_desired
-def contact(v):
+def contact(v:Optional[User]):
 	return render_template("contact.html", v=v)
 
 @app.post("/send_admin")
@@ -326,7 +328,7 @@ def badge_list(site):
 @app.get("/badges")
 @feature_required('BADGES')
 @auth_required
-def badges(v):
+def badges(v:User):
 	badges, counts = badge_list(SITE)
 	return render_template("badges.html", v=v, badges=badges, counts=counts)
 
@@ -347,8 +349,9 @@ def blocks(v):
 
 @app.get("/banned")
 @auth_required
-def banned(v):
-	users = g.db.query(User).filter(User.is_banned > 0, User.unban_utc == 0)
+def banned(v:User):
+	after_30_days = int(time.time()) + 86400 * 30
+	users = g.db.query(User).filter(User.is_banned > 0, or_(User.unban_utc == 0, User.unban_utc > after_30_days))
 	if not v.can_see_shadowbanned:
 		users = users.filter(User.shadowbanned == None)
 	users = users.all()
@@ -356,12 +359,12 @@ def banned(v):
 
 @app.get("/formatting")
 @auth_required
-def formatting(v):
+def formatting(v:User):
 	return render_template("formatting.html", v=v)
 
 @app.get("/app")
 @auth_desired
-def mobile_app(v):
+def mobile_app(v:Optional[User]):
 	return render_template("app.html", v=v)
 
 @app.get("/service-worker.js")
@@ -389,7 +392,7 @@ def transfers_id(id, v):
 
 @app.get("/transfers")
 @auth_required
-def transfers(v):
+def transfers(v:User):
 
 	comments = g.db.query(Comment).filter(Comment.author_id == AUTOJANNY_ID, Comment.parent_submission == None, Comment.body_html.like("%</a> has transferred %")).order_by(Comment.id.desc())
 

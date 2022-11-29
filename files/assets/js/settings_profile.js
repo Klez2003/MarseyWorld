@@ -12,6 +12,17 @@ function updatebgselection(){
 	var bgselector = document.getElementById("backgroundSelector");
 	const backgrounds = [
 		{
+			folder: "glitter",
+			backgrounds: 
+			[
+				"1.webp",
+				"2.webp",
+				"3.webp",
+				"4.webp",
+				"5.webp",
+			]
+		},
+		{
 			folder: "anime",
 			backgrounds:
 			[
@@ -20,7 +31,7 @@ function updatebgselection(){
 				"3.webp",
 				"4.webp",
 				"5.webp",
-				"6.webp"
+				"6.webp",
 			]
 		},
 		{

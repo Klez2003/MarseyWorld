@@ -1853,7 +1853,7 @@ button.close {
 	color: #fff;
 	text-align: center;
 	background-color: #000;
-	border-radius: 0.35rem;
+	border-radius: 0.2rem;
 }
 .popover {
 	position: absolute;
@@ -4063,11 +4063,6 @@ ul.comment-section {
 .footer a:hover, .footer a:focus, .footer a:active {
 	text-decoration: underline;
 }
-.empty-state-img {
-	width: 200px;
-	opacity: 0.35;
-	filter: brightness(0);
-}
 .border-top {
 	border-top: 1px solid var(--gray-400) !important;
 }
@@ -5025,6 +5020,23 @@ img[glow]:not([data-src]) {
 img[src="/i/hand.webp"]+img[glow]:not([data-src]) {
 	animation: glowing 1s infinite alternate linear,
 	pat-pfp-anim .3s infinite;
+}
+
+.glow .post-title, .glow a, .glow .post-meta *, .glow .user-info *, .glow .comment-text, .glow .comment-actions *, .glow  {
+	color:lightgreen !important;
+	text-shadow:1px 1px 1px darkgreen, 0 0 5px green;
+}
+.glow .score-up, .glow .active.arrow-up::before, .glow .arrow-up::after, .glow .arrow-up:hover::before {
+	color: lime !important;
+}
+.glow .score-down, .glow .active.arrow-down::before, .glow .arrow-down::after, .glow .arrow-down:hover::before {
+	color: lime !important;
+}
+.glow .arrow-up::before, .glow .arrow-down::before, .glow .score {
+	color: lightgreen;
+}
+.glow .post-body a, .glow .comment-text a {
+	text-decoration: underline;
 }
 
 @keyframes rb {
@@ -6060,7 +6072,7 @@ g {
 .fa-spider-web:before{content:"\f719"}
 .fa-coffin-cross:before{content:"\e051"}
 .fa-face-sleeping:before{content:"\e38d"}
-
+.fa-block-question:before{content:"\e3dd"}
 
 .pronouns {
 	font-size: 9px;
@@ -6105,11 +6117,11 @@ g {
 	font-size: 20px;
 }
 
-@media (max-width: 374px) {
+@media (max-width: 427px) {
 	.smol-fp {
-		font-size: 3.3vw;
-		padding-left: 2.4vw;
-		padding-right: 2.4vw;
+		font-size: 2.7vw;
+		padding-left: 2.5vw;
+		padding-right: 2.1vw;
 	}
 }
 
@@ -6385,13 +6397,6 @@ div.markdown {
 	max-height: min(42vh,30vw) !important;
 }
 
-@media (max-width: 768px) {
-	#twitter-widget-0 {
-		max-height: 50vh;
-		overflow: scroll;
-	}
-}
-
 .modlog-action {
 	display: flex;
 	flex-wrap: wrap;
@@ -6405,4 +6410,17 @@ div.markdown {
 
 .modlog-action:not(:first-of-type) {
 	border-top: 1px solid var(--gray-400) !important;
+}
+
+:root {
+	--signature-max-height: 250px;
+}
+
+.user-signature {
+	max-height: var(--signature-max-height);
+	overflow: clip;
+}
+
+.user-signature video {
+	height: var(--signature-max-height);
 }

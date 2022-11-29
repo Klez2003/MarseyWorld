@@ -42,11 +42,6 @@ FP = environ.get("FP", "").strip()
 KOFI_TOKEN = environ.get("KOFI_TOKEN", "").strip()
 KOFI_LINK = environ.get("KOFI_LINK", "").strip()
 
-PUSHER_ID_CSP = ""
-if PUSHER_ID != DEFAULT_CONFIG_VALUE:
-	PUSHER_ID_CSP = f" {PUSHER_ID}.pushnotifications.pusher.com"
-CONTENT_SECURITY_POLICY_DEFAULT = "script-src 'self' 'unsafe-inline' challenges.cloudflare.com; connect-src 'self'; object-src 'none';"
-CONTENT_SECURITY_POLICY_HOME = f"script-src 'self' 'unsafe-inline' 'unsafe-eval'; connect-src 'self' tls-use1.fpapi.io api.fpjs.io{PUSHER_ID_CSP}; object-src 'none';"
 
 CLOUDFLARE_COOKIE_VALUE = "yes." # remember to change this in CloudFlare too
 
@@ -63,6 +58,9 @@ IS_LOCALHOST = SITE == "localhost" or SITE == "127.0.0.1" or SITE.startswith("19
 if IS_LOCALHOST: SITE_FULL = 'http://' + SITE
 else: SITE_FULL = 'https://' + SITE
 
+REDDIT_NOTIFS_CACHE_KEY = "reddit_notifications"
+MARSEYS_CACHE_KEY = "marseys"
+EMOJIS_CACHE_KEY = "emojis"
 
 if SITE_NAME == 'PCM': CC = "SPLASH MOUNTAIN"
 else: CC = "COUNTRY CLUB"
@@ -101,6 +99,7 @@ SLURS = {
 	'nigga': 'neighbor',
 	"faggot": "cute twink",
 	"fag": "strag",
+	"homo ": "king ",
 	"spic ": "hard-working American ",
 	"spics": "hard-working Americans",
 	"trannie": '<img loading="lazy" data-bs-toggle="tooltip" alt=":marseytrain:" title=":marseytrain:" src="/e/marseytrain.webp">',
@@ -187,7 +186,7 @@ AGENDAPOSTER_PHRASE = 'trans lives matter'
 AGENDAPOSTER_MSG = """Hi @{username},\nYour {type} has been automatically removed because you forgot to include `{AGENDAPOSTER_PHRASE}`.\nDon't worry, we're here to help! We won't let you post or comment anything that doesn't express your love and acceptance towards the trans community. Feel free to resubmit your {type} with `{AGENDAPOSTER_PHRASE}` included. \n*This is an automated message; if you need help, you can message us [here](/contact).*"""
 
 AGENDAPOSTER_MSG_HTML = """<p>Hi <a href="/id/{id}"><img loading="lazy" src="/pp/{id}">@{username}</a>,</p>
-<p>Your comment has been automatically removed because you forgot to include <code>{AGENDAPOSTER_PHRASE}</code>.</p>
+<p>Your {type} has been automatically removed because you forgot to include <code>{AGENDAPOSTER_PHRASE}</code>.</p>
 <p>Don't worry, we're here to help! We won't let you post or comment anything that doesn't express your love and acceptance towards the trans community. Feel free to resubmit your {type} with <code>{AGENDAPOSTER_PHRASE}</code> included.</p>
 <p><em>This is an automated message; if you need help, you can message us <a href="/contact">here</a>.</em></p>"""
 
@@ -196,6 +195,7 @@ WPD_CHANNEL_ID = 1013990963846332456
 PIN_AWARD_TEXT = " (pin award)"
 
 THEMES = ["4chan","classic","classic_dark","coffee","dark","dramblr","light","midnight","transparent","tron","win98"]
+BACKGROUND_CATEGORIES = ["glitter", "anime", "fantasy", "solarpunk", "pixelart"]
 COMMENT_SORTS = ["hot", "new", "old", "top", "bottom", "controversial"]
 SORTS = COMMENT_SORTS + ["bump", "comments"]
 TIME_FILTERS = ["hour", "day", "week", "month", "year", "all"]
@@ -254,7 +254,6 @@ PERMS = { # Minimum admin_level to perform action.
 	'VIEW_CHUDRAMA': 1,
 	'VIEW_PRIVATE_PROFILES': 2,
 	'VIEW_ALTS': 2,
-	'VIEW_PROFILE_VIEWS': 2,
 	'VIEW_ACTIVE_USERS': 2,
 	'VIEW_ALL_USERS': 2,
 	'VIEW_ALT_VOTES': 2,
@@ -284,6 +283,7 @@ PERMS = { # Minimum admin_level to perform action.
 }
 
 FEATURES = {
+	'MARSEYS': True,
 	'MARSEYBUX': True,
 	'AWARDS': True,
 	'CHAT': True,
@@ -374,7 +374,6 @@ ERROR_MARSEYS = {
 	500: "marseycarp3",
 }
 
-EMOJI_MARSEYS = True
 EMOJI_SRCS = ['files/assets/emojis.json']
 
 PIN_LIMIT = 3
@@ -471,15 +470,21 @@ HOUSE_SWITCH_COST = 2000
 
 DONATE_SERVICE = "Gumroad" if not KOFI_TOKEN or  KOFI_TOKEN == DEFAULT_CONFIG_VALUE else "KoFi"
 DONATE_LINK = GUMROAD_LINK if not KOFI_TOKEN or KOFI_TOKEN == DEFAULT_CONFIG_VALUE else KOFI_LINK
-
 TIERS_ID_TO_NAME = {
-		1: "Paypig",
-		2: "Renthog",
-		3: "Landchad",
-		4: "Terminally online turboautist",
-		5: "JIDF Bankroller",
-		6: "Rich Bich"
+	1: "Paypig",
+	2: "Renthog",
+	3: "Landchad",
+	4: "Terminally online turboautist",
+	5: "JIDF Bankroller",
+	6: "Rich Bich",
 }
+
+BADGE_BLACKLIST = { # only grantable by AEVANN_ID except on PCM
+	16, 17, 21, 22, 23, 24, 25, 26, 27, # Marsey Artist x2 / Patron Tiers
+	94, 95, 96, 97, 98, 109, 67, 68, 83, 84, 87, 90, 140, 179, 185, # Award Status
+	137, # Lottery Winner
+}
+BADGE_WHITELIST = None # Falsey allows all non-blacklisted, or set() of permitted IDs
 
 if SITE == 'rdrama.net':
 	FEATURES['PRONOUNS'] = True
@@ -594,6 +599,9 @@ elif SITE == 'pcmemes.net':
 	LOTTERY_SINK_RATE = -8
 
 	BANNER_THREAD = 28307
+
+	MAX_IMAGE_AUDIO_SIZE_MB_PATRON = 100
+	MAX_VIDEO_SIZE_MB_PATRON = 100
 elif SITE == 'watchpeopledie.tv':
 	PIN_LIMIT = 4
 	WELCOME_MSG = """Hi, you! Welcome to WatchPeopleDie.tv, this really cool site where you can go to watch people die. I'm @CLiTPEELER! If you have any questions about how things work here, or suggestions on how to make them work better than they already do, definitely slide on into my DMs (no fat chicks).\nThere's an enormously robust suite of fun features we have here and we're always looking for more to add. Way, way too many to go over in an automated welcome message. And you're probably here for the videos of people dying more than any sort of weird, paradoxical digital community aspect anyway, so I won't bore you with a tedious overview of them. Just head on over to [your settings page](https://watchpeopledie.tv/settings/profile) and have a look at some of the basic profile stuff, at least. You can change your profile picture, username, flair, colors, banners, bio, profile anthem (autoplaying song on your page, like it's MySpace or some shit, hell yeah), CSS, all sorts of things.\nOr you can just go back to the main feed and carry on with watching people die. That's what the site is for, after all. Have fun!\nAnyway, in closing, WPD is entirely open source. We don't really need new full-time coders or anything, but if you'd like to take a look at our repo - or even submit a PR to change, fix, or add some things - go right ahead! Our codebase lives at [git.rdrama.net](https://git.rdrama.net/).\nWell, that's all. Thanks again for signing up. It's an automated message and all, but I really do mean that. Thank you, specifically. I love you. Romantically. Deeply. Passionately.\nHave fun!"""
@@ -603,27 +611,32 @@ elif SITE == 'watchpeopledie.tv':
 	PERMS['HOLE_CREATE'] = 2
 	PERMS['POST_EDITING'] = 2
 	PERMS['ADMIN_ADD'] = 4
-	
-	ERROR_TITLES[400] = "Bad Request"
-	ERROR_TITLES[401] = "Unauthorized"
-	ERROR_TITLES[403] = "Forbidden"
-	ERROR_TITLES[404] = "Not Found"
-	ERROR_TITLES[405] = "Method Not Allowed"
-	ERROR_TITLES[406] = "Too Many Pings"
-	ERROR_TITLES[409] = "Mortal Conflict"
-	ERROR_TITLES[410] = "Dead"
-	ERROR_TITLES[413] = "Payload Too Large"
-	ERROR_TITLES[415] = "Unsupported Media Type"
-	ERROR_TITLES[500] = "Internal Server Error"
-	ERROR_MSGS[400] = "That request is invalid"
-	ERROR_MSGS[401] = "You need to login or sign up to do that"
-	ERROR_MSGS[403] = "You're not allowed to do that"
-	ERROR_MSGS[404] = "That wasn't found"
-	ERROR_MSGS[405] = "You can't use this method here... if you keep getting this error tell us it's prolly something borked"
-	ERROR_MSGS[409] = "There's a conflict between what you're trying to do and what you or someone else has done and because of that you can't do what you're trying to do."
-	ERROR_MSGS[410] = "This link is dead. Request a new one to try again"
-	ERROR_MSGS[413] = "You need to upload a smaller file please"
-	ERROR_MSGS[429] = "Please wait a bit before doing that"
+
+	ERROR_TITLES.update({
+		400: "Bad Request",
+		401: "Unauthorized",
+		403: "Forbidden",
+		404: "Not Found",
+		405: "Method Not Allowed",
+		406: "Too Many Pings",
+		409: "Mortal Conflict",
+		410: "Dead",
+		413: "Payload Too Large",
+		415: "Unsupported Media Type",
+		500: "Internal Server Error",
+	})
+
+	ERROR_MSGS.update({
+		400: "That request is invalid",
+		401: "You need to login or sign up to do that",
+		403: "You're not allowed to do that",
+		404: "That wasn't found",
+		405: "You can't use this method here... if you keep getting this error tell us it's prolly something borked",
+		409: "There's a conflict between what you're trying to do and what you or someone else has done and because of that you can't do what you're trying to do.",
+		410: "This link is dead. Request a new one to try again",
+		413: "You need to upload a smaller file please",
+		429: "Please wait a bit before doing that",
+	})
 
 	POLL_THREAD = 13225
 
@@ -658,6 +671,12 @@ elif SITE == 'watchpeopledie.tv':
 		6: "Jigsaw"
 	}
 
+	BADGE_WHITELIST = {
+		85, 99, 101, # Sigma, Artist Badges x2
+		59, 60, 66, 104, 108, # Classic Accolades, Nword
+		117, 124, 144, 145, 146, 147, 148, 149, # Census Reused for Fun
+	}
+
 else: # localhost or testing environment implied
 	FEATURES['ASSET_SUBMISSIONS'] = True
 	FEATURES['PRONOUNS'] = True
@@ -671,9 +690,19 @@ bots = {AUTOJANNY_ID, SNAPPY_ID, LONGPOSTBOT_ID, ZOZBOT_ID, BASEDBOT_ID}
 
 COLORS = {'ff66ac','805ad5','62ca56','38a169','80ffff','2a96f3','eb4963','ff0000','f39731','30409f','3e98a7','e4432d','7b9ae4','ec72de','7f8fa6', 'f8db58','8cdbe6', DEFAULT_COLOR}
 
-BAN_EVASION_DOMAIN = 'rdrama.life'
+BAN_EVASION_DOMAIN = 'stupidpol.site'
 
 AWARDS = {
+	"fallback": {
+		"kind": "fallback",
+		"title": "Unknown",
+		"description": "",
+		"icon": "fas fa-block-question",
+		"color": "text-white",
+		"price": 0,
+		"deflectable": False,
+		"cosmetic": False
+	},
 	### Deprecated
 	"ghost": {
 		"kind": "ghost",
@@ -1329,7 +1358,7 @@ AWARDS['unpin']['ghost'] = True
 
 # Disable unused awards, and site-specific award inclusion/exclusion.
 AWARDS_DISABLED = [
-	'ghost', 'nword', 'lootbox', # Generic
+	'fallback', 'ghost', 'nword', 'lootbox', # Generic
 	'snow', 'gingerbread', 'lights', 'candycane', 'fireplace', 'grinch', # Fistmas
 	'haunt', 'upsidedown', 'stab', 'spiders', 'fog', # Homoween '21
 	'jumpscare', 'hw-bite', 'hw-vax', 'hw-grinch', 'flashlight', # Homoween '22

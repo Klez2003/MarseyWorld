@@ -292,7 +292,10 @@ class Comment(Base):
 			body += f'"> - <a href="/votes/comment/option/{o.id}"><span id="score-comment-{o.id}">{o.upvotes}</span> votes</a></label></div>'''
 
 		if not self.ghost and self.author.show_sig(v):
-			body += f"<hr>{self.author.sig_html}"
+			body += f'<section id="signature-{self.author.id}" class="user-signature"><hr>{self.author.sig_html}</section>'
+
+		if v:
+			body = body.replace("!YOU!", v.username)
 
 		return body
 
@@ -308,6 +311,9 @@ class Comment(Base):
 		if not body: return ""
 
 		body = censor_slurs(body, v).replace('<img loading="lazy" data-bs-toggle="tooltip" alt=":marseytrain:" title=":marseytrain:" src="/e/marseytrain.webp">', ':marseytrain:')
+
+		if v:
+			body = body.replace("!YOU!", v.username)
 
 		return body
 

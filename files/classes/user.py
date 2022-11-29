@@ -141,7 +141,6 @@ class User(Base):
 	subscriptions = relationship("Subscription", back_populates="user")
 	following = relationship("Follow", primaryjoin="Follow.user_id==User.id", back_populates="user")
 	followers = relationship("Follow", primaryjoin="Follow.target_id==User.id", back_populates="target")
-	viewers = relationship("ViewerRelationship", primaryjoin="User.id == ViewerRelationship.user_id")
 	blocking = relationship("UserBlock", lazy="dynamic", primaryjoin="User.id==UserBlock.user_id", back_populates="user")
 	blocked = relationship("UserBlock", lazy="dynamic", primaryjoin="User.id==UserBlock.target_id", back_populates="target")
 	authorizations = relationship("ClientAuth", back_populates="user")
@@ -524,9 +523,9 @@ class User(Base):
 
 	@property
 	@lazy
-	def unban_string(self):
+	def unban_in(self):
 		if self.unban_utc == 0:
-			return "permanently banned"
+			return "never"
 
 		wait = self.unban_utc - int(time.time())
 
@@ -543,7 +542,41 @@ class User(Base):
 
 			text = f"{days}d {hours:02d}h {mins:02d}m"
 
+		return text
+
+
+	@property
+	@lazy
+	def unban_string(self):
+		text = self.unban_in
+
+		if text == "never": return "permanently banned"
+
 		return f"Unban in {text}"
+
+
+	@property
+	@lazy
+	def unchud_in(self):
+		if self.agendaposter == 1:
+			return "never"
+
+		wait = self.agendaposter - int(time.time())
+
+		if wait < 60:
+			text = f"{wait}s"
+		else:
+			days = wait//(24*60*60)
+			wait -= days*24*60*60
+
+			hours = wait//(60*60)
+			wait -= hours*60*60
+
+			mins = wait//60
+
+			text = f"{days}d {hours:02d}h {mins:02d}m"
+
+		return text
 
 
 	@property
@@ -944,17 +977,6 @@ class User(Base):
 	@lazy
 	def can_create_hole(self):
 		return self.admin_level >= PERMS['HOLE_CREATE']
-
-	@property
-	@lazy
-	def viewers_recorded(self):
-		if SITE_NAME == 'WPD': # WPD gets profile views
-			return True
-		elif self.admin_level >= PERMS['VIEW_PROFILE_VIEWS']: # Admins get profile views
-			return True
-		elif self.patron: # Patrons get profile views as a perk
-			return True
-		return False
 
 	@property
 	@lazy

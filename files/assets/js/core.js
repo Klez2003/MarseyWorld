@@ -342,7 +342,7 @@ function areyousure(t) {
 	else
 		t.innerHTML = t.innerHTML.replace(t.textContent, 'Are you sure?')
 
-	t.setAttribute("onclick", t.dataset.click);
+	t.setAttribute("onclick", t.dataset.click2);
 
 	if (t.dataset.dismiss)
 		t.setAttribute("data-bs-dismiss", t.dataset.dismiss);
@@ -406,10 +406,4 @@ function sendFormXHRSwitch(e) {
 			e.target.classList.add('d-none');
 		}
 	)
-}
-
-if ("serviceWorker" in navigator) {
-	navigator.serviceWorker.register("/service-worker.js?v=3")
-		.then((registration) => registration.update())
-		.catch((e) => console.log("Service worker update failed with error", e));
 }

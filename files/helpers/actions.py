@@ -360,6 +360,18 @@ def execute_antispam_submission_check(title, v, url):
 	return True
 
 def execute_blackjack_custom(v, target, body, type):
+	if v.age < (10 * 60):
+		v.shadowbanned = 'AutoJanny'
+		if not v.is_banned: v.ban_reason = f"Under Siege"
+		v.is_muted = True
+		g.db.add(v)
+		with open(f"/under_siege.log", "a", encoding="utf-8") as f:
+			t = str(time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime(time.time())))
+			f.write(f"[{t}] {v.id} @{v.username} {type} {v.age}s\n")
+		from files.helpers.discord import discord_message_send
+		discord_message_send("1041917843094110239",
+			f"<{SITE_FULL}/id/{v.id}> `@{v.username} {type} {v.age}s`")
+		return False
 	return True
 
 def execute_blackjack(v, target, body, type):
@@ -451,7 +463,7 @@ def execute_lawlz_actions(v:User, p:Submission):
 	if SITE_NAME != 'rDrama': return
 	if not FEATURES['PINS']: return
 	p.stickied_utc = int(time.time()) + 86400
-	p.stickied = v.username
+	p.stickied = AUTOJANNY_ID
 	p.distinguish_level = 6
 	p.flair = filter_emojis_only(":ben10: Required Reading")
 	pin_time = 'for 1 day'

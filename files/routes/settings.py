@@ -26,12 +26,12 @@ from files.__main__ import app, cache, limiter
 
 @app.get("/settings")
 @auth_required
-def settings(v):
+def settings(v:User):
 	return redirect("/settings/personal")
 
 @app.get("/settings/personal")
 @auth_required
-def settings_personal(v):
+def settings_personal(v:User):
 	return render_template("settings/personal.html", v=v)
 
 @app.delete('/settings/background')
@@ -41,6 +41,7 @@ def settings_personal(v):
 def remove_background(v):
 	if v.background:
 		v.background = None
+		if v.theme == 'transparent': v.theme = 'midnight'
 		g.db.add(v)
 	return {"message": "Background removed!"}
 
@@ -91,7 +92,7 @@ def settings_personal_post(v):
 
 	background = request.values.get("background", v.background)
 	if background != v.background and background.endswith(".webp") and len(background) <= 20:
-		v.background = request.values.get("background")
+		v.background = request.values.get("background").replace('.webp', '')
 		updated = True
 	elif request.values.get("reddit", v.reddit) != v.reddit:
 		reddit = request.values.get("reddit")
@@ -301,7 +302,7 @@ def settings_personal_post(v):
 
 @app.post("/settings/filters")
 @auth_required
-def filters(v):
+def filters(v:User):
 	filters=request.values.get("filters")[:1000].strip()
 
 	if filters == v.custom_filter_list:
@@ -540,7 +541,7 @@ def settings_images_banner(v):
 
 @app.get("/settings/css")
 @auth_required
-def settings_css_get(v):
+def settings_css_get(v:User):
 	return render_template("settings/css.html", v=v)
 
 @app.post("/settings/css")
@@ -572,7 +573,7 @@ def settings_profilecss(v):
 
 @app.get("/settings/security")
 @auth_required
-def settings_security(v):
+def settings_security(v:User):
 	return render_template("settings/security.html",
 						v=v,
 						mfa_secret=pyotp.random_base32() if not v.mfa_secret else None,
@@ -622,12 +623,12 @@ def settings_unblock_user(v):
 
 @app.get("/settings/apps")
 @auth_required
-def settings_apps(v):
+def settings_apps(v:User):
 	return render_template("settings/apps.html", v=v)
 
 @app.get("/settings/advanced")
 @auth_required
-def settings_advanced_get(v):
+def settings_advanced_get(v:User):
 	return render_template("settings/advanced.html", v=v)
 
 @app.post("/settings/name_change")
