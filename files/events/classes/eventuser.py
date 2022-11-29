@@ -8,10 +8,9 @@ class EventUser(Base):
 	id = Column(Integer, ForeignKey("users.id"), primary_key=True)
 	user = relationship("User", primaryjoin="EventUser.id == User.id", lazy="joined")
 
-	#event specific columns
-	hw_zombie = Column(Integer, default=0, nullable=False)
-	jumpscare = Column(Integer, default=0)
-	hwmusic = Column(Boolean, default=False)
+	# start event specific columns
+	
+	# end event specific columns
 
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
