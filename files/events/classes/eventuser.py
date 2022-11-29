@@ -7,9 +7,10 @@ class EventUser(Base):
 	__tablename__ = "event"
 	id = Column(Integer, ForeignKey("users.id"), primary_key=True)
 	user = relationship("User", primaryjoin="EventUser.id == User.id", lazy="joined")
+	event_music = Column(Boolean, default=True, nullable=False)
 
 	# start event specific columns
-	
+
 	# end event specific columns
 
 	def __init__(self, *args, **kwargs):
