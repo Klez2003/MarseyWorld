@@ -4,7 +4,7 @@ from os import environ, listdir, path
 
 import user_agents
 
-from flask import g, session
+from flask import g, session, has_request_context
 from jinja2 import pass_context
 
 from files.classes.user import User
@@ -48,8 +48,8 @@ def calc_users():
 	loggedin_counter = 0
 	loggedout_counter = 0
 	loggedin_chat = 0
-	v = getattr(g, 'v', None)
-	if g.desires_auth and not g.is_api_or_xhr:
+	v = getattr(g, 'v', None) if g else None
+	if has_request_context and g and g.desires_auth and not g.is_api_or_xhr:
 		loggedin = cache.get(LOGGED_IN_CACHE_KEY) or {}
 		loggedout = cache.get(LOGGED_OUT_CACHE_KEY) or {}
 		loggedin_chat = cache.get(CHAT_ONLINE_CACHE_KEY) or 0
