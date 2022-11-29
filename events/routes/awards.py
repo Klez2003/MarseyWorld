@@ -3,21 +3,11 @@ from files.classes.award import AwardRelationship
 from files.helpers.alerts import send_repeatable_notification
 from files.helpers.useractions import badge_grant
 
-from events import Event
+from events.helpers.get import get_or_create_event_user
 
 def award_thing_event(v, kind, author):
-	event_author = g.db.get(Event, author.id)
-	event_v = g.db.get(Event, v.id)
-
-	if not event_author:
-		event_author = Event(id=author.id)
-		g.db.add(event_author)
-
-	if not event_v:
-		event_v = Event(id=v.id)
-		g.db.add(event_v)
-
-	g.db.flush()
+	event_author = get_or_create_event_user(author, g.db)
+	event_v = get_or_create_event_user(v, g.db)
 
 	if kind == "hw-bite":
 		if event_author.hw_zombie < 0:
