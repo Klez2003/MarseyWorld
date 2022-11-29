@@ -3,7 +3,7 @@ from files.classes.award import AwardRelationship
 from files.helpers.alerts import send_repeatable_notification
 from files.helpers.useractions import badge_grant
 
-from events.helpers.get import get_or_create_event_user
+from files.events.helpers.get import get_or_create_event_user
 
 def award_thing_event(v, kind, author):
 	event_author = get_or_create_event_user(author, g.db)

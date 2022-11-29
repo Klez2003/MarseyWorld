@@ -1,7 +1,7 @@
 from typing import Union
 from sqlalchemy.orm import scoped_session
 
-from events.classes.eventuser import EventUser
+from files.events.classes.eventuser import EventUser
 from files.classes.user import User
 
 def get_or_create_event_user(target:Union[int, User], db:scoped_session) -> EventUser:

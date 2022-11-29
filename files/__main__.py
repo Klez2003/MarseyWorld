@@ -86,7 +86,7 @@ elif app.config['SERVICE'] == Service.CHAT:
 	from files.routes.chat import *
 
 if FEATURES['HOLIDAY_EVENT']:
-	from events import *
+	from files.events import *
 	if app.config['SERVICE'] == Service.RDRAMA:
 		event_init()
 

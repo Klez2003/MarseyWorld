@@ -3,9 +3,9 @@ from sqlalchemy import inspect
 from files.helpers.const import AWARDS2, AWARDS_DISABLED
 from files.__main__ import engine
 
-from events.classes import *
-from events.helpers import *
-from events.routes import *
+from files.events.classes import *
+from files.events.helpers import *
+from files.events.routes import *
 
 def _build_table():
 	if not inspect(engine).has_table(EventUser.__table__.name, schema="public"):

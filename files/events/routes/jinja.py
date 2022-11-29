@@ -1,5 +1,5 @@
 from files.__main__ import app
-from events import EVENT_JINJA_CONST
+from files.events import EVENT_JINJA_CONST
 
 @app.context_processor
 def event_constants():
