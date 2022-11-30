@@ -4,25 +4,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Creepster&display=swap");
 
 @font-face {
-	font-family: "DoubleFeature";
-	src: url("/assets/fonts/event/DoubleFeature.woff") format("woff");
+	font-family: "Plakat Fraktur Black";
+	src: url("/assets/fonts/event/Plakat-Fraktur-Black.woff") format("woff");
 }
-
-@font-face {
-	font-family: "Jo_wrote_a_lovesong";
-	src: url("/assets/fonts/event/Jo_wrote_a_lovesong.woff") format("woff");
-}
-
-@font-face {
-	font-family: "XTypewriter-Regular";
-	src: url("/assets/fonts/event/XTypewriter-Regular.woff") format("woff");
-}
-
-@font-face {
-	font-family: "SpecialElite-Regular";
-	src: url("/assets/fonts/event/SpecialElite-Regular.woff") format("woff");
-}
-
 :root {
 	--primary: rgb(179 26 70);
 	/*--dark: rgb(4 23 28);*/
