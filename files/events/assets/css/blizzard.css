@@ -1,12 +1,11 @@
 @charset "UTF-8";
 
 /* Fonts */
-@import url("https://fonts.googleapis.com/css2?family=Creepster&display=swap");
-
 @font-face {
-	font-family: "Plakat Fraktur Black";
+	font-family: "Plakat-Fraktur";
 	src: url("/assets/fonts/event/Plakat-Fraktur-Black.woff") format("woff");
 }
+
 :root {
 	--primary: rgb(179 26 70);
 	/*--dark: rgb(4 23 28);*/
