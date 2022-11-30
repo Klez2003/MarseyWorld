@@ -6,6 +6,7 @@ from files.helpers.alerts import *
 from files.helpers.const import *
 from files.helpers.get import get_account
 from files.helpers.logging import log_file
+from files.helpers.security import generate_csp_nonce
 from files.helpers.settings import get_setting
 from files.routes.routehelpers import validate_formkey
 from files.__main__ import app, db_session, limiter
@@ -41,6 +42,7 @@ def get_logged_in_user():
 				session.pop("lo_user")
 
 	g.is_api_or_xhr = bool((v and v.client) or request.headers.get("xhr"))
+	if g.is_api_or_xhr: g.csp_nonce = generate_csp_nonce()
 
 	if request.method.lower() != "get" and get_setting('read_only_mode') and not (v and v.admin_level >= PERMS['SITE_BYPASS_READ_ONLY_MODE']):
 		abort(403)

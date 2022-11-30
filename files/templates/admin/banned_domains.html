@@ -3,7 +3,7 @@
 
 {% block content %}
 
-<script>
+<script nonce="{{g.csp_nonce}}">
 	function unbanDomain(t, domain) {
 		postToastSwitch(t,'/admin/unban_domain/' + domain);
 		t.parentElement.parentElement.remove();
@@ -32,8 +32,6 @@
 			{% endfor %}
 		</tbody>
 	</table>
-
-
 	<form action="/admin/ban_domain" method="post">
 		<input type="hidden" name="formkey" value="{{v|formkey}}">
 		<input autocomplete="off" name="domain" placeholder="Enter domain here.." class="form-control" required>
@@ -41,5 +39,4 @@
 		<input autocomplete="off" id="ban-submit" type="submit" onclick="disable(this)" class="btn btn-primary mt-2" value="Ban domain" disabled>
 	</form>
 </div>
-
 {% endblock %}

@@ -73,7 +73,7 @@
 {% endblock %}
 
 {% block screen %}
-<style>
+<style nonce="{{g.csp_nonce}}">
 	.slots_reels {
 		display: flex;
 		align-items: center;

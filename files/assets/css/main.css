@@ -6416,3 +6416,7 @@ div.markdown {
 .user-signature video {
 	height: var(--signature-max-height);
 }
+
+#asset-submissions-page input:not(.btn) {
+	text-transform: lowercase;
+}

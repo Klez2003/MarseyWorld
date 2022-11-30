@@ -1,7 +1,7 @@
 {% extends "default.html" %}
 {% block pagetitle %}{{game.capitalize()}}{% endblock %} 
 {% block content %}
-<style>
+<style nonce="{{g.csp_nonce}}">
 	.game_screen-title {
 		display: flex;
 		align-items: center;
@@ -233,7 +233,7 @@
 
 {% block script %} {% endblock %}
 
-<style>
+<style nonce="{{g.csp_nonce}}">
 	@keyframes drawing {
 		from {
 			left: 0;

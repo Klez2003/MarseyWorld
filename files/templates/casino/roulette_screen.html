@@ -393,7 +393,7 @@
 {% endblock %}
 
 {% block screen %}
-<style>
+<style nonce="{{g.csp_nonce}}">
 	.roulette-table-number {
 		flex: 1;
 		height: 60px;

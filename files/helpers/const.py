@@ -69,6 +69,24 @@ REDDIT_NOTIFS_CACHE_KEY = "reddit_notifications"
 MARSEYS_CACHE_KEY = "marseys"
 EMOJIS_CACHE_KEY = "emojis"
 
+#  "script-src 'self' 'unsafe-inline' challenges.cloudflare.com rdrama.net; connect-src 'self' tls-use1.fpapi.io api.fpjs.io 00bb6d59-7b11-4339-b1ae-b1f1259d1316.pushnotifications.pusher.com; object-src 'none';";
+CONTENT_SECURITY_POLICY = {
+	"default-src": "'self' report-uri: '/csp_violations/",
+	"frame-src": "'none'",
+	"frame-ancestors": "'none'",
+	"object-src": "'none'",
+	"img-src": "http: https: data:",
+	"style-src": "'self' 'unsafe-inline'",
+	"script-src": "'self' challenges.cloudflare.com",
+	"connect-src": f"'self' tls-use1.fpapi.io api.fpjs.io"
+}
+CONTENT_SECURITY_POLICY_NONCE_LENGTH = 69
+if PUSHER_ID != DEFAULT_CONFIG_VALUE:
+	CONTENT_SECURITY_POLICY["connect-src"] += f" {PUSHER_ID}.pushnotifications.pusher.com"
+if IS_LOCALHOST:
+	CONTENT_SECURITY_POLICY["script-src"] += ' rdrama.net'
+	CONTENT_SECURITY_POLICY["style-src"] += ' rdrama.net'
+
 if SITE_NAME == 'PCM': CC = "SPLASH MOUNTAIN"
 else: CC = "COUNTRY CLUB"
 CC_TITLE = CC.title()

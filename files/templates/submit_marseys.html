@@ -1,13 +1,7 @@
 {% extends "default.html" %}
 {% block pagetitle %}Submit Marseys{% endblock %}
-{% block pagetype %}message{% endblock %}
+{% block pagetype %}asset-submissions-page{% endblock %}
 {% block content %}
-	<style>
-		input:not(.btn) {
-			text-transform: lowercase;
-		}
-	</style>
-
 	{% if error %}
 		<div class="alert alert-danger alert-dismissible fade show mb-3 mt-4" role="alert">
 			<i class="fas fa-exclamation-circle my-auto"></i>
@@ -69,7 +63,7 @@
 			</div>
 	</div>
 
-	<script>
+	<script nonce="{{g.csp_nonce}}">
 		document.onpaste = function(event) {
 			files = structuredClone(event.clipboardData.files);
 

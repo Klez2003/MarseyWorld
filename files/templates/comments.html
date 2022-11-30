@@ -1,7 +1,7 @@
 {%- import 'util/macros.html' as macros with context -%}
 {% if not request.headers.get("xhr") %}
 	{% if comment_info %}
-		<script>
+		<script nonce="{{g.csp_nonce}}">
 			if (location.hash != 'context')
 				location.hash = 'context'
 		</script>
@@ -236,33 +236,7 @@
 			{% if c.is_banned and c.ban_reason %}
 				<div id="comment-banned-warning" class="comment-text text-removed mb-0">removed by @{{c.ban_reason}} (Admin)</div>
 			{% endif %}
-			
-			{% if c.award_count("tilt", v) %}
-				<style>
-					@keyframes c{{c.id}}-tilt {
-						0% {transform: rotate(0deg);}
-						25% {transform: rotate({{c.award_count("tilt", v)}}deg);}
-						75% {transform: rotate(-{{c.award_count("tilt", v)}}deg);}
-						100% {transform: rotate(0deg);}
-					}
-					@media (max-width: 720px) {
-						@keyframes c{{c.id}}-tilt {
-							0% {transform: rotate(0deg);}
-							25% {transform: rotate({{c.award_count("tilt", v)/4}}deg);}
-							75% {transform: rotate(-{{c.award_count("tilt", v)/4}}deg);}
-							100% {transform: rotate(0deg);}
-						}
-					}
-					.comment-{{c.id}}-only {
-						animation-name: c{{c.id}}-tilt;
-						animation-duration: 30s !important;
-						animation-iteration-count: infinite !important;
-						animation-direction: alternate !important;
-						animation-timing-function: linear !important;
-					}
-				</style>
-			{% endif %}
-
+			{{awards.tilt(c, false)}}
 			<div id="comment-text-{{c.id}}" class="comment-text mb-0 {% if c.author.agendaposter and not (c.parent_submission and c.post.sub == 'chudrama') %}agendaposter{% endif %} {% if c.author.rainbow %}rainbow-text{% endif %}">
 				{{c.realbody(v) | safe}}
 			</div>
@@ -816,7 +790,7 @@
 	<script defer src="{{'js/comments+submission_listing.js' | asset}}"></script>
 	<script defer src="{{'js/comments.js' | asset}}"></script>
 
-	<script>
+	<script nonce="{{g.csp_nonce}}">
 		{% if p and (not v or v.highlightcomments) %}
 			comments = JSON.parse(localStorage.getItem("comment-counts")) || {}
 			lastCount = comments['{{p.id}}']
@@ -881,7 +855,7 @@
 
 {% if SITE_NAME == 'rDrama' and not request.headers.get("xhr") and v and 'SamsungBrowser' not in g.agent and v.theme != 'transparent' %}
 	<div id="detection" style="display:none;background-color:canvas;color-scheme:light"></div>
-	<script>
+	<script nonce="{{g.csp_nonce}}">
 		const detectionDiv = document.querySelector('#detection');
 		const isAutoDark = getComputedStyle(detectionDiv).backgroundColor != 'rgb(255, 255, 255)';
 		if (!isAutoDark) {

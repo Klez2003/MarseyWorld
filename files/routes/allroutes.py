@@ -1,6 +1,7 @@
 import secrets
 
 from files.helpers.const import *
+from files.helpers.security import generate_csp_header
 from files.helpers.settings import get_setting
 from files.helpers.cloudflare import CLOUDFLARE_AVAILABLE
 from files.routes.wrappers import *
@@ -14,17 +15,20 @@ def session_init():
 @app.before_request
 def before_request():
 	g.desires_auth = False
+	# note: deferring csp nonce generation until later
+	# csps aren't given out to api clients and error
+	# pages shouldn't have any inline elements for security 
+	# reasons. generating a nonce and csp for them 
+	g.csp_nonce = None
+	if request.host != SITE: return Response('', 404, mimetype="text/plain")
 	if SITE == 'marsey.world' and request.path != '/kofi':
 		abort(404)
 
 	g.agent = request.headers.get("User-Agent", "")
 	if not g.agent and request.path != '/kofi':
-		return 'Please use a "User-Agent" header!', 403
+		abort(403, "User agent header is required")
 
 	ua = g.agent.lower()
-
-	if request.host != SITE:
-		return {"error": "Unauthorized host provided"}, 403
 
 	if request.headers.get("CF-Worker"): return {"error": "Cloudflare workers are not allowed to access this website."}, 403
 
@@ -53,6 +57,8 @@ def before_request():
 
 @app.after_request
 def after_request(response):
+	if response.content_type == "text/html":
+		response.headers["Content-Security-Policy"] = generate_csp_header(g.csp_nonce)
 	if response.status_code < 400:
 		if CLOUDFLARE_AVAILABLE and CLOUDFLARE_COOKIE_VALUE and g.desires_auth:
 			logged_in = bool(getattr(g, 'v', None))

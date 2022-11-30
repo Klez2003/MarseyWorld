@@ -1,0 +1,29 @@
+{% macro tilt(target, is_post) %}
+{% if target.award_count("tilt", v) %}
+	{% set animation_target = '#post-root' if is_post else '.comment-' + c.id + '-only' %}
+	{% set animation_name = 'post-tilt' if is_post else 'c' + c.id + '-tilt' %}
+	<style nonce="{{g.csp_nonce}}">
+		@keyframes {{animation_name}} {
+			0% {transform: rotate(0deg);}
+			25% {transform: rotate({{target.award_count("tilt", v)}}deg);}
+			75% {transform: rotate(-{{target.award_count("tilt", v)}}deg);}
+			100% {transform: rotate(0deg);}
+		}
+		@media (max-width: 720px) {
+			@keyframes {{animation_name}} {
+				0% {transform: rotate(0deg);}
+				25% {transform: rotate({{target.award_count("tilt", v)/4}}deg);}
+				75% {transform: rotate(-{{target.award_count("tilt", v)/4}}deg);}
+				100% {transform: rotate(0deg);}
+			}
+		}
+		{{animation_target}} {
+			animation-name: {{animation_name}};
+			animation-duration: 60s !important;
+			animation-iteration-count: infinite !important;
+			animation-direction: alternate !important;
+			animation-timing-function: linear !important;
+		}
+	</style>
+{% endif %}
+{% endmacro %}
