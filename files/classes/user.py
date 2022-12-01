@@ -415,11 +415,11 @@ class User(Base):
 		return self.offsitementions or self.admin_level >= PERMS['NOTIFICATIONS_REDDIT']
 
 	@lazy
-	def can_edit(self, target:Union[Submission, Comment]) -> Union[bool, ColumnOperators[Any]]:
+	def can_edit(self, target:Union[Submission, Comment]) -> bool:
 		if isinstance(target, Comment) and not target.post: return False
 		if self.id == target.author_id: return True
 		if not isinstance(target, Submission): return False
-		return self.admin_level >= PERMS['POST_EDITING']
+		return bool(self.admin_level >= PERMS['POST_EDITING'])
 
 	@property
 	@lazy
