@@ -178,7 +178,7 @@
 					</div>
 					{% endif %}
 
-					{% if v and (v.id==p.author_id or v.admin_level >= PERMS['POST_EDITING']) and not v.is_suspended %}
+					{% if v and v.can_edit(p) and not v.is_suspended %}
 						<div id="edit-post-body-{{p.id}}" class="d-none comment-write collapsed child">
 							<form id="post-edit-form-{{p.id}}" action="/edit_post/{{p.id}}" method="post" enctype="multipart/form-data">
 									<input type="hidden" name="formkey" value="{{v|formkey}}">
@@ -227,7 +227,7 @@
 							<span class="text-info d-none {{p.id}}-new-comments"></span>
 						</a>
 
-						{% if v and (v.id==p.author_id or v.admin_level >= PERMS['POST_EDITING']) %}
+						{% if v and v.can_edit(p) %}
 							<button type="button" class="list-inline-item" onclick="togglePostEdit('{{p.id}}')"><i class="fas fa-edit"></i>Edit</button>
 						{% endif %}
 
@@ -351,6 +351,10 @@
 					{% if sort != "old" %}<a class="dropdown-item" href="?sort=old"><i class="fas fa-book mr-2"></i>Old</a>{% endif %}
 					{% if sort != "controversial" %}<a class="dropdown-item" href="?sort=controversial"><i class="fas fa-bullhorn mr-2"></i>Controversial</a>{% endif %}
 				</div>
+				{% if v and v.can_edit(p) %}
+					<button type="button" class="btn btn-primary{% if p.new %} d-none{% endif %}" id="{{p.id}}-sort-new" onclick="postToastSwitch(this, '/post/{{p.id}}/new', this, '{{p.id}}-unsort-new', 'd-none', 'PUT')">Sort By New</button>
+					<button type="button" class="btn btn-primary{% if not p.new %} d-none{% endif %}" id="{{p.id}}-sort-new" onclick="postToastSwitch(this, '/post/{{p.id}}/new', this, '{{p.id}}-sort-new', 'd-none', 'DELETE')">Sort By Default</button>
+				{% endif %}
 				{% if comment_info and p.comment_count >= 2%}
 					<div class="total mt-1"><a href="{{p.permalink}}">View entire discussion</a></div>
 				{% endif %}
@@ -474,7 +478,7 @@
 	{% include "modals/report_post.html" %}
 {% endif %}
 
-{% if v and (v.id == p.author_id or v.admin_level >= PERMS['POST_EDITING']) %}
+{% if v and v.can_edit(p) %}
 	<script defer src="{{'js/togglePostEdit.js' | asset}}"></script>
 {% endif %}
 

@@ -414,6 +414,13 @@ class User(Base):
 	def can_view_offsitementions(self):
 		return self.offsitementions or self.admin_level >= PERMS['NOTIFICATIONS_REDDIT']
 
+	@lazy
+	def can_edit(self, target):
+		if isinstance(target, Comment) and not target.post: return False
+		if self.id == target.id: return True
+		if not isinstance(target, Submission): return False
+		return self.admin_level >= PERMS['POST_EDITING']
+
 	@property
 	@lazy
 	def user_awards(self):
