@@ -321,9 +321,7 @@
 				</li>
 			</ul>
 		</div>
-
 	</div>
-
 </div>
 
 {% if v and v.id != p.author_id and p.body and not v_forbid_deleted %}
@@ -351,10 +349,6 @@
 					{% if sort != "old" %}<a class="dropdown-item" href="?sort=old"><i class="fas fa-book mr-2"></i>Old</a>{% endif %}
 					{% if sort != "controversial" %}<a class="dropdown-item" href="?sort=controversial"><i class="fas fa-bullhorn mr-2"></i>Controversial</a>{% endif %}
 				</div>
-				{% if v and v.can_edit(p) %}
-					<button type="button" class="btn btn-primary{% if p.new %} d-none{% endif %}" id="{{p.id}}-sort-new" onclick="postToastSwitch(this, '/post/{{p.id}}/new', this.id, '{{p.id}}-unsort-new', 'd-none', null, 'PUT')">Sort New By Default</button>
-					<button type="button" class="btn btn-primary{% if not p.new %} d-none{% endif %}" id="{{p.id}}-unsort-new" onclick="postToastSwitch(this, '/post/{{p.id}}/new', this.id, '{{p.id}}-sort-new', 'd-none', null, 'DELETE')">Unset Sort New By Default</button>
-				{% endif %}
 				{% if comment_info and p.comment_count >= 2%}
 					<div class="total mt-1"><a href="{{p.permalink}}">View entire discussion</a></div>
 				{% endif %}
