@@ -352,8 +352,8 @@
 					{% if sort != "controversial" %}<a class="dropdown-item" href="?sort=controversial"><i class="fas fa-bullhorn mr-2"></i>Controversial</a>{% endif %}
 				</div>
 				{% if v and v.can_edit(p) %}
-					<button type="button" class="btn btn-primary{% if p.new %} d-none{% endif %}" id="{{p.id}}-sort-new" onclick="postToastSwitch(this, '/post/{{p.id}}/new', this.id, '{{p.id}}-unsort-new', 'd-none', null, 'PUT')">Sort By New</button>
-					<button type="button" class="btn btn-primary{% if not p.new %} d-none{% endif %}" id="{{p.id}}-unsort-new" onclick="postToastSwitch(this, '/post/{{p.id}}/new', this.id, '{{p.id}}-sort-new', 'd-none', null, 'DELETE')">Sort By Default</button>
+					<button type="button" class="btn btn-primary{% if p.new %} d-none{% endif %}" id="{{p.id}}-sort-new" onclick="postToastSwitch(this, '/post/{{p.id}}/new', this.id, '{{p.id}}-unsort-new', 'd-none', null, 'PUT')">Sort New By Default</button>
+					<button type="button" class="btn btn-primary{% if not p.new %} d-none{% endif %}" id="{{p.id}}-unsort-new" onclick="postToastSwitch(this, '/post/{{p.id}}/new', this.id, '{{p.id}}-sort-new', 'd-none', null, 'DELETE')">Unset Sort New By Default</button>
 				{% endif %}
 				{% if comment_info and p.comment_count >= 2%}
 					<div class="total mt-1"><a href="{{p.permalink}}">View entire discussion</a></div>
