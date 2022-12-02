@@ -748,21 +748,7 @@ def submit_post(v:User, sub=None):
 	if len(url) > 2048:
 		return error("There's a 2048 character limit for URLs.")
 
-	bets = []
-	if v and v.admin_level >= PERMS['POST_BETS']:
-		for i in bet_regex.finditer(body):
-			bets.append(i.group(1))
-			body = body.replace(i.group(0), "")
-
-	options = []
-	for i in list(poll_regex.finditer(body))[:10]:
-		options.append(i.group(1))
-		body = body.replace(i.group(0), "")
-
-	choices = []
-	for i in list(choice_regex.finditer(body))[:10]:
-		choices.append(i.group(1))
-		body = body.replace(i.group(0), "")
+	body, bets, options, choices = sanitize_poll_options(v, body)
 
 	body += process_files(request.files, v)
 	body = body.strip()[:POST_BODY_LENGTH_LIMIT] # process_files() adds content to the body, so we need to re-strip
@@ -910,13 +896,8 @@ def submit_post(v:User, sub=None):
 		n = Notification(comment_id=c_jannied.id, user_id=v.id)
 		g.db.add(n)
 
-
-
 	if not post.private and not (post.sub and g.db.query(Exile.user_id).filter_by(user_id=SNAPPY_ID, sub=post.sub).one_or_none()):
 		execute_snappy(post, v)
-
-
-
 
 	v.post_count = g.db.query(Submission).filter_by(author_id=v.id, deleted_utc=0).count()
 	g.db.add(v)
@@ -945,7 +926,6 @@ def submit_post(v:User, sub=None):
 		if post.new: sort = 'new'
 		else: sort = v.defaultsortingcomments
 		return render_template('submission.html', v=v, p=post, sort=sort, render_replies=True, offset=0, success=True, sub=post.subr)
-
 
 @app.post("/delete_post/<pid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)

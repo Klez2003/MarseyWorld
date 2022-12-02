@@ -4,6 +4,7 @@ import re
 import signal
 from functools import partial
 from os import path
+from typing import Any
 from urllib.parse import parse_qs, urlparse
 
 import bleach
@@ -502,3 +503,27 @@ def validate_css(css):
 			return False, f"The domain '{domain}' is not allowed, please use one of these domains\n\n{approved_embed_hosts}."
 
 	return True, ""
+
+def sanitize_poll_options(v:User, body:str) -> tuple[str, List[Any], List[Any], List[Any]]:
+	DISABLE_POLL_COMMAND = "#disablepoll"
+	if FEATURES['MARKUP_COMMANDS'] and body.startswith(DISABLE_POLL_COMMAND):
+		body = body.replace(DISABLE_POLL_COMMAND, "", 1)
+		return (body, [], [], [])
+
+	bets = []
+	if v and v.admin_level >= PERMS['POST_BETS']:
+		for i in bet_regex.finditer(body):
+			bets.append(i.group(1))
+			body = body.replace(i.group(0), "")
+
+	options = []
+	for i in list(poll_regex.finditer(body))[:10]:
+		options.append(i.group(1))
+		body = body.replace(i.group(0), "")
+
+	choices = []
+	for i in list(choice_regex.finditer(body))[:10]:
+		choices.append(i.group(1))
+		body = body.replace(i.group(0), "")
+	
+	return (body, bets, options, choices)

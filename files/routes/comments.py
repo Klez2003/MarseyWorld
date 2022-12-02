@@ -132,15 +132,7 @@ def comment(v):
 	if v.admin_level < PERMS['POST_COMMENT_MODERATION'] and parent.author.any_block_exists(v):
 		abort(403, "You can't reply to users who have blocked you or users that you have blocked.")
 	
-	options = []
-	for i in list(poll_regex.finditer(body))[:POLL_MAX_OPTIONS]:
-		options.append(i.group(1))
-		body = body.replace(i.group(0), "")
-
-	choices = []
-	for i in list(choice_regex.finditer(body))[:POLL_MAX_OPTIONS]:
-		choices.append(i.group(1))
-		body = body.replace(i.group(0), "")
+	body, _, options, choices = sanitize_poll_options(v, body)
 
 	if request.files.get("file") and not g.is_tor:
 		files = request.files.getlist('file')[:4]
