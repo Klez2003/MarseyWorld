@@ -207,7 +207,7 @@ BACKGROUND_CATEGORIES = ["glitter", "anime", "fantasy", "solarpunk", "pixelart"]
 COMMENT_SORTS = ["hot", "new", "old", "top", "bottom", "controversial"]
 SORTS = COMMENT_SORTS + ["bump", "comments"]
 TIME_FILTERS = ["hour", "day", "week", "month", "year", "all"]
-PAGE_SIZES = {10, 25, 50, 100}
+PAGE_SIZES = (10, 25, 50, 100)
 
 ################################################################################
 ### SITE SPECIFIC CONSTANTS
@@ -491,7 +491,8 @@ TIERS_ID_TO_NAME = {
 }
 
 BADGE_BLACKLIST = { # only grantable by AEVANN_ID and SNAKES_ID except on PCM
-	16, 17, 21, 22, 23, 24, 25, 26, 27, # Marsey Artist x2 / Patron Tiers
+	1, 2, 6, 10, 11, 12, # Alpha, Verified Email, Beta, Recruiter x3
+	16, 17, 143, 21, 22, 23, 24, 25, 26, 27, # Marsey Artist x3 / Patron Tiers
 	94, 95, 96, 97, 98, 109, 67, 68, 83, 84, 87, 90, 140, 179, 185, # Award Status
 	137, # Lottery Winner
 }
@@ -568,6 +569,7 @@ if SITE == 'rdrama.net':
 		29, #QuadNarca
 		JOAN_ID,
 		4389, #WorldAroundEwe
+		5526, #Dramarama
 	}
 
 	GIFT_NOTIF_ID = CARP_ID
@@ -579,6 +581,12 @@ elif SITE == 'pcmemes.net':
 	PIN_LIMIT = 10
 	FEATURES['REPOST_DETECTION'] = False
 	FEATURES['STREAMERS'] = True
+
+	PERMS['SITE_SETTINGS'] = 2
+	PERMS['SITE_SETTINGS_UNDER_ATTACK'] = 2
+	PERMS['SITE_CACHE_PURGE_CDN'] = 2
+	PERMS['SITE_CACHE_DUMP_INTERNAL'] = 2
+
 	ERROR_MSGS[500] = "Hiiiii it's <b>nigger</b>! I think this error means that there's a <b>nigger</b> error. And I think that means something took too long to load so it decided to be a <b>nigger</b>. If you keep seeing this on the same page but not other pages, then something its probably a <b>niggerfaggot</b>. It may not be called a <b>nigger</b>, but that sounds right to me. Anyway, ping me and I'll whine to someone smarter to fix it. Don't bother them. Thanks ily &lt;3"
 	ERROR_MARSEYS[500] = "wholesome"
 	POST_RATE_LIMIT = '1/second;4/minute;20/hour;100/day'
@@ -678,7 +686,7 @@ elif SITE == 'watchpeopledie.tv':
 	}
 
 	BADGE_WHITELIST = {
-		85, 99, 101, # Sigma, Artist Badges x2
+		7, 74, 85, 99, 101, # Bug, Grass, Sigma, SidebarArt, BannerArt
 		59, 60, 66, 104, 108, # Classic Accolades, Nword
 		117, 124, 144, 145, 146, 147, 148, 149, # Census Reused for Fun
 	}
@@ -1729,6 +1737,7 @@ if SITE_NAME == 'rDrama':
 		'us.forums.blizzard.com',
 		'eu.forums.blizzard.com',
 		'bungie.net',
+		'soyjak.party',
 
 		#fediverse
 		'rdrama.cc',

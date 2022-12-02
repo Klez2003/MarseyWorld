@@ -3,18 +3,21 @@
 {% block body %}
 {% block banner %}
 	{% include "modals/expanded_image.html" %}
-
-	{% if '@' not in request.path %}
+	{% if err or '@' not in request.path %}
 		{% if EVENT_BANNER and not sub %}
 			{% include 'event/' + EVENT_BANNER %}
 		{% else %}
-			{% if sub and SITE_NAME != WPD %}
+			{% if err and SITE_NAME == 'rDrama' %}
+				{% set src = "banner_error.webp" | asset_siteimg %}
+			{% elif sub %}
 				{% set src = sub.banner_url %}
 				{% set alt = ['/h/', sub, 'banner']|join %}
 				{% set class = 'site-banner-hole' %}
 			{% elif SITE_NAME == "rDrama" %}
 				{% set href = "https://secure.transequality.org/site/Donation2?df_id=1480" %}
 				{% set expand = false %}
+			{% elif SITE_NAME == 'PCM' %}{# special case: christmas #}
+				{% set src = "/i/PCM/banners_event/2022christmas1.webp" %}
 			{% endif %}
 			{{macros.banner(src, href, alt, expand, class)}}
 		{% endif %}

@@ -1,12 +1,12 @@
 import random
 from operator import *
-from typing import Union
+from typing import Any, Union
 
 import pyotp
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy.orm import aliased, deferred
 from sqlalchemy.sql import func
-from sqlalchemy.sql.expression import not_, and_, or_
+from sqlalchemy.sql.expression import not_, and_, or_, ColumnOperators
 from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
@@ -129,6 +129,7 @@ class User(Base):
 	total_lottery_winnings = Column(Integer, default=0)
 	last_viewed_post_notifs = Column(Integer, default=0)
 	last_viewed_log_notifs = Column(Integer, default=0)
+	last_viewed_reddit_notifs = Column(Integer, default=0)
 	pronouns = Column(String, default='they/them')
 	bite = Column(Integer)
 	earlylife = Column(Integer)
@@ -413,6 +414,13 @@ class User(Base):
 	def can_view_offsitementions(self):
 		return self.offsitementions or self.admin_level >= PERMS['NOTIFICATIONS_REDDIT']
 
+	@lazy
+	def can_edit(self, target:Union[Submission, Comment]) -> bool:
+		if isinstance(target, Comment) and not target.post: return False
+		if self.id == target.author_id: return True
+		if not isinstance(target, Submission): return False
+		return bool(self.admin_level >= PERMS['POST_EDITING'])
+
 	@property
 	@lazy
 	def user_awards(self):
@@ -632,7 +640,7 @@ class User(Base):
 		if not self.can_see_shadowbanned:
 			notifs = notifs.filter(User.shadowbanned == None)
 		
-		return notifs.count() + self.post_notifications_count + self.modaction_notifications_count
+		return notifs.count() + self.post_notifications_count + self.modaction_notifications_count + self.reddit_notifications_count
 
 	@property
 	@lazy
@@ -701,9 +709,9 @@ class User(Base):
 	@property
 	@lazy
 	def reddit_notifications_count(self):
-		if not self.can_view_offsitementions: return 0
-		return g.db.query(Notification).join(Comment).filter(
-			Notification.user_id == self.id, Notification.read == False, 
+		if not self.can_view_offsitementions or self.id == AEVANN_ID: return 0
+		return g.db.query(Comment).filter(
+			Comment.created_utc > self.last_viewed_reddit_notifs,
 			Comment.is_banned == False, Comment.deleted_utc == 0, 
 			Comment.body_html.like('%<p>New site mention%<a href="https://old.reddit.com/r/%'), 
 			Comment.parent_submission == None, Comment.author_id == AUTOJANNY_ID).count()
