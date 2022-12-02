@@ -347,39 +347,10 @@ def edit_post(pid, v):
 	body = body.strip()[:POST_BODY_LENGTH_LIMIT] # process_files() may be adding stuff to the body
 
 	if body != p.body:
-		if v and v.admin_level >= PERMS['POST_BETS']:
-			for i in bet_regex.finditer(body):
-				body = body.replace(i.group(0), "")
-				body_html = filter_emojis_only(i.group(1))
-				if len(body_html) > 500: abort(400, "Bet option too long!")
-				bet = SubmissionOption(
-					submission_id=p.id,
-					body_html=body_html,
-					exclusive = 2
-				)
-				g.db.add(bet)
-
-		for i in list(poll_regex.finditer(body))[:10]:
-			body = body.replace(i.group(0), "")
-			body_html = filter_emojis_only(i.group(1))
-			if len(body_html) > 500: abort(400, "Poll option too long!")
-			option = SubmissionOption(
-				submission_id=p.id,
-				body_html=body_html,
-				exclusive = 0
-			)
-			g.db.add(option)
-
-		for i in list(choice_regex.finditer(body))[:10]:
-			body = body.replace(i.group(0), "")
-			body_html = filter_emojis_only(i.group(1))
-			if len(body_html) > 500: abort(400, "Poll option too long!")
-			choice = SubmissionOption(
-				submission_id=p.id,
-				body_html=body_html,
-				exclusive = 1
-			)
-			g.db.add(choice)
+		body, bets, options, choices = sanitize_poll_options(v, body, False)
+		process_poll_options(p.id, SubmissionOption, bets, 2, "Bet")
+		process_poll_options(p.id, SubmissionOption, options, 0, "Poll")
+		process_poll_options(p.id, SubmissionOption, choices, 1, "Poll")
 
 		torture = (v.agendaposter and not v.marseyawarded and p.sub != 'chudrama' and v.id == p.author_id)
 
@@ -748,7 +719,7 @@ def submit_post(v:User, sub=None):
 	if len(url) > 2048:
 		return error("There's a 2048 character limit for URLs.")
 
-	body, bets, options, choices = sanitize_poll_options(v, body)
+	body, bets, options, choices = sanitize_poll_options(v, body, True)
 
 	body += process_files(request.files, v)
 	body = body.strip()[:POST_BODY_LENGTH_LIMIT] # process_files() adds content to the body, so we need to re-strip
@@ -800,36 +771,9 @@ def submit_post(v:User, sub=None):
 	for text in {post.body, post.title, post.url}:
 		if not execute_blackjack(v, post, text, 'submission'): break
 
-	if v and v.admin_level >= PERMS['POST_BETS']:
-		for bet in bets:
-			body_html = filter_emojis_only(bet)
-			if len(body_html) > 500: abort(400, "Bet option too long!")
-			bet = SubmissionOption(
-				submission_id=post.id,
-				body_html=body_html,
-				exclusive=2
-			)
-			g.db.add(bet)
-
-	for option in options:
-		body_html = filter_emojis_only(option)
-		if len(body_html) > 500: abort(400, "Poll option too long!")
-		option = SubmissionOption(
-			submission_id=post.id,
-			body_html=body_html,
-			exclusive=0
-		)
-		g.db.add(option)
-
-	for choice in choices:
-		body_html = filter_emojis_only(choice)
-		if len(body_html) > 500: abort(400, "Poll option too long!")
-		choice = SubmissionOption(
-			submission_id=post.id,
-			body_html=body_html,
-			exclusive=1
-		)
-		g.db.add(choice)
+	process_poll_options(post, SubmissionOption, bets, 2, "Bet")
+	process_poll_options(post, SubmissionOption, options, 0, "Poll")
+	process_poll_options(post, SubmissionOption, choices, 1, "Poll")
 
 	vote = Vote(user_id=v.id,
 				vote_type=1,

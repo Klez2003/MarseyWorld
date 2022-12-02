@@ -132,7 +132,7 @@ def comment(v):
 	if v.admin_level < PERMS['POST_COMMENT_MODERATION'] and parent.author.any_block_exists(v):
 		abort(403, "You can't reply to users who have blocked you or users that you have blocked.")
 	
-	body, _, options, choices = sanitize_poll_options(v, body)
+	body, _, options, choices = sanitize_poll_options(v, body, False)
 
 	if request.files.get("file") and not g.is_tor:
 		files = request.files.getlist('file')[:4]
@@ -236,25 +236,8 @@ def comment(v):
 	if c.level == 1: c.top_comment_id = c.id
 	else: c.top_comment_id = parent.top_comment_id
 
-	for option in options:
-		body_html = filter_emojis_only(option)
-		if len(body_html) > 500: abort(400, "Poll option too long!")
-		option = CommentOption(
-			comment_id=c.id,
-			body_html=body_html,
-			exclusive=0
-		)
-		g.db.add(option)
-
-	for choice in choices:
-		body_html = filter_emojis_only(choice)
-		if len(body_html) > 500: abort(400, "Poll option too long!")
-		choice = CommentOption(
-			comment_id=c.id,
-			body_html=body_html,
-			exclusive=1
-		)
-		g.db.add(choice)
+	process_poll_options(c.id, CommentOption, options, 0, "Poll")
+	process_poll_options(c.id, CommentOption, choices, 1, "Poll")
 
 	if SITE == 'pcmemes.net' and c.body.lower().startswith("based"):
 		execute_basedbot(c, level, body, parent_post, v)
@@ -391,27 +374,9 @@ def edit_comment(cid, v):
 		elif v.bird and len(body) > 140:
 			abort(403, "You have to type less than 140 characters!")
 
-		for i in list(poll_regex.finditer(body))[:POLL_MAX_OPTIONS]:
-			body = body.replace(i.group(0), "")
-			body_html = filter_emojis_only(i.group(1))
-			if len(body_html) > 500: abort(400, "Poll option too long!")
-			option = CommentOption(
-				comment_id=c.id,
-				body_html=body_html,
-				exclusive = 0
-			)
-			g.db.add(option)
-
-		for i in list(choice_regex.finditer(body))[:POLL_MAX_OPTIONS]:
-			body = body.replace(i.group(0), "")
-			body_html = filter_emojis_only(i.group(1))
-			if len(body_html) > 500: abort(400, "Poll option too long!")
-			option = CommentOption(
-				comment_id=c.id,
-				body_html=body_html,
-				exclusive = 1
-			)
-			g.db.add(option)
+		body, _, options, choices = sanitize_poll_options(v, body, False)
+		process_poll_options(c.id, CommentOption, options, 0, "Poll")
+		process_poll_options(c.id, CommentOption, choices, 1, "Poll")
 
 		execute_antispam_comment_check(body, v)
 

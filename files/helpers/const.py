@@ -1458,6 +1458,8 @@ TROLLTITLES = [
 	"Hey jannies can you please ban @{username}",
 ]
 
+DISABLE_POLL_COMMAND = "disablepoll"
+
 NOTIFIED_USERS = {
 	'aevan': AEVANN_ID,
 	'avean': AEVANN_ID,
