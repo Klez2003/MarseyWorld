@@ -16,8 +16,8 @@ DISCORD_BOT_TOKEN = environ.get("DISCORD_BOT_TOKEN", DEFAULT_CONFIG_VALUE).strip
 TURNSTILE_SITEKEY = environ.get("TURNSTILE_SITEKEY", DEFAULT_CONFIG_VALUE).strip()
 TURNSTILE_SECRET = environ.get("TURNSTILE_SECRET", DEFAULT_CONFIG_VALUE).strip()
 YOUTUBE_KEY = environ.get("YOUTUBE_KEY", DEFAULT_CONFIG_VALUE).strip()
-PUSHER_ID = environ.get("PUSHER_ID", DEFAULT_CONFIG_VALUE).strip()
-PUSHER_KEY = environ.get("PUSHER_KEY", DEFAULT_CONFIG_VALUE).strip()
+VAPID_PUBLIC_KEY = environ.get("VAPID_PUBLIC_KEY", DEFAULT_CONFIG_VALUE).strip()
+VAPID_PRIVATE_KEY = environ.get("VAPID_PRIVATE_KEY", DEFAULT_CONFIG_VALUE).strip()
 IMGUR_KEY = environ.get("IMGUR_KEY", DEFAULT_CONFIG_VALUE).strip()
 SPAM_SIMILARITY_THRESHOLD = float(environ.get("SPAM_SIMILARITY_THRESHOLD", "0.5").strip())
 SPAM_URL_SIMILARITY_THRESHOLD = float(environ.get("SPAM_URL_SIMILARITY_THRESHOLD", "0.1").strip())
@@ -55,7 +55,7 @@ DEFAULT_RATELIMIT = "3/second;30/minute;200/hour;1000/day"
 DEFAULT_RATELIMIT_SLOWER = "1/second;30/minute;200/hour;1000/day"
 DEFAULT_RATELIMIT_USER = DEFAULT_RATELIMIT_SLOWER
 
-PUSHER_LIMIT = 1000 # API allows 10 KB but better safe than sorry
+PUSH_NOTIF_LIMIT = 1000 # API allows 10 KB but better safe than sorry
 
 IS_LOCALHOST = SITE == "localhost" or SITE == "127.0.0.1" or SITE.startswith("192.168.") or SITE.endswith(".local")
 
@@ -558,6 +558,7 @@ if SITE == 'rdrama.net':
 		'againsthateholes',
 		'masterbaiters',
 		'changelog',
+		'programming',
 	}
 
 	BOOSTED_USERS = {
@@ -570,6 +571,8 @@ if SITE == 'rdrama.net':
 		JOAN_ID,
 		4389, #WorldAroundEwe
 		5526, #Dramarama
+		3635, #HeyMoon
+		3377, #MIMW
 	}
 
 	GIFT_NOTIF_ID = CARP_ID
@@ -1739,6 +1742,7 @@ if SITE_NAME == 'rDrama':
 		'us.forums.blizzard.com',
 		'eu.forums.blizzard.com',
 		'bungie.net',
+		'soyjak.party',
 
 		#fediverse
 		'rdrama.cc',

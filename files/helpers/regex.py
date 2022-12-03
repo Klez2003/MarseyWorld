@@ -26,9 +26,9 @@ valid_sub_regex = re.compile("^[a-zA-Z0-9_\-]{3,25}$", flags=re.A)
 
 query_regex = re.compile("(\w+):(\S+)", flags=re.A)
 
-poll_regex = re.compile("\s*\$\$([^\$\n]+)\$\$\s*", flags=re.A)
-bet_regex = re.compile("\s*\$\$\$([^\$\n]+)\$\$\$\s*", flags=re.A)
-choice_regex = re.compile("\s*&&([^\$\n]+)&&\s*", flags=re.A)
+poll_regex = re.compile("\s*\$\$([^\$\n]+)\$\$\s*(?![^`]*```)", flags=re.A)
+bet_regex = re.compile("\s*\$\$\$([^\$\n]+)\$\$\$\s*(?![^`]*```)", flags=re.A)
+choice_regex = re.compile("\s*&&([^\$\n]+)&&\s*(?![^`]*```)", flags=re.A)
 
 html_comment_regex = re.compile("<!--.*-->", flags=re.A)
 
@@ -49,7 +49,7 @@ strikethrough_regex = re.compile('(^|\s|>)~{1,2}([^~]+)~{1,2}', flags=re.A)
 mute_regex = re.compile("\/mute @([a-z0-9_\-]{3,30}) ([0-9]+)", flags=re.A|re.I)
 
 emoji_regex = re.compile(f"<p>\s*(:[!#@]{{0,3}}[{valid_username_chars}]+:\s*)+<\/p>", flags=re.A)
-emoji_regex2 = re.compile(f'(?<!"):([!#@{valid_username_chars}]{{1,36}}?):', flags=re.A)
+emoji_regex2 = re.compile(f'(?<!"):([!#@{valid_username_chars}]{{1,36}}?):(?![^<]*<\/(code|pre|a)>)', flags=re.A)
 emoji_regex3 = re.compile(f'(?<!"):([!@{valid_username_chars}]{{1,35}}?):', flags=re.A)
 
 snappy_url_regex = re.compile('<a href="(https?:\/\/.+?)".*?>(.+?)<\/a>', flags=re.A)

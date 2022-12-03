@@ -288,9 +288,7 @@ def comment(v):
 			n = Notification(comment_id=c.id, user_id=x)
 			g.db.add(n)
 
-		if parent.author.id != v.id and PUSHER_ID != DEFAULT_CONFIG_VALUE and not v.shadowbanned:
-			interests = f'{SITE}{parent.author.id}'
-
+		if VAPID_PUBLIC_KEY != DEFAULT_CONFIG_VALUE and parent.author.id != v.id and not v.shadowbanned:
 			title = f'New reply by @{c.author_name}'
 
 			if len(c.body) > 500: notifbody = c.body[:500] + '...'
@@ -298,7 +296,7 @@ def comment(v):
 
 			url = f'{SITE_FULL}/comment/{c.id}?context=8&read=true#context'
 
-			gevent.spawn(pusher_thread, interests, title, notifbody, url)
+			push_notif(parent.author.id, title, notifbody, url)
 
 				
 
@@ -421,7 +419,7 @@ def edit_comment(cid, v):
 				g.db.add(n)
 
 	g.db.commit()
-	return {"comment": c.realbody(v)}
+	return {"body": c.body, "comment": c.realbody(v)}
 
 
 @app.post("/delete/comment/<cid>")
