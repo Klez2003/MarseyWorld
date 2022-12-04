@@ -1079,6 +1079,13 @@ class User(Base):
 		if self.patron: return True
 		return False
 
+	@lazy
+	def should_show_watermark(self, user_agent:Optional[str]=None, is_xhr:bool=False) -> bool:
+		if SITE_NAME != 'rDrama': return False
+		if user_agent and 'SamsungBrowser' in user_agent: return False
+		if is_xhr: return False
+		return True
+
 	@property
 	@lazy
 	def winnings(self):
