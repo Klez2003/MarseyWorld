@@ -28,8 +28,8 @@ function addSearchParam(e) {
 	searchInput.focus();
 }
 
-function block_user() {
-	var usernameField = document.getElementById("exile-username");
+function blockUser() {
+	var usernameField = document.getElementById("block-username");
 	var isValidUsername = usernameField.checkValidity();
 	username = usernameField.value;
 	if (isValidUsername) {
@@ -49,4 +49,12 @@ function block_user() {
 		}
 		xhr.send(f)
 	}
+}
+
+function unblockUser(t, url) {
+	postToast(t, url, null,
+		() => {
+			t.parentElement.parentElement.remove();
+		}	
+	);
 }

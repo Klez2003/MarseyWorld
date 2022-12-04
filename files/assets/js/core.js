@@ -79,9 +79,7 @@ function postToast(t, url, data, extraActionsOnSuccess, method="POST") {
 }
 
 function postToastReload(t, url, method="POST") {
-	postToast(t, url,
-		{
-		},
+	postToast(t, url, null,
 		() => {
 			location.reload()
 		}
@@ -89,9 +87,7 @@ function postToastReload(t, url, method="POST") {
 }
 
 function postToastSwitch(t, url, button1, button2, cls, extraActionsOnSuccess, method="POST") {
-	postToast(t, url,
-		{
-		},
+	postToast(t, url, null,
 		(xhr) => {
 			if (button1)
 			{

@@ -177,7 +177,7 @@
 										{% include "user_in_table.html" %}
 									</td>
 									<td>
-										<button type="button" class="btn btn-primary" onclick="unblock_user(this, '/settings/unblock?username={{user.username}}&formkey={{v|formkey}}')">Unblock</button>
+										<button type="button" class="btn btn-primary" onclick="unblockUser(this, '/settings/unblock?username={{user.username}}&formkey={{v|formkey}}')">Unblock</button>
 									</td>
 								</tr>
 							{% else %}
@@ -270,7 +270,7 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-link text-muted" data-bs-dismiss="modal">Cancel</button>
-					<button type="button" class="btn btn-primary" id="blockUserButton" onclick="block_user()">Block user</button>
+					<button type="button" class="btn btn-primary" id="blockUserButton" onclick="blockUser()">Block user</button>
 				</div>
 			</div>
 		</form>

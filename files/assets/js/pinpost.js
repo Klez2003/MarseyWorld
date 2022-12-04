@@ -1,7 +1,5 @@
 function pinPost(t, id) {
-	postToast(t, `/sticky/${id}`,
-		{
-		},
+	postToast(t, `/sticky/${id}`, null,
 		(xhr) => {
 			if(xhr.status == 201) {
 				t.innerHTML = t.innerHTML.replace(t.textContent, 'Pin for 1 hour');
@@ -15,9 +13,7 @@ function pinPost(t, id) {
 }
 
 function unpinPost(t, id) {
-	postToast(t, `/unsticky/${id}`,
-		{
-		},
+	postToast(t, `/unsticky/${id}`, null,
 		() => {
 			t.classList.add('d-none');
 			const prev = t.previousElementSibling;

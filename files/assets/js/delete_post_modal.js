@@ -1,8 +1,6 @@
 function delete_postModal(t, id) {
 	document.getElementById("deletePostButton").onclick = function() {
-		postToast(t, `/delete_post/${id}`,
-			{
-			},
+		postToast(t, `/delete_post/${id}`, null,
 			() => {
 				if (window.location.pathname == '/admin/reported/posts')
 				{

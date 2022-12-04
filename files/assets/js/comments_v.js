@@ -88,9 +88,7 @@ function toggleEdit(id){
 
 function delete_commentModal(t, id) {
 	document.getElementById("deleteCommentButton").onclick = function() {
-		postToast(t, `/delete/comment/${id}`,
-			{
-			},
+		postToast(t, `/delete/comment/${id}`, null,
 			() => {
 				if (window.location.pathname == '/admin/reported/comments')
 				{

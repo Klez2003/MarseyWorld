@@ -114,9 +114,7 @@ function poll_vote_1(oid, parentid, kind) {
 }
 
 function bet_vote(t, oid) {
-	postToast(t, `/vote/post/option/${oid}`,
-		{
-		},
+	postToast(t, `/vote/post/option/${oid}`, null,
 		() => {
 			for(let el of document.getElementsByClassName('bet')) {
 				el.disabled = true;
