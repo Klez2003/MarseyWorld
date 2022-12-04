@@ -879,7 +879,7 @@
 	<div id="viewmore-{{offset}}"><button type="button" id="viewbtn" class="btn btn-primary" onclick="viewmore({{pid}},'{{sort}}',{{offset}},{{ids}})">VIEW MORE COMMENTS</a></div>
 {% endif %}
 
-{% if v and v.should_show_watermark(g.agent, bool(request.headers.get("xhr"))) %}
+{% if v and v.should_show_watermark(g.agent, True if request.headers.get("xhr") else False) %}
 	<div id="detection" style="display:none;background-color:canvas;color-scheme:light"></div>
 	<script>
 		const detectionDiv = document.querySelector('#detection');
