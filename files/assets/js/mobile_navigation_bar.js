@@ -1,13 +1,9 @@
 var prevScrollpos = window.pageYOffset;
 window.onscroll = function () {
 	var currentScrollPos = window.pageYOffset;
-
 	var topBar = document.getElementById("fixed-bar-mobile");
-
 	var bottomBar = document.getElementById("mobile-bottom-navigation-bar");
-
 	var dropdown = document.getElementById("mobileSortDropdown");
-
 	var navbar = document.getElementById("navbar");
 
 	if (bottomBar != null) {
