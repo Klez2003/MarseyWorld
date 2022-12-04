@@ -1006,11 +1006,8 @@ class User(Base):
 				if other.is_banned: return False
 				if other.deleted_utc: return False
 				if other.author.shadowbanned and not (user and user.can_see_shadowbanned): return False
-				if isinstance(other, Submission):
-					if other.sub in ('chudrama', 'countryclub') and not (user and user.can_see_hole(other.sub)):
-						return False
-				else:
-					if other.parent_submission and not cls.can_see_content(user, other.post): return False
+				if isinstance(other, Comment):
+					if other.parent_submission and not cls.can_see(user, other.post): return False
 		return True
 
 	@classmethod
@@ -1036,24 +1033,19 @@ class User(Base):
 				if other.parent_submission and other.post.sub and not cls.can_see(user, other.post.subr): return False
 				# if other.parent_submission and not cls.can_see(user, other.post): return False
 		elif isinstance(other, Sub):
-			if other.name in ('chudrama', 'countryclub') and not (user and user.can_see_hole(other.name)):
-				return False
+			if other.name == 'chudrama': return bool(user) and user.can_see_chudrama
+			if other.name == 'countryclub': return bool(user) and user.can_see_countryclub
+			if other.name == 'masterbaiters': return bool(user) and user.can_see_masterbaiters
 		elif isinstance(other, User):
 			return (user and user.id == other.id) or (user and user.can_see_shadowbanned) or not other.shadowbanned
 		return True
 
-	@lazy
-	def can_see_hole(self, hole):
-		if hole == 'chudrama': return self.can_see_chudrama
-		if hole == 'countryclub': return self.can_see_countryclub
-		return True
-	
 	@property
 	@lazy
 	def can_see_chudrama(self):
 		if self.admin_level >= PERMS['VIEW_CHUDRAMA']: return True
 		if self.client: return True
-		if self.truescore >= 5000: return True
+		if self.truescore >= TRUESCORE_CHUDRAMA_MINIMUM: return True
 		if self.agendaposter: return True
 		if self.patron: return True
 		return False
@@ -1065,8 +1057,15 @@ class User(Base):
 		if self.is_suspended_permanently: return False
 		if self.agendaposter == 1: return False
 		if self.admin_level >= PERMS['VIEW_CLUB']: return True
-		if self.truescore >= 1000: return True
+		if self.truescore >= TRUESCORE_CLUB_MINIMUM: return True
 		return False
+
+	@property
+	@lazy
+	def can_see_masterbaiters(self):
+		if self.shadowbanned: return False
+		if self.is_suspended_permanently: return False
+		return True
 
 	@property
 	@lazy
