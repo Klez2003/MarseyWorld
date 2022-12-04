@@ -1,10 +1,10 @@
-var prevScrollpos = window.pageYOffset;
+let prevScrollpos = window.pageYOffset;
 window.onscroll = function () {
-	var currentScrollPos = window.pageYOffset;
-	var topBar = document.getElementById("fixed-bar-mobile");
-	var bottomBar = document.getElementById("mobile-bottom-navigation-bar");
-	var dropdown = document.getElementById("mobileSortDropdown");
-	var navbar = document.getElementById("navbar");
+	const currentScrollPos = window.pageYOffset;
+	const topBar = document.getElementById("fixed-bar-mobile");
+	const bottomBar = document.getElementById("mobile-bottom-navigation-bar");
+	const dropdown = document.getElementById("mobileSortDropdown");
+	const navbar = document.getElementById("navbar");
 
 	if (bottomBar != null) {
 		if (prevScrollpos > currentScrollPos && (window.innerHeight + currentScrollPos) < (document.body.offsetHeight - 65)) {

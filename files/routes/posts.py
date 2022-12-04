@@ -33,55 +33,6 @@ from files.__main__ import app, limiter
 
 titleheaders = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Safari/537.36"}
 
-@app.post("/club_post/<pid>")
-@feature_required('COUNTRY_CLUB')
-@auth_required
-def club_post(pid, v):
-	post = get_post(pid)
-	if post.author_id != v.id and v.admin_level < PERMS['POST_COMMENT_MODERATION']: abort(403)
-
-	if not post.club:
-		post.club = True
-		g.db.add(post)
-
-		if post.author_id != v.id:
-			ma = ModAction(
-				kind = "club_post",
-				user_id = v.id,
-				target_submission_id = post.id,
-			)
-			g.db.add(ma)
-
-			message = f"@{v.username} (Admin) has marked [{post.title}]({post.shortlink}) as {CC_TITLE}!"
-			send_repeatable_notification(post.author_id, message)
-
-	return {"message": f"Post has been marked as {CC_TITLE}!"}
-
-@app.post("/unclub_post/<pid>")
-@feature_required('COUNTRY_CLUB')
-@auth_required
-def unclub_post(pid, v):
-	post = get_post(pid)
-	if post.author_id != v.id and v.admin_level < PERMS['POST_COMMENT_MODERATION']: abort(403)
-
-	if post.club:
-		post.club = False
-		g.db.add(post)
-
-		if post.author_id != v.id:
-			ma = ModAction(
-				kind = "unclub_post",
-				user_id = v.id,
-				target_submission_id = post.id,
-			)
-			g.db.add(ma)
-
-			message = f"@{v.username} (Admin) has unmarked [{post.title}]({post.shortlink}) as {CC_TITLE}!"
-			send_repeatable_notification(post.author_id, message)
-
-	return {"message": f"Post has been unmarked as {CC_TITLE}!"}
-
-
 @app.post("/publish/<pid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_required
@@ -139,13 +90,12 @@ def submit_get(v:User, sub=None):
 def post_id(pid, anything=None, v=None, sub=None):
 	post = get_post(pid, v=v)
 	if not User.can_see(v, post): abort(403)
-	if not User.can_see_content(v, post) and post.club: abort(403)
 
 	if post.over_18 and not (v and v.over_18) and session.get('over_18', 0) < int(time.time()):
 		if g.is_api_or_xhr: return {"error":"Must be 18+ to view"}, 451
 		return render_template("errors/nsfw.html", v=v)
 
-	if post.new or 'megathread' in post.title.lower(): defaultsortingcomments = 'new'
+	if post.new: defaultsortingcomments = 'new'
 	elif v: defaultsortingcomments = v.defaultsortingcomments
 	else: defaultsortingcomments = "hot"
 	sort = request.values.get("sort", defaultsortingcomments)
@@ -234,7 +184,6 @@ def post_id(pid, anything=None, v=None, sub=None):
 @auth_desired_with_logingate
 def viewmore(v, pid, sort, offset):
 	post = get_post(pid, v=v)
-	if post.club and not (v and (v.paid_dues or v.id == post.author_id)): abort(403)
 	try:
 		offset = int(offset)
 	except: abort(400)
@@ -314,8 +263,7 @@ def morecomments(v, cid):
 @ratelimit_user("1/second;10/minute;100/hour;200/day")
 def edit_post(pid, v):
 	p = get_post(pid)
-	if v.id != p.author_id and v.admin_level < PERMS['POST_EDITING']:
-		abort(403)
+	if not v.can_edit(p): abort(403)
 
 	# Disable edits on things older than 1wk unless it's a draft or editor is a jannie
 	if (time.time() - p.created_utc > 7*24*60*60 and not p.private
@@ -340,6 +288,9 @@ def edit_post(pid, v):
 
 		if v.id == p.author_id and v.marseyawarded and not marseyaward_title_regex.fullmatch(title_html):
 			abort(403, "You can only type marseys!")
+
+		if 'megathread' in title.lower() and 'megathread' not in p.title.lower():
+			p.new = True
 
 		p.title = title
 		p.title_html = title_html
@@ -778,10 +729,9 @@ def submit_post(v:User, sub=None):
 	if len(body_html) > POST_BODY_HTML_LENGTH_LIMIT: return error(f"Submission body_html too long! (max {POST_BODY_HTML_LENGTH_LIMIT} characters)")
 
 	flag_notify = (request.values.get("notify", "on") == "on")
-	flag_new = request.values.get("new", False, bool)
+	flag_new = request.values.get("new", False, bool) or 'megathread' in title.lower()
 	flag_over_18 = request.values.get("over_18", False, bool)
 	flag_private = request.values.get("private", False, bool)
-	flag_club = (request.values.get("club", False, bool) and FEATURES['COUNTRY_CLUB'])
 	flag_ghost = request.values.get("ghost", False, bool) and v.can_post_in_ghost_threads
 
 	if embed and len(embed) > 1500: embed = None
@@ -793,7 +743,6 @@ def submit_post(v:User, sub=None):
 	post = Submission(
 		private=flag_private,
 		notify=flag_notify,
-		club=flag_club,
 		author_id=v.id,
 		over_18=flag_over_18,
 		new=flag_new,
@@ -924,9 +873,11 @@ def submit_post(v:User, sub=None):
 
 	execute_lawlz_actions(v, post)
 
-	if SITE == 'rdrama.net' and v.id in (IMPASSIONATA_ID, PIZZASHILL_ID, 2008):
+	if (SITE == 'rdrama.net'
+			and v.id in (IMPASSIONATA_ID, PIZZASHILL_ID, 2008)
+			and not (post.sub and post.sub.stealth)):
 		post.stickied_utc = int(time.time()) + 3600
-		post.stickied = AUTOJANNY_ID
+		post.stickied = "AutoJanny"
 
 	cache.delete_memoized(frontlist)
 	cache.delete_memoized(userpagelisting)
@@ -941,7 +892,7 @@ def submit_post(v:User, sub=None):
 	if v.client: return post.json(g.db)
 	else:
 		post.voted = 1
-		if post.new or 'megathread' in post.title.lower(): sort = 'new'
+		if post.new: sort = 'new'
 		else: sort = v.defaultsortingcomments
 		return render_template('submission.html', v=v, p=post, sort=sort, render_replies=True, offset=0, success=True, sub=post.subr)
 
@@ -1072,6 +1023,16 @@ def pin_post(post_id, v):
 		if post.is_pinned: return {"message": "Post pinned!"}
 		else: return {"message": "Post unpinned!"}
 	return abort(404, "Post not found!")
+
+@app.route("/post/<post_id>/new", methods=["PUT", "DELETE"])
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+@auth_required
+def toggle_new_sort(post_id:int, v:User):
+	post = get_post(post_id)
+	if not v.can_edit(post): abort(403, "Only the post author can do that!")
+	post.new = request.method == "PUT"
+	g.db.add(post)
+	return {"message": f"Turned {'on' if post.new else 'off'} sort by new"}
 
 
 extensions = IMAGE_FORMATS + VIDEO_FORMATS + AUDIO_FORMATS

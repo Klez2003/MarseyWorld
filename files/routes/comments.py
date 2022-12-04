@@ -33,7 +33,6 @@ WORDLE_COLOR_MAPPINGS = {-1: "🟥", 0: "🟨", 1: "🟩"}
 def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 	comment = get_comment(cid, v=v)
 	if not User.can_see(v, comment): abort(404)
-	if comment.post and comment.post.club and not User.can_see_content(v, comment): abort(403)
 
 	if v and request.values.get("read"):
 		notif = g.db.query(Notification).filter_by(comment_id=cid, user_id=v.id, read=False).one_or_none()
@@ -111,8 +110,6 @@ def comment(v):
 
 	if sub in ('furry','vampire','racist','femboy') and not v.client and not v.house.lower().startswith(sub):
 		abort(403, f"You need to be a member of House {sub.capitalize()} to comment in /h/{sub}")
-
-	if parent_post.club and not (v and (v.paid_dues or v.id == parent_post.author_id)): abort(403)
 
 	if not User.can_see(v, parent): abort(404)
 	if parent.deleted_utc != 0: abort(404)
@@ -313,9 +310,7 @@ def comment(v):
 			n = Notification(comment_id=c.id, user_id=x)
 			g.db.add(n)
 
-		if parent.author.id != v.id and PUSHER_ID != DEFAULT_CONFIG_VALUE and not v.shadowbanned:
-			interests = f'{SITE}{parent.author.id}'
-
+		if VAPID_PUBLIC_KEY != DEFAULT_CONFIG_VALUE and parent.author.id != v.id and not v.shadowbanned:
 			title = f'New reply by @{c.author_name}'
 
 			if len(c.body) > 500: notifbody = c.body[:500] + '...'
@@ -323,7 +318,7 @@ def comment(v):
 
 			url = f'{SITE_FULL}/comment/{c.id}?context=8&read=true#context'
 
-			gevent.spawn(pusher_thread, interests, title, notifbody, url)
+			push_notif(parent.author.id, title, notifbody, url)
 
 				
 
@@ -464,7 +459,7 @@ def edit_comment(cid, v):
 				g.db.add(n)
 
 	g.db.commit()
-	return {"comment": c.realbody(v)}
+	return {"body": c.body, "comment": c.realbody(v)}
 
 
 @app.post("/delete/comment/<cid>")

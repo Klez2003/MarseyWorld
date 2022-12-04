@@ -64,12 +64,6 @@
 
 {% block content %}
 
-{% if SITE == 'pcmemes.net' %}
-	{% set cc='SPLASH MOUNTAIN' %}
-{% else %}
-	{% set cc='COUNTRY CLUB' %}
-{% endif %}
-
 <div class="row mb-3">
 
 	<div id="post-root" class="col-12">
@@ -101,14 +95,12 @@
 					{% if p.realurl(v) and not v_forbid_deleted %}
 						<h1 id="post-title" class="card-title post-title text-left mb-md-3 {% if p.author.agendaposter and p.sub != 'chudrama' %}agendaposter{% endif %}">
 								<a {% if p.author.rainbow %}class="rainbow-text"{% endif %} {% if not v or v.newtabexternal %}target="_blank"{% endif %} rel="nofollow noopener" href="{{p.realurl(v)}}">
-								{% if p.club %}<span class="patron font-weight-bolder mr-1" style="background-color:red; font-size:12px; line-height:2;">{{CC}}</span>{% endif %}
 								{% if p.flair %}<span class="patron font-weight-bolder mr-1" style="background-color:var(--primary); font-size:12px; line-height:2;">{{p.flair | safe}}</span>{% endif %}
 								{{p.realtitle(v) | safe}}
 							</a>
 						</h1>
 					{% else %}
 						<h1 id="post-title" class="card-title post-title text-left mb-md-3 {% if p.author.agendaposter and p.sub != 'chudrama' %}agendaposter{% endif %} {% if p.author.rainbow %}rainbow-text{% endif %}">
-							{% if p.club %}<span class="patron font-weight-bolder mr-1" style="background-color:red; font-size:12px; line-height:2;">{{CC}}</span>{% endif %}
 							{% if p.flair %}<span class="patron font-weight-bolder mr-1" style="background-color:var(--primary); font-size:12px; line-height:2;">{{p.flair | safe}}</span>{% endif %}
 							{{p.realtitle(v) | safe}}
 						</h1>
@@ -116,18 +108,6 @@
 
 					{% if not v_forbid_deleted %}
 					<div id="post-body" class="post-body mt-3">
-						{% if p.realurl(v) %}
-							{% if not p.embed_url and not p.is_image %}
-								<a rel="nofollow noopener" href="{{p.realurl(v)}}" {% if not v or v.newtabexternal %}target="_blank"{% endif %}>
-									<div class="d-flex {% if p.is_video or p.is_audio %}d-md-none{% endif %} justify-content-between align-items-center border rounded p-2 mb-3">
-										<span>{{p.realurl(v)}}</span>
-										<i class="fas fa-external-link-alt text-small"></i>
-									</div>
-								</a>
-							{% endif %}
-						{% endif %}
-
-
 						{% if p.embed_url %}
 							{% if p.domain == "twitter.com" %}
 								{{p.embed_url | safe}}
@@ -178,7 +158,7 @@
 					</div>
 					{% endif %}
 
-					{% if v and (v.id==p.author_id or v.admin_level >= PERMS['POST_EDITING']) and not v.is_suspended %}
+					{% if v and v.can_edit(p) and not v.is_suspended %}
 						<div id="edit-post-body-{{p.id}}" class="d-none comment-write collapsed child">
 							<form id="post-edit-form-{{p.id}}" action="/edit_post/{{p.id}}" method="post" enctype="multipart/form-data">
 									<input type="hidden" name="formkey" value="{{v|formkey}}">
@@ -227,7 +207,7 @@
 							<span class="text-info d-none {{p.id}}-new-comments"></span>
 						</a>
 
-						{% if v and (v.id==p.author_id or v.admin_level >= PERMS['POST_EDITING']) %}
+						{% if v and v.can_edit(p) %}
 							<button type="button" class="list-inline-item" onclick="togglePostEdit('{{p.id}}')"><i class="fas fa-edit"></i>Edit</button>
 						{% endif %}
 
@@ -321,9 +301,7 @@
 				</li>
 			</ul>
 		</div>
-
 	</div>
-
 </div>
 
 {% if v and v.id != p.author_id and p.body and not v_forbid_deleted %}
@@ -334,7 +312,7 @@
 	<div class="col border-top">
 		<div class="comments-count py-3">
 			<div class="dropdown dropdown-actions">
-				<button type="button" class="btn btn-secondary dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<button type="button" class="btn btn-secondary dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-right:0.5em;">
 					{% if sort=="hot" %}<i class="fas fa-fire mr-1"></i>{% endif %}
 					{% if sort=="top" %}<i class="fas fa-arrow-alt-circle-up mr-1"></i>{% endif %}
 					{% if sort=="bottom" %}<i class="fas fa-arrow-alt-circle-down mr-1"></i>{% endif %}
@@ -474,7 +452,7 @@
 	{% include "modals/report_post.html" %}
 {% endif %}
 
-{% if v and (v.id == p.author_id or v.admin_level >= PERMS['POST_EDITING']) %}
+{% if v and v.can_edit(p) %}
 	<script defer src="{{'js/togglePostEdit.js' | asset}}"></script>
 {% endif %}
 
@@ -520,7 +498,6 @@
 		localStorage.setItem("post-new", false)
 		localStorage.setItem("post-nsfw", false)
 		localStorage.setItem("post-private", false)
-		localStorage.setItem("post-club", false)
 		localStorage.setItem("post-ghost", false)
 	</script>
 {% endif %}

@@ -482,7 +482,7 @@
 				{% endif %}
 			</div>
 
-		{% if v and v.id != c.author_id and c.body and not (c.post and c.post.club and not v.paid_dues) %}
+		{% if v and v.id != c.author_id and c.body %}
 			<div autocomplete="off" class="markdown d-none card border my-2 p-3 comment-box form-control rounded" id="markdown-{{c.id}}" readonly>{{c.body.strip()}}</div> 
 		{% endif %}
 
@@ -869,7 +869,7 @@
 				};
 				const base64Mark = btoa(markTemplate("{{v.id}}"));
 				
-				var style = document.createElement('style');
+				const style = document.createElement('style');
 				style.innerHTML = `.actual-post:not(.deleted, .banned),.comment-section>.comment{background-image:url("data:image/svg+xml;base64,${base64Mark}")}`;
 				document.getElementsByTagName('head')[0].appendChild(style);
 			}

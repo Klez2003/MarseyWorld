@@ -1,12 +1,12 @@
 import random
 from operator import *
-from typing import Union
+from typing import Any, Union
 
 import pyotp
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy.orm import aliased, deferred
 from sqlalchemy.sql import func
-from sqlalchemy.sql.expression import not_, and_, or_
+from sqlalchemy.sql.expression import not_, and_, or_, ColumnOperators
 from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
@@ -109,7 +109,6 @@ class User(Base):
 	unban_utc = Column(Integer, default=0)
 	ban_reason = deferred(Column(String))
 	is_muted = Column(Boolean, default=False, nullable=False)
-	club_allowed = Column(Boolean)
 	login_nonce = Column(Integer, default=0)
 	coins = Column(Integer, default=0)
 	truescore = Column(Integer, default=0)
@@ -129,6 +128,7 @@ class User(Base):
 	total_lottery_winnings = Column(Integer, default=0)
 	last_viewed_post_notifs = Column(Integer, default=0)
 	last_viewed_log_notifs = Column(Integer, default=0)
+	last_viewed_reddit_notifs = Column(Integer, default=0)
 	pronouns = Column(String, default='they/them')
 	bite = Column(Integer)
 	earlylife = Column(Integer)
@@ -413,6 +413,13 @@ class User(Base):
 	def can_view_offsitementions(self):
 		return self.offsitementions or self.admin_level >= PERMS['NOTIFICATIONS_REDDIT']
 
+	@lazy
+	def can_edit(self, target:Union[Submission, Comment]) -> bool:
+		if isinstance(target, Comment) and not target.post: return False
+		if self.id == target.author_id: return True
+		if not isinstance(target, Submission): return False
+		return bool(self.admin_level >= PERMS['POST_EDITING'])
+
 	@property
 	@lazy
 	def user_awards(self):
@@ -442,14 +449,6 @@ class User(Base):
 	@lazy
 	def has_blocked(self, target):
 		return g.db.query(UserBlock).filter_by(user_id=self.id, target_id=target.id).one_or_none()
-
-	@property
-	@lazy
-	def paid_dues(self):
-		if not FEATURES['COUNTRY_CLUB']: return True
-		if self.shadowbanned: return False
-		if self.is_suspended_permanently: return False
-		return self.admin_level >= PERMS['VIEW_CLUB'] or self.club_allowed or (self.club_allowed != False and self.truescore >= DUES)
 
 	@lazy
 	def any_block_exists(self, other):
@@ -632,7 +631,7 @@ class User(Base):
 		if not self.can_see_shadowbanned:
 			notifs = notifs.filter(User.shadowbanned == None)
 		
-		return notifs.count() + self.post_notifications_count + self.modaction_notifications_count
+		return notifs.count() + self.post_notifications_count + self.modaction_notifications_count + self.reddit_notifications_count
 
 	@property
 	@lazy
@@ -701,9 +700,9 @@ class User(Base):
 	@property
 	@lazy
 	def reddit_notifications_count(self):
-		if not self.can_view_offsitementions: return 0
-		return g.db.query(Notification).join(Comment).filter(
-			Notification.user_id == self.id, Notification.read == False, 
+		if not self.can_view_offsitementions or self.id == AEVANN_ID: return 0
+		return g.db.query(Comment).filter(
+			Comment.created_utc > self.last_viewed_reddit_notifs,
 			Comment.is_banned == False, Comment.deleted_utc == 0, 
 			Comment.body_html.like('%<p>New site mention%<a href="https://old.reddit.com/r/%'), 
 			Comment.parent_submission == None, Comment.author_id == AUTOJANNY_ID).count()
@@ -1007,11 +1006,8 @@ class User(Base):
 				if other.is_banned: return False
 				if other.deleted_utc: return False
 				if other.author.shadowbanned and not (user and user.can_see_shadowbanned): return False
-				if isinstance(other, Submission):
-					if other.club and not (user and user.paid_dues): return False
-					if other.sub == 'chudrama' and not (user and user.can_see_chudrama): return False
-				else:
-					if other.parent_submission and not cls.can_see_content(user, other.post): return False
+				if isinstance(other, Comment):
+					if other.parent_submission and not cls.can_see(user, other.post): return False
 		return True
 
 	@classmethod
@@ -1020,11 +1016,16 @@ class User(Base):
 		Whether a user can strictly see this item. can_see_content is used where
 		content of a thing can be hidden from view
 		'''
+		browser = g and g.browser # TODO: request state object to pass to models for purity
 		if isinstance(other, (Submission, Comment)):
 			if not cls.can_see(user, other.author): return False
 			if user and user.id == other.author_id: return True
 			if isinstance(other, Submission):
 				if "!YOU!" in other.title and not user: return False
+				if browser != 'webview' and other.author_id == AEVANN_ID and other.title.startswith('[ANDROID]'):
+					return False
+				if browser != 'apple' and other.author_id == CARP_ID and other.title.startswith('[APPLE]'):
+					return False
 				if other.sub and not cls.can_see(user, other.subr): return False
 			else:
 				if not other.parent_submission:
@@ -1035,7 +1036,9 @@ class User(Base):
 				if other.parent_submission and other.post.sub and not cls.can_see(user, other.post.subr): return False
 				# if other.parent_submission and not cls.can_see(user, other.post): return False
 		elif isinstance(other, Sub):
-			return other.name != 'chudrama' or (user and user.can_see_chudrama)
+			if other.name == 'chudrama': return bool(user) and user.can_see_chudrama
+			if other.name == 'countryclub': return bool(user) and user.can_see_countryclub
+			if other.name == 'masterbaiters': return bool(user) and user.can_see_masterbaiters
 		elif isinstance(other, User):
 			return (user and user.id == other.id) or (user and user.can_see_shadowbanned) or not other.shadowbanned
 		return True
@@ -1045,17 +1048,33 @@ class User(Base):
 	def can_see_chudrama(self):
 		if self.admin_level >= PERMS['VIEW_CHUDRAMA']: return True
 		if self.client: return True
-		if self.truescore >= 5000: return True
+		if self.truescore >= TRUESCORE_CHUDRAMA_MINIMUM: return True
 		if self.agendaposter: return True
 		if self.patron: return True
 		return False
-	
+
+	@property
+	@lazy
+	def can_see_countryclub(self):
+		if self.shadowbanned: return False
+		if self.is_suspended_permanently: return False
+		if self.agendaposter == 1: return False
+		if self.admin_level >= PERMS['VIEW_CLUB']: return True
+		if self.truescore >= TRUESCORE_CLUB_MINIMUM: return True
+		return False
+
+	@property
+	@lazy
+	def can_see_masterbaiters(self):
+		if self.shadowbanned: return False
+		if self.is_suspended_permanently: return False
+		return True
+
 	@property
 	@lazy
 	def can_post_in_ghost_threads(self):
 		if not TRUESCORE_GHOST_MINIMUM: return True
 		if self.admin_level >= PERMS['POST_IN_GHOST_THREADS']: return True
-		if self.club_allowed: return True
 		if self.truescore >= TRUESCORE_GHOST_MINIMUM: return True
 		if self.patron: return True
 		return False

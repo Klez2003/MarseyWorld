@@ -138,7 +138,7 @@ def settings_personal_post(v):
 			badge = v.has_badge(179)
 			if badge: g.db.delete(badge)
 
-	elif not updated and request.values.get("bio") == "":
+	elif not updated and request.values.get("bio") == "" and not request.files.get('file'):
 		v.bio = None
 		v.bio_html = None
 		g.db.add(v)
@@ -619,7 +619,7 @@ def settings_unblock_user(v):
 	if not v.shadowbanned and user.admin_level >= PERMS['USER_BLOCKS_VISIBLE']:
 		send_notification(user.id, f"@{v.username} has unblocked you!")
 	cache.delete_memoized(frontlist)
-	return {"message": f"@{user.username} unblocked."}
+	return {"message": f"@{user.username} unblocked successfully!"}
 
 @app.get("/settings/apps")
 @auth_required

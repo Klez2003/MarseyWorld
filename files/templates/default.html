@@ -3,18 +3,21 @@
 {% block body %}
 {% block banner %}
 	{% include "modals/expanded_image.html" %}
-
-	{% if '@' not in request.path %}
+	{% if err or '@' not in request.path %}
 		{% if EVENT_BANNER and not sub %}
 			{% include 'event/' + EVENT_BANNER %}
 		{% else %}
-			{% if sub and SITE_NAME != WPD %}
+			{% if err and SITE_NAME == 'rDrama' %}
+				{% set src = "banner_error.webp" | asset_siteimg %}
+			{% elif sub %}
 				{% set src = sub.banner_url %}
 				{% set alt = ['/h/', sub, 'banner']|join %}
 				{% set class = 'site-banner-hole' %}
 			{% elif SITE_NAME == "rDrama" %}
 				{% set href = "https://secure.transequality.org/site/Donation2?df_id=1480" %}
 				{% set expand = false %}
+			{% elif SITE_NAME == 'PCM' %}{# special case: christmas #}
+				{% set src = "/i/PCM/banners_xmas22/" ~ listdir('files/assets/images/PCM/banners_xmas22')|random() %}
 			{% endif %}
 			{{macros.banner(src, href, alt, expand, class)}}
 		{% endif %}
@@ -63,8 +66,31 @@
 </div>
 <script defer src="{{'js/vendor/lozad.js' | asset}}"></script>
 <script defer src="{{'js/vendor/lite-youtube.js' | asset}}"></script>
-{% if v and v.spider %}
+{% if not err and v and v.spider %}
 	<script defer src="{{'js/vendor/critters.js' | asset}}"></script>
 	<script defer src="{{'js/spider.js' | asset}}"></script>
 {% endif %}
+
+{% if g.browser == 'apple' %}
+	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			const videos = document.querySelectorAll('video')
+
+			for (const video of videos) {
+				const link = video.src
+				const htmlString = `
+					<a rel="nofollow noopener" href="${link}" target="_blank">
+						<div class="d-flex justify-content-between align-items-center border rounded p-2 mb-3 download-video">
+							<span>${link}</span>
+							<i class="fas fa-external-link-alt text-small"></i>
+						</div>
+					</a>`
+				const div = document.createElement('div');
+				div.innerHTML = htmlString;
+				video.after(div)
+			}
+		});
+	</script>
+{% endif %}
+
 {% endblock %}

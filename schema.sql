@@ -107,7 +107,6 @@ CREATE TABLE public.submissions (
     is_bot boolean DEFAULT false NOT NULL,
     bannedfor character varying(40),
     comment_count integer DEFAULT 0 NOT NULL,
-    club boolean DEFAULT false NOT NULL,
     stickied character varying(40),
     title character varying(500) NOT NULL,
     url character varying(2083),
@@ -726,6 +725,17 @@ WITH (fillfactor='100');
 
 
 --
+-- Name: push_subscriptions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.push_subscriptions (
+    user_id integer NOT NULL,
+    subscription_json character varying(500) NOT NULL,
+    created_utc integer NOT NULL
+);
+
+
+--
 -- Name: save_relationship; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -978,7 +988,6 @@ CREATE TABLE public.users (
     highlightcomments boolean DEFAULT true NOT NULL,
     nitter boolean,
     truescore integer DEFAULT 0 NOT NULL,
-    club_allowed boolean,
     frontsize integer DEFAULT 25 NOT NULL,
     coins_spent integer DEFAULT 0 NOT NULL,
     marseybux integer DEFAULT 0 NOT NULL,
@@ -1018,7 +1027,8 @@ CREATE TABLE public.users (
     coins_spent_on_hats integer DEFAULT 0 NOT NULL,
     rainbow integer,
     spider integer,
-    profanityreplacer integer DEFAULT 1 NOT NULL
+    profanityreplacer integer DEFAULT 1 NOT NULL,
+    last_viewed_reddit_notifs integer NOT NULL
 );
 
 
@@ -1408,6 +1418,14 @@ ALTER TABLE ONLY public.pgbench_branches
 
 ALTER TABLE ONLY public.pgbench_tellers
     ADD CONSTRAINT pgbench_tellers_pkey PRIMARY KEY (tid);
+
+
+--
+-- Name: push_subscriptions push_subscriptions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.push_subscriptions
+    ADD CONSTRAINT push_subscriptions_pkey PRIMARY KEY (user_id, subscription_json);
 
 
 --
@@ -2452,6 +2470,14 @@ ALTER TABLE ONLY public.submission_options
 
 
 --
+-- Name: push_subscriptions push_subscriptions_user_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.push_subscriptions
+    ADD CONSTRAINT push_subscriptions_user_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) MATCH FULL;
+
+
+--
 -- Name: save_relationship save_relationship_submission_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2694,4 +2720,3 @@ ALTER TABLE ONLY public.comment_option_votes
 --
 -- PostgreSQL database dump complete
 --
-

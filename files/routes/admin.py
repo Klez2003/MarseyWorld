@@ -295,58 +295,6 @@ def revert_actions(v, username):
 
 	return {"message": f"@{user.username}'s admin actions have been reverted!"}
 
-@app.post("/@<username>/club_allow")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@admin_level_required(PERMS['USER_CLUB_ALLOW_BAN'])
-def club_allow(v, username):
-	u = get_user(username, v=v)
-
-	if u.admin_level >= v.admin_level: abort(403, 'noob')
-
-	u.club_allowed = True
-	g.db.add(u)
-
-	for x in u.alts_unique:
-		x.club_allowed = True
-		g.db.add(x)
-
-	ma = ModAction(
-		kind="club_allow",
-		user_id=v.id,
-		target_user_id=u.id
-	)
-	g.db.add(ma)
-
-	send_repeatable_notification(u.id, f"@{v.username} (Admin) has inducted you into the {CC_TITLE}!")
-
-	return {"message": f"@{u.username} has been allowed into the {CC_TITLE}!"}
-
-@app.post("/@<username>/club_ban")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@admin_level_required(PERMS['USER_CLUB_ALLOW_BAN'])
-def club_ban(v, username):
-	u = get_user(username, v=v)
-
-	if u.admin_level >= v.admin_level: abort(403, 'noob')
-
-	u.club_allowed = False
-
-	for x in u.alts_unique:
-		u.club_allowed = False
-		g.db.add(x)
-
-	ma = ModAction(
-		kind="club_ban",
-		user_id=v.id,
-		target_user_id=u.id
-	)
-	g.db.add(ma)
-
-	send_repeatable_notification(u.id, f"@{v.username} (Admin) has disallowed you from the {CC_TITLE}!")
-
-	return {"message": f"@{u.username} has been disallowed from the {CC_TITLE}. Deserved."}
-
-
 @app.get("/admin/shadowbanned")
 @admin_level_required(PERMS['USER_SHADOWBAN'])
 def shadowbanned(v):
@@ -512,10 +460,13 @@ def under_attack(v):
 
 def admin_badges_grantable_list(v):
 	query = g.db.query(BadgeDef)
-	if BADGE_BLACKLIST and v.id != AEVANN_ID and SITE != 'pcmemes.net':
-		query = query.filter(BadgeDef.id.notin_(BADGE_BLACKLIST))
-	if BADGE_WHITELIST:
-		query = query.filter(BadgeDef.id.in_(BADGE_WHITELIST))
+
+	if v.id not in {AEVANN_ID, SNAKES_ID} and SITE != 'pcmemes.net':
+		if BADGE_BLACKLIST:
+			query = query.filter(BadgeDef.id.notin_(BADGE_BLACKLIST))
+		elif BADGE_WHITELIST and v.id != CARP_ID:
+			query = query.filter(BadgeDef.id.in_(BADGE_WHITELIST))
+
 	badge_types = query.order_by(BadgeDef.id).all()
 	return badge_types
 

@@ -16,8 +16,8 @@ DISCORD_BOT_TOKEN = environ.get("DISCORD_BOT_TOKEN", DEFAULT_CONFIG_VALUE).strip
 TURNSTILE_SITEKEY = environ.get("TURNSTILE_SITEKEY", DEFAULT_CONFIG_VALUE).strip()
 TURNSTILE_SECRET = environ.get("TURNSTILE_SECRET", DEFAULT_CONFIG_VALUE).strip()
 YOUTUBE_KEY = environ.get("YOUTUBE_KEY", DEFAULT_CONFIG_VALUE).strip()
-PUSHER_ID = environ.get("PUSHER_ID", DEFAULT_CONFIG_VALUE).strip()
-PUSHER_KEY = environ.get("PUSHER_KEY", DEFAULT_CONFIG_VALUE).strip()
+VAPID_PUBLIC_KEY = environ.get("VAPID_PUBLIC_KEY", DEFAULT_CONFIG_VALUE).strip()
+VAPID_PRIVATE_KEY = environ.get("VAPID_PRIVATE_KEY", DEFAULT_CONFIG_VALUE).strip()
 IMGUR_KEY = environ.get("IMGUR_KEY", DEFAULT_CONFIG_VALUE).strip()
 SPAM_SIMILARITY_THRESHOLD = float(environ.get("SPAM_SIMILARITY_THRESHOLD", "0.5").strip())
 SPAM_URL_SIMILARITY_THRESHOLD = float(environ.get("SPAM_URL_SIMILARITY_THRESHOLD", "0.1").strip())
@@ -29,7 +29,6 @@ GUMROAD_TOKEN = environ.get("GUMROAD_TOKEN", DEFAULT_CONFIG_VALUE).strip()
 GUMROAD_LINK = environ.get("GUMROAD_LINK", DEFAULT_CONFIG_VALUE).strip()
 GUMROAD_ID = environ.get("GUMROAD_ID", DEFAULT_CONFIG_VALUE).strip()
 DISABLE_DOWNVOTES = bool(int(environ.get("DISABLE_DOWNVOTES", "0").strip()))
-DUES = int(environ.get("DUES", "0").strip())
 DEFAULT_THEME = environ.get("DEFAULT_THEME", "midnight").strip()
 DEFAULT_COLOR = environ.get("DEFAULT_COLOR", "805ad5").strip()
 CARD_VIEW = bool(int(environ.get("CARD_VIEW", "0").strip()))
@@ -55,7 +54,7 @@ DEFAULT_RATELIMIT = "3/second;30/minute;200/hour;1000/day"
 DEFAULT_RATELIMIT_SLOWER = "1/second;30/minute;200/hour;1000/day"
 DEFAULT_RATELIMIT_USER = DEFAULT_RATELIMIT_SLOWER
 
-PUSHER_LIMIT = 1000 # API allows 10 KB but better safe than sorry
+PUSH_NOTIF_LIMIT = 1000 # API allows 10 KB but better safe than sorry
 
 IS_LOCALHOST = SITE == "localhost" or SITE == "127.0.0.1" or SITE.startswith("192.168.") or SITE.endswith(".local")
 
@@ -81,15 +80,11 @@ CONTENT_SECURITY_POLICY = {
 	"connect-src": f"'self' tls-use1.fpapi.io api.fpjs.io"
 }
 CONTENT_SECURITY_POLICY_NONCE_LENGTH = 16
-if PUSHER_ID != DEFAULT_CONFIG_VALUE:
-	CONTENT_SECURITY_POLICY["connect-src"] += f" {PUSHER_ID}.pushnotifications.pusher.com"
 if IS_LOCALHOST:
 	CONTENT_SECURITY_POLICY["script-src"] += ' rdrama.net'
 	CONTENT_SECURITY_POLICY["style-src"] += ' rdrama.net'
 
-if SITE_NAME == 'PCM': CC = "SPLASH MOUNTAIN"
-else: CC = "COUNTRY CLUB"
-CC_TITLE = CC.title()
+
 
 CASINO_RELEASE_DAY = 1662825600
 
@@ -172,6 +167,7 @@ if SITE_NAME == 'rDrama':
 		"america": 'ameriKKKa',
 		"it's almost as if": "I'm a retard but",
 		"my brother in christ": "my brother in Allah",
+		"kyle": "Kylie",
 	}
 	SLURS.update(RDRAMA_SLURS)
 
@@ -225,7 +221,7 @@ BACKGROUND_CATEGORIES = ["glitter", "anime", "fantasy", "solarpunk", "pixelart"]
 COMMENT_SORTS = ["hot", "new", "old", "top", "bottom", "controversial"]
 SORTS = COMMENT_SORTS + ["bump", "comments"]
 TIME_FILTERS = ["hour", "day", "week", "month", "year", "all"]
-PAGE_SIZES = {10, 25, 50, 100}
+PAGE_SIZES = (10, 25, 50, 100)
 
 ################################################################################
 ### SITE SPECIFIC CONSTANTS
@@ -258,7 +254,6 @@ PERMS = { # Minimum admin_level to perform action.
 	'USER_BAN': 2,
 	'USER_SHADOWBAN': 2,
 	'USER_AGENDAPOSTER': 2,
-	'USER_CLUB_ALLOW_BAN': 2,
 	'USER_LINK': 2,
 	'USER_MERGE': 3, # note: extra check for Aevann
 	'USER_TITLE_CHANGE': 2,
@@ -317,7 +312,6 @@ FEATURES = {
 	'AWARDS': True,
 	'CHAT': True,
 	'PINS': True,
-	'COUNTRY_CLUB': True,
 	'PRONOUNS': False,
 	'BADGES': True,
 	'HATS': True,
@@ -420,6 +414,8 @@ COSMETIC_AWARD_COIN_AWARD_PCT = 0.10
 TRUESCORE_CHAT_MINIMUM = 0
 TRUESCORE_DONATE_MINIMUM = 100
 TRUESCORE_GHOST_MINIMUM = 0
+TRUESCORE_CHUDRAMA_MINIMUM = 5000
+TRUESCORE_CLUB_MINIMUM = 1000
 CHAT_DISPLAY_USER_COUNT_MINIMUM = 0
 
 LOGGEDIN_ACTIVE_TIME = 15 * 60
@@ -508,8 +504,9 @@ TIERS_ID_TO_NAME = {
 	6: "Rich Bich",
 }
 
-BADGE_BLACKLIST = { # only grantable by AEVANN_ID except on PCM
-	16, 17, 21, 22, 23, 24, 25, 26, 27, # Marsey Artist x2 / Patron Tiers
+BADGE_BLACKLIST = { # only grantable by AEVANN_ID and SNAKES_ID except on PCM
+	1, 2, 6, 10, 11, 12, # Alpha, Verified Email, Beta, Recruiter x3
+	16, 17, 143, 21, 22, 23, 24, 25, 26, 27, # Marsey Artist x3 / Patron Tiers
 	94, 95, 96, 97, 98, 109, 67, 68, 83, 84, 87, 90, 140, 179, 185, # Award Status
 	137, # Lottery Winner
 }
@@ -575,17 +572,7 @@ if SITE == 'rdrama.net':
 		'againsthateholes',
 		'masterbaiters',
 		'changelog',
-	}
-
-	BOOSTED_USERS = {
-		IMPASSIONATA_ID,
-		PIZZASHILL_ID,
-		SNAKES_ID,
-		JUSTCOOL_ID,
-		2008, #TransGirlTradWife
-		29, #QuadNarca
-		JOAN_ID,
-		4389, #WorldAroundEwe
+		'programming',
 	}
 
 	GIFT_NOTIF_ID = CARP_ID
@@ -597,6 +584,12 @@ elif SITE == 'pcmemes.net':
 	PIN_LIMIT = 10
 	FEATURES['REPOST_DETECTION'] = False
 	FEATURES['STREAMERS'] = True
+
+	PERMS['SITE_SETTINGS'] = 2
+	PERMS['SITE_SETTINGS_UNDER_ATTACK'] = 2
+	PERMS['SITE_CACHE_PURGE_CDN'] = 2
+	PERMS['SITE_CACHE_DUMP_INTERNAL'] = 2
+
 	ERROR_MSGS[500] = "Hiiiii it's <b>nigger</b>! I think this error means that there's a <b>nigger</b> error. And I think that means something took too long to load so it decided to be a <b>nigger</b>. If you keep seeing this on the same page but not other pages, then something its probably a <b>niggerfaggot</b>. It may not be called a <b>nigger</b>, but that sounds right to me. Anyway, ping me and I'll whine to someone smarter to fix it. Don't bother them. Thanks ily &lt;3"
 	ERROR_MARSEYS[500] = "wholesome"
 	POST_RATE_LIMIT = '1/second;4/minute;20/hour;100/day'
@@ -696,7 +689,7 @@ elif SITE == 'watchpeopledie.tv':
 	}
 
 	BADGE_WHITELIST = {
-		85, 99, 101, # Sigma, Artist Badges x2
+		7, 74, 85, 99, 101, # Bug, Grass, Sigma, SidebarArt, BannerArt
 		59, 60, 66, 104, 108, # Classic Accolades, Nword
 		117, 124, 144, 145, 146, 147, 148, 149, # Census Reused for Fun
 	}
@@ -1747,6 +1740,7 @@ if SITE_NAME == 'rDrama':
 		'us.forums.blizzard.com',
 		'eu.forums.blizzard.com',
 		'bungie.net',
+		'soyjak.party',
 
 		#fediverse
 		'rdrama.cc',
