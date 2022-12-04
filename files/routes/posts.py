@@ -348,9 +348,9 @@ def edit_post(pid, v):
 
 	if body != p.body:
 		body, bets, options, choices = sanitize_poll_options(v, body, False)
-		process_poll_options(p.id, SubmissionOption, bets, 2, "Bet")
-		process_poll_options(p.id, SubmissionOption, options, 0, "Poll")
-		process_poll_options(p.id, SubmissionOption, choices, 1, "Poll")
+		process_poll_options(p, SubmissionOption, bets, 2, "Bet", g.db)
+		process_poll_options(p, SubmissionOption, options, 0, "Poll", g.db)
+		process_poll_options(p, SubmissionOption, choices, 1, "Poll", g.db)
 
 		torture = (v.agendaposter and not v.marseyawarded and p.sub != 'chudrama' and v.id == p.author_id)
 
@@ -771,9 +771,9 @@ def submit_post(v:User, sub=None):
 	for text in {post.body, post.title, post.url}:
 		if not execute_blackjack(v, post, text, 'submission'): break
 
-	process_poll_options(post, SubmissionOption, bets, 2, "Bet")
-	process_poll_options(post, SubmissionOption, options, 0, "Poll")
-	process_poll_options(post, SubmissionOption, choices, 1, "Poll")
+	process_poll_options(post, SubmissionOption, bets, 2, "Bet", g.db)
+	process_poll_options(post, SubmissionOption, options, 0, "Poll", g.db)
+	process_poll_options(post, SubmissionOption, choices, 1, "Poll", g.db)
 
 	vote = Vote(user_id=v.id,
 				vote_type=1,

@@ -236,8 +236,8 @@ def comment(v):
 	if c.level == 1: c.top_comment_id = c.id
 	else: c.top_comment_id = parent.top_comment_id
 
-	process_poll_options(c.id, CommentOption, options, 0, "Poll")
-	process_poll_options(c.id, CommentOption, choices, 1, "Poll")
+	process_poll_options(c, CommentOption, options, 0, "Poll", g.db)
+	process_poll_options(c, CommentOption, choices, 1, "Poll", g.db)
 
 	if SITE == 'pcmemes.net' and c.body.lower().startswith("based"):
 		execute_basedbot(c, level, body, parent_post, v)
@@ -373,8 +373,8 @@ def edit_comment(cid, v):
 			abort(403, "You have to type less than 140 characters!")
 
 		body, _, options, choices = sanitize_poll_options(v, body, False)
-		process_poll_options(c.id, CommentOption, options, 0, "Poll")
-		process_poll_options(c.id, CommentOption, choices, 1, "Poll")
+		process_poll_options(c, CommentOption, options, 0, "Poll", g.db)
+		process_poll_options(c, CommentOption, choices, 1, "Poll", g.db)
 
 		execute_antispam_comment_check(body, v)
 

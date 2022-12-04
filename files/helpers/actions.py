@@ -496,8 +496,9 @@ def execute_lawlz_actions(v:User, p:Submission):
 	g.db.add(ma_3)
 
 def process_poll_options(target:Union[Submission, Comment], 
-                         cls:Union[Type[SubmissionOption], Type[CommentOption]], 
-						 options:Iterable[str], exclusive:int, friendly_name:str) -> None:
+						cls:Union[Type[SubmissionOption], Type[CommentOption]], 
+						options:Iterable[str], exclusive:int, friendly_name:str,
+						db:scoped_session) -> None:
 		for option in options:
 			if len(option) > 500: abort(400, f"{friendly_name} option too long!")
 			if cls is SubmissionOption:
@@ -512,4 +513,4 @@ def process_poll_options(target:Union[Submission, Comment],
 					body_html=option,
 					exclusive=exclusive,
 				)
-			g.db.add(option)
+			db.add(option)
