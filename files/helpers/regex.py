@@ -178,13 +178,18 @@ commands = {
 	"factcheck": FACTCHECK_REPLIES,
 	"8ball": EIGHTBALL_REPLIES,
 	"roll": range(1, 9999),
-	DISABLE_POLL_COMMAND: '',
+	DISABLE_POLL_COMMAND: None,
 }
 
 command_regex = re.compile(f"(\s|\n|^)#({'|'.join(commands.keys())})", flags=re.A|re.I)
 
 def command_regex_matcher(match, upper=False):
-	result = str(choice(commands[match.group(2).lower()]))
+	choices = commands[match.group(2).lower()]
+	if not choices: 
+		return ''
+	elif isinstance(choices, str):
+		return choices
+	result = str(choice(choices))
 	if match.group(2) == 'roll':
 		color = tuple(choices(range(256), k=3))
 		result = f'<b style="color:rgb{color}">Your roll: {result}</b>'
