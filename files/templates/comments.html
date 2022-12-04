@@ -889,7 +889,7 @@
 			{% if v.theme in THEMES_NAVBAR_WATERMARK %}
 				elements.add(document.getElementById('navbar'))
 			{% endif %}
-			{% if v.theme == NO_WATERMARK_THEMES %}
+			{% if v.theme not in THEMES_EXCLUDE_WATERMARK %}
 				elements.add(document.getElementsByClassName('comment-section')[0])
 			{% endif %}
 			elements.forEach(() => {
