@@ -2,16 +2,7 @@
 {% block pagetitle %}/h/{{sub}} Mods{% endblock %}
 {% block content %}
 
-<script nonce="{{g.csp_nonce}}">
-	function removeMod(e) {
-		sendFormXHR(e,
-			() => {
-				e.target.parentElement.parentElement.remove();
-			}
-		)
-	}
-</script>
-
+<script src="{{'js/core_v.js' || asset}}"></script>
 <h5 class="mt-2">/h/{{sub}} Mods</h5>
 <div class="overflow-x-auto mt-1"><table class="table table-striped mb-5">
 <thead class="bg-primary text-white">
