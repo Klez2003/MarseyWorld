@@ -77,10 +77,10 @@ CONTENT_SECURITY_POLICY = {
 	"object-src": "'none'",
 	"img-src": "http: https: data:",
 	"style-src": "'self' 'unsafe-inline'",
-	"script-src": "'self' challenges.cloudflare.com",
+	"script-src": "'self' challenges.cloudflare.com 'unsafe-inline'",
 	"connect-src": f"'self' tls-use1.fpapi.io api.fpjs.io"
 }
-CONTENT_SECURITY_POLICY_NONCE_LENGTH = 69
+CONTENT_SECURITY_POLICY_NONCE_LENGTH = 16
 if PUSHER_ID != DEFAULT_CONFIG_VALUE:
 	CONTENT_SECURITY_POLICY["connect-src"] += f" {PUSHER_ID}.pushnotifications.pusher.com"
 if IS_LOCALHOST:
