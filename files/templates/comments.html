@@ -886,7 +886,7 @@
 		const isAutoDark = getComputedStyle(detectionDiv).backgroundColor != 'rgb(255, 255, 255)';
 		if (!isAutoDark) {
 			{% if v.theme not in THEMES_EXCLUDE_WATERMARK %}
-				const element = document.getElementsByClassName('comment-section')[0]);
+				const element = document.getElementsByClassName('comment-section')[0];
 			{% else %}
 				const element = null;
 			{% endif %}
