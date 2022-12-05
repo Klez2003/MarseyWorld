@@ -92,7 +92,7 @@ def upload_profile_background(v):
 			if path.isfile(fpath): os.remove(fpath)
 		v.profile_background = background
 		g.db.add(v)
-
+		badge_grant(badge_id=193, user=v)
 	return redirect(f'/@{v.username}')
 
 @app.post("/settings/personal")
