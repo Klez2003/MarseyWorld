@@ -900,7 +900,7 @@
 			const base64MarkN = btoa(markTemplate("{{v.id}}", color));
 			{% if v.theme in THEMES_NAVBAR_WATERMARK %}
 				const navbarStyle = document.createElement('style');
-				navbarStyle.innerHTML = `#navbar {background-image:url("data:image/svg+xml;base64,${base64MarkN}")}`;
+				navbarStyle.innerHTML = `#navbar, #navbar > .container-fluid {background-image:url("data:image/svg+xml;base64,${base64MarkN}")}`;
 				document.getElementsByTagName('head')[0].appendChild(navbarStyle);
 			{% endif %}
 			if (element) {
