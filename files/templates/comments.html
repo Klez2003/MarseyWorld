@@ -890,19 +890,23 @@
 			{% else %}
 				const element = null;
 			{% endif %}
-			let color = getComputedStyle(element).getPropertyValue('background-color');
+			const navbar = document.getElementById("navbar");
+			let color = getComputedStyle(navbar).getPropertyValue('background-color');
 			color = 'rgba' + color.slice(3,-1) + ', 0.1)'
 
-			const markTemplate = (name) => {
+			const markTemplate = (name, color) => {
 				return `<svg xmlns='https://www.w3.org/2000/svg' version='1.1' width='50px' height='50px'><text transform='translate(10, 50) rotate(-45)' fill='${color}' font-size='20'>${name}</text></svg>`;
 			};
-			const base64Mark = btoa(markTemplate("{{v.id}}"));
+			const base64MarkN = btoa(markTemplate("{{v.id}}", color));
 			{% if v.theme in THEMES_NAVBAR_WATERMARK %}
 				const navbarStyle = document.createElement('style');
-				navbarStyle.innerHtml = `#navbar {background-image:url("data:image/svg+xml;base64,${base64Mark}")}`;
+				navbarStyle.innerHtml = `#navbar {background-image:url("data:image/svg+xml;base64,${base64MarkN}")}`;
 				document.getElementsByTagName('head')[0].appendChild(navbarStyle);
 			{% endif %}
 			if (element) {
+				color = getComputedStyle(element).getPropertyValue('background-color');
+				color = 'rgba' + color.slice(3,-1) + ', 0.1)';
+				const base64Mark = btoa(markTemplate("{{v.id}}", color));
 				const style = document.createElement('style');
 				style.innerHTML = `.actual-post:not(.deleted, .banned),.comment-section>.comment {background-image:url("data:image/svg+xml;base64,${base64Mark}")}`;
 				document.getElementsByTagName('head')[0].appendChild(style);
