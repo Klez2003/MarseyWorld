@@ -212,19 +212,13 @@ def sign_up_post(v:Optional[User]):
 			if user: args["ref"] = user.username
 		resp = make_response(redirect(f"/signup?{urlencode(args)}"))
 		if clear:
+			session.clear()
 			resp.delete_cookie(app.config["SESSION_COOKIE_NAME"], httponly=True, secure=True, samesite="Lax")
 		return resp
 
 	submitted_token = session.get("signup_token", "")
 	if not submitted_token:
-		help_text = "clearing your cookies"
-		if g.browser == 'chromium':
-			help_text = '<a href="https://support.google.com/accounts/answer/32050">clearing your cookies</a>'
-		elif g.browser == 'firefox':
-			help_text = '<a href="https://support.mozilla.org/en-US/kb/clear-cookies-and-site-data-firefox">clearing your cookies</a>'
-		elif g.browser == 'safari':
-			help_text = '<a href="https://support.apple.com/guide/safari/manage-cookies-sfri11471/">clearing your cookies</a>'
-		return signup_error(f"An error occurred while attempting to signup. If you get this repeatedly, please try {help_text}.", clear=True)
+		return signup_error(f"An error occurred while attempting to signup. If you get this repeatedly, please make sure cookies are enabled.", clear=True)
 
 	correct_formkey_hashstr = form_timestamp + submitted_token + g.agent
 	correct_formkey = hmac.new(key=bytes(SECRET_KEY, "utf-16"),
