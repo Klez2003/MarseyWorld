@@ -206,7 +206,15 @@ def sign_up_post(v:Optional[User]):
 	form_formkey = request.values.get("formkey", "none")
 
 	submitted_token = session.get("signup_token", "")
-	if not submitted_token: abort(400, "An error occurred while attempting to signup. If you get this repeatedly, please try clearing your cookies.")
+	if not submitted_token:
+		help_text = "clearing your cookies"
+		if g.browser == 'chromium':
+			help_text = '<a href="https://support.google.com/accounts/answer/32050">clearing your cookies</a>'
+		elif g.browser == 'firefox':
+			help_text = '<a href="https://support.mozilla.org/en-US/kb/clear-cookies-and-site-data-firefox">clearing your cookies</a>'
+		elif g.browser == 'safari':
+			help_text = '<a href="https://support.apple.com/guide/safari/manage-cookies-sfri11471/">clearing your cookies</a>'
+		abort(400, f"An error occurred while attempting to signup. If you get this repeatedly, please try {help_text}.")
 
 	correct_formkey_hashstr = form_timestamp + submitted_token + g.agent
 	correct_formkey = hmac.new(key=bytes(SECRET_KEY, "utf-16"),
