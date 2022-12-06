@@ -14,6 +14,9 @@ def session_init():
 @app.before_request
 def before_request():
 	g.desires_auth = False
+	if not IS_LOCALHOST:
+		app.config["COOKIE_DOMAIN"] = f".{request.host}"
+		app.config["SESSION_COOKIE_DOMAIN"] = app.config["COOKIE_DOMAIN"]
 	if SITE == 'marsey.world' and request.path != '/kofi':
 		abort(404)
 
@@ -85,7 +88,7 @@ def _fix_frozen_sessions(response:Response) -> None:
 	domain = app.config["SESSION_COOKIE_DOMAIN"]
 	if IS_LOCALHOST or not '.' in domain: return # "dotless" domains in general aren't really supportable
 
-	bad_domain = f'.{domain}'
+	bad_domain = f'{domain}'
 	cookie_header = request.headers.get("Cookie")
 	response.delete_cookie(app.config["SESSION_COOKIE_NAME"], domain=bad_domain, httponly=True, secure=True)
 	if not cookie_header or not f'domain={bad_domain}' in cookie_header: return
