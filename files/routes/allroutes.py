@@ -79,13 +79,13 @@ def _set_cloudflare_cookie(response:Response) -> None:
 def _fix_frozen_sessions(response:Response) -> None:
 	'''
 	Deletes bad session cookies, hopefuly resolving an ongoing issue with sessions becoming
-	frozen. This deletes cookies whose domain don't start with a dot (on domains that have
-	at least one dot in them)
+	frozen. This deletes cookies whose domains start with a dot (on domains that have at 
+	least one dot in them)
 	'''
 	domain = app.config["SESSION_COOKIE_DOMAIN"]
 	if IS_LOCALHOST or not '.' in domain: return # "dotless" domains in general aren't really supportable
 
-	bad_domain = domain.replace('.', '', 1)
+	bad_domain = f'.{domain}'
 	cookie_header = request.headers.get("Cookie")
 	response.delete_cookie(app.config["SESSION_COOKIE_NAME"], domain=bad_domain, httponly=True, secure=True)
 	if not cookie_header or not f'domain={bad_domain}' in cookie_header: return

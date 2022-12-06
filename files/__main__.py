@@ -25,13 +25,23 @@ app.jinja_env.auto_reload = True
 app.jinja_env.add_extension('jinja2.ext.do')
 faulthandler.enable()
 
+def _startup_check():
+	'''
+	Performs some sanity checks on startup to make sure we aren't attempting
+	to startup with obviously invalid values that won't work anyway
+	'''
+	if not SITE: raise TypeError("SITE environment variable must exist and not be None")
+	if SITE.startswith('.'): raise ValueError("Domain must not start with a dot")
+
 app.config['SERVER_NAME'] = SITE
 app.config['SECRET_KEY'] = environ.get('SECRET_KEY').strip()
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 3153600
+_startup_check()
 if not IS_LOCALHOST:
-	app.config["COOKIE_DOMAIN"] = f'.{SITE}'
+	app.config["COOKIE_DOMAIN"] = f'{SITE}'
 	app.config['SESSION_COOKIE_DOMAIN'] = app.config["COOKIE_DOMAIN"]
 	app.config["SESSION_COOKIE_SECURE"] = True
+
 app.config["SESSION_COOKIE_NAME"] = "session_" + environ.get("SITE_NAME").strip().lower()
 app.config['MAX_CONTENT_LENGTH'] = 100 * 1024 * 1024
 app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
