@@ -38,8 +38,6 @@ app.config['SECRET_KEY'] = environ.get('SECRET_KEY').strip()
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 3153600
 _startup_check()
 if not IS_LOCALHOST:
-	app.config["COOKIE_DOMAIN"] = f'{SITE}'
-	app.config['SESSION_COOKIE_DOMAIN'] = app.config["COOKIE_DOMAIN"]
 	app.config["SESSION_COOKIE_SECURE"] = True
 
 app.config["SESSION_COOKIE_NAME"] = "session_" + environ.get("SITE_NAME").strip().lower()
