@@ -56,7 +56,6 @@ def before_request():
 
 @app.after_request
 def after_request(response:Response):
-	_fix_frozen_sessions(response)
 	if response.status_code < 400:
 		_set_cloudflare_cookie(response)
 		_commit_and_close_db()
@@ -81,20 +80,6 @@ def _set_cloudflare_cookie(response:Response) -> None:
 		response.set_cookie("lo", CLOUDFLARE_COOKIE_VALUE if logged_in else '', 
 							max_age=SESSION_LIFETIME, samesite="Lax",
 							domain=app.config["COOKIE_DOMAIN"])
-
-def _fix_frozen_sessions(response:Response) -> None:
-	'''
-	Deletes bad session cookies, hopefuly resolving an ongoing issue with sessions becoming
-	frozen. This deletes cookies whose domains start with a dot (on domains that have at 
-	least one dot in them)
-	'''
-	domain = app.config["SESSION_COOKIE_DOMAIN"]
-	if IS_LOCALHOST or not '.' in domain: return # "dotless" domains in general aren't really supportable
-
-	bad_domain = f'{domain}'
-	cookie_header = request.headers.get("Cookie")
-	response.delete_cookie(app.config["SESSION_COOKIE_NAME"], domain=bad_domain, httponly=True, secure=True)
-	if not cookie_header or not f'domain={bad_domain}' in cookie_header: return
 
 def _commit_and_close_db() -> bool:
 	if not getattr(g, 'db', None): return False
