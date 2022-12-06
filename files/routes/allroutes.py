@@ -52,23 +52,54 @@ def before_request():
 
 
 @app.after_request
-def after_request(response):
+def after_request(response:Response):
+	_fix_frozen_sessions(response)
 	if response.status_code < 400:
-		if CLOUDFLARE_AVAILABLE and CLOUDFLARE_COOKIE_VALUE and g.desires_auth:
-			logged_in = bool(getattr(g, 'v', None))
-			response.set_cookie("lo", CLOUDFLARE_COOKIE_VALUE if logged_in else '', 
-								max_age=60*60*24*365 if logged_in else 1, samesite="Lax")
-		if getattr(g, 'db', None):
-			g.db.commit()
-			g.db.close()
-			del g.db
+		_set_cloudflare_cookie(response)
+		_commit_and_close_db()
 	return response
 
 
 @app.teardown_appcontext
 def teardown_request(error):
-	if getattr(g, 'db', None):
-		g.db.rollback()
-		g.db.close()
-		del g.db
+	_rollback_and_close_db()
 	stdout.flush()
+
+def _set_cloudflare_cookie(response:Response) -> None:
+	'''
+	Sets a cookie that can be used by an upstream DDoS protection and caching provider
+	'''
+	if not g.desires_auth: return
+	if not CLOUDFLARE_AVAILABLE or not CLOUDFLARE_COOKIE_VALUE: return
+	logged_in = bool(getattr(g, 'v', None))
+	response.set_cookie("lo", CLOUDFLARE_COOKIE_VALUE if logged_in else '', 
+						max_age=60*60*24*365 if logged_in else 1, samesite="Lax",
+						domain=app.config["COOKIE_DOMAIN"])
+
+def _fix_frozen_sessions(response:Response) -> None:
+	'''
+	Deletes bad session cookies, hopefuly resolving an ongoing issue with sessions becoming
+	frozen. This deletes cookies whose domain don't start with a dot (on domains that have
+	at least one dot in them)
+	'''
+	domain = app.config["SESSION_COOKIE_DOMAIN"]
+	if IS_LOCALHOST or not '.' in domain: return # "dotless" domains in general aren't really supportable
+
+	bad_domain = domain.replace('.', '', 1)
+	cookie_header = request.headers.get("Cookie")
+	response.delete_cookie(app.config["SESSION_COOKIE_NAME"], domain=bad_domain, httponly=True, secure=True)
+	if not cookie_header or not f'domain={bad_domain}' in cookie_header: return
+
+def _commit_and_close_db() -> bool:
+	if not getattr(g, 'db', None): return False
+	g.db.commit()
+	g.db.close()
+	del g.db
+	return True
+
+def _rollback_and_close_db() -> bool:
+	if not getattr(g, 'db', None): return False
+	g.db.rollback()
+	g.db.close()
+	del g.db
+	return True
