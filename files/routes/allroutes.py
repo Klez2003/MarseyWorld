@@ -75,9 +75,12 @@ def _set_cloudflare_cookie(response:Response) -> None:
 	if not g.desires_auth: return
 	if not CLOUDFLARE_AVAILABLE or not CLOUDFLARE_COOKIE_VALUE: return
 	logged_in = bool(getattr(g, 'v', None))
-	response.set_cookie("lo", CLOUDFLARE_COOKIE_VALUE if logged_in else '', 
-						max_age=60*60*24*365 if logged_in else 1, samesite="Lax",
-						domain=app.config["COOKIE_DOMAIN"])
+	if not logged_in and request.cookies.get("lo"):
+		response.delete_cookie("lo", domain=app.config["COOKIE_DOMAIN"], samesite="Lax")
+	elif logged_in and not request.cookies.get("lo"):
+		response.set_cookie("lo", CLOUDFLARE_COOKIE_VALUE if logged_in else '', 
+							max_age=SESSION_LIFETIME, samesite="Lax",
+							domain=app.config["COOKIE_DOMAIN"])
 
 def _fix_frozen_sessions(response:Response) -> None:
 	'''
