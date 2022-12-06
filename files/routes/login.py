@@ -205,6 +205,16 @@ def sign_up_post(v:Optional[User]):
 	form_timestamp = request.values.get("now", '0')
 	form_formkey = request.values.get("formkey", "none")
 
+	def signup_error(error, clear=False):
+		args = {"error": error}
+		if request.values.get("referred_by"):
+			user = get_account(request.values.get("referred_by"), include_shadowbanned=False)
+			if user: args["ref"] = user.username
+		resp = make_response(redirect(f"/signup?{urlencode(args)}"))
+		if clear:
+			resp.delete_cookie(app.config["SESSION_COOKIE_NAME"], httponly=True, secure=True, samesite="Lax")
+		return resp
+
 	submitted_token = session.get("signup_token", "")
 	if not submitted_token:
 		help_text = "clearing your cookies"
@@ -214,7 +224,7 @@ def sign_up_post(v:Optional[User]):
 			help_text = '<a href="https://support.mozilla.org/en-US/kb/clear-cookies-and-site-data-firefox">clearing your cookies</a>'
 		elif g.browser == 'safari':
 			help_text = '<a href="https://support.apple.com/guide/safari/manage-cookies-sfri11471/">clearing your cookies</a>'
-		abort(400, f"An error occurred while attempting to signup. If you get this repeatedly, please try {help_text}.")
+		return signup_error(f"An error occurred while attempting to signup. If you get this repeatedly, please try {help_text}.", clear=True)
 
 	correct_formkey_hashstr = form_timestamp + submitted_token + g.agent
 	correct_formkey = hmac.new(key=bytes(SECRET_KEY, "utf-16"),
@@ -226,15 +236,6 @@ def sign_up_post(v:Optional[User]):
 	username = request.values.get("username")
 	if not username: abort(400)
 	username = username.strip()
-
-	def signup_error(error):
-
-		args = {"error": error}
-		if request.values.get("referred_by"):
-			user = get_account(request.values.get("referred_by"), include_shadowbanned=False)
-			if user: args["ref"] = user.username
-
-		return redirect(f"/signup?{urlencode(args)}")
 
 	if now - int(form_timestamp) < 5:
 		return signup_error("There was a problem. Please try again.")

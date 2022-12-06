@@ -53,7 +53,6 @@ def before_request():
 	limiter.check()
 	g.db = db_session()
 
-
 @app.after_request
 def after_request(response:Response):
 	if response.status_code < 400:
