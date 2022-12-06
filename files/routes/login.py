@@ -206,7 +206,7 @@ def sign_up_post(v:Optional[User]):
 	form_formkey = request.values.get("formkey", "none")
 
 	submitted_token = session.get("signup_token", "")
-	if not submitted_token: abort(400)
+	if not submitted_token: abort(400, "An error occurred while attempting to signup. If you get this repeatedly, please try clearing your cookies.")
 
 	correct_formkey_hashstr = form_timestamp + submitted_token + g.agent
 	correct_formkey = hmac.new(key=bytes(SECRET_KEY, "utf-16"),
