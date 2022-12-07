@@ -200,7 +200,6 @@ function postComment(fullname, hide){
 
 	form.append('formkey', formkey());
 	form.append('parent_fullname', fullname);
-	form.append('submission', document.getElementById('reply-form-submission-'+fullname).value);
 	form.append('body', document.getElementById('reply-form-body-'+fullname).value);
 
 	try {
