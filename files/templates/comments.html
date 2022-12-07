@@ -314,7 +314,7 @@
 								</li>
 
 								{% if v and not c.deleted_utc %}
-									<button type="button" class="list-inline-item mr-3 btn nobackground" onclick="ToggleReplyBox('reply-to-{{c.id}}')"><i class="fas fa-reply" style="margin-top:0.35rem"></i></button>
+									<button type="button" class="list-inline-item mr-3 btn nobackground" onclick="toggleReplyBox('reply-to-{{c.fullname}}')"><i class="fas fa-reply" style="margin-top:0.35rem"></i></button>
 								{% endif %}
 								
 								<li class="list-inline-item">
@@ -403,7 +403,7 @@
 
 						{% if v %}
 							{% if not c.deleted_utc %}
-								<button type="button" class="btn caction py-0 nobackground px-1 text-muted" onclick="ToggleReplyBox('reply-to-{{c.id}}')"><i class="fas fa-reply" aria-hidden="true"></i>Reply</button>
+								<button type="button" class="btn caction py-0 nobackground px-1 text-muted" onclick="toggleReplyBox('reply-to-{{c.fullname}}')"><i class="fas fa-reply" aria-hidden="true"></i>Reply</button>
 							{% endif %}
 
 							<button type="button" class="btn caction py-0 nobackground px-1 text-muted" data-bs-toggle="modal" data-bs-target="#reportCommentModal" onclick="report_commentModal('{{c.id}}','{{c.author_name}}',)"><i class="fas fa-flag fa-fw"></i>Report</button>
@@ -535,9 +535,9 @@
 				<button type="button" class="btn btn-primary mr-3 {% if not c.author.is_muted %}d-none{% endif %}" id="unmute-user-{{c.id}}" onclick="postToastSwitch(this,'/unmute_user/{{c.author.id}}','mute-user-{{c.id}}','unmute-user-{{c.id}}','d-none')">Unmute</button>
 			{% endif %}
 
-			<button type="button" class="btn btn-primary nobackground" onclick="ToggleReplyBox('reply-message-{{c.id}}')">Reply</button>
+			<button type="button" class="btn btn-primary nobackground" onclick="toggleReplyBox('reply-message-{{c.fullname}}')">Reply</button>
 
-			<div id="reply-message-{{c.id}}" class="d-none">
+			<div id="reply-message-{{c.fullname}}" class="d-none">
 				<div id="comment-form-space-{{c.id}}" class="comment-write collapsed child">
 					<form id="reply-to-message-{{c.id}}" action="/reply" method="post" class="input-group" enctype="multipart/form-data">
 						<input type="hidden" name="formkey" value="{{v|formkey}}"> 

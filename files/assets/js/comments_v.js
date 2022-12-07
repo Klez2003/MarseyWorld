@@ -50,7 +50,7 @@ function getSelectionTextHtml() {
 	return html;
 }
 
-function ToggleReplyBox(id) {
+function toggleReplyBox(id) {
 	const element = document.getElementById(id);
 	const textarea = element.getElementsByTagName('textarea')[0]
 	element.classList.toggle('d-none')
@@ -142,7 +142,7 @@ function post_reply(id){
 
 			document.getElementById('reply-form-body-'+id).value = ''
 			document.getElementById('message-reply-'+id).innerHTML = ''
-			ToggleReplyBox('reply-message-'+id)
+			toggleReplyBox('reply-message-'+id)
 		} else {
 			showToast(false, getMessageFromJsonData(false, data));
 		}
