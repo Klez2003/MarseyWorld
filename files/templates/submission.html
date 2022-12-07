@@ -329,7 +329,7 @@
 		</div>
 
 	{% if not p.deleted_utc %}
-		{{macros.comment_reply_box(p.fullname, 'comment-reply-' + p.fullname, '', 'mb-3', true)}}
+		{{macros.comment_reply_box(p.fullname, 'comment-reply-' + p.fullname, '', 'mb-3', '', true, '/comments/')}}
 	{% endif %}
 
 {% if p.replies %}

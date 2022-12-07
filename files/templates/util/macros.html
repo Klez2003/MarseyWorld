@@ -110,7 +110,7 @@
 	<span class="ml-2">{{p.views}} thread views</span>
 {% endmacro %}
 
-{% macro comment_reply_box(target_fullname, html_id, wrapper_css_classes="", subwrapper_css_classes="", allow_file_upload=true, action="/comments/") %}
+{% macro comment_reply_box(target_fullname, html_id, wrapper_css_classes="", subwrapper_css_classes="", hide="", allow_file_upload=true, action="/comments/") %}
 	<div class="comment-box-wrapper{% if wrapper_css_classes %} {{wrapper_css_classes}}{% endif %}" id="{{html_id}}">
 	{% if v %}
 		<div id="comment-form-space-{{target_fullname}}" class="comment-write {{subwrapper_css_classes}}">
@@ -135,7 +135,7 @@
 						</label>
 					{% endif %}
 				</div>
-				<button type="button" id="save-reply-to-{{target_fullname}}" form="reply-to-{{target_fullname}}" class="btn btn-primary text-whitebtn ml-auto fl-r" onclick="post_comment('{{target_fullname}}', 'None');remove_dialog()">Comment</button>
+				<button type="button" id="save-reply-to-{{target_fullname}}" form="reply-to-{{target_fullname}}" class="btn btn-primary text-whitebtn ml-auto fl-r" onclick="postComment('{{target_fullname}}', '{{hide}}');remove_dialog();">Comment</button>
 			</form>
 			<div id="form-preview-{{target_fullname}}" class="preview mb-3 mt-5"></div>
 			<div class="form-text text-small p-0 m-0"><a href="/formatting" {% if v and v.newtab %}data-target="t"target="_blank"{% endif %}>Formatting help</a></div>
