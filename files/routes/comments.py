@@ -116,7 +116,7 @@ def comment(v:User):
 	posting_to_submission = isinstance(post_target, Submission)
 
 	if not User.can_see(v, parent): abort(404)
-	if parent.deleted_utc != 0: abort(404)
+	if not isinstance(parent, User) and parent.deleted_utc != 0: abort(404)
 
 	if posting_to_submission:
 		sub = post_target.sub
