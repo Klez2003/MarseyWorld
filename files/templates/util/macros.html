@@ -111,7 +111,7 @@
 {% endmacro %}
 
 {% macro comment_reply_box(target_fullname, html_id, wrapper_css_classes="", subwrapper_css_classes="", allow_file_upload=true, action="/comments/") %}
-	<div class="comment-box{% if wrapper_css_classes %} {{wrapper_css_classes}}{% endif %}" id="{{html_id}}">
+	<div class="comment-box-wrapper{% if wrapper_css_classes %} {{wrapper_css_classes}}{% endif %}" id="{{html_id}}">
 	{% if v %}
 		<div id="comment-form-space-{{target_fullname}}" class="comment-write {{subwrapper_css_classes}}">
 			<form id="reply-to-{{target_fullname}}" action="{{action}}" method="post">
