@@ -1,7 +1,6 @@
 {% extends "userpage/userpage.html" %}
 {% block content %}
 {%- include "userpage/header.html" -%}
-{# {% macro comment_reply_box(target_fullname, html_id, wrapper_css_classes="", subwrapper_css_classes="", allow_file_upload=true, action="/comments/") %} #}
 {{macros.comment_reply_box(u.fullname, 'replying-to-' + u.fullname, '', 'mb-3', true, '/comments/')}}
 <div class="row no-gutters {% if listing %}mt-md-3{% elif not listing %}my-md-3{% endif %} px-3 p-md-0" style="margin-top: 10px;">
 	<div class="col">
