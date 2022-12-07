@@ -877,7 +877,7 @@ def u_username(username, v=None):
 		if (v and v.client) or request.path.endswith(".json"):
 			return {"data": [x.json(g.db) for x in listing]}
 		
-		return render_template("userpage/userpage.html",
+		return render_template("userpage/submissions.html",
 												unban=u.unban_string,
 												u=u,
 												v=v,
@@ -891,7 +891,7 @@ def u_username(username, v=None):
 	if (v and v.client) or request.path.endswith(".json"):
 		return {"data": [x.json(g.db) for x in listing]}
 	
-	return render_template("userpage/userpage.html",
+	return render_template("userpage/submissions.html",
 									u=u,
 									v=v,
 									listing=listing,
@@ -1125,7 +1125,7 @@ def saved_posts(v:User, username):
 	try: page = max(1, int(request.values.get("page", 1)))
 	except: abort(400, "Invalid page input!")
 
-	return get_saves_and_subscribes(v, "userpage/userpage.html", SaveRelationship, page, False)
+	return get_saves_and_subscribes(v, "userpage/submissions.html", SaveRelationship, page, False)
 
 @app.get("/@<username>/saved/comments")
 @auth_required
@@ -1141,7 +1141,7 @@ def subscribed_posts(v:User, username):
 	try: page = max(1, int(request.values.get("page", 1)))
 	except: abort(400, "Invalid page input!")
 
-	return get_saves_and_subscribes(v, "userpage/userpage.html", Subscription, page, False)
+	return get_saves_and_subscribes(v, "userpage/submissions.html", Subscription, page, False)
 
 @app.post("/fp/<fp>")
 @auth_required

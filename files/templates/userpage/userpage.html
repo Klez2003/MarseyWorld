@@ -13,17 +13,10 @@
 		<link rel="stylesheet" href="/{{u.id}}/profilecss">
 	{% endif %}
 {% endblock %}
-{%- include 'userpage/banner.html' -%}
 {% block content %}
+{%- include 'userpage/banner.html' -%}
 {%- include 'userpage/header.html' -%}
-<div class="row no-gutters {% if listing %}mt-md-3{% elif not listing %}my-md-3{% endif %}" style="margin-top: 10px;">
-	<div class="col">
-		<div class="posts">
-			{% include "submission_listing.html" %}
-		</div>
-	</div>
-</div>
-
+{% block userpage_content required %}{% endblock %}
 {% if FEATURES['USERS_PROFILE_SONG'] and u.song %}
 	{% if v and v.id == u.id %}
 		<div id="v_username" class="d-none">{{v.username}}</div>
@@ -38,6 +31,7 @@
 <div id="username" class="d-none">{{u.username}}</div>
 {% endif %}
 <script defer src="{{'js/userpage.js' | asset}}"></script>
+{% endblock %}
 {% endblock %}
 
 {% block pagenav %}
