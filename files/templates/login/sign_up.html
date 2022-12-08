@@ -1,6 +1,6 @@
 {%- extends 'login/authforms.html' -%}
 {% block pagetitle -%}
-{{ref_user.username + " invites you to " + SITE_NAME if ref_user else "Sign Up"}}
+{{ref_user.username ~ " invites you to " ~ SITE_NAME if ref_user else "Sign Up"}}
 {%- endblock %}
 {% block pagetype %}login{% endblock %}
 
@@ -13,8 +13,8 @@
 
 {% set login_namespace = namespace() %}
 {% if ref_user %}
-	{% set login_namespace.authtitle = '@' + ref_user.username + ' has invited you!' %}
-	{% set login_namespace.authtext = 'Looks like someone wants you to join ' + SITE_NAME + '.' %}
+	{% set login_namespace.authtitle = '@' ~ ref_user.username ~ ' has invited you!' %}
+	{% set login_namespace.authtext = 'Looks like someone wants you to join ' ~ SITE_NAME ~ '.' %}
 {% elif not site_settings['login_required'] %}
 	{% set login_namespace.authtitle = "Create your account." %}
 	{% set login_namespace.authtext = "No email address required." %}
@@ -58,10 +58,7 @@
 	</p>
 	<hr>
 	{% endif %}
-
 	<form action="/signup" method="post" class="mt-md-3" id="signup">
-
-	{% if error %}<div class="text-danger mb-2">{{error}}</div>{% endif %}
 
 	<input type="hidden" name="formkey" value="{{formkey}}">
 	<input type="hidden" name="now" value="{{now}}">

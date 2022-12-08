@@ -11,10 +11,10 @@
 {% endmacro -%}
 
 {%- macro live_banner() -%}
-	{% set path = "files/assets/images/" + SITE_NAME %}
-	{%- if not v and os_path.exists(path + "/cached.webp") -%}
+	{% set path = "files/assets/images/" ~ SITE_NAME %}
+	{%- if not v and os_path.exists(path ~ "/cached.webp") -%}
 		{{ 'cached.webp' | asset_siteimg -}}
-	{% elif os_path.exists(path + "/banners") -%}
+	{% elif os_path.exists(path ~ "/banners") -%}
 		{{ random_image("banners") -}}
 	{% else -%}
 		{{ 'banner.webp' | asset_siteimg -}}
@@ -22,8 +22,8 @@
 {%- endmacro -%}
 
 {%- macro random_image(assetdir) -%}
-	{% set path = "assets/images/" + SITE_NAME + "/" + assetdir  -%}
-	{{- "/" + path + "/" + listdir('files/' + path)|random() + '?v=45' }}
+	{% set path = "assets/images/" ~ SITE_NAME ~ "/" ~ assetdir  -%}
+	{{- "/" ~ path ~ "/" ~ listdir('files/' ~ path)|random() ~ '?v=45' }}
 {%- endmacro -%}
 
 {% macro post_meta(p) %}

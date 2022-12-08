@@ -42,13 +42,13 @@
 
 	{% elif '@' in request.path and u %}
 		{% set author, a_author, published, url, title, image, section =
-			'@'+u.username,
-			'@'+u.username,
+			'@'~u.username,
+			'@'~u.username,
 			u.created_date,
 			u.url,
-			u.username + "'s profile",
+			u.username ~ "'s profile",
 			u.banner_url,
-			u.username + "'s profile" %}
+			u.username ~ "'s profile" %}
 
 		{% set description %}
 			{{u.coins}} coins - Joined {{u.created_date}} -
@@ -81,7 +81,7 @@
 
 	<meta property="og:title" content="{{title}}">
 	<meta property="og:author" name="author" content="{{author | default(SITE_FULL, true)}}">
-	<meta property="og:description" name="description" content="{{description | default(SITE_NAME + ' - ' + DESCRIPTION)}}">
+	<meta property="og:description" name="description" content="{{description | default(SITE_NAME ~ ' - ' ~ DESCRIPTION)}}">
 
 	{% if not comment_info %}
 		<meta property="og:image" content="{{image | default('site_preview.webp' | asset_siteimg)}}">
@@ -100,7 +100,7 @@
 
 	<meta name="twitter:title" content="{{title}}">
 	<meta name="twitter:creator" content="{{author | default(SITE_FULL)}}">
-	<meta name="twitter:description" content="{{description | default(SITE_NAME + ' - ' + DESCRIPTION)}}">
+	<meta name="twitter:description" content="{{description | default(SITE_NAME ~ ' - ' ~ DESCRIPTION)}}">
 	<meta name="twitter:url" content="{{url}}">
 {% endmacro %}
 
@@ -117,6 +117,9 @@
 			</style>
 		{% endif %}
 		{% if include_user_css and not EVENT_STYLES %}
+			{% if v.theme == 'classic_dark' %}
+				<link rel="stylesheet" href="{{('css/classic.css') | asset}}">
+			{% endif %}
 			<link rel="stylesheet" href="{{('css/'~v.theme~'.css') | asset}}">
 			{% if v.css and not request.path.startswith('/settings/css') %}
 				<style>
@@ -136,6 +139,7 @@
 	{% else %}
 		{{default_theme()}}
 	{% endif %}
+
 	<link rel="stylesheet" href="{{'css/awards.css' | asset}}">
 
 	{% if sub and sub.css and not request.path.endswith('settings') and not request.values.get('nocss') %}
@@ -143,7 +147,14 @@
 	{% endif %}
 
 	{% if SITE_NAME == 'rDrama' %}
-		<link rel="stylesheet" href="{{'css/rDrama.css' | asset}}">
+		<style>
+			.mod:before {
+				content: '(((';
+			}
+			.mod:after {
+				content: ')))';
+			}			
+		</style>
 	{% endif %}
 
 	{% if EVENT_STYLES %}
@@ -162,21 +173,22 @@
 
 {% macro stylesheets_lower() %}
 	{% if not (request.path.startswith('/@') and u) %}
-		{% if SITE_NAME == 'rDrama' and (not v or v.is_banned or v.agendaposter) %}
-			{% set background = '/i/backgrounds/glitter/1.webp?v=4' %}
+		{% if SITE_NAME == 'rDrama' and v and v.agendaposter %}
+			{% set background = '/i/backgrounds/anime/1.webp?v=4' %}
 		{% elif v and v.background %}
 			{% set background = v.background %}
 		{% endif %}
 
 		{% if background %}
+			<link rel="stylesheet" href="{{('css/transparent.css') | asset}}">
 			<style>
-			body {
-				background:url("{{background}}") center center fixed;
-				background-color: var(--background);
-				{% if 'anime/' not in background and not background.startswith('/images/') -%}
-					background-size: cover;
-				{%- endif %}
-			}
+				body {
+					background:url("{{background}}") center center fixed;
+					background-color: rgb(var(--background));
+					{% if 'anime/' not in background and not background.startswith('/images/') -%}
+						background-size: cover;
+					{%- endif %}
+				}
 			</style>
 		{% endif %}
 	{% endif %}

@@ -68,6 +68,8 @@ REDDIT_NOTIFS_CACHE_KEY = "reddit_notifications"
 MARSEYS_CACHE_KEY = "marseys"
 EMOJIS_CACHE_KEY = "emojis"
 
+SESSION_LIFETIME = 60 * 60 * 24 * 365
+
 CASINO_RELEASE_DAY = 1662825600
 
 if SITE_NAME == 'rDrama': patron = 'Paypig'
@@ -159,7 +161,6 @@ PROFANITIES = {
 	' ass ': ' butt ',
 	'shitting': 'pooping',
 	'damn': 'darn',
-	'bastard': 'fatherless child',
 	'bitch': 'b-word',
 	'toilet': 'potty',
 	' asshole': ' butthole',
@@ -198,7 +199,7 @@ WPD_CHANNEL_ID = 1013990963846332456
 UNDER_SIEGE_CHANNEL_ID = 1041917843094110239
 PIN_AWARD_TEXT = " (pin award)"
 
-THEMES = ["4chan","classic","classic_dark","coffee","dark","dramblr","light","midnight","transparent","tron","win98"]
+THEMES = ["4chan","classic","classic_dark","coffee","dark","dramblr","light","midnight","tron","win98"]
 BACKGROUND_CATEGORIES = ["glitter", "anime", "fantasy", "solarpunk", "pixelart"]
 COMMENT_SORTS = ["hot", "new", "old", "top", "bottom", "controversial"]
 SORTS = COMMENT_SORTS + ["bump", "comments"]
@@ -449,7 +450,7 @@ MODMAIL_ID = 2
 
 POLL_THREAD = 0
 POLL_BET_COINS = 200
-POLL_MAX_OPTIONS = 10
+POLL_MAX_OPTIONS = 20
 WELCOME_MSG = f"Welcome to {SITE_NAME}!"
 
 LOTTERY_TICKET_COST = 12
@@ -464,12 +465,12 @@ GIFT_NOTIF_ID = 5
 SIGNUP_FOLLOW_ID = 0
 NOTIFICATION_THREAD = 1
 
-MAX_IMAGE_SIZE_BANNER_RESIZED_KB = 500
+MAX_IMAGE_SIZE_BANNER_RESIZED_MB = 1
 MAX_IMAGE_AUDIO_SIZE_MB = 8
 MAX_IMAGE_AUDIO_SIZE_MB_PATRON = 16
 MAX_VIDEO_SIZE_MB = 32
 MAX_VIDEO_SIZE_MB_PATRON = 64
-MAX_IMAGE_CONVERSION_TIMEOUT = 15 # seconds
+MAX_IMAGE_CONVERSION_TIMEOUT = 30 # seconds
 
 ANTISPAM_BYPASS_IDS = set()
 
@@ -493,10 +494,9 @@ TIERS_ID_TO_NAME = {
 BADGE_BLACKLIST = { # only grantable by AEVANN_ID and SNAKES_ID except on PCM
 	1, 2, 6, 10, 11, 12, # Alpha, Verified Email, Beta, Recruiter x3
 	16, 17, 143, 21, 22, 23, 24, 25, 26, 27, # Marsey Artist x3 / Patron Tiers
-	94, 95, 96, 97, 98, 109, 67, 68, 83, 84, 87, 90, 140, 179, 185, # Award Status
+	94, 95, 96, 97, 98, 109, 67, 68, 83, 84, 87, 90, 179, 185, # Award Status except Y'all-seeing eye
 	137, # Lottery Winner
 }
-BADGE_WHITELIST = None # Falsey allows all non-blacklisted, or set() of permitted IDs
 
 if SITE == 'rdrama.net':
 	FEATURES['PRONOUNS'] = True
@@ -603,12 +603,14 @@ elif SITE == 'pcmemes.net':
 	WELCOME_MSG = "Welcome to pcmemes.net! Don't forget to turn off the slur filter [here](/settings/content#slurreplacer)"
 
 	LOTTERY_TICKET_COST = 12
-	LOTTERY_SINK_RATE = -8
+	LOTTERY_SINK_RATE = -138
 
 	BANNER_THREAD = 28307
 
 	MAX_IMAGE_AUDIO_SIZE_MB_PATRON = 100
 	MAX_VIDEO_SIZE_MB_PATRON = 100
+
+	BADGE_BLACKLIST = set()
 elif SITE == 'watchpeopledie.tv':
 	PIN_LIMIT = 4
 	WELCOME_MSG = """Hi, you! Welcome to WatchPeopleDie.tv, this really cool site where you can go to watch people die. I'm @CLiTPEELER! If you have any questions about how things work here, or suggestions on how to make them work better than they already do, definitely slide on into my DMs (no fat chicks).\nThere's an enormously robust suite of fun features we have here and we're always looking for more to add. Way, way too many to go over in an automated welcome message. And you're probably here for the videos of people dying more than any sort of weird, paradoxical digital community aspect anyway, so I won't bore you with a tedious overview of them. Just head on over to [your settings page](https://watchpeopledie.tv/settings/profile) and have a look at some of the basic profile stuff, at least. You can change your profile picture, username, flair, colors, banners, bio, profile anthem (autoplaying song on your page, like it's MySpace or some shit, hell yeah), CSS, all sorts of things.\nOr you can just go back to the main feed and carry on with watching people die. That's what the site is for, after all. Have fun!\nAnyway, in closing, WPD is entirely open source. We don't really need new full-time coders or anything, but if you'd like to take a look at our repo - or even submit a PR to change, fix, or add some things - go right ahead! Our codebase lives at [git.rdrama.net](https://git.rdrama.net/).\nWell, that's all. Thanks again for signing up. It's an automated message and all, but I really do mean that. Thank you, specifically. I love you. Romantically. Deeply. Passionately.\nHave fun!"""
@@ -618,6 +620,8 @@ elif SITE == 'watchpeopledie.tv':
 	PERMS['HOLE_CREATE'] = 2
 	PERMS['POST_EDITING'] = 2
 	PERMS['ADMIN_ADD'] = 4
+
+	POLL_MAX_OPTIONS = 30
 
 	ERROR_TITLES.update({
 		400: "Bad Request",
@@ -676,12 +680,6 @@ elif SITE == 'watchpeopledie.tv':
 		4: "Ghost",
 		5: "Survivor",
 		6: "Jigsaw"
-	}
-
-	BADGE_WHITELIST = {
-		7, 74, 85, 99, 101, # Bug, Grass, Sigma, SidebarArt, BannerArt
-		59, 60, 66, 104, 108, # Classic Accolades, Nword
-		117, 124, 144, 145, 146, 147, 148, 149, # Census Reused for Fun
 	}
 
 else: # localhost or testing environment implied
@@ -1668,6 +1666,7 @@ if SITE_NAME == 'rDrama':
 		'kiwifarms.net',
 		'gettr.com',
 		'scored.co',
+		'scrd.app',
 		'parler.com',
 		'bitchute.com',
 		'4chan.org',

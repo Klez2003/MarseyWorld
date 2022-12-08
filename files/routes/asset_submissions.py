@@ -30,9 +30,11 @@ def asset_submissions(path):
 @auth_required
 def submit_marseys(v:User):
 	if v.admin_level >= PERMS['VIEW_PENDING_SUBMITTED_MARSEYS']:
-		marseys = g.db.query(Marsey).filter(Marsey.submitter_id != None).all()
+		marseys = g.db.query(Marsey).filter(Marsey.submitter_id != None)
 	else:
-		marseys = g.db.query(Marsey).filter(Marsey.submitter_id == v.id).all()
+		marseys = g.db.query(Marsey).filter(Marsey.submitter_id == v.id)
+
+	marseys = marseys.order_by(Marsey.created_utc).all()
 
 	for marsey in marseys:
 		marsey.author = g.db.query(User.username).filter_by(id=marsey.author_id).one()[0]
@@ -88,8 +90,11 @@ def submit_marsey(v:User):
 	g.db.add(marsey)
 
 	g.db.flush()
-	if v.admin_level >= PERMS['VIEW_PENDING_SUBMITTED_MARSEYS']: marseys = g.db.query(Marsey).filter(Marsey.submitter_id != None).all()
-	else: marseys = g.db.query(Marsey).filter(Marsey.submitter_id == v.id).all()
+	if v.admin_level >= PERMS['VIEW_PENDING_SUBMITTED_MARSEYS']: marseys = g.db.query(Marsey).filter(Marsey.submitter_id != None)
+	else: marseys = g.db.query(Marsey).filter(Marsey.submitter_id == v.id)
+
+	marseys = marseys.order_by(Marsey.created_utc).all()
+
 	for marsey in marseys:
 		marsey.author = g.db.query(User.username).filter_by(id=marsey.author_id).one()[0]
 		marsey.submitter = g.db.query(User.username).filter_by(id=marsey.submitter_id).one()[0]
@@ -201,8 +206,9 @@ def remove_marsey(v:User, name):
 @app.get("/submit/hats")
 @auth_required
 def submit_hats(v:User):
-	if v.admin_level >= PERMS['VIEW_PENDING_SUBMITTED_HATS']: hats = g.db.query(HatDef).filter(HatDef.submitter_id != None).all()
-	else: hats = g.db.query(HatDef).filter(HatDef.submitter_id == v.id).all()
+	if v.admin_level >= PERMS['VIEW_PENDING_SUBMITTED_HATS']: hats = g.db.query(HatDef).filter(HatDef.submitter_id != None)
+	else: hats = g.db.query(HatDef).filter(HatDef.submitter_id == v.id)
+	hats = hats.order_by(HatDef.created_utc).all()
 	return render_template("submit_hats.html", v=v, hats=hats)
 
 
@@ -258,8 +264,11 @@ def submit_hat(v:User):
 	g.db.add(hat)
 	g.db.commit()
 
-	if v.admin_level >= PERMS['VIEW_PENDING_SUBMITTED_HATS']: hats = g.db.query(HatDef).filter(HatDef.submitter_id != None).all()
-	else: hats = g.db.query(HatDef).filter(HatDef.submitter_id == v.id).all()
+	if v.admin_level >= PERMS['VIEW_PENDING_SUBMITTED_HATS']: hats = g.db.query(HatDef).filter(HatDef.submitter_id != None)
+	else: hats = g.db.query(HatDef).filter(HatDef.submitter_id == v.id)
+
+	hats = hats.order_by(HatDef.created_utc).all()
+
 	return render_template("submit_hats.html", v=v, hats=hats, msg=f"'{name}' submitted successfully!")
 
 
@@ -363,9 +372,6 @@ def update_marsey(v):
 	def error(error):
 		return render_template("update_assets.html", v=v, error=error, name=name, tags=tags, type="Marsey")
 
-	if not marsey_regex.fullmatch(name):
-		return error("Invalid name!")
-
 	existing = g.db.get(Marsey, name)
 	if not existing:
 		return error("A marsey with this name doesn't exist!")
@@ -396,7 +402,7 @@ def update_marsey(v):
 		existing.tags = tags
 		g.db.add(existing)
 	elif not file:
-		return error("You need to update this marsey!")
+		return error("You need to actually update something!")
 
 	ma = ModAction(
 		kind="update_marsey",

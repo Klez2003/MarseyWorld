@@ -5,7 +5,7 @@
 	{% include "modals/expanded_image.html" %}
 	{% if err or '@' not in request.path %}
 		{% if EVENT_BANNER and not sub %}
-			{% include 'event/' + EVENT_BANNER %}
+			{% include 'event/' ~ EVENT_BANNER %}
 		{% else %}
 			{% if err and SITE_NAME == 'rDrama' %}
 				{% set src = "banner_error.webp" | asset_siteimg %}
@@ -38,8 +38,8 @@
 		</div>
 		{% block sidebar %}
 			{% if has_sidebar and (home or p) %}
-				{% set sidebar = "sidebar_" + SITE_NAME + ".html" %}
-				{% include sidebar if not EVENT_SIDEBAR else 'event/' + sidebar %}
+				{% set sidebar = "sidebar_" ~ SITE_NAME ~ ".html" %}
+				{% include sidebar if not EVENT_SIDEBAR else 'event/' ~ sidebar %}
 			{% endif %}
 		{% endblock %}
 	</div>

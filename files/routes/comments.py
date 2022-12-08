@@ -122,6 +122,16 @@ def comment(v:User):
 		sub = post_target.sub
 		if sub and v.exiled_from(sub): abort(403, f"You're exiled from /h/{sub}")
 
+	if sub in ('furry','vampire','racist','femboy') and not v.client and not v.house.lower().startswith(sub):
+		abort(403, f"You need to be a member of House {sub.capitalize()} to comment in /h/{sub}")
+
+	if not User.can_see(v, parent): abort(404)
+	if not isinstance(parent, User) and parent.deleted_utc != 0: abort(404)
+
+	if posting_to_submission:
+		sub = post_target.sub
+		if sub and v.exiled_from(sub): abort(403, f"You're exiled from /h/{sub}")
+
 		if sub in ('furry','vampire','racist','femboy') and not v.client and not v.house.lower().startswith(sub):
 			abort(403, f"You need to be a member of House {sub.capitalize()} to comment in /h/{sub}")
 
@@ -321,7 +331,7 @@ def comment(v:User):
 
 	v.comment_count = g.db.query(Comment).filter(
 		Comment.author_id == v.id,
-		Comment.parent_submission != None,
+		or_(Comment.parent_submission != None, Comment.wall_user_id != None),
 		Comment.deleted_utc == 0
 	).count()
 	g.db.add(v)
@@ -329,6 +339,7 @@ def comment(v:User):
 	c.voted = 1
 
 	check_for_treasure(body, c)
+
 	execute_wordle(post_target or parent_user, c, body, rts)
 
 	check_slots_command(v, v, c)
@@ -340,6 +351,117 @@ def comment(v:User):
 		).one_or_none()
 		if n: g.db.delete(n)
 
+	g.db.flush()
+
+	if v.client: return c.json(db=g.db)
+	return {"comment": render_template("comments.html", v=v, comments=[c])}
+
+
+#- API
+@app.post("/wall_comment")
+@limiter.limit("1/second;20/minute;200/hour;1000/day")
+@auth_required
+@ratelimit_user("1/second;20/minute;200/hour;1000/day")
+def wall_comment(v):
+	if v.is_suspended: abort(403, "You can't perform this action while banned.")
+
+	parent_fullname = request.values.get("parent_fullname").strip()
+	if len(parent_fullname) < 3: abort(400)
+	id = parent_fullname[2:]
+	parent_comment_id = None
+
+	if parent_fullname.startswith("u_"):
+		parent = get_account(id, v=v)
+		parent_user = parent
+		parent_author = parent
+	elif parent_fullname.startswith("c_"):
+		parent = get_comment(id, v=v)
+		if parent.deleted_utc != 0: abort(404)
+		parent_user = parent.wall_user
+		parent_comment_id = parent.id
+		parent_author = parent.author
+	else: abort(400)
+
+	level = 1 if isinstance(parent, User) else parent.level + 1
+
+	# if not User.can_see(v, parent): abort(404)
+
+	if level > COMMENT_MAX_DEPTH: abort(400, f"Max comment level is {COMMENT_MAX_DEPTH}")
+
+	body = sanitize_raw_body(request.values.get("body", ""), False)
+
+	if v.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
+		abort(403, "You have to type more than 280 characters!")
+	elif v.bird and len(body) > 140:
+		abort(403, "You have to type less than 140 characters!")
+
+	if not body and not request.files.get('file'):
+		abort(400, "You need to actually write something!")
+
+	if v.admin_level < PERMS['POST_COMMENT_MODERATION'] and parent_author.any_block_exists(v):
+		abort(403, "You can't reply to users who have blocked you or users that you have blocked.")
+	
+	body, _, options, choices = sanitize_poll_options(v, body, False)
+
+	if request.files.get("file") and not g.is_tor:
+		files = request.files.getlist('file')[:4]
+		for file in files:
+			if file.content_type.startswith('image/'):
+				oldname = f'/images/{time.time()}'.replace('.','') + '.webp'
+				file.save(oldname)
+				image = process_image(oldname, v)
+				if image == "": abort(400, "Image upload failed")
+				body += f"\n\n![]({image})"
+			elif file.content_type.startswith('video/'):
+				body += f"\n\n{SITE_FULL}{process_video(file, v)}"
+			elif file.content_type.startswith('audio/'):
+				body += f"\n\n{SITE_FULL}{process_audio(file, v)}"
+			else:
+				abort(415)
+
+	body = body.strip()[:COMMENT_BODY_LENGTH_LIMIT]
+	
+	body_for_sanitize = body
+	if v.owoify:
+		body_for_sanitize = owoify(body_for_sanitize)
+	if v.marsify:
+		body_for_sanitize = marsify(body_for_sanitize)
+
+	torture = (v.agendaposter and not v.marseyawarded)
+	body_html = sanitize(body_for_sanitize, limit_pings=5, count_marseys=not v.marsify, torture=torture)
+
+	if '!wordle' not in body.lower() and AGENDAPOSTER_PHRASE not in body.lower():
+		existing = g.db.query(Comment.id).filter(
+			Comment.author_id == v.id,
+			Comment.deleted_utc == 0,
+			Comment.parent_comment_id == parent_comment_id,
+			Comment.parent_submission == None,
+			Comment.wall_user_id == parent_user.id,
+			Comment.body_html == body_html
+		).first()
+		if existing: abort(409, f"You already made that comment: /comment/{existing.id}")
+
+	is_bot = (v.client is not None
+		and v.id not in PRIVILEGED_USER_BOTS
+		or (SITE == 'pcmemes.net' and v.id == SNAPPY_ID))
+
+	execute_antispam_comment_check(body, v)
+	execute_antispam_duplicate_comment_check(v, body_html)
+
+	if len(body_html) > COMMENT_BODY_HTML_LENGTH_LIMIT: abort(400)
+
+	c = Comment(author_id=v.id,
+				wall_user_id=parent_user.id,
+				parent_comment_id=parent_comment_id,
+				level=level,
+				is_bot=is_bot,
+				app_id=v.client.application.id if v.client else None,
+				body_html=body_html,
+				body=body,
+				)
+
+	c.upvotes = 1
+	g.db.add(c)
 	g.db.flush()
 
 	if v.client: return c.json(db=g.db)
@@ -435,7 +557,7 @@ def delete_comment(cid, v):
 		g.db.flush()
 		v.comment_count = g.db.query(Comment).filter(
 			Comment.author_id == v.id,
-			Comment.parent_submission != None,
+			or_(Comment.parent_submission != None, Comment.wall_user_id != None),
 			Comment.deleted_utc == 0
 		).count()
 		g.db.add(v)
@@ -455,7 +577,7 @@ def undelete_comment(cid, v):
 		g.db.flush()
 		v.comment_count = g.db.query(Comment).filter(
 			Comment.author_id == v.id,
-			Comment.parent_submission != None,
+			or_(Comment.parent_submission != None, Comment.wall_user_id != None),
 			Comment.deleted_utc == 0
 		).count()
 		g.db.add(v)

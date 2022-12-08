@@ -132,8 +132,8 @@ function post_reply(id){
 		if (data && data["comment"]) {
 			const comments = document.getElementById('replies-of-c_' + id);
 			const comment = data["comment"].replace(/data-src/g, 'src').replace(/data-cfsrc/g, 'src').replace(/style="display:none;visibility:hidden;"/g, '');
-			
-			comments.innerHTML = comments.innerHTML + comment;
+
+			comments.insertAdjacentHTML('beforeend', comment);
 
 			bs_trigger(comments);
 
@@ -143,6 +143,7 @@ function post_reply(id){
 			document.getElementById('reply-form-body-'+id).value = ''
 			document.getElementById('message-reply-'+id).innerHTML = ''
 			toggleReplyBox('reply-message-'+id)
+			document.getElementById('file-upload').value = null;
 		} else {
 			showToast(false, getMessageFromJsonData(false, data));
 		}
@@ -179,6 +180,7 @@ function comment_edit(id){
 			bs_trigger(commentForm);
 			document.getElementById('filename-edit-reply-' + id).innerHTML = '<i class="fas fa-file"></i>';
 			document.getElementById('comment-edit-body-' + id).value = data["body"];
+			document.getElementById('file-edit-reply-'+id).value = null;
 		}
 		else {
 			showToast(false, getMessageFromJsonData(false, data));
@@ -225,8 +227,7 @@ function postComment(fullname, hide){
 			let comments = document.getElementById('replies-of-' + fullname);
 			let comment = data["comment"].replace(/data-src/g, 'src').replace(/data-cfsrc/g, 'src').replace(/style="display:none;visibility:hidden;"/g, '');
 
-			comments.innerHTML = comment + comments.innerHTML;
-			if (!hide) comments.scrollIntoView()
+			comments.insertAdjacentHTML('afterbegin', comment);
 
 			bs_trigger(comments);
 
@@ -237,6 +238,7 @@ function postComment(fullname, hide){
 			document.getElementById('form-preview-'+fullname).innerHTML = ''
 			document.getElementById('charcount-'+fullname).innerHTML = ''
 			document.getElementById('filename-show-reply-' + fullname).innerHTML = '<i class="fas fa-file"></i>';
+			document.getElementById('file-upload-reply-'+fullname).value = null;
 		}
 		else {
 			showToast(false, getMessageFromJsonData(false, data));

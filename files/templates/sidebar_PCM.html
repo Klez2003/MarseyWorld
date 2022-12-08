@@ -3,7 +3,7 @@
 	{% if sub %}
 		{% set image=sub.sidebar_url %}
 	{% else %}
-		{# set image='/i/' + SITE_NAME + '/sidebar.webp?v=3009' #}
+		{# set image='/i/' ~ SITE_NAME ~ '/sidebar.webp?v=3009' #}
 	{% endif %}
 	
 	{% if request.path != '/sidebar' and image %}
@@ -13,6 +13,7 @@
 	{% endif %}
 
 	<p class="text-center text-md mb-4">
+		<a class="sidebar-link d-md-none" href="/random_user" data-bs-toggle="tooltip" data-bs-placement="top" title="Random User"><i class="fas fa-music"></i></a>
 		<a class="sidebar-link" href="/log" data-bs-toggle="tooltip" data-bs-placement="top" title="Moderation Log"><i class="fas fa-scroll-old"></i></a>
 		<a class="sidebar-link" href="/transfers" data-bs-toggle="tooltip" data-bs-placement="top" title="Transfers"><i class="fas fa-arrow-right-arrow-left"></i></a>
 		<a class="sidebar-link" href="/random_post" data-bs-toggle="tooltip" data-bs-placement="top" title="Random Post"><i class="fas fa-random"></i></a>
@@ -48,7 +49,7 @@
 	<a rel="nofollow noopener" class="btn btn-primary btn-block" href="https://imgur.com/a/2wDZddF">PCM Shitposter Cutouts (2/?)</a>
 
 	<div class="sidebar--rules sidebar--rules--pcm">
-		{% set rules = "rules_" + SITE_NAME + ".html" %}
+		{% set rules = "rules_" ~ SITE_NAME ~ ".html" %}
 		{% include rules %}
 	</div>
 </div>

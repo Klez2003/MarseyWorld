@@ -43,7 +43,6 @@ def remove_background(v):
 		if v.background.startswith('/images/'):
 			os.remove(v.background)
 		v.background = None
-		if v.theme == 'transparent': v.theme = 'midnight'
 		g.db.add(v)
 	return {"message": "Background removed!"}
 
@@ -85,11 +84,11 @@ def upload_profile_background(v):
 	background = process_image(name, v)
 
 	if background:
-		if v.profile_background:
+		if v.profile_background and path.isfile(profile_background):
 			os.remove(v.profile_background)
 		v.profile_background = background
 		g.db.add(v)
-		# badge_grant(badge_id=193, user=v)
+		badge_grant(badge_id=193, user=v)
 	return redirect(f'/@{v.username}')
 
 @app.delete('/settings/profile_background')
@@ -321,8 +320,6 @@ def settings_personal_post(v):
 	theme = request.values.get("theme")
 	if not updated and theme:
 		if theme in THEMES:
-			if theme == "transparent" and not v.background: 
-				abort(409, "You need to set a background to use the transparent theme")
 			v.theme = theme
 			if theme == "win98": v.themecolor = "30409f"
 			updated = True

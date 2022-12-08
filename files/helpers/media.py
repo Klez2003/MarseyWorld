@@ -143,8 +143,7 @@ def process_image(filename:str, v, resize=0, trim=False, uploader_id:Optional[in
 	try:
 		with Image.open(filename) as i:
 			params = ["magick", filename]
-			if i.format.lower() != 'webp':
-				params.extend(["-coalesce", "-quality", "88", "-define", "webp:method=5"])
+			params.extend(["-coalesce", "-quality", "88"])
 			if trim and len(list(Iterator(i))) == 1:
 				params.append("-trim")
 			if resize and i.width > resize:
@@ -165,14 +164,14 @@ def process_image(filename:str, v, resize=0, trim=False, uploader_id:Optional[in
 		except subprocess.TimeoutExpired:
 			if has_request:
 				abort(413, ("An uploaded image took too long to convert to WEBP. "
-							"Consider uploading elsewhere."))
+							"Please convert it to WEBP elsewhere then upload it again."))
 			return None
 
 	if resize:
-		if os.stat(filename).st_size > MAX_IMAGE_SIZE_BANNER_RESIZED_KB * 1024:
+		if os.stat(filename).st_size > MAX_IMAGE_SIZE_BANNER_RESIZED_MB * 1024 * 1024:
 			os.remove(filename)
 			if has_request:
-				abort(413, f"Max size for site assets is {MAX_IMAGE_SIZE_BANNER_RESIZED_KB} KB")
+				abort(413, f"Max size for site assets is {MAX_IMAGE_SIZE_BANNER_RESIZED_MB} MB")
 			return None
 
 		if filename.startswith('files/assets/images/'):
