@@ -108,7 +108,7 @@ def comment(v:User):
 		post_target = get_post(parent.parent_submission, v=v, graceful=True) or get_account(parent.wall_user_id, v=v, include_blocks=True, include_shadowbanned=False)
 		parent_comment_id = parent.id
 		if parent.author_id == v.id: rts = True
-		if not v.can_post_in_ghost_threads and post_target.ghost: abort(403, f"You need {TRUESCORE_GHOST_MINIMUM} truescore to post in ghost threads")
+		if not v.can_post_in_ghost_threads and isinstance(post_target, Submission) and post_target.ghost: abort(403, f"You need {TRUESCORE_GHOST_MINIMUM} truescore to post in ghost threads")
 	else: abort(404)
 
 	level = 1 if isinstance(parent, (Submission, User)) else int(parent.level) + 1
