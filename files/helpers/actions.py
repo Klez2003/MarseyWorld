@@ -205,7 +205,7 @@ def execute_zozbot(c:Comment, level:int, post_target:post_target_type, v):
 	if random.random() >= 0.001: return
 	c2 = Comment(author_id=ZOZBOT_ID,
 		parent_submission=post_target.id if posting_to_submission else None,
-		wall_user_id=post_target.id if posting_to_submission else None,
+		wall_user_id=post_target.id if not posting_to_submission else None,
 		parent_comment_id=c.id,
 		level=level+1,
 		is_bot=True,
@@ -223,7 +223,7 @@ def execute_zozbot(c:Comment, level:int, post_target:post_target_type, v):
 
 	c3 = Comment(author_id=ZOZBOT_ID,
 		parent_submission=post_target.id if posting_to_submission else None,
-		wall_user_id=post_target.id if posting_to_submission else None,
+		wall_user_id=post_target.id if not posting_to_submission else None,
 		parent_comment_id=c2.id,
 		level=level+2,
 		is_bot=True,
@@ -240,7 +240,7 @@ def execute_zozbot(c:Comment, level:int, post_target:post_target_type, v):
 
 	c4 = Comment(author_id=ZOZBOT_ID,
 		parent_submission=post_target.id if posting_to_submission else None,
-		wall_user_id=post_target.id if posting_to_submission else None,
+		wall_user_id=post_target.id if not posting_to_submission else None,
 		parent_comment_id=c3.id,
 		level=level+3,
 		is_bot=True,
@@ -275,7 +275,7 @@ def execute_longpostbot(c:Comment, level:int, body, body_html, post_target:post_
 
 	c2 = Comment(author_id=LONGPOSTBOT_ID,
 		parent_submission=post_target.id if posting_to_submission else None,
-		wall_user_id=post_target.id if posting_to_submission else None,
+		wall_user_id=post_target.id if not posting_to_submission else None,
 		parent_comment_id=c.id,
 		level=level+1,
 		is_bot=True,
@@ -312,7 +312,7 @@ def execute_basedbot(c:Comment, level:int, body, post_target:post_target_type, v
 	body_based_html = sanitize(body2)
 	c_based = Comment(author_id=BASEDBOT_ID,
 		parent_submission=post_target.id if posting_to_submission else None,
-		wall_user_id=post_target.id if posting_to_submission else None,
+		wall_user_id=post_target.id if not posting_to_submission else None,
 		distinguish_level=6,
 		parent_comment_id=c.id,
 		level=level+1,
