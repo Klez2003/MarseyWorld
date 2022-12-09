@@ -537,6 +537,7 @@
 
 			<button type="button" class="btn btn-primary nobackground" onclick="toggleReplyBox('reply-message-{{c.fullname}}')">Reply</button>
 
+			{# TODO: swap to comment_reply_box macro #}
 			<div id="reply-message-{{c.fullname}}" class="d-none">
 				<div id="comment-form-space-{{c.id}}" class="comment-write collapsed child">
 					<form id="reply-to-message-{{c.id}}" action="/reply" method="post" class="input-group" enctype="multipart/form-data">
