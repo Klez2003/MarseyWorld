@@ -201,6 +201,7 @@ def execute_snappy(post:Submission, v:User):
 		post.replies = [c]
 
 def execute_zozbot(c:Comment, level:int, post_target:post_target_type, v):
+	if SITE_NAME != 'rDrama': return
 	posting_to_submission = isinstance(post_target, Submission)
 	if random.random() >= 0.001: return
 	c2 = Comment(author_id=ZOZBOT_ID,
@@ -259,6 +260,7 @@ def execute_zozbot(c:Comment, level:int, post_target:post_target_type, v):
 	g.db.add(zozbot)
 
 def execute_longpostbot(c:Comment, level:int, body, body_html, post_target:post_target_type, v:User):
+	if SITE_NAME != 'rDrama': return
 	posting_to_submission = isinstance(post_target, Submission)
 	if not len(c.body.split()) >= 200: return
 	if "</blockquote>" in body_html: return
@@ -296,6 +298,8 @@ def execute_longpostbot(c:Comment, level:int, body, body_html, post_target:post_
 	g.db.add(n)
 
 def execute_basedbot(c:Comment, level:int, body, post_target:post_target_type, v:User):
+	if SITE != "pcmemes.net": return
+	if not c.body.lower().startswith("based"): return
 	posting_to_submission = isinstance(post_target, Submission)
 	pill = based_regex.match(body)
 	if level == 1: basedguy = get_account(post_target.author_id)

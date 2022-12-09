@@ -251,8 +251,7 @@ def comment(v:User):
 	process_poll_options(c, CommentOption, options, 0, "Poll", g.db)
 	process_poll_options(c, CommentOption, choices, 1, "Poll", g.db)
 
-	if SITE == 'pcmemes.net' and c.body.lower().startswith("based"):
-		execute_basedbot(c, level, body, post_target, v)
+	execute_basedbot(c, level, body, post_target, v)
 
 	if post_target.id not in ADMIGGER_THREADS and v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in c.body.lower() and post_target.sub != 'chudrama':
 		c.is_banned = True
@@ -281,9 +280,8 @@ def comment(v:User):
 		n = Notification(comment_id=c_jannied.id, user_id=v.id)
 		g.db.add(n)
 
-	if SITE_NAME == 'rDrama':
-		execute_longpostbot(c, level, body, body_html, post_target, v)
-		execute_zozbot(c, level, post_target, v)
+	execute_longpostbot(c, level, body, body_html, post_target, v)
+	execute_zozbot(c, level, post_target, v)
 
 	if not v.shadowbanned:
 		notify_users = NOTIFY_USERS(body, v)
@@ -329,9 +327,7 @@ def comment(v:User):
 	c.voted = 1
 
 	check_for_treasure(body, c)
-
 	execute_wordle(post_target or parent_user, c, body, rts)
-
 	check_slots_command(v, v, c)
 
 	if c.level > 5:
