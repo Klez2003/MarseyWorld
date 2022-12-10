@@ -331,7 +331,5 @@ MODACTION_TYPES = {
 MODACTION_PRIVILEGED_TYPES = {'shadowban', 'unshadowban', 
                               'mod_mute_user', 'mod_unmute_user',
                               'link_accounts', 'delink_accounts'}
-
-MODACTION_TYPES_FILTERED = deepcopy({t:v for t,v in MODACTION_TYPES.items() if not t in MODACTION_PRIVILEGED_TYPES})
-MODACTION_TYPES_FILTERED.pop("shadowban")
-MODACTION_TYPES_FILTERED.pop("unshadowban")
+MODACTION_TYPES_FILTERED = deepcopy({t:v for t,v in MODACTION_TYPES.items() 
+                                     if not t in MODACTION_PRIVILEGED_TYPES})
