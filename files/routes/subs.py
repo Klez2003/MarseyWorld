@@ -477,7 +477,7 @@ def upload_sub_banner(v:User, sub:str):
 
 	return redirect(f'/h/{sub}/settings')
 
-@app.delete("/h/<sub>/settings/banners/<index:int>")
+@app.delete("/h/<sub>/settings/banners/<int:index>")
 @limiter.limit("1/2 second;30/day")
 @is_not_permabanned
 @ratelimit_user("1/2 second;30/day")
