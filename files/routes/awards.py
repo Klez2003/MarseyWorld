@@ -7,7 +7,7 @@ from files.classes.award import AwardRelationship
 from files.classes.userblock import UserBlock
 from files.helpers.actions import *
 from files.helpers.alerts import *
-from files.helpers.const import *
+from files.helpers.config.const import *
 from files.helpers.get import *
 from files.helpers.marsify import marsify
 from files.helpers.owoify import owoify

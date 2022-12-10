@@ -1,6 +1,6 @@
 from sqlalchemy import inspect
 
-from files.helpers.const import AWARDS2, AWARDS_DISABLED
+from files.helpers.config.const import AWARDS2, AWARDS_DISABLED
 from files.__main__ import engine
 
 from files.events.classes import *

@@ -11,7 +11,7 @@ from files.classes.mod_logs import ModAction
 from files.classes.userblock import UserBlock
 from files.helpers.actions import *
 from files.helpers.alerts import *
-from files.helpers.const import *
+from files.helpers.config.const import *
 from files.helpers.config.modaction_types import MODACTION_TYPES, MODACTION_TYPES_FILTERED, MODACTION_PRIVILEGED_TYPES
 from files.routes.wrappers import *
 from files.__main__ import app, cache, limiter

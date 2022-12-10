@@ -8,7 +8,7 @@ from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
 from files.helpers.lazy import lazy
-from files.helpers.const import *
+from files.helpers.config.const import *
 
 from .sub_relationship import *
 

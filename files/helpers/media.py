@@ -16,7 +16,7 @@ from sqlalchemy.orm.session import Session
 from files.classes.media import *
 from files.helpers.cloudflare import purge_files_in_cache
 
-from .const import *
+from .config.const import *
 
 def process_files(files, v):
 	body = ''
