@@ -450,7 +450,7 @@ def get_sub_css(sub):
 @is_not_permabanned
 @ratelimit_user("1/second;10/day")
 def upload_sub_banner(v:User, sub:str):
-	if g.is_tor: abort(403, "Image uploads are not allowed through TOR.")
+	if g.is_tor: abort(403, "Image uploads are not allowed through Tor")
 
 	sub = get_sub_by_name(sub)
 	if not v.mods(sub.name): abort(403)
@@ -465,7 +465,11 @@ def upload_sub_banner(v:User, sub:str):
 	if bannerurl:
 		if sub.bannerurls:
 			sub.bannerurls.append(bannerurl)
+		else:
+			sub.bannerurls = [bannerurl]
 		g.db.add(sub)
+	else:
+		abort(400, "No banner uploaded")
 
 	ma = SubAction(
 		sub=sub.name,
