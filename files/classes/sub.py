@@ -3,6 +3,7 @@ import time
 from typing import Optional
 
 from sqlalchemy import Column
+from sqlalchemy.ext.mutable import MutableList
 from sqlalchemy.orm import relationship
 from sqlalchemy.types import VARCHAR, Boolean, Integer
 from sqlalchemy.dialects.postgresql import ARRAY
@@ -19,7 +20,7 @@ class Sub(Base):
 	sidebar = Column(VARCHAR(SUB_SIDEBAR_COLUMN_LENGTH))
 	sidebar_html = Column(VARCHAR(SUB_SIDEBAR_HTML_COLUMN_LENGTH))
 	sidebarurl = Column(VARCHAR(SUB_SIDEBAR_URL_COLUMN_LENGTH))
-	bannerurls = Column(ARRAY(VARCHAR(SUB_BANNER_URL_COLUMN_LENGTH)))
+	bannerurls = Column(MutableList.as_mutable(ARRAY(VARCHAR(SUB_BANNER_URL_COLUMN_LENGTH))), default=MutableList([]), nullable=False)
 	marseyurl = Column(VARCHAR(SUB_MARSEY_URL_LENGTH))
 	css = Column(VARCHAR(SUB_CSS_COLUMN_LENGTH))
 	stealth = Column(Boolean)
