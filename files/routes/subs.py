@@ -467,6 +467,10 @@ def upload_sub_banner(v:User, sub:str):
 		sub.bannerurls.append(bannerurl)
 	else:
 		sub.bannerurls = [bannerurl]
+	# while testing it seems sqlalchemy doesn't seem to recognize an array
+	# column being updated. in order to get around this, we manually set
+	# the modified flag
+	# TODO: is there a more elegant way for this?
 	flag_modified(sub, 'bannerurls')
 	g.db.add(sub)
 
@@ -498,6 +502,7 @@ def delete_sub_banner(v:User, sub:str, index:int):
 	except FileNotFoundError:
 		pass
 	del sub.bannerurls[index]
+	flag_modified(sub, 'bannerurls') # see the note in upload_sub_banner
 	g.db.add(sub)
 
 	ma = SubAction(
