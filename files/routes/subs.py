@@ -1,4 +1,5 @@
 from sqlalchemy import nullslast
+from sqlalchemy.orm.attributes import flag_modified
 
 from files.classes import *
 from files.helpers.alerts import *
@@ -466,6 +467,7 @@ def upload_sub_banner(v:User, sub:str):
 		sub.bannerurls.append(bannerurl)
 	else:
 		sub.bannerurls = [bannerurl]
+	flag_modified(sub, 'bannerurls')
 	g.db.add(sub)
 
 	ma = SubAction(
