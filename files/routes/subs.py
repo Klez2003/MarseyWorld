@@ -499,7 +499,7 @@ def delete_sub_banner(v:User, sub:str, index:int):
 	ma = SubAction(
 		sub=sub.name,
 		kind='delete_banner',
-		note=index,
+		_note=index,
 		user_id=v.id
 	)
 	g.db.add(ma)
@@ -507,8 +507,8 @@ def delete_sub_banner(v:User, sub:str, index:int):
 	return {"message": f"Deleted banner {index} from /h/{sub} successfully"}
 
 @app.delete("/h/<sub>/settings/banners/")
-@limiter.limit("1/10 second;10/day")
-@ratelimit_user("1/10 second;10/day")
+@limiter.limit("1/10 second;30/day")
+@ratelimit_user("1/10 second;30/day")
 def delete_all_sub_banners(v:User, sub:str):	
 	sub = get_sub_by_name(sub)
 	if not v.mods(sub.name): abort(403)
@@ -524,7 +524,7 @@ def delete_all_sub_banners(v:User, sub:str):
 	ma = SubAction(
 		sub=sub.name,
 		kind='delete_banner',
-		note='all',
+		_note='all',
 		user_id=v.id
 	)
 	g.db.add(ma)

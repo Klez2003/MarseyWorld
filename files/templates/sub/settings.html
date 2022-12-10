@@ -61,7 +61,7 @@
 </div>
 
 <h5 class="mt-5">Banners</h5>
-<div class="settings-section rounded">
+<div class="settings-section rounded sub-banner-update-section">
 	{% for banner in sub.banner_urls %}
 	<section id="sub-banner-update-{{loop.index - 1}}" class="d-flex sub-settings-subsection">
 		<div class="title w-lg-75 text-md-center">
@@ -69,7 +69,7 @@
 		</div>
 		<div class="body w-lg-100 my-auto">
 			<div class="d-flex">
-				<button class="btn btn-danger sub-banner-delete-button" id="sub-banner-delete-{{loop.index}}" onclick="areyousure(this)" data-click-2="postToastReload(this, '/h/{{sub.name}}/settings/banners/{{loop.index - 1}}', 'DELETE');">Delete</button>
+				<button class="btn btn-danger sub-banner-delete-button" id="sub-banner-delete-{{loop.index}}" onclick="areyousure(this)" data-click2="postToastReload(this, '/h/{{sub.name}}/settings/banners/{{loop.index - 1}}', 'DELETE');">Delete</button>
 			</div>
 		</div>
 	</section>
@@ -89,6 +89,7 @@
 							Upload New Banner<input autocomplete="off" type="file" accept="image/*" hidden name="banner" onchange="form.submit()">
 						</label>
 					</form>
+					<button class="btn btn-danger sub-banner-delete-button" id="sub-banner-delete-all" onclick="areyousure(this)" data-click2="postToastReload(this, '/h/{{sub.name}}/settings/banners/', 'DELETE');">Delete All Banners</button>
 				</div>
 			</div>
 			<div class="text-small text-muted mt-3">All image files are supported. Max file size is {% if v and v.patron %}16{% else %}8{% endif %} MB.</div>
