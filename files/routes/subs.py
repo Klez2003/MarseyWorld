@@ -464,7 +464,7 @@ def upload_sub_banner(v:User, sub:str):
 
 	if bannerurl:
 		if sub.bannerurls:
-			sub.bannerurls.add(bannerurl)
+			sub.bannerurls.insert(bannerurl)
 		g.db.add(sub)
 
 	ma = SubAction(
