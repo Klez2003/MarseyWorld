@@ -508,6 +508,7 @@ def delete_sub_banner(v:User, sub:str, index:int):
 
 @app.delete("/h/<sub>/settings/banners/")
 @limiter.limit("1/10 second;30/day")
+@is_not_permabanned
 @ratelimit_user("1/10 second;30/day")
 def delete_all_sub_banners(v:User, sub:str):	
 	sub = get_sub_by_name(sub)
