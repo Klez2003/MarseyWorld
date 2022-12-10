@@ -4,7 +4,8 @@ from typing import Optional
 
 from sqlalchemy import Column
 from sqlalchemy.orm import relationship
-from sqlalchemy.sql.sqltypes import *
+from sqlalchemy.types import VARCHAR, Boolean, Integer
+from sqlalchemy.dialects.postgresql import ARRAY
 
 from files.classes import Base
 from files.helpers.lazy import lazy

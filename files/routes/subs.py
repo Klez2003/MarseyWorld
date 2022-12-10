@@ -462,14 +462,11 @@ def upload_sub_banner(v:User, sub:str):
 	file.save(name)
 	bannerurl = process_image(name, v, resize=1200)
 
-	if bannerurl:
-		if sub.bannerurls:
-			sub.bannerurls.append(bannerurl)
-		else:
-			sub.bannerurls = [bannerurl]
-		g.db.add(sub)
+	if sub.bannerurls:
+		sub.bannerurls.append(bannerurl)
 	else:
-		abort(400, "No banner uploaded")
+		sub.bannerurls = [bannerurl]
+	g.db.add(sub)
 
 	ma = SubAction(
 		sub=sub.name,
