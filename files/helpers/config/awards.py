@@ -1,5 +1,6 @@
 from copy import deepcopy
 
+from files.helpers.config.const import FEATURES, SITE_NAME, patron
 
 AWARDS = {
 	"fallback": {
@@ -727,3 +728,18 @@ for k, val in temp:
 	HOUSE_AWARDS[f'{k} Founder'] = val
 	HOUSE_AWARDS[f'{k} Founder']['kind'] += ' Founder'
 	HOUSE_AWARDS[f'{k} Founder']['price'] = int(HOUSE_AWARDS[f'{k} Founder']['price'] * 0.75)
+
+if SITE_NAME != 'rDrama':
+	AWARDS_DISABLED.append('progressivestack')
+
+if SITE_NAME == 'PCM':
+	# Previous set of disabled, changed temporarily by request 2022-10-17
+	#AWARDS_DISABLED.extend(['ban','pizzashill','marsey','bird','grass','chud','unblockable'])
+	AWARDS_DISABLED.extend(['unblockable'])
+	AWARDS_DISABLED.remove('ghost')
+elif SITE_NAME == 'WPD':
+	AWARDS_DISABLED.remove('lootbox')
+if not FEATURES['MARSEYBUX']:
+	AWARDS_DISABLED.append('benefactor')
+
+AWARDS_ENABLED = {x: AWARDS[x] for x in AWARDS if x not in AWARDS_DISABLED}

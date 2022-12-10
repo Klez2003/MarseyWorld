@@ -206,6 +206,7 @@ PAGE_SIZES = (10, 25, 50, 100)
 ################################################################################
 ### COLUMN INFO
 ################################################################################
+
 SUB_NAME_COLUMN_LENGTH = 25
 SUB_SIDEBAR_COLUMN_LENGTH = 10000
 SUB_SIDEBAR_HTML_COLUMN_LENGTH = 20000
@@ -702,6 +703,10 @@ else: # localhost or testing environment implied
 	FEATURES['STREAMERS'] = True
 	SUB_BANNER_LIMIT = 69420
 
+patron = "Patron"
+if SITE_NAME == 'rDrama':
+	patron = "Paypig"
+
 HOUSES = ("None","Furry","Femboy","Vampire","Racist") if FEATURES['HOUSES'] else ("None")
 
 bots = {AUTOJANNY_ID, SNAPPY_ID, LONGPOSTBOT_ID, ZOZBOT_ID, BASEDBOT_ID}
@@ -710,27 +715,9 @@ COLORS = {'ff66ac','805ad5','62ca56','38a169','80ffff','2a96f3','eb4963','ff0000
 
 BAN_EVASION_DOMAIN = 'stupidpol.site'
 
-### AWARDS
-
-from files.helpers.config.awards import *
-if SITE_NAME != 'rDrama':
-	AWARDS_DISABLED.append('progressivestack')
-
-if SITE_NAME == 'PCM':
-	# Previous set of disabled, changed temporarily by request 2022-10-17
-	#AWARDS_DISABLED.extend(['ban','pizzashill','marsey','bird','grass','chud','unblockable'])
-	AWARDS_DISABLED.extend(['unblockable'])
-	AWARDS_DISABLED.remove('ghost')
-elif SITE_NAME == 'WPD':
-	AWARDS_DISABLED.remove('lootbox')
-if not FEATURES['MARSEYBUX']:
-	AWARDS_DISABLED.append('benefactor')
-
-AWARDS2 = {x: AWARDS[x] for x in AWARDS if x not in AWARDS_DISABLED}
-
-### END AWARDS
-
 DOUBLE_XP_ENABLED = -1 # set to unixtime for when DXP begins, -1 to disable
+
+### COMMENT NOTIFICATIONS ###
 
 NOTIFIED_USERS = {
 	'aevan': AEVANN_ID,
@@ -796,6 +783,8 @@ if SITE == 'rdrama.net':
 	}
 elif SITE_NAME == 'WPD':
 	REDDIT_NOTIFS_SITE.update({'watchpeopledie', 'makemycoffin'})
+
+### END COMMENT NOTIFICATIONS ###
 
 discounts = {
 	# Big Spender badges, 2pp additive discount each
@@ -934,9 +923,7 @@ forced_hats = {
 
 EMAIL_REGEX_PATTERN = '[A-Za-z0-9._%+-]{1,64}@[A-Za-z0-9.-]{2,63}\.[A-Za-z]{2,63}'
 
-patron = "Patron"
 if SITE_NAME == 'rDrama':
-	patron = "Paypig"
 	BOOSTED_SITES = {
 		'rdrama.net',
 		BAN_EVASION_DOMAIN,
