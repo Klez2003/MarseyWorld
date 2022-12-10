@@ -1,4 +1,7 @@
-UPDATE subactions SET kind = 'upload_banner' WHERE kind = 'change_banner'; -- upload_banner -> change_banner
+UPDATE subactions SET kind = 'upload_banner' WHERE kind = 'change_banner'; -- update mod actions
 
 ALTER TABLE subs RENAME COLUMN bannerurl TO bannerurls;
-ALTER TABLE subs ALTER COLUMN bannerurls TYPE VARCHAR(60)[] USING ARRAY[bannerurls]; -- multiple banners <3
+ALTER TABLE subs ALTER COLUMN bannerurls TYPE VARCHAR(60)[] USING ARRAY[bannerurls];
+ALTER TABLE subs ALTER COLUMN bannerurls SET DEFAULT '{}';  -- multiple banners <3
+
+UPDATE subs SET bannerurls = '{}' WHERE bannerurls = '{NULL}'; -- update subs with no banners
