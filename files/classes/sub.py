@@ -1,5 +1,6 @@
+from random import Random
 import time
-from os import environ
+from typing import Optional
 
 from sqlalchemy import Column
 from sqlalchemy.orm import relationship
@@ -13,13 +14,13 @@ from .sub_relationship import *
 
 class Sub(Base):
 	__tablename__ = "subs"
-	name = Column(String, primary_key=True)
-	sidebar = Column(String)
-	sidebar_html = Column(String)
-	sidebarurl = Column(String)
-	bannerurl = Column(String)
-	marseyurl = Column(String)
-	css = Column(String)
+	name = Column(VARCHAR(SUB_NAME_COLUMN_LENGTH), primary_key=True)
+	sidebar = Column(VARCHAR(SUB_SIDEBAR_COLUMN_LENGTH))
+	sidebar_html = Column(VARCHAR(SUB_SIDEBAR_HTML_COLUMN_LENGTH))
+	sidebarurl = Column(VARCHAR(SUB_SIDEBAR_URL_COLUMN_LENGTH))
+	bannerurls = Column(ARRAY(VARCHAR(SUB_BANNER_URL_COLUMN_LENGTH)))
+	marseyurl = Column(VARCHAR(SUB_MARSEY_URL_LENGTH))
+	css = Column(VARCHAR(SUB_CSS_COLUMN_LENGTH))
 	stealth = Column(Boolean)
 	created_utc = Column(Integer)
 
@@ -42,9 +43,20 @@ class Sub(Base):
 
 	@property
 	@lazy
-	def banner_url(self):
-		if self.bannerurl: return SITE_FULL + self.bannerurl
-		return f'/i/{SITE_NAME}/banner.webp?v=3009'
+	def banner_urls(self):
+		if self.bannerurls: return [f"{SITE_FULL}{banner}" for banner in self.bannerurl]
+		return []
+
+	@lazy
+	def random_banner(self, random:Optional[Random]=None):
+		if not random: random = Random()
+		if not self.banner_urls: return None
+		return random.choice(self.banner_urls)
+
+	@property
+	@lazy
+	def has_banners(self) -> bool:
+		return bool(self.bannerurls)
 
 	@property
 	@lazy
