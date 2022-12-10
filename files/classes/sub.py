@@ -44,7 +44,7 @@ class Sub(Base):
 	@property
 	@lazy
 	def banner_urls(self):
-		if self.bannerurls: return [f"{SITE_FULL}{banner}" for banner in self.bannerurl]
+		if self.bannerurls: return [f"{SITE_FULL}{banner}" for banner in self.bannerurls]
 		return []
 
 	@lazy
