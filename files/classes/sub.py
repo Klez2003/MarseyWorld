@@ -50,8 +50,8 @@ class Sub(Base):
 
 	@lazy
 	def random_banner(self, random:Optional[Random]=None):
-		if not random: random = Random()
 		if not self.banner_urls: return None
+		if not random: random = Random()
 		return random.choice(self.banner_urls)
 
 	@property
