@@ -1,6 +1,8 @@
 import time
 from urllib.parse import quote, urlencode
 
+from sqlalchemy import nullslast
+
 from files.__main__ import app, cache, limiter
 from files.classes import *
 from files.helpers.actions import *
@@ -335,7 +337,19 @@ def revert_actions(v:User, username):
 @app.get("/admin/shadowbanned")
 @admin_level_required(PERMS['USER_SHADOWBAN'])
 def shadowbanned(v):
-	users = g.db.query(User).filter(User.shadowbanned != None).order_by(User.shadowbanned).all()
+	users = g.db.query(User) \
+		.filter(
+			User.shadowbanned != None,
+			User.truescore > 0,
+			not_(and_(
+				User.profileurl.startswith('/e/'),
+				User.customtitle==None,
+				User.namecolor == DEFAULT_COLOR,
+				User.patron == 0,
+			))
+		) \
+		.order_by(nullslast(User.last_active.desc())).all()
+
 	return render_template("admin/shadowbanned.html", v=v, users=users)
 
 
@@ -545,6 +559,8 @@ def badge_grant_post(v):
 		if '\\' in url: abort(400)
 		if url.startswith(SITE_FULL):
 			url = url.split(SITE_FULL, 1)[1]
+		elif url.startswith(BAN_EVASION_FULL):
+			url = url.split(BAN_EVASION_FULL, 1)[1]
 		new_badge.url = url
 
 	g.db.add(new_badge)
@@ -1075,12 +1091,16 @@ def agendaposter(user_id, v):
 			try: post = int(request.values["reason"].split("/post/")[1].split(None, 1)[0])
 			except: abort(400)
 			post = get_post(post)
+			if post.sub == 'chudrama':
+				abort(403, "You can't chud people in /h/chudrama")
 			post.chuddedfor = f'{duration} by @{v.username}'
 			g.db.add(post)
 		elif request.values["reason"].startswith("/comment/"):
 			try: comment = int(request.values["reason"].split("/comment/")[1].split(None, 1)[0])
 			except: abort(400)
 			comment = get_comment(comment)
+			if comment.post.sub == 'chudrama':
+				abort(403, "You can't chud people in /h/chudrama")
 			comment.chuddedfor = f'{duration} by @{v.username}'
 			g.db.add(comment)
 

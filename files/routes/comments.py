@@ -60,7 +60,8 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 		context -= 1
 	top_comment = c
 
-	if v: defaultsortingcomments = v.defaultsortingcomments
+	if post.new: defaultsortingcomments = 'new'
+	elif v: defaultsortingcomments = v.defaultsortingcomments
 	else: defaultsortingcomments = "hot"
 	sort=request.values.get("sort", defaultsortingcomments)
 
@@ -199,7 +200,7 @@ def comment(v:User):
 	if v.owoify: body_for_sanitize = owoify(body_for_sanitize)
 	if v.marsify: body_for_sanitize = marsify(body_for_sanitize)
 
-	torture = (v.agendaposter and not v.marseyawarded and post_target.sub != 'chudrama' and post_target.id not in ADMIGGER_THREADS)
+	torture = (v.agendaposter and not v.marseyawarded and not (posting_to_submission and post_target.sub == 'chudrama') and post_target.id not in ADMIGGER_THREADS)
 	body_html = sanitize(body_for_sanitize, limit_pings=5, count_marseys=not v.marsify, torture=torture)
 
 	if post_target.id not in ADMIGGER_THREADS and '!wordle' not in body.lower() and AGENDAPOSTER_PHRASE not in body.lower():

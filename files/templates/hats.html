@@ -77,25 +77,16 @@
 		<table class="table table-striped shop">
 		<thead class="bg-primary text-white">
 			<tr>
-				<th scope="col">Hat</th>
-				<th scope="col">Name</th>
-				<th scope="col">Description</th>
+				<th>Hat</th>
+				<th>Name</th>
+				<th>Description</th>
 				{% if SITE == 'rdrama.net' %}
-					{% if request.values.get("sort") == 'author_asc' %}
-						<th scope="col"><a href="?sort=author_desc">Author</a></th>
-					{% else %}
-						<th scope="col"><a href="?sort=author_asc">Author</a></th>
-					{% endif %}
-					<th scope="col" onclick="sort_table(4)">Owners</th>
-					<th scope="col" onclick="sort_table(5)">Price</th>
-					<th scope="col">Actions</th>
-					<th scope="col" onclick="sort_table(7)">Added on</th>	
-				{% else %}
-					<th scope="col" onclick="sort_table(3)">Owners</th>
-					<th scope="col" onclick="sort_table(4)">Price</th>
-					<th scope="col">Actions</th>
-					<th scope="col" onclick="sort_table(6)">Added on</th>	
+					<th>Author</a></th>
 				{% endif %}
+				<th>Owners</th>
+				<th>Price</th>
+				<th>Actions</th>
+				<th>Added on</th>	
 			</tr>
 		</thead>
 
@@ -118,10 +109,10 @@
 					<td class="shop-table-actions" style="width:unset">
 						{% if hat.id not in owned_hat_ids and hat.is_purchasable %}
 							<div id="if-not-owned-{{hat.id}}">
-								<button type="button" id="buy1-{{hat.id}}" class="btn btn-success {% if v.coins < hat.price %}disabled{% endif %}" data-click2="postToastSwitch(this, '/buy_hat/{{hat.id}}', 'if-not-owned-{{hat.id}}', 'if-owned-{{hat.id}}', 'd-none', (xhr)=>{if(xhr.status == 200)document.getElementById('user-coins-amount').innerHTML-={{hat.price}}})" onclick="areyousure(this)"><span class="m-auto">Buy</span></button>
+								<button type="button" id="buy1-{{hat.id}}" class="btn btn-success {% if v.coins < hat.price %}disabled{% endif %}" data-click="postToastSwitch(this, '/buy_hat/{{hat.id}}', 'if-not-owned-{{hat.id}}', 'if-owned-{{hat.id}}', 'd-none', (xhr)=>{if(xhr.status == 200)document.getElementById('user-coins-amount').innerHTML-={{hat.price}}})" onclick="areyousure(this)"><span class="m-auto">Buy</span></button>
 
 								{% if FEATURES['MARSEYBUX'] %}
-									<button type="button" id="buy2-{{hat.id}}" class="marseybux btn btn-success {% if v.marseybux < hat.price %}disabled{% endif %}" data-click2="postToastSwitch(this, '/buy_hat/{{hat.id}}?mb=true', 'if-not-owned-{{hat.id}}', 'if-owned-{{hat.id}}', 'd-none', (xhr)=>{if(xhr.status == 200)document.getElementById('user-bux-amount').innerHTML-={{hat.price}}})" onclick="areyousure(this)"><span class="m-auto">MBux</span></button>
+									<button type="button" id="buy2-{{hat.id}}" class="marseybux btn btn-success {% if v.marseybux < hat.price %}disabled{% endif %}" data-click="postToastSwitch(this, '/buy_hat/{{hat.id}}?mb=true', 'if-not-owned-{{hat.id}}', 'if-owned-{{hat.id}}', 'd-none', (xhr)=>{if(xhr.status == 200)document.getElementById('user-bux-amount').innerHTML-={{hat.price}}})" onclick="areyousure(this)"><span class="m-auto">MBux</span></button>
 								{% endif %}
 							</div>
 						{% endif %}
@@ -138,5 +129,5 @@
 			{% endfor %}
 		</tbody>
 	</table>
-	<script defer src="{{'js/sort_table.js' | asset}}"></script>
+	
 {% endblock %}

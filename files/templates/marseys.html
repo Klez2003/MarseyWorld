@@ -5,14 +5,14 @@
 <div class="overflow-x-auto mt-3"><table class="table table-striped mb-5">
 <thead class="bg-primary text-white">
 	<tr>
-		<th onclick="sort_table(0)">#</th>
-		<th onclick="sort_table(1)">Name</th>
+		<th>#</th>
+		<th>Name</th>
 		<th>Marsey</th>
-		<th onclick="sort_table(3)">Usage</th>
+		<th>Usage</th>
 		{% if FEATURES['ASSET_SUBMISSIONS'] %}
-			<th onclick="sort_table(4)">Author</th>
+			<th>Author</th>
 		{% endif %}
-		<th onclick="sort_table(5)">Added on</th>
+		<th>Added on</th>
 		{% if FEATURES['ASSET_SUBMISSIONS'] %}
 			<th>Original File</th>
 		{% endif %}
@@ -22,12 +22,12 @@
 {% for marsey in marseys %}
 <tr>
 	<td>{{loop.index}}</td>
-	<td data-sort-key="{{marsey.name}}">{{marsey.name}}</td>
+	<td>{{marsey.name}}</td>
 	<td><img class="marsey" loading="lazy" data-bs-toggle="tooltip" alt=":#{{marsey.name}}:" title=":{{marsey.name}}:" src="/e/{{marsey.name}}.webp"></td>
 	<td>{{marsey.count}}</td>
 	{% if FEATURES['ASSET_SUBMISSIONS'] %}
 	{% set user = marsey.user %}
-	<td data-sort-key="{{user.username.lower() if user else ''}}">{% include "user_in_table.html" %}</td>
+	<td>{% include "user_in_table.html" %}</td>
 	{% endif %}
 	<td data-sort-key="{{marsey.created_utc or 0}}" {% if marsey.created_utc != None %}data-time="{{marsey.created_utc}}"{% endif %}></td>
 	{% if FEATURES['ASSET_SUBMISSIONS'] %}
@@ -41,5 +41,5 @@
 {% endfor %}
 </tbody>
 </table>
-<script defer src="{{'js/sort_table.js' | asset}}"></script>
+
 {% endblock %}

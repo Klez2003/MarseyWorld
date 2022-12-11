@@ -7,6 +7,7 @@ from typing import Literal
 
 import gevent
 import qrcode
+from sqlalchemy import nullslast
 from sqlalchemy.orm import aliased
 
 from files.classes import *
@@ -167,11 +168,34 @@ def user_voted_posts(v:User, username):
 def user_voted_comments(v:User, username):
 	return user_voted(v, username, Comment, CommentVote, "userpage/voted_comments.html", True)
 
+@app.get("/banned")
+@auth_required
+def banned(v:User):
+	users = g.db.query(User).filter(
+		User.is_banned > 0,
+		User.truescore > 0,
+		or_(User.unban_utc == 0, User.unban_utc > time.time()),
+		not_(and_(
+			User.profileurl.startswith('/e/'),
+			User.customtitle==None,
+			User.namecolor == DEFAULT_COLOR,
+			User.patron == 0,
+		))
+	)
+	if v.admin_level >= PERMS['VIEW_LAST_ACTIVE']:
+		users = users.order_by(nullslast(User.last_active.desc()))
+	if not v.can_see_shadowbanned:
+		users = users.filter(User.shadowbanned == None)
+	users = users.all()
+	return render_template("banned.html", v=v, users=users)
 
 @app.get("/grassed")
 @auth_required
 def grassed(v:User):
-	users = g.db.query(User).filter(User.ban_reason.like('grass award used by @%'))
+	users = g.db.query(User).filter(
+		User.ban_reason.like('grass award used by @%'),
+		User.unban_utc > time.time(),
+	)
 	if not v.can_see_shadowbanned:
 		users = users.filter(User.shadowbanned == None)
 	users = users.all()
@@ -180,8 +204,18 @@ def grassed(v:User):
 @app.get("/chuds")
 @auth_required
 def chuds(v:User):
-	after_30_days = int(time.time()) + 86400 * 30
-	users = g.db.query(User).filter(or_(User.agendaposter == 1, User.agendaposter > after_30_days))
+	users = g.db.query(User).filter(
+		User.truescore > 0,
+		or_(User.agendaposter == 1, User.agendaposter > time.time()),
+		not_(and_(
+			User.profileurl.startswith('/e/'),
+			User.customtitle==None,
+			User.namecolor == DEFAULT_COLOR,
+			User.patron == 0,
+		))
+	)
+	if v.admin_level >= PERMS['VIEW_LAST_ACTIVE']:
+		users = users.order_by(nullslast(User.last_active.desc()))
 	if not v.can_see_shadowbanned:
 		users = users.filter(User.shadowbanned == None)
 	users = users.order_by(User.username).all()
@@ -389,16 +423,8 @@ def get_profilecss(id):
 @app.get("/@<username>/song")
 def usersong(username:str):
 	user = get_user(username)
-	if user.song: return redirect(f"/song/{user.song}.mp3")
+	if user.song: return redirect(f"/songs/{user.song}.mp3")
 	else: abort(404)
-
-@app.get("/song/<song>")
-@app.get("/static/song/<song>")
-def song(song):
-	resp = make_response(send_from_directory('/songs', song))
-	resp.headers.remove("Cache-Control")
-	resp.headers.add("Cache-Control", "public, max-age=3153600")
-	return resp
 
 @app.post("/subscribe/<post_id>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
@@ -445,13 +471,13 @@ def message2(v:User, username:str):
 
 	body_html = sanitize(message)
 
-	if not (SITE == 'rdrama.net' and user.id == BLACKJACKBTZ_ID):
-		existing = g.db.query(Comment.id).filter(Comment.author_id == v.id,
-																Comment.sentto == user.id,
-																Comment.body_html == body_html,
-																).first()
+	existing = g.db.query(Comment.id).filter(
+		Comment.author_id == v.id,
+		Comment.sentto == user.id,
+		Comment.body_html == body_html
+	).first()
 
-		if existing: abort(403, "Message already exists.")
+	if existing: abort(403, "Message already exists.")
 
 	c = Comment(author_id=v.id,
 						parent_submission=None,
@@ -726,11 +752,6 @@ def u_username_wall(v:Optional[User], username:str):
 		return render_template("userpage/blocking.html", u=u, v=v), 403
 
 	is_following = v and u.has_follower(v)
-
-	if not u.is_visible_to(v):
-		if g.is_api_or_xhr or request.path.endswith(".json"):
-			abort(403, f"@{u.username}'s userpage is private")
-		return render_template("userpage/private.html", u=u, v=v, is_following=is_following), 403
 
 	if v and v.id != u.id:
 		g.db.flush()

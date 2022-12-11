@@ -697,6 +697,8 @@ def submit_post(v:User, sub=None):
 
 	if url and url.startswith(SITE_FULL):
 		url = url.split(SITE_FULL)[1]
+	elif url.startswith(BAN_EVASION_FULL):
+		url = url.split(BAN_EVASION_FULL, 1)[1]
 
 	post = Submission(
 		private=flag_private,
@@ -745,6 +747,11 @@ def submit_post(v:User, sub=None):
 			post.thumburl = process_image(name2, v, resize=100)
 		elif file.content_type.startswith('video/'):
 			post.url = process_video(file, v)
+			name = f'/images/{time.time()}'.replace('.','') + '.webp'
+			subprocess.run(['ffmpeg', '-y', '-loglevel', 'warning',
+				'-i', post.url, '-vf', "scale='min(300,iw)':-2",
+				'-q:v', '3', '-frames:v', '1', name], check=True)
+			post.thumburl = name
 		elif file.content_type.startswith('audio/'):
 			post.url = process_audio(file, v)
 		else:
@@ -800,8 +807,8 @@ def submit_post(v:User, sub=None):
 	execute_lawlz_actions(v, post)
 
 	if (SITE == 'rdrama.net'
-			and v.id in (IMPASSIONATA_ID, PIZZASHILL_ID, 2008)
-			and not (post.sub and post.sub.stealth)):
+			and v.id in (IMPASSIONATA_ID, PIZZASHILL_ID, TGTW_ID)
+			and not (post.sub and post.subr.stealth)):
 		post.stickied_utc = int(time.time()) + 3600
 		post.stickied = "AutoJanny"
 
@@ -871,9 +878,9 @@ def undelete_post_pid(pid, v):
 	return {"message": "Post undeleted!"}
 
 
-@app.post("/toggle_post_nsfw/<pid>")
+@app.post("/mark_post_nsfw/<pid>")
 @auth_required
-def toggle_post_nsfw(pid, v):
+def mark_post_nsfw(pid, v):
 	post = get_post(pid)
 
 	if post.author_id != v.id and not v.admin_level >= PERMS['POST_COMMENT_MODERATION'] and not (post.sub and v.mods(post.sub)):
@@ -882,13 +889,13 @@ def toggle_post_nsfw(pid, v):
 	if post.over_18 and v.is_suspended_permanently:
 		abort(403)
 
-	post.over_18 = not post.over_18
+	post.over_18 = True
 	g.db.add(post)
 
 	if post.author_id != v.id:
 		if v.admin_level >= PERMS['POST_COMMENT_MODERATION']:
 			ma = ModAction(
-					kind = "set_nsfw" if post.over_18 else "unset_nsfw",
+					kind = "set_nsfw",
 					user_id = v.id,
 					target_submission_id = post.id,
 				)
@@ -896,14 +903,48 @@ def toggle_post_nsfw(pid, v):
 		else:
 			ma = SubAction(
 					sub = post.sub,
-					kind = "set_nsfw" if post.over_18 else "unset_nsfw",
+					kind = "set_nsfw",
 					user_id = v.id,
 					target_submission_id = post.id,
 				)
 			g.db.add(ma)
+		send_repeatable_notification(post.author_id, f"@{v.username} (Admin) has marked [{post.title}](/post/{post.id}) as +18")
 
-	if post.over_18: return {"message": "Post has been marked as +18!"}
-	else: return {"message": "Post has been unmarked as +18!"}
+	return {"message": "Post has been marked as +18!"}
+
+@app.post("/unmark_post_nsfw/<pid>")
+@auth_required
+def unmark_post_nsfw(pid, v):
+	post = get_post(pid)
+
+	if post.author_id != v.id and not v.admin_level >= PERMS['POST_COMMENT_MODERATION'] and not (post.sub and v.mods(post.sub)):
+		abort(403)
+		
+	if post.over_18 and v.is_suspended_permanently:
+		abort(403)
+
+	post.over_18 = False
+	g.db.add(post)
+
+	if post.author_id != v.id:
+		if v.admin_level >= PERMS['POST_COMMENT_MODERATION']:
+			ma = ModAction(
+					kind = "unset_nsfw",
+					user_id = v.id,
+					target_submission_id = post.id,
+				)
+			g.db.add(ma)
+		else:
+			ma = SubAction(
+					sub = post.sub,
+					kind = "unset_nsfw",
+					user_id = v.id,
+					target_submission_id = post.id,
+				)
+			g.db.add(ma)
+		send_repeatable_notification(post.author_id, f"@{v.username} (Admin) has unmarked [{post.title}](/post/{post.id}) as +18")
+
+	return {"message": "Post has been unmarked as +18!"}
 
 @app.post("/save_post/<pid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
@@ -949,15 +990,46 @@ def pin_post(post_id, v):
 		else: return {"message": "Post unpinned!"}
 	return abort(404, "Post not found!")
 
-@app.route("/post/<post_id>/new", methods=["PUT", "DELETE"])
+@app.put("/post/<post_id>/new")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @auth_required
-def toggle_new_sort(post_id:int, v:User):
+def set_new_sort(post_id:int, v:User):
 	post = get_post(post_id)
 	if not v.can_edit(post): abort(403, "Only the post author can do that!")
-	post.new = request.method == "PUT"
+	post.new = True
 	g.db.add(post)
-	return {"message": f"Turned {'on' if post.new else 'off'} sort by new"}
+
+	if v.id != post.author_id:
+		ma = ModAction(
+				kind = "set_new",
+				user_id = v.id,
+				target_submission_id = post.id,
+			)
+		g.db.add(ma)
+		send_repeatable_notification(post.author_id, f"@{v.username} (Admin) has changed the the default sorting of comments on [{post.title}](/post/{post.id}) to `new`")
+
+	return {"message": f"Changed the the default sorting of comments on this post to 'new'"}
+
+
+@app.delete("/post/<post_id>/new")
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+@auth_required
+def unset_new_sort(post_id:int, v:User):
+	post = get_post(post_id)
+	if not v.can_edit(post): abort(403, "Only the post author can do that!")
+	post.new = None
+	g.db.add(post)
+
+	if v.id != post.author_id:
+		ma = ModAction(
+				kind = "set_hot",
+				user_id = v.id,
+				target_submission_id = post.id,
+			)
+		g.db.add(ma)
+		send_repeatable_notification(post.author_id, f"@{v.username} (Admin) has changed the the default sorting of comments on [{post.title}](/post/{post.id}) to `hot`")
+
+	return {"message": f"Changed the the default sorting of comments on this post to 'hot'"}
 
 
 extensions = IMAGE_FORMATS + VIDEO_FORMATS + AUDIO_FORMATS

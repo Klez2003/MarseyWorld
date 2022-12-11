@@ -153,7 +153,7 @@ class Submission(Base):
 		elif self.thumburl: 
 			if self.thumburl.startswith('/'): return SITE_FULL + self.thumburl
 			return self.thumburl
-		elif self.is_youtube or self.is_video: return f"{SITE_FULL}/i/default_thumb_video.webp?v=1"
+		elif self.is_youtube or self.is_video: return f"{SITE_FULL}/i/default_thumb_video.webp?v=2"
 		elif self.is_audio: return f"{SITE_FULL}/i/default_thumb_audio.webp?v=1"
 		elif self.domain.split('.')[0] == SITE.split('.')[0]:
 			return f"{SITE_FULL}/i/{SITE_NAME}/site_preview.webp?v=3009"
@@ -297,7 +297,7 @@ class Submission(Base):
 					body += " - <b>WINNER!</b>"
 				
 				if not winner and v and v.admin_level >= PERMS['POST_BETS_DISTRIBUTE']:
-					body += f'''<button class="btn btn-primary distribute" data-click2="postToastReload(this,'/distribute/{o.id}')" onclick="areyousure(this)">Declare winner</button>'''
+					body += f'''<button class="btn btn-primary distribute" data-click="postToastReload(this,'/distribute/{o.id}')" onclick="areyousure(this)">Declare winner</button>'''
 				body += "</div>"
 			else:
 				input_type = 'radio' if o.exclusive else 'checkbox'
@@ -329,7 +329,9 @@ class Submission(Base):
 		body = self.body
 		if not body: return ""
 
-		body = censor_slurs(body, v).replace('<img loading="lazy" data-bs-toggle="tooltip" alt=":marseytrain:" title=":marseytrain:" src="/e/marseytrain.webp">', ':marseytrain:')
+		body = censor_slurs(body, v).replace('<img loading="lazy" data-bs-toggle="tooltip" alt=":marseytrain:" title=":marseytrain:" src="/e/marseytrain.webp">', ':marseytrain:') \
+		.replace('<img loading="lazy" data-bs-toggle="tooltip" alt=":marseysleep:" title=":marseysleep:" src="/e/marseysleep.webp">', ':marseysleep:')
+
 		body = normalize_urls_runtime(body, v)
 
 		return body
@@ -346,7 +348,8 @@ class Submission(Base):
 	def plaintitle(self, v):
 		title = self.title
 
-		title = censor_slurs(title, v).replace('<img loading="lazy" data-bs-toggle="tooltip" alt=":marseytrain:" title=":marseytrain:" src="/e/marseytrain.webp">', ':marseytrain:')
+		title = censor_slurs(title, v).replace('<img loading="lazy" data-bs-toggle="tooltip" alt=":marseytrain:" title=":marseytrain:" src="/e/marseytrain.webp">', ':marseytrain:') \
+		.replace('<img loading="lazy" data-bs-toggle="tooltip" alt=":marseysleep:" title=":marseysleep:" src="/e/marseysleep.webp">', ':marseysleep:')
 
 		return title
 
