@@ -97,11 +97,7 @@
 				{% endif %}
 			</div>
 			{% endif %}
-
-
 		</div>
-		 
-		 
 		<div class="card-block text-left x-scroll-parent w-100">
 			<div class="post-meta text-left x-scroll mb-md-2">
 				<div style="white-space:nowrap;width:0">
@@ -306,7 +302,7 @@
 {% elif request.path != '/notifications/posts' %}
 <div class="row no-gutters">	
 	<div class="col">
-		{{macros.ghost_box(error, '', 1)}}	
+		{% if request.path.startswith('/search') and error %}{{macros.ghost_box(error, '', 1)}}{% endif %}
 	</div>	
 </div>
 
