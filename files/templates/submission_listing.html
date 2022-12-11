@@ -286,7 +286,7 @@
 {% elif request.path != '/notifications/posts' %}
 <div class="row no-gutters">	
 	<div class="col">
-		{{macros.ghost_box(error if request.path.startswith('/search') else '', '', 1)}}{% endif %}
+		{{macros.ghost_box(error if request.path.startswith('/search') else '', '', 1)}}
 	</div>	
 </div>
 
