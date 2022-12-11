@@ -251,23 +251,9 @@
 		</div>
 	{% endif %}
 {% endif %}
-
 </div>
-
 {% else %}
-
-{% if request.path.endswith('/admin/queue') %}
-
-<div class="row no-gutters">	
-	<div class="col">			
-		<div class="text-center py-7">
-			<h4 class="p-2">This queue is empty. (That's a good thing.)</h4>
-		</div>			
-	</div>	
-</div>
-
-
-{% elif u %}
+{% if u %}
 {% if v and v.id == u.id %}
 <div class="row no-gutters">	
 	<div class="col">			
@@ -282,8 +268,6 @@
 		</div>			
 	</div>	
 </div>
-
-
 {% else %}
 <div class="row no-gutters">	
 	<div class="col">			
@@ -302,7 +286,7 @@
 {% elif request.path != '/notifications/posts' %}
 <div class="row no-gutters">	
 	<div class="col">
-		{% if request.path.startswith('/search') and error %}{{macros.ghost_box(error, '', 1)}}{% endif %}
+		{{macros.ghost_box(error if request.path.startswith('/search') else '', '', 1)}}{% endif %}
 	</div>	
 </div>
 
