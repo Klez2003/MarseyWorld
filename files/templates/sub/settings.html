@@ -75,7 +75,7 @@
 	</section>
 	{% else %}
 		<section id="sub-banner-no-banners" class="d-flex sub-settings-subsection">
-			{{macros.ghost_box("No banners uploaded", "", 2)}}
+			{{macros.ghost_box("No banners uploaded", "", 2, "flex:1;")}}
 		</section>
 	{% endfor %}
 	{% if not g.is_tor %}
@@ -88,8 +88,8 @@
 						<label class="btn btn-secondary text-capitalize mr-2 mb-0">
 							Upload New Banner<input autocomplete="off" type="file" accept="image/*" hidden name="banner" onchange="form.submit()">
 						</label>
+						<button type="button" class="btn btn-danger sub-banner-delete-button" id="sub-banner-delete-all" onclick="areyousure(this)" data-click2="postToastReload(this, '/h/{{sub.name}}/settings/banners/', 'DELETE');">Delete All Banners</button>
 					</form>
-					<button class="btn btn-danger sub-banner-delete-button" id="sub-banner-delete-all" onclick="areyousure(this)" data-click2="postToastReload(this, '/h/{{sub.name}}/settings/banners/', 'DELETE');">Delete All Banners</button>
 				</div>
 			</div>
 			<div class="text-small text-muted mt-3">All image files are supported. Max file size is {% if v and v.patron %}16{% else %}8{% endif %} MB.</div>
