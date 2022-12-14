@@ -244,6 +244,18 @@ color: #7a7a7a !important;
 	right: 0;
 }
 
+body {
+    cursor: url(/assets/images/event/cursor.png), auto !important;
+}
+
+textarea, input[type=textbox], input[type=search] {
+    cursor: url(/assets/images/event/text.png), auto !important;
+}
+
+.btn, input[type=button], button, a, img {
+    cursor: url(/assets/images/event/pointer.png), auto !important;
+}
+
 .navbar:after {
     content: "";
     background-image: url('/assets/images/event/lights.png');
