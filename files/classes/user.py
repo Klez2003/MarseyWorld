@@ -486,7 +486,8 @@ class User(Base):
 		'''
 		Gets the full graph of alts (optionally filtering `Alt` objects by criteria using a callable, 
 		such as by a date to only get alts from a certain date) as a query of users that can be filtered
-		further. This function filters alts marked as deleted by default, pass `include_deleted=False` to disable.
+		further. This function filters alts marked as deleted by default, pass `include_deleted=True` to 
+		disable this behavior and include delinked alts.
 		'''
 		if not alt_filter: 
 			alt_filter = lambda q:q
