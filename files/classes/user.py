@@ -482,15 +482,25 @@ class User(Base):
 		return False
 
 	@lazy
-	def get_alt_graph(self, db:scoped_session, alt_filter:Optional[Callable[[Query], Query]]=None) -> Query:
+	def get_alt_graph(self, db:scoped_session, alt_filter:Optional[Callable[[Query], Query]]=None, **kwargs) -> Query:
 		'''
 		Gets the full graph of alts (optionally filtering `Alt` objects by criteria using a callable, 
-		such as by `deleted` to only get linked alts) as a query of users that can be filtered further
+		such as by a date to only get alts from a certain date) as a query of users that can be filtered
+		further. This function filters alts marked as deleted by default, pass `include_deleted=False` to disable.
 		'''
-		if not alt_filter: alt_filter = lambda q:q
+		if not alt_filter: 
+			alt_filter = lambda q:q
+
+		if not kwargs.get('include_deleted', False):
+			deleted_filter = lambda q:q.filter(Alt.deleted == False)
+		else:
+			deleted_filter = lambda q:q
+
+		combined_filter = lambda q:deleted_filter(alt_filter(q))
+		
 		alt_graph_cte = db.query(literal(self.id).label('user_id')).select_from(Alt).cte('alt_graph', recursive=True)
 
-		alt_graph_cte_inner = alt_filter(db.query(
+		alt_graph_cte_inner = combined_filter(db.query(
 			case(
 				(Alt.user1 == alt_graph_cte.c.user_id, Alt.user2),
 				(Alt.user2 == alt_graph_cte.c.user_id, Alt.user1),
