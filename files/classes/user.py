@@ -496,7 +496,7 @@ class User(Base):
 				(Alt.user2 == alt_graph_cte.c.user_id, Alt.user1),
 			)
 		).select_from(Alt, alt_graph_cte).filter(
-			or_(alt_graph_cte.user_id == Alt.user1, alt_graph_cte.user_id == Alt.user2)
+			or_(alt_graph_cte.c.user_id == Alt.user1, alt_graph_cte.c.user_id == Alt.user2)
 		))
 		
 		alt_graph_cte = alt_graph_cte.union(alt_graph_cte_inner)
