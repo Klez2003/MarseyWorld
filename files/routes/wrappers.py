@@ -22,6 +22,13 @@ def get_logged_in_user():
 			v = client.user
 			v.client = client
 	else:
+		session_expiration = session.get("lo_user_expiration")
+		if session_expiration:
+			if time.time() - session_expiration > SESSION_LIFETIME:
+				session.pop("lo_user", None)
+		else:
+			session["lo_user_expiration"] = time.time() + SESSION_LIFETIME
+
 		lo_user = session.get("lo_user")
 		if lo_user:
 			id = int(lo_user)
