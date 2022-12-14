@@ -490,12 +490,12 @@ class User(Base):
 		if not alt_filter: alt_filter = lambda q:q
 		alt_graph_cte = db.query(literal(self.id).label('user_id')).select_from(Alt).cte('alt_graph', recursive=True)
 
-		alt_graph_cte_inner = alt_filter(db.query(
+		alt_graph_cte_inner = alt_filter((db.query(
 			case(
 				(Alt.user1 == alt_graph_cte.c.user_id, Alt.user2),
 				(Alt.user2 == alt_graph_cte.c.user_id, Alt.user1),
 			)
-		)).select_from(Alt, alt_graph_cte).filter(
+		)).select_from(Alt, alt_graph_cte)).filter(
 			or_(alt_graph_cte.user_id == Alt.user1, alt_graph_cte.user_id == Alt.user2)
 		)
 		
