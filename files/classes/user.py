@@ -35,8 +35,6 @@ from .subscriptions import *
 from .userblock import *
 
 class User(Base):
-	_is_alt_func = lambda u:or_(Alt.user1 == u.id, Alt.user2 == u.id)
-
 	__tablename__ = "users"
 
 	if SITE == "pcmemes.net":
