@@ -1,11 +1,11 @@
 import random
 from operator import *
-from typing import Any, Union
+from typing import Callable, Union
 
 import pyotp
 from sqlalchemy import Column, ForeignKey
-from sqlalchemy.orm import aliased, deferred
-from sqlalchemy.sql import func
+from sqlalchemy.orm import aliased, deferred, Query
+from sqlalchemy.sql import case, func, literal
 from sqlalchemy.sql.expression import not_, and_, or_
 from sqlalchemy.sql.sqltypes import *
 
@@ -35,6 +35,8 @@ from .subscriptions import *
 from .userblock import *
 
 class User(Base):
+	_is_alt_func = lambda u:or_(Alt.user1 == u.id, Alt.user2 == u.id)
+
 	__tablename__ = "users"
 
 	if SITE == "pcmemes.net":
@@ -478,8 +480,29 @@ class User(Base):
 	@lazy
 	def alts_patron(self):
 		for u in self.alts_unique:
-			if u.patron: return True
+			if not u._deleted and u.patron: return True
 		return False
+
+	@lazy
+	def get_alt_graph(self, db:scoped_session, alt_filter:Optional[Callable[[Query], Query]]=None) -> Query:
+		'''
+		Gets the full graph of alts (optionally filtering `Alt` objects by criteria using a callable, 
+		such as by `deleted` to only get linked alts) as a query of users that can be filtered further
+		'''
+		if not alt_filter: alt_filter = lambda q:q
+		alt_graph_cte = db.query(literal(self.id).label('user_id')).select_from(Alt).cte('alt_graph', recursive=True)
+
+		alt_graph_cte_inner = alt_filter(db.query(
+			case(
+				(Alt.user1 == alt_graph_cte.c.user_id, Alt.user2),
+				(Alt.user2 == alt_graph_cte.c.user_id, Alt.user1),
+			)
+		)).select_from(Alt, alt_graph_cte).filter(
+			or_(alt_graph_cte.user_id == Alt.user1, alt_graph_cte.user_id == Alt.user2)
+		)
+		
+		alt_graph_cte = alt_graph_cte.union(alt_graph_cte_inner)
+		return db.query(User).filter(User.id == alt_graph_cte.c.user_id)
 
 	@property
 	@lazy

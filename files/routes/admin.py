@@ -159,13 +159,11 @@ def merge_all(v:User, id):
 @app.get('/admin/edit_rules')
 @admin_level_required(PERMS['EDIT_RULES'])
 def edit_rules_get(v):
-
 	try:
 		with open(f'files/templates/rules_{SITE_NAME}.html', 'r', encoding="utf-8") as f:
 			rules = f.read()
 	except:
 		rules = None
-
 	return render_template('admin/edit_rules.html', v=v, rules=rules)
 
 
@@ -184,10 +182,7 @@ def edit_rules_post(v):
 		user_id=v.id,
 	)
 	g.db.add(ma)
-
 	return render_template('admin/edit_rules.html', v=v, rules=rules, msg='Rules edited successfully!')
-
-
 
 @app.post("/@<username>/make_admin")
 @admin_level_required(PERMS['ADMIN_ADD'])
@@ -214,7 +209,7 @@ def make_admin(v:User, username):
 def remove_admin(v:User, username):
 	user = get_user(username)
 	if user.id == v.id:
-		abort(403, "You can't remove yourself JC")
+		abort(403, "You can't remove yourself JC -- jc was here in this error msg <3")
 
 	user.admin_level = 0
 	g.db.add(user)
@@ -895,22 +890,6 @@ def shadowban(user_id, v):
 	user.ban_reason = reason
 	g.db.add(user)
 	check_for_alts(user, False)
-
-	for u in user.alts_unique:
-		u.shadowbanned = v.id
-		g.db.add(u)
-		for u in u.alts_unique:
-			u.shadowbanned = v.id
-			g.db.add(u)
-			for u in u.alts_unique:
-				u.shadowbanned = v.id
-				g.db.add(u)
-				for u in u.alts_unique:
-					u.shadowbanned = v.id
-					g.db.add(u)
-					for u in u.alts_unique:
-						u.shadowbanned = v.id
-						g.db.add(u)
 
 	ma = ModAction(
 		kind="shadowban",
