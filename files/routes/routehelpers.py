@@ -27,9 +27,6 @@ def validate_formkey(u:User, formkey:Optional[str]) -> bool:
 
 def check_for_alts(current:User, include_current_session=True):
 	current_id = current.id
-	if current_id in (1691,6790,7069,36152) and include_current_session:
-		session["history"] = []
-		return
 	ids = [x[0] for x in g.db.query(User.id).all()]
 	past_accs = set(session.get("history", [])) if include_current_session else set()
 
