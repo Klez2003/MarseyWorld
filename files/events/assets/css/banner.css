@@ -1,9 +1,6 @@
 /* text */
 @media (max-width: 767.98px) {
-	#banner-halloween-title {
-		transform: scale(1.4) translate(-90px, -120px);
-	}
-	#banner-halloween-presenting {
+	#banner-title {
 		transform: scale(1.4) translate(-90px, -120px);
 	}
 }
