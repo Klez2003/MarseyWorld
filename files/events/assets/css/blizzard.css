@@ -275,3 +275,27 @@ textarea, input[type=textbox], input[type=search] {
         top: 40px;
     }
 }
+
+/* snowcaps */
+
+.snow-cap {
+	position: relative;
+}
+
+.btn, .snow-cap::after {
+	content: '';
+	pointer-events: none;
+	background: url("/i/event/snowcap.png") repeat-x;
+	background-size: contain;
+	position: absolute;
+	bottom: -15px;
+	left: 0;
+	right: 0;
+	height: 23px;
+	border: none;
+	border-radius: 9999px;
+  }
+
+/* award replacements */
+/* train awards */
+
