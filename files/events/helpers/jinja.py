@@ -9,6 +9,12 @@ EVENT_JINJA_CONST = {
 		"/e/marseysanta3.webp?v=1",
 		"/e/marseychristmaself2.webp?v=1",
 		"/e/marseysnowman.webp",
+	],
+	"VISITORS_HERE_FLAVOR": [
+		' santa enjoyers kissing under a misletoe',
+		' bringing up family drama at Christmas dinner',
+		' well-behaved rule-following goodthinkers',
+		' throwing shade right now',
 	]
 }
 
