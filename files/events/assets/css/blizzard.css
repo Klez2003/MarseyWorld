@@ -23,7 +23,8 @@
 	--gray-200: #1e1e1e;
 	--white: #1e1e1e;
 	--black: #262b32;
-	--background: #ADD8E6;
+	--primary: rgb(179 26 70);
+	--background: #dae5d5;
 }
 
 body {
