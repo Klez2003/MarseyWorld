@@ -94,4 +94,4 @@ function snow(awards, target_id) {
 	masthead.appendChild(canvas);
  }
 
-snow(1, 'frontpage'); // add snow to frontpage :)
+snow(25, 'frontpage'); // add snow to frontpage :)
