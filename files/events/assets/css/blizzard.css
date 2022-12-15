@@ -2,8 +2,8 @@
 
 /* Fonts */
 @font-face {
-	font-family: "Plakat-Fraktur";
-	src: url("/assets/fonts/event/Plakat-Fraktur-Black.woff") format("woff");
+	font-family: "Germania One";
+	src: url("/assets/fonts/event/GermaniaOne-Regular.ttf") format("ttf");
 }
 
 :root {
@@ -35,10 +35,6 @@ body {
 
 * {
 	border-color: var(--primary);
-}
-
-a:hover.user-name {
-	cursor: url('/assets/images/event/machete.webp'), auto !important;
 }
 
 .border {
@@ -307,20 +303,6 @@ body {
 	background-color: #1f1f1f;
   }
   
-  /*@import url(https://fonts.googleapis.com/css?family=Lato:400,700);
-  
-  body, html {
-	overflow:hidden;
-	margin: 0;
-	height: 100%;
-	font-family: 'Lato';
-	font-weight: 700;
-	font-size: 30px;
-	text-transform: uppercase;
-	color: #FFF;
-	
-  }*/
-  
   .color {
    width: 20%;
    height: 100%;
@@ -359,6 +341,12 @@ body {
 	color: #FFF;
 	display: block;
   }
+
+/* post title font */
+
+.post-title {
+	font-family: 'Germania One', cursive;
+}
 
 /* award replacements */
 /* train awards */
