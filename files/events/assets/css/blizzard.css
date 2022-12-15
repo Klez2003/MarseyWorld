@@ -86,7 +86,7 @@ color: #7a7a7a !important;
 }
 
 .post-title a, h1.post-title {
-	font-family: 'SpecialElite-Regular';
+	font-family: 'Germania One', cursive;
 	font-size: 1.25rem;
 }
 
@@ -341,12 +341,6 @@ body {
 	color: #FFF;
 	display: block;
   }
-
-/* post title font */
-
-.post-title {
-	font-family: 'Germania One', cursive;
-}
 
 /* award replacements */
 /* train awards */
