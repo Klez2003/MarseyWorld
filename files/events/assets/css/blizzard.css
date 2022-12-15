@@ -10,11 +10,14 @@
 	--primary: rgb(179 26 70);
 	/*--dark: rgb(4 23 28);*/
 	/*--primary: #B1333F;*/
-	--dark:hsl(192deg 33% 7%);
-	--secondary: #003028;;
-	--white: #E1E1E1;
+	/*--dark:hsl(192deg 33% 7%);*/
+	--dark: #ADD8E6;
+	--secondary: #003028;
+	/*--white: #E1E1E1;
 	--black: #CFCFCF;
-	--light: #170535;
+	--light: #170535;*/
+	--black: black;
+	--white: white;
 	--muted: #E1E1E1;
 	--gray: #383838;
 	--gray-100: #E1E1E1;
