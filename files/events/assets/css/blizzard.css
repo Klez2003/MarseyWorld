@@ -290,7 +290,7 @@ textarea, input[type=textbox], input[type=search] {
 .btn::after, .snow-cap::after {
 	content: '';
 	pointer-events: none;
-	background: url("/i/event/snowcap.png") repeat-x;
+	background: url("/i/event/snowcap.png?v=1") repeat-x;
 	background-size: contain;
 	position: absolute;
 	bottom: -15px;
