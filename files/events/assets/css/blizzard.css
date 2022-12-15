@@ -278,7 +278,7 @@ textarea, input[type=textbox], input[type=search] {
 
 /* snowcaps */
 
-.snow-cap {
+.btn, .snow-cap {
 	position: relative;
 }
 
