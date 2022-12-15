@@ -3,6 +3,9 @@ function snow(awards, target_id) {
 	 
 	const masthead = document.getElementById(target_id);
 	const canvas = document.createElement('canvas');
+
+	canvas.style.pointerEvents = "none";
+
 	const ctx = canvas.getContext('2d');
 	let width = masthead.clientWidth;
 	let height = masthead.clientHeight;
