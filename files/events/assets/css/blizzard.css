@@ -245,15 +245,15 @@ color: #7a7a7a !important;
 }
 
 body {
-    cursor: url(/assets/images/event/cursor.png), auto !important;
+    cursor: url(/assets/images/event/cursor.png?v=1), auto !important;
 }
 
 textarea, input[type=textbox], input[type=search] {
-    cursor: url(/assets/images/event/text.png), auto !important;
+    cursor: url(/assets/images/event/text.png?v=1), auto !important;
 }
 
 .btn, input[type=button], button, a, img {
-    cursor: url(/assets/images/event/pointer.png), auto !important;
+    cursor: url(/assets/images/event/pointer.png?v=1), auto !important;
 }
 
 /* lights */
@@ -265,11 +265,11 @@ textarea, input[type=textbox], input[type=search] {
 	left: 0;
 	height: 57px;
 	width: 100%;
-	background: url(https://i.imgur.com/Lhfdgx5.png);
+	background: url('/i/event/lights.png?v=1');
 	animation: lights 1s infinite steps(2);
 	pointer-events: none;
   }
-  
+
   @keyframes lights {
 	0% {
 	  /*Two zeros, not one !!*/
