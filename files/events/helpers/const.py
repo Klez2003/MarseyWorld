@@ -52,4 +52,4 @@ EVENT_AWARDS = {
 }
 EVENT_FORCED_HATS = ['/i/hats/Santa Hat III.webp?h=1', \
                      '/i/hats/Winter Cap.webp?h=1', \
-                     '/i/hats/Present Bot.webp?h=1']
+                     '/i/hats/Present Bow.webp?h=1']
