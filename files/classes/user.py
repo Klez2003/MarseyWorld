@@ -260,8 +260,8 @@ class User(Base):
 			return ''
 
 		if HOLIDAY_EVENT:
-			from files.events.helpers.const import EVENT_FORCED_HAT
-			if EVENT_FORCED_HAT: return EVENT_FORCED_HAT
+			from files.events.helpers.const import EVENT_FORCED_HATS
+			if EVENT_FORCED_HATS: return random.choice(EVENT_FORCED_HATS)
 
 		if self.is_cakeday:
 			return '/i/hats/Cakeday.webp'

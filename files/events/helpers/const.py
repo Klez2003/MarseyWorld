@@ -50,4 +50,6 @@ EVENT_AWARDS = {
 		"cosmetic": True
 	},
 }
-EVENT_FORCED_HAT = '/i/hats/Santa Hat I.webp?h=7'
+EVENT_FORCED_HATS = ['/i/hats/Santa Hat III.webp?h=1', \
+                     '/i/hats/Winter Cap.webp?h=1', \
+                     '/i/hats/Present Bot.webp?h=1']
