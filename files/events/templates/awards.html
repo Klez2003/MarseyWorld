@@ -4,4 +4,7 @@
 			<img src="/i/event/awards/gingerbread.png?v=1" class="animate-spin object-contain" style="width: 40px; height: 40px;" alt="animate marsey gingerbread icon" />
 		</div>
 	{% endfor %}
+	{% if p.award_count("snow", v) %}
+		<script>snow(window, document, 80 * {{p.award_count('snow'), v}});</script>
+	{% endif %}
 </div>
