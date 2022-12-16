@@ -118,66 +118,25 @@ color: #7a7a7a !important;
 	content: '\f7db';
 }
 
-/* Blood Effect */
-.blood::before {
-	content: '';
-	position: absolute;
-	background-image: url('/assets/images/event/blood-anim.webp');
-	width: 100%;
-	height: 55px;
-	background-repeat: repeat-x;
-	top: 0;
-	left: 0;
+.comment {
+	background-color: var(--gray-600);
 }
 
-.blood {
-	position: relative;
+.comment-actions .btn {
+	background-color: transparent !important;
+	color: var(--gray-200) !important;
 }
 
-.blood .comment-text {
-	color: #dc3545 !important;
-	font-family: 'DoubleFeature';
+.comment-actions .fas {
+	color: var(--gray-200) !important;
 }
 
-.sketch {
-	z-index: 10000;
-	position: fixed;
-	top: 0;
-	left: 0;
-	pointer-events: none;
+.comment-actions .btn::after{
+	background: none !important;
 }
 
-/* Eyes */
-.eye {
-	position: relative;
-	width: 26px;
-	height: 26px;
-}
-
-/* Trick or Treat */
-#trick-or-treat {
-	font-family: Jo_wrote_a_lovesong;
-	font-size: 2rem;
-	letter-spacing: 0.5rem;
-	border-color: var(--primary) !important;
-}
-
-#trick-or-treat::before {
-	content:"";
-	background-image:url('/e/marseyface.webp'); ;
-	background-size: cover;
-	height:28px;
-	width:32px;
-	display:inline-block;
-}
-
-#trick-or-treat::after {
-	content:"";
-	background-image:url('/e/marseytrickortreat.webp'); ;
-	background-size: cover;
-	height:28px;
-	width:32px;
-	display:inline-block;
+#thread .card {
+	padding: 0.5rem;
 }
 
 /* progressbar */
