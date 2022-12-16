@@ -299,6 +299,13 @@ body {
 	transform: rotate(-4deg);
 }
 
+.sign.snow-cap {
+	top: -6px;
+	left: 2px;
+	width: 97%;
+	height: 17px;
+}
+
 /* awards */
 
 /* gingerbread */
