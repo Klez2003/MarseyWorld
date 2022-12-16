@@ -5,6 +5,6 @@
 		</div>
 	{% endfor %}
 	{% if p.award_count("snow", v) %}
-		<script>snow(window, document, 80 * {{p.award_count('snow'), v}});</script>
+		<script>snow(window, document, 80 * {{p.award_count('snow', v)}});</script>
 	{% endif %}
 </div>
