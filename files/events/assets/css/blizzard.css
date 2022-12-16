@@ -298,7 +298,7 @@ textarea, input[type=textbox], input[type=search] {
 	background: url("/i/event/snowcap.png?v=1") repeat-x;
 	background-size: contain;
 	position: absolute;
-	bottom: -15px;
+	bottom: -18px;
 	left: 0;
 	right: 0;
 	height: 23px;
