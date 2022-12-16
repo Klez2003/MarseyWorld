@@ -259,6 +259,10 @@ class User(Base):
 		if not FEATURES['HATS']:
 			return ''
 
+		if HOLIDAY_EVENT:
+			from files.events.helpers.const import EVENT_FORCED_HAT
+			if EVENT_FORCED_HAT: return EVENT_FORCED_HAT
+
 		if self.is_cakeday:
 			return '/i/hats/Cakeday.webp'
 

@@ -1,3 +1,4 @@
 EVENT_AWARDS = {
 
 }
+EVENT_FORCED_HAT = None
