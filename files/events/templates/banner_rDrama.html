@@ -1,18 +1,6 @@
 {# <script src="{{'js/event/neko.js'|asset}}"></script> #}
 <script src="{{'js/event/snow.js'|asset}}"></script>
 
-{% set banner_img = EVENT_HEADER_ICONS | random %}
-
-<style>
-	img#header--icon {
-		background-image: url({{banner_img}});
-		background-size: contain;
-		width: 44px;
-		padding-left: 44px;
-		background-repeat: no-repeat;
-	}
-</style> {# there's gotta be a better way than this but whatever -jc #}
-
 <a rel="nofollow noopener noreferrer" href="https://www.youtube.com/watch?v=BuKft9LpL_0" style="text-decoration: none !important">
 	<link rel="stylesheet" href="{{'css/event/banner.css' | asset}}">
 	{% include "event/banner_house2.svg" %}
