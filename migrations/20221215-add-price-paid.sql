@@ -79,4 +79,8 @@ UPDATE award_relationships SET price_paid = 400 WHERE kind = 'Furry';
 UPDATE award_relationships SET price_paid = 400 WHERE kind = 'Femboy';
 UPDATE award_relationships SET price_paid = 400 WHERE kind = 'Vampire';
 UPDATE award_relationships SET price_paid = 400 WHERE kind = 'Racist';
-COMMIT
+UPDATE award_relationships SET price_paid = 300 WHERE kind = 'Furry Founder';
+UPDATE award_relationships SET price_paid = 300 WHERE kind = 'Femboy Founder';
+UPDATE award_relationships SET price_paid = 300 WHERE kind = 'Vampire Founder';
+UPDATE award_relationships SET price_paid = 300 WHERE kind = 'Racist Founder';
+COMMIT;
