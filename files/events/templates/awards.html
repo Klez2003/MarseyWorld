@@ -1,9 +1,11 @@
 <div class="awards-container">
-	{% for i in range(p.award_count("gingerbread", v) * 4) %}
+	{% set gingerbread_count = p.award_count("gingerbread") * 2 if p.award_count("gingerbread") <= 10 else 20 %}}
+	{% for i in range(gingerbread_count) %}
 		<div class="fall-snowflake">
 			<img src="/i/event/awards/gingerbread.png?v=1" class="animate-spin object-contain" style="width: 40px; height: 40px;" alt="animate marsey gingerbread icon" />
 		</div>
 	{% endfor %}
+	{# idk why snow isn't working vvvvvvvvvv #}
 	{% if p.award_count("snow", v) %}
 		<script src="{{'js/event/snow.js'|asset}}"></script>
 		<script>snow(80 * {{p.award_count('snow', v)}});</script>
