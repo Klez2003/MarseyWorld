@@ -315,7 +315,8 @@ textarea, input[type=textbox], input[type=search] {
 
 body {
 	background-color: #1f1f1f;
-  }
+	background-blend-mode: soft-light;
+}
   
   .color {
    width: 20%;
