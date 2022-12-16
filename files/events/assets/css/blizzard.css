@@ -147,6 +147,8 @@ textarea, input[type=textbox], input[type=search] {
     cursor: url(/assets/images/event/pointer.png?v=1), auto !important;
 }
 
+.fa-moon-over-sun:before{content:"\f74a"}
+
 /* lights */
 
 .navbar::after, .lights::after {
