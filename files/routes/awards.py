@@ -93,10 +93,10 @@ def buy(v:User, award):
 
 	if award == "lootbox":
 		lootbox_items = []
-		for i in range(5): # five items per lootbox
+		for _ in range(LOOTBOX_ITEM_COUNT): # five items per lootbox
 			lb_award = random.choice(["firework", "confetti", "ricardo", "wholesome", "shit", "fireflies", "scooter", "train"])
 			lootbox_items.append(AWARDS[lb_award]['title'])
-			lb_award = AwardRelationship(user_id=v.id, kind=lb_award)
+			lb_award = AwardRelationship(user_id=v.id, kind=lb_award, price_paid=price // LOOTBOX_ITEM_COUNT)
 			g.db.add(lb_award)
 			g.db.flush()
 
@@ -112,7 +112,7 @@ def buy(v:User, award):
 			badge_grant(badge_id=78, user=v)
 
 	else:
-		award_object = AwardRelationship(user_id=v.id, kind=award)
+		award_object = AwardRelationship(user_id=v.id, kind=award, price_paid=price)
 		g.db.add(award_object)
 
 	g.db.add(v)
