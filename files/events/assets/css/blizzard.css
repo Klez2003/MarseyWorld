@@ -376,6 +376,18 @@ body {
 	transform: translateY(4px) rotate(17deg);
 }
 
+.candy-cane::before {
+	content: '';
+	width: 4px;
+	height: 80%;
+	background-color: rgba(255,255,255,0.7);
+	display: block;
+	position: absolute;
+	right: 39px;
+	bottom: 0;
+	border-radius: 9999px;
+  }
+
 /* award replacements */
 /* train awards */
 
