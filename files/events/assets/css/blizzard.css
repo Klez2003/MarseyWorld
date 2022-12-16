@@ -272,7 +272,7 @@ body {
 #sign {
 	position: fixed;
 	bottom: -0.75rem;
-	left: 1.25rem;
+	left: 1.5rem;
 	transform: rotate(-3deg);
 }
 #sign > img {
