@@ -11,7 +11,7 @@
 /*jslint nomen: true, plusplus: true, sloppy: true, vars: true, white: true */
 /*global window, document, navigator, clearInterval, setInterval */
 
-function snow(window, document, flakesMax) {
+function snow(flakesMax) {
 	// --- common properties ---
   
 	this.autoStart = true; // Whether the snow should start automatically or not.

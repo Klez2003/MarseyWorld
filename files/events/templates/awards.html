@@ -6,6 +6,6 @@
 	{% endfor %}
 	{% if p.award_count("snow", v) %}
 		<script src="{{'js/event/snow.js'|asset}}"></script>
-		<script>snow(window, document, 80 * {{p.award_count('snow', v)}});</script>
+		<script>snow(80 * {{p.award_count('snow', v)}});</script>
 	{% endif %}
 </div>
