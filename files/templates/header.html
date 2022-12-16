@@ -64,7 +64,7 @@
 			<a href="/" class="navbar-brand mr-auto {% if not has_logo and not sub %}flex-grow-1{% endif %}">
 				{% if SITE_NAME == 'WPD' %} {# Temporary event code, 2022-12-11 #}
 					{% set icon_url = 'icons-event/2022-christmas.webp' | asset_siteimg %}
-				{% elif HOLIDAY_EVENT %}
+				{% elif EVENT_ICONS %}
 					{% set icon_url = macros.random_image('events/icon') %}
 				{% else %}
 					{% set icon_url = 'headericon.webp' | asset_siteimg %}
