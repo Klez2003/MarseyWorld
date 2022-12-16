@@ -22,7 +22,7 @@ EVENT_JINJA_CONST = {
 		" average Santa deniers getting reamed by Rudolph the Red-Nosed Reindeer",
 		" naughty listers getting coal for fistmas",
 		" plus-sized dramanauts eating Santa's cookies",
-		" dramatards having their chimney's stuffed by Santa",
+		" dramatards having their chimneys stuffed by Santa",
 	],
 	"random": random,
 	"daysTillChristmas": daysTillChristmas,
