@@ -4,6 +4,18 @@
 
 <div class="candy-cane"></div>
 
+<div id="sign" class="sign">
+  <img src="/assets/images/event/sign.svg" />
+  <ul>
+    <li>
+      0
+    </li>
+    <li>
+      {{daysTillChristmas()}}
+    </li>
+  </ul>
+</div>
+
 <a rel="nofollow noopener noreferrer" href="https://www.youtube.com/watch?v=BuKft9LpL_0" style="text-decoration: none !important">
 	{% if random.randint(1,100) != 1 %}
 		<link rel="stylesheet" href="{{'css/event/banner.css' | asset}}">

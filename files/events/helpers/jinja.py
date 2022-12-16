@@ -1,4 +1,11 @@
 import random
+from datetime import date
+
+def daysTillChristmas():
+	today = date.today()
+	christmas = date(today.year, 12, 25)
+	delta = abs(christmas - today)
+	return delta.days
 
 EVENT_JINJA_CONST = {
 	"EVENT_BANNER": "banner_rDrama.html",
@@ -14,5 +21,6 @@ EVENT_JINJA_CONST = {
 		' throwing shade right now',
 	],
 	"random": random,
+	"daysTillChristmas": daysTillChristmas,
 }
 
