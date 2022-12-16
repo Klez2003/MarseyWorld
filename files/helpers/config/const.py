@@ -501,8 +501,6 @@ BADGE_BLACKLIST = { # only grantable by AEVANN_ID and SNAKES_ID except on PCM
 
 NOTIFIED_USERS = {}
 
-LOOTBOX_ITEM_COUNT = 5
-
 if SITE == 'rdrama.net':
 	FEATURES['PRONOUNS'] = True
 	FEATURES['HOUSES'] = True
