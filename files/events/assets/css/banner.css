@@ -1,7 +1,12 @@
 /* text */
+@font-face{
+	font-family: "Plakat-Fraktur";
+	src: url("/assets/fonts/event/Plakat-Fraktur-Black.woff") format("woff");
+}
+
 @media (max-width: 767.98px) {
 	#banner-title {
-		transform: scale(1.4) translate(-90px, -120px);
+		transform: scale(1.4) translate(-190px, -60px);
 	}
 }
 

@@ -51,9 +51,14 @@ body {
 }
 
 .btn {
-	background: transparent;
+	background: var(--primary) !important;
 	border-color: var(--primary) !important;
 	border-width: 2px;
+	color: #fff !important;
+}
+
+.btn .fas {
+	color: #fff !important;
 }
 
 .form-control:disabled, .form-control[readonly] {
