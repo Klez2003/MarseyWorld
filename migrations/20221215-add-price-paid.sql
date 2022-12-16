@@ -1,5 +1,5 @@
 BEGIN
-ALTER TABLE award_relationships ADD COLUMN price_paid NOT NULL DEFAULT 0;
+ALTER TABLE award_relationships ADD COLUMN price_paid INTEGER NOT NULL DEFAULT 0;
 ALTER TABLE award_relationships ALTER COLUMN kind SET NOT NULL;
 
 -- populate existing awards, this should match the values in files/helpers/config/awards.py
