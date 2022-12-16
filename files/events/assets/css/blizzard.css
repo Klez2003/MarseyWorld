@@ -38,6 +38,7 @@
 body {
 	font-family: 'Burbank Small Medium', sans-serif;
 	background-color: var(--background) !important;
+	background-image: url('/i/event/pattern.png') !important;
 	overflow-x: hidden;
 }
 
