@@ -3,7 +3,7 @@
 /* Fonts */
 @font-face {
 	font-family: "Germania One";
-	src: url("/assets/fonts/event/GermaniaOne-Regular.ttf") format("ttf");
+	src: url("/assets/fonts/event/GermaniaOne-Regular.woff") format("woff");
 }
 
 :root {
