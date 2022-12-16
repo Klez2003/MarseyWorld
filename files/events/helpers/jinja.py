@@ -1,3 +1,5 @@
+import random
+
 EVENT_JINJA_CONST = {
 	"EVENT_BANNER": "banner_rDrama.html",
 	"EVENT_ICONS": True,
@@ -10,6 +12,7 @@ EVENT_JINJA_CONST = {
 		' bringing up family drama at Christmas dinner',
 		' well-behaved rule-following goodthinkers',
 		' throwing shade right now',
-	]
+	],
+	"random": random,
 }
 

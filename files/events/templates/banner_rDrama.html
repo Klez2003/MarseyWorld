@@ -5,7 +5,10 @@
 <div class="candy-cane"></div>
 
 <a rel="nofollow noopener noreferrer" href="https://www.youtube.com/watch?v=BuKft9LpL_0" style="text-decoration: none !important">
-	<link rel="stylesheet" href="{{'css/event/banner.css' | asset}}">
-	{% include "event/banner_house2.svg" %}
-	{#<img src="/assets/images/event/banner_new.webp" />#}
+	{% if random.randint(1,100) != 1 %}
+		<link rel="stylesheet" href="{{'css/event/banner.css' | asset}}">
+		{% include "event/banner_house2.svg" %}
+	{% else %}
+		<img src="/assets/images/event/banner_new.webp" style="width:100%" />
+	{% endif %}
 </a>
