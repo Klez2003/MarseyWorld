@@ -702,4 +702,3 @@ function snow(window, document, flakesMax) {
   
 	return this;
 }
-  
