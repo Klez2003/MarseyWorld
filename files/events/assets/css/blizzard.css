@@ -277,8 +277,16 @@ body {
 	left: 1.5rem;
 	transform: rotate(-3deg);
 	pointer-events: none;
-    z-index: 9999;
+
 }
+
+/* Need to account for small screens */
+@media screen and (min-height: 800px) {
+    #sign {
+            z-index: 999999;
+    }
+}
+
 #sign > img {
 	width: 156px;
 }
