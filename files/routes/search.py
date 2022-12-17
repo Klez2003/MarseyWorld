@@ -218,7 +218,7 @@ def searchcomments(v:User):
 	if 'over18' in criteria: comments = comments.filter(Comment.over_18 == True)
 
 	if search_operator_hole in criteria:
-		comments = comments.filter(Submission.sub == criteria[search_operator_hole])
+		comments = comments.filter(Comment.parent_submission.sub == criteria[search_operator_hole])
 
 	comments = apply_time_filter(t, comments, Comment)
 
