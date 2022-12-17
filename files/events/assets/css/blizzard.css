@@ -277,6 +277,7 @@ body {
 	left: 1.5rem;
 	transform: rotate(-3deg);
 	pointer-events: none;
+    z-index: 9999;
 }
 #sign > img {
 	width: 156px;
