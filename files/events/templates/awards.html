@@ -5,9 +5,67 @@
 			<img src="/i/event/awards/gingerbread.png?v=1" class="animate-spin object-contain" style="width: 40px; height: 40px;" alt="animate marsey gingerbread icon" />
 		</div>
 	{% endfor %}
+
 	{# idk why snow isn't working vvvvvvvvvv #}
 	{% if p.award_count("snow", v) %}
 		<script src="{{'js/event/snow.js'|asset}}"></script>
-		<script>snow(80 * {{p.award_count('snow', v)}});</script>
+		<script>snow(80);</script>
 	{% endif %}
 </div>
+
+{% if p.award_count("lights", v) %}
+	<style>
+		#post-root::before {
+			content: "";
+			position: absolute;
+			top: 0;
+			left: 0;
+			height: 57px;
+			width: 100%;
+			background: url('/i/event/lights.png?v=1');
+			animation: lights 1s infinite steps(2);
+			pointer-events: none;
+			z-index: 1;
+		}
+	</style>
+{% endif %}
+
+{% if p.award_count("candycane", v) %}
+	<style>
+		#post-title, #post-content p {
+			--color2: #9b161a;
+			--color1: rgb(12, 128, 101);
+			font-family: "Open Sans", sans-serif;
+			background: repeating-linear-gradient(
+				45deg, var(--color2), var(--color2) 10px,
+				var(--color1) 11px, var(--color1) 30px
+			);
+			background-clip: text;
+			color: transparent;
+			-webkit-background-clip: text;
+			animation: 45s linear 0s infinite candycorn-move;
+		}
+
+		#post-title a {
+			color: transparent !important;
+		}
+
+		@keyframes candycorn-move {
+			from {background-position: 0px;}
+			to {background-position: 1000px;}
+		}
+	</style>
+{% endif %}
+
+{% if p.award_count("fireplace", v) %}
+	<style>
+		#banner-skybox {
+			fill: url(#skybox-gradient-night)
+		}
+
+		#banner-window-1, #banner-window-2 {
+			filter: drop-shadow(0 0 50px orange);
+			fill: palegoldenrod;
+		}
+	</style>
+{% endif %}

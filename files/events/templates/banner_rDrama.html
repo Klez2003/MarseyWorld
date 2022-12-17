@@ -1,6 +1,8 @@
 {# <script src="{{'js/event/neko.js'|asset}}"></script> #}
-<script src="{{'js/event/snow.js'|asset}}"></script>
-{% if request.path == '/' %}<script>snow(80);</script>{% endif %}
+{% if request.path == '/' %}
+	<script src="{{'js/event/snow.js'|asset}}"></script>
+	<script>snow(80);</script>
+{% endif %}
 
 <div class="candy-cane"></div>
 
