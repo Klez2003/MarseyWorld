@@ -519,7 +519,7 @@ body {
 
 /* Change mobile navbar icon colors to basketball */
 #mobile-bottom-navigation-bar i {
-    color: #000 !important;
+    color: var(--gray-200)!important;
 }
 
 #mobile-bottom-navigation-bar {
@@ -533,4 +533,10 @@ body {
     background: unset;
     /* Real work, lol */
     display: none;
+}
+
+@media (max-width: 767.98px) {
+	.candy-cane, .sign {
+		bottom: 3rem !important;
+	}
 }
