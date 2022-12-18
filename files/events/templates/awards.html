@@ -37,6 +37,30 @@
 		}
 		</style>
 	{% endif %}
+
+	{% if p.award_count("snowed-in", v) %}
+		<canvas id="canvas-snowed-in-overlay"></canvas>
+		<canvas id="canvas-snowed-in-lines"></canvas>
+		<style>
+			#canvas-snowed-in-overlay {
+				position: fixed;
+				top: 0;
+				left: 0;
+				z-index: 9998;
+				opacity: 1;
+				pointer-events: none;
+			}
+			#canvas-snowed-in-lines {
+				position: fixed;
+				top: 0;
+				left: 0;
+				z-index: 9999;
+				opacity: 0.0;
+				pointer-events: none;
+			}
+		</style>
+		<script defer src="{{'js/event/snowed-in.js'|asset}}"></script>
+	{% endif %}
 </div>
 
 {% if p.award_count("lights", v) %}

@@ -60,6 +60,21 @@ EVENT_AWARDS = {
 		"cosmetic": True
 	},
 }
+
+"""
+	"snowed-in": {
+		"kind": "snowed-in",
+		"title": "Snowed In",
+		"description": "",
+		"icon": "fas fa-temperature-snow",
+		"color": "text-blue",
+		"price": 600,
+		"deflectable": False,
+		"cosmetic": True
+	},
+
+"""
+
 EVENT_FORCED_HATS = ['/i/hats/Santa Hat III.webp?h=1', \
                      '/i/hats/Winter Cap.webp?h=1', \
                      '/i/hats/Present Bow.webp?h=1']
