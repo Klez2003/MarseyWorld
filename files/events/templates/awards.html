@@ -11,6 +11,32 @@
 		<script src="{{'js/event/snow.js'|asset}}"></script>
 		<script>snow(80);</script>
 	{% endif %}
+
+	{% if p.award_count("frostbite", v) %}
+		<div class="frost"></div>
+		<script>
+		const root = document.querySelector(':root');
+
+		const count = 5;
+		const opacity = count * 0.1;
+		root.style.setProperty('--opacity-frost', opacity);
+		</script>
+		<style>
+		:root {
+		--opacity-frost: 0.25;
+		}
+		.frost {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			box-shadow: 0 0 200px 10px rgba(255, 255, 255, var(--opacity-frost)) inset;
+			pointer-events: none;
+			z-index: 1050;
+		}
+		</style>
+	{% endif %}
 </div>
 
 {% if p.award_count("lights", v) %}

@@ -4,7 +4,7 @@ EVENT_AWARDS = {
 		"title": "Snow",
 		"description": "",
 		"icon": "fas fa-snowflake",
-		"color": "text-blue-200",
+		"color": "text-lightblue",
 		"price": 300,
 		"deflectable": False,
 		"cosmetic": True
@@ -14,7 +14,7 @@ EVENT_AWARDS = {
 		"title": "Gingerbread",
 		"description": "",
 		"icon": "fas fa-gingerbread-man",
-		"color": "",
+		"color": "text-brown",
 		"price": 300,
 		"deflectable": False,
 		"cosmetic": True
@@ -24,7 +24,7 @@ EVENT_AWARDS = {
 		"title": "Lights",
 		"description": "",
 		"icon": "fas fa-lights-holiday",
-		"color": "",
+		"color": "text-success",
 		"price": 300,
 		"deflectable": False,
 		"cosmetic": True
@@ -34,7 +34,7 @@ EVENT_AWARDS = {
 		"title": "Candy Cane",
 		"description": "",
 		"icon": "fas fa-candy-cane",
-		"color": "",
+		"color": "text-danger",
 		"price": 400,
 		"deflectable": False,
 		"cosmetic": True
@@ -44,8 +44,18 @@ EVENT_AWARDS = {
 		"title": "Fireplace",
 		"description": "",
 		"icon": "fas fa-fireplace",
-		"color": "",
+		"color": "text-orange",
 		"price": 600,
+		"deflectable": False,
+		"cosmetic": True
+	},
+	"frostbite": {
+		"kind": "frostbite",
+		"title": "Frostbite",
+		"description": "",
+		"icon": "fas fa-temperature-snow",
+		"color": "text-blue",
+		"price": 300,
 		"deflectable": False,
 		"cosmetic": True
 	},
