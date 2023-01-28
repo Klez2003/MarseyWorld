@@ -201,7 +201,7 @@ def sub_exilees(v:User, sub):
 		abort(403)
 	users = g.db.query(User, Exile).join(Exile, Exile.user_id==User.id) \
 				.filter_by(sub=sub.name) \
-				.order_by(nullslast(Exile.created_utc.desc()), User.username).all()
+				.order_by(nulls_last(Exile.created_utc.desc()), User.username).all()
 
 	return render_template("sub/exilees.html", v=v, sub=sub, users=users)
 
@@ -215,7 +215,7 @@ def sub_blockers(v:User, sub):
 		abort(403)
 	users = g.db.query(User, SubBlock).join(SubBlock) \
 				.filter_by(sub=sub.name) \
-				.order_by(nullslast(SubBlock.created_utc.desc()), User.username).all()
+				.order_by(nulls_last(SubBlock.created_utc.desc()), User.username).all()
 
 	return render_template("sub/blockers.html",
 		v=v, sub=sub, users=users, verb="blocking")
@@ -230,7 +230,7 @@ def sub_followers(v:User, sub):
 		abort(403)
 	users = g.db.query(User, SubSubscription).join(SubSubscription) \
 			.filter_by(sub=sub.name) \
-			.order_by(nullslast(SubSubscription.created_utc.desc()), User.username).all()
+			.order_by(nulls_last(SubSubscription.created_utc.desc()), User.username).all()
 
 	return render_template("sub/blockers.html",
 		v=v, sub=sub, users=users, verb="following")
