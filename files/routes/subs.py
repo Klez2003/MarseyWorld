@@ -1,4 +1,4 @@
-from sqlalchemy import nullslast
+from sqlalchemy import nulls_last
 
 from files.classes import *
 from files.helpers.alerts import *

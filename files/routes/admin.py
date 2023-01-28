@@ -2,7 +2,7 @@ import time
 from urllib.parse import quote, urlencode
 from math import floor
 
-from sqlalchemy import nullslast
+from sqlalchemy import nulls_last
 from sqlalchemy.exc import IntegrityError
 from psycopg2.errors import UniqueViolation
 

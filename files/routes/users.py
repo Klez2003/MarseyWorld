@@ -7,7 +7,7 @@ from typing import Literal
 
 import gevent
 import qrcode
-from sqlalchemy import nullslast
+from sqlalchemy import nulls_last
 from sqlalchemy.orm import aliased
 
 from files.classes import *
