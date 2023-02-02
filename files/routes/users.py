@@ -1362,7 +1362,7 @@ def gumroad():
 
 	user = g.db.query(User).filter_by(email=email, is_activated=True).order_by(User.truescore.desc()).first()
 	if user:
-	  	claim_rewards(user)
+		claim_rewards(user)
 
 	return ''
 
