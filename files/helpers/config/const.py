@@ -449,7 +449,6 @@ PERMS = { # Minimum admin_level to perform action.
  	'USER_BADGES': 2,
  	'USER_LINK': 2,
  	'USER_TITLE_CHANGE': 2,
- 	'POST_TO_POLL_THREAD': 2,
  	'BUY_GHOST_AWARD': 2,
  	'LOTTERY_VIEW_PARTICIPANTS': 2,
 
@@ -469,6 +468,7 @@ PERMS = { # Minimum admin_level to perform action.
  	'SITE_CACHE_PURGE_CDN': 3,
  	'NOTIFICATIONS_FROM_SHADOWBANNED_USERS': 3,
  	'APPS_MODERATION': 3,
+ 	'POST_TO_POLL_THREAD': 3,
 
  	'MODERATE_PENDING_SUBMITTED_ASSETS': 4,
 
