@@ -344,15 +344,13 @@ def execute_antispam_submission_check(title, v, url):
 	return True
 
 def execute_blackjack(v, target, body, type):
-	if not body: return True
+	if not blackjack or not body: return True
 
 	execute = False
-	if blackjack and any(i in body.lower() for i in blackjack.split()):
-		execute = True
-		shadowban = True
-	elif blackjack2 and all(i in body.lower() for i in blackjack2.split()):
-		execute = True
-		shadowban = v.truescore < 100
+	for x in blackjack.split(','):
+		if all(i in body.lower() for i in x.split()):
+			execute = True
+			shadowban = v.truescore < 100
 
 	if execute:
 		if shadowban:
