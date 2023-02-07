@@ -343,55 +343,6 @@ def execute_antispam_submission_check(title, v, url):
 		return False
 	return True
 
-def execute_blackjack(v, target, body, type):
-	if not blackjack or not body: return True
-
-	execute = False
-	for x in blackjack.split(','):
-		if all(i in body.lower() for i in x.split()):
-			execute = True
-			shadowban = v.truescore < 100
-
-	if execute:
-		if shadowban:
-			v.shadowbanned = AUTOJANNY_ID
-
-			ma = ModAction(
-				kind="shadowban",
-				user_id=AUTOJANNY_ID,
-				target_user_id=v.id,
-				_note='reason: "Blackjack"'
-			)
-			g.db.add(ma)
-
-			v.ban_reason = "Blackjack"
-			g.db.add(v)
-		elif type in {'submission', 'comment', 'message'}:
-			target.is_banned = True
-
-		notified_ids = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['BLACKJACK_NOTIFICATIONS'])]
-		extra_info = "unknown entity"
-
-		if type == 'submission':
-			extra_info = target.permalink
-		elif type == 'chat':
-			extra_info = "chat message"
-		elif type == 'flag':
-			extra_info = f"reports on {target.permalink}"
-		elif type == 'modmail':
-			extra_info = "modmail"
-		elif type in {'comment', 'message'}:
-			for id in notified_ids:
-				n = Notification(comment_id=target.id, user_id=id)
-				g.db.add(n)
-				g.db.flush()
-			extra_info = None
-
-		if extra_info:
-			for id in notified_ids:
-				send_repeatable_notification(id, f"Blackjack for @{v.username}: {extra_info}")
-	return True
-
 def execute_antispam_duplicate_comment_check(v:User, body_html:str):
 	'''
 	Sanity check for newfriends

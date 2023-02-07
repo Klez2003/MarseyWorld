@@ -9,7 +9,7 @@ from files.helpers.alerts import *
 from files.helpers.config.const import *
 from files.helpers.regex import *
 from files.helpers.media import process_image
-from files.helpers.sanitize import sanitize
+from files.helpers.sanitize import *
 from files.helpers.alerts import push_notif
 from files.routes.wrappers import *
 
@@ -113,7 +113,7 @@ def speak(data, v):
 			emit("online", [online, muted], broadcast=True)
 			self_only = True
 
-	if self_only or v.shadowbanned or not execute_blackjack(v, None, text, "chat"):
+	if self_only or v.shadowbanned or execute_blackjack(v, None, text, "chat"):
 		emit('speak', data)
 	else:
 		emit('speak', data, broadcast=True)

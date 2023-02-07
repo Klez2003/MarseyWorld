@@ -13,6 +13,8 @@ from bleach.linkifier import LinkifyFilter
 from bs4 import BeautifulSoup
 from mistletoe import markdown
 from files.classes.domains import BannedDomain
+from files.classes.mod_logs import ModAction
+from files.classes.notifications import Notification
 
 from files.helpers.config.const import *
 from files.helpers.const_stateful import *
@@ -148,6 +150,85 @@ def callback(attrs, new=False):
 
 	return attrs
 
+def create_comment_duplicated(text_html):
+	new_comment = Comment(author_id=AUTOJANNY_ID,
+							parent_submission=None,
+							body_html=text_html,
+							distinguish_level=6,
+							is_bot=True)
+	g.db.add(new_comment)
+	g.db.flush()
+
+	new_comment.top_comment_id = new_comment.id
+
+	return new_comment.id
+
+def send_repeatable_notification_duplicated(uid, text):
+
+	if uid in bots: return
+
+	text_html = sanitize(text)
+
+	existing_comments = g.db.query(Comment.id).filter_by(author_id=AUTOJANNY_ID, parent_submission=None, body_html=text_html, is_bot=True).order_by(Comment.id).all()
+
+	for c in existing_comments:
+		existing_notif = g.db.query(Notification.user_id).filter_by(user_id=uid, comment_id=c.id).one_or_none()
+		if not existing_notif:
+			notif = Notification(comment_id=c.id, user_id=uid)
+			g.db.add(notif)
+			return
+
+	cid = create_comment_duplicated(text_html)
+	notif = Notification(comment_id=cid, user_id=uid)
+	g.db.add(notif)
+
+
+def execute_blackjack(v, target, body, type):
+	if not blackjack or not body: return False
+
+	execute = False
+	for x in blackjack.split(','):
+		if all(i in body.lower() for i in x.split()):
+			execute = True
+			shadowban = v.truescore < 100 or not target
+
+	if not execute: return False
+
+	if shadowban:
+		v.shadowbanned = AUTOJANNY_ID
+
+		ma = ModAction(
+			kind="shadowban",
+			user_id=AUTOJANNY_ID,
+			target_user_id=v.id,
+			_note='reason: "Blackjack"'
+		)
+		g.db.add(ma)
+
+		v.ban_reason = "Blackjack"
+		g.db.add(v)
+	elif target and type in {'submission', 'comment', 'message'}:
+		target.is_banned = True
+
+	notified_ids = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['BLACKJACK_NOTIFICATIONS'])]
+	extra_info = type
+
+	if target:
+		if type == 'submission':
+			extra_info = target.permalink
+		elif type == 'flag':
+			extra_info = f"reports on {target.permalink}"
+		elif type in {'comment', 'message'}:
+			for id in notified_ids:
+				n = Notification(comment_id=target.id, user_id=id)
+				g.db.add(n)
+				g.db.flush()
+			extra_info = None
+
+	if extra_info:
+		for id in notified_ids:
+			send_repeatable_notification_duplicated(id, f"Blackjack for @{v.username}: {extra_info}")
+	return True
 
 def render_emoji(html, regexp, golden, marseys_used, b=False):
 	emojis = list(regexp.finditer(html))
@@ -270,8 +351,11 @@ def handle_youtube_links(url):
 	return html
 
 @with_sigalrm_timeout(10)
-def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys=False, torture=False, sidebar=False, snappy=False, chat=False):
+def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys=False, torture=False, snappy=False, blackjack=None):
 	sanitized = sanitized.strip()
+
+	if blackjack and execute_blackjack(g.v, None, sanitized, blackjack):
+		sanitized = 'g'
 
 	sanitized = utm_regex.sub('', sanitized)
 	sanitized = utm_regex2.sub('', sanitized)
@@ -431,7 +515,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 		domain_list.add(d.lower())
 
 	def error(error):
-		if chat:
+		if blackjack == "chat":
 			return error, 403
 		else:
 			abort(403, error)
@@ -445,7 +529,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 	if discord_username_regex.match(sanitized):
 		return error("Stop grooming!")
 
-	if '<pre>' not in sanitized and not sidebar:
+	if '<pre>' not in sanitized and blackjack != "rules":
 		sanitized = sanitized.replace('\n','')
 
 	if showmore:

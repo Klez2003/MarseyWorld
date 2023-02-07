@@ -11,7 +11,7 @@ import files.helpers.config.const as const
 from files.classes.badges import Badge
 from files.classes.comment import Comment
 from files.classes.user import User
-from files.helpers.sanitize import sanitize
+from files.helpers.sanitize import *
 from files.classes.notifications import Notification
 
 # Note: while https://api.pushshift.io/meta provides the key
@@ -94,7 +94,7 @@ def notify_mentions(mentions, send_to=None, mention_str='site mention'):
 	for m in mentions:
 		author = m['author']
 		permalink = m['permalink']
-		text = sanitize(m['text'], golden=False)
+		text = sanitize(m['text'], blackjack="reddit mention", golden=False)
 		notif_text = (
 			f'<p>New {mention_str} by <a href="https://old.reddit.com/u/{author}" '
 				f'rel="nofollow noopener" target="_blank">/u/{author}</a></p>'

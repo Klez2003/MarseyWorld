@@ -227,7 +227,7 @@ def settings_personal_post(v):
 
 	elif not updated and v.patron and request.values.get("sig"):
 		sig = request.values.get("sig")[:200].replace('\n','').replace('\r','')
-		sig_html = sanitize(sig)
+		sig_html = sanitize(sig, blackjack="signature")
 		if len(sig_html) > 1000:
 			return render_template("settings/personal.html",
 								v=v,
@@ -243,7 +243,7 @@ def settings_personal_post(v):
 	elif not updated and FEATURES['USERS_PROFILE_BODYTEXT'] and request.values.get("friends"):
 		friends = request.values.get("friends")[:1000]
 
-		friends_html = sanitize(friends)
+		friends_html = sanitize(friends, blackjack="friends")
 
 		if len(friends_html) > 5000:
 			return render_template("settings/personal.html",
@@ -268,7 +268,7 @@ def settings_personal_post(v):
 	elif not updated and FEATURES['USERS_PROFILE_BODYTEXT'] and request.values.get("enemies"):
 		enemies = request.values.get("enemies")[:1000]
 
-		enemies_html = sanitize(enemies)
+		enemies_html = sanitize(enemies, blackjack="enemies")
 
 		if len(enemies_html) > 5000:
 			return render_template("settings/personal.html",
@@ -294,7 +294,7 @@ def settings_personal_post(v):
 		bio = request.values.get("bio")[:1500]
 		bio += process_files(request.files, v)
 		bio = bio.strip()
-		bio_html = sanitize(bio)
+		bio_html = sanitize(bio, blackjack="bio")
 
 		if len(bio_html) > 10000:
 			return render_template("settings/personal.html",

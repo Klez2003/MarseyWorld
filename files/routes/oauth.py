@@ -63,7 +63,7 @@ def request_api_keys(v):
 	g.db.add(new_app)
 
 	body = f"@{v.username} has requested API keys for `{request.values.get('name')}`. You can approve or deny the request [here](/admin/apps)."
-	body_html = sanitize(body)
+	body_html = sanitize(body, blackjack="app description")
 
 	new_comment = Comment(author_id=AUTOJANNY_ID,
 						parent_submission=None,

@@ -13,7 +13,7 @@ from files.classes import *
 from files.classes.leaderboard import Leaderboard
 from files.classes.transactions import *
 from files.classes.views import *
-from files.helpers.actions import execute_blackjack, execute_under_siege
+from files.helpers.actions import execute_under_siege
 from files.helpers.alerts import *
 from files.helpers.config.const import *
 from files.helpers.mail import *

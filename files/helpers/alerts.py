@@ -28,7 +28,7 @@ def send_repeatable_notification(uid, text):
 
 	if uid in bots: return
 
-	text_html = sanitize(text)
+	text_html = sanitize(text, blackjack="notification")
 
 	existing_comments = g.db.query(Comment.id).filter_by(author_id=AUTOJANNY_ID, parent_submission=None, body_html=text_html, is_bot=True).order_by(Comment.id).all()
 
@@ -53,7 +53,7 @@ def send_notification(uid, text):
 
 def notif_comment(text):
 
-	text_html = sanitize(text)
+	text_html = sanitize(text, blackjack="notification")
 
 	g.db.flush()
 
@@ -94,7 +94,7 @@ def notif_comment2(p):
 	else:
 		text = f"@{p.author.username} has mentioned you: [{p.title}](/post/{p.id})"
 		if p.sub: text += f" in <a href='/h/{p.sub}'>/h/{p.sub}"
-		text_html = sanitize(text)
+		text_html = sanitize(text, blackjack="notification")
 		return create_comment(text_html)
 
 
