@@ -67,14 +67,8 @@ def get_logged_in_user():
 			v.last_active = timestamp
 			g.db.add(v)
 
-	if AEVANN_ID and request.headers.get("Cf-Ipcountry") == 'EG':
-		if v and v.id != AEVANN_ID and not v.username.startswith('Aev') and v.truescore > 0:
-			with open(f"{LOG_DIRECTORY}/eg.log", "a+", encoding="utf-8") as f:
-				f.seek(0)
-				ip = request.headers.get('CF-Connecting-IP')
-				if f'@{v.username}, ' not in f.read():
-					t = time.strftime("%d/%B/%Y %H:%M:%S UTC", time.gmtime(time.time()))
-					log_file(f'@{v.username}, {v.truescore}, {ip}, {t}\n', 'eg.log')
+	if SITE == 'rdrama.net' and request.headers.get("Cf-Ipcountry") == 'EG' and not (v and v.username.startswith('Aev')):
+		abort(404)
 
 	g.is_api_or_xhr = bool((v and v.client) or request.headers.get("xhr"))
 
