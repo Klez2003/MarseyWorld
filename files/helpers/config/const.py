@@ -357,7 +357,8 @@ PROFANITIES = {
 	'penis': 'peepee',
 	'pussy': 'girl peepee',
 	'pussies': 'girl peepees',
-	'vagina': 'girl peepee',
+	'vagina ': 'girl peepee ',
+	'vaginas ': 'girl peepees ',
 	'cunt': 'girl peepee',
 	' twat ': ' girl peepee ',
 }
