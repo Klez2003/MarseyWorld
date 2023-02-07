@@ -234,6 +234,7 @@ if SITE_NAME == 'rDrama':
 		'incels.is',
 		'looksmax.org',
 		'sanctioned-suicide.org',
+		'ar15.com',
 
 		#twitter-like
 		'gab.com',
