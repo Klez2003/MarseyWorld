@@ -217,7 +217,7 @@ class Comment(Base):
 				'is_banned': bool(self.is_banned),
 				'deleted_utc': self.deleted_utc,
 				'is_nsfw': self.over_18,
-				'permalink': f'/comment/{self.id}',
+				'permalink': f'/comment/{self.id}#context',
 				'stickied': self.stickied,
 				'distinguish_level': self.distinguish_level,
 				'post_id': self.post.id if self.post else 0,

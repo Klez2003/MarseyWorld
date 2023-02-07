@@ -190,7 +190,8 @@ def command_regex_matcher(match, upper=False):
 		result = f'<b style="color:rgb{color}">Your roll: {result}</b>'
 	return match.group(1) + result
 
-reason_regex = re.compile('(/(post|comment)/[0-9]+)', flags=re.A)
+reason_regex_post = re.compile('(/post/[0-9]+)', flags=re.A)
+reason_regex_comment = re.compile('(/comment/[0-9]+)', flags=re.A)
 
 discord_username_regex = re.compile("(\s|^|>).{2,32}#[0-9]{4}(?=[^0-9]|$)", flags=re.A)
 

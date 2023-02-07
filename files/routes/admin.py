@@ -902,7 +902,8 @@ def ban_user(id, v):
 
 	reason = filter_emojis_only(reason)
 
-	reason = reason_regex.sub(r'<a href="\1">\1</a>', reason)
+	reason = reason_regex_post.sub(r'<a href="\1">\1</a>', reason)
+	reason = reason_regex_comment.sub(r'<a href="\1#context">\1</a>', reason)
 
 	user.ban(admin=v, reason=reason, days=days)
 
@@ -984,7 +985,8 @@ def agendaposter(id, v):
 
 	reason = filter_emojis_only(reason)
 
-	reason = reason_regex.sub(r'<a href="\1">\1</a>', reason)
+	reason = reason_regex_post.sub(r'<a href="\1">\1</a>', reason)
+	reason = reason_regex_comment.sub(r'<a href="\1#context">\1</a>', reason)
 
 	duration = "permanently"
 	if days:

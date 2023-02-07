@@ -230,7 +230,7 @@ def comment(v:User):
 			Comment.wall_user_id == post_target.id if not posting_to_submission else None,
 			Comment.body_html == body_html
 		).first()
-		if existing: abort(409, f"You already made that comment: /comment/{existing.id}")
+		if existing: abort(409, f"You already made that comment: /comment/{existing.id}#context")
 
 	execute_antispam_comment_check(body, v)
 	execute_antispam_duplicate_comment_check(v, body_html)

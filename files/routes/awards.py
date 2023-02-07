@@ -243,8 +243,12 @@ def award_thing(v, thing_type, id):
 			author.ban_reason = None
 			send_repeatable_notification(author.id, "You have been unbanned!")
 	elif kind == "grass":
+		link3 = f"/{thing_type}/{thing.id}"
+		if thing_type == 'comment':
+			link3 += '#context'
+
 		author.is_banned = AUTOJANNY_ID
-		author.ban_reason = f"grass award used by @{v.username} on /{thing_type}/{thing.id}"
+		author.ban_reason = f"grass award used by @{v.username} on {link3}"
 		author.unban_utc = int(time.time()) + 30 * 86400
 		send_repeatable_notification(author.id, f"Your account has been banned permanently for {link}. You must [provide the admins](/contact) a timestamped picture of you touching grass/snow/sand/ass to get unbanned!")
 	elif kind == "pin":
