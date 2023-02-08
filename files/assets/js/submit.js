@@ -216,3 +216,50 @@ if (location.href == '/submit') {
 	const sub = document.getElementById('sub')
 	if (sub) sub.value = localStorage.getItem("sub")
 }
+
+const uploadfilelist = document.getElementById('upload-filelist');
+const bar = document.getElementById('file-progress');
+const percentIndicator = document.getElementById('progress-percent');
+
+function handleUploadProgress(evt) {
+	uploadfilelist.classList.remove("d-none")
+	if (evt.lengthComputable) {
+		const progressPercent = Math.floor((evt.loaded / evt.total) * 100);
+		bar.setAttribute('value', progressPercent);
+		percentIndicator.textContent = progressPercent + '%';
+	}
+}
+
+function submit(form) {
+	const xhr = new XMLHttpRequest();
+
+	formData = new FormData(form);
+
+	formData.append("formkey", formkey());
+	actionPath = form.getAttribute("action");
+
+	xhr.open("POST", actionPath);
+	xhr.upload.onprogress = handleUploadProgress;
+	xhr.setRequestHeader('xhr', 'xhr');
+
+	xhr.onload = function() {
+		uploadfilelist.classList.add("d-none")
+		if (xhr.status >= 200 && xhr.status < 300) {
+			const post_id = JSON.parse(xhr.response)['post_id'];
+			location.href = "/post/" + post_id
+		} else {
+			document.getElementById('toast-post-error-text').innerText = "Error, please try again later."
+			try {
+				let data=JSON.parse(xhr.response);
+				bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-error')).show();
+				document.getElementById('toast-post-error-text').innerText = data["error"];
+				if (data && data["details"]) document.getElementById('toast-post-error-text').innerText = data["details"];
+			} catch(e) {
+				bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-success')).hide();
+				bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-error')).show();
+			}
+		}
+	};
+
+	xhr.send(formData);
+}

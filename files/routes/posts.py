@@ -532,10 +532,7 @@ def submit_post(v:User, sub=None):
 	body = sanitize_raw_body(request.values.get("body", ""), True)
 
 	def error(error):
-		if g.is_api_or_xhr: abort(400, error)
-
-		SUBS = [x[0] for x in g.db.query(Sub.name).order_by(Sub.name).all()]
-		return render_template("submit.html", SUBS=SUBS, v=v, error=error, title=title, url=url, body=body), 400
+		return {"error": error}, 400
 
 	if not title:
 		return error("Please enter a better title!")
@@ -804,9 +801,7 @@ def submit_post(v:User, sub=None):
 	if v.client: return post.json(g.db)
 	else:
 		post.voted = 1
-		if post.new: sort = 'new'
-		else: sort = v.defaultsortingcomments
-		return render_template('submission.html', v=v, p=post, sort=sort, render_replies=True, offset=0, success=True, sub=post.subr)
+		return {"post_id": post.id}
 
 @app.post("/delete_post/<int:pid>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)

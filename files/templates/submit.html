@@ -12,7 +12,7 @@
 {% block content %}
 		{% block form %}
 		<div class="submit-grid-view">
-			<form id="submitform" action="{% if sub %}/h/{{sub}}{% endif %}/submit" method="post" enctype="multipart/form-data" style="grid-column: 2">
+			<form id="submitform" action="{% if sub %}/h/{{sub}}{% endif %}/submit" method="post" enctype="multipart/form-data" style="grid-column: 2" data-nonce="{{g.nonce}}" data-onsubmit="submit(this)">
 				<div class="container">
 						<div class="row justify-content-center mb-5">
 								<div class="col p-3 py-md-0">
@@ -93,15 +93,18 @@
 								</div>
 						</div>
 				<div class="container">
-						<div class="row fixed-bottom bg-white border-top p-3" style="z-index: 100; bottom: 0px; transition: bottom 220ms cubic-bezier(0, 0, 0.2, 1) 0s;">
-								<div class="col">
-										<a href="/" class="btn btn-secondary">Cancel</a>
-								</div>
-								<div class="col text-right">
-										{% if error %}<span class="text-danger text-large mr-2">{{error | safe}}</span>{% endif %}
-										<button type="submit" class="btn btn-primary" id="create_button" type="submit" data-nonce="{{g.nonce}}" data-onclick="disable(this);remove_dialog()">Post</button>
-								</div>
+					<div class="row fixed-bottom bg-white border-top p-3" style="z-index: 100; bottom: 0px; transition: bottom 220ms cubic-bezier(0, 0, 0.2, 1) 0s;">
+						<div class="col">
+							<a href="/" class="btn btn-secondary">Cancel</a>
 						</div>
+						<div class="col text-right">
+							<span id="upload-filelist" class="d-none mr-2">
+								<progress id="file-progress" max="100"></progress>
+								<span id="progress-percent"></span>
+							</span>
+							<button type="submit" class="btn btn-primary" id="create_button" type="submit" data-nonce="{{g.nonce}}" data-onclick="disable(this);remove_dialog()">Post</button>
+						</div>
+					</div>
 				</div>
 			</form>
 		</div>
