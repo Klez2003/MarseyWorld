@@ -351,7 +351,7 @@ def handle_youtube_links(url):
 	return html
 
 @with_sigalrm_timeout(10)
-def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys=False, torture=False, snappy=False, blackjack=None):
+def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys=False, torture=False, snappy=False, chat=False, blackjack=None):
 	sanitized = sanitized.strip()
 
 	if blackjack and execute_blackjack(g.v, None, sanitized, blackjack):
@@ -515,7 +515,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 		domain_list.add(d.lower())
 
 	def error(error):
-		if blackjack == "chat":
+		if chat:
 			return error, 403
 		else:
 			abort(403, error)
