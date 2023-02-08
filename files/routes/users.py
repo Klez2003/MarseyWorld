@@ -182,10 +182,11 @@ def user_voted_comments(v:User, username):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def banned(v:User):
+        # group temporary bans first and permanent bans last
 	users = g.db.query(User).filter(
 		User.is_banned != None,
 		or_(User.unban_utc == 0, User.unban_utc > time.time()),
-	).order_by(User.ban_reason)
+	).order_by(case((User.unban_utc > 0, 1), else_=2)).order_by(User.unban_utc)
 	if not v.can_see_shadowbanned:
 		users = users.filter(User.shadowbanned == None)
 	users = users.all()
