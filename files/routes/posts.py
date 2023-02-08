@@ -123,7 +123,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 
 	threshold = 100
 
-	if post.comment_count > threshold+25 and not (v and v.client) and not request.values.get("all"):
+	if post.comment_count > threshold+25 and not (v and v.client):
 		comments2 = []
 		count = 0
 		if post.created_utc > 1638672040: # TODO: migrate old comments to use top_comment_id
