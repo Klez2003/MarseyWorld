@@ -244,12 +244,12 @@ function submit(form) {
 	xhr.setRequestHeader('xhr', 'xhr');
 
 	xhr.onload = function() {
-		submitButton.disabled = false;
 		uploadfilelist.classList.add("d-none")
 		if (xhr.status >= 200 && xhr.status < 300) {
 			const post_id = JSON.parse(xhr.response)['post_id'];
 			location.href = "/post/" + post_id
 		} else {
+			submitButton.disabled = false;
 			document.getElementById('toast-post-error-text').innerText = "Error, please try again later."
 			try {
 				let data=JSON.parse(xhr.response);
