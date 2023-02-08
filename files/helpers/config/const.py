@@ -256,13 +256,13 @@ if SITE_NAME == 'rDrama':
 		'trp.red',
 
 		#nested-comments
+		SITE,
+		BAN_EVASION_DOMAIN,
 		'news.ycombinator.com',
 		'scored.co',
 		'scrd.app',
 		'steemit.com',
 		'ovarit.com',
-		'rdrama.net',
-		BAN_EVASION_DOMAIN,
 		'themotte.org',
 		'hexbear.net',
 		'cumtown.org',
