@@ -881,7 +881,7 @@
 	{"name":"mussolini","class":"Misc"},
 	{"name":"kylieface","class":"Misc"},
 	{"name":"queenyes","class":"Misc"},
-	{"name":"wholesomeseal","class":"Misc"},
+	{"name":"wholesomeseal","tags": ["seal", "reddit", "award"],"class":"Misc"},
 	{"name":"gigachadglow","tags": ["chad", "glow", "fbi"],"class":"Misc"},
 	{"name":"gigachadorthodox","tags": ["chad", "orthodox"],"class":"Misc"},
 	{"name":"gigachad","tags": ["chad"],"class":"Misc"},
