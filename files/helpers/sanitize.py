@@ -354,7 +354,7 @@ def handle_youtube_links(url):
 def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys=False, torture=False, snappy=False, chat=False, blackjack=None):
 	sanitized = sanitized.strip()
 
-	if blackjack and execute_blackjack(g.v, None, sanitized, blackjack):
+	if hasattr(g, 'v') and blackjack and execute_blackjack(g.v, None, sanitized, blackjack):
 		sanitized = 'g'
 
 	sanitized = utm_regex.sub('', sanitized)
