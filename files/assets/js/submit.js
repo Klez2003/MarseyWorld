@@ -1,4 +1,5 @@
 const IMAGE_FORMATS = document.getElementById('IMAGE_FORMATS').value.split(',')
+const submitButton = document.getElementById('create_button')
 
 document.getElementById('post-title').value = localStorage.getItem("post-title")
 document.getElementById('post-text').value = localStorage.getItem("post-text")
@@ -19,7 +20,6 @@ function checkForRequired() {
 	const title = document.getElementById("post-title");
 	const url = document.getElementById("post-url");
 	const text = document.getElementById("post-text");
-	const button = document.getElementById("create_button");
 	const image = document.getElementById("file-upload");
 	const image2 = document.getElementById("file-upload-submit");
 
@@ -38,11 +38,11 @@ function checkForRequired() {
 	const isValidText = text.checkValidity();
 
 	if (isValidTitle && (isValidURL || image.files.length > 0 || image2.files.length > 0)) {
-		button.disabled = false;
+		submitButton.disabled = false;
 	} else if (isValidTitle && isValidText) {
-		button.disabled = false;
+		submitButton.disabled = false;
 	} else {
-		button.disabled = true;
+		submitButton.disabled = true;
 	}
 }
 checkForRequired();
@@ -205,8 +205,6 @@ document.addEventListener('keydown', (e) => {
 	if(!((e.ctrlKey || e.metaKey) && e.key === "Enter"))
 		return;
 
-	const submitButton = document.getElementById('create_button')
-
 	submitButton.click();
 });
 
@@ -231,6 +229,8 @@ function handleUploadProgress(evt) {
 }
 
 function submit(form) {
+	submitButton.disabled = true;
+
 	const xhr = new XMLHttpRequest();
 
 	formData = new FormData(form);
@@ -248,6 +248,7 @@ function submit(form) {
 			const post_id = JSON.parse(xhr.response)['post_id'];
 			location.href = "/post/" + post_id
 		} else {
+			submitButton.disabled = false;
 			document.getElementById('toast-post-error-text').innerText = "Error, please try again later."
 			try {
 				let data=JSON.parse(xhr.response);
