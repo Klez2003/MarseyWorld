@@ -100,17 +100,20 @@ document.onpaste = function(event) {
 }
 
 document.getElementById('file-upload').addEventListener('change', function(){
-	f=document.getElementById('file-upload');
-	document.getElementById('urlblock').classList.add('d-none');
-	document.getElementById('filename-show').textContent = document.getElementById('file-upload').files[0].name.substr(0, 20);
-	filename = f.files[0].name.toLowerCase()
-	if (IMAGE_FORMATS.some(s => filename.endsWith(s)))
+	const f = document.getElementById('file-upload');
+	if (f.files)
 	{
-		const fileReader = new FileReader();
-		fileReader.readAsDataURL(f.files[0]);
-		fileReader.addEventListener("load", function () {document.getElementById('image-preview').setAttribute('src', this.result);});
+		document.getElementById('urlblock').classList.add('d-none');
+		const filename = f.files[0].name
+		document.getElementById('filename-show').textContent = filename.substr(0, 20);
+		if (IMAGE_FORMATS.some(s => filename.toLowerCase().endsWith(s)))
+		{
+			const fileReader = new FileReader();
+			fileReader.readAsDataURL(f.files[0]);
+			fileReader.addEventListener("load", function () {document.getElementById('image-preview').setAttribute('src', this.result);});
+		}
+		checkForRequired();
 	}
-	checkForRequired();
 })
 
 function savetext() {
