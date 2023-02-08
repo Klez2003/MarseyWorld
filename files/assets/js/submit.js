@@ -223,7 +223,7 @@ function handleUploadProgress(evt) {
 	uploadfilelist.classList.remove("d-none")
 	if (evt.lengthComputable) {
 		const progressPercent = Math.floor((evt.loaded / evt.total) * 100);
-		bar.setAttribute('value', progressPercent);
+		bar.value = progressPercent;
 		percentIndicator.textContent = progressPercent + '%';
 	}
 }
