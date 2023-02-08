@@ -275,6 +275,7 @@
 	{"name":"platykys","class":"Platy","tags":["kys", "killyourself", "keepyourselfsafe"]},
 	{"name":"platydinosaur","class":"Platy","tags":["rawr","dinosaur"]},
 
+	{"name":"wolfpicrew", "class":"Wolf", "tags":["trans", "picrew", "ugly", "calarts"]},
 	{"name":"wolfglowie","class":"Wolf","tags":["dramarama","fbi","federal","agent","police","detective","cop", "officer","lurking"]},
 	{"name":"wolfbootlicker","class":"Wolf","tags":["dramarama"]},
 	{"name":"wolfbrainlet","class":"Wolf","tags":["retard","stupid","idiot"]},
@@ -325,6 +326,8 @@
 	{"name":"wolfwave","class":"Wolf","author":"anton-d","tags":["wave", "salute"]},
 	{"name":"wolfwink","class":"Wolf","author":"anton-d","tags":["wink", "joke"]},
 
+	{"name":"taysneer","class":"Tay","tags":["sneer"]},
+	{"name":"tayvape","class":"Tay","tags":["vape"]},
 	{"name":"taylove","class":"Tay","tags":["love"]},
 	{"name":"tayaaa","class":"Tay","tags":["aaa"]},
 	{"name":"tayadmire","class":"Tay","tags":["admire"]},
@@ -368,6 +371,7 @@
 	{"name":"taywink","class":"Tay","tags":["wink"]},
 	{"name":"tayyes","class":"Tay","tags":["yes"]},
 
+	{"name":"postalsmiley","class":"Classic","tags":["postal", "game", "devil", "evil"]},
 	{"name":"grouphug","class":"Classic"},
 	{"name":"flowers","class":"Classic"},
 	{"name":"scootlgbt","class":"Classic"},
@@ -656,6 +660,15 @@
 	{"name":"antichristfffuuuu","class":"Rage"},
 	{"name":"bluehelmet","class":"Rage"},
 
+	{"name":"npcangry","class":"Wojak"},
+	{"name":"russiarentfree","tags":["wojack", "rent", "free", "russia", "cry", "seethe", "cope"],"class":"Wojak"},
+	{"name":"cunt","class":"Wojak"},
+	{"name":"soyjakfat","class":"Wojak","tags":["obese", "wingcuck"]},
+	{"name":"chudtantrum","tags":["chud"],"class":"Wojak"},
+	{"name":"chadcryguy","class":"Wojak"},
+	{"name":"chadpostal2","tags":["postal", "game", "shooting"],"class":"Wojak"},
+	{"name":"penisrentfree","tags":["cock", "peepee", "gay", "pipe", "balls", "nuts"],"class":"Wojak"},
+	{"name":"chadjewrentfree","tags":["chad", "jew"],"class":"Wojak"},
 	{"name":"afroblackjak","class":"Wojak"},
 	{"name":"altgirlblackjack","class":"Wojak"},
 	{"name":"antifajak","class":"Wojak"},
@@ -804,6 +817,9 @@
 	{"name":"witheredricefarmer","class":"Wojak"},
 	{"name":"yakuzajak","class":"Wojak"},
 
+	{"name":"capytalking", "tags":["capy", "soy", "aevann"], "class":"Misc"},
+	{"name":"gigachadcapy", "tags":["aevann", "giga", "chad", "capy"], "class":"Misc"},
+	{"name":"maid", "tags":["canada", "leaf", "suicide", "keep", "yourself", "safe", "noose", "anime", "kys", "kill", "yourself"],"class":"Misc"},
 	{"name":"grillcastyes", "tags":["podcast", "chad"],"class":"Misc"},
     {"name":"ivoted", "tags":["democracy", "spider"],"class":"Misc"},
     {"name":"hapyday", "tags":["happyday", "wholesome", "smile"],"class":"Misc"},
