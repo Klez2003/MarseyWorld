@@ -832,7 +832,7 @@ elif SITE == 'watchpeopledie.tv':
 
 	ERROR_MARSEYS[403] = "marseyconfused"
 
-	POLL_THREAD = 13225
+	POLL_THREAD = 22937
 
 	SIDEBAR_THREAD = 5403
 	BANNER_THREAD = 9869
