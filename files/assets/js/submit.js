@@ -232,6 +232,7 @@ function submit(form) {
 	submitButton.disabled = true;
 
 	const xhr = new XMLHttpRequest();
+	xhr.withCredentials=true;
 
 	formData = new FormData(form);
 
