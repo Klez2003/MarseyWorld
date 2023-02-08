@@ -3816,7 +3816,7 @@ small, .small {
 	overflow-x: scroll;
 }
 
-.ghost-post .post-meta {
+.posts .ghost-post .post-meta {
 	height: 30px;
 }
 
