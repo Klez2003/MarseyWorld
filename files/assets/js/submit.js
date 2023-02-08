@@ -6,7 +6,10 @@ document.getElementById('post-url').value = localStorage.getItem("post-url")
 
 document.getElementById('post-notify').checked = localStorage.getItem("post-notify") == 'true'
 document.getElementById('post-new').checked = localStorage.getItem("post-new") == 'true'
-document.getElementById('post-nsfw').checked = localStorage.getItem("post-nsfw") == 'true'
+const postnsfw = document.getElementById('post-nsfw')
+if (postnsfw) {
+    postnsfw.checked = localStorage.getItem("post-nsfw") == 'true'
+}
 document.getElementById('post-private').checked = localStorage.getItem("post-private") == 'true'
 document.getElementById('post-ghost').checked = localStorage.getItem("post-ghost") == 'true'
 
@@ -120,7 +123,9 @@ function savetext() {
 
 	localStorage.setItem("post-notify", document.getElementById('post-notify').checked)
 	localStorage.setItem("post-new", document.getElementById('post-new').checked)
-	localStorage.setItem("post-nsfw", document.getElementById('post-nsfw').checked)
+    if (postnsfw) {
+        localStorage.setItem("post-nsfw", document.getElementById('post-nsfw').checked)
+    }
 	localStorage.setItem("post-private", document.getElementById('post-private').checked)
 	localStorage.setItem("post-ghost", document.getElementById('post-ghost').checked)
 }

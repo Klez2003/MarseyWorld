@@ -674,7 +674,7 @@ def submit_post(v:User, sub=None):
 
 	flag_notify = (request.values.get("notify", "on") == "on")
 	flag_new = request.values.get("new", False, bool) or 'megathread' in title.lower()
-	flag_over_18 = request.values.get("over_18", False, bool)
+	flag_over_18 = FEATURES['NSFW_MARKING'] and request.values.get("over_18", False, bool)
 	flag_private = request.values.get("private", False, bool)
 	flag_ghost = request.values.get("ghost", False, bool) and v.can_post_in_ghost_threads
 
