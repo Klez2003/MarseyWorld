@@ -69,6 +69,7 @@ def publish(pid, v):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def submit_get(v:User, sub=None):
+	if v.id == AEVANN_ID: print(request.host, flush=True)
 	sub = get_sub_by_name(sub, graceful=True)
 	if request.path.startswith('/h/') and not sub: abort(404)
 
