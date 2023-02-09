@@ -14,6 +14,7 @@ _SETTINGS = {
 	"login_required": False,
 	"under_siege": False,
 	"dm_images": True,
+	"under_attack": False,
 }
 
 def get_setting(setting:str):

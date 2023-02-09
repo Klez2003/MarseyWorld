@@ -326,13 +326,7 @@ def reported_comments(v):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['ADMIN_HOME_VISIBLE'])
 def admin_home(v):
-	under_attack = False
-
-	if v.admin_level >= PERMS['SITE_SETTINGS_UNDER_ATTACK']:
-		under_attack = (get_security_level() or 'high') == 'under_attack'
-
-	return render_template("admin/admin_home.html", v=v,
-		under_attack=under_attack)
+	return render_template("admin/admin_home.html", v=v)
 
 @app.post("/admin/site_settings/<setting>")
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
@@ -346,6 +340,11 @@ def change_settings(v:User, setting):
 	val = toggle_setting(setting)
 	if val: word = 'enable'
 	else: word = 'disable'
+
+	if setting == "under_attack":
+		new_security_level = 'under_attack' if val else 'high'
+		if not set_security_level(new_security_level):
+			abort(400, f'Failed to {wprd} under attack mode')
 
 	if setting != 'login_required':
 		ma = ModAction(
@@ -368,25 +367,6 @@ def clear_cloudflare_cache(v):
 	)
 	g.db.add(ma)
 	return {"message": "Cloudflare cache cleared!"}
-
-@app.post("/admin/under_attack")
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
-@admin_level_required(PERMS['SITE_SETTINGS_UNDER_ATTACK'])
-def under_attack(v):
-	response = get_security_level()
-	if not response:
-		abort(400, 'Could not retrieve the current security level')
-	old_under_attack_mode = response == 'under_attack'
-	enable_disable_str = 'disable' if old_under_attack_mode else 'enable'
-	new_security_level = 'high' if old_under_attack_mode else 'under_attack'
-	if not set_security_level(new_security_level):
-		abort(400, f'Failed to {enable_disable_str} under attack mode')
-	ma = ModAction(
-		kind=f"{enable_disable_str}_under_attack",
-		user_id=v.id,
-	)
-	g.db.add(ma)
-	return {"message": f"Under attack mode {enable_disable_str}d!"}
 
 def admin_badges_grantable_list(v):
 	query = g.db.query(BadgeDef)

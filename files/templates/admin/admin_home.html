@@ -115,12 +115,6 @@
 		<label class="custom-control-label" for="settings-{{setting}}-checkbox">{{setting.replace('_', ' ').title()}}</label>
 	</div>
 	{% endfor %}
-	{% if v.admin_level >= PERMS['SITE_SETTINGS_UNDER_ATTACK'] %}
-		<div class="custom-control custom-switch" id="settings-under_attack-container">
-			<input autocomplete="off" type="checkbox" class="custom-control-input" id="under_attack" name="under_attack" {% if under_attack%}checked{% endif %} data-nonce="{{g.nonce}}" data-onchange="postToastSwitch(this,'/admin/under_attack');">
-			<label class="custom-control-label" for="under_attack">Under Attack Mode</label>
-		</div>
-	{% endif %}
 {% endif %}
 
 {% if v.admin_level >= PERMS['SITE_CACHE_PURGE_CDN'] %}
