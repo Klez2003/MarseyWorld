@@ -1296,10 +1296,10 @@ def claim_rewards(v):
 	send_repeatable_notification(v.id, f"You have received {marseybux} Marseybux! You can use them to buy awards or hats in the [shop](/shop) or gamble them in the [casino](/casino).")
 	g.db.add(v)
 
+	v.patron_utc = time.time() + 2937600
 
 	if highest_tier > v.patron:
 		v.patron = highest_tier
-		v.patron_utc = time.time() + 2937600
 		for badge in g.db.query(Badge).filter(Badge.user_id == v.id, Badge.badge_id > 20, Badge.badge_id < 28).all():
 			g.db.delete(badge)
 		badge_grant(badge_id=20+highest_tier, user=v)
