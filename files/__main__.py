@@ -41,7 +41,7 @@ if not IS_LOCALHOST:
 	app.config["SESSION_COOKIE_SECURE"] = True
 
 app.config["SESSION_COOKIE_NAME"] = "session_" + environ.get("SITE_NAME").strip().lower()
-app.config['MAX_CONTENT_LENGTH'] = 100 * 1024 * 1024
+app.config['MAX_CONTENT_LENGTH'] = 500 * 1024 * 1024 if SITE == 'watchpeopledie.tv' else 100 * 1024 * 1024
 app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
 app.config["PERMANENT_SESSION_LIFETIME"] = SESSION_LIFETIME
 app.config['SESSION_REFRESH_EACH_REQUEST'] = False
