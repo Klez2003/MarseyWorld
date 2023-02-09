@@ -336,7 +336,7 @@ INSERT INTO public.hat_defs VALUES (1000, 'BADASS DAD', 'A hat for the BADASS da
 INSERT INTO public.hat_defs VALUES (1005, 'The BIRD', 'FUCK YOU, FUCK YOU, ANDDDDDD FUCK YOUUUUUUUUUUUUU', 2, 500, NULL, 1667084316);
 INSERT INTO public.hat_defs VALUES (1140, 'Yiff In Hell', 'Translation: "I''m really desperate for social acceptance."', 2, 500, NULL, 1674463260);
 INSERT INTO public.hat_defs VALUES (1141, 'NCR Ranger Helmet', '"Patrolling the rdrama almost makes you wish for a nuclear winter"', 2, 500, NULL, 1675539483);
-
+INSERT INTO public.hat_defs VALUES (1144, 'Venom', '"We, are Venom"', 2, 500, NULL, 1675890800);
 INSERT INTO public.hat_defs VALUES (965, 'FDJ', '"Jetzt bin ich ein Freier Deutsche Jugendfunktionär"', 2, 500, NULL, 1665686729);
 INSERT INTO public.hat_defs VALUES (969, 'Elite Pedo Sniper', 'The shemagh gives you +10 accuracy', 2, 500, NULL, 1665817338);
 INSERT INTO public.hat_defs VALUES (933, 'Rascal', 'See this person 3 times and they have to give you something-Minecraft MV22', 2, 500, NULL, 1665434625);
@@ -462,7 +462,6 @@ INSERT INTO public.hat_defs VALUES (984, 'ICEED', 'Something about Coldtwinge on
 INSERT INTO public.hat_defs VALUES (975, 'Kitsune Mask II', 'Some more weeb furry shit idfk', 2, 500, NULL, 1666459532);
 INSERT INTO public.hat_defs VALUES (1107, 'Fire Sword', 'Tahu''s Fire Sword. It allows the user to channel fire energy.', 2, 500, NULL, 1670205482);
 INSERT INTO public.hat_defs VALUES (973, 'Pet Bee', 'Lookit him go! Buzz buzz buzz!!!!', 2, 1000, NULL, 1666459221);
-
 INSERT INTO public.hat_defs VALUES (830, 'Femboy hooters', 'Yes you ARE on the menu', 2, 500, NULL, 1665255628);
 INSERT INTO public.hat_defs VALUES (835, 'Rain', 'It''s a sad rainy day', 2, 1000, NULL, 1665259850);
 INSERT INTO public.hat_defs VALUES (837, 'Aura (blue)', 'Such power!', 2, 1000, NULL, 1665259885);
@@ -474,6 +473,7 @@ INSERT INTO public.hat_defs VALUES (1013, 'Moon and Stars', 'Become one with the
 INSERT INTO public.hat_defs VALUES (16, 'Drinky Beer Hat', 'I actually didn''t know these were real things until I made this', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (844, 'Snek Peek', 'When the friendly snek sees over your head', 2, 500, NULL, 1665261263);
 INSERT INTO public.hat_defs VALUES (17, 'Viking', 'Rape, pillage, never bathe. Live the dream.', 2, 500, NULL, 1662167687);
+INSERT INTO public.hat_defs VALUES (1143, 'Oldfag', 'I''m a grumpy oldfag and you should be mean to me', 2, 1000, NULL, 1675615203);
 INSERT INTO public.hat_defs VALUES (532, 'Under His Eye', 'WATCH ANOTHER SHOW', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (845, 'Loading', 'please wait', 2, 1000, NULL, 1665261780);
 INSERT INTO public.hat_defs VALUES (1014, 'Pilgrim', 'die injun die', 2, 500, NULL, 1667517948);
@@ -1286,6 +1286,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyamazon',2,'warehouse piss bottle driver wagecuck piss jug pissbottle pissjug wagie',NULL),
 ('marseyamber',2,'dalle2 generated',NULL),
 ('marseyamogus',2,'sussy baka impostor imposter stonetoss among us shh vent',NULL),
+('marseyancap',2,'ancap anarchocapitalist anarcho capitalist anarchy when u kill nigs lmao bottom text smile smiley',1675809981),
 ('marseyandjesus',2,'christianity christian jesus god love cute wholesome happy hug',NULL),
 ('marseyandmarcus',2,'bed sleeping cuddling cuddle marseyismywaifu',NULL),
 ('marseyangel',2,'reaction angelic happy innocent',NULL),
@@ -1468,6 +1469,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyblueanime',2,'cirno touhou weebshit',NULL),
 ('marseybluecheck',2,'journoid checkmark verified journalist drolling drool twitter',NULL),
 ('marseyblush',2,'shy flirting reaction blushing happy cute embarrassed',NULL),
+('marseybo',2,'bo magazinchik alien hare rabbit bunny',1675907261),
 ('marseybobpage',2,'glowie deusex big pharma rocket daddy elon musk suit',NULL),
 ('marseybog',2,'rich brothers bogdanoff',NULL),
 ('marseybong',2,'england walkers britain english chips british bad teeth crisps uk',NULL),
@@ -1743,6 +1745,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseycontemplatesuicide',2,'gunshot mirror contemplate contemplating reflection pistol handgun death kms kys suicidal die death',NULL),
 ('marseycool',2,'finger gun shades sunglasses reaction judgment',NULL),
 ('marseycool2',2,'cigarette hip shades sunglasses jacket smoking smoke',NULL),
+('marseycools',2,'graffiti s cool super',1675890242),
 ('marseycoomer',2,'masturbation goon cumbrain porn masturbate',NULL),
 ('marseycoomer2',2,'gooning masturbation fapping cumming gooner nofap',NULL),
 ('marseycoomer3',2,'coomer cumming masturbation blueballed',1665238828),
@@ -1821,6 +1824,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseydeadinside3',2,'depressed suicidal doomer tired despair wrinkled wrinkles',NULL),
 ('marseydealwithit',2,'cool shades sunglasses reaction animated',NULL),
 ('marseydeathpose',2,'griffin family dead broken',NULL),
+('marseydeception',2,'lies lying misinformation provoke internet troll',1675915368),
 ('marseydefenestration',2,'suicide window jump kill murder kms jump out window death die defenestrate',NULL),
 ('marseydemiurge',2,'gnostic gnosticism demiurge',NULL),
 ('marseydemonicgrin',2,'evil wicked horror teeth',NULL),
@@ -2383,6 +2387,8 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseylong1',2,'top meme',NULL),
 ('marseylong2',2,'middle meme',NULL),
 ('marseylong3',2,'bottom meme',NULL),
+('marseylongcockandballs',2,'marsey long cock balls redrocket penis dick johnson member erection testicles bollocks meatandtwoveg familyjewels',1675902882),
+('marseylonggigatitty',2,'gigatitty long marsey tits',1675902705),
 ('marseylonghorn',2,'texas bevo college football horns sports',1663872538),
 ('marseylongpost',2,'tldr reaction wall of text wordswordswords animated words',NULL),
 ('marseylongpost2',2,'tldr reaction wall of text scrolling wordswordswords animated words judgment',NULL),
@@ -2447,6 +2453,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseymechanic',2,'wrench car diy fix repairman dipfuck',NULL),
 ('marseymeds',2,'mentally ill rightoid doctor psycho crazy mental illness reaction risperidone schizo nurse',NULL),
 ('marseymedusa',2,'medusa snakes greece greek mythology ancient monster perseus gorgon',NULL),
+('marseymega',2,'megamarsey',1675855721),
 ('marseymegalodon',2,'shark carpathianflorist jaws attack eating killing',NULL),
 ('marseymemeball',2,'picardia strawman polcomp political',NULL),
 ('marseymeowth',2,'pokemon weeb anime manga team rocket nintendo video game vidya monster',NULL),
@@ -2538,6 +2545,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseynorf',2,'soccer british football sports',1668780332),
 ('marseynosleep',2,'horror scary halloween holiday',NULL),
 ('marseynosuchcases',2,'strawman fake news cope seethe none many luggage airport conveyor belt sam brinton',1675541160),
+('marseynotameme',2,'milhouse simpsons vanhouten millhouse notameme nonmeme bart homer marge',1675892783),
 ('marseynotes',2,'notes writer writing journ*list therapist doodle pencil',NULL),
 ('marseynotes2',2,'notes notepad pencil writing nerd glasses behind',NULL),
 ('marseynotesglow',2,'notes glow cia fbi fed writer writing pencil',NULL),
@@ -2645,6 +2653,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseypharaohcat',2,'egyptian illuminati aevann pyramid sand ancient alien artifact museum history king cleopatra',NULL),
 ('marseyphonecall',2,'pepe apu peepo phone call cellphone',NULL),
 ('marseypibblechad',2,'pibble pitbull velvethippo dogfood rape kidnap',1668484532),
+('marseypibblelivesmatter',2,'marsey pibble lives matter plm pit pittie bull dog protest fist',1675902955),
 ('marseypickle',2,'funniest shit morty rick',NULL),
 ('marseypicrew',2,'trans lgbt gay lesbian picrew ugly',1674282029),
 ('marseypicrewwpd',2,'wpd knife trans gay lgbt ugly calarts',1674282084),
@@ -3188,6 +3197,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseytlsm',2,'snake sex mating janny codecel tlsm schizocel',1665564339),
 ('marseytoasterbath',2,'suicide suicidal kill death bathtub electrocution electricity kms',NULL),
 ('marseytoasty',2,'homer simpsons cozy comfy bed',1670280548),
+('marseytoasty2',2,'marsey comfy toasty bed sleep two cute',1675902755),
 ('marseytoht',2,'toht melting hat',1673133050),
 ('marseytoilet',2,'flush loo bog roll toilet paper swirly',NULL),
 ('marseytom',2,'thatfuckingmarsey fucking marsey tom and jerry tomjerry cartoon hanna barbera vintage smug',NULL),
