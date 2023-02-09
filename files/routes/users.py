@@ -1372,8 +1372,6 @@ def gumroad():
 
 	claim_rewards_all_users()
 
-	print("/gumroad done\n\n\n-----------------------\n\n\n", flush=True)
-
 	return ''
 
 
