@@ -523,9 +523,6 @@ def is_repost():
 @limiter.limit(POST_RATE_LIMIT, key_func=get_ID)
 @auth_required
 def submit_post(v:User, sub=None):
-	if request.content_length > 500 * 1024 * 1024:
-		return {"error": "Max file size is 500 MB."}, 413
-
 	url = request.values.get("url", "").strip()
 
 	if '\\' in url: abort(400)
