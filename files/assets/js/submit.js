@@ -5,6 +5,7 @@ document.getElementById('post-title').value = localStorage.getItem("post-title")
 document.getElementById('post-text').value = localStorage.getItem("post-text")
 document.getElementById('post-url').value = localStorage.getItem("post-url")
 
+document.getElementById('sub').value = localStorage.getItem("sub")
 document.getElementById('post-notify').checked = localStorage.getItem("post-notify") == 'true'
 document.getElementById('post-new').checked = localStorage.getItem("post-new") == 'true'
 const postnsfw = document.getElementById('post-nsfw')
@@ -120,9 +121,7 @@ function savetext() {
 	localStorage.setItem("post-title", document.getElementById('post-title').value)
 	localStorage.setItem("post-text", document.getElementById('post-text').value)
 	localStorage.setItem("post-url", document.getElementById('post-url').value)
-
-	let sub = document.getElementById('sub')
-	if (sub) localStorage.setItem("sub", sub.value)
+	localStorage.setItem("sub", document.getElementById('sub').value)
 
 	localStorage.setItem("post-notify", document.getElementById('post-notify').checked)
 	localStorage.setItem("post-new", document.getElementById('post-new').checked)
@@ -209,11 +208,6 @@ document.addEventListener('keydown', (e) => {
 });
 
 checkRepost();
-
-if (location.href == '/submit') {
-	const sub = document.getElementById('sub')
-	if (sub) sub.value = localStorage.getItem("sub")
-}
 
 const uploadfilelist = document.getElementById('upload-filelist');
 const bar = document.getElementById('file-progress');
