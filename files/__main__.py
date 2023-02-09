@@ -60,6 +60,9 @@ if "load_chat" in argv:
 def get_CF():
 	with app.app_context():
 		x = request.headers.get('CF-Connecting-IP')
+		if hasattr(g, "v") and g.v.id == 9:
+			print(x, flush=True)
+			print(request.remote_addr, flush=True)
 		if x: return x
 		return request.remote_addr
 
