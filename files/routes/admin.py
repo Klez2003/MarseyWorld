@@ -344,7 +344,7 @@ def change_settings(v:User, setting):
 	if setting == "under_attack":
 		new_security_level = 'under_attack' if val else 'high'
 		if not set_security_level(new_security_level):
-			abort(400, f'Failed to {wprd} under attack mode')
+			abort(400, f'Failed to {word} under attack mode')
 
 	if setting != 'login_required':
 		ma = ModAction(
