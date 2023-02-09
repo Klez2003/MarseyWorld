@@ -863,7 +863,8 @@ elif SITE == 'watchpeopledie.tv':
 		5: "Survivor",
 		6: "Jigsaw"
 	}
-
+elif SITE == 'devrama.net':
+	AEVANN_ID = 7
 else: # localhost or testing environment implied
 	FEATURES['ASSET_SUBMISSIONS'] = True
 	FEATURES['PRONOUNS'] = True

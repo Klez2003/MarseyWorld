@@ -332,7 +332,7 @@ def admin_home(v):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['SITE_SETTINGS'])
 def change_settings(v:User, setting):
-	if SITE == 'devrama.net':
+	if SITE == 'devrama.net' and v.id != AEVANN_ID:
 		abort(403, "Can't change this shit in devrama!")
 
 	if setting not in get_settings().keys():
