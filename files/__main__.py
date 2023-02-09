@@ -61,7 +61,7 @@ def get_CF():
 	with app.app_context():
 		x = request.headers.get('CF-Connecting-IP')
 		if x: return x
-		return request.remote_addr
+		return request.headers.get('X-Forwarded-For')
 
 limiter = Limiter(
 	app=app,
