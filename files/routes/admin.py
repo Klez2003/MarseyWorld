@@ -341,11 +341,8 @@ def change_settings(v:User, setting):
 	if val: word = 'enable'
 	else: word = 'disable'
 
-	print(setting, flush=True)
 	if setting == "under_attack":
 		new_security_level = 'under_attack' if val else 'high'
-		print(new_security_level, flush=True)
-		print(set_security_level(new_security_level), flush=True)
 		if not set_security_level(new_security_level):
 			abort(400, f'Failed to {word} under attack mode')
 
