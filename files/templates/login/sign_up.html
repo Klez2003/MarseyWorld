@@ -15,18 +15,18 @@
 {% if ref_user %}
 	{% set login_namespace.authtitle = '@' ~ ref_user.username ~ ' has invited you!' %}
 	{% set login_namespace.authtext = 'Looks like someone wants you to join ' ~ SITE_NAME ~ '.' %}
-{% elif not site_settings['login_required'] %}
+{% elif not SITE_SETTINGS['login_required'] %}
 	{% set login_namespace.authtitle = "Create your account." %}
 	{% set login_namespace.authtext = "No email address required." %}
 {% endif %}
-{% if ref_user or not site_settings['login_required'] %}
+{% if ref_user or not SITE_SETTINGS['login_required'] %}
 	{% block authtitle %}{{login_namespace.authtitle}}{% endblock %}
 	{% block authtext %}{{login_namespace.authtext}}{% endblock %}
 {% endif %}
 
 {% block content %}
 <div id="register-form">
-	{% if not ref_user and SITE_NAME == 'rDrama' and site_settings['login_required'] %}
+	{% if not ref_user and SITE_NAME == 'rDrama' and SITE_SETTINGS['login_required'] %}
 	<img loading="lazy" id="logo" alt="logo" src="{{'logo.webp' | asset_siteimg}}" width=70>
 	<hr>
 	<p class="text-muted text-justify mb-3" style="line-height: 1.2em">
@@ -46,7 +46,7 @@
 		<em>xoxo carp</em> 💋
 	</p>
 	<hr>
-	{% elif not ref_user and SITE_NAME == 'WPD' and site_settings['login_required'] %}
+	{% elif not ref_user and SITE_NAME == 'WPD' and SITE_SETTINGS['login_required'] %}
 	<img loading="lazy" id="logo" alt="logo" src="{{'logo.webp' | asset_siteimg}}" width=70>
 	<hr>
 	<p class="text-muted text-justify mb-1" style="line-height: 1.2em">
@@ -103,7 +103,7 @@
 		Already have an account? <a href="/login{{'?redirect='+redirect if redirect else ''}}" class="font-weight-bold toggle-login">Log in</a>
 	</div>
 	</form>
-	{% if not ref_user and SITE_NAME == 'WPD' and site_settings['login_required'] %}
+	{% if not ref_user and SITE_NAME == 'WPD' and SITE_SETTINGS['login_required'] %}
 	<p class="text-muted text-justify mb-1" style="line-height: 1.2em; font-size: 10px">
 		* okay so it's actually whenever I feel like hitting that Login Required button. I'm really sorry, but you have to understand: WE WANT TO BE YOUR FRIEND. And we can't do that unless you join. There's really no reason not to. Like I said, 8 seconds <em>at most</em> to register. What are you worried about? Your email being sold? I don't even know what that means and you don't either. Go ahead, tell me what you'd do if someone said like, "alright bud, go sell your email address to someone." WHAT DOES THAT MEAN? And, again, you really don't even need an email. Just a username and some stupid password. That's <strong>all</strong>. Come on. Peer pressure.
 	</p>
