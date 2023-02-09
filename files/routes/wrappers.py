@@ -18,6 +18,11 @@ def get_ID():
 	else:
 		x = "logged_out"
 	
+	if x == 9:
+		print(f'{SITE}-{x}', flush=True)
+		print(request.headers.get('CF-Connecting-IP'), flush=True)
+		print(request.remote_addr, flush=True)
+
 	return f'{SITE}-{x}'
 
 def get_logged_in_user():
