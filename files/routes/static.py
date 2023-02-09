@@ -354,16 +354,3 @@ if not os.path.exists(f'files/templates/donate_{SITE_NAME}.html'):
 @auth_desired_with_logingate
 def donate(v):
 	return render_template(f'donate_{SITE_NAME}.html', v=v)
-
-
-# @app.post('/csp_violations')
-# @limiter.limit("5/minute;10/day")
-# def csp_violations():
-# 	content = request.get_json(force=True)['csp-report']
-# 	if content.get('source-file') and content['source-file'].startswith(SITE_FULL):
-# 		print('--------', flush=True)
-# 		for k, val in content.items():
-# 			if k != 'original-policy':
-# 				print(f"{k}: {val}", flush=True)
-# 		print('--------', flush=True)
-# 	return ''
