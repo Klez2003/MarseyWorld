@@ -471,7 +471,6 @@ def thumbnail_thread(pid:int, vid:int):
 		db.commit()
 	db.close()
 	stdout.flush()
-	return
 
 
 @app.post("/is_repost")
