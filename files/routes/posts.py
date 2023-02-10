@@ -99,14 +99,15 @@ def post_id(pid, anything=None, v=None, sub=None):
 
 	if v:
 		execute_shadowban_viewers_and_voters(v, post)
-		# shadowban check is done in sort_objects
-		# output is needed: see comments.py
-		comments, output = get_comments_v_properties(v, True, None, Comment.parent_submission == post.id, Comment.level < 10)
-		pinned = [c[0] for c in comments.filter(Comment.stickied != None).order_by(Comment.created_utc.desc()).all()]
+		
+		comments = g.db.query(Comment).filter(Comment.parent_submission == post.id, Comment.level < 10)
+		
+		pinned = comments.filter(Comment.stickied != None).order_by(Comment.created_utc.desc()).all()
 		comments = comments.filter(Comment.level == 1, Comment.stickied == None)
-		comments = sort_objects(sort, comments, Comment,
-			include_shadowbanned=(v and v.can_see_shadowbanned))
-		comments = [c[0] for c in comments.all()]
+
+		comments = sort_objects(sort, comments, Comment, include_shadowbanned=(v and v.can_see_shadowbanned))
+		
+		comments = comments.all()
 	else:
 		pinned = g.db.query(Comment).filter(Comment.parent_submission == post.id, Comment.stickied != None).order_by(Comment.created_utc.desc()).all()
 
@@ -148,6 +149,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 
 	pinned2 = {}
 	for pin in pinned:
+		ids.add(pin.id)
 		if pin.stickied_utc and int(time.time()) > pin.stickied_utc:
 			pin.stickied = None
 			pin.stickied_utc = None
@@ -163,6 +165,8 @@ def post_id(pid, anything=None, v=None, sub=None):
 
 	post.views += 1
 	g.db.add(post)
+
+	y, output = get_comments_v_properties(v, True, None, Comment.top_comment_id.in_(ids), Comment.level < 10)
 
 	if v and v.client:
 		return post.json(g.db)
