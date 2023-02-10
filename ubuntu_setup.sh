@@ -40,6 +40,7 @@ mkdir /images
 mkdir /chat_images
 mkdir /dm_images
 mkdir /songs
+mkdir /temp_songs
 mkdir /videos
 mkdir /audio
 mkdir /asset_submissions

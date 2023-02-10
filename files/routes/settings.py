@@ -779,7 +779,7 @@ def settings_song_change(v):
 
 	ydl_opts = {
 		'cookiefile': '.cookies',
-		'outtmpl': '/songs/%(title)s.%(ext)s',
+		'outtmpl': '/temp_songs/%(title)s.%(ext)s',
 		'format': 'bestaudio/best',
 		'postprocessors': [{
 			'key': 'FFmpegExtractAudio',
@@ -796,8 +796,8 @@ def settings_song_change(v):
 						v=v,
 						error="Age-restricted videos aren't allowed."), 400
 
-	files = os.listdir("/songs/")
-	paths = [path.join("/songs/", basename) for basename in files]
+	files = os.listdir("/temp_songs/")
+	paths = [path.join("/temp_songs/", basename) for basename in files]
 	songfile = max(paths, key=path.getctime)
 	os.rename(songfile, f"/songs/{id}.mp3")
 

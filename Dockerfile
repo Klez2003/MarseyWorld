@@ -21,6 +21,7 @@ RUN mkdir /images
 RUN mkdir /chat_images
 RUN mkdir /dm_images
 RUN mkdir /songs
+RUN mkdir /temp_songs
 RUN mkdir /videos
 RUN mkdir /audio
 RUN mkdir /asset_submissions
