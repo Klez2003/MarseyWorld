@@ -371,10 +371,6 @@
 <script defer src="{{'js/new_comments.js' | asset}}"></script>
 <script defer src="{{'js/submission.js' | asset}}"></script>
 
-{% if success %}
-	<script defer src="{{'js/submission_success.js' | asset}}"></script>
-{% endif %}
-
 {% if fart and not (v and v.has_badge(128)) %}
 	<script defer src="{{'js/fart.js' | asset}}"></script>
 {% endif %}
