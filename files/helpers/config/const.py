@@ -236,6 +236,7 @@ if SITE_NAME == 'rDrama':
 		'looksmax.org',
 		'sanctioned-suicide.org',
 		'ar15.com',
+		'neogaf.com',
 
 		#twitter-like
 		'gab.com',
