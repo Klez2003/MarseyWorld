@@ -166,7 +166,8 @@ def post_id(pid, anything=None, v=None, sub=None):
 	post.views += 1
 	g.db.add(post)
 
-	y, output = get_comments_v_properties(v, True, None, Comment.top_comment_id.in_(ids), Comment.level < 10)
+	if v:
+		y, output = get_comments_v_properties(v, True, None, Comment.top_comment_id.in_(ids), Comment.level < 10)
 
 	if v and v.client:
 		return post.json(g.db)
