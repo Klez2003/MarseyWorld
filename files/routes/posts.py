@@ -82,9 +82,6 @@ def submit_get(v:User, sub=None):
 @app.get("/h/<sub>/post/<int:pid>/<anything>")
 @auth_desired_with_logingate
 def post_id(pid, anything=None, v=None, sub=None):
-	if v and v.id == AEVANN_ID and pid == 18459:
-		t = time.time()
-
 	post = get_post(pid, v=v)
 	if not User.can_see(v, post): abort(403)
 
@@ -172,13 +169,9 @@ def post_id(pid, anything=None, v=None, sub=None):
 			and not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or post.author_id == v.id)):
 		template = "submission_banned.html"
 
-	x = render_template(template, v=v, p=post, ids=list(ids),
+	return render_template(template, v=v, p=post, ids=list(ids),
 		sort=sort, render_replies=True, offset=offset, sub=post.subr,
 		fart=get_setting('fart_mode'))
-
-	if v and v.id == AEVANN_ID and post.id == 18459:
-		print(time.time() - t)
-	return x
 
 @app.get("/view_more/<int:pid>/<sort>/<offset>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
