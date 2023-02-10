@@ -33,6 +33,10 @@
 {% endif %}
 {% endblock %}
 {% block desktopBanner %}
+{%- set search_placeholder = "Search" -%}
+{%- if sub -%}
+	{%- set search_placeholder = "Search (try '" ~ HOLE_NAME ~ ":" ~ sub.name ~ "')" -%}
+{%- endif -%}
 <div class="row" style="overflow: visible;padding-top:5px;">
 	<div class="col">
 		<form id="searchform" class="form-inline d-md-none search flex-nowrap mt-2" action="/search/posts" method="get">
