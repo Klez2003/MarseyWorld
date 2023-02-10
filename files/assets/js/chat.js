@@ -174,13 +174,13 @@ function send() {
 function quote(t) {
 	document.getElementById("quotes").classList.remove("d-none")
 
-	const text = t.parentElement.getElementsByClassName("text")[0].innerHTML.replace(/\*/g,"\\*").split('\n').pop()
+	const text = t.parentElement.parentElement.getElementsByClassName("text")[0].innerHTML.replace(/\*/g,"\\*").split('\n').pop()
 	document.getElementById('QuotedMessage').innerHTML = text
 
-	const username = t.parentElement.parentElement.parentElement.parentElement.getElementsByClassName('userlink')[0].textContent
+	const username = t.parentElement.parentElement.parentElement.parentElement.parentElement.getElementsByClassName('userlink')[0].textContent
 	document.getElementById('QuotedUser').innerHTML = username
 
-	const id = t.parentElement.parentElement.parentElement.id
+	const id = t.parentElement.parentElement.parentElement.parentElement.id
 	document.getElementById('quotes_id').value = id
 	document.getElementById('QuotedMessageLink').href = `#${id}`
 
@@ -256,7 +256,7 @@ socket.on('typing', function (users){
 
 
 function del(t) {
-	const chatline = t.parentElement.parentElement.parentElement
+	const chatline = t.parentElement.parentElement.parentElement.parentElement
 	socket.emit('delete', chatline.id);
 	chatline.remove()
 }

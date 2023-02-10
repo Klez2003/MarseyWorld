@@ -29,7 +29,7 @@
 				{% set mentioned = m and vlink in m['text_html'] or (quote_exists and messages[m['quotes']]['user_id'] == v.id) %}
 				<div class="chat-line {% if mentioned %}chat-mention{% endif %}" {% if m %}id="{{id}}"{% endif %}>
 					<div class="d-flex align-items-center">
-						<div class="text-muted chat-line-content d-flex">
+						<div class="text-muted chat-line-content">
 							<div class="{% if not (m and m['quotes']) %}d-none{% endif %} quotes" style="font-size:12px">
 								<a class="QuotedMessageLink" {% if m and m['quotes'] %}href="#{{m['quotes']}}"{% endif %}>
 									<i class="fas fa-reply"></i> 
@@ -46,21 +46,23 @@
 								</a>
 							</div>
 
-							<span class="chat-message text-black text-break">
-								{% if m %}
-									{% if v.slurreplacer %}
-										{{m['text_censored'] | safe}}
-									{% else %}
-										{{m['text_html'] | safe}}
+							<div class="d-flex">
+								<span class="chat-message text-black text-break">
+									{% if m %}
+										{% if v.slurreplacer %}
+											{{m['text_censored'] | safe}}
+										{% else %}
+											{{m['text_html'] | safe}}
+										{% endif %}
 									{% endif %}
+								</span>
+								<span class="text d-none">{% if m %}{{m['text']}}{% endif %}</span>
+								<i class="quote btn fas fa-reply ml-auto" data-nonce="{{g.nonce}}" data-onclick="quote(this)"></i>
+								{% if v.admin_level > 1 %}
+									<i class="btn del fas fa-trash-alt"></i>
+									<i class="btn d-none del delmsg fas fa-trash-alt text-danger" data-nonce="{{g.nonce}}" data-onclick="del(this)"></i>
 								{% endif %}
-							</span>
-							<span class="text d-none">{% if m %}{{m['text']}}{% endif %}</span>
-							<i class="quote btn fas fa-reply ml-auto" data-nonce="{{g.nonce}}" data-onclick="quote(this)"></i>
-							{% if v.admin_level > 1 %}
-								<i class="btn del fas fa-trash-alt"></i>
-								<i class="btn d-none del delmsg fas fa-trash-alt text-danger" data-nonce="{{g.nonce}}" data-onclick="del(this)"></i>
-							{% endif %}
+							</div>
 						</div>
 					</div>
 				</div>
