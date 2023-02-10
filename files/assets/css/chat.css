@@ -88,10 +88,10 @@ p {
 .quote, .del {
 	padding: 0 0.5rem !important;
 	border: none !important;
-	float: right;
 	color: var(--black);
 	font-size: 12px;
-	margin-top: 4px;
+	margin-top: auto;
+    margin-bottom: auto;
 }
 
 lite-youtube {
