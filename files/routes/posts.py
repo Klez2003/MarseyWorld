@@ -82,7 +82,7 @@ def submit_get(v:User, sub=None):
 @app.get("/h/<sub>/post/<int:pid>/<anything>")
 @auth_desired_with_logingate
 def post_id(pid, anything=None, v=None, sub=None):
-	if v.id == AEVANN_ID and post.id == 18459:
+	if v and v.id == AEVANN_ID and post.id == 18459:
 		print(t = time.time())
 
 	post = get_post(pid, v=v)
