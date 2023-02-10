@@ -122,6 +122,7 @@ SLURS = {
 	"daisys destruction": "Cars 2",
 	"daisy destruction": "Cars 2",
 	"pajeet": "sexy Indian dude",
+	"hunter2": "*******",
 }
 
 BAN_EVASION_DOMAIN = 'stupidpol.site'
