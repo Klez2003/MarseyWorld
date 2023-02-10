@@ -83,7 +83,7 @@ def submit_get(v:User, sub=None):
 @auth_desired_with_logingate
 def post_id(pid, anything=None, v=None, sub=None):
 	if v and v.id == AEVANN_ID and pid == 18459:
-		print(t = time.time())
+		t = time.time()
 
 	post = get_post(pid, v=v)
 	if not User.can_see(v, post): abort(403)
