@@ -51,11 +51,6 @@ mkdir /var/log/rdrama
 
 chown rdrama:rdrama /var/log/rdrama
 
-git config --global --add safe.directory /songs
-git config --global --add safe.directory /images
-git config --global --add safe.directory /videos
-git config --global --add safe.directory /audio
-
 snap install opera-proxy
 
 ufw allow ssh
