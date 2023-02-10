@@ -726,6 +726,45 @@ def settings_song_change_mp3(v):
 
 	return redirect("/settings/personal?msg=Profile Anthem successfully updated!")
 
+
+def _change_song_youtube(vid, id):
+	db = db_session()
+	v = db.get(User, vid)
+
+	if v.song and path.isfile(f"/songs/{v.song}.mp3") and db.query(User).filter_by(song=v.song).count() == 1:
+		os.remove(f"/songs/{v.song}.mp3")
+
+	ydl_opts = {
+		'cookiefile': '.cookies',
+		'outtmpl': '/temp_songs/%(title)s.%(ext)s',
+		'format': 'bestaudio/best',
+		'postprocessors': [{
+			'key': 'FFmpegExtractAudio',
+			'preferredcodec': 'mp3',
+			'preferredquality': '192',
+		}],
+	}
+
+	with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+		try: ydl.download([f"https://youtube.com/watch?v={id}"])
+		except Exception as e:
+			print(e, flush=True)
+			db.commit()
+			db.close()
+			return
+
+	files = os.listdir("/temp_songs/")
+	paths = [path.join("/temp_songs/", basename) for basename in files]
+	songfile = max(paths, key=path.getctime)
+	os.rename(songfile, f"/songs/{id}.mp3")
+
+	v.song = id
+	db.add(v)
+	db.commit()
+	db.close()
+	stdout.flush()
+
+
 @app.post("/settings/song_change")
 @feature_required('USERS_PROFILE_SONG')
 @limiter.limit("3/second;10/day")
@@ -773,37 +812,9 @@ def settings_song_change(v):
 		if duration > 15:
 			return redirect("/settings/personal?error=Duration of the video must not exceed 15 minutes!"), 400
 
+	gevent.spawn(_change_song_youtube, v.id, id)
 
-	if v.song and path.isfile(f"/songs/{v.song}.mp3") and g.db.query(User).filter_by(song=v.song).count() == 1:
-		os.remove(f"/songs/{v.song}.mp3")
-
-	ydl_opts = {
-		'cookiefile': '.cookies',
-		'outtmpl': '/temp_songs/%(title)s.%(ext)s',
-		'format': 'bestaudio/best',
-		'postprocessors': [{
-			'key': 'FFmpegExtractAudio',
-			'preferredcodec': 'mp3',
-			'preferredquality': '192',
-		}],
-	}
-
-	with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-		try: ydl.download([f"https://youtube.com/watch?v={id}"])
-		except Exception as e:
-			print(e, flush=True)
-			return render_template("settings/personal.html",
-						v=v,
-						error="Age-restricted videos aren't allowed."), 400
-
-	files = os.listdir("/temp_songs/")
-	paths = [path.join("/temp_songs/", basename) for basename in files]
-	songfile = max(paths, key=path.getctime)
-	os.rename(songfile, f"/songs/{id}.mp3")
-
-	v.song = id
-	g.db.add(v)
-	return redirect("/settings/personal?msg=Profile Anthem successfully updated!")
+	return redirect("/settings/personal?msg=Profile Anthem successfully updated. Wait 5 minutes for the change to take effect.")
 
 @app.post("/settings/title_change")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
