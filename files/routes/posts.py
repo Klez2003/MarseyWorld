@@ -176,7 +176,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 		sort=sort, render_replies=True, offset=offset, sub=post.subr,
 		fart=get_setting('fart_mode'))
 
-	if v.id == AEVANN_ID and post.id == 18459:
+	if v and v.id == AEVANN_ID and post.id == 18459:
 		print(time.time() - t)
 	return x
 
