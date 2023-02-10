@@ -6265,7 +6265,7 @@ blockquote {
 	font-size: 1rem;
 	font-weight: 400;
 	background-color: #26242a;
-	padding: 0 1rem;
+	padding: 0 0 0 1rem;
 	margin: 1rem 0 0 0;
 }
 div > blockquote:last-child {
@@ -6278,6 +6278,7 @@ blockquote > :not(blockquote) {
 	margin-bottom: 0;
 	padding-bottom: 0.7rem;
 	padding-top: 0.7rem;
+	padding-right: 0.7rem;
 }
 blockquote + blockquote, div > blockquote:first-child, blockquote:last-child {
 	margin-top: 0 !important;
