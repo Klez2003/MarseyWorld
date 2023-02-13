@@ -444,7 +444,9 @@ function populate_speed_emoji_modal(results, textbox)
 			speed_carot_modal.style.display = "none";
 			textbox.value = textbox.value.replace(new RegExp(current_word+"(?=\\s|$)", "g"), `:${result}:`)
 			textbox.focus()
-			markdown(textbox)
+			if (document.location.pathname != '/chat'){
+				markdown(textbox)
+			}
 		});
 		// Pack
 		emoji_option.appendChild(emoji_option_img);
