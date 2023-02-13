@@ -193,25 +193,31 @@
 				{% endif %}
 
 				{% if c.notif_utc %}
-					<span id="timestamp-{{c.id}}" data-nonce="{{g.nonce}}" data-onmouseover="timestamp(this, '{{c.notif_utc}}')" data-bs-toggle="tooltip" data-bs-placement="bottom" class="time-stamp">&nbsp;{{c.age_string}}</span>
+					<span id="timestamp-{{c.id}}" data-nonce="{{g.nonce}}" data-onmouseover="timestamp(this, '{{c.notif_utc}}')" data-bs-toggle="tooltip" data-bs-placement="bottom" class="time-stamp d-inline-block">&nbsp;{{c.age_string}}</span>
 				{% elif c.created_utc %}
-					<span id="timestamp-{{c.id}}" data-nonce="{{g.nonce}}" data-onmouseover="timestamp(this, '{{c.created_utc}}')" data-bs-toggle="tooltip" data-bs-placement="bottom" class="time-stamp">&nbsp;{{c.age_string}}</span>
+					<span id="timestamp-{{c.id}}" data-nonce="{{g.nonce}}" data-onmouseover="timestamp(this, '{{c.created_utc}}')" data-bs-toggle="tooltip" data-bs-placement="bottom" class="time-stamp d-inline-block">&nbsp;{{c.age_string}}</span>
 				{% endif %}
 
 				{% if c.edited_utc %}
-				<span class="time-edited" id="time-edit-{{c.id}}" data-nonce="{{g.nonce}}" data-onmouseover="timestamp(this, '{{c.edited_utc}}')"><span>&#183;</span> <span class="font-italic">Edited {{c.edited_string}}</span></span>
+				<span class="time-edited" id="time-edit-{{c.id}}" data-nonce="{{g.nonce}}" data-onmouseover="timestamp(this, '{{c.edited_utc}}')"><span>&#183;</span> <span class="font-italic d-inline-block">Edited {{c.edited_string}}</span></span>
 				{% endif %}
 
 				{% if c.treasure_amount and c.treasure_amount != '0' %}
 				{% if c.treasure_amount.startswith('l') %}
-				<img class="treasure" loading="lazy" alt="treasure" src="/i/treasure_tickets.webp" width="20" height="20">
-				<em>Found {{c.treasure_amount.replace('l', '')}} Lottershe Tickets!</em>
+				<span class="d-inline-block"> 
+					<img class="treasure" loading="lazy" alt="treasure" src="/i/treasure_tickets.webp" width="20" height="20">
+					<em>Found {{c.treasure_amount.replace('l', '')}} Lottershe Tickets!</em>
+				</span>
 				{% elif '-' in c.treasure_amount %}
-				<img class="treasure" loading="lazy" alt="treasure" src="/i/treasure_mimic.webp" width="20" height="20">
-				<em>A Mimic Ate {{c.treasure_amount.replace('-', '')}} Coins!</em>
+				<span class="d-inline-block"> 
+					<img class="treasure" loading="lazy" alt="treasure" src="/i/treasure_mimic.webp" width="20" height="20">
+					<em>A Mimic Ate {{c.treasure_amount.replace('-', '')}} Coins!</em>
+				</span>
 				{% else %}
-				<img class="treasure" loading="lazy" alt="treasure" src="/i/treasure_coins.webp" width="20" height="20">
-				<em>Found {{c.treasure_amount}} Coins!</em>
+				<span class="d-inline-block"> 
+					<img class="treasure" loading="lazy" alt="treasure" src="/i/treasure_coins.webp" width="20" height="20">
+					<em>Found {{c.treasure_amount}} Coins!</em>
+				</span>
 				{% endif %}
 				{% endif %}
 
