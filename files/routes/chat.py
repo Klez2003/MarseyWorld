@@ -3,6 +3,7 @@ import time
 import uuid
 
 from flask_socketio import SocketIO, emit
+from flask import request
 
 from files.helpers.actions import *
 from files.helpers.alerts import *
@@ -22,6 +23,7 @@ socketio = SocketIO(
 
 typing = []
 online =  []
+sessions = []
 cache.set(CHAT_ONLINE_CACHE_KEY, len(online), timeout=0)
 muted = cache.get(f'muted') or {}
 messages = cache.get(f'messages') or {}
@@ -132,6 +134,7 @@ def refresh_online():
 @admin_level_required(PERMS['CHAT'])
 def connect(v):
 
+	sessions.append([v.id, request.sid])
 	if [v.username, v.id, v.name_color] not in online:
 		online.append([v.username, v.id, v.name_color])
 
@@ -143,13 +146,19 @@ def connect(v):
 @socketio.on('disconnect')
 @admin_level_required(PERMS['CHAT'])
 def disconnect(v):
+	if ([v.id, request.sid]) in sessions:
+		sessions.remove([v.id, request.sid])
+		if any(v.id in i for i in sessions):
+			# user has other running sessions
+			return '', 204
+
 	if [v.username, v.id, v.name_color] in online:
 		online.remove([v.username, v.id, v.name_color])
 		refresh_online()
 
 	if v.username in typing:
 		typing.remove(v.username)
-	
+
 	return '', 204
 
 @socketio.on('typing')
