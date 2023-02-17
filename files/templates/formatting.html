@@ -5,7 +5,7 @@
 
 <div class="ml-2">You can use Markdown formatting:</div>
 
-<div class="overflow-x-auto mt-3"><table class="table table-striped mb-5">
+<div class="overflow-x-auto mt-3"><table class="table table-striped mb-5 generate-copy-buttons">
 	<thead class="bg-primary text-white">
 		<tr>
 			<th>Name</th>
@@ -237,7 +237,7 @@ And we allow custom HTML in most places:
 
 <h4 class="mt-2">Allowed Tags</h4>
 
-<div class="overflow-x-auto"><table class="table table-striped mb-5">
+<div class="overflow-x-auto"><table class="table table-striped mb-5 generate-copy-buttons">
 	<thead class="bg-primary text-white">
 		<tr>
 			<th>Name</th>
@@ -626,4 +626,12 @@ line breaks
 	</tbody>
 </table></div>
 
+<div class="toast clipboard" id="toast-success" data-bs-animation="true" data-bs-autohide="true" data-bs-delay="5000">
+        <div class="toast-body text-center">
+                <i class="fas fa-check-circle text-success mr-2"></i>Text copied to clipboard
+        </div>
+</div>
+
+<script defer src="{{'js/vendor/clipboard.js' | asset}}"></script>
+<script defer src="{{'js/formatting.js' | asset}}"></script>
 {% endblock %}
