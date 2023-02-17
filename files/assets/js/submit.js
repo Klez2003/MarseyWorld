@@ -5,7 +5,11 @@ document.getElementById('post-title').value = localStorage.getItem("post-title")
 document.getElementById('post-text').value = localStorage.getItem("post-text")
 document.getElementById('post-url').value = localStorage.getItem("post-url")
 
-document.getElementById('sub').value = localStorage.getItem("sub")
+const sub_entry = document.getElementById('sub')
+if (!sub_entry.value) {
+	sub_entry.value = localStorage.getItem("sub")
+}
+
 document.getElementById('post-notify').checked = localStorage.getItem("post-notify") == 'true'
 document.getElementById('post-new').checked = localStorage.getItem("post-new") == 'true'
 const postnsfw = document.getElementById('post-nsfw')
