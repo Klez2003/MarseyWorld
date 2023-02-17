@@ -213,6 +213,7 @@ if SITE_NAME == 'rDrama':
 		'8kun.top',
 		'soyjak.party',
 		'crystal.cafe',
+		'choachan.cafe',
 
 		#forums
 		'kiwifarms.net',
