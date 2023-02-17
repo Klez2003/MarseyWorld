@@ -136,6 +136,10 @@ lite-youtube {
 	display: inline-block;
 }
 
+.quotes {
+	max-width: 80%;
+}
+
 .resizable>video {
     max-height: 28vh!important;
 	margin: 14px 0 0 0!important;
