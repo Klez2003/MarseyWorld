@@ -392,7 +392,7 @@ def update_marsey(v):
 		purge_files_in_cache([f"https://{SITE}/e/{name}.webp", f"https://{SITE}/assets/images/emojis/{name}.webp", f"https://{SITE}/asset_submissions/marseys/original/{name}.{format}"])
 
 	if tags and existing.tags != tags and tags != "none":
-		existing.tags = tags
+		existing.tags += f" {tags}"
 		g.db.add(existing)
 	elif not file:
 		return error("You need to actually update something!")
