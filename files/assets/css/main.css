@@ -5133,10 +5133,6 @@ lite-youtube {
 	margin-bottom: 1.3rem !important;
 }
 
-.youtube_embed > lite-youtube {
-	margin: auto
-}
-
 lite-youtube::before {
 	content: '';
 	display: block;
