@@ -212,8 +212,8 @@ INSERT INTO public.badge_defs VALUES (224, 'Died of Starvation', 'Couldn''t work
 INSERT INTO public.badge_defs VALUES (225, 'Monkey Playdate', 'Forgot to check their worry levels during Advent of Code 2022, completing at least 1 star.', 1672289660);
 INSERT INTO public.badge_defs VALUES (226, 'Stargazer', 'Kept themselves unworried throughout all of Advent of Code 2022, completing all 50 stars.', 1672289696);
 INSERT INTO public.badge_defs VALUES (227, 'Saved Christmas with Teh Codez', 'Got the highest score and completed all 50 stars during Advent of Code 2022.', 1672289744);
-INSERT INTO public.badge_defs VALUES (229, 'Certified MONSTER Cock', 'This user submit a photo of their dick and it was confirmed to be HUGE', 1674147916);
-INSERT INTO public.badge_defs VALUES (230, 'Itty Bitty Clitty', 'This user submit a photo of their dick and it was determined to be more similar to a sad, undersized clit', 1674147964);
+INSERT INTO public.badge_defs VALUES (229, 'Certified MONSTER Cock', 'This user submitted a photo of their dick and it was confirmed to be HUGE', 1674147916);
+INSERT INTO public.badge_defs VALUES (230, 'Itty Bitty Clitty', 'This user submitted a photo of their dick and it was determined to be more similar to a sad, undersized clit', 1674147964);
 
 
 --
