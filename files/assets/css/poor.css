@@ -1,3 +1,0 @@
-* :not(img[src="/i/hand.webp"] + img, img.golden, img[g], img[glow]) {
-	animation: unset !important;
-}
