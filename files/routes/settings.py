@@ -750,7 +750,7 @@ def _change_song_youtube(vid, id):
 		try: ydl.download([f"https://youtube.com/watch?v={id}"])
 		except Exception as e:
 			print(e, flush=True)
-			db.commit()
+			db.rollback()
 			db.close()
 			return
 
