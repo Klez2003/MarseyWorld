@@ -367,8 +367,6 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 
 	sanitized = normalize_url(sanitized)
 
-	sanitized = twitter_regex.sub(r'\1', sanitized)
-
 	if '```' not in sanitized and '<pre>' not in sanitized:
 		sanitized = linefeeds_regex.sub(r'\1\n\n\2', sanitized)
 
