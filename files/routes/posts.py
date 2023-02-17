@@ -532,11 +532,8 @@ def submit_post(v:User, sub=None):
 	title = sanitize_raw_title(request.values.get("title", ""))
 	body = sanitize_raw_body(request.values.get("body", ""), True)
 
-	def error(error):
-		return {"error": error}, 400
-
 	if not title:
-		return error("Please enter a better title!")
+		abort(400, "Please enter a better title!")
 
 	sub = request.values.get("sub", "").lower().replace('/h/','').strip()
 
@@ -546,36 +543,33 @@ def submit_post(v:User, sub=None):
 	torture = (v.agendaposter and not v.marseyawarded and sub != 'chudrama')
 	title_html = filter_emojis_only(title, graceful=True, count_marseys=True, torture=torture)
 	if v.marseyawarded and not marseyaward_title_regex.fullmatch(title_html):
-		return error("You can only type marseys!")
+		abort(400, "You can only type marseys!")
 	if len(title_html) > POST_TITLE_HTML_LENGTH_LIMIT:
-		return error("Rendered title is too big!")
+		abort(400, "Rendered title is too big!")
 
 	if sub == 'changelog' and not v.admin_level >= PERMS['POST_TO_CHANGELOG']:
-		# we also allow 'code contributor' badgeholders to post to the changelog hole
-		allowed = g.db.query(Badge.user_id).filter_by(badge_id=3).all()
-		allowed = [x[0] for x in allowed]
-		if v.id not in allowed: return error("You don't have sufficient permissions to post in /h/changelog")
+		abort(400, "You don't have sufficient permissions to post in /h/changelog")
 
 	if sub in {'furry','vampire','racist','femboy'} and not v.client and not v.house.lower().startswith(sub):
-		return error(f"You need to be a member of House {sub.capitalize()} to post in /h/{sub}")
+		abort(400, f"You need to be a member of House {sub.capitalize()} to post in /h/{sub}")
 
 	if sub and sub != 'none':
 		sname = sub.strip().lower()
 		sub = g.db.query(Sub.name).filter_by(name=sname).one_or_none()
-		if not sub: return error(f"/h/{sname} not found!")
+		if not sub: abort(400, f"/h/{sname} not found!")
 		sub = sub[0]
-		if v.exiled_from(sub): return error(f"You're exiled from /h/{sub}")
+		if v.exiled_from(sub): abort(400, f"You're exiled from /h/{sub}")
 	else: sub = None
 
 	if not sub and HOLE_REQUIRED:
-		return error(f"You must choose a {HOLE_NAME} for your post!")
+		abort(400, f"You must choose a {HOLE_NAME} for your post!")
 
-	if v.is_suspended: return error("You can't perform this action while banned!")
+	if v.is_suspended: abort(400, "You can't perform this action while banned!")
 
 	if v.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
-		return error("You have to type more than 280 characters!")
+		abort(400, "You have to type more than 280 characters!")
 	elif v.bird and len(body) > 140:
-		return error("You have to type less than 140 characters!")
+		abort(400, "You have to type less than 140 characters!")
 
 
 	embed = None
@@ -621,7 +615,7 @@ def submit_post(v:User, sub=None):
 		banned_domains = g.db.query(BannedDomain).all()
 		for x in banned_domains:
 			if y.startswith(x.domain):
-				return error(f'Remove the banned link "{x.domain}" and try again!<br>Reason for link ban: "{x.reason}"')
+				abort(400, f'Remove the banned link "{x.domain}" and try again!<br>Reason for link ban: "{x.reason}"')
 
 		if "twitter.com" == domain:
 			try:
@@ -637,7 +631,7 @@ def submit_post(v:User, sub=None):
 
 
 	if not url and not body and not request.files.get("file") and not request.files.get("file-url"):
-		return error("Please enter a url or some text!")
+		abort(400, "Please enter a url or some text!")
 
 	if not IS_LOCALHOST:
 		dup = g.db.query(Submission).filter(
@@ -653,7 +647,7 @@ def submit_post(v:User, sub=None):
 		return redirect("/notifications")
 
 	if len(url) > 2048:
-		return error("There's a 2048 character limit for URLs!")
+		abort(400, "There's a 2048 character limit for URLs!")
 
 	body, bets, options, choices = sanitize_poll_options(v, body, True)
 
@@ -665,10 +659,10 @@ def submit_post(v:User, sub=None):
 	body_html = sanitize(body, count_marseys=True, limit_pings=100, showmore=False, torture=torture)
 
 	if v.marseyawarded and marseyaward_body_regex.search(body_html):
-		return error("You can only type marseys!")
+		abort(400, "You can only type marseys!")
 
 	if len(body_html) > POST_BODY_HTML_LENGTH_LIMIT:
-		return error(f"Submission body_html too long!")
+		abort(400, f"Submission body_html too long!")
 
 	flag_notify = (request.values.get("notify", "on") == "on")
 	flag_new = request.values.get("new", False, bool) or 'megathread' in title.lower()
