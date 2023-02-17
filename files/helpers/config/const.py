@@ -312,6 +312,10 @@ if SITE_NAME == 'rDrama':
 		'metafilter.com',
 		'sqwok.im',
 		'thelayoff.com',
+		'stackexchange.com',
+		'stackoverflow.com',
+		'serverfault.com',
+		'superuser.com',
 	}
 
 	BOOSTED_HOLES = {
