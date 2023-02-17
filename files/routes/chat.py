@@ -134,6 +134,12 @@ def refresh_online():
 @admin_level_required(PERMS['CHAT'])
 def connect(v):
 
+	if any(v.id in session for session in sessions) and [v.username, v.id, v.name_color] not in online:
+		# user has previous running sessions with a different username or name_color
+		for chat_user in online:
+			if(v.id == chat_user[1]):
+				online.remove(chat_user)
+
 	sessions.append([v.id, request.sid])
 	if [v.username, v.id, v.name_color] not in online:
 		online.append([v.username, v.id, v.name_color])
@@ -148,16 +154,17 @@ def connect(v):
 def disconnect(v):
 	if ([v.id, request.sid]) in sessions:
 		sessions.remove([v.id, request.sid])
-		if any(v.id in i for i in sessions):
+		if any(v.id in session for session in sessions):
 			# user has other running sessions
 			return '', 204
 
-	if [v.username, v.id, v.name_color] in online:
-		online.remove([v.username, v.id, v.name_color])
-		refresh_online()
+	for chat_user in online:
+		if(v.id == chat_user[1]):
+			online.remove(chat_user)
+			if chat_user[0] in typing:
+				typing.remove(chat_user[0])
 
-	if v.username in typing:
-		typing.remove(v.username)
+	refresh_online()
 
 	return '', 204
 
