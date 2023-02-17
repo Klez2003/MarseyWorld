@@ -737,7 +737,7 @@ def _change_song_youtube(vid, id):
 
 	ydl_opts = {
 		'cookiefile': '.cookies',
-		'outtmpl': '/temp_songs/%(title)s.%(ext)s',
+		'outtmpl': '/temp_songs/%(id)s.%(ext)s',
 		'format': 'bestaudio/best',
 		'postprocessors': [{
 			'key': 'FFmpegExtractAudio',
@@ -754,10 +754,7 @@ def _change_song_youtube(vid, id):
 			db.close()
 			return
 
-	files = os.listdir("/temp_songs/")
-	paths = [path.join("/temp_songs/", basename) for basename in files]
-	songfile = max(paths, key=path.getctime)
-	os.rename(songfile, f"/songs/{id}.mp3")
+	os.rename(f"/temp_songs/{id}.mp3", f"/songs/{id}.mp3")
 
 	v.song = id
 	db.add(v)
