@@ -800,18 +800,19 @@ def settings_song_change(v):
 		return redirect("/settings/personal?msg=Profile Anthem successfully updated!")
 
 
-	req = requests.get(f"https://www.googleapis.com/youtube/v3/videos?id={id}&key={YOUTUBE_KEY}&part=contentDetails", timeout=5).json()
-	duration = req['items'][0]['contentDetails']['duration']
-	if duration == 'P0D':
-		return redirect("/settings/personal?error=Can't use a live youtube video!"), 400
+	if YOUTUBE_KEY != DEFAULT_CONFIG_VALUE:
+		req = requests.get(f"https://www.googleapis.com/youtube/v3/videos?id={id}&key={YOUTUBE_KEY}&part=contentDetails", timeout=5).json()
+		duration = req['items'][0]['contentDetails']['duration']
+		if duration == 'P0D':
+			return redirect("/settings/personal?error=Can't use a live youtube video!"), 400
 
-	if "H" in duration:
-		return redirect("/settings/personal?error=Duration of the video must not exceed 15 minutes!"), 400
-
-	if "M" in duration:
-		duration = int(duration.split("PT")[1].split("M")[0])
-		if duration > 15:
+		if "H" in duration:
 			return redirect("/settings/personal?error=Duration of the video must not exceed 15 minutes!"), 400
+
+		if "M" in duration:
+			duration = int(duration.split("PT")[1].split("M")[0])
+			if duration > 15:
+				return redirect("/settings/personal?error=Duration of the video must not exceed 15 minutes!"), 400
 
 	gevent.spawn(_change_song_youtube, v.id, id)
 
