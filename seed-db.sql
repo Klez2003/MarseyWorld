@@ -2721,7 +2721,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseypostal',2,'postal smirk vidya game ginger',1667567600),
 ('marseypostal2',2,'postal p3 game ginger',1667746211),
 ('marseypostmodern',2,'postmodernist obscurantist art',NULL),
-('marseypotofsneed',2,'pot sneed pottery dungeon ornamental ancient',NULL),
+('marseypotofsneed',2,'pot sneed pottery dungeon ornamental ancient yugioh card anime potofgreed pot of greed',NULL),
 ('marseypredator',2,'predator drone obama wedding military',NULL),
 ('marseypregunta',2,'mexican mexico latinx hispanic confused question marks questionmarks hmm spic beaner wat what why how idgi sombrero',NULL),
 ('marseypresents',2,'christmas gifts santa holiday candy cane happy',NULL),
