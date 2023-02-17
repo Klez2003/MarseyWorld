@@ -36,6 +36,7 @@ def searchparse(text):
 		criteria['q'] = []
 		for m in search_token_regex.finditer(text):
 			token = m[1] if m[1] else m[2]
+			if not token: token = ''
 			# Escape SQL pattern matching special characters
 			token = token.replace('\\', '').replace('_', '\_').replace('%', '\%')
 			criteria['q'].append(token)
