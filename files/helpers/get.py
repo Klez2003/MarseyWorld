@@ -363,13 +363,7 @@ def get_profile_picture(identifier:Union[int, str]) -> str:
 	return x.profile_url if x else 'not_found'
 
 def get_error():
-	if request.referrer and request.referrer.split('?')[0] == request.base_url:
-		return request.values.get("error")
-	else:
-		return None
+	return request.values.get("error")
 
 def get_msg():
-	if request.referrer and request.referrer.split('?')[0] == request.base_url:
-		return request.values.get("msg")
-	else:
-		return None
+	return request.values.get("msg")
