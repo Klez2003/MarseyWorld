@@ -756,7 +756,7 @@ if SITE == 'rdrama.net':
 		'idio3': IDIO_ID,
 		'idio ': IDIO_ID,
 		'telegram ': IDIO_ID,
-		'the_homocracy': 147,
+		'homocracy': 147,
 		'donger': 541,
 		'geese': 1710,
 		'soren': 2546,
