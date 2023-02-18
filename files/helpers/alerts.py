@@ -112,21 +112,28 @@ def NOTIFY_USERS(text, v):
 	if v.age < NOTIFICATION_SPAM_AGE_THRESHOLD:
 		return set()
 
+	text = text.lower()
 	notify_users = set()
+
 	for word, id in NOTIFIED_USERS.items():
-		if id == 0 or v.id == id: continue
-		if word in text.lower() and id not in notify_users: notify_users.add(id)
+		if word in text and id not in notify_users:
+			notify_users.add(id)
+
+	if '!biofoids' in text:
+		if v.id not in BIOFOIDS:
+			abort(403, "Only members of the ping group can ping it!")
+		notify_users.update(BIOFOIDS)
 
 	names = set(m.group(2) for m in mention_regex.finditer(text))
 	for user in get_users(names, graceful=True):
 		if v.id != user.id and not v.any_block_exists(user):
 			notify_users.add(user.id)
 
-	if SITE_NAME == "WPD" and 'daisy' in text.lower():
+	if SITE_NAME == "WPD" and 'daisy' in text:
 		admin_ids = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_SPECIFIC_WPD_COMMENTS']).all()]
 		notify_users.update(admin_ids)
 
-	return notify_users - bots
+	return notify_users - bots - {v.id, 0}
 
 
 def push_notif(uids, title, body, url):
