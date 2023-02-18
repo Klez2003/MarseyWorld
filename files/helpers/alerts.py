@@ -120,9 +120,10 @@ def NOTIFY_USERS(text, v):
 			notify_users.add(id)
 
 	if '!biofoids' in text and SITE == 'rdrama.net':
-		if v.id not in BIOFOIDS:
-			abort(403, "Only members of the ping group can ping it!")
-		notify_users.update(BIOFOIDS)
+		if v.id != AEVANN_ID:
+			if v.id not in BIOFOIDS:
+				abort(403, "Only members of the ping group can ping it!")
+			notify_users.update(BIOFOIDS)
 
 	names = set(m.group(2) for m in mention_regex.finditer(text))
 	for user in get_users(names, graceful=True):
