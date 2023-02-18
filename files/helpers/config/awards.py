@@ -311,18 +311,6 @@ AWARDS = {
 	},
 
 	### Standard
-	"marsify": {
-		"kind": "marsify",
-		"title": "Marsify",
-		"description": "Marsifies the recipient's comments for 24 hours.",
-		"icon": "fas fa-cat",
-		"color": "text-white",
-		"price": 150,
-		"deflectable": True,
-		"cosmetic": False,
-		"ghost": False,
-		"enabled": True,
-	},
 	"shit": {
 		"kind": "shit",
 		"title": "Shit",
@@ -441,6 +429,18 @@ AWARDS = {
 		"deflectable": False,
 		"cosmetic": True,
 		"ghost": True,
+		"enabled": True,
+	},
+	"marsify": {
+		"kind": "marsify",
+		"title": "Marsify",
+		"description": "Marsifies the recipient's comments for 24 hours.",
+		"icon": "fas fa-cat",
+		"color": "text-white",
+		"price": 300,
+		"deflectable": True,
+		"cosmetic": False,
+		"ghost": False,
 		"enabled": True,
 	},
 	"rehab": {
