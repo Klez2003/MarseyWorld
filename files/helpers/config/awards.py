@@ -443,6 +443,33 @@ AWARDS = {
 		"ghost": False,
 		"enabled": True,
 	},
+
+	#for non-rdrama sites
+	"owoify": {
+		"kind": "owoify",
+		"title": "OwOify",
+		"description": "OwOifies the recipient's comments for 6 hours.",
+		"icon": "fas fa-paw-simple",
+		"color": "text-purple",
+		"price": 500,
+		"deflectable": True,
+		"cosmetic": False,
+		"ghost": False,
+		"enabled": SITE_NAME != 'rDrama',
+	},
+	"rainbow": {
+		"kind": "rainbow",
+		"title": "Rainbow",
+		"description": "Makes the recipient's comments and posts in rainbow text for 24 hours.",
+		"icon": "fas fa-cloud-rainbow",
+		"color": "text-pink",
+		"price": 500,
+		"deflectable": True,
+		"cosmetic": False,
+		"ghost": False,
+		"enabled": SITE_NAME != 'rDrama',
+	},
+
 	"rehab": {
 		"kind": "rehab",
 		"title": "Rehab",
@@ -730,32 +757,6 @@ AWARDS = {
 		"cosmetic": False,
 		"ghost": False,
 		"enabled": True,
-	},
-
-	#for non-rdrama sites
-	"owoify": {
-		"kind": "owoify",
-		"title": "OwOify",
-		"description": "OwOifies the recipient's comments for 6 hours.",
-		"icon": "fas fa-paw-simple",
-		"color": "text-purple",
-		"price": 500,
-		"deflectable": True,
-		"cosmetic": False,
-		"ghost": False,
-		"enabled": SITE_NAME != 'rDrama',
-	},
-	"rainbow": {
-		"kind": "rainbow",
-		"title": "Rainbow",
-		"description": "Makes the recipient's comments and posts in rainbow text for 24 hours.",
-		"icon": "fas fa-cloud-rainbow",
-		"color": "text-pink",
-		"price": 500,
-		"deflectable": True,
-		"cosmetic": False,
-		"ghost": False,
-		"enabled": SITE_NAME != 'rDrama',
 	},
 }
 
