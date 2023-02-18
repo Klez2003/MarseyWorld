@@ -124,9 +124,9 @@ def comment(v:User):
 	if not User.can_see(v, parent): abort(403)
 	if not isinstance(parent, User) and parent.deleted_utc != 0:
 		if isinstance(parent, Submission):
-			abort(403, "This post has been deleted!")
+			abort(403, "You can't reply to deleted posts!")
 		else:
-			abort(403, "This comment has been deleted!")
+			abort(403, "You can't reply to deleted comments!")
 
 	if posting_to_submission:
 		sub = post_target.sub
