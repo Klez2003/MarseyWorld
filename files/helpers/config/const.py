@@ -57,10 +57,10 @@ class Service(Enum):
 	RDRAMA = auto()
 	CHAT = auto()
 
-CLOUDFLARE_COOKIE_VALUE = "yes." # remember to change this in CloudFlare too
-
-DEFAULT_RATELIMIT = "3/second;30/minute;200/hour;1000/day"
+POST_RATELIMIT = '1/second;10/hour;20/day'
 DEFAULT_RATELIMIT_SLOWER = "1/second;30/minute;200/hour;1000/day"
+DEFAULT_RATELIMIT = "3/second;30/minute;200/hour;1000/day"
+CASINO_RATELIMIT = "5/second;100/minute;2000/hour;12000/day"
 
 PUSH_NOTIF_LIMIT = 1000
 
@@ -586,7 +586,6 @@ ERROR_MARSEYS = {
 EMOJI_SRCS = ['files/assets/emojis.json']
 
 PIN_LIMIT = 3
-POST_RATE_LIMIT = '1/second;10/hour;20/day'
 POST_TITLE_LENGTH_LIMIT = 500 # do not make larger than 500 without altering the table
 POST_TITLE_HTML_LENGTH_LIMIT = 1500 # do not make larger than 1500 without altering the table
 POST_BODY_LENGTH_LIMIT = 20000 # do not make larger than 20000 without altering the table

@@ -518,8 +518,8 @@ def is_repost():
 
 @app.post("/submit")
 @app.post("/h/<sub>/submit")
-@limiter.limit(POST_RATE_LIMIT)
-@limiter.limit(POST_RATE_LIMIT, key_func=get_ID)
+@limiter.limit(POST_RATELIMIT)
+@limiter.limit(POST_RATELIMIT, key_func=get_ID)
 @auth_required
 def submit_post(v:User, sub=None):
 	url = request.values.get("url", "").strip()
