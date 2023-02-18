@@ -127,8 +127,6 @@ socket.on('speak', function(json) {
 	}
 
 	let line = document.getElementsByClassName('chat-line')[0].cloneNode(true)
-	register_new_elements(line);
-	bs_trigger(line)
 	if (last_user == json['user_id']) {
 		box.querySelector('.chat-group:last-child').append(line)
 	}
@@ -137,6 +135,10 @@ socket.on('speak', function(json) {
 		chatgroup.append(line)
 		box.append(chatgroup)
 	}
+
+	const line2 = document.getElementById(json['id'])
+	register_new_elements(line2);
+	bs_trigger(line2)
 
 	if (scrolled_down || json['user_id'] == vid)
 		box.scrollTo(0, box.scrollHeight)
