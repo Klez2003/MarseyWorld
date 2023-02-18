@@ -22,8 +22,14 @@
 			<li><a href="/post/{{SNAPPY_THREAD}}">Add Snappy Quotes</a></li>
 		{% endif %}
 		{% if SITE_NAME == 'rDrama' %}
-			<li><a href="/admin/update/marseys">Update Marseys</a></li>
-			<li><a href="/admin/update/hats">Update Hats</a></li>
+			{% if v.admin_level >= PERMS['MODERATE_PENDING_SUBMITTED_ASSETS'] %}
+				<li><a href="/submit/marseys">Approve or Reject Marseys</a></li>
+				<li><a href="/submit/hats">Approve or Reject Hats</a></li>
+			{% endif %}
+			{% if v.admin_level >= PERMS['UPDATE_ASSETS'] %}
+				<li><a href="/admin/update/marseys">Update Marseys</a></li>
+				<li><a href="/admin/update/hats">Update Hats</a></li>
+			{% endif %}
 		{% endif %}
 	</ul>
 {% endif %}
