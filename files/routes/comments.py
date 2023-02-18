@@ -15,7 +15,6 @@ from files.helpers.marsify import marsify
 from files.helpers.media import *
 from files.helpers.owoify import owoify
 from files.helpers.regex import *
-from files.helpers.sanitize import filter_emojis_only
 from files.helpers.slots import *
 from files.helpers.treasure import *
 from files.routes.front import comment_idlist
