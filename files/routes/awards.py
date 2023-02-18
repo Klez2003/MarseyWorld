@@ -250,7 +250,7 @@ def award_thing(v, thing_type, id):
 		author.is_banned = AUTOJANNY_ID
 		author.ban_reason = f"grass award used by @{v.username} on {link3}"
 		author.unban_utc = int(time.time()) + 30 * 86400
-		send_repeatable_notification(author.id, f"Your account has been banned permanently for {link}. You must [provide the admins](/contact) a timestamped picture of you touching grass/snow/sand/ass to get unbanned!")
+		send_repeatable_notification(author.id, f"@{v.username} gave you the grass award on {link} and as a result you have been banned! You must [send the admins](/contact) a timestamped picture of you touching grass/snow/sand/ass to get unbanned!")
 	elif kind == "pin":
 		if not FEATURES['PINS']: abort(403)
 		if thing.is_banned: abort(403)
