@@ -119,7 +119,7 @@ def NOTIFY_USERS(text, v):
 		if word in text and id not in notify_users:
 			notify_users.add(id)
 
-	if '!biofoids' in text:
+	if '!biofoids' in text and SITE == 'rdrama.net':
 		if v.id not in BIOFOIDS:
 			abort(403, "Only members of the ping group can ping it!")
 		notify_users.update(BIOFOIDS)
