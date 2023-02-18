@@ -63,7 +63,7 @@ def feeds_user(sort='hot', t='all'):
 
 				doc.stag("link", href=post.permalink)
 
-				image_url = post.thumb_url or post.embed_url or post.url
+				image_url = post.thumb_url or post.embed or post.url
 
 				doc.stag("media:thumbnail", url=image_url)
 

@@ -112,7 +112,7 @@ CREATE TABLE public.submissions (
     url character varying(2083),
     body character varying(20000),
     body_html character varying(40000),
-    embed_url character varying(1500),
+    embed character varying(1500),
     ban_reason character varying(25),
     title_html character varying(1500) NOT NULL,
     realupvotes integer,
@@ -2806,4 +2806,3 @@ ALTER TABLE ONLY public.comments
 --
 -- PostgreSQL database dump complete
 --
-

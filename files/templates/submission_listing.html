@@ -240,7 +240,7 @@
 		</div>
 	{% elif p.is_youtube %}
 		<div id="video-{{p.id}}" class="{% if p.over_18 or not ((v and v.cardview)) %}d-none{% endif %} mt-3 mb-4 youtube_embed">
-			{{p.embed_url | safe}}
+			{{p.embed | safe}}
 		</div>
 	{% endif %}
 {% endif %}

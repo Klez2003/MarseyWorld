@@ -54,7 +54,7 @@ class Submission(Base):
 	body_html = Column(String)
 	flair = Column(String)
 	ban_reason = Column(String)
-	embed_url = Column(String)
+	embed = Column(String)
 	new = Column(Boolean)
 	notify = Column(Boolean)
 
@@ -146,7 +146,7 @@ class Submission(Base):
 	@property
 	@lazy
 	def is_youtube(self):
-		return self.domain == "youtube.com" and self.embed_url and self.embed_url.startswith('<lite-youtube')
+		return self.domain == "youtube.com" and self.embed and self.embed.startswith('<lite-youtube')
 
 	@property
 	@lazy
