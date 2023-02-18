@@ -621,6 +621,9 @@ def validate_css(css):
 	if '@import' in css:
 		return False, "@import statements are not allowed!"
 
+	if '/**/' in css:
+		return False, "Comments are not allowed!"
+
 	for i in css_url_regex.finditer(css):
 		url = i.group(1)
 		if not is_safe_url(url):
