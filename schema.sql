@@ -151,7 +151,6 @@ CREATE TABLE public.alts (
     user2 integer NOT NULL,
     is_manual boolean DEFAULT false NOT NULL,
     created_utc integer,
-    deleted boolean DEFAULT false NOT NULL,
     CONSTRAINT alts_cant_be_equal CHECK ((user1 <> user2))
 );
 
