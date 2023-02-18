@@ -509,7 +509,7 @@ AWARDS = {
 		"description": "Sets a flair for the recipient and locks it for 24 hours.",
 		"icon": "fas fa-lock",
 		"color": "text-black",
-		"price": 1250,
+		"price": 1000,
 		"deflectable": True,
 		"cosmetic": False,
 		"ghost": False,
