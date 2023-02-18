@@ -273,7 +273,7 @@ socket.on('delete', function(text) {
 })
 
 document.addEventListener('click', function (e) {
-	if (e.target.classList.contains('fa-trash-alt')) {
+	if (e.target.classList.contains('delconfirm')) {
 		e.target.nextElementSibling.classList.remove('d-none');
 		e.target.classList.add('d-none');
 	}
