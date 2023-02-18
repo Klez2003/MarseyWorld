@@ -6608,3 +6608,10 @@ body {
 sub, sup {
 	color: var(--black) !important;
 }
+
+@media (max-width: 768px) {
+	.comment-text * {
+		max-height: 50vh;
+		overflow: auto;
+	}
+}
