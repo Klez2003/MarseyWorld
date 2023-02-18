@@ -10,7 +10,7 @@ for (let twoattrs of document.getElementsByClassName("twoattrs")) {
 	if (lastCount) {
 		const newComments = pcc - lastCount.c
 		if (newComments > 0) {
-			elems = document.getElementsByClassName(`${pid}-new-comments`)
+			const elems = document.getElementsByClassName(`${pid}-new-comments`)
 			for (const elem of elems)
 			{
 				elem.textContent = ` (+${newComments})`
