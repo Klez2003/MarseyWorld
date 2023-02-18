@@ -22,6 +22,8 @@ class CasinoGame(Base):
 	kind = Column(String)
 	game_state = Column(JSON)
 
+	user = relationship("User")
+
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs:
 			kwargs["created_utc"] = int(time.time())

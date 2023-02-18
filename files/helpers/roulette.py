@@ -8,6 +8,7 @@ from flask import g
 from files.classes.casino_game import CasinoGame
 from files.helpers.alerts import *
 from files.helpers.get import get_account
+from files.helpers.casino import distribute_wager_badges
 
 class RouletteAction(str, Enum):
 	STRAIGHT_UP_BET = "STRAIGHT_UP_BET",
@@ -208,6 +209,8 @@ def spin_roulette_wheel():
 				game.winnings = rewards_by_game_id[game.id]
 			else:
 				game.winnings = -game.wager
+
+			distribute_wager_badges(game.user, game.wager, won=(game.winnings > 0))
 
 			game.active = False
 			g.db.add(game)
