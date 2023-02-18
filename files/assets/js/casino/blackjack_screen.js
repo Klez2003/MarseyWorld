@@ -122,7 +122,11 @@ function updateBlackjackTable(state) {
 			updateResult(`Pushed: Received ${state.wager.amount} ${currency}`, "success");
 			break;
 		case 'LOST':
-			updateResult(`Lost ${state.wager.amount} ${currency}`, "danger");
+			let lost = state.wager.amount;
+			if (state.player_doubled_down) {
+				lost *= 2;
+			}
+			updateResult(`Lost ${lost} ${currency}`, "danger");
 			break;
 		default:
 			break;
