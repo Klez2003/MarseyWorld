@@ -161,6 +161,13 @@ def approve_marsey(v, name):
 
 	marsey.submitter_id = None
 
+	ma = ModAction(
+		kind="approve_marsey",
+		user_id=v.id,
+		_note=f'<img loading="lazy" data-bs-toggle="tooltip" alt=":{name}:" title=":{name}:" src="/e/{name}.webp">'
+	)
+	g.db.add(ma)
+
 	return {"message": f"'{marsey.name}' approved!"}
 
 def remove_asset(cls, type_name:str, v:User, name:str) -> dict[str, str]:
@@ -186,6 +193,14 @@ def remove_asset(cls, type_name:str, v:User, name:str) -> dict[str, str]:
 	g.db.delete(asset)
 	os.remove(f"/asset_submissions/{type_name}s/{name}.webp")
 	os.remove(f"/asset_submissions/{type_name}s/{name}")
+
+	ma = ModAction(
+		kind=f"reject_{type_name}",
+		user_id=v.id,
+		_note=name
+	)
+	g.db.add(ma)
+
 	return {"message": f"'{name}' removed!"}
 
 @app.post("/remove/marsey/<name>")
@@ -328,6 +343,13 @@ def approve_hat(v, name):
 		new_path = f'/asset_submissions/hats/original/{name}.{i.format.lower()}'
 	rename(highquality, new_path)
 
+	ma = ModAction(
+		kind="approve_hat",
+		user_id=v.id,
+		_note=f'<a href="/i/hats/{name}.webp">{name}</a>'
+	)
+	g.db.add(ma)
+
 	return {"message": f"'{hat.name}' approved!"}
 
 @app.post("/remove/hat/<name>")
@@ -400,7 +422,7 @@ def update_marsey(v):
 	ma = ModAction(
 		kind="update_marsey",
 		user_id=v.id,
-		_note=f'<a href="/e/{name}.webp">{name}</a>'
+		_note=f'<img loading="lazy" data-bs-toggle="tooltip" alt=":{name}:" title=":{name}:" src="/e/{name}.webp">'
 	)
 	g.db.add(ma)
 	return render_template("update_assets.html", v=v, msg=f"'{name}' updated successfully!", name=name, tags=tags, type="Marsey")

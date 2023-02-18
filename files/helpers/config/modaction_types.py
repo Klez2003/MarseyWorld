@@ -356,6 +356,26 @@ MODACTION_TYPES = {
 		"icon": 'fa-cat',
 		"color": 'bg-success'
 	},
+	'approve_hat': {
+		"str": 'approved hat',
+		"icon": 'fa-hat-cowboy',
+		"color": 'bg-success'
+	},
+	'reject_hat': {
+		"str": 'rejected hat',
+		"icon": 'fa-hat-cowboy',
+		"color": 'bg-danger'
+	},
+	'approve_marsey': {
+		"str": 'approved marsey',
+		"icon": 'fa-cat',
+		"color": 'bg-success'
+	},
+	'reject_marsey': {
+		"str": 'rejected marsey',
+		"icon": 'fa-cat',
+		"color": 'bg-danger'
+	},
 }
 
 MODACTION_PRIVILEGED_TYPES = {'shadowban', 'unshadowban',
