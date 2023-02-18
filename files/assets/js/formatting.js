@@ -12,9 +12,9 @@ function addFormattingCopyButtons() {
 
 		for (var i = 1, row; row = allTablesGenerateCopyButtons[table].rows[i]; i++) {
 
-			let textCopyButton = document.createElement("button");
+			const textCopyButton = document.createElement("button");
 			textCopyButton.setAttribute("type", "button");
-			textCopyButton.className = "btn caction py-0 nobackground px-1 text-muted copy-link";
+			textCopyButton.className = "btn caction ml-1 py-0 nobackground px-1 text-muted copy-link";
 
 			/* replace HTML newlines with text newlines */
 			var cleanedText = row.cells[1].cloneNode(true)
@@ -27,7 +27,13 @@ function addFormattingCopyButtons() {
 			copyIcon.className = "fas fa-copy";
 
 			textCopyButton.insertAdjacentElement('afterbegin', copyIcon)
-			row.cells[0].appendChild(textCopyButton);
+
+			const textCopyButtonDiv = document.createElement("div");
+			textCopyButtonDiv.appendChild(textCopyButton);
+			textCopyButtonDiv.className = "mr-4 ml-auto my-auto";
+
+			row.cells[1].classList.add('d-flex');
+			row.cells[1].appendChild(textCopyButtonDiv);
 		}
 	}
 
