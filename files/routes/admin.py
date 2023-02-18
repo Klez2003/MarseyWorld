@@ -641,35 +641,27 @@ def admin_add_alt(v:User, username):
 	g.db.add(ma)
 	return {"message": f"{word} @{user1.username} and @{user2.username} successfully!"}
 
-@app.route('/@<username>/alts/<int:other>/deleted', methods=["PUT", "DELETE"])
+@app.post('/@<username>/alts/<int:other>/deleted')
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
 @admin_level_required(PERMS['USER_LINK'])
 def admin_delink_relink_alt(v:User, username, other):
-	is_delinking = request.method == 'PUT' # we're adding the 'deleted' state if a PUT request
 	user1 = get_user(username)
 	user2 = get_account(other)
 	ids = [user1.id, user2.id]
 	a = g.db.query(Alt).filter(Alt.user1.in_(ids), Alt.user2.in_(ids)).one_or_none()
 	if not a: abort(404)
-	a.deleted = is_delinking
-	g.db.add(a)
-	g.db.flush()
-	check_for_alts(user1)
-	check_for_alts(user2)
-	word = 'Delinked' if is_delinking else 'Relinked'
-	ma_word = 'delink' if is_delinking else 'link'
-	note = f'from @{user2.username}' if is_delinking else f'with @{user2.username} (relinked)'
+	g.db.delete(a)
 
 	ma = ModAction(
-		kind=f"{ma_word}_accounts",
+		kind=f"delink_accounts",
 		user_id=v.id,
 		target_user_id=user1.id,
-		_note=note
+		_note=f'from @{user2.username}'
 	)
 	g.db.add(ma)
 
-	return {"message": f"{word} @{user1.username} and @{user2.username} successfully!"}
+	return {"message": f"Delinked @{user1.username} and @{user2.username} successfully!"}
 
 
 @app.get("/admin/removed/posts")
