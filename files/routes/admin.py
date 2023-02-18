@@ -610,15 +610,13 @@ def admin_add_alt(v:User, username):
 	user2 = get_user(request.values.get('other_username'))
 	if user1.id == user2.id: abort(400, "Can't add the same account as alts of each other")
 
-	deleted = request.values.get('deleted', False, bool) or False
 	ids = [user1.id, user2.id]
 	a = g.db.query(Alt).filter(Alt.user1.in_(ids), Alt.user2.in_(ids)).one_or_none()
-	if a: abort(409, f"@{user1.username} and @{user2.username} are already known {'linked' if not a.deleted else 'delinked'} alts")
+	if a: abort(409, f"@{user1.username} and @{user2.username} are already known alts!")
 	a = Alt(
 		user1=user1.id,
 		user2=user2.id,
 		is_manual=True,
-		deleted=deleted
 	)
 	g.db.add(a)
 	g.db.flush()
@@ -629,17 +627,14 @@ def admin_add_alt(v:User, username):
 	check_for_alts(user1)
 	check_for_alts(user2)
 
-	word = 'Delinked' if deleted else 'Linked'
-	ma_word = 'delink' if deleted else 'link'
-	note = f'from @{user2.username}' if deleted else f'with @{user2.username}'
 	ma = ModAction(
-		kind=f"{ma_word}_accounts",
+		kind=f"link_accounts",
 		user_id=v.id,
 		target_user_id=user1.id,
-		_note=note
+		_note=f'with @{user2.username}'
 	)
 	g.db.add(ma)
-	return {"message": f"{word} @{user1.username} and @{user2.username} successfully!"}
+	return {"message": f"Linked @{user1.username} and @{user2.username} successfully!"}
 
 @app.post('/@<username>/alts/<int:other>/deleted')
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
