@@ -245,7 +245,9 @@ def award_thing(v, thing_type, id):
 	elif kind == "grass":
 		link3 = f"/{thing_type}/{thing.id}"
 		if thing_type == 'comment':
-			link3 += '#context'
+			link3 = f'<a href="{link3}#context">{link3}</a>'
+		else:
+			link3 = f'<a href="{link3}">{link3}</a>'
 
 		author.is_banned = AUTOJANNY_ID
 		author.ban_reason = f"grass award used by @{v.username} on {link3}"
