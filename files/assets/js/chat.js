@@ -127,6 +127,8 @@ socket.on('speak', function(json) {
 	}
 
 	let line = document.getElementsByClassName('chat-line')[0].cloneNode(true)
+	register_new_elements(line);
+	bs_trigger(line)
 	if (last_user == json['user_id']) {
 		box.querySelector('.chat-group:last-child').append(line)
 	}
