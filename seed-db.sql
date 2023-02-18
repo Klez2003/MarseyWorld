@@ -3367,7 +3367,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseywomenrentfree',2,'woman women foid rentfree rent',1675163011),
 ('marseywoodchipper',2,'libertarian woodchipper libertarian kill',NULL),
 ('marseywoodchipper2',2,'libertarian pedo woodchipper animated kill map',NULL),
-('marseywookie',2,'marsey wookie marseywookie starwars jedi',1676105918),
+('marseywookiee',2,'wookiee starwars jedi marsey',1676733228),
 ('marseywords',2,'longpost too long tldr reaction wordswordswords yawn',NULL),
 ('marseywords2',2,'longpost tldr essaypost wordswordswords pizzashill',1670515776),
 ('marseyworldcup',2,'world cup soccer football winner sports champion',1663033833),
