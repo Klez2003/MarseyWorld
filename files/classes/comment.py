@@ -314,7 +314,7 @@ class Comment(Base):
 
 		if path == '/admin/removed/comments': return False
 
-		if '?context' in path or f'/{self.id}' in path: return False
+		if comment_link_regex.search(path): return False
 
 		if self.over_18 and not (v and v.over_18) and not (self.post and self.post.over_18): return True
 

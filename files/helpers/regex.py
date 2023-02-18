@@ -194,3 +194,5 @@ reason_regex_comment = re.compile('(/comment/[0-9]+)', flags=re.A)
 discord_username_regex = re.compile("(\s|^|>).{2,32}#[0-9]{4}(?=[^0-9]|$)", flags=re.A)
 
 numbered_list_regex = re.compile('((\s|^)[0-9]+)\. ', flags=re.A)
+
+comment_link_regex = re.compile("/[0-9]+$", flags=re.A)
