@@ -337,6 +337,8 @@ INSERT INTO public.hat_defs VALUES (1005, 'The BIRD', 'FUCK YOU, FUCK YOU, ANDDD
 INSERT INTO public.hat_defs VALUES (1140, 'Yiff In Hell', 'Translation: "I''m really desperate for social acceptance."', 2, 500, NULL, 1674463260);
 INSERT INTO public.hat_defs VALUES (1141, 'NCR Ranger Helmet', '"Patrolling the rdrama almost makes you wish for a nuclear winter"', 2, 500, NULL, 1675539483);
 INSERT INTO public.hat_defs VALUES (1144, 'Venom', '"We, are Venom"', 2, 500, NULL, 1675890800);
+
+
 INSERT INTO public.hat_defs VALUES (965, 'FDJ', '"Jetzt bin ich ein Freier Deutsche Jugendfunktionär"', 2, 500, NULL, 1665686729);
 INSERT INTO public.hat_defs VALUES (969, 'Elite Pedo Sniper', 'The shemagh gives you +10 accuracy', 2, 500, NULL, 1665817338);
 INSERT INTO public.hat_defs VALUES (933, 'Rascal', 'See this person 3 times and they have to give you something-Minecraft MV22', 2, 500, NULL, 1665434625);
@@ -1220,7 +1222,7 @@ INSERT INTO public.hat_defs VALUES (911, 'Racecar Hat', 'I sleep in a hat with m
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1144, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1146, true);
 
 
 --
@@ -1253,6 +1255,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marsey173',2,'horror spooky halloween scp spc holiday',NULL),
 ('marsey180p',2,'marsey 180p lowquality lowdef',1670905221),
 ('marsey1984',2,'orwell book ingsoc big brother fascist',NULL),
+('marsey2pac',2,'2pac tupac shakur thug life thuglife westcoast west coast 2marc marcus',1676483229),
 ('marsey300',2,'leonidas shield armor thermopylae spear greek spartan',NULL),
 ('marsey3d',2,'poly 3d print alive spin animated',NULL),
 ('marsey403',2,'error http unauthorized forbidden access',1669055713),
@@ -1266,6 +1269,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marsey682',2,'scp monster reptile decay dead halloween horror',1666976570),
 ('marsey69',2,'6ix9ine snitch tattooed tattoos rapper',NULL),
 ('marsey808s',2,'kanye 808s and heartbreak',1671549836),
+('marsey911roofer',2,'bum homeless dirty news notes notice',1676136182),
 ('marseyabandoned',2,'box container rejected dirty cardboard homeless',NULL),
 ('marseyaborted',2,'fetus abort aborted blood puddle death pregnancy pregnant loss help',1673748451),
 ('marseyaceofspades',2,'asexual volcel cards',NULL),
@@ -1650,6 +1654,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseycheckem',2,'pepe apu peepo check psycho look',NULL),
 ('marseycheeks',2,'sandy spongebob squirrel underwater bikini bottom diving suit',NULL),
 ('marseycheeky',2,'stick tongue brat reaction taunt na tongue out tease',NULL),
+('marseycheem',2,'cheem cheems marsey cheemsdog',1676114295),
 ('marseycheers',2,'toast alcohol wine liquor suit bowtie raised glass gatsby',NULL),
 ('marseycheerup',2,'pat animated depressed comforting grieving reaction depression there there console comfort pet',NULL),
 ('marseycheerupretard',2,'sad special neurodivergent pat pet saliva stupid brain',1675088432),
@@ -1741,6 +1746,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseycomrade',2,'marxist ussr ccp communist authleft communism juche soviet kgb idio3 idio',NULL),
 ('marseycomradehandshake',2,'ussr russia communist shaking hand communism soviet',NULL),
 ('marseyconfused',2,'questionmark reaction question mark idgi confusion',NULL),
+('marseyconfuseddead',2,'question confused curiosity killed the cat answer regret idiom gore blood brain dead curious',1676465990),
 ('marseyconquistador',2,'conquistador colonize conquer spanish shoot rifle soldier',NULL),
 ('marseyconstellation',2,'starsey galaxy space sky',NULL),
 ('marseycontemplate',2,'reaction consternation thinking hmm',NULL),
@@ -1802,6 +1808,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseycwc',2,'sonichu chan chris chan chandler sweater chrischan medallion striped chris',NULL),
 ('marseycyanide',2,'kys kill yourself kms kill myself poison pill death die depressed suicidal suicide animated',NULL),
 ('marseydab',2,'reaction haters',NULL),
+('marseydaddy',2,'cock penis dick balls birth male cum blood horny baby pregnant trans',1675922972),
 ('marseydaemon',2,'pitchfork hell halloween demon satan devil scary holiday',NULL),
 ('marseydagothur',2,'elder scrolls morrowind game mask dagothur',NULL),
 ('marseydagothur2',2,'elder scrolls morrowind game mask dagothur',NULL),
@@ -1828,6 +1835,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseydeathpose',2,'griffin family dead broken',NULL),
 ('marseydeception',2,'lies lying misinformation provoke internet troll',1675915368),
 ('marseydefenestration',2,'suicide window jump kill murder kms jump out window death die defenestrate',NULL),
+('marseydefense',2,'southpark black chewbacca starwars defense',1676673395),
 ('marseydemiurge',2,'gnostic gnosticism demiurge',NULL),
 ('marseydemonicgrin',2,'evil wicked horror teeth',NULL),
 ('marseydenji',2,'denji anime chainsawman tatsuki fujimoto blonde uniform manga pochita',1674764569),
@@ -2352,6 +2360,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseylaughwith',2,'cry tears lol lmao haha laughing',NULL),
 ('marseylawlz',2,'masterlawls zhcyid9 masterlawlz reaction glasses',NULL),
 ('marseyleafeon',2,'trick or treat pokemon halloween eevee costume holiday',NULL),
+('marseyleavingbush',2,'bush simpsons homer hide',1676498734),
 ('marseyleftoidschizo',2,'sjw shitlib radlib liberal cuck redditor soy crazy animated',NULL),
 ('marseylegion',2,'zombie wolf fallout new vegas fnv caesar courier video game roman',NULL),
 ('marseylego',2,'marsey lego toy game blurry lowres lowdef',1665356921),
@@ -2864,6 +2873,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyrussian',2,'russian putin russia vodka adidas tracksuit vatnik ai alcohol beer drunk moscow',1664643821),
 ('marseyrussianmutt',2,'slav vatnik ukraine eastern',1674253975),
 ('marseyrustyventure',2,'dramamine venture bros brothers adult swim cartoon character glasses goattee goatee beard',NULL),
+('marseyryu',2,'ryu street fighter streetfighter fight box martial arts karate judo ninja boxer ken akuma shoryuken hadouken',1676672203),
 ('marseysachiko',2,'idolmaster anime animegirl niggy',1667212045),
 ('marseysad',2,'concerned worried waiting prepared reaction',NULL),
 ('marseysad2',2,'reaction disappointed disappointment upset',NULL),
@@ -2882,6 +2892,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseysaltlicking',2,'salt lick rock',NULL),
 ('marseysalty',2,'sodium saltshaker seethe salt shaker nacl animated',NULL),
 ('marseysalutearmy',2,'saluting o7 military soldier',NULL),
+('marseysaluteccp',2,'chink ching chong xi jinping mao zedong chinese asian nip gook rice army pla communist taiwan parade military wumao',1676651146),
 ('marseysaluteconfederacy',2,'salute patriotic o7 flag confederacy confederate america south rebel civil independence johnny',NULL),
 ('marseysalutecop',2,'acab officer saluting o7 police',NULL),
 ('marseysaluteindia',2,'o7 bobs vagene bitch lasagna pajeet curry desi animated flag patriotic modi',NULL),
@@ -3020,6 +3031,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyskinnedwalk',2,'watchpeopledie zllctnxaspywgb3 animated skinned walking trotting skeleton bones organs',NULL),
 ('marseyskinny',2,'tall anorexia bulimia anorexic bulimic',1670515138),
 ('marseyskull',2,'skull dead skeleton punisher kill bone',NULL),
+('marseyskywalker',2,'marsey skywalker starwars jedi lukeskywalker',1676189289),
 ('marseyslaanesh',2,'warhammer 40k chaos god degeneracy sex drugs pain',NULL),
 ('marseyslab',2,'dexter lab smart genius ginger cartoon network glasses',NULL),
 ('marseysleep',2,'bed bedtime zzz boring reaction tired bored',NULL),
@@ -3041,6 +3053,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseysnap',2,'mad angry furious anger animated snap',NULL),
 ('marseysnappyautism',2,'snapshillbot hat neurodivergent robot autistic marppy',NULL),
 ('marseysnappyhug',2,'hug love robot sentient wholesome',1664490893),
+('marseysnappymaga',2,'maga snappy trump robot ai chud republican',1676522900),
 ('marseysneed',2,'feed farmer reaction chuck simpsons buck',NULL),
 ('marseysneedboat',2,'animated ship flag capybara',NULL),
 ('marseysnek',2,'snake serpent',NULL),
@@ -3225,6 +3238,8 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseytransflag2',2,'lgbt transgender tranny pride animated',NULL),
 ('marseytransgenocide',2,'animated trans genocide chud lgbt rightoid bigot gaybros',NULL),
 ('marseytransimplosion',2,'train woke explode animated',1673623390),
+('marseytransmerchant',2,'coin money cash dosh je big pharma train mtf ftm  yeet chop doctor surgeon nurse greedy',1676317155),
+('marseytransmisiaaward',2,'phobe chud winner based right wing bigot terf',1676158942),
 ('marseytranspearlclutch',2,'transgender upset snowflake clutching',1666994064),
 ('marseytransplushie',2,'soft toy hold hug hi cute',1673830970),
 ('marseytransplushie2',2,'soft toy hold hug hi cute',1673831100),
@@ -3264,6 +3279,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseytyping',2,'computer keyboard bongo animated',NULL),
 ('marseytypinglaugh',2,'computer keyboard lol bongo animated',NULL),
 ('marseytzeentch',2,'warhammer 40k chaos god trick magic lies',NULL),
+('marseyufo',2,'ufo spaceship alien space ship invasion rocketship rocket',1676394842),
 ('marseyuglyxmasweater',2,'santa hat christmas ugly holiday',NULL),
 ('marseyukrainerentfree',2,'marsey ukraine rentfree rent free zelensky putin vatnik hohol russia war crimea donbas',1673556332),
 ('marseyumbreon',2,'trick or treat pokemon halloween eevee costume holiday',NULL),
@@ -3351,6 +3367,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseywomenrentfree',2,'woman women foid rentfree rent',1675163011),
 ('marseywoodchipper',2,'libertarian woodchipper libertarian kill',NULL),
 ('marseywoodchipper2',2,'libertarian pedo woodchipper animated kill map',NULL),
+('marseywookie',2,'marsey wookie marseywookie starwars jedi',1676105918),
 ('marseywords',2,'longpost too long tldr reaction wordswordswords yawn',NULL),
 ('marseywords2',2,'longpost tldr essaypost wordswordswords pizzashill',1670515776),
 ('marseyworldcup',2,'world cup soccer football winner sports champion',1663033833),
@@ -3387,7 +3404,9 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyyesandno',2,'agree disagree both confused indecisive trippy animated inconclusive idk fencesitter switzerland',NULL),
 ('marseyyeti',2,'scary monster myth winter ice mountain himalaya asia predator giant',NULL),
 ('marseyyikes',2,'reaction judgment disgust oof cringe',NULL),
+('marseyyinandyang',2,'yin yang balance light dark',1676073616),
 ('marseyyinzer',2,'pittsburgh pennsylvania pens penguins steelers stillers pirates buccos buckos terrible towel pierogo yuengling beer city hat baseball football hockey nfl mlb nhl happy',NULL),
+('marseyyoda',2,'yoda marsey starwars jedi',1676185300),
 ('marseyyugi',2,'yugioh yu-gi-oh! cards trap anime',NULL),
 ('marseyza',2,'antlers flowers',NULL),
 ('marseyzaku',2,'gundam mecha robot helmet mask',NULL),
