@@ -767,6 +767,9 @@ def submit_post(v:User, sub=None):
 		g.db.add(c_jannied)
 		g.db.flush()
 
+		post.comment_count += 1
+		g.db.add(post)
+
 		c_jannied.top_comment_id = c_jannied.id
 
 		n = Notification(comment_id=c_jannied.id, user_id=v.id)

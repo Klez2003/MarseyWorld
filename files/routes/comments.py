@@ -292,6 +292,11 @@ def comment(v:User):
 		g.db.add(c_jannied)
 		g.db.flush()
 
+		if posting_to_submission:
+			post_target.comment_count += 1
+			g.db.add(post_target)
+
+
 		n = Notification(comment_id=c_jannied.id, user_id=v.id)
 		g.db.add(n)
 

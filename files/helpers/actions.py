@@ -261,6 +261,11 @@ def execute_zozbot(c:Comment, level:int, post_target:post_target_type, v):
 	zozbot.pay_account('coins', 1)
 	g.db.add(zozbot)
 
+	if posting_to_submission:
+		post_target.comment_count += 3
+		g.db.add(post_target)
+
+
 def execute_longpostbot(c:Comment, level:int, body, body_html, post_target:post_target_type, v:User):
 	if SITE_NAME != 'rDrama': return
 	posting_to_submission = isinstance(post_target, Submission)
@@ -298,6 +303,11 @@ def execute_longpostbot(c:Comment, level:int, body, body_html, post_target:post_
 	g.db.flush()
 	n = Notification(comment_id=c2.id, user_id=v.id)
 	g.db.add(n)
+
+	if posting_to_submission:
+		post_target.comment_count += 3
+		g.db.add(post_target)
+
 
 def execute_antispam_submission_check(title, v, url):
 	now = int(time.time())
