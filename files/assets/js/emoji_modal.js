@@ -266,7 +266,7 @@ function switchEmojiTab(e)
 	const className = e.currentTarget.dataset.className;
 
 	emojiSearchBarDOM.value = "";
-	emojiSearchBarDOM.focus();
+	focusSearchBar(emojiSearchBarDOM);
 	emojiNotFoundDOM.hidden = true;
 
 	// Special case: favorites
@@ -567,11 +567,11 @@ function loadEmojis(inputTargetIDName)
 }
 
 document.getElementById('emojiModal').addEventListener('shown.bs.modal', function () {
-	emojiSearchBarDOM.focus();
+	focusSearchBar(emojiSearchBarDOM);
 	setTimeout(() => {
-		emojiSearchBarDOM.focus();
+		focusSearchBar(emojiSearchBarDOM);
 	}, 200);
 	setTimeout(() => {
-		emojiSearchBarDOM.focus();
+		focusSearchBar(emojiSearchBarDOM);
 	}, 1000);
 });

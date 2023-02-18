@@ -15,12 +15,12 @@ function insertGIF(url) {
 }
 
 document.getElementById('gifModal').addEventListener('shown.bs.modal', function () {
-	gifSearchBar.focus();
+	focusSearchBar(gifSearchBar);
 	setTimeout(() => {
-		gifSearchBar.focus();
+		focusSearchBar(gifSearchBar);
 	}, 200);
 	setTimeout(() => {
-		gifSearchBar.focus();
+		focusSearchBar(gifSearchBar);
 	}, 1000);
 });
 

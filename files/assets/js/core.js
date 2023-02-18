@@ -433,3 +433,11 @@ function logout(t) {
 			location.href = '/'
 		});
 }
+
+const width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+function focusSearchBar(element)
+{
+	if (width >= 768) {
+		element.focus();
+	}
+}
