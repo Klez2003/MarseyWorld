@@ -32,14 +32,14 @@ function getWager() {
 
 function disableWager() {
 	document.getElementById("wagerAmount").disabled = true;
-	document.getElementById("wagerCoins").disabled = true;
-	document.getElementById("wagerMarseybux").disabled = true;
+	document.getElementById("wagerCoins").classList.add('disabled');
+	document.getElementById("wagerMarseybux").classList.add('disabled');
 }
 
 function enableWager() {
 	document.getElementById("wagerAmount").disabled = false;
-	document.getElementById("wagerCoins").disabled = false;
-	document.getElementById("wagerMarseybux").disabled = false;
+	document.getElementById("wagerCoins").classList.remove('disabled');
+	document.getElementById("wagerMarseybux").classList.remove('disabled');
 }
 
 function updateResult(text, className) {
