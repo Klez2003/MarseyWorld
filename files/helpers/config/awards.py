@@ -581,7 +581,7 @@ AWARDS = {
 		"description": "Causes most awards received for the next 10 hours to be deflected back at their giver.",
 		"icon": "fas fa-shield",
 		"color": "text-pink",
-		"price": 2750,
+		"price": 2500,
 		"deflectable": True,
 		"cosmetic": False,
 		"ghost": False,
