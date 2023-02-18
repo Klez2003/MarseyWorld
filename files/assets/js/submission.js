@@ -17,7 +17,7 @@ function highlight_unread(localstoragevar) {
 
 highlight_unread("comment-counts")
 
-if (!location.href.includes("?context")) {
+if (!location.href.includes("#context")) {
     localStorage.setItem("old-comment-counts", localStorage.getItem("comment-counts"))
 
 	const comments = JSON.parse(localStorage.getItem("comment-counts")) || {}
