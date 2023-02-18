@@ -172,6 +172,8 @@ class Comment(Base):
 	@property
 	@lazy
 	def more_comments(self):
+		if self.wall_user_id:
+			return f"/@{self.wall_user.username}/wall/comment/{self.id}?context=0#context"
 		return f"{self.post.permalink}/{self.id}?context=0#context"
 
 	@property
