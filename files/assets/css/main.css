@@ -6610,7 +6610,7 @@ sub, sup {
 }
 
 @media (max-width: 768px) {
-	.comment-text * {
+	.comment-text > p {
 		max-height: 50vh;
 		overflow: auto;
 	}
