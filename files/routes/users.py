@@ -510,6 +510,7 @@ def message2(v:User, username:str):
 						parent_submission=None,
 						level=1,
 						sentto=user.id,
+						body=message,
 						body_html=body_html
 						)
 	g.db.add(c)
@@ -581,6 +582,7 @@ def messagereply(v:User):
 							top_comment_id=parent.top_comment_id,
 							level=parent.level + 1,
 							sentto=user_id,
+							body=body,
 							body_html=body_html,
 							)
 	g.db.add(c)
