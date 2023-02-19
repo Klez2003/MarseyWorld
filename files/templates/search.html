@@ -168,6 +168,9 @@
 					<li class="nav-item">
 						<a class="nav-link{% if '/users' in request.path %} active{% endif %}" href="/search/users/?sort={{sort}}&q={{query | urlencode}}&t={{t}}">Users</a>
 					</li>
+					<li class="nav-item">
+						<a class="nav-link{% if '/messages' in request.path %} active{% endif %}" href="/search/messages/?sort={{sort}}&q={{query | urlencode}}&t={{t}}">Messages</a>
+					</li>
 				</ul>
 			</div>
 		</div>

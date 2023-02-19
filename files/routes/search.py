@@ -275,6 +275,85 @@ def searchcomments(v:User):
 	return render_template("search_comments.html", v=v, query=query, total=total, page=page, comments=comments, sort=sort, t=t, next_exists=next_exists, standalone=True)
 
 
+@app.get("/search/messages")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@auth_required
+def searchmessages(v:User):
+	query = request.values.get("q", '').strip()
+	if not query:
+		abort(403, "Empty searches aren't allowed!")
+
+	try: page = max(1, int(request.values.get("page", 1)))
+	except: abort(400, "Invalid page input!")
+
+	sort = request.values.get("sort", "new").lower()
+	t = request.values.get('t', 'all').lower()
+
+	criteria = searchparse(query)
+
+	comments = g.db.query(Comment.id) \
+		.filter(
+			Comment.sentto != None,
+			or_(Comment.author_id == v.id, Comment.sentto == v.id),
+			Comment.parent_submission == None,
+		)
+
+	if 'author' in criteria:
+		comments = comments.filter(Comment.ghost == False)
+		author = get_user(criteria['author'], v=v, include_shadowbanned=False)
+		if not author.is_visible_to(v):
+			if v.client:
+				abort(403, f"@{author.username}'s profile is private; You can't use the 'author' syntax on them")
+
+			return render_template("search_comments.html", v=v, query=query, total=0, page=page, comments=[], sort=sort, t=t, next_exists=False, error=f"@{author.username}'s profile is private; You can't use the 'author' syntax on them!"), 403
+
+		else: comments = comments.filter(Comment.author_id == author.id)
+
+	if 'q' in criteria:
+		tokens = map(lambda x: re.sub(r'[\0():|&*!<>]', '', x), criteria['q'])
+		tokens = filter(lambda x: len(x) > 0, tokens)
+		tokens = map(lambda x: re.sub(r"'", "\\'", x), tokens)
+		tokens = map(lambda x: x.strip(), tokens)
+		tokens = map(lambda x: re.sub(r'\s+', ' <-> ', x), tokens)
+		comments = comments.filter(Comment.body_ts.match(
+			' & '.join(tokens),
+			postgresql_regconfig='english'))
+
+	comments = apply_time_filter(t, comments, Comment)
+
+	if 'after' in criteria:
+		after = criteria['after']
+		try: after = int(after)
+		except:
+			try: after = timegm(time.strptime(after, "%Y-%m-%d"))
+			except: abort(400)
+		comments = comments.filter(Comment.created_utc > after)
+
+	if 'before' in criteria:
+		before = criteria['before']
+		try: before = int(before)
+		except:
+			try: before = timegm(time.strptime(before, "%Y-%m-%d"))
+			except: abort(400)
+		comments = comments.filter(Comment.created_utc < before)
+
+	comments = sort_objects(sort, comments, Comment,
+		include_shadowbanned=(v and v.can_see_shadowbanned))
+
+	total = comments.count()
+
+	comments = comments.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE+1).all()
+
+	ids = [x[0] for x in comments]
+
+	next_exists = (len(ids) > PAGE_SIZE)
+	ids = ids[:PAGE_SIZE]
+
+	comments = get_comments(ids, v=v)
+
+	if v.client: return {"total":total, "data":[x.json(db=g.db) for x in comments]}
+	return render_template("search_comments.html", v=v, query=query, total=total, page=page, comments=comments, sort=sort, t=t, next_exists=next_exists, standalone=True)
+
 @app.get("/search/users")
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
