@@ -20,7 +20,7 @@ from files.__main__ import app, cache, limiter
 
 from .front import frontlist
 
-@app.get("/shop")
+@app.get("/shop/awards")
 @app.get("/settings/shop")
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required

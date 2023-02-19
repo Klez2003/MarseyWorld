@@ -7,7 +7,7 @@ from files.helpers.useractions import *
 from files.routes.wrappers import *
 from files.__main__ import app, limiter
 
-@app.get("/hats")
+@app.get("/shop/hats")
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def hats(v:User):

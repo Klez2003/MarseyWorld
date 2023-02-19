@@ -184,7 +184,7 @@
 
 				{% if FEATURES['AWARDS'] -%}
 					<li class="nav-item d-none d-lg-flex align-items-center justify-content-center text-center mx-1">
-						<a class="nav-link" href="/shop" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Shop"><i class="fas fa-store"></i></a>
+						<a class="nav-link" href="/shop/awards" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Shop"><i class="fas fa-store"></i></a>
 					</li>
 				{%- endif %}
 
@@ -200,7 +200,7 @@
 								<img loading="lazy" src="{{v.profile_url}}" class="profile-pic-35">
 								{% if v.hat_active(v)[0] -%}
 									<img id="profile-pic-35-hat" class="profile-pic-35-hat hat" loading="lazy" src="{{v.hat_active(v)[0]}}?h=7">
-								{% elif request.path == '/hats' %}
+								{% elif request.path == '/shop/hats' %}
 									<img id="profile-pic-35-hat" class="profile-pic-35-hat hat d-none" loading="lazy">
 								{%- endif %}
 							</div>
