@@ -347,7 +347,7 @@ def execute_antispam_submission_check(title, v, url):
 					user_id=AUTOJANNY_ID,
 					target_submission_id=post.id,
 					kind="ban_post",
-					_note="spam"
+					_note="Spam"
 					)
 			g.db.add(ma)
 		return False
@@ -403,7 +403,7 @@ def execute_antispam_comment_check(body:str, v:User):
 			user_id=AUTOJANNY_ID,
 			target_comment_id=comment.id,
 			kind="ban_comment",
-			_note="spam"
+			_note="Spam"
 		)
 		g.db.add(ma)
 	g.db.commit()
