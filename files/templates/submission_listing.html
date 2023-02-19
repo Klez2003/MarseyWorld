@@ -223,7 +223,7 @@
 	{% endif %}
 
 	{% if p.is_video %}
-		<div id="video-{{p.id}}" class="ml-md-5 d-none{ mt-4 mx-sm-auto">
+		<div id="video-{{p.id}}" class="ml-md-5 d-none mt-4 mx-sm-auto">
 			<p class="resizable">
 				<video {% if p.thumburl %}poster="{{p.thumb_url}}"{% endif %} id="video2-{{p.id}}" controls preload="none" src="{{p.realurl(v)}}"></video>
 			</p>
