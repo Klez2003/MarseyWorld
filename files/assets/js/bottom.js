@@ -89,11 +89,6 @@ for (const element of setting_selects) {
 	});
 }
 
-const reload_page = document.getElementById('reload_page')
-if (reload_page) {
-	reload_page.addEventListener('click', () => {location.reload()});
-}
-
 const TH = document.getElementsByTagName('th')
 for (const element of TH) {
 	if (element.classList.contains("disable-sort-click"))
