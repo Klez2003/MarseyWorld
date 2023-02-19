@@ -1041,4 +1041,4 @@ if not IS_LOCALHOST and SECRET_KEY == DEFAULT_CONFIG_VALUE:
 	from warnings import warn
 	warn("Secret key is the default value! Please change it to a secure random number. Thanks <3", RuntimeWarning)
 
-BIOFOIDS = {2654,12966,10682,11375,18523,2432,1054,2054,15869,18339,2113,114}
+BIOFOIDS = {2654,12966,10682,11375,18523,2432,1054,2054,15869,18339,2113,114,35}
