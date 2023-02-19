@@ -55,7 +55,11 @@ Text 2
 			<td><a href="/">{{SITE_NAME}}</a></td>
 		</tr>
 		<tr>
-			<td>Images (will embed automatically if from <a href="#approved">approved hosts</a>)</td>
+			<td>Images<br>
+				<span style="font-style: italic; font-weight: normal;">
+					* will embed automatically if from <a href="#approved">approved hosts</a>.
+				</span>
+			</td>
 			<td>https://i.imgur.com/SwVuagI_d.webp</td>
 			<td><img loading="lazy" alt="example image" src="https://i.imgur.com/SwVuagI_d.webp"></td>
 		</tr>
@@ -110,12 +114,20 @@ Text 2
 		</tr>
 		{% if FEATURES['MARKUP_COMMANDS'] -%}
 		<tr>
-			<td>Play slots using coins - minimum 100 coins</td>
+			<td>Play slots using coins<br>
+				<span style="font-style: italic; font-weight: normal;">
+					* Minimum 100 coins.
+				</span>
+			</td>
 			<td>!slots 100</td>
 			<td>??? coins</td>
 		</tr>
 		<tr>
-			<td>Play slots using marseybux - minimum 100 marseybux</td>
+			<td>Play slots using marseybux<br>
+				<span style="font-style: italic; font-weight: normal;">
+					* Minimum 100 marseybux.
+				</span>
+			</td>
 			<td>!slotsmb 100</td>
 			<td>??? marseybux</td>
 		</tr>
@@ -144,7 +156,7 @@ Text 2
 			<td>
 				Poll — Pick Multiple<br>
 				<span style="font-style: italic; font-weight: normal;">
-					* Polls always appear at end of post.
+					* Polls always appear at the bottom of the post/comment.
 				</span>
 			</td>
 			<td>$$bussy$$<br>$$gussy$$</td>
@@ -163,7 +175,7 @@ Text 2
 			<td>
 				Poll — Pick One<br>
 				<span style="font-style: italic; font-weight: normal;">
-					* Polls always appear at end of post.
+					* Polls always appear at the bottom of the post/comment.
 				</span>
 			</td>
 			<td>&&bussy&&<br>&&gussy&&</td>
@@ -223,6 +235,26 @@ Text 2
 			<td>u/Bardfinn</td>
 			<td><a class="d-inline-block" rel="nofollow noopener" href="https://www.reddit.com/u/Bardfinn">u/Bardfinn</a></td>
 		</tr>
+		<tr>
+			<td>Ping Group Mention<br>
+				<span style="font-style: italic; font-weight: normal;">
+					* Mentions all members of the group.
+				</span>
+			</td>
+			<td>!biofoids</td>
+			<td>!biofoids</td>
+		</tr>
+		{% if FEATURES['WORDLE'] %}
+			<tr>
+				<td>Play Wordle<br>
+					<span style="font-style: italic; font-weight: normal;">
+						* Works only in comments.
+					</span>	
+				</td>
+				<td>!wordle</td>
+				<td>!wordle</td>
+			</tr>
+		{% endif %}
 	</tbody>
 </table></div>
 
@@ -583,26 +615,6 @@ line breaks
 		</tr>
 	</tbody>
 </table></div>
-
-<h5>Comment Commands</h5>
-
-<div class="overflow-x-auto"><table class="table table-striped mb-5">
-	<thead class="bg-primary text-white">
-		<tr>
-			<th>Comment Command</th>
-			<th>Description</th>
-		</tr>
-	</thead>
-	<tbody>
-		{% if FEATURES['WORDLE'] %}
-			<tr>
-				<td>!wordle</td>
-				<td>Play wordle</td>
-			</tr>
-		{% endif %}
-	</tbody>
-</table></div>
-
 
 <h5 id="approved">Approved Image Hosts</h5>
 
