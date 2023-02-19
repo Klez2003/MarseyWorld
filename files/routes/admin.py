@@ -1,6 +1,7 @@
 import time
 from urllib.parse import quote, urlencode
 from math import floor
+import os
 
 from sqlalchemy.exc import IntegrityError
 from psycopg2.errors import UniqueViolation
@@ -1649,3 +1650,39 @@ def unblacklist_user(user_id, v):
 	g.db.add(ma)
 
 	return {"message": f"@{user.username} has been unblacklisted from restricted holes!"}
+
+@app.get('/admin/delete_media')
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@admin_level_required(PERMS['DELETE_MEDIA'])
+def delete_media_get(v):
+	return render_template("admin/delete_media.html", v=v)
+
+@app.post("/admin/delete_media")
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@admin_level_required(PERMS['DELETE_MEDIA'])
+def delete_media_post(v):
+
+	url = request.values.get("url")
+	if not url:
+		return render_template("admin/delete_media.html", v=v, url=url, error="No url provided!")
+
+	if not media_deletion_regex.fullmatch(url):
+		return render_template("admin/delete_media.html", v=v, url=url, error="Invalid url!")
+
+	path = url.split(SITE_FULL)[1]
+
+	if not os.path.isfile(path):
+		return render_template("admin/delete_media.html", v=v, url=url, error="File not found on the server!")
+
+	os.remove(path)
+
+	ma=ModAction(
+		kind="delete_media",
+		user_id=v.id,
+		_note=url,
+		)
+	g.db.add(ma)
+
+	purge_files_in_cache(url)
+	return render_template("admin/delete_media.html", v=v, msg="Media deleted successfully!")

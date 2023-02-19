@@ -46,6 +46,11 @@ MODACTION_TYPES = {
 		"icon": 'fa-lock',
 		"color": 'bg-danger'
 	},
+	'delete_media': {
+		"str": 'deleted media',
+		"icon": 'fa-trash-alt',
+		"color": 'bg-danger'
+	},
 	'delete_report': {
 		"str": 'deleted report on {self.target_link}',
 		"icon": 'fa-flag',

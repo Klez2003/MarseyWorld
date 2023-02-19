@@ -68,6 +68,9 @@
 
 <h4>Safety</h4>
 <ul>
+	{% if v.admin_level >= PERMS['DELETE_MEDIA'] %}
+		<li><a href="/admin/delete_media">Delete Media</a></li>
+	{% endif %}
 	{% if v.admin_level >= PERMS['DOMAINS_BAN'] %}
 		<li><a href="/admin/banned_domains">Banned Domains</a></li>
 	{% endif %}
