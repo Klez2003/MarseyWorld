@@ -13,9 +13,7 @@ function banModal(link, name, fullname, cls) {
 			success = xhr[0].status >= 200 && xhr[0].status < 300;
 			showToast(success, getMessageFromJsonData(success, data));
 			document.getElementById(`unban-${fullname}`).classList.toggle(cls);
-			document.getElementById(`ban-${fullname}`).classList.toggle(cls);
 			document.getElementById(`unban2-${fullname}`).classList.toggle(cls);
-			document.getElementById(`ban2-${fullname}`).classList.toggle(cls);
 		};
 
 		xhr[0].send(xhr[1]);
@@ -37,9 +35,7 @@ function chudModal(link, name, fullname, cls) {
 			success = xhr[0].status >= 200 && xhr[0].status < 300;
 			showToast(success, getMessageFromJsonData(success, data));
 			document.getElementById(`unchud-${fullname}`).classList.toggle(cls);
-			document.getElementById(`chud-${fullname}`).classList.toggle(cls);
 			document.getElementById(`unchud2-${fullname}`).classList.toggle(cls);
-			document.getElementById(`chud2-${fullname}`).classList.toggle(cls);
 		};
 
 		xhr[0].send(xhr[1]);

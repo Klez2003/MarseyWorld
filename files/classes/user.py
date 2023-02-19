@@ -816,7 +816,10 @@ class User(Base):
 
 	def ban(self, admin=None, reason=None, days=0.0):
 		if days:
-			self.unban_utc = int(time.time()) + (days * 86400)
+			if self.unban_utc:
+				self.unban_utc += days * 86400
+			else:
+				self.unban_utc = int(time.time()) + (days * 86400)
 			g.db.add(self)
 
 		self.is_banned = admin.id if admin else AUTOJANNY_ID

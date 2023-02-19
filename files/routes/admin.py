@@ -720,6 +720,7 @@ def unagendaposter(id, v):
 		abort(403, "Jannies can't undo chud awards anymore!")
 
 	user.agendaposter = 0
+	user.chudded_by = None
 	g.db.add(user)
 
 	ma = ModAction(
@@ -957,7 +958,10 @@ def agendaposter(id, v):
 
 	duration = "permanently"
 	if days:
-		user.agendaposter = int(time.time()) + (days * 86400)
+		if user.agendaposter:
+			user.agendaposter += days * 86400
+		else:
+			user.agendaposter = int(time.time()) + (days * 86400)
 		days_txt = str(days)
 		if days_txt.endswith('.0'): days_txt = days_txt[:-2]
 		duration = f"for {days_txt} day"

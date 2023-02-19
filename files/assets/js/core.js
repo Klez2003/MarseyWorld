@@ -352,11 +352,12 @@ function sendFormXHR(form, extraActionsOnSuccess) {
 	xhr.send(formData);
 }
 
-function sendFormXHRSwitch(form) {
+function sendFormXHRSwitch(form, donthideself) {
 	sendFormXHR(form,
 		() => {
 			form.previousElementSibling.classList.remove('d-none');
-			form.classList.add('d-none');
+			if (!donthideself)
+				form.classList.add('d-none');
 		}
 	)
 }
