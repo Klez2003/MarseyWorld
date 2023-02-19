@@ -1117,6 +1117,24 @@ def progstack_post(post_id, v):
 	cache.delete_memoized(frontlist)
 	return {"message": "Progressive stack applied on post!"}
 
+@app.post("/admin/unprogstack/post/<int:post_id>")
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@admin_level_required(PERMS['PROGSTACK'])
+def unprogstack_post(post_id, v):
+	post = get_post(post_id)
+	post.is_approved = None
+	g.db.add(post)
+
+	ma=ModAction(
+		kind="unprogstack_post",
+		user_id=v.id,
+		target_submission_id=post.id,
+		)
+	g.db.add(ma)
+
+	return {"message": "Progressive stack removed from post!"}
+
 @app.post("/admin/progstack/comment/<int:comment_id>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
@@ -1136,6 +1154,24 @@ def progstack_comment(comment_id, v):
 
 	cache.delete_memoized(comment_idlist)
 	return {"message": "Progressive stack applied on comment!"}
+
+@app.post("/admin/unprogstack/comment/<int:comment_id>")
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@admin_level_required(PERMS['PROGSTACK'])
+def unprogstack_comment(comment_id, v):
+	comment = get_comment(comment_id)
+	comment.is_approved = None
+	g.db.add(comment)
+
+	ma=ModAction(
+		kind="unprogstack_comment",
+		user_id=v.id,
+		target_comment_id=comment.id,
+		)
+	g.db.add(ma)
+
+	return {"message": "Progressive stack removed from comment!"}
 
 @app.post("/remove_post/<int:post_id>")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER)

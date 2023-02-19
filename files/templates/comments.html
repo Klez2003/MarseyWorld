@@ -463,7 +463,8 @@
 {% endif %}
 
 {% if v.admin_level >= PERMS['PROGSTACK'] %}
-	<button type="button" id="progstack-{{c.id}}" class="dropdown-item list-inline-item d-none {% if c.is_approved != PROGSTACK_ID %}d-md-block{% endif %} text-danger" data-nonce="{{g.nonce}}" data-onclick="postToast(this,'/admin/progstack/comment/{{c.id}}'"><i class="fas fa-bullhorn text-danger fa-fw"></i>Apply Progressive Stack</button>
+	<button type="button" id="progstack-{{c.id}}" class="dropdown-item list-inline-item d-none {% if c.is_approved != PROGSTACK_ID %}d-md-block{% endif %} text-danger" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/admin/progstack/comment/{{c.id}}','progstack-{{c.id}}','unprogstack-{{c.id}}','d-md-block')"><i class="fas fa-bullhorn text-danger fa-fw"></i>Apply Progressive Stack</button>
+	<button type="button" id="unprogstack-{{c.id}}" class="dropdown-item list-inline-item d-none {% if c.is_approved == PROGSTACK_ID %}d-md-block{% endif %} text-danger" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/admin/unprogstack/comment/{{c.id}}','progstack-{{c.id}}','unprogstack-{{c.id}}','d-md-block')"><i class="fas fa-bullhorn text-danger fa-fw"></i>Remove Progressive Stack</button>
 {% endif %}
 
 {% if FEATURES['NSFW_MARKING'] and (c.parent_submission or c.wall_user_id) and (c.author_id==v.id or v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or (c.post.sub and v.mods(c.post.sub))) %}
@@ -670,7 +671,8 @@
 						{% endif %}
 
 						{% if v.admin_level >= PERMS['PROGSTACK'] %}
-							<button type="button" id="progstack2-{{c.id}}" class="{% if c.is_approved == PROGSTACK_ID %}d-none{% endif %} list-group-item text-danger" data-nonce="{{g.nonce}}" data-onclick="postToast(this,'/admin/progstack/comment/{{c.id}}'" data-bs-dismiss="modal"><i class="fas fa-bullhorn text-danger fa-fw mr-2"></i>Apply Progressive Stack</button>
+							<button type="button" id="progstack2-{{c.id}}" class="{% if c.is_approved == PROGSTACK_ID %}d-none{% endif %} list-group-item text-danger" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/admin/progstack/comment/{{c.id}}','progstack2-{{c.id}}','unprogstack2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-bullhorn text-danger fa-fw mr-2"></i>Apply Progressive Stack</button>
+							<button type="button" id="unprogstack2-{{c.id}}" class="{% if c.is_approved != PROGSTACK_ID %}d-none{% endif %} list-group-item text-danger" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/admin/unprogstack/comment/{{c.id}}','progstack2-{{c.id}}','unprogstack2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-bullhorn text-danger fa-fw mr-2"></i>Remove Progressive Stack</button>
 						{% endif %}
 
 						{% if v.id != c.author_id and v.admin_level >= PERMS['USER_BAN'] %}

@@ -207,14 +207,24 @@ MODACTION_TYPES = {
 		"color": 'bg-success'
 	},
 	'progstack_comment': {
-		"str": 'Applied progressive stack on {self.target_link}',
+		"str": 'applied progressive stack on {self.target_link}',
 		"icon": 'fa-bullhorn',
 		"color": 'bg-success'
 	},
+	'unprogstack_comment': {
+		"str": 'removed progressive stack from {self.target_link}',
+		"icon": 'fa-bullhorn',
+		"color": 'bg-danger'
+	},
 	'progstack_post': {
-		"str": 'Applied progressive stack on post {self.target_link}',
+		"str": 'applied progressive stack on post {self.target_link}',
 		"icon": 'fa-bullhorn',
 		"color": 'bg-success'
+	},
+	'unprogstack_post': {
+		"str": 'removed progressive stack from post {self.target_link}',
+		"icon": 'fa-bullhorn',
+		"color": 'bg-danger'
 	},
 	'clear_cloudflare_cache': {
 		"str": 'cleared cloudflare cache',
@@ -381,12 +391,15 @@ MODACTION_TYPES = {
 MODACTION_PRIVILEGED_TYPES = {'shadowban', 'unshadowban',
 							'mod_mute_user', 'mod_unmute_user',
 							'link_accounts', 'delink_accounts',
-							'progstack_post', 'progstack_comment'}
-MODACTION_PRIVILEGED__TYPES = {'progstack_post', 'progstack_comment'}
+							'progstack_post', 'progstack_comment',
+							'unprogstack_post', 'unprogstack_comment'}
+MODACTION_PRIVILEGED__TYPES = {'progstack_post', 'progstack_comment',
+							'unprogstack_post', 'unprogstack_comment'}
 MODACTION_TYPES_FILTERED = deepcopy({t:v for t,v in MODACTION_TYPES.items()
                                      if not t in MODACTION_PRIVILEGED_TYPES})
 MODACTION_TYPES__FILTERED = deepcopy({t:v for t,v in MODACTION_TYPES.items()
                                      if not t in MODACTION_PRIVILEGED__TYPES})
 AEVANN_MODACTION_TYPES = {'ban_user','unban_user',
 						'shadowban','unshadowban',
-						'progstack_post','progstack_comment'}
+						'progstack_post','progstack_comment',
+						'unprogstack_post', 'unprogstack_comment'}
