@@ -120,7 +120,7 @@ def speak(data, v):
 	else:
 		emit('speak', data, broadcast=True)
 		messages[id] = data
-		messages = dict(list(messages.items())[-500:])
+		messages = dict(list(messages.items())[-250:])
 
 	typing = []
 
