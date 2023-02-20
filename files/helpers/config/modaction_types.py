@@ -247,7 +247,7 @@ MODACTION_TYPES = {
 		"color": 'bg-danger'
 	},
 	'revert': {
-		"str": 'reverted {self.target_link} mod actions',
+		"str": "reverted {self.target_link}'s mod actions made in the last 24 hours",
 		"icon": 'fa-history',
 		"color": 'bg-danger'
 	},
