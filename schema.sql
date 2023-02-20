@@ -983,7 +983,6 @@ CREATE TABLE public.users (
     controversial boolean DEFAULT false NOT NULL,
     background character varying(40),
     verified character varying(100),
-    cardview boolean NOT NULL,
     received_award_count integer DEFAULT 0 NOT NULL,
     nitter boolean,
     truescore integer DEFAULT 0 NOT NULL,

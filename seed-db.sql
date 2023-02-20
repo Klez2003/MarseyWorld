@@ -337,8 +337,8 @@ INSERT INTO public.hat_defs VALUES (1005, 'The BIRD', 'FUCK YOU, FUCK YOU, ANDDD
 INSERT INTO public.hat_defs VALUES (1140, 'Yiff In Hell', 'Translation: "I''m really desperate for social acceptance."', 2, 500, NULL, 1674463260);
 INSERT INTO public.hat_defs VALUES (1141, 'NCR Ranger Helmet', '"Patrolling the rdrama almost makes you wish for a nuclear winter"', 2, 500, NULL, 1675539483);
 INSERT INTO public.hat_defs VALUES (1144, 'Venom', '"We, are Venom"', 2, 500, NULL, 1675890800);
-
-
+INSERT INTO public.hat_defs VALUES (1146, 'Cum2', 'For the sexy people that need cummed on!! Smoother Cum', 2, 1000, NULL, 1676691570);
+INSERT INTO public.hat_defs VALUES (1145, 'Cum', 'For the sexy people that need cummed on!!', 2, 1000, NULL, 1676690971);
 INSERT INTO public.hat_defs VALUES (965, 'FDJ', '"Jetzt bin ich ein Freier Deutsche Jugendfunktionär"', 2, 500, NULL, 1665686729);
 INSERT INTO public.hat_defs VALUES (969, 'Elite Pedo Sniper', 'The shemagh gives you +10 accuracy', 2, 500, NULL, 1665817338);
 INSERT INTO public.hat_defs VALUES (933, 'Rascal', 'See this person 3 times and they have to give you something-Minecraft MV22', 2, 500, NULL, 1665434625);
@@ -1334,6 +1334,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyatlasshrugged',2,'ayn rand objectivist objectivism libertarian girlboss capitalist capitalism book atlas shrugged',NULL),
 ('marseyatsume',2,'kitten kitty weebshit',NULL),
 ('marseyattentionseeker',2,'attention seek notice shout yell desperate narcissist notice',NULL),
+('marseyaugust',2,'undead sanguine horror spooky halloween fangs holiday monster august cute ill marseyismywaifu mimwee',1676780175),
 ('marseyaustralian',2,'beer fosters mate hat gday crikey oz',NULL),
 ('marseyauthleft',2,'marxist ussr marxism ccp communist khmer rouge leftoid communism juche',NULL),
 ('marseyauthright',2,'rightoid national socialism ss national socialist nazi wehrmacht hitler fascist',NULL),
@@ -1371,6 +1372,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseybaitretard',2,'foid dumb trick drool idiot fool',1672768619),
 ('marseyballerina',2,'dress ballet tutu dancer dancing',NULL),
 ('marseyballoon',2,'balloon air festive festival carnival',1675626986),
+('marseyballoon2',2,'fat balloon big round floaty cute inflation inflated',1676740384),
 ('marseyban',2,'jannie janitor banhammer moderator banned',NULL),
 ('marseybane',2,'soy mask batman capeshit',NULL),
 ('marseybang',2,'head wall bang schizo psycho selfharm deranged gif animated',NULL),
@@ -1629,6 +1631,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseycatgirl5',2,'country jorts booba anime tits hot sexy cute tiddies titties tits furry',1663846723),
 ('marseycatgirlhomofascist',2,'catgirl girl anthro moe detailed anime homofascist homofascism gay nazi pride lgbt fascism',NULL),
 ('marseycatgirljanny',2,'anime maid weebshit',NULL),
+('marseycatpanties',2,'cute valentine dirty panties naughty horny rapey',1676740736),
 ('marseycaveman',2,'caveman prehistoric neanderthal primitive tribal',NULL),
 ('marseyceiling',2,'spy masturbate watching peeping',NULL),
 ('marseycensored',2,'1984 memory hole censorship repressed',NULL),
@@ -1825,6 +1828,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseydarkxd',2,'laugh ragecomics lmao despair shadow',NULL),
 ('marseydarwin',2,'history darwinian euphoric atheist charles',NULL),
 ('marseydawnbreaker',2,'gamer video game warhammer',NULL),
+('marseydayan',2,'moshe dayan israel army military general soldier',1676867374),
 ('marseydead',2,'murdered dead killed reaction victim die rip',NULL),
 ('marseydeadchat',2,'dead chat discord zoomercord',NULL),
 ('marseydeadeyes',2,'broken suicidal depressed',NULL),
@@ -2545,6 +2549,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyneon',2,'wave flashy trippy waving flashing lights animated',NULL),
 ('marseynerd',2,'dork loser dweeb geek glasses aevann',NULL),
 ('marseynerd2',2,'geek glasses dork loser pimples zits',NULL),
+('marseyneuron',2,'brain cell science nerve smart stupid dumb eyes',1676740193),
 ('marseynewyorker',2,'rat nyc newyork hustle bustle yankees',1666250525),
 ('marseynietzsche',2,'philosophy history',NULL),
 ('marseyniggy',2,'idolmaster sachiko 4chan smug anime',1664383012),
@@ -2720,6 +2725,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseypolyamory',2,'threesome 3some degenerate polycule slut whore std sex soy animated',NULL),
 ('marseyponder',2,'ponder orb wizard magician crystal ball',NULL),
 ('marseypony',2,'murmurwisper mlp my little ponies cutie mark horse furry my little pony',NULL),
+('marseypony2',2,'pony horse furry mlp',1676775561),
 ('marseypoor',2,'homeless beggar panhandler proletariat bum',NULL),
 ('marseypop',2,'action figure doll funko toy soy',NULL),
 ('marseypop2',2,'excited blahblahblah blah blah blah animated',NULL),
@@ -3174,6 +3180,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseytangerinefeline',2,'tangerinefeline tangerine feline chiobu orange pokemon plant',NULL),
 ('marseytank',2,'military ussr ccp communist authleft tank army communism china soviet',NULL),
 ('marseytankushanka',2,'military ussr ccp communist authleft tank army communism china soviet russian',NULL),
+('marseytaratheandroid',2,'tara android robot fantastic',1676833890),
 ('marseytariq',2,'buck breaking nasheed nigger coon black',NULL),
 ('marseytariq2',2,'marsey tariq flex supremacist glow eye black king fba foundational bussy thong broken buck nasheed breaking k melanin melanoid wash yo ass',1671037636),
 ('marseytarrant',2,'branton brenton newzealand kiwi shooter shooting killer ebba akerlund murderer rightoid chud strong',NULL),
