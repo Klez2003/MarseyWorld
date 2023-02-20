@@ -771,6 +771,7 @@ if SITE == 'rdrama.net':
 		'snus': 5646,
 		'schizo': 8494,
 		'august': 1830,
+		'marco': 152,
 	}
 
 	ANTISPAM_BYPASS_IDS = {1703, 13427}
