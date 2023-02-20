@@ -1234,9 +1234,6 @@ def toggle_pins(sort):
 
 @app.get("/toggle_holes")
 def toggle_holes():
-	if SITE_NAME == 'WPD':
-		abort(404)
-
 	holes = session.get('holes', True)
 	session["holes"] = not holes
 
