@@ -66,7 +66,7 @@ profanity_regex_upper = re.compile(f"<[^>]*>|{profanity_single_words.upper()}", 
 
 torture_regex = re.compile('(^|\s)(i|me) ', flags=re.I|re.A)
 torture_regex2 = re.compile("(^|\s)i'm ", flags=re.I|re.A)
-torture_regex_exclude = re.compile('^\s*>', flags=re.A)
+torture_regex_exclude = re.compile('^\s*(>|<blockquote>)', flags=re.A)
 
 
 image_check_regex = re.compile(f'!\[\]\(((?!(https:\/\/([a-z0-9-]+\.)*({hosts})\/|\/)).*?)\)', flags=re.A)
