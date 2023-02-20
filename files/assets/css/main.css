@@ -5465,7 +5465,7 @@ video {
 .text-removed {
 	color: #ffabab !important;
 }
-.mirrored, img[alt^=":!"], img[alt^=":#!"], span[alt^=":!"], span[alt^=":#!"] {
+.mirrored, img[alt^=":"][alt*="!"], span[alt^=":"][alt*="!"] {
 	transform: scaleX(-1);
 	-webkit-transform: scaleX(-1);
 }
@@ -5503,11 +5503,11 @@ input[type=radio] ~ .custom-control-label::before {
 	height: 40px !important;
 	width: 40px !important;
 }
-.bigemoji, .emoji-md, img[alt^=":"]:not(img[alt*="#"]) {
+.bigemoji, .emoji-md, img[alt^=":"] {
 	height: 60px;
 	width: 60px;
 }
-.bigemoji, .emoji-lg, img[alt^=":#"], img[alt^=":!#"] {
+.bigemoji, .emoji-lg, img[alt^=":"][alt*="#"] {
 	height: 150px;
 	width: 150px;
 }
