@@ -610,6 +610,7 @@ def sub_marsey(v:User, sub):
 
 	return redirect(f'/h/{sub}/settings')
 
+@app.get("/flairs")
 @app.get("/holes")
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
