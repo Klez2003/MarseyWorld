@@ -43,6 +43,9 @@ def reddit_post(subreddit, v, path):
 @auth_required
 def marseys(v:User):
 
+	if SITE_NAME != 'rDrama':
+		abort(404)
+
 	marseys = get_marseys(g.db)
 	authors = get_accounts_dict([m.author_id for m in marseys], v=v, graceful=True, include_shadowbanned=False)
 	original = os.listdir("/asset_submissions/marseys/original")
@@ -198,6 +201,9 @@ def log_item(id, v):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def static_megathread_index(v:User):
+	if SITE_NAME != 'rDrama':
+		abort(404)
+
 	return render_template("megathread_index.html", v=v)
 
 @app.get("/api")
