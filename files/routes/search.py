@@ -95,8 +95,11 @@ def searchposts(v:User):
 			words = [or_(Submission.title.ilike('%'+x+'%')) \
 					for x in criteria['q']]
 		else:
-			words = [or_(Submission.title.ilike('%'+x+'%'), Submission.body.ilike('%'+x+'%')) \
-					for x in criteria['q']]
+			words = [or_(
+						Submission.title.ilike('%'+x+'%'),
+						Submission.body.ilike('%'+x+'%'),
+						Submission.url.ilike('%'+x+'%'),
+					) for x in criteria['q']]
 		posts = posts.filter(*words)
 
 	if 'over18' in criteria: posts = posts.filter(Submission.over_18==True)
