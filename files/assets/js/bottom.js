@@ -1,7 +1,7 @@
 
 function execute(element, attr) {
 	if (element.dataset.nonce != nonce) {
-		console.log("Nonce check failed!")
+		console.error("Nonce check failed!")
 		return
 	}
 	const funcs = element.getAttribute(`data-${attr}`).split(';')
@@ -15,8 +15,8 @@ function execute(element, attr) {
 				window[name](...args);
 			}
 			catch (e) {
-				console.log(e)
-				console.log(name)
+				console.error(e)
+				console.error(name)
 			}
 		}
 	}
