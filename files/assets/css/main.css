@@ -2360,6 +2360,9 @@ a.bg-light:hover, a.bg-light:focus, button.bg-light:hover, button.bg-light:focus
 .float-right {
 	float: right !important;
 }
+.float-left {
+	float: left !important;
+}
 .overflow-auto {
 	overflow: auto !important;
 }
