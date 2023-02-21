@@ -755,6 +755,10 @@ def shadowban(user_id, v):
 		abort(400, "You need to submit a reason for shadowbanning!")
 
 	reason = filter_emojis_only(reason)
+
+	if len(reason) > 256:
+		abort(400, "Ban reason too long!")
+
 	user.ban_reason = reason
 	g.db.add(user)
 	check_for_alts(user)
@@ -870,6 +874,8 @@ def ban_user(id, v):
 		abort(400, "You need to submit a reason for banning!")
 
 	reason = filter_emojis_only(reason)
+	if len(reason) > 256:
+		abort(400, "Ban reason too long!")
 
 	reason = reason_regex_post.sub(r'<a href="\1">\1</a>', reason)
 	reason = reason_regex_comment.sub(r'<a href="\1#context">\1</a>', reason)
