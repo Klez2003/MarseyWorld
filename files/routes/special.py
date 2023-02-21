@@ -82,6 +82,9 @@ def _special_leaderboard_get():
 @app.get('/special/worldcup2022/leaderboard')
 @auth_required
 def get_leaderboard(v):
+	if SITE_NAME != 'rDrama':
+		abort(404)
+
 	result = _special_leaderboard_get()
 	if g.is_api_or_xhr: return result
 	users = get_accounts_dict([r[0] for r in result],
