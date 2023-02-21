@@ -47,3 +47,13 @@ function approveComment(t,comment_id,button1,button2,cls) {
 		}
 	);
 }
+
+function delReportComment(t, url) {
+	postToast(t, url,
+		{
+		},
+		() => {
+			t.parentElement.remove()
+		}
+	);
+}

@@ -241,7 +241,7 @@
 				<strong><i class="far fa-fw fa-flag"></i> Reported by:</strong>
 				<ul class="mt-1 mb-0" style="padding-left:20px;word-wrap:break-word">
 					{% for f in c.filtered_flags(v) %}
-						<li>{% if c.ghost %}👻{% else %}<a style="font-weight:bold" href="{{f.user.url}}">{{f.user.username}}</a>{% endif %}{% if f.reason %}: {{f.realreason(v) | safe}}{% endif %} {% if v and v.admin_level >= PERMS['FLAGS_REMOVE'] %}<button type="button" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/del_report/comment/{{f.comment_id}}/{{f.user_id}}')">[remove]</button>{% endif %}</li>
+						<li>{% if c.ghost %}👻{% else %}<a style="font-weight:bold" href="{{f.user.url}}">{{f.user.username}}</a>{% endif %}{% if f.reason %}: {{f.realreason(v) | safe}}{% endif %} {% if v and v.admin_level >= PERMS['FLAGS_REMOVE'] %}<button type="button" data-nonce="{{g.nonce}}" data-onclick="delReportComment(this,'/del_report/comment/{{f.comment_id}}/{{f.user_id}}')">[remove]</button>{% endif %}</li>
 					{% endfor %}
 				</ul>
 			</div>
