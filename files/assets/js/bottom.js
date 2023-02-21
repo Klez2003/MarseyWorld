@@ -142,7 +142,6 @@ function register_new_elements(e) {
 			document.getElementById(element.dataset.toggleelement).classList.toggle(element.dataset.toggleattr);
 		});
 	}
-
 }
 
 register_new_elements(document);
