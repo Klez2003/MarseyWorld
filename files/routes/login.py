@@ -316,7 +316,7 @@ def sign_up_post(v:Optional[User]):
 		)
 
 	if users_count == 4:
-		new_user.admin_level = 5
+		new_user.admin_level = 4
 		session["history"] = []
 
 	g.db.add(new_user)
