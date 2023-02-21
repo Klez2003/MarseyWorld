@@ -13,7 +13,7 @@ cp ./env_template ./.env
 mkdir /scripts
 cp ./startup.sh /scripts/s
 cp ./startup_chat.sh /scripts/s2
-chmod +x /scripts/*
+chmod +x /scripts/* -R
 
 sh -c 'echo "deb https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
 wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
@@ -22,7 +22,7 @@ apt -y install postgresql-14
 rm /etc/postgresql/14/main/pg_hba.conf
 cp pg_hba.conf /etc/postgresql/14/main/pg_hba.conf
 service postgresql restart
-chown postgres:postgres /etc/postgresql/14/main/pg_hba.conf
+chown postgres:postgres /etc/postgresql/14/main/pg_hba.conf -R
 
 rm /etc/nginx/sites-available -r
 rm /etc/nginx/sites-enabled/default
@@ -50,7 +50,7 @@ mkdir /asset_submissions/marseys/original
 mkdir /asset_submissions/hats/original
 mkdir /var/log/rdrama
 
-chown rdrama:rdrama /var/log/rdrama
+chown rdrama:rdrama /var/log/rdrama -R
 
 snap install opera-proxy
 
