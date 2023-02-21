@@ -793,6 +793,8 @@ if SITE == 'rdrama.net':
 		'the_homocracy': 147,
 		'justcool393': JUSTCOOL_ID
 	}
+
+	POST_RATELIMIT = '1/second;5/hour;10/day'
 elif SITE == 'watchpeopledie.tv':
 	EMAIL = f"wpd@watchpeopledie.tv"
 	TELEGRAM_ID = "wpdtv"
