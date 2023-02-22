@@ -54,8 +54,8 @@ def dm_images(v):
 
 	firstrange = PAGE_SIZE * (page - 1)
 	secondrange = firstrange + PAGE_SIZE + 1
-	posts = items[firstrange:secondrange]
-	next_exists = (len(posts) > PAGE_SIZE)
+	items = items[firstrange:secondrange]
+	next_exists = (len(items) > PAGE_SIZE)
 
 	return render_template("admin/dm_images.html", v=v, items=items, next_exists=next_exists, page=page)
 

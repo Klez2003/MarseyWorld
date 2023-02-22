@@ -6,7 +6,6 @@
 	<table class="table table-striped mb-5">
 		<thead class="bg-primary text-white">
 			<tr>
-				<th>#</th>
 				<th>Image</th>
 				<th>Sender</th>
 				<th>Sent To</th>
@@ -15,7 +14,6 @@
 
 		{% for item in items %}
 			<tr>
-				<td>{{loop.index}}</td>
 				<td>
 					<a href="{{item[0]}}" target="_blank">
 						<img alt="![]({{item[0]}})" src="{{item[0]}}" loading="lazy" class="dm_img">
