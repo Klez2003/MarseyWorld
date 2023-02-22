@@ -3946,9 +3946,8 @@ small, .small {
 	justify-content: center;
 }
 #thread .voting {
-	min-width: 10px;
-	margin-right: 10px;
-	overflow-wrap: normal;
+	min-width: 32px;
+	margin-right: 1px;
 }
 #frontpage .voting, #search .voting, #userpage .voting {
 	margin: auto 0;
