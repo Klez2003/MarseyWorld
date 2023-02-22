@@ -846,6 +846,13 @@ def admin_title_change(user_id, v):
 		)
 	g.db.add(ma)
 
+	if user.flairchanged:
+		message = f"@{v.username} (a site admin) has locked your flair to `{user.customtitleplain}`."
+	else:
+		message = f"@{v.username} (a site admin) has changed your flair to `{user.customtitleplain}`. You can change it back in the settings."
+		
+	send_repeatable_notification(user.id, message)
+
 	return {"message": f"@{user.username}'s flair has been changed!"}
 
 @app.post("/ban_user/<id>")
