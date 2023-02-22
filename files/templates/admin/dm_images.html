@@ -9,6 +9,7 @@
 				<th>Image</th>
 				<th>Sender</th>
 				<th>Sent To</th>
+				<th>At</th>
 			</tr>
 		</thead>
 
@@ -39,6 +40,7 @@
 						{% endif %}
 					{% endif %}
 				</td>
+				<td {% if item[5] %}data-time="{{item[5]}}"{% endif %}></td>
 			</tr>
 		{% endfor %}
 	</table>

@@ -268,7 +268,7 @@ def process_dm_images(v, user):
 	if body:
 		with open(f"{LOG_DIRECTORY}/dm_images.log", "a+", encoding="utf-8") as f:
 			if user:
-				f.write(f'{body.strip()}, {v.username}, {v.id}, {user.username}, {user.id}\n')
+				f.write(f'{body.strip()}, {v.username}, {v.id}, {user.username}, {user.id}, {int(time.time())}\n')
 			else:
-				f.write(f'{body.strip()}, {v.username}, {v.id}, Modmail, Modmail\n')
+				f.write(f'{body.strip()}, {v.username}, {v.id}, Modmail, Modmail, {int(time.time())}\n')
 	return body
