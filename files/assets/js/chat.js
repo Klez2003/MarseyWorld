@@ -287,7 +287,7 @@ document.addEventListener('click', function (e) {
 			btn.previousElementSibling.classList.remove('d-none');
 		}
 	}
-	
+
 	if (e.target.id == "cancel") {
 		document.getElementById("quotes").classList.add("d-none");
 		document.getElementById('quotes_id').value = null;

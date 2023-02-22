@@ -17,7 +17,7 @@ def get_ID():
 		x = session.get("lo_user")
 	else:
 		x = "logged_out"
-	
+
 
 	return f'{SITE}-{x}'
 

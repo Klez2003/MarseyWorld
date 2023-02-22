@@ -102,7 +102,7 @@ function register_new_elements(e) {
 	for (const element of showmores) {
 		element.onclick = () => {showmore(element)};
 	}
-	
+
 	const onclick = e.querySelectorAll('[data-onclick]');
 	for (const element of onclick) {
 		element.onclick = () => {execute(element, 'onclick')};

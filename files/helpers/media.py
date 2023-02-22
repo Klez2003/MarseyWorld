@@ -29,7 +29,7 @@ def process_files(files, v):
 	body = ''
 	if g.is_tor or not files.get("file"): return body
 	files = files.getlist('file')[:4]
-	
+
 	if files:
 		media_ratelimit(v)
 
@@ -63,7 +63,7 @@ def process_audio(file, v):
 
 	media = g.db.query(Media).filter_by(filename=name, kind='audio').one_or_none()
 	if media: g.db.delete(media)
-	
+
 	media = Media(
 		kind='audio',
 		filename=name,
@@ -259,12 +259,12 @@ def process_dm_images(v, user):
 					).json()
 				except requests.Timeout:
 					abort(400, "Image upload timed out, please try again!")
-			
+
 			try: url = req['files'][0]['url']
 			except: abort(400, req['description'])
-			
+
 			body += f'\n\n{url}\n\n'
-	
+
 	if body:
 		with open(f"{LOG_DIRECTORY}/dm_images.log", "a+", encoding="utf-8") as f:
 			if user:

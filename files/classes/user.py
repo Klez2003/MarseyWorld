@@ -391,12 +391,12 @@ class User(Base):
 			date = time.strftime("%d %b", time.gmtime(self.created_utc))
 			now = time.strftime("%d %b", time.gmtime())
 			if date == now: return True
-		
+
 		if time.time() - self.created_utc > 365 * 86400 and not self.has_badge(134):
 			new_badge = Badge(badge_id=134, user_id=self.id)
 			g.db.add(new_badge)
 			g.db.flush()
-		
+
 		return False
 
 	@property

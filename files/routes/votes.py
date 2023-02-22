@@ -93,7 +93,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 
 	if SITE_NAME == 'WPD':
 		coin_mult *= 2
-	
+
 	if IS_FISTMAS():
 		coin_mult *= 2
 
