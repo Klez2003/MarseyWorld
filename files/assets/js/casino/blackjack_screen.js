@@ -61,10 +61,6 @@ function updateBlackjackActions(state) {
 	} else {
 		const dealButton = document.getElementById(`twentyone-DEAL`);
 
-		setTimeout(() => {
-			const dealButton = document.getElementById(`twentyone-DEAL`);
-		})
-
 		if (dealButton) {
 			dealButton.style.display = 'inline-block'
 		}
