@@ -875,6 +875,9 @@ def ban_user(id, v):
 	if user.admin_level > v.admin_level:
 		abort(403)
 
+	if user.is_suspended_permanently:
+		abort(403, f"@{user.username} is already banned permanently!")
+
 	days = 0.0
 	try:
 		days = float(request.values.get("days"))
@@ -962,6 +965,9 @@ def agendaposter(id, v):
 
 	if user.admin_level > v.admin_level:
 		abort(403)
+
+	if user.agendaposter == 1:
+		abort(403, f"@{user.username} is already chudded permanently!")
 
 	days = 0.0
 	try:
