@@ -47,8 +47,17 @@ def dm_images(v):
 		items=f.read().split("\n")[:-1]
 
 	items = [x.split(", ") for x in items]
+	items.reverse()
 
-	return render_template("admin/dm_images.html", v=v, items=items)
+	try: page = int(request.values.get('page', 1))
+	except: page = 1
+
+	firstrange = PAGE_SIZE * (page - 1)
+	secondrange = firstrange + PAGE_SIZE + 1
+	posts = items[firstrange:secondrange]
+	next_exists = (len(posts) > PAGE_SIZE)
+
+	return render_template("admin/dm_images.html", v=v, items=items, next_exists=next_exists, page=page)
 
 @app.get('/admin/edit_rules')
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
