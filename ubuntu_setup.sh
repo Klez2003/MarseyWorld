@@ -2,6 +2,7 @@
 
 apt -y update
 apt -y upgrade
+apt -y autoremove
 apt -y install git redis-server python3-pip ffmpeg nginx snapd ufw gpg-agent htop nano mailutils
 
 git config --global credential.helper store

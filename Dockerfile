@@ -2,8 +2,9 @@ FROM ubuntu:22.04
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-RUN apt update
+RUN apt -y update
 RUN apt -y upgrade
+RUN apt -y autoremove
 RUN apt install -y supervisor
 RUN apt install -y python3-pip
 RUN apt install -y ffmpeg
