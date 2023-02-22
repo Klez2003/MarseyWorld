@@ -2983,6 +2983,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyseethe',2,'dilate mask crying seething smug cope',NULL),
 ('marseyselfflagellation',2,'whip white guilt hate sin mayo liberal catholic',NULL),
 ('marseysephiroth',2,'ff7 ffvii final fantasy vidya video game gamer gaming villain sword',NULL),
+('marseyseppuku',2,'suicide japanese east asian army blade sword death',1676938890),
 ('marseyseven',2,'vidya gamer gaymer video game assassin hitman',NULL),
 ('marseysexy',2,'ned flanders stupid sexy flanders skiier skiing winter simpsons',NULL),
 ('marseysexylibrarian',2,'books hoe old woman thot nerd boobs bra geek',NULL),
