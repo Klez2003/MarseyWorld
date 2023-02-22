@@ -1520,6 +1520,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseybsod',2,'windows computer blue screen of death error glitch',NULL),
 ('marseybudddwyer',2,'suicide gunshot reporter journalist',NULL),
 ('marseybuff',2,'ripped muscular 6pack swole 6 pack sixpack abs six pack muscles',NULL),
+('marseybuffbipoc',2,'kang black brown ni strong muscles fierce gym rat chad abs',1677035963),
 ('marseybug',2,'beetle glitch error insect roach',NULL),
 ('marseybug2',2,'glitch code error',NULL),
 ('marseybug3',2,'error glitch 404 503',1670510335),
