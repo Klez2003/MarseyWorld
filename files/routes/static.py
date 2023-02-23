@@ -252,7 +252,7 @@ def submit_contact(v):
 	execute_under_siege(v, new_comment, new_comment.body_html, 'modmail')
 	new_comment.top_comment_id = new_comment.id
 
-	admins = g.db.query(User).filter(User.admin_level >= PERMS['NOTIFICATIONS_MODMAIL'], User.id != AEVANN_ID)
+	admins = g.db.query(User).filter(User.admin_level >= PERMS['NOTIFICATIONS_MODMAIL'])
 
 	for admin in admins.all():
 		notif = Notification(comment_id=new_comment.id, user_id=admin.id)
