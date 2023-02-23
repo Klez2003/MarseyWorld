@@ -273,8 +273,7 @@
 	{"name":"platythumbsup","class":"Platy","tags":["platypus","approve","good","nice"]},
 	{"name":"platywave","class":"Platy","tags":["platypus","hello","hi","bye","waving"]},
 	{"name":"platykys","class":"Platy","tags":["platypus","kill","yourself","suicide","hate"]},
-	{"name":"platydinosaur","class":"Platy","tags":["platypus","fossil","reptile","cdace"]},
-	
+	{"name":"platydinosaur","class":"Platy","tags":["platypus","fossil","reptile","cdace"]},	
 
 	{"name":"wolfpicrew", "class":"Wolf", "tags":["trans", "picrew", "ugly", "calarts"]},
 	{"name":"wolfglowie","class":"Wolf","tags":["dramarama","fbi","federal","agent","police","detective","cop", "officer","lurking"]},
