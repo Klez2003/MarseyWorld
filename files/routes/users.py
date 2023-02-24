@@ -524,7 +524,7 @@ def message2(v:User, username:str):
 			g.db.add(notif)
 
 
-	if VAPID_PUBLIC_KEY != DEFAULT_CONFIG_VALUE and not v.shadowbanned:
+	if not v.shadowbanned:
 		title = f'New message from @{v.username}'
 
 		if len(message) > 500: notifbody = message[:500] + '...'
@@ -594,7 +594,7 @@ def messagereply(v:User):
 			notif = Notification(comment_id=c.id, user_id=user_id)
 			g.db.add(notif)
 
-		if VAPID_PUBLIC_KEY != DEFAULT_CONFIG_VALUE and not v.shadowbanned:
+		if not v.shadowbanned:
 			title = f'New message from @{v.username}'
 
 			if len(body) > 500: notifbody = body[:500] + '...'
