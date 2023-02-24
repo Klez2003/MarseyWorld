@@ -266,8 +266,8 @@ function showmore(t) {
 	}
 
 	let text = div.getElementsByTagName('d')[0]
-	if (!text) text = div.getElementsByClassName('d-none')[0]
 	if (!text) text = div.getElementsByClassName('showmore-text')[0]
+	if (!text) text = div.getElementsByClassName('d-none')[0]
 
 	text.classList.add('showmore-text')
 
