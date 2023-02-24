@@ -264,7 +264,7 @@ function showmore(t) {
 	while (!(div.id && (div.id.startsWith('comment-text-') || div.id == 'post-text'))){
 		div = div.parentElement
 	}
-	div = div.getElementsByTagName('d')[0]
+	div = div.getElementsByClassName('d-none')[0]
 	div.classList.toggle('d-none')
 	if (div.classList.contains('d-none'))
 		t.innerHTML = 'SHOW MORE'
