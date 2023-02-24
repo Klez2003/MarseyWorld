@@ -264,9 +264,10 @@ function showmore(t) {
 	while (!(div.id && (div.id.startsWith('comment-text-') || div.id == 'post-text'))){
 		div = div.parentElement
 	}
-	div = div.getElementsByTagName('d')[0]
-	if (!div) div = div.getElementsByClassName('d-none')[0]
-	if (!div) div = div.getElementsByClassName('showmore')[0]
+
+	let text = div.getElementsByTagName('d')[0]
+	if (!text) text = div.getElementsByClassName('d-none')[0]
+	if (!text) text = div.getElementsByClassName('showmore')[0]
 
 	div.classList.add('showmore')
 
