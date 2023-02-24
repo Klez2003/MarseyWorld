@@ -203,6 +203,7 @@
 .fa-images:before{content:"\f302"}
 .fa-lock:before{content:"\f023"}
 .fa-lock-open:before{content:"\f3c1"}
+.fa-down:before{content:"\f354"}
 
 button {
 	background: none;

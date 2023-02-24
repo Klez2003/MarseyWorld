@@ -204,7 +204,8 @@ def static_megathread_index(v:User):
 	if SITE_NAME != 'rDrama':
 		abort(404)
 
-	return render_template("megathread_index.html", v=v)
+	emojis_hash = cache.get('emojis_hash') or ''
+	return render_template("megathread_index.html", v=v, emojis_hash=emojis_hash)
 
 @app.get("/api")
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)

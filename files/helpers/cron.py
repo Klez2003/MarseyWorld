@@ -1,7 +1,9 @@
 import datetime
 import time
 from sys import stdout
-
+from shutil import make_archive
+from hashlib import md5
+	
 import click
 import requests
 
@@ -41,6 +43,7 @@ def cron(every_5m, every_1h, every_1d, every_1mo):
 		_sub_inactive_purge_task()
 		site_stats = stats.stats(SITE_NAME)
 		cache.set(f'{SITE}_stats', site_stats)
+		_generate_emojis_zip()
 
 	g.db.commit()
 	g.db.close()
@@ -106,3 +109,13 @@ def _sub_inactive_purge_task():
 		g.db.delete(x)
 
 	return True
+
+def _generate_emojis_zip():
+	make_archive('files/assets/emojis', 'zip', 'files/assets/images/emojis')
+
+	m = md5()
+	with open('files/assets/emojis.zip', "rb") as f:
+		data = f.read()
+	
+	m.update(data)
+	cache.set('emojis_hash', m.hexdigest())

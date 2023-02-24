@@ -8,6 +8,12 @@
 {%- if SITE_NAME == 'rDrama' -%}
 {%- do MEGATHREAD_INDEX.extend([
 	(
+		'Download All Emojis',
+		'Download a zip file containing all emojis.',
+		'fa-down', '#38a169',
+		'/assets/emojis.zip?v=' + emojis_hash,
+	),
+	(
 		'Bugs / Suggestions',
 		'Something broken? Improvements?',
 		'fa-bug', '#6b8e23',
