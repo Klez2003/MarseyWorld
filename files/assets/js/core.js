@@ -261,7 +261,7 @@ function changename(s1,s2) {
 
 function showmore(t) {
 	let div = t
-	while (!(div.id && div.id.startsWith('comment-text-'))){
+	while (!(div.id && (div.id.startsWith('comment-text-') || div.id == 'post-text'))){
 		div = div.parentElement
 	}
 	div = div.getElementsByTagName('d')[0]
