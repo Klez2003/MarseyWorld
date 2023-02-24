@@ -121,44 +121,6 @@ const emojisSearchDictionary = {
 	},
 
 	/**
-	 * We find the name of each emojis that has a tag that starts with query.
-	 *
-	 * Basically I run a binary search to find a tag that starts with a query, then I look left and right
-	 * for other tags tat start with the query. As the array is ordered this algo is sound.
-	 * @param {String} tag
-	 * @returns {Set}
-	 */
-	searchFor: function(query) {
-		query = query.toLowerCase()
-		if(this.dict.length === 0)
-			return new Set();
-
-		const result = new Set();
-
-		let low = 0;
-		let high = this.dict.length;
-
-		while (low < high) {
-			let mid = (low + high) >>> 1;
-			if (this.dict[mid].tag < query)
-				low = mid + 1;
-			else
-				high = mid;
-		}
-
-		let target = low;
-		for(let i = target; i >= 0 && this.dict[i].tag.startsWith(query); i--)
-			for(let j = 0; j < this.dict[i].emojiNames.length; j++)
-				result.add(this.dict[i].emojiNames[j]);
-
-		for(let i = target + 1; i < this.dict.length && this.dict[i].tag.startsWith(query); i++)
-			for(let j = 0; j < this.dict[i].emojiNames.length; j++)
-				result.add(this.dict[i].emojiNames[j]);
-
-		return result;
-	},
-
-	/**
 	 * We also check for substrings! (sigh)
 	 * @param {String} tag
 	 * @returns {Set}
@@ -496,7 +458,7 @@ function update_speed_emoji_modal(event)
 		speed_carot_modal.style.top = modal_pos.y + box_coords.y + 14 + "px";
 
 		// Do the search (and do something with it)
-		populate_speed_emoji_modal(emojisSearchDictionary.searchFor(current_word.substr(1).replace(/#/g, "").replace(/!/g, "")), event.target);
+		populate_speed_emoji_modal(emojisSearchDictionary.completeSearch(current_word.substr(1).replace(/#/g, "").replace(/!/g, "")), event.target);
 
 	}
 	else {
