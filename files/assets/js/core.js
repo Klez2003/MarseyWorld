@@ -266,7 +266,10 @@ function showmore(t) {
 	}
 	div = div.getElementsByTagName('d')[0]
 	if (!div) div = div.getElementsByClassName('d-none')[0]
-	
+	if (!div) div = div.getElementsByClassName('showmore')[0]
+
+	div.classList.add('showmore')
+
 	div.classList.toggle('d-none')
 	if (div.classList.contains('d-none'))
 		t.innerHTML = 'SHOW MORE'
