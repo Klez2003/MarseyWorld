@@ -176,11 +176,17 @@ def send_repeatable_notification_duplicated(uid, text):
 		if not existing_notif:
 			notif = Notification(comment_id=c.id, user_id=uid)
 			g.db.add(notif)
+
+			g.db.flush()
+			push_notif({uid}, 'New notification', text, f'{SITE_FULL}/comment/{c.id}?read=true#context')
 			return
 
 	cid = create_comment_duplicated(text_html)
 	notif = Notification(comment_id=cid, user_id=uid)
 	g.db.add(notif)
+
+	g.db.flush()
+	push_notif({uid}, 'New notification', text, f'{SITE_FULL}/comment/{cid}?read=true#context')
 
 
 def execute_blackjack(v, target, body, type):
