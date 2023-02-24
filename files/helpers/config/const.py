@@ -769,7 +769,6 @@ if SITE == 'rdrama.net':
 		'jollymoon': 3635,
 		'chiobu': 5214,
 		'mccox': 8239,
-		'snus': 5646,
 		'schizo': 8494,
 		'august': 1830,
 		'marco': 152,
