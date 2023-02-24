@@ -440,7 +440,7 @@ def edit_comment(cid, v):
 				n = Notification(comment_id=c.id, user_id=x)
 				g.db.add(n)
 				if not v.shadowbanned:
-					push_notif({x}, f'New mention by @{v.username}', c.body, (c.id,bool(c.wall_user_id)))
+					push_notif({x}, f'New mention of you by @{v.username}', c.body, (c.id,bool(c.wall_user_id)))
 
 	g.db.commit()
 	return {"body": c.body, "comment": c.realbody(v)}
