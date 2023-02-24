@@ -12,8 +12,8 @@
 					<th>#</th>
 					<th>Name</th>
 					<th>Members</th>
-					<th>Created on</th>
 					<th></th>
+					<th>Created on</th>
 				</tr>
 			</thead>
 
@@ -30,7 +30,6 @@
 							{% endfor %}
 						</div>
 					</td>
-					<td data-time="{{group.created_utc}}"></td>
 					<td>
 						{% if v.id in group.applied_ids %}
 							<a class="btn btn-primary" href="/!{{group.name}}/applications">Application pending</a>
@@ -43,6 +42,7 @@
 							<a class="btn btn-primary" href="/!{{group.name}}/applications">Applications</a>
 						{% endif %}
 					</td>
+					<td data-time="{{group.created_utc}}"></td>
 				</tr>
 			{% endfor %}
 		</table>
