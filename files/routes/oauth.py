@@ -78,11 +78,14 @@ def request_api_keys(v):
 
 	new_comment.top_comment_id = new_comment.id
 
-	for admin in g.db.query(User).filter(User.admin_level >= PERMS['APPS_MODERATION']).all():
-		notif = Notification(comment_id=new_comment.id, user_id=admin.id)
+	admin_ids = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['APPS_MODERATION']).all()]
+
+	for admin_id in admin_ids:
+		notif = Notification(comment_id=new_comment.id, user_id=admin_id)
 		g.db.add(notif)
-
-
+	
+	g.db.flush()
+	push_notif(admin_ids, 'New notification', new_comment.body, f'{SITE_FULL}/comment/{new_comment.id}?read=true#context')
 
 	return redirect('/settings/apps')
 
