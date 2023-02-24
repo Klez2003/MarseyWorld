@@ -38,7 +38,7 @@ def casino_game_page(v:User, game):
 
 	game_state = ''
 	if game == 'blackjack':
-		abort(403, "Disabled temporarily!")
+		abort(403, "Disabled temporarily to fix exploit!")
 		if get_active_twentyone_game(v):
 			game_state = json.dumps(get_active_twentyone_game_state(v))
 
