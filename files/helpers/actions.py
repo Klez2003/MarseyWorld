@@ -107,7 +107,7 @@ def execute_snappy(post:Submission, v:User):
 			rev = f"* [unddit.com](https://unddit.com/{rev})\n"
 		elif post.url.startswith("https://old.reddit.com/u/"):
 			rev = post.url.replace('https://old.reddit.com/u/', '')
-			rev = f"* [camas.unddit.com](https://camas.unddit.com/reddit-search/#\u007b\"author\":\"{rev}\",\"resultSize\":100\u007d)\n"
+			rev = "* [camas.unddit.com](https://camas.unddit.com/reddit-search/#\u007b\"author\":\"{rev}\",\"resultSize\":100\u007d)\n"
 		else: rev = ''
 
 		body += f"Snapshots:\n\n{rev}* [archive.org](https://web.archive.org/{post.url})\n* [ghostarchive.org](https://ghostarchive.org/search?term={quote(post.url)})\n* [archive.ph](https://archive.ph/?url={quote(post.url)}&run=1) (click to archive)\n\n"
@@ -139,7 +139,7 @@ def execute_snappy(post:Submission, v:User):
 				addition += f'* [unddit.com](https://unddit.com/{rev})\n'
 			if href.startswith('https://old.reddit.com/u/'):
 				rev = href.replace('https://old.reddit.com/u/', '')
-				addition += f"* [camas.unddit.com](https://camas.unddit.com/reddit-search/#\u007b\"author\":\"{rev}\",\"resultSize\":100\u007d)\n"
+				addition += "* [camas.unddit.com](https://camas.unddit.com/reddit-search/#\u007b\"author\":\"{rev}\",\"resultSize\":100\u007d)\n"
 			addition += f'* [archive.org](https://web.archive.org/{href})\n'
 			addition += f'* [ghostarchive.org](https://ghostarchive.org/search?term={quote(href)})\n'
 			addition += f'* [archive.ph](https://archive.ph/?url={quote(href)}&run=1) (click to archive)\n'
@@ -265,7 +265,7 @@ def execute_zozbot(c:Comment, level:int, post_target:post_target_type, v):
 		post_target.comment_count += 3
 		g.db.add(post_target)
 
-	push_notif({v.id}, f'New reply by @zozbot', "zoz", (c2.id,posting_to_submission))
+	push_notif({v.id}, 'New reply by @zozbot', "zoz", (c2.id,posting_to_submission))
 
 def execute_longpostbot(c:Comment, level:int, body, body_html, post_target:post_target_type, v:User):
 	if SITE_NAME != 'rDrama': return
@@ -309,7 +309,7 @@ def execute_longpostbot(c:Comment, level:int, body, body_html, post_target:post_
 		post_target.comment_count += 3
 		g.db.add(post_target)
 
-	push_notif({v.id}, f'New reply by @longpostbot', c2.body, (c2.id,posting_to_submission))
+	push_notif({v.id}, 'New reply by @longpostbot', c2.body, (c2.id,posting_to_submission))
 
 def execute_antispam_submission_check(title, v, url):
 	now = int(time.time())

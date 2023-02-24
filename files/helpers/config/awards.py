@@ -593,7 +593,7 @@ AWARDS = {
 	"spider": {
 		"kind": "spider",
 		"title": "Spider!",
-		"description": f"Summons a spider to terrorize the recipient for 24 hours.",
+		"description": "Summons a spider to terrorize the recipient for 24 hours.",
 		"icon": "fas fa-spider",
 		"color": "text-brown",
 		"price": 2000,

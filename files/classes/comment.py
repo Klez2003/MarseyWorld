@@ -395,7 +395,7 @@ class Comment(Base):
 			body += f"<strong class='ml-2'>Blackjack! Won {floor(wager * 3/2)} {currency_kind}.</strong>"
 
 		if is_insured == "1":
-			body += f" <em class='text-success'>Insured.</em>"
+			body += " <em class='text-success'>Insured.</em>"
 
 		body += '</span>'
 		return body

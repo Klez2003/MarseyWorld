@@ -315,7 +315,7 @@ def edit_post(pid, v):
 			if execute_blackjack(v, p, text, 'submission'): break
 
 		if len(body_html) > POST_BODY_HTML_LENGTH_LIMIT:
-			abort(400, f"Submission body_html too long!")
+			abort(400, "Submission body_html too long!")
 
 		p.body_html = body_html
 
@@ -659,7 +659,7 @@ def submit_post(v:User, sub=None):
 		abort(400, "You can only type marseys!")
 
 	if len(body_html) > POST_BODY_HTML_LENGTH_LIMIT:
-		abort(400, f"Submission body_html too long!")
+		abort(400, "Submission body_html too long!")
 
 	flag_notify = (request.values.get("notify", "on") == "on")
 	flag_new = request.values.get("new", False, bool) or 'megathread' in title.lower()
@@ -983,7 +983,7 @@ def set_new_sort(post_id:int, v:User):
 		g.db.add(ma)
 		send_repeatable_notification(post.author_id, f"@{v.username} (a site admin) has changed the the default sorting of comments on [{post.title}](/post/{post.id}) to `new`")
 
-	return {"message": f"Changed the the default sorting of comments on this post to 'new'"}
+	return {"message": "Changed the the default sorting of comments on this post to 'new'"}
 
 
 @app.delete("/post/<int:post_id>/new")
@@ -1005,7 +1005,7 @@ def unset_new_sort(post_id:int, v:User):
 		g.db.add(ma)
 		send_repeatable_notification(post.author_id, f"@{v.username} (a site admin) has changed the the default sorting of comments on [{post.title}](/post/{post.id}) to `hot`")
 
-	return {"message": f"Changed the the default sorting of comments on this post to 'hot'"}
+	return {"message": "Changed the the default sorting of comments on this post to 'hot'"}
 
 
 extensions = IMAGE_FORMATS + VIDEO_FORMATS + AUDIO_FORMATS

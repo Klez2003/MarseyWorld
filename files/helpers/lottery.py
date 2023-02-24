@@ -59,7 +59,7 @@ def end_lottery_session():
 			notification_text = f'You won {active_lottery.prize} coins in the lottershe! ' \
 				+ f'Congratulations!\nYour odds of winning were: {chance_to_win}%'
 		else:
-			notification_text = f'You did not win the lottershe. Better luck next time!\n' \
+			notification_text = 'You did not win the lottershe. Better luck next time!\n' \
 				+ f'Your odds of winning were: {chance_to_win}%\nWinner: @{winning_user.username} (won {active_lottery.prize} coins)'
 		send_repeatable_notification(user.id, notification_text)
 		user.currently_held_lottery_tickets = 0
@@ -104,7 +104,7 @@ def lottery_ticket_net_value():
 
 def purchase_lottery_tickets(v, quantity=1):
 	if quantity < 1:
-		return False, f"Must purchase one or more lottershe tickets!"
+		return False, "Must purchase one or more lottershe tickets!"
 	elif (v.coins < LOTTERY_TICKET_COST * quantity):
 		return False, f"Lottery tickets cost {LOTTERY_TICKET_COST} coins each!"
 

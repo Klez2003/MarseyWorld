@@ -11,7 +11,7 @@ from flask import render_template
 
 if SITE == 'rdrama.net':
 	def send_mail(to_address, subject, html):
-		url = f"https://deuxrama.net/email"
+		url = "https://deuxrama.net/email"
 		data = {"from": EMAIL,
 				"to": to_address,
 				"subject": subject,
