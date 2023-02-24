@@ -243,6 +243,7 @@ def submit_contact(v):
 	new_comment = Comment(author_id=v.id,
 						parent_submission=None,
 						level=1,
+						body=body,
 						body_html=body_html,
 						sentto=MODMAIL_ID
 						)
