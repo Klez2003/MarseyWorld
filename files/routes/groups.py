@@ -51,7 +51,7 @@ def create_group(v):
 
 	return redirect(f'/ping_groups?msg=!{group} created successfully!')
 
-@app.post("/!<group_name>/join")
+@app.post("/!<group_name>/apply")
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def join_group(v:User, group_name):
@@ -61,18 +61,38 @@ def join_group(v:User, group_name):
 	if not existing:
 		join = GroupMembership(user_id=v.id, group_name=group_name)
 		g.db.add(join)
-		send_repeatable_notification(group.owner.id, f"@{v.username} has applied to join !{group}. You can approve or reject the application [here](/!{group}/applications).")
+		send_notification(group.owner.id, f"@{v.username} has applied to join !{group}. You can approve or reject the application [here](/!{group}/members).")
 
-	return redirect(f"/ping_groups?msg=Application submitted to !{group}'s owner (@{group.owner.username}) successfully!")
+	return {"message": f"Application submitted to !{group}'s owner (@{group.owner.username}) successfully!"}
 
-@app.get("/!<group_name>/applications")
+@app.post("/!<group_name>/leave")
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
-def applications(v:User, group_name):
+def leave_group(v:User, group_name):
 	group = g.db.get(Group, group_name)
 	if not group: abort(404)
-	applications = g.db.query(GroupMembership).filter_by(group_name=group_name, approved_utc=None).order_by(GroupMembership.created_utc.desc()).all()
-	return render_template('group_applications.html', v=v, group=group, applications=applications, msg=get_msg())
+	existing = g.db.query(GroupMembership).filter_by(user_id=v.id, group_name=group_name).one_or_none()
+	if existing:
+		if existing.approved_utc:
+			text = f"@{v.username} has left !{group}"
+			msg = f"You have left !{group} successfully!"
+		else:
+			text = f"@{v.username} has cancelled their application to !{group}"
+			msg = f"You have cancelled your application to !{group} successfully!"
+
+		send_notification(group.owner.id, text)
+		g.db.delete(existing)
+
+	return {"message": msg}
+
+
+@app.get("/!<group_name>/members")
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@auth_required
+def memberships(v:User, group_name):
+	group = g.db.get(Group, group_name)
+	if not group: abort(404)
+	return render_template('group_memberships.html', v=v, group=group)
 
 @app.post("/!<group_name>/<user_id>/approve")
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
@@ -93,7 +113,7 @@ def group_approve(v:User, group_name, user_id):
 		g.db.add(application)
 		send_repeatable_notification(application.user_id, f"@{v.username} (!{group}'s owner) has approved your application!")
 
-	return redirect(f'/!{group}/applications?msg=@{application.user.username} has been approved successfully!')
+	return {"message": f'@{application.user.username} has been approved successfully!'}
 
 @app.post("/!<group_name>/<user_id>/reject")
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
@@ -112,4 +132,4 @@ def group_reject(v:User, group_name, user_id):
 	g.db.delete(application)
 	send_repeatable_notification(application.user_id, f"@{v.username} (!{group}'s owner) has rejected your application!")
 
-	return redirect(f'/!{group}/applications?msg=@{application.user.username} has been rejected successfully!')
+	return {"message": f'@{application.user.username} has been rejected successfully!'}

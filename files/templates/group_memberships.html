@@ -1,0 +1,42 @@
+{% extends "default.html" %}
+{% block pagetitle %}!{{group}} Members{% endblock %}
+{% block content %}
+<h5 class="my-3">!{{group}} Members</h5>
+<div class="overflow-x-auto mt-1"><table class="table table-striped mb-5">
+<thead class="bg-primary text-white">
+	<tr>
+		<th>Name</th>
+		<th>Joined on</th>
+		{% if v.id == group.owner.id %}
+			<th></th>
+			<th></th>
+		{% endif %}
+	</tr>
+</thead>
+<tbody>
+{% for membership in group.memberships|reverse %}
+	<tr>
+		<td>
+			{% with user=membership.user %}
+				{% include "user_in_table.html" %}
+			{% endwith %}
+		</td>
+		
+		{% if membership.approved_utc %}
+			<td data-time="{{membership.approved_utc}}"></td>
+		{% elif v.id == group.owner.id %}
+			<td>
+				<button type="button" class="btn btn-primary" data-nonce="{{g.nonce}}" data-onclick="approve_membership(this,'/!{{group}}/{{membership.user_id}}/approve')">Approve</button>
+				<button type="button" class="btn btn-primary" data-nonce="{{g.nonce}}" data-onclick="reject_membership(this,'/!{{group}}/{{membership.user_id}}/reject')">Reject</button>
+			</td>
+		{% endif %}
+	</tr>
+{% endfor %}
+</tbody>
+</table>
+
+{% if v.id == group.owner.id %}
+	<script defer src="{{'js/group_members_owner.js' | asset}}"></script>
+{% endif %}
+
+{% endblock %}

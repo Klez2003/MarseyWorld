@@ -12,7 +12,7 @@
 					<th>#</th>
 					<th>Name</th>
 					<th>Members</th>
-					<th></th>
+					<th class="disable-sort-click"></th>
 					<th>Created on</th>
 				</tr>
 			</thead>
@@ -21,25 +21,20 @@
 				<tr>
 					<td>{{loop.index}}</td>
 					<td>{{group.name}}</td>
+					<td><a href="/!{{group}}/members">{{group.member_ids | length}}</a></td>
 					<td>
-						<div class="ml-3 mt-1">
-							{% for user in group.members %}
-								<span class="mr-2">
-									{% include "user_in_table.html" %}
-								</span>
-							{% endfor %}
-						</div>
-					</td>
-					<td>
-						{% if v.id in group.applied_ids %}
-							<a class="btn btn-primary" href="/!{{group.name}}/applications">Application pending</a>
-						{% elif v.id not in group.member_ids %}
-							<form action="/!{{group}}/join" method="post" data-nonce="{{g.nonce}}">
-								<input hidden name="formkey" value="{{v|formkey}}">
-								<input autocomplete="off" class="btn btn-primary ml-auto" type="submit" data-nonce="{{g.nonce}}" data-onclick="disable(this)" value="Apply to Join">
-							</form>
+						{% if v.id == group.owner.id %}
+							<a class="btn btn-primary" href="/!{{group.name}}/members">Applications</a>
 						{% else %}
-							<a class="btn btn-primary" href="/!{{group.name}}/applications">Applications</a>
+							<button id="leave-{{group}}" type="button" class="btn btn-primary {% if v.id not in group.membership_user_ids %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/!{{group}}/leave','leave-{{group}}','apply-{{group}}','d-none')">
+								{%- if v.id in group.member_ids -%}
+									Leave
+								{%- else -%}
+									Cancel Application
+								{%- endif -%}
+							</button>
+							
+							<button id="apply-{{group}}" type="button" class="{% if v.id in group.membership_user_ids %}d-none{% endif %} btn btn-primary" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/!{{group}}/apply','leave-{{group}}','apply-{{group}}','d-none')">Apply to Join</button>
 						{% endif %}
 					</td>
 					<td data-time="{{group.created_utc}}"></td>
@@ -75,4 +70,5 @@
 		</div>
 	</form>
 </div>
+
 {% endblock %}

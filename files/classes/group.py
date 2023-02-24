@@ -31,13 +31,13 @@ class Group(Base):
 
 	@property
 	@lazy
-	def members(self):
-		return [x.user for x in self.memberships if x.approved_utc]
+	def membership_user_ids(self):
+		return [x.user_id for x in self.memberships]
 
 	@property
 	@lazy
 	def member_ids(self):
-		return [x.id for x in self.members]
+		return [x.user_id for x in self.memberships if x.approved_utc]
 
 	@property
 	@lazy
