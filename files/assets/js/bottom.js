@@ -92,7 +92,7 @@ for (const element of setting_selects) {
 const TH = document.getElementsByTagName('th')
 for (const element of TH) {
 	if (element.classList.contains("disable-sort-click"))
-                continue;
+        continue;
 
 	element.addEventListener('click', () => {sort_table(element)});
 }
