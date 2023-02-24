@@ -1,988 +1,9146 @@
 [
-	{"name":"a","class":"Marsey Alphabet"},
-	{"name":"b","class":"Marsey Alphabet"},
-	{"name":"c","class":"Marsey Alphabet"},
-	{"name":"d","class":"Marsey Alphabet"},
-	{"name":"e","class":"Marsey Alphabet"},
-	{"name":"f","class":"Marsey Alphabet"},
-	{"name":"g","class":"Marsey Alphabet"},
-	{"name":"h","class":"Marsey Alphabet"},
-	{"name":"i","class":"Marsey Alphabet"},
-	{"name":"j","class":"Marsey Alphabet"},
-	{"name":"k","class":"Marsey Alphabet"},
-	{"name":"l","class":"Marsey Alphabet"},
-	{"name":"m","class":"Marsey Alphabet"},
-	{"name":"n","class":"Marsey Alphabet"},
-	{"name":"o","class":"Marsey Alphabet"},
-	{"name":"p","class":"Marsey Alphabet"},
-	{"name":"q","class":"Marsey Alphabet"},
-	{"name":"r","class":"Marsey Alphabet"},
-	{"name":"s","class":"Marsey Alphabet"},
-	{"name":"t","class":"Marsey Alphabet"},
-	{"name":"u","class":"Marsey Alphabet"},
-	{"name":"v","class":"Marsey Alphabet"},
-	{"name":"w","class":"Marsey Alphabet"},
-	{"name":"x","class":"Marsey Alphabet"},
-	{"name":"y","class":"Marsey Alphabet"},
-	{"name":"z","class":"Marsey Alphabet"},
-	{"name":"0","class":"Marsey Alphabet"},
-	{"name":"1","class":"Marsey Alphabet"},
-	{"name":"2","class":"Marsey Alphabet"},
-	{"name":"3","class":"Marsey Alphabet"},
-	{"name":"4","class":"Marsey Alphabet"},
-	{"name":"5","class":"Marsey Alphabet"},
-	{"name":"6","class":"Marsey Alphabet"},
-	{"name":"7","class":"Marsey Alphabet"},
-	{"name":"8","class":"Marsey Alphabet"},
-	{"name":"9","class":"Marsey Alphabet"},
-	{"name":"ialt","class":"Marsey Alphabet"},
-	{"name":"0alt","class":"Marsey Alphabet"},
-	{"name":"ccedilla","class":"Marsey Alphabet"},
-	{"name":"space","class":"Marsey Alphabet"},
-	{"name":"comma","class":"Marsey Alphabet","tags": [","]},
-	{"name":"period","class":"Marsey Alphabet","tags": [".","dot"]},
-	{"name":"questionmark","class":"Marsey Alphabet","tags": ["?"]},
-	{"name":"exclamationpoint","class":"Marsey Alphabet","tags": ["!"]},
-	{"name":"at","class":"Marsey Alphabet","tags": ["@"]},
-	{"name":"pound","class":"Marsey Alphabet","tags": ["#","hashtag","octothorpe"]},
-	{"name":"percent","class":"Marsey Alphabet","tags": ["%"]},
-	{"name":"caret","class":"Marsey Alphabet","tags":["^"]},
-	{"name":"ampersand","class":"Marsey Alphabet","tags": ["&","and"]},
-	{"name":"asterisk","class":"Marsey Alphabet","tags": ["*","times"]},
-	{"name":"paren","class":"Marsey Alphabet","tags": ["(",")"]},
-	{"name":"brace", "class":"Marsey Alphabet", "tags": ["{","}","curly","bracket"]},
-	{"name":"equals","class":"Marsey Alphabet","tags": ["="]},
-	{"name":"equals2","class":"Marsey Alphabet","tags": ["="]},
-	{"name":"plus","class":"Marsey Alphabet","tags": ["+"]},
-	{"name":"plus2","class":"Marsey Alphabet","tags": ["+"]},
-	{"name":"times","class":"Marsey Alphabet","tags": ["*","cross","product"]},
-	{"name":"dash","class":"Marsey Alphabet","tags": ["-","hyphen","minus"]},
-	{"name":"emdash","class":"Marsey Alphabet","tags": ["-","—"]},
-	{"name":"underscore","class":"Marsey Alphabet","tags": ["_"]},
-	{"name":"colon", "class":"Marsey Alphabet", "tags": [":"]},
-	{"name":"apostrophe","class":"Marsey Alphabet","tags":["'"]},
-	{"name":"quotation","class":"Marsey Alphabet","tags":["\""]},
-	{"name":"slash","class":"Marsey Alphabet","tags": ["/","\\","division"]},
-	{"name":"vert", "class":"Marsey Alphabet", "tags": ["|","pipe","vbar","bar"]},
-	{"name":"tilde", "class":"Marsey Alphabet", "tags": ["~","similar","approx"]},
-	{"name":"angle","class":"Marsey Alphabet","tags": ["<",">","gt","lt"]},
-	{"name":"leq", "class":"Marsey Alphabet", "tags": ["≤","≥","lte","gte","less","greater"]},
-	{"name":"simeq", "class":"Marsey Alphabet", "tags": ["≃","similar","approx"]},
-	{"name":"angle2", "class":"Marsey Alphabet", "tags": ["⟨","⟩","bra","ket","angle","bracket"]},
-	{"name":"dagger", "class":"Marsey Alphabet", "tags": ["†","dagger","conjugate","transpose","footnote"]},
-	{"name":"ddagger", "class":"Marsey Alphabet", "tags": ["‡","dagger","footnote"]},
-	{"name":"alpha","class":"Marsey Alphabet","tags": ["α"]},
-	{"name":"beta","class":"Marsey Alphabet","tags": ["β"]},
-	{"name":"gamma","class":"Marsey Alphabet","tags": ["γ"]},
-	{"name":"delta","class":"Marsey Alphabet","tags": ["δ"]},
-	{"name":"epsilon","class":"Marsey Alphabet","tags": ["ε"]},
-	{"name":"zeta","class":"Marsey Alphabet","tags": ["ζ"]},
-	{"name":"eta","class":"Marsey Alphabet","tags": ["η"]},
-	{"name":"theta","class":"Marsey Alphabet","tags": ["θ"]},
-	{"name":"iota","class":"Marsey Alphabet","tags": ["ι"]},
-	{"name":"kappa","class":"Marsey Alphabet","tags": ["κ"]},
-	{"name":"lambda","class":"Marsey Alphabet","tags": ["λ"]},
-	{"name":"mu","class":"Marsey Alphabet","tags": ["μ"]},
-	{"name":"nu","class":"Marsey Alphabet","tags": ["ν"]},
-	{"name":"xi","class":"Marsey Alphabet","tags": ["ξ"]},
-	{"name":"pi","class":"Marsey Alphabet","tags": ["π"]},
-	{"name":"rho","class":"Marsey Alphabet","tags": ["ρ"]},
-	{"name":"sigma","class":"Marsey Alphabet","tags": ["σ"]},
-	{"name":"tau","class":"Marsey Alphabet","tags": ["τ"]},
-	{"name":"phi","class":"Marsey Alphabet","tags": ["ϕ"]},
-	{"name":"chi","class":"Marsey Alphabet","tags": ["χ"]},
-	{"name":"psi","class":"Marsey Alphabet","tags": ["ψ"]},
-	{"name":"omega","class":"Marsey Alphabet","tags": ["ω"]},
-	{"name":"varphi","class":"Marsey Alphabet","tags": ["φ"]},
-	{"name":"gammacap","class":"Marsey Alphabet","tags": ["Γ"]},
-	{"name":"deltacap","class":"Marsey Alphabet","tags": ["Δ"]},
-	{"name":"lambdacap","class":"Marsey Alphabet","tags": ["Λ"]},
-	{"name":"picap","class":"Marsey Alphabet","tags": ["Π"]},
-	{"name":"sigmacap","class":"Marsey Alphabet","tags": ["Σ"]},
-	{"name":"phicap","class":"Marsey Alphabet","tags": ["Φ"]},
-	{"name":"psicap","class":"Marsey Alphabet","tags": ["Ψ"]},
-	{"name":"omegacap","class":"Marsey Alphabet","tags": ["Ω"]},
-	{"name":"aleph", "class":"Marsey Alphabet", "tags": ["ℵ","cardinal","infinite"]},
-	{"name":"bbbc", "class":"Marsey Alphabet", "tags": ["ℂ","complex","blackboard"]},
-	{"name":"bbbn", "class":"Marsey Alphabet", "tags": ["ℕ","naturals","blackboard"]},
-	{"name":"bbbq", "class":"Marsey Alphabet", "tags": ["ℚ","rationals","blackboard"]},
-	{"name":"bbbr", "class":"Marsey Alphabet", "tags": ["ℝ","reals","blackboard"]},
-	{"name":"bbbz", "class":"Marsey Alphabet", "tags": ["ℤ","integers","blackboard"]},
-	{"name":"infty", "class":"Marsey Alphabet", "tags": ["∞","infinite","infinity"]},
-	{"name":"hbar", "class":"Marsey Alphabet", "tags": ["ħ","planck","constant","quantum"]},
-	{"name":"integral","class":"Marsey Alphabet","tags": ["∫"]},
-	{"name":"partial","class":"Marsey Alphabet","tags": ["∂"]},
-	{"name":"nabla","class":"Marsey Alphabet","tags": ["∇","del"]},
-	{"name":"propto", "class":"Marsey Alphabet", "tags": ["∝","proportional"]},
-	{"name":"forall","class":"Marsey Alphabet","tags": ["∀"]},
-	{"name":"therefore", "class":"Marsey Alphabet", "tags": ["∴","thus"]},
-	{"name":"box", "class":"Marsey Alphabet", "tags": ["☐","qed","halmos","tombstone","square"]},
-	{"name":"to", "class":"Marsey Alphabet", "tags": ["→","arrow","function","limit"]},
-	{"name":"implies", "class":"Marsey Alphabet", "tags": ["⟹","⇒","arrow"]},
-	{"name":"vdash", "class":"Marsey Alphabet", "tags": ["⊢","tack","turnstile","tee","yields","proves"]},
-	{"name":"models", "class":"Marsey Alphabet", "tags": ["⊧","turnstile","entails"]},
-	{"name":"neg", "class":"Marsey Alphabet", "tags": ["¬","not","negation","logical"]},
-	{"name":"land", "class":"Marsey Alphabet", "tags": ["∧","and","logical"]},
-	{"name":"lor", "class":"Marsey Alphabet", "tags": ["∨","or","logical"]},
-	{"name":"emptyset", "class":"Marsey Alphabet", "tags": ["∅","null","zero"]},
-	{"name":"in", "class":"Marsey Alphabet", "tags": ["∈","∋","membership","set"]},
-	{"name":"subset", "class":"Marsey Alphabet", "tags": ["⊂"]},
-	{"name":"subsetneq", "class":"Marsey Alphabet", "tags": ["⊊"]},
-	{"name":"cap", "class":"Marsey Alphabet", "tags": ["∩","intersection","set"]},
-	{"name":"cup", "class":"Marsey Alphabet", "tags": ["∪","union","set"]},
-	{"name":"oplus", "class":"Marsey Alphabet", "tags": ["⊕","xor","circled","sum"]},
-	{"name":"otimes", "class":"Marsey Alphabet", "tags": ["⊗","tensor","circled","product"]},
-	{"name":"trianglelefteq", "class":"Marsey Alphabet", "tags": ["⊴"]},
+	{
+	  "name": "a",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"letter"
+	  ]
+	},
+	{
+	  "name": "b",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"letter"
+	  ]
+	},
+	{
+	  "name": "c",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"letter"
+	  ]
+	},
+	{
+	  "name": "d",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"letter"
+	  ]
+	},
+	{
+	  "name": "e",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"letter"
+	  ]
+	},
+	{
+	  "name": "f",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"letter"
+	  ]
+	},
+	{
+	  "name": "g",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"letter"
+	  ]
+	},
+	{
+	  "name": "h",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"letter"
+	  ]
+	},
+	{
+	  "name": "i",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"letter"
+	  ]
+	},
+	{
+	  "name": "j",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"letter"
+	  ]
+	},
+	{
+	  "name": "k",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"letter"
+	  ]
+	},
+	{
+	  "name": "l",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"letter"
+	  ]
+	},
+	{
+	  "name": "m",
+	  "class": "Marsey Alphabet"
+	},
+	{
+	  "name": "n",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"letter"
+	  ]
+	},
+	{
+	  "name": "o",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"letter"
+	  ]
+	},
+	{
+	  "name": "p",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"letter"
+	  ]
+	},
+	{
+	  "name": "q",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"letter"
+	  ]
+	},
+	{
+	  "name": "r",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"letter"
+	  ]
+	},
+	{
+	  "name": "s",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"letter"
+	  ]
+	},
+	{
+	  "name": "t",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"letter"
+	  ]
+	},
+	{
+	  "name": "u",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"letter"
+	  ]
+	},
+	{
+	  "name": "v",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"letter"
+	  ]
+	},
+	{
+	  "name": "w",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"letter"
+	  ]
+	},
+	{
+	  "name": "x",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"letter"
+	  ]
+	},
+	{
+	  "name": "y",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"letter"
+	  ]
+	},
+	{
+	  "name": "z",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"letter"
+	  ]
+	},
+	{
+	  "name": "0",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"number"
+	  ]
+	},
+	{
+	  "name": "1",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"letter"
+	  ]
+	},
+	{
+	  "name": "2",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"number"
+	  ]
+	},
+	{
+	  "name": "3",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"number"
+	  ]
+	},
+	{
+	  "name": "4",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"number"
+	  ]
+	},
+	{
+	  "name": "5",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"number"
+	  ]
+	},
+	{
+	  "name": "6",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"number"
+	  ]
+	},
+	{
+	  "name": "7",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"number"
+	  ]
+	},
+	{
+	  "name": "8",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"number"
+	  ]
+	},
+	{
+	  "name": "9",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"number"
+	  ]
+	},
+	{
+	  "name": "ialt",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"letter"
+	  ]
+	},
+	{
+	  "name": "0alt",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"number"
+	  ]
+	},
+	{
+	  "name": "ccedilla",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"letter"
+	  ]
+	},
+	{
+	  "name": "space",
+	  "class": "Marsey Alphabet"
+	},
+	{
+	  "name": "comma",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		","
+	  ]
+	},
+	{
+	  "name": "period",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		".",
+		"dot"
+	  ]
+	},
+	{
+	  "name": "questionmark",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"?"
+	  ]
+	},
+	{
+	  "name": "exclamationpoint",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"!"
+	  ]
+	},
+	{
+	  "name": "at",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"@"
+	  ]
+	},
+	{
+	  "name": "pound",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"#",
+		"hashtag",
+		"octothorpe"
+	  ]
+	},
+	{
+	  "name": "percent",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"%"
+	  ]
+	},
+	{
+	  "name": "caret",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"^"
+	  ]
+	},
+	{
+	  "name": "ampersand",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"&",
+		"and"
+	  ]
+	},
+	{
+	  "name": "asterisk",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"*",
+		"times"
+	  ]
+	},
+	{
+	  "name": "paren",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"(",
+		")"
+	  ]
+	},
+	{
+	  "name": "brace",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"{",
+		"}",
+		"curly",
+		"bracket"
+	  ]
+	},
+	{
+	  "name": "equals",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"="
+	  ]
+	},
+	{
+	  "name": "equals2",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"="
+	  ]
+	},
+	{
+	  "name": "plus",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"+"
+	  ]
+	},
+	{
+	  "name": "plus2",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"+"
+	  ]
+	},
+	{
+	  "name": "times",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"*",
+		"cross",
+		"product"
+	  ]
+	},
+	{
+	  "name": "dash",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"-",
+		"hyphen",
+		"minus"
+	  ]
+	},
+	{
+	  "name": "emdash",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"-",
+		"—"
+	  ]
+	},
+	{
+	  "name": "underscore",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"_"
+	  ]
+	},
+	{
+	  "name": "colon",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		":"
+	  ]
+	},
+	{
+	  "name": "apostrophe",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"'"
+	  ]
+	},
+	{
+	  "name": "quotation",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"\""
+	  ]
+	},
+	{
+	  "name": "slash",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"/",
+		"\\",
+		"division"
+	  ]
+	},
+	{
+	  "name": "vert",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"|",
+		"pipe",
+		"vbar",
+		"bar"
+	  ]
+	},
+	{
+	  "name": "tilde",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"~",
+		"similar",
+		"approx"
+	  ]
+	},
+	{
+	  "name": "angle",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"<",
+		">",
+		"gt",
+		"lt"
+	  ]
+	},
+	{
+	  "name": "leq",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"≤",
+		"≥",
+		"lte",
+		"gte",
+		"less",
+		"greater"
+	  ]
+	},
+	{
+	  "name": "simeq",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"≃",
+		"similar",
+		"approx"
+	  ]
+	},
+	{
+	  "name": "angle2",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"⟨",
+		"⟩",
+		"bra",
+		"ket",
+		"angle",
+		"bracket"
+	  ]
+	},
+	{
+	  "name": "dagger",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"†",
+		"dagger",
+		"conjugate",
+		"transpose",
+		"footnote"
+	  ]
+	},
+	{
+	  "name": "ddagger",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"‡",
+		"dagger",
+		"footnote"
+	  ]
+	},
+	{
+	  "name": "alpha",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"α"
+	  ]
+	},
+	{
+	  "name": "beta",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"β"
+	  ]
+	},
+	{
+	  "name": "gamma",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"γ"
+	  ]
+	},
+	{
+	  "name": "delta",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"δ"
+	  ]
+	},
+	{
+	  "name": "epsilon",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"ε"
+	  ]
+	},
+	{
+	  "name": "zeta",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"ζ"
+	  ]
+	},
+	{
+	  "name": "eta",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"η"
+	  ]
+	},
+	{
+	  "name": "theta",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"θ"
+	  ]
+	},
+	{
+	  "name": "iota",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"ι"
+	  ]
+	},
+	{
+	  "name": "kappa",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"κ"
+	  ]
+	},
+	{
+	  "name": "lambda",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"λ"
+	  ]
+	},
+	{
+	  "name": "mu",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"μ"
+	  ]
+	},
+	{
+	  "name": "nu",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"ν"
+	  ]
+	},
+	{
+	  "name": "xi",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"ξ"
+	  ]
+	},
+	{
+	  "name": "pi",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"π"
+	  ]
+	},
+	{
+	  "name": "rho",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"ρ"
+	  ]
+	},
+	{
+	  "name": "sigma",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"σ"
+	  ]
+	},
+	{
+	  "name": "tau",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"τ"
+	  ]
+	},
+	{
+	  "name": "phi",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"ϕ"
+	  ]
+	},
+	{
+	  "name": "chi",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"χ"
+	  ]
+	},
+	{
+	  "name": "psi",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"ψ"
+	  ]
+	},
+	{
+	  "name": "omega",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"ω"
+	  ]
+	},
+	{
+	  "name": "varphi",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"φ"
+	  ]
+	},
+	{
+	  "name": "gammacap",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"Γ"
+	  ]
+	},
+	{
+	  "name": "deltacap",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"Δ"
+	  ]
+	},
+	{
+	  "name": "lambdacap",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"Λ"
+	  ]
+	},
+	{
+	  "name": "picap",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"Π"
+	  ]
+	},
+	{
+	  "name": "sigmacap",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"Σ"
+	  ]
+	},
+	{
+	  "name": "phicap",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"Φ"
+	  ]
+	},
+	{
+	  "name": "psicap",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"Ψ"
+	  ]
+	},
+	{
+	  "name": "omegacap",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"Ω"
+	  ]
+	},
+	{
+	  "name": "aleph",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"ℵ",
+		"cardinal",
+		"infinite"
+	  ]
+	},
+	{
+	  "name": "bbbc",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"ℂ",
+		"complex",
+		"blackboard"
+	  ]
+	},
+	{
+	  "name": "bbbn",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"ℕ",
+		"naturals",
+		"blackboard"
+	  ]
+	},
+	{
+	  "name": "bbbq",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"ℚ",
+		"rationals",
+		"blackboard"
+	  ]
+	},
+	{
+	  "name": "bbbr",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"ℝ",
+		"reals",
+		"blackboard"
+	  ]
+	},
+	{
+	  "name": "bbbz",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"ℤ",
+		"integers",
+		"blackboard"
+	  ]
+	},
+	{
+	  "name": "infty",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"∞",
+		"infinite",
+		"infinity"
+	  ]
+	},
+	{
+	  "name": "hbar",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"ħ",
+		"planck",
+		"constant",
+		"quantum"
+	  ]
+	},
+	{
+	  "name": "integral",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"∫"
+	  ]
+	},
+	{
+	  "name": "partial",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"∂"
+	  ]
+	},
+	{
+	  "name": "nabla",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"∇",
+		"del"
+	  ]
+	},
+	{
+	  "name": "propto",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"∝",
+		"proportional"
+	  ]
+	},
+	{
+	  "name": "forall",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"∀"
+	  ]
+	},
+	{
+	  "name": "therefore",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"∴",
+		"thus"
+	  ]
+	},
+	{
+	  "name": "box",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"☐",
+		"qed",
+		"halmos",
+		"tombstone",
+		"square"
+	  ]
+	},
+	{
+	  "name": "to",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"→",
+		"arrow",
+		"function",
+		"limit"
+	  ]
+	},
+	{
+	  "name": "implies",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"⟹",
+		"⇒",
+		"arrow"
+	  ]
+	},
+	{
+	  "name": "vdash",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"⊢",
+		"tack",
+		"turnstile",
+		"tee",
+		"yields",
+		"proves"
+	  ]
+	},
+	{
+	  "name": "models",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"⊧",
+		"turnstile",
+		"entails"
+	  ]
+	},
+	{
+	  "name": "neg",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"¬",
+		"not",
+		"negation",
+		"logical"
+	  ]
+	},
+	{
+	  "name": "land",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"∧",
+		"and",
+		"logical"
+	  ]
+	},
+	{
+	  "name": "lor",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"∨",
+		"or",
+		"logical"
+	  ]
+	},
+	{
+	  "name": "emptyset",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"∅",
+		"null",
+		"zero"
+	  ]
+	},
+	{
+	  "name": "in",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"∈",
+		"∋",
+		"membership",
+		"set"
+	  ]
+	},
+	{
+	  "name": "subset",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"⊂"
+	  ]
+	},
+	{
+	  "name": "subsetneq",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"⊊"
+	  ]
+	},
+	{
+	  "name": "cap",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"∩",
+		"intersection",
+		"set"
+	  ]
+	},
+	{
+	  "name": "cup",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"∪",
+		"union",
+		"set"
+	  ]
+	},
+	{
+	  "name": "oplus",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"⊕",
+		"xor",
+		"circled",
+		"sum"
+	  ]
+	},
+	{
+	  "name": "otimes",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"⊗",
+		"tensor",
+		"circled",
+		"product"
+	  ]
+	},
+	{
+	  "name": "trianglelefteq",
+	  "class": "Marsey Alphabet",
+	  "tags": [
+		"⊴"
+	  ]
+	},
+	{
+	  "name": "marseyflagmaryland",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"maryland",
+		"crab",
+		"bad driver"
+	  ]
+	},
+	{
+	  "name": "marseyflagcalifornia",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"california"
+	  ]
+	},
+	{
+	  "name": "marseyflagtexas",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"texas",
+		"cowboy",
+		"yee haw"
+	  ]
+	},
+	{
+	  "name": "marseyflageu",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"eu",
+		"European"
+	  ]
+	},
+	{
+	  "name": "marseyflagafrica",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"africa",
+		"african",
+		"BIPOC"
+	  ]
+	},
+	{
+	  "name": "marseyflagafghanistan",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"afghanistan",
+		"muslim",
+		"jihadi",
+		"taliban"
+	  ]
+	},
+	{
+	  "name": "marseyflagalbania",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"albania",
+		"balkans",
+		"cool flag"
+	  ]
+	},
+	{
+	  "name": "marseyflagalgeria",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"algeria",
+		"africa"
+	  ]
+	},
+	{
+	  "name": "marseyflagandorra",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"andorra",
+		"europe"
+	  ]
+	},
+	{
+	  "name": "marseyflagangola",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"angola",
+		"africa"
+	  ]
+	},
+	{
+	  "name": "marseyflagantarctica",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"antarctica",
+		"cold",
+		"penguins"
+	  ]
+	},
+	{
+	  "name": "marseyflagantiguaandbarbuda",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"antigua",
+		"barbuda",
+		"indies",
+		"island"
+	  ]
+	},
+	{
+	  "name": "marseyflagargentina",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"argentina",
+		"south america",
+		"sun"
+	  ]
+	},
+	{
+	  "name": "marseyflagarmenia",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"armenia",
+		"west asia"
+	  ]
+	},
+	{
+	  "name": "marseyflagaustralia",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"australia",
+		"aussie"
+	  ]
+	},
+	{
+	  "name": "marseyflagaustria",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"austria",
+		"europe",
+		"hitler"
+	  ]
+	},
+	{
+	  "name": "marseyflagazerbaijan",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"azerbaijan",
+		"eastern europe",
+		"west asia"
+	  ]
+	},
+	{
+	  "name": "marseyflagbahamas",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"bahamas",
+		"north america",
+		"island"
+	  ]
+	},
+	{
+	  "name": "marseyflagbahrain",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"bahrain",
+		"west asia",
+		"island"
+	  ]
+	},
+	{
+	  "name": "marseyflagbangladesh",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"bangladesh",
+		"asia"
+	  ]
+	},
+	{
+	  "name": "marseyflagbarbados",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"barbados",
+		"island",
+		"indies"
+	  ]
+	},
+	{
+	  "name": "marseyflagbelarus",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"belarus",
+		"eastern europe"
+	  ]
+	},
+	{
+	  "name": "marseyflagbelgium",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"belgium",
+		"europe",
+		"waffles"
+	  ]
+	},
+	{
+	  "name": "marseyflagbosnia",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"bosnia",
+		"herzegovina",
+		"eastern europe",
+		"balkans"
+	  ]
+	},
+	{
+	  "name": "marseyflagbrazil",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"brazil",
+		"south america",
+		"numbero uno"
+	  ]
+	},
+	{
+	  "name": "marseyflagbulgaria",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"bulgeria",
+		"eastern europe"
+	  ]
+	},
+	{
+	  "name": "marseyflagcanada",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"canada",
+		"rake",
+		"canuck",
+		"north america",
+		"leaf"
+	  ]
+	},
+	{
+	  "name": "marseyflagchile",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"chile",
+		"south america"
+	  ]
+	},
+	{
+	  "name": "marseyflagchina",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"china",
+		"asia"
+	  ]
+	},
+	{
+	  "name": "marseyflagcolombia",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"columbia",
+		"south america"
+	  ]
+	},
+	{
+	  "name": "marseyflagcyprus",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"cyprus",
+		"europe"
+	  ]
+	},
+	{
+	  "name": "marseyflagdenmark",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"denmark",
+		"europe"
+	  ]
+	},
+	{
+	  "name": "marseyflagegypt",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"egypt",
+		"africa",
+		"aevann",
+		"pyramid",
+		"giza"
+	  ]
+	},
+	{
+	  "name": "marseyflagelsalvador",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"salvador",
+		"south america"
+	  ]
+	},
+	{
+	  "name": "marseyflagestonia",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"estonia",
+		"europe",
+		"baltic"
+	  ]
+	},
+	{
+	  "name": "marseyflagfinland",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"finland",
+		"europe",
+		"scandinavian"
+	  ]
+	},
+	{
+	  "name": "marseyflagfrance",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"france",
+		"europe"
+	  ]
+	},
+	{
+	  "name": "marseyflaggeorgia",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"georgia",
+		"eastern europe",
+		"western asia",
+		"stalin"
+	  ]
+	},
+	{
+	  "name": "marseyflaggermany",
+	  "class": "Marsey Flags"
+	},
+	{
+	  "name": "marseyflaggreece",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"greece",
+		"balkans",
+		"eastern europe"
+	  ]
+	},
+	{
+	  "name": "marseyflaghungary",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"hungary",
+		"eastern europe"
+	  ]
+	},
+	{
+	  "name": "marseyflagindia",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"india",
+		"asia ",
+		"bhrat"
+	  ]
+	},
+	{
+	  "name": "marseyflagindonesia",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"indonesia",
+		"southeast asia"
+	  ]
+	},
+	{
+	  "name": "marseyflagiran",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"iran",
+		"muslim",
+		"middle east"
+	  ]
+	},
+	{
+	  "name": "marseyflagiraq",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"iraq",
+		"muslim",
+		"middle east"
+	  ]
+	},
+	{
+	  "name": "marseyflagireland",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"ireland",
+		"europe",
+		"car bomb"
+	  ]
+	},
+	{
+	  "name": "marseyflagitaly",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"italy",
+		"europe",
+		"pasta"
+	  ]
+	},
+	{
+	  "name": "marseyflagjapan",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"Japan",
+		"Asia"
+	  ]
+	},
+	{
+	  "name": "marseyflagjordan",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"jordan",
+		"muslim",
+		"middle east",
+		"almonds"
+	  ]
+	},
+	{
+	  "name": "marseyflagkazakhstan",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"kazakhstan",
+		"central asia",
+		"cool flag"
+	  ]
+	},
+	{
+	  "name": "marseyflagkenya",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"kenya",
+		"africa"
+	  ]
+	},
+	{
+	  "name": "marseyflaglebanon",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"lebanon",
+		"hezbollah",
+		"middle east",
+		"muslim"
+	  ]
+	},
+	{
+	  "name": "marseyflagmexico",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"mexico",
+		"north america",
+		"taco",
+		"ole"
+	  ]
+	},
+	{
+	  "name": "marseyflagmorocco",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"morocco",
+		"africa"
+	  ]
+	},
+	{
+	  "name": "marseyflagnetherlands",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"netherlands",
+		"dyke",
+		"europe"
+	  ]
+	},
+	{
+	  "name": "marseyflagnewzealand",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"new zealand",
+		"oceania",
+		"kiwi"
+	  ]
+	},
+	{
+	  "name": "marseyflagniger",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"niger",
+		"africa",
+		"BIPOC"
+	  ]
+	},
+	{
+	  "name": "marseyflagnigeria",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"nigeria",
+		"africa"
+	  ]
+	},
+	{
+	  "name": "marseyflagnorthkorea",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"north korea",
+		"asia",
+		"best korea"
+	  ]
+	},
+	{
+	  "name": "marseyflagnorway",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"norway",
+		"europe",
+		"scandinavian"
+	  ]
+	},
+	{
+	  "name": "marseyflagpakistan",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"pakistan",
+		"asia"
+	  ]
+	},
+	{
+	  "name": "marseyflagpalau",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"palau",
+		"oceania",
+		"obese"
+	  ]
+	},
+	{
+	  "name": "marseyflagpalestine",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"palestine",
+		"middle east",
+		"muslim"
+	  ]
+	},
+	{
+	  "name": "marseyflagperu",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"peru",
+		"south america",
+		"incan"
+	  ]
+	},
+	{
+	  "name": "marseyflagphillipines",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"philippines",
+		"southeast asia",
+		"jolliebee"
+	  ]
+	},
+	{
+	  "name": "marseyflagpoland",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"poland",
+		"eastern europe",
+		"europe"
+	  ]
+	},
+	{
+	  "name": "marseyflagportugal",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"portugal",
+		"europe",
+		"eastern europe"
+	  ]
+	},
+	{
+	  "name": "marseyflagqatar",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"qatar",
+		"middle east",
+		"muslim"
+	  ]
+	},
+	{
+	  "name": "marseyflagromania",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"romania",
+		"europe",
+		"eastern europe",
+		"vampire",
+		"pickpocket"
+	  ]
+	},
+	{
+	  "name": "marseyflagrussia",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"russia",
+		"europe",
+		"eastern europe",
+		"vatnik"
+	  ]
+	},
+	{
+	  "name": "marseyflagsaudiarabia",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"saudi arabia",
+		"middle east",
+		"muslim"
+	  ]
+	},
+	{
+	  "name": "marseyflagserbia",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"serbia",
+		"europe",
+		"southeast asia"
+	  ]
+	},
+	{
+	  "name": "marseyflagsouthafrica",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"south africa",
+		"africa"
+	  ]
+	},
+	{
+	  "name": "marseyflagsouthkorea",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"south korea",
+		"asia",
+		"worst korea"
+	  ]
+	},
+	{
+	  "name": "marseyflagspain",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"spain",
+		"europe"
+	  ]
+	},
+	{
+	  "name": "marseyflagsweden",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"sweden",
+		"europe",
+		"scandinavian",
+		"ikea"
+	  ]
+	},
+	{
+	  "name": "marseyflagswitzerland",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"switzerland",
+		"europe",
+		"gold",
+		"neutral",
+		"chocolate"
+	  ]
+	},
+	{
+	  "name": "marseyflagsyria",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"syria",
+		"middle east",
+		"muslim"
+	  ]
+	},
+	{
+	  "name": "marseyflagtaiwan",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"taiwan",
+		"china",
+		"asia"
+	  ]
+	},
+	{
+	  "name": "marseyflagtajikistan",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"tajikistan",
+		"central asia",
+		"cool flag"
+	  ]
+	},
+	{
+	  "name": "marseyflagthailand",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"thailand",
+		"southeast asia"
+	  ]
+	},
+	{
+	  "name": "marseyflagturkey",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"turkey",
+		"europe"
+	  ]
+	},
+	{
+	  "name": "marseyflagtuvalu",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"tuvalu",
+		"oceania",
+		"obese"
+	  ]
+	},
+	{
+	  "name": "marseyflaguae",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"uae",
+		"united arab emirates",
+		"middle east",
+		"muslim"
+	  ]
+	},
+	{
+	  "name": "marseyflaguk",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"uk",
+		"england",
+		"scotland",
+		"wales",
+		"bong",
+		"northern ireland",
+		"terf island",
+		"europe"
+	  ]
+	},
+	{
+	  "name": "marseyflagukraine",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"ukraine",
+		"eastern europe",
+		"zelensky"
+	  ]
+	},
+	{
+	  "name": "marseyflagus",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"us",
+		"united states",
+		"united states of america",
+		"america",
+		"burger",
+		"north america"
+	  ]
+	},
+	{
+	  "name": "marseyflagvatican",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"vatican",
+		"pope",
+		"europe",
+		"catholic",
+		"holy"
+	  ]
+	},
+	{
+	  "name": "marseyflagvietnam",
+	  "class": "Marsey Flags",
+	  "tags": [
+		"vietnam",
+		"southeast asia"
+	  ]
+	},
 
-	{"name":"marseyflagmaryland","class":"Marsey Flags"},
-	{"name":"marseyflagcalifornia","class":"Marsey Flags"},
-	{"name":"marseyflagtexas","class":"Marsey Flags"},
-	{"name":"marseyflageu","class":"Marsey Flags"},
-	{"name":"marseyflagafrica","class":"Marsey Flags"},
-	{"name":"marseyflagafghanistan","class":"Marsey Flags"},
-	{"name":"marseyflagalbania","class":"Marsey Flags"},
-	{"name":"marseyflagalgeria","class":"Marsey Flags"},
-	{"name":"marseyflagandorra","class":"Marsey Flags"},
-	{"name":"marseyflagangola","class":"Marsey Flags"},
-	{"name":"marseyflagantarctica","class":"Marsey Flags"},
-	{"name":"marseyflagantiguaandbarbuda","class":"Marsey Flags"},
-	{"name":"marseyflagargentina","class":"Marsey Flags"},
-	{"name":"marseyflagarmenia","class":"Marsey Flags"},
-	{"name":"marseyflagaustralia","class":"Marsey Flags"},
-	{"name":"marseyflagaustria","class":"Marsey Flags"},
-	{"name":"marseyflagazerbaijan","class":"Marsey Flags"},
-	{"name":"marseyflagbahamas","class":"Marsey Flags"},
-	{"name":"marseyflagbahrain","class":"Marsey Flags"},
-	{"name":"marseyflagbangladesh","class":"Marsey Flags"},
-	{"name":"marseyflagbarbados","class":"Marsey Flags"},
-	{"name":"marseyflagbelarus","class":"Marsey Flags"},
-	{"name":"marseyflagbelgium","class":"Marsey Flags"},
-	{"name":"marseyflagbosnia","class":"Marsey Flags"},
-	{"name":"marseyflagbrazil","class":"Marsey Flags"},
-	{"name":"marseyflagbulgaria","class":"Marsey Flags"},
-	{"name":"marseyflagcanada","class":"Marsey Flags"},
-	{"name":"marseyflagchile","class":"Marsey Flags"},
-	{"name":"marseyflagchina","class":"Marsey Flags"},
-	{"name":"marseyflagcolombia","class":"Marsey Flags"},
-	{"name":"marseyflagcyprus","class":"Marsey Flags"},
-	{"name":"marseyflagdenmark","class":"Marsey Flags"},
-	{"name":"marseyflagegypt","class":"Marsey Flags"},
-	{"name":"marseyflagelsalvador","class":"Marsey Flags"},
-	{"name":"marseyflagestonia","class":"Marsey Flags"},
-	{"name":"marseyflagfinland","class":"Marsey Flags"},
-	{"name":"marseyflagfrance","class":"Marsey Flags"},
-	{"name":"marseyflaggeorgia","class":"Marsey Flags"},
-	{"name":"marseyflaggermany","class":"Marsey Flags"},
-	{"name":"marseyflaggreece","class":"Marsey Flags"},
-	{"name":"marseyflaghungary","class":"Marsey Flags"},
-	{"name":"marseyflagindia","class":"Marsey Flags"},
-	{"name":"marseyflagindonesia","class":"Marsey Flags"},
-	{"name":"marseyflagiran","class":"Marsey Flags"},
-	{"name":"marseyflagiraq","class":"Marsey Flags"},
-	{"name":"marseyflagireland","class":"Marsey Flags"},
-	{"name":"marseyflagitaly","class":"Marsey Flags"},
-	{"name":"marseyflagjapan","class":"Marsey Flags"},
-	{"name":"marseyflagjordan","class":"Marsey Flags"},
-	{"name":"marseyflagkazakhstan","class":"Marsey Flags"},
-	{"name":"marseyflagkenya","class":"Marsey Flags"},
-	{"name":"marseyflaglebanon","class":"Marsey Flags"},
-	{"name":"marseyflagmexico","class":"Marsey Flags"},
-	{"name":"marseyflagmorocco","class":"Marsey Flags"},
-	{"name":"marseyflagnetherlands","class":"Marsey Flags"},
-	{"name":"marseyflagnewzealand","class":"Marsey Flags"},
-	{"name":"marseyflagniger","class":"Marsey Flags"},
-	{"name":"marseyflagnigeria","class":"Marsey Flags"},
-	{"name":"marseyflagnorthkorea","class":"Marsey Flags"},
-	{"name":"marseyflagnorway","class":"Marsey Flags"},
-	{"name":"marseyflagpakistan","class":"Marsey Flags"},
-	{"name":"marseyflagpalau","class":"Marsey Flags"},
-	{"name":"marseyflagpalestine","class":"Marsey Flags"},
-	{"name":"marseyflagperu","class":"Marsey Flags"},
-	{"name":"marseyflagphillipines","class":"Marsey Flags"},
-	{"name":"marseyflagpoland","class":"Marsey Flags"},
-	{"name":"marseyflagportugal","class":"Marsey Flags"},
-	{"name":"marseyflagqatar","class":"Marsey Flags"},
-	{"name":"marseyflagromania","class":"Marsey Flags"},
-	{"name":"marseyflagrussia","class":"Marsey Flags"},
-	{"name":"marseyflagsaudiarabia","class":"Marsey Flags"},
-	{"name":"marseyflagserbia","class":"Marsey Flags"},
-	{"name":"marseyflagsouthafrica","class":"Marsey Flags"},
-	{"name":"marseyflagsouthkorea","class":"Marsey Flags"},
-	{"name":"marseyflagspain","class":"Marsey Flags"},
-	{"name":"marseyflagsweden","class":"Marsey Flags"},
-	{"name":"marseyflagswitzerland","class":"Marsey Flags"},
-	{"name":"marseyflagsyria","class":"Marsey Flags"},
-	{"name":"marseyflagtaiwan","class":"Marsey Flags"},
-	{"name":"marseyflagtajikistan","class":"Marsey Flags"},
-	{"name":"marseyflagthailand","class":"Marsey Flags"},
-	{"name":"marseyflagturkey","class":"Marsey Flags"},
-	{"name":"marseyflagtuvalu","class":"Marsey Flags"},
-	{"name":"marseyflaguae","class":"Marsey Flags"},
-	{"name":"marseyflaguk","class":"Marsey Flags"},
-	{"name":"marseyflagukraine","class":"Marsey Flags"},
-	{"name":"marseyflagus","class":"Marsey Flags"},
-	{"name":"marseyflagvatican","class":"Marsey Flags"},
-	{"name":"marseyflagvietnam","class":"Marsey Flags"},
+	{
+	  "name": "patyl",
+	  "class": "Platy",
+	  "tags": [
+		"quper",
+		"platypus",
+		"mersya",
+		"wombiezolf",
+		"doodle"
+	  ]
+	},
+	{
+	  "name": "platyaboriginal",
+	  "class": "Platy",
+	  "tags": [
+		"platypus",
+		"boomerang",
+		"indigenous",
+		"native",
+		"gascan"
+	  ]
+	},
+	{
+	  "name": "platyanime",
+	  "class": "Platy",
+	  "tags": [
+		"platypus",
+		"rice",
+		"chopsticks",
+		"waifu",
+		"kawaii"
+	  ]
+	},
+	{
+	  "name": "platybanana",
+	  "class": "Platy",
+	  "tags": [
+		"platypus",
+		"fruit",
+		"monkey"
+	  ]
+	},
+	{
+	  "name": "platybomb",
+	  "class": "Platy",
+	  "tags": [
+		"platypus",
+		"explosive",
+		"explosion",
+		"terrorist",
+		"boom"
+	  ]
+	},
+	{
+	  "name": "platybussy",
+	  "class": "Platy",
+	  "tags": [
+		"platypus",
+		"dude",
+		"lmao",
+		"butthole"
+	  ]
+	},
+	{
+	  "name": "platyhandbanana",
+	  "class": "Platy",
+	  "tags": [
+		"platypus",
+		"fruit",
+		"doodle",
+		"angry"
+	  ]
+	},
+	{
+	  "name": "platyperrytheplatypus",
+	  "class": "Platy",
+	  "tags": [
+		"platypus",
+		"phineas",
+		"ferb",
+		"agent",
+		"espionage",
+		"cartoon"
+	  ]
+	},
+	{
+	  "name": "platysun",
+	  "class": "Platy",
+	  "tags": [
+		"platypus",
+		"teletubbies",
+		"smile",
+		"shine",
+		"baby"
+	  ]
+	},
+	{
+	  "name": "platysun2",
+	  "class": "Platy",
+	  "tags": [
+		"platypus",
+		"angry",
+		"anger",
+		"fire",
+		"seethe",
+		"seething"
+	  ]
+	},
+	{
+	  "name": "platytrans",
+	  "class": "Platy",
+	  "tags": [
+		"platypus",
+		":marseytrain:",
+		"train",
+		":marseytrain:",
+		"rights",
+		"flag",
+		"valid"
+	  ]
+	},
+	{
+	  "name": "platyfrickyou",
+	  "class": "Platy",
+	  "tags": [
+		"platypus",
+		"middle",
+		"finger",
+		"angry",
+		"gesture"
+	  ]
+	},
+	{
+	  "name": "plarsy",
+	  "class": "Platy",
+	  "tags": [
+		"platypus",
+		"marsey",
+		"mutt",
+		"inbred",
+		"doodle",
+		"ugly"
+	  ]
+	},
+	{
+	  "name": "platyabused",
+	  "class": "Platy",
+	  "tags": [
+		"platypus",
+		"domestic",
+		"scared",
+		"flinching",
+		"beaten",
+		"fight"
+	  ]
+	},
+	{
+	  "name": "platyblizzard",
+	  "class": "Platy",
+	  "tags": [
+		"platypus",
+		"cold",
+		"freezing",
+		"freeze",
+		"snow",
+		"winter",
+		"chill"
+	  ]
+	},
+	{
+	  "name": "platyboxer",
+	  "class": "Platy",
+	  "tags": [
+		"platypus",
+		"boxing",
+		"fighter",
+		"ring",
+		"gloves",
+		"punch"
+	  ]
+	},
+	{
+	  "name": "platydevil",
+	  "class": "Platy",
+	  "tags": [
+		"platypus",
+		"demon",
+		"pitchfork",
+		"satan",
+		"fiend",
+		"shaitan"
+	  ]
+	},
+	{
+	  "name": "platyfear",
+	  "class": "Platy",
+	  "tags": [
+		"platypus",
+		"scared",
+		"scary",
+		"frightened",
+		"horrified",
+		"coward",
+		"terror"
+	  ]
+	},
+	{
+	  "name": "platygirlmagic",
+	  "class": "Platy",
+	  "tags": [
+		"platypus",
+		"rainbow",
+		"wand",
+		"fairy",
+		"pixie",
+		"spell"
+	  ]
+	},
+	{
+	  "name": "platygolong",
+	  "class": "Platy",
+	  "tags": [
+		"platypus",
+		"egg",
+		"space",
+		"**idontgetthereferenceaevannhelp**"
+	  ]
+	},
+	{
+	  "name": "platyhaes",
+	  "class": "Platy",
+	  "tags": [
+		"platypus",
+		"donuts",
+		"cupcakes",
+		"fat",
+		"sugar",
+		"sweet",
+		"healthy"
+	  ]
+	},
+	{
+	  "name": "platyking",
+	  "class": "Platy",
+	  "tags": [
+		"platypus",
+		"king",
+		"kang",
+		"throne",
+		"crown",
+		"royal",
+		"noble"
+	  ]
+	},
+	{
+	  "name": "platylove",
+	  "class": "Platy",
+	  "tags": [
+		"platypus",
+		"heart",
+		"hug",
+		"kiss",
+		"embrace",
+		"like"
+	  ]
+	},
+	{
+	  "name": "platyneet",
+	  "class": "Platy",
+	  "tags": [
+		"platypus",
+		"unemployed",
+		"lazy",
+		"lonely",
+		"bed",
+		"hiding"
+	  ]
+	},
+	{
+	  "name": "platyold",
+	  "class": "Platy",
+	  "tags": [
+		"platypus",
+		"elder",
+		"ancient",
+		"grandpa",
+		"boomer"
+	  ]
+	},
+	{
+	  "name": "platypatience",
+	  "class": "Platy",
+	  "tags": [
+		"platypus",
+		"waiting",
+		"watch",
+		"time",
+		"clock"
+	  ]
+	},
+	{
+	  "name": "platypopcorn",
+	  "class": "Platy",
+	  "tags": [
+		"platypus",
+		"drama",
+		"television",
+		"tv",
+		"watching",
+		"slouching",
+		"bored"
+	  ]
+	},
+	{
+	  "name": "platyrich",
+	  "class": "Platy",
+	  "tags": [
+		"platypus",
+		"money",
+		"dollars",
+		"wealthy",
+		"landlord",
+		"cool"
+	  ]
+	},
+	{
+	  "name": "platysarcasm",
+	  "class": "Platy",
+	  "tags": [
+		"platypus",
+		"sarcastic",
+		"srd",
+		"subredditdrama"
+	  ]
+	},
+	{
+	  "name": "platysilly",
+	  "class": "Platy",
+	  "tags": [
+		"platypus",
+		"cheeky",
+		"tongue",
+		"insult",
+		"funny",
+		"face"
+	  ]
+	},
+	{
+	  "name": "platysleeping",
+	  "class": "Platy",
+	  "tags": [
+		"platypus",
+		"yawn",
+		"bed",
+		"resting",
+		"lazy",
+		"snore"
+	  ]
+	},
+	{
+	  "name": "platythink",
+	  "class": "Platy",
+	  "tags": [
+		"platypus",
+		"thunk",
+		"hmm",
+		"confused",
+		"idea",
+		"wondering",
+		"considering"
+	  ]
+	},
+	{
+	  "name": "platytired",
+	  "class": "Platy",
+	  "tags": [
+		"platypus",
+		"restless",
+		"insomnia",
+		"deprived",
+		"awake",
+		"tired"
+	  ]
+	},
+	{
+	  "name": "platytuxedomask",
+	  "class": "Platy",
+	  "tags": [
+		"platypus",
+		"sailor",
+		"moon",
+		"mamoru",
+		"chiba",
+		"roses",
+		"cape"
+	  ]
+	},
+	{
+	  "name": "platyblush",
+	  "class": "Platy",
+	  "tags": [
+		"platypus",
+		"shy",
+		"flattered",
+		"redden",
+		"cheeks"
+	  ]
+	},
+	{
+	  "name": "platybruh",
+	  "class": "Platy",
+	  "tags": [
+		"platypus",
+		"brah",
+		"doubt",
+		"suspicious"
+	  ]
+	},
+	{
+	  "name": "platycaveman",
+	  "class": "Platy",
+	  "tags": [
+		"platypus",
+		"grug",
+		"primitive",
+		"troglodyte",
+		"stoneage"
+	  ]
+	},
+	{
+	  "name": "platycheer",
+	  "class": "Platy",
+	  "tags": [
+		"platypus",
+		"encourage",
+		"motivate",
+		"cheerup",
+		"celebrate"
+	  ]
+	},
+	{
+	  "name": "platydown",
+	  "class": "Platy",
+	  "tags": [
+		"platypus",
+		"depressed",
+		"giveup",
+		"sad",
+		"gloomy",
+		"unhappy"
+	  ]
+	},
+	{
+	  "name": "platyeyes",
+	  "class": "Platy",
+	  "tags": [
+		"platypus",
+		"serious",
+		"squint",
+		"closeup",
+		"doubt"
+	  ]
+	},
+	{
+	  "name": "platyheart",
+	  "class": "Platy",
+	  "tags": [
+		"platypus",
+		"love",
+		"like",
+		"hug"
+	  ]
+	},
+	{
+	  "name": "platylol",
+	  "class": "Platy",
+	  "tags": [
+		"platypus",
+		"laugh",
+		"lmao",
+		"rofl",
+		"funny"
+	  ]
+	},
+	{
+	  "name": "platymicdrop",
+	  "class": "Platy",
+	  "tags": [
+		"platypus",
+		"microphone",
+		"owned",
+		"destroyed"
+	  ]
+	},
+	{
+	  "name": "platynooo",
+	  "class": "Platy",
+	  "tags": [
+		"platypus",
+		"crying",
+		"kneeling",
+		"sad",
+		"scream"
+	  ]
+	},
+	{
+	  "name": "platysalute",
+	  "class": "Platy",
+	  "tags": [
+		"platypus",
+		"soldier",
+		"respect",
+		"army",
+		"navy"
+	  ]
+	},
+	{
+	  "name": "platyseethe",
+	  "class": "Platy",
+	  "tags": [
+		"platypus",
+		"angry",
+		"anger",
+		"fire",
+		"seethe",
+		"seething",
+		"saiyan"
+	  ]
+	},
+	{
+	  "name": "platythumbsup",
+	  "class": "Platy",
+	  "tags": [
+		"platypus",
+		"approve",
+		"good",
+		"nice"
+	  ]
+	},
+	{
+	  "name": "platywave",
+	  "class": "Platy",
+	  "tags": [
+		"platypus",
+		"hello",
+		"hi",
+		"bye",
+		"waving"
+	  ]
+	},
+	{
+	  "name": "platykys",
+	  "class": "Platy",
+	  "tags": [
+		"platypus",
+		"kill",
+		"yourself",
+		"suicide",
+		"hate"
+	  ]
+	},
+	{
+	  "name": "platydinosaur",
+	  "class": "Platy",
+	  "tags": [
+		"platypus",
+		"fossil",
+		"reptile",
+		"cdace"
+	  ]
+	},
 
-	{"name":"patyl","class":"Platy","tags":["quper","platypus","mersya","wombiezolf","doodle"]},
-	{"name":"platyaboriginal","class":"Platy","tags":["platypus","boomerang","indigenous","native","gascan"]},
-	{"name":"platyanime","class":"Platy","tags":["platypus","rice","chopsticks","waifu","kawaii"]},
-	{"name":"platybanana","class":"Platy","tags":["platypus","fruit","monkey"]},
-	{"name":"platybomb","class":"Platy","tags":["platypus","explosive","explosion","terrorist","boom"]},
-	{"name":"platybussy","class":"Platy","tags":["platypus","dude","lmao","butthole"]},
-	{"name":"platyhandbanana","class":"Platy","tags":["platypus","fruit","doodle","angry"]},
-	{"name":"platyperrytheplatypus","class":"Platy","tags":["platypus","phineas","ferb","agent","espionage","cartoon"]},
-	{"name":"platysun","class":"Platy","tags":["platypus","teletubbies","smile","shine","baby"]},
-	{"name":"platysun2","class":"Platy","tags":["platypus","angry","anger","fire","seethe","seething"]},
-	{"name":"platytrans","class":"Platy","tags":["platypus",":marseytrain:","train",":marseytrain:","rights","flag","valid"]},
-	{"name":"platyfrickyou","class":"Platy","tags":["platypus","middle","finger","angry","gesture"]},
-	{"name":"plarsy","class":"Platy","tags":["platypus","marsey","mutt","inbred","doodle","ugly"]},
-	{"name":"platyabused","class":"Platy","tags":["platypus","domestic","scared","flinching","beaten","fight"]},
-	{"name":"platyblizzard","class":"Platy","tags":["platypus","cold","freezing","freeze","snow","winter","chill"]},
-	{"name":"platyboxer","class":"Platy","tags":["platypus","boxing","fighter","ring","gloves","punch"]},
-	{"name":"platydevil","class":"Platy","tags":["platypus","demon","pitchfork","satan","fiend","shaitan"]},
-	{"name":"platyfear","class":"Platy","tags":["platypus","scared","scary","frightened","horrified","coward","terror"]},
-	{"name":"platygirlmagic","class":"Platy","tags":["platypus","rainbow","wand","fairy","pixie","spell"]},
-	{"name":"platygolong","class":"Platy","tags":["platypus","egg","space"]},
-	{"name":"platyhaes","class":"Platy","tags":["platypus","donuts","cupcakes","fat","sugar","sweet","healthy"]},
-	{"name":"platyking","class":"Platy","tags":["platypus","king","kang","throne","crown","royal","noble"]},
-	{"name":"platylove","class":"Platy","tags":["platypus","heart","hug","kiss","embrace","like"]},
-	{"name":"platyneet","class":"Platy","tags":["platypus","unemployed","lazy","lonely","bed","hiding"]},
-	{"name":"platyold","class":"Platy","tags":["platypus","elder","ancient","grandpa","boomer"]},
-	{"name":"platypatience","class":"Platy","tags":["platypus","waiting","watch","time","clock"]},
-	{"name":"platypopcorn","class":"Platy","tags":["platypus","drama","television","tv","watching","slouching","bored"]},
-	{"name":"platyrich","class":"Platy","tags":["platypus","money","dollars","wealthy","landlord","cool"]},
-	{"name":"platysarcasm","class":"Platy","tags":["platypus","sarcastic","srd","subredditdrama"]},
-	{"name":"platysilly","class":"Platy","tags":["platypus","cheeky","tongue","insult","funny","face"]},
-	{"name":"platysleeping","class":"Platy","tags":["platypus","yawn","bed","resting","lazy","snore"]},
-	{"name":"platythink","class":"Platy","tags":["platypus","thunk","hmm","confused","idea","wondering","considering"]},
-	{"name":"platytired","class":"Platy","tags":["platypus","restless","insomnia","deprived","awake","tired"]},
-	{"name":"platytuxedomask","class":"Platy","tags":["platypus","sailor","moon","mamoru","chiba","roses","cape"]},
-	{"name":"platyblush","class":"Platy","tags":["platypus","shy","flattered","redden","cheeks"]},
-	{"name":"platybruh","class":"Platy","tags":["platypus","brah","doubt","suspicious"]},
-	{"name":"platycaveman","class":"Platy","tags":["platypus","grug","primitive","troglodyte","stoneage"]},
-	{"name":"platycheer","class":"Platy","tags":["platypus","encourage","motivate","cheerup","celebrate"]},
-	{"name":"platydown","class":"Platy","tags":["platypus","depressed","giveup","sad","gloomy","unhappy"]},
-	{"name":"platyeyes","class":"Platy","tags":["platypus","serious","squint","closeup","doubt"]},
-	{"name":"platyheart","class":"Platy","tags":["platypus","love","like","hug"]},
-	{"name":"platylol","class":"Platy","tags":["platypus","laugh","lmao","rofl","funny"]},
-	{"name":"platymicdrop","class":"Platy","tags":["platypus","microphone","owned","destroyed"]},
-	{"name":"platynooo","class":"Platy","tags":["platypus","crying","kneeling","sad","scream"]},
-	{"name":"platysalute","class":"Platy","tags":["platypus","soldier","respect","army","navy"]},
-	{"name":"platyseethe","class":"Platy","tags":["platypus","angry","anger","fire","seethe","seething","saiyan"]},
-	{"name":"platythumbsup","class":"Platy","tags":["platypus","approve","good","nice"]},
-	{"name":"platywave","class":"Platy","tags":["platypus","hello","hi","bye","waving"]},
-	{"name":"platykys","class":"Platy","tags":["platypus","kill","yourself","suicide","hate"]},
-	{"name":"platydinosaur","class":"Platy","tags":["platypus","fossil","reptile","cdace"]},	
-
-	{"name":"wolfpicrew", "class":"Wolf", "tags":["trans", "picrew", "ugly", "calarts"]},
-	{"name":"wolfglowie","class":"Wolf","tags":["dramarama","fbi","federal","agent","police","detective","cop", "officer","lurking"]},
-	{"name":"wolfbootlicker","class":"Wolf","tags":["dramarama"]},
-	{"name":"wolfbrainlet","class":"Wolf","tags":["retard","stupid","idiot"]},
-	{"name":"wolfrofl","class":"Wolf","tags":["dramarama","laughing","rolling"]},
-	{"name":"wolfheart","class":"Wolf","tags":["love","like","cute","valentine","boyfriend"]},
-	{"name":"wombiezolf","class":"Wolf","tags":["dramarama","cute"]},
-	{"name":"wolfsal","class":"Wolf","tags":["two","weeks","shark","femboy","user"]},
-	{"name":"wolfdramanomicon","class":"Wolf","tags":["dramanomicon"]},
-	{"name":"wolfamogus","class":"Wolf","tags":["amogus", "sus", "stonetoss"]},
-	{"name":"wolfmarine","class":"Wolf","tags":["marine"]},
-	{"name":"wolfromulusremus","class":"Wolf","tags":["romulusremus"]},
-	{"name":"wolfrope","class":"Wolf","tags":["rope", "watch", "late"]},
-	{"name":"wolftinfoil","class":"Wolf","tags":["tinfoil"]},
-	{"name":"wolfmarseymask","class":"Wolf","tags":["marseymask"]},
-	{"name":"wolfputin","class":"Wolf","tags":["putin"]},
-	{"name":"wolfdrama","class":"Wolf","tags":["drama"]},
-	{"name":"wolfcumjar","class":"Wolf","tags":["cumjar"]},
-	{"name":"wolflgbt","class":"Wolf","tags":["lgbt"]},
-	{"name":"wolfmarseyhead","class":"Wolf","tags":["marseyhead"]},
-	{"name":"wolfnoir","class":"Wolf","tags":["noir"]},
-	{"name":"wolfsherifssmoking","class":"Wolf","tags":["sherifssmoking"]},
-	{"name":"wolftrans","class":"Wolf","tags":["trans"]},
-	{"name":"wolfvaporwave","class":"Wolf","tags":["vaporwave"]},
-	{"name":"wolfangry","class":"Wolf","tags":["angry"]},
-	{"name":"wolfdinosaur","class":"Wolf","tags":["rawr","dinosaur"]},
-	{"name":"wolfbrains","class":"Wolf","author":"anton-d","tags":["brains"]},
-	{"name":"wolfcry","class":"Wolf","author":"anton-d","tags":["cry"]},
-	{"name":"wolfdead","class":"Wolf","author":"anton-d","tags":["dead"]},
-	{"name":"wolfdevilish","class":"Wolf","author":"anton-d","tags":["devilish"]},
-	{"name":"wolffacepalm","class":"Wolf","author":"anton-d","tags":["facepalm","bat"]},
-	{"name":"wolfhappy","class":"Wolf","author":"anton-d","tags":["happy"]},
-	{"name":"wolfidea","class":"Wolf","author":"anton-d","tags":["idea"]},
-	{"name":"wolfkoala","class":"Wolf","author":"anton-d","tags":["koala"]},
-	{"name":"wolflaugh","class":"Wolf","author":"anton-d","tags":["laugh"]},
-	{"name":"wolflove","class":"Wolf","author":"anton-d","tags":["love","brain"]},
-	{"name":"wolfmeditate","class":"Wolf","author":"anton-d","tags":["meditate"]},
-	{"name":"wolfphone","class":"Wolf","author":"anton-d","tags":["phone"]},
-	{"name":"wolfrainbow","class":"Wolf","author":"anton-d","tags":["rainbow"]},
-	{"name":"wolfroses","class":"Wolf","author":"anton-d","tags":["roses"]},
-	{"name":"wolfsad","class":"Wolf","author":"anton-d","tags":["sad", "howl", "wail"]},
-	{"name":"wolfsfear","class":"Wolf","author":"anton-d","tags":["fear", "flying guillotine", "scout", "knife", "cleaver"]},
-	{"name":"wolfsleep","class":"Wolf","author":"anton-d","tags":["sleep"]},
-	{"name":"wolftear","class":"Wolf","author":"anton-d","tags":["tear"]},
-	{"name":"wolfthink","class":"Wolf","author":"anton-d","tags":["think", "arrow", "bow"]},
-	{"name":"wolfthumbsup","class":"Wolf","author":"anton-d","tags":["thumbsup", "positive"]},
-	{"name":"wolfupsidedown","class":"Wolf","author":"anton-d","tags":["upsidedown", "head"]},
-	{"name":"wolfvictory","class":"Wolf","author":"anton-d","tags":["victory", "rip", "dead", "gravestone", "stone"]},
-	{"name":"wolfwave","class":"Wolf","author":"anton-d","tags":["wave", "salute"]},
-	{"name":"wolfwink","class":"Wolf","author":"anton-d","tags":["wink", "joke"]},
-
-	{"name":"taysneer","class":"Tay","tags":["sneer"]},
-	{"name":"tayvape","class":"Tay","tags":["vape"]},
-	{"name":"taylove","class":"Tay","tags":["love"]},
-	{"name":"tayaaa","class":"Tay","tags":["aaa"]},
-	{"name":"tayadmire","class":"Tay","tags":["admire"]},
-	{"name":"taycat","class":"Tay","tags":["cat"]},
-	{"name":"taycelebrate","class":"Tay","tags":["celebrate"]},
-	{"name":"taychefkiss","class":"Tay","tags":["chefkiss"]},
-	{"name":"taychristmas","class":"Tay","tags":["christmas"]},
-	{"name":"tayclap","class":"Tay","tags":["clap"]},
-	{"name":"taycold","class":"Tay","tags":["cold"]},
-	{"name":"taycrown","class":"Tay","tags":["crown"]},
-	{"name":"tayflex","class":"Tay","tags":["flex"]},
-	{"name":"tayflirt","class":"Tay","tags":["flirt"]},
-	{"name":"taygrimacing","class":"Tay","tags":["grimacing"]},
-	{"name":"tayhappy","class":"Tay","tags":["happy"]},
-	{"name":"tayheart","class":"Tay","tags":["heart"]},
-	{"name":"tayhmm","class":"Tay","tags":["hmm"]},
-	{"name":"tayhuh","class":"Tay","tags":["huh"]},
-	{"name":"tayhyperdab","class":"Tay","tags":["hyperdab"]},
-	{"name":"tayjammin","class":"Tay","tags":["jammin"]},
-	{"name":"taylaugh","class":"Tay","tags":["laugh"]},
-	{"name":"taymindblown","class":"Tay","tags":["mindblown"]},
-	{"name":"tayno","class":"Tay","tags":["no"]},
-	{"name":"taynod","class":"Tay","tags":["nod"]},
-	{"name":"taypeace","class":"Tay","tags":["peace"]},
-	{"name":"taypray","class":"Tay","tags":["pray"]},
-	{"name":"tayrun","class":"Tay","tags":["run"]},
-	{"name":"tayscrunch","class":"Tay","tags":["scrunch"]},
-	{"name":"tayshake","class":"Tay","tags":["shake"]},
-	{"name":"tayshrug","class":"Tay","tags":["shrug"]},
-	{"name":"taysilly","class":"Tay","tags":["silly"]},
-	{"name":"tayslide","class":"Tay","tags":["slide"]},
-	{"name":"taysmart","class":"Tay","tags":["smart"]},
-	{"name":"taystop","class":"Tay","tags":["stop"]},
-	{"name":"taytantrum","class":"Tay","tags":["tantrum"]},
-	{"name":"taytea","class":"Tay","tags":["tea"]},
-	{"name":"taythink","class":"Tay","tags":["think"]},
-	{"name":"tayvibin","class":"Tay","tags":["vibin"]},
-	{"name":"taywhat","class":"Tay","tags":["what"]},
-	{"name":"taywine","class":"Tay","tags":["wine"]},
-	{"name":"taywine2","class":"Tay","tags":["wine2"]},
-	{"name":"taywink","class":"Tay","tags":["wink"]},
-	{"name":"tayyes","class":"Tay","tags":["yes"]},
-
-	{"name":"postalsmiley","class":"Classic","tags":["postal", "game", "devil", "evil"]},
-	{"name":"grouphug","class":"Classic"},
-	{"name":"flowers","class":"Classic"},
-	{"name":"scootlgbt","class":"Classic"},
-	{"name":"idhitit","class":"Classic"},
-	{"name":"2thumbsup","class":"Classic"},
-	{"name":"aliendj","class":"Classic"},
-	{"name":"ambulance","class":"Classic"},
-	{"name":"angry","class":"Classic"},
-	{"name":"angrywhip","class":"Classic"},
-	{"name":"argue","class":"Classic"},
-	{"name":"aroused","class":"Classic"},
-	{"name":"ashamed","class":"Classic"},
-	{"name":"badass","class":"Classic"},
-	{"name":"banana","class":"Classic"},
-	{"name":"band","class":"Classic"},
-	{"name":"banghead","class":"Classic"},
-	{"name":"batman","class":"Classic"},
-	{"name":"bigeyes","class":"Classic"},
-	{"name":"bite","class":"Classic"},
-	{"name":"blind","class":"Classic"},
-	{"name":"blowkiss","class":"Classic"},
-	{"name":"blush","class":"Classic"},
-	{"name":"bong","class":"Classic"},
-	{"name":"bounce","class":"Classic"},
-	{"name":"bow","class":"Classic"},
-	{"name":"breakheart","class":"Classic"},
-	{"name":"bs","class":"Classic"},
-	{"name":"cartwheel","class":"Classic"},
-	{"name":"cat","class":"Classic"},
-	{"name":"celebrate","class":"Classic"},
-	{"name":"chainsaw","class":"Classic"},
-	{"name":"cheers","class":"Classic"},
-	{"name":"clap","class":"Classic"},
-	{"name":"cold","class":"Classic"},
-	{"name":"confused","class":"Classic"},
-	{"name":"crazyeyes","class":"Classic"},
-	{"name":"cry","class":"Classic"},
-	{"name":"cthulhu","class":"Classic"},
-	{"name":"cute","class":"Classic"},
-	{"name":"laughing","class":"Classic"},
-	{"name":"daydream","class":"Classic"},
-	{"name":"ddr","class":"Classic"},
-	{"name":"deadpool","class":"Classic"},
-	{"name":"devilsmile","class":"Classic"},
-	{"name":"diddle","class":"Classic"},
-	{"name":"die","class":"Classic"},
-	{"name":"distress","class":"Classic"},
-	{"name":"disturbing","class":"Classic"},
-	{"name":"dizzy","class":"Classic"},
-	{"name":"domo","class":"Classic"},
-	{"name":"doughboy","class":"Classic"},
-	{"name":"drink","class":"Classic"},
-	{"name":"drool","class":"Classic"},
-	{"name":"dudeweedlmao","class":"Classic"},
-	{"name":"edward","class":"Classic"},
-	{"name":"electro","class":"Classic"},
-	{"name":"elephant","class":"Classic"},
-	{"name":"embarrassed","class":"Classic"},
-	{"name":"emo","class":"Classic"},
-	{"name":"emo2","class":"Classic"},
-	{"name":"evil","class":"Classic"},
-	{"name":"evilclown","class":"Classic"},
-	{"name":"evilgrin","class":"Classic"},
-	{"name":"facepalm","class":"Classic"},
-	{"name":"fap","class":"Classic"},
-	{"name":"flamethrower","class":"Classic"},
-	{"name":"flipbird","class":"Classic"},
-	{"name":"flirt","class":"Classic"},
-	{"name":"frown","class":"Classic"},
-	{"name":"gasp","class":"Classic"},
-	{"name":"glomp","class":"Classic"},
-	{"name":"go","class":"Classic"},
-	{"name":"gooby","class":"Classic"},
-	{"name":"grr","class":"Classic"},
-	{"name":"gtfo","class":"Classic"},
-	{"name":"guitar","class":"Classic"},
-	{"name":"haha","class":"Classic"},
-	{"name":"handshake","class":"Classic"},
-	{"name":"happydance","class":"Classic"},
-	{"name":"headbang","class":"Classic"},
-	{"name":"heart","class":"Classic"},
-	{"name":"heartbeat","class":"Classic"},
-	{"name":"hearts","class":"Classic"},
-	{"name":"highfive","class":"Classic"},
-	{"name":"hmm","class":"Classic"},
-	{"name":"hmph","class":"Classic"},
-	{"name":"holdhands","class":"Classic"},
-	{"name":"horny","class":"Classic","tags":["lick","owo","sex","hot"]},
-	{"name":"hug","class":"Classic"},
-	{"name":"hugging","class":"Classic"},
-	{"name":"hugs","class":"Classic"},
-	{"name":"hump","class":"Classic"},
-	{"name":"humpbed","class":"Classic"},
-	{"name":"hysterical","class":"Classic"},
-	{"name":"ily","class":"Classic"},
-	{"name":"inlove","class":"Classic"},
-	{"name":"jason","class":"Classic"},
-	{"name":"jawdrop","class":"Classic"},
-	{"name":"jedi","class":"Classic"},
-	{"name":"jester","class":"Classic"},
-	{"name":"kaboom","class":"Classic"},
-	{"name":"kick","class":"Classic"},
-	{"name":"kiss","class":"Classic"},
-	{"name":"kitty","class":"Classic"},
-	{"name":"laughchair","class":"Classic"},
-	{"name":"lick","class":"Classic"},
-	{"name":"link","class":"Classic"},
-	{"name":"lol","class":"Classic"},
-	{"name":"lolbeat","class":"Classic"},
-	{"name":"loving","class":"Classic"},
-	{"name":"makeout","class":"Classic"},
-	{"name":"medal","class":"Classic"},
-	{"name":"megaman","class":"Classic"},
-	{"name":"megamanguitar","class":"Classic"},
-	{"name":"meow","class":"Classic"},
-	{"name":"metime","class":"Classic"},
-	{"name":"mooning","class":"Classic"},
-	{"name":"mummy","class":"Classic"},
-	{"name":"na","class":"Classic"},
-	{"name":"nauseous","class":"Classic"},
-	{"name":"nervous","class":"Classic"},
-	{"name":"ninja","class":"Classic"},
-	{"name":"nod","class":"Classic"},
-	{"name":"nono","class":"Classic"},
-	{"name":"omg","class":"Classic"},
-	{"name":"onfire","class":"Classic"},
-	{"name":"ooo","class":"Classic"},
-	{"name":"orly","class":"Classic"},
-	{"name":"tongueout","class":"Classic"},
-	{"name":"paddle","class":"Classic"},
-	{"name":"panda","class":"Classic"},
-	{"name":"pandabutt","class":"Classic"},
-	{"name":"paranoid","class":"Classic"},
-	{"name":"party","class":"Classic"},
-	{"name":"patting","class":"Classic"},
-	{"name":"peek","class":"Classic"},
-	{"name":"pikachu","class":"Classic"},
-	{"name":"pimp","class":"Classic"},
-	{"name":"plzdie","class":"Classic"},
-	{"name":"poke","class":"Classic"},
-	{"name":"popcorn","class":"Classic"},
-	{"name":"pout","class":"Classic"},
-	{"name":"probe","class":"Classic"},
-	{"name":"puke","class":"Classic"},
-	{"name":"punch","class":"Classic"},
-	{"name":"quote","class":"Classic"},
-	{"name":"raccoon","class":"Classic"},
-	{"name":"roar","class":"Classic"},
-	{"name":"rofl","class":"Classic"},
-	{"name":"roflmao","class":"Classic"},
-	{"name":"rolleyes","class":"Classic"},
-	{"name":"sad","class":"Classic"},
-	{"name":"sadeyes","class":"Classic"},
-	{"name":"sadhug","class":"Classic"},
-	{"name":"samurai","class":"Classic"},
-	{"name":"sarcasm","class":"Classic"},
-	{"name":"scoot","class":"Classic"},
-	{"name":"scream","class":"Classic"},
-	{"name":"shmoopy","class":"Classic"},
-	{"name":"shrug","class":"Classic"},
-	{"name":"skull","class":"Classic"},
-	{"name":"slap","class":"Classic"},
-	{"name":"slapfight","class":"Classic"},
-	{"name":"sleepy","class":"Classic"},
-	{"name":"smackfish","class":"Classic"},
-	{"name":"smackhead","class":"Classic"},
-	{"name":"smh","class":"Classic"},
-	{"name":"smile","class":"Classic"},
-	{"name":"smoke","class":"Classic"},
-	{"name":"sonic","class":"Classic"},
-	{"name":"spank","class":"Classic"},
-	{"name":"sparta","class":"Classic"},
-	{"name":"sperm","class":"Classic"},
-	{"name":"spiderman","class":"Classic"},
-	{"name":"stab","class":"Classic"},
-	{"name":"star","class":"Classic"},
-	{"name":"stare","class":"Classic"},
-	{"name":"stfu","class":"Classic"},
-	{"name":"suicide","class":"Classic"},
-	{"name":"surprisehug","class":"Classic"},
-	{"name":"suspicious","class":"Classic"},
-	{"name":"sweat","class":"Classic"},
-	{"name":"swordfight","class":"Classic"},
-	{"name":"taco","class":"Classic"},
-	{"name":"talk2hand","class":"Classic"},
-	{"name":"tantrum","class":"Classic"},
-	{"name":"teehee","class":"Classic"},
-	{"name":"thinking","class":"Classic"},
-	{"name":"threesome","class":"Classic"},
-	{"name":"throw","class":"Classic"},
-	{"name":"throwaway","class":"Classic"},
-	{"name":"thumbup","class":"Classic"},
-	{"name":"thumbdown","class":"Classic"},
-	{"name":"tickle","class":"Classic"},
-	{"name":"typing","class":"Classic"},
-	{"name":"uhuh","class":"Classic"},
-	{"name":"vampbat","class":"Classic"},
-	{"name":"viking","class":"Classic"},
-	{"name":"violin","class":"Classic"},
-	{"name":"vulgar","class":"Classic"},
-	{"name":"wah","class":"Classic"},
-	{"name":"wat","class":"Classic"},
-	{"name":"whip","class":"Classic"},
-	{"name":"whipping","class":"Classic"},
-	{"name":"wink","class":"Classic"},
-	{"name":"witch","class":"Classic"},
-	{"name":"wizard","class":"Classic"},
-	{"name":"woah","class":"Classic"},
-	{"name":"worm","class":"Classic"},
-	{"name":"woo","class":"Classic"},
-	{"name":"work","class":"Classic"},
-	{"name":"worship","class":"Classic"},
-	{"name":"wow","class":"Classic"},
-	{"name":"xd","class":"Classic"},
-	{"name":"yay","class":"Classic"},
-	{"name":"zzz","class":"Classic"},
-
-	{"name":"trolldespair","class":"Rage"},
-	{"name":"clueless","class":"Rage"},
-	{"name":"troll","class":"Rage"},
-	{"name":"bitchplease","class":"Rage"},
-	{"name":"spit","class":"Rage"},
-	{"name":"challengeaccepted","class":"Rage"},
-	{"name":"contentiouscereal","class":"Rage"},
-	{"name":"cryingatcuteness","class":"Rage"},
-	{"name":"derp","class":"Rage"},
-	{"name":"derpcornsyrup","tags": ["corn", "syrup"],"class":"Rage"},
-	{"name":"derpcrying","tags": ["crying"],"class":"Rage"},
-	{"name":"derpcute","tags": ["cute"],"class":"Rage"},
-	{"name":"derpdumb","tags": ["dump"],"class":"Rage"},
-	{"name":"derpeuphoria","tags": ["euphoria"],"class":"Rage"},
-	{"name":"derpinahd","tags": ["inahd"],"class":"Rage"},
-	{"name":"derpinapokerface","tags": ["pokerface"],"class":"Rage"},
-	{"name":"derpinasnickering","tags": ["snickering"],"class":"Rage"},
-	{"name":"derpprocessing","tags": ["processing"],"class":"Rage"},
-	{"name":"derprealization","tags": ["realization"],"class":"Rage"},
-	{"name":"derpsnickering","tags": ["snickering"],"class":"Rage"},
-	{"name":"derptalking","tags": ["talking"],"class":"Rage"},
-	{"name":"derpthinking","tags": ["thinking"],"class":"Rage"},
-	{"name":"derpthumbsup","tags": ["thumbsup", "yes", "positive"],"class":"Rage"},
-	{"name":"derpunimpressed","tags": ["unimpressed"],"class":"Rage"},
-	{"name":"derpwhy","tags": ["why", "question"],"class":"Rage"},
-	{"name":"donotwant","class":"Rage"},
-	{"name":"epicfacefeatures","class":"Rage"},
-	{"name":"fancywithwine","class":"Rage"},
-	{"name":"fffffffuuuuuuuuuuuu","class":"Rage"},
-	{"name":"flipthetable","class":"Rage"},
-	{"name":"foreveralone","tags": ["alone", "lonely"],"class":"Rage"},
-	{"name":"foreveralonehappy","tags": ["alone", "lonely", "happy"],"class":"Rage"},
-	{"name":"hewillnever","class":"Rage"},
-	{"name":"idontknow","class":"Rage"},
-	{"name":"interuptedreading","tags": ["reading"],"class":"Rage"},
-	{"name":"iseewhatyoudidthere","class":"Rage"},
-	{"name":"killherkillher","tags": ["troll", "crazy"],"class":"Rage"},
-	{"name":"ledesire","tags": ["desire"],"class":"Rage"},
-	{"name":"leexcited","class":"Rage"},
-	{"name":"legenius","class":"Rage"},
-	{"name":"lelolidk","class":"Rage"},
-	{"name":"lemiddlefinger","class":"Rage"},
-	{"name":"lemindblown","class":"Rage"},
-	{"name":"leokay","class":"Rage"},
-	{"name":"lepanicrunning","class":"Rage"},
-	{"name":"lepokerface","class":"Rage"},
-	{"name":"lepokerface2","class":"Rage"},
-	{"name":"lerageface","class":"Rage"},
-	{"name":"leseriousface","class":"Rage"},
-	{"name":"likeaboss","class":"Rage"},
-	{"name":"lolface","class":"Rage"},
-	{"name":"longwhiskers","class":"Rage"},
-	{"name":"manymiddlefingers","class":"Rage"},
-	{"name":"megusta","tags": ["positive"],"class":"Rage"},
-	{"name":"motherfucker","class":"Rage"},
-	{"name":"motherofgod","class":"Rage"},
-	{"name":"mysides","class":"Rage"},
-	{"name":"ohgodwhy","class":"Rage"},
-	{"name":"pervertedspiderman","class":"Rage"},
-	{"name":"picard","class":"Rage"},
-	{"name":"ragestrangle","class":"Rage","tags":["strangle"]},
-	{"name":"rukiddingme","class":"Rage"},
-	{"name":"tfwyougettrolled","class":"Rage"},
-	{"name":"trollolol","class":"Rage"},
-	{"name":"truestorybro","class":"Rage"},
-	{"name":"xallthey","class":"Rage"},
-	{"name":"yuno","class":"Rage"},
-	{"name":"antichrist","class":"Rage"},
-	{"name":"antichristfffuuuu","class":"Rage"},
-	{"name":"bluehelmet","class":"Rage"},
-
-	{"name":"npcangry","class":"Wojak"},
-	{"name":"russiarentfree","tags":["wojack", "rent", "free", "russia", "cry", "seethe", "cope"],"class":"Wojak"},
-	{"name":"cunt","class":"Wojak"},
-	{"name":"soyjakfat","class":"Wojak","tags":["obese", "wingcuck"]},
-	{"name":"chudtantrum","tags":["chud"],"class":"Wojak"},
-	{"name":"chadcryguy","class":"Wojak"},
-	{"name":"chadpostal2","tags":["postal", "game", "shooting"],"class":"Wojak"},
-	{"name":"penisrentfree","tags":["cock", "peepee", "gay", "pipe", "balls", "nuts"],"class":"Wojak"},
-	{"name":"chadjewrentfree","tags":["chad", "jew"],"class":"Wojak"},
-	{"name":"afroblackjak","class":"Wojak"},
-	{"name":"altgirlblackjack","class":"Wojak"},
-	{"name":"antifajak","class":"Wojak"},
-	{"name":"bigsmilesoyjak","class":"Wojak"},
-	{"name":"blackfemboy","class":"Wojak"},
-	{"name":"blacksoyjak","class":"Wojak"},
-	{"name":"brainletchadmask","class":"Wojak"},
-	{"name":"bruce","class":"Wojak"},
-	{"name":"chadagent","class":"Wojak"},
-	{"name":"chadpostal","class":"Wojak"},
-	{"name":"chadblack2","class":"Wojak"},
-	{"name":"chadsnoo","class":"Wojak"},
-	{"name":"daddysgirl","class":"Wojak"},
-	{"name":"directlypointingsoyjak","class":"Wojak"},
-	{"name":"feelsguy","class":"Wojak"},
-	{"name":"hijabwojak","class":"Wojak"},
-	{"name":"hoodieguyblackjak","class":"Wojak"},
-	{"name":"marseyblackjak","class":"Wojak"},
-	{"name":"momblackjak","class":"Wojak"},
-	{"name":"obesedaddysgirl","class":"Wojak"},
-	{"name":"obesetradwife","class":"Wojak"},
-	{"name":"pinkgirlblackjak","class":"Wojak"},
-	{"name":"purplegirlblackjak","class":"Wojak"},
-	{"name":"sadwomanjak","class":"Wojak"},
-	{"name":"smugblackjak","class":"Wojak"},
-	{"name":"sportygirlblackjak","class":"Wojak"},
-	{"name":"tradwife","class":"Wojak"},
-	{"name":"wavyhairblackjack","class":"Wojak"},
-	{"name":"zoomertears","class":"Wojak"},
-	{"name":"purerage","class":"Wojak"},
-	{"name":"naziseethe","class":"Wojak"},
-	{"name":"holdupjak","class":"Wojak"},
-	{"name":"ethottalking","class":"Wojak"},
-	{"name":"chadwomanasian","tags": ["asian","china", "woman", "queen"],"class":"Wojak"},
-	{"name":"chadwomanblack","tags": ["black", "woman", "queen"],"class":"Wojak"},
-	{"name":"chadwomanlatinx","tags": ["latinX", "woman", "queen"],"class":"Wojak"},
-	{"name":"chadwomannordic","tags": ["nordic", "mayo", "woman", "queen"],"class":"Wojak"},
-	{"name":"trumpjaktalking","class":"Wojak"},
-	{"name":"rdramajanny","tags": ["janny"],"class":"Wojak"},
-	{"name":"soyreddit","class":"Wojak"},
-	{"name":"soysnoo","class":"Wojak"},
-	{"name":"doomerboy","class":"Wojak"},
-	{"name":"npcsupport","class":"Wojak"},
-	{"name":"npcoppse","class":"Wojak"},
-	{"name":"grugthink","class":"Wojak"},
-	{"name":"soyconsoomer","tags": ["consoomer"],"class":"Wojak"},
-	{"name":"soyjaktalking","tags": ["talking"],"class":"Wojak"},
-	{"name":"soyquack","tags": ["quack"],"class":"Wojak"},
-	{"name":"tradboy","class":"Wojak"},
-	{"name":"sciencejak","class":"Wojak"},
-	{"name":"soyjakanimeglasses","tags": ["anime", "glasses"],"class":"Wojak"},
-	{"name":"soymad","tags": ["mad", "rage"],"class":"Wojak"},
-	{"name":"boomerportrait","class":"Wojak"},
-	{"name":"soycry","tags": ["cry"],"class":"Wojak"},
-	{"name":"punchjak","class":"Wojak"},
-	{"name":"seethejak","tags": ["mad", "rage"],"class":"Wojak"},
-	{"name":"chadyes","class":"Wojak"},
-	{"name":"chadno","tags": ["no", "negative"],"class":"Wojak"},
-	{"name":"abusivewife","tags": ["bardfinn"],"class":"Wojak"},
-	{"name":"ancap","tags": ["pedo", "lib"],"class":"Wojak"},
-	{"name":"klanjak","class":"Wojak"},
-	{"name":"bardfinn","class":"Wojak"},
-	{"name":"bloomer","class":"Wojak"},
-	{"name":"boomer","class":"Wojak"},
-	{"name":"boomermonster","class":"Wojak"},
-	{"name":"brainletbush","class":"Wojak"},
-	{"name":"brainletcaved","class":"Wojak"},
-	{"name":"brainletchair","class":"Wojak"},
-	{"name":"brainletchest","class":"Wojak"},
-	{"name":"brainletmaga","class":"Wojak"},
-	{"name":"brainletpit","class":"Wojak"},
-	{"name":"chad","class":"Wojak"},
-	{"name":"chadarab","class":"Wojak"},
-	{"name":"chadasian","class":"Wojak"},
-	{"name":"chadblack","class":"Wojak"},
-	{"name":"chadcambodian","class":"Wojak"},
-	{"name":"chadjesus","tags": ["jesus"],"class":"Wojak"},
-	{"name":"chadjew","tags": ["jew"],"class":"Wojak"},
-	{"name":"chadjihadi","tags": ["jihad", "muslism", "islam"],"class":"Wojak"},
-	{"name":"chadlatino","tags": ["latinx"],"class":"Wojak"},
-	{"name":"chadlibleft","tags": ["libleft"],"class":"Wojak"},
-	{"name":"chadnordic","tags": ["nordic", "nazi"],"class":"Wojak"},
-	{"name":"chadmediterranean","class":"Wojak"},
-	{"name":"chadsikh","tags": ["sikh", "indian"],"class":"Wojak"},
-	{"name":"chadusa","tags": ["usa", "america", "freedom"],"class":"Wojak"},
-	{"name":"chadsoy","class":"Wojak","tags": ["soy"]},
-	{"name":"chadsoylent","class":"Wojak","tags": ["soy", "soylent"]},
-	{"name":"coomer","class":"Wojak"},
-	{"name":"doomer","class":"Wojak"},
-	{"name":"doomerfront","class":"Wojak"},
-	{"name":"doomergirl","class":"Wojak"},
-	{"name":"ethot","class":"Wojak"},
-	{"name":"fatbrain","class":"Wojak"},
-	{"name":"fatpriest","tags": ["priest", "jesus"],"class":"Wojak"},
-	{"name":"femboy","tags": ["female", "bussy"],"class":"Wojak"},
-	{"name":"gogetter","class":"Wojak"},
-	{"name":"grug","class":"Wojak"},
-	{"name":"monke","class":"Wojak"},
-	{"name":"nazijak","class":"Wojak"},
-	{"name":"npc","class":"Wojak"},
-	{"name":"npcfront","class":"Wojak"},
-	{"name":"npcmaga","class":"Wojak"},
-	{"name":"chadbaby","class":"Wojak"},
-	{"name":"chadstalin","class":"Wojak"},
-	{"name":"chudette","class":"Wojak"},
-	{"name":"chudgrug","class":"Wojak"},
-	{"name":"chudnazi","class":"Wojak"},
-	{"name":"chudsmug","class":"Wojak"},
-	{"name":"chudglassesglow","class":"Wojak"},
-	{"name":"soy4dchess","class":"Wojak"},
-	{"name":"soyjaktantrum","class":"Wojak"},
-	{"name":"psychojak","class":"Wojak"},
-	{"name":"ragejak","tags": ["mad"],"class":"Wojak"},
-	{"name":"ragemask","tags": ["mad"],"class":"Wojak"},
-	{"name":"ramonajak","class":"Wojak"},
-	{"name":"soyjackwow","tags": ["wow", "surprise"],"class":"Wojak"},
-	{"name":"soyjak","class":"Wojak"},
-	{"name":"soyjakfront","class":"Wojak"},
-	{"name":"soyjakhipster","tags": ["hipster"],"class":"Wojak"},
-	{"name":"soyjakmaga","tags": ["maga", "israel", "nazi"],"class":"Wojak"},
-	{"name":"soyjakyell","tags": ["yell"],"class":"Wojak"},
-	{"name":"tomboy","tags": ["trans"],"class":"Wojak"},
-	{"name":"zoomer","class":"Wojak"},
-	{"name":"zoomersoy","tags": ["soyjak"],"class":"Wojak"},
-	{"name":"asianenbyjak","class":"Wojak"},
-	{"name":"asiangirl","class":"Wojak"},
-	{"name":"asiantwinkjak","class":"Wojak"},
-	{"name":"bobateagirl","class":"Wojak"},
-	{"name":"chadasian2","class":"Wojak"},
-	{"name":"chadindianheadset","class":"Wojak"},
-	{"name":"chinesenobleman","class":"Wojak"},
-	{"name":"chinesepolitician","class":"Wojak"},
-	{"name":"chinesesoldierjak","class":"Wojak"},
-	{"name":"greendesigirl","class":"Wojak"},
-	{"name":"imperialjapanesesoldier","class":"Wojak"},
-	{"name":"indiandoomergirl","class":"Wojak"},
-	{"name":"kimjojongjak","class":"Wojak"},
-	{"name":"kimonogirl","class":"Wojak"},
-	{"name":"maojak","class":"Wojak"},
-	{"name":"mongoljak","class":"Wojak"},
-	{"name":"scaryasianwife","class":"Wojak"},
-	{"name":"shorthairasiangirl","class":"Wojak"},
-	{"name":"singaporeansoldierjak","class":"Wojak"},
-	{"name":"suprisedasianwife","class":"Wojak"},
-	{"name":"tiawanesesoldierjak","class":"Wojak"},
-	{"name":"witheredricefarmer","class":"Wojak"},
-	{"name":"yakuzajak","class":"Wojak"},
-
-	{"name":"capytalking", "tags":["capy", "soy", "aevann"], "class":"Misc"},
-	{"name":"gigachadcapy", "tags":["aevann", "giga", "chad", "capy"], "class":"Misc"},
-	{"name":"maid", "tags":["canada", "leaf", "suicide", "keep", "yourself", "safe", "noose", "anime", "kys", "kill", "yourself"],"class":"Misc"},
-	{"name":"grillcastyes", "tags":["podcast", "chad"],"class":"Misc"},
-    {"name":"ivoted", "tags":["democracy", "spider"],"class":"Misc"},
-    {"name":"hapyday", "tags":["happyday", "wholesome", "smile"],"class":"Misc"},
-    {"name":"froth", "tags":["froth", "seethe", "angry", "ugh", "frothing", "sneed"],"class":"Misc"},
-	{"name":"chadyescapy", "tags":["capy", "aevann"],"class":"Misc"},
-	{"name":"chadnocapy", "tags":["capy", "aevann"],"class":"Misc"},
-	{"name":"capygitcommit", "tags":["capy", "aevann"],"class":"Misc"},
-	{"name":"capyantischizo", "class":"Misc"},
-	{"name":"capysneedboat", "tags":["capy", "aevann"],"class":"Misc"},
-	{"name":"chadbasedcapy", "tags":["capy", "aevann"],"class":"Misc"},
-	{"name":"chadcopecapy", "tags":["capy", "aevann"],"class":"Misc"},
-	{"name":"chaddilatecapy", "tags":["capy", "aevann"],"class":"Misc"},
-	{"name":"chaddonekingcapy", "tags":["capy", "aevann", "done", "king"],"class":"Misc"},
-	{"name":"chaddonequeencapy", "tags":["capy", "aevann", "done", "queen"],"class":"Misc"},
-	{"name":"chadfixedkingcapy", "tags":["capy", "aevann", "fixed", "king"],"class":"Misc"},
-	{"name":"chadfixedqueencapy", "tags":["capy", "aevann", "fixed", "queen"],"class":"Misc"},
-	{"name":"chadokcapy", "tags":["capy", "aevann"],"class":"Misc"},
-	{"name":"chadseethecapy", "tags":["capy", "aevann"],"class":"Misc"},
-	{"name":"chadsneedcapy", "tags":["capy", "aevann"],"class":"Misc"},
-	{"name":"chadthankskingcapy", "tags":["capy", "aevann", "thanks", "king"],"class":"Misc"},
-	{"name":"chadthanksqueencapy", "tags":["capy", "aevann", "thanks", "queen"],"class":"Misc"},
-	{"name":"chadnoproblemkingcapy","class":"Misc", "tags":["capy", "aevann", "no", "problem", "king", "np"]},
-	{"name":"chadnoproblemqueencapy","class":"Misc", "tags":["capy", "aevann", "no", "problem", "queen", "np"]},
-	{"name":"chadstevejobs","class":"Misc"},
-	{"name":"chadmusk","class":"Misc"},
-	{"name":"dinoyes","class":"Misc"},
-	{"name":"dinono","class":"Misc"},
-	{"name":"dinoconfused","class":"Misc"},
-	{"name":"breadmarsey","class":"Misc"},
-	{"name":"breadcapy","class":"Misc"},
-	{"name":"marseymummified","class":"Misc"},
-	{"name":"sharkmarsey","class":"Misc"},
-	{"name":"snootrollface","class":"Misc"},
-	{"name":"snoojoy","class":"Misc"},
-	{"name":"snooblowkiss","class":"Misc"},
-	{"name":"snoosurprise","class":"Misc"},
-	{"name":"snooupvote","class":"Misc"},
-	{"name":"snoothumbsup","class":"Misc"},
-	{"name":"brooksannoyed","tags":["darrell", "suv", "waukesha", "retard", "idiot", "annoyed", "irritated", "mask", "suit", "black"],"class":"Misc"},
-	{"name":"brookslaugh","class":"Misc"},
-	{"name":"brookscringe","class":"Misc"},
-	{"name":"brooksjustright","class":"Misc"},
-	{"name":"brookskiss","class":"Misc"},
-	{"name":"brooksbailiffunamused","class":"Misc"},
-	{"name":"opperblink","tags":["sue", "opper", "darrell", "brooks", "prosecutor", "district", "attorney", "da", "annoyed", "irritated", "waukesha"],"class":"Misc"},
-	{"name":"gimp","class":"Misc"},
-	{"name":"taddance","class":"Misc","tags":["terry","davis","templeos","dance"]},
-	{"name":"realisticelephant","class":"Misc","tags":["terry","davis","templeos"]},
-	{"name":"sher","class":"Misc"},
-	{"name":"xdoubt","class":"Misc"},
-	{"name":"gigachadjesus","tags": ["chad", "jesus", "christ"],"class":"Misc"},
-	{"name":"yotsubafish","class":"Misc"},
-	{"name":"yotsubalol","class":"Misc"},
-	{"name":"sigmatalking","class":"Misc"},
-	{"name":"peoplewhoannoy","class":"Misc"},
-	{"name":"pepedrum", "tags":["football","soccer"], "class":"Misc"},
-	{"name":"zoroarkconfused","class":"Misc"},
-	{"name":"zoroarkhappy","class":"Misc"},
-	{"name":"zoroarkpout","class":"Misc"},
-	{"name":"zoroarksleepy","class":"Misc"},
-	{"name":"casanovanova","class":"Misc"},
-	{"name":"deuxwaifu","class":"Misc"},
-	{"name":"flairlessmong","class":"Misc"},
-	{"name":"hardislife","class":"Misc"},
-	{"name":"ben10","class":"Misc"},
-	{"name":"redditgigachad","tags": ["chad", "gigachad"],"class":"Misc"},
-	{"name":"rfybear","class":"Misc"},
-	{"name":"etika","class":"Misc"},
-	{"name":"sneed","class":"Misc"},
-	{"name":"sneedcat","class":"Misc"},
-	{"name":"retardedchildren","class":"Misc"},
-	{"name":"bruh","class":"Misc"},
-	{"name":"autism","class":"Misc"},
-	{"name":"doot","class":"Misc"},
-	{"name":"mussolini","class":"Misc"},
-	{"name":"kylieface","class":"Misc"},
-	{"name":"queenyes","class":"Misc"},
-	{"name":"wholesomeseal","tags": ["seal", "reddit", "award"],"class":"Misc"},
-	{"name":"gigachadglow","tags": ["chad", "glow", "fbi"],"class":"Misc"},
-	{"name":"gigachadorthodox","tags": ["chad", "orthodox"],"class":"Misc"},
-	{"name":"gigachad","tags": ["chad"],"class":"Misc"},
-	{"name":"gigachad2", "tags": ["chad"], "class":"Misc"},
-	{"name":"gigachad3", "tags": ["chad"], "class":"Misc"},
-	{"name":"gigachad4", "tags": ["chad"], "class":"Misc"},
-	{"name":"pedobear", "class":"Misc"},
-	{"name":"onerat","class":"Misc"},
-	{"name":"bitchhaditcomin","class":"Misc"},
-	{"name":"duckdance", "class":"Misc"},
-	{"name":"stoning","class":"Misc"},
-	{"name":"stoningpills","class":"Misc"},
-	{"name":"stoningupvotes","class":"Misc"},
-	{"name":"stoningdownvotes","class":"Misc"},
-	{"name":"stoningbans","class":"Misc"},
-	{"name":"stoningunbans","class":"Misc"},
-	{"name":"stoningpins","class":"Misc"},
-	{"name":"stoningunpins","class":"Misc"},
-	{"name":"srdinepoppy","class":"Misc"},
-	{"name":"gunt","class":"Misc"},
-	{"name":"sneedbuddy","class":"Misc"},
-	{"name":"chuckbuddy","class":"Misc"},
-	{"name":"mallocbuddy","class":"Misc"},
-	{"name":"soren","class":"Misc"},
-	{"name":"upsoren","class":"Misc"},
-	{"name":"downdonger","class":"Misc"},
-	{"name":"reposthorse","class":"Misc"},
-	{"name":"russia","class":"Misc"},
-	{"name":"niger","class":"Misc"},
-	{"name":"lgbt","class":"Misc"},
-	{"name":"pride2022","class":"Misc"},
-	{"name":"animesexual","class":"Misc"},
-	{"name":"blacknation","class":"Misc"},
-	{"name":"blm","class":"Misc"},
-	{"name":"blueline","class":"Misc"},
-	{"name":"dreamgender","class":"Misc"},
-	{"name":"fatpride","class":"Misc"},
-	{"name":"incelpride","class":"Misc"},
-	{"name":"israel","class":"Misc", "tags": ["jews", "kike"]},
-	{"name":"kazakhstan","class":"Misc"},
-	{"name":"landlordlove","class":"Misc"},
-	{"name":"scalperpride","class":"Misc"},
-	{"name":"superstraight", "tags": ["transmisia"],"class":"Misc"},
-	{"name":"trans","class":"Misc"},
-	{"name":"translord","class":"Misc"},
-	{"name":"transracial","class":"Misc"},
-	{"name":"usa","tags": ["america"],"class":"Misc"},
-	{"name":"sharkybodybuilder","class":"Misc"},
-	{"name":"sharkyglow","class":"Misc"},
-	{"name":"sharkylove","class":"Misc"},
-	{"name":"sharkysad","class":"Misc"},
-	{"name":"sharkythink","class":"Misc"},
-	{"name":"sharkymegalodon","class":"Misc"},
-	{"name":"sharkydinosaur","class":"Misc"},
-	{"name":"tracenote","class":"Misc"},
-	{"name":"tracelove","class":"Misc"},
-	{"name":"traceberk","class":"Misc"},
-	{"name":"tracesmug","class":"Misc"},
-	{"name":"tracemad","class":"Misc"},
-	{"name":"tracesad","class":"Misc"},
-	{"name":"parrot","class":"Misc"},
-	{"name":"parrotaccessible","class":"Misc"},
-	{"name":"parrotcongaparty","class":"Misc"},
-	{"name":"parrotcop","class":"Misc"},
-	{"name":"parrotevil","class":"Misc"},
-	{"name":"parrotgithub","class":"Misc"},
-	{"name":"parrothmm","class":"Misc"},
-	{"name":"parrothypno","class":"Misc"},
-	{"name":"parrotimposter","class":"Misc"},
-	{"name":"parrotisrael","class":"Misc"},
-	{"name":"parrotkazakhstan","class":"Misc"},
-	{"name":"parrotmergetrain","class":"Misc"},
-	{"name":"parrotmoonwalking","class":"Misc"},
-	{"name":"parrotportalblue","class":"Misc"},
-	{"name":"parrotportalorange","class":"Misc"},
-	{"name":"parrotpumpkin","class":"Misc"},
-	{"name":"parrotrevolution","class":"Misc"},
-	{"name":"parrotrip","class":"Misc"},
-	{"name":"parrotscience","class":"Misc"},
-	{"name":"parrotshort","class":"Misc"},
-	{"name":"parrotsleeping","class":"Misc"},
-	{"name":"parrotslow","class":"Misc"},
-	{"name":"parrottrans","class":"Misc"},
-	{"name":"parrotultrafast","class":"Misc"},
-	{"name":"parrotunitedstatesofamerica","class":"Misc"},
-	{"name":"parrotwitnessprotection","class":"Misc"},
-	{"name":"parrotzombie","class":"Misc"}
-]
+	{
+	  "name": "wolfpicrew",
+	  "class": "Wolf",
+	  "tags": [
+		"trans",
+		"picrew",
+		"ugly",
+		"calarts"
+	  ]
+	},
+	{
+	  "name": "wolfglowie",
+	  "class": "Wolf",
+	  "tags": [
+		"dramarama",
+		"fbi",
+		"federal",
+		"agent",
+		"police",
+		"detective",
+		"cop",
+		"officer",
+		"lurking"
+	  ]
+	},
+	{
+	  "name": "wolfbootlicker",
+	  "class": "Wolf",
+	  "tags": [
+		"dramarama"
+	  ]
+	},
+	{
+	  "name": "wolfbrainlet",
+	  "class": "Wolf",
+	  "tags": [
+		"retard",
+		"stupid",
+		"idiot"
+	  ]
+	},
+	{
+	  "name": "wolfrofl",
+	  "class": "Wolf",
+	  "tags": [
+		"dramarama",
+		"laughing",
+		"rolling"
+	  ]
+	},
+	{
+	  "name": "wolfheart",
+	  "class": "Wolf",
+	  "tags": [
+		"love",
+		"like",
+		"cute",
+		"valentine",
+		"boyfriend"
+	  ]
+	},
+	{
+	  "name": "wombiezolf",
+	  "class": "Wolf",
+	  "tags": [
+		"dramarama",
+		"cute"
+	  ]
+	},
+	{
+	  "name": "wolfsal",
+	  "class": "Wolf",
+	  "tags": [
+		"two",
+		"weeks",
+		"shark",
+		"femboy",
+		"user"
+	  ]
+	},
+	{
+	  "name": "wolfdramanomicon",
+	  "class": "Wolf",
+	  "tags": [
+		"dramanomicon"
+	  ]
+	},
+	{
+	  "name": "wolfamogus",
+	  "class": "Wolf",
+	  "tags": [
+		"amogus",
+		"sus",
+		"stonetoss"
+	  ]
+	},
+	{
+	  "name": "wolfmarine",
+	  "class": "Wolf",
+	  "tags": [
+		"marine"
+	  ]
+	},
+	{
+	  "name": "wolfromulusremus",
+	  "class": "Wolf",
+	  "tags": [
+		"romulusremus"
+	  ]
+	},
+	{
+	  "name": "wolfrope",
+	  "class": "Wolf",
+	  "tags": [
+		"rope",
+		"watch",
+		"late"
+	  ]
+	},
+	{
+	  "name": "wolftinfoil",
+	  "class": "Wolf",
+	  "tags": [
+		"tinfoil"
+	  ]
+	},
+	{
+	  "name": "wolfmarseymask",
+	  "class": "Wolf",
+	  "tags": [
+		"marseymask"
+	  ]
+	},
+	{
+	  "name": "wolfputin",
+	  "class": "Wolf",
+	  "tags": [
+		"putin"
+	  ]
+	},
+	{
+	  "name": "wolfdrama",
+	  "class": "Wolf",
+	  "tags": [
+		"drama"
+	  ]
+	},
+	{
+	  "name": "wolfcumjar",
+	  "class": "Wolf",
+	  "tags": [
+		"cumjar"
+	  ]
+	},
+	{
+	  "name": "wolflgbt",
+	  "class": "Wolf",
+	  "tags": [
+		"lgbt"
+	  ]
+	},
+	{
+	  "name": "wolfmarseyhead",
+	  "class": "Wolf",
+	  "tags": [
+		"marseyhead"
+	  ]
+	},
+	{
+	  "name": "wolfnoir",
+	  "class": "Wolf",
+	  "tags": [
+		"noir"
+	  ]
+	},
+	{
+	  "name": "wolfsherifssmoking",
+	  "class": "Wolf",
+	  "tags": [
+		"sherifssmoking"
+	  ]
+	},
+	{
+	  "name": "wolftrans",
+	  "class": "Wolf",
+	  "tags": [
+		"trans"
+	  ]
+	},
+	{
+	  "name": "wolfvaporwave",
+	  "class": "Wolf",
+	  "tags": [
+		"vaporwave"
+	  ]
+	},
+	{
+	  "name": "wolfangry",
+	  "class": "Wolf",
+	  "tags": [
+		"angry"
+	  ]
+	},
+	{
+	  "name": "wolfdinosaur",
+	  "class": "Wolf",
+	  "tags": [
+		"rawr",
+		"dinosaur"
+	  ]
+	},
+	{
+	  "name": "wolfbrains",
+	  "class": "Wolf",
+	  "author": "anton-d",
+	  "tags": [
+		"brains"
+	  ]
+	},
+	{
+	  "name": "wolfcry",
+	  "class": "Wolf",
+	  "author": "anton-d",
+	  "tags": [
+		"cry"
+	  ]
+	},
+	{
+	  "name": "wolfdead",
+	  "class": "Wolf",
+	  "author": "anton-d",
+	  "tags": [
+		"dead"
+	  ]
+	},
+	{
+	  "name": "wolfdevilish",
+	  "class": "Wolf",
+	  "author": "anton-d",
+	  "tags": [
+		"devilish"
+	  ]
+	},
+	{
+	  "name": "wolffacepalm",
+	  "class": "Wolf",
+	  "author": "anton-d",
+	  "tags": [
+		"facepalm",
+		"bat"
+	  ]
+	},
+	{
+	  "name": "wolfhappy",
+	  "class": "Wolf",
+	  "author": "anton-d",
+	  "tags": [
+		"happy"
+	  ]
+	},
+	{
+	  "name": "wolfidea",
+	  "class": "Wolf",
+	  "author": "anton-d",
+	  "tags": [
+		"idea"
+	  ]
+	},
+	{
+	  "name": "wolfkoala",
+	  "class": "Wolf",
+	  "author": "anton-d",
+	  "tags": [
+		"koala"
+	  ]
+	},
+	{
+	  "name": "wolflaugh",
+	  "class": "Wolf",
+	  "author": "anton-d",
+	  "tags": [
+		"laugh"
+	  ]
+	},
+	{
+	  "name": "wolflove",
+	  "class": "Wolf",
+	  "author": "anton-d",
+	  "tags": [
+		"love",
+		"brain"
+	  ]
+	},
+	{
+	  "name": "wolfmeditate",
+	  "class": "Wolf",
+	  "author": "anton-d",
+	  "tags": [
+		"meditate"
+	  ]
+	},
+	{
+	  "name": "wolfphone",
+	  "class": "Wolf",
+	  "author": "anton-d",
+	  "tags": [
+		"phone"
+	  ]
+	},
+	{
+	  "name": "wolfrainbow",
+	  "class": "Wolf",
+	  "author": "anton-d",
+	  "tags": [
+		"rainbow"
+	  ]
+	},
+	{
+	  "name": "wolfroses",
+	  "class": "Wolf",
+	  "author": "anton-d",
+	  "tags": [
+		"roses"
+	  ]
+	},
+	{
+	  "name": "wolfsad",
+	  "class": "Wolf",
+	  "author": "anton-d",
+	  "tags": [
+		"sad",
+		"howl",
+		"wail"
+	  ]
+	},
+	{
+	  "name": "wolfsfear",
+	  "class": "Wolf",
+	  "author": "anton-d",
+	  "tags": [
+		"fear",
+		"flying guillotine",
+		"scout",
+		"knife",
+		"cleaver"
+	  ]
+	},
+	{
+	  "name": "wolfsleep",
+	  "class": "Wolf",
+	  "author": "anton-d",
+	  "tags": [
+		"sleep"
+	  ]
+	},
+	{
+	  "name": "wolftear",
+	  "class": "Wolf",
+	  "author": "anton-d",
+	  "tags": [
+		"tear"
+	  ]
+	},
+	{
+	  "name": "wolfthink",
+	  "class": "Wolf",
+	  "author": "anton-d",
+	  "tags": [
+		"think",
+		"arrow",
+		"bow"
+	  ]
+	},
+	{
+	  "name": "wolfthumbsup",
+	  "class": "Wolf",
+	  "author": "anton-d",
+	  "tags": [
+		"thumbsup",
+		"positive"
+	  ]
+	},
+	{
+	  "name": "wolfupsidedown",
+	  "class": "Wolf",
+	  "author": "anton-d",
+	  "tags": [
+		"upsidedown",
+		"head"
+	  ]
+	},
+	{
+	  "name": "wolfvictory",
+	  "class": "Wolf",
+	  "author": "anton-d",
+	  "tags": [
+		"victory",
+		"rip",
+		"dead",
+		"gravestone",
+		"stone"
+	  ]
+	},
+	{
+	  "name": "wolfwave",
+	  "class": "Wolf",
+	  "author": "anton-d",
+	  "tags": [
+		"wave",
+		"salute"
+	  ]
+	},
+	{
+	  "name": "wolfwink",
+	  "class": "Wolf",
+	  "author": "anton-d",
+	  "tags": [
+		"wink",
+		"joke"
+	  ]
+	},
+	{
+	  "name": "taysneer",
+	  "class": "Tay",
+	  "tags": [
+		"sneer"
+	  ]
+	},
+	{
+	  "name": "tayvape",
+	  "class": "Tay",
+	  "tags": [
+		"vape"
+	  ]
+	},
+	{
+	  "name": "taylove",
+	  "class": "Tay",
+	  "tags": [
+		"love"
+	  ]
+	},
+	{
+	  "name": "tayaaa",
+	  "class": "Tay",
+	  "tags": [
+		"aaa"
+	  ]
+	},
+	{
+	  "name": "tayadmire",
+	  "class": "Tay",
+	  "tags": [
+		"admire"
+	  ]
+	},
+	{
+	  "name": "taycat",
+	  "class": "Tay",
+	  "tags": [
+		"cat"
+	  ]
+	},
+	{
+	  "name": "taycelebrate",
+	  "class": "Tay",
+	  "tags": [
+		"celebrate"
+	  ]
+	},
+	{
+	  "name": "taychefkiss",
+	  "class": "Tay",
+	  "tags": [
+		"chefkiss"
+	  ]
+	},
+	{
+	  "name": "taychristmas",
+	  "class": "Tay",
+	  "tags": [
+		"christmas"
+	  ]
+	},
+	{
+	  "name": "tayclap",
+	  "class": "Tay",
+	  "tags": [
+		"clap"
+	  ]
+	},
+	{
+	  "name": "taycold",
+	  "class": "Tay",
+	  "tags": [
+		"cold"
+	  ]
+	},
+	{
+	  "name": "taycrown",
+	  "class": "Tay",
+	  "tags": [
+		"crown"
+	  ]
+	},
+	{
+	  "name": "tayflex",
+	  "class": "Tay",
+	  "tags": [
+		"flex"
+	  ]
+	},
+	{
+	  "name": "tayflirt",
+	  "class": "Tay",
+	  "tags": [
+		"flirt"
+	  ]
+	},
+	{
+	  "name": "taygrimacing",
+	  "class": "Tay",
+	  "tags": [
+		"grimacing"
+	  ]
+	},
+	{
+	  "name": "tayhappy",
+	  "class": "Tay",
+	  "tags": [
+		"happy"
+	  ]
+	},
+	{
+	  "name": "tayheart",
+	  "class": "Tay",
+	  "tags": [
+		"heart"
+	  ]
+	},
+	{
+	  "name": "tayhmm",
+	  "class": "Tay",
+	  "tags": [
+		"hmm"
+	  ]
+	},
+	{
+	  "name": "tayhuh",
+	  "class": "Tay",
+	  "tags": [
+		"huh"
+	  ]
+	},
+	{
+	  "name": "tayhyperdab",
+	  "class": "Tay",
+	  "tags": [
+		"hyperdab"
+	  ]
+	},
+	{
+	  "name": "tayjammin",
+	  "class": "Tay",
+	  "tags": [
+		"jammin"
+	  ]
+	},
+	{
+	  "name": "taylaugh",
+	  "class": "Tay",
+	  "tags": [
+		"laugh"
+	  ]
+	},
+	{
+	  "name": "taymindblown",
+	  "class": "Tay",
+	  "tags": [
+		"mindblown"
+	  ]
+	},
+	{
+	  "name": "tayno",
+	  "class": "Tay",
+	  "tags": [
+		"no"
+	  ]
+	},
+	{
+	  "name": "taynod",
+	  "class": "Tay",
+	  "tags": [
+		"nod"
+	  ]
+	},
+	{
+	  "name": "taypeace",
+	  "class": "Tay",
+	  "tags": [
+		"peace"
+	  ]
+	},
+	{
+	  "name": "taypray",
+	  "class": "Tay",
+	  "tags": [
+		"pray"
+	  ]
+	},
+	{
+	  "name": "tayrun",
+	  "class": "Tay",
+	  "tags": [
+		"run"
+	  ]
+	},
+	{
+	  "name": "tayscrunch",
+	  "class": "Tay",
+	  "tags": [
+		"scrunch"
+	  ]
+	},
+	{
+	  "name": "tayshake",
+	  "class": "Tay",
+	  "tags": [
+		"shake"
+	  ]
+	},
+	{
+	  "name": "tayshrug",
+	  "class": "Tay",
+	  "tags": [
+		"shrug"
+	  ]
+	},
+	{
+	  "name": "taysilly",
+	  "class": "Tay",
+	  "tags": [
+		"silly"
+	  ]
+	},
+	{
+	  "name": "tayslide",
+	  "class": "Tay",
+	  "tags": [
+		"slide"
+	  ]
+	},
+	{
+	  "name": "taysmart",
+	  "class": "Tay",
+	  "tags": [
+		"smart"
+	  ]
+	},
+	{
+	  "name": "taystop",
+	  "class": "Tay",
+	  "tags": [
+		"stop"
+	  ]
+	},
+	{
+	  "name": "taytantrum",
+	  "class": "Tay",
+	  "tags": [
+		"tantrum"
+	  ]
+	},
+	{
+	  "name": "taytea",
+	  "class": "Tay",
+	  "tags": [
+		"tea"
+	  ]
+	},
+	{
+	  "name": "taythink",
+	  "class": "Tay",
+	  "tags": [
+		"think"
+	  ]
+	},
+	{
+	  "name": "tayvibin",
+	  "class": "Tay",
+	  "tags": [
+		"vibin"
+	  ]
+	},
+	{
+	  "name": "taywhat",
+	  "class": "Tay",
+	  "tags": [
+		"what"
+	  ]
+	},
+	{
+	  "name": "taywine",
+	  "class": "Tay",
+	  "tags": [
+		"wine"
+	  ]
+	},
+	{
+	  "name": "taywine2",
+	  "class": "Tay",
+	  "tags": [
+		"wine2"
+	  ]
+	},
+	{
+	  "name": "taywink",
+	  "class": "Tay",
+	  "tags": [
+		"wink"
+	  ]
+	},
+	{
+	  "name": "tayyes",
+	  "class": "Tay",
+	  "tags": [
+		"yes"
+	  ]
+	},
+	{
+	  "name": "postalsmiley",
+	  "class": "Classic",
+	  "tags": [
+		"postal",
+		"game",
+		"devil",
+		"evil",
+		"smiley"
+	  ]
+	},
+	{
+	  "name": "grouphug",
+	  "class": "Classic",
+	  "tags": [
+		"group hug",
+		"hug",
+		"cute",
+		"positive",
+		"emoticon"
+	  ]
+	},
+	{
+	  "name": "flowers",
+	  "class": "Classic",
+	  "tags": [
+		"flowers",
+		"cute",
+		"emoticon",
+		"bouquet",
+		"animated"
+	  ]
+	},
+	{
+	  "name": "scootlgbt",
+	  "class": "Classic",
+	  "tags": [
+		"lgbt",
+		"gay",
+		"lesbian",
+		"bi",
+		"trans",
+		"flag",
+		"animated",
+		"emoticon"
+	  ]
+	},
+	{
+	  "name": "idhitit",
+	  "class": "Classic",
+	  "tags": [
+		"banana",
+		"sign",
+		"dance",
+		"funny",
+		"animated"
+	  ]
+	},
+	{
+	  "name": "2thumbsup",
+	  "class": "Classic",
+	  "tags": [
+		"thumbs up",
+		"emoticon",
+		"animated",
+		"smiley",
+		"good job",
+		"like"
+	  ]
+	},
+	{
+	  "name": "aliendj",
+	  "class": "Classic",
+	  "tags": [
+		"alien dj",
+		"alien",
+		"dj",
+		"music",
+		"animated",
+		"extraterrestrial",
+		"cool"
+	  ]
+	},
+	{
+	  "name": "ambulance",
+	  "class": "Classic",
+	  "tags": [
+		"ambulance",
+		"vehicle",
+		"animated",
+		"hospital",
+		"medical care",
+		"emt",
+		"paramedic"
+	  ]
+	},
+	{
+	  "name": "angry",
+	  "class": "Classic",
+	  "tags": [
+		"angry",
+		"animated",
+		"emoticon ",
+		"mad",
+		"upset",
+		"enraged",
+		"red"
+	  ]
+	},
+	{
+	  "name": "angrywhip",
+	  "class": "Classic",
+	  "tags": [
+		"emoticon",
+		"animated",
+		"whip",
+		"angry",
+		"master"
+	  ]
+	},
+	{
+	  "name": "argue",
+	  "class": "Classic",
+	  "tags": [
+		"argue",
+		"animated",
+		"emoticon",
+		"fight",
+		"disagree",
+		"debate"
+	  ]
+	},
+	{
+	  "name": "aroused",
+	  "class": "Classic",
+	  "tags": [
+		"aroused",
+		"horny",
+		"emoticon",
+		"animated",
+		"turned on",
+		"uncomfortable"
+	  ]
+	},
+	{
+	  "name": "ashamed",
+	  "class": "Classic",
+	  "tags": [
+		"ashamed",
+		"animated",
+		"emoticon",
+		"embarrassed ",
+		"guilty",
+		"sheepish"
+	  ]
+	},
+	{
+	  "name": "badass",
+	  "class": "Classic",
+	  "tags": [
+		"badass",
+		"cool",
+		"guns",
+		"shooting",
+		"animated"
+	  ]
+	},
+	{
+	  "name": "banana",
+	  "class": "Classic",
+	  "tags": [
+		"banana",
+		"dancing",
+		"dancing banana",
+		"funny",
+		"animated"
+	  ]
+	},
+	{
+	  "name": "band",
+	  "class": "Classic",
+	  "tags": [
+		"band",
+		"emoticon",
+		"animated",
+		"music",
+		"guitar",
+		"microphone",
+		"drum"
+	  ]
+	},
+	{
+	  "name": "banghead",
+	  "class": "Classic",
+	  "tags": [
+		"bang head",
+		"emoticon",
+		"animated",
+		"angry",
+		"frustrated",
+		"brick wall",
+		"upset",
+		"mad",
+		"aggravated",
+		"displeased"
+	  ]
+	},
+	{
+	  "name": "batman",
+	  "class": "Classic",
+	  "tags": [
+		"batman",
+		"bruce wayne",
+		"super hero",
+		"capeshit",
+		"animated"
+	  ]
+	},
+	{
+	  "name": "bigeyes",
+	  "class": "Classic",
+	  "tags": [
+		"big eyes",
+		"emoticon",
+		"stare",
+		"looking",
+		"booba"
+	  ]
+	},
+	{
+	  "name": "bite",
+	  "class": "Classic",
+	  "tags": [
+		"bite",
+		"feral",
+		"emoticon",
+		"animated",
+		"teeth",
+		"ravenous",
+		"insane"
+	  ]
+	},
+	{
+	  "name": "blind",
+	  "class": "Classic",
+	  "tags": [
+		"blind",
+		"emoticon",
+		"animated",
+		"can’t see"
+	  ]
+	},
+	{
+	  "name": "blowkiss",
+	  "class": "Classic",
+	  "tags": [
+		"blow kiss",
+		"animated",
+		"emoticon",
+		"kiss",
+		"hearts",
+		"love"
+	  ]
+	},
+	{
+	  "name": "blush",
+	  "class": "Classic",
+	  "tags": [
+		"blush",
+		"animated",
+		"emoticon",
+		"embarrassed",
+		"shy"
+	  ]
+	},
+	{
+	  "name": "bong",
+	  "class": "Classic",
+	  "tags": [
+		"bong",
+		"emoticon",
+		"animated",
+		"drugs",
+		"weed"
+	  ]
+	},
+	{
+	  "name": "bounce",
+	  "class": "Classic",
+	  "tags": [
+		"bounce",
+		"emoticon",
+		"animated",
+		"jump",
+		"bouncy"
+	  ]
+	},
+	{
+	  "name": "bow",
+	  "class": "Classic",
+	  "tags": [
+		"bow",
+		"emoticon",
+		"animated",
+		"prostrate",
+		"bow down"
+	  ]
+	},
+	{
+	  "name": "breakheart",
+	  "class": "Classic",
+	  "tags": [
+		"break heart",
+		"animated",
+		"emoticon",
+		"heartbroken ",
+		"heartbreak",
+		"love"
+	  ]
+	},
+	{
+	  "name": "bs",
+	  "class": "Classic",
+	  "tags": [
+		"bs",
+		"emoticon",
+		"animated",
+		"bull shit",
+		"bullshit",
+		"disbelief",
+		"flag"
+	  ]
+	},
+	{
+	  "name": "cartwheel",
+	  "class": "Classic",
+	  "tags": [
+		"cartwheel",
+		"emoticon",
+		"animated",
+		"gymnastics"
+	  ]
+	},
+	{
+	  "name": "cat",
+	  "class": "Classic",
+	  "tags": [
+		"cat",
+		"animated",
+		"cute",
+		"itch",
+		"sleep",
+		"wake up"
+	  ]
+	},
+	{
+	  "name": "celebrate",
+	  "class": "Classic",
+	  "tags": [
+		"celebrate",
+		"emoticon",
+		"party"
+	  ]
+	},
+	{
+	  "name": "chainsaw",
+	  "class": "Classic",
+	  "tags": [
+		"chainsaw",
+		"animated",
+		"emoticon",
+		"blood",
+		"gore",
+		"murder",
+		"power tool"
+	  ]
+	},
+	{
+	  "name": "cheers",
+	  "class": "Classic",
+	  "tags": [
+		"cheers",
+		"emoticon",
+		"animated",
+		"toast",
+		"beer",
+		"alcohol",
+		"celebration"
+	  ]
+	},
+	{
+	  "name": "clap",
+	  "class": "Classic",
+	  "tags": [
+		"clap",
+		"emoticon",
+		"animated",
+		"happy",
+		"excited",
+		"cheering"
+	  ]
+	},
+	{
+	  "name": "cold",
+	  "class": "Classic",
+	  "tags": [
+		"cold",
+		"emoticon",
+		"animated",
+		"shivering",
+		"freezing",
+		"bundled up",
+		"sign",
+		"scarf"
+	  ]
+	},
+	{
+	  "name": "confused",
+	  "class": "Classic",
+	  "tags": [
+		"confused",
+		"animated",
+		"emoticon",
+		"perplexed"
+	  ]
+	},
+	{
+	  "name": "crazyeyes",
+	  "class": "Classic",
+	  "tags": [
+		"crazy eyes",
+		"animated",
+		"emoticon",
+		"insane",
+		"crazy",
+		"bpd"
+	  ]
+	},
+	{
+	  "name": "cry",
+	  "class": "Classic",
+	  "tags": [
+		"cry",
+		"animated",
+		"emoticon",
+		"sad",
+		"sob"
+	  ]
+	},
+	{
+	  "name": "cthulhu",
+	  "class": "Classic",
+	  "tags": [
+		"cthulhu",
+		"animated",
+		"lovecraft",
+		"old one"
+	  ]
+	},
+	{
+	  "name": "cute",
+	  "class": "Classic",
+	  "tags": [
+		"cute",
+		"animated",
+		"bunny",
+		"rabbit",
+		"jumping",
+		"dancing",
+		"bouncing"
+	  ]
+	},
+	{
+	  "name": "laughing",
+	  "class": "Classic",
+	  "tags": [
+		"laughing",
+		"animated",
+		"emoticon",
+		"funny",
+		"smiling",
+		"smug"
+	  ]
+	},
+	{
+	  "name": "daydream",
+	  "class": "Classic",
+	  "tags": [
+		"daydream",
+		"animated",
+		"emoticon",
+		"wistful",
+		"dream",
+		"thinking"
+	  ]
+	},
+	{
+	  "name": "ddr",
+	  "class": "Classic",
+	  "tags": [
+		"ddr",
+		"animated",
+		"emoticon",
+		"dancing",
+		"dance",
+		"firework",
+		"celebration"
+	  ]
+	},
+	{
+	  "name": "deadpool",
+	  "class": "Classic",
+	  "tags": [
+		"deadpool",
+		"animated",
+		"marvel",
+		"superhero",
+		"capeshit"
+	  ]
+	},
+	{
+	  "name": "devilsmile",
+	  "class": "Classic",
+	  "tags": [
+		"devilsmile",
+		"animated",
+		"emoticon",
+		"evil",
+		"demonic",
+		"fire"
+	  ]
+	},
+	{
+	  "name": "diddle",
+	  "class": "Classic",
+	  "tags": [
+		"diddle",
+		"animated",
+		"emoticon",
+		"shifty",
+		"suspicious"
+	  ]
+	},
+	{
+	  "name": "die",
+	  "class": "Classic",
+	  "tags": [
+		"die",
+		"animated",
+		"emoticon",
+		"dead"
+	  ]
+	},
+	{
+	  "name": "distress",
+	  "class": "Classic",
+	  "tags": [
+		"distress",
+		"emoticon"
+	  ]
+	},
+	{
+	  "name": "disturbing",
+	  "class": "Classic",
+	  "tags": [
+		"disturbing",
+		"emoticon",
+		"gross",
+		"troubling"
+	  ]
+	},
+	{
+	  "name": "dizzy",
+	  "class": "Classic",
+	  "tags": [
+		"dizzy",
+		"animated",
+		"emoticon"
+	  ]
+	},
+	{
+	  "name": "domo",
+	  "class": "Classic",
+	  "tags": [
+		"domo",
+		"animated"
+	  ]
+	},
+	{
+	  "name": "doughboy",
+	  "class": "Classic",
+	  "tags": [
+		"doughboy",
+		"animated",
+		"pillsbury",
+		"jumping"
+	  ]
+	},
+	{
+	  "name": "drink",
+	  "class": "Classic",
+	  "tags": [
+		"drink",
+		"animated",
+		"emoticon",
+		"beer",
+		"alcohol",
+		"bottoms up",
+		"imbibe"
+	  ]
+	},
+	{
+	  "name": "drool",
+	  "class": "Classic",
+	  "tags": [
+		"drool",
+		"emoticon",
+		"retard",
+		"retarded",
+		"stupid",
+		"idiot"
+	  ]
+	},
+	{
+	  "name": "dudeweedlmao",
+	  "class": "Classic",
+	  "tags": [
+		"dudeweedlmao",
+		"animated",
+		"emoticon",
+		"weed",
+		"drugs"
+	  ]
+	},
+	{
+	  "name": "edward",
+	  "class": "Classic",
+	  "tags": [
+		"edward",
+		"emoticon",
+		"animated",
+		"scissor"
+	  ]
+	},
+	{
+	  "name": "electro",
+	  "class": "Classic",
+	  "tags": [
+		"electro",
+		"animated",
+		"emoticon",
+		"shock",
+		"shocking",
+		"electricity"
+	  ]
+	},
+	{
+	  "name": "elephant",
+	  "class": "Classic",
+	  "tags": [
+		"elephant",
+		"animated",
+		"dancing",
+		"pink"
+	  ]
+	},
+	{
+	  "name": "embarrassed",
+	  "class": "Classic",
+	  "tags": [
+		"embarrassed",
+		"animated",
+		"emoticon",
+		"shy",
+		"sheepish"
+	  ]
+	},
+	{
+	  "name": "emo",
+	  "class": "Classic",
+	  "tags": [
+		"emo",
+		"animated",
+		"emoticon",
+		"edgy",
+		"cutting",
+		"blood"
+	  ]
+	},
+	{
+	  "name": "emo2",
+	  "class": "Classic",
+	  "tags": [
+		"emo",
+		"animated",
+		"emoticon",
+		"sad",
+		"glasses",
+		"crying"
+	  ]
+	},
+	{
+	  "name": "evil",
+	  "class": "Classic",
+	  "tags": [
+		"evil",
+		"emoticon",
+		"scary"
+	  ]
+	},
+	{
+	  "name": "evilclown",
+	  "class": "Classic",
+	  "tags": [
+		"evil clown",
+		"animated",
+		"emoticon",
+		"scary",
+		"evil",
+		"clown",
+		"chainsaw",
+		"blood"
+	  ]
+	},
+	{
+	  "name": "evilgrin",
+	  "class": "Classic",
+	  "tags": [
+		"evil grin",
+		"emoticon",
+		"evil",
+		"smile",
+		"teeth"
+	  ]
+	},
+	{
+	  "name": "facepalm",
+	  "class": "Classic",
+	  "tags": [
+		"facepalm",
+		"animated",
+		"emoticon",
+		"stupid",
+		"seriously"
+	  ]
+	},
+	{
+	  "name": "fap",
+	  "class": "Classic",
+	  "tags": [
+		"fap",
+		"animated",
+		"emoticon",
+		"coomer"
+	  ]
+	},
+	{
+	  "name": "flamethrower",
+	  "class": "Classic",
+	  "tags": [
+		"animated",
+		"emoticon",
+		"flamethrower",
+		"fire",
+		"kill"
+	  ]
+	},
+	{
+	  "name": "flipbird",
+	  "class": "Classic",
+	  "tags": [
+		"animated",
+		"emoticon",
+		"fuck off",
+		"middle finger"
+	  ]
+	},
+	{
+	  "name": "flirt",
+	  "class": "Classic",
+	  "tags": [
+		"flirt",
+		"animated",
+		"emoticon"
+	  ]
+	},
+	{
+	  "name": "frown",
+	  "class": "Classic",
+	  "tags": [
+		"frown",
+		"emoticon",
+		"sad",
+		"upset"
+	  ]
+	},
+	{
+	  "name": "gasp",
+	  "class": "Classic",
+	  "tags": [
+		"gasp",
+		"animated",
+		"emoticon",
+		"shocked"
+	  ]
+	},
+	{
+	  "name": "glomp",
+	  "class": "Classic",
+	  "tags": [
+		"glomp",
+		"animated",
+		"emoticon",
+		"hug"
+	  ]
+	},
+	{
+	  "name": "go",
+	  "class": "Classic",
+	  "tags": [
+		"go",
+		"animated",
+		"emoticon",
+		"leave"
+	  ]
+	},
+	{
+	  "name": "gooby",
+	  "class": "Classic",
+	  "tags": [
+		"gooby",
+		"emoticon",
+		"laugh",
+		"funny"
+	  ]
+	},
+	{
+	  "name": "grr",
+	  "class": "Classic",
+	  "tags": [
+		"grr",
+		"emoticon",
+		"mad",
+		"upset",
+		"disgruntled"
+	  ]
+	},
+	{
+	  "name": "gtfo",
+	  "class": "Classic",
+	  "tags": [
+		"gtfo",
+		"emoticon",
+		"leave",
+		"point",
+		"sign"
+	  ]
+	},
+	{
+	  "name": "guitar",
+	  "class": "Classic",
+	  "tags": [
+		"guitar",
+		"animated",
+		"emoticon",
+		"music",
+		"instrument",
+		"rock"
+	  ]
+	},
+	{
+	  "name": "haha",
+	  "class": "Classic",
+	  "tags": [
+		"haha",
+		"animated",
+		"emoticon",
+		"laugh",
+		"funny"
+	  ]
+	},
+	{
+	  "name": "handshake",
+	  "class": "Classic",
+	  "tags": [
+		"handshake",
+		"animated",
+		"emoticon",
+		"deal",
+		"agree"
+	  ]
+	},
+	{
+	  "name": "happydance",
+	  "class": "Classic",
+	  "tags": [
+		"animated",
+		"emoticon",
+		"happy",
+		"dance",
+		"joyful",
+		"glee"
+	  ]
+	},
+	{
+	  "name": "headbang",
+	  "class": "Classic",
+	  "tags": [
+		"headbang",
+		"animated",
+		"emoticon",
+		"rocking",
+		"music"
+	  ]
+	},
+	{
+	  "name": "heart",
+	  "class": "Classic",
+	  "tags": [
+		"heart",
+		"love"
+	  ]
+	},
+	{
+	  "name": "heartbeat",
+	  "class": "Classic",
+	  "tags": [
+		"heartbeat",
+		"animated",
+		"heart",
+		"love"
+	  ]
+	},
+	{
+	  "name": "hearts",
+	  "class": "Classic",
+	  "tags": [
+		"hearts",
+		"animated",
+		"heart",
+		"love"
+	  ]
+	},
+	{
+	  "name": "highfive",
+	  "class": "Classic",
+	  "tags": [
+		"high-five",
+		"animated",
+		"emoticon",
+		"up top"
+	  ]
+	},
+	{
+	  "name": "hmm",
+	  "class": "Classic",
+	  "tags": [
+		"hmm",
+		"animated",
+		"emoticon",
+		"think",
+		"notice",
+		"contemplate"
+	  ]
+	},
+	{
+	  "name": "hmph",
+	  "class": "Classic",
+	  "tags": [
+		"hmph",
+		"animated",
+		"emoticon",
+		"indignant"
+	  ]
+	},
+	{
+	  "name": "holdhands",
+	  "class": "Classic",
+	  "tags": [
+		"hold hands",
+		"animated",
+		"emoticon",
+		"love"
+	  ]
+	},
+	{
+	  "name": "horny",
+	  "class": "Classic",
+	  "tags": [
+		"lick",
+		"owo",
+		"sex",
+		"hot",
+		"animated",
+		"emoticon",
+		"pervert"
+	  ]
+	},
+	{
+	  "name": "hug",
+	  "class": "Classic",
+	  "tags": [
+		"hug",
+		"animated",
+		"emoticon",
+		"snuggle"
+	  ]
+	},
+	{
+	  "name": "hugging",
+	  "class": "Classic",
+	  "tags": [
+		"hugging",
+		"animated",
+		"emoticon",
+		"hug"
+	  ]
+	},
+	{
+	  "name": "hugs",
+	  "class": "Classic",
+	  "tags": [
+		"hugs",
+		"animated",
+		"emoticon",
+		"hug"
+	  ]
+	},
+	{
+	  "name": "hump",
+	  "class": "Classic",
+	  "tags": [
+		"hump",
+		"animated",
+		"emoticon",
+		"sex",
+		"horny"
+	  ]
+	},
+	{
+	  "name": "humpbed",
+	  "class": "Classic",
+	  "tags": [
+		"animated",
+		"emoticon",
+		"hump",
+		"bed",
+		"sex",
+		"horny"
+	  ]
+	},
+	{
+	  "name": "hysterical",
+	  "class": "Classic",
+	  "tags": [
+		"hysterical",
+		"animated",
+		"emoticon",
+		"crazy"
+	  ]
+	},
+	{
+	  "name": "ily",
+	  "class": "Classic",
+	  "tags": [
+		"ily",
+		"animated",
+		"emoticon",
+		"love",
+		"heart",
+		"kiss"
+	  ]
+	},
+	{
+	  "name": "inlove",
+	  "class": "Classic",
+	  "tags": [
+		"animated",
+		"emoticon",
+		"love",
+		"heart"
+	  ]
+	},
+	{
+	  "name": "jason",
+	  "class": "Classic",
+	  "tags": [
+		"jason",
+		"animated",
+		"horror",
+		"chainsaw"
+	  ]
+	},
+	{
+	  "name": "jawdrop",
+	  "class": "Classic",
+	  "tags": [
+		"jawdrop",
+		"animated",
+		"emoticon",
+		"awooga",
+		"astounded",
+		"surprised"
+	  ]
+	},
+	{
+	  "name": "jedi",
+	  "class": "Classic",
+	  "tags": [
+		"jedi",
+		"animated",
+		"emoticon",
+		"star wars",
+		"lightsaber"
+	  ]
+	},
+	{
+	  "name": "jester",
+	  "class": "Classic",
+	  "tags": [
+		"jester",
+		"animated",
+		"emoticon",
+		"clown",
+		"laugh",
+		"smug"
+	  ]
+	},
+	{
+	  "name": "kaboom",
+	  "class": "Classic",
+	  "tags": [
+		"kaboom",
+		"emoticons",
+		"animated",
+		"explode",
+		"fracture"
+	  ]
+	},
+	{
+	  "name": "kick",
+	  "class": "Classic",
+	  "tags": [
+		"kick",
+		"animated",
+		"emoticon",
+		"fight",
+		"fall"
+	  ]
+	},
+	{
+	  "name": "kiss",
+	  "class": "Classic",
+	  "tags": [
+		"kiss",
+		"animated",
+		"emoticon",
+		"love"
+	  ]
+	},
+	{
+	  "name": "kitty",
+	  "class": "Classic",
+	  "tags": [
+		"kitty",
+		"animated",
+		"cat",
+		"kitten"
+	  ]
+	},
+	{
+	  "name": "laughchair",
+	  "class": "Classic",
+	  "tags": [
+		"animated",
+		"emoticon",
+		"laugh",
+		"chair",
+		"fall"
+	  ]
+	},
+	{
+	  "name": "lick",
+	  "class": "Classic",
+	  "tags": [
+		"animated",
+		"lick",
+		"emoticon"
+	  ]
+	},
+	{
+	  "name": "link",
+	  "class": "Classic",
+	  "tags": [
+		"link",
+		"animated",
+		"legend of zelda",
+		"vidya",
+		"nintendo"
+	  ]
+	},
+	{
+	  "name": "lol",
+	  "class": "Classic",
+	  "tags": [
+		"lol",
+		"animated",
+		"emoticon",
+		"laugh",
+		"funny"
+	  ]
+	},
+	{
+	  "name": "lolbeat",
+	  "class": "Classic",
+	  "tags": [
+		"animated",
+		"emoticon",
+		"lol",
+		"beat",
+		"fight",
+		"sign"
+	  ]
+	},
+	{
+	  "name": "loving",
+	  "class": "Classic",
+	  "tags": [
+		"loving",
+		"animated",
+		"emoticon",
+		"love",
+		"couple",
+		"hearts"
+	  ]
+	},
+	{
+	  "name": "makeout",
+	  "class": "Classic",
+	  "tags": [
+		"makeout",
+		"animated",
+		"emoticon",
+		"kiss"
+	  ]
+	},
+	{
+	  "name": "medal",
+	  "class": "Classic",
+	  "tags": [
+		"medal",
+		"animated",
+		"emoticon",
+		"award",
+		"winner"
+	  ]
+	},
+	{
+	  "name": "megaman",
+	  "class": "Classic",
+	  "tags": [
+		"megaman",
+		"animated",
+		"vidya",
+		"nintendo"
+	  ]
+	},
+	{
+	  "name": "megamanguitar",
+	  "class": "Classic",
+	  "tags": [
+		"megaman",
+		"animated",
+		"vidya",
+		"nintendo",
+		"guitar",
+		"music",
+		"rock"
+	  ]
+	},
+	{
+	  "name": "meow",
+	  "class": "Classic",
+	  "tags": [
+		"meow",
+		"emoticon",
+		"owo",
+		"furry",
+		"uwu",
+		"cat face"
+	  ]
+	},
+	{
+	  "name": "metime",
+	  "class": "Classic",
+	  "tags": [
+		"fap",
+		"animated",
+		"coomer",
+		"jack off",
+		"horny"
+	  ]
+	},
+	{
+	  "name": "mooning",
+	  "class": "Classic",
+	  "tags": [
+		"mooning",
+		"animated",
+		"emoticon",
+		"ass",
+		"butt"
+	  ]
+	},
+	{
+	  "name": "mummy",
+	  "class": "Classic",
+	  "tags": [
+		"mummy",
+		"animated",
+		"monster",
+		"horror",
+		"pyramids",
+		"egypt"
+	  ]
+	},
+	{
+	  "name": "na",
+	  "class": "Classic",
+	  "tags": [
+		"na",
+		"animated",
+		"emoticon",
+		"furry",
+		"raspberry",
+		"mock"
+	  ]
+	},
+	{
+	  "name": "nauseous",
+	  "class": "Classic",
+	  "tags": [
+		"nauseous",
+		"emoticon",
+		"sick",
+		"ill",
+		"green"
+	  ]
+	},
+	{
+	  "name": "nervous",
+	  "class": "Classic",
+	  "tags": [
+		"nervous",
+		"animated",
+		"emoticon",
+		"scared",
+		"worried",
+		"nail biting"
+	  ]
+	},
+	{
+	  "name": "ninja",
+	  "class": "Classic",
+	  "tags": [
+		"ninja",
+		"animated",
+		"emoticon",
+		"japan"
+	  ]
+	},
+	{
+	  "name": "nod",
+	  "class": "Classic",
+	  "tags": [
+		"nod",
+		"animated",
+		"emoticon",
+		"agree",
+		"yes"
+	  ]
+	},
+	{
+	  "name": "nono",
+	  "class": "Classic",
+	  "tags": [
+		"no",
+		"animated",
+		"emoticon",
+		"disagree",
+		"finger wag"
+	  ]
+	},
+	{
+	  "name": "omg",
+	  "class": "Classic",
+	  "tags": [
+		"omg",
+		"animated",
+		"emoticon",
+		"shocked",
+		"disbelief"
+	  ]
+	},
+	{
+	  "name": "onfire",
+	  "class": "Classic",
+	  "tags": [
+		"fire",
+		"animated",
+		"emoticon",
+		"ablaze"
+	  ]
+	},
+	{
+	  "name": "ooo",
+	  "class": "Classic",
+	  "tags": [
+		"ooo",
+		"animated",
+		"emoticon",
+		"spooky",
+		"ghost",
+		"floating"
+	  ]
+	},
+	{
+	  "name": "orly",
+	  "class": "Classic",
+	  "tags": [
+		"orly",
+		"seagull",
+		"meme"
+	  ]
+	},
+	{
+	  "name": "tongueout",
+	  "class": "Classic",
+	  "tags": [
+		"tongue",
+		"emoticon",
+		"blep"
+	  ]
+	},
+	{
+	  "name": "paddle",
+	  "class": "Classic",
+	  "tags": [
+		"paddle",
+		"animated",
+		"emoticon",
+		"spank",
+		"bdsm"
+	  ]
+	},
+	{
+	  "name": "panda",
+	  "class": "Classic",
+	  "tags": [
+		"panda",
+		"animated",
+		"bear",
+		"china"
+	  ]
+	},
+	{
+	  "name": "pandabutt",
+	  "class": "Classic",
+	  "tags": [
+		"panda",
+		"animated",
+		"bear",
+		"butt",
+		"shake",
+		"china"
+	  ]
+	},
+	{
+	  "name": "paranoid",
+	  "class": "Classic",
+	  "tags": [
+		"paranoid",
+		"animated",
+		"emoticon",
+		"shifty",
+		"suspicious"
+	  ]
+	},
+	{
+	  "name": "party",
+	  "class": "Classic",
+	  "tags": [
+		"party",
+		"animated",
+		"emoticon",
+		"balloon"
+	  ]
+	},
+	{
+	  "name": "patting",
+	  "class": "Classic",
+	  "tags": [
+		"patting",
+		"animated",
+		"emoticon",
+		"comfort"
+	  ]
+	},
+	{
+	  "name": "peek",
+	  "class": "Classic",
+	  "tags": [
+		"peek",
+		"animated",
+		"emoticon",
+		"look",
+		"wall"
+	  ]
+	},
+	{
+	  "name": "pikachu",
+	  "class": "Classic",
+	  "tags": [
+		"pikachu",
+		"animated",
+		"pokemon",
+		"electric",
+		"vidya",
+		"nintendo"
+	  ]
+	},
+	{
+	  "name": "pimp",
+	  "class": "Classic",
+	  "tags": [
+		"pimp",
+		"animated",
+		"emoticon",
+		"hat",
+		"cigar",
+		"smoking"
+	  ]
+	},
+	{
+	  "name": "plzdie",
+	  "class": "Classic",
+	  "tags": [
+		"die",
+		"emoticon",
+		"disagree",
+		"sign"
+	  ]
+	},
+	{
+	  "name": "poke",
+	  "class": "Classic",
+	  "tags": [
+		"poke",
+		"animated",
+		"emoticon",
+		"stick"
+	  ]
+	},
+	{
+	  "name": "popcorn",
+	  "class": "Classic",
+	  "tags": [
+		"popcorn",
+		"animated",
+		"emoticon",
+		"food"
+	  ]
+	},
+	{
+	  "name": "pout",
+	  "class": "Classic",
+	  "tags": [
+		"pout",
+		"animated",
+		"emoticon",
+		"lip"
+	  ]
+	},
+	{
+	  "name": "probe",
+	  "class": "Classic",
+	  "tags": [
+		"probe",
+		"animated",
+		"emoticon",
+		"alien",
+		"monster",
+		"extraterrestrial "
+	  ]
+	},
+	{
+	  "name": "puke",
+	  "class": "Classic",
+	  "tags": [
+		"puke",
+		"animated",
+		"emoticon",
+		"sick",
+		"ill",
+		"vomit",
+		"throw up"
+	  ]
+	},
+	{
+	  "name": "punch",
+	  "class": "Classic",
+	  "tags": [
+		"punch",
+		"animated",
+		"emoticon",
+		"fight",
+		"fist",
+		"hit"
+	  ]
+	},
+	{
+	  "name": "quote",
+	  "class": "Classic",
+	  "tags": [
+		"quote",
+		"animated",
+		"emoticon",
+		"fingers"
+	  ]
+	},
+	{
+	  "name": "raccoon",
+	  "class": "Classic",
+	  "tags": [
+		"raccoon",
+		"animated"
+	  ]
+	},
+	{
+	  "name": "roar",
+	  "class": "Classic",
+	  "tags": [
+		"roar",
+		"animated",
+		"emoticon",
+		"yell",
+		"scream"
+	  ]
+	},
+	{
+	  "name": "rofl",
+	  "class": "Classic",
+	  "tags": [
+		"rofl",
+		"laugh",
+		"rolling",
+		"roll",
+		"animated",
+		"emoticon"
+	  ]
+	},
+	{
+	  "name": "roflmao",
+	  "class": "Classic",
+	  "tags": [
+		"roflmao",
+		"animated",
+		"emoticon",
+		"laughing"
+	  ]
+	},
+	{
+	  "name": "rolleyes",
+	  "class": "Classic",
+	  "tags": [
+		"eye roll",
+		"animated",
+		"emoticon",
+		"annoying"
+	  ]
+	},
+	{
+	  "name": "sad",
+	  "class": "Classic",
+	  "tags": [
+		"sad",
+		"animated",
+		"emoticon"
+	  ]
+	},
+	{
+	  "name": "sadeyes",
+	  "class": "Classic",
+	  "tags": [
+		"sad",
+		"emoticon",
+		"eyes",
+		"big eyes"
+	  ]
+	},
+	{
+	  "name": "sadhug",
+	  "class": "Classic",
+	  "tags": [
+		"sad",
+		"animated",
+		"emoticon",
+		"hug",
+		"support"
+	  ]
+	},
+	{
+	  "name": "samurai",
+	  "class": "Classic",
+	  "tags": [
+		"samurai",
+		"animated",
+		"emoticon",
+		"bushido",
+		"katana",
+		"japan"
+	  ]
+	},
+	{
+	  "name": "sarcasm",
+	  "class": "Classic",
+	  "tags": [
+		"sarcasm",
+		"animated",
+		"emoticon",
+		"flip off",
+		"sarcastic"
+	  ]
+	},
+	{
+	  "name": "scoot",
+	  "class": "Classic",
+	  "tags": [
+		"scoot",
+		"animated",
+		"emoticon",
+		"cool"
+	  ]
+	},
+	{
+	  "name": "scream",
+	  "class": "Classic",
+	  "tags": [
+		"scream",
+		"animated",
+		"emoticon",
+		"movie",
+		"horror",
+		"knife",
+		"murder",
+		"kill"
+	  ]
+	},
+	{
+	  "name": "shmoopy",
+	  "class": "Classic",
+	  "tags": [
+		"eyebrows",
+		"animated",
+		"emoticon",
+		"raise eyebrows"
+	  ]
+	},
+	{
+	  "name": "shrug",
+	  "class": "Classic",
+	  "tags": [
+		"shrug",
+		"animated",
+		"emoticon"
+	  ]
+	},
+	{
+	  "name": "skull",
+	  "class": "Classic",
+	  "tags": [
+		"skull",
+		"animated",
+		"bones",
+		"skeleton",
+		"pirate"
+	  ]
+	},
+	{
+	  "name": "slap",
+	  "class": "Classic",
+	  "tags": [
+		"slap",
+		"animated",
+		"emoticon",
+		"hit",
+		"fight"
+	  ]
+	},
+	{
+	  "name": "slapfight",
+	  "class": "Classic",
+	  "tags": [
+		"fight",
+		"animated",
+		"emoticon",
+		"slap",
+		"hit"
+	  ]
+	},
+	{
+	  "name": "sleepy",
+	  "class": "Classic",
+	  "tags": [
+		"sleepy",
+		"animated",
+		"emoticon",
+		"tired",
+		"bedtime",
+		"pillow"
+	  ]
+	},
+	{
+	  "name": "smackfish",
+	  "class": "Classic",
+	  "tags": [
+		"fish",
+		"animated",
+		"emoticon",
+		"slap",
+		"hit",
+		"fight",
+		"monty python",
+		"cornobbling"
+	  ]
+	},
+	{
+	  "name": "smackhead",
+	  "class": "Classic",
+	  "tags": [
+		"smack",
+		"animated",
+		"emoticon",
+		"facepalm"
+	  ]
+	},
+	{
+	  "name": "smh",
+	  "class": "Classic",
+	  "tags": [
+		"smh",
+		"animated",
+		"emoticon",
+		"shake head",
+		"facepalm"
+	  ]
+	},
+	{
+	  "name": "smile",
+	  "class": "Classic",
+	  "tags": [
+		"smile",
+		"emoticon"
+	  ]
+	},
+	{
+	  "name": "smoke",
+	  "class": "Classic",
+	  "tags": [
+		"smoke",
+		"animated",
+		"emoticon",
+		"cigarette",
+		"lighter",
+		"tobacco"
+	  ]
+	},
+	{
+	  "name": "sonic",
+	  "class": "Classic",
+	  "tags": [
+		"sonic",
+		"animated",
+		"vidya",
+		"sega",
+		"hedgehog",
+		"cwc"
+	  ]
+	},
+	{
+	  "name": "spank",
+	  "class": "Classic",
+	  "tags": [
+		"spank",
+		"animated",
+		"emoticon",
+		"bdsm",
+		"german"
+	  ]
+	},
+	{
+	  "name": "sparta",
+	  "class": "Classic",
+	  "tags": [
+		"sparta",
+		"animated",
+		"emoticon",
+		"movie",
+		"300",
+		"snyder"
+	  ]
+	},
+	{
+	  "name": "sperm",
+	  "class": "Classic",
+	  "tags": [
+		"sperm",
+		"animated",
+		"emoticon"
+	  ]
+	},
+	{
+	  "name": "spiderman",
+	  "class": "Classic",
+	  "tags": [
+		"spiderman",
+		"animated",
+		"superhero",
+		"peter parker",
+		"capeshit"
+	  ]
+	},
+	{
+	  "name": "stab",
+	  "class": "Classic",
+	  "tags": [
+		"stab",
+		"animated",
+		"emoticon",
+		"kill",
+		"murder",
+		"knife",
+		"england"
+	  ]
+	},
+	{
+	  "name": "star",
+	  "class": "Classic",
+	  "tags": [
+		"star",
+		"animated",
+		"smile"
+	  ]
+	},
+	{
+	  "name": "stare",
+	  "class": "Classic",
+	  "tags": [
+		"stare",
+		"emoticon",
+		"look",
+		"watch"
+	  ]
+	},
+	{
+	  "name": "stfu",
+	  "class": "Classic",
+	  "tags": [
+		"stfu",
+		"animated",
+		"emoticon",
+		"shut up",
+		"quiet",
+		"angry",
+		"enraged",
+		"sign"
+	  ]
+	},
+	{
+	  "name": "suicide",
+	  "class": "Classic",
+	  "tags": [
+		"suicide",
+		"animated",
+		"emoticon",
+		"gun",
+		"blood",
+		"kys"
+	  ]
+	},
+	{
+	  "name": "surprisehug",
+	  "class": "Classic",
+	  "tags": [
+		"surprise",
+		"animated",
+		"emoticon",
+		"hug",
+		"love",
+		"hearts"
+	  ]
+	},
+	{
+	  "name": "suspicious",
+	  "class": "Classic",
+	  "tags": [
+		"suspicious",
+		"emoticon",
+		"suspecting"
+	  ]
+	},
+	{
+	  "name": "sweat",
+	  "class": "Classic",
+	  "tags": [
+		"sweat",
+		"animated",
+		"emoticon",
+		"nervous"
+	  ]
+	},
+	{
+	  "name": "swordfight",
+	  "class": "Classic",
+	  "tags": [
+		"sword",
+		"animated",
+		"emoticon",
+		"fight",
+		"fencing",
+		"engarde"
+	  ]
+	},
+	{
+	  "name": "taco",
+	  "class": "Classic",
+	  "tags": [
+		"taco",
+		"animated",
+		"mexico",
+		"food"
+	  ]
+	},
+	{
+	  "name": "talk2hand",
+	  "class": "Classic",
+	  "tags": [
+		"hand",
+		"animated",
+		"emoticon",
+		"ignore",
+		"disagree"
+	  ]
+	},
+	{
+	  "name": "tantrum",
+	  "class": "Classic",
+	  "tags": [
+		"tantrum",
+		"animated",
+		"emoticon",
+		"fit",
+		"crying"
+	  ]
+	},
+	{
+	  "name": "teehee",
+	  "class": "Classic",
+	  "tags": [
+		"teehee",
+		"animated",
+		"emoticon",
+		"laugh",
+		"smug"
+	  ]
+	},
+	{
+	  "name": "thinking",
+	  "class": "Classic",
+	  "tags": [
+		"thinking",
+		"animated",
+		"emoticon",
+		"thunk",
+		"chin scratch"
+	  ]
+	},
+	{
+	  "name": "threesome",
+	  "class": "Classic",
+	  "tags": [
+		"threesome",
+		"animated",
+		"emoticon",
+		"sex",
+		"circlejerk"
+	  ]
+	},
+	{
+	  "name": "throw",
+	  "class": "Classic",
+	  "tags": [
+		"throw",
+		"animated",
+		"emoticon",
+		"lob",
+		"fight",
+		"hurl",
+		"fling"
+	  ]
+	},
+	{
+	  "name": "throwaway",
+	  "class": "Classic",
+	  "tags": [
+		"throw",
+		"animated",
+		"emoticon",
+		"annoyed"
+	  ]
+	},
+	{
+	  "name": "thumbup",
+	  "class": "Classic",
+	  "tags": [
+		"thumbs up",
+		"emoticon",
+		"good",
+		"agree"
+	  ]
+	},
+	{
+	  "name": "thumbdown",
+	  "class": "Classic",
+	  "tags": [
+		"thumbs down",
+		"emoticon",
+		"bad",
+		"disagree"
+	  ]
+	},
+	{
+	  "name": "tickle",
+	  "class": "Classic",
+	  "tags": [
+		"tickle",
+		"animated",
+		"emoticon",
+		"nefarious"
+	  ]
+	},
+	{
+	  "name": "typing",
+	  "class": "Classic",
+	  "tags": [
+		"typing",
+		"animated",
+		"emoticon",
+		"writing",
+		"programming"
+	  ]
+	},
+	{
+	  "name": "uhuh",
+	  "class": "Classic",
+	  "tags": [
+		"uhuh",
+		"animated",
+		"emoticon",
+		"sure",
+		"shifty"
+	  ]
+	},
+	{
+	  "name": "vampbat",
+	  "class": "Classic",
+	  "tags": [
+		"bat",
+		"animated",
+		"emoticon",
+		"vampire",
+		"monster",
+		"horror",
+		"dracula",
+		"transformation"
+	  ]
+	},
+	{
+	  "name": "viking",
+	  "class": "Classic",
+	  "tags": [
+		"viking",
+		"animated",
+		"emoticon",
+		"axe",
+		"historical"
+	  ]
+	},
+	{
+	  "name": "violin",
+	  "class": "Classic",
+	  "tags": [
+		"violin",
+		"animated",
+		"emoticon",
+		"music",
+		"annoyed",
+		"instrument"
+	  ]
+	},
+	{
+	  "name": "vulgar",
+	  "class": "Classic",
+	  "tags": [
+		"vulgar",
+		"animated",
+		"emoticon",
+		"swear",
+		"cursing",
+		"angry",
+		"mad",
+		"enraged",
+		"fuck",
+		"shit",
+		"bitch"
+	  ]
+	},
+	{
+	  "name": "wah",
+	  "class": "Classic",
+	  "tags": [
+		"wah",
+		" emoticon",
+		"despair",
+		"sad"
+	  ]
+	},
+	{
+	  "name": "wat",
+	  "class": "Classic",
+	  "tags": [
+		"wat",
+		"emoticon",
+		"what",
+		"confused",
+		"surprised"
+	  ]
+	},
+	{
+	  "name": "whip",
+	  "class": "Classic",
+	  "tags": [
+		"whip",
+		"animated",
+		"emoticon",
+		"bdsm"
+	  ]
+	},
+	{
+	  "name": "whipping",
+	  "class": "Classic",
+	  "tags": [
+		"whip",
+		"animated",
+		"emoticon",
+		"bdsm"
+	  ]
+	},
+	{
+	  "name": "wink",
+	  "class": "Classic",
+	  "tags": [
+		"wink",
+		"emoticon",
+		"winking",
+		"secret"
+	  ]
+	},
+	{
+	  "name": "witch",
+	  "class": "Classic",
+	  "tags": [
+		"witch",
+		"animated",
+		"magic",
+		"broom",
+		"fly",
+		"monster"
+	  ]
+	},
+	{
+	  "name": "wizard",
+	  "class": "Classic",
+	  "tags": [
+		"wizard",
+		"animated",
+		"magic",
+		"staff",
+		"gandalf"
+	  ]
+	},
+	{
+	  "name": "woah",
+	  "class": "Classic",
+	  "tags": [
+		"woah",
+		"emoticon",
+		"stare",
+		"disbelief"
+	  ]
+	},
+	{
+	  "name": "worm",
+	  "class": "Classic",
+	  "tags": [
+		"worm",
+		"animated",
+		"insect",
+		"bug",
+		"dirt",
+		"wiggle"
+	  ]
+	},
+	{
+	  "name": "woo",
+	  "class": "Classic",
+	  "tags": [
+		"woo",
+		"animated",
+		"emoticon",
+		"cheering",
+		"cheer",
+		"excited"
+	  ]
+	},
+	{
+	  "name": "work",
+	  "class": "Classic",
+	  "tags": [
+		"work",
+		"animated",
+		"emoticon",
+		"asia",
+		"salaryman",
+		"business",
+		"computer",
+		"paperwork"
+	  ]
+	},
+	{
+	  "name": "worship",
+	  "class": "Classic",
+	  "tags": [
+		"worship",
+		"animated",
+		"emoticon",
+		"prostrate",
+		"bow",
+		"pray"
+	  ]
+	},
+	{
+	  "name": "wow",
+	  "class": "Classic",
+	  "tags": [
+		"wow",
+		"emoticon",
+		"animated",
+		"shocking",
+		"shocked",
+		"disbelief"
+	  ]
+	},
+	{
+	  "name": "xd",
+	  "class": "Classic",
+	  "tags": [
+		"xd",
+		"emoticon",
+		"lmao",
+		"lol",
+		"laugh"
+	  ]
+	},
+	{
+	  "name": "yay",
+	  "class": "Classic",
+	  "tags": [
+		"yay",
+		"animated",
+		"emoticon",
+		"excited",
+		"celebrate",
+		"celebration",
+		"happy",
+		"bounce",
+		"jump"
+	  ]
+	},
+	{
+	  "name": "zzz",
+	  "class": "Classic",
+	  "tags": [
+		"zzz",
+		"animated",
+		"emoticon",
+		"sleep",
+		"asleep",
+		"tired",
+		"sleepy",
+		"sleeping"
+	  ]
+	},
+	{
+	  "name": "trolldespair",
+	  "class": "Rage",
+	  "tags": [
+		"trollface",
+		"despair",
+		"scarred"
+	  ]
+	},
+	{
+	  "name": "clueless",
+	  "class": "Rage",
+	  "tags": [
+		"clueless",
+		"doesn’t know"
+	  ]
+	},
+	{
+	  "name": "troll",
+	  "class": "Rage",
+	  "tags": [
+		"trollface"
+	  ]
+	},
+	{
+	  "name": "bitchplease",
+	  "class": "Rage",
+	  "tags": [
+		"bitch",
+		"laughing"
+	  ]
+	},
+	{
+	  "name": "spit",
+	  "class": "Rage",
+	  "tags": [
+		"spit",
+		"disbelief",
+		"amazed",
+		"unexpected"
+	  ]
+	},
+	{
+	  "name": "challengeaccepted",
+	  "class": "Rage",
+	  "tags": [
+		"challenge",
+		"accept"
+	  ]
+	},
+	{
+	  "name": "contentiouscereal",
+	  "class": "Rage",
+	  "tags": [
+		"argue",
+		"disagree"
+	  ]
+	},
+	{
+	  "name": "cryingatcuteness",
+	  "class": "Rage",
+	  "tags": [
+		"crying",
+		"omg"
+	  ]
+	},
+	{
+	  "name": "derp",
+	  "class": "Rage",
+	  "tags": [
+		"stupid",
+		"derp"
+	  ]
+	},
+	{
+	  "name": "derpcornsyrup",
+	  "tags": [
+		"corn",
+		"syrup"
+	  ],
+	  "class": "Rage"
+	},
+	{
+	  "name": "derpcrying",
+	  "tags": [
+		"crying"
+	  ],
+	  "class": "Rage"
+	},
+	{
+	  "name": "derpcute",
+	  "tags": [
+		"cute"
+	  ],
+	  "class": "Rage"
+	},
+	{
+	  "name": "derpdumb",
+	  "tags": [
+		"dump"
+	  ],
+	  "class": "Rage"
+	},
+	{
+	  "name": "derpeuphoria",
+	  "tags": [
+		"euphoria"
+	  ],
+	  "class": "Rage"
+	},
+	{
+	  "name": "derpinahd",
+	  "tags": [
+		"inahd"
+	  ],
+	  "class": "Rage"
+	},
+	{
+	  "name": "derpinapokerface",
+	  "tags": [
+		"pokerface"
+	  ],
+	  "class": "Rage"
+	},
+	{
+	  "name": "derpinasnickering",
+	  "tags": [
+		"snickering"
+	  ],
+	  "class": "Rage"
+	},
+	{
+	  "name": "derpprocessing",
+	  "tags": [
+		"processing"
+	  ],
+	  "class": "Rage"
+	},
+	{
+	  "name": "derprealization",
+	  "tags": [
+		"realization"
+	  ],
+	  "class": "Rage"
+	},
+	{
+	  "name": "derpsnickering",
+	  "tags": [
+		"snickering"
+	  ],
+	  "class": "Rage"
+	},
+	{
+	  "name": "derptalking",
+	  "tags": [
+		"talking"
+	  ],
+	  "class": "Rage"
+	},
+	{
+	  "name": "derpthinking",
+	  "tags": [
+		"thinking"
+	  ],
+	  "class": "Rage"
+	},
+	{
+	  "name": "derpthumbsup",
+	  "tags": [
+		"thumbsup",
+		"yes",
+		"positive"
+	  ],
+	  "class": "Rage"
+	},
+	{
+	  "name": "derpunimpressed",
+	  "tags": [
+		"unimpressed"
+	  ],
+	  "class": "Rage"
+	},
+	{
+	  "name": "derpwhy",
+	  "tags": [
+		"why",
+		"question"
+	  ],
+	  "class": "Rage"
+	},
+	{
+	  "name": "donotwant",
+	  "class": "Rage",
+	  "tags": [
+		"bad",
+		"computer",
+		"disgust"
+	  ]
+	},
+	{
+	  "name": "epicfacefeatures",
+	  "class": "Rage",
+	  "tags": [
+		"epic face",
+		"face",
+		"smiley"
+	  ]
+	},
+	{
+	  "name": "fancywithwine",
+	  "class": "Rage",
+	  "tags": [
+		"fancy",
+		"sophisticated",
+		"wine",
+		"monocle",
+		"alcohol"
+	  ]
+	},
+	{
+	  "name": "fffffffuuuuuuuuuuuu",
+	  "class": "Rage",
+	  "tags": [
+		"fuck",
+		"angry",
+		"enraged",
+		"mad",
+		"screaming",
+		"yelling"
+	  ]
+	},
+	{
+	  "name": "flipthetable",
+	  "class": "Rage",
+	  "tags": [
+		"table",
+		"table flip",
+		"angry",
+		"mad",
+		"enraged"
+	  ]
+	},
+	{
+	  "name": "foreveralone",
+	  "tags": [
+		"alone",
+		"lonely"
+	  ],
+	  "class": "Rage"
+	},
+	{
+	  "name": "foreveralonehappy",
+	  "tags": [
+		"alone",
+		"lonely",
+		"happy"
+	  ],
+	  "class": "Rage"
+	},
+	{
+	  "name": "hewillnever",
+	  "class": "Rage",
+	  "tags": [
+		"cereal",
+		"cereal guy",
+		"disbelief"
+	  ]
+	},
+	{
+	  "name": "idontknow",
+	  "class": "Rage",
+	  "tags": [
+		"idk",
+		"shrug",
+		"don’t know"
+	  ]
+	},
+	{
+	  "name": "interuptedreading",
+	  "tags": [
+		"reading"
+	  ],
+	  "class": "Rage"
+	},
+	{
+	  "name": "iseewhatyoudidthere",
+	  "class": "Rage",
+	  "tags": [
+		"see",
+		"notice"
+	  ]
+	},
+	{
+	  "name": "killherkillher",
+	  "tags": [
+		"troll",
+		"crazy"
+	  ],
+	  "class": "Rage"
+	},
+	{
+	  "name": "ledesire",
+	  "tags": [
+		"desire"
+	  ],
+	  "class": "Rage"
+	},
+	{
+	  "name": "leexcited",
+	  "class": "Rage",
+	  "tags": [
+		"excited"
+	  ]
+	},
+	{
+	  "name": "legenius",
+	  "class": "Rage",
+	  "tags": [
+		"genius",
+		"smart"
+	  ]
+	},
+	{
+	  "name": "lelolidk",
+	  "class": "Rage",
+	  "tags": [
+		"idk",
+		"shrug"
+	  ]
+	},
+	{
+	  "name": "lemiddlefinger",
+	  "class": "Rage",
+	  "tags": [
+		"flip off",
+		"fuck you"
+	  ]
+	},
+	{
+	  "name": "lemindblown",
+	  "class": "Rage",
+	  "tags": [
+		"blown",
+		"woah"
+	  ]
+	},
+	{
+	  "name": "leokay",
+	  "class": "Rage",
+	  "tags": [
+		"ok",
+		"okay",
+		"sad",
+		"disappointed"
+	  ]
+	},
+	{
+	  "name": "lepanicrunning",
+	  "class": "Rage",
+	  "tags": [
+		"run",
+		"panic",
+		"escape",
+		"running"
+	  ]
+	},
+	{
+	  "name": "lepokerface",
+	  "class": "Rage",
+	  "tags": [
+		"deadpan",
+		"meh",
+		"expressionless"
+	  ]
+	},
+	{
+	  "name": "lepokerface2",
+	  "class": "Rage",
+	  "tags": [
+		"deadpan",
+		"expressionless",
+		"face",
+		"meh"
+	  ]
+	},
+	{
+	  "name": "lerageface",
+	  "class": "Rage",
+	  "tags": [
+		"angry",
+		"upset",
+		"mad",
+		"enraged"
+	  ]
+	},
+	{
+	  "name": "leseriousface",
+	  "class": "Rage",
+	  "tags": [
+		"serious"
+	  ]
+	},
+	{
+	  "name": "likeaboss",
+	  "class": "Rage",
+	  "tags": [
+		"cool",
+		"boss"
+	  ]
+	},
+	{
+	  "name": "lolface",
+	  "class": "Rage",
+	  "tags": [
+		"lol",
+		"laughing"
+	  ]
+	},
+	{
+	  "name": "longwhiskers",
+	  "class": "Rage",
+	  "tags": [
+		"thinking",
+		"staring",
+		"computer"
+	  ]
+	},
+	{
+	  "name": "manymiddlefingers",
+	  "class": "Rage",
+	  "tags": [
+		"flip off",
+		"fuck you"
+	  ]
+	},
+	{
+	  "name": "megusta",
+	  "tags": [
+		"positive"
+	  ],
+	  "class": "Rage"
+	},
+	{
+	  "name": "motherfucker",
+	  "class": "Rage",
+	  "tags": [
+		"trollface",
+		"fancy"
+	  ]
+	},
+	{
+	  "name": "motherofgod",
+	  "class": "Rage",
+	  "tags": [
+		"disbelief",
+		"sunglasses"
+	  ]
+	},
+	{
+	  "name": "mysides",
+	  "class": "Rage",
+	  "tags": [
+		"laughing"
+	  ]
+	},
+	{
+	  "name": "ohgodwhy",
+	  "class": "Rage",
+	  "tags": [
+		"upset",
+		"disgusted"
+	  ]
+	},
+	{
+	  "name": "pervertedspiderman",
+	  "class": "Rage",
+	  "tags": [
+		"spiderman",
+		"pervert",
+		"movie"
+	  ]
+	},
+	{
+	  "name": "picard",
+	  "class": "Rage",
+	  "tags": [
+		"picard",
+		"facepalm",
+		"movie",
+		"star trek"
+	  ]
+	},
+	{
+	  "name": "ragestrangle",
+	  "class": "Rage",
+	  "tags": [
+		"strangle"
+	  ]
+	},
+	{
+	  "name": "rukiddingme",
+	  "class": "Rage",
+	  "tags": [
+		"seriously",
+		"disappointed"
+	  ]
+	},
+	{
+	  "name": "tfwyougettrolled",
+	  "class": "Rage",
+	  "tags": [
+		"trollface"
+	  ]
+	},
+	{
+	  "name": "trollolol",
+	  "class": "Rage",
+	  "tags": [
+		"trollface"
+	  ]
+	},
+	{
+	  "name": "truestorybro",
+	  "class": "Rage",
+	  "tags": [
+		"wine",
+		"alcohol",
+		"toast"
+	  ]
+	},
+	{
+	  "name": "xallthey",
+	  "class": "Rage",
+	  "tags": [
+		"meme"
+	  ]
+	},
+	{
+	  "name": "yuno",
+	  "class": "Rage",
+	  "tags": [
+		"angry",
+		"seethe",
+		"upset",
+		"mad",
+		"enraged"
+	  ]
+	},
+	{
+	  "name": "antichrist",
+	  "class": "Rage",
+	  "tags": [
+		"trollface",
+		"cursed"
+	  ]
+	},
+	{
+	  "name": "antichristfffuuuu",
+	  "class": "Rage",
+	  "tags": [
+		"cursed"
+	  ]
+	},
+	{
+	  "name": "bluehelmet",
+	  "class": "Rage",
+	  "tags": [
+		"freeze",
+		"surrounded",
+		"un",
+		"meme"
+	  ]
+	},
+	{
+	  "name": "npcangry",
+	  "class": "Wojak",
+	  "tags": [
+		"npc",
+		"angry",
+		"normie",
+		"upset"
+	  ]
+	},
+	{
+	  "name": "russiarentfree",
+	  "tags": [
+		"wojack",
+		"rent",
+		"free",
+		"russia",
+		"cry",
+		"seethe",
+		"cope"
+	  ],
+	  "class": "Wojak"
+	},
+	{
+	  "name": "cunt",
+	  "class": "Wojak",
+	  "tags": [
+		"aussie",
+		"australian"
+	  ]
+	},
+	{
+	  "name": "soyjakfat",
+	  "class": "Wojak",
+	  "tags": [
+		"obese",
+		"wingcuck"
+	  ]
+	},
+	{
+	  "name": "chudtantrum",
+	  "tags": [
+		"chud"
+	  ],
+	  "class": "Wojak"
+	},
+	{
+	  "name": "chadcryguy",
+	  "class": "Wojak",
+	  "tags": [
+		"cry",
+		"sad",
+		"tear",
+		"chad"
+	  ]
+	},
+	{
+	  "name": "chadpostal2",
+	  "tags": [
+		"postal",
+		"game",
+		"shooting"
+	  ],
+	  "class": "Wojak"
+	},
+	{
+	  "name": "penisrentfree",
+	  "tags": [
+		"cock",
+		"peepee",
+		"gay",
+		"pipe",
+		"balls",
+		"nuts"
+	  ],
+	  "class": "Wojak"
+	},
+	{
+	  "name": "chadjewrentfree",
+	  "tags": [
+		"chad",
+		"jew"
+	  ],
+	  "class": "Wojak"
+	},
+	{
+	  "name": "afroblackjak",
+	  "class": "Wojak",
+	  "tags": [
+		"black",
+		"afro",
+		"BIPOC"
+	  ]
+	},
+	{
+	  "name": "altgirlblackjack",
+	  "class": "Wojak",
+	  "tags": [
+		"black",
+		"woman",
+		"tiktok"
+	  ]
+	},
+	{
+	  "name": "antifajak",
+	  "class": "Wojak",
+	  "tags": [
+		"antifa",
+		"fascist",
+		"woke"
+	  ]
+	},
+	{
+	  "name": "bigsmilesoyjak",
+	  "class": "Wojak",
+	  "tags": [
+		"smile",
+		"consume",
+		"capeshit",
+		"vidya"
+	  ]
+	},
+	{
+	  "name": "blackfemboy",
+	  "class": "Wojak",
+	  "tags": [
+		"black",
+		"femboy",
+		"gay"
+	  ]
+	},
+	{
+	  "name": "blacksoyjak",
+	  "class": "Wojak",
+	  "tags": [
+		"black",
+		"soyjack",
+		"BIPOC"
+	  ]
+	},
+	{
+	  "name": "brainletchadmask",
+	  "class": "Wojak",
+	  "tags": [
+		"brainlet",
+		"chad",
+		"mask",
+		"cope"
+	  ]
+	},
+	{
+	  "name": "bruce",
+	  "class": "Wojak",
+	  "tags": [
+		"aussie",
+		"australian"
+	  ]
+	},
+	{
+	  "name": "chadagent",
+	  "class": "Wojak",
+	  "tags": [
+		"chad",
+		"fbi",
+		"agent",
+		"glowie",
+		"cia",
+		"atf"
+	  ]
+	},
+	{
+	  "name": "chadpostal",
+	  "class": "Wojak",
+	  "tags": [
+		"chad",
+		"postal",
+		"vidya"
+	  ]
+	},
+	{
+	  "name": "chadblack2",
+	  "class": "Wojak",
+	  "tags": [
+		"black",
+		"chad"
+	  ]
+	},
+	{
+	  "name": "chadsnoo",
+	  "class": "Wojak",
+	  "tags": [
+		"snoo",
+		"chad",
+		"reddit"
+	  ]
+	},
+	{
+	  "name": "daddysgirl",
+	  "class": "Wojak",
+	  "tags": [
+		"woman",
+		"only fans",
+		"onlyfans"
+	  ]
+	},
+	{
+	  "name": "directlypointingsoyjak",
+	  "class": "Wojak",
+	  "tags": [
+		"pointing",
+		"soyjak",
+		"you’re cringe"
+	  ]
+	},
+	{
+	  "name": "feelsguy",
+	  "class": "Wojak",
+	  "tags": [
+		"feels",
+		"tfw",
+		"neutral"
+	  ]
+	},
+	{
+	  "name": "hijabwojak",
+	  "class": "Wojak",
+	  "tags": [
+		"woman",
+		"hijab",
+		"muslim"
+	  ]
+	},
+	{
+	  "name": "hoodieguyblackjak",
+	  "class": "Wojak",
+	  "tags": [
+		"black",
+		"hoodie"
+	  ]
+	},
+	{
+	  "name": "marseyblackjak",
+	  "class": "Wojak",
+	  "tags": [
+		"black",
+		"woman",
+		"furry",
+		"cat girl",
+		"catgirl",
+		"marsey"
+	  ]
+	},
+	{
+	  "name": "momblackjak",
+	  "class": "Wojak",
+	  "tags": [
+		"black",
+		"woman",
+		"mom",
+		"mother"
+	  ]
+	},
+	{
+	  "name": "obesedaddysgirl",
+	  "class": "Wojak",
+	  "tags": [
+		"fat",
+		"fatty",
+		"obese",
+		"landwhale",
+		"woman",
+		"onlyfans"
+	  ]
+	},
+	{
+	  "name": "obesetradwife",
+	  "class": "Wojak",
+	  "tags": [
+		"fat",
+		"fatty",
+		"landwhale",
+		"trad",
+		"wife",
+		"tradwife",
+		"blonde"
+	  ]
+	},
+	{
+	  "name": "pinkgirlblackjak",
+	  "class": "Wojak",
+	  "tags": [
+		"black",
+		"woman",
+		"hoops",
+		"pink"
+	  ]
+	},
+	{
+	  "name": "purplegirlblackjak",
+	  "class": "Wojak",
+	  "tags": [
+		"black",
+		"purple",
+		"woman"
+	  ]
+	},
+	{
+	  "name": "sadwomanjak",
+	  "class": "Wojak",
+	  "tags": [
+		"sad",
+		"tfw",
+		"woman"
+	  ]
+	},
+	{
+	  "name": "smugblackjak",
+	  "class": "Wojak",
+	  "tags": [
+		"black",
+		"smug",
+		"superior"
+	  ]
+	},
+	{
+	  "name": "sportygirlblackjak",
+	  "class": "Wojak",
+	  "tags": [
+		"black",
+		"woman",
+		"sporty",
+		"athletic"
+	  ]
+	},
+	{
+	  "name": "tradwife",
+	  "class": "Wojak",
+	  "tags": [
+		"trad",
+		"wife",
+		"blonde"
+	  ]
+	},
+	{
+	  "name": "wavyhairblackjack",
+	  "class": "Wojak",
+	  "tags": [
+		"black",
+		"woman",
+		"twitter",
+		"wavy"
+	  ]
+	},
+	{
+	  "name": "zoomertears",
+	  "class": "Wojak",
+	  "tags": [
+		"zoomer",
+		"sad",
+		"crying",
+		"cry",
+		"cope",
+		"seethe"
+	  ]
+	},
+	{
+	  "name": "purerage",
+	  "class": "Wojak",
+	  "tags": [
+		"rage",
+		"upset",
+		"angry",
+		"enraged",
+		"seethe",
+		"red"
+	  ]
+	},
+	{
+	  "name": "naziseethe",
+	  "class": "Wojak",
+	  "tags": [
+		"nazi",
+		"seethe",
+		"fascist",
+		"upset",
+		"angry",
+		"mad",
+		"enraged"
+	  ]
+	},
+	{
+	  "name": "holdupjak",
+	  "class": "Wojak",
+	  "tags": [
+		"wait",
+		"weird",
+		"freaked out ",
+		"hold up"
+	  ]
+	},
+	{
+	  "name": "ethottalking",
+	  "class": "Wojak",
+	  "tags": [
+		"woman",
+		"thot",
+		"onlyfans",
+		"talking",
+		"upset"
+	  ]
+	},
+	{
+	  "name": "chadwomanasian",
+	  "tags": [
+		"asian",
+		"china",
+		"woman",
+		"queen"
+	  ],
+	  "class": "Wojak"
+	},
+	{
+	  "name": "chadwomanblack",
+	  "tags": [
+		"black",
+		"woman",
+		"queen"
+	  ],
+	  "class": "Wojak"
+	},
+	{
+	  "name": "chadwomanlatinx",
+	  "tags": [
+		"latinX",
+		"woman",
+		"queen"
+	  ],
+	  "class": "Wojak"
+	},
+	{
+	  "name": "chadwomannordic",
+	  "tags": [
+		"nordic",
+		"mayo",
+		"woman",
+		"queen"
+	  ],
+	  "class": "Wojak"
+	},
+	{
+	  "name": "trumpjaktalking",
+	  "class": "Wojak",
+	  "tags": [
+		"trump",
+		"maga",
+		"red hat",
+		"cope",
+		"talking"
+	  ]
+	},
+	{
+	  "name": "rdramajanny",
+	  "tags": [
+		"janny"
+	  ],
+	  "class": "Wojak"
+	},
+	{
+	  "name": "soyreddit",
+	  "class": "Wojak",
+	  "tags": [
+		"soy",
+		"reddit"
+	  ]
+	},
+	{
+	  "name": "soysnoo",
+	  "class": "Wojak",
+	  "tags": [
+		"soy",
+		"reddit",
+		"snoo"
+	  ]
+	},
+	{
+	  "name": "doomerboy",
+	  "class": "Wojak",
+	  "tags": [
+		"doomer",
+		"sad",
+		"depressed"
+	  ]
+	},
+	{
+	  "name": "npcsupport",
+	  "class": "Wojak",
+	  "tags": [
+		"npc",
+		"agree",
+		"support",
+		"facebook",
+		"flags"
+	  ]
+	},
+	{
+	  "name": "npcoppse",
+	  "class": "Wojak",
+	  "tags": [
+		"npc",
+		"oppose",
+		"contrarian"
+	  ]
+	},
+	{
+	  "name": "grugthink",
+	  "class": "Wojak",
+	  "tags": [
+		"grug",
+		"think",
+		"caveman"
+	  ]
+	},
+	{
+	  "name": "soyconsoomer",
+	  "tags": [
+		"consoomer"
+	  ],
+	  "class": "Wojak"
+	},
+	{
+	  "name": "soyjaktalking",
+	  "tags": [
+		"talking"
+	  ],
+	  "class": "Wojak"
+	},
+	{
+	  "name": "soyquack",
+	  "tags": [
+		"quack"
+	  ],
+	  "class": "Wojak"
+	},
+	{
+	  "name": "tradboy",
+	  "class": "Wojak",
+	  "tags": [
+		"trad",
+		"man",
+		"blonde",
+		"femboy"
+	  ]
+	},
+	{
+	  "name": "sciencejak",
+	  "class": "Wojak",
+	  "tags": [
+		"science",
+		"trust"
+	  ]
+	},
+	{
+	  "name": "soyjakanimeglasses",
+	  "tags": [
+		"anime",
+		"glasses"
+	  ],
+	  "class": "Wojak"
+	},
+	{
+	  "name": "soymad",
+	  "tags": [
+		"mad",
+		"rage"
+	  ],
+	  "class": "Wojak"
+	},
+	{
+	  "name": "boomerportrait",
+	  "class": "Wojak",
+	  "tags": [
+		"boomer"
+	  ]
+	},
+	{
+	  "name": "soycry",
+	  "tags": [
+		"cry"
+	  ],
+	  "class": "Wojak"
+	},
+	{
+	  "name": "punchjak",
+	  "class": "Wojak",
+	  "tags": [
+		"punch",
+		"hit",
+		"slap",
+		"smug"
+	  ]
+	},
+	{
+	  "name": "seethejak",
+	  "tags": [
+		"mad",
+		"rage"
+	  ],
+	  "class": "Wojak"
+	},
+	{
+	  "name": "chadyes",
+	  "class": "Wojak",
+	  "tags": [
+		"chad",
+		"yes",
+		"agree"
+	  ]
+	},
+	{
+	  "name": "chadno",
+	  "tags": [
+		"no",
+		"negative"
+	  ],
+	  "class": "Wojak"
+	},
+	{
+	  "name": "abusivewife",
+	  "tags": [
+		"bardfinn"
+	  ],
+	  "class": "Wojak"
+	},
+	{
+	  "name": "ancap",
+	  "tags": [
+		"pedo",
+		"lib"
+	  ],
+	  "class": "Wojak"
+	},
+	{
+	  "name": "klanjak",
+	  "class": "Wojak",
+	  "tags": [
+		"kkk",
+		"klan",
+		"seethe"
+	  ]
+	},
+	{
+	  "name": "bardfinn",
+	  "class": "Wojak",
+	  "tags": [
+		"bardfinn",
+		"coomer",
+		"tranny",
+		"troon",
+		"steve"
+	  ]
+	},
+	{
+	  "name": "bloomer",
+	  "class": "Wojak",
+	  "tags": [
+		"bloomer",
+		"hopeful",
+		"naïve"
+	  ]
+	},
+	{
+	  "name": "boomer",
+	  "class": "Wojak",
+	  "tags": [
+		"boomer",
+		"old",
+		"sunglasses"
+	  ]
+	},
+	{
+	  "name": "boomermonster",
+	  "class": "Wojak",
+	  "tags": [
+		"boomer",
+		"old",
+		"sunglasses",
+		"energy drink",
+		"monster"
+	  ]
+	},
+	{
+	  "name": "brainletbush",
+	  "class": "Wojak",
+	  "tags": [
+		"brainlet",
+		"bush",
+		"911",
+		"twin towers",
+		"retard",
+		"retarded"
+	  ]
+	},
+	{
+	  "name": "brainletcaved",
+	  "class": "Wojak",
+	  "tags": [
+		"brainlet",
+		"cave",
+		"retard",
+		"retarded"
+	  ]
+	},
+	{
+	  "name": "brainletchair",
+	  "class": "Wojak",
+	  "tags": [
+		"brainlet",
+		"chair",
+		"smug",
+		"enlightened"
+	  ]
+	},
+	{
+	  "name": "brainletchest",
+	  "class": "Wojak",
+	  "tags": [
+		"brainlet",
+		"chest",
+		"retard",
+		"retarded"
+	  ]
+	},
+	{
+	  "name": "brainletmaga",
+	  "class": "Wojak",
+	  "tags": [
+		"maga",
+		"trump",
+		"brainlet",
+		"retard",
+		"retarded"
+	  ]
+	},
+	{
+	  "name": "brainletpit",
+	  "class": "Wojak",
+	  "tags": [
+		"brainlet",
+		"pit",
+		"hole",
+		"retard",
+		"retarded"
+	  ]
+	},
+	{
+	  "name": "chad",
+	  "class": "Wojak",
+	  "tags": [
+		"original"
+	  ]
+	},
+	{
+	  "name": "chadarab",
+	  "class": "Wojak",
+	  "tags": [
+		"chad",
+		"arab"
+	  ]
+	},
+	{
+	  "name": "chadasian",
+	  "class": "Wojak",
+	  "tags": [
+		"chad",
+		"asian"
+	  ]
+	},
+	{
+	  "name": "chadblack",
+	  "class": "Wojak",
+	  "tags": [
+		"black",
+		"chad"
+	  ]
+	},
+	{
+	  "name": "chadcambodian",
+	  "class": "Wojak",
+	  "tags": [
+		"chad",
+		"cambodian"
+	  ]
+	},
+	{
+	  "name": "chadjesus",
+	  "tags": [
+		"jesus"
+	  ],
+	  "class": "Wojak"
+	},
+	{
+	  "name": "chadjew",
+	  "tags": [
+		"jew"
+	  ],
+	  "class": "Wojak"
+	},
+	{
+	  "name": "chadjihadi",
+	  "tags": [
+		"jihad",
+		"muslism",
+		"islam"
+	  ],
+	  "class": "Wojak"
+	},
+	{
+	  "name": "chadlatino",
+	  "tags": [
+		"latinx"
+	  ],
+	  "class": "Wojak"
+	},
+	{
+	  "name": "chadlibleft",
+	  "tags": [
+		"libleft"
+	  ],
+	  "class": "Wojak"
+	},
+	{
+	  "name": "chadnordic",
+	  "tags": [
+		"nordic",
+		"nazi"
+	  ],
+	  "class": "Wojak"
+	},
+	{
+	  "name": "chadmediterranean",
+	  "class": "Wojak",
+	  "chad": [
+		"chad",
+		"mediterranean"
+	  ]
+	},
+	{
+	  "name": "chadsikh",
+	  "tags": [
+		"sikh",
+		"indian"
+	  ],
+	  "class": "Wojak"
+	},
+	{
+	  "name": "chadusa",
+	  "tags": [
+		"usa",
+		"america",
+		"freedom"
+	  ],
+	  "class": "Wojak"
+	},
+	{
+	  "name": "chadsoy",
+	  "class": "Wojak",
+	  "tags": [
+		"soy"
+	  ]
+	},
+	{
+	  "name": "chadsoylent",
+	  "class": "Wojak",
+	  "tags": [
+		"soy",
+		"soylent"
+	  ]
+	},
+	{
+	  "name": "coomer",
+	  "class": "Wojak",
+	  "tags": [
+		"coom",
+		"degenerate"
+	  ]
+	},
+	{
+	  "name": "doomer",
+	  "class": "Wojak",
+	  "tags": [
+		"doomer",
+		"sad",
+		"depressed",
+		"smoking"
+	  ]
+	},
+	{
+	  "name": "doomerfront",
+	  "class": "Wojak",
+	  "tags": [
+		"doomer",
+		"sad",
+		"depressed",
+		"smoking"
+	  ]
+	},
+	{
+	  "name": "doomergirl",
+	  "class": "Wojak",
+	  "tags": [
+		"woman",
+		"doomer",
+		"depressed"
+	  ]
+	},
+	{
+	  "name": "ethot",
+	  "class": "Wojak",
+	  "tags": [
+		"woman",
+		"onlyfans"
+	  ]
+	},
+	{
+	  "name": "fatbrain",
+	  "class": "Wojak",
+	  "tags": [
+		"fat",
+		"fatty",
+		"brain",
+		"smart",
+		"genius"
+	  ]
+	},
+	{
+	  "name": "fatpriest",
+	  "tags": [
+		"priest",
+		"jesus"
+	  ],
+	  "class": "Wojak"
+	},
+	{
+	  "name": "femboy",
+	  "tags": [
+		"female",
+		"bussy"
+	  ],
+	  "class": "Wojak"
+	},
+	{
+	  "name": "gogetter",
+	  "class": "Wojak",
+	  "tags": [
+		"motivated"
+	  ]
+	},
+	{
+	  "name": "grug",
+	  "class": "Wojak",
+	  "tags": [
+		"caveman"
+	  ]
+	},
+	{
+	  "name": "monke",
+	  "class": "Wojak",
+	  "tags": [
+		"monkey",
+		"chad",
+		"ape"
+	  ]
+	},
+	{
+	  "name": "nazijak",
+	  "class": "Wojak",
+	  "tags": [
+		"nazi",
+		"fascist"
+	  ]
+	},
+	{
+	  "name": "npc",
+	  "class": "Wojak",
+	  "tags": [
+		"npc",
+		"normie"
+	  ]
+	},
+	{
+	  "name": "npcfront",
+	  "class": "Wojak",
+	  "tags": [
+		"npc",
+		"normie"
+	  ]
+	},
+	{
+	  "name": "npcmaga",
+	  "class": "Wojak",
+	  "tags": [
+		"trump",
+		"maga",
+		"npc",
+		"fat"
+	  ]
+	},
+	{
+	  "name": "chadbaby",
+	  "class": "Wojak",
+	  "tags": [
+		"chad",
+		"baby"
+	  ]
+	},
+	{
+	  "name": "chadstalin",
+	  "class": "Wojak",
+	  "tags": [
+		"chad",
+		"stalin",
+		"communism",
+		"ussr",
+		"georgia"
+	  ]
+	},
+	{
+	  "name": "chudette",
+	  "class": "Wojak",
+	  "tags": [
+		"chud",
+		"woman",
+		"blonde"
+	  ]
+	},
+	{
+	  "name": "chudgrug",
+	  "class": "Wojak",
+	  "tags": [
+		"chud",
+		"grug",
+		"caveman"
+	  ]
+	},
+	{
+	  "name": "chudnazi",
+	  "class": "Wojak",
+	  "tags": [
+		"chud",
+		"nazi"
+	  ]
+	},
+	{
+	  "name": "chudsmug",
+	  "class": "Wojak",
+	  "tags": [
+		"chud",
+		"smug"
+	  ]
+	},
+	{
+	  "name": "chudglassesglow",
+	  "class": "Wojak",
+	  "tags": [
+		"chud",
+		"glasses",
+		"anime"
+	  ]
+	},
+	{
+	  "name": "soy4dchess",
+	  "class": "Wojak",
+	  "tags": [
+		"soy",
+		"maga",
+		"Q",
+		"trump",
+		"chess",
+		"pawn"
+	  ]
+	},
+	{
+	  "name": "soyjaktantrum",
+	  "class": "Wojak",
+	  "tags": [
+		"soy",
+		"tantrum",
+		"fit",
+		"crying",
+		"seething",
+		"animated"
+	  ]
+	},
+	{
+	  "name": "psychojak",
+	  "class": "Wojak",
+	  "tags": [
+		"psycho",
+		"creepy",
+		"cursed"
+	  ]
+	},
+	{
+	  "name": "ragejak",
+	  "tags": [
+		"mad"
+	  ],
+	  "class": "Wojak"
+	},
+	{
+	  "name": "ragemask",
+	  "tags": [
+		"mad"
+	  ],
+	  "class": "Wojak"
+	},
+	{
+	  "name": "ramonajak",
+	  "class": "Wojak",
+	  "tags": [
+		"woman",
+		"ice tea ",
+		"twitter"
+	  ]
+	},
+	{
+	  "name": "soyjackwow",
+	  "tags": [
+		"wow",
+		"surprise"
+	  ],
+	  "class": "Wojak"
+	},
+	{
+	  "name": "soyjak",
+	  "class": "Wojak",
+	  "tags": [
+		"soy"
+	  ]
+	},
+	{
+	  "name": "soyjakfront",
+	  "class": "Wojak",
+	  "tags": [
+		"soy"
+	  ]
+	},
+	{
+	  "name": "soyjakhipster",
+	  "tags": [
+		"hipster"
+	  ],
+	  "class": "Wojak"
+	},
+	{
+	  "name": "soyjakmaga",
+	  "tags": [
+		"maga",
+		"israel",
+		"nazi"
+	  ],
+	  "class": "Wojak"
+	},
+	{
+	  "name": "soyjakyell",
+	  "tags": [
+		"yell"
+	  ],
+	  "class": "Wojak"
+	},
+	{
+	  "name": "tomboy",
+	  "tags": [
+		"trans"
+	  ],
+	  "class": "Wojak"
+	},
+	{
+	  "name": "zoomer",
+	  "class": "Wojak",
+	  "tags": [
+		"zoomie",
+		"gen z"
+	  ]
+	},
+	{
+	  "name": "zoomersoy",
+	  "tags": [
+		"soyjak"
+	  ],
+	  "class": "Wojak"
+	},
+	{
+	  "name": "asianenbyjak",
+	  "class": "Wojak",
+	  "tags": [
+		"asian",
+		"asia",
+		"enby",
+		"nonbinary",
+		"tranny",
+		"troon",
+		"androgynous"
+	  ]
+	},
+	{
+	  "name": "asiangirl",
+	  "class": "Wojak",
+	  "tags": [
+		"asian",
+		"woman",
+		"asa"
+	  ]
+	},
+	{
+	  "name": "asiantwinkjak",
+	  "class": "Wojak",
+	  "tags": [
+		"asian",
+		"twink",
+		"gay"
+	  ]
+	},
+	{
+	  "name": "bobateagirl",
+	  "class": "Wojak",
+	  "tags": [
+		"asian",
+		"woman",
+		"boba"
+	  ]
+	},
+	{
+	  "name": "chadasian2",
+	  "class": "Wojak",
+	  "tags": [
+		"chad",
+		"asian"
+	  ]
+	},
+	{
+	  "name": "chadindianheadset",
+	  "class": "Wojak",
+	  "tags": [
+		"chad",
+		"indian",
+		"headset",
+		"microphone",
+		"headphones"
+	  ]
+	},
+	{
+	  "name": "chinesenobleman",
+	  "class": "Wojak",
+	  "tags": [
+		"asian",
+		"china",
+		"chinese",
+		"qin",
+		"shang",
+		"zhou",
+		"han",
+		"qing",
+		"sui",
+		"tang",
+		"liao",
+		"song",
+		"yuan",
+		"ming"
+	  ]
+	},
+	{
+	  "name": "chinesepolitician",
+	  "class": "Wojak",
+	  "tags": [
+		"chinese",
+		"politician"
+	  ]
+	},
+	{
+	  "name": "chinesesoldierjak",
+	  "class": "Wojak",
+	  "tags": [
+		"chinese",
+		"asian",
+		"ccp",
+		"solider",
+		"gun",
+		"military"
+	  ]
+	},
+	{
+	  "name": "greendesigirl",
+	  "class": "Wojak",
+	  "tags": [
+		"woman",
+		"indian",
+		"desi",
+		"green"
+	  ]
+	},
+	{
+	  "name": "imperialjapanesesoldier",
+	  "class": "Wojak",
+	  "tags": [
+		"japanese",
+		"asian",
+		"imperial",
+		"banzai",
+		"solider",
+		"wwii"
+	  ]
+	},
+	{
+	  "name": "indiandoomergirl",
+	  "class": "Wojak",
+	  "tags": [
+		"woman",
+		"indian",
+		"doomer",
+		"depressed"
+	  ]
+	},
+	{
+	  "name": "kimjojongjak",
+	  "class": "Wojak",
+	  "tags": [
+		"woman",
+		"korean",
+		"asian"
+	  ]
+	},
+	{
+	  "name": "kimonogirl",
+	  "class": "Wojak",
+	  "tags": [
+		"woman",
+		"asian",
+		"japanese",
+		"japan",
+		"kimono"
+	  ]
+	},
+	{
+	  "name": "maojak",
+	  "class": "Wojak",
+	  "tags": [
+		"mao",
+		"china",
+		"chinese",
+		"communism",
+		"famine"
+	  ]
+	},
+	{
+	  "name": "mongoljak",
+	  "class": "Wojak",
+	  "tags": [
+		"mongol",
+		"mongolia",
+		"genghis",
+		"asian",
+		"throat singing"
+	  ]
+	},
+	{
+	  "name": "scaryasianwife",
+	  "class": "Wojak",
+	  "tags": [
+		"asian",
+		"woman",
+		"wife",
+		"wok",
+		"discipline"
+	  ]
+	},
+	{
+	  "name": "shorthairasiangirl",
+	  "class": "Wojak",
+	  "tags": [
+		"asian",
+		"woman"
+	  ]
+	},
+	{
+	  "name": "singaporeansoldierjak",
+	  "class": "Wojak",
+	  "tags": [
+		"singapore",
+		"solider",
+		"gas mask",
+		"military"
+	  ]
+	},
+	{
+	  "name": "suprisedasianwife",
+	  "class": "Wojak",
+	  "tags": [
+		"surprised",
+		"asian",
+		"woman",
+		"wife"
+	  ]
+	},
+	{
+	  "name": "tiawanesesoldierjak",
+	  "class": "Wojak",
+	  "tags": [
+		"taiwan",
+		"china",
+		"solider",
+		"military",
+		"gun"
+	  ]
+	},
+	{
+	  "name": "witheredricefarmer",
+	  "class": "Wojak",
+	  "tags": [
+		"rice",
+		"farmer",
+		"tired",
+		"old",
+		"decrepit"
+	  ]
+	},
+	{
+	  "name": "yakuzajak",
+	  "class": "Wojak",
+	  "tags": [
+		"japan",
+		"japanese",
+		"yakuza",
+		"tattoo",
+		"mafia",
+		"crime"
+	  ]
+	},
+	{
+	  "name": "capytalking",
+	  "tags": [
+		"capy",
+		"soy",
+		"aevann"
+	  ],
+	  "class": "Misc"
+	},
+	{
+	  "name": "gigachadcapy",
+	  "tags": [
+		"aevann",
+		"giga",
+		"chad",
+		"capy"
+	  ],
+	  "class": "Misc"
+	},
+	{
+	  "name": "maid",
+	  "tags": [
+		"canada",
+		"leaf",
+		"suicide",
+		"keep",
+		"yourself",
+		"safe",
+		"noose",
+		"anime",
+		"kys",
+		"kill",
+		"yourself"
+	  ],
+	  "class": "Misc"
+	},
+	{
+	  "name": "grillcastyes",
+	  "tags": [
+		"podcast",
+		"chad"
+	  ],
+	  "class": "Misc"
+	},
+	{
+	  "name": "ivoted",
+	  "tags": [
+		"democracy",
+		"spider"
+	  ],
+	  "class": "Misc"
+	},
+	{
+	  "name": "hapyday",
+	  "tags": [
+		"happyday",
+		"wholesome",
+		"smile"
+	  ],
+	  "class": "Misc"
+	},
+	{
+	  "name": "froth",
+	  "tags": [
+		"froth",
+		"seethe",
+		"angry",
+		"ugh",
+		"frothing",
+		"sneed"
+	  ],
+	  "class": "Misc"
+	},
+	{
+	  "name": "chadyescapy",
+	  "tags": [
+		"capy",
+		"aevann"
+	  ],
+	  "class": "Misc"
+	},
+	{
+	  "name": "chadnocapy",
+	  "tags": [
+		"capy",
+		"aevann"
+	  ],
+	  "class": "Misc"
+	},
+	{
+	  "name": "capygitcommit",
+	  "tags": [
+		"capy",
+		"aevann"
+	  ],
+	  "class": "Misc"
+	},
+	{
+	  "name": "capyantischizo",
+	  "class": "Misc"
+	},
+	{
+	  "name": "capysneedboat",
+	  "tags": [
+		"capy",
+		"aevann"
+	  ],
+	  "class": "Misc"
+	},
+	{
+	  "name": "chadbasedcapy",
+	  "tags": [
+		"capy",
+		"aevann"
+	  ],
+	  "class": "Misc"
+	},
+	{
+	  "name": "chadcopecapy",
+	  "tags": [
+		"capy",
+		"aevann"
+	  ],
+	  "class": "Misc"
+	},
+	{
+	  "name": "chaddilatecapy",
+	  "tags": [
+		"capy",
+		"aevann"
+	  ],
+	  "class": "Misc"
+	},
+	{
+	  "name": "chaddonekingcapy",
+	  "tags": [
+		"capy",
+		"aevann",
+		"done",
+		"king"
+	  ],
+	  "class": "Misc"
+	},
+	{
+	  "name": "chaddonequeencapy",
+	  "tags": [
+		"capy",
+		"aevann",
+		"done",
+		"queen"
+	  ],
+	  "class": "Misc"
+	},
+	{
+	  "name": "chadfixedkingcapy",
+	  "tags": [
+		"capy",
+		"aevann",
+		"fixed",
+		"king"
+	  ],
+	  "class": "Misc"
+	},
+	{
+	  "name": "chadfixedqueencapy",
+	  "tags": [
+		"capy",
+		"aevann",
+		"fixed",
+		"queen"
+	  ],
+	  "class": "Misc"
+	},
+	{
+	  "name": "chadokcapy",
+	  "tags": [
+		"capy",
+		"aevann"
+	  ],
+	  "class": "Misc"
+	},
+	{
+	  "name": "chadseethecapy",
+	  "tags": [
+		"capy",
+		"aevann"
+	  ],
+	  "class": "Misc"
+	},
+	{
+	  "name": "chadsneedcapy",
+	  "tags": [
+		"capy",
+		"aevann"
+	  ],
+	  "class": "Misc"
+	},
+	{
+	  "name": "chadthankskingcapy",
+	  "tags": [
+		"capy",
+		"aevann",
+		"thanks",
+		"king"
+	  ],
+	  "class": "Misc"
+	},
+	{
+	  "name": "chadthanksqueencapy",
+	  "tags": [
+		"capy",
+		"aevann",
+		"thanks",
+		"queen"
+	  ],
+	  "class": "Misc"
+	},
+	{
+	  "name": "chadnoproblemkingcapy",
+	  "class": "Misc",
+	  "tags": [
+		"capy",
+		"aevann",
+		"no",
+		"problem",
+		"king",
+		"np"
+	  ]
+	},
+	{
+	  "name": "chadnoproblemqueencapy",
+	  "class": "Misc",
+	  "tags": [
+		"capy",
+		"aevann",
+		"no",
+		"problem",
+		"queen",
+		"np"
+	  ]
+	},
+	{
+	  "name": "chadstevejobs",
+	  "class": "Misc",
+	  "tags": [
+		"chad",
+		"steve",
+		"jobs",
+		"apple"
+	  ]
+	},
+	{
+	  "name": "chadmusk",
+	  "class": "Misc",
+	  "tags": [
+		"chad",
+		"elon",
+		"musk",
+		"tesla",
+		"spacex"
+	  ]
+	},
+	{
+	  "name": "dinoyes",
+	  "class": "Misc",
+	  "tags": [
+		"chad",
+		"yes",
+		"dino",
+		"dinosaur",
+		"trex"
+	  ]
+	},
+	{
+	  "name": "dinono",
+	  "class": "Misc",
+	  "tags": [
+		"dino",
+		"chad",
+		"no",
+		"dinosaur",
+		"trex"
+	  ]
+	},
+	{
+	  "name": "dinoconfused",
+	  "class": "Misc",
+	  "tags": [
+		"dino",
+		"dinosaur",
+		"confused"
+	  ]
+	},
+	{
+	  "name": "breadmarsey",
+	  "class": "Misc",
+	  "tags": [
+		"bread",
+		"marsey",
+		"cat",
+		"food"
+	  ]
+	},
+	{
+	  "name": "breadcapy",
+	  "class": "Misc",
+	  "tags": [
+		"bread",
+		"capy",
+		"food"
+	  ]
+	},
+	{
+	  "name": "marseymummified",
+	  "class": "Misc",
+	  "tags": [
+		"marsey",
+		"mummy"
+	  ]
+	},
+	{
+	  "name": "sharkmarsey",
+	  "class": "Misc",
+	  "tags": [
+		"shark",
+		"marsey",
+		"irl"
+	  ]
+	},
+	{
+	  "name": "snootrollface",
+	  "class": "Misc",
+	  "tags": [
+		"snoo",
+		"reddit",
+		"trollface"
+	  ]
+	},
+	{
+	  "name": "snoojoy",
+	  "class": "Misc",
+	  "tags": [
+		"snoo",
+		"reddit",
+		"joy",
+		"happy",
+		"animated"
+	  ]
+	},
+	{
+	  "name": "snooblowkiss",
+	  "class": "Misc",
+	  "tags": [
+		"snoo",
+		"reddit",
+		"kiss",
+		"love",
+		"heart"
+	  ]
+	},
+	{
+	  "name": "snoosurprise",
+	  "class": "Misc",
+	  "tags": [
+		"snoo",
+		"surprised",
+		"reddit",
+		"animated"
+	  ]
+	},
+	{
+	  "name": "snooupvote",
+	  "class": "Misc",
+	  "tags": [
+		"snoo",
+		"reddit",
+		"upvote",
+		"animated"
+	  ]
+	},
+	{
+	  "name": "snoothumbsup",
+	  "class": "Misc",
+	  "tags": [
+		"snoo",
+		"reddit",
+		"thumbs up",
+		"agree",
+		"good",
+		"animated"
+	  ]
+	},
+	{
+	  "name": "brooksannoyed",
+	  "tags": [
+		"darrell",
+		"suv",
+		"waukesha",
+		"retard",
+		"idiot",
+		"annoyed",
+		"irritated",
+		"mask",
+		"suit",
+		"black"
+	  ],
+	  "class": "Misc"
+	},
+	{
+	  "name": "brookslaugh",
+	  "class": "Misc",
+	  "tags": [
+		"brooks",
+		"laugh",
+		"funny",
+		"gif"
+	  ]
+	},
+	{
+	  "name": "brookscringe",
+	  "class": "Misc",
+	  "tags": [
+		"brooks",
+		"cringe"
+	  ]
+	},
+	{
+	  "name": "brooksjustright",
+	  "class": "Misc",
+	  "tags": [
+		"brooks",
+		"good",
+		"right"
+	  ]
+	},
+	{
+	  "name": "brookskiss",
+	  "class": "Misc",
+	  "tags": [
+		"brooks",
+		"kiss",
+		"love"
+	  ]
+	},
+	{
+	  "name": "brooksbailiffunamused",
+	  "class": "Misc",
+	  "tags": [
+		"brooks",
+		"bailiff",
+		"unamused",
+		"annoyed"
+	  ]
+	},
+	{
+	  "name": "opperblink",
+	  "tags": [
+		"sue",
+		"opper",
+		"darrell",
+		"brooks",
+		"prosecutor",
+		"district",
+		"attorney",
+		"da",
+		"annoyed",
+		"irritated",
+		"waukesha"
+	  ],
+	  "class": "Misc"
+	},
+	{
+	  "name": "gimp",
+	  "class": "Misc",
+	  "tags": [
+		"art",
+		"pepper",
+		"brush"
+	  ]
+	},
+	{
+	  "name": "taddance",
+	  "class": "Misc",
+	  "tags": [
+		"terry",
+		"davis",
+		"templeos",
+		"dance"
+	  ]
+	},
+	{
+	  "name": "realisticelephant",
+	  "class": "Misc",
+	  "tags": [
+		"terry",
+		"davis",
+		"templeos"
+	  ]
+	},
+	{
+	  "name": "sher",
+	  "class": "Misc",
+	  "tags": [
+		"pat",
+		"patting",
+		"animated"
+	  ]
+	},
+	{
+	  "name": "xdoubt",
+	  "class": "Misc",
+	  "tags": [
+		"doubt",
+		"x",
+		"press",
+		"vidya"
+	  ]
+	},
+	{
+	  "name": "gigachadjesus",
+	  "tags": [
+		"chad",
+		"jesus",
+		"christ"
+	  ],
+	  "class": "Misc"
+	},
+	{
+	  "name": "yotsubafish",
+	  "class": "Misc",
+	  "tags": [
+		"woman",
+		"fish",
+		"anime"
+	  ]
+	},
+	{
+	  "name": "yotsubalol",
+	  "class": "Misc",
+	  "tags": [
+		"anime",
+		"woman",
+		"lol"
+	  ]
+	},
+	{
+	  "name": "sigmatalking",
+	  "class": "Misc",
+	  "tags": [
+		"Patrick Bateman",
+		"talking",
+		"meme"
+	  ]
+	},
+	{
+	  "name": "peoplewhoannoy",
+	  "class": "Misc",
+	  "tags": [
+		"annoy",
+		"south park",
+		"animated"
+	  ]
+	},
+	{
+	  "name": "pepedrum",
+	  "tags": [
+		"football",
+		"soccer"
+	  ],
+	  "class": "Misc"
+	},
+	{
+	  "name": "zoroarkconfused",
+	  "class": "Misc",
+	  "tags": [
+		"confused",
+		"furry"
+	  ]
+	},
+	{
+	  "name": "zoroarkhappy",
+	  "class": "Misc",
+	  "tags": [
+		"happy",
+		"furry"
+	  ]
+	},
+	{
+	  "name": "zoroarkpout",
+	  "class": "Misc",
+	  "tags": [
+		"pout",
+		"furry"
+	  ]
+	},
+	{
+	  "name": "zoroarksleepy",
+	  "class": "Misc",
+	  "tags": [
+		"sleepy",
+		"furry"
+	  ]
+	},
+	{
+	  "name": "casanovanova",
+	  "class": "Misc",
+	  "tags": [
+		"indian",
+		"man"
+	  ]
+	},
+	{
+	  "name": "deuxwaifu",
+	  "class": "Misc",
+	  "tags": [
+		"french",
+		"woman",
+		"bread",
+		"wife"
+	  ]
+	},
+	{
+	  "name": "flairlessmong",
+	  "class": "Misc",
+	  "tags": [
+		"flairless",
+		"mong",
+		"reddit"
+	  ]
+	},
+	{
+	  "name": "hardislife",
+	  "class": "Misc",
+	  "tags": [
+		"feet",
+		"woman"
+	  ]
+	},
+	{
+	  "name": "ben10",
+	  "class": "Misc",
+	  "tags": [
+		"masterlolz",
+		"cartoon"
+	  ]
+	},
+	{
+	  "name": "redditgigachad",
+	  "tags": [
+		"chad",
+		"gigachad"
+	  ],
+	  "class": "Misc"
+	},
+	{
+	  "name": "rfybear",
+	  "class": "Misc",
+	  "tags": [
+		"bear",
+		"animal"
+	  ]
+	},
+	{
+	  "name": "etika",
+	  "class": "Misc",
+	  "tags": [
+		"black",
+		"streamer",
+		"nft",
+		"dead"
+	  ]
+	},
+	{
+	  "name": "sneed",
+	  "class": "Misc",
+	  "tags": [
+		"letters",
+		"dancing",
+		"animated"
+	  ]
+	},
+	{
+	  "name": "sneedcat",
+	  "class": "Misc",
+	  "tags": [
+		"sneed",
+		"cat",
+		"dancing",
+		"whip",
+		"gif"
+	  ]
+	},
+	{
+	  "name": "retardedchildren",
+	  "class": "Misc",
+	  "tags": [
+		"retarded",
+		"children",
+		"helped",
+		"stamp"
+	  ]
+	},
+	{
+	  "name": "bruh",
+	  "class": "Misc",
+	  "tags": [
+		"emoticon"
+	  ]
+	},
+	{
+	  "name": "autism",
+	  "class": "Misc",
+	  "tags": [
+		"letters",
+		"dancing",
+		"animated"
+	  ]
+	},
+	{
+	  "name": "doot",
+	  "class": "Misc",
+	  "tags": [
+		"skull",
+		"skeleton",
+		"trumpet",
+		"music",
+		"animated"
+	  ]
+	},
+	{
+	  "name": "mussolini",
+	  "class": "Misc",
+	  "tags": [
+		"italy",
+		"italian",
+		"fascist"
+	  ]
+	},
+	{
+	  "name": "kylieface",
+	  "class": "Misc",
+	  "tags": [
+		"kyle",
+		"rittenhouse"
+	  ]
+	},
+	{
+	  "name": "queenyes",
+	  "class": "Misc",
+	  "tags": [
+		"black",
+		"woman",
+		"queen"
+	  ]
+	},
+	{
+	  "name": "wholesomeseal",
+	  "tags": [
+		"seal",
+		"reddit",
+		"award"
+	  ],
+	  "class": "Misc"
+	},
+	{
+	  "name": "gigachadglow",
+	  "tags": [
+		"chad",
+		"glow",
+		"fbi"
+	  ],
+	  "class": "Misc"
+	},
+	{
+	  "name": "gigachadorthodox",
+	  "tags": [
+		"chad",
+		"orthodox"
+	  ],
+	  "class": "Misc"
+	},
+	{
+	  "name": "gigachad",
+	  "tags": [
+		"chad"
+	  ],
+	  "class": "Misc"
+	},
+	{
+	  "name": "gigachad2",
+	  "tags": [
+		"chad"
+	  ],
+	  "class": "Misc"
+	},
+	{
+	  "name": "gigachad3",
+	  "tags": [
+		"chad"
+	  ],
+	  "class": "Misc"
+	},
+	{
+	  "name": "gigachad4",
+	  "tags": [
+		"chad"
+	  ],
+	  "class": "Misc"
+	},
+	{
+	  "name": "pedobear",
+	  "class": "Misc",
+	  "tags": [
+		"pedo",
+		"bear"
+	  ]
+	},
+	{
+	  "name": "onerat",
+	  "class": "Misc",
+	  "tags": [
+		"rat",
+		"animal",
+		"animated"
+	  ]
+	},
+	{
+	  "name": "bitchhaditcomin",
+	  "class": "Misc",
+	  "tags": [
+		"comic"
+	  ]
+	},
+	{
+	  "name": "duckdance",
+	  "class": "Misc",
+	  "tags": [
+		"duck",
+		"bird",
+		"shuka",
+		"hololive",
+		"dance",
+		"hat",
+		"animated"
+	  ]
+	},
+	{
+	  "name": "stoning",
+	  "class": "Misc",
+	  "tags": [
+		"muslim",
+		"stoning",
+		"animated"
+	  ]
+	},
+	{
+	  "name": "stoningpills",
+	  "class": "Misc",
+	  "tags": [
+		"muslim",
+		"pills",
+		"stoning",
+		"meds",
+		"animated"
+	  ]
+	},
+	{
+	  "name": "stoningupvotes",
+	  "class": "Misc",
+	  "tags": [
+		"muslim",
+		"throw",
+		"stoning",
+		"upvotes",
+		"animated"
+	  ]
+	},
+	{
+	  "name": "stoningdownvotes",
+	  "class": "Misc",
+	  "tags": [
+		"muslim",
+		"stoning",
+		"throw",
+		"downvotes",
+		"animated"
+	  ]
+	},
+	{
+	  "name": "stoningbans",
+	  "class": "Misc",
+	  "tags": [
+		"muslim",
+		"stoning",
+		"bans",
+		"throw",
+		"animated"
+	  ]
+	},
+	{
+	  "name": "stoningunbans",
+	  "class": "Misc",
+	  "tags": [
+		"muslim",
+		"stoning",
+		"guns",
+		"bans",
+		"throw",
+		"animated"
+	  ]
+	},
+	{
+	  "name": "stoningpins",
+	  "class": "Misc",
+	  "tags": [
+		"muslim",
+		"stoning",
+		"throw",
+		"pins",
+		"animated"
+	  ]
+	},
+	{
+	  "name": "stoningunpins",
+	  "class": "Misc",
+	  "tags": [
+		"muslim",
+		"stoning",
+		"throw",
+		"unpins",
+		"animated"
+	  ]
+	},
+	{
+	  "name": "srdinepoppy",
+	  "class": "Misc",
+	  "tags": [
+		"poppy",
+		"popcorn",
+		"reddit",
+		"srdine",
+		"subredditdrama"
+	  ]
+	},
+	{
+	  "name": "gunt",
+	  "class": "Misc",
+	  "tags": [
+		"animated",
+		"blob",
+		"lump",
+		"dancing"
+	  ]
+	},
+	{
+	  "name": "sneedbuddy",
+	  "class": "Misc",
+	  "tags": [
+		"cat",
+		"sneed",
+		"irl",
+		"kitty"
+	  ]
+	},
+	{
+	  "name": "chuckbuddy",
+	  "class": "Misc",
+	  "tags": [
+		"invert",
+		"chuck",
+		"cat",
+		"irl"
+	  ]
+	},
+	{
+	  "name": "mallocbuddy",
+	  "class": "Misc",
+	  "tags": [
+		"cat",
+		"irl"
+	  ]
+	},
+	{
+	  "name": "soren",
+	  "class": "Misc",
+	  "tags": [
+		"soren",
+		"assimilation"
+	  ]
+	},
+	{
+	  "name": "upsoren",
+	  "class": "Misc",
+	  "tags": [
+		"upvote",
+		"soren"
+	  ]
+	},
+	{
+	  "name": "downdonger",
+	  "class": "Misc",
+	  "tags": [
+		"downvote",
+		"donger"
+	  ]
+	},
+	{
+	  "name": "reposthorse",
+	  "class": "Misc",
+	  "tags": [
+		"chud",
+		"mlp",
+		"horse",
+		"cartoon"
+	  ]
+	},
+	{
+	  "name": "russia",
+	  "class": "Misc",
+	  "tags": [
+		"flag",
+		"russia",
+		"vatnik"
+	  ]
+	},
+	{
+	  "name": "niger",
+	  "class": "Misc",
+	  "tags": [
+		"niger",
+		"flag"
+	  ]
+	},
+	{
+	  "name": "lgbt",
+	  "class": "Misc",
+	  "tags": [
+		"bi",
+		"gay",
+		"lesbian",
+		"flag"
+	  ]
+	},
+	{
+	  "name": "pride2022",
+	  "class": "Misc",
+	  "tags": [
+		"bait",
+		"lgbt",
+		"flag"
+	  ]
+	},
+	{
+	  "name": "animesexual",
+	  "class": "Misc",
+	  "tags": [
+		"mogai",
+		"anime",
+		"flag"
+	  ]
+	},
+	{
+	  "name": "blacknation",
+	  "class": "Misc",
+	  "tags": [
+		"black",
+		"flag"
+	  ]
+	},
+	{
+	  "name": "blm",
+	  "class": "Misc",
+	  "tags": [
+		"flag"
+	  ]
+	},
+	{
+	  "name": "blueline",
+	  "class": "Misc",
+	  "tags": [
+		"police",
+		"cops",
+		"bootlicker",
+		"flag"
+	  ]
+	},
+	{
+	  "name": "dreamgender",
+	  "class": "Misc",
+	  "tags": [
+		"mogai",
+		"dream",
+		"flag"
+	  ]
+	},
+	{
+	  "name": "fatpride",
+	  "class": "Misc",
+	  "tags": [
+		"fat",
+		"flag"
+	  ]
+	},
+	{
+	  "name": "incelpride",
+	  "class": "Misc",
+	  "tags": [
+		"incel",
+		"misogynist",
+		"tranny",
+		"flag"
+	  ]
+	},
+	{
+	  "name": "israel",
+	  "class": "Misc",
+	  "tags": [
+		"jews",
+		"kike"
+	  ]
+	},
+	{
+	  "name": "kazakhstan",
+	  "class": "Misc",
+	  "tags": [
+		"kazakhstan",
+		"flag"
+	  ]
+	},
+	{
+	  "name": "landlordlove",
+	  "class": "Misc",
+	  "tags": [
+		"bait",
+		"landlord",
+		"flag"
+	  ]
+	},
+	{
+	  "name": "scalperpride",
+	  "class": "Misc",
+	  "tags": [
+		"bait",
+		"scalper",
+		"flag"
+	  ]
+	},
+	{
+	  "name": "superstraight",
+	  "tags": [
+		"transmisia"
+	  ],
+	  "class": "Misc"
+	},
+	{
+	  "name": "trans",
+	  "class": "Misc",
+	  "tags": [
+		"tranny",
+		"troon",
+		"train",
+		"flag"
+	  ]
+	},
+	{
+	  "name": "translord",
+	  "class": "Misc",
+	  "tags": [
+		"tranny",
+		"troon",
+		"flag"
+	  ]
+	},
+	{
+	  "name": "transracial",
+	  "class": "Misc",
+	  "tags": [
+		"bait",
+		"race",
+		"flag"
+	  ]
+	},
+	{
+	  "name": "usa",
+	  "tags": [
+		"america"
+	  ],
+	  "class": "Misc"
+	},
+	{
+	  "name": "sharkybodybuilder",
+	  "class": "Misc",
+	  "tags": [
+		"furry"
+	  ]
+	},
+	{
+	  "name": "sharkyglow",
+	  "class": "Misc",
+	  "tags": [
+		"shark",
+		"sunglasses",
+		"fbi",
+		"cia"
+	  ]
+	},
+	{
+	  "name": "sharkylove",
+	  "class": "Misc",
+	  "tags": [
+		"shark",
+		"love",
+		"heart"
+	  ]
+	},
+	{
+	  "name": "sharkysad",
+	  "class": "Misc",
+	  "tags": [
+		"shark",
+		"sad",
+		"cry"
+	  ]
+	},
+	{
+	  "name": "sharkythink",
+	  "class": "Misc",
+	  "tags": [
+		"shark",
+		"think"
+	  ]
+	},
+	{
+	  "name": "sharkymegalodon",
+	  "class": "Misc",
+	  "tags": [
+		"shark",
+		"megalodon",
+		"prehistoric"
+	  ]
+	},
+	{
+	  "name": "sharkydinosaur",
+	  "class": "Misc",
+	  "tags": [
+		"shark",
+		"dinosaur",
+		"costume"
+	  ]
+	},
+	{
+	  "name": "tracenote",
+	  "class": "Misc",
+	  "tags": [
+		"trace",
+		"fox",
+		"note"
+	  ]
+	},
+	{
+	  "name": "tracelove",
+	  "class": "Misc",
+	  "tags": [
+		"trace",
+		"love",
+		"heart"
+	  ]
+	},
+	{
+	  "name": "traceberk",
+	  "class": "Misc",
+	  "tags": [
+		"trace",
+		"laugh"
+	  ]
+	},
+	{
+	  "name": "tracesmug",
+	  "class": "Misc",
+	  "tags": [
+		"trace",
+		"smug"
+	  ]
+	},
+	{
+	  "name": "tracemad",
+	  "class": "Misc",
+	  "tags": [
+		"trace",
+		"mad"
+	  ]
+	},
+	{
+	  "name": "tracesad",
+	  "class": "Misc",
+	  "tags": [
+		"trace",
+		"sad"
+	  ]
+	},
+	{
+	  "name": "parrot",
+	  "class": "Misc",
+	  "tags": [
+		"dance",
+		"bird",
+		"animated"
+	  ]
+	},
+	{
+	  "name": "parrotaccessible",
+	  "class": "Misc",
+	  "tags": [
+		"dance",
+		"parrot",
+		"wheelchair",
+		"animated"
+	  ]
+	},
+	{
+	  "name": "parrotcongaparty",
+	  "class": "Misc",
+	  "tags": [
+		"parrot",
+		"dancing",
+		"sunglasses",
+		"animated"
+	  ]
+	},
+	{
+	  "name": "parrotcop",
+	  "class": "Misc",
+	  "tags": [
+		"parrot",
+		"cop",
+		"police",
+		"dancing",
+		"animated"
+	  ]
+	},
+	{
+	  "name": "parrotevil",
+	  "class": "Misc",
+	  "tags": [
+		"parrot",
+		"evil",
+		"dancing",
+		"satan",
+		"hell",
+		"devil",
+		"animated"
+	  ]
+	},
+	{
+	  "name": "parrotgithub",
+	  "class": "Misc",
+	  "tags": [
+		"parrot",
+		"github",
+		"dancing",
+		"animated"
+	  ]
+	},
+	{
+	  "name": "parrothmm",
+	  "class": "Misc",
+	  "tags": [
+		"parrot",
+		"hmm",
+		"thinking",
+		"dancing",
+		"animated"
+	  ]
+	},
+	{
+	  "name": "parrothypno",
+	  "class": "Misc",
+	  "tags": [
+		"parrot",
+		"hypnotic",
+		"dancing",
+		"animated"
+	  ]
+	},
+	{
+	  "name": "parrotimposter",
+	  "class": "Misc",
+	  "tags": [
+		"parrot",
+		"amogus",
+		"among us",
+		"imposter",
+		"sus",
+		"dancing",
+		"animated"
+	  ]
+	},
+	{
+	  "name": "parrotisrael",
+	  "class": "Misc",
+	  "tags": [
+		"parrot",
+		"isreal",
+		"jewish",
+		"dancing",
+		"animated"
+	  ]
+	},
+	{
+	  "name": "parrotkazakhstan",
+	  "class": "Misc",
+	  "tags": [
+		"kazakhstan",
+		"parrot",
+		"dancing",
+		"animated"
+	  ]
+	},
+	{
+	  "name": "parrotmergetrain",
+	  "class": "Misc",
+	  "tags": [
+		"parrot",
+		"headache",
+		"dancing",
+		"animated"
+	  ]
+	},
+	{
+	  "name": "parrotmoonwalking",
+	  "class": "Misc",
+	  "tags": [
+		"parrot",
+		"moon",
+		"dancing",
+		"animated"
+	  ]
+	},
+	{
+	  "name": "parrotportalblue",
+	  "class": "Misc",
+	  "tags": [
+		"parrot",
+		"portal",
+		"vidya",
+		"dancing",
+		"animated"
+	  ]
+	},
+	{
+	  "name": "parrotportalorange",
+	  "class": "Misc",
+	  "tags": [
+		"parrot",
+		"portal",
+		"vidya",
+		"dancing",
+		"animated"
+	  ]
+	},
+	{
+	  "name": "parrotpumpkin",
+	  "class": "Misc",
+	  "tags": [
+		"parrot",
+		"pumpkin",
+		"witch",
+		"halloween",
+		"dancing",
+		"animated"
+	  ]
+	},
+	{
+	  "name": "parrotrevolution",
+	  "class": "Misc",
+	  "tags": [
+		"parrot",
+		"revolution",
+		"1776",
+		"yankee",
+		"dancing",
+		"animated"
+	  ]
+	},
+	{
+	  "name": "parrotrip",
+	  "class": "Misc",
+	  "tags": [
+		"parrot",
+		"rip",
+		"dead",
+		"animated"
+	  ]
+	},
+	{
+	  "name": "parrotscience",
+	  "class": "Misc",
+	  "tags": [
+		"parrot",
+		"science",
+		"lab coat",
+		"beaker",
+		"dancing",
+		"animated"
+	  ]
+	},
+	{
+	  "name": "parrotshort",
+	  "class": "Misc",
+	  "tags": [
+		"parrot",
+		"short",
+		"manlet"
+	  ]
+	},
+	{
+	  "name": "parrotsleeping",
+	  "class": "Misc",
+	  "tags": [
+		"parrot",
+		"sleeping",
+		"animated"
+	  ]
+	},
+	{
+	  "name": "parrotslow",
+	  "class": "Misc",
+	  "tags": [
+		"parrot",
+		"slow",
+		"dancing",
+		"animated"
+	  ]
+	},
+	{
+	  "name": "parrottrans",
+	  "class": "Misc",
+	  "tags": [
+		"parrot",
+		"trans",
+		"tranny",
+		"troon",
+		"dancing",
+		"animated"
+	  ]
+	},
+	{
+	  "name": "parrotultrafast",
+	  "class": "Misc",
+	  "tags": [
+		"parrot",
+		"fast",
+		"epilepsy",
+		"dancing",
+		"animated"
+	  ]
+	},
+	{
+	  "name": "parrotunitedstatesofamerica",
+	  "class": "Misc",
+	  "tags": [
+		"parrot",
+		"usa",
+		"burger",
+		"dancing",
+		"animated"
+	  ]
+	},
+	{
+	  "name": "parrotwitnessprotection",
+	  "class": "Misc",
+	  "tags": [
+		"parrot",
+		"censored",
+		"pixelated",
+		"dancing",
+		"animated"
+	  ]
+	},
+	{
+	  "name": "parrotzombie",
+	  "class": "Misc",
+	  "tags": [
+		"parrot",
+		"zombie",
+		"undead",
+		"bloody",
+		"monster",
+		"dancing",
+		"animated"
+	  ]
+	}
+  ]
