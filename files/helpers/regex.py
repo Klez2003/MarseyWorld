@@ -108,7 +108,7 @@ color_regex = re.compile("[a-f0-9]{6}", flags=re.A)
 
 # lazy match on the .*?, only match if there is trailing stuff
 # Specifically match Snappy's way of formatting, this might break some losers' comments.
-showmore_regex = re.compile(r"^(.*?<\/[a-z]+>(?:<\/li><\/ul>)?)(\s*<[a-z]+>.*)", flags=re.A|re.DOTALL)
+showmore_regex = re.compile(r"^(.*?</p>(?:</li></ul>)?)(\s*<p>.*)", flags=re.A|re.DOTALL)
 
 search_token_regex = re.compile('"([^"]*)"|(\S+)', flags=re.A)
 
