@@ -195,7 +195,6 @@ if SITE_NAME == 'rDrama':
 		"krayon": "krayon (sister toucher)",
 		"discord": "groomercord",
 		"allah(?! \()": "Allah (ﷻ)",
-		"muhammad(?! \()": "Prophet Muhammad (ﷺ)"
 	}
 	SLURS.update(RDRAMA_SLURS)
 
