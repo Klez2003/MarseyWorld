@@ -334,6 +334,8 @@ def handle_youtube_links(url):
 		id = split[0]
 		t = split[1]
 
+	id = id.split('?')[0]
+
 	if yt_id_regex.fullmatch(id):
 		if not t:
 			t = params.get('t', params.get('start', [0]))[0]
