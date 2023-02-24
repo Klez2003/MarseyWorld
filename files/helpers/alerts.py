@@ -143,16 +143,18 @@ def NOTIFY_USERS(text, v):
 	return notify_users - bots - {v.id, 0}
 
 
-def push_notif(uids, title, body, url):
+def push_notif(uids, title, body, url_or_comment):
 	if VAPID_PUBLIC_KEY == DEFAULT_CONFIG_VALUE:
 		return
 
-	if isinstance(url, tuple):
-		cid, posting_to_submission = url
-		if posting_to_submission:
-			url = f'{SITE_FULL}/comment/{cid}?read=true#context'
+	if isinstance(url_or_comment, Comment):
+		c = url_or_comment
+		if c.wall_user_id:
+			url = f'{SITE_FULL}/@{c.wall_user.username}/wall/comment/{c.id}?read=true#context'
 		else:
-			url = f'{SITE_FULL}/@{c.wall_user.username}/wall/comment/{cid}?read=true#context'
+			url = f'{SITE_FULL}/comment/{c.id}?read=true#context'
+	else:
+		url = url_or_comment
 
 	if len(body) > PUSH_NOTIF_LIMIT:
 		body = body[:PUSH_NOTIF_LIMIT] + "..."

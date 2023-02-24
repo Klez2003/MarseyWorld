@@ -305,14 +305,14 @@ def comment(v:User):
 	if not v.shadowbanned:
 		notify_users = NOTIFY_USERS(body, v)
 
-		push_notif(notify_users, f'New mention of you by @{v.username}', c.body, (c.id,bool(c.wall_user_id)))
+		push_notif(notify_users, f'New mention of you by @{v.username}', c.body, c)
 
 		if c.level == 1 and posting_to_submission:
 			subscriber_ids = [x[0] for x in g.db.query(Subscription.user_id).filter(Subscription.submission_id == post_target.id, Subscription.user_id != v.id).all()]
 
 			notify_users.update(subscriber_ids)
 
-			push_notif(subscriber_ids, f'New comment in subscribed thread by @{v.username}', c.body, (c.id,bool(c.wall_user_id)))
+			push_notif(subscriber_ids, f'New comment in subscribed thread by @{v.username}', c.body, c)
 
 		if parent_user.id != v.id:
 			notify_users.add(parent_user.id)
@@ -443,7 +443,7 @@ def edit_comment(cid, v):
 				n = Notification(comment_id=c.id, user_id=x)
 				g.db.add(n)
 				if not v.shadowbanned:
-					push_notif({x}, f'New mention of you by @{v.username}', c.body, (c.id,bool(c.wall_user_id)))
+					push_notif({x}, f'New mention of you by @{v.username}', c.body, c)
 
 	g.db.commit()
 	return {"body": c.body, "comment": c.realbody(v)}

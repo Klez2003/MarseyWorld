@@ -227,7 +227,7 @@ def execute_blackjack(v, target, body, type):
 				n = Notification(comment_id=target.id, user_id=id)
 				g.db.add(n)
 			
-			push_notif(notified_ids, f'Blackjack by @{v.username}', target.body, (target.id,bool(target.wall_user_id)))
+			push_notif(notified_ids, f'Blackjack by @{v.username}', target.body, target)
 			
 			extra_info = None
 
