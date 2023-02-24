@@ -537,14 +537,14 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 		CHARLIMIT = 3000
 		pos = 0
 		for _ in range(20):
-			pos = sanitized.find('</p>', pos + 4)
+			pos = sanitized.find('>', pos + 4)
 			if pos < 0:
 				break
 		if (pos < 0 and len(sanitized) > CHARLIMIT) or pos > CHARLIMIT:
 			pos = CHARLIMIT - 500
 		if pos >= 0:
 			sanitized = (sanitized[:pos] +
-				showmore_regex.sub(r'\1<p><button class="showmore">SHOW MORE</button></p><d class="d-none">\2</d>',
+				showmore_regex.sub(r'\1<p><button class="showmore">SHOW MORE</button></p></ul><d class="d-none">\2</d>',
 					sanitized[pos:], count=1))
 
 	return sanitized.strip()

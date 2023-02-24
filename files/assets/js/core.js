@@ -260,7 +260,11 @@ function changename(s1,s2) {
 }
 
 function showmore(t) {
-	const div = t.parentElement.nextElementSibling
+	let div = t
+	while (!(div.id && div.id.startsWith('comment-text-'))){
+		div = div.parentElement
+	}
+	div = div.getElementsByTagName('d')[0]
 	div.classList.toggle('d-none')
 	if (div.classList.contains('d-none'))
 		t.innerHTML = 'SHOW MORE'
