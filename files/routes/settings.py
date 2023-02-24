@@ -252,9 +252,10 @@ def settings_personal_post(v):
 		notify_users = NOTIFY_USERS(friends, v)
 
 		if notify_users:
-			cid = notif_comment(f"@{v.username} has added you to their friends list!")
+			text = f"@{v.username} has added you to their friends list!"
+			cid = notif_comment(text)
 			for x in notify_users:
-				add_notif(cid, x)
+				add_notif(cid, x, text)
 
 		v.friends = friends[:1000]
 		v.friends_html=friends_html
@@ -276,9 +277,10 @@ def settings_personal_post(v):
 
 		notify_users = NOTIFY_USERS(enemies, v)
 		if notify_users:
-			cid = notif_comment(f"@{v.username} has added you to their enemies list!")
+			text = f"@{v.username} has added you to their enemies list!"
+			cid = notif_comment(text)
 			for x in notify_users:
-				add_notif(cid, x)
+				add_notif(cid, x, text)
 
 		v.enemies = enemies[:1000]
 		v.enemies_html=enemies_html

@@ -54,7 +54,7 @@ def send_notification(uid, text):
 
 	if uid in bots: return
 	cid = notif_comment(text)
-	add_notif(cid, uid)
+	add_notif(cid, uid, text)
 
 
 def notif_comment(text):
@@ -92,25 +92,29 @@ def notif_comment(text):
 
 def notif_comment2(p):
 
+	text = f"@{p.author.username} has mentioned you: [{p.title}](/post/{p.id})"
+
 	search_html = f'%</a> has mentioned you: <a href="/post/{p.id}">%'
 
 	existing = g.db.query(Comment.id).filter(Comment.author_id == AUTOJANNY_ID, Comment.parent_submission == None, Comment.body_html.like(search_html)).first()
 
-	if existing: return existing[0]
+	if existing: return existing[0], text
 	else:
-		text = f"@{p.author.username} has mentioned you: [{p.title}](/post/{p.id})"
 		if p.sub: text += f" in <a href='/h/{p.sub}'>/h/{p.sub}"
 		text_html = sanitize(text, blackjack="notification")
-		return create_comment(text_html)
+		return create_comment(text_html), text
 
 
-def add_notif(cid, uid):
+def add_notif(cid, uid, text):
 	if uid in bots: return
 
 	existing = g.db.query(Notification.user_id).filter_by(comment_id=cid, user_id=uid).one_or_none()
 	if not existing:
 		notif = Notification(comment_id=cid, user_id=uid)
 		g.db.add(notif)
+
+		g.db.flush()
+		push_notif({uid}, 'New notification', text, f'{SITE_FULL}/comment/{cid}?read=true#context')
 
 
 def NOTIFY_USERS(text, v):

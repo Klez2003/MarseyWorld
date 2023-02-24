@@ -49,9 +49,9 @@ def publish(pid, v):
 		notify_users = NOTIFY_USERS(f'{post.title} {post.body}', v)
 
 		if notify_users:
-			cid = notif_comment2(post)
+			cid, text = notif_comment2(post)
 			for x in notify_users:
-				add_notif(cid, x)
+				add_notif(cid, x, text)
 
 
 	cache.delete_memoized(frontlist)
@@ -326,9 +326,9 @@ def edit_post(pid, v):
 	if not p.private and not p.ghost:
 		notify_users = NOTIFY_USERS(f'{p.title} {p.body}', v)
 		if notify_users:
-			cid = notif_comment2(p)
+			cid, text = notif_comment2(p)
 			for x in notify_users:
-				add_notif(cid, x)
+				add_notif(cid, x, text)
 
 	if v.id == p.author_id:
 		if int(time.time()) - p.created_utc > 60 * 3: p.edited_utc = int(time.time())
@@ -739,9 +739,9 @@ def submit_post(v:User, sub=None):
 		notify_users = NOTIFY_USERS(f'{title} {body}', v)
 
 		if notify_users:
-			cid = notif_comment2(post)
+			cid, text = notif_comment2(post)
 			for x in notify_users:
-				add_notif(cid, x)
+				add_notif(cid, x, text)
 
 	if v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in f'{post.body}{post.title}'.lower() and sub != 'chudrama':
 		post.is_banned = True

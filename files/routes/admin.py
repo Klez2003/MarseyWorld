@@ -170,20 +170,21 @@ def distribute(v:User, option_id):
 	votes = option.votes
 	coinsperperson = int(pool / len(votes))
 
-	cid = notif_comment(f"You won {coinsperperson} coins betting on [{post.title}]({post.shortlink}) :marseyparty:")
+	text = f"You won {coinsperperson} coins betting on [{post.title}]({post.shortlink}) :marseyparty:"
+	cid = notif_comment(text)
 	for vote in votes:
 		u = vote.user
 		u.pay_account('coins', coinsperperson)
-		add_notif(cid, u.id)
+		add_notif(cid, u.id, text)
 
-
-	cid = notif_comment(f"You lost the {POLL_BET_COINS} coins you bet on [{post.title}]({post.shortlink}) :marseylaugh:")
+	text = f"You lost the {POLL_BET_COINS} coins you bet on [{post.title}]({post.shortlink}) :marseylaugh:"
+	cid = notif_comment(text)
 	losing_voters = []
 	for o in post.options:
 		if o.exclusive == 2:
 			losing_voters.extend([x.user_id for x in o.votes])
 	for uid in losing_voters:
-		add_notif(cid, uid)
+		add_notif(cid, uid, text)
 
 	ma = ModAction(
 		kind="distribute",
