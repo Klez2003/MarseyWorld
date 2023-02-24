@@ -60,7 +60,7 @@ class Service(Enum):
 POST_RATELIMIT = '1/second;10/hour;20/day'
 DEFAULT_RATELIMIT_SLOWER = "1/second;30/minute;200/hour;1000/day"
 DEFAULT_RATELIMIT = "3/second;30/minute;200/hour;1000/day"
-CASINO_RATELIMIT = "5/second;100/minute;2000/hour;12000/day"
+CASINO_RATELIMIT = "1/second;100/minute;2000/hour;12000/day"
 
 PUSH_NOTIF_LIMIT = 1000
 
