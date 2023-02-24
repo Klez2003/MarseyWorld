@@ -8,14 +8,14 @@ from files.routes.wrappers import *
 from files.__main__ import app, limiter
 
 @app.get("/ping_groups")
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
 @auth_required
 def ping_groups(v:User):
 	groups = g.db.query(Group).order_by(Group.created_utc).all()
 	return render_template('groups.html', v=v, groups=groups, cost=GROUP_COST, msg=get_msg(), error=get_error())
 
 @app.post("/create_group")
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
 @is_not_permabanned
 def create_group(v):
 	name = request.values.get('name')
@@ -52,7 +52,7 @@ def create_group(v):
 	return redirect(f'/ping_groups?msg=!{group} created successfully!')
 
 @app.post("/!<group_name>/apply")
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
 @auth_required
 def join_group(v:User, group_name):
 	group = g.db.get(Group, group_name)
@@ -66,7 +66,7 @@ def join_group(v:User, group_name):
 	return {"message": f"Application submitted to !{group}'s owner (@{group.owner.username}) successfully!"}
 
 @app.post("/!<group_name>/leave")
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
 @auth_required
 def leave_group(v:User, group_name):
 	group = g.db.get(Group, group_name)
@@ -87,7 +87,7 @@ def leave_group(v:User, group_name):
 
 
 @app.get("/!<group_name>/members")
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
 @auth_required
 def memberships(v:User, group_name):
 	group = g.db.get(Group, group_name)
@@ -95,7 +95,7 @@ def memberships(v:User, group_name):
 	return render_template('group_memberships.html', v=v, group=group)
 
 @app.post("/!<group_name>/<user_id>/approve")
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
 @auth_required
 def group_approve(v:User, group_name, user_id):
 	group = g.db.get(Group, group_name)
@@ -116,7 +116,7 @@ def group_approve(v:User, group_name, user_id):
 	return {"message": f'You have approved @{application.user.username} successfully!'}
 
 @app.post("/!<group_name>/<user_id>/reject")
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
 @auth_required
 def group_reject(v:User, group_name, user_id):
 	group = g.db.get(Group, group_name)
