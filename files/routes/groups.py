@@ -83,7 +83,7 @@ def leave_group(v:User, group_name):
 		send_notification(group.owner.id, text)
 		g.db.delete(existing)
 
-	return {"message": msg}
+	return {"message": ''}
 
 
 @app.get("/!<group_name>/members")
@@ -136,8 +136,8 @@ def group_reject(v:User, group_name, user_id):
 		text = f"@{v.username} (!{group}'s owner) has rejected your application!"
 		msg = f"You have rejected @{membership.user.username} successfully!"
 
-	g.db.delete(membership)
-
 	send_repeatable_notification(membership.user_id, text)
+
+	g.db.delete(membership)
 
 	return {"message": msg}
