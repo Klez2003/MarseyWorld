@@ -327,13 +327,8 @@ def comment(v:User):
 			if len(c.body) > PUSH_NOTIF_LIMIT: notifbody = c.body[:PUSH_NOTIF_LIMIT] + '...'
 			else: notifbody = c.body
 
-			if posting_to_submission:
-				url = f'{SITE_FULL}/comment/{c.id}?read=true#context'
-			else:
-				url = f'{SITE_FULL}/@{c.wall_user.username}/wall/comment/{c.id}?read=true#context'
-
 			if parent_user.id != AEVANN_ID:
-				push_notif({parent_user.id}, title, notifbody, url)
+				push_notif({parent_user.id}, title, notifbody, (c.id,posting_to_submission))
 
 	vote = CommentVote(user_id=v.id,
 						 comment_id=c.id,

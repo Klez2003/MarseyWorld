@@ -140,6 +140,13 @@ def push_notif(uids, title, body, url):
 	if VAPID_PUBLIC_KEY == DEFAULT_CONFIG_VALUE:
 		return
 
+	if isinstance(url, tuple):
+		cid, posting_to_submission = url
+		if posting_to_submission:
+			url = f'{SITE_FULL}/comment/{cid}?read=true#context'
+		else:
+			url = f'{SITE_FULL}/@{c.wall_user.username}/wall/comment/{cid}?read=true#context'
+
 	if len(body) > PUSH_NOTIF_LIMIT:
 		body = body[:PUSH_NOTIF_LIMIT] + "..."
 
