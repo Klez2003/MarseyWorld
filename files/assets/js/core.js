@@ -260,9 +260,19 @@ function changename(s1,s2) {
 }
 
 function showmore(t) {
-	const div = t.parentElement.nextElementSibling
-	div.classList.toggle('d-none')
-	if (div.classList.contains('d-none'))
+	let div = t
+	while (!(div.id && (div.id.startsWith('comment-text-') || div.id == 'post-text'))){
+		div = div.parentElement
+	}
+
+	let text = div.getElementsByTagName('d')[0]
+	if (!text) text = div.getElementsByClassName('showmore-text')[0]
+	if (!text) text = div.getElementsByClassName('d-none')[0]
+
+	text.classList.add('showmore-text')
+
+	text.classList.toggle('d-none')
+	if (text.classList.contains('d-none'))
 		t.innerHTML = 'SHOW MORE'
 	else
 		t.innerHTML = 'SHOW LESS'
