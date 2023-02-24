@@ -68,6 +68,7 @@ def request_api_keys(v):
 	new_comment = Comment(author_id=AUTOJANNY_ID,
 						parent_submission=None,
 						level=1,
+						body=body,
 						body_html=body_html,
 						sentto=MODMAIL_ID,
 						distinguish_level=6,

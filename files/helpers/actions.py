@@ -11,7 +11,7 @@ from files.classes.mod_logs import ModAction
 from files.classes.notifications import Notification
 from files.classes.polls import CommentOption, SubmissionOption
 
-from files.helpers.alerts import send_repeatable_notification
+from files.helpers.alerts import send_repeatable_notification, push_notif
 from files.helpers.config.const import *
 from files.helpers.const_stateful import *
 from files.helpers.get import *
