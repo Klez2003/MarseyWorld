@@ -1,5 +1,5 @@
 {%- extends 'root.html' -%}
-{% block body_attributes %}id="{% if request.path != '/comments' %}{% block pagetype %}frontpage{% endblock %}{% endif %}"{% endblock %}
+{% block body_attributes %}id="{% if request.path != '/comments' %}{% block pagetype %}frontpage{% endblock %}{% endif %}" class="has_header"{% endblock %}
 {% block body %}
 {% block banner %}
 	{% include "modals/expanded_image.html" %}

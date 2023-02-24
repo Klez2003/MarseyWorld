@@ -7169,12 +7169,12 @@ input[type=number] {
 	-moz-appearance: textfield !important;
 }
 
-body {
+.has_header {
 	padding-top: 85.9px !important
 }
 
 @media (max-width: 767.98px) {
-	body {
+	.has_header {
 		padding-top: 74.55px !important
 	}
 }

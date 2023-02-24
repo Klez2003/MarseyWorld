@@ -1,6 +1,7 @@
 {%- extends 'root.html' -%}
 {% block pagetitle -%}Chat{%- endblock %}
 {% block pagetype %}chat{% endblock %}
+{% block body_attributes %}class="has_header"{% endblock %}
 {% block body %}
 	{% include "header.html" %}
 	{% include "modals/expanded_image.html" %}
