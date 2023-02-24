@@ -12,6 +12,7 @@ from files.classes.badges import Badge
 from files.classes.comment import Comment
 from files.classes.user import User
 from files.helpers.sanitize import *
+from files.helpers.alerts import push_notif
 from files.classes.notifications import Notification
 
 # Note: while https://api.pushshift.io/meta provides the key
