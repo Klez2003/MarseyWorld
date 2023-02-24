@@ -252,12 +252,14 @@ def submit_contact(v):
 	execute_under_siege(v, new_comment, new_comment.body_html, 'modmail')
 	new_comment.top_comment_id = new_comment.id
 
-	admins = g.db.query(User).filter(User.admin_level >= PERMS['NOTIFICATIONS_MODMAIL'])
+	admin_ids = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_MODMAIL']).all()]
 
-	for admin in admins.all():
-		notif = Notification(comment_id=new_comment.id, user_id=admin.id)
+	for admin_id in admin_ids:
+		notif = Notification(comment_id=new_comment.id, user_id=admin_id)
 		g.db.add(notif)
 
+	g.db.flush()
+	push_notif(admin_ids, 'New modmail', new_comment.body, f'{SITE_FULL}/notifications/modmail')
 
 	return redirect("/contact?msg=Your message has been sent to the admins!")
 
