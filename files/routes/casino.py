@@ -38,6 +38,7 @@ def casino_game_page(v:User, game):
 
 	game_state = ''
 	if game == 'blackjack':
+		abort(403, "Disabled temporarily!")
 		if get_active_twentyone_game(v):
 			game_state = json.dumps(get_active_twentyone_game_state(v))
 
@@ -110,89 +111,89 @@ def pull_slots(v:User):
 		abort(400, f"Wager must be 5 {currency} or more")
 
 
-# 21
-@app.post("/casino/twentyone/deal")
-@limiter.limit(CASINO_RATELIMIT)
-@limiter.limit(CASINO_RATELIMIT, key_func=get_ID)
-@auth_required
-def blackjack_deal_to_player(v:User):
-	if v.rehab:
-		abort(403, "You are under Rehab award effect!")
+# # 21
+# @app.post("/casino/twentyone/deal")
+# @limiter.limit(CASINO_RATELIMIT)
+# @limiter.limit(CASINO_RATELIMIT, key_func=get_ID)
+# @auth_required
+# def blackjack_deal_to_player(v:User):
+# 	if v.rehab:
+# 		abort(403, "You are under Rehab award effect!")
 
-	try:
-		wager = int(request.values.get("wager"))
-		currency = request.values.get("currency")
-		create_new_game(v, wager, currency)
-		state = dispatch_action(v, BlackjackAction.DEAL)
-		feed = get_game_feed('blackjack', g.db)
+# 	try:
+# 		wager = int(request.values.get("wager"))
+# 		currency = request.values.get("currency")
+# 		create_new_game(v, wager, currency)
+# 		state = dispatch_action(v, BlackjackAction.DEAL)
+# 		feed = get_game_feed('blackjack', g.db)
 
-		return {"success": True, "state": state, "feed": feed, "gambler": {"coins": v.coins, "marseybux": v.marseybux}}
-	except Exception as e:
-		abort(400, str(e))
-
-
-@app.post("/casino/twentyone/hit")
-@limiter.limit(CASINO_RATELIMIT)
-@limiter.limit(CASINO_RATELIMIT, key_func=get_ID)
-@auth_required
-def blackjack_player_hit(v:User):
-	if v.rehab:
-		abort(403, "You are under Rehab award effect!")
-
-	try:
-		state = dispatch_action(v, BlackjackAction.HIT)
-		feed = get_game_feed('blackjack', g.db)
-		return {"success": True, "state": state, "feed": feed, "gambler": {"coins": v.coins, "marseybux": v.marseybux}}
-	except:
-		abort(400, "Unable to hit!")
+# 		return {"success": True, "state": state, "feed": feed, "gambler": {"coins": v.coins, "marseybux": v.marseybux}}
+# 	except Exception as e:
+# 		abort(400, str(e))
 
 
-@app.post("/casino/twentyone/stay")
-@limiter.limit(CASINO_RATELIMIT)
-@limiter.limit(CASINO_RATELIMIT, key_func=get_ID)
-@auth_required
-def blackjack_player_stay(v:User):
-	if v.rehab:
-		abort(403, "You are under Rehab award effect!")
+# @app.post("/casino/twentyone/hit")
+# @limiter.limit(CASINO_RATELIMIT)
+# @limiter.limit(CASINO_RATELIMIT, key_func=get_ID)
+# @auth_required
+# def blackjack_player_hit(v:User):
+# 	if v.rehab:
+# 		abort(403, "You are under Rehab award effect!")
 
-	try:
-		state = dispatch_action(v, BlackjackAction.STAY)
-		feed = get_game_feed('blackjack', g.db)
-		return {"success": True, "state": state, "feed": feed, "gambler": {"coins": v.coins, "marseybux": v.marseybux}}
-	except:
-		abort(400, "Unable to stay!")
-
-
-@app.post("/casino/twentyone/double-down")
-@limiter.limit(CASINO_RATELIMIT)
-@limiter.limit(CASINO_RATELIMIT, key_func=get_ID)
-@auth_required
-def blackjack_player_doubled_down(v:User):
-	if v.rehab:
-		abort(403, "You are under Rehab award effect!")
-
-	try:
-		state = dispatch_action(v, BlackjackAction.DOUBLE_DOWN)
-		feed = get_game_feed('blackjack', g.db)
-		return {"success": True, "state": state, "feed": feed, "gambler": {"coins": v.coins, "marseybux": v.marseybux}}
-	except:
-		abort(400, "Unable to double down!")
+# 	try:
+# 		state = dispatch_action(v, BlackjackAction.HIT)
+# 		feed = get_game_feed('blackjack', g.db)
+# 		return {"success": True, "state": state, "feed": feed, "gambler": {"coins": v.coins, "marseybux": v.marseybux}}
+# 	except:
+# 		abort(400, "Unable to hit!")
 
 
-@app.post("/casino/twentyone/buy-insurance")
-@limiter.limit(CASINO_RATELIMIT)
-@limiter.limit(CASINO_RATELIMIT, key_func=get_ID)
-@auth_required
-def blackjack_player_bought_insurance(v:User):
-	if v.rehab:
-		abort(403, "You are under Rehab award effect!")
+# @app.post("/casino/twentyone/stay")
+# @limiter.limit(CASINO_RATELIMIT)
+# @limiter.limit(CASINO_RATELIMIT, key_func=get_ID)
+# @auth_required
+# def blackjack_player_stay(v:User):
+# 	if v.rehab:
+# 		abort(403, "You are under Rehab award effect!")
 
-	try:
-		state = dispatch_action(v, BlackjackAction.BUY_INSURANCE)
-		feed = get_game_feed('blackjack', g.db)
-		return {"success": True, "state": state, "feed": feed, "gambler": {"coins": v.coins, "marseybux": v.marseybux}}
-	except:
-		abort(403, "Unable to buy insurance!")
+# 	try:
+# 		state = dispatch_action(v, BlackjackAction.STAY)
+# 		feed = get_game_feed('blackjack', g.db)
+# 		return {"success": True, "state": state, "feed": feed, "gambler": {"coins": v.coins, "marseybux": v.marseybux}}
+# 	except:
+# 		abort(400, "Unable to stay!")
+
+
+# @app.post("/casino/twentyone/double-down")
+# @limiter.limit(CASINO_RATELIMIT)
+# @limiter.limit(CASINO_RATELIMIT, key_func=get_ID)
+# @auth_required
+# def blackjack_player_doubled_down(v:User):
+# 	if v.rehab:
+# 		abort(403, "You are under Rehab award effect!")
+
+# 	try:
+# 		state = dispatch_action(v, BlackjackAction.DOUBLE_DOWN)
+# 		feed = get_game_feed('blackjack', g.db)
+# 		return {"success": True, "state": state, "feed": feed, "gambler": {"coins": v.coins, "marseybux": v.marseybux}}
+# 	except:
+# 		abort(400, "Unable to double down!")
+
+
+# @app.post("/casino/twentyone/buy-insurance")
+# @limiter.limit(CASINO_RATELIMIT)
+# @limiter.limit(CASINO_RATELIMIT, key_func=get_ID)
+# @auth_required
+# def blackjack_player_bought_insurance(v:User):
+# 	if v.rehab:
+# 		abort(403, "You are under Rehab award effect!")
+
+# 	try:
+# 		state = dispatch_action(v, BlackjackAction.BUY_INSURANCE)
+# 		feed = get_game_feed('blackjack', g.db)
+# 		return {"success": True, "state": state, "feed": feed, "gambler": {"coins": v.coins, "marseybux": v.marseybux}}
+# 	except:
+# 		abort(403, "Unable to buy insurance!")
 
 # Roulette
 @app.get("/casino/roulette/bets")
