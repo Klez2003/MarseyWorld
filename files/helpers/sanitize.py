@@ -230,13 +230,13 @@ def execute_blackjack(v, target, body, type):
 				g.db.add(n)
 			
 			g.db.flush()
-			push_notif(notified_ids, 'Blackjack!', target.body, (target.id,bool(target.wall_user_id)))
+			push_notif(notified_ids, f'Blackjack by @{v.username}', target.body, (target.id,bool(target.wall_user_id)))
 			
 			extra_info = None
 
 	if extra_info:
 		for id in notified_ids:
-			send_repeatable_notification_duplicated(id, f"Blackjack for @{v.username}: {extra_info}")
+			send_repeatable_notification_duplicated(id, f"Blackjack by @{v.username}: {extra_info}")
 	return True
 
 def render_emoji(html, regexp, golden, marseys_used, b=False):
