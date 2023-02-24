@@ -6,14 +6,14 @@
 <thead class="bg-primary text-white">
 	<tr>
 		<th>Name</th>
-		<th>Approevd on</th>
+		<th>Approved on</th>
 		{% if v.id == group.owner.id %}
 			<th></th>
 		{% endif %}
 	</tr>
 </thead>
 <tbody>
-{% for membership in group.memberships|reverse %}
+{% for membership in memberships %}
 	<tr>
 		<td>
 			{% with user=membership.user %}
@@ -28,6 +28,8 @@
 				<button type="button" class="btn btn-primary" data-nonce="{{g.nonce}}" data-onclick="approve_membership(this,'/!{{group}}/{{membership.user_id}}/approve')">Approve</button>
 				<button type="button" class="btn btn-primary" data-nonce="{{g.nonce}}" data-onclick="reject_membership(this,'/!{{group}}/{{membership.user_id}}/reject')">Reject</button>
 			</td>
+		{% else %}
+			<td></td>
 		{% endif %}
 		
 		{% if v.id == group.owner.id %}

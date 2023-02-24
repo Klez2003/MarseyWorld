@@ -92,7 +92,13 @@ def leave_group(v:User, group_name):
 def memberships(v:User, group_name):
 	group = g.db.get(Group, group_name)
 	if not group: abort(404)
-	return render_template('group_memberships.html', v=v, group=group)
+
+	memberships = g.db.query(GroupMembership).filter_by(group_name=group_name).order_by(
+		GroupMembership.approved_utc.desc(),
+		GroupMembership.created_utc.desc(),
+		).all()
+
+	return render_template('group_memberships.html', v=v, group=group, memberships=memberships)
 
 @app.post("/!<group_name>/<user_id>/approve")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
