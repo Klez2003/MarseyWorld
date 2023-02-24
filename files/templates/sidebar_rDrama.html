@@ -1,12 +1,10 @@
 <div class="col sidebar text-left {% if '/sidebar' not in request.path %}d-none d-lg-block{% endif %} pt-3" {% if request.path != '/sidebar' %}id="sidebar-content"{% endif %}>
 
-	{% if v and v.id == 1 %}
-		<a href="/users">
-			<h5 class="text-center mb-4">
-				Current registered users: {{current_registered_users()}}
-			</h5>
-		</a>
-	{% endif %}
+	<a href="/users">
+		<h5 class="text-center mb-4">
+			Current registered users: {{current_registered_users()}}
+		</h5>
+	</a>
 
 	{% if sub %}
 		{% set image=sub.sidebar_url %}
