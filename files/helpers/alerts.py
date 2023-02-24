@@ -38,7 +38,6 @@ def send_repeatable_notification(uid, text):
 			notif = Notification(comment_id=c.id, user_id=uid)
 			g.db.add(notif)
 
-			g.db.flush()
 			push_notif({uid}, 'New notification', text, f'{SITE_FULL}/comment/{c.id}?read=true#context')
 			return
 
@@ -46,7 +45,6 @@ def send_repeatable_notification(uid, text):
 	notif = Notification(comment_id=cid, user_id=uid)
 	g.db.add(notif)
 
-	g.db.flush()
 	push_notif({uid}, 'New notification', text, f'{SITE_FULL}/comment/{cid}?read=true#context')
 
 
@@ -113,7 +111,6 @@ def add_notif(cid, uid, text):
 		notif = Notification(comment_id=cid, user_id=uid)
 		g.db.add(notif)
 
-		g.db.flush()
 		push_notif({uid}, 'New notification', text, f'{SITE_FULL}/comment/{cid}?read=true#context')
 
 
@@ -162,6 +159,7 @@ def push_notif(uids, title, body, url):
 
 	subscriptions = g.db.query(PushSubscription.subscription_json).filter(PushSubscription.user_id.in_(uids)).all()
 	subscriptions = [x[0] for x in subscriptions]
+	g.db.flush()
 	gevent.spawn(_push_notif_thread, subscriptions, title, body, url)
 
 

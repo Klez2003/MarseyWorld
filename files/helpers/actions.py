@@ -265,7 +265,6 @@ def execute_zozbot(c:Comment, level:int, post_target:post_target_type, v):
 		post_target.comment_count += 3
 		g.db.add(post_target)
 
-	g.db.flush()
 	push_notif({v.id}, f'New reply by @zozbot', "zoz", (c2.id,posting_to_submission))
 
 def execute_longpostbot(c:Comment, level:int, body, body_html, post_target:post_target_type, v:User):
@@ -310,7 +309,6 @@ def execute_longpostbot(c:Comment, level:int, body, body_html, post_target:post_
 		post_target.comment_count += 3
 		g.db.add(post_target)
 
-	g.db.flush()
 	push_notif({v.id}, f'New reply by @longpostbot', c2.body, (c2.id,posting_to_submission))
 
 def execute_antispam_submission_check(title, v, url):

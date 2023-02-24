@@ -258,7 +258,6 @@ def submit_contact(v):
 		notif = Notification(comment_id=new_comment.id, user_id=admin_id)
 		g.db.add(notif)
 
-	g.db.flush()
 	push_notif(admin_ids, f'New modmail from @{v.username}', new_comment.body, f'{SITE_FULL}/notifications/modmail')
 
 	return redirect("/contact?msg=Your message has been sent to the admins!")

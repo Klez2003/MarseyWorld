@@ -177,7 +177,6 @@ def send_repeatable_notification_duplicated(uid, text):
 			notif = Notification(comment_id=c.id, user_id=uid)
 			g.db.add(notif)
 
-			g.db.flush()
 			push_notif({uid}, 'New notification', text, f'{SITE_FULL}/comment/{c.id}?read=true#context')
 			return
 
@@ -185,7 +184,6 @@ def send_repeatable_notification_duplicated(uid, text):
 	notif = Notification(comment_id=cid, user_id=uid)
 	g.db.add(notif)
 
-	g.db.flush()
 	push_notif({uid}, 'New notification', text, f'{SITE_FULL}/comment/{cid}?read=true#context')
 
 
@@ -229,7 +227,6 @@ def execute_blackjack(v, target, body, type):
 				n = Notification(comment_id=target.id, user_id=id)
 				g.db.add(n)
 			
-			g.db.flush()
 			push_notif(notified_ids, f'Blackjack by @{v.username}', target.body, (target.id,bool(target.wall_user_id)))
 			
 			extra_info = None

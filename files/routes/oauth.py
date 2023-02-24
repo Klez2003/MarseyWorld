@@ -84,7 +84,6 @@ def request_api_keys(v):
 		notif = Notification(comment_id=new_comment.id, user_id=admin_id)
 		g.db.add(notif)
 	
-	g.db.flush()
 	push_notif(admin_ids, 'New notification', new_comment.body, f'{SITE_FULL}/comment/{new_comment.id}?read=true#context')
 
 	return redirect('/settings/apps')
