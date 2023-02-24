@@ -331,7 +331,7 @@ def comment(v:User):
 			else: notifbody = c.body
 
 			if parent_user.id != AEVANN_ID:
-				push_notif({parent_user.id}, title, notifbody, (c.id,posting_to_submission))
+				push_notif({parent_user.id}, title, notifbody, c)
 
 	vote = CommentVote(user_id=v.id,
 						 comment_id=c.id,
