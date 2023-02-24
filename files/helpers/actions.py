@@ -48,9 +48,7 @@ def execute_snappy(post:Submission, v:User):
 
 	snappy = get_account(SNAPPY_ID)
 
-	if post.sub == 'dankchristianmemes' or post.sub == 'truth':
-		body = random.choice(christian_emojis)
-	elif v.id == CARP_ID:
+	if v.id == CARP_ID:
 		if random.random() < 0.02: body = "i love you carp"
 		elif random.random() < 0.02: body = "![](/images/16614707883108485.webp)"
 		else: body = ":#marseyfuckoffcarp:"
