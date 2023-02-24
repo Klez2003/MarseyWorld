@@ -517,6 +517,7 @@ FEATURES = {
 	'PATRON_ICONS': False,
 	'ASSET_SUBMISSIONS': False,
 	'NSFW_MARKING': True,
+	'PING_GROUPS': True,
 }
 
 WERKZEUG_ERROR_DESCRIPTIONS = {
@@ -621,6 +622,7 @@ HOLE_NAME = 'hole'
 HOLE_STYLE_FLAIR = False
 HOLE_REQUIRED = False
 HOLE_COST = 0
+GROUP_COST = 10000
 HOLE_INACTIVITY_DELETION = False
 
 PRIVILEGED_USER_BOTS = ()
@@ -1043,5 +1045,3 @@ AUDIO_FORMATS = ('mp3','wav','ogg','aac','m4a','flac')
 if not IS_LOCALHOST and SECRET_KEY == DEFAULT_CONFIG_VALUE:
 	from warnings import warn
 	warn("Secret key is the default value! Please change it to a secure random number. Thanks <3", RuntimeWarning)
-
-BIOFOIDS = {2654,12966,10682,11375,18523,2432,1054,2054,15869,18339,2113,114,35}

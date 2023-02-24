@@ -5,7 +5,7 @@ import gevent
 from flask import g
 from pywebpush import webpush
 
-from files.classes import Comment, Notification, PushSubscription
+from files.classes import Comment, Notification, PushSubscription, Group
 
 from .config.const import *
 from .regex import *
@@ -126,10 +126,13 @@ def NOTIFY_USERS(text, v):
 		if word in text and id not in notify_users:
 			notify_users.add(id)
 
-	if v.id != AEVANN_ID and '!biofoids' in text and SITE == 'rdrama.net':
-		if v.id not in BIOFOIDS:
-			abort(403, "Only members of the ping group can ping it!")
-		notify_users.update(BIOFOIDS)
+	if FEATURES['PING_GROUPS']:
+		for i in group_mention_regex.finditer(text):
+			group = g.db.get(Group, i.group(2))
+			if group:
+				if v.id not in group.member_ids:
+					abort(403, "Only members of the ping group can ping it!")
+				notify_users.update(group.member_ids)
 
 	names = set(m.group(2) for m in mention_regex.finditer(text))
 	for user in get_users(names, graceful=True):
