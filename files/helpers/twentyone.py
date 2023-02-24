@@ -41,7 +41,7 @@ def get_initial_state():
 		"player_bought_insurance": False,
 		"player_doubled_down": False,
 		"status": BlackjackStatus.PLAYING,
-		"actions": [BlackjackAction.DEAL],
+		"actions": [],
 		"wager": {
 			"amount": 0,
 			"currency": "coins"
