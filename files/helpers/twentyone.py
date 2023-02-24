@@ -102,7 +102,7 @@ def create_new_game(gambler, wager, currency):
 		charge_gambler(gambler, wager, currency)
 		new_game = build_casino_game(gambler, wager, currency)
 		g.db.add(new_game)
-		g.db.commit()
+		g.db.flush()
 	except:
 		raise Exception(f"Gambler cannot afford to bet {wager} {currency}.")
 
