@@ -23,9 +23,7 @@
 					<td>{{group.name}}</td>
 					<td><a href="/!{{group}}/members">{{group.member_ids | length}}</a></td>
 					<td>
-						{% if v.id == group.owner.id %}
-							<a class="btn btn-primary" href="/!{{group.name}}/members">Applications</a>
-						{% else %}
+						{% if v.id != group.owner.id %}
 							<button id="leave-{{group}}" type="button" class="btn btn-primary {% if v.id not in group.membership_user_ids %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/!{{group}}/leave','leave-{{group}}','apply-{{group}}','d-none')">
 								{%- if v.id in group.member_ids -%}
 									Leave
