@@ -269,10 +269,10 @@ function showmore(t) {
 	if (!text) text = div.getElementsByClassName('d-none')[0]
 	if (!text) text = div.getElementsByClassName('showmore')[0]
 
-	div.classList.add('showmore')
+	text.classList.add('showmore')
 
-	div.classList.toggle('d-none')
-	if (div.classList.contains('d-none'))
+	text.classList.toggle('d-none')
+	if (text.classList.contains('d-none'))
 		t.innerHTML = 'SHOW MORE'
 	else
 		t.innerHTML = 'SHOW LESS'
