@@ -45,7 +45,7 @@ def get_alt_graph(uid:int) -> List[User]:
 	return g.db.query(User).filter(User.id.in_(alt_ids)).order_by(User.username).all()
 
 def add_alt(user1:int, user2:int):
-	if user1 == AEVANN_ID or user2 == AEVANN_ID:
+	if AEVANN_ID in (user1, user2):
 		return
 	li = [user1, user2]
 	existing = g.db.query(Alt).filter(Alt.user1.in_(li), Alt.user2.in_(li)).one_or_none()
