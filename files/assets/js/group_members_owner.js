@@ -3,6 +3,7 @@ function approve_membership(t, url) {
 		{
 		},
 		() => {
+			t.parentElement.nextElementSibling.classList.remove('d-none');
 			t.parentElement.innerHTML = formatDate(new Date());
 		}
 	);

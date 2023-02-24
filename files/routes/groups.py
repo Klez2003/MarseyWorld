@@ -113,7 +113,7 @@ def group_approve(v:User, group_name, user_id):
 		g.db.add(application)
 		send_repeatable_notification(application.user_id, f"@{v.username} (!{group}'s owner) has approved your application!")
 
-	return {"message": f'@{application.user.username} has been approved successfully!'}
+	return {"message": f'You have approved @{application.user.username} successfully!'}
 
 @app.post("/!<group_name>/<user_id>/reject")
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
@@ -123,13 +123,21 @@ def group_reject(v:User, group_name, user_id):
 	if not group: abort(404)
 	
 	if v.id != group.owner.id:
-		abort(403, f"Only the group owner (@{group.owner.username}) can reject applications!")
-	
-	application = g.db.query(GroupMembership).filter_by(user_id=user_id, group_name=group.name).one_or_none()
-	if not application:
-		abort(404, "There is no application to reject!")
+		abort(403, f"Only the group owner (@{group.owner.username}) can reject memberships!")
 
-	g.db.delete(application)
-	send_repeatable_notification(application.user_id, f"@{v.username} (!{group}'s owner) has rejected your application!")
+	membership = g.db.query(GroupMembership).filter_by(user_id=user_id, group_name=group.name).one_or_none()
+	if not membership:
+		abort(404, "There is no membership to reject!")
 
-	return {"message": f'@{application.user.username} has been rejected successfully!'}
+	if membership.approved_utc:
+		text = f"@{v.username} (!{group}'s owner) has kicked you from !{group}"
+		msg = f"You have kicked @{membership.user.username} successfully!"
+	else:
+		text = f"@{v.username} (!{group}'s owner) has rejected your application!"
+		msg = f"You have rejected @{membership.user.username} successfully!"
+
+	g.db.delete(membership)
+
+	send_repeatable_notification(membership.user_id, text)
+
+	return {"message": msg}

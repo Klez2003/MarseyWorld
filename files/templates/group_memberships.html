@@ -7,6 +7,9 @@
 	<tr>
 		<th>Name</th>
 		<th>Joined on</th>
+		{% if v.id == group.owner.id %}
+			<th></th>
+		{% endif %}
 	</tr>
 </thead>
 <tbody>
@@ -24,6 +27,12 @@
 			<td>
 				<button type="button" class="btn btn-primary" data-nonce="{{g.nonce}}" data-onclick="approve_membership(this,'/!{{group}}/{{membership.user_id}}/approve')">Approve</button>
 				<button type="button" class="btn btn-primary" data-nonce="{{g.nonce}}" data-onclick="reject_membership(this,'/!{{group}}/{{membership.user_id}}/reject')">Reject</button>
+			</td>
+		{% endif %}
+		
+		{% if v.id == group.owner.id %}
+			<td class="{% if not membership.approved_utc %}d-none{% endif %}">
+				<button type="button" class="btn btn-primary" data-nonce="{{g.nonce}}" data-onclick="reject_membership(this,'/!{{group}}/{{membership.user_id}}/reject')">Kick</button>
 			</td>
 		{% endif %}
 	</tr>
