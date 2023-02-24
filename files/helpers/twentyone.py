@@ -93,7 +93,8 @@ def create_new_game(gambler, wager, currency):
 	over_minimum_bet = wager >= minimum_bet
 
 	if existing_game:
-		raise Exception("Gambler already has a game in progress.")
+		existing_game.active = False
+		g.db.add(existing_game)
 
 	if not over_minimum_bet:
 		raise Exception(f"Gambler must bet over {minimum_bet} {currency}.")
