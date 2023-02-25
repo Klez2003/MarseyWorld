@@ -321,7 +321,7 @@ def sanitize_settings_text(sanitized:Optional[str], max_length:Optional[int]=Non
 
 
 chud_images = listdir("files/assets/images/chud")
-chud_images = [f'![](/i/chud/{f})' for f in chud_images]
+chud_images = [f'\n![](/i/chud/{f})' for f in chud_images]
 chud_images.extend([':#trumpjaktalking:', ':#reposthorse:'])
 
 def handle_youtube_links(url):
@@ -371,7 +371,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 	if torture:
 		sanitized = torture_ap(sanitized, g.v.username)
 		to_add = random.choice(chud_images)
-		sanitized += f'\n{to_add}'
+		sanitized += f'\n\n{to_add}'
 
 	sanitized = normalize_url(sanitized)
 
