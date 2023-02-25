@@ -1,7 +1,7 @@
-<div class="col sidebar text-left {% if '/sidebar' not in request.path %}d-none d-lg-block{% endif %} pt-3" {% if request.path != '/sidebar' %}id="sidebar-content"{% endif %}>
+<div class="col sidebar text-left {% if '/sidebar' not in request.path %}d-none d-lg-block{% endif %} pt-2" {% if request.path != '/sidebar' %}id="sidebar-content"{% endif %}>
 
 	<a href="/users">
-		<h5 class="text-center mb-4">
+		<h5 class="text-center mt-0 mb-3">
 			Current registered users: {{current_registered_users()}}
 		</h5>
 	</a>
