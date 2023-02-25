@@ -737,7 +737,7 @@ def _change_song_youtube(vid, id):
 		os.remove(f"/songs/{v.song}.mp3")
 
 	ydl_opts = {
-		'cookiefile': '.cookies',
+		'cookiefile': '/cookies',
 		'outtmpl': '/temp_songs/%(id)s.%(ext)s',
 		'format': 'bestaudio/best',
 		'postprocessors': [{
