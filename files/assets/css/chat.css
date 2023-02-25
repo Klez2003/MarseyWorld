@@ -163,7 +163,7 @@ img[alt^="![]("] {
 }
 
 .muted {
-	cursor: pointer;
+	cursor: default;
 }
 
 #online > li, #online3 > li {
