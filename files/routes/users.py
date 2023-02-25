@@ -527,12 +527,9 @@ def message2(v:User, username:str):
 	if not v.shadowbanned:
 		title = f'New message from @{v.username}'
 
-		if len(message) > 500: notifbody = message[:500] + '...'
-		else: notifbody = message
-
 		url = f'{SITE_FULL}/notifications/messages'
 
-		push_notif({user.id}, title, notifbody, url)
+		push_notif({user.id}, title, message, url)
 
 	return {"message": "Message sent!"}
 
@@ -597,12 +594,9 @@ def messagereply(v:User):
 		if not v.shadowbanned:
 			title = f'New message from @{v.username}'
 
-			if len(body) > 500: notifbody = body[:500] + '...'
-			else: notifbody = body
-
 			url = f'{SITE_FULL}/notifications/messages'
 
-			push_notif({user_id}, title, notifbody, url)
+			push_notif({user_id}, title, body, url)
 
 	top_comment = c.top_comment(g.db)
 
