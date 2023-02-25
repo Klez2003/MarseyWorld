@@ -5776,7 +5776,7 @@ img[src="/i/hand.webp"]+img[glow]:not([data-src]) {
 	display: none;
 }
 
-.awards-wrapper > div {
+.awards-wrapper > div > div {
 	padding: 5px !important;
 	text-align: center;
 	text-transform: none!important;
@@ -5786,15 +5786,15 @@ img[src="/i/hand.webp"]+img[glow]:not([data-src]) {
 	border-radius: 0.2rem;
 }
 
-.awards-wrapper > div > i {
+.awards-wrapper > div > div > i {
 	font-size: 16px;
 }
 
-.awards-wrapper > div.disabled {
+.awards-wrapper > div > div.disabled {
 	opacity: 0.6;
 }
 
-.awards-wrapper > div:hover:not(.disabled), .awards-wrapper .picked {
+.awards-wrapper > div > div:hover:not(.disabled), .awards-wrapper .picked {
 	background-color: var(--primary)!important;
 }
 
@@ -6902,7 +6902,7 @@ div.markdown {
 	.award-name, .award-owned {
 		font-size: 11px;
 	}
-	.awards-wrapper > div {
+	.awards-wrapper > div > div {
 		width: 101px!important;
 	}
 	.download-video {
@@ -7182,4 +7182,11 @@ input[type=number] {
 
 .unbreakable {
 	white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+	.award-tab {
+		font-size: 10px;
+		letter-spacing: 1px;
+	}
 }

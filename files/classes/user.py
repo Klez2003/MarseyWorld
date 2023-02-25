@@ -453,6 +453,16 @@ class User(Base):
 
 	@property
 	@lazy
+	def awards_content_effect(self):
+		return [x for x in self.user_awards if not x['deflectable'] and x['kind'] != 'benefactor']
+
+	@property
+	@lazy
+	def awards_author_effect(self):
+		return [x for x in self.user_awards if x not in self.awards_content_effect]
+
+	@property
+	@lazy
 	def referral_count(self):
 		return len(self.referrals)
 

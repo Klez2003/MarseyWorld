@@ -9,16 +9,33 @@
 					<span><i class="far fa-times"></i></span>
 				</button>
 			</div>
-			<div id="awardModalBody" class="modal-body mb-3">
+			<div id="awardModalBody" class="modal-body pt-2 mb-3">
+				<div class="row box-shadow-bottom bg-white pt-1 pb-4" style="justify-content: center;">
+					<button class="btn btn-primary btn-block m-0 shop-tab award-tab active" data-nonce="{{g.nonce}}" data-onclick="switchAwardTab()">
+						<span class="mr-auto ml-auto"><i class="fas fa-gift mr-2"></i>EFFECT ON CONTENT</span>
+					</button>
+					<button class="btn btn-primary btn-block m-0 shop-tab award-tab" data-nonce="{{g.nonce}}" data-onclick="switchAwardTab()">
+						<span class="mr-auto ml-auto"><i class="fas fa-gift mr-2"></i>EFFECT ON AUTHOR</span>
+					</button>
+				</div>
 				<div class="awards-wrapper" style="text-align:center">
-					{% for award in v.user_awards %}
-						{% set price = (award.price*v.discount)|int %}
-						<div data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{price}} coins/marseybux - {{award.description}}" id="{{award.kind}}" data-nonce="{{g.nonce}}" data-onclick="pick('{{award.kind}}', {{price}}, {{v.coins}}, {{v.marseybux}})">
-							<i class="{{award.icon}} {{award.color}}"></i>
-							<div class="pt-1 award-name">{{award.title}}</div>
-							<div class="text-muted award-owned"><span id="{{award.kind}}-owned">{{award.owned}}</span> owned</div>
-						</div>
-					{% endfor %}
+					{% macro iterate_awards(awards) %}
+						{% for award in awards %}
+							{% set price = (award.price*v.discount)|int %}
+							<div data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{price}} coins/marseybux - {{award.description}}" id="{{award.kind}}" data-nonce="{{g.nonce}}" data-onclick="pick('{{award.kind}}', {{price}}, {{v.coins}}, {{v.marseybux}})">
+								<i class="{{award.icon}} {{award.color}}"></i>
+								<div class="pt-1 award-name">{{award.title}}</div>
+								<div class="text-muted award-owned"><span id="{{award.kind}}-owned">{{award.owned}}</span> owned</div>
+							</div>
+						{% endfor %}
+					{% endmacro %}
+
+					<div class="award-section">
+						{{iterate_awards(v.awards_content_effect)}}
+					</div>
+					<div class="award-section d-none">
+						{{iterate_awards(v.awards_author_effect)}}
+					</div>
 				</div>
 				<label id="notelabel" for="note" class="pt-4">Note (optional):</label>
 				<input autocomplete="off" id="kind" hidden>

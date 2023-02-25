@@ -180,3 +180,13 @@ for (const element of data_url) {
 		document.getElementById('giveaward').dataset.action = element.dataset.url
 	});
 }
+
+const awardtabs = document.getElementsByClassName('award-tab');
+const awardsections = document.getElementsByClassName('award-section');
+
+function switchAwardTab() {
+	for (const element of awardtabs)
+		element.classList.toggle('active')
+	for (const element of awardsections)
+		element.classList.toggle('d-none')
+}
