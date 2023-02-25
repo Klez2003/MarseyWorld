@@ -325,6 +325,7 @@ if SITE_NAME == 'rDrama':
 		'gaybros',
 		'againsthateholes',
 		'masterbaiters',
+		'countryclub',
 		'changelog',
 		'programming',
 		'slackernews',
