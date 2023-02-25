@@ -307,7 +307,7 @@ def notifications(v:User):
 	cids = [x[0].id for x in comments]
 
 	listing = []
-	total = []
+	total = [x[0] for x in comments]
 	for c, n in comments:
 		if n.created_utc > 1620391248: c.notif_utc = n.created_utc
 		if not n.read:
@@ -321,6 +321,7 @@ def notifications(v:User):
 				total.extend(c.replies2)
 				for x in c.replies2:
 					if x.replies2 == None: x.replies2 = []
+			
 			count = 0
 			while count < 50 and c.parent_comment and (c.parent_comment.author_id == v.id or c.parent_comment.id in cids):
 				count += 1
@@ -336,7 +337,6 @@ def notifications(v:User):
 			while c.parent_comment:
 				c = c.parent_comment
 			c.replies2 = g.db.query(Comment).filter_by(parent_comment_id=c.id).order_by(Comment.id).all()
-			total.extend(c.replies2)
 
 		if c not in listing: listing.append(c)
 
