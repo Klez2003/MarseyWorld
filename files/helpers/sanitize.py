@@ -12,9 +12,11 @@ from bleach.css_sanitizer import CSSSanitizer
 from bleach.linkifier import LinkifyFilter
 from bs4 import BeautifulSoup
 from mistletoe import markdown
+
 from files.classes.domains import BannedDomain
 from files.classes.mod_logs import ModAction
 from files.classes.notifications import Notification
+from files.classes.group import Group
 
 from files.helpers.config.const import *
 from files.helpers.const_stateful import *
@@ -416,6 +418,13 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 		return f'{m.group(1)}<a href="/id/{u.id}"><img loading="lazy" src="/pp/{u.id}">@{u.username}</a>'
 
 	sanitized = mention_regex.sub(replacer, sanitized)
+
+	if FEATURES['PING_GROUPS']:
+		for i in group_mention_regex.finditer(sanitized):
+			name = i.group(2)
+			existing = g.db.get(Group, name)
+			if existing:
+				sanitized = sanitized.replace(f'!{name}', f'<a href="/!{name}">!{name}</a>')
 
 	soup = BeautifulSoup(sanitized, 'lxml')
 
