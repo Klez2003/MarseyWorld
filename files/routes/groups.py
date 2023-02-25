@@ -61,7 +61,7 @@ def join_group(v:User, group_name):
 	if not existing:
 		join = GroupMembership(user_id=v.id, group_name=group_name)
 		g.db.add(join)
-		send_notification(group.owner.id, f"@{v.username} has applied to join !{group}. You can approve or reject the application [here](/!{group}/members).")
+		send_notification(group.owner.id, f"@{v.username} has applied to join !{group}. You can approve or reject the application [here](/!{group}).")
 
 	return {"message": f"Application submitted to !{group}'s owner (@{group.owner.username}) successfully!"}
 
@@ -88,7 +88,7 @@ def leave_group(v:User, group_name):
 	return {"message": ''}
 
 
-@app.get("/!<group_name>/members")
+@app.get("/!<group_name>")
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def memberships(v:User, group_name):
