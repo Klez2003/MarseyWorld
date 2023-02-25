@@ -205,7 +205,10 @@ def static_megathread_index(v:User):
 		abort(404)
 
 	emojis_hash = cache.get('emojis_hash') or ''
-	return render_template("megathread_index.html", v=v, emojis_hash=emojis_hash)
+	emojis_count = cache.get('emojis_count') or ''
+	emojis_size = cache.get('emojis_size') or ''
+
+	return render_template("megathread_index.html", v=v, emojis_hash=emojis_hash, emojis_count=emojis_count, emojis_size=emojis_size)
 
 @app.get("/api")
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)

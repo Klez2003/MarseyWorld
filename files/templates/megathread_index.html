@@ -9,7 +9,7 @@
 {%- do MEGATHREAD_INDEX.extend([
 	(
 		'Download All Emojis',
-		'Download a zip file containing all emojis.',
+		'Download a zip file containing all emojis.<br>' ~ emojis_count ~ ' emojis - ' ~ emojis_size,
 		'fa-down', '#38a169',
 		'/assets/emojis.zip?v=' + emojis_hash,
 	),

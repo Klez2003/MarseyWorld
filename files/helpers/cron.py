@@ -1,9 +1,10 @@
 import datetime
 import time
+import os
 from sys import stdout
 from shutil import make_archive
 from hashlib import md5
-	
+
 import click
 import requests
 
@@ -119,3 +120,9 @@ def _generate_emojis_zip():
 	
 	m.update(data)
 	cache.set('emojis_hash', m.hexdigest())
+
+	count = str(len(os.listdir('files/assets/images/emojis')))
+	cache.set('emojis_count', count)
+
+	size = str(int(os.stat('files/assets/emojis.zip').st_size/1024/1024)) + ' MB'
+	cache.set('emojis_size', size)
