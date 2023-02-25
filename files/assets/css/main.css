@@ -7179,3 +7179,7 @@ input[type=number] {
 		padding-top: 74.55px !important
 	}
 }
+
+.unbreakable {
+	white-space: nowrap;
+}
