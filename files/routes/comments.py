@@ -330,8 +330,7 @@ def comment(v:User):
 			if len(c.body) > PUSH_NOTIF_LIMIT: notifbody = c.body[:PUSH_NOTIF_LIMIT] + '...'
 			else: notifbody = c.body
 
-			if parent_user.id != AEVANN_ID:
-				push_notif({parent_user.id}, title, notifbody, c)
+			push_notif({parent_user.id}, title, notifbody, c)
 
 	vote = CommentVote(user_id=v.id,
 						 comment_id=c.id,
