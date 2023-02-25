@@ -1,46 +1,66 @@
 {% extends "default.html" %}
 {% block pagetitle %}!{{group}} Members{% endblock %}
 {% block content %}
-<h5 class="my-3">!{{group}} Members</h5>
-<div class="overflow-x-auto mt-1"><table class="table table-striped mb-5">
-<thead class="bg-primary text-white">
-	<tr>
-		<th>Name</th>
-		<th>Approved on</th>
-		{% if v.id == group.owner.id %}
-			<th class="disable-sort-click"></th>
-		{% endif %}
-	</tr>
-</thead>
-<tbody>
-{% for membership in memberships %}
-	<tr>
-		<td>
-			{% with user=membership.user %}
-				{% include "user_in_table.html" %}
-			{% endwith %}
-		</td>
 
-		{% if membership.approved_utc %}
-			<td data-time="{{membership.approved_utc}}"></td>
-		{% elif v.id == group.owner.id %}
-			<td>
-				<button type="button" class="btn btn-primary" data-nonce="{{g.nonce}}" data-onclick="approve_membership(this,'/!{{group}}/{{membership.user_id}}/approve')">Approve</button>
-				<button type="button" class="btn btn-primary" data-nonce="{{g.nonce}}" data-onclick="reject_membership(this,'/!{{group}}/{{membership.user_id}}/reject')">Reject</button>
-			</td>
-		{% else %}
-			<td></td>
-		{% endif %}
-		
-		{% if v.id == group.owner.id %}
-			<td class="{% if not membership.approved_utc %}d-none{% endif %}">
-				<button type="button" class="btn btn-primary" data-nonce="{{g.nonce}}" data-onclick="reject_membership(this,'/!{{group}}/{{membership.user_id}}/reject')">Kick</button>
-			</td>
-		{% endif %}
-	</tr>
-{% endfor %}
-</tbody>
-</table>
+<br>
+{% macro process_memberships(memberships, name) %}
+	<h5 class="my-3">!{{group}} {{name}}</h5>
+	<div class="overflow-x-auto mt-1">
+		<table class="table table-striped mb-5 ping-groups">
+			<thead class="bg-primary text-white">
+				<tr>
+					<th>#</th>
+					<th>Name</th>
+
+					{% if name == 'Members' %}
+						<th>Approved on</th>
+					{% else %}
+						<th>Applied on</th>
+					{% endif %}
+
+					{% if v.id == group.owner.id %}
+						<th class="disable-sort-click"></th>
+					{% endif %}
+				</tr>
+			</thead>
+			<tbody id="{{name}}_tbody">
+				{% for membership in memberships %}
+					<tr id="{{membership.user_id}}">
+						<td id="counter-{{membership.user_id}}">{{loop.index}}</td>
+						<td>
+							{% with user=membership.user %}
+								{% include "user_in_table.html" %}
+							{% endwith %}
+						</td>
+
+						{% if name == 'Members' %}
+							<td id="time-{{membership.user_id}}" data-time="{{membership.approved_utc}}"></td>
+						{% else %}
+							<td id="time-{{membership.user_id}}" data-time="{{membership.created_utc}}"></td>
+						{% endif %}
+
+						{% if v.id == group.owner.id %}
+							<td>
+								<div id="kick-{{membership.user_id}}" {% if name == 'Applications' %}class="d-none"{% endif %}>
+									<button type="button" class="btn btn-primary btn-block" data-nonce="{{g.nonce}}" data-onclick="reject_membership(this,'/!{{group}}/{{membership.user_id}}/reject')">Kick</button>
+								</div>
+
+								<div {% if name == 'Members' %}class="d-none"{% endif %}>
+									<button type="button" class="btn btn-primary btn-block" data-nonce="{{g.nonce}}" data-onclick="approve_membership(this,'/!{{group}}/{{membership.user_id}}/approve','{{membership.user_id}}')">Approve</button>
+									<button type="button" class="btn btn-primary btn-block" data-nonce="{{g.nonce}}" data-onclick="reject_membership(this,'/!{{group}}/{{membership.user_id}}/reject','{{membership.user_id}}')">Reject</button>
+								</div>
+							</td>
+						{% endif %}
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+{% endmacro %}
+
+{{process_memberships(members, 'Members')}}
+
+{{process_memberships(applications, 'Applications')}}
 
 {% if v.id == group.owner.id %}
 	<script defer src="{{'js/group_members_owner.js' | asset}}"></script>

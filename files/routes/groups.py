@@ -82,6 +82,8 @@ def leave_group(v:User, group_name):
 
 		send_notification(group.owner.id, text)
 		g.db.delete(existing)
+		
+		return {"message": msg}
 
 	return {"message": ''}
 
@@ -93,12 +95,17 @@ def memberships(v:User, group_name):
 	group = g.db.get(Group, group_name)
 	if not group: abort(404)
 
-	memberships = g.db.query(GroupMembership).filter_by(group_name=group_name).order_by(
-		GroupMembership.approved_utc.desc(),
-		GroupMembership.created_utc.desc(),
-		).all()
+	members = g.db.query(GroupMembership).filter(
+			GroupMembership.group_name == group_name,
+			GroupMembership.approved_utc != None
+		).order_by(GroupMembership.approved_utc).all()
 
-	return render_template('group_memberships.html', v=v, group=group, memberships=memberships)
+	applications = g.db.query(GroupMembership).filter(
+			GroupMembership.group_name == group_name,
+			GroupMembership.approved_utc == None
+		).order_by(GroupMembership.created_utc).all()
+
+	return render_template('group_memberships.html', v=v, group=group, members=members, applications=applications)
 
 @app.post("/!<group_name>/<user_id>/approve")
 @limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)

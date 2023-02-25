@@ -6,13 +6,12 @@
 <div class="px-3">
 	<h3 class="my-3">Ping Groups</h3>
 	<div class="overflow-x-auto">
-		<table class="table table-striped mb-5">
+		<table class="ping-groups table table-striped mb-5">
 			<thead class="bg-primary text-white">
 				<tr>
 					<th>#</th>
 					<th>Name</th>
-					<th>Members</th>
-					<th class="disable-sort-click"></th>
+					<th class="members">Members</th>
 					<th>Created on</th>
 				</tr>
 			</thead>
@@ -21,10 +20,10 @@
 				<tr>
 					<td>{{loop.index}}</td>
 					<td>{{group.name}}</td>
-					<td><a href="/!{{group}}/members">{{group.member_ids | length}}</a></td>
-					<td>
+					<td class="unbreakable">
+						<a href="/!{{group}}/members">{{group.member_ids | length}}</a>
 						{% if v.id != group.owner.id %}
-							<button id="leave-{{group}}" type="button" class="btn btn-primary {% if v.id not in group.membership_user_ids %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/!{{group}}/leave','leave-{{group}}','apply-{{group}}','d-none')">
+							<button id="leave-{{group}}" type="button" class="ml-3 ml-md-5 btn btn-primary {% if v.id not in group.membership_user_ids %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/!{{group}}/leave','leave-{{group}}','apply-{{group}}','d-none')">
 								{%- if v.id in group.member_ids -%}
 									Leave
 								{%- else -%}
@@ -32,7 +31,7 @@
 								{%- endif -%}
 							</button>
 							
-							<button id="apply-{{group}}" type="button" class="{% if v.id in group.membership_user_ids %}d-none{% endif %} btn btn-primary" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/!{{group}}/apply','leave-{{group}}','apply-{{group}}','d-none')">Apply to Join</button>
+							<button id="apply-{{group}}" type="button" class="ml-3 ml-md-5 {% if v.id in group.membership_user_ids %}d-none{% endif %} btn btn-primary" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/!{{group}}/apply','leave-{{group}}','apply-{{group}}','d-none')">Apply to Join</button>
 						{% endif %}
 					</td>
 					<td data-time="{{group.created_utc}}"></td>
@@ -43,7 +42,7 @@
 
 	<h3 class="my-3">Create Ping Group</h3>
 	<form class="mt-3" action="/create_group" method="post">
-		<div class="container">
+		<div class="container pb-0">
 			<div class="row mb-4 pb-6">
 				<div class="col col-md-6 px-0 py-3 py-md-0">
 					<div class="body">

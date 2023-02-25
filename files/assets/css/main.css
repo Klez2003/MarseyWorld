@@ -3131,6 +3131,9 @@ a.bg-light:hover, a.bg-light:focus, button.bg-light:hover, button.bg-light:focus
 	.mb-md-5 {
 		margin-bottom: 3rem !important;
 	}
+	.mb-md-5 {
+		margin-bottom: 5rem !important;
+	}
 	.mb-md-auto {
 		margin-bottom: auto !important;
 	}
@@ -3151,6 +3154,9 @@ a.bg-light:hover, a.bg-light:focus, button.bg-light:hover, button.bg-light:focus
 	}
 	.ml-md-5 {
 		margin-left: 3rem !important;
+	}
+	.ml-md-6 {
+		margin-left: 5rem !important;
 	}
 	.ml-md-auto {
 		margin-left: auto !important;
@@ -5988,12 +5994,12 @@ li > .sidebar {
 
 @media (max-width: 768px) {
 	.table th {
-		padding-left: 0.5rem !important;
-		padding-right: 0.5rem !important;
+		padding-left: 0.5rem;
+		padding-right: 0.5rem;
 	}
 	.table td {
-		padding-left: 0.5rem !important;
-		padding-right: 0.5rem !important;
+		padding-left: 0.5rem;
+		padding-right: 0.5rem;
 		font-size: 0.9rem;
 	}
 	.marseybux {
@@ -7186,7 +7192,20 @@ input[type=number] {
 
 @media (max-width: 768px) {
 	.award-tab {
-		font-size: 10px;
-		letter-spacing: 1px;
+		font-size: 10px !important;
+		letter-spacing: 1px !important;
+	}
+
+	.ping-groups * {
+		font-size: 12px !important;
+	}
+
+	.ping-groups .btn {
+		font-size: 10px !important;
+		padding: 5px !important;
+	}
+
+	#ping-groups .members {
+		padding-right: 3.7rem !important;
 	}
 }
