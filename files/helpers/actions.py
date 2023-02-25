@@ -281,6 +281,8 @@ def execute_longpostbot(c:Comment, level:int, body, body_html, post_target:post_
 		g.db.add(vote)
 		c.downvotes = 1
 
+	body_html = sanitize(body)
+
 	c2 = Comment(author_id=LONGPOSTBOT_ID,
 		parent_submission=post_target.id if posting_to_submission else None,
 		wall_user_id=post_target.id if not posting_to_submission else None,
@@ -288,7 +290,7 @@ def execute_longpostbot(c:Comment, level:int, body, body_html, post_target:post_
 		level=level+1,
 		is_bot=True,
 		body=body,
-		body_html=f"<p>{body}</p>",
+		body_html=body_html,
 		top_comment_id=c.top_comment_id,
 		ghost=c.ghost
 	)
