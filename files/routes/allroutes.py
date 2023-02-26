@@ -50,7 +50,7 @@ def before_request():
 	g.nonce = secrets.token_urlsafe(31)
 
 import redis
-host = environ.get("REDIS_URL", "redis://localhost").split(':')[1]
+host = environ.get("REDIS_URL", "redis://localhost").split('://')[1].split(':')[0]
 r = redis.Redis(host=host, port=6379, db=0)
 
 @app.after_request
