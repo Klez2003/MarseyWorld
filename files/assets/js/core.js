@@ -264,6 +264,7 @@ function showmore(t) {
 	while (!(div.id && (div.id.startsWith('comment-text-') || div.id == 'post-text'))){
 		div = div.parentElement
 	}
+	div = div.parentElement
 
 	let text = div.getElementsByTagName('d')[0]
 	if (!text) text = div.getElementsByClassName('showmore-text')[0]

@@ -251,8 +251,9 @@
 				<div id="comment-banned-warning" class="comment-text text-removed mb-0">removed by @{{c.ban_reason}} (Admin)</div>
 			{% endif %}
 
-			<div id="comment-text-{{c.id}}" class="comment-text mb-0 {% if c.author.agendaposter and not (c.parent_submission and c.post.sub == 'chudrama') %}agendaposter{% endif %} {% if c.author.rainbow %}rainbow-text{% endif %}">
-				{{c.realbody(v) | safe}}
+			{% set realbody = c.realbody(v) %}
+			<div id="comment-text-{{c.id}}" class="comment-text {% if SHOW_MORE in realbody %}has_show_more{% endif %} mb-0 {% if c.author.agendaposter and not (c.parent_submission and c.post.sub == 'chudrama') %}agendaposter{% endif %} {% if c.author.rainbow %}rainbow-text{% endif %}">
+				{{realbody | safe}}
 			</div>
 			{% if c.parent_submission or c.wall_user_id %}
 
