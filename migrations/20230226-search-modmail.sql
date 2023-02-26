@@ -1,1 +1,1 @@
-select id from comments where parent_submission is null and sentto is null and (top_comment_id in (select id from comments where sentto = 2) or parent_comment_id in (select id from comments where sentto = 2));
+update comments set sentto=2 where parent_submission is null and sentto is null and (top_comment_id in (select id from comments where sentto = 2) or parent_comment_id in (select id from comments where sentto = 2));
