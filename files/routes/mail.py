@@ -10,7 +10,7 @@ from files.routes.users import claim_rewards
 from files.__main__ import app, limiter
 
 @app.post("/verify_email")
-@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/2 second', scope=rpath)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required

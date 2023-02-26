@@ -8,7 +8,7 @@ from .front import frontlist
 from files.__main__ import app, cache, limiter
 
 @app.post("/exile/post/<int:pid>")
-@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/2 second', scope=rpath)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @is_not_permabanned
@@ -42,7 +42,7 @@ def exile_post(v:User, pid):
 	return {"message": f"@{u.username} has been exiled from /h/{sub} successfully!"}
 
 @app.post("/exile/comment/<int:cid>")
-@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/2 second', scope=rpath)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @is_not_permabanned
@@ -76,7 +76,7 @@ def exile_comment(v:User, cid):
 	return {"message": f"@{u.username} has been exiled from /h/{sub} successfully!"}
 
 @app.post("/h/<sub>/unexile/<int:uid>")
-@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/2 second', scope=rpath)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @is_not_permabanned
@@ -107,7 +107,7 @@ def unexile(v:User, sub, uid):
 	return redirect(f'/h/{sub}/exilees')
 
 @app.post("/h/<sub>/block")
-@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/2 second', scope=rpath)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
@@ -121,7 +121,7 @@ def block_sub(v:User, sub):
 	return {"message": f"/h/{sub} blocked successfully!"}
 
 @app.post("/h/<sub>/unblock")
-@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/2 second', scope=rpath)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
@@ -139,7 +139,7 @@ def unblock_sub(v:User, sub):
 	return {"message": f"/h/{sub.name} unblocked successfully!"}
 
 @app.post("/h/<sub>/subscribe")
-@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/2 second', scope=rpath)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
@@ -153,7 +153,7 @@ def subscribe_sub(v:User, sub):
 	return {"message": f"/h/{sub} unblocked successfully!"}
 
 @app.post("/h/<sub>/unsubscribe")
-@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/2 second', scope=rpath)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
@@ -166,7 +166,7 @@ def unsubscribe_sub(v:User, sub):
 	return {"message": f"/h/{sub} blocked successfully!"}
 
 @app.post("/h/<sub>/follow")
-@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/2 second', scope=rpath)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
@@ -183,7 +183,7 @@ def follow_sub(v:User, sub):
 	return {"message": f"/h/{sub} followed successfully!"}
 
 @app.post("/h/<sub>/unfollow")
-@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/2 second', scope=rpath)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
@@ -257,7 +257,7 @@ def sub_followers(v:User, sub):
 
 
 @app.post("/h/<sub>/add_mod")
-@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/2 second', scope=rpath)
 @limiter.limit("30/day")
 @limiter.limit("30/day", key_func=get_ID)
 @is_not_permabanned
@@ -296,7 +296,7 @@ def add_mod(v:User, sub):
 	return redirect(f'/h/{sub}/mods')
 
 @app.post("/h/<sub>/remove_mod")
-@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/2 second', scope=rpath)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @is_not_permabanned
@@ -348,7 +348,7 @@ def create_sub(v):
 	return render_template("sub/create_hole.html", v=v, cost=HOLE_COST, error=get_error())
 
 @app.post("/create_hole")
-@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/2 second', scope=rpath)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @is_not_permabanned
@@ -384,7 +384,7 @@ def create_sub2(v):
 	return redirect(f'/h/{sub}')
 
 @app.post("/kick/<int:pid>")
-@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/2 second', scope=rpath)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @is_not_permabanned
@@ -428,7 +428,7 @@ def sub_settings(v:User, sub):
 
 
 @app.post('/h/<sub>/sidebar')
-@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/2 second', scope=rpath)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @is_not_permabanned
@@ -454,7 +454,7 @@ def post_sub_sidebar(v:User, sub):
 
 
 @app.post('/h/<sub>/css')
-@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/2 second', scope=rpath)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @is_not_permabanned
@@ -496,7 +496,7 @@ def get_sub_css(sub):
 	return resp
 
 @app.post("/h/<sub>/settings/banners/")
-@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/2 second', scope=rpath)
 @limiter.limit("50/day")
 @limiter.limit("50/day", key_func=get_ID)
 @is_not_permabanned
@@ -584,7 +584,7 @@ def delete_all_sub_banners(v:User, sub:str):
 	return {"message": f"Deleted all banners from /h/{sub} successfully"}
 
 @app.post("/h/<sub>/sidebar_image")
-@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/2 second', scope=rpath)
 @limiter.limit("10/day")
 @limiter.limit("10/day", key_func=get_ID)
 @is_not_permabanned
@@ -616,7 +616,7 @@ def sub_sidebar(v:User, sub):
 	return redirect(f'/h/{sub}/settings')
 
 @app.post("/h/<sub>/marsey_image")
-@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/2 second', scope=rpath)
 @limiter.limit("10/day")
 @limiter.limit("10/day", key_func=get_ID)
 @is_not_permabanned
@@ -658,7 +658,7 @@ def subs(v:User):
 	return render_template('sub/subs.html', v=v, subs=subs, total_users=total_users)
 
 @app.post("/hole_pin/<int:pid>")
-@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/2 second', scope=rpath)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @is_not_permabanned
@@ -689,7 +689,7 @@ def hole_pin(v:User, pid):
 	return {"message": f"Post pinned to /h/{p.sub} successfully!"}
 
 @app.post("/hole_unpin/<int:pid>")
-@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/2 second', scope=rpath)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @is_not_permabanned
@@ -721,7 +721,7 @@ def hole_unpin(v:User, pid):
 
 
 @app.post('/h/<sub>/stealth')
-@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/2 second', scope=rpath)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @is_not_permabanned
@@ -756,7 +756,7 @@ def sub_stealth(v:User, sub):
 
 @app.post("/mod_pin/<int:cid>")
 @feature_required('PINS')
-@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/2 second', scope=rpath)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @is_not_permabanned
@@ -786,7 +786,7 @@ def mod_pin(cid, v):
 	return {"message": "Comment pinned!"}
 
 @app.post("/unmod_pin/<int:cid>")
-@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/2 second', scope=rpath)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @is_not_permabanned

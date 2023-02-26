@@ -4,7 +4,7 @@ from flask import request, g
 from files.classes.push_subscriptions import PushSubscription
 
 @app.post("/push_subscribe")
-@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/2 second', scope=rpath)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required

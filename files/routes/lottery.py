@@ -7,7 +7,7 @@ from files.routes.wrappers import *
 from files.__main__ import app, limiter
 
 @app.post("/lottery/end")
-@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/2 second', scope=rpath)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['LOTTERY_ADMIN'])
@@ -17,7 +17,7 @@ def lottery_end(v):
 
 
 @app.post("/lottery/start")
-@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/2 second', scope=rpath)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['LOTTERY_ADMIN'])
@@ -27,7 +27,7 @@ def lottery_start(v):
 
 
 @app.post("/lottery/buy")
-@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/2 second', scope=rpath)
 @limiter.limit("100/minute;500/hour;1000/day")
 @limiter.limit("100/minute;500/hour;1000/day", key_func=get_ID)
 @auth_required

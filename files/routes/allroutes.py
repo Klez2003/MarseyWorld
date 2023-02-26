@@ -59,7 +59,7 @@ def after_request(response:Response):
 		_commit_and_close_db()
 
 	if request.method == "POST":
-		r.delete(f'LIMITER/{get_CF()}/{request.endpoint}:{request.path}/1/1/second')
+		r.delete(f'LIMITER/{get_CF()}/{request.endpoint}:{request.path}/1/2/second')
 
 	return response
 
