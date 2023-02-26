@@ -34,7 +34,7 @@ def submit_marseys(v:User):
 
 
 @app.post("/submit/marseys")
-@limiter.limit('1/second', scope=path)
+@limiter.limit('1/second', scope=rpath)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
@@ -109,7 +109,7 @@ def verify_permissions_and_get_asset(cls, asset_type:str, v:User, name:str, make
 	return asset
 
 @app.post("/admin/approve/marsey/<name>")
-@limiter.limit('1/second', scope=path)
+@limiter.limit('1/second', scope=rpath)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['MODERATE_PENDING_SUBMITTED_ASSETS'])
@@ -209,7 +209,7 @@ def remove_asset(cls, type_name:str, v:User, name:str) -> dict[str, str]:
 	return {"message": f"'{name}' removed!"}
 
 @app.post("/remove/marsey/<name>")
-@limiter.limit('1/second', scope=path)
+@limiter.limit('1/second', scope=rpath)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
@@ -228,7 +228,7 @@ def submit_hats(v:User):
 
 
 @app.post("/submit/hats")
-@limiter.limit('1/second', scope=path)
+@limiter.limit('1/second', scope=rpath)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
@@ -292,7 +292,7 @@ def submit_hat(v:User):
 
 
 @app.post("/admin/approve/hat/<name>")
-@limiter.limit('1/second', scope=path)
+@limiter.limit('1/second', scope=rpath)
 @limiter.limit("120/minute;200/hour;1000/day")
 @limiter.limit("120/minute;200/hour;1000/day", key_func=get_ID)
 @admin_level_required(PERMS['MODERATE_PENDING_SUBMITTED_ASSETS'])
@@ -364,7 +364,7 @@ def approve_hat(v, name):
 	return {"message": f"'{hat.name}' approved!"}
 
 @app.post("/remove/hat/<name>")
-@limiter.limit('1/second', scope=path)
+@limiter.limit('1/second', scope=rpath)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
@@ -391,7 +391,7 @@ def update_marseys(v):
 
 
 @app.post("/admin/update/marseys")
-@limiter.limit('1/second', scope=path)
+@limiter.limit('1/second', scope=rpath)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['UPDATE_ASSETS'])
@@ -452,7 +452,7 @@ def update_hats(v):
 
 
 @app.post("/admin/update/hats")
-@limiter.limit('1/second', scope=path)
+@limiter.limit('1/second', scope=rpath)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['UPDATE_ASSETS'])

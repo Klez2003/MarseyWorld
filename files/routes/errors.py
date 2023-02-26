@@ -62,7 +62,7 @@ def error_500(e):
 
 
 @app.post("/allow_nsfw")
-@limiter.limit('1/second', scope=path)
+@limiter.limit('1/second', scope=rpath)
 @limiter.limit(DEFAULT_RATELIMIT)
 def allow_nsfw():
 	session["over_18"] = int(time.time()) + 3600

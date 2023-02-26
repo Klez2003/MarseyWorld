@@ -10,7 +10,7 @@ from files.helpers.settings import get_setting
 from files.routes.routehelpers import validate_formkey
 from files.__main__ import app, db_session, limiter
 
-def path(n):
+def rpath(n):
 	return request.path
 
 def get_ID():

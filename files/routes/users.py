@@ -315,7 +315,7 @@ def downvoting(v:User, username:str):
 
 @app.post("/@<username>/suicide")
 @feature_required('USERS_SUICIDE')
-@limiter.limit('1/second', scope=path)
+@limiter.limit('1/second', scope=rpath)
 @limiter.limit("5/day")
 @limiter.limit("5/day", key_func=get_ID)
 @auth_required
@@ -376,7 +376,7 @@ def transfer_currency(v:User, username:str, currency_name:Literal['coins', 'mars
 	return {"message": f"{amount - tax} {currency_name} have been transferred to @{receiver.username}"}
 
 @app.post("/@<username>/transfer_coins")
-@limiter.limit('1/second', scope=path)
+@limiter.limit('1/second', scope=rpath)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @is_not_permabanned
@@ -385,7 +385,7 @@ def transfer_coins(v:User, username:str):
 
 @app.post("/@<username>/transfer_bux")
 @feature_required('MARSEYBUX')
-@limiter.limit('1/second', scope=path)
+@limiter.limit('1/second', scope=rpath)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @is_not_permabanned
@@ -477,7 +477,7 @@ def usersong(username:str):
 	else: abort(404)
 
 @app.post("/subscribe/<int:post_id>")
-@limiter.limit('1/second', scope=path)
+@limiter.limit('1/second', scope=rpath)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
@@ -489,7 +489,7 @@ def subscribe(v, post_id):
 	return {"message": "Subscribed to post successfully!"}
 
 @app.post("/unsubscribe/<int:post_id>")
-@limiter.limit('1/second', scope=path)
+@limiter.limit('1/second', scope=rpath)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
@@ -500,7 +500,7 @@ def unsubscribe(v, post_id):
 	return {"message": "Unsubscribed from post successfully!"}
 
 @app.post("/@<username>/message")
-@limiter.limit('1/second', scope=path)
+@limiter.limit('1/second', scope=rpath)
 @limiter.limit("10/minute;20/hour;50/day")
 @limiter.limit("10/minute;20/hour;50/day", key_func=get_ID)
 @is_not_permabanned
@@ -563,7 +563,7 @@ def message2(v:User, username:str):
 
 
 @app.post("/reply")
-@limiter.limit('1/second', scope=path)
+@limiter.limit('1/second', scope=rpath)
 @limiter.limit("6/minute;50/hour;200/day")
 @limiter.limit("6/minute;50/hour;200/day", key_func=get_ID)
 @auth_required
@@ -1087,7 +1087,7 @@ def u_user_id_info(id, v=None):
 	return user.json
 
 @app.post("/follow/<username>")
-@limiter.limit('1/second', scope=path)
+@limiter.limit('1/second', scope=rpath)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
@@ -1115,7 +1115,7 @@ def follow_user(username, v):
 	return {"message": f"@{target.username} has been followed!"}
 
 @app.post("/unfollow/<username>")
-@limiter.limit('1/second', scope=path)
+@limiter.limit('1/second', scope=rpath)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
@@ -1144,7 +1144,7 @@ def unfollow_user(username, v):
 	return {"message": f"@{target.username} has been unfollowed!"}
 
 @app.post("/remove_follow/<username>")
-@limiter.limit('1/second', scope=path)
+@limiter.limit('1/second', scope=rpath)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
@@ -1240,7 +1240,7 @@ def subscribed_posts(v:User, username):
 	return get_saves_and_subscribes(v, "userpage/submissions.html", Subscription, page, False)
 
 @app.post("/fp/<fp>")
-@limiter.limit('1/second', scope=path)
+@limiter.limit('1/second', scope=rpath)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
@@ -1402,7 +1402,7 @@ if KOFI_TOKEN:
 		return ''
 
 @app.post("/gumroad")
-@limiter.limit('1/second', scope=path)
+@limiter.limit('1/second', scope=rpath)
 @limiter.limit(DEFAULT_RATELIMIT)
 def gumroad():
 	data = request.values
@@ -1435,7 +1435,7 @@ def gumroad():
 
 
 @app.post("/settings/claim_rewards")
-@limiter.limit('1/second', scope=path)
+@limiter.limit('1/second', scope=rpath)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
