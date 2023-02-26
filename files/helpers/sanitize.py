@@ -562,19 +562,6 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 			sanitized = (sanitized[:pos] +
 				showmore_regex.sub(r'\1<p><button class="showmore">SHOW MORE</button></p><d class="d-none">\2</d>',
 					sanitized[pos:], count=1))
-		else:
-			soup = BeautifulSoup(sanitized, 'lxml')
-			tags = soup.findChildren(recursive=False)
-			if len(tags) > 10:
-				p = soup.new_tag("p")
-				button = soup.new_tag("button", attrs={"class": "showmore"})
-				p.append(button)
-				soup.append(p)
-				d = soup.new_tag("d", attrs={"class": "d-none"})
-				soup.append(d)
-			for tag in tags[10:]:
-				d.append(tag)
-
 
 	return sanitized.strip()
 
