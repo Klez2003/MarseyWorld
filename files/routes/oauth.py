@@ -17,8 +17,9 @@ def authorize_prompt(v:User):
 	return render_template("oauth.html", v=v, application=application)
 
 @app.post("/authorize")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def authorize(v):
 	client_id = request.values.get("client_id")
@@ -37,8 +38,9 @@ def authorize(v):
 	return redirect(f"{application.redirect_uri}?token={access_token}")
 
 @app.post("/rescind/<int:aid>")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def rescind(v, aid):
 
@@ -49,8 +51,9 @@ def rescind(v, aid):
 
 
 @app.post("/api_keys")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @is_not_permabanned
 def request_api_keys(v):
 	new_app = OauthApp(
@@ -90,8 +93,9 @@ def request_api_keys(v):
 
 
 @app.post("/delete_app/<int:aid>")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def delete_oauth_app(v, aid):
 	try:
@@ -113,8 +117,9 @@ def delete_oauth_app(v, aid):
 
 
 @app.post("/edit_app/<int:aid>")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @is_not_permabanned
 def edit_oauth_app(v, aid):
 	try:
@@ -137,8 +142,9 @@ def edit_oauth_app(v, aid):
 
 
 @app.post("/admin/app/approve/<int:aid>")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['APPS_MODERATION'])
 def admin_app_approve(v, aid):
 
@@ -174,8 +180,9 @@ def admin_app_approve(v, aid):
 
 
 @app.post("/admin/app/revoke/<int:aid>")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['APPS_MODERATION'])
 def admin_app_revoke(v, aid):
 
@@ -200,8 +207,9 @@ def admin_app_revoke(v, aid):
 
 
 @app.post("/admin/app/reject/<int:aid>")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['APPS_MODERATION'])
 def admin_app_reject(v, aid):
 
@@ -286,8 +294,9 @@ def admin_apps_list(v):
 
 
 @app.post("/reroll/<int:aid>")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def reroll_oauth_tokens(aid, v):
 

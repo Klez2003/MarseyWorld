@@ -38,6 +38,7 @@ def login_deduct_when(resp):
 	return g.login_failed
 
 @app.post("/login")
+@limiter.limit('1/second', scope=path)
 @auth_desired
 @limiter.limit("6/minute;10/day", deduct_when=login_deduct_when)
 def login_post(v:Optional[User]):
@@ -135,8 +136,9 @@ def me(v:User):
 
 
 @app.post("/logout")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def logout(v):
 	loggedin = cache.get(f'{SITE}_loggedin') or {}
@@ -193,7 +195,8 @@ def sign_up_get(v:Optional[User]):
 
 
 @app.post("/signup")
-@limiter.limit("1/second;10/day")
+@limiter.limit('1/second', scope=path)
+@limiter.limit("10/day")
 @auth_desired
 def sign_up_post(v:Optional[User]):
 	if not get_setting('signups'):
@@ -365,7 +368,8 @@ def get_forgot():
 
 
 @app.post("/forgot")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
 def post_forgot():
 
 	username = request.values.get("username")
@@ -429,7 +433,8 @@ def get_reset():
 
 
 @app.post("/reset")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
 @auth_desired
 def post_reset(v:Optional[User]):
 	if v: return redirect('/')
@@ -474,7 +479,8 @@ def lost_2fa(v:Optional[User]):
 	return render_template("login/lost_2fa.html", v=v)
 
 @app.post("/lost_2fa")
-@limiter.limit("1/second;6/minute;200/hour;1000/day")
+@limiter.limit('1/second', scope=path)
+@limiter.limit("6/minute;200/hour;1000/day")
 def lost_2fa_post():
 	username=request.values.get("username")
 	user=get_user(username, graceful=True)

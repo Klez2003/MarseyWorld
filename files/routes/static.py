@@ -227,8 +227,9 @@ def contact(v:Optional[User]):
 	return render_template("contact.html", v=v, msg=get_msg())
 
 @app.post("/contact")
-@limiter.limit("1/second;1/2 minutes;10/day")
-@limiter.limit("1/second;1/2 minutes;10/day", key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit("1/2 minutes;10/day")
+@limiter.limit("1/2 minutes;10/day", key_func=get_ID)
 @auth_required
 def submit_contact(v):
 	body = request.values.get("message")
@@ -321,6 +322,7 @@ def mobile_app(v:Optional[User]):
 	return render_template("app.html", v=v)
 
 @app.post("/dismiss_mobile_tip")
+@limiter.limit('1/second', scope=path)
 def dismiss_mobile_tip():
 	session["tooltip_last_dismissed"] = int(time.time())
 	return "", 204

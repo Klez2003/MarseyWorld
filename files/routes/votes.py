@@ -194,16 +194,18 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 
 
 @app.post("/vote/post/<int:post_id>/<new>")
-@limiter.limit("5/second;60/minute;1000/hour;2000/day")
-@limiter.limit("5/second;60/minute;1000/hour;2000/day", key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit("60/minute;1000/hour;2000/day")
+@limiter.limit("60/minute;1000/hour;2000/day", key_func=get_ID)
 @is_not_permabanned
 @limiter.limit("1/second", key_func=lambda:f'{g.v.id}-{request.full_path}')
 def vote_post(post_id, new, v):
 	return vote_post_comment(post_id, new, v, Submission, Vote)
 
 @app.post("/vote/comment/<int:comment_id>/<new>")
-@limiter.limit("5/second;60/minute;1000/hour;2000/day")
-@limiter.limit("5/second;60/minute;1000/hour;2000/day", key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit("60/minute;1000/hour;2000/day")
+@limiter.limit("60/minute;1000/hour;2000/day", key_func=get_ID)
 @is_not_permabanned
 @limiter.limit("1/second", key_func=lambda:f'{g.v.id}-{request.full_path}')
 def vote_comment(comment_id, new, v):

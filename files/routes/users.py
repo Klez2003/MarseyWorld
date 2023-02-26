@@ -297,9 +297,10 @@ def downvoting(v:User, username:str):
 	return all_upvoters_downvoters(v, username, -1, True)
 
 @app.post("/@<username>/suicide")
+@limiter.limit('1/second', scope=path)
 @feature_required('USERS_SUICIDE')
-@limiter.limit("1/second;5/day")
-@limiter.limit("1/second;5/day", key_func=get_ID)
+@limiter.limit("5/day")
+@limiter.limit("5/day", key_func=get_ID)
 @auth_required
 def suicide(v:User, username:str):
 	user = get_user(username)
@@ -357,16 +358,18 @@ def transfer_currency(v:User, username:str, currency_name:Literal['coins', 'mars
 	return {"message": f"{amount - tax} {currency_name} have been transferred to @{receiver.username}"}
 
 @app.post("/@<username>/transfer_coins")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @is_not_permabanned
 def transfer_coins(v:User, username:str):
 	return transfer_currency(v, username, 'coins', True)
 
 @app.post("/@<username>/transfer_bux")
+@limiter.limit('1/second', scope=path)
 @feature_required('MARSEYBUX')
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @is_not_permabanned
 def transfer_bux(v:User, username:str):
 	return transfer_currency(v, username, 'marseybux', False)
@@ -452,8 +455,9 @@ def usersong(username:str):
 	else: abort(404)
 
 @app.post("/subscribe/<int:post_id>")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def subscribe(v, post_id):
 	existing = g.db.query(Subscription).filter_by(user_id=v.id, submission_id=post_id).one_or_none()
@@ -463,8 +467,9 @@ def subscribe(v, post_id):
 	return {"message": "Subscribed to post successfully!"}
 
 @app.post("/unsubscribe/<int:post_id>")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def unsubscribe(v, post_id):
 	existing = g.db.query(Subscription).filter_by(user_id=v.id, submission_id=post_id).one_or_none()
@@ -473,8 +478,9 @@ def unsubscribe(v, post_id):
 	return {"message": "Unsubscribed from post successfully!"}
 
 @app.post("/@<username>/message")
-@limiter.limit("1/second;10/minute;20/hour;50/day")
-@limiter.limit("1/second;10/minute;20/hour;50/day", key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit("10/minute;20/hour;50/day")
+@limiter.limit("10/minute;20/hour;50/day", key_func=get_ID)
 @is_not_permabanned
 def message2(v:User, username:str):
 	user = get_user(username, v=v, include_blocks=True, include_shadowbanned=False)
@@ -535,8 +541,9 @@ def message2(v:User, username:str):
 
 
 @app.post("/reply")
-@limiter.limit("1/second;6/minute;50/hour;200/day")
-@limiter.limit("1/second;6/minute;50/hour;200/day", key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit("6/minute;50/hour;200/day")
+@limiter.limit("6/minute;50/hour;200/day", key_func=get_ID)
 @auth_required
 def messagereply(v:User):
 	body = sanitize_raw_body(request.values.get("body"), False)
@@ -1045,8 +1052,9 @@ def u_user_id_info(id, v=None):
 	return user.json
 
 @app.post("/follow/<username>")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def follow_user(username, v):
 
@@ -1072,8 +1080,9 @@ def follow_user(username, v):
 	return {"message": f"@{target.username} has been followed!"}
 
 @app.post("/unfollow/<username>")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def unfollow_user(username, v):
 
@@ -1100,8 +1109,9 @@ def unfollow_user(username, v):
 	return {"message": f"@{target.username} has been unfollowed!"}
 
 @app.post("/remove_follow/<username>")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def remove_follow(username, v):
 	target = get_user(username)
@@ -1192,6 +1202,7 @@ def subscribed_posts(v:User, username):
 	return get_saves_and_subscribes(v, "userpage/submissions.html", Subscription, page, False)
 
 @app.post("/fp/<fp>")
+@limiter.limit('1/second', scope=path)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def fp(v:User, fp):
@@ -1348,6 +1359,7 @@ if KOFI_TOKEN:
 		return ''
 
 @app.post("/gumroad")
+@limiter.limit('1/second', scope=path)
 def gumroad():
 	data = request.values
 	ip = request.headers.get('CF-Connecting-IP')
@@ -1379,8 +1391,9 @@ def gumroad():
 
 
 @app.post("/settings/claim_rewards")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def settings_claim_rewards(v:User):
 	if not (v.email and v.is_activated):

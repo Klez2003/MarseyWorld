@@ -13,7 +13,7 @@ from files.__main__ import app, cache, limiter
 @app.get("/")
 @app.get("/h/<sub>")
 @app.get("/s/<sub>")
-@limiter.limit("3/second;30/minute;5000/hour;10000/day")
+@limiter.limit("30/minute;5000/hour;10000/day")
 @auth_desired_with_logingate
 def front_all(v, sub=None, subdomain=None):
 	if sub:

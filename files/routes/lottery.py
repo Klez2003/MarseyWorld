@@ -7,6 +7,7 @@ from files.routes.wrappers import *
 from files.__main__ import app, limiter
 
 @app.post("/lottery/end")
+@limiter.limit('1/second', scope=path)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['LOTTERY_ADMIN'])
 def lottery_end(v):
@@ -15,6 +16,7 @@ def lottery_end(v):
 
 
 @app.post("/lottery/start")
+@limiter.limit('1/second', scope=path)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['LOTTERY_ADMIN'])
 def lottery_start(v):
@@ -23,8 +25,9 @@ def lottery_start(v):
 
 
 @app.post("/lottery/buy")
-@limiter.limit("3/second;100/minute;500/hour;1000/day")
-@limiter.limit("3/second;100/minute;500/hour;1000/day", key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit("100/minute;500/hour;1000/day")
+@limiter.limit("100/minute;500/hour;1000/day", key_func=get_ID)
 @auth_required
 def lottery_buy(v:User):
 	try: quantity = int(request.values.get("quantity"))
@@ -41,8 +44,8 @@ def lottery_buy(v:User):
 
 
 @app.get("/lottery/active")
-@limiter.limit("3/second;100/minute;500/hour;1000/day")
-@limiter.limit("3/second;100/minute;500/hour;1000/day", key_func=get_ID)
+@limiter.limit("100/minute;500/hour;1000/day")
+@limiter.limit("100/minute;500/hour;1000/day", key_func=get_ID)
 @auth_required
 def lottery_active(v:User):
 	lottery, participants = get_active_lottery_stats()

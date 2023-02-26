@@ -11,6 +11,7 @@ from files.routes.wrappers import *
 from files.__main__ import app
 
 @app.post("/clear")
+@limiter.limit('1/second', scope=path)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def clear(v):

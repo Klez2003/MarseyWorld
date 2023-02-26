@@ -72,8 +72,9 @@ def edit_rules_get(v):
 
 
 @app.post('/admin/edit_rules')
-@limiter.limit("1/second;30/minute;200/hour;1000/day")
-@limiter.limit("1/second;30/minute;200/hour;1000/day", key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit("30/minute;200/hour;1000/day")
+@limiter.limit("30/minute;200/hour;1000/day", key_func=get_ID)
 @admin_level_required(PERMS['EDIT_RULES'])
 def edit_rules_post(v):
 	rules = request.values.get('rules', '').strip()
@@ -90,6 +91,7 @@ def edit_rules_post(v):
 	return render_template('admin/edit_rules.html', v=v, rules=rules, msg='Rules edited successfully!')
 
 @app.post("/@<username>/make_admin")
+@limiter.limit('1/second', scope=path)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['ADMIN_ADD'])
 def make_admin(v:User, username):
@@ -111,6 +113,7 @@ def make_admin(v:User, username):
 
 
 @app.post("/@<username>/remove_admin")
+@limiter.limit('1/second', scope=path)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['ADMIN_REMOVE'])
 def remove_admin(v:User, username):
@@ -138,8 +141,9 @@ def remove_admin(v:User, username):
 	return {"message": f"@{user.username} has been removed as admin!"}
 
 @app.post("/distribute/<int:option_id>")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['POST_BETS_DISTRIBUTE'])
 def distribute(v:User, option_id):
 	autojanny = get_account(AUTOJANNY_ID)
@@ -196,8 +200,9 @@ def distribute(v:User, option_id):
 	return {"message": f"Each winner has received {coinsperperson} coins!"}
 
 @app.post("/@<username>/revert_actions")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['ADMIN_ACTIONS_REVERT'])
 def revert_actions(v:User, username):
 	revertee = get_user(username)
@@ -340,6 +345,7 @@ def admin_home(v):
 	return render_template("admin/admin_home.html", v=v)
 
 @app.post("/admin/site_settings/<setting>")
+@limiter.limit('1/second', scope=path)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['SITE_SETTINGS'])
 def change_settings(v:User, setting):
@@ -367,6 +373,7 @@ def change_settings(v:User, setting):
 	return {'message': f"{setting.replace('_', ' ').title()} {word}d successfully!"}
 
 @app.post("/admin/clear_cloudflare_cache")
+@limiter.limit('1/second', scope=path)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['SITE_CACHE_PURGE_CDN'])
 def clear_cloudflare_cache(v):
@@ -401,9 +408,10 @@ def badge_grant_get(v):
 		badge_types=badge_types, grant=grant)
 
 @app.post("/admin/badge_grant")
+@limiter.limit('1/second', scope=path)
 @feature_required('BADGES')
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['USER_BADGES'])
 def badge_grant_post(v):
 	badges = admin_badges_grantable_list(v)
@@ -462,9 +470,10 @@ def badge_grant_post(v):
 	return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=True, msg=f"{new_badge.name} Badge granted to @{user.username} successfully!")
 
 @app.post("/admin/badge_remove")
+@limiter.limit('1/second', scope=path)
 @feature_required('BADGES')
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['USER_BADGES'])
 def badge_remove_post(v):
 	badges = admin_badges_grantable_list(v)
@@ -605,16 +614,17 @@ def alt_votes_get(v):
 
 @app.get("/admin/alts/")
 @app.get("/@<username>/alts/")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['USER_LINK'])
 def admin_view_alts(v:User, username=None):
 	u = get_user(username or request.values.get('username'), graceful=True)
 	return render_template('admin/alts.html', v=v, u=u, alts=u.alts if u else None)
 
 @app.post('/@<username>/alts/')
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['USER_LINK'])
 def admin_add_alt(v:User, username):
 	user1 = get_user(username)
@@ -648,8 +658,9 @@ def admin_add_alt(v:User, username):
 	return {"message": f"Linked @{user1.username} and @{user2.username} successfully!"}
 
 @app.post('/@<username>/alts/<int:other>/deleted')
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['USER_LINK'])
 def admin_delink_relink_alt(v:User, username, other):
 	user1 = get_user(username)
@@ -712,6 +723,7 @@ def admin_removed_comments(v):
 						)
 
 @app.post("/unagendaposter/<id>")
+@limiter.limit('1/second', scope=path)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['USER_AGENDAPOSTER'])
 def unagendaposter(id, v):
@@ -751,8 +763,9 @@ def unagendaposter(id, v):
 
 
 @app.post("/shadowban/<int:user_id>")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['USER_SHADOWBAN'])
 def shadowban(user_id, v):
 	user = get_account(user_id)
@@ -786,8 +799,9 @@ def shadowban(user_id, v):
 	return {"message": f"@{user.username} has been shadowbanned!"}
 
 @app.post("/unshadowban/<int:user_id>")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['USER_SHADOWBAN'])
 def unshadowban(user_id, v):
 	user = get_account(user_id)
@@ -813,8 +827,9 @@ def unshadowban(user_id, v):
 
 
 @app.post("/admin/title_change/<int:user_id>")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['USER_TITLE_CHANGE'])
 def admin_title_change(user_id, v):
 
@@ -857,8 +872,9 @@ def admin_title_change(user_id, v):
 	return {"message": f"@{user.username}'s flair has been changed!"}
 
 @app.post("/ban_user/<id>")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['USER_BAN'])
 def ban_user(id, v):
 
@@ -949,6 +965,7 @@ def ban_user(id, v):
 
 
 @app.post("/agendaposter/<id>")
+@limiter.limit('1/second', scope=path)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['USER_AGENDAPOSTER'])
 def agendaposter(id, v):
@@ -1043,8 +1060,9 @@ def agendaposter(id, v):
 
 
 @app.post("/unban_user/<id>")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['USER_BAN'])
 def unban_user(id, v):
 
@@ -1088,8 +1106,9 @@ def unban_user(id, v):
 	return {"message": f"@{user.username} has been unbanned!"}
 
 @app.post("/mute_user/<int:user_id>")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['USER_BAN'])
 def mute_user(v:User, user_id):
 	user = get_account(user_id)
@@ -1109,8 +1128,9 @@ def mute_user(v:User, user_id):
 
 
 @app.post("/unmute_user/<int:user_id>")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['USER_BAN'])
 def unmute_user(v:User, user_id):
 	user = get_account(user_id)
@@ -1128,8 +1148,9 @@ def unmute_user(v:User, user_id):
 	return {"message": f"@{user.username} has been unmuted!"}
 
 @app.post("/admin/progstack/post/<int:post_id>")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['PROGSTACK'])
 def progstack_post(post_id, v):
 	post = get_post(post_id)
@@ -1148,8 +1169,9 @@ def progstack_post(post_id, v):
 	return {"message": "Progressive stack applied on post!"}
 
 @app.post("/admin/unprogstack/post/<int:post_id>")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['PROGSTACK'])
 def unprogstack_post(post_id, v):
 	post = get_post(post_id)
@@ -1166,8 +1188,9 @@ def unprogstack_post(post_id, v):
 	return {"message": "Progressive stack removed from post!"}
 
 @app.post("/admin/progstack/comment/<int:comment_id>")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['PROGSTACK'])
 def progstack_comment(comment_id, v):
 	comment = get_comment(comment_id)
@@ -1186,8 +1209,9 @@ def progstack_comment(comment_id, v):
 	return {"message": "Progressive stack applied on comment!"}
 
 @app.post("/admin/unprogstack/comment/<int:comment_id>")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['PROGSTACK'])
 def unprogstack_comment(comment_id, v):
 	comment = get_comment(comment_id)
@@ -1204,8 +1228,9 @@ def unprogstack_comment(comment_id, v):
 	return {"message": "Progressive stack removed from comment!"}
 
 @app.post("/remove_post/<int:post_id>")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def remove_post(post_id, v):
 	post = get_post(post_id)
@@ -1233,8 +1258,9 @@ def remove_post(post_id, v):
 
 
 @app.post("/approve_post/<int:post_id>")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def approve_post(post_id, v):
 	post = get_post(post_id)
@@ -1265,6 +1291,7 @@ def approve_post(post_id, v):
 
 
 @app.post("/distinguish/<int:post_id>")
+@limiter.limit('1/second', scope=path)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['POST_COMMENT_DISTINGUISH'])
 def distinguish_post(post_id, v):
@@ -1292,6 +1319,7 @@ def distinguish_post(post_id, v):
 
 
 @app.post("/sticky/<int:post_id>")
+@limiter.limit('1/second', scope=path)
 @feature_required('PINS')
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
@@ -1337,6 +1365,7 @@ def sticky_post(post_id, v):
 
 
 @app.post("/unsticky/<int:post_id>")
+@limiter.limit('1/second', scope=path)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def unsticky_post(post_id, v):
@@ -1366,6 +1395,7 @@ def unsticky_post(post_id, v):
 	return {"message": "Post unpinned!"}
 
 @app.post("/sticky_comment/<int:cid>")
+@limiter.limit('1/second', scope=path)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def sticky_comment(cid, v):
@@ -1402,6 +1432,7 @@ def sticky_comment(cid, v):
 
 
 @app.post("/unsticky_comment/<int:cid>")
+@limiter.limit('1/second', scope=path)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def unsticky_comment(cid, v):
@@ -1434,8 +1465,9 @@ def unsticky_comment(cid, v):
 
 
 @app.post("/remove_comment/<int:c_id>")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def remove_comment(c_id, v):
 	comment = get_comment(c_id)
@@ -1455,8 +1487,9 @@ def remove_comment(c_id, v):
 
 
 @app.post("/approve_comment/<int:c_id>")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def approve_comment(c_id, v):
 	comment = get_comment(c_id)
@@ -1482,6 +1515,7 @@ def approve_comment(c_id, v):
 
 
 @app.post("/distinguish_comment/<int:c_id>")
+@limiter.limit('1/second', scope=path)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['POST_COMMENT_DISTINGUISH'])
 def admin_distinguish_comment(c_id, v):
@@ -1517,8 +1551,9 @@ def admin_banned_domains(v):
 		banned_domains=banned_domains)
 
 @app.post("/admin/ban_domain")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['DOMAINS_BAN'])
 def ban_domain(v):
 
@@ -1549,8 +1584,9 @@ def ban_domain(v):
 
 
 @app.post("/admin/unban_domain/<path:domain>")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['DOMAINS_BAN'])
 def unban_domain(v:User, domain):
 	existing = g.db.get(BannedDomain, domain)
@@ -1569,8 +1605,9 @@ def unban_domain(v:User, domain):
 
 
 @app.post("/admin/nuke_user")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def admin_nuke_user(v):
 
@@ -1603,8 +1640,9 @@ def admin_nuke_user(v):
 
 
 @app.post("/admin/unnuke_user")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def admin_nunuke_user(v):
 
@@ -1638,8 +1676,9 @@ def admin_nunuke_user(v):
 	return {"message": f"@{user.username}'s content has been approved!"}
 
 @app.post("/blacklist/<int:user_id>")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['USER_BLACKLIST'])
 def blacklist_user(user_id, v):
 	user = get_account(user_id)
@@ -1659,8 +1698,9 @@ def blacklist_user(user_id, v):
 	return {"message": f"@{user.username} has been blacklisted from restricted holes!"}
 
 @app.post("/unblacklist/<int:user_id>")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['USER_BLACKLIST'])
 def unblacklist_user(user_id, v):
 	user = get_account(user_id)
@@ -1687,8 +1727,9 @@ def delete_media_get(v):
 	return render_template("admin/delete_media.html", v=v)
 
 @app.post("/admin/delete_media")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['DELETE_MEDIA'])
 def delete_media_post(v):
 

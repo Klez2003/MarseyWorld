@@ -37,8 +37,8 @@ def settings_personal(v:User):
 	return render_template("settings/personal.html", v=v, error=get_error(), msg=get_msg())
 
 @app.delete('/settings/background')
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def remove_background(v):
 	if v.background:
@@ -49,8 +49,9 @@ def remove_background(v):
 	return {"message": "Background removed!"}
 
 @app.post('/settings/custom_background')
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def upload_custom_background(v):
 	if g.is_tor: abort(403, "Image uploads are not allowed through TOR!")
@@ -73,8 +74,9 @@ def upload_custom_background(v):
 	return redirect('/settings/personal')
 
 @app.post('/settings/profile_background')
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def upload_profile_background(v):
 	if g.is_tor: abort(403, "Image uploads are not allowed through TOR!")
@@ -94,8 +96,8 @@ def upload_profile_background(v):
 	return redirect(f'/@{v.username}')
 
 @app.delete('/settings/profile_background')
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def delete_profile_background(v):
 	if v.profile_background:
@@ -104,8 +106,9 @@ def delete_profile_background(v):
 	return {"message": "Profile background removed!"}
 
 @app.post("/settings/personal")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def settings_personal_post(v):
 	if v.id == 253 and request.values.get("private"):
@@ -361,6 +364,7 @@ def settings_personal_post(v):
 
 
 @app.post("/settings/filters")
+@limiter.limit('1/second', scope=path)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def filters(v:User):
@@ -388,37 +392,42 @@ def set_color(v:User, attr:str, color:Optional[str]):
 
 
 @app.post("/settings/namecolor")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def namecolor(v):
 	return set_color(v, "namecolor", request.values.get("namecolor"))
 
 @app.post("/settings/themecolor")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def themecolor(v):
 	return set_color(v, "themecolor", request.values.get("themecolor"))
 
 @app.post("/settings/titlecolor")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def titlecolor(v):
 	return set_color(v, "titlecolor", request.values.get("titlecolor"))
 
 @app.post("/settings/verifiedcolor")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def verifiedcolor(v):
 	if not v.verified: abort(403, "You don't have a checkmark")
 	return set_color(v, "verifiedcolor", request.values.get("verifiedcolor"))
 
 @app.post("/settings/security")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def settings_security_post(v):
 	if request.values.get("new_password"):
@@ -491,8 +500,9 @@ def settings_security_post(v):
 		return render_template("settings/security.html", v=v, msg="Two-factor authentication disabled!")
 
 @app.post("/settings/log_out_all_others")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def settings_log_out_others(v):
 	submitted_password = request.values.get("password", "").strip()
@@ -507,8 +517,9 @@ def settings_log_out_others(v):
 
 
 @app.post("/settings/images/profile")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def settings_images_profile(v):
 	if g.is_tor: abort(403, "Image uploads are not allowed through TOR!")
@@ -545,9 +556,10 @@ def settings_images_profile(v):
 
 
 @app.post("/settings/images/banner")
+@limiter.limit('1/second', scope=path)
 @feature_required('USERS_PROFILE_BANNER')
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def settings_images_banner(v):
 	if g.is_tor: abort(403, "Image uploads are not allowed through TOR!")
@@ -573,8 +585,9 @@ def settings_css_get(v:User):
 	return render_template("settings/css.html", v=v, msg=get_msg(), profilecss=v.profilecss)
 
 @app.post("/settings/css")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def settings_css(v):
 	if v.agendaposter: abort(400, "Agendapostered users can't edit CSS!")
@@ -585,8 +598,9 @@ def settings_css(v):
 	return render_template("settings/css.html", v=v, msg="Custom CSS successfully updated!", profilecss=v.profilecss)
 
 @app.post("/settings/profilecss")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def settings_profilecss(v):
 	profilecss = request.values.get("profilecss", v.profilecss).strip().replace('\\', '').strip()[:CSS_LENGTH_LIMIT]
@@ -610,8 +624,9 @@ def settings_security(v:User):
 						)
 
 @app.post("/settings/block")
-@limiter.limit("1/second;20/day")
-@limiter.limit("1/second;20/day", key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit("20/day")
+@limiter.limit("20/day", key_func=get_ID)
 @auth_required
 def settings_block_user(v):
 	user = get_user(request.values.get("username"), graceful=True)
@@ -637,8 +652,9 @@ def settings_block_user(v):
 
 
 @app.post("/settings/unblock")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def settings_unblock_user(v):
 	user = get_user(request.values.get("username"))
@@ -663,8 +679,9 @@ def settings_advanced_get(v:User):
 	return render_template("settings/advanced.html", v=v, msg=get_msg(), error=get_error())
 
 @app.post("/settings/name_change")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @is_not_permabanned
 def settings_name_change(v):
 	new_name=request.values.get("name").strip()
@@ -701,9 +718,10 @@ def settings_name_change(v):
 	return redirect("/settings/personal?msg=Name successfully changed!")
 
 @app.post("/settings/song_change_mp3")
+@limiter.limit('1/second', scope=path)
 @feature_required('USERS_PROFILE_SONG')
-@limiter.limit("1/second;10/day")
-@limiter.limit("1/second;10/day", key_func=get_ID)
+@limiter.limit("10/day")
+@limiter.limit("10/day", key_func=get_ID)
 @auth_required
 def settings_song_change_mp3(v):
 	file = request.files['file']
@@ -765,9 +783,10 @@ def _change_song_youtube(vid, id):
 
 
 @app.post("/settings/song_change")
+@limiter.limit('1/second', scope=path)
 @feature_required('USERS_PROFILE_SONG')
-@limiter.limit("3/second;10/day")
-@limiter.limit("3/second;10/day", key_func=get_ID)
+@limiter.limit("10/day")
+@limiter.limit("10/day", key_func=get_ID)
 @auth_required
 def settings_song_change(v):
 	song=request.values.get("song").strip()
@@ -817,8 +836,9 @@ def settings_song_change(v):
 	return redirect("/settings/personal?msg=Profile Anthem successfully updated. Wait 5 minutes for the change to take effect.")
 
 @app.post("/settings/title_change")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def settings_title_change(v):
 	if v.flairchanged: abort(403)
@@ -845,9 +865,10 @@ def settings_title_change(v):
 
 
 @app.post("/settings/pronouns_change")
+@limiter.limit('1/second', scope=path)
 @feature_required('PRONOUNS')
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def settings_pronouns_change(v):
 	pronouns = sanitize_settings_text(request.values.get("pronouns"))
@@ -872,8 +893,9 @@ def settings_pronouns_change(v):
 
 
 @app.post("/settings/checkmark_text")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def settings_checkmark_text(v):
 	if not v.verified: abort(403)
@@ -886,6 +908,7 @@ def settings_checkmark_text(v):
 
 if IS_FISTMAS():
 	@app.post("/events/fistmas2022/darkmode")
+	@limiter.limit('1/second', scope=path)
 	@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 	@auth_required
 	def event_darkmode(v):

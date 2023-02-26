@@ -33,8 +33,9 @@ from files.__main__ import app, limiter
 titleheaders = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Safari/537.36"}
 
 @app.post("/publish/<int:pid>")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def publish(pid, v):
 	post = get_post(pid)
@@ -174,7 +175,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 		fart=get_setting('fart_mode'))
 
 @app.get("/view_more/<int:pid>/<sort>/<offset>")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+@limiter.limit(DEFAULT_RATELIMIT)
 @auth_desired_with_logingate
 def view_more(v, pid, sort, offset):
 	post = get_post(pid, v=v)
@@ -229,7 +230,7 @@ def view_more(v, pid, sort, offset):
 
 
 @app.get("/more_comments/<int:cid>")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
+@limiter.limit(DEFAULT_RATELIMIT)
 @auth_desired_with_logingate
 def more_comments(v, cid):
 	try: cid = int(cid)
@@ -253,8 +254,9 @@ def more_comments(v, cid):
 	return render_template("comments.html", v=v, comments=comments, p=p, render_replies=True)
 
 @app.post("/edit_post/<int:pid>")
-@limiter.limit("1/second;10/minute;100/hour;200/day")
-@limiter.limit("1/second;10/minute;100/hour;200/day", key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit("10/minute;100/hour;200/day")
+@limiter.limit("10/minute;100/hour;200/day", key_func=get_ID)
 @is_not_permabanned
 def edit_post(pid, v):
 	p = get_post(pid)
@@ -474,6 +476,7 @@ def thumbnail_thread(pid:int, vid:int):
 
 
 @app.post("/is_repost")
+@limiter.limit('1/second', scope=path)
 def is_repost():
 	not_a_repost = {'permalink': ''}
 	if not FEATURES['REPOST_DETECTION']:
@@ -518,6 +521,7 @@ def is_repost():
 
 @app.post("/submit")
 @app.post("/h/<sub>/submit")
+@limiter.limit('1/second', scope=path)
 @limiter.limit(POST_RATELIMIT)
 @limiter.limit(POST_RATELIMIT, key_func=get_ID)
 @auth_required
@@ -799,8 +803,9 @@ def submit_post(v:User, sub=None):
 		return {"post_id": post.id}
 
 @app.post("/delete_post/<int:pid>")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def delete_post_pid(pid, v):
 	post = get_post(pid)
@@ -826,8 +831,9 @@ def delete_post_pid(pid, v):
 	return {"message": "Post deleted!"}
 
 @app.post("/undelete_post/<int:pid>")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def undelete_post_pid(pid, v):
 	post = get_post(pid)
@@ -848,6 +854,7 @@ def undelete_post_pid(pid, v):
 
 
 @app.post("/mark_post_nsfw/<int:pid>")
+@limiter.limit('1/second', scope=path)
 @feature_required('NSFW_MARKING')
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
@@ -884,6 +891,7 @@ def mark_post_nsfw(pid, v):
 	return {"message": "Post has been marked as +18!"}
 
 @app.post("/unmark_post_nsfw/<int:pid>")
+@limiter.limit('1/second', scope=path)
 @feature_required('NSFW_MARKING')
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
@@ -920,8 +928,9 @@ def unmark_post_nsfw(pid, v):
 	return {"message": "Post has been unmarked as +18!"}
 
 @app.post("/save_post/<int:pid>")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def save_post(pid, v):
 
@@ -936,8 +945,9 @@ def save_post(pid, v):
 	return {"message": "Post saved!"}
 
 @app.post("/unsave_post/<int:pid>")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def unsave_post(pid, v):
 
@@ -951,6 +961,7 @@ def unsave_post(pid, v):
 	return {"message": "Post unsaved!"}
 
 @app.post("/pin/<int:post_id>")
+@limiter.limit('1/second', scope=path)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def pin_post(post_id, v):
@@ -965,8 +976,8 @@ def pin_post(post_id, v):
 	return abort(404, "Post not found!")
 
 @app.put("/post/<int:post_id>/new")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def set_new_sort(post_id:int, v:User):
 	post = get_post(post_id)
@@ -987,8 +998,8 @@ def set_new_sort(post_id:int, v:User):
 
 
 @app.delete("/post/<int:post_id>/new")
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER)
-@limiter.limit(DEFAULT_RATELIMIT_SLOWER, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def unset_new_sort(post_id:int, v:User):
 	post = get_post(post_id)

@@ -57,10 +57,9 @@ class Service(Enum):
 	RDRAMA = auto()
 	CHAT = auto()
 
-POST_RATELIMIT = '1/second;10/hour;20/day'
-DEFAULT_RATELIMIT_SLOWER = "1/second;30/minute;200/hour;1000/day"
-DEFAULT_RATELIMIT = "3/second;30/minute;200/hour;1000/day"
-CASINO_RATELIMIT = "1/second;100/minute;2000/hour;12000/day"
+POST_RATELIMIT = '10/hour;20/day'
+DEFAULT_RATELIMIT = "30/minute;200/hour;1000/day"
+CASINO_RATELIMIT = "100/minute;2000/hour;12000/day"
 
 PUSH_NOTIF_LIMIT = 1000
 
@@ -797,7 +796,7 @@ if SITE == 'rdrama.net':
 		'justcool393': JUSTCOOL_ID
 	}
 
-	POST_RATELIMIT = '1/second;5/hour;10/day'
+	POST_RATELIMIT = '5/hour;10/day'
 elif SITE == 'watchpeopledie.tv':
 	EMAIL = "wpd@watchpeopledie.tv"
 	TELEGRAM_ID = "wpdtv"
