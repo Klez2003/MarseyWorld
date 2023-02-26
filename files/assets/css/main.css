@@ -4089,7 +4089,6 @@ small, .small {
 	text-align: center;
 	object-fit: cover;
 	color: var(--white);
-	background-color: #1f2023;
 }
 .navbar .navbar-nav .profile-pic {
 	display: inline-block;
