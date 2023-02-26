@@ -4,7 +4,7 @@ from files.helpers.config.const import *
 from files.helpers.settings import get_setting
 from files.helpers.cloudflare import CLOUDFLARE_AVAILABLE
 from files.routes.wrappers import *
-from files.__main__ import app, limiter
+from files.__main__ import app, limiter, get_CF
 
 @app.before_request
 def before_request():
@@ -48,10 +48,16 @@ def before_request():
 
 	g.nonce = secrets.token_urlsafe(31)
 
+import redis
+r = redis.Redis(host='redis', port=6379, db=0)
+
 @app.after_request
 def after_request(response:Response):
 	if response.status_code < 400:
 		_commit_and_close_db()
+
+	if request.method == "POST":
+		r.delete(f'LIMITER/{get_CF()}/{request.endpoint}:{request.path}/1/1/second')
 
 	return response
 
