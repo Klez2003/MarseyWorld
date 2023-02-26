@@ -482,6 +482,7 @@ PERMS = { # Minimum admin_level to perform action.
  	'UPDATE_ASSETS': 4,
 
 	'PROGSTACK': 5,
+	'UNDO_AWARD_PINS': 5,
 
 	'DELETE_MEDIA': 6,
 
@@ -492,7 +493,6 @@ PERMS = { # Minimum admin_level to perform action.
  	'IGNORE_BADGE_BLACKLIST': 7,
  	'VIEW_DM_IMAGES': 7,
 
-	'UNDO_AWARD_PINS': 8,
  	'SEE_GHOST_VOTES': 8,
  	'MODS_EVERY_HOLE': 8,
 }
