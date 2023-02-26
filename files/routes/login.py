@@ -137,7 +137,6 @@ def me(v:User):
 
 @app.post("/logout")
 @limiter.limit('1/second', scope=path)
-@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def logout(v):
@@ -369,7 +368,6 @@ def get_forgot():
 
 @app.post("/forgot")
 @limiter.limit('1/second', scope=path)
-@limiter.limit(DEFAULT_RATELIMIT)
 def post_forgot():
 
 	username = request.values.get("username")
@@ -434,7 +432,6 @@ def get_reset():
 
 @app.post("/reset")
 @limiter.limit('1/second', scope=path)
-@limiter.limit(DEFAULT_RATELIMIT)
 @auth_desired
 def post_reset(v:Optional[User]):
 	if v: return redirect('/')

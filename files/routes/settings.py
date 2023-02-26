@@ -37,7 +37,6 @@ def settings_personal(v:User):
 	return render_template("settings/personal.html", v=v, error=get_error(), msg=get_msg())
 
 @app.delete('/settings/background')
-@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def remove_background(v):
@@ -50,7 +49,6 @@ def remove_background(v):
 
 @app.post('/settings/custom_background')
 @limiter.limit('1/second', scope=path)
-@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def upload_custom_background(v):
@@ -75,7 +73,6 @@ def upload_custom_background(v):
 
 @app.post('/settings/profile_background')
 @limiter.limit('1/second', scope=path)
-@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def upload_profile_background(v):
@@ -96,7 +93,6 @@ def upload_profile_background(v):
 	return redirect(f'/@{v.username}')
 
 @app.delete('/settings/profile_background')
-@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def delete_profile_background(v):
@@ -107,7 +103,6 @@ def delete_profile_background(v):
 
 @app.post("/settings/personal")
 @limiter.limit('1/second', scope=path)
-@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def settings_personal_post(v):
@@ -393,7 +388,6 @@ def set_color(v:User, attr:str, color:Optional[str]):
 
 @app.post("/settings/namecolor")
 @limiter.limit('1/second', scope=path)
-@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def namecolor(v):
@@ -401,7 +395,6 @@ def namecolor(v):
 
 @app.post("/settings/themecolor")
 @limiter.limit('1/second', scope=path)
-@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def themecolor(v):
@@ -409,7 +402,6 @@ def themecolor(v):
 
 @app.post("/settings/titlecolor")
 @limiter.limit('1/second', scope=path)
-@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def titlecolor(v):
@@ -417,7 +409,6 @@ def titlecolor(v):
 
 @app.post("/settings/verifiedcolor")
 @limiter.limit('1/second', scope=path)
-@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def verifiedcolor(v):
@@ -426,7 +417,6 @@ def verifiedcolor(v):
 
 @app.post("/settings/security")
 @limiter.limit('1/second', scope=path)
-@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def settings_security_post(v):
@@ -501,7 +491,6 @@ def settings_security_post(v):
 
 @app.post("/settings/log_out_all_others")
 @limiter.limit('1/second', scope=path)
-@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def settings_log_out_others(v):
@@ -518,7 +507,6 @@ def settings_log_out_others(v):
 
 @app.post("/settings/images/profile")
 @limiter.limit('1/second', scope=path)
-@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def settings_images_profile(v):
@@ -558,7 +546,6 @@ def settings_images_profile(v):
 @app.post("/settings/images/banner")
 @limiter.limit('1/second', scope=path)
 @feature_required('USERS_PROFILE_BANNER')
-@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def settings_images_banner(v):
@@ -586,7 +573,6 @@ def settings_css_get(v:User):
 
 @app.post("/settings/css")
 @limiter.limit('1/second', scope=path)
-@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def settings_css(v):
@@ -599,7 +585,6 @@ def settings_css(v):
 
 @app.post("/settings/profilecss")
 @limiter.limit('1/second', scope=path)
-@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def settings_profilecss(v):
@@ -653,7 +638,6 @@ def settings_block_user(v):
 
 @app.post("/settings/unblock")
 @limiter.limit('1/second', scope=path)
-@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def settings_unblock_user(v):
@@ -680,7 +664,6 @@ def settings_advanced_get(v:User):
 
 @app.post("/settings/name_change")
 @limiter.limit('1/second', scope=path)
-@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @is_not_permabanned
 def settings_name_change(v):
@@ -837,7 +820,6 @@ def settings_song_change(v):
 
 @app.post("/settings/title_change")
 @limiter.limit('1/second', scope=path)
-@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def settings_title_change(v):
@@ -867,7 +849,6 @@ def settings_title_change(v):
 @app.post("/settings/pronouns_change")
 @limiter.limit('1/second', scope=path)
 @feature_required('PRONOUNS')
-@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def settings_pronouns_change(v):
@@ -894,7 +875,6 @@ def settings_pronouns_change(v):
 
 @app.post("/settings/checkmark_text")
 @limiter.limit('1/second', scope=path)
-@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def settings_checkmark_text(v):

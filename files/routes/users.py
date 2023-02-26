@@ -359,7 +359,6 @@ def transfer_currency(v:User, username:str, currency_name:Literal['coins', 'mars
 
 @app.post("/@<username>/transfer_coins")
 @limiter.limit('1/second', scope=path)
-@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @is_not_permabanned
 def transfer_coins(v:User, username:str):
@@ -368,7 +367,6 @@ def transfer_coins(v:User, username:str):
 @app.post("/@<username>/transfer_bux")
 @limiter.limit('1/second', scope=path)
 @feature_required('MARSEYBUX')
-@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @is_not_permabanned
 def transfer_bux(v:User, username:str):
@@ -456,7 +454,6 @@ def usersong(username:str):
 
 @app.post("/subscribe/<int:post_id>")
 @limiter.limit('1/second', scope=path)
-@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def subscribe(v, post_id):
@@ -468,7 +465,6 @@ def subscribe(v, post_id):
 
 @app.post("/unsubscribe/<int:post_id>")
 @limiter.limit('1/second', scope=path)
-@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def unsubscribe(v, post_id):
@@ -1053,7 +1049,6 @@ def u_user_id_info(id, v=None):
 
 @app.post("/follow/<username>")
 @limiter.limit('1/second', scope=path)
-@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def follow_user(username, v):
@@ -1081,7 +1076,6 @@ def follow_user(username, v):
 
 @app.post("/unfollow/<username>")
 @limiter.limit('1/second', scope=path)
-@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def unfollow_user(username, v):
@@ -1110,7 +1104,6 @@ def unfollow_user(username, v):
 
 @app.post("/remove_follow/<username>")
 @limiter.limit('1/second', scope=path)
-@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def remove_follow(username, v):
@@ -1392,7 +1385,6 @@ def gumroad():
 
 @app.post("/settings/claim_rewards")
 @limiter.limit('1/second', scope=path)
-@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def settings_claim_rewards(v:User):

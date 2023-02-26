@@ -411,7 +411,6 @@ def sub_settings(v:User, sub):
 
 @app.post('/h/<sub>/sidebar')
 @limiter.limit('1/second', scope=path)
-@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @is_not_permabanned
 def post_sub_sidebar(v:User, sub):
@@ -437,7 +436,6 @@ def post_sub_sidebar(v:User, sub):
 
 @app.post('/h/<sub>/css')
 @limiter.limit('1/second', scope=path)
-@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @is_not_permabanned
 def post_sub_css(v:User, sub):

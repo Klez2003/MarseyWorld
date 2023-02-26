@@ -34,7 +34,6 @@ titleheaders = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWe
 
 @app.post("/publish/<int:pid>")
 @limiter.limit('1/second', scope=path)
-@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def publish(pid, v):
@@ -175,7 +174,6 @@ def post_id(pid, anything=None, v=None, sub=None):
 		fart=get_setting('fart_mode'))
 
 @app.get("/view_more/<int:pid>/<sort>/<offset>")
-@limiter.limit(DEFAULT_RATELIMIT)
 @auth_desired_with_logingate
 def view_more(v, pid, sort, offset):
 	post = get_post(pid, v=v)
@@ -230,7 +228,6 @@ def view_more(v, pid, sort, offset):
 
 
 @app.get("/more_comments/<int:cid>")
-@limiter.limit(DEFAULT_RATELIMIT)
 @auth_desired_with_logingate
 def more_comments(v, cid):
 	try: cid = int(cid)
@@ -804,7 +801,6 @@ def submit_post(v:User, sub=None):
 
 @app.post("/delete_post/<int:pid>")
 @limiter.limit('1/second', scope=path)
-@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def delete_post_pid(pid, v):
@@ -832,7 +828,6 @@ def delete_post_pid(pid, v):
 
 @app.post("/undelete_post/<int:pid>")
 @limiter.limit('1/second', scope=path)
-@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def undelete_post_pid(pid, v):
@@ -929,7 +924,6 @@ def unmark_post_nsfw(pid, v):
 
 @app.post("/save_post/<int:pid>")
 @limiter.limit('1/second', scope=path)
-@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def save_post(pid, v):
@@ -946,7 +940,6 @@ def save_post(pid, v):
 
 @app.post("/unsave_post/<int:pid>")
 @limiter.limit('1/second', scope=path)
-@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def unsave_post(pid, v):
@@ -976,7 +969,6 @@ def pin_post(post_id, v):
 	return abort(404, "Post not found!")
 
 @app.put("/post/<int:post_id>/new")
-@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def set_new_sort(post_id:int, v:User):
@@ -998,7 +990,6 @@ def set_new_sort(post_id:int, v:User):
 
 
 @app.delete("/post/<int:post_id>/new")
-@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def unset_new_sort(post_id:int, v:User):
