@@ -42,12 +42,12 @@
 						{% if v.id == group.owner.id %}
 							<td>
 								<div id="kick-{{membership.user_id}}" {% if name == 'Applications' %}class="d-none"{% endif %}>
-									<button type="button" class="btn btn-primary btn-block" data-nonce="{{g.nonce}}" data-onclick="reject_membership(this,'/!{{group}}/{{membership.user_id}}/reject')">Kick</button>
+									<button type="button" class="btn btn-primary btn-block" data-nonce="{{g.nonce}}" data-onclick="reject_membership(this,'{{group}}','{{membership.user_id}}')">Kick</button>
 								</div>
 
 								<div {% if name == 'Members' %}class="d-none"{% endif %}>
-									<button type="button" class="btn btn-primary btn-block" data-nonce="{{g.nonce}}" data-onclick="approve_membership(this,'/!{{group}}/{{membership.user_id}}/approve','{{membership.user_id}}')">Approve</button>
-									<button type="button" class="btn btn-primary btn-block" data-nonce="{{g.nonce}}" data-onclick="reject_membership(this,'/!{{group}}/{{membership.user_id}}/reject','{{membership.user_id}}')">Reject</button>
+									<button type="button" class="btn btn-primary btn-block" data-nonce="{{g.nonce}}" data-onclick="approve_membership(this,'{{group}}','{{membership.user_id}}')">Approve</button>
+									<button type="button" class="btn btn-primary btn-block" data-nonce="{{g.nonce}}" data-onclick="reject_membership(this,'{{group}}','{{membership.user_id}}')">Reject</button>
 								</div>
 							</td>
 						{% endif %}

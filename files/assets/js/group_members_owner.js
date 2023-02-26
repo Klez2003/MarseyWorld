@@ -1,6 +1,7 @@
 const members_tbody = document.getElementById('Members_tbody')
 
-function approve_membership(t, url, uid) {
+function approve_membership(t, group, uid) {
+	url = `/!${group}/${uid}/approve`
 	postToast(t, url,
 		{
 		},
@@ -15,7 +16,8 @@ function approve_membership(t, url, uid) {
 	);
 }
 
-function reject_membership(t, url) {
+function reject_membership(t, group, uid) {
+	url = `/!${group}/${uid}/reject`
 	postToast(t, url,
 		{
 		},
