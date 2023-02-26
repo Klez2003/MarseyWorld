@@ -1,4 +1,5 @@
 import secrets
+from os import environ
 
 from files.helpers.config.const import *
 from files.helpers.settings import get_setting
@@ -49,7 +50,8 @@ def before_request():
 	g.nonce = secrets.token_urlsafe(31)
 
 import redis
-r = redis.Redis(host='redis', port=6379, db=0)
+host = environ.get("REDIS_URL", "redis://localhost").split('://')[1]
+r = redis.Redis(host=host, port=6379, db=0)
 
 @app.after_request
 def after_request(response:Response):
