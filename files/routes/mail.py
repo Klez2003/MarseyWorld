@@ -15,6 +15,9 @@ from files.__main__ import app, limiter
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def verify_email(v):
+	if v.is_activated:
+		abort(400, "Email already verified!")
+
 	send_verification_email(v)
 	return {"message": "Email has been sent. Check your spam folder if you can't find it!"}
 
