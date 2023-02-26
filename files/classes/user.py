@@ -979,6 +979,9 @@ class User(Base):
 
 			else:
 				if other.parent_submission:
+					if not (user and user.patron) and other.post.title.lower().startswith('[paypigs]'):
+						return False
+
 					if user and user.id == other.post.author_id: return True
 					if other.post.sub and not cls.can_see(user, other.post.subr): return False
 					# if not cls.can_see(user, other.post): return False
