@@ -348,11 +348,21 @@ def notifications(v:User):
 							x.replies2 = g.db.query(Comment).filter_by(parent_comment_id=x.id).filter(or_(Comment.author_id == v.id, Comment.id.in_(cids))).order_by(Comment.id.desc()).all()
 							total.extend(x.replies2)
 		else:
-			while c.parent_comment:
+			while c.parent_comment_id:
 				c = c.parent_comment
 			c.replies2 = g.db.query(Comment).filter_by(parent_comment_id=c.id).order_by(Comment.id).all()
 
 		if c not in listing: listing.append(c)
+
+	total.extend(listing)
+
+	listing2 = []
+	for x in listing:
+		if x.parent_comment_id:
+			listing2.append(x.parent_comment)
+		else:
+			listing2.append(x)
+	listing = listing2
 
 	total.extend(listing)
 
