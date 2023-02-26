@@ -6,7 +6,7 @@ from flask import redirect, render_template, request, session, g
 from files.helpers.config.const import *
 from files.helpers.settings import get_setting
 
-from files.routes.wrappers import path
+from files.routes.wrappers import rpath
 
 from files.__main__ import app, limiter
 
