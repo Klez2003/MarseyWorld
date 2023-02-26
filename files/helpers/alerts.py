@@ -103,7 +103,7 @@ def notif_comment2(p):
 		return create_comment(text_html), text
 
 
-def add_notif(cid, uid, text, pushnotif_url):
+def add_notif(cid, uid, text, pushnotif_url=''):
 	if uid in bots: return
 
 	existing = g.db.query(Notification.user_id).filter_by(comment_id=cid, user_id=uid).one_or_none()
