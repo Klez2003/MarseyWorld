@@ -245,8 +245,8 @@ def contact(v:Optional[User]):
 
 @app.post("/contact")
 @limiter.limit('1/second', scope=rpath)
-@limiter.limit("1/2 minutes;10/day")
-@limiter.limit("1/2 minutes;10/day", key_func=get_ID)
+@limiter.limit("1/minute;10/day")
+@limiter.limit("1/minute;10/day", key_func=get_ID)
 @auth_required
 def submit_contact(v):
 	body = request.values.get("message")
