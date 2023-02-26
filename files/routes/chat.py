@@ -29,6 +29,7 @@ muted = cache.get(f'muted') or {}
 messages = cache.get(f'messages') or {}
 
 @app.get("/chat")
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['CHAT'])
 def chat(v):

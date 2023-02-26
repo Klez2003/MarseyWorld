@@ -11,6 +11,7 @@ from files.__main__ import app
 @app.get('/rss')
 @app.get('/feed')
 @app.get('/rss/<sort>/<t>')
+@limiter.limit(DEFAULT_RATELIMIT)
 def feeds_user(sort='hot', t='all'):
 
 	try: page = max(int(request.values.get("page", 1)), 1)

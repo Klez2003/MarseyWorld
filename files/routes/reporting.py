@@ -13,6 +13,7 @@ from files.__main__ import app, limiter, cache
 
 @app.post("/report/post/<int:pid>")
 @limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def flag_post(pid, v):
@@ -69,6 +70,7 @@ def flag_post(pid, v):
 
 @app.post("/report/comment/<int:cid>")
 @limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def flag_comment(cid, v):

@@ -12,6 +12,7 @@ from files.__main__ import app
 
 @app.post("/clear")
 @limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def clear(v):
@@ -26,6 +27,7 @@ def clear(v):
 
 
 @app.get("/unread")
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def unread(v):
@@ -44,6 +46,7 @@ def unread(v):
 
 
 @app.get("/notifications/modmail")
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['VIEW_MODMAIL'])
 def notifications_modmail(v):
@@ -70,6 +73,7 @@ def notifications_modmail(v):
 
 
 @app.get("/notifications/messages")
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def notifications_messages(v:User):
@@ -140,6 +144,7 @@ def notifications_messages(v:User):
 
 
 @app.get("/notifications/posts")
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def notifications_posts(v:User):
@@ -183,6 +188,7 @@ def notifications_posts(v:User):
 
 
 @app.get("/notifications/modactions")
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def notifications_modactions(v:User):
@@ -229,6 +235,7 @@ def notifications_modactions(v:User):
 
 
 @app.get("/notifications/reddit")
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def notifications_reddit(v:User):
@@ -267,6 +274,7 @@ def notifications_reddit(v:User):
 
 
 @app.get("/notifications")
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def notifications(v:User):

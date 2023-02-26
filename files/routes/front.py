@@ -160,6 +160,7 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 
 
 @app.get("/random_post")
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def random_post(v:User):
@@ -173,6 +174,7 @@ def random_post(v:User):
 
 
 @app.get("/random_user")
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def random_user(v:User):
@@ -212,6 +214,7 @@ def comment_idlist(v=None, page=1, sort="new", t="day", gt=0, lt=0, site=None):
 	return [x[0] for x in comments]
 
 @app.get("/comments")
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def all_comments(v:User):

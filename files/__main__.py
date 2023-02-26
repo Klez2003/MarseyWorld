@@ -60,8 +60,9 @@ if "load_chat" in argv:
 def get_CF():
 	with app.app_context():
 		x = request.headers.get('CF-Connecting-IP')
-		if x: return x
-		return request.headers.get('X-Forwarded-For')
+		if not x:
+			x = request.headers.get('X-Forwarded-For')
+		return x
 
 limiter = Limiter(
 	app=app,

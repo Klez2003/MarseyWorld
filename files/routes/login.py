@@ -21,6 +21,7 @@ from files.routes.wrappers import *
 NO_LOGIN_REDIRECT_URLS = ("/login", "/logout", "/signup", "/forgot", "/reset", "/reset_2fa", "/lost_2fa")
 
 @app.get("/login")
+@limiter.limit(DEFAULT_RATELIMIT)
 @auth_desired
 def login_get(v:Optional[User]):
 	redir = request.values.get("redirect", "").strip().rstrip('?').lower()
@@ -39,6 +40,7 @@ def login_deduct_when(resp):
 
 @app.post("/login")
 @limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
 @auth_desired
 @limiter.limit("6/minute;10/day", deduct_when=login_deduct_when)
 def login_post(v:Optional[User]):
@@ -128,6 +130,7 @@ def on_login(account, redir=None):
 
 @app.get("/me")
 @app.get("/@me")
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def me(v:User):
@@ -137,6 +140,7 @@ def me(v:User):
 
 @app.post("/logout")
 @limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def logout(v):
@@ -147,6 +151,7 @@ def logout(v):
 	return {"message": "Logout successful!"}
 
 @app.get("/signup")
+@limiter.limit(DEFAULT_RATELIMIT)
 @auth_desired
 def sign_up_get(v:Optional[User]):
 	if not get_setting('signups'):
@@ -362,12 +367,14 @@ def sign_up_post(v:Optional[User]):
 
 
 @app.get("/forgot")
+@limiter.limit(DEFAULT_RATELIMIT)
 def get_forgot():
 	return render_template("login/forgot_password.html")
 
 
 @app.post("/forgot")
 @limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
 def post_forgot():
 
 	username = request.values.get("username")
@@ -403,6 +410,7 @@ def post_forgot():
 
 
 @app.get("/reset")
+@limiter.limit(DEFAULT_RATELIMIT)
 def get_reset():
 	user_id = request.values.get("id")
 	timestamp = 0
@@ -432,6 +440,7 @@ def get_reset():
 
 @app.post("/reset")
 @limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
 @auth_desired
 def post_reset(v:Optional[User]):
 	if v: return redirect('/')
@@ -470,6 +479,7 @@ def post_reset(v:Optional[User]):
 						message="Login normally to access your account.")
 
 @app.get("/lost_2fa")
+@limiter.limit(DEFAULT_RATELIMIT)
 @auth_desired
 def lost_2fa(v:Optional[User]):
 	if v and not v.mfa_secret: abort(400, "You don't have 2FA enabled")
@@ -515,6 +525,7 @@ def lost_2fa_post():
 						message="If the username, password, and email match, we will send you an email. Check your spam folder if you can't find it."), 202
 
 @app.get("/reset_2fa")
+@limiter.limit(DEFAULT_RATELIMIT)
 def reset_2fa():
 	now=int(time.time())
 	t = request.values.get("t")

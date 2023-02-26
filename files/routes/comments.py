@@ -28,6 +28,7 @@ WORDLE_COLOR_MAPPINGS = {-1: "🟥", 0: "🟨", 1: "🟩"}
 @app.get("/post/<int:pid>/<anything>/<int:cid>")
 @app.get("/h/<sub>/comment/<int:cid>")
 @app.get("/h/<sub>/post/<int:pid>/<anything>/<int:cid>")
+@limiter.limit(DEFAULT_RATELIMIT)
 @auth_desired_with_logingate
 def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 
@@ -452,6 +453,7 @@ def edit_comment(cid, v):
 
 @app.post("/delete/comment/<int:cid>")
 @limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def delete_comment(cid, v):
@@ -474,6 +476,7 @@ def delete_comment(cid, v):
 
 @app.post("/undelete/comment/<int:cid>")
 @limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def undelete_comment(cid, v):
@@ -493,8 +496,9 @@ def undelete_comment(cid, v):
 	return {"message": "Comment undeleted!"}
 
 @app.post("/pin_comment/<int:cid>")
-@limiter.limit('1/second', scope=path)
 @feature_required('PINS')
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def pin_comment(cid, v):
@@ -519,6 +523,7 @@ def pin_comment(cid, v):
 
 @app.post("/unpin_comment/<int:cid>")
 @limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def unpin_comment(cid, v):
@@ -542,6 +547,7 @@ def unpin_comment(cid, v):
 
 @app.post("/save_comment/<int:cid>")
 @limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def save_comment(cid, v):
@@ -559,6 +565,7 @@ def save_comment(cid, v):
 
 @app.post("/unsave_comment/<int:cid>")
 @limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def unsave_comment(cid, v):
@@ -595,6 +602,7 @@ def diff_words(answer, guess):
 
 @app.post("/wordle/<int:cid>")
 @limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def handle_wordle_action(cid, v):
@@ -626,8 +634,9 @@ def handle_wordle_action(cid, v):
 
 
 @app.post("/toggle_comment_nsfw/<int:cid>")
-@limiter.limit('1/second', scope=path)
 @feature_required('NSFW_MARKING')
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def toggle_comment_nsfw(cid, v):

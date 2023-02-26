@@ -44,6 +44,7 @@ def searchparse(text):
 	return criteria
 
 @app.get("/search/posts")
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def searchposts(v:User):
@@ -175,6 +176,7 @@ def searchposts(v:User):
 						)
 
 @app.get("/search/comments")
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def searchcomments(v:User):
@@ -279,6 +281,7 @@ def searchcomments(v:User):
 
 
 @app.get("/search/messages")
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def searchmessages(v:User):
@@ -358,6 +361,7 @@ def searchmessages(v:User):
 	return render_template("search_comments.html", v=v, query=query, total=total, page=page, comments=comments, sort=sort, t=t, next_exists=next_exists, standalone=True)
 
 @app.get("/search/users")
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def searchusers(v:User):

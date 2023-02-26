@@ -55,6 +55,7 @@ def upvoters_downvoters(v, username, uid, cls, vote_cls, vote_dir, template, sta
 	return render_template(template, next_exists=next_exists, listing=listing, page=page, v=v, standalone=standalone)
 
 @app.get("/@<username>/upvoters/<int:uid>/posts")
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def upvoters_posts(v:User, username, uid):
@@ -62,6 +63,7 @@ def upvoters_posts(v:User, username, uid):
 
 
 @app.get("/@<username>/upvoters/<int:uid>/comments")
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def upvoters_comments(v:User, username, uid):
@@ -69,6 +71,7 @@ def upvoters_comments(v:User, username, uid):
 
 
 @app.get("/@<username>/downvoters/<int:uid>/posts")
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def downvoters_posts(v:User, username, uid):
@@ -76,6 +79,7 @@ def downvoters_posts(v:User, username, uid):
 
 
 @app.get("/@<username>/downvoters/<int:uid>/comments")
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def downvoters_comments(v:User, username, uid):
@@ -110,6 +114,7 @@ def upvoting_downvoting(v, username, uid, cls, vote_cls, vote_dir, template, sta
 	return render_template(template, next_exists=next_exists, listing=listing, page=page, v=v, standalone=standalone)
 
 @app.get("/@<username>/upvoting/<int:uid>/posts")
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def upvoting_posts(v:User, username, uid):
@@ -117,6 +122,7 @@ def upvoting_posts(v:User, username, uid):
 
 
 @app.get("/@<username>/upvoting/<int:uid>/comments")
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def upvoting_comments(v:User, username, uid):
@@ -124,6 +130,7 @@ def upvoting_comments(v:User, username, uid):
 
 
 @app.get("/@<username>/downvoting/<int:uid>/posts")
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def downvoting_posts(v:User, username, uid):
@@ -131,6 +138,7 @@ def downvoting_posts(v:User, username, uid):
 
 
 @app.get("/@<username>/downvoting/<int:uid>/comments")
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def downvoting_comments(v:User, username, uid):
@@ -165,6 +173,7 @@ def user_voted(v, username, cls, vote_cls, template, standalone):
 	return render_template(template, next_exists=next_exists, listing=listing, page=page, v=v, standalone=standalone)
 
 @app.get("/@<username>/voted/posts")
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def user_voted_posts(v:User, username):
@@ -172,12 +181,14 @@ def user_voted_posts(v:User, username):
 
 
 @app.get("/@<username>/voted/comments")
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def user_voted_comments(v:User, username):
 	return user_voted(v, username, Comment, CommentVote, "userpage/voted_comments.html", True)
 
 @app.get("/banned")
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def banned(v:User):
@@ -191,6 +202,7 @@ def banned(v:User):
 	return render_template("banned.html", v=v, users=users)
 
 @app.get("/grassed")
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def grassed(v:User):
@@ -204,6 +216,7 @@ def grassed(v:User):
 	return render_template("grassed.html", v=v, users=users)
 
 @app.get("/chuds")
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def chuds(v:User):
@@ -219,7 +232,7 @@ def chuds(v:User):
 
 def all_upvoters_downvoters(v:User, username:str, vote_dir:int, is_who_simps_hates:bool):
 	if username == 'Snappy':
-		abort(403, "For performance reasons, you can't see Snappy statistics!")
+		abort(403, "For performance reasons, you can't see Snappy's statistics!")
 	vote_str = 'votes'
 	simps_haters = 'voters'
 	vote_name = 'Neutral'
@@ -273,32 +286,36 @@ def all_upvoters_downvoters(v:User, username:str, vote_dir:int, is_who_simps_hat
 	return render_template("userpage/voters.html", v=v, users=users, pos=pos, name=vote_name, name2=name2, total=total, page=page, next_exists=next_exists)
 
 @app.get("/@<username>/upvoters")
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def upvoters(v:User, username:str):
 	return all_upvoters_downvoters(v, username, 1, False)
 
 @app.get("/@<username>/downvoters")
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def downvoters(v:User, username:str):
 	return all_upvoters_downvoters(v, username, -1, False)
 
 @app.get("/@<username>/upvoting")
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def upvoting(v:User, username:str):
 	return all_upvoters_downvoters(v, username, 1, True)
 
 @app.get("/@<username>/downvoting")
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def downvoting(v:User, username:str):
 	return all_upvoters_downvoters(v, username, -1, True)
 
 @app.post("/@<username>/suicide")
-@limiter.limit('1/second', scope=path)
 @feature_required('USERS_SUICIDE')
+@limiter.limit('1/second', scope=path)
 @limiter.limit("5/day")
 @limiter.limit("5/day", key_func=get_ID)
 @auth_required
@@ -311,6 +328,7 @@ def suicide(v:User, username:str):
 
 
 @app.get("/@<username>/coins")
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def get_coins(v:User, username:str):
@@ -359,20 +377,23 @@ def transfer_currency(v:User, username:str, currency_name:Literal['coins', 'mars
 
 @app.post("/@<username>/transfer_coins")
 @limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @is_not_permabanned
 def transfer_coins(v:User, username:str):
 	return transfer_currency(v, username, 'coins', True)
 
 @app.post("/@<username>/transfer_bux")
-@limiter.limit('1/second', scope=path)
 @feature_required('MARSEYBUX')
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @is_not_permabanned
 def transfer_bux(v:User, username:str):
 	return transfer_currency(v, username, 'marseybux', False)
 
 @app.get("/leaderboard")
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def leaderboard(v:User):
@@ -403,6 +424,7 @@ def leaderboard(v:User):
 	return render_template("leaderboard.html", v=v, leaderboards=leaderboards)
 
 @app.get("/<int:id>/css")
+@limiter.limit(DEFAULT_RATELIMIT)
 def get_css(id):
 	try: id = int(id)
 	except: abort(404)
@@ -426,6 +448,7 @@ def get_css(id):
 	return resp
 
 @app.get("/<int:id>/profilecss")
+@limiter.limit(DEFAULT_RATELIMIT)
 def get_profilecss(id):
 	try: id = int(id)
 	except: abort(404)
@@ -447,6 +470,7 @@ def get_profilecss(id):
 	return resp
 
 @app.get("/@<username>/song")
+@limiter.limit(DEFAULT_RATELIMIT)
 def usersong(username:str):
 	user = get_user(username)
 	if user.song: return redirect(f"/songs/{user.song}.mp3")
@@ -454,6 +478,7 @@ def usersong(username:str):
 
 @app.post("/subscribe/<int:post_id>")
 @limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def subscribe(v, post_id):
@@ -465,6 +490,7 @@ def subscribe(v, post_id):
 
 @app.post("/unsubscribe/<int:post_id>")
 @limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def unsubscribe(v, post_id):
@@ -627,6 +653,7 @@ def messagereply(v:User):
 	return {"comment": render_template("comments.html", v=v, comments=[c])}
 
 @app.get("/2faqr/<secret>")
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def mfa_qr(v:User, secret:str):
@@ -670,17 +697,20 @@ def is_available(name:str):
 		return {name: True}
 
 @app.get("/id/<int:id>")
+@limiter.limit(DEFAULT_RATELIMIT)
 def user_id(id):
 	user = get_account(id)
 	return redirect(user.url)
 
 @app.get("/u/<username>")
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def redditor_moment_redirect(v:User, username:str):
 	return redirect(f"/@{username}")
 
 @app.get("/@<username>/followers")
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def followers(v:User, username:str):
@@ -703,6 +733,7 @@ def followers(v:User, username:str):
 	return render_template("userpage/followers.html", v=v, u=u, users=users, page=page, next_exists=next_exists)
 
 @app.get("/@<username>/blockers")
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def blockers(v:User, username:str):
@@ -722,6 +753,7 @@ def blockers(v:User, username:str):
 	return render_template("userpage/blockers.html", v=v, u=u, users=users, page=page, next_exists=next_exists)
 
 @app.get("/@<username>/following")
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def following(v:User, username:str):
@@ -743,6 +775,7 @@ def following(v:User, username:str):
 	return render_template("userpage/following.html", v=v, u=u, users=users, page=page, next_exists=next_exists)
 
 @app.get("/@<username>/views")
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def visitors(v:User, username:str):
@@ -771,6 +804,7 @@ def userpagelisting(user:User, site=None, v=None, page:int=1, sort="new", t="all
 
 @app.get("/@<username>")
 @app.get("/@<username>.json")
+@limiter.limit(DEFAULT_RATELIMIT)
 @auth_desired_with_logingate
 def u_username_wall(v:Optional[User], username:str):
 	u = get_user(username, v=v, include_blocks=True, include_shadowbanned=False)
@@ -824,6 +858,7 @@ def u_username_wall(v:Optional[User], username:str):
 
 @app.get("/@<username>/wall/comment/<int:cid>")
 @app.get("/@<username>/wall/comment/<int:cid>.json")
+@limiter.limit(DEFAULT_RATELIMIT)
 @auth_desired_with_logingate
 def u_username_wall_comment(v:User, username:str, cid):
 	comment = get_comment(cid, v=v)
@@ -875,6 +910,7 @@ def u_username_wall_comment(v:User, username:str, cid):
 
 @app.get("/@<username>/posts")
 @app.get("/@<username>/posts.json")
+@limiter.limit(DEFAULT_RATELIMIT)
 @auth_desired_with_logingate
 def u_username(v:Optional[User], username:str):
 	u = get_user(username, v=v, include_blocks=True, include_shadowbanned=False)
@@ -952,6 +988,7 @@ def u_username(v:Optional[User], username:str):
 
 @app.get("/@<username>/comments")
 @app.get("/@<username>/comments.json")
+@limiter.limit(DEFAULT_RATELIMIT)
 @auth_desired_with_logingate
 def u_username_comments(username, v=None):
 	u = get_user(username, v=v, include_blocks=True, include_shadowbanned=False)
@@ -1020,6 +1057,7 @@ def u_username_comments(username, v=None):
 
 
 @app.get("/@<username>/info")
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def u_username_info(username, v=None):
@@ -1034,6 +1072,7 @@ def u_username_info(username, v=None):
 	return user.json
 
 @app.get("/<int:id>/info")
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def u_user_id_info(id, v=None):
@@ -1049,6 +1088,7 @@ def u_user_id_info(id, v=None):
 
 @app.post("/follow/<username>")
 @limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def follow_user(username, v):
@@ -1076,6 +1116,7 @@ def follow_user(username, v):
 
 @app.post("/unfollow/<username>")
 @limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def unfollow_user(username, v):
@@ -1104,6 +1145,7 @@ def unfollow_user(username, v):
 
 @app.post("/remove_follow/<username>")
 @limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def remove_follow(username, v):
@@ -1168,6 +1210,7 @@ def get_saves_and_subscribes(v, template, relationship_cls, page:int, standalone
 	return render_template(template, u=v, v=v, listing=listing, page=page, next_exists=next_exists, standalone=standalone)
 
 @app.get("/@<username>/saved/posts")
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def saved_posts(v:User, username):
@@ -1177,6 +1220,7 @@ def saved_posts(v:User, username):
 	return get_saves_and_subscribes(v, "userpage/submissions.html", SaveRelationship, page, False)
 
 @app.get("/@<username>/saved/comments")
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def saved_comments(v:User, username):
@@ -1186,6 +1230,7 @@ def saved_comments(v:User, username):
 	return get_saves_and_subscribes(v, "userpage/comments.html", CommentSaveRelationship, page, True)
 
 @app.get("/@<username>/subscribed/posts")
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def subscribed_posts(v:User, username):
@@ -1196,6 +1241,7 @@ def subscribed_posts(v:User, username):
 
 @app.post("/fp/<fp>")
 @limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def fp(v:User, fp):
@@ -1219,6 +1265,7 @@ def fp(v:User, fp):
 	return '', 204
 
 @app.get("/toggle_pins/<sort>")
+@limiter.limit(DEFAULT_RATELIMIT)
 def toggle_pins(sort):
 	if sort == 'hot': default = True
 	else: default = False
@@ -1232,6 +1279,7 @@ def toggle_pins(sort):
 
 
 @app.get("/toggle_holes")
+@limiter.limit(DEFAULT_RATELIMIT)
 def toggle_holes():
 	if SITE_NAME == 'WPD':
 		abort(404)
@@ -1245,6 +1293,7 @@ def toggle_holes():
 
 
 @app.get("/badge_owners/<int:bid>")
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def bid_list(v:User, bid):
@@ -1322,6 +1371,7 @@ def claim_rewards_all_users():
 KOFI_TOKEN = environ.get("KOFI_TOKEN", "").strip()
 if KOFI_TOKEN:
 	@app.post("/kofi")
+	@limiter.limit(DEFAULT_RATELIMIT)
 	def kofi():
 		data = json.loads(request.values['data'])
 		verification_token = data['verification_token']
@@ -1353,6 +1403,7 @@ if KOFI_TOKEN:
 
 @app.post("/gumroad")
 @limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
 def gumroad():
 	data = request.values
 	ip = request.headers.get('CF-Connecting-IP')
@@ -1385,6 +1436,7 @@ def gumroad():
 
 @app.post("/settings/claim_rewards")
 @limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def settings_claim_rewards(v:User):
@@ -1401,6 +1453,7 @@ def settings_claim_rewards(v:User):
 	return {"message": f"{patron} rewards claimed!"}
 
 @app.get("/users")
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def users_list(v):

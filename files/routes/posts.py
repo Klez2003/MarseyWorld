@@ -34,6 +34,7 @@ titleheaders = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWe
 
 @app.post("/publish/<int:pid>")
 @limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def publish(pid, v):
@@ -66,6 +67,7 @@ def publish(pid, v):
 
 @app.get("/submit")
 @app.get("/h/<sub>/submit")
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def submit_get(v:User, sub=None):
@@ -80,6 +82,7 @@ def submit_get(v:User, sub=None):
 @app.get("/post/<int:pid>/<anything>")
 @app.get("/h/<sub>/post/<int:pid>")
 @app.get("/h/<sub>/post/<int:pid>/<anything>")
+@limiter.limit(DEFAULT_RATELIMIT)
 @auth_desired_with_logingate
 def post_id(pid, anything=None, v=None, sub=None):
 	post = get_post(pid, v=v)
@@ -174,6 +177,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 		fart=get_setting('fart_mode'))
 
 @app.get("/view_more/<int:pid>/<sort>/<offset>")
+@limiter.limit(DEFAULT_RATELIMIT)
 @auth_desired_with_logingate
 def view_more(v, pid, sort, offset):
 	post = get_post(pid, v=v)
@@ -228,6 +232,7 @@ def view_more(v, pid, sort, offset):
 
 
 @app.get("/more_comments/<int:cid>")
+@limiter.limit(DEFAULT_RATELIMIT)
 @auth_desired_with_logingate
 def more_comments(v, cid):
 	try: cid = int(cid)
@@ -474,6 +479,7 @@ def thumbnail_thread(pid:int, vid:int):
 
 @app.post("/is_repost")
 @limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
 def is_repost():
 	not_a_repost = {'permalink': ''}
 	if not FEATURES['REPOST_DETECTION']:
@@ -801,6 +807,7 @@ def submit_post(v:User, sub=None):
 
 @app.post("/delete_post/<int:pid>")
 @limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def delete_post_pid(pid, v):
@@ -828,6 +835,7 @@ def delete_post_pid(pid, v):
 
 @app.post("/undelete_post/<int:pid>")
 @limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def undelete_post_pid(pid, v):
@@ -849,8 +857,9 @@ def undelete_post_pid(pid, v):
 
 
 @app.post("/mark_post_nsfw/<int:pid>")
-@limiter.limit('1/second', scope=path)
 @feature_required('NSFW_MARKING')
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def mark_post_nsfw(pid, v):
@@ -886,8 +895,9 @@ def mark_post_nsfw(pid, v):
 	return {"message": "Post has been marked as +18!"}
 
 @app.post("/unmark_post_nsfw/<int:pid>")
-@limiter.limit('1/second', scope=path)
 @feature_required('NSFW_MARKING')
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def unmark_post_nsfw(pid, v):
@@ -924,6 +934,7 @@ def unmark_post_nsfw(pid, v):
 
 @app.post("/save_post/<int:pid>")
 @limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def save_post(pid, v):
@@ -940,6 +951,7 @@ def save_post(pid, v):
 
 @app.post("/unsave_post/<int:pid>")
 @limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def unsave_post(pid, v):
@@ -955,6 +967,7 @@ def unsave_post(pid, v):
 
 @app.post("/pin/<int:post_id>")
 @limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def pin_post(post_id, v):
@@ -969,6 +982,7 @@ def pin_post(post_id, v):
 	return abort(404, "Post not found!")
 
 @app.put("/post/<int:post_id>/new")
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def set_new_sort(post_id:int, v:User):
@@ -990,6 +1004,7 @@ def set_new_sort(post_id:int, v:User):
 
 
 @app.delete("/post/<int:post_id>/new")
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def unset_new_sort(post_id:int, v:User):

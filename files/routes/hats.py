@@ -8,6 +8,7 @@ from files.routes.wrappers import *
 from files.__main__ import app, limiter
 
 @app.get("/shop/hats")
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def hats(v:User):
@@ -82,6 +83,7 @@ def buy_hat(v:User, hat_id):
 
 @app.post("/equip_hat/<int:hat_id>")
 @limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def equip_hat(v:User, hat_id):
@@ -98,6 +100,7 @@ def equip_hat(v:User, hat_id):
 
 @app.post("/unequip_hat/<int:hat_id>")
 @limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def unequip_hat(v:User, hat_id):
@@ -113,6 +116,7 @@ def unequip_hat(v:User, hat_id):
 	return {"message": f"'{hat.name}' unequipped!"}
 
 @app.get("/hat_owners/<int:hat_id>")
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def hat_owners(v:User, hat_id):

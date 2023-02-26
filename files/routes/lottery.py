@@ -8,6 +8,7 @@ from files.__main__ import app, limiter
 
 @app.post("/lottery/end")
 @limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['LOTTERY_ADMIN'])
 def lottery_end(v):
@@ -17,6 +18,7 @@ def lottery_end(v):
 
 @app.post("/lottery/start")
 @limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['LOTTERY_ADMIN'])
 def lottery_start(v):
@@ -53,6 +55,7 @@ def lottery_active(v:User):
 	return {"message": "", "stats": {"user": v.lottery_stats, "lottery": lottery, "participants": participants}}
 
 @app.get("/admin/lottery/participants")
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['LOTTERY_VIEW_PARTICIPANTS'])
 def lottery_admin(v):

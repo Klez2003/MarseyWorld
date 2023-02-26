@@ -3,9 +3,12 @@ from urllib.parse import quote, urlencode
 
 from flask import redirect, render_template, request, session, g
 
-from files.helpers.config.const import ERROR_MARSEYS, ERROR_MSGS, ERROR_TITLES, WERKZEUG_ERROR_DESCRIPTIONS, is_site_url
+from files.helpers.config.const import *
 from files.helpers.settings import get_setting
-from files.__main__ import app
+
+from files.routes.wrappers import path
+
+from files.__main__ import app, limiter
 
 # If you're adding an error, go here:
 # https://github.com/pallets/werkzeug/blob/main/src/werkzeug/exceptions.py
@@ -59,6 +62,8 @@ def error_500(e):
 
 
 @app.post("/allow_nsfw")
+@limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
 def allow_nsfw():
 	session["over_18"] = int(time.time()) + 3600
 	redir = request.values.get("redir", "/")

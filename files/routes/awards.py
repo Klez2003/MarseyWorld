@@ -22,6 +22,7 @@ from .front import frontlist
 
 @app.get("/shop/awards")
 @app.get("/settings/shop")
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def shop(v:User):
@@ -129,6 +130,7 @@ def buy(v:User, award):
 
 @app.post("/award/<thing_type>/<int:id>")
 @limiter.limit('1/second', scope=path)
+@limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @is_not_permabanned
 def award_thing(v, thing_type, id):
