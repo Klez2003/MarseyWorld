@@ -27,10 +27,14 @@
 				{% for membership in memberships %}
 					<tr id="{{membership.user_id}}">
 						<td id="counter-{{membership.user_id}}">{{loop.index}}</td>
-						<td>
+						{% set owner = name == 'members' and loop.index == 1 %}
+						<td {% if owner %}class="unbreakable"{% endif %}>
 							{% with user=membership.user %}
 								{% include "user_in_table.html" %}
 							{% endwith %}
+							{% if owner %}
+								<img class="mx-2 group-owner" data-bs-toggle="tooltip" alt="Owner" title="Owner" src="/e/marseykingretard.webp">
+							{% endif %}
 						</td>
 
 						{% if name == 'members' %}

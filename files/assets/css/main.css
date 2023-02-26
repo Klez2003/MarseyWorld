@@ -7181,6 +7181,10 @@ input[type=number] {
 	white-space: nowrap;
 }
 
+.group-owner {
+	height: 50px;
+}
+
 @media (max-width: 768px) {
 	.award-tab {
 		font-size: 10px !important;
@@ -7198,5 +7202,9 @@ input[type=number] {
 
 	#ping-groups .members {
 		padding-right: 3.7rem !important;
+	}
+
+	.group-owner {
+		height: 30px;
 	}
 }
