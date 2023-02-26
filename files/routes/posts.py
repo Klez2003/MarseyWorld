@@ -294,7 +294,7 @@ def edit_post(pid, v):
 		p.title = title
 		p.title_html = title_html
 
-	body += process_files(request.files, v)
+	body = process_files(request.files, v, body)
 	body = body.strip()[:POST_BODY_LENGTH_LIMIT] # process_files() may be adding stuff to the body
 
 	if body != p.body:
@@ -655,7 +655,7 @@ def submit_post(v:User, sub=None):
 
 	body, bets, options, choices = sanitize_poll_options(v, body, True)
 
-	body += process_files(request.files, v)
+	body = process_files(request.files, v, body)
 	body = body.strip()[:POST_BODY_LENGTH_LIMIT] # process_files() adds content to the body, so we need to re-strip
 
 	torture = (v.agendaposter and not v.marseyawarded and sub != 'chudrama')

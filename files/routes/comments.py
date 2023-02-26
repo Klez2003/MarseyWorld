@@ -159,6 +159,8 @@ def comment(v:User):
 			media_ratelimit(v)
 
 		for file in files:
+			if '<file>' not in body: abort(400, "Missing <file> in text!")
+
 			if file.content_type.startswith('image/'):
 				oldname = f'/images/{time.time()}'.replace('.','') + '.webp'
 				file.save(oldname)
@@ -201,11 +203,11 @@ def comment(v:User):
 							purge_files_in_cache(f"https://{SITE}/assets/images/badges/{badge.id}.webp")
 						except Exception as e:
 							abort(400, str(e))
-				body += f"\n\n![]({image})"
+				body = body.replace('<file>', f"![]({image})", 1)
 			elif file.content_type.startswith('video/'):
-				body += f"\n\n{SITE_FULL}{process_video(file, v)}"
+				body = body.replace('<file>', f"{SITE_FULL}{process_video(file, v)}", 1)
 			elif file.content_type.startswith('audio/'):
-				body += f"\n\n{SITE_FULL}{process_audio(file, v)}"
+				body = body.replace('<file>', f"{SITE_FULL}{process_audio(file, v)}", 1)
 			else:
 				abort(415)
 
@@ -405,7 +407,7 @@ def edit_comment(cid, v):
 
 		execute_antispam_comment_check(body, v)
 
-		body += process_files(request.files, v)
+		body = process_files(request.files, v, body)
 		body = body.strip()[:COMMENT_BODY_LENGTH_LIMIT] # process_files potentially adds characters to the post
 
 		body_for_sanitize = body

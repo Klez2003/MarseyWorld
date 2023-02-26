@@ -518,7 +518,7 @@ def message2(v:User, username:str):
 
 	message = sanitize_raw_body(request.values.get("message"), False)
 
-	message += process_dm_images(v, user)
+	message = process_dm_images(v, user, message)
 
 	if not message: abort(400, "Message is empty!")
 
@@ -592,9 +592,7 @@ def messagereply(v:User):
 				and hasattr(user, 'is_blocked') and user.is_blocked):
 			abort(403, f"You're blocked by @{user.username}")
 
-	body += process_dm_images(v, user)
-
-	body = body.strip()
+	body = process_dm_images(v, user, body)
 
 	if not body: abort(400, "Message is empty!")
 

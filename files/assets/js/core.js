@@ -244,7 +244,8 @@ function escapeHTML(unsafe) {
 	return unsafe.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
 }
 
-function changename(s1,s2) {
+function changename(s1,s2,textarea) {
+	console.log('nigg')
 	const files = document.getElementById(s2).files;
 	if (files.length > 4)
 	{
@@ -252,11 +253,24 @@ function changename(s1,s2) {
 		document.getElementById(s2).value = null
 		return
 	}
+
+	const ta = document.getElementById(textarea);
+	ta.value = ta.value.replace(/<file>\n/g, "")
+	if (ta.value) {
+		ta.value += '\n'
+	}
+
 	let filename = '';
 	for (const e of files) {
 		filename += e.name.substr(0, 22) + ', ';
+		ta.value += '<file>\n'
 	}
 	document.getElementById(s1).innerHTML = escapeHTML(filename.slice(0, -2));
+
+	console.log(ta)
+	autoExpand(ta)
+	ta.focus()
+	ta.selectionStart = ta.selectionEnd = ta.value.length;
 }
 
 function showmore(t) {

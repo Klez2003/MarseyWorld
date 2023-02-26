@@ -116,7 +116,7 @@
 					<span class="my-auto ml-1">
 						<label class="btn btn-secondary format mb-0">
 							<div id="filename" class="mr-3" style="font-size:12px"><i class="fas fa-image" style="font-size:1.3rem!important"></i></div>
-							<input autocomplete="off" id="file" accept="image/*" type="file" multiple="multiple" name="file" {% if g.is_tor %}disabled{% endif %} data-nonce="{{g.nonce}}" data-onchange="changename('filename','file')" hidden>
+							<input autocomplete="off" id="file" accept="image/*" type="file" multiple="multiple" name="file" {% if g.is_tor %}disabled{% endif %} data-nonce="{{g.nonce}}" data-onchange="changename('filename','file','input-text')" hidden>
 						</label>
 					</span>
 

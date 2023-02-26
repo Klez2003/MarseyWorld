@@ -16,7 +16,7 @@
 			</label>
 			<label class="btn btn-secondary m-0 mt-3" for="file-upload">
 				<div id="filename"><i class="fas fa-file"></i></div>
-				<input autocomplete="off" id="file-upload" accept="image/*, video/*, audio/*" type="file" name="file" multiple="multiple" {% if g.is_tor %}disabled{% endif %} data-nonce="{{g.nonce}}" data-onchange="changename('filename','file-upload')" hidden>
+				<input autocomplete="off" id="file-upload" accept="image/*, video/*, audio/*" type="file" name="file" multiple="multiple" {% if g.is_tor %}disabled{% endif %} data-nonce="{{g.nonce}}" data-onchange="changename('filename','file-upload','input-message')" hidden>
 			</label>
 			<input type="submit" data-nonce="{{g.nonce}}" data-onclick="disable(this)" value="Submit" class="btn btn-primary mt-3">
 		</form>

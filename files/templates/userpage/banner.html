@@ -161,7 +161,7 @@
 
 							<label class="btn btn-secondary m-0 py-1 px-2 {% if upload_disabled %}disabled{% endif %}" for="file-upload">
 								<div id="filename"><i class="fas fa-image"></i></div>
-								<input autocomplete="off" id="file-upload" accept="image/*" type="file" name="file" multiple="multiple" {% if upload_disabled %}disabled{% endif %} data-nonce="{{g.nonce}}" data-onchange="changename('filename','file-upload')" hidden>
+								<input autocomplete="off" id="file-upload" accept="image/*" type="file" name="file" multiple="multiple" {% if upload_disabled %}disabled{% endif %} data-nonce="{{g.nonce}}" data-onchange="changename('filename','file-upload','input-message')" hidden>
 							</label>
 
 							&nbsp;
@@ -468,7 +468,7 @@
 
 						<label class="btn btn-secondary m-0 py-1 px-2 {% if upload_disabled %}disabled{% endif %}" for="file-upload-mobile">
 							<div id="filename-mobile"><i class="fas fa-image"></i></div>
-							<input autocomplete="off" id="file-upload-mobile" accept="image/*" type="file" name="file" multiple="multiple" {% if upload_disabled %}disabled{% endif %} data-nonce="{{g.nonce}}" data-onchange="changename('filename-mobile','file-upload-mobile')" hidden>
+							<input autocomplete="off" id="file-upload-mobile" accept="image/*" type="file" name="file" multiple="multiple" {% if upload_disabled %}disabled{% endif %} data-nonce="{{g.nonce}}" data-onchange="changename('filename-mobile','file-upload-mobile','input-message')" hidden>
 						</label>
 
 						&nbsp;

@@ -256,7 +256,7 @@ def submit_contact(v):
 		abort(403)
 
 	body = f'This message has been sent automatically to all admins via [/contact](/contact)\n\nMessage:\n\n{body}'
-	body += process_files(request.files, v)
+	body = process_files(request.files, v, body)
 	body = body.strip()
 	body_html = sanitize(body)
 

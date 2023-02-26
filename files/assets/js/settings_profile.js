@@ -101,24 +101,14 @@ function updatebgselection(){
 
 document.onpaste = function(event) {
 	const focused = document.activeElement;
-	if (focused.id == 'bio-text') {
+	if (focused.id == 'profile-bio-text') {
 		const files = structuredClone(event.clipboardData.files);
-
-		if (files.length > 4)
-		{
-			alert("You can't upload more than 4 files at one time!")
-			return
-		}
 
 		if (files.length)
 		{
 			f=document.getElementById('file-upload');
-			let filename = ''
-			for (const file of files)
-				filename += file.name + ', '
-			filename = filename.toLowerCase().slice(0, -2)
 			f.files = files;
-			document.getElementById('filename-show').textContent = filename;
+			changename('filename-show', f.id, focused.id)
 		}
 	}
 }

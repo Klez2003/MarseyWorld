@@ -265,64 +265,35 @@ document.onpaste = function(event) {
 	const focused = document.activeElement;
 	const files = structuredClone(event.clipboardData.files);
 
-	if (files.length > 4)
-	{
-		alert("You can't upload more than 4 files at one time!")
-		return
-	}
-
 	if (!files.length) return
 
 	if (focused.id.includes('reply-form-body-')) {
 		const fullname = focused.dataset.fullname;
 		f=document.getElementById('file-upload-reply-' + fullname);
-		try {
-			let filename = ''
-			for (const file of files)
-				filename += file.name + ', '
-			filename = filename.toLowerCase().slice(0, -2)
-			f.files = files;
-			document.getElementById('filename-show-reply-' + fullname).textContent = filename;
-		}
-		catch(e) {}
+		f.files = files;
+		changename('filename-show-reply-' + fullname, f.id, focused.id)
 	}
 	else if (focused.id.includes('comment-edit-body-')) {
 		const id = focused.dataset.id;
 		f=document.getElementById('file-edit-reply-' + id);
-		let filename = ''
-		for (const file of files)
-			filename += file.name + ', '
-		filename = filename.toLowerCase().slice(0, -2)
 		f.files = files;
-		document.getElementById('filename-edit-reply-' + id).textContent = filename;
+		changename('filename-edit-reply-' + id, f.id, focused.id)
 	}
 	else if (focused.id.includes('post-edit-box-')) {
 		const id = focused.dataset.id;
 		f=document.getElementById('file-upload-edit-' + id);
-		let filename = ''
-		for (const file of files)
-			filename += file.name + ', '
-		filename = filename.toLowerCase().slice(0, -2)
 		f.files = files;
-		document.getElementById('filename-show-edit-' + id).textContent = filename;
+		changename('filename-show-edit-' + id, f.id, focused.id)
 	}
 	else if (focused.id == "input-message") {
 		f=document.getElementById('file-upload');
-		let filename = ''
-		for (const file of files)
-			filename += file.name + ', '
-		filename = filename.toLowerCase().slice(0, -2)
 		f.files = files;
-		document.getElementById('filename').textContent = filename;
+		changename('filename', f.id, focused.id)
 	}
 	else if (focused.id == "input-message-mobile") {
 		f=document.getElementById('file-upload-mobile');
-		let filename = ''
-		for (const file of files)
-			filename += file.name + ', '
-		filename = filename.toLowerCase().slice(0, -2)
 		f.files = files;
-		document.getElementById('filename-mobile').textContent = filename;
+		changename('filename-mobile', f.id, focused.id)
 	}
 }
 
