@@ -605,7 +605,7 @@ def messagereply(v:User):
 							parent_comment_id=id,
 							top_comment_id=parent.top_comment_id,
 							level=parent.level + 1,
-							sentto=user_id,
+							sentto=parent.sentto,
 							body=body,
 							body_html=body_html,
 							)

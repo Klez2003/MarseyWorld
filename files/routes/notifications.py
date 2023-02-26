@@ -53,7 +53,10 @@ def notifications_modmail(v):
 	try: page = max(int(request.values.get("page", 1)), 1)
 	except: page = 1
 
-	comments = g.db.query(Comment).filter(Comment.sentto==2).order_by(Comment.id.desc()).offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE+1).all()
+	comments = g.db.query(Comment).filter_by(
+			sentto=MODMAIL_ID,
+			level=1,
+		).order_by(Comment.id.desc()).offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE+1).all()
 	next_exists = (len(comments) > PAGE_SIZE)
 	listing = comments[:PAGE_SIZE]
 

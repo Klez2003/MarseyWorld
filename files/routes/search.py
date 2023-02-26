@@ -297,11 +297,15 @@ def searchmessages(v:User):
 
 	criteria = searchparse(query)
 
+	dm_conditions = [Comment.author_id == v.id, Comment.sentto == v.id]
+	if v.admin_level >= PERMS['VIEW_MODMAIL']:
+		dm_conditions.append(Comment.sentto == MODMAIL_ID),
+
 	comments = g.db.query(Comment.id) \
 		.filter(
 			Comment.sentto != None,
-			or_(Comment.author_id == v.id, Comment.sentto == v.id),
 			Comment.parent_submission == None,
+			or_(*dm_conditions),
 		)
 
 	if 'author' in criteria:
