@@ -516,6 +516,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 									parse_email=False, callbacks=[callback], url_re=url_re)]
 								).clean(sanitized)
 
+	#doing it again cuz of the linkifyfilter right above it
 	soup = BeautifulSoup(sanitized, 'lxml')
 
 	links = soup.find_all("a")
