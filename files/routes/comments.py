@@ -155,12 +155,13 @@ def comment(v:User):
 	if request.files.get("file") and not g.is_tor:
 		files = request.files.getlist('file')[:8]
 
+		while body.count('<file>') < len(files):
+			body += '\n<file>'
+
 		if files:
 			media_ratelimit(v)
 
 		for file in files:
-			if '<file>' not in body: abort(400, "Missing <file> in text!")
-
 			if file.content_type.startswith('image/'):
 				oldname = f'/images/{time.time()}'.replace('.','') + '.webp'
 				file.save(oldname)

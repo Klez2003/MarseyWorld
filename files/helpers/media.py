@@ -32,9 +32,10 @@ def process_files(files, v, body):
 	if files:
 		media_ratelimit(v)
 
+	while body.count('<file>') < len(files):
+		body += '\n<file>'
+
 	for file in files:
-		if '<file>' not in body:
-			abort(400, "Missing <file> in text!")
 		if file.content_type.startswith('image/'):
 			name = f'/images/{time.time()}'.replace('.','') + '.webp'
 			file.save(name)
@@ -235,10 +236,11 @@ def process_dm_images(v, user, body):
 		return ''
 
 	files = request.files.getlist('file')[:8]
-	for file in files:
-		if '<file>' not in body:
-			abort(400, "Missing <file> in text!")
 
+	while body.count('<file>') < len(files):
+		body += '\n<file>'
+
+	for file in files:
 		if file.content_type.startswith('image/'):
 			filename = f'/dm_images/{time.time()}'.replace('.','') + '.webp'
 			file.save(filename)
