@@ -1,4 +1,4 @@
-const members_tbody = document.getElementById('Members_tbody')
+const members_tbody = document.getElementById('members_tbody')
 
 function approve_membership(t, group, uid) {
 	url = `/!${group}/${uid}/approve`
