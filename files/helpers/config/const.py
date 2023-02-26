@@ -315,6 +315,7 @@ if SITE_NAME == 'rDrama':
 		'stackoverflow.com',
 		'serverfault.com',
 		'superuser.com',
+		'goodreads.com',
 	}
 
 	BOOSTED_HOLES = {
