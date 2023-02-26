@@ -183,15 +183,15 @@ def spin_roulette_wheel():
 			gambler.pay_account('marseybux', procoin_winnings)
 
 			# Notify the winners.
-			notification_text = f"Winning number: {number}\nCongratulations! One or more of your roulette bets paid off!\n"
+			notification_text = f"Winning number: {number}\n\nCongratulations! One or more of your roulette bets paid off!\n\n"
 
 			if coin_winnings > 0:
 				notification_text = notification_text + \
-					f"* You received {coin_winnings} coins.\n"
+					f"* You received {coin_winnings} coins.\n\n"
 
 			if procoin_winnings > 0:
 				notification_text = notification_text + \
-					f"* You received {procoin_winnings} marseybux.\n"
+					f"* You received {procoin_winnings} marseybux.\n\n"
 
 			send_repeatable_notification(user_id, notification_text)
 
@@ -199,7 +199,7 @@ def spin_roulette_wheel():
 		for participant in participants:
 			if not participant in winners:
 				send_repeatable_notification(
-					participant, f"Winning number: {number}\nSorry, none of your recent roulette bets paid off.")
+					participant, f"Winning number: {number}\n\nSorry, none of your recent roulette bets paid off.")
 
 				g.db.flush()
 
