@@ -233,7 +233,7 @@ def process_image(filename:str, v, resize=0, trim=False, uploader_id:Optional[in
 
 def process_dm_images(v, user, body):
 	if not request.files.get("file") or g.is_tor or not get_setting("dm_images"):
-		return ''
+		return body
 
 	files = request.files.getlist('file')[:8]
 
