@@ -245,7 +245,6 @@ function escapeHTML(unsafe) {
 }
 
 function changename(s1,s2,textarea) {
-	console.log('nigg')
 	const files = document.getElementById(s2).files;
 	if (files.length > 8)
 	{
