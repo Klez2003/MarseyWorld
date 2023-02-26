@@ -66,9 +66,9 @@ function hide_image() {
 document.onpaste = function(event) {
 	files = structuredClone(event.clipboardData.files);
 
-	if (files.length > 4)
+	if (files.length > 8)
 	{
-		alert("You can't upload more than 4 files at one time!")
+		alert("You can't upload more than 8 files at one time!")
 		return
 	}
 

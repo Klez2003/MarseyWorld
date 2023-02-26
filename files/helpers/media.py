@@ -27,7 +27,7 @@ def media_ratelimit(v):
 
 def process_files(files, v, body):
 	if g.is_tor or not files.get("file"): return body
-	files = files.getlist('file')[:4]
+	files = files.getlist('file')[:8]
 
 	if files:
 		media_ratelimit(v)
@@ -234,7 +234,7 @@ def process_dm_images(v, user, body):
 	if not request.files.get("file") or g.is_tor or not get_setting("dm_images"):
 		return ''
 
-	files = request.files.getlist('file')[:4]
+	files = request.files.getlist('file')[:8]
 	for file in files:
 		if '<file>' not in body:
 			abort(400, "Missing <file> in text!")

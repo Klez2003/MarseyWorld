@@ -247,9 +247,9 @@ function escapeHTML(unsafe) {
 function changename(s1,s2,textarea) {
 	console.log('nigg')
 	const files = document.getElementById(s2).files;
-	if (files.length > 4)
+	if (files.length > 8)
 	{
-		alert("You can't upload more than 4 files at one time!")
+		alert("You can't upload more than 8 files at one time!")
 		document.getElementById(s2).value = null
 		return
 	}
