@@ -323,7 +323,7 @@ def sanitize_settings_text(sanitized:Optional[str], max_length:Optional[int]=Non
 
 
 chud_images = listdir("files/assets/images/chud")
-chud_images = [f'\n![](/i/chud/{f})' for f in chud_images]
+chud_images = [f'\n\n![](/i/chud/{f})' for f in chud_images]
 chud_images.extend([':#trumpjaktalking:', ':#reposthorse:'])
 
 def handle_youtube_links(url):
@@ -381,7 +381,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 		sanitized = linefeeds_regex.sub(r'\1\n\n\2', sanitized)
 
 	sanitized = greentext_regex.sub(r'\1<g>\>\2</g>', sanitized)
-	sanitized = image_regex.sub(r'\1![](\2)', sanitized)
+	sanitized = image_regex.sub(r'\1\n\n![](\2)\n\n', sanitized)
 	sanitized = image_check_regex.sub(r'\1', sanitized)
 	sanitized = link_fix_regex.sub(r'\1https://\2', sanitized)
 
