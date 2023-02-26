@@ -52,7 +52,7 @@ def publish(pid, v):
 		if notify_users:
 			cid, text = notif_comment2(post)
 			for x in notify_users:
-				add_notif(cid, x, text)
+				add_notif(cid, x, text, pushnotif_url=post.permalink)
 
 
 	cache.delete_memoized(frontlist)
@@ -332,7 +332,7 @@ def edit_post(pid, v):
 		if notify_users:
 			cid, text = notif_comment2(p)
 			for x in notify_users:
-				add_notif(cid, x, text)
+				add_notif(cid, x, text, pushnotif_url=p.permalink)
 
 	if v.id == p.author_id:
 		if int(time.time()) - p.created_utc > 60 * 3: p.edited_utc = int(time.time())
@@ -748,7 +748,7 @@ def submit_post(v:User, sub=None):
 		if notify_users:
 			cid, text = notif_comment2(post)
 			for x in notify_users:
-				add_notif(cid, x, text)
+				add_notif(cid, x, text, pushnotif_url=post.permalink)
 
 	if v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in f'{post.body}{post.title}'.lower() and sub != 'chudrama':
 		post.is_banned = True
