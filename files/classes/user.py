@@ -968,12 +968,15 @@ class User(Base):
 		Whether a user can strictly see this item. can_see_content is used where
 		content of a thing can be hidden from view
 		'''
-		browser = g and g.browser # TODO: request state object to pass to models for purity
 		if isinstance(other, (Submission, Comment)):
 			if not cls.can_see(user, other.author): return False
 			if user and user.id == other.author_id: return True
 			if isinstance(other, Submission):
-				if other.sub and not cls.can_see(user, other.subr): return False
+				if not (user and user.patron) and other.title.lower().startswith('[paypigs]'):
+					return False
+				if other.sub and not cls.can_see(user, other.subr):
+					return False
+
 			else:
 				if other.parent_submission:
 					if user and user.id == other.post.author_id: return True
