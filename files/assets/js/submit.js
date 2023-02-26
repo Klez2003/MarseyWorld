@@ -78,7 +78,7 @@ document.onpaste = function(event) {
 	{
 		filename = filename.name.toLowerCase()
 		if (document.activeElement.id == 'post-text') {
-			document.getElementById('file-upload-submit').value = files;
+			document.getElementById('file-upload-submit').files = files;
 			changename('filename-show-submit', 'file-upload-submit', 'post-text')
 		}
 		else {
