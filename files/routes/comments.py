@@ -155,13 +155,14 @@ def comment(v:User):
 	if request.files.get("file") and not g.is_tor:
 		files = request.files.getlist('file')[:8]
 
-		while body.count('[file]') < len(files):
-			body += '\n[file]'
 
 		if files:
 			media_ratelimit(v)
 
 		for file in files:
+			if f'[{file.filename}]' not in body:
+				body += f'\n[{file.filename}]'
+
 			if file.content_type.startswith('image/'):
 				oldname = f'/images/{time.time()}'.replace('.','') + '.webp'
 				file.save(oldname)
@@ -204,11 +205,11 @@ def comment(v:User):
 							purge_files_in_cache(f"https://{SITE}/assets/images/badges/{badge.id}.webp")
 						except Exception as e:
 							abort(400, str(e))
-				body = body.replace('[file]', f"![]({image})", 1)
+				body = body.replace(f'[{file.filename}]', f"![]({image})", 1)
 			elif file.content_type.startswith('video/'):
-				body = body.replace('[file]', f"{SITE_FULL}{process_video(file, v)}", 1)
+				body = body.replace(f'[{file.filename}]', f"{SITE_FULL}{process_video(file, v)}", 1)
 			elif file.content_type.startswith('audio/'):
-				body = body.replace('[file]', f"{SITE_FULL}{process_audio(file, v)}", 1)
+				body = body.replace(f'[{file.filename}]', f"{SITE_FULL}{process_audio(file, v)}", 1)
 			else:
 				abort(415)
 

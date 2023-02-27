@@ -142,6 +142,16 @@ function register_new_elements(e) {
 			document.getElementById(element.dataset.toggleelement).classList.toggle(element.dataset.toggleattr);
 		});
 	}
+
+	const file_inputs = document.querySelectorAll('input[type="file"]')
+	for (const input of file_inputs) {
+		input.onchange = () => {handle_files(input, input.files)};
+	}
+
+	const remove_files = document.querySelectorAll('button.remove-files')
+	for (const element of remove_files) {
+		element.onclick = () => {cancel_files(element)};
+	}
 }
 
 register_new_elements(document);

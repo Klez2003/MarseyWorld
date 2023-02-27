@@ -82,8 +82,15 @@ function sendMessage(form) {
 	document.getElementById('message-preview-mobile').classList.add('d-none');
 	sendFormXHR(form,
 		() => {
-			document.getElementById('input-message').value = ''
-			document.getElementById('input-message-mobile').value = ''
+			for (const substr of ['', '-mobile']) {
+				const ta = document.getElementById(`input-message${substr}`);
+				ta.value = '';
+				const input = ta.parentElement.querySelector('input[type="file"]');
+				input.previousElementSibling.innerHTML = '';
+				input.value = null;
+				input.parentElement.nextElementSibling.classList.add('d-none');
+				oldfiles[ta.id] = [];	
+			}
 		}
 	)
 }

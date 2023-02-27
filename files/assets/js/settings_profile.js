@@ -99,20 +99,6 @@ function updatebgselection(){
 	}
 	updatebgselection();
 
-document.onpaste = function(event) {
-	const focused = document.activeElement;
-	if (focused.id == 'profile-bio-text') {
-		const files = structuredClone(event.clipboardData.files);
-
-		if (files.length)
-		{
-			f=document.getElementById('file-upload');
-			f.files = files;
-			changename('filename-show', f.id, focused.id)
-		}
-	}
-}
-
 const sr_toggle = document.getElementById("slurreplacer");
 const sr_link = document.getElementById('slurreplacer-perma-link');
 const pr_toggle = document.getElementById("profanityreplacer");

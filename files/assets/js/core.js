@@ -114,7 +114,7 @@ function postToastSwitch(t, url, button1, button2, cls, extraActionsOnSuccess, m
 	, method);
 }
 
-if (location.pathname != '/submit')
+if (!location.pathname.endsWith('/submit'))
 {
 	document.addEventListener('keydown', (e) => {
 		if(!((e.ctrlKey || e.metaKey) && e.key === "Enter")) return;
@@ -242,34 +242,6 @@ function bs_trigger(e) {
 
 function escapeHTML(unsafe) {
 	return unsafe.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
-}
-
-function changename(s1,s2,textarea) {
-	const files = document.getElementById(s2).files;
-	if (files.length > 8)
-	{
-		alert("You can't upload more than 8 files at one time!")
-		document.getElementById(s2).value = null
-		return
-	}
-
-	const ta = document.getElementById(textarea);
-	ta.value = ta.value.replace(/[file]\n/g, "")
-	if (ta.value) {
-		ta.value += '\n'
-	}
-
-	let filename = '';
-	for (const e of files) {
-		filename += e.name.substr(0, 22) + ', ';
-		ta.value += '[file]\n'
-	}
-	document.getElementById(s1).innerHTML = escapeHTML(filename.slice(0, -2));
-
-	console.log(ta)
-	autoExpand(ta)
-	ta.focus()
-	ta.selectionStart = ta.selectionEnd = ta.value.length;
 }
 
 function showmore(t) {
@@ -465,4 +437,140 @@ function focusSearchBar(element)
 	if (width >= 768) {
 		element.focus();
 	}
+}
+
+
+
+
+
+//FILE SHIT
+
+
+
+let oldfiles = {};
+
+function handle_files(input, newfiles) {
+	if (!newfiles) return;
+	
+	const ta = input.parentElement.parentElement.parentElement.parentElement.querySelector('textarea.file-ta');
+
+	if (oldfiles[ta.id]) {
+		let list = new DataTransfer();
+		for (const file of oldfiles[ta.id]) {
+			 list.items.add(file);
+		}
+		for (const file of newfiles) {
+			list.items.add(file);
+		}
+		input.files = list.files;
+	}
+	else {
+		input.files = newfiles;
+		oldfiles[ta.id] = []
+	}
+
+	const span = input.previousElementSibling
+	if (input.files.length > 8)
+	{
+		alert("You can't upload more than 8 files at one time!")
+		input.value = null
+		input.parentElement.nextElementSibling.classList.add('d-none');
+		span.innerHTML = ''
+		oldfiles[ta.id] = []
+		return
+	}
+
+	if (!span.innerHTML) span.innerHTML = ' '
+
+	if (ta.value && !ta.value.endsWith('\n')) {
+		ta.value += '\n'
+	}
+
+	for (const file of newfiles) {
+		oldfiles[ta.id].push(file)
+		if (span.innerHTML != ' ') span.innerHTML += ', '
+		span.innerHTML += file.name.substr(0, 30);
+		if (location.pathname != '/chat')
+			ta.value += `[${file.name}]\n`;
+	}
+
+	autoExpand(ta)
+	ta.focus()
+	ta.selectionStart = ta.selectionEnd = ta.value.length;
+
+	input.parentElement.nextElementSibling.classList.remove('d-none')
+
+	if (typeof checkForRequired === "function") checkForRequired();
+}
+
+
+document.onpaste = function(event) {
+	const files = structuredClone(event.clipboardData.files);
+	if (!files.length) return
+
+	const focused = document.activeElement;
+	let input;
+
+	if (location.pathname.endsWith('/submit')) {
+		if (focused) {
+			input = document.getElementById('file-upload-submit')
+		}
+		else {
+			f=document.getElementById('file-upload');
+			f.files += files;
+	
+			if (f.files.length > 8)
+			{
+				alert("You can't upload more than 8 files at one time!")
+				return
+			}
+	
+			document.getElementById('filename-show').textContent = filename;
+			document.getElementById('urlblock').classList.add('d-none');
+			if (IMAGE_FORMATS.some(s => filename.endsWith(s)))
+			{
+				const fileReader = new FileReader();
+				fileReader.readAsDataURL(f.files[0]);
+				fileReader.addEventListener("load", function () {document.getElementById('image-preview').setAttribute('src', this.result);});
+			}
+			document.getElementById('post-url').value = null;
+			localStorage.setItem("post-url", "")
+			document.getElementById('image-upload-block').classList.remove('d-none')
+			checkForRequired();
+			return;
+		}
+	}
+	else if (focused) {
+		input = focused.parentElement.querySelector('input[type="file"]')
+	}
+	else {
+		input = document.querySelector('input[type="file"]')
+	}
+
+	handle_files(input, files);
+}
+
+function cancel_files(element) {
+	const input = element.previousElementSibling.querySelector('input[type="file"]');
+	const span = input.previousElementSibling;
+	const ta = input.parentElement.parentElement.parentElement.parentElement.querySelector('textarea.file-ta');
+
+	for (const file of input.files) {
+		ta.value = ta.value.replaceAll(`[${file.name}]`, "");
+	}
+	ta.value = ta.value.trim();
+
+	span.innerHTML = '';
+
+	input.value = null;
+
+	input.parentElement.nextElementSibling.classList.add('d-none');
+
+	oldfiles[ta.id] = [];
+
+	element.classList.add('d-none');
+
+	ta.focus();
+
+	if (typeof checkForRequired === "function") checkForRequired();
 }

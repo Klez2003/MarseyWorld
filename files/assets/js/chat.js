@@ -147,8 +147,9 @@ socket.on('speak', function(json) {
 })
 
 function send() {
-	const text = textbox.value.trim()
-	const files = document.getElementById('file').files
+	const text = textbox.value.trim();
+	const input = document.getElementById('file');
+	const files = input.files;
 	if (text || files)
 	{
 		let sending;
@@ -166,7 +167,9 @@ function send() {
 		document.getElementById("quotes").classList.add("d-none")
 		document.getElementById('quotes_id').value = null;
 		document.getElementById("filename").innerHTML = '<i class="fas fa-image" style="font-size:1.3rem!important"></i>'
-		document.getElementById('file').value = null;
+		input.value = null;
+		input.parentElement.nextElementSibling.classList.add('d-none');
+
 		box.scrollTo(0, box.scrollHeight);
 		setTimeout(function () {
 			box.scrollTo(0, box.scrollHeight)
@@ -293,20 +296,6 @@ document.addEventListener('click', function (e) {
 		document.getElementById('quotes_id').value = null;
 	}
 });
-
-document.onpaste = function(event) {
-	files = structuredClone(event.clipboardData.files);
-
-	filename = files[0]
-
-	if (filename)
-	{
-		filename = filename.name.toLowerCase()
-		f=document.getElementById('file');
-		f.files = files;
-		document.getElementById('filename').textContent = filename;
-	}
-}
 
 box.scrollTo(0, box.scrollHeight)
 setTimeout(function () {

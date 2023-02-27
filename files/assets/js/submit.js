@@ -63,42 +63,6 @@ function hide_image() {
 	}
 }
 
-document.onpaste = function(event) {
-	files = structuredClone(event.clipboardData.files);
-
-	if (files.length > 8)
-	{
-		alert("You can't upload more than 8 files at one time!")
-		return
-	}
-
-	filename = files[0]
-
-	if (filename)
-	{
-		filename = filename.name.toLowerCase()
-		if (document.activeElement.id == 'post-text') {
-			document.getElementById('file-upload-submit').files = files;
-			changename('filename-show-submit', 'file-upload-submit', 'post-text')
-		}
-		else {
-			f=document.getElementById('file-upload');
-			f.files = files;
-			document.getElementById('filename-show').textContent = filename;
-			document.getElementById('urlblock').classList.add('d-none');
-			if (IMAGE_FORMATS.some(s => filename.endsWith(s)))
-			{
-				const fileReader = new FileReader();
-				fileReader.readAsDataURL(f.files[0]);
-				fileReader.addEventListener("load", function () {document.getElementById('image-preview').setAttribute('src', this.result);});
-			}
-			document.getElementById('post-url').value = null;
-			localStorage.setItem("post-url", "")
-			document.getElementById('image-upload-block').classList.remove('d-none')
-		}
-		checkForRequired();
-	}
-}
 
 document.getElementById('file-upload').addEventListener('change', function(){
 	const f = document.getElementById('file-upload');

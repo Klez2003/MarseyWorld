@@ -51,7 +51,7 @@ function getSelectionTextHtml() {
 
 function toggleReplyBox(id) {
 	const element = document.getElementById(id);
-	const textarea = element.getElementsByTagName('textarea')[0]
+	const ta = element.getElementsByTagName('textarea')[0]
 	element.classList.toggle('d-none')
 
 	if (!element.classList.contains('d-none'))
@@ -64,12 +64,12 @@ function toggleReplyBox(id) {
 			text = text.replace(/\n> \n/g,"\n \n")
 			text = text.split('> Reply')[0]
 			if (!text.endsWith('\n')) text += '\n'
-			textarea.value = text
+			ta.value = text
 		}
-		textarea.focus()
+		ta.focus()
 	}
 
-	autoExpand(textarea);
+	autoExpand(ta);
 }
 
 function toggleEdit(id){
@@ -116,7 +116,9 @@ function post_reply(id){
 
 	const form = new FormData();
 	form.append('parent_id', id);
-	form.append('body', document.getElementById('reply-form-body-'+id).value);
+
+	const ta = document.getElementById('reply-form-body-'+id)
+	form.append('body', ta.value);
 	try {
 		for (const e of document.getElementById(`file-upload-reply-c_${id}`).files)
 			form.append('file', e);
@@ -140,14 +142,15 @@ function post_reply(id){
 			btn.disabled = false;
 			btn.classList.remove('disabled');
 
-			document.getElementById('reply-form-body-'+id).value = ''
+			ta.value = ''
 			document.getElementById('message-reply-'+id).innerHTML = ''
 			toggleReplyBox('reply-message-c_'+id)
-			const fileupload = document.getElementById(`file-upload-reply-c_${id}`)
-			if (fileupload) {
-				fileupload.value = null;
-				document.getElementById(`filename-show-reply-c_${id}`).innerHTML = '<i class="fas fa-file"></i>';
-			}
+
+			const input = ta.parentElement.querySelector('input[type="file"]')
+			input.previousElementSibling.innerHTML = '';
+			input.value = null;
+			input.parentElement.nextElementSibling.classList.add('d-none');
+			oldfiles[ta.id] = []
 		} else {
 			showToast(false, getMessageFromJsonData(false, data));
 		}
@@ -164,8 +167,10 @@ function comment_edit(id){
 	btn.disabled = true
 	btn.classList.add('disabled');
 
+	const ta = document.getElementById('comment-edit-body-'+id)
+
 	const form = new FormData();
-	form.append('body', document.getElementById('comment-edit-body-'+id).value);
+	form.append('body', ta.value);
 
 	try {
 		for (const e of document.getElementById('file-edit-reply-'+id).files)
@@ -185,9 +190,13 @@ function comment_edit(id){
 			register_new_elements(commentForm);
 			bs_trigger(commentForm);
 
-			document.getElementById('filename-edit-reply-' + id).innerHTML = '<i class="fas fa-file"></i>';
 			document.getElementById('comment-edit-body-' + id).value = data["body"];
-			document.getElementById('file-edit-reply-'+id).value = null;
+
+			const input = ta.parentElement.querySelector('input[type="file"]')
+			input.previousElementSibling.innerHTML = '';
+			input.value = null;
+			input.parentElement.nextElementSibling.classList.add('d-none');
+			oldfiles[ta.id] = []
 		}
 		else {
 			showToast(false, getMessageFromJsonData(false, data));
@@ -202,7 +211,7 @@ function comment_edit(id){
 
 function post_comment(fullname, hide){
 	const btn = document.getElementById('save-reply-to-'+fullname)
-	const textArea = document.getElementById('reply-form-body-'+fullname)
+	const ta = document.getElementById('reply-form-body-'+fullname)
 	btn.disabled = true
 	btn.classList.add('disabled');
 
@@ -210,7 +219,7 @@ function post_comment(fullname, hide){
 
 	form.append('formkey', formkey());
 	form.append('parent_fullname', fullname);
-	form.append('body', textArea.value);
+	form.append('body', ta.value);
 
 	try {
 		for (const e of document.getElementById('file-upload-reply-'+fullname).files)
@@ -243,12 +252,17 @@ function post_comment(fullname, hide){
 			btn.disabled = false;
 			btn.classList.remove('disabled');
 
-			document.getElementById('reply-form-body-'+fullname).value = ''
+			ta.value = ''
+			autoExpand(ta);
+
 			document.getElementById('form-preview-'+fullname).innerHTML = ''
 			document.getElementById('charcount-'+fullname).innerHTML = ''
-			document.getElementById('filename-show-reply-' + fullname).innerHTML = '<i class="fas fa-file"></i>';
-			document.getElementById('file-upload-reply-'+fullname).value = null;
-			autoExpand(textArea);
+
+			const input = ta.parentElement.querySelector('input[type="file"]')
+			input.previousElementSibling.innerHTML = '';
+			input.value = null;
+			input.parentElement.nextElementSibling.classList.add('d-none');
+			oldfiles[ta.id] = []
 		}
 		else {
 			showToast(false, getMessageFromJsonData(false, data));
@@ -259,42 +273,6 @@ function post_comment(fullname, hide){
 		}
 	}
 	xhr.send(form)
-}
-
-document.onpaste = function(event) {
-	const focused = document.activeElement;
-	const files = structuredClone(event.clipboardData.files);
-
-	if (!files.length) return
-
-	if (focused.id.includes('reply-form-body-')) {
-		const fullname = focused.dataset.fullname;
-		f=document.getElementById('file-upload-reply-' + fullname);
-		f.files = files;
-		changename('filename-show-reply-' + fullname, f.id, focused.id)
-	}
-	else if (focused.id.includes('comment-edit-body-')) {
-		const id = focused.dataset.id;
-		f=document.getElementById('file-edit-reply-' + id);
-		f.files = files;
-		changename('filename-edit-reply-' + id, f.id, focused.id)
-	}
-	else if (focused.id.includes('post-edit-box-')) {
-		const id = focused.dataset.id;
-		f=document.getElementById('file-upload-edit-' + id);
-		f.files = files;
-		changename('filename-show-edit-' + id, f.id, focused.id)
-	}
-	else if (focused.id == "input-message") {
-		f=document.getElementById('file-upload');
-		f.files = files;
-		changename('filename', f.id, focused.id)
-	}
-	else if (focused.id == "input-message-mobile") {
-		f=document.getElementById('file-upload-mobile');
-		f.files = files;
-		changename('filename-mobile', f.id, focused.id)
-	}
 }
 
 function handle_action(type, cid, thing) {

@@ -110,13 +110,22 @@
 	<span class="ml-2 d-inline-block">{{p.views}} thread views</span>
 {% endmacro %}
 
+
+{% macro file_input(id, image_only) %}
+<label class="btn btn-secondary format m-0 ml-2" for="{{id}}">
+	<i class="fas fa-{% if image_only %}image{% else %}file{% endif %}"></i><span></span>
+	<input autocomplete="off" id="{{id}}" accept="image/*{% if not image_only %}, video/*, audio/*{% endif %}" type="file" multiple="multiple" name="file" {% if g.is_tor %}disabled{% endif %} hidden>
+</label>
+<button type="button" class="text-danger text-lg font-weight-bold ml-2 remove-files d-none" data-bs-toggle="tooltip" title="Remove Files">X</button>
+{% endmacro %}
+
 {% macro comment_reply_box(target_fullname, html_id, wrapper_css_classes="", subwrapper_css_classes="", hide="", allow_file_upload=true, enable_cancel_button=true) %}
 	<div class="comment-box-wrapper{% if wrapper_css_classes %} {{wrapper_css_classes}}{% endif %}" id="{{html_id}}">
 	{% if v %}
 		<div id="comment-form-space-{{target_fullname}}" class="comment-write {{subwrapper_css_classes}}">
 			<input hidden name="formkey" value="{{v|formkey}}">
 			<input hidden name="parent_fullname" value="{target_fullname}}">
-			<textarea required autocomplete="off" {% if not (p and p.id in ADMIGGER_THREADS) %}{% if v.longpost %}minlength="280"{% elif v.bird %}maxlength="140"{% endif %}{% endif %} minlength="1" maxlength="10000" data-preview="form-preview-{{target_fullname}}" data-nonce="{{g.nonce}}" data-oninput="markdown(this);charLimit('reply-form-body-{{target_fullname}}','charcount-{{target_fullname}}')" id="reply-form-body-{{target_fullname}}" data-fullname="{{target_fullname}}" class="comment-box form-control rounded" name="body" form="reply-to-{{target_fullname}}" placeholder="Add your comment..." rows="3"></textarea>
+			<textarea required autocomplete="off" {% if not (p and p.id in ADMIGGER_THREADS) %}{% if v.longpost %}minlength="280"{% elif v.bird %}maxlength="140"{% endif %}{% endif %} minlength="1" maxlength="10000" data-preview="form-preview-{{target_fullname}}" data-nonce="{{g.nonce}}" data-oninput="markdown(this);charLimit('reply-form-body-{{target_fullname}}','charcount-{{target_fullname}}')" id="reply-form-body-{{target_fullname}}" data-fullname="{{target_fullname}}" class="file-ta comment-box form-control rounded" name="body" form="reply-to-{{target_fullname}}" placeholder="Add your comment..." rows="3"></textarea>
 
 			<div class="text-small font-weight-bold mt-1" id="charcount-{{target_fullname}}" style="right: 1rem; bottom: 0.5rem; z-index: 3;"></div>
 
@@ -124,14 +133,11 @@
 				<button type="button" class="btn btn-secondary format d-inline-block m-0" for="gif-reply-btn-{{target_fullname}}">
 					<span id="gif-reply-btn-{{target_fullname}}" class="font-weight-bolder text-uppercase" data-nonce="{{g.nonce}}" data-onclick="getGifs('reply-form-body-{{target_fullname}}')" data-bs-toggle="modal" data-bs-target="#gifModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add GIF">GIF</span>
 				</button>
-				&nbsp;
-				<button type="button" data-nonce="{{g.nonce}}" data-onclick="loadEmojis('reply-form-body-{{target_fullname}}')" class="btn btn-secondary format d-inline-block m-0" id="emoji-reply-btn-{{target_fullname}}" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"><i class="fas fa-smile-beam"></i></button>
-				&nbsp;
+
+				<button type="button" data-nonce="{{g.nonce}}" data-onclick="loadEmojis('reply-form-body-{{target_fullname}}')" class="btn btn-secondary format d-inline-block m-0 ml-2" id="emoji-reply-btn-{{target_fullname}}" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"><i class="fas fa-smile-beam"></i></button>
+
 				{% if allow_file_upload %}
-					<label class="format btn btn-secondary m-0 {% if v %}d-inline-block{% else %}d-none{% endif %}" for="file-upload-reply-{{target_fullname}}">
-						<div id="filename-show-reply-{{target_fullname}}"><i class="fas fa-file"></i></div>
-						<input autocomplete="off" id="file-upload-reply-{{target_fullname}}" accept="image/*, video/*, audio/*" type="file" multiple="multiple" name="file" {% if g.is_tor %}disabled{% endif %} data-nonce="{{g.nonce}}" data-onchange="changename('filename-show-reply-{{target_fullname}}','file-upload-reply-{{target_fullname}}','reply-form-body-{{target_fullname}}')" hidden>
-					</label>
+					{{file_input('file-upload-reply-' ~ target_fullname, False)}}
 				{% endif %}
 			</div>
 			<button type="button" id="save-reply-to-{{target_fullname}}" form="reply-to-{{target_fullname}}" class="btn btn-primary text-whitebtn ml-auto fl-r" data-nonce="{{g.nonce}}" data-onclick="post_comment('{{target_fullname}}', '{{hide}}');remove_dialog();">Comment</button>
