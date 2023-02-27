@@ -359,7 +359,10 @@ def notifications(v:User):
 	listing2 = []
 	for x in listing:
 		if x.parent_comment_id:
-			listing2.append(x.parent_comment)
+			parent = x.parent_comment
+			if parent.replies2 == None:
+				parent.replies2 = [x]
+			listing2.append(parent)
 		else:
 			listing2.append(x)
 	listing = listing2
