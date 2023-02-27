@@ -553,7 +553,7 @@ def message2(v:User, username:str):
 
 
 	if not v.shadowbanned:
-		title = f'New message from @{v.username}'
+		title = f'New message from @{c.author_name}'
 
 		url = f'{SITE_FULL}/notifications/messages'
 
@@ -619,7 +619,7 @@ def messagereply(v:User):
 			g.db.add(notif)
 
 		if not v.shadowbanned:
-			title = f'New message from @{v.username}'
+			title = f'New message from @{c.author_name}'
 
 			url = f'{SITE_FULL}/notifications/messages'
 
