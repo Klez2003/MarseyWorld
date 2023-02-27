@@ -29,9 +29,6 @@ def vote_info_get(v, link):
 			Vote.submission_id == thing.id,
 		).order_by(Vote.created_utc)
 
-		if not v.can_see_shadowbanned:
-			query = query.filter(User.shadowbanned == None)
-
 		ups = query.filter(Vote.vote_type == 1).all()
 		downs = query.filter(Vote.vote_type == -1).all()
 
@@ -39,9 +36,6 @@ def vote_info_get(v, link):
 		query = g.db.query(CommentVote).join(CommentVote.user).filter(
 			CommentVote.comment_id == thing.id,
 		).order_by(CommentVote.created_utc)
-
-		if not v.can_see_shadowbanned:
-			query = query.filter(User.shadowbanned == None)
 
 		ups = query.filter(CommentVote.vote_type == 1).all()
 		downs = query.filter(CommentVote.vote_type == -1).all()
@@ -146,8 +140,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 
 	# this is hacky but it works, we should probably do better later
 	def get_vote_count(dir, real_instead_of_dir):
-		votes = g.db.query(vote_cls).join(vote_cls.user) \
-					.filter(User.shadowbanned == None)
+		votes = g.db.query(vote_cls)
 		if real_instead_of_dir:
 			votes = votes.filter(vote_cls.real == True)
 		else:

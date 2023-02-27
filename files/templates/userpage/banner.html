@@ -233,7 +233,7 @@
 								<span id="profile--alts">{{alts|length}} Alt{{macros.plural(alts|length)}}:</span>
 							{% endif %}
 							<ul id="profile--alts-list">
-								{% for account in alts if v.can_see_shadowbanned or not account.shadowbanned %}
+								{% for account in alts %}
 									<li><a href="{{account.url}}">@{{account.username}}</a>{% if account._is_manual %} [m]{% endif %}</li>
 								{% endfor %}
 							</ul>
@@ -501,7 +501,7 @@
 							<span id="profile-mobile--alts">{{alts|length}} Alt{{macros.plural(alts|length)}}:</span>
 						{% endif %}
 						<ul id="profile-mobile--alts-list">
-						{% for account in alts if v.can_see_shadowbanned or not account.shadowbanned %}
+						{% for account in alts %}
 							<li><a href="{{account.url}}">@{{account.username}}</a>{% if account._is_manual %} [m]{% endif %}</li>
 						{% endfor %}
 						</ul>

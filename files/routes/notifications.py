@@ -92,9 +92,7 @@ def notifications_messages(v:User):
 		Comment.parent_submission == None,
 		Comment.level == 1,
 	)
-	if not v.shadowbanned and v.admin_level < PERMS['NOTIFICATIONS_FROM_SHADOWBANNED_USERS']:
-		message_threads = message_threads.join(Comment.author) \
-							.filter(User.shadowbanned == None)
+
 
 	thread_order = g.db.query(Comment.top_comment_id, Comment.created_utc) \
 		.distinct(Comment.top_comment_id) \
@@ -306,7 +304,6 @@ def notifications(v:User):
 
 	if v.admin_level < PERMS['USER_SHADOWBAN']:
 		comments = comments.filter(
-			User.shadowbanned == None,
 			Comment.is_banned == False,
 			Comment.deleted_utc == 0,
 		)

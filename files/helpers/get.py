@@ -32,7 +32,7 @@ def get_id(username:str, graceful=False) -> Optional[int]:
 
 	return user[0]
 
-def get_user(username:Optional[str], v:Optional[User]=None, graceful=False, include_blocks=False, include_shadowbanned=True) -> Optional[User]:
+def get_user(username:Optional[str], v:Optional[User]=None, graceful=False, include_blocks=False) -> Optional[User]:
 	if not username:
 		if graceful: return None
 		abort(404)
@@ -52,7 +52,7 @@ def get_user(username:Optional[str], v:Optional[User]=None, graceful=False, incl
 
 	user = user.one_or_none()
 
-	if not user or (user.shadowbanned and not (include_shadowbanned or (v and v.can_see_shadowbanned))):
+	if not user:
 		if graceful: return None
 		abort(404)
 
@@ -78,7 +78,7 @@ def get_users(usernames:Iterable[str], graceful=False) -> List[User]:
 
 	return users
 
-def get_account(id:Union[str, int], v:Optional[User]=None, graceful=False, include_blocks=False, include_shadowbanned=True) -> Optional[User]:
+def get_account(id:Union[str, int], v:Optional[User]=None, graceful=False, include_blocks=False) -> Optional[User]:
 	try:
 		id = int(id)
 	except:
@@ -87,7 +87,7 @@ def get_account(id:Union[str, int], v:Optional[User]=None, graceful=False, inclu
 
 	user = g.db.get(User, id)
 
-	if not user or (user.shadowbanned and not (include_shadowbanned or (v and v.can_see_shadowbanned))):
+	if not user:
 		if not graceful: abort(404)
 		else: return None
 
@@ -96,7 +96,7 @@ def get_account(id:Union[str, int], v:Optional[User]=None, graceful=False, inclu
 	return user
 
 
-def get_accounts_dict(ids:Union[Iterable[str], Iterable[int]], v:Optional[User]=None, graceful=False, include_shadowbanned=True) -> Optional[dict[int, User]]:
+def get_accounts_dict(ids:Union[Iterable[str], Iterable[int]], v:Optional[User]=None, graceful=False) -> Optional[dict[int, User]]:
 	if not ids: return {}
 	try:
 		ids = set([int(id) for id in ids])
@@ -105,8 +105,6 @@ def get_accounts_dict(ids:Union[Iterable[str], Iterable[int]], v:Optional[User]=
 		abort(404)
 
 	users = g.db.query(User).filter(User.id.in_(ids))
-	if not (include_shadowbanned or (v and v.can_see_shadowbanned)):
-		users = users.filter(User.shadowbanned == None)
 	users = users.all()
 	if len(users) != len(ids) and not graceful: abort(404)
 	return {u.id:u for u in users}
@@ -297,10 +295,10 @@ def get_comments(cids:Iterable[int], v:Optional[User]=None, extra:Optional[Calla
 	else:
 		output = g.db.query(Comment).join(Comment.author)
 		if extra: output = extra(output)
-		output = output.filter(User.shadowbanned == None, Comment.id.in_(cids)).all()
+		output = output.filter(Comment.id.in_(cids)).all()
 	return sorted(output, key=lambda x: cids.index(x.id))
 
-def get_comments_v_properties(v:User, include_shadowbanned=True, should_keep_func:Optional[Callable[[Comment], bool]]=None, *criterion):
+def get_comments_v_properties(v:User, should_keep_func:Optional[Callable[[Comment], bool]]=None, *criterion):
 	if not v:
 		raise TypeError("A user is required")
 	votes = g.db.query(CommentVote.vote_type, CommentVote.comment_id).filter_by(user_id=v.id).subquery()
@@ -312,9 +310,6 @@ def get_comments_v_properties(v:User, include_shadowbanned=True, should_keep_fun
 		blocking.c.target_id,
 		blocked.c.target_id,
 	)
-
-	if not include_shadowbanned and not v.can_see_shadowbanned:
-		comments = comments.join(Comment.author).filter(User.shadowbanned == None)
 
 	comments = comments.filter(*criterion)
 	comments = comments.outerjoin(

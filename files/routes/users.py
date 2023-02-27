@@ -27,7 +27,7 @@ from files.__main__ import app, cache, limiter
 
 
 def upvoters_downvoters(v, username, uid, cls, vote_cls, vote_dir, template, standalone):
-	u = get_user(username, v=v, include_shadowbanned=False)
+	u = get_user(username, v=v)
 	if not u.is_visible_to(v): abort(403)
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
 	id = u.id
@@ -86,7 +86,7 @@ def downvoters_comments(v:User, username, uid):
 	return upvoters_downvoters(v, username, uid, Comment, CommentVote, -1, "userpage/voted_comments.html", True)
 
 def upvoting_downvoting(v, username, uid, cls, vote_cls, vote_dir, template, standalone):
-	u = get_user(username, v=v, include_shadowbanned=False)
+	u = get_user(username, v=v)
 	if not u.is_visible_to(v): abort(403)
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
 	id = u.id
@@ -145,7 +145,7 @@ def downvoting_comments(v:User, username, uid):
 	return upvoting_downvoting(v, username, uid, Comment, CommentVote, -1, "userpage/voted_comments.html", True)
 
 def user_voted(v, username, cls, vote_cls, template, standalone):
-	u = get_user(username, v=v, include_shadowbanned=False)
+	u = get_user(username, v=v)
 	if not u.is_visible_to(v): abort(403)
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
 
@@ -196,8 +196,7 @@ def banned(v:User):
 		User.is_banned != None,
 		or_(User.unban_utc == 0, User.unban_utc > time.time()),
 	).order_by(User.ban_reason)
-	if not v.can_see_shadowbanned:
-		users = users.filter(User.shadowbanned == None)
+
 	users = users.all()
 	return render_template("banned.html", v=v, users=users)
 
@@ -210,8 +209,7 @@ def grassed(v:User):
 		User.ban_reason.like('grass award used by @%'),
 		User.unban_utc > time.time(),
 	)
-	if not v.can_see_shadowbanned:
-		users = users.filter(User.shadowbanned == None)
+
 	users = users.all()
 	return render_template("grassed.html", v=v, users=users)
 
@@ -225,8 +223,7 @@ def chuds(v:User):
 	)
 	if v.admin_level >= PERMS['VIEW_LAST_ACTIVE']:
 		users = users.order_by(User.truescore.desc())
-	if not v.can_see_shadowbanned:
-		users = users.filter(User.shadowbanned == None)
+
 	users = users.order_by(User.username).all()
 	return render_template("chuds.html", v=v, users=users)
 
@@ -245,7 +242,7 @@ def all_upvoters_downvoters(v:User, username:str, vote_dir:int, is_who_simps_hat
 		simps_haters = 'hates' if is_who_simps_hates else 'haters'
 		vote_name = 'Down'
 
-	id = get_user(username, v=v, include_shadowbanned=False).id
+	id = get_user(username, v=v).id
 	if not (v.id == id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']):
 		abort(403)
 	votes = []
@@ -259,8 +256,6 @@ def all_upvoters_downvoters(v:User, username:str, vote_dir:int, is_who_simps_hat
 	votes = Counter(dict(votes)) + Counter(dict(votes2))
 	total = sum(votes.values())
 	users = g.db.query(User).filter(User.id.in_(votes.keys()))
-	if not v.can_see_shadowbanned:
-		users = users.filter(User.shadowbanned == None)
 
 	users2 = [(user, votes[user.id]) for user in users.all()]
 	users = sorted(users2, key=lambda x: x[1], reverse=True)
@@ -332,13 +327,13 @@ def suicide(v:User, username:str):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def get_coins(v:User, username:str):
-	user = get_user(username, v=v, include_shadowbanned=False)
+	user = get_user(username, v=v)
 	return {"coins": user.coins}
 
 def transfer_currency(v:User, username:str, currency_name:Literal['coins', 'marseybux'], apply_tax:bool):
 	MIN_CURRENCY_TRANSFER = 100
 	TAX_PCT = 0.03
-	receiver = get_user(username, v=v, include_shadowbanned=False)
+	receiver = get_user(username, v=v)
 	if receiver.id == v.id: abort(400, f"You can't transfer {currency_name} to yourself!")
 	amount = request.values.get("amount", "").strip()
 	amount = int(amount) if amount.isdigit() else None
@@ -398,8 +393,6 @@ def transfer_bux(v:User, username:str):
 @auth_required
 def leaderboard(v:User):
 	users = g.db.query(User)
-	if not v.can_see_shadowbanned:
-		users = users.filter(User.shadowbanned == None)
 
 	coins = Leaderboard("Coins", "coins", "coins", "Coins", None, Leaderboard.get_simple_lb, User.coins, v, lambda u:u.coins, g.db, users)
 	subscribers = Leaderboard("Followers", "followers", "followers", "Followers", "followers", Leaderboard.get_simple_lb, User.stored_subscriber_count, v, lambda u:u.stored_subscriber_count, g.db, users)
@@ -505,7 +498,7 @@ def unsubscribe(v, post_id):
 @limiter.limit("10/minute;20/hour;50/day", key_func=get_ID)
 @is_not_permabanned
 def message2(v:User, username:str):
-	user = get_user(username, v=v, include_blocks=True, include_shadowbanned=False)
+	user = get_user(username, v=v, include_blocks=True)
 
 	if user.id == MODMAIL_ID:
 		abort(403, "Please use /contact to contact the admins")
@@ -712,7 +705,7 @@ def redditor_moment_redirect(v:User, username:str):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def followers(v:User, username:str):
-	u = get_user(username, v=v, include_shadowbanned=False)
+	u = get_user(username, v=v)
 
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_FOLLOWS_VISIBLE']):
 		abort(403)
@@ -735,7 +728,7 @@ def followers(v:User, username:str):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def blockers(v:User, username:str):
-	u = get_user(username, v=v, include_shadowbanned=False)
+	u = get_user(username, v=v)
 
 	try: page = int(request.values.get("page", 1))
 	except: page = 1
@@ -755,7 +748,7 @@ def blockers(v:User, username:str):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def following(v:User, username:str):
-	u = get_user(username, v=v, include_shadowbanned=False)
+	u = get_user(username, v=v)
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_FOLLOWS_VISIBLE']):
 		abort(403)
 
@@ -777,7 +770,7 @@ def following(v:User, username:str):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def visitors(v:User, username:str):
-	u = get_user(username, v=v, include_shadowbanned=False)
+	u = get_user(username, v=v)
 
 	try: page = int(request.values.get("page", 1))
 	except: page = 1
@@ -791,12 +784,11 @@ def visitors(v:User, username:str):
 
 @cache.memoize()
 def userpagelisting(user:User, site=None, v=None, page:int=1, sort="new", t="all"):
-	if user.shadowbanned and not (v and v.can_see_shadowbanned): return []
 	posts = g.db.query(Submission.id).filter_by(author_id=user.id, is_pinned=False)
 	if not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or v.id == user.id)):
 		posts = posts.filter_by(is_banned=False, private=False, ghost=False, deleted_utc=0)
 	posts = apply_time_filter(t, posts, Submission)
-	posts = sort_objects(sort, posts, Submission, include_shadowbanned=v and v.can_see_shadowbanned)
+	posts = sort_objects(sort, posts, Submission)
 	posts = posts.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE+1).all()
 	return [x[0] for x in posts]
 
@@ -805,7 +797,7 @@ def userpagelisting(user:User, site=None, v=None, page:int=1, sort="new", t="all
 @limiter.limit(DEFAULT_RATELIMIT)
 @auth_desired_with_logingate
 def u_username_wall(v:Optional[User], username:str):
-	u = get_user(username, v=v, include_blocks=True, include_shadowbanned=False)
+	u = get_user(username, v=v, include_blocks=True)
 	if username != u.username:
 		return redirect(f"/@{u.username}")
 
@@ -911,7 +903,7 @@ def u_username_wall_comment(v:User, username:str, cid):
 @limiter.limit(DEFAULT_RATELIMIT)
 @auth_desired_with_logingate
 def u_username(v:Optional[User], username:str):
-	u = get_user(username, v=v, include_blocks=True, include_shadowbanned=False)
+	u = get_user(username, v=v, include_blocks=True)
 	if username != u.username:
 		return redirect(SITE_FULL + request.full_path.replace(username, u.username))
 
@@ -989,7 +981,7 @@ def u_username(v:Optional[User], username:str):
 @limiter.limit(DEFAULT_RATELIMIT)
 @auth_desired_with_logingate
 def u_username_comments(username, v=None):
-	u = get_user(username, v=v, include_blocks=True, include_shadowbanned=False)
+	u = get_user(username, v=v, include_blocks=True)
 	if username != u.username:
 		return redirect(f"/@{u.username}/comments")
 
@@ -1037,8 +1029,7 @@ def u_username_comments(username, v=None):
 
 	comments = apply_time_filter(t, comments, Comment)
 
-	comments = sort_objects(sort, comments, Comment,
-		include_shadowbanned=(v and v.can_see_shadowbanned))
+	comments = sort_objects(sort, comments, Comment)
 
 	comments = comments.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE+1).all()
 	ids = [x.id for x in comments]
@@ -1060,7 +1051,7 @@ def u_username_comments(username, v=None):
 @auth_required
 def u_username_info(username, v=None):
 
-	user=get_user(username, v=v, include_blocks=True, include_shadowbanned=False)
+	user=get_user(username, v=v, include_blocks=True)
 
 	if hasattr(user, 'is_blocking') and user.is_blocking:
 		abort(401, f"You're blocking @{user.username}")
@@ -1075,7 +1066,7 @@ def u_username_info(username, v=None):
 @auth_required
 def u_user_id_info(id, v=None):
 
-	user=get_account(id, v=v, include_blocks=True, include_shadowbanned=False)
+	user=get_account(id, v=v, include_blocks=True)
 
 	if hasattr(user, 'is_blocking') and user.is_blocking:
 		abort(403, f"You're blocking @{user.username}")
@@ -1091,7 +1082,7 @@ def u_user_id_info(id, v=None):
 @auth_required
 def follow_user(username, v):
 
-	target = get_user(username, v=v, include_shadowbanned=False)
+	target = get_user(username, v=v)
 
 	if target.id==v.id:
 		abort(400, "You can't follow yourself!")

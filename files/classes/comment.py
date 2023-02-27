@@ -140,8 +140,7 @@ class Comment(Base):
 
 		replies = db.query(Comment).filter_by(parent_comment_id=self.id).order_by(Comment.stickied, Comment.stickied_child_id)
 		if not self.parent_submission: sort='old'
-		return sort_objects(sort, replies, Comment,
-			include_shadowbanned=(v and v.can_see_shadowbanned)).all()
+		return sort_objects(sort, replies, Comment).all()
 
 
 	@property
