@@ -91,7 +91,11 @@ function vote(type, id, dir) {
 	xhr[0].send(xhr[1]);
 }
 
+let global_price;
+
 function pick(kind, price, coins, marseybux) {
+	global_price = price;
+
 	price = parseInt(price)
 	coins = parseInt(coins)
 	marseybux = parseInt(marseybux)
@@ -146,6 +150,9 @@ function buy(mb) {
 				let ownednum = Number(owned.textContent) + 1;
 				owned.textContent = ownednum
 			}
+
+			const currency = mb ? "bux" : "coins";
+			document.getElementById(`user-${currency}-amount`).innerText = parseInt(document.getElementById(`user-${currency}-amount`).innerText) - global_price;
 		}
 	};
 
