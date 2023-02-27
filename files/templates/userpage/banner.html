@@ -90,7 +90,7 @@
 				</div>
 
 				{% if FEATURES['USERS_PROFILE_BODYTEXT'] -%}
-					{% if u.bio_html %}
+					{% if u.bio_html and not (not u.shadowbanned or (v and v.id == u.id)) %}
 						<div class="text-muted font-weight-bolder mt-1" id="profile--bio">{{u.bio_html | safe}}</div>
 					{% else %}
 						<p class="text-muted" id="profile--bio">No bio...</p>
@@ -351,7 +351,7 @@
 				</div>
 
 				{% if FEATURES['USERS_PROFILE_BODYTEXT'] -%}
-					{% if u.bio_html %}
+					{% if u.bio_html and not (not u.shadowbanned or (v and v.id == u.id)) %}
 						<div class="text-muted text-break" id="profile-mobile--bio">{{u.bio_html | safe}}</div>
 					{% endif %}
 
