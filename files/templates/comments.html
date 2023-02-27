@@ -27,8 +27,7 @@
 			<span class="comment-collapse-desktop d-mob-none" style="border-left: 2px solid #{{c.author.name_color}}" data-nonce="{{g.nonce}}" data-onclick="collapse_comment('{{c.id}}')"></span>
 
 			<div class="comment-body">
-
-					<div id="comment-{{c.id}}-only" class="{% if c.award_count('tilt', v) %}tilt{% endif %} {% if c.award_count('glowie', v) %}glow{% endif %} comment-{{c.id}}-only">
+					<div id="comment-{{c.id}}-only" class="{% if c.award_count('tilt', v) %}tilt tilt-{{c.award_count('tilt', v)}}{% endif %} {% if c.award_count('glowie', v) %}glow{% endif %} comment-{{c.id}}-only">
 							<div class="user-info">
 								<span class="comment-collapse-icon" data-nonce="{{g.nonce}}" data-onclick="collapse_comment('{{c.id}}')"></span>
 								{% if standalone and c.over_18 %}<span class="badge badge-danger">+18</span> {% endif %}
@@ -118,7 +117,7 @@
 	{% endif %}
 	<div class="comment-body">
 
-		<div id="{% if comment_info and comment_info.id == c.id %}context{%else%}comment-{{c.id}}-only{% endif %}" class="{% if c.unread %}unread{% endif %} {% if c.award_count('glowie', v) %}glow{% endif %} comment-{{c.id}}-only comment-anchor {% if comment_info and comment_info.id == c.id %}context{%endif%}{% if c.is_banned %} banned{% endif %}{% if c.deleted_utc %} deleted{% endif %}">
+		<div id="{% if comment_info and comment_info.id == c.id %}context{%else%}comment-{{c.id}}-only{% endif %}" class="{% if c.award_count('tilt', v) %}tilt tilt-{{c.award_count('tilt', v)}}{% endif %} {% if c.unread %}unread{% endif %} {% if c.award_count('glowie', v) %}glow{% endif %} comment-{{c.id}}-only comment-anchor {% if comment_info and comment_info.id == c.id %}context{%endif%}{% if c.is_banned %} banned{% endif %}{% if c.deleted_utc %} deleted{% endif %}">
 
 			<div class="user-info">
 				<span class="comment-collapse-icon" data-nonce="{{g.nonce}}" data-onclick="collapse_comment('{{c.id}}')"></span>

@@ -60,7 +60,7 @@
 
 <div class="row mb-3">
 
-	<div id="post-root" class="col-12 {% if p.award_count('tilt', v) %}tilt{% endif %}">
+	<div id="post-root" class="col-12 {% if p.award_count('tilt', v) %}tilt tilt-{{p.award_count('tilt', v)}}{% endif %}">
 
 		<div class="card border-0 mt-3 {% if p.stickied %}stickied{% endif %} {% if voted==1 %}upvoted{% elif voted==-1 %} downvoted{% endif %}">
 			<div id="post-{{p.id}}" class="actual-post {% if p.ghost %}ghost-post{% endif %} {% if p.is_banned %}banned{% endif %} {% if p.deleted_utc %}deleted {% endif %} {% if p.award_count('tilt', v) %}p-3{% endif %} {% if p.award_count('glowie', v) %}glow{% endif %} d-flex flex-row-reverse flex-nowrap justify-content-end">
