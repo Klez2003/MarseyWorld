@@ -101,7 +101,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 		execute_shadowban_viewers_and_voters(v, post)
 		# shadowban check is done in sort_objects
 		# output is needed: see comments.py
-		comments, output = get_comments_v_properties(v, True, None, Comment.parent_submission == post.id, Comment.level < 10)
+		comments, output = get_comments_v_properties(v, None, Comment.parent_submission == post.id, Comment.level < 10)
 		pinned = [c[0] for c in comments.filter(Comment.stickied != None).order_by(Comment.created_utc.desc()).all()]
 		comments = comments.filter(Comment.level == 1, Comment.stickied == None)
 		comments = sort_objects(sort, comments, Comment)
@@ -188,7 +188,7 @@ def view_more(v, pid, sort, offset):
 	if v:
 		# shadowban check is done in sort_objects
 		# output is needed: see comments.py
-		comments, output = get_comments_v_properties(v, True, None, Comment.parent_submission == pid, Comment.stickied == None, Comment.id.notin_(ids), Comment.level < 10)
+		comments, output = get_comments_v_properties(v, None, Comment.parent_submission == pid, Comment.stickied == None, Comment.id.notin_(ids), Comment.level < 10)
 		comments = comments.filter(Comment.level == 1)
 		comments = sort_objects(sort, comments, Comment)
 
@@ -239,7 +239,7 @@ def more_comments(v, cid):
 	if v:
 		# shadowban check is done in sort_objects i think
 		# output is needed: see comments.py
-		comments, output = get_comments_v_properties(v, True, None, Comment.top_comment_id == tcid, Comment.level > 9)
+		comments, output = get_comments_v_properties(v, None, Comment.top_comment_id == tcid, Comment.level > 9)
 		comments = comments.filter(Comment.parent_comment_id == cid)
 		comments = [c[0] for c in comments.all()]
 	else:

@@ -369,7 +369,7 @@ def notifications(v:User):
 	total_cids = [x.id for x in total]
 	total_cids.extend(cids)
 	total_cids = set(total_cids)
-	output = get_comments_v_properties(v, True, None, Comment.id.in_(total_cids))[1]
+	output = get_comments_v_properties(v, None, Comment.id.in_(total_cids))[1]
 
 	g.db.commit()
 

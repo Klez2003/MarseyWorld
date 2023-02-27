@@ -820,7 +820,7 @@ def u_username_wall(v:Optional[User], username:str):
 	except: page = 1
 
 	if v:
-		comments, output = get_comments_v_properties(v, True, None, Comment.wall_user_id == u.id)
+		comments, output = get_comments_v_properties(v, None, Comment.wall_user_id == u.id)
 	else:
 		comments = g.db.query(Comment).filter(Comment.wall_user_id == u.id)
 	comments = comments.filter(Comment.level == 1)
@@ -891,7 +891,7 @@ def u_username_wall_comment(v:User, username:str, cid):
 	if v:
 		# this is required because otherwise the vote and block
 		# props won't save properly unless you put them in a list
-		output = get_comments_v_properties(v, False, None, Comment.top_comment_id == c.top_comment_id)[1]
+		output = get_comments_v_properties(v, None, Comment.top_comment_id == c.top_comment_id)[1]
 
 	if v and v.client: return top_comment.json(db=g.db)
 

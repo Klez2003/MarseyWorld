@@ -291,7 +291,7 @@ def add_vote_and_block_props(target:Union[Submission, Comment], v:Optional[User]
 def get_comments(cids:Iterable[int], v:Optional[User]=None, extra:Optional[Callable[[Query], Query]]=None) -> List[Comment]:
 	if not cids: return []
 	if v:
-		output = get_comments_v_properties(v, True, None, Comment.id.in_(cids))[1] # TODO: support 'extra' for get_comments_v_properties
+		output = get_comments_v_properties(v, None, Comment.id.in_(cids))[1]
 	else:
 		output = g.db.query(Comment).join(Comment.author)
 		if extra: output = extra(output)
