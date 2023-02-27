@@ -1331,6 +1331,8 @@ tiers={
 	200: 6
 	}
 
+marseybux_li = (0,2500,5000,10000,25000,50000,100000,250000)
+
 def claim_rewards(v):
 	g.db.flush()
 	transactions = g.db.query(Transaction).filter_by(email=v.email, claimed=None).all()
@@ -1346,20 +1348,21 @@ def claim_rewards(v):
 		transaction.claimed = True
 		g.db.add(transaction)
 
-	v.pay_account('marseybux', marseybux)
+	if marseybux:
+		v.pay_account('marseybux', marseybux)
 
-	send_repeatable_notification(v.id, f"You have received {marseybux} Marseybux! You can use them to buy awards or hats in the [shop](/shop) or gamble them in the [casino](/casino).")
-	g.db.add(v)
+		send_repeatable_notification(v.id, f"You have received {marseybux} Marseybux! You can use them to buy awards or hats in the [shop](/shop) or gamble them in the [casino](/casino).")
+		g.db.add(v)
 
-	v.patron_utc = time.time() + 2937600
+		v.patron_utc = time.time() + 2937600
 
-	if highest_tier > v.patron:
-		v.patron = highest_tier
-		for badge in g.db.query(Badge).filter(Badge.user_id == v.id, Badge.badge_id > 20, Badge.badge_id < 28).all():
-			g.db.delete(badge)
-		badge_grant(badge_id=20+highest_tier, user=v)
+		if highest_tier > v.patron:
+			v.patron = highest_tier
+			for badge in g.db.query(Badge).filter(Badge.user_id == v.id, Badge.badge_id > 20, Badge.badge_id < 28).all():
+				g.db.delete(badge)
+			badge_grant(badge_id=20+highest_tier, user=v)
 
-	print(f'@{v.username} rewards claimed successfully!', flush=True)
+		print(f'@{v.username} rewards claimed successfully!', flush=True)
 
 
 def claim_rewards_all_users():

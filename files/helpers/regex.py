@@ -93,8 +93,6 @@ link_fix_regex = re.compile("(\[.*?\]\()(?!http|\/)(.*?\))(?!([^<]*<\/(code|pre|
 
 css_url_regex = re.compile('url\(\s*[\'"]?(.*?)[\'"]?\s*\)', flags=re.I|re.A)
 
-marseybux_li = (0,2500,5000,10000,25000,50000,100000,250000)
-
 linefeeds_regex = re.compile("([^\n])\n([^\n])", flags=re.A)
 
 greentext_regex = re.compile("(\n|^)>([^ >][^\n]*)", flags=re.A)
