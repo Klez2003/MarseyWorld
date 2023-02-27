@@ -2,9 +2,22 @@
 {% block pagetitle %}!{{group}}{% endblock %}
 {% block content %}
 
+{% if v.id != group.owner.id %}
+	<button id="leave-{{group}}" type="button" class="mt-4 btn btn-primary btn-block {% if v.id not in group.membership_user_ids %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/!{{group}}/leave','leave-{{group}}','apply-{{group}}','d-none')">
+		{%- if v.id in group.member_ids -%}
+			Leave
+		{%- else -%}
+			Cancel Application
+		{%- endif -%}
+	</button>
+
+	<button id="apply-{{group}}" type="button" class="mt-4 {% if v.id in group.membership_user_ids %}d-none{% endif %} btn btn-primary btn-block" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/!{{group}}/apply','leave-{{group}}','apply-{{group}}','d-none')">Apply to Join</button>
+{% endif %}
+
 <br>
 {% macro process_memberships(memberships, name) %}
 	<h5 class="my-3">!{{group}} {{name}}</h5>
+
 	<div class="overflow-x-auto mt-1">
 		<table class="table table-striped mb-5 ping-groups">
 			<thead class="bg-primary text-white">
