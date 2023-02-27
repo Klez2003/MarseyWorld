@@ -574,3 +574,15 @@ function cancel_files(element) {
 
 	if (typeof checkForRequired === "function") checkForRequired();
 }
+
+function handleUploadProgress(e, upload_prog) {
+	const bar = upload_prog.firstElementChild;
+	const percentIndicator = upload_prog.lastElementChild;
+		
+	upload_prog.classList.remove("d-none")
+	if (e.lengthComputable) {
+		const progressPercent = Math.floor((e.loaded / e.total) * 100);
+		bar.value = progressPercent;
+		percentIndicator.textContent = progressPercent + '%';
+	}
+}

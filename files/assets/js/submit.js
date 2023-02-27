@@ -173,19 +173,6 @@ document.addEventListener('keydown', (e) => {
 
 checkRepost();
 
-const uploadfilelist = document.getElementById('upload-filelist');
-const bar = document.getElementById('file-progress');
-const percentIndicator = document.getElementById('progress-percent');
-
-function handleUploadProgress(evt) {
-	uploadfilelist.classList.remove("d-none")
-	if (evt.lengthComputable) {
-		const progressPercent = Math.floor((evt.loaded / evt.total) * 100);
-		bar.value = progressPercent;
-		percentIndicator.textContent = progressPercent + '%';
-	}
-}
-
 function submit(form) {
 	submitButton.disabled = true;
 
@@ -198,11 +185,15 @@ function submit(form) {
 	actionPath = form.getAttribute("action");
 
 	xhr.open("POST", actionPath);
-	xhr.upload.onprogress = handleUploadProgress;
+
+	const upload_prog = document.getElementById('upload-prog');
+	xhr.upload.onprogress = (e) => {handleUploadProgress(e, upload_prog)};
+
 	xhr.setRequestHeader('xhr', 'xhr');
 
 	xhr.onload = function() {
-		uploadfilelist.classList.add("d-none")
+		upload_prog.classList.add("d-none")
+
 		if (xhr.status >= 200 && xhr.status < 300) {
 			const post_id = JSON.parse(xhr.response)['post_id'];
 

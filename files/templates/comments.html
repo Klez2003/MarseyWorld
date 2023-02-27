@@ -259,21 +259,29 @@
 				{% if v and v.id==c.author_id %}
 
 				<div id="comment-edit-{{c.id}}" class="d-none comment-write collapsed child">
-						<input hidden name="formkey" value="{{v|formkey}}">
-						<textarea autocomplete="off" {% if v.longpost %}minlength="280"{% endif %} maxlength="{% if v.bird %}140{% else %}10000{% endif %}" data-preview="preview-edit-{{c.id}}" data-nonce="{{g.nonce}}" data-oninput="markdown(this);charLimit('comment-edit-body-{{c.id}}','charcount-edit-{{c.id}}')" id="comment-edit-body-{{c.id}}" data-id="{{c.id}}" name="body" form="comment-edit-form-{{c.id}}" class="file-ta comment-box form-control rounded" placeholder="Add your comment..." rows="3">{{c.body}}</textarea>
+					<input hidden name="formkey" value="{{v|formkey}}">
+					<textarea autocomplete="off" {% if v.longpost %}minlength="280"{% endif %} maxlength="{% if v.bird %}140{% else %}10000{% endif %}" data-preview="preview-edit-{{c.id}}" data-nonce="{{g.nonce}}" data-oninput="markdown(this);charLimit('comment-edit-body-{{c.id}}','charcount-edit-{{c.id}}')" id="comment-edit-body-{{c.id}}" data-id="{{c.id}}" name="body" form="comment-edit-form-{{c.id}}" class="file-ta comment-box form-control rounded" placeholder="Add your comment..." rows="3">{{c.body}}</textarea>
 
-						<div class="text-small font-weight-bold mt-1" id="charcount-edit-{{c.id}}" style="right: 1rem; bottom: 0.5rem; z-index: 3;"></div>
+					<div class="text-small font-weight-bold mt-1" id="charcount-edit-{{c.id}}" style="right: 1rem; bottom: 0.5rem; z-index: 3;"></div>
 
-						<div class="comment-format">
-							<small class="btn btn-secondary format m-0" data-nonce="{{g.nonce}}" data-onclick="getGifs('comment-edit-body-{{c.id}}')" data-bs-toggle="modal" data-bs-target="#gifModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add GIF"><span class="font-weight-bolder text-uppercase">GIF</span></small>
+					<div class="comment-format">
+						<small class="btn btn-secondary format m-0" data-nonce="{{g.nonce}}" data-onclick="getGifs('comment-edit-body-{{c.id}}')" data-bs-toggle="modal" data-bs-target="#gifModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add GIF"><span class="font-weight-bolder text-uppercase">GIF</span></small>
 
-							<small class="btn btn-secondary format m-0 ml-2" data-nonce="{{g.nonce}}" data-onclick="loadEmojis('comment-edit-body-{{c.id}}')" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"><i class="fas fa-smile-beam"></i></small>
+						<small class="btn btn-secondary format m-0 ml-2" data-nonce="{{g.nonce}}" data-onclick="loadEmojis('comment-edit-body-{{c.id}}')" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"><i class="fas fa-smile-beam"></i></small>
 
-							{{macros.file_input('file-edit-reply-' ~ c.id, False)}}
-						</div>
-						<a class="text-small mt-3 d-inline-block" href="/formatting" {% if v and v.newtab %}data-target="t" target="_blank"{% endif %}>Formatting help</a>
-						<button type="button" id="edit-btn-{{c.id}}" form="comment-edit-form-{{c.id}}" class="btn btn-primary ml-2 fl-r commentmob" data-nonce="{{g.nonce}}" data-onclick="comment_edit('{{c.id}}');remove_dialog()">Save Edit</button>
-						<button type="button" id="cancel-edit-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="toggleEdit('{{c.id}}');remove_dialog()" class="btn btn-link text-muted ml-auto fl-r commentmob">Cancel</button>
+						{{macros.file_input('file-edit-reply-' ~ c.id, False)}}
+					</div>
+					<a class="text-small mt-3 d-inline-block" href="/formatting" {% if v and v.newtab %}data-target="t" target="_blank"{% endif %}>Formatting help</a>
+
+					<button type="button" id="edit-btn-{{c.id}}" form="comment-edit-form-{{c.id}}" class="btn btn-primary ml-2 fl-r commentmob" data-nonce="{{g.nonce}}" data-onclick="comment_edit('{{c.id}}');remove_dialog()">Save Edit</button>
+
+					<button type="button" id="cancel-edit-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="toggleEdit('{{c.id}}');remove_dialog()" class="btn btn-link text-muted ml-auto fl-r commentmob">Cancel</button>
+
+					<span id="upload-prog-edit-{{c.fullname}}" class="d-none mt-1 mr-2 fl-r">
+						<progress max="100"></progress>
+						<span></span>
+					</span>
+
 					<div id="preview-edit-{{c.id}}" class="preview mb-3 mt-5"></div>
 				</div>
 				{% endif %}
@@ -536,8 +544,16 @@
 							{{macros.file_input('file-upload-reply-' ~ c.fullname, True)}}
 						</div>
 
-						<button type="button" data-nonce="{{g.nonce}}" data-onclick="remove_dialog()" class="btn btn-link text-muted ml-auto" data-toggleelement="reply-message-{{c.fullname}}" data-toggleattr="d-none">Cancel</button>
-						<button type="button" id="save-reply-to-{{c.id}}" class="btn btn-primary ml-2" data-nonce="{{g.nonce}}" data-onclick="post_reply('{{c.id}}');remove_dialog()">Reply</button>
+						<div class="ml-auto">
+							<span id="upload-prog-{{c.fullname}}" class="d-none mt-1 mr-2">
+								<progress max="100"></progress>
+								<span></span>
+							</span>
+
+							<button type="button" data-nonce="{{g.nonce}}" data-onclick="remove_dialog()" class="btn btn-link text-muted ml-auto" data-toggleelement="reply-message-{{c.fullname}}" data-toggleattr="d-none">Cancel</button>
+
+							<button type="button" id="save-reply-to-{{c.id}}" class="btn btn-primary ml-2" data-nonce="{{g.nonce}}" data-onclick="post_reply('{{c.id}}');remove_dialog()">Reply</button>
+						</div>
 					</div>
 					<div id="message-reply-{{c.id}}" class="preview mt-2"></div>
 				</div>

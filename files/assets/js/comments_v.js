@@ -126,7 +126,13 @@ function post_reply(id){
 	catch(e) {}
 
 	const xhr = createXhrWithFormKey("/reply", "POST", form);
+
+	const upload_prog = document.getElementById(`upload-prog-c_${id}`);
+	xhr[0].upload.onprogress = (e) => {handleUploadProgress(e, upload_prog)};
+
 	xhr[0].onload=function(){
+		upload_prog.classList.add("d-none")
+
 		let data
 		try {data = JSON.parse(xhr[0].response)}
 		catch(e) {console.log(e)}
@@ -178,7 +184,13 @@ function comment_edit(id){
 	}
 	catch(e) {}
 	const xhr = createXhrWithFormKey("/edit_comment/"+id, "POST", form);
+
+	const upload_prog = document.getElementById(`upload-prog-edit-c_${id}`);
+	xhr[0].upload.onprogress = (e) => {handleUploadProgress(e, upload_prog)};
+
 	xhr[0].onload=function(){
+		upload_prog.classList.add("d-none")
+
 		let data
 		try {data = JSON.parse(xhr[0].response)}
 		catch(e) {console.log(e)}
@@ -230,8 +242,14 @@ function post_comment(fullname, hide){
 	const xhr = new XMLHttpRequest();
 	url = '/comment';
 	xhr.open("POST", url);
+
+	const upload_prog = document.getElementById(`upload-prog-${fullname}`);
+	xhr.upload.onprogress = (e) => {handleUploadProgress(e, upload_prog)};
+	
 	xhr.setRequestHeader('xhr', 'xhr');
 	xhr.onload=function(){
+		upload_prog.classList.add("d-none")
+
 		let data
 		try {data = JSON.parse(xhr.response)}
 		catch(e) {console.log(e)}
