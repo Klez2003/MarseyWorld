@@ -361,7 +361,7 @@ def notifications(v:User):
 		if x.parent_comment_id:
 			parent = x.parent_comment
 			if parent.replies2 == None:
-				parent.replies2 = [x]
+				parent.replies2 = g.db.query(Comment).filter_by(parent_comment_id=parent.id).filter(or_(Comment.author_id == v.id, Comment.id.in_(cids+[x.id]))).order_by(Comment.id.desc()).all()
 			listing2.append(parent)
 		else:
 			listing2.append(x)
