@@ -13,6 +13,8 @@
 
 {% macro single_comment(c, level=1, collapse=False) %}
 
+{% if user_can_see(v, c) %}
+
 {% set ups=c.upvotes %}
 {% set downs=c.downvotes %}
 {% set score=ups-downs %}
@@ -706,9 +708,12 @@
 {% endif %}
 </div>
 {% endif %}
+
+{% endif %}
+
 {% endmacro %}
 
-{% for comment in comments if user_can_see(v, comment) %}
+{% for comment in comments %}
 	{{single_comment(comment)}}
 {% endfor %}
 
