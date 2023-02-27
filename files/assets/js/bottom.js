@@ -143,7 +143,7 @@ function register_new_elements(e) {
 		});
 	}
 
-	const file_inputs = document.querySelectorAll('input[type="file"]')
+	const file_inputs = document.querySelectorAll('input[type="file"]:not(.not-handle-files)')
 	for (const input of file_inputs) {
 		input.onchange = () => {handle_files(input, input.files)};
 	}
