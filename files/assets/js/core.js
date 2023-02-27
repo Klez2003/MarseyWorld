@@ -470,9 +470,9 @@ function handle_files(input, newfiles) {
 	}
 
 	const span = input.previousElementSibling
-	if (input.files.length > 8)
+	if (input.files.length > 20)
 	{
-		alert("You can't upload more than 8 files at one time!")
+		alert("You can't upload more than 20 files at one time!")
 		input.value = null
 		input.parentElement.nextElementSibling.classList.add('d-none');
 		span.innerHTML = ''
@@ -519,9 +519,9 @@ document.onpaste = function(event) {
 			f=document.getElementById('file-upload');
 			f.files += files;
 	
-			if (f.files.length > 8)
+			if (f.files.length > 20)
 			{
-				alert("You can't upload more than 8 files at one time!")
+				alert("You can't upload more than 20 files at one time!")
 				return
 			}
 	

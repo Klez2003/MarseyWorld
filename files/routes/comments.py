@@ -153,7 +153,7 @@ def comment(v:User):
 	body, _, options, choices = sanitize_poll_options(v, body, False)
 
 	if request.files.get("file") and not g.is_tor:
-		files = request.files.getlist('file')[:8]
+		files = request.files.getlist('file')[:20]
 
 
 		if files:

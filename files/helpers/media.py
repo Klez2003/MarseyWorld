@@ -27,7 +27,7 @@ def media_ratelimit(v):
 
 def process_files(files, v, body):
 	if g.is_tor or not files.get("file"): return body
-	files = files.getlist('file')[:8]
+	files = files.getlist('file')[:20]
 
 	if files:
 		media_ratelimit(v)
@@ -236,7 +236,7 @@ def process_dm_images(v, user, body):
 	if not request.files.get("file") or g.is_tor or not get_setting("dm_images"):
 		return body
 
-	files = request.files.getlist('file')[:8]
+	files = request.files.getlist('file')[:20]
 
 
 	for file in files:
