@@ -254,7 +254,7 @@ function changename(s1,s2,textarea) {
 	}
 
 	const ta = document.getElementById(textarea);
-	ta.value = ta.value.replace(/<file>\n/g, "")
+	ta.value = ta.value.replace(/[file]\n/g, "")
 	if (ta.value) {
 		ta.value += '\n'
 	}
@@ -262,7 +262,7 @@ function changename(s1,s2,textarea) {
 	let filename = '';
 	for (const e of files) {
 		filename += e.name.substr(0, 22) + ', ';
-		ta.value += '<file>\n'
+		ta.value += '[file]\n'
 	}
 	document.getElementById(s1).innerHTML = escapeHTML(filename.slice(0, -2));
 
