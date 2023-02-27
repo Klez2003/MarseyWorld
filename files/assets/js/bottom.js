@@ -152,6 +152,17 @@ function register_new_elements(e) {
 	for (const element of remove_files) {
 		element.onclick = () => {cancel_files(element)};
 	}
+
+	const data_url = document.querySelectorAll('[data-url]');
+	for (const element of data_url) {
+		if (element.dataset.nonce != nonce) {
+			console.log("Nonce check failed!")
+			continue
+		}
+		element.addEventListener('click', () => {
+			document.getElementById('giveaward').dataset.action = element.dataset.url
+		});
+	}	
 }
 
 register_new_elements(document);

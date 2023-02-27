@@ -170,17 +170,6 @@ function giveaward(t) {
 	);
 }
 
-const data_url = document.querySelectorAll('[data-url]');
-for (const element of data_url) {
-	if (element.dataset.nonce != nonce) {
-		console.log("Nonce check failed!")
-		continue
-	}
-	element.addEventListener('click', () => {
-		document.getElementById('giveaward').dataset.action = element.dataset.url
-	});
-}
-
 const awardtabs = document.getElementsByClassName('award-tab');
 const awardsections = document.getElementsByClassName('award-section');
 
