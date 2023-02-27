@@ -72,7 +72,7 @@ def searchposts(v:User):
 
 	if 'author' in criteria:
 		posts = posts.filter(Submission.ghost == False)
-		author = get_user(criteria['author'], v=v, include_shadowbanned=False)
+		author = get_user(criteria['author'], v=v)
 		if not author.is_visible_to(v):
 			if v.client:
 				abort(403, f"@{author.username}'s profile is private; You can't use the 'author' syntax on them")
@@ -148,8 +148,7 @@ def searchposts(v:User):
 
 	posts = apply_time_filter(t, posts, Submission)
 
-	posts = sort_objects(sort, posts, Submission,
-		include_shadowbanned=(v and v.can_see_shadowbanned))
+	posts = sort_objects(sort, posts, Submission)
 
 	total = posts.count()
 
@@ -207,7 +206,7 @@ def searchcomments(v:User):
 
 	if 'author' in criteria:
 		comments = comments.filter(Comment.ghost == False)
-		author = get_user(criteria['author'], v=v, include_shadowbanned=False)
+		author = get_user(criteria['author'], v=v)
 		if not author.is_visible_to(v):
 			if v.client:
 				abort(403, f"@{author.username}'s profile is private; You can't use the 'author' syntax on them")
@@ -262,8 +261,7 @@ def searchcomments(v:User):
 			except: abort(400)
 		comments = comments.filter(Comment.created_utc < before)
 
-	comments = sort_objects(sort, comments, Comment,
-		include_shadowbanned=(v and v.can_see_shadowbanned))
+	comments = sort_objects(sort, comments, Comment)
 
 	total = comments.count()
 
@@ -310,7 +308,7 @@ def searchmessages(v:User):
 
 	if 'author' in criteria:
 		comments = comments.filter(Comment.ghost == False)
-		author = get_user(criteria['author'], v=v, include_shadowbanned=False)
+		author = get_user(criteria['author'], v=v)
 		if not author.is_visible_to(v):
 			if v.client:
 				abort(403, f"@{author.username}'s profile is private; You can't use the 'author' syntax on them")
@@ -347,8 +345,7 @@ def searchmessages(v:User):
 			except: abort(400)
 		comments = comments.filter(Comment.created_utc < before)
 
-	comments = sort_objects(sort, comments, Comment,
-		include_shadowbanned=(v and v.can_see_shadowbanned))
+	comments = sort_objects(sort, comments, Comment)
 
 	total = comments.count()
 
@@ -386,9 +383,6 @@ def searchusers(v:User):
 			User.original_username.ilike(f'%{term}%')
 		)
 	)
-
-	if v.admin_level < PERMS['USER_SHADOWBAN']:
-		users = users.filter(User.shadowbanned == None)
 
 	users=users.order_by(User.username.ilike(term).desc(), User.stored_subscriber_count.desc())
 

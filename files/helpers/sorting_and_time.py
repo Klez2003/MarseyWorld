@@ -22,11 +22,7 @@ def apply_time_filter(t, objects, cls):
 
 	return objects.filter(cls.created_utc >= cutoff)
 
-def sort_objects(sort, objects, cls, include_shadowbanned=False):
-	if not include_shadowbanned:
-		cls_user = cls.__mapper__.relationships['author'].entity.entity
-		objects = objects.join(cls.author).filter(cls_user.shadowbanned == None)
-
+def sort_objects(sort, objects, cls):
 	if sort == 'hot':
 		ti = int(time.time()) + 3600
 		metric = cls.realupvotes

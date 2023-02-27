@@ -114,8 +114,7 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 			word = word.replace('\\', '').replace('_', '\_').replace('%', '\%').strip()
 			posts=posts.filter(not_(Submission.title.ilike(f'%{word}%')))
 
-	posts = sort_objects(sort, posts, Submission,
-		include_shadowbanned=(v and v.can_see_shadowbanned))
+	posts = sort_objects(sort, posts, Submission)
 
 	if v: size = v.frontsize or 0
 	else: size = PAGE_SIZE
@@ -178,7 +177,7 @@ def random_post(v:User):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def random_user(v:User):
-	u = g.db.query(User.username).filter(User.song != None, User.shadowbanned == None).order_by(func.random()).first()
+	u = g.db.query(User.username).filter(User.song != None).order_by(func.random()).first()
 
 	if u: u = u[0]
 	else: abort(404, "No users have set a profile anthem so far!")
@@ -207,8 +206,7 @@ def comment_idlist(v=None, page=1, sort="new", t="day", gt=0, lt=0, site=None):
 	if not gt and not lt:
 		comments = apply_time_filter(t, comments, Comment)
 
-	comments = sort_objects(sort, comments, Comment,
-		include_shadowbanned=(v and v.can_see_shadowbanned))
+	comments = sort_objects(sort, comments, Comment)
 
 	comments = comments.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
 	return [x[0] for x in comments]
