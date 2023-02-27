@@ -291,7 +291,7 @@
 	</div>
 </div>
 
-{% if v and v.id != p.author_id and p.body and not v_forbid_deleted %}
+{% if v and v.id != p.author_id and p.body and not v_forbid_deleted and v.admin_level < PERMS['POST_EDITING'] %}
 	<div autocomplete="off" class="markdown d-none card border my-2 p-3 comment-box form-control rounded" id="markdown-{{p.fullname}}" readonly>{{p.body.strip()}}</div>
 {% endif %}
 
