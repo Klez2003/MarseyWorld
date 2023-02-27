@@ -136,7 +136,7 @@ def NOTIFY_USERS(text, v):
 		for i in group_mention_regex.finditer(text):
 			group = g.db.get(Group, i.group(2))
 			if group:
-				if v.id not in group.member_ids:
+				if v.id not in group.member_ids and v.admin_level < PERMS['CAN_PING_ALL_GROUPS']:
 					abort(403, "Only members of the ping group can ping it!")
 				notify_users.update(group.member_ids)
 
