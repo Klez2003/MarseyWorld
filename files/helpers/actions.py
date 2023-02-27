@@ -412,7 +412,13 @@ def execute_antispam_comment_check(body:str, v:User):
 
 def execute_under_siege(v:User, target:Optional[Union[Submission, Comment]], body, type:str) -> bool:
 	if not get_setting("under_siege"): return True
-	if not v.shadowbanned and v.age < UNDER_SIEGE_AGE_THRESHOLD and not v.admin_level >= PERMS['SITE_BYPASS_UNDER_SIEGE_MODE']:
+
+	if type in ('flag', 'message'):
+		threshold = 86400
+	else:
+		threshold = UNDER_SIEGE_AGE_THRESHOLD
+
+	if not v.shadowbanned and v.age < threshold and not v.admin_level >= PERMS['SITE_BYPASS_UNDER_SIEGE_MODE']:
 		v.shadowbanned = AUTOJANNY_ID
 
 		ma = ModAction(
