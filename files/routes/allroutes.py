@@ -58,8 +58,8 @@ def after_request(response:Response):
 	if response.status_code < 400:
 		_commit_and_close_db()
 
-	if request.method == "POST":
-		r.delete(f'LIMITER/{get_CF()}/{request.endpoint}:{request.path}/1/2/second')
+	if request.method == "POST" and not request.path.startswith('/casino/twentyone/'):
+		r.delete(f'LIMITER/{get_CF()}/{request.endpoint}:{request.path}/1/1/second')
 
 	return response
 

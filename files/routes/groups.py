@@ -16,7 +16,7 @@ def ping_groups(v:User):
 	return render_template('groups.html', v=v, groups=groups, cost=GROUP_COST, msg=get_msg(), error=get_error())
 
 @app.post("/create_group")
-@limiter.limit('1/2 second', scope=rpath)
+@limiter.limit('1/second', scope=rpath)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @is_not_permabanned
@@ -55,7 +55,7 @@ def create_group(v):
 	return redirect(f'/ping_groups?msg=!{group} created successfully!')
 
 @app.post("/!<group_name>/apply")
-@limiter.limit('1/2 second', scope=rpath)
+@limiter.limit('1/second', scope=rpath)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
@@ -71,7 +71,7 @@ def join_group(v:User, group_name):
 	return {"message": f"Application submitted to !{group}'s owner (@{group.owner.username}) successfully!"}
 
 @app.post("/!<group_name>/leave")
-@limiter.limit('1/2 second', scope=rpath)
+@limiter.limit('1/second', scope=rpath)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
@@ -116,7 +116,7 @@ def memberships(v:User, group_name):
 	return render_template('group_memberships.html', v=v, group=group, members=members, applications=applications)
 
 @app.post("/!<group_name>/<user_id>/approve")
-@limiter.limit('1/2 second', scope=rpath)
+@limiter.limit('1/second', scope=rpath)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
@@ -139,7 +139,7 @@ def group_approve(v:User, group_name, user_id):
 	return {"message": f'You have approved @{application.user.username} successfully!'}
 
 @app.post("/!<group_name>/<user_id>/reject")
-@limiter.limit('1/2 second', scope=rpath)
+@limiter.limit('1/second', scope=rpath)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required

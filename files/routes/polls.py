@@ -6,7 +6,7 @@ from files.__main__ import app
 
 
 @app.post("/vote/post/option/<int:option_id>")
-@limiter.limit('1/2 second', scope=rpath)
+@limiter.limit('1/second', scope=rpath)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @is_not_permabanned
@@ -88,7 +88,7 @@ def option_votes(option_id, v):
 
 
 @app.post("/vote/comment/option/<int:option_id>")
-@limiter.limit('1/2 second', scope=rpath)
+@limiter.limit('1/second', scope=rpath)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @is_not_permabanned

@@ -244,7 +244,7 @@ def contact(v:Optional[User]):
 	return render_template("contact.html", v=v, msg=get_msg())
 
 @app.post("/contact")
-@limiter.limit('1/2 second', scope=rpath)
+@limiter.limit('1/second', scope=rpath)
 @limiter.limit("1/minute;10/day")
 @limiter.limit("1/minute;10/day", key_func=get_ID)
 @auth_required
@@ -343,7 +343,7 @@ def mobile_app(v:Optional[User]):
 	return render_template("app.html", v=v)
 
 @app.post("/dismiss_mobile_tip")
-@limiter.limit('1/2 second', scope=rpath)
+@limiter.limit('1/second', scope=rpath)
 @limiter.limit(DEFAULT_RATELIMIT)
 def dismiss_mobile_tip():
 	session["tooltip_last_dismissed"] = int(time.time())

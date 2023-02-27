@@ -80,7 +80,7 @@ def lottershe(v:User):
 
 # Slots
 @app.post("/casino/slots")
-@limiter.limit('1/2 second', scope=rpath)
+@limiter.limit('1/second', scope=rpath)
 @limiter.limit(CASINO_RATELIMIT)
 @limiter.limit(CASINO_RATELIMIT, key_func=get_ID)
 @auth_required
@@ -113,7 +113,7 @@ def pull_slots(v:User):
 
 # 21
 @app.post("/casino/twentyone/deal")
-@limiter.limit('1/2 second', scope=rpath)
+@limiter.limit('1/second', scope=rpath)
 @limiter.limit(CASINO_RATELIMIT)
 @limiter.limit(CASINO_RATELIMIT, key_func=get_ID)
 @auth_required
@@ -134,7 +134,7 @@ def blackjack_deal_to_player(v:User):
 
 
 @app.post("/casino/twentyone/hit")
-@limiter.limit('1/2 second', scope=rpath)
+@limiter.limit('1/second', scope=rpath)
 @limiter.limit(CASINO_RATELIMIT)
 @limiter.limit(CASINO_RATELIMIT, key_func=get_ID)
 @auth_required
@@ -151,7 +151,7 @@ def blackjack_player_hit(v:User):
 
 
 @app.post("/casino/twentyone/stay")
-@limiter.limit('1/2 second', scope=rpath)
+@limiter.limit('1/second', scope=rpath)
 @limiter.limit(CASINO_RATELIMIT)
 @limiter.limit(CASINO_RATELIMIT, key_func=get_ID)
 @auth_required
@@ -168,7 +168,7 @@ def blackjack_player_stay(v:User):
 
 
 @app.post("/casino/twentyone/double-down")
-@limiter.limit('1/2 second', scope=rpath)
+@limiter.limit('1/second', scope=rpath)
 @limiter.limit(CASINO_RATELIMIT)
 @limiter.limit(CASINO_RATELIMIT, key_func=get_ID)
 @auth_required
@@ -185,7 +185,7 @@ def blackjack_player_doubled_down(v:User):
 
 
 @app.post("/casino/twentyone/buy-insurance")
-@limiter.limit('1/2 second', scope=rpath)
+@limiter.limit('1/second', scope=rpath)
 @limiter.limit(CASINO_RATELIMIT)
 @limiter.limit(CASINO_RATELIMIT, key_func=get_ID)
 @auth_required
@@ -215,7 +215,7 @@ def roulette_get_bets(v:User):
 
 
 @app.post("/casino/roulette/place-bet")
-@limiter.limit('1/2 second', scope=rpath)
+@limiter.limit('1/second', scope=rpath)
 @limiter.limit(CASINO_RATELIMIT)
 @limiter.limit(CASINO_RATELIMIT, key_func=get_ID)
 @auth_required
