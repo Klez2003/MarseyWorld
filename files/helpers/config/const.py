@@ -492,8 +492,8 @@ PERMS = { # Minimum admin_level to perform action.
  	'BLACKJACK_NOTIFICATIONS': 7,
  	'IGNORE_BADGE_BLACKLIST': 7,
  	'VIEW_DM_IMAGES': 7,
+ 	'SEE_GHOST_VOTES': 7,
 
- 	'SEE_GHOST_VOTES': 8,
  	'MODS_EVERY_HOLE': 8,
 }
 
