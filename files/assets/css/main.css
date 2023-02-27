@@ -7152,7 +7152,7 @@ sub, sup {
 
 @media (max-width: 768px) {
 	.comment-text:not(.has_show_more) {
-		max-height: 100vh;
+		max-height: 400vh;
 		overflow: auto !important;
 	}
 }
