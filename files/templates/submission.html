@@ -39,7 +39,7 @@
 						{% if v.id==p.author_id %}
 							<button type="button" class="nobackground btn btn-link btn-block btn-lg text-left text-muted" data-bs-dismiss="modal" data-nonce="{{g.nonce}}" data-onclick="togglePostEdit('{{p.id}}')"><i class="far fa-edit text-center text-muted mr-2"></i>Edit</button>
 						{% elif p.body and v.admin_level < PERMS['POST_EDITING']  %}
-							<button type="button" class="nobackground btn btn-link btn-block btn-lg text-left text-muted" data-bs-dismiss="modal" data-nonce="{{g.nonce}}" data-onclick="expandMarkdown('{{p.id}}','p')"><i class="fas text-expand-icon-{{p.id}} fa-expand-alt text-center mr-2"></i><span class="expand-text-p-{{p.id}}">View source</span></button>
+							<button type="button" class="nobackground btn btn-link btn-block btn-lg text-left text-muted" data-bs-dismiss="modal" data-nonce="{{g.nonce}}" data-onclick="expandMarkdown('{{p.fullname}}')"><i class="fas text-expand-icon-{{p.fullname}} fa-expand-alt text-center mr-2"></i><span class="expand-text-{{p.fullname}}">View source</span></button>
 						{% endif %}
 
 						{% include "post_actions_mobile.html" %}
@@ -212,7 +212,7 @@
 						{% if v and v.can_edit(p) %}
 							<button type="button" class="list-inline-item" data-nonce="{{g.nonce}}" data-onclick="togglePostEdit('{{p.id}}')"><i class="fas fa-edit"></i>Edit</button>
 						{% elif v and v.id != p.author_id and p.body and not v_forbid_deleted %}
-							<button type="button" class="list-inline-item" data-nonce="{{g.nonce}}" data-onclick="expandMarkdown('{{p.id}}','p')"><i class="fas text-expand-icon-{{p.id}} fa-expand-alt"></i><span class="expand-text-p-{{p.id}}">View source</span></button>
+							<button type="button" class="list-inline-item" data-nonce="{{g.nonce}}" data-onclick="expandMarkdown('{{p.fullname}}')"><i class="fas text-expand-icon-{{p.fullname}} fa-expand-alt"></i><span class="expand-text-{{p.fullname}}">View source</span></button>
 						{% endif %}
 
 						{% include 'post_actions.html' %}
@@ -292,7 +292,7 @@
 </div>
 
 {% if v and v.id != p.author_id and p.body and not v_forbid_deleted %}
-	<div autocomplete="off" class="markdown d-none card border my-2 p-3 comment-box form-control rounded" id="markdown-{{p.id}}" readonly>{{p.body.strip()}}</div>
+	<div autocomplete="off" class="markdown d-none card border my-2 p-3 comment-box form-control rounded" id="markdown-{{p.fullname}}" readonly>{{p.body.strip()}}</div>
 {% endif %}
 
 <div class="row border-md-0 comment-section pb-3">

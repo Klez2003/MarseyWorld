@@ -2,13 +2,13 @@ function poll_vote_no_v() {
 	showToast(false, "Only logged-in users can vote!");
 }
 
-function expandMarkdown(id,type) {
-	const ta = document.getElementById('markdown-'+id);
+function expandMarkdown(fullname) {
+	const ta = document.getElementById('markdown-'+fullname);
 	ta.classList.toggle('d-none');
-	document.getElementsByClassName('text-expand-icon-'+id)[0].classList.toggle('fa-expand-alt');
-	document.getElementsByClassName('text-expand-icon-'+id)[0].classList.toggle('fa-compress-alt');
+	document.getElementsByClassName('text-expand-icon-'+fullname)[0].classList.toggle('fa-expand-alt');
+	document.getElementsByClassName('text-expand-icon-'+fullname)[0].classList.toggle('fa-compress-alt');
 
-	const items = document.getElementsByClassName(`expand-text-${type}-${id}`)
+	const items = document.getElementsByClassName(`expand-text-${fullname}`)
 	for (let i=0; i < items.length; i++)
 	{
 		const e = items[i]
@@ -36,7 +36,7 @@ function collapse_comment(id) {
 		vids[i].pause()
 	}
 
-	const ta = document.getElementById('markdown-'+id);
+	const ta = document.getElementById('markdown-c_'+id);
 	if (!ta.classList.contains('d-none'))
-		expandMarkdown(id,'c')
+		expandMarkdown(`c_${id}`)
 };

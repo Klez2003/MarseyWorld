@@ -1,6 +1,6 @@
 function expandText(id) {
 	document.getElementById('post-text-'+id).classList.toggle('d-none');
-	for (const e of document.getElementsByClassName('text-expand-icon-'+id))
+	for (const e of document.getElementsByClassName('text-expand-icon-p_'+id))
 	{
 		e.classList.toggle('fa-expand-alt');
 		e.classList.toggle('fa-compress-alt');

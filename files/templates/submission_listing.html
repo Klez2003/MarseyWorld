@@ -116,7 +116,7 @@
 	<div class="d-flex" style="flex-basis:146px"></div>
 	<ul class="list-inline text-right d-flex">
 		{% if p.realbody(v, listing=True) %}
-			<button type="button" class="list-inline-item ml-2" data-nonce="{{g.nonce}}" data-onclick="expandText('{{p.id}}')"><i class="fas fa-expand-alt mx-0 text-expand-icon-{{p.id}}"></i></button>
+			<button type="button" class="list-inline-item ml-2" data-nonce="{{g.nonce}}" data-onclick="expandText('{{p.id}}')"><i class="fas fa-expand-alt mx-0 text-expand-icon-{{p.fullname}}"></i></button>
 		{% endif %}
 		<a class="list-inline-item" {% if v and v.newtab %}data-target="t" target="_blank"{% endif %} href="{{p.permalink}}">
 			<i class="fas fa-comment-dots mr-2"></i>{{p.comment_count}}
@@ -144,7 +144,7 @@
 			</li>
 
 			{% if p.realbody(v, listing=True) %}
-				<button type="button" class="list-inline-item ml-2" data-nonce="{{g.nonce}}" data-onclick="expandText('{{p.id}}')"><i class="fas fa-expand-alt mx-0 text-expand-icon-{{p.id}}"></i></button>
+				<button type="button" class="list-inline-item ml-2" data-nonce="{{g.nonce}}" data-onclick="expandText('{{p.id}}')"><i class="fas fa-expand-alt mx-0 text-expand-icon-{{p.fullname}}"></i></button>
 			{% endif %}
 
 			{% if v %}

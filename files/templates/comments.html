@@ -408,7 +408,7 @@
 
 								<button type="button" id="delete-{{c.id}}" class="btn caction py-0 nobackground px-1 text-muted {% if c.deleted_utc %}d-none{% endif %}" data-bs-toggle="modal" data-bs-target="#deleteCommentModal" data-nonce="{{g.nonce}}" data-onclick="delete_commentModal(this, '{{c.id}}')"><i class="fas fa-trash-alt fa-fw"></i>Delete</button>
 							{% elif v and c.body %}
-								<button type="button" class="btn caction py-0 nobackground px-1 text-muted" data-nonce="{{g.nonce}}" data-onclick="expandMarkdown('{{c.id}}','c')"><i class="fas text-expand-icon-{{c.id}} fa-expand-alt"></i><span class="expand-text-c-{{c.id}}">View source</span></button>
+								<button type="button" class="btn caction py-0 nobackground px-1 text-muted" data-nonce="{{g.nonce}}" data-onclick="expandMarkdown('{{c.fullname}}')"><i class="fas text-expand-icon-{{c.fullname}} fa-expand-alt"></i><span class="expand-text-{{c.fullname}}">View source</span></button>
 							{% endif %}
 						{% endif %}
 
@@ -492,7 +492,7 @@
 			</div>
 
 		{% if v and v.id != c.author_id and c.body %}
-			<div autocomplete="off" class="markdown d-none card border my-2 p-3 comment-box form-control rounded" id="markdown-{{c.id}}" readonly>{{c.body.strip()}}</div>
+			<div autocomplete="off" class="markdown d-none card border my-2 p-3 comment-box form-control rounded" id="markdown-{{c.fullname}}" readonly>{{c.body.strip()}}</div>
 		{% endif %}
 
 		{% if c.parent_submission or c.wall_user_id %}
@@ -596,7 +596,7 @@
 							<button type="button" id="delete2-{{c.id}}" class="{% if c.deleted_utc %}d-none{% endif %} list-group-item text-danger" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#deleteCommentModal" data-nonce="{{g.nonce}}" data-onclick="delete_commentModal(this, '{{c.id}}')"><i class="far fa-trash-alt text-danger mr-2"></i>Delete</button>
 						{% else %}
 							{% if c.body %}
-								<button type="button" data-bs-dismiss="modal" data-nonce="{{g.nonce}}" data-onclick="expandMarkdown('{{c.id}}','c')" class="list-group-item"><i class="fas text-expand-icon-{{c.id}} fa-expand-alt mr-2"></i><span class="expand-text-c-{{c.id}}">View source</span></button>
+								<button type="button" data-bs-dismiss="modal" data-nonce="{{g.nonce}}" data-onclick="expandMarkdown('{{c.fullname}}')" class="list-group-item"><i class="fas text-expand-icon-{{c.fullname}} fa-expand-alt mr-2"></i><span class="expand-text-{{c.fullname}}">View source</span></button>
 							{% endif %}
 
 							{% if not c.ghost %}
