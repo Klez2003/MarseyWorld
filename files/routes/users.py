@@ -1138,6 +1138,9 @@ def unfollow_user(username, v):
 		if not v.shadowbanned:
 			send_notification(target.id, f"@{v.username} has unfollowed you!")
 
+	else:
+		abort(400, f"You're not even following {target.username} to begin with!")
+
 
 	return {"message": f"@{target.username} has been unfollowed!"}
 
