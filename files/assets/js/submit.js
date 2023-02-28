@@ -81,11 +81,14 @@ document.getElementById('file-upload').addEventListener('change', function(){
 	}
 })
 
+const saved_values = ['post-title', 'post-text', 'post-url', 'sub']
+
 function savetext() {
-	localStorage.setItem("post-title", document.getElementById('post-title').value)
-	localStorage.setItem("post-text", document.getElementById('post-text').value)
-	localStorage.setItem("post-url", document.getElementById('post-url').value)
-	localStorage.setItem("sub", document.getElementById('sub').value)
+	for (const id of saved_values)
+	{
+		const value = document.getElementById(id).value
+		if (value) localStorage.setItem(id, value)
+	}
 
 	localStorage.setItem("post-notify", document.getElementById('post-notify').checked)
 	localStorage.setItem("post-new", document.getElementById('post-new').checked)
