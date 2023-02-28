@@ -466,28 +466,52 @@ def execute_lawlz_actions(v:User, p:Submission):
 	g.db.add(ma_2)
 	g.db.add(ma_3)
 
-def process_poll_options(target:Union[Submission, Comment],
-						cls:Union[Type[SubmissionOption], Type[CommentOption]],
-						options:Iterable[str], exclusive:int, friendly_name:str,
-						db:scoped_session) -> None:
-		for option in options:
-			if len(option) > 500: abort(400, f"{friendly_name} option too long!")
-			if cls is SubmissionOption:
-				option = cls(
-					submission_id=target.id,
-					body_html=option,
-					exclusive=exclusive,
-				)
-			else:
-				option = cls(
-					comment_id=target.id,
-					body_html=option,
-					exclusive=exclusive,
-				)
-			db.add(option)
 
 def execute_wordle(c:Comment, body:str):
 	if not FEATURES['WORDLE']: return
 	if not "!wordle" in body: return
 	answer = random.choice(WORDLE_LIST)
 	c.wordle_result = f'_active_{answer}'
+
+
+def process_poll_options(v:User, target:Union[Submission, Comment]):
+
+	patterns = [(poll_regex, 0), (choice_regex, 1)]
+
+	if isinstance(target, Submission) and v and v.admin_level >= PERMS['POST_BETS']:
+		patterns.append((bet_regex, 2))
+
+	option_count = 0
+
+	for pattern, exclusive in patterns:
+		for i in pattern.finditer(target.body):
+			option_count += 1
+
+			if option_count > POLL_MAX_OPTIONS:
+				abort(400, f"Max number of poll options is {POLL_MAX_OPTIONS}")
+
+			body = i.group(1)
+
+			if len(body) > 500:
+				abort(400, f"Poll option body too long! (Max 500 characters)")
+
+			if isinstance(target, Submission):
+				cls = SubmissionOption
+			else:
+				cls = CommentOption
+
+			g.db.flush()
+			existing = g.db.query(cls).filter_by(
+					parent_id=target.id,
+					body=body,
+					exclusive=exclusive,
+				).one_or_none()
+			
+			if not existing:
+				option = cls(
+					parent_id=target.id,
+					body=body,
+					body_html=filter_emojis_only(body),
+					exclusive=exclusive,
+				)
+				g.db.add(option)

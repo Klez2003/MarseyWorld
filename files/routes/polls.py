@@ -35,7 +35,7 @@ def vote_option(option_id, v):
 	if option.exclusive:
 		vote = g.db.query(SubmissionOptionVote).join(SubmissionOption).filter(
 			SubmissionOptionVote.user_id==v.id,
-			SubmissionOptionVote.submission_id==option.submission_id,
+			SubmissionOptionVote.submission_id==option.parent_id,
 			SubmissionOption.exclusive==option.exclusive).all()
 		if vote:
 			if option.exclusive == 2: abort(400, "You already voted on this bet!")
@@ -47,7 +47,7 @@ def vote_option(option_id, v):
 		vote = SubmissionOptionVote(
 			option_id=option_id,
 			user_id=v.id,
-			submission_id=option.submission_id,
+			submission_id=option.parent_id,
 		)
 		g.db.add(vote)
 	elif existing and not option.exclusive:
@@ -107,7 +107,7 @@ def vote_option_comment(option_id, v):
 	if option.exclusive:
 		vote = g.db.query(CommentOptionVote).join(CommentOption).filter(
 			CommentOptionVote.user_id==v.id,
-			CommentOptionVote.comment_id==option.comment_id,
+			CommentOptionVote.comment_id==option.parent_id,
 			CommentOption.exclusive==1).one_or_none()
 		if vote:
 			g.db.delete(vote)
@@ -117,7 +117,7 @@ def vote_option_comment(option_id, v):
 		vote = CommentOptionVote(
 			option_id=option_id,
 			user_id=v.id,
-			comment_id=option.comment_id,
+			comment_id=option.parent_id,
 		)
 		g.db.add(vote)
 	elif existing:

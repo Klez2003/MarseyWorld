@@ -294,11 +294,6 @@ def edit_post(pid, v):
 	body = body.strip()[:POST_BODY_LENGTH_LIMIT(v)] # process_files() may be adding stuff to the body
 
 	if body != p.body:
-		body, bets, options, choices = sanitize_poll_options(v, body, False)
-		process_poll_options(p, SubmissionOption, bets, 2, "Bet", g.db)
-		process_poll_options(p, SubmissionOption, options, 0, "Poll", g.db)
-		process_poll_options(p, SubmissionOption, choices, 1, "Poll", g.db)
-
 		torture = (v.agendaposter and not v.marseyawarded and p.sub != 'chudrama' and v.id == p.author_id)
 
 		body_html = sanitize(body, golden=False, limit_pings=100, showmore=False, torture=torture)
@@ -308,6 +303,8 @@ def edit_post(pid, v):
 
 
 		p.body = body
+
+		process_poll_options(v, p)
 
 		execute_under_siege(v, p, p.body, 'submission')
 
@@ -649,8 +646,6 @@ def submit_post(v:User, sub=None):
 	if len(url) > 2048:
 		abort(400, "There's a 2048 character limit for URLs!")
 
-	body, bets, options, choices = sanitize_poll_options(v, body, True)
-
 	body = process_files(request.files, v, body)
 	body = body.strip()[:POST_BODY_LENGTH_LIMIT(v)] # process_files() adds content to the body, so we need to re-strip
 
@@ -699,12 +694,10 @@ def submit_post(v:User, sub=None):
 	g.db.add(post)
 	g.db.flush()
 
+	process_poll_options(v, post)
+
 	for text in {post.body, post.title, post.url}:
 		if execute_blackjack(v, post, text, 'submission'): break
-
-	process_poll_options(post, SubmissionOption, bets, 2, "Bet", g.db)
-	process_poll_options(post, SubmissionOption, options, 0, "Poll", g.db)
-	process_poll_options(post, SubmissionOption, choices, 1, "Poll", g.db)
 
 	vote = Vote(user_id=v.id,
 				vote_type=1,

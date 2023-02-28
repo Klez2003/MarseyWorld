@@ -285,39 +285,49 @@ class Submission(Base):
 			winner = [x for x in self.options if x.exclusive == 3]
 
 		for o in self.options:
-			if o.exclusive > 1:
-				body += f'''<div class="custom-control mt-2"><input name="option-{self.id}" autocomplete="off" class="custom-control-input bet" type="radio" id="{o.id}" data-nonce="{g.nonce}" data-onclick="bet_vote(this,'{o.id}')"'''
-				if o.voted(v): body += " checked "
-				if not (v and v.coins >= POLL_BET_COINS) or self.total_bet_voted(v): body += " disabled "
+			option_body = ''
 
-				body += f'''><label class="custom-control-label" for="{o.id}">{o.body_html}<span class="presult-{self.id}'''
-				body += f'"> - <a href="/votes/post/option/{o.id}"><span id="option-{o.id}">{o.upvotes}</span> bets</a>'
+			if o.exclusive > 1:
+				option_body += f'''<div class="custom-control mt-2"><input name="option-{self.id}" autocomplete="off" class="custom-control-input bet" type="radio" id="{o.id}" data-nonce="{g.nonce}" data-onclick="bet_vote(this,'{o.id}')"'''
+				if o.voted(v): option_body += " checked "
+				if not (v and v.coins >= POLL_BET_COINS) or self.total_bet_voted(v): option_body += " disabled "
+
+				option_body += f'''><label class="custom-control-label" for="{o.id}">{o.body_html}<span class="presult-{self.id}'''
+				option_body += f'"> - <a href="/votes/post/option/{o.id}"><span id="option-{o.id}">{o.upvotes}</span> bets</a>'
 				if not self.total_bet_voted(v):
-					body += f'''<span class="cost"> (cost of entry: {POLL_BET_COINS} coins)</span>'''
-				body += "</label>"
+					option_body += f'''<span class="cost"> (cost of entry: {POLL_BET_COINS} coins)</span>'''
+				option_body += "</label>"
 
 				if o.exclusive == 3:
-					body += " - <b>WINNER!</b>"
+					option_body += " - <b>WINNER!</b>"
 
 				if not winner and v and v.admin_level >= PERMS['POST_BETS_DISTRIBUTE']:
-					body += f'''<button class="btn btn-primary distribute" data-areyousure="postToastReload(this,'/distribute/{o.id}')" data-nonce="{g.nonce}" data-onclick="areyousure(this)">Declare winner</button>'''
-				body += "</div>"
+					option_body += f'''<button class="btn btn-primary distribute" data-areyousure="postToastReload(this,'/distribute/{o.id}')" data-nonce="{g.nonce}" data-onclick="areyousure(this)">Declare winner</button>'''
+				option_body += "</div>"
 			else:
 				input_type = 'radio' if o.exclusive else 'checkbox'
-				body += f'<div class="custom-control mt-2"><input type="{input_type}" class="custom-control-input" id="post-{o.id}" name="option-{self.id}"'
-				if o.voted(v): body += " checked"
+				option_body += f'<div class="custom-control mt-2"><input type="{input_type}" class="custom-control-input" id="post-{o.id}" name="option-{self.id}"'
+				if o.voted(v): option_body += " checked"
 
 				if v:
 					sub = self.sub
-					if sub in {'furry','vampire','racist','femboy'} and not v.house.lower().startswith(sub): body += ' disabled '
-					body += f''' data-nonce="{g.nonce}" data-onclick="poll_vote_{o.exclusive}('{o.id}', '{self.id}', 'post')"'''
+					if sub in {'furry','vampire','racist','femboy'} and not v.house.lower().startswith(sub): option_body += ' disabled '
+					option_body += f''' data-nonce="{g.nonce}" data-onclick="poll_vote_{o.exclusive}('{o.id}', '{self.id}', 'post')"'''
 				else:
-					body += f''' data-nonce="{g.nonce}" data-onclick="poll_vote_no_v()"'''
+					option_body += f''' data-nonce="{g.nonce}" data-onclick="poll_vote_no_v()"'''
 
-				body += f'''><label class="custom-control-label" for="post-{o.id}">{o.body_html}<span class="presult-{self.id}'''
-				if not self.total_poll_voted(v): body += ' d-none'
-				body += f'"> - <a href="/votes/post/option/{o.id}"><span id="score-post-{o.id}">{o.upvotes}</span> votes</a></label></div>'''
+				option_body += f'''><label class="custom-control-label" for="post-{o.id}">{o.body_html}<span class="presult-{self.id}'''
+				if not self.total_poll_voted(v): option_body += ' d-none'
+				option_body += f'"> - <a href="/votes/post/option/{o.id}"><span id="score-post-{o.id}">{o.upvotes}</span> votes</a></label></div>'''
 
+			if o.exclusive > 1: s = '!!'
+			elif o.exclusive: s = '&amp;&amp;'
+			else: s = '$$'
+
+			if f'{s}{o.body}{s}' in body:
+				body = body.replace(f'{s}{o.body}{s}', option_body)
+			else:
+				body += option_body
 
 		if not listing and not self.ghost and self.author.show_sig(v):
 			body += f'<section id="signature-{self.author.id}" class="user-signature"><hr>{self.author.sig_html}</section>'

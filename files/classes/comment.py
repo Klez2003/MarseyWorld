@@ -276,20 +276,29 @@ class Comment(Base):
 
 		for o in self.options:
 			input_type = 'radio' if o.exclusive else 'checkbox'
-			body += f'<div class="custom-control"><input type="{input_type}" class="custom-control-input" id="comment-{o.id}" name="option-{self.id}"'
-			if o.voted(v): body += " checked"
+			option_body = f'<div class="custom-control"><input type="{input_type}" class="custom-control-input" id="comment-{o.id}" name="option-{self.id}"'
+			if o.voted(v): option_body += " checked"
 
 			if v:
 				if self.parent_submission:
 					sub = self.post.sub
-					if sub in {'furry','vampire','racist','femboy'} and not v.house.lower().startswith(sub): body += ' disabled '
-				body += f''' data-nonce="{g.nonce}" data-onclick="poll_vote_{o.exclusive}('{o.id}', '{self.id}', 'comment')"'''
+					if sub in {'furry','vampire','racist','femboy'} and not v.house.lower().startswith(sub): option_body += ' disabled '
+				option_body += f''' data-nonce="{g.nonce}" data-onclick="poll_vote_{o.exclusive}('{o.id}', '{self.id}', 'comment')"'''
 			else:
-				body += f''' data-nonce="{g.nonce}" data-onclick="poll_vote_no_v()"'''
+				option_body += f''' data-nonce="{g.nonce}" data-onclick="poll_vote_no_v()"'''
 
-			body += f'''><label class="custom-control-label" for="comment-{o.id}">{o.body_html}<span class="presult-{self.id}'''
-			if not self.total_poll_voted(v): body += ' d-none'
-			body += f'"> - <a href="/votes/comment/option/{o.id}"><span id="score-comment-{o.id}">{o.upvotes}</span> votes</a></label></div>'''
+			option_body += f'''><label class="custom-control-label" for="comment-{o.id}">{o.body_html}<span class="presult-{self.id}'''
+			if not self.total_poll_voted(v): option_body += ' d-none'
+			option_body += f'"> - <a href="/votes/comment/option/{o.id}"><span id="score-comment-{o.id}">{o.upvotes}</span> votes</a></label></div>'''
+
+			if o.exclusive > 1: s = '!!'
+			elif o.exclusive: s = '&amp;&amp;'
+			else: s = '$$'
+
+			if f'{s}{o.body}{s}' in body:
+				body = body.replace(f'{s}{o.body}{s}', option_body)
+			else:
+				body += option_body
 
 		if not self.ghost and self.author.show_sig(v):
 			body += f'<section id="signature-{self.author.id}" class="user-signature"><hr>{self.author.sig_html}</section>'

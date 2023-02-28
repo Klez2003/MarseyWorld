@@ -150,8 +150,6 @@ def comment(v:User):
 	if not v.admin_level >= PERMS['POST_COMMENT_MODERATION'] and parent_user.any_block_exists(v):
 		abort(403, "You can't reply to users who have blocked you or users that you have blocked!")
 
-	body, _, options, choices = sanitize_poll_options(v, body, False)
-
 	if request.files.get("file") and not g.is_tor:
 		files = request.files.getlist('file')[:20]
 
@@ -264,14 +262,13 @@ def comment(v:User):
 	g.db.add(c)
 	g.db.flush()
 
+	process_poll_options(v, c)
+
 	execute_blackjack(v, c, c.body, "comment")
 	execute_under_siege(v, c, c.body, "comment")
 
 	if c.level == 1: c.top_comment_id = c.id
 	else: c.top_comment_id = parent.top_comment_id
-
-	process_poll_options(c, CommentOption, options, 0, "Poll", g.db)
-	process_poll_options(c, CommentOption, choices, 1, "Poll", g.db)
 
 	if post_target.id not in ADMIGGER_THREADS and v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in c.body.lower() and not (posting_to_submission and post_target.sub == 'chudrama'):
 		c.is_banned = True
@@ -403,10 +400,6 @@ def edit_comment(cid, v):
 		elif v.bird and len(body) > 140:
 			abort(403, "You have to type less than 140 characters!")
 
-		body, _, options, choices = sanitize_poll_options(v, body, False)
-		process_poll_options(c, CommentOption, options, 0, "Poll", g.db)
-		process_poll_options(c, CommentOption, choices, 1, "Poll", g.db)
-
 		execute_antispam_comment_check(body, v)
 
 		body = process_files(request.files, v, body)
@@ -428,6 +421,9 @@ def edit_comment(cid, v):
 			abort(403, "You can only type marseys!")
 
 		c.body = body
+
+		process_poll_options(v, c)
+
 		c.body_html = body_html
 
 		execute_blackjack(v, c, c.body, "comment")

@@ -11,7 +11,8 @@ class SubmissionOption(Base):
 	__tablename__ = "submission_options"
 
 	id = Column(Integer, primary_key=True)
-	submission_id = Column(Integer, ForeignKey("submissions.id"))
+	parent_id = Column(Integer, ForeignKey("submissions.id"))
+	body = Column(Text)
 	body_html = Column(Text)
 	exclusive = Column(Integer)
 	created_utc = Column(Integer)
@@ -66,7 +67,8 @@ class CommentOption(Base):
 	__tablename__ = "comment_options"
 
 	id = Column(Integer, primary_key=True)
-	comment_id = Column(Integer, ForeignKey("comments.id"))
+	parent_id = Column(Integer, ForeignKey("comments.id"))
+	body = Column(Text)
 	body_html = Column(Text)
 	exclusive = Column(Integer)
 	created_utc = Column(Integer)

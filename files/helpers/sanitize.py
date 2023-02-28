@@ -647,18 +647,3 @@ def validate_css(css):
 			return False, f"The domain '{domain}' is not allowed, please use one of these domains\n\n{approved_embed_hosts}."
 
 	return True, ""
-
-def sanitize_poll_options(v:User, body:str, allow_bets:bool) -> tuple[str, List[Any], List[Any], List[Any]]:
-	def sanitize_poll_type(body:str, re:re.Pattern) -> tuple[str, List[str]]:
-		opts = []
-		for i in list(re.finditer(body))[:POLL_MAX_OPTIONS] if POLL_MAX_OPTIONS else list(re.finditer(body)):
-			opts.append(filter_emojis_only(i.group(1)))
-			body = body.replace(i.group(0), "")
-		return (body, opts)
-
-	bets = []
-	if allow_bets and v and v.admin_level >= PERMS['POST_BETS']:
-		body, bets = sanitize_poll_type(body, bet_regex)
-	body, options = sanitize_poll_type(body, poll_regex)
-	body, choices = sanitize_poll_type(body, choice_regex)
-	return (body, bets, options, choices)
