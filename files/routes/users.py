@@ -591,12 +591,17 @@ def messagereply(v:User):
 
 	body_html = sanitize(body)
 
+	if parent.sentto == MODMAIL_ID:
+		sentto = MODMAIL_ID
+	else:
+		sentto = user_id
+
 	c = Comment(author_id=v.id,
 							parent_submission=None,
 							parent_comment_id=id,
 							top_comment_id=parent.top_comment_id,
 							level=parent.level + 1,
-							sentto=parent.sentto,
+							sentto=sentto,
 							body=body,
 							body_html=body_html,
 							)
