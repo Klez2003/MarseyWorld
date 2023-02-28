@@ -237,6 +237,7 @@ if SITE_NAME == 'rDrama':
 		'sanctioned-suicide.org',
 		'ar15.com',
 		'neogaf.com',
+		'thebore.com',
 
 		#twitter-like
 		'gab.com',
