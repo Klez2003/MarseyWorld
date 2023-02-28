@@ -7,10 +7,10 @@
 					<a class="nav-link{% if path == '' %} active{% endif %}" href="/@{{u.username}}#content">Wall</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link{% if path == '/posts' %} active{% endif %}" href="/@{{u.username}}/posts#content">Posts <span class="count">({{u.post_count}})</span></a>
+					<a class="nav-link{% if path == '/posts' %} active{% endif %}" href="/@{{u.username}}/posts#content">Posts <span class="count">({{u.real_post_count(v)}})</span></a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link{% if path == '/comments' %} active{% endif %}" href="/@{{u.username}}/comments#content">Comments <span class="count">({{u.comment_count}})</span></a>
+					<a class="nav-link{% if path == '/comments' %} active{% endif %}" href="/@{{u.username}}/comments#content">Comments <span class="count">({{u.real_comment_count(v)}})</span></a>
 				</li>
 				{% if u.id == v.id %}
 					<li class="nav-item">

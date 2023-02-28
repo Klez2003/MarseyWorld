@@ -8,6 +8,7 @@ from sqlalchemy.orm import aliased, deferred, Query
 from sqlalchemy.sql import case, func, literal
 from sqlalchemy.sql.expression import not_, and_, or_
 from sqlalchemy.sql.sqltypes import *
+from flask import g
 
 from files.classes import Base
 from files.classes.casino_game import CasinoGame
@@ -772,6 +773,19 @@ class User(Base):
 		return f"{SITE_FULL}/i/default-profile-pic.webp?v=1008"
 
 	@lazy
+	def real_post_count(self, v):
+		if not self.shadowbanned: return self.post_count
+		if v and (v.id == self.id or v.can_see_shadowbanned): return self.post_count
+		return 0
+
+	@lazy
+	def real_comment_count(self, v):
+		if not self.shadowbanned: return self.comment_count
+		if v and (v.id == self.id or v.can_see_shadowbanned): return self.comment_count
+		return 0
+
+
+	@lazy
 	def json_popover(self, v):
 		data = {'username': self.username,
 				'url': self.url,
@@ -781,8 +795,8 @@ class User(Base):
 				'bannerurl': self.banner_url,
 				'bio_html': self.bio_html_eager,
 				'coins': self.coins,
-				'post_count': 0 if self.shadowbanned and not (v and v.can_see_shadowbanned) else self.post_count,
-				'comment_count': 0 if self.shadowbanned and not (v and v.can_see_shadowbanned) else self.comment_count,
+				'post_count': self.real_post_count(v),
+				'comment_count': self.real_comment_count(v),
 				'badges': [x.path for x in self.badges],
 				'created_date': self.created_date,
 				}
@@ -818,8 +832,8 @@ class User(Base):
 				'flair': self.customtitle,
 				'badges': [x.json for x in self.badges],
 				'coins': self.coins,
-				'post_count': self.post_count,
-				'comment_count': self.comment_count
+				'post_count': self.real_post_count(g.v),
+				'comment_count': self.real_comment_count(g.v)
 				}
 
 
