@@ -326,7 +326,7 @@ class Submission(Base):
 
 			if f'{s}{o.body}{s}' in body:
 				body = body.replace(f'{s}{o.body}{s}', option_body)
-			elif not o.created_utc or o.created_utc < 1677622477:
+			elif not o.created_utc or o.created_utc < 1677622270:
 				body += option_body
 
 		if not listing and not self.ghost and self.author.show_sig(v):
