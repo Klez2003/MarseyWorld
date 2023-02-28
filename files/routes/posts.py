@@ -251,97 +251,6 @@ def more_comments(v, cid):
 
 	return render_template("comments.html", v=v, comments=comments, p=p, render_replies=True)
 
-@app.post("/edit_post/<int:pid>")
-@limiter.limit('1/second', scope=rpath)
-@limiter.limit("10/minute;100/hour;200/day")
-@limiter.limit("10/minute;100/hour;200/day", key_func=get_ID)
-@is_not_permabanned
-def edit_post(pid, v):
-	p = get_post(pid)
-	if not v.can_edit(p): abort(403)
-
-	# Disable edits on things older than 1wk unless it's a draft or editor is a jannie
-	if (time.time() - p.created_utc > 7*24*60*60 and not p.private
-			and not v.admin_level >= PERMS['POST_EDITING']):
-		abort(403, "You can't edit posts older than 1 week!")
-
-	title = sanitize_raw_title(request.values.get("title", ""))
-	body = sanitize_raw_body(request.values.get("body", ""), True)
-
-	if v.id == p.author_id:
-		if v.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
-			abort(403, "You have to type more than 280 characters!")
-		elif v.bird and len(body) > 140:
-			abort(403, "You have to type less than 140 characters!")
-
-	if not title:
-		abort(400, "Please enter a better title!")
-	if title != p.title:
-		torture = (v.agendaposter and not v.marseyawarded and p.sub != 'chudrama' and v.id == p.author_id)
-
-		title_html = filter_emojis_only(title, golden=False, torture=torture)
-
-		if v.id == p.author_id and v.marseyawarded and not marseyaward_title_regex.fullmatch(title_html):
-			abort(403, "You can only type marseys!")
-
-		if 'megathread' in title.lower() and 'megathread' not in p.title.lower():
-			p.new = True
-
-		p.title = title
-		p.title_html = title_html
-
-	body = process_files(request.files, v, body)
-	body = body.strip()[:POST_BODY_LENGTH_LIMIT(v)] # process_files() may be adding stuff to the body
-
-	if body != p.body:
-		torture = (v.agendaposter and not v.marseyawarded and p.sub != 'chudrama' and v.id == p.author_id)
-
-		body_html = sanitize(body, golden=False, limit_pings=100, showmore=False, torture=torture)
-
-		if v.id == p.author_id and v.marseyawarded and marseyaward_body_regex.search(body_html):
-			abort(403, "You can only type marseys!")
-
-
-		p.body = body
-
-		process_poll_options(v, p)
-
-		execute_under_siege(v, p, p.body, 'submission')
-
-		for text in [p.body, p.title, p.url]:
-			if execute_blackjack(v, p, text, 'submission'): break
-
-		if len(body_html) > POST_BODY_HTML_LENGTH_LIMIT:
-			abort(400, "Submission body_html too long!")
-
-		p.body_html = body_html
-
-		if v.id == p.author_id and v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in f'{p.body}{p.title}'.lower() and p.sub != 'chudrama':
-			abort(403, f'You have to include "{AGENDAPOSTER_PHRASE}" in your post!')
-
-
-	if not p.private and not p.ghost:
-		notify_users = NOTIFY_USERS(f'{p.title} {p.body}', v)
-		if notify_users:
-			cid, text = notif_comment2(p)
-			for x in notify_users:
-				add_notif(cid, x, text, pushnotif_url=p.permalink)
-
-	if v.id == p.author_id:
-		if int(time.time()) - p.created_utc > 60 * 3: p.edited_utc = int(time.time())
-		g.db.add(p)
-	else:
-		ma=ModAction(
-			kind="edit_post",
-			user_id=v.id,
-			target_submission_id=p.id
-		)
-		g.db.add(ma)
-
-
-	return redirect(p.permalink)
-
-
 def thumbnail_thread(pid:int, vid:int):
 	db = db_session()
 	def expand_url(post_url, fragment_url):
@@ -1047,3 +956,93 @@ def get_post_title(v):
 	title = html.unescape(title)
 
 	return {"url": url, "title": title}
+
+@app.post("/edit_post/<int:pid>")
+@limiter.limit('1/second', scope=rpath)
+@limiter.limit("10/minute;100/hour;200/day")
+@limiter.limit("10/minute;100/hour;200/day", key_func=get_ID)
+@is_not_permabanned
+def edit_post(pid, v):
+	p = get_post(pid)
+	if not v.can_edit(p): abort(403)
+
+	# Disable edits on things older than 1wk unless it's a draft or editor is a jannie
+	if (time.time() - p.created_utc > 7*24*60*60 and not p.private
+			and not v.admin_level >= PERMS['POST_EDITING']):
+		abort(403, "You can't edit posts older than 1 week!")
+
+	title = sanitize_raw_title(request.values.get("title", ""))
+	body = sanitize_raw_body(request.values.get("body", ""), True)
+
+	if v.id == p.author_id:
+		if v.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
+			abort(403, "You have to type more than 280 characters!")
+		elif v.bird and len(body) > 140:
+			abort(403, "You have to type less than 140 characters!")
+
+	if not title:
+		abort(400, "Please enter a better title!")
+	if title != p.title:
+		torture = (v.agendaposter and not v.marseyawarded and p.sub != 'chudrama' and v.id == p.author_id)
+
+		title_html = filter_emojis_only(title, golden=False, torture=torture)
+
+		if v.id == p.author_id and v.marseyawarded and not marseyaward_title_regex.fullmatch(title_html):
+			abort(403, "You can only type marseys!")
+
+		if 'megathread' in title.lower() and 'megathread' not in p.title.lower():
+			p.new = True
+
+		p.title = title
+		p.title_html = title_html
+
+	body = process_files(request.files, v, body)
+	body = body.strip()[:POST_BODY_LENGTH_LIMIT(v)] # process_files() may be adding stuff to the body
+
+	if body != p.body:
+		torture = (v.agendaposter and not v.marseyawarded and p.sub != 'chudrama' and v.id == p.author_id)
+
+		body_html = sanitize(body, golden=False, limit_pings=100, showmore=False, torture=torture)
+
+		if v.id == p.author_id and v.marseyawarded and marseyaward_body_regex.search(body_html):
+			abort(403, "You can only type marseys!")
+
+
+		p.body = body
+
+		process_poll_options(v, p)
+
+		execute_under_siege(v, p, p.body, 'submission')
+
+		for text in [p.body, p.title, p.url]:
+			if execute_blackjack(v, p, text, 'submission'): break
+
+		if len(body_html) > POST_BODY_HTML_LENGTH_LIMIT:
+			abort(400, "Submission body_html too long!")
+
+		p.body_html = body_html
+
+		if v.id == p.author_id and v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in f'{p.body}{p.title}'.lower() and p.sub != 'chudrama':
+			abort(403, f'You have to include "{AGENDAPOSTER_PHRASE}" in your post!')
+
+
+	if not p.private and not p.ghost:
+		notify_users = NOTIFY_USERS(f'{p.title} {p.body}', v)
+		if notify_users:
+			cid, text = notif_comment2(p)
+			for x in notify_users:
+				add_notif(cid, x, text, pushnotif_url=p.permalink)
+
+	if v.id == p.author_id:
+		if int(time.time()) - p.created_utc > 60 * 3: p.edited_utc = int(time.time())
+		g.db.add(p)
+	else:
+		ma=ModAction(
+			kind="edit_post",
+			user_id=v.id,
+			target_submission_id=p.id
+		)
+		g.db.add(ma)
+
+
+	return redirect(p.permalink)

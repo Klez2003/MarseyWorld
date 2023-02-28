@@ -374,83 +374,6 @@ def comment(v:User):
 	if v.client: return c.json(db=g.db)
 	return {"comment": render_template("comments.html", v=v, comments=[c])}
 
-@app.post("/edit_comment/<int:cid>")
-@limiter.limit('1/second', scope=rpath)
-@limiter.limit("10/minute;100/hour;200/day")
-@limiter.limit("10/minute;100/hour;200/day", key_func=get_ID)
-@is_not_permabanned
-def edit_comment(cid, v):
-	c = get_comment(cid, v=v)
-
-	if time.time() - c.created_utc > 7*24*60*60 and not (c.post and c.post.private):
-		abort(403, "You can't edit comments older than 1 week!")
-
-	if c.author_id != v.id: abort(403)
-	if not c.parent_submission and not c.wall_user_id:
-		abort(403)
-
-	body = sanitize_raw_body(request.values.get("body", ""), False)
-
-	if len(body) < 1 and not (request.files.get("file") and not g.is_tor):
-		abort(400, "You have to actually type something!")
-
-	if body != c.body or request.files.get("file") and not g.is_tor:
-		if v.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
-			abort(403, "You have to type more than 280 characters!")
-		elif v.bird and len(body) > 140:
-			abort(403, "You have to type less than 140 characters!")
-
-		execute_antispam_comment_check(body, v)
-
-		body = process_files(request.files, v, body)
-		body = body.strip()[:COMMENT_BODY_LENGTH_LIMIT] # process_files potentially adds characters to the post
-
-		body_for_sanitize = body
-		if v.owoify:
-			body_for_sanitize = owoify(body_for_sanitize)
-		if v.marsify:
-			body_for_sanitize = marsify(body_for_sanitize)
-
-		torture = (v.agendaposter and not v.marseyawarded and not (c.parent_submission and c.post.sub == 'chudrama'))
-
-		body_html = sanitize(body_for_sanitize, golden=False, limit_pings=5, torture=torture)
-
-		if len(body_html) > COMMENT_BODY_HTML_LENGTH_LIMIT: abort(400)
-
-		if v.marseyawarded and marseyaward_body_regex.search(body_html):
-			abort(403, "You can only type marseys!")
-
-		c.body = body
-
-		process_poll_options(v, c)
-
-		c.body_html = body_html
-
-		execute_blackjack(v, c, c.body, "comment")
-		execute_under_siege(v, c, c.body, "comment")
-
-		if not (c.parent_submission and c.post.id in ADMIGGER_THREADS) and v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in c.body.lower() and not (c.parent_submission and c.post.sub == 'chudrama'):
-			abort(403, f'You have to include "{AGENDAPOSTER_PHRASE}" in your comment!')
-
-
-		if int(time.time()) - c.created_utc > 60 * 3: c.edited_utc = int(time.time())
-
-		g.db.add(c)
-
-		notify_users = NOTIFY_USERS(body, v)
-
-		for x in notify_users-bots:
-			notif = g.db.query(Notification).filter_by(comment_id=c.id, user_id=x).one_or_none()
-			if not notif:
-				n = Notification(comment_id=c.id, user_id=x)
-				g.db.add(n)
-				if not v.shadowbanned:
-					push_notif({x}, f'New mention of you by @{c.author_name}', c.body, c)
-
-	g.db.commit()
-	return {"body": c.body, "comment": c.realbody(v)}
-
-
 @app.post("/delete/comment/<int:cid>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit(DEFAULT_RATELIMIT)
@@ -670,3 +593,79 @@ def toggle_comment_nsfw(cid, v):
 
 	if comment.over_18: return {"message": "Comment has been marked as +18!"}
 	else: return {"message": "Comment has been unmarked as +18!"}
+
+@app.post("/edit_comment/<int:cid>")
+@limiter.limit('1/second', scope=rpath)
+@limiter.limit("10/minute;100/hour;200/day")
+@limiter.limit("10/minute;100/hour;200/day", key_func=get_ID)
+@is_not_permabanned
+def edit_comment(cid, v):
+	c = get_comment(cid, v=v)
+
+	if time.time() - c.created_utc > 7*24*60*60 and not (c.post and c.post.private):
+		abort(403, "You can't edit comments older than 1 week!")
+
+	if c.author_id != v.id: abort(403)
+	if not c.parent_submission and not c.wall_user_id:
+		abort(403)
+
+	body = sanitize_raw_body(request.values.get("body", ""), False)
+
+	if len(body) < 1 and not (request.files.get("file") and not g.is_tor):
+		abort(400, "You have to actually type something!")
+
+	if body != c.body or request.files.get("file") and not g.is_tor:
+		if v.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
+			abort(403, "You have to type more than 280 characters!")
+		elif v.bird and len(body) > 140:
+			abort(403, "You have to type less than 140 characters!")
+
+		execute_antispam_comment_check(body, v)
+
+		body = process_files(request.files, v, body)
+		body = body.strip()[:COMMENT_BODY_LENGTH_LIMIT] # process_files potentially adds characters to the post
+
+		body_for_sanitize = body
+		if v.owoify:
+			body_for_sanitize = owoify(body_for_sanitize)
+		if v.marsify:
+			body_for_sanitize = marsify(body_for_sanitize)
+
+		torture = (v.agendaposter and not v.marseyawarded and not (c.parent_submission and c.post.sub == 'chudrama'))
+
+		body_html = sanitize(body_for_sanitize, golden=False, limit_pings=5, torture=torture)
+
+		if len(body_html) > COMMENT_BODY_HTML_LENGTH_LIMIT: abort(400)
+
+		if v.marseyawarded and marseyaward_body_regex.search(body_html):
+			abort(403, "You can only type marseys!")
+
+		c.body = body
+
+		process_poll_options(v, c)
+
+		c.body_html = body_html
+
+		execute_blackjack(v, c, c.body, "comment")
+		execute_under_siege(v, c, c.body, "comment")
+
+		if not (c.parent_submission and c.post.id in ADMIGGER_THREADS) and v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in c.body.lower() and not (c.parent_submission and c.post.sub == 'chudrama'):
+			abort(403, f'You have to include "{AGENDAPOSTER_PHRASE}" in your comment!')
+
+
+		if int(time.time()) - c.created_utc > 60 * 3: c.edited_utc = int(time.time())
+
+		g.db.add(c)
+
+		notify_users = NOTIFY_USERS(body, v)
+
+		for x in notify_users-bots:
+			notif = g.db.query(Notification).filter_by(comment_id=c.id, user_id=x).one_or_none()
+			if not notif:
+				n = Notification(comment_id=c.id, user_id=x)
+				g.db.add(n)
+				if not v.shadowbanned:
+					push_notif({x}, f'New mention of you by @{c.author_name}', c.body, c)
+
+	g.db.commit()
+	return {"body": c.body, "comment": c.realbody(v)}
