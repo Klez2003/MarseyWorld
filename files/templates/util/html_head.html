@@ -50,7 +50,7 @@
 				{{0 if u.shadowbanned else u.comment_count}}
 					Comments
 			{%- endif -%}
-			{% if u.bio and (not u.shadowbanned or (v and v.id == u.id)) %}
+			{% if u.bio and (not u.shadowbanned or (v and (v.id == u.id or v.can_see_shadowbanned))) %}
 				- {{u.bio}}
 			{% endif %}
 		{% endset %}
