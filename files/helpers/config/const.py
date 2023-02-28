@@ -496,7 +496,6 @@ PERMS = { # Minimum admin_level to perform action.
  	'SEE_GHOST_VOTES': 7,
 
  	'MODS_EVERY_HOLE': 8,
- 	'CAN_PING_ALL_GROUPS': 8,
 }
 
 FEATURES = {
