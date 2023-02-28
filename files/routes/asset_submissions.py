@@ -192,19 +192,21 @@ def remove_asset(cls, type_name:str, v:User, name:str) -> dict[str, str]:
 	if v.id != asset.submitter_id and v.admin_level < PERMS['MODERATE_PENDING_SUBMITTED_ASSETS']:
 		abort(403)
 	name = asset.name
+
 	if v.id != asset.submitter_id:
 		msg = f"@{v.username} has rejected a {type_name} you submitted: `'{name}'`"
 		send_repeatable_notification(asset.submitter_id, msg)
+
+		ma = ModAction(
+			kind=f"reject_{type_name}",
+			user_id=v.id,
+			_note=name
+		)
+		g.db.add(ma)
+
 	g.db.delete(asset)
 	os.remove(f"/asset_submissions/{type_name}s/{name}.webp")
 	os.remove(f"/asset_submissions/{type_name}s/{name}")
-
-	ma = ModAction(
-		kind=f"reject_{type_name}",
-		user_id=v.id,
-		_note=name
-	)
-	g.db.add(ma)
 
 	return {"message": f"'{name}' removed!"}
 
