@@ -502,12 +502,11 @@ def process_poll_options(v:User, target:Union[Submission, Comment]):
 
 			body_html=filter_emojis_only(body)
 
-			g.db.flush()
 			existing = g.db.query(cls).filter_by(
 					parent_id=target.id,
 					body_html=body_html,
 					exclusive=exclusive,
-				).one_or_none()
+				).first()
 			
 			if not existing:
 				option = cls(
