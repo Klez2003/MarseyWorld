@@ -1218,7 +1218,6 @@ INSERT INTO public.hat_defs VALUES (917, 'Bell Pepper (red)', 'Now you can cospl
 INSERT INTO public.hat_defs VALUES (911, 'Racecar Hat', 'I sleep in a hat with my wife', 2, 500, NULL, 1665355513);
 
 
-
 --
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
@@ -1624,6 +1623,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseycarptrophy',2,'carp head decapitated anticarp trophy defeat dead teaparty',NULL),
 ('marseycarpupset',2,'carpathianflorist administrator jannie janitor fish crying tears',1664262142),
 ('marseycarpwhip',2,'kink punish bdsm naughty chad muscle sexy fish yellow',1674597005),
+('marseycarpwizard',2,'mage magic witch buff muscles swole fish moderator jannie admin wand',1677597536),
 ('marseycarsuicide',2,'kms suicide kill death car vehicle carbon monoxide co muffler suffocation suffocate',NULL),
 ('marseycat',2,'fursona skin animal costume furry neko fursuit cat',NULL),
 ('marseycatgirl',2,'uwu waifu anime fursona furry owo weebshit fursuit',NULL),
@@ -1863,6 +1863,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseydicklet',2,'babydick penis micro dick reaction laugh point and laugh micropenis judgment',NULL),
 ('marseydiehard',2,'die hard christmas holiday terrorist gun bruce willis',NULL),
 ('marseydiffusionspin',2,'ai spin animated spinning rotate',1674031604),
+('marseydilbert',2,'dilbert scottadams scott adams marbert comic ears tie suit pepe frog 4chan hair three',1677545414),
 ('marseydildo',2,'horse',NULL),
 ('marseydimitri',2,'fireemblem anime weeb nintendo videogame lance spear',1674514487),
 ('marseydinojihad',2,'dino jihad islam carpathianflorist beard',1668355278),
@@ -2185,6 +2186,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyhesklennyyouknow',2,'klenvastergan corgi morgan freeman right correct point',1664490676),
 ('marseyhesright',2,'batman lucius fox nolan hes right you know reaction agree thumbs up based morgan freeman correct',NULL),
 ('marseyhibernian',2,'hibernian irish leprechaun blarney guinness shamrock clover luck merchant papist ira hat',NULL),
+('marseyhighfive',2,'high five high5 congrats you go glencoco sports yay nice teamwork',1677531913),
 ('marseyhijab',2,'hijab reading islam jihad muslim allah quran koran',NULL),
 ('marseyhillary',2,'president her turn hilary killary hilldawg clinton',NULL),
 ('marseyhillarybackstab',2,'clinton hilary arkanicide knife stabbing kill murder seth rich death',NULL),
@@ -2449,6 +2451,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseymandela',2,'fat grapes eating mandela fruit cornucopia conspiracy schizo timeline',1673162308),
 ('marseymanifestdestiny',2,'manifest usa american imperialism history expansion territory exploration',1664172279),
 ('marseymanlet',2,'llm short midget dwarf little king',NULL),
+('marseymanul',2,'manul pallascat',1677531421),
 ('marseymanysuchcases',2,'animated many such cases airport luggage suitcase conveyor',NULL),
 ('marseymanysunglasses',2,'shook shock disbelief seamless animated',1674161474),
 ('marseymao',2,'zedong ccp chinese communist communism china',NULL),
@@ -3315,6 +3318,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyupvote2',2,'upvote reddit narwhal orangered updoot',1664658174),
 ('marseyusa',2,'burger patriot america freedom liberty justice love independence freedom guns trump biden state flag',NULL),
 ('marseyuwuw',2,'fursona furry fursuit',NULL),
+('marseyvader',2,'marsvader marseyvader darthvader vader starwars dark side',1677571156),
 ('marseyvampeek',2,'vampire hello wake awaken coffin peek halloween horror',1666234320),
 ('marseyvampire',2,'undead sanguine horror spooky halloween fangs holiday monster',NULL),
 ('marseyvampirebite',2,'cope seethe mask house',1663376896),
