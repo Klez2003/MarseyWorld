@@ -297,7 +297,7 @@ class Comment(Base):
 
 			if f'{s}{o.body}{s}' in body:
 				body = body.replace(f'{s}{o.body}{s}', option_body)
-			elif o.created_utc < 1677622477:
+			elif not o.created_utc or o.created_utc < 1677622477:
 				body += option_body
 
 		if not self.ghost and self.author.show_sig(v):
