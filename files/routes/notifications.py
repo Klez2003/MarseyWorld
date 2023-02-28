@@ -353,7 +353,8 @@ def notifications(v:User):
 
 	total.extend(listing)
 
-	listing2 = []
+	listing2 = {}
+
 	for x in listing:
 		if x.parent_comment_id:
 			parent = x.parent_comment
@@ -363,10 +364,11 @@ def notifications(v:User):
 				for y in parent.replies2:
 					if y.replies2 == None:
 						y.replies2 = []
-			listing2.append(parent)
+			listing2[parent] = ''
 		else:
-			listing2.append(x)
-	listing = listing2
+			listing2[x] = ''
+
+	listing = listing2.keys()
 
 	total.extend(listing)
 
