@@ -24,7 +24,7 @@ def vote_option(option_id, v):
 
 	if option.exclusive == 2:
 		if option.post.total_bet_voted(v):
-			abort(403, "You can't bet on a closed poll!")
+			abort(403, "You can't participate in a closed bet!")
 		if not v.charge_account('coins', POLL_BET_COINS):
 			abort(400, f"You don't have {POLL_BET_COINS} coins!")
 		g.db.add(v)
@@ -36,10 +36,11 @@ def vote_option(option_id, v):
 		vote = g.db.query(SubmissionOptionVote).join(SubmissionOption).filter(
 			SubmissionOptionVote.user_id==v.id,
 			SubmissionOptionVote.submission_id==option.submission_id,
-			SubmissionOption.exclusive==option.exclusive).one_or_none()
+			SubmissionOption.exclusive==option.exclusive).all()
 		if vote:
 			if option.exclusive == 2: abort(400, "You already voted on this bet!")
-			g.db.delete(vote)
+			for x in vote:
+				g.db.delete(x)
 
 	existing = g.db.query(SubmissionOptionVote).filter_by(option_id=option_id, user_id=v.id).one_or_none()
 	if not existing:
