@@ -292,7 +292,11 @@ def admin_app_id_comments(v, aid):
 @admin_level_required(PERMS['APPS_MODERATION'])
 def admin_apps_list(v):
 
-	apps = g.db.query(OauthApp).order_by(OauthApp.id.desc()).all()
+	not_approved = g.db.query(OauthApp).filter(OauthApp.client_id == None).order_by(OauthApp.id.desc()).all()
+
+	approved = g.db.query(OauthApp).filter(OauthApp.client_id != None).order_by(OauthApp.id.desc()).all()
+
+	apps = not_approved + approved
 
 	return render_template("admin/apps.html", v=v, apps=apps)
 
