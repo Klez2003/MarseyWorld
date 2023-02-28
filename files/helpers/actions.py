@@ -500,18 +500,19 @@ def process_poll_options(v:User, target:Union[Submission, Comment]):
 			else:
 				cls = CommentOption
 
+			body_html=filter_emojis_only(body)
+
 			g.db.flush()
 			existing = g.db.query(cls).filter_by(
 					parent_id=target.id,
-					body=body,
+					body_html=body_html,
 					exclusive=exclusive,
 				).one_or_none()
 			
 			if not existing:
 				option = cls(
 					parent_id=target.id,
-					body=body,
-					body_html=filter_emojis_only(body),
+					body_html=body_html,
 					exclusive=exclusive,
 				)
 				g.db.add(option)

@@ -12,7 +12,6 @@ class SubmissionOption(Base):
 
 	id = Column(Integer, primary_key=True)
 	parent_id = Column(Integer, ForeignKey("submissions.id"))
-	body = Column(Text)
 	body_html = Column(Text)
 	exclusive = Column(Integer)
 	created_utc = Column(Integer)
@@ -68,7 +67,6 @@ class CommentOption(Base):
 
 	id = Column(Integer, primary_key=True)
 	parent_id = Column(Integer, ForeignKey("comments.id"))
-	body = Column(Text)
 	body_html = Column(Text)
 	exclusive = Column(Integer)
 	created_utc = Column(Integer)

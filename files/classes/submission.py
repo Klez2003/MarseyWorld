@@ -324,8 +324,8 @@ class Submission(Base):
 			elif o.exclusive: s = '&amp;&amp;'
 			else: s = '$$'
 
-			if f'{s}{o.body}{s}' in body:
-				body = body.replace(f'{s}{o.body}{s}', option_body)
+			if f'{s}{o.body_html}{s}' in body:
+				body = body.replace(f'{s}{o.body_html}{s}', option_body)
 			elif not o.created_utc or o.created_utc < 1677622270:
 				body += option_body
 
