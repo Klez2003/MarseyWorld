@@ -594,8 +594,13 @@ EMOJI_SRCS = ['files/assets/emojis.json']
 PIN_LIMIT = 3
 POST_TITLE_LENGTH_LIMIT = 500 # do not make larger than 500 without altering the table
 POST_TITLE_HTML_LENGTH_LIMIT = 1500 # do not make larger than 1500 without altering the table
-POST_BODY_LENGTH_LIMIT = 20000 # do not make larger than 20000 without altering the table
-POST_BODY_HTML_LENGTH_LIMIT = 40000 # do not make larger than 40000 without altering the table
+
+def POST_BODY_LENGTH_LIMIT(v):
+	if v.patron: return 100000
+	return 20000
+
+POST_BODY_HTML_LENGTH_LIMIT = 200000 # do not make larger than 200000 without altering the table
+
 COMMENT_BODY_LENGTH_LIMIT = 10000 # do not make larger than 10000 characters without altering the table
 COMMENT_BODY_HTML_LENGTH_LIMIT = 20000 # do not make larger than 20000 characters without altering the table
 CSS_LENGTH_LIMIT = 10000 # do not make larger than 20000 characters without altering the table

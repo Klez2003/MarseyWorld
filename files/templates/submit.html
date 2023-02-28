@@ -49,8 +49,8 @@
 													<small class="form-text text-muted">You can upload images, videos, or audio.</small>
 												</div>
 												</div>
-												<label for="body" class="mt-3">Text<i class="fas fa-info-circle text-gray-400 ml-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Uses markdown. Limited to 20000 characters."></i></label>
-												<textarea form="submitform" id="post-text" class="file-ta form-control rounded" placeholder="Optional if you have a link or an image." rows="7" name="body" data-preview="preview" data-nonce="{{g.nonce}}" data-oninput="markdown(this);charLimit('post-text','character-count-submit-text-form');checkForRequired();savetext()" {% if v.longpost %}minlength="280"{% endif %} maxlength="{% if v.bird %}140{% else %}20000{% endif %}" required></textarea>
+												<label for="body" class="mt-3">Text<i class="fas fa-info-circle text-gray-400 ml-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Uses markdown. Limited to {{POST_BODY_LENGTH_LIMIT(v)}} characters."></i></label>
+												<textarea form="submitform" id="post-text" class="file-ta form-control rounded" placeholder="Optional if you have a link or an image." rows="7" name="body" data-preview="preview" data-nonce="{{g.nonce}}" data-oninput="markdown(this);charLimit('post-text','character-count-submit-text-form');checkForRequired();savetext()" {% if v.longpost %}minlength="280"{% endif %} maxlength="{% if v.bird %}140{% else %}{{POST_BODY_LENGTH_LIMIT(v)}}{% endif %}" required></textarea>
 												<div class="ghostdiv" style="display:none;"></div>
 												<div class="text-small font-weight-bold mt-1" id="character-count-submit-text-form" style="right: 1rem; bottom: 0.5rem; z-index: 3;"></div>
 												<p></p>

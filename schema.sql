@@ -110,8 +110,8 @@ CREATE TABLE public.submissions (
     stickied character varying(40),
     title character varying(500) NOT NULL,
     url character varying(2083),
-    body character varying(20000),
-    body_html character varying(40000),
+    body character varying(100000),
+    body_html character varying(200000),
     embed character varying(1500),
     ban_reason character varying(25),
     title_html character varying(1500) NOT NULL,
@@ -2872,4 +2872,3 @@ ALTER TABLE ONLY public.comments
 --
 -- PostgreSQL database dump complete
 --
-

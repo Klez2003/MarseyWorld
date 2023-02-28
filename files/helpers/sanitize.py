@@ -311,7 +311,7 @@ def sanitize_raw_body(sanitized:Optional[str], is_post:bool) -> str:
 	sanitized = html_comment_regex.sub('', sanitized)
 	sanitized = sanitized.replace('\u200e','').replace('\u200b','').replace("\ufeff", "").replace("\r\n", "\n")
 	sanitized = sanitized.strip()
-	return sanitized[:POST_BODY_LENGTH_LIMIT if is_post else COMMENT_BODY_LENGTH_LIMIT]
+	return sanitized[:POST_BODY_LENGTH_LIMIT(g.v) if is_post else COMMENT_BODY_LENGTH_LIMIT]
 
 
 def sanitize_settings_text(sanitized:Optional[str], max_length:Optional[int]=None) -> str:

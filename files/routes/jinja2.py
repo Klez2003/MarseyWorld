@@ -110,7 +110,7 @@ def inject_constants():
 			"FP":FP, "patron":patron, "get_setting": get_setting,
 			"SIDEBAR_THREAD":SIDEBAR_THREAD, "BANNER_THREAD":BANNER_THREAD,
 			"BADGE_THREAD":BADGE_THREAD, "SNAPPY_THREAD":SNAPPY_THREAD,
-			"approved_embed_hosts":approved_embed_hosts,
+			"approved_embed_hosts":approved_embed_hosts, "POST_BODY_LENGTH_LIMIT":POST_BODY_LENGTH_LIMIT,
 			"SITE_SETTINGS":get_settings(), "EMAIL":EMAIL, "max": max, "min": min, "user_can_see":User.can_see,
 			"TELEGRAM_ID":TELEGRAM_ID, "EMAIL_REGEX_PATTERN":EMAIL_REGEX_PATTERN,
 			"TRUESCORE_DONATE_MINIMUM":TRUESCORE_DONATE_MINIMUM, "PROGSTACK_ID":PROGSTACK_ID,
