@@ -3,6 +3,7 @@ const submitButton = document.getElementById('create_button')
 
 document.getElementById('post-title').value = localStorage.getItem("post-title")
 document.getElementById('post-text').value = localStorage.getItem("post-text")
+autoExpand(document.getElementById('post-text'))
 document.getElementById('post-url').value = localStorage.getItem("post-url")
 
 const sub_entry = document.getElementById('sub')
