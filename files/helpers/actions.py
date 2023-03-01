@@ -432,7 +432,6 @@ def execute_under_siege(v:User, target:Optional[Union[Submission, Comment]], bod
 		v.ban_reason = "Under Siege"
 		g.db.add(v)
 		t = time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime(time.time()))
-		log_file(f"[{t}] {v.id} @{v.username} {type} {v.age}s", "under_siege.log")
 		return False
 	return True
 
