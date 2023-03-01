@@ -66,7 +66,10 @@ def option_votes(option_id, v):
 		abort(404)
 	option = g.db.get(SubmissionOption, option_id)
 	if not option: abort(404)
-	if option.post.ghost: abort(403)
+
+	if option.post.ghost and v.admin_level < PERMS['SEE_GHOST_VOTES']:
+		abort(403)
+
 	ups = g.db.query(SubmissionOptionVote).filter_by(option_id=option_id).order_by(SubmissionOptionVote.created_utc).all()
 
 	user_ids = [x[0] for x in g.db.query(SubmissionOptionVote.user_id).filter_by(option_id=option_id).all()]
@@ -138,7 +141,8 @@ def option_votes_comment(option_id, v):
 
 	if not option: abort(404)
 
-	if option.comment.ghost: abort(403)
+	if option.comment.ghost and v.admin_level < PERMS['SEE_GHOST_VOTES']:
+		abort(403)
 
 	ups = g.db.query(CommentOptionVote).filter_by(option_id=option_id).order_by(CommentOptionVote.created_utc).all()
 
