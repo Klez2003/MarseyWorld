@@ -318,7 +318,8 @@ function handle_action(type, cid, thing) {
 		catch(e) {console.log(e)}
 		if (data && data["response"]) {
 			const element = document.getElementById(`${type}-${cid}`);
-			element.innerHTML = data["response"]
+			element.innerHTML = data["response"].replace(/data-nonce=".*?"/g, `data-nonce="${nonce}"`)
+			register_new_elements(element)
 		} else {
 			showToast(false, getMessageFromJsonData(false, data));
 		}
@@ -331,4 +332,8 @@ function handle_action(type, cid, thing) {
 		}, 2000);
 	}
 	xhr.send(form)
+}
+
+function wordle(t) {
+	handle_action('wordle', t.dataset.cid, t.previousElementSibling.value)
 }
