@@ -77,8 +77,7 @@ function markdown(t) {
 		for(i = 0; i < options.length; i++){
 			const option = options[i][0];
 			const option2 = option.replace(/\$\$/g, '').replace(/\n/g, '')
-			input = input.replace(option, '');
-			input += `<div class="custom-control"><input type="checkbox" class="custom-control-input" id="option-${i}"><label class="custom-control-label" for="option-${i}">${option2} - <a>0 votes</a></label></div>`;
+			input = input.replace(option, `<div class="custom-control mb-3"><input type="checkbox" class="custom-control-input" id="option-${i}"><label class="custom-control-label" for="option-${i}">${option2} - <a>0 votes</a></label></div>`);
 		}
 	}
 
@@ -87,13 +86,11 @@ function markdown(t) {
 		for(i = 0; i < options.length; i++){
 			const option = options[i][0];
 			const option2 = option.replace(/&&/g, '').replace(/\n/g, '')
-			input = input.replace(option, '');
-			input += `<div class="custom-control"><input type="radio" name="choice" class="custom-control-input" id="option-${i}"><label class="custom-control-label" for="option-${i}">${option2} - <a>0 votes</a></label></div>`;
+			input = input.replace(option, `<div class="custom-control mb-3"><input type="radio" name="choice" class="custom-control-input" id="option-${i}"><label class="custom-control-label" for="option-${i}">${option2} - <a>0 votes</a></label></div>`);
 		}
 	}
 
 	input = marked(input)
-	input = input.replace(/\n\n/g, '<br>')
 
 	const preview = document.getElementById(t.dataset.preview)
 
