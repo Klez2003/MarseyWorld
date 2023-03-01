@@ -274,10 +274,6 @@ function emojiAddToInput(event)
 	if(!(emojiInputTargetDOM instanceof HTMLTextAreaElement) && !(emojiInputTargetDOM instanceof HTMLInputElement))
 		return;
 
-	// If a range is selected, setRangeText will overwrite it. Maybe better to ask the r-slured if he really wants this behaviour
-	if(emojiInputTargetDOM.selectionStart !== emojiInputTargetDOM.selectionEnd && !confirm("You've selected a range of text.\nThe emoji will overwrite it! Do you want to continue?"))
-		return;
-
 	let strToInsert = event.currentTarget.dataset.emojiName;
 
 	for(let i = 0; i < emojiSelectPostfixDOMs.length; i++)
