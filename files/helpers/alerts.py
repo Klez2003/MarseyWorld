@@ -129,7 +129,7 @@ def NOTIFY_USERS(text, v):
 	notify_users = set()
 
 	for word, id in NOTIFIED_USERS.items():
-		if word in text and id not in notify_users:
+		if word in text:
 			notify_users.add(id)
 
 	if FEATURES['PING_GROUPS']:
@@ -151,13 +151,14 @@ def NOTIFY_USERS(text, v):
 
 
 	names = set(m.group(2) for m in mention_regex.finditer(text))
-	for user in get_users(names, graceful=True):
-		if v.id != user.id and not v.any_block_exists(user):
-			notify_users.add(user.id)
+	user_ids = get_users(names, ids_only=True, graceful=True)
+	notify_users.update(user_ids)
 
 	if SITE_NAME == "WPD" and 'daisy' in text:
 		admin_ids = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_SPECIFIC_WPD_COMMENTS']).all()]
 		notify_users.update(admin_ids)
+
+	notify_users = set([id for id in notify_users if id not in v.all_twoway_blocks])
 
 	return notify_users - bots - {v.id, 0}
 

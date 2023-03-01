@@ -478,6 +478,13 @@ class User(Base):
 			or_(and_(UserBlock.user_id == self.id, UserBlock.target_id == other.id), and_(
 				UserBlock.user_id == other.id, UserBlock.target_id == self.id))).first()
 
+	@property
+	@lazy
+	def all_twoway_blocks(self):
+		return [x[0] for x in g.db.query(UserBlock.target_id).filter_by(user_id=self.id).all() + \
+			g.db.query(UserBlock.user_id).filter_by(target_id=self.id).all()]
+
+
 	def validate_2fa(self, token):
 
 		x = pyotp.TOTP(self.mfa_secret)

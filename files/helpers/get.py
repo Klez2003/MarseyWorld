@@ -60,13 +60,19 @@ def get_user(username:Optional[str], v:Optional[User]=None, graceful=False, incl
 		user = add_block_props(user, v)
 	return user
 
-def get_users(usernames:Iterable[str], graceful=False) -> List[User]:
+def get_users(usernames:Iterable[str], ids_only=False, graceful=False) -> List[User]:
 	if not usernames: return []
 	usernames = [sanitize_username(n) for n in usernames]
 	if not any(usernames):
 		if graceful and len(usernames) == 0: return []
 		abort(404)
-	users = g.db.query(User).filter(
+
+	if ids_only:
+		users = g.db.query(User.id)
+	else:
+		users = g.db.query(User)
+
+	users = users.filter(
 		or_(
 			User.username.ilike(any_(usernames)),
 			User.original_username.ilike(any_(usernames))
@@ -75,6 +81,9 @@ def get_users(usernames:Iterable[str], graceful=False) -> List[User]:
 
 	if len(users) != len(usernames) and not graceful:
 		abort(404)
+
+	if ids_only:
+		users = [x[0] for x in users]
 
 	return users
 
