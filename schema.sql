@@ -328,7 +328,6 @@ CREATE TABLE public.comment_option_votes (
 CREATE TABLE public.comment_options (
     id integer DEFAULT nextval('public.comment_option_id_seq'::regclass) NOT NULL,
     parent_id integer NOT NULL,
-    body character varying(500) NOT NULL,
     body_html character varying(500) NOT NULL,
     exclusive integer NOT NULL,
     created_utc integer
@@ -872,7 +871,6 @@ CREATE TABLE public.submission_option_votes (
 CREATE TABLE public.submission_options (
     id integer DEFAULT nextval('public.submission_option_id_seq'::regclass) NOT NULL,
     parent_id integer NOT NULL,
-    body character varying(500) NOT NULL,
     body_html character varying(500) NOT NULL,
     exclusive integer NOT NULL,
     created_utc integer
@@ -2026,14 +2024,14 @@ CREATE INDEX notifs_user_read_idx ON public.notifications USING btree (user_id, 
 -- Name: option_comment; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX option_comment ON public.comment_options USING btree (comment_id);
+CREATE INDEX option_comment ON public.comment_options USING btree (parent_id);
 
 
 --
 -- Name: option_submission; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX option_submission ON public.submission_options USING btree (submission_id);
+CREATE INDEX option_submission ON public.submission_options USING btree (parent_id);
 
 
 --
@@ -2572,7 +2570,7 @@ ALTER TABLE ONLY public.client_auths
 --
 
 ALTER TABLE ONLY public.comment_options
-    ADD CONSTRAINT option_comment_fkey FOREIGN KEY (comment_id) REFERENCES public.comments(id) MATCH FULL;
+    ADD CONSTRAINT option_comment_fkey FOREIGN KEY (parent_id) REFERENCES public.comments(id) MATCH FULL;
 
 
 --
@@ -2580,7 +2578,7 @@ ALTER TABLE ONLY public.comment_options
 --
 
 ALTER TABLE ONLY public.submission_options
-    ADD CONSTRAINT option_submission_fkey FOREIGN KEY (submission_id) REFERENCES public.submissions(id) MATCH FULL;
+    ADD CONSTRAINT option_submission_fkey FOREIGN KEY (parent_id) REFERENCES public.submissions(id) MATCH FULL;
 
 
 --
@@ -2874,3 +2872,4 @@ ALTER TABLE ONLY public.comments
 --
 -- PostgreSQL database dump complete
 --
+
