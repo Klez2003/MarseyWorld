@@ -166,7 +166,7 @@ def move_post(post:Submission, v:User, reason:str) -> Union[bool, str]:
 		if v.id == post.author_id:
 			abort(403, f"You need to be a member of House {sub_to.capitalize()} to post in /h/{sub_to}")
 		else:
-			abort(403, f"@{post.author.username} needs to be a member of House {sub_to.capitalize()} for their post to be moved to /h/{sub_to}")
+			abort(403, f"@{post.author_name} needs to be a member of House {sub_to.capitalize()} for their post to be moved to /h/{sub_to}")
 
 	post.sub = sub_to
 	post.hole_pinned = None

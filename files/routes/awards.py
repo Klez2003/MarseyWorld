@@ -169,10 +169,7 @@ def award_thing(v, thing_type, id):
 
 	note = request.values.get("note", "").strip()
 
-	if thing.ghost and v.id != author.id:
-		safe_username = "👻"
-	else:
-		safe_username = f"@{author.username}"
+	safe_username = f"@{thing.author_name}"
 
 	if SITE == 'rdrama.net' and author.id in {PIZZASHILL_ID, CARP_ID}:
 		abort(403, f"{safe_username} is immune to awards!")
