@@ -375,12 +375,11 @@ def change_settings(v:User, setting):
 		if not set_security_level(new_security_level):
 			abort(400, f'Failed to {word} under attack mode')
 
-	if setting != 'login_required':
-		ma = ModAction(
-			kind=f"{word}_{setting}",
-			user_id=v.id,
-		)
-		g.db.add(ma)
+	ma = ModAction(
+		kind=f"{word}_{setting}",
+		user_id=v.id,
+	)
+	g.db.add(ma)
 
 	return {'message': f"{setting.replace('_', ' ').title()} {word}d successfully!"}
 
