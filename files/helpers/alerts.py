@@ -132,23 +132,27 @@ def NOTIFY_USERS(text, v):
 		if word in text and id not in notify_users:
 			notify_users.add(id)
 
-	billed = set()
 	if FEATURES['PING_GROUPS']:
+		billed = set()
 		for i in group_mention_regex.finditer(text):
-			group = g.db.get(Group, i.group(2))
-			if group:
-				if v.id not in group.member_ids:
-					billed.update(group.member_ids)
-				notify_users.update(group.member_ids)
+			if i.group(2) == 'everyone':
+				everyone = [x[0] for x in g.db.query(User.id).all()]
+				billed.update(everyone)
+				notify_users.update(everyone)
+			else:
+				group = g.db.get(Group, i.group(2))
+				if group:
+					if v.id not in group.member_ids:
+						billed.update(group.member_ids)
+					notify_users.update(group.member_ids)
 
 		if billed:
 			cost = len(billed) * 5
 			if cost > v.coins:
 				abort(403, f"You need {cost} coins for this!")
+			g.db.query(User).filter(User.id.in_(billed)).update({ User.coins: User.coins + 5 })
 			v.coins -= cost
 			g.db.add(v)
-
-			g.db.query(User).filter(User.id.in_(billed)).update({ User.coins: User.coins + 5 })
 
 
 	names = set(m.group(2) for m in mention_regex.finditer(text))

@@ -11,6 +11,8 @@ mention_regex = re.compile('(^|\s|>)@([a-zA-Z0-9_\-]{1,30})(?![^<]*<\/(code|pre|
 
 group_mention_regex = re.compile('(^|\s|>)!([a-z0-9_\-]{3,25})(?![^<]*<\/(code|pre|a)>)', flags=re.A)
 
+everyone_regex = re.compile('(^|\s|>)!(everyone)(?![^<]*<\/(code|pre|a)>)', flags=re.A)
+
 valid_password_regex = re.compile("^.{8,100}$", flags=re.A)
 
 marseyaward_body_regex = re.compile(">[^<\s+]|[^>\s+]<", flags=re.A)
