@@ -182,7 +182,8 @@ def comment(v:User):
 						process_sidebar_or_banner('banners', banner_width)
 					elif post_target.id == BADGE_THREAD:
 						try:
-							badge_def = loads(body)
+							json_body = '{' + body.split('{')[1].split('}')[0] + '}'
+							badge_def = loads(json_body)
 							name = badge_def["name"]
 
 							if len(name) > 50:
