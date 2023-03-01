@@ -46,13 +46,12 @@ def publish(pid, v):
 	p.created_utc = int(time.time())
 	g.db.add(p)
 
-	if not p.ghost:
-		notify_users = NOTIFY_USERS(f'{p.title} {p.body}', v)
+	notify_users = NOTIFY_USERS(f'{p.title} {p.body}', v)
 
-		if notify_users:
-			cid, text = notif_comment2(p)
-			for x in notify_users:
-				add_notif(cid, x, text, pushnotif_url=p.permalink)
+	if notify_users:
+		cid, text = notif_comment2(p)
+		for x in notify_users:
+			add_notif(cid, x, text, pushnotif_url=p.permalink)
 
 
 	cache.delete_memoized(frontlist)
@@ -637,7 +636,7 @@ def submit_post(v:User, sub=None):
 	if not p.thumburl and p.url:
 		gevent.spawn(thumbnail_thread, p.id, v.id)
 
-	if not p.private and not p.ghost:
+	if not p.private:
 		notify_users = NOTIFY_USERS(f'{title} {body}', v)
 
 		if notify_users:
@@ -1023,7 +1022,7 @@ def edit_post(pid, v):
 			abort(403, f'You have to include "{AGENDAPOSTER_PHRASE}" in your post!')
 
 
-	if not p.private and not p.ghost:
+	if not p.private:
 		notify_users = NOTIFY_USERS(f'{p.title} {p.body}', v)
 		if notify_users:
 			cid, text = notif_comment2(p)
