@@ -491,12 +491,10 @@ function handle_files(input, newfiles) {
 		if (span.innerHTML != ' ') span.innerHTML += ', '
 		span.innerHTML += file.name.substr(0, 30);
 		if (location.pathname != '/chat')
-			ta.value += `[${file.name}]\n`;
+			ta.setRangeText(`[${file.name}]\n`);
 	}
 
 	autoExpand(ta)
-	ta.focus()
-	ta.selectionStart = ta.selectionEnd = ta.value.length;
 
 	input.parentElement.nextElementSibling.classList.remove('d-none')
 
