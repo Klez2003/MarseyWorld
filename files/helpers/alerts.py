@@ -135,16 +135,11 @@ def NOTIFY_USERS(text, v):
 	if FEATURES['PING_GROUPS']:
 		billed = set()
 		for i in group_mention_regex.finditer(text):
-			if i.group(2) == 'everyone':
-				everyone = [x[0] for x in g.db.query(User.id).all()]
-				billed.update(everyone)
-				notify_users.update(everyone)
-			else:
-				group = g.db.get(Group, i.group(2))
-				if group:
-					if v.id not in group.member_ids:
-						billed.update(group.member_ids)
-					notify_users.update(group.member_ids)
+			group = g.db.get(Group, i.group(2))
+			if group:
+				if v.id not in group.member_ids:
+					billed.update(group.member_ids)
+				notify_users.update(group.member_ids)
 
 		if billed:
 			cost = len(billed) * 5
