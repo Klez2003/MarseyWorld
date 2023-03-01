@@ -139,3 +139,28 @@
 	z-index: 2;
 	font-size: 48px;
 }
+
+.game_screen-col {
+	max-width: 150px;
+}
+#wagerCoinsImg {
+	width: 22px;
+}
+#wagerMarseybuxImg {
+	width: 40px;
+}
+
+@media (max-width: 322px) {
+	#wagerCoinsImg {
+		width: 18px;
+	}
+	#wagerMarseybuxImg {
+		width: 30px;
+	}
+	.game_screen-col {
+		max-width: 110px;
+	}
+	#wagerAmount {
+		font-size: 13px !important;
+	}
+}
