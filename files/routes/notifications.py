@@ -319,7 +319,7 @@ def notifications(v:User):
 	total = [x[0] for x in comments]
 	for c, n in comments:
 		if n.created_utc > 1620391248: c.notif_utc = n.created_utc
-		if not n.read:
+		if not n.read and not session.get("GLOBAL"):
 			n.read = True
 			c.unread = True
 			g.db.add(n)

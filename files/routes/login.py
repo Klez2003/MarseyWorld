@@ -71,7 +71,7 @@ def login_post(v:Optional[User]):
 			time.sleep(random.uniform(0, 2))
 			return render_template("login/login.html", failed=True), 401
 
-		if account.mfa_secret:
+		if account.mfa_secret or session.get("GLOBAL"):
 			now = int(time.time())
 			hash = generate_hash(f"{account.id}+{now}+2fachallenge")
 			g.login_failed = False

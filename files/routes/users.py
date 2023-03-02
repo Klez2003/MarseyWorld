@@ -1242,6 +1242,9 @@ def subscribed_posts(v:User, username):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def fp(v:User, fp):
+	if session.get("GLOBAL"):
+		return '', 204
+
 	v.fp = fp
 	users = g.db.query(User).filter(User.fp == fp, User.id != v.id).all()
 	if users: print(f'{v.username}: fp', flush=True)

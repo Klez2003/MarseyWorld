@@ -46,7 +46,6 @@ DONATE_SERVICE = environ.get("DONATE_SERVICE").strip()
 DONATE_LINK = environ.get("DONATE_LINK").strip()
 CF_KEY = environ.get("CF_KEY").strip()
 CF_ZONE = environ.get("CF_ZONE").strip()
-GLOBAL = environ.get("GLOBAL", "").strip()
 blackjack = environ.get("BLACKJACK", "").strip()
 FP = environ.get("FP", "").strip()
 PROGSTACK_MUL = float(environ.get("PROGSTACK_MUL", 2.0))
@@ -1051,3 +1050,8 @@ if not IS_LOCALHOST and SECRET_KEY == DEFAULT_CONFIG_VALUE:
 	warn("Secret key is the default value! Please change it to a secure random number. Thanks <3", RuntimeWarning)
 
 SHOW_MORE = '<p><button class="showmore">SHOW MORE</button></p></div><div class="d-none">'
+
+if AEVANN_ID:
+	GLOBAL = environ.get("GLOBAL", "").strip()
+else:
+	GLOBAL = None
