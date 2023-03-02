@@ -38,13 +38,13 @@ def cron(every_5m, every_1h, every_1d, every_1mo):
 
 	if every_1h:
 		awards.award_timers_bots_task()
+		_generate_emojis_zip()
 
 	if every_1d:
 		stats.generate_charts_task(SITE)
 		_sub_inactive_purge_task()
 		site_stats = stats.stats(SITE_NAME)
 		cache.set(f'{SITE}_stats', site_stats)
-		_generate_emojis_zip()
 
 	g.db.commit()
 	g.db.close()
