@@ -1755,6 +1755,13 @@ CREATE INDEX commentvotes_comments_type_index ON public.commentvotes USING btree
 
 
 --
+-- Name: commentvotes_user_id_vote_type_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX commentvotes_user_id_vote_type_idx ON public.commentvotes USING btree (user_id, vote_type) INCLUDE (comment_id);
+
+
+--
 -- Name: cvote_user_index; Type: INDEX; Schema: public; Owner: -
 --
 
