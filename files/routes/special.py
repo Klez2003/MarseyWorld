@@ -78,7 +78,6 @@ ORDER BY payout DESC, bets_won DESC, bets_total ASC;
 
 @cache.memoize()
 def _special_leaderboard_get():
-	print('worldcup', flush=True)
 	result = g.db.execute(_special_leaderboard_query).all()
 	return result
 
