@@ -254,7 +254,9 @@ def settings_personal_post(v):
 								v=v,
 								error="Your friends list is too long")
 
-		notify_users = NOTIFY_USERS(friends, v)
+		friends = friends[:1000]
+
+		notify_users = NOTIFY_USERS(friends, v, v.friends)
 
 		if notify_users:
 			text = f"@{v.username} has added you to their friends list!"
@@ -265,7 +267,7 @@ def settings_personal_post(v):
 				for x in notify_users:
 					add_notif(cid, x, text)
 
-		v.friends = friends[:1000]
+		v.friends = friends
 		v.friends_html=friends_html
 		g.db.add(v)
 		return render_template("settings/personal.html",
@@ -283,7 +285,9 @@ def settings_personal_post(v):
 								v=v,
 								error="Your enemies list is too long")
 
-		notify_users = NOTIFY_USERS(enemies, v)
+		enemies = enemies[:1000]
+
+		notify_users = NOTIFY_USERS(enemies, v, v.enemies)
 		if notify_users:
 			text = f"@{v.username} has added you to their enemies list!"
 			cid = notif_comment(text)
@@ -293,7 +297,7 @@ def settings_personal_post(v):
 				for x in notify_users:
 					add_notif(cid, x, text)
 
-		v.enemies = enemies[:1000]
+		v.enemies = enemies
 		v.enemies_html=enemies_html
 		g.db.add(v)
 		return render_template("settings/personal.html",

@@ -644,6 +644,19 @@ def edit_comment(cid, v):
 		if v.marseyawarded and marseyaward_body_regex.search(body_html):
 			abort(403, "You can only type marseys!")
 
+		notify_users = NOTIFY_USERS(body, v, c.body)
+
+		if notify_users == 'everyone':
+			alert_everyone(c.id)
+		else:
+			for x in notify_users-bots:
+				notif = g.db.query(Notification).filter_by(comment_id=c.id, user_id=x).one_or_none()
+				if not notif:
+					n = Notification(comment_id=c.id, user_id=x)
+					g.db.add(n)
+					if not v.shadowbanned:
+						push_notif({x}, f'New mention of you by @{c.author_name}', c.body, c)
+
 		c.body = body
 
 		process_poll_options(v, c)
@@ -661,18 +674,6 @@ def edit_comment(cid, v):
 
 		g.db.add(c)
 
-		notify_users = NOTIFY_USERS(body, v)
-
-		if notify_users == 'everyone':
-			alert_everyone(c.id)
-		else:
-			for x in notify_users-bots:
-				notif = g.db.query(Notification).filter_by(comment_id=c.id, user_id=x).one_or_none()
-				if not notif:
-					n = Notification(comment_id=c.id, user_id=x)
-					g.db.add(n)
-					if not v.shadowbanned:
-						push_notif({x}, f'New mention of you by @{c.author_name}', c.body, c)
 
 	g.db.commit()
 	return {"body": c.body, "comment": c.realbody(v)}

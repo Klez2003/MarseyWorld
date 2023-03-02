@@ -122,44 +122,13 @@ def add_notif(cid, uid, text, pushnotif_url=''):
 		push_notif({uid}, 'New notification', text, pushnotif_url)
 
 
-def NOTIFY_USERS(text, v):
+def NOTIFY_USERS(text, v, oldtext=None):
 	# Restrict young accounts from generating notifications
 	if v.age < NOTIFICATION_SPAM_AGE_THRESHOLD:
 		return set()
 
 	text = text.lower()
 	notify_users = set()
-
-	if FEATURES['PING_GROUPS']:
-		billed = set()
-		everyone = False
-		for i in group_mention_regex.finditer(text):
-			if i.group(2) == 'everyone' and not v.shadowbanned:
-				everyone = True
-				break
-			else:
-				group = g.db.get(Group, i.group(2))
-				if group:
-					if v.id not in group.member_ids:
-						billed.update(group.member_ids)
-					notify_users.update(group.member_ids)
-		
-		if everyone:
-			cost = g.db.query(User).count() * 5
-			if cost > v.coins:
-				abort(403, f"You need {cost} coins for this!")
-			g.db.query(User).update({ User.coins: User.coins + 5 })
-			v.coins -= cost
-			g.db.add(v)
-			return 'everyone'
-
-		if billed:
-			cost = len(billed) * 5
-			if cost > v.coins:
-				abort(403, f"You need {cost} coins for this!")
-			g.db.query(User).filter(User.id.in_(billed)).update({ User.coins: User.coins + 5 })
-			v.coins -= cost
-			g.db.add(v)
 
 	for word, id in NOTIFIED_USERS.items():
 		if word in text:
@@ -173,9 +142,49 @@ def NOTIFY_USERS(text, v):
 		admin_ids = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_SPECIFIC_WPD_COMMENTS']).all()]
 		notify_users.update(admin_ids)
 
-	notify_users = set([id for id in notify_users if id not in v.all_twoway_blocks])
 
-	return notify_users - bots - {v.id, 0}
+
+
+	if FEATURES['PING_GROUPS']:
+		cost = 0
+
+		for i in group_mention_regex.finditer(text):
+			if oldtext and i.group(2) in oldtext:
+				continue
+
+			if i.group(2) == 'everyone' and not v.shadowbanned:
+				cost = g.db.query(User).count() * 5
+				if cost > v.coins:
+					abort(403, f"You need {cost} coins for this!")
+				g.db.query(User).update({ User.coins: User.coins + 5 })
+				v.coins -= cost
+				g.db.add(v)
+				return 'everyone'
+			else:
+				group = g.db.get(Group, i.group(2))
+				if not group: continue
+
+				members = group.member_ids - notify_users - v.all_twoway_blocks
+				
+				notify_users.update(members)
+
+				if v.id not in members:
+					if group.name == 'biofoids': mul = 10
+					else: mul = 5
+					
+					cost += len(members) * mul
+					if cost > v.coins:
+						abort(403, f"You need {cost} coins for this!")
+
+					g.db.query(User).filter(User.id.in_(members)).update({ User.coins: User.coins + mul })
+		
+		v.coins -= cost
+		g.db.add(v)
+
+
+
+
+	return notify_users - bots - {v.id, 0} - v.all_twoway_blocks
 
 
 def push_notif(uids, title, body, url_or_comment):

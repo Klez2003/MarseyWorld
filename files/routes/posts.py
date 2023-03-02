@@ -984,6 +984,19 @@ def edit_post(pid, v):
 
 	if not title:
 		abort(400, "Please enter a better title!")
+
+
+	if not p.private:
+		notify_users = NOTIFY_USERS(f'{title} {body}', v, f'{p.title} {p.body}')
+		if notify_users:
+			cid, text = notif_comment2(p)
+			if notify_users == 'everyone':
+				alert_everyone(cid)
+			else:
+				for x in notify_users:
+					add_notif(cid, x, text, pushnotif_url=p.permalink)
+
+
 	if title != p.title:
 		torture = (v.agendaposter and not v.marseyawarded and p.sub != 'chudrama' and v.id == p.author_id)
 
@@ -1027,16 +1040,6 @@ def edit_post(pid, v):
 		if v.id == p.author_id and v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in f'{p.body}{p.title}'.lower() and p.sub != 'chudrama':
 			abort(403, f'You have to include "{AGENDAPOSTER_PHRASE}" in your post!')
 
-
-	if not p.private:
-		notify_users = NOTIFY_USERS(f'{p.title} {p.body}', v)
-		if notify_users:
-			cid, text = notif_comment2(p)
-			if notify_users == 'everyone':
-				alert_everyone(cid)
-			else:
-				for x in notify_users:
-					add_notif(cid, x, text, pushnotif_url=p.permalink)
 
 	if v.id == p.author_id:
 		if int(time.time()) - p.created_utc > 60 * 3: p.edited_utc = int(time.time())
