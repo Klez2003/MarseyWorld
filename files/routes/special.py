@@ -1,4 +1,6 @@
 from flask import g, render_template
+from sqlalchemy.sql import text
+
 from files.helpers.get import get_accounts_dict
 from files.helpers.config.const import *
 
@@ -6,7 +8,7 @@ from files.routes.wrappers import *
 
 from files.__main__ import app, cache, limiter
 
-_special_leaderboard_query = """
+_special_leaderboard_query = text("""
 WITH bet_options AS (
 	SELECT p.id AS submission_id, so.id AS option_id, so.exclusive, cnt.count
 	FROM submission_options so
@@ -72,7 +74,7 @@ LEFT OUTER JOIN (
 	SELECT user_id, SUM(payout) AS net FROM bet_votes GROUP BY user_id
 ) AS bet_payout ON bettors.user_id = bet_payout.user_id
 ORDER BY payout DESC, bets_won DESC, bets_total ASC;
-"""
+""")
 
 @cache.memoize()
 def _special_leaderboard_get():
