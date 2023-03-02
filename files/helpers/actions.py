@@ -425,7 +425,7 @@ def execute_under_siege(v:User, target:Optional[Union[Submission, Comment]], bod
 			kind="shadowban",
 			user_id=AUTOJANNY_ID,
 			target_user_id=v.id,
-			_note=f'reason: "Under Siege ({type} {v.age}s)"'
+			_note=f'reason: "Under Siege ({type}, {v.age} seconds)"'
 		)
 		g.db.add(ma)
 
