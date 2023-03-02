@@ -1218,11 +1218,12 @@ INSERT INTO public.hat_defs VALUES (917, 'Bell Pepper (red)', 'Now you can cospl
 INSERT INTO public.hat_defs VALUES (911, 'Racecar Hat', 'I sleep in a hat with my wife', 2, 500, NULL, 1665355513);
 
 
+
 --
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1147, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1149, true);
 
 
 --
