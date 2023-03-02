@@ -28,29 +28,30 @@ def create_group(v):
 	if not valid_sub_regex.fullmatch(name):
 		return redirect(f"/ping_groups?error=Name does not match the required format!")
 
-	group = g.db.get(Group, name)
-	if not group:
-		if not v.charge_account('coins', GROUP_COST):
-			return redirect(f"/ping_groups?error=You don't have enough coins!")
+	if name == 'everyone' or g.db.get(Group, name):
+		return redirect(f"/ping_groups?error=This group already exists!")
 
-		g.db.add(v)
-		if v.shadowbanned: abort(500)
+	if not v.charge_account('coins', GROUP_COST):
+		return redirect(f"/ping_groups?error=You don't have enough coins!")
 
-		group = Group(name=name)
-		g.db.add(group)
-		g.db.flush()
+	g.db.add(v)
+	if v.shadowbanned: abort(500)
 
-		group_membership = GroupMembership(
-			user_id=v.id,
-			group_name=group.name,
-			created_utc=time.time(),
-			approved_utc=time.time()
-			)
-		g.db.add(group_membership)
+	group = Group(name=name)
+	g.db.add(group)
+	g.db.flush()
 
-		admins = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_HOLE_CREATION'], User.id != v.id).all()]
-		for admin in admins:
-			send_repeatable_notification(admin, f":!marseyparty: !{group} has been created by @{v.username} :marseyparty:")
+	group_membership = GroupMembership(
+		user_id=v.id,
+		group_name=group.name,
+		created_utc=time.time(),
+		approved_utc=time.time()
+		)
+	g.db.add(group_membership)
+
+	admins = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_HOLE_CREATION'], User.id != v.id).all()]
+	for admin in admins:
+		send_repeatable_notification(admin, f":!marseyparty: !{group} has been created by @{v.username} :marseyparty:")
 
 	return redirect(f'/ping_groups?msg=!{group} created successfully!')
 
