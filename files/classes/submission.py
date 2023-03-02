@@ -274,9 +274,6 @@ class Submission(Base):
 
 		body = self.body_html or ""
 
-		body = censor_slurs(body, v)
-		body = normalize_urls_runtime(body, v)
-
 		if self.options:
 			curr = [x for x in self.options if x.exclusive and x.voted(v)]
 			if curr: curr = " value=post-" + str(curr[0].id)
@@ -328,6 +325,9 @@ class Submission(Base):
 				body = body.replace(f'{s}{o.body_html}{s}', option_body, 1)
 			elif not o.created_utc or o.created_utc < 1677622270:
 				body += option_body
+
+		body = censor_slurs(body, v)
+		body = normalize_urls_runtime(body, v)
 
 		if not listing and not self.ghost and self.author.show_sig(v):
 			body += f'<section id="signature-{self.author.id}" class="user-signature"><hr>{self.author.sig_html}</section>'

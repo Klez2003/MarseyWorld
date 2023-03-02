@@ -249,25 +249,6 @@ class Comment(Base):
 
 		body = self.body_html or ""
 
-		if body:
-			body = censor_slurs(body, v)
-			body = normalize_urls_runtime(body, v)
-			if not v or v.controversial:
-				captured = []
-				for i in controversial_regex.finditer(body):
-					if i.group(1) in captured: continue
-					captured.append(i.group(1))
-
-					url = i.group(1)
-					p = urlparse(url).query
-					p = parse_qs(p, keep_blank_values=True)
-
-					if 'sort' not in p: p['sort'] = ['controversial']
-
-					url_noquery = url.split('?')[0]
-					body = body.replace(f'"{url}"', f'"{url_noquery}?{urlencode(p, True)}"')
-					body = body.replace(f'>{url}<', f'>{url_noquery}?{urlencode(p, True)}<')
-
 		if self.options:
 			curr = [x for x in self.options if x.exclusive and x.voted(v)]
 			if curr: curr = " value=comment-" + str(curr[0].id)
@@ -299,6 +280,25 @@ class Comment(Base):
 				body = body.replace(f'{s}{o.body_html}{s}', option_body, 1)
 			elif not o.created_utc or o.created_utc < 1677622270:
 				body += option_body
+
+		if body:
+			body = censor_slurs(body, v)
+			body = normalize_urls_runtime(body, v)
+			if not v or v.controversial:
+				captured = []
+				for i in controversial_regex.finditer(body):
+					if i.group(1) in captured: continue
+					captured.append(i.group(1))
+
+					url = i.group(1)
+					p = urlparse(url).query
+					p = parse_qs(p, keep_blank_values=True)
+
+					if 'sort' not in p: p['sort'] = ['controversial']
+
+					url_noquery = url.split('?')[0]
+					body = body.replace(f'"{url}"', f'"{url_noquery}?{urlencode(p, True)}"')
+					body = body.replace(f'>{url}<', f'>{url_noquery}?{urlencode(p, True)}<')
 
 		if not self.ghost and self.author.show_sig(v):
 			body += f'<section id="signature-{self.author.id}" class="user-signature"><hr>{self.author.sig_html}</section>'
