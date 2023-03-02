@@ -309,32 +309,35 @@ def comment(v:User):
 	if not v.shadowbanned:
 		notify_users = NOTIFY_USERS(body, v)
 
-		push_notif(notify_users, f'New mention of you by @{c.author_name}', c.body, c)
+		if notify_users == 'everyone':
+			alert_everyone(c.id)
+		else:
+			push_notif(notify_users, f'New mention of you by @{c.author_name}', c.body, c)
 
-		if c.level == 1 and posting_to_submission:
-			subscriber_ids = [x[0] for x in g.db.query(Subscription.user_id).filter(Subscription.submission_id == post_target.id, Subscription.user_id != v.id).all()]
+			if c.level == 1 and posting_to_submission:
+				subscriber_ids = [x[0] for x in g.db.query(Subscription.user_id).filter(Subscription.submission_id == post_target.id, Subscription.user_id != v.id).all()]
 
-			notify_users.update(subscriber_ids)
+				notify_users.update(subscriber_ids)
 
-			push_notif(subscriber_ids, f'New comment in subscribed thread by @{c.author_name}', c.body, c)
+				push_notif(subscriber_ids, f'New comment in subscribed thread by @{c.author_name}', c.body, c)
 
-		if parent_user.id != v.id:
-			notify_users.add(parent_user.id)
+			if parent_user.id != v.id:
+				notify_users.add(parent_user.id)
 
-		for x in notify_users-bots:
-			n = Notification(comment_id=c.id, user_id=x)
-			g.db.add(n)
+			for x in notify_users-bots:
+				n = Notification(comment_id=c.id, user_id=x)
+				g.db.add(n)
 
-		if parent_user.id != v.id and not v.shadowbanned:
-			if isinstance(parent, User):
-				title = f"New comment on your wall by @{c.author_name}"
-			else:
-				title = f'New reply by @{c.author_name}'
+			if parent_user.id != v.id and not v.shadowbanned:
+				if isinstance(parent, User):
+					title = f"New comment on your wall by @{c.author_name}"
+				else:
+					title = f'New reply by @{c.author_name}'
 
-			if len(c.body) > PUSH_NOTIF_LIMIT: notifbody = c.body[:PUSH_NOTIF_LIMIT] + '...'
-			else: notifbody = c.body
+				if len(c.body) > PUSH_NOTIF_LIMIT: notifbody = c.body[:PUSH_NOTIF_LIMIT] + '...'
+				else: notifbody = c.body
 
-			push_notif({parent_user.id}, title, notifbody, c)
+				push_notif({parent_user.id}, title, notifbody, c)
 
 	vote = CommentVote(user_id=v.id,
 						 comment_id=c.id,
@@ -660,13 +663,16 @@ def edit_comment(cid, v):
 
 		notify_users = NOTIFY_USERS(body, v)
 
-		for x in notify_users-bots:
-			notif = g.db.query(Notification).filter_by(comment_id=c.id, user_id=x).one_or_none()
-			if not notif:
-				n = Notification(comment_id=c.id, user_id=x)
-				g.db.add(n)
-				if not v.shadowbanned:
-					push_notif({x}, f'New mention of you by @{c.author_name}', c.body, c)
+		if notify_users == 'everyone':
+			alert_everyone(c.id)
+		else:
+			for x in notify_users-bots:
+				notif = g.db.query(Notification).filter_by(comment_id=c.id, user_id=x).one_or_none()
+				if not notif:
+					n = Notification(comment_id=c.id, user_id=x)
+					g.db.add(n)
+					if not v.shadowbanned:
+						push_notif({x}, f'New mention of you by @{c.author_name}', c.body, c)
 
 	g.db.commit()
 	return {"body": c.body, "comment": c.realbody(v)}

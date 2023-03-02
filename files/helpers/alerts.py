@@ -4,6 +4,8 @@ from sys import stdout
 import gevent
 from flask import g
 from pywebpush import webpush
+import time
+from sqlalchemy.sql import text
 
 from files.classes import Comment, Notification, PushSubscription, Group
 
@@ -128,18 +130,28 @@ def NOTIFY_USERS(text, v):
 	text = text.lower()
 	notify_users = set()
 
-	for word, id in NOTIFIED_USERS.items():
-		if word in text:
-			notify_users.add(id)
-
 	if FEATURES['PING_GROUPS']:
 		billed = set()
+		everyone = False
 		for i in group_mention_regex.finditer(text):
-			group = g.db.get(Group, i.group(2))
-			if group:
-				if v.id not in group.member_ids:
-					billed.update(group.member_ids)
-				notify_users.update(group.member_ids)
+			if i.group(2) == 'everyone' and not v.shadowbanned:
+				everyone = True
+				break
+			else:
+				group = g.db.get(Group, i.group(2))
+				if group:
+					if v.id not in group.member_ids:
+						billed.update(group.member_ids)
+					notify_users.update(group.member_ids)
+		
+		if everyone:
+			cost = g.db.query(User).count() * 5
+			if cost > v.coins:
+				abort(403, f"You need {cost} coins for this!")
+			g.db.query(User).update({ User.coins: User.coins + 5 })
+			v.coins -= cost
+			g.db.add(v)
+			return 'everyone'
 
 		if billed:
 			cost = len(billed) * 5
@@ -149,6 +161,9 @@ def NOTIFY_USERS(text, v):
 			v.coins -= cost
 			g.db.add(v)
 
+	for word, id in NOTIFIED_USERS.items():
+		if word in text:
+			notify_users.add(id)
 
 	names = set(m.group(2) for m in mention_regex.finditer(text))
 	user_ids = get_users(names, ids_only=True, graceful=True)
@@ -200,3 +215,12 @@ def _push_notif_thread(subscriptions, title, body, url):
 				vapid_claims={"sub": f"mailto:{EMAIL}"}
 			)
 		except: continue
+
+def alert_everyone(cid):
+	cid = int(cid)
+	t = int(time.time())
+	_everyone_query = text(f"""
+	insert into notifications
+	select id, {cid}, false, {t} from users
+	on conflict do nothing;""")
+	g.db.execute(_everyone_query)

@@ -50,8 +50,11 @@ def publish(pid, v):
 
 	if notify_users:
 		cid, text = notif_comment2(p)
-		for x in notify_users:
-			add_notif(cid, x, text, pushnotif_url=p.permalink)
+		if notify_users == 'everyone':
+			alert_everyone(cid)
+		else:
+			for x in notify_users:
+				add_notif(cid, x, text, pushnotif_url=p.permalink)
 
 
 	cache.delete_memoized(frontlist)
@@ -641,8 +644,11 @@ def submit_post(v:User, sub=None):
 
 		if notify_users:
 			cid, text = notif_comment2(p)
-			for x in notify_users:
-				add_notif(cid, x, text, pushnotif_url=p.permalink)
+			if notify_users == 'everyone':
+				alert_everyone(cid)
+			else:
+				for x in notify_users:
+					add_notif(cid, x, text, pushnotif_url=p.permalink)
 
 	if v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in f'{p.body}{p.title}'.lower() and sub != 'chudrama':
 		p.is_banned = True
@@ -1026,8 +1032,11 @@ def edit_post(pid, v):
 		notify_users = NOTIFY_USERS(f'{p.title} {p.body}', v)
 		if notify_users:
 			cid, text = notif_comment2(p)
-			for x in notify_users:
-				add_notif(cid, x, text, pushnotif_url=p.permalink)
+			if notify_users == 'everyone':
+				alert_everyone(cid)
+			else:
+				for x in notify_users:
+					add_notif(cid, x, text, pushnotif_url=p.permalink)
 
 	if v.id == p.author_id:
 		if int(time.time()) - p.created_utc > 60 * 3: p.edited_utc = int(time.time())
