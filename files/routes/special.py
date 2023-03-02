@@ -10,9 +10,9 @@ from files.__main__ import app, cache, limiter
 
 _special_leaderboard_query = text("""
 WITH bet_options AS (
-	SELECT p.id AS submission_id, so.id AS option_id, so.exclusive, cnt.count
+	SELECT p.id AS parent_id, so.id AS option_id, so.exclusive, cnt.count
 	FROM submission_options so
-	JOIN submissions p ON so.submission_id = p.id
+	JOIN submissions p ON so.parent_id = p.id
 	JOIN (
 		SELECT option_id, COUNT(*) FROM submission_option_votes
 		GROUP BY option_id
@@ -22,17 +22,17 @@ WITH bet_options AS (
 ),
 submission_payouts AS (
 	SELECT
-		sq_total.submission_id,
+		sq_total.parent_id,
 		sq_winners.sum AS bettors,
 		floor((sq_total.sum * 200) / sq_winners.sum) AS winner_payout
 	FROM (
-		SELECT submission_id, SUM(count)
-		FROM bet_options GROUP BY submission_id
+		SELECT parent_id, SUM(count)
+		FROM bet_options GROUP BY parent_id
 	) AS sq_total
 	JOIN (
-		SELECT submission_id, SUM(count)
-		FROM bet_options WHERE exclusive = 3 GROUP BY submission_id
-	) AS sq_winners ON sq_total.submission_id = sq_winners.submission_id
+		SELECT parent_id, SUM(count)
+		FROM bet_options WHERE exclusive = 3 GROUP BY parent_id
+	) AS sq_winners ON sq_total.parent_id = sq_winners.parent_id
 ),
 bet_votes AS (
 	SELECT
@@ -47,7 +47,7 @@ bet_votes AS (
 	LEFT OUTER JOIN bet_options AS opt
 		ON opt.option_id = sov.option_id
 	LEFT OUTER JOIN submission_payouts
-		ON opt.submission_id = submission_payouts.submission_id
+		ON opt.parent_id = submission_payouts.parent_id
 	WHERE opt.option_id IS NOT NULL
 ),
 bettors AS (
