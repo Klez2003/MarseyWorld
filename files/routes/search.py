@@ -19,6 +19,7 @@ valid_params = [
 	'before',
 	'after',
 	'title',
+	'sentto',
 	search_operator_hole,
 ]
 
@@ -345,6 +346,13 @@ def searchmessages(v:User):
 			except: abort(400)
 		comments = comments.filter(Comment.created_utc < before)
 
+	if 'sentto' in criteria:
+		sentto = criteria['sentto']
+		try: sentto = get_user(sentto, graceful=True)
+		except:
+			abort(400, "The `sentto` field must contain a user's username!")
+		comments = comments.filter(Comment.sentto == sentto.id)
+
 	comments = sort_objects(sort, comments, Comment)
 
 	total = comments.count()
@@ -366,31 +374,51 @@ def searchmessages(v:User):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def searchusers(v:User):
-
 	query = request.values.get("q", '').strip()
+	if not query:
+		abort(403, "Empty searches aren't allowed!")
 
 	try: page = max(1, int(request.values.get("page", 1)))
 	except: abort(400, "Invalid page input!")
 
-	sort = request.values.get("sort", "new").lower()
-	t = request.values.get('t', 'all').lower()
-	term=query.lstrip('@')
-	term = term.replace('\\','').replace('_','\_').replace('%','')
+	users = g.db.query(User)
 
-	users=g.db.query(User).filter(
-		or_(
-			User.username.ilike(f'%{term}%'),
-			User.original_username.ilike(f'%{term}%')
-		)
-	)
+	criteria = searchparse(query)
 
-	users=users.order_by(User.username.ilike(term).desc(), User.stored_subscriber_count.desc())
+	if 'after' in criteria:
+		after = criteria['after']
+		try: after = int(after)
+		except:
+			try: after = timegm(time.strptime(after, "%Y-%m-%d"))
+			except: abort(400)
+		users = users.filter(User.created_utc > after)
 
-	total=users.count()
+	if 'before' in criteria:
+		before = criteria['before']
+		try: before = int(before)
+		except:
+			try: before = timegm(time.strptime(before, "%Y-%m-%d"))
+			except: abort(400)
+		users = users.filter(User.created_utc < before)
+
+	if 'q' in criteria:
+		term = criteria['q'][0]
+		term = term.lstrip('@')
+		term = term.replace('\\','').replace('_','\_').replace('%','')
+
+		users = users.filter(
+			or_(
+				User.username.ilike(f'%{term}%'),
+				User.original_username.ilike(f'%{term}%')
+			)
+		).order_by(User.username.ilike(term).desc(), User.stored_subscriber_count.desc())
+
+	total = users.count()
 
 	users = users.offset(PAGE_SIZE * (page-1)).limit(PAGE_SIZE+1).all()
-	next_exists=(len(users)>PAGE_SIZE)
-	users=users[:PAGE_SIZE]
+
+	next_exists = (len(users)>PAGE_SIZE)
+	users = users[:PAGE_SIZE]
 
 	if v.client: return {"data": [x.json for x in users]}
-	return render_template("search_users.html", v=v, query=query, total=total, page=page, users=users, sort=sort, t=t, next_exists=next_exists)
+	return render_template("search_users.html", v=v, query=query, total=total, page=page, users=users, next_exists=next_exists)
