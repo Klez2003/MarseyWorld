@@ -88,22 +88,22 @@ def get_game_leaderboard(game, db:scoped_session):
 
 
 def distribute_wager_badges(user, wager, won):
-	badges_earned = []
+	badges_earned = set()
 
 	if won:
 		if wager >= 1000:
-			badges_earned.append(160)
+			badges_earned.add(160)
 		if wager >= 10000:
-			badges_earned.append(161)
+			badges_earned.add(161)
 		if wager >= 100000:
-			badges_earned.append(162)
+			badges_earned.add(162)
 	else:
 		if wager >= 1000:
-			badges_earned.append(157)
+			badges_earned.add(157)
 		if wager >= 10000:
-			badges_earned.append(158)
+			badges_earned.add(158)
 		if wager >= 100000:
-			badges_earned.append(159)
+			badges_earned.add(159)
 
 	for badge in badges_earned:
 		badge_grant(user, badge)
