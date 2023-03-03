@@ -610,6 +610,9 @@ MIN_REPOST_CHECK_URL_LENGTH = 9 # also change the constant in checkRepost() of s
 CHAT_LENGTH_LIMIT = 1000
 SUB_BANNER_LIMIT = 10
 
+BIO_FRIENDS_ENEMIES_LENGTH_LIMIT = 5000 # do not make larger than 5000 characters without altering the table
+BIO_FRIENDS_ENEMIES_HTML_LENGTH_LIMIT = 20000 # do not make larger than 20000 characters without altering the table
+
 COSMETIC_AWARD_COIN_AWARD_PCT = 0.10
 
 TRUESCORE_CHAT_MINIMUM = 0

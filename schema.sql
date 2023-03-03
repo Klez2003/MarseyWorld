@@ -963,8 +963,8 @@ CREATE TABLE public.users (
     admin_level integer DEFAULT 0 NOT NULL,
     over_18 boolean DEFAULT false NOT NULL,
     is_activated boolean DEFAULT false NOT NULL,
-    bio character varying(1500),
-    bio_html character varying(10000),
+    bio character varying(5000),
+    bio_html character varying(20000),
     referred_by integer,
     is_banned integer,
     ban_reason character varying(256),
@@ -1015,11 +1015,11 @@ CREATE TABLE public.users (
     marseyawarded integer,
     sig character varying(200),
     sig_html character varying(1000),
-    friends character varying(1000),
-    friends_html character varying(5000),
+    friends character varying(5000),
+    friends_html character varying(20000),
     sigs_disabled boolean,
-    enemies character varying(1000),
-    enemies_html character varying(5000),
+    enemies character varying(5000),
+    enemies_html character varying(20000),
     fp character varying(21),
     longpost integer,
     bird integer,
@@ -2879,4 +2879,3 @@ ALTER TABLE ONLY public.comments
 --
 -- PostgreSQL database dump complete
 --
-

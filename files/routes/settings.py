@@ -245,16 +245,16 @@ def settings_personal_post(v):
 							msg="Your sig has been updated.")
 
 	elif not updated and FEATURES['USERS_PROFILE_BODYTEXT'] and request.values.get("friends"):
-		friends = request.values.get("friends")[:1000]
+		friends = request.values.get("friends")[:BIO_FRIENDS_ENEMIES_LENGTH_LIMIT]
 
 		friends_html = sanitize(friends, blackjack="friends")
 
-		if len(friends_html) > 5000:
+		if len(friends_html) > BIO_FRIENDS_ENEMIES_HTML_LENGTH_LIMIT:
 			return render_template("settings/personal.html",
 								v=v,
 								error="Your friends list is too long")
 
-		friends = friends[:1000]
+		friends = friends[:BIO_FRIENDS_ENEMIES_LENGTH_LIMIT]
 
 		notify_users = NOTIFY_USERS(friends, v, v.friends)
 
@@ -276,16 +276,16 @@ def settings_personal_post(v):
 
 
 	elif not updated and FEATURES['USERS_PROFILE_BODYTEXT'] and request.values.get("enemies"):
-		enemies = request.values.get("enemies")[:1000]
+		enemies = request.values.get("enemies")[:BIO_FRIENDS_ENEMIES_LENGTH_LIMIT]
 
 		enemies_html = sanitize(enemies, blackjack="enemies")
 
-		if len(enemies_html) > 5000:
+		if len(enemies_html) > BIO_FRIENDS_ENEMIES_HTML_LENGTH_LIMIT:
 			return render_template("settings/personal.html",
 								v=v,
 								error="Your enemies list is too long")
 
-		enemies = enemies[:1000]
+		enemies = enemies[:BIO_FRIENDS_ENEMIES_LENGTH_LIMIT]
 
 		notify_users = NOTIFY_USERS(enemies, v, v.enemies)
 		if notify_users:
@@ -307,19 +307,18 @@ def settings_personal_post(v):
 
 	elif not updated and FEATURES['USERS_PROFILE_BODYTEXT'] and \
 			(request.values.get("bio") or request.files.get('file')):
-		bio = request.values.get("bio")[:1500]
+		bio = request.values.get("bio")[:BIO_FRIENDS_ENEMIES_LENGTH_LIMIT]
 		bio = process_files(request.files, v, bio)
 		bio = bio.strip()
 		bio_html = sanitize(bio, blackjack="bio")
 
-		if len(bio_html) > 10000:
+		if len(bio_html) > BIO_FRIENDS_ENEMIES_HTML_LENGTH_LIMIT:
 			return render_template("settings/personal.html",
 								v=v,
 								error="Your bio is too long")
 
-		if len(bio_html) > 10000: abort(400)
 
-		v.bio = bio[:1500]
+		v.bio = bio[:BIO_FRIENDS_ENEMIES_LENGTH_LIMIT]
 		v.bio_html=bio_html
 		g.db.add(v)
 		return render_template("settings/personal.html",

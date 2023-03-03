@@ -210,9 +210,9 @@
 						</div>
 					{%- endif %}
 					{# common.text_area_section(id, form_action, form_name, section_title, contents, below_text, placeholder_text, show_extras, show_file_upload, maxlength, show_if) #}
-					{{common.text_area_section('profile-bio', '/settings/personal', 'bio', 'Bio', v.bio, 'Limit of 1500 characters', 'Tell the community a bit about yourself.', true, true, 1500, FEATURES['USERS_PROFILE_BODYTEXT'])}}
-					{{common.text_area_section('profile-friends', '/settings/personal', 'friends', 'Friends', v.friends, 'Limit of 500 characters', 'Enter your friends on the site...', false, false, 500, true)}}
-					{{common.text_area_section('profile-enemies', '/settings/personal', 'enemies', 'Enemies', v.enemies, 'Limit of 500 characters', 'Enter your enemies on the site...', false, false, 500, true)}}
+					{{common.text_area_section('profile-bio', '/settings/personal', 'bio', 'Bio', v.bio, 'Limit of ' ~ BIO_FRIENDS_ENEMIES_LENGTH_LIMIT ~ ' characters', 'Tell the community a bit about yourself.', true, true, BIO_FRIENDS_ENEMIES_LENGTH_LIMIT, FEATURES['USERS_PROFILE_BODYTEXT'])}}
+					{{common.text_area_section('profile-friends', '/settings/personal', 'friends', 'Friends', v.friends, 'Limit of ' ~ BIO_FRIENDS_ENEMIES_LENGTH_LIMIT ~ ' characters', 'Enter your friends on the site...', false, false, BIO_FRIENDS_ENEMIES_LENGTH_LIMIT, true)}}
+					{{common.text_area_section('profile-enemies', '/settings/personal', 'enemies', 'Enemies', v.enemies, 'Limit of ' ~ BIO_FRIENDS_ENEMIES_LENGTH_LIMIT ~ ' characters', 'Enter your enemies on the site...', false, false, BIO_FRIENDS_ENEMIES_LENGTH_LIMIT, true)}}
 					{{common.text_area_section('profile-signature', '/settings/personal', 'sig', 'Signature', v.sig, 'Limit of 200 characters', 'Enter a signature...', true, false, 200, v.patron or v.sig)}}
 					{# toggle_section(title, id, name, flag, below_text, disabled) #}
 					{{common.toggle_section('Private Mode', 'privateswitch', 'private', v.is_private, 'This will hide your post and comment history from others. We will also ask search engines to not index your profile page. (Your content will still be accessible via direct link.)', false)}}
