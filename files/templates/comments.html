@@ -687,12 +687,12 @@
 						{% endif %}
 
 						{% if v.id != c.author_id and v.admin_level >= PERMS['USER_BAN'] %}
-							<button type="button" class="list-group-item text-danger" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#banModal" data-nonce="{{g.nonce}}" data-onclick="banModal('/comment/{{c.id}}', '{{c.author_name}}', '{{c.fullname}}','d-none')" ><i class="fas fa-user-slash text-danger fa-fw mr-2"></i>Ban user</button>
+							<button type="button" class="list-group-item text-danger" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#banModal" data-nonce="{{g.nonce}}" data-onclick="banModal('/comment/{{c.id}}', '{{c.author_name}}', '{{c.fullname}}','d-none')"><i class="fas fa-user-slash text-danger fa-fw mr-2"></i>Ban user</button>
 							<button type="button" id="unban2-{{c.fullname}}" class="{% if not c.author.is_banned %}d-none{% endif %} list-group-item text-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unban_user/{{c.fullname}}','ban2-{{c.fullname}}','unban2-{{c.fullname}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-user-minus fa-fw text-success mr-2"></i>Unban user</button>
 						{% endif %}
 
 						{% if v.id != c.author_id and v.admin_level >= PERMS['USER_AGENDAPOSTER'] %}
-							<button type="button" class="list-group-item text-danger" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#chudModal" data-nonce="{{g.nonce}}" data-onclick="chudModal('/comment/{{c.id}}', '{{c.author_name}}', '{{c.fullname}}','d-none')" ><i class="fas fa-face-sleeping text-danger fa-fw mr-2"></i>Chud user</button>
+							<button type="button" class="list-group-item text-danger" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#chudModal" data-nonce="{{g.nonce}}" data-onclick="chudModal('/comment/{{c.id}}', '{{c.author_name}}', '{{c.fullname}}','d-none')"><i class="fas fa-face-sleeping text-danger fa-fw mr-2"></i>Chud user</button>
 							<button type="button" id="unchud2-{{c.fullname}}" class="{% if not c.author.agendaposter %}d-none{% endif %} list-group-item text-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unagendaposter/{{c.fullname}}','chud2-{{c.fullname}}','unchud2-{{c.fullname}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-face-sleeping fa-fw text-success mr-2"></i>Unchud user</button>
 						{% endif %}
 
