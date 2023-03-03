@@ -214,13 +214,15 @@ INSERT INTO public.badge_defs VALUES (229, 'Certified MONSTER Cock', 'This user 
 INSERT INTO public.badge_defs VALUES (230, 'Itty Bitty Clitty', 'This user submitted a photo of their dick and it was determined to be more similar to a sad, undersized clit', 1674147964);
 INSERT INTO public.badge_defs VALUES (161, 'Pro Goombler', 'Won a 10,000 coin bet. Some would say to quit while you''re ahead, but they didn''t just win 10k - keep at it!', NULL);
 INSERT INTO public.badge_defs VALUES (216, 'Human Rights Abuse Profiteer', 'I hope those 6500 deaths were worth the coin.', 1671150403);
+INSERT INTO public.badge_defs VALUES (231, 'SICK FUCK', 'Awarded for contributing to the Morbid Marsey event', 1677791640);
+INSERT INTO public.badge_defs VALUES (232, 'Hardcore Gaymer', 'Awarded for contributing to the Gaymer Marsey event', 1677799338);
 
 
 --
 -- Name: badge_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.badge_defs_id_seq', 230, true);
+SELECT pg_catalog.setval('public.badge_defs_id_seq', 232, true);
 
 
 --
@@ -1538,6 +1540,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseybutt',2,'booty ass rump sexy hot pawg pawc paoc anal sodomy donk dump truck dumptruck mellokind',NULL),
 ('marseybutt2',2,'booty ass rump sexy hot pawg pawc paoc anal sodomy donk dump truck dumptruck mellokind butt ai stable diffusion paw paws beans furry yiff',1665509778),
 ('marseybuttface',2,'butthead ass donk rimjob eat ass rump rear shit fart',NULL),
+('marseybuttfaceshitter',2,'ass butt marsey face shit shitter shid animated poop',1677732684),
 ('marseybux',2,'money paypig currency dollar bill primo premium dollarbill cash',NULL),
 ('marseybyeceps',2,'crying kyle gaige grosskreutz rioter sad',NULL),
 ('marseycactuar',2,'cactuar final fantasy cactus soy shocked cactuarsey 1000 needles vidya video game',NULL),
@@ -1714,6 +1717,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseychudblush',2,'chud blush flustered',1674390988),
 ('marseychuddance',2,'stomp celebrate excited transphobe homophobe trump maga racist white mayo animated dancing',1677699969),
 ('marseychudegg',2,'transgender hatching repressed',1668645562),
+('marseychudnny',2,'penny terf black bipoc kween queen trad',1677714291),
 ('marseychudnotes',2,'chud notes write writing manifesto pencil',1664829809),
 ('marseychudrentfree',2,'seethe mask cope smug cry rage',1665938276),
 ('marseychudsmas',2,'santa naughty christmas holiday',1671901395),
@@ -3230,6 +3234,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseything2',2,'spider arachnid creepy crawler arthropod halloween alien carpenter horror scary animal creature spooky',1666334228),
 ('marseythinkinghallowseve',2,'halloween thinking vampire candy trickortreat costume mask',1666292942),
 ('marseythinkorino',2,'reaction judgment thinking',NULL),
+('marseythirdeye',2,'thirdeye perceive perceeive perception tantra hindu hinduism buddha buddhism third eye trippy psychedelic lsd acid mushroom mushrooms peyote dmt mescaline ayahuasca third eye',1677776935),
 ('marseythomas',2,'tank engine train locomotive',NULL),
 ('marseythonk',2,'confused reaction thinking thunk thonk',NULL),
 ('marseythreadprocessrentfree',2,'thread equals process schizo drt junkiecel',1671054531),
