@@ -427,7 +427,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 			else:
 				existing = g.db.get(Group, name)
 				if existing:
-					sanitized = group_mention_regex.sub(r'\1<a href="/!\2">!\2</a>', sanitized)
+					sanitized = sanitized.replace(i.group(0), f'{i.group(1)}<a href="/!{i.group(2)}">!{i.group(2)}</a>')
 
 	soup = BeautifulSoup(sanitized, 'lxml')
 
