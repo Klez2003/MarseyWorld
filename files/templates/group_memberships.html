@@ -75,12 +75,13 @@
 	</div>
 {% endmacro %}
 
-{{process_memberships(members, 'members')}}
-
-{{process_memberships(applications, 'applications')}}
-
 {% if v.id == group.owner.id %}
+	{{process_memberships(applications, 'applications')}}
+	{{process_memberships(members, 'members')}}
 	<script defer src="{{'js/group_members_owner.js' | asset}}"></script>
+{% else %}
+	{{process_memberships(members, 'members')}}
+	{{process_memberships(applications, 'applications')}}
 {% endif %}
 
 {% endblock %}
