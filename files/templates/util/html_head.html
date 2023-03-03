@@ -12,7 +12,7 @@
 {% endmacro %}
 
 {% macro page_meta(title=none) %}
-	{% if 'post/' in request.path and p %}
+	{% if 'post/' in request.path and p and p.author_name %}
 		{% if not v_forbid_deleted -%}
 			{% set image = p.thumb_url if p.has_thumb %}
 			{% set image = p.realurl(v) if p.is_image %}
