@@ -12,7 +12,7 @@
 {% endmacro %}
 
 {% macro page_meta(title=none) %}
-	{% if 'post/' in request.path and p and p.author_name %}
+	{% if 'post/' in request.path and p %}
 		{% if not v_forbid_deleted -%}
 			{% set image = p.thumb_url if p.has_thumb %}
 			{% set image = p.realurl(v) if p.is_image %}
@@ -25,8 +25,9 @@
 			'"', title, '"'] | join %}
 		{% endif %}
 
-		{% set description, published, modified, url =
-		p.plainbody(v), p.created_datetime, p.edited_string, p.permalink %}
+		{% set author, description, a_author, published, modified, url =
+		'@'+p.author_name, p.plainbody(v), '@'+p.author_name,
+		p.created_datetime, p.edited_string, p.permalink %}
 
 	{% elif '@' in request.path and u %}
 		{% set author, a_author, published, url, title, image, section =
