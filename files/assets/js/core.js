@@ -161,6 +161,7 @@ function autoExpand(field) {
 
 const textareas = document.getElementsByTagName('textarea')
 for (const element of textareas) {
+	autoExpand(element)
 	element.addEventListener('input', () => {
 		autoExpand(element)
 	});
