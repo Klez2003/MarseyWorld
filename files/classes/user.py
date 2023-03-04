@@ -226,7 +226,9 @@ class User(Base):
 				g.db.query(User).filter(User.id == self.id).update({ User.marseybux: User.marseybux - amount })
 				succeeded = True
 
-		if succeeded: g.db.flush()
+		if succeeded:
+			g.db.add(self)
+			g.db.flush()
 
 		return succeeded
 

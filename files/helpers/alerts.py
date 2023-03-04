@@ -157,8 +157,7 @@ def NOTIFY_USERS(text, v, oldtext=None):
 				if cost > v.coins:
 					abort(403, f"You need {cost} coins for this!")
 				g.db.query(User).update({ User.coins: User.coins + 5 })
-				v.coins -= cost
-				g.db.add(v)
+				v.charge_account('coins', cost)
 				return 'everyone'
 			else:
 				group = g.db.get(Group, i.group(2))
@@ -178,9 +177,7 @@ def NOTIFY_USERS(text, v, oldtext=None):
 
 					g.db.query(User).filter(User.id.in_(members)).update({ User.coins: User.coins + mul })
 		
-		v.coins -= cost
-		g.db.add(v)
-
+		v.charge_account('coins', cost)
 
 
 
