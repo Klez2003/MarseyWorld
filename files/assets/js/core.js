@@ -516,6 +516,38 @@ function handle_files(input, newfiles) {
 }
 
 
+file_upload = document.getElementById('file-upload');
+
+if (file_upload) {
+	const IMAGE_FORMATS = document.getElementById('IMAGE_FORMATS').value.split(',')
+
+	function process_url_image() {
+		if (file_upload.files)
+		{
+			const filename = file_upload.files[0].name
+			document.getElementById('filename-show').textContent = filename.substr(0, 20);
+			if (IMAGE_FORMATS.some(s => filename.toLowerCase().endsWith(s)))
+			{
+				const fileReader = new FileReader();
+				fileReader.readAsDataURL(file_upload.files[0]);
+				fileReader.addEventListener("load", function () {
+					document.getElementById('image-preview').setAttribute('src', this.result);
+					document.getElementById('image-preview').classList.remove('d-none');
+				});
+			}
+
+			if (typeof checkForRequired === "function") {
+				document.getElementById('urlblock').classList.add('d-none');
+				checkForRequired();
+			}
+			else {
+				document.getElementById('submit-btn').disabled = false;
+			}
+		}
+	}
+	file_upload.onchange = process_url_image
+}
+
 document.onpaste = function(event) {
 	const files = structuredClone(event.clipboardData.files);
 	if (!files.length) return
@@ -523,32 +555,13 @@ document.onpaste = function(event) {
 	const focused = document.activeElement;
 	let input;
 
-	if (location.pathname.endsWith('/submit')) {
-		if (focused) {
+	if (file_upload) {
+		if (location.pathname.endsWith('/submit') && focused && focused.id == 'post-text') {
 			input = document.getElementById('file-upload-submit')
 		}
 		else {
-			f=document.getElementById('file-upload');
-			f.files += files;
-	
-			if (f.files.length > 20)
-			{
-				alert("You can't upload more than 20 files at one time!")
-				return
-			}
-	
-			document.getElementById('filename-show').textContent = filename;
-			document.getElementById('urlblock').classList.add('d-none');
-			if (IMAGE_FORMATS.some(s => filename.endsWith(s)))
-			{
-				const fileReader = new FileReader();
-				fileReader.readAsDataURL(f.files[0]);
-				fileReader.addEventListener("load", function () {document.getElementById('image-preview').setAttribute('src', this.result);});
-			}
-			document.getElementById('post-url').value = null;
-			localStorage.setItem("post-url", "")
-			document.getElementById('image-upload-block').classList.remove('d-none')
-			checkForRequired();
+			file_upload.files = files;
+			process_url_image();
 			return;
 		}
 	}

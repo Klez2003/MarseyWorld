@@ -1,5 +1,4 @@
-const IMAGE_FORMATS = document.getElementById('IMAGE_FORMATS').value.split(',')
-const submitButton = document.getElementById('create_button')
+const submitButton = document.getElementById('submit')
 
 document.getElementById('post-title').value = localStorage.getItem("post-title")
 document.getElementById('post-text').value = localStorage.getItem("post-text")
@@ -63,24 +62,6 @@ function hide_image() {
 		x.classList.remove('d-none');
 	}
 }
-
-
-document.getElementById('file-upload').addEventListener('change', function(){
-	const f = document.getElementById('file-upload');
-	if (f.files)
-	{
-		document.getElementById('urlblock').classList.add('d-none');
-		const filename = f.files[0].name
-		document.getElementById('filename-show').textContent = filename.substr(0, 20);
-		if (IMAGE_FORMATS.some(s => filename.toLowerCase().endsWith(s)))
-		{
-			const fileReader = new FileReader();
-			fileReader.readAsDataURL(f.files[0]);
-			fileReader.addEventListener("load", function () {document.getElementById('image-preview').setAttribute('src', this.result);});
-		}
-		checkForRequired();
-	}
-})
 
 const saved_values = ['post-title', 'post-text', 'post-url', 'sub']
 
