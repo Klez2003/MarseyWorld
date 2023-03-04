@@ -1218,7 +1218,7 @@ INSERT INTO public.hat_defs VALUES (1138, 'Fallout Advanced Power Armour', 'War.
 INSERT INTO public.hat_defs VALUES (902, 'Shovel Knight', 'Cosplay as the shovel man himself!', 2, 500, NULL, 1665347426);
 INSERT INTO public.hat_defs VALUES (917, 'Bell Pepper (red)', 'Now you can cosplay as a bell pepper and make mama proud!', 2, 500, NULL, 1665417006);
 INSERT INTO public.hat_defs VALUES (911, 'Racecar Hat', 'I sleep in a hat with my wife', 2, 500, NULL, 1665355513);
-
+INSERT INTO public.hat_defs VALUES (1149, 'This hat kills fishists', 'This hat is perfect for anyone who loves fishing and has a sense of humor. Whether you’re a an amateur angler or master baiter, you can show off your confidence and charisma with this witty slogan. It is made of cotton and has an adjustable snapback. Order yours today and reel in the compliments!', 2, 500, NULL, 1677730441);
 
 
 --
