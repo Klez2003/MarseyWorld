@@ -228,7 +228,10 @@ class Submission(Base):
 				return 0
 			elif SITE_NAME == 'WPD':
 				return 0
-		return len([x for x in self.awards if x.kind == kind])
+
+		num = len([x for x in self.awards if x.kind == kind])
+		if kind == 'tilt' and num > 4: return 4
+		return num
 
 	@lazy
 	def realurl(self, v):

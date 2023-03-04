@@ -184,7 +184,9 @@ class Comment(Base):
 	@lazy
 	def award_count(self, kind, v):
 		if v and v.poor and kind.islower(): return 0
-		return len([x for x in self.awards if x.kind == kind])
+		num = len([x for x in self.awards if x.kind == kind])
+		if kind == 'tilt' and num > 4: return 4
+		return num
 
 	def json(self, db:scoped_session):
 		if self.is_banned:
