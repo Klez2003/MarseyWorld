@@ -77,7 +77,7 @@ def speak(data, v):
 	if SITE == 'rdrama.net':
 		def shut_up():
 			self_only = True
-			muted_until = int(time.time() + 3600)
+			muted_until = int(time.time() + 600)
 			muted[vname] = muted_until
 			emit("online", [online, muted], broadcast=True)
 
