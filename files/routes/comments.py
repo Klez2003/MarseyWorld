@@ -122,6 +122,9 @@ def comment(v:User):
 	parent_user = parent if isinstance(parent, User) else parent.author
 	posting_to_submission = isinstance(post_target, Submission)
 
+	if posting_to_submission and post_target.id in ADMIGGER_THREADS and not v.admin_level:
+		abort(403, "You can't post in this thread!")
+
 	if not User.can_see(v, parent): abort(403)
 	if not isinstance(parent, User) and parent.deleted_utc != 0:
 		if isinstance(parent, Submission):
