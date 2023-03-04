@@ -1,4 +1,4 @@
-const submitButton = document.getElementById('submit')
+const submitButton = document.getElementById('submit-btn')
 
 document.getElementById('post-title').value = localStorage.getItem("post-title")
 document.getElementById('post-text').value = localStorage.getItem("post-text")
