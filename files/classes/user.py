@@ -525,7 +525,6 @@ class User(Base):
 
 	@lazy
 	def has_badge(self, badge_id):
-		g.db.flush()
 		return g.db.query(Badge).filter_by(user_id=self.id, badge_id=badge_id).one_or_none()
 
 	def verifyPass(self, password):
