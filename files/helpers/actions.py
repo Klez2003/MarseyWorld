@@ -2,10 +2,11 @@ import random
 import time
 from typing import Type
 from urllib.parse import quote
-
+from sqlalchemy.sql import func
 import gevent
 import requests
 from flask import g
+
 from files.classes.flags import Flag
 from files.classes.mod_logs import ModAction
 from files.classes.notifications import Notification
@@ -92,10 +93,25 @@ def execute_snappy(post:Submission, v:User):
 						)
 			g.db.add(vote)
 			post.upvotes += 1
-		elif body == '!slots':
-			body = f'!slots{snappy.coins}'
 		elif body.startswith(':#marseyghost'):
 			ghost = True
+		elif body == '!slots':
+			body = f'!slots{snappy.coins}'
+		elif body == '!pinggroup':
+			group = g.db.query(Group).order_by(func.random()).first()
+
+			members = group.member_ids
+			
+			if group.name == 'biofoids': mul = 10
+			else: mul = 5
+				
+			g.db.query(User).filter(User.id.in_(members)).update({ User.coins: User.coins + mul })
+
+			cost = len(members) * mul
+			snappy.charge_account('coins', cost)
+
+			body = f'!{group.name}'
+
 
 	body += "\n\n"
 
