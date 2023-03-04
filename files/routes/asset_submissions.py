@@ -389,7 +389,7 @@ def update_marseys(v):
 			name = ''
 			tags = ''
 			error = "A marsey with this name doesn't exist!"
-	return render_template("update_assets.html", v=v, error=error, name=name, tags=tags, type="Marsey")
+	return render_template("admin/update_assets.html", v=v, error=error, name=name, tags=tags, type="Marsey")
 
 
 @app.post("/admin/update/marseys")
@@ -403,7 +403,7 @@ def update_marsey(v):
 	tags = request.values.get('tags', '').lower().strip()
 
 	def error(error):
-		return render_template("update_assets.html", v=v, error=error, name=name, tags=tags, type="Marsey")
+		return render_template("admin/update_assets.html", v=v, error=error, name=name, tags=tags, type="Marsey")
 
 	existing = g.db.get(Marsey, name)
 	if not existing:
@@ -443,14 +443,14 @@ def update_marsey(v):
 		_note=f'<img loading="lazy" data-bs-toggle="tooltip" alt=":{name}:" title=":{name}:" src="/e/{name}.webp">'
 	)
 	g.db.add(ma)
-	return render_template("update_assets.html", v=v, msg=f"'{name}' updated successfully!", name=name, tags=tags, type="Marsey")
+	return render_template("admin/update_assets.html", v=v, msg=f"'{name}' updated successfully!", name=name, tags=tags, type="Marsey")
 
 @app.get("/admin/update/hats")
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['UPDATE_ASSETS'])
 def update_hats(v):
-	return render_template("update_assets.html", v=v, type="Hat")
+	return render_template("admin/update_assets.html", v=v, type="Hat")
 
 
 @app.post("/admin/update/hats")
@@ -463,7 +463,7 @@ def update_hat(v):
 	name = request.values.get('name', '').strip()
 
 	def error(error):
-		return render_template("update_assets.html", v=v, error=error, type="Hat")
+		return render_template("admin/update_assets.html", v=v, error=error, type="Hat")
 
 	if g.is_tor:
 		return error("Image uploads are not allowed through TOR!")
@@ -505,4 +505,4 @@ def update_hat(v):
 		_note=f'<a href="/i/hats/{name}.webp">{name}</a>'
 	)
 	g.db.add(ma)
-	return render_template("update_assets.html", v=v, msg=f"'{name}' updated successfully!", type="Hat")
+	return render_template("admin/update_assets.html", v=v, msg=f"'{name}' updated successfully!", type="Hat")
