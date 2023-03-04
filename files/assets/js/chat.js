@@ -25,7 +25,7 @@ socket=io()
 
 const chatline = document.getElementsByClassName('chat-line')[0]
 const box = document.getElementById('chat-window')
-const textbox = document.getElementById('input-text')
+const ta = document.getElementById('input-text')
 const icon = document.querySelector("link[rel~='icon']")
 
 const vid = document.getElementById('vid').value
@@ -147,7 +147,7 @@ socket.on('speak', function(json) {
 })
 
 function send() {
-	const text = textbox.value.trim();
+	const text = ta.value.trim();
 	const input = document.getElementById('file');
 	const files = input.files;
 	if (text || files)
@@ -160,13 +160,14 @@ function send() {
 			"quotes": document.getElementById('quotes_id').value,
 			"file": sending,
 		});
-		textbox.value = ''
+		ta.value = ''
 		is_typing = false
 		socket.emit('typing', false);
-		autoExpand(textbox);
+		autoExpand(ta);
 		document.getElementById("quotes").classList.add("d-none")
 		document.getElementById('quotes_id').value = null;
 		document.getElementById("filename").innerHTML = '<i class="fas fa-image" style="font-size:1.3rem!important"></i>'
+		oldfiles[ta.id]
 		input.value = null;
 		input.parentElement.nextElementSibling.classList.add('d-none');
 
@@ -191,10 +192,10 @@ function quote(t) {
 	document.getElementById('quotes_id').value = id
 	document.getElementById('QuotedMessageLink').href = `#${id}`
 
-	textbox.focus()
+	ta.focus()
 }
 
-textbox.addEventListener("keyup", function(e) {
+ta.addEventListener("keyup", function(e) {
 	if (e.key === 'Enter') {
 		e.preventDefault();
 		send();
@@ -230,8 +231,8 @@ window.addEventListener('focus', function(){
 })
 
 
-textbox.addEventListener("input", function() {
-	text = textbox.value
+ta.addEventListener("input", function() {
+	text = ta.value
 	if (!text && is_typing==true){
 		is_typing=false;
 		socket.emit('typing', false);
