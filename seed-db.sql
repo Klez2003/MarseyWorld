@@ -216,13 +216,14 @@ INSERT INTO public.badge_defs VALUES (161, 'Pro Goombler', 'Won a 10,000 coin be
 INSERT INTO public.badge_defs VALUES (216, 'Human Rights Abuse Profiteer', 'I hope those 6500 deaths were worth the coin.', 1671150403);
 INSERT INTO public.badge_defs VALUES (231, 'SICK FUCK', 'Awarded for contributing to the Morbid Marsey event', 1677791640);
 INSERT INTO public.badge_defs VALUES (232, 'Hardcore Gaymer', 'Awarded for contributing to the Gaymer Marsey event', 1677799338);
+INSERT INTO public.badge_defs VALUES (233, 'Grek', 'Won the rDrama Pet Beauty Pageant', 1677959128);
 
 
 --
 -- Name: badge_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.badge_defs_id_seq', 232, true);
+SELECT pg_catalog.setval('public.badge_defs_id_seq', 233, true);
 
 
 --
@@ -1315,6 +1316,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyaoc',2,'latina latino hispanic cortez mexican puerto rican ocasio congress alexandria',NULL),
 ('marseyapathybrian',2,'familyguy familyman apathy brian aloof',1668386789),
 ('marseyappicon',2,'iphone ios android application googleplay samsung',NULL),
+('marseyapplejackpixelart',2,'applejack aj pixel pixelart pony mlp apple mylittlepony my little pony zoophilia zoophile furry',1677942528),
 ('marseyappleseed',2,'american usa johnny history folk fruit food pot pan helmet legend',NULL),
 ('marseyaquagrunt',2,'pokemon aqua water drown grunt',1668261272),
 ('marseyarchie',2,'pokemon water aqua drown archie',1668261171),
@@ -1331,6 +1333,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyascii',2,'blurry',NULL),
 ('marseyascii2',2,'oldschool',NULL),
 ('marseyasian',2,'chinese china srdine sardine',NULL),
+('marseyasianmerchant',2,'happy merchant jew asian chinese japanese greedy',1677925837),
 ('marseyastronaut',2,'astronaut space stars sleeping spacesuit scifi galaxy',NULL),
 ('marseyastronaut2',2,'cosmonaut spacesuit helmet',NULL),
 ('marseyatfagent',2,'feds atf agent glowies usa america waco swat m16 firearm rifle cops police',NULL),
@@ -1721,6 +1724,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseychudblush',2,'chud blush flustered',1674390988),
 ('marseychuddance',2,'stomp celebrate excited transphobe homophobe trump maga racist white mayo animated dancing',1677699969),
 ('marseychudegg',2,'transgender hatching repressed',1668645562),
+('marseychudneet',2,'chud neet marsey comfy blanket chudsey',1677914251),
 ('marseychudnny',2,'penny terf black bipoc kween queen trad',1677714291),
 ('marseychudnotes',2,'chud notes write writing manifesto pencil',1664829809),
 ('marseychudrentfree',2,'seethe mask cope smug cry rage',1665938276),
@@ -2248,6 +2252,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyinacumbox',2,'cum box cumbox cute wholesome',1673632724),
 ('marseyinajackolantern',2,'halloween homoween pumpkin jackolantern stripper cake',1666671664),
 ('marseyinapumpkin',2,'halloween homoween pumpkin jackolantern',1666671730),
+('marseyinboots',2,'shoes shrek movie last wish kino film cgi character sword mousquetaire',1677885343),
 ('marseyinbread',2,'food meme inbred',NULL),
 ('marseyindignant',2,'hmph pout indignant angry annoyed no cross defiant obstinate stubborn',1672174676),
 ('marseyinnocent',2,'innocent naive angelic dumb halo',NULL),
@@ -2950,6 +2955,8 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseysartre',2,'philosophy frenchman history',NULL),
 ('marseysaruh',2,'cute dress bread baguette valid trappy ts trappysaruh trans deuxrama celeb glamour train',NULL),
 ('marseysatangoat',2,'evil satan goat halloween spooky baphomet vvitch blackphillip',1667021744),
+('marseysatanworship1',2,'evil mean ritual pentagram hell demon',1677931727),
+('marseysatanworship2',2,'evil mean ritual pentagram hell demon blood',1677931763),
 ('marseysatisfied',2,'satisfying happy smile delightful grateful glad wholesome',1662997904),
 ('marseysatisfiedmarcus',2,'black bipoc satisfying happy smile delightful grateful glad wholesome',1662998420),
 ('marseysaturn',2,'devouring eating snoo kill de goya anger reddit',NULL),
@@ -3023,6 +3030,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyshapiro',2,'benjamin debate libtard facts and logic benny jewish ben shapiro',NULL),
 ('marseysharingan',2,'horror halloween holiday possessed animated monster naruto anime ninja',NULL),
 ('marseyshark',2,'jaws halloween fursona furry fish costume holiday fursuit',NULL),
+('marseyshark2',2,'fish whale sea ocean swimming aquatic carnivore',1677895040),
 ('marseysharksoup',2,'sal shark 2weeks nowhere soup chinese 2 weeks watch this go nowhere cumshark white',1670088838),
 ('marseysheep',2,'follower wool lamb fursona bah furry fursuit',NULL),
 ('marseysheepdog',2,'shaggy scruffy woof',NULL),
@@ -3441,6 +3449,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyxi',2,'xi jinping china chinese  asia',NULL),
 ('marseyxmr',2,'cryptocurrency monero money happy heart',NULL),
 ('marseyxoxo',2,'hearts wave flirt loving love animated kiss',NULL),
+('marseyyakub',2,'black bipoc ni supremacist ye kanye big brain gold chain hood gang',1677881529),
 ('marseyyarn',2,'code program socks npm yarn build make string animated',NULL),
 ('marseyyass',2,'queen reaction fds slay girlboss kween',NULL),
 ('marseyyawn',2,'zzz boring tired sleepy bored',NULL),
