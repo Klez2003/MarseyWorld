@@ -178,7 +178,7 @@ class Comment(Base):
 	@property
 	@lazy
 	def author_name(self):
-		if self.ghost and self.id != g.v.id: return '👻'
+		if self.ghost and not (g.v and self.id == g.v.id): return '👻'
 		return self.author.user_name
 
 	@lazy
