@@ -34,6 +34,7 @@ cp nginx-headers.conf /etc/nginx/includes/headers
 /etc/init.d/nginx reload
 
 psql -U postgres -f schema.sql postgres
+psql -U postgres -f seed-users.sql postgres
 psql -U postgres -f seed-db.sql postgres
 pip3 install -r requirements.txt
 

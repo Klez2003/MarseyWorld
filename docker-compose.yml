@@ -38,6 +38,7 @@ services:
         command: ["postgres", "-c", "log_statement=all"]
         volumes:
             - "./schema.sql:/docker-entrypoint-initdb.d/00-schema.sql"
+            - "./seed-users.sql:/docker-entrypoint-initdb.d/10-seed-users.sql"
             - "./seed-db.sql:/docker-entrypoint-initdb.d/10-seed-db.sql"
         environment:
             - POSTGRES_HOST_AUTH_METHOD=trust
