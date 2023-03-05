@@ -86,9 +86,10 @@ class Comment(Base):
 	def __repr__(self):
 		return f"<{self.__class__.__name__}(id={self.id})>"
 
+	@property
 	@lazy
-	def top_comment(self, db:scoped_session):
-		return db.get(Comment, self.top_comment_id)
+	def top_comment(self):
+		return g.db.get(Comment, self.top_comment_id)
 
 	@property
 	@lazy

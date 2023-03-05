@@ -623,7 +623,7 @@ def messagereply(v:User):
 
 			push_notif({user_id}, title, body, url)
 
-	top_comment = c.top_comment(g.db)
+	top_comment = c.top_comment
 
 	if top_comment.sentto == MODMAIL_ID:
 		admins = g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_MODMAIL'], User.id != v.id)

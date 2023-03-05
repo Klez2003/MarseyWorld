@@ -153,9 +153,9 @@ def post_id(pid, anything=None, v=None, sub=None):
 			pin.stickied_utc = None
 			g.db.add(pin)
 		elif pin.level > 1:
-			pinned2[pin.top_comment(g.db)] = ''
-			if pin.top_comment(g.db) in comments:
-				comments.remove(pin.top_comment(g.db))
+			pinned2[pin.top_comment] = ''
+			if pin.top_comment in comments:
+				comments.remove(pin.top_comment)
 		else:
 			pinned2[pin] = ''
 
