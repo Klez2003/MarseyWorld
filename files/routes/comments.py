@@ -106,7 +106,12 @@ def comment(v:User):
 	elif parent_fullname.startswith("p_"):
 		parent = get_post(id, v=v)
 		post_target = parent
-		if POLL_THREAD and parent.id == POLL_THREAD and v.admin_level < PERMS['POST_TO_POLL_THREAD']: abort(403)
+		if POLL_THREAD and parent.id == POLL_THREAD and v.admin_level < PERMS['POST_TO_POLL_THREAD']:
+			abort(403, "You can't post top-level comments in this thread!")
+
+		if parent.id in ADMIGGER_THREADS and v.admin_level < PERMS['USE_ADMIGGER_THREADS']:
+			abort(403, "You can't post top-level comments in this thread!")
+
 		ghost = parent.ghost
 	elif parent_fullname.startswith("c_"):
 		parent = get_comment(id, v=v)
@@ -122,8 +127,7 @@ def comment(v:User):
 	parent_user = parent if isinstance(parent, User) else parent.author
 	posting_to_submission = isinstance(post_target, Submission)
 
-	if posting_to_submission and post_target.id in ADMIGGER_THREADS and v.admin_level < PERMS['USE_ADMIGGER_THREADS']:
-		abort(403, "You can't post in this thread!")
+	
 
 	if not User.can_see(v, parent): abort(403)
 	if not isinstance(parent, User) and parent.deleted_utc != 0:
