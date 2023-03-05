@@ -1437,7 +1437,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseybegonethot',2,'pepe apu peepo begon thot cross demon exorcise slut whore',NULL),
 ('marseybeheading',2,'blood beheading knife marseymarsey dead murder kill',1667808240),
 ('marseyben10',2,'ten anime cartoon lawlz',NULL),
-('marseybestfriends',2,'snoo reddit alien slice kill kys stab blood wpd',NULL),
+('marseybestfriends',2,'snoo reddit alien slice kill kys stab blood wpd beheading revenge machete watchpeopledie murder death',NULL),
 ('marseybetauprising',2,'blackops2cel blops2cel incel volcel lasereyes dark involuntary celibate saint',1663213986),
 ('marseybiast',2,'darrell brooks court biased biast',1665784922),
 ('marseybib',2,'marsey baby bib diaper pacifier pin bonnet toddler abdl huh',1666587339),
