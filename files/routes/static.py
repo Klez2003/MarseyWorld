@@ -385,11 +385,8 @@ def transfers(v:User):
 		return render_template("transfers.html", v=v, page=page, comments=comments, standalone=True, next_exists=next_exists)
 
 
-if not os.path.exists(f'files/templates/donate_{SITE_NAME}.html'):
-	copyfile('files/templates/donate_rDrama.html', f'files/templates/donate_{SITE_NAME}.html')
-
 @app.get('/donate')
 @limiter.limit(DEFAULT_RATELIMIT)
 @auth_desired_with_logingate
 def donate(v):
-	return render_template(f'donate_{SITE_NAME}.html', v=v)
+	return render_template(f'donate.html', v=v)
