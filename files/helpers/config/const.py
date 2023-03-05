@@ -193,6 +193,7 @@ if SITE_NAME == 'rDrama':
 		"krayon": "krayon (sister toucher)",
 		"discord": "groomercord",
 		"allah(?! \()": "Allah (ﷻ)",
+		"(?<!cow) tools ": " cow tools ",
 	}
 	SLURS.update(RDRAMA_SLURS)
 
@@ -346,7 +347,10 @@ elif SITE_NAME == 'WPD':
 
 SLURS_FOR_REPLACING = {}
 for k, val in SLURS.items():
-	SLURS_FOR_REPLACING[k.split('(')[0]] = val
+	newkey = k.split('(?!')[0]
+	if ')' in newkey:
+		newkey = newkey.split(')')[1]
+	SLURS_FOR_REPLACING[newkey] = val
 
 PROFANITIES = {
 	'motherfucker': 'motherlover',
