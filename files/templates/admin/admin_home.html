@@ -4,10 +4,10 @@
 {% block content %}
 <h3 class="py-2">Admin Tools</h3>
 
-{% if (v.admin_level >= PERMS['SITE_SETTINGS_SIDEBARS_BANNERS_BADGES'] or v.admin_level >= PERMS['SITE_SETTINGS_SNAPPY_QUOTES']) and (SITE_NAME == 'rDrama' or SIDEBAR_THREAD or BANNER_THREAD or BADGE_THREAD or SNAPPY_THREAD) %}
+{% if v.admin_level >= PERMS['USE_ADMIGGER_THREADS'] and (SITE_NAME == 'rDrama' or SIDEBAR_THREAD or BANNER_THREAD or BADGE_THREAD or SNAPPY_THREAD) %}
 	<h4>Add Stuff</h4>
 	<ul>
-		{% if v.admin_level >= PERMS['SITE_SETTINGS_SIDEBARS_BANNERS_BADGES'] %}
+		{% if v.admin_level >= PERMS['USE_ADMIGGER_THREADS'] %}
 			{% if SIDEBAR_THREAD %}
 				<li><a href="/post/{{SIDEBAR_THREAD}}">Add Sidebar Images</a></li>
 			{% endif %}
@@ -17,10 +17,11 @@
 			{% if BADGE_THREAD %}
 				<li><a href="/post/{{BADGE_THREAD}}">Add Badges</a></li>
 			{% endif %}
+			{% if SNAPPY_THREAD %}
+				<li><a href="/post/{{SNAPPY_THREAD}}">Add Snappy Quotes</a></li>
+			{% endif %}
 		{% endif %}
-		{% if SNAPPY_THREAD and v.admin_level >= PERMS['SITE_SETTINGS_SNAPPY_QUOTES'] %}
-			<li><a href="/post/{{SNAPPY_THREAD}}">Add Snappy Quotes</a></li>
-		{% endif %}
+
 		{% if SITE_NAME == 'rDrama' %}
 			{% if v.admin_level >= PERMS['MODERATE_PENDING_SUBMITTED_ASSETS'] %}
 				<li><a href="/submit/marseys">Approve or Reject Marseys</a></li>

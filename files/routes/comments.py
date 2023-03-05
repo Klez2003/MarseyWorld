@@ -122,7 +122,7 @@ def comment(v:User):
 	parent_user = parent if isinstance(parent, User) else parent.author
 	posting_to_submission = isinstance(post_target, Submission)
 
-	if posting_to_submission and post_target.id in ADMIGGER_THREADS and not v.admin_level:
+	if posting_to_submission and post_target.id in ADMIGGER_THREADS and v.admin_level < PERMS['USE_ADMIGGER_THREADS']:
 		abort(403, "You can't post in this thread!")
 
 	if not User.can_see(v, parent): abort(403)
@@ -169,7 +169,7 @@ def comment(v:User):
 				file.save(oldname)
 				image = process_image(oldname, v)
 				if image == "": abort(400, "Image upload failed")
-				if posting_to_submission and v.admin_level >= PERMS['SITE_SETTINGS_SIDEBARS_BANNERS_BADGES']:
+				if posting_to_submission and v.admin_level >= PERMS['USE_ADMIGGER_THREADS']:
 					def process_sidebar_or_banner(type, resize=0):
 						li = sorted(os.listdir(f'files/assets/images/{SITE_NAME}/{type}'),
 							key=lambda e: int(e.split('.webp')[0]))[-1]
@@ -217,7 +217,7 @@ def comment(v:User):
 
 	body = body.strip()[:COMMENT_BODY_LENGTH_LIMIT]
 
-	if v.admin_level >= PERMS['SITE_SETTINGS_SNAPPY_QUOTES'] and posting_to_submission and post_target.id == SNAPPY_THREAD and level == 1 and body not in SNAPPY_QUOTES:
+	if v.admin_level >= PERMS['USE_ADMIGGER_THREADS'] and posting_to_submission and post_target.id == SNAPPY_THREAD and level == 1 and body not in SNAPPY_QUOTES:
 		with open(f"snappy_{SITE_NAME}.txt", "a", encoding="utf-8") as f:
 			f.write('\n{[para]}\n' + body)
 
