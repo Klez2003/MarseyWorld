@@ -251,6 +251,9 @@ class Submission(Base):
 			# Semi-temporary fix for self-hosted unproxied video serving
 			url = url.replace("https://watchpeopledie.tv/videos/",
 							  "https://videos.watchpeopledie.tv/", 1)
+		elif SITE == 'watchpeopledie.tv' and url.startswith('/videos'):
+				url = url.replace("/videos/",
+						"https://videos.watchpeopledie.tv/", 1)
 
 		return url
 
