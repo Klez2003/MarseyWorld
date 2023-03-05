@@ -484,8 +484,8 @@
 {% endif %}
 
 {% if v.admin_level >= PERMS['USER_AGENDAPOSTER'] and v.id != c.author_id %}
-	<button type="button" id="unchud-{{c.fullname}}" class="dropdown-item list-inline-item d-none {% if c.author.agendaposter %}d-md-block{% endif %} text-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unagendaposter/{{c.fullname}}','chud-{{c.fullname}}','unchud-{{c.fullname}}','d-md-block')"><i class="fas fa-face-sleeping text-success fa-fw"></i>Unchud user</button>
-	<button type="button" class="dropdown-item list-inline-item d-none d-md-block text-danger" data-bs-toggle="modal" data-bs-target="#chudModal" data-nonce="{{g.nonce}}" data-onclick="chudModal('/comment/{{c.id}}', '{{c.author_name}}', '{{c.fullname}}','d-md-block')"><i class="fas fa-face-sleeping text-danger fa-fw"></i>Chud user</button>
+	<button type="button" id="unchud-{{c.fullname}}" class="chuduser dropdown-item list-inline-item d-none {% if c.author.agendaposter %}d-md-block{% endif %} text-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unagendaposter/{{c.fullname}}','chud-{{c.fullname}}','unchud-{{c.fullname}}','d-md-block')"><i class="fas fa-face-sleeping text-success fa-fw"></i>Unchud user</button>
+	<button type="button" class="chuduser dropdown-item list-inline-item d-none d-md-block text-danger" data-bs-toggle="modal" data-bs-target="#chudModal" data-nonce="{{g.nonce}}" data-onclick="chudModal('/comment/{{c.id}}', '{{c.author_name}}', '{{c.fullname}}','d-md-block')"><i class="fas fa-face-sleeping text-danger fa-fw"></i>Chud user</button>
 {% endif %}
 
 							</ul>
@@ -692,8 +692,8 @@
 						{% endif %}
 
 						{% if v.id != c.author_id and v.admin_level >= PERMS['USER_AGENDAPOSTER'] %}
-							<button type="button" class="list-group-item text-danger" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#chudModal" data-nonce="{{g.nonce}}" data-onclick="chudModal('/comment/{{c.id}}', '{{c.author_name}}', '{{c.fullname}}','d-none')"><i class="fas fa-face-sleeping text-danger fa-fw mr-2"></i>Chud user</button>
-							<button type="button" id="unchud2-{{c.fullname}}" class="{% if not c.author.agendaposter %}d-none{% endif %} list-group-item text-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unagendaposter/{{c.fullname}}','chud2-{{c.fullname}}','unchud2-{{c.fullname}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-face-sleeping fa-fw text-success mr-2"></i>Unchud user</button>
+							<button type="button" class="chuduser list-group-item text-danger" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#chudModal" data-nonce="{{g.nonce}}" data-onclick="chudModal('/comment/{{c.id}}', '{{c.author_name}}', '{{c.fullname}}','d-none')"><i class="fas fa-face-sleeping text-danger fa-fw mr-2"></i>Chud user</button>
+							<button type="button" id="unchud2-{{c.fullname}}" class="chuduser {% if not c.author.agendaposter %}d-none{% endif %} list-group-item text-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unagendaposter/{{c.fullname}}','chud2-{{c.fullname}}','unchud2-{{c.fullname}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-face-sleeping fa-fw text-success mr-2"></i>Unchud user</button>
 						{% endif %}
 
 						{% if v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}

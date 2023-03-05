@@ -7201,3 +7201,7 @@ input[type=number] {
 		height: 30px;
 	}
 }
+
+.chuduser {
+	padding-left: 0.1rem !important;
+}
