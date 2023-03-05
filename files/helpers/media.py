@@ -205,8 +205,10 @@ def process_image(filename:str, v, resize=0, trim=False, uploader_id:Optional[in
 						i_hash = str(imagehash.phash(i))
 
 					if i_hash in hashes.keys():
+						print(f'\n\n★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★\n\nRemove one of these existing duplicates please:\n\n', flush=True)
 						print(hashes[i_hash], flush=True)
 						print(img_path, flush=True)
+						print(f'\n\n★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★\n\n', flush=True)
 					else: hashes[i_hash] = img_path
 
 				with Image.open(filename) as i:
