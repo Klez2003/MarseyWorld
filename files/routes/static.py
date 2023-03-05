@@ -387,6 +387,7 @@ def transfers(v:User):
 
 @app.get('/donate')
 @limiter.limit(DEFAULT_RATELIMIT)
-@auth_desired_with_logingate
+@is_not_permabanned
 def donate(v):
+	if v.shadowbanned or v.agendaposter == 1: abort(404)
 	return render_template(f'donate.html', v=v)
