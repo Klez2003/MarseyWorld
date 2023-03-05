@@ -1011,9 +1011,13 @@ class User(Base):
 					return cls.can_see(user, other.post)
 				else:
 					if not user and not other.wall_user_id: return False
-					if not other.sentto: return True # handled by Notification
-					if other.sentto == MODMAIL_ID: return user.admin_level >= PERMS['VIEW_MODMAIL']  # type: ignore
-					if other.sentto != user.id: return user.admin_level >= PERMS['POST_COMMENT_MODERATION']  # type: ignore
+
+					if other.sentto:
+						if other.sentto == MODMAIL_ID:
+							if other.top_comment.author_id == user.id: return True
+							return user.admin_level >= PERMS['VIEW_MODMAIL']
+						if other.sentto != user.id:
+							return False
 		elif isinstance(other, Sub):
 			if other.name == 'chudrama': return bool(user) and user.can_see_chudrama
 			if other.name in {'countryclub','splash_mountain'}: return bool(user) and user.can_see_countryclub
