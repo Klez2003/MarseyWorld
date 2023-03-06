@@ -365,7 +365,7 @@ class User(Base):
 
 	@lazy
 	def mod_date(self, sub):
-		if self.admin_level >= PERMS['MODS_EVERY_HOLE']: return 0
+		if self.admin_level >= PERMS['MODS_EVERY_HOLE']: return 1
 
 		mod_ts = g.db.query(Mod.created_utc).filter_by(user_id=self.id, sub=sub).one_or_none()
 		if mod_ts is None:
