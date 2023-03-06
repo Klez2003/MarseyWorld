@@ -46,7 +46,7 @@ class Sub(Base):
 	@property
 	@lazy
 	def banner_urls(self):
-		return bannerurls
+		return self.bannerurls
 
 	@lazy
 	def random_banner(self):
