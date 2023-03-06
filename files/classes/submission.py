@@ -239,8 +239,6 @@ class Submission(Base):
 
 		if not url: return ''
 
-		if url.startswith('/'): return SITE_FULL + url
-
 		url = normalize_urls_runtime(url, v)
 
 		if url.startswith("https://old.reddit.com/r/") and '/comments/' in url and "sort=" not in url:
@@ -254,6 +252,8 @@ class Submission(Base):
 		elif SITE == 'watchpeopledie.tv' and url.startswith('/videos'):
 				url = url.replace("/videos/",
 						"https://videos.watchpeopledie.tv/", 1)
+
+		if url.startswith('/'): return SITE_FULL + url
 
 		return url
 
