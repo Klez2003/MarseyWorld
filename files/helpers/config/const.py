@@ -467,6 +467,7 @@ PERMS = { # Minimum admin_level to perform action.
  	'BUY_GHOST_AWARD': 2,
  	'LOTTERY_VIEW_PARTICIPANTS': 2,
  	'POST_COMMENT_INFINITE_PINGS': 2,
+	'IGNORE_1WEEk_EDITING_LIMIT': 2,
 
  	'ADMIN_ADD': 3,
  	'ADMIN_REMOVE': 3,

@@ -613,7 +613,8 @@ def toggle_comment_nsfw(cid, v):
 def edit_comment(cid, v):
 	c = get_comment(cid, v=v)
 
-	if time.time() - c.created_utc > 7*24*60*60 and not (c.post and c.post.private):
+	if time.time() - c.created_utc > 7*24*60*60 and not (c.post and c.post.private) \
+	and v.admin_level < PERMS["IGNORE_1WEEk_EDITING_LIMIT"]:
 		abort(403, "You can't edit comments older than 1 week!")
 
 	if c.author_id != v.id: abort(403)
