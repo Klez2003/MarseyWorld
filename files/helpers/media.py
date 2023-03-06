@@ -138,6 +138,7 @@ def process_video(file, v):
 		)
 		g.db.add(media)
 
+	if SITE == 'watchpeopledie.tv': f'https://videos.{SITE}{new}'
 	return new
 
 def process_image(filename:str, v, resize=0, trim=False, uploader_id:Optional[int]=None, db=None):
