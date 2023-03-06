@@ -171,6 +171,7 @@ def process_image(filename:str, v, resize=0, trim=False, uploader_id:Optional[in
 
 	try:
 		with Image.open(filename) as i:
+			oldformat = i.format
 			params = ["magick"]
 			if resize == 99: params.append(f"{filename}[0]")
 			else: params.append(filename)
@@ -197,8 +198,14 @@ def process_image(filename:str, v, resize=0, trim=False, uploader_id:Optional[in
 						"Please convert it to WEBP elsewhere then upload it again."))
 		return None
 
+	size_after_conversion = os.stat(filename).st_size
+	if size_after_conversion > size:
+		print(STARS, flush=True)
+		print(f'{filename}: {oldformat}@{size} -> WEBP@{size_after_conversion}', flush=True)
+		print(STARS, flush=True)
+
 	if resize:
-		if os.stat(filename).st_size > MAX_IMAGE_SIZE_BANNER_RESIZED_MB * 1024 * 1024:
+		if size_after_conversion > MAX_IMAGE_SIZE_BANNER_RESIZED_MB * 1024 * 1024:
 			remove_media(filename)
 			if has_request:
 				abort(413, f"Max size for site assets is {MAX_IMAGE_SIZE_BANNER_RESIZED_MB} MB")
