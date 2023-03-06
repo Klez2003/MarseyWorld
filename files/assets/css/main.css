@@ -7205,3 +7205,8 @@ input[type=number] {
 #input-message, #input-message-mobile {
     min-height: 100px;
 }
+
+.collapsed .showmore-text
+{
+    display: none;
+}
