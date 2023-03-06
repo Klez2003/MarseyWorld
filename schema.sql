@@ -1049,7 +1049,7 @@ CREATE TABLE public.users (
     spider integer,
     profanityreplacer integer DEFAULT 1 NOT NULL,
     last_viewed_reddit_notifs integer NOT NULL,
-    profile_background character varying(30),
+    profile_background character varying(167),
     event_music boolean,
     chudded_by integer,
     event_darkmode boolean,
