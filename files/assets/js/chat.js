@@ -166,9 +166,9 @@ function send() {
 		autoExpand(ta);
 		document.getElementById("quotes").classList.add("d-none")
 		document.getElementById('quotes_id').value = null;
-		document.getElementById("filename").innerHTML = '<i class="fas fa-image" style="font-size:1.3rem!important"></i>'
 		oldfiles[ta.id] = [];
 		input.value = null;
+		input.previousElementSibling.innerHTML = '<i class="fas fa-image" style="font-size:1.3rem!important"></i>'
 		input.parentElement.nextElementSibling.classList.add('d-none');
 
 		box.scrollTo(0, box.scrollHeight);
@@ -297,6 +297,20 @@ document.addEventListener('click', function (e) {
 		document.getElementById('quotes_id').value = null;
 	}
 });
+
+
+const input = document.getElementById('file')
+function handle_files() {
+	if (!input.files.length) return
+	input.previousElementSibling.textContent = input.files[0].name.substr(0, 50);
+}
+
+input.onchange = handle_files
+
+document.onpaste = function(event) {
+	input.files = structuredClone(event.clipboardData.files);
+	handle_files()
+}
 
 box.scrollTo(0, box.scrollHeight)
 setTimeout(function () {
