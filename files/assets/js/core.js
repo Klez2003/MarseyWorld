@@ -525,7 +525,7 @@ if (file_upload) {
 		if (file_upload.files)
 		{
 			const filename = file_upload.files[0].name
-			document.getElementById('filename-show').textContent = filename.substr(0, 20);
+			document.getElementById('filename-show').textContent = filename.substr(0, 50);
 			if (IMAGE_FORMATS.some(s => filename.toLowerCase().endsWith(s)))
 			{
 				const fileReader = new FileReader();
