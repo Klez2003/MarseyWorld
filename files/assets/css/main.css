@@ -7202,10 +7202,6 @@ input[type=number] {
 	}
 }
 
-.chuduser {
-	padding-left: 0.1rem !important;
-}
-
 #input-message, #input-message-mobile {
     min-height: 100px;
 }
