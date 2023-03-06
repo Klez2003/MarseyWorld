@@ -205,8 +205,8 @@ def remove_asset(cls, type_name:str, v:User, name:str) -> dict[str, str]:
 		g.db.add(ma)
 
 	g.db.delete(asset)
-	os.remove(f"/asset_submissions/{type_name}s/{name}.webp")
-	os.remove(f"/asset_submissions/{type_name}s/{name}")
+	remove_media(f"/asset_submissions/{type_name}s/{name}.webp")
+	remove_media(f"/asset_submissions/{type_name}s/{name}")
 
 	return {"message": f"'{name}' removed!"}
 
@@ -271,7 +271,7 @@ def submit_hat(v:User):
 
 	with Image.open(highquality) as i:
 		if i.width > 100 or i.height > 130:
-			os.remove(highquality)
+			remove_media(highquality)
 			return error("Images must be 100x130")
 
 		if len(list(Iterator(i))) > 1: price = 1000
@@ -417,7 +417,7 @@ def update_marsey(v):
 
 		for x in IMAGE_FORMATS:
 			if path.isfile(f'/asset_submissions/marseys/original/{name}.{x}'):
-				os.remove(f'/asset_submissions/marseys/original/{name}.{x}')
+				remove_media(f'/asset_submissions/marseys/original/{name}.{x}')
 
 		highquality = f"/asset_submissions/marseys/{name}"
 		file.save(highquality)
@@ -483,7 +483,7 @@ def update_hat(v):
 
 	with Image.open(highquality) as i:
 		if i.width > 100 or i.height > 130:
-			os.remove(highquality)
+			remove_media(highquality)
 			return error("Images must be 100x130")
 
 		format = i.format.lower()
@@ -491,7 +491,7 @@ def update_hat(v):
 
 	for x in IMAGE_FORMATS:
 		if path.isfile(f'/asset_submissions/hats/original/{name}.{x}'):
-			os.remove(f'/asset_submissions/hats/original/{name}.{x}')
+			remove_media(f'/asset_submissions/hats/original/{name}.{x}')
 
 	rename(highquality, new_path)
 

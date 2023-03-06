@@ -541,7 +541,7 @@ def delete_sub_banner(v:User, sub:str, index:int):
 		abort(404, f'Banner not found (banner index {index} is not between 0 and {len(sub.bannerurls)})')
 	banner = sub.bannerurls[index]
 	try:
-		os.remove(banner)
+		remove_media(banner)
 	except FileNotFoundError:
 		pass
 	del sub.bannerurls[index]
@@ -567,7 +567,7 @@ def delete_all_sub_banners(v:User, sub:str):
 	if v.shadowbanned: return redirect(f'/h/{sub}/settings')
 	for banner in sub.banner_urls:
 		try:
-			os.remove(banner)
+			remove_media(banner)
 		except FileNotFoundError:
 			pass
 	sub.bannerurls = []
@@ -602,7 +602,7 @@ def sub_sidebar(v:User, sub):
 
 	if sidebarurl:
 		if sub.sidebarurl:
-			os.remove(sub.sidebarurl)
+			remove_media(sub.sidebarurl)
 		sub.sidebarurl = sidebarurl
 		g.db.add(sub)
 
@@ -634,7 +634,7 @@ def sub_marsey(v:User, sub):
 
 	if marseyurl:
 		if sub.marseyurl:
-			os.remove(sub.marseyurl)
+			remove_media(sub.marseyurl)
 		sub.marseyurl = marseyurl
 		g.db.add(sub)
 

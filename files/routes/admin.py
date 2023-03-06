@@ -1771,7 +1771,7 @@ def delete_media_post(v):
 	if not os.path.isfile(path):
 		return render_template("admin/delete_media.html", v=v, url=url, error="File not found on the server!")
 
-	os.remove(path)
+	remove_media(path)
 
 	ma=ModAction(
 		kind="delete_media",

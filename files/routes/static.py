@@ -2,7 +2,7 @@ import os
 from shutil import copyfile
 
 from sqlalchemy import func
-from files.helpers.media import process_files
+from files.helpers.media import *
 
 import files.helpers.stats as statshelper
 from files.classes.award import AWARDS

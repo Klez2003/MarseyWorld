@@ -20,6 +20,18 @@ from files.helpers.settings import get_setting
 
 from .config.const import *
 
+def remove_media(path):
+	img_prefix = f'https://i.{SITE}'
+	if path.startswith(img_prefix):
+		path = path.split(img_prefix, 1)[1]
+
+	video_prefix = f'https://videos.{SITE}'
+	if path.startswith(video_prefix):
+		path = path.split(video_prefix, 1)[1]
+
+	os.remove(path)
+
+
 def media_ratelimit(v):
 	t = time.time() - 86400
 	count = g.db.query(Media).filter(Media.user_id == v.id, Media.created_utc > t).count()
@@ -63,7 +75,7 @@ def process_audio(file, v):
 
 	size = os.stat(name).st_size
 	if size > MAX_IMAGE_AUDIO_SIZE_MB_PATRON * 1024 * 1024 or not v.patron and size > MAX_IMAGE_AUDIO_SIZE_MB * 1024 * 1024:
-		os.remove(name)
+		remove_media(name)
 		abort(413, f"Max image/audio size is {MAX_IMAGE_AUDIO_SIZE_MB} MB ({MAX_IMAGE_AUDIO_SIZE_MB_PATRON} MB for {patron.lower()}s)")
 
 	media = g.db.query(Media).filter_by(filename=name, kind='audio').one_or_none()
@@ -84,7 +96,7 @@ def webm_to_mp4(old, new, vid, db):
 	tmp = new.replace('.mp4', '-t.mp4')
 	subprocess.run(["ffmpeg", "-y", "-loglevel", "warning", "-nostats", "-threads:v", "1", "-i", old, "-map_metadata", "-1", tmp], check=True, stderr=subprocess.STDOUT)
 	os.replace(tmp, new)
-	os.remove(old)
+	remove_media(old)
 
 	media = db.query(Media).filter_by(filename=new, kind='video').one_or_none()
 	if media: db.delete(media)
@@ -111,7 +123,7 @@ def process_video(file, v):
 	if (SITE_NAME != 'WPD' and
 			(size > MAX_VIDEO_SIZE_MB_PATRON * 1024 * 1024
 				or not v.patron and size > MAX_VIDEO_SIZE_MB * 1024 * 1024)):
-		os.remove(old)
+		remove_media(old)
 		abort(413, f"Max video size is {MAX_VIDEO_SIZE_MB} MB ({MAX_VIDEO_SIZE_MB_PATRON} MB for paypigs)")
 
 	name_original = secure_filename(file.filename)
@@ -125,7 +137,7 @@ def process_video(file, v):
 		gevent.spawn(webm_to_mp4, old, new, v.id, db)
 	else:
 		subprocess.run(["ffmpeg", "-y", "-loglevel", "warning", "-nostats", "-i", old, "-map_metadata", "-1", "-c:v", "copy", "-c:a", "copy", new], check=True)
-		os.remove(old)
+		remove_media(old)
 
 		media = g.db.query(Media).filter_by(filename=new, kind='video').one_or_none()
 		if media: g.db.delete(media)
@@ -150,7 +162,7 @@ def process_image(filename:str, v, resize=0, trim=False, uploader_id:Optional[in
 	patron = bool(v.patron)
 
 	if size > MAX_IMAGE_AUDIO_SIZE_MB_PATRON * 1024 * 1024 or not patron and size > MAX_IMAGE_AUDIO_SIZE_MB * 1024 * 1024:
-		os.remove(filename)
+		remove_media(filename)
 		if has_request:
 			abort(413, f"Max image/audio size is {MAX_IMAGE_AUDIO_SIZE_MB} MB ({MAX_IMAGE_AUDIO_SIZE_MB_PATRON} MB for paypigs)")
 		return None
@@ -168,7 +180,7 @@ def process_image(filename:str, v, resize=0, trim=False, uploader_id:Optional[in
 	except UnidentifiedImageError as e:
 		print(f"Couldn't identify an image for {filename}; deleting... (user {v.id if v else '-no user-'})")
 		try:
-			os.remove(filename)
+			remove_media(filename)
 		except: pass
 		if has_request:
 			abort(415)
@@ -185,7 +197,7 @@ def process_image(filename:str, v, resize=0, trim=False, uploader_id:Optional[in
 
 	if resize:
 		if os.stat(filename).st_size > MAX_IMAGE_SIZE_BANNER_RESIZED_MB * 1024 * 1024:
-			os.remove(filename)
+			remove_media(filename)
 			if has_request:
 				abort(413, f"Max size for site assets is {MAX_IMAGE_SIZE_BANNER_RESIZED_MB} MB")
 			return None
@@ -216,7 +228,7 @@ def process_image(filename:str, v, resize=0, trim=False, uploader_id:Optional[in
 					i_hash = str(imagehash.phash(i))
 
 				if i_hash in hashes.keys():
-					os.remove(filename)
+					remove_media(filename)
 					if has_request:
 						abort(409, "Image already exists! " + hashes[i_hash].split('/')[-1])
 					return None
@@ -257,11 +269,11 @@ def process_dm_images(v, user, body):
 			patron = bool(v.patron)
 
 			if size > MAX_IMAGE_AUDIO_SIZE_MB_PATRON * 1024 * 1024 or not patron and size > MAX_IMAGE_AUDIO_SIZE_MB * 1024 * 1024:
-				os.remove(filename)
+				remove_media(filename)
 				abort(413, f"Max image/audio size is {MAX_IMAGE_AUDIO_SIZE_MB} MB ({MAX_IMAGE_AUDIO_SIZE_MB_PATRON} MB for paypigs)")
 
 			with open(filename, 'rb') as f:
-				os.remove(filename)
+				remove_media(filename)
 				try:
 					req = requests.request(
 						"POST",
