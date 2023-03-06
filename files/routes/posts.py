@@ -513,7 +513,7 @@ def submit_post(v:User, sub=None):
 			Submission.is_banned == False
 		).first()
 		if repost and FEATURES['REPOST_DETECTION'] and not v.admin_level >= PERMS['POST_BYPASS_REPOST_CHECKING']:
-			return redirect(repost.permalink)
+			return {"post_id": repost.id}
 
 		y = tldextract.extract(url).registered_domain + parsed_url.path
 		y = y.lower()
@@ -546,7 +546,8 @@ def submit_post(v:User, sub=None):
 			Submission.url == url,
 			Submission.body == body
 		).one_or_none()
-		if dup: return redirect(dup.permalink)
+		if dup:
+			return {"post_id": dup.id}
 
 	if not execute_antispam_submission_check(title, v, url):
 		return redirect("/notifications")
