@@ -9,7 +9,7 @@ from files.helpers.actions import *
 from files.helpers.alerts import *
 from files.helpers.config.const import *
 from files.helpers.regex import *
-from files.helpers.media import process_image
+from files.helpers.media import *
 from files.helpers.sanitize import *
 from files.helpers.alerts import push_notif
 from files.routes.wrappers import *
