@@ -13,7 +13,7 @@
 <label>Referral code</label>
 {% set link = SITE_FULL ~ "/signup?ref=" ~ request.values.get('ref') %}
 <input autocomplete="off" type="text" class="form-control copy-link" readonly value="{{link}}" data-clipboard-text="{{link}}">
-<div class="text-center text-muted text-small mt-5 mb-3">
+<div class="text-center text-muted text-small mt-5 mb-5 pb-5">
 	Already have an account? <a href="/login{{'?redirect='+redirect if redirect else ''}}" class="font-weight-bold toggle-login">Log in</a>
 </div>
 {% endblock %}
