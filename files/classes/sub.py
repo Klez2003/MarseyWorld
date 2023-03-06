@@ -46,8 +46,7 @@ class Sub(Base):
 	@property
 	@lazy
 	def banner_urls(self):
-		if self.bannerurls: return [f"{SITE_FULL}{banner}" for banner in self.bannerurls]
-		return []
+		return bannerurls
 
 	@lazy
 	def random_banner(self):
