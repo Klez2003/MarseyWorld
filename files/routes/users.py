@@ -1407,7 +1407,9 @@ def gumroad():
 	data = request.values
 	ip = request.headers.get('CF-Connecting-IP')
 	if ip != '34.193.146.117':
-		print(f'\n\n\n★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★\n\n\n/gumroad fail: {ip}\n\n\n★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★\n\n\n', flush=True)
+		print(STARS, flush=True)
+		print(f'/gumroad fail: {ip}')
+		print(STARS, flush=True)
 		abort(400)
 
 	id = data['sale_id']
