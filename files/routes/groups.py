@@ -25,7 +25,7 @@ def create_group(v):
 	if not name: abort(400)
 	name = name.strip().lower()
 
-	if name.startswith('slots'):
+	if name.startswith('slots') or name.startswith('wordle'):
 		return redirect(f"/ping_groups?error=You can't make a group with that name!")
 
 	if not valid_sub_regex.fullmatch(name):
