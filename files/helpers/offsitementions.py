@@ -124,4 +124,4 @@ def notify_mentions(mentions, send_to=None, mention_str='site mention'):
 			notif = Notification(comment_id=new_comment.id, user_id=send_to)
 			g.db.add(notif)
 
-			push_notif({send_to}, f'New mention of you on reddit by /u/{author}', new_comment.body, f'{SITE_FULL}/comment/{new_comment.id}?read=true#context')
+			push_notif({send_to}, f'New mention of you on reddit by /u/{author}', '', f'{SITE_FULL}/comment/{new_comment.id}?read=true#context')
