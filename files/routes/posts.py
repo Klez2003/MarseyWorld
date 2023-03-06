@@ -693,7 +693,7 @@ def submit_post(v:User, sub=None):
 
 	if (SITE == 'rdrama.net'
 			and v.id in {IMPASSIONATA_ID, TGTW_ID, SNALLY_ID, PIZZASHILL_ID}
-			and not (p.sub and p.subr.stealth)):
+			and not (p.sub and p.subr.stealth)) and p.sub != 'slavshit':
 		p.stickied_utc = int(time.time()) + 3600
 		p.stickied = "AutoJanny"
 
