@@ -135,11 +135,11 @@ class Comment(Base):
 		elif self.parent_submission: return f"p_{self.parent_submission}"
 
 	@lazy
-	def replies(self, sort, v, db:scoped_session):
+	def replies(self, sort, v):
 		if self.replies2 != None:
 			return self.replies2
 
-		replies = db.query(Comment).filter_by(parent_comment_id=self.id).order_by(Comment.stickied, Comment.stickied_child_id)
+		replies = g.db.query(Comment).filter_by(parent_comment_id=self.id).order_by(Comment.stickied, Comment.stickied_child_id)
 		if not self.parent_submission: sort='old'
 		return sort_objects(sort, replies, Comment).all()
 
