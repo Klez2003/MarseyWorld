@@ -133,12 +133,6 @@ if (!location.pathname.endsWith('/submit'))
 	});
 }
 
-function disable(t) {
-	t.classList.add('disabled');
-	setTimeout(() => {
-		t.classList.remove("disabled");
-	}, 2000);
-}
 
 function autoExpand(field) {
 	xpos=window.scrollX;

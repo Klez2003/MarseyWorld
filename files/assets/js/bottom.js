@@ -97,6 +97,15 @@ for (const element of TH) {
 	element.addEventListener('click', () => {sort_table(element)});
 }
 
+function disable_btn(t) {
+	t.disabled = true
+	t.classList.add('disabled');
+	setTimeout(() => {
+		t.disabled = false;
+		t.classList.remove("disabled");
+	}, 2000);
+}
+
 function register_new_elements(e) {
 	const showmores = document.getElementsByClassName('showmore')
 	for (const element of showmores) {
@@ -105,7 +114,10 @@ function register_new_elements(e) {
 
 	const onclick = e.querySelectorAll('[data-onclick]');
 	for (const element of onclick) {
-		element.onclick = () => {execute(element, 'onclick')};
+		element.onclick = () => {
+			execute(element, 'onclick')
+			disable_btn(element)
+		};
 	}
 
 	const oninput = e.querySelectorAll('[data-oninput]');
@@ -162,7 +174,12 @@ function register_new_elements(e) {
 		element.addEventListener('click', () => {
 			document.getElementById('giveaward').dataset.action = element.dataset.url
 		});
-	}	
+	}
+
+	const btns_to_disable = document.querySelectorAll('[type="submit"]')
+	for (const btn of btns_to_disable) {
+		btn.addEventListener('click') = disable_btn
+	}
 }
 
 register_new_elements(document);

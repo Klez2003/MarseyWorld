@@ -38,9 +38,9 @@
 								<button type="button" class="btn btn-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/settings/claim_rewards')">Claim {{patron}} rewards</button>
 							{% endif %}
 							{% if v.email %}
-								<input autocomplete="off" class="btn btn-primary ml-auto" type="submit" data-nonce="{{g.nonce}}" data-onclick="disable(this)" value="Update email">
+								<input autocomplete="off" class="btn btn-primary ml-auto" type="submit" value="Update email">
 							{% else %}
-								<input autocomplete="off" class="btn btn-primary ml-auto" type="submit" data-nonce="{{g.nonce}}" data-onclick="disable(this)" value="Add email">
+								<input autocomplete="off" class="btn btn-primary ml-auto" type="submit" value="Add email">
 							{% endif %}
 						</div>
 						{% if FEATURES['MARSEYBUX'] %}
@@ -81,7 +81,7 @@
 						<input hidden name="formkey" value="{{v|formkey}}">
 						<input hidden name="now" value="{{now}}">
 						<div class="d-flex">
-							<input autocomplete="off" class="btn btn-primary ml-auto" type="submit" data-nonce="{{g.nonce}}" data-onclick="disable(this)" value="Change Password">
+							<input autocomplete="off" class="btn btn-primary ml-auto" type="submit" value="Change Password">
 						</div>
 					</div>
 				</form>
@@ -119,7 +119,7 @@
 				</div>
 				<div class="footer">
 					<div class="d-flex">
-						<input autocomplete="off" class="btn btn-primary ml-auto" type="submit" data-nonce="{{g.nonce}}" data-onclick="disable(this)" value="Log out everywhere">
+						<input autocomplete="off" class="btn btn-primary ml-auto" type="submit" value="Log out everywhere">
 					</div>
 				</div>
 			</form>
@@ -222,7 +222,7 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-link text-muted" data-bs-dismiss="modal">Cancel</button>
-					<input autocomplete="off" id="toggle2faButton" class="btn btn-primary" type="submit" data-nonce="{{g.nonce}}" data-onclick="disable(this)" value="{{action}} 2-step login" disabled>
+					<input autocomplete="off" id="toggle2faButton" class="btn btn-primary" type="submit" value="{{action}} 2-step login" disabled>
 				</div>
 			</form>
 		</div>

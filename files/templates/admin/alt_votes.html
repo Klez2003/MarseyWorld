@@ -7,7 +7,7 @@
 	<label for="link-input">Usernames</label>
 	<input autocomplete="off" id="link-input" type="text" class="form-control mb-2" name="u1" value="{{u1.username if u1 else ''}}" placeholder="User 1">
 	<input autocomplete="off" id="link-input" type="text" class="form-control mb-2" name="u2" value="{{u2.username if u2 else ''}}" placeholder="User 2">
-	<input type="submit" data-nonce="{{g.nonce}}" data-onclick="disable(this)" value="Submit" class="btn btn-primary">
+	<input type="submit" value="Submit" class="btn btn-primary">
 </form>
 
 {% if u1 and u2 %}
