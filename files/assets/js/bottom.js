@@ -98,11 +98,15 @@ for (const element of TH) {
 }
 
 function disable_btn(t) {
-	t.disabled = true
 	t.classList.add('disabled');
+
 	setTimeout(() => {
-		t.disabled = false;
+		t.disabled = true;
+	}, 1);
+
+	setTimeout(() => {
 		t.classList.remove("disabled");
+		t.disabled = false;
 	}, 2000);
 }
 
