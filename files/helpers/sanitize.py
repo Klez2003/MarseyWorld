@@ -421,7 +421,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 
 	if FEATURES['PING_GROUPS']:
 		for i in group_mention_regex.finditer(sanitized):
-			name = i.group(2)
+			name = i.group(2).lower()
 			if name == 'everyone':
 				sanitized = group_mention_regex.sub(r'\1<a href="/users">!\2</a>', sanitized)
 			else:

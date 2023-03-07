@@ -64,6 +64,8 @@ def create_group(v):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def join_group(v:User, group_name):
+	group_name = group_name.strip().lower()
+
 	group = g.db.get(Group, group_name)
 	if not group: abort(404)
 	existing = g.db.query(GroupMembership).filter_by(user_id=v.id, group_name=group_name).one_or_none()
@@ -80,6 +82,8 @@ def join_group(v:User, group_name):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def leave_group(v:User, group_name):
+	group_name = group_name.strip().lower()
+
 	if group_name == 'jannies':
 		abort(403, "You can't leave !jannies")
 
@@ -107,6 +111,8 @@ def leave_group(v:User, group_name):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def memberships(v:User, group_name):
+	group_name = group_name.strip().lower()
+
 	group = g.db.get(Group, group_name)
 	if not group: abort(404)
 
@@ -128,6 +134,8 @@ def memberships(v:User, group_name):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def group_approve(v:User, group_name, user_id):
+	group_name = group_name.strip().lower()
+
 	group = g.db.get(Group, group_name)
 	if not group: abort(404)
 	
@@ -151,6 +159,8 @@ def group_approve(v:User, group_name, user_id):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def group_reject(v:User, group_name, user_id):
+	group_name = group_name.strip().lower()
+
 	group = g.db.get(Group, group_name)
 	if not group: abort(404)
 	
