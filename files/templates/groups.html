@@ -16,6 +16,7 @@
 				</tr>
 			</thead>
 
+			<tbody>
 			{% for group in groups %}
 				<tr>
 					<td>{{loop.index}}</td>
@@ -37,6 +38,7 @@
 					<td data-time="{{group.created_utc}}"></td>
 				</tr>
 			{% endfor %}
+			</tbody>
 		</table>
 	</div>
 
