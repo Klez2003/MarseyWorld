@@ -298,7 +298,7 @@ class Submission(Base):
 				option_body += f'''><label class="custom-control-label" for="{o.id}">{o.body_html}<span class="presult-{self.id}'''
 				option_body += f'"> - <a href="/votes/post/option/{o.id}"><span id="option-{o.id}">{o.upvotes}</span> bets</a>'
 				if not self.total_bet_voted(v):
-					option_body += f'''<span class="cost"> (cost of entry: {POLL_BET_COINS} coins)</span>'''
+					option_body += f'''<span class="cost"> (cost of entry: {POLL_BET_COINS} coins or marseybux)</span>'''
 				option_body += "</label>"
 
 				if o.exclusive == 3:

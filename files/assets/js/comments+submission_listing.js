@@ -100,8 +100,6 @@ function bet_vote(t, oid) {
 			const scoretext = document.getElementById('option-' + oid);
 			const score = Number(scoretext.textContent);
 			scoretext.textContent = score + 1;
-
-			document.getElementById("user-coins-amount").innerText = parseInt(document.getElementById("user-coins-amount").innerText) - 200;
 		}
 	);
 }

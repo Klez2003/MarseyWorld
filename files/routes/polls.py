@@ -25,8 +25,8 @@ def vote_option(option_id, v):
 	if option.exclusive == 2:
 		if option.post.total_bet_voted(v):
 			abort(403, "You can't participate in a closed bet!")
-		if not v.charge_account('coins', POLL_BET_COINS):
-			abort(400, f"You don't have {POLL_BET_COINS} coins!")
+		if not v.charge_account('combined', POLL_BET_COINS):
+			abort(400, f"You don't have {POLL_BET_COINS} coins or marseybux!")
 		g.db.add(v)
 		autojanny = get_account(AUTOJANNY_ID)
 		autojanny.pay_account('coins', POLL_BET_COINS)
