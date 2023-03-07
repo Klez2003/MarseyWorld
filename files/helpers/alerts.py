@@ -122,7 +122,7 @@ def add_notif(cid, uid, text, pushnotif_url=''):
 		push_notif({uid}, 'New notification', text, pushnotif_url)
 
 
-def NOTIFY_USERS(text, v, oldtext=None):
+def NOTIFY_USERS(text, v, oldtext=None, ghost=False):
 	# Restrict young accounts from generating notifications
 	if v.age < NOTIFICATION_SPAM_AGE_THRESHOLD:
 		return set()
@@ -167,7 +167,7 @@ def NOTIFY_USERS(text, v, oldtext=None):
 				
 				notify_users.update(members)
 
-				if v.id not in members:
+				if ghost or v.id not in members:
 					if group.name == 'biofoids': mul = 10
 					else: mul = 5
 					
