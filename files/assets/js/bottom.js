@@ -107,7 +107,7 @@ function disable_btn(t) {
 	setTimeout(() => {
 		t.classList.remove("disabled");
 		t.disabled = false;
-	}, 2000);
+	}, 1000);
 }
 
 function register_new_elements(e) {
