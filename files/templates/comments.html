@@ -514,7 +514,7 @@
 			{% if request.path.startswith('/notifications') and replies|length > 8 %}
 				{% for reply in replies %}
 					{% if reply.parent_submission %}
-						{% set collapse = not reply.unread %}
+						{% set collapse = not reply.unread and not reply.replies(sort=sort, v=v) %}
 					{% else %}
 						{% set collapse = not reply.unread and loop.index != replies|length %}
 					{% endif %}
