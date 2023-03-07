@@ -57,9 +57,9 @@ def process_files(files, v, body):
 			name = f'/images/{time.time()}'.replace('.','') + '.webp'
 			file.save(name)
 			url = process_image(name, v)
-			body = body.replace(f'[{file.filename}]', url, 1)
+			body = body.replace(f'[{file.filename}]', f"![]({url})", 1)
 		elif file.content_type.startswith('video/'):
-			body = body.replace(f'[{file.filename}]', f"{SITE_FULL}{process_video(file, v)}", 1)
+			body = body.replace(f'[{file.filename}]', process_video(file, v), 1)
 		elif file.content_type.startswith('audio/'):
 			body = body.replace(f'[{file.filename}]', f"{SITE_FULL}{process_audio(file, v)}", 1)
 		else:
@@ -152,8 +152,10 @@ def process_video(file, v):
 		)
 		g.db.add(media)
 
-	if SITE == 'watchpeopledie.tv': f'https://videos.{SITE}{new}'
-	return new
+	if SITE == 'watchpeopledie.tv': 
+		return f'https://videos.{SITE}{new}'
+	else:
+		return f"{SITE_FULL}{new}"
 
 def process_image(filename:str, v, resize=0, trim=False, uploader_id:Optional[int]=None, db=None):
 	# thumbnails are processed in a thread and not in the request context
