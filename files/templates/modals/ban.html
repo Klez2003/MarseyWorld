@@ -14,7 +14,8 @@
 					<input hidden name="formkey" value="{{v|formkey}}">
 
 					<label for="ban-modal-link">Public ban reason (optional)</label>
-					<textarea autocomplete="off" maxlength="256" name="reason" form="banModalForm" class="form-control" id="ban-modal-link" placeholder="Enter reason"></textarea>
+
+					<input autocomplete="off" name="reason" id="ban-modal-link" class="form-control" placeholder="Enter reason" maxlength="256">
 
 					<label for="days" class="mt-3">Days</label>
 					<input autocomplete="off" type="number" step="any" name="days" id="days" class="form-control" placeholder="Leave blank for permanent">
