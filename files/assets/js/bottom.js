@@ -178,7 +178,7 @@ function register_new_elements(e) {
 
 	const btns_to_disable = document.querySelectorAll('[type="submit"]')
 	for (const btn of btns_to_disable) {
-		btn.addEventListener('click') = disable_btn
+		btn.addEventListener('click', () => {disable_btn(btn)})
 	}
 }
 
