@@ -35,7 +35,7 @@ def remove_media(path):
 def media_ratelimit(v):
 	t = time.time() - 86400
 	count = g.db.query(Media).filter(Media.user_id == v.id, Media.created_utc > t).count()
-	if count > 50:
+	if count > 50 and v.admin_level < PERMS['USE_ADMIGGER_THREADS']:
 		print(STARS, flush=True)
 		print(f'@{v.username} hit the 50 file daily limit!')
 		print(STARS, flush=True)
