@@ -369,6 +369,9 @@ function sort_table(t) {
 		let attr;
 		if ('sortKey' in x.dataset) {
 			attr = x.dataset.sortKey;
+			if (/^[\d-,]+$/.test(x.innerHTML)) {
+				attr = parseInt(attr.replace(/,/g, ''))
+			}
 		} else if ('time' in x.dataset) {
 			attr = parseInt(x.dataset.time);
 		} else {
