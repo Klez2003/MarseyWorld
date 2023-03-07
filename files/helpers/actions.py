@@ -371,6 +371,8 @@ def execute_antispam_submission_check(title, v, url):
 	return True
 
 def execute_antispam_duplicate_comment_check(v:User, body_html:str):
+	if v.admin_level >= PERMS['USE_ADMIGGER_THREADS']: return
+
 	'''
 	Sanity check for newfriends
 	'''
@@ -390,6 +392,8 @@ def execute_antispam_duplicate_comment_check(v:User, body_html:str):
 	abort(403, "Too much spam!")
 
 def execute_antispam_comment_check(body:str, v:User):
+	if v.admin_level >= PERMS['USE_ADMIGGER_THREADS']: return
+
 	if v.id in ANTISPAM_BYPASS_IDS: return
 	if len(body) <= COMMENT_SPAM_LENGTH_THRESHOLD: return
 	now = int(time.time())
