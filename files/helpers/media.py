@@ -36,10 +36,10 @@ def media_ratelimit(v):
 	t = time.time() - 86400
 	count = g.db.query(Media).filter(Media.user_id == v.id, Media.created_utc > t).count()
 	if count > 50:
-		abort(500)
 		print(STARS, flush=True)
 		print(f'@{v.username} hit the 50 file daily limit!')
 		print(STARS, flush=True)
+		abort(500)
 
 def process_files(files, v, body):
 	if g.is_tor or not files.get("file"): return body
