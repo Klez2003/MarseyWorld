@@ -29,6 +29,11 @@ marked.use({
 
 const reDisableBeforeUnload = /^\/submit|^\/h\/[a-zA-Z0-9_\-]{3,20}\/submit/;
 
+const image_regex_extensions = document.getElementById('IMAGE_FORMATS').value.replaceAll(',', '|')
+const regex_pattern = String.raw`(^|\s)(https:\/\/[\w\-.#&/=\?@%;+,:]{5,250}(\.|\?format=)(` + image_regex_extensions + String.raw`)((\?|&)[\w\-.#&/=\?@%;+,:]*)?)($|\s)`
+console.log(regex_pattern)
+const compiled_regex = new RegExp(regex_pattern, "g");
+
 function markdown(t) {
 	let input = t.value;
 
@@ -89,6 +94,8 @@ function markdown(t) {
 			input = input.replace(option, `<div class="custom-control mb-3"><input type="radio" name="choice" class="custom-control-input" id="option-${i}"><label class="custom-control-label" for="option-${i}">${option2} - <a>0 votes</a></label></div>`);
 		}
 	}
+
+	input = input.replace(compiled_regex, '$1\n\n![]($2)\n\n')
 
 	input = marked(input)
 
