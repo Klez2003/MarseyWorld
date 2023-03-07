@@ -513,7 +513,12 @@
 		<div id="replies-of-{{c.fullname}}">
 			{% if request.path.startswith('/notifications') and replies|length > 8 %}
 				{% for reply in replies %}
-					{{single_comment(reply, level=level+1, collapse=(not reply.unread and loop.index != replies|length))}}
+					{% if reply.parent_submission %}
+						{% set collapse = not reply.unread %}
+					{% else %}
+						{% set collapse = not reply.unread and loop.index != replies|length %}
+					{% endif %}
+					{{single_comment(reply, level=level+1, collapse=collapse)}}
 				{% endfor %}
 			{% elif request.path.startswith('/notifications') or level < 9 %}
 				{% for reply in replies %}
