@@ -102,7 +102,7 @@ function disable_btn(t) {
 
 	setTimeout(() => {
 		t.disabled = true;
-	}, 1);
+	}, 0.0000000000000000001);
 
 	setTimeout(() => {
 		t.classList.remove("disabled");
