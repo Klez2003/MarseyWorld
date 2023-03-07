@@ -225,6 +225,20 @@ class User(Base):
 			if not should_check_balance or account_balance >= amount:
 				g.db.query(User).filter(User.id == self.id).update({ User.marseybux: User.marseybux - amount })
 				succeeded = True
+		elif currency == 'combined':
+			mbux = in_db.marseybux
+			needed_coins = 0
+
+			if mbux < amount:
+				needed_coins = amount - mbux
+				if in_db.coins < needed_coins:
+					return False
+
+			g.db.query(User).filter(User.id == self.id).update({
+				User.marseybux: User.marseybux - mbux,
+				User.coins: User.coins - needed_coins,
+			})
+			succeeded = True
 
 		if succeeded:
 			g.db.add(self)
