@@ -7210,3 +7210,8 @@ input[type=number] {
 {
     display: none;
 }
+
+.ping-groups td > a {
+    min-width: 30px;
+    display: inline-block;
+}
