@@ -31,7 +31,6 @@ const reDisableBeforeUnload = /^\/submit|^\/h\/[a-zA-Z0-9_\-]{3,20}\/submit/;
 
 const image_regex_extensions = document.getElementById('IMAGE_FORMATS').value.replaceAll(',', '|')
 const regex_pattern = String.raw`(^|\s)(https:\/\/[\w\-.#&/=\?@%;+,:]{5,250}(\.|\?format=)(` + image_regex_extensions + String.raw`)((\?|&)[\w\-.#&/=\?@%;+,:]*)?)($|\s)`
-console.log(regex_pattern)
 const compiled_regex = new RegExp(regex_pattern, "g");
 
 function markdown(t) {
