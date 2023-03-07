@@ -637,7 +637,7 @@ def submit_post(v:User, sub=None):
 		else:
 			abort(415)
 
-	if not p.thumburl and p.url:
+	if not p.thumburl and p.url and p.domain not in {SITE, BAN_EVASION_DOMAIN}:
 		gevent.spawn(thumbnail_thread, p.id, v.id)
 
 	if not p.private:
