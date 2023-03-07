@@ -153,7 +153,7 @@ def process_video(file, v):
 		g.db.add(media)
 
 	if SITE == 'watchpeopledie.tv': 
-		return f'https://videos.{SITE}{new}'
+		return f'https://videos.{SITE}' + new.split('/videos')[1]
 	else:
 		return f"{SITE_FULL}{new}"
 
