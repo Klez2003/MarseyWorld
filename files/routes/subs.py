@@ -363,23 +363,26 @@ def create_sub2(v):
 	if not valid_sub_regex.fullmatch(name):
 		return redirect(f"/create_hole?error=Name does not match the required format!")
 
+	if not v.charge_account('combined', HOLE_COST):
+		return redirect(f"/create_hole?error=You don't have enough coins or marseybux!")
+
 	sub = get_sub_by_name(name, graceful=True)
-	if not sub:
-		if not v.charge_account('combined', HOLE_COST):
-			return redirect(f"/create_hole?error=You don't have enough coins or marseybux!")
 
-		g.db.add(v)
-		if v.shadowbanned: abort(500)
+	if sub:
+		return redirect(f"/create_hole?error=/h/{sub} already exists!")
 
-		sub = Sub(name=name)
-		g.db.add(sub)
-		g.db.flush()
-		mod = Mod(user_id=v.id, sub=sub.name)
-		g.db.add(mod)
+	g.db.add(v)
+	if v.shadowbanned: abort(500)
 
-		admins = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_HOLE_CREATION'], User.id != v.id).all()]
-		for admin in admins:
-			send_repeatable_notification(admin, f":!marseyparty: /h/{sub} has been created by @{v.username} :marseyparty:")
+	sub = Sub(name=name)
+	g.db.add(sub)
+	g.db.flush()
+	mod = Mod(user_id=v.id, sub=sub.name)
+	g.db.add(mod)
+
+	admins = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_HOLE_CREATION'], User.id != v.id).all()]
+	for admin in admins:
+		send_repeatable_notification(admin, f":!marseyparty: /h/{sub} has been created by @{v.username} :marseyparty:")
 
 	return redirect(f'/h/{sub}')
 
