@@ -226,17 +226,19 @@ class User(Base):
 				g.db.query(User).filter(User.id == self.id).update({ User.marseybux: User.marseybux - amount })
 				succeeded = True
 		elif currency == 'combined':
-			mbux = in_db.marseybux
-			needed_coins = 0
-
-			if mbux < amount:
-				needed_coins = amount - mbux
-				if in_db.coins < needed_coins:
+			if in_db.marseybux >= amount:
+				subtracted_mbux = amount
+				print(subtracted_mbux, flush=True)
+				subtracted_coins = 0
+			else:
+				subtracted_mbux = in_db.marseybux
+				subtracted_coins = amount - subtracted_mbux
+				if subtracted_coins > in_db.coins:
 					return False
 
 			g.db.query(User).filter(User.id == self.id).update({
-				User.marseybux: User.marseybux - mbux,
-				User.coins: User.coins - needed_coins,
+				User.marseybux: User.marseybux - subtracted_mbux,
+				User.coins: User.coins - subtracted_coins,
 			})
 			succeeded = True
 
