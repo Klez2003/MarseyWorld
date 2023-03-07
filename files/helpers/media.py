@@ -201,7 +201,7 @@ def process_image(filename:str, v, resize=0, trim=False, uploader_id:Optional[in
 	size_after_conversion = os.stat(filename).st_size
 	if size_after_conversion - size > 50000:
 		print(STARS, flush=True)
-		print(f'{filename}: {oldformat}@{size} -> WEBP@{size_after_conversion}', flush=True)
+		print(f'{filename}: {oldformat}@{size/1024}KB -> WEBP@{size_after_conversion/1024}KB', flush=True)
 		print(STARS, flush=True)
 
 	if resize:
