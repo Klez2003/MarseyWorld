@@ -153,13 +153,13 @@ class Submission(Base):
 	def thumb_url(self):
 		if self.over_18: return f"{SITE_FULL}/i/nsfw.webp?v=1"
 		elif not self.url: return f"{SITE_FULL}/i/{SITE_NAME}/default_text.webp?v=2"
+		elif self.thumburl:
+			if self.thumburl.startswith('/'): return SITE_FULL + self.thumburl
+			return self.thumburl
 		elif self.is_youtube or self.is_video: return f"{SITE_FULL}/i/default_thumb_video.webp?v=2"
 		elif self.is_audio: return f"{SITE_FULL}/i/default_thumb_audio.webp?v=1"
 		elif self.domain in {SITE, BAN_EVASION_DOMAIN}:
 			return f"{SITE_FULL}/i/{SITE_NAME}/site_preview.webp?v=3009"
-		elif self.thumburl:
-			if self.thumburl.startswith('/'): return SITE_FULL + self.thumburl
-			return self.thumburl
 		else: return f"{SITE_FULL}/i/default_thumb_link.webp?v=1"
 
 	@lazy
