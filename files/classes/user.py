@@ -45,7 +45,7 @@ else:
 	DEFAULT_COINS = 0
 	DEFAULT_MARSEYBUX = 0
 
-if IS_FISTMAS():
+if IS_FISTMAS:
 	if SITE_NAME == 'rDrama':
 		default_event_music = True
 		default_darkmode = False
@@ -161,7 +161,7 @@ class User(Base):
 	spider = Column(Integer, default=0)
 	blacklisted_by = Column(Integer, ForeignKey("users.id"))
 
-	if IS_FISTMAS():
+	if IS_FISTMAS:
 		event_music = Column(Boolean, default=default_event_music, nullable=False)
 		event_darkmode = Column(Boolean, default=default_darkmode, nullable=False)
 
@@ -300,7 +300,7 @@ class User(Base):
 	@lazy
 	def hat_active(self, v):
 		if FEATURES['HATS']:
-			if IS_FISTMAS():
+			if IS_FISTMAS:
 				hat = random.choice(('Santa Hat III', 'Winter Cap', 'Present Bow'))
 				if SITE_NAME == 'rDrama':
 					return (f'/i/hats/{hat}.webp', 'Merry Fistmas!')
@@ -1198,7 +1198,7 @@ class User(Base):
 
 		return output
 
-	if IS_FISTMAS():
+	if IS_FISTMAS:
 		@property
 		@lazy
 		def can_toggle_event_music(self):

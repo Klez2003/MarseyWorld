@@ -201,7 +201,7 @@ def settings_personal_post(v):
 			badge = v.has_badge(179)
 			if badge: g.db.delete(badge)
 
-	elif IS_FISTMAS() and not updated and request.values.get("event_music", v.event_music) != v.event_music and v.can_toggle_event_music:
+	elif IS_FISTMAS and not updated and request.values.get("event_music", v.event_music) != v.event_music and v.can_toggle_event_music:
 		updated = True
 		v.event_music = not v.event_music
 
@@ -920,7 +920,7 @@ def settings_checkmark_text(v):
 	g.db.add(v)
 	return redirect("/settings/personal?msg=Checkmark Text successfully updated!")
 
-if IS_FISTMAS():
+if IS_FISTMAS:
 	@app.post("/events/fistmas2022/darkmode")
 	@limiter.limit('1/second', scope=rpath)
 	@limiter.limit(DEFAULT_RATELIMIT)

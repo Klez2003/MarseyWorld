@@ -53,7 +53,7 @@ AWARDS = {
 		"deflectable": True,
 		"cosmetic": False,
 		"ghost": False,
-		"enabled": IS_FISTMAS(),
+		"enabled": IS_FISTMAS,
 	},
     "snow": {
 		"kind": "snow",
@@ -65,7 +65,7 @@ AWARDS = {
 		"deflectable": False,
 		"cosmetic": True,
 		"ghost": True,
-		"enabled": IS_FISTMAS(),
+		"enabled": IS_FISTMAS,
 	},
 	"gingerbread": {
 		"kind": "gingerbread",
@@ -77,7 +77,7 @@ AWARDS = {
 		"deflectable": False,
 		"cosmetic": True,
 		"ghost": True,
-		"enabled": IS_FISTMAS(),
+		"enabled": IS_FISTMAS,
 	},
 	"lights": {
 		"kind": "lights",
@@ -89,7 +89,7 @@ AWARDS = {
 		"deflectable": False,
 		"cosmetic": True,
 		"ghost": True,
-		"enabled": IS_FISTMAS(),
+		"enabled": IS_FISTMAS,
 	},
 	"candycane": {
 		"kind": "candycane",
@@ -101,7 +101,7 @@ AWARDS = {
 		"deflectable": False,
 		"cosmetic": True,
 		"ghost": True,
-		"enabled": IS_FISTMAS(),
+		"enabled": IS_FISTMAS,
 	},
 	"fireplace": {
 		"kind": "fireplace",
@@ -113,7 +113,7 @@ AWARDS = {
 		"deflectable": False,
 		"cosmetic": True,
 		"ghost": True,
-		"enabled": IS_FISTMAS(),
+		"enabled": IS_FISTMAS,
 	},
 	"frostbite": {
 		"kind": "frostbite",
@@ -125,7 +125,7 @@ AWARDS = {
 		"deflectable": False,
 		"cosmetic": True,
 		"ghost": True,
-		"enabled": IS_FISTMAS(),
+		"enabled": IS_FISTMAS,
 	},
 	"grinch": {
 		"kind": "grinch",
@@ -137,7 +137,7 @@ AWARDS = {
 		"deflectable": True,
 		"cosmetic": False,
 		"ghost": False,
-		"enabled": IS_FISTMAS(),
+		"enabled": IS_FISTMAS,
 	},
 
 	### Homoween
@@ -151,7 +151,7 @@ AWARDS = {
 		"deflectable": False,
 		"cosmetic": True,
 		"ghost": True,
-		"enabled": IS_HOMOWEEN(),
+		"enabled": IS_HOMOWEEN,
 	},
 	"upsidedown": {
 		"kind": "upsidedown",
@@ -163,7 +163,7 @@ AWARDS = {
 		"deflectable": False,
 		"cosmetic": True,
 		"ghost": True,
-		"enabled": IS_HOMOWEEN(),
+		"enabled": IS_HOMOWEEN,
 	},
 	"stab": {
 		"kind": "stab",
@@ -175,7 +175,7 @@ AWARDS = {
 		"deflectable": False,
 		"cosmetic": True,
 		"ghost": True,
-		"enabled": IS_HOMOWEEN(),
+		"enabled": IS_HOMOWEEN,
 	},
 	"spiders": {
 		"kind": "spiders",
@@ -187,7 +187,7 @@ AWARDS = {
 		"deflectable": False,
 		"cosmetic": True,
 		"ghost": True,
-		"enabled": IS_HOMOWEEN(),
+		"enabled": IS_HOMOWEEN,
 	},
 	"fog": {
 		"kind": "fog",
@@ -199,7 +199,7 @@ AWARDS = {
 		"deflectable": False,
 		"cosmetic": True,
 		"ghost": True,
-		"enabled": IS_HOMOWEEN(),
+		"enabled": IS_HOMOWEEN,
 	},
 	"jumpscare": {
 		"kind": "jumpscare",
@@ -211,7 +211,7 @@ AWARDS = {
 		"deflectable": True,
 		"cosmetic": False,
 		"ghost": False,
-		"enabled": IS_HOMOWEEN(),
+		"enabled": IS_HOMOWEEN,
 	},
 	"hw-bite": {
 		"kind": "hw-bite",
@@ -223,7 +223,7 @@ AWARDS = {
 		"deflectable": True,
 		"cosmetic": False,
 		"ghost": False,
-		"enabled": IS_HOMOWEEN(),
+		"enabled": IS_HOMOWEEN,
 	},
 	"hw-vax": {
 		"kind": "hw-vax",
@@ -235,7 +235,7 @@ AWARDS = {
 		"deflectable": True,
 		"cosmetic": False,
 		"ghost": False,
-		"enabled": IS_HOMOWEEN(),
+		"enabled": IS_HOMOWEEN,
 	},
 	"hw-grinch": {
 		"kind": "hw-grinch",
@@ -247,7 +247,7 @@ AWARDS = {
 		"deflectable": True,
 		"cosmetic": False,
 		"ghost": False,
-		"enabled": IS_HOMOWEEN(),
+		"enabled": IS_HOMOWEEN,
 	},
 	"flashlight": {
 		"kind": "flashlight",
@@ -259,7 +259,7 @@ AWARDS = {
 		"deflectable": False,
 		"cosmetic": True,
 		"ghost": True,
-		"enabled": IS_HOMOWEEN(),
+		"enabled": IS_HOMOWEEN,
 	},
 	"candy-corn": {
 		"kind": "candy-corn",
@@ -271,7 +271,7 @@ AWARDS = {
 		"deflectable": False,
 		"cosmetic": True,
 		"ghost": True,
-		"enabled": IS_HOMOWEEN(),
+		"enabled": IS_HOMOWEEN,
 	},
 	"ectoplasm": {
 		"kind": "ectoplasm",
@@ -283,7 +283,7 @@ AWARDS = {
 		"deflectable": False,
 		"cosmetic": True,
 		"ghost": True,
-		"enabled": IS_HOMOWEEN(),
+		"enabled": IS_HOMOWEEN,
 	},
 	"bones": {
 		"kind": "bones",
@@ -295,7 +295,7 @@ AWARDS = {
 		"deflectable": False,
 		"cosmetic": True,
 		"ghost": True,
-		"enabled": IS_HOMOWEEN(),
+		"enabled": IS_HOMOWEEN,
 	},
 	"pumpkin": {
 		"kind": "pumpkin",
@@ -307,7 +307,7 @@ AWARDS = {
 		"deflectable": False,
 		"cosmetic": True,
 		"ghost": True,
-		"enabled": IS_HOMOWEEN(),
+		"enabled": IS_HOMOWEEN,
 	},
 
 	### Standard
