@@ -4,7 +4,7 @@
 {% block banner %}
 	{% include "modals/expanded_image.html" %}
 	{% if err or '@' not in request.path %}
-		{% if IS_FISTMAS and not sub %}
+		{% if IS_FISTMAS() and not sub %}
 			{% include 'fistmas/banner.html' %}
 		{% else %}
 			{% if err and SITE_NAME == 'rDrama' %}
@@ -79,7 +79,7 @@
 	<script defer src="{{'js/spider.js' | asset}}"></script>
 {% endif %}
 
-{% if IS_FISTMAS %}
+{% if IS_FISTMAS() %}
 	{% include "fistmas/music.html" %}
 {% endif %}
 
