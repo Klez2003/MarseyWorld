@@ -21,7 +21,8 @@ from files.classes.group import Group
 from files.helpers.config.const import *
 from files.helpers.const_stateful import *
 from files.helpers.regex import *
-from .get import *
+from files.helpers.alerts import *
+from files.helpers.get import *
 
 TLDS = ( # Original gTLDs and ccTLDs
 	'ac','ad','ae','aero','af','ag','ai','al','am','an','ao','aq','ar','arpa','as','asia','at',
@@ -152,43 +153,6 @@ def callback(attrs, new=False):
 
 	return attrs
 
-def create_comment_duplicated(text_html):
-	new_comment = Comment(author_id=AUTOJANNY_ID,
-							parent_submission=None,
-							body_html=text_html,
-							distinguish_level=6,
-							is_bot=True)
-	g.db.add(new_comment)
-	g.db.flush()
-
-	new_comment.top_comment_id = new_comment.id
-
-	return new_comment.id
-
-def send_repeatable_notification_duplicated(uid, text):
-
-	if uid in bots: return
-
-	text_html = sanitize(text)
-
-	existing_comments = g.db.query(Comment.id).filter_by(author_id=AUTOJANNY_ID, parent_submission=None, body_html=text_html, is_bot=True).order_by(Comment.id).all()
-
-	for c in existing_comments:
-		existing_notif = g.db.query(Notification.user_id).filter_by(user_id=uid, comment_id=c.id).one_or_none()
-		if not existing_notif:
-			notif = Notification(comment_id=c.id, user_id=uid)
-			g.db.add(notif)
-
-			push_notif({uid}, 'New notification', text, f'{SITE_FULL}/comment/{c.id}?read=true#context')
-			return
-
-	cid = create_comment_duplicated(text_html)
-	notif = Notification(comment_id=cid, user_id=uid)
-	g.db.add(notif)
-
-	push_notif({uid}, 'New notification', text, f'{SITE_FULL}/comment/{cid}?read=true#context')
-
-
 def execute_blackjack(v, target, body, type):
 	if not blackjack or not body: return False
 
@@ -228,14 +192,14 @@ def execute_blackjack(v, target, body, type):
 			for id in notified_ids:
 				n = Notification(comment_id=target.id, user_id=id)
 				g.db.add(n)
-			
+
 			push_notif(notified_ids, f'Blackjack by @{v.username}', target.body, target)
-			
+
 			extra_info = None
 
 	if extra_info:
 		for id in notified_ids:
-			send_repeatable_notification_duplicated(id, f"Blackjack by @{v.username}: {extra_info}")
+			send_repeatable_notification(id, f"Blackjack by @{v.username}: {extra_info}")
 	return True
 
 def render_emoji(html, regexp, golden, marseys_used, b=False):
