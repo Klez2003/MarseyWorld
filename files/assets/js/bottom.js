@@ -98,7 +98,7 @@ for (const element of TH) {
 }
 
 function disable_btn(t) {
-	if (t.classList.contains('disabled')) {
+	if (!t.classList.contains('disabled')) {
 		setTimeout(() => {
 			t.disabled = true;
 		}, 0.0000000000000000001);
