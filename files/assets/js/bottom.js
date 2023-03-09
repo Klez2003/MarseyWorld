@@ -99,6 +99,10 @@ for (const element of TH) {
 
 function disable_btn(t) {
 	if (!t.classList.contains('disabled')) {
+		const isShopConfirm = t.id.startsWith('buy1-') || t.id.startsWith('buy2-') || t.id.startsWith('giveaward')
+
+		if (isShopConfirm) return
+
 		t.classList.add('disabled');
 
 		setTimeout(() => {
