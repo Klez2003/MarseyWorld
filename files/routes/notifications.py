@@ -110,18 +110,20 @@ def notifications_messages(v:User):
 						.offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE+1).all()
 
 	# Clear notifications (used for unread indicator only) for all user messages.
-	notifs_unread_row = g.db.query(Notification.comment_id).join(Comment).filter(
-		Notification.user_id == v.id,
-		Notification.read == False,
-		or_(Comment.author_id == v.id, Comment.sentto == v.id),
-	).all()
-
-	notifs_unread = [n.comment_id for n in notifs_unread_row]
-	g.db.query(Notification).filter(
+	
+	if not session.get("GLOBAL"):
+		notifs_unread_row = g.db.query(Notification.comment_id).join(Comment).filter(
 			Notification.user_id == v.id,
-			Notification.comment_id.in_(notifs_unread),
-		).update({Notification.read: True})
-	g.db.commit()
+			Notification.read == False,
+			or_(Comment.author_id == v.id, Comment.sentto == v.id),
+		).all()
+
+		notifs_unread = [n.comment_id for n in notifs_unread_row]
+		g.db.query(Notification).filter(
+				Notification.user_id == v.id,
+				Notification.comment_id.in_(notifs_unread),
+			).update({Notification.read: True})
+		g.db.commit()
 
 	next_exists = (len(message_threads) > 25)
 	listing = message_threads[:25]
@@ -173,8 +175,9 @@ def notifications_posts(v:User):
 	for p in listing:
 		p.unread = p.created_utc > v.last_viewed_post_notifs
 
-	v.last_viewed_post_notifs = int(time.time())
-	g.db.add(v)
+	if not session.get("GLOBAL"):
+		v.last_viewed_post_notifs = int(time.time())
+		g.db.add(v)
 
 	if v.client: return {"data":[x.json(g.db) for x in listing]}
 
@@ -221,8 +224,9 @@ def notifications_modactions(v:User):
 	for ma in listing:
 		ma.unread = ma.created_utc > v.last_viewed_log_notifs
 
-	v.last_viewed_log_notifs = int(time.time())
-	g.db.add(v)
+	if not session.get("GLOBAL"):
+		v.last_viewed_log_notifs = int(time.time())
+		g.db.add(v)
 
 	return render_template("notifications.html",
 							v=v,
@@ -257,8 +261,9 @@ def notifications_reddit(v:User):
 	for ma in listing:
 		ma.unread = ma.created_utc > v.last_viewed_reddit_notifs
 
-	v.last_viewed_reddit_notifs = int(time.time())
-	g.db.add(v)
+	if not session.get("GLOBAL"):
+		v.last_viewed_reddit_notifs = int(time.time())
+		g.db.add(v)
 
 	if v.client: return {"data":[x.json(g.db) for x in listing]}
 
