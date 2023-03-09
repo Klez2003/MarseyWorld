@@ -180,17 +180,20 @@ function submit(form) {
 		upload_prog.classList.add("d-none")
 
 		if (xhr.status >= 200 && xhr.status < 300) {
-			const post_id = JSON.parse(xhr.response)['post_id'];
+			const res = JSON.parse(xhr.response)
+			const post_id = res['post_id'];
 
-			localStorage.setItem("post-title", "")
-			localStorage.setItem("post-text", "")
-			localStorage.setItem("post-url", "")
-			localStorage.setItem("sub", "")
-			localStorage.setItem("post-notify", true)
-			localStorage.setItem("post-new", false)
-			localStorage.setItem("post-nsfw", false)
-			localStorage.setItem("post-private", false)
-			localStorage.setItem("post-ghost", false)
+			if (res['success']) {
+				localStorage.setItem("post-title", "")
+				localStorage.setItem("post-text", "")
+				localStorage.setItem("post-url", "")
+				localStorage.setItem("sub", "")
+				localStorage.setItem("post-notify", true)
+				localStorage.setItem("post-new", false)
+				localStorage.setItem("post-nsfw", false)
+				localStorage.setItem("post-private", false)
+				localStorage.setItem("post-ghost", false)
+			}
 
 			location.href = "/post/" + post_id
 		} else {

@@ -513,7 +513,7 @@ def submit_post(v:User, sub=None):
 			Submission.is_banned == False
 		).first()
 		if repost and FEATURES['REPOST_DETECTION'] and not v.admin_level >= PERMS['POST_BYPASS_REPOST_CHECKING']:
-			return {"post_id": repost.id}
+			return {"post_id": repost.id, "success": False}
 
 		y = tldextract.extract(url).registered_domain + parsed_url.path
 		y = y.lower()
@@ -547,7 +547,7 @@ def submit_post(v:User, sub=None):
 			Submission.body == body
 		).one_or_none()
 		if dup:
-			return {"post_id": dup.id}
+			return {"post_id": dup.id, "success": False}
 
 	if not execute_antispam_submission_check(title, v, url):
 		return redirect("/notifications")
@@ -704,7 +704,7 @@ def submit_post(v:User, sub=None):
 	if v.client: return p.json(g.db)
 	else:
 		p.voted = 1
-		return {"post_id": p.id}
+		return {"post_id": p.id, "success": True}
 
 @app.post("/delete_post/<int:pid>")
 @limiter.limit('1/second', scope=rpath)
