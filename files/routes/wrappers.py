@@ -66,10 +66,12 @@ def get_logged_in_user():
 		v.poor = session.get('poor')
 		# Check against last_active + ACTIVE_TIME to reduce frequency of
 		# UPDATEs in exchange for a ±ACTIVE_TIME margin of error.
-		timestamp = int(time.time())
-		if (v.last_active + LOGGEDIN_ACTIVE_TIME) < timestamp:
-			v.last_active = timestamp
-			g.db.add(v)
+
+		if not session.get("GLOBAL"):
+			timestamp = int(time.time())
+			if (v.last_active + LOGGEDIN_ACTIVE_TIME) < timestamp:
+				v.last_active = timestamp
+				g.db.add(v)
 
 	if SITE == 'rdrama.net' and request.headers.get("Cf-Ipcountry") == 'EG' and not v:
 		abort(404)
