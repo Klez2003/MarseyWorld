@@ -107,7 +107,7 @@ function disable_btn(t) {
 	setTimeout(() => {
 		t.classList.remove("disabled");
 		t.disabled = false;
-	}, 1000);
+	}, 2000);
 }
 
 function register_new_elements(e) {
@@ -120,7 +120,6 @@ function register_new_elements(e) {
 	for (const element of onclick) {
 		element.onclick = () => {
 			execute(element, 'onclick')
-			disable_btn(element)
 		};
 	}
 
