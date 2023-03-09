@@ -124,9 +124,9 @@ function register_new_elements(e) {
 
 	const onclick = e.querySelectorAll('[data-onclick]');
 	for (const element of onclick) {
-		element.onclick = () => {
+		element.addEventListener('click', () => {
 			execute(element, 'onclick')
-		};
+		});
 	}
 
 	const oninput = e.querySelectorAll('[data-oninput]');
