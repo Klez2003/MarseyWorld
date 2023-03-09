@@ -98,16 +98,17 @@ for (const element of TH) {
 }
 
 function disable_btn(t) {
+	if (t.classList.contains('disabled')) {
+		setTimeout(() => {
+			t.disabled = true;
+		}, 0.0000000000000000001);
+	
+		setTimeout(() => {
+			t.classList.remove("disabled");
+			t.disabled = false;
+		}, 2000);
+	}
 	t.classList.add('disabled');
-
-	setTimeout(() => {
-		t.disabled = true;
-	}, 0.0000000000000000001);
-
-	setTimeout(() => {
-		t.classList.remove("disabled");
-		t.disabled = false;
-	}, 2000);
 }
 
 function register_new_elements(e) {

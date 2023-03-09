@@ -29,8 +29,6 @@ function transferCoins(t, mobile=false) {
 		el.classList.add('d-none');
 	}
 
-	this.disabled = true;
-
 	let amount = parseInt(document.getElementById(mobile ? "coin-transfer-amount-mobile" : "coin-transfer-amount").value);
 	let transferred = amount - Math.ceil(amount*TRANSFER_TAX);
 	let username = document.getElementById('username').innerHTML;
@@ -46,16 +44,12 @@ function transferCoins(t, mobile=false) {
 			document.getElementById("profile-coins-amount").innerText = parseInt(document.getElementById("profile-coins-amount").innerText) + transferred;
 		}
 	);
-
-	setTimeout(_ => this.disabled = false, 2000);
 }
 
 function transferBux(t, mobile=false) {
 	for(let el of document.getElementsByClassName('toggleable')) {
 		el.classList.add('d-none');
 	}
-
-	this.disabled = true;
 
 	let amount = parseInt(document.getElementById(mobile ? "bux-transfer-amount-mobile" : "bux-transfer-amount").value);
 	let username = document.getElementById('username').innerHTML
@@ -71,8 +65,6 @@ function transferBux(t, mobile=false) {
 			document.getElementById("profile-bux-amount").innerText = parseInt(document.getElementById("profile-bux-amount").innerText) + amount;
 		}
 	);
-
-	setTimeout(_ => this.disabled = false, 2000);
 }
 
 function sendMessage(form) {

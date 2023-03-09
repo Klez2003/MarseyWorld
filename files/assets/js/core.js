@@ -68,14 +68,6 @@ function postToast(t, url, data, extraActionsOnSuccess, method="POST") {
 		return success;
 	};
 	xhr[0].send(xhr[1]);
-
-	if (!isShopConfirm)
-	{
-		setTimeout(() => {
-			t.disabled = false;
-			t.classList.remove("disabled");
-		}, 2000);
-	}
 }
 
 function postToastReload(t, url, method="POST") {

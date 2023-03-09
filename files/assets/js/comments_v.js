@@ -160,10 +160,8 @@ function post_reply(id){
 		} else {
 			showToast(false, getMessageFromJsonData(false, data));
 		}
-		setTimeout(() => {
-			btn.disabled = false;
-			btn.classList.remove('disabled');
-		}, 2000);
+		btn.disabled = false;
+		btn.classList.remove('disabled');
 	}
 	xhr[0].send(xhr[1]);
 }
@@ -213,10 +211,8 @@ function comment_edit(id){
 		else {
 			showToast(false, getMessageFromJsonData(false, data));
 		}
-		setTimeout(() => {
-			btn.disabled = false;
-			btn.classList.remove('disabled');
-		}, 1000);
+		btn.disabled = false;
+		btn.classList.remove('disabled');
 	}
 	xhr[0].send(xhr[1]);
 }
@@ -323,13 +319,11 @@ function handle_action(type, cid, thing) {
 		} else {
 			showToast(false, getMessageFromJsonData(false, data));
 		}
-		setTimeout(() => {
-			for (const btn of btns)
-			{
-				btn.disabled = false;
-				btn.classList.remove('disabled');
-			}
-		}, 2000);
+		for (const btn of btns)
+		{
+			btn.disabled = false;
+			btn.classList.remove('disabled');
+		}
 	}
 	xhr.send(form)
 }
