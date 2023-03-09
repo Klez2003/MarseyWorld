@@ -408,4 +408,5 @@ MODACTION_TYPES__FILTERED = deepcopy({t:v for t,v in MODACTION_TYPES.items()
 AEVANN_MODACTION_TYPES = {'ban_user','unban_user',
 						'shadowban','unshadowban',
 						'progstack_post','progstack_comment',
-						'unprogstack_post', 'unprogstack_comment'}
+						'unprogstack_post', 'unprogstack_comment',
+						'delete_media'}

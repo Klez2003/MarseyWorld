@@ -1754,8 +1754,8 @@ def delete_media_get(v):
 
 @app.post("/admin/delete_media")
 @limiter.limit('1/second', scope=rpath)
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit("50/day")
+@limiter.limit("50/day", key_func=get_ID)
 @admin_level_required(PERMS['DELETE_MEDIA'])
 def delete_media_post(v):
 
