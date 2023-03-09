@@ -280,10 +280,8 @@ function post_comment(fullname, hide){
 		}
 		else {
 			showToast(false, getMessageFromJsonData(false, data));
-			setTimeout(() => {
-				btn.disabled = false;
-				btn.classList.remove('disabled');
-			}, 2000);
+			btn.disabled = false;
+			btn.classList.remove('disabled');
 		}
 	}
 	xhr.send(form)
