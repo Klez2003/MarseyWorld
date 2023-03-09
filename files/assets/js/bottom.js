@@ -99,6 +99,8 @@ for (const element of TH) {
 
 function disable_btn(t) {
 	if (!t.classList.contains('disabled')) {
+		t.classList.add('disabled');
+
 		setTimeout(() => {
 			t.disabled = true;
 		}, 0.0000000000000000001);
@@ -108,7 +110,6 @@ function disable_btn(t) {
 			t.disabled = false;
 		}, 2000);
 	}
-	t.classList.add('disabled');
 }
 
 function register_new_elements(e) {
