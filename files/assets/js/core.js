@@ -478,7 +478,7 @@ function handle_files(input, newfiles) {
 		return
 	}
 
-	if (!span.innerHTML) span.innerHTML = ' '
+	if (!span.textContent) span.textContent = ' '
 
 	if (ta.value && !ta.value.endsWith('\n')) {
 		ta.value += '\n'
