@@ -504,14 +504,12 @@ function handle_files(input, newfiles) {
 file_upload = document.getElementById('file-upload');
 
 if (file_upload) {
-	const IMAGE_FORMATS = document.getElementById('IMAGE_FORMATS').value.split(',')
-
 	function process_url_image() {
 		if (file_upload.files)
 		{
 			const filename = file_upload.files[0].name
 			file_upload.previousElementSibling.textContent = filename.substr(0, 50);
-			for (const s of IMAGE_FORMATS)
+			for (const s of ocument.getElementById('IMAGE_FORMATS').value.split(','))
 			{
 				if (filename.toLowerCase().endsWith(s)) {
 					const fileReader = new FileReader();
