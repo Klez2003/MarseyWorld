@@ -809,7 +809,7 @@ if SITE == 'rdrama.net':
 		'justcool393': JUSTCOOL_ID
 	}
 
-	POST_RATELIMIT = '5/hour;10/day'
+	POST_RATELIMIT = '10/day'
 elif SITE == 'watchpeopledie.tv':
 	EMAIL = "wpd@watchpeopledie.tv"
 	TELEGRAM_ID = "wpdtv"
