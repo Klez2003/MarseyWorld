@@ -31,7 +31,7 @@
 						<th>Applied on</th>
 					{% endif %}
 
-					{% if v.id == group.owner.id %}
+					{% if v.id == group.owner.id or v.admin_level >= PERMS['MODS_EVERY_GROUP'] %}
 						<th class="disable-sort-click"></th>
 					{% endif %}
 				</tr>
@@ -56,7 +56,7 @@
 							<td id="time-{{membership.user_id}}" data-time="{{membership.created_utc}}"></td>
 						{% endif %}
 
-						{% if v.id == group.owner.id %}
+						{% if v.id == group.owner.id or v.admin_level >= PERMS['MODS_EVERY_GROUP'] %}
 							<td>
 								<div id="kick-{{membership.user_id}}" {% if name == 'applications' %}class="d-none"{% endif %}>
 									<button type="button" class="btn btn-primary btn-block" data-nonce="{{g.nonce}}" data-onclick="reject_membership(this,'{{group}}','{{membership.user_id}}')">Kick</button>
@@ -75,7 +75,7 @@
 	</div>
 {% endmacro %}
 
-{% if v.id == group.owner.id %}
+{% if v.id == group.owner.id or v.admin_level >= PERMS['MODS_EVERY_GROUP'] %}
 	{{process_memberships(applications, 'applications')}}
 	{{process_memberships(members, 'members')}}
 	<script defer src="{{'js/group_members_owner.js' | asset}}"></script>
