@@ -9,7 +9,7 @@ valid_username_chars = 'a-zA-Z0-9_\-'
 valid_username_regex = re.compile("^[a-zA-Z0-9_\-]{3,25}$", flags=re.A)
 mention_regex = re.compile('(^|\s|>)@([a-zA-Z0-9_\-]{1,30})(?!([^<]*<\/(code|pre|a)>|[^`]*`))', flags=re.A)
 
-group_mention_regex = re.compile('(^|\s|>)!([a-z0-9_\-]{3,25})(?!([^<]*<\/(code|pre|a)>|[^`]*`))', flags=re.A)
+group_mention_regex = re.compile('(^|\s|>)!([a-z0-9_\-]{3,25})(?!([^<]*<\/(code|pre|a)>|[^`]*`))', flags=re.A|re.I)
 
 everyone_regex = re.compile('(^|\s|>)!(everyone)(?!([^<]*<\/(code|pre|a)>|[^`]*`))', flags=re.A)
 
