@@ -511,14 +511,17 @@ if (file_upload) {
 		{
 			const filename = file_upload.files[0].name
 			file_upload.previousElementSibling.textContent = filename.substr(0, 50);
-			if (IMAGE_FORMATS.some(s => filename.toLowerCase().endsWith(s)))
+			for (const s of IMAGE_FORMATS)
 			{
-				const fileReader = new FileReader();
-				fileReader.readAsDataURL(file_upload.files[0]);
-				fileReader.addEventListener("load", function () {
-					document.getElementById('image-preview').setAttribute('src', this.result);
-					document.getElementById('image-preview').classList.remove('d-none');
-				});
+				if (filename.toLowerCase().endsWith(s)) {
+					const fileReader = new FileReader();
+					fileReader.readAsDataURL(file_upload.files[0]);
+					fileReader.addEventListener("load", function () {
+						document.getElementById('image-preview').setAttribute('src', this.result);
+						document.getElementById('image-preview').classList.remove('d-none');
+					});
+					break;
+				}
 			}
 
 			if (typeof checkForRequired === "function") {
