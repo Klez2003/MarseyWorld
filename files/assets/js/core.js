@@ -509,7 +509,7 @@ if (file_upload) {
 		{
 			const filename = file_upload.files[0].name
 			file_upload.previousElementSibling.textContent = filename.substr(0, 50);
-			for (const s of ocument.getElementById('IMAGE_FORMATS').value.split(','))
+			for (const s of document.getElementById('IMAGE_FORMATS').value.split(','))
 			{
 				if (filename.toLowerCase().endsWith(s)) {
 					const fileReader = new FileReader();
