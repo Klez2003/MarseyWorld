@@ -1349,7 +1349,7 @@ def claim_rewards(v):
 	if marseybux:
 		v.pay_account('marseybux', marseybux)
 
-		send_repeatable_notification(v.id, f"You have received {marseybux} Marseybux! You can use them to buy awards or hats in the [shop](/shop) or gamble them in the [casino](/casino).")
+		send_repeatable_notification(v.id, f"You have received {marseybux} Marseybux! You can use them to buy awards or hats in the [shop](/shop/awards) or gamble them in the [casino](/casino).")
 		g.db.add(v)
 
 		v.patron_utc = time.time() + 2937600
