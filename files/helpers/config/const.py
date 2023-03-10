@@ -1056,8 +1056,6 @@ if not IS_LOCALHOST and SECRET_KEY == DEFAULT_CONFIG_VALUE:
 	from warnings import warn
 	warn("Secret key is the default value! Please change it to a secure random number. Thanks <3", RuntimeWarning)
 
-SHOW_MORE = '<p><button class="showmore">SHOW MORE</button></p></div><div class="d-none">'
-
 if AEVANN_ID:
 	GLOBAL = environ.get("GLOBAL", "").strip()
 else:
