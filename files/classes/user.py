@@ -418,8 +418,8 @@ class User(Base):
 			g.db.add(new_badge)
 			g.db.flush()
 
-		if time.time() - self.created_utc > 365 * 86400 * 2 and not self.has_badge(236):
-			new_badge = Badge(badge_id=236, user_id=self.id)
+		if time.time() - self.created_utc > 365 * 86400 * 2 and not self.has_badge(237):
+			new_badge = Badge(badge_id=237, user_id=self.id)
 			g.db.add(new_badge)
 			g.db.flush()
 
