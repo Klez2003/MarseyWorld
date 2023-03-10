@@ -4,7 +4,7 @@ function post(url) {
 	xhr.setRequestHeader('xhr', 'xhr');
 	const form = new FormData()
 	form.append("formkey", formkey());
-	xhr.onload = function() {location.reload();};
+	xhr.onload = () => {location.reload();};
 	xhr.send(form);
 };
 
@@ -103,9 +103,9 @@ const sr_toggle = document.getElementById("slurreplacer");
 const sr_link = document.getElementById('slurreplacer-perma-link');
 const pr_toggle = document.getElementById("profanityreplacer");
 const pr_link = document.getElementById('profanityreplacer-perma-link');
-sr_toggle.addEventListener('change', function () {
+sr_toggle.addEventListener('change', () => {
 	sr_link.hidden = !sr_toggle.checked;
 });
-pr_toggle.addEventListener('change', function () {
+pr_toggle.addEventListener('change', () => {
 	pr_link.hidden = !pr_toggle.checked;
 });

@@ -22,7 +22,7 @@ function report_postModal(id) {
 		reason_post.focus()
 	}, 500);
 
-	reportPostButton.addEventListener('click', function() {
+	reportPostButton.addEventListener('click', () => {
 
 		this.innerHTML='Reporting post';
 		this.disabled = true;
@@ -35,7 +35,7 @@ function report_postModal(id) {
 		form.append("formkey", formkey());
 		form.append("reason", reason_post.value);
 
-		xhr.onload = function() {
+		xhr.onload = () => {
 			let data
 			try {data = JSON.parse(xhr.response)}
 			catch(e) {console.log(e)}
@@ -43,7 +43,7 @@ function report_postModal(id) {
 			showToast(success, getMessageFromJsonData(success, data));
 		};
 
-		xhr.onerror=function(){alert(errortext)};
+		xhr.onerror=() =>{alert(errortext)};
 		xhr.send(form);
 	})
 };

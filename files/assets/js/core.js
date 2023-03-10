@@ -48,7 +48,7 @@ function postToast(t, url, data, extraActionsOnSuccess, method="POST") {
 		}
 	}
 	const xhr = createXhrWithFormKey(url, method, form);
-	xhr[0].onload = function() {
+	xhr[0].onload = () => {
 		let result
 		let message;
 		let success = xhr[0].status >= 200 && xhr[0].status < 300;
@@ -313,7 +313,7 @@ function sendFormXHR(form, extraActionsOnSuccess) {
 	xhr.open("POST", actionPath);
 	xhr.setRequestHeader('xhr', 'xhr');
 
-	xhr.onload = function() {
+	xhr.onload = () => {
 		if (xhr.status >= 200 && xhr.status < 300) {
 			let data = JSON.parse(xhr.response);
 			showToast(true, getMessageFromJsonData(true, data));
@@ -519,7 +519,7 @@ if (file_upload) {
 			{
 				const fileReader = new FileReader();
 				fileReader.readAsDataURL(file_upload.files[0]);
-				fileReader.addEventListener("load", function () {
+				fileReader.addEventListener("load", () => {
 					document.getElementById('image-preview').setAttribute('src', this.result);
 					document.getElementById('image-preview').classList.remove('d-none');
 				});

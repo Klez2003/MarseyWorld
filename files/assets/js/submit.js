@@ -94,7 +94,7 @@ function autoSuggestTitle()	{
 
 		const x = new XMLHttpRequest();
 		x.withCredentials=true;
-		x.onreadystatechange = function() {
+		x.onreadystatechange = () => {
 			if (x.readyState == 4 && x.status == 200 && !titleField.value) {
 
 				title=JSON.parse(x.responseText)["title"];
@@ -133,7 +133,7 @@ function checkRepost() {
 		const form = new FormData()
 		form.append("url", url);
 
-		xhr.onload=function(){
+		xhr.onload=() =>{
 			try {data = JSON.parse(xhr.response)}
 			catch(e) {console.log(e)}
 
@@ -176,7 +176,7 @@ function submit(form) {
 
 	xhr.setRequestHeader('xhr', 'xhr');
 
-	xhr.onload = function() {
+	xhr.onload = () => {
 		upload_prog.classList.add("d-none")
 
 		if (xhr.status >= 200 && xhr.status < 300) {

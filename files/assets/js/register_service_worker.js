@@ -49,7 +49,7 @@ function subscribeUser(swRegistration, applicationServerPublicKey, apiEndpoint) 
 			throw new Error('Bad response from server.');
 		}
 	})
-	.catch(function() {
+	.catch(() => {
 	});
 }
 
@@ -62,7 +62,7 @@ function registerServiceWorker(serviceWorkerUrl, applicationServerPublicKey, api
 
 			swRegistration = swReg;
 		})
-		.catch(function() {
+		.catch(() => {
 		});
 	} else {
 	}

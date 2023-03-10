@@ -1,5 +1,5 @@
 let purchaseQuantity = 1;
-const lotteryOnReady = function () {
+const lotteryOnReady = () => {
 	checkLotteryStats();
 
 	// Show ticket being pulled.

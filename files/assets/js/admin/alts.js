@@ -4,7 +4,7 @@ function submitAddAlt(element, username) {
 	const form = new FormData();
 	form.append('other_username', document.getElementById('link-input-other').value);
 	const xhr = createXhrWithFormKey(`/@${username}/alts/`, 'POST', form);
-	xhr[0].onload = function() {
+	xhr[0].onload = () => {
 		let data;
 		try {
 			data = JSON.parse(xhr[0].response);

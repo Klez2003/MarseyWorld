@@ -136,7 +136,7 @@ function buy(mb) {
 	url = `/buy/${kind}`
 	if (mb) url += "?mb=true"
 	const xhr = createXhrWithFormKey(url);
-	xhr[0].onload = function() {
+	xhr[0].onload = () => {
 		let data
 		try {data = JSON.parse(xhr[0].response)}
 		catch(e) {console.log(e)}

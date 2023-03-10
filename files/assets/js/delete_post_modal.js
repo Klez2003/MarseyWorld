@@ -1,5 +1,5 @@
 function delete_postModal(t, id) {
-	document.getElementById("deletePostButton").addEventListener('click', function() {
+	document.getElementById("deletePostButton").addEventListener('click', () => {
 		postToast(t, `/delete_post/${id}`,
 			{
 			},

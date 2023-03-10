@@ -1,5 +1,5 @@
 let prevScrollpos = window.pageYOffset;
-window.onscroll = function () {
+window.onscroll = () => {
 	const currentScrollPos = window.pageYOffset;
 
 	const topBar = document.getElementById("fixed-bar-mobile");
