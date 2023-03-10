@@ -1,6 +1,6 @@
 function postToastRoastEventDarkmode(t, url) {
 	const xhr = createXhrWithFormKey(url);
-	xhr[0].onload = () => {
+	xhr[0].onload = function() {
 		postToastLoadEventDarkmode(xhr[0])
 	};
 	xhr[0].send(xhr[1]);

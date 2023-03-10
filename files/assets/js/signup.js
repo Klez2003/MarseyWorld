@@ -1,4 +1,4 @@
-document.getElementById('password-register').addEventListener('input', () => {
+document.getElementById('password-register').addEventListener('input', function () {
 
 	const charCount = document.getElementById("password-register").value;
 	const id = document.getElementById("passwordHelpRegister");
@@ -13,7 +13,7 @@ document.getElementById('password-register').addEventListener('input', () => {
 	}
 });
 
-document.getElementById('username-register').addEventListener('input', () => {
+document.getElementById('username-register').addEventListener('input', function () {
 
 	const userName = document.getElementById("username-register").value;
 	const id = document.getElementById("usernameHelpRegister");

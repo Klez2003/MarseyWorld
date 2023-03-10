@@ -25,7 +25,7 @@ function report_commentModal(id, author) {
 		reason_comment.focus()
 	}, 500);
 
-	reportCommentButton.addEventListener('click', () => {
+	reportCommentButton.addEventListener('click', function() {
 		this.innerHTML='Reporting comment';
 
 		postToast(this, `/report/comment/${id}`,
@@ -86,7 +86,7 @@ function toggleEdit(id){
 
 
 function delete_commentModal(t, id) {
-	document.getElementById("deleteCommentButton").addEventListener('click', () => {
+	document.getElementById("deleteCommentButton").addEventListener('click', function() {
 		postToast(t, `/delete/comment/${id}`,
 			{
 			},
@@ -130,7 +130,7 @@ function post_reply(id){
 	const upload_prog = document.getElementById(`upload-prog-c_${id}`);
 	xhr[0].upload.onprogress = (e) => {handleUploadProgress(e, upload_prog)};
 
-	xhr[0].onload=() =>{
+	xhr[0].onload=function(){
 		upload_prog.classList.add("d-none")
 
 		let data
@@ -186,7 +186,7 @@ function comment_edit(id){
 	const upload_prog = document.getElementById(`upload-prog-edit-c_${id}`);
 	xhr[0].upload.onprogress = (e) => {handleUploadProgress(e, upload_prog)};
 
-	xhr[0].onload=() =>{
+	xhr[0].onload=function(){
 		upload_prog.classList.add("d-none")
 
 		let data
@@ -243,7 +243,7 @@ function post_comment(fullname, hide){
 	xhr.upload.onprogress = (e) => {handleUploadProgress(e, upload_prog)};
 	
 	xhr.setRequestHeader('xhr', 'xhr');
-	xhr.onload=() =>{
+	xhr.onload=function(){
 		upload_prog.classList.add("d-none")
 
 		let data
@@ -306,7 +306,7 @@ function handle_action(type, cid, thing) {
 
 
 
-	xhr.onload=() =>{
+	xhr.onload=function(){
 		let data
 		try {data = JSON.parse(xhr.response)}
 		catch(e) {console.log(e)}

@@ -295,7 +295,7 @@ function emojiAddToInput(event)
 	// Sir, come out and drink your Chromium complaint web
 	// I HATE CHROME. I HATE CHROME
 	if(window.chrome !== undefined)
-		setTimeout(() =>{
+		setTimeout(function(){
 			console.warn("Chrome detected, r-slured mode enabled.");
 
 			// AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
@@ -524,7 +524,7 @@ function loadEmojis(inputTargetIDName)
 		emojiInputTargetDOM = document.getElementById(inputTargetIDName);
 }
 
-document.getElementById('emojiModal').addEventListener('shown.bs.modal', () => {
+document.getElementById('emojiModal').addEventListener('shown.bs.modal', function () {
 	focusSearchBar(emojiSearchBarDOM);
 	setTimeout(() => {
 		focusSearchBar(emojiSearchBarDOM);

@@ -1,4 +1,4 @@
-document.getElementById('new_email').addEventListener('input', () => {
+document.getElementById('new_email').addEventListener('input', function () {
 	document.getElementById("email-password").classList.remove("d-none");
 	document.getElementById("email-password-label").classList.remove("d-none");
 	document.getElementById("emailpasswordRequired").classList.remove("d-none");
@@ -20,7 +20,7 @@ function block_user() {
 		f=new FormData();
 		f.append("username", username);
 		f.append("formkey", formkey());
-		xhr.onload=() =>{
+		xhr.onload=function(){
 			if (xhr.status<300) {
 				location.reload();
 			}

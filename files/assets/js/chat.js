@@ -172,7 +172,7 @@ function send() {
 		input.parentElement.nextElementSibling.classList.add('d-none');
 
 		box.scrollTo(0, box.scrollHeight);
-		setTimeout(() => {
+		setTimeout(function () {
 			box.scrollTo(0, box.scrollHeight)
 		}, 200);
 	}
@@ -223,15 +223,15 @@ socket.on('online', function(data){
 	bs_trigger(document.getElementById('online3'))
 })
 
-window.addEventListener('blur', () =>{
+window.addEventListener('blur', function(){
 	focused=false
 })
-window.addEventListener('focus', () =>{
+window.addEventListener('focus', function(){
 	focused=true
 })
 
 
-ta.addEventListener("input", () => {
+ta.addEventListener("input", function() {
 	text = ta.value
 	if (!text && is_typing==true){
 		is_typing=false;
@@ -313,18 +313,18 @@ document.onpaste = function(event) {
 }
 
 box.scrollTo(0, box.scrollHeight)
-setTimeout(() => {
+setTimeout(function () {
 	box.scrollTo(0, box.scrollHeight)
 }, 200);
-setTimeout(() => {
+setTimeout(function () {
 	box.scrollTo(0, box.scrollHeight)
 }, 500);
-setTimeout(() => {
+setTimeout(function () {
 	box.scrollTo(0, box.scrollHeight)
 }, 1000);
-setTimeout(() => {
+setTimeout(function () {
 	box.scrollTo(0, box.scrollHeight)
 }, 1500);
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', function () {
 	box.scrollTo(0, box.scrollHeight)
 });

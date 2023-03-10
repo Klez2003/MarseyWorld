@@ -14,7 +14,7 @@ function insertGIF(url) {
 	if (typeof checkForRequired === "function") checkForRequired();
 }
 
-document.getElementById('gifModal').addEventListener('shown.bs.modal', () => {
+document.getElementById('gifModal').addEventListener('shown.bs.modal', function () {
 	focusSearchBar(gifSearchBar);
 	setTimeout(() => {
 		focusSearchBar(gifSearchBar);

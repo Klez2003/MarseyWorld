@@ -3,10 +3,10 @@ function banModal(link, name, fullname, cls) {
 	document.getElementById("ban-modal-link").value = link;
 	document.getElementById("banUserButton").innerHTML = `Ban @${name}`;
 
-	document.getElementById("banUserButton").addEventListener('click', () => {
+	document.getElementById("banUserButton").addEventListener('click', function() {
 		let form = new FormData(document.getElementById("banModalForm"));
 		const xhr = createXhrWithFormKey(`/ban_user/${fullname}?form`, "POST", form);
-		xhr[0].onload = () => {
+		xhr[0].onload = function() {
 			let data
 			try {data = JSON.parse(xhr[0].response)}
 			catch(e) {console.log(e)}
@@ -25,10 +25,10 @@ function chudModal(link, name, fullname, cls) {
 	document.getElementById("chud-modal-link").value = link;
 	document.getElementById("chudUserButton").innerHTML = `Chud @${name}`;
 
-	document.getElementById("chudUserButton").addEventListener('click', () => {
+	document.getElementById("chudUserButton").addEventListener('click', function() {
 		let form = new FormData(document.getElementById("chudModalForm"));
 		const xhr = createXhrWithFormKey(`/agendaposter/${fullname}?form`, "POST", form);
-		xhr[0].onload = () => {
+		xhr[0].onload = function() {
 			let data
 			try {data = JSON.parse(xhr[0].response)}
 			catch(e) {console.log(e)}
