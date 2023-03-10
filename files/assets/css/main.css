@@ -7206,6 +7206,10 @@ input[type=number] {
     min-height: 100px;
 }
 
+#note {
+    min-height: 50px;
+}
+
 .collapsed .showmore-text
 {
     display: none;
