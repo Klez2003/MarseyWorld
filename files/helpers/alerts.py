@@ -167,7 +167,7 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False):
 				
 				notify_users.update(members)
 
-				if ghost or v.id not in members:
+				if ghost or v.id not in group.member_ids:
 					if group.name == 'biofoids': mul = 10
 					else: mul = 5
 					
