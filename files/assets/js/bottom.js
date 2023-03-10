@@ -117,16 +117,6 @@ function disable_btn(t) {
 }
 
 function register_new_elements(e) {
-	const showmores = document.getElementsByClassName('showmore')
-	for (const element of showmores) {
-		element.onclick = () => {showmore(element)};
-	}
-
-	const onclick = e.querySelectorAll('[data-onclick]');
-	for (const element of onclick) {
-		element.onclick = () => {execute(element, 'onclick')};
-	}
-
 	const oninput = e.querySelectorAll('[data-oninput]');
 	for (const element of oninput) {
 		element.oninput = () => {execute(element, 'oninput')};
@@ -142,34 +132,59 @@ function register_new_elements(e) {
 		element.onchange = () => {execute(element, 'onchange')};
 	}
 
-	const popover_triggers = document.getElementsByClassName('user-name');
-	for (const element of popover_triggers) {
-		element.onclick = (e) => {
-			if (!(e.ctrlKey || e.metaKey || e.shiftKey || e.altKey))
-				e.preventDefault();
-		};
-	}
-
-	const expandable = document.querySelectorAll('.in-comment-image, img[alt^="![]("]');
-	for (const element of expandable) {
-		element.onclick = () => {expandImage()};
-	}
-
-	const toggleelement = e.querySelectorAll('[data-toggleelement]');
-	for (const element of toggleelement) {
-		element.onclick = () => {
-			document.getElementById(element.dataset.toggleelement).classList.toggle(element.dataset.toggleattr);
-		};
-	}
-
 	const file_inputs = document.querySelectorAll('input[multiple="multiple"]')
 	for (const input of file_inputs) {
 		input.onchange = () => {handle_files(input, input.files)};
 	}
 
+
+
+
+	const showmores = document.getElementsByClassName('showmore')
+	for (const element of showmores) {
+		if (element.classList.contains('registered')) continue
+		element.addEventListener('click', () => {showmore(element)});
+		element.classList.add('reigstered');
+	}
+
+	const onclick = e.querySelectorAll('[data-onclick]');
+	for (const element of onclick) {
+		if (element.classList.contains('registered')) continue
+		element.addEventListener('click', () => {execute(element, 'onclick')});
+		element.classList.add('reigstered');
+	}
+
+	const popover_triggers = document.getElementsByClassName('user-name');
+	for (const element of popover_triggers) {
+		if (element.classList.contains('registered')) continue
+		element.addEventListener('click', (e) => {
+			if (!(e.ctrlKey || e.metaKey || e.shiftKey || e.altKey))
+				e.preventDefault();
+		});
+		element.classList.add('reigstered');
+	}
+
+	const expandable = document.querySelectorAll('.in-comment-image, img[alt^="![]("]');
+	for (const element of expandable) {
+		if (element.classList.contains('registered')) continue
+		element.addEventListener('click', () => {expandImage()});
+		element.classList.add('reigstered');
+	}
+
+	const toggleelement = e.querySelectorAll('[data-toggleelement]');
+	for (const element of toggleelement) {
+		if (element.classList.contains('registered')) continue
+		element.addEventListener('click', () => {
+			document.getElementById(element.dataset.toggleelement).classList.toggle(element.dataset.toggleattr);
+		});
+		element.classList.add('reigstered');
+	}
+
 	const remove_files = document.querySelectorAll('button.remove-files')
 	for (const element of remove_files) {
-		element.onclick = () => {cancel_files(element)};
+		if (element.classList.contains('registered')) continue
+		element.addEventListener('click', () => {cancel_files(element)});
+		element.classList.add('reigstered');
 	}
 
 	const data_url = document.querySelectorAll('[data-url]');
@@ -178,14 +193,18 @@ function register_new_elements(e) {
 			console.log("Nonce check failed!")
 			continue
 		}
+		if (element.classList.contains('registered')) continue
 		element.addEventListener('click', () => {
 			document.getElementById('giveaward').dataset.action = element.dataset.url
 		});
+		element.classList.add('reigstered');
 	}
 
 	const btns_to_disable = document.querySelectorAll('[type="submit"]')
-	for (const btn of btns_to_disable) {
-		btn.addEventListener('click', () => {disable_btn(btn)})
+	for (const element of btns_to_disable) {
+		if (element.classList.contains('registered')) continue
+		element.addEventListener('click', () => {disable_btn(element)})
+		element.classList.add('reigstered');
 	}
 }
 
