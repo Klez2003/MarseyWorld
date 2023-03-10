@@ -598,8 +598,19 @@ function handleUploadProgress(e, upload_prog) {
 	}
 }
 
-if (width < 768) {
-	document.getElementById('expandImageModal').addEventListener('hidden.bs.modal', () => {
-		document.body.style.zoom = "100%";
-	});
-}
+window.addEventListener('show.bs.modal', function () {
+	location.hash = "modal";
+});
+
+window.addEventListener('hide.bs.modal', function () {
+	if(location.hash == "#modal") {
+		history.back();
+	}
+});
+
+window.addEventListener('hashchange', function () {
+	if(location.hash != "#modal") {
+		const curr_modal = bootstrap.Modal.getInstance(document.getElementsByClassName('show')[0])
+		if (curr_modal) curr_modal.hide()
+	}
+});
