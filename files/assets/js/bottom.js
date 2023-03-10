@@ -124,9 +124,7 @@ function register_new_elements(e) {
 
 	const onclick = e.querySelectorAll('[data-onclick]');
 	for (const element of onclick) {
-		element.addEventListener('click', () => {
-			execute(element, 'onclick')
-		});
+		element.onclick = () => {execute(element, 'onclick')};
 	}
 
 	const oninput = e.querySelectorAll('[data-oninput]');
@@ -159,9 +157,9 @@ function register_new_elements(e) {
 
 	const toggleelement = e.querySelectorAll('[data-toggleelement]');
 	for (const element of toggleelement) {
-		element.addEventListener('click', () => {
+		element.onclick = () => {
 			document.getElementById(element.dataset.toggleelement).classList.toggle(element.dataset.toggleattr);
-		});
+		};
 	}
 
 	const file_inputs = document.querySelectorAll('input[multiple="multiple"]')
