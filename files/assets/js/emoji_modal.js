@@ -377,10 +377,12 @@ function populate_speed_emoji_modal(results, textbox)
 
 	emoji_index = 0;
 	speed_carot_modal.innerHTML = "";
+	const MAXXX = 25;
 	// Not sure why the results is a Set... but oh well
 	let i = 0;
 	for (let result of results)
 	{
+		if (i++ > MAXXX) return i;
 		let emoji_option = document.createElement("div");
 		emoji_option.className = "speed-modal-option emoji-option " + (i === 1 ? "selected" : "");
 		emoji_option.tabIndex = 0;
