@@ -94,6 +94,10 @@
 				</div>
 			{% endif %}
 
+			<li class="nav-item d-flex align-items-center justify-content-center mx-1 mr-2">
+				<a class="btn btn-primary" href="/donate">Donate</a>
+			</li>
+
 			{% if g.browser == 'webview' %}
 				<a href="" type="button" class="mobile-nav-icon d-md-none"><i class="fas fa-arrow-rotate-right align-middle text-gray-500 black"></i></a>
 			{% endif %}
@@ -130,6 +134,10 @@
 
 		<div class="collapse navbar-collapse" id="navbarResponsive">
 			<ul class="navbar-nav ml-auto d-none d-md-flex">
+
+			<li class="nav-item d-flex align-items-center justify-content-center mx-1 mr-2">
+				<a class="btn btn-primary" href="/donate">Donate</a>
+			</li>
 
 			{% if v %}
 
@@ -220,10 +228,6 @@
 
 							<a class="dropdown-item" href="/app"><i class="fas fa-mobile fa-fw mr-3"></i>Mobile app</a>
 
-							{% if FEATURES['MARSEYBUX'] %}
-								<a class="dropdown-item" rel="nofollow noopener" href="/donate"><i class="fas fa-dollar-sign fa-fw mr-3"></i>Donate</a>
-							{% endif %}
-
 							<button type="button" class="dropdown-item copy-link" data-clipboard-text="{{SITE_FULL}}/signup?ref={{v.username}}"><i class="fas fa-user-friends fa-fw mr-3"></i>Invite friends</button>
 
 							<a class="dropdown-item" href="https://rdrama.net/h/changelog"><i class="fas fa-clipboard fa-fw mr-3"></i>Changelog</a>
@@ -245,18 +249,15 @@
 					</div>
 				</li>
 			{% else %}
-			<li class="nav-item d-flex align-items-center justify-content-center mx-1 mr-2">
-				<a class="btn btn-primary" href="/donate">Donate</a>
-			</li>
-			<li class="nav-item d-flex align-items-center justify-content-center mx-1 mr-2">
-				<a class="btn btn-primary" href="/contact">Contact us</a>
-			</li>
-			<li class="nav-item d-flex align-items-center justify-content-center mx-1">
-				<a class="btn btn-primary" href="/login?redirect={{request.full_path | urlencode}}">Sign in</a>
-			</li>
-			<li class="nav-item d-flex align-items-center justify-content-center mx-1">
-				<a class="btn btn-primary" href="/signup?redirect={{request.full_path | urlencode}}">Sign up</a>
-			</li>
+				<li class="nav-item d-flex align-items-center justify-content-center mx-1 mr-2">
+					<a class="btn btn-primary" href="/contact">Contact us</a>
+				</li>
+				<li class="nav-item d-flex align-items-center justify-content-center mx-1">
+					<a class="btn btn-primary" href="/login?redirect={{request.full_path | urlencode}}">Sign in</a>
+				</li>
+				<li class="nav-item d-flex align-items-center justify-content-center mx-1">
+					<a class="btn btn-primary" href="/signup?redirect={{request.full_path | urlencode}}">Sign up</a>
+				</li>
 			{% endif %}
 		</ul>
 
@@ -281,10 +282,6 @@
 
 				<a class="nav-item nav-link" href="/app"><i class="fas fa-mobile fa-fw mr-3"></i>Mobile app</a>
 
-				{% if FEATURES['MARSEYBUX'] %}
-					<a class="nav-item nav-link" rel="nofollow noopener" href="/donate"><i class="fas fa-dollar-sign fa-fw mr-3"></i>Donate</a>
-				{% endif %}
-
 				<button type="button" class="nav-item nav-link copy-link" data-clipboard-text="{{SITE_FULL}}/signup?ref={{v.username}}"><i class="fas fa-user-friends fa-fw mr-3"></i>Invite friends</button>
 
 				<a class="nav-item nav-link" href="https://rdrama.net/h/changelog"><i class="fas fa-clipboard fa-fw mr-3"></i>Changelog</a>
@@ -305,9 +302,6 @@
 
 				<button type="button" class="nav-item border-top border-bottom mt-2 pt-2 nav-link" data-nonce="{{g.nonce}}" data-onclick="logout(this)"><i class="fas fa-sign-out fa-fw mr-3 text-danger"></i>Log out</button>
 			{% else %}
-				<li class="nav-item d-flex align-items-center justify-content-center pb-3">
-					<a class="btn btn-primary btn-block" href="/donate">Donate</a>
-				</li>
 				<li class="nav-item d-flex align-items-center justify-content-center pb-3">
 					<a class="btn btn-primary btn-block" href="/contact">Contact us</a>
 				</li>
