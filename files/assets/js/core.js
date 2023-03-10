@@ -600,3 +600,9 @@ function handleUploadProgress(e, upload_prog) {
 		percentIndicator.textContent = progressPercent + '%';
 	}
 }
+
+if (width < 768) {
+	document.getElementById('expandImageModal').addEventListener('hidden.bs.modal', () => {
+		document.body.style.zoom = "100%";
+	});
+}
