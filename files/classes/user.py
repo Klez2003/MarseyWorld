@@ -228,7 +228,6 @@ class User(Base):
 		elif currency == 'combined':
 			if in_db.marseybux >= amount:
 				subtracted_mbux = amount
-				print(subtracted_mbux, flush=True)
 				subtracted_coins = 0
 			else:
 				subtracted_mbux = in_db.marseybux
