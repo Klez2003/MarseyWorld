@@ -94,9 +94,11 @@
 				</div>
 			{% endif %}
 
-			<li class="nav-item d-flex align-items-center justify-content-center mx-1 mr-2">
-				<a class="btn btn-primary" href="/donate">Donate</a>
-			</li>
+			{% if not (v and v.patron) %}
+				<li class="nav-item d-flex align-items-center justify-content-center mx-1 mr-2">
+					<a class="btn btn-primary" href="/donate">Donate</a>
+				</li>
+			{% endif %}
 
 			{% if g.browser == 'webview' %}
 				<a href="" type="button" class="mobile-nav-icon d-md-none"><i class="fas fa-arrow-rotate-right align-middle text-gray-500 black"></i></a>
@@ -135,9 +137,11 @@
 		<div class="collapse navbar-collapse" id="navbarResponsive">
 			<ul class="navbar-nav ml-auto d-none d-md-flex">
 
-			<li class="nav-item d-flex align-items-center justify-content-center mx-1 mr-2">
-				<a class="btn btn-primary" href="/donate">Donate</a>
-			</li>
+			{% if not (v and v.patron) %}
+				<li class="nav-item d-flex align-items-center justify-content-center mx-1 mr-2">
+					<a class="btn btn-primary" href="/donate">Donate</a>
+				</li>
+			{% endif %}
 
 			{% if v %}
 
