@@ -12,7 +12,7 @@ from files.classes.user import User
 from files.helpers.assetcache import assetcache_path
 from files.helpers.config.const import *
 from files.helpers.regex import *
-from files.helpers.settings import get_settings, get_setting
+from files.helpers.settings import *
 from files.helpers.sorting_and_time import make_age_string
 from files.routes.routehelpers import get_alt_graph, get_formkey
 from files.__main__ import app, cache
@@ -75,6 +75,16 @@ def calc_users():
 		cache.set(LOGGED_OUT_CACHE_KEY, loggedout)
 		loggedin_counter = len(loggedin)
 		loggedout_counter = len(loggedout)
+
+		if get_setting('automatic_DDOS_mitigation'):
+			if loggedout_counter > loggedin_counter:
+				if not get_setting('login_required'):
+					toggle_setting('login_required')
+			else:
+				if get_setting('login_required'):
+					toggle_setting('login_required')
+
+
 	return {'loggedin_counter':loggedin_counter,
 	        'loggedout_counter':loggedout_counter,
 			'loggedin_chat':loggedin_chat}

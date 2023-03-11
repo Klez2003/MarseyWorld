@@ -15,6 +15,7 @@ _SETTINGS = {
 	"under_siege": False,
 	"dm_images": True,
 	"under_attack": False,
+	"automatic_DDOS_mitigation": True,
 }
 
 def get_setting(setting:str):

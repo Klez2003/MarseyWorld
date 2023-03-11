@@ -204,6 +204,7 @@
 .fa-lock:before{content:"\f023"}
 .fa-lock-open:before{content:"\f3c1"}
 .fa-down:before{content:"\f354"}
+.fa-shield-virus:before{content:"\e06c"}
 
 button {
 	background: none;
