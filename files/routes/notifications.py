@@ -330,6 +330,8 @@ def notifications(v:User):
 	for c, n in comments:
 		if n.created_utc > 1620391248: c.notif_utc = n.created_utc
 
+		if not n.read: c.unread = True
+
 		if c.parent_submission or c.wall_user_id:
 			total.append(c)
 
@@ -366,7 +368,6 @@ def notifications(v:User):
 
 		if not n.read and not session.get("GLOBAL"):
 			n.read = True
-			c.unread = True
 			g.db.add(n)
 
 	total.extend(listing)
