@@ -1212,4 +1212,4 @@ class User(Base):
 	@lazy
 	def can_see_my_shit(self):
 		v = g.v
-		return not u.shadowbanned or (v and (v.id == u.id or v.can_see_shadowbanned))
+		return not self.shadowbanned or (v and (v.id == self.id or v.can_see_shadowbanned))
