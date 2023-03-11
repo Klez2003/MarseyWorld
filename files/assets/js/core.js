@@ -473,7 +473,10 @@ function handle_files(input, newfiles) {
 		if (span.innerHTML != ' ') span.innerHTML += ', '
 		span.innerHTML += file.name.substr(0, 30);
 		if (location.pathname != '/chat')
-			ta.setRangeText(`\n[${file.name}]`);
+			if (ta.value)
+				ta.setRangeText(`\n[${file.name}]`);
+			else
+				ta.setRangeText(`[${file.name}]`);
 	}
 
 	autoExpand(ta)
