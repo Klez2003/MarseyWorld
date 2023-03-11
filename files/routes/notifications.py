@@ -344,19 +344,15 @@ def notifications(v:User):
 				count += 1
 				c = c.parent_comment
 
-				if not hasattr(c, "notified_utc") or n.created_utc > c.notified_utc:
-					c.notified_utc = n.created_utc
-					c.collapse = n.read
-
-				c.replies2 = g.db.query(Comment).filter_by(parent_comment_id=c.id).filter(or_(Comment.author_id == v.id, Comment.id.in_(cids))).all()
+				if c.replies2 == None:
+					c.replies2 = g.db.query(Comment).filter_by(parent_comment_id=c.id).filter(or_(Comment.author_id == v.id, Comment.id.in_(cids))).order_by(Comment.id.desc()).all()
+					total.extend(c.replies2)
+					for x in c.replies2:
+						if x.replies2 == None:
+							x.replies2 = g.db.query(Comment).filter_by(parent_comment_id=x.id).filter(or_(Comment.author_id == v.id, Comment.id.in_(cids))).order_by(Comment.id.desc()).all()
+							total.extend(x.replies2)
 
 				c.replies2 = sorted(c.replies2, key=lambda x: x.notified_utc if hasattr(x, "notified_utc") else x.id, reverse=True)
-
-				total.extend(c.replies2)
-				for x in c.replies2:
-					if x.replies2 == None:
-						x.replies2 = g.db.query(Comment).filter_by(parent_comment_id=x.id).filter(or_(Comment.author_id == v.id, Comment.id.in_(cids))).order_by(Comment.id.desc()).all()
-						total.extend(x.replies2)
 		else:
 			while c.parent_comment_id:
 				c = c.parent_comment
