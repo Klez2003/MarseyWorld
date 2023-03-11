@@ -325,13 +325,10 @@ def notifications(v:User):
 
 	for c, n in comments:
 		c.notified_utc = n.created_utc
+		c.collapse = n.read
 
 	for c, n in comments:
 		if n.created_utc > 1620391248: c.notif_utc = n.created_utc
-		if not n.read and not session.get("GLOBAL"):
-			n.read = True
-			c.unread = True
-			g.db.add(n)
 
 		if c.parent_submission or c.wall_user_id:
 			total.append(c)
@@ -349,6 +346,7 @@ def notifications(v:User):
 
 				if not hasattr(c, "notified_utc") or n.created_utc > c.notified_utc:
 					c.notified_utc = n.created_utc
+					c.collapse = n.read
 
 				c.replies2 = g.db.query(Comment).filter_by(parent_comment_id=c.id).filter(or_(Comment.author_id == v.id, Comment.id.in_(cids))).all()
 
@@ -365,6 +363,11 @@ def notifications(v:User):
 			c.replies2 = g.db.query(Comment).filter_by(parent_comment_id=c.id).order_by(Comment.id).all()
 
 		if c not in listing: listing.append(c)
+
+		if not n.read and not session.get("GLOBAL"):
+			n.read = True
+			c.unread = True
+			g.db.add(n)
 
 	total.extend(listing)
 
