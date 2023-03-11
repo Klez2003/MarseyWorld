@@ -95,7 +95,7 @@
 			{% endif %}
 
 			{% if not (v and v.patron) %}
-				<a href="/donate" type="button" class="btn btn-primary mr-4 mobile-nav-icon d-md-none">Donate</a>
+				<a href="/donate" type="button" class="btn btn-primary mr-4 mobile-nav-icon d-md-none donate-link">Donate</a>
 			{% endif %}
 
 			{% if g.browser == 'webview' %}
@@ -136,7 +136,7 @@
 			<ul class="navbar-nav ml-auto d-none d-md-flex">
 
 			{% if not (v and v.patron) %}
-				<a class="btn btn-primary mr-3 pb-0 pt-2" href="/donate">Donate</a>
+				<a class="btn btn-primary mr-3 pb-0 pt-2 donate-link" href="/donate">Donate</a>
 			{% endif %}
 
 			{% if v %}
@@ -227,6 +227,8 @@
 
 							<a class="dropdown-item" href="/app"><i class="fas fa-mobile fa-fw mr-3"></i>Mobile app</a>
 
+							<a class="dropdown-item donate-link" rel="nofollow noopener" href="/donate"><i class="fas fa-dollar-sign fa-fw mr-3"></i>Donate</a>
+
 							<button type="button" class="dropdown-item copy-link" data-clipboard-text="{{SITE_FULL}}/signup?ref={{v.username}}"><i class="fas fa-user-friends fa-fw mr-3"></i>Invite friends</button>
 
 							<a class="dropdown-item" href="https://rdrama.net/h/changelog"><i class="fas fa-clipboard fa-fw mr-3"></i>Changelog</a>
@@ -280,6 +282,8 @@
 				</li>
 
 				<a class="nav-item nav-link" href="/app"><i class="fas fa-mobile fa-fw mr-3"></i>Mobile app</a>
+
+				<a class="nav-item nav-link donate-link" rel="nofollow noopener" href="/donate"><i class="fas fa-dollar-sign fa-fw mr-3"></i>Donate</a>
 
 				<button type="button" class="nav-item nav-link copy-link" data-clipboard-text="{{SITE_FULL}}/signup?ref={{v.username}}"><i class="fas fa-user-friends fa-fw mr-3"></i>Invite friends</button>
 
