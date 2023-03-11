@@ -71,19 +71,19 @@
 				<a id="sub-name" href="/h/{{sub}}" class="font-weight-bold ml-2 flex-grow-1 mt-1" {% if sub.name|length >= 17 %}style="font-size:max(10px,1.2vw)"{% else %}style="font-size:max(14px,1.2vw)"{% endif %}>{% if not HOLE_STYLE_FLAIR %}/h/{% endif %}{{sub}}</a>
 			{% elif has_logo %}
 				<div id="logo-container" class="flex-grow-1 logo-container">
-				<a href="/">
-					{% if SITE_NAME == 'WPD' and IS_FISTMAS() %}
-						<img loading="lazy" class="ml-1" id="logo-{{SITE_NAME}}" alt="logo" src="{{'icons-event/2022-christmas-logo.webp' | asset_siteimg}}" width="70">
-					{% else %}
-						<img loading="lazy" class="ml-1" id="logo-{{SITE_NAME}}" alt="logo" src="{{'logo.webp' | asset_siteimg}}" width="70">
-					{% endif %}
-				</a>
+					<a href="/">
+						{% if SITE_NAME == 'WPD' and IS_FISTMAS() %}
+							<img loading="lazy" class="ml-1" id="logo-{{SITE_NAME}}" alt="logo" src="{{'icons-event/2022-christmas-logo.webp' | asset_siteimg}}" width="70">
+						{% else %}
+							<img loading="lazy" class="ml-1" id="logo-{{SITE_NAME}}" alt="logo" src="{{'logo.webp' | asset_siteimg}}" width="70">
+						{% endif %}
+					</a>
 				</div>
 			{% endif %}
 
 			{% if not request.path.startswith('/search/') %}
-				<div class="flex-grow-1 d-fl d-mob-none {% if not v %}pad{% endif %}">
-					<form class="form-inline search flex-nowrap mx-0 mx-lg-auto mb-0" {% if err %}style="margin-right:40rem!important"{% endif %} action="{% if request.path.startswith('/search') %}{{request.path}}{% else %}/search/posts/{% endif %}" method="get">
+				<div class="flex-grow-1 d-fl {% if not v %}pad{% endif %}">
+					<form class="form-inline search d-mob-none flex-nowrap mx-0 mx-lg-auto mb-0" {% if err %}style="margin-right:40rem!important"{% endif %} action="{% if request.path.startswith('/search') %}{{request.path}}{% else %}/search/posts/{% endif %}" method="get">
 						<input autocomplete="off" class="form-control w-100" type="search" placeholder="{{search_placeholder}}" name="q" value="{{request.values.get('q', '')}}">
 						<span class="input-group-append">
 							<span class="input-group-text border-0 bg-transparent" style="margin-left: -2.5rem;">
@@ -91,11 +91,11 @@
 							</span>
 						</span>
 					</form>
-				</div>
-			{% endif %}
 
-			{% if not (v and v.patron) %}
-				<a href="/donate" type="button" class="btn btn-primary mr-4 mobile-nav-icon d-md-none donate-link">Donate</a>
+					{% if not (v and v.patron) %}
+						<a href="/donate" type="button" class="btn btn-primary mobile-nav-icon d-md-none donate-link">Donate</a>
+					{% endif %}
+				</div>
 			{% endif %}
 
 			{% if g.browser == 'webview' %}
