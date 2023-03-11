@@ -893,6 +893,10 @@ elif SITE == 'watchpeopledie.tv':
 	}
 elif SITE == 'devrama.net':
 	AEVANN_ID = 7
+	FEATURES['ASSET_SUBMISSIONS'] = True
+	FEATURES['PRONOUNS'] = True
+	FEATURES['HOUSES'] = True
+	FEATURES['USERS_PERMANENT_WORD_FILTERS'] = True
 else: # localhost or testing environment implied
 	FEATURES['ASSET_SUBMISSIONS'] = True
 	FEATURES['PRONOUNS'] = True
