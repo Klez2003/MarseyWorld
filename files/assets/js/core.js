@@ -472,25 +472,12 @@ function handle_files(input, newfiles) {
 		ta.value += '\n'
 	}
 
-
-	const selection_end = ta.selectionEnd
-    const selected_text = ta.value.substring(ta.selectionStart, selection_end);
-
 	for (const file of newfiles) {
 		oldfiles[ta.id].push(file)
 		if (span.innerHTML != ' ') span.innerHTML += ', '
 		span.innerHTML += file.name.substr(0, 30);
-		if (location.pathname != '/chat') {
-			const file_entry = `[${file.name}]`
-			if (selected_text) {
-				let old_value = ta.value
-				ta.value = old_value.replace(selected_text, file_entry);
-				ta.selectionEnd = selection_end + ta.value.length - old_value.length;
-			}
-			else {
-				ta.setRangeText(`${file_entry}\n`);
-			}
-		}
+		if (location.pathname != '/chat')
+			ta.setRangeText(`[${file.name}]\n`);
 	}
 
 	autoExpand(ta)
