@@ -44,7 +44,7 @@ def loggedout_list(v):
 @app.get('/admin/dm_images')
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
-@admin_level_required(PERMS['VIEW_DM_IMAGES'])
+@admin_level_required(PERMS['enable_dm_images'])
 def dm_images(v):
 	with open(f"{LOG_DIRECTORY}/dm_images.log", "r", encoding="utf-8") as f:
 		items=f.read().split("\n")[:-1]

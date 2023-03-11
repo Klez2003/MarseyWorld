@@ -37,7 +37,7 @@
 
 <h4>Content</h4>
 <ul>
-	{% if v.admin_level >= PERMS['VIEW_DM_IMAGES'] %}
+	{% if v.admin_level >= PERMS['enable_dm_images'] %}
 		<li><a href="/admin/dm_images">DM Images</a></li>
 	{% endif %}
 	<li><a href="/log">Moderation Log</a></li>
