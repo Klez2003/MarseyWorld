@@ -26,6 +26,7 @@ class Submission(Base):
 	edited_utc = Column(Integer, default=0)
 	created_utc = Column(Integer)
 	thumburl = Column(String)
+	posterurl = Column(String)
 	is_banned = Column(Boolean, default=False)
 	bannedfor = Column(String)
 	chuddedfor = Column(String)
@@ -161,6 +162,13 @@ class Submission(Base):
 		elif self.domain in {SITE, BAN_EVASION_DOMAIN}:
 			return f"{SITE_FULL}/i/{SITE_NAME}/site_preview.webp?v=3009"
 		else: return f"{SITE_FULL}/i/default_thumb_link.webp?v=1"
+
+	@property
+	@lazy
+	def poster_url(self):
+		if self.posterurl: return self.posterurl
+		if self.thumburl: return self.thumburl
+		return None
 
 	@lazy
 	def json(self, db:scoped_session):
