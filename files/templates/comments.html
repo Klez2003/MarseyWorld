@@ -143,7 +143,7 @@
 					<i class="fas fa-face-sleeping text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="User was chudded for this comment {{c.chuddedfor}}"></i>
 				{% endif %}
 
-				{% if c.active_flags(v) %}<button type="button" class="btn btn-primary" style="padding:1px 5px; font-size:10px" data-toggleelement="flaggers-{{c.id}}" data-toggleattr="d-none">{{c.active_flags(v)}} Report{{macros.plural(c.active_flags(v))}}</button>{% endif %}
+				{% if c.active_flags(v) %}<button type="button" class="btn btn-primary" style="padding:1px 5px; font-size:10px" data-toggleelement="#flaggers-{{c.id}}" data-toggleattr="d-none">{{c.active_flags(v)}} Report{{macros.plural(c.active_flags(v))}}</button>{% endif %}
 				{% if c.over_18 %}<span class="badge badge-danger text-small-extra mr-1">+18</span>{% endif %}
 				{% if v and v.admin_level >= PERMS['USER_SHADOWBAN'] and c.author.shadowbanned %}<i class="fas fa-user-times text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title='Shadowbanned by @{{c.author.shadowbanner}} for "{{c.author.ban_reason}}"'></i>{% endif %}
 				{% if c.stickied %}
@@ -409,7 +409,7 @@
 							{% if v and c.author_id == v.id %}
 								<button type="button" class="btn caction py-0 nobackground px-1 text-muted" data-nonce="{{g.nonce}}" data-onclick="toggleEdit('{{c.id}}')"><i class="fas fa-edit fa-fw"></i>Edit</button>
 
-								<button type="button" id="undelete-{{c.id}}" class="btn caction py-0 nobackground px-1 text-muted {% if not c.deleted_utc %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/undelete/comment/{{c.id}}','delete-{{c.id}}','undelete-{{c.id}}','d-none')" data-toggleelement="comment-{{c.id}}-only" data-toggleattr="deleted"><i class="fas fa-trash-alt fa-fw"></i>Undelete</button>
+								<button type="button" id="undelete-{{c.id}}" class="btn caction py-0 nobackground px-1 text-muted {% if not c.deleted_utc %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/undelete/comment/{{c.id}}','delete-{{c.id}}','undelete-{{c.id}}','d-none')" data-toggleelement=".comment-{{c.id}}-only" data-toggleattr="deleted"><i class="fas fa-trash-alt fa-fw"></i>Undelete</button>
 
 								<button type="button" id="delete-{{c.id}}" class="btn caction py-0 nobackground px-1 text-muted {% if c.deleted_utc %}d-none{% endif %}" data-bs-toggle="modal" data-bs-target="#deleteCommentModal" data-nonce="{{g.nonce}}" data-onclick="delete_commentModal(this, '{{c.id}}')"><i class="fas fa-trash-alt fa-fw"></i>Delete</button>
 							{% elif v and c.body %}
@@ -557,7 +557,7 @@
 								<span></span>
 							</span>
 
-							<button type="button" data-nonce="{{g.nonce}}" data-onclick="remove_dialog()" class="btn btn-link text-muted ml-auto" data-toggleelement="reply-message-{{c.fullname}}" data-toggleattr="d-none">Cancel</button>
+							<button type="button" data-nonce="{{g.nonce}}" data-onclick="remove_dialog()" class="btn btn-link text-muted ml-auto" data-toggleelement="#reply-message-{{c.fullname}}" data-toggleattr="d-none">Cancel</button>
 
 							<button type="button" id="save-reply-to-{{c.id}}" class="btn btn-primary ml-2" data-nonce="{{g.nonce}}" data-onclick="post_reply('{{c.id}}');remove_dialog()">Reply</button>
 						</div>
@@ -606,7 +606,7 @@
 						{% if c.author_id == v.id %}
 							<button type="button" data-bs-dismiss="modal" data-nonce="{{g.nonce}}" data-onclick="toggleEdit('{{c.id}}')" class="list-group-item"><i class="fas fa-edit mr-2"></i>Edit</button>
 
-							<button type="button" id="undelete2-{{c.id}}" class="{% if not c.deleted_utc %}d-none{% endif %} list-group-item text-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/undelete/comment/{{c.id}}', 'delete2-{{c.id}}', 'undelete2-{{c.id}}','d-none')" data-toggleelement="comment-{{c.id}}-only" data-toggleattr="deleted" data-bs-dismiss="modal"><i class="far fa-trash-alt text-success mr-2"></i>Undelete</button>
+							<button type="button" id="undelete2-{{c.id}}" class="{% if not c.deleted_utc %}d-none{% endif %} list-group-item text-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/undelete/comment/{{c.id}}', 'delete2-{{c.id}}', 'undelete2-{{c.id}}','d-none')" data-toggleelement=".comment-{{c.id}}-only" data-toggleattr="deleted" data-bs-dismiss="modal"><i class="far fa-trash-alt text-success mr-2"></i>Undelete</button>
 
 							<button type="button" id="delete2-{{c.id}}" class="{% if c.deleted_utc %}d-none{% endif %} list-group-item text-danger" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#deleteCommentModal" data-nonce="{{g.nonce}}" data-onclick="delete_commentModal(this, '{{c.id}}')"><i class="far fa-trash-alt text-danger mr-2"></i>Delete</button>
 						{% else %}

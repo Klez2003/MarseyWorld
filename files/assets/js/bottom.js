@@ -175,7 +175,7 @@ function register_new_elements(e) {
 	for (const element of toggleelement) {
 		if (element.classList.contains('registered:toggleelement')) continue
 		element.addEventListener('click', () => {
-			document.getElementById(element.dataset.toggleelement).classList.toggle(element.dataset.toggleattr);
+			document.querySelector(element.dataset.toggleelement).classList.toggle(element.dataset.toggleattr);
 		});
 		element.classList.add('registered:toggleelement');
 	}
