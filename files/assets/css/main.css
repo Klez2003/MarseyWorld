@@ -5247,6 +5247,11 @@ span.green {
 	padding-right: 20px;
 	cursor: pointer;
 }
+@media (max-width: 767.98px) {
+	.comment .comment-collapse-desktop {
+		padding-right: 15px;
+	}	
+}
 .comment .comment-collapse-desktop:hover {
 	border-left-color: var(--white) !important;
 }
