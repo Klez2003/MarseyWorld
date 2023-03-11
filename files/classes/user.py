@@ -1027,7 +1027,6 @@ class User(Base):
 					return False
 				if other.sub and not cls.can_see(user, other.subr):
 					return False
-
 			else:
 				if other.parent_submission:
 					return cls.can_see(user, other.post)
@@ -1039,7 +1038,7 @@ class User(Base):
 							if other.top_comment.author_id == user.id: return True
 							return user.admin_level >= PERMS['VIEW_MODMAIL']
 						if other.sentto != user.id:
-							return False
+							return user.admin_level >= PERMS['BLACKJACK_NOTIFICATIONS']
 		elif isinstance(other, Sub):
 			if other.name == 'chudrama': return bool(user) and user.can_see_chudrama
 			if other.name in {'countryclub','splash_mountain'}: return bool(user) and user.can_see_countryclub

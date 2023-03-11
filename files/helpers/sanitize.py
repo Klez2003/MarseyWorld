@@ -193,14 +193,35 @@ def execute_blackjack(v, target, body, type):
 				n = Notification(comment_id=target.id, user_id=id)
 				g.db.add(n)
 
-			push_notif(notified_ids, f'Blackjack by @{v.username}', target.body, target)
-
 			extra_info = None
 
 	if extra_info:
 		for id in notified_ids:
 			send_repeatable_notification(id, f"Blackjack by @{v.username}: {extra_info}")
 	return True
+
+def execute_anti_grooming(v, c, u):
+	if 'discord' not in c.body and 'groomercord' not in c.body or v.shadowbanned:
+		return
+	
+	v.shadowbanned = AUTOJANNY_ID
+
+	ma = ModAction(
+		kind="shadowban",
+		user_id=AUTOJANNY_ID,
+		target_user_id=v.id,
+		_note=f'reason: "Grooming @{u.username}"'
+	)
+	g.db.add(ma)
+
+	v.ban_reason = f"Grooming @{u.username}"
+	g.db.add(v)
+
+	notified_ids = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['BLACKJACK_NOTIFICATIONS'])]
+
+	for id in notified_ids:
+		n = Notification(comment_id=c.id, user_id=id)
+		g.db.add(n)
 
 def render_emoji(html, regexp, golden, marseys_used, b=False):
 	emojis = list(regexp.finditer(html))

@@ -303,7 +303,7 @@ def notifications(v:User):
 
 	comments = g.db.query(Comment, Notification).join(Notification.comment).join(Comment.author).filter(
 		Notification.user_id == v.id,
-		or_(Comment.sentto == None, Comment.sentto == MODMAIL_ID),
+		or_(Comment.sentto == None, Comment.sentto != v.id),
 		not_(and_(Comment.sentto == MODMAIL_ID, User.is_muted)),
 	)
 
