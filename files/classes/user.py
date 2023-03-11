@@ -793,7 +793,7 @@ class User(Base):
 	@property
 	@lazy
 	def banner_url(self):
-		if FEATURES['USERS_PROFILE_BANNER'] and self.bannerurl:
+		if FEATURES['USERS_PROFILE_BANNER'] and self.bannerurl and self.can_see_my_shit:
 			return self.bannerurl
 		return f"/i/{SITE_NAME}/site_preview.webp?v=3009"
 
@@ -804,7 +804,7 @@ class User(Base):
 			return f"{SITE_FULL}/e/chudsey.webp"
 		if self.rainbow:
 			return f"{SITE_FULL}/e/marseysalutepride.webp"
-		if self.profileurl:
+		if self.profileurl and self.can_see_my_shit:
 			if self.profileurl.startswith('/'): return SITE_FULL + self.profileurl
 			return self.profileurl
 		return f"{SITE_FULL}/i/default-profile-pic.webp?v=1008"
@@ -1207,3 +1207,9 @@ class User(Base):
 		@lazy
 		def can_toggle_event_music(self):
 			return SITE_NAME != 'rDrama' or self.has_badge(91)
+
+	@property
+	@lazy
+	def can_see_my_shit(self):
+		v = g.v
+		return not u.shadowbanned or (v and (v.id == u.id or v.can_see_shadowbanned))
