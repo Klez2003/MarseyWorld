@@ -45,6 +45,7 @@ document.addEventListener('shown.bs.popover', (e) => {
 	popover.getElementsByClassName('pop-coins')[0].innerHTML = author["coins"]
 	popover.getElementsByClassName('pop-view_more')[0].href = author["url"]
 	popover.getElementsByClassName('pop-created-date')[0].innerHTML = author["created_date"]
+	popover.getElementsByClassName('pop-id')[0].innerHTML = author["id"]
 })
 
 function post(url) {
