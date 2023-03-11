@@ -134,7 +134,8 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False):
 		if word in text:
 			notify_users.add(id)
 
-	names = set(m.group(2) for m in mention_regex.finditer(text))
+	names = set(m.group(1) for m in mention_alerts_regex.finditer(text))
+
 	user_ids = get_users(names, ids_only=True, graceful=True)
 	notify_users.update(user_ids)
 
@@ -148,11 +149,11 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False):
 	if FEATURES['PING_GROUPS']:
 		cost = 0
 
-		for i in group_mention_regex.finditer(text):
-			if oldtext and i.group(2) in oldtext:
+		for i in group_mention_alerts_regex.finditer(text):
+			if oldtext and i.group(1) in oldtext:
 				continue
 
-			if i.group(2) == 'everyone' and not v.shadowbanned:
+			if i.group(1) == 'everyone' and not v.shadowbanned:
 				cost = g.db.query(User).count() * 5
 				if cost > v.coins:
 					abort(403, f"You need {cost} coins for this!")
@@ -160,7 +161,7 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False):
 				v.charge_account('coins', cost)
 				return 'everyone'
 			else:
-				group = g.db.get(Group, i.group(2))
+				group = g.db.get(Group, i.group(1))
 				if not group: continue
 
 				members = group.member_ids - notify_users - v.all_twoway_blocks
