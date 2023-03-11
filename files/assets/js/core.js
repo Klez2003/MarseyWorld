@@ -598,11 +598,11 @@ function handleUploadProgress(e, upload_prog) {
 	}
 }
 
-window.addEventListener('show.bs.modal', function () {
+document.getElementById('expandImageModal').addEventListener('show.bs.modal', function () {
 	location.hash = "modal";
 });
 
-window.addEventListener('hide.bs.modal', function () {
+document.getElementById('expandImageModal').addEventListener('hide.bs.modal', function () {
 	if(location.hash == "#modal") {
 		history.back();
 	}
