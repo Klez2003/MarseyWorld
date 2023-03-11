@@ -468,16 +468,12 @@ function handle_files(input, newfiles) {
 
 	if (!span.textContent) span.textContent = ' '
 
-	if (ta.value && !ta.value.endsWith('\n')) {
-		ta.value += '\n'
-	}
-
 	for (const file of newfiles) {
 		oldfiles[ta.id].push(file)
 		if (span.innerHTML != ' ') span.innerHTML += ', '
 		span.innerHTML += file.name.substr(0, 30);
 		if (location.pathname != '/chat')
-			ta.setRangeText(`[${file.name}]\n`);
+			ta.setRangeText(`\n[${file.name}]`);
 	}
 
 	autoExpand(ta)
