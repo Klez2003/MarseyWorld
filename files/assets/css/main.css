@@ -5226,6 +5226,7 @@ span.green {
 	background-color: var(--white) !important;
 	font-weight: 600 !important;
 	padding: 1px 3px 1px 3px;
+	cursor: default;
 }
 .spoiler:hover, spoiler:hover {
 	color: var(--gray) !important;
