@@ -322,6 +322,10 @@ def notifications(v:User):
 
 	listing = []
 	total = [x[0] for x in comments]
+
+	for c, n in comments:
+		c.notified_utc = n.created_utc
+
 	for c, n in comments:
 		if n.created_utc > 1620391248: c.notif_utc = n.created_utc
 		if not n.read and not session.get("GLOBAL"):
@@ -342,13 +346,19 @@ def notifications(v:User):
 			while count < 50 and c.parent_comment and (c.parent_comment.author_id == v.id or c.parent_comment.id in cids):
 				count += 1
 				c = c.parent_comment
-				if c.replies2 == None:
-					c.replies2 = g.db.query(Comment).filter_by(parent_comment_id=c.id).filter(or_(Comment.author_id == v.id, Comment.id.in_(cids))).order_by(Comment.id.desc()).all()
-					total.extend(c.replies2)
-					for x in c.replies2:
-						if x.replies2 == None:
-							x.replies2 = g.db.query(Comment).filter_by(parent_comment_id=x.id).filter(or_(Comment.author_id == v.id, Comment.id.in_(cids))).order_by(Comment.id.desc()).all()
-							total.extend(x.replies2)
+
+				if not hasattr(c, "notified_utc") or n.created_utc > c.notified_utc:
+					c.notified_utc = n.created_utc
+
+				c.replies2 = g.db.query(Comment).filter_by(parent_comment_id=c.id).filter(or_(Comment.author_id == v.id, Comment.id.in_(cids))).all()
+
+				c.replies2 = sorted(c.replies2, key=lambda x: x.notified_utc if hasattr(x, "notified_utc") else x.id, reverse=True)
+
+				total.extend(c.replies2)
+				for x in c.replies2:
+					if x.replies2 == None:
+						x.replies2 = g.db.query(Comment).filter_by(parent_comment_id=x.id).filter(or_(Comment.author_id == v.id, Comment.id.in_(cids))).order_by(Comment.id.desc()).all()
+						total.extend(x.replies2)
 		else:
 			while c.parent_comment_id:
 				c = c.parent_comment
