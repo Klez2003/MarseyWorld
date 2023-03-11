@@ -54,7 +54,7 @@ def error_401(e):
 
 @app.errorhandler(500)
 def error_500(e):
-	if getattr(g, 'db', None):
+	if hasattr(g, 'db'):
 		g.db.rollback()
 		g.db.close()
 		del g.db

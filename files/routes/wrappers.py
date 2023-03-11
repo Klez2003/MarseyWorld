@@ -25,8 +25,8 @@ def get_ID():
 	return f'{SITE}-{x}'
 
 def get_logged_in_user():
-	if g.v: return g.v
-	if not getattr(g, 'db', None): g.db = db_session()
+	if hasattr(g, 'v') and g.v: return g.v
+	if not hasattr(g, 'db'): g.db = db_session()
 	g.desires_auth = True
 	v = None
 	token = request.headers.get("Authorization","").strip()
