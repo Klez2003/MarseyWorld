@@ -25,7 +25,6 @@ def get_ID():
 	return f'{SITE}-{x}'
 
 def get_logged_in_user():
-	if hasattr(g, 'v'): return g.v
 	if not getattr(g, 'db', None): g.db = db_session()
 	g.desires_auth = True
 	v = None
@@ -60,6 +59,7 @@ def get_logged_in_user():
 	if request.method.lower() != "get" and get_setting('read_only_mode') and not (v and v.admin_level >= PERMS['SITE_BYPASS_READ_ONLY_MODE']):
 		abort(403)
 
+	print('2', flush=True)
 	g.v = v
 
 	if v:
