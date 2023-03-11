@@ -6917,13 +6917,13 @@ div.markdown {
 	resize: both;
 	display: inline-block;
 	overflow: auto;
-	max-height: 100vh !important;
+	max-height: 80vh !important;
 	max-width: 100vw !important;
 }
 .resizable > video {
 	height: 99% !important;
 	width: 99% !important;
-	max-height: 100vh !important;
+	max-height: 80vh !important;
 	max-width: 100vw !important;
 	margin: 0 !important;
 }
