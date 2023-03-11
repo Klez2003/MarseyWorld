@@ -352,6 +352,10 @@ def notifications(v:User):
 							x.replies2 = g.db.query(Comment).filter_by(parent_comment_id=x.id).filter(or_(Comment.author_id == v.id, Comment.id.in_(cids))).order_by(Comment.id.desc()).all()
 							total.extend(x.replies2)
 
+				if not hasattr(c, "notified_utc") or n.created_utc > c.notified_utc:
+					c.notified_utc = n.created_utc
+					c.collapse = n.read
+
 				c.replies2 = sorted(c.replies2, key=lambda x: x.notified_utc if hasattr(x, "notified_utc") else x.id, reverse=True)
 		else:
 			while c.parent_comment_id:
