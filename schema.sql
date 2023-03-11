@@ -123,7 +123,8 @@ CREATE TABLE public.submissions (
     new boolean,
     hole_pinned character varying(30),
     notify boolean NOT NULL,
-    chuddedfor character varying(50)
+    chuddedfor character varying(50),
+    posterurl character varying(200)
 );
 
 
@@ -612,7 +613,7 @@ CREATE TABLE public.modactions (
     target_submission_id integer,
     target_comment_id integer,
     created_utc integer NOT NULL,
-    kind character varying(32) DEFAULT NULL::character varying,
+    kind character varying(33) DEFAULT NULL::character varying,
     _note character varying(500) DEFAULT NULL::character varying
 );
 
