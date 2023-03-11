@@ -1837,8 +1837,7 @@ button.close {
 	padding: 0.75rem;
 }
 .modal-open {
-	overflow: auto !important;
-	padding-right: 0 !important;
+	overflow: hidden !important;
 }
 .modal-open .modal {
 	overflow-x: hidden;
@@ -7136,10 +7135,6 @@ body {
 
 .color-picker .fa-check {
     line-height: 2.3;
-}
-
-.modal, body, nav {
-	padding-right: 0 !important;
 }
 
 .dm_img[alt^="![]("] {
