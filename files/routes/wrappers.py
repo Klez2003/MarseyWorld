@@ -60,7 +60,6 @@ def get_logged_in_user():
 	if request.method.lower() != "get" and get_setting('read_only_mode') and not (v and v.admin_level >= PERMS['SITE_BYPASS_READ_ONLY_MODE']):
 		abort(403)
 
-	print('2', flush=True)
 	g.v = v
 
 	if v:

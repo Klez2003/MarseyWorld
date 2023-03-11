@@ -9,7 +9,6 @@ from files.__main__ import app, limiter, get_CF
 
 @app.before_request
 def before_request():
-	print('1', flush=True)
 	g.v = None
 
 	if request.host != SITE:

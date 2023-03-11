@@ -328,7 +328,7 @@ def handle_youtube_links(url):
 def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys=False, torture=False, snappy=False, chat=False, blackjack=None):
 	sanitized = sanitized.strip()
 
-	if hasattr(g, 'v') and blackjack and execute_blackjack(g.v, None, sanitized, blackjack):
+	if blackjack and execute_blackjack(g.v, None, sanitized, blackjack):
 		sanitized = 'g'
 
 	sanitized = utm_regex.sub('', sanitized)
@@ -515,7 +515,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 	if '<pre>' not in sanitized and blackjack != "rules":
 		sanitized = sanitized.replace('\n','')
 
-	if showmore and not (hasattr(g, 'v') and g.v.id == AEVANN_ID):
+	if showmore:
 		# Insert a show more button if the text is too long or has too many paragraphs
 		CHARLIMIT = 3000
 		pos = 0
