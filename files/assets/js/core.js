@@ -582,7 +582,9 @@ function handleUploadProgress(e, upload_prog) {
 }
 
 document.getElementById('expandImageModal').addEventListener('show.bs.modal', function () {
-	location.hash = "modal";
+	setTimeout(() => {
+		location.hash = "modal";
+	}, 200);
 });
 
 document.getElementById('expandImageModal').addEventListener('hide.bs.modal', function () {
