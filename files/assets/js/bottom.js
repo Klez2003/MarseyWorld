@@ -142,49 +142,49 @@ function register_new_elements(e) {
 
 	const showmores = document.getElementsByClassName('showmore')
 	for (const element of showmores) {
-		if (element.classList.contains('registered')) continue
+		if (element.classList.contains('registered:showmores')) continue
 		element.addEventListener('click', () => {showmore(element)});
-		element.classList.add('reigstered');
+		element.classList.add('registered:showmores');
 	}
 
 	const onclick = e.querySelectorAll('[data-onclick]');
 	for (const element of onclick) {
-		if (element.classList.contains('registered')) continue
+		if (element.classList.contains('registered:onclick')) continue
 		element.addEventListener('click', () => {execute(element, 'onclick')});
-		element.classList.add('reigstered');
+		element.classList.add('registered:onclick');
 	}
 
 	const popover_triggers = document.getElementsByClassName('user-name');
 	for (const element of popover_triggers) {
-		if (element.classList.contains('registered')) continue
+		if (element.classList.contains('registered:popover_triggers')) continue
 		element.addEventListener('click', (e) => {
 			if (!(e.ctrlKey || e.metaKey || e.shiftKey || e.altKey))
 				e.preventDefault();
 		});
-		element.classList.add('reigstered');
+		element.classList.add('registered:popover_triggers');
 	}
 
 	const expandable = document.querySelectorAll('.in-comment-image, img[alt^="![]("]');
 	for (const element of expandable) {
-		if (element.classList.contains('registered')) continue
+		if (element.classList.contains('registered:expandable')) continue
 		element.addEventListener('click', () => {expandImage()});
-		element.classList.add('reigstered');
+		element.classList.add('registered:expandable');
 	}
 
 	const toggleelement = e.querySelectorAll('[data-toggleelement]');
 	for (const element of toggleelement) {
-		if (element.classList.contains('registered')) continue
+		if (element.classList.contains('registered:toggleelement')) continue
 		element.addEventListener('click', () => {
 			document.getElementById(element.dataset.toggleelement).classList.toggle(element.dataset.toggleattr);
 		});
-		element.classList.add('reigstered');
+		element.classList.add('registered:toggleelement');
 	}
 
 	const remove_files = document.querySelectorAll('button.remove-files')
 	for (const element of remove_files) {
-		if (element.classList.contains('registered')) continue
+		if (element.classList.contains('registered:remove_files')) continue
 		element.addEventListener('click', () => {cancel_files(element)});
-		element.classList.add('reigstered');
+		element.classList.add('registered:remove_files');
 	}
 
 	const data_url = document.querySelectorAll('[data-url]');
@@ -193,18 +193,18 @@ function register_new_elements(e) {
 			console.log("Nonce check failed!")
 			continue
 		}
-		if (element.classList.contains('registered')) continue
+		if (element.classList.contains('registered:data_url')) continue
 		element.addEventListener('click', () => {
 			document.getElementById('giveaward').dataset.action = element.dataset.url
 		});
-		element.classList.add('reigstered');
+		element.classList.add('registered:data_url');
 	}
 
 	const btns_to_disable = document.querySelectorAll('[type="submit"]')
 	for (const element of btns_to_disable) {
-		if (element.classList.contains('registered')) continue
+		if (element.classList.contains('registered:btns_to_disable')) continue
 		element.addEventListener('click', () => {disable_btn(element)})
-		element.classList.add('reigstered');
+		element.classList.add('registered:btns_to_disable');
 	}
 }
 
