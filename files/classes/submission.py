@@ -117,7 +117,8 @@ class Submission(Base):
 		if self.sub and self.sub in {'chudrama', 'countryclub', 'masterbaiters'}:
 			output = '-'
 		else:
-			output = title_regex.sub('', self.title.lower())
+			title = self.plaintitle(None).lower()
+			output = title_regex.sub('', title)
 			output = output.split()[:6]
 			output = '-'.join(output)
 			if not output: output = '-'
