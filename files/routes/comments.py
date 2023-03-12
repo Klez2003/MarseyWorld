@@ -349,6 +349,7 @@ def comment(v:User):
 	vote = CommentVote(user_id=v.id,
 						 comment_id=c.id,
 						 vote_type=1,
+						 coins=0
 						 )
 	g.db.add(vote)
 	cache.delete_memoized(comment_idlist)

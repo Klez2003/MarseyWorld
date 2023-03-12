@@ -610,7 +610,8 @@ def submit_post(v:User, sub=None):
 
 	vote = Vote(user_id=v.id,
 				vote_type=1,
-				submission_id=p.id
+				submission_id=p.id,
+				coins=0
 				)
 	g.db.add(vote)
 
