@@ -77,7 +77,7 @@ def calc_users():
 		loggedout_counter = len(loggedout)
 
 		if get_setting('automatic_DDOS_mitigation'):
-			if SITE == 'watchpeopledie.tv': mul = 3
+			if SITE == 'watchpeopledie.tv': mul = 4
 			else: mul = 1
 
 			if loggedout_counter > (loggedin_counter * mul):
