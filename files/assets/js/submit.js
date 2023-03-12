@@ -129,7 +129,7 @@ function checkRepost() {
 
 		xhr.onload=function(){
 			try {data = JSON.parse(xhr.response)}
-			catch(e) {console.log(e)}
+			catch(e) {console.error(e)}
 
 			if (data && data["permalink"]) {
 				const permalinkText = escapeHTML(data["permalink"]);

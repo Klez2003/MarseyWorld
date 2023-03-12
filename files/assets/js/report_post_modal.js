@@ -38,7 +38,7 @@ function report_postModal(id) {
 		xhr.onload = function() {
 			let data
 			try {data = JSON.parse(xhr.response)}
-			catch(e) {console.log(e)}
+			catch(e) {console.error(e)}
 			success = xhr.status >= 200 && xhr.status < 300;
 			showToast(success, getMessageFromJsonData(success, data));
 		};
