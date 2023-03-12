@@ -201,6 +201,8 @@ def push_notif(uids, title, body, url_or_comment):
 	if len(body) > PUSH_NOTIF_LIMIT:
 		body = body[:PUSH_NOTIF_LIMIT] + "..."
 
+	body = censor_slurs(body, None)
+
 	subscriptions = g.db.query(PushSubscription.subscription_json).filter(PushSubscription.user_id.in_(uids)).all()
 	subscriptions = [x[0] for x in subscriptions]
 	g.db.flush()
