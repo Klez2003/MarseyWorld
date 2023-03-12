@@ -1,25 +1,38 @@
-const submitButton = document.getElementById('submit-btn')
+const save_value = ['post-title', 'post-text', 'post-url', 'sub']
+for (const id of save_value) {
+	const value =  localStorage.getItem(id)
+	if (value)
+		document.getElementById(id).value = value
+}
 
-document.getElementById('post-title').value = localStorage.getItem("post-title")
-document.getElementById('post-text').value = localStorage.getItem("post-text")
 autoExpand(document.getElementById('post-text'))
-document.getElementById('post-url').value = localStorage.getItem("post-url")
-
-const sub_entry = document.getElementById('sub')
-if (!sub_entry.value) {
-	sub_entry.value = localStorage.getItem("sub")
-}
-
-document.getElementById('post-notify').checked = localStorage.getItem("post-notify") == 'true'
-document.getElementById('post-new').checked = localStorage.getItem("post-new") == 'true'
-const postnsfw = document.getElementById('post-nsfw')
-if (postnsfw) {
-	postnsfw.checked = localStorage.getItem("post-nsfw") == 'true'
-}
-document.getElementById('post-private').checked = localStorage.getItem("post-private") == 'true'
-document.getElementById('post-ghost').checked = localStorage.getItem("post-ghost") == 'true'
-
 markdown(document.getElementById("post-text"));
+
+const save_checked = ['post-notify', 'post-new', 'post-nsfw', 'post-private', 'post-ghost']
+for (const key of save_checked) {
+	const value =  localStorage.getItem(key)
+	if (value)
+		document.getElementById(key).checked = (value == 'true')
+}
+
+function savetext() {
+	for (const id of save_value)
+	{
+		const value = document.getElementById(id).value
+		if (value) localStorage.setItem(id, value)
+	}
+
+	for (const id of save_checked) {
+		const element = document.getElementById(id)
+		if (element) {
+			localStorage.setItem(id, element.checked)
+		}
+	}
+}
+
+
+
+const submitButton = document.getElementById('submit-btn')
 
 function checkForRequired() {
 	const title = document.getElementById("post-title");
@@ -62,25 +75,6 @@ function hide_image() {
 		x.classList.remove('d-none');
 	}
 }
-
-const saved_values = ['post-title', 'post-text', 'post-url', 'sub']
-
-function savetext() {
-	for (const id of saved_values)
-	{
-		const value = document.getElementById(id).value
-		if (value) localStorage.setItem(id, value)
-	}
-
-	localStorage.setItem("post-notify", document.getElementById('post-notify').checked)
-	localStorage.setItem("post-new", document.getElementById('post-new').checked)
-	if (postnsfw) {
-		localStorage.setItem("post-nsfw", document.getElementById('post-nsfw').checked)
-	}
-	localStorage.setItem("post-private", document.getElementById('post-private').checked)
-	localStorage.setItem("post-ghost", document.getElementById('post-ghost').checked)
-}
-
 
 function autoSuggestTitle()	{
 
@@ -184,15 +178,14 @@ function submit(form) {
 			const post_id = res['post_id'];
 
 			if (res['success']) {
-				localStorage.setItem("post-title", "")
-				localStorage.setItem("post-text", "")
-				localStorage.setItem("post-url", "")
-				localStorage.setItem("sub", "")
-				localStorage.setItem("post-notify", true)
-				localStorage.setItem("post-new", false)
-				localStorage.setItem("post-nsfw", false)
-				localStorage.setItem("post-private", false)
-				localStorage.setItem("post-ghost", false)
+				for (const id of save_value) {
+					localStorage.setItem(id, "")
+				}
+
+				for (const id of save_checked) {
+					const value = (id == "post-notify")
+					localStorage.setItem(id, value)
+				}
 			}
 
 			location.href = "/post/" + post_id
