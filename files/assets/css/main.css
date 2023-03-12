@@ -5248,7 +5248,7 @@ span.green {
 }
 @media (max-width: 767.98px) {
 	.comment .comment-collapse-desktop {
-		padding-right: 15px;
+		padding-right: 10px;
 	}	
 }
 .comment .comment-collapse-desktop:hover {
