@@ -204,6 +204,7 @@ class Submission(Base):
 				'is_bot': self.is_bot,
 				'thumb_url': self.thumb_url,
 				'domain': self.domain,
+				'sub': self.sub,
 				'url': self.realurl(None),
 				'body': self.body,
 				'body_html': self.body_html,
