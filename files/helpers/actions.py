@@ -433,6 +433,8 @@ def execute_antispam_comment_check(body:str, v:User):
 def execute_under_siege(v:User, target:Optional[Union[Submission, Comment]], body, type:str) -> bool:
 	if not get_setting("under_siege"): return True
 
+	if v.post_count or v.comment_count: return True
+
 	if type in ('flag', 'message'):
 		threshold = 86400
 	else:
