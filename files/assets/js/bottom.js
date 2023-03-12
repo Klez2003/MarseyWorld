@@ -155,7 +155,7 @@ bs_trigger(document);
 document.addEventListener("click", function(e){
 	const element = e.target
 
-	if (element instanceof HTMLImageElement && (element.alt.startsWith('![](')) || element.classList.contains('in-comment-image')) {
+	if (element instanceof HTMLImageElement && (element.alt.startsWith('![](')) || element.classList.contains('in-comment-image') || element.classList.contains('img')) {
 		expandImage()
 	}
 	else if (element.classList.contains('showmore')) {

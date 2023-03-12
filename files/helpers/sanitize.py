@@ -76,6 +76,7 @@ def allowed_attributes(tag, name, value):
 		if name == 'data-bs-toggle' and value == 'tooltip': return True
 		if name in {'g','b','glow'} and not value: return True
 		if name in {'alt','title'}: return True
+		if name == 'class' and value == 'img': return True
 
 	if tag == 'lite-youtube':
 		if name == 'params' and value.startswith('autoplay=1&modestbranding=1'): return True
@@ -415,6 +416,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 			tag["data-src"] = tag["src"]
 			tag["src"] = "/i/l.webp"
 			tag['alt'] = tag["data-src"]
+			tag['class'] = "img"
 
 			if tag.parent.name != 'a':
 				a = soup.new_tag("a", href=tag["data-src"])
