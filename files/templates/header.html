@@ -95,7 +95,11 @@
 			{% endif %}
 
 			{% if not (v and v.patron) %}
-				<a href="/donate" type="button" class="mobile-nav-icon d-md-none donate-link"><i class="fas fa-dollar-sign align-middle text-gray-500 black"></i></a>
+				{% if v %}
+					<a href="/donate" type="button" class="mobile-nav-icon d-md-none donate-link"><i class="fas fa-dollar-sign align-middle text-gray-500 black"></i></a>
+				{% else %}
+					<a href="/donate" type="button" class="btn btn-primary mobile-nav-icon d-md-none donate-link mr-3">Donate</a>
+				{% endif %}
 			{% endif %}
 
 			{% if g.browser == 'webview' %}
