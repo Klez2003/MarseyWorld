@@ -321,7 +321,7 @@ def handle_youtube_links(url):
 		if not t:
 			t = params.get('t', params.get('start', [0]))[0]
 		if isinstance(t, str):
-			t = t.replace('s','')
+			t = t.replace('s','').replace('S','')
 			split = t.split('m')
 			if len(split) == 2:
 				minutes = int(split[0])
