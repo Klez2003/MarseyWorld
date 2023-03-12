@@ -47,7 +47,7 @@
 				<form class="my-3" action="/ban_user/{{u.id}}" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHRSwitch(this, true)">
 					<input hidden name="formkey" value="{{v|formkey}}">
 					<input autocomplete="off" style="font-size:11px" type="text" class="form-control" maxlength="256" name="reason" placeholder="Ban Reason" data-nonce="{{g.nonce}}" data-undisable_element="user-ban-submit-{{deviceType}}" required>
-					<input autocomplete="off" style="font-size:11px" type="number" step="any" class="form-control" name="days" placeholder="Days (blank = permanent)">
+					<input autocomplete="off" style="font-size:11px" type="number" step="any" class="form-control" name="days" max="{{max_days()}}" placeholder="Days (blank = permanent)">
 					<div class="custom-control custom-checkbox mb-1">
 						<input autocomplete="off" type="checkbox" id="alts-2-{{deviceType}}" class="custom-control-input" name="alts" value="1">
 						<label class="custom-control-label" for="alts-2-{{deviceType}}">Include alts</label>
@@ -69,7 +69,7 @@
 
 				<form class="my-3" action="/agendaposter/{{u.id}}" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHRSwitch(this, true)">
 					<input hidden name="formkey" value="{{v|formkey}}">
-					<input autocomplete="off" type="number" step="any" name="days" class="form-control" placeholder="Days (0 or blank = permanent)">
+					<input autocomplete="off" type="number" step="any" name="days" max="{{max_days()}}" class="form-control" placeholder="Days (0 or blank = permanent)">
 					<input type="submit" class="btn btn-danger" value="Chud">
 				</form>
 			{% endif %}
