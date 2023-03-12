@@ -704,7 +704,6 @@ BADGE_BLACKLIST = { # only grantable by admins higher than PERMS['IGNORE_BADGE_B
 }
 
 NOTIFIED_USERS = {}
-DONT_SHADOWBAN = {}
 
 if SITE == 'rdrama.net':
 	NOTIFICATION_SPAM_AGE_THRESHOLD = 0.5 * 86400
@@ -787,8 +786,6 @@ if SITE == 'rdrama.net':
 	}
 
 	ANTISPAM_BYPASS_IDS = {1703, 13427}
-
-	DONT_SHADOWBAN = {253,3161,11163}
 
 	GIFT_NOTIF_ID = CARP_ID
 
