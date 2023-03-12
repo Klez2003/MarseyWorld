@@ -509,7 +509,7 @@ def process_poll_options(v:User, target:Union[Submission, Comment]):
 			if option_count > POLL_MAX_OPTIONS:
 				abort(400, f"Max number of poll options is {POLL_MAX_OPTIONS}")
 
-			body = i.group(1)
+			body = i.group(2)
 
 			if len(body) > 500:
 				abort(400, f"Poll option body too long! (Max 500 characters)")
