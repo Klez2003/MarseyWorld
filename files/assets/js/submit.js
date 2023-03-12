@@ -13,8 +13,11 @@ markdown(document.getElementById("post-text"));
 const save_checked = ['post-notify', 'post-new', 'post-nsfw', 'post-private', 'post-ghost']
 for (const key of save_checked) {
 	const value =  localStorage.getItem(key)
-	if (value)
-		document.getElementById(key).checked = (value == 'true')
+	if (value) {
+		const element = document.getElementById(key)
+		if (element) element.checked = (value == 'true')
+	}
+		
 }
 
 function savetext() {
