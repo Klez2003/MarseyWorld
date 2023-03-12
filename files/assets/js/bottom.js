@@ -97,6 +97,11 @@ for (const element of TH) {
 	element.addEventListener('click', () => {sort_table(element)});
 }
 
+const btns_to_disable = document.querySelectorAll('[type="submit"]')
+for (const element of btns_to_disable) {
+	element.addEventListener('click', () => {disable_btn(element)})
+}
+
 function disable_btn(t) {
 	if (!t.classList.contains('disabled')) {
 		const isShopConfirm = t.id.startsWith('buy1-') || t.id.startsWith('buy2-') || t.id.startsWith('giveaward')
@@ -171,9 +176,6 @@ document.addEventListener("click", function(e){
 		document.getElementById('giveaward').dataset.action = element.dataset.url
 	}
 
-	if (element.getAttribute('type') == 'submit') {
-		disable_btn(element)
-	}
 
 	if (element.dataset.toggleelement) {
 		document.querySelector(element.dataset.toggleelement).classList.toggle(element.dataset.toggleattr);
