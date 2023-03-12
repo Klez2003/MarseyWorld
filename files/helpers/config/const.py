@@ -978,6 +978,7 @@ approved_embed_hosts = {
 	'tumblr.com', # concerningly broad.
 	'ytimg.com',
 	'yt3.ggpht.com',
+	'bitchute.com',
 
 	### Third-Party Resources (For e.g. Profile Customization)
 	# TODO: Any reasonable way to proxy these instead?
