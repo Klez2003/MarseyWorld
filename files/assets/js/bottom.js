@@ -189,3 +189,11 @@ document.addEventListener("click", function(e){
 		document.querySelector(element.dataset.toggleelement).classList.toggle(element.dataset.toggleattr);
 	}
 });
+
+const inputs = document.querySelectorAll('input[type="number"]')
+for (const input of inputs) {
+	input.onkeyup = () => {
+		console.log(1)
+		if (parseInt(input.value) > parseInt(input.max)) input.value = input.max;
+	};
+}
