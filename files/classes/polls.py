@@ -17,7 +17,7 @@ class SubmissionOption(Base):
 	created_utc = Column(Integer)
 
 	votes = relationship("SubmissionOptionVote")
-	post = relationship("Submission", back_populates="options")
+	parent = relationship("Submission", back_populates="options")
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
@@ -35,11 +35,6 @@ class SubmissionOption(Base):
 	def voted(self, v):
 		if not v: return False
 		return v.id in [x.user_id for x in self.votes]
-
-	@property
-	@lazy
-	def parent(self):
-		return self.post
 
 
 class SubmissionOptionVote(Base):
@@ -72,7 +67,7 @@ class CommentOption(Base):
 	created_utc = Column(Integer)
 
 	votes = relationship("CommentOptionVote")
-	comment = relationship("Comment", back_populates="options")
+	parent = relationship("Comment", back_populates="options")
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
@@ -90,11 +85,6 @@ class CommentOption(Base):
 	def voted(self, v):
 		if not v: return False
 		return v.id in [x.user_id for x in self.votes]
-
-	@property
-	@lazy
-	def parent(self):
-		return self.comment
 
 class CommentOptionVote(Base):
 

@@ -52,7 +52,6 @@ function postToast(t, url, data, extraActionsOnSuccess, method="POST") {
 		let result
 		let message;
 		let success = xhr[0].status >= 200 && xhr[0].status < 300;
-		if (success && extraActionsOnSuccess) result = extraActionsOnSuccess(xhr[0]);
 		if (typeof result == "string") {
 			message = result;
 		} else {
@@ -65,6 +64,7 @@ function postToast(t, url, data, extraActionsOnSuccess, method="POST") {
 			t.disabled = false;
 			t.classList.remove("disabled");
 		}
+		if (success && extraActionsOnSuccess) result = extraActionsOnSuccess(xhr[0]);
 		return success;
 	};
 	xhr[0].send(xhr[1]);

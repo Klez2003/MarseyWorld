@@ -13,7 +13,7 @@ from files.helpers.lazy import lazy
 from files.helpers.regex import *
 from files.helpers.sorting_and_time import make_age_string
 
-from .comment import normalize_urls_runtime
+from .comment import normalize_urls_runtime, add_options
 from .polls import *
 from .sub import *
 from .subscriptions import *
@@ -290,57 +290,7 @@ class Submission(Base):
 
 		body = self.body_html or ""
 
-		if self.options:
-			curr = [x for x in self.options if x.exclusive and x.voted(v)]
-			if curr: curr = " value=post-" + str(curr[0].id)
-			else: curr = ''
-			body += f'<input class="d-none" id="current-post-{self.id}"{curr}>'
-			winner = [x for x in self.options if x.exclusive == 3]
-
-		for o in self.options:
-			option_body = ''
-
-			if o.exclusive > 1:
-				option_body += f'''<div class="custom-control mt-2"><input name="option-{self.id}" autocomplete="off" class="custom-control-input bet" type="radio" id="{o.id}" data-nonce="{g.nonce}" data-onclick="bet_vote(this,'{o.id}')"'''
-				if o.voted(v): option_body += " checked "
-				if not (v and v.coins >= POLL_BET_COINS) or self.total_bet_voted(v): option_body += " disabled "
-
-				option_body += f'''><label class="custom-control-label" for="{o.id}">{o.body_html}<span class="presult-{self.id}'''
-				option_body += f'"> - <a href="/votes/post/option/{o.id}"><span id="option-{o.id}">{o.upvotes}</span> bets</a>'
-				if not self.total_bet_voted(v):
-					option_body += f'''<span class="cost"> (cost of entry: {POLL_BET_COINS} coins or marseybux)</span>'''
-				option_body += "</label>"
-
-				if o.exclusive == 3:
-					option_body += " - <b>WINNER!</b>"
-
-				if not winner and v and v.admin_level >= PERMS['POST_BETS_DISTRIBUTE']:
-					option_body += f'''<button class="btn btn-primary distribute" data-areyousure="postToastReload(this,'/distribute/{o.id}')" data-nonce="{g.nonce}" data-onclick="areyousure(this)">Declare winner</button>'''
-				option_body += "</div>"
-			else:
-				input_type = 'radio' if o.exclusive else 'checkbox'
-				option_body += f'<div class="custom-control mt-2"><input type="{input_type}" class="custom-control-input" id="post-{o.id}" name="option-{self.id}"'
-				if o.voted(v): option_body += " checked"
-
-				if v:
-					sub = self.sub
-					if sub in {'furry','vampire','racist','femboy'} and not v.house.lower().startswith(sub): option_body += ' disabled '
-					option_body += f''' data-nonce="{g.nonce}" data-onclick="poll_vote_{o.exclusive}('{o.id}', '{self.id}', 'post')"'''
-				else:
-					option_body += f''' data-nonce="{g.nonce}" data-onclick="poll_vote_no_v()"'''
-
-				option_body += f'''><label class="custom-control-label" for="post-{o.id}">{o.body_html}<span class="presult-{self.id}'''
-				if not self.total_poll_voted(v): option_body += ' d-none'
-				option_body += f'"> - <a href="/votes/post/option/{o.id}"><span id="score-post-{o.id}">{o.upvotes}</span> votes</a></label></div>'''
-
-			if o.exclusive > 1: s = '!!'
-			elif o.exclusive: s = '&amp;&amp;'
-			else: s = '$$'
-
-			if f'{s}{o.body_html}{s}' in body:
-				body = body.replace(f'{s}{o.body_html}{s}', option_body, 1)
-			elif not o.created_utc or o.created_utc < 1677622270:
-				body += option_body
+		body = add_options(self, body, v)
 
 		body = censor_slurs(body, v)
 		body = normalize_urls_runtime(body, v)

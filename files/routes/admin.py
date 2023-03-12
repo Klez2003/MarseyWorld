@@ -146,30 +146,32 @@ def remove_admin(v:User, username):
 
 	return {"message": f"@{user.username} has been removed as admin!"}
 
-@app.post("/distribute/<int:option_id>")
+@app.post("/distribute/<kind>/<int:option_id>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['POST_BETS_DISTRIBUTE'])
-def distribute(v:User, option_id):
+def distribute(v:User, kind, option_id):
 	autojanny = get_account(AUTOJANNY_ID)
 	if autojanny.coins == 0: abort(400, "@AutoJanny has 0 coins")
 
 	try: option_id = int(option_id)
 	except: abort(400)
 
-	try: option = g.db.get(SubmissionOption, option_id)
-	except: abort(404)
+	if kind == 'post': cls = SubmissionOption
+	else: cls = CommentOption
+
+	option = g.db.get(cls, option_id)
 
 	if option.exclusive != 2: abort(403)
 
 	option.exclusive = 3
 	g.db.add(option)
 
-	post = option.post
+	parent = option.parent
 
 	pool = 0
-	for o in post.options:
+	for o in parent.options:
 		if o.exclusive >= 2: pool += o.upvotes
 	pool *= POLL_BET_COINS
 
@@ -180,27 +182,35 @@ def distribute(v:User, option_id):
 	votes = option.votes
 	coinsperperson = int(pool / len(votes))
 
-	text = f"You won {coinsperperson} coins betting on [{post.title}]({post.shortlink}) :marseyparty:"
+	text = f"You won {coinsperperson} coins betting on {parent.permalink} :marseyparty:"
 	cid = notif_comment(text)
 	for vote in votes:
 		u = vote.user
 		u.pay_account('coins', coinsperperson)
 		add_notif(cid, u.id, text)
 
-	text = f"You lost the {POLL_BET_COINS} coins you bet on [{post.title}]({post.shortlink}) :marseylaugh:"
+	text = f"You lost the {POLL_BET_COINS} coins you bet on {parent.permalink} :marseylaugh:"
 	cid = notif_comment(text)
 	losing_voters = []
-	for o in post.options:
+	for o in parent.options:
 		if o.exclusive == 2:
 			losing_voters.extend([x.user_id for x in o.votes])
 	for uid in losing_voters:
 		add_notif(cid, uid, text)
 
-	ma = ModAction(
-		kind="distribute",
-		user_id=v.id,
-		target_submission_id=post.id
-	)
+	if isinstance(parent, Submission):
+		ma = ModAction(
+			kind="distribute",
+			user_id=v.id,
+			target_submission_id=parent.id
+		)
+	else:
+		ma = ModAction(
+			kind="distribute",
+			user_id=v.id,
+			target_comment_id=parent.id
+		)
+
 	g.db.add(ma)
 
 	return {"message": f"Each winner has received {coinsperperson} coins!"}

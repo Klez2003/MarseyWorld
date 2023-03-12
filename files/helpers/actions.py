@@ -497,7 +497,7 @@ def process_poll_options(v:User, target:Union[Submission, Comment]):
 
 	patterns = [(poll_regex, 0), (choice_regex, 1)]
 
-	if isinstance(target, Submission) and v and v.admin_level >= PERMS['POST_BETS']:
+	if v.admin_level >= PERMS['POST_BETS']:
 		patterns.append((bet_regex, 2))
 
 	option_count = 0
