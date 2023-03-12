@@ -403,6 +403,8 @@ MODACTION_TYPES = {
 	},
 }
 
+MODACTION_TYPES = dict(sorted(MODACTION_TYPES.items()))
+
 MODACTION_PRIVILEGED_TYPES = {'shadowban', 'unshadowban',
 							'mod_mute_user', 'mod_unmute_user',
 							'link_accounts', 'delink_accounts',
