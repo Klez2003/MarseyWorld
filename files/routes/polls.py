@@ -84,7 +84,7 @@ def vote_option_comment(option_id, v):
 	if option.exclusive:
 		vote = g.db.query(CommentOptionVote).join(CommentOption).filter(
 			CommentOptionVote.user_id==v.id,
-			CommentOptionVote.submission_id==option.parent_id,
+			CommentOptionVote.comment_id==option.parent_id,
 			CommentOption.exclusive==option.exclusive).all()
 		if vote:
 			if option.exclusive == 2: abort(400, "You already voted on this bet!")
