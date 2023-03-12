@@ -584,21 +584,24 @@ function handleUploadProgress(e, upload_prog) {
 	}
 }
 
-document.getElementById('expandImageModal').addEventListener('show.bs.modal', function () {
-	setTimeout(() => {
-		location.hash = "modal";
-	}, 200);
-});
 
-document.getElementById('expandImageModal').addEventListener('hide.bs.modal', function () {
-	if(location.hash == "#modal") {
-		history.back();
-	}
-});
+if (width <= 768) {
+	document.getElementById('expandImageModal').addEventListener('show.bs.modal', function () {
+		setTimeout(() => {
+			location.hash = "modal";
+		}, 200);
+	});
 
-window.addEventListener('hashchange', function () {
-	if(location.hash != "#modal") {
-		const curr_modal = bootstrap.Modal.getInstance(document.getElementsByClassName('show')[0])
-		if (curr_modal) curr_modal.hide()
-	}
-});
+	document.getElementById('expandImageModal').addEventListener('hide.bs.modal', function () {
+		if(location.hash == "#modal") {
+			history.back();
+		}
+	});
+
+	window.addEventListener('hashchange', function () {
+		if(location.hash != "#modal") {
+			const curr_modal = bootstrap.Modal.getInstance(document.getElementsByClassName('show')[0])
+			if (curr_modal) curr_modal.hide()
+		}
+	});
+}
