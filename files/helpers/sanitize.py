@@ -295,7 +295,7 @@ def sanitize_settings_text(sanitized:Optional[str], max_length:Optional[int]=Non
 
 
 chud_images = listdir("files/assets/images/chud")
-chud_images = [f'\n\n![](/i/chud/{f})' for f in chud_images]
+chud_images = [f'\n\n{SITE_FULL}/i/chud/{f}' for f in chud_images]
 chud_images.extend([':#trumpjaktalking:', ':#reposthorse:'])
 
 def handle_youtube_links(url):
@@ -414,7 +414,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 			tag["loading"] = "lazy"
 			tag["data-src"] = tag["src"]
 			tag["src"] = "/i/l.webp"
-			tag['alt'] = f'![]({tag["data-src"]})'
+			tag['alt'] = tag["data-src"]
 
 			if tag.parent.name != 'a':
 				a = soup.new_tag("a", href=tag["data-src"])

@@ -51,7 +51,7 @@ def execute_snappy(post:Submission, v:User):
 
 	if v.id == CARP_ID:
 		if random.random() < 0.02: body = "i love you carp"
-		elif random.random() < 0.02: body = "![](/images/16614707883108485.webp)"
+		elif random.random() < 0.02: body = "https://i.rdrama.net/images/16614707883108485.webp"
 		else: body = ":#marseyfuckoffcarp:"
 	elif v.id == LAWLZ_ID:
 		if random.random() < 0.5: body = "wow, this lawlzpost sucks!"

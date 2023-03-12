@@ -469,7 +469,7 @@ def badge_grant_post(v):
 	g.db.flush()
 
 	if v.id != user.id:
-		text = f"@{v.username} (a site admin) has given you the following profile badge:\n\n![]({new_badge.path})\n\n**{new_badge.name}**\n\n{new_badge.badge.description}"
+		text = f"@{v.username} (a site admin) has given you the following profile badge:\n\n{new_badge.path}\n\n**{new_badge.name}**\n\n{new_badge.badge.description}"
 		send_repeatable_notification(user.id, text)
 
 	ma = ModAction(
@@ -506,7 +506,7 @@ def badge_remove_post(v):
 		return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=False, error="User doesn't have that badge!")
 
 	if v.id != user.id:
-		text = f"@{v.username} (a site admin) has removed the following profile badge from you:\n\n![]({badge.path})\n\n**{badge.name}**\n\n{badge.badge.description}"
+		text = f"@{v.username} (a site admin) has removed the following profile badge from you:\n\n{badge.path}\n\n**{badge.name}**\n\n{badge.badge.description}"
 		send_repeatable_notification(user.id, text)
 
 	ma = ModAction(

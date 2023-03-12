@@ -54,7 +54,7 @@ def speak(data, v):
 	global messages
 
 	text = sanitize_raw_body(data['message'], False)[:CHAT_LENGTH_LIMIT]
-	if image: text += f'\n\n![]({image})'
+	if image: text += f'\n\n{image}'
 	if not text: return '', 400
 
 	text_html = sanitize(text, count_marseys=True, chat=True)
