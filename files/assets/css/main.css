@@ -5242,15 +5242,6 @@ span.green {
 		padding-left: 0 !important;
 }
 }
-.comment .comment-collapse-desktop {
-	padding-right: 20px;
-	cursor: pointer;
-}
-@media (max-width: 767.98px) {
-	.comment .comment-collapse-desktop {
-		padding-right: 10px;
-	}	
-}
 .comment .comment-collapse-desktop:hover {
 	border-left-color: var(--white) !important;
 }
@@ -7218,4 +7209,17 @@ input[type=number] {
 .ping-groups td > a {
     min-width: 30px;
     display: inline-block;
+}
+
+.comment .comment-collapse-desktop {
+	padding-right: 20px;
+	cursor: pointer;
+}
+@media (max-width: 767.98px) {
+	.comment .comment-collapse-desktop {
+		padding-right: 10px;
+	}
+	blockquote {
+		padding-left: 10px;
+	}
 }
