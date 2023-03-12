@@ -362,9 +362,9 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 
 	sanitized = numbered_list_regex.sub(r'\1\. ', sanitized)
 
-	sanitized = markdown(sanitized)
-
 	sanitized = strikethrough_regex.sub(r'\1<del>\2</del>', sanitized)
+
+	sanitized = markdown(sanitized)
 
 	# replacing zero width characters, overlines, fake colons
 	sanitized = sanitized.replace('\u200e','').replace('\u200b','').replace("\ufeff", "").replace("\u033f","").replace("\u0589", ":")
