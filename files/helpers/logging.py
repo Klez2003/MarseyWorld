@@ -1,4 +1,4 @@
-from files.helpers.config.const import LOG_DIRECTORY
+from files.helpers.config.const import *
 
 def log_file(log_str:str, log_filename="rdrama.log"):
 	'''
