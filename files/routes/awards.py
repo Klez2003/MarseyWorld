@@ -391,10 +391,10 @@ def award_thing(v, thing_type, id):
 		if author.bite: author.bite += 172800
 		else: author.bite = int(time.time()) + 172800
 
-		if not author.old_house:
-			author.old_house = author.house
-
 		if 'Vampire' not in author.house:
+			if not author.old_house:
+				author.old_house = author.house
+			
 			author.house = 'Vampire'
 
 		badge_grant(user=author, badge_id=168)
