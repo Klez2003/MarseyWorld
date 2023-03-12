@@ -375,7 +375,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 
 	v = getattr(g, 'v', None)
 
-	names = set(m.group(2) for m in mention_regex.finditer(sanitized))
+	names = set(m.group(1) for m in mention_regex.finditer(sanitized))
 	if limit_pings and len(names) > limit_pings and not v.admin_level >= PERMS['POST_COMMENT_INFINITE_PINGS']: abort(406)
 	users_list = get_users(names, graceful=True)
 	users_dict = {}
@@ -385,22 +385,22 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 			users_dict[u.original_username.lower()] = u
 
 	def replacer(m):
-		u = users_dict.get(m.group(2).lower())
+		u = users_dict.get(m.group(1).lower())
 		if not u:
 			return m.group(0)
-		return f'{m.group(1)}<a href="/id/{u.id}"><img loading="lazy" src="/pp/{u.id}">@{u.username}</a>'
+		return f'<a href="/id/{u.id}"><img loading="lazy" src="/pp/{u.id}">@{u.username}</a>'
 
 	sanitized = mention_regex.sub(replacer, sanitized)
 
 	if FEATURES['PING_GROUPS']:
 		for i in group_mention_regex.finditer(sanitized):
-			name = i.group(2).lower()
+			name = i.group(1).lower()
 			if name == 'everyone':
-				sanitized = group_mention_regex.sub(r'\1<a href="/users">!\2</a>', sanitized)
+				sanitized = group_mention_regex.sub(r'<a href="/users">!\1</a>', sanitized)
 			else:
 				existing = g.db.get(Group, name)
 				if existing:
-					sanitized = sanitized.replace(i.group(0), f'{i.group(1)}<a href="/!{name}">!{name}</a>', 1)
+					sanitized = sanitized.replace(i.group(0), f'<a href="/!{name}">!{name}</a>', 1)
 
 	soup = BeautifulSoup(sanitized, 'lxml')
 
