@@ -145,14 +145,6 @@ function autoExpand(field) {
 	window.scrollTo(xpos,ypos);
 };
 
-const textareas = document.getElementsByTagName('textarea')
-for (const element of textareas) {
-	autoExpand(element)
-	element.addEventListener('input', () => {
-		autoExpand(element)
-	});
-}
-
 function smoothScrollTop()
 {
 	window.scrollTo({ top: 0, behavior: 'smooth' });

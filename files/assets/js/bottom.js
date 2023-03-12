@@ -146,6 +146,14 @@ function register_new_elements(e) {
 	for (const element of onclick) {
 		element.onclick = () => {execute(element, 'onclick')};
 	}
+
+	const textareas = e.getElementsByTagName('textarea')
+	for (const element of textareas) {
+		autoExpand(element)
+		element.addEventListener('input', () => {
+			autoExpand(element)
+		});
+	}	
 }
 
 register_new_elements(document);
