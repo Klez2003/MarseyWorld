@@ -204,15 +204,11 @@ if SITE_NAME == 'rDrama':
 		'odysee.com',
 
 		#4chan-like
-		'4chan.org',
-		'boards.4channel.org',
-		'boards.4chan.org',
 		'archive.4plebs.org',
 		'lolcow.farm',
 		'8kun.top',
 		'soyjak.party',
 		'crystal.cafe',
-		'choachan.cafe',
 
 		#forums
 		'kiwifarms.net',
@@ -290,7 +286,6 @@ if SITE_NAME == 'rDrama':
 		'wolfballs.com',
 		'dojo.press',
 		'livefilter.com',
-		'mainchan.com',
 		'lesswrong.com',
 		'forum.porpl.net',
 
@@ -313,7 +308,6 @@ if SITE_NAME == 'rDrama':
 		'metafilter.com',
 		'sqwok.im',
 		'thelayoff.com',
-		'stackexchange.com',
 		'stackoverflow.com',
 		'serverfault.com',
 		'superuser.com',
