@@ -1538,7 +1538,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseycandycorn',2,'sweet halloween sugar holiday',1666999203),
 ('marseycanned',2,'srdine sleeping tin fish sardine',NULL),
 ('marseycantsneed',2,'george floyd breathe dead black sneed',NULL),
-('marseycapiitsdown',2,'aevann capy capybara itsdown ddos sad itsover',1678468250),
+('marseycapyitsdown',2,'aevann capy capybara itsdown ddos sad itsover',1678468250),
 ('marseycapitalistmanlet',2,'money top hat rich landlord cigar llm tophat',NULL),
 ('marseycapy',2,'capybara rodent aevann happy cute',NULL),
 ('marseycapy2022',2,'aevann caypbara new year party celebration',NULL),
