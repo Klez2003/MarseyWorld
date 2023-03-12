@@ -1,3 +1,5 @@
+const submitButton = document.getElementById('submit-btn')
+
 const save_value = ['post-title', 'post-text', 'post-url', 'sub']
 for (const id of save_value) {
 	const value =  localStorage.getItem(id)
@@ -30,9 +32,6 @@ function savetext() {
 	}
 }
 
-
-
-const submitButton = document.getElementById('submit-btn')
 
 function checkForRequired() {
 	const title = document.getElementById("post-title");
