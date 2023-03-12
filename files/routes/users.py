@@ -536,7 +536,7 @@ def message2(v:User, username:str):
 	g.db.flush()
 	execute_blackjack(v, c, c.body_html, 'message')
 	execute_under_siege(v, c, c.body_html, 'message')
-	execute_anti_grooming(v, c, user)
+	notify_jannies_of_grooming(v, c, user)
 	c.top_comment_id = c.id
 
 	if user.id not in bots:
@@ -610,7 +610,7 @@ def messagereply(v:User):
 	g.db.flush()
 	execute_blackjack(v, c, c.body_html, 'message')
 	execute_under_siege(v, c, c.body_html, 'message')
-	execute_anti_grooming(v, c, user)
+	notify_jannies_of_grooming(v, c, user)
 
 	if user_id and user_id not in {v.id, MODMAIL_ID} | bots:
 		notif = g.db.query(Notification).filter_by(comment_id=c.id, user_id=user_id).one_or_none()

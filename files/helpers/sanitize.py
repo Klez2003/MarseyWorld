@@ -200,22 +200,9 @@ def execute_blackjack(v, target, body, type):
 			send_repeatable_notification(id, f"Blackjack by @{v.username}: {extra_info}")
 	return True
 
-def execute_anti_grooming(v, c, u):
-	if 'discord' not in c.body and 'groomercord' not in c.body or v.shadowbanned:
+def notify_jannies_of_grooming(v, c, u):
+	if 'discord' not in c.body and 'groomercord' not in c.body:
 		return
-	
-	v.shadowbanned = AUTOJANNY_ID
-
-	ma = ModAction(
-		kind="shadowban",
-		user_id=AUTOJANNY_ID,
-		target_user_id=v.id,
-		_note=f'reason: "Grooming @{u.username}"'
-	)
-	g.db.add(ma)
-
-	v.ban_reason = f"Grooming @{u.username}"
-	g.db.add(v)
 
 	notified_ids = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['BLACKJACK_NOTIFICATIONS'])]
 
