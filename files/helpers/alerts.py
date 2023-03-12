@@ -134,7 +134,7 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False):
 		if word in text:
 			notify_users.add(id)
 
-	names = set(m.group(1) for m in mention_alerts_regex.finditer(text))
+	names = set(m.group(1) for m in mention_regex.finditer(text))
 
 	user_ids = get_users(names, ids_only=True, graceful=True)
 	notify_users.update(user_ids)
@@ -149,7 +149,7 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False):
 	if FEATURES['PING_GROUPS']:
 		cost = 0
 
-		for i in group_mention_alerts_regex.finditer(text):
+		for i in group_mention_regex.finditer(text):
 			if oldtext and i.group(1) in oldtext:
 				continue
 
