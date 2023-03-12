@@ -178,6 +178,8 @@ function formkey() {
 	else return null;
 }
 
+const expandImageModal = document.getElementById('expandImageModal')
+
 function expandImage(url) {
 	const e = this.event
 	if(e.ctrlKey || e.metaKey || e.shiftKey || e.altKey)
@@ -191,7 +193,7 @@ function expandImage(url) {
 	document.getElementById("desktop-expanded-image").src = url.replace("200w.webp", "giphy.webp");
 	document.getElementById("desktop-expanded-image-wrap-link").href = url.replace("200w.webp", "giphy.webp");
 
-	bootstrap.Modal.getOrCreateInstance(document.getElementById('expandImageModal')).show();
+	bootstrap.Modal.getOrCreateInstance(expandImageModal).show();
 };
 
 function bs_trigger(e) {
@@ -586,13 +588,13 @@ function handleUploadProgress(e, upload_prog) {
 
 
 if (width <= 768) {
-	document.getElementById('expandImageModal').addEventListener('show.bs.modal', function () {
+	expandImageModal.addEventListener('show.bs.modal', function () {
 		setTimeout(() => {
 			location.hash = "modal";
 		}, 200);
 	});
 
-	document.getElementById('expandImageModal').addEventListener('hide.bs.modal', function () {
+	expandImageModal.addEventListener('hide.bs.modal', function () {
 		if(location.hash == "#modal") {
 			history.back();
 		}
