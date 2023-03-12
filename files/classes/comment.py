@@ -68,7 +68,11 @@ def add_options(self, body, v):
 			if o.voted(v): option_body += " checked"
 
 			if v:
-				sub = self.sub
+				if kind == 'post':
+					sub = self.sub
+				else:
+					sub = self.parent.sub
+
 				if sub in {'furry','vampire','racist','femboy'} and not v.house.lower().startswith(sub): option_body += ' disabled '
 				option_body += f''' data-nonce="{g.nonce}" data-onclick="poll_vote_{o.exclusive}('{o.id}', '{self.id}', '{kind}')"'''
 			else:
