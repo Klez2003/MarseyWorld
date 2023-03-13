@@ -7563,6 +7563,21 @@
 		"crime"
 		]
 	},
+
+	{
+		"name": "stoninggarlic",
+		"class": "Misc",
+		"tags": [
+		"muslim",
+		"stoning",
+		"animated",
+		"vampire",
+		"downvote",
+		"throw",
+		"doors",
+		"toss"
+		]
+	},
 	{
 		"name": "drafts",
 		"tags": [
