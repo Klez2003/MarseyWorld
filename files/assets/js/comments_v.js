@@ -135,7 +135,7 @@ function post_reply(id){
 
 		let data
 		try {data = JSON.parse(xhr[0].response)}
-		catch(e) {console.log(e)}
+		catch(e) {console.error(e)}
 		if (data && data["comment"]) {
 			const comments = document.getElementById('replies-of-c_' + id);
 			const comment = data["comment"].replace(/data-src/g, 'src').replace(/data-cfsrc/g, 'src').replace(/style="display:none;visibility:hidden;"/g, '').replace(/data-nonce=".*?"/g, `data-nonce="${nonce}"`);
@@ -160,10 +160,8 @@ function post_reply(id){
 		} else {
 			showToast(false, getMessageFromJsonData(false, data));
 		}
-		setTimeout(() => {
-			btn.disabled = false;
-			btn.classList.remove('disabled');
-		}, 2000);
+		btn.disabled = false;
+		btn.classList.remove('disabled');
 	}
 	xhr[0].send(xhr[1]);
 }
@@ -193,7 +191,7 @@ function comment_edit(id){
 
 		let data
 		try {data = JSON.parse(xhr[0].response)}
-		catch(e) {console.log(e)}
+		catch(e) {console.error(e)}
 		if (data && data["comment"]) {
 			commentForm=document.getElementById('comment-text-'+id);
 			commentForm.innerHTML = data["comment"].replace(/data-src/g, 'src').replace(/data-cfsrc/g, 'src').replace(/style="display:none;visibility:hidden;"/g, '').replace(/data-nonce=".*?"/g, `data-nonce="${nonce}"`)
@@ -213,10 +211,8 @@ function comment_edit(id){
 		else {
 			showToast(false, getMessageFromJsonData(false, data));
 		}
-		setTimeout(() => {
-			btn.disabled = false;
-			btn.classList.remove('disabled');
-		}, 1000);
+		btn.disabled = false;
+		btn.classList.remove('disabled');
 	}
 	xhr[0].send(xhr[1]);
 }
@@ -252,7 +248,7 @@ function post_comment(fullname, hide){
 
 		let data
 		try {data = JSON.parse(xhr.response)}
-		catch(e) {console.log(e)}
+		catch(e) {console.error(e)}
 		if (data && data["comment"]) {
 			if (hide) document.getElementById(hide).classList.add('d-none');
 
@@ -284,10 +280,8 @@ function post_comment(fullname, hide){
 		}
 		else {
 			showToast(false, getMessageFromJsonData(false, data));
-			setTimeout(() => {
-				btn.disabled = false;
-				btn.classList.remove('disabled');
-			}, 2000);
+			btn.disabled = false;
+			btn.classList.remove('disabled');
 		}
 	}
 	xhr.send(form)
@@ -315,7 +309,7 @@ function handle_action(type, cid, thing) {
 	xhr.onload=function(){
 		let data
 		try {data = JSON.parse(xhr.response)}
-		catch(e) {console.log(e)}
+		catch(e) {console.error(e)}
 		if (data && data["response"]) {
 			const element = document.getElementById(`${type}-${cid}`);
 			element.innerHTML = data["response"].replace(/data-nonce=".*?"/g, `data-nonce="${nonce}"`)
@@ -323,13 +317,11 @@ function handle_action(type, cid, thing) {
 		} else {
 			showToast(false, getMessageFromJsonData(false, data));
 		}
-		setTimeout(() => {
-			for (const btn of btns)
-			{
-				btn.disabled = false;
-				btn.classList.remove('disabled');
-			}
-		}, 2000);
+		for (const btn of btns)
+		{
+			btn.disabled = false;
+			btn.classList.remove('disabled');
+		}
 	}
 	xhr.send(form)
 }

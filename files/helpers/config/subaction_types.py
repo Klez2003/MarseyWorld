@@ -115,3 +115,5 @@ SUBACTION_TYPES = {
 		"color": 'bg-success'
 	},
 }
+
+SUBACTION_TYPES = dict(sorted(SUBACTION_TYPES.items()))

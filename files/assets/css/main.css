@@ -204,6 +204,7 @@
 .fa-lock:before{content:"\f023"}
 .fa-lock-open:before{content:"\f3c1"}
 .fa-down:before{content:"\f354"}
+.fa-shield-virus:before{content:"\e06c"}
 
 button {
 	background: none;
@@ -1836,8 +1837,7 @@ button.close {
 	padding: 0.75rem;
 }
 .modal-open {
-	overflow: auto !important;
-	padding-right: 0 !important;
+	overflow: hidden !important;
 }
 .modal-open .modal {
 	overflow-x: hidden;
@@ -5122,10 +5122,8 @@ pre .com, code .com {
 	.comment-section {
 		background-color: var(--gray-600);
 }
-	.comment-section > .comment {
-		padding-left: 12px;
-}
 	.comment {
+		padding-left: 0;
 		margin-top: 1.5rem;
 }
 	.comment.collapsed .user-info {
@@ -5226,6 +5224,7 @@ span.green {
 	background-color: var(--white) !important;
 	font-weight: 600 !important;
 	padding: 1px 3px 1px 3px;
+	cursor: default;
 }
 .spoiler:hover, spoiler:hover {
 	color: var(--gray) !important;
@@ -5242,10 +5241,6 @@ span.green {
 		border-left: 0 !important;
 		padding-left: 0 !important;
 }
-}
-.comment .comment-collapse-desktop {
-	padding-right: 20px;
-	cursor: pointer;
 }
 .comment .comment-collapse-desktop:hover {
 	border-left-color: var(--white) !important;
@@ -5319,7 +5314,7 @@ span.green {
 	border-radius: 5px !important;
 	color: white !important;
 }
-.patron[style="background-color:#FFFFFF;"] {
+.patron[style*="background-color:#ffffff"] {
 	color: black !important;
 }
 .container, .container-fluid {
@@ -6915,13 +6910,13 @@ div.markdown {
 	resize: both;
 	display: inline-block;
 	overflow: auto;
-	max-height: 100vh !important;
+	max-height: 700vh !important;
 	max-width: 100vw !important;
 }
 .resizable > video {
 	height: 99% !important;
 	width: 99% !important;
-	max-height: 100vh !important;
+	max-height: 70vh !important;
 	max-width: 100vw !important;
 	margin: 0 !important;
 }
@@ -7133,11 +7128,7 @@ body {
     line-height: 2.3;
 }
 
-.modal, body, nav {
-	padding-right: 0 !important;
-}
-
-.dm_img[alt^="![]("] {
+.dm_img {
 	width: 200px;
 	max-height: 100vh !important;
 }
@@ -7206,6 +7197,10 @@ input[type=number] {
     min-height: 100px;
 }
 
+#note {
+    min-height: 50px;
+}
+
 .collapsed .showmore-text
 {
     display: none;
@@ -7214,4 +7209,17 @@ input[type=number] {
 .ping-groups td > a {
     min-width: 30px;
     display: inline-block;
+}
+
+.comment .comment-collapse-desktop {
+	padding-right: 20px;
+	cursor: pointer;
+}
+@media (max-width: 767.98px) {
+	.comment .comment-collapse-desktop {
+		padding-right: 10px;
+	}
+	blockquote {
+		padding-left: 10px;
+	}
 }

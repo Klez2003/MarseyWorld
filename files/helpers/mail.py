@@ -2,7 +2,7 @@ import requests
 import time
 
 from files.helpers.security import *
-from files.helpers.config.const import EMAIL
+from files.helpers.config.const import *
 
 from urllib.parse import quote
 

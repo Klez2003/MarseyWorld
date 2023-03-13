@@ -52,7 +52,6 @@ function postToast(t, url, data, extraActionsOnSuccess, method="POST") {
 		let result
 		let message;
 		let success = xhr[0].status >= 200 && xhr[0].status < 300;
-		if (success && extraActionsOnSuccess) result = extraActionsOnSuccess(xhr[0]);
 		if (typeof result == "string") {
 			message = result;
 		} else {
@@ -65,17 +64,10 @@ function postToast(t, url, data, extraActionsOnSuccess, method="POST") {
 			t.disabled = false;
 			t.classList.remove("disabled");
 		}
+		if (success && extraActionsOnSuccess) result = extraActionsOnSuccess(xhr[0]);
 		return success;
 	};
 	xhr[0].send(xhr[1]);
-
-	if (!isShopConfirm)
-	{
-		setTimeout(() => {
-			t.disabled = false;
-			t.classList.remove("disabled");
-		}, 2000);
-	}
 }
 
 function postToastReload(t, url, method="POST") {
@@ -153,14 +145,6 @@ function autoExpand(field) {
 	window.scrollTo(xpos,ypos);
 };
 
-const textareas = document.getElementsByTagName('textarea')
-for (const element of textareas) {
-	autoExpand(element)
-	element.addEventListener('input', () => {
-		autoExpand(element)
-	});
-}
-
 function smoothScrollTop()
 {
 	window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -186,6 +170,8 @@ function formkey() {
 	else return null;
 }
 
+const expandImageModal = document.getElementById('expandImageModal')
+
 function expandImage(url) {
 	const e = this.event
 	if(e.ctrlKey || e.metaKey || e.shiftKey || e.altKey)
@@ -199,7 +185,7 @@ function expandImage(url) {
 	document.getElementById("desktop-expanded-image").src = url.replace("200w.webp", "giphy.webp");
 	document.getElementById("desktop-expanded-image-wrap-link").href = url.replace("200w.webp", "giphy.webp");
 
-	bootstrap.Modal.getOrCreateInstance(document.getElementById('expandImageModal')).show();
+	bootstrap.Modal.getOrCreateInstance(expandImageModal).show();
 };
 
 function bs_trigger(e) {
@@ -240,15 +226,11 @@ function escapeHTML(unsafe) {
 }
 
 function showmore(t) {
-	let div = t
-	while (!(div.id && (div.id.startsWith('comment-text-') || div.id == 'post-text'))){
-		div = div.parentElement
-	}
-	div = div.parentElement
+	div = t.parentElement.parentElement.parentElement
 
 	let text = div.getElementsByTagName('d')[0]
 	if (!text) text = div.getElementsByClassName('showmore-text')[0]
-	if (!text) text = div.getElementsByClassName('d-none')[0]
+	if (!text) text = div.querySelector('div.d-none')
 
 	text.classList.add('showmore-text')
 
@@ -478,31 +460,17 @@ function handle_files(input, newfiles) {
 		return
 	}
 
-	if (!span.innerHTML) span.innerHTML = ' '
-
-	if (ta.value && !ta.value.endsWith('\n')) {
-		ta.value += '\n'
-	}
-
-
-	const selection_end = ta.selectionEnd
-    const selected_text = ta.value.substring(ta.selectionStart, selection_end);
+	if (!span.textContent) span.textContent = ' '
 
 	for (const file of newfiles) {
 		oldfiles[ta.id].push(file)
 		if (span.innerHTML != ' ') span.innerHTML += ', '
 		span.innerHTML += file.name.substr(0, 30);
-		if (location.pathname != '/chat') {
-			const file_entry = `[${file.name}]`
-			if (selected_text) {
-				let old_value = ta.value
-				ta.value = old_value.replace(selected_text, file_entry);
-				ta.selectionEnd = selection_end + ta.value.length - old_value.length;
-			}
-			else {
-				ta.setRangeText(`${file_entry}\n`);
-			}
-		}
+		if (location.pathname != '/chat')
+			if (ta.value)
+				ta.setRangeText(`\n[${file.name}]`);
+			else
+				ta.setRangeText(`[${file.name}]`);
 	}
 
 	autoExpand(ta)
@@ -516,21 +484,22 @@ function handle_files(input, newfiles) {
 file_upload = document.getElementById('file-upload');
 
 if (file_upload) {
-	const IMAGE_FORMATS = document.getElementById('IMAGE_FORMATS').value.split(',')
-
 	function process_url_image() {
 		if (file_upload.files)
 		{
 			const filename = file_upload.files[0].name
 			file_upload.previousElementSibling.textContent = filename.substr(0, 50);
-			if (IMAGE_FORMATS.some(s => filename.toLowerCase().endsWith(s)))
+			for (const s of document.getElementById('IMAGE_FORMATS').value.split(','))
 			{
-				const fileReader = new FileReader();
-				fileReader.readAsDataURL(file_upload.files[0]);
-				fileReader.addEventListener("load", function () {
-					document.getElementById('image-preview').setAttribute('src', this.result);
-					document.getElementById('image-preview').classList.remove('d-none');
-				});
+				if (filename.toLowerCase().endsWith(s)) {
+					const fileReader = new FileReader();
+					fileReader.readAsDataURL(file_upload.files[0]);
+					fileReader.addEventListener("load", function () {
+						document.getElementById('image-preview').setAttribute('src', this.result);
+						document.getElementById('image-preview').classList.remove('d-none');
+					});
+					break;
+				}
 			}
 
 			if (typeof checkForRequired === "function") {
@@ -607,4 +576,26 @@ function handleUploadProgress(e, upload_prog) {
 		bar.value = progressPercent;
 		percentIndicator.textContent = progressPercent + '%';
 	}
+}
+
+
+if (width <= 768) {
+	expandImageModal.addEventListener('show.bs.modal', function () {
+		setTimeout(() => {
+			location.hash = "modal";
+		}, 200);
+	});
+
+	expandImageModal.addEventListener('hide.bs.modal', function () {
+		if(location.hash == "#modal") {
+			history.back();
+		}
+	});
+
+	window.addEventListener('hashchange', function () {
+		if(location.hash != "#modal") {
+			const curr_modal = bootstrap.Modal.getInstance(document.getElementsByClassName('show')[0])
+			if (curr_modal) curr_modal.hide()
+		}
+	});
 }

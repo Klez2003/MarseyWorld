@@ -25,8 +25,8 @@ def get_ID():
 	return f'{SITE}-{x}'
 
 def get_logged_in_user():
-	if hasattr(g, 'v'): return g.v
-	if not getattr(g, 'db', None): g.db = db_session()
+	if hasattr(g, 'v') and g.v: return g.v
+	if not hasattr(g, 'db'): g.db = db_session()
 	g.desires_auth = True
 	v = None
 	token = request.headers.get("Authorization","").strip()
@@ -54,9 +54,6 @@ def get_logged_in_user():
 			else:
 				session.pop("lo_user")
 
-	# if SITE == 'devrama.net' and not (v and v.id == 7):
-	# 	abort(403, "Only Aevann can access devrama for now!")
-
 	if request.method.lower() != "get" and get_setting('read_only_mode') and not (v and v.admin_level >= PERMS['SITE_BYPASS_READ_ONLY_MODE']):
 		abort(403)
 
@@ -66,13 +63,24 @@ def get_logged_in_user():
 		v.poor = session.get('poor')
 		# Check against last_active + ACTIVE_TIME to reduce frequency of
 		# UPDATEs in exchange for a ±ACTIVE_TIME margin of error.
-		timestamp = int(time.time())
-		if (v.last_active + LOGGEDIN_ACTIVE_TIME) < timestamp:
-			v.last_active = timestamp
-			g.db.add(v)
 
-	if SITE == 'rdrama.net' and request.headers.get("Cf-Ipcountry") == 'EG' and not v:
-		abort(404)
+		if not session.get("GLOBAL"):
+			timestamp = int(time.time())
+			if (v.last_active + LOGGEDIN_ACTIVE_TIME) < timestamp:
+				v.last_active = timestamp
+				g.db.add(v)
+
+	if SITE == 'rdrama.net' and request.headers.get("Cf-Ipcountry") == 'EG':
+		if v:
+			if v.id != AEVANN_ID and not v.username.startswith('Aev'):
+				with open(f"{LOG_DIRECTORY}/eg.log", "a+", encoding="utf-8") as f:
+					f.seek(0)
+					ip = request.headers.get('CF-Connecting-IP')
+					if f'@{v.username}, ' not in f.read():
+						t = time.strftime("%d/%B/%Y %H:%M:%S UTC", time.gmtime(time.time()))
+						log_file(f'@{v.username}, {v.truescore}, {ip}, {t}\n', 'eg.log')
+		else:
+			abort(404)
 
 	g.is_api_or_xhr = bool((v and v.client) or request.headers.get("xhr"))
 

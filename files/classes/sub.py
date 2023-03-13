@@ -40,7 +40,7 @@ class Sub(Base):
 	@property
 	@lazy
 	def sidebar_url(self):
-		if self.sidebarurl: return SITE_FULL + self.sidebarurl
+		if self.sidebarurl: return self.sidebarurl
 		return f'/i/{SITE_NAME}/sidebar.webp?v=3009'
 
 	@property
@@ -61,7 +61,7 @@ class Sub(Base):
 	@property
 	@lazy
 	def marsey_url(self):
-		if self.marseyurl: return SITE_FULL + self.marseyurl
+		if self.marseyurl: return self.marseyurl
 		return f'/i/{SITE_NAME}/headericon.webp?v=3009'
 
 	@property

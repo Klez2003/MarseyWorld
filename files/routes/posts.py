@@ -513,7 +513,7 @@ def submit_post(v:User, sub=None):
 			Submission.is_banned == False
 		).first()
 		if repost and FEATURES['REPOST_DETECTION'] and not v.admin_level >= PERMS['POST_BYPASS_REPOST_CHECKING']:
-			return {"post_id": repost.id}
+			return {"post_id": repost.id, "success": False}
 
 		y = tldextract.extract(url).registered_domain + parsed_url.path
 		y = y.lower()
@@ -547,7 +547,7 @@ def submit_post(v:User, sub=None):
 			Submission.body == body
 		).one_or_none()
 		if dup:
-			return {"post_id": dup.id}
+			return {"post_id": dup.id, "success": False}
 
 	if not execute_antispam_submission_check(title, v, url):
 		return redirect("/notifications")
@@ -610,7 +610,8 @@ def submit_post(v:User, sub=None):
 
 	vote = Vote(user_id=v.id,
 				vote_type=1,
-				submission_id=p.id
+				submission_id=p.id,
+				coins=0
 				)
 	g.db.add(vote)
 
@@ -629,9 +630,13 @@ def submit_post(v:User, sub=None):
 			p.url = process_video(file, v)
 			name = f'/images/{time.time()}'.replace('.','') + '.webp'
 			subprocess.run(['ffmpeg', '-y', '-loglevel', 'warning',
-				'-i', p.url, '-vf', "scale='min(500,iw)':-2",
+				'-i', p.url, '-vf', "scale='iw':-2",
 				'-q:v', '3', '-frames:v', '1', name], check=True)
-			p.thumburl = name
+			p.posterurl = name
+
+			name2 = name.replace('.webp', 'r.webp')
+			copyfile(name, name2)
+			p.thumburl = process_image(name2, v, resize=99)
 		elif file.content_type.startswith('audio/'):
 			p.url = process_audio(file, v)
 		else:
@@ -704,7 +709,7 @@ def submit_post(v:User, sub=None):
 	if v.client: return p.json(g.db)
 	else:
 		p.voted = 1
-		return {"post_id": p.id}
+		return {"post_id": p.id, "success": True}
 
 @app.post("/delete_post/<int:pid>")
 @limiter.limit('1/second', scope=rpath)

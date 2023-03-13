@@ -20,8 +20,14 @@ from files.__main__ import app, cache, limiter
 
 from .front import frontlist
 
+@app.get("/shop")
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@auth_required
+def shop_awards(v:User):
+	return redirect('/shop/awards')
+
 @app.get("/shop/awards")
-@app.get("/settings/shop")
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
@@ -385,10 +391,10 @@ def award_thing(v, thing_type, id):
 		if author.bite: author.bite += 172800
 		else: author.bite = int(time.time()) + 172800
 
-		if not author.old_house:
-			author.old_house = author.house
-
 		if 'Vampire' not in author.house:
+			if not author.old_house:
+				author.old_house = author.house
+			
 			author.house = 'Vampire'
 
 		badge_grant(user=author, badge_id=168)

@@ -5,7 +5,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
-from files.helpers.config.const import SITE_NAME
+from files.helpers.config.const import *
 from files.helpers.lazy import lazy
 
 class BadgeDef(Base):
@@ -26,8 +26,8 @@ class BadgeDef(Base):
 	@property
 	@lazy
 	def path(self):
-		if 20 < self.id < 28 or self.id == 222: return f"/i/{SITE_NAME}/badges/{self.id}.webp"
-		return f"/i/badges/{self.id}.webp"
+		if 20 < self.id < 28 or self.id == 222: return SITE_FULL + f"/i/{SITE_NAME}/badges/{self.id}.webp"
+		return SITE_FULL + f"/i/badges/{self.id}.webp"
 
 class Badge(Base):
 

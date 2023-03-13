@@ -198,21 +198,21 @@ if SITE_NAME == 'rDrama':
 	SLURS.update(RDRAMA_SLURS)
 
 	BOOSTED_SITES = {
+		#All sites with .win TLD
+		#All sites with the word "forum" in the domain
+		#All sites with the word "chan" in the domain
+
 		#youtube-like
 		'bitchute.com',
 		'goyimtv.tv',
 		'odysee.com',
 
 		#4chan-like
-		'4chan.org',
-		'boards.4channel.org',
-		'boards.4chan.org',
 		'archive.4plebs.org',
 		'lolcow.farm',
 		'8kun.top',
 		'soyjak.party',
 		'crystal.cafe',
-		'choachan.cafe',
 
 		#forums
 		'kiwifarms.net',
@@ -290,7 +290,6 @@ if SITE_NAME == 'rDrama':
 		'wolfballs.com',
 		'dojo.press',
 		'livefilter.com',
-		'mainchan.com',
 		'lesswrong.com',
 		'forum.porpl.net',
 
@@ -313,7 +312,6 @@ if SITE_NAME == 'rDrama':
 		'metafilter.com',
 		'sqwok.im',
 		'thelayoff.com',
-		'stackexchange.com',
 		'stackoverflow.com',
 		'serverfault.com',
 		'superuser.com',
@@ -332,6 +330,8 @@ if SITE_NAME == 'rDrama':
 		'programming',
 		'slackernews',
 		'chudrama',
+		'wallstreetbets',
+		'lit',
 	}
 
 	REDDIT_NOTIFS_SITE.add('marsey')
@@ -381,7 +381,7 @@ PROFANITIES = {
 slur_single_words = "|".join([slur.lower() for slur in SLURS.keys()])
 profanity_single_words = "|".join([profanity.lower() for profanity in PROFANITIES.keys()])
 
-LONGPOST_REPLIES = ('Wow, you must be a JP fan.', 'This is one of the worst posts I have EVER seen. Delete it.', "No, don't reply like this, please do another wall of unhinged rant please.", '# 😴😴😴', "Ma'am we've been over this before. You need to stop.", "I've known more coherent downies.", "Your pulitzer's in the mail", "That's great and all, but I asked for my burger without cheese.", 'That degree finally paying off', "That's nice sweaty. Why don't you have a seat in the time out corner with Pizzashill until you calm down, then you can have your Capri Sun.", "All them words won't bring your pa back.", "You had a chance to not be completely worthless, but it looks like you threw it away. At least you're consistent.", 'Some people are able to display their intelligence by going on at length on a subject and never actually saying anything. This ability is most common in trades such as politics, public relations, and law. You have impressed me by being able to best them all, while still coming off as an absolute idiot.', "You can type 10,000 characters and you decided that these were the one's that you wanted.", 'Have you owned the libs yet?', "I don't know what you said, because I've seen another human naked.", 'Impressive. Normally people with such severe developmental disabilities struggle to write much more than a sentence or two. He really has exceded our expectations for the writing portion. Sadly the coherency of his writing, along with his abilities in the social skills and reading portions, are far behind his peers with similar disabilities.', "This is a really long way of saying you don't fuck.", "Sorry ma'am, looks like his delusions have gotten worse. We'll have to admit him.", 'If only you could put that energy into your relationships', 'Posts like this is why I do Heroine.', 'still unemployed then?', 'K', 'look im gunna have 2 ask u 2 keep ur giant dumps in the toilet not in my replys 😷😷😷', "Mommy is soooo proud of you, sweaty. Let's put this sperg out up on the fridge with all your other failures.", "Good job bobby, here's a star", "That was a mistake. You're about to find out the hard way why.", 'You sat down and wrote all this shit. You could have done so many other things with your life. What happened to your life that made you decide writing novels of bullshit here was the best option?', "I don't have enough spoons to read this shit", "All those words won't bring daddy back.", 'OUT!', "Damn, you're really mad over this, but thanks for the effort you put into typing that all out! Sadly I won't read it all.", "Jesse what the fuck are you talking about??", "▼you're fucking bananas if you think I'm reading all that, take my downvote and shut up idiot", "Are you feeling okay bud?", ':#marseywoah:', 'At no point in your rambling, incoherent post were you even close to anything that could be considered a rational thought. Everyone on this site is now dumber for having read it. May God have mercy on your soul.', 'https://rdrama.net/videos/1671169024815045.mp4', '![](/images/16766675896248007.webp)')
+LONGPOST_REPLIES = ('Wow, you must be a JP fan.', 'This is one of the worst posts I have EVER seen. Delete it.', "No, don't reply like this, please do another wall of unhinged rant please.", '# 😴😴😴', "Ma'am we've been over this before. You need to stop.", "I've known more coherent downies.", "Your pulitzer's in the mail", "That's great and all, but I asked for my burger without cheese.", 'That degree finally paying off', "That's nice sweaty. Why don't you have a seat in the time out corner with Pizzashill until you calm down, then you can have your Capri Sun.", "All them words won't bring your pa back.", "You had a chance to not be completely worthless, but it looks like you threw it away. At least you're consistent.", 'Some people are able to display their intelligence by going on at length on a subject and never actually saying anything. This ability is most common in trades such as politics, public relations, and law. You have impressed me by being able to best them all, while still coming off as an absolute idiot.', "You can type 10,000 characters and you decided that these were the one's that you wanted.", 'Have you owned the libs yet?', "I don't know what you said, because I've seen another human naked.", 'Impressive. Normally people with such severe developmental disabilities struggle to write much more than a sentence or two. He really has exceded our expectations for the writing portion. Sadly the coherency of his writing, along with his abilities in the social skills and reading portions, are far behind his peers with similar disabilities.', "This is a really long way of saying you don't fuck.", "Sorry ma'am, looks like his delusions have gotten worse. We'll have to admit him.", 'If only you could put that energy into your relationships', 'Posts like this is why I do Heroine.', 'still unemployed then?', 'K', 'look im gunna have 2 ask u 2 keep ur giant dumps in the toilet not in my replys 😷😷😷', "Mommy is soooo proud of you, sweaty. Let's put this sperg out up on the fridge with all your other failures.", "Good job bobby, here's a star", "That was a mistake. You're about to find out the hard way why.", 'You sat down and wrote all this shit. You could have done so many other things with your life. What happened to your life that made you decide writing novels of bullshit here was the best option?', "I don't have enough spoons to read this shit", "All those words won't bring daddy back.", 'OUT!', "Damn, you're really mad over this, but thanks for the effort you put into typing that all out! Sadly I won't read it all.", "Jesse what the fuck are you talking about??", "▼you're fucking bananas if you think I'm reading all that, take my downvote and shut up idiot", "Are you feeling okay bud?", ':#marseywoah:', 'At no point in your rambling, incoherent post were you even close to anything that could be considered a rational thought. Everyone on this site is now dumber for having read it. May God have mercy on your soul.', 'https://rdrama.net/videos/1671169024815045.mp4', 'https://i.rdrama.net/images/16766675896248007.webp')
 
 AGENDAPOSTER_PHRASE = 'trans lives matter'
 
@@ -486,21 +486,20 @@ PERMS = { # Minimum admin_level to perform action.
 
  	'MODERATE_PENDING_SUBMITTED_ASSETS': 4,
  	'UPDATE_ASSETS': 4,
+	'PROGSTACK': 4,
+	'UNDO_AWARD_PINS': 4,
+	'DELETE_MEDIA': 4,
 
-	'PROGSTACK': 5,
-	'UNDO_AWARD_PINS': 5,
+	'USER_BLACKLIST': 5,
+ 	'POST_EDITING': 5,
+ 	'VIEW_PATRONS': 5,
+ 	'BLACKJACK_NOTIFICATIONS': 5,
+ 	'IGNORE_BADGE_BLACKLIST': 5,
+ 	'enable_dm_images': 5,
+ 	'SEE_GHOST_VOTES': 5,
 
-	'DELETE_MEDIA': 6,
-
-	'USER_BLACKLIST': 7,
- 	'POST_EDITING': 7,
- 	'VIEW_PATRONS': 7,
- 	'BLACKJACK_NOTIFICATIONS': 7,
- 	'IGNORE_BADGE_BLACKLIST': 7,
- 	'VIEW_DM_IMAGES': 7,
- 	'SEE_GHOST_VOTES': 7,
-
- 	'MODS_EVERY_HOLE': 8,
+ 	'MODS_EVERY_HOLE': 6,
+	'MODS_EVERY_GROUP': 6,
 }
 
 FEATURES = {
@@ -625,12 +624,12 @@ TRUESCORE_GHOST_MINIMUM = 0
 TRUESCORE_DONATE_MINIMUM = 10
 TRUESCORE_MASTERBAITERS_MINIMUM = 100
 TRUESCORE_CLUB_MINIMUM = 1000
-TRUESCORE_CHUDRAMA_MINIMUM = 1488
+TRUESCORE_CHUDRAMA_MINIMUM = 10
 
 LOGGEDIN_ACTIVE_TIME = 15 * 60
 PFP_DEFAULT_MARSEY = True
 NEW_USER_HAT_AGE = 0 # seconds of age to show new-user forced hat
-NOTIFICATION_SPAM_AGE_THRESHOLD = 0.5 * 86400
+NOTIFICATION_SPAM_AGE_THRESHOLD = 0
 COMMENT_SPAM_LENGTH_THRESHOLD = 0
 UNDER_SIEGE_AGE_THRESHOLD = 10 * 60
 
@@ -711,9 +710,10 @@ BADGE_BLACKLIST = { # only grantable by admins higher than PERMS['IGNORE_BADGE_B
 }
 
 NOTIFIED_USERS = {}
-DONT_SHADOWBAN = {}
 
 if SITE == 'rdrama.net':
+	NOTIFICATION_SPAM_AGE_THRESHOLD = 0.5 * 86400
+
 	TELEGRAM_ID = "rdramanet"
 	DEFAULT_TIME_FILTER = "day"
 
@@ -793,13 +793,11 @@ if SITE == 'rdrama.net':
 
 	ANTISPAM_BYPASS_IDS = {1703, 13427}
 
-	DONT_SHADOWBAN = {253,3161,11163}
-
 	GIFT_NOTIF_ID = CARP_ID
 
 	POLL_THREAD = 79285
 
-	WELCOME_MSG = "Hi there! It's me, your soon-to-be favorite rDrama user @carpathianflorist here to give you a brief rundown on some of the sick features we have here. You'll probably want to start by following me, though. So go ahead and click my name and then smash that Follow button. This is actually really important, so go on. Hurry.\n\nThanks!\n\nNext up: If you're a member of the media, similarly just shoot me a DM and I'll set about verifying you and then we can take care of your sad journalism stuff.\n\n**FOR EVERYONE ELSE**\n\n Begin by navigating to [the settings page](/settings/profile) (we'll be prettying this up so it's less convoluted soon, don't worry) and getting some basic customization done.\n\n### Themes\n\nDefinitely change your theme right away, the default one (Midnight) is pretty enough, but why not use something *exotic* like Win98, or *flashy* like Tron? Even Coffee is super tasteful and way more fun than the default. More themes to come when we get around to it!\n\n### Avatar/pfp\n\nYou'll want to set this pretty soon. Set the banner too while you're at it. Your profile is important!\n\n### Flairs\n\nSince you're already on the settings page, you may as well set a flair, too. As with your username, you can - obviously - choose the color of this, either with a hex value or just from the preset colors. And also like your username, you can change this at any time. Paypigs can even further relive the glory days of 90s-00s internet and set obnoxious signatures.\n\n### PROFILE ANTHEMS\n\nSpeaking of profiles, hey, remember MySpace? Do you miss autoplaying music assaulting your ears every time you visited a friend's page? Yeah, we brought that back. Enter a YouTube URL, wait a few seconds for it to process, and then BAM! you've got a profile anthem which people cannot mute. Unless they spend 20,000 dramacoin in the shop for a mute button. Which you can then remove from your profile by spending 40,000 dramacoin on an unmuteable anthem. Get fucked poors!\n\n### Dramacoin?\n\nDramacoin is basically our take on the karma system. Except unlike the karma system, it's not gay and boring and stupid and useless. Dramacoin can be spent at [Marsey's Dramacoin Emporium](/shop) on upgrades to your user experience (many more coming than what's already listed there), and best of all on tremendously annoying awards to fuck with your fellow dramautists. We're always adding more, so check back regularly in case you happen to miss one of the announcement posts.\n\nLike karma, dramacoin is obtained by getting upvotes on your threads and comments. *Unlike* karma, it's also obtained by getting downvotes on your threads and comments. Downvotes don't really do anything here - they pay the same amount of dramacoin and they increase thread/comment ranking just the same as an upvote. You just use them to express petty disapproval and hopefully start a fight. Because all votes are visible here. To hell with your anonymity.\n\nDramacoin can also be traded amongst users from their profiles. Note that there is a 3% transaction fee.\n\n### Badges\n\nRemember all those neat little metallic icons you saw on my profile when you were following me? If not, scroll back up and go have a look. And doublecheck to make sure you pressed the Follow button. Anyway, those are badges. You earn them by doing a variety of things. Some of them even offer benefits, like discounts at the shop. A [complete list of badges and their requirements can be found here](/badges), though I add more pretty regularly, so keep an eye on the [changelog](/h/changelog).\n\n### Other stuff\n\nWe're always adding new features, and we take a fun-first approach to development. If you have a suggestion for something that would be fun, funny, annoying - or best of all, some combination of all three - definitely make a thread about it. Or just DM me if you're shy. Weirdo. Anyway there's also the [leaderboards](/leaderboard), boring stuff like two-factor authentication you can toggle on somewhere in the settings page (psycho), the ability to save posts and comments, more than a thousand emojis already (most of which are rDrama originals), and on and on and on and on. This is just the basics, mostly to help you get acquainted with some of the things you can do here to make it more easy on the eyes, customizable, and enjoyable. If you don't enjoy it, just go away! We're not changing things to suit you! Get out of here loser! And no, you can't delete your account :na:\n\nI love you.<br>*xoxo Carp* 💋"
+	WELCOME_MSG = "Hi there! It's me, your soon-to-be favorite rDrama user @carpathianflorist here to give you a brief rundown on some of the sick features we have here. You'll probably want to start by following me, though. So go ahead and click my name and then smash that Follow button. This is actually really important, so go on. Hurry.\n\nThanks!\n\nNext up: If you're a member of the media, similarly just shoot me a DM and I'll set about verifying you and then we can take care of your sad journalism stuff.\n\n**FOR EVERYONE ELSE**\n\n Begin by navigating to [the settings page](/settings/profile) (we'll be prettying this up so it's less convoluted soon, don't worry) and getting some basic customization done.\n\n### Themes\n\nDefinitely change your theme right away, the default one (Midnight) is pretty enough, but why not use something *exotic* like Win98, or *flashy* like Tron? Even Coffee is super tasteful and way more fun than the default. More themes to come when we get around to it!\n\n### Avatar/pfp\n\nYou'll want to set this pretty soon. Set the banner too while you're at it. Your profile is important!\n\n### Flairs\n\nSince you're already on the settings page, you may as well set a flair, too. As with your username, you can - obviously - choose the color of this, either with a hex value or just from the preset colors. And also like your username, you can change this at any time. Paypigs can even further relive the glory days of 90s-00s internet and set obnoxious signatures.\n\n### PROFILE ANTHEMS\n\nSpeaking of profiles, hey, remember MySpace? Do you miss autoplaying music assaulting your ears every time you visited a friend's page? Yeah, we brought that back. Enter a YouTube URL, wait a few seconds for it to process, and then BAM! you've got a profile anthem which people cannot mute. Unless they spend 20,000 dramacoin in the shop for a mute button. Which you can then remove from your profile by spending 40,000 dramacoin on an unmuteable anthem. Get fucked poors!\n\n### Dramacoin?\n\nDramacoin is basically our take on the karma system. Except unlike the karma system, it's not gay and boring and stupid and useless. Dramacoin can be spent at [Marsey's Dramacoin Emporium](/shop/awards) on upgrades to your user experience (many more coming than what's already listed there), and best of all on tremendously annoying awards to fuck with your fellow dramautists. We're always adding more, so check back regularly in case you happen to miss one of the announcement posts.\n\nLike karma, dramacoin is obtained by getting upvotes on your threads and comments. *Unlike* karma, it's also obtained by getting downvotes on your threads and comments. Downvotes don't really do anything here - they pay the same amount of dramacoin and they increase thread/comment ranking just the same as an upvote. You just use them to express petty disapproval and hopefully start a fight. Because all votes are visible here. To hell with your anonymity.\n\nDramacoin can also be traded amongst users from their profiles. Note that there is a 3% transaction fee.\n\n### Badges\n\nRemember all those neat little metallic icons you saw on my profile when you were following me? If not, scroll back up and go have a look. And doublecheck to make sure you pressed the Follow button. Anyway, those are badges. You earn them by doing a variety of things. Some of them even offer benefits, like discounts at the shop. A [complete list of badges and their requirements can be found here](/badges), though I add more pretty regularly, so keep an eye on the [changelog](/h/changelog).\n\n### Other stuff\n\nWe're always adding new features, and we take a fun-first approach to development. If you have a suggestion for something that would be fun, funny, annoying - or best of all, some combination of all three - definitely make a thread about it. Or just DM me if you're shy. Weirdo. Anyway there's also the [leaderboards](/leaderboard), boring stuff like two-factor authentication you can toggle on somewhere in the settings page (psycho), the ability to save posts and comments, more than a thousand emojis already (most of which are rDrama originals), and on and on and on and on. This is just the basics, mostly to help you get acquainted with some of the things you can do here to make it more easy on the eyes, customizable, and enjoyable. If you don't enjoy it, just go away! We're not changing things to suit you! Get out of here loser! And no, you can't delete your account :na:\n\nI love you.<br>*xoxo Carp* 💋"
 
 	REDDIT_NOTIFS_USERS = {
 		'idio3': IDIO_ID,
@@ -811,8 +809,10 @@ if SITE == 'rdrama.net':
 		'justcool393': JUSTCOOL_ID
 	}
 
-	POST_RATELIMIT = '5/hour;10/day'
+	POST_RATELIMIT = '10/day'
 elif SITE == 'watchpeopledie.tv':
+	NOTIFICATION_SPAM_AGE_THRESHOLD = 0.5 * 86400
+
 	EMAIL = "wpd@watchpeopledie.tv"
 	TELEGRAM_ID = "wpdtv"
 	DEFAULT_TIME_FILTER = "day"
@@ -894,6 +894,10 @@ elif SITE == 'watchpeopledie.tv':
 	}
 elif SITE == 'devrama.net':
 	AEVANN_ID = 7
+	FEATURES['ASSET_SUBMISSIONS'] = True
+	FEATURES['PRONOUNS'] = True
+	FEATURES['HOUSES'] = True
+	FEATURES['USERS_PERMANENT_WORD_FILTERS'] = True
 else: # localhost or testing environment implied
 	FEATURES['ASSET_SUBMISSIONS'] = True
 	FEATURES['PRONOUNS'] = True
@@ -980,6 +984,7 @@ approved_embed_hosts = {
 	'tumblr.com', # concerningly broad.
 	'ytimg.com',
 	'yt3.ggpht.com',
+	'bitchute.com',
 
 	### Third-Party Resources (For e.g. Profile Customization)
 	# TODO: Any reasonable way to proxy these instead?
@@ -1056,8 +1061,6 @@ AUDIO_FORMATS = ('mp3','wav','ogg','aac','m4a','flac')
 if not IS_LOCALHOST and SECRET_KEY == DEFAULT_CONFIG_VALUE:
 	from warnings import warn
 	warn("Secret key is the default value! Please change it to a secure random number. Thanks <3", RuntimeWarning)
-
-SHOW_MORE = '<p><button class="showmore">SHOW MORE</button></p></div><div class="d-none">'
 
 if AEVANN_ID:
 	GLOBAL = environ.get("GLOBAL", "").strip()

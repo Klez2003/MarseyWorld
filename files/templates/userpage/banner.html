@@ -13,10 +13,10 @@
 				<div class="container-fluid nobackground">
 					<div class="d-md-flex text-center text-md-left">
 						<div id="profile--pfp" {% if u.hat_active(v)[0] %}class="profile--pfp--hat hat"{% endif %}>
-							<a rel="nofollow noopener" href="{% if u.highres %}{{u.highres}}{% else %}{{u.profile_url}}{% endif %}" class="profile-pic-100-wrapper">
-								<img data-nonce="{{g.nonce}}" data-onclick="expandImage('{% if u.highres %}{{u.highres}}{% else %}{{u.profile_url}}{% endif %}')" loading="lazy" src="{{u.profile_url}}" class="profile-pic profile-pic-100 mb-5">
+							<a rel="nofollow noopener" href="{% if u.highres and u.can_see_my_shit %}{{u.highres}}{% else %}{{u.profile_url}}{% endif %}" class="profile-pic-100-wrapper">
+								<img data-nonce="{{g.nonce}}" data-onclick="expandImage('{% if u.highres and u.can_see_my_shit %}{{u.highres}}{% else %}{{u.profile_url}}{% endif %}')" loading="lazy" src="{{u.profile_url}}" class="profile-pic profile-pic-100 mb-5">
 								{% if u.hat_active(v)[0] -%}
-									<img data-nonce="{{g.nonce}}" data-onclick="expandImage('{% if u.highres %}{{u.highres}}{% else %}{{u.profile_url}}{% endif %}')" class="profile-pic-100-hat hat" loading="lazy" src="{{u.hat_active(v)[0]}}?h=7" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{u.hat_active(v)[1]}}">
+									<img data-nonce="{{g.nonce}}" data-onclick="expandImage('{% if u.highres and u.can_see_my_shit %}{{u.highres}}{% else %}{{u.profile_url}}{% endif %}')" class="profile-pic-100-hat hat" loading="lazy" src="{{u.hat_active(v)[0]}}?h=7" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{u.hat_active(v)[1]}}">
 								{%- endif %}
 							</a>
 						</div>
@@ -53,11 +53,11 @@
 								{% endif %}
 				</div>
 
-				{% if FEATURES['PRONOUNS'] %}
+				{% if FEATURES['PRONOUNS'] and u.can_see_my_shit %}
 					<p class="font-weight-bolder" id="profile--pronouns" style="color: #{{u.titlecolor}}">{{u.pronouns}}</p>
 				{% endif %}
 
-				{% if u.customtitle %}
+				{% if u.customtitle and u.can_see_my_shit %}
 					<p class="font-weight-bolder" id="profile--flair" style="color: #{{u.titlecolor}}">{{u.customtitle | safe}}</p>
 				{% endif %}
 
@@ -90,18 +90,18 @@
 				</div>
 
 				{% if FEATURES['USERS_PROFILE_BODYTEXT'] -%}
-					{% if u.bio_html and (not u.shadowbanned or (v and (v.id == u.id or v.can_see_shadowbanned))) %}
+					{% if u.bio_html and u.can_see_my_shit %}
 						<div class="text-muted font-weight-bolder mt-1" id="profile--bio">{{u.bio_html | safe}}</div>
 					{% else %}
 						<p class="text-muted" id="profile--bio">No bio...</p>
 					{% endif %}
 
-					{% if u.friends_html %}
+					{% if u.friends_html and u.can_see_my_shit %}
 						<p class="text-muted font-weight-bold">Friends:</p>
 						<div id="profile--friends">{{u.friends_html | safe}}</div>
 					{% endif %}
 
-					{% if u.enemies_html %}
+					{% if u.enemies_html and u.can_see_my_shit %}
 						<p class="text-muted font-weight-bold">Enemies:</p>
 						<div id="profile--enemies">{{u.enemies_html | safe}}</div>
 					{% endif %}
@@ -276,10 +276,10 @@
 	<div class="row border-bottom">
 		<div class="col">
 			<div style="margin-top: -34px;" id="profile-mobile--pfp">
-				<a rel="nofollow noopener" href="{% if u.highres %}{{u.highres}}{% else %}{{u.profile_url}}{% endif %}" class="profile-pic-65-wrapper">
-					<img data-nonce="{{g.nonce}}" data-onclick="expandImage('{% if u.highres %}{{u.highres}}{% else %}{{u.profile_url}}{% endif %}')" loading="lazy" src="{{u.profile_url}}" class="profile-pic-65 bg-white mb-2">
+				<a rel="nofollow noopener" href="{% if u.highres and u.can_see_my_shit %}{{u.highres}}{% else %}{{u.profile_url}}{% endif %}" class="profile-pic-65-wrapper">
+					<img data-nonce="{{g.nonce}}" data-onclick="expandImage('{% if u.highres and u.can_see_my_shit %}{{u.highres}}{% else %}{{u.profile_url}}{% endif %}')" loading="lazy" src="{{u.profile_url}}" class="profile-pic-65 bg-white mb-2">
 					{% if u.hat_active(v)[0] -%}
-						<img data-nonce="{{g.nonce}}" data-onclick="expandImage('{% if u.highres %}{{u.highres}}{% else %}{{u.profile_url}}{% endif %}')" class="profile-pic-65-hat hat" loading="lazy" src="{{u.hat_active(v)[0]}}?h=7">
+						<img data-nonce="{{g.nonce}}" data-onclick="expandImage('{% if u.highres and u.can_see_my_shit %}{{u.highres}}{% else %}{{u.profile_url}}{% endif %}')" class="profile-pic-65-hat hat" loading="lazy" src="{{u.hat_active(v)[0]}}?h=7">
 					{%- endif %}
 				</a>
 			</div>
@@ -314,11 +314,11 @@
 					<span class="followsyou badge badge-secondary text-small align-middle mx-1" id="profile-mobile--follows-you">Follows you</span>
 				{% endif %}
 
-				{% if FEATURES['PRONOUNS'] %}
+				{% if FEATURES['PRONOUNS'] and u.can_see_my_shit %}
 					<p style="color: #{{u.titlecolor}}" id="profile-mobile--pronouns">{{u.pronouns}}</p>
 				{% endif %}
 
-				{% if u.customtitle %}
+				{% if u.customtitle and u.can_see_my_shit %}
 					<p style="color: #{{u.titlecolor}}" id="profile-mobile--flair">{{u.customtitle | safe}}</p>
 				{% endif %}
 
@@ -351,16 +351,16 @@
 				</div>
 
 				{% if FEATURES['USERS_PROFILE_BODYTEXT'] -%}
-					{% if u.bio_html and (not u.shadowbanned or (v and (v.id == u.id or v.can_see_shadowbanned))) %}
+					{% if u.bio_html and u.can_see_my_shit %}
 						<div class="text-muted text-break" id="profile-mobile--bio">{{u.bio_html | safe}}</div>
 					{% endif %}
 
-					{% if u.friends_html %}
+					{% if u.friends_html and u.can_see_my_shit %}
 						<p class="text-muted font-weight-bold mt-3">Friends:</p>
 						<div id="profile-mobile--friends">{{u.friends_html | safe}}</div>
 					{% endif %}
 
-					{% if u.enemies_html %}
+					{% if u.enemies_html and u.can_see_my_shit %}
 						<p class="text-muted font-weight-bold mt-3">Enemies:</p>
 						<div id="profile-mobile--enemies">{{u.enemies_html | safe}}</div>
 					{% endif %}

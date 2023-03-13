@@ -1,6 +1,6 @@
 from copy import deepcopy
 
-from files.helpers.config.const import FEATURES, SITE_NAME, patron, IS_FISTMAS, IS_HOMOWEEN
+from files.helpers.config.const import *
 
 AWARDS = {
 	"fallback": {

@@ -97,33 +97,31 @@ for (const element of TH) {
 	element.addEventListener('click', () => {sort_table(element)});
 }
 
+const btns_to_disable = document.querySelectorAll('[type="submit"]')
+for (const element of btns_to_disable) {
+	element.addEventListener('click', () => {disable_btn(element)})
+}
+
 function disable_btn(t) {
-	t.classList.add('disabled');
+	if (!t.classList.contains('disabled')) {
+		const isShopConfirm = t.id.startsWith('buy1-') || t.id.startsWith('buy2-') || t.id.startsWith('giveaward')
 
-	setTimeout(() => {
-		t.disabled = true;
-	}, 0.0000000000000000001);
+		if (!isShopConfirm) {
+			t.classList.add('disabled');
 
-	setTimeout(() => {
-		t.classList.remove("disabled");
-		t.disabled = false;
-	}, 1000);
+			setTimeout(() => {
+				t.disabled = true;
+			}, 0.1);
+		
+			setTimeout(() => {
+				t.classList.remove("disabled");
+				t.disabled = false;
+			}, 2000);	
+		}
+	}
 }
 
 function register_new_elements(e) {
-	const showmores = document.getElementsByClassName('showmore')
-	for (const element of showmores) {
-		element.onclick = () => {showmore(element)};
-	}
-
-	const onclick = e.querySelectorAll('[data-onclick]');
-	for (const element of onclick) {
-		element.onclick = () => {
-			execute(element, 'onclick')
-			disable_btn(element)
-		};
-	}
-
 	const oninput = e.querySelectorAll('[data-oninput]');
 	for (const element of oninput) {
 		element.oninput = () => {execute(element, 'oninput')};
@@ -139,52 +137,63 @@ function register_new_elements(e) {
 		element.onchange = () => {execute(element, 'onchange')};
 	}
 
-	const popover_triggers = document.getElementsByClassName('user-name');
-	for (const element of popover_triggers) {
-		element.onclick = (e) => {
-			if (!(e.ctrlKey || e.metaKey || e.shiftKey || e.altKey))
-				e.preventDefault();
-		};
-	}
-
-	const expandable = document.querySelectorAll('.in-comment-image, img[alt^="![]("]');
-	for (const element of expandable) {
-		element.onclick = () => {expandImage()};
-	}
-
-	const toggleelement = e.querySelectorAll('[data-toggleelement]');
-	for (const element of toggleelement) {
-		element.addEventListener('click', () => {
-			document.getElementById(element.dataset.toggleelement).classList.toggle(element.dataset.toggleattr);
-		});
-	}
-
 	const file_inputs = document.querySelectorAll('input[multiple="multiple"]')
 	for (const input of file_inputs) {
 		input.onchange = () => {handle_files(input, input.files)};
 	}
 
-	const remove_files = document.querySelectorAll('button.remove-files')
-	for (const element of remove_files) {
-		element.onclick = () => {cancel_files(element)};
+	const onclick = e.querySelectorAll('[data-onclick]');
+	for (const element of onclick) {
+		element.onclick = () => {execute(element, 'onclick')};
 	}
 
-	const data_url = document.querySelectorAll('[data-url]');
-	for (const element of data_url) {
-		if (element.dataset.nonce != nonce) {
-			console.log("Nonce check failed!")
-			continue
-		}
-		element.addEventListener('click', () => {
-			document.getElementById('giveaward').dataset.action = element.dataset.url
+	const textareas = e.getElementsByTagName('textarea')
+	for (const element of textareas) {
+		autoExpand(element)
+		element.addEventListener('input', () => {
+			autoExpand(element)
 		});
-	}
-
-	const btns_to_disable = document.querySelectorAll('[type="submit"]')
-	for (const btn of btns_to_disable) {
-		btn.addEventListener('click', () => {disable_btn(btn)})
-	}
+	}	
 }
 
 register_new_elements(document);
 bs_trigger(document);
+
+
+document.addEventListener("click", function(e){
+	const element = e.target
+
+	if (element instanceof HTMLImageElement && (element.alt.startsWith('![](')) || element.classList.contains('in-comment-image') || element.classList.contains('img')) {
+		expandImage()
+	}
+	else if (element.classList.contains('showmore')) {
+		showmore(element)
+	}
+	else if (element.parentElement.classList.contains('user-name')) {
+		if (!(e.ctrlKey || e.metaKey || e.shiftKey || e.altKey))
+			e.preventDefault();
+	}
+	else if (element.classList.contains('remove-files')) {
+		cancel_files(element)
+	}
+	else if (element.dataset.url) {
+		if (element.dataset.nonce != nonce) {
+			console.log("Nonce check failed!")
+			return
+		}
+		document.getElementById('giveaward').dataset.action = element.dataset.url
+	}
+
+
+	if (element.dataset.toggleelement) {
+		document.querySelector(element.dataset.toggleelement).classList.toggle(element.dataset.toggleattr);
+	}
+});
+
+const inputs = document.querySelectorAll('input[type="number"]')
+for (const input of inputs) {
+	input.onkeyup = () => {
+		console.log(1)
+		if (parseInt(input.value) > parseInt(input.max)) input.value = input.max;
+	};
+}

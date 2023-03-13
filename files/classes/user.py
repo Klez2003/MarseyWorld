@@ -37,7 +37,7 @@ from .subscriptions import *
 from .userblock import *
 
 if SITE == 'devrama.net':
-	DEFAULT_ADMIN_LEVEL = 4
+	DEFAULT_ADMIN_LEVEL = 3
 	DEFAULT_COINS = 100000000
 	DEFAULT_MARSEYBUX = 100000000
 else:
@@ -228,7 +228,6 @@ class User(Base):
 		elif currency == 'combined':
 			if in_db.marseybux >= amount:
 				subtracted_mbux = amount
-				print(subtracted_mbux, flush=True)
 				subtracted_coins = 0
 			else:
 				subtracted_mbux = in_db.marseybux
@@ -415,6 +414,11 @@ class User(Base):
 
 		if time.time() - self.created_utc > 365 * 86400 and not self.has_badge(134):
 			new_badge = Badge(badge_id=134, user_id=self.id)
+			g.db.add(new_badge)
+			g.db.flush()
+
+		if time.time() - self.created_utc > 365 * 86400 * 2 and not self.has_badge(237):
+			new_badge = Badge(badge_id=237, user_id=self.id)
 			g.db.add(new_badge)
 			g.db.flush()
 
@@ -789,7 +793,7 @@ class User(Base):
 	@property
 	@lazy
 	def banner_url(self):
-		if FEATURES['USERS_PROFILE_BANNER'] and self.bannerurl:
+		if FEATURES['USERS_PROFILE_BANNER'] and self.bannerurl and self.can_see_my_shit:
 			return self.bannerurl
 		return f"/i/{SITE_NAME}/site_preview.webp?v=3009"
 
@@ -800,7 +804,7 @@ class User(Base):
 			return f"{SITE_FULL}/e/chudsey.webp"
 		if self.rainbow:
 			return f"{SITE_FULL}/e/marseysalutepride.webp"
-		if self.profileurl:
+		if self.profileurl and self.can_see_my_shit:
 			if self.profileurl.startswith('/'): return SITE_FULL + self.profileurl
 			return self.profileurl
 		return f"{SITE_FULL}/i/default-profile-pic.webp?v=1008"
@@ -1023,7 +1027,6 @@ class User(Base):
 					return False
 				if other.sub and not cls.can_see(user, other.subr):
 					return False
-
 			else:
 				if other.parent_submission:
 					return cls.can_see(user, other.post)
@@ -1035,7 +1038,7 @@ class User(Base):
 							if other.top_comment.author_id == user.id: return True
 							return user.admin_level >= PERMS['VIEW_MODMAIL']
 						if other.sentto != user.id:
-							return False
+							return user.admin_level >= PERMS['BLACKJACK_NOTIFICATIONS']
 		elif isinstance(other, Sub):
 			if other.name == 'chudrama': return bool(user) and user.can_see_chudrama
 			if other.name in {'countryclub','splash_mountain'}: return bool(user) and user.can_see_countryclub
@@ -1203,3 +1206,9 @@ class User(Base):
 		@lazy
 		def can_toggle_event_music(self):
 			return SITE_NAME != 'rDrama' or self.has_badge(91)
+
+	@property
+	@lazy
+	def can_see_my_shit(self):
+		v = g.v
+		return not self.shadowbanned or (v and (v.id == self.id or v.can_see_shadowbanned))

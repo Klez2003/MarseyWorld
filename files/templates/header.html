@@ -7,7 +7,7 @@
 	{% if not err %}
 		<div class="srd">
 			{% if SITE_NAME == 'rDrama' %}
-				{% if range(1,5) | random == 1 %}
+				{% if range(1,5) | random == 1 and not (v and v.truescore > 1000) %}
 					{% include "journoid_banner.html" %}
 				{% else %}
 					{% if IS_FISTMAS() %}
@@ -71,19 +71,19 @@
 				<a id="sub-name" href="/h/{{sub}}" class="font-weight-bold ml-2 flex-grow-1 mt-1" {% if sub.name|length >= 17 %}style="font-size:max(10px,1.2vw)"{% else %}style="font-size:max(14px,1.2vw)"{% endif %}>{% if not HOLE_STYLE_FLAIR %}/h/{% endif %}{{sub}}</a>
 			{% elif has_logo %}
 				<div id="logo-container" class="flex-grow-1 logo-container">
-				<a href="/">
-					{% if SITE_NAME == 'WPD' and IS_FISTMAS() %}
-						<img loading="lazy" class="ml-1" id="logo-{{SITE_NAME}}" alt="logo" src="{{'icons-event/2022-christmas-logo.webp' | asset_siteimg}}" width="70">
-					{% else %}
-						<img loading="lazy" class="ml-1" id="logo-{{SITE_NAME}}" alt="logo" src="{{'logo.webp' | asset_siteimg}}" width="70">
-					{% endif %}
-				</a>
+					<a href="/">
+						{% if SITE_NAME == 'WPD' and IS_FISTMAS() %}
+							<img loading="lazy" class="ml-1" id="logo-{{SITE_NAME}}" alt="logo" src="{{'icons-event/2022-christmas-logo.webp' | asset_siteimg}}" width="70">
+						{% else %}
+							<img loading="lazy" class="ml-1" id="logo-{{SITE_NAME}}" alt="logo" src="{{'logo.webp' | asset_siteimg}}" width="70">
+						{% endif %}
+					</a>
 				</div>
 			{% endif %}
 
 			{% if not request.path.startswith('/search/') %}
-				<div class="flex-grow-1 d-fl d-mob-none {% if not v %}pad{% endif %}">
-					<form class="form-inline search flex-nowrap mx-0 mx-lg-auto mb-0" {% if err %}style="margin-right:40rem!important"{% endif %} action="{% if request.path.startswith('/search') %}{{request.path}}{% else %}/search/posts/{% endif %}" method="get">
+				<div class="flex-grow-1 d-fl {% if not v %}pad{% endif %}">
+					<form class="form-inline search d-mob-none flex-nowrap mx-0 mx-lg-auto mb-0" {% if err %}style="margin-right:40rem!important"{% endif %} action="{% if request.path.startswith('/search') %}{{request.path}}{% else %}/search/posts/{% endif %}" method="get">
 						<input autocomplete="off" class="form-control w-100" type="search" placeholder="{{search_placeholder}}" name="q" value="{{request.values.get('q', '')}}">
 						<span class="input-group-append">
 							<span class="input-group-text border-0 bg-transparent" style="margin-left: -2.5rem;">
@@ -92,6 +92,14 @@
 						</span>
 					</form>
 				</div>
+			{% endif %}
+
+			{% if not (v and v.patron) %}
+				{% if v %}
+					<a href="/donate" type="button" class="mobile-nav-icon d-md-none donate-link"><i class="fas fa-dollar-sign align-middle text-gray-500 black"></i></a>
+				{% else %}
+					<a href="/donate" type="button" class="btn btn-primary mobile-nav-icon d-md-none donate-link mr-3">Donate</a>
+				{% endif %}
 			{% endif %}
 
 			{% if g.browser == 'webview' %}
@@ -131,8 +139,11 @@
 		<div class="collapse navbar-collapse" id="navbarResponsive">
 			<ul class="navbar-nav ml-auto d-none d-md-flex">
 
-			{% if v %}
+			{% if not (v and v.patron) %}
+				<a class="btn btn-primary mr-3 pb-0 pt-2 donate-link" href="/donate">Donate</a>
+			{% endif %}
 
+			{% if v %}
 				{% if v.notifications_count %}
 				<li class="nav-item d-flex align-items-center text-center justify-content-center mx-1">
 					<a class="nav-link position-relative" href="/notifications{% if v.notifications_do %}/{{v.notifications_do}}{% endif %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Notifications"><i class="notif-{{v.notifications_do}}-bell fas fa-bell" style="color: {{v.notifications_color}}"></i><span class="notif-{{v.notifications_do}} notif-count ml-1" style="padding-left: 4.5px;{% if v.notifications_do %}background:{{v.notifications_color}}{% endif %}">{{v.notifications_count}}</span></a>
@@ -220,9 +231,7 @@
 
 							<a class="dropdown-item" href="/app"><i class="fas fa-mobile fa-fw mr-3"></i>Mobile app</a>
 
-							{% if FEATURES['MARSEYBUX'] %}
-								<a class="dropdown-item" rel="nofollow noopener" href="/donate"><i class="fas fa-dollar-sign fa-fw mr-3"></i>Donate</a>
-							{% endif %}
+							<a class="dropdown-item donate-link" rel="nofollow noopener" href="/donate"><i class="fas fa-dollar-sign fa-fw mr-3"></i>Donate</a>
 
 							<button type="button" class="dropdown-item copy-link" data-clipboard-text="{{SITE_FULL}}/signup?ref={{v.username}}"><i class="fas fa-user-friends fa-fw mr-3"></i>Invite friends</button>
 
@@ -245,18 +254,15 @@
 					</div>
 				</li>
 			{% else %}
-			<li class="nav-item d-flex align-items-center justify-content-center mx-1 mr-2">
-				<a class="btn btn-primary" href="/donate">Donate</a>
-			</li>
-			<li class="nav-item d-flex align-items-center justify-content-center mx-1 mr-2">
-				<a class="btn btn-primary" href="/contact">Contact us</a>
-			</li>
-			<li class="nav-item d-flex align-items-center justify-content-center mx-1">
-				<a class="btn btn-primary" href="/login?redirect={{request.full_path | urlencode}}">Sign in</a>
-			</li>
-			<li class="nav-item d-flex align-items-center justify-content-center mx-1">
-				<a class="btn btn-primary" href="/signup?redirect={{request.full_path | urlencode}}">Sign up</a>
-			</li>
+				<li class="nav-item d-flex align-items-center justify-content-center mx-1 mr-2">
+					<a class="btn btn-primary" href="/contact">Contact us</a>
+				</li>
+				<li class="nav-item d-flex align-items-center justify-content-center mx-1">
+					<a class="btn btn-primary" href="/login?redirect={{request.full_path | urlencode}}">Sign in</a>
+				</li>
+				<li class="nav-item d-flex align-items-center justify-content-center mx-1">
+					<a class="btn btn-primary" href="/signup?redirect={{request.full_path | urlencode}}">Sign up</a>
+				</li>
 			{% endif %}
 		</ul>
 
@@ -281,9 +287,7 @@
 
 				<a class="nav-item nav-link" href="/app"><i class="fas fa-mobile fa-fw mr-3"></i>Mobile app</a>
 
-				{% if FEATURES['MARSEYBUX'] %}
-					<a class="nav-item nav-link" rel="nofollow noopener" href="/donate"><i class="fas fa-dollar-sign fa-fw mr-3"></i>Donate</a>
-				{% endif %}
+				<a class="nav-item nav-link donate-link" rel="nofollow noopener" href="/donate"><i class="fas fa-dollar-sign fa-fw mr-3"></i>Donate</a>
 
 				<button type="button" class="nav-item nav-link copy-link" data-clipboard-text="{{SITE_FULL}}/signup?ref={{v.username}}"><i class="fas fa-user-friends fa-fw mr-3"></i>Invite friends</button>
 
@@ -305,9 +309,6 @@
 
 				<button type="button" class="nav-item border-top border-bottom mt-2 pt-2 nav-link" data-nonce="{{g.nonce}}" data-onclick="logout(this)"><i class="fas fa-sign-out fa-fw mr-3 text-danger"></i>Log out</button>
 			{% else %}
-				<li class="nav-item d-flex align-items-center justify-content-center pb-3">
-					<a class="btn btn-primary btn-block" href="/donate">Donate</a>
-				</li>
 				<li class="nav-item d-flex align-items-center justify-content-center pb-3">
 					<a class="btn btn-primary btn-block" href="/contact">Contact us</a>
 				</li>

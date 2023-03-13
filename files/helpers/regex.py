@@ -7,11 +7,11 @@ from .config.const import *
 
 valid_username_chars = 'a-zA-Z0-9_\-'
 valid_username_regex = re.compile("^[a-zA-Z0-9_\-]{3,25}$", flags=re.A)
-mention_regex = re.compile('(^|\s|>)@([a-zA-Z0-9_\-]{1,30})(?![^<]*<\/(code|pre|a)>)', flags=re.A)
 
-group_mention_regex = re.compile('(^|\s|>)!([a-z0-9_\-]{3,25})(?![^<]*<\/(code|pre|a)>)', flags=re.A)
+mention_regex = re.compile('@([a-zA-Z0-9_\-]{1,30})(?!([^<]*<\/(code|pre|a)>|[^`]*`))', flags=re.A)
+group_mention_regex = re.compile('!([a-z0-9_\-]{3,25})(?!([^<]*<\/(code|pre|a)>|[^`]*`))', flags=re.A|re.I)
 
-everyone_regex = re.compile('(^|\s|>)!(everyone)(?![^<]*<\/(code|pre|a)>)', flags=re.A)
+everyone_regex = re.compile('(^|\s|>)!(everyone)(?!([^<]*<\/(code|pre|a)>|[^`]*`))', flags=re.A)
 
 valid_password_regex = re.compile("^.{8,100}$", flags=re.A)
 
@@ -25,15 +25,15 @@ tags_regex = re.compile("[a-z0-9: ]{1,200}", flags=re.A)
 hat_regex = re.compile("[a-zA-Z0-9\-() ,_]{1,50}", flags=re.A)
 description_regex = re.compile("[^<>&\n\t]{1,300}", flags=re.A)
 
-badge_name_regex = re.compile("[A-Za-z0-9 ]+", flags=re.A)
+badge_name_regex = re.compile(r"[^\/.]+", flags=re.A)
 
 valid_sub_regex = re.compile("^[a-zA-Z0-9_\-]{3,25}$", flags=re.A)
 
 query_regex = re.compile("(\w+):(\S+)", flags=re.A)
 
-poll_regex = re.compile("\s*\$\$([^\$\n]+)\$\$\s*(?!([^<]*<\/(code|pre|a)>|[^`]*`))", flags=re.A)
-bet_regex = re.compile("\s*!!([^\$\n]+)!!\s*(?!([^<]*<\/(code|pre|a)>|[^`]*`))", flags=re.A)
-choice_regex = re.compile("\s*&&([^\$\n]+)&&\s*(?!([^<]*<\/(code|pre|a)>|[^`]*`))", flags=re.A)
+poll_regex = re.compile("(^|\n)\$\$([^\$\n]+)\$\$\s*?(?!([^<]*<\/(code|pre|a)>|[^`]*`))", flags=re.A)
+bet_regex = re.compile("(^|\n)##([^\!\n]+)##\s*?(?!([^<]*<\/(code|pre|a)>|[^`]*`))", flags=re.A)
+choice_regex = re.compile("(^|\n)&&([^\&\n]+)&&\s*?(?!([^<]*<\/(code|pre|a)>|[^`]*`))", flags=re.A)
 
 html_comment_regex = re.compile("<!--.*-->", flags=re.A)
 
@@ -43,16 +43,16 @@ controversial_regex = re.compile('["> ](https:\/\/old\.reddit\.com/r/[a-zA-Z0-9_
 
 fishylinks_regex = re.compile("(https?:\/\/)?[\w\-.#&/=\?@%;+,:]{2,10}\.[\w\-.#&/=\?@%;+,:]{2,250}", flags=re.A)
 
-spoiler_regex = re.compile('\|\|(.+?)\|\|(?![^<]*<\/(code|pre|a)>)', flags=re.A)
-reddit_regex = re.compile('(^|\s|<p>)\/?((r|u)\/(\w|-){3,25})(?![^<]*<\/(code|pre|a)>)', flags=re.A)
-sub_regex = re.compile('(^|\s|<p>)\/?(h\/(\w|-){3,25})(?![^<]*<\/(code|pre|a)>)', flags=re.A)
+spoiler_regex = re.compile('\|\|(.+?)\|\|(?!([^<]*<\/(code|pre|a)>|[^`]*`))', flags=re.A)
+reddit_regex = re.compile('(^|\s|<p>)\/?((r|u)\/(\w|-){3,25})(?!([^<]*<\/(code|pre|a)>|[^`]*`))', flags=re.A)
+sub_regex = re.compile('(^|\s|<p>)\/?(h\/(\w|-){3,25})(?!([^<]*<\/(code|pre|a)>|[^`]*`))', flags=re.A)
 
-strikethrough_regex = re.compile('(^|\s|>)~{1,2}([^~]+)~{1,2}(?![^<]*<\/(code|pre|a)>)', flags=re.A)
+strikethrough_regex = re.compile('(^|\s|>)~{1,2}([^~]+)~{1,2}(?!([^<]*<\/(code|pre|a)>|[^`]*`))', flags=re.A)
 
 mute_regex = re.compile("\/mute @?([a-z0-9_\-]{3,30}) ([0-9]+)", flags=re.A|re.I)
 
 emoji_regex = re.compile(f"<p>\s*(:[!#@]{{0,3}}[{valid_username_chars}]+:\s*)+<\/p>", flags=re.A)
-emoji_regex2 = re.compile(f'(?<!"):([!#@{valid_username_chars}]{{1,36}}?):(?![^<]*<\/(code|pre|a)>)', flags=re.A)
+emoji_regex2 = re.compile(f'(?<!"):([!#@{valid_username_chars}]{{1,36}}?):(?!([^<]*<\/(code|pre|a)>|[^`]*`))', flags=re.A)
 emoji_regex3 = re.compile(f'(?<!"):([!@{valid_username_chars}]{{1,35}}?):', flags=re.A)
 
 snappy_url_regex = re.compile('<a href="(https?:\/\/.+?)".*?>(.+?)<\/a>', flags=re.A)

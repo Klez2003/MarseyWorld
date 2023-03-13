@@ -51,7 +51,7 @@ def execute_snappy(post:Submission, v:User):
 
 	if v.id == CARP_ID:
 		if random.random() < 0.02: body = "i love you carp"
-		elif random.random() < 0.02: body = "![](/images/16614707883108485.webp)"
+		elif random.random() < 0.02: body = "https://i.rdrama.net/images/16614707883108485.webp"
 		else: body = ":#marseyfuckoffcarp:"
 	elif v.id == LAWLZ_ID:
 		if random.random() < 0.5: body = "wow, this lawlzpost sucks!"
@@ -433,6 +433,8 @@ def execute_antispam_comment_check(body:str, v:User):
 def execute_under_siege(v:User, target:Optional[Union[Submission, Comment]], body, type:str) -> bool:
 	if not get_setting("under_siege"): return True
 
+	if v.post_count or v.comment_count: return True
+
 	if type in ('flag', 'message'):
 		threshold = 86400
 	else:
@@ -497,7 +499,7 @@ def process_poll_options(v:User, target:Union[Submission, Comment]):
 
 	patterns = [(poll_regex, 0), (choice_regex, 1)]
 
-	if isinstance(target, Submission) and v and v.admin_level >= PERMS['POST_BETS']:
+	if v.admin_level >= PERMS['POST_BETS']:
 		patterns.append((bet_regex, 2))
 
 	option_count = 0
@@ -509,7 +511,7 @@ def process_poll_options(v:User, target:Union[Submission, Comment]):
 			if option_count > POLL_MAX_OPTIONS:
 				abort(400, f"Max number of poll options is {POLL_MAX_OPTIONS}")
 
-			body = i.group(1)
+			body = i.group(2)
 
 			if len(body) > 500:
 				abort(400, f"Poll option body too long! (Max 500 characters)")

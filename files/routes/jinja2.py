@@ -12,7 +12,8 @@ from files.classes.user import User
 from files.helpers.assetcache import assetcache_path
 from files.helpers.config.const import *
 from files.helpers.regex import *
-from files.helpers.settings import get_settings, get_setting
+from files.helpers.settings import *
+from files.helpers.cloudflare import *
 from files.helpers.sorting_and_time import make_age_string
 from files.routes.routehelpers import get_alt_graph, get_formkey
 from files.__main__ import app, cache
@@ -75,6 +76,25 @@ def calc_users():
 		cache.set(LOGGED_OUT_CACHE_KEY, loggedout)
 		loggedin_counter = len(loggedin)
 		loggedout_counter = len(loggedout)
+
+		if get_setting('automatic_DDOS_mitigation'):
+			if SITE == 'watchpeopledie.tv': mul = 3.5
+			else: mul = 1
+
+			if loggedout_counter > (loggedin_counter * mul):
+				if not get_setting('login_required'):
+					toggle_setting('login_required')
+				if not get_setting('under_attack'):
+					toggle_setting('under_attack')
+					set_security_level('under_attack')
+			else:
+				if get_setting('login_required'):
+					toggle_setting('login_required')
+				if get_setting('under_attack'):
+					toggle_setting('under_attack')
+					set_security_level('high')
+
+
 	return {'loggedin_counter':loggedin_counter,
 	        'loggedout_counter':loggedout_counter,
 			'loggedin_chat':loggedin_chat}
@@ -96,6 +116,9 @@ def git_head():
 		except:
 			gitref = 'Error'
 	return (gitref, head_txt)
+
+def max_days():
+	return int((2147483647-time.time())/86400)
 
 @app.context_processor
 def inject_constants():
@@ -119,6 +142,6 @@ def inject_constants():
 			"PAGE_SIZES":PAGE_SIZES, "THEMES":THEMES, "COMMENT_SORTS":COMMENT_SORTS, "SORTS":SORTS,
 			"TIME_FILTERS":TIME_FILTERS, "HOUSES":HOUSES, "TIERS_ID_TO_NAME":TIERS_ID_TO_NAME,
 			"DEFAULT_CONFIG_VALUE":DEFAULT_CONFIG_VALUE, "IS_LOCALHOST":IS_LOCALHOST, "BACKGROUND_CATEGORIES":BACKGROUND_CATEGORIES, "PAGE_SIZE":PAGE_SIZE, "TAGLINES":TAGLINES, "IS_FISTMAS":IS_FISTMAS, "get_alt_graph":get_alt_graph, "current_registered_users":current_registered_users,
-			"gitref":git_head(), "SHOW_MORE": SHOW_MORE,
+			"git_head":git_head, "max_days":max_days,
 			"BIO_FRIENDS_ENEMIES_LENGTH_LIMIT":BIO_FRIENDS_ENEMIES_LENGTH_LIMIT,
 			}

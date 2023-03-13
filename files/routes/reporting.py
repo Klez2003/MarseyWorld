@@ -155,7 +155,13 @@ def move_post(post:Submission, v:User, reason:str) -> Union[bool, str]:
 		can_move_post = can_move_post or post.author_id == v.id
 	if not can_move_post: return False
 
-	if sub_from == sub_to: abort(409, f"Post is already in /h/{sub_to}")
+	if sub_to == None:
+		sub_to_in_notif = 'the main feed'
+	else:
+		sub_to_in_notif = f'/h/{sub_to}'
+
+	if sub_from == sub_to: abort(409, f"Post is already in {sub_to_in_notif}")
+
 	if post.author.exiled_from(sub_to):
 		abort(403, f"User is exiled from this {HOLE_NAME}!")
 
@@ -197,11 +203,6 @@ def move_post(post:Submission, v:User, reason:str) -> Union[bool, str]:
 		if v.admin_level >= PERMS['POST_COMMENT_MODERATION']: position = 'a site admin'
 		else: position = f'a /h/{sub_from} mod'
 
-		if post.sub == None:
-			sub_to_in_notif = 'the main feed'
-		else:
-			sub_to_in_notif = f'/h/{post.sub}'
-
 		if sub_from == None:
 			sub_from_in_notif = 'the main feed'
 		else:
@@ -212,4 +213,4 @@ def move_post(post:Submission, v:User, reason:str) -> Union[bool, str]:
 
 	cache.delete_memoized(frontlist)
 
-	return f"Post moved to /h/{post.sub}"
+	return f"Post moved to {sub_to_in_notif} successfully!"

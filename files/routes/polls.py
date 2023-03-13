@@ -17,13 +17,13 @@ def vote_option(option_id, v):
 		abort(404)
 	option = g.db.get(SubmissionOption, option_id)
 	if not option: abort(404)
-	sub = option.post.sub
+	sub = option.parent.sub
 
 	if sub in {'furry','vampire','racist','femboy'} and not v.house.lower().startswith(sub):
 		abort(403, f"You need to be a member of House {sub.capitalize()} to vote on polls in /h/{sub}")
 
 	if option.exclusive == 2:
-		if option.post.total_bet_voted(v):
+		if option.parent.total_bet_voted(v):
 			abort(403, "You can't participate in a closed bet!")
 		if not v.charge_account('combined', POLL_BET_COINS):
 			abort(400, f"You don't have {POLL_BET_COINS} coins or marseybux!")
@@ -55,6 +55,56 @@ def vote_option(option_id, v):
 
 	return {"message": "Bet successful!"}
 
+@app.post("/vote/comment/option/<int:option_id>")
+@limiter.limit('1/second', scope=rpath)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@is_not_permabanned
+def vote_option_comment(option_id, v):
+	try:
+		option_id = int(option_id)
+	except:
+		abort(404)
+	option = g.db.get(CommentOption, option_id)
+	if not option: abort(404)
+	sub = option.parent.post.sub
+	if sub in {'furry','vampire','racist','femboy'} and not v.house.lower().startswith(sub):
+		abort(403, f"You need to be a member of House {sub.capitalize()} to vote on polls in /h/{sub}")
+
+	if option.exclusive == 2:
+		if option.parent.total_bet_voted(v):
+			abort(403, "You can't participate in a closed bet!")
+		if not v.charge_account('combined', POLL_BET_COINS):
+			abort(400, f"You don't have {POLL_BET_COINS} coins or marseybux!")
+		g.db.add(v)
+		autojanny = get_account(AUTOJANNY_ID)
+		autojanny.pay_account('coins', POLL_BET_COINS)
+		g.db.add(autojanny)
+
+	if option.exclusive:
+		vote = g.db.query(CommentOptionVote).join(CommentOption).filter(
+			CommentOptionVote.user_id==v.id,
+			CommentOptionVote.comment_id==option.parent_id,
+			CommentOption.exclusive==option.exclusive).all()
+		if vote:
+			if option.exclusive == 2: abort(400, "You already voted on this bet!")
+			for x in vote:
+				g.db.delete(x)
+
+	existing = g.db.query(CommentOptionVote).filter_by(option_id=option_id, user_id=v.id).one_or_none()
+	if not existing:
+		vote = CommentOptionVote(
+			option_id=option_id,
+			user_id=v.id,
+			comment_id=option.parent_id,
+		)
+		g.db.add(vote)
+	elif existing:
+		g.db.delete(existing)
+
+	return {"message": "Bet successful!"}
+
+
 @app.get("/votes/post/option/<int:option_id>")
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
@@ -67,7 +117,7 @@ def option_votes(option_id, v):
 	option = g.db.get(SubmissionOption, option_id)
 	if not option: abort(404)
 
-	if option.post.ghost and v.admin_level < PERMS['SEE_GHOST_VOTES']:
+	if option.parent.ghost and v.admin_level < PERMS['SEE_GHOST_VOTES']:
 		abort(403)
 
 	ups = g.db.query(SubmissionOptionVote).filter_by(option_id=option_id).order_by(SubmissionOptionVote.created_utc).all()
@@ -90,44 +140,6 @@ def option_votes(option_id, v):
 						)
 
 
-
-@app.post("/vote/comment/option/<int:option_id>")
-@limiter.limit('1/second', scope=rpath)
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
-@is_not_permabanned
-def vote_option_comment(option_id, v):
-	try:
-		option_id = int(option_id)
-	except:
-		abort(404)
-	option = g.db.get(CommentOption, option_id)
-	if not option: abort(404)
-	sub = option.comment.post.sub
-	if sub in {'furry','vampire','racist','femboy'} and not v.house.lower().startswith(sub):
-		abort(403, f"You need to be a member of House {sub.capitalize()} to vote on polls in /h/{sub}")
-
-	if option.exclusive:
-		vote = g.db.query(CommentOptionVote).join(CommentOption).filter(
-			CommentOptionVote.user_id==v.id,
-			CommentOptionVote.comment_id==option.parent_id,
-			CommentOption.exclusive==1).one_or_none()
-		if vote:
-			g.db.delete(vote)
-
-	existing = g.db.query(CommentOptionVote).filter_by(option_id=option_id, user_id=v.id).one_or_none()
-	if not existing:
-		vote = CommentOptionVote(
-			option_id=option_id,
-			user_id=v.id,
-			comment_id=option.parent_id,
-		)
-		g.db.add(vote)
-	elif existing:
-		g.db.delete(existing)
-
-	return "", 204
-
 @app.get("/votes/comment/option/<int:option_id>")
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
@@ -141,7 +153,7 @@ def option_votes_comment(option_id, v):
 
 	if not option: abort(404)
 
-	if option.comment.ghost and v.admin_level < PERMS['SEE_GHOST_VOTES']:
+	if option.parent.ghost and v.admin_level < PERMS['SEE_GHOST_VOTES']:
 		abort(403)
 
 	ups = g.db.query(CommentOptionVote).filter_by(option_id=option_id).order_by(CommentOptionVote.created_utc).all()

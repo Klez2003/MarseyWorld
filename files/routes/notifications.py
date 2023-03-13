@@ -110,18 +110,20 @@ def notifications_messages(v:User):
 						.offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE+1).all()
 
 	# Clear notifications (used for unread indicator only) for all user messages.
-	notifs_unread_row = g.db.query(Notification.comment_id).join(Comment).filter(
-		Notification.user_id == v.id,
-		Notification.read == False,
-		or_(Comment.author_id == v.id, Comment.sentto == v.id),
-	).all()
-
-	notifs_unread = [n.comment_id for n in notifs_unread_row]
-	g.db.query(Notification).filter(
+	
+	if not session.get("GLOBAL"):
+		notifs_unread_row = g.db.query(Notification.comment_id).join(Comment).filter(
 			Notification.user_id == v.id,
-			Notification.comment_id.in_(notifs_unread),
-		).update({Notification.read: True})
-	g.db.commit()
+			Notification.read == False,
+			or_(Comment.author_id == v.id, Comment.sentto == v.id),
+		).all()
+
+		notifs_unread = [n.comment_id for n in notifs_unread_row]
+		g.db.query(Notification).filter(
+				Notification.user_id == v.id,
+				Notification.comment_id.in_(notifs_unread),
+			).update({Notification.read: True})
+		g.db.commit()
 
 	next_exists = (len(message_threads) > 25)
 	listing = message_threads[:25]
@@ -173,8 +175,9 @@ def notifications_posts(v:User):
 	for p in listing:
 		p.unread = p.created_utc > v.last_viewed_post_notifs
 
-	v.last_viewed_post_notifs = int(time.time())
-	g.db.add(v)
+	if not session.get("GLOBAL"):
+		v.last_viewed_post_notifs = int(time.time())
+		g.db.add(v)
 
 	if v.client: return {"data":[x.json(g.db) for x in listing]}
 
@@ -221,8 +224,9 @@ def notifications_modactions(v:User):
 	for ma in listing:
 		ma.unread = ma.created_utc > v.last_viewed_log_notifs
 
-	v.last_viewed_log_notifs = int(time.time())
-	g.db.add(v)
+	if not session.get("GLOBAL"):
+		v.last_viewed_log_notifs = int(time.time())
+		g.db.add(v)
 
 	return render_template("notifications.html",
 							v=v,
@@ -257,8 +261,9 @@ def notifications_reddit(v:User):
 	for ma in listing:
 		ma.unread = ma.created_utc > v.last_viewed_reddit_notifs
 
-	v.last_viewed_reddit_notifs = int(time.time())
-	g.db.add(v)
+	if not session.get("GLOBAL"):
+		v.last_viewed_reddit_notifs = int(time.time())
+		g.db.add(v)
 
 	if v.client: return {"data":[x.json(g.db) for x in listing]}
 
@@ -298,7 +303,7 @@ def notifications(v:User):
 
 	comments = g.db.query(Comment, Notification).join(Notification.comment).join(Comment.author).filter(
 		Notification.user_id == v.id,
-		or_(Comment.sentto == None, Comment.sentto == MODMAIL_ID),
+		or_(Comment.sentto == None, Comment.sentto != v.id),
 		not_(and_(Comment.sentto == MODMAIL_ID, User.is_muted)),
 	)
 
@@ -317,12 +322,15 @@ def notifications(v:User):
 
 	listing = []
 	total = [x[0] for x in comments]
+
+	for c, n in comments:
+		c.notified_utc = n.created_utc
+		c.collapse = n.read
+
 	for c, n in comments:
 		if n.created_utc > 1620391248: c.notif_utc = n.created_utc
-		if not n.read and not session.get("GLOBAL"):
-			n.read = True
-			c.unread = True
-			g.db.add(n)
+
+		if not n.read: c.unread = True
 
 		if c.parent_submission or c.wall_user_id:
 			total.append(c)
@@ -337,6 +345,7 @@ def notifications(v:User):
 			while count < 50 and c.parent_comment and (c.parent_comment.author_id == v.id or c.parent_comment.id in cids):
 				count += 1
 				c = c.parent_comment
+
 				if c.replies2 == None:
 					c.replies2 = g.db.query(Comment).filter_by(parent_comment_id=c.id).filter(or_(Comment.author_id == v.id, Comment.id.in_(cids))).order_by(Comment.id.desc()).all()
 					total.extend(c.replies2)
@@ -344,12 +353,22 @@ def notifications(v:User):
 						if x.replies2 == None:
 							x.replies2 = g.db.query(Comment).filter_by(parent_comment_id=x.id).filter(or_(Comment.author_id == v.id, Comment.id.in_(cids))).order_by(Comment.id.desc()).all()
 							total.extend(x.replies2)
+
+				if not hasattr(c, "notified_utc") or n.created_utc > c.notified_utc:
+					c.notified_utc = n.created_utc
+					c.collapse = n.read
+
+				c.replies2 = sorted(c.replies2, key=lambda x: x.notified_utc if hasattr(x, "notified_utc") else x.id, reverse=True)
 		else:
 			while c.parent_comment_id:
 				c = c.parent_comment
 			c.replies2 = g.db.query(Comment).filter_by(parent_comment_id=c.id).order_by(Comment.id).all()
 
 		if c not in listing: listing.append(c)
+
+		if not n.read and not session.get("GLOBAL"):
+			n.read = True
+			g.db.add(n)
 
 	total.extend(listing)
 

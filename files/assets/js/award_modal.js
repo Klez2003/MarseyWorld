@@ -139,7 +139,7 @@ function buy(mb) {
 	xhr[0].onload = function() {
 		let data
 		try {data = JSON.parse(xhr[0].response)}
-		catch(e) {console.log(e)}
+		catch(e) {console.error(e)}
 		success = xhr[0].status >= 200 && xhr[0].status < 300;
 		showToast(success, getMessageFromJsonData(success, data), true);
 		if (success) {

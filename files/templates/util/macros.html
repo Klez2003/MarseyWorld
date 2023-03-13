@@ -71,7 +71,7 @@
 	{% if p.is_blocking and not p.ghost %}<i class="fas fa-user-minus text-warning" data-bs-toggle="tooltip" data-bs-placement="bottom" title="You're blocking this user, but you can see this post because you're an admin."></i>{% endif %}
 	{% if p.is_blocked and not p.ghost %}<i class="fas fa-user-minus text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="This user is blocking you."></i>{% endif %}
 	{% if p.private %}<span class="mr-2 badge border-warning border-1 text-small-extra">Draft</span>{% endif %}
-	{% if p.active_flags(v) %}<button type="button" class="btn btn-primary" style="padding:1px 5px; font-size:10px" data-nonce="{{g.nonce}}" data-toggleelement="flaggers-{{p.id}}" data-toggleattr="d-none">{{p.active_flags(v)}} Report{{plural(p.active_flags(v))}}</button>{% endif %}
+	{% if p.active_flags(v) %}<button type="button" class="btn btn-primary" style="padding:1px 5px; font-size:10px" data-nonce="{{g.nonce}}" data-toggleelement="#flaggers-{{p.id}}" data-toggleattr="d-none">{{p.active_flags(v)}} Report{{plural(p.active_flags(v))}}</button>{% endif %}
 
 	{% if p.ghost %}
 		<span {% if p.distinguish_level %}class="mod {% if SITE_NAME == 'rDrama' %}mod-rdrama{% endif %}"{% endif %}>👻</span>
@@ -143,7 +143,7 @@
 			<button type="button" id="save-reply-to-{{target_fullname}}" form="reply-to-{{target_fullname}}" class="btn btn-primary text-whitebtn ml-auto fl-r" data-nonce="{{g.nonce}}" data-onclick="post_comment('{{target_fullname}}', '{{hide}}');remove_dialog();">Comment</button>
 
 			{% if enable_cancel_button %}
-				<button type="button" data-nonce="{{g.nonce}}" data-onclick="remove_dialog()" data-toggleelement="reply-to-{{target_fullname}}" data-toggleattr="d-none" class="btn btn-link text-muted ml-auto fl-r mr-3">Cancel</button>
+				<button type="button" data-nonce="{{g.nonce}}" data-onclick="remove_dialog()" data-toggleelement="#reply-to-{{target_fullname}}" data-toggleattr="d-none" class="btn btn-link text-muted ml-auto fl-r mr-3">Cancel</button>
 			{% endif %}
 
 			<span id="upload-prog-{{target_fullname}}" class="d-none mt-1 mr-2 fl-r">

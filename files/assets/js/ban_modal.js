@@ -9,7 +9,7 @@ function banModal(link, name, fullname, cls) {
 		xhr[0].onload = function() {
 			let data
 			try {data = JSON.parse(xhr[0].response)}
-			catch(e) {console.log(e)}
+			catch(e) {console.error(e)}
 			success = xhr[0].status >= 200 && xhr[0].status < 300;
 			showToast(success, getMessageFromJsonData(success, data));
 			document.getElementById(`unban-${fullname}`).classList.toggle(cls);
@@ -31,7 +31,7 @@ function chudModal(link, name, fullname, cls) {
 		xhr[0].onload = function() {
 			let data
 			try {data = JSON.parse(xhr[0].response)}
-			catch(e) {console.log(e)}
+			catch(e) {console.error(e)}
 			success = xhr[0].status >= 200 && xhr[0].status < 300;
 			showToast(success, getMessageFromJsonData(success, data));
 			document.getElementById(`unchud-${fullname}`).classList.toggle(cls);

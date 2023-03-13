@@ -3,10 +3,9 @@
 {% block pagetitle %}@{{u.username}}'s profile{% endblock %}
 {% block head_final %}
 	{% if u and u.profile_background %}
-		{% set displaying_bg = True %}
 		<link rel="stylesheet" href="{{('css/transparent.css') | asset}}">
 	{% endif %}
-	{% if u and (u.profilecss or u.profile_background) and not request.values.get('nocss') %}
+	{% if u and (u.profilecss or u.profile_background) and not request.values.get('nocss') and u.can_see_my_shit %}
 		<link rel="stylesheet" href="/{{u.id}}/profilecss">
 	{% endif %}
 {% endblock %}
@@ -28,7 +27,7 @@
 <div id="username" class="d-none">{{u.username}}</div>
 {% endif %}
 <script defer src="{{'js/userpage.js' | asset}}"></script>
-{% if not IS_FISTMAS() or SITE_NAME == 'WPD' %}
+{% if (not IS_FISTMAS() or SITE_NAME == 'WPD') and u.can_see_my_shit  %}
 	<script defer src="{{'js/profile_song.js' | asset}}"></script>
 {% endif %}
 {% endblock %}

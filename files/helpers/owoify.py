@@ -20,6 +20,7 @@ OWO_EXCLUDE_PATTERNS = [
 	sanitize.url_re, # bare links
 	re.compile(r':[!#@a-z0-9_\-]+:', flags=re.I|re.A), # emoji
 	help_re.mention_regex, # mentions
+	help_re.group_mention_regex, #ping group mentions
 	help_re.poll_regex, # polls
 	help_re.choice_regex,
 	help_re.command_regex, # markup commands

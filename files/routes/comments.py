@@ -211,7 +211,7 @@ def comment(v:User):
 							purge_files_in_cache(f"https://{SITE}/assets/images/badges/{badge.id}.webp")
 						except Exception as e:
 							abort(400, str(e))
-				body = body.replace(f'[{file.filename}]', f"![]({image})", 1)
+				body = body.replace(f'[{file.filename}]', image, 1)
 			elif file.content_type.startswith('video/'):
 				body = body.replace(f'[{file.filename}]', process_video(file, v), 1)
 			elif file.content_type.startswith('audio/'):
@@ -349,6 +349,7 @@ def comment(v:User):
 	vote = CommentVote(user_id=v.id,
 						 comment_id=c.id,
 						 vote_type=1,
+						 coins=0
 						 )
 	g.db.add(vote)
 	cache.delete_memoized(comment_idlist)

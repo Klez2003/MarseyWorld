@@ -44,7 +44,7 @@ def loggedout_list(v):
 @app.get('/admin/dm_images')
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
-@admin_level_required(PERMS['VIEW_DM_IMAGES'])
+@admin_level_required(PERMS['enable_dm_images'])
 def dm_images(v):
 	with open(f"{LOG_DIRECTORY}/dm_images.log", "r", encoding="utf-8") as f:
 		items=f.read().split("\n")[:-1]
@@ -146,30 +146,32 @@ def remove_admin(v:User, username):
 
 	return {"message": f"@{user.username} has been removed as admin!"}
 
-@app.post("/distribute/<int:option_id>")
+@app.post("/distribute/<kind>/<int:option_id>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['POST_BETS_DISTRIBUTE'])
-def distribute(v:User, option_id):
+def distribute(v:User, kind, option_id):
 	autojanny = get_account(AUTOJANNY_ID)
 	if autojanny.coins == 0: abort(400, "@AutoJanny has 0 coins")
 
 	try: option_id = int(option_id)
 	except: abort(400)
 
-	try: option = g.db.get(SubmissionOption, option_id)
-	except: abort(404)
+	if kind == 'post': cls = SubmissionOption
+	else: cls = CommentOption
+
+	option = g.db.get(cls, option_id)
 
 	if option.exclusive != 2: abort(403)
 
 	option.exclusive = 3
 	g.db.add(option)
 
-	post = option.post
+	parent = option.parent
 
 	pool = 0
-	for o in post.options:
+	for o in parent.options:
 		if o.exclusive >= 2: pool += o.upvotes
 	pool *= POLL_BET_COINS
 
@@ -180,27 +182,35 @@ def distribute(v:User, option_id):
 	votes = option.votes
 	coinsperperson = int(pool / len(votes))
 
-	text = f"You won {coinsperperson} coins betting on [{post.title}]({post.shortlink}) :marseyparty:"
+	text = f"You won {coinsperperson} coins betting on {parent.permalink} :marseyparty:"
 	cid = notif_comment(text)
 	for vote in votes:
 		u = vote.user
 		u.pay_account('coins', coinsperperson)
 		add_notif(cid, u.id, text)
 
-	text = f"You lost the {POLL_BET_COINS} coins you bet on [{post.title}]({post.shortlink}) :marseylaugh:"
+	text = f"You lost the {POLL_BET_COINS} coins you bet on {parent.permalink} :marseylaugh:"
 	cid = notif_comment(text)
 	losing_voters = []
-	for o in post.options:
+	for o in parent.options:
 		if o.exclusive == 2:
 			losing_voters.extend([x.user_id for x in o.votes])
 	for uid in losing_voters:
 		add_notif(cid, uid, text)
 
-	ma = ModAction(
-		kind="distribute",
-		user_id=v.id,
-		target_submission_id=post.id
-	)
+	if isinstance(parent, Submission):
+		ma = ModAction(
+			kind="distribute",
+			user_id=v.id,
+			target_submission_id=parent.id
+		)
+	else:
+		ma = ModAction(
+			kind="distribute",
+			user_id=v.id,
+			target_comment_id=parent.id
+		)
+
 	g.db.add(ma)
 
 	return {"message": f"Each winner has received {coinsperperson} coins!"}
@@ -469,7 +479,7 @@ def badge_grant_post(v):
 	g.db.flush()
 
 	if v.id != user.id:
-		text = f"@{v.username} (a site admin) has given you the following profile badge:\n\n![]({new_badge.path})\n\n**{new_badge.name}**\n\n{new_badge.badge.description}"
+		text = f"@{v.username} (a site admin) has given you the following profile badge:\n\n{new_badge.path}\n\n**{new_badge.name}**\n\n{new_badge.badge.description}"
 		send_repeatable_notification(user.id, text)
 
 	ma = ModAction(
@@ -506,7 +516,7 @@ def badge_remove_post(v):
 		return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=False, error="User doesn't have that badge!")
 
 	if v.id != user.id:
-		text = f"@{v.username} (a site admin) has removed the following profile badge from you:\n\n![]({badge.path})\n\n**{badge.name}**\n\n{badge.badge.description}"
+		text = f"@{v.username} (a site admin) has removed the following profile badge from you:\n\n{badge.path}\n\n**{badge.name}**\n\n{badge.badge.description}"
 		send_repeatable_notification(user.id, text)
 
 	ma = ModAction(
@@ -1754,8 +1764,8 @@ def delete_media_get(v):
 
 @app.post("/admin/delete_media")
 @limiter.limit('1/second', scope=rpath)
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit("50/day")
+@limiter.limit("50/day", key_func=get_ID)
 @admin_level_required(PERMS['DELETE_MEDIA'])
 def delete_media_post(v):
 

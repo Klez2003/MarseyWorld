@@ -29,6 +29,7 @@ from files.cli import app, db_session, g
 @click.option('--every-1mo', is_flag=True, help='Call every 1 month.')
 def cron(every_5m, every_1h, every_1d, every_1mo):
 	g.db = db_session()
+	g.v = None
 
 	if every_5m:
 		if FEATURES['GAMBLING']:

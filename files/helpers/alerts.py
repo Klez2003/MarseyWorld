@@ -134,7 +134,8 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False):
 		if word in text:
 			notify_users.add(id)
 
-	names = set(m.group(2) for m in mention_regex.finditer(text))
+	names = set(m.group(1) for m in mention_regex.finditer(text))
+
 	user_ids = get_users(names, ids_only=True, graceful=True)
 	notify_users.update(user_ids)
 
@@ -149,31 +150,31 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False):
 		cost = 0
 
 		for i in group_mention_regex.finditer(text):
-			if oldtext and i.group(2) in oldtext:
+			if oldtext and i.group(1) in oldtext:
 				continue
 
-			if i.group(2) == 'everyone' and not v.shadowbanned:
+			if i.group(1) == 'everyone' and not v.shadowbanned:
 				cost = g.db.query(User).count() * 5
 				if cost > v.coins:
-					abort(403, f"You need {cost} coins for this!")
+					abort(403, f"You need {cost} coins to mention these ping groups!")
 				g.db.query(User).update({ User.coins: User.coins + 5 })
 				v.charge_account('coins', cost)
 				return 'everyone'
 			else:
-				group = g.db.get(Group, i.group(2))
+				group = g.db.get(Group, i.group(1))
 				if not group: continue
 
 				members = group.member_ids - notify_users - v.all_twoway_blocks
 				
 				notify_users.update(members)
 
-				if ghost or v.id not in members:
+				if ghost or v.id not in group.member_ids:
 					if group.name == 'biofoids': mul = 10
 					else: mul = 5
 					
 					cost += len(members) * mul
 					if cost > v.coins:
-						abort(403, f"You need {cost} coins for this!")
+						abort(403, f"You need {cost} coins to mention these ping groups!")
 
 					g.db.query(User).filter(User.id.in_(members)).update({ User.coins: User.coins + mul })
 		
@@ -199,6 +200,8 @@ def push_notif(uids, title, body, url_or_comment):
 
 	if len(body) > PUSH_NOTIF_LIMIT:
 		body = body[:PUSH_NOTIF_LIMIT] + "..."
+
+	body = censor_slurs(body, None)
 
 	subscriptions = g.db.query(PushSubscription.subscription_json).filter(PushSubscription.user_id.in_(uids)).all()
 	subscriptions = [x[0] for x in subscriptions]

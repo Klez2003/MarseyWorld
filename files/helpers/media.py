@@ -57,7 +57,7 @@ def process_files(files, v, body):
 			name = f'/images/{time.time()}'.replace('.','') + '.webp'
 			file.save(name)
 			url = process_image(name, v)
-			body = body.replace(f'[{file.filename}]', f"![]({url})", 1)
+			body = body.replace(f'[{file.filename}]', url, 1)
 		elif file.content_type.startswith('video/'):
 			body = body.replace(f'[{file.filename}]', process_video(file, v), 1)
 		elif file.content_type.startswith('audio/'):
@@ -257,9 +257,8 @@ def process_image(filename:str, v, resize=0, trim=False, uploader_id:Optional[in
 	)
 	db.add(media)
 
-	if SITE == 'rdrama.net': return f'https://i.{SITE}{filename}'
-	return filename
-	
+	if IS_LOCALHOST: return f'![]({filename})'
+	return f'https://i.{SITE}{filename}'
 
 
 def process_dm_images(v, user, body):

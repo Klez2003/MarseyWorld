@@ -4,7 +4,7 @@ from flask import g
 
 from files.classes.user import User
 from files.helpers.alerts import send_repeatable_notification
-from files.helpers.config.const import bots, patron, SITE_NAME
+from files.helpers.config.const import *
 
 def award_timers(v, bot=False):
 	now = time.time()
@@ -67,7 +67,13 @@ def award_timers(v, bot=False):
 		badge = v.has_badge(167)
 	if v.bite and v.bite < now:
 		v.bite = None
-		notify_if_not_bot("Your vampire status has ended!")
+		
+		notif_text = "Your vampire status has ended."
+		if v.old_house:
+			house = v.old_house.replace(' Founder', '')
+			notif_text += f" You're now back in House {house}!"
+		notify_if_not_bot(notif_text)
+		
 		v.house = v.old_house
 		v.old_house = ''
 		badge = v.has_badge(168)

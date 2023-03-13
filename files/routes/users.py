@@ -536,6 +536,7 @@ def message2(v:User, username:str):
 	g.db.flush()
 	execute_blackjack(v, c, c.body_html, 'message')
 	execute_under_siege(v, c, c.body_html, 'message')
+	notify_jannies_of_grooming(v, c, user)
 	c.top_comment_id = c.id
 
 	if user.id not in bots:
@@ -609,6 +610,7 @@ def messagereply(v:User):
 	g.db.flush()
 	execute_blackjack(v, c, c.body_html, 'message')
 	execute_under_siege(v, c, c.body_html, 'message')
+	notify_jannies_of_grooming(v, c, user)
 
 	if user_id and user_id not in {v.id, MODMAIL_ID} | bots:
 		notif = g.db.query(Notification).filter_by(comment_id=c.id, user_id=user_id).one_or_none()
@@ -1349,7 +1351,7 @@ def claim_rewards(v):
 	if marseybux:
 		v.pay_account('marseybux', marseybux)
 
-		send_repeatable_notification(v.id, f"You have received {marseybux} Marseybux! You can use them to buy awards or hats in the [shop](/shop) or gamble them in the [casino](/casino).")
+		send_repeatable_notification(v.id, f"You have received {marseybux} Marseybux! You can use them to buy awards or hats in the [shop](/shop/awards) or gamble them in the [casino](/casino).")
 		g.db.add(v)
 
 		v.patron_utc = time.time() + 2937600

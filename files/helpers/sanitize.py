@@ -21,7 +21,8 @@ from files.classes.group import Group
 from files.helpers.config.const import *
 from files.helpers.const_stateful import *
 from files.helpers.regex import *
-from .get import *
+from files.helpers.alerts import *
+from files.helpers.get import *
 
 TLDS = ( # Original gTLDs and ccTLDs
 	'ac','ad','ae','aero','af','ag','ai','al','am','an','ao','aq','ar','arpa','as','asia','at',
@@ -43,7 +44,7 @@ TLDS = ( # Original gTLDs and ccTLDs
 	# New gTLDs
 	'app','cleaning','club','dev','farm','florist','fun','gay','lgbt','life','lol',
 	'moe','mom','monster','new','news','online','pics','press','pub','site','blog',
-	'vip','win','world','wtf','xyz','video','host','art','media','wiki','tech','cooking','network',
+	'vip','win','world','wtf','xyz','video','host','art','media','wiki','tech','cooking','network','party',
 	)
 
 allowed_tags = ('b','blockquote','br','code','del','em','h1','h2','h3','h4','h5','h6','hr','i',
@@ -75,6 +76,7 @@ def allowed_attributes(tag, name, value):
 		if name == 'data-bs-toggle' and value == 'tooltip': return True
 		if name in {'g','b','glow'} and not value: return True
 		if name in {'alt','title'}: return True
+		if name == 'class' and value == 'img': return True
 
 	if tag == 'lite-youtube':
 		if name == 'params' and value.startswith('autoplay=1&modestbranding=1'): return True
@@ -152,43 +154,6 @@ def callback(attrs, new=False):
 
 	return attrs
 
-def create_comment_duplicated(text_html):
-	new_comment = Comment(author_id=AUTOJANNY_ID,
-							parent_submission=None,
-							body_html=text_html,
-							distinguish_level=6,
-							is_bot=True)
-	g.db.add(new_comment)
-	g.db.flush()
-
-	new_comment.top_comment_id = new_comment.id
-
-	return new_comment.id
-
-def send_repeatable_notification_duplicated(uid, text):
-
-	if uid in bots: return
-
-	text_html = sanitize(text)
-
-	existing_comments = g.db.query(Comment.id).filter_by(author_id=AUTOJANNY_ID, parent_submission=None, body_html=text_html, is_bot=True).order_by(Comment.id).all()
-
-	for c in existing_comments:
-		existing_notif = g.db.query(Notification.user_id).filter_by(user_id=uid, comment_id=c.id).one_or_none()
-		if not existing_notif:
-			notif = Notification(comment_id=c.id, user_id=uid)
-			g.db.add(notif)
-
-			push_notif({uid}, 'New notification', text, f'{SITE_FULL}/comment/{c.id}?read=true#context')
-			return
-
-	cid = create_comment_duplicated(text_html)
-	notif = Notification(comment_id=cid, user_id=uid)
-	g.db.add(notif)
-
-	push_notif({uid}, 'New notification', text, f'{SITE_FULL}/comment/{cid}?read=true#context')
-
-
 def execute_blackjack(v, target, body, type):
 	if not blackjack or not body: return False
 
@@ -228,15 +193,23 @@ def execute_blackjack(v, target, body, type):
 			for id in notified_ids:
 				n = Notification(comment_id=target.id, user_id=id)
 				g.db.add(n)
-			
-			push_notif(notified_ids, f'Blackjack by @{v.username}', target.body, target)
-			
+
 			extra_info = None
 
 	if extra_info:
 		for id in notified_ids:
-			send_repeatable_notification_duplicated(id, f"Blackjack by @{v.username}: {extra_info}")
+			send_repeatable_notification(id, f"Blackjack by @{v.username}: {extra_info}")
 	return True
+
+def notify_jannies_of_grooming(v, c, u):
+	if 'discord' not in c.body and 'groomercord' not in c.body:
+		return
+
+	notified_ids = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['BLACKJACK_NOTIFICATIONS'])]
+
+	for id in notified_ids:
+		n = Notification(comment_id=c.id, user_id=id)
+		g.db.add(n)
 
 def render_emoji(html, regexp, golden, marseys_used, b=False):
 	emojis = list(regexp.finditer(html))
@@ -323,7 +296,7 @@ def sanitize_settings_text(sanitized:Optional[str], max_length:Optional[int]=Non
 
 
 chud_images = listdir("files/assets/images/chud")
-chud_images = [f'\n\n![](/i/chud/{f})' for f in chud_images]
+chud_images = [f'\n\n{SITE_FULL}/i/chud/{f}' for f in chud_images]
 chud_images.extend([':#trumpjaktalking:', ':#reposthorse:'])
 
 def handle_youtube_links(url):
@@ -348,7 +321,7 @@ def handle_youtube_links(url):
 		if not t:
 			t = params.get('t', params.get('start', [0]))[0]
 		if isinstance(t, str):
-			t = t.replace('s','')
+			t = t.replace('s','').replace('S','')
 			split = t.split('m')
 			if len(split) == 2:
 				minutes = int(split[0])
@@ -364,7 +337,7 @@ def handle_youtube_links(url):
 def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys=False, torture=False, snappy=False, chat=False, blackjack=None):
 	sanitized = sanitized.strip()
 
-	if hasattr(g, 'v') and blackjack and execute_blackjack(g.v, None, sanitized, blackjack):
+	if blackjack and execute_blackjack(g.v, None, sanitized, blackjack):
 		sanitized = 'g'
 
 	sanitized = utm_regex.sub('', sanitized)
@@ -390,9 +363,9 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 
 	sanitized = numbered_list_regex.sub(r'\1\. ', sanitized)
 
-	sanitized = markdown(sanitized)
-
 	sanitized = strikethrough_regex.sub(r'\1<del>\2</del>', sanitized)
+
+	sanitized = markdown(sanitized)
 
 	# replacing zero width characters, overlines, fake colons
 	sanitized = sanitized.replace('\u200e','').replace('\u200b','').replace("\ufeff", "").replace("\u033f","").replace("\u0589", ":")
@@ -402,7 +375,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 
 	v = getattr(g, 'v', None)
 
-	names = set(m.group(2) for m in mention_regex.finditer(sanitized))
+	names = set(m.group(1) for m in mention_regex.finditer(sanitized))
 	if limit_pings and len(names) > limit_pings and not v.admin_level >= PERMS['POST_COMMENT_INFINITE_PINGS']: abort(406)
 	users_list = get_users(names, graceful=True)
 	users_dict = {}
@@ -412,22 +385,22 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 			users_dict[u.original_username.lower()] = u
 
 	def replacer(m):
-		u = users_dict.get(m.group(2).lower())
+		u = users_dict.get(m.group(1).lower())
 		if not u:
 			return m.group(0)
-		return f'{m.group(1)}<a href="/id/{u.id}"><img loading="lazy" src="/pp/{u.id}">@{u.username}</a>'
+		return f'<a href="/id/{u.id}"><img loading="lazy" src="/pp/{u.id}">@{u.username}</a>'
 
 	sanitized = mention_regex.sub(replacer, sanitized)
 
 	if FEATURES['PING_GROUPS']:
 		for i in group_mention_regex.finditer(sanitized):
-			name = i.group(2).lower()
+			name = i.group(1).lower()
 			if name == 'everyone':
-				sanitized = group_mention_regex.sub(r'\1<a href="/users">!\2</a>', sanitized)
+				sanitized = group_mention_regex.sub(r'<a href="/users">!\1</a>', sanitized)
 			else:
 				existing = g.db.get(Group, name)
 				if existing:
-					sanitized = sanitized.replace(i.group(0), f'{i.group(1)}<a href="/!{i.group(2)}">!{i.group(2)}</a>')
+					sanitized = sanitized.replace(i.group(0), f'<a href="/!{name}">!{name}</a>', 1)
 
 	soup = BeautifulSoup(sanitized, 'lxml')
 
@@ -442,7 +415,8 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 			tag["loading"] = "lazy"
 			tag["data-src"] = tag["src"]
 			tag["src"] = "/i/l.webp"
-			tag['alt'] = f'![]({tag["data-src"]})'
+			tag['alt'] = tag["data-src"]
+			tag['class'] = "img"
 
 			if tag.parent.name != 'a':
 				a = soup.new_tag("a", href=tag["data-src"])
@@ -562,7 +536,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 		if (pos < 0 and len(sanitized) > CHARLIMIT) or pos > CHARLIMIT:
 			pos = CHARLIMIT - 500
 		if pos >= 0:
-			sanitized = (sanitized[:pos] + showmore_regex.sub(rf'\1{SHOW_MORE}\2', sanitized[pos:], count=1))
+			sanitized = (sanitized[:pos] + showmore_regex.sub(r'\1<p><button class="showmore">SHOW MORE</button></p><d class="d-none">\2</d>', sanitized[pos:], count=1))
 
 	return sanitized.strip()
 
@@ -638,10 +612,10 @@ def normalize_url(url):
 
 def validate_css(css):
 	if '@import' in css:
-		return False, "@import statements are not allowed!"
+		return False, "CSS @import statements are not allowed!"
 
 	if '/*' in css:
-		return False, "Comments are not allowed!"
+		return False, "CSS comments are not allowed!"
 
 	for i in css_url_regex.finditer(css):
 		url = i.group(1)

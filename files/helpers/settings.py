@@ -4,7 +4,7 @@ import os
 import gevent
 import gevent_inotifyx as inotify
 
-from files.helpers.config.const import SETTINGS_FILENAME
+from files.helpers.config.const import *
 
 _SETTINGS = {
 	"bots": True,
@@ -15,6 +15,7 @@ _SETTINGS = {
 	"under_siege": False,
 	"dm_images": True,
 	"under_attack": False,
+	"automatic_DDOS_mitigation": True,
 }
 
 def get_setting(setting:str):

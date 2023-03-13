@@ -5,7 +5,7 @@ from sqlalchemy import and_, any_, or_
 from sqlalchemy.orm import joinedload, selectinload, Query
 
 from files.classes import Comment, CommentVote, Hat, Sub, Submission, User, UserBlock, Vote
-from files.helpers.config.const import AUTOJANNY_ID
+from files.helpers.config.const import *
 from files.__main__ import cache
 
 def sanitize_username(username:str) -> str:

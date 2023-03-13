@@ -145,7 +145,7 @@ lite-youtube {
 	margin: 14px 0 0 0!important;
 }
 
-img[alt^="![]("] {
+img[alt^="![]("], .img {
     height: 150px;
     width: 90%;
     -o-object-fit: contain;

@@ -1,5 +1,5 @@
 # import constants then...
-from files.helpers.config.const import FEATURES
+from files.helpers.config.const import *
 
 # import flask then...
 from flask import g, request, render_template, make_response, redirect, send_file
