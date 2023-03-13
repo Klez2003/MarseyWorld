@@ -198,6 +198,10 @@ if SITE_NAME == 'rDrama':
 	SLURS.update(RDRAMA_SLURS)
 
 	BOOSTED_SITES = {
+		#All sites with .win TLD
+		#All sites with the word "forum" in the domain
+		#All sites with the word "chan" in the domain
+
 		#youtube-like
 		'bitchute.com',
 		'goyimtv.tv',
