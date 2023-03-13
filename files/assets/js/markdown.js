@@ -94,7 +94,7 @@ function markdown(t) {
 		}
 	}
 
-	input = input.replace(compiled_regex, '$1\n\n![]($2)\n\n')
+	input = input.replace(compiled_regex, '$1![]($2)')
 
 	input = marked(input)
 
