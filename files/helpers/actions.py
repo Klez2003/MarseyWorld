@@ -431,7 +431,8 @@ def execute_antispam_comment_check(body:str, v:User):
 def execute_under_siege(v:User, target:Optional[Union[Submission, Comment]], body, type:str) -> bool:
 	if not get_setting("under_siege"): return True
 
-	if v.post_count or v.comment_count: return True
+	unshadowbannedcels = [x[0] for x in g.db.query(ModAction.target_user_id).filter_by(kind='unshadowban').all()]
+	if v.id in unshadowbannedcels: return True
 
 	if type in ('flag', 'message'):
 		threshold = 86400
