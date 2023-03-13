@@ -332,6 +332,7 @@ if SITE_NAME == 'rDrama':
 		'chudrama',
 		'wallstreetbets',
 		'lit',
+		'edgy',
 	}
 
 	REDDIT_NOTIFS_SITE.add('marsey')
