@@ -169,7 +169,7 @@ document.addEventListener("click", function(e){
 	else if (element.classList.contains('showmore')) {
 		showmore(element)
 	}
-	else if (element.parentElement.classList.contains('user-name')) {
+	else if (element.classList.contains('user-name') || element.parentElement.classList.contains('user-name')) {
 		if (!(e.ctrlKey || e.metaKey || e.shiftKey || e.altKey))
 			e.preventDefault();
 	}
