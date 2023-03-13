@@ -56,8 +56,6 @@ def execute_snappy(post:Submission, v:User):
 	elif v.id == LAWLZ_ID:
 		if random.random() < 0.5: body = "wow, this lawlzpost sucks!"
 		else: body = "wow, a good lawlzpost for once!"
-	elif post.sub == 'masterbaiters' and random.random() < 0.33:
-		body = "Can you people come up with any ideas that don't involve committing federal crimes"
 	else:
 		if SNAPPY_MARSEYS and SNAPPY_QUOTES:
 			if IS_FISTMAS() or random.random() > 0.5:

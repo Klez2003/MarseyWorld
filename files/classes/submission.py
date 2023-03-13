@@ -114,7 +114,7 @@ class Submission(Base):
 		link = f"/post/{self.id}"
 		if self.sub: link = f"/h/{self.sub}{link}"
 
-		if self.sub and self.sub in {'chudrama', 'countryclub', 'masterbaiters'}:
+		if self.sub and self.sub in {'chudrama', 'countryclub'}:
 			output = '-'
 		else:
 			title = self.plaintitle(None).lower()

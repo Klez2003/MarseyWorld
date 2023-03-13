@@ -1041,8 +1041,7 @@ class User(Base):
 							return user.admin_level >= PERMS['BLACKJACK_NOTIFICATIONS']
 		elif isinstance(other, Sub):
 			if other.name == 'chudrama': return bool(user) and user.can_see_chudrama
-			if other.name in {'countryclub','splash_mountain'}: return bool(user) and user.can_see_countryclub
-			if other.name == 'masterbaiters': return bool(user) and user.can_see_masterbaiters
+			if other.name == 'countryclub': return bool(user) and user.can_see_countryclub
 		elif isinstance(other, User):
 			return (user and user.id == other.id) or (user and user.can_see_shadowbanned) or not other.shadowbanned
 		return True
@@ -1069,15 +1068,6 @@ class User(Base):
 		if self.agendaposter == 1: return False
 		if self.admin_level >= PERMS['VIEW_CLUB']: return True
 		if self.truescore >= TRUESCORE_CLUB_MINIMUM: return True
-		return False
-
-	@property
-	@lazy
-	def can_see_masterbaiters(self):
-		if self.blacklisted_by: return False
-		if self.shadowbanned: return False
-		if self.is_suspended_permanently: return False
-		if self.truescore >= TRUESCORE_MASTERBAITERS_MINIMUM: return True
 		return False
 
 	@property
