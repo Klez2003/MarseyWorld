@@ -197,13 +197,15 @@ INSERT INTO public.badge_defs VALUES (233, 'Grek', 'Won the rDrama Pet Beauty Pa
 INSERT INTO public.badge_defs VALUES (234, 'JIDF Propagandist', 'Awarded for contributing to the Merchant Marsey event', 1678125395);
 INSERT INTO public.badge_defs VALUES (235, 'Thing Enjoyer', 'Awarded for contributing to the MARVELous Marsey event', 1678131629);
 INSERT INTO public.badge_defs VALUES (237, '2 Years Old 🥰🥰', 'This user has wasted TWO WHOLE BUTT YEARS of their life here! Happy birthday!', 1678401489);
+INSERT INTO public.badge_defs VALUES (238, 'Free Thinker', 'This user thinks for himself and doesn''t need the crowd to tell him what to do 🤓', 1678721294);
+INSERT INTO public.badge_defs VALUES (239, 'Crowd Follower', 'This user hasn''t had an original thought in his life', 1678721346);
 
 
 --
 -- Name: badge_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.badge_defs_id_seq', 237, true);
+SELECT pg_catalog.setval('public.badge_defs_id_seq', 239, true);
 
 
 --
@@ -2579,6 +2581,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseynapoleon2',2,'french france horse',NULL),
 ('marseyneat',2,'photo cringe compilation camera cringe collection pic',NULL),
 ('marseyneckbeard',2,'mlady bodypillow dakimakura anime otaku fedora weebshit body pillow mra weeb',NULL),
+('marseynecklace',2,'tire fire africa',1678712914),
 ('marseynecromancer',2,'halloween horror scary undead necromancy ghost zombie skeletons magician warlock',1670513898),
 ('marseyneet',2,'cozy comfy wagie',NULL),
 ('marseynegative',2,'negative blue black wave',1678244395),
