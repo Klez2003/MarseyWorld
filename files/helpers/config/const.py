@@ -330,6 +330,8 @@ if SITE_NAME == 'rDrama':
 		'programming',
 		'slackernews',
 		'chudrama',
+		'wallstreetbets',
+		'lit',
 	}
 
 	REDDIT_NOTIFS_SITE.add('marsey')
