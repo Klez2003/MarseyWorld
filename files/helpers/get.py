@@ -347,7 +347,7 @@ def get_sub_by_name(sub:str, v:Optional[User]=None, graceful=False) -> Optional[
 	if not sub:
 		if graceful: return None
 		else: abort(404)
-	sub = sub.replace('/h/', '').strip().lower()
+	sub = sub.replace('/h/', '').replace('h/', '').strip().lower()
 	if not sub:
 		if graceful: return None
 		else: abort(404)
