@@ -13,6 +13,7 @@ from files.helpers.assetcache import assetcache_path
 from files.helpers.config.const import *
 from files.helpers.regex import *
 from files.helpers.settings import *
+from files.helpers.cloudflare import *
 from files.helpers.sorting_and_time import make_age_string
 from files.routes.routehelpers import get_alt_graph, get_formkey
 from files.__main__ import app, cache
