@@ -3215,6 +3215,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseytears',2,'pout teary crying cried reaction sob eyes cry sad',NULL),
 ('marseytearsofblood',2,'crying sad bloody horror pensive',NULL),
 ('marseytedsimp',2,'theodore teddy hat drugs mental illness schizo stims pills happy drugs fun birds stimulants stimmies risperidone',NULL),
+('marseytedsimp2',2,'marsey woman foid female ted simp mid point beanie soy attention bpd whore',1678728424),
 ('marseytelegram',2,'telegram homecoming plane chat messaging russian',NULL),
 ('marseytemplate',2,'template blank faceless eyeless mouthless head empty faceless',NULL),
 ('marseyterfdomesticabuse',2,'terf domestic abuse violence feminism feminist lesbian ovarit radical',NULL),
