@@ -603,6 +603,8 @@ def submit_post(v:User, sub=None):
 	g.db.add(p)
 	g.db.flush()
 
+	execute_under_siege(v, p, p.body, 'submission')
+
 	process_poll_options(v, p)
 
 	for text in {p.body, p.title, p.url}:
