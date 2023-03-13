@@ -48,7 +48,9 @@ def add_options(self, body, v):
 		if o.exclusive > 1:
 			option_body += f'''<div class="custom-control mt-2"><input name="option-{self.id}" autocomplete="off" class="custom-control-input bet" type="radio" id="{o.id}" data-nonce="{g.nonce}" data-onclick="bet_vote(this,'{o.id}','{kind}')"'''
 			if o.voted(v): option_body += " checked "
-			if not (v and v.coins >= POLL_BET_COINS) or self.total_bet_voted(v): option_body += " disabled "
+
+			if not (v and v.coins + v.marseybux >= POLL_BET_COINS) or self.total_bet_voted(v):
+				option_body += " disabled "
 
 			option_body += f'''><label class="custom-control-label" for="{o.id}">{o.body_html}<span class="presult-{self.id}'''
 			option_body += f'"> - <a href="/votes/{kind}/option/{o.id}"><span id="option-{o.id}">{o.upvotes}</span> bets</a>'
@@ -73,7 +75,9 @@ def add_options(self, body, v):
 				else:
 					sub = self.post.sub
 
-				if sub in {'furry','vampire','racist','femboy'} and not v.house.lower().startswith(sub): option_body += ' disabled '
+				if sub in {'furry','vampire','racist','femboy'} and not v.house.lower().startswith(sub):
+					option_body += ' disabled '
+
 				option_body += f''' data-nonce="{g.nonce}" data-onclick="poll_vote_{o.exclusive}('{o.id}', '{self.id}', '{kind}')"'''
 			else:
 				option_body += f''' data-nonce="{g.nonce}" data-onclick="poll_vote_no_v()"'''
