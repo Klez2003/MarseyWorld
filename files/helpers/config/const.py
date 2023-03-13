@@ -332,6 +332,11 @@ if SITE_NAME == 'rDrama':
 		'chudrama',
 		'wallstreetbets',
 		'lit',
+		'vidya',
+		'jihad',
+		'museumofrdrama',
+		'space',
+		'femaledatingstrategy',
 	}
 
 	REDDIT_NOTIFS_SITE.add('marsey')
