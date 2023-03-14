@@ -254,7 +254,7 @@ def process_image(filename:str, v, resize=0, trim=False, uploader_id:Optional[in
 	db.add(media)
 
 	if IS_LOCALHOST: return f'![]({filename})'
-	return f'https://i.{SITE}{filename} '
+	return f'https://i.{SITE}{filename}  '
 
 
 def process_dm_images(v, user, body):
