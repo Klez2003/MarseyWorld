@@ -7217,7 +7217,7 @@ input[type=number] {
 }
 @media (max-width: 767.98px) {
 	.comment .comment-collapse-desktop {
-		padding-right: 1rem;
+		padding-right: 10px;
 	}
 	blockquote {
 		padding-left: 10px;
