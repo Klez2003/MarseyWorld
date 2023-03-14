@@ -153,7 +153,15 @@ function register_new_elements(e) {
 		element.addEventListener('input', () => {
 			autoExpand(element)
 		});
-	}	
+	}
+
+	const popover_triggers = document.getElementsByClassName('user-name');
+	for (const element of popover_triggers) {
+		element.onclick = (e) => {
+			if (!(e.ctrlKey || e.metaKey || e.shiftKey || e.altKey))
+				e.preventDefault();
+		};
+	}
 }
 
 register_new_elements(document);
@@ -168,10 +176,6 @@ document.addEventListener("click", function(e){
 	}
 	else if (element.classList.contains('showmore')) {
 		showmore(element)
-	}
-	else if (element.classList.contains('user-name') || element.parentElement.classList.contains('user-name')) {
-		if (!(e.ctrlKey || e.metaKey || e.shiftKey || e.altKey))
-			e.preventDefault();
 	}
 	else if (element.classList.contains('remove-files')) {
 		cancel_files(element)
