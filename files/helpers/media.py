@@ -65,6 +65,8 @@ def process_files(files, v, body):
 			body = body.replace(f'[{file.filename}]', f"{SITE_FULL}{process_audio(file, v)}", 1)
 		else:
 			abort(415)
+	
+	print(body, flush=True)
 	return body
 
 
