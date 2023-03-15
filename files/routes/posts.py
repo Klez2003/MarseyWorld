@@ -706,7 +706,7 @@ def submit_post(v:User, sub=None):
 	cache.delete_memoized(frontlist)
 	cache.delete_memoized(userpagelisting)
 
-	db.commit()
+	db.flush()
 	if v.client: return p.json
 	else:
 		p.voted = 1

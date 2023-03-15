@@ -283,7 +283,7 @@ def submit_hat(v:User):
 
 	hat = HatDef(name=name, author_id=author.id, description=description, price=price, submitter_id=v.id)
 	db.add(hat)
-	db.commit()
+	db.flush()
 
 	if v.admin_level >= PERMS['VIEW_PENDING_SUBMITTED_HATS']: hats = db.query(HatDef).filter(HatDef.submitter_id != None)
 	else: hats = db.query(HatDef).filter(HatDef.submitter_id == v.id)

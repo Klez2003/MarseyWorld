@@ -328,7 +328,7 @@ def sign_up_post(v:Optional[User]):
 
 	db.add(new_user)
 
-	db.commit()
+	db.flush()
 
 	if ref_id:
 		ref_user = get_account(ref_id)

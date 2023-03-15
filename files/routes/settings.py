@@ -505,7 +505,7 @@ def settings_security_post(v):
 
 		v.mfa_secret = None
 		db.add(v)
-		db.commit()
+		db.flush()
 		return render_template("settings/security.html", v=v, msg="Two-factor authentication disabled!")
 
 @app.post("/settings/log_out_all_others")

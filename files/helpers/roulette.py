@@ -124,7 +124,7 @@ def gambler_placed_roulette_bet(gambler, bet, which, amount, currency):
 		{"parent_id": parent_id, "bet": bet, "which": which})
 	game.active = True
 	db.add(game)
-	db.commit()
+	db.flush()
 
 
 def get_roulette_bets_and_betters():

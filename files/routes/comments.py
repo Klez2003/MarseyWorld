@@ -40,7 +40,7 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 		if notif:
 			notif.read = True
 			db.add(notif)
-			db.commit()
+			db.flush()
 
 	if comment.parent_submission:
 		post = comment.parent_submission
@@ -684,5 +684,5 @@ def edit_comment(cid, v):
 		db.add(c)
 
 
-	db.commit()
+	db.flush()
 	return {"body": c.body, "comment": c.realbody(v)}

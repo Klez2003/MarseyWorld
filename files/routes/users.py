@@ -817,7 +817,7 @@ def u_username_wall(v:Optional[User], username:str):
 		if view: view.last_view_utc = int(time.time())
 		else: view = ViewerRelationship(viewer_id=v.id, user_id=u.id)
 		db.add(view)
-		db.commit()
+		db.flush()
 
 	try: page = max(int(request.values.get("page", "1")), 1)
 	except: page = 1
@@ -872,14 +872,14 @@ def u_username_wall_comment(v:User, username:str, cid):
 		if view: view.last_view_utc = int(time.time())
 		else: view = ViewerRelationship(viewer_id=v.id, user_id=u.id)
 		db.add(view)
-		db.commit()
+		db.flush()
 
 	if v and request.values.get("read"):
 		notif = db.query(Notification).filter_by(comment_id=cid, user_id=v.id, read=False).one_or_none()
 		if notif:
 			notif.read = True
 			db.add(notif)
-			db.commit()
+			db.flush()
 
 	try: context = min(int(request.values.get("context", 8)), 8)
 	except: context = 8
@@ -926,7 +926,7 @@ def u_username(v:Optional[User], username:str):
 		if view: view.last_view_utc = int(time.time())
 		else: view = ViewerRelationship(viewer_id=v.id, user_id=u.id)
 		db.add(view)
-		db.commit()
+		db.flush()
 
 
 	sort = request.values.get("sort", "new")
@@ -1003,7 +1003,7 @@ def u_username_comments(username, v=None):
 		if view: view.last_view_utc = int(time.time())
 		else: view = ViewerRelationship(viewer_id=v.id, user_id=u.id)
 		db.add(view)
-		db.commit()
+		db.flush()
 
 	try: page = max(int(request.values.get("page", "1")), 1)
 	except: page = 1
