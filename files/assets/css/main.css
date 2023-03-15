@@ -7223,3 +7223,7 @@ input[type=number] {
 		padding-left: 10px;
 	}
 }
+
+button, .btn {
+    text-decoration: none !important;
+}
