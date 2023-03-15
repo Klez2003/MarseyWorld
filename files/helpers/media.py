@@ -59,9 +59,9 @@ def process_files(files, v, body):
 			url = process_image(name, v)
 			body = body.replace(f'[{file.filename}]', f'{url} ', 1)
 		elif file.content_type.startswith('video/'):
-			body = body.replace(f'[{file.filename}]', process_video(file, v), 1)
+			body = body.replace(f'[{file.filename}]', f'{process_video(file, v)} ', 1)
 		elif file.content_type.startswith('audio/'):
-			body = body.replace(f'[{file.filename}]', f"{SITE_FULL}{process_audio(file, v)}", 1)
+			body = body.replace(f'[{file.filename}]', f"{SITE_FULL}{process_audio(file, v)} ", 1)
 		else:
 			abort(415)
 	
