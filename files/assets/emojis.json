@@ -7565,6 +7565,20 @@
 	},
 
 	{
+		"name": "stoningshit",
+		"class": "Misc",
+		"tags": [
+		"muslim",
+		"stoning",
+		"animated",
+		"downvote",
+		"throw",
+		"toss",
+		"poop",
+		"flinging"
+		]
+	},
+	{
 		"name": "stoninggarlic",
 		"class": "Misc",
 		"tags": [
@@ -7574,7 +7588,6 @@
 		"vampire",
 		"downvote",
 		"throw",
-		"doors",
 		"toss"
 		]
 	},
