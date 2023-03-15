@@ -984,6 +984,7 @@ CREATE TABLE public.users (
     titlecolor character varying(6) NOT NULL,
     profileurl character varying(65),
     bannerurl character varying(65),
+    hidevotedon boolean DEFAULT false NOT NULL,
     newtab boolean DEFAULT false NOT NULL,
     flairchanged integer,
     defaultsortingcomments character varying(15) NOT NULL,
@@ -2879,3 +2880,4 @@ ALTER TABLE ONLY public.comments
 --
 -- PostgreSQL database dump complete
 --
+
