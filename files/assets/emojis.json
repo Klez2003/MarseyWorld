@@ -2821,6 +2821,24 @@
 	},
 
 	{
+		"name": "taythumbsup",
+		"class": "Tay",
+		"tags": [
+			"taylor",
+			"swift",
+			"approval",
+			"approve",
+			"animated",
+			"good job",
+			"like",
+			"positive",
+			"good",
+			"nice",
+			"yes",
+			"agree"
+		]
+	},
+	{
 		"name": "taycrying",
 		"class": "Tay",
 		"tags": [
@@ -6125,6 +6143,30 @@
 		"meme"
 		]
 	},
+
+	{
+		"name": "usarentfree",
+		"class": "Wojak",
+		"tags": [
+		"wojack",
+		"america",
+		"seethe",
+		"cope"
+		]
+	},
+	{
+		"name": "bardfinnrentfreerecursive",
+		"class": "Wojak",
+		"tags": [
+		"penny",
+		"oaken",
+		"seethe",
+		"cope",
+		"liberal",
+		"ahs",
+		"powermod"
+		]
+	},
 	{
 		"name": "npcangry",
 		"class": "Wojak",
@@ -7564,6 +7606,41 @@
 		]
 	},
 
+	{
+		"name": "smokey",
+		"class": "Misc",
+		"tags": [
+		"wpd",
+		"watchpeopledie",
+		"poweruser"
+		]
+	},
+	{
+		"name": "aniki",
+		"class": "Misc",
+		"tags": [
+		"gay",
+		"porn",
+		"lgbt",
+		"white",
+		"mayo",
+		"actor",
+		"sexy"
+		]
+	},
+	{
+		"name": "blackwomanspeaking",
+		"class": "Misc",
+		"tags": [
+		"penny",
+		"listen",
+		"learn",
+		"talking",
+		"nigress",
+		"nigger",
+		"bipoc"
+		]
+	},
 	{
 		"name": "stoningshit",
 		"class": "Misc",
