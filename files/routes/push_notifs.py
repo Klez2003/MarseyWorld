@@ -11,7 +11,7 @@ from files.classes.push_subscriptions import PushSubscription
 def push_subscribe(v):
 	subscription_json = request.values.get("subscription_json")
 
-	subscription = g.db.query(PushSubscription).filter_by(
+	subscription = db.query(PushSubscription).filter_by(
 		user_id=v.id,
 		subscription_json=subscription_json,
 	).one_or_none()
@@ -21,6 +21,6 @@ def push_subscribe(v):
 			user_id=v.id,
 			subscription_json=subscription_json,
 		)
-		g.db.add(subscription)
+		db.add(subscription)
 
 	return ''

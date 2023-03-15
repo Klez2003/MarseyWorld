@@ -56,7 +56,7 @@ def login_post(v:Optional[User]):
 	if username.startswith('@'): username = username[1:]
 
 	if "@" in username:
-		try: account = g.db.query(User).filter(User.email.ilike(username)).one_or_none()
+		try: account = db.query(User).filter(User.email.ilike(username)).one_or_none()
 		except: abort(400, "Multiple usernames have this email attached;<br>Please specify the username you want to login to!")
 	else: account = get_user(username, graceful=True)
 
@@ -162,7 +162,7 @@ def sign_up_get(v:Optional[User]):
 
 	if ref:
 		ref = ref.replace('\\', '').replace('_', '\_').replace('%', '').strip()
-		ref_user = g.db.query(User).filter(User.username.ilike(ref)).one_or_none()
+		ref_user = db.query(User).filter(User.username.ilike(ref)).one_or_none()
 	else:
 		ref_user = None
 
@@ -227,7 +227,7 @@ def sign_up_post(v:Optional[User]):
 
 	def signup_error(error):
 		if ref_id:
-			ref_user = g.db.get(User, ref_id)
+			ref_user = db.get(User, ref_id)
 		else:
 			ref_user = None
 
@@ -307,7 +307,7 @@ def sign_up_post(v:Optional[User]):
 
 	session.pop("signup_token")
 
-	users_count = g.db.query(User).count()
+	users_count = db.query(User).count()
 
 	profileurl = None
 	if PFP_DEFAULT_MARSEY:
@@ -326,9 +326,9 @@ def sign_up_post(v:Optional[User]):
 		new_user.admin_level = 4
 		session["history"] = []
 
-	g.db.add(new_user)
+	db.add(new_user)
 
-	g.db.commit()
+	db.commit()
 
 	if ref_id:
 		ref_user = get_account(ref_id)
@@ -354,9 +354,9 @@ def sign_up_post(v:Optional[User]):
 	if SIGNUP_FOLLOW_ID:
 		signup_autofollow = get_account(SIGNUP_FOLLOW_ID)
 		new_follow = Follow(user_id=new_user.id, target_id=signup_autofollow.id)
-		g.db.add(new_follow)
+		db.add(new_follow)
 		signup_autofollow.stored_subscriber_count += 1
-		g.db.add(signup_autofollow)
+		db.add(signup_autofollow)
 		send_notification(signup_autofollow.id, f"A new user - @{new_user.username} - has followed you automatically!")
 	elif CARP_ID:
 		send_notification(CARP_ID, f"A new user - @{new_user.username} - has signed up!")
@@ -389,7 +389,7 @@ def post_forgot():
 	username = username.lstrip('@').replace('\\', '').replace('_', '\_').replace('%', '').strip()
 	email = email.replace('\\', '').replace('_', '\_').replace('%', '').strip()
 
-	user = g.db.query(User).filter(
+	user = db.query(User).filter(
 		User.username.ilike(username),
 		User.email.ilike(email)).one_or_none()
 
@@ -471,7 +471,7 @@ def post_reset(v:Optional[User]):
 							error="Passwords didn't match."), 400
 
 	user.passhash = hash_password(password)
-	g.db.add(user)
+	db.add(user)
 
 
 	return render_template("message_success.html",
@@ -547,7 +547,7 @@ def reset_2fa():
 		abort(403)
 
 	user.mfa_secret=None
-	g.db.add(user)
+	db.add(user)
 
 	return render_template("message_success.html",
 						title="Two-factor authentication removed.",

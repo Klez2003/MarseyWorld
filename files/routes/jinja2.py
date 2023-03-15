@@ -100,7 +100,7 @@ def calc_users():
 			'loggedin_chat':loggedin_chat}
 
 def current_registered_users():
-	return "{:,}".format(g.db.query(User).count())
+	return "{:,}".format(db.query(User).count())
 
 def git_head():
 	# Note: doing zero sanitization. Git branch names are extremely permissive.

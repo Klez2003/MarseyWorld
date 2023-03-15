@@ -13,7 +13,7 @@ from files.__main__ import app, limiter
 @auth_required
 def authorize_prompt(v:User):
 	client_id = request.values.get("client_id")
-	application = g.db.query(OauthApp).filter_by(client_id=client_id).one_or_none()
+	application = db.query(OauthApp).filter_by(client_id=client_id).one_or_none()
 	if not application: return {"oauth_error": "Invalid `client_id`"}, 401
 	return render_template("oauth.html", v=v, application=application)
 
@@ -24,16 +24,16 @@ def authorize_prompt(v:User):
 @auth_required
 def authorize(v):
 	client_id = request.values.get("client_id")
-	application = g.db.query(OauthApp).filter_by(client_id=client_id).one_or_none()
+	application = db.query(OauthApp).filter_by(client_id=client_id).one_or_none()
 	if not application: return {"oauth_error": "Invalid `client_id`"}, 401
 	access_token = secrets.token_urlsafe(128)[:128]
 
 	try:
 		new_auth = ClientAuth(oauth_client = application.id, user_id = v.id, access_token=access_token)
-		g.db.add(new_auth)
+		db.add(new_auth)
 	except sqlalchemy.exc.IntegrityError:
-		g.db.rollback()
-		old_auth = g.db.query(ClientAuth).filter_by(oauth_client = application.id, user_id = v.id).one()
+		db.rollback()
+		old_auth = db.query(ClientAuth).filter_by(oauth_client = application.id, user_id = v.id).one()
 		access_token = old_auth.access_token
 
 	return redirect(f"{application.redirect_uri}?token={access_token}")
@@ -45,9 +45,9 @@ def authorize(v):
 @auth_required
 def rescind(v, aid):
 
-	auth = g.db.query(ClientAuth).filter_by(oauth_client = aid, user_id = v.id).one_or_none()
+	auth = db.query(ClientAuth).filter_by(oauth_client = aid, user_id = v.id).one_or_none()
 	if not auth: abort(400)
-	g.db.delete(auth)
+	db.delete(auth)
 	return {"message": "Authorization revoked!"}
 
 
@@ -64,7 +64,7 @@ def request_api_keys(v):
 		description=request.values.get("description")[:256]
 	)
 
-	g.db.add(new_app)
+	db.add(new_app)
 
 	body = f"@{v.username} has requested API keys for `{request.values.get('name')}`. You can approve or deny the request [here](/admin/apps)."
 	body_html = sanitize(body, blackjack="app description")
@@ -77,16 +77,16 @@ def request_api_keys(v):
 						distinguish_level=6,
 						is_bot=True
 						)
-	g.db.add(new_comment)
-	g.db.flush()
+	db.add(new_comment)
+	db.flush()
 
 	new_comment.top_comment_id = new_comment.id
 
-	admin_ids = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['APPS_MODERATION']).all()]
+	admin_ids = [x[0] for x in db.query(User.id).filter(User.admin_level >= PERMS['APPS_MODERATION']).all()]
 
 	for admin_id in admin_ids:
 		notif = Notification(comment_id=new_comment.id, user_id=admin_id)
-		g.db.add(notif)
+		db.add(notif)
 	
 	push_notif(admin_ids, 'New notification', body, f'{SITE_FULL}/comment/{new_comment.id}?read=true#context')
 
@@ -103,15 +103,15 @@ def delete_oauth_app(v, aid):
 		aid = int(aid)
 	except:
 		abort(404)
-	app = g.db.get(OauthApp, aid)
+	app = db.get(OauthApp, aid)
 	if not app: abort(404)
 
 	if app.author_id != v.id: abort(403)
 
-	for auth in g.db.query(ClientAuth).filter_by(oauth_client=app.id).all():
-		g.db.delete(auth)
+	for auth in db.query(ClientAuth).filter_by(oauth_client=app.id).all():
+		db.delete(auth)
 
-	g.db.delete(app)
+	db.delete(app)
 
 
 	return redirect('/apps')
@@ -127,7 +127,7 @@ def edit_oauth_app(v, aid):
 		aid = int(aid)
 	except:
 		abort(404)
-	app = g.db.get(OauthApp, aid)
+	app = db.get(OauthApp, aid)
 	if not app: abort(404)
 
 	if app.author_id != v.id: abort(403)
@@ -136,7 +136,7 @@ def edit_oauth_app(v, aid):
 	app.app_name = request.values.get('name')
 	app.description = request.values.get("description")[:256]
 
-	g.db.add(app)
+	db.add(app)
 
 
 	return redirect('/settings/apps')
@@ -149,14 +149,14 @@ def edit_oauth_app(v, aid):
 @admin_level_required(PERMS['APPS_MODERATION'])
 def admin_app_approve(v, aid):
 
-	app = g.db.get(OauthApp, aid)
+	app = db.get(OauthApp, aid)
 	if not app: abort(404)
 
 	user = app.author
 
 	if not app.client_id:
 		app.client_id = secrets.token_urlsafe(64)[:64]
-		g.db.add(app)
+		db.add(app)
 
 		access_token = secrets.token_urlsafe(128)[:128]
 		new_auth = ClientAuth(
@@ -165,7 +165,7 @@ def admin_app_approve(v, aid):
 			access_token=access_token
 		)
 
-		g.db.add(new_auth)
+		db.add(new_auth)
 
 		send_repeatable_notification(user.id, f"@{v.username} (a site admin) has approved your application `{app.app_name}`. Here's your access token: ||{access_token}||\n\nPlease check the guide [here](/api) if you don't know what to do next!")
 
@@ -174,7 +174,7 @@ def admin_app_approve(v, aid):
 			user_id=v.id,
 			target_user_id=user.id,
 		)
-		g.db.add(ma)
+		db.add(ma)
 
 
 	return {"message": f"'{app.app_name}' approved!"}
@@ -187,21 +187,21 @@ def admin_app_approve(v, aid):
 @admin_level_required(PERMS['APPS_MODERATION'])
 def admin_app_revoke(v, aid):
 
-	app = g.db.get(OauthApp, aid)
+	app = db.get(OauthApp, aid)
 	if app:
-		for auth in g.db.query(ClientAuth).filter_by(oauth_client=app.id).all(): g.db.delete(auth)
+		for auth in db.query(ClientAuth).filter_by(oauth_client=app.id).all(): db.delete(auth)
 
 		if v.id != app.author.id:
 			send_repeatable_notification(app.author.id, f"@{v.username} (a site admin) has revoked your application `{app.app_name}`.")
 
-		g.db.delete(app)
+		db.delete(app)
 
 		ma = ModAction(
 			kind="revoke_app",
 			user_id=v.id,
 			target_user_id=app.author.id,
 		)
-		g.db.add(ma)
+		db.add(ma)
 
 
 	return {"message": f"'{app.app_name}' revoked!"}
@@ -214,22 +214,22 @@ def admin_app_revoke(v, aid):
 @admin_level_required(PERMS['APPS_MODERATION'])
 def admin_app_reject(v, aid):
 
-	app = g.db.get(OauthApp, aid)
+	app = db.get(OauthApp, aid)
 
 	if app:
-		for auth in g.db.query(ClientAuth).filter_by(oauth_client=app.id).all(): g.db.delete(auth)
+		for auth in db.query(ClientAuth).filter_by(oauth_client=app.id).all(): db.delete(auth)
 
 		if v.id != app.author.id:
 			send_repeatable_notification(app.author.id, f"@{v.username} (a site admin) has rejected your application `{app.app_name}`.")
 
-		g.db.delete(app)
+		db.delete(app)
 
 		ma = ModAction(
 			kind="reject_app",
 			user_id=v.id,
 			target_user_id=app.author.id,
 		)
-		g.db.add(ma)
+		db.add(ma)
 
 
 	return {"message": f"'{app.app_name}' rejected!"}
@@ -241,10 +241,10 @@ def admin_app_reject(v, aid):
 @admin_level_required(PERMS['APPS_MODERATION'])
 def admin_app_id_posts(v, aid):
 	aid=aid
-	oauth = g.db.get(OauthApp, aid)
+	oauth = db.get(OauthApp, aid)
 	if not oauth: abort(404)
 
-	pids=oauth.idlist(g.db, page=int(request.values.get("page",1)))
+	pids=oauth.idlist(page=int(request.values.get("page",1)))
 
 	next_exists=len(pids)==101
 	pids=pids[:100]
@@ -266,10 +266,10 @@ def admin_app_id_comments(v, aid):
 
 	aid=aid
 
-	oauth = g.db.get(OauthApp, aid)
+	oauth = db.get(OauthApp, aid)
 	if not oauth: abort(404)
 
-	cids=oauth.comments_idlist(g.db, page=int(request.values.get("page",1)))
+	cids=oauth.comments_idlist(page=int(request.values.get("page",1)))
 
 	next_exists=len(cids)==101
 	cids=cids[:100]
@@ -292,9 +292,9 @@ def admin_app_id_comments(v, aid):
 @admin_level_required(PERMS['APPS_MODERATION'])
 def admin_apps_list(v):
 
-	not_approved = g.db.query(OauthApp).filter(OauthApp.client_id == None).order_by(OauthApp.id.desc()).all()
+	not_approved = db.query(OauthApp).filter(OauthApp.client_id == None).order_by(OauthApp.id.desc()).all()
 
-	approved = g.db.query(OauthApp).filter(OauthApp.client_id != None).order_by(OauthApp.id.desc()).all()
+	approved = db.query(OauthApp).filter(OauthApp.client_id != None).order_by(OauthApp.id.desc()).all()
 
 	apps = not_approved + approved
 
@@ -310,13 +310,13 @@ def reroll_oauth_tokens(aid, v):
 
 	aid = aid
 
-	a = g.db.get(OauthApp, aid)
+	a = db.get(OauthApp, aid)
 	if not a: abort(404)
 
 	if a.author_id != v.id: abort(403)
 
 	a.client_id = secrets.token_urlsafe(64)[:64]
-	g.db.add(a)
+	db.add(a)
 
 
 	return {"message": f"Client ID for '{a.app_name}' has been rerolled!", "id": a.client_id}

@@ -30,7 +30,7 @@ class HatDef(Base):
 		return f"<{self.__class__.__name__}(id={self.id})>"
 
 	@lazy
-	def number_sold(self, db:scoped_session):
+	def number_sold(self):
 		return db.query(Hat).filter_by(hat_id=self.id).count()
 
 	@lazy

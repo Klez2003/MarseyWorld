@@ -36,11 +36,11 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 	if not User.can_see(v, comment): abort(403)
 
 	if v and request.values.get("read"):
-		notif = g.db.query(Notification).filter_by(comment_id=cid, user_id=v.id, read=False).one_or_none()
+		notif = db.query(Notification).filter_by(comment_id=cid, user_id=v.id, read=False).one_or_none()
 		if notif:
 			notif.read = True
-			g.db.add(notif)
-			g.db.commit()
+			db.add(notif)
+			db.commit()
 
 	if comment.parent_submission:
 		post = comment.parent_submission
@@ -76,7 +76,7 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 	execute_shadowban_viewers_and_voters(v, post)
 	execute_shadowban_viewers_and_voters(v, comment)
 
-	if v and v.client: return top_comment.json(db=g.db)
+	if v and v.client: return top_comment.json
 	else:
 		if post.is_banned and not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or post.author_id == v.id)): template = "submission_banned.html"
 		else: template = "submission.html"
@@ -199,12 +199,12 @@ def comment(v:User):
 							if not badge_name_regex.fullmatch(name):
 								abort(400, "Invalid badge name!")
 
-							existing = g.db.query(BadgeDef).filter_by(name=name).one_or_none()
+							existing = db.query(BadgeDef).filter_by(name=name).one_or_none()
 							if existing: abort(409, "A badge with this name already exists!")
 
 							badge = BadgeDef(name=name, description=badge_def["description"])
-							g.db.add(badge)
-							g.db.flush()
+							db.add(badge)
+							db.flush()
 							filename = f'files/assets/images/badges/{badge.id}.webp'
 							copyfile(oldname, filename)
 							process_image(filename, v, resize=300)
@@ -233,7 +233,7 @@ def comment(v:User):
 	body_html = sanitize(body_for_sanitize, limit_pings=5, count_marseys=not v.marsify, torture=torture)
 
 	if post_target.id not in ADMIGGER_THREADS and '!wordle' not in body.lower() and AGENDAPOSTER_PHRASE not in body.lower():
-		existing = g.db.query(Comment.id).filter(
+		existing = db.query(Comment.id).filter(
 			Comment.author_id == v.id,
 			Comment.deleted_utc == 0,
 			Comment.parent_comment_id == parent_comment_id,
@@ -267,8 +267,8 @@ def comment(v:User):
 				)
 
 	c.upvotes = 1
-	g.db.add(c)
-	g.db.flush()
+	db.add(c)
+	db.flush()
 
 	process_poll_options(v, c)
 
@@ -281,7 +281,7 @@ def comment(v:User):
 	if post_target.id not in ADMIGGER_THREADS and v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in c.body.lower() and not (posting_to_submission and post_target.sub == 'chudrama'):
 		c.is_banned = True
 		c.ban_reason = "AutoJanny"
-		g.db.add(c)
+		db.add(c)
 
 		body = AGENDAPOSTER_MSG.format(username=v.username, type='comment', AGENDAPOSTER_PHRASE=AGENDAPOSTER_PHRASE)
 		body_jannied_html = AGENDAPOSTER_MSG_HTML.format(id=v.id, username=v.username, type='comment', AGENDAPOSTER_PHRASE=AGENDAPOSTER_PHRASE)
@@ -299,16 +299,16 @@ def comment(v:User):
 			ghost=c.ghost
 			)
 
-		g.db.add(c_jannied)
-		g.db.flush()
+		db.add(c_jannied)
+		db.flush()
 
 		if posting_to_submission:
 			post_target.comment_count += 1
-			g.db.add(post_target)
+			db.add(post_target)
 
 
 		n = Notification(comment_id=c_jannied.id, user_id=v.id)
-		g.db.add(n)
+		db.add(n)
 
 	execute_longpostbot(c, level, body, body_html, post_target, v)
 	execute_zozbot(c, level, post_target, v)
@@ -322,7 +322,7 @@ def comment(v:User):
 			push_notif(notify_users, f'New mention of you by @{c.author_name}', c.body, c)
 
 			if c.level == 1 and posting_to_submission:
-				subscriber_ids = [x[0] for x in g.db.query(Subscription.user_id).filter(Subscription.submission_id == post_target.id, Subscription.user_id != v.id).all()]
+				subscriber_ids = [x[0] for x in db.query(Subscription.user_id).filter(Subscription.submission_id == post_target.id, Subscription.user_id != v.id).all()]
 
 				notify_users.update(subscriber_ids)
 
@@ -333,7 +333,7 @@ def comment(v:User):
 
 			for x in notify_users-bots:
 				n = Notification(comment_id=c.id, user_id=x)
-				g.db.add(n)
+				db.add(n)
 
 			if parent_user.id != v.id and not v.shadowbanned:
 				if isinstance(parent, User):
@@ -351,15 +351,15 @@ def comment(v:User):
 						 vote_type=1,
 						 coins=0
 						 )
-	g.db.add(vote)
+	db.add(vote)
 	cache.delete_memoized(comment_idlist)
 
-	v.comment_count = g.db.query(Comment).filter(
+	v.comment_count = db.query(Comment).filter(
 		Comment.author_id == v.id,
 		or_(Comment.parent_submission != None, Comment.wall_user_id != None),
 		Comment.deleted_utc == 0
 	).count()
-	g.db.add(v)
+	db.add(v)
 
 	c.voted = 1
 
@@ -372,18 +372,18 @@ def comment(v:User):
 	if (posting_to_submission and not rts
 			and not c.wordle_result and not c.slots_result):
 		post_target.comment_count += 1
-		g.db.add(post_target)
+		db.add(post_target)
 
 	if c.level > 5:
-		n = g.db.query(Notification).filter_by(
+		n = db.query(Notification).filter_by(
 			comment_id=c.parent_comment.parent_comment.parent_comment.parent_comment_id,
 			user_id=c.parent_comment.author_id,
 		).one_or_none()
-		if n: g.db.delete(n)
+		if n: db.delete(n)
 
-	g.db.flush()
+	db.flush()
 
-	if v.client: return c.json(db=g.db)
+	if v.client: return c.json
 	return {"comment": render_template("comments.html", v=v, comments=[c])}
 
 @app.post("/delete/comment/<int:cid>")
@@ -397,16 +397,16 @@ def delete_comment(cid, v):
 	if not c.deleted_utc:
 		if c.author_id != v.id: abort(403)
 		c.deleted_utc = int(time.time())
-		g.db.add(c)
+		db.add(c)
 		cache.delete_memoized(comment_idlist)
 
-		g.db.flush()
-		v.comment_count = g.db.query(Comment).filter(
+		db.flush()
+		v.comment_count = db.query(Comment).filter(
 			Comment.author_id == v.id,
 			or_(Comment.parent_submission != None, Comment.wall_user_id != None),
 			Comment.deleted_utc == 0
 		).count()
-		g.db.add(v)
+		db.add(v)
 	return {"message": "Comment deleted!"}
 
 @app.post("/undelete/comment/<int:cid>")
@@ -419,15 +419,15 @@ def undelete_comment(cid, v):
 	if c.deleted_utc:
 		if c.author_id != v.id: abort(403)
 		c.deleted_utc = 0
-		g.db.add(c)
+		db.add(c)
 		cache.delete_memoized(comment_idlist)
-		g.db.flush()
-		v.comment_count = g.db.query(Comment).filter(
+		db.flush()
+		v.comment_count = db.query(Comment).filter(
 			Comment.author_id == v.id,
 			or_(Comment.parent_submission != None, Comment.wall_user_id != None),
 			Comment.deleted_utc == 0
 		).count()
-		g.db.add(v)
+		db.add(v)
 	return {"message": "Comment undeleted!"}
 
 @app.post("/pin_comment/<int:cid>")
@@ -446,7 +446,7 @@ def pin_comment(cid, v):
 		if comment.post.ghost: comment.stickied = "(OP)"
 		else: comment.stickied = v.username + " (OP)"
 
-		g.db.add(comment)
+		db.add(comment)
 
 		if v.id != comment.author_id:
 			if comment.post.ghost: message = f"OP has pinned your [comment]({comment.shortlink})"
@@ -472,7 +472,7 @@ def unpin_comment(cid, v):
 			abort(403, "You can only unpin comments you have pinned!")
 
 		comment.stickied = None
-		g.db.add(comment)
+		db.add(comment)
 
 		if v.id != comment.author_id:
 			message = f"@{v.username} (OP) has unpinned your [comment]({comment.shortlink})"
@@ -489,11 +489,11 @@ def save_comment(cid, v):
 
 	comment=get_comment(cid)
 
-	save=g.db.query(CommentSaveRelationship).filter_by(user_id=v.id, comment_id=comment.id).one_or_none()
+	save=db.query(CommentSaveRelationship).filter_by(user_id=v.id, comment_id=comment.id).one_or_none()
 
 	if not save:
 		new_save=CommentSaveRelationship(user_id=v.id, comment_id=comment.id)
-		g.db.add(new_save)
+		db.add(new_save)
 
 
 	return {"message": "Comment saved!"}
@@ -507,10 +507,10 @@ def unsave_comment(cid, v):
 
 	comment=get_comment(cid)
 
-	save=g.db.query(CommentSaveRelationship).filter_by(user_id=v.id, comment_id=comment.id).one_or_none()
+	save=db.query(CommentSaveRelationship).filter_by(user_id=v.id, comment_id=comment.id).one_or_none()
 
 	if save:
-		g.db.delete(save)
+		db.delete(save)
 
 	return {"message": "Comment unsaved!"}
 
@@ -563,7 +563,7 @@ def handle_wordle_action(cid, v):
 
 		comment.wordle_result = f'{guesses}_{status}_{answer}'
 
-		g.db.add(comment)
+		db.add(comment)
 
 	return {"response" : comment.wordle_html(v)}
 
@@ -584,7 +584,7 @@ def toggle_comment_nsfw(cid, v):
 		abort(403)
 
 	comment.over_18 = not comment.over_18
-	g.db.add(comment)
+	db.add(comment)
 
 	if comment.author_id != v.id:
 		if v.admin_level >= PERMS['POST_COMMENT_MODERATION']:
@@ -593,7 +593,7 @@ def toggle_comment_nsfw(cid, v):
 					user_id = v.id,
 					target_comment_id = comment.id,
 				)
-			g.db.add(ma)
+			db.add(ma)
 		else:
 			ma = SubAction(
 					sub = comment.post.sub,
@@ -601,7 +601,7 @@ def toggle_comment_nsfw(cid, v):
 					user_id = v.id,
 					target_comment_id = comment.id,
 				)
-			g.db.add(ma)
+			db.add(ma)
 
 	if comment.over_18: return {"message": "Comment has been marked as +18!"}
 	else: return {"message": "Comment has been unmarked as +18!"}
@@ -659,10 +659,10 @@ def edit_comment(cid, v):
 			alert_everyone(c.id)
 		else:
 			for x in notify_users-bots:
-				notif = g.db.query(Notification).filter_by(comment_id=c.id, user_id=x).one_or_none()
+				notif = db.query(Notification).filter_by(comment_id=c.id, user_id=x).one_or_none()
 				if not notif:
 					n = Notification(comment_id=c.id, user_id=x)
-					g.db.add(n)
+					db.add(n)
 					if not v.shadowbanned:
 						push_notif({x}, f'New mention of you by @{c.author_name}', c.body, c)
 
@@ -681,8 +681,8 @@ def edit_comment(cid, v):
 
 		if int(time.time()) - c.created_utc > 60 * 3: c.edited_utc = int(time.time())
 
-		g.db.add(c)
+		db.add(c)
 
 
-	g.db.commit()
+	db.commit()
 	return {"body": c.body, "comment": c.realbody(v)}

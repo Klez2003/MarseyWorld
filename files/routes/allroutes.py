@@ -47,8 +47,6 @@ def before_request():
 	request.full_path = request.full_path.rstrip('?').rstrip('/')
 	if not request.full_path: request.full_path = '/'
 
-	g.db = db_session()
-
 	g.nonce = secrets.token_urlsafe(31)
 
 import redis
@@ -57,7 +55,7 @@ r = redis.Redis.from_url(app.config["CACHE_REDIS_URL"])
 @app.after_request
 def after_request(response:Response):
 	if response.status_code < 400:
-		_commit_and_close_db()
+		db.commit()
 
 	if request.method == "POST" and not request.path.startswith('/casino/twentyone/'):
 		r.delete(f'LIMITER/{get_CF()}/{request.endpoint}:{request.path}/1/1/second')
@@ -67,19 +65,5 @@ def after_request(response:Response):
 
 @app.teardown_appcontext
 def teardown_request(error):
-	_rollback_and_close_db()
+	db.rollback()
 	stdout.flush()
-
-def _commit_and_close_db() -> bool:
-	if not getattr(g, 'db', None): return False
-	g.db.commit()
-	g.db.close()
-	del g.db
-	return True
-
-def _rollback_and_close_db() -> bool:
-	if not getattr(g, 'db', None): return False
-	g.db.rollback()
-	g.db.close()
-	del g.db
-	return True

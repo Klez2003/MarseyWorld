@@ -30,7 +30,7 @@ from .front import frontlist, comment_idlist
 @admin_level_required(PERMS['VIEW_ACTIVE_USERS'])
 def loggedin_list(v):
 	ids = [x for x,val in cache.get(f'{SITE}_loggedin').items() if time.time()-val < LOGGEDIN_ACTIVE_TIME]
-	users = g.db.query(User).filter(User.id.in_(ids)).order_by(User.admin_level.desc(), User.truescore.desc()).all()
+	users = db.query(User).filter(User.id.in_(ids)).order_by(User.admin_level.desc(), User.truescore.desc()).all()
 	return render_template("admin/loggedin.html", v=v, users=users)
 
 @app.get('/admin/loggedout')
@@ -91,7 +91,7 @@ def edit_rules_post(v):
 		kind="edit_rules",
 		user_id=v.id,
 	)
-	g.db.add(ma)
+	db.add(ma)
 	return render_template('admin/edit_rules.html', v=v, rules=rules, msg='Rules edited successfully!')
 
 @app.post("/@<username>/make_admin")
@@ -103,14 +103,14 @@ def make_admin(v:User, username):
 	user = get_user(username)
 
 	user.admin_level = 1
-	g.db.add(user)
+	db.add(user)
 
 	ma = ModAction(
 		kind="make_admin",
 		user_id=v.id,
 		target_user_id=user.id
 	)
-	g.db.add(ma)
+	db.add(ma)
 
 	send_repeatable_notification(user.id, f"@{v.username} added you as an admin!")
 
@@ -133,14 +133,14 @@ def remove_admin(v:User, username):
 
 	if user.admin_level:
 		user.admin_level = 0
-		g.db.add(user)
+		db.add(user)
 
 		ma = ModAction(
 			kind="remove_admin",
 			user_id=v.id,
 			target_user_id=user.id
 		)
-		g.db.add(ma)
+		db.add(ma)
 
 		send_repeatable_notification(user.id, f"@{v.username} removed you as an admin!")
 
@@ -161,12 +161,12 @@ def distribute(v:User, kind, option_id):
 	if kind == 'post': cls = SubmissionOption
 	else: cls = CommentOption
 
-	option = g.db.get(cls, option_id)
+	option = db.get(cls, option_id)
 
 	if option.exclusive != 2: abort(403)
 
 	option.exclusive = 3
-	g.db.add(option)
+	db.add(option)
 
 	parent = option.parent
 
@@ -177,7 +177,7 @@ def distribute(v:User, kind, option_id):
 
 	autojanny.charge_account('coins', pool)
 	if autojanny.coins < 0: autojanny.coins = 0
-	g.db.add(autojanny)
+	db.add(autojanny)
 
 	votes = option.votes
 	coinsperperson = int(pool / len(votes))
@@ -211,7 +211,7 @@ def distribute(v:User, kind, option_id):
 			target_comment_id=parent.id
 		)
 
-	g.db.add(ma)
+	db.add(ma)
 
 	return {"message": f"Each winner has received {coinsperperson} coins!"}
 
@@ -231,24 +231,24 @@ def revert_actions(v:User, username):
 		user_id=v.id,
 		target_user_id=revertee.id
 	)
-	g.db.add(ma)
+	db.add(ma)
 
 	cutoff = int(time.time()) - 86400
 
-	posts = [x[0] for x in g.db.query(ModAction.target_submission_id).filter(ModAction.user_id == revertee.id, ModAction.created_utc > cutoff, ModAction.kind == 'ban_post').all()]
-	posts = g.db.query(Submission).filter(Submission.id.in_(posts)).all()
+	posts = [x[0] for x in db.query(ModAction.target_submission_id).filter(ModAction.user_id == revertee.id, ModAction.created_utc > cutoff, ModAction.kind == 'ban_post').all()]
+	posts = db.query(Submission).filter(Submission.id.in_(posts)).all()
 
-	comments = [x[0] for x in g.db.query(ModAction.target_comment_id).filter(ModAction.user_id == revertee.id, ModAction.created_utc > cutoff, ModAction.kind == 'ban_comment').all()]
-	comments = g.db.query(Comment).filter(Comment.id.in_(comments)).all()
+	comments = [x[0] for x in db.query(ModAction.target_comment_id).filter(ModAction.user_id == revertee.id, ModAction.created_utc > cutoff, ModAction.kind == 'ban_comment').all()]
+	comments = db.query(Comment).filter(Comment.id.in_(comments)).all()
 
 	for item in posts + comments:
 		item.is_banned = False
 		item.ban_reason = None
 		item.is_approved = v.id
-		g.db.add(item)
+		db.add(item)
 
-	users = (x[0] for x in g.db.query(ModAction.target_user_id).filter(ModAction.user_id == revertee.id, ModAction.created_utc > cutoff, ModAction.kind.in_(('shadowban', 'ban_user'))).all())
-	users = g.db.query(User).filter(User.id.in_(users)).all()
+	users = (x[0] for x in db.query(ModAction.target_user_id).filter(ModAction.user_id == revertee.id, ModAction.created_utc > cutoff, ModAction.kind.in_(('shadowban', 'ban_user'))).all())
+	users = db.query(User).filter(User.id.in_(users)).all()
 
 	for user in users:
 		user.shadowbanned = None
@@ -257,7 +257,7 @@ def revert_actions(v:User, username):
 		if user.is_banned:
 			user.is_banned = None
 			send_repeatable_notification(user.id, f"@{v.username} (a site admin) has unbanned you!")
-		g.db.add(user)
+		db.add(user)
 
 		for u in get_alt_graph(user.id):
 			u.shadowbanned = None
@@ -266,7 +266,7 @@ def revert_actions(v:User, username):
 			if u.is_banned:
 				u.is_banned = None
 				send_repeatable_notification(u.id, f"@{v.username} (a site admin) has unbanned you!")
-			g.db.add(u)
+			db.add(u)
 
 	return {"message": f"@{revertee.username}'s admin actions have been reverted!"}
 
@@ -275,7 +275,7 @@ def revert_actions(v:User, username):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['USER_SHADOWBAN'])
 def shadowbanned(v):
-	users = g.db.query(User) \
+	users = db.query(User) \
 		.filter(
 			User.shadowbanned != None,
 		) \
@@ -293,7 +293,7 @@ def image_posts_listing(v):
 	try: page = int(request.values.get('page', 1))
 	except: page = 1
 
-	posts = g.db.query(Submission).order_by(Submission.id.desc())
+	posts = db.query(Submission).order_by(Submission.id.desc())
 
 	firstrange = PAGE_SIZE * (page - 1)
 	secondrange = firstrange + PAGE_SIZE + 1
@@ -313,7 +313,7 @@ def reported_posts(v):
 	try: page = max(1, int(request.values.get("page", 1)))
 	except: abort(400, "Invalid page input!")
 
-	listing = g.db.query(Submission).filter_by(
+	listing = db.query(Submission).filter_by(
 		is_approved=None,
 		is_banned=False,
 		deleted_utc=0
@@ -338,7 +338,7 @@ def reported_comments(v):
 	try: page = max(1, int(request.values.get("page", 1)))
 	except: abort(400, "Invalid page input!")
 
-	listing = g.db.query(Comment
+	listing = db.query(Comment
 					).filter_by(
 		is_approved=None,
 		is_banned=False,
@@ -389,7 +389,7 @@ def change_settings(v:User, setting):
 		kind=f"{word}_{setting}",
 		user_id=v.id,
 	)
-	g.db.add(ma)
+	db.add(ma)
 
 	return {'message': f"{setting.replace('_', ' ').title()} {word}d successfully!"}
 
@@ -405,11 +405,11 @@ def clear_cloudflare_cache(v):
 		kind="clear_cloudflare_cache",
 		user_id=v.id
 	)
-	g.db.add(ma)
+	db.add(ma)
 	return {"message": "Cloudflare cache cleared!"}
 
 def admin_badges_grantable_list(v):
-	query = g.db.query(BadgeDef)
+	query = db.query(BadgeDef)
 
 	if BADGE_BLACKLIST and v.admin_level < PERMS['IGNORE_BADGE_BLACKLIST']:
 		query = query.filter(BadgeDef.id.notin_(BADGE_BLACKLIST))
@@ -464,7 +464,7 @@ def badge_grant_post(v):
 		if url or description:
 			existing.url = url
 			existing.description = description
-			g.db.add(existing)
+			db.add(existing)
 			return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=True, msg="Badge attributes edited successfully!")
 		return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=True, error="User already has that badge!")
 
@@ -475,8 +475,8 @@ def badge_grant_post(v):
 		description=description
 		)
 
-	g.db.add(new_badge)
-	g.db.flush()
+	db.add(new_badge)
+	db.flush()
 
 	if v.id != user.id:
 		text = f"@{v.username} (a site admin) has given you the following profile badge:\n\n{new_badge.path}\n\n**{new_badge.name}**\n\n{new_badge.badge.description}"
@@ -488,7 +488,7 @@ def badge_grant_post(v):
 		target_user_id=user.id,
 		_note=new_badge.name
 	)
-	g.db.add(ma)
+	db.add(ma)
 
 	return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=True, msg=f"{new_badge.name} Badge granted to @{user.username} successfully!")
 
@@ -525,8 +525,8 @@ def badge_remove_post(v):
 		target_user_id=user.id,
 		_note=badge.name
 	)
-	g.db.add(ma)
-	g.db.delete(badge)
+	db.add(ma)
+	db.delete(badge)
 	return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=False, msg=f"{badge.name} Badge removed from @{user.username} successfully!")
 
 
@@ -544,35 +544,35 @@ def alt_votes_get(v):
 	u1 = get_user(u1)
 	u2 = get_user(u2)
 
-	u1_post_ups = g.db.query(
+	u1_post_ups = db.query(
 		Vote.submission_id).filter_by(
 		user_id=u1.id,
 		vote_type=1).all()
-	u1_post_downs = g.db.query(
+	u1_post_downs = db.query(
 		Vote.submission_id).filter_by(
 		user_id=u1.id,
 		vote_type=-1).all()
-	u1_comment_ups = g.db.query(
+	u1_comment_ups = db.query(
 		CommentVote.comment_id).filter_by(
 		user_id=u1.id,
 		vote_type=1).all()
-	u1_comment_downs = g.db.query(
+	u1_comment_downs = db.query(
 		CommentVote.comment_id).filter_by(
 		user_id=u1.id,
 		vote_type=-1).all()
-	u2_post_ups = g.db.query(
+	u2_post_ups = db.query(
 		Vote.submission_id).filter_by(
 		user_id=u2.id,
 		vote_type=1).all()
-	u2_post_downs = g.db.query(
+	u2_post_downs = db.query(
 		Vote.submission_id).filter_by(
 		user_id=u2.id,
 		vote_type=-1).all()
-	u2_comment_ups = g.db.query(
+	u2_comment_ups = db.query(
 		CommentVote.comment_id).filter_by(
 		user_id=u2.id,
 		vote_type=1).all()
-	u2_comment_downs = g.db.query(
+	u2_comment_downs = db.query(
 		CommentVote.comment_id).filter_by(
 		user_id=u2.id,
 		vote_type=-1).all()
@@ -656,15 +656,15 @@ def admin_add_alt(v:User, username):
 	if user1.id == user2.id: abort(400, "Can't add the same account as alts of each other")
 
 	ids = [user1.id, user2.id]
-	a = g.db.query(Alt).filter(Alt.user1.in_(ids), Alt.user2.in_(ids)).one_or_none()
+	a = db.query(Alt).filter(Alt.user1.in_(ids), Alt.user2.in_(ids)).one_or_none()
 	if a: abort(409, f"@{user1.username} and @{user2.username} are already known alts!")
 	a = Alt(
 		user1=user1.id,
 		user2=user2.id,
 		is_manual=True,
 	)
-	g.db.add(a)
-	g.db.flush()
+	db.add(a)
+	db.flush()
 
 	cache.delete_memoized(get_alt_graph_ids, user1.id)
 	cache.delete_memoized(get_alt_graph_ids, user2.id)
@@ -678,7 +678,7 @@ def admin_add_alt(v:User, username):
 		target_user_id=user1.id,
 		_note=f'with @{user2.username}'
 	)
-	g.db.add(ma)
+	db.add(ma)
 	return {"message": f"Linked @{user1.username} and @{user2.username} successfully!"}
 
 @app.post('/@<username>/alts/<int:other>/deleted')
@@ -690,9 +690,9 @@ def admin_delink_relink_alt(v:User, username, other):
 	user1 = get_user(username)
 	user2 = get_account(other)
 	ids = [user1.id, user2.id]
-	a = g.db.query(Alt).filter(Alt.user1.in_(ids), Alt.user2.in_(ids)).one_or_none()
+	a = db.query(Alt).filter(Alt.user1.in_(ids), Alt.user2.in_(ids)).one_or_none()
 	if not a: abort(404)
-	g.db.delete(a)
+	db.delete(a)
 
 	ma = ModAction(
 		kind=f"delink_accounts",
@@ -700,7 +700,7 @@ def admin_delink_relink_alt(v:User, username, other):
 		target_user_id=user1.id,
 		_note=f'from @{user2.username}'
 	)
-	g.db.add(ma)
+	db.add(ma)
 
 	return {"message": f"Delinked @{user1.username} and @{user2.username} successfully!"}
 
@@ -713,7 +713,7 @@ def admin_removed(v):
 	try: page = int(request.values.get("page", 1))
 	except: page = 1
 	if page < 1: abort(400)
-	ids = g.db.query(Submission.id).join(Submission.author).filter(or_(Submission.is_banned==True, User.shadowbanned != None)).order_by(Submission.id.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
+	ids = db.query(Submission.id).join(Submission.author).filter(or_(Submission.is_banned==True, User.shadowbanned != None)).order_by(Submission.id.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
 	ids=[x[0] for x in ids]
 	next_exists = len(ids) > PAGE_SIZE
 	ids = ids[:PAGE_SIZE]
@@ -736,7 +736,7 @@ def admin_removed_comments(v):
 	try: page = int(request.values.get("page", 1))
 	except: page = 1
 
-	ids = g.db.query(Comment.id).join(Comment.author).filter(or_(Comment.is_banned==True, User.shadowbanned != None)).order_by(Comment.id.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
+	ids = db.query(Comment.id).join(Comment.author).filter(or_(Comment.is_banned==True, User.shadowbanned != None)).order_by(Comment.id.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
 	ids=[x[0] for x in ids]
 	next_exists = len(ids) > PAGE_SIZE
 	ids = ids[:PAGE_SIZE]
@@ -757,11 +757,11 @@ def unagendaposter(id, v):
 
 	if id.startswith('p_'):
 		post_id = id.split('p_')[1]
-		post = g.db.get(Submission, post_id)
+		post = db.get(Submission, post_id)
 		user = post.author
 	elif id.startswith('c_'):
 		comment_id = id.split('c_')[1]
-		comment = g.db.get(Comment, comment_id)
+		comment = db.get(Comment, comment_id)
 		user = comment.author
 	else:
 		user = get_account(id)
@@ -771,7 +771,7 @@ def unagendaposter(id, v):
 
 	user.agendaposter = 0
 	user.chudded_by = None
-	g.db.add(user)
+	db.add(user)
 
 	ma = ModAction(
 		kind="unchud",
@@ -779,10 +779,10 @@ def unagendaposter(id, v):
 		target_user_id=user.id
 	)
 
-	g.db.add(ma)
+	db.add(ma)
 
 	badge = user.has_badge(28)
-	if badge: g.db.delete(badge)
+	if badge: db.delete(badge)
 
 	send_repeatable_notification(user.id, f"@{v.username} (a site admin) has unchudded you.")
 
@@ -810,7 +810,7 @@ def shadowban(user_id, v):
 		abort(400, "Ban reason too long!")
 
 	user.ban_reason = reason
-	g.db.add(user)
+	db.add(user)
 	check_for_alts(user)
 
 	ma = ModAction(
@@ -819,7 +819,7 @@ def shadowban(user_id, v):
 		target_user_id=user.id,
 		_note=f'reason: "{reason}"'
 	)
-	g.db.add(ma)
+	db.add(ma)
 
 	cache.delete_memoized(frontlist)
 
@@ -834,19 +834,19 @@ def unshadowban(user_id, v):
 	user = get_account(user_id)
 	user.shadowbanned = None
 	if not user.is_banned: user.ban_reason = None
-	g.db.add(user)
+	db.add(user)
 
 	for alt in get_alt_graph(user.id):
 		alt.shadowbanned = None
 		if not alt.is_banned: alt.ban_reason = None
-		g.db.add(alt)
+		db.add(alt)
 
 	ma = ModAction(
 		kind="unshadowban",
 		user_id=v.id,
 		target_user_id=user.id,
 	)
-	g.db.add(ma)
+	db.add(ma)
 
 	cache.delete_memoized(frontlist)
 
@@ -874,9 +874,9 @@ def admin_title_change(user_id, v):
 	else:
 		user.flairchanged = None
 		badge = user.has_badge(96)
-		if badge: g.db.delete(badge)
+		if badge: db.delete(badge)
 
-	g.db.add(user)
+	db.add(user)
 
 	if user.flairchanged: kind = "set_flair_locked"
 	else: kind = "set_flair_notlocked"
@@ -887,7 +887,7 @@ def admin_title_change(user_id, v):
 		target_user_id=user.id,
 		_note=f'"{new_name}"'
 		)
-	g.db.add(ma)
+	db.add(ma)
 
 	if user.flairchanged:
 		message = f"@{v.username} (a site admin) has locked your flair to `{user.customtitleplain}`."
@@ -907,11 +907,11 @@ def ban_user(id, v):
 
 	if id.startswith('p_'):
 		post_id = id.split('p_')[1]
-		post = g.db.get(Submission, post_id)
+		post = db.get(Submission, post_id)
 		user = post.author
 	elif id.startswith('c_'):
 		comment_id = id.split('c_')[1]
-		comment = g.db.get(Comment, comment_id)
+		comment = db.get(Comment, comment_id)
 		user = comment.author
 	else:
 		user = get_account(id)
@@ -972,7 +972,7 @@ def ban_user(id, v):
 		target_user_id=user.id,
 		_note=note
 		)
-	g.db.add(ma)
+	db.add(ma)
 
 	if 'reason' in request.values:
 		if request.values["reason"].startswith("/post/"):
@@ -981,13 +981,13 @@ def ban_user(id, v):
 			post = get_post(post)
 			if post.sub != 'chudrama':
 				post.bannedfor = f'{duration} by @{v.username}'
-			g.db.add(post)
+			db.add(post)
 		elif request.values["reason"].startswith("/comment/"):
 			try: comment = int(request.values["reason"].split("/comment/")[1].split(None, 1)[0])
 			except: abort(400)
 			comment = get_comment(comment)
 			comment.bannedfor = f'{duration} by @{v.username}'
-			g.db.add(comment)
+			db.add(comment)
 
 	return {"message": f"@{user.username} has been banned {duration}!"}
 
@@ -1001,11 +1001,11 @@ def agendaposter(id, v):
 
 	if id.startswith('p_'):
 		post_id = id.split('p_')[1]
-		post = g.db.get(Submission, post_id)
+		post = db.get(Submission, post_id)
 		user = post.author
 	elif id.startswith('c_'):
 		comment_id = id.split('c_')[1]
-		comment = g.db.get(Comment, comment_id)
+		comment = db.get(Comment, comment_id)
 		user = comment.author
 	else:
 		user = get_account(id)
@@ -1050,7 +1050,7 @@ def agendaposter(id, v):
 		else: text = f"@{v.username} (a site admin) has chudded you permanently."
 
 	user.chudded_by = v.id
-	g.db.add(user)
+	db.add(user)
 
 	send_repeatable_notification(user.id, text)
 
@@ -1063,7 +1063,7 @@ def agendaposter(id, v):
 		target_user_id=user.id,
 		_note=note
 		)
-	g.db.add(ma)
+	db.add(ma)
 
 	badge_grant(user=user, badge_id=28)
 
@@ -1075,7 +1075,7 @@ def agendaposter(id, v):
 			if post.sub == 'chudrama':
 				abort(403, "You can't chud people in /h/chudrama")
 			post.chuddedfor = f'{duration} by @{v.username}'
-			g.db.add(post)
+			db.add(post)
 		elif request.values["reason"].startswith("/comment/"):
 			try: comment = int(request.values["reason"].split("/comment/")[1].split(None, 1)[0])
 			except: abort(400)
@@ -1083,7 +1083,7 @@ def agendaposter(id, v):
 			if comment.post.sub == 'chudrama':
 				abort(403, "You can't chud people in /h/chudrama")
 			comment.chuddedfor = f'{duration} by @{v.username}'
-			g.db.add(comment)
+			db.add(comment)
 
 	return {"message": f"@{user.username} has been chudded {duration}!"}
 
@@ -1097,11 +1097,11 @@ def unban_user(id, v):
 
 	if id.startswith('p_'):
 		post_id = id.split('p_')[1]
-		post = g.db.get(Submission, post_id)
+		post = db.get(Submission, post_id)
 		user = post.author
 	elif id.startswith('c_'):
 		comment_id = id.split('c_')[1]
-		comment = g.db.get(Comment, comment_id)
+		comment = db.get(Comment, comment_id)
 		user = comment.author
 	else:
 		user = get_account(id)
@@ -1116,21 +1116,21 @@ def unban_user(id, v):
 	user.unban_utc = 0
 	user.ban_reason = None
 	send_repeatable_notification(user.id, f"@{v.username} (a site admin) has unbanned you!")
-	g.db.add(user)
+	db.add(user)
 
 	for x in get_alt_graph(user.id):
 		if x.is_banned: send_repeatable_notification(x.id, f"@{v.username} (a site admin) has unbanned you!")
 		x.is_banned = None
 		x.unban_utc = 0
 		x.ban_reason = None
-		g.db.add(x)
+		db.add(x)
 
 	ma=ModAction(
 		kind="unban_user",
 		user_id=v.id,
 		target_user_id=user.id,
 		)
-	g.db.add(ma)
+	db.add(ma)
 
 	return {"message": f"@{user.username} has been unbanned!"}
 
@@ -1149,8 +1149,8 @@ def mute_user(v:User, user_id):
 				user_id=v.id,
 				target_user_id=user.id,
 				)
-		g.db.add(user)
-		g.db.add(ma)
+		db.add(user)
+		db.add(ma)
 		check_for_alts(user)
 
 	return {"message": f"@{user.username} has been muted!"}
@@ -1171,8 +1171,8 @@ def unmute_user(v:User, user_id):
 				user_id=v.id,
 				target_user_id=user.id,
 				)
-		g.db.add(user)
-		g.db.add(ma)
+		db.add(user)
+		db.add(ma)
 
 	return {"message": f"@{user.username} has been unmuted!"}
 
@@ -1185,14 +1185,14 @@ def progstack_post(post_id, v):
 	post = get_post(post_id)
 	post.is_approved = PROGSTACK_ID
 	post.realupvotes = floor(post.realupvotes * PROGSTACK_MUL)
-	g.db.add(post)
+	db.add(post)
 
 	ma=ModAction(
 		kind="progstack_post",
 		user_id=v.id,
 		target_submission_id=post.id,
 		)
-	g.db.add(ma)
+	db.add(ma)
 
 	cache.delete_memoized(frontlist)
 	return {"message": "Progressive stack applied on post!"}
@@ -1205,14 +1205,14 @@ def progstack_post(post_id, v):
 def unprogstack_post(post_id, v):
 	post = get_post(post_id)
 	post.is_approved = None
-	g.db.add(post)
+	db.add(post)
 
 	ma=ModAction(
 		kind="unprogstack_post",
 		user_id=v.id,
 		target_submission_id=post.id,
 		)
-	g.db.add(ma)
+	db.add(ma)
 
 	return {"message": "Progressive stack removed from post!"}
 
@@ -1225,14 +1225,14 @@ def progstack_comment(comment_id, v):
 	comment = get_comment(comment_id)
 	comment.is_approved = PROGSTACK_ID
 	comment.realupvotes = floor(comment.realupvotes * PROGSTACK_MUL)
-	g.db.add(comment)
+	db.add(comment)
 
 	ma=ModAction(
 		kind="progstack_comment",
 		user_id=v.id,
 		target_comment_id=comment.id,
 		)
-	g.db.add(ma)
+	db.add(ma)
 
 	cache.delete_memoized(comment_idlist)
 	return {"message": "Progressive stack applied on comment!"}
@@ -1245,14 +1245,14 @@ def progstack_comment(comment_id, v):
 def unprogstack_comment(comment_id, v):
 	comment = get_comment(comment_id)
 	comment.is_approved = None
-	g.db.add(comment)
+	db.add(comment)
 
 	ma=ModAction(
 		kind="unprogstack_comment",
 		user_id=v.id,
 		target_comment_id=comment.id,
 		)
-	g.db.add(ma)
+	db.add(ma)
 
 	return {"message": "Progressive stack removed from comment!"}
 
@@ -1269,19 +1269,19 @@ def remove_post(post_id, v):
 		post.stickied = None
 	post.is_pinned = False
 	post.ban_reason = v.username
-	g.db.add(post)
+	db.add(post)
 
 	ma=ModAction(
 		kind="ban_post",
 		user_id=v.id,
 		target_submission_id=post.id,
 		)
-	g.db.add(ma)
+	db.add(ma)
 
 	cache.delete_memoized(frontlist)
 
 	v.pay_account('coins', 1)
-	g.db.add(v)
+	db.add(v)
 	purge_files_in_cache(f"https://{SITE}/")
 	return {"message": "Post removed!"}
 
@@ -1303,18 +1303,18 @@ def approve_post(post_id, v):
 			user_id=v.id,
 			target_submission_id=post.id,
 		)
-		g.db.add(ma)
+		db.add(ma)
 
 	post.is_banned = False
 	post.ban_reason = None
 	post.is_approved = v.id
 
-	g.db.add(post)
+	db.add(post)
 
 	cache.delete_memoized(frontlist)
 
 	v.charge_account('coins', 1)
-	g.db.add(v)
+	db.add(v)
 
 	return {"message": "Post approved!"}
 
@@ -1334,14 +1334,14 @@ def distinguish_post(post_id, v):
 		post.distinguish_level = v.admin_level
 		kind = 'distinguish_post'
 
-	g.db.add(post)
+	db.add(post)
 
 	ma = ModAction(
 		kind=kind,
 		user_id=v.id,
 		target_submission_id=post.id
 	)
-	g.db.add(ma)
+	db.add(ma)
 
 
 	if post.distinguish_level: return {"message": "Post distinguished!"}
@@ -1363,7 +1363,7 @@ def sticky_post(post_id, v):
 	if FEATURES['AWARDS'] and post.stickied and post.stickied.endswith(PIN_AWARD_TEXT) and v.admin_level < PERMS["UNDO_AWARD_PINS"]:
 		abort(403, "Can't pin award pins!")
 
-	pins = g.db.query(Submission).filter(Submission.stickied != None, Submission.is_banned == False).count()
+	pins = db.query(Submission).filter(Submission.stickied != None, Submission.is_banned == False).count()
 
 	if not post.stickied_utc:
 		post.stickied_utc = int(time.time()) + 3600
@@ -1380,7 +1380,7 @@ def sticky_post(post_id, v):
 
 	post.stickied = v.username
 
-	g.db.add(post)
+	db.add(post)
 
 	ma=ModAction(
 		kind="pin_post",
@@ -1388,7 +1388,7 @@ def sticky_post(post_id, v):
 		target_submission_id=post.id,
 		_note=pin_time
 	)
-	g.db.add(ma)
+	db.add(ma)
 
 	cache.delete_memoized(frontlist)
 
@@ -1411,14 +1411,14 @@ def unsticky_post(post_id, v):
 
 		post.stickied = None
 		post.stickied_utc = None
-		g.db.add(post)
+		db.add(post)
 
 		ma=ModAction(
 			kind="unpin_post",
 			user_id=v.id,
 			target_submission_id=post.id
 		)
-		g.db.add(ma)
+		db.add(ma)
 
 		if v.id != post.author_id:
 			send_repeatable_notification(post.author_id, f"@{v.username} (a site admin) has unpinned [{post.title}](/post/{post_id})")
@@ -1442,14 +1442,14 @@ def sticky_comment(cid, v):
 
 	if not comment.stickied:
 		comment.stickied = v.username
-		g.db.add(comment)
+		db.add(comment)
 
 		ma=ModAction(
 			kind="pin_comment",
 			user_id=v.id,
 			target_comment_id=comment.id
 		)
-		g.db.add(ma)
+		db.add(ma)
 
 		if v.id != comment.author_id:
 			message = f"@{v.username} (a site admin) has pinned your [comment]({comment.shortlink})"
@@ -1459,7 +1459,7 @@ def sticky_comment(cid, v):
 		while c.level > 2:
 			c = c.parent_comment
 			c.stickied_child_id = comment.id
-			g.db.add(c)
+			db.add(c)
 
 	return {"message": "Comment pinned!"}
 
@@ -1477,23 +1477,23 @@ def unsticky_comment(cid, v):
 			abort(403, "Can't unpin award pins!")
 
 		comment.stickied = None
-		g.db.add(comment)
+		db.add(comment)
 
 		ma=ModAction(
 			kind="unpin_comment",
 			user_id=v.id,
 			target_comment_id=comment.id
 		)
-		g.db.add(ma)
+		db.add(ma)
 
 		if v.id != comment.author_id:
 			message = f"@{v.username} (a site admin) has unpinned your [comment]({comment.shortlink})"
 			send_repeatable_notification(comment.author_id, message)
 
-		cleanup = g.db.query(Comment).filter_by(stickied_child_id=comment.id).all()
+		cleanup = db.query(Comment).filter_by(stickied_child_id=comment.id).all()
 		for c in cleanup:
 			c.stickied_child_id = None
-			g.db.add(c)
+			db.add(c)
 
 	return {"message": "Comment unpinned!"}
 
@@ -1509,13 +1509,13 @@ def remove_comment(c_id, v):
 	comment.is_banned = True
 	comment.is_approved = None
 	comment.ban_reason = v.username
-	g.db.add(comment)
+	db.add(comment)
 	ma=ModAction(
 		kind="ban_comment",
 		user_id=v.id,
 		target_comment_id=comment.id,
 		)
-	g.db.add(ma)
+	db.add(ma)
 
 	return {"message": "Comment removed!"}
 
@@ -1537,13 +1537,13 @@ def approve_comment(c_id, v):
 			user_id=v.id,
 			target_comment_id=comment.id,
 			)
-		g.db.add(ma)
+		db.add(ma)
 
 	comment.is_banned = False
 	comment.ban_reason = None
 	comment.is_approved = v.id
 
-	g.db.add(comment)
+	db.add(comment)
 
 	return {"message": "Comment approved!"}
 
@@ -1563,14 +1563,14 @@ def admin_distinguish_comment(c_id, v):
 		comment.distinguish_level = v.admin_level
 		kind = 'distinguish_comment'
 
-	g.db.add(comment)
+	db.add(comment)
 
 	ma = ModAction(
 		kind=kind,
 		user_id=v.id,
 		target_comment_id=comment.id
 	)
-	g.db.add(ma)
+	db.add(ma)
 
 
 	if comment.distinguish_level: return {"message": "Comment distinguished!"}
@@ -1581,7 +1581,7 @@ def admin_distinguish_comment(c_id, v):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['DOMAINS_BAN'])
 def admin_banned_domains(v):
-	banned_domains = g.db.query(BannedDomain) \
+	banned_domains = db.query(BannedDomain) \
 		.order_by(BannedDomain.reason).all()
 	return render_template("admin/banned_domains.html", v=v,
 		banned_domains=banned_domains)
@@ -1605,16 +1605,16 @@ def ban_domain(v):
 	if len(reason) > 100:
 		abort(400, 'Reason is too long!')
 
-	existing = g.db.get(BannedDomain, domain)
+	existing = db.get(BannedDomain, domain)
 	if not existing:
 		d = BannedDomain(domain=domain, reason=reason)
-		g.db.add(d)
+		db.add(d)
 		ma = ModAction(
 			kind="ban_domain",
 			user_id=v.id,
 			_note=filter_emojis_only(f'{domain}, reason: {reason}')
 		)
-		g.db.add(ma)
+		db.add(ma)
 
 	return redirect("/admin/banned_domains/")
 
@@ -1625,16 +1625,16 @@ def ban_domain(v):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['DOMAINS_BAN'])
 def unban_domain(v:User, domain):
-	existing = g.db.get(BannedDomain, domain)
+	existing = db.get(BannedDomain, domain)
 	if not existing: abort(400, 'Domain is not banned!')
 
-	g.db.delete(existing)
+	db.delete(existing)
 	ma = ModAction(
 		kind="unban_domain",
 		user_id=v.id,
 		_note=filter_emojis_only(domain)
 	)
-	g.db.add(ma)
+	db.add(ma)
 
 	return {"message": f"{domain} has been unbanned!"}
 
@@ -1649,28 +1649,28 @@ def admin_nuke_user(v):
 
 	user=get_user(request.values.get("user"))
 
-	for post in g.db.query(Submission).filter_by(author_id=user.id).all():
+	for post in db.query(Submission).filter_by(author_id=user.id).all():
 		if post.is_banned:
 			continue
 
 		post.is_banned = True
 		post.ban_reason = v.username
-		g.db.add(post)
+		db.add(post)
 
-	for comment in g.db.query(Comment).filter_by(author_id=user.id).all():
+	for comment in db.query(Comment).filter_by(author_id=user.id).all():
 		if comment.is_banned:
 			continue
 
 		comment.is_banned = True
 		comment.ban_reason = v.username
-		g.db.add(comment)
+		db.add(comment)
 
 	ma=ModAction(
 		kind="nuke_user",
 		user_id=v.id,
 		target_user_id=user.id,
 		)
-	g.db.add(ma)
+	db.add(ma)
 
 	return {"message": f"@{user.username}'s content has been removed!"}
 
@@ -1684,30 +1684,30 @@ def admin_nunuke_user(v):
 
 	user=get_user(request.values.get("user"))
 
-	for post in g.db.query(Submission).filter_by(author_id=user.id).all():
+	for post in db.query(Submission).filter_by(author_id=user.id).all():
 		if not post.is_banned:
 			continue
 
 		post.is_banned = False
 		post.ban_reason = None
 		post.is_approved = v.id
-		g.db.add(post)
+		db.add(post)
 
-	for comment in g.db.query(Comment).filter_by(author_id=user.id).all():
+	for comment in db.query(Comment).filter_by(author_id=user.id).all():
 		if not comment.is_banned:
 			continue
 
 		comment.is_banned = False
 		comment.ban_reason = None
 		comment.is_approved = v.id
-		g.db.add(comment)
+		db.add(comment)
 
 	ma=ModAction(
 		kind="unnuke_user",
 		user_id=v.id,
 		target_user_id=user.id,
 		)
-	g.db.add(ma)
+	db.add(ma)
 
 	return {"message": f"@{user.username}'s content has been approved!"}
 
@@ -1721,7 +1721,7 @@ def blacklist_user(user_id, v):
 	if user.admin_level > v.admin_level:
 		abort(403)
 	user.blacklisted_by = v.id
-	g.db.add(user)
+	db.add(user)
 	check_for_alts(user)
 
 	ma = ModAction(
@@ -1729,7 +1729,7 @@ def blacklist_user(user_id, v):
 		user_id=v.id,
 		target_user_id=user.id
 	)
-	g.db.add(ma)
+	db.add(ma)
 
 	return {"message": f"@{user.username} has been blacklisted from restricted holes!"}
 
@@ -1741,18 +1741,18 @@ def blacklist_user(user_id, v):
 def unblacklist_user(user_id, v):
 	user = get_account(user_id)
 	user.blacklisted_by = None
-	g.db.add(user)
+	db.add(user)
 
 	for alt in get_alt_graph(user.id):
 		alt.blacklisted_by = None
-		g.db.add(alt)
+		db.add(alt)
 
 	ma = ModAction(
 		kind="unblacklist_user",
 		user_id=v.id,
 		target_user_id=user.id
 	)
-	g.db.add(ma)
+	db.add(ma)
 
 	return {"message": f"@{user.username} has been unblacklisted from restricted holes!"}
 
@@ -1789,7 +1789,7 @@ def delete_media_post(v):
 		user_id=v.id,
 		_note=url,
 		)
-	g.db.add(ma)
+	db.add(ma)
 
 	purge_files_in_cache(url)
 	return render_template("admin/delete_media.html", v=v, msg="Media deleted successfully!")

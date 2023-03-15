@@ -12,7 +12,7 @@ from files.__main__ import app, limiter
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def ping_groups(v:User):
-	groups = g.db.query(Group).order_by(Group.created_utc).all()
+	groups = db.query(Group).order_by(Group.created_utc).all()
 	return render_template('groups.html', v=v, groups=groups, cost=GROUP_COST, msg=get_msg(), error=get_error())
 
 @app.post("/create_group")
@@ -31,18 +31,18 @@ def create_group(v):
 	if not valid_sub_regex.fullmatch(name):
 		return redirect(f"/ping_groups?error=Name does not match the required format!")
 
-	if name == 'everyone' or g.db.get(Group, name):
+	if name == 'everyone' or db.get(Group, name):
 		return redirect(f"/ping_groups?error=This group already exists!")
 
 	if not v.charge_account('combined', GROUP_COST):
 		return redirect(f"/ping_groups?error=You don't have enough coins or marseybux!")
 
-	g.db.add(v)
+	db.add(v)
 	if v.shadowbanned: abort(500)
 
 	group = Group(name=name)
-	g.db.add(group)
-	g.db.flush()
+	db.add(group)
+	db.flush()
 
 	group_membership = GroupMembership(
 		user_id=v.id,
@@ -50,9 +50,9 @@ def create_group(v):
 		created_utc=time.time(),
 		approved_utc=time.time()
 		)
-	g.db.add(group_membership)
+	db.add(group_membership)
 
-	admins = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_HOLE_CREATION'], User.id != v.id).all()]
+	admins = [x[0] for x in db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_HOLE_CREATION'], User.id != v.id).all()]
 	for admin in admins:
 		send_repeatable_notification(admin, f":!marseyparty: !{group} has been created by @{v.username} :marseyparty:")
 
@@ -66,12 +66,12 @@ def create_group(v):
 def join_group(v:User, group_name):
 	group_name = group_name.strip().lower()
 
-	group = g.db.get(Group, group_name)
+	group = db.get(Group, group_name)
 	if not group: abort(404)
-	existing = g.db.query(GroupMembership).filter_by(user_id=v.id, group_name=group_name).one_or_none()
+	existing = db.query(GroupMembership).filter_by(user_id=v.id, group_name=group_name).one_or_none()
 	if not existing:
 		join = GroupMembership(user_id=v.id, group_name=group_name)
-		g.db.add(join)
+		db.add(join)
 		send_notification(group.owner.id, f"@{v.username} has applied to join !{group}. You can approve or reject the application [here](/!{group}).")
 
 	return {"message": f"Application submitted to !{group}'s owner (@{group.owner.username}) successfully!"}
@@ -87,9 +87,9 @@ def leave_group(v:User, group_name):
 	if group_name == 'jannies':
 		abort(403, "You can't leave !jannies")
 
-	group = g.db.get(Group, group_name)
+	group = db.get(Group, group_name)
 	if not group: abort(404)
-	existing = g.db.query(GroupMembership).filter_by(user_id=v.id, group_name=group_name).one_or_none()
+	existing = db.query(GroupMembership).filter_by(user_id=v.id, group_name=group_name).one_or_none()
 	if existing:
 		if existing.approved_utc:
 			text = f"@{v.username} has left !{group}"
@@ -99,7 +99,7 @@ def leave_group(v:User, group_name):
 			msg = f"You have cancelled your application to !{group} successfully!"
 
 		send_notification(group.owner.id, text)
-		g.db.delete(existing)
+		db.delete(existing)
 		
 		return {"message": msg}
 
@@ -113,15 +113,15 @@ def leave_group(v:User, group_name):
 def memberships(v:User, group_name):
 	group_name = group_name.strip().lower()
 
-	group = g.db.get(Group, group_name)
+	group = db.get(Group, group_name)
 	if not group: abort(404)
 
-	members = g.db.query(GroupMembership).filter(
+	members = db.query(GroupMembership).filter(
 			GroupMembership.group_name == group_name,
 			GroupMembership.approved_utc != None
 		).order_by(GroupMembership.approved_utc).all()
 
-	applications = g.db.query(GroupMembership).filter(
+	applications = db.query(GroupMembership).filter(
 			GroupMembership.group_name == group_name,
 			GroupMembership.approved_utc == None
 		).order_by(GroupMembership.created_utc).all()
@@ -136,19 +136,19 @@ def memberships(v:User, group_name):
 def group_approve(v:User, group_name, user_id):
 	group_name = group_name.strip().lower()
 
-	group = g.db.get(Group, group_name)
+	group = db.get(Group, group_name)
 	if not group: abort(404)
 	
 	if v.id != group.owner.id and v.admin_level < PERMS['MODS_EVERY_GROUP']:
 		abort(403, f"Only the group owner (@{group.owner.username}) can approve applications!")
 	
-	application = g.db.query(GroupMembership).filter_by(user_id=user_id, group_name=group.name).one_or_none()
+	application = db.query(GroupMembership).filter_by(user_id=user_id, group_name=group.name).one_or_none()
 	if not application:
 		abort(404, "There is no application to approve!")
 
 	if not application.approved_utc:
 		application.approved_utc = time.time()
-		g.db.add(application)
+		db.add(application)
 		send_repeatable_notification(application.user_id, f"@{v.username} (!{group}'s owner) has approved your application!")
 
 	return {"message": f'You have approved @{application.user.username} successfully!'}
@@ -161,13 +161,13 @@ def group_approve(v:User, group_name, user_id):
 def group_reject(v:User, group_name, user_id):
 	group_name = group_name.strip().lower()
 
-	group = g.db.get(Group, group_name)
+	group = db.get(Group, group_name)
 	if not group: abort(404)
 	
 	if v.id != group.owner.id and v.admin_level < PERMS['MODS_EVERY_GROUP']:
 		abort(403, f"Only the group owner (@{group.owner.username}) can reject memberships!")
 
-	membership = g.db.query(GroupMembership).filter_by(user_id=user_id, group_name=group.name).one_or_none()
+	membership = db.query(GroupMembership).filter_by(user_id=user_id, group_name=group.name).one_or_none()
 	if not membership:
 		abort(404, "There is no membership to reject!")
 
@@ -180,6 +180,6 @@ def group_reject(v:User, group_name, user_id):
 
 	send_repeatable_notification(membership.user_id, text)
 
-	g.db.delete(membership)
+	db.delete(membership)
 
 	return {"message": msg}

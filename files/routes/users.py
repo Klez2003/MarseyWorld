@@ -39,7 +39,7 @@ def upvoters_downvoters(v, username, uid, cls, vote_cls, vote_dir, template, sta
 	try: page = max(1, int(request.values.get("page", 1)))
 	except: abort(400, "Invalid page input!")
 
-	listing = g.db.query(cls).join(vote_cls).filter(cls.ghost == False, cls.is_banned == False, cls.deleted_utc == 0, vote_cls.vote_type==vote_dir, cls.author_id==id, vote_cls.user_id==uid).order_by(cls.created_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
+	listing = db.query(cls).join(vote_cls).filter(cls.ghost == False, cls.is_banned == False, cls.deleted_utc == 0, vote_cls.vote_type==vote_dir, cls.author_id==id, vote_cls.user_id==uid).order_by(cls.created_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
 
 	listing = [p.id for p in listing]
 	next_exists = len(listing) > PAGE_SIZE
@@ -98,7 +98,7 @@ def upvoting_downvoting(v, username, uid, cls, vote_cls, vote_dir, template, sta
 	try: page = max(1, int(request.values.get("page", 1)))
 	except: abort(400, "Invalid page input!")
 
-	listing = g.db.query(cls).join(vote_cls).filter(cls.ghost == False, cls.is_banned == False, cls.deleted_utc == 0, vote_cls.vote_type==vote_dir, vote_cls.user_id==id, cls.author_id==uid).order_by(cls.created_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
+	listing = db.query(cls).join(vote_cls).filter(cls.ghost == False, cls.is_banned == False, cls.deleted_utc == 0, vote_cls.vote_type==vote_dir, vote_cls.user_id==id, cls.author_id==uid).order_by(cls.created_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
 
 	listing = [p.id for p in listing]
 	next_exists = len(listing) > PAGE_SIZE
@@ -152,7 +152,7 @@ def user_voted(v, username, cls, vote_cls, template, standalone):
 	try: page = max(1, int(request.values.get("page", 1)))
 	except: abort(400, "Invalid page input!")
 
-	listing = g.db.query(cls).join(vote_cls).filter(
+	listing = db.query(cls).join(vote_cls).filter(
 			cls.ghost == False,
 			cls.is_banned == False,
 			cls.deleted_utc == 0,
@@ -192,7 +192,7 @@ def user_voted_comments(v:User, username):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def banned(v:User):
-	users = g.db.query(User).filter(
+	users = db.query(User).filter(
 		User.is_banned != None,
 		or_(User.unban_utc == 0, User.unban_utc > time.time()),
 	).order_by(User.ban_reason)
@@ -205,7 +205,7 @@ def banned(v:User):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def grassed(v:User):
-	users = g.db.query(User).filter(
+	users = db.query(User).filter(
 		User.ban_reason.like('grass award used by @%'),
 		User.unban_utc > time.time(),
 	)
@@ -218,7 +218,7 @@ def grassed(v:User):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def chuds(v:User):
-	users = g.db.query(User).filter(
+	users = db.query(User).filter(
 		or_(User.agendaposter == 1, User.agendaposter > time.time()),
 	)
 	if v.admin_level >= PERMS['VIEW_LAST_ACTIVE']:
@@ -248,14 +248,14 @@ def all_upvoters_downvoters(v:User, username:str, vote_dir:int, is_who_simps_hat
 	votes = []
 	votes2 = []
 	if is_who_simps_hates:
-		votes = g.db.query(Submission.author_id, func.count(Submission.author_id)).join(Vote).filter(Submission.ghost == False, Submission.is_banned == False, Submission.deleted_utc == 0, Vote.vote_type==vote_dir, Vote.user_id==id).group_by(Submission.author_id).order_by(func.count(Submission.author_id).desc()).all()
-		votes2 = g.db.query(Comment.author_id, func.count(Comment.author_id)).join(CommentVote).filter(Comment.ghost == False, Comment.is_banned == False, Comment.deleted_utc == 0, CommentVote.vote_type==vote_dir, CommentVote.user_id==id).group_by(Comment.author_id).order_by(func.count(Comment.author_id).desc()).all()
+		votes = db.query(Submission.author_id, func.count(Submission.author_id)).join(Vote).filter(Submission.ghost == False, Submission.is_banned == False, Submission.deleted_utc == 0, Vote.vote_type==vote_dir, Vote.user_id==id).group_by(Submission.author_id).order_by(func.count(Submission.author_id).desc()).all()
+		votes2 = db.query(Comment.author_id, func.count(Comment.author_id)).join(CommentVote).filter(Comment.ghost == False, Comment.is_banned == False, Comment.deleted_utc == 0, CommentVote.vote_type==vote_dir, CommentVote.user_id==id).group_by(Comment.author_id).order_by(func.count(Comment.author_id).desc()).all()
 	else:
-		votes = g.db.query(Vote.user_id, func.count(Vote.user_id)).join(Submission).filter(Submission.ghost == False, Submission.is_banned == False, Submission.deleted_utc == 0, Vote.vote_type==vote_dir, Submission.author_id==id).group_by(Vote.user_id).order_by(func.count(Vote.user_id).desc()).all()
-		votes2 = g.db.query(CommentVote.user_id, func.count(CommentVote.user_id)).join(Comment).filter(Comment.ghost == False, Comment.is_banned == False, Comment.deleted_utc == 0, CommentVote.vote_type==vote_dir, Comment.author_id==id).group_by(CommentVote.user_id).order_by(func.count(CommentVote.user_id).desc()).all()
+		votes = db.query(Vote.user_id, func.count(Vote.user_id)).join(Submission).filter(Submission.ghost == False, Submission.is_banned == False, Submission.deleted_utc == 0, Vote.vote_type==vote_dir, Submission.author_id==id).group_by(Vote.user_id).order_by(func.count(Vote.user_id).desc()).all()
+		votes2 = db.query(CommentVote.user_id, func.count(CommentVote.user_id)).join(Comment).filter(Comment.ghost == False, Comment.is_banned == False, Comment.deleted_utc == 0, CommentVote.vote_type==vote_dir, Comment.author_id==id).group_by(CommentVote.user_id).order_by(func.count(CommentVote.user_id).desc()).all()
 	votes = Counter(dict(votes)) + Counter(dict(votes2))
 	total = sum(votes.values())
-	users = g.db.query(User).filter(User.id.in_(votes.keys()))
+	users = db.query(User).filter(User.id.in_(votes.keys()))
 
 	users2 = [(user, votes[user.id]) for user in users.all()]
 	users = sorted(users2, key=lambda x: x[1], reverse=True)
@@ -364,10 +364,10 @@ def transfer_currency(v:User, username:str, currency_name:Literal['coins', 'mars
 			receiver.pay_account('coins', amount - tax)
 		else:
 			raise ValueError(f"Invalid currency '{currency_name}' got when transferring {amount} from {v.id} to {receiver.id}")
-		g.db.add(receiver)
+		db.add(receiver)
 		if GIFT_NOTIF_ID: send_repeatable_notification(GIFT_NOTIF_ID, log_message)
 		send_repeatable_notification(receiver.id, notif_text)
-	g.db.add(v)
+	db.add(v)
 	return {"message": f"{amount - tax} {currency_name} have been transferred to @{receiver.username}"}
 
 @app.post("/@<username>/transfer_coins")
@@ -392,27 +392,27 @@ def transfer_bux(v:User, username:str):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def leaderboard(v:User):
-	users = g.db.query(User)
+	users = db.query(User)
 
-	coins = Leaderboard("Coins", "coins", "coins", "Coins", None, Leaderboard.get_simple_lb, User.coins, v, lambda u:u.coins, g.db, users)
-	subscribers = Leaderboard("Followers", "followers", "followers", "Followers", "followers", Leaderboard.get_simple_lb, User.stored_subscriber_count, v, lambda u:u.stored_subscriber_count, g.db, users)
-	posts = Leaderboard("Posts", "post count", "posts", "Posts", "posts", Leaderboard.get_simple_lb, User.post_count, v, lambda u:u.post_count, g.db, users)
-	comments = Leaderboard("Comments", "comment count", "comments", "Comments", "comments", Leaderboard.get_simple_lb, User.comment_count, v, lambda u:u.comment_count, g.db, users)
-	received_awards = Leaderboard("Awards", "received awards", "awards", "Awards", None, Leaderboard.get_simple_lb, User.received_award_count, v, lambda u:u.received_award_count, g.db, users)
-	coins_spent = Leaderboard("Spent in shop", "coins spent in shop", "spent", "Coins", None, Leaderboard.get_simple_lb, User.coins_spent, v, lambda u:u.coins_spent, g.db, users)
-	truescore = Leaderboard("Truescore", "truescore", "truescore", "Truescore", None, Leaderboard.get_simple_lb, User.truescore, v, lambda u:u.truescore, g.db, users)
+	coins = Leaderboard("Coins", "coins", "coins", "Coins", None, Leaderboard.get_simple_lb, User.coins, v, lambda u:u.coins, users)
+	subscribers = Leaderboard("Followers", "followers", "followers", "Followers", "followers", Leaderboard.get_simple_lb, User.stored_subscriber_count, v, lambda u:u.stored_subscriber_count, users)
+	posts = Leaderboard("Posts", "post count", "posts", "Posts", "posts", Leaderboard.get_simple_lb, User.post_count, v, lambda u:u.post_count, users)
+	comments = Leaderboard("Comments", "comment count", "comments", "Comments", "comments", Leaderboard.get_simple_lb, User.comment_count, v, lambda u:u.comment_count, users)
+	received_awards = Leaderboard("Awards", "received awards", "awards", "Awards", None, Leaderboard.get_simple_lb, User.received_award_count, v, lambda u:u.received_award_count, users)
+	coins_spent = Leaderboard("Spent in shop", "coins spent in shop", "spent", "Coins", None, Leaderboard.get_simple_lb, User.coins_spent, v, lambda u:u.coins_spent, users)
+	truescore = Leaderboard("Truescore", "truescore", "truescore", "Truescore", None, Leaderboard.get_simple_lb, User.truescore, v, lambda u:u.truescore, users)
 
-	badges = Leaderboard("Badges", "badges", "badges", "Badges", None, Leaderboard.get_badge_marsey_lb, Badge.user_id, v, None, g.db, None)
+	badges = Leaderboard("Badges", "badges", "badges", "Badges", None, Leaderboard.get_badge_marsey_lb, Badge.user_id, v, None, None)
 
-	blocks = Leaderboard("Blocked", "most blocked", "blocked", "Blocked By", "blockers", Leaderboard.get_blockers_lb, UserBlock.target_id, v, None, g.db, None)
+	blocks = Leaderboard("Blocked", "most blocked", "blocked", "Blocked By", "blockers", Leaderboard.get_blockers_lb, UserBlock.target_id, v, None, None)
 
-	owned_hats = Leaderboard("Owned hats", "owned hats", "owned-hats", "Owned Hats", None, Leaderboard.get_hat_lb, User.owned_hats, v, None, g.db, None)
+	owned_hats = Leaderboard("Owned hats", "owned hats", "owned-hats", "Owned Hats", None, Leaderboard.get_hat_lb, User.owned_hats, v, None, None)
 
 	leaderboards = [coins, coins_spent, truescore, subscribers, posts, comments, received_awards, badges, blocks, owned_hats]
 
 	if SITE == 'rdrama.net':
-		leaderboards.append(Leaderboard("Designed hats", "designed hats", "designed-hats", "Designed Hats", None, Leaderboard.get_hat_lb, User.designed_hats, v, None, g.db, None))
-		leaderboards.append(Leaderboard("Marseys", "Marseys made", "marseys", "Marseys", None, Leaderboard.get_badge_marsey_lb, Marsey.author_id, v, None, g.db, None))
+		leaderboards.append(Leaderboard("Designed hats", "designed hats", "designed-hats", "Designed Hats", None, Leaderboard.get_hat_lb, User.designed_hats, v, None, None))
+		leaderboards.append(Leaderboard("Marseys", "Marseys made", "marseys", "Marseys", None, Leaderboard.get_badge_marsey_lb, Marsey.author_id, v, None, None))
 
 	return render_template("leaderboard.html", v=v, leaderboards=leaderboards)
 
@@ -422,7 +422,7 @@ def get_css(id):
 	try: id = int(id)
 	except: abort(404)
 
-	css, bg = g.db.query(User.css, User.background).filter_by(id=id).one_or_none()
+	css, bg = db.query(User.css, User.background).filter_by(id=id).one_or_none()
 
 	if bg:
 		if not css: css = ''
@@ -446,7 +446,7 @@ def get_profilecss(id):
 	try: id = int(id)
 	except: abort(404)
 
-	css, bg = g.db.query(User.profilecss, User.profile_background).filter_by(id=id).one_or_none()
+	css, bg = db.query(User.profilecss, User.profile_background).filter_by(id=id).one_or_none()
 
 	if bg:
 		if not css: css = ''
@@ -475,10 +475,10 @@ def usersong(username:str):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def subscribe(v, post_id):
-	existing = g.db.query(Subscription).filter_by(user_id=v.id, submission_id=post_id).one_or_none()
+	existing = db.query(Subscription).filter_by(user_id=v.id, submission_id=post_id).one_or_none()
 	if not existing:
 		new_sub = Subscription(user_id=v.id, submission_id=post_id)
-		g.db.add(new_sub)
+		db.add(new_sub)
 	return {"message": "Subscribed to post successfully!"}
 
 @app.post("/unsubscribe/<int:post_id>")
@@ -487,9 +487,9 @@ def subscribe(v, post_id):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def unsubscribe(v, post_id):
-	existing = g.db.query(Subscription).filter_by(user_id=v.id, submission_id=post_id).one_or_none()
+	existing = db.query(Subscription).filter_by(user_id=v.id, submission_id=post_id).one_or_none()
 	if existing:
-		g.db.delete(existing)
+		db.delete(existing)
 	return {"message": "Unsubscribed from post successfully!"}
 
 @app.post("/@<username>/message")
@@ -517,7 +517,7 @@ def message2(v:User, username:str):
 
 	body_html = sanitize(message)
 
-	existing = g.db.query(Comment.id).filter(
+	existing = db.query(Comment.id).filter(
 		Comment.author_id == v.id,
 		Comment.sentto == user.id,
 		Comment.body_html == body_html
@@ -532,17 +532,17 @@ def message2(v:User, username:str):
 						body=message,
 						body_html=body_html
 						)
-	g.db.add(c)
-	g.db.flush()
+	db.add(c)
+	db.flush()
 	execute_blackjack(v, c, c.body_html, 'message')
 	execute_under_siege(v, c, c.body_html, 'message')
 	c.top_comment_id = c.id
 
 	if user.id not in bots:
-		notif = g.db.query(Notification).filter_by(comment_id=c.id, user_id=user.id).one_or_none()
+		notif = db.query(Notification).filter_by(comment_id=c.id, user_id=user.id).one_or_none()
 		if not notif:
 			notif = Notification(comment_id=c.id, user_id=user.id)
-			g.db.add(notif)
+			db.add(notif)
 
 
 	if not v.shadowbanned:
@@ -605,16 +605,16 @@ def messagereply(v:User):
 							body=body,
 							body_html=body_html,
 							)
-	g.db.add(c)
-	g.db.flush()
+	db.add(c)
+	db.flush()
 	execute_blackjack(v, c, c.body_html, 'message')
 	execute_under_siege(v, c, c.body_html, 'message')
 
 	if user_id and user_id not in {v.id, MODMAIL_ID} | bots:
-		notif = g.db.query(Notification).filter_by(comment_id=c.id, user_id=user_id).one_or_none()
+		notif = db.query(Notification).filter_by(comment_id=c.id, user_id=user_id).one_or_none()
 		if not notif:
 			notif = Notification(comment_id=c.id, user_id=user_id)
-			g.db.add(notif)
+			db.add(notif)
 
 		if not v.shadowbanned:
 			title = f'New message from @{c.author_name}'
@@ -626,7 +626,7 @@ def messagereply(v:User):
 	top_comment = c.top_comment
 
 	if top_comment.sentto == MODMAIL_ID:
-		admins = g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_MODMAIL'], User.id != v.id)
+		admins = db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_MODMAIL'], User.id != v.id)
 
 		if SITE == 'rdrama.net':
 			admins = admins.filter(User.id != AEVANN_ID)
@@ -638,12 +638,12 @@ def messagereply(v:User):
 
 		for admin in admins:
 			notif = Notification(comment_id=c.id, user_id=admin)
-			g.db.add(notif)
+			db.add(notif)
 
 		ids = [top_comment.id] + [x.id for x in top_comment.replies(sort="old", v=v)]
-		notifications = g.db.query(Notification).filter(Notification.comment_id.in_(ids), Notification.user_id.in_(admins))
+		notifications = db.query(Notification).filter(Notification.comment_id.in_(ids), Notification.user_id.in_(admins))
 		for n in notifications:
-			g.db.delete(n)
+			db.delete(n)
 
 
 	return {"comment": render_template("comments.html", v=v, comments=[c])}
@@ -679,7 +679,7 @@ def is_available(name:str):
 
 	name2 = name.replace('\\', '').replace('_','\_').replace('%','')
 
-	x = g.db.query(User).filter(
+	x = db.query(User).filter(
 		or_(
 			User.username.ilike(name2),
 			User.original_username.ilike(name2)
@@ -717,7 +717,7 @@ def followers(v:User, username:str):
 	try: page = int(request.values.get("page", 1))
 	except: page = 1
 
-	users = g.db.query(Follow, User).join(Follow, Follow.target_id == u.id) \
+	users = db.query(Follow, User).join(Follow, Follow.target_id == u.id) \
 		.filter(Follow.user_id == User.id) \
 		.order_by(Follow.created_utc.desc()) \
 		.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
@@ -737,7 +737,7 @@ def blockers(v:User, username:str):
 	try: page = int(request.values.get("page", 1))
 	except: page = 1
 
-	users = g.db.query(UserBlock, User).join(UserBlock, UserBlock.target_id == u.id) \
+	users = db.query(UserBlock, User).join(UserBlock, UserBlock.target_id == u.id) \
 		.filter(UserBlock.user_id == User.id) \
 		.order_by(UserBlock.created_utc.desc()) \
 		.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
@@ -759,7 +759,7 @@ def following(v:User, username:str):
 	try: page = int(request.values.get("page", 1))
 	except: page = 1
 
-	users = g.db.query(User).join(Follow, Follow.user_id == u.id) \
+	users = db.query(User).join(Follow, Follow.user_id == u.id) \
 		.filter(Follow.target_id == User.id) \
 		.order_by(Follow.created_utc.desc()) \
 		.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
@@ -779,7 +779,7 @@ def visitors(v:User, username:str):
 	try: page = int(request.values.get("page", 1))
 	except: page = 1
 
-	views = g.db.query(ViewerRelationship).filter_by(user_id=u.id).order_by(ViewerRelationship.last_view_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
+	views = db.query(ViewerRelationship).filter_by(user_id=u.id).order_by(ViewerRelationship.last_view_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
 
 	next_exists = (len(views) > PAGE_SIZE)
 	views = views[:PAGE_SIZE]
@@ -788,7 +788,7 @@ def visitors(v:User, username:str):
 
 @cache.memoize()
 def userpagelisting(user:User, site=None, v=None, page:int=1, sort="new", t="all"):
-	posts = g.db.query(Submission.id).filter_by(author_id=user.id, is_pinned=False)
+	posts = db.query(Submission.id).filter_by(author_id=user.id, is_pinned=False)
 	if not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or v.id == user.id)):
 		posts = posts.filter_by(is_banned=False, private=False, ghost=False, deleted_utc=0)
 	posts = apply_time_filter(t, posts, Submission)
@@ -812,12 +812,12 @@ def u_username_wall(v:Optional[User], username:str):
 	is_following = v and u.has_follower(v)
 
 	if v and v.id != u.id and not v.admin_level:
-		g.db.flush()
-		view = g.db.query(ViewerRelationship).filter_by(viewer_id=v.id, user_id=u.id).one_or_none()
+		db.flush()
+		view = db.query(ViewerRelationship).filter_by(viewer_id=v.id, user_id=u.id).one_or_none()
 		if view: view.last_view_utc = int(time.time())
 		else: view = ViewerRelationship(viewer_id=v.id, user_id=u.id)
-		g.db.add(view)
-		g.db.commit()
+		db.add(view)
+		db.commit()
 
 	try: page = max(int(request.values.get("page", "1")), 1)
 	except: page = 1
@@ -825,7 +825,7 @@ def u_username_wall(v:Optional[User], username:str):
 	if v:
 		comments, output = get_comments_v_properties(v, None, Comment.wall_user_id == u.id)
 	else:
-		comments = g.db.query(Comment).filter(Comment.wall_user_id == u.id)
+		comments = db.query(Comment).filter(Comment.wall_user_id == u.id)
 	comments = comments.filter(Comment.level == 1)
 
 	if not v or (v.id != u.id and v.admin_level < PERMS['POST_COMMENT_MODERATION']):
@@ -844,7 +844,7 @@ def u_username_wall(v:Optional[User], username:str):
 	comments = comments[:PAGE_SIZE]
 
 	if v and v.client:
-		return {"data": [c.json(g.db) for c in comments]}
+		return {"data": [c.json for c in comments]}
 
 	return render_template("userpage/wall.html", u=u, v=v, listing=comments, page=page, next_exists=next_exists, is_following=is_following, standalone=True, render_replies=True, wall=True)
 
@@ -867,19 +867,19 @@ def u_username_wall_comment(v:User, username:str, cid):
 	is_following = v and u.has_follower(v)
 
 	if v and v.id != u.id and not v.admin_level:
-		g.db.flush()
-		view = g.db.query(ViewerRelationship).filter_by(viewer_id=v.id, user_id=u.id).one_or_none()
+		db.flush()
+		view = db.query(ViewerRelationship).filter_by(viewer_id=v.id, user_id=u.id).one_or_none()
 		if view: view.last_view_utc = int(time.time())
 		else: view = ViewerRelationship(viewer_id=v.id, user_id=u.id)
-		g.db.add(view)
-		g.db.commit()
+		db.add(view)
+		db.commit()
 
 	if v and request.values.get("read"):
-		notif = g.db.query(Notification).filter_by(comment_id=cid, user_id=v.id, read=False).one_or_none()
+		notif = db.query(Notification).filter_by(comment_id=cid, user_id=v.id, read=False).one_or_none()
 		if notif:
 			notif.read = True
-			g.db.add(notif)
-			g.db.commit()
+			db.add(notif)
+			db.commit()
 
 	try: context = min(int(request.values.get("context", 8)), 8)
 	except: context = 8
@@ -895,7 +895,7 @@ def u_username_wall_comment(v:User, username:str, cid):
 		# props won't save properly unless you put them in a list
 		output = get_comments_v_properties(v, None, Comment.top_comment_id == c.top_comment_id)[1]
 
-	if v and v.client: return top_comment.json(db=g.db)
+	if v and v.client: return top_comment.json
 
 	return render_template("userpage/wall.html", u=u, v=v, listing=[top_comment], page=1, is_following=is_following, standalone=True, render_replies=True, wall=True, comment_info=comment_info)
 
@@ -921,12 +921,12 @@ def u_username(v:Optional[User], username:str):
 		return render_template("userpage/private.html", u=u, v=v, is_following=is_following), 403
 
 	if v and v.id != u.id and not v.admin_level:
-		g.db.flush()
-		view = g.db.query(ViewerRelationship).filter_by(viewer_id=v.id, user_id=u.id).one_or_none()
+		db.flush()
+		view = db.query(ViewerRelationship).filter_by(viewer_id=v.id, user_id=u.id).one_or_none()
 		if view: view.last_view_utc = int(time.time())
 		else: view = ViewerRelationship(viewer_id=v.id, user_id=u.id)
-		g.db.add(view)
-		g.db.commit()
+		db.add(view)
+		db.commit()
 
 
 	sort = request.values.get("sort", "new")
@@ -941,7 +941,7 @@ def u_username(v:Optional[User], username:str):
 
 	if page == 1 and sort == 'new':
 		sticky = []
-		sticky = g.db.query(Submission).filter_by(is_pinned=True, author_id=u.id, is_banned=False).all()
+		sticky = db.query(Submission).filter_by(is_pinned=True, author_id=u.id, is_banned=False).all()
 		if sticky:
 			for p in sticky:
 				ids = [p.id] + ids
@@ -950,7 +950,7 @@ def u_username(v:Optional[User], username:str):
 
 	if u.unban_utc:
 		if v and v.client:
-			return {"data": [x.json(g.db) for x in listing]}
+			return {"data": [x.json for x in listing]}
 
 		return render_template("userpage/submissions.html",
 												unban=u.unban_string,
@@ -964,7 +964,7 @@ def u_username(v:Optional[User], username:str):
 												is_following=is_following)
 
 	if v and v.client:
-		return {"data": [x.json(g.db) for x in listing]}
+		return {"data": [x.json for x in listing]}
 
 	return render_template("userpage/submissions.html",
 									u=u,
@@ -998,12 +998,12 @@ def u_username_comments(username, v=None):
 		return render_template("userpage/private.html", u=u, v=v, is_following=is_following), 403
 
 	if v and v.id != u.id and not v.admin_level:
-		g.db.flush()
-		view = g.db.query(ViewerRelationship).filter_by(viewer_id=v.id, user_id=u.id).one_or_none()
+		db.flush()
+		view = db.query(ViewerRelationship).filter_by(viewer_id=v.id, user_id=u.id).one_or_none()
 		if view: view.last_view_utc = int(time.time())
 		else: view = ViewerRelationship(viewer_id=v.id, user_id=u.id)
-		g.db.add(view)
-		g.db.commit()
+		db.add(view)
+		db.commit()
 
 	try: page = max(int(request.values.get("page", "1")), 1)
 	except: page = 1
@@ -1012,7 +1012,7 @@ def u_username_comments(username, v=None):
 	t=request.values.get("t","all")
 
 	comment_post_author = aliased(User)
-	comments = g.db.query(Comment.id) \
+	comments = db.query(Comment.id) \
 				.outerjoin(Comment.post) \
 				.outerjoin(comment_post_author, Submission.author) \
 				.filter(
@@ -1040,7 +1040,7 @@ def u_username_comments(username, v=None):
 	listing = get_comments(ids, v=v)
 
 	if v and v.client:
-		return {"data": [c.json(g.db) for c in listing]}
+		return {"data": [c.json for c in listing]}
 
 	return render_template("userpage/comments.html", u=u, v=v, listing=listing, page=page, sort=sort, t=t,next_exists=next_exists, is_following=is_following, standalone=True)
 
@@ -1087,15 +1087,15 @@ def follow_user(username, v):
 	if target.id==v.id:
 		abort(400, "You can't follow yourself!")
 
-	if g.db.query(Follow).filter_by(user_id=v.id, target_id=target.id).one_or_none():
+	if db.query(Follow).filter_by(user_id=v.id, target_id=target.id).one_or_none():
 		return {"message": f"@{target.username} has been followed!"}
 
 	new_follow = Follow(user_id=v.id, target_id=target.id)
-	g.db.add(new_follow)
+	db.add(new_follow)
 
-	g.db.flush()
-	target.stored_subscriber_count = g.db.query(Follow).filter_by(target_id=target.id).count()
-	g.db.add(target)
+	db.flush()
+	target.stored_subscriber_count = db.query(Follow).filter_by(target_id=target.id).count()
+	db.add(target)
 
 	if not v.shadowbanned:
 		send_notification(target.id, f"@{v.username} has followed you!")
@@ -1117,14 +1117,14 @@ def unfollow_user(username, v):
 			send_notification(target.id, f"@{v.username} has tried to unfollow you and failed because of your fish award!")
 		abort(400, f"You can't unfollow @{target.username}")
 
-	follow = g.db.query(Follow).filter_by(user_id=v.id, target_id=target.id).one_or_none()
+	follow = db.query(Follow).filter_by(user_id=v.id, target_id=target.id).one_or_none()
 
 	if follow:
-		g.db.delete(follow)
+		db.delete(follow)
 
-		g.db.flush()
-		target.stored_subscriber_count = g.db.query(Follow).filter_by(target_id=target.id).count()
-		g.db.add(target)
+		db.flush()
+		target.stored_subscriber_count = db.query(Follow).filter_by(target_id=target.id).count()
+		db.add(target)
 
 		if not v.shadowbanned:
 			send_notification(target.id, f"@{v.username} has unfollowed you!")
@@ -1143,15 +1143,15 @@ def unfollow_user(username, v):
 def remove_follow(username, v):
 	target = get_user(username)
 
-	follow = g.db.query(Follow).filter_by(user_id=target.id, target_id=v.id).one_or_none()
+	follow = db.query(Follow).filter_by(user_id=target.id, target_id=v.id).one_or_none()
 
 	if not follow: return {"message": f"@{target.username} has been removed as a follower!"}
 
-	g.db.delete(follow)
+	db.delete(follow)
 
-	g.db.flush()
-	v.stored_subscriber_count = g.db.query(Follow).filter_by(target_id=v.id).count()
-	g.db.add(v)
+	db.flush()
+	v.stored_subscriber_count = db.query(Follow).filter_by(target_id=v.id).count()
+	db.add(v)
 
 	send_repeatable_notification(target.id, f"@{v.username} has removed your follow!")
 
@@ -1183,7 +1183,7 @@ def get_saves_and_subscribes(v, template, relationship_cls, page:int, standalone
 		cls = Comment
 	else:
 		raise TypeError("Relationships supported is SaveRelationship, Subscription, CommentSaveRelationship")
-	ids = [x[0] for x in g.db.query(query).join(join).filter(relationship_cls.user_id == v.id).order_by(cls.created_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()]
+	ids = [x[0] for x in db.query(query).join(join).filter(relationship_cls.user_id == v.id).order_by(cls.created_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()]
 	next_exists = len(ids) > PAGE_SIZE
 	ids = ids[:PAGE_SIZE]
 
@@ -1198,7 +1198,7 @@ def get_saves_and_subscribes(v, template, relationship_cls, page:int, standalone
 	else:
 		raise TypeError("Only supports Submissions and Comments. This is probably the result of a bug with *this* function")
 
-	if v.client: return {"data": [x.json(g.db) for x in listing]}
+	if v.client: return {"data": [x.json for x in listing]}
 	return render_template(template, u=v, v=v, listing=listing, page=page, next_exists=next_exists, standalone=standalone)
 
 @app.get("/@<username>/saved/posts")
@@ -1241,22 +1241,22 @@ def fp(v:User, fp):
 		return '', 204
 
 	v.fp = fp
-	users = g.db.query(User).filter(User.fp == fp, User.id != v.id).all()
+	users = db.query(User).filter(User.fp == fp, User.id != v.id).all()
 	if users: print(f'{v.username}: fp', flush=True)
 	if v.email and v.is_activated:
-		alts = g.db.query(User).filter(User.email == v.email, User.is_activated, User.id != v.id).all()
+		alts = db.query(User).filter(User.email == v.email, User.is_activated, User.id != v.id).all()
 		if alts:
 			print(f'{v.username}: email', flush=True)
 			users += alts
 	for u in users:
 		li = [v.id, u.id]
-		existing = g.db.query(Alt).filter(Alt.user1.in_(li), Alt.user2.in_(li)).one_or_none()
+		existing = db.query(Alt).filter(Alt.user1.in_(li), Alt.user2.in_(li)).one_or_none()
 		if existing: continue
 		add_alt(user1=v.id, user2=u.id)
 		print(v.username + ' + ' + u.username, flush=True)
 
 	check_for_alts(v, include_current_session=True)
-	g.db.add(v)
+	db.add(v)
 	return '', 204
 
 @app.get("/toggle_pins/<sort>")
@@ -1299,7 +1299,7 @@ def bid_list(v:User, bid):
 	try: page = int(request.values.get("page", 1))
 	except: page = 1
 
-	users = g.db.query(User).join(User.badges).filter(Badge.badge_id==bid).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
+	users = db.query(User).join(User.badges).filter(Badge.badge_id==bid).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
 
 	next_exists = (len(users) > PAGE_SIZE)
 	users = users[:PAGE_SIZE]
@@ -1328,8 +1328,8 @@ tiers={
 marseybux_li = (0,2500,5000,10000,25000,50000,100000,250000)
 
 def claim_rewards(v):
-	g.db.flush()
-	transactions = g.db.query(Transaction).filter_by(email=v.email, claimed=None).all()
+	db.flush()
+	transactions = db.query(Transaction).filter_by(email=v.email, claimed=None).all()
 
 	highest_tier = 0
 	marseybux = 0
@@ -1343,28 +1343,28 @@ def claim_rewards(v):
 		if tier > highest_tier:
 			highest_tier = tier
 		transaction.claimed = True
-		g.db.add(transaction)
+		db.add(transaction)
 
 	if marseybux:
 		v.pay_account('marseybux', marseybux)
 
 		send_repeatable_notification(v.id, f"You have received {marseybux} Marseybux! You can use them to buy awards or hats in the [shop](/shop/awards) or gamble them in the [casino](/casino).")
-		g.db.add(v)
+		db.add(v)
 
 		v.patron_utc = time.time() + 2937600
 
 		if highest_tier > v.patron:
 			v.patron = highest_tier
-			for badge in g.db.query(Badge).filter(Badge.user_id == v.id, Badge.badge_id > 20, Badge.badge_id < 28).all():
-				g.db.delete(badge)
+			for badge in db.query(Badge).filter(Badge.user_id == v.id, Badge.badge_id > 20, Badge.badge_id < 28).all():
+				db.delete(badge)
 			badge_grant(badge_id=20+highest_tier, user=v)
 
 		print(f'@{v.username} rewards claimed successfully!', flush=True)
 
 
 def claim_rewards_all_users():
-	emails = [x[0] for x in g.db.query(Transaction.email).filter_by(claimed=None).all()]
-	users = g.db.query(User).filter(User.email.in_(emails)).all()
+	emails = [x[0] for x in db.query(Transaction.email).filter_by(claimed=None).all()]
+	users = db.query(User).filter(User.email.in_(emails)).all()
 	for user in users:
 		claim_rewards(user)
 
@@ -1396,7 +1396,7 @@ if KOFI_TOKEN:
 			email=email
 		)
 
-		g.db.add(transaction)
+		db.add(transaction)
 
 		claim_rewards_all_users()
 
@@ -1428,7 +1428,7 @@ def gumroad():
 		email=email
 	)
 
-	g.db.add(transaction)
+	db.add(transaction)
 
 	claim_rewards_all_users()
 
@@ -1446,7 +1446,7 @@ def settings_claim_rewards(v:User):
 	if not (v.email and v.is_activated):
 		abort(400, f"You must have a verified email to verify {patron} status and claim your rewards!")
 
-	transactions = g.db.query(Transaction).filter_by(email=v.email, claimed=None).all()
+	transactions = db.query(Transaction).filter_by(email=v.email, claimed=None).all()
 
 	if not transactions:
 		abort(400, f"{patron} rewards already claimed!")
@@ -1464,7 +1464,7 @@ def users_list(v):
 	try: page = int(request.values.get("page", 1))
 	except: page = 1
 
-	users = g.db.query(User).order_by(User.id.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
+	users = db.query(User).order_by(User.id.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
 
 	next_exists = (len(users) > PAGE_SIZE)
 	users = users[:PAGE_SIZE]
