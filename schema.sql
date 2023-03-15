@@ -984,7 +984,6 @@ CREATE TABLE public.users (
     titlecolor character varying(6) NOT NULL,
     profileurl character varying(65),
     bannerurl character varying(65),
-    hidevotedon boolean DEFAULT false NOT NULL,
     newtab boolean DEFAULT false NOT NULL,
     flairchanged integer,
     defaultsortingcomments character varying(15) NOT NULL,
@@ -1054,7 +1053,8 @@ CREATE TABLE public.users (
     event_music boolean,
     chudded_by integer,
     event_darkmode boolean,
-    blacklisted_by integer
+    blacklisted_by integer,
+    hidevotedon boolean DEFAULT false NOT NULL
 );
 
 
@@ -1858,6 +1858,13 @@ CREATE INDEX fki_sub_subscriptions_sub_fkey ON public.sub_subscriptions USING bt
 --
 
 CREATE INDEX fki_subactions_user_fkey ON public.subactions USING btree (target_user_id);
+
+
+--
+-- Name: fki_submission_sub_fkey; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_submission_sub_fkey ON public.submissions USING btree (sub);
 
 
 --
