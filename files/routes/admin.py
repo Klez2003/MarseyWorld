@@ -979,7 +979,8 @@ def ban_user(id, v):
 			try: post = int(request.values["reason"].split("/post/")[1].split(None, 1)[0])
 			except: abort(400)
 			post = get_post(post)
-			post.bannedfor = f'{duration} by @{v.username}'
+			if post.sub != 'chudrama':
+				post.bannedfor = f'{duration} by @{v.username}'
 			g.db.add(post)
 		elif request.values["reason"].startswith("/comment/"):
 			try: comment = int(request.values["reason"].split("/comment/")[1].split(None, 1)[0])
