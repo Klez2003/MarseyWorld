@@ -23,6 +23,7 @@ def clear(v):
 	v.last_viewed_post_notifs = int(time.time())
 	v.last_viewed_log_notifs = int(time.time())
 	db.add(v)
+	db.flush()
 	return {"message": "Notifications marked as read!"}
 
 
@@ -41,7 +42,8 @@ def unread(v):
 	for n, c in listing:
 		n.read = True
 		db.add(n)
-
+	
+	db.flush()
 	return {"data":[x[1].json for x in listing]}
 
 
@@ -60,7 +62,7 @@ def notifications_modmail(v):
 	next_exists = (len(comments) > PAGE_SIZE)
 	listing = comments[:PAGE_SIZE]
 
-	db.commit()
+	db.flush()
 
 	if v.client: return {"data":[x.json for x in listing]}
 
@@ -123,7 +125,7 @@ def notifications_messages(v:User):
 				Notification.user_id == v.id,
 				Notification.comment_id.in_(notifs_unread),
 			).update({Notification.read: True})
-		db.commit()
+		db.flush()
 
 	next_exists = (len(message_threads) > 25)
 	listing = message_threads[:25]
@@ -178,6 +180,7 @@ def notifications_posts(v:User):
 	if not session.get("GLOBAL"):
 		v.last_viewed_post_notifs = int(time.time())
 		db.add(v)
+		db.flush()
 
 	if v.client: return {"data":[x.json for x in listing]}
 
@@ -227,6 +230,7 @@ def notifications_modactions(v:User):
 	if not session.get("GLOBAL"):
 		v.last_viewed_log_notifs = int(time.time())
 		db.add(v)
+		db.flush()
 
 	return render_template("notifications.html",
 							v=v,
@@ -396,7 +400,7 @@ def notifications(v:User):
 	total_cids = set(total_cids)
 	output = get_comments_v_properties(v, None, Comment.id.in_(total_cids))[1]
 
-	db.commit()
+	db.flush()
 
 	if v.client: return {"data":[x.json for x in listing]}
 

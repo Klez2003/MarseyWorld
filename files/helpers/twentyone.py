@@ -7,6 +7,7 @@ from flask import g
 
 from files.classes.casino_game import CasinoGame
 from files.helpers.casino import distribute_wager_badges
+from files.helpers.config.const import *
 
 class BlackjackStatus(str, Enum):
 	PLAYING = "PLAYING"

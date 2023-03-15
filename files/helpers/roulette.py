@@ -9,6 +9,7 @@ from files.classes.casino_game import CasinoGame
 from files.helpers.alerts import *
 from files.helpers.get import get_account
 from files.helpers.casino import distribute_wager_badges
+from files.helpers.config.const import *
 
 class RouletteAction(str, Enum):
 	STRAIGHT_UP_BET = "STRAIGHT_UP_BET",
