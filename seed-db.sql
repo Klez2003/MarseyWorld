@@ -199,13 +199,14 @@ INSERT INTO public.badge_defs VALUES (235, 'Thing Enjoyer', 'Awarded for contrib
 INSERT INTO public.badge_defs VALUES (237, '2 Years Old 🥰🥰', 'This user has wasted TWO WHOLE BUTT YEARS of their life here! Happy birthday!', 1678401489);
 INSERT INTO public.badge_defs VALUES (238, 'Free Thinker', 'This user thinks for himself and doesn''t need the crowd to tell him what to do 🤓', 1678721294);
 INSERT INTO public.badge_defs VALUES (239, 'Crowd Follower', 'This user hasn''t had an original thought in his life', 1678721346);
+INSERT INTO public.badge_defs VALUES (240, 'dude bussy lmao', 'Posted bussy 🍑', 1678846500);
 
 
 --
 -- Name: badge_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.badge_defs_id_seq', 239, true);
+SELECT pg_catalog.setval('public.badge_defs_id_seq', 240, true);
 
 
 --
@@ -1378,6 +1379,8 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseybarreldrunk',2,'barrel container beer bar alcohol drunk',NULL),
 ('marseybased',2,'basado king chiobu redpilled reaction animated',NULL),
 ('marseybat',2,'bat spooky wings',1671334414),
+('marseybat2',2,'bat scary wings flying vampire',1678850193),
+('marseybat3',2,'bat scary wings flying vampire',1678850203),
 ('marseybateman',2,'bret easton ellis serial halloween patrick american psycho killer holiday blood murderer',NULL),
 ('marseybath',2,'shower tub rubber duck',NULL),
 ('marseybattered',2,'blackeye domestic violence black eye marseyismywaifu bardfinn steve akins penny beaten bruised housewife',NULL),
@@ -1453,6 +1456,7 @@ INSERT INTO public.marseys (name, author_id, tags, created_utc) VALUES
 ('marseyblackmage',2,'magic wizard final fantasy spell video game vidya evil',NULL),
 ('marseyblackpanther',2,'marvel costume super hero we wuz wakanda capeshit africa',1678238507),
 ('marseyblackphillip',2,'goat witch vvitch satanic halloween horror',1666257171),
+('marseyblart',2,'mall cop mallcop paul blart authority segwey segway segue security guard',1678843995),
 ('marseyblep',2,'tongue cute smile sweet',1665456875),
 ('marseyblep2',2,'blep smile tongue cute sweet',1665456914),
 ('marseyblep3',2,'tongue cute sweet wholesome smile',1665457366),
