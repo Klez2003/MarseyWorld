@@ -490,6 +490,7 @@ class User(Base):
 	def referral_count(self):
 		return len(self.referrals)
 
+	@lazy
 	def has_blocked(self, target):
 		return db.query(UserBlock).filter_by(user_id=self.id, target_id=target.id).one_or_none()
 
