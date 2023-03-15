@@ -26,8 +26,8 @@ class BadgeDef(Base):
 	@property
 	@lazy
 	def path(self):
-		if 20 < self.id < 28 or self.id == 222: return SITE_FULL + f"/i/{SITE_NAME}/badges/{self.id}.webp"
-		return SITE_FULL + f"/i/badges/{self.id}.webp"
+		if 20 < self.id < 28 or self.id == 222: return SITE_FULL + f"/i/{SITE_NAME}/badges/{self.id}.webp?b=7"
+		return SITE_FULL + f"/i/badges/{self.id}.webp?b=7"
 
 class Badge(Base):
 
