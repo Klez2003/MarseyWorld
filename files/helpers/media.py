@@ -57,8 +57,7 @@ def process_files(files, v, body):
 			name = f'/images/{time.time()}'.replace('.','') + '.webp'
 			file.save(name)
 			url = process_image(name, v)
-			print(f'{url}  ', flush=True)
-			body = body.replace(f'[{file.filename}]', f'{url}  ', 1)
+			body = body.replace(f'[{file.filename}]', f'{url} ', 1)
 		elif file.content_type.startswith('video/'):
 			body = body.replace(f'[{file.filename}]', process_video(file, v), 1)
 		elif file.content_type.startswith('audio/'):
@@ -66,7 +65,6 @@ def process_files(files, v, body):
 		else:
 			abort(415)
 	
-	print(body, flush=True)
 	return body
 
 
@@ -298,7 +296,7 @@ def process_dm_images(v, user, body):
 			try: url = req['files'][0]['url']
 			except: abort(400, req['description'])
 
-			body = body.replace(f'[{file.filename}]', url, 1)
+			body = body.replace(f'[{file.filename}]', f'{url} ', 1)
 	
 			with open(f"{LOG_DIRECTORY}/dm_images.log", "a+", encoding="utf-8") as f:
 				if user:

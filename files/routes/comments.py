@@ -211,7 +211,7 @@ def comment(v:User):
 							purge_files_in_cache(f"https://{SITE}/assets/images/badges/{badge.id}.webp")
 						except Exception as e:
 							abort(400, str(e))
-				body = body.replace(f'[{file.filename}]', image, 1)
+				body = body.replace(f'[{file.filename}]', f'{image} ', 1)
 			elif file.content_type.startswith('video/'):
 				body = body.replace(f'[{file.filename}]', process_video(file, v), 1)
 			elif file.content_type.startswith('audio/'):
