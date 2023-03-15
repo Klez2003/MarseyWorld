@@ -83,22 +83,18 @@
 	{% endif %}
 </ul>
 
-{% if FEATURES['BADGES'] -%}
-<h4>Grant</h4>
+{% if FEATURES['BADGES'] and v.admin_level >= PERMS['USER_BADGES'] -%}
+<h4>Badges</h4>
 <ul>
-	{% if FEATURES['BADGES'] and v.admin_level >= PERMS['USER_BADGES'] -%}
-		<li><a href="/admin/badge_grant">Grant Badges</a></li>
-		<li><a href="/admin/badge_remove">Remove Badges</a></li>
-	{%- endif %}
+	<li><a href="/admin/badge_grant">Grant Badges</a></li>
+	<li><a href="/admin/badge_remove">Remove Badges</a></li>
 </ul>
 {%- endif %}
 
-{% if FEATURES['GAMBLING'] -%}
+{% if FEATURES['GAMBLING'] and v.admin_level >= PERMS['LOTTERY_VIEW_PARTICIPANTS']-%}
 <h4>Casino</h4>
 <ul>
-	{% if v.admin_level >= PERMS['LOTTERY_VIEW_PARTICIPANTS'] %}
-		<li><a href="/admin/lottery/participants">Participants</a></li>
-	{% endif %}
+	<li><a href="/admin/lottery/participants">Participants</a></li>
 </ul>
 {%- endif %}
 
