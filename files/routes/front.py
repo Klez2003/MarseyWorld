@@ -66,6 +66,7 @@ def front_all(v, sub=None, subdomain=None):
 	posts = get_posts(ids, v=v, eager=True)
 
 	if v:
+		if v.hidevotedon: posts = [x for x in posts if not hasattr(x, 'voted') or not x.voted]
 		award_timers(v)
 
 	if v and v.client: return {"data": [x.json for x in posts], "next_exists": next_exists}
@@ -77,6 +78,11 @@ LIMITED_WPD_HOLES = ('gore', 'aftermath', 'selfharm', 'meta', 'discussion', 'soc
 @cache.memoize()
 def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='', gt=0, lt=0, sub=None, site=None, pins=True, holes=True):
 	posts = db.query(Submission)
+
+	if v and v.hidevotedon:
+		posts = posts.outerjoin(Vote,
+					and_(Vote.submission_id == Submission.id, Vote.user_id == v.id)
+				).filter(Vote.submission_id == None)
 
 	if sub: posts = posts.filter(Submission.sub == sub.name)
 	elif v: posts = posts.filter(or_(Submission.sub == None, Submission.sub.notin_(v.all_blocks)))
