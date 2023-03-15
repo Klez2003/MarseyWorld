@@ -183,7 +183,6 @@ def settings_personal_post(v):
 		db.add(v)
 		return profanity_filter_updated
 
-	updated = updated or update_flag("hidevotedon", "hidevotedon")
 	updated = updated or update_flag("newtab", "newtab")
 	updated = updated or update_flag("newtabexternal", "newtabexternal")
 	updated = updated or update_flag("nitter", "nitter")

@@ -7,6 +7,7 @@ from sqlalchemy.sql.sqltypes import *
 from files.classes import Base
 from files.helpers.lazy import lazy
 from files.helpers.regex import censor_slurs
+from files.helpers.config.const import *
 
 class HatDef(Base):
 	__tablename__ = "hat_defs"
