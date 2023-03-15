@@ -7097,7 +7097,7 @@ body > .container {
 
 @media (min-width: 1000px) {
 	#logo-WPD {
-		width: 100px;
+		width: 90px;
 		margin-left: 0.5rem !important;
 	}
 }
@@ -7152,7 +7152,7 @@ input[type=number] {
 }
 
 .has_header {
-	padding-top: 85.9px !important
+	padding-top: 85.75px !important
 }
 
 @media (max-width: 767.98px) {
