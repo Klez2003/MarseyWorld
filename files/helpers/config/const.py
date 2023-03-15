@@ -238,6 +238,7 @@ if SITE_NAME == 'rDrama':
 		'ar15.com',
 		'neogaf.com',
 		'thebore.com',
+		'itjustbugsme.com',
 
 		#twitter-like
 		'gab.com',
