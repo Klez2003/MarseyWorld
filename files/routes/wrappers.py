@@ -1,5 +1,6 @@
 import time
 from flask import g, request, session
+import secrets
 
 from files.classes.clients import ClientAuth
 from files.helpers.alerts import *
@@ -26,6 +27,10 @@ def get_ID():
 
 def get_logged_in_user():
 	if hasattr(g, 'v') and g.v: return g.v
+
+	if hasattr(g, 'nonce'):
+		g.nonce = secrets.token_urlsafe(31)
+
 	g.desires_auth = True
 	v = None
 	token = request.headers.get("Authorization","").strip()

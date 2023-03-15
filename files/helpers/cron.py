@@ -4,6 +4,7 @@ import os
 from sys import stdout
 from shutil import make_archive
 from hashlib import md5
+import secrets
 
 import click
 import requests
@@ -33,6 +34,7 @@ db.close()
 def cron(every_5m, every_1h, every_1d, every_1mo):
 	db = db_session()
 	g.v = None
+	g.nonce = secrets.token_urlsafe(31)
 
 	if every_5m:
 		if FEATURES['GAMBLING']:
