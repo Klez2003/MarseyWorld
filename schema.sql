@@ -1004,7 +1004,7 @@ CREATE TABLE public.users (
     highres character varying(60),
     patron integer DEFAULT 0 NOT NULL,
     controversial boolean DEFAULT false NOT NULL,
-    background character varying(40),
+    background character varying(167),
     verified character varying(100),
     received_award_count integer DEFAULT 0 NOT NULL,
     nitter boolean,
