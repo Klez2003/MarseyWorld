@@ -75,7 +75,7 @@
 			{% endif %}
 
 			<div class="actionbtns mt-3">
-				{% if v.admin_level >= PERMS['ADMIN_ADD'] %}
+				{% if v.admin_level >= PERMS['ADMIN_ADD'] and not u.admin_level %}
 					<button type="button" id="add-admin-{{deviceType}}" class="btn btn-primary" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/@{{u.username}}/make_admin','add-admin-{{deviceType}}','remove-admin-{{deviceType}}','d-none')">Make Admin</button>
 				{% endif %}
 				{% if v.admin_level >= PERMS['ADMIN_REMOVE'] %}
