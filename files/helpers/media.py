@@ -57,7 +57,7 @@ def process_files(files, v, body):
 			name = f'/images/{time.time()}'.replace('.','') + '.webp'
 			file.save(name)
 			url = process_image(name, v)
-			body = body.replace(f'[{file.filename}]', f'{url}  ', 1)
+			body = body.replace(f'[{file.filename}]', f'{url} ', 1)
 		elif file.content_type.startswith('video/'):
 			body = body.replace(f'[{file.filename}]', process_video(file, v), 1)
 		elif file.content_type.startswith('audio/'):
