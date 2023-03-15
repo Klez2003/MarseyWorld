@@ -201,16 +201,6 @@ def execute_blackjack(v, target, body, type):
 			send_repeatable_notification(id, f"Blackjack by @{v.username}: {extra_info}")
 	return True
 
-def notify_jannies_of_grooming(v, c, u):
-	if 'discord' not in c.body and 'groomercord' not in c.body:
-		return
-
-	notified_ids = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['BLACKJACK_NOTIFICATIONS'])]
-
-	for id in notified_ids:
-		n = Notification(comment_id=c.id, user_id=id)
-		g.db.add(n)
-
 def render_emoji(html, regexp, golden, marseys_used, b=False):
 	emojis = list(regexp.finditer(html))
 	captured = set()
