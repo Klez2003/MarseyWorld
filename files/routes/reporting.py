@@ -193,6 +193,9 @@ def move_post(post:Submission, v:User, reason:str) -> Union[bool, str]:
 				_note=f'{sub_from_str} → {sub_to_str}',
 			)
 			g.db.add(ma)
+
+			if sub_to == 'chudrama':
+				post.bannedfor = None
 		else:
 			ma = SubAction(
 				sub=sub_from,
