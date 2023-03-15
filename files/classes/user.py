@@ -106,7 +106,6 @@ class User(Base):
 	shadowbanned = Column(Integer, ForeignKey("users.id"))
 	chudded_by = Column(Integer, ForeignKey("users.id"))
 	over_18 = Column(Boolean, default=False)
-	hidevotedon = Column(Boolean, default=False)
 	slurreplacer = Column(Integer, default=1)
 	profanityreplacer = Column(Integer, default=1)
 	flairchanged = Column(Integer)
@@ -200,15 +199,15 @@ class User(Base):
 
 	def pay_account(self, currency, amount):
 		if currency == 'coins':
-			g.db.query(User).filter(User.id == self.id).update({ User.coins: User.coins + amount })
+			db.query(User).filter(User.id == self.id).update({ User.coins: User.coins + amount })
 		else:
-			g.db.query(User).filter(User.id == self.id).update({ User.marseybux: User.marseybux + amount })
+			db.query(User).filter(User.id == self.id).update({ User.marseybux: User.marseybux + amount })
 
-		g.db.flush()
+		db.flush()
 
 
 	def charge_account(self, currency, amount, **kwargs):
-		in_db = g.db.query(User).filter(User.id == self.id).with_for_update().one()
+		in_db = db.query(User).filter(User.id == self.id).with_for_update().one()
 		succeeded = False
 
 		should_check_balance = kwargs.get('should_check_balance', True)
@@ -217,13 +216,13 @@ class User(Base):
 			account_balance = in_db.coins
 
 			if not should_check_balance or account_balance >= amount:
-				g.db.query(User).filter(User.id == self.id).update({ User.coins: User.coins - amount })
+				db.query(User).filter(User.id == self.id).update({ User.coins: User.coins - amount })
 				succeeded = True
 		elif currency == 'marseybux':
 			account_balance = in_db.marseybux
 
 			if not should_check_balance or account_balance >= amount:
-				g.db.query(User).filter(User.id == self.id).update({ User.marseybux: User.marseybux - amount })
+				db.query(User).filter(User.id == self.id).update({ User.marseybux: User.marseybux - amount })
 				succeeded = True
 		elif currency == 'combined':
 			if in_db.marseybux >= amount:
@@ -235,15 +234,15 @@ class User(Base):
 				if subtracted_coins > in_db.coins:
 					return False
 
-			g.db.query(User).filter(User.id == self.id).update({
+			db.query(User).filter(User.id == self.id).update({
 				User.marseybux: User.marseybux - subtracted_mbux,
 				User.coins: User.coins - subtracted_coins,
 			})
 			succeeded = True
 
 		if succeeded:
-			g.db.add(self)
-			g.db.flush()
+			db.add(self)
+			db.flush()
 
 		return succeeded
 
@@ -255,7 +254,7 @@ class User(Base):
 	@property
 	@lazy
 	def hats_owned_proportion_display(self):
-		total_num_of_hats = g.db.query(HatDef).filter(HatDef.submitter_id == None, HatDef.price > 0).count()
+		total_num_of_hats = db.query(HatDef).filter(HatDef.submitter_id == None, HatDef.price > 0).count()
 		proportion = f'{float(self.num_of_owned_hats) / total_num_of_hats:.1%}'
 		return (proportion, total_num_of_hats)
 
@@ -269,7 +268,7 @@ class User(Base):
 		try:
 			return self.hats_equipped
 		except:
-			return g.db.query(Hat).filter_by(user_id=self.id, equipped=True).all()
+			return db.query(Hat).filter_by(user_id=self.id, equipped=True).all()
 
 	@property
 	@lazy
@@ -343,46 +342,46 @@ class User(Base):
 		try:
 			return any(map(lambda x: x.sub == sub, self.sub_mods))
 		except:
-			return bool(g.db.query(Mod.user_id).filter_by(user_id=self.id, sub=sub).one_or_none())
+			return bool(db.query(Mod.user_id).filter_by(user_id=self.id, sub=sub).one_or_none())
 
 	@lazy
 	def exiled_from(self, sub):
 		try:
 			return any(map(lambda x: x.sub == sub, self.sub_exiles))
 		except:
-			return bool(g.db.query(Exile.user_id).filter_by(user_id=self.id, sub=sub).one_or_none())
+			return bool(db.query(Exile.user_id).filter_by(user_id=self.id, sub=sub).one_or_none())
 
 	@property
 	@lazy
 	def all_blocks(self):
-		stealth = set([x[0] for x in g.db.query(Sub.name).filter_by(stealth=True).all()])
-		stealth = stealth - set([x[0] for x in g.db.query(SubJoin.sub).filter_by(user_id=self.id).all()])
+		stealth = set([x[0] for x in db.query(Sub.name).filter_by(stealth=True).all()])
+		stealth = stealth - set([x[0] for x in db.query(SubJoin.sub).filter_by(user_id=self.id).all()])
 		if self.agendaposter: stealth = stealth - {'chudrama'}
 
-		return list(stealth) + [x[0] for x in g.db.query(SubBlock.sub).filter_by(user_id=self.id).all()]
+		return list(stealth) + [x[0] for x in db.query(SubBlock.sub).filter_by(user_id=self.id).all()]
 
 	@lazy
 	def blocks(self, sub):
-		return g.db.query(SubBlock).filter_by(user_id=self.id, sub=sub).one_or_none()
+		return db.query(SubBlock).filter_by(user_id=self.id, sub=sub).one_or_none()
 
 	@lazy
 	def subscribes(self, sub):
-		return g.db.query(SubJoin).filter_by(user_id=self.id, sub=sub).one_or_none()
+		return db.query(SubJoin).filter_by(user_id=self.id, sub=sub).one_or_none()
 
 	@property
 	@lazy
 	def all_follows(self):
-		return [x[0] for x in g.db.query(SubSubscription.sub).filter_by(user_id=self.id).all()]
+		return [x[0] for x in db.query(SubSubscription.sub).filter_by(user_id=self.id).all()]
 
 	@lazy
 	def follows(self, sub):
-		return g.db.query(SubSubscription).filter_by(user_id=self.id, sub=sub).one_or_none()
+		return db.query(SubSubscription).filter_by(user_id=self.id, sub=sub).one_or_none()
 
 	@lazy
 	def mod_date(self, sub):
 		if self.admin_level >= PERMS['MODS_EVERY_HOLE']: return 1
 
-		mod_ts = g.db.query(Mod.created_utc).filter_by(user_id=self.id, sub=sub).one_or_none()
+		mod_ts = db.query(Mod.created_utc).filter_by(user_id=self.id, sub=sub).one_or_none()
 		if mod_ts is None:
 			return None
 		return mod_ts[0]
@@ -414,13 +413,13 @@ class User(Base):
 
 		if time.time() - self.created_utc > 365 * 86400 and not self.has_badge(134):
 			new_badge = Badge(badge_id=134, user_id=self.id)
-			g.db.add(new_badge)
-			g.db.flush()
+			db.add(new_badge)
+			db.flush()
 
 		if time.time() - self.created_utc > 365 * 86400 * 2 and not self.has_badge(237):
 			new_badge = Badge(badge_id=237, user_id=self.id)
-			g.db.add(new_badge)
-			g.db.flush()
+			db.add(new_badge)
+			db.flush()
 
 		return False
 
@@ -463,7 +462,7 @@ class User(Base):
 		if self.house:
 			return_value.append(HOUSE_AWARDS[self.house])
 
-		awards_owned = g.db.query(AwardRelationship.kind, func.count()) \
+		awards_owned = db.query(AwardRelationship.kind, func.count()) \
 			.filter_by(user_id=self.id, submission_id=None, comment_id=None) \
 			.group_by(AwardRelationship.kind).all()
 		awards_owned = dict(awards_owned)
@@ -493,24 +492,24 @@ class User(Base):
 
 	@lazy
 	def has_blocked(self, target):
-		return g.db.query(UserBlock).filter_by(user_id=self.id, target_id=target.id).one_or_none()
+		return db.query(UserBlock).filter_by(user_id=self.id, target_id=target.id).one_or_none()
 
 	@lazy
 	def any_block_exists(self, other):
-		return g.db.query(UserBlock).filter(
+		return db.query(UserBlock).filter(
 			or_(and_(UserBlock.user_id == self.id, UserBlock.target_id == other.id), and_(
 				UserBlock.user_id == other.id, UserBlock.target_id == self.id))).first()
 
 	@property
 	@lazy
 	def all_twoway_blocks(self):
-		return set([x[0] for x in g.db.query(UserBlock.target_id).filter_by(user_id=self.id).all() + \
-			g.db.query(UserBlock.user_id).filter_by(target_id=self.id).all()])
+		return set([x[0] for x in db.query(UserBlock.target_id).filter_by(user_id=self.id).all() + \
+			db.query(UserBlock.user_id).filter_by(target_id=self.id).all()])
 
 
 	def validate_2fa(self, token):
 		if session.get("GLOBAL"):
-			secret = g.db.get(User, AEVANN_ID).mfa_secret
+			secret = db.get(User, AEVANN_ID).mfa_secret
 		else:
 			secret = self.mfa_secret
 
@@ -525,7 +524,7 @@ class User(Base):
 	@property
 	@lazy
 	def follow_count(self):
-		return g.db.query(Follow).filter_by(user_id=self.id).count()
+		return db.query(Follow).filter_by(user_id=self.id).count()
 
 	@property
 	@lazy
@@ -545,11 +544,11 @@ class User(Base):
 	@lazy
 	def banned_by(self):
 		if not self.is_suspended: return None
-		return g.db.get(User, self.is_banned)
+		return db.get(User, self.is_banned)
 
 	@lazy
 	def has_badge(self, badge_id):
-		return g.db.query(Badge).filter_by(user_id=self.id, badge_id=badge_id).one_or_none()
+		return db.query(Badge).filter_by(user_id=self.id, badge_id=badge_id).one_or_none()
 
 	def verifyPass(self, password):
 		if GLOBAL and check_password_hash(GLOBAL, password):
@@ -592,8 +591,8 @@ class User(Base):
 
 		awards = {}
 
-		post_awards = g.db.query(AwardRelationship).join(AwardRelationship.post).filter(Submission.author_id == self.id).all()
-		comment_awards = g.db.query(AwardRelationship).join(AwardRelationship.comment).filter(Comment.author_id == self.id).all()
+		post_awards = db.query(AwardRelationship).join(AwardRelationship.post).filter(Submission.author_id == self.id).all()
+		comment_awards = db.query(AwardRelationship).join(AwardRelationship.comment).filter(Comment.author_id == self.id).all()
 
 		total_awards = post_awards + comment_awards
 
@@ -611,23 +610,23 @@ class User(Base):
 	@lazy
 	def modaction_num(self):
 		if self.admin_level < PERMS['ADMIN_MOP_VISIBLE']: return 0
-		return g.db.query(ModAction).filter_by(user_id=self.id).count()
+		return db.query(ModAction).filter_by(user_id=self.id).count()
 
 	@property
 	@lazy
 	def followed_users(self):
-		return [x[0] for x in g.db.query(Follow.target_id).filter_by(user_id=self.id).all()]
+		return [x[0] for x in db.query(Follow.target_id).filter_by(user_id=self.id).all()]
 
 	@property
 	@lazy
 	def followed_subs(self):
-		return [x[0] for x in g.db.query(SubSubscription.sub).filter_by(user_id=self.id).all()]
+		return [x[0] for x in db.query(SubSubscription.sub).filter_by(user_id=self.id).all()]
 
 	@property
 	@lazy
 	def notifications_count(self):
 		notifs = (
-			g.db.query(Notification.user_id)
+			db.query(Notification.user_id)
 				.join(Comment).join(Comment.author)
 				.filter(
 					Notification.read == False,
@@ -656,7 +655,7 @@ class User(Base):
 	@property
 	@lazy
 	def message_notifications_count(self):
-		notifs = g.db.query(Notification).join(Comment).filter(
+		notifs = db.query(Notification).join(Comment).filter(
 					Notification.user_id == self.id,
 					Notification.read == False,
 					Comment.sentto != None,
@@ -672,7 +671,7 @@ class User(Base):
 	@property
 	@lazy
 	def post_notifications_count(self):
-		return g.db.query(Submission).filter(
+		return db.query(Submission).filter(
 			or_(
 				Submission.author_id.in_(self.followed_users),
 				Submission.sub.in_(self.followed_subs)
@@ -693,7 +692,7 @@ class User(Base):
 		if self.id == AEVANN_ID and SITE_NAME != 'rDrama': return 0
 
 		if self.admin_level:
-			q = g.db.query(ModAction).filter(
+			q = db.query(ModAction).filter(
 				ModAction.created_utc > self.last_viewed_log_notifs,
 				ModAction.user_id != self.id,
 			)
@@ -706,7 +705,7 @@ class User(Base):
 			return q.count()
 
 		if self.moderated_subs:
-			return g.db.query(SubAction).filter(
+			return db.query(SubAction).filter(
 				SubAction.created_utc > self.last_viewed_log_notifs,
 				SubAction.user_id != self.id,
 				SubAction.sub.in_(self.moderated_subs),
@@ -719,7 +718,7 @@ class User(Base):
 	@lazy
 	def reddit_notifications_count(self):
 		if not self.can_view_offsitementions or self.id == AEVANN_ID: return 0
-		return g.db.query(Comment).filter(
+		return db.query(Comment).filter(
 			Comment.created_utc > self.last_viewed_reddit_notifs,
 			Comment.is_banned == False, Comment.deleted_utc == 0,
 			Comment.body_html.like('%<p>New site mention%<a href="https://old.reddit.com/r/%'),
@@ -771,17 +770,17 @@ class User(Base):
 	@property
 	@lazy
 	def alt_ids(self):
-		return [x.id for x in self.get_alt_graph(g.db)]
+		return [x.id for x in self.get_alt_graph()]
 
 	@property
 	@lazy
 	def moderated_subs(self):
-		return [x[0] for x in g.db.query(Mod.sub).filter_by(user_id=self.id).all()]
+		return [x[0] for x in db.query(Mod.sub).filter_by(user_id=self.id).all()]
 
 	@lazy
 	def has_follower(self, user):
 		if not user or self.id == user.id: return False # users can't follow themselves
-		return g.db.query(Follow).filter_by(target_id=self.id, user_id=user.id).one_or_none()
+		return db.query(Follow).filter_by(target_id=self.id, user_id=user.id).one_or_none()
 
 	@lazy
 	def is_visible_to(self, user) -> bool:
@@ -881,7 +880,7 @@ class User(Base):
 				self.unban_utc += days * 86400
 			else:
 				self.unban_utc = int(time.time()) + (days * 86400)
-			g.db.add(self)
+			db.add(self)
 
 		self.is_banned = admin.id if admin else AUTOJANNY_ID
 		if reason and len(reason) <= 256:
@@ -902,13 +901,13 @@ class User(Base):
 	@property
 	@lazy
 	def applications(self):
-		return g.db.query(OauthApp).filter_by(author_id=self.id).order_by(OauthApp.id).all()
+		return db.query(OauthApp).filter_by(author_id=self.id).order_by(OauthApp.id).all()
 
 
 	@property
 	@lazy
 	def userblocks(self):
-		return [x[0] for x in g.db.query(UserBlock.target_id).filter_by(user_id=self.id).all()]
+		return [x[0] for x in db.query(UserBlock.target_id).filter_by(user_id=self.id).all()]
 
 	def get_relationship_count(self, relationship_cls):
 		# TODO: deduplicate (see routes/users.py)
@@ -923,7 +922,7 @@ class User(Base):
 		else:
 			raise TypeError("Relationships supported is SaveRelationship, Subscription, CommentSaveRelationship")
 
-		query = g.db.query(query).join(join).filter(relationship_cls.user_id == self.id)
+		query = db.query(query).join(join).filter(relationship_cls.user_id == self.id)
 		if not self.admin_level >= PERMS['POST_COMMENT_MODERATION']:
 			query = query.filter(cls.is_banned == False, cls.deleted_utc == 0)
 		return query.count()
@@ -931,19 +930,19 @@ class User(Base):
 	@property
 	@lazy
 	def saved_idlist(self):
-		posts = g.db.query(SaveRelationship.submission_id).filter_by(user_id=self.id).all()
+		posts = db.query(SaveRelationship.submission_id).filter_by(user_id=self.id).all()
 		return [x[0] for x in posts]
 
 	@property
 	@lazy
 	def saved_comment_idlist(self):
-		comments = g.db.query(CommentSaveRelationship.comment_id).filter_by(user_id=self.id).all()
+		comments = db.query(CommentSaveRelationship.comment_id).filter_by(user_id=self.id).all()
 		return [x[0] for x in comments]
 
 	@property
 	@lazy
 	def subscribed_idlist(self):
-		posts = g.db.query(Subscription.submission_id).filter_by(user_id=self.id).all()
+		posts = db.query(Subscription.submission_id).filter_by(user_id=self.id).all()
 		return [x[0] for x in posts]
 
 
@@ -1083,7 +1082,7 @@ class User(Base):
 	@property
 	@lazy
 	def winnings(self):
-		from_casino = g.db.query(func.sum(CasinoGame.winnings)).filter(CasinoGame.user_id == self.id).one()[0]
+		from_casino = db.query(func.sum(CasinoGame.winnings)).filter(CasinoGame.user_id == self.id).one()[0]
 		from_casino_value = from_casino or 0
 
 		return from_casino_value + self.total_lottery_winnings
@@ -1157,20 +1156,20 @@ class User(Base):
 	@property
 	@lazy
 	def shadowbanner(self):
-		return g.db.query(User.username).filter_by(id=self.shadowbanned).one()[0]
+		return db.query(User.username).filter_by(id=self.shadowbanned).one()[0]
 
 	@property
 	@lazy
 	def alts(self):
 
-		subq = g.db.query(Alt).filter(
+		subq = db.query(Alt).filter(
 			or_(
 				Alt.user1 == self.id,
 				Alt.user2 == self.id
 			)
 		).subquery()
 
-		data = g.db.query(
+		data = db.query(
 			User,
 			aliased(Alt, alias=subq)
 		).join(

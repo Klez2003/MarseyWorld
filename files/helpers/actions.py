@@ -74,14 +74,14 @@ def execute_snappy(post:Submission, v:User):
 						submission_id=post.id,
 						real = True
 						)
-			g.db.add(vote)
+			db.add(vote)
 			post.downvotes += 1
 			if body.startswith('OP is a Trump supporter'):
 				flag = Flag(post_id=post.id, user_id=SNAPPY_ID, reason='Trump supporter')
-				g.db.add(flag)
+				db.add(flag)
 			elif body.startswith('You had your chance. Downvoted and reported'):
 				flag = Flag(post_id=post.id, user_id=SNAPPY_ID, reason='Retard')
-				g.db.add(flag)
+				db.add(flag)
 		elif body.startswith('▲') or body.startswith(':#marseyupvote'):
 			if body.startswith('▲'): body = body[1:]
 			vote = Vote(user_id=SNAPPY_ID,
@@ -89,21 +89,21 @@ def execute_snappy(post:Submission, v:User):
 						submission_id=post.id,
 						real = True
 						)
-			g.db.add(vote)
+			db.add(vote)
 			post.upvotes += 1
 		elif body.startswith(':#marseyghost'):
 			ghost = True
 		elif body == '!slots':
 			body = f'!slots{snappy.coins}'
 		elif body == '!pinggroup':
-			group = g.db.query(Group).order_by(func.random()).first()
+			group = db.query(Group).order_by(func.random()).first()
 
 			members = group.member_ids
 			
 			if group.name == 'biofoids': mul = 10
 			else: mul = 5
 				
-			g.db.query(User).filter(User.id.in_(members)).update({ User.coins: User.coins + mul })
+			db.query(User).filter(User.id.in_(members)).update({ User.coins: User.coins + mul })
 
 			cost = len(members) * mul
 			snappy.charge_account('coins', cost)
@@ -178,13 +178,13 @@ def execute_snappy(post:Submission, v:User):
 			ghost=ghost
 			)
 
-		g.db.add(c)
+		db.add(c)
 
 		check_slots_command(c, v, snappy)
 
 		snappy.comment_count += 1
 		snappy.pay_account('coins', 1)
-		g.db.add(snappy)
+		db.add(snappy)
 
 		if FEATURES['PINS'] and (body.startswith(':#marseypin:') or body.startswith(':#marseypin2:')):
 			post.stickied = "Snappy"
@@ -203,10 +203,10 @@ def execute_snappy(post:Submission, v:User):
 				target_user_id=v.id,
 				_note=f'duration: {duration}, reason: "{reason}"'
 				)
-			g.db.add(ma)
+			db.add(ma)
 			post.bannedfor = f'{duration} by @Snappy'
 
-		g.db.flush()
+		db.flush()
 
 		c.top_comment_id = c.id
 
@@ -230,10 +230,10 @@ def execute_zozbot(c:Comment, level:int, post_target:post_target_type, v):
 		distinguish_level=6
 	)
 
-	g.db.add(c2)
-	g.db.flush()
+	db.add(c2)
+	db.flush()
 	n = Notification(comment_id=c2.id, user_id=v.id)
-	g.db.add(n)
+	db.add(n)
 
 	c3 = Comment(author_id=ZOZBOT_ID,
 		parent_submission=post_target.id if posting_to_submission else None,
@@ -248,8 +248,8 @@ def execute_zozbot(c:Comment, level:int, post_target:post_target_type, v):
 		distinguish_level=6
 	)
 
-	g.db.add(c3)
-	g.db.flush()
+	db.add(c3)
+	db.flush()
 
 
 	c4 = Comment(author_id=ZOZBOT_ID,
@@ -265,16 +265,16 @@ def execute_zozbot(c:Comment, level:int, post_target:post_target_type, v):
 		distinguish_level=6
 	)
 
-	g.db.add(c4)
+	db.add(c4)
 
 	zozbot = get_account(ZOZBOT_ID)
 	zozbot.comment_count += 3
 	zozbot.pay_account('coins', 1)
-	g.db.add(zozbot)
+	db.add(zozbot)
 
 	if posting_to_submission:
 		post_target.comment_count += 3
-		g.db.add(post_target)
+		db.add(post_target)
 
 	push_notif({v.id}, f'New reply by @{c2.author_name}', "zoz", c2)
 
@@ -291,7 +291,7 @@ def execute_longpostbot(c:Comment, level:int, body, body_html, post_target:post_
 			comment_id=c.id,
 			real = True
 		)
-		g.db.add(vote)
+		db.add(vote)
 		c.downvotes = 1
 
 	body_html = sanitize(body)
@@ -308,19 +308,19 @@ def execute_longpostbot(c:Comment, level:int, body, body_html, post_target:post_
 		ghost=c.ghost
 	)
 
-	g.db.add(c2)
+	db.add(c2)
 
 	longpostbot = get_account(LONGPOSTBOT_ID)
 	longpostbot.comment_count += 1
 	longpostbot.pay_account('coins', 1)
-	g.db.add(longpostbot)
-	g.db.flush()
+	db.add(longpostbot)
+	db.flush()
 	n = Notification(comment_id=c2.id, user_id=v.id)
-	g.db.add(n)
+	db.add(n)
 
 	if posting_to_submission:
 		post_target.comment_count += 3
-		g.db.add(post_target)
+		db.add(post_target)
 
 	push_notif({v.id}, f'New reply by @{c2.author_name}', c2.body, c2)
 
@@ -328,14 +328,14 @@ def execute_antispam_submission_check(title, v, url):
 	now = int(time.time())
 	cutoff = now - 60 * 60 * 24
 
-	similar_posts = g.db.query(Submission).filter(
+	similar_posts = db.query(Submission).filter(
 					Submission.author_id == v.id,
 					Submission.title.op('<->')(title) < SPAM_SIMILARITY_THRESHOLD,
 					Submission.created_utc > cutoff
 	).all()
 
 	if url:
-		similar_urls = g.db.query(Submission).filter(
+		similar_urls = db.query(Submission).filter(
 					Submission.author_id == v.id,
 					Submission.url.op('<->')(url) < SPAM_URL_SIMILARITY_THRESHOLD,
 					Submission.created_utc > cutoff
@@ -357,14 +357,14 @@ def execute_antispam_submission_check(title, v, url):
 			post.is_banned = True
 			post.is_pinned = False
 			post.ban_reason = "AutoJanny"
-			g.db.add(post)
+			db.add(post)
 			ma=ModAction(
 					user_id=AUTOJANNY_ID,
 					target_submission_id=post.id,
 					kind="ban_post",
 					_note="Spam"
 					)
-			g.db.add(ma)
+			db.add(ma)
 		return False
 	return True
 
@@ -380,13 +380,13 @@ def execute_antispam_duplicate_comment_check(v:User, body_html:str):
 	if len(body_html) < 16: return
 	if body_html == '!wordle': return # wordle
 	compare_time = int(time.time()) - 60 * 60 * 24
-	count = g.db.query(Comment.id).filter(Comment.body_html == body_html,
+	count = db.query(Comment.id).filter(Comment.body_html == body_html,
 										  Comment.created_utc >= compare_time).count()
 	if count <= ANTISPAM_DUPLICATE_THRESHOLD: return
 	v.ban(reason="Spamming.", days=0.0)
 	send_repeatable_notification(v.id, "Your account has been banned **permanently** for the following reason:\n\n> Too much spam!")
-	g.db.add(v)
-	g.db.commit()
+	db.add(v)
+	db.commit()
 	abort(403, "Too much spam!")
 
 def execute_antispam_comment_check(body:str, v:User):
@@ -397,7 +397,7 @@ def execute_antispam_comment_check(body:str, v:User):
 	now = int(time.time())
 	cutoff = now - 60 * 60 * 24
 
-	similar_comments = g.db.query(Comment).filter(
+	similar_comments = db.query(Comment).filter(
 		Comment.author_id == v.id,
 		Comment.body.op('<->')(body) < COMMENT_SPAM_SIMILAR_THRESHOLD,
 		Comment.created_utc > cutoff
@@ -417,21 +417,21 @@ def execute_antispam_comment_check(body:str, v:User):
 	for comment in similar_comments:
 		comment.is_banned = True
 		comment.ban_reason = "AutoJanny"
-		g.db.add(comment)
+		db.add(comment)
 		ma=ModAction(
 			user_id=AUTOJANNY_ID,
 			target_comment_id=comment.id,
 			kind="ban_comment",
 			_note="Spam"
 		)
-		g.db.add(ma)
-	g.db.commit()
+		db.add(ma)
+	db.commit()
 	abort(403, "Too much spam!")
 
 def execute_under_siege(v:User, target:Optional[Union[Submission, Comment]], body, type:str) -> bool:
 	if not get_setting("under_siege"): return True
 
-	unshadowbannedcels = [x[0] for x in g.db.query(ModAction.target_user_id).filter_by(kind='unshadowban').all()]
+	unshadowbannedcels = [x[0] for x in db.query(ModAction.target_user_id).filter_by(kind='unshadowban').all()]
 	if v.id in unshadowbannedcels: return True
 
 	if type in ('flag', 'message'):
@@ -448,10 +448,10 @@ def execute_under_siege(v:User, target:Optional[Union[Submission, Comment]], bod
 			target_user_id=v.id,
 			_note=f'reason: "Under Siege ({type}, {v.age} seconds)"'
 		)
-		g.db.add(ma)
+		db.add(ma)
 
 		v.ban_reason = "Under Siege"
-		g.db.add(v)
+		db.add(v)
 		t = time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime(time.time()))
 		return False
 	return True
@@ -481,10 +481,10 @@ def execute_lawlz_actions(v:User, p:Submission):
 		target_submission_id=p.id,
 		_note=f'"{p.flair}"'
 	)
-	g.db.add(p)
-	g.db.add(ma_1)
-	g.db.add(ma_2)
-	g.db.add(ma_3)
+	db.add(p)
+	db.add(ma_1)
+	db.add(ma_2)
+	db.add(ma_3)
 
 
 def execute_wordle(c:Comment, body:str):
@@ -522,7 +522,7 @@ def process_poll_options(v:User, target:Union[Submission, Comment]):
 
 			body_html=filter_emojis_only(body)
 
-			existing = g.db.query(cls).filter_by(
+			existing = db.query(cls).filter_by(
 					parent_id=target.id,
 					body_html=body_html,
 					exclusive=exclusive,
@@ -534,4 +534,4 @@ def process_poll_options(v:User, target:Union[Submission, Comment]):
 					body_html=body_html,
 					exclusive=exclusive,
 				)
-				g.db.add(option)
+				db.add(option)

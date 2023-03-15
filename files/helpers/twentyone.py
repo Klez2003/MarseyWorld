@@ -7,6 +7,7 @@ from flask import g
 
 from files.classes.casino_game import CasinoGame
 from files.helpers.casino import distribute_wager_badges
+from files.helpers.config.const import *
 
 class BlackjackStatus(str, Enum):
 	PLAYING = "PLAYING"
@@ -63,13 +64,13 @@ def build_casino_game(gambler, wager, currency):
 	casino_game.kind = 'blackjack'
 	casino_game.game_state = json.dumps(initial_state)
 	casino_game.active = True
-	g.db.add(casino_game)
+	db.add(casino_game)
 
 	return casino_game
 
 
 def get_active_twentyone_game(gambler):
-	return g.db.query(CasinoGame).filter(
+	return db.query(CasinoGame).filter(
 		CasinoGame.active == True,
 		CasinoGame.kind == 'blackjack',
 		CasinoGame.user_id == gambler.id).first()
@@ -94,7 +95,7 @@ def create_new_game(gambler, wager, currency):
 
 	if existing_game:
 		existing_game.active = False
-		g.db.add(existing_game)
+		db.add(existing_game)
 
 	if not over_minimum_bet:
 		raise Exception(f"Gambler must bet over {minimum_bet} {currency}.")
@@ -102,8 +103,8 @@ def create_new_game(gambler, wager, currency):
 	try:
 		charge_gambler(gambler, wager, currency)
 		new_game = build_casino_game(gambler, wager, currency)
-		g.db.add(new_game)
-		g.db.flush()
+		db.add(new_game)
+		db.flush()
 	except:
 		raise Exception(f"Gambler cannot afford to bet {wager} {currency}.")
 
@@ -253,7 +254,7 @@ def handle_payout(gambler, state, game):
 			distribute_wager_badges(gambler, game.wager, won=False)
 
 	game.active = False
-	g.db.add(game)
+	db.add(game)
 
 	return payout
 
@@ -308,7 +309,7 @@ def dispatch_action(gambler, action):
 	new_state['actions'] = get_available_actions(new_state)
 
 	game.game_state = json.dumps(new_state)
-	g.db.add(game)
+	db.add(game)
 
 	game_over, final_state = check_for_completion(new_state)
 

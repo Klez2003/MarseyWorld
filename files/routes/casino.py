@@ -32,9 +32,9 @@ def casino_game_page(v:User, game):
 	elif game not in CASINO_GAME_KINDS:
 		abort(404)
 
-	feed = json.dumps(get_game_feed(game, g.db))
-	leaderboard = json.dumps(get_game_leaderboard(game, g.db))
-	v_stats = get_user_stats(v, game, g.db, game == 'blackjack')
+	feed = json.dumps(get_game_feed(game))
+	leaderboard = json.dumps(get_game_leaderboard(game))
+	v_stats = get_user_stats(v, game, game == 'blackjack')
 
 	game_state = ''
 	if game == 'blackjack':
@@ -62,7 +62,7 @@ def casino_game_feed(v:User, game):
 	elif game not in CASINO_GAME_KINDS:
 		abort(404)
 
-	feed = get_game_feed(game, g.db)
+	feed = get_game_feed(game)
 	return {"feed": feed}
 
 
@@ -126,7 +126,7 @@ def blackjack_deal_to_player(v:User):
 		currency = request.values.get("currency")
 		create_new_game(v, wager, currency)
 		state = dispatch_action(v, BlackjackAction.DEAL)
-		feed = get_game_feed('blackjack', g.db)
+		feed = get_game_feed('blackjack')
 
 		return {"success": True, "state": state, "feed": feed, "gambler": {"coins": v.coins, "marseybux": v.marseybux}}
 	except Exception as e:
@@ -144,7 +144,7 @@ def blackjack_player_hit(v:User):
 
 	try:
 		state = dispatch_action(v, BlackjackAction.HIT)
-		feed = get_game_feed('blackjack', g.db)
+		feed = get_game_feed('blackjack')
 		return {"success": True, "state": state, "feed": feed, "gambler": {"coins": v.coins, "marseybux": v.marseybux}}
 	except:
 		abort(400, "Unable to hit!")
@@ -161,7 +161,7 @@ def blackjack_player_stay(v:User):
 
 	try:
 		state = dispatch_action(v, BlackjackAction.STAY)
-		feed = get_game_feed('blackjack', g.db)
+		feed = get_game_feed('blackjack')
 		return {"success": True, "state": state, "feed": feed, "gambler": {"coins": v.coins, "marseybux": v.marseybux}}
 	except:
 		abort(400, "Unable to stay!")
@@ -178,7 +178,7 @@ def blackjack_player_doubled_down(v:User):
 
 	try:
 		state = dispatch_action(v, BlackjackAction.DOUBLE_DOWN)
-		feed = get_game_feed('blackjack', g.db)
+		feed = get_game_feed('blackjack')
 		return {"success": True, "state": state, "feed": feed, "gambler": {"coins": v.coins, "marseybux": v.marseybux}}
 	except:
 		abort(400, "Unable to double down!")
@@ -195,7 +195,7 @@ def blackjack_player_bought_insurance(v:User):
 
 	try:
 		state = dispatch_action(v, BlackjackAction.BUY_INSURANCE)
-		feed = get_game_feed('blackjack', g.db)
+		feed = get_game_feed('blackjack')
 		return {"success": True, "state": state, "feed": feed, "gambler": {"coins": v.coins, "marseybux": v.marseybux}}
 	except:
 		abort(403, "Unable to buy insurance!")

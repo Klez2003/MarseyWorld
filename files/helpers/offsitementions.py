@@ -30,7 +30,7 @@ def offsite_mentions_task(cache:Cache):
 			user_mentions = get_mentions(cache, [query], reddit_notifs_users=True)
 			notify_mentions(user_mentions, send_to=send_user, mention_str='mention of you')
 
-	g.db.commit() # commit early otherwise localhost testing fails to commit
+	db.commit() # commit early otherwise localhost testing fails to commit
 
 def get_mentions(cache:Cache, queries:Iterable[str], reddit_notifs_users=False):
 	kinds = ['submission', 'comment']
@@ -105,7 +105,7 @@ def notify_mentions(mentions, send_to=None, mention_str='site mention'):
 			f'{text}'
 		)
 
-		existing_comment = g.db.query(Comment.id).filter_by(
+		existing_comment = db.query(Comment.id).filter_by(
 			author_id=const.AUTOJANNY_ID,
 			parent_submission=None,
 			body_html=notif_text).one_or_none()
@@ -116,12 +116,12 @@ def notify_mentions(mentions, send_to=None, mention_str='site mention'):
 						parent_submission=None,
 						body_html=notif_text,
 						distinguish_level=6)
-		g.db.add(new_comment)
-		g.db.flush()
+		db.add(new_comment)
+		db.flush()
 		new_comment.top_comment_id = new_comment.id
 
 		if send_to:
 			notif = Notification(comment_id=new_comment.id, user_id=send_to)
-			g.db.add(notif)
+			db.add(notif)
 
 			push_notif({send_to}, f'New mention of you on reddit by /u/{author}', '', f'{SITE_FULL}/comment/{new_comment.id}?read=true#context')

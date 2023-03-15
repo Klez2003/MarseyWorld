@@ -47,7 +47,7 @@ def remove_background(v):
 		if v.background.startswith('/images/'):
 			remove_media(v.background)
 		v.background = None
-		g.db.add(v)
+		db.add(v)
 	return {"message": "Background removed!"}
 
 @app.post('/settings/custom_background')
@@ -71,7 +71,7 @@ def upload_custom_background(v):
 		if v.background and v.background.startswith('/images/'):
 			remove_media(v.background)
 		v.background = background
-		g.db.add(v)
+		db.add(v)
 
 	return redirect('/settings/personal')
 
@@ -93,7 +93,7 @@ def upload_profile_background(v):
 		if v.profile_background and path.isfile(v.profile_background):
 			remove_media(v.profile_background)
 		v.profile_background = background
-		g.db.add(v)
+		db.add(v)
 		badge_grant(badge_id=193, user=v)
 	return redirect(f'/@{v.username}')
 
@@ -173,17 +173,16 @@ def settings_personal_post(v):
 	if isinstance(slur_filter_updated, bool):
 		updated = slur_filter_updated
 	else:
-		g.db.add(v)
+		db.add(v)
 		return slur_filter_updated
 
 	profanity_filter_updated = updated or update_potentially_permanent_flag("profanityreplacer", "profanityreplacer", "profanity replacer", 190)
 	if isinstance(profanity_filter_updated, bool):
 		updated = profanity_filter_updated
 	else:
-		g.db.add(v)
+		db.add(v)
 		return profanity_filter_updated
 
-	updated = updated or update_flag("hidevotedon", "hidevotedon")
 	updated = updated or update_flag("newtab", "newtab")
 	updated = updated or update_flag("newtabexternal", "newtabexternal")
 	updated = updated or update_flag("nitter", "nitter")
@@ -199,7 +198,7 @@ def settings_personal_post(v):
 		if v.spider: badge_grant(user=v, badge_id=179)
 		else:
 			badge = v.has_badge(179)
-			if badge: g.db.delete(badge)
+			if badge: db.delete(badge)
 
 	elif IS_FISTMAS() and not updated and request.values.get("event_music", v.event_music) != v.event_music and v.can_toggle_event_music:
 		updated = True
@@ -208,25 +207,25 @@ def settings_personal_post(v):
 	elif not updated and request.values.get("bio") == "" and not request.files.get('file'):
 		v.bio = None
 		v.bio_html = None
-		g.db.add(v)
+		db.add(v)
 		return render_template("settings/personal.html", v=v, msg="Your bio has been updated!")
 
 	elif not updated and request.values.get("sig") == "":
 		v.sig = None
 		v.sig_html = None
-		g.db.add(v)
+		db.add(v)
 		return render_template("settings/personal.html", v=v, msg="Your sig has been updated!")
 
 	elif not updated and request.values.get("friends") == "":
 		v.friends = None
 		v.friends_html = None
-		g.db.add(v)
+		db.add(v)
 		return render_template("settings/personal.html", v=v, msg="Your friends list has been updated!")
 
 	elif not updated and request.values.get("enemies") == "":
 		v.enemies = None
 		v.enemies_html = None
-		g.db.add(v)
+		db.add(v)
 		return render_template("settings/personal.html", v=v, msg="Your enemies list has been updated!")
 
 	elif not updated and v.patron and request.values.get("sig"):
@@ -239,7 +238,7 @@ def settings_personal_post(v):
 
 		v.sig = sig[:200]
 		v.sig_html=sig_html
-		g.db.add(v)
+		db.add(v)
 		return render_template("settings/personal.html",
 							v=v,
 							msg="Your sig has been updated.")
@@ -269,7 +268,7 @@ def settings_personal_post(v):
 
 		v.friends = friends
 		v.friends_html=friends_html
-		g.db.add(v)
+		db.add(v)
 		return render_template("settings/personal.html",
 							v=v,
 							msg="Your friends list has been updated.")
@@ -299,7 +298,7 @@ def settings_personal_post(v):
 
 		v.enemies = enemies
 		v.enemies_html=enemies_html
-		g.db.add(v)
+		db.add(v)
 		return render_template("settings/personal.html",
 							v=v,
 							msg="Your enemies list has been updated.")
@@ -320,7 +319,7 @@ def settings_personal_post(v):
 
 		v.bio = bio[:BIO_FRIENDS_ENEMIES_LENGTH_LIMIT]
 		v.bio_html=bio_html
-		g.db.add(v)
+		db.add(v)
 		return render_template("settings/personal.html",
 							v=v,
 							msg="Your bio has been updated.")
@@ -366,7 +365,7 @@ def settings_personal_post(v):
 		updated = True
 
 	if updated:
-		g.db.add(v)
+		db.add(v)
 		return {"message": "Your settings have been updated!"}
 	else:
 		abort(400, "You didn't change anything!")
@@ -384,7 +383,7 @@ def filters(v:User):
 		return redirect("/settings/advanced?error=You didn't change anything!")
 
 	v.custom_filter_list=filters
-	g.db.add(v)
+	db.add(v)
 	return redirect("/settings/advanced?msg=Your custom filters have been updated!")
 
 
@@ -397,7 +396,7 @@ def set_color(v:User, attr:str, color:Optional[str]):
 			return render_template("settings/personal.html", v=v, error="Invalid color hex code!")
 		if color and current != color:
 			setattr(v, attr, color)
-			g.db.add(v)
+			db.add(v)
 	return render_template("settings/personal.html", v=v, msg="Color successfully updated!")
 
 
@@ -452,7 +451,7 @@ def settings_security_post(v):
 
 		v.passhash = hash_password(request.values.get("new_password"))
 
-		g.db.add(v)
+		db.add(v)
 		return render_template("settings/security.html", v=v, msg="Your password has been changed!")
 
 	if request.values.get("new_email"):
@@ -492,7 +491,7 @@ def settings_security_post(v):
 			return render_template("settings/security.html", v=v, error="Invalid token!")
 
 		v.mfa_secret = secret
-		g.db.add(v)
+		db.add(v)
 		return render_template("settings/security.html", v=v, msg="Two-factor authentication enabled!")
 
 	if request.values.get("2fa_remove"):
@@ -505,8 +504,8 @@ def settings_security_post(v):
 			return render_template("settings/security.html", v=v, error="Invalid token!")
 
 		v.mfa_secret = None
-		g.db.add(v)
-		g.db.commit()
+		db.add(v)
+		db.flush()
 		return render_template("settings/security.html", v=v, msg="Two-factor authentication disabled!")
 
 @app.post("/settings/log_out_all_others")
@@ -521,7 +520,7 @@ def settings_log_out_others(v):
 
 	v.login_nonce += 1
 	session["login_nonce"] = v.login_nonce
-	g.db.add(v)
+	db.add(v)
 
 	return redirect("/settings/security?msg=All other devices have been logged out!")
 
@@ -556,7 +555,7 @@ def settings_images_profile(v):
 
 	v.highres = highres
 	v.profileurl = imageurl
-	g.db.add(v)
+	db.add(v)
 
 	cache.delete_memoized(get_profile_picture, v.id)
 	cache.delete_memoized(get_profile_picture, v.username)
@@ -584,7 +583,7 @@ def settings_images_banner(v):
 		if v.bannerurl and '/images/' in v.bannerurl and path.isfile(v.bannerurl):
 			remove_media(v.bannerurl)
 		v.bannerurl = bannerurl
-		g.db.add(v)
+		db.add(v)
 
 	return redirect("/settings/personal?msg=Banner successfully updated!")
 
@@ -604,7 +603,7 @@ def settings_css(v):
 	if v.agendaposter: abort(400, "Agendapostered users can't edit CSS!")
 	css = request.values.get("css", v.css).strip().replace('\\', '').strip()[:CSS_LENGTH_LIMIT]
 	v.css = css
-	g.db.add(v)
+	db.add(v)
 
 	return render_template("settings/css.html", v=v, msg="Custom CSS successfully updated!", profilecss=v.profilecss)
 
@@ -619,7 +618,7 @@ def settings_profilecss(v):
 	if not valid:
 		return render_template("settings/css.html", error=error, v=v, profilecss=profilecss)
 	v.profilecss = profilecss
-	g.db.add(v)
+	db.add(v)
 	return redirect("/settings/css?msg=Profile CSS successfully updated!")
 
 @app.get("/settings/security")
@@ -654,7 +653,7 @@ def settings_block_user(v):
 	if v.has_blocked(user): abort(409, f"You have already blocked @{user.username}")
 
 	new_block = UserBlock(user_id=v.id, target_id=user.id)
-	g.db.add(new_block)
+	db.add(new_block)
 
 	if user.admin_level >= PERMS['USER_BLOCKS_VISIBLE']:
 		send_notification(user.id, f"@{v.username} has blocked you!")
@@ -672,7 +671,7 @@ def settings_unblock_user(v):
 	user = get_user(request.values.get("username"))
 	x = v.has_blocked(user)
 	if not x: abort(409, "You can't unblock someone you haven't blocked")
-	g.db.delete(x)
+	db.delete(x)
 	if not v.shadowbanned and user.admin_level >= PERMS['USER_BLOCKS_VISIBLE']:
 		send_notification(user.id, f"@{v.username} has unblocked you!")
 	cache.delete_memoized(frontlist)
@@ -712,7 +711,7 @@ def settings_name_change(v):
 
 	search_name = new_name.replace('\\', '').replace('_','\_').replace('%','')
 
-	x = g.db.query(User).filter(
+	x = db.query(User).filter(
 		or_(
 			User.username.ilike(search_name),
 			User.original_username.ilike(search_name)
@@ -727,7 +726,7 @@ def settings_name_change(v):
 	v=get_account(v.id)
 	v.username=new_name
 	v.name_changed_utc=int(time.time())
-	g.db.add(v)
+	db.add(v)
 
 	return redirect("/settings/personal?msg=Name successfully changed!")
 
@@ -752,17 +751,16 @@ def settings_song_change_mp3(v):
 		remove_media(name)
 		return redirect("/settings/personal?error=MP3 file must be smaller than 8MB")
 
-	if path.isfile(f"/songs/{v.song}.mp3") and g.db.query(User).filter_by(song=v.song).count() == 1:
+	if path.isfile(f"/songs/{v.song}.mp3") and db.query(User).filter_by(song=v.song).count() == 1:
 		remove_media(f"/songs/{v.song}.mp3")
 
 	v.song = song
-	g.db.add(v)
+	db.add(v)
 
 	return redirect("/settings/personal?msg=Profile Anthem successfully updated!")
 
 
 def _change_song_youtube(vid, id):
-	db = db_session()
 	v = db.get(User, vid)
 
 	if v.song and path.isfile(f"/songs/{v.song}.mp3") and db.query(User).filter_by(song=v.song).count() == 1:
@@ -806,10 +804,10 @@ def settings_song_change(v):
 	song=request.values.get("song").strip()
 
 	if song == "" and v.song:
-		if path.isfile(f"/songs/{v.song}.mp3") and g.db.query(User).filter_by(song=v.song).count() == 1:
+		if path.isfile(f"/songs/{v.song}.mp3") and db.query(User).filter_by(song=v.song).count() == 1:
 			remove_media(f"/songs/{v.song}.mp3")
 		v.song = None
-		g.db.add(v)
+		db.add(v)
 		return redirect("/settings/personal?msg=Profile Anthem successfully removed!")
 
 	song = song.replace("https://music.youtube.com", "https://youtube.com")
@@ -827,7 +825,7 @@ def settings_song_change(v):
 		return redirect("/settings/personal?error=Not a YouTube link!"), 400
 	if path.isfile(f'/songs/{id}.mp3'):
 		v.song = id
-		g.db.add(v)
+		db.add(v)
 		return redirect("/settings/personal?msg=Profile Anthem successfully updated!")
 
 
@@ -873,7 +871,7 @@ def settings_title_change(v):
 
 	v.customtitleplain = customtitleplain
 	v.customtitle = customtitle
-	g.db.add(v)
+	db.add(v)
 
 	return redirect("/settings/personal?msg=Flair successfully updated!")
 
@@ -901,7 +899,7 @@ def settings_pronouns_change(v):
 	elif 'fag' in bare_pronouns: pronouns = 'cute/twink'
 
 	v.pronouns = pronouns
-	g.db.add(v)
+	db.add(v)
 
 	return redirect("/settings/personal?msg=Pronouns successfully updated!")
 
@@ -917,7 +915,7 @@ def settings_checkmark_text(v):
 	if not new_name: abort(400)
 	if new_name == v.verified: return redirect("/settings/personal?error=You didn't change anything!")
 	v.verified = new_name
-	g.db.add(v)
+	db.add(v)
 	return redirect("/settings/personal?msg=Checkmark Text successfully updated!")
 
 if IS_FISTMAS():
@@ -928,5 +926,5 @@ if IS_FISTMAS():
 	@auth_required
 	def event_darkmode(v):
 		v.event_darkmode = not v.event_darkmode
-		g.db.add(v)
+		db.add(v)
 		return {"message": "Dark mode toggled successfully!"}

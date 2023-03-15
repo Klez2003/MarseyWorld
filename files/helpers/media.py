@@ -34,7 +34,7 @@ def remove_media(path):
 
 def media_ratelimit(v):
 	t = time.time() - 86400
-	count = g.db.query(Media).filter(Media.user_id == v.id, Media.created_utc > t).count()
+	count = db.query(Media).filter(Media.user_id == v.id, Media.created_utc > t).count()
 	if count > 50 and v.admin_level < PERMS['USE_ADMIGGER_THREADS']:
 		print(STARS, flush=True)
 		print(f'@{v.username} hit the 50 file daily limit!')
@@ -81,8 +81,8 @@ def process_audio(file, v):
 		remove_media(name)
 		abort(413, f"Max image/audio size is {MAX_IMAGE_AUDIO_SIZE_MB} MB ({MAX_IMAGE_AUDIO_SIZE_MB_PATRON} MB for {patron.lower()}s)")
 
-	media = g.db.query(Media).filter_by(filename=name, kind='audio').one_or_none()
-	if media: g.db.delete(media)
+	media = db.query(Media).filter_by(filename=name, kind='audio').one_or_none()
+	if media: db.delete(media)
 
 	media = Media(
 		kind='audio',
@@ -90,12 +90,12 @@ def process_audio(file, v):
 		user_id=v.id,
 		size=size
 	)
-	g.db.add(media)
+	db.add(media)
 
 	return name
 
 
-def webm_to_mp4(old, new, vid, db):
+def webm_to_mp4(old, new, vid):
 	tmp = new.replace('.mp4', '-t.mp4')
 	subprocess.run(["ffmpeg", "-y", "-loglevel", "warning", "-nostats", "-threads:v", "1", "-i", old, "-map_metadata", "-1", tmp], check=True, stderr=subprocess.STDOUT)
 	os.replace(tmp, new)
@@ -136,14 +136,13 @@ def process_video(file, v):
 	if extension == 'webm':
 		new = new.replace('.webm', '.mp4')
 		copyfile(old, new)
-		db = Session(bind=g.db.get_bind(), autoflush=False)
-		gevent.spawn(webm_to_mp4, old, new, v.id, db)
+		gevent.spawn(webm_to_mp4, old, new, v.id)
 	else:
 		subprocess.run(["ffmpeg", "-y", "-loglevel", "warning", "-nostats", "-i", old, "-map_metadata", "-1", "-c:v", "copy", "-c:a", "copy", new], check=True)
 		remove_media(old)
 
-		media = g.db.query(Media).filter_by(filename=new, kind='video').one_or_none()
-		if media: g.db.delete(media)
+		media = db.query(Media).filter_by(filename=new, kind='video').one_or_none()
+		if media: db.delete(media)
 
 		media = Media(
 			kind='video',
@@ -151,14 +150,14 @@ def process_video(file, v):
 			user_id=v.id,
 			size=os.stat(new).st_size
 		)
-		g.db.add(media)
+		db.add(media)
 
 	if SITE == 'watchpeopledie.tv': 
 		return f'https://videos.{SITE}' + new.split('/videos')[1]
 	else:
 		return f"{SITE_FULL}{new}"
 
-def process_image(filename:str, v, resize=0, trim=False, uploader_id:Optional[int]=None, db=None):
+def process_image(filename:str, v, resize=0, trim=False, uploader_id:Optional[int]=None):
 	# thumbnails are processed in a thread and not in the request context
 	# if an image is too large or webp conversion fails, it'll crash
 	# to avoid this, we'll simply return None instead
@@ -241,8 +240,6 @@ def process_image(filename:str, v, resize=0, trim=False, uploader_id:Optional[in
 						abort(409, "Image already exists! " + hashes[i_hash].split('/')[-1])
 					return None
 
-	db = db or g.db
-
 	media = db.query(Media).filter_by(filename=filename, kind='image').one_or_none()
 	if media: db.delete(media)
 
@@ -254,7 +251,7 @@ def process_image(filename:str, v, resize=0, trim=False, uploader_id:Optional[in
 	)
 	db.add(media)
 
-	if IS_LOCALHOST: return f'![]({filename})'
+	if IS_LOCALHOST: return f'{SITE_FULL}{filename}'
 	return f'https://i.{SITE}{filename}'
 
 

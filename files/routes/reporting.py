@@ -30,7 +30,7 @@ def flag_post(pid, v):
 
 	if reason.startswith('!') and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or post.sub and v.mods(post.sub)):
 		post.flair = reason[1:]
-		g.db.add(post)
+		db.add(post)
 		if v.admin_level >= PERMS['POST_COMMENT_MODERATION']:
 			ma=ModAction(
 				kind="flair_post",
@@ -38,7 +38,7 @@ def flag_post(pid, v):
 				target_submission_id=post.id,
 				_note=f'"{post.flair}"'
 			)
-			g.db.add(ma)
+			db.add(ma)
 			position = 'a site admin'
 		else:
 			ma = SubAction(
@@ -48,7 +48,7 @@ def flag_post(pid, v):
 				target_submission_id=post.id,
 				_note=f'"{post.flair}"'
 			)
-			g.db.add(ma)
+			db.add(ma)
 			position = f'a /h/{post.sub} mod'
 
 		if v.id != post.author_id:
@@ -60,10 +60,10 @@ def flag_post(pid, v):
 	moved = move_post(post, v, reason)
 	if moved: return {"message": moved}
 
-	existing = g.db.query(Flag.post_id).filter_by(user_id=v.id, post_id=post.id).one_or_none()
+	existing = db.query(Flag.post_id).filter_by(user_id=v.id, post_id=post.id).one_or_none()
 	if existing: abort(409, "You already reported this post!")
 	flag = Flag(post_id=post.id, user_id=v.id, reason=reason)
-	g.db.add(flag)
+	db.add(flag)
 
 	return {"message": "Post reported!"}
 
@@ -77,7 +77,7 @@ def flag_comment(cid, v):
 
 	comment = get_comment(cid)
 
-	existing = g.db.query(CommentFlag.comment_id).filter_by(user_id=v.id, comment_id=comment.id).one_or_none()
+	existing = db.query(CommentFlag.comment_id).filter_by(user_id=v.id, comment_id=comment.id).one_or_none()
 	if existing: abort(409, "You already reported this comment!")
 
 	reason = request.values.get("reason", "").strip()
@@ -90,7 +90,7 @@ def flag_comment(cid, v):
 
 	flag = CommentFlag(comment_id=comment.id, user_id=v.id, reason=reason)
 
-	g.db.add(flag)
+	db.add(flag)
 
 	return {"message": "Comment reported!"}
 
@@ -105,10 +105,10 @@ def remove_report_post(v, pid, uid):
 		pid = int(pid)
 		uid = int(uid)
 	except: abort(404)
-	report = g.db.query(Flag).filter_by(post_id=pid, user_id=uid).one_or_none()
+	report = db.query(Flag).filter_by(post_id=pid, user_id=uid).one_or_none()
 
 	if report:
-		g.db.delete(report)
+		db.delete(report)
 
 		ma=ModAction(
 			kind="delete_report",
@@ -116,7 +116,7 @@ def remove_report_post(v, pid, uid):
 			target_submission_id=pid
 		)
 
-		g.db.add(ma)
+		db.add(ma)
 	return {"message": "Report removed successfully!"}
 
 
@@ -130,10 +130,10 @@ def remove_report_comment(v, cid, uid):
 		cid = int(cid)
 		uid = int(uid)
 	except: abort(404)
-	report = g.db.query(CommentFlag).filter_by(comment_id=cid, user_id=uid).one_or_none()
+	report = db.query(CommentFlag).filter_by(comment_id=cid, user_id=uid).one_or_none()
 
 	if report:
-		g.db.delete(report)
+		db.delete(report)
 
 		ma=ModAction(
 			kind="delete_report",
@@ -141,7 +141,7 @@ def remove_report_comment(v, cid, uid):
 			target_comment_id=cid
 		)
 
-		g.db.add(ma)
+		db.add(ma)
 	return {"message": "Report removed successfully!"}
 
 def move_post(post:Submission, v:User, reason:str) -> Union[bool, str]:
@@ -178,7 +178,7 @@ def move_post(post:Submission, v:User, reason:str) -> Union[bool, str]:
 
 	post.sub = sub_to
 	post.hole_pinned = None
-	g.db.add(post)
+	db.add(post)
 
 	if v.id != post.author_id:
 		if v.admin_level:
@@ -192,7 +192,7 @@ def move_post(post:Submission, v:User, reason:str) -> Union[bool, str]:
 				target_submission_id=post.id,
 				_note=f'{sub_from_str} → {sub_to_str}',
 			)
-			g.db.add(ma)
+			db.add(ma)
 
 			if sub_to == 'chudrama':
 				post.bannedfor = None
@@ -203,7 +203,7 @@ def move_post(post:Submission, v:User, reason:str) -> Union[bool, str]:
 				user_id=v.id,
 				target_submission_id=post.id
 			)
-			g.db.add(ma)
+			db.add(ma)
 
 		if v.admin_level >= PERMS['POST_COMMENT_MODERATION']: position = 'a site admin'
 		else: position = f'a /h/{sub_from} mod'

@@ -27,6 +27,7 @@ from files.__main__ import app, limiter
 @app.errorhandler(415)
 @app.errorhandler(418)
 @app.errorhandler(429)
+@app.errorhandler(500)
 def error(e):
 	g.desires_auth = False
 	title = ERROR_TITLES.get(e.code, str(e.code))
@@ -51,14 +52,6 @@ def error_401(e):
 		if not argval: argval = '/'
 		if session.get("history") or not get_setting("signups"): return redirect(f"/login?redirect={argval}")
 		else: return redirect(f"/signup?redirect={argval}")
-
-@app.errorhandler(500)
-def error_500(e):
-	if hasattr(g, 'db'):
-		g.db.rollback()
-		g.db.close()
-		del g.db
-	return error(e)
 
 
 @app.post("/allow_nsfw")

@@ -4,7 +4,7 @@ from files.helpers.alerts import *
 from files.helpers.config.const import *
 from files.helpers.useractions import badge_grant
 
-def get_game_feed(game, db):
+def get_game_feed(game):
 	games = db.query(CasinoGame) \
 		.filter(CasinoGame.active == False, CasinoGame.kind == game) \
 		.order_by(CasinoGame.created_utc.desc()).limit(30).all()
@@ -23,14 +23,14 @@ def get_game_feed(game, db):
 
 	return list(map(format_game, games))
 
-def get_user_stats(u:User, game:str, db:scoped_session, include_ties=False):
+def get_user_stats(u:User, game:str, include_ties=False):
 	games = db.query(CasinoGame.user_id, CasinoGame.winnings).filter(CasinoGame.kind == game, CasinoGame.user_id == u.id)
 	wins = games.filter(CasinoGame.winnings > 0).count()
 	ties = games.filter(CasinoGame.winnings == 0).count() if include_ties else 0
 	losses = games.filter(CasinoGame.winnings < 0).count()
 	return (wins, ties, losses)
 
-def get_game_leaderboard(game, db:scoped_session):
+def get_game_leaderboard(game):
 	timestamp_24h_ago = time.time() - 86400
 	timestamp_all_time = CASINO_RELEASE_DAY # "All Time" starts on release day
 
