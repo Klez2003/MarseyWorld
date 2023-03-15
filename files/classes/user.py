@@ -106,7 +106,6 @@ class User(Base):
 	shadowbanned = Column(Integer, ForeignKey("users.id"))
 	chudded_by = Column(Integer, ForeignKey("users.id"))
 	over_18 = Column(Boolean, default=False)
-	hidevotedon = Column(Boolean, default=False)
 	slurreplacer = Column(Integer, default=1)
 	profanityreplacer = Column(Integer, default=1)
 	flairchanged = Column(Integer)
