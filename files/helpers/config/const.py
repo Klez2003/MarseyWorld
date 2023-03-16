@@ -8,7 +8,7 @@ import tldextract
 import datetime
 
 engine = create_engine(environ.get("DATABASE_URL").strip())
-db_session = scoped_session(sessionmaker(bind=engine, autoflush=False))
+db_session = scoped_session(sessionmaker(bind=engine))
 db = db_session()
 
 t = datetime.datetime.now()
