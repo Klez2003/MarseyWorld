@@ -197,6 +197,7 @@
 					<span id="timestamp-{{c.id}}" data-nonce="{{g.nonce}}" data-onmouseover="timestamp(this, '{{c.notif_utc}}')" data-bs-toggle="tooltip" data-bs-placement="bottom" class="time-stamp d-inline-block">&nbsp;{{c.age_string}}</span>
 				{% elif c.created_utc %}
 					<span id="timestamp-{{c.id}}" data-nonce="{{g.nonce}}" data-onmouseover="timestamp(this, '{{c.created_utc}}')" data-bs-toggle="tooltip" data-bs-placement="bottom" class="time-stamp d-inline-block">&nbsp;{{c.age_string}}</span>
+					&nbsp;&nbsp;#{{c.id}}
 				{% endif %}
 
 				{% if c.edited_utc %}
