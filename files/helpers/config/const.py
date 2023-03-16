@@ -537,6 +537,7 @@ FEATURES = {
 	'ASSET_SUBMISSIONS': False,
 	'NSFW_MARKING': True,
 	'PING_GROUPS': True,
+	'BOTS': True,
 }
 
 WERKZEUG_ERROR_DESCRIPTIONS = {
@@ -835,6 +836,7 @@ elif SITE == 'watchpeopledie.tv':
 
 	FEATURES['PATRON_ICONS'] = True
 	FEATURES['NSFW_MARKING'] = False
+	FEATURES['BOTS'] = False
 
 	PERMS['HOLE_CREATE'] = 2
 	PERMS['POST_EDITING'] = 2
