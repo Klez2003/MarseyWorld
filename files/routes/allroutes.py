@@ -66,5 +66,4 @@ def after_request(response:Response):
 @app.teardown_appcontext
 def teardown_request(error):
 	db.rollback()
-	db.expunge_all()
 	stdout.flush()
