@@ -44,7 +44,7 @@ def publish(pid, v):
 	if p.author_id != v.id: abort(403)
 	p.private = False
 	p.created_utc = int(time.time())
-	db.add(p)
+	g.db.add(p)
 
 	notify_users = NOTIFY_USERS(f'{p.title} {p.body}', v, ghost=p.ghost)
 
@@ -76,7 +76,7 @@ def submit_get(v:User, sub=None):
 	sub = get_sub_by_name(sub, graceful=True)
 	if request.path.startswith('/h/') and not sub: abort(404)
 
-	SUBS = [x[0] for x in db.query(Sub.name).order_by(Sub.name).all()]
+	SUBS = [x[0] for x in g.db.query(Sub.name).order_by(Sub.name).all()]
 
 	return render_template("submit.html", SUBS=SUBS, v=v, sub=sub)
 
@@ -109,9 +109,9 @@ def post_id(pid, anything=None, v=None, sub=None):
 		comments = sort_objects(sort, comments, Comment)
 		comments = [c[0] for c in comments.all()]
 	else:
-		pinned = db.query(Comment).filter(Comment.parent_submission == p.id, Comment.stickied != None).order_by(Comment.created_utc.desc()).all()
+		pinned = g.db.query(Comment).filter(Comment.parent_submission == p.id, Comment.stickied != None).order_by(Comment.created_utc.desc()).all()
 
-		comments = db.query(Comment).filter(
+		comments = g.db.query(Comment).filter(
 				Comment.parent_submission == p.id,
 				Comment.level == 1,
 				Comment.stickied == None
@@ -133,13 +133,13 @@ def post_id(pid, anything=None, v=None, sub=None):
 			for comment in comments:
 				comments2.append(comment)
 				ids.add(comment.id)
-				count += db.query(Comment).filter_by(parent_submission=p.id, top_comment_id=comment.id).count() + 1
+				count += g.db.query(Comment).filter_by(parent_submission=p.id, top_comment_id=comment.id).count() + 1
 				if count > threshold: break
 		else:
 			for comment in comments:
 				comments2.append(comment)
 				ids.add(comment.id)
-				count += db.query(Comment).filter_by(parent_submission=p.id, parent_comment_id=comment.id).count() + 1
+				count += g.db.query(Comment).filter_by(parent_submission=p.id, parent_comment_id=comment.id).count() + 1
 				if count > 20: break
 
 		if len(comments) == len(comments2): offset = 0
@@ -151,7 +151,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 		if pin.stickied_utc and int(time.time()) > pin.stickied_utc:
 			pin.stickied = None
 			pin.stickied_utc = None
-			db.add(pin)
+			g.db.add(pin)
 		elif pin.level > 1:
 			pinned2[pin.top_comment] = ''
 			if pin.top_comment in comments:
@@ -162,10 +162,10 @@ def post_id(pid, anything=None, v=None, sub=None):
 	p.replies = list(pinned2.keys()) + comments
 
 	p.views += 1
-	db.add(p)
+	g.db.add(p)
 
 	if v and v.client:
-		return p.json
+		return p.json(g.db)
 
 	template = "submission.html"
 	if (p.is_banned or p.author.shadowbanned) \
@@ -196,7 +196,7 @@ def view_more(v, pid, sort, offset):
 
 		comments = [c[0] for c in comments.all()]
 	else:
-		comments = db.query(Comment).filter(
+		comments = g.db.query(Comment).filter(
 				Comment.parent_submission == pid,
 				Comment.level == 1,
 				Comment.stickied == None,
@@ -213,13 +213,13 @@ def view_more(v, pid, sort, offset):
 		for comment in comments:
 			comments2.append(comment)
 			ids.add(comment.id)
-			count += db.query(Comment).filter_by(parent_submission=p.id, top_comment_id=comment.id).count() + 1
+			count += g.db.query(Comment).filter_by(parent_submission=p.id, top_comment_id=comment.id).count() + 1
 			if count > 100: break
 	else:
 		for comment in comments:
 			comments2.append(comment)
 			ids.add(comment.id)
-			count += db.query(Comment).filter_by(parent_submission=p.id, parent_comment_id=comment.id).count() + 1
+			count += g.db.query(Comment).filter_by(parent_submission=p.id, parent_comment_id=comment.id).count() + 1
 			if count > 20: break
 
 	if len(comments) == len(comments2): offset = 0
@@ -236,7 +236,7 @@ def more_comments(v, cid):
 	try: cid = int(cid)
 	except: abort(404)
 
-	tcid = db.query(Comment.top_comment_id).filter_by(id=cid).one_or_none()[0]
+	tcid = g.db.query(Comment.top_comment_id).filter_by(id=cid).one_or_none()[0]
 
 	if v:
 		# shadowban check is done in sort_objects i think
@@ -254,6 +254,7 @@ def more_comments(v, cid):
 	return render_template("comments.html", v=v, comments=comments, p=p, render_replies=True)
 
 def thumbnail_thread(pid:int, vid:int):
+	db = db_session()
 	def expand_url(post_url, fragment_url):
 		if fragment_url.startswith("https://"):
 			return fragment_url
@@ -371,7 +372,7 @@ def thumbnail_thread(pid:int, vid:int):
 			file.write(chunk)
 
 	v = db.get(User, vid)
-	url = process_image(name, v, resize=99, uploader_id=p.author_id)
+	url = process_image(name, v, resize=99, uploader_id=p.author_id, db=db)
 	if url:
 		p.thumburl = url
 		db.add(p)
@@ -417,7 +418,7 @@ def is_repost():
 	url = url.rstrip('/')
 
 	search_url = url.replace('%', '').replace('\\', '').replace('_', '\_').strip()
-	repost = db.query(Submission).filter(
+	repost = g.db.query(Submission).filter(
 		Submission.url.ilike(search_url),
 		Submission.deleted_utc == 0,
 		Submission.is_banned == False
@@ -459,7 +460,7 @@ def submit_post(v:User, sub=None):
 
 	if sub and sub != 'none':
 		sname = sub.strip().lower()
-		sub = db.query(Sub.name).filter_by(name=sname).one_or_none()
+		sub = g.db.query(Sub.name).filter_by(name=sname).one_or_none()
 		if not sub: abort(400, f"/h/{sname} not found!")
 		sub = sub[0]
 		if v.exiled_from(sub): abort(400, f"You're exiled from /h/{sub}")
@@ -506,7 +507,7 @@ def submit_post(v:User, sub=None):
 		url = url.rstrip('/')
 
 		search_url = url.replace('%', '').replace('\\', '').replace('_', '\_').strip()
-		repost = db.query(Submission).filter(
+		repost = g.db.query(Submission).filter(
 			Submission.url.ilike(search_url),
 			Submission.deleted_utc == 0,
 			Submission.is_banned == False
@@ -516,7 +517,7 @@ def submit_post(v:User, sub=None):
 
 		y = tldextract.extract(url).registered_domain + parsed_url.path
 		y = y.lower()
-		banned_domains = db.query(BannedDomain).all()
+		banned_domains = g.db.query(BannedDomain).all()
 		for x in banned_domains:
 			if y.startswith(x.domain):
 				abort(400, f'Remove the banned link "{x.domain}" and try again!<br>Reason for link ban: "{x.reason}"')
@@ -538,7 +539,7 @@ def submit_post(v:User, sub=None):
 		abort(400, "Please enter a url or some text!")
 
 	if not IS_LOCALHOST:
-		dup = db.query(Submission).filter(
+		dup = g.db.query(Submission).filter(
 			Submission.author_id == v.id,
 			Submission.deleted_utc == 0,
 			Submission.title == title,
@@ -599,8 +600,8 @@ def submit_post(v:User, sub=None):
 		ghost=flag_ghost
 	)
 
-	db.add(p)
-	db.flush()
+	g.db.add(p)
+	g.db.flush()
 
 	execute_under_siege(v, p, p.body, 'submission')
 
@@ -614,7 +615,7 @@ def submit_post(v:User, sub=None):
 				submission_id=p.id,
 				coins=0
 				)
-	db.add(vote)
+	g.db.add(vote)
 
 	if request.files.get('file-url') and not g.is_tor:
 		file = request.files['file-url']
@@ -678,22 +679,22 @@ def submit_post(v:User, sub=None):
 			ghost=p.ghost
 		)
 
-		db.add(c_jannied)
-		db.flush()
+		g.db.add(c_jannied)
+		g.db.flush()
 
 		p.comment_count += 1
-		db.add(p)
+		g.db.add(p)
 
 		c_jannied.top_comment_id = c_jannied.id
 
 		n = Notification(comment_id=c_jannied.id, user_id=v.id)
-		db.add(n)
+		g.db.add(n)
 
-	if not p.private and not (p.sub and db.query(Exile.user_id).filter_by(user_id=SNAPPY_ID, sub=p.sub).one_or_none()):
+	if not p.private and not (p.sub and g.db.query(Exile.user_id).filter_by(user_id=SNAPPY_ID, sub=p.sub).one_or_none()):
 		execute_snappy(p, v)
 
-	v.post_count = db.query(Submission).filter_by(author_id=v.id, deleted_utc=0).count()
-	db.add(v)
+	v.post_count = g.db.query(Submission).filter_by(author_id=v.id, deleted_utc=0).count()
+	g.db.add(v)
 
 	execute_lawlz_actions(v, p)
 
@@ -706,8 +707,8 @@ def submit_post(v:User, sub=None):
 	cache.delete_memoized(frontlist)
 	cache.delete_memoized(userpagelisting)
 
-	db.flush()
-	if v.client: return p.json
+	g.db.flush()
+	if v.client: return p.json(g.db)
 	else:
 		p.voted = 1
 		return {"post_id": p.id, "success": True}
@@ -729,13 +730,13 @@ def delete_post_pid(pid, v):
 		p.is_pinned = False
 		p.stickied = None
 
-		db.add(p)
+		g.db.add(p)
 
 		cache.delete_memoized(frontlist)
 		cache.delete_memoized(userpagelisting)
 
-		v.post_count = db.query(Submission).filter_by(author_id=v.id, deleted_utc=0).count()
-		db.add(v)
+		v.post_count = g.db.query(Submission).filter_by(author_id=v.id, deleted_utc=0).count()
+		g.db.add(v)
 
 	return {"message": "Post deleted!"}
 
@@ -750,13 +751,13 @@ def undelete_post_pid(pid, v):
 
 	if p.deleted_utc:
 		p.deleted_utc = 0
-		db.add(p)
+		g.db.add(p)
 
 		cache.delete_memoized(frontlist)
 		cache.delete_memoized(userpagelisting)
 
-		v.post_count = db.query(Submission).filter_by(author_id=v.id, deleted_utc=0).count()
-		db.add(v)
+		v.post_count = g.db.query(Submission).filter_by(author_id=v.id, deleted_utc=0).count()
+		g.db.add(v)
 
 	return {"message": "Post undeleted!"}
 
@@ -777,7 +778,7 @@ def mark_post_nsfw(pid, v):
 		abort(403)
 
 	p.over_18 = True
-	db.add(p)
+	g.db.add(p)
 
 	if p.author_id != v.id:
 		if v.admin_level >= PERMS['POST_COMMENT_MODERATION']:
@@ -786,7 +787,7 @@ def mark_post_nsfw(pid, v):
 					user_id = v.id,
 					target_submission_id = p.id,
 				)
-			db.add(ma)
+			g.db.add(ma)
 		else:
 			ma = SubAction(
 					sub = p.sub,
@@ -794,7 +795,7 @@ def mark_post_nsfw(pid, v):
 					user_id = v.id,
 					target_submission_id = p.id,
 				)
-			db.add(ma)
+			g.db.add(ma)
 		send_repeatable_notification(p.author_id, f"@{v.username} (a site admin) has marked [{p.title}](/post/{p.id}) as +18")
 
 	return {"message": "Post has been marked as +18!"}
@@ -815,7 +816,7 @@ def unmark_post_nsfw(pid, v):
 		abort(403)
 
 	p.over_18 = False
-	db.add(p)
+	g.db.add(p)
 
 	if p.author_id != v.id:
 		if v.admin_level >= PERMS['POST_COMMENT_MODERATION']:
@@ -824,7 +825,7 @@ def unmark_post_nsfw(pid, v):
 					user_id = v.id,
 					target_submission_id = p.id,
 				)
-			db.add(ma)
+			g.db.add(ma)
 		else:
 			ma = SubAction(
 					sub = p.sub,
@@ -832,7 +833,7 @@ def unmark_post_nsfw(pid, v):
 					user_id = v.id,
 					target_submission_id = p.id,
 				)
-			db.add(ma)
+			g.db.add(ma)
 		send_repeatable_notification(p.author_id, f"@{v.username} (a site admin) has unmarked [{p.title}](/post/{p.id}) as +18")
 
 	return {"message": "Post has been unmarked as +18!"}
@@ -846,11 +847,11 @@ def save_post(pid, v):
 
 	p = get_post(pid)
 
-	save = db.query(SaveRelationship).filter_by(user_id=v.id, submission_id=p.id).one_or_none()
+	save = g.db.query(SaveRelationship).filter_by(user_id=v.id, submission_id=p.id).one_or_none()
 
 	if not save:
 		new_save=SaveRelationship(user_id=v.id, submission_id=p.id)
-		db.add(new_save)
+		g.db.add(new_save)
 
 	return {"message": "Post saved!"}
 
@@ -863,10 +864,10 @@ def unsave_post(pid, v):
 
 	p = get_post(pid)
 
-	save = db.query(SaveRelationship).filter_by(user_id=v.id, submission_id=p.id).one_or_none()
+	save = g.db.query(SaveRelationship).filter_by(user_id=v.id, submission_id=p.id).one_or_none()
 
 	if save:
-		db.delete(save)
+		g.db.delete(save)
 
 	return {"message": "Post unsaved!"}
 
@@ -880,7 +881,7 @@ def pin_post(post_id, v):
 	if p:
 		if v.id != p.author_id: abort(403, "Only the post author can do that!")
 		p.is_pinned = not p.is_pinned
-		db.add(p)
+		g.db.add(p)
 		cache.delete_memoized(userpagelisting)
 		if p.is_pinned: return {"message": "Post pinned!"}
 		else: return {"message": "Post unpinned!"}
@@ -894,7 +895,7 @@ def set_new_sort(post_id:int, v:User):
 	p = get_post(post_id)
 	if not v.can_edit(p): abort(403, "Only the post author can do that!")
 	p.new = True
-	db.add(p)
+	g.db.add(p)
 
 	if v.id != p.author_id:
 		ma = ModAction(
@@ -902,7 +903,7 @@ def set_new_sort(post_id:int, v:User):
 				user_id = v.id,
 				target_submission_id = p.id,
 			)
-		db.add(ma)
+		g.db.add(ma)
 		send_repeatable_notification(p.author_id, f"@{v.username} (a site admin) has changed the the default sorting of comments on [{p.title}](/post/{p.id}) to `new`")
 
 	return {"message": "Changed the the default sorting of comments on this post to 'new'"}
@@ -916,7 +917,7 @@ def unset_new_sort(post_id:int, v:User):
 	p = get_post(post_id)
 	if not v.can_edit(p): abort(403, "Only the post author can do that!")
 	p.new = None
-	db.add(p)
+	g.db.add(p)
 
 	if v.id != p.author_id:
 		ma = ModAction(
@@ -924,7 +925,7 @@ def unset_new_sort(post_id:int, v:User):
 				user_id = v.id,
 				target_submission_id = p.id,
 			)
-		db.add(ma)
+		g.db.add(ma)
 		send_repeatable_notification(p.author_id, f"@{v.username} (a site admin) has changed the the default sorting of comments on [{p.title}](/post/{p.id}) to `hot`")
 
 	return {"message": "Changed the the default sorting of comments on this post to 'hot'"}
@@ -1048,14 +1049,14 @@ def edit_post(pid, v):
 
 	if v.id == p.author_id:
 		if int(time.time()) - p.created_utc > 60 * 3: p.edited_utc = int(time.time())
-		db.add(p)
+		g.db.add(p)
 	else:
 		ma=ModAction(
 			kind="edit_post",
 			user_id=v.id,
 			target_submission_id=p.id
 		)
-		db.add(ma)
+		g.db.add(ma)
 
 
 	return redirect(p.permalink)

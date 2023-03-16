@@ -17,7 +17,7 @@ def get_id(username:str, graceful=False) -> Optional[int]:
 	if not username:
 		if graceful: return None
 		abort(404)
-	user = db.query(
+	user = g.db.query(
 		User.id
 		).filter(
 		or_(
@@ -41,7 +41,7 @@ def get_user(username:Optional[str], v:Optional[User]=None, graceful=False, incl
 	if not username:
 		if graceful: return None
 		abort(404)
-	user = db.query(
+	user = g.db.query(
 		User
 		).filter(
 		or_(
@@ -68,9 +68,9 @@ def get_users(usernames:Iterable[str], ids_only=False, graceful=False) -> List[U
 		abort(404)
 
 	if ids_only:
-		users = db.query(User.id)
+		users = g.db.query(User.id)
 	else:
-		users = db.query(User)
+		users = g.db.query(User)
 
 	users = users.filter(
 		or_(
@@ -94,7 +94,7 @@ def get_account(id:Union[str, int], v:Optional[User]=None, graceful=False, inclu
 		if graceful: return None
 		abort(404)
 
-	user = db.get(User, id)
+	user = g.db.get(User, id)
 
 	if not user:
 		if not graceful: abort(404)
@@ -113,7 +113,7 @@ def get_accounts_dict(ids:Union[Iterable[str], Iterable[int]], v:Optional[User]=
 		if graceful: return None
 		abort(404)
 
-	users = db.query(User).filter(User.id.in_(ids))
+	users = g.db.query(User).filter(User.id.in_(ids))
 	users = users.all()
 	if len(users) != len(ids) and not graceful: abort(404)
 	return {u.id:u for u in users}
@@ -129,10 +129,10 @@ def get_post(i:Union[str, int], v:Optional[User]=None, graceful=False) -> Option
 		else: abort(404)
 
 	if v:
-		vt = db.query(Vote).filter_by(user_id=v.id, submission_id=i).subquery()
+		vt = g.db.query(Vote).filter_by(user_id=v.id, submission_id=i).subquery()
 		blocking = v.blocking.subquery()
 
-		post = db.query(
+		post = g.db.query(
 			Submission,
 			vt.c.vote_type,
 			blocking.c.target_id,
@@ -157,7 +157,7 @@ def get_post(i:Union[str, int], v:Optional[User]=None, graceful=False) -> Option
 		x.voted = post[1] or 0
 		x.is_blocking = post[2] or 0
 	else:
-		post = db.get(Submission, i)
+		post = g.db.get(Submission, i)
 		if not post:
 			if graceful: return None
 			else: abort(404)
@@ -170,7 +170,7 @@ def get_posts(pids:Iterable[int], v:Optional[User]=None, eager:bool=False, extra
 	if not pids: return []
 
 	if v:
-		vt = db.query(Vote.vote_type, Vote.submission_id).filter(
+		vt = g.db.query(Vote.vote_type, Vote.submission_id).filter(
 			Vote.submission_id.in_(pids),
 			Vote.user_id==v.id
 			).subquery()
@@ -178,7 +178,7 @@ def get_posts(pids:Iterable[int], v:Optional[User]=None, eager:bool=False, extra
 		blocking = v.blocking.subquery()
 		blocked = v.blocked.subquery()
 
-		query = db.query(
+		query = g.db.query(
 			Submission,
 			vt.c.vote_type,
 			blocking.c.target_id,
@@ -195,7 +195,7 @@ def get_posts(pids:Iterable[int], v:Optional[User]=None, eager:bool=False, extra
 			blocked.c.user_id == Submission.author_id,
 		)
 	else:
-		query = db.query(Submission).filter(Submission.id.in_(pids))
+		query = g.db.query(Submission).filter(Submission.id.in_(pids))
 
 	if extra: query = extra(query)
 
@@ -236,7 +236,7 @@ def get_comment(i:Union[str, int], v:Optional[User]=None, graceful=False) -> Opt
 		if graceful: return None
 		else: abort(404)
 
-	comment=db.get(Comment, i)
+	comment=g.db.get(Comment, i)
 	if not comment:
 		if graceful: return None
 		else: abort(404)
@@ -262,7 +262,7 @@ def add_block_props(target:Union[Submission, Comment, User], v:Optional[User]):
 		target.is_blocked = False
 		return target
 
-	block = db.query(UserBlock).filter(
+	block = g.db.query(UserBlock).filter(
 		or_(
 			and_(
 				UserBlock.user_id == v.id,
@@ -281,7 +281,7 @@ def add_block_props(target:Union[Submission, Comment, User], v:Optional[User]):
 def add_vote_props(target:Union[Submission, Comment], v:Optional[User], vote_cls):
 	if hasattr(target, 'voted'): return target
 
-	vt = db.query(vote_cls.vote_type).filter_by(user_id=v.id)
+	vt = g.db.query(vote_cls.vote_type).filter_by(user_id=v.id)
 	if vote_cls == Vote:
 		vt = vt.filter_by(submission_id=target.id)
 	elif vote_cls == CommentVote:
@@ -302,7 +302,7 @@ def get_comments(cids:Iterable[int], v:Optional[User]=None, extra:Optional[Calla
 	if v:
 		output = get_comments_v_properties(v, None, Comment.id.in_(cids))[1]
 	else:
-		output = db.query(Comment).join(Comment.author)
+		output = g.db.query(Comment).join(Comment.author)
 		if extra: output = extra(output)
 		output = output.filter(Comment.id.in_(cids)).all()
 	return sorted(output, key=lambda x: cids.index(x.id))
@@ -310,10 +310,10 @@ def get_comments(cids:Iterable[int], v:Optional[User]=None, extra:Optional[Calla
 def get_comments_v_properties(v:User, should_keep_func:Optional[Callable[[Comment], bool]]=None, *criterion):
 	if not v:
 		raise TypeError("A user is required")
-	votes = db.query(CommentVote.vote_type, CommentVote.comment_id).filter_by(user_id=v.id).subquery()
+	votes = g.db.query(CommentVote.vote_type, CommentVote.comment_id).filter_by(user_id=v.id).subquery()
 	blocking = v.blocking.subquery()
 	blocked = v.blocked.subquery()
-	comments = db.query(
+	comments = g.db.query(
 		Comment,
 		votes.c.vote_type,
 		blocking.c.target_id,
@@ -351,7 +351,7 @@ def get_sub_by_name(sub:str, v:Optional[User]=None, graceful=False) -> Optional[
 	if not sub:
 		if graceful: return None
 		else: abort(404)
-	sub = db.get(Sub, sub)
+	sub = g.db.get(Sub, sub)
 	if not sub:
 		if graceful: return None
 		else: abort(404)

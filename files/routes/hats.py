@@ -15,17 +15,17 @@ def hats(v:User):
 	owned_hat_ids = [x.hat_id for x in v.owned_hats]
 
 	if v.equipped_hat_ids:
-		equipped = db.query(HatDef, User).join(HatDef.author).filter(HatDef.submitter_id == None, HatDef.id.in_(owned_hat_ids), HatDef.id.in_(v.equipped_hat_ids)).order_by(HatDef.price, HatDef.name).all()
-		not_equipped = db.query(HatDef, User).join(HatDef.author).filter(HatDef.submitter_id == None, HatDef.id.in_(owned_hat_ids), HatDef.id.notin_(v.equipped_hat_ids)).order_by(HatDef.price, HatDef.name).all()
+		equipped = g.db.query(HatDef, User).join(HatDef.author).filter(HatDef.submitter_id == None, HatDef.id.in_(owned_hat_ids), HatDef.id.in_(v.equipped_hat_ids)).order_by(HatDef.price, HatDef.name).all()
+		not_equipped = g.db.query(HatDef, User).join(HatDef.author).filter(HatDef.submitter_id == None, HatDef.id.in_(owned_hat_ids), HatDef.id.notin_(v.equipped_hat_ids)).order_by(HatDef.price, HatDef.name).all()
 		owned = equipped + not_equipped
 	else:
-		owned = db.query(HatDef, User).join(HatDef.author).filter(HatDef.submitter_id == None, HatDef.id.in_(owned_hat_ids)).order_by(HatDef.price, HatDef.name).all()
+		owned = g.db.query(HatDef, User).join(HatDef.author).filter(HatDef.submitter_id == None, HatDef.id.in_(owned_hat_ids)).order_by(HatDef.price, HatDef.name).all()
 
-	not_owned = db.query(HatDef, User).join(HatDef.author).filter(HatDef.submitter_id == None, HatDef.id.notin_(owned_hat_ids)).order_by(HatDef.price == 0, HatDef.price, HatDef.name).all()
+	not_owned = g.db.query(HatDef, User).join(HatDef.author).filter(HatDef.submitter_id == None, HatDef.id.notin_(owned_hat_ids)).order_by(HatDef.price == 0, HatDef.price, HatDef.name).all()
 	hats = owned + not_owned
 
-	sales = db.query(func.sum(User.coins_spent_on_hats)).scalar()
-	num_of_hats = db.query(HatDef).filter(HatDef.submitter_id == None).count()
+	sales = g.db.query(func.sum(User.coins_spent_on_hats)).scalar()
+	num_of_hats = g.db.query(HatDef).filter(HatDef.submitter_id == None).count()
 	return render_template("hats.html", owned_hat_ids=owned_hat_ids, hats=hats, v=v, sales=sales, num_of_hats=num_of_hats)
 
 @app.post("/buy_hat/<int:hat_id>")
@@ -37,10 +37,10 @@ def buy_hat(v:User, hat_id):
 	try: hat_id = int(hat_id)
 	except: abort(404, "Hat not found!")
 
-	hat = db.query(HatDef).filter_by(submitter_id=None, id=hat_id).one_or_none()
+	hat = g.db.query(HatDef).filter_by(submitter_id=None, id=hat_id).one_or_none()
 	if not hat: abort(404, "Hat not found!")
 
-	existing = db.query(Hat).filter_by(user_id=v.id, hat_id=hat.id).one_or_none()
+	existing = g.db.query(Hat).filter_by(user_id=v.id, hat_id=hat.id).one_or_none()
 	if existing: abort(409, "You already own this hat!")
 
 	if not hat.is_purchasable:
@@ -61,10 +61,10 @@ def buy_hat(v:User, hat_id):
 		currency = "coins"
 
 	new_hat = Hat(user_id=v.id, hat_id=hat.id)
-	db.add(new_hat)
+	g.db.add(new_hat)
 
-	db.add(v)
-	db.add(hat.author)
+	g.db.add(v)
+	g.db.add(hat.author)
 
 	send_repeatable_notification(
 		hat.author.id,
@@ -90,11 +90,11 @@ def equip_hat(v:User, hat_id):
 	try: hat_id = int(hat_id)
 	except: abort(404, "Hat not found!")
 
-	hat = db.query(Hat).filter_by(hat_id=hat_id, user_id=v.id).one_or_none()
+	hat = g.db.query(Hat).filter_by(hat_id=hat_id, user_id=v.id).one_or_none()
 	if not hat: abort(403, "You don't own this hat!")
 
 	hat.equipped = True
-	db.add(hat)
+	g.db.add(hat)
 
 	return {"message": f"'{hat.name}' equipped!"}
 
@@ -107,11 +107,11 @@ def unequip_hat(v:User, hat_id):
 	try: hat_id = int(hat_id)
 	except: abort(404, "Hat not found!")
 
-	hat = db.query(Hat).filter_by(hat_id=hat_id, user_id=v.id).one_or_none()
+	hat = g.db.query(Hat).filter_by(hat_id=hat_id, user_id=v.id).one_or_none()
 	if not hat: abort(403, "You don't own this hat!")
 
 	hat.equipped = False
-	db.add(hat)
+	g.db.add(hat)
 
 	return {"message": f"'{hat.name}' unequipped!"}
 
@@ -126,7 +126,7 @@ def hat_owners(v:User, hat_id):
 	try: page = int(request.values.get("page", 1))
 	except: page = 1
 
-	users = [x[1] for x in db.query(Hat, User).join(Hat.owners).filter(Hat.hat_id == hat_id).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE+1).all()]
+	users = [x[1] for x in g.db.query(Hat, User).join(Hat.owners).filter(Hat.hat_id == hat_id).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE+1).all()]
 
 	next_exists = (len(users) > PAGE_SIZE)
 	users = users[:PAGE_SIZE]

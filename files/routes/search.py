@@ -61,7 +61,7 @@ def searchposts(v:User):
 
 	criteria=searchparse(query)
 
-	posts = db.query(Submission.id) \
+	posts = g.db.query(Submission.id) \
 				.join(Submission.author) \
 				.filter(Submission.author_id.notin_(v.userblocks))
 
@@ -162,7 +162,7 @@ def searchposts(v:User):
 
 	posts = get_posts(ids, v=v, eager=True)
 
-	if v.client: return {"total":total, "data":[x.json for x in posts]}
+	if v.client: return {"total":total, "data":[x.json(g.db) for x in posts]}
 
 	return render_template("search.html",
 						v=v,
@@ -192,7 +192,7 @@ def searchcomments(v:User):
 
 	criteria = searchparse(query)
 
-	comments = db.query(Comment.id).outerjoin(Comment.post) \
+	comments = g.db.query(Comment.id).outerjoin(Comment.post) \
 		.filter(
 			or_(Comment.parent_submission != None, Comment.wall_user_id != None),
 			Comment.author_id.notin_(v.userblocks),
@@ -234,7 +234,7 @@ def searchcomments(v:User):
 	comments = apply_time_filter(t, comments, Comment)
 
 	if v.admin_level < PERMS['POST_COMMENT_MODERATION']:
-		private = [x[0] for x in db.query(Submission.id).filter(Submission.private == True).all()]
+		private = [x[0] for x in g.db.query(Submission.id).filter(Submission.private == True).all()]
 
 		comments = comments.filter(
 			Comment.is_banned==False,
@@ -275,7 +275,7 @@ def searchcomments(v:User):
 
 	comments = get_comments(ids, v=v)
 
-	if v.client: return {"total":total, "data":[x.json for x in comments]}
+	if v.client: return {"total":total, "data":[x.json(db=g.db) for x in comments]}
 	return render_template("search_comments.html", v=v, query=query, total=total, page=page, comments=comments, sort=sort, t=t, next_exists=next_exists, standalone=True)
 
 
@@ -300,7 +300,7 @@ def searchmessages(v:User):
 	if v.admin_level >= PERMS['VIEW_MODMAIL']:
 		dm_conditions.append(Comment.sentto == MODMAIL_ID),
 
-	comments = db.query(Comment.id) \
+	comments = g.db.query(Comment.id) \
 		.filter(
 			Comment.sentto != None,
 			Comment.parent_submission == None,
@@ -366,7 +366,7 @@ def searchmessages(v:User):
 
 	comments = get_comments(ids, v=v)
 
-	if v.client: return {"total":total, "data":[x.json for x in comments]}
+	if v.client: return {"total":total, "data":[x.json(db=g.db) for x in comments]}
 	return render_template("search_comments.html", v=v, query=query, total=total, page=page, comments=comments, sort=sort, t=t, next_exists=next_exists, standalone=True)
 
 @app.get("/search/users")
@@ -381,7 +381,7 @@ def searchusers(v:User):
 	try: page = max(1, int(request.values.get("page", 1)))
 	except: abort(400, "Invalid page input!")
 
-	users = db.query(User)
+	users = g.db.query(User)
 
 	criteria = searchparse(query)
 

@@ -159,7 +159,7 @@ class Comment(Base):
 	@property
 	@lazy
 	def top_comment(self):
-		return db.get(Comment, self.top_comment_id)
+		return g.db.get(Comment, self.top_comment_id)
 
 	@property
 	@lazy
@@ -203,7 +203,7 @@ class Comment(Base):
 		if self.replies2 != None:
 			return self.replies2
 
-		replies = db.query(Comment).filter_by(parent_comment_id=self.id).order_by(Comment.stickied, Comment.stickied_child_id)
+		replies = g.db.query(Comment).filter_by(parent_comment_id=self.id).order_by(Comment.stickied, Comment.stickied_child_id)
 		if not self.parent_submission: sort='old'
 		return sort_objects(sort, replies, Comment).all()
 
@@ -253,8 +253,7 @@ class Comment(Base):
 		if kind == 'tilt' and num > 4: return 4
 		return num
 
-	@property
-	def json(self):
+	def json(self, db:scoped_session):
 		if self.is_banned:
 			data = {'is_banned': True,
 					'ban_reason': self.ban_reason,
@@ -296,7 +295,7 @@ class Comment(Base):
 				'is_bot': self.is_bot,
 				'flags': flags,
 				'author': '👻' if self.ghost else self.author.json,
-				# 'replies': [x.json for x in self.replies(sort="old", v=None)] # WORKER TIMEOUTS ON BUGTHREAD
+				# 'replies': [x.json(db=db) for x in self.replies(sort="old", v=None)] # WORKER TIMEOUTS ON BUGTHREAD
 				}
 
 		if self.level >= 2: data['parent_comment_id'] = self.parent_comment_id

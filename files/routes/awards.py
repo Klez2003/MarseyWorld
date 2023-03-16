@@ -39,7 +39,7 @@ def shop(v:User):
 
 	for val in AWARDS.values(): val["owned"] = 0
 
-	for useraward in db.query(AwardRelationship).filter(AwardRelationship.user_id == v.id, AwardRelationship.submission_id == None, AwardRelationship.comment_id == None).all():
+	for useraward in g.db.query(AwardRelationship).filter(AwardRelationship.user_id == v.id, AwardRelationship.submission_id == None, AwardRelationship.comment_id == None).all():
 		if useraward.kind in AWARDS: AWARDS[useraward.kind]["owned"] += 1
 
 	for val in AWARDS.values():
@@ -48,7 +48,7 @@ def shop(v:User):
 			val["baseprice"] = int(val["baseprice"] / 0.75)
 		val["price"] = int(val["price"] * v.discount)
 
-	sales = db.query(func.sum(User.coins_spent)).scalar()
+	sales = g.db.query(func.sum(User.coins_spent)).scalar()
 	return render_template("shop.html", awards=list(AWARDS.values()), v=v, sales=sales)
 
 
@@ -98,7 +98,7 @@ def buy(v:User, award):
 			badge_grant(badge_id=70, user=v)
 		elif v.coins_spent >= 10000:
 			badge_grant(badge_id=69, user=v)
-		db.add(v)
+		g.db.add(v)
 
 
 	if award == "lootbox":
@@ -107,8 +107,8 @@ def buy(v:User, award):
 			lb_award = random.choice(LOOTBOX_CONTENTS)
 			lootbox_items.append(AWARDS[lb_award]['title'])
 			lb_award = AwardRelationship(user_id=v.id, kind=lb_award, price_paid=price // LOOTBOX_ITEM_COUNT)
-			db.add(lb_award)
-			db.flush()
+			g.db.add(lb_award)
+			g.db.flush()
 
 		v.lootboxes_bought += 1
 		lootbox_msg = "You open your lootbox and receive: " + ', '.join(lootbox_items)
@@ -124,9 +124,9 @@ def buy(v:User, award):
 		return {"message": lootbox_msg}
 	else:
 		award_object = AwardRelationship(user_id=v.id, kind=award, price_paid=price)
-		db.add(award_object)
+		g.db.add(award_object)
 
-	db.add(v)
+	g.db.add(v)
 
 	if CARP_ID and v.id != CARP_ID and og_price >= 5000:
 		send_repeatable_notification(CARP_ID, f"@{v.username} has bought a `{award_title}` award!")
@@ -158,7 +158,7 @@ def award_thing(v, thing_type, id):
 
 	if kind not in AWARDS: abort(404, "This award doesn't exist")
 
-	award = db.query(AwardRelationship).filter(
+	award = g.db.query(AwardRelationship).filter(
 		AwardRelationship.kind == kind,
 		AwardRelationship.user_id == v.id,
 		AwardRelationship.submission_id == None,
@@ -171,7 +171,7 @@ def award_thing(v, thing_type, id):
 	else: award.comment_id = thing.id
 	award.awarded_utc = int(time.time())
 
-	db.add(award)
+	g.db.add(award)
 
 	note = request.values.get("note", "").strip()
 
@@ -200,7 +200,7 @@ def award_thing(v, thing_type, id):
 			msg = f"{safe_username} is under the effect of a deflector award; your {AWARDS[kind]['title']} Award has been deflected back to you but your deflector protected you, the award bounced back and forth until it vaporized!"
 			send_repeatable_notification(v.id, msg)
 
-			db.delete(award)
+			g.db.delete(award)
 
 			return {"message": f"{AWARDS[kind]['title']} award given to {thing_type} successfully!"}
 
@@ -274,7 +274,7 @@ def award_thing(v, thing_type, id):
 			thing.stickied_utc = int(time.time()) + add
 
 		thing.stickied = f'{v.username}{PIN_AWARD_TEXT}'
-		db.add(thing)
+		g.db.add(thing)
 		cache.delete_memoized(frontlist)
 	elif kind == "unpin":
 		if not thing.stickied_utc: abort(400)
@@ -290,7 +290,7 @@ def award_thing(v, thing_type, id):
 			thing.stickied_utc = None
 			cache.delete_memoized(frontlist)
 		else: thing.stickied_utc = t
-		db.add(thing)
+		g.db.add(thing)
 	elif kind == "agendaposter":
 		if thing_type == 'post' and thing.sub == 'chudrama' \
 			or thing_type == 'comment' and thing.post and thing.post.sub == 'chudrama':
@@ -346,7 +346,7 @@ def award_thing(v, thing_type, id):
 		badge_grant(badge_id=84, user=author)
 	elif kind == "unblockable":
 		badge_grant(badge_id=87, user=author)
-		for block in db.query(UserBlock).filter_by(target_id=author.id).all(): db.delete(block)
+		for block in g.db.query(UserBlock).filter_by(target_id=author.id).all(): g.db.delete(block)
 	elif kind == "fish":
 		badge_grant(badge_id=90, user=author)
 	elif kind == "progressivestack":
@@ -386,7 +386,7 @@ def award_thing(v, thing_type, id):
 			if author.owoify: body = owoify(body)
 			body = marsify(body)
 			thing.body_html = sanitize(body, limit_pings=5)
-			db.add(thing)
+			g.db.add(thing)
 	elif "Vampire" in kind and kind == v.house:
 		if author.bite: author.bite += 172800
 		else: author.bite = int(time.time()) + 172800
@@ -412,7 +412,7 @@ def award_thing(v, thing_type, id):
 			body = owoify(body)
 			if author.marsify: body = marsify(body)
 			thing.body_html = sanitize(body, limit_pings=5)
-			db.add(thing)
+			g.db.add(thing)
 	elif ("Femboy" in kind and kind == v.house) or kind == 'rainbow':
 		if author.rainbow: author.rainbow += 86400
 		else: author.rainbow = int(time.time()) + 86400
@@ -428,6 +428,6 @@ def award_thing(v, thing_type, id):
 
 	if author.received_award_count: author.received_award_count += 1
 	else: author.received_award_count = 1
-	db.add(author)
+	g.db.add(author)
 
 	return {"message": f"{AWARDS[kind]['title']} award given to {thing_type} successfully!"}

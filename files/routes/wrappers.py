@@ -1,6 +1,5 @@
 import time
 from flask import g, request, session
-import secrets
 
 from files.classes.clients import ClientAuth
 from files.helpers.alerts import *
@@ -9,7 +8,7 @@ from files.helpers.get import get_account
 from files.helpers.logging import log_file
 from files.helpers.settings import get_setting
 from files.routes.routehelpers import validate_formkey
-from files.__main__ import app, limiter
+from files.__main__ import app, db_session, limiter
 
 def rpath(n):
 	return request.path
@@ -27,15 +26,12 @@ def get_ID():
 
 def get_logged_in_user():
 	if hasattr(g, 'v') and g.v: return g.v
-
-	if not hasattr(g, 'nonce'):
-		g.nonce = secrets.token_urlsafe(31)
-
+	if not hasattr(g, 'db'): g.db = db_session()
 	g.desires_auth = True
 	v = None
 	token = request.headers.get("Authorization","").strip()
 	if token:
-		client = db.query(ClientAuth).filter(ClientAuth.access_token == token).one_or_none()
+		client = g.db.query(ClientAuth).filter(ClientAuth.access_token == token).one_or_none()
 		if client:
 			v = client.user
 			v.client = client
@@ -72,7 +68,7 @@ def get_logged_in_user():
 			timestamp = int(time.time())
 			if (v.last_active + LOGGEDIN_ACTIVE_TIME) < timestamp:
 				v.last_active = timestamp
-				db.add(v)
+				g.db.add(v)
 
 	if SITE == 'rdrama.net' and request.headers.get("Cf-Ipcountry") == 'EG':
 		if v:

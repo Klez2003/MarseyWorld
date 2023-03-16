@@ -26,7 +26,7 @@ def exile_post(v:User, pid):
 
 	if not u.exiled_from(sub):
 		exile = Exile(user_id=u.id, sub=sub, exiler_id=v.id)
-		db.add(exile)
+		g.db.add(exile)
 
 		send_notification(u.id, f"@{v.username} has exiled you from /h/{sub} for [{p.title}]({p.shortlink})")
 
@@ -37,7 +37,7 @@ def exile_post(v:User, pid):
 			target_user_id=u.id,
 			_note=f'for <a href="{p.permalink}">{p.title_html}</a>'
 		)
-		db.add(ma)
+		g.db.add(ma)
 
 	return {"message": f"@{u.username} has been exiled from /h/{sub} successfully!"}
 
@@ -60,7 +60,7 @@ def exile_comment(v:User, cid):
 
 	if not u.exiled_from(sub):
 		exile = Exile(user_id=u.id, sub=sub, exiler_id=v.id)
-		db.add(exile)
+		g.db.add(exile)
 
 		send_notification(u.id, f"@{v.username} has exiled you from /h/{sub} for [{c.permalink}]({c.shortlink})")
 
@@ -71,7 +71,7 @@ def exile_comment(v:User, cid):
 			target_user_id=u.id,
 			_note=f'for <a href="/comment/{c.id}#context">comment</a>'
 		)
-		db.add(ma)
+		g.db.add(ma)
 
 	return {"message": f"@{u.username} has been exiled from /h/{sub} successfully!"}
 
@@ -87,8 +87,8 @@ def unexile(v:User, sub, uid):
 	if v.shadowbanned: return redirect(f'/h/{sub}/exilees')
 
 	if u.exiled_from(sub):
-		exile = db.query(Exile).filter_by(user_id=u.id, sub=sub).one_or_none()
-		db.delete(exile)
+		exile = g.db.query(Exile).filter_by(user_id=u.id, sub=sub).one_or_none()
+		g.db.delete(exile)
 
 		send_notification(u.id, f"@{v.username} has revoked your exile from /h/{sub}")
 
@@ -98,7 +98,7 @@ def unexile(v:User, sub, uid):
 			user_id=v.id,
 			target_user_id=u.id
 		)
-		db.add(ma)
+		g.db.add(ma)
 
 	if g.is_api_or_xhr:
 		return {"message": f"@{u.username} has been unexiled from /h/{sub} successfully!"}
@@ -113,10 +113,10 @@ def unexile(v:User, sub, uid):
 @auth_required
 def block_sub(v:User, sub):
 	sub = get_sub_by_name(sub).name
-	existing = db.query(SubBlock).filter_by(user_id=v.id, sub=sub).one_or_none()
+	existing = g.db.query(SubBlock).filter_by(user_id=v.id, sub=sub).one_or_none()
 	if not existing:
 		block = SubBlock(user_id=v.id, sub=sub)
-		db.add(block)
+		g.db.add(block)
 		cache.delete_memoized(frontlist)
 	return {"message": f"/h/{sub} blocked successfully!"}
 
@@ -130,10 +130,10 @@ def unblock_sub(v:User, sub):
 	if not User.can_see(v, sub):
 		abort(403)
 
-	block = db.query(SubBlock).filter_by(user_id=v.id, sub=sub.name).one_or_none()
+	block = g.db.query(SubBlock).filter_by(user_id=v.id, sub=sub.name).one_or_none()
 
 	if block:
-		db.delete(block)
+		g.db.delete(block)
 		cache.delete_memoized(frontlist)
 
 	return {"message": f"/h/{sub.name} unblocked successfully!"}
@@ -145,10 +145,10 @@ def unblock_sub(v:User, sub):
 @auth_required
 def subscribe_sub(v:User, sub):
 	sub = get_sub_by_name(sub).name
-	existing = db.query(SubJoin).filter_by(user_id=v.id, sub=sub).one_or_none()
+	existing = g.db.query(SubJoin).filter_by(user_id=v.id, sub=sub).one_or_none()
 	if not existing:
 		subscribe = SubJoin(user_id=v.id, sub=sub)
-		db.add(subscribe)
+		g.db.add(subscribe)
 		cache.delete_memoized(frontlist)
 	return {"message": f"/h/{sub} unblocked successfully!"}
 
@@ -159,9 +159,9 @@ def subscribe_sub(v:User, sub):
 @auth_required
 def unsubscribe_sub(v:User, sub):
 	sub = get_sub_by_name(sub).name
-	subscribe = db.query(SubJoin).filter_by(user_id=v.id, sub=sub).one_or_none()
+	subscribe = g.db.query(SubJoin).filter_by(user_id=v.id, sub=sub).one_or_none()
 	if subscribe:
-		db.delete(subscribe)
+		g.db.delete(subscribe)
 		cache.delete_memoized(frontlist)
 	return {"message": f"/h/{sub} blocked successfully!"}
 
@@ -174,10 +174,10 @@ def follow_sub(v:User, sub):
 	sub = get_sub_by_name(sub)
 	if not User.can_see(v, sub):
 		abort(403)
-	existing = db.query(SubSubscription).filter_by(user_id=v.id, sub=sub.name).one_or_none()
+	existing = g.db.query(SubSubscription).filter_by(user_id=v.id, sub=sub.name).one_or_none()
 	if not existing:
 		subscription = SubSubscription(user_id=v.id, sub=sub.name)
-		db.add(subscription)
+		g.db.add(subscription)
 		cache.delete_memoized(frontlist)
 
 	return {"message": f"/h/{sub} followed successfully!"}
@@ -189,9 +189,9 @@ def follow_sub(v:User, sub):
 @auth_required
 def unfollow_sub(v:User, sub):
 	sub = get_sub_by_name(sub)
-	subscription = db.query(SubSubscription).filter_by(user_id=v.id, sub=sub.name).one_or_none()
+	subscription = g.db.query(SubSubscription).filter_by(user_id=v.id, sub=sub.name).one_or_none()
 	if subscription:
-		db.delete(subscription)
+		g.db.delete(subscription)
 		cache.delete_memoized(frontlist)
 
 	return {"message": f"/h/{sub} unfollowed successfully!"}
@@ -204,7 +204,7 @@ def mods(v:User, sub):
 	sub = get_sub_by_name(sub)
 	if not User.can_see(v, sub):
 		abort(403)
-	users = db.query(User, Mod).join(Mod).filter_by(sub=sub.name).order_by(Mod.created_utc).all()
+	users = g.db.query(User, Mod).join(Mod).filter_by(sub=sub.name).order_by(Mod.created_utc).all()
 
 	return render_template("sub/mods.html", v=v, sub=sub, users=users)
 
@@ -217,7 +217,7 @@ def sub_exilees(v:User, sub):
 	sub = get_sub_by_name(sub)
 	if not User.can_see(v, sub):
 		abort(403)
-	users = db.query(User, Exile).join(Exile, Exile.user_id==User.id) \
+	users = g.db.query(User, Exile).join(Exile, Exile.user_id==User.id) \
 				.filter_by(sub=sub.name) \
 				.order_by(Exile.created_utc.desc(), User.username).all()
 
@@ -232,7 +232,7 @@ def sub_blockers(v:User, sub):
 	sub = get_sub_by_name(sub)
 	if not User.can_see(v, sub):
 		abort(403)
-	users = db.query(User, SubBlock).join(SubBlock) \
+	users = g.db.query(User, SubBlock).join(SubBlock) \
 				.filter_by(sub=sub.name) \
 				.order_by(SubBlock.created_utc.desc(), User.username).all()
 
@@ -248,7 +248,7 @@ def sub_followers(v:User, sub):
 	sub = get_sub_by_name(sub)
 	if not User.can_see(v, sub):
 		abort(403)
-	users = db.query(User, SubSubscription).join(SubSubscription) \
+	users = g.db.query(User, SubSubscription).join(SubSubscription) \
 			.filter_by(sub=sub.name) \
 			.order_by(SubSubscription.created_utc.desc(), User.username).all()
 
@@ -276,11 +276,11 @@ def add_mod(v:User, sub):
 	if sub in {'furry','vampire','racist','femboy'} and not v.client and not user.house.lower().startswith(sub):
 		abort(403, f"@{user.username} needs to be a member of House {sub.capitalize()} to be added as a mod there!")
 
-	existing = db.query(Mod).filter_by(user_id=user.id, sub=sub).one_or_none()
+	existing = g.db.query(Mod).filter_by(user_id=user.id, sub=sub).one_or_none()
 
 	if not existing:
 		mod = Mod(user_id=user.id, sub=sub)
-		db.add(mod)
+		g.db.add(mod)
 
 		if v.id != user.id:
 			send_repeatable_notification(user.id, f"@{v.username} has added you as a mod to /h/{sub}")
@@ -291,7 +291,7 @@ def add_mod(v:User, sub):
 			user_id=v.id,
 			target_user_id=user.id
 		)
-		db.add(ma)
+		g.db.add(ma)
 
 	return redirect(f'/h/{sub}/mods')
 
@@ -317,12 +317,12 @@ def remove_mod(v:User, sub):
 
 	if not user: abort(404)
 
-	mod = db.query(Mod).filter_by(user_id=user.id, sub=sub).one_or_none()
+	mod = g.db.query(Mod).filter_by(user_id=user.id, sub=sub).one_or_none()
 	if not mod: abort(400)
 
 	if not (v.id == user.id or v.mod_date(sub) and v.mod_date(sub) < mod.created_utc): abort(403)
 
-	db.delete(mod)
+	g.db.delete(mod)
 
 	if v.id != user.id:
 		send_repeatable_notification(user.id, f"@{v.username} has removed you as a mod from /h/{sub}")
@@ -333,7 +333,7 @@ def remove_mod(v:User, sub):
 		user_id=v.id,
 		target_user_id=user.id
 	)
-	db.add(ma)
+	g.db.add(ma)
 
 	return {"message": f"@{user.username} has been removed as a mod!"}
 
@@ -371,16 +371,16 @@ def create_sub2(v):
 	if sub:
 		return redirect(f"/create_hole?error=/h/{sub} already exists!")
 
-	db.add(v)
+	g.db.add(v)
 	if v.shadowbanned: abort(500)
 
 	sub = Sub(name=name)
-	db.add(sub)
-	db.flush()
+	g.db.add(sub)
+	g.db.flush()
 	mod = Mod(user_id=v.id, sub=sub.name)
-	db.add(mod)
+	g.db.add(mod)
 
-	admins = [x[0] for x in db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_HOLE_CREATION'], User.id != v.id).all()]
+	admins = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_HOLE_CREATION'], User.id != v.id).all()]
 	for admin in admins:
 		send_repeatable_notification(admin, f":!marseyparty: /h/{sub} has been created by @{v.username} :marseyparty:")
 
@@ -408,13 +408,13 @@ def kick(v:User, pid):
 		user_id=v.id,
 		target_submission_id=post.id
 	)
-	db.add(ma)
+	g.db.add(ma)
 
 	if v.id != post.author_id:
 		message = f"@{v.username} (a /h/{old} mod) has moved [{post.title}]({post.shortlink}) from /h/{old} to the main feed!"
 		send_repeatable_notification(post.author_id, message)
 
-	db.add(post)
+	g.db.add(post)
 
 	cache.delete_memoized(frontlist)
 
@@ -444,14 +444,14 @@ def post_sub_sidebar(v:User, sub):
 	sub.sidebar_html = sanitize(sub.sidebar, blackjack=f"/h/{sub} sidebar", showmore=False)
 	if len(sub.sidebar_html) > 20000: abort(400, "Sidebar is too big!")
 
-	db.add(sub)
+	g.db.add(sub)
 
 	ma = SubAction(
 		sub=sub.name,
 		kind='edit_sidebar',
 		user_id=v.id
 	)
-	db.add(ma)
+	g.db.add(ma)
 
 	return redirect(f'/h/{sub}/settings')
 
@@ -478,21 +478,21 @@ def post_sub_css(v:User, sub):
 		return render_template('sub/settings.html', v=v, sidebar=sub.sidebar, sub=sub, error=error, css=css)
 
 	sub.css = css
-	db.add(sub)
+	g.db.add(sub)
 
 	ma = SubAction(
 		sub=sub.name,
 		kind='edit_css',
 		user_id=v.id
 	)
-	db.add(ma)
+	g.db.add(ma)
 
 	return redirect(f'/h/{sub}/settings')
 
 @app.get("/h/<sub>/css")
 @limiter.limit(DEFAULT_RATELIMIT)
 def get_sub_css(sub):
-	sub = db.query(Sub.css).filter_by(name=sub.strip().lower()).one_or_none()
+	sub = g.db.query(Sub.css).filter_by(name=sub.strip().lower()).one_or_none()
 	if not sub: abort(404)
 	resp=make_response(sub.css or "")
 	resp.headers.add("Content-Type", "text/css")
@@ -518,14 +518,14 @@ def upload_sub_banner(v:User, sub:str):
 
 	sub.bannerurls.append(bannerurl)
 
-	db.add(sub)
+	g.db.add(sub)
 
 	ma = SubAction(
 		sub=sub.name,
 		kind='upload_banner',
 		user_id=v.id
 	)
-	db.add(ma)
+	g.db.add(ma)
 
 	return redirect(f'/h/{sub}/settings')
 
@@ -548,7 +548,7 @@ def delete_sub_banner(v:User, sub:str, index:int):
 	except FileNotFoundError:
 		pass
 	del sub.bannerurls[index]
-	db.add(sub)
+	g.db.add(sub)
 
 	ma = SubAction(
 		sub=sub.name,
@@ -556,7 +556,7 @@ def delete_sub_banner(v:User, sub:str, index:int):
 		_note=index,
 		user_id=v.id
 	)
-	db.add(ma)
+	g.db.add(ma)
 
 	return {"message": f"Deleted banner {index} from /h/{sub} successfully"}
 
@@ -574,7 +574,7 @@ def delete_all_sub_banners(v:User, sub:str):
 		except FileNotFoundError:
 			pass
 	sub.bannerurls = []
-	db.add(sub)
+	g.db.add(sub)
 
 	ma = SubAction(
 		sub=sub.name,
@@ -582,7 +582,7 @@ def delete_all_sub_banners(v:User, sub:str):
 		_note='all',
 		user_id=v.id
 	)
-	db.add(ma)
+	g.db.add(ma)
 
 	return {"message": f"Deleted all banners from /h/{sub} successfully"}
 
@@ -607,14 +607,14 @@ def sub_sidebar(v:User, sub):
 		if sub.sidebarurl:
 			remove_media(sub.sidebarurl)
 		sub.sidebarurl = sidebarurl
-		db.add(sub)
+		g.db.add(sub)
 
 	ma = SubAction(
 		sub=sub.name,
 		kind='change_sidebar_image',
 		user_id=v.id
 	)
-	db.add(ma)
+	g.db.add(ma)
 
 	return redirect(f'/h/{sub}/settings')
 
@@ -639,14 +639,14 @@ def sub_marsey(v:User, sub):
 		if sub.marseyurl:
 			remove_media(sub.marseyurl)
 		sub.marseyurl = marseyurl
-		db.add(sub)
+		g.db.add(sub)
 
 	ma = SubAction(
 		sub=sub.name,
 		kind='change_marsey',
 		user_id=v.id
 	)
-	db.add(ma)
+	g.db.add(ma)
 
 	return redirect(f'/h/{sub}/settings')
 
@@ -656,8 +656,8 @@ def sub_marsey(v:User, sub):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def subs(v:User):
-	subs = db.query(Sub, func.count(Submission.sub)).outerjoin(Submission, Sub.name == Submission.sub).group_by(Sub.name).order_by(func.count(Submission.sub).desc()).all()
-	total_users = db.query(User).count()
+	subs = g.db.query(Sub, func.count(Submission.sub)).outerjoin(Submission, Sub.name == Submission.sub).group_by(Sub.name).order_by(func.count(Submission.sub).desc()).all()
+	total_users = g.db.query(User).count()
 	return render_template('sub/subs.html', v=v, subs=subs, total_users=total_users)
 
 @app.post("/hole_pin/<int:pid>")
@@ -677,7 +677,7 @@ def hole_pin(v:User, pid):
 		abort(403, f"You can only pin 2 posts to /h/{p.sub}")
 
 	p.hole_pinned = v.username
-	db.add(p)
+	g.db.add(p)
 
 	if v.id != p.author_id:
 		message = f"@{v.username} (a /h/{p.sub} mod) has pinned [{p.title}]({p.shortlink}) in /h/{p.sub}"
@@ -689,7 +689,7 @@ def hole_pin(v:User, pid):
 		user_id=v.id,
 		target_submission_id=p.id
 	)
-	db.add(ma)
+	g.db.add(ma)
 
 	cache.delete_memoized(frontlist)
 
@@ -708,7 +708,7 @@ def hole_unpin(v:User, pid):
 	if not v.mods(p.sub): abort(403)
 
 	p.hole_pinned = None
-	db.add(p)
+	g.db.add(p)
 
 	if v.id != p.author_id:
 		message = f"@{v.username} (a /h/{p.sub} mod) has unpinned [{p.title}]({p.shortlink}) in /h/{p.sub}"
@@ -720,7 +720,7 @@ def hole_unpin(v:User, pid):
 		user_id=v.id,
 		target_submission_id=p.id
 	)
-	db.add(ma)
+	g.db.add(ma)
 
 	cache.delete_memoized(frontlist)
 
@@ -739,7 +739,7 @@ def sub_stealth(v:User, sub):
 	if not v.mods(sub.name): abort(403)
 
 	sub.stealth = not sub.stealth
-	db.add(sub)
+	g.db.add(sub)
 
 	cache.delete_memoized(frontlist)
 
@@ -749,7 +749,7 @@ def sub_stealth(v:User, sub):
 			kind='enable_stealth',
 			user_id=v.id
 		)
-		db.add(ma)
+		g.db.add(ma)
 		return {"message": f"Stealth mode has been enabled for /h/{sub} successfully!"}
 	else:
 		ma = SubAction(
@@ -757,7 +757,7 @@ def sub_stealth(v:User, sub):
 			kind='disable_stealth',
 			user_id=v.id
 		)
-		db.add(ma)
+		g.db.add(ma)
 		return {"message": f"Stealth mode has been disabled for /h/{sub} successfully!"}
 
 
@@ -776,7 +776,7 @@ def mod_pin(cid, v):
 
 		comment.stickied = v.username + " (Mod)"
 
-		db.add(comment)
+		g.db.add(comment)
 
 		ma = SubAction(
 			sub=comment.post.sub,
@@ -784,7 +784,7 @@ def mod_pin(cid, v):
 			user_id=v.id,
 			target_comment_id=comment.id
 		)
-		db.add(ma)
+		g.db.add(ma)
 
 		if v.id != comment.author_id:
 			message = f"@{v.username} (a /h/{comment.post.sub} mod) has pinned your [comment]({comment.shortlink})"
@@ -805,7 +805,7 @@ def mod_unpin(cid, v):
 		if not (comment.post.sub and v.mods(comment.post.sub)): abort(403)
 
 		comment.stickied = None
-		db.add(comment)
+		g.db.add(comment)
 
 		ma = SubAction(
 			sub=comment.post.sub,
@@ -813,7 +813,7 @@ def mod_unpin(cid, v):
 			user_id=v.id,
 			target_comment_id=comment.id
 		)
-		db.add(ma)
+		g.db.add(ma)
 
 		if v.id != comment.author_id:
 			message = f"@{v.username} (a /h/{comment.post.sub} mod) has unpinned your [comment]({comment.shortlink})"
@@ -845,7 +845,7 @@ def hole_log(v:User, sub):
 		kind = None
 		actions = []
 	else:
-		actions = db.query(SubAction).filter_by(sub=sub.name)
+		actions = g.db.query(SubAction).filter_by(sub=sub.name)
 
 		if mod_id:
 			actions = actions.filter_by(user_id=mod_id)
@@ -860,8 +860,8 @@ def hole_log(v:User, sub):
 
 	next_exists=len(actions)>25
 	actions=actions[:25]
-	mods = [x[0] for x in db.query(Mod.user_id).filter_by(sub=sub.name).all()]
-	mods = [x[0] for x in db.query(User.username).filter(User.id.in_(mods)).order_by(User.username).all()]
+	mods = [x[0] for x in g.db.query(Mod.user_id).filter_by(sub=sub.name).all()]
+	mods = [x[0] for x in g.db.query(User.username).filter(User.id.in_(mods)).order_by(User.username).all()]
 
 	return render_template("log.html", v=v, admins=mods, types=types, admin=mod, type=kind, actions=actions, next_exists=next_exists, page=page, sub=sub, single_user_url='mod')
 
@@ -876,12 +876,12 @@ def hole_log_item(id, v, sub):
 	try: id = int(id)
 	except: abort(404)
 
-	action=db.get(SubAction, id)
+	action=g.db.get(SubAction, id)
 
 	if not action: abort(404)
 
-	mods = [x[0] for x in db.query(Mod.user_id).filter_by(sub=sub.name).all()]
-	mods = [x[0] for x in db.query(User.username).filter(User.id.in_(mods)).order_by(User.username).all()]
+	mods = [x[0] for x in g.db.query(Mod.user_id).filter_by(sub=sub.name).all()]
+	mods = [x[0] for x in g.db.query(User.username).filter(User.id.in_(mods)).order_by(User.username).all()]
 
 	types = SUBACTION_TYPES
 

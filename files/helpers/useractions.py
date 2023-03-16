@@ -2,7 +2,6 @@ from flask import g
 
 from files.classes.badges import Badge
 from files.helpers.alerts import send_repeatable_notification
-from files.helpers.config.const import *
 
 def badge_grant(user, badge_id, description=None, url=None, notify=True):
 	assert user != None
@@ -22,8 +21,8 @@ def badge_grant(user, badge_id, description=None, url=None, notify=True):
 		url=url,
 	)
 
-	db.add(badge)
-	db.flush()
+	g.db.add(badge)
+	g.db.flush()
 
 	if notify:
 		send_repeatable_notification(user.id,

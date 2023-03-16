@@ -69,7 +69,7 @@ def front_all(v, sub=None, subdomain=None):
 		if v.hidevotedon: posts = [x for x in posts if not hasattr(x, 'voted') or not x.voted]
 		award_timers(v)
 
-	if v and v.client: return {"data": [x.json for x in posts], "next_exists": next_exists}
+	if v and v.client: return {"data": [x.json(g.db) for x in posts], "next_exists": next_exists}
 	return render_template("home.html", v=v, listing=posts, next_exists=next_exists, sort=sort, t=t, page=page, sub=sub, home=True, pins=pins, holes=holes)
 
 
@@ -77,7 +77,7 @@ LIMITED_WPD_HOLES = ('gore', 'aftermath', 'selfharm', 'meta', 'discussion', 'soc
 
 @cache.memoize()
 def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='', gt=0, lt=0, sub=None, site=None, pins=True, holes=True):
-	posts = db.query(Submission)
+	posts = g.db.query(Submission)
 
 	if v and v.hidevotedon:
 		posts = posts.outerjoin(Vote,
@@ -135,9 +135,9 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 
 	if pins and page == 1 and not gt and not lt:
 		if sub:
-			pins = db.query(Submission).filter(Submission.sub == sub.name, Submission.hole_pinned != None)
+			pins = g.db.query(Submission).filter(Submission.sub == sub.name, Submission.hole_pinned != None)
 		else:
-			pins = db.query(Submission).filter(Submission.stickied != None, Submission.is_banned == False)
+			pins = g.db.query(Submission).filter(Submission.stickied != None, Submission.is_banned == False)
 
 			if v:
 				pins = pins.filter(or_(Submission.sub == None, Submission.sub.notin_(v.all_blocks)))
@@ -145,7 +145,7 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 					if pin.stickied_utc and int(time.time()) > pin.stickied_utc:
 						pin.stickied = None
 						pin.stickied_utc = None
-						db.add(pin)
+						g.db.add(pin)
 
 
 		if v: pins = pins.filter(Submission.author_id.notin_(v.userblocks))
@@ -164,7 +164,7 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 @auth_required
 def random_post(v:User):
 
-	p = db.query(Submission.id).filter(Submission.deleted_utc == 0, Submission.is_banned == False, Submission.private == False).order_by(func.random()).first()
+	p = g.db.query(Submission.id).filter(Submission.deleted_utc == 0, Submission.is_banned == False, Submission.private == False).order_by(func.random()).first()
 
 	if p: p = p[0]
 	else: abort(404)
@@ -177,7 +177,7 @@ def random_post(v:User):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def random_user(v:User):
-	u = db.query(User.username).filter(User.song != None).order_by(func.random()).first()
+	u = g.db.query(User.username).filter(User.song != None).order_by(func.random()).first()
 
 	if u: u = u[0]
 	else: abort(404, "No users have set a profile anthem so far!")
@@ -186,7 +186,7 @@ def random_user(v:User):
 
 @cache.memoize()
 def comment_idlist(v=None, page=1, sort="new", t="day", gt=0, lt=0, site=None):
-	comments = db.query(Comment.id) \
+	comments = g.db.query(Comment.id) \
 		.outerjoin(Comment.post) \
 		.filter(
 			or_(Comment.parent_submission != None, Comment.wall_user_id != None),
@@ -240,5 +240,5 @@ def all_comments(v:User):
 	next_exists = len(idlist) > PAGE_SIZE
 	idlist = idlist[:PAGE_SIZE]
 
-	if v.client: return {"data": [x.json for x in comments]}
+	if v.client: return {"data": [x.json(g.db) for x in comments]}
 	return render_template("home_comments.html", v=v, sort=sort, t=t, page=page, comments=comments, standalone=True, next_exists=next_exists)

@@ -7,7 +7,6 @@ from sqlalchemy.sql.sqltypes import *
 from files.classes import Base
 from files.helpers.lazy import lazy
 from files.helpers.regex import censor_slurs
-from files.helpers.config.const import *
 
 class HatDef(Base):
 	__tablename__ = "hat_defs"
@@ -31,7 +30,7 @@ class HatDef(Base):
 		return f"<{self.__class__.__name__}(id={self.id})>"
 
 	@lazy
-	def number_sold(self):
+	def number_sold(self, db:scoped_session):
 		return db.query(Hat).filter_by(hat_id=self.id).count()
 
 	@lazy

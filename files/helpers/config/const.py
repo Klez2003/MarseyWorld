@@ -1,15 +1,8 @@
-from sqlalchemy.orm import scoped_session, sessionmaker
-from sqlalchemy import *
-
 from enum import Enum, auto
 from os import environ, path
 
 import tldextract
 import datetime
-
-engine = create_engine(environ.get("DATABASE_URL").strip())
-db_session = scoped_session(sessionmaker(bind=engine))
-db = db_session()
 
 t = datetime.datetime.now()
 

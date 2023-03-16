@@ -19,8 +19,8 @@ def create_comment(text_html):
 							body_html=text_html,
 							distinguish_level=6,
 							is_bot=True)
-	db.add(new_comment)
-	db.flush()
+	g.db.add(new_comment)
+	g.db.flush()
 
 	new_comment.top_comment_id = new_comment.id
 
@@ -32,20 +32,20 @@ def send_repeatable_notification(uid, text):
 
 	text_html = sanitize(text, blackjack="notification")
 
-	existing_comments = db.query(Comment.id).filter_by(author_id=AUTOJANNY_ID, parent_submission=None, body_html=text_html, is_bot=True).order_by(Comment.id).all()
+	existing_comments = g.db.query(Comment.id).filter_by(author_id=AUTOJANNY_ID, parent_submission=None, body_html=text_html, is_bot=True).order_by(Comment.id).all()
 
 	for c in existing_comments:
-		existing_notif = db.query(Notification.user_id).filter_by(user_id=uid, comment_id=c.id).one_or_none()
+		existing_notif = g.db.query(Notification.user_id).filter_by(user_id=uid, comment_id=c.id).one_or_none()
 		if not existing_notif:
 			notif = Notification(comment_id=c.id, user_id=uid)
-			db.add(notif)
+			g.db.add(notif)
 
 			push_notif({uid}, 'New notification', text, f'{SITE_FULL}/comment/{c.id}?read=true#context')
 			return
 
 	cid = create_comment(text_html)
 	notif = Notification(comment_id=cid, user_id=uid)
-	db.add(notif)
+	g.db.add(notif)
 
 	push_notif({uid}, 'New notification', text, f'{SITE_FULL}/comment/{cid}?read=true#context')
 
@@ -61,9 +61,9 @@ def notif_comment(text):
 
 	text_html = sanitize(text, blackjack="notification")
 
-	db.flush()
+	g.db.flush()
 
-	existing = db.query(Comment.id).filter(
+	existing = g.db.query(Comment.id).filter(
 		Comment.author_id == AUTOJANNY_ID,
 		Comment.parent_submission == None,
 		Comment.body_html == text_html,
@@ -74,14 +74,14 @@ def notif_comment(text):
 		replace_with = existing[0][0]
 		replaced = [x[0] for x in existing[1:]]
 
-		for n in db.query(Notification).filter(Notification.comment_id.in_(replaced)).all():
+		for n in g.db.query(Notification).filter(Notification.comment_id.in_(replaced)).all():
 			n.comment_id = replace_with
-			db.add(n)
+			g.db.add(n)
 
-		db.flush()
+		g.db.flush()
 
-		for c in db.query(Comment).filter(Comment.id.in_(replaced)).all():
-			db.delete(c)
+		for c in g.db.query(Comment).filter(Comment.id.in_(replaced)).all():
+			g.db.delete(c)
 
 		return replace_with
 	elif existing:
@@ -96,7 +96,7 @@ def notif_comment2(p):
 
 	search_html = f'%</a> has mentioned you: <a href="/post/{p.id}">%'
 
-	existing = db.query(Comment.id).filter(Comment.author_id == AUTOJANNY_ID, Comment.parent_submission == None, Comment.body_html.like(search_html)).first()
+	existing = g.db.query(Comment.id).filter(Comment.author_id == AUTOJANNY_ID, Comment.parent_submission == None, Comment.body_html.like(search_html)).first()
 
 	if existing: return existing[0], text
 	else:
@@ -108,10 +108,10 @@ def notif_comment2(p):
 def add_notif(cid, uid, text, pushnotif_url=''):
 	if uid in bots: return
 
-	existing = db.query(Notification.user_id).filter_by(comment_id=cid, user_id=uid).one_or_none()
+	existing = g.db.query(Notification.user_id).filter_by(comment_id=cid, user_id=uid).one_or_none()
 	if not existing:
 		notif = Notification(comment_id=cid, user_id=uid)
-		db.add(notif)
+		g.db.add(notif)
 
 		if not pushnotif_url:
 			pushnotif_url = f'{SITE_FULL}/comment/{cid}?read=true#context'
@@ -140,7 +140,7 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False):
 	notify_users.update(user_ids)
 
 	if SITE_NAME == "WPD" and 'daisy' in text:
-		admin_ids = [x[0] for x in db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_SPECIFIC_WPD_COMMENTS']).all()]
+		admin_ids = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_SPECIFIC_WPD_COMMENTS']).all()]
 		notify_users.update(admin_ids)
 
 
@@ -154,14 +154,14 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False):
 				continue
 
 			if i.group(1) == 'everyone' and not v.shadowbanned:
-				cost = db.query(User).count() * 5
+				cost = g.db.query(User).count() * 5
 				if cost > v.coins:
 					abort(403, f"You need {cost} coins to mention these ping groups!")
-				db.query(User).update({ User.coins: User.coins + 5 })
+				g.db.query(User).update({ User.coins: User.coins + 5 })
 				v.charge_account('coins', cost)
 				return 'everyone'
 			else:
-				group = db.get(Group, i.group(1))
+				group = g.db.get(Group, i.group(1))
 				if not group: continue
 
 				members = group.member_ids - notify_users - v.all_twoway_blocks
@@ -176,7 +176,7 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False):
 					if cost > v.coins:
 						abort(403, f"You need {cost} coins to mention these ping groups!")
 
-					db.query(User).filter(User.id.in_(members)).update({ User.coins: User.coins + mul })
+					g.db.query(User).filter(User.id.in_(members)).update({ User.coins: User.coins + mul })
 		
 		v.charge_account('coins', cost)
 
@@ -203,9 +203,9 @@ def push_notif(uids, title, body, url_or_comment):
 
 	body = censor_slurs(body, None)
 
-	subscriptions = db.query(PushSubscription.subscription_json).filter(PushSubscription.user_id.in_(uids)).all()
+	subscriptions = g.db.query(PushSubscription.subscription_json).filter(PushSubscription.user_id.in_(uids)).all()
 	subscriptions = [x[0] for x in subscriptions]
-	db.flush()
+	g.db.flush()
 	gevent.spawn(_push_notif_thread, subscriptions, title, body, url)
 
 
@@ -232,4 +232,4 @@ def alert_everyone(cid):
 	insert into notifications
 	select id, {cid}, false, {t} from users
 	on conflict do nothing;""")
-	db.execute(_everyone_query)
+	g.db.execute(_everyone_query)

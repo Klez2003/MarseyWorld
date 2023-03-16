@@ -13,11 +13,11 @@ from .config.const import *
 LOTTERY_WINNER_BADGE_ID = 137
 
 def get_active_lottery():
-	return db.query(Lottery).order_by(Lottery.id.desc()).filter(Lottery.is_active).one_or_none()
+	return g.db.query(Lottery).order_by(Lottery.id.desc()).filter(Lottery.is_active).one_or_none()
 
 
 def get_users_participating_in_lottery():
-	return db.query(User) \
+	return g.db.query(User) \
 		.filter(User.currently_held_lottery_tickets > 0) \
 		.order_by(User.currently_held_lottery_tickets.desc()).all()
 
@@ -66,9 +66,9 @@ def end_lottery_session():
 
 	active_lottery.is_active = False
 
-	db.add(winning_user)
-	db.add(active_lottery)
-	db.commit() # Intentionally commit early because cron runs with other tasks
+	g.db.add(winning_user)
+	g.db.add(active_lottery)
+	g.db.commit() # Intentionally commit early because cron runs with other tasks
 
 	return True, f'{winning_user.username} won {active_lottery.prize} coins!'
 
@@ -84,8 +84,8 @@ def start_new_lottery_session():
 	lottery.ends_at = one_week_from_now
 	lottery.is_active = True
 
-	db.add(lottery)
-	db.commit() # Intentionally commit early, not autocommitted from cron
+	g.db.add(lottery)
+	g.db.commit() # Intentionally commit early, not autocommitted from cron
 
 
 def check_if_end_lottery_task():

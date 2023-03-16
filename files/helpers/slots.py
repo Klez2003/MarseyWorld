@@ -49,8 +49,8 @@ def casino_slot_pull(gambler, wager_value, currency):
 		casino_game.winnings = reward - wager_value
 		casino_game.kind = 'slots'
 		casino_game.game_state = json.dumps(game_state)
-		db.add(casino_game)
-		db.flush()
+		g.db.add(casino_game)
+		g.db.flush()
 
 		return casino_game.id, casino_game.game_state
 	else:

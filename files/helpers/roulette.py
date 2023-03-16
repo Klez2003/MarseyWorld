@@ -9,7 +9,6 @@ from files.classes.casino_game import CasinoGame
 from files.helpers.alerts import *
 from files.helpers.get import get_account
 from files.helpers.casino import distribute_wager_badges
-from files.helpers.config.const import *
 
 class RouletteAction(str, Enum):
 	STRAIGHT_UP_BET = "STRAIGHT_UP_BET",
@@ -79,7 +78,7 @@ PAYOUT_MULITPLIERS = {
 
 
 def get_active_roulette_games():
-	return db.query(CasinoGame).filter(
+	return g.db.query(CasinoGame).filter(
 		CasinoGame.active == True,
 		CasinoGame.kind == 'roulette'
 	).all()
@@ -123,8 +122,8 @@ def gambler_placed_roulette_bet(gambler, bet, which, amount, currency):
 	game.game_state = json.dumps(
 		{"parent_id": parent_id, "bet": bet, "which": which})
 	game.active = True
-	db.add(game)
-	db.flush()
+	g.db.add(game)
+	g.db.flush()
 
 
 def get_roulette_bets_and_betters():
@@ -202,7 +201,7 @@ def spin_roulette_wheel():
 				send_repeatable_notification(
 					participant, f"Winning number: {number}\n\nSorry, none of your recent roulette bets paid off.")
 
-				db.flush()
+				g.db.flush()
 
 		# Adjust game winnings.
 		for game in active_games:
@@ -214,10 +213,10 @@ def spin_roulette_wheel():
 			distribute_wager_badges(game.user, game.wager, won=(game.winnings > 0))
 
 			game.active = False
-			db.add(game)
+			g.db.add(game)
 
 		# Commit early when dirty because of long-running tasks after roulette
-		db.commit()
+		g.db.commit()
 
 
 def determine_roulette_winners(number, bets):

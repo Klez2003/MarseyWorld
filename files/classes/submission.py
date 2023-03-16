@@ -171,9 +171,8 @@ class Submission(Base):
 		if self.thumburl: return self.thumburl
 		return None
 
-	@property
 	@lazy
-	def json(self):
+	def json(self, db:scoped_session):
 		if self.is_banned:
 			return {'is_banned': True,
 					'deleted_utc': self.deleted_utc,
@@ -224,7 +223,7 @@ class Submission(Base):
 				}
 
 		if "replies" in self.__dict__:
-			data["replies"]=[x.json for x in self.replies]
+			data["replies"]=[x.json(db) for x in self.replies]
 
 		return data
 

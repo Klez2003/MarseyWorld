@@ -25,7 +25,6 @@ class Marsey(Base):
 	def tags_list(self):
 		return self.tags.split(" ") + [self.name[len("marsey"):]]  # type: ignore
 
-	@property
 	def json(self):
 		data = {
 			"name": self.name,

@@ -174,14 +174,14 @@ def execute_blackjack(v, target, body, type):
 			target_user_id=v.id,
 			_note='reason: "Blackjack"'
 		)
-		db.add(ma)
+		g.db.add(ma)
 
 		v.ban_reason = "Blackjack"
-		db.add(v)
+		g.db.add(v)
 	elif target and type in {'submission', 'comment', 'message'}:
 		target.is_banned = True
 
-	notified_ids = [x[0] for x in db.query(User.id).filter(User.admin_level >= PERMS['BLACKJACK_NOTIFICATIONS'])]
+	notified_ids = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['BLACKJACK_NOTIFICATIONS'])]
 	extra_info = type
 
 	if target:
@@ -192,7 +192,7 @@ def execute_blackjack(v, target, body, type):
 		elif type in {'comment', 'message'}:
 			for id in notified_ids:
 				n = Notification(comment_id=target.id, user_id=id)
-				db.add(n)
+				g.db.add(n)
 
 			extra_info = None
 
@@ -388,7 +388,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 			if name == 'everyone':
 				sanitized = group_mention_regex.sub(r'<a href="/users">!\1</a>', sanitized)
 			else:
-				existing = db.get(Group, name)
+				existing = g.db.get(Group, name)
 				if existing:
 					sanitized = sanitized.replace(i.group(0), f'<a href="/!{name}">!{name}</a>', 1)
 
@@ -467,9 +467,9 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 	sanitized = audio_sub_regex.sub(r'\1<audio controls preload="none" src="\2"></audio>', sanitized)
 
 	if count_marseys:
-		for marsey in db.query(Marsey).filter(Marsey.submitter_id==None, Marsey.name.in_(marseys_used)).all():
+		for marsey in g.db.query(Marsey).filter(Marsey.submitter_id==None, Marsey.name.in_(marseys_used)).all():
 			marsey.count += 1
-			db.add(marsey)
+			g.db.add(marsey)
 
 	sanitized = sanitized.replace('<p></p>', '')
 	sanitized = sanitized.replace('<html><body>','').replace('</body></html>','')
@@ -503,7 +503,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 		else:
 			abort(403, error)
 
-	banned_domains = db.query(BannedDomain).all()
+	banned_domains = g.db.query(BannedDomain).all()
 	for x in banned_domains:
 		for y in domain_list:
 			if y.startswith(x.domain):
@@ -559,9 +559,9 @@ def filter_emojis_only(title, golden=True, count_marseys=False, graceful=False, 
 	title = render_emoji(title, emoji_regex3, golden, marseys_used)
 
 	if count_marseys:
-		for marsey in db.query(Marsey).filter(Marsey.submitter_id==None, Marsey.name.in_(marseys_used)).all():
+		for marsey in g.db.query(Marsey).filter(Marsey.submitter_id==None, Marsey.name.in_(marseys_used)).all():
 			marsey.count += 1
-			db.add(marsey)
+			g.db.add(marsey)
 
 	title = strikethrough_regex.sub(r'\1<del>\2</del>', title)
 

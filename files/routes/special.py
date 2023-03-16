@@ -78,7 +78,7 @@ ORDER BY payout DESC, bets_won DESC, bets_total ASC;
 
 @cache.memoize()
 def _special_leaderboard_get():
-	result = db.execute(_special_leaderboard_query).all()
+	result = g.db.execute(_special_leaderboard_query).all()
 	return result
 
 @app.get('/events/worldcup2022/leaderboard')

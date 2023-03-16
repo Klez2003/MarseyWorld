@@ -12,8 +12,10 @@ from flask_caching import Cache
 from flask_compress import Compress
 from flask_limiter import Limiter
 from sqlalchemy import *
+from sqlalchemy.orm import scoped_session, sessionmaker
 
 from files.helpers.config.const import *
+from files.helpers.const_stateful import const_initialize
 from files.helpers.settings import reload_settings, start_watching_settings
 
 app = Flask(__name__, template_folder='templates')
@@ -45,6 +47,7 @@ app.config["PERMANENT_SESSION_LIFETIME"] = SESSION_LIFETIME
 app.config['SESSION_REFRESH_EACH_REQUEST'] = False
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_DATABASE_URL'] = environ.get("DATABASE_URL").strip()
 
 app.config["CACHE_TYPE"] = "RedisCache"
 app.config["CACHE_REDIS_URL"] = environ.get("REDIS_URL").strip()
@@ -68,6 +71,12 @@ limiter = Limiter(
 	application_limits=["10/second;200/minute;5000/hour;10000/day"],
 	storage_uri=app.config["CACHE_REDIS_URL"],
 )
+
+engine = create_engine(app.config['SQLALCHEMY_DATABASE_URL'])
+
+db_session = scoped_session(sessionmaker(bind=engine, autoflush=False))
+
+const_initialize(db_session)
 
 reload_settings()
 start_watching_settings()

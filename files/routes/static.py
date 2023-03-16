@@ -50,7 +50,7 @@ def marseys(v:User):
 	if SITE_NAME != 'rDrama':
 		abort(404)
 
-	marseys = get_marseys()
+	marseys = get_marseys(g.db)
 	authors = get_accounts_dict([m.author_id for m in marseys], v=v, graceful=True)
 	original = os.listdir("/asset_submissions/marseys/original")
 	for marsey in marseys:
@@ -64,10 +64,10 @@ def marseys(v:User):
 @app.get("/emojis")
 @limiter.limit(DEFAULT_RATELIMIT)
 def emoji_list():
-	return get_emojis()
+	return get_emojis(g.db)
 
 @cache.cached(timeout=86400, key_prefix=MARSEYS_CACHE_KEY)
-def get_marseys():
+def get_marseys(db:scoped_session):
 	if not FEATURES['MARSEYS']: return []
 	marseys = []
 	for marsey, author in db.query(Marsey, User).join(User, Marsey.author_id == User.id).filter(Marsey.submitter_id == None).order_by(Marsey.count.desc()):
@@ -77,8 +77,8 @@ def get_marseys():
 	return marseys
 
 @cache.cached(timeout=600, key_prefix=EMOJIS_CACHE_KEY)
-def get_emojis():
-	emojis = [m.json for m in get_marseys()]
+def get_emojis(db:scoped_session):
+	emojis = [m.json() for m in get_marseys(db)]
 	for src in EMOJI_SRCS:
 		with open(src, "r", encoding="utf-8") as f:
 			emojis = emojis + json.load(f)
@@ -125,7 +125,7 @@ def daily_chart(v:User):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['VIEW_PATRONS'])
 def patrons(v):
-	users = db.query(User).filter(User.patron > 0).order_by(User.patron.desc(), User.id).all()
+	users = g.db.query(User).filter(User.patron > 0).order_by(User.patron.desc(), User.id).all()
 
 	return render_template("admin/patrons.html", v=v, users=users, benefactor_def=AWARDS['benefactor'])
 
@@ -135,7 +135,7 @@ def patrons(v):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def admins(v:User):
-	admins = db.query(User).filter(User.admin_level >= PERMS['ADMIN_MOP_VISIBLE']).order_by(User.truescore.desc()).all()
+	admins = g.db.query(User).filter(User.admin_level >= PERMS['ADMIN_MOP_VISIBLE']).order_by(User.truescore.desc()).all()
 	return render_template("admins.html", v=v, admins=admins)
 
 @app.get("/log")
@@ -165,7 +165,7 @@ def log(v:User):
 		kind = None
 		actions = []
 	else:
-		actions = db.query(ModAction)
+		actions = g.db.query(ModAction)
 		if not (v and v.admin_level >= PERMS['USER_SHADOWBAN']):
 			actions = actions.filter(ModAction.kind.notin_(MODACTION_PRIVILEGED_TYPES))
 		if not (v and v.admin_level >= PERMS['PROGSTACK']):
@@ -184,7 +184,7 @@ def log(v:User):
 
 	next_exists=len(actions) > PAGE_SIZE
 	actions=actions[:PAGE_SIZE]
-	admins = [x[0] for x in db.query(User.username).filter(User.admin_level >= PERMS['ADMIN_MOP_VISIBLE']).order_by(User.username).all()]
+	admins = [x[0] for x in g.db.query(User.username).filter(User.admin_level >= PERMS['ADMIN_MOP_VISIBLE']).order_by(User.username).all()]
 
 	return render_template("log.html", v=v, admins=admins, types=types, admin=admin, type=kind, actions=actions, next_exists=next_exists, page=page, single_user_url='admin')
 
@@ -196,11 +196,11 @@ def log_item(id, v):
 	try: id = int(id)
 	except: abort(404)
 
-	action=db.get(ModAction, id)
+	action=g.db.get(ModAction, id)
 
 	if not action: abort(404)
 
-	admins = [x[0] for x in db.query(User.username).filter(User.admin_level >= PERMS['ADMIN_MOP_VISIBLE']).all()]
+	admins = [x[0] for x in g.db.query(User.username).filter(User.admin_level >= PERMS['ADMIN_MOP_VISIBLE']).all()]
 
 	if v and v.admin_level >= PERMS['USER_SHADOWBAN']:
 		if v and v.admin_level >= PERMS['PROGSTACK']:
@@ -268,17 +268,17 @@ def submit_contact(v):
 						body_html=body_html,
 						sentto=MODMAIL_ID
 						)
-	db.add(new_comment)
-	db.flush()
+	g.db.add(new_comment)
+	g.db.flush()
 	execute_blackjack(v, new_comment, new_comment.body_html, 'modmail')
 	execute_under_siege(v, new_comment, new_comment.body_html, 'modmail')
 	new_comment.top_comment_id = new_comment.id
 
-	admin_ids = [x[0] for x in db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_MODMAIL']).all()]
+	admin_ids = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_MODMAIL']).all()]
 
 	for admin_id in admin_ids:
 		notif = Notification(comment_id=new_comment.id, user_id=admin_id)
-		db.add(notif)
+		g.db.add(notif)
 
 	push_notif(admin_ids, f'New modmail from @{new_comment.author_name}', new_comment.body, f'{SITE_FULL}/notifications/modmail')
 
@@ -293,9 +293,9 @@ no = (21,22,23,24,25,26,27)
 
 @cache.memoize(timeout=3600)
 def badge_list(site):
-	badges = db.query(BadgeDef).filter(BadgeDef.id.notin_(no)).order_by(BadgeDef.id).all()
-	counts_raw = db.query(Badge.badge_id, func.count()).group_by(Badge.badge_id).all()
-	users = db.query(User).count()
+	badges = g.db.query(BadgeDef).filter(BadgeDef.id.notin_(no)).order_by(BadgeDef.id).all()
+	counts_raw = g.db.query(Badge.badge_id, func.count()).group_by(Badge.badge_id).all()
+	users = g.db.query(User).count()
 
 	counts = {}
 	for c in counts_raw:
@@ -317,7 +317,7 @@ def badges(v:User):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['USER_BLOCKS_VISIBLE'])
 def blocks(v):
-	blocks=db.query(UserBlock).all()
+	blocks=g.db.query(UserBlock).all()
 	users = []
 	targets = []
 	for x in blocks:
@@ -358,7 +358,7 @@ def transfers_id(id, v):
 	try: id = int(id)
 	except: abort(404)
 
-	transfer = db.get(Comment, id)
+	transfer = g.db.get(Comment, id)
 
 	if not transfer: abort(404)
 
@@ -370,7 +370,7 @@ def transfers_id(id, v):
 @auth_required
 def transfers(v:User):
 
-	comments = db.query(Comment).filter(Comment.author_id == AUTOJANNY_ID, Comment.parent_submission == None, Comment.body_html.like("%</a> has transferred %")).order_by(Comment.id.desc())
+	comments = g.db.query(Comment).filter(Comment.author_id == AUTOJANNY_ID, Comment.parent_submission == None, Comment.body_html.like("%</a> has transferred %")).order_by(Comment.id.desc())
 
 	try: page = max(int(request.values.get("page", 1)), 1)
 	except: page = 1
@@ -380,7 +380,7 @@ def transfers(v:User):
 	comments = comments[:PAGE_SIZE]
 
 	if v.client:
-		return {"data": [x.json for x in comments]}
+		return {"data": [x.json(g.db) for x in comments]}
 	else:
 		return render_template("transfers.html", v=v, page=page, comments=comments, standalone=True, next_exists=next_exists)
 

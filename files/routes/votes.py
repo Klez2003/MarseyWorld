@@ -25,7 +25,7 @@ def vote_info_get(v, link):
 		abort(500)
 
 	if isinstance(thing, Submission):
-		query = db.query(Vote).join(Vote.user).filter(
+		query = g.db.query(Vote).join(Vote.user).filter(
 			Vote.submission_id == thing.id,
 		).order_by(Vote.created_utc)
 
@@ -33,7 +33,7 @@ def vote_info_get(v, link):
 		downs = query.filter(Vote.vote_type == -1).all()
 
 	elif isinstance(thing, Comment):
-		query = db.query(CommentVote).join(CommentVote.user).filter(
+		query = g.db.query(CommentVote).join(CommentVote.user).filter(
 			CommentVote.comment_id == thing.id,
 		).order_by(CommentVote.created_utc)
 
@@ -76,7 +76,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 
 	coin_mult = 1
 
-	existing = db.query(vote_cls).filter_by(user_id=v.id)
+	existing = g.db.query(vote_cls).filter_by(user_id=v.id)
 	if vote_cls == Vote:
 		existing = existing.filter_by(submission_id=target.id)
 	elif vote_cls == CommentVote:
@@ -98,23 +98,23 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 		if existing.vote_type == 0 and new != 0:
 			target.author.pay_account('coins', coin_value)
 			target.author.truescore += coin_delta
-			db.add(target.author)
+			g.db.add(target.author)
 			existing.vote_type = new
 			existing.coins = coin_value
-			db.add(existing)
+			g.db.add(existing)
 		elif existing.vote_type != 0 and new == 0:
 			target.author.charge_account('coins', existing.coins,
 				should_check_balance=False)
 			target.author.truescore -= coin_delta
-			db.add(target.author)
-			db.delete(existing)
+			g.db.add(target.author)
+			g.db.delete(existing)
 		else:
 			existing.vote_type = new
-			db.add(existing)
+			g.db.add(existing)
 	elif new != 0:
 		target.author.pay_account('coins', coin_value)
 		target.author.truescore += coin_delta
-		db.add(target.author)
+		g.db.add(target.author)
 
 		real = new == -1 or (not alt and v.is_votes_real)
 		vote = None
@@ -134,12 +134,12 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 						real=real,
 						coins=coin_value
 			)
-		db.add(vote)
-	db.flush()
+		g.db.add(vote)
+	g.db.flush()
 
 	# this is hacky but it works, we should probably do better later
 	def get_vote_count(dir, real_instead_of_dir):
-		votes = db.query(vote_cls)
+		votes = g.db.query(vote_cls)
 		if real_instead_of_dir:
 			votes = votes.filter(vote_cls.real == True)
 		else:
@@ -182,7 +182,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 	mul = min(mul, 2)
 	target.realupvotes = floor(target.realupvotes * mul)
 
-	db.add(target)
+	g.db.add(target)
 	return "", 204
 
 

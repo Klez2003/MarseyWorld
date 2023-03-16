@@ -16,14 +16,13 @@ from files.__main__ import app
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def clear(v):
-	notifs = db.query(Notification).join(Notification.comment).filter(Notification.read == False, Notification.user_id == v.id).all()
+	notifs = g.db.query(Notification).join(Notification.comment).filter(Notification.read == False, Notification.user_id == v.id).all()
 	for n in notifs:
 		n.read = True
-		db.add(n)
+		g.db.add(n)
 	v.last_viewed_post_notifs = int(time.time())
 	v.last_viewed_log_notifs = int(time.time())
-	db.add(v)
-	db.flush()
+	g.db.add(v)
 	return {"message": "Notifications marked as read!"}
 
 
@@ -32,7 +31,7 @@ def clear(v):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def unread(v):
-	listing = db.query(Notification, Comment).join(Notification.comment).filter(
+	listing = g.db.query(Notification, Comment).join(Notification.comment).filter(
 		Notification.read == False,
 		Notification.user_id == v.id,
 		Comment.is_banned == False,
@@ -41,10 +40,9 @@ def unread(v):
 
 	for n, c in listing:
 		n.read = True
-		db.add(n)
-	
-	db.flush()
-	return {"data":[x[1].json for x in listing]}
+		g.db.add(n)
+
+	return {"data":[x[1].json(g.db) for x in listing]}
 
 
 @app.get("/notifications/modmail")
@@ -55,16 +53,16 @@ def notifications_modmail(v):
 	try: page = max(int(request.values.get("page", 1)), 1)
 	except: page = 1
 
-	comments = db.query(Comment).filter_by(
+	comments = g.db.query(Comment).filter_by(
 			sentto=MODMAIL_ID,
 			level=1,
 		).order_by(Comment.id.desc()).offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE+1).all()
 	next_exists = (len(comments) > PAGE_SIZE)
 	listing = comments[:PAGE_SIZE]
 
-	db.flush()
+	g.db.flush()
 
-	if v.client: return {"data":[x.json for x in listing]}
+	if v.client: return {"data":[x.json(g.db) for x in listing]}
 
 	return render_template("notifications.html",
 							v=v,
@@ -88,7 +86,7 @@ def notifications_messages(v:User):
 	# All of these queries are horrible. For whomever comes here after me,
 	# PLEASE just turn DMs into their own table and get them out of
 	# Notifications & Comments. It's worth it. Save yourself.
-	message_threads = db.query(Comment).filter(
+	message_threads = g.db.query(Comment).filter(
 		Comment.sentto != None,
 		or_(Comment.author_id == v.id, Comment.sentto == v.id),
 		Comment.parent_submission == None,
@@ -96,7 +94,7 @@ def notifications_messages(v:User):
 	)
 
 
-	thread_order = db.query(Comment.top_comment_id, Comment.created_utc) \
+	thread_order = g.db.query(Comment.top_comment_id, Comment.created_utc) \
 		.distinct(Comment.top_comment_id) \
 		.filter(
 			Comment.sentto != None,
@@ -114,29 +112,29 @@ def notifications_messages(v:User):
 	# Clear notifications (used for unread indicator only) for all user messages.
 	
 	if not session.get("GLOBAL"):
-		notifs_unread_row = db.query(Notification.comment_id).join(Comment).filter(
+		notifs_unread_row = g.db.query(Notification.comment_id).join(Comment).filter(
 			Notification.user_id == v.id,
 			Notification.read == False,
 			or_(Comment.author_id == v.id, Comment.sentto == v.id),
 		).all()
 
 		notifs_unread = [n.comment_id for n in notifs_unread_row]
-		db.query(Notification).filter(
+		g.db.query(Notification).filter(
 				Notification.user_id == v.id,
 				Notification.comment_id.in_(notifs_unread),
 			).update({Notification.read: True})
-		db.flush()
+		g.db.flush()
 
 	next_exists = (len(message_threads) > 25)
 	listing = message_threads[:25]
 
 	list_to_perserve_unread_attribute = []
-	comments_unread = db.query(Comment).filter(Comment.id.in_(notifs_unread))
+	comments_unread = g.db.query(Comment).filter(Comment.id.in_(notifs_unread))
 	for c in comments_unread:
 		c.unread = True
 		list_to_perserve_unread_attribute.append(c)
 
-	if v.client: return {"data":[x.json for x in listing]}
+	if v.client: return {"data":[x.json(g.db) for x in listing]}
 
 	return render_template("notifications.html",
 							v=v,
@@ -156,7 +154,7 @@ def notifications_posts(v:User):
 	try: page = max(int(request.values.get("page", 1)), 1)
 	except: page = 1
 
-	listing = [x[0] for x in db.query(Submission.id).filter(
+	listing = [x[0] for x in g.db.query(Submission.id).filter(
 		or_(
 			Submission.author_id.in_(v.followed_users),
 			Submission.sub.in_(v.followed_subs)
@@ -179,10 +177,9 @@ def notifications_posts(v:User):
 
 	if not session.get("GLOBAL"):
 		v.last_viewed_post_notifs = int(time.time())
-		db.add(v)
-		db.flush()
+		g.db.add(v)
 
-	if v.client: return {"data":[x.json for x in listing]}
+	if v.client: return {"data":[x.json(g.db) for x in listing]}
 
 	return render_template("notifications.html",
 							v=v,
@@ -209,7 +206,7 @@ def notifications_modactions(v:User):
 	else:
 		abort(403)
 
-	listing = db.query(cls).filter(cls.user_id != v.id)
+	listing = g.db.query(cls).filter(cls.user_id != v.id)
 
 	if v.id == AEVANN_ID:
 		listing = listing.filter(cls.kind.in_(AEVANN_MODACTION_TYPES))
@@ -229,8 +226,7 @@ def notifications_modactions(v:User):
 
 	if not session.get("GLOBAL"):
 		v.last_viewed_log_notifs = int(time.time())
-		db.add(v)
-		db.flush()
+		g.db.add(v)
 
 	return render_template("notifications.html",
 							v=v,
@@ -253,7 +249,7 @@ def notifications_reddit(v:User):
 
 	if not v.can_view_offsitementions: abort(403)
 
-	listing = db.query(Comment).filter(
+	listing = g.db.query(Comment).filter(
 		Comment.body_html.like('%<p>New site mention%<a href="https://old.reddit.com/r/%'),
 		Comment.parent_submission == None,
 		Comment.author_id == AUTOJANNY_ID
@@ -267,9 +263,9 @@ def notifications_reddit(v:User):
 
 	if not session.get("GLOBAL"):
 		v.last_viewed_reddit_notifs = int(time.time())
-		db.add(v)
+		g.db.add(v)
 
-	if v.client: return {"data":[x.json for x in listing]}
+	if v.client: return {"data":[x.json(g.db) for x in listing]}
 
 	return render_template("notifications.html",
 							v=v,
@@ -292,7 +288,7 @@ def notifications(v:User):
 	except: page = 1
 
 	if v.admin_level < PERMS['USER_SHADOWBAN']:
-		unread_and_inaccessible = db.query(Notification).join(Notification.comment).join(Comment.author).filter(
+		unread_and_inaccessible = g.db.query(Notification).join(Notification.comment).join(Comment.author).filter(
 			Notification.user_id == v.id,
 			Notification.read == False,
 			or_(
@@ -303,9 +299,9 @@ def notifications(v:User):
 		).all()
 		for n in unread_and_inaccessible:
 			n.read = True
-			db.add(n)
+			g.db.add(n)
 
-	comments = db.query(Comment, Notification).join(Notification.comment).join(Comment.author).filter(
+	comments = g.db.query(Comment, Notification).join(Notification.comment).join(Comment.author).filter(
 		Notification.user_id == v.id,
 		or_(Comment.sentto == None, Comment.sentto != v.id),
 		not_(and_(Comment.sentto == MODMAIL_ID, User.is_muted)),
@@ -340,7 +336,7 @@ def notifications(v:User):
 			total.append(c)
 
 			if c.replies2 == None:
-				c.replies2 = db.query(Comment).filter_by(parent_comment_id=c.id).filter(or_(Comment.author_id == v.id, Comment.id.in_(cids))).order_by(Comment.id.desc()).all()
+				c.replies2 = g.db.query(Comment).filter_by(parent_comment_id=c.id).filter(or_(Comment.author_id == v.id, Comment.id.in_(cids))).order_by(Comment.id.desc()).all()
 				total.extend(c.replies2)
 				for x in c.replies2:
 					if x.replies2 == None: x.replies2 = []
@@ -351,11 +347,11 @@ def notifications(v:User):
 				c = c.parent_comment
 
 				if c.replies2 == None:
-					c.replies2 = db.query(Comment).filter_by(parent_comment_id=c.id).filter(or_(Comment.author_id == v.id, Comment.id.in_(cids))).order_by(Comment.id.desc()).all()
+					c.replies2 = g.db.query(Comment).filter_by(parent_comment_id=c.id).filter(or_(Comment.author_id == v.id, Comment.id.in_(cids))).order_by(Comment.id.desc()).all()
 					total.extend(c.replies2)
 					for x in c.replies2:
 						if x.replies2 == None:
-							x.replies2 = db.query(Comment).filter_by(parent_comment_id=x.id).filter(or_(Comment.author_id == v.id, Comment.id.in_(cids))).order_by(Comment.id.desc()).all()
+							x.replies2 = g.db.query(Comment).filter_by(parent_comment_id=x.id).filter(or_(Comment.author_id == v.id, Comment.id.in_(cids))).order_by(Comment.id.desc()).all()
 							total.extend(x.replies2)
 
 				if not hasattr(c, "notified_utc") or n.created_utc > c.notified_utc:
@@ -366,13 +362,13 @@ def notifications(v:User):
 		else:
 			while c.parent_comment_id:
 				c = c.parent_comment
-			c.replies2 = db.query(Comment).filter_by(parent_comment_id=c.id).order_by(Comment.id).all()
+			c.replies2 = g.db.query(Comment).filter_by(parent_comment_id=c.id).order_by(Comment.id).all()
 
 		if c not in listing: listing.append(c)
 
 		if not n.read and not session.get("GLOBAL"):
 			n.read = True
-			db.add(n)
+			g.db.add(n)
 
 	total.extend(listing)
 
@@ -382,7 +378,7 @@ def notifications(v:User):
 		if x.parent_comment_id:
 			parent = x.parent_comment
 			if parent.replies2 == None:
-				parent.replies2 = db.query(Comment).filter_by(parent_comment_id=parent.id).filter(or_(Comment.author_id == v.id, Comment.id.in_(cids+[x.id]))).order_by(Comment.id.desc()).all()
+				parent.replies2 = g.db.query(Comment).filter_by(parent_comment_id=parent.id).filter(or_(Comment.author_id == v.id, Comment.id.in_(cids+[x.id]))).order_by(Comment.id.desc()).all()
 				total.extend(parent.replies2)
 				for y in parent.replies2:
 					if y.replies2 == None:
@@ -400,9 +396,9 @@ def notifications(v:User):
 	total_cids = set(total_cids)
 	output = get_comments_v_properties(v, None, Comment.id.in_(total_cids))[1]
 
-	db.flush()
+	g.db.flush()
 
-	if v.client: return {"data":[x.json for x in listing]}
+	if v.client: return {"data":[x.json(g.db) for x in listing]}
 
 	return render_template("notifications.html",
 							v=v,
