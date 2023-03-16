@@ -76,7 +76,6 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 
 	coin_mult = 1
 
-	db.flush()
 	existing = db.query(vote_cls).filter_by(user_id=v.id)
 	if vote_cls == Vote:
 		existing = existing.filter_by(submission_id=target.id)

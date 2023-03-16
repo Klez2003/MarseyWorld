@@ -400,7 +400,6 @@ def delete_comment(cid, v):
 		db.add(c)
 		cache.delete_memoized(comment_idlist)
 
-		db.flush()
 		v.comment_count = db.query(Comment).filter(
 			Comment.author_id == v.id,
 			or_(Comment.parent_submission != None, Comment.wall_user_id != None),
@@ -421,7 +420,7 @@ def undelete_comment(cid, v):
 		c.deleted_utc = 0
 		db.add(c)
 		cache.delete_memoized(comment_idlist)
-		db.flush()
+
 		v.comment_count = db.query(Comment).filter(
 			Comment.author_id == v.id,
 			or_(Comment.parent_submission != None, Comment.wall_user_id != None),

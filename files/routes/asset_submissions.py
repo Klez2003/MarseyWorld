@@ -83,7 +83,6 @@ def submit_marsey(v:User):
 	marsey = Marsey(name=name, author_id=author.id, tags=tags, count=0, submitter_id=v.id)
 	db.add(marsey)
 
-	db.flush()
 	if v.admin_level >= PERMS['VIEW_PENDING_SUBMITTED_MARSEYS']: marseys = db.query(Marsey).filter(Marsey.submitter_id != None)
 	else: marseys = db.query(Marsey).filter(Marsey.submitter_id == v.id)
 

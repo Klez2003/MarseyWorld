@@ -812,7 +812,6 @@ def u_username_wall(v:Optional[User], username:str):
 	is_following = v and u.has_follower(v)
 
 	if v and v.id != u.id and not v.admin_level:
-		db.flush()
 		view = db.query(ViewerRelationship).filter_by(viewer_id=v.id, user_id=u.id).one_or_none()
 		if view: view.last_view_utc = int(time.time())
 		else: view = ViewerRelationship(viewer_id=v.id, user_id=u.id)
@@ -867,7 +866,6 @@ def u_username_wall_comment(v:User, username:str, cid):
 	is_following = v and u.has_follower(v)
 
 	if v and v.id != u.id and not v.admin_level:
-		db.flush()
 		view = db.query(ViewerRelationship).filter_by(viewer_id=v.id, user_id=u.id).one_or_none()
 		if view: view.last_view_utc = int(time.time())
 		else: view = ViewerRelationship(viewer_id=v.id, user_id=u.id)
@@ -921,7 +919,6 @@ def u_username(v:Optional[User], username:str):
 		return render_template("userpage/private.html", u=u, v=v, is_following=is_following), 403
 
 	if v and v.id != u.id and not v.admin_level:
-		db.flush()
 		view = db.query(ViewerRelationship).filter_by(viewer_id=v.id, user_id=u.id).one_or_none()
 		if view: view.last_view_utc = int(time.time())
 		else: view = ViewerRelationship(viewer_id=v.id, user_id=u.id)
@@ -998,7 +995,6 @@ def u_username_comments(username, v=None):
 		return render_template("userpage/private.html", u=u, v=v, is_following=is_following), 403
 
 	if v and v.id != u.id and not v.admin_level:
-		db.flush()
 		view = db.query(ViewerRelationship).filter_by(viewer_id=v.id, user_id=u.id).one_or_none()
 		if view: view.last_view_utc = int(time.time())
 		else: view = ViewerRelationship(viewer_id=v.id, user_id=u.id)
@@ -1093,7 +1089,6 @@ def follow_user(username, v):
 	new_follow = Follow(user_id=v.id, target_id=target.id)
 	db.add(new_follow)
 
-	db.flush()
 	target.stored_subscriber_count = db.query(Follow).filter_by(target_id=target.id).count()
 	db.add(target)
 
@@ -1122,7 +1117,6 @@ def unfollow_user(username, v):
 	if follow:
 		db.delete(follow)
 
-		db.flush()
 		target.stored_subscriber_count = db.query(Follow).filter_by(target_id=target.id).count()
 		db.add(target)
 
@@ -1149,7 +1143,6 @@ def remove_follow(username, v):
 
 	db.delete(follow)
 
-	db.flush()
 	v.stored_subscriber_count = db.query(Follow).filter_by(target_id=v.id).count()
 	db.add(v)
 
@@ -1328,7 +1321,6 @@ tiers={
 marseybux_li = (0,2500,5000,10000,25000,50000,100000,250000)
 
 def claim_rewards(v):
-	db.flush()
 	transactions = db.query(Transaction).filter_by(email=v.email, claimed=None).all()
 
 	highest_tier = 0

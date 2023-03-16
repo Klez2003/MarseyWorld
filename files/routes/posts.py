@@ -734,7 +734,6 @@ def delete_post_pid(pid, v):
 		cache.delete_memoized(frontlist)
 		cache.delete_memoized(userpagelisting)
 
-		db.flush()
 		v.post_count = db.query(Submission).filter_by(author_id=v.id, deleted_utc=0).count()
 		db.add(v)
 
@@ -756,7 +755,6 @@ def undelete_post_pid(pid, v):
 		cache.delete_memoized(frontlist)
 		cache.delete_memoized(userpagelisting)
 
-		db.flush()
 		v.post_count = db.query(Submission).filter_by(author_id=v.id, deleted_utc=0).count()
 		db.add(v)
 
