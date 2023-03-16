@@ -672,7 +672,7 @@ def hole_pin(v:User, pid):
 
 	if not v.mods(p.sub): abort(403)
 
-	num = db.query(Submission).filter(Submission.sub == p.sub, Submission.hole_pinned != None).count()
+	num = g.db.query(Submission).filter(Submission.sub == p.sub, Submission.hole_pinned != None).count()
 	if num >= 2:
 		abort(403, f"You can only pin 2 posts to /h/{p.sub}")
 
