@@ -193,6 +193,7 @@ if SITE_NAME == 'rDrama':
 		"krayon": "krayon (sister toucher)",
 		"discord": "groomercord",
 		"allah(?! \()": "Allah (ﷻ)",
+		"my wife(?! \()": "my wife (male)",
 		"(?<!cow) tools ": " cow tools ",
 		"trans woman": "real woman",
 		"trans women": "real women",
