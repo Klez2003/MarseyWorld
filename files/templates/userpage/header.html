@@ -4,23 +4,23 @@
 		<div class="flex-row box-shadow-bottom d-flex justify-content-center justify-content-md-between align-items-center">
 			<ul class="nav settings-nav" id="content">
 				<li class="nav-item mr-1">
-					<a class="nav-link{% if path == '' %} active{% endif %}" href="/@{{u.username}}#content">Wall</a>
+					<a class="nav-link{% if path == '' %} active{% endif %}" href="/@{{u.username}}">Wall</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link{% if path == '/posts' %} active{% endif %}" href="/@{{u.username}}/posts#content">Posts <span class="count">({{u.real_post_count(v)}})</span></a>
+					<a class="nav-link{% if path == '/posts' %} active{% endif %}" href="/@{{u.username}}/posts">Posts <span class="count">({{u.real_post_count(v)}})</span></a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link{% if path == '/comments' %} active{% endif %}" href="/@{{u.username}}/comments#content">Comments <span class="count">({{u.real_comment_count(v)}})</span></a>
+					<a class="nav-link{% if path == '/comments' %} active{% endif %}" href="/@{{u.username}}/comments">Comments <span class="count">({{u.real_comment_count(v)}})</span></a>
 				</li>
 				{% if u.id == v.id %}
 					<li class="nav-item">
-						<a class="nav-link{% if path == '/saved/posts' %} active{% endif %}" href="/@{{u.username}}/saved/posts#content">Saved Posts <span class="count">({{u.saved_count}})</span></a>
+						<a class="nav-link{% if path == '/saved/posts' %} active{% endif %}" href="/@{{u.username}}/saved/posts">Saved Posts <span class="count">({{u.saved_count}})</span></a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link{% if path == '/saved/comments' %} active{% endif %}" href="/@{{u.username}}/saved/comments#content">Saved Comments <span class="count">({{u.saved_comment_count}})</span></a>
+						<a class="nav-link{% if path == '/saved/comments' %} active{% endif %}" href="/@{{u.username}}/saved/comments">Saved Comments <span class="count">({{u.saved_comment_count}})</span></a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link{% if path == '/subscribed/posts' %} active{% endif %}" href="/@{{u.username}}/subscribed/posts#content">Subscribed <span class="count">({{u.subscribed_count}})</span></a>
+						<a class="nav-link{% if path == '/subscribed/posts' %} active{% endif %}" href="/@{{u.username}}/subscribed/posts">Subscribed <span class="count">({{u.subscribed_count}})</span></a>
 					</li>
 				{% endif %}
 			</ul>
@@ -43,12 +43,12 @@
 				{{t | capitalize}}
 				</button>
 				<div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 31px, 0px);">
-					{% if t != "hour" %}<a class="dropdown-item" href="?sort={{sort}}&t=hour#content"><i class="fas fa-clock mr-2"></i>Hour</a>{% endif %}
-					{% if t != "day" %}<a class="dropdown-item" href="?sort={{sort}}&t=day#content"><i class="fas fa-calendar-day mr-2"></i>Day</a>{% endif %}
-					{% if t != "week" %}<a class="dropdown-item" href="?sort={{sort}}&t=week#content"><i class="fas fa-calendar-week mr-2"></i>Week</a>{% endif %}
-					{% if t != "month" %}<a class="dropdown-item" href="?sort={{sort}}&t=month#content"><i class="fas fa-calendar-alt mr-2"></i>Month</a>{% endif %}
-					{% if t != "year" %}<a class="dropdown-item" href="?sort={{sort}}&t=year#content"><i class="fas fa-calendar mr-2"></i>Year</a>{% endif %}
-					{% if t != "all" %}<a class="dropdown-item" href="?sort={{sort}}&t=all#content"><i class="fas fa-infinity mr-2"></i>All</a>{% endif %}
+					{% if t != "hour" %}<a class="dropdown-item" href="?sort={{sort}}&t=hour"><i class="fas fa-clock mr-2"></i>Hour</a>{% endif %}
+					{% if t != "day" %}<a class="dropdown-item" href="?sort={{sort}}&t=day"><i class="fas fa-calendar-day mr-2"></i>Day</a>{% endif %}
+					{% if t != "week" %}<a class="dropdown-item" href="?sort={{sort}}&t=week"><i class="fas fa-calendar-week mr-2"></i>Week</a>{% endif %}
+					{% if t != "month" %}<a class="dropdown-item" href="?sort={{sort}}&t=month"><i class="fas fa-calendar-alt mr-2"></i>Month</a>{% endif %}
+					{% if t != "year" %}<a class="dropdown-item" href="?sort={{sort}}&t=year"><i class="fas fa-calendar mr-2"></i>Year</a>{% endif %}
+					{% if t != "all" %}<a class="dropdown-item" href="?sort={{sort}}&t=all"><i class="fas fa-infinity mr-2"></i>All</a>{% endif %}
 				</div>
 			</div>
 
@@ -62,11 +62,11 @@
 					{{sort | capitalize}}
 				</button>
 				<div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 31px, 0px);">
-					{% if sort != "top" %}<a class="dropdown-item" href="?sort=top&t={{t}}#content"><i class="fas fa-arrow-alt-circle-up mr-2"></i>Top</a>{% endif %}
-					{% if sort != "bottom" %}<a class="dropdown-item" href="?sort=bottom&t={{t}}#content"><i class="fas fa-arrow-alt-circle-down mr-2"></i>Bottom</a>{% endif %}
-					{% if sort != "new" %}<a class="dropdown-item" href="?sort=new&t={{t}}#content"><i class="fas fa-sparkles mr-2"></i>New</a>{% endif %}
-					{% if sort != "old" %}<a class="dropdown-item" href="?sort=old&t={{t}}#content"><i class="fas fa-book mr-2"></i>Old</a>{% endif %}
-					{% if sort != "controversial" %}<a class="dropdown-item" href="?sort=controversial&t={{t}}#content"><i class="fas fa-bullhorn mr-2"></i>Controversial</a>{% endif %}
+					{% if sort != "top" %}<a class="dropdown-item" href="?sort=top&t={{t}}"><i class="fas fa-arrow-alt-circle-up mr-2"></i>Top</a>{% endif %}
+					{% if sort != "bottom" %}<a class="dropdown-item" href="?sort=bottom&t={{t}}"><i class="fas fa-arrow-alt-circle-down mr-2"></i>Bottom</a>{% endif %}
+					{% if sort != "new" %}<a class="dropdown-item" href="?sort=new&t={{t}}"><i class="fas fa-sparkles mr-2"></i>New</a>{% endif %}
+					{% if sort != "old" %}<a class="dropdown-item" href="?sort=old&t={{t}}"><i class="fas fa-book mr-2"></i>Old</a>{% endif %}
+					{% if sort != "controversial" %}<a class="dropdown-item" href="?sort=controversial&t={{t}}"><i class="fas fa-bullhorn mr-2"></i>Controversial</a>{% endif %}
 				</div>
 			</div>
 		</div>
