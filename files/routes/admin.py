@@ -490,7 +490,10 @@ def badge_grant_post(v):
 	)
 	g.db.add(ma)
 
-	return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=True, msg=f"{new_badge.name} Badge granted to @{user.username} successfully!")
+	msg = f"{new_badge.name} Badge granted to @{user.username} successfully!"
+
+	if v.client: return {"message": msg}
+	return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=True, msg=msg)
 
 @app.post("/admin/badge_remove")
 @feature_required('BADGES')
