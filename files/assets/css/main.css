@@ -5749,7 +5749,7 @@ img[src="/i/hand.webp"]+img[glow]:not([data-src]) {
 	font-weight: bold;
 	white-space: nowrap;
 	color: white;
-	font-size: min(3vw,16px);
+	font-size: 14px;
 }
 .srd *, .srd a:hover {
 	color: white;
@@ -7152,12 +7152,12 @@ input[type=number] {
 }
 
 .has_header {
-	padding-top: 85.75px !important
+	padding-top: 88.73px !important
 }
 
 @media (max-width: 767.98px) {
 	.has_header {
-		padding-top: 74.55px !important
+		padding-top: 71.55px !important
 	}
 }
 
@@ -7226,4 +7226,15 @@ input[type=number] {
 
 button, .btn {
     text-decoration: none !important;
+}
+
+#userpage > .container {
+	padding-left: 0 !important;
+	padding-right: 0 !important;
+}
+
+@media (min-width: 767.98px) {
+	.srd {
+		font-size: 18px;
+	}
 }
