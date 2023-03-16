@@ -482,7 +482,7 @@ def post_reset(v:Optional[User]):
 @limiter.limit(DEFAULT_RATELIMIT)
 @auth_desired
 def lost_2fa(v:Optional[User]):
-	if v and not v.mfa_secret: abort(400, "You don't have 2FA enabled")
+	if v and not v.mfa_secret: abort(400, "You don't have two-factor authentication enabled")
 	return render_template("login/lost_2fa.html", v=v)
 
 @app.post("/lost_2fa")
@@ -514,7 +514,7 @@ def lost_2fa_post():
 	action_url=f"{SITE_FULL}/reset_2fa?id={user.id}&t={valid}&token={token}"
 
 	send_mail(to_address=user.email,
-			subject="2FA Removal Request",
+			subject="Two-factor Authentication Removal Request",
 			html=render_template("email/2fa_remove.html",
 								action_url=action_url,
 								v=user)
@@ -536,7 +536,7 @@ def reset_2fa():
 		abort(400)
 
 	if now > t+3600*24:
-		abort(410, "This 2FA reset link has expired!")
+		abort(410, "This two-factor authentication reset link has expired!")
 
 	token=request.values.get("token")
 	uid=request.values.get("id")
