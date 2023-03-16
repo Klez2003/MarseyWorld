@@ -201,6 +201,8 @@ if SITE_NAME == 'rDrama':
 		"discord": "groomercord",
 		"allah(?! \()": "Allah (ﷻ)",
 		"(?<!cow) tools ": " cow tools ",
+		"trans woman": "real woman",
+		"trans women": "real women",
 	}
 	SLURS.update(RDRAMA_SLURS)
 
