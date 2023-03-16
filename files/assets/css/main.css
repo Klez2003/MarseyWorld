@@ -7228,11 +7228,6 @@ button, .btn {
     text-decoration: none !important;
 }
 
-#userpage > .container {
-	padding-left: 0 !important;
-	padding-right: 0 !important;
-}
-
 @media (min-width: 767.98px) {
 	.srd {
 		font-size: 18px;

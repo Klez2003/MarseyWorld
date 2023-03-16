@@ -9,7 +9,7 @@
 	{% set vlink = '<a href="/id/' ~ v.id ~ '">' %}
 	<div class="container pb-4">
 		<div class="row justify-content-around" id="main-content-row">
-			<div class="col h-100 {% block customPadding %}{% if request.path.startswith('/@') %}user-gutters{% else %}custom-gutters{% endif %}{% endblock %}" id="main-content-col">	
+			<div class="col h-100 {% block customPadding %}custom-gutters{% endblock %}" id="main-content-col">	
 
 			<div class="border-right pb-1 px-3">
 				<span id="online2" data-bs-html="true" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Users Online" class="text-muted">
