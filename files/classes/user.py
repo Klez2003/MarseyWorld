@@ -54,13 +54,6 @@ if IS_FISTMAS():
 		default_darkmode = True
 
 
-class EventUser(Base):
-	__tablename__ = "event_users"
-	id = Column(Integer, ForeignKey("users.id"), primary_key=True)
-	user = relationship("User", primaryjoin="EventUser.id == User.id")
-
-	# start event specific columns
-
 class User(Base):
 	__tablename__ = "users"
 
