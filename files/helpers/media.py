@@ -288,6 +288,13 @@ def process_dm_images(v, user, body):
 			filename = f'/dm_images/{time.time()}'.replace('.','') + '.webp'
 			file.save(filename)
 
+			try:
+				with Image.open(filename) as i:
+					pass
+			except:
+				os.remove(filename)
+				abort(415)
+
 			size = os.stat(filename).st_size
 			patron = bool(v.patron)
 
