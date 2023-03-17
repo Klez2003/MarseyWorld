@@ -69,7 +69,13 @@ def process_files(files, v, body):
 
 
 def process_audio(file, v):
-	name = f'/audio/{time.time()}'.replace('.','')
+	old = f'/audio/{time.time()}'.replace('.','')
+	file.save(old)
+
+	size = os.stat(old).st_size
+	if size > MAX_IMAGE_AUDIO_SIZE_MB_PATRON * 1024 * 1024 or not v.patron and size > MAX_IMAGE_AUDIO_SIZE_MB * 1024 * 1024:
+		os.remove(old)
+		abort(413, f"Max image/audio size is {MAX_IMAGE_AUDIO_SIZE_MB} MB ({MAX_IMAGE_AUDIO_SIZE_MB_PATRON} MB for {patron.lower()}s)")
 
 	name_original = secure_filename(file.filename)
 	extension = name_original.split('.')[-1].lower()
@@ -77,26 +83,29 @@ def process_audio(file, v):
 	if extension not in {'mp3','ogg','flac'}:
 		extension = 'mp3'
 
-	name = name + '.' + extension
-	file.save(name)
+	new = old + '.' + extension
 
-	size = os.stat(name).st_size
-	if size > MAX_IMAGE_AUDIO_SIZE_MB_PATRON * 1024 * 1024 or not v.patron and size > MAX_IMAGE_AUDIO_SIZE_MB * 1024 * 1024:
-		os.remove(name)
-		abort(413, f"Max image/audio size is {MAX_IMAGE_AUDIO_SIZE_MB} MB ({MAX_IMAGE_AUDIO_SIZE_MB_PATRON} MB for {patron.lower()}s)")
+	try:
+		subprocess.run(["ffmpeg", "-y", "-loglevel", "warning", "-nostats", "-i", old, "-map_metadata", "-1", "-c:a", "copy", new], check=True)
+	except:
+		os.remove(old)
+		if os.path.isfile(new):
+			os.remove(new)
+		abort(400)
 
-	media = g.db.query(Media).filter_by(filename=name, kind='audio').one_or_none()
+	os.remove(old)
+	media = g.db.query(Media).filter_by(filename=new, kind='audio').one_or_none()
 	if media: g.db.delete(media)
 
 	media = Media(
 		kind='audio',
-		filename=name,
+		filename=new,
 		user_id=v.id,
 		size=size
 	)
 	g.db.add(media)
 
-	return name
+	return new
 
 
 def convert_to_mp4(old, new, vid, db):
