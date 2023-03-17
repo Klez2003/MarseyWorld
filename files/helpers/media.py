@@ -114,6 +114,8 @@ def convert_to_mp4(old, new, vid, db):
 		subprocess.run(["ffmpeg", "-y", "-loglevel", "warning", "-nostats", "-threads:v", "1", "-i", old, "-map_metadata", "-1", tmp], check=True, stderr=subprocess.STDOUT)
 	except:
 		os.remove(old)
+		if os.path.isfile(tmp):
+			os.remove(tmp)
 		abort(400)
 	
 	os.replace(tmp, new)
@@ -161,6 +163,8 @@ def process_video(file, v):
 			subprocess.run(["ffmpeg", "-y", "-loglevel", "warning", "-nostats", "-i", old, "-map_metadata", "-1", "-c:v", "copy", "-c:a", "copy", new], check=True)
 		except:
 			os.remove(old)
+			if os.path.isfile(new):
+				os.remove(new)
 			abort(400)
 
 		os.remove(old)
