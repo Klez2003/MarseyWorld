@@ -21,8 +21,7 @@ from files.helpers.settings import get_setting
 from .config.const import *
 
 def remove_media_using_link(path):
-	img_prefix = f'https://i.{SITE}'
-	if path.startswith(img_prefix):
+	if path.startswith(SITE_FULL_IMAGES):
 		path = path.split(img_prefix, 1)[1]
 
 	video_prefix = f'https://videos.{SITE}'
@@ -269,8 +268,7 @@ def process_image(filename:str, v, resize=0, trim=False, uploader_id:Optional[in
 	)
 	db.add(media)
 
-	if IS_LOCALHOST: return f'{SITE_FULL}{filename}'
-	return f'https://i.{SITE}{filename}'
+	return f'{SITE_FULL_IMAGES}{filename}'
 
 
 def process_dm_images(v, user, body):

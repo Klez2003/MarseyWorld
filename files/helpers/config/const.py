@@ -64,8 +64,12 @@ PUSH_NOTIF_LIMIT = 1000
 
 IS_LOCALHOST = SITE == "localhost" or SITE == "127.0.0.1" or SITE.startswith("192.168.") or SITE.endswith(".local")
 
-if IS_LOCALHOST: SITE_FULL = 'http://' + SITE
-else: SITE_FULL = 'https://' + SITE
+if IS_LOCALHOST:
+	SITE_FULL = 'http://' + SITE
+	SITE_FULL_IMAGES = SITE_FULL
+else:
+	SITE_FULL = 'https://' + SITE
+	SITE_FULL_IMAGES = 'https://i.' + SITE
 
 LOGGED_IN_CACHE_KEY = f"{SITE}_loggedin"
 LOGGED_OUT_CACHE_KEY = f"{SITE}_loggedout"
