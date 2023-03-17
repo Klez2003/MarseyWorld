@@ -467,10 +467,7 @@ function handle_files(input, newfiles) {
 		if (span.innerHTML != ' ') span.innerHTML += ', '
 		span.innerHTML += file.name.substr(0, 30);
 		if (location.pathname != '/chat')
-			if (ta.value)
-				ta.value += `\n[${file.name}]`
-			else
-				ta.value += `[${file.name}]`
+			ta.setRangeText(`[${file.name}]`);
 		}
 
 	autoExpand(ta)
@@ -538,6 +535,7 @@ document.onpaste = function(event) {
 		input = document.querySelector('input[type="file"]')
 	}
 
+	event.preventDefault();
 	handle_files(input, files);
 }
 
