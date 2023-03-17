@@ -441,7 +441,9 @@ def badge_grant_post(v):
 
 	user = get_user(request.values.get("username"), graceful=True)
 	if not user:
-		return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=True, error="User not found!")
+		error = "User not found!"
+		if v.client: return {"error": error}
+		return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=True, error=error)
 
 	try: badge_id = int(request.values.get("badge_id"))
 	except: abort(400)
@@ -465,8 +467,14 @@ def badge_grant_post(v):
 			existing.url = url
 			existing.description = description
 			g.db.add(existing)
-			return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=True, msg="Badge attributes edited successfully!")
-		return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=True, error="User already has that badge!")
+
+			msg = "Badge attributes edited successfully!"
+			if v.client: return {"message": msg}
+			return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=True, msg=msg)
+
+		error = "User already has that badge!"
+		if v.client: return {"error": error}
+		return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=True, error=error)
 
 	new_badge = Badge(
 		badge_id=badge_id,
