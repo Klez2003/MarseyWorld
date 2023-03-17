@@ -36,8 +36,7 @@ def reload_settings():
 	if not os.path.isfile(SETTINGS_FILENAME):
 		_save_settings()
 	with open(SETTINGS_FILENAME, 'r', encoding='utf_8') as f:
-		if f.read():
-			_SETTINGS = json.load(f)
+		_SETTINGS = json.load(f)
 
 def _save_settings():
 	with open(SETTINGS_FILENAME, "w", encoding='utf_8') as f:
