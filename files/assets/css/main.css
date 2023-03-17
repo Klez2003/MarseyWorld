@@ -5749,7 +5749,7 @@ img[src="/i/hand.webp"]+img[glow]:not([data-src]) {
 	font-weight: bold;
 	white-space: nowrap;
 	color: white;
-	font-size: 14px;
+	font-size: 11.5px;
 }
 .srd *, .srd a:hover {
 	color: white;
@@ -7157,7 +7157,7 @@ input[type=number] {
 
 @media (max-width: 767.98px) {
 	.has_header {
-		padding-top: 71.55px !important
+		padding-top: 69.1px !important
 	}
 }
 
