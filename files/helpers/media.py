@@ -101,7 +101,12 @@ def process_audio(file, v):
 
 def convert_to_mp4(old, new, vid, db):
 	tmp = new.replace('.mp4', '-t.mp4')
-	subprocess.run(["ffmpeg", "-y", "-loglevel", "warning", "-nostats", "-threads:v", "1", "-i", old, "-map_metadata", "-1", tmp], check=True, stderr=subprocess.STDOUT)
+	try:
+		subprocess.run(["ffmpeg", "-y", "-loglevel", "warning", "-nostats", "-threads:v", "1", "-i", old, "-map_metadata", "-1", tmp], check=True, stderr=subprocess.STDOUT)
+	except:
+		remove_media(old)
+		abort(400)
+	
 	os.replace(tmp, new)
 	remove_media(old)
 
@@ -143,7 +148,12 @@ def process_video(file, v):
 		db = Session(bind=g.db.get_bind(), autoflush=False)
 		gevent.spawn(convert_to_mp4, old, new, v.id, db)
 	else:
-		subprocess.run(["ffmpeg", "-y", "-loglevel", "warning", "-nostats", "-i", old, "-map_metadata", "-1", "-c:v", "copy", "-c:a", "copy", new], check=True)
+		try:
+			subprocess.run(["ffmpeg", "-y", "-loglevel", "warning", "-nostats", "-i", old, "-map_metadata", "-1", "-c:v", "copy", "-c:a", "copy", new], check=True)
+		except:
+			remove_media(old)
+			abort(400)
+
 		remove_media(old)
 
 		media = g.db.query(Media).filter_by(filename=new, kind='video').one_or_none()
@@ -189,9 +199,7 @@ def process_image(filename:str, v, resize=0, trim=False, uploader_id:Optional[in
 				params.extend(["-resize", f"{resize}>"])
 	except UnidentifiedImageError as e:
 		print(f"Couldn't identify an image for {filename}; deleting... (user {v.id if v else '-no user-'})")
-		try:
-			remove_media(filename)
-		except: pass
+		remove_media(filename)
 		if has_request:
 			abort(415)
 		return None
@@ -199,9 +207,10 @@ def process_image(filename:str, v, resize=0, trim=False, uploader_id:Optional[in
 	params.append(filename)
 	try:
 		subprocess.run(params, timeout=MAX_IMAGE_CONVERSION_TIMEOUT)
-	except subprocess.TimeoutExpired:
+	except:
+		remove_media(filename)
 		if has_request:
-			abort(413, ("An uploaded image took too long to convert to WEBP. "
+			abort(400, ("An uploaded image couldn't be converted to WEBP. "
 						"Please convert it to WEBP elsewhere then upload it again."))
 		return None
 
