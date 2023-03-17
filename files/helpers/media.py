@@ -73,6 +73,10 @@ def process_audio(file, v):
 
 	name_original = secure_filename(file.filename)
 	extension = name_original.split('.')[-1].lower()
+
+	if extension not in {'mp3','ogg','flac'}:
+		extension = 'mp3'
+
 	name = name + '.' + extension
 	file.save(name)
 
@@ -95,7 +99,7 @@ def process_audio(file, v):
 	return name
 
 
-def webm_to_mp4(old, new, vid, db):
+def convert_to_mp4(old, new, vid, db):
 	tmp = new.replace('.mp4', '-t.mp4')
 	subprocess.run(["ffmpeg", "-y", "-loglevel", "warning", "-nostats", "-threads:v", "1", "-i", old, "-map_metadata", "-1", tmp], check=True, stderr=subprocess.STDOUT)
 	os.replace(tmp, new)
@@ -133,11 +137,11 @@ def process_video(file, v):
 	extension = name_original.split('.')[-1].lower()
 	new = old + '.' + extension
 
-	if extension == 'webm':
-		new = new.replace('.webm', '.mp4')
+	if extension not in {'mp4','avi','mkv'}:
+		new = new.replace(f'.{extension}', '.mp4')
 		copyfile(old, new)
 		db = Session(bind=g.db.get_bind(), autoflush=False)
-		gevent.spawn(webm_to_mp4, old, new, v.id, db)
+		gevent.spawn(convert_to_mp4, old, new, v.id, db)
 	else:
 		subprocess.run(["ffmpeg", "-y", "-loglevel", "warning", "-nostats", "-i", old, "-map_metadata", "-1", "-c:v", "copy", "-c:a", "copy", new], check=True)
 		remove_media(old)
