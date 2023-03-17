@@ -751,7 +751,7 @@ def admin_removed_comments(v):
 						next_exists=next_exists
 						)
 
-@app.post("/unagendaposter/<id>")
+@app.post("/unchud_user/<id>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
@@ -995,7 +995,7 @@ def ban_user(id, v):
 	return {"message": f"@{user.username} has been banned {duration}!"}
 
 
-@app.post("/agendaposter/<id>")
+@app.post("/chud_user/<id>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)

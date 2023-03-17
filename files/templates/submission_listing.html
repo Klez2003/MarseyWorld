@@ -284,7 +284,7 @@
 	{% include "modals/delete_post.html" %}
 	{% include "modals/report_post.html" %}
 	{% if v.admin_level >= PERMS['USER_BAN'] %}
-		{% include "modals/ban.html" %}
+		{% include "modals/punish.html" %}
 	{% endif %}
 {% endif %}
 
