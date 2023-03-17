@@ -840,6 +840,7 @@ elif SITE == 'watchpeopledie.tv':
 	PERMS['USER_BLACKLIST'] = 6
 
 	SUB_BANNER_LIMIT = 69420
+	NOTIFICATION_THREAD = 27855
 
 	ERROR_TITLES.update({
 		400: "Bad Request",
