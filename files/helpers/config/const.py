@@ -610,7 +610,7 @@ POST_TITLE_HTML_LENGTH_LIMIT = 1500 # do not make larger than 1500 without alter
 
 def POST_BODY_LENGTH_LIMIT(v):
 	if v.patron: return 100000
-	return 20000
+	return 50000
 
 POST_BODY_HTML_LENGTH_LIMIT = 200000 # do not make larger than 200000 without altering the table
 
