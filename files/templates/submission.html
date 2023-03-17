@@ -350,7 +350,7 @@
 	{% if v.id == p.author_id %}{% include "modals/delete_post.html" %}{% endif %}
 	{% include "modals/report_post.html" %}
 	{% if v.can_edit(p) %}
-		<script defer src="{{'js/togglePostEdit.js' | asset}}"></script>
+		<script defer src="{{'js/edit_post.js' | asset}}"></script>
 	{% endif %}
 	{% if v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
 		<script defer src="{{'js/admin/pinpost.js' | asset}}"></script>
