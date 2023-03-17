@@ -202,7 +202,7 @@ def process_image(filename:str, v, resize=0, trim=False, uploader_id:Optional[in
 				params.append("-trim")
 			if resize and i.width > resize:
 				params.extend(["-resize", f"{resize}>"])
-	except UnidentifiedImageError as e:
+	except:
 		print(f"Couldn't identify an image for {filename}; deleting... (user {v.id if v else '-no user-'})")
 		os.remove(filename)
 		if has_request:
@@ -305,7 +305,7 @@ def process_dm_images(v, user, body):
 						timeout=20,
 						proxies=proxies
 					).json()
-				except requests.Timeout:
+				except:
 					abort(400, "Image upload timed out, please try again!")
 
 			try: url = req['files'][0]['url']
