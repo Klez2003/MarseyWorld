@@ -9,6 +9,9 @@
 {% macro javascript() %}
 	<script defer src="{{'js/vendor/bootstrap.js' | asset}}"></script>
 	<script defer src="{{'js/core.js' | asset}}"></script>
+	{% if v and v.admin_level %}
+		<script defer src="{{'js/admin/core.js' | asset}}"></script>
+	{% endif %}
 {% endmacro %}
 
 {% macro page_meta(title=none) %}
