@@ -45,7 +45,7 @@ def settings_personal(v:User):
 def remove_background(v):
 	if v.background:
 		if v.background.startswith('/images/'):
-			remove_media(v.background)
+			remove_media_using_link(v.background)
 		v.background = None
 		g.db.add(v)
 	return {"message": "Background removed!"}
@@ -69,7 +69,7 @@ def upload_custom_background(v):
 
 	if background:
 		if v.background and v.background.startswith('/images/'):
-			remove_media(v.background)
+			remove_media_using_link(v.background)
 		v.background = background
 		g.db.add(v)
 
@@ -91,7 +91,7 @@ def upload_profile_background(v):
 
 	if background:
 		if v.profile_background and path.isfile(v.profile_background):
-			remove_media(v.profile_background)
+			remove_media_using_link(v.profile_background)
 		v.profile_background = background
 		g.db.add(v)
 		badge_grant(badge_id=193, user=v)
@@ -103,7 +103,7 @@ def upload_profile_background(v):
 @auth_required
 def delete_profile_background(v):
 	if v.profile_background:
-		remove_media(v.profile_background)
+		remove_media_using_link(v.profile_background)
 		v.profile_background = None
 	return {"message": "Profile background removed!"}
 
@@ -549,10 +549,10 @@ def settings_images_profile(v):
 	if not imageurl: abort(400)
 
 	if v.highres and '/images/' in v.highres and path.isfile(v.highres):
-		remove_media(v.highres)
+		remove_media_using_link(v.highres)
 
 	if v.profileurl and '/images/' in v.profileurl and path.isfile(v.profileurl):
-		remove_media(v.profileurl)
+		remove_media_using_link(v.profileurl)
 
 	v.highres = highres
 	v.profileurl = imageurl
@@ -582,7 +582,7 @@ def settings_images_banner(v):
 
 	if bannerurl:
 		if v.bannerurl and '/images/' in v.bannerurl and path.isfile(v.bannerurl):
-			remove_media(v.bannerurl)
+			remove_media_using_link(v.bannerurl)
 		v.bannerurl = bannerurl
 		g.db.add(v)
 
@@ -749,11 +749,11 @@ def settings_song_change_mp3(v):
 
 	size = os.stat(name).st_size
 	if size > 8 * 1024 * 1024:
-		remove_media(name)
+		remove_media_using_link(name)
 		return redirect("/settings/personal?error=MP3 file must be smaller than 8MB")
 
 	if path.isfile(f"/songs/{v.song}.mp3") and g.db.query(User).filter_by(song=v.song).count() == 1:
-		remove_media(f"/songs/{v.song}.mp3")
+		remove_media_using_link(f"/songs/{v.song}.mp3")
 
 	v.song = song
 	g.db.add(v)
@@ -766,7 +766,7 @@ def _change_song_youtube(vid, id):
 	v = db.get(User, vid)
 
 	if v.song and path.isfile(f"/songs/{v.song}.mp3") and db.query(User).filter_by(song=v.song).count() == 1:
-		remove_media(f"/songs/{v.song}.mp3")
+		remove_media_using_link(f"/songs/{v.song}.mp3")
 
 	ydl_opts = {
 		'cookiefile': '/cookies',
@@ -807,7 +807,7 @@ def settings_song_change(v):
 
 	if song == "" and v.song:
 		if path.isfile(f"/songs/{v.song}.mp3") and g.db.query(User).filter_by(song=v.song).count() == 1:
-			remove_media(f"/songs/{v.song}.mp3")
+			remove_media_using_link(f"/songs/{v.song}.mp3")
 		v.song = None
 		g.db.add(v)
 		return redirect("/settings/personal?msg=Profile Anthem successfully removed!")
