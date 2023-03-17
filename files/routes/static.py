@@ -61,7 +61,7 @@ def marseys(v:User):
 				break
 	return render_template("marseys.html", v=v, marseys=marseys)
 
-@app.get("/emojis")
+@app.get("/emojis.csv")
 @limiter.limit(DEFAULT_RATELIMIT)
 def emoji_list():
 	return get_emojis(g.db)

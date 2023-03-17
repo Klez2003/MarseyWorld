@@ -139,7 +139,7 @@ const emojisSearchDictionary = {
 
 // get public emojis list
 const emojiRequest = new XMLHttpRequest();
-emojiRequest.open("GET", '/emojis');
+emojiRequest.open("GET", '/emojis.csv?v=1');
 emojiRequest.setRequestHeader('xhr', 'xhr');
 emojiRequest.onload = async (e) => {
 	let emojis = JSON.parse(emojiRequest.response);
