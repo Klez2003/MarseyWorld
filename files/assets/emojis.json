@@ -5570,6 +5570,15 @@
 		"sleeping"
 		]
 	},
+
+	{
+		"name": "pedobear",
+		"class": "Rage",
+		"tags": [
+		"pedo",
+		"bear"
+		]
+	},
 	{
 		"name": "trolldespair",
 		"class": "Rage",
@@ -8498,14 +8507,6 @@
 		"chad"
 		],
 		"class": "Misc"
-	},
-	{
-		"name": "pedobear",
-		"class": "Misc",
-		"tags": [
-		"pedo",
-		"bear"
-		]
 	},
 	{
 		"name": "onerat",
