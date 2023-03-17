@@ -20,7 +20,7 @@ from files.helpers.settings import get_setting
 
 from .config.const import *
 
-def remove_media(path):
+def remove_media_using_link(path):
 	img_prefix = f'https://i.{SITE}'
 	if path.startswith(img_prefix):
 		path = path.split(img_prefix, 1)[1]
@@ -82,7 +82,7 @@ def process_audio(file, v):
 
 	size = os.stat(name).st_size
 	if size > MAX_IMAGE_AUDIO_SIZE_MB_PATRON * 1024 * 1024 or not v.patron and size > MAX_IMAGE_AUDIO_SIZE_MB * 1024 * 1024:
-		remove_media(name)
+		os.remove(name)
 		abort(413, f"Max image/audio size is {MAX_IMAGE_AUDIO_SIZE_MB} MB ({MAX_IMAGE_AUDIO_SIZE_MB_PATRON} MB for {patron.lower()}s)")
 
 	media = g.db.query(Media).filter_by(filename=name, kind='audio').one_or_none()
@@ -104,11 +104,11 @@ def convert_to_mp4(old, new, vid, db):
 	try:
 		subprocess.run(["ffmpeg", "-y", "-loglevel", "warning", "-nostats", "-threads:v", "1", "-i", old, "-map_metadata", "-1", tmp], check=True, stderr=subprocess.STDOUT)
 	except:
-		remove_media(old)
+		os.remove(old)
 		abort(400)
 	
 	os.replace(tmp, new)
-	remove_media(old)
+	os.remove(old)
 
 	media = db.query(Media).filter_by(filename=new, kind='video').one_or_none()
 	if media: db.delete(media)
@@ -135,7 +135,7 @@ def process_video(file, v):
 	if (SITE_NAME != 'WPD' and
 			(size > MAX_VIDEO_SIZE_MB_PATRON * 1024 * 1024
 				or not v.patron and size > MAX_VIDEO_SIZE_MB * 1024 * 1024)):
-		remove_media(old)
+		os.remove(old)
 		abort(413, f"Max video size is {MAX_VIDEO_SIZE_MB} MB ({MAX_VIDEO_SIZE_MB_PATRON} MB for paypigs)")
 
 	name_original = secure_filename(file.filename)
@@ -151,10 +151,10 @@ def process_video(file, v):
 		try:
 			subprocess.run(["ffmpeg", "-y", "-loglevel", "warning", "-nostats", "-i", old, "-map_metadata", "-1", "-c:v", "copy", "-c:a", "copy", new], check=True)
 		except:
-			remove_media(old)
+			os.remove(old)
 			abort(400)
 
-		remove_media(old)
+		os.remove(old)
 
 		media = g.db.query(Media).filter_by(filename=new, kind='video').one_or_none()
 		if media: g.db.delete(media)
@@ -181,7 +181,7 @@ def process_image(filename:str, v, resize=0, trim=False, uploader_id:Optional[in
 	patron = bool(v.patron)
 
 	if size > MAX_IMAGE_AUDIO_SIZE_MB_PATRON * 1024 * 1024 or not patron and size > MAX_IMAGE_AUDIO_SIZE_MB * 1024 * 1024:
-		remove_media(filename)
+		os.remove(filename)
 		if has_request:
 			abort(413, f"Max image/audio size is {MAX_IMAGE_AUDIO_SIZE_MB} MB ({MAX_IMAGE_AUDIO_SIZE_MB_PATRON} MB for paypigs)")
 		return None
@@ -199,7 +199,7 @@ def process_image(filename:str, v, resize=0, trim=False, uploader_id:Optional[in
 				params.extend(["-resize", f"{resize}>"])
 	except UnidentifiedImageError as e:
 		print(f"Couldn't identify an image for {filename}; deleting... (user {v.id if v else '-no user-'})")
-		remove_media(filename)
+		os.remove(filename)
 		if has_request:
 			abort(415)
 		return None
@@ -208,7 +208,7 @@ def process_image(filename:str, v, resize=0, trim=False, uploader_id:Optional[in
 	try:
 		subprocess.run(params, timeout=MAX_IMAGE_CONVERSION_TIMEOUT)
 	except:
-		remove_media(filename)
+		os.remove(filename)
 		if has_request:
 			abort(400, ("An uploaded image couldn't be converted to WEBP. "
 						"Please convert it to WEBP elsewhere then upload it again."))
@@ -218,7 +218,7 @@ def process_image(filename:str, v, resize=0, trim=False, uploader_id:Optional[in
 
 	if resize:
 		if size_after_conversion > MAX_IMAGE_SIZE_BANNER_RESIZED_MB * 1024 * 1024:
-			remove_media(filename)
+			os.remove(filename)
 			if has_request:
 				abort(413, f"Max size for site assets is {MAX_IMAGE_SIZE_BANNER_RESIZED_MB} MB")
 			return None
@@ -249,7 +249,7 @@ def process_image(filename:str, v, resize=0, trim=False, uploader_id:Optional[in
 					i_hash = str(imagehash.phash(i))
 
 				if i_hash in hashes.keys():
-					remove_media(filename)
+					os.remove(filename)
 					if has_request:
 						abort(409, "Image already exists! " + hashes[i_hash].split('/')[-1])
 					return None
@@ -290,11 +290,11 @@ def process_dm_images(v, user, body):
 			patron = bool(v.patron)
 
 			if size > MAX_IMAGE_AUDIO_SIZE_MB_PATRON * 1024 * 1024 or not patron and size > MAX_IMAGE_AUDIO_SIZE_MB * 1024 * 1024:
-				remove_media(filename)
+				os.remove(filename)
 				abort(413, f"Max image/audio size is {MAX_IMAGE_AUDIO_SIZE_MB} MB ({MAX_IMAGE_AUDIO_SIZE_MB_PATRON} MB for paypigs)")
 
 			with open(filename, 'rb') as f:
-				remove_media(filename)
+				os.remove(filename)
 				try:
 					req = requests.request(
 						"POST",
