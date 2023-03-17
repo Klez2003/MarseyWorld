@@ -200,13 +200,14 @@ INSERT INTO public.badge_defs VALUES (237, '2 Years Old 🥰🥰', 'This user ha
 INSERT INTO public.badge_defs VALUES (238, 'Free Thinker', 'This user thinks for himself and doesn''t need the crowd to tell him what to do 🤓', 1678721294);
 INSERT INTO public.badge_defs VALUES (239, 'Crowd Follower', 'This user hasn''t had an original thought in his life', 1678721346);
 INSERT INTO public.badge_defs VALUES (240, 'dude bussy lmao', 'Posted bussy 🍑', 1678846500);
+INSERT INTO public.badge_defs VALUES (241, 'SNITCH', 'This nigga snitched on a fellow rdrama user AND GOT PAID 🤑💰💸', 1679066554);
 
 
 --
 -- Name: badge_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.badge_defs_id_seq', 240, true);
+SELECT pg_catalog.setval('public.badge_defs_id_seq', 241, true);
 
 
 --
