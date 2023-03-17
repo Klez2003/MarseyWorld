@@ -94,8 +94,6 @@ def process_audio(file, v):
 		abort(400)
 
 	os.remove(old)
-	media = g.db.query(Media).filter_by(filename=new, kind='audio').one_or_none()
-	if media: g.db.delete(media)
 
 	media = Media(
 		kind='audio',
@@ -120,9 +118,6 @@ def convert_to_mp4(old, new, vid, db):
 	
 	os.replace(tmp, new)
 	os.remove(old)
-
-	media = db.query(Media).filter_by(filename=new, kind='video').one_or_none()
-	if media: db.delete(media)
 
 	media = Media(
 		kind='video',
@@ -168,9 +163,6 @@ def process_video(file, v):
 			abort(400)
 
 		os.remove(old)
-
-		media = g.db.query(Media).filter_by(filename=new, kind='video').one_or_none()
-		if media: g.db.delete(media)
 
 		media = Media(
 			kind='video',
@@ -268,9 +260,6 @@ def process_image(filename:str, v, resize=0, trim=False, uploader_id:Optional[in
 					return None
 
 	db = db or g.db
-
-	media = db.query(Media).filter_by(filename=filename, kind='image').one_or_none()
-	if media: db.delete(media)
 
 	media = Media(
 		kind='image',
