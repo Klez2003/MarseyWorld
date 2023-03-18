@@ -19,18 +19,18 @@ ASSET_TYPES = (Emoji, HatDef)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def submit_emojis(v:User):
-	if v.admin_level >= PERMS['VIEW_PENDING_SUBMITTED_MARSEYS']:
-		marseys = g.db.query(Emoji).filter(Emoji.submitter_id != None)
+	if v.admin_level >= PERMS['VIEW_PENDING_SUBMITTED_EMOJIS']:
+		emojis = g.db.query(Emoji).filter(Emoji.submitter_id != None)
 	else:
-		marseys = g.db.query(Emoji).filter(Emoji.submitter_id == v.id)
+		emojis = g.db.query(Emoji).filter(Emoji.submitter_id == v.id)
 
-	marseys = marseys.order_by(Emoji.created_utc.desc()).all()
+	emojis = emojis.order_by(Emoji.created_utc.desc()).all()
 
-	for marsey in marseys:
-		marsey.author = g.db.query(User.username).filter_by(id=marsey.author_id).one()[0]
-		marsey.submitter = g.db.query(User.username).filter_by(id=marsey.submitter_id).one()[0]
+	for emoji in emojis:
+		emoji.author = g.db.query(User.username).filter_by(id=emoji.author_id).one()[0]
+		emoji.submitter = g.db.query(User.username).filter_by(id=emoji.submitter_id).one()[0]
 
-	return render_template("submit_emojis.html", v=v, marseys=marseys, kinds=EMOJIS_KINDS, msg=get_msg(), error=get_error())
+	return render_template("submit_emojis.html", v=v, emojis=emojis, kinds=EMOJIS_KINDS, msg=get_msg(), error=get_error())
 
 
 @app.post("/submit/emojis")
