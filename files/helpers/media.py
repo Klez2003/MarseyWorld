@@ -260,6 +260,9 @@ def process_image(filename:str, v, resize=0, trim=False, uploader_id:Optional[in
 
 	db = db or g.db
 
+	media = db.query(Media).filter_by(filename=filename, kind='image').one_or_none()
+	if media: db.delete(media)
+
 	media = Media(
 		kind='image',
 		filename=filename,
