@@ -135,14 +135,28 @@ def approve_emoji(v, name):
 	g.db.add(emoji)
 
 	author = get_account(emoji.author_id)
-	all_by_author = g.db.query(Emoji).filter_by(author_id=author.id).count()
 
-	if all_by_author >= 99:
-		badge_grant(badge_id=143, user=author)
-	elif all_by_author >= 9:
-		badge_grant(badge_id=16, user=author)
-	else:
-		badge_grant(badge_id=17, user=author)
+	if emoji.kind == "Marsey":
+		all_by_author = g.db.query(Emoji).filter_by(kind="Marsey", author_id=author.id).count()
+		if all_by_author >= 99:
+			badge_grant(badge_id=143, user=author)
+		elif all_by_author >= 9:
+			badge_grant(badge_id=16, user=author)
+		else:
+			badge_grant(badge_id=17, user=author)			
+	elif emoji.kind == "Wolf":
+		all_by_author = g.db.query(Emoji).filter_by(kind="Wolf", author_id=author.id).count()
+		if all_by_author >= 9:
+			badge_grant(badge_id=111, user=author)
+		else:
+			badge_grant(badge_id=110, user=author)
+	elif emoji.kind == "Platy":
+		all_by_author = g.db.query(Emoji).filter_by(kind="Platy", author_id=author.id).count()
+		if all_by_author >= 9:
+			badge_grant(badge_id=113, user=author)
+		else:
+			badge_grant(badge_id=112, user=author)
+	
 
 	if emoji.kind == "Marsey":
 		cache.delete(MARSEYS_CACHE_KEY)
