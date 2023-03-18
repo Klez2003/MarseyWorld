@@ -437,6 +437,21 @@ CREATE TABLE public.commentvotes (
 
 
 --
+-- Name: emojis; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.emojis (
+    name character varying(30) NOT NULL,
+    author_id integer NOT NULL,
+    tags character varying(200) NOT NULL,
+    count integer DEFAULT 0 NOT NULL,
+    submitter_id integer,
+    created_utc integer,
+    kind character varying(15) NOT NULL
+);
+
+
+--
 -- Name: exiles; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -573,20 +588,6 @@ CREATE SEQUENCE public.lotteries_id_seq
 --
 
 ALTER SEQUENCE public.lotteries_id_seq OWNED BY public.lotteries.id;
-
-
---
--- Name: marseys; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.marseys (
-    name character varying(30) NOT NULL,
-    author_id integer NOT NULL,
-    tags character varying(200) NOT NULL,
-    count integer DEFAULT 0 NOT NULL,
-    submitter_id integer,
-    created_utc integer
-);
 
 
 --
@@ -1375,10 +1376,10 @@ ALTER TABLE ONLY public.lotteries
 
 
 --
--- Name: marseys marseys_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: emojis marseys_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.marseys
+ALTER TABLE ONLY public.emojis
     ADD CONSTRAINT marseys_pkey PRIMARY KEY (name);
 
 
@@ -1777,6 +1778,13 @@ CREATE INDEX domains_domain_trgm_idx ON public.banneddomains USING gin (domain p
 
 
 --
+-- Name: emoji_kind; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX emoji_kind ON public.emojis USING btree (kind);
+
+
+--
 -- Name: fki_comment_approver_fkey; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1962,28 +1970,28 @@ CREATE UNIQUE INDEX lowercase_username ON public.users USING btree (lower((usern
 -- Name: marseys_idx; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX marseys_idx ON public.marseys USING btree (name);
+CREATE INDEX marseys_idx ON public.emojis USING btree (name);
 
 
 --
 -- Name: marseys_idx2; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX marseys_idx2 ON public.marseys USING btree (author_id);
+CREATE INDEX marseys_idx2 ON public.emojis USING btree (author_id);
 
 
 --
 -- Name: marseys_idx3; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX marseys_idx3 ON public.marseys USING btree (count DESC);
+CREATE INDEX marseys_idx3 ON public.emojis USING btree (count DESC);
 
 
 --
 -- Name: marseys_idx4; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX marseys_idx4 ON public.marseys USING btree (submitter_id);
+CREATE INDEX marseys_idx4 ON public.emojis USING btree (submitter_id);
 
 
 --
@@ -2501,18 +2509,18 @@ ALTER TABLE ONLY public.hats
 
 
 --
--- Name: marseys marsey_author_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: emojis marsey_author_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.marseys
+ALTER TABLE ONLY public.emojis
     ADD CONSTRAINT marsey_author_fkey FOREIGN KEY (author_id) REFERENCES public.users(id);
 
 
 --
--- Name: marseys marsey_submitter_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: emojis marsey_submitter_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.marseys
+ALTER TABLE ONLY public.emojis
     ADD CONSTRAINT marsey_submitter_fkey FOREIGN KEY (submitter_id) REFERENCES public.users(id);
 
 
