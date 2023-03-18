@@ -208,6 +208,8 @@ def remove_asset(cls, type_name:str, v:User, name:str) -> dict[str, str]:
 		g.db.add(ma)
 
 	g.db.delete(asset)
+
+	if type_name == "emoji": type_name = "marsey"
 	remove_media_using_link(f"/asset_submissions/{type_name}s/{name}.webp")
 	remove_media_using_link(f"/asset_submissions/{type_name}s/{name}")
 
