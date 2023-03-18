@@ -507,6 +507,7 @@ PERMS = { # Minimum admin_level to perform action.
 
  	'MODS_EVERY_HOLE': 6,
 	'MODS_EVERY_GROUP': 6,
+	'IGNORE_AWARD_IMMUNITY': 6,
 }
 
 FEATURES = {
