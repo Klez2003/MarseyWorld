@@ -1,4 +1,4 @@
-function remove_emoji(t, name) {
+function approve_marsey(t, name) {
 	postToast(t, `/admin/approve/emoji/${name}`,
 		{
 			"tags": document.getElementById(`${name}-tags`).value,
