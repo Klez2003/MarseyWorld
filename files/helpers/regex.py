@@ -5,7 +5,6 @@ from typing import List, Optional, Union
 
 from .config.const import *
 
-valid_username_chars = 'a-zA-Z0-9_\-'
 valid_username_regex = re.compile("^[a-zA-Z0-9_\-]{3,25}$", flags=re.A)
 
 mention_regex = re.compile('(?<!\/)@([a-zA-Z0-9_\-]{1,30})(?!([^<]*<\/(code|pre|a)>|[^`]*`))', flags=re.A)
@@ -20,7 +19,7 @@ marseyaward_body_regex = re.compile(">[^<\s+]|[^>\s+]<", flags=re.A)
 marseyaward_title_regex = re.compile("( *<img[^>]+>)+", flags=re.A)
 
 
-marsey_regex = re.compile("marsey[a-z0-9]{1,24}", flags=re.A)
+marsey_regex = re.compile("[a-z0-9]{1,30}", flags=re.A)
 tags_regex = re.compile("[a-z0-9: ]{1,200}", flags=re.A)
 hat_regex = re.compile("[a-zA-Z0-9\-() ,_]{1,50}", flags=re.A)
 description_regex = re.compile("[^<>&\n\t]{1,300}", flags=re.A)
@@ -51,9 +50,9 @@ strikethrough_regex = re.compile('(^|\s|>)~{1,2}([^~]+)~{1,2}(?!([^<]*<\/(code|p
 
 mute_regex = re.compile("\/mute @?([a-z0-9_\-]{3,30}) ([0-9]+)", flags=re.A|re.I)
 
-emoji_regex = re.compile(f"<p>\s*(:[!#@]{{0,3}}[{valid_username_chars}]+:\s*)+<\/p>", flags=re.A)
-emoji_regex2 = re.compile(f'(?<!"):([!#@{valid_username_chars}]{{1,36}}?):(?!([^<]*<\/(code|pre|a)>|[^`]*`))', flags=re.A)
-emoji_regex3 = re.compile(f'(?<!"):([!@{valid_username_chars}]{{1,35}}?):', flags=re.A)
+emoji_regex = re.compile(f"<p>\s*(:[!#@a-zA-Z0-9]{{1,36}}:\s*)+<\/p>", flags=re.A)
+emoji_regex2 = re.compile(f'(?<!"):([!#@a-zA-Z0-9]{{1,36}}?):(?!([^<]*<\/(code|pre|a)>|[^`]*`))', flags=re.A)
+emoji_regex3 = re.compile(f'(?<!"):([!@a-zA-Z0-9]{{1,35}}?):', flags=re.A)
 
 snappy_url_regex = re.compile('<a href="(https?:\/\/.+?)".*?>(.+?)<\/a>', flags=re.A)
 snappy_youtube_regex = re.compile('<lite-youtube videoid="(.+?)" params="autoplay=1', flags=re.A)

@@ -76,7 +76,6 @@ LOGGED_OUT_CACHE_KEY = f"{SITE}_loggedout"
 CHAT_ONLINE_CACHE_KEY = f"{SITE}_online"
 REDDIT_NOTIFS_CACHE_KEY = "reddit_notifications"
 MARSEYS_CACHE_KEY = "marseys"
-EMOJIS_CACHE_KEY = "emojis"
 
 SESSION_LIFETIME = 60 * 60 * 24 * 365
 
@@ -1078,3 +1077,5 @@ else:
 	GLOBAL = None
 
 STARS = '\n\n★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★\n\n'
+
+EMOJIS_KINDS = ('Marsey', 'Marsey Alphabet', 'Marsey Flags', 'Platy', 'Wolf', 'Tay', 'Classic', 'Rage', 'Wojak', 'Misc')

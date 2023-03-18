@@ -139,7 +139,7 @@ const emojisSearchDictionary = {
 
 // get public emojis list
 const emojiRequest = new XMLHttpRequest();
-emojiRequest.open("GET", '/emojis.csv?v=1');
+emojiRequest.open("GET", '/emojis.csv');
 emojiRequest.setRequestHeader('xhr', 'xhr');
 emojiRequest.onload = async (e) => {
 	let emojis = JSON.parse(emojiRequest.response);
@@ -161,7 +161,7 @@ emojiRequest.onload = async (e) => {
 			for(let i = 0; i < emoji.tags.length; i++)
 				emojisSearchDictionary.updateTag(emoji.tags[i], emoji.name);
 
-		classes.add(emoji.class);
+		classes.add(emoji.kind);
 
 		// Create emoji DOM
 		const emojiDOM = document.importNode(emojiButtonTemplateDOM.content, true).children[0];
@@ -171,7 +171,7 @@ emojiRequest.onload = async (e) => {
 			emojiDOM.title += "\nauthor\t" + emoji.author
 		if(emoji.count !== undefined)
 			emojiDOM.title += "\nused\t" + emoji.count;
-		emojiDOM.dataset.className = emoji.class;
+		emojiDOM.dataset.className = emoji.kind;
 		emojiDOM.dataset.emojiName = emoji.name;
 		emojiDOM.onclick = emojiAddToInput;
 		emojiDOM.hidden = true;

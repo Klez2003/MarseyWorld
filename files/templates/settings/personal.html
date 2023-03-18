@@ -30,12 +30,12 @@
 						<div class="body w-lg-100">
 							<div class="input-group mb2">
 								<select autocomplete="off" id='theme' class="form-control setting_select" form="profile-settings" name="theme" data-nonce="{{g.nonce}}" data-reload="1">
-								{% for entry in THEMES %}
-									<option value="{{entry}}" {% if v.theme==entry %} selected {% endif %}>
-										{{entry}}
-									</option>
-								{% endfor %}
-							</select>
+									{% for entry in THEMES %}
+										<option value="{{entry}}" {% if v.theme==entry %} selected {% endif %}>
+											{{entry}}
+										</option>
+									{% endfor %}
+								</select>
 							</div>
 						</div>
 					</div>

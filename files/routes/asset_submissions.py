@@ -1,7 +1,7 @@
 from os import path, rename
 from shutil import copyfile, move
 
-from files.classes.marsey import Marsey
+from files.classes.emoji import *
 from files.classes.hats import Hat, HatDef
 from files.classes.mod_logs import ModAction
 from files.helpers.cloudflare import purge_files_in_cache
@@ -12,28 +12,28 @@ from files.helpers.useractions import *
 from files.routes.wrappers import *
 from files.__main__ import app, cache, limiter
 
-ASSET_TYPES = (Marsey, HatDef)
+ASSET_TYPES = (Emoji, HatDef)
 
-@app.get("/submit/marseys")
+@app.get("/submit/emojis")
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
-def submit_marseys(v:User):
+def submit_emojis(v:User):
 	if v.admin_level >= PERMS['VIEW_PENDING_SUBMITTED_MARSEYS']:
-		marseys = g.db.query(Marsey).filter(Marsey.submitter_id != None)
+		marseys = g.db.query(Emoji).filter(Emoji.submitter_id != None)
 	else:
-		marseys = g.db.query(Marsey).filter(Marsey.submitter_id == v.id)
+		marseys = g.db.query(Emoji).filter(Emoji.submitter_id == v.id)
 
-	marseys = marseys.order_by(Marsey.created_utc.desc()).all()
+	marseys = marseys.order_by(Emoji.created_utc.desc()).all()
 
 	for marsey in marseys:
 		marsey.author = g.db.query(User.username).filter_by(id=marsey.author_id).one()[0]
 		marsey.submitter = g.db.query(User.username).filter_by(id=marsey.submitter_id).one()[0]
 
-	return render_template("submit_marseys.html", v=v, marseys=marseys)
+	return render_template("submit_emojis.html", v=v, marseys=marseys, kinds=EMOJIS_KINDS, msg=get_msg(), error=get_error())
 
 
-@app.post("/submit/marseys")
+@app.post("/submit/emojis")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
@@ -43,15 +43,13 @@ def submit_marsey(v:User):
 	name = request.values.get('name', '').lower().strip()
 	tags = request.values.get('tags', '').lower().strip()
 	username = request.values.get('author', '').lower().strip()
+	kind = request.values.get('kind', '').strip()
+
+	if kind not in EMOJIS_KINDS:
+		abort(400, "Invalid emoji kind!")
 
 	def error(error):
-		if v.admin_level >= PERMS['VIEW_PENDING_SUBMITTED_MARSEYS']: marseys = g.db.query(Marsey).filter(Marsey.submitter_id != None)
-		else: marseys = g.db.query(Marsey).filter(Marsey.submitter_id == v.id)
-		marseys = marseys.order_by(Marsey.created_utc.desc()).all()
-		for marsey in marseys:
-			marsey.author = g.db.query(User.username).filter_by(id=marsey.author_id).one()[0]
-			marsey.submitter = g.db.query(User.username).filter_by(id=marsey.submitter_id).one()[0]
-		return render_template("submit_marseys.html", v=v, marseys=marseys, error=error, name=name, tags=tags, username=username, file=file), 400
+		return redirect(f"/submit/emojis?error={error}")
 
 	if g.is_tor:
 		return error("Image uploads are not allowed through TOR!")
@@ -62,9 +60,9 @@ def submit_marsey(v:User):
 	if not marsey_regex.fullmatch(name):
 		return error("Invalid name!")
 
-	existing = g.db.query(Marsey.name).filter_by(name=name).one_or_none()
+	existing = g.db.query(Emoji.name).filter_by(name=name).one_or_none()
 	if existing:
-		return error("Someone already submitted a marsey with this name!")
+		return error("Someone already submitted an emoji with this name!")
 
 	if not tags_regex.fullmatch(tags):
 		return error("Invalid tags!")
@@ -80,19 +78,10 @@ def submit_marsey(v:User):
 	copyfile(highquality, filename)
 	process_image(filename, v, resize=200, trim=True)
 
-	marsey = Marsey(name=name, author_id=author.id, tags=tags, count=0, submitter_id=v.id)
+	marsey = Emoji(name=name, kind=kind, author_id=author.id, tags=tags, count=0, submitter_id=v.id)
 	g.db.add(marsey)
 
-	if v.admin_level >= PERMS['VIEW_PENDING_SUBMITTED_MARSEYS']: marseys = g.db.query(Marsey).filter(Marsey.submitter_id != None)
-	else: marseys = g.db.query(Marsey).filter(Marsey.submitter_id == v.id)
-
-	marseys = marseys.order_by(Marsey.created_utc.desc()).all()
-
-	for marsey in marseys:
-		marsey.author = g.db.query(User.username).filter_by(id=marsey.author_id).one()[0]
-		marsey.submitter = g.db.query(User.username).filter_by(id=marsey.submitter_id).one()[0]
-
-	return render_template("submit_marseys.html", v=v, marseys=marseys, msg=f"'{name}' submitted successfully!")
+	return redirect(f"/submit/emojis?msg='{name}' submitted successfully!")
 
 def verify_permissions_and_get_asset(cls, asset_type:str, v:User, name:str, make_lower=False):
 	if cls not in ASSET_TYPES: raise Exception("not a valid asset type")
@@ -107,13 +96,13 @@ def verify_permissions_and_get_asset(cls, asset_type:str, v:User, name:str, make
 		abort(404, f"This {asset} '{name}' doesn't exist!")
 	return asset
 
-@app.post("/admin/approve/marsey/<name>")
+@app.post("/admin/approve/emoji/<name>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['MODERATE_PENDING_SUBMITTED_ASSETS'])
 def approve_marsey(v, name):
-	marsey = verify_permissions_and_get_asset(Marsey, "marsey", v, name, True)
+	marsey = verify_permissions_and_get_asset(Emoji, "marsey", v, name, True)
 	tags = request.values.get('tags').lower().strip()
 	if not tags:
 		abort(400, "You need to include tags!")
@@ -122,19 +111,27 @@ def approve_marsey(v, name):
 	if not new_name:
 		abort(400, "You need to include name!")
 
+	new_kind = request.values.get('kind').strip()
+	if not new_kind:
+		abort(400, "You need to include kind!")
 
 	if not marsey_regex.fullmatch(new_name):
 		abort(400, "Invalid name!")
+
 	if not tags_regex.fullmatch(tags):
 		abort(400, "Invalid tags!")
 
+	if new_kind not in EMOJIS_KINDS:
+		abort(400, "Invalid kind!")
+
 
 	marsey.name = new_name
+	marsey.kind = new_kind
 	marsey.tags = tags
 	g.db.add(marsey)
 
 	author = get_account(marsey.author_id)
-	all_by_author = g.db.query(Marsey).filter_by(author_id=author.id).count()
+	all_by_author = g.db.query(Emoji).filter_by(author_id=author.id).count()
 
 	if all_by_author >= 99:
 		badge_grant(badge_id=143, user=author)
@@ -142,9 +139,12 @@ def approve_marsey(v, name):
 		badge_grant(badge_id=16, user=author)
 	else:
 		badge_grant(badge_id=17, user=author)
-	purge_files_in_cache(f"https://{SITE}/e/{marsey.name}/webp")
-	cache.delete(EMOJIS_CACHE_KEY)
-	cache.delete(MARSEYS_CACHE_KEY)
+
+	if marsey.kind == "Marsey":
+		cache.delete(MARSEYS_CACHE_KEY)
+
+	purge_files_in_cache([f"https://{SITE}/e/{marsey.name}/webp", f"https://{SITE}/emojis.csv"])
+
 	move(f"/asset_submissions/marseys/{name}.webp", f"files/assets/images/emojis/{marsey.name}.webp")
 
 	highquality = f"/asset_submissions/marseys/{name}"
@@ -156,11 +156,11 @@ def approve_marsey(v, name):
 	g.db.add(author)
 
 	if v.id != author.id:
-		msg = f"@{v.username} (a site admin) has approved a marsey you made: :{marsey.name}:\n\nYou have received 250 coins as a reward!"
+		msg = f"@{v.username} (a site admin) has approved an emoji you made: :{marsey.name}:\n\nYou have received 250 coins as a reward!"
 		send_repeatable_notification(author.id, msg)
 
 	if v.id != marsey.submitter_id and author.id != marsey.submitter_id:
-		msg = f"@{v.username} (a site admin) has approved a marsey you submitted: :{marsey.name}:"
+		msg = f"@{v.username} (a site admin) has approved an emoji you submitted: :{marsey.name}:"
 		send_repeatable_notification(marsey.submitter_id, msg)
 
 	marsey.submitter_id = None
@@ -209,13 +209,13 @@ def remove_asset(cls, type_name:str, v:User, name:str) -> dict[str, str]:
 
 	return {"message": f"'{name}' removed!"}
 
-@app.post("/remove/marsey/<name>")
+@app.post("/remove/emoji/<name>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def remove_marsey(v:User, name):
-	return remove_asset(Marsey, "marsey", v, name)
+	return remove_asset(Emoji, "marsey", v, name)
 
 @app.get("/submit/hats")
 @limiter.limit(DEFAULT_RATELIMIT)
@@ -225,7 +225,8 @@ def submit_hats(v:User):
 	if v.admin_level >= PERMS['VIEW_PENDING_SUBMITTED_HATS']: hats = g.db.query(HatDef).filter(HatDef.submitter_id != None)
 	else: hats = g.db.query(HatDef).filter(HatDef.submitter_id == v.id)
 	hats = hats.order_by(HatDef.created_utc.desc()).all()
-	return render_template("submit_hats.html", v=v, hats=hats)
+
+	return render_template("submit_hats.html", v=v, hats=hats, msg=get_msg(), error=get_error())
 
 
 @app.post("/submit/hats")
@@ -239,10 +240,7 @@ def submit_hat(v:User):
 	username = request.values.get('author', '').strip()
 
 	def error(error):
-		if v.admin_level >= PERMS['VIEW_PENDING_SUBMITTED_HATS']: hats = g.db.query(HatDef).filter(HatDef.submitter_id != None)
-		else: hats = g.db.query(HatDef).filter(HatDef.submitter_id == v.id)
-		hats = hats.order_by(HatDef.created_utc.desc()).all()
-		return render_template("submit_hats.html", v=v, hats=hats, error=error, name=name, description=description, username=username), 400
+		return redirect(f"/submit/hats?error={error}")
 
 	if g.is_tor:
 		return error("Image uploads are not allowed through TOR!")
@@ -282,14 +280,8 @@ def submit_hat(v:User):
 
 	hat = HatDef(name=name, author_id=author.id, description=description, price=price, submitter_id=v.id)
 	g.db.add(hat)
-	g.db.flush()
 
-	if v.admin_level >= PERMS['VIEW_PENDING_SUBMITTED_HATS']: hats = g.db.query(HatDef).filter(HatDef.submitter_id != None)
-	else: hats = g.db.query(HatDef).filter(HatDef.submitter_id == v.id)
-
-	hats = hats.order_by(HatDef.created_utc.desc()).all()
-
-	return render_template("submit_hats.html", v=v, hats=hats, msg=f"'{name}' submitted successfully!")
+	return redirect(f"/submit/hats?msg='{name}' submitted successfully!")
 
 
 @app.post("/admin/approve/hat/<name>")
@@ -372,7 +364,7 @@ def approve_hat(v, name):
 def remove_hat(v:User, name):
 	return remove_asset(HatDef, 'hat', v, name)
 
-@app.get("/admin/update/marseys")
+@app.get("/admin/update/emojis")
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['UPDATE_ASSETS'])
@@ -381,17 +373,17 @@ def update_marseys(v):
 	tags = None
 	error = None
 	if name:
-		marsey = g.db.get(Marsey, name)
+		marsey = g.db.get(Emoji, name)
 		if marsey:
 			tags = marsey.tags or ''
 		else:
 			name = ''
 			tags = ''
-			error = "A marsey with this name doesn't exist!"
+			error = "An emoji with this name doesn't exist!"
 	return render_template("admin/update_assets.html", v=v, error=error, name=name, tags=tags, type="Marsey")
 
 
-@app.post("/admin/update/marseys")
+@app.post("/admin/update/emojis")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
@@ -404,9 +396,11 @@ def update_marsey(v):
 	def error(error):
 		return render_template("admin/update_assets.html", v=v, error=error, name=name, tags=tags, type="Marsey")
 
-	existing = g.db.get(Marsey, name)
+	existing = g.db.get(Emoji, name)
 	if not existing:
-		return error("A marsey with this name doesn't exist!")
+		return error("An emoji with this name doesn't exist!")
+
+	updated = False
 
 	if file:
 		if g.is_tor:
@@ -429,11 +423,17 @@ def update_marsey(v):
 		copyfile(new_path, filename)
 		process_image(filename, v, resize=200, trim=True)
 		purge_files_in_cache([f"https://{SITE}/e/{name}.webp", f"https://{SITE}/assets/images/emojis/{name}.webp", f"https://{SITE}/asset_submissions/marseys/original/{name}.{format}"])
+		updated = True
+
 
 	if tags and existing.tags != tags and tags != "none":
+		if not tags_regex.fullmatch(tags):
+			abort(400, "Invalid tags!")
 		existing.tags += f" {tags}"
 		g.db.add(existing)
-	elif not file:
+		updated = True
+
+	if not updated:
 		return error("You need to actually update something!")
 
 	ma = ModAction(

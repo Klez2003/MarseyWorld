@@ -8,7 +8,7 @@ from files.classes.user import User
 from files.classes.submission import Submission
 from files.classes.comment import Comment
 from files.classes.votes import Vote, CommentVote
-from files.classes.marsey import Marsey
+from files.classes.emoji import *
 from files.classes.award import AwardRelationship
 from files.helpers.config.const import *
 
@@ -105,7 +105,7 @@ def stats(site=None):
 
 	stats = {
 			"time": int(time.time()),
-			"marseys": "{:,}".format(g.db.query(Marsey).filter(Marsey.submitter_id==None).count()),
+			"marseys": "{:,}".format(g.db.query(Emoji).filter(Emoji.kind=="Marsey", Emoji.submitter_id==None).count()),
 			"users": "{:,}".format(g.db.query(User).count()),
 			"private users": "{:,}".format(g.db.query(User).filter_by(is_private=True).count()),
 			"banned users": "{:,}".format(g.db.query(User).filter(User.is_banned != None).count()),

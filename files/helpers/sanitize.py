@@ -467,7 +467,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 	sanitized = audio_sub_regex.sub(r'\1<audio controls preload="none" src="\2"></audio>', sanitized)
 
 	if count_marseys:
-		for marsey in g.db.query(Marsey).filter(Marsey.submitter_id==None, Marsey.name.in_(marseys_used)).all():
+		for marsey in g.db.query(Emoji).filter(Emoji.kind=="Marsey", Emoji.submitter_id==None, Emoji.name.in_(marseys_used)).all():
 			marsey.count += 1
 			g.db.add(marsey)
 
@@ -559,7 +559,7 @@ def filter_emojis_only(title, golden=True, count_marseys=False, graceful=False, 
 	title = render_emoji(title, emoji_regex3, golden, marseys_used)
 
 	if count_marseys:
-		for marsey in g.db.query(Marsey).filter(Marsey.submitter_id==None, Marsey.name.in_(marseys_used)).all():
+		for marsey in g.db.query(Emoji).filter(Emoji.kind=="Marsey", Emoji.submitter_id==None, Emoji.name.in_(marseys_used)).all():
 			marsey.count += 1
 			g.db.add(marsey)
 

@@ -41,6 +41,15 @@ def reddit_post(subreddit, v, path):
 	return redirect(f'https://{reddit}/{post_id}')
 
 
+@cache.cached(key_prefix=MARSEYS_CACHE_KEY)
+def get_marseys(db:scoped_session):
+	if not FEATURES['MARSEYS']: return []
+	marseys = []
+	for marsey, author in db.query(Emoji, User).join(User, Emoji.author_id == User.id).filter(Emoji.kind == "Marsey", Emoji.submitter_id == None).order_by(Emoji.count.desc()):
+		marsey.author = author.username if FEATURES['ASSET_SUBMISSIONS'] else None
+		marseys.append(marsey)
+	return marseys
+
 @app.get("/marseys")
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
@@ -64,25 +73,13 @@ def marseys(v:User):
 @app.get("/emojis.csv")
 @limiter.limit(DEFAULT_RATELIMIT)
 def emoji_list():
-	return get_emojis(g.db)
-
-@cache.cached(timeout=86400, key_prefix=MARSEYS_CACHE_KEY)
-def get_marseys(db:scoped_session):
-	if not FEATURES['MARSEYS']: return []
 	marseys = []
-	for marsey, author in db.query(Marsey, User).join(User, Marsey.author_id == User.id).filter(Marsey.submitter_id == None).order_by(Marsey.count.desc()):
-		marsey.author = author.username if FEATURES['ASSET_SUBMISSIONS'] else None
-		setattr(marsey, "class", "Marsey")
-		marseys.append(marsey)
-	return marseys
 
-@cache.cached(timeout=600, key_prefix=EMOJIS_CACHE_KEY)
-def get_emojis(db:scoped_session):
-	emojis = [m.json() for m in get_marseys(db)]
-	for src in EMOJI_SRCS:
-		with open(src, "r", encoding="utf-8") as f:
-			emojis = emojis + json.load(f)
-	return emojis
+	for marsey, author in g.db.query(Emoji, User).join(User, Emoji.author_id == User.id).filter(Emoji.submitter_id == None).order_by(Emoji.count.desc()):
+		marsey.author = author.username if FEATURES['ASSET_SUBMISSIONS'] else None
+		marseys.append(marsey.json())
+
+	return marseys
 
 @app.get('/sidebar')
 @limiter.limit(DEFAULT_RATELIMIT)

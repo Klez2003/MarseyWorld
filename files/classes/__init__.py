@@ -25,7 +25,7 @@ from .follows import *
 from .lottery import *
 from .casino_game import *
 from .hats import *
-from .marsey import *
+from .emoji import *
 from .transactions import *
 from .sub_logs import *
 from .media import *

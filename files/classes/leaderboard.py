@@ -6,7 +6,7 @@ from sqlalchemy.orm import scoped_session
 from files.helpers.config.const import *
 
 from .badges import Badge
-from .marsey import Marsey
+from .emoji import *
 from .user import User
 from .userblock import UserBlock
 
@@ -67,10 +67,10 @@ class Leaderboard:
 		sq_criteria = None
 		if lb_criteria == Badge.user_id:
 			sq_criteria = User.id == sq.c.user_id
-		elif lb_criteria == Marsey.author_id:
+		elif lb_criteria == Emoji.author_id:
 			sq_criteria = User.id == sq.c.author_id
 		else:
-			raise ValueError("This leaderboard function only supports Badge.user_id and Marsey.author_id")
+			raise ValueError("This leaderboard function only supports Badge.user_id and Emoji.author_id")
 
 		leaderboard = db.query(User, sq.c.count).join(sq, sq_criteria).order_by(sq.c.count.desc())
 		position = db.query(User.id, sq.c.rank, sq.c.count).join(sq, sq_criteria).filter(User.id == v.id).one_or_none()

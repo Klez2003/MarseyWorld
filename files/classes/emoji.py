@@ -5,10 +5,11 @@ from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
 
-class Marsey(Base):
-	__tablename__ = "marseys"
+class Emoji(Base):
+	__tablename__ = "emojis"
 
 	name = Column(String, primary_key=True)
+	kind = Column(String)
 	author_id = Column(Integer, ForeignKey("users.id"))
 	tags = Column(String)
 	count = Column(Integer, default=0)
@@ -33,7 +34,7 @@ class Marsey(Base):
 			"tags": self.tags_list(),
 			"count": self.count,
 			"created_utc": self.created_utc,
-			"class": "Marsey",
+			"kind": self.kind,
 		}
 		if "author" in self.__dict__ and self.author:
 			data["author"] = self.author

@@ -1,8 +1,9 @@
 function approve_marsey(t, name) {
-	postToast(t, `/admin/approve/marsey/${name}`,
+	postToast(t, `/admin/approve/emoji/${name}`,
 		{
 			"tags": document.getElementById(`${name}-tags`).value,
 			"name": document.getElementById(`${name}-name`).value,
+			"kind": document.getElementById(`${name}-kind`).value,
 		},
 		() => {
 			document.getElementById(`${name}-marsey`).remove()
@@ -11,7 +12,7 @@ function approve_marsey(t, name) {
 }
 
 function remove_marsey(t, name) {
-	postToast(t, `/remove/marsey/${name}`,
+	postToast(t, `/remove/emoji/${name}`,
 		{
 		},
 		() => {
