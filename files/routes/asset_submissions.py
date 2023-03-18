@@ -49,11 +49,17 @@ def submit_emoji(v:User):
 	username = request.values.get('author', '').lower().strip()
 	kind = request.values.get('kind', '').strip()
 
-	if kind not in EMOJIS_KINDS:
-		abort(400, "Invalid emoji kind!")
-
 	def error(error):
 		return redirect(f"/submit/emojis?error={error}")
+
+	if kind not in EMOJIS_KINDS:
+		return error("Invalid emoji kind!")
+
+	if kind in {"Marsey", "Platy", "Wolf", "Tay"} and not name.startswith(kind.lower()):
+		return error(f'The name of this emoji should start with the word "{kind.lower()}"')
+
+	if kind == "Marsey Flags" and not name.startswith("marseyflag"):
+		return error('The name of this emoji should start with the word "marseyflag"')
 
 	if g.is_tor:
 		return error("Image uploads are not allowed through TOR!")
