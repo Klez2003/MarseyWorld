@@ -14,6 +14,10 @@ from files.__main__ import app, cache, limiter
 
 ASSET_TYPES = (Emoji, HatDef)
 
+@app.get("/submit/marseys")
+def submit_marseys_redirect():
+	return redirect("/submit/emojis")
+
 @app.get("/submit/emojis")
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
