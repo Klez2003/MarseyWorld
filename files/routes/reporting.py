@@ -65,6 +65,10 @@ def flag_post(pid, v):
 	flag = Flag(post_id=post.id, user_id=v.id, reason=reason)
 	g.db.add(flag)
 
+	if v.id != post.author_id:
+		message = f'@{v.username} reported [{post.title}]({post.shortlink})\n\n> {reason}'
+		send_repeatable_notification(post.author_id, message)
+
 	return {"message": "Post reported!"}
 
 
@@ -89,8 +93,11 @@ def flag_comment(cid, v):
 	if len(reason) > 350: abort(400, "Too long!")
 
 	flag = CommentFlag(comment_id=comment.id, user_id=v.id, reason=reason)
-
 	g.db.add(flag)
+
+	if v.id != comment.author_id:
+		message = f'@{v.username} reported your [comment]({comment.shortlink})\n\n> {reason}'
+		send_repeatable_notification(comment.author_id, message)
 
 	return {"message": "Comment reported!"}
 

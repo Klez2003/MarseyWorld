@@ -44,6 +44,12 @@ def archive_url(url):
 		url = url.replace('https://instagram.com/p/', 'https://imginn.com/p/')
 		gevent.spawn(_archiveorg, url)
 
+def snappy_report(post, reason):
+	flag = Flag(post_id=post.id, user_id=SNAPPY_ID, reason=reason)
+	g.db.add(flag)
+	message = f'@Snappy reported [{post.title}]({post.shortlink})\n\n> {reason}'
+	send_repeatable_notification(post.author_id, message)
+
 def execute_snappy(post:Submission, v:User):
 	ghost = post.ghost
 
@@ -77,11 +83,9 @@ def execute_snappy(post:Submission, v:User):
 			g.db.add(vote)
 			post.downvotes += 1
 			if body.startswith('OP is a Trump supporter'):
-				flag = Flag(post_id=post.id, user_id=SNAPPY_ID, reason='Trump supporter')
-				g.db.add(flag)
+				snappy_report(post, 'Trump supporter')
 			elif body.startswith('You had your chance. Downvoted and reported'):
-				flag = Flag(post_id=post.id, user_id=SNAPPY_ID, reason='Retard')
-				g.db.add(flag)
+				snappy_report(post, 'Retard')
 		elif body.startswith('▲') or body.startswith(':#marseyupvote'):
 			if body.startswith('▲'): body = body[1:]
 			vote = Vote(user_id=SNAPPY_ID,
