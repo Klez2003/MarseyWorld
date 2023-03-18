@@ -38,7 +38,7 @@ def submit_emojis(v:User):
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
-def submit_marsey(v:User):
+def submit_emoji(v:User):
 	file = request.files["image"]
 	name = request.values.get('name', '').lower().strip()
 	tags = request.values.get('tags', '').lower().strip()
@@ -57,7 +57,7 @@ def submit_marsey(v:User):
 	if not file or not file.content_type.startswith('image/'):
 		return error("You need to submit an image!")
 
-	if not marsey_regex.fullmatch(name):
+	if not emoji_name_regex.fullmatch(name):
 		return error("Invalid name!")
 
 	existing = g.db.query(Emoji.name).filter_by(name=name).one_or_none()
@@ -78,8 +78,8 @@ def submit_marsey(v:User):
 	copyfile(highquality, filename)
 	process_image(filename, v, resize=200, trim=True)
 
-	marsey = Emoji(name=name, kind=kind, author_id=author.id, tags=tags, count=0, submitter_id=v.id)
-	g.db.add(marsey)
+	emoji = Emoji(name=name, kind=kind, author_id=author.id, tags=tags, count=0, submitter_id=v.id)
+	g.db.add(emoji)
 
 	return redirect(f"/submit/emojis?msg='{name}' submitted successfully!")
 
@@ -101,8 +101,8 @@ def verify_permissions_and_get_asset(cls, asset_type:str, v:User, name:str, make
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['MODERATE_PENDING_SUBMITTED_ASSETS'])
-def approve_marsey(v, name):
-	marsey = verify_permissions_and_get_asset(Emoji, "marsey", v, name, True)
+def approve_emoji(v, name):
+	emoji = verify_permissions_and_get_asset(Emoji, "emoji", v, name, True)
 	tags = request.values.get('tags').lower().strip()
 	if not tags:
 		abort(400, "You need to include tags!")
@@ -115,7 +115,7 @@ def approve_marsey(v, name):
 	if not new_kind:
 		abort(400, "You need to include kind!")
 
-	if not marsey_regex.fullmatch(new_name):
+	if not emoji_name_regex.fullmatch(new_name):
 		abort(400, "Invalid name!")
 
 	if not tags_regex.fullmatch(tags):
@@ -125,12 +125,12 @@ def approve_marsey(v, name):
 		abort(400, "Invalid kind!")
 
 
-	marsey.name = new_name
-	marsey.kind = new_kind
-	marsey.tags = tags
-	g.db.add(marsey)
+	emoji.name = new_name
+	emoji.kind = new_kind
+	emoji.tags = tags
+	g.db.add(emoji)
 
-	author = get_account(marsey.author_id)
+	author = get_account(emoji.author_id)
 	all_by_author = g.db.query(Emoji).filter_by(author_id=author.id).count()
 
 	if all_by_author >= 99:
@@ -140,12 +140,12 @@ def approve_marsey(v, name):
 	else:
 		badge_grant(badge_id=17, user=author)
 
-	if marsey.kind == "Marsey":
+	if emoji.kind == "Marsey":
 		cache.delete(MARSEYS_CACHE_KEY)
 
-	purge_files_in_cache([f"https://{SITE}/e/{marsey.name}/webp", f"https://{SITE}/emojis.csv"])
+	purge_files_in_cache([f"https://{SITE}/e/{emoji.name}/webp", f"https://{SITE}/emojis.csv"])
 
-	move(f"/asset_submissions/marseys/{name}.webp", f"files/assets/images/emojis/{marsey.name}.webp")
+	move(f"/asset_submissions/marseys/{name}.webp", f"files/assets/images/emojis/{emoji.name}.webp")
 
 	highquality = f"/asset_submissions/marseys/{name}"
 	with Image.open(highquality) as i:
@@ -156,23 +156,23 @@ def approve_marsey(v, name):
 	g.db.add(author)
 
 	if v.id != author.id:
-		msg = f"@{v.username} (a site admin) has approved an emoji you made: :{marsey.name}:\n\nYou have received 250 coins as a reward!"
+		msg = f"@{v.username} (a site admin) has approved an emoji you made: :{emoji.name}:\n\nYou have received 250 coins as a reward!"
 		send_repeatable_notification(author.id, msg)
 
-	if v.id != marsey.submitter_id and author.id != marsey.submitter_id:
-		msg = f"@{v.username} (a site admin) has approved an emoji you submitted: :{marsey.name}:"
-		send_repeatable_notification(marsey.submitter_id, msg)
+	if v.id != emoji.submitter_id and author.id != emoji.submitter_id:
+		msg = f"@{v.username} (a site admin) has approved an emoji you submitted: :{emoji.name}:"
+		send_repeatable_notification(emoji.submitter_id, msg)
 
-	marsey.submitter_id = None
+	emoji.submitter_id = None
 
 	ma = ModAction(
-		kind="approve_marsey",
+		kind="approve_emoji",
 		user_id=v.id,
 		_note=f'<img loading="lazy" data-bs-toggle="tooltip" alt=":{name}:" title=":{name}:" src="/e/{name}.webp">'
 	)
 	g.db.add(ma)
 
-	return {"message": f"'{marsey.name}' approved!"}
+	return {"message": f"'{emoji.name}' approved!"}
 
 def remove_asset(cls, type_name:str, v:User, name:str) -> dict[str, str]:
 	if cls not in ASSET_TYPES: raise Exception("not a valid asset type")
@@ -214,8 +214,8 @@ def remove_asset(cls, type_name:str, v:User, name:str) -> dict[str, str]:
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
-def remove_marsey(v:User, name):
-	return remove_asset(Emoji, "marsey", v, name)
+def remove_emoji(v:User, name):
+	return remove_asset(Emoji, "emoji", v, name)
 
 @app.get("/submit/hats")
 @limiter.limit(DEFAULT_RATELIMIT)
@@ -368,14 +368,14 @@ def remove_hat(v:User, name):
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['UPDATE_ASSETS'])
-def update_marseys(v):
+def update_emojis(v):
 	name = request.values.get('name')
 	tags = None
 	error = None
 	if name:
-		marsey = g.db.get(Emoji, name)
-		if marsey:
-			tags = marsey.tags or ''
+		emoji = g.db.get(Emoji, name)
+		if emoji:
+			tags = emoji.tags or ''
 		else:
 			name = ''
 			tags = ''
@@ -388,7 +388,7 @@ def update_marseys(v):
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['UPDATE_ASSETS'])
-def update_marsey(v):
+def update_emoji(v):
 	file = request.files["image"]
 	name = request.values.get('name', '').lower().strip()
 	tags = request.values.get('tags', '').lower().strip()
@@ -437,7 +437,7 @@ def update_marsey(v):
 		return error("You need to actually update something!")
 
 	ma = ModAction(
-		kind="update_marsey",
+		kind="update_emoji",
 		user_id=v.id,
 		_note=f'<img loading="lazy" data-bs-toggle="tooltip" alt=":{name}:" title=":{name}:" src="/e/{name}.webp">'
 	)

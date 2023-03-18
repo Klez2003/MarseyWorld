@@ -376,8 +376,8 @@ MODACTION_TYPES = {
 		"icon": 'fa-hat-cowboy',
 		"color": 'bg-success'
 	},
-	'update_marsey': {
-		"str": 'updated marsey',
+	'update_emoji': {
+		"str": 'updated emoji',
 		"icon": 'fa-cat',
 		"color": 'bg-success'
 	},
@@ -391,13 +391,13 @@ MODACTION_TYPES = {
 		"icon": 'fa-hat-cowboy',
 		"color": 'bg-danger'
 	},
-	'approve_marsey': {
-		"str": 'approved marsey',
+	'approve_emoji': {
+		"str": 'approved emoji',
 		"icon": 'fa-cat',
 		"color": 'bg-success'
 	},
-	'reject_marsey': {
-		"str": 'rejected marsey',
+	'reject_emoji': {
+		"str": 'rejected emoji',
 		"icon": 'fa-cat',
 		"color": 'bg-danger'
 	},
