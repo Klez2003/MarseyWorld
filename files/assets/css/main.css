@@ -1296,11 +1296,6 @@ nav
 .nav-link:hover, .nav-link:focus {
 	text-decoration: none;
 }
-.disabled {
-	color: #6c757d !important;
-	pointer-events: none !important;
-	cursor: default !important;
-}
 .nav-pills .nav-link {
 	border-radius: 0.35rem;
 }
@@ -7232,4 +7227,10 @@ button, .btn {
 	.srd {
 		font-size: 16px;
 	}
+}
+
+[disabled], .disabled, button[disabled], .btn[disabled], button.disabled, .btn.disabled {
+	color: #6c757d !important;
+	pointer-events: none !important;
+	cursor: default !important;
 }

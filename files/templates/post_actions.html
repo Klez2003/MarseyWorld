@@ -11,7 +11,7 @@
 {% endif %}
 
 {% if v and FEATURES['AWARDS'] %}
-	<button type="button" class="list-inline-item text-muted d-none d-md-inline-block" data-bs-toggle="modal" data-bs-target="#awardModal" data-url='/award/post/{{p.id}}' data-nonce="{{g.nonce}}"><i class="fas fa-gift fa-fw"></i>Give Award</button>
+	<button type="button" class="list-inline-item text-muted d-none d-md-inline-block" data-bs-toggle="modal" data-bs-target="#awardModal" data-url='/award/post/{{p.id}}' data-nonce="{{g.nonce}}" {% if p.author_id in IMMUNE_TO_AWARDS %}disabled{% endif %}><i class="fas fa-gift fa-fw"></i>Give Award</button>
 {% endif %}
 
 <button type="button" class="list-inline-item copy-link" data-clipboard-text="{% if SITE == 'rdrama.net' %}https://{{BAN_EVASION_DOMAIN}}{{p.shortlink}}{% else %}{{p.permalink}}{% endif %}"><i class="fas fa-copy"></i>Copy link</button>

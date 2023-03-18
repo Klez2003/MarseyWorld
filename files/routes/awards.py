@@ -177,7 +177,7 @@ def award_thing(v, thing_type, id):
 
 	safe_username = f"@{thing.author_name}"
 
-	if SITE == 'rdrama.net' and author.id in {PIZZASHILL_ID, CARP_ID}:
+	if SITE == 'rdrama.net' and author.id in IMMUNE_TO_AWARDS:
 		abort(403, f"{safe_username} is immune to awards!")
 
 	if kind == "benefactor" and author.id == v.id:

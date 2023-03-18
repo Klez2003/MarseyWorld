@@ -144,4 +144,5 @@ def inject_constants():
 			"DEFAULT_CONFIG_VALUE":DEFAULT_CONFIG_VALUE, "IS_LOCALHOST":IS_LOCALHOST, "BACKGROUND_CATEGORIES":BACKGROUND_CATEGORIES, "PAGE_SIZE":PAGE_SIZE, "TAGLINES":TAGLINES, "IS_FISTMAS":IS_FISTMAS, "get_alt_graph":get_alt_graph, "current_registered_users":current_registered_users,
 			"git_head":git_head, "max_days":max_days,
 			"BIO_FRIENDS_ENEMIES_LENGTH_LIMIT":BIO_FRIENDS_ENEMIES_LENGTH_LIMIT,
+			"IMMUNE_TO_AWARDS": IMMUNE_TO_AWARDS,
 			}
