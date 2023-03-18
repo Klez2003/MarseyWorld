@@ -22,7 +22,7 @@ from .config.const import *
 
 def remove_media_using_link(path):
 	if path.startswith(SITE_FULL_IMAGES):
-		path = path.split(img_prefix, 1)[1]
+		path = path.split(SITE_FULL_IMAGES, 1)[1]
 
 	video_prefix = f'https://videos.{SITE}'
 	if path.startswith(video_prefix):
