@@ -3813,11 +3813,6 @@ label.color-radio span {
 	background-color: var(--gray-900);
 	color: var(--black);
 }
-.form-inline.search .form-control, [readonly] {
-	background-color: var(--gray-800);
-	font-size: 1rem;
-	color: var(--white);
-}
 .form-inline.search .input-group-append .input-group-text .fa.fa-search {
 	color: var(--black);
 }
@@ -7233,4 +7228,10 @@ button, .btn {
 	color: #6c757d !important;
 	pointer-events: none !important;
 	cursor: default !important;
+}
+
+.form-inline.search .form-control, [readonly] {
+	background-color: var(--gray-800);
+	font-size: 1rem;
+	color: var(--white) !important;
 }
