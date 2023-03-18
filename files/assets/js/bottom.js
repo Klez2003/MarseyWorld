@@ -198,9 +198,7 @@ document.addEventListener("click", function(e){
 				i.classList.add(attr)
 				i.classList.remove("toggled-visible")
 			});
-			toggling.classList.remove(attr);
 			toggling.classList.add("toggled-visible")
-			return
 		}
 
 		toggling.classList.toggle(attr);
