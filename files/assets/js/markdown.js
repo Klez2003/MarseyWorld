@@ -23,7 +23,31 @@ marked.use({
 				const u = token.raw;
 				return `<a href="/${u}"><img loading="lazy" src="/${u}/pic" class="pp20"> ${u}</a>`;
 			}
-		}
+		},
+		{
+			name: 'group_mention',
+			level: 'inline',
+			start: function(src){
+				const match = src.match(/![a-zA-Z0-9_\-]+/);
+				return match != null ? match.index : -1;
+			},
+			tokenizer: function(src) {
+				const rule = /^![a-zA-Z0-9_\-]+/;
+				const match = rule.exec(src);
+				if(match){
+					return {
+						type: 'group_mention',
+						raw: match[0],
+						text: match[0].trim().slice(1),
+						tokens: []
+					};
+				}
+			},
+			renderer(token) {
+				const g = token.raw;
+				return `<a href="/!${g}">!${g}</a>`;
+			}
+		},
 	]
 });
 
