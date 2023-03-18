@@ -88,7 +88,7 @@
 					<button type="button" class="btn btn-secondary format d-inline-block m-0 fas fa-smile-beam ml-2" data-nonce="{{g.nonce}}" data-onclick="loadEmojis('{{id}}-text')" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"></button>
 
 					{% if show_file_upload %}
-						{{macros.file_input('file-upload', False)}}
+						{{macros.file_input('file-upload-common', False)}}
 					{% endif %}
 				</div>
 			{% endif %}

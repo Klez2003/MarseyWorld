@@ -159,7 +159,7 @@
 
 							{% set upload_disabled = g.is_tor or not get_setting('dm_images') %}
 
-							{{macros.file_input('file-upload', True)}}
+							{{macros.file_input('file-upload-macro', True)}}
 
 							<input type="submit" data-nonce="{{g.nonce}}" data-onclick="remove_dialog()" value="Submit" class="btn btn-primary fl-r">
 						</form>
