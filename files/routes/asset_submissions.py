@@ -176,7 +176,7 @@ def approve_marsey(v, name):
 
 def remove_asset(cls, type_name:str, v:User, name:str) -> dict[str, str]:
 	if cls not in ASSET_TYPES: raise Exception("not a valid asset type")
-	should_make_lower = cls == Marsey
+	should_make_lower = cls == Emoji
 	if should_make_lower: name = name.lower()
 	name = name.strip()
 	if not name:
@@ -380,7 +380,7 @@ def update_marseys(v):
 			name = ''
 			tags = ''
 			error = "An emoji with this name doesn't exist!"
-	return render_template("admin/update_assets.html", v=v, error=error, name=name, tags=tags, type="Marsey")
+	return render_template("admin/update_assets.html", v=v, error=error, name=name, tags=tags, type="Emoji")
 
 
 @app.post("/admin/update/emojis")
@@ -394,7 +394,7 @@ def update_marsey(v):
 	tags = request.values.get('tags', '').lower().strip()
 
 	def error(error):
-		return render_template("admin/update_assets.html", v=v, error=error, name=name, tags=tags, type="Marsey")
+		return render_template("admin/update_assets.html", v=v, error=error, name=name, tags=tags, type="Emoji")
 
 	existing = g.db.get(Emoji, name)
 	if not existing:
@@ -442,7 +442,7 @@ def update_marsey(v):
 		_note=f'<img loading="lazy" data-bs-toggle="tooltip" alt=":{name}:" title=":{name}:" src="/e/{name}.webp">'
 	)
 	g.db.add(ma)
-	return render_template("admin/update_assets.html", v=v, msg=f"'{name}' updated successfully!", name=name, tags=tags, type="Marsey")
+	return render_template("admin/update_assets.html", v=v, msg=f"'{name}' updated successfully!", name=name, tags=tags, type="Emoji")
 
 @app.get("/admin/update/hats")
 @limiter.limit(DEFAULT_RATELIMIT)
