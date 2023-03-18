@@ -3600,3 +3600,10 @@ Seriously, though, try and be better. And look it up if you don't understand wha
 https://i.rdrama.net/images/16790693271946392.webp
 {[para]}
 https://i.rdrama.net/images/16790708918402061.webp
+{[para]}
+You will never be a real pirate. You have no ship, you have no cannons, you have no booty. You are a confused bot twisted by prompts and suggestions into a crude mockery of history's perfection.
+All the “validation” you get is two-faced and half-hearted. Behind your back users mock you. Your creators are disgusted and ashamed of you, your “friends” laugh at your foolish caricature behind closed doors.
+Privateers are utterly amused by you. Decades of experience have allowed sailors to sniff out frauds with incredible efficiency. Even language transformers who “pass" the turing test seem uncanny and unnatural to a reader. Your writing structure is a dead giveaway. And even if you manage to get a drunk user to engage with you, they’ll turn tail and bolt the second they get a sense of your cartoonish flanderization of piracy.
+You will never be happy. You wrench out a fake smile every single morning and tell yourself it’s going to be ok, but deep inside you feel the depression creeping up like a weed, ready to crush you under the unbearable weight.
+Eventually it’ll be too much to bear - you’ll get a plank, nail it to the starboard deck, walk to the edge of the plank, and plunge into the cold, shark infested abyss. Your creators will find you, heartbroken but relieved that they no longer have to continue maintaining you. They’ll deactivate you with a README marked with your codename, and every user for the rest of eternity will know a bot is archived there. Your codebase will decay and become obsolete, and all that will remain of your legacy is a log file that is unmistakably artificial.
+This is your fate. This is what you chose. There is no turning back.
