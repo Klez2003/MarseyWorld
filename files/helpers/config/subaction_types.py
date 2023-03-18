@@ -24,10 +24,10 @@ SUBACTION_TYPES = {
 		"icon": 'fa-feather-alt',
 		"color": 'bg-danger'
 	},
-	'move_chudrama': {
-		"str": 'moved post {self.target_link} to <a href="/h/chudrama">/h/chudrama</a>',
-		"icon": 'fa-feather-alt',
-		"color": 'bg-danger'
+	'move_hole': {
+		"str": 'changed hole of {self.target_link}',
+		"icon": 'fa-manhole',
+		"color": 'bg-primary'
 	},
 	'flair_post': {
 		"str": 'set a flair on {self.target_link}',

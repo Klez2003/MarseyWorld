@@ -181,11 +181,12 @@ def move_post(post:Submission, v:User, reason:str) -> Union[bool, str]:
 	g.db.add(post)
 
 	if v.id != post.author_id:
+		sub_from_str = 'main feed' if sub_from is None else \
+			f'<a href="/h/{sub_from}">/h/{sub_from}</a>'
+		sub_to_str = 'main feed' if sub_to is None else \
+			f'<a href="/h/{sub_to}">/h/{sub_to}</a>'
+
 		if v.admin_level:
-			sub_from_str = 'main feed' if sub_from is None else \
-				f'<a href="/h/{sub_from}">/h/{sub_from}</a>'
-			sub_to_str = 'main feed' if sub_to is None else \
-				f'<a href="/h/{sub_to}">/h/{sub_to}</a>'
 			ma = ModAction(
 				kind='move_hole',
 				user_id=v.id,
@@ -199,9 +200,10 @@ def move_post(post:Submission, v:User, reason:str) -> Union[bool, str]:
 		else:
 			ma = SubAction(
 				sub=sub_from,
-				kind='move_chudrama',
+				kind='move_hole',
 				user_id=v.id,
-				target_submission_id=post.id
+				target_submission_id=post.id,
+				_note=f'{sub_from_str} → {sub_to_str}',
 			)
 			g.db.add(ma)
 
