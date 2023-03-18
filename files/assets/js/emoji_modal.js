@@ -285,31 +285,7 @@ function emojiAddToInput(event)
 			strToInsert = emojiSelectSuffixDOMs[i].value + strToInsert;
 
 	strToInsert = ":" + strToInsert + ":"
-	const newPos = emojiInputTargetDOM.selectionStart + strToInsert.length;
-
-	emojiInputTargetDOM.setRangeText(strToInsert);
-
-	const emojiInsertedEvent = new CustomEvent("emojiInserted", { detail: { emoji: strToInsert } });
-	document.dispatchEvent(emojiInsertedEvent);
-
-	// Sir, come out and drink your Chromium complaint web
-	// I HATE CHROME. I HATE CHROME
-	if(window.chrome !== undefined)
-		setTimeout(function(){
-			console.warn("Chrome detected, r-slured mode enabled.");
-
-			// AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-			// JUST WORK STUPID CHROME PIECE OF SHIT
-			emojiInputTargetDOM.focus();
-			for(let i = 0; i < 2; i++)
-				emojiInputTargetDOM.setSelectionRange(newPos, newPos);
-
-			emojiInputTargetDOM.focus();
-			for(let i = 0; i < 2; i++)
-				emojiInputTargetDOM.setSelectionRange(newPos, newPos);
-		}, 1);
-	else
-		emojiInputTargetDOM.setSelectionRange(newPos, newPos);
+	insertText(emojiInputTargetDOM, strToInsert)
 
 	// kick-start the preview
 	emojiInputTargetDOM.dispatchEvent(new Event('input'));

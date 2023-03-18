@@ -422,6 +422,24 @@ function focusSearchBar(element)
 
 
 
+function insertText(input, text) {
+	const newPos = input.selectionStart + text.length;
+	input.setRangeText(text);
+
+	if (window.chrome !== undefined)
+		setTimeout(function(){
+			input.focus();
+			for(let i = 0; i < 2; i++)
+				input.setSelectionRange(newPos, newPos);
+
+			input.focus();
+			for(let i = 0; i < 2; i++)
+				input.setSelectionRange(newPos, newPos);
+		}, 1);
+	else
+		input.setSelectionRange(newPos, newPos);
+}
+
 
 
 //FILE SHIT
@@ -468,7 +486,7 @@ function handle_files(input, newfiles) {
 		if (span.innerHTML != ' ') span.innerHTML += ', '
 		span.innerHTML += file.name.substr(0, 30);
 		if (location.pathname != '/chat')
-			ta.setRangeText(`[${file.name}]`);
+			insertText(ta, `[${file.name}]`);
 		}
 
 	autoExpand(ta)
