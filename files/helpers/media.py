@@ -150,7 +150,7 @@ def process_video(file, v):
 	if extension not in {'mp4','avi','mkv'}:
 		new = new.replace(f'.{extension}', '.mp4')
 		copyfile(old, new)
-		db = Session(bind=g.db.get_bind(), autoflush=False)
+		db = Session(bind=g.db.get_bind())
 		gevent.spawn(convert_to_mp4, old, new, v.id, db)
 	else:
 		try:
