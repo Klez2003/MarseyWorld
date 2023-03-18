@@ -25,9 +25,11 @@
 							<label class="mt-3" for="kind">Kind</label>
 							<div class="input-group mb2">
 								<select autocomplete="off" id='kind' class="form-control" name="kind" required>
-									<option hidden disabled selected value>-- select an option --</option>
+									{% if not kind %}
+										<option hidden disabled selected value>-- select an option --</option>
+									{% endif %}
 									{% for entry in kinds %}
-										<option value="{{entry}}">
+										<option value="{{entry}}" {% if entry == kind %}selected{% endif %}>
 											{{entry}}
 										</option>
 									{% endfor %}

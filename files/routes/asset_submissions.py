@@ -34,7 +34,7 @@ def submit_emojis(v:User):
 		emoji.author = g.db.query(User.username).filter_by(id=emoji.author_id).one()[0]
 		emoji.submitter = g.db.query(User.username).filter_by(id=emoji.submitter_id).one()[0]
 
-	return render_template("submit_emojis.html", v=v, emojis=emojis, kinds=EMOJIS_KINDS, msg=get_msg(), error=get_error())
+	return render_template("submit_emojis.html", v=v, emojis=emojis, kinds=EMOJIS_KINDS, msg=get_msg())
 
 
 @app.post("/submit/emojis")
@@ -50,7 +50,13 @@ def submit_emoji(v:User):
 	kind = request.values.get('kind', '').strip()
 
 	def error(error):
-		return redirect(f"/submit/emojis?error={error}")
+		if v.admin_level >= PERMS['VIEW_PENDING_SUBMITTED_EMOJIS']: emojis = g.db.query(Emoji).filter(Emoji.submitter_id != None)
+		else: emojis = g.db.query(Emoji).filter(Emoji.submitter_id == v.id)
+		emojis = emojis.order_by(Emoji.created_utc.desc()).all()
+		for emoji in emojis:
+			emoji.author = g.db.query(User.username).filter_by(id=emoji.author_id).one()[0]
+			emoji.submitter = g.db.query(User.username).filter_by(id=emoji.submitter_id).one()[0]
+		return render_template("submit_emojis.html", v=v, emojis=emojis, error=error, name=name, kind=kind, tags=tags, username=username, kinds=EMOJIS_KINDS), 400
 
 	if kind not in EMOJIS_KINDS:
 		return error("Invalid emoji kind!")
@@ -262,7 +268,7 @@ def submit_hats(v:User):
 	else: hats = g.db.query(HatDef).filter(HatDef.submitter_id == v.id)
 	hats = hats.order_by(HatDef.created_utc.desc()).all()
 
-	return render_template("submit_hats.html", v=v, hats=hats, msg=get_msg(), error=get_error())
+	return render_template("submit_hats.html", v=v, hats=hats, msg=get_msg())
 
 
 @app.post("/submit/hats")
@@ -276,7 +282,10 @@ def submit_hat(v:User):
 	username = request.values.get('author', '').strip()
 
 	def error(error):
-		return redirect(f"/submit/hats?error={error}")
+		if v.admin_level >= PERMS['VIEW_PENDING_SUBMITTED_HATS']: hats = g.db.query(HatDef).filter(HatDef.submitter_id != None)
+		else: hats = g.db.query(HatDef).filter(HatDef.submitter_id == v.id)
+		hats = hats.order_by(HatDef.created_utc.desc()).all()
+		return render_template("submit_hats.html", v=v, hats=hats, error=error, name=name, description=description, username=username), 400
 
 	if g.is_tor:
 		return error("Image uploads are not allowed through TOR!")
