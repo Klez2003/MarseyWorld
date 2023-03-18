@@ -6,7 +6,7 @@ function remove_emoji(t, name) {
 			"kind": document.getElementById(`${name}-kind`).value,
 		},
 		() => {
-			document.getElementById(`${name}-marsey`).remove()
+			document.getElementById(`${name}-emoji`).remove()
 		}
 	);
 }
@@ -16,7 +16,7 @@ function remove_emoji(t, name) {
 		{
 		},
 		() => {
-			document.getElementById(`${name}-marsey`).remove()
+			document.getElementById(`${name}-emoji`).remove()
 		}
 	);
 }
