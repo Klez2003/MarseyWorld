@@ -17,7 +17,7 @@
 <button type="button" class="nobackground btn btn-link btn-block btn-lg text-left text-muted" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#reportPostModal" data-nonce="{{g.nonce}}" data-onclick="report_postModal('{{p.id}}')"><i class="far fa-flag text-center text-muted mr-2"></i>Report</button>
 
 {% if FEATURES['AWARDS'] -%}
-<button type="button" class="nobackground btn btn-link btn-block btn-lg text-left text-muted" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#awardModal" data-url='/award/post/{{p.id}}' data-nonce="{{g.nonce}}" {% if p.author_id in IMMUNE_TO_AWARDS %}disabled{% endif %}><i class="fas fa-gift text-center text-muted mr-2"></i>Give Award</button>
+<button type="button" class="nobackground btn btn-link btn-block btn-lg text-left text-muted" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#awardModal" data-url='/award/post/{{p.id}}' data-nonce="{{g.nonce}}" {% if p.author_id in IMMUNE_TO_AWARDS and v.admin_level < PERMS['IGNORE_AWARD_IMMUNITY'] %}disabled{% endif %}><i class="fas fa-gift text-center text-muted mr-2"></i>Give Award</button>
 {%- endif %}
 
 <button type="button" id="subscribe2-{{p.id}}" class="{% if p.id in v.subscribed_idlist %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-left text-muted" data-areyousure="postToastSwitch(this,'/subscribe/{{p.id}}','subscribe2-{{p.id}}','unsubscribe2-{{p.id}}','d-none')" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)" data-dismiss="modal"><i class="fas fa-eye text-center text-muted mr-2"></i>Subscribe</button>
