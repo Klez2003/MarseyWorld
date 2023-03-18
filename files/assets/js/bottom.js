@@ -190,7 +190,21 @@ document.addEventListener("click", function(e){
 
 
 	if (element.dataset.toggleelement) {
-		document.querySelector(element.dataset.toggleelement).classList.toggle(element.dataset.toggleattr);
+		const toggling = document.querySelector(element.dataset.toggleelement)
+		const attr = element.dataset.toggleattr;
+
+		if (attr == "d-none") {
+			document.querySelectorAll(".toggled-visible").forEach(i => {
+				i.classList.add(attr)
+				i.classList.remove("toggled-visible")
+			});
+		}
+
+		if (toggling.classList.contains(attr)) {
+			toggling.classList.add("toggled-visible")
+		}
+
+		toggling.classList.toggle(attr);
 	}
 });
 
