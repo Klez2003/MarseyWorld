@@ -384,6 +384,7 @@ PROFANITIES = {
 	'vaginas ': 'girl peepees ',
 	'cunt': 'girl peepee',
 	' twat ': ' girl peepee ',
+	'lmao': 'lmbo',
 }
 
 slur_single_words = "|".join([slur.lower() for slur in SLURS.keys()])
