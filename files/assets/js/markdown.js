@@ -81,6 +81,7 @@ function markdown(t) {
 		input = input.replace(/\n/g, '\n\n')
 	input = input.replace(/\|\|(.*?)\|\|/g, '<spoiler>$1</spoiler>')
 	input = input.replace(/(\n|^)>([^ >][^\n]*)/g, '$1<g>\>$2</g>')
+	input = input.replace(/((\s|^)[0-9]+)\. /g, '$1\\. ')
 
 	const emojis = Array.from(input.matchAll(/:([a-z0-9_\-!#@]{1,36}):(?![^`]*`)/gi))
 	if(emojis != null){
