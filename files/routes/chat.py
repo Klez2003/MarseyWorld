@@ -57,7 +57,7 @@ def speak(data, v):
 	if image: text += f'\n\n{image}'
 	if not text: return '', 400
 
-	text_html = sanitize(text, count_marseys=True, chat=True)
+	text_html = sanitize(text, count_emojis=True, chat=True)
 	if isinstance(text_html , tuple):
 		return text_html
 
