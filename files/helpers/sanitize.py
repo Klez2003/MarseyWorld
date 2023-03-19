@@ -546,13 +546,11 @@ def allowed_attributes_emojis(tag, name, value):
 
 
 @with_sigalrm_timeout(1)
-def filter_emojis_only(title, golden=True, count_emojis=False, graceful=False, torture=False):
-	title = title.strip()
-
+def filter_emojis_only(title, golden=True, count_emojis=False, graceful=False, torture=False, strip=True):
 	if torture:
 		title = torture_ap(title, g.v.username)
 
-	title = title.replace('‎','').replace('​','').replace("\ufeff", "").replace("𒐪","").replace("\n", "").replace("\r", "").replace("\t", "").replace('<','&lt;').replace('>','&gt;').replace("﷽","").strip()
+	title = title.replace('‎','').replace('​','').replace("\ufeff", "").replace("𒐪","").replace("\n", "").replace("\r", "").replace("\t", "").replace('<','&lt;').replace('>','&gt;').replace("﷽","")
 
 	emojis_used = set()
 
@@ -565,7 +563,10 @@ def filter_emojis_only(title, golden=True, count_emojis=False, graceful=False, t
 
 	title = strikethrough_regex.sub(r'\1<del>\2</del>', title)
 
-	title = bleach.clean(title, tags=['img','del','span'], attributes=allowed_attributes_emojis, protocols=['http','https']).replace('\n','').strip()
+	title = bleach.clean(title, tags=['img','del','span'], attributes=allowed_attributes_emojis, protocols=['http','https']).replace('\n','')
+
+	if strip:
+		title = title.strip()
 
 	if len(title) > POST_TITLE_HTML_LENGTH_LIMIT and not graceful: abort(400)
 	else: return title

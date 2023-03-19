@@ -524,7 +524,7 @@ def process_poll_options(v:User, target:Union[Submission, Comment]):
 			else:
 				cls = CommentOption
 
-			body_html=filter_emojis_only(body)
+			body_html=filter_emojis_only(body, strip=False) #dont strip cuz ppl sometimes leave spaces before && or after it, which breaks the replacing logic
 
 			existing = g.db.query(cls).filter_by(
 					parent_id=target.id,
