@@ -64,7 +64,9 @@ function toggleReplyBox(id) {
 			text = text.replace(/\n> \n/g,"\n \n")
 			text = text.split('> Reply')[0]
 			if (!text.endsWith('\n')) text += '\n'
-			ta.value = text
+
+			if (ta.value) ta.value += '\n' + text
+			else ta.value = text
 		}
 		ta.focus()
 	}
