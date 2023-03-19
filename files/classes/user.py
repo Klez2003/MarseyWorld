@@ -1041,13 +1041,24 @@ class User(Base):
 
 	@property
 	@lazy
-	def can_see_chudrama(self):
+	def can_see_restricted_holes(self):
+		if self.client: return False
 		if self.blacklisted_by: return False
 		if self.shadowbanned: return False
 		if self.is_suspended_permanently: return False
-		if self.admin_level >= PERMS['VIEW_CHUDRAMA']: return True
-		if self.client: return True
-		if self.truescore >= TRUESCORE_CHUDRAMA_MINIMUM: return True
+
+		if self.admin_level >= PERMS['VIEW_RESTRICTED_HOLES']: return True
+		if self.truescore >= TRUESCORE_RESTRICTED_HOLES_MINIMUM: return True
+
+		return None
+
+
+	@property
+	@lazy
+	def can_see_chudrama(self):
+		if self.can_see_restricted_holes != None:
+			return self.can_see_restricted_holes
+
 		if self.agendaposter: return True
 		if self.patron: return True
 		return False
@@ -1055,12 +1066,11 @@ class User(Base):
 	@property
 	@lazy
 	def can_see_countryclub(self):
-		if self.blacklisted_by: return False
-		if self.shadowbanned: return False
-		if self.is_suspended_permanently: return False
 		if self.agendaposter == 1: return False
-		if self.admin_level >= PERMS['VIEW_CLUB']: return True
-		if self.truescore >= TRUESCORE_CLUB_MINIMUM: return True
+
+		if self.can_see_restricted_holes != None:
+			return self.can_see_restricted_holes
+
 		return False
 
 	@property
