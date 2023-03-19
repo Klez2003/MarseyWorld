@@ -201,7 +201,7 @@ def execute_blackjack(v, target, body, type):
 			send_repeatable_notification(id, f"Blackjack by @{v.username}: {extra_info}")
 	return True
 
-def render_emoji(html, regexp, golden, marseys_used, b=False):
+def render_emoji(html, regexp, golden, emojis_used, b=False):
 	emojis = list(regexp.finditer(html))
 	captured = set()
 
@@ -235,7 +235,7 @@ def render_emoji(html, regexp, golden, marseys_used, b=False):
 
 
 		if emoji_html:
-			marseys_used.add(emoji)
+			emojis_used.add(emoji)
 			html = re.sub(f'(?<!"){i.group(0)}(?![^<]*<\/(code|pre|a)>)', emoji_html, html)
 	return html
 
@@ -324,7 +324,7 @@ def handle_youtube_links(url):
 	return html
 
 @with_sigalrm_timeout(10)
-def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys=False, torture=False, snappy=False, chat=False, blackjack=None):
+def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_emojis=False, torture=False, snappy=False, chat=False, blackjack=None):
 	sanitized = sanitized.strip()
 
 	if blackjack and execute_blackjack(g.v, None, sanitized, blackjack):
@@ -429,7 +429,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 
 	sanitized = spoiler_regex.sub(r'<spoiler>\1</spoiler>', sanitized)
 
-	marseys_used = set()
+	emojis_used = set()
 
 	emojis = list(emoji_regex.finditer(sanitized))
 	if len(emojis) > 20: golden = False
@@ -443,14 +443,14 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 		if 'marseylong1' in old or 'marseylong2' in old or 'marseyllama1' in old or 'marseyllama2' in old: new = old.lower().replace(">", " class='mb-0'>")
 		else: new = old.lower()
 
-		new = render_emoji(new, emoji_regex2, golden, marseys_used, True)
+		new = render_emoji(new, emoji_regex2, golden, emojis_used, True)
 
 		sanitized = sanitized.replace(old, new)
 
 	emojis = list(emoji_regex2.finditer(sanitized))
 	if len(emojis) > 20: golden = False
 
-	sanitized = render_emoji(sanitized, emoji_regex2, golden, marseys_used)
+	sanitized = render_emoji(sanitized, emoji_regex2, golden, emojis_used)
 
 	sanitized = sanitized.replace('&amp;','&')
 
@@ -466,10 +466,10 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_marseys
 	sanitized = video_sub_regex.sub(r'\1<p class="resizable"><video controls preload="none" src="\2"></video></p>', sanitized)
 	sanitized = audio_sub_regex.sub(r'\1<audio controls preload="none" src="\2"></audio>', sanitized)
 
-	if count_marseys:
-		for marsey in g.db.query(Emoji).filter(Emoji.kind=="Marsey", Emoji.submitter_id==None, Emoji.name.in_(marseys_used)).all():
-			marsey.count += 1
-			g.db.add(marsey)
+	if count_emojis:
+		for emoji in g.db.query(Emoji).filter(Emoji.submitter_id==None, Emoji.name.in_(emojis_used)).all():
+			emoji.count += 1
+			g.db.add(emoji)
 
 	sanitized = sanitized.replace('<p></p>', '')
 	sanitized = sanitized.replace('<html><body>','').replace('</body></html>','')
@@ -546,7 +546,7 @@ def allowed_attributes_emojis(tag, name, value):
 
 
 @with_sigalrm_timeout(1)
-def filter_emojis_only(title, golden=True, count_marseys=False, graceful=False, torture=False):
+def filter_emojis_only(title, golden=True, count_emojis=False, graceful=False, torture=False):
 	title = title.strip()
 
 	if torture:
@@ -554,14 +554,14 @@ def filter_emojis_only(title, golden=True, count_marseys=False, graceful=False, 
 
 	title = title.replace('‎','').replace('​','').replace("\ufeff", "").replace("𒐪","").replace("\n", "").replace("\r", "").replace("\t", "").replace('<','&lt;').replace('>','&gt;').replace("﷽","").strip()
 
-	marseys_used = set()
+	emojis_used = set()
 
-	title = render_emoji(title, emoji_regex3, golden, marseys_used)
+	title = render_emoji(title, emoji_regex3, golden, emojis_used)
 
-	if count_marseys:
-		for marsey in g.db.query(Emoji).filter(Emoji.kind=="Marsey", Emoji.submitter_id==None, Emoji.name.in_(marseys_used)).all():
-			marsey.count += 1
-			g.db.add(marsey)
+	if count_emojis:
+		for emoji in g.db.query(Emoji).filter(Emoji.submitter_id==None, Emoji.name.in_(emojis_used)).all():
+			emoji.count += 1
+			g.db.add(emoji)
 
 	title = strikethrough_regex.sub(r'\1<del>\2</del>', title)
 
