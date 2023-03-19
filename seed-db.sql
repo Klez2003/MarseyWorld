@@ -2947,7 +2947,6 @@ INSERT INTO public.emojis (name, kind, author_id, tags, created_utc) VALUES
 ('marseylemon'Marsey',2,'pucker sour lemon fruit citrus tear ',NULL),
 ('marseylenin'Marsey',2,'ussr russia communism socialism marxist commie soviet proletariat marxism marxist leninist leninism revolution bolshevik',NULL),
 ('marseylenny'Marsey',2,'innuendo dirty sex horny emoticon perverted',NULL),
-('marseyletsfuckinggo'Marsey',2,'lfg tennis ball screaming ready',NULL),
 ('marseyletsfuckinggo2'Marsey',2,'hyped screaming shouting yelling',1663161484),
 ('marseylgbtflag'Marsey',2,'pride gay queer',NULL),
 ('marseylgbtflag2'Marsey',2,'pride gay inclusive queer ukraine bipoc',NULL),
