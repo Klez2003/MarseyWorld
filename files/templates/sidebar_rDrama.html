@@ -16,8 +16,8 @@
 
 	{% if request.path != '/sidebar' %}
 		{% if v and (v.is_banned or v.agendaposter) %}
-			<a href="/i/{{SITE_NAME}}/sidebar2.webp">
-				<img class="mb-4" alt="sidebar image" data-nonce="{{g.nonce}}" data-onclick="expandImage()" loading="lazy" src="/i/{{SITE_NAME}}/sidebar2.webp" width=100%>
+			<a href="{{SITE_FULL_IMAGES}}/i/{{SITE_NAME}}/sidebar2.webp">
+				<img class="mb-4" alt="sidebar image" data-nonce="{{g.nonce}}" data-onclick="expandImage()" loading="lazy" src="{{SITE_FULL_IMAGES}}/i/{{SITE_NAME}}/sidebar2.webp" width=100%>
 			</a>
 		{% elif not (sub and sub.name == 'chudrama' and v and not v.can_see_chudrama) %}
 			<a href="{{image}}">

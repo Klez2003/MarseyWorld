@@ -396,7 +396,7 @@ def approve_hat(v, name):
 	ma = ModAction(
 		kind="approve_hat",
 		user_id=v.id,
-		_note=f'<a href="/i/hats/{name}.webp">{name}</a>'
+		_note=f'<a href="{SITE_FULL_IMAGES}/i/hats/{name}.webp">{name}</a>'
 	)
 	g.db.add(ma)
 
@@ -547,7 +547,7 @@ def update_hat(v):
 	ma = ModAction(
 		kind="update_hat",
 		user_id=v.id,
-		_note=f'<a href="/i/hats/{name}.webp">{name}</a>'
+		_note=f'<a href="{SITE_FULL_IMAGES}/i/hats/{name}.webp">{name}</a>'
 	)
 	g.db.add(ma)
 	return render_template("admin/update_assets.html", v=v, msg=f"'{name}' updated successfully!", type="Hat")

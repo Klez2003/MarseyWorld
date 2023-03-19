@@ -295,9 +295,9 @@ class User(Base):
 			if IS_FISTMAS():
 				hat = random.choice(('Santa Hat III', 'Winter Cap', 'Present Bow'))
 				if SITE_NAME == 'rDrama':
-					return (f'/i/hats/{hat}.webp', 'Merry Fistmas!')
+					return (f'{SITE_FULL_IMAGES}/i/hats/{hat}.webp', 'Merry Fistmas!')
 				else:
-					return (f'/i/hats/{hat}.webp', 'Merry Christmas!')
+					return (f'{SITE_FULL_IMAGES}/i/hats/{hat}.webp', 'Merry Christmas!')
 
 			if self.is_cakeday:
 				return ('/i/hats/Cakeday.webp', "I've spent another year rotting my brain with dramaposting, please ridicule me 🤓")
@@ -306,10 +306,10 @@ class User(Base):
 				return ('/i/new-user.webp', "Hi, I'm new here! Please be gentle :)")
 
 			if self.forced_hat:
-				return (f'/i/hats/{self.forced_hat[0]}.webp', self.forced_hat[1])
+				return (f'{SITE_FULL_IMAGES}/i/hats/{self.forced_hat[0]}.webp', self.forced_hat[1])
 
 			if self.equipped_hat:
-				return (f'/i/hats/{self.equipped_hat.name}.webp', self.equipped_hat.name + ' - ' + self.equipped_hat.censored_description(v))
+				return (f'{SITE_FULL_IMAGES}/i/hats/{self.equipped_hat.name}.webp', self.equipped_hat.name + ' - ' + self.equipped_hat.censored_description(v))
 
 		return ('', '')
 
@@ -792,7 +792,7 @@ class User(Base):
 	def banner_url(self):
 		if FEATURES['USERS_PROFILE_BANNER'] and self.bannerurl and self.can_see_my_shit:
 			return self.bannerurl
-		return f"/i/{SITE_NAME}/site_preview.webp?v=3009"
+		return f"{SITE_FULL_IMAGES}/i/{SITE_NAME}/site_preview.webp?v=3009"
 
 	@property
 	@lazy
@@ -804,7 +804,7 @@ class User(Base):
 		if self.profileurl and self.can_see_my_shit:
 			if self.profileurl.startswith('/'): return SITE_FULL + self.profileurl
 			return self.profileurl
-		return f"{SITE_FULL}/i/default-profile-pic.webp?v=1008"
+		return f"{SITE_FULL_IMAGES}/i/default-profile-pic.webp?v=1008"
 
 	@lazy
 	def real_post_count(self, v):

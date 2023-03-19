@@ -34,7 +34,7 @@
 {% if p.award_count("ricardo", v) %}
 	{% for i in range(min(p.award_count("ricardo", v), 3)) %}
 		<div class="ricardo ricardo{{i+1}}">
-			<img loading="lazy" src="/i/ricardo{{i+1}}.webp">
+			<img loading="lazy" src="{{SITE_FULL_IMAGES}}/i/ricardo{{i+1}}.webp">
 		</div>
 	{% endfor %}
 {% endif %}

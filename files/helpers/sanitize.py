@@ -286,7 +286,7 @@ def sanitize_settings_text(sanitized:Optional[str], max_length:Optional[int]=Non
 
 
 chud_images = listdir("files/assets/images/chud")
-chud_images = [f'\n\n{SITE_FULL}/i/chud/{f}' for f in chud_images]
+chud_images = [f'\n\n{SITE_FULL_IMAGES}/i/chud/{f}' for f in chud_images]
 chud_images.extend([':#trumpjaktalking:', ':#reposthorse:'])
 
 def handle_youtube_links(url):
@@ -404,7 +404,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_emojis=
 
 			tag["loading"] = "lazy"
 			tag["data-src"] = tag["src"]
-			tag["src"] = "/i/l.webp"
+			tag["src"] = f"{SITE_FULL_IMAGES}/i/l.webp"
 			tag['alt'] = tag["data-src"]
 			tag['class'] = "img"
 

@@ -40,7 +40,7 @@ def template_asset(ctx, asset_path):
 @app.template_filter("asset_siteimg")
 def template_asset_siteimg(asset_path):
 	# TODO: Add hashing for these using files.helpers.assetcache
-	return f'/i/{SITE_NAME}/{asset_path}?v=3010'
+	return f'{SITE_FULL_IMAGES}/i/{SITE_NAME}/{asset_path}?v=3010'
 
 @app.template_filter("timestamp")
 def timestamp(timestamp):
@@ -144,5 +144,5 @@ def inject_constants():
 			"DEFAULT_CONFIG_VALUE":DEFAULT_CONFIG_VALUE, "IS_LOCALHOST":IS_LOCALHOST, "BACKGROUND_CATEGORIES":BACKGROUND_CATEGORIES, "PAGE_SIZE":PAGE_SIZE, "TAGLINES":TAGLINES, "IS_FISTMAS":IS_FISTMAS, "get_alt_graph":get_alt_graph, "current_registered_users":current_registered_users,
 			"git_head":git_head, "max_days":max_days,
 			"BIO_FRIENDS_ENEMIES_LENGTH_LIMIT":BIO_FRIENDS_ENEMIES_LENGTH_LIMIT,
-			"IMMUNE_TO_AWARDS": IMMUNE_TO_AWARDS,
+			"IMMUNE_TO_AWARDS": IMMUNE_TO_AWARDS, "SITE_FULL_IMAGES": SITE_FULL_IMAGES
 			}

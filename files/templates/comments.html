@@ -159,11 +159,11 @@
 					<span {% if c.distinguish_level %}class="mod {% if SITE_NAME == 'rDrama' %}mod-rdrama{% endif %}"{% endif %}>👻</span>
 				{% else %}
 					{% if FEATURES['PATRON_ICONS'] and c.author.patron %}
-						<img loading="lazy" src="/i/{{SITE_NAME}}/badges/2{{c.author.patron}}.webp?v=1" height="20" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{c.author.patron_tooltip}}" alt="{{c.author.patron_tooltip}}">
+						<img loading="lazy" src="{{SITE_FULL_IMAGES}}/i/{{SITE_NAME}}/badges/2{{c.author.patron}}.webp?v=1" height="20" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{c.author.patron_tooltip}}" alt="{{c.author.patron_tooltip}}">
 					{% endif %}
 
 					{% if FEATURES['HOUSES'] and c.author.house %}
-						<img loading="lazy" src="/i/{{SITE_NAME}}/houses/{{c.author.house}}.webp?v=2000" height="20" data-bs-toggle="tooltip" data-bs-placement="bottom" title="House {{c.author.house}}" alt="House {{c.author.house}}">
+						<img loading="lazy" src="{{SITE_FULL_IMAGES}}/i/{{SITE_NAME}}/houses/{{c.author.house}}.webp?v=2000" height="20" data-bs-toggle="tooltip" data-bs-placement="bottom" title="House {{c.author.house}}" alt="House {{c.author.house}}">
 					{% endif %}
 
 					{% if c.author.verified %}<i class="fas fa-badge-check align-middle ml-1 {% if c.author.verified=='Glowiefied' %}glow{% endif %}" style="color:{% if c.author.verifiedcolor %}#{{c.author.verifiedcolor}}{% else %}#1DA1F2{% endif %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{c.author.verified}}"></i>
@@ -207,17 +207,17 @@
 				{% if c.treasure_amount and c.treasure_amount != '0' %}
 				{% if c.treasure_amount.startswith('l') %}
 				<span class="d-inline-block"> 
-					<img class="treasure" loading="lazy" alt="treasure" src="/i/treasure_tickets.webp" width="20" height="20">
+					<img class="treasure" loading="lazy" alt="treasure" src="{{SITE_FULL_IMAGES}}/i/treasure_tickets.webp" width="20" height="20">
 					<em>Found {{c.treasure_amount.replace('l', '')}} Lottershe Tickets!</em>
 				</span>
 				{% elif '-' in c.treasure_amount %}
 				<span class="d-inline-block"> 
-					<img class="treasure" loading="lazy" alt="treasure" src="/i/treasure_mimic.webp" width="20" height="20">
+					<img class="treasure" loading="lazy" alt="treasure" src="{{SITE_FULL_IMAGES}}/i/treasure_mimic.webp" width="20" height="20">
 					<em>A Mimic Ate {{c.treasure_amount.replace('-', '')}} Coins!</em>
 				</span>
 				{% else %}
 				<span class="d-inline-block"> 
-					<img class="treasure" loading="lazy" alt="treasure" src="/i/treasure_coins.webp" width="20" height="20">
+					<img class="treasure" loading="lazy" alt="treasure" src="{{SITE_FULL_IMAGES}}/i/treasure_coins.webp" width="20" height="20">
 					<em>Found {{c.treasure_amount}} Coins!</em>
 				</span>
 				{% endif %}

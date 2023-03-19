@@ -21,7 +21,7 @@
 	</div>
 
 	<header class="container pb-1 text-center">
-		<img loading="lazy" id="hats-banner" class="mt-5" alt="hats banner" src="/i/hats.webp?v=1" width="50%">
+		<img loading="lazy" id="hats-banner" class="mt-5" alt="hats banner" src="{{SITE_FULL_IMAGES}}/i/hats.webp?v=1" width="50%">
 		<h5 class="mt-4">Number of hats you bought: {{v.num_of_owned_hats}}</h5>
 		<h5 class="mt-4">Number of hats you designed: {{v.num_of_designed_hats}}</h5>
 		<h5 class="mt-4">Coins you spent on hats: {{"{:,}".format(v.coins_spent_on_hats)}}</h5>
@@ -56,7 +56,7 @@
 					<td>
 						<div class="profile-pic-75-wrapper mt-4">
 							<img loading="lazy" alt="avatar" src="{{v.profile_url}}" class="profile-pic-75">
-							<img loading="lazy" alt="{{hat.name}}" class="profile-pic-75-hat" src="/i/hats/{{hat.name}}.webp?h=7">
+							<img loading="lazy" alt="{{hat.name}}" class="profile-pic-75-hat" src="{{SITE_FULL_IMAGES}}/i/hats/{{hat.name}}.webp?h=7">
 						</div>
 					</td>
 					<td>{{hat.name}}</td>
