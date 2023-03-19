@@ -625,8 +625,12 @@ class User(Base):
 				.filter(
 					Notification.read == False,
 					Notification.user_id == self.id,
-					not_(and_(Comment.sentto == MODMAIL_ID, User.is_muted)),
 				))
+
+		if self.admin_level >= PERMS['VIEW_MODMAIL']:
+			notifs = notifs.filter(
+				not_(and_(Comment.sentto != None, Comment.sentto == MODMAIL_ID, User.is_muted))
+			)
 
 		if not self.can_see_shadowbanned:
 			notifs = notifs.filter(

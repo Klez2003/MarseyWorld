@@ -301,11 +301,15 @@ def notifications(v:User):
 			n.read = True
 			g.db.add(n)
 
-	comments = g.db.query(Comment, Notification).join(Notification.comment).join(Comment.author).filter(
+	comments = g.db.query(Comment, Notification).join(Notification.comment).filter(
 		Notification.user_id == v.id,
 		or_(Comment.sentto == None, Comment.sentto != v.id),
-		not_(and_(Comment.sentto == MODMAIL_ID, User.is_muted)),
 	)
+
+	if v.admin_level >= PERMS['VIEW_MODMAIL']:
+		comments = comments.join(Comment.author).filter(
+			not_(and_(Comment.sentto != None, Comment.sentto == MODMAIL_ID, User.is_muted))
+		)
 
 	if v.admin_level < PERMS['USER_SHADOWBAN']:
 		comments = comments.filter(
