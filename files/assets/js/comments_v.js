@@ -60,9 +60,10 @@ function toggleReplyBox(id) {
 		if (text)
 		{
 			text = '> ' + text
-			text = text.replace(/\n/g,"\n> ").replace(/\*/g,"\\*")
+			text = text.replace(/\n/g,"\n> ")
 			text = text.replace(/\n> \n/g,"\n \n")
 			text = text.split('> Reply')[0]
+			text = text.replace(/\*/g,"\\*")
 
 			if (!t.value.endsWith('\n')) ta.value += '\n'
 			ta.value += text
