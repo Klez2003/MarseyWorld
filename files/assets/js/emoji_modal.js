@@ -38,6 +38,8 @@ const favorite_emojis = JSON.parse(localStorage.getItem("favorite_emojis")) || {
 /** Associative array of all the emojis' DOM */
 let emojiDOMs = {};
 
+let globalEmojis;
+
 const EMOIJ_SEARCH_ENGINE_MIN_INTERVAL = 350;
 let emojiSearcher = {
 	working: false,
@@ -141,10 +143,12 @@ const emojisSearchDictionary = {
 const emojiRequest = new XMLHttpRequest();
 emojiRequest.open("GET", '/emojis.csv');
 emojiRequest.setRequestHeader('xhr', 'xhr');
-emojiRequest.onload = async (e) => {
+emojiRequest.onload = async () => {
 	let emojis = JSON.parse(emojiRequest.response);
 	if(! (emojis instanceof Array ))
 		throw new TypeError("[EMOJI DIALOG] rDrama's server should have sent a JSON-coded Array!");
+
+	globalEmojis = emojis.map(i => i.name);
 
 	let classes = new Set();
 	const bussyDOM = document.createElement("div");
@@ -430,7 +434,11 @@ function update_speed_emoji_modal(event)
 		speed_carot_modal.style.top = modal_pos.y + box_coords.y + 14 + "px";
 
 		// Do the search (and do something with it)
-		populate_speed_emoji_modal(emojisSearchDictionary.completeSearch(current_word.substr(1).replace(/#/g, "").replace(/!/g, "")), event.target);
+		const resultSet = emojisSearchDictionary.completeSearch(current_word.substr(1).replace(/#/g, "").replace(/!/g, ""))
+
+		const found = globalEmojis.filter(value => resultSet.has(value));
+
+		populate_speed_emoji_modal(found, event.target);
 
 	}
 	else {
