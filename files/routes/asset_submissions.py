@@ -180,10 +180,11 @@ def approve_emoji(v, name):
 			badge_grant(badge_id=112, user=author)
 	
 
+	cache.delete(EMOJIS_CACHE_KEY)
 	if emoji.kind == "Marsey":
 		cache.delete(MARSEYS_CACHE_KEY)
 
-	purge_files_in_cache([f"https://{SITE}/e/{emoji.name}/webp", f"https://{SITE}/emojis.csv"])
+	purge_files_in_cache(f"https://{SITE}/e/{emoji.name}/webp")
 
 	move(f"/asset_submissions/marseys/{name}.webp", f"files/assets/images/emojis/{emoji.name}.webp")
 

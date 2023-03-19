@@ -75,6 +75,7 @@ LOGGED_IN_CACHE_KEY = f"{SITE}_loggedin"
 LOGGED_OUT_CACHE_KEY = f"{SITE}_loggedout"
 CHAT_ONLINE_CACHE_KEY = f"{SITE}_online"
 REDDIT_NOTIFS_CACHE_KEY = "reddit_notifications"
+EMOJIS_CACHE_KEY = "emojis"
 MARSEYS_CACHE_KEY = "marseys"
 
 SESSION_LIFETIME = 60 * 60 * 24 * 365

@@ -70,16 +70,24 @@ def marseys(v:User):
 				break
 	return render_template("marseys.html", v=v, marseys=marseys)
 
-@app.get("/emojis.csv")
-@limiter.limit(DEFAULT_RATELIMIT)
-def emoji_list():
-	emojis = []
 
+
+@cache.cached(key_prefix=EMOJIS_CACHE_KEY)
+def get_emojis():
+	emojis = []
 	for emoji, author in g.db.query(Emoji, User).join(User, Emoji.author_id == User.id).filter(Emoji.submitter_id == None).order_by(Emoji.count.desc()):
 		emoji.author = author.username if FEATURES['ASSET_SUBMISSIONS'] else None
 		emojis.append(emoji.json())
-
 	return emojis
+
+@app.get("/emojis")
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@auth_required
+def emoji_list(v):
+	return get_emojis()
+
+
 
 @app.get('/sidebar')
 @limiter.limit(DEFAULT_RATELIMIT)
