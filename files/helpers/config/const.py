@@ -321,6 +321,7 @@ if SITE_NAME == 'rDrama':
 		'serverfault.com',
 		'superuser.com',
 		'goodreads.com',
+		'9gag.com',
 	}
 
 	BOOSTED_HOLES = {
