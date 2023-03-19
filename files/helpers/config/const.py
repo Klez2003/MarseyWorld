@@ -244,6 +244,7 @@ if SITE_NAME == 'rDrama':
 		'neogaf.com',
 		'thebore.com',
 		'itjustbugsme.com',
+		'breached.vc',
 
 		#twitter-like
 		'gab.com',
