@@ -305,7 +305,7 @@ def award_thing(v, thing_type, id):
 		if author.agendaposter and time.time() < author.agendaposter: author.agendaposter += 86400
 		else: author.agendaposter = int(time.time()) + 86400
 
-		agendaposter_phrase = request.values.get("agendaposter_phrase")
+		agendaposter_phrase = request.values.get("agendaposter_phrase").lower()
 		if not agendaposter_phrase: abort(400)
 		agendaposter_phrase = agendaposter_phrase.strip()
 		if not agendaposter_phrase: abort(400)
