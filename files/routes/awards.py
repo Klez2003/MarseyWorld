@@ -306,9 +306,13 @@ def award_thing(v, thing_type, id):
 		else: author.agendaposter = int(time.time()) + 86400
 
 		agendaposter_phrase = request.values.get("agendaposter_phrase").lower()
-		if not agendaposter_phrase: abort(400)
+		if not agendaposter_phrase: abort(400, "Missing phrase!")
+
 		agendaposter_phrase = agendaposter_phrase.strip()
-		if not agendaposter_phrase: abort(400)
+		if not agendaposter_phrase: abort(400, "Missing phrase!")
+
+		if len(agendaposter_phrase) > 100:
+			 abort(400, "Max length for phrase is 100 characters")
 
 		author.agendaposter_phrase = agendaposter_phrase
 
