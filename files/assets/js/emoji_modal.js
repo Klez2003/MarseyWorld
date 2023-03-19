@@ -150,7 +150,8 @@ emojiRequest.onload = async () => {
 
 	globalEmojis = emojis.map(({name, author, count}) => ({name, author, count}));
 
-	let classes = new Set();
+	let classes = ["Marsey", "Platy", "Wolf", "Tay", "Marsey Flags", "Marsey Alphabet", "Classic", "Rage", "Wojak", "Misc"]
+
 	const bussyDOM = document.createElement("div");
 
 	for(let i = 0; i < emojis.length; i++)
@@ -164,8 +165,6 @@ emojiRequest.onload = async () => {
 		if(emoji.tags instanceof Array)
 			for(let i = 0; i < emoji.tags.length; i++)
 				emojisSearchDictionary.updateTag(emoji.tags[i], emoji.name);
-
-		classes.add(emoji.kind);
 
 		// Create emoji DOM
 		const emojiDOM = document.importNode(emojiButtonTemplateDOM.content, true).children[0];
