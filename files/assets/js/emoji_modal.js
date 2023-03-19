@@ -361,7 +361,7 @@ function populate_speed_emoji_modal(results, textbox)
 	let i = 0;
 	for (let emoji of results)
 	{
-		const name = emoji.name
+		let name = emoji.name
 
 		if (i++ > MAXXX) return i;
 		let emoji_option = document.createElement("div");
