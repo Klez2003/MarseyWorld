@@ -297,6 +297,7 @@ if SITE_NAME == 'rDrama':
 		'livefilter.com',
 		'lesswrong.com',
 		'forum.porpl.net',
+		'ifunny.co',
 
 		#misc
 		'quora.com',
