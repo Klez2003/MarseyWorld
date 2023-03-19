@@ -232,7 +232,7 @@ def comment(v:User):
 	torture = (v.agendaposter and not v.marseyawarded and not (posting_to_submission and post_target.sub == 'chudrama') and post_target.id not in ADMIGGER_THREADS)
 	body_html = sanitize(body_for_sanitize, limit_pings=5, count_emojis=not v.marsify, torture=torture)
 
-	if post_target.id not in ADMIGGER_THREADS and '!wordle' not in body.lower() and AGENDAPOSTER_PHRASE not in body.lower():
+	if post_target.id not in ADMIGGER_THREADS and '!wordle' not in body.lower() and v.agendaposter_phrase not in body.lower():
 		existing = g.db.query(Comment.id).filter(
 			Comment.author_id == v.id,
 			Comment.deleted_utc == 0,
@@ -278,13 +278,13 @@ def comment(v:User):
 	if c.level == 1: c.top_comment_id = c.id
 	else: c.top_comment_id = parent.top_comment_id
 
-	if post_target.id not in ADMIGGER_THREADS and v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in c.body.lower() and not (posting_to_submission and post_target.sub == 'chudrama'):
+	if post_target.id not in ADMIGGER_THREADS and v.agendaposter and not v.marseyawarded and v.agendaposter_phrase not in c.body.lower() and not (posting_to_submission and post_target.sub == 'chudrama'):
 		c.is_banned = True
 		c.ban_reason = "AutoJanny"
 		g.db.add(c)
 
-		body = AGENDAPOSTER_MSG.format(username=v.username, type='comment', AGENDAPOSTER_PHRASE=AGENDAPOSTER_PHRASE)
-		body_jannied_html = AGENDAPOSTER_MSG_HTML.format(id=v.id, username=v.username, type='comment', AGENDAPOSTER_PHRASE=AGENDAPOSTER_PHRASE)
+		body = AGENDAPOSTER_MSG.format(username=v.username, type='comment', AGENDAPOSTER_PHRASE=v.agendaposter_phrase)
+		body_jannied_html = AGENDAPOSTER_MSG_HTML.format(id=v.id, username=v.username, type='comment', AGENDAPOSTER_PHRASE=v.agendaposter_phrase)
 
 		c_jannied = Comment(author_id=AUTOJANNY_ID,
 			parent_submission=post_target.id if posting_to_submission else None,
@@ -673,8 +673,8 @@ def edit_comment(cid, v):
 		execute_blackjack(v, c, c.body, "comment")
 		execute_under_siege(v, c, c.body, "comment")
 
-		if not (c.parent_submission and c.post.id in ADMIGGER_THREADS) and v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in c.body.lower() and not (c.parent_submission and c.post.sub == 'chudrama'):
-			abort(403, f'You have to include "{AGENDAPOSTER_PHRASE}" in your comment!')
+		if not (c.parent_submission and c.post.id in ADMIGGER_THREADS) and v.agendaposter and not v.marseyawarded and v.agendaposter_phrase not in c.body.lower() and not (c.parent_submission and c.post.sub == 'chudrama'):
+			abort(403, f'You have to include "{v.agendaposter_phrase}" in your comment!')
 
 
 		if int(time.time()) - c.created_utc > 60 * 3: c.edited_utc = int(time.time())

@@ -658,13 +658,13 @@ def submit_post(v:User, sub=None):
 				for x in notify_users:
 					add_notif(cid, x, text, pushnotif_url=p.permalink)
 
-	if v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in f'{p.body}{p.title}'.lower() and sub != 'chudrama':
+	if v.agendaposter and not v.marseyawarded and v.agendaposter_phrase not in f'{p.body}{p.title}'.lower() and sub != 'chudrama':
 		p.is_banned = True
 		p.ban_reason = "AutoJanny"
 
-		body = AGENDAPOSTER_MSG.format(username=v.username, type='post', AGENDAPOSTER_PHRASE=AGENDAPOSTER_PHRASE)
+		body = AGENDAPOSTER_MSG.format(username=v.username, type='post', AGENDAPOSTER_PHRASE=v.agendaposter_phrase)
 
-		body_jannied_html = AGENDAPOSTER_MSG_HTML.format(id=v.id, username=v.username, type='post', AGENDAPOSTER_PHRASE=AGENDAPOSTER_PHRASE)
+		body_jannied_html = AGENDAPOSTER_MSG_HTML.format(id=v.id, username=v.username, type='post', AGENDAPOSTER_PHRASE=v.agendaposter_phrase)
 
 
 		c_jannied = Comment(author_id=AUTOJANNY_ID,
@@ -1043,8 +1043,8 @@ def edit_post(pid, v):
 
 		p.body_html = body_html
 
-		if v.id == p.author_id and v.agendaposter and not v.marseyawarded and AGENDAPOSTER_PHRASE not in f'{p.body}{p.title}'.lower() and p.sub != 'chudrama':
-			abort(403, f'You have to include "{AGENDAPOSTER_PHRASE}" in your post!')
+		if v.id == p.author_id and v.agendaposter and not v.marseyawarded and v.agendaposter_phrase not in f'{p.body}{p.title}'.lower() and p.sub != 'chudrama':
+			abort(403, f'You have to include "{v.agendaposter_phrase}" in your post!')
 
 
 	if v.id == p.author_id:

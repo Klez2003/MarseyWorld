@@ -37,8 +37,24 @@
 						{{iterate_awards(v.awards_author_effect)}}
 					</div>
 				</div>
-				<label id="notelabel" for="note" class="pt-4">Note (optional):</label>
 				<input autocomplete="off" id="kind" hidden>
+
+				{% set CHUD_PHRASES = ["Trans lives matter", "Black lives matter", "Black trans lives matter"] %}
+				<div id="phrase_section" class="d-none">
+					<label for="note" class="pt-4">The phrase the recipient will have to say:</label>
+
+					<div class="input-group">
+						<select autocomplete="off" id='agendaposter_phrase' class="form-control">
+							{% for entry in CHUD_PHRASES %}
+								<option value="{{entry}}">
+									{{entry}}
+								</option>
+							{% endfor %}
+						</select>
+					</div>
+				</div>
+
+				<label id="notelabel" for="note" class="pt-4">Note (optional):</label>
 				<textarea autocomplete="off" id="note" maxlength="200" class="form-control" placeholder="Note to include in award notification..."></textarea>
 
 				<input autocomplete="off" id="giveaward" class="awardbtn btn btn-primary mt-3 fl-r" type="submit" data-nonce="{{g.nonce}}" data-onclick="giveaward(this)" value="Give Award" data-bs-dismiss="modal" disabled>

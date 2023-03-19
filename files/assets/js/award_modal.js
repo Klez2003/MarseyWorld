@@ -119,6 +119,14 @@ function pick(kind, price, coins, marseybux) {
 		document.getElementsByClassName('picked')[0].classList.toggle('picked');
 	}
 	document.getElementById(kind).classList.toggle('picked')
+
+	if (kind == "agendaposter") {
+		document.getElementById('phrase_section').classList.remove("d-none")
+	}
+	else {
+		document.getElementById('phrase_section').classList.add("d-none")
+	}
+
 	if (kind == "flairlock") {
 		document.getElementById('notelabel').innerHTML = "New flair:";
 		document.getElementById('note').placeholder = "Insert new flair here, or leave empty to add 1 day to the duration of the current flair. 100 characters max.";
@@ -162,11 +170,17 @@ function buy(mb) {
 
 function giveaward(t) {
 	const kind = document.getElementById('kind').value;
+
+	const values = {
+			"kind": kind,
+			"note": document.getElementById('note').value
+		}
+	
+	if (kind == "agendaposter")
+		values["agendaposter_phrase"] = document.getElementById('agendaposter_phrase').value
+
 	postToast(t, t.dataset.action,
-		{
-		"kind": kind,
-		"note": document.getElementById('note').value
-		},
+		values,
 		() => {
 			let owned = document.getElementById(`${kind}-owned`)
 			let ownednum = Number(owned.textContent) - 1;

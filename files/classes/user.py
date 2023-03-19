@@ -95,6 +95,7 @@ class User(Base):
 	coins_spent_on_hats = Column(Integer, default=0)
 	lootboxes_bought = Column(Integer, default=0)
 	agendaposter = Column(Integer, default=0)
+	agendaposter_phrase = Column(String)
 	is_activated = Column(Boolean, default=False)
 	shadowbanned = Column(Integer, ForeignKey("users.id"))
 	chudded_by = Column(Integer, ForeignKey("users.id"))

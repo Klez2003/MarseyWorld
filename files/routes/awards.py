@@ -305,6 +305,13 @@ def award_thing(v, thing_type, id):
 		if author.agendaposter and time.time() < author.agendaposter: author.agendaposter += 86400
 		else: author.agendaposter = int(time.time()) + 86400
 
+		agendaposter_phrase = request.values.get("agendaposter_phrase")
+		if not agendaposter_phrase: abort(400)
+		agendaposter_phrase = agendaposter_phrase.strip()
+		if not agendaposter_phrase: abort(400)
+
+		author.agendaposter_phrase = agendaposter_phrase
+
 		badge_grant(user=author, badge_id=28)
 	elif kind == "flairlock":
 		new_name = note[:100].replace("𒐪","").replace("﷽","").strip()
