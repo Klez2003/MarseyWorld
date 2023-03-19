@@ -148,7 +148,7 @@ emojiRequest.onload = async () => {
 	if(! (emojis instanceof Array ))
 		throw new TypeError("[EMOJI DIALOG] rDrama's server should have sent a JSON-coded Array!");
 
-	globalEmojis = emojis.map(i => i.name);
+	globalEmojis = emojis.map(({name, author, count}) => ({name, author, count}));
 
 	let classes = new Set();
 	const bussyDOM = document.createElement("div");
@@ -360,8 +360,10 @@ function populate_speed_emoji_modal(results, textbox)
 	const MAXXX = 25;
 	// Not sure why the results is a Set... but oh well
 	let i = 0;
-	for (let result of results)
+	for (let emoji of results)
 	{
+		const name = emoji.name
+
 		if (i++ > MAXXX) return i;
 		let emoji_option = document.createElement("div");
 		emoji_option.className = "speed-modal-option emoji-option " + (i === 1 ? "selected" : "");
@@ -369,18 +371,26 @@ function populate_speed_emoji_modal(results, textbox)
 		let emoji_option_img = document.createElement("img");
 		emoji_option_img.className = "speed-modal-image emoji-option-image";
 		// This is a bit
-		emoji_option_img.src = `/e/${result}.webp`;
+		emoji_option_img.src = `/e/${name}.webp`;
 		let emoji_option_text = document.createElement("span");
-		emoji_option_text.title = result;
-		emoji_option_text.innerText = result;
 
-		if (current_word.includes("#")) result = `#${result}`
-		if (current_word.includes("!")) result = `!${result}`
+		emoji_option_text.title = name;
+
+		if(emoji.author !== undefined && emoji.author !== null)
+			emoji_option_text.title += "\nauthor\t" + emoji.author
+		
+		if(emoji.count !== undefined)
+			emoji_option_text.title += "\nused\t" + emoji.count;
+
+		emoji_option_text.innerText = name;
+
+		if (current_word.includes("#")) name = `#${name}`
+		if (current_word.includes("!")) name = `!${name}`
 
 		emoji_option.addEventListener('click', () => {
 			selecting = false;
 			speed_carot_modal.style.display = "none";
-			textbox.value = textbox.value.replace(new RegExp(current_word+"(?=\\s|$)", "g"), `:${result}: `)
+			textbox.value = textbox.value.replace(new RegExp(current_word+"(?=\\s|$)", "g"), `:${name}: `)
 			textbox.focus()
 			if (document.location.pathname != '/chat'){
 				markdown(textbox)
@@ -436,7 +446,7 @@ function update_speed_emoji_modal(event)
 		// Do the search (and do something with it)
 		const resultSet = emojisSearchDictionary.completeSearch(current_word.substr(1).replace(/#/g, "").replace(/!/g, ""))
 
-		const found = globalEmojis.filter(value => resultSet.has(value));
+		const found = globalEmojis.filter(i => resultSet.has(i.name));
 
 		populate_speed_emoji_modal(found, event.target);
 
