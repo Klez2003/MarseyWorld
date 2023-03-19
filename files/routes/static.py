@@ -73,13 +73,13 @@ def marseys(v:User):
 @app.get("/emojis.csv")
 @limiter.limit(DEFAULT_RATELIMIT)
 def emoji_list():
-	marseys = []
+	emojis = []
 
-	for marsey, author in g.db.query(Emoji, User).join(User, Emoji.author_id == User.id).filter(Emoji.submitter_id == None).order_by(Emoji.count.desc()):
-		marsey.author = author.username if FEATURES['ASSET_SUBMISSIONS'] else None
-		marseys.append(marsey.json())
+	for emoji, author in g.db.query(Emoji, User).join(User, Emoji.author_id == User.id).filter(Emoji.submitter_id == None).order_by(Emoji.count.desc()):
+		emoji.author = author.username if FEATURES['ASSET_SUBMISSIONS'] else None
+		emojis.append(emoji.json())
 
-	return marseys
+	return emojis
 
 @app.get('/sidebar')
 @limiter.limit(DEFAULT_RATELIMIT)
