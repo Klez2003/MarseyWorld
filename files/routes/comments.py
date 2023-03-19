@@ -232,7 +232,7 @@ def comment(v:User):
 	torture = (v.agendaposter and not v.marseyawarded and not (posting_to_submission and post_target.sub == 'chudrama') and post_target.id not in ADMIGGER_THREADS)
 	body_html = sanitize(body_for_sanitize, limit_pings=5, count_emojis=not v.marsify, torture=torture)
 
-	if post_target.id not in ADMIGGER_THREADS and '!wordle' not in body.lower() and v.agendaposter_phrase not in body.lower():
+	if post_target.id not in ADMIGGER_THREADS and '!wordle' not in body.lower() and not (v.agendaposter and v.agendaposter_phrase in body.lower()):
 		existing = g.db.query(Comment.id).filter(
 			Comment.author_id == v.id,
 			Comment.deleted_utc == 0,
