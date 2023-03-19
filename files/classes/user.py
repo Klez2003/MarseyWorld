@@ -350,7 +350,7 @@ class User(Base):
 	def all_blocks(self):
 		stealth = set([x[0] for x in g.db.query(Sub.name).filter_by(stealth=True).all()])
 		stealth = stealth - set([x[0] for x in g.db.query(SubJoin.sub).filter_by(user_id=self.id).all()])
-		if self.agendaposter: stealth = stealth - {'chudrama'}
+		if self.agendaposter == 1: stealth = stealth - {'chudrama'}
 
 		return list(stealth) + [x[0] for x in g.db.query(SubBlock.sub).filter_by(user_id=self.id).all()]
 
