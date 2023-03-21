@@ -28,7 +28,7 @@
 							<label for="theme">Website Theme</label>
 						</div>
 						<div class="body w-lg-100">
-							<div class="input-group mb2">
+							<div class="input-group">
 								<select autocomplete="off" id='theme' class="form-control setting_select" form="profile-settings" name="theme" data-nonce="{{g.nonce}}" data-reload="1">
 									{% for entry in THEMES %}
 										<option value="{{entry}}" {% if v.theme==entry %} selected {% endif %}>
@@ -46,7 +46,7 @@
 						</div>
 							<div class="body w-lg-100">
 								<p>Change the background for the website.</p>
-								<div class="input-group mb2">
+								<div class="input-group">
 									<select autocomplete="off" id='backgroundSelector' class="form-control" form="profile-settings" name="background" data-nonce="{{g.nonce}}" data-onchange="updatebgselection();">
 									{% for entry in BACKGROUND_CATEGORIES %}
 										<option value="{{entry}}" {% if v.background and v.background.startswith(entry) %}selected{% endif %}>
@@ -99,7 +99,7 @@
 									{% set cost = HOUSE_JOIN_COST %}
 									<p>Join a house (cost: {{cost}} coins or marseybux).</p>
 								{% endif %}
-								<div class="input-group mb2">
+								<div class="input-group">
 									<select {% if cost > v.coins + v.marseybux or v.bite %}disabled{% endif %} autocomplete="off" id='house' class="form-control setting_select" form="profile-settings" name="house" data-nonce="{{g.nonce}}" data-reload="1">
 										{% for entry in HOUSES %}
 											<option value="{{entry}}" {% if v.house.startswith(entry) %} selected {% endif %}>

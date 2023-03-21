@@ -20,7 +20,7 @@
 										<div class="body">
 												<input hidden name="formkey" value="{{v|formkey}}">
 												<label class='mt-4' for="title">{{HOLE_NAME|capitalize}}</label>
-												<div class="input-group mb2">
+												<div class="input-group">
 													{%- set hole_placeholder = 'Required' if HOLE_REQUIRED else 'Optional' -%}
 													<input list="subs" autocomplete="off" id='sub' class="form-control" form="submitform" name="sub" data-nonce="{{g.nonce}}" data-oninput="savetext()" {% if sub %}value="{{sub}}"{% endif %} placeholder="{{hole_placeholder}}" {% if HOLE_REQUIRED %}required{% endif %}>
 													<datalist id="subs">
