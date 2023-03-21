@@ -225,6 +225,25 @@ if SITE_NAME == 'rDrama':
 		'soyjak.party',
 		'crystal.cafe',
 
+		#twitter-like
+		'gab.com',
+		'gettr.com',
+		'parler.com',
+		'truthsocial.com',
+		'blacktwitterapp.com',
+		'rdrama.cc',
+		'marsey.club',
+		'kiwifarms.cc',
+		'freespeechextremist.com'
+		'mstdn.social',
+		'mastodon.social',
+		'mastodon.online',
+		'poa.st',
+		'shitposter.club',
+		'sneed.social',
+		'seal.cafe',
+		'trp.red',
+
 		#forums
 		'kiwifarms.net',
 		'onionfarms.com',
@@ -250,25 +269,7 @@ if SITE_NAME == 'rDrama':
 		'thebore.com',
 		'itjustbugsme.com',
 		'breached.vc',
-
-		#twitter-like
-		'gab.com',
-		'gettr.com',
-		'parler.com',
-		'truthsocial.com',
-		'blacktwitterapp.com',
-		'rdrama.cc',
-		'marsey.club',
-		'kiwifarms.cc',
-		'freespeechextremist.com'
-		'mstdn.social',
-		'mastodon.social',
-		'mastodon.online',
-		'poa.st',
-		'shitposter.club',
-		'sneed.social',
-		'seal.cafe',
-		'trp.red',
+		'community.myfitnesspal.com',
 
 		#nested-comments
 		SITE,
