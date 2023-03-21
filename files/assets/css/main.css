@@ -4909,7 +4909,7 @@ ul.comment-section {
 	left: calc(-2.25rem + 2px);
 	width: calc(1.5rem - 4px);
 	height: calc(1.5rem - 4px);
-	background-color: var(--light);
+	background-color: #000;
 	border-radius: 2rem;
 	transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-transform 0.15s ease-in-out;
 	transition: transform 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
