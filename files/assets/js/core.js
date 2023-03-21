@@ -266,15 +266,21 @@ function timestamp(t, ti) {
 };
 
 function areyousure(t) {
-	if (t.value)
+	if (t.value) {
+		t.dataset.oldvalue = t.value
 		t.value = 'Are you sure?'
-	else
+	}
+	else {
+		t.dataset.oldhtml = t.innerHTML
 		t.innerHTML = t.innerHTML.replace(t.textContent, 'Are you sure?')
+	}
 
 	t.setAttribute("data-onclick", t.dataset.areyousure);
 
 	if (t.dataset.dismiss)
 		t.setAttribute("data-bs-dismiss", t.dataset.dismiss);
+
+	t.classList.add('areyousure')
 }
 
 function prepare_to_pause(audio) {

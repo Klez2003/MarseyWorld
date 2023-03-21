@@ -203,6 +203,22 @@ document.addEventListener("click", function(e){
 
 		toggling.classList.toggle(attr);
 	}
+
+	if (!element.classList.contains("areyousure")) {
+		document.querySelectorAll(".areyousure").forEach(i => {
+			i.classList.remove("areyousure")
+			
+			if (i.dataset.oldvalue)
+				i.value = i.dataset.oldvalue
+			else
+				i.innerHTML = i.dataset.oldhtml
+
+			i.setAttribute("data-onclick", "areyousure(this)");
+			
+			if (i.dataset.dismiss)
+				i.removeAttribute("data-bs-dismiss")
+		});
+	}
 });
 
 const inputs = document.querySelectorAll('input[type="number"]')
