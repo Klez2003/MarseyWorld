@@ -187,6 +187,10 @@ def move_post(post:Submission, v:User, reason:str) -> Union[bool, str]:
 	post.hole_pinned = None
 	g.db.add(post)
 
+	if sub_to == 'chudrama':
+		post.bannedfor = None
+		post.chuddedfor = None
+
 	if v.id != post.author_id:
 		sub_from_str = 'main feed' if sub_from is None else \
 			f'<a href="/h/{sub_from}">/h/{sub_from}</a>'
@@ -201,9 +205,6 @@ def move_post(post:Submission, v:User, reason:str) -> Union[bool, str]:
 				_note=f'{sub_from_str} → {sub_to_str}',
 			)
 			g.db.add(ma)
-
-			if sub_to == 'chudrama':
-				post.bannedfor = None
 		else:
 			ma = SubAction(
 				sub=sub_from,
