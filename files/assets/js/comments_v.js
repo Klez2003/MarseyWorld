@@ -52,25 +52,22 @@ function getSelectionTextHtml() {
 function toggleReplyBox(id) {
 	const element = document.getElementById(id);
 	const ta = element.getElementsByTagName('textarea')[0]
-	element.classList.toggle('d-none')
+	element.classList.remove('d-none')
 
-	if (!element.classList.contains('d-none'))
+	let text = getSelection().toString().trim()
+	if (text)
 	{
-		let text = getSelection().toString().trim()
-		if (text)
-		{
-			text = '> ' + text
-			text = text.replace(/\n/g,"\n> ")
-			text = text.replace(/\n> \n/g,"\n \n")
-			text = text.split('> Reply')[0]
-			text = text.replace(/\*/g,"\\*")
+		text = '> ' + text
+		text = text.replace(/\n/g,"\n> ")
+		text = text.replace(/\n> \n/g,"\n \n")
+		text = text.split('> Reply')[0]
+		text = text.replace(/\*/g,"\\*")
 
-			if (ta.value && !ta.value.endsWith('\n')) ta.value += '\n'
-			ta.value += text
-			if (!ta.value.endsWith('\n')) ta.value += '\n'
-		}
-		ta.focus()
+		if (ta.value && !ta.value.endsWith('\n')) ta.value += '\n'
+		ta.value += text
+		if (!ta.value.endsWith('\n')) ta.value += '\n'
 	}
+	ta.focus()
 
 	autoExpand(ta);
 }
