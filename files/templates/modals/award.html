@@ -22,7 +22,7 @@
 					{% macro iterate_awards(awards) %}
 						{% for award in awards %}
 							{% set price = (award.price*v.discount)|int %}
-							<div data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{price}} coins/marseybux - {{award.description}}" id="{{award.kind}}" data-nonce="{{g.nonce}}" data-onclick="pick('{{award.kind}}', {{price}}, {{v.coins}}, {{v.marseybux}})">
+							<div data-bs-toggle="tooltip" data-bs-placement="bottom" title="Price: {{price}} coins/marseybux - {{award.description}}" id="{{award.kind}}" data-nonce="{{g.nonce}}" data-onclick="pick('{{award.kind}}', {{price}}, {{v.coins}}, {{v.marseybux}})">
 								<i class="{{award.icon}} {{award.color}}"></i>
 								<div class="pt-1 award-name">{{award.title}}</div>
 								<div class="text-muted award-owned"><span id="{{award.kind}}-owned">{{award.owned}}</span> owned</div>
@@ -81,6 +81,10 @@
 				<button type="button" id="buy1" class="awardbtn btn btn-primary mt-3 mx-3 {% if not FEATURES['MARSEYBUX'] %}d-none{% endif %} fl-r" disabled data-areyousure="buy(true)" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)">Buy with marseybux</button>
 
 				<button type="button" id="buy2" class="awardbtn btn btn-primary mt-3 fl-r" disabled data-areyousure="buy()" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)">Buy</button>
+
+				<div id="award_price_block" class="fl-r mt-4 mr-3 d-none text-small-sm">
+					Price: <span id="award_price"></span> coins/marseybux
+				</div>
 			</div>
 		</div>
 	</div>

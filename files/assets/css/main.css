@@ -3542,6 +3542,13 @@ pre {
 .text-small {
 	font-size: 12px !important;
 }
+
+@media (max-width: 768px) {
+	.text-small-sm {
+		font-size: 12px !important;
+	}
+}
+
 .text-small-extra {
 	font-size: 10.1px !important;
 }

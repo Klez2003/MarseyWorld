@@ -139,6 +139,9 @@ function pick(kind, price, coins, marseybux) {
 		document.getElementById('note').placeholder = "Note to include in award notification";
 		document.getElementById('note').maxLength = 200;
 	}
+
+	document.getElementById('award_price_block').classList.remove('d-none');
+	document.getElementById('award_price').textContent = price;
 }
 
 function buy(mb) {
