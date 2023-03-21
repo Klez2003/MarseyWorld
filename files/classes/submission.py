@@ -164,7 +164,7 @@ class Submission(Base):
 			return f"{SITE_FULL_IMAGES}/i/default_thumb_video.webp?x=1"
 		elif self.is_audio:
 			return f"{SITE_FULL_IMAGES}/i/default_thumb_audio.webp?x=1"
-		elif self.domain in {SITE, BAN_EVASION_DOMAIN}:
+		elif self.domain == SITE:
 			return f"{SITE_FULL_IMAGES}/i/{SITE_NAME}/site_preview.webp?x=1"
 		else:
 			return f"{SITE_FULL_IMAGES}/i/default_thumb_link.webp?x=1"

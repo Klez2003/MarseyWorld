@@ -579,8 +579,6 @@ def submit_post(v:User, sub=None):
 
 	if url and url.startswith(SITE_FULL):
 		url = url.split(SITE_FULL)[1]
-	elif url.startswith(BAN_EVASION_FULL):
-		url = url.split(BAN_EVASION_FULL, 1)[1]
 
 	p = Submission(
 		private=flag_private,
@@ -644,7 +642,7 @@ def submit_post(v:User, sub=None):
 		else:
 			abort(415)
 
-	if not p.thumburl and p.url and p.domain not in {SITE, BAN_EVASION_DOMAIN}:
+	if not p.thumburl and p.url and p.domain != SITE:
 		gevent.spawn(thumbnail_thread, p.id, v.id)
 
 	if not p.private:

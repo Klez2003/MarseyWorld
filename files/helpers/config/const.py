@@ -127,9 +127,6 @@ SLURS = {
 	"hunter2": "*******",
 }
 
-BAN_EVASION_DOMAIN = 'stupidpol.site'
-BAN_EVASION_FULL = f'https://{BAN_EVASION_DOMAIN}'
-
 patron = "Patron"
 
 REDDIT_NOTIFS_SITE = set()
@@ -273,7 +270,6 @@ if SITE_NAME == 'rDrama':
 
 		#nested-comments
 		SITE,
-		BAN_EVASION_DOMAIN,
 		'news.ycombinator.com',
 		'scored.co',
 		'scrd.app',
@@ -969,7 +965,6 @@ approved_embed_hosts = {
 	### First-Party
 	SITE,
 	'rdrama.net',
-	BAN_EVASION_DOMAIN,
 	'watchpeopledie.tv',
 	'fsdfsd.net',
 
