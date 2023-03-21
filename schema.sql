@@ -1055,7 +1055,8 @@ CREATE TABLE public.users (
     chudded_by integer,
     event_darkmode boolean,
     blacklisted_by integer,
-    hidevotedon boolean DEFAULT false NOT NULL
+    hidevotedon boolean DEFAULT false NOT NULL,
+    agendaposter_phrase character varying(100)
 );
 
 
