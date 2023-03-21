@@ -1061,6 +1061,8 @@ def agendaposter(id, v):
 		if reason: text = f"@{v.username} (a site admin) has chudded you permanently for the following reason:\n\n> {reason}"
 		else: text = f"@{v.username} (a site admin) has chudded you permanently."
 
+	user.agendaposter_phrase = "trans lives matter"
+
 	user.chudded_by = v.id
 	g.db.add(user)
 
