@@ -46,13 +46,13 @@ function flash(){
 			alert=false;
 		}
 		else {
-			icon.href = `/i/${site_name}/icon.webp?v=3009`
+			icon.href = `/i/${site_name}/icon.webp?x=1`
 			alert=true;
 		}
 		setTimeout(flash, 500)
 	}
 	else {
-		icon.href = `/i/${site_name}/icon.webp?v=3009`
+		icon.href = `/i/${site_name}/icon.webp?x=1`
 		notifs = 0
 		title.innerHTML = 'Chat';
 	}

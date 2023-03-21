@@ -41,7 +41,7 @@ class Sub(Base):
 	@lazy
 	def sidebar_url(self):
 		if self.sidebarurl: return self.sidebarurl
-		return f'{SITE_FULL_IMAGES}/i/{SITE_NAME}/sidebar.webp?v=3009'
+		return f'{SITE_FULL_IMAGES}/i/{SITE_NAME}/sidebar.webp?x=1'
 
 	@property
 	@lazy
@@ -62,7 +62,7 @@ class Sub(Base):
 	@lazy
 	def marsey_url(self):
 		if self.marseyurl: return self.marseyurl
-		return f'{SITE_FULL_IMAGES}/i/{SITE_NAME}/headericon.webp?v=3009'
+		return f'{SITE_FULL_IMAGES}/i/{SITE_NAME}/headericon.webp?x=1'
 
 	@property
 	@lazy

@@ -9,7 +9,7 @@
 	{%- if v -%}
 		{%- set art_image = macros.random_image("assets/images/" ~ SITE_NAME ~ "/sidebar") -%}
 	{%- else -%}
-		{%- set art_image = '/i/' ~ SITE_NAME ~ '/sidebar.webp?v=3000' -%}
+		{%- set art_image = '/i/' ~ SITE_NAME ~ '/sidebar.webp?x=1' -%}
 	{%- endif -%}
 
 	{% if request.path != '/sidebar' %}

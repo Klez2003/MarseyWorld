@@ -526,7 +526,7 @@ class User(Base):
 	def bio_html_eager(self):
 		if self.bio_html == None: return ''
 		return self.bio_html.replace('data-src', 'src') \
-			.replace('src="/i/loading.webp?v=2000"', '') \
+			.replace('src="/i/loading.webp?x=1"', '') \
 			.replace('src="/i/loading.webp"', '') \
 			.replace('src="/i/l.webp"', '')
 
@@ -793,7 +793,7 @@ class User(Base):
 	def banner_url(self):
 		if FEATURES['USERS_PROFILE_BANNER'] and self.bannerurl and self.can_see_my_shit:
 			return self.bannerurl
-		return f"{SITE_FULL_IMAGES}/i/{SITE_NAME}/site_preview.webp?v=3009"
+		return f"{SITE_FULL_IMAGES}/i/{SITE_NAME}/site_preview.webp?x=1"
 
 	@property
 	@lazy
@@ -805,7 +805,7 @@ class User(Base):
 		if self.profileurl and self.can_see_my_shit:
 			if self.profileurl.startswith('/'): return SITE_FULL + self.profileurl
 			return self.profileurl
-		return f"{SITE_FULL_IMAGES}/i/default-profile-pic.webp?v=1008"
+		return f"{SITE_FULL_IMAGES}/i/default-profile-pic.webp?x=1"
 
 	@lazy
 	def real_post_count(self, v):

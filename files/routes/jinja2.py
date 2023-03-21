@@ -40,7 +40,7 @@ def template_asset(ctx, asset_path):
 @app.template_filter("asset_siteimg")
 def template_asset_siteimg(asset_path):
 	# TODO: Add hashing for these using files.helpers.assetcache
-	return f'{SITE_FULL_IMAGES}/i/{SITE_NAME}/{asset_path}?v=3010'
+	return f'{SITE_FULL_IMAGES}/i/{SITE_NAME}/{asset_path}?x=1'
 
 @app.template_filter("timestamp")
 def timestamp(timestamp):

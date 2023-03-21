@@ -22,7 +22,7 @@
 {%- endmacro -%}
 
 {%- macro random_image(path) -%}
-	{{- "/" ~ path ~ "/" ~ listdir('files/' ~ path)|random() ~ '?v=46' }}
+	{{- "/" ~ path ~ "/" ~ listdir('files/' ~ path)|random() ~ '?x=1' }}
 {%- endmacro -%}
 
 {% macro post_meta(p) %}
@@ -77,11 +77,11 @@
 		<span {% if p.distinguish_level %}class="mod {% if SITE_NAME == 'rDrama' %}mod-rdrama{% endif %}"{% endif %}>👻</span>
 	{% else %}
 		{% if FEATURES['PATRON_ICONS'] and p.author.patron %}
-			<img loading="lazy" src="{{SITE_FULL_IMAGES}}/i/{{SITE_NAME}}/badges/2{{p.author.patron}}.webp?v=1" height="20" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{p.author.patron_tooltip}}" alt="{{p.author.patron_tooltip}}">
+			<img loading="lazy" src="{{SITE_FULL_IMAGES}}/i/{{SITE_NAME}}/badges/2{{p.author.patron}}.webp?x=1" height="20" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{p.author.patron_tooltip}}" alt="{{p.author.patron_tooltip}}">
 		{% endif %}
 
 		{% if FEATURES['HOUSES'] and p.author.house %}
-			<img loading="lazy" src="{{SITE_FULL_IMAGES}}/i/{{SITE_NAME}}/houses/{{p.author.house}}.webp?v=2000" height="20" data-bs-toggle="tooltip" data-bs-placement="bottom" title="House {{p.author.house}}" alt="House {{p.author.house}}">
+			<img loading="lazy" src="{{SITE_FULL_IMAGES}}/i/{{SITE_NAME}}/houses/{{p.author.house}}.webp?x=1" height="20" data-bs-toggle="tooltip" data-bs-placement="bottom" title="House {{p.author.house}}" alt="House {{p.author.house}}">
 		{% endif %}
 
 		{% if p.author.verified %}<i class="fas fa-badge-check align-middle ml-1 {% if p.author.verified=='Glowiefied' %}glow{% endif %}" style="color:{% if p.author.verifiedcolor %}#{{p.author.verifiedcolor}}{% else %}#1DA1F2{% endif %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{p.author.verified}}"></i>
@@ -90,7 +90,7 @@
 			<div class="profile-pic-30-wrapper" style="margin-top:9px">
 				<img loading="lazy" src="{{p.author.profile_url}}" class="profile-pic-30 mr-2">
 				{% if p.author.hat_active(v)[0] -%}
-					<img class="profile-pic-30-hat hat" loading="lazy" src="{{p.author.hat_active(v)[0]}}?h=7" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{p.author.hat_active(v)[1]}}">
+					<img class="profile-pic-30-hat hat" loading="lazy" src="{{p.author.hat_active(v)[0]}}?x=1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{p.author.hat_active(v)[1]}}">
 				{%- endif %}
 			</div>
 			<span {% if p.author.patron and not p.distinguish_level %}class="patron" style="background-color:#{{p.author.name_color}};"{% elif p.distinguish_level %}class="mod {% if SITE_NAME == 'rDrama' %}mod-rdrama{% endif %}"{% endif %}>{{p.author_name}}</span>
