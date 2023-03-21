@@ -26,9 +26,9 @@ RUN mkdir /temp_songs
 RUN mkdir /videos
 RUN mkdir /audio
 RUN mkdir /asset_submissions
-RUN mkdir /asset_submissions/marseys
+RUN mkdir /asset_submissions/emojis
 RUN mkdir /asset_submissions/hats
-RUN mkdir /asset_submissions/marseys/original
+RUN mkdir /asset_submissions/emojis/original
 RUN mkdir /asset_submissions/hats/original
 RUN mkdir /var/log/rdrama
 

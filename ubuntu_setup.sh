@@ -46,9 +46,9 @@ mkdir /temp_songs
 mkdir /videos
 mkdir /audio
 mkdir /asset_submissions
-mkdir /asset_submissions/marseys
+mkdir /asset_submissions/emojis
 mkdir /asset_submissions/hats
-mkdir /asset_submissions/marseys/original
+mkdir /asset_submissions/emojis/original
 mkdir /asset_submissions/hats/original
 mkdir /var/log/rdrama
 

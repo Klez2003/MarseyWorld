@@ -87,10 +87,10 @@ def submit_emoji(v:User):
 	if not author:
 		return error(f"A user with the name '{username}' was not found!")
 
-	highquality = f'/asset_submissions/marseys/{name}'
+	highquality = f'/asset_submissions/emojis/{name}'
 	file.save(highquality)
 
-	filename = f'/asset_submissions/marseys/{name}.webp'
+	filename = f'/asset_submissions/emojis/{name}.webp'
 	copyfile(highquality, filename)
 	process_image(filename, v, resize=200, trim=True)
 
@@ -186,11 +186,11 @@ def approve_emoji(v, name):
 
 	purge_files_in_cache(f"https://{SITE}/e/{emoji.name}/webp")
 
-	move(f"/asset_submissions/marseys/{name}.webp", f"files/assets/images/emojis/{emoji.name}.webp")
+	move(f"/asset_submissions/emojis/{name}.webp", f"files/assets/images/emojis/{emoji.name}.webp")
 
-	highquality = f"/asset_submissions/marseys/{name}"
+	highquality = f"/asset_submissions/emojis/{name}"
 	with Image.open(highquality) as i:
-		new_path = f'/asset_submissions/marseys/original/{name}.{i.format.lower()}'
+		new_path = f'/asset_submissions/emojis/original/{name}.{i.format.lower()}'
 	rename(highquality, new_path)
 
 	author.pay_account('coins', 250)
@@ -455,20 +455,20 @@ def update_emoji(v):
 			return error("You need to submit an image!")
 
 		for x in IMAGE_FORMATS:
-			if path.isfile(f'/asset_submissions/marseys/original/{name}.{x}'):
-				remove_media_using_link(f'/asset_submissions/marseys/original/{name}.{x}')
+			if path.isfile(f'/asset_submissions/emojis/original/{name}.{x}'):
+				remove_media_using_link(f'/asset_submissions/emojis/original/{name}.{x}')
 
-		highquality = f"/asset_submissions/marseys/{name}"
+		highquality = f"/asset_submissions/emojis/{name}"
 		file.save(highquality)
 		with Image.open(highquality) as i:
 			format = i.format.lower()
-		new_path = f'/asset_submissions/marseys/original/{name}.{format}'
+		new_path = f'/asset_submissions/emojis/original/{name}.{format}'
 		rename(highquality, new_path)
 
 		filename = f"files/assets/images/emojis/{name}.webp"
 		copyfile(new_path, filename)
 		process_image(filename, v, resize=200, trim=True)
-		purge_files_in_cache([f"https://{SITE}/e/{name}.webp", f"https://{SITE}/assets/images/emojis/{name}.webp", f"https://{SITE}/asset_submissions/marseys/original/{name}.{format}"])
+		purge_files_in_cache([f"https://{SITE}/e/{name}.webp", f"https://{SITE}/assets/images/emojis/{name}.webp", f"https://{SITE}/asset_submissions/emojis/original/{name}.{format}"])
 		updated = True
 
 

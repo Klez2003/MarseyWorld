@@ -61,7 +61,7 @@ def marseys(v:User):
 
 	marseys = get_marseys(g.db)
 	authors = get_accounts_dict([m.author_id for m in marseys], v=v, graceful=True)
-	original = os.listdir("/asset_submissions/marseys/original")
+	original = os.listdir("/asset_submissions/emojis/original")
 	for marsey in marseys:
 		marsey.user = authors.get(marsey.author_id)
 		for x in IMAGE_FORMATS:
