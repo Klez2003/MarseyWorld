@@ -414,18 +414,7 @@ def remove_hat(v:User, name):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['UPDATE_ASSETS'])
 def update_emojis(v):
-	name = request.values.get('name')
-	tags = None
-	error = None
-	if name:
-		emoji = g.db.get(Emoji, name)
-		if emoji:
-			tags = emoji.tags or ''
-		else:
-			name = ''
-			tags = ''
-			error = "An emoji with this name doesn't exist!"
-	return render_template("admin/update_assets.html", v=v, error=error, name=name, tags=tags, type="Emoji")
+	return render_template("admin/update_assets.html", v=v, type="Emoji")
 
 
 @app.post("/admin/update/emojis")
