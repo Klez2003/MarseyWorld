@@ -1081,4 +1081,4 @@ else:
 
 STARS = '\n\n★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★\n\n'
 
-EMOJIS_KINDS = ('Marsey', 'Marsey Alphabet', 'Marsey Flags', 'Platy', 'Wolf', 'Tay', 'Classic', 'Rage', 'Wojak', 'Misc')
+EMOJIS_KINDS = ("Marsey", "Platy", "Wolf", "Tay", "Donkey Kong", "Marsey Flags", "Marsey Alphabet", "Classic", "Rage", "Wojak", "Misc")

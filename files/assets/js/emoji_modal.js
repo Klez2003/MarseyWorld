@@ -150,7 +150,7 @@ emojiRequest.onload = async () => {
 
 	globalEmojis = emojis.map(({name, author, count}) => ({name, author, count}));
 
-	let classes = ["Marsey", "Platy", "Wolf", "Tay", "Marsey Flags", "Marsey Alphabet", "Classic", "Rage", "Wojak", "Misc"]
+	let classes = ["Marsey", "Platy", "Wolf", "Tay", "Donkey Kong", "Marsey Flags", "Marsey Alphabet", "Classic", "Rage", "Wojak", "Misc"]
 
 	const bussyDOM = document.createElement("div");
 
