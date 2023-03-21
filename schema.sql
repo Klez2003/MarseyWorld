@@ -1056,7 +1056,7 @@ CREATE TABLE public.users (
     event_darkmode boolean,
     blacklisted_by integer,
     hidevotedon boolean DEFAULT false NOT NULL,
-    agendaposter_phrase character varying(100)
+    agendaposter_phrase character varying(50)
 );
 
 
@@ -2896,4 +2896,3 @@ ALTER TABLE ONLY public.comments
 --
 -- PostgreSQL database dump complete
 --
-

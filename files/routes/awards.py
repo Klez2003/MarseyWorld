@@ -311,8 +311,8 @@ def award_thing(v, thing_type, id):
 		agendaposter_phrase = agendaposter_phrase.strip()
 		if not agendaposter_phrase: abort(400, "Missing phrase!")
 
-		if len(agendaposter_phrase) > 100:
-			 abort(400, "Max length for phrase is 100 characters")
+		if len(agendaposter_phrase) > 50:
+			 abort(400, "Max length for phrase is 50 characters")
 
 		author.agendaposter_phrase = agendaposter_phrase
 
