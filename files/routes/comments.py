@@ -219,6 +219,7 @@ def comment(v:User):
 			else:
 				abort(415)
 
+	body = body.replace('\n ', '\n')
 	body = body.strip()[:COMMENT_BODY_LENGTH_LIMIT]
 
 	if v.admin_level >= PERMS['USE_ADMIGGER_THREADS'] and posting_to_submission and post_target.id == SNAPPY_THREAD and level == 1 and body not in SNAPPY_QUOTES:

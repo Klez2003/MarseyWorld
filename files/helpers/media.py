@@ -64,7 +64,7 @@ def process_files(files, v, body):
 		else:
 			abort(415)
 	
-	return body
+	return body.replace('\n ', '\n')
 
 
 def process_audio(file, v):
