@@ -300,21 +300,17 @@ def award_thing(v, thing_type, id):
 			abort(409, f"{safe_username} is under the effect of a conflicting award: Marsey award!")
 
 		if author.agendaposter == 1:
-			abort(409, f"{safe_username} is perma-chudded!")
+			abort(409, f"{safe_username} is already chudded permanently!")
 
 		if author.agendaposter and time.time() < author.agendaposter: author.agendaposter += 86400
 		else: author.agendaposter = int(time.time()) + 86400
 
-		agendaposter_phrase = request.values.get("agendaposter_phrase").lower()
-		if not agendaposter_phrase: abort(400, "Missing phrase!")
+		if not note: abort(400, "Missing phrase!")
 
-		agendaposter_phrase = agendaposter_phrase.strip()
-		if not agendaposter_phrase: abort(400, "Missing phrase!")
-
-		if len(agendaposter_phrase) > 50:
+		if len(note) > 50:
 			 abort(400, "Max length for phrase is 50 characters!")
 
-		author.agendaposter_phrase = agendaposter_phrase
+		author.agendaposter_phrase = note
 
 		badge_grant(user=author, badge_id=28)
 	elif kind == "flairlock":

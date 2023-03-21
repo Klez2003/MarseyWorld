@@ -122,9 +122,11 @@ function pick(kind, price, coins, marseybux) {
 
 	if (kind == "agendaposter") {
 		document.getElementById('phrase_section').classList.remove("d-none")
+		document.getElementById('note_section').classList.add("d-none")
 	}
 	else {
 		document.getElementById('phrase_section').classList.add("d-none")
+		document.getElementById('note_section').classList.remove("d-none")
 	}
 
 	if (kind == "flairlock") {
@@ -171,16 +173,13 @@ function buy(mb) {
 function giveaward(t) {
 	const kind = document.getElementById('kind').value;
 
-	const values = {
-			"kind": kind,
-			"note": document.getElementById('note').value
-		}
-	
-	if (kind == "agendaposter")
-		values["agendaposter_phrase"] = document.getElementById('agendaposter_phrase').value
+	const note_id = (kind == "agendaposter" ? "agendaposter_phrase" : "note")
 
 	postToast(t, t.dataset.action,
-		values,
+		{
+			"kind": kind,
+			"note": document.getElementById(note_id).value
+		},
 		() => {
 			let owned = document.getElementById(`${kind}-owned`)
 			let ownednum = Number(owned.textContent) - 1;
