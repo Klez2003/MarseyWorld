@@ -310,7 +310,7 @@ def award_thing(v, thing_type, id):
 		if len(note) > 50:
 			 abort(400, "Max length for phrase is 50 characters!")
 
-		author.agendaposter_phrase = note
+		author.agendaposter_phrase = note.lower()
 
 		badge_grant(user=author, badge_id=28)
 	elif kind == "flairlock":
