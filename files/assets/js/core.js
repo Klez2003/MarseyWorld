@@ -617,7 +617,7 @@ if (width <= 768) {
 	});
 }
 
-document.getElementsByTagName('form').forEach(form => {
+document.querySelectorAll('form').forEach(form => {
 	form.addEventListener('submit', (e) => {
 		if (form.classList.contains('is-submitting')) {
 			e.preventDefault();
