@@ -141,19 +141,23 @@ if len(SITE_NAME) > 5:
 if not IS_LOCALHOST:
 	REDDIT_NOTIFS_SITE.add(SITE)
 
+TAGLINES = ()
+
 if SITE_NAME == 'rDrama':
 	DEFAULT_COLOR = "ff66ac"
 
 	patron = "Paypig"
 
 	TAGLINES = (
-		"world's largest gay orgy",
-		"world's largest shemale porn site",
-		"world's largest cat fetish furfest",
-		"world's largest basket-weaving forum",
-		"world's largest autism support group",
-		"world's largest aztec heritage forum",
-		"the official site of Communist Party USA",
+		"online gay orgy",
+		"shemale porn site",
+		"online furfest",
+		"cat fetish site",
+		"basket-weaving forum",
+		"autism support group",
+		"aztec heritage forum",
+		"CCP's official newspaper",
+		"butthole rating site",
 	)
 
 	RDRAMA_SLURS = {
@@ -350,9 +354,6 @@ if SITE_NAME == 'rDrama':
 	REDDIT_NOTIFS_SITE.add('justice4darrell')
 	REDDIT_NOTIFS_SITE.add('cringetopia.org')
 elif SITE_NAME == 'WPD':
-	TAGLINES = (
-		"People dying and cartoon cats <3",
-	)
 	REDDIT_NOTIFS_SITE.update({'watchpeopledie', 'makemycoffin'})
 
 
