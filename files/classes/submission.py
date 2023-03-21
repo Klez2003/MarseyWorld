@@ -363,4 +363,4 @@ class Submission(Base):
 	@property
 	@lazy
 	def complies_with_chud(self):
-		return re.search(self.author.phrase_regex_pattern, self.body_html.lower())
+		return self.author.phrase_regex.search(self.body_html.lower())

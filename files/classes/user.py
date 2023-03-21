@@ -1,6 +1,7 @@
 import random
 from operator import *
 from typing import Union
+import re
 
 import pyotp
 from sqlalchemy import Column, ForeignKey
@@ -1213,5 +1214,5 @@ class User(Base):
 
 	@property
 	@lazy
-	def phrase_regex_pattern(self):
-		return f"<p>[^<>]*{self.agendaposter_phrase}[^<>]*<\/p>"
+	def phrase_regex(self):
+		return re.compile(f"<p>[^<>]*{self.agendaposter_phrase}[^<>]*<\/p>")
