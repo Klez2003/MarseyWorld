@@ -149,15 +149,15 @@ if SITE_NAME == 'rDrama':
 	patron = "Paypig"
 
 	TAGLINES = (
-		"online gay orgy",
-		"shemale porn site",
-		"online furfest",
-		"cat fetish site",
-		"basket-weaving forum",
-		"autism support group",
-		"aztec heritage forum",
+		"largest online gay orgy",
+		"largest shemale porn site",
+		"largest online furfest",
+		"largest cat fetish site",
+		"largest basket-weaving forum",
+		"largest autism support group",
+		"largest aztec heritage forum",
+		"largest butthole rating site",
 		"CCP's official newspaper",
-		"butthole rating site",
 	)
 
 	RDRAMA_SLURS = {
