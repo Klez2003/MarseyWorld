@@ -23,6 +23,22 @@
 								</label>
 							</div>
 
+							{% if type == "Emoji" %}
+								<label class="mt-3" for="kind">Kind</label>
+								<div class="input-group mb2">
+									<select autocomplete="off" id='kind' class="form-control" name="kind">
+										{% if not kind %}
+											<option hidden disabled selected value>-- select an option --</option>
+										{% endif %}
+										{% for entry in EMOJI_KINDS %}
+											<option value="{{entry}}" {% if entry == kind %}selected{% endif %}>
+												{{entry}}
+											</option>
+										{% endfor %}
+									</select>
+								</div>
+							{% endif %}
+
 							<label class="mt-3" for="name">Name</label>
 							<input autocomplete="off" type="text" id="name" class="form-control" name="name" maxlength="30" placeholder="Required" {% if name %}value="{{name}}"{% endif %} required>
 

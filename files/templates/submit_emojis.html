@@ -28,7 +28,7 @@
 									{% if not kind %}
 										<option hidden disabled selected value>-- select an option --</option>
 									{% endif %}
-									{% for entry in kinds %}
+									{% for entry in EMOJI_KINDS %}
 										<option value="{{entry}}" {% if entry == kind %}selected{% endif %}>
 											{{entry}}
 										</option>
@@ -74,7 +74,7 @@
 								<div><label class="mt-3" for="{{emoji.name}}-kind">Kind</label></div>
 								<div class="input-group mb2">
 									<select autocomplete="off" id='{{emoji.name}}-kind' class="form-control" name="kind" required {% if v.admin_level < PERMS['MODERATE_PENDING_SUBMITTED_ASSETS'] %}disabled readonly{% endif %}>
-										{% for entry in kinds %}
+										{% for entry in EMOJI_KINDS %}
 											<option value="{{entry}}" {% if emoji.kind==entry %}selected{% endif %}>
 												{{entry}}
 											</option>

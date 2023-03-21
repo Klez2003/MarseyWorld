@@ -41,7 +41,7 @@ def reddit_post(subreddit, v, path):
 	return redirect(f'https://{reddit}/{post_id}')
 
 
-@cache.cached(key_prefix=MARSEYS_CACHE_KEY)
+@cache.cached(key_prefix="marseys")
 def get_marseys(db:scoped_session):
 	if not FEATURES['MARSEYS']: return []
 	marseys = []
@@ -72,7 +72,7 @@ def marseys(v:User):
 
 
 
-@cache.cached(key_prefix=EMOJIS_CACHE_KEY)
+@cache.cached(key_prefix="emojis")
 def get_emojis():
 	emojis = []
 	for emoji, author in g.db.query(Emoji, User).join(User, Emoji.author_id == User.id).filter(Emoji.submitter_id == None).order_by(Emoji.count.desc()):

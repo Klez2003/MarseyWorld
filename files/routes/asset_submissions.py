@@ -34,7 +34,7 @@ def submit_emojis(v:User):
 		emoji.author = g.db.query(User.username).filter_by(id=emoji.author_id).one()[0]
 		emoji.submitter = g.db.query(User.username).filter_by(id=emoji.submitter_id).one()[0]
 
-	return render_template("submit_emojis.html", v=v, emojis=emojis, kinds=EMOJIS_KINDS, msg=get_msg())
+	return render_template("submit_emojis.html", v=v, emojis=emojis, msg=get_msg())
 
 
 @app.post("/submit/emojis")
@@ -56,9 +56,9 @@ def submit_emoji(v:User):
 		for emoji in emojis:
 			emoji.author = g.db.query(User.username).filter_by(id=emoji.author_id).one()[0]
 			emoji.submitter = g.db.query(User.username).filter_by(id=emoji.submitter_id).one()[0]
-		return render_template("submit_emojis.html", v=v, emojis=emojis, error=error, name=name, kind=kind, tags=tags, username=username, kinds=EMOJIS_KINDS), 400
+		return render_template("submit_emojis.html", v=v, emojis=emojis, error=error, name=name, kind=kind, tags=tags, username=username), 400
 
-	if kind not in EMOJIS_KINDS:
+	if kind not in EMOJI_KINDS:
 		return error("Invalid emoji kind!")
 
 	if kind in {"Marsey", "Platy", "Wolf", "Tay"} and not name.startswith(kind.lower()):
@@ -137,7 +137,7 @@ def approve_emoji(v, name):
 	if not tags_regex.fullmatch(tags):
 		abort(400, "Invalid tags!")
 
-	if new_kind not in EMOJIS_KINDS:
+	if new_kind not in EMOJI_KINDS:
 		abort(400, "Invalid kind!")
 
 
@@ -180,9 +180,9 @@ def approve_emoji(v, name):
 			badge_grant(badge_id=112, user=author)
 	
 
-	cache.delete(EMOJIS_CACHE_KEY)
+	cache.delete("emojis")
 	if emoji.kind == "Marsey":
-		cache.delete(MARSEYS_CACHE_KEY)
+		cache.delete("marseys")
 
 	purge_files_in_cache(f"https://{SITE}/e/{emoji.name}/webp")
 
@@ -437,9 +437,10 @@ def update_emoji(v):
 	file = request.files["image"]
 	name = request.values.get('name', '').lower().strip()
 	tags = request.values.get('tags', '').lower().strip()
+	kind = request.values.get('kind', '').strip()
 
 	def error(error):
-		return render_template("admin/update_assets.html", v=v, error=error, name=name, tags=tags, type="Emoji")
+		return render_template("admin/update_assets.html", v=v, error=error, name=name, tags=tags, kind=kind, type="Emoji")
 
 	existing = g.db.get(Emoji, name)
 	if not existing:
@@ -475,11 +476,18 @@ def update_emoji(v):
 		if not tags_regex.fullmatch(tags):
 			abort(400, "Invalid tags!")
 		existing.tags += f" {tags}"
-		g.db.add(existing)
+		updated = True
+
+	if kind and existing.kind != kind and kind != "none":
+		if kind not in EMOJI_KINDS:
+			abort(400, "Invalid kind!")
+		existing.kind = kind
 		updated = True
 
 	if not updated:
 		return error("You need to actually update something!")
+
+	g.db.add(existing)
 
 	ma = ModAction(
 		kind="update_emoji",
@@ -487,7 +495,12 @@ def update_emoji(v):
 		_note=f'<img loading="lazy" data-bs-toggle="tooltip" alt=":{name}:" title=":{name}:" src="/e/{name}.webp">'
 	)
 	g.db.add(ma)
-	return render_template("admin/update_assets.html", v=v, msg=f"'{name}' updated successfully!", name=name, tags=tags, type="Emoji")
+
+	cache.delete("emojis")
+	if existing.kind == "Marsey":
+		cache.delete("marseys")
+
+	return render_template("admin/update_assets.html", v=v, msg=f"'{name}' updated successfully!", name=name, tags=tags, kind=kind, type="Emoji")
 
 @app.get("/admin/update/hats")
 @limiter.limit(DEFAULT_RATELIMIT)
