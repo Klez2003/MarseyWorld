@@ -1306,7 +1306,7 @@ def remove_post(post_id, v):
 def approve_post(post_id, v):
 	post = get_post(post_id)
 
-	if post.author.id == v.id and post.author.agendaposter and post.author.agendaposter_phrase not in post.body.lower() and post.sub != 'chudrama':
+	if post.author.id == v.id and post.author.agendaposter and post.sub != 'chudrama' and not post.complies_with_chud:
 		abort(400, "You can't bypass the chud award!")
 
 	if post.is_banned:
@@ -1540,7 +1540,7 @@ def remove_comment(c_id, v):
 def approve_comment(c_id, v):
 	comment = get_comment(c_id)
 
-	if comment.author.id == v.id and comment.author.agendaposter and comment.author.agendaposter_phrase not in comment.body.lower() and not (comment.parent_submission and comment.post.sub == 'chudrama'):
+	if comment.author.id == v.id and comment.author.agendaposter and not (comment.parent_submission and comment.post.sub == 'chudrama') and not comment.complies_with_chud:
 		abort(400, "You can't bypass the chud award!")
 
 	if comment.is_banned:

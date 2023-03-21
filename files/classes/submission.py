@@ -359,3 +359,8 @@ class Submission(Base):
 	@lazy
 	def active_flags(self, v):
 		return len(self.filtered_flags(v))
+
+	@property
+	@lazy
+	def complies_with_chud(self):
+		return re.search(self.author.phrase_regex_pattern, self.body_html.lower())

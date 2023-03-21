@@ -656,7 +656,7 @@ def submit_post(v:User, sub=None):
 				for x in notify_users:
 					add_notif(cid, x, text, pushnotif_url=p.permalink)
 
-	if v.agendaposter and not v.marseyawarded and v.agendaposter_phrase not in f'{p.body}{p.title}'.lower() and sub != 'chudrama':
+	if v.agendaposter and not v.marseyawarded and sub != 'chudrama' and not p.complies_with_chud:
 		p.is_banned = True
 		p.ban_reason = "AutoJanny"
 
@@ -1041,7 +1041,7 @@ def edit_post(pid, v):
 
 		p.body_html = body_html
 
-		if v.id == p.author_id and v.agendaposter and not v.marseyawarded and v.agendaposter_phrase not in f'{p.body}{p.title}'.lower() and p.sub != 'chudrama':
+		if v.id == p.author_id and v.agendaposter and not v.marseyawarded and p.sub != 'chudrama' and not p.complies_with_chud:
 			abort(403, f'You have to include "{v.agendaposter_phrase}" in your post!')
 
 
