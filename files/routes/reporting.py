@@ -17,11 +17,12 @@ from files.__main__ import app, limiter, cache
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def flag_post(pid, v):
+	if v.is_muted: abort(403, "You are forbidden from making reports!")
+
 	post = get_post(pid)
 	reason = request.values.get("reason", "").strip()
 	execute_under_siege(v, post, reason, 'flag')
 	execute_blackjack(v, post, reason, 'flag')
-	if v.is_muted: abort(403, "You are forbidden from making reports!")
 	reason = reason[:100]
 	og_flair = reason[1:]
 	reason = filter_emojis_only(reason)
@@ -65,7 +66,7 @@ def flag_post(pid, v):
 	flag = Flag(post_id=post.id, user_id=v.id, reason=reason)
 	g.db.add(flag)
 
-	if v.id != post.author_id:
+	if v.id != post.author_id and not v.shadowbanned:
 		message = f'@{v.username} reported [{post.title}]({post.shortlink})\n\n> {reason}'
 		send_repeatable_notification(post.author_id, message)
 
@@ -78,6 +79,7 @@ def flag_post(pid, v):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def flag_comment(cid, v):
+	if v.is_muted: abort(403, "You are forbidden from making reports!")
 
 	comment = get_comment(cid)
 
@@ -95,7 +97,7 @@ def flag_comment(cid, v):
 	flag = CommentFlag(comment_id=comment.id, user_id=v.id, reason=reason)
 	g.db.add(flag)
 
-	if v.id != comment.author_id:
+	if v.id != comment.author_id and not v.shadowbanned:
 		message = f'@{v.username} reported your [comment]({comment.shortlink})\n\n> {reason}'
 		send_repeatable_notification(comment.author_id, message)
 
