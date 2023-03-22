@@ -1434,6 +1434,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('chudette','Wojak',2,'chud woman blonde'),
 ('chudglassesglow','Wojak',2,'chud glasses anime'),
 ('chudgrug','Wojak',2,'chud grug caveman'),
+('chudjaktalking','Wojak',2,'racist transphobic homophobic rude pol white cry sob grin teeth'),
 ('chudnazi','Wojak',2,'chud nazi'),
 ('chudsey','Marsey',2,'4chan virgin pol rightoid'),
 ('chudsmug','Wojak',2,'chud smug'),
