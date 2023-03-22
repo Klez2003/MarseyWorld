@@ -1004,7 +1004,7 @@ def u_username_comments(username, v=None):
 	t=request.values.get("t","all")
 
 	comment_post_author = aliased(User)
-	comments = g.db.query(Comment.id) \
+	comments = g.db.query(Comment) \
 				.outerjoin(Comment.post) \
 				.outerjoin(comment_post_author, Submission.author) \
 				.filter(
@@ -1024,21 +1024,23 @@ def u_username_comments(username, v=None):
 	comments = sort_objects(sort, comments, Comment)
 
 	comments = comments.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE+1).all()
+	next_exists = (len(comments) > PAGE_SIZE)
+	comments = comments[:PAGE_SIZE]
+
 	ids = [x.id for x in comments]
 
-	next_exists = (len(ids) > PAGE_SIZE)
-	ids = ids[:PAGE_SIZE]
+	listing = []
 
-	listing = get_comments(ids, v=v)
-	listing2 = []
-
-	for x in listing:
+	for x in comments:
+		x.replies2 = []
 		if x.parent_comment_id:
 			x.parent_comment.replies2 = [x]
 			x = x.parent_comment
-		listing2.append(x)
+		listing.append(x)
+
+	ids += [x.id for x in listing]
 	
-	listing = listing2
+	output = get_comments_v_properties(v, None, Comment.id.in_(ids))[1]
 
 	if v and v.client:
 		return {"data": [c.json(g.db) for c in listing]}
