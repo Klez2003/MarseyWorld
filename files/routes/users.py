@@ -1027,22 +1027,27 @@ def u_username_comments(username, v=None):
 	next_exists = (len(comments) > PAGE_SIZE)
 	comments = comments[:PAGE_SIZE]
 
-	ids = set([x.id for x in comments])
+	old_ids = set([x.id for x in comments])
+	ids = old_ids
 
 	listing = []
 
 	for x in comments:
 		if x.replies2 == None: x.replies2 = []
+
 		if x.parent_comment_id:
 			if x.parent_comment.replies2 == None:
 				x.parent_comment.replies2 = []
 
 			x.parent_comment.replies2.append(x)
+			ids.add(x.id)
 			x.parent_comment.replies2.sort(key=lambda x: x.created_utc, reverse=True)
 
 			x = x.parent_comment
-			if x.id in ids: continue
-			if x.parent_comment_id in ids:
+			if x.id in old_ids: continue
+			ids.add(x.id)
+
+			if x.parent_comment_id in old_ids:
 				if x.parent_comment.replies2 == None:
 					x.parent_comment.replies2 = []
 				x.parent_comment.replies2.append(x)
@@ -1051,7 +1056,7 @@ def u_username_comments(username, v=None):
 		listing.append(x)
 
 	ids.update([x.id for x in listing])
-	
+
 	if v:
 		output = get_comments_v_properties(v, None, Comment.id.in_(ids))[1]
 
