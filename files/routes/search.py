@@ -300,7 +300,7 @@ def searchmessages(v:User):
 	if v.admin_level >= PERMS['VIEW_MODMAIL']:
 		dm_conditions.append(Comment.sentto == MODMAIL_ID),
 
-	comments = g.db.query(Comment.id) \
+	comments = g.db.query(Comment) \
 		.filter(
 			Comment.sentto != None,
 			Comment.parent_submission == None,
@@ -359,15 +359,15 @@ def searchmessages(v:User):
 
 	comments = comments.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE+1).all()
 
-	ids = [x[0] for x in comments]
+	next_exists = (len(comments) > PAGE_SIZE)
+	comments = comments[:PAGE_SIZE]
 
-	next_exists = (len(ids) > PAGE_SIZE)
-	ids = ids[:PAGE_SIZE]
-
-	comments = get_comments(ids, v=v)
+	for x in comments: x.unread = True
+	
+	comments = [x.top_comment for x in comments]
 
 	if v.client: return {"total":total, "data":[x.json(db=g.db) for x in comments]}
-	return render_template("search_comments.html", v=v, query=query, total=total, page=page, comments=comments, sort=sort, t=t, next_exists=next_exists, standalone=True)
+	return render_template("search_comments.html", v=v, query=query, total=total, page=page, comments=comments, sort=sort, t=t, next_exists=next_exists, standalone=True, render_replies=True)
 
 @app.get("/search/users")
 @limiter.limit(DEFAULT_RATELIMIT)
