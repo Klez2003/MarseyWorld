@@ -1032,10 +1032,11 @@ def u_username_comments(username, v=None):
 	listing = []
 
 	for x in comments:
-		x.replies2 = []
+		if x.replies2 == None: x.replies2 = []
 		if x.parent_comment_id:
 			x.parent_comment.replies2 = [x]
 			x = x.parent_comment
+			if x.id in ids: continue
 		listing.append(x)
 
 	ids += [x.id for x in listing]
