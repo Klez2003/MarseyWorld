@@ -1034,9 +1034,20 @@ def u_username_comments(username, v=None):
 	for x in comments:
 		if x.replies2 == None: x.replies2 = []
 		if x.parent_comment_id:
-			x.parent_comment.replies2 = [x]
+			if x.parent_comment.replies2 == None:
+				x.parent_comment.replies2 = []
+
+			x.parent_comment.replies2.append(x)
+			x.parent_comment.replies2.sort(key=lambda x: x.created_utc, reverse=True)
+
 			x = x.parent_comment
 			if x.id in ids: continue
+			if x.parent_comment_id in ids:
+				if x.parent_comment.replies2 == None:
+					x.parent_comment.replies2 = []
+				x.parent_comment.replies2.append(x)
+				x.parent_comment.replies2.sort(key=lambda x: x.created_utc, reverse=True)
+				continue
 		listing.append(x)
 
 	ids.update([x.id for x in listing])
