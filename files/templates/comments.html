@@ -113,7 +113,7 @@
 	{% set isreply = False %}
 {% endif %}
 
-{% set highlight_for_profile = request.path.startswith('/@') and request.path.endswith('/comments') and c.author_id == u.id %}
+{% set highlight_for_profile = request.path.startswith('/@') and request.path.endswith('/comments') and u and c.author_id == u.id %}
 
 <div id="comment-{{c.id}}" class="anchor comment {% if wall %}mt-4{% elif standalone and level==1 %}mt-0{% endif %} {% if collapse or c.collapse_for_user(v,request.full_path) %}collapsed{% endif %}" style="{% if isreply %}padding-left:0!important{% endif %}">
 	{% if not isreply %}
