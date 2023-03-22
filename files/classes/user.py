@@ -1215,4 +1215,4 @@ class User(Base):
 	@property
 	@lazy
 	def phrase_regex(self):
-		return re.compile(f"<p>[^<>]*{self.agendaposter_phrase}[^<>]*<\/p>")
+		return re.compile(f"<p>[^<>]*{self.agendaposter_phrase}[^<>]*<\/p>(?![^<]*<\/)")
