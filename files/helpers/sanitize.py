@@ -287,7 +287,7 @@ def sanitize_settings_text(sanitized:Optional[str], max_length:Optional[int]=Non
 
 chud_images = listdir("files/assets/images/chud")
 chud_images = [f'\n\n{SITE_FULL_IMAGES}/i/chud/{f}' for f in chud_images]
-chud_images.extend([':#trumpjaktalking:', ':#reposthorse:'])
+chud_images.extend([':#trumpjaktalking:', ':#reposthorse:', ':#chudjaktalking:'])
 
 def handle_youtube_links(url):
 	html = None
