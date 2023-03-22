@@ -817,8 +817,6 @@ if SITE == 'rdrama.net':
 		'the_homocracy': 147,
 		'justcool393': JUSTCOOL_ID
 	}
-
-	POST_RATELIMIT = '10/day'
 elif SITE == 'watchpeopledie.tv':
 	NOTIFICATION_SPAM_AGE_THRESHOLD = 0.5 * 86400
 
