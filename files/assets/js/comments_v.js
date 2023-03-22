@@ -150,7 +150,7 @@ function post_reply(id){
 
 			ta.value = ''
 			document.getElementById('message-reply-'+id).innerHTML = ''
-			toggleReplyBox('reply-message-c_'+id)
+			document.getElementById('reply-message-c_'+id).classList.add('d-none')
 
 			const input = ta.parentElement.querySelector('input[type="file"]')
 			input.previousElementSibling.innerHTML = '';
