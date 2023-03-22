@@ -45,7 +45,7 @@ marked.use({
 			},
 			renderer(token) {
 				const g = token.raw;
-				return `<a href="/!${g}">!${g}</a>`;
+				return `<a href="/${g}">${g}</a>`;
 			}
 		},
 	]
