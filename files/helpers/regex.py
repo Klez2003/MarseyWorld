@@ -43,8 +43,8 @@ controversial_regex = re.compile('["> ](https:\/\/old\.reddit\.com/r/[a-zA-Z0-9_
 fishylinks_regex = re.compile("(https?:\/\/)?[\w\-.#&/=\?@%;+,:]{2,10}\.[\w\-.#&/=\?@%;+,:]{2,250}", flags=re.A)
 
 spoiler_regex = re.compile('\|\|(.+?)\|\|(?!([^<]*<\/(code|pre|a)>|[^`]*`))', flags=re.A)
-reddit_regex = re.compile('(^|\s|<p>)\/?((r|u)\/(\w|-){3,25})(?!([^<]*<\/(code|pre|a)>|[^`]*`))', flags=re.A)
-sub_regex = re.compile('(^|\s|<p>)\/?(h\/(\w|-){3,25})(?!([^<]*<\/(code|pre|a)>|[^`]*`))', flags=re.A)
+reddit_regex = re.compile('(^|\s|<p>)\/?(([ruRU])\/(\w|-){3,25})(?!([^<]*<\/(code|pre|a)>|[^`]*`))', flags=re.A)
+sub_regex = re.compile('(^|\s|<p>)\/?([hH]\/(\w|-){3,25})(?!([^<]*<\/(code|pre|a)>|[^`]*`))', flags=re.A)
 
 strikethrough_regex = re.compile('(^|\s|>)~{1,2}([^~]+)~{1,2}(?!([^<]*<\/(code|pre|a)>|[^`]*`))', flags=re.A)
 
