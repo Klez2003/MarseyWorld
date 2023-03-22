@@ -4,8 +4,8 @@ bind = '0.0.0.0:5000'
 
 worker_class = 'gevent'
 
-max_requests = 30000
-max_requests_jitter = 30000
+max_requests = 10000
+max_requests_jitter = 10000
 
 reload = True
 reload_engine = 'poll'
