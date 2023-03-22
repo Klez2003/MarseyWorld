@@ -1052,7 +1052,8 @@ def u_username_comments(username, v=None):
 
 	ids.update([x.id for x in listing])
 	
-	output = get_comments_v_properties(v, None, Comment.id.in_(ids))[1]
+	if v:
+		output = get_comments_v_properties(v, None, Comment.id.in_(ids))[1]
 
 	if v and v.client:
 		return {"data": [c.json(g.db) for c in listing]}
