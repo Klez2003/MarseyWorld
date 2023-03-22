@@ -1030,11 +1030,20 @@ def u_username_comments(username, v=None):
 	ids = ids[:PAGE_SIZE]
 
 	listing = get_comments(ids, v=v)
+	listing2 = []
+
+	for x in listing:
+		if x.parent_comment_id:
+			x.parent_comment.replies2 = [x]
+			x = x.parent_comment
+		listing2.append(x)
+	
+	listing = listing2
 
 	if v and v.client:
 		return {"data": [c.json(g.db) for c in listing]}
 
-	return render_template("userpage/comments.html", u=u, v=v, listing=listing, page=page, sort=sort, t=t,next_exists=next_exists, is_following=is_following, standalone=True)
+	return render_template("userpage/comments.html", u=u, v=v, listing=listing, page=page, sort=sort, t=t, next_exists=next_exists, is_following=is_following, standalone=True, render_replies=True)
 
 
 @app.get("/@<username>/info")
