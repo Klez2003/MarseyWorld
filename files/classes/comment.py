@@ -454,8 +454,3 @@ class Comment(Base):
 
 		body += '</span>'
 		return body
-
-	@property
-	@lazy
-	def complies_with_chud(self):
-		return self.author.phrase_regex.search(self.body_html.lower())

@@ -1211,8 +1211,3 @@ class User(Base):
 	def can_see_my_shit(self):
 		v = g.v
 		return not self.shadowbanned or (v and (v.id == self.id or v.can_see_shadowbanned))
-
-	@property
-	@lazy
-	def phrase_regex(self):
-		return re.compile(f"<p>[^<>]*{self.agendaposter_phrase}[^<>]*<\/p>(?![^<]*<\/)")

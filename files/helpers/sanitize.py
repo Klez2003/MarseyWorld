@@ -617,3 +617,15 @@ def validate_css(css):
 			return False, f"The domain '{domain}' is not allowed, please use one of these domains\n\n{approved_embed_hosts}."
 
 	return True, ""
+
+
+def complies_with_chud(obj):
+	soup=BeautifulSoup(obj.body_html.lower(), 'lxml')
+
+	tags = soup.html.body.find_all('p', recursive=False)
+
+	for x in tags:
+		if obj.author.agendaposter_phrase in str(x.find(text=True, recursive=False)):
+			return True
+
+	return False
