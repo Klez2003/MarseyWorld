@@ -1027,7 +1027,7 @@ def u_username_comments(username, v=None):
 	next_exists = (len(comments) > PAGE_SIZE)
 	comments = comments[:PAGE_SIZE]
 
-	ids = [x.id for x in comments]
+	ids = set([x.id for x in comments])
 
 	listing = []
 
@@ -1039,7 +1039,7 @@ def u_username_comments(username, v=None):
 			if x.id in ids: continue
 		listing.append(x)
 
-	ids += [x.id for x in listing]
+	ids.update([x.id for x in listing])
 	
 	output = get_comments_v_properties(v, None, Comment.id.in_(ids))[1]
 
