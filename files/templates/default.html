@@ -27,7 +27,25 @@
 					{% set expand = false %}
 				{% endif %}
 			{% endif %}
-			{{macros.banner(src, href, alt, expand, class)}}
+
+			<a href="{{href|default(src)}}" rel="nofollow noopener">
+				{% if src %}
+					{% set banner_url = src %}
+				{% else %}
+					{% set path = "files/assets/images/" ~ SITE_NAME %}
+			
+					{%- if not v and os_path.exists(path ~ "/cached.webp") -%}
+						{% set banner_url = 'cached.webp' | asset_siteimg %}
+					{% elif os_path.exists(path ~ "/banners") -%}
+						{% set banner_url = macros.random_image("assets/images/" ~ SITE_NAME ~ "/banners") %}
+					{% else -%}
+						{% set banner_url = 'banner.webp' | asset_siteimg %}
+					{% endif %}
+				{% endif %}
+			
+				<link rel="preload" as="image" href="{{banner_url}}">
+				<img data-nonce="{{g.nonce}}" data-onclick="{{expand|default('expandImage()')}}" class="{{class|default('site-banner')}}" alt="{{alt|default('site banner')}}" src="{{banner_url}}">
+			</a>
 		{% endif %}
 	{% endif %}
 {% endblock %}
