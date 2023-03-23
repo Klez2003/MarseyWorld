@@ -624,8 +624,9 @@ def complies_with_chud(obj):
 
 	tags = soup.html.body.find_all('p', recursive=False)
 
-	for x in tags:
-		if obj.author.agendaposter_phrase in str(x.find(text=True, recursive=False)):
-			return True
+	for tag in tags:
+		for text in tag.find_all(text=True, recursive=False):
+			if obj.author.agendaposter_phrase in text:
+				return True
 
 	return False
