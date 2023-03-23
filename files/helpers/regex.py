@@ -168,8 +168,8 @@ def torture_ap(body, username):
 			continue
 		for k, l in AJ_REPLACEMENTS.items():
 			lines[i] = lines[i].replace(k, l)
-		lines[i] = torture_regex.sub(rf'\1@{username} ', lines[i])
-		lines[i] = torture_regex2.sub(rf'\1@{username} is ', lines[i])
+		lines[i] = torture_regex.sub(rf'\1{username} ', lines[i])
+		lines[i] = torture_regex2.sub(rf'\1{username} is ', lines[i])
 
 	return ''.join(lines).strip()
 
