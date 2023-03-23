@@ -634,6 +634,10 @@ def complies_with_chud(obj):
 
 	soup=BeautifulSoup(old_body_html, 'lxml')
 
+	if not soup.html:
+		print(f'{STARS}{old_body_html}{STARS}', flush=True)
+		return False
+
 	tags = soup.html.body.find_all(lambda tag: tag.name == 'p' and not tag.attrs, recursive=False)
 
 	for tag in tags:
