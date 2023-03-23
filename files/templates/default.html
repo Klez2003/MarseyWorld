@@ -43,7 +43,6 @@
 					{% endif %}
 				{% endif %}
 			
-				<link rel="preload" as="image" href="{{banner_url}}">
 				<img data-nonce="{{g.nonce}}" data-onclick="{{expand|default('expandImage()')}}" class="{{class|default('site-banner')}}" alt="{{alt|default('site banner')}}" src="{{banner_url}}">
 			</a>
 		{% endif %}
