@@ -24,6 +24,58 @@ from files.routes.routehelpers import get_alt_graph, get_alt_graph_ids
 
 from .front import frontlist, comment_idlist
 
+
+chud_phrases = (
+		"trans lives matter",
+		"black lives matter",
+		"black trans lives matter",
+		"the future is female",
+		"i say this as a feminist ally",
+		"i stand with israel",
+		"vaccines work",
+		"trans women are women",
+		"furry rights are human rights",
+		"trans furry lives matter",
+		"trump for prison",
+		"hillary 2024",
+		"jewish lives matter",
+		"white extinction is long overdue",
+		"climate action now",
+	)
+
+def _agendaposter_all():
+	with app.app_context():
+		g.v = None
+		g.db = db_session()
+
+		users = g.db.query(User).filter_by(marseyawarded=None, agendaposter=0)
+
+		count = users.count()
+
+		for i, u in enumerate(users.all()):
+			print(f"Chudding @{u.username} [{i+1}/{count}]", flush=True)
+			u.agendaposter = int(time.time()) + 86400
+			u.agendaposter_phrase = random.choice(chud_phrases)
+
+			text = f"@Bardfinn has chudded you for 1 day."
+			text += f"\n\n> {u.agendaposter_phrase}"
+
+			send_repeatable_notification(u.id, text)
+
+			badge_grant(user=u, badge_id=28)
+			g.db.add(u)
+
+		g.db.commit()
+		g.db.close()
+		stdout.flush()
+
+
+@app.get("/admin/agendaposter_all")
+@admin_level_required(99)
+def agendaposter_all(v):
+	gevent.spawn(_agendaposter_all)
+	return "CHUDDING...."
+
 @app.get('/admin/loggedin')
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
