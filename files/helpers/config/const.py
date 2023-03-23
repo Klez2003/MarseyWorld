@@ -395,12 +395,12 @@ LONGPOST_REPLIES = ('Wow, you must be a JP fan.', 'This is one of the worst post
 
 AGENDAPOSTER_MSG = """Hi @{username},\n
 Your {type} has been automatically removed because you forgot to include `{AGENDAPOSTER_PHRASE}`.\n
-Don't worry, we're here to help! We won't let you post or comment anything that doesn't express your love and acceptance towards the trans community. Feel free to resubmit your {type} with `{AGENDAPOSTER_PHRASE}` included. \n
+Don't worry, we're here to help! We won't let you post or comment anything that doesn't express your love and acceptance towards minorities. Feel free to resubmit your {type} with `{AGENDAPOSTER_PHRASE}` included. \n
 *This is an automated message; if you need help, you can message us [here](/contact).*"""
 
 AGENDAPOSTER_MSG_HTML = """<p>Hi <a href="/id/{id}"><img loading="lazy" src="/pp/{id}">@{username}</a>,</p>
 <p>Your {type} has been automatically removed because you forgot to include <code>{AGENDAPOSTER_PHRASE}</code>.</p>
-<p>Don't worry, we're here to help! We won't let you post or comment anything that doesn't express your love and acceptance towards the trans community. Feel free to resubmit your {type} with <code>{AGENDAPOSTER_PHRASE}</code> included.</p>
+<p>Don't worry, we're here to help! We won't let you post or comment anything that doesn't express your love and acceptance towards minorities. Feel free to resubmit your {type} with <code>{AGENDAPOSTER_PHRASE}</code> included.</p>
 <p><em>This is an automated message; if you need help, you can message us <a href="/contact">here</a>.</em></p>"""
 
 PIN_AWARD_TEXT = " (pin award)"
