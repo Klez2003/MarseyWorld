@@ -1061,6 +1061,8 @@ def agendaposter(id, v):
 
 	user.agendaposter_phrase = "trans lives matter"
 
+	text += f"\n\n> {user.agendaposter_phrase}"
+
 	user.chudded_by = v.id
 	g.db.add(user)
 
