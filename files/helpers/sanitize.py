@@ -336,7 +336,6 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_emojis=
 	sanitized = utm_regex2.sub('', sanitized)
 
 	if torture:
-		sanitized = torture_ap(sanitized, g.v.username)
 		to_add = random.choice(chud_images)
 		sanitized += f'\n\n{to_add}'
 
@@ -548,9 +547,7 @@ def allowed_attributes_emojis(tag, name, value):
 
 
 @with_sigalrm_timeout(1)
-def filter_emojis_only(title, golden=True, count_emojis=False, graceful=False, torture=False, strip=True):
-	if torture:
-		title = torture_ap(title, g.v.username)
+def filter_emojis_only(title, golden=True, count_emojis=False, graceful=False, strip=True):
 
 	title = title.replace('‎','').replace('​','').replace("\ufeff", "").replace("𒐪","").replace("\n", "").replace("\r", "").replace("\t", "").replace('<','&lt;').replace('>','&gt;').replace("﷽","")
 
@@ -639,5 +636,10 @@ def complies_with_chud(obj):
 		for text in tag.find_all(text=True, recursive=False):
 			if obj.author.agendaposter_phrase in text:
 				return True
+
+	if isinstance(obj, Submission):
+		obj.title_html = torture_ap(title_html, obj.author.username)
+
+	obj.body_html = torture_ap(body_html, obj.author.username)
 
 	return False

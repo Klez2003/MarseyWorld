@@ -445,8 +445,8 @@ def submit_post(v:User, sub=None):
 
 	sub = request.values.get("sub", "").lower().replace('/h/','').strip()
 
-	torture = (v.agendaposter and not v.marseyawarded and sub != 'chudrama')
-	title_html = filter_emojis_only(title, graceful=True, count_emojis=True, torture=torture)
+	title_html = filter_emojis_only(title, graceful=True, count_emojis=True)
+
 	if v.marseyawarded and not marseyaward_title_regex.fullmatch(title_html):
 		abort(400, "You can only type marseys!")
 	if len(title_html) > POST_TITLE_HTML_LENGTH_LIMIT:
@@ -1002,9 +1002,7 @@ def edit_post(pid, v):
 
 
 	if title != p.title:
-		torture = (v.agendaposter and not v.marseyawarded and p.sub != 'chudrama' and v.id == p.author_id)
-
-		title_html = filter_emojis_only(title, golden=False, torture=torture)
+		title_html = filter_emojis_only(title, golden=False)
 
 		if v.id == p.author_id and v.marseyawarded and not marseyaward_title_regex.fullmatch(title_html):
 			abort(403, "You can only type marseys!")
