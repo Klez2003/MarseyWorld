@@ -540,6 +540,6 @@ def process_poll_options(v:User, target:Union[Submission, Comment]):
 					body_html=body_html,
 					exclusive=exclusive,
 				)
-				option_objects.append(option)
+				option_objects.append(option) #shitty hack to bypass autoflush
 
 	g.db.add_all(option_objects)
