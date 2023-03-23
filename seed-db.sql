@@ -1209,16 +1209,13 @@ INSERT INTO public.hat_defs VALUES (902, 'Shovel Knight', 'Cosplay as the shovel
 INSERT INTO public.hat_defs VALUES (917, 'Bell Pepper (red)', 'Now you can cosplay as a bell pepper and make mama proud!', 2, 500, NULL, 1665417006);
 INSERT INTO public.hat_defs VALUES (911, 'Racecar Hat', 'I sleep in a hat with my wife', 2, 500, NULL, 1665355513);
 INSERT INTO public.hat_defs VALUES (1149, 'This hat kills fishists', 'This hat is perfect for anyone who loves fishing and has a sense of humor. Whether you’re a an amateur angler or master baiter, you can show off your confidence and charisma with this witty slogan. It is made of cotton and has an adjustable snapback. Order yours today and reel in the compliments!', 2, 500, NULL, 1677730441);
-
-
-
-
-
-
-
-
-
-
+INSERT INTO public.hat_defs VALUES (1153, 'Hope Eradicated', 'Who needs friends when you have money?', 2, 500, NULL, 1679346572);
+INSERT INTO public.hat_defs VALUES (1150, 'Power In Misery', 'Stop wasting company resources by getting killed...', 2, 500, NULL, 1679343066);
+INSERT INTO public.hat_defs VALUES (1157, 'Divine Light', 'Who has time to enjoy life when you''re making MONEY?!', 2, 500, NULL, 1679347512);
+INSERT INTO public.hat_defs VALUES (1155, 'Flesh Automaton', 'You are a flesh automaton powered by neurotransmiters', 2, 500, NULL, 1679347040);
+INSERT INTO public.hat_defs VALUES (1169, 'Mimic', 'That is NOT a health pack!', 2, 500, NULL, 1679359754);
+INSERT INTO public.hat_defs VALUES (1167, 'Tattered Rain Hat', 'Old and worn. You''ve never seen it before but it feels nostalgic.', 2, 500, NULL, 1679359347);
+INSERT INTO public.hat_defs VALUES (1156, 'Traversing the Grid of Death', 'When reaching rock bottom, despicable deeds may seem like a step up...', 2, 500, NULL, 1679347260);
 
 
 --
@@ -1558,6 +1555,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('donkeykonggayover','Donkey Kong',2,'gameover dk'),
 ('donkeykonggenocide','Donkey Kong',2,'itsover dk arcade retro'),
 ('donkeykonggigathonk','Donkey Kong',2,'noootice notice think stats ponder consider monkey hmm dk'),
+('donkeykonggrin','Donkey Kong',2,'dk smile happy'),
 ('donkeykonghanging','Donkey Kong',2,'swinging dk'),
 ('donkeykongi','Donkey Kong',2,'dk letter'),
 ('donkeykongk','Donkey Kong',2,'k spinning letter dk video game'),
@@ -1577,6 +1575,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('donkeykongtransrights','Donkey Kong',2,'dk'),
 ('donkeykongveryhard','Donkey Kong',2,'dk thumbsup difficult'),
 ('donkeykongvibing','Donkey Kong',2,'dk calm vibe'),
+('donkeykongwtf','Donkey Kong',2,'dk shock wtf fuck scared party gasp'),
 ('donkeythonk','Donkey Kong',2,'dk donkeykong nootice thinking'),
 ('donotwant','Rage',2,'bad computer disgust'),
 ('doomer','Wojak',2,'doomer sad depressed smoking'),
@@ -2204,6 +2203,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseycarpabusivewife','Marsey',2,'carpathianflorist boobs sweater yesdear demeaning jannie fish'),
 ('marseycarpasian','Marsey',2,'carpathianflorist fish azn racist hat paddy gook nip ching chong chink'),
 ('marseycarpautism','Marsey',2,'carpathianflorist special assburgers aspergers retarded janitor jannie'),
+('marseycarpbackstab','Marsey',2,'marseybackstab fuckcarp  fish carpathianflorist'),
 ('marseycarpboobs','Marsey',2,'carpathianflorist boobs booba titties tiddies tits boobs breasts censored fish administrator jannie janny janitor'),
 ('marseycarpbritish','Marsey',2,'carp british bong teeth tea union uk britain gb flag'),
 ('marseycarpbuff','Marsey',2,'muscles tough strong carpathianflorist admin mod jannie'),
@@ -2316,6 +2316,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseychonkerfoid','Marsey',2,'female woman fds fat obese hambeast landwhale porker pig bleeder birthing person bangs'),
 ('marseychonkerfoidpuke','Marsey',2,'fat huge sick yuck eat barf'),
 ('marseychonkernoticeme','Marsey',2,'attention fat foid annoying'),
+('marseychonkerpass','Marsey',2,'fat tranny troon yass obese blob princess'),
 ('marseychristchan','Marsey',2,'missionary jesus christianity cross'),
 ('marseychristchanreading','Marsey',2,'christian cross jesus book missionary bible study'),
 ('marseychristmas','Marsey',2,'candy cane santa christmas holiday'),
@@ -4739,6 +4740,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('w','Marsey Alphabet',2,'letter'),
 ('wah','Classic',2,'wah  emoticon despair sad'),
 ('wallhead','Classic',2,'frustrated angry headbang'),
+('wariotransrights','Misc',2,'lgbt mario vidya'),
 ('wat','Classic',2,'wat emoticon what confused surprised'),
 ('wavyhairblackjack','Wojak',2,'black woman twitter wavy'),
 ('whip','Classic',2,'whip animated emoticon bdsm'),
