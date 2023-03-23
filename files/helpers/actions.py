@@ -507,6 +507,8 @@ def process_poll_options(v:User, target:Union[Submission, Comment]):
 
 	option_count = 0
 
+	option_objects = []
+
 	for pattern, exclusive in patterns:
 		for i in pattern.finditer(target.body):
 			option_count += 1
@@ -538,4 +540,6 @@ def process_poll_options(v:User, target:Union[Submission, Comment]):
 					body_html=body_html,
 					exclusive=exclusive,
 				)
-				g.db.add(option)
+				option_objects.append(option)
+
+	g.db.add_all(option_objects)
