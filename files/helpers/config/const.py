@@ -19,11 +19,14 @@ def IS_HOMOWEEN():
 DEFAULT_TIME_FILTER = "all"
 DEFAULT_THEME = "midnight"
 DEFAULT_COLOR = "805ad5"
-SPAM_SIMILARITY_THRESHOLD = 0.5
 SPAM_URL_SIMILARITY_THRESHOLD = 0.1
+
+SPAM_SIMILARITY_THRESHOLD = 0.5
 SPAM_SIMILAR_COUNT_THRESHOLD = 10
+
 COMMENT_SPAM_SIMILAR_THRESHOLD = 0.5
 COMMENT_SPAM_COUNT_THRESHOLD = 10
+
 DISABLE_DOWNVOTES = False
 DESCRIPTION = "rdrama.net caters to drama in all forms such as: Real life, videos, photos, gossip, rumors, news sites, Reddit, and Beyond™. There isn't drama we won't touch, and we want it all!"
 EMAIL = "rdrama@rdrama.net"
