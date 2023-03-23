@@ -87,11 +87,11 @@ def edit_rules_post(v):
 	with open(f'files/templates/rules_{SITE_NAME}.html', 'w+', encoding="utf-8") as f:
 		f.write(rules)
 
-	ma = ModAction(
-		kind="edit_rules",
-		user_id=v.id,
-	)
-	g.db.add(ma)
+	# ma = ModAction(
+	# 	kind="edit_rules",
+	# 	user_id=v.id,
+	# )
+	# g.db.add(ma)
 	return render_template('admin/edit_rules.html', v=v, rules=rules, msg='Rules edited successfully!')
 
 @app.post("/@<username>/make_admin")
