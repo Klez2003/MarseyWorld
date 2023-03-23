@@ -869,7 +869,8 @@ class User(Base):
 				'badges': [x.json for x in self.badges],
 				'coins': self.coins,
 				'post_count': self.real_post_count(g.v),
-				'comment_count': self.real_comment_count(g.v)
+				'comment_count': self.real_comment_count(g.v),
+				'agendaposter_phrase': self.agendaposter_phrase,
 				}
 
 
