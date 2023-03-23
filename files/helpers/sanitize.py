@@ -630,16 +630,15 @@ def complies_with_chud(obj):
 
 	soup=BeautifulSoup(obj.body_html.lower(), 'lxml')
 
+	if isinstance(obj, Submission):
+		obj.title_html = torture_ap(obj.title_html, obj.author.username)
+	obj.body_html = torture_ap(obj.body_html, obj.author.username)
+
 	tags = soup.html.body.find_all('p', recursive=False)
 
 	for tag in tags:
 		for text in tag.find_all(text=True, recursive=False):
 			if obj.author.agendaposter_phrase in text:
 				return True
-
-	if isinstance(obj, Submission):
-		obj.title_html = torture_ap(title_html, obj.author.username)
-
-	obj.body_html = torture_ap(body_html, obj.author.username)
 
 	return False
