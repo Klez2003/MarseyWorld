@@ -620,6 +620,16 @@ def validate_css(css):
 
 
 def complies_with_chud(obj):
+	if not obj.author.agendaposter: return True
+	if obj.author.marseyawarded: return True
+
+	if isinstance(obj, Submission):
+		if obj.id in ADMIGGER_THREADS: return True
+		if obj.sub == "chudrama": return True
+	elif obj.parent_submission:
+		if obj.parent_submission in ADMIGGER_THREADS: return True
+		if obj.post.sub == "chudrama": return True
+
 	soup=BeautifulSoup(obj.body_html.lower(), 'lxml')
 
 	tags = soup.html.body.find_all('p', recursive=False)

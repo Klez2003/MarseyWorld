@@ -279,7 +279,7 @@ def comment(v:User):
 	if c.level == 1: c.top_comment_id = c.id
 	else: c.top_comment_id = parent.top_comment_id
 
-	if post_target.id not in ADMIGGER_THREADS and v.agendaposter and not v.marseyawarded and not (posting_to_submission and post_target.sub == 'chudrama') and not complies_with_chud(c):
+	if not complies_with_chud(c):
 		c.is_banned = True
 		c.ban_reason = "AutoJanny"
 		g.db.add(c)
@@ -674,7 +674,7 @@ def edit_comment(cid, v):
 		execute_blackjack(v, c, c.body, "comment")
 		execute_under_siege(v, c, c.body, "comment")
 
-		if not (c.parent_submission and c.post.id in ADMIGGER_THREADS) and v.agendaposter and not v.marseyawarded and not (c.parent_submission and c.post.sub == 'chudrama') and not complies_with_chud(c):
+		if not complies_with_chud(c):
 			abort(403, f'You have to include "{v.agendaposter_phrase}" in your comment!')
 
 
