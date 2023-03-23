@@ -618,19 +618,21 @@ def complies_with_chud(obj):
 	if not obj.author.agendaposter: return True
 	if obj.author.marseyawarded: return True
 
+	old_body_html = obj.body_html.lower()
+
 	if isinstance(obj, Submission):
 		if obj.id in ADMIGGER_THREADS: return True
 		if obj.sub == "chudrama": return True
-		if obj.author.agendaposter_phrase in obj.title: return True
 	elif obj.parent_submission:
 		if obj.parent_submission in ADMIGGER_THREADS: return True
 		if obj.post.sub == "chudrama": return True
 
-	soup=BeautifulSoup(obj.body_html.lower(), 'lxml')
-
+	obj.body_html = torture_ap(obj.body_html, obj.author.username)
 	if isinstance(obj, Submission):
 		obj.title_html = torture_ap(obj.title_html, obj.author.username)
-	obj.body_html = torture_ap(obj.body_html, obj.author.username)
+		if obj.author.agendaposter_phrase in obj.title: return True
+
+	soup=BeautifulSoup(old_body_html, 'lxml')
 
 	tags = soup.html.body.find_all(lambda tag: tag.name == 'p' and not tag.attrs, recursive=False)
 
