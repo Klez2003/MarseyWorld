@@ -1432,6 +1432,10 @@ def gumroad():
 		abort(400)
 
 	id = data['sale_id']
+
+	existing = g.db.get(Transaction, id)
+	if existing: return ''
+
 	created_utc = time.time()
 	type = data['recurrence']
 	amount = int(data['price']) / 100
