@@ -634,7 +634,7 @@ def complies_with_chud(obj):
 		obj.title_html = torture_ap(obj.title_html, obj.author.username)
 	obj.body_html = torture_ap(obj.body_html, obj.author.username)
 
-	tags = soup.html.body.find_all('p', recursive=False)
+	tags = soup.html.body.find_all(lambda tag: tag.name == 'p' and not tag.attrs, recursive=False)
 
 	for tag in tags:
 		for text in tag.find_all(text=True, recursive=False):
