@@ -191,6 +191,8 @@ def push_notif(uids, title, body, url_or_comment):
 
 	if isinstance(url_or_comment, Comment):
 		c = url_or_comment
+		if c.is_banned: return
+
 		if c.wall_user_id:
 			url = f'{SITE_FULL}/@{c.wall_user.username}/wall/comment/{c.id}?read=true#context'
 		else:
