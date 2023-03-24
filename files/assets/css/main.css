@@ -7248,26 +7248,26 @@ button, .btn {
 }
 
 .agendaposter-0:after {
-    content: url(/i/chud/0.webp);
+    content: url("/i/chud/0.webp?x=1");
 }
 .agendaposter-1:after {
-    content: url(/i/chud/1.webp);
+    content: url("/i/chud/1.webp?x=1");
 }
 .agendaposter-2:after {
-    content: url(/i/chud/2.webp);
+    content: url("/i/chud/2.webp?x=1");
 }
 .agendaposter-3:after {
-    content: url(/i/chud/3.webp);
+    content: url("/i/chud/3.webp?x=1");
 }
 .agendaposter-4:after {
-    content: url(/i/chud/4.webp);
+    content: url("/i/chud/4.webp?x=1");
 }
 .agendaposter-5:after {
-    content: url(/i/chud/5.webp);
+    content: url("/i/chud/5.webp?x=1");
 }
 .agendaposter-6:after {
-    content: url(/i/chud/6.webp);
+    content: url("/i/chud/6.webp?x=1");
 }
 .agendaposter-7:after, .agendaposter-7:after, .agendaposter-9:after {
-    content: url(/i/chud/7.webp);
+    content: url("/i/chud/7.webp?x=1");
 }
