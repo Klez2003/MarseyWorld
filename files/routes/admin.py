@@ -1042,26 +1042,25 @@ def agendaposter(id, v):
 	reason = reason_regex_post.sub(r'<a href="\1">\1</a>', reason)
 	reason = reason_regex_comment.sub(r'<a href="\1#context">\1</a>', reason)
 
-	duration = "permanently"
 	if days:
 		if user.agendaposter:
 			user.agendaposter += days * 86400
 		else:
 			user.agendaposter = int(time.time()) + (days * 86400)
+
 		days_txt = str(days)
 		if days_txt.endswith('.0'): days_txt = days_txt[:-2]
 		duration = f"for {days_txt} day"
 		if days != 1: duration += "s"
-		if reason: text = f"@{v.username} (a site admin) has chudded you for **{days_txt}** days for the following reason:\n\n> {reason}"
-		else: text = f"@{v.username} (a site admin) has chudded you for **{days_txt}** days."
 	else:
 		user.agendaposter = 1
-		if reason: text = f"@{v.username} (a site admin) has chudded you permanently for the following reason:\n\n> {reason}"
-		else: text = f"@{v.username} (a site admin) has chudded you permanently."
+		duration = "permanently"
 
 	user.agendaposter_phrase = "trans lives matter"
 
-	text += f"\n\n> {user.agendaposter_phrase}"
+	text = f"@{v.username} (a site admin) has chudded you **{duration}**"
+	if reason: text += f"for the following reason:\n\n> {reason}"
+	text += f"\n\n**You now have to say this phrase in all posts and comments you make {duration}:**\n\n> {user.agendaposter_phrase}"
 
 	user.chudded_by = v.id
 	g.db.add(user)

@@ -221,6 +221,8 @@ def award_thing(v, thing_type, id):
 			msg += "!"
 			if note:
 				note = '\n\n> '.join(note.splitlines())
+				if kind == "agendaposter":
+					msg += f"\n\n**You now have to say this phrase in all posts and comments you make for 24 hours:**"
 				msg += f"\n\n> {note}"
 			send_repeatable_notification(author.id, msg)
 
