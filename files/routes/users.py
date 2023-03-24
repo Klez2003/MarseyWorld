@@ -1034,6 +1034,8 @@ def u_username_comments(username, v=None):
 	comments.reverse()
 
 	for x in comments:
+		x.blueish = True
+
 		if x.replies2 == None: x.replies2 = []
 
 		if x.parent_comment_id:
@@ -1045,6 +1047,10 @@ def u_username_comments(username, v=None):
 			x.parent_comment.replies2.sort(key=lambda x: x.created_utc, reverse=True)
 
 			x = x.parent_comment
+
+			if x.author_id == u.id:
+				x.blueish = True
+
 			if x.id in old_ids: continue
 			ids.add(x.id)
 
@@ -1073,9 +1079,11 @@ def u_username_comments(username, v=None):
 @limiter.limit(DEFAULT_RATELIMIT)
 @auth_desired_with_logingate
 def profile_more_comments(v, cid, username):
+	uid = get_user(username).id
+
 	comments = g.db.query(Comment).filter(
 		Comment.top_comment_id == get_comment(cid).top_comment_id,
-		Comment.author_id == get_user(username).id,
+		Comment.author_id == uid,
 		Comment.level > 9,
 	).all()
 
@@ -1083,6 +1091,8 @@ def profile_more_comments(v, cid, username):
 	ids = set()
 
 	for x in comments:
+		x.blueish = True
+
 		while x.parent_comment_id != cid and x.level > 9:
 			if x.id in ids: break
 			ids.add(x.id)
@@ -1092,6 +1102,9 @@ def profile_more_comments(v, cid, username):
 			x.parent_comment.replies2.append(x)
 
 			x = x.parent_comment
+
+			if x.author_id == uid:
+				x.blueish = True
 
 		ids.add(x.id)
 

@@ -135,8 +135,7 @@ color: var(--gray-700);
 	background-color: var(--gray-800);
 }
 
-.post-title
-{
+.post-title {
 	color: var(--gray-300) !important;
 }
 
@@ -147,4 +146,9 @@ color: var(--gray-700);
 
 h5.post-title a:visited {
 	color: #6e6e6e !important;
+}
+
+.blueish {
+	background-color: #312e49 !important;
+	border-left: 10px solid #312e49 !important;
 }

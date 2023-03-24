@@ -3,3 +3,8 @@
 	--black: #999;
 	--background: 34, 34, 34;
 }
+
+.blueish {
+	background-color: #312e49 !important;
+	border-left: 10px solid #312e49 !important;
+}
