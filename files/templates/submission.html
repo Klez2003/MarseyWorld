@@ -124,7 +124,7 @@
 						{% endif %}
 
 
-						<div id="post-text" class="{% if p.author.agendaposter and p.sub != 'chudrama' %}agendaposter{% endif %} {% if p.author.rainbow %}rainbow-text{% endif %}">
+						<div id="post-text" class="{% if p.author.agendaposter and p.sub != 'chudrama' %}agendaposter agendaposter-{{p.id_last_num}}{% endif %} {% if p.author.rainbow %}rainbow-text{% endif %}">
 							{% if p.is_image %}
 								<div class="row no-gutters mb-4">
 									<div class="col">

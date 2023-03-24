@@ -7246,3 +7246,28 @@ button, .btn {
 :not(td) > a[href="/h/countryclub"] {
 	animation: rb 8s linear infinite;
 }
+
+.agendaposter-0:after {
+    content: url(/i/chud/0.webp);
+}
+.agendaposter-1:after {
+    content: url(/i/chud/1.webp);
+}
+.agendaposter-2:after {
+    content: url(/i/chud/2.webp);
+}
+.agendaposter-3:after {
+    content: url(/i/chud/3.webp);
+}
+.agendaposter-4:after {
+    content: url(/i/chud/4.webp);
+}
+.agendaposter-5:after {
+    content: url(/i/chud/5.webp);
+}
+.agendaposter-6:after {
+    content: url(/i/chud/6.webp);
+}
+.agendaposter-7:after, .agendaposter-7:after, .agendaposter-9:after {
+    content: url(/i/chud/7.webp);
+}

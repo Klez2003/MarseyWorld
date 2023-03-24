@@ -287,10 +287,6 @@ def sanitize_settings_text(sanitized:Optional[str], max_length:Optional[int]=Non
 	return sanitized
 
 
-chud_images = listdir("files/assets/images/chud")
-chud_images = [f'\n\n{SITE_FULL_IMAGES}/i/chud/{f}' for f in chud_images]
-chud_images.extend([':#trumpjaktalking:', ':#reposthorse:', ':#chudjaktalking:'])
-
 def handle_youtube_links(url):
 	html = None
 	params = parse_qs(urlparse(url).query, keep_blank_values=True)
@@ -326,7 +322,7 @@ def handle_youtube_links(url):
 	return html
 
 @with_sigalrm_timeout(10)
-def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_emojis=False, torture=False, snappy=False, chat=False, blackjack=None):
+def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_emojis=False, snappy=False, chat=False, blackjack=None):
 	sanitized = sanitized.strip()
 
 	if blackjack and execute_blackjack(g.v, None, sanitized, blackjack):
@@ -334,10 +330,6 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_emojis=
 
 	sanitized = utm_regex.sub('', sanitized)
 	sanitized = utm_regex2.sub('', sanitized)
-
-	if torture:
-		to_add = random.choice(chud_images)
-		sanitized += f'\n\n{to_add}'
 
 	sanitized = normalize_url(sanitized)
 

@@ -230,8 +230,7 @@ def comment(v:User):
 	if v.owoify: body_for_sanitize = owoify(body_for_sanitize)
 	if v.marsify: body_for_sanitize = marsify(body_for_sanitize)
 
-	torture = (v.agendaposter and not v.marseyawarded and not (posting_to_submission and post_target.sub == 'chudrama') and post_target.id not in ADMIGGER_THREADS)
-	body_html = sanitize(body_for_sanitize, limit_pings=5, count_emojis=not v.marsify, torture=torture)
+	body_html = sanitize(body_for_sanitize, limit_pings=5, count_emojis=not v.marsify)
 
 	if post_target.id not in ADMIGGER_THREADS and '!wordle' not in body.lower() and not (v.agendaposter and v.agendaposter_phrase in body.lower()):
 		existing = g.db.query(Comment.id).filter(
@@ -643,9 +642,7 @@ def edit_comment(cid, v):
 		if v.marsify:
 			body_for_sanitize = marsify(body_for_sanitize)
 
-		torture = (v.agendaposter and not v.marseyawarded and not (c.parent_submission and c.post.sub == 'chudrama'))
-
-		body_html = sanitize(body_for_sanitize, golden=False, limit_pings=5, torture=torture)
+		body_html = sanitize(body_for_sanitize, golden=False, limit_pings=5)
 
 		if len(body_html) > COMMENT_BODY_HTML_LENGTH_LIMIT: abort(400)
 

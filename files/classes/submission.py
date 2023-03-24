@@ -110,6 +110,11 @@ class Submission(Base):
 
 	@property
 	@lazy
+	def id_last_num(self):
+		return str(self.id)[-1]
+
+	@property
+	@lazy
 	def shortlink(self):
 		link = f"/post/{self.id}"
 		if self.sub: link = f"/h/{self.sub}{link}"

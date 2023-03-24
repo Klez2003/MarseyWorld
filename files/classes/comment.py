@@ -194,6 +194,11 @@ class Comment(Base):
 
 	@property
 	@lazy
+	def id_last_num(self):
+		return str(self.id)[-1]
+
+	@property
+	@lazy
 	def parent_fullname(self):
 		if self.parent_comment_id: return f"c_{self.parent_comment_id}"
 		elif self.parent_submission: return f"p_{self.parent_submission}"
