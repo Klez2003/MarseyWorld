@@ -74,6 +74,9 @@ else:
 	SITE_FULL = 'https://' + SITE
 	SITE_FULL_IMAGES = 'https://i.' + SITE
 
+if SITE == 'staging.rdrama.net':
+	SITE_FULL_IMAGES = 'https://i.rdrama.net'
+
 LOGGED_IN_CACHE_KEY = f"{SITE}_loggedin"
 LOGGED_OUT_CACHE_KEY = f"{SITE}_loggedout"
 CHAT_ONLINE_CACHE_KEY = f"{SITE}_online"
