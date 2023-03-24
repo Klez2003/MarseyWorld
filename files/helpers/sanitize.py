@@ -611,7 +611,8 @@ def validate_css(css):
 
 	return True, ""
 
-
+	
+phrase_tags = {'p','h1','h2','h3','h4','h5','h6'}
 def complies_with_chud(obj):
 	if not obj.author.agendaposter: return True
 	if obj.author.marseyawarded: return True
@@ -636,7 +637,7 @@ def complies_with_chud(obj):
 		print(f'{STARS}{old_body_html}{STARS}', flush=True)
 		return False
 
-	tags = soup.html.body.find_all(lambda tag: tag.name == 'p' and not tag.attrs, recursive=False)
+	tags = soup.html.body.find_all(lambda tag: tag.name in phrase_tags and not tag.attrs, recursive=False)
 
 	for tag in tags:
 		for text in tag.find_all(text=True, recursive=False):
