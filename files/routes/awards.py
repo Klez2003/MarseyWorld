@@ -406,7 +406,6 @@ def award_thing(v, thing_type, id):
 		if 'Vampire' not in author.house:
 			if not author.old_house:
 				author.old_house = author.house
-			
 			author.house = 'Vampire'
 
 		badge_grant(user=author, badge_id=168)
