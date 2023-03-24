@@ -37,6 +37,6 @@ function collapse_comment(id) {
 	}
 
 	const ta = document.getElementById('markdown-c_'+id);
-	if (!ta.classList.contains('d-none'))
+	if (ta && !ta.classList.contains('d-none'))
 		expandMarkdown(`c_${id}`)
 };

@@ -1031,6 +1031,7 @@ def u_username_comments(username, v=None):
 	ids = old_ids
 
 	listing = []
+	comments.reverse()
 
 	for x in comments:
 		if x.replies2 == None: x.replies2 = []
@@ -1053,7 +1054,10 @@ def u_username_comments(username, v=None):
 				x.parent_comment.replies2.append(x)
 				x.parent_comment.replies2.sort(key=lambda x: x.created_utc, reverse=True)
 				continue
-		listing.append(x)
+		if x.top_comment_id not in [x.id for x in listing]:
+			listing.append(x)
+
+	listing.reverse()
 
 	ids.update([x.id for x in listing])
 
@@ -1065,6 +1069,39 @@ def u_username_comments(username, v=None):
 
 	return render_template("userpage/comments.html", u=u, v=v, listing=listing, page=page, sort=sort, t=t, next_exists=next_exists, is_following=is_following, standalone=True, render_replies=True)
 
+@app.get("/@<username>/more_comments/<int:cid>")
+@limiter.limit(DEFAULT_RATELIMIT)
+@auth_desired_with_logingate
+def profile_more_comments(v, cid, username):
+	comments = g.db.query(Comment).filter(
+		Comment.top_comment_id == get_comment(cid).top_comment_id,
+		Comment.author_id == get_user(username).id,
+		Comment.level > 9,
+	).all()
+
+	listing = []
+	ids = set()
+
+	for x in comments:
+		while x.parent_comment_id != cid and x.level > 9:
+			if x.id in ids: break
+			ids.add(x.id)
+
+			if x.parent_comment.replies2 == None:
+				x.parent_comment.replies2 = []
+			x.parent_comment.replies2.append(x)
+
+			x = x.parent_comment
+
+		ids.add(x.id)
+
+		if x not in listing and x.parent_comment_id == cid:
+			listing.append(x)
+
+	if v:
+		output = get_comments_v_properties(v, None, Comment.id.in_(ids))[1]
+
+	return render_template("comments.html", v=v, comments=listing, render_replies=True)
 
 @app.get("/@<username>/info")
 @limiter.limit(DEFAULT_RATELIMIT)
