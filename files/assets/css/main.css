@@ -7249,33 +7249,25 @@ button, .btn {
 
 .agendaposter-0:after {
     content: url(/i/chud/0.webp);
-    zoom: 0.5;
 }
 .agendaposter-1:after {
     content: url(/i/chud/1.webp);
-    zoom: 0.5;
 }
 .agendaposter-2:after {
     content: url(/i/chud/2.webp);
-    zoom: 0.5;
 }
 .agendaposter-3:after {
     content: url(/i/chud/3.webp);
-    zoom: 0.5;
 }
 .agendaposter-4:after {
     content: url(/i/chud/4.webp);
-    zoom: 0.5;
 }
 .agendaposter-5:after {
     content: url(/i/chud/5.webp);
-    zoom: 0.5;
 }
 .agendaposter-6:after {
     content: url(/i/chud/6.webp);
-    zoom: 0.5;
 }
 .agendaposter-7:after, .agendaposter-7:after, .agendaposter-9:after {
     content: url(/i/chud/7.webp);
-    zoom: 0.5;
 }
