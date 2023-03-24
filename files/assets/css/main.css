@@ -7273,7 +7273,7 @@ button, .btn {
 }
 .agendaposter-6:after {
     content: url("/i/chud/6.webp?x=2");
-	zoom: 0.3;
+	zoom: 0.25;
 }
 .agendaposter-7:after, .agendaposter-8:after, .agendaposter-9:after {
     content: url("/i/chud/7.webp?x=2");
@@ -7283,5 +7283,8 @@ button, .btn {
 @media (max-width: 410px) {
 	.agendaposter:after {
 		zoom: 0.3 !important;
+	}
+	.agendaposter-6:after {
+		zoom: 0.16 !important;
 	}
 }
