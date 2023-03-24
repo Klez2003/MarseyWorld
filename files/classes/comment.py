@@ -333,7 +333,9 @@ class Comment(Base):
 		body = add_options(self, body, v)
 
 		if body:
-			body = censor_slurs(body, v)
+			if not (self.parent_submission and self.post.sub == 'chudrama'):
+				body = censor_slurs(body, v)
+		
 			body = normalize_urls_runtime(body, v)
 			if not v or v.controversial:
 				captured = []
@@ -365,8 +367,9 @@ class Comment(Base):
 
 		if not body: return ""
 
-		body = censor_slurs(body, v).replace('<img loading="lazy" data-bs-toggle="tooltip" alt=":marseytrain:" title=":marseytrain:" src="/e/marseytrain.webp">', ':marseytrain:') \
-		.replace('<img loading="lazy" data-bs-toggle="tooltip" alt=":marseysleep:" title=":marseysleep:" src="/e/marseysleep.webp">', ':marseysleep:')
+		if not (self.parent_submission and self.post.sub == 'chudrama'):
+			body = censor_slurs(body, v).replace('<img loading="lazy" data-bs-toggle="tooltip" alt=":marseytrain:" title=":marseytrain:" src="/e/marseytrain.webp">', ':marseytrain:') \
+			.replace('<img loading="lazy" data-bs-toggle="tooltip" alt=":marseysleep:" title=":marseysleep:" src="/e/marseysleep.webp">', ':marseysleep:')
 
 		return body
 

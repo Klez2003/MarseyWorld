@@ -302,7 +302,9 @@ class Submission(Base):
 
 		body = add_options(self, body, v)
 
-		body = censor_slurs(body, v)
+		if self.sub != 'chudrama':
+			body = censor_slurs(body, v)
+
 		body = normalize_urls_runtime(body, v)
 
 		if not listing and not self.ghost and self.author.show_sig(v):
@@ -318,8 +320,9 @@ class Submission(Base):
 		body = self.body
 		if not body: return ""
 
-		body = censor_slurs(body, v).replace('<img loading="lazy" data-bs-toggle="tooltip" alt=":marseytrain:" title=":marseytrain:" src="/e/marseytrain.webp">', ':marseytrain:') \
-		.replace('<img loading="lazy" data-bs-toggle="tooltip" alt=":marseysleep:" title=":marseysleep:" src="/e/marseysleep.webp">', ':marseysleep:')
+		if self.sub != 'chudrama':
+			body = censor_slurs(body, v).replace('<img loading="lazy" data-bs-toggle="tooltip" alt=":marseytrain:" title=":marseytrain:" src="/e/marseytrain.webp">', ':marseytrain:') \
+			.replace('<img loading="lazy" data-bs-toggle="tooltip" alt=":marseysleep:" title=":marseysleep:" src="/e/marseysleep.webp">', ':marseysleep:')
 
 		body = normalize_urls_runtime(body, v)
 
@@ -328,8 +331,9 @@ class Submission(Base):
 	@lazy
 	def realtitle(self, v):
 		title = self.title_html
-
-		title = censor_slurs(title, v)
+			
+		if self.sub != 'chudrama':
+			title = censor_slurs(title, v)
 
 		return title
 
@@ -337,8 +341,9 @@ class Submission(Base):
 	def plaintitle(self, v):
 		title = self.title
 
-		title = censor_slurs(title, v).replace('<img loading="lazy" data-bs-toggle="tooltip" alt=":marseytrain:" title=":marseytrain:" src="/e/marseytrain.webp">', ':marseytrain:') \
-		.replace('<img loading="lazy" data-bs-toggle="tooltip" alt=":marseysleep:" title=":marseysleep:" src="/e/marseysleep.webp">', ':marseysleep:')
+		if self.sub != 'chudrama':
+			title = censor_slurs(title, v).replace('<img loading="lazy" data-bs-toggle="tooltip" alt=":marseytrain:" title=":marseytrain:" src="/e/marseytrain.webp">', ':marseytrain:') \
+			.replace('<img loading="lazy" data-bs-toggle="tooltip" alt=":marseysleep:" title=":marseysleep:" src="/e/marseysleep.webp">', ':marseysleep:')
 
 		return title
 
