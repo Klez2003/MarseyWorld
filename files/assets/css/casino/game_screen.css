@@ -164,3 +164,16 @@
 		font-size: 13px !important;
 	}
 }
+
+@media (max-width: 768px) {
+	.casino-game-leaderboard-info {
+		letter-spacing: 0.5px;
+	}
+	.casino-game-leaderboard-info > h3 {
+		margin: 0;
+	}
+	.casino-game-leaderboard-info > h3 > a {
+		font-size: 12px;
+		font-weight: 700;
+	}
+}
