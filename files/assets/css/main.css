@@ -7287,7 +7287,7 @@ button, .btn {
 
 @media (max-width: 410px) {
 	.agendaposter-0:after {
-		zoom: 0.5;
+		zoom: 0.4;
 	}
 	.agendaposter-1:after {
 		zoom: 0.3;
