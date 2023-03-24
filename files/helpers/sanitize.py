@@ -51,7 +51,7 @@ allowed_tags = ('b','blockquote','br','code','del','em','h1','h2','h3','h4','h5'
 	'li','ol','p','pre','strong','sub','sup','table','tbody','th','thead','td','tr','ul',
 	'marquee','a','span','ruby','rp','rt','spoiler','img','lite-youtube','video','audio','g')
 
-allowed_styles = ['color', 'background-color', 'font-weight', 'text-align', 'filter',]
+allowed_styles = ['color', 'background-color', 'font-weight', 'text-align']
 
 def allowed_attributes(tag, name, value):
 
@@ -473,7 +473,12 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_emojis=
 	sanitized = sanitized.replace('<p></p>', '')
 	sanitized = sanitized.replace('<html><body>','').replace('</body></html>','')
 
-	css_sanitizer = CSSSanitizer(allowed_css_properties=allowed_styles)
+	if g.v and g.v.agendaposter:
+		allowed_css_properties = allowed_styles
+	else:
+		allowed_css_properties = allowed_styles + ["filter"]
+
+	css_sanitizer = CSSSanitizer(allowed_css_properties=allowed_css_properties)
 	sanitized = bleach.Cleaner(tags=allowed_tags,
 								attributes=allowed_attributes,
 								protocols=['http', 'https'],
