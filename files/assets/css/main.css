@@ -7268,6 +7268,12 @@ button, .btn {
 .agendaposter-6:after {
     content: url("/i/chud/6.webp?x=1");
 }
-.agendaposter-7:after, .agendaposter-7:after, .agendaposter-9:after {
+.agendaposter-7:after, .agendaposter-8:after, .agendaposter-9:after {
     content: url("/i/chud/7.webp?x=1");
+}
+
+@media (max-width: 410px) {
+	.agendaposter:after {
+		zoom: 0.7;
+	}
 }
