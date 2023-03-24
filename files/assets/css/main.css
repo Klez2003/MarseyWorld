@@ -7163,7 +7163,7 @@ input[type=number] {
 	}
 }
 
-.unbreakable {
+.unbreakable, a[href^="/id/"] {
 	white-space: nowrap;
 }
 
