@@ -7286,10 +7286,28 @@ button, .btn {
 }
 
 @media (max-width: 410px) {
-	.agendaposter:after {
-		zoom: 0.3 !important;
+	.agendaposter-0:after {
+		zoom: 0.5;
+	}
+	.agendaposter-1:after {
+		zoom: 0.3;
+	}
+	.agendaposter-2:after {
+		zoom: 0.3;
+	}
+	.agendaposter-3:after {
+		zoom: 0.3;
+	}
+	.agendaposter-4:after {
+		zoom: 0.3;
+	}
+	.agendaposter-5:after {
+		zoom: 0.3;
 	}
 	.agendaposter-6:after {
-		zoom: 0.16 !important;
+		zoom: 0.16;
+	}
+	.agendaposter-7:after, .agendaposter-8:after, .agendaposter-9:after {
+		zoom: 0.3;
 	}
 }
