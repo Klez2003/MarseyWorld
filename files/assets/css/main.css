@@ -7252,62 +7252,49 @@ button, .btn {
 	animation: rb 8s linear infinite;
 }
 
-.agendaposter-0:after {
-    content: url("/i/chud/0.webp?x=2");
-	zoom: 0.5;
-}
-.agendaposter-1:after {
-    content: url("/i/chud/1.webp?x=2");
-	zoom: 0.5;
-}
-.agendaposter-2:after {
-    content: url("/i/chud/2.webp?x=2");
-	zoom: 0.35;
-}
-.agendaposter-3:after {
-    content: url("/i/chud/3.webp?x=2");
-	zoom: 0.4;
-}
-.agendaposter-4:after {
-    content: url("/i/chud/4.webp?x=2");
-	zoom: 0.5;
-}
-.agendaposter-5:after {
-    content: url("/i/chud/5.webp?x=2");
-	zoom: 0.5;
-}
-.agendaposter-6:after {
-    content: url("/i/chud/6.webp?x=2");
-	zoom: 0.25;
-}
-.agendaposter-7:after, .agendaposter-8:after, .agendaposter-9:after {
-    content: url("/i/chud/7.webp?x=2");
-	zoom: 0.5;
+.agendaposter:after {
+	content: "";
+	display: inline-block;
+	margin-top: 10px;
+	width: 250px;
+	height: 150px;
+	background-size: contain !important;	
+	background-repeat: no-repeat !important;
 }
 
+.agendaposter-0:after {
+    background: url("/i/chud/0.webp?x=2");
+}
+.agendaposter-1:after {
+    background: url("/i/chud/1.webp?x=2");
+}
+.agendaposter-2:after {
+	background: url("/i/chud/2.webp?x=2");
+}
+.agendaposter-3:after {
+    background: url("/i/chud/3.webp?x=2");
+}
+.agendaposter-4:after {
+    background: url("/i/chud/4.webp?x=2");
+}
+.agendaposter-5:after {
+    background: url("/i/chud/5.webp?x=2");
+	height: 100px;
+}
+.agendaposter-6:after {
+    background: url("/i/chud/6.webp?x=2");
+}
+.agendaposter-7:after, .agendaposter-8:after, .agendaposter-9:after {
+    background: url("/i/chud/7.webp?x=2");
+}
+
+
 @media (max-width: 410px) {
-	.agendaposter-0:after {
-		zoom: 0.4;
-	}
-	.agendaposter-1:after {
-		zoom: 0.3;
-	}
-	.agendaposter-2:after {
-		zoom: 0.3;
-	}
-	.agendaposter-3:after {
-		zoom: 0.35;
-	}
-	.agendaposter-4:after {
-		zoom: 0.3;
+	.agendaposter:after {
+		width: 50vw;
+		height: 100px;
 	}
 	.agendaposter-5:after {
-		zoom: 0.3;
-	}
-	.agendaposter-6:after {
-		zoom: 0.2;
-	}
-	.agendaposter-7:after, .agendaposter-8:after, .agendaposter-9:after {
-		zoom: 0.4;
-	}
+		height: 65px;
+	}	
 }
