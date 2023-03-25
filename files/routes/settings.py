@@ -749,11 +749,11 @@ def settings_song_change_mp3(v):
 
 	size = os.stat(name).st_size
 	if size > 8 * 1024 * 1024:
-		remove_media_using_link(name)
+		os.remove(name)
 		return redirect("/settings/personal?error=MP3 file must be smaller than 8MB")
 
 	if path.isfile(f"/songs/{v.song}.mp3") and g.db.query(User).filter_by(song=v.song).count() == 1:
-		remove_media_using_link(f"/songs/{v.song}.mp3")
+		os.remove(f"/songs/{v.song}.mp3")
 
 	v.song = song
 	g.db.add(v)
@@ -766,7 +766,7 @@ def _change_song_youtube(vid, id):
 	v = db.get(User, vid)
 
 	if v.song and path.isfile(f"/songs/{v.song}.mp3") and db.query(User).filter_by(song=v.song).count() == 1:
-		remove_media_using_link(f"/songs/{v.song}.mp3")
+		os.remove(f"/songs/{v.song}.mp3")
 
 	ydl_opts = {
 		'cookiefile': '/cookies',
@@ -807,7 +807,7 @@ def settings_song_change(v):
 
 	if song == "" and v.song:
 		if path.isfile(f"/songs/{v.song}.mp3") and g.db.query(User).filter_by(song=v.song).count() == 1:
-			remove_media_using_link(f"/songs/{v.song}.mp3")
+			os.remove(f"/songs/{v.song}.mp3")
 		v.song = None
 		g.db.add(v)
 		return redirect("/settings/personal?msg=Profile Anthem successfully removed!")

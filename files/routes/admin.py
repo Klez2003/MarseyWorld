@@ -1787,15 +1787,15 @@ def delete_media_post(v):
 	if not url:
 		return render_template("admin/delete_media.html", v=v, url=url, error="No url provided!")
 
-	if not media_deletion_regex.fullmatch(url):
+	if not image_link_regex.fullmatch(url) and not video_link_regex.fullmatch(url):
 		return render_template("admin/delete_media.html", v=v, url=url, error="Invalid url!")
 
-	path = url.split(SITE_FULL)[1]
+	path = url.split(SITE)[1]
 
 	if not os.path.isfile(path):
 		return render_template("admin/delete_media.html", v=v, url=url, error="File not found on the server!")
 
-	remove_media_using_link(path)
+	os.remove(path)
 
 	ma=ModAction(
 		kind="delete_media",
