@@ -6,14 +6,7 @@ function more_comments(cid, sort) {
 	form.append("formkey", formkey());
 	form.append("sort", sort);
 	const xhr = new XMLHttpRequest();
-
-	let url;
-	if (location.pathname.startsWith('/@') && location.pathname.endsWith('/comments'))
-		url = location.pathname.replace("/comments", `/more_comments/${cid}`) 
-	else 
-		url = `/more_comments/${cid}`
-
-	xhr.open("get", url);
+	xhr.open("get", `/more_comments/${cid}`);
 	xhr.setRequestHeader('xhr', 'xhr');
 	xhr.onload=function(){
 		if (xhr.status==200) {
@@ -22,8 +15,7 @@ function more_comments(cid, sort) {
 			register_new_elements(e);
 			bs_trigger(e)
 
-			if (typeof highlight_unread === "function")
-				highlight_unread("old-comment-counts")
+			highlight_unread("old-comment-counts")
 		}
 		btn.disabled = false;
 	}

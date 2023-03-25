@@ -362,7 +362,7 @@ def searchmessages(v:User):
 	next_exists = (len(comments) > PAGE_SIZE)
 	comments = comments[:PAGE_SIZE]
 
-	for x in comments: x.blueish = True
+	for x in comments: x.unread = True
 	
 	comments = [x.top_comment for x in comments]
 
