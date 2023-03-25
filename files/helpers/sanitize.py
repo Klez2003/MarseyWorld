@@ -650,8 +650,8 @@ def complies_with_chud(obj):
 			return True
 
 	#check for agendaposter_phrase in body_html
-	phrase_tags = {'p','h1','h2','h3','h4','h5','h6'}
-	tags = soup.html.body.find_all(lambda tag: tag.name in phrase_tags and not tag.attrs, recursive=False)
+	excluded_tags = {'del','sub','sup','marquee','spoiler','lite-youtube','video','audio'}
+	tags = soup.html.body.find_all(lambda tag: tag.name not in excluded_tags and not tag.attrs, recursive=False)
 	for tag in tags:
 		for text in tag.find_all(text=True, recursive=False):
 			if obj.author.agendaposter_phrase in text.lower():
