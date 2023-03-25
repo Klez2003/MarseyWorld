@@ -66,6 +66,11 @@ MODACTION_TYPES = {
 		"icon": 'fa-gas-pump-slash',
 		"color": 'bg-danger'
 	},
+	'disable_offline_mode': {
+		"str": 'disabled offline mode',
+		"icon": 'fa-lock-open',
+		"color": 'bg-success'
+	},
 	'disable_read_only_mode': {
 		"str": 'disabled read only mode',
 		"icon": 'fa-book',
@@ -135,6 +140,11 @@ MODACTION_TYPES = {
 		"str": 'enabled fart mode',
 		"icon": 'fa-gas-pump',
 		"color": 'bg-success'
+	},
+	'enable_offline_mode': {
+		"str": 'enabled offline mode',
+		"icon": 'fa-lock',
+		"color": 'bg-danger'
 	},
 	'enable_read_only_mode': {
 		"str": 'enabled read only mode',

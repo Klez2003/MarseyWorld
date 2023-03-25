@@ -376,6 +376,10 @@ def change_settings(v:User, setting):
 
 	if setting not in get_settings().keys():
 		abort(404, f"Setting '{setting}' not found")
+
+	if setting == "offline_mode" and v.admin_level < PERMS["SITE_OFFLINE_MODE"]:
+		abort(403, "You can't change this setting!")
+
 	val = toggle_setting(setting)
 	if val: word = 'enable'
 	else: word = 'disable'

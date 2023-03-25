@@ -504,6 +504,7 @@ PERMS = { # Minimum admin_level to perform action.
  	'IGNORE_BADGE_BLACKLIST': 5,
  	'ENABLE_DM_IMAGES': 5,
  	'SEE_GHOST_VOTES': 5,
+	'SITE_OFFLINE_MODE': 5,
 
  	'MODS_EVERY_HOLE': 6,
 	'MODS_EVERY_GROUP': 6,

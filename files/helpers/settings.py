@@ -10,6 +10,7 @@ _SETTINGS = {
 	"bots": True,
 	"fart_mode": False,
 	"read_only_mode": False,
+	"offline_mode": False,
 	"signups": True,
 	"login_required": False,
 	"under_siege": False,
