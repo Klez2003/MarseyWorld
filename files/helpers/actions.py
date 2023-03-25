@@ -115,7 +115,7 @@ def execute_snappy(post:Submission, v:User):
 			snappy.charge_account('coins', cost)
 
 			body = f'!{group.name}'
-		elif body.startswith(':#marseyglowaward:'):
+		elif body.startswith(':#marseyglow'):
 			award_object = AwardRelationship(
 					user_id=snappy.id,
 					kind="glowie",
