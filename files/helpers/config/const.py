@@ -908,6 +908,7 @@ elif SITE == 'devrama.net':
 	FEATURES['PRONOUNS'] = True
 	FEATURES['HOUSES'] = True
 	FEATURES['USERS_PERMANENT_WORD_FILTERS'] = True
+	PERMS["SITE_SETTINGS"] = 4
 else: # localhost or testing environment implied
 	FEATURES['ASSET_SUBMISSIONS'] = True
 	FEATURES['PRONOUNS'] = True
