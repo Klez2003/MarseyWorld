@@ -172,7 +172,7 @@ def group_reject(v:User, group_name, user_id):
 		abort(404, "There is no membership to reject!")
 
 	if membership.approved_utc:
-		text = f"@{v.username} (!{group}'s owner) has kicked you from !{group}"
+		text = f"@{v.username} (!{group}'s owner) has kicked you from the group!"
 		msg = f"You have kicked @{membership.user.username} successfully!"
 	else:
 		text = f"@{v.username} (!{group}'s owner) has rejected your application!"
