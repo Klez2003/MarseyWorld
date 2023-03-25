@@ -29,7 +29,7 @@ from .front import frontlist, comment_idlist
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['VIEW_ACTIVE_USERS'])
 def loggedin_list(v):
-	ids = [x for x,val in cache.get(f'{SITE}_loggedin').items() if time.time()-val < LOGGEDIN_ACTIVE_TIME]
+	ids = [x for x,val in cache.get('loggedin').items() if time.time()-val < LOGGEDIN_ACTIVE_TIME]
 	users = g.db.query(User).filter(User.id.in_(ids)).order_by(User.admin_level.desc(), User.truescore.desc()).all()
 	return render_template("admin/loggedin.html", v=v, users=users)
 
@@ -38,7 +38,7 @@ def loggedin_list(v):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['VIEW_ACTIVE_USERS'])
 def loggedout_list(v):
-	users = sorted([val[1] for x,val in cache.get(f'{SITE}_loggedout').items() if time.time()-val[0] < LOGGEDIN_ACTIVE_TIME])
+	users = sorted([val[1] for x,val in cache.get('loggedout').items() if time.time()-val[0] < LOGGEDIN_ACTIVE_TIME])
 	return render_template("admin/loggedout.html", v=v, users=users)
 
 @app.get('/admin/dm_images')

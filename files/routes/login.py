@@ -144,9 +144,9 @@ def me(v:User):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def logout(v):
-	loggedin = cache.get(f'{SITE}_loggedin') or {}
+	loggedin = cache.get('loggedin') or {}
 	if session.get("lo_user") in loggedin: del loggedin[session["lo_user"]]
-	cache.set(f'{SITE}_loggedin', loggedin)
+	cache.set('loggedin', loggedin)
 	session.pop("lo_user", None)
 	return {"message": "Logout successful!"}
 

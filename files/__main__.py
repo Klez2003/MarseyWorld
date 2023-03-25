@@ -49,6 +49,7 @@ app.config['SESSION_REFRESH_EACH_REQUEST'] = False
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_DATABASE_URL'] = environ.get("DATABASE_URL").strip()
 
+app.config["CACHE_KEY_PREFIX"] = f"{SITE}_flask_cache_"
 app.config["CACHE_TYPE"] = "RedisCache"
 app.config["CACHE_REDIS_URL"] = environ.get("REDIS_URL").strip()
 app.config["CACHE_DEFAULT_TIMEOUT"] = 604800

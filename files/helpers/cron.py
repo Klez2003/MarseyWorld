@@ -44,8 +44,7 @@ def cron(every_5m, every_1h, every_1d, every_1mo):
 	if every_1d:
 		stats.generate_charts_task(SITE)
 		_sub_inactive_purge_task()
-		site_stats = stats.stats(SITE_NAME)
-		cache.set(f'{SITE}_stats', site_stats)
+		cache.set('stats', stats.stats())
 
 	g.db.commit()
 	g.db.close()

@@ -101,7 +101,7 @@ def sidebar(v:Optional[User]):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def participation_stats(v:User):
-	stats = cache.get(f'{SITE}_stats') or {}
+	stats = cache.get('stats') or {}
 	if v.client: return stats
 	return render_template("stats.html", v=v, title="Content Statistics", data=stats)
 

@@ -77,9 +77,9 @@ else:
 if SITE == 'staging.rdrama.net':
 	SITE_FULL_IMAGES = 'https://i.rdrama.net'
 
-LOGGED_IN_CACHE_KEY = f"{SITE}_loggedin"
-LOGGED_OUT_CACHE_KEY = f"{SITE}_loggedout"
-CHAT_ONLINE_CACHE_KEY = f"{SITE}_online"
+LOGGED_IN_CACHE_KEY = "loggedin"
+LOGGED_OUT_CACHE_KEY = "loggedout"
+CHAT_ONLINE_CACHE_KEY = "online"
 REDDIT_NOTIFS_CACHE_KEY = "reddit_notifications"
 
 SESSION_LIFETIME = 60 * 60 * 24 * 365

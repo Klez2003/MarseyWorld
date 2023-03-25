@@ -58,7 +58,6 @@ def front_all(v, sub=None, subdomain=None):
 					gt=gt,
 					lt=lt,
 					sub=sub,
-					site=SITE,
 					pins=pins,
 					holes=holes
 					)
@@ -76,7 +75,7 @@ def front_all(v, sub=None, subdomain=None):
 LIMITED_WPD_HOLES = ('gore', 'aftermath', 'selfharm', 'meta', 'discussion', 'social', 'music', 'request')
 
 @cache.memoize()
-def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='', gt=0, lt=0, sub=None, site=None, pins=True, holes=True):
+def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='', gt=0, lt=0, sub=None, pins=True, holes=True):
 	posts = g.db.query(Submission)
 
 	if v and v.hidevotedon:
@@ -185,7 +184,7 @@ def random_user(v:User):
 	return redirect(f"/@{u}")
 
 @cache.memoize()
-def comment_idlist(v=None, page=1, sort="new", t="day", gt=0, lt=0, site=None):
+def comment_idlist(v=None, page=1, sort="new", t="day", gt=0, lt=0):
 	comments = g.db.query(Comment.id) \
 		.outerjoin(Comment.post) \
 		.filter(
@@ -233,7 +232,6 @@ def all_comments(v:User):
 							t=t,
 							gt=gt,
 							lt=lt,
-							site=SITE
 							)
 
 	comments = get_comments(idlist, v=v)

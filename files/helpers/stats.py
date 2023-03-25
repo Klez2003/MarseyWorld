@@ -93,7 +93,7 @@ def chart(kind, site):
 def chart_path(kind, site):
 	return f'/{site}_{kind}.png'
 
-def stats(site=None):
+def stats():
 	now = time.time()
 	day = int(now) - 86400
 	week = int(now) - 604800

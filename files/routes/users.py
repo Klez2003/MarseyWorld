@@ -787,7 +787,7 @@ def visitors(v:User, username:str):
 	return render_template("userpage/views.html", v=v, u=u, views=views, next_exists=next_exists, page=page)
 
 @cache.memoize()
-def userpagelisting(user:User, site=None, v=None, page:int=1, sort="new", t="all"):
+def userpagelisting(user:User, v=None, page:int=1, sort="new", t="all"):
 	posts = g.db.query(Submission.id).filter_by(author_id=user.id, is_pinned=False)
 	if not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or v.id == user.id)):
 		posts = posts.filter_by(is_banned=False, private=False, ghost=False, deleted_utc=0)
@@ -928,7 +928,7 @@ def u_username(v:Optional[User], username:str):
 	try: page = max(int(request.values.get("page", 1)), 1)
 	except: page = 1
 
-	ids = userpagelisting(u, site=SITE, v=v, page=page, sort=sort, t=t)
+	ids = userpagelisting(u, v=v, page=page, sort=sort, t=t)
 
 	next_exists = (len(ids) > PAGE_SIZE)
 	ids = ids[:PAGE_SIZE]
