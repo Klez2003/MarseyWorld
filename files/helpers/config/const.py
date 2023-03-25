@@ -502,7 +502,7 @@ PERMS = { # Minimum admin_level to perform action.
  	'VIEW_PATRONS': 5,
  	'BLACKJACK_NOTIFICATIONS': 5,
  	'IGNORE_BADGE_BLACKLIST': 5,
- 	'enable_dm_images': 5,
+ 	'ENABLE_DM_IMAGES': 5,
  	'SEE_GHOST_VOTES': 5,
 
  	'MODS_EVERY_HOLE': 6,
