@@ -633,10 +633,11 @@ def complies_with_chud(obj):
 		if obj.parent_submission in ADMIGGER_THREADS: return True
 		if obj.post.sub == "chudrama": return True
 
-	#get body_html's soup
-	soup = BeautifulSoup(obj.body_html, 'lxml')
+	#perserve old body_html to be used in checking for chud phrase
+	old_body_html = obj.body_html
 
 	#torture body_html
+	soup = BeautifulSoup(obj.body_html, 'lxml')
 	tags = soup.html.body.find_all(lambda tag: tag.name not in {'blockquote','codeblock','pre'} and tag.string, recursive=False)
 	for tag in tags:
 		tag.string.replace_with(torture_ap(tag.string, obj.author.username))
@@ -650,6 +651,7 @@ def complies_with_chud(obj):
 
 	#check for agendaposter_phrase in body_html
 	excluded_tags = {'del','sub','sup','marquee','spoiler','lite-youtube','video','audio'}
+	soup = BeautifulSoup(old_body_html, 'lxml')
 	tags = soup.html.body.find_all(lambda tag: tag.name not in excluded_tags and not tag.attrs, recursive=False)
 	for tag in tags:
 		for text in tag.find_all(text=True, recursive=False):
