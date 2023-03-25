@@ -637,10 +637,9 @@ def complies_with_chud(obj):
 	soup = BeautifulSoup(obj.body_html, 'lxml')
 
 	#torture body_html
-	tags = soup.html.body.find_all(lambda tag: tag.name not in {'blockquote','codeblock','pre'}, recursive=False)
+	tags = soup.html.body.find_all(lambda tag: tag.name not in {'blockquote','codeblock','pre'} and tag.string, recursive=False)
 	for tag in tags:
-		if not tag.string: continue
-		tag.string.replace_with(torture_ap(tag.text, obj.author.username))
+		tag.string.replace_with(torture_ap(tag.string, obj.author.username))
 	obj.body_html = str(soup)
 
 	#torture title_html and check for agendaposter_phrase in plain title and leave if it's there
