@@ -96,6 +96,10 @@ AJ_REPLACEMENTS = {
 	' YOUR ': " YOU'RE ",
 	' TO ': " TOO ",
 
+	' am ': ' is ',
+	' Am ': ' Is ',
+	' AM ': ' IS ',
+
 	'everyone': 'everypony',
 	'everybody': 'everypony',
 

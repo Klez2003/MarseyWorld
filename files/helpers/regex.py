@@ -67,10 +67,9 @@ slur_regex_upper = re.compile(f"<[^>]*>|{slur_single_words.upper()}", flags=re.A
 profanity_regex = re.compile(f"<[^>]*>|{profanity_single_words}", flags=re.I|re.A)
 profanity_regex_upper = re.compile(f"<[^>]*>|{profanity_single_words.upper()}", flags=re.A)
 
-torture_regex = re.compile('(^|\s)(i|me) ', flags=re.I|re.A)
-torture_regex2 = re.compile("(^|\s)i'm ", flags=re.I|re.A)
-torture_regex_exclude = re.compile('^\s*(>|`|<blockquote>|<codeblock>|<pre>)', flags=re.A)
-
+torture_regex = re.compile('(^|\s)(i|me)($|\s)', flags=re.I|re.A)
+torture_regex2 = re.compile("(^|\s)(i'm)($|\s)", flags=re.I|re.A)
+torture_regex3 = re.compile("(^|\s)(my|mine)($|\s)", flags=re.I|re.A)
 
 image_check_regex = re.compile(f'!\[\]\(((?!(https:\/\/([a-z0-9-]+\.)*({hosts})\/|\/)).*?)\)', flags=re.A)
 
@@ -159,20 +158,6 @@ def censor_slurs(body:Optional[str], logged_user):
 			body = replace_re(body, profanity_regex, profanity_regex_upper, sub_matcher_profanities, sub_matcher_profanities_upper)
 
 	return body
-
-def torture_ap(body, username):
-	lines = body.splitlines(keepends=True)
-
-	for i in range(len(lines)):
-		if torture_regex_exclude.match(lines[i]):
-			continue
-		for k, l in AJ_REPLACEMENTS.items():
-			lines[i] = lines[i].replace(k, l)
-		lines[i] = torture_regex.sub(rf'\1{username} ', lines[i])
-		lines[i] = torture_regex2.sub(rf'\1{username} is ', lines[i])
-
-	return ''.join(lines).strip()
-
 
 commands = {
 	"fortune": FORTUNE_REPLIES,

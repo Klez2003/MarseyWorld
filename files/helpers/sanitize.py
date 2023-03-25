@@ -611,14 +611,21 @@ def validate_css(css):
 
 	return True, ""
 
-	
-phrase_tags = {'p','h1','h2','h3','h4','h5','h6'}
+
+
+def torture_ap(string, username):
+	if not string: return string
+	for k, l in AJ_REPLACEMENTS.items():
+		string = string.replace(k, l)
+	string = torture_regex.sub(rf'\1{username}\3', string)
+	string = torture_regex2.sub(rf'\1{username} is\3', string)
+	string = torture_regex3.sub(rf"\1{username}'s\3", string)
+	return string
+
 def complies_with_chud(obj):
+	#check for cases where u should leave
 	if not obj.author.agendaposter: return True
 	if obj.author.marseyawarded: return True
-
-	old_body_html = obj.body_html.lower()
-
 	if isinstance(obj, Submission):
 		if obj.id in ADMIGGER_THREADS: return True
 		if obj.sub == "chudrama": return True
@@ -626,22 +633,27 @@ def complies_with_chud(obj):
 		if obj.parent_submission in ADMIGGER_THREADS: return True
 		if obj.post.sub == "chudrama": return True
 
-	obj.body_html = torture_ap(obj.body_html, obj.author.username)
+	#get body_html's soup
+	soup = BeautifulSoup(obj.body_html, 'lxml')
+
+	#torture body_html
+	tags = soup.html.body.find_all(lambda tag: tag.name not in {'blockquote','codeblock','pre'}, recursive=False)
+	for tag in tags:
+		tag.string.replace_with(torture_ap(tag.text, obj.author.username))
+	obj.body_html = str(soup)
+
+	#torture title_html and check for agendaposter_phrase in plain title and leave if it's there
 	if isinstance(obj, Submission):
 		obj.title_html = torture_ap(obj.title_html, obj.author.username)
-		if obj.author.agendaposter_phrase in obj.title: return True
+		if obj.author.agendaposter_phrase in obj.title.lower():
+			return True
 
-	soup=BeautifulSoup(old_body_html, 'lxml')
-
-	if not soup.html:
-		print(f'{STARS}{old_body_html}{STARS}', flush=True)
-		return False
-
+	#check for agendaposter_phrase in body_html
+	phrase_tags = {'p','h1','h2','h3','h4','h5','h6'}
 	tags = soup.html.body.find_all(lambda tag: tag.name in phrase_tags and not tag.attrs, recursive=False)
-
 	for tag in tags:
 		for text in tag.find_all(text=True, recursive=False):
-			if obj.author.agendaposter_phrase in text:
+			if obj.author.agendaposter_phrase in text.lower():
 				return True
 
 	return False
