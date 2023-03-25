@@ -7256,6 +7256,7 @@ button, .btn {
 	content: "";
 	display: inline-block;
 	margin-top: 10px;
+    margin-bottom: 10px;
 	width: 250px;
 	height: 150px;
 	background-size: contain !important;	
@@ -7291,6 +7292,7 @@ button, .btn {
 
 @media (max-width: 410px) {
 	.agendaposter:after {
+		margin-bottom: 0;
 		width: 50vw;
 		height: 100px;
 	}
