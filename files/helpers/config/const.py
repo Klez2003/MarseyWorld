@@ -270,6 +270,7 @@ if SITE_NAME == 'rDrama':
 		'itjustbugsme.com',
 		'breached.vc',
 		'community.myfitnesspal.com',
+		'mumsnet.com',
 
 		#nested-comments
 		SITE,
