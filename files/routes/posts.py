@@ -659,8 +659,7 @@ def submit_post(v:User, sub=None):
 		p.ban_reason = "AutoJanny"
 
 		body = AGENDAPOSTER_MSG.format(username=v.username, type='post', AGENDAPOSTER_PHRASE=v.agendaposter_phrase)
-
-		body_jannied_html = AGENDAPOSTER_MSG_HTML.format(id=v.id, username=v.username, type='post', AGENDAPOSTER_PHRASE=v.agendaposter_phrase)
+		body_jannied_html = sanitize(body)
 
 
 		c_jannied = Comment(author_id=AUTOJANNY_ID,

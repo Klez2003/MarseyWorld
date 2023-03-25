@@ -284,7 +284,7 @@ def comment(v:User):
 		g.db.add(c)
 
 		body = AGENDAPOSTER_MSG.format(username=v.username, type='comment', AGENDAPOSTER_PHRASE=v.agendaposter_phrase)
-		body_jannied_html = AGENDAPOSTER_MSG_HTML.format(id=v.id, username=v.username, type='comment', AGENDAPOSTER_PHRASE=v.agendaposter_phrase)
+		body_jannied_html = sanitize(body)
 
 		c_jannied = Comment(author_id=AUTOJANNY_ID,
 			parent_submission=post_target.id if posting_to_submission else None,
