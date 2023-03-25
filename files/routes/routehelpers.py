@@ -109,14 +109,15 @@ def execute_shadowban_viewers_and_voters(v:Optional[User], target:Union[Submissi
 	if not v or not v.shadowbanned: return
 	if not target: return
 	if v.id != target.author_id: return
-	if not (86400 > time.time() - target.created_utc > 60): return
-	ti = max(int((time.time() - target.created_utc)/60), 1)
+	if not (86400 > time.time() - target.created_utc > 20):
+		return
+
+	ti = max(int((time.time() - target.created_utc)/60), 3)
 	max_upvotes = min(ti, 13)
 	rand = randint(0, max_upvotes)
 	if target.upvotes >= rand: return
 
 	amount = randint(0, 3)
-	if amount != 1: return
 
 	target.upvotes += amount
 	if isinstance(target, Submission):
