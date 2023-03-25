@@ -5562,9 +5562,6 @@ div[id^="form-preview-"] li > p:first-child {
 	color: #f27d0c !important;
 	font-weight: 800;
 }
-.agendaposter {
-	text-transform: uppercase !important;
-}
 code {
 	text-transform: none !important;
 }
