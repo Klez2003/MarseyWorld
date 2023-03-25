@@ -11,9 +11,11 @@ from files.classes.flags import Flag
 from files.classes.mod_logs import ModAction
 from files.classes.notifications import Notification
 from files.classes.polls import CommentOption, SubmissionOption
+from files.classes.award import AwardRelationship
 
 from files.helpers.alerts import send_repeatable_notification, push_notif
 from files.helpers.config.const import *
+from files.helpers.config.awards import AWARDS
 from files.helpers.const_stateful import *
 from files.helpers.get import *
 from files.helpers.logging import log_file
@@ -113,6 +115,23 @@ def execute_snappy(post:Submission, v:User):
 			snappy.charge_account('coins', cost)
 
 			body = f'!{group.name}'
+		elif body.startswith(':#marseyglowaward:'):
+			award_object = AwardRelationship(
+					user_id=snappy.id,
+					kind="glowie",
+					submission_id=post.id,
+				)
+			g.db.add(award_object)
+
+			awarded_coins = int(AWARDS["glowie"]['price'] * COSMETIC_AWARD_COIN_AWARD_PCT) if AWARDS["glowie"]['cosmetic'] else 0
+			if AWARDS["glowie"]['cosmetic']:
+				post.author.pay_account('coins', awarded_coins)
+
+			msg = f"@Snappy has given your [post]({post.shortlink}) the {AWARDS['glowie']['title']} Award"
+			if awarded_coins > 0:
+				msg += f" and you have received {awarded_coins} coins as a result"
+			msg += "!"
+			send_repeatable_notification(post.author.id, msg)
 
 
 	body += "\n\n"
