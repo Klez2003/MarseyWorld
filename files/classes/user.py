@@ -350,23 +350,11 @@ class User(Base):
 	@property
 	@lazy
 	def all_blocks(self):
-		t = int(time.time())
 		stealth = set([x[0] for x in g.db.query(Sub.name).filter_by(stealth=True).all()])
-		print(1, time.time() - t, flush=True)
-
-		t = int(time.time())
 		stealth = stealth - set([x[0] for x in g.db.query(SubJoin.sub).filter_by(user_id=self.id).all()])
-		print(2, time.time() - t, flush=True)
-
-		t = int(time.time())
 		if self.agendaposter == 1: stealth = stealth - {'chudrama'}
-		print(3, time.time() - t, flush=True)
 
-		t = int(time.time())
-		x = list(stealth) + [x[0] for x in g.db.query(SubBlock.sub).filter_by(user_id=self.id).all()]
-		print(4, time.time() - t, flush=True)
-
-		return x
+		return list(stealth) + [x[0] for x in g.db.query(SubBlock.sub).filter_by(user_id=self.id).all()]
 
 	@lazy
 	def blocks(self, sub):
