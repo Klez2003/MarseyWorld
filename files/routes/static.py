@@ -205,6 +205,9 @@ def log_item(id, v):
 
 	if not action: abort(404)
 
+	if action.kind in MODACTION_PRIVILEGED_TYPES and v.admin_level < PERMS['USER_SHADOWBAN']:
+		abort(404)
+
 	admins = [x[0] for x in g.db.query(User.username).filter(User.admin_level >= PERMS['ADMIN_MOP_VISIBLE']).all()]
 
 	if v.admin_level >= PERMS['USER_SHADOWBAN']:
