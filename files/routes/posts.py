@@ -1034,8 +1034,9 @@ def edit_post(pid, v):
 
 		p.body_html = body_html
 
-		if not complies_with_chud(p):
-			abort(403, f'You have to include "{v.agendaposter_phrase}" in your post!')
+
+	if not complies_with_chud(p):
+		abort(403, f'You have to include "{v.agendaposter_phrase}" in your post!')
 
 
 	if v.id == p.author_id:
