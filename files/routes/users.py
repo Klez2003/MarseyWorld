@@ -1431,7 +1431,7 @@ def claim_rewards(v):
 
 def claim_rewards_all_users():
 	emails = [x[0] for x in g.db.query(Transaction.email).filter_by(claimed=None).all()]
-	users = g.db.query(User).filter(User.email.in_(emails)).all()
+	users = g.db.query(User).filter(User.email.in_(emails)).order_by(User.truescore.desc()).all()
 	for user in users:
 		claim_rewards(user)
 
