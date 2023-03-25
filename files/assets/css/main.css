@@ -7252,7 +7252,7 @@ button, .btn {
 	animation: rb 8s linear infinite;
 }
 
-.agendaposter:after {
+.agendaposter-img:after {
 	content: "";
 	display: inline-block;
 	margin-top: 10px;
@@ -7291,7 +7291,7 @@ button, .btn {
 
 
 @media (max-width: 410px) {
-	.agendaposter:after {
+	.agendaposter-img:after {
 		margin-bottom: 0;
 		width: 50vw;
 		height: 100px;
