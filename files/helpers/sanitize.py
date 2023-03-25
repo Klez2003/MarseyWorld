@@ -639,6 +639,7 @@ def complies_with_chud(obj):
 	#torture body_html
 	tags = soup.html.body.find_all(lambda tag: tag.name not in {'blockquote','codeblock','pre'}, recursive=False)
 	for tag in tags:
+		if not tag.string: continue
 		tag.string.replace_with(torture_ap(tag.text, obj.author.username))
 	obj.body_html = str(soup)
 
