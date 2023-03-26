@@ -761,6 +761,8 @@ if SITE == 'rdrama.net':
 		' capy': AEVANN_ID,
 		'carp': CARP_ID,
 		'clit': CARP_ID,
+		'morbius': CARP_ID,
+		'radjeesh': CARP_ID,
 		'snakes': SNAKES_ID,
 		'sneks': SNAKES_ID,
 		'snekky': SNAKES_ID,
@@ -906,7 +908,7 @@ else: # localhost or testing environment implied
 	FEATURES['USERS_PERMANENT_WORD_FILTERS'] = True
 	SUB_BANNER_LIMIT = 69420
 
-HOUSES = ("None","Furry","Femboy","Vampire","Racist") if FEATURES['HOUSES'] else ("None")
+HOUSES = ("None","Furry","Femboy","Vampire","Racist","Edgy") if FEATURES['HOUSES'] else ("None")
 
 bots = {AUTOJANNY_ID, SNAPPY_ID, LONGPOSTBOT_ID, ZOZBOT_ID}
 
