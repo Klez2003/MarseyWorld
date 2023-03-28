@@ -4466,6 +4466,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('plus2','Marsey Alphabet',2,'+'),
 ('plzdie','Classic',2,'die emoticon disagree sign'),
 ('poke','Classic',2,'poke animated emoticon stick'),
+('pooner','Misc',2,'4chan meme tttt 4tran spin creature manlet ftm'),
 ('popcorn','Classic',2,'popcorn animated emoticon food'),
 ('postalsmiley','Classic',2,'postal game devil evil smiley'),
 ('pound','Marsey Alphabet',2,'# hashtag octothorpe'),
