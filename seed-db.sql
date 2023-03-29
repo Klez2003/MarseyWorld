@@ -1219,11 +1219,12 @@ INSERT INTO public.hat_defs VALUES (1167, 'Tattered Rain Hat', 'Old and worn. Yo
 INSERT INTO public.hat_defs VALUES (1156, 'Traversing the Grid of Death', 'When reaching rock bottom, despicable deeds may seem like a step up...', 2, 500, NULL, 1679347260);
 
 
+
 --
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1169, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1170, true);
 
 
 --
