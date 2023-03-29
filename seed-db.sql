@@ -206,13 +206,14 @@ INSERT INTO public.badge_defs VALUES (243, 'Kongmaxxer: K', 'Contributed a KONGM
 INSERT INTO public.badge_defs VALUES (244, 'Kongmaxxer: O', 'Contributed a KONGMAXXED piece of sidebar art during Donkey Kong December', 1679419192);
 INSERT INTO public.badge_defs VALUES (245, 'Kongmaxxer: N', 'Contributed a KONGMAXXED Marsey or emoji [BADGE_N_FINAL.gif]during Donkey Kong December', 1679419208);
 INSERT INTO public.badge_defs VALUES (247, 'Kongmaxxer: G', 'KONGED TO THE MAX during Donkey Kong December', 1679419297);
+INSERT INTO public.badge_defs VALUES (248, 'Shithead', 'Shat out a Shit for the Bowel Movement Beauty Pageant', 1680057094);
 
 
 --
 -- Name: badge_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.badge_defs_id_seq', 247, true);
+SELECT pg_catalog.setval('public.badge_defs_id_seq', 248, true);
 
 
 --
