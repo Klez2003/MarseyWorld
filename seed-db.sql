@@ -4642,6 +4642,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('stare','Classic',2,'stare emoticon look watch'),
 ('starecat','Misc',2,'stare cat staring'),
 ('stfu','Classic',2,'stfu animated emoticon shut up quiet angry enraged sign'),
+('stfupussy','Misc',2,'stfu wordswordswords pussy yawn boring crybaby'),
 ('stoning','Misc',2,'muslim stoning animated'),
 ('stoningbans','Misc',2,'muslim stoning bans throw animated'),
 ('stoningdownvotes','Misc',2,'muslim stoning throw downvotes animated'),
