@@ -1217,7 +1217,7 @@ INSERT INTO public.hat_defs VALUES (1155, 'Flesh Automaton', 'You are a flesh au
 INSERT INTO public.hat_defs VALUES (1169, 'Mimic', 'That is NOT a health pack!', 2, 500, NULL, 1679359754);
 INSERT INTO public.hat_defs VALUES (1167, 'Tattered Rain Hat', 'Old and worn. You''ve never seen it before but it feels nostalgic.', 2, 500, NULL, 1679359347);
 INSERT INTO public.hat_defs VALUES (1156, 'Traversing the Grid of Death', 'When reaching rock bottom, despicable deeds may seem like a step up...', 2, 500, NULL, 1679347260);
-
+INSERT INTO public.hat_defs VALUES (1170, 'Cigarette', 'Something to suck on.... for those of us, less faggotly gifted', 2, 500, NULL, 1680069984);
 
 
 --
@@ -1429,6 +1429,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('chinesenobleman','Wojak',2,'asian china chinese qin shang zhou han qing sui tang liao song yuan ming'),
 ('chinesepolitician','Wojak',2,'chinese politician'),
 ('chinesesoldierjak','Wojak',2,'chinese asian ccp solider gun military'),
+('chioburentfree','Misc',2,'chiobu tangerinefeline rentfree'),
 ('chuckbuddy','Misc',2,'invert chuck cat irl'),
 ('chudcelebrate','Wojak',2,'chud party dance celebrate happy 4chan incel soy manlet shorts'),
 ('chudcheers','Wojak',2,'chud wojak soyjak soy cheers toast'),
@@ -3532,6 +3533,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseyponder','Marsey',2,'ponder orb wizard magician crystal ball'),
 ('marseypony','Marsey',2,'murmurwisper mlp my little ponies cutie mark horse furry my little pony'),
 ('marseypony2','Marsey',2,'pony horse furry mlp'),
+('marseypooner','Marsey',2,'4chan trans train ftm pass yeet tits dude bro dood meme woman moment stubble'),
 ('marseypoor','Marsey',2,'homeless beggar panhandler proletariat bum'),
 ('marseypop','Marsey',2,'action figure doll funko toy soy'),
 ('marseypop2','Marsey',2,'excited blahblahblah blah blah blah animated words talk yap annoying'),
