@@ -1553,6 +1553,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('donkeykongbanana2','Donkey Kong',2,'dk spinning rotating fruit'),
 ('donkeykongbass','Donkey Kong',2,'guitar rock music dk'),
 ('donkeykongbeholdcarp','Donkey Kong',2,'donkeykongbeholdcarp  donkeykongbehold  donkeykong kong  donkey behold carp autism kongbehold kongcarp donkeycarp donkeybehold dk carpathianflorist fish'),
+('donkeykongbooba','Donkey Kong',2,'dk scared eyes titties tiddies boobs'),
 ('donkeykongchestbeat','Donkey Kong',2,'angry rage dk thump'),
 ('donkeykongchestbeat2','Donkey Kong',2,'dk64 thumping'),
 ('donkeykongchestbeat3','Donkey Kong',2,'dk thumping'),
