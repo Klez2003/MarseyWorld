@@ -1222,11 +1222,12 @@ INSERT INTO public.hat_defs VALUES (1170, 'Cigarette', 'Something to suck on....
 
 
 
+
 --
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1172, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1177, true);
 
 
 --
