@@ -1220,11 +1220,13 @@ INSERT INTO public.hat_defs VALUES (1156, 'Traversing the Grid of Death', 'When 
 INSERT INTO public.hat_defs VALUES (1170, 'Cigarette', 'Something to suck on.... for those of us, less faggotly gifted', 2, 500, NULL, 1680069984);
 
 
+
+
 --
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1170, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1172, true);
 
 
 --
@@ -1594,6 +1596,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('donkeykongsad','Donkey Kong',2,'game nintendo dejected defeated depressed'),
 ('donkeykongsad2','Donkey Kong',2,'dk upset disappointed'),
 ('donkeykongsadvibing','Donkey Kong',2,'rainbow dk'),
+('donkeykongsaystransrights','Donkey Kong',2,'transrights humanrights rights sign dk'),
 ('donkeykongsquawks','Donkey Kong',2,'dk flying bird'),
 ('donkeykongtiedup','Donkey Kong',2,'restrained bondage gorilla scared struggling resisting'),
 ('donkeykongtoboggan','Donkey Kong',2,'ride cart roller coaster dk'),
@@ -2831,6 +2834,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseyfugg2','Marsey',2,'spurdo sparde'),
 ('marseyfunko','Marsey',2,'action figure doll funko toy soy'),
 ('marseyfunkobox','Marsey',2,'pops soyshit marvel capeshit wandshit doll collector collectible collectable toy plastic'),
+('marseyfunkykong','Marsey',2,'donkeykong dk bandana'),
 ('marseyfuntriptime','Marsey',2,'lsd drugs joy happy gay schizo'),
 ('marseyfuriosa','Marsey',2,'mad max madmax imperator furryosa fury road furyroad post apocalyptic apocalypse australian australia'),
 ('marseyfurry','Marsey',2,'fursona furry fursuit kitsune'),
@@ -3235,6 +3239,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseymad','Marsey',2,'pissed annoyed furious reaction angry irritated livid'),
 ('marseymagahat','Marsey',2,'trump 5200 maga american president election vote nazi hat'),
 ('marseymagarentfree','Marsey',2,'cope seethe dilate lib snoo reddit orange drumpf bad nazi hitler rightoid leftoid'),
+('marseymagdump','Marsey',2,'no fuckno shooting nope mag dump gun bang'),
 ('marseymaid','Marsey',2,'canadian leaf suicide euthanasia needle syringe vax'),
 ('marseymaid2','Marsey',2,'canadian leaf suicide euthanasia needle syringe vax'),
 ('marseymaid3','Marsey',2,'canadian leaf suicide euthanasia needle syringe vax'),
@@ -3550,6 +3555,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseyponder','Marsey',2,'ponder orb wizard magician crystal ball'),
 ('marseypony','Marsey',2,'murmurwisper mlp my little ponies cutie mark horse furry my little pony'),
 ('marseypony2','Marsey',2,'pony horse furry mlp'),
+('marseypoon','Marsey',2,'poon trans male ftm tranny train'),
 ('marseypooner','Marsey',2,'4chan trans train ftm pass yeet tits dude bro dood meme woman moment stubble'),
 ('marseypoor','Marsey',2,'homeless beggar panhandler proletariat bum'),
 ('marseypop','Marsey',2,'action figure doll funko toy soy'),
@@ -3901,6 +3907,10 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseysouthernbelle2','Marsey',2,'lady woman foid dress usa america dixie history 1800s'),
 ('marseysouthernbelle3','Marsey',2,'lady woman foid dress usa america dixie history 1800s black bipoc'),
 ('marseysouthernbelle4','Marsey',2,'lady woman foid dress usa america dixie history 1800s black bipoc'),
+('marseysouthernbelle5','Marsey',2,'dress hat female woman foid usa american white frozenchosen blue'),
+('marseysouthernbelle6','Marsey',2,'dress hat female woman foid usa american black penny pink'),
+('marseysouthernbelle7','Marsey',2,'dress hat parasol female woman foid usa american white frozenchosen green'),
+('marseysouthernbelle8','Marsey',2,'dress hat parasol female woman foid usa american black penny yellow orange'),
 ('marseysoutherner','Marsey',2,'plantation suit cigar good ol boy buck breaking buck breaker'),
 ('marseysoycry','Marsey',2,'angry crying soy '),
 ('marseysoycrytremble','Marsey',2,'shaking libtard magatard reeeeeeeee woke sjw fragile weak low testosterone animated'),
