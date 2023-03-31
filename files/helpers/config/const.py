@@ -309,9 +309,11 @@ if SITE_NAME == 'rDrama':
 		'ifunny.co',
 
 		#misc
+		'cinchnews.com',
 		'quora.com',
 		'givesendgo.com',
 		'groups.google.com',
+		'usenetarchives.com',
 		't.me',
 		'web.telegram.org',
 		'instagram.com',
