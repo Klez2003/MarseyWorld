@@ -166,20 +166,19 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 		mul = PROGSTACK_MUL
 	elif cls == Submission and (any(i in target.title.lower() for i in ENCOURAGED) or any(i in target.url.lower() for i in ENCOURAGED2)):
 		mul = PROGSTACK_MUL 
-	elif target.author.progressivestack or (target.author.admin_level and target.author.id not in {AEVANN_ID, CARP_ID}):
+	elif target.author.progressivestack or (target.author.admin_level and target.author.id not in {AEVANN_ID, CARP_ID, 8494}):
 		mul = 2
-	elif SITE == 'rdrama.net' and cls == Submission and target.author.id != 8768:
+	elif SITE == 'rdrama.net' and cls == Submission:
 		if (target.domain.endswith('.win') or 'forum' in target.domain or 'chan' in target.domain
 				or (target.domain in BOOSTED_SITES and not target.url.startswith('/'))
 				or target.sub in BOOSTED_HOLES):
 			mul = 2
-		elif target.sub != 'mnn' and target.body_html:
+		if target.body_html and target.sub != 'mnn' and target.author.id != 8768:
 			x = target.body_html.count('" target="_blank" rel="nofollow noopener">')
 			x += target.body_html.count('<a href="/images/')
 			target.realupvotes += min(x*2, 20)
-			mul = 1 + x/10
+			mul += min(x/10, 1)
 
-	mul = min(mul, 2)
 	target.realupvotes = floor(target.realupvotes * mul)
 
 	g.db.add(target)
