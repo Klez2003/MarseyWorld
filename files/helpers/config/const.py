@@ -162,6 +162,8 @@ if SITE_NAME == 'rDrama':
 		"largest aztec heritage forum",
 		"official George Soros fanclub",
 		"CCP's official newspaper",
+		"nintendo gamers only",
+		"donkey kong country",
 	)
 
 	RDRAMA_SLURS = {
