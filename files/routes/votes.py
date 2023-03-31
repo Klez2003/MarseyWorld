@@ -175,7 +175,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 			mul = 2
 		if target.body_html and target.sub != 'mnn' and target.author.id != 8768:
 			x = target.body_html.count('" target="_blank" rel="nofollow noopener">')
-			x += target.body_html.count('<a href="/images/')
+			x += target.body_html.count('" rel="nofollow noopener" target="_blank">')
 			target.realupvotes += min(x*2, 20)
 			mul += min(x/10, 1)
 
