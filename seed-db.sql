@@ -1223,11 +1223,13 @@ INSERT INTO public.hat_defs VALUES (1170, 'Cigarette', 'Something to suck on....
 
 
 
+
+
 --
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1177, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1179, true);
 
 
 --
@@ -1581,6 +1583,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('donkeykongheadshake','Donkey Kong',2,'donkey kong country idle head shake gif video game sprite animated'),
 ('donkeykonghi','Donkey Kong',2,'dk staring'),
 ('donkeykongi','Donkey Kong',2,'dk letter'),
+('donkeykongjump','Donkey Kong',2,'spin pixel sprite arcade animated dk retro'),
 ('donkeykongk','Donkey Kong',2,'k spinning letter dk video game'),
 ('donkeykongkart','Donkey Kong',2,'dk mariokart racer racing'),
 ('donkeykongkart2','Donkey Kong',2,'mariokart dk racer racing'),
@@ -2313,6 +2316,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseychadthundercock','Marsey',2,'vvc virgin foid pimp hot player big dick huge cock ouch gigachad meme'),
 ('marseychadyes','Marsey',2,'based gigachad'),
 ('marseychainchad','Marsey',2,'chainsaw chainlet chainchad'),
+('marseychameleon','Marsey',2,'chameleon lizard flies fly eat tongue hungry hunger predator outline lick'),
 ('marseycharlesiii','Marsey',2,'king england britain royalty royal monarch'),
 ('marseycharlesmanson','Marsey',2,'charlie manson charliemanson murderer killer swastika crazy psycho schizo helterskelter prison cult'),
 ('marseycharliebrown','Marsey',2,'peanuts halloween charlie brown ghost rock costume halloween'),
@@ -3044,6 +3048,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseyitsallsotiresome','Marsey',2,'empire of dust tooka all so tiresome chinese racist congolese drc kinshasa lubumbashi enough bullshit tired resigned despair black'),
 ('marseyitsaover','Marsey',2,'vidya mario over italian'),
 ('marseyitsburgover','Marsey',2,'itsover'),
+('marseyitsjoever','Marsey',2,'peter familyman familyguy joe over itsover soover blackpill cripple retard cartoon'),
 ('marseyitsover','Marsey',2,'its over never began incels give up giveup sad sigh defeated pensive'),
 ('marseyitsoverbrasileiro','Marsey',2,'sad acabou brasil brazil brazilian'),
 ('marseyitsoverhappy','Marsey',2,'marsey over itsover happy'),
