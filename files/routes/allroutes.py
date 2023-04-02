@@ -56,13 +56,18 @@ r = redis.Redis.from_url(app.config["CACHE_REDIS_URL"])
 
 @app.after_request
 def after_request(response:Response):
+	if g.v:
+		user_id = g.v.id
+	else:
+		user_id = None
+
 	if response.status_code < 400:
 		_commit_and_close_db()
 
 	if request.method == "POST" and not request.path.startswith('/casino/twentyone/'):
 		r.delete(f'LIMITER/{get_CF()}/{request.endpoint}:{request.path}/1/1/second')
-		if g.v:
-			r.delete(f'LIMITER/{SITE}-{g.v.id}/{request.endpoint}:{request.path}/1/1/second')
+		if user_id:
+			r.delete(f'LIMITER/{SITE}-{user_id}/{request.endpoint}:{request.path}/1/1/second')
 
 	return response
 
