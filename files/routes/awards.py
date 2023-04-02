@@ -301,6 +301,9 @@ def award_thing(v, thing_type, id):
 		if author.marseyawarded:
 			abort(409, f"{safe_username} is under the effect of a conflicting award: Marsey award!")
 
+		if author.marsify:
+			abort(409, f"{safe_username} is under the effect of a conflicting award: Marsify award!")
+
 		if author.agendaposter == 1:
 			abort(409, f"{safe_username} is already chudded permanently!")
 
@@ -388,6 +391,9 @@ def award_thing(v, thing_type, id):
 		author.verified = "Verified"
 		badge_grant(user=author, badge_id=150)
 	elif kind == 'marsify':
+		if author.agendaposter:
+			abort(409, f"{safe_username} is under the effect of a conflicting award: Chud award!")
+
 		if not author.marsify or author.marsify != 1:
 			if author.marsify: author.marsify += 86400
 			else: author.marsify = int(time.time()) + 86400
