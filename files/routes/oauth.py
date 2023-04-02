@@ -19,6 +19,7 @@ def authorize_prompt(v:User):
 
 @app.post("/authorize")
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
@@ -40,6 +41,7 @@ def authorize(v):
 
 @app.post("/rescind/<int:aid>")
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
@@ -53,6 +55,7 @@ def rescind(v, aid):
 
 @app.post("/api_keys")
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @is_not_permabanned
@@ -95,6 +98,7 @@ def request_api_keys(v):
 
 @app.post("/delete_app/<int:aid>")
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
@@ -119,6 +123,7 @@ def delete_oauth_app(v, aid):
 
 @app.post("/edit_app/<int:aid>")
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @is_not_permabanned
@@ -144,6 +149,7 @@ def edit_oauth_app(v, aid):
 
 @app.post("/admin/app/approve/<int:aid>")
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['APPS_MODERATION'])
@@ -182,6 +188,7 @@ def admin_app_approve(v, aid):
 
 @app.post("/admin/app/revoke/<int:aid>")
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['APPS_MODERATION'])
@@ -209,6 +216,7 @@ def admin_app_revoke(v, aid):
 
 @app.post("/admin/app/reject/<int:aid>")
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['APPS_MODERATION'])
@@ -303,6 +311,7 @@ def admin_apps_list(v):
 
 @app.post("/reroll/<int:aid>")
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required

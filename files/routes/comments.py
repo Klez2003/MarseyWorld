@@ -84,6 +84,7 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 
 @app.post("/comment")
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit("20/minute;200/hour;1000/day")
 @limiter.limit("20/minute;200/hour;1000/day", key_func=get_ID)
 @auth_required
@@ -388,6 +389,7 @@ def comment(v:User):
 
 @app.post("/delete/comment/<int:cid>")
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
@@ -410,6 +412,7 @@ def delete_comment(cid, v):
 
 @app.post("/undelete/comment/<int:cid>")
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
@@ -431,6 +434,7 @@ def undelete_comment(cid, v):
 @app.post("/pin_comment/<int:cid>")
 @feature_required('PINS')
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
@@ -456,6 +460,7 @@ def pin_comment(cid, v):
 
 @app.post("/unpin_comment/<int:cid>")
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
@@ -480,6 +485,7 @@ def unpin_comment(cid, v):
 
 @app.post("/save_comment/<int:cid>")
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
@@ -498,6 +504,7 @@ def save_comment(cid, v):
 
 @app.post("/unsave_comment/<int:cid>")
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
@@ -535,6 +542,7 @@ def diff_words(answer, guess):
 
 @app.post("/wordle/<int:cid>")
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
@@ -569,6 +577,7 @@ def handle_wordle_action(cid, v):
 @app.post("/toggle_comment_nsfw/<int:cid>")
 @feature_required('NSFW_MARKING')
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
@@ -606,6 +615,7 @@ def toggle_comment_nsfw(cid, v):
 
 @app.post("/edit_comment/<int:cid>")
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit("10/minute;100/hour;200/day")
 @limiter.limit("10/minute;100/hour;200/day", key_func=get_ID)
 @is_not_permabanned

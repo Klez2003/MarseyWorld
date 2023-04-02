@@ -61,6 +61,8 @@ def after_request(response:Response):
 
 	if request.method == "POST" and not request.path.startswith('/casino/twentyone/'):
 		r.delete(f'LIMITER/{get_CF()}/{request.endpoint}:{request.path}/1/1/second')
+		if g.v:
+			r.delete(f'LIMITER/{SITE}-{g.v.id}/{request.endpoint}:{request.path}/1/1/second')
 
 	return response
 

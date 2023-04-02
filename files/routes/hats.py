@@ -30,6 +30,7 @@ def hats(v:User):
 
 @app.post("/buy_hat/<int:hat_id>")
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit('100/minute;1000/3 days')
 @limiter.limit('100/minute;1000/3 days', key_func=get_ID)
 @auth_required
@@ -83,6 +84,7 @@ def buy_hat(v:User, hat_id):
 
 @app.post("/equip_hat/<int:hat_id>")
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
@@ -100,6 +102,7 @@ def equip_hat(v:User, hat_id):
 
 @app.post("/unequip_hat/<int:hat_id>")
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required

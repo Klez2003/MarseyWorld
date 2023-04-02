@@ -77,6 +77,7 @@ def edit_rules_get(v):
 
 @app.post('/admin/edit_rules')
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit("30/minute;200/hour;1000/day")
 @limiter.limit("30/minute;200/hour;1000/day", key_func=get_ID)
 @admin_level_required(PERMS['EDIT_RULES'])
@@ -96,6 +97,7 @@ def edit_rules_post(v):
 
 @app.post("/@<username>/make_admin")
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['ADMIN_ADD'])
@@ -119,6 +121,7 @@ def make_admin(v:User, username):
 
 @app.post("/@<username>/remove_admin")
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['ADMIN_REMOVE'])
@@ -148,6 +151,7 @@ def remove_admin(v:User, username):
 
 @app.post("/distribute/<kind>/<int:option_id>")
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['POST_BETS_DISTRIBUTE'])
@@ -217,6 +221,7 @@ def distribute(v:User, kind, option_id):
 
 @app.post("/@<username>/revert_actions")
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['ADMIN_ACTIONS_REVERT'])
@@ -367,6 +372,7 @@ def admin_home(v):
 
 @app.post("/admin/site_settings/<setting>")
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['SITE_SETTINGS'])
@@ -396,6 +402,7 @@ def change_settings(v:User, setting):
 
 @app.post("/admin/clear_cloudflare_cache")
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['SITE_CACHE_PURGE_CDN'])
@@ -434,6 +441,7 @@ def badge_grant_get(v):
 @app.post("/admin/badge_grant")
 @feature_required('BADGES')
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['USER_BADGES'])
@@ -505,6 +513,7 @@ def badge_grant_post(v):
 @app.post("/admin/badge_remove")
 @feature_required('BADGES')
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['USER_BADGES'])
@@ -657,6 +666,7 @@ def admin_view_alts(v:User, username=None):
 
 @app.post('/@<username>/alts/')
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['USER_LINK'])
@@ -693,6 +703,7 @@ def admin_add_alt(v:User, username):
 
 @app.post('/@<username>/alts/<int:other>/deleted')
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['USER_LINK'])
@@ -760,6 +771,7 @@ def admin_removed_comments(v):
 
 @app.post("/unchud_user/<id>")
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['USER_AGENDAPOSTER'])
@@ -802,6 +814,7 @@ def unagendaposter(id, v):
 
 @app.post("/shadowban/<int:user_id>")
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['USER_SHADOWBAN'])
@@ -838,6 +851,7 @@ def shadowban(user_id, v):
 
 @app.post("/unshadowban/<int:user_id>")
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['USER_SHADOWBAN'])
@@ -866,6 +880,7 @@ def unshadowban(user_id, v):
 
 @app.post("/admin/title_change/<int:user_id>")
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['USER_TITLE_CHANGE'])
@@ -911,6 +926,7 @@ def admin_title_change(user_id, v):
 
 @app.post("/ban_user/<id>")
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['USER_BAN'])
@@ -1005,6 +1021,7 @@ def ban_user(id, v):
 
 @app.post("/chud_user/<id>")
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['USER_AGENDAPOSTER'])
@@ -1104,6 +1121,7 @@ def agendaposter(id, v):
 
 @app.post("/unban_user/<id>")
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['USER_BAN'])
@@ -1150,6 +1168,7 @@ def unban_user(id, v):
 
 @app.post("/mute_user/<int:user_id>")
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['USER_BAN'])
@@ -1172,6 +1191,7 @@ def mute_user(v:User, user_id):
 
 @app.post("/unmute_user/<int:user_id>")
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['USER_BAN'])
@@ -1192,6 +1212,7 @@ def unmute_user(v:User, user_id):
 
 @app.post("/admin/progstack/post/<int:post_id>")
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['PROGSTACK'])
@@ -1213,6 +1234,7 @@ def progstack_post(post_id, v):
 
 @app.post("/admin/unprogstack/post/<int:post_id>")
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['PROGSTACK'])
@@ -1232,6 +1254,7 @@ def unprogstack_post(post_id, v):
 
 @app.post("/admin/progstack/comment/<int:comment_id>")
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['PROGSTACK'])
@@ -1253,6 +1276,7 @@ def progstack_comment(comment_id, v):
 
 @app.post("/admin/unprogstack/comment/<int:comment_id>")
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['PROGSTACK'])
@@ -1272,6 +1296,7 @@ def unprogstack_comment(comment_id, v):
 
 @app.post("/remove_post/<int:post_id>")
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
@@ -1302,6 +1327,7 @@ def remove_post(post_id, v):
 
 @app.post("/approve_post/<int:post_id>")
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
@@ -1335,6 +1361,7 @@ def approve_post(post_id, v):
 
 @app.post("/distinguish/<int:post_id>")
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['POST_COMMENT_DISTINGUISH'])
@@ -1365,6 +1392,7 @@ def distinguish_post(post_id, v):
 @app.post("/sticky/<int:post_id>")
 @feature_required('PINS')
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
@@ -1411,6 +1439,7 @@ def sticky_post(post_id, v):
 
 @app.post("/unsticky/<int:post_id>")
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
@@ -1442,6 +1471,7 @@ def unsticky_post(post_id, v):
 
 @app.post("/sticky_comment/<int:cid>")
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
@@ -1480,6 +1510,7 @@ def sticky_comment(cid, v):
 
 @app.post("/unsticky_comment/<int:cid>")
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
@@ -1514,6 +1545,7 @@ def unsticky_comment(cid, v):
 
 @app.post("/remove_comment/<int:c_id>")
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
@@ -1536,6 +1568,7 @@ def remove_comment(c_id, v):
 
 @app.post("/approve_comment/<int:c_id>")
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
@@ -1564,6 +1597,7 @@ def approve_comment(c_id, v):
 
 @app.post("/distinguish_comment/<int:c_id>")
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['POST_COMMENT_DISTINGUISH'])
@@ -1602,6 +1636,7 @@ def admin_banned_domains(v):
 
 @app.post("/admin/ban_domain")
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['DOMAINS_BAN'])
@@ -1635,6 +1670,7 @@ def ban_domain(v):
 
 @app.post("/admin/unban_domain/<path:domain>")
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['DOMAINS_BAN'])
@@ -1656,6 +1692,7 @@ def unban_domain(v:User, domain):
 
 @app.post("/admin/nuke_user")
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
@@ -1691,6 +1728,7 @@ def admin_nuke_user(v):
 
 @app.post("/admin/unnuke_user")
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
@@ -1727,6 +1765,7 @@ def admin_nunuke_user(v):
 
 @app.post("/blacklist/<int:user_id>")
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['USER_BLACKLIST'])
@@ -1749,6 +1788,7 @@ def blacklist_user(user_id, v):
 
 @app.post("/unblacklist/<int:user_id>")
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['USER_BLACKLIST'])
@@ -1779,6 +1819,7 @@ def delete_media_get(v):
 
 @app.post("/admin/delete_media")
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit("50/day")
 @limiter.limit("50/day", key_func=get_ID)
 @admin_level_required(PERMS['DELETE_MEDIA'])

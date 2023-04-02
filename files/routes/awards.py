@@ -54,6 +54,7 @@ def shop(v:User):
 
 @app.post("/buy/<award>")
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit("100/minute;200/hour;1000/day")
 @limiter.limit("100/minute;200/hour;1000/day", key_func=get_ID)
 @auth_required
@@ -136,6 +137,7 @@ def buy(v:User, award):
 
 @app.post("/award/<thing_type>/<int:id>")
 @limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @is_not_permabanned
