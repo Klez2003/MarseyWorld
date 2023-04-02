@@ -40,7 +40,6 @@ def login_deduct_when(resp):
 
 @app.post("/login")
 @limiter.limit('1/second', scope=rpath)
-@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @auth_desired
 @limiter.limit("6/minute;10/day", deduct_when=login_deduct_when)
@@ -202,7 +201,6 @@ def sign_up_get(v:Optional[User]):
 
 @app.post("/signup")
 @limiter.limit('1/second', scope=rpath)
-@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit("10/day")
 @auth_desired
 def sign_up_post(v:Optional[User]):
@@ -377,7 +375,6 @@ def get_forgot():
 
 @app.post("/forgot")
 @limiter.limit('1/second', scope=rpath)
-@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 def post_forgot():
 
@@ -444,7 +441,6 @@ def get_reset():
 
 @app.post("/reset")
 @limiter.limit('1/second', scope=rpath)
-@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @auth_desired
 def post_reset(v:Optional[User]):
@@ -492,7 +488,6 @@ def lost_2fa(v:Optional[User]):
 
 @app.post("/lost_2fa")
 @limiter.limit('1/second', scope=rpath)
-@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit("6/minute;200/hour;1000/day")
 def lost_2fa_post():
 	username=request.values.get("username")

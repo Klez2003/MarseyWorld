@@ -353,7 +353,6 @@ def mobile_app(v:Optional[User]):
 
 @app.post("/dismiss_mobile_tip")
 @limiter.limit('1/second', scope=rpath)
-@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 def dismiss_mobile_tip():
 	session["tooltip_last_dismissed"] = int(time.time())

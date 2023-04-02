@@ -1403,7 +1403,6 @@ if KOFI_TOKEN:
 
 @app.post("/gumroad")
 @limiter.limit('1/second', scope=rpath)
-@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 def gumroad():
 	data = request.values

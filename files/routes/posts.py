@@ -386,7 +386,9 @@ def thumbnail_thread(pid:int, vid:int):
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
-def is_repost():
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@auth_required
+def is_repost(v):
 	not_a_repost = {'permalink': ''}
 	if not FEATURES['REPOST_DETECTION']:
 		return not_a_repost
