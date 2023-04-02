@@ -59,7 +59,8 @@ def after_request(response:Response):
 	user_id = None
 
 	if response.status_code < 400:
-		if g.v: user_id = g.v.id
+		if hasattr(g, 'v') and g.v:
+			user_id = g.v.id
 		_commit_and_close_db()
 
 	if request.method == "POST" and not request.path.startswith('/casino/twentyone/'):
