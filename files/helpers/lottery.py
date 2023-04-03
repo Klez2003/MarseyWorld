@@ -54,7 +54,7 @@ def end_lottery_session():
 
 	for user in participating_users:
 		chance_to_win = user.currently_held_lottery_tickets / len(raffle) * 100
-		chance_to_win = str(chance_to_win)[:3]
+		chance_to_win = str(chance_to_win)[:5]
 		if user.id == winner:
 			notification_text = f'You won {active_lottery.prize} coins in the lottershe! ' \
 				+ f'Congratulations!\n\nYour odds of winning were: {chance_to_win}%'
