@@ -48,24 +48,6 @@ function ensureIntent() {
 	return window.confirm("Are you sure you want to end the current lottery?");
 }
 
-function startLotterySession() {
-	checkLotteryStats();
-
-	if (ensureIntent()) {
-	return handleLotteryRequest("start", "POST", () =>
-		location.reload()
-	);
-	}
-}
-
-function endLotterySession() {
-	checkLotteryStats();
-
-	if (ensureIntent()) {
-	return handleLotteryRequest("end", "POST", () => location.reload());
-	}
-}
-
 // Composed
 function handleLotteryRequest(uri, method, callback = () => {}) {
 	const form = new FormData();
@@ -162,18 +144,6 @@ function handleLotteryResponse(xhr, method, callback) {
 
 	ticketsHeldTotalField.textContent = user.ticketsHeld.total;
 	winningsField.textContent = user.winnings;
-
-	const [endButton, startButton] = [
-		"endLotterySession",
-		"startLotterySession",
-	].map((id) => document.getElementById(id));
-	if (response.stats.lottery) {
-		endButton.style.display = "block";
-		startButton.style.display = "none";
-	} else {
-		endButton.style.display = "none";
-		startButton.style.display = "block";
-	}
 	}
 }
 
