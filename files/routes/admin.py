@@ -1044,6 +1044,9 @@ def agendaposter(id, v):
 	if user.agendaposter == 1:
 		abort(403, f"@{user.username} is already chudded permanently!")
 
+	if user.marsify:
+		abort(403, f"You can't chud someone while they're marsified!")
+
 	days = 0.0
 	try:
 		days = float(request.values.get("days"))
