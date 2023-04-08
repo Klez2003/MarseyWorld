@@ -101,11 +101,6 @@ MODACTION_TYPES = {
 		"icon": 'fa-images',
 		"color": 'bg-muted'
 	},
-	'disable_automatic_DDOS_mitigation': {
-		"str": 'disabled automatic DDOS mitigation',
-		"icon": 'fa-shield-virus',
-		"color": 'bg-danger'
-	},
 	'distinguish_comment': {
 		"str": 'distinguished {self.target_link}',
 		"icon": 'fa-crown',
@@ -174,11 +169,6 @@ MODACTION_TYPES = {
 	'enable_dm_images': {
 		"str": 'enabled DM images',
 		"icon": 'fa-images',
-		"color": 'bg-success',
-	},
-	'enable_automatic_DDOS_mitigation': {
-		"str": 'enabled automatic DDOS mitigation',
-		"icon": 'fa-shield-virus',
 		"color": 'bg-success',
 	},
 	'flair_post': {
@@ -429,5 +419,4 @@ MODACTION_TYPES__FILTERED = deepcopy({t:v for t,v in MODACTION_TYPES.items()
                                      if not t in MODACTION_PRIVILEGED__TYPES})
 AEVANN_MODACTION_TYPES = {'ban_user','unban_user',
 						'shadowban','unshadowban',
-						'delete_media',
-						'enable_automatic_DDOS_mitigation', 'disable_automatic_DDOS_mitigation'}
+						'delete_media'}

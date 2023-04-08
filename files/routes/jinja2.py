@@ -77,22 +77,21 @@ def calc_users():
 		loggedin_counter = len(loggedin)
 		loggedout_counter = len(loggedout)
 
-		if get_setting('automatic_DDOS_mitigation'):
-			if SITE == 'watchpeopledie.tv': mul = 5
-			else: mul = 1
+		if SITE == 'watchpeopledie.tv': mul = 3
+		else: mul = 1
 
-			if loggedout_counter > (loggedin_counter * mul):
-				if not get_setting('login_required'):
-					toggle_setting('login_required')
-				if not get_setting('under_attack'):
-					toggle_setting('under_attack')
-					set_security_level('under_attack')
-			else:
-				if get_setting('login_required'):
-					toggle_setting('login_required')
-				if get_setting('under_attack'):
-					toggle_setting('under_attack')
-					set_security_level('high')
+		if loggedout_counter > (loggedin_counter * mul):
+			if not get_setting('login_required'):
+				toggle_setting('login_required')
+			if not get_setting('under_attack'):
+				toggle_setting('under_attack')
+				set_security_level('under_attack')
+		else:
+			if get_setting('login_required'):
+				toggle_setting('login_required')
+			if get_setting('under_attack'):
+				toggle_setting('under_attack')
+				set_security_level('high')
 
 
 	return {'loggedin_counter':loggedin_counter,
