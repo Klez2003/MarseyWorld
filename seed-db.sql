@@ -1225,11 +1225,12 @@ INSERT INTO public.hat_defs VALUES (1170, 'Cigarette', 'Something to suck on....
 
 
 
+
 --
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1179, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1180, true);
 
 
 --
@@ -1450,6 +1451,10 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('chudtantrum','Wojak',2,''),
 ('chunkykong','Donkey Kong',2,'donkeykong dk64'),
 ('clap','Classic',2,'clap emoticon animated happy excited cheering'),
+('clippybikein','Misc',2,'clippy bike come in enter'),
+('clippyexlaimationmark','Misc',2,'clippy worried exclamation mark shocked'),
+('clippyexlaimationmark2','Misc',2,'clippy worried exclamation mark shocked'),
+('clippywatching','Misc',2,'clippy watching glowie peeping tom spy'),
 ('clueless','Rage',2,'clueless doesn’t know'),
 ('cold','Classic',2,'cold emoticon animated shivering freezing bundled up sign scarf'),
 ('colon','Marsey Alphabet',2,':'),
@@ -1693,6 +1698,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('gamma','Marsey Alphabet',2,'γ'),
 ('gammacap','Marsey Alphabet',2,'Γ'),
 ('gasp','Classic',2,'gasp animated emoticon shocked'),
+('geeble','Misc',2,'cursed geeble witch doctor puppy hand uhh dog'),
 ('george','Misc',2,'george mountain lion cougar catamount'),
 ('gigachad','Misc',2,''),
 ('gigachad2','Misc',2,''),
@@ -1714,6 +1720,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('gooby','Classic',2,'gooby emoticon laugh funny'),
 ('goodluck','Classic',2,'fingerscrossed'),
 ('goodnightretard','Misc',2,'good night goodnight sleep retard retarded tired tiring cute anime z zz zzz zzzz'),
+('greeble','Misc',2,'green geeble dog puppy hand not cursed'),
 ('greendesigirl','Wojak',2,'woman indian desi green'),
 ('grillcastyes','Misc',2,'podcast chad'),
 ('grouphug','Classic',2,'group hug hug cute positive emoticon'),
@@ -1910,6 +1917,11 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marsey69','Marsey',2,'6ix9ine snitch tattooed tattoos rapper'),
 ('marsey808s','Marsey',2,'kanye 808s and heartbreak'),
 ('marsey911roofer','Marsey',2,'bum homeless dirty news notes notice'),
+('marseyaaa','Marsey',2,'argh yargh ahhh scream shout mouth open fear scared afraid horror'),
+('marseyaaafalling','Marsey',2,'argh yargh ahhh scream shout mouth open fear scared afraid horror suicide jump kms clinton fed glowie op'),
+('marseyaaajumpscare','Marsey',2,'argh yargh ahhh scream shout mouth open fear scared afraid horror escape bounce'),
+('marseyaaalaser','Marsey',2,'argh yargh ahhh scream shout mouth open fear scared afraid horror lazer shoop da whoop meme'),
+('marseyaaatremble','Marsey',2,'argh yargh ahhh scream shout mouth open fear scared afraid horror shake triggered'),
 ('marseyabandoned','Marsey',2,'box container rejected dirty cardboard homeless'),
 ('marseyaborted','Marsey',2,'fetus abort aborted blood puddle death pregnancy pregnant loss help'),
 ('marseyaceofspades','Marsey',2,'asexual volcel cards'),
@@ -1950,6 +1962,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseyantianticarp','Marsey',2,'admin jannie moderator carpathianflorist fish'),
 ('marseyanticarp','Marsey',2,'reaction fish carpathianflorist'),
 ('marseyantischizo','Marsey',2,'rare meta schizocel scizocel skitzocel schizophrenic scitzocel'),
+('marseyantisoren','Misc',2,'fucksoren killsoren soren fuckusoren dumbbitchretardloserfaggotkys'),
 ('marseyantiwork','Marsey',2,'lazy laze bum unemployed animated'),
 ('marseyantiwork2','Marsey',2,'lazy doreen unemployed slacker lazing laying welfare tired'),
 ('marseyanzu','Marsey',2,'idolmaster anime animegirl neet'),
@@ -2617,6 +2630,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseydylan','Marsey',2,'columbine school shooter psycho gun pistol klebold'),
 ('marseydylannroof','Marsey',2,'mayo streetwear dylann roof shooter confederate flag fashion'),
 ('marseydynamite','Marsey',2,'dynomite black afro gun'),
+('marseyeaglerider','Marsey',2,'flying riding eagle america usa united states freedom liberty flying soaring bird'),
 ('marseyearrape','Marsey',2,'breakcore goreshit headphones noisecore'),
 ('marseyecstatic','Marsey',2,'ecstatic happy creepy smile'),
 ('marseyedelgard','Marsey',2,'fireemblem anime weeb fantasy nintendo princess'),
