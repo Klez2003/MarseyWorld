@@ -81,16 +81,12 @@ def calc_users():
 		else: mul = 1
 
 		if loggedout_counter > (loggedin_counter * mul):
-			if not get_setting('login_required'):
-				toggle_setting('login_required')
-			if not get_setting('under_attack'):
-				toggle_setting('under_attack')
+			if not get_setting('ddos_detected'):
+				toggle_setting('ddos_detected')
 				set_security_level('under_attack')
 		else:
-			if get_setting('login_required'):
-				toggle_setting('login_required')
-			if get_setting('under_attack'):
-				toggle_setting('under_attack')
+			if get_setting('ddos_detected'):
+				toggle_setting('ddos_detected')
 				set_security_level('high')
 
 

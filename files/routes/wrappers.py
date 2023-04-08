@@ -99,7 +99,8 @@ def auth_desired(f):
 def auth_desired_with_logingate(f):
 	def wrapper(*args, **kwargs):
 		v = get_logged_in_user()
-		if get_setting('login_required') and not v: abort(401)
+		if not v and (get_setting('login_required') or get_setting('ddos_detected')):
+			abort(401)
 
 		if request.path.startswith('/logged_out'):
 			redir = request.full_path.replace('/logged_out','')

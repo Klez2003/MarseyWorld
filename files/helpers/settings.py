@@ -7,15 +7,16 @@ import gevent_inotifyx as inotify
 from files.helpers.config.const import *
 
 _SETTINGS = {
+	"login_required": False,
+	"under_attack": False,
 	"bots": True,
 	"fart_mode": False,
 	"read_only_mode": False,
 	"offline_mode": False,
 	"signups": True,
-	"login_required": False,
 	"under_siege": False,
 	"dm_images": True,
-	"under_attack": False
+	"ddos_detected": False
 }
 
 def get_setting(setting:str):

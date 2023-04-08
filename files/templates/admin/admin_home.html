@@ -120,9 +120,10 @@
 
 {% if v.admin_level >= PERMS['SITE_SETTINGS'] %}
 	{% for setting in SITE_SETTINGS.keys() %}
-		{% if not (setting == "offline_mode" and v.admin_level < PERMS["SITE_OFFLINE_MODE"]) %}
+		{% if not (setting == "offline_mode" and v.admin_level < PERMS["SITE_OFFLINE_MODE"]) and setting !="ddos_detected" %}
 			<div class="custom-control custom-switch{% if loop.index > 1 %} mt-1{% endif %}" id="settings-{{setting}}-container">
-				<input autocomplete="off" type="checkbox" class="custom-control-input" id="settings-{{setting}}-checkbox" {% if SITE_SETTINGS[setting] %}checked{% endif %} data-nonce="{{g.nonce}}" data-onchange="postToastSwitch(this, '/admin/site_settings/{{setting}}');">
+				{% set disabled = (setting in ("under_attack", "login_required") and SITE_SETTINGS["ddos_detected"]) %}
+				<input {% if disabled %}disabled checked{% endif %} autocomplete="off" type="checkbox" class="custom-control-input" id="settings-{{setting}}-checkbox" {% if SITE_SETTINGS[setting] %}checked{% endif %} data-nonce="{{g.nonce}}" data-onchange="postToastSwitch(this, '/admin/site_settings/{{setting}}');">
 				<label class="custom-control-label" for="settings-{{setting}}-checkbox">{{setting.replace('_', ' ').title()}}</label>
 			</div>
 		{% endif %}
