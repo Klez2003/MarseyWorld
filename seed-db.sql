@@ -1218,12 +1218,12 @@ INSERT INTO public.hat_defs VALUES (1169, 'Mimic', 'That is NOT a health pack!',
 INSERT INTO public.hat_defs VALUES (1167, 'Tattered Rain Hat', 'Old and worn. You''ve never seen it before but it feels nostalgic.', 2, 500, NULL, 1679359347);
 INSERT INTO public.hat_defs VALUES (1156, 'Traversing the Grid of Death', 'When reaching rock bottom, despicable deeds may seem like a step up...', 2, 500, NULL, 1679347260);
 INSERT INTO public.hat_defs VALUES (1170, 'Cigarette', 'Something to suck on.... for those of us, less faggotly gifted', 2, 500, NULL, 1680069984);
-
-
-
-
-
-
+INSERT INTO public.hat_defs VALUES (1179, 'Funky Kong', 'Lookin'' good, Kongs! Buckle up and blast off, you''re outta here!', 2, 500, NULL, 1680299069);
+INSERT INTO public.hat_defs VALUES (1178, 'Donkey Kong', 'The coolest monkey in the jungle', 2, 500, NULL, 1680297791);
+INSERT INTO public.hat_defs VALUES (1177, 'Majora', 'You''ve met with a terrible fate, haven''t you, chud?', 2, 500, NULL, 1680236118);
+INSERT INTO public.hat_defs VALUES (1172, 'Marseys Funky Bandana', 'She stole it from a bored ape', 2, 500, NULL, 1680231908);
+INSERT INTO public.hat_defs VALUES (1171, 'Funky Bandana', 'Oh Yeah!!!!!!', 2, 500, NULL, 1680231489);
+INSERT INTO public.hat_defs VALUES (1180, 'IMMA FIRIN MUH EGG CRACKER', 'The real space lasers Marjorie Taylor Greene was warning you about', 2, 1000, NULL, 1680982678);
 
 
 --
