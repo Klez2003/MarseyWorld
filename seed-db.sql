@@ -1230,7 +1230,7 @@ INSERT INTO public.hat_defs VALUES (1180, 'IMMA FIRIN MUH EGG CRACKER', 'The rea
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1180, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1181, true);
 
 
 --
