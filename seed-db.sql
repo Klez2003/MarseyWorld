@@ -211,13 +211,15 @@ INSERT INTO public.badge_defs VALUES (249, 'Marsey Madness GOLD', 'Had the best 
 INSERT INTO public.badge_defs VALUES (250, 'Marsey Madness SILVER', 'Had the second best bracket in the 2023 Marsey Madness tournament', 1681309285);
 INSERT INTO public.badge_defs VALUES (251, 'Marsey Madness BRONZE', 'Had the third best bracket in the 2023 Marsey Madness tournament', 1681309300);
 INSERT INTO public.badge_defs VALUES (252, 'Marsey Madness Participation Trophy!', 'This lil fella did his best in the Marsey Madness 2023 tournament', 1681309336);
+INSERT INTO public.badge_defs VALUES (253, 'Matchmaker', 'Awarded for contributing to the Matchmaker Marsey event', 1681321487);
+INSERT INTO public.badge_defs VALUES (254, 'Peacemaker', 'Awarded for contributing to the rDrama-Reddit Alliance event', 1681321561);
 
 
 --
 -- Name: badge_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.badge_defs_id_seq', 252, true);
+SELECT pg_catalog.setval('public.badge_defs_id_seq', 254, true);
 
 
 --
