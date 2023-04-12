@@ -207,13 +207,17 @@ INSERT INTO public.badge_defs VALUES (244, 'Kongmaxxer: O', 'Contributed a KONGM
 INSERT INTO public.badge_defs VALUES (245, 'Kongmaxxer: N', 'Contributed a KONGMAXXED Marsey or emoji [BADGE_N_FINAL.gif]during Donkey Kong December', 1679419208);
 INSERT INTO public.badge_defs VALUES (247, 'Kongmaxxer: G', 'KONGED TO THE MAX during Donkey Kong December', 1679419297);
 INSERT INTO public.badge_defs VALUES (248, 'Shithead', 'Shat out a Shit for the Bowel Movement Beauty Pageant', 1680057094);
+INSERT INTO public.badge_defs VALUES (249, 'Marsey Madness GOLD', 'Had the best bracket in the 2023 Marsey Madness tournament', 1681309271);
+INSERT INTO public.badge_defs VALUES (250, 'Marsey Madness SILVER', 'Had the second best bracket in the 2023 Marsey Madness tournament', 1681309285);
+INSERT INTO public.badge_defs VALUES (251, 'Marsey Madness BRONZE', 'Had the third best bracket in the 2023 Marsey Madness tournament', 1681309300);
+INSERT INTO public.badge_defs VALUES (252, 'Marsey Madness Participation Trophy!', 'This lil fella did his best in the Marsey Madness 2023 tournament', 1681309336);
 
 
 --
 -- Name: badge_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.badge_defs_id_seq', 248, true);
+SELECT pg_catalog.setval('public.badge_defs_id_seq', 252, true);
 
 
 --
@@ -1450,6 +1454,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('chudsmug','Wojak',2,'chud smug'),
 ('chudtantrum','Wojak',2,''),
 ('chunkykong','Donkey Kong',2,'donkeykong dk64'),
+('cirnopost','Misc',2,'touhou anime 3dtext'),
 ('clap','Classic',2,'clap emoticon animated happy excited cheering'),
 ('clippybikein','Misc',2,'clippy bike come in enter'),
 ('clippyexlaimationmark','Misc',2,'clippy worried exclamation mark shocked'),
@@ -2153,6 +2158,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseybluecheck','Marsey',2,'journoid checkmark verified journalist drolling drool twitter'),
 ('marseyblush','Marsey',2,'shy flirting reaction blushing happy cute embarrassed'),
 ('marseybo','Marsey',2,'bo magazinchik alien hare rabbit bunny'),
+('marseyboar','Marsey',2,'marsey boar ronnie mcnutt mindblown explosion'),
 ('marseybobpage','Marsey',2,'glowie deusex big pharma rocket daddy elon musk suit'),
 ('marseybog','Marsey',2,'rich brothers bogdanoff'),
 ('marseybong','Marsey',2,'england walkers britain english chips british bad teeth crisps uk'),
@@ -2366,6 +2372,8 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseychemist2','Marsey',2,'chemistry science chemical cope'),
 ('marseycherokee','Marsey',2,'savage pocahontas elizabeth warren injun indian redskin liz warren'),
 ('marseycheshire','Marsey',2,'cheshire grin tree crazy alice wonderland'),
+('marseycheshire2','Marsey',2,'alice wonderland blacksouls anime game jrpg'),
+('marseycheshire3','Marsey',2,'alice wonderland blacksouls anime game jrpg smug'),
 ('marseychessknight','Marsey',2,'chess knight horse game'),
 ('marseychicken','Marsey',2,'bird fowl poultry beak hen rooster happy'),
 ('marseychildcatcher','Marsey',2,'bardfinn childcatcher child catcher kidnapper pedophile kidnap kidnapping children child boy girl lollipop lollipops chitty bang nap steal candy predator pedo'),
@@ -2553,6 +2561,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseydeception','Marsey',2,'lies lying misinformation provoke internet troll'),
 ('marseydefenestration','Marsey',2,'suicide window jump kill murder kms jump out window death die defenestrate'),
 ('marseydefense','Marsey',2,'southpark black chewbacca starwars defense'),
+('marseydelighted','Marsey',2,'happy smile cute cheeks sketchy blep buddhist'),
 ('marseydemiurge','Marsey',2,'gnostic gnosticism demiurge'),
 ('marseydemonicgrin','Marsey',2,'evil wicked horror teeth'),
 ('marseydenji','Marsey',2,'denji anime chainsawman tatsuki fujimoto blonde uniform manga pochita'),
@@ -3034,6 +3043,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseyhrt','Marsey',2,'hrt estrogen trans egg'),
 ('marseyhugboo','Marsey',2,'ghost scary angry love cute'),
 ('marseyhugjew','Marsey',2,'hug jewish marsey kike yid yarmulke love'),
+('marseyhugmaximus','Marsey',2,'love pepe embrace mellokind frogposter'),
 ('marseyhugmerchant','Marsey',2,'marsey hug jewish merchant kike yid yarmulke love'),
 ('marseyhugpeepeehands','Marsey',2,'love cute heart embrace cat'),
 ('marseyhugretard','Marsey',2,'love idiot drool embrace'),
@@ -4039,6 +4049,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseystocksdown','Marsey',2,'market bonds options poor'),
 ('marseystocksup','Marsey',2,'market bonds options rich'),
 ('marseystonetoss','Marsey',2,'amogus pebblethrow nazi reaction boulderpummel'),
+('marseystop','Marsey',2,'stop annoyed plead beg sketchy'),
 ('marseystrawman','Marsey',2,'logical fallacy strawmarsey argument debate hat'),
 ('marseystreaky','Marsey',2,'streaky superhero comic cape'),
 ('marseystroke','Marsey',2,'derp retard reaction stupid drooling'),
@@ -4057,6 +4068,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseysuper','Marsey',2,'superstraight lgbt'),
 ('marseysupermega','Marsey',2,'supermegaman supermegamarsey'),
 ('marseysupersorensoarin','Marsey',2,'soren super hero superhero batman superman marsey41'),
+('marseysurejan','Marsey',2,'bradybunch smug smile happy indignant eyebrows ears squint smirk'),
 ('marseysurfing','Marsey',2,'surfer surfing pikachu water wave meme'),
 ('marseysurprised','Marsey',2,'reaction shocked shook unexpected'),
 ('marseysurprisedpikachu','Marsey',2,'surprise surprised pikachu shock shocked gasp'),
@@ -4237,6 +4249,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseyvibing','Marsey',2,'animated bopping vibe jam dancing headbang music rainbow dance'),
 ('marseyvietnam','Marsey',2,'army born to kill soldier war'),
 ('marseyvirus','Marsey',2,'phage infect infection plagued'),
+('marseyvocaloid','Marsey',2,'vocaloid hatsunemiku miku hatsune marsey silly omg'),
 ('marseyvore','Marsey',2,'eating cannibalism cannibalize fetish kinky digest trapped letmeout'),
 ('marseyvore2','Marsey',2,'eating marcus cannibalize cannibalism fetish kinky'),
 ('marseyvore3','Marsey',2,'maw mouth teeth eat drool furry degen fetish scary creepy tasty mawsey'),
