@@ -3474,6 +3474,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseynurgle','Marsey',2,'warhammer 40k chaos god disease sickness rebirth'),
 ('marseynut','Marsey',2,'orgasm ahegao cum reaction coom'),
 ('marseynutcracker','Marsey',2,'soldier halberd pike christmas holiday'),
+('marseynuts','Marsey',2,'marsey red squirrel squirreljak nuts soyjak feraljak soy feral jak'),
 ('marseynyan','Marsey',2,'space animated meme poptart'),
 ('marseynyanlgbt','Marsey',2,'animated gay pride homosexuality space flying'),
 ('marseynyansuperstraight','Marsey',2,'animated straggot pride heterosexuality space flying'),
