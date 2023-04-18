@@ -2650,6 +2650,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseydrowned','Marsey',2,'drowned dead marsey'),
 ('marseydrownedstare','Marsey',2,'scary eye stare marsey halloween horror'),
 ('marseydrsneks','Marsey',2,'twolargesnakesmating sneks snake snakes nerd glasses'),
+('marseydrum','Marsey',2,'pepe britain bongistan england soccer football footy scoresomefakkingoals bangbangbang animated 4chan'),
 ('marseydrunk','Marsey',2,'drinking shitfaced alcoholic liquor happy beer dizzy'),
 ('marseydrunk2','Marsey',2,'drinking shitfaced alcoholic liquor happy beer dizzy'),
 ('marseyduck','Marsey',2,'bird beak'),
