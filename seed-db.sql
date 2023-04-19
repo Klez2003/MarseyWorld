@@ -3317,6 +3317,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseylovecraftian','Marsey',2,'cosmic horror eldritch galaxy space hp spooky scary halloween animated'),
 ('marseylovedrama','Marsey',2,'hearts rdrama reaction happy animated'),
 ('marseylovegigaorgy','Marsey',2,'cuddle hug love blush wholesome infinity orgy'),
+('marseylovekaamrev','Marsey',2,'kaamrev love saffer south african africa energy hug'),
 ('marseyloveyou','Marsey',2,'hearts ilu reaction adoration loving ily love adore animated'),
 ('marseylowpoly','Marsey',2,'polygonal spinning 3d lopoly animated'),
 ('marseyluckycat','Marsey',2,'lucky fortune gambling gambler goombler goombling animated weeb azn asian slots japanese money cash coin rich'),
