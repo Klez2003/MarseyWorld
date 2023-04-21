@@ -4962,6 +4962,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('usa','Misc',2,'america'),
 ('usarentfree','Wojak',2,'wojack america seethe cope'),
 ('uwueyes','Misc',2,'owo cute blushing shy'),
+('uwueyesblink','Misc',2,'cute shy flirting forme blush'),
 ('uzi','Classic',2,'gun shooting kill'),
 ('v','Marsey Alphabet',2,'letter'),
 ('valentine','Classic',2,'loveletter heart'),
