@@ -973,6 +973,7 @@ approved_embed_hosts = {
 	### Third-Party Image Hosts
 	# TODO: Might be able to keep these even if we media proxy?
 	'imgur.com', # possibly restrict to i.imgur.com
+	'imgur.io',
 	'pomf2.lain.la', # DO NOT generalize to lain.la. s.lain.la open redirect
 	'giphy.com', # used by the GIF Modal
 	'tenor.com',
