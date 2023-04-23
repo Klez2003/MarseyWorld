@@ -386,8 +386,8 @@ PROFANITIES = {
 	' cum ': ' c*m ',
 	'orgasm': 'sexual climax',
 	'dick': 'peepee',
-	'cock ': 'peepee ',
-	'cocks': 'peepees',
+	' cock ': ' peepee ',
+	' cocks': ' peepees',
 	'penis': 'peepee',
 	'pussy': 'girl peepee',
 	'pussies': 'girl peepees',
@@ -396,6 +396,7 @@ PROFANITIES = {
 	'cunt': 'girl peepee',
 	' twat ': ' girl peepee ',
 	'lmao': 'lmbo',
+	'peacock': 'peapeepee',
 }
 
 slur_single_words = "|".join([slur.lower() for slur in SLURS.keys()])
