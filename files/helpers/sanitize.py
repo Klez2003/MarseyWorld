@@ -433,7 +433,8 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_emojis=
 		captured.append(i.group(0))
 
 		old = i.group(0)
-		if 'marseylong1' in old or 'marseylong2' in old or 'marseyllama1' in old or 'marseyllama2' in old: new = old.lower().replace(">", " class='mb-0'>")
+		if 'marseylong1' in old or 'marseylong2' in old or 'marseyllama1' in old or 'marseyllama2' in old:
+			new = old.lower().replace(">", " class='mb-0'>")
 		else: new = old.lower()
 
 		new = render_emoji(new, emoji_regex2, golden, emojis_used, True)
