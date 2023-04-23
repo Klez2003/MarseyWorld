@@ -115,8 +115,6 @@ git_regex = re.compile("ref: (refs/.+)", flags=re.A)
 
 pronouns_regex = re.compile("([a-z]{1,5})/[a-z]{1,5}(/[a-z]{1,5})?", flags=re.A|re.I)
 
-knowledgebase_page_regex = re.compile("[a-zA-Z0-9_\-]+", flags=re.A)
-
 html_title_regex = re.compile("<title>(.{1,200})</title>", flags=re.I)
 
 def sub_matcher(match:re.Match, upper=False, replace_with:Union[dict[str, str], dict[str, List[str]]]=SLURS_FOR_REPLACING):
