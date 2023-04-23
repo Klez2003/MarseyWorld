@@ -3667,7 +3667,6 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseyponder','Marsey',2,'ponder orb wizard magician crystal ball'),
 ('marseypony','Marsey',2,'murmurwisper mlp my little ponies cutie mark horse furry my little pony'),
 ('marseypony2','Marsey',2,'pony horse furry mlp'),
-('marseypoon','Marsey',2,'poon trans male ftm tranny train'),
 ('marseypooner','Marsey',2,'4chan trans train ftm pass yeet tits dude bro dood meme woman moment stubble'),
 ('marseypoor','Marsey',2,'homeless beggar panhandler proletariat bum'),
 ('marseypop','Marsey',2,'action figure doll funko toy soy'),
