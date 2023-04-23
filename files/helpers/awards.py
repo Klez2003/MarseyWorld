@@ -70,11 +70,10 @@ def award_timers(v, bot=False):
 		v.bite = None
 		badge = v.has_badge(168)
 		if badge: g.db.delete(badge)
-
-		if "Vampire" not in v.old_house:
-			v.house = v.old_house
-			v.old_house = ''
-			notify_if_not_bot(f"Your vampire status has ended. You're now back in House {v.old_house.replace(' Founder', '')}!")
+		
+		v.house = v.old_house
+		notify_if_not_bot(f"Your vampire status has ended. You're now back in House {v.old_house.replace(' Founder', '')}!")
+		v.old_house = ''
 
 	if v.earlylife and v.earlylife < now:
 		v.earlylife = None

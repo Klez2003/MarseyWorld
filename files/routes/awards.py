@@ -409,12 +409,13 @@ def award_thing(v, thing_type, id):
 			g.db.add(thing)
 	elif "Vampire" in kind and kind == v.house:
 		if author.bite: author.bite += 172800
-		else: author.bite = int(time.time()) + 172800
-
-		if 'Vampire' not in author.house:
-			if not author.old_house:
-				author.old_house = author.house
-			author.house = 'Vampire'
+		else:
+			if v.house.startswith("Vampire"):
+				abort(400, f"{safe_username} is already a permanent vampire!")
+	
+			author.bite = int(time.time()) + 172800
+			v.old_house = v.house
+			v.house = "Vampire"
 
 		badge_grant(user=author, badge_id=168)
 	elif "Racist" in kind and kind == v.house:
