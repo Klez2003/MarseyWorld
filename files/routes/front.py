@@ -195,8 +195,8 @@ def comment_idlist(v=None, page=1, sort="new", t="day", gt=0, lt=0):
 		comments = comments.filter(
 			Comment.is_banned == False,
 			Comment.deleted_utc == 0,
-			Submission.private == False,
 			Comment.author_id.notin_(v.userblocks),
+			or_(Comment.parent_submission == None, Submission.private == False),
 		)
 
 	if gt: comments = comments.filter(Comment.created_utc > gt)
