@@ -373,8 +373,7 @@ def execute_antispam_submission_check(title, v, url):
 		text = "Your account has been banned for **1 day** for the following reason:\n\n> Too much spam!"
 		send_repeatable_notification(v.id, text)
 
-		v.ban(reason="Spamming.",
-			  days=1)
+		v.ban(reason="Spam", days=1)
 
 		for post in similar_posts + similar_urls:
 			post.is_banned = True
@@ -406,7 +405,7 @@ def execute_antispam_duplicate_comment_check(v:User, body_html:str):
 	count = g.db.query(Comment.id).filter(Comment.body_html == body_html,
 										  Comment.created_utc >= compare_time).count()
 	if count <= ANTISPAM_DUPLICATE_THRESHOLD: return
-	v.ban(reason="Spamming.", days=0.0)
+	v.ban(reason="Spam", days=0.0)
 	send_repeatable_notification(v.id, "Your account has been banned **permanently** for the following reason:\n\n> Too much spam!")
 	g.db.add(v)
 	g.db.commit()
@@ -435,8 +434,7 @@ def execute_antispam_comment_check(body:str, v:User):
 	if len(similar_comments) <= threshold: return
 	text = "Your account has been banned for **1 day** for the following reason:\n\n> Too much spam!"
 	send_repeatable_notification(v.id, text)
-	v.ban(reason="Spamming.",
-			days=1)
+	v.ban(reason="Spam", days=1)
 	for comment in similar_comments:
 		comment.is_banned = True
 		comment.ban_reason = "AutoJanny"
