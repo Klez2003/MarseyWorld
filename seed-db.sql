@@ -1232,11 +1232,18 @@ INSERT INTO public.hat_defs VALUES (1171, 'Funky Bandana', 'Oh Yeah!!!!!!', 2, 5
 INSERT INTO public.hat_defs VALUES (1180, 'IMMA FIRIN MUH EGG CRACKER', 'The real space lasers Marjorie Taylor Greene was warning you about', 2, 1000, NULL, 1680982678);
 
 
+
+
+
+
+
+
+
 --
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1181, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1190, true);
 
 
 --
@@ -1443,6 +1450,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('chinesenobleman','Wojak',2,'asian china chinese qin shang zhou han qing sui tang liao song yuan ming'),
 ('chinesepolitician','Wojak',2,'chinese politician'),
 ('chinesesoldierjak','Wojak',2,'chinese asian ccp solider gun military'),
+('chiobu','Misc',2,'chiobu pedo jinxthinker'),
 ('chioburentfree','Misc',2,'chiobu tangerinefeline rentfree'),
 ('chubbyemu','Misc',2,'chubbyemu chubby emu doctor asian food illness sick'),
 ('chuckbuddy','Misc',2,'invert chuck cat irl'),
@@ -3383,6 +3391,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseymayoface','Marsey',2,'black blackface whiteface mayo mayocide mayonnaise racist racism'),
 ('marseymayoparty','Marsey',2,'bukakke bukkake mayonaise mayonnaise cum semen jizz spunk nut sperm messy sloppy lewd facial cumshot'),
 ('marseymayu','Marsey',2,'idolmaster anime animegirl ribbon'),
+('marseyme','Marsey',2,'drive ryangosling ryan gosling literallyme literally me goose goosed scorpion driver cool sexy hotguy you i hot jacket'),
 ('marseymeangirls','Marsey',2,'rdrama chud gossip rumour talk snoo train retard group friends'),
 ('marseymeatwad','Marsey',2,'cartoon athf aqua hamburger'),
 ('marseymechanic','Marsey',2,'wrench car diy fix repairman dipfuck'),
@@ -3497,6 +3506,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseynotes','Marsey',2,'notes writer writing journ*list therapist doodle pencil'),
 ('marseynotes2','Marsey',2,'notes notepad pencil writing nerd glasses behind'),
 ('marseynotesglow','Marsey',2,'notes glow cia fbi fed writer writing pencil'),
+('marseynothingburger','Marsey',2,'nothingburger nothing burger boring irrelevant insignificant'),
 ('marseynouautism','Marsey',2,'pointing hat spiderman sperg autistic no u no you noyou'),
 ('marseynoyou','Marsey',2,'nou no u pointing'),
 ('marseynoyoufellowpedo','Marsey',2,'point fbi glow libertarian mask discord agent'),
@@ -3788,6 +3798,8 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseyreport','Marsey',2,'report maxx reportmax reportmaxx reporting'),
 ('marseyreportercnn','Marsey',2,'reporter journalist journoid interviewer'),
 ('marseyreporterfox','Marsey',2,'reporter journalist journoid interviewer'),
+('marseyreportmaxxer','Marsey',2,'reportmaxer reporting moderate moderator janny jannie cop police hat sash flag'),
+('marseyreportmaxxer2','Marsey',2,'reportmaxer reporting moderate moderator janny jannie cop police hat sash button happy animated'),
 ('marseyrepostsign','Marsey',2,'repost sign wink tail wag animated'),
 ('marseyrespect','Marsey',2,'darrell brooks respect respecc'),
 ('marseyretard','Marsey',2,'special ed retarded reaction slow sped drooling exceptional'),
@@ -4723,6 +4735,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('sammysonicfanyelling','Misc',2,'sanic frickin fricks zoomer kid angry mad'),
 ('samurai','Classic',2,'samurai animated emoticon bushido katana japan'),
 ('sarcasm','Classic',2,'sarcasm animated emoticon flip off sarcastic'),
+('sashacrying','Misc',2,'sasha crying sobbing gamer'),
 ('scalperpride','Misc',2,'bait scalper flag'),
 ('scaryasianwife','Wojak',2,'asian woman wife wok discipline'),
 ('schopenmarsey','Marsey',2,'schopenhauer philosophy german will ethics metaphysics'),
