@@ -53,6 +53,8 @@ def snappy_report(post, reason):
 	send_repeatable_notification(post.author_id, message)
 
 def execute_snappy(post:Submission, v:User):
+	group_members = []
+
 	ghost = post.ghost
 
 	snappy = get_account(SNAPPY_ID)
@@ -104,14 +106,14 @@ def execute_snappy(post:Submission, v:User):
 		elif body == '!pinggroup':
 			group = g.db.query(Group).order_by(func.random()).first()
 
-			members = group.member_ids
+			group_members = group.member_ids
 			
 			if group.name == 'biofoids': mul = 10
 			else: mul = 5
 				
-			g.db.query(User).filter(User.id.in_(members)).update({ User.coins: User.coins + mul })
+			g.db.query(User).filter(User.id.in_(group_members)).update({ User.coins: User.coins + mul })
 
-			cost = len(members) * mul
+			cost = len(group_members) * mul
 			snappy.charge_account('coins', cost)
 
 			body = f'!{group.name}'
@@ -230,6 +232,11 @@ def execute_snappy(post:Submission, v:User):
 			post.bannedfor = f'{duration} by @Snappy'
 
 		g.db.flush()
+
+		for x in group_members:
+			n = Notification(comment_id=c.id, user_id=x)
+			g.db.add(n)
+			push_notif({x}, f'New mention of you by @Snappy', c.body, c)
 
 		c.top_comment_id = c.id
 
