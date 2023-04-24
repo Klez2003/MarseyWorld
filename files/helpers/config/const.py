@@ -580,7 +580,7 @@ ERROR_MSGS = {
 	403: "YOU AREN'T WELCOME HERE GO AWAY",
 	404: "Someone typed something wrong and it was probably you, please do better.",
 	405: "idk how anyone gets this error but if you see this, remember to follow @carpathianflorist<br>the original error text here talked about internet gremlins and wtf",
-	406: "Max limit is 5 for comments and 50 for posts (what is it referring to? what does it mean? no one knows)",
+	406: "Max ping limit is 5 for comments and 50 for posts",
 	409: "There's a conflict between what you're trying to do and what you or someone else has done and because of that you can't do what you're trying to do. So maybe like... don't try and do that? Sorry not sorry",
 	410: "You were too slow. The link FUCKING DIED. Request a new one and be more efficient.",
 	413: "That's a heckin' chonker of a file! Please make it smaller or maybe like upload it somewhere else idk<BR>jc wrote this one hi jc!<br>- carp",
