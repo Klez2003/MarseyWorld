@@ -375,7 +375,7 @@ def create_sub2(v):
 	if not valid_sub_regex.fullmatch(name):
 		return redirect(f"/create_hole?error=Name does not match the required format!")
 
-	if not v.charge_account('combined', HOLE_COST):
+	if not v.charge_account('combined', HOLE_COST)[0]:
 		return redirect(f"/create_hole?error=You don't have enough coins or marseybux!")
 
 	sub = get_sub_by_name(name, graceful=True)

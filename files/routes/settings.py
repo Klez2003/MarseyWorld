@@ -360,7 +360,7 @@ def settings_personal_post(v):
 		else:
 			cost = HOUSE_JOIN_COST
 
-		success = v.charge_account('combined', cost)
+		success = v.charge_account('combined', cost)[0]
 		if not success: abort(403)
 
 		if house == "None": house = ''

@@ -51,27 +51,21 @@
 			</thead>
 			<tbody>
 		{% for a in awards %}
+			{% set kind = a['kind'] %}
+			{% set price = a['price'] %}
 			<tr>
 				<td class="shop-table-icon"><i class="{{a['icon']}} {{a['color']}}" style="font-size: 30px"></i></td>
 				<td class="shop-table-title">{{a['title']}}</td>
-				{% if a['baseprice'] != a['price'] %}
+				{% if a['baseprice'] != price %}
 					<td class="shop-table-price">
-						<span class="discounted-price">{{a['baseprice']}}</span> <em class="text-success">{{a['price']}}</em>
+						<span class="discounted-price">{{a['baseprice']}}</span> <em class="text-success">{{price}}</em>
 					</td>
 				{% else %}
-					<td class="shop-table-price">{{a['price']}}</td>
+					<td class="shop-table-price">{{price}}</td>
 				{% endif %}
 				<td class="shop-table-owned">{{a['owned']}}</td>
-				{% set kind = a['kind'] %}
 				<td class="shop-table-actions">
-					{% if kind != "benefactor" %}
-						<button type="button" id="buy1-{{loop.index}}" class="btn btn-success {% if v.coins < a['price'] %}disabled{% endif %}" data-areyousure="postToastSwitch(this,'/buy/{{kind}}')" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)"><span class="m-auto">Buy</span></button>
-					{% endif %}
-					{% if FEATURES['MARSEYBUX'] %}
-						{% if kind != "grass" %}
-							<button type="button" id="buy2-{{loop.index}}" class="marseybux btn btn-success {% if v.marseybux < a['price'] %}disabled{% endif %}" data-areyousure="postToastSwitch(this,'/buy/{{kind}}?mb=true')" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)"><span class="m-auto">Buy with MBux</span></button>
-						{% endif %}
-					{% endif %}
+					<button type="button" id="buy-{{loop.index}}" class="btn btn-success {% if v.coins+v.marseybux < price or (kind == 'grass' and v.coins < price) or (kind == 'benefactor' and v.marseybux < price) %}disabled{% endif %}" data-areyousure="postToastSwitch(this,'/buy/{{kind}}')" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)"><span class="m-auto">Buy</span></button>
 				</td>
 				<td class="shop-table-description">{{a['description']}}</td>
 			</tr>

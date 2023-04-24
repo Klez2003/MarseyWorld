@@ -100,17 +100,16 @@ function pick(kind, price, coins, marseybux) {
 	coins = parseInt(coins)
 	marseybux = parseInt(marseybux)
 
-	const buy1 = document.getElementById('buy1')
-	if (marseybux >= price && kind != "grass")
-		buy1.disabled=false;
-	else
-		buy1.disabled=true;
+	const buy = document.getElementById('buy')
 
-	const buy2 = document.getElementById('buy2')
-	if (coins >= price && kind != "benefactor")
-		buy2.disabled=false;
+	if (kind == "grass" && coins < price)
+		buy.disabled = true;
+	else if (kind == "benefactor" && marseybux < price)
+		buy.disabled = true;
+	else if (coins+marseybux < price)
+		buy.disabled = true;
 	else
-		buy2.disabled=true;
+		buy.disabled = false;
 
 	let ownednum = Number(document.getElementById(`${kind}-owned`).textContent);
 	document.getElementById('giveaward').disabled = (ownednum == 0);
@@ -144,10 +143,9 @@ function pick(kind, price, coins, marseybux) {
 	document.getElementById('award_price').textContent = price;
 }
 
-function buy(mb) {
+function buy() {
 	const kind = document.getElementById('kind').value;
 	url = `/buy/${kind}`
-	if (mb) url += "?mb=true"
 	const xhr = createXhrWithFormKey(url);
 	xhr[0].onload = function() {
 		let data
@@ -163,9 +161,6 @@ function buy(mb) {
 				let ownednum = Number(owned.textContent) + 1;
 				owned.textContent = ownednum
 			}
-
-			const currency = mb ? "bux" : "coins";
-			document.getElementById(`user-${currency}-amount`).innerText = parseInt(document.getElementById(`user-${currency}-amount`).innerText) - global_price;
 		}
 	};
 

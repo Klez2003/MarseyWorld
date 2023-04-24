@@ -79,9 +79,7 @@
 
 				<input autocomplete="off" id="giveaward" class="awardbtn btn btn-primary mt-3 fl-r" type="submit" data-nonce="{{g.nonce}}" data-onclick="giveaward(this)" value="Give Award" data-bs-dismiss="modal" disabled>
 
-				<button type="button" id="buy1" class="awardbtn btn btn-primary mt-3 mx-3 {% if not FEATURES['MARSEYBUX'] %}d-none{% endif %} fl-r" disabled data-areyousure="buy(true)" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)">Buy with marseybux</button>
-
-				<button type="button" id="buy2" class="awardbtn btn btn-primary mt-3 fl-r" disabled data-areyousure="buy()" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)">Buy</button>
+				<button type="button" id="buy" class="awardbtn btn btn-primary mt-3 mr-3 fl-r" disabled data-areyousure="buy()" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)">Buy</button>
 
 				<div id="award_price_block" class="fl-r mt-4 mr-3 d-none text-small-sm">
 					Price: <span id="award_price"></span> coins/marseybux

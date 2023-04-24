@@ -35,7 +35,7 @@ def create_group(v):
 	if name == 'everyone' or g.db.get(Group, name):
 		return redirect(f"/ping_groups?error=This group already exists!")
 
-	if not v.charge_account('combined', GROUP_COST):
+	if not v.charge_account('combined', GROUP_COST)[0]:
 		return redirect(f"/ping_groups?error=You don't have enough coins or marseybux!")
 
 	g.db.add(v)

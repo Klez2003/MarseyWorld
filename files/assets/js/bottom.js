@@ -104,7 +104,7 @@ for (const element of btns_to_disable) {
 
 function disable_btn(t) {
 	if (!t.classList.contains('disabled')) {
-		const isShopConfirm = t.id.startsWith('buy1-') || t.id.startsWith('buy2-') || t.id.startsWith('giveaward')
+		const isShopConfirm = t.id.startsWith('buy-') || t.id.startsWith('giveaward')
 
 		if (!isShopConfirm) {
 			t.classList.add('disabled');

@@ -59,9 +59,6 @@ def shop(v:User):
 @limiter.limit("100/minute;200/hour;1000/day", key_func=get_ID)
 @auth_required
 def buy(v:User, award):
-	if award == 'benefactor' and not request.values.get("mb"):
-		abort(403, "You can only buy the Benefactor award with marseybux!")
-
 	if award == 'ghost' and v.admin_level < PERMS['BUY_GHOST_AWARD']:
 		abort(403, "Only admins can buy this award")
 
@@ -76,19 +73,19 @@ def buy(v:User, award):
 	award_title = AWARDS[award]['title']
 	price = int(og_price * v.discount)
 
-	if request.values.get("mb"):
-		if award == "grass":
-			abort(403, "You can't buy the grass award with marseybux!")
 
-		charged = v.charge_account('marseybux', price)
-		if not charged:
-			abort(400, "Not enough marseybux!")
+	if award == "grass":
+		currency = 'coins'
+	elif award == "benefactor":
+		currency = 'marseybux'
 	else:
-		charged = v.charge_account('coins', price)
-		if not charged:
-			abort(400, "Not enough coins!")
+		currency = 'combined'
 
-		v.coins_spent += price
+	charged = v.charge_account(currency, price)[0]
+	if not charged:
+		abort(400, "Not enough coins/marseybux!")
+
+		v.coins_spent += charged[1]
 		if v.coins_spent >= 1000000:
 			badge_grant(badge_id=73, user=v)
 		elif v.coins_spent >= 500000:
