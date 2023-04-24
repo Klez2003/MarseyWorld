@@ -2,6 +2,7 @@ from copy import deepcopy
 
 from files.helpers.config.const import *
 
+#Personal awards are disabled on ghost posts and comments bc they can be used to figure out the identity of the author through https://rdrama.net/badges
 AWARDS = {
 	"fallback": {
 		"kind": "fallback",
