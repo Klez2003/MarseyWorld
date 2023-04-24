@@ -619,9 +619,9 @@ def torture_ap(string, username):
 	if not string: return string
 	for k, l in AJ_REPLACEMENTS.items():
 		string = string.replace(k, l)
-	string = torture_regex.sub(rf'\1{username}\3', string)
-	string = torture_regex2.sub(rf'\1{username} is\3', string)
-	string = torture_regex3.sub(rf"\1{username}'s\3", string)
+	string = torture_regex.sub(rf'\1@{username}\3', string)
+	string = torture_regex2.sub(rf'\1@{username} is\3', string)
+	string = torture_regex3.sub(rf"\1@{username}'s\3", string)
 	return string
 
 def complies_with_chud(obj):
