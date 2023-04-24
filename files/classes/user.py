@@ -831,6 +831,7 @@ class User(Base):
 				'bannerurl': self.banner_url,
 				'bio_html': self.bio_html_eager,
 				'coins': self.coins,
+				'marseybux': self.marseybux,
 				'post_count': self.real_post_count(v),
 				'comment_count': self.real_comment_count(v),
 				'badges': [x.path for x in self.badges],
