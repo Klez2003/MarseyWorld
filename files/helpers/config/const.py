@@ -774,6 +774,7 @@ if SITE == 'rdrama.net':
 		'aevan': AEVANN_ID,
 		'avean': AEVANN_ID,
 		' capy': AEVANN_ID,
+		'rodent': AEVANN_ID,
 		'carp': CARP_ID,
 		'clit': CARP_ID,
 		'snakes': SNAKES_ID,
