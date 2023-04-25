@@ -411,13 +411,13 @@ def leaderboard(v:User):
 
 	owned_hats = Leaderboard("Owned hats", "owned hats", "owned-hats", "Owned Hats", None, Leaderboard.get_hat_lb, User.owned_hats, v, None, g.db, None)
 
-	upvotes_given = Leaderboard("Upvotes given", "upvotes given", "upvotes-given", "Upvotes Given", "upvoting", Leaderboard.get_upvotes_lb, None, v, None, g.db, None)
-
-	leaderboards = [coins, coins_spent, truescore, subscribers, posts, comments, received_awards, badges, blocks, owned_hats, upvotes_given]
+	leaderboards = [coins, coins_spent, truescore, subscribers, posts, comments, received_awards, badges, blocks, owned_hats]
 
 	if SITE == 'rdrama.net':
 		leaderboards.append(Leaderboard("Designed hats", "designed hats", "designed-hats", "Designed Hats", None, Leaderboard.get_hat_lb, User.designed_hats, v, None, g.db, None))
 		leaderboards.append(Leaderboard("Marseys", "Marseys made", "marseys", "Marseys", None, Leaderboard.get_badge_marsey_lb, Emoji.author_id, v, None, g.db, None))
+
+	leaderboards.append(Leaderboard("Upvotes given", "upvotes given", "upvotes-given", "Upvotes Given", "upvoting", Leaderboard.get_upvotes_lb, None, v, None, g.db, None))
 
 	return render_template("leaderboard.html", v=v, leaderboards=leaderboards)
 
