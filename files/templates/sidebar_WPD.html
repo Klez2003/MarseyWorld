@@ -6,15 +6,17 @@
 		</h5>
 	</a>
 
-	{%- if v -%}
-		{%- set art_image = macros.random_image("assets/images/" ~ SITE_NAME ~ "/sidebar") -%}
+	{%- if IS_BIRTHGAY() -%}
+		{% set image = macros.random_image("assets/birthgay/images/sidebar/" ~ SITE_NAME) %}
+	{%- elif v -%}
+		{%- set image = macros.random_image("assets/images/" ~ SITE_NAME ~ "/sidebar") -%}
 	{%- else -%}
-		{%- set art_image = '/i/' ~ SITE_NAME ~ '/sidebar.webp?x=1' -%}
+		{%- set image = '/i/' ~ SITE_NAME ~ '/sidebar.webp?x=1' -%}
 	{%- endif -%}
 
 	{% if request.path != '/sidebar' %}
-		<a href="{{art_image}}">
-			<img class="mb-4" alt="sidebar image" data-nonce="{{g.nonce}}" data-onclick="expandImage()" loading="lazy" src="{{art_image}}" width=100%>
+		<a href="{{image}}">
+			<img class="mb-4" alt="sidebar image" data-nonce="{{g.nonce}}" data-onclick="expandImage()" loading="lazy" src="{{image}}" width=100%>
 		</a>
 	{% endif %}
 

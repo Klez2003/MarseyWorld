@@ -8,6 +8,8 @@
 
 	{% if sub %}
 		{% set image=sub.sidebar_url %}
+	{% elif IS_BIRTHGAY() %}
+		{% set image = macros.random_image("assets/birthgay/images/sidebar/" ~ SITE_NAME) %}
 	{% elif IS_DKD() %}
 		{% set image = macros.random_image("assets/DKD/images/sidebar") %}
 	{% elif IS_FISTMAS() %}

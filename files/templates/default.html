@@ -7,7 +7,9 @@
 		{% if IS_FISTMAS() and not sub %}
 			{% include 'fistmas/banner.html' %}
 		{% else %}
-			{% if IS_DKD() and not sub %}
+			{% if IS_BIRTHGAY() and not sub %}
+				{% set src = macros.random_image("assets/birthgay/images/banners/" ~ SITE_NAME) %}
+			{% elif IS_DKD() and not sub %}
 				{% set src = macros.random_image("assets/DKD/images/banners") %}
 			{% elif err and SITE_NAME == 'rDrama' %}
 				{% set src = "banner_error.webp" | asset_siteimg %}

@@ -4,23 +4,6 @@ from os import environ, path
 import tldextract
 import datetime
 
-t = datetime.datetime.now()
-
-fistmas_begin = datetime.datetime.strptime(f'1/12/{t.year}', '%d/%m/%Y')
-fistmas_end = datetime.datetime.strptime(f'30/12/{t.year}', '%d/%m/%Y')
-def IS_FISTMAS():
-	return fistmas_begin < datetime.datetime.now() < fistmas_end
-
-homoween_begin = datetime.datetime.strptime(f'15/10/{t.year}', '%d/%m/%Y')
-homoween_end = datetime.datetime.strptime(f'1/11/{t.year}', '%d/%m/%Y')
-def IS_HOMOWEEN():
-	return homoween_begin < datetime.datetime.now() < homoween_end
-
-dkd_begin = datetime.datetime.strptime(f'25/4/{t.year}', '%d/%m/%Y')
-dkd_end = datetime.datetime.strptime(f'2/5/{t.year}', '%d/%m/%Y')
-def IS_DKD():
-	return SITE_NAME == 'rDrama' and dkd_begin < datetime.datetime.now() < dkd_end
-
 DEFAULT_TIME_FILTER = "all"
 DEFAULT_THEME = "midnight"
 DEFAULT_COLOR = "805ad5"
@@ -1093,3 +1076,30 @@ else:
 STARS = '\n\n★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★\n\n'
 
 EMOJI_KINDS = ("Marsey", "Platy", "Wolf", "Tay", "Donkey Kong", "Marsey Flags", "Marsey Alphabet", "Classic", "Rage", "Wojak", "Misc")
+
+t = datetime.datetime.now()
+
+fistmas_begin = datetime.datetime.strptime(f'1/12/{t.year}', '%d/%m/%Y')
+fistmas_end = datetime.datetime.strptime(f'30/12/{t.year}', '%d/%m/%Y')
+def IS_FISTMAS():
+	return fistmas_begin < datetime.datetime.now() < fistmas_end
+
+homoween_begin = datetime.datetime.strptime(f'15/10/{t.year}', '%d/%m/%Y')
+homoween_end = datetime.datetime.strptime(f'1/11/{t.year}', '%d/%m/%Y')
+def IS_HOMOWEEN():
+	return homoween_begin < datetime.datetime.now() < homoween_end
+
+dkd_begin = datetime.datetime.strptime(f'25/4/{t.year}', '%d/%m/%Y')
+dkd_end = datetime.datetime.strptime(f'2/5/{t.year}', '%d/%m/%Y')
+def IS_DKD():
+	return SITE_NAME == 'rDrama' and dkd_begin < datetime.datetime.now() < dkd_end
+
+if SITE_NAME == 'rDrama':
+	birthgay_begin = datetime.datetime.strptime(f'20/5/{t.year}', '%d/%m/%Y')
+	birthgay_end = datetime.datetime.strptime(f'21/5/{t.year}', '%d/%m/%Y')
+else:
+	birthgay_begin = datetime.datetime.strptime(f'26/4/{t.year}', '%d/%m/%Y')
+	birthgay_end = datetime.datetime.strptime(f'27/5/{t.year}', '%d/%m/%Y')
+
+def IS_BIRTHGAY():
+	return birthgay_begin < datetime.datetime.now() < birthgay_end
