@@ -576,13 +576,12 @@ def filter_emojis_only(title, golden=True, count_emojis=False, graceful=False, s
 def normalize_url(url):
 	url = reddit_domain_regex.sub(r'\1https://old.reddit.com/\3/', url)
 
-	url = url.replace("youtu.be/", "youtube.com/watch?v=") \
-			 .replace("music.youtube.com/watch?v=", "youtube.com/watch?v=") \
-			 .replace("www.youtube.com", "youtube.com") \
-			 .replace("m.youtube.com", "youtube.com") \
-			 .replace("youtube.com/shorts/", "youtube.com/watch?v=") \
-			 .replace("youtube.com/v/", "youtube.com/watch?v=") \
-			\
+	url = url.replace("https://youtu.be/", "https://youtube.com/watch?v=") \
+			 .replace("https://music.youtube.com/watch?v=", "https://youtube.com/watch?v=") \
+			 .replace("https://www.youtube.com", "https://youtube.com") \
+			 .replace("https://m.youtube.com", "https://youtube.com") \
+			 .replace("https://youtube.com/shorts/", "https://youtube.com/watch?v=") \
+			 .replace("https://youtube.com/v/", "https://youtube.com/watch?v=") \
 			 .replace("https://mobile.twitter.com", "https://twitter.com") \
 			 .replace("https://m.facebook.com", "https://facebook.com") \
 			 .replace("https://m.wikipedia.org", "https://wikipedia.org") \
