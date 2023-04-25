@@ -210,13 +210,24 @@ def award_thing(v, thing_type, id):
 			send_repeatable_notification(v.id, msg)
 			author = v
 		elif kind != 'spider':
-			awarded_coins = int(AWARDS[kind]['price'] * COSMETIC_AWARD_COIN_AWARD_PCT) if AWARDS[kind]['cosmetic'] and kind != 'shit' else 0
-			if AWARDS[kind]['cosmetic'] and kind != 'shit':
+			if AWARDS[kind]['cosmetic']:
+				awarded_coins = int(AWARDS[kind]['price'] * COSMETIC_AWARD_COIN_AWARD_PCT)
+			else:
+				awarded_coins = 0
+
+			if kind == 'shit':
+				author.charge_account('coins', awarded_coins)
+				v.pay_account('coins', awarded_coins)
+			elif AWARDS[kind]['cosmetic']:
 				author.pay_account('coins', awarded_coins)
 
 			msg = f"@{v.username} has given your [{thing_type}]({thing.shortlink}) the {AWARDS[kind]['title']} Award"
-			if awarded_coins > 0:
+			
+			if kind == 'shit':
+				msg += f" and has stolen from you {awarded_coins} coins as a result"
+			elif awarded_coins:
 				msg += f" and you have received {awarded_coins} coins as a result"
+			
 			msg += "!"
 			if note:
 				note = '\n\n> '.join(note.splitlines())
