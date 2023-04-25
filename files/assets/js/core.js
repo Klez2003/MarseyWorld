@@ -177,6 +177,10 @@ function expandImage(url) {
 	if(e.ctrlKey || e.metaKey || e.shiftKey || e.altKey)
 		return;
 	e.preventDefault();
+
+	document.getElementById("desktop-expanded-image").src = '';
+	document.getElementById("desktop-expanded-image-wrap-link").href = '';
+
 	if (!url)
 	{
 		url = e.target.dataset.src
