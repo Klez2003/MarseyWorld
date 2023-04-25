@@ -130,7 +130,7 @@ def _generate_emojis_zip():
 	cache.set('emojis_size', size)
 
 
-def _leaderboard_task():	
+def _leaderboard_task():
 	votes1 = g.db.query(Vote.user_id, func.count(Vote.user_id)).filter(Vote.vote_type==1).group_by(Vote.user_id).order_by(func.count(Vote.user_id).desc()).all()
 	votes2 = g.db.query(CommentVote.user_id, func.count(CommentVote.user_id)).filter(CommentVote.vote_type==1).group_by(CommentVote.user_id).order_by(func.count(CommentVote.user_id).desc()).all()
 	votes3 = Counter(dict(votes1)) + Counter(dict(votes2))
@@ -145,3 +145,18 @@ def _leaderboard_task():
 	cache.set("user13", list(users13))
 	cache.set("users13_1", list(users13_1))
 	cache.set("users13_2", list(users13_2))
+
+	votes1 = g.db.query(Submission.author_id, func.count(Submission.author_id)).join(Vote).filter(Vote.vote_type==-1).group_by(Submission.author_id).order_by(func.count(Submission.author_id).desc()).all()
+	votes2 = g.db.query(Comment.author_id, func.count(Comment.author_id)).join(CommentVote).filter(CommentVote.vote_type==-1).group_by(Comment.author_id).order_by(func.count(Comment.author_id).desc()).all()
+	votes3 = Counter(dict(votes1)) + Counter(dict(votes2))
+	users8 = g.db.query(User.id).filter(User.id.in_(votes3.keys())).all()
+	users9 = []
+	for user in users8:
+		users9.append((user.id, votes3[user.id]))
+	if not users9: users9 = [(None,None)]
+	users9 = sorted(users9, key=lambda x: x[1], reverse=True)
+	users9_1, users9_2 = zip(*users9[:25])
+
+	cache.set("users9", list(users9))
+	cache.set("users9_1", list(users9_1))
+	cache.set("users9_2", list(users9_2))

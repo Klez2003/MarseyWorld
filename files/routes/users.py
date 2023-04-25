@@ -419,6 +419,8 @@ def leaderboard(v:User):
 
 	leaderboards.append(Leaderboard("Upvotes given", "upvotes given", "upvotes-given", "Upvotes Given", "upvoting", Leaderboard.get_upvotes_lb, None, v, None, g.db, None))
 
+	leaderboards.append(Leaderboard("Downvotes received", "downvotes received", "downvotes-received", "Downvotes Received", "downvoters", Leaderboard.get_downvotes_lb, None, v, None, g.db, None))
+
 	return render_template("leaderboard.html", v=v, leaderboards=leaderboards)
 
 @app.get("/<int:id>/css")

@@ -119,3 +119,19 @@ class Leaderboard:
 		except: pos13 = (len(users13)+1, 0)
 
 		return (users13_accs, pos13[0], pos13[1])
+
+	@classmethod
+	def get_downvotes_lb(cls, lb_criteria, v:User, db:scoped_session, users:Any, limit):
+		users9 = cache.get("users9") or []
+		users9_1 = cache.get("users9_1") or []
+		users9_2 = cache.get("users9_2") or []
+
+		users9_accs = db.query(User).filter(User.id.in_(users9_1)).all()
+		users9_accs = sorted(users9_accs, key=lambda x: users9_1.index(x.id))
+		users9_accs = tuple(zip(users9_accs, users9_2))
+		try:
+			pos9 = [x[0] for x in users9].index(v.id)
+			pos9 = (pos9+1, users9[pos9][1])
+		except: pos9 = (len(users9)+1, 0)
+
+		return (users9_accs, pos9[0], pos9[1])
