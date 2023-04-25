@@ -377,14 +377,18 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_emojis=
 	sanitized = mention_regex.sub(replacer, sanitized)
 
 	if FEATURES['PING_GROUPS']:
-		for i in group_mention_regex.finditer(sanitized):
-			name = i.group(1).lower()
+		def group_replacer(m):
+			name = m.group(1).lower()
+
 			if name == 'everyone':
-				sanitized = group_mention_regex.sub(r'<a href="/users">!\1</a>', sanitized)
+				return f'<a href="/users">!{name}</a>'
+			elif g.db.get(Group, name):
+				return f'<a href="/!{name}">!{name}</a>'
 			else:
-				existing = g.db.get(Group, name)
-				if existing:
-					sanitized = sanitized.replace(i.group(0), f'<a href="/!{name}">!{name}</a>', 1)
+				return m.group(0)
+
+		sanitized = group_mention_regex.sub(group_replacer, sanitized)
+
 
 	soup = BeautifulSoup(sanitized, 'lxml')
 
