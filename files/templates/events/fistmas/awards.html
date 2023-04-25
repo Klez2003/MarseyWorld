@@ -8,24 +8,24 @@
 
 	{# idk why snow isn't working vvvvvvvvvv #}
 	{% if p.award_count("snow", v) %}
-		<script defer src="{{'fistmas/js/vendor/snow.js'|asset}}"></script>
+		<script defer src="{{'events/fistmas/js/vendor/snow.js'|asset}}"></script>
 	{% endif %}
 
 	{% if p.award_count("frostbite", v) %}
 		<div class="frost"></div>
-		<script defer src="{{'fistmas/js/frostbite.js' | asset}}"></script>
-		<script defer src="{{'fistmas/css/frostbite.css' | asset}}"></script>
+		<script defer src="{{'events/fistmas/js/frostbite.js' | asset}}"></script>
+		<script defer src="{{'events/fistmas/css/frostbite.css' | asset}}"></script>
 	{% endif %}
 </div>
 
 {% if p.award_count("lights", v) %}
-	<link rel="stylesheet" href="{{('fistmas/css/lights.css') | asset}}">
+	<link rel="stylesheet" href="{{('events/fistmas/css/lights.css') | asset}}">
 {% endif %}
 
 {% if p.award_count("candycane", v) %}
-	<link rel="stylesheet" href="{{('fistmas/css/candycane.css') | asset}}">
+	<link rel="stylesheet" href="{{('events/fistmas/css/candycane.css') | asset}}">
 {% endif %}
 
 {% if p.award_count("fireplace", v) %}
-	<link rel="stylesheet" href="{{('fistmas/css/fireplace.css') | asset}}">
+	<link rel="stylesheet" href="{{('events/fistmas/css/fireplace.css') | asset}}">
 {% endif %}

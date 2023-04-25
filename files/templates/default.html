@@ -5,7 +5,7 @@
 	{% include "modals/expanded_image.html" %}
 	{% if err or '@' not in request.path %}
 		{% if IS_FISTMAS() and not sub %}
-			{% include 'fistmas/banner.html' %}
+			{% include 'events/fistmas/banner.html' %}
 		{% else %}
 			{% if IS_BIRTHGAY() and not sub %}
 				{% set src = macros.random_image("assets/events/birthgay/images/banners/" ~ SITE_NAME) %}
@@ -101,9 +101,9 @@
 {% endif %}
 
 {% if IS_DKD() %}
-	{% include "DKD/music.html" %}
+	{% include "events/DKD/music.html" %}
 {% elif IS_FISTMAS() %}
-	{% include "fistmas/music.html" %}
+	{% include "events/fistmas/music.html" %}
 {% endif %}
 
 {% endblock %}

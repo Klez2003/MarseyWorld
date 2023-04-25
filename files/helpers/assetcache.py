@@ -13,9 +13,9 @@ ASSET_URL = '/assets/'
 ASSET_CACHE = defaultdict(lambda: None)
 
 if IS_DKD():
-	ASSET_SUBDIRS.extend(['/DKD/js'])
+	ASSET_SUBDIRS.extend(['/events/DKD/js'])
 elif IS_FISTMAS():
-	ASSET_SUBDIRS.extend(['/fistmas/css', '/fistmas/css/themes', '/fistmas/js', '/fistmas/js/vendor'])
+	ASSET_SUBDIRS.extend(['/events/fistmas/css', '/events/fistmas/css/themes', '/events/fistmas/js', '/events/fistmas/js/vendor'])
 
 def assetcache_build(asset_dir, subdirs):
 	for subdir in subdirs:
