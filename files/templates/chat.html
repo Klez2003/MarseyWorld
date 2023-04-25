@@ -59,7 +59,7 @@
 								</span>
 								<span class="text d-none">{% if m %}{{m['text']}}{% endif %}</span>
 								<i class="quote btn fas fa-reply ml-auto" data-nonce="{{g.nonce}}" data-onclick="quote(this)"></i>
-								{% if v.admin_level > 1 %}
+								{% if v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
 									<i class="btn del delconfirm fas fa-trash-alt"></i>
 									<i class="btn d-none del delmsg fas fa-trash-alt text-danger" data-nonce="{{g.nonce}}" data-onclick="del(this)"></i>
 								{% endif %}
