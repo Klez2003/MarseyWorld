@@ -4,6 +4,7 @@ import os
 from sys import stdout
 from shutil import make_archive
 from hashlib import md5
+from collections import Counter
 
 import click
 import requests
@@ -40,6 +41,7 @@ def cron(every_5m, every_1h, every_1d, every_1mo):
 	if every_1h:
 		awards.award_timers_bots_task()
 		_generate_emojis_zip()
+		_leaderboard_task()
 
 	if every_1d:
 		stats.generate_charts_task(SITE)
@@ -126,3 +128,20 @@ def _generate_emojis_zip():
 
 	size = str(int(os.stat('files/assets/emojis.zip').st_size/1024/1024)) + ' MB'
 	cache.set('emojis_size', size)
+
+
+def _leaderboard_task():	
+	votes1 = g.db.query(Vote.user_id, func.count(Vote.user_id)).filter(Vote.vote_type==1).group_by(Vote.user_id).order_by(func.count(Vote.user_id).desc()).all()
+	votes2 = g.db.query(CommentVote.user_id, func.count(CommentVote.user_id)).filter(CommentVote.vote_type==1).group_by(CommentVote.user_id).order_by(func.count(CommentVote.user_id).desc()).all()
+	votes3 = Counter(dict(votes1)) + Counter(dict(votes2))
+	users14 = g.db.query(User).filter(User.id.in_(votes3.keys())).all()
+	users13 = []
+	for user in users14:
+		users13.append((user.id, votes3[user.id]-user.post_count-user.comment_count))
+	if not users13: users13 = [(None,None)]
+	users13 = sorted(users13, key=lambda x: x[1], reverse=True)
+	users13_1, users13_2 = zip(*users13[:25])
+
+	cache.set("user13", list(users13))
+	cache.set("users13_1", list(users13_1))
+	cache.set("users13_2", list(users13_2))
