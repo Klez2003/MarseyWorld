@@ -142,7 +142,7 @@ def _leaderboard_task():
 	users13 = sorted(users13, key=lambda x: x[1], reverse=True)
 	users13_1, users13_2 = zip(*users13[:25])
 
-	cache.set("user13", list(users13))
+	cache.set("users13", list(users13))
 	cache.set("users13_1", list(users13_1))
 	cache.set("users13_2", list(users13_2))
 
