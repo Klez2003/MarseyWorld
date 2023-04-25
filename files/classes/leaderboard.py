@@ -118,6 +118,8 @@ class Leaderboard:
 			pos13 = (pos13+1, users13[pos13][1])
 		except: pos13 = (len(users13)+1, 0)
 
+		print(pos13, flush=True)
+
 		return (users13_accs, pos13[0], pos13[1])
 
 	@classmethod
