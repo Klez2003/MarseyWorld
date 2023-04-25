@@ -32,8 +32,8 @@ function addFormattingCopyButtons() {
 			textCopyButtonDiv.appendChild(textCopyButton);
 			textCopyButtonDiv.className = "mr-4 ml-auto my-auto";
 
-			row.cells[1].classList.add('d-flex');
-			row.cells[1].appendChild(textCopyButtonDiv);
+			const x = row.cells[1].innerHTML
+			row.cells[1].innerHTML = `<div class="d-flex">${x}${textCopyButtonDiv.outerHTML}</div>`
 		}
 	}
 
