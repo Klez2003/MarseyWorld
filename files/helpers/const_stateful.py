@@ -5,6 +5,7 @@ from sqlalchemy.orm import scoped_session
 from files.classes import Emoji
 from files.helpers.config.const import *
 
+dk_const = []
 marseys_const = []
 marseys_const2 = []
 marsey_mappings = {}
@@ -16,7 +17,7 @@ def const_initialize(db:scoped_session):
 	_initialize_snappy_marseys_and_quotes()
 
 def _initialize_marseys(db:scoped_session):
-	global marseys_const, marseys_const2, marsey_mappings
+	global marseys_const, marseys_const2, marsey_mappings, dk_const
 	marseys_const = [x[0] for x in db.query(Emoji.name).filter(Emoji.kind=="Marsey", Emoji.submitter_id==None, Emoji.name!='chudsey').all()]
 	marseys_const2 = marseys_const + ['chudsey','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','0','1','2','3','4','5','6','7','8','9','exclamationpoint','period','questionmark']
 	marseys = db.query(Emoji).filter(Emoji.kind=="Marsey", Emoji.submitter_id==None).all()
@@ -27,13 +28,19 @@ def _initialize_marseys(db:scoped_session):
 			else:
 				marsey_mappings[tag] = [marsey.name]
 
+	if IS_DKD():
+		dk_const = [x[0] for x in db.query(Emoji.name).filter(Emoji.kind=="Donkey Kong", Emoji.submitter_id==None).all()]
+
+
 def _initialize_snappy_marseys_and_quotes():
 	global SNAPPY_MARSEYS, SNAPPY_QUOTES
-	SNAPPY_MARSEYS = [f':#{x}:' for x in marseys_const2]
 
 	if IS_DKD():
-		filename = f"snappy_DKD.txt"
-	elif IS_FISTMAS():
+		SNAPPY_MARSEYS = [f':#{x}:' for x in dk_const]
+	else:
+		SNAPPY_MARSEYS = [f':#{x}:' for x in marseys_const2]
+	
+	if IS_FISTMAS():
 		filename = f"snappy_fistmas_{SITE_NAME}.txt"
 	else:
 		filename = f"snappy_{SITE_NAME}.txt"

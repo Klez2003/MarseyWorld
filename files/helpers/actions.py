@@ -67,8 +67,10 @@ def execute_snappy(post:Submission, v:User):
 		if random.random() < 0.5: body = "wow, this lawlzpost sucks!"
 		else: body = "wow, a good lawlzpost for once!"
 	else:
-		if SNAPPY_MARSEYS and SNAPPY_QUOTES:
-			if IS_DKD() or IS_FISTMAS() or random.random() > 0.5:
+		if IS_DKD():
+			SNAPPY_CHOICES = SNAPPY_MARSEYS
+		elif SNAPPY_MARSEYS and SNAPPY_QUOTES:
+			if IS_FISTMAS() or random.random() > 0.5:
 				SNAPPY_CHOICES = SNAPPY_QUOTES
 			else:
 				SNAPPY_CHOICES = SNAPPY_MARSEYS
