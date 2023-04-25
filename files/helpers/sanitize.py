@@ -370,7 +370,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_emojis=
 
 	def replacer(m):
 		u = users_dict.get(m.group(1).lower())
-		if not u or u.id in v.all_twoway_blocks:
+		if not u or (v and u.id in v.all_twoway_blocks):
 			return m.group(0)
 		return f'<a href="/id/{u.id}"><img loading="lazy" src="/pp/{u.id}">@{u.username}</a>'
 
