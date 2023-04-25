@@ -1180,7 +1180,6 @@ INSERT INTO public.hat_defs VALUES (507, 'Gat', 'The ultimate in neo-BTSstanwear
 INSERT INTO public.hat_defs VALUES (511, 'Sam Fisher', 'Four-eyed freak vidya edition', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (512, 'The Buckethead', 'Exactly what it says on the tin', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (513, 'The Sherlock', 'Elemarsey, my dear Watson', 2, 500, NULL, 1662167687);
-INSERT INTO public.hat_defs VALUES (514, 'Glowing', 'Hit me with your car', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (515, 'Cringe Archivist', '*SNAP* Yep, this one for sure', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (516, 'Madoka', 'Pink-haired retard', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (517, 'Homura', 'Why does the jap have blue eyes', 2, 500, NULL, 1662167687);
@@ -1218,6 +1217,7 @@ INSERT INTO public.hat_defs VALUES (911, 'Racecar Hat', 'I sleep in a hat with m
 INSERT INTO public.hat_defs VALUES (1149, 'This hat kills fishists', 'This hat is perfect for anyone who loves fishing and has a sense of humor. Whether you’re a an amateur angler or master baiter, you can show off your confidence and charisma with this witty slogan. It is made of cotton and has an adjustable snapback. Order yours today and reel in the compliments!', 2, 500, NULL, 1677730441);
 INSERT INTO public.hat_defs VALUES (1153, 'Hope Eradicated', 'Who needs friends when you have money?', 2, 500, NULL, 1679346572);
 INSERT INTO public.hat_defs VALUES (1150, 'Power In Misery', 'Stop wasting company resources by getting killed...', 2, 500, NULL, 1679343066);
+INSERT INTO public.hat_defs VALUES (514, 'Glowing', 'Hit me with your car', 2, 1000, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (1157, 'Divine Light', 'Who has time to enjoy life when you''re making MONEY?!', 2, 500, NULL, 1679347512);
 INSERT INTO public.hat_defs VALUES (1155, 'Flesh Automaton', 'You are a flesh automaton powered by neurotransmiters', 2, 500, NULL, 1679347040);
 INSERT INTO public.hat_defs VALUES (1169, 'Mimic', 'That is NOT a health pack!', 2, 500, NULL, 1679359754);
