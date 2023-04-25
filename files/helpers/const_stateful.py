@@ -31,8 +31,12 @@ def _initialize_snappy_marseys_and_quotes():
 	global SNAPPY_MARSEYS, SNAPPY_QUOTES
 	SNAPPY_MARSEYS = [f':#{x}:' for x in marseys_const2]
 
-	filename = f"snappy_{SITE_NAME}.txt"
-	if IS_FISTMAS(): filename = f"snappy_event_{SITE_NAME}.txt"
+	if IS_DKD():
+		filename = f"snappy_DKD.txt"
+	elif IS_FISTMAS():
+		filename = f"snappy_fistmas_{SITE_NAME}.txt"
+	else:
+		filename = f"snappy_{SITE_NAME}.txt"
 
 	try:
 		with open(filename, "r", encoding="utf-8") as f:
