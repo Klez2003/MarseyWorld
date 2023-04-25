@@ -10,7 +10,18 @@
 				{% if range(1,5) | random == 1 and not (v and v.truescore > 1000) %}
 					{% include "journoid_banner.html" %}
 				{% else %}
-					{% if IS_FISTMAS() %}
+					{% if IS_DKD() %}
+						{%- set VISITORS_HERE_FLAVOR = [
+							" big dumb apes hoarding bananas",
+							" repeatedly dying on Mine Cart Carnage",
+							" lost in the Lost World",
+							" getting whacked by Cranky's cane",
+							" gooning to Candy Kong rule 34",
+							" idling in Bramble Blast 💃",
+							" buying Kremcoins with Marseybux",
+							" explaining why Enguarde is an antisemitic trope",
+						] -%}
+					{% elif IS_FISTMAS() %}
 						{%- set VISITORS_HERE_FLAVOR = [
 							' santa enjoyers kissing under a misletoe',
 							' bringing up family drama at Christmas dinner',
@@ -54,12 +65,10 @@
 		<div class="navbar navbar-expand-md navbar-light" id="navbar">
 			<div class="container-fluid" style="padding:0;">
 			<a href="/" class="navbar-brand mr-auto {% if not has_logo and not sub %}flex-grow-1{% endif %}">
-				{% if IS_FISTMAS() %}
-					{% if SITE_NAME == 'WPD' %}
-						{% set icon_url = 'icons-events/2022-christmas.webp' | asset_siteimg %}
-					{% else %}
-						{% set icon_url = macros.random_image('assets/fistmas/images/icon') %}
-					{% endif %}
+				{% if IS_DKD() %}
+					{% set icon_url = macros.random_image('assets/DKD/images/icon') %}
+				{% elif IS_FISTMAS() %}
+					{% set icon_url = macros.random_image('assets/fistmas/images/icon/' ~ SITE_NAME) %}
 				{% else %}
 					{% set icon_url = 'headericon.webp' | asset_siteimg %}
 				{% endif %}
@@ -71,11 +80,14 @@
 			{% elif has_logo %}
 				<div id="logo-container" class="flex-grow-1 logo-container">
 					<a href="/">
-						{% if SITE_NAME == 'WPD' and IS_FISTMAS() %}
-							<img loading="lazy" class="ml-1" id="logo-{{SITE_NAME}}" alt="logo" src="{{'icons-event/2022-christmas-logo.webp' | asset_siteimg}}" width="70">
+						{% if IS_DKD() %}	
+							{% set logo_url = 'assets/DKD/images/logo.webp' %}
+						{% elif IS_FISTMAS() %}
+							{% set logo_url = 'assets/fistmas/images/logo/' ~ SITE_NAME %}
 						{% else %}
-							<img loading="lazy" class="ml-1" id="logo-{{SITE_NAME}}" alt="logo" src="{{'logo.webp' | asset_siteimg}}" width="70">
+							{% set logo_url = 'logo.webp' | asset_siteimg %}
 						{% endif %}
+						<img loading="lazy" class="ml-1" id="logo-{{SITE_NAME}}" alt="logo" src="{{logo_url}}" width="70">
 					</a>
 				</div>
 			{% endif %}

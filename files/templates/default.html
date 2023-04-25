@@ -7,7 +7,9 @@
 		{% if IS_FISTMAS() and not sub %}
 			{% include 'fistmas/banner.html' %}
 		{% else %}
-			{% if err and SITE_NAME == 'rDrama' %}
+			{% if IS_DKD() and not sub %}
+				{% set src = macros.random_image("assets/DKD/images/banners") %}
+			{% elif err and SITE_NAME == 'rDrama' %}
 				{% set src = "banner_error.webp" | asset_siteimg %}
 			{% elif sub and sub.has_banners %}
 				{% set src = sub.random_banner() %}
@@ -96,7 +98,9 @@
 	<script defer src="{{'js/spider.js' | asset}}"></script>
 {% endif %}
 
-{% if IS_FISTMAS() %}
+{% if IS_DKD() %}
+	{% include "DKD/music.html" %}
+{% elif IS_FISTMAS() %}
 	{% include "fistmas/music.html" %}
 {% endif %}
 

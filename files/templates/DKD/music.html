@@ -1,0 +1,8 @@
+{% if not (SITE_NAME == 'WPD' and not v) and not (v and v.poor) and not (sub and sub.name == 'music') %}
+	{% if not song %}
+		{% set path = "assets/DKD/music" %}
+		{% set song = "/" ~ path ~ "/" ~ listdir('files/' ~ path)|random() ~ '?x=1' %}
+		<input hidden id="DKD-song" value="{{song}}">
+	{% endif %}
+	<script defer src="{{'DKD/js/music.js' | asset}}"></script>
+{% endif %}
