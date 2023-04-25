@@ -9,7 +9,7 @@ dk_const = []
 marseys_const = []
 marseys_const2 = []
 marsey_mappings = {}
-SNAPPY_MARSEYS = []
+SNAPPY_EMOJIS = []
 SNAPPY_QUOTES = []
 
 def const_initialize(db:scoped_session):
@@ -33,12 +33,12 @@ def _initialize_marseys(db:scoped_session):
 
 
 def _initialize_snappy_marseys_and_quotes():
-	global SNAPPY_MARSEYS, SNAPPY_QUOTES
+	global SNAPPY_EMOJIS, SNAPPY_QUOTES
 
 	if IS_DKD():
-		SNAPPY_MARSEYS = [f':#{x}:' for x in dk_const]
+		SNAPPY_EMOJIS = [f':#{x}:' for x in dk_const]
 	else:
-		SNAPPY_MARSEYS = [f':#{x}:' for x in marseys_const2]
+		SNAPPY_EMOJIS = [f':#{x}:' for x in marseys_const2]
 	
 	if IS_FISTMAS():
 		filename = f"snappy_fistmas_{SITE_NAME}.txt"
