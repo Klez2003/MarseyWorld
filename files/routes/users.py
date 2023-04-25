@@ -651,11 +651,9 @@ def messagereply(v:User):
 			notif = Notification(comment_id=c.id, user_id=admin)
 			g.db.add(notif)
 
-		ids = [top_comment.id] + [x.id for x in top_comment.replies(sort="old", v=v)]
-		notifications = g.db.query(Notification).filter(Notification.comment_id.in_(ids), Notification.user_id.in_(admins))
-		for n in notifications:
-			g.db.delete(n)
+		#I removed deleting previous notifs, cuz it interferred with the "unread" attribute for comments, in turn causing modmail replies u didnt read to be collapsed, which is annoying
 
+		#Also its position here meant all notifs generated now got deleted lol, this can be fixed by moving it to before the new notif is made, but it doesn't fix the issue in the previous comment
 
 	return {"comment": render_template("comments.html", v=v, comments=[c])}
 
