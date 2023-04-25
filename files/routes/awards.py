@@ -81,8 +81,8 @@ def buy(v:User, award):
 	else:
 		currency = 'combined'
 
-	charged = v.charge_account(currency, price)[0]
-	if not charged:
+	charged = v.charge_account(currency, price)
+	if not charged[0]:
 		abort(400, "Not enough coins/marseybux!")
 
 		v.coins_spent += charged[1]

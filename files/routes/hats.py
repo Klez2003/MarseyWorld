@@ -47,8 +47,9 @@ def buy_hat(v:User, hat_id):
 	if not hat.is_purchasable:
 		abort(403, "This hat is not for sale!")
 
-	charged = v.charge_account('combined', hat.price)[0]
-	if not charged: abort(400, "Not enough coins/marseybux!")
+	charged = v.charge_account('combined', hat.price)
+	if not charged[0]:
+		abort(400, "Not enough coins/marseybux!")
 
 	v.coins_spent_on_hats += charged[1]
 	hat.author.pay_account('coins', hat.price * 0.1)
