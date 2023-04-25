@@ -67,7 +67,7 @@ def flag_post(pid, v):
 	flag = Flag(post_id=post.id, user_id=v.id, reason=reason)
 	g.db.add(flag)
 
-	if v.id != post.author_id and not v.shadowbanned:
+	if v.id != post.author_id and not v.shadowbanned and not post.author.has_blocked(v):
 		message = f'@{v.username} reported [{post.title}]({post.shortlink})\n\n> {reason}'
 		send_repeatable_notification(post.author_id, message)
 
@@ -99,7 +99,7 @@ def flag_comment(cid, v):
 	flag = CommentFlag(comment_id=comment.id, user_id=v.id, reason=reason)
 	g.db.add(flag)
 
-	if v.id != comment.author_id and not v.shadowbanned:
+	if v.id != comment.author_id and not v.shadowbanned and not comment.author.has_blocked(v):
 		message = f'@{v.username} reported your [comment]({comment.shortlink})\n\n> {reason}'
 		send_repeatable_notification(comment.author_id, message)
 
