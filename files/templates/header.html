@@ -66,9 +66,9 @@
 			<div class="container-fluid" style="padding:0;">
 			<a href="/" class="navbar-brand mr-auto {% if not has_logo and not sub %}flex-grow-1{% endif %}">
 				{% if IS_DKD() %}
-					{% set icon_url = macros.random_image('assets/DKD/images/icon') %}
+					{% set icon_url = macros.random_image('assets/events/DKD/images/icon') %}
 				{% elif IS_FISTMAS() %}
-					{% set icon_url = macros.random_image('assets/fistmas/images/icon/' ~ SITE_NAME) %}
+					{% set icon_url = macros.random_image('assets/events/fistmas/images/icon/' ~ SITE_NAME) %}
 				{% else %}
 					{% set icon_url = 'headericon.webp' | asset_siteimg %}
 				{% endif %}
@@ -81,9 +81,9 @@
 				<div id="logo-container" class="flex-grow-1 logo-container">
 					<a href="/">
 						{% if IS_DKD() %}	
-							{% set logo_url = 'assets/DKD/images/logo.webp' %}
+							{% set logo_url = 'assets/events/DKD/images/logo.webp' %}
 						{% elif IS_FISTMAS() %}
-							{% set logo_url = 'assets/fistmas/images/logo/' ~ SITE_NAME %}
+							{% set logo_url = 'assets/events/fistmas/images/logo/' ~ SITE_NAME %}
 						{% else %}
 							{% set logo_url = 'logo.webp' | asset_siteimg %}
 						{% endif %}

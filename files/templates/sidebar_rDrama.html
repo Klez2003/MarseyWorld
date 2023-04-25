@@ -9,11 +9,11 @@
 	{% if sub %}
 		{% set image=sub.sidebar_url %}
 	{% elif IS_BIRTHGAY() %}
-		{% set image = macros.random_image("assets/birthgay/images/sidebar/" ~ SITE_NAME) %}
+		{% set image = macros.random_image("assets/events/birthgay/images/sidebar/" ~ SITE_NAME) %}
 	{% elif IS_DKD() %}
-		{% set image = macros.random_image("assets/DKD/images/sidebar") %}
+		{% set image = macros.random_image("assets/events/DKD/images/sidebar") %}
 	{% elif IS_FISTMAS() %}
-		{% set image = macros.random_image("assets/fistmas/images/sidebar") %}
+		{% set image = macros.random_image("assets/events/fistmas/images/sidebar") %}
 	{% else %}
 		{% set image = macros.random_image("assets/images/" ~ SITE_NAME ~ "/sidebar") %}
 	{% endif %}

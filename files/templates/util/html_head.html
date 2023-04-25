@@ -63,9 +63,9 @@
 	{% endif %}
 
 	{% if IS_DKD() %}
-		{% set favicon_url = macros.random_image('assets/DKD/images/favicon') %}
+		{% set favicon_url = macros.random_image('assets/events/DKD/images/favicon') %}
 	{% elif IS_FISTMAS() %}
-		{% set favicon_url = macros.random_image('assets/fistmas/images/favicon/' ~ SITE_NAME) %}
+		{% set favicon_url = macros.random_image('assets/events/fistmas/images/favicon/' ~ SITE_NAME) %}
 	{% else %}
 		{% set favicon_url = '/icon.webp?x=1' %}
 	{% endif %}
