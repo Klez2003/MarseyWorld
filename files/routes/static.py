@@ -400,3 +400,13 @@ def transfers(v:User):
 def donate(v):
 	if v.shadowbanned or v.agendaposter == 1: abort(404)
 	return render_template(f'donate.html', v=v)
+
+@app.get('/floattrip.csv')
+@limiter.limit(DEFAULT_RATELIMIT)
+@is_not_permabanned
+def floattrip(v):
+	if SITE != 'rdrama.net' or v.id not in (1, 4480):
+		abort(403)
+
+	resp = make_response(send_file('/floattrip.csv'))
+	return resp
