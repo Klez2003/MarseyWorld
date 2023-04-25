@@ -1,4 +1,5 @@
 from typing import Any, Callable, Optional, Tuple, Union
+from collections import Counter
 
 from sqlalchemy import Column, func
 from sqlalchemy.orm import scoped_session
@@ -9,6 +10,8 @@ from .badges import Badge
 from .emoji import *
 from .user import User
 from .userblock import UserBlock
+from .votes import Vote, CommentVote
+
 
 class Leaderboard:
 	"""
@@ -100,3 +103,34 @@ class Leaderboard:
 		if not position: position = (leaderboard.count() + 1, 0)
 		leaderboard = leaderboard.limit(limit).all()
 		return (leaderboard, position[0], position[1])
+
+	@classmethod
+	def get_upvotes_lb(cls, lb_criteria, v:User, db:scoped_session, users:Any, limit):
+		t1 = time.time()
+
+		votes1 = db.query(Vote.user_id, func.count(Vote.user_id)).filter(Vote.vote_type==1).group_by(Vote.user_id).order_by(func.count(Vote.user_id).desc()).all()
+		votes2 = db.query(CommentVote.user_id, func.count(CommentVote.user_id)).filter(CommentVote.vote_type==1).group_by(CommentVote.user_id).order_by(func.count(CommentVote.user_id).desc()).all()
+		votes3 = Counter(dict(votes1)) + Counter(dict(votes2))
+		users14 = db.query(User).filter(User.id.in_(votes3.keys())).all()
+		users13 = []
+		for user in users14:
+			users13.append((user.id, votes3[user.id]-user.post_count-user.comment_count))
+		if not users13: users13 = [(None,None)]
+		users13 = sorted(users13, key=lambda x: x[1], reverse=True)
+		users13_1, users13_2 = zip(*users13[:25])
+
+		t2 = time.time()
+		print(f"first block duration: {t2-t1}")
+
+		users13_accs = db.query(User).filter(User.id.in_(users13_1)).all()
+		users13_accs = sorted(users13_accs, key=lambda x: users13_1.index(x.id))
+		users13_accs = tuple(zip(users13_accs, users13_2))
+		try:
+			pos13 = [x[0] for x in users13].index(v.id)
+			pos13 = (pos13+1, users13[pos13][1])
+		except: pos13 = (len(users13)+1, 0)
+
+		t3 = time.time()
+		print(f"second block duration: {t3-t2}")
+
+		return (users13_accs, pos13[0], pos13[1])
