@@ -1096,10 +1096,10 @@ def IS_DKD():
 
 if SITE_NAME == 'rDrama':
 	birthgay_begin = datetime.datetime.strptime(f'20/5/{t.year}', '%d/%m/%Y')
-	birthgay_end = datetime.datetime.strptime(f'21/5/{t.year}', '%d/%m/%Y')
+	birthgay_end = datetime.datetime.strptime(f'23/5/{t.year}', '%d/%m/%Y')
 else:
 	birthgay_begin = datetime.datetime.strptime(f'26/4/{t.year}', '%d/%m/%Y')
-	birthgay_end = datetime.datetime.strptime(f'27/5/{t.year}', '%d/%m/%Y')
+	birthgay_end = datetime.datetime.strptime(f'29/5/{t.year}', '%d/%m/%Y')
 
 def IS_BIRTHGAY():
 	return birthgay_begin < datetime.datetime.now() < birthgay_end
