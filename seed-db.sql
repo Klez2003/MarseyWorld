@@ -1230,23 +1230,23 @@ INSERT INTO public.hat_defs VALUES (1177, 'Majora', 'You''ve met with a terrible
 INSERT INTO public.hat_defs VALUES (1172, 'Marseys Funky Bandana', 'She stole it from a bored ape', 2, 500, NULL, 1680231908);
 INSERT INTO public.hat_defs VALUES (1171, 'Funky Bandana', 'Oh Yeah!!!!!!', 2, 500, NULL, 1680231489);
 INSERT INTO public.hat_defs VALUES (1180, 'IMMA FIRIN MUH EGG CRACKER', 'The real space lasers Marjorie Taylor Greene was warning you about', 2, 1000, NULL, 1680982678);
-
-
-
-
-
-
-
-
-
-
+INSERT INTO public.hat_defs VALUES (1197, 'Foot', 'pbbbt', 2, 1000, NULL, 1682438947);
+INSERT INTO public.hat_defs VALUES (1195, 'Beauty Pageant Winner', 'There She Is, Miss America', 2, 500, NULL, 1682377919);
+INSERT INTO public.hat_defs VALUES (1192, 'Devo', 'Whip it good', 2, 500, NULL, 1682375354);
+INSERT INTO public.hat_defs VALUES (1191, 'Quieres', 'You want?', 2, 500, NULL, 1682373372);
+INSERT INTO public.hat_defs VALUES (1190, 'Pussy Hat', '=^._.^=', 2, 500, NULL, 1682291980);
+INSERT INTO public.hat_defs VALUES (1187, 'Henchman', 'Become a member of The Fluttering Horde', 2, 500, NULL, 1682286809);
+INSERT INTO public.hat_defs VALUES (1185, 'Fascinator', 'Kentucky Derby ready', 2, 500, NULL, 1682283086);
+INSERT INTO public.hat_defs VALUES (1184, 'Princess Beatrice', 'Remember the royal wedding?', 2, 500, NULL, 1682280525);
+INSERT INTO public.hat_defs VALUES (1183, 'Blossom', 'And she looks like Blossom!', 2, 500, NULL, 1682252248);
+INSERT INTO public.hat_defs VALUES (1182, 'Friends Frame', 'Could I *be* more of a hat?', 2, 500, NULL, 1682251449);
 
 
 --
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1196, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1197, true);
 
 
 --
