@@ -25,7 +25,7 @@ function report_commentModal(id, author) {
 		reason_comment.focus()
 	}, 500);
 
-	reportCommentButton.addEventListener('click', function() {
+	reportCommentButton.onclick = function() {
 		this.innerHTML='Reporting comment';
 
 		postToast(this, `/report/comment/${id}`,
@@ -34,7 +34,7 @@ function report_commentModal(id, author) {
 			},
 			() => {}
 		);
-	})
+	}
 };
 
 // Returns the selection text based on the range with the HTML
