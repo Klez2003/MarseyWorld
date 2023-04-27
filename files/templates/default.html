@@ -7,16 +7,14 @@
 		{% if IS_FISTMAS() and not sub %}
 			{% include 'events/fistmas/banner.html' %}
 		{% else %}
-			{% if IS_BIRTHGAY() and not sub %}
-				{% set src = macros.random_image("assets/events/birthgay/images/banners/" ~ SITE_NAME) %}
-			{% elif IS_DKD() and not sub %}
-				{% set src = macros.random_image("assets/events/DKD/images/banners") %}
-			{% elif err and SITE_NAME == 'rDrama' %}
+			{% if err and SITE_NAME == 'rDrama' %}
 				{% set src = "banner_error.webp" | asset_siteimg %}
 			{% elif sub and sub.has_banners %}
 				{% set src = sub.random_banner() %}
 				{% set alt = ['/h/', sub, 'banner']|join %}
 				{% set class = 'site-banner-hole' %}
+			{% elif IS_EVENT() %}
+				{% set src = macros.random_image("assets/events/" ~ IS_EVENT() ~ "/images/banners") %}
 			{% elif SITE_NAME == "rDrama" %}
 				{% set href = "https://secure.transequality.org/site/Donation2?df_id=1480" %}
 				{% set expand = false %}

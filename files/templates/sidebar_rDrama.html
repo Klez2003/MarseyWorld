@@ -8,12 +8,8 @@
 
 	{% if sub %}
 		{% set image=sub.sidebar_url %}
-	{% elif IS_BIRTHGAY() %}
-		{% set image = macros.random_image("assets/events/birthgay/images/sidebar/" ~ SITE_NAME) %}
-	{% elif IS_DKD() %}
-		{% set image = macros.random_image("assets/events/DKD/images/sidebar") %}
-	{% elif IS_FISTMAS() %}
-		{% set image = macros.random_image("assets/events/fistmas/images/sidebar") %}
+	{% elif IS_EVENT() %}
+		{% set image = macros.random_image("assets/events/" ~ IS_EVENT() ~ "/images/sidebar") %}
 	{% else %}
 		{% set image = macros.random_image("assets/images/" ~ SITE_NAME ~ "/sidebar") %}
 	{% endif %}

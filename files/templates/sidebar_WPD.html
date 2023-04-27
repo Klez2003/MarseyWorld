@@ -6,8 +6,8 @@
 		</h5>
 	</a>
 
-	{%- if IS_BIRTHGAY() -%}
-		{% set image = macros.random_image("assets/events/birthgay/images/sidebar/" ~ SITE_NAME) %}
+	{% if IS_EVENT() %}
+		{% set image = macros.random_image("assets/events/" ~ IS_EVENT() ~ "/images/sidebar") %}
 	{%- elif v -%}
 		{%- set image = macros.random_image("assets/images/" ~ SITE_NAME ~ "/sidebar") -%}
 	{%- else -%}
