@@ -17,6 +17,7 @@ from .comment import normalize_urls_runtime, add_options
 from .polls import *
 from .sub import *
 from .subscriptions import *
+from .saves import SaveRelationship
 
 class Submission(Base):
 	__tablename__ = "submissions"
@@ -374,3 +375,8 @@ class Submission(Base):
 	@lazy
 	def num_subscribers(self):
 		return g.db.query(Subscription).filter_by(submission_id=self.id).count()
+
+	@property
+	@lazy
+	def num_savers(self):
+		return g.db.query(SaveRelationship).filter_by(submission_id=self.id).count()

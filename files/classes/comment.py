@@ -16,6 +16,7 @@ from files.helpers.lazy import lazy
 from files.helpers.regex import *
 from files.helpers.sorting_and_time import *
 
+from .saves import CommentSaveRelationship
 
 def normalize_urls_runtime(body, v):
 	if not v: return body
@@ -462,3 +463,9 @@ class Comment(Base):
 
 		body += '</span>'
 		return body
+
+
+	@property
+	@lazy
+	def num_savers(self):
+		return g.db.query(CommentSaveRelationship).filter_by(comment_id=self.id).count()
