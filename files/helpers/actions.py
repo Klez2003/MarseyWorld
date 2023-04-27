@@ -59,7 +59,9 @@ def execute_snappy(post:Submission, v:User):
 
 	snappy = get_account(SNAPPY_ID)
 
-	if v.id == CARP_ID:
+	if post.sub == 'edgy':
+		body = SNAPPY_EDGY
+	elif v.id == CARP_ID:
 		if random.random() < 0.02: body = "i love you carp"
 		elif random.random() < 0.02: body = "https://i.rdrama.net/images/16614707883108485.webp"
 		else: body = ":#marseyfuckoffcarp:"
