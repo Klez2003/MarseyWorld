@@ -644,7 +644,7 @@ def complies_with_chud(obj):
 	old_body_html = obj.body_html
 
 	#torture body_html
-	if obj.body_html:
+	if obj.body_html and '<p>&amp;&amp;' not in obj.body_html and '<p>$$' not in obj.body_html and '<p>##' not in obj.body_html:
 		soup = BeautifulSoup(obj.body_html, 'lxml')
 		tags = soup.html.body.find_all(lambda tag: tag.name not in {'blockquote','codeblock','pre'} and tag.string, recursive=False)
 		for tag in tags:
