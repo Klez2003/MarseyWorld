@@ -10,7 +10,7 @@
 
 <!DOCTYPE html>
 <html lang="en"
-	{%- if IS_DKD() -%}
+	{%- if IS_DKD() and not (v and v.theme == 'light') -%}
 		style="--primary:#2AAA8A;--secondary:#F5E216"
 	{%- elif not IS_FISTMAS() -%}
 		style="--primary:#{{v.themecolor if v else DEFAULT_COLOR}}"
