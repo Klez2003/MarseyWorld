@@ -1415,13 +1415,12 @@ def gumroad():
 		print(STARS, flush=True)
 		abort(400)
 
-	print(data, flush=True)
 	id = data['sale_id']
 
 	existing = g.db.get(Transaction, id)
 	if existing: return ''
 
-	created_utc = time.time()
+	created_utc = int(time.mktime(time.strptime(data['sale_timestamp'].split('.')[0], "%Y-%m-%dT%H:%M:%SZ")))
 	type = data['recurrence']
 	amount = int(data['price']) / 100
 	email = data['email']
