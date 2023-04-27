@@ -422,7 +422,7 @@ def award_thing(v, thing_type, id):
 				abort(400, f"{safe_username} is already a permanent vampire!")
 	
 			author.bite = int(time.time()) + 172800
-			author.old_house = v.house
+			author.old_house = author.house
 			author.house = "Vampire"
 
 		badge_grant(user=author, badge_id=168)
