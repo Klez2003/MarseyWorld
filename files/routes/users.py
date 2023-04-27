@@ -1375,6 +1375,7 @@ if KOFI_TOKEN:
 	@app.post("/kofi")
 	@limiter.exempt
 	def kofi():
+		print(request.headers.get('CF-Connecting-IP'), flush=True)
 		data = json.loads(request.values['data'])
 		verification_token = data['verification_token']
 		if verification_token != KOFI_TOKEN: abort(400)
