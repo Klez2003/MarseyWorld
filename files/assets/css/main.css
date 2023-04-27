@@ -6854,6 +6854,9 @@ div.markdown {
 
 .site-banner {
 	width: 100%;
+	max-height: 20vh;
+    object-fit: contain;
+    -o-object-fit: contain;
 }
 .site-banner-hole {
 	width: 100%;
