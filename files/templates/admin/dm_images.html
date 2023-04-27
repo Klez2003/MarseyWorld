@@ -16,9 +16,7 @@
 		{% for item in items %}
 			<tr>
 				<td>
-					<a href="{{item[0]}}" target="_blank">
-						<img alt="{{item[0]}}" src="{{item[0]}}" loading="lazy" class="dm_img">
-					</a>
+					<img alt="{{item[0]}}" src="{{item[0]}}" loading="lazy" class="dm_img" data-nonce="{{g.nonce}}" data-onclick="expandImage()">
 				</td>
 				<td>
 					{% if item[1] != "Unknown" %}
