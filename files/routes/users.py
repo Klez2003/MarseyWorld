@@ -1373,7 +1373,7 @@ def claim_rewards_all_users():
 KOFI_TOKEN = environ.get("KOFI_TOKEN", "").strip()
 if KOFI_TOKEN:
 	@app.post("/kofi")
-	@limiter.limit(DEFAULT_RATELIMIT)
+	@limiter.exempt
 	def kofi():
 		data = json.loads(request.values['data'])
 		verification_token = data['verification_token']
@@ -1404,8 +1404,7 @@ if KOFI_TOKEN:
 		return ''
 
 @app.post("/gumroad")
-@limiter.limit('1/second', scope=rpath)
-@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.exempt
 def gumroad():
 	data = request.values
 	ip = request.headers.get('CF-Connecting-IP')
