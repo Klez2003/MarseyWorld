@@ -28,6 +28,8 @@ def sort_objects(sort, objects, cls):
 		metric = cls.realupvotes
 		if cls.__name__ == "Submission": metric += cls.comment_count/5
 		return objects.order_by(-1000000*(metric + 1)/(func.power(((ti - cls.created_utc)/1000), 1.23)), cls.created_utc.desc())
+	elif sort == "views" and cls.__name__ == "Submission":
+		return objects.order_by(cls.views.desc(), cls.created_utc.desc())
 	elif sort == "bump" and cls.__name__ == "Submission":
 		return objects.filter(cls.comment_count > 1).order_by(cls.bump_utc.desc(), cls.created_utc.desc())
 	elif sort == "comments" and cls.__name__ == "Submission":

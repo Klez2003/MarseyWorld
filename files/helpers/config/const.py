@@ -399,7 +399,7 @@ PIN_AWARD_TEXT = " (pin award)"
 THEMES = ["4chan","classic","classic_dark","coffee","dark","dramblr","light","midnight","tron","win98"]
 BACKGROUND_CATEGORIES = ["glitter", "anime", "fantasy", "solarpunk", "pixelart"]
 COMMENT_SORTS = ["hot", "new", "old", "top", "bottom", "controversial"]
-SORTS = COMMENT_SORTS + ["bump", "comments"]
+SORTS = COMMENT_SORTS + ["bump", "comments", "views"]
 TIME_FILTERS = ["hour", "day", "week", "month", "year", "all"]
 PAGE_SIZES = (10, 25, 50, 100)
 
