@@ -62,13 +62,7 @@
 		'/h/'+sub.name, sub.sidebar if sub.sidebar %}
 	{% endif %}
 
-	{% if IS_DKD() %}
-		{% set favicon_url = macros.random_image('assets/events/DKD/images/favicon') %}
-	{% else %}
-		{% set favicon_url = '/icon.webp?x=2' %}
-	{% endif %}
-
-	<link rel="icon" type="image/webp" href="{{favicon_url}}">
+	<link rel="icon" type="image/webp" href="/icon.webp?x=2">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta name="thumbnail" content="{{'site_preview.webp' | asset_siteimg}}">
