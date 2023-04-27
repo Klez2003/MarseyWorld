@@ -385,6 +385,8 @@ class Comment(Base):
 
 		if self.is_banned: return True
 
+		if self.deleted_utc and not (v and v.admin_level): return True
+
 		if self.author.shadowbanned: return True
 
 		if (self.wordle_result) and (not self.body or len(self.body_html) <= 100) and 9 > self.level > 1: return True
