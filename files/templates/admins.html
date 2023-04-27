@@ -12,8 +12,8 @@
 				<th>#</th>
 				<th>Name</th>
 				<th>Admin Level</th>
-				<th style="text-align:right;">Truescore</th>
-				<th style="text-align:right;">Mod actions</th>
+				<th>Truescore</th>
+				<th>Mod actions</th>
 			</tr>
 		</thead>
 
@@ -22,8 +22,8 @@
 				<td>{{loop.index}}</td>
 				<td>{% include "user_in_table.html" %}</td>
 				<td>{{user.admin_level}}</td>
-				<td style="text-align:right;">{{"{:,}".format(user.truescore)}}</td>
-				<td style="text-align:right;"><a href="/log?admin={{user.username}}">{{"{:,}".format(user.modaction_num)}}</a></td>
+				<td>{{"{:,}".format(user.truescore)}}</td>
+				<td><a href="/log?admin={{user.username}}">{{"{:,}".format(user.modaction_num)}}</a></td>
 			</tr>
 		{% endfor %}
 	</table>
