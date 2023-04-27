@@ -7,8 +7,8 @@ from .config.const import *
 
 valid_username_regex = re.compile("^[\w\-]{3,25}$", flags=re.A)
 
-mention_regex = re.compile('(?<!\/)@([\w\-]{1,30})(?!([^<]*<\/(code|pre|a)>|[^`]*`))', flags=re.A)
-group_mention_regex = re.compile('(?<!\/)!([\w\-]{3,25})(?!([^<]*<\/(code|pre|a)>|[^`]*`))', flags=re.A|re.I)
+mention_regex = re.compile('(?<![/;$#])@([\w\-]{1,30})(?!([^<]*<\/(code|pre|a)>|[^`]*`))', flags=re.A)
+group_mention_regex = re.compile('(?<![/;$#])!([\w\-]{3,25})(?!([^<]*<\/(code|pre|a)>|[^`]*`))', flags=re.A|re.I)
 
 everyone_regex = re.compile('(^|\s|>)!(everyone)(?!([^<]*<\/(code|pre|a)>|[^`]*`))', flags=re.A)
 
@@ -31,8 +31,8 @@ valid_sub_regex = re.compile("^[\w\-]{3,25}$", flags=re.A)
 query_regex = re.compile("(\w+):(\S+)", flags=re.A)
 
 poll_regex = re.compile("(^|\n)\$\$([^\$\n]+)\$\$\s*?(?!([^<]*<\/(code|pre|a)>|[^`]*`))", flags=re.A)
-bet_regex = re.compile("(^|\n)##([^\!\n]+)##\s*?(?!([^<]*<\/(code|pre|a)>|[^`]*`))", flags=re.A)
-choice_regex = re.compile("(^|\n)&&([^\&\n]+)&&\s*?(?!([^<]*<\/(code|pre|a)>|[^`]*`))", flags=re.A)
+bet_regex = re.compile("(^|\n)##([^#\n]+)##\s*?(?!([^<]*<\/(code|pre|a)>|[^`]*`))", flags=re.A)
+choice_regex = re.compile("(^|\n)&&([^&\n]+)&&\s*?(?!([^<]*<\/(code|pre|a)>|[^`]*`))", flags=re.A)
 
 html_comment_regex = re.compile("<!--.*-->", flags=re.A)
 
