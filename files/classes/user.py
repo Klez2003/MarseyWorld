@@ -157,6 +157,7 @@ class User(Base):
 	blacklisted_by = Column(Integer, ForeignKey("users.id"))
 
 	if IS_FISTMAS():
+		#TODO: make event_music a cookie toggle instead
 		event_music = Column(Boolean, default=default_event_music, nullable=False)
 		event_darkmode = Column(Boolean, default=default_darkmode, nullable=False)
 
