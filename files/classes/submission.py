@@ -369,3 +369,8 @@ class Submission(Base):
 	@lazy
 	def active_flags(self, v):
 		return len(self.filtered_flags(v))
+
+	@property
+	@lazy
+	def num_subscribers(self):
+		return g.db.query(Subscription).filter_by(submission_id=self.id).count()
