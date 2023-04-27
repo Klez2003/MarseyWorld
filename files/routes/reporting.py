@@ -26,12 +26,12 @@ def flag_post(pid, v):
 	execute_blackjack(v, post, reason, 'flag')
 	reason = reason[:100]
 	og_flair = reason[1:]
-	reason = filter_emojis_only(reason)
-	if len(reason) > 350:
+	reason_html = filter_emojis_only(reason)
+	if len(reason_html) > 350:
 		abort(400, "Report reason too long!")
 
 	if reason.startswith('!') and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or post.sub and v.mods(post.sub)):
-		post.flair = reason[1:]
+		post.flair = reason_html[1:]
 		g.db.add(post)
 		if v.admin_level >= PERMS['POST_COMMENT_MODERATION']:
 			ma=ModAction(
@@ -64,7 +64,7 @@ def flag_post(pid, v):
 
 	existing = g.db.query(Flag.post_id).filter_by(user_id=v.id, post_id=post.id).one_or_none()
 	if existing: abort(409, "You already reported this post!")
-	flag = Flag(post_id=post.id, user_id=v.id, reason=reason)
+	flag = Flag(post_id=post.id, user_id=v.id, reason=reason_html)
 	g.db.add(flag)
 
 	if v.id != post.author_id and not v.shadowbanned and not post.author.has_blocked(v):
@@ -92,11 +92,11 @@ def flag_comment(cid, v):
 	execute_under_siege(v, comment, reason, 'flag')
 	execute_blackjack(v, comment, reason, 'flag')
 	reason = reason[:100]
-	reason = filter_emojis_only(reason)
+	reason_html = filter_emojis_only(reason)
 
-	if len(reason) > 350: abort(400, "Too long!")
+	if len(reason_html) > 350: abort(400, "Too long!")
 
-	flag = CommentFlag(comment_id=comment.id, user_id=v.id, reason=reason)
+	flag = CommentFlag(comment_id=comment.id, user_id=v.id, reason=reason_html)
 	g.db.add(flag)
 
 	if v.id != comment.author_id and not v.shadowbanned and not comment.author.has_blocked(v):
