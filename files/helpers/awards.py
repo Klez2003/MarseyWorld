@@ -66,6 +66,7 @@ def award_timers(v, bot=False):
 		v.owoify = None
 		notify_if_not_bot("Your OwOify status has expired!")
 		badge = v.has_badge(167)
+		if badge: g.db.delete(badge)
 	if v.bite and v.bite < now:
 		v.bite = None
 		badge = v.has_badge(168)
