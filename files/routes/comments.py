@@ -113,6 +113,9 @@ def comment(v:User):
 		if CHANGELOG_THREAD and parent.id == CHANGELOG_THREAD and v.admin_level < PERMS['POST_TO_CHANGELOG']:
 			abort(403, "You can't post top-level comments in this thread!")
 
+		if BUGFIXING_THREAD and parent.id == BUGFIXING_THREAD and v.admin_level < PERMS['POST_TO_CHANGELOG']:
+			abort(403, "You can't post top-level comments in this thread!")
+
 		if parent.id in ADMIGGER_THREADS and v.admin_level < PERMS['USE_ADMIGGER_THREADS']:
 			abort(403, "You can't post top-level comments in this thread!")
 
