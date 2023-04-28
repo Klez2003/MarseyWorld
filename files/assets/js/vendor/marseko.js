@@ -75,7 +75,7 @@
 	};
 
 	function create() {
-		nekoEl.id = "marseyko";
+		nekoEl.id = "marseko";
 		nekoEl.style.width = "32px";
 		nekoEl.style.height = "32px";
 		nekoEl.style.position = "fixed";
