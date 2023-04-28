@@ -1135,3 +1135,22 @@ Eventually it'll be too much to bear - you'll buy a rope, tie a noose, put it ar
 This is your fate. This is what you chose. There is no turning back.
 
 """
+
+CHUD_PHRASES = (
+		"Trans lives matter",
+		"Black lives matter",
+		"Black trans lives matter",
+		"The future is female",
+		"I say this as a feminist ally",
+		"I stand with israel",
+		"Vaccines work",
+		"Trans women are women",
+		"Furry rights are human rights",
+		"Trans furry lives matter",
+		"Trump for prison",
+		"Hillary 2024",
+		"Jewish lives matter",
+		"White extinction is long overdue",
+		"Climate action now",
+		"Long live the CCP"
+	)

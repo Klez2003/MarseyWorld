@@ -322,8 +322,8 @@ def award_thing(v, thing_type, id):
 
 		if not note: abort(400, "Missing phrase!")
 
-		if len(note) > 35:
-			 abort(400, "Max length for phrase is 35 characters!")
+		if note not in CHUD_PHRASES:
+			abort(400, "Invalid phrase!")
 
 		author.agendaposter_phrase = note.lower()
 
