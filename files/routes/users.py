@@ -1375,11 +1375,11 @@ if KOFI_TOKEN:
 	@app.post("/kofi")
 	@limiter.exempt
 	def kofi():
-		print(request.headers.get('CF-Connecting-IP'), flush=True)
 		data = json.loads(request.values['data'])
 		verification_token = data['verification_token']
 		if verification_token != KOFI_TOKEN: abort(400)
 
+		print(request.headers.get('CF-Connecting-IP'), flush=True)
 		id = data['kofi_transaction_id']
 		created_utc = int(time.mktime(time.strptime(data['timestamp'].split('.')[0], "%Y-%m-%dT%H:%M:%SZ")))
 		type = data['type']
