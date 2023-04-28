@@ -221,7 +221,12 @@ def award_thing(v, thing_type, id):
 			elif AWARDS[kind]['cosmetic']:
 				author.pay_account('coins', awarded_coins)
 
-			msg = f"@{v.username} has given your [{thing_type}]({thing.shortlink}) the {AWARDS[kind]['title']} Award"
+			if thing_type == 'comment':
+				link_text_in_notif = "your comment"
+			else:
+				link_text_in_notif = thing.title
+
+			msg = f"@{v.username} has given [{link_text_in_notif}]({thing.shortlink}) the {AWARDS[kind]['title']} Award"
 			
 			if kind == 'shit':
 				msg += f" and has stolen from you {awarded_coins} coins as a result"
@@ -240,17 +245,20 @@ def award_thing(v, thing_type, id):
 
 	if kind == "ban":
 		link = f"/{thing_type}/{thing.id}"
-		link2 = link
 		if thing_type == 'comment':
-			link2 += '#context'
-		ban_reason = f'1-Day ban award used by <a href="/@{v.username}">@{v.username}</a> on <a href="{link2}">{link}</a>'
+			link += '#context'
+			link_text_in_notif = link
+		else:
+			link_text_in_notif = thing.title
+		
+		ban_reason = f'1-Day ban award used by <a href="/@{v.username}">@{v.username}</a> on <a href="{link}">{link}</a>'
 		if not author.is_suspended:
 			author.ban(reason=ban_reason, days=1)
-			send_repeatable_notification(author.id, f"Your account has been banned for **a day** for {link}. It sucked and you should feel bad.")
+			send_repeatable_notification(author.id, f"Your account has been banned for **a day** for [{link_text_in_notif}]({link}). It sucked and you should feel bad.")
 		elif author.unban_utc:
 			author.unban_utc += 86400
 			author.ban_reason = ban_reason
-			send_repeatable_notification(author.id, f"Your account has been banned for **yet another day** for {link}. Seriously man?")
+			send_repeatable_notification(author.id, f"Your account has been banned for **yet another day** for [{link_text_in_notif}]({link}). Seriously man?")
 	elif kind == "unban":
 		if not author.is_suspended or not author.unban_utc or time.time() > author.unban_utc: abort(403)
 
