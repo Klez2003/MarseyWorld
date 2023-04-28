@@ -319,7 +319,7 @@ def notifications(v:User):
 			Comment.deleted_utc == 0,
 		)
 
-	comments = comments.order_by(Notification.created_utc.desc())
+	comments = comments.order_by(Notification.created_utc.desc(), Comment.id.desc())
 	comments = comments.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE+1).all()
 
 	next_exists = (len(comments) > PAGE_SIZE)
