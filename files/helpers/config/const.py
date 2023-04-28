@@ -1003,6 +1003,8 @@ approved_embed_hosts = {
 	'githubusercontent.com', # using repos as media sources. no obvious exploit
 	'kindpng.com',
 	'pngfind.com',
+	'github.com',
+	'fsdfsd.net',
 }
 
 
