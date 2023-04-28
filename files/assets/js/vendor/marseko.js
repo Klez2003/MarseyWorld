@@ -1,6 +1,6 @@
-// based on oneko.js from https://github.com/adryd325/oneko.js, licensed under MIT, with art from https://twitter.com/_Anunnery
+// based on marseyko.js from https://github.com/adryd325/marseyko.js, licensed under MIT, with art from https://twitter.com/_Anunnery
 
-(function oneko() {
+(function marseyko() {
 	const nekoEl = document.createElement("div");
 	let nekoPosX = 32;
 	let nekoPosY = 32;
@@ -75,12 +75,12 @@
 	};
 
 	function create() {
-		nekoEl.id = "oneko";
+		nekoEl.id = "marseyko";
 		nekoEl.style.width = "32px";
 		nekoEl.style.height = "32px";
 		nekoEl.style.position = "fixed";
 		nekoEl.style.pointerEvents = "none";
-		nekoEl.style.backgroundImage = "url('/i/oneko.gif?x=1')";
+		nekoEl.style.backgroundImage = "url('/i/marseko.webp?x=1')";
 		nekoEl.style.imageRendering = "pixelated";
 		nekoEl.style.left = "16px";
 		nekoEl.style.top = "16px";
@@ -92,7 +92,7 @@
 		mousePosY = event.clientY;
 		};
 
-		window.onekoInterval = setInterval(frame, 100);
+		window.marseykoInterval = setInterval(frame, 100);
 	}
 
 	function setSprite(name, frame) {
