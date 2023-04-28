@@ -7304,3 +7304,7 @@ button, .btn {
 		height: 65px;
 	}	
 }
+
+#oneko {
+	z-index: 1000000000000000;
+}
