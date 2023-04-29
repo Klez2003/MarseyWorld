@@ -22,8 +22,6 @@ from files.routes.routehelpers import execute_shadowban_viewers_and_voters
 from files.routes.wrappers import *
 from files.__main__ import app, cache, limiter
 
-WORDLE_COLOR_MAPPINGS = {-1: "🟥", 0: "🟨", 1: "🟩"}
-
 @app.get("/comment/<int:cid>")
 @app.get("/post/<int:pid>/<anything>/<int:cid>")
 @app.get("/h/<sub>/comment/<int:cid>")
@@ -239,7 +237,7 @@ def comment(v:User):
 
 	body_html = sanitize(body_for_sanitize, limit_pings=5, count_emojis=not v.marsify)
 
-	if post_target.id not in ADMIGGER_THREADS and '!wordle' not in body.lower() and not (v.agendaposter and v.agendaposter_phrase in body.lower()):
+	if post_target.id not in ADMIGGER_THREADS and not (v.agendaposter and v.agendaposter_phrase in body.lower()):
 		existing = g.db.query(Comment.id).filter(
 			Comment.author_id == v.id,
 			Comment.deleted_utc == 0,
@@ -372,13 +370,11 @@ def comment(v:User):
 	c.voted = 1
 
 	check_for_treasure(c, body)
-	execute_wordle(c, body)
 	check_slots_command(c, v, v)
 
 	# Increment post count iff not self-reply and not a spammy comment game
 	# Essentially a measure to make comment counts reflect "real" content
-	if (posting_to_submission and not rts
-			and not c.wordle_result and not c.slots_result):
+	if (posting_to_submission and not rts and not c.slots_result):
 		post_target.comment_count += 1
 		g.db.add(post_target)
 
@@ -545,40 +541,6 @@ def diff_words(answer, guess):
 			char_freq[cg] -= 1
 			diffs[i] = 0
 	return diffs
-
-
-@app.post("/wordle/<int:cid>")
-@limiter.limit('1/second', scope=rpath)
-@limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
-@auth_required
-def handle_wordle_action(cid, v):
-	comment = get_comment(cid)
-
-	if v.id != comment.author_id:
-		abort(403)
-
-	guesses, status, answer = comment.wordle_result.split("_")
-	count = len(guesses.split(" -> "))
-
-	try: guess = request.values.get("thing").strip().lower()
-	except: abort(400)
-
-	if len(guess) != 5: abort(400, "Not a valid guess!")
-
-	if status == "active":
-		guesses += "".join(cg + WORDLE_COLOR_MAPPINGS[diff] for cg, diff in zip(guess, diff_words(answer, guess)))
-
-		if (guess == answer): status = "won"
-		elif (count == 6): status = "lost"
-		else: guesses += ' -> '
-
-		comment.wordle_result = f'{guesses}_{status}_{answer}'
-
-		g.db.add(comment)
-
-	return {"response" : comment.wordle_html(v)}
 
 
 @app.post("/toggle_comment_nsfw/<int:cid>")

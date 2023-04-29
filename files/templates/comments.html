@@ -233,10 +233,6 @@
 				{% if c.blackjack_result %}
 					{{c.blackjack_html | safe}}
 				{% endif %}
-
-				{% if c.wordle_result %}
-					{{c.wordle_html(v) | safe}}
-				{% endif %}
 			</div>
 			{% if c.active_flags(v) %}
 			<div id="flaggers-{{c.id}}" class="flaggers d-none">

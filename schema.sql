@@ -392,7 +392,6 @@ CREATE TABLE public.comments (
     slots_result character varying(36),
     blackjack_result character varying(860),
     treasure_amount character varying(10),
-    wordle_result character varying(115),
     body_ts tsvector GENERATED ALWAYS AS (to_tsvector('english'::regconfig, (body)::text)) STORED,
     casino_game_id integer,
     chuddedfor character varying(50),
@@ -2896,4 +2895,3 @@ ALTER TABLE ONLY public.comments
 --
 -- PostgreSQL database dump complete
 --
-

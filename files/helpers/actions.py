@@ -411,7 +411,6 @@ def execute_antispam_duplicate_comment_check(v:User, body_html:str):
 	if v.id in ANTISPAM_BYPASS_IDS or v.admin_level: return
 	if v.age >= NOTIFICATION_SPAM_AGE_THRESHOLD: return
 	if len(body_html) < 16: return
-	if body_html == '!wordle': return # wordle
 	compare_time = int(time.time()) - 60 * 60 * 24
 	count = g.db.query(Comment.id).filter(Comment.body_html == body_html,
 										  Comment.created_utc >= compare_time).count()
@@ -517,13 +516,6 @@ def execute_lawlz_actions(v:User, p:Submission):
 	g.db.add(ma_1)
 	g.db.add(ma_2)
 	g.db.add(ma_3)
-
-
-def execute_wordle(c:Comment, body:str):
-	if not FEATURES['WORDLE']: return
-	if not "!wordle" in body: return
-	answer = random.choice(WORDLE_LIST)
-	c.wordle_result = f'_active_{answer}'
 
 
 def process_poll_options(v:User, target:Union[Submission, Comment]):

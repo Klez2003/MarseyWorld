@@ -134,7 +134,6 @@ class Comment(Base):
 	body_html = Column(String)
 	body_ts = Column(TSVECTOR(), server_default=FetchedValue())
 	ban_reason = Column(String)
-	wordle_result = Column(String)
 	treasure_amount = Column(String)
 	slots_result = Column(String)
 	blackjack_result = Column(String)
@@ -390,8 +389,6 @@ class Comment(Base):
 
 		if self.author.shadowbanned: return True
 
-		if (self.wordle_result) and (not self.body or len(self.body_html) <= 100) and 9 > self.level > 1: return True
-
 		if v and v.filter_words and self.body and any(x in self.body for x in v.filter_words): return True
 
 		return False
@@ -407,27 +404,6 @@ class Comment(Base):
 	@lazy
 	def active_flags(self, v):
 		return len(self.filtered_flags(v))
-
-	@lazy
-	def wordle_html(self, v):
-		if not self.wordle_result: return ''
-
-		split_wordle_result = self.wordle_result.split('_')
-		wordle_guesses = split_wordle_result[0]
-		wordle_status = split_wordle_result[1]
-		wordle_answer = split_wordle_result[2]
-
-		body = f"<span id='wordle-{self.id}' class='ml-2'><small>{wordle_guesses}</small>"
-
-		if wordle_status == 'active' and v and v.id == self.author_id:
-			body += f'''<input autocomplete="off" type="text" class="form-control" maxsize="4" style="width:200px;display:initial" placeholder="5-letter guess"><button class="action-{self.id} btn btn-success small text-uppercase px-2 mb-2" data-cid="{self.id}" data-nonce="{g.nonce}" data-onclick="wordle(this)">Guess</button>'''
-		elif wordle_status == 'won':
-			body += "<strong class='ml-2'>Correct!</strong>"
-		elif wordle_status == 'lost':
-			body += f"<strong class='ml-2'>Lost. The answer was: {wordle_answer}</strong>"
-
-		body += '</span>'
-		return body
 
 	@property
 	@lazy

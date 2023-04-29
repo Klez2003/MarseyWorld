@@ -325,7 +325,3 @@ function handle_action(type, cid, thing) {
 	}
 	xhr.send(form)
 }
-
-function wordle(t) {
-	handle_action('wordle', t.dataset.cid, t.previousElementSibling.value)
-}
