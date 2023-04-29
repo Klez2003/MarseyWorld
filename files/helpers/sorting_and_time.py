@@ -5,6 +5,9 @@ from sqlalchemy.sql import func
 
 from files.helpers.config.const import *
 
+from files.classes.subscriptions import Subscription
+from files.classes.saves import *
+
 def apply_time_filter(t, objects, cls):
 	now = int(time.time())
 	if t == 'hour':
@@ -34,6 +37,12 @@ def sort_objects(sort, objects, cls):
 		return objects.filter(cls.comment_count > 1).order_by(cls.bump_utc.desc(), cls.created_utc.desc())
 	elif sort == "comments" and cls.__name__ == "Submission":
 		return objects.order_by(cls.comment_count.desc(), cls.created_utc.desc())
+	elif sort == "subscriptions" and cls.__name__ == "Submission":
+		return objects.outerjoin(Subscription).group_by(cls.id).order_by(func.count(Subscription.submission_id).desc(), cls.created_utc.desc())
+	elif sort == "saves" and cls.__name__ == "Submission":
+		return objects.outerjoin(SaveRelationship).group_by(cls.id).order_by(func.count(SaveRelationship.submission_id).desc(), cls.created_utc.desc())
+	elif sort == "saves" and cls.__name__ == "Comment":
+		return objects.outerjoin(CommentSaveRelationship).group_by(cls.id).order_by(func.count(CommentSaveRelationship.comment_id).desc(), cls.created_utc.desc())
 	elif sort == "new":
 		return objects.order_by(cls.created_utc.desc())
 	elif sort == "old":
