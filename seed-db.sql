@@ -1242,11 +1242,12 @@ INSERT INTO public.hat_defs VALUES (1183, 'Blossom', 'And she looks like Blossom
 INSERT INTO public.hat_defs VALUES (1182, 'Friends Frame', 'Could I *be* more of a hat?', 2, 500, NULL, 1682251449);
 
 
+
 --
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1197, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1198, true);
 
 
 --
@@ -1269,6 +1270,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('9','Marsey Alphabet',2,'number'),
 ('a','Marsey Alphabet',2,'letter'),
 ('abusivewife','Wojak',2,'bardfinn'),
+('acab','Classic',2,'cop police antifa'),
 ('adore','Misc',2,'cat love heart adore cute'),
 ('afroblackjak','Wojak',2,'black afro BIPOC'),
 ('aleph','Marsey Alphabet',2,'ℵ cardinal infinite'),
@@ -1278,6 +1280,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('altgirlblackjack','Wojak',2,'black woman tiktok'),
 ('ambulance','Classic',2,'ambulance vehicle animated hospital medical care emt paramedic'),
 ('ampersand','Marsey Alphabet',2,'& and'),
+('anarchynow','Classic',2,'anarchy antifa'),
 ('ancap','Wojak',2,'pedo lib'),
 ('angelic','Classic',2,'sopbabies wings halo innocent'),
 ('angle','Marsey Alphabet',2,'< > gt lt'),
@@ -1556,6 +1559,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('dinono','Misc',2,'dino chad no dinosaur trex'),
 ('dinoyes','Misc',2,'chad yes dino dinosaur trex'),
 ('directlypointingsoyjak','Wojak',2,'pointing soyjak you’re cringe'),
+('disappoint','Misc',2,'disappointed disappointed yell shout'),
 ('distress','Classic',2,'distress emoticon'),
 ('disturbing','Classic',2,'disturbing emoticon gross troubling'),
 ('dixiekongdancing','Donkey Kong',2,'happy donkeykong dk'),
@@ -1575,6 +1579,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('dkkey','Donkey Kong',2,'keyed donkeykong dk64'),
 ('doctordonkeykong','Donkey Kong',2,'dk64'),
 ('dog','Classic',2,'doggo pupper bark bork'),
+('doit','Misc',2,'pounding'),
 ('domo','Classic',2,'domo animated'),
 ('donkeydong','Donkey Kong',2,'penis dick cock helicopter dk donkeykong'),
 ('donkeykong64bananas','Donkey Kong',2,'bananas dk'),
@@ -1763,6 +1768,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('hammerfight','Classic',2,'hitting fighting'),
 ('handshake','Classic',2,'handshake animated emoticon deal agree'),
 ('handsomechud','Wojak',2,'chud stud chad gigachad handsome volcel stoic'),
+('handzoff','Misc',2,'handzoff handsoff hands off anti masturbatory cream coom goon'),
 ('hanging','Classic',2,'suicide rope hang ack dead noose lynch'),
 ('hanging2','Classic',2,'lynching noose'),
 ('happyclap','Classic',2,'applause clapping'),
@@ -2672,6 +2678,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseydragon','Marsey',2,'smaug rich hoard gold treasure'),
 ('marseydrama','Marsey',2,'agendapost where drama seriouspost drama where'),
 ('marseydramaddictrentfree','Marsey',2,'drama addict'),
+('marseydramaorgy','Marsey',2,'capy orgy jc carp sneks snakes mating gangbang'),
 ('marseydramautist','Marsey',2,'dramautist drama autist trains trans glue retard autism dramatard'),
 ('marseydrawing1','Marsey',2,'drawing artist canvas painting recursion recursive'),
 ('marseydream','Marsey',2,'spirals trippy swirls rainbow'),
@@ -4336,6 +4343,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseyvengeance','Marsey',2,'gore undead shotgun horror halloween revenge monster bloody head wound holiday'),
 ('marseyveryworried','Marsey',2,'worry anxiety fear animated scared sweat yikes shook'),
 ('marseyveryworriedfed','Marsey',2,'spook cia fbi glowie glownigger atf afraid shook animated worry anxiety fear animated scared sweat yikes'),
+('marseyveryworriedtrans','Marsey',2,'phobe bigot chud right groom xueen xing pass valid feds glowie rent free'),
 ('marseyvhs','Marsey',2,'halloween horror murderer ilikeyou'),
 ('marseyvibing','Marsey',2,'animated bopping vibe jam dancing headbang music rainbow dance'),
 ('marseyvictoria','Marsey',2,'victoria blacksouls black souls gothic maid succubus'),
@@ -4886,6 +4894,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('superstraight','Misc',2,'transmisia'),
 ('suprisedasianwife','Wojak',2,'surprised asian woman wife'),
 ('surejan','Misc',2,'brady doubt marsha marcia'),
+('surprise','Misc',2,'gun bed shoot'),
 ('surprisehug','Classic',2,'surprise animated emoticon hug love hearts'),
 ('suspicious','Classic',2,'suspicious emoticon suspecting'),
 ('swankykong','Donkey Kong',2,'dk donkeykong gameshow barrel'),
@@ -5028,6 +5037,8 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('wariotransrights','Misc',2,'lgbt mario vidya'),
 ('wat','Classic',2,'wat emoticon what confused surprised'),
 ('wavyhairblackjack','Wojak',2,'black woman twitter wavy'),
+('weewoo','Misc',2,'wee woo cop weewoo lights'),
+('wewuz','Misc',2,'kangs kangz egypt pyramid'),
 ('whip','Classic',2,'whip animated emoticon bdsm'),
 ('whipping','Classic',2,'whip animated emoticon bdsm'),
 ('whitewomenfuckdogscoomer','Wojak',2,'wojak coomer pitbull white women dogs fuck'),
