@@ -144,7 +144,7 @@ function register_new_elements(e) {
 
 	const onclick = e.querySelectorAll('[data-onclick]');
 	for (const element of onclick) {
-		element.addEventListener("click", () => {execute(element, 'onclick')});
+		element.onclick = () => {execute(element, 'onclick')};
 	}
 
 	const textareas = e.getElementsByTagName('textarea')
