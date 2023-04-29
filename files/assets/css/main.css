@@ -7307,4 +7307,11 @@ button, .btn {
 
 #marseko {
 	z-index: 1000000000000000;
+	width: 32px;
+	height: 32px;
+	position: fixed;
+	pointer-events: none;
+	background-image: url('/i/marseko.webp?x=1');
+	image-rendering: pixelated;
+	background-position: -64px -32px;
 }

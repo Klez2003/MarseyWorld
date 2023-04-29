@@ -37,5 +37,10 @@
 		{% block body required %}{% endblock %}
 		{{html_head.stylesheets_lower()}}
 		<script defer src="{{'js/bottom.js' | asset}}"></script>
+
+		{% if SITE_NAME == 'rDrama' %}
+			<div id="marseko"></div>
+			<script defer src="{{'js/marseko.js' | asset}}"></script>
+		{% endif %}
 	</body>
 </html>
