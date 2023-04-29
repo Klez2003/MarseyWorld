@@ -598,9 +598,14 @@ def messagereply(v:User):
 
 	body = process_dm_images(v, user, body)
 
+	body = body.strip()[:COMMENT_BODY_LENGTH_LIMIT]
+
 	if not body: abort(400, "Message is empty!")
 
 	body_html = sanitize(body)
+
+	if len(body_html) > COMMENT_BODY_HTML_LENGTH_LIMIT:
+		abort(400, "Message too long!")
 
 	if parent.sentto == MODMAIL_ID:
 		sentto = MODMAIL_ID

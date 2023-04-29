@@ -256,7 +256,8 @@ def comment(v:User):
 	if v.marseyawarded and posting_to_submission and post_target.id not in ADMIGGER_THREADS and marseyaward_body_regex.search(body_html):
 		abort(403, "You can only type marseys!")
 
-	if len(body_html) > COMMENT_BODY_HTML_LENGTH_LIMIT: abort(400)
+	if len(body_html) > COMMENT_BODY_HTML_LENGTH_LIMIT:
+		abort(400, "Comment too long!")
 
 	is_bot = v.client is not None and v.id not in PRIVILEGED_USER_BOTS
 
