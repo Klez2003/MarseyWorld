@@ -56,9 +56,11 @@ PUSH_NOTIF_LIMIT = 1000
 IS_LOCALHOST = SITE == "localhost" or SITE == "127.0.0.1" or SITE.startswith("192.168.") or SITE.endswith(".local")
 
 if IS_LOCALHOST:
+	SITE_IMAGES = SITE
 	SITE_FULL = 'http://' + SITE
 	SITE_FULL_IMAGES = SITE_FULL
 else:
+	SITE_IMAGES = 'i.' + SITE
 	SITE_FULL = 'https://' + SITE
 	SITE_FULL_IMAGES = 'https://i.' + SITE
 
@@ -962,9 +964,12 @@ approved_embed_hosts = {
 
 	### First-Party
 	SITE,
+	SITE_IMAGES,
 	'rdrama.net',
+	'i.rdrama.net',
 	'watchpeopledie.tv',
-	'fsdfsd.net',
+	'i.watchpeopledie.tv',
+	'videos.watchpeopledie.tv',
 
 	### Third-Party Image Hosts
 	# TODO: Might be able to keep these even if we media proxy?
