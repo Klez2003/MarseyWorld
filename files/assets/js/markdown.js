@@ -57,6 +57,14 @@ const image_regex_extensions = document.getElementById('IMAGE_FORMATS').value.re
 const regex_pattern = String.raw`(^|\s)(https:\/\/[\w\-.#&/=\?@%;+,:]{5,250}(\.|\?format=)(` + image_regex_extensions + String.raw`)((\?|&)[\w\-.#&/=\?@%;+,:]*)?)($|\s)`
 const compiled_regex = new RegExp(regex_pattern, "g");
 
+const approved_embed_hosts = document.getElementById('approved_embed_hosts').value.replace("{'", "").replace("'}", "").split("', '")
+function replace_image(match, prefix, url) {
+	if (approved_embed_hosts.some(x => url.startsWith(`https://${x}/`)))
+		return `${prefix}![](${url})`
+
+	return match
+}
+  
 function markdown(t) {
 	let input = t.value;
 
@@ -119,7 +127,7 @@ function markdown(t) {
 		}
 	}
 
-	input = input.replace(compiled_regex, '$1![]($2)')
+	input = input.replace(compiled_regex, replace_image)
 
 	input = marked(input)
 

@@ -957,6 +957,7 @@ approved_embed_hosts = {
 	# 1) Cannot point to a server controlled by a site user.
 	# 2) Cannot have open redirects based on query string. (tightest constraint)
 	# 3) #2 but pre-stored, ex: s.lain.la 302 with jannie DM attack.
+	# 4) Use the exact subdomain.
 	### TODO: Run a media proxy and kill most of these. Impossible to review.
 
 	### First-Party
@@ -967,43 +968,45 @@ approved_embed_hosts = {
 
 	### Third-Party Image Hosts
 	# TODO: Might be able to keep these even if we media proxy?
-	'imgur.com', # possibly restrict to i.imgur.com
-	'imgur.io',
-	'pomf2.lain.la', # DO NOT generalize to lain.la. s.lain.la open redirect
-	'giphy.com', # used by the GIF Modal
-	'tenor.com',
-	'gfycat.com',
-	'postimg.cc', # WPD chat seems to like it
+	'i.imgur.com',
+	'i.imgur.io',
+	'pomf2.lain.la/f',
+	'media.giphy.com/media', # used by the GIF Modal
+	'media0.giphy.com/media', 
+	'media1.giphy.com/media', 
+	'media2.giphy.com/media', 
+	'media3.giphy.com/media', 
+	'media4.giphy.com/media', 
+	'media.tenor.com',
+	'c.tenor.com',
+	'thumbs.gfycat.com',
+	'i.postimg.cc', # WPD chat seems to like it
 	'files.catbox.moe',
-	'b1.thefileditch.ch',
-	's1.fileditch.ch',
 
 	### Third-Party Media
 	# TODO: Preferably kill these. Media proxy.
 	# DO NOT ADD: wordpress.com, wp.com (maybe) | Or frankly anything. No more.
-	'redd.it', # disconcerting surface size {i, preview, external-preview, &c} but believed safe
-	'redditmedia.com', # similar to above
-	'twimg.com',
-	'pinimg.com',
-	'kiwifarms.net', # how sure are we Jersh doesn't have an open redirect?
-	'upload.wikimedia.org',
-	'staticflickr.com',
-	'substackcdn.com',
-	'wixmp.com', # image CDN: deviantart, others?
-	'kym-cdn.com',
-	'tumblr.com', # concerningly broad.
-	'ytimg.com',
-	'yt3.ggpht.com',
-	'bitchute.com',
+	'i.redd.it',
+	'preview.redd.it',
+	'external-preview.redd.it',
+	'pbs.twimg.com/media',
+	'i.pinimg.com',
+	'kiwifarms.net/attachments',
+	'uploads.kiwifarms.net/data/attachments',
+	'upload.wikimedia.org/wikipedia',
+	'live.staticflickr.com',
+	'substackcdn.com/image',
+	'i.kym-cdn.com/photos/images',
+	'37.media.tumblr.com',
+	'64.media.tumblr.com',
+	'66.media.tumblr.com',
+	'78.media.tumblr.com',
+	'i.ytimg.com/vi',
 
 	### Third-Party Resources (For e.g. Profile Customization)
 	# TODO: Any reasonable way to proxy these instead?
-	'use.typekit.net', # Adobe font CDN
-	'p.typekit.net', # Adobe font CDN
 	'fonts.googleapis.com', # Google font CDN
-	'githubusercontent.com', # using repos as media sources. no obvious exploit
-	'kindpng.com',
-	'pngfind.com',
+	'raw.githubusercontent.com', # using repos as media sources. no obvious exploit
 }
 
 
@@ -1014,11 +1017,11 @@ def is_site_url(url):
 			or url.startswith(f'{SITE_FULL}/')))
 
 def is_safe_url(url):
-	domain = tldextract.extract(url)
-	return (is_site_url(url)
-		or domain.registered_domain in approved_embed_hosts
-		or domain.fqdn in approved_embed_hosts)
-
+	if is_site_url(url):
+		return True
+	if any(url.startswith(f"https://{x}/") for x in approved_embed_hosts):
+		return True
+	return False
 
 hosts = "|".join(approved_embed_hosts).replace('.','\.')
 
