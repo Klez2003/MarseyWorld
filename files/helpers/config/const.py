@@ -322,6 +322,7 @@ if SITE_NAME == 'rDrama':
 		'superuser.com',
 		'goodreads.com',
 		'9gag.com',
+		'balkansirl.net',
 	}
 
 	BOOSTED_HOLES = {
