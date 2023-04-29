@@ -457,8 +457,8 @@ def submit_post(v:User, sub=None):
 	if len(title_html) > POST_TITLE_HTML_LENGTH_LIMIT:
 		abort(400, "Rendered title is too big!")
 
-	if sub == 'changelog' and not v.admin_level >= PERMS['POST_TO_CHANGELOG']:
-		abort(400, "You don't have sufficient permissions to post in /h/changelog")
+	if sub == 'changelog':
+		abort(400, "/h/changelog is archived")
 
 	if sub in {'furry','vampire','racist','femboy'} and not v.client and not v.house.lower().startswith(sub):
 		abort(400, f"You need to be a member of House {sub.capitalize()} to post in /h/{sub}")

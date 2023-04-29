@@ -180,8 +180,8 @@ def move_post(post:Submission, v:User, reason:str) -> Union[bool, str]:
 	if post.author.exiled_from(sub_to):
 		abort(403, f"User is exiled from this {HOLE_NAME}!")
 
-	if sub_to == 'changelog' and not v.admin_level >= PERMS['POST_TO_CHANGELOG']:
-		abort(403, "You don't have sufficient permissions to post in /h/changelog")
+	if sub_to == 'changelog':
+		abort(403, "/h/changelog is archived!")
 
 	if sub_to in {'furry','vampire','racist','femboy'} and not v.client and not post.author.house.lower().startswith(sub_to):
 		if v.id == post.author_id:
