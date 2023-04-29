@@ -1,8 +1,15 @@
 const marsekoEl = document.getElementById("marseko");
-let marsekoPosX = 32;
-let marsekoPosY = 32;
-let mousePosX = 0;
-let mousePosY = 0;
+
+function getRandomInt(max) {
+	return Math.max(32, Math.floor(Math.random() * max));
+}
+let marsekoPosX = getRandomInt(screen.availWidth/2);
+let marsekoPosY = getRandomInt(screen.availHeight);
+marsekoEl.style.left = `${marsekoPosX}px`;
+marsekoEl.style.top = `${marsekoPosY}px`;
+let mousePosX = marsekoPosX;
+let mousePosY = marsekoPosY;
+
 let frameCount = 0;
 let idleTime = 0;
 let idleAnimation = null;
@@ -140,19 +147,19 @@ function frame() {
 	const distance = Math.sqrt(diffX ** 2 + diffY ** 2);
 
 	if (distance < marsekoSpeed || distance < 48) {
-	idle();
-	return;
+		idle();
+		return;
 	}
 
 	idleAnimation = null;
 	idleAnimationFrame = 0;
 
 	if (idleTime > 1) {
-	setSprite("alert", 0);
-	// count down after being alerted before moving
-	idleTime = Math.min(idleTime, 7);
-	idleTime -= 1;
-	return;
+		setSprite("alert", 0);
+		// count down after being alerted before moving
+		idleTime = Math.min(idleTime, 7);
+		idleTime -= 1;
+		return;
 	}
 
 	direction = diffY / distance > 0.5 ? "N" : "";
@@ -167,8 +174,8 @@ function frame() {
 	marsekoPosX = Math.min(Math.max(16, marsekoPosX), window.innerWidth - 16);
 	marsekoPosY = Math.min(Math.max(16, marsekoPosY), window.innerHeight - 16);
 
-	marsekoEl.style.left = `${marsekoPosX - 16}px`;
-	marsekoEl.style.top = `${marsekoPosY - 16}px`;
+	marsekoEl.style.left = `${marsekoPosX}px`;
+	marsekoEl.style.top = `${marsekoPosY}px`;
 }
 
 document.onmousemove = (event) => {
@@ -176,12 +183,3 @@ document.onmousemove = (event) => {
 		mousePosY = event.clientY;
 	};
 window.marseykoInterval = setInterval(frame, 100);
-
-function getRandomInt(max) {
-	return Math.floor(Math.random() * max);
-}
-const random_left = getRandomInt(screen.width)
-const random_top = getRandomInt(screen.height)
-
-marsekoEl.style.left = `${random_left}px`;
-marsekoEl.style.top = `${random_top}px`;
