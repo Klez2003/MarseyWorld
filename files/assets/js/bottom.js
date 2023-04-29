@@ -144,7 +144,7 @@ function register_new_elements(e) {
 
 	const onclick = e.querySelectorAll('[data-onclick]');
 	for (const element of onclick) {
-		element.onclick = () => {execute(element, 'onclick')};
+		element.addEventListener("click", () => {execute(element, 'onclick')});
 	}
 
 	const textareas = e.getElementsByTagName('textarea')
@@ -169,7 +169,9 @@ bs_trigger(document);
 
 
 document.addEventListener("click", function(e){
-	const element = e.target
+	let element = e.target
+	if (element.tagName == "I")
+		element = element.parentElement
 
 	if (element instanceof HTMLImageElement && (element.alt.startsWith('![](')) || element.classList.contains('in-comment-image') || element.classList.contains('img')) {
 		expandImage()
