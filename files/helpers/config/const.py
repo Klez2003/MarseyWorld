@@ -1099,12 +1099,12 @@ def IS_DKD():
 	return SITE_NAME == 'rDrama' and dkd_begin < datetime.datetime.now() < dkd_end
 
 birthgay_begin = datetime.datetime.strptime(f'20/5/{t.year}', '%d/%m/%Y')
-birthgay_end = datetime.datetime.strptime(f'23/5/{t.year}', '%d/%m/%Y')
+birthgay_end = datetime.datetime.strptime(f'22/5/{t.year}', '%d/%m/%Y')
 def IS_BIRTHGAY():
 	return SITE_NAME == 'rDrama' and birthgay_begin < datetime.datetime.now() < birthgay_end
 
 birthdead_begin = datetime.datetime.strptime(f'26/4/{t.year}', '%d/%m/%Y')
-birthdead_end = datetime.datetime.strptime(f'29/5/{t.year}', '%d/%m/%Y')
+birthdead_end = datetime.datetime.strptime(f'28/5/{t.year}', '%d/%m/%Y')
 def IS_BIRTHDEAD():
 	return SITE_NAME == 'WPD' and birthdead_begin < datetime.datetime.now() < birthdead_end
 
