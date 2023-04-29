@@ -1,7 +1,7 @@
 const marsekoEl = document.getElementById("marseko");
 
 function getRandomInt(max) {
-	return Math.max(32, Math.floor(Math.random() * max));
+	return Math.max(32, Math.floor(Math.random() * max) - 16);
 }
 let marsekoPosX = getRandomInt(screen.availWidth);
 let marsekoPosY = getRandomInt(screen.availHeight);
