@@ -168,7 +168,7 @@ register_new_elements(document);
 bs_trigger(document);
 
 
-document.addEventListener("click", function(e){
+document.addEventListener("click", function (e) {
 	let element = e.target
 	if (element.tagName == "I")
 		element = element.parentElement
