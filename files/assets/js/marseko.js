@@ -1,10 +1,10 @@
 const marsekoEl = document.getElementById("marseko");
 
-function getRandomInt(max) {
+function getInitialPosition(max) {
 	return Math.max(32, Math.floor(Math.random() * max) - 16);
 }
-let marsekoPosX = getRandomInt(screen.availWidth);
-let marsekoPosY = getRandomInt(screen.availHeight);
+let marsekoPosX = getInitialPosition(screen.availWidth);
+let marsekoPosY = getInitialPosition(screen.availHeight);
 marsekoEl.style.left = `${marsekoPosX}px`;
 marsekoEl.style.top = `${marsekoPosY}px`;
 let mousePosX = marsekoPosX;
