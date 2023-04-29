@@ -1,4 +1,17 @@
-function changeIcon(id) {
+function expandText(id) {
+	const toggling = document.getElementById('post-text-'+id)
+	const attr = "d-none";
+
+	if (toggling.classList.contains(attr)) {
+		document.querySelectorAll(".toggled-visible").forEach(i => {
+			i.classList.add(attr)
+			i.classList.remove("toggled-visible")
+		});
+		toggling.classList.add("toggled-visible")
+	}
+
+	toggling.classList.toggle(attr);
+
 	for (const e of document.getElementsByClassName('text-expand-icon-p_'+id))
 	{
 		e.classList.toggle('fa-expand-alt');
