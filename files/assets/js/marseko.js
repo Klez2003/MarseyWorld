@@ -3,7 +3,7 @@ const marsekoEl = document.getElementById("marseko");
 function getRandomInt(max) {
 	return Math.max(32, Math.floor(Math.random() * max));
 }
-let marsekoPosX = getRandomInt(screen.availWidth/2);
+let marsekoPosX = getRandomInt(screen.availWidth);
 let marsekoPosY = getRandomInt(screen.availHeight);
 marsekoEl.style.left = `${marsekoPosX}px`;
 marsekoEl.style.top = `${marsekoPosY}px`;
