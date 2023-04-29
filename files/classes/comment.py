@@ -73,8 +73,10 @@ def add_options(self, body, v):
 			if v:
 				if kind == 'post':
 					sub = self.sub
-				else:
+				elif self.parent_submission:
 					sub = self.post.sub
+				else:
+					sub = None
 
 				if sub in {'furry','vampire','racist','femboy'} and not v.house.lower().startswith(sub):
 					option_body += ' disabled '
