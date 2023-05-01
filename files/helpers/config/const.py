@@ -58,14 +58,14 @@ IS_LOCALHOST = SITE == "localhost" or SITE == "127.0.0.1" or SITE.startswith("19
 if IS_LOCALHOST:
 	SITE_FULL = 'http://' + SITE
 	SITE_IMAGES = SITE
+	SITE_FULL_IMAGES = f'http://{SITE_IMAGES}'
 else:
 	SITE_FULL = 'https://' + SITE
 	SITE_IMAGES = 'i.' + SITE
+	SITE_FULL_IMAGES = f'https://{SITE_IMAGES}'
 
 if SITE == 'staging.rdrama.net':
-	SITE_FULL_IMAGES = 'https://i.rdrama.net'
-else:
-	SITE_FULL_IMAGES = f'https://{SITE_IMAGES}'
+	SITE_FULL_IMAGES = 'https://i.rdrama.net'	
 
 LOGGED_IN_CACHE_KEY = "loggedin"
 LOGGED_OUT_CACHE_KEY = "loggedout"
