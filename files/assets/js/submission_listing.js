@@ -1,8 +1,10 @@
+const vid = document.getElementById('vid').value
+
 function expandText(id) {
 	const toggling = document.getElementById('post-text-'+id)
 	const attr = "d-none";
 
-	if (toggling.classList.contains(attr)) {
+	if (vid != 2453 && toggling.classList.contains(attr)) {
 		document.querySelectorAll(".toggled-visible").forEach(i => {
 			i.classList.add(attr)
 			i.classList.remove("toggled-visible")

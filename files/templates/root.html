@@ -29,6 +29,12 @@
 	{% endblock %}
 	</head>
 	<body {% block body_attributes %}id="{%block pagetype %}{% endblock %}"{% endblock %}>
+		{% if v %}
+			<input id="vid" hidden value="{{v.id}}">
+		{% else %}
+			<input id="vid" hidden value="">
+		{% endif %}
+
 		<input hidden id="gnonce" value="{{g.nonce}}">
 		<input hidden id="gbrowser" value="{{g.browser}}">
 		<input hidden id="IMAGE_FORMATS" value="{{IMAGE_FORMATS}}">
