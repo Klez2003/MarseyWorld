@@ -16,7 +16,7 @@ def feeds_user(sort='hot', t='all'):
 	try: page = max(int(request.values.get("page", 1)), 1)
 	except: page = 1
 
-	ids, next_exists = frontlist(
+	ids, next_exists, size = frontlist(
 		sort=sort,
 		page=page,
 		t=t,
