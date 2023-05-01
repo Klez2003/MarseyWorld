@@ -1160,5 +1160,5 @@ CHUD_PHRASES = (
 		"White extinction is long overdue",
 		"Climate action now",
 		"Long live the CCP",
-		"I stand with Ukraine"
+		"I stand with Ukraine",
 	)
