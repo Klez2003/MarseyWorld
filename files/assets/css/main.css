@@ -1604,7 +1604,7 @@ nav
 }
 .pagination-sm .page-link {
 	padding: 0.25rem 0.5rem;
-	font-size: 0.875rem;
+	font-size: min(18px,8vw);
 	line-height: 1.5;
 }
 .pagination-sm .page-item:first-child .page-link {
