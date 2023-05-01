@@ -56,16 +56,16 @@ PUSH_NOTIF_LIMIT = 1000
 IS_LOCALHOST = SITE == "localhost" or SITE == "127.0.0.1" or SITE.startswith("192.168.") or SITE.endswith(".local")
 
 if IS_LOCALHOST:
-	SITE_IMAGES = SITE
 	SITE_FULL = 'http://' + SITE
-	SITE_FULL_IMAGES = SITE_FULL
+	SITE_IMAGES = SITE
 else:
-	SITE_IMAGES = 'i.' + SITE
 	SITE_FULL = 'https://' + SITE
-	SITE_FULL_IMAGES = 'https://i.' + SITE
+	SITE_IMAGES = 'i.' + SITE
 
 if SITE == 'staging.rdrama.net':
 	SITE_FULL_IMAGES = 'https://i.rdrama.net'
+else:
+	SITE_FULL_IMAGES = f'https://{SITE_IMAGES}'
 
 LOGGED_IN_CACHE_KEY = "loggedin"
 LOGGED_OUT_CACHE_KEY = "loggedout"
@@ -950,7 +950,7 @@ ADMIGGER_THREADS = {SIDEBAR_THREAD, BANNER_THREAD, BADGE_THREAD, SNAPPY_THREAD}
 
 proxies = {"http":PROXY_URL,"https":PROXY_URL}
 
-approved_embed_hosts = {
+approved_embed_hosts = [
 	### GENERAL PRINCIPLES #####################################################
 	# 0) The goal is to prevent user info leaks. Worst is a username + IP.
 	# 1) Cannot point to a server controlled by a site user.
@@ -960,8 +960,6 @@ approved_embed_hosts = {
 	### TODO: Run a media proxy and kill most of these. Impossible to review.
 
 	### First-Party
-	SITE,
-	SITE_IMAGES,
 	'rdrama.net',
 	'i.rdrama.net',
 	'watchpeopledie.tv',
@@ -1009,8 +1007,13 @@ approved_embed_hosts = {
 	# TODO: Any reasonable way to proxy these instead?
 	'fonts.googleapis.com', # Google font CDN
 	'raw.githubusercontent.com', # using repos as media sources. no obvious exploit
-}
+]
 
+if SITE_IMAGES not in approved_embed_hosts:
+	approved_embed_hosts = [SITE_IMAGES] + approved_embed_hosts
+
+if SITE not in approved_embed_hosts:
+	approved_embed_hosts = [SITE] + approved_embed_hosts
 
 def is_site_url(url):
 	return (url
