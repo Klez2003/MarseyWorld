@@ -7322,4 +7322,5 @@ button, .btn {
 
 .dots {
 	color: var(--primary) !important;
+	cursor: default;
 }
