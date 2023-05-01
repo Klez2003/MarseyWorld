@@ -129,7 +129,7 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 		for h in LIMITED_WPD_HOLES:
 			to_remove += [x.id for x in posts if x.sub == h][1:]
 
-		posts = [x for x in posts if x.id not in to_remove]
+		posts = [x for x in posts if x.id not in to_remove][:size]
 	else:
 		posts = posts.limit(size).all()
 
