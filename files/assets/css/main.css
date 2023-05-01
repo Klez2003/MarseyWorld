@@ -1568,7 +1568,7 @@ nav
 	background-color: #fff;
 	border: 1px solid #dee2e6;
 }
-.page-link:hover {
+.page-link:not(.dots):hover {
 	z-index: 2;
 	color: var(--primary);
 	text-decoration: none;
@@ -4437,7 +4437,11 @@ small, .small {
 	background-color: var(--dark);
 	border: 0.1px solid #343a40;
 }
-.page-link:hover {
+.page-link.active {
+    background-color: var(--primary);
+    color: var(--dark);
+}
+.page-link:not(.dots):hover {
 	background-color: var(--gray-100);
 }
 .page-item.disabled .page-link {

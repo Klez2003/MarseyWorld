@@ -42,6 +42,10 @@ body, .navbar-light, .navbar-dark, .card, .modal-content, .comment-write textare
 	background-color: #ccc;
 }
 
+.page-link.active {
+    color: #ccc;
+}
+
 .sidebar
 {
 	border-radius: 6px;

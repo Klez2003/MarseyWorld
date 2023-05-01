@@ -1,5 +1,6 @@
 
 from sqlalchemy import or_, not_
+from sqlalchemy.orm import load_only
 
 from files.classes.submission import Submission
 from files.classes.votes import Vote
@@ -50,7 +51,7 @@ def front_all(v, sub=None, subdomain=None):
 	pins = session.get(sort, default)
 	holes = session.get('holes', True)
 
-	ids, next_exists = frontlist(sort=sort,
+	ids, next_exists, size = frontlist(sort=sort,
 					page=page,
 					t=t,
 					v=v,
@@ -69,7 +70,7 @@ def front_all(v, sub=None, subdomain=None):
 		award_timers(v)
 
 	if v and v.client: return {"data": [x.json(g.db) for x in posts], "next_exists": next_exists}
-	return render_template("home.html", v=v, listing=posts, next_exists=next_exists, sort=sort, t=t, page=page, sub=sub, home=True, pins=pins, holes=holes)
+	return render_template("home.html", v=v, listing=posts, next_exists=next_exists, sort=sort, t=t, page=page, sub=sub, home=True, pins=pins, holes=holes, size=size)
 
 
 LIMITED_WPD_HOLES = ('gore', 'aftermath', 'selfharm', 'meta', 'discussion', 'social', 'music', 'request')
@@ -118,8 +119,11 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 	if v: size = v.frontsize or 0
 	else: size = PAGE_SIZE
 
+	next_exists = posts.count()
+	posts = posts.options(load_only(Submission.id)).offset(size * (page - 1))
+
 	if SITE_NAME == 'WPD' and sort == "hot" and sub == None:
-		posts = posts.offset(size * (page - 1)).limit(201).all()
+		posts = posts.limit(200).all()
 
 		to_remove = []
 		for h in LIMITED_WPD_HOLES:
@@ -127,16 +131,13 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 
 		posts = [x for x in posts if x.id not in to_remove]
 	else:
-		posts = posts.offset(size * (page - 1)).limit(size+1).all()
-
-	next_exists = (len(posts) > size)
-	posts = posts[:size]
+		posts = posts.limit(size).all()
 
 	if pins and page == 1 and not gt and not lt:
 		if sub:
-			pins = g.db.query(Submission).filter(Submission.sub == sub.name, Submission.hole_pinned != None)
+			pins = g.db.query(Submission).options(load_only(Submission.id)).filter(Submission.sub == sub.name, Submission.hole_pinned != None)
 		else:
-			pins = g.db.query(Submission).filter(Submission.stickied != None, Submission.is_banned == False)
+			pins = g.db.query(Submission).options(load_only(Submission.id)).filter(Submission.stickied != None, Submission.is_banned == False)
 
 			if v:
 				pins = pins.filter(or_(Submission.sub == None, Submission.sub.notin_(v.all_blocks)))
@@ -154,7 +155,7 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 		posts = pins + posts
 
 	if ids_only: posts = [x.id for x in posts]
-	return posts, next_exists
+	return posts, next_exists, size
 
 
 @app.get("/random_post")
