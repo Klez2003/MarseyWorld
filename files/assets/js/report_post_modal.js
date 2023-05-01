@@ -12,38 +12,26 @@ reason_post.addEventListener('keydown', (e) => {
 });
 
 function report_postModal(id) {
-
 	reportPostButton.disabled = false;
 	reportPostButton.classList.remove('disabled');
 	reportPostButton.innerHTML='Report post';
+	reportPostButton.dataset.id = id
 
 	reason_post.value = ""
 	setTimeout(() => {
 		reason_post.focus()
 	}, 500);
-
-	reportPostButton.onclick = function() {
-
-		this.innerHTML='Reporting post';
-		this.disabled = true;
-		this.classList.add('disabled');
-
-		const xhr = new XMLHttpRequest();
-		xhr.open("POST", '/report/post/'+id);
-		xhr.setRequestHeader('xhr', 'xhr');
-		const form = new FormData()
-		form.append("formkey", formkey());
-		form.append("reason", reason_post.value);
-
-		xhr.onload = function() {
-			let data
-			try {data = JSON.parse(xhr.response)}
-			catch(e) {console.error(e)}
-			success = xhr.status >= 200 && xhr.status < 300;
-			showToast(success, getMessageFromJsonData(success, data));
-		};
-
-		xhr.onerror=function(){alert(errortext)};
-		xhr.send(form);
-	}
 };
+
+reportPostButton.onclick = function() {
+	this.innerHTML='Reporting post';
+	this.disabled = true;
+	this.classList.add('disabled');
+
+	postToast(this, '/report/post/' + reportPostButton.dataset.id,
+		{
+			"reason": reason_post.value
+		},
+		() => {}
+	);
+}

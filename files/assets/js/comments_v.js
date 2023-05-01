@@ -13,29 +13,31 @@ reason_comment.addEventListener('keydown', (e) => {
 
 
 function report_commentModal(id, author) {
-
 	document.getElementById("comment-author").textContent = author;
 
 	reportCommentButton.innerHTML='Report comment';
 	reportCommentButton.disabled = false;
 	reportCommentButton.classList.remove('disabled');
+	reportCommentButton.dataset.id = id
 
 	reason_comment.value = ""
 	setTimeout(() => {
 		reason_comment.focus()
 	}, 500);
-
-	reportCommentButton.onclick = function() {
-		this.innerHTML='Reporting comment';
-
-		postToast(this, `/report/comment/${id}`,
-			{
-				"reason": reason_comment.value
-			},
-			() => {}
-		);
-	}
 };
+
+reportCommentButton.onclick = function() {
+	this.innerHTML='Reporting comment';
+	this.disabled = true;
+	this.classList.add('disabled');
+
+	postToast(this, '/report/comment/' + reportCommentButton.dataset.id,
+		{
+			"reason": reason_comment.value
+		},
+		() => {}
+	);
+}
 
 // Returns the selection text based on the range with the HTML
 function getSelectionTextHtml() {
