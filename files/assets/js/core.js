@@ -610,7 +610,7 @@ if (width <= 768) {
 	expandImageModal.addEventListener('show.bs.modal', function () {
 		setTimeout(() => {
 			location.hash = "modal";
-		}, 200);
+		}, 400);
 	});
 
 	expandImageModal.addEventListener('hide.bs.modal', function () {
