@@ -62,9 +62,14 @@ def execute_snappy(post:Submission, v:User):
 	if post.sub == 'edgy':
 		body = SNAPPY_EDGY
 	elif v.id == CARP_ID:
-		if random.random() < 0.02: body = "i love you carp"
-		elif random.random() < 0.02: body = "https://i.rdrama.net/images/16614707883108485.webp"
-		else: body = ":#marseyfuckoffcarp:"
+		if random.random() < 0.02:
+			body = "i love you carp"
+		elif random.random() < 0.02:
+			body = "https://i.rdrama.net/images/16614707883108485.webp"
+		elif IS_DKD():
+			body = ":#donkeykongfuckoffcarp:"
+		else:
+			body = ":#marseyfuckoffcarp:"
 	elif v.id == LAWLZ_ID:
 		if random.random() < 0.5: body = "wow, this lawlzpost sucks!"
 		else: body = "wow, a good lawlzpost for once!"
