@@ -71,13 +71,13 @@ torture_regex = re.compile('(^|\s)(i|me)($|\s)', flags=re.I|re.A)
 torture_regex2 = re.compile("(^|\s)(i'm)($|\s)", flags=re.I|re.A)
 torture_regex3 = re.compile("(^|\s)(my|mine)($|\s)", flags=re.I|re.A)
 
-image_check_regex = re.compile(f'!\[\]\(((?!(https:\/\/([a-z0-9-]+\.)*({hosts})\/|\/)).*?)\)', flags=re.A)
+image_check_regex = re.compile(f'!\[\]\(((?!(https:\/\/({hosts})\/|\/)).*?)\)', flags=re.A)
 
 video_regex_extensions = '|'.join(VIDEO_FORMATS)
-video_sub_regex = re.compile(f'(<p>[^<]*)(https:\/\/([a-z0-9-]+\.)*({hosts})\/[\w:~,()\-.#&\/=?@%;+]*?\.({video_regex_extensions}))', flags=re.A)
+video_sub_regex = re.compile(f'(<p>[^<]*)(https:\/\/({hosts})\/[\w:~,()\-.#&\/=?@%;+]*?\.({video_regex_extensions}))', flags=re.A)
 
 audio_regex_extensions = '|'.join(AUDIO_FORMATS)
-audio_sub_regex = re.compile(f'(<p>[^<]*)(https:\/\/([a-z0-9-]+\.)*({hosts})\/[\w:~,()\-.#&\/=?@%;+]*?\.({audio_regex_extensions}))', flags=re.A)
+audio_sub_regex = re.compile(f'(<p>[^<]*)(https:\/\/({hosts})\/[\w:~,()\-.#&\/=?@%;+]*?\.({audio_regex_extensions}))', flags=re.A)
 
 image_regex_extensions = '|'.join(IMAGE_FORMATS)
 image_regex = re.compile(f"(^|\s)(https:\/\/[\w\-.#&/=\?@%;+,:]{{5,250}}(\.|\?format=)({image_regex_extensions})((\?|&)[\w\-.#&/=\?@%;+,:]*)?)(?=$|\s)", flags=re.I|re.A)
