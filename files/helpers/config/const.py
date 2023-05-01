@@ -1159,5 +1159,6 @@ CHUD_PHRASES = (
 		"Jewish lives matter",
 		"White extinction is long overdue",
 		"Climate action now",
-		"Long live the CCP"
+		"Long live the CCP",
+		"I stand with Ukraine"
 	)
