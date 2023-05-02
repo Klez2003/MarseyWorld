@@ -161,7 +161,7 @@
 {% block pagenav %}
 {% if listing %}
 <nav>
-	<ul class="pagination pagination-sm mb-0 mt-2 mt-md-4 pl-1">
+	<ul class="pagination pagination-sm mb-0 mt-4 pl-1">
 		{% set num_pages = (next_exists / size) | round(0, 'ceil') | int %}
 
 		{% set start_point = page - 2 %}
