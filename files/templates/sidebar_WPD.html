@@ -16,7 +16,7 @@
 
 	{% if request.path != '/sidebar' %}
 		<a href="{{image}}">
-			<img class="mb-4" alt="sidebar image" data-nonce="{{g.nonce}}" data-onclick="expandImage()" loading="lazy" src="{{image}}" width=100%>
+			<img class="mb-4 sidebar-img" alt="sidebar image" data-nonce="{{g.nonce}}" data-onclick="expandImage()" loading="lazy" src="{{image}}">
 		</a>
 	{% endif %}
 
