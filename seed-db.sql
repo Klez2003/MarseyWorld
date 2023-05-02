@@ -46,10 +46,6 @@ INSERT INTO public.badge_defs VALUES (157, 'A Minor Setback', 'Lost a 1,000 coin
 INSERT INTO public.badge_defs VALUES (197, 'Best Marsey 2021', 'The creator of the best Marsey emote of 2021, as voted by rdrama users.', 1670627291);
 INSERT INTO public.badge_defs VALUES (198, 'Best Drama Post 2021', 'The author of the best drama post of 2021, as voted by rdrama users.', 1670627332);
 INSERT INTO public.badge_defs VALUES (199, 'Dramatard of the Year 2021', 'Voted as the best rdrama user of 2021. Congratulations!', 1670627437);
-INSERT INTO public.badge_defs VALUES (21, 'Paypig', 'Contributes $5/month', NULL);
-INSERT INTO public.badge_defs VALUES (22, 'Renthog', 'Contributes $10/month', NULL);
-INSERT INTO public.badge_defs VALUES (23, 'Landchad', 'Contributes $20/month', NULL);
-INSERT INTO public.badge_defs VALUES (24, 'Terminally online turboautist', 'Contributes $50/month', NULL);
 INSERT INTO public.badge_defs VALUES (163, 'Marsey Jacobs', 'Designed 10 hats!', NULL);
 INSERT INTO public.badge_defs VALUES (166, 'Giorgio Armarsey', 'Designed 250 hats 😲', NULL);
 INSERT INTO public.badge_defs VALUES (164, 'Marsey de Givenchy', 'Designed 50 hats, holy cap.', NULL);
@@ -156,9 +152,6 @@ INSERT INTO public.badge_defs VALUES (171, 'Rainbowed', 'This user has super cut
 INSERT INTO public.badge_defs VALUES (135, '1st Birthgay Bash Survivor', 'Awarded for surviving rDrama''s first annual Birthgay Bash', NULL);
 INSERT INTO public.badge_defs VALUES (75, 'Homoween 2021 Survivor', 'Awarded for surviving Homoween 2021', NULL);
 INSERT INTO public.badge_defs VALUES (59, 'Lolcow', 'Beautiful and valid milk provider', NULL);
-INSERT INTO public.badge_defs VALUES (25, 'Marsey''s Sugar Daddy', 'Contributes $100/month', NULL);
-INSERT INTO public.badge_defs VALUES (26, 'JIDF Bankroller', 'Contributes $200/month', NULL);
-INSERT INTO public.badge_defs VALUES (27, 'Rich Bich', 'Contributes $500/month', NULL);
 INSERT INTO public.badge_defs VALUES (118, 'Hit!', 'Confirmed removal of a r/stupidpol post for hate speech or threatening violence', NULL);
 INSERT INTO public.badge_defs VALUES (119, 'BIG Hit!', 'Confirmed removal of a /r/stupidpol MODERATOR''S post for hate speech or threatening violence', NULL);
 INSERT INTO public.badge_defs VALUES (120, 'Msar Bomba', 'Confirmed ban of a r/stupidpol user', NULL);
@@ -186,6 +179,7 @@ INSERT INTO public.badge_defs VALUES (156, 'Hole Neglecter', 'Let a hole they ow
 INSERT INTO public.badge_defs VALUES (224, 'Died of Starvation', 'Couldn''t work out which elf had the most calories', 1672289576);
 INSERT INTO public.badge_defs VALUES (225, 'Monkey Playdate', 'Forgot to check their worry levels during Advent of Code 2022, completing at least 1 star.', 1672289660);
 INSERT INTO public.badge_defs VALUES (226, 'Stargazer', 'Kept themselves unworried throughout all of Advent of Code 2022, completing all 50 stars.', 1672289696);
+INSERT INTO public.badge_defs VALUES (25, 'Marsey''s Sugar Daddy', 'Contributes $100/month', NULL);
 INSERT INTO public.badge_defs VALUES (227, 'Saved Christmas with Teh Codez', 'Got the highest score and completed all 50 stars during Advent of Code 2022.', 1672289744);
 INSERT INTO public.badge_defs VALUES (229, 'Certified MONSTER Cock', 'This user submitted a photo of their dick and it was confirmed to be HUGE', 1674147916);
 INSERT INTO public.badge_defs VALUES (230, 'Itty Bitty Clitty', 'This user submitted a photo of their dick and it was determined to be more similar to a sad, undersized clit', 1674147964);
@@ -213,6 +207,12 @@ INSERT INTO public.badge_defs VALUES (251, 'Marsey Madness BRONZE', 'Had the thi
 INSERT INTO public.badge_defs VALUES (252, 'Marsey Madness Participation Trophy!', 'This lil fella did his best in the Marsey Madness 2023 tournament', 1681309336);
 INSERT INTO public.badge_defs VALUES (253, 'Matchmaker', 'Awarded for contributing to the Matchmaker Marsey event', 1681321487);
 INSERT INTO public.badge_defs VALUES (254, 'Peacemaker', 'Awarded for contributing to the rDrama-Reddit Alliance event', 1681321561);
+INSERT INTO public.badge_defs VALUES (21, 'Paypig', 'Contributes $5/month', NULL);
+INSERT INTO public.badge_defs VALUES (22, 'Renthog', 'Contributes $10/month', NULL);
+INSERT INTO public.badge_defs VALUES (23, 'Landchad', 'Contributes $20/month', NULL);
+INSERT INTO public.badge_defs VALUES (24, 'Terminally online turboautist', 'Contributes $50/month', NULL);
+INSERT INTO public.badge_defs VALUES (26, 'JIDF Bankroller', 'Contributes $200/month', NULL);
+INSERT INTO public.badge_defs VALUES (27, 'Rich Bich', 'Contributes $500/month', NULL);
 
 
 --
