@@ -32,11 +32,11 @@
 								{% endif %}
 
 								{% if FEATURES['PATRON_ICONS'] and u.patron %}
-									<img loading="lazy" class="ml-3" src="{{SITE_FULL_IMAGES}}/i/{{SITE_NAME}}/badges/2{{u.patron}}.webp?x=5" height="20" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{u.patron_tooltip}}" alt="{{u.patron_tooltip}}">
+									<img loading="lazy" class="ml-3" src="{{SITE_FULL_IMAGES}}/i/{{SITE_NAME}}/badges/2{{u.patron}}.webp?x=5" class="patron-img" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{u.patron_tooltip}}" alt="{{u.patron_tooltip}}">
 								{% endif %}
 
 								{% if FEATURES['HOUSES'] and u.house %}
-									<img loading="lazy" class="ml-3" id="profile--house" src="{{SITE_FULL_IMAGES}}/i/{{SITE_NAME}}/houses/{{u.house}}.webp?x=5" height="20" data-bs-toggle="tooltip" data-bs-placement="bottom" title="House {{u.house}}" alt="House {{u.house}}">
+									<img loading="lazy" class="ml-3" id="profile--house" src="{{SITE_FULL_IMAGES}}/i/{{SITE_NAME}}/houses/{{u.house}}.webp?x=5" class="house-img" data-bs-toggle="tooltip" data-bs-placement="bottom" title="House {{u.house}}" alt="House {{u.house}}">
 								{% endif %}
 
 								{% if u.verified %}
@@ -294,11 +294,11 @@
 				{% endif %}
 
 				{% if FEATURES['PATRON_ICONS'] and u.patron %}
-					<img loading="lazy" class="ml-2" src="{{SITE_FULL_IMAGES}}/i/{{SITE_NAME}}/badges/2{{u.patron}}.webp?x=5" height="20" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{u.patron_tooltip}}" alt="{{u.patron_tooltip}}">
+					<img loading="lazy" class="ml-2" src="{{SITE_FULL_IMAGES}}/i/{{SITE_NAME}}/badges/2{{u.patron}}.webp?x=5" class="patron-img" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{u.patron_tooltip}}" alt="{{u.patron_tooltip}}">
 				{% endif %}
 
 				{% if FEATURES['HOUSES'] and u.house %}
-					<img loading="lazy" class="ml-2" id="profile-mobile--house" src="{{SITE_FULL_IMAGES}}/i/{{SITE_NAME}}/houses/{{u.house}}.webp?x=5" height="20" data-bs-toggle="tooltip" data-bs-placement="bottom" title="House {{u.house}}" alt="House {{u.house}}">
+					<img loading="lazy" class="ml-2" id="profile-mobile--house" src="{{SITE_FULL_IMAGES}}/i/{{SITE_NAME}}/houses/{{u.house}}.webp?x=5" class="house-img" data-bs-toggle="tooltip" data-bs-placement="bottom" title="House {{u.house}}" alt="House {{u.house}}">
 				{% endif %}
 
 				{% if u.verified %}

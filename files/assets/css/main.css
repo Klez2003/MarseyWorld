@@ -7334,6 +7334,9 @@ button, .btn {
 	cursor: default;
 }
 
+.house-img, .patron-img {
+	height: 25px;
+}
 
 .sidebar-img {
 	width: 100%;
