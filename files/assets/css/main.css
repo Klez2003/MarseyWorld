@@ -1604,7 +1604,7 @@ nav
 }
 .pagination-sm .page-link {
 	padding: 0.25rem min(15px, 3vw);
-    font-size: min(20px, 5.6vw);
+	font-size: min(20px, 5.6vw);
 	line-height: 1.5;
 }
 .pagination-sm .page-item:first-child .page-link {
@@ -4438,8 +4438,8 @@ small, .small {
 	border: 0.1px solid #343a40;
 }
 .page-link.active {
-    background-color: var(--primary);
-    color: var(--dark);
+	background-color: var(--primary);
+	color: var(--dark);
 }
 .page-link:not(.dots):hover {
 	background-color: var(--gray-100);
@@ -6375,11 +6375,11 @@ g {
 .video-play {
 	position:absolute;
 	bottom:33%;
-    right:38%;
+	right:38%;
 	font-size:14px;
 	color:white;
 	background-color:var(--primary);
-    padding: 5px 6px 4px 7px;
+	padding: 5px 6px 4px 7px;
 	border-radius:.35rem;
 	pointer-events: none;
 }
@@ -6936,11 +6936,11 @@ div.markdown {
 }
 
 .comment-text lite-youtube, #post-text lite-youtube {
-    max-width: 500px;
-    margin-top: 5px;
+	max-width: 500px;
+	margin-top: 5px;
 }
 .btn {
-    overflow: hidden;
+	overflow: hidden;
 }
 
 .giphy {
@@ -7135,7 +7135,7 @@ body {
 }
 
 .color-picker .fa-check {
-    line-height: 2.3;
+	line-height: 2.3;
 }
 
 .dm_img {
@@ -7204,21 +7204,21 @@ input[type=number] {
 }
 
 #input-message, #input-message-mobile {
-    min-height: 100px;
+	min-height: 100px;
 }
 
 #note {
-    min-height: 60px;
+	min-height: 60px;
 }
 
 .collapsed .showmore-text
 {
-    display: none;
+	display: none;
 }
 
 .ping-groups td > a {
-    min-width: 30px;
-    display: inline-block;
+	min-width: 30px;
+	display: inline-block;
 }
 
 .comment .comment-collapse-desktop {
@@ -7235,7 +7235,7 @@ input[type=number] {
 }
 
 button, .btn {
-    text-decoration: none !important;
+	text-decoration: none !important;
 }
 
 @media (min-width: 767.98px) {
@@ -7264,7 +7264,7 @@ button, .btn {
 	content: "";
 	display: inline-block;
 	margin-top: 10px;
-    margin-bottom: 10px;
+	margin-bottom: 10px;
 	width: 250px;
 	height: 150px;
 	background-size: contain !important;	
@@ -7272,29 +7272,29 @@ button, .btn {
 }
 
 .agendaposter-0:after {
-    background: url("/i/chud/0.webp?x=2");
+	background: url("/i/chud/0.webp?x=2");
 }
 .agendaposter-1:after {
-    background: url("/i/chud/1.webp?x=2");
+	background: url("/i/chud/1.webp?x=2");
 }
 .agendaposter-2:after {
 	background: url("/i/chud/2.webp?x=2");
 }
 .agendaposter-3:after {
-    background: url("/i/chud/3.webp?x=2");
+	background: url("/i/chud/3.webp?x=2");
 }
 .agendaposter-4:after {
-    background: url("/i/chud/4.webp?x=2");
+	background: url("/i/chud/4.webp?x=2");
 }
 .agendaposter-5:after {
-    background: url("/i/chud/5.webp?x=2");
+	background: url("/i/chud/5.webp?x=2");
 	height: 100px;
 }
 .agendaposter-6:after {
-    background: url("/i/chud/6.webp?x=2");
+	background: url("/i/chud/6.webp?x=2");
 }
 .agendaposter-7:after, .agendaposter-8:after, .agendaposter-9:after {
-    background: url("/i/chud/7.webp?x=2");
+	background: url("/i/chud/7.webp?x=2");
 }
 
 
