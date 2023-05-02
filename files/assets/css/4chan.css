@@ -92,7 +92,7 @@ blockquote p {
 }
 
 blockquote {
-	background-color: transparent;
+	background-color: #ccc;
 	border-color: #789922 !important;
 	border-width: 1px !important;
 }
