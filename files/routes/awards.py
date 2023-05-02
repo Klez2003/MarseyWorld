@@ -85,18 +85,18 @@ def buy(v:User, award):
 	if not charged[0]:
 		abort(400, "Not enough coins/marseybux!")
 
-		v.coins_spent += charged[1]
-		if v.coins_spent >= 1000000:
-			badge_grant(badge_id=73, user=v)
-		elif v.coins_spent >= 500000:
-			badge_grant(badge_id=72, user=v)
-		elif v.coins_spent >= 250000:
-			badge_grant(badge_id=71, user=v)
-		elif v.coins_spent >= 100000:
-			badge_grant(badge_id=70, user=v)
-		elif v.coins_spent >= 10000:
-			badge_grant(badge_id=69, user=v)
-		g.db.add(v)
+	v.coins_spent += charged[1]
+	if v.coins_spent >= 1000000:
+		badge_grant(badge_id=73, user=v)
+	elif v.coins_spent >= 500000:
+		badge_grant(badge_id=72, user=v)
+	elif v.coins_spent >= 250000:
+		badge_grant(badge_id=71, user=v)
+	elif v.coins_spent >= 100000:
+		badge_grant(badge_id=70, user=v)
+	elif v.coins_spent >= 10000:
+		badge_grant(badge_id=69, user=v)
+	g.db.add(v)
 
 
 	if award == "lootbox":
