@@ -175,6 +175,11 @@
 			{% set end_point = num_pages %}
 		{% endif %}
 
+		{% if start_point < 1 %}
+			{% set start_point = 1 %}
+		{% endif %}
+
+
 		{% if start_point > 1 %}
 			<li class="page-item">
 				<small><a class="page-link" href="?sort={{sort}}&page=1&t={{t}}">1</a></small>
