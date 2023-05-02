@@ -7334,6 +7334,15 @@ button, .btn {
 	cursor: default;
 }
 
+.house-img {
+	height: 30px;
+	width: 19px;
+}
+
+.patron-img {
+	height: 30px;
+	width: 25px;
+}
 
 .sidebar-img {
 	width: 100%;
