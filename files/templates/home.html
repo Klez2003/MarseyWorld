@@ -191,7 +191,7 @@
 				</li>
 			{% elif start_point != 2 %}
 				<li class="page-item">
-					<small><a class="page-link dots">...</a></small>
+					<small class="page-link dots">...</small>
 				</li>
 			{% endif %}
 		{% endif %}
@@ -209,7 +209,7 @@
 				</li>
 			{% elif end_point != num_pages-1 %}
 				<li class="page-item">
-					<small><a class="page-link dots">...</a></small>
+					<small class="page-link dots">...</small>
 				</li>
 			{% endif %}
 
@@ -217,6 +217,11 @@
 				<small><a class="page-link" href="?sort={{sort}}&page={{num_pages}}&t={{t}}">{{num_pages}}</a></small>
 			</li>
 		{% endif %}
+		<li class="page-item">
+			<small class="page-link dots">...</small>
+		</li>
+
+
 	</ul>
 </nav>
 {% endif %}
