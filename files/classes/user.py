@@ -988,17 +988,19 @@ class User(Base):
 	@lazy
 	def patron_tooltip(self):
 		if self.patron == 1:
-			return 'Contributed at least $5'
+			return 'Contributes $5/month'
 		if self.patron == 2:
-			return 'Contributed at least $10'
+			return 'Contributes $10/month'
 		if self.patron == 3:
-			return 'Contributed at least $20'
+			return 'Contributes $20/month'
 		if self.patron == 4:
-			return 'Contributed at least $50'
+			return 'Contributes $50/month'
 		if self.patron == 5:
-			return 'Contributed at least $100'
+			return 'Contributes $100/month'
 		if self.patron == 6:
-			return 'Contributed at least $200'
+			return 'Contributes $200/month'
+		if self.patron == 7:
+			return 'Contributes $500/month'
 		return ''
 
 	@classmethod

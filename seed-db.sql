@@ -46,10 +46,10 @@ INSERT INTO public.badge_defs VALUES (157, 'A Minor Setback', 'Lost a 1,000 coin
 INSERT INTO public.badge_defs VALUES (197, 'Best Marsey 2021', 'The creator of the best Marsey emote of 2021, as voted by rdrama users.', 1670627291);
 INSERT INTO public.badge_defs VALUES (198, 'Best Drama Post 2021', 'The author of the best drama post of 2021, as voted by rdrama users.', 1670627332);
 INSERT INTO public.badge_defs VALUES (199, 'Dramatard of the Year 2021', 'Voted as the best rdrama user of 2021. Congratulations!', 1670627437);
-INSERT INTO public.badge_defs VALUES (21, 'Paypig', 'Contributed at least $5', NULL);
-INSERT INTO public.badge_defs VALUES (22, 'Renthog', 'Contributed at least $10', NULL);
-INSERT INTO public.badge_defs VALUES (23, 'Landchad', 'Contributed at least $20', NULL);
-INSERT INTO public.badge_defs VALUES (24, 'Terminally online turboautist', 'Contributed at least $50', NULL);
+INSERT INTO public.badge_defs VALUES (21, 'Paypig', 'Contributes $5/month', NULL);
+INSERT INTO public.badge_defs VALUES (22, 'Renthog', 'Contributes $10/month', NULL);
+INSERT INTO public.badge_defs VALUES (23, 'Landchad', 'Contributes $20/month', NULL);
+INSERT INTO public.badge_defs VALUES (24, 'Terminally online turboautist', 'Contributes $50/month', NULL);
 INSERT INTO public.badge_defs VALUES (163, 'Marsey Jacobs', 'Designed 10 hats!', NULL);
 INSERT INTO public.badge_defs VALUES (166, 'Giorgio Armarsey', 'Designed 250 hats 😲', NULL);
 INSERT INTO public.badge_defs VALUES (164, 'Marsey de Givenchy', 'Designed 50 hats, holy cap.', NULL);
@@ -156,9 +156,9 @@ INSERT INTO public.badge_defs VALUES (171, 'Rainbowed', 'This user has super cut
 INSERT INTO public.badge_defs VALUES (135, '1st Birthgay Bash Survivor', 'Awarded for surviving rDrama''s first annual Birthgay Bash', NULL);
 INSERT INTO public.badge_defs VALUES (75, 'Homoween 2021 Survivor', 'Awarded for surviving Homoween 2021', NULL);
 INSERT INTO public.badge_defs VALUES (59, 'Lolcow', 'Beautiful and valid milk provider', NULL);
-INSERT INTO public.badge_defs VALUES (25, 'Marsey''s Sugar Daddy', 'Contributed at least $100', NULL);
-INSERT INTO public.badge_defs VALUES (26, 'JIDF Bankroller', 'Donated at least $250', NULL);
-INSERT INTO public.badge_defs VALUES (27, 'Rich Bich', 'Contributed at least $500', NULL);
+INSERT INTO public.badge_defs VALUES (25, 'Marsey''s Sugar Daddy', 'Contributes $100/month', NULL);
+INSERT INTO public.badge_defs VALUES (26, 'JIDF Bankroller', 'Contributes $200/month', NULL);
+INSERT INTO public.badge_defs VALUES (27, 'Rich Bich', 'Contributes $500/month', NULL);
 INSERT INTO public.badge_defs VALUES (118, 'Hit!', 'Confirmed removal of a r/stupidpol post for hate speech or threatening violence', NULL);
 INSERT INTO public.badge_defs VALUES (119, 'BIG Hit!', 'Confirmed removal of a /r/stupidpol MODERATOR''S post for hate speech or threatening violence', NULL);
 INSERT INTO public.badge_defs VALUES (120, 'Msar Bomba', 'Confirmed ban of a r/stupidpol user', NULL);
@@ -4598,7 +4598,6 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('mersya','Marsey',2,'the best adorable aww marsey favorite cute'),
 ('mersya2','Marsey',2,'drawing art'),
 ('metime','Classic',2,'fap animated coomer jack off horny'),
-('michelle','Misc',2,'horseshit obama'),
 ('minecraftcreeper','Misc',2,'minecraft creeper mine craft creep green blow boom tnt islam'),
 ('mininecky','Donkey Kong',2,'dk donkeykong bird vulture'),
 ('mlm','Marsey',2,'marseylivesmatter marsey lives matter blm'),
