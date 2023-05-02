@@ -30,7 +30,7 @@
 				{% endif %}
 			{% endif %}
 
-			<a href="{{href|default(src)}}" rel="nofollow noopener">
+			<a id="banner-link" href="{{href|default(src)}}" rel="nofollow noopener">
 				{% if src %}
 					{% set banner_url = src %}
 				{% else %}
