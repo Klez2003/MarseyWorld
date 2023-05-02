@@ -77,7 +77,16 @@
 						{% set width="45" %}
 					{% endif %}
 				{% endif %}
-				<img loading="lazy" id="header--icon" alt="header icon" {% if sub %}src="{{sub.marsey_url}}"{% else %}src="{{icon_url}}"{% endif %} {% if width %}width="{{width}}"{% endif %}>
+				<img loading="lazy" id="header--icon" alt="header icon"
+					{%- if sub and sub.marseyurl -%}
+						src="{{sub.marseyurl}}"
+					{%- else -%}
+						src="{{icon_url}}"
+						{%- if width -%}
+							width="{{width}}"
+						{%- endif -%}
+					{%- endif -%}
+				>
 			</a>
 
 			{% if sub %}
