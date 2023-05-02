@@ -6854,13 +6854,25 @@ div.markdown {
 
 .site-banner {
 	width: 100%;
+	height: 100%;
 	max-height: 30vh;
 	object-fit: contain;
 }
 .site-banner-hole {
 	width: 100%;
+	height: 100%;
 	object-fit: cover;
 	max-height: min(42vh,30vw) !important;
+}
+.banner-wrapper > div {
+	position: relative;
+}
+.banner-wrapper > div > div {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
 }
 
 .modlog-action {

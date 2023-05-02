@@ -45,7 +45,13 @@
 					{% endif %}
 				{% endif %}
 			
-				<img data-nonce="{{g.nonce}}" data-onclick="{{expand|default('expandImage()')}}" class="{{class|default('site-banner')}}" alt="{{alt|default('site banner')}}" src="{{banner_url}}">
+				<div class="banner-wrapper">
+					<div style="padding: 0 0 12.2%">
+						<div>
+							<img data-nonce="{{g.nonce}}" data-onclick="{{expand|default('expandImage()')}}" class="{{class|default('site-banner')}}" alt="{{alt|default('site banner')}}" src="{{banner_url}}">
+						</div>
+					</div>
+				</div>
 			</a>
 		{% endif %}
 	{% endif %}
