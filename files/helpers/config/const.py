@@ -703,8 +703,9 @@ TIERS_ID_TO_NAME = {
 	2: "Renthog",
 	3: "Landchad",
 	4: "Terminally online turboautist",
-	5: "JIDF Bankroller",
-	6: "Rich Bich",
+	5: "Marsey's Sugar Daddy",
+	6: "JIDF Bankroller",
+	7: "Rich Bich",
 }
 
 BADGE_BLACKLIST = { # only grantable by admins higher than PERMS['IGNORE_BADGE_BLACKLIST']
