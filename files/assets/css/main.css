@@ -7356,3 +7356,8 @@ button, .btn {
 	object-fit: contain;
 	object-position: left;
 }
+
+.img {
+	height: 100%;
+	width: auto;
+}
