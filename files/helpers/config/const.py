@@ -901,7 +901,8 @@ elif SITE == 'watchpeopledie.tv':
 		3: "Zombie",
 		4: "Ghost",
 		5: "Survivor",
-		6: "Jigsaw"
+		6: "Jigsaw",
+		7: "P̵͇̕S̶̔̇Ȳ̴͙C̶͋͗H̵͒̉O̴̎̍ ",
 	}
 elif SITE == 'devrama.net':
 	AEVANN_ID = 7
