@@ -75,15 +75,18 @@ def execute_snappy(post:Submission, v:User):
 		else: body = "wow, a good lawlzpost for once!"
 	else:
 		if IS_DKD():
-			SNAPPY_CHOICES = SNAPPY_EMOJIS
-		elif SNAPPY_EMOJIS and SNAPPY_QUOTES:
+			SNAPPY_CHOICES = SNAPPY_KONGS
+		elif SNAPPY_MARSEYS and SNAPPY_QUOTES:
 			if IS_FISTMAS() or random.random() > 0.5:
 				SNAPPY_CHOICES = SNAPPY_QUOTES
 			else:
-				SNAPPY_CHOICES = SNAPPY_EMOJIS
-		elif SNAPPY_EMOJIS: SNAPPY_CHOICES = SNAPPY_EMOJIS
-		elif SNAPPY_QUOTES: SNAPPY_CHOICES = SNAPPY_QUOTES
-		else: SNAPPY_CHOICES = [""]
+				SNAPPY_CHOICES = SNAPPY_MARSEYS
+		elif SNAPPY_MARSEYS:
+			SNAPPY_CHOICES = SNAPPY_MARSEYS
+		elif SNAPPY_QUOTES:
+			SNAPPY_CHOICES = SNAPPY_QUOTES
+		else:
+			SNAPPY_CHOICES = [""]
 
 		body = random.choice(SNAPPY_CHOICES).strip()
 		if body.startswith('▼') or body.startswith(':#marseydownvote'):
