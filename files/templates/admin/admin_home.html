@@ -59,7 +59,7 @@
 		<li><a href="/grassed">Currently Grassed Users</a></li>
 	{%- endif %}
 	{% if FEATURES['MARSEYBUX'] and v.admin_level >= PERMS['VIEW_PATRONS'] -%}
-		<li><a href="/patrons">Patrons</a></li>
+		<li><a href="/admin/patrons">Patrons</a></li>
 	{%- endif %}
 	{% if v.admin_level >= PERMS['VIEW_ACTIVE_USERS'] %}
 		<li><a href="/admin/loggedin">Currently Logged-in Users</a></li>

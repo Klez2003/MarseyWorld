@@ -124,8 +124,8 @@ def weekly_chart(v:User):
 def daily_chart(v:User):
 	return send_file(statshelper.chart_path(kind="daily", site=SITE))
 
-@app.get("/patrons")
-@app.get("/paypigs")
+@app.get("/admin/patrons")
+@app.get("/admin/paypigs")
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['VIEW_PATRONS'])
