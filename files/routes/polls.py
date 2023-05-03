@@ -69,7 +69,12 @@ def vote_option_comment(option_id, v):
 		abort(404)
 	option = g.db.get(CommentOption, option_id)
 	if not option: abort(404)
-	sub = option.parent.post.sub
+
+	if option.parent.parent_submission:
+		sub = option.parent.post.sub
+	else:
+		sub = None
+
 	if sub in {'furry','vampire','racist','femboy'} and not v.house.lower().startswith(sub):
 		abort(403, f"You need to be a member of House {sub.capitalize()} to vote on polls in /h/{sub}")
 
