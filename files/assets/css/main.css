@@ -4434,7 +4434,7 @@ small, .small {
 }
 .page-link {
 	font-weight: 900;
-	background-color: var(--dark);
+	background-color: transparent;
 	border: 0.1px solid #343a40;
 }
 .page-link.active {
