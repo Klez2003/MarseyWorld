@@ -450,7 +450,7 @@ AWARDS = {
 		"description": "Marsifies the recipient's comments for 24 hours.",
 		"icon": "fas fa-cat",
 		"color": "text-white",
-		"price": 500,
+		"price": 300,
 		"deflectable": True,
 		"cosmetic": False,
 		"ghost": False,
