@@ -71,9 +71,9 @@
 		{% endif %}
 		<a class="user-name text-decoration-none" href="{{p.author.url}}" data-pop-info='{{p.author.json_popover(v) | tojson}}' data-bs-placement="bottom" data-bs-toggle="popover" data-bs-trigger="focus" data-content-id="popover" tabindex="0" style="color: #{{p.author.name_color}}; font-weight: bold;">
 			<div class="profile-pic-30-wrapper" style="margin-top:9px">
-				<img loading="lazy" src="{{p.author.profile_url}}" class="profile-pic-30 mr-2">
+				<img loading="lazy" alt="@{{p.author.username}}'s profile picture" src="{{p.author.profile_url}}" class="profile-pic-30 mr-2">
 				{% if p.author.hat_active(v)[0] -%}
-					<img class="profile-pic-30-hat hat" loading="lazy" src="{{p.author.hat_active(v)[0]}}?x=2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{p.author.hat_active(v)[1]}}">
+					<img class="profile-pic-30-hat hat" loading="lazy" src="{{p.author.hat_active(v)[0]}}?x=2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{p.author.hat_active(v)[1]}}" alt="@{{p.author.username}}'s hat">
 				{%- endif %}
 			</div>
 			<span {% if p.author.patron and not p.distinguish_level %}class="patron" style="background-color:#{{p.author.name_color}};"{% elif p.distinguish_level %}class="mod {% if SITE_NAME == 'rDrama' %}mod-rdrama{% endif %}"{% endif %}>{{p.author_name}}</span>
