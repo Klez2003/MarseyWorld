@@ -7017,9 +7017,13 @@ body *::-webkit-scrollbar {
 	padding-top: 50px;
 }
 
+#shop-banner {
+	width: 500px;
+}
+
 @media (max-width: 768px) {
-	#hats-banner, #shop-banner {
-		width: 80%;
+	#shop-banner {
+		width: 80vw;
 	}
 	.shop-tabs {
 		padding-top: 30px;
@@ -7352,4 +7356,46 @@ button, .btn {
 .order-first {
 	-ms-flex-order: -1;
 	order: -1;
+}
+
+#shop-stats {
+	display: table;
+	margin: 0 auto;
+}
+
+#shop-stats > li {
+	text-align: left;
+	font-weight: bold;
+	margin-bottom: 0.25rem;
+	margin-top: 0;
+	font-size: 12px;
+}
+
+@media (min-width: 768px) {
+	#shop-stats > li {
+		margin-bottom: 0.5rem;
+		margin-top: 0;
+		font-size: 16px;
+	}
+}
+
+#profile--info > p, #profile-mobile--info > p {
+	margin-bottom: 0.25rem;
+}
+
+#profile--info > p:last-of-type, #profile-mobile--info > p:last-of-type {
+	margin-bottom: 0.75rem;
+}
+
+#profile-mobile--alts-list {
+	display: table;
+	margin: 0 auto;
+}
+
+#profile-mobile--alts-list > li {
+	text-align: left;
+}
+
+#profile-mobile--info {
+	margin-top: -10px;
 }

@@ -1,9 +1,4 @@
 {% extends "default.html" %}
-{%- set SHOP_FLAVOR = {
-		'rDrama': 'Stir drama.',
-		'WPD': 'Watch people die.',
-	}[SITE_NAME]
--%}
 {% block pagetitle %}Shop{% endblock %}
 {% block pagetype %}message{% endblock %}
 {% block banner %}
@@ -24,21 +19,22 @@
 		</div>
 	</div>
 
-	<header class="container pb-1 text-center">
+	<header id="shop-header" class="container text-center pb-0">
 		<img loading="lazy" id="shop-banner" alt="shop banner" src="{{SITE_FULL_IMAGES}}/i/shop.webp">
-		<h5 class="mt-4">{{SHOP_FLAVOR}} Earn coins.</h5>
-		<h5 class="mt-4">Total sales: {{"{:,}".format(sales)}} coins</h5>
-		<h5 class="mt-4">Coins spent by you: {{"{:,}".format(v.coins_spent)}} coins</h5>
-		<h5 class="mt-4">Lootboxes bought by you: {{v.lootboxes_bought}} lootbox{{'es' if v.lootboxes_bought != 1}}</h5>
-		<h5 class="mt-4">Your current coins: {{"{:,}".format(v.coins)}}</h5>
-		{% if FEATURES['MARSEYBUX'] %}
-			<h5 class="mt-4">Your current marseybux: {{"{:,}".format(v.marseybux)}}</h5>
-		{% endif %}
+		<ul id="shop-stats" class="my-1 my-md-2">
+			<li>Number of awards you bought: {{v.num_of_bought_awards}}</li>
+			<li>Coins you spent on awards: {{"{:,}".format(v.coins_spent)}}</li>
+			<li>Total award sales: {{"{:,}".format(sales)}}</li>
+			<li>Your current coins: {{"{:,}".format(v.coins)}}</li>
+			{% if FEATURES['MARSEYBUX'] %}
+				<li>Your current marseybux: {{"{:,}".format(v.marseybux)}}</li>
+			{% endif %}
+		</ul>
 	</header>
 {% endblock %}
 
 {% block content %}
-	<div class="overflow-x-auto mt-1 mb-5"><table class="table table-striped shop">
+	<div class="overflow-x-auto mt-3 mb-5"><table class="table table-striped shop">
 		<thead class="bg-primary text-white">
 				<tr>
 					<th class="disable-sort-click">Icon</th>

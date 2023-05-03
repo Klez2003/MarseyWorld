@@ -248,6 +248,11 @@ class User(Base):
 
 	@property
 	@lazy
+	def num_of_bought_awards(self):
+		return g.db.query(AwardRelationship).filter_by(user_id=self.id).count()
+
+	@property
+	@lazy
 	def num_of_owned_hats(self):
 		return len(self.owned_hats)
 

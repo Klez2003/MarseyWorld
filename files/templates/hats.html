@@ -20,20 +20,26 @@
 		</div>
 	</div>
 
-	<header class="container pb-1 text-center">
-		<img loading="lazy" id="hats-banner" class="mt-5" alt="hats banner" src="{{SITE_FULL_IMAGES}}/i/hats.webp?x=2" width="50%">
-		<h5 class="mt-4">Number of hats you bought: {{v.num_of_owned_hats}}</h5>
-		<h5 class="mt-4">Number of hats you designed: {{v.num_of_designed_hats}}</h5>
-		<h5 class="mt-4">Coins you spent on hats: {{"{:,}".format(v.coins_spent_on_hats)}}</h5>
-		<h5 class="mt-4">Total hat sales:  {{"{:,}".format(sales)}}</h5>
-		<h5 class="mt-4">Number of hats: {{num_of_hats}}</h5>
+	<header id="shop-header" class="container text-center pb-0">
+		<img loading="lazy" id="shop-banner" class="mt-5" alt="shop banner" src="{{SITE_FULL_IMAGES}}/i/hats.webp?x=2">
+		<ul id="shop-stats" class="my-1 my-md-2">
+			<li class="mt-2">Number of hats you bought: {{v.num_of_owned_hats}}</li>
+			<li>Number of hats you designed: {{v.num_of_designed_hats}}</li>
+			<li>Coins you spent on hats: {{"{:,}".format(v.coins_spent_on_hats)}}</li>
+			<li>Number of hats: {{num_of_hats}}</li>
+			<li>Total hat sales: {{"{:,}".format(sales)}}</li>
+			<li>Your current coins: {{"{:,}".format(v.coins)}}</li>
+			{% if FEATURES['MARSEYBUX'] %}
+				<li>Your current marseybux: {{"{:,}".format(v.marseybux)}}</li>
+			{% endif %}
+		</ul>
 	</header>
 {% endblock %}
 
 {% block content %}
 	<script defer src="{{'js/hats.js' | asset}}"></script>
 
-	<div class="overflow-x-auto mt-1 mb-5">
+	<div class="overflow-x-auto mt-3 mb-5">
 		<table class="table table-striped shop">
 		<thead class="bg-primary text-white">
 			<tr>
