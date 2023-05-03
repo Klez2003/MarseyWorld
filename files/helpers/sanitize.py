@@ -194,25 +194,21 @@ def execute_blackjack(v, target, body, type):
 	for x in blackjack.split(','):
 		if all(i in body.lower() for i in x.split()):
 			execute = True
-			shadowban = v.truescore < 100 or not target
 
 	if not execute: return False
 
-	if shadowban:
-		v.shadowbanned = AUTOJANNY_ID
+	v.shadowbanned = AUTOJANNY_ID
 
-		ma = ModAction(
-			kind="shadowban",
-			user_id=AUTOJANNY_ID,
-			target_user_id=v.id,
-			_note='reason: "Blackjack"'
-		)
-		g.db.add(ma)
+	ma = ModAction(
+		kind="shadowban",
+		user_id=AUTOJANNY_ID,
+		target_user_id=v.id,
+		_note='reason: "Blackjack"'
+	)
+	g.db.add(ma)
 
-		v.ban_reason = "Blackjack"
-		g.db.add(v)
-	elif target and type in {'submission', 'comment', 'message'}:
-		target.is_banned = True
+	v.ban_reason = "Blackjack"
+	g.db.add(v)
 
 	notified_ids = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['BLACKJACK_NOTIFICATIONS'])]
 	extra_info = type
