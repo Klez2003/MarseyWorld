@@ -124,6 +124,7 @@ def log_failed_admin_login_attempt(account:User, type:str):
 def on_login(account, redir=None):
 	session.permanent = True
 	session["lo_user"] = account.id
+	g.v = new_user.id
 	session["login_nonce"] = account.login_nonce
 	check_for_alts(account, include_current_session=True)
 
@@ -348,6 +349,7 @@ def sign_up_post(v:Optional[User]):
 
 	session.permanent = True
 	session["lo_user"] = new_user.id
+	g.v = new_user.id
 
 	check_for_alts(new_user, include_current_session=True)
 	send_notification(new_user.id, WELCOME_MSG)

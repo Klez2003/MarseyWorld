@@ -95,10 +95,6 @@ def post_id(pid, anything=None, v=None, sub=None):
 		if g.is_api_or_xhr: abort(451, "Must be 18+ to view")
 		return render_template("errors/nsfw.html", v=v)
 
-	if not v and not request.values.get("sort"):
-		result = cache.get(f'post_{p.id}')
-		if result: return result
-
 	if p.new: defaultsortingcomments = 'new'
 	elif v: defaultsortingcomments = v.defaultsortingcomments
 	else: defaultsortingcomments = "hot"
@@ -177,14 +173,9 @@ def post_id(pid, anything=None, v=None, sub=None):
 			and not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or p.author_id == v.id)):
 		template = "submission_banned.html"
 
-	result = render_template(template, v=v, p=p, ids=list(ids),
+	return render_template(template, v=v, p=p, ids=list(ids),
 		sort=sort, render_replies=True, offset=offset, sub=p.subr,
 		fart=get_setting('fart_mode'))
-
-	if not v and not request.values.get("sort"):
-		cache.set(f'post_{p.id}', result)
-
-	return result
 
 @app.get("/view_more/<int:pid>/<sort>/<offset>")
 @limiter.limit(DEFAULT_RATELIMIT)

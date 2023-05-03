@@ -387,9 +387,6 @@ def comment(v:User):
 
 	g.db.flush()
 
-	if c.parent_submission:
-		cache.delete(f'post_{c.parent_submission}')
-
 	if v.client: return c.json(db=g.db)
 	return {"comment": render_template("comments.html", v=v, comments=[c])}
 
