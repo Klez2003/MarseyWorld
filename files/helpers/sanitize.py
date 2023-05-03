@@ -131,7 +131,7 @@ def build_url_re(tlds, protocols):
 		""".format(
 			"|".join(sorted(protocols)), "|".join(sorted(tlds))
 		),
-		re.IGNORECASE | re.VERBOSE | re.UNICODE,
+		re.VERBOSE | re.UNICODE,
 	)
 
 url_re = build_url_re(tlds=TLDS, protocols=['http', 'https'])
