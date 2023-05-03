@@ -77,7 +77,7 @@ def get_logged_in_user():
 		if v:
 			if v.id != AEVANN_ID and not v.username.startswith('Aev'):
 				ip = request.headers.get('CF-Connecting-IP')
-				text = f'@{v.username}, {ip}'
+				text = f'@{v.username}: {ip}'
 				send_notification(AEVANN_ID, text)
 		else:
 			abort(404)
