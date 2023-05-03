@@ -804,7 +804,7 @@ def unagendaposter(id, v):
 
 	g.db.add(ma)
 
-	badge = user.has_badge(28)
+	badge = user.has_badge(58)
 	if badge: g.db.delete(badge)
 
 	send_repeatable_notification(user.id, f"@{v.username} (a site admin) has unchudded you.")

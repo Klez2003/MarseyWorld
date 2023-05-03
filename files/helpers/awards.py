@@ -17,6 +17,9 @@ def award_timers(v, bot=False):
 		v.patron = 0
 		v.patron_utc = 0
 		notify_if_not_bot(f"Your {patron} status has expired!")
+		for i in (22,23,24,25,26,27,28):
+			badge = v.has_badge(i)
+			if badge: g.db.delete(badge)
 	if v.unban_utc and v.unban_utc < now:
 		v.is_banned = None
 		v.unban_utc = 0
@@ -27,7 +30,7 @@ def award_timers(v, bot=False):
 		v.agendaposter_phrase = None
 		v.chudded_by = None
 		notify_if_not_bot("Your chud status has expired!")
-		badge = v.has_badge(28)
+		badge = v.has_badge(58)
 		if badge: g.db.delete(badge)
 	if v.flairchanged and v.flairchanged < now:
 		v.flairchanged = None
