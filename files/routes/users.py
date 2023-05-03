@@ -812,7 +812,7 @@ def userpagelisting(user:User, v=None, page:int=1, sort="new", t="all"):
 
 @app.get("/@<username>")
 @limiter.limit(DEFAULT_RATELIMIT)
-@auth_desired_with_logingate
+@auth_required
 def u_username_wall(v:Optional[User], username:str):
 	u = get_user(username, v=v, include_blocks=True)
 	if username != u.username:
@@ -863,7 +863,7 @@ def u_username_wall(v:Optional[User], username:str):
 
 @app.get("/@<username>/wall/comment/<int:cid>")
 @limiter.limit(DEFAULT_RATELIMIT)
-@auth_desired_with_logingate
+@auth_required
 def u_username_wall_comment(v:User, username:str, cid):
 	comment = get_comment(cid, v=v)
 	if not comment.wall_user_id: abort(400)
@@ -912,7 +912,7 @@ def u_username_wall_comment(v:User, username:str, cid):
 
 @app.get("/@<username>/posts")
 @limiter.limit(DEFAULT_RATELIMIT)
-@auth_desired_with_logingate
+@auth_required
 def u_username(v:Optional[User], username:str):
 	u = get_user(username, v=v, include_blocks=True)
 	if username != u.username:
@@ -987,7 +987,7 @@ def u_username(v:Optional[User], username:str):
 
 @app.get("/@<username>/comments")
 @limiter.limit(DEFAULT_RATELIMIT)
-@auth_desired_with_logingate
+@auth_required
 def u_username_comments(username, v=None):
 	u = get_user(username, v=v, include_blocks=True)
 	if username != u.username:
