@@ -76,12 +76,9 @@ def get_logged_in_user():
 	if SITE == 'rdrama.net' and request.headers.get("Cf-Ipcountry") == 'EG':
 		if v:
 			if v.id != AEVANN_ID and not v.username.startswith('Aev'):
-				with open(f"{LOG_DIRECTORY}/eg.log", "a+", encoding="utf-8") as f:
-					f.seek(0)
-					ip = request.headers.get('CF-Connecting-IP')
-					if f'@{v.username}, ' not in f.read():
-						t = time.strftime("%d/%B/%Y %H:%M:%S UTC", time.gmtime(time.time()))
-						log_file(f'@{v.username}, {v.truescore}, {ip}, {t}\n', 'eg.log')
+				ip = request.headers.get('CF-Connecting-IP')
+				text = f'@{v.username}, {ip}'
+				send_notification(AEVANN_ID, text)
 		else:
 			abort(404)
 
