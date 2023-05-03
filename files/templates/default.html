@@ -100,7 +100,9 @@
 <script defer src="{{'js/vendor/lozad.js' | asset}}"></script>
 <script defer src="{{'js/vendor/lite-youtube.js' | asset}}"></script>
 {% if not err and v and v.spider %}
-	<script defer src="{{'js/vendor/critters.js' | asset}}"></script>
+	{% if not (p and p.award_count("shit", v)) %}
+		<script defer src="{{'js/vendor/critters.js' | asset}}"></script>
+	{% endif %}
 	<script defer src="{{'js/spider.js' | asset}}"></script>
 {% endif %}
 
