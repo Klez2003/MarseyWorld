@@ -6408,14 +6408,6 @@ g {
 		url(../fonts/fa-solid-900.ttf) format("truetype")
 }
 @font-face{
-	font-family:"Font Awesome 6 Pro";
-	font-style:normal;
-	font-weight:100;
-	font-display:block;
-	src:url(../fonts/fa-thin-100.woff2) format("woff2"),
-		url(../fonts/fa-thin-100.ttf) format("truetype")
-}
-@font-face{
 	font-family:"Font Awesome 5 Brands";
 	font-display:block;
 	font-weight:400;
