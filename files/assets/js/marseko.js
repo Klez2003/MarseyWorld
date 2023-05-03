@@ -8,6 +8,9 @@ let marsekoPosX = getInitialPosition(screen.availWidth - 20);
 let marsekoPosY = getInitialPosition(screen.availHeight - 50);
 marsekoEl.style.left = `${marsekoPosX}px`;
 marsekoEl.style.top = `${marsekoPosY}px`;
+heartEl.style.left = `${marsekoPosX+16}px`;
+heartEl.style.top = `${marsekoPosY-16}px`;
+
 let mousePosX = marsekoPosX;
 let mousePosY = marsekoPosY;
 
