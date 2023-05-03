@@ -1240,14 +1240,14 @@ INSERT INTO public.hat_defs VALUES (1185, 'Fascinator', 'Kentucky Derby ready', 
 INSERT INTO public.hat_defs VALUES (1184, 'Princess Beatrice', 'Remember the royal wedding?', 2, 500, NULL, 1682280525);
 INSERT INTO public.hat_defs VALUES (1183, 'Blossom', 'And she looks like Blossom!', 2, 500, NULL, 1682252248);
 INSERT INTO public.hat_defs VALUES (1182, 'Friends Frame', 'Could I *be* more of a hat?', 2, 500, NULL, 1682251449);
-
+INSERT INTO public.hat_defs VALUES (1198, 'Cumjar filled', 'After months of work, the magnum opus is completed', 2, 500, NULL, 1682742950);
 
 
 --
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1198, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1199, true);
 
 
 --
@@ -1367,6 +1367,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('bogthink','Misc',2,'bogdanoff bogged'),
 ('bong','Classic',2,'bong emoticon animated drugs weed'),
 ('boomer','Wojak',2,'boomer old sunglasses'),
+('boomerjam','Wojak',2,'jamming'),
 ('boomermonster','Wojak',2,'boomer old sunglasses energy drink monster'),
 ('boomerportrait','Wojak',2,'boomer'),
 ('boosterwalking','Misc',2,'game nintendo mario smrpg g stroll jaunt scary retro'),
@@ -1397,6 +1398,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('bruce','Wojak',2,'aussie australian'),
 ('bruh','Misc',2,'emoticon'),
 ('bs','Classic',2,'bs emoticon animated bull shit bullshit disbelief flag'),
+('bubbles','Misc',2,'tpb bubs'),
 ('buenpost','Classic',2,'spanish good approving great'),
 ('burgermario','Misc',2,'vidya nintendo fat'),
 ('c','Marsey Alphabet',2,'letter'),
@@ -1703,6 +1705,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('drink','Classic',2,'drink animated emoticon beer alcohol bottoms up imbibe'),
 ('drool','Classic',2,'drool emoticon retard retarded stupid idiot'),
 ('duckdance','Misc',2,'duck bird shuka hololive dance hat animated'),
+('duckswim','Misc',2,'quack'),
 ('dudeweedlmao','Classic',2,'dudeweedlmao animated emoticon weed drugs'),
 ('dukenukemtldr','Misc',2,'wordswordswords toolongdidntread'),
 ('dumbledoreagony','Misc',2,'dumbledore agony pain suffering harry potter wizard magic disgust confusion'),
@@ -1787,6 +1790,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('glomp','Classic',2,'glomp animated emoticon hug'),
 ('gmasmoke','Misc',2,'grandma bong marijuana weed'),
 ('go','Classic',2,'go animated emoticon leave'),
+('goblina','Misc',2,'amerimutt'),
 ('gogetter','Wojak',2,'motivated'),
 ('gokulaugh','Misc',2,'goku dbz dragonball laughing'),
 ('goldenbanana','Donkey Kong',2,'donkeykong dk64 fruit'),
@@ -1804,6 +1808,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('grug','Wojak',2,'caveman'),
 ('grugthink','Wojak',2,'grug think caveman'),
 ('gtfo','Classic',2,'gtfo emoticon leave point sign'),
+('guidopepe','Misc',2,'sopranos italian'),
 ('guillotine','Classic',2,'french kill execution beheading'),
 ('guitar','Classic',2,'guitar animated emoticon music instrument rock'),
 ('gunt','Misc',2,'animated blob lump dancing'),
@@ -1839,6 +1844,8 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('highfive','Classic',2,'high-five animated emoticon up top'),
 ('hijabwojak','Wojak',2,'woman hijab muslim'),
 ('hitler','Misc',2,'nazi adolf staring displeased reich'),
+('hitormiss2','Misc',2,'miakhalifa'),
+('hitormiss3','Misc',2,'miakhalifa'),
 ('hitspipe','Misc',2,'gandalf smoking'),
 ('hmm','Classic',2,'hmm animated emoticon think notice contemplate'),
 ('hmph','Classic',2,'hmph animated emoticon indignant'),
@@ -1885,6 +1892,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('jawdrop','Classic',2,'jawdrop animated emoticon awooga astounded surprised'),
 ('jedi','Classic',2,'jedi animated emoticon star wars lightsaber'),
 ('jester','Classic',2,'jester animated emoticon clown laugh smug'),
+('jimdrink','Misc',2,'lahey tpb'),
 ('jimmies','Misc',2,'jimmies rustled rustle over maximum rage seeth anger'),
 ('joanmarsey','Marsey',2,'joan gay clown gacy wayne'),
 ('jokeryouwouldntgetit','Misc',2,'damaged jokerpilled doomer'),
@@ -3107,6 +3115,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseygroomer','Marsey',2,'pedobear discord pedophile pedo chomo molest pedocord'),
 ('marseygroomer2','Marsey',2,'molest discord chomo snoo pedo pedocord reddit'),
 ('marseygroomerarch','Marsey',2,'groomer marsey arch linux archlinux grooming nerd kid'),
+('marseygroomerfreebsd','Marsey',2,'unix linux code'),
 ('marseygroomergrooming','Marsey',2,'groomer grooming pedo licking'),
 ('marseygrouns','Marsey',2,'grounds grounz darrell brooks court lawyer waukesha'),
 ('marseygucci','Marsey',2,'gucci mane lean rapper trap mixtape bricksquad traphouse codeine lean rapper pimp'),
@@ -3548,6 +3557,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseymoplicker','Marsey',2,'janny moderator admin'),
 ('marseymormon','Marsey',2,'backpack tie jesus god christian missionary'),
 ('marseymorph','Marsey',2,'skinwalker changeling'),
+('marseymotherhugger','Marsey',2,'grandma hugging love'),
 ('marseymothermary','Marsey',2,'christian christmas jesus immaculate god mother mary xmas pray'),
 ('marseymothman','Marsey',2,'spooky scary monster halloween cryptid supernatural paranormal creepy'),
 ('marseymountaineer','Marsey',2,'winter climbing coat ice sport peak axe cleats mountain alpine climber'),
@@ -4719,9 +4729,11 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('pepedrool','Misc',2,'peepo retard stupid slobber'),
 ('pepedrool2','Misc',2,'peepo retard stupid slobber'),
 ('pepedrum','Misc',2,'football soccer'),
+('pepeduck','Misc',2,'duck pet peepo'),
 ('pepeduck2','Misc',2,'rootitootishooti shooting peepo guns goose'),
 ('pepejannie','Misc',2,'janny janitor cleaning cleanitup mopping'),
 ('pepeleave','Misc',2,'crying sad peepo'),
+('pepemoney','Misc',2,'makeitrain'),
 ('pepepunch','Misc',2,'pepe punch rage cope anger violence'),
 ('pepesimp','Misc',2,'peepo cuck'),
 ('pepesinga','Misc',2,'singa pepe frog dance'),
@@ -4849,6 +4861,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('retardedchildren','Misc',2,'retarded children helped stamp'),
 ('rfybear','Misc',2,'bear animal'),
 ('rho','Marsey Alphabet',2,'ρ'),
+('ricardo','Misc',2,'milos stripper'),
 ('ricardodance','Misc',2,'ricardo milos dancing sexy stud'),
 ('ricky','Misc',2,'smokes ricky trailer park boys tpb'),
 ('rip','Classic',2,'restinpeace grave tombstone dead mourning grief'),
@@ -4877,6 +4890,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('sammysonicfanyelling','Misc',2,'sanic frickin fricks zoomer kid angry mad'),
 ('samurai','Classic',2,'samurai animated emoticon bushido katana japan'),
 ('sanic','Misc',2,'sonic speed fast'),
+('sanic2','Misc',2,'sonic jumping'),
 ('sarcasm','Classic',2,'sarcasm animated emoticon flip off sarcastic'),
 ('sashacrying','Misc',2,'sasha crying sobbing gamer'),
 ('scalperpride','Misc',2,'bait scalper flag'),
@@ -4988,6 +5002,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('squiddance','Misc',2,'squidward'),
 ('srdinepoppy','Misc',2,'poppy popcorn reddit srdine subredditdrama'),
 ('stab','Classic',2,'stab animated emoticon kill murder knife england'),
+('stalinjam','Misc',2,'soviet ussr commie communist'),
 ('star','Classic',2,'star animated smile'),
 ('stare','Classic',2,'stare emoticon look watch'),
 ('starecat','Misc',2,'stare cat staring'),
