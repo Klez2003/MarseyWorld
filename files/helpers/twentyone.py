@@ -8,6 +8,8 @@ from flask import g
 from files.classes.casino_game import CasinoGame
 from files.helpers.casino import distribute_wager_badges
 
+from sqlalchemy.orm.exc import MultipleResultsFound
+
 class BlackjackStatus(str, Enum):
 	PLAYING = "PLAYING"
 	STAYED = "STAYED"
@@ -69,11 +71,20 @@ def build_casino_game(gambler, wager, currency):
 
 
 def get_active_twentyone_game(gambler):
-	return g.db.query(CasinoGame).filter(
+	try:
+		return g.db.query(CasinoGame).filter(
 		CasinoGame.active == True,
 		CasinoGame.kind == 'blackjack',
-		CasinoGame.user_id == gambler.id).first()
-
+		CasinoGame.user_id == gambler.id).one_or_none()
+	except MultipleResultsFound:
+		games = g.db.query(CasinoGame).filter(
+		CasinoGame.active == True,
+		CasinoGame.kind == 'blackjack',
+		CasinoGame.user_id == gambler.id).all()
+		for game in games:
+			g.db.delete(game)
+		g.db.commit()
+		return None
 
 def get_active_twentyone_game_state(gambler):
 	active_game = get_active_twentyone_game(gambler)
