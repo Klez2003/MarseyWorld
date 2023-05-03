@@ -426,13 +426,13 @@ class User(Base):
 	@property
 	@lazy
 	def discount(self):
-		if self.patron == 1: discount = 0.90
-		elif self.patron == 2: discount = 0.85
-		elif self.patron == 3: discount = 0.80
-		elif self.patron == 4: discount = 0.75
-		elif self.patron == 5: discount = 0.70
-		elif self.patron == 6: discount = 0.65
-		elif self.patron == 7: discount = 0.60
+		if self.patron in {1,2}: discount = 0.90
+		elif self.patron == 3: discount = 0.85
+		elif self.patron == 4: discount = 0.80
+		elif self.patron == 5: discount = 0.75
+		elif self.patron == 6: discount = 0.70
+		elif self.patron == 7: discount = 0.65
+		elif self.patron == 8: discount = 0.60
 		else: discount = 1
 
 		owned_badges = [x.badge_id for x in self.badges]
@@ -987,19 +987,19 @@ class User(Base):
 	@property
 	@lazy
 	def patron_tooltip(self):
-		if self.patron == 1:
-			return 'Contributes $5/month'
 		if self.patron == 2:
-			return 'Contributes $10/month'
+			return 'Contributes $5/month'
 		if self.patron == 3:
-			return 'Contributes $20/month'
+			return 'Contributes $10/month'
 		if self.patron == 4:
-			return 'Contributes $50/month'
+			return 'Contributes $20/month'
 		if self.patron == 5:
-			return 'Contributes $100/month'
+			return 'Contributes $50/month'
 		if self.patron == 6:
-			return 'Contributes $200/month'
+			return 'Contributes $100/month'
 		if self.patron == 7:
+			return 'Contributes $200/month'
+		if self.patron == 8:
 			return 'Contributes $500/month'
 		return ''
 

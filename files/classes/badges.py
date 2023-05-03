@@ -26,10 +26,10 @@ class BadgeDef(Base):
 	@property
 	@lazy
 	def path(self):
-		if self.id == 7 or 20 < self.id < 28 or self.id == 222:
-			return f"{SITE_FULL_IMAGES}/i/{SITE_NAME}/badges/{self.id}.webp?x=2"
+		if self.id == 7 or 20 < self.id < 29 or self.id == 222:
+			return f"{SITE_FULL_IMAGES}/i/{SITE_NAME}/badges/{self.id}.webp?x=7"
 
-		return f"{SITE_FULL_IMAGES}/i/badges/{self.id}.webp?x=2"
+		return f"{SITE_FULL_IMAGES}/i/badges/{self.id}.webp?x=7"
 
 class Badge(Base):
 
@@ -55,7 +55,7 @@ class Badge(Base):
 	@property
 	@lazy
 	def until(self):
-		if self.badge_id == 28 and self.user.agendaposter != 1: return self.user.agendaposter
+		if self.badge_id == 58 and self.user.agendaposter != 1: return self.user.agendaposter
 		if self.badge_id == 170 and self.user.marsify != 1: return self.user.marsify
 
 		if self.badge_id == 94: return self.user.progressivestack

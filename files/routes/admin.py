@@ -1099,7 +1099,7 @@ def agendaposter(id, v):
 		)
 	g.db.add(ma)
 
-	badge_grant(user=user, badge_id=28)
+	badge_grant(user=user, badge_id=58)
 
 	if 'reason' in request.values:
 		if request.values["reason"].startswith("/post/"):

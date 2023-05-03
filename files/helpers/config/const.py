@@ -699,13 +699,13 @@ HOUSE_JOIN_COST = 500
 HOUSE_SWITCH_COST = 2000
 
 TIERS_ID_TO_NAME = {
-	1: "Paypig",
-	2: "Renthog",
-	3: "Landchad",
-	4: "Terminally online turboautist",
-	5: "Marsey's Sugar Daddy",
-	6: "JIDF Bankroller",
-	7: "Rich Bich",
+	2: "Paypig",
+	3: "Renthog",
+	4: "Landchad",
+	5: "Terminally online turboautist",
+	6: "Marsey's Sugar Daddy",
+	7: "JIDF Bankroller",
+	8: "Rich Bich",
 }
 
 BADGE_BLACKLIST = { # only grantable by admins higher than PERMS['IGNORE_BADGE_BLACKLIST']
@@ -896,13 +896,13 @@ elif SITE == 'watchpeopledie.tv':
 	SIGNUP_FOLLOW_ID = CARP_ID
 
 	TIERS_ID_TO_NAME = {
-		1: "Victim",
-		2: "Corpse",
-		3: "Zombie",
-		4: "Ghost",
-		5: "Survivor",
-		6: "Jigsaw",
-		7: "P̵͇̕S̶̔̇Ȳ̴͙C̶͋͗H̵͒̉O̴̎̍ ",
+		2: "Victim",
+		3: "Corpse",
+		4: "Zombie",
+		5: "Ghost",
+		6: "Survivor",
+		7: "Jigsaw",
+		8: "P̵͇̕S̶̔̇Ȳ̴͙C̶͋͗H̵͒̉O̴̎̍ ",
 	}
 elif SITE == 'devrama.net':
 	AEVANN_ID = 7
@@ -1031,23 +1031,6 @@ def is_safe_url(url):
 	return False
 
 hosts = "|".join(approved_embed_hosts).replace('.','\.')
-
-tiers={
-	"(Paypig)": 1,
-	"(Renthog)": 2,
-	"(Landchad)": 3,
-	"(Terminally online turboautist)": 4,
-	"(Marsey's Sugar Daddy)": 5,
-	"(JIDF Bankroller)": 6,
-	"(Rich Bich)": 7,
-	"(LlamaBean)": 1,
-	"(Victim)": 1,
-	"(Corpse)": 2,
-	"(Zombie)": 3,
-	"(Ghost)": 4,
-	"(Survivor)": 5,
-	"(Jigsaw)": 6,
-	}
 
 has_sidebar = path.exists(f'files/templates/sidebar_{SITE_NAME}.html')
 has_logo = path.exists(f'files/assets/images/{SITE_NAME}/logo.webp')

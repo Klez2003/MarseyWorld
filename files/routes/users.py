@@ -1322,18 +1322,18 @@ def bid_list(v:User, bid):
 
 
 tiers={
-	3: 1,
-	5: 1,
-	10: 2,
-	20: 3,
-	50: 4,
-	100: 5,
-	151: 5,
-	200: 6,
-	500: 7,
+	3: 2,
+	5: 2,
+	10: 3,
+	20: 4,
+	50: 5,
+	100: 6,
+	151: 6,
+	200: 7,
+	500: 8,
 	}
 
-marseybux_li = (0,2500,5000,10000,25000,50000,100000,250000)
+marseybux_li = (0,0,2500,5000,10000,25000,50000,100000,250000)
 
 def claim_rewards(v):
 	transactions = g.db.query(Transaction).filter_by(email=v.email, claimed=None).all()

@@ -335,7 +335,7 @@ def award_thing(v, thing_type, id):
 
 		author.agendaposter_phrase = note.lower()
 
-		badge_grant(user=author, badge_id=28)
+		badge_grant(user=author, badge_id=58)
 	elif kind == "flairlock":
 		new_name = note[:100].replace("𒐪","").replace("﷽","").strip()
 		if not new_name and author.flairchanged:
