@@ -7383,7 +7383,11 @@ button, .btn {
 	margin-bottom: 0.25rem;
 }
 
-#profile--info > p:last-of-type, #profile-mobile--info > p:last-of-type {
+#profile--info > p:last-of-type {
+	margin-bottom: 1rem;
+}
+
+#profile-mobile--info > p:last-of-type {
 	margin-bottom: 0.75rem;
 }
 
