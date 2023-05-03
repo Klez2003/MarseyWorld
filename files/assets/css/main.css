@@ -7353,6 +7353,7 @@ button, .btn {
 
 .post-linked-img {
 	max-height: 500px;
+	width: 100%;
 	object-fit: contain;
 	object-position: left;
 }
