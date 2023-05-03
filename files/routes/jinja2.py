@@ -77,14 +77,15 @@ def calc_users():
 		loggedin_counter = len(loggedin)
 		loggedout_counter = len(loggedout)
 
-		if loggedout_counter > (loggedin_counter * 3):
-			if not get_setting('ddos_detected'):
-				toggle_setting('ddos_detected')
-				set_security_level('under_attack')
-		else:
-			if get_setting('ddos_detected'):
-				toggle_setting('ddos_detected')
-				set_security_level('high')
+		if not IS_LOCALHOST:
+			if loggedout_counter > (loggedin_counter * 3):
+				if not get_setting('ddos_detected'):
+					toggle_setting('ddos_detected')
+					set_security_level('under_attack')
+			else:
+				if get_setting('ddos_detected'):
+					toggle_setting('ddos_detected')
+					set_security_level('high')
 
 
 	return {'loggedin_counter':loggedin_counter,
