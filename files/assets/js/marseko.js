@@ -1,4 +1,5 @@
 const marsekoEl = document.getElementById("marseko");
+const heartEl = document.getElementById("marseko-heart");
 
 function getInitialPosition(max) {
 	return Math.max(32, Math.floor(Math.random() * max));
@@ -176,6 +177,8 @@ function frame() {
 
 	marsekoEl.style.left = `${marsekoPosX}px`;
 	marsekoEl.style.top = `${marsekoPosY}px`;
+	heartEl.style.left = `${marsekoPosX+16}px`;
+	heartEl.style.top = `${marsekoPosY-16}px`;
 }
 
 document.onmousemove = (event) => {
@@ -183,3 +186,15 @@ document.onmousemove = (event) => {
 		mousePosY = event.clientY;
 	};
 window.marseykoInterval = setInterval(frame, 100);
+
+document.addEventListener('click', (event) => {
+	marsekoEl.style.removeProperty("pointer-events");
+	let elementClicked = document.elementFromPoint(event.clientX,event.clientY);
+	if(elementClicked.id === marsekoEl.id) {
+		heartEl.classList.remove("d-none");
+		setTimeout(() => {
+			heartEl.classList.add("d-none");
+		}, 2000);
+	}
+	marsekoEl.style.pointerEvents = "none";
+});

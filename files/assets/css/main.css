@@ -7322,10 +7322,20 @@ button, .btn {
 	width: 32px;
 	height: 32px;
 	position: fixed;
-	pointer-events: none;
 	background-image: url('/i/marseko.webp?x=2');
 	image-rendering: pixelated;
 	background-position: -64px -32px;
+}
+#marseko-heart {
+	z-index: 1000000000000000;
+	width: 24px;
+	height: 24px;
+	position: fixed;
+	pointer-events: none;
+	background-image: url('/i/marseko-heart.webp?x=2');
+	background-size: cover;
+	left: 24px;
+	top: 0px;
 }
 
 .dots {
