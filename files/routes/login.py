@@ -124,7 +124,7 @@ def log_failed_admin_login_attempt(account:User, type:str):
 def on_login(account, redir=None):
 	session.permanent = True
 	session["lo_user"] = account.id
-	g.v = new_user.id
+	g.v = account.id
 	session["login_nonce"] = account.login_nonce
 	check_for_alts(account, include_current_session=True)
 
