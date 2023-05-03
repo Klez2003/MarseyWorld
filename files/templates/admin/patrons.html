@@ -7,6 +7,7 @@
 		<th>#</th>
 		<th>Name</th>
 		<th>Tier</th>
+		<th>Truescore</th>
 	</tr>
 </thead>
 {% for user in users %}
@@ -16,6 +17,7 @@
 		<td>
 			<img class="contain" alt="2{{user.patron}}" loading="lazy" width=29.33 height=32 src="{{SITE_FULL_IMAGES}}/i/{{SITE_NAME}}/badges/2{{user.patron}}.webp?x=6">
 		</td>
+		<td>{{user.truescore}}</td>
 	</tr>
 {% endfor %}
 </table>

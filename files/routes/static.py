@@ -130,7 +130,7 @@ def daily_chart(v:User):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['VIEW_PATRONS'])
 def patrons(v):
-	users = g.db.query(User).filter(User.patron > 0).order_by(User.patron.desc(), User.id).all()
+	users = g.db.query(User).filter(User.patron > 0).order_by(User.patron.desc(), User.truescore.desc()).all()
 
 	return render_template("admin/patrons.html", v=v, users=users, benefactor_def=AWARDS['benefactor'])
 
