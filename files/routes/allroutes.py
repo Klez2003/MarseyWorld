@@ -61,7 +61,6 @@ def after_request(response:Response):
 	if response.status_code < 400:
 		if hasattr(g, 'v') and g.v:
 			user_id = g.v.id
-		_set_cloudflare_cookie(response)
 		_commit_and_close_db()
 
 	if request.method == "POST" and not request.path.startswith('/casino/twentyone/'):
@@ -76,26 +75,6 @@ def after_request(response:Response):
 def teardown_request(error):
 	_rollback_and_close_db()
 	stdout.flush()
-
-def _set_cloudflare_cookie(response:Response) -> None:
-	if not g.desires_auth: return
-	if IS_LOCALHOST: return
-	logged_in = bool(getattr(g, 'v', None))
-
-	if not logged_in and request.cookies.get("logged_in"):
-		response.delete_cookie(
-				"logged_in",
-				domain=f'.{SITE}',
-				samesite="Lax",
-			)
-	elif logged_in and not request.cookies.get("logged_in"):
-		response.set_cookie(
-							"logged_in",
-							"True",
-							max_age=SESSION_LIFETIME,
-							samesite="Lax",
-							domain=f'.{SITE}',
-						)
 
 def _commit_and_close_db() -> bool:
 	if not getattr(g, 'db', None): return False
