@@ -154,65 +154,7 @@
 
 {% block pagenav %}
 {% if listing %}
-<nav>
-	<ul class="pagination pagination-sm mb-0 mt-4 pl-1">
-		{% set num_pages = (next_exists / size) | round(0, 'ceil') | int %}
-
-		{% set start_point = page - 2 %}
-		{% if start_point < 1 %}
-			{% set start_point = 1 %}
-		{% endif %}
-
-		{% set end_point = start_point+4 %}
-		{% if end_point > num_pages %}
-			{% set start_point = start_point-(end_point-num_pages) %}
-			{% set end_point = num_pages %}
-		{% endif %}
-
-		{% if start_point < 1 %}
-			{% set start_point = 1 %}
-		{% endif %}
-
-
-		{% if start_point > 1 %}
-			<li class="page-item">
-				<small><a class="page-link" href="?sort={{sort}}&page=1&t={{t}}">1</a></small>
-			</li>
-
-			{% if start_point == 3 %}
-				<li class="page-item">
-					<small><a class="page-link" href="?sort={{sort}}&page=2&t={{t}}">2</a></small>
-				</li>
-			{% elif start_point != 2 %}
-				<li class="page-item">
-					<small class="page-link dots">...</small>
-				</li>
-			{% endif %}
-		{% endif %}
-
-		{% for x in range(start_point, end_point+1) %}
-			<li class="page-item">
-				<small><a class="page-link {% if x == page %}active{% endif %}" href="?sort={{sort}}&page={{x}}&t={{t}}">{{x}}</a></small>
-			</li>
-		{% endfor %}
-
-		{% if end_point < num_pages %}
-			{% if end_point == num_pages-2 %}
-				<li class="page-item">
-					<small><a class="page-link" href="?sort={{sort}}&page={{num_pages-1}}&t={{t}}">{{num_pages-1}}</a></small>
-				</li>
-			{% elif end_point != num_pages-1 %}
-				<li class="page-item">
-					<small class="page-link dots">...</small>
-				</li>
-			{% endif %}
-
-			<li class="page-item">
-				<small><a class="page-link" href="?sort={{sort}}&page={{num_pages}}&t={{t}}">{{num_pages}}</a></small>
-			</li>
-		{% endif %}
-	</ul>
-</nav>
+	{% include "pagination.html" %}
 {% endif %}
 
 {% if request.path == '/' and v %}

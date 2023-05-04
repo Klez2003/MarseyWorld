@@ -108,12 +108,13 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 			word = word.replace('\\', '').replace('_', '\_').replace('%', '\%').strip()
 			posts=posts.filter(not_(Submission.title.ilike(f'%{word}%')))
 
+	next_exists = posts.count()
+
 	posts = sort_objects(sort, posts, Submission)
 
 	if v: size = v.frontsize or 0
 	else: size = PAGE_SIZE
 
-	next_exists = posts.count()
 	posts = posts.options(load_only(Submission.id)).offset(size * (page - 1))
 
 	if SITE_NAME == 'WPD' and sort == "hot" and sub == None:
@@ -180,8 +181,9 @@ def random_user(v:User):
 
 @cache.memoize()
 def comment_idlist(v=None, page=1, sort="new", t="day", gt=0, lt=0):
-	comments = g.db.query(Comment.id) \
+	comments = g.db.query(Comment) \
 		.outerjoin(Comment.post) \
+		.options(load_only(Comment.id)) \
 		.filter(
 			or_(Comment.parent_submission != None, Comment.wall_user_id != None),
 		)
@@ -200,10 +202,11 @@ def comment_idlist(v=None, page=1, sort="new", t="day", gt=0, lt=0):
 	if not gt and not lt:
 		comments = apply_time_filter(t, comments, Comment)
 
+	next_exists = comments.count()
 	comments = sort_objects(sort, comments, Comment)
-
-	comments = comments.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
-	return [x[0] for x in comments]
+	
+	comments = comments.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
+	return [x.id for x in comments], next_exists
 
 @app.get("/comments")
 @limiter.limit(DEFAULT_RATELIMIT)
@@ -221,7 +224,7 @@ def all_comments(v:User):
 
 	try: lt=int(request.values.get("before", 0))
 	except: lt=0
-	idlist = comment_idlist(v=v,
+	idlist, next_exists = comment_idlist(v=v,
 							page=page,
 							sort=sort,
 							t=t,
@@ -230,8 +233,6 @@ def all_comments(v:User):
 							)
 
 	comments = get_comments(idlist, v=v)
-	next_exists = len(idlist) > PAGE_SIZE
-	idlist = idlist[:PAGE_SIZE]
 
 	if v.client: return {"data": [x.json(g.db) for x in comments]}
-	return render_template("home_comments.html", v=v, sort=sort, t=t, page=page, comments=comments, standalone=True, next_exists=next_exists)
+	return render_template("home_comments.html", v=v, sort=sort, t=t, page=page, comments=comments, standalone=True, next_exists=next_exists, size = PAGE_SIZE)
