@@ -4439,7 +4439,7 @@ small, .small {
 }
 .page-link.active {
 	background-color: var(--primary);
-	color: var(--dark);
+	color: rgb(var(--background));
 }
 .page-link:not(.dots):hover {
 	background-color: var(--gray-100);

@@ -38,10 +38,6 @@ body, .navbar-light, .navbar-dark, .card, .modal-content, .comment-write textare
 	background-color: var(--gray-600)!important;
 }
 
-.page-link.active {
-    color: #ccc;
-}
-
 .sidebar
 {
 	border-radius: 6px;
