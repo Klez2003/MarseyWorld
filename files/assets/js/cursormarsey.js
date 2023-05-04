@@ -1,24 +1,24 @@
-const marsekoEl = document.getElementById("marseko");
-const heartEl = document.getElementById("marseko-heart");
+const cursormarseyEl = document.getElementById("cursormarsey");
+const heartEl = document.getElementById("cursormarsey-heart");
 
 function getInitialPosition(max) {
 	return Math.max(32, Math.floor(Math.random() * max));
 }
-let marsekoPosX = getInitialPosition(screen.availWidth - 20);
-let marsekoPosY = getInitialPosition(screen.availHeight - 50);
-marsekoEl.style.left = `${marsekoPosX}px`;
-marsekoEl.style.top = `${marsekoPosY}px`;
-heartEl.style.left = `${marsekoPosX+16}px`;
-heartEl.style.top = `${marsekoPosY-16}px`;
+let cursormarseyPosX = getInitialPosition(screen.availWidth - 20);
+let cursormarseyPosY = getInitialPosition(screen.availHeight - 50);
+cursormarseyEl.style.left = `${cursormarseyPosX}px`;
+cursormarseyEl.style.top = `${cursormarseyPosY}px`;
+heartEl.style.left = `${cursormarseyPosX+16}px`;
+heartEl.style.top = `${cursormarseyPosY-16}px`;
 
-let mousePosX = marsekoPosX;
-let mousePosY = marsekoPosY;
+let mousePosX = cursormarseyPosX;
+let mousePosY = cursormarseyPosY;
 
 let frameCount = 0;
 let idleTime = 0;
 let idleAnimation = null;
 let idleAnimationFrame = 0;
-const marsekoSpeed = 10;
+const cursormarseySpeed = 10;
 const spriteSets = {
 	idle: [[-3, -3]],
 	alert: [[-7, -3]],
@@ -84,7 +84,7 @@ const spriteSets = {
 
 function setSprite(name, frame) {
 	const sprite = spriteSets[name][frame % spriteSets[name].length];
-	marsekoEl.style.backgroundPosition = `${sprite[0] * 32}px ${sprite[1] * 32}px`;
+	cursormarseyEl.style.backgroundPosition = `${sprite[0] * 32}px ${sprite[1] * 32}px`;
 }
 
 function resetIdleAnimation() {
@@ -98,16 +98,16 @@ function idle() {
 	// every ~ 20 seconds
 	if (idleTime > 10 && true && idleAnimation == null) {
 	let avalibleIdleAnimations = ["sleeping", "scratchSelf"];
-	if (marsekoPosX < 32) {
+	if (cursormarseyPosX < 32) {
 		avalibleIdleAnimations.push("scratchWallW");
 	}
-	if (marsekoPosY < 32) {
+	if (cursormarseyPosY < 32) {
 		avalibleIdleAnimations.push("scratchWallN");
 	}
-	if (marsekoPosX > window.innerWidth - 32) {
+	if (cursormarseyPosX > window.innerWidth - 32) {
 		avalibleIdleAnimations.push("scratchWallE");
 	}
-	if (marsekoPosY > window.innerHeight - 32) {
+	if (cursormarseyPosY > window.innerHeight - 32) {
 		avalibleIdleAnimations.push("scratchWallS");
 	}
 	idleAnimation =
@@ -146,11 +146,11 @@ function idle() {
 
 function frame() {
 	frameCount += 1;
-	const diffX = marsekoPosX - mousePosX;
-	const diffY = marsekoPosY - mousePosY;
+	const diffX = cursormarseyPosX - mousePosX;
+	const diffY = cursormarseyPosY - mousePosY;
 	const distance = Math.sqrt(diffX ** 2 + diffY ** 2);
 
-	if (distance < marsekoSpeed || distance < 48) {
+	if (distance < cursormarseySpeed || distance < 48) {
 		idle();
 		return;
 	}
@@ -172,16 +172,16 @@ function frame() {
 	direction += diffX / distance < -0.5 ? "E" : "";
 	setSprite(direction, frameCount);
 
-	marsekoPosX -= (diffX / distance) * marsekoSpeed;
-	marsekoPosY -= (diffY / distance) * marsekoSpeed;
+	cursormarseyPosX -= (diffX / distance) * cursormarseySpeed;
+	cursormarseyPosY -= (diffY / distance) * cursormarseySpeed;
 
-	marsekoPosX = Math.min(Math.max(16, marsekoPosX), window.innerWidth - 16);
-	marsekoPosY = Math.min(Math.max(16, marsekoPosY), window.innerHeight - 16);
+	cursormarseyPosX = Math.min(Math.max(16, cursormarseyPosX), window.innerWidth - 16);
+	cursormarseyPosY = Math.min(Math.max(16, cursormarseyPosY), window.innerHeight - 16);
 
-	marsekoEl.style.left = `${marsekoPosX}px`;
-	marsekoEl.style.top = `${marsekoPosY}px`;
-	heartEl.style.left = `${marsekoPosX+16}px`;
-	heartEl.style.top = `${marsekoPosY-16}px`;
+	cursormarseyEl.style.left = `${cursormarseyPosX}px`;
+	cursormarseyEl.style.top = `${cursormarseyPosY}px`;
+	heartEl.style.left = `${cursormarseyPosX+16}px`;
+	heartEl.style.top = `${cursormarseyPosY-16}px`;
 }
 
 document.onmousemove = (event) => {
@@ -191,13 +191,13 @@ document.onmousemove = (event) => {
 window.marseykoInterval = setInterval(frame, 100);
 
 document.addEventListener('click', (event) => {
-	marsekoEl.style.removeProperty("pointer-events");
+	cursormarseyEl.style.removeProperty("pointer-events");
 	let elementClicked = document.elementFromPoint(event.clientX,event.clientY);
-	if(elementClicked.id === marsekoEl.id) {
+	if(elementClicked.id === cursormarseyEl.id) {
 		heartEl.classList.remove("d-none");
 		setTimeout(() => {
 			heartEl.classList.add("d-none");
 		}, 2000);
 	}
-	marsekoEl.style.pointerEvents = "none";
+	cursormarseyEl.style.pointerEvents = "none";
 });

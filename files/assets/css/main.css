@@ -7309,22 +7309,22 @@ button, .btn {
 	}	
 }
 
-#marseko {
+#cursormarsey {
 	z-index: 1000000000000000;
 	width: 32px;
 	height: 32px;
 	position: fixed;
-	background-image: url('/i/marseko.webp?x=2');
+	background-image: url('/i/cursormarsey.webp?x=2');
 	image-rendering: pixelated;
 	background-position: -64px -32px;
 }
-#marseko-heart {
+#cursormarsey-heart {
 	z-index: 1000000000000000;
 	width: 24px;
 	height: 24px;
 	position: fixed;
 	pointer-events: none;
-	background-image: url('/i/marseko-heart.webp?x=2');
+	background-image: url('/i/cursormarsey-heart.webp?x=2');
 	background-size: cover;
 	left: 24px;
 	top: 0px;
@@ -7413,6 +7413,6 @@ button, .btn {
 	100% {transform: scale(0.8);}
 }		
 
-#marseko-heart {
+#cursormarsey-heart {
 	animation: animateHeart 0.3s infinite;
 }
