@@ -157,9 +157,7 @@
 
 							<button type="button" class="btn btn-secondary format d-inline-block m-0 py-2 fas fa-smile-beam" data-nonce="{{g.nonce}}" data-onclick="loadEmojis('input-message')" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"></button>
 
-							{% set upload_disabled = g.is_tor or not get_setting('dm_images') %}
-
-							{{macros.file_input('file-upload-macro', True)}}
+							{{macros.file_input('file-upload-macro', False, not get_setting('dm_images'))}}
 
 							<input type="submit" data-nonce="{{g.nonce}}" data-onclick="remove_dialog()" value="Submit" class="btn btn-primary fl-r">
 						</form>

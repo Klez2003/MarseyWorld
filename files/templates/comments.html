@@ -545,9 +545,7 @@
 						<div class="comment-format" id="comment-format-bar-{{c.id}}">
 							<button type="button" data-nonce="{{g.nonce}}" data-onclick="loadEmojis('reply-form-body-{{c.id}}')" class="btn btn-secondary format m-0" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"><i class="fas fa-smile-beam"></i></button>
 
-							{% set upload_disabled = g.is_tor or not get_setting('dm_images') %}
-
-							{{macros.file_input('file-upload-reply-' ~ c.fullname, True)}}
+							{{macros.file_input('file-upload-reply-' ~ c.fullname, False, not get_setting('dm_images'))}}
 						</div>
 
 						<div class="ml-auto">

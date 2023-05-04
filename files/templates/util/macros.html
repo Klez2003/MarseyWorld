@@ -99,10 +99,10 @@
 {% endmacro %}
 
 
-{% macro file_input(id, image_only) %}
-<label class="btn btn-secondary format m-0 ml-2" for="{{id}}">
+{% macro file_input(id, image_only, disabled) %}
+<label class="btn btn-secondary format m-0 ml-2" for="{{id}}" {% if g.is_tor or disabled %}disabled{% endif %}>
 	<i class="fas fa-{% if image_only %}image{% else %}file{% endif %}"></i><span></span>
-	<input autocomplete="off" id="{{id}}" accept="image/*{% if not image_only %}, video/*, audio/*{% endif %}" type="file" multiple="multiple" name="file" {% if g.is_tor %}disabled{% endif %} hidden>
+	<input autocomplete="off" id="{{id}}" accept="image/*{% if not image_only %}, video/*, audio/*{% endif %}" type="file" multiple="multiple" name="file" {% if g.is_tor or disabled %}disabled{% endif %} hidden>
 </label>
 <button type="button" class="text-danger text-lg font-weight-bold ml-2 remove-files d-none" data-bs-toggle="tooltip" title="Remove Files">X</button>
 {% endmacro %}

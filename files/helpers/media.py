@@ -35,7 +35,7 @@ def media_ratelimit(v):
 		print(STARS, flush=True)
 		abort(500)
 
-def process_files(files, v, body):
+def process_files(files, v, body, is_dm=False, dm_user=None):
 	if g.is_tor or not files.get("file"): return body
 	files = files.getlist('file')[:20]
 
@@ -51,14 +51,22 @@ def process_files(files, v, body):
 			name = f'/images/{time.time()}'.replace('.','') + '.webp'
 			file.save(name)
 			url = process_image(name, v)
-			body = body.replace(f'[{file.filename}]', f' {url} ', 1)
 		elif file.content_type.startswith('video/'):
-			body = body.replace(f'[{file.filename}]', f' {process_video(file, v)} ', 1)
+			url = f' {process_video(file, v)} '
 		elif file.content_type.startswith('audio/'):
-			body = body.replace(f'[{file.filename}]', f' {SITE_FULL}{process_audio(file, v)} ', 1)
+			url = f' {SITE_FULL}{process_audio(file, v)} '
 		else:
 			abort(415)
-	
+		
+		body = body.replace(f'[{file.filename}]', f' {url} ', 1)
+
+		if is_dm:
+			with open(f"{LOG_DIRECTORY}/dm_images.log", "a+", encoding="utf-8") as f:
+				if dm_user:
+					f.write(f'{url}, {v.username}, {v.id}, {dm_user.username}, {dm_user.id}, {int(time.time())}\n')
+				else:
+					f.write(f'{url}, {v.username}, {v.id}, Modmail, Modmail, {int(time.time())}\n')
+
 	return body.replace('\n ', '\n')
 
 
@@ -267,59 +275,3 @@ def process_image(filename:str, v, resize=0, trim=False, uploader_id:Optional[in
 	db.add(media)
 
 	return f'{SITE_FULL_IMAGES}{filename}'
-
-
-def process_dm_images(v, user, body):
-	if not request.files.get("file") or g.is_tor or not get_setting("dm_images"):
-		return body
-
-	files = request.files.getlist('file')[:20]
-
-
-	for file in files:
-		if f'[{file.filename}]' not in body:
-			body += f'\n[{file.filename}]'
-
-		if file.content_type.startswith('image/'):
-			filename = f'/dm_images/{time.time()}'.replace('.','') + '.webp'
-			file.save(filename)
-
-			try:
-				with Image.open(filename) as i:
-					pass
-			except:
-				os.remove(filename)
-				abort(415)
-
-			size = os.stat(filename).st_size
-			patron = bool(v.patron)
-
-			if size > MAX_IMAGE_AUDIO_SIZE_MB_PATRON * 1024 * 1024 or not patron and size > MAX_IMAGE_AUDIO_SIZE_MB * 1024 * 1024:
-				os.remove(filename)
-				abort(413, f"Max image/audio size is {MAX_IMAGE_AUDIO_SIZE_MB} MB ({MAX_IMAGE_AUDIO_SIZE_MB_PATRON} MB for paypigs)")
-
-			with open(filename, 'rb') as f:
-				os.remove(filename)
-				try:
-					req = requests.request(
-						"POST",
-						"https://pomf2.lain.la/upload.php",
-						files={'files[]': f},
-						timeout=20,
-						proxies=proxies
-					).json()
-				except:
-					abort(400, "Image upload timed out, please try again!")
-
-			try: url = req['files'][0]['url']
-			except: abort(400, req['description'])
-
-			body = body.replace(f'[{file.filename}]', f' {url} ', 1)
-	
-			with open(f"{LOG_DIRECTORY}/dm_images.log", "a+", encoding="utf-8") as f:
-				if user:
-					f.write(f'{url}, {v.username}, {v.id}, {user.username}, {user.id}, {int(time.time())}\n')
-				else:
-					f.write(f'{url}, {v.username}, {v.id}, Modmail, Modmail, {int(time.time())}\n')
-
-	return body.strip()

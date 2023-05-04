@@ -16,7 +16,14 @@
 		{% for item in items %}
 			<tr>
 				<td>
-					<img alt="{{item[0]}}" src="{{item[0]}}" loading="lazy" class="dm_img" data-nonce="{{g.nonce}}" data-onclick="expandImage()">
+					{% set url=item[0] %}
+					{% if url.endswith('.webp') %}
+						<img alt="{{url}}" src="{{url}}" loading="lazy" class="dm_img" data-nonce="{{g.nonce}}" data-onclick="expandImage()">
+					{% else %}
+						<a href="{{url}}">
+							{{url}}
+						</a>
+					{% endif %}
 				</td>
 				<td>
 					{% if item[1] != "Unknown" %}

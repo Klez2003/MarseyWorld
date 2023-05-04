@@ -524,13 +524,15 @@ def message2(v:User, username:str):
 	if v.admin_level <= PERMS['MESSAGE_BLOCKED_USERS'] and hasattr(user, 'is_blocked') and user.is_blocked:
 		abort(403, f"@{user.username} is blocking you!")
 
-	message = sanitize_raw_body(request.values.get("message"), False)
+	body = sanitize_raw_body(request.values.get("message"), False)
 
-	message = process_dm_images(v, user, message)
+	if not g.is_tor and get_setting("dm_images"):
+		body = process_files(request.files, v, body, is_dm=True, dm_user=user)
+		body = body.strip()[:COMMENT_BODY_LENGTH_LIMIT] #process_files potentially adds characters to the post
 
-	if not message: abort(400, "Message is empty!")
+	if not body: abort(400, "Message is empty!")
 
-	body_html = sanitize(message)
+	body_html = sanitize(body)
 
 	existing = g.db.query(Comment.id).filter(
 		Comment.author_id == v.id,
@@ -544,7 +546,7 @@ def message2(v:User, username:str):
 						parent_submission=None,
 						level=1,
 						sentto=user.id,
-						body=message,
+						body=body,
 						body_html=body_html
 						)
 	g.db.add(c)
@@ -565,7 +567,7 @@ def message2(v:User, username:str):
 
 		url = f'{SITE_FULL}/notifications/messages'
 
-		push_notif({user.id}, title, message, url)
+		push_notif({user.id}, title, body, url)
 
 	return {"message": "Message sent!"}
 
@@ -601,9 +603,9 @@ def messagereply(v:User):
 				and hasattr(user, 'is_blocked') and user.is_blocked):
 			abort(403, f"You're blocked by @{user.username}")
 
-	body = process_dm_images(v, user, body)
-
-	body = body.strip()[:COMMENT_BODY_LENGTH_LIMIT]
+	if not g.is_tor and get_setting("dm_images"):
+		body = process_files(request.files, v, body, is_dm=True, dm_user=user)
+		body = body.strip()[:COMMENT_BODY_LENGTH_LIMIT] #process_files potentially adds characters to the post
 
 	if not body: abort(400, "Message is empty!")
 
