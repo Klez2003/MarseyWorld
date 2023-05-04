@@ -1,7 +1,7 @@
 import time
 
 from sqlalchemy.sql.expression import not_, and_, or_
-from sqlalchemy.orm import load_only
+from sqlalchemy.orm import load_only, defer
 
 from files.classes.mod_logs import ModAction
 from files.classes.sub_logs import SubAction
