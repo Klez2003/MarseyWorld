@@ -1,7 +1,6 @@
 import time
 
 from sqlalchemy.sql.expression import not_, and_, or_
-from sqlalchemy.orm import load_only, defer
 
 from files.classes.mod_logs import ModAction
 from files.classes.sub_logs import SubAction
@@ -299,12 +298,12 @@ def notifications(v:User):
 				Comment.is_banned != False,
 				Comment.deleted_utc != 0,
 			)
-		).options(defer('*')).all()
+		).all()
 		for n in unread_and_inaccessible:
 			n.read = True
 			g.db.add(n)
 
-	comments = g.db.query(Comment, Notification).options(load_only(Comment.id)).join(Notification.comment).filter(
+	comments = g.db.query(Comment, Notification).join(Notification.comment).filter(
 		Notification.user_id == v.id,
 		or_(Comment.sentto == None, Comment.sentto != v.id),
 	)
@@ -321,9 +320,10 @@ def notifications(v:User):
 		)
 
 	comments = comments.order_by(Notification.created_utc.desc(), Comment.id.desc())
-	next_exists = comments.count()
-	comments = comments.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
+	comments = comments.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE+1).all()
 
+	next_exists = (len(comments) > PAGE_SIZE)
+	comments = comments[:PAGE_SIZE]
 	cids = [x[0].id for x in comments]
 
 	listing = []
@@ -413,5 +413,4 @@ def notifications(v:User):
 							page=page,
 							standalone=True,
 							render_replies=True,
-							size=PAGE_SIZE,
 						)
