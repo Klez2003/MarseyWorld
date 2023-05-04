@@ -150,7 +150,7 @@ function frame() {
 	const diffY = cursormarseyPosY - mousePosY;
 	const distance = Math.sqrt(diffX ** 2 + diffY ** 2);
 
-	if (distance < cursormarseySpeed || distance < 48) {
+	if (distance < cursormarseySpeed || distance < 160) {
 		idle();
 		return;
 	}
@@ -161,7 +161,7 @@ function frame() {
 	if (idleTime > 1) {
 		setSprite("alert", 0);
 		// count down after being alerted before moving
-		idleTime = Math.min(idleTime, 7);
+		idleTime = Math.min(idleTime, 32);
 		idleTime -= 1;
 		return;
 	}
