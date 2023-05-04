@@ -299,7 +299,10 @@ def notifications(v:User):
 				Comment.is_banned != False,
 				Comment.deleted_utc != 0,
 			)
-		).update({Notification.read: True})
+		).options(defer('*')).all()
+		for n in unread_and_inaccessible:
+			n.read = True
+			g.db.add(n)
 
 	comments = g.db.query(Comment, Notification).options(load_only(Comment.id)).join(Notification.comment).filter(
 		Notification.user_id == v.id,
