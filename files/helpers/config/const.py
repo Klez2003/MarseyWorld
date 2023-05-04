@@ -1136,7 +1136,7 @@ CHUD_PHRASES = (
 		"Black trans lives matter",
 		"The future is female",
 		"I say this as a feminist ally",
-		"I stand with israel",
+		"I stand with Israel",
 		"Vaccines work",
 		"Trans women are women",
 		"Furry rights are human rights",
