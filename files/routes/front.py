@@ -48,7 +48,6 @@ def front_all(v, sub=None, subdomain=None):
 	else: default = False
 
 	pins = session.get(sort, default)
-	holes = session.get('holes', True)
 
 	ids, next_exists, size = frontlist(sort=sort,
 					page=page,
@@ -59,7 +58,6 @@ def front_all(v, sub=None, subdomain=None):
 					lt=lt,
 					sub=sub,
 					pins=pins,
-					holes=holes
 					)
 
 	posts = get_posts(ids, v=v, eager=True)
@@ -69,13 +67,13 @@ def front_all(v, sub=None, subdomain=None):
 		award_timers(v)
 
 	if v and v.client: return {"data": [x.json(g.db) for x in posts], "next_exists": next_exists}
-	return render_template("home.html", v=v, listing=posts, next_exists=next_exists, sort=sort, t=t, page=page, sub=sub, home=True, pins=pins, holes=holes, size=size)
+	return render_template("home.html", v=v, listing=posts, next_exists=next_exists, sort=sort, t=t, page=page, sub=sub, home=True, pins=pins, size=size)
 
 
 LIMITED_WPD_HOLES = ('gore', 'aftermath', 'selfharm', 'meta', 'discussion', 'social', 'music', 'request')
 
 @cache.memoize()
-def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='', gt=0, lt=0, sub=None, pins=True, holes=True):
+def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='', gt=0, lt=0, sub=None, pins=True):
 	posts = g.db.query(Submission)
 
 	if v and v.hidevotedon:
@@ -101,9 +99,6 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 	if pins and not gt and not lt:
 		if sub: posts = posts.filter(Submission.hole_pinned == None)
 		else: posts = posts.filter(Submission.stickied == None)
-
-	if not sub and not holes:
-		posts = posts.filter(or_(Submission.sub == None, Submission.sub == 'changelog'))
 
 	if v:
 		posts = posts.filter(Submission.author_id.notin_(v.userblocks))

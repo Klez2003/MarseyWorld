@@ -1277,20 +1277,6 @@ def toggle_pins(sort):
 	return redirect('/')
 
 
-@app.get("/toggle_holes")
-@limiter.limit(DEFAULT_RATELIMIT)
-def toggle_holes():
-	if SITE_NAME == 'WPD':
-		abort(404)
-
-	holes = session.get('holes', True)
-	session["holes"] = not holes
-
-	if is_site_url(request.referrer):
-		return redirect(request.referrer)
-	return redirect('/')
-
-
 @app.get("/badge_owners/<int:bid>")
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
