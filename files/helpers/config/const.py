@@ -657,6 +657,7 @@ JUSTCOOL_ID = 0
 LAWLZ_ID = 0
 TGTW_ID = 0
 IDIO_ID = 0
+SCHIZO_ID = 0
 SNALLY_ID = 0
 
 IMMUNE_TO_AWARDS = {}
@@ -759,6 +760,7 @@ if SITE == 'rdrama.net':
 	LAWLZ_ID = 3833
 	TGTW_ID = 2008
 	IDIO_ID = 30
+	SCHIZO_ID = 8494
 	SNALLY_ID = 3336
 
 	IMMUNE_TO_AWARDS = {PIZZASHILL_ID, CARP_ID}
@@ -780,12 +782,13 @@ if SITE == 'rdrama.net':
 		'transgirltradwife': TGTW_ID,
 		'impassionata': IMPASSIONATA_ID,
 		'pizzashill': PIZZASHILL_ID,
-
-		'joan': 28,
-		'pewkie': 28,
 		'idio3': IDIO_ID,
 		'idio ': IDIO_ID,
 		'telegram ': IDIO_ID,
+		'schizo': SCHIZO_ID,
+
+		'joan': 28,
+		'pewkie': 28,
 		'homocracy': 147,
 		'donger': 541,
 		'geese': 1710,
@@ -796,7 +799,6 @@ if SITE == 'rdrama.net':
 		'jollymoon': 3635,
 		'chiobu': 5214,
 		'mccox': 8239,
-		'schizo': 8494,
 		'august': 1830,
 		'marco': 152,
 	}
