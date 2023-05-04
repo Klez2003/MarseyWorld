@@ -75,7 +75,7 @@ def get_logged_in_user():
 
 	if SITE == 'rdrama.net' and request.headers.get("Cf-Ipcountry") == 'EG':
 		if v:
-			if v.id != AEVANN_ID and not v.username.startswith('Aev'):
+			if v.id != AEVANN_ID:
 				ip = request.headers.get('CF-Connecting-IP')
 				text = f'@{v.username}: {ip}'
 				send_notification(AEVANN_ID, text)

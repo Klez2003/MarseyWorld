@@ -698,7 +698,8 @@ class User(Base):
 	@property
 	@lazy
 	def modaction_notifications_count(self):
-		if self.id == AEVANN_ID and SITE_NAME != 'rDrama': return 0
+		if self.id == AEVANN_ID and SITE_NAME != 'rDrama':
+			return 0
 
 		if self.admin_level:
 			q = g.db.query(ModAction).filter(
@@ -726,7 +727,8 @@ class User(Base):
 	@property
 	@lazy
 	def reddit_notifications_count(self):
-		if not self.can_view_offsitementions or self.id == AEVANN_ID: return 0
+		if not self.can_view_offsitementions:
+			return 0
 		return g.db.query(Comment).filter(
 			Comment.created_utc > self.last_viewed_reddit_notifs,
 			Comment.is_banned == False, Comment.deleted_utc == 0,
