@@ -473,8 +473,13 @@ def get_profilecss(id):
 @limiter.limit(DEFAULT_RATELIMIT)
 def usersong(username:str):
 	user = get_user(username)
-	if user.song: return redirect(f"/songs/{user.song}.mp3")
-	else: abort(404)
+	if not user.song:
+		abort(404)
+
+	resp = make_response(redirect(f"/songs/{user.song}.mp3"))
+	resp.headers["Cache-Control"] = "no-store"
+	return resp
+
 
 @app.post("/subscribe/<int:post_id>")
 @limiter.limit('1/second', scope=rpath)
