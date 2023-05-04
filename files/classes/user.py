@@ -195,6 +195,9 @@ class User(Base):
 		return f"<{self.__class__.__name__}(id={self.id}, username={self.username})>"
 
 	def pay_account(self, currency, amount):
+		if SITE == 'watchpeopledie.tv' and self.id == 5222:
+			return
+
 		if currency == 'coins':
 			g.db.query(User).filter(User.id == self.id).update({ User.coins: User.coins + amount })
 		else:
