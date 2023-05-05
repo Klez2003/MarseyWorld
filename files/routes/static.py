@@ -42,6 +42,7 @@ def reddit_post(subreddit, v, path):
 
 
 @app.get("/marseys")
+@app.get("/marseys/all")
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
@@ -64,7 +65,10 @@ def marseys(v:User):
 	try: page = max(int(request.values.get("page", 1)), 1)
 	except: page = 1
 
-	marseys = marseys.offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE).all()
+	if request.path != "/marseys/all":
+		marseys = marseys.offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE)
+
+	marseys = marseys.all()
 
 	original = os.listdir("/asset_submissions/emojis/original")
 	for marsey, user in marseys:

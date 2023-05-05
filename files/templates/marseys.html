@@ -42,5 +42,7 @@
 {% endblock %}
 
 {% block pagenav %}
-{% include "pagination.html" %}
+{% if request.path != "/marseys/all" %}
+	{% include "pagination.html" %}
+{% endif %}
 {% endblock %}
