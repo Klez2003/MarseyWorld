@@ -4,6 +4,7 @@ from math import floor
 import os
 
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy.orm import load_only
 from psycopg2.errors import UniqueViolation
 
 from files.__main__ import app, cache, limiter
@@ -298,13 +299,19 @@ def image_posts_listing(v):
 	try: page = int(request.values.get('page', 1))
 	except: page = 1
 
-	posts = g.db.query(Submission).order_by(Submission.id.desc())
+	posts = g.db.query(Submission).options(
+			load_only(Submission.id, Submission.url)
+		).order_by(Submission.id.desc())
+
+	posts = [x.id for x in posts if x.is_image]
+
+	next_exists = len(posts)
 
 	firstrange = PAGE_SIZE * (page - 1)
-	secondrange = firstrange + PAGE_SIZE + 1
-	posts = [x.id for x in posts if x.is_image][firstrange:secondrange]
-	next_exists = (len(posts) > PAGE_SIZE)
-	posts = get_posts(posts[:PAGE_SIZE], v=v)
+	secondrange = firstrange + PAGE_SIZE
+	posts = posts[firstrange:secondrange]
+
+	posts = get_posts(posts, v=v)
 
 	return render_template("admin/image_posts.html", v=v, listing=posts, next_exists=next_exists, page=page, sort="new")
 
