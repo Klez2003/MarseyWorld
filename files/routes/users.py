@@ -718,28 +718,6 @@ def user_id(id):
 def redditor_moment_redirect(v:User, username:str):
 	return redirect(f"/@{username}")
 
-@app.get("/@<username>/followers")
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
-@auth_required
-def followers(v:User, username:str):
-	u = get_user(username, v=v)
-
-	if not (v.id == u.id or v.admin_level >= PERMS['USER_FOLLOWS_VISIBLE']):
-		abort(403)
-
-	page = get_page()
-
-	users = g.db.query(Follow, User).join(Follow, Follow.target_id == u.id) \
-		.filter(Follow.user_id == User.id) \
-		.order_by(Follow.created_utc.desc()) \
-		.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
-
-	next_exists = (len(users) > PAGE_SIZE)
-	users = users[:PAGE_SIZE]
-
-	return render_template("userpage/followers.html", v=v, u=u, users=users, page=page, next_exists=next_exists)
-
 @app.get("/@<username>/blockers")
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
@@ -759,6 +737,28 @@ def blockers(v:User, username:str):
 
 	return render_template("userpage/blockers.html", v=v, u=u, users=users, page=page, next_exists=next_exists)
 
+@app.get("/@<username>/followers")
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@auth_required
+def followers(v:User, username:str):
+	u = get_user(username, v=v)
+
+	if not (v.id == u.id or v.admin_level >= PERMS['USER_FOLLOWS_VISIBLE']):
+		abort(403)
+
+	page = get_page()
+
+	users = g.db.query(Follow, User).join(Follow, Follow.target_id == u.id) \
+		.filter(Follow.user_id == User.id)
+
+	next_exists = users.count()
+
+	users = users.order_by(Follow.created_utc.desc()) \
+		.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
+
+	return render_template("userpage/followers.html", v=v, u=u, users=users, page=page, next_exists=next_exists)
+
 @app.get("/@<username>/following")
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
@@ -771,12 +771,12 @@ def following(v:User, username:str):
 	page = get_page()
 
 	users = g.db.query(User).join(Follow, Follow.user_id == u.id) \
-		.filter(Follow.target_id == User.id) \
-		.order_by(Follow.created_utc.desc()) \
-		.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
+		.filter(Follow.target_id == User.id)
 
-	next_exists = (len(users) > PAGE_SIZE)
-	users = users[:PAGE_SIZE]
+	next_exists = users.count()
+
+	users = users.order_by(Follow.created_utc.desc()) \
+		.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
 
 	return render_template("userpage/following.html", v=v, u=u, users=users, page=page, next_exists=next_exists)
 
