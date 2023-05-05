@@ -52,9 +52,9 @@ def process_files(files, v, body, is_dm=False, dm_user=None):
 			file.save(name)
 			url = process_image(name, v)
 		elif file.content_type.startswith('video/'):
-			url = f' {process_video(file, v)} '
+			url = process_video(file, v)
 		elif file.content_type.startswith('audio/'):
-			url = f' {SITE_FULL}{process_audio(file, v)} '
+			url = f'{SITE_FULL}{process_audio(file, v)}'
 		else:
 			abort(415)
 		

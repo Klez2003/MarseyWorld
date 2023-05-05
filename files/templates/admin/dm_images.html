@@ -19,6 +19,12 @@
 					{% set url=item[0] %}
 					{% if url.endswith('.webp') %}
 						<img alt="{{url}}" src="{{url}}" loading="lazy" class="dm_img" data-nonce="{{g.nonce}}" data-onclick="expandImage()">
+					{% elif url.endswith('.mp4') %}
+						<p class="resizable">
+							<video controls preload="none" src="{{url}}"></video>
+						</p>
+					{% elif url.endswith('.mp3') %}
+						<audio controls preload="none" src="\2"></audio>
 					{% else %}
 						<a href="{{url}}">
 							{{url}}
