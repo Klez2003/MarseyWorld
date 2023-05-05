@@ -55,7 +55,7 @@ def marseys(v:User):
 
 	next_exists = marseys.count()
 
-	sort = request.values.get("sort")
+	sort = request.values.get("sort", "usage")
 	if sort == "author":
 		marseys = marseys.order_by(User.username, Emoji.count.desc())
 	elif sort == "name":
