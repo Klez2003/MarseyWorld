@@ -66,7 +66,6 @@ def hats(v:User):
 	sales = g.db.query(func.sum(User.coins_spent_on_hats)).scalar()
 	num_of_hats = g.db.query(HatDef).filter(HatDef.submitter_id == None).count()
 
-	print(hats, flush=True)
 	return render_template("hats.html", owned_hat_ids=owned_hat_ids, hats=hats, v=v, sales=sales, num_of_hats=num_of_hats, next_exists=num_of_hats, page=page, sort=sort)
 
 @app.post("/buy_hat/<int:hat_id>")
