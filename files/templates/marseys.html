@@ -5,15 +5,15 @@
 <div class="overflow-x-auto mt-3"><table class="table table-striped mb-5">
 <thead class="bg-primary text-white">
 	<tr>
-		<th>Name</th>
-		<th>Marsey</th>
+		<th class="disable-sort-click" {% if sort=="name" %}disabled{% endif %}><a href="?sort=name">Name</a></th>
+		<th class="disable-sort-click">Marsey</th>
 		<th class="disable-sort-click" {% if sort=="usage" %}disabled{% endif %}><a href="/marseys">Usage</a></th>
 		{% if FEATURES['ASSET_SUBMISSIONS'] %}
 			<th class="disable-sort-click" {% if sort=="author" %}disabled{% endif %}><a href="?sort=author">Author</a></th>
 		{% endif %}
 		<th class="disable-sort-click" {% if sort=="added_on" %}disabled{% endif %}><a href="?sort=added_on">Added on</a></th>
 		{% if FEATURES['ASSET_SUBMISSIONS'] %}
-			<th>Original File</th>
+			<th class="disable-sort-click">Original File</th>
 		{% endif %}
 	</tr>
 </thead>

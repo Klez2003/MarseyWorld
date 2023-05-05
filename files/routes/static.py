@@ -58,8 +58,10 @@ def marseys(v:User):
 	sort = request.values.get("sort")
 	if sort == "author":
 		marseys = marseys.order_by(User.username, Emoji.count.desc())
+	elif sort == "name":
+		marseys = marseys.order_by(Emoji.name, Emoji.count.desc())
 	elif sort == "added_on":
-		marseys = marseys.order_by(nullslast(Emoji.created_utc.desc()), User.username)
+		marseys = marseys.order_by(nullslast(Emoji.created_utc.desc()), Emoji.count.desc())
 	else: # implied sort == "usage"
 		marseys = marseys.order_by(Emoji.count.desc(), User.username)
 
