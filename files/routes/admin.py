@@ -325,15 +325,23 @@ def reported_posts(v):
 	try: page = max(1, int(request.values.get("page", 1)))
 	except: abort(400, "Invalid page input!")
 
-	listing = g.db.query(Submission).filter_by(
-		is_approved=None,
-		is_banned=False,
-		deleted_utc=0
-	).join(Submission.flags).order_by(Submission.id.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE+1)
+	listing = g.db.query(Submission).options(load_only(Submission.id)).filter_by(
+				is_approved=None,
+				is_banned=False,
+				deleted_utc=0
+			).join(Submission.flags).order_by(Submission.id.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE+1)
+
+	t = time.time()
+	next_exists = listing.count()
+	print(t - time.time())
 
 	listing = [p.id for p in listing]
-	next_exists = len(listing) > PAGE_SIZE
-	listing = listing[:PAGE_SIZE]
+
+	t = time.time()
+	next_exists = len(listing)
+	print(t - time.time())
+
+	return "wtf"
 
 	listing = get_posts(listing, v=v)
 
