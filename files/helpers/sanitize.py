@@ -354,6 +354,10 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_emojis=
 	sanitized = sanitized.strip()
 	if not sanitized: return ''
 
+	if "style" in sanitized and "filter" in sanitized:
+		if sanitized.count("blur(") + sanitized.count("drop-shadow(") > 5:
+			abort(400, "Too many filters!")
+
 	if blackjack and execute_blackjack(g.v, None, sanitized, blackjack):
 		sanitized = 'g'
 
