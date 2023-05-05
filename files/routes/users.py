@@ -7,7 +7,7 @@ from typing import Literal
 
 import gevent
 import qrcode
-from sqlalchemy.orm import aliased
+from sqlalchemy.orm import aliased, load_only
 
 from files.classes import *
 from files.classes.leaderboard import Leaderboard
@@ -806,13 +806,14 @@ def visitors(v:User, username:str):
 
 @cache.memoize()
 def userpagelisting(user:User, v=None, page:int=1, sort="new", t="all"):
-	posts = g.db.query(Submission.id).filter_by(author_id=user.id, is_pinned=False)
+	posts = g.db.query(Submission).filter_by(author_id=user.id, is_pinned=False).options(load_only(Submission.id))
 	if not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or v.id == user.id)):
 		posts = posts.filter_by(is_banned=False, private=False, ghost=False, deleted_utc=0)
 	posts = apply_time_filter(t, posts, Submission)
+	next_exists = posts.count()
 	posts = sort_objects(sort, posts, Submission)
-	posts = posts.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE+1).all()
-	return [x[0] for x in posts]
+	posts = posts.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
+	return [x.id for x in posts], next_exists
 
 @app.get("/@<username>")
 @limiter.limit(DEFAULT_RATELIMIT)
@@ -851,13 +852,11 @@ def u_username_wall(v:Optional[User], username:str):
 			Comment.deleted_utc == 0
 		)
 
+	next_exists = comments.count()
 	comments = comments.order_by(Comment.created_utc.desc()) \
-		.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE+1).all()
+		.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
 	if v:
 		comments = [c[0] for c in comments]
-
-	next_exists = (len(comments) > PAGE_SIZE)
-	comments = comments[:PAGE_SIZE]
 
 	if v and v.client:
 		return {"data": [c.json(g.db) for c in comments]}
@@ -946,10 +945,7 @@ def u_username(v:Optional[User], username:str):
 	try: page = max(int(request.values.get("page", 1)), 1)
 	except: page = 1
 
-	ids = userpagelisting(u, v=v, page=page, sort=sort, t=t)
-
-	next_exists = (len(ids) > PAGE_SIZE)
-	ids = ids[:PAGE_SIZE]
+	ids, next_exists = userpagelisting(u, v=v, page=page, sort=sort, t=t)
 
 	if page == 1 and sort == 'new':
 		sticky = []
@@ -1022,7 +1018,7 @@ def u_username_comments(username, v=None):
 	t=request.values.get("t","all")
 
 	comment_post_author = aliased(User)
-	comments = g.db.query(Comment.id) \
+	comments = g.db.query(Comment).options(load_only(Comment.id)) \
 				.outerjoin(Comment.post) \
 				.outerjoin(comment_post_author, Submission.author) \
 				.filter(
@@ -1039,13 +1035,12 @@ def u_username_comments(username, v=None):
 
 	comments = apply_time_filter(t, comments, Comment)
 
+	next_exists = comments.count()
+
 	comments = sort_objects(sort, comments, Comment)
 
-	comments = comments.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE+1).all()
+	comments = comments.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
 	ids = [x.id for x in comments]
-
-	next_exists = (len(ids) > PAGE_SIZE)
-	ids = ids[:PAGE_SIZE]
 
 	listing = get_comments(ids, v=v)
 
