@@ -160,7 +160,7 @@ def hat_owners(v:User, hat_id):
 
 	page = get_page()
 
-	users = [x[1] for x in g.db.query(Hat, User).join(Hat.owners).filter(Hat.hat_id == hat_id).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE+1).all()]
+	users = g.db.query(User).join(Hat.owners).filter(Hat.hat_id == hat_id).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE+1).all()
 
 	next_exists = (len(users) > PAGE_SIZE)
 	users = users[:PAGE_SIZE]
