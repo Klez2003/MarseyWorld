@@ -41,9 +41,9 @@ def hats(v:User):
 		hat_count = [x[0] for x in g.db.query(Hat.hat_id).group_by(Hat.hat_id).order_by(func.count(Hat.hat_id).desc()).all()]
 		
 		if SITE == 'rdrama.net':
-			hats = sorted(hats.all(), key=lambda x: hat_count.index(x[0].id) if x[0].id in hat_count else 0, reverse=True)
+			hats = sorted(hats.all(), key=lambda x: hat_count.index(x[0].id) if x[0].id in hat_count else 0)
 		else:
-			hats = sorted(hats.all(), key=lambda x: hat_count.index(x.id) if x.id in hat_count else 0, reverse=True)
+			hats = sorted(hats.all(), key=lambda x: hat_count.index(x.id) if x.id in hat_count else 0)
 		
 		firstrange = PAGE_SIZE * (page - 1)
 		secondrange = firstrange + PAGE_SIZE
