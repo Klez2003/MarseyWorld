@@ -797,10 +797,9 @@ def visitors(v:User, username:str):
 	try: page = int(request.values.get("page", 1))
 	except: page = 1
 
-	views = g.db.query(ViewerRelationship).filter_by(user_id=u.id).order_by(ViewerRelationship.last_view_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
-
-	next_exists = (len(views) > PAGE_SIZE)
-	views = views[:PAGE_SIZE]
+	views = g.db.query(ViewerRelationship).filter_by(user_id=u.id)
+	next_exists = views.count()
+	views = views.order_by(ViewerRelationship.last_view_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
 
 	return render_template("userpage/views.html", v=v, u=u, views=views, next_exists=next_exists, page=page)
 
