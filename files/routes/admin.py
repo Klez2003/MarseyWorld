@@ -321,7 +321,6 @@ def image_posts_listing(v):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def reported_posts(v):
-
 	page = get_page()
 
 	listing = g.db.query(Submission).options(load_only(Submission.id)).filter_by(
@@ -345,20 +344,18 @@ def reported_posts(v):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def reported_comments(v):
-
 	page = get_page()
 
-	listing = g.db.query(Comment
-					).filter_by(
-		is_approved=None,
-		is_banned=False,
-		deleted_utc=0
-	).join(Comment.flags).order_by(Comment.id.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE+1).all()
+	listing = g.db.query(Comment).options(load_only(Comment.id)).filter_by(
+				is_approved=None,
+				is_banned=False,
+				deleted_utc=0
+			).join(Comment.flags)
 
+	next_exists = listing.count()
+
+	listing = listing.order_by(Comment.id.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE)
 	listing = [c.id for c in listing]
-	next_exists = len(listing) > PAGE_SIZE
-	listing = listing[:PAGE_SIZE]
-
 	listing = get_comments(listing, v=v)
 
 	return render_template("admin/reported_comments.html",
