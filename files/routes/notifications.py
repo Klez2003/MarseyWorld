@@ -308,7 +308,7 @@ def notifications(v:User):
 				Comment.is_banned != False,
 				Comment.deleted_utc != 0,
 			)
-		).options(load_only(Notification.id)).all()
+		).options(load_only(Notification.comment_id)).all()
 		for n in unread_and_inaccessible:
 			n.read = True
 			g.db.add(n)
