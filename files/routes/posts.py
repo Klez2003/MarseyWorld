@@ -5,7 +5,7 @@ from io import BytesIO
 from os import path
 from shutil import copyfile
 from sys import stdout
-from urllib.parse import ParseResult, quote, unquote, urlparse, urlunparse
+from urllib.parse import ParseResult, urlparse, urlunparse
 
 import gevent
 import requests
