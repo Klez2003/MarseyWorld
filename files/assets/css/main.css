@@ -7413,3 +7413,8 @@ button, .btn {
 #cursormarsey-heart {
 	animation: animateHeart 0.3s infinite;
 }
+
+th.disable-sort-click[disabled] {
+	font-weight: 900;
+	box-shadow: inset 0 -4px 0 white;
+}

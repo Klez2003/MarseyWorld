@@ -44,15 +44,15 @@
 		<thead class="bg-primary text-white">
 			<tr>
 				<th class="disable-sort-click">Hat</th>
-				<th class="disable-sort-click"><a href="?sort=name" {% if sort=="name" %}disabled{% endif %}>Name</a></th>
-				<th class="disable-sort-click"><a href="?sort=description" {% if sort=="description" %}disabled{% endif %}>Description</a></th>
+				<th class="disable-sort-click" {% if sort=="name" %}disabled{% endif %}><a href="?sort=name">Name</a></th>
+				<th class="disable-sort-click" {% if sort=="description" %}disabled{% endif %}><a href="?sort=description">Description</a></th>
 				{% if SITE == 'rdrama.net' %}
-					<th class="disable-sort-click"><a href="?sort=author" {% if sort=="author" %}disabled{% endif %}>Author</a></th>
+					<th class="disable-sort-click" {% if sort=="author" %}disabled{% endif %}><a href="?sort=author">Author</a></th>
 				{% endif %}
-				<th class="disable-sort-click"><a href="?sort=owners" {% if sort=="owners" %}disabled{% endif %}>Owners</a></th>
-				<th class="disable-sort-click"><a href="?sort=price" {% if sort=="price" %}disabled{% endif %}>Price</a></th>
+				<th class="disable-sort-click" {% if sort=="owners" %}disabled{% endif %}><a href="?sort=owners">Owners</a></th>
+				<th class="disable-sort-click" {% if sort=="price" %}disabled{% endif %}><a href="?sort=price">Price</a></th>
 				<th class="disable-sort-click">Actions</th>
-				<th class="disable-sort-click"><a href="?sort=added_on" {% if sort=="added_on" %}disabled{% endif %}>Added on</a></th>
+				<th class="disable-sort-click" {% if sort=="added_on" %}disabled{% endif %}><a href="?sort=added_on">Added on</a></th>
 			</tr>
 		</thead>
 

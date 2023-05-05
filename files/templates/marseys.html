@@ -7,11 +7,11 @@
 	<tr>
 		<th>Name</th>
 		<th>Marsey</th>
-		<th class="disable-sort-click"><a href="/marseys" {% if sort=="usage" %}disabled{% endif %}>Usage</a></th>
+		<th class="disable-sort-click" {% if sort=="usage" %}disabled{% endif %}><a href="/marseys">Usage</a></th>
 		{% if FEATURES['ASSET_SUBMISSIONS'] %}
-			<th class="disable-sort-click"><a href="?sort=author" {% if sort=="author" %}disabled{% endif %}>Author</a></th>
+			<th class="disable-sort-click" {% if sort=="author" %}disabled{% endif %}><a href="?sort=author">Author</a></th>
 		{% endif %}
-		<th class="disable-sort-click"><a href="?sort=added_on" {% if sort=="added_on" %}disabled{% endif %}>Added on</a></th>
+		<th class="disable-sort-click" {% if sort=="added_on" %}disabled{% endif %}><a href="?sort=added_on">Added on</a></th>
 		{% if FEATURES['ASSET_SUBMISSIONS'] %}
 			<th>Original File</th>
 		{% endif %}
