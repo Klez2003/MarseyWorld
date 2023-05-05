@@ -329,20 +329,12 @@ def reported_posts(v):
 				is_approved=None,
 				is_banned=False,
 				deleted_utc=0
-			).join(Submission.flags).order_by(Submission.id.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE+1)
+			).join(Submission.flags)
 
-	t = time.time()
 	next_exists = listing.count()
-	print(t - time.time())
 
+	listing = listing.order_by(Submission.id.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE)
 	listing = [p.id for p in listing]
-
-	t = time.time()
-	next_exists = len(listing)
-	print(t - time.time())
-
-	return "wtf"
-
 	listing = get_posts(listing, v=v)
 
 	return render_template("admin/reported_posts.html",
