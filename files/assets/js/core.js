@@ -607,17 +607,19 @@ function handleUploadProgress(e, upload_prog) {
 
 
 if (width <= 768) {
-	expandImageModal.addEventListener('show.bs.modal', function () {
-		setTimeout(() => {
-			location.hash = "modal";
-		}, 400);
-	});
+	if (expandImageModal) {
+		expandImageModal.addEventListener('show.bs.modal', function () {
+			setTimeout(() => {
+				location.hash = "modal";
+			}, 400);
+		});
 
-	expandImageModal.addEventListener('hide.bs.modal', function () {
-		if(location.hash == "#modal") {
-			history.back();
-		}
-	});
+		expandImageModal.addEventListener('hide.bs.modal', function () {
+			if(location.hash == "#modal") {
+				history.back();
+			}
+		});
+	}
 
 	window.addEventListener('hashchange', function () {
 		if(location.hash != "#modal") {
