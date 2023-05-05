@@ -65,7 +65,7 @@ def notifications_modmail(v):
 			level=1,
 		)
 		
-	next_exists = comments.count()
+	total = comments.count()
 	listing = comments.order_by(Comment.id.desc()).offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE).all()
 
 	g.db.flush()
@@ -75,7 +75,7 @@ def notifications_modmail(v):
 	return render_template("notifications.html",
 							v=v,
 							notifications=listing,
-							next_exists=next_exists,
+							total=total,
 							page=page,
 							standalone=True,
 							render_replies=True,
@@ -137,7 +137,7 @@ def notifications_messages(v:User):
 			list_to_perserve_unread_attribute.append(c)
 
 
-	next_exists = message_threads.count()
+	total = message_threads.count()
 	listing = message_threads.order_by(thread_order.c.created_utc.desc()) \
 					.offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE).all()
 
@@ -146,7 +146,7 @@ def notifications_messages(v:User):
 	return render_template("notifications.html",
 							v=v,
 							notifications=listing,
-							next_exists=next_exists,
+							total=total,
 							page=page,
 							standalone=True,
 							render_replies=True,
@@ -174,7 +174,7 @@ def notifications_posts(v:User):
 		Submission.author_id.notin_(v.userblocks)
 	).options(load_only(Submission.id))
 
-	next_exists = listing.count()
+	total = listing.count()
 
 	listing = listing.order_by(Submission.created_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
 	listing = [x.id for x in listing]
@@ -193,7 +193,7 @@ def notifications_posts(v:User):
 	return render_template("notifications.html",
 							v=v,
 							notifications=listing,
-							next_exists=next_exists,
+							total=total,
 							page=page,
 							standalone=True,
 							render_replies=True,
@@ -225,7 +225,7 @@ def notifications_modactions(v:User):
 	if cls == SubAction:
 		listing = listing.filter(cls.sub.in_(v.moderated_subs))
 
-	next_exists = listing.count()
+	total = listing.count()
 	listing = listing.order_by(cls.id.desc())
 	listing = listing.offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE).all()
 
@@ -239,7 +239,7 @@ def notifications_modactions(v:User):
 	return render_template("notifications.html",
 							v=v,
 							notifications=listing,
-							next_exists=next_exists,
+							total=total,
 							page=page,
 							standalone=True,
 							render_replies=True,
@@ -262,7 +262,7 @@ def notifications_reddit(v:User):
 		Comment.author_id == AUTOJANNY_ID
 	)
 
-	next_exists = listing.count()
+	total = listing.count()
 	listing = listing.order_by(Comment.created_utc.desc()).offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE).all()
 
 	for ma in listing:
@@ -277,7 +277,7 @@ def notifications_reddit(v:User):
 	return render_template("notifications.html",
 							v=v,
 							notifications=listing,
-							next_exists=next_exists,
+							total=total,
 							page=page,
 							standalone=True,
 							render_replies=True,
@@ -323,7 +323,7 @@ def notifications(v:User):
 			Comment.deleted_utc == 0,
 		)
 
-	next_exists = comments.count()
+	total = comments.count()
 
 	comments = comments.order_by(Notification.created_utc.desc(), Comment.id.desc())
 	comments = comments.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
@@ -413,7 +413,7 @@ def notifications(v:User):
 	return render_template("notifications.html",
 							v=v,
 							notifications=listing,
-							next_exists=next_exists,
+							total=total,
 							page=page,
 							standalone=True,
 							render_replies=True,

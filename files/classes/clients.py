@@ -37,18 +37,15 @@ class OauthApp(Base):
 		return f"{SITE_FULL}/admin/app/{self.id}"
 
 	@lazy
-	def idlist(self, db:scoped_session, page=1):
-		posts = db.query(Submission.id).filter_by(app_id=self.id)
-		posts=posts.order_by(Submission.created_utc.desc())
-		posts=posts.offset(100*(page-1)).limit(101)
-		return [x[0] for x in posts.all()]
+	def idlist(self, cls, page=1):
+		items = db.query(cls).options(load_only(cls.id)).filter_by(app_id=self.id)
+		total = items.count()
 
-	@lazy
-	def comments_idlist(self, db:scoped_session, page=1):
-		posts = db.query(Comment.id).filter_by(app_id=self.id)
-		posts=posts.order_by(Comment.id.desc())
-		posts=posts.offset(100*(page-1)).limit(101)
-		return [x[0] for x in posts.all()]
+		items = items.order_by(cls.created_utc.desc())
+		items = items.offset(100*(page-1)).limit(100)
+		items = [x.id for x in items.all()]
+
+		return items, total
 
 
 class ClientAuth(Base):

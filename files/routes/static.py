@@ -53,7 +53,7 @@ def marseys(v:User):
 
 	marseys = g.db.query(Emoji, User).join(User, Emoji.author_id == User.id).filter(Emoji.kind == "Marsey", Emoji.submitter_id==None)
 
-	next_exists = marseys.count()
+	total = marseys.count()
 
 	sort = request.values.get("sort", "usage")
 	if sort == "author":
@@ -79,7 +79,7 @@ def marseys(v:User):
 				marsey.og = f'{marsey.name}.{x}'
 				break
 
-	return render_template("marseys.html", v=v, marseys=marseys, page=page, next_exists=next_exists, sort=sort)
+	return render_template("marseys.html", v=v, marseys=marseys, page=page, total=total, sort=sort)
 
 
 @cache.cached(key_prefix="emojis")
@@ -178,7 +178,7 @@ def log(v:User):
 	if kind and kind not in types:
 		kind = None
 		actions = []
-		next_exists = 0
+		total = 0
 	else:
 		actions = g.db.query(ModAction)
 		if v.admin_level < PERMS['USER_SHADOWBAN']:
@@ -194,12 +194,12 @@ def log(v:User):
 				if k in kinds: types2[k] = val
 			types = types2
 		if kind: actions = actions.filter_by(kind=kind)
-		next_exists = actions.count()
+		total = actions.count()
 		actions = actions.order_by(ModAction.id.desc()).offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE).all()
 
 	admins = [x[0] for x in g.db.query(User.username).filter(User.admin_level >= PERMS['ADMIN_MOP_VISIBLE']).order_by(User.username).all()]
 
-	return render_template("log.html", v=v, admins=admins, types=types, admin=admin, type=kind, actions=actions, next_exists=next_exists, page=page, single_user_url='admin')
+	return render_template("log.html", v=v, admins=admins, types=types, admin=admin, type=kind, actions=actions, total=total, page=page, single_user_url='admin')
 
 @app.get("/log/<int:id>")
 @limiter.limit(DEFAULT_RATELIMIT)
@@ -225,7 +225,7 @@ def log_item(id, v):
 			types = MODACTION_TYPES__FILTERED
 	else: types = MODACTION_TYPES_FILTERED
 
-	return render_template("log.html", v=v, actions=[action], next_exists=1, page=1, action=action, admins=admins, types=types, single_user_url='admin')
+	return render_template("log.html", v=v, actions=[action], total=1, page=1, action=action, admins=admins, types=types, single_user_url='admin')
 
 @app.get("/directory")
 @limiter.limit(DEFAULT_RATELIMIT)
@@ -379,7 +379,7 @@ def transfers_id(id, v):
 
 	if not transfer: abort(404)
 
-	return render_template("transfers.html", v=v, page=1, comments=[transfer], standalone=True, next_exists=1)
+	return render_template("transfers.html", v=v, page=1, comments=[transfer], standalone=True, total=1)
 
 @app.get("/transfers")
 @limiter.limit(DEFAULT_RATELIMIT)
@@ -391,13 +391,13 @@ def transfers(v:User):
 
 	page = get_page()
 
-	next_exists = comments.count()
+	total = comments.count()
 	comments = comments.order_by(Comment.id.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
 
 	if v.client:
 		return {"data": [x.json(g.db) for x in comments]}
 	else:
-		return render_template("transfers.html", v=v, page=page, comments=comments, standalone=True, next_exists=next_exists)
+		return render_template("transfers.html", v=v, page=page, comments=comments, standalone=True, total=total)
 
 
 @app.get('/donate')

@@ -48,7 +48,7 @@ def front_all(v, sub=None, subdomain=None):
 
 	pins = session.get(sort, default)
 
-	ids, next_exists, size = frontlist(sort=sort,
+	ids, total, size = frontlist(sort=sort,
 					page=page,
 					t=t,
 					v=v,
@@ -65,8 +65,8 @@ def front_all(v, sub=None, subdomain=None):
 		if v.hidevotedon: posts = [x for x in posts if not hasattr(x, 'voted') or not x.voted]
 		award_timers(v)
 
-	if v and v.client: return {"data": [x.json(g.db) for x in posts], "next_exists": next_exists}
-	return render_template("home.html", v=v, listing=posts, next_exists=next_exists, sort=sort, t=t, page=page, sub=sub, home=True, pins=pins, size=size)
+	if v and v.client: return {"data": [x.json(g.db) for x in posts], "total": total}
+	return render_template("home.html", v=v, listing=posts, total=total, sort=sort, t=t, page=page, sub=sub, home=True, pins=pins, size=size)
 
 
 LIMITED_WPD_HOLES = ('gore', 'aftermath', 'selfharm', 'meta', 'discussion', 'social', 'music', 'request')
@@ -107,7 +107,7 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 			word = word.replace('\\', '').replace('_', '\_').replace('%', '\%').strip()
 			posts=posts.filter(not_(Submission.title.ilike(f'%{word}%')))
 
-	next_exists = posts.count()
+	total = posts.count()
 
 	posts = sort_objects(sort, posts, Submission)
 
@@ -149,7 +149,7 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 		posts = pins + posts
 
 	if ids_only: posts = [x.id for x in posts]
-	return posts, next_exists, size
+	return posts, total, size
 
 
 @app.get("/random_post")
@@ -201,11 +201,11 @@ def comment_idlist(v=None, page=1, sort="new", t="day", gt=0, lt=0):
 	if not gt and not lt:
 		comments = apply_time_filter(t, comments, Comment)
 
-	next_exists = comments.count()
+	total = comments.count()
 	comments = sort_objects(sort, comments, Comment)
 	
 	comments = comments.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
-	return [x.id for x in comments], next_exists
+	return [x.id for x in comments], total
 
 @app.get("/comments")
 @limiter.limit(DEFAULT_RATELIMIT)
@@ -222,7 +222,7 @@ def all_comments(v:User):
 
 	try: lt=int(request.values.get("before", 0))
 	except: lt=0
-	idlist, next_exists = comment_idlist(v=v,
+	idlist, total = comment_idlist(v=v,
 							page=page,
 							sort=sort,
 							t=t,
@@ -233,4 +233,4 @@ def all_comments(v:User):
 	comments = get_comments(idlist, v=v)
 
 	if v.client: return {"data": [x.json(g.db) for x in comments]}
-	return render_template("home_comments.html", v=v, sort=sort, t=t, page=page, comments=comments, standalone=True, next_exists=next_exists, size = PAGE_SIZE)
+	return render_template("home_comments.html", v=v, sort=sort, t=t, page=page, comments=comments, standalone=True, total=total, size = PAGE_SIZE)

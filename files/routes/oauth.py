@@ -248,24 +248,20 @@ def admin_app_reject(v, aid):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['APPS_MODERATION'])
 def admin_app_id_posts(v, aid):
-	aid=aid
 	oauth = g.db.get(OauthApp, aid)
 	if not oauth: abort(404)
 
 	page = get_page()
 
-	pids=oauth.idlist(g.db, page=page)
+	pids, total = oauth.idlist(Submission, page=page)
 
-	next_exists=len(pids)==101
-	pids=pids[:100]
-
-	posts=get_posts(pids, v=v)
+	posts = get_posts(pids, v=v)
 
 	return render_template("admin/app.html",
 						v=v,
 						app=oauth,
 						listing=posts,
-						next_exists=next_exists
+						total=total
 						)
 
 @app.get("/admin/app/<int:aid>/comments")
@@ -274,26 +270,21 @@ def admin_app_id_posts(v, aid):
 @admin_level_required(PERMS['APPS_MODERATION'])
 def admin_app_id_comments(v, aid):
 
-	aid=aid
-
 	oauth = g.db.get(OauthApp, aid)
 	if not oauth: abort(404)
 
 	page = get_page()
 
-	cids=oauth.comments_idlist(g.db, page=page)
+	cids, total = oauth.idlist(Comment, page=page)
 
-	next_exists=len(cids)==101
-	cids=cids[:100]
-
-	comments=get_comments(cids, v=v)
+	comments = get_comments(cids, v=v)
 
 
 	return render_template("admin/app.html",
 						v=v,
 						app=oauth,
 						comments=comments,
-						next_exists=next_exists,
+						total=total,
 						standalone=True
 						)
 

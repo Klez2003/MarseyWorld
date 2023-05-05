@@ -15,7 +15,7 @@ from files.__main__ import app
 def feeds_user(sort='hot', t='all'):
 	page = get_page()
 
-	ids, next_exists, size = frontlist(
+	ids, total, size = frontlist(
 		sort=sort,
 		page=page,
 		t=t,

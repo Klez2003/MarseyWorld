@@ -4,7 +4,7 @@
 		{% if not size %}
 			{% set size = PAGE_SIZE %}
 		{% endif %}
-		{% set num_pages = (next_exists / size) | round(0, 'ceil') | int %}
+		{% set num_pages = (total / size) | round(0, 'ceil') | int %}
 
 		{% set start_point = page - 2 %}
 		{% if start_point < 1 %}

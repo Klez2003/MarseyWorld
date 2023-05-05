@@ -65,7 +65,7 @@ def hats(v:User):
 	sales = g.db.query(func.sum(User.coins_spent_on_hats)).scalar()
 	num_of_hats = g.db.query(HatDef).filter(HatDef.submitter_id == None).count()
 
-	return render_template("hats.html", owned_hat_ids=owned_hat_ids, hats=hats, v=v, sales=sales, num_of_hats=num_of_hats, next_exists=num_of_hats, page=page, sort=sort)
+	return render_template("hats.html", owned_hat_ids=owned_hat_ids, hats=hats, v=v, sales=sales, num_of_hats=num_of_hats, total=num_of_hats, page=page, sort=sort)
 
 @app.post("/buy_hat/<int:hat_id>")
 @limiter.limit('1/second', scope=rpath)
@@ -160,15 +160,16 @@ def hat_owners(v:User, hat_id):
 
 	page = get_page()
 
-	users = g.db.query(User).join(Hat.owners).filter(Hat.hat_id == hat_id).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE+1).all()
+	users = g.db.query(User).join(Hat.owners).filter(Hat.hat_id == hat_id)
 
-	next_exists = (len(users) > PAGE_SIZE)
-	users = users[:PAGE_SIZE]
+	total = users.count()
+	
+	users = users.order_by(Hat.created_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
 
 	return render_template("user_cards.html",
 						v=v,
 						users=users,
-						next_exists=next_exists,
+						total=total,
 						page=page,
 						user_cards_title="Hat Owners",
 						)

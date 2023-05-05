@@ -50,7 +50,7 @@ def dm_images(v):
 	with open(f"{LOG_DIRECTORY}/dm_images.log", "r", encoding="utf-8") as f:
 		items=f.read().split("\n")[:-1]
 
-	next_exists = len(items)
+	total = len(items)
 	items = [x.split(", ") for x in items]
 	items.reverse()
 
@@ -61,7 +61,7 @@ def dm_images(v):
 	secondrange = firstrange + PAGE_SIZE
 	items = items[firstrange:secondrange]
 
-	return render_template("admin/dm_images.html", v=v, items=items, next_exists=next_exists, page=page)
+	return render_template("admin/dm_images.html", v=v, items=items, total=total, page=page)
 
 @app.get('/admin/edit_rules')
 @limiter.limit(DEFAULT_RATELIMIT)
@@ -305,7 +305,7 @@ def image_posts_listing(v):
 
 	posts = [x.id for x in posts if x.is_image]
 
-	next_exists = len(posts)
+	total = len(posts)
 
 	firstrange = PAGE_SIZE * (page - 1)
 	secondrange = firstrange + PAGE_SIZE
@@ -313,7 +313,7 @@ def image_posts_listing(v):
 
 	posts = get_posts(posts, v=v)
 
-	return render_template("admin/image_posts.html", v=v, listing=posts, next_exists=next_exists, page=page, sort="new")
+	return render_template("admin/image_posts.html", v=v, listing=posts, total=total, page=page, sort="new")
 
 
 @app.get("/admin/reported/posts")
@@ -329,14 +329,14 @@ def reported_posts(v):
 				deleted_utc=0
 			).join(Submission.flags)
 
-	next_exists = listing.count()
+	total = listing.count()
 
 	listing = listing.order_by(Submission.id.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE)
 	listing = [p.id for p in listing]
 	listing = get_posts(listing, v=v)
 
 	return render_template("admin/reported_posts.html",
-						next_exists=next_exists, listing=listing, page=page, v=v)
+						total=total, listing=listing, page=page, v=v)
 
 
 @app.get("/admin/reported/comments")
@@ -352,14 +352,14 @@ def reported_comments(v):
 				deleted_utc=0
 			).join(Comment.flags)
 
-	next_exists = listing.count()
+	total = listing.count()
 
 	listing = listing.order_by(Comment.id.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE)
 	listing = [c.id for c in listing]
 	listing = get_comments(listing, v=v)
 
 	return render_template("admin/reported_comments.html",
-						next_exists=next_exists,
+						total=total,
 						listing=listing,
 						page=page,
 						v=v,
@@ -738,7 +738,7 @@ def admin_removed(v):
 	listing = g.db.query(Submission).options(load_only(Submission.id)).join(Submission.author).filter(
 			or_(Submission.is_banned==True, User.shadowbanned != None))
 		
-	next_exists = listing.count()
+	total = listing.count()
 	listing = listing.order_by(Submission.id.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
 	listing = [x.id for x in listing]
 
@@ -748,7 +748,7 @@ def admin_removed(v):
 						v=v,
 						listing=posts,
 						page=page,
-						next_exists=next_exists
+						total=total
 						)
 
 
@@ -762,7 +762,7 @@ def admin_removed_comments(v):
 	listing = g.db.query(Comment).options(load_only(Comment.id)).join(Comment.author).filter(
 			or_(Comment.is_banned==True, User.shadowbanned != None))
 		
-	next_exists = listing.count()
+	total = listing.count()
 	listing = listing.order_by(Comment.id.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
 	listing = [x.id for x in listing]
 
@@ -772,7 +772,7 @@ def admin_removed_comments(v):
 						v=v,
 						listing=comments,
 						page=page,
-						next_exists=next_exists
+						total=total
 						)
 
 
