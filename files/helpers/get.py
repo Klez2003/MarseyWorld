@@ -371,3 +371,7 @@ def get_error():
 
 def get_msg():
 	return request.values.get("msg")
+
+def get_page():
+	try: return max(int(request.values.get("page", 1)), 1)
+	except: return 1

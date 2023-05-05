@@ -36,8 +36,7 @@ def upvoters_downvoters(v, username, uid, cls, vote_cls, vote_dir, template, sta
 	except:
 		abort(404)
 
-	try: page = max(1, int(request.values.get("page", 1)))
-	except: abort(400, "Invalid page input!")
+	page = get_page()
 
 	listing = g.db.query(cls).join(vote_cls).filter(cls.ghost == False, cls.is_banned == False, cls.deleted_utc == 0, vote_cls.vote_type==vote_dir, cls.author_id==id, vote_cls.user_id==uid).order_by(cls.created_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
 
@@ -95,8 +94,7 @@ def upvoting_downvoting(v, username, uid, cls, vote_cls, vote_dir, template, sta
 	except:
 		abort(404)
 
-	try: page = max(1, int(request.values.get("page", 1)))
-	except: abort(400, "Invalid page input!")
+	page = get_page()
 
 	listing = g.db.query(cls).join(vote_cls).filter(cls.ghost == False, cls.is_banned == False, cls.deleted_utc == 0, vote_cls.vote_type==vote_dir, vote_cls.user_id==id, cls.author_id==uid).order_by(cls.created_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
 
@@ -149,8 +147,7 @@ def user_voted(v, username, cls, vote_cls, template, standalone):
 	if not u.is_visible_to(v): abort(403)
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
 
-	try: page = max(1, int(request.values.get("page", 1)))
-	except: abort(400, "Invalid page input!")
+	page = get_page()
 
 	listing = g.db.query(cls).join(vote_cls).filter(
 			cls.ghost == False,
@@ -271,8 +268,7 @@ def all_upvoters_downvoters(v:User, username:str, vote_dir:int, is_who_simps_hat
 
 	name2 = f'Who @{username} {simps_haters}' if is_who_simps_hates else f"@{username}'s {simps_haters}"
 
-	try: page = int(request.values.get("page", 1))
-	except: page = 1
+	page = get_page()
 
 	users = users[PAGE_SIZE * (page-1):]
 	next_exists = (len(users) > PAGE_SIZE)
@@ -732,8 +728,7 @@ def followers(v:User, username:str):
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_FOLLOWS_VISIBLE']):
 		abort(403)
 
-	try: page = int(request.values.get("page", 1))
-	except: page = 1
+	page = get_page()
 
 	users = g.db.query(Follow, User).join(Follow, Follow.target_id == u.id) \
 		.filter(Follow.user_id == User.id) \
@@ -752,8 +747,7 @@ def followers(v:User, username:str):
 def blockers(v:User, username:str):
 	u = get_user(username, v=v)
 
-	try: page = int(request.values.get("page", 1))
-	except: page = 1
+	page = get_page()
 
 	users = g.db.query(UserBlock, User).join(UserBlock, UserBlock.target_id == u.id) \
 		.filter(UserBlock.user_id == User.id) \
@@ -774,8 +768,7 @@ def following(v:User, username:str):
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_FOLLOWS_VISIBLE']):
 		abort(403)
 
-	try: page = int(request.values.get("page", 1))
-	except: page = 1
+	page = get_page()
 
 	users = g.db.query(User).join(Follow, Follow.user_id == u.id) \
 		.filter(Follow.target_id == User.id) \
@@ -794,8 +787,7 @@ def following(v:User, username:str):
 def visitors(v:User, username:str):
 	u = get_user(username, v=v)
 
-	try: page = int(request.values.get("page", 1))
-	except: page = 1
+	page = get_page()
 
 	views = g.db.query(ViewerRelationship).filter_by(user_id=u.id)
 	next_exists = views.count()
@@ -835,8 +827,7 @@ def u_username_wall(v:Optional[User], username:str):
 		else: view = ViewerRelationship(viewer_id=v.id, user_id=u.id)
 		g.db.add(view)
 
-	try: page = max(int(request.values.get("page", "1")), 1)
-	except: page = 1
+	page = get_page()
 
 	if v:
 		comments, output = get_comments_v_properties(v, None, Comment.wall_user_id == u.id)
@@ -941,8 +932,7 @@ def u_username(v:Optional[User], username:str):
 
 	sort = request.values.get("sort", "new")
 	t = request.values.get("t", "all")
-	try: page = max(int(request.values.get("page", 1)), 1)
-	except: page = 1
+	page = get_page()
 
 	ids, next_exists = userpagelisting(u, v=v, page=page, sort=sort, t=t)
 
@@ -1010,8 +1000,7 @@ def u_username_comments(username, v=None):
 		else: view = ViewerRelationship(viewer_id=v.id, user_id=u.id)
 		g.db.add(view)
 
-	try: page = max(int(request.values.get("page", "1")), 1)
-	except: page = 1
+	page = get_page()
 
 	sort=request.values.get("sort","new")
 	t=request.values.get("t","all")
@@ -1210,8 +1199,7 @@ def get_saves_and_subscribes(v, template, relationship_cls, page:int, standalone
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def saved_posts(v:User, username):
-	try: page = max(1, int(request.values.get("page", 1)))
-	except: abort(400, "Invalid page input!")
+	page = get_page()
 
 	return get_saves_and_subscribes(v, "userpage/submissions.html", SaveRelationship, page, False)
 
@@ -1220,8 +1208,7 @@ def saved_posts(v:User, username):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def saved_comments(v:User, username):
-	try: page = max(1, int(request.values.get("page", 1)))
-	except: abort(400, "Invalid page input!")
+	page = get_page()
 
 	return get_saves_and_subscribes(v, "userpage/comments.html", CommentSaveRelationship, page, True)
 
@@ -1230,8 +1217,7 @@ def saved_comments(v:User, username):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def subscribed_posts(v:User, username):
-	try: page = max(1, int(request.values.get("page", 1)))
-	except: abort(400, "Invalid page input!")
+	page = get_page()
 
 	return get_saves_and_subscribes(v, "userpage/submissions.html", Subscription, page, False)
 
@@ -1287,8 +1273,7 @@ def bid_list(v:User, bid):
 	try: bid = int(bid)
 	except: abort(400)
 
-	try: page = int(request.values.get("page", 1))
-	except: page = 1
+	page = get_page()
 
 	users = g.db.query(User).join(User.badges).filter(Badge.badge_id==bid).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
 
@@ -1457,8 +1442,7 @@ def settings_claim_rewards(v:User):
 @auth_required
 def users_list(v):
 
-	try: page = int(request.values.get("page", 1))
-	except: page = 1
+	page = get_page()
 
 	users = g.db.query(User).order_by(User.id.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
 

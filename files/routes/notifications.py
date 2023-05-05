@@ -58,8 +58,7 @@ def unread(v):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['VIEW_MODMAIL'])
 def notifications_modmail(v):
-	try: page = max(int(request.values.get("page", 1)), 1)
-	except: page = 1
+	page = get_page()
 
 	comments = g.db.query(Comment).filter_by(
 			sentto=MODMAIL_ID,
@@ -89,8 +88,7 @@ def notifications_modmail(v):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def notifications_messages(v:User):
-	try: page = max(int(request.values.get("page", 1)), 1)
-	except: page = 1
+	page = get_page()
 
 	# All of these queries are horrible. For whomever comes here after me,
 	# PLEASE just turn DMs into their own table and get them out of
@@ -160,8 +158,7 @@ def notifications_messages(v:User):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def notifications_posts(v:User):
-	try: page = max(int(request.values.get("page", 1)), 1)
-	except: page = 1
+	page = get_page()
 
 	listing = g.db.query(Submission).filter(
 		or_(
@@ -208,8 +205,7 @@ def notifications_posts(v:User):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def notifications_modactions(v:User):
-	try: page = max(int(request.values.get("page", 1)), 1)
-	except: page = 1
+	page = get_page()
 
 	if v.admin_level >= PERMS['NOTIFICATIONS_MODERATOR_ACTIONS']:
 		cls = ModAction
@@ -256,8 +252,7 @@ def notifications_modactions(v:User):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def notifications_reddit(v:User):
-	try: page = max(int(request.values.get("page", 1)), 1)
-	except: page = 1
+	page = get_page()
 
 	if not v.can_view_offsitementions: abort(403)
 
@@ -296,8 +291,7 @@ def notifications_reddit(v:User):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def notifications(v:User):
-	try: page = max(int(request.values.get("page", 1)), 1)
-	except: page = 1
+	page = get_page()
 
 	if v.admin_level < PERMS['USER_SHADOWBAN']:
 		unread_and_inaccessible = g.db.query(Notification).join(Notification.comment).join(Comment.author).filter(

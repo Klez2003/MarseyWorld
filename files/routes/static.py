@@ -65,8 +65,7 @@ def marseys(v:User):
 	else: # implied sort == "usage"
 		marseys = marseys.order_by(Emoji.count.desc(), User.username)
 
-	try: page = max(int(request.values.get("page", 1)), 1)
-	except: page = 1
+	page = get_page()
 
 	if request.path != "/marseys/all":
 		marseys = marseys.offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE)
@@ -161,8 +160,7 @@ def admins(v:User):
 @auth_required
 def log(v:User):
 
-	try: page = max(int(request.values.get("page", 1)), 1)
-	except: page = 1
+	page = get_page()
 
 	admin = request.values.get("admin")
 	if admin: admin_id = get_id(admin)
@@ -391,8 +389,7 @@ def transfers(v:User):
 
 	comments = g.db.query(Comment).filter(Comment.author_id == AUTOJANNY_ID, Comment.parent_submission == None, Comment.body_html.like("%</a> has transferred %"))
 
-	try: page = max(int(request.values.get("page", 1)), 1)
-	except: page = 1
+	page = get_page()
 
 	next_exists = comments.count()
 	comments = comments.order_by(Comment.id.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()

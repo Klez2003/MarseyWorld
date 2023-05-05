@@ -16,8 +16,7 @@ def hats(v:User):
 
 	sort = request.values.get("sort")
 
-	try: page = max(int(request.values.get("page", 1)), 1)
-	except: page = 1
+	page = get_page()
 
 	if SITE == 'rdrama.net':
 		hats = g.db.query(HatDef, User).join(HatDef.author)
@@ -159,8 +158,7 @@ def hat_owners(v:User, hat_id):
 	try: hat_id = int(hat_id)
 	except: abort(404, "Hat not found!")
 
-	try: page = int(request.values.get("page", 1))
-	except: page = 1
+	page = get_page()
 
 	users = [x[1] for x in g.db.query(Hat, User).join(Hat.owners).filter(Hat.hat_id == hat_id).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE+1).all()]
 

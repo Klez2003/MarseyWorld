@@ -53,8 +53,7 @@ def searchposts(v:User):
 	if not query:
 		abort(403, "Empty searches aren't allowed!")
 
-	try: page = max(1, int(request.values.get("page", 1)))
-	except: abort(400, "Invalid page input!")
+	page = get_page()
 
 	sort = request.values.get("sort", "new").lower()
 	t = request.values.get('t', 'all').lower()
@@ -184,8 +183,7 @@ def searchcomments(v:User):
 	if not query:
 		abort(403, "Empty searches aren't allowed!")
 
-	try: page = max(1, int(request.values.get("page", 1)))
-	except: abort(400, "Invalid page input!")
+	page = get_page()
 
 	sort = request.values.get("sort", "new").lower()
 	t = request.values.get('t', 'all').lower()
@@ -288,8 +286,7 @@ def searchmessages(v:User):
 	if not query:
 		abort(403, "Empty searches aren't allowed!")
 
-	try: page = max(1, int(request.values.get("page", 1)))
-	except: abort(400, "Invalid page input!")
+	page = get_page()
 
 	sort = request.values.get("sort", "new").lower()
 	t = request.values.get('t', 'all').lower()
@@ -378,8 +375,7 @@ def searchusers(v:User):
 	if not query:
 		abort(403, "Empty searches aren't allowed!")
 
-	try: page = max(1, int(request.values.get("page", 1)))
-	except: abort(400, "Invalid page input!")
+	page = get_page()
 
 	users = g.db.query(User)
 

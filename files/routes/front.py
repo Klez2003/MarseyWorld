@@ -23,8 +23,7 @@ def front_all(v, sub=None, subdomain=None):
 
 	if (request.path.startswith('/h/') or request.path.startswith('/s/')) and not sub: abort(404)
 
-	try: page = max(int(request.values.get("page", 1)), 1)
-	except: abort(400)
+	page = get_page()
 
 	if v:
 		defaultsorting = v.defaultsorting
@@ -213,8 +212,7 @@ def comment_idlist(v=None, page=1, sort="new", t="day", gt=0, lt=0):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def all_comments(v:User):
-	try: page = max(int(request.values.get("page", 1)), 1)
-	except: page = 1
+	page = get_page()
 
 	sort=request.values.get("sort", "new")
 	t=request.values.get("t", "hour")

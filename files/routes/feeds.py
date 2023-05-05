@@ -13,8 +13,7 @@ from files.__main__ import app
 @app.get('/rss/<sort>/<t>')
 @limiter.limit(DEFAULT_RATELIMIT)
 def feeds_user(sort='hot', t='all'):
-	try: page = max(int(request.values.get("page", 1)), 1)
-	except: page = 1
+	page = get_page()
 
 	ids, next_exists, size = frontlist(
 		sort=sort,

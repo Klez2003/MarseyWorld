@@ -853,8 +853,7 @@ def hole_log(v:User, sub):
 	sub = get_sub_by_name(sub)
 	if not User.can_see(v, sub):
 		abort(403)
-	try: page = max(int(request.values.get("page", 1)), 1)
-	except: page = 1
+	page = get_page()
 
 	mod = request.values.get("mod")
 	if mod: mod_id = get_id(mod)

@@ -322,8 +322,7 @@ def image_posts_listing(v):
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def reported_posts(v):
 
-	try: page = max(1, int(request.values.get("page", 1)))
-	except: abort(400, "Invalid page input!")
+	page = get_page()
 
 	listing = g.db.query(Submission).options(load_only(Submission.id)).filter_by(
 				is_approved=None,
@@ -347,8 +346,7 @@ def reported_posts(v):
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def reported_comments(v):
 
-	try: page = max(1, int(request.values.get("page", 1)))
-	except: abort(400, "Invalid page input!")
+	page = get_page()
 
 	listing = g.db.query(Comment
 					).filter_by(
@@ -738,9 +736,7 @@ def admin_delink_relink_alt(v:User, username, other):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def admin_removed(v):
-	try: page = int(request.values.get("page", 1))
-	except: page = 1
-	if page < 1: abort(400)
+	page = get_page()
 	ids = g.db.query(Submission.id).join(Submission.author).filter(or_(Submission.is_banned==True, User.shadowbanned != None)).order_by(Submission.id.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
 	ids=[x[0] for x in ids]
 	next_exists = len(ids) > PAGE_SIZE
@@ -761,8 +757,7 @@ def admin_removed(v):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def admin_removed_comments(v):
-	try: page = int(request.values.get("page", 1))
-	except: page = 1
+	page = get_page()
 
 	ids = g.db.query(Comment.id).join(Comment.author).filter(or_(Comment.is_banned==True, User.shadowbanned != None)).order_by(Comment.id.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
 	ids=[x[0] for x in ids]
