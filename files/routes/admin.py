@@ -734,12 +734,15 @@ def admin_delink_relink_alt(v:User, username, other):
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def admin_removed(v):
 	page = get_page()
-	ids = g.db.query(Submission.id).join(Submission.author).filter(or_(Submission.is_banned==True, User.shadowbanned != None)).order_by(Submission.id.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
-	ids=[x[0] for x in ids]
-	next_exists = len(ids) > PAGE_SIZE
-	ids = ids[:PAGE_SIZE]
 
-	posts = get_posts(ids, v=v)
+	listing = g.db.query(Submission).options(load_only(Submission.id)).join(Submission.author).filter(
+			or_(Submission.is_banned==True, User.shadowbanned != None))
+		
+	next_exists = listing.count()
+	listing = listing.order_by(Submission.id.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
+	listing = [x.id for x in listing]
+
+	posts = get_posts(listing, v=v)
 
 	return render_template("admin/removed_posts.html",
 						v=v,
@@ -756,17 +759,22 @@ def admin_removed(v):
 def admin_removed_comments(v):
 	page = get_page()
 
-	ids = g.db.query(Comment.id).join(Comment.author).filter(or_(Comment.is_banned==True, User.shadowbanned != None)).order_by(Comment.id.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
-	ids=[x[0] for x in ids]
-	next_exists = len(ids) > PAGE_SIZE
-	ids = ids[:PAGE_SIZE]
-	comments = get_comments(ids, v=v)
+	listing = g.db.query(Comment).options(load_only(Comment.id)).join(Comment.author).filter(
+			or_(Comment.is_banned==True, User.shadowbanned != None))
+		
+	next_exists = listing.count()
+	listing = listing.order_by(Comment.id.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
+	listing = [x.id for x in listing]
+
+	comments = get_comments(listing, v=v)
+	
 	return render_template("admin/removed_comments.html",
 						v=v,
 						listing=comments,
 						page=page,
 						next_exists=next_exists
 						)
+
 
 @app.post("/unchud_user/<id>")
 @limiter.limit('1/second', scope=rpath)
