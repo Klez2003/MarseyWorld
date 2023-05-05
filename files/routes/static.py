@@ -1,7 +1,8 @@
 import os
 from shutil import copyfile
 
-from sqlalchemy import func, nullslast
+from sqlalchemy import func
+from sqlalchemy.sql.expression import nullslast
 from files.helpers.media import *
 
 import files.helpers.stats as statshelper
