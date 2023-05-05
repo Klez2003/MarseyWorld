@@ -61,7 +61,7 @@
 				{% endif %}
 				<td class="shop-table-owned">{{a['owned']}}</td>
 				<td class="shop-table-actions">
-					<button type="button" id="buy-{{loop.index}}" class="btn btn-success {% if v.coins+v.marseybux < price or (kind == 'grass' and v.coins < price) or (kind == 'benefactor' and v.marseybux < price) %}disabled{% endif %}" data-areyousure="postToastSwitch(this,'/buy/{{kind}}')" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)"><span class="m-auto">Buy</span></button>
+					<button type="button" id="buy-{{loop.index}}" class="btn btn-success {% if v.coins+v.marseybux < price or (kind == 'grass' and v.coins < price) or (kind == 'benefactor' and v.marseybux < price) %}disabled{% endif %}" data-areyousure="postToastSwitch(this,'/buy/{{kind}}')" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)">Buy</button>
 				</td>
 				<td class="shop-table-description">{{a['description']}}</td>
 			</tr>
