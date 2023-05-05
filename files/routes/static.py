@@ -169,6 +169,7 @@ def log(v:User):
 	if kind and kind not in types:
 		kind = None
 		actions = []
+		next_exists = 0
 	else:
 		actions = g.db.query(ModAction)
 		if v.admin_level < PERMS['USER_SHADOWBAN']:
@@ -184,11 +185,9 @@ def log(v:User):
 				if k in kinds: types2[k] = val
 			types = types2
 		if kind: actions = actions.filter_by(kind=kind)
+		next_exists = actions.count()
+		actions = actions.order_by(ModAction.id.desc()).offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE).all()
 
-		actions = actions.order_by(ModAction.id.desc()).offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE+1).all()
-
-	next_exists=len(actions) > PAGE_SIZE
-	actions=actions[:PAGE_SIZE]
 	admins = [x[0] for x in g.db.query(User.username).filter(User.admin_level >= PERMS['ADMIN_MOP_VISIBLE']).order_by(User.username).all()]
 
 	return render_template("log.html", v=v, admins=admins, types=types, admin=admin, type=kind, actions=actions, next_exists=next_exists, page=page, single_user_url='admin')
@@ -217,7 +216,7 @@ def log_item(id, v):
 			types = MODACTION_TYPES__FILTERED
 	else: types = MODACTION_TYPES_FILTERED
 
-	return render_template("log.html", v=v, actions=[action], next_exists=False, page=1, action=action, admins=admins, types=types, single_user_url='admin')
+	return render_template("log.html", v=v, actions=[action], next_exists=1, page=1, action=action, admins=admins, types=types, single_user_url='admin')
 
 @app.get("/directory")
 @limiter.limit(DEFAULT_RATELIMIT)

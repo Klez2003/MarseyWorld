@@ -867,6 +867,7 @@ def hole_log(v:User, sub):
 	if kind and kind not in types:
 		kind = None
 		actions = []
+		next_exists=0
 	else:
 		actions = g.db.query(SubAction).filter_by(sub=sub.name)
 
@@ -878,11 +879,9 @@ def hole_log(v:User, sub):
 				if k in kinds: types2[k] = val
 			types = types2
 		if kind: actions = actions.filter_by(kind=kind)
+		next_exists = actions.count()
+		actions = actions.order_by(SubAction.id.desc()).offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE).all()
 
-		actions = actions.order_by(SubAction.id.desc()).offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE+1).all()
-
-	next_exists=len(actions)>25
-	actions=actions[:25]
 	mods = [x[0] for x in g.db.query(Mod.user_id).filter_by(sub=sub.name).all()]
 	mods = [x[0] for x in g.db.query(User.username).filter(User.id.in_(mods)).order_by(User.username).all()]
 
@@ -908,4 +907,4 @@ def hole_log_item(id, v, sub):
 
 	types = SUBACTION_TYPES
 
-	return render_template("log.html", v=v, actions=[action], next_exists=False, page=1, action=action, admins=mods, types=types, sub=sub, single_user_url='mod')
+	return render_template("log.html", v=v, actions=[action], next_exists=1, page=1, action=action, admins=mods, types=types, sub=sub, single_user_url='mod')
