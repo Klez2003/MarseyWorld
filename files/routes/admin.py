@@ -49,6 +49,7 @@ def dm_images(v):
 	with open(f"{LOG_DIRECTORY}/dm_images.log", "r", encoding="utf-8") as f:
 		items=f.read().split("\n")[:-1]
 
+	next_exists = len(items)
 	items = [x.split(", ") for x in items]
 	items.reverse()
 
@@ -56,9 +57,8 @@ def dm_images(v):
 	except: page = 1
 
 	firstrange = PAGE_SIZE * (page - 1)
-	secondrange = firstrange + PAGE_SIZE + 1
+	secondrange = firstrange + PAGE_SIZE
 	items = items[firstrange:secondrange]
-	next_exists = (len(items) > PAGE_SIZE)
 
 	return render_template("admin/dm_images.html", v=v, items=items, next_exists=next_exists, page=page)
 
