@@ -6749,6 +6749,7 @@ div.markdown {
 }
 .table th, .table td {
 	vertical-align: middle;
+	text-align: center;
 }
 
 .directory--link:focus, .directory--link:active, .directory--link:hover {
