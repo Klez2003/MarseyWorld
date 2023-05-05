@@ -1,6 +1,7 @@
 import time
 
 from sqlalchemy.sql.expression import not_, and_, or_
+from sqlalchemy.orm import load_only
 
 from files.classes.mod_logs import ModAction
 from files.classes.sub_logs import SubAction
@@ -17,10 +18,15 @@ from files.__main__ import app
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def clear(v):
-	notifs = g.db.query(Notification).join(Notification.comment).filter(Notification.read == False, Notification.user_id == v.id).all()
+	notifs = g.db.query(Notification).join(Notification.comment).filter(
+		Notification.read == False,
+		Notification.user_id == v.id,
+	).options(load_only(Notification.id)).all()
+
 	for n in notifs:
 		n.read = True
 		g.db.add(n)
+
 	v.last_viewed_post_notifs = int(time.time())
 	v.last_viewed_log_notifs = int(time.time())
 	v.last_viewed_reddit_notifs = int(time.time())
@@ -298,12 +304,12 @@ def notifications(v:User):
 				Comment.is_banned != False,
 				Comment.deleted_utc != 0,
 			)
-		).all()
+		).options(load_only(Notification.id)).all()
 		for n in unread_and_inaccessible:
 			n.read = True
 			g.db.add(n)
 
-	comments = g.db.query(Comment, Notification).join(Notification.comment).filter(
+	comments = g.db.query(Comment, Notification).options(load_only(Comment.id)).join(Notification.comment).filter(
 		Notification.user_id == v.id,
 		or_(Comment.sentto == None, Comment.sentto != v.id),
 	)
