@@ -42,7 +42,7 @@ def hats(v:User):
 		if SITE == 'rdrama.net':
 			hats = sorted(hats.all(), key=lambda x: hat_count.index(x[0].id) if x[0].id in hat_count else 0)
 		else:
-			hats = sorted(hats.all(), key=lambda x: hat_count.index(x.id) if x.id in hat_count else 0)
+			hats = sorted(hats.all(), key=lambda x: hat_count.index(x.id) if x.id in hat_count else 0, reverse=True)
 		
 		firstrange = PAGE_SIZE * (page - 1)
 		secondrange = firstrange + PAGE_SIZE
