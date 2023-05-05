@@ -150,7 +150,7 @@ function frame() {
 	const diffY = cursormarseyPosY - mousePosY;
 	const distance = Math.sqrt(diffX ** 2 + diffY ** 2);
 
-	if (distance < cursormarseySpeed || distance < 160) {
+	if (distance < cursormarseySpeed || distance < 48) {
 		idle();
 		return;
 	}
