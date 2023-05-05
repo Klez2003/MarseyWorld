@@ -5,28 +5,25 @@
 <div class="overflow-x-auto mt-3"><table class="table table-striped mb-5">
 <thead class="bg-primary text-white">
 	<tr>
-		<th>#</th>
 		<th>Name</th>
 		<th>Marsey</th>
-		<th>Usage</th>
+		<th class="disable-sort-click"><a href="/marseys" {% if sort=="usage" %}disabled{% endif %}>Usage</a></th>
 		{% if FEATURES['ASSET_SUBMISSIONS'] %}
-			<th>Author</th>
+			<th class="disable-sort-click"><a href="?sort=author" {% if sort=="author" %}disabled{% endif %}>Author</a></th>
 		{% endif %}
-		<th>Added on</th>
+		<th class="disable-sort-click"><a href="?sort=added_on" {% if sort=="added_on" %}disabled{% endif %}>Added on</a></th>
 		{% if FEATURES['ASSET_SUBMISSIONS'] %}
 			<th>Original File</th>
 		{% endif %}
 	</tr>
 </thead>
 <tbody id="marseys-table">
-{% for marsey in marseys %}
+{% for marsey, user in marseys %}
 <tr>
-	<td>{{loop.index}}</td>
 	<td>{{marsey.name}}</td>
 	<td><img class="marsey" loading="lazy" data-bs-toggle="tooltip" alt=":#{{marsey.name}}:" title=":{{marsey.name}}:" src="/e/{{marsey.name}}.webp"></td>
 	<td>{{marsey.count}}</td>
 	{% if FEATURES['ASSET_SUBMISSIONS'] %}
-	{% set user = marsey.user %}
 	<td>{% include "user_in_table.html" %}</td>
 	{% endif %}
 	<td data-sort-key="{{marsey.created_utc or 0}}" {% if marsey.created_utc != None %}data-time="{{marsey.created_utc}}"{% endif %}></td>
@@ -42,4 +39,8 @@
 </tbody>
 </table>
 
+{% endblock %}
+
+{% block pagenav %}
+{% include "pagination.html" %}
 {% endblock %}

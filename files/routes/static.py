@@ -1,7 +1,7 @@
 import os
 from shutil import copyfile
 
-from sqlalchemy import func
+from sqlalchemy import func, nullslast
 from files.helpers.media import *
 
 import files.helpers.stats as statshelper
@@ -41,35 +41,39 @@ def reddit_post(subreddit, v, path):
 	return redirect(f'https://{reddit}/{post_id}')
 
 
-@cache.cached(key_prefix="marseys")
-def get_marseys(db:scoped_session):
-	if not FEATURES['MARSEYS']: return []
-	marseys = []
-	for marsey, author in db.query(Emoji, User).join(User, Emoji.author_id == User.id).filter(Emoji.kind == "Marsey", Emoji.submitter_id == None).order_by(Emoji.count.desc()):
-		marsey.author = author.username if FEATURES['ASSET_SUBMISSIONS'] else None
-		marseys.append(marsey)
-	return marseys
-
 @app.get("/marseys")
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def marseys(v:User):
-
-	if SITE_NAME != 'rDrama':
+	if SITE_NAME != 'rDrama' or not FEATURES['MARSEYS']:
 		abort(404)
 
-	marseys = get_marseys(g.db)
-	authors = get_accounts_dict([m.author_id for m in marseys], v=v, graceful=True)
+	marseys = g.db.query(Emoji, User).join(User, Emoji.author_id == User.id).filter(Emoji.kind == "Marsey", Emoji.submitter_id==None)
+
+	next_exists = marseys.count()
+
+	sort = request.values.get("sort")
+	if sort == "author":
+		marseys = marseys.order_by(User.username, Emoji.count.desc())
+	elif sort == "added_on":
+		marseys = marseys.order_by(nullslast(Emoji.created_utc.desc()), User.username)
+	else: # implied sort == "usage"
+		marseys = marseys.order_by(Emoji.count.desc(), User.username)
+
+	try: page = max(int(request.values.get("page", 1)), 1)
+	except: page = 1
+
+	marseys = marseys.offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE).all()
+
 	original = os.listdir("/asset_submissions/emojis/original")
-	for marsey in marseys:
-		marsey.user = authors.get(marsey.author_id)
+	for marsey, user in marseys:
 		for x in IMAGE_FORMATS:
 			if f'{marsey.name}.{x}' in original:
 				marsey.og = f'{marsey.name}.{x}'
 				break
-	return render_template("marseys.html", v=v, marseys=marseys)
 
+	return render_template("marseys.html", v=v, marseys=marseys, page=page, next_exists=next_exists, sort=sort)
 
 
 @cache.cached(key_prefix="emojis")
