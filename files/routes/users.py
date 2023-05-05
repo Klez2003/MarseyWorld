@@ -909,7 +909,7 @@ def u_username_wall_comment(v:User, username:str, cid):
 
 	if v and v.client: return top_comment.json(db=g.db)
 
-	return render_template("userpage/wall.html", u=u, v=v, listing=[top_comment], page=1, is_following=is_following, standalone=True, render_replies=True, wall=True, comment_info=comment_info)
+	return render_template("userpage/wall.html", u=u, v=v, listing=[top_comment], page=1, is_following=is_following, standalone=True, render_replies=True, wall=True, comment_info=comment_info, next_exists=1)
 
 
 @app.get("/@<username>/posts")
