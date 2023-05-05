@@ -64,9 +64,10 @@ def notifications_modmail(v):
 	comments = g.db.query(Comment).filter_by(
 			sentto=MODMAIL_ID,
 			level=1,
-		).order_by(Comment.id.desc()).offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE+1).all()
-	next_exists = (len(comments) > PAGE_SIZE)
-	listing = comments[:PAGE_SIZE]
+		)
+		
+	next_exists = comments.count()
+	listing = comments.order_by(Comment.id.desc()).offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE).all()
 
 	g.db.flush()
 
@@ -114,8 +115,6 @@ def notifications_messages(v:User):
 
 	message_threads = message_threads.join(thread_order,
 						thread_order.c.top_comment_id == Comment.top_comment_id)
-	message_threads = message_threads.order_by(thread_order.c.created_utc.desc()) \
-						.offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE+1).all()
 
 	# Clear notifications (used for unread indicator only) for all user messages.
 	
@@ -139,8 +138,10 @@ def notifications_messages(v:User):
 			c.unread = True
 			list_to_perserve_unread_attribute.append(c)
 
-	next_exists = (len(message_threads) > 25)
-	listing = message_threads[:25]
+
+	next_exists = message_threads.count()
+	listing = message_threads.order_by(thread_order.c.created_utc.desc()) \
+					.offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE).all()
 
 	if v.client: return {"data":[x.json(g.db) for x in listing]}
 
@@ -162,7 +163,7 @@ def notifications_posts(v:User):
 	try: page = max(int(request.values.get("page", 1)), 1)
 	except: page = 1
 
-	listing = [x[0] for x in g.db.query(Submission.id).filter(
+	listing = g.db.query(Submission).filter(
 		or_(
 			Submission.author_id.in_(v.followed_users),
 			Submission.sub.in_(v.followed_subs)
@@ -174,10 +175,13 @@ def notifications_posts(v:User):
 		Submission.author_id != v.id,
 		Submission.ghost == False,
 		Submission.author_id.notin_(v.userblocks)
-	).order_by(Submission.created_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE+1).all()]
+	).options(load_only(Submission.id))
 
-	next_exists = (len(listing) > 25)
-	listing = listing[:25]
+	next_exists = listing.count()
+
+	listing = listing.order_by(Submission.created_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
+	listing = [x.id for x in listing]
+
 	listing = get_posts(listing, v=v, eager=True)
 
 	for p in listing:
@@ -225,9 +229,9 @@ def notifications_modactions(v:User):
 	if cls == SubAction:
 		listing = listing.filter(cls.sub.in_(v.moderated_subs))
 
-	listing = listing.order_by(cls.id.desc()).offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE+1).all()
-	next_exists = len(listing) > PAGE_SIZE
-	listing = listing[:PAGE_SIZE]
+	next_exists = listing.count()
+	listing = listing.order_by(cls.id.desc())
+	listing = listing.offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE).all()
 
 	for ma in listing:
 		ma.unread = ma.created_utc > v.last_viewed_log_notifs
@@ -261,10 +265,10 @@ def notifications_reddit(v:User):
 		Comment.body_html.like('%<p>New site mention%<a href="https://old.reddit.com/r/%'),
 		Comment.parent_submission == None,
 		Comment.author_id == AUTOJANNY_ID
-	).order_by(Comment.created_utc.desc()).offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE+1).all()
+	)
 
-	next_exists = len(listing) > PAGE_SIZE
-	listing = listing[:PAGE_SIZE]
+	next_exists = listing.count()
+	listing = listing.order_by(Comment.created_utc.desc()).offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE).all()
 
 	for ma in listing:
 		ma.unread = ma.created_utc > v.last_viewed_reddit_notifs
@@ -325,11 +329,11 @@ def notifications(v:User):
 			Comment.deleted_utc == 0,
 		)
 
-	comments = comments.order_by(Notification.created_utc.desc(), Comment.id.desc())
-	comments = comments.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE+1).all()
+	next_exists = comments.count()
 
-	next_exists = (len(comments) > PAGE_SIZE)
-	comments = comments[:PAGE_SIZE]
+	comments = comments.order_by(Notification.created_utc.desc(), Comment.id.desc())
+	comments = comments.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
+
 	cids = [x[0].id for x in comments]
 
 	listing = []
