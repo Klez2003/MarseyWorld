@@ -21,7 +21,7 @@ def clear(v):
 	notifs = g.db.query(Notification).join(Notification.comment).filter(
 		Notification.read == False,
 		Notification.user_id == v.id,
-	).options(load_only(Notification.id)).all()
+	).options(load_only(Notification.comment_id)).all()
 
 	for n in notifs:
 		n.read = True
