@@ -64,7 +64,7 @@ def notifications_modmail(v):
 			sentto=MODMAIL_ID,
 			level=1,
 		)
-		
+
 	total = comments.count()
 	listing = comments.order_by(Comment.id.desc()).offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE).all()
 
@@ -115,7 +115,7 @@ def notifications_messages(v:User):
 						thread_order.c.top_comment_id == Comment.top_comment_id)
 
 	# Clear notifications (used for unread indicator only) for all user messages.
-	
+
 	if not session.get("GLOBAL"):
 		notifs_unread_row = g.db.query(Notification.comment_id).join(Comment).filter(
 			Notification.user_id == v.id,
@@ -350,7 +350,7 @@ def notifications(v:User):
 				total.extend(c.replies2)
 				for x in c.replies2:
 					if x.replies2 == None: x.replies2 = []
-			
+
 			count = 0
 			while count < 30 and c.parent_comment and (c.parent_comment.author_id == v.id or c.parent_comment.id in cids):
 				count += 1

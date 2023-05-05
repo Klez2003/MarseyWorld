@@ -46,9 +46,9 @@ def upvoters_downvoters(v, username, uid, cls, vote_cls, vote_dir, template, sta
 			cls.author_id==id,
 			vote_cls.user_id==uid,
 		)
-		
+
 	total = listing.count()
-	
+
 	listing = listing.order_by(cls.created_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
 	listing = [x.id for x in listing]
 
@@ -112,9 +112,9 @@ def upvoting_downvoting(v, username, uid, cls, vote_cls, vote_dir, template, sta
 			vote_cls.user_id==id,
 			cls.author_id==uid,
 		)
-		
+
 	total = listing.count()
-	
+
 	listing = listing.order_by(cls.created_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
 	listing = [x.id for x in listing]
 
@@ -174,7 +174,7 @@ def user_voted(v, username, cls, vote_cls, template, standalone):
 		)
 
 	total = listing.count()
-	
+
 	listing = listing.order_by(cls.created_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
 	listing = [x.id for x in listing]
 
@@ -1194,11 +1194,11 @@ def get_saves_and_subscribes(v, template, relationship_cls, page:int, standalone
 		cls = Comment
 	else:
 		raise TypeError("Relationships supported is SaveRelationship, Subscription, CommentSaveRelationship")
-	
+
 	listing = g.db.query(query).join(join).filter(relationship_cls.user_id == v.id)
-	
+
 	total = listing.count()
-	
+
 	listing = listing.order_by(cls.created_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
 
 	ids = [x[0] for x in listing]
@@ -1299,9 +1299,9 @@ def bid_list(v:User, bid):
 	page = get_page()
 
 	users = g.db.query(User).join(User.badges).filter(Badge.badge_id==bid)
-	
+
 	total = users.count()
-	
+
 	users = users.order_by(Badge.created_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
 
 	return render_template("user_cards.html",
@@ -1469,9 +1469,9 @@ def users_list(v):
 	page = get_page()
 
 	users = g.db.query(User)
-	
+
 	total = users.count()
-	
+
 	users = users.order_by(User.id.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
 
 	return render_template("user_cards.html",

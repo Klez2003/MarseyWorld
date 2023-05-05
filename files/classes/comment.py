@@ -99,7 +99,7 @@ def add_options(self, body, v):
 			body += option_body
 
 	return body
-	
+
 
 class Comment(Base):
 	__tablename__ = "comments"
@@ -337,7 +337,7 @@ class Comment(Base):
 		if body:
 			if not (self.parent_submission and self.post.sub == 'chudrama'):
 				body = censor_slurs(body, v)
-		
+
 			body = normalize_urls_runtime(body, v)
 			if not v or v.controversial:
 				captured = []

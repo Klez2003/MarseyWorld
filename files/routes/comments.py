@@ -132,7 +132,7 @@ def comment(v:User):
 	parent_user = parent if isinstance(parent, User) else parent.author
 	posting_to_submission = isinstance(post_target, Submission)
 
-	
+
 
 	if not User.can_see(v, parent): abort(403)
 	if not isinstance(parent, User) and parent.deleted_utc != 0:

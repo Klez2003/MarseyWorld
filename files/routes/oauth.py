@@ -90,7 +90,7 @@ def request_api_keys(v):
 	for admin_id in admin_ids:
 		notif = Notification(comment_id=new_comment.id, user_id=admin_id)
 		g.db.add(notif)
-	
+
 	push_notif(admin_ids, 'New notification', body, f'{SITE_FULL}/comment/{new_comment.id}?read=true#context')
 
 	return redirect('/settings/apps')

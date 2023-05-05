@@ -350,7 +350,7 @@ def searchmessages(v:User):
 	comments = comments.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
 
 	for x in comments: x.unread = True
-	
+
 	comments = [x.top_comment for x in comments]
 
 	if v.client: return {"total":total, "data":[x.json(db=g.db) for x in comments]}

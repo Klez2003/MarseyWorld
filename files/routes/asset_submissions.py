@@ -180,7 +180,7 @@ def approve_emoji(v, name):
 			badge_grant(badge_id=113, user=author)
 		else:
 			badge_grant(badge_id=112, user=author)
-	
+
 
 	cache.delete("emojis")
 

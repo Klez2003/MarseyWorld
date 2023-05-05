@@ -32,7 +32,7 @@ def chart(kind, site):
 		num_of_weeks = int(time_diff / 604800)
 	else:
 		num_of_weeks = 30
-	
+
 	chart_width = int(num_of_weeks/0.7)
 
 	if kind == 'daily':

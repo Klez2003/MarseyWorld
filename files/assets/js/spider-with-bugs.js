@@ -804,7 +804,7 @@ var Bug = {
 		if (!this.bug) {
 			this.makeBug();
 		}
-		
+
 		if(!this.bug) return;
 
 		this.stop();
@@ -855,7 +855,7 @@ var Bug = {
 		if (!this.bug) {
 			this.makeBug();
 		}
-		
+
 		if(!this.bug) return;
 
 		this.stop();
@@ -949,7 +949,7 @@ var Bug = {
 			rotationRate = this.random(0, 20, true),
 			startTime = Date.now(),
 			that = this;
-		
+
 		this.bug.classList.add('bug-dead');
 
 		this.dropTimer = requestAnimFrame(function(t) {

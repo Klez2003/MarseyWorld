@@ -203,7 +203,7 @@ def comment_idlist(v=None, page=1, sort="new", t="day", gt=0, lt=0):
 
 	total = comments.count()
 	comments = sort_objects(sort, comments, Comment)
-	
+
 	comments = comments.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
 	return [x.id for x in comments], total
 

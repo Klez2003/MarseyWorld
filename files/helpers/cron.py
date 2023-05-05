@@ -119,7 +119,7 @@ def _generate_emojis_zip():
 	m = md5()
 	with open('files/assets/emojis.zip', "rb") as f:
 		data = f.read()
-	
+
 	m.update(data)
 	cache.set('emojis_hash', m.hexdigest())
 

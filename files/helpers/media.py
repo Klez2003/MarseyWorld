@@ -57,7 +57,7 @@ def process_files(files, v, body, is_dm=False, dm_user=None):
 			url = f'{SITE_FULL}{process_audio(file, v)}'
 		else:
 			abort(415)
-		
+
 		body = body.replace(f'[{file.filename}]', f' {url} ', 1)
 
 		if is_dm:
@@ -117,7 +117,7 @@ def convert_to_mp4(old, new, vid, db):
 		if os.path.isfile(tmp):
 			os.remove(tmp)
 		abort(400)
-	
+
 	os.replace(tmp, new)
 	os.remove(old)
 

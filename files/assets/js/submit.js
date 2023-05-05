@@ -15,7 +15,7 @@ for (const key of save_checked) {
 		const element = document.getElementById(key)
 		if (element) element.checked = (value == 'true')
 	}
-		
+
 }
 
 function savetext() {

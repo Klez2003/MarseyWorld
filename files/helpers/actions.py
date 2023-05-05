@@ -119,10 +119,10 @@ def execute_snappy(post:Submission, v:User):
 			group = g.db.query(Group).order_by(func.random()).first()
 
 			group_members = group.member_ids
-			
+
 			if group.name == 'biofoids': mul = 10
 			else: mul = 5
-				
+
 			g.db.query(User).filter(User.id.in_(group_members)).update({ User.coins: User.coins + mul })
 
 			cost = len(group_members) * mul
@@ -561,7 +561,7 @@ def process_poll_options(v:User, target:Union[Submission, Comment]):
 					body_html=body_html,
 					exclusive=exclusive,
 				).first()
-			
+
 			if not existing:
 				option = cls(
 					parent_id=target.id,

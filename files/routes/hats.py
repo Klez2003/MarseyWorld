@@ -38,12 +38,12 @@ def hats(v:User):
 		hats = hats.order_by(key).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
 	elif sort == "owners":
 		hat_count = {x[0]:x[1] for x in g.db.query(Hat.hat_id, func.count(Hat.hat_id)).group_by(Hat.hat_id).all()}
-		
+
 		if SITE == 'rdrama.net':
 			hats = sorted(hats.all(), key=lambda x: hat_count[x[0].id] if x[0].id in hat_count else 0, reverse=True)
 		else:
 			hats = sorted(hats.all(), key=lambda x: hat_count[x.id] if x.id in hat_count else 0, reverse=True)
-		
+
 		firstrange = PAGE_SIZE * (page - 1)
 		secondrange = firstrange + PAGE_SIZE
 		hats = hats[firstrange:secondrange]
@@ -163,7 +163,7 @@ def hat_owners(v:User, hat_id):
 	users = g.db.query(User).join(Hat.owners).filter(Hat.hat_id == hat_id)
 
 	total = users.count()
-	
+
 	users = users.order_by(Hat.created_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
 
 	return render_template("user_cards.html",

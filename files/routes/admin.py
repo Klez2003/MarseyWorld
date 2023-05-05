@@ -737,7 +737,7 @@ def admin_removed(v):
 
 	listing = g.db.query(Submission).options(load_only(Submission.id)).join(Submission.author).filter(
 			or_(Submission.is_banned==True, User.shadowbanned != None))
-		
+
 	total = listing.count()
 	listing = listing.order_by(Submission.id.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
 	listing = [x.id for x in listing]
@@ -761,13 +761,13 @@ def admin_removed_comments(v):
 
 	listing = g.db.query(Comment).options(load_only(Comment.id)).join(Comment.author).filter(
 			or_(Comment.is_banned==True, User.shadowbanned != None))
-		
+
 	total = listing.count()
 	listing = listing.order_by(Comment.id.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
 	listing = [x.id for x in listing]
 
 	comments = get_comments(listing, v=v)
-	
+
 	return render_template("admin/removed_comments.html",
 						v=v,
 						listing=comments,

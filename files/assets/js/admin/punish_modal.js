@@ -1,6 +1,6 @@
 function punishModal(t, kind, link, name, fullname) {
 	const kind_title = kind.charAt(0).toUpperCase() + kind.slice(1)
-	
+
 	document.getElementById(`${kind}ModalTitle`).innerHTML = `${kind_title} @${name}`;
 	document.getElementById(`${kind}_reason`).value = link;
 
@@ -12,7 +12,7 @@ function punishModal(t, kind, link, name, fullname) {
 			"days": document.getElementById(`${kind}_days`).value,
 			"reason": document.getElementById(`${kind}_reason`).value
 			}
-		
+
 		if (kind == "ban") {
 			values["alts"] = document.getElementById(`${kind}_alts`).value;
 		}

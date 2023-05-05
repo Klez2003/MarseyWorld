@@ -377,7 +377,7 @@ function populate_speed_emoji_modal(results, textbox)
 
 		if(emoji.author !== undefined && emoji.author !== null)
 			emoji_option_text.title += "\nauthor\t" + emoji.author
-		
+
 		if(emoji.count !== undefined)
 			emoji_option_text.title += "\nused\t" + emoji.count;
 

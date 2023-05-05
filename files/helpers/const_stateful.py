@@ -37,7 +37,7 @@ def _initialize_snappy_marseys_and_quotes():
 	global SNAPPY_MARSEYS, SNAPPY_QUOTES
 
 	SNAPPY_MARSEYS = [f':#{x}:' for x in marseys_const2]
-	
+
 	if IS_FISTMAS():
 		filename = f"snappy_fistmas_{SITE_NAME}.txt"
 	else:

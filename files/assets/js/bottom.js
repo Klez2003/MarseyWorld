@@ -112,7 +112,7 @@ function disable_btn(t) {
 			setTimeout(() => {
 				t.disabled = true;
 			}, 0.1);
-		
+
 			setTimeout(() => {
 				t.classList.remove("disabled");
 				t.disabled = false;
@@ -209,14 +209,14 @@ document.addEventListener("click", function (e) {
 	if (!element.classList.contains("areyousure")) {
 		document.querySelectorAll(".areyousure").forEach(i => {
 			i.classList.remove("areyousure")
-			
+
 			if (i.dataset.oldvalue)
 				i.value = i.dataset.oldvalue
 			else
 				i.innerHTML = i.dataset.oldhtml
 
 			i.setAttribute("data-onclick", "areyousure(this)");
-			
+
 			if (i.dataset.dismiss)
 				i.removeAttribute("data-bs-dismiss")
 		});
