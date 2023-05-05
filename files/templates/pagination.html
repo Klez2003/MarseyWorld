@@ -24,12 +24,12 @@
 
 		{% if start_point > 1 %}
 			<li class="page-item">
-				<small><a class="page-link" href="{{1|change_page|safe}}">1</a></small>
+				<small><a class="page-link" href="{{1|change_page(request.full_path)|safe}}">1</a></small>
 			</li>
 
 			{% if start_point == 3 %}
 				<li class="page-item">
-					<small><a class="page-link" href="{{2|change_page|safe}}">2</a></small>
+					<small><a class="page-link" href="{{2|change_page(request.full_path)|safe}}">2</a></small>
 				</li>
 			{% elif start_point != 2 %}
 				<li class="page-item">
@@ -40,14 +40,14 @@
 
 		{% for x in range(start_point, end_point+1) %}
 			<li class="page-item">
-				<small><a class="page-link {% if x == page %}active{% endif %}" href="{{x|change_page|safe}}">{{x}}</a></small>
+				<small><a class="page-link {% if x == page %}active{% endif %}" href="{{x|change_page(request.full_path)|safe}}">{{x}}</a></small>
 			</li>
 		{% endfor %}
 
 		{% if end_point < num_pages %}
 			{% if end_point == num_pages-2 %}
 				<li class="page-item">
-					<small><a class="page-link" href="{{(num_pages-1)|change_page|safe}}">{{num_pages-1}}</a></small>
+					<small><a class="page-link" href="{{(num_pages-1)|change_page(request.full_path)|safe}}">{{num_pages-1}}</a></small>
 				</li>
 			{% elif end_point != num_pages-1 %}
 				<li class="page-item">
@@ -56,7 +56,7 @@
 			{% endif %}
 
 			<li class="page-item">
-				<small><a class="page-link" href="{{num_pages|change_page|safe}}">{{num_pages}}</a></small>
+				<small><a class="page-link" href="{{num_pages|change_page(request.full_path)|safe}}">{{num_pages}}</a></small>
 			</li>
 		{% endif %}
 	</ul>

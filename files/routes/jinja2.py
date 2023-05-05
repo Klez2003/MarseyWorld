@@ -40,8 +40,8 @@ def template_asset(ctx, asset_path):
 
 
 @app.template_filter("change_page")
-def template_change_page(new_page):
-	parsed = urlsplit(request.full_path)
+def template_change_page(new_page, url):
+	parsed = urlsplit(url)
 	query_dict = parse_qs(parsed.query)
 	query_dict["page"] = new_page
 	query_new = urlencode(query_dict, doseq=True)
