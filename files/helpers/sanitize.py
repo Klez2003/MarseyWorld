@@ -5,7 +5,7 @@ import signal
 from functools import partial
 from os import path, listdir
 from typing import Any
-from urllib.parse import parse_qs, urlparse
+from urllib.parse import parse_qs, urlparse, unquote
 
 import bleach
 from bleach.css_sanitizer import CSSSanitizer
@@ -629,10 +629,10 @@ def normalize_url(url):
 			 .replace("https://nitter.42l.fr/", "https://twitter.com/") \
 			 .replace("https://nitter.lacontrevoie.fr/", "https://twitter.com/") \
 			 .replace("/giphy.gif", "/giphy.webp") \
-			 .replace("%2e", ".").replace("%2E", ".") \
 
 	url = imgur_regex.sub(r'\1_d.webp?maxwidth=9999&fidelity=grand', url)
 	url = giphy_regex.sub(r'\1.webp', url)
+	url = unquote(url)
 
 	return url
 
