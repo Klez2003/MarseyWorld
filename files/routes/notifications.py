@@ -323,7 +323,7 @@ def notifications(v:User):
 			Comment.deleted_utc == 0,
 		)
 
-	total = comments.count()
+	total_count = comments.count()
 
 	comments = comments.order_by(Notification.created_utc.desc(), Comment.id.desc())
 	comments = comments.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
@@ -413,7 +413,7 @@ def notifications(v:User):
 	return render_template("notifications.html",
 							v=v,
 							notifications=listing,
-							total=total,
+							total=total_count,
 							page=page,
 							standalone=True,
 							render_replies=True,
