@@ -370,7 +370,7 @@ def transfers_id(id, v):
 
 	if not transfer: abort(404)
 
-	return render_template("transfers.html", v=v, page=1, comments=[transfer], standalone=True, next_exists=False)
+	return render_template("transfers.html", v=v, page=1, comments=[transfer], standalone=True, next_exists=1)
 
 @app.get("/transfers")
 @limiter.limit(DEFAULT_RATELIMIT)
@@ -378,14 +378,13 @@ def transfers_id(id, v):
 @auth_required
 def transfers(v:User):
 
-	comments = g.db.query(Comment).filter(Comment.author_id == AUTOJANNY_ID, Comment.parent_submission == None, Comment.body_html.like("%</a> has transferred %")).order_by(Comment.id.desc())
+	comments = g.db.query(Comment).filter(Comment.author_id == AUTOJANNY_ID, Comment.parent_submission == None, Comment.body_html.like("%</a> has transferred %"))
 
 	try: page = max(int(request.values.get("page", 1)), 1)
 	except: page = 1
 
-	comments = comments.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
-	next_exists = len(comments) > PAGE_SIZE
-	comments = comments[:PAGE_SIZE]
+	next_exists = comments.count()
+	comments = comments.order_by(Comment.id.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
 
 	if v.client:
 		return {"data": [x.json(g.db) for x in comments]}
