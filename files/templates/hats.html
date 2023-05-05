@@ -57,10 +57,12 @@
 		</thead>
 
 		<tbody>
-			{% for hat in hats %}
+			{% for item in hats %}
 				{% if SITE == 'rdrama.net' %}
-					{% set hat = hat[0] %}
-					{% set user = hat[1] %}
+					{% set hat = item[0] %}
+					{% set user = item[1] %}
+				{% else %}
+					{% set hat = item %}
 				{% endif %}
 				<tr>
 					<td>
