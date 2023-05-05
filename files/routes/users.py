@@ -750,12 +750,12 @@ def blockers(v:User, username:str):
 	page = get_page()
 
 	users = g.db.query(UserBlock, User).join(UserBlock, UserBlock.target_id == u.id) \
-		.filter(UserBlock.user_id == User.id) \
-		.order_by(UserBlock.created_utc.desc()) \
-		.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
+		.filter(UserBlock.user_id == User.id)
 
-	next_exists = (len(users) > PAGE_SIZE)
-	users = users[:PAGE_SIZE]
+	next_exists = users.count()
+
+	users = users.order_by(UserBlock.created_utc.desc()) \
+		.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE ).all()
 
 	return render_template("userpage/blockers.html", v=v, u=u, users=users, page=page, next_exists=next_exists)
 
