@@ -161,7 +161,7 @@ function frame() {
 	if (idleTime > 1) {
 		setSprite("alert", 0);
 		// count down after being alerted before moving
-		idleTime = Math.min(idleTime, 32);
+		idleTime = Math.min(idleTime, 7);
 		idleTime -= 1;
 		return;
 	}
