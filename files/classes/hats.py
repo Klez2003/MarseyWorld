@@ -8,6 +8,8 @@ from files.classes import Base
 from files.helpers.lazy import lazy
 from files.helpers.regex import censor_slurs
 
+from flask import g
+
 class HatDef(Base):
 	__tablename__ = "hat_defs"
 
@@ -29,9 +31,10 @@ class HatDef(Base):
 	def __repr__(self):
 		return f"<{self.__class__.__name__}(id={self.id})>"
 
+	@property
 	@lazy
-	def number_sold(self, db:scoped_session):
-		return db.query(Hat).filter_by(hat_id=self.id).count()
+	def number_sold(self):
+		return g.db.query(Hat).filter_by(hat_id=self.id).count()
 
 	@lazy
 	def censored_description(self, v):

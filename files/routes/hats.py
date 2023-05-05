@@ -37,12 +37,10 @@ def hats(v:User):
 
 		hats = hats.order_by(key).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
 	elif sort == "owners":
-		hat_count = [x[0] for x in g.db.query(Hat.hat_id).group_by(Hat.hat_id).order_by(func.count(Hat.hat_id).desc()).all()]
-		
 		if SITE == 'rdrama.net':
-			hats = sorted(hats.all(), key=lambda x: hat_count.index(x[0].id) if x[0].id in hat_count else 0)
+			hats = sorted(hats.all(), key=lambda x: x[0].number_sold, reverse=True)
 		else:
-			hats = sorted(hats.all(), key=lambda x: hat_count.index(x.id) if x.id in hat_count else 0)
+			hats = sorted(hats.all(), key=lambda x: x.number_sold, reverse=True)
 		
 		firstrange = PAGE_SIZE * (page - 1)
 		secondrange = firstrange + PAGE_SIZE
