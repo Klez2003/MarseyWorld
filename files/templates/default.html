@@ -45,13 +45,21 @@
 					{% endif %}
 				{% endif %}
 
-				<div class="banner-wrapper">
-					<div style="padding: 0 0 12.2%">
-						<div>
-							<img data-nonce="{{g.nonce}}" data-onclick="{{expand|default('expandImage()')}}" class="{{class|default('site-banner')}}" alt="{{alt|default('site banner')}}" src="{{banner_url}}">
+				{% macro img_element() %}
+					<img data-nonce="{{g.nonce}}" data-onclick="{{expand|default('expandImage()')}}" class="{{class|default('site-banner')}}" alt="{{alt|default('site banner')}}" src="{{banner_url}}">
+				{% endmacro %}
+
+				{% if sub and sub.has_banners %}
+					{{img_element()}}
+				{% else %}
+					<div class="banner-wrapper">
+						<div style="padding: 0 0 12.2%">
+							<div>
+								{{img_element()}}
+							</div>
 						</div>
 					</div>
-				</div>
+				{% endif %}
 			</a>
 		{% endif %}
 	{% endif %}
