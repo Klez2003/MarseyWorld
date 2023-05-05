@@ -99,7 +99,7 @@ def calc_users():
 
 
 	return {'loggedin_counter':loggedin_counter,
-	        'loggedout_counter':loggedout_counter,
+			'loggedout_counter':loggedout_counter,
 			'loggedin_chat':loggedin_chat}
 
 def current_registered_users():

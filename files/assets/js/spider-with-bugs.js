@@ -383,7 +383,7 @@ var SpiderController = function() {
 SpiderController.prototype = BugDispatch;
 
 /***************/
-/**    Bug    **/
+/**	Bug	**/
 /***************/
 
 var Bug = {
@@ -659,7 +659,7 @@ var Bug = {
 		// set the positions in our fly map for min distance finding
 		if (this.options.spider === undefined){
 			fliess.set(this, {x:x-XOFFSET, y:y-YOFFSET});
-		}        
+		}		
 
 		// transform:
 		var trans = "translate(" + parseInt(x) + "px," + parseInt(y) + "px)";
