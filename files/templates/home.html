@@ -77,8 +77,9 @@
 			{% block navbar %}
 			<div class="d-flex align-items-center">
 				{% set pcolor = "primary" if pins else "secondary" %}
-				<a class="btn btn-{{pcolor}} text-{{pcolor}} mx-2" href="/toggle_pins/{{sort}}"><i class="fas fas fa-thumbtack fa-rotate--45 mr-2"></i>Pins</a>
-
+				<form action="/toggle_pins/{{sort}}" method="post">
+					<button type="submit" class="btn btn-{{pcolor}} text-{{pcolor}} mx-2"><i type="submit" class="fas fas fa-thumbtack fa-rotate--45 mr-2"></i>Pins</button>					
+				</form>
 
 				<div class="dropdown dropdown-actions mx-2">
 					<button type="button" class="btn btn-secondary dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown">

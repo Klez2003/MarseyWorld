@@ -1250,7 +1250,7 @@ def fp(v:User, fp):
 	g.db.add(v)
 	return '', 204
 
-@app.get("/toggle_pins/<sort>")
+@app.post("/toggle_pins/<sort>")
 @limiter.limit(DEFAULT_RATELIMIT)
 def toggle_pins(sort):
 	if sort == 'hot': default = True
