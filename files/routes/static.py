@@ -62,7 +62,7 @@ def marseys(v:User):
 		marseys = marseys.order_by(Emoji.name, Emoji.count.desc())
 	elif sort == "added_on":
 		marseys = marseys.order_by(nullslast(Emoji.created_utc.desc()), Emoji.count.desc())
-	else: # implied sort == "usage"
+	elif sort == "usage":
 		marseys = marseys.order_by(Emoji.count.desc(), User.username)
 
 	page = get_page()
