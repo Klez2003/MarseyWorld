@@ -273,6 +273,7 @@ def all_upvoters_downvoters(v:User, username:str, vote_dir:int, is_who_simps_hat
 	users = g.db.query(User).filter(User.id.in_(votes.keys()))
 
 	users2 = [(user, votes[user.id]) for user in users.all()]
+
 	users = sorted(users2, key=lambda x: x[1], reverse=True)
 
 	try:
@@ -288,9 +289,7 @@ def all_upvoters_downvoters(v:User, username:str, vote_dir:int, is_who_simps_hat
 
 	page = get_page()
 
-	users = users[PAGE_SIZE * (page-1):]
-	total = (len(users) > PAGE_SIZE)
-	users = users[:PAGE_SIZE]
+	users = users[PAGE_SIZE * (page-1):PAGE_SIZE]
 
 	return render_template("userpage/voters.html", v=v, users=users, pos=pos, name=vote_name, name2=name2, page=page, total=total)
 
