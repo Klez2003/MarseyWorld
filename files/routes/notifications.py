@@ -323,7 +323,7 @@ def notifications(v:User):
 			Comment.deleted_utc == 0,
 		)
 
-	total_count = comments.count()
+	total = comments.count()
 
 	comments = comments.order_by(Notification.created_utc.desc(), Comment.id.desc())
 	comments = comments.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
@@ -331,7 +331,7 @@ def notifications(v:User):
 	cids = [x[0].id for x in comments]
 
 	listing = []
-	total = [x[0] for x in comments]
+	all_items = [x[0] for x in comments]
 
 	for c, n in comments:
 		c.notified_utc = n.created_utc
@@ -343,11 +343,11 @@ def notifications(v:User):
 		if not n.read: c.unread = True
 
 		if c.parent_submission or c.wall_user_id:
-			total.append(c)
+			all_items.append(c)
 
 			if c.replies2 == None:
 				c.replies2 = g.db.query(Comment).filter_by(parent_comment_id=c.id).filter(or_(Comment.author_id == v.id, Comment.id.in_(cids))).order_by(Comment.id.desc()).all()
-				total.extend(c.replies2)
+				all_items.extend(c.replies2)
 				for x in c.replies2:
 					if x.replies2 == None: x.replies2 = []
 
@@ -358,11 +358,11 @@ def notifications(v:User):
 
 				if c.replies2 == None:
 					c.replies2 = g.db.query(Comment).filter_by(parent_comment_id=c.id).filter(or_(Comment.author_id == v.id, Comment.id.in_(cids))).order_by(Comment.id.desc()).all()
-					total.extend(c.replies2)
+					all_items.extend(c.replies2)
 					for x in c.replies2:
 						if x.replies2 == None:
 							x.replies2 = g.db.query(Comment).filter_by(parent_comment_id=x.id).filter(or_(Comment.author_id == v.id, Comment.id.in_(cids))).order_by(Comment.id.desc()).all()
-							total.extend(x.replies2)
+							all_items.extend(x.replies2)
 
 				if not hasattr(c, "notified_utc") or n.created_utc > c.notified_utc:
 					c.notified_utc = n.created_utc
@@ -380,7 +380,7 @@ def notifications(v:User):
 			n.read = True
 			g.db.add(n)
 
-	total.extend(listing)
+	all_items.extend(listing)
 
 	listing2 = {}
 
@@ -389,7 +389,7 @@ def notifications(v:User):
 			parent = x.parent_comment
 			if parent.replies2 == None:
 				parent.replies2 = g.db.query(Comment).filter_by(parent_comment_id=parent.id).filter(or_(Comment.author_id == v.id, Comment.id.in_(cids+[x.id]))).order_by(Comment.id.desc()).all()
-				total.extend(parent.replies2)
+				all_items.extend(parent.replies2)
 				for y in parent.replies2:
 					if y.replies2 == None:
 						y.replies2 = []
@@ -399,12 +399,12 @@ def notifications(v:User):
 
 	listing = listing2.keys()
 
-	total.extend(listing)
+	all_items.extend(listing)
 
-	total_cids = [x.id for x in total]
-	total_cids.extend(cids)
-	total_cids = set(total_cids)
-	output = get_comments_v_properties(v, None, Comment.id.in_(total_cids))[1]
+	all_cids = [x.id for x in all_items]
+	all_cids.extend(cids)
+	all_cids = set(all_cids)
+	output = get_comments_v_properties(v, None, Comment.id.in_(all_cids))[1]
 
 	g.db.flush()
 
@@ -413,7 +413,7 @@ def notifications(v:User):
 	return render_template("notifications.html",
 							v=v,
 							notifications=listing,
-							total=total_count,
+							total=total,
 							page=page,
 							standalone=True,
 							render_replies=True,
