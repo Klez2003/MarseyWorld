@@ -51,12 +51,10 @@ def get_marseys(db:scoped_session):
 	return marseys
 
 @app.get("/marseys")
-@app.get("/marseys/all")
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def marseys(v:User):
-
 	if SITE_NAME != 'rDrama':
 		abort(404)
 
