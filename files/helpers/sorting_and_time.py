@@ -38,11 +38,11 @@ def sort_objects(sort, objects, cls):
 	elif sort == "comments" and cls.__name__ == "Submission":
 		return objects.order_by(cls.comment_count.desc(), cls.created_utc.desc())
 	elif sort == "subscriptions" and cls.__name__ == "Submission":
-		return objects.outerjoin(Subscription).group_by(cls.id).order_by(func.count(Subscription.submission_id).desc(), cls.created_utc.desc())
+		return objects.outerjoin(Subscription, Subscription.submission_id == cls.id).group_by(cls.id).order_by(func.count(Subscription.submission_id).desc(), cls.created_utc.desc())
 	elif sort == "saves" and cls.__name__ == "Submission":
-		return objects.outerjoin(SaveRelationship).group_by(cls.id).order_by(func.count(SaveRelationship.submission_id).desc(), cls.created_utc.desc())
+		return objects.outerjoin(SaveRelationship, SaveRelationship.submission_id == cls.id).group_by(cls.id).order_by(func.count(SaveRelationship.submission_id).desc(), cls.created_utc.desc())
 	elif sort == "saves" and cls.__name__ == "Comment":
-		return objects.outerjoin(CommentSaveRelationship).group_by(cls.id).order_by(func.count(CommentSaveRelationship.comment_id).desc(), cls.created_utc.desc())
+		return objects.outerjoin(CommentSaveRelationship, CommentSaveRelationship.comment_id == cls.id).group_by(cls.id).order_by(func.count(CommentSaveRelationship.comment_id).desc(), cls.created_utc.desc())
 	elif sort == "new":
 		return objects.order_by(cls.created_utc.desc())
 	elif sort == "old":
