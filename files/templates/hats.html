@@ -44,20 +44,26 @@
 		<thead class="bg-primary text-white">
 			<tr>
 				<th class="disable-sort-click">Hat</th>
-				<th>Name</th>
-				<th>Description</th>
+				<th class="disable-sort-click" {% if sort=="name" %}disabled{% endif %}><a href="?sort=name">Name</a></th>
+				<th class="disable-sort-click" {% if sort=="description" %}disabled{% endif %}><a href="?sort=description">Description</a></th>
 				{% if SITE == 'rdrama.net' %}
-					<th>Author</a></th>
+					<th class="disable-sort-click" {% if sort=="author" %}disabled{% endif %}><a href="?sort=author">Author</a></th>
 				{% endif %}
-				<th>Owners</th>
-				<th>Price</th>
+				<th class="disable-sort-click" {% if sort=="owners" %}disabled{% endif %}><a href="?sort=owners">Owners</a></th>
+				<th class="disable-sort-click" {% if sort=="price" %}disabled{% endif %}><a href="?sort=price">Price</a></th>
 				<th class="disable-sort-click">Actions</th>
-				<th>Added on</th>
+				<th class="disable-sort-click" {% if sort=="added_on" %}disabled{% endif %}><a href="?sort=added_on">Added on</a></th>
 			</tr>
 		</thead>
 
 		<tbody>
-			{% for hat, user in hats %}
+			{% for item in hats %}
+				{% if SITE == 'rdrama.net' %}
+					{% set hat = item[0] %}
+					{% set user = item[1] %}
+				{% else %}
+					{% set hat = item %}
+				{% endif %}
 				<tr>
 					<td>
 						<div class="profile-pic-75-wrapper mt-4">
@@ -75,14 +81,14 @@
 					<td class="shop-table-actions" style="width:unset">
 						{% if hat.id not in owned_hat_ids and hat.is_purchasable %}
 							<div id="if-not-owned-{{hat.id}}">
-								<button type="button" id="buy-{{hat.id}}" class="btn btn-success {% if v.coins+v.marseybux < hat.price %}disabled{% endif %}" data-areyousure="postToastSwitch(this, '/buy_hat/{{hat.id}}', 'if-not-owned-{{hat.id}}', 'if-owned-{{hat.id}}', 'd-none')" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)"><span class="m-auto">Buy</span></button>
+								<button type="button" id="buy-{{hat.id}}" class="btn btn-success {% if v.coins+v.marseybux < hat.price %}disabled{% endif %}" data-areyousure="postToastSwitch(this, '/buy_hat/{{hat.id}}', 'if-not-owned-{{hat.id}}', 'if-owned-{{hat.id}}', 'd-none')" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)">Buy</button>
 							</div>
 						{% endif %}
 
 						<div id="if-owned-{{hat.id}}" {% if hat.id not in owned_hat_ids %}class="d-none"{% endif %}>
-							<button type="button" id="unequip-{{hat.id}}" class="unequip {% if hat.id not in v.equipped_hat_ids %}d-none{% endif %} btn btn-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this, '/unequip_hat/{{hat.id}}', 'equip-{{hat.id}}', 'unequip-{{hat.id}}', 'd-none')"><span class="m-auto">Unequip</span></button>
+							<button type="button" id="unequip-{{hat.id}}" class="unequip {% if hat.id not in v.equipped_hat_ids %}d-none{% endif %} btn btn-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this, '/unequip_hat/{{hat.id}}', 'equip-{{hat.id}}', 'unequip-{{hat.id}}', 'd-none')">Unequip</button>
 
-							<button type="button" id="equip-{{hat.id}}" class="equip {% if hat.id in v.equipped_hat_ids %}d-none{% endif %} btn btn-success" data-nonce="{{g.nonce}}" data-onclick="equip_hat(this, '{{hat.id}}', '{{hat.name}}')"><span class="m-auto">Equip</span></button>
+							<button type="button" id="equip-{{hat.id}}" class="equip {% if hat.id in v.equipped_hat_ids %}d-none{% endif %} btn btn-success" data-nonce="{{g.nonce}}" data-onclick="equip_hat(this, '{{hat.id}}', '{{hat.name}}')">Equip</button>
 						</div>
 					</td>
 
@@ -92,4 +98,8 @@
 		</tbody>
 	</table>
 
+{% endblock %}
+
+{% block pagenav %}
+{% include "pagination.html" %}
 {% endblock %}

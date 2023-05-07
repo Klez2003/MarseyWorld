@@ -5,7 +5,7 @@ import signal
 from functools import partial
 from os import path, listdir
 from typing import Any
-from urllib.parse import parse_qs, urlparse
+from urllib.parse import parse_qs, urlparse, unquote
 
 import bleach
 from bleach.css_sanitizer import CSSSanitizer
@@ -354,6 +354,10 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_emojis=
 	sanitized = sanitized.strip()
 	if not sanitized: return ''
 
+	if "style" in sanitized and "filter" in sanitized:
+		if sanitized.count("blur(") + sanitized.count("drop-shadow(") > 5:
+			abort(400, "Too many filters!")
+
 	if blackjack and execute_blackjack(g.v, None, sanitized, blackjack):
 		sanitized = 'g'
 
@@ -624,10 +628,11 @@ def normalize_url(url):
 			 .replace("https://nitter.net/", "https://twitter.com/") \
 			 .replace("https://nitter.42l.fr/", "https://twitter.com/") \
 			 .replace("https://nitter.lacontrevoie.fr/", "https://twitter.com/") \
-			 .replace("/giphy.gif", "/giphy.webp")
+			 .replace("/giphy.gif", "/giphy.webp") \
 
 	url = imgur_regex.sub(r'\1_d.webp?maxwidth=9999&fidelity=grand', url)
 	url = giphy_regex.sub(r'\1.webp', url)
+	url = unquote(url)
 
 	return url
 

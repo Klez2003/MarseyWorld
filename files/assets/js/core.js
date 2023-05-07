@@ -460,7 +460,7 @@ let oldfiles = {};
 
 function handle_files(input, newfiles) {
 	if (!newfiles) return;
-	
+
 	const ta = input.parentElement.parentElement.parentElement.parentElement.querySelector('textarea.file-ta');
 
 	if (oldfiles[ta.id]) {
@@ -596,7 +596,7 @@ function cancel_files(element) {
 function handleUploadProgress(e, upload_prog) {
 	const bar = upload_prog.firstElementChild;
 	const percentIndicator = upload_prog.lastElementChild;
-		
+
 	upload_prog.classList.remove("d-none")
 	if (e.lengthComputable) {
 		const progressPercent = Math.floor((e.loaded / e.total) * 100);
@@ -607,17 +607,19 @@ function handleUploadProgress(e, upload_prog) {
 
 
 if (width <= 768) {
-	expandImageModal.addEventListener('show.bs.modal', function () {
-		setTimeout(() => {
-			location.hash = "modal";
-		}, 400);
-	});
+	if (expandImageModal) {
+		expandImageModal.addEventListener('show.bs.modal', function () {
+			setTimeout(() => {
+				location.hash = "modal";
+			}, 400);
+		});
 
-	expandImageModal.addEventListener('hide.bs.modal', function () {
-		if(location.hash == "#modal") {
-			history.back();
-		}
-	});
+		expandImageModal.addEventListener('hide.bs.modal', function () {
+			if(location.hash == "#modal") {
+				history.back();
+			}
+		});
+	}
 
 	window.addEventListener('hashchange', function () {
 		if(location.hash != "#modal") {
@@ -632,7 +634,7 @@ document.querySelectorAll('form').forEach(form => {
 		if (form.classList.contains('is-submitting')) {
 			e.preventDefault();
 		}
-		
+
 		form.classList.add('is-submitting');
 	});
 });

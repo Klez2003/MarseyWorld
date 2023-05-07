@@ -383,7 +383,7 @@ var SpiderController = function() {
 SpiderController.prototype = BugDispatch;
 
 /***************/
-/**    Bug    **/
+/**	Bug	**/
 /***************/
 
 var Bug = {
@@ -659,7 +659,7 @@ var Bug = {
 		// set the positions in our fly map for min distance finding
 		if (this.options.spider === undefined){
 			fliess.set(this, {x:x-XOFFSET, y:y-YOFFSET});
-		}        
+		}		
 
 		// transform:
 		var trans = "translate(" + parseInt(x) + "px," + parseInt(y) + "px)";
@@ -804,7 +804,7 @@ var Bug = {
 		if (!this.bug) {
 			this.makeBug();
 		}
-		
+
 		if(!this.bug) return;
 
 		this.stop();
@@ -855,7 +855,7 @@ var Bug = {
 		if (!this.bug) {
 			this.makeBug();
 		}
-		
+
 		if(!this.bug) return;
 
 		this.stop();
@@ -949,7 +949,7 @@ var Bug = {
 			rotationRate = this.random(0, 20, true),
 			startTime = Date.now(),
 			that = this;
-		
+
 		this.bug.classList.add('bug-dead');
 
 		this.dropTimer = requestAnimFrame(function(t) {

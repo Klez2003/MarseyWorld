@@ -332,7 +332,7 @@ class Submission(Base):
 	@lazy
 	def realtitle(self, v):
 		title = self.title_html
-			
+
 		if self.sub != 'chudrama':
 			title = censor_slurs(title, v)
 

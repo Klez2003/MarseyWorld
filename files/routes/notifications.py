@@ -1,6 +1,7 @@
 import time
 
 from sqlalchemy.sql.expression import not_, and_, or_
+from sqlalchemy.orm import load_only
 
 from files.classes.mod_logs import ModAction
 from files.classes.sub_logs import SubAction
@@ -17,10 +18,15 @@ from files.__main__ import app
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def clear(v):
-	notifs = g.db.query(Notification).join(Notification.comment).filter(Notification.read == False, Notification.user_id == v.id).all()
+	notifs = g.db.query(Notification).join(Notification.comment).filter(
+		Notification.read == False,
+		Notification.user_id == v.id,
+	).options(load_only(Notification.comment_id)).all()
+
 	for n in notifs:
 		n.read = True
 		g.db.add(n)
+
 	v.last_viewed_post_notifs = int(time.time())
 	v.last_viewed_log_notifs = int(time.time())
 	v.last_viewed_reddit_notifs = int(time.time())
@@ -52,15 +58,15 @@ def unread(v):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['VIEW_MODMAIL'])
 def notifications_modmail(v):
-	try: page = max(int(request.values.get("page", 1)), 1)
-	except: page = 1
+	page = get_page()
 
 	comments = g.db.query(Comment).filter_by(
 			sentto=MODMAIL_ID,
 			level=1,
-		).order_by(Comment.id.desc()).offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE+1).all()
-	next_exists = (len(comments) > PAGE_SIZE)
-	listing = comments[:PAGE_SIZE]
+		)
+
+	total = comments.count()
+	listing = comments.order_by(Comment.id.desc()).offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE).all()
 
 	g.db.flush()
 
@@ -69,7 +75,7 @@ def notifications_modmail(v):
 	return render_template("notifications.html",
 							v=v,
 							notifications=listing,
-							next_exists=next_exists,
+							total=total,
 							page=page,
 							standalone=True,
 							render_replies=True,
@@ -82,8 +88,7 @@ def notifications_modmail(v):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def notifications_messages(v:User):
-	try: page = max(int(request.values.get("page", 1)), 1)
-	except: page = 1
+	page = get_page()
 
 	# All of these queries are horrible. For whomever comes here after me,
 	# PLEASE just turn DMs into their own table and get them out of
@@ -108,11 +113,9 @@ def notifications_messages(v:User):
 
 	message_threads = message_threads.join(thread_order,
 						thread_order.c.top_comment_id == Comment.top_comment_id)
-	message_threads = message_threads.order_by(thread_order.c.created_utc.desc()) \
-						.offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE+1).all()
 
 	# Clear notifications (used for unread indicator only) for all user messages.
-	
+
 	if not session.get("GLOBAL"):
 		notifs_unread_row = g.db.query(Notification.comment_id).join(Comment).filter(
 			Notification.user_id == v.id,
@@ -133,15 +136,17 @@ def notifications_messages(v:User):
 			c.unread = True
 			list_to_perserve_unread_attribute.append(c)
 
-	next_exists = (len(message_threads) > 25)
-	listing = message_threads[:25]
+
+	total = message_threads.count()
+	listing = message_threads.order_by(thread_order.c.created_utc.desc()) \
+					.offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE).all()
 
 	if v.client: return {"data":[x.json(g.db) for x in listing]}
 
 	return render_template("notifications.html",
 							v=v,
 							notifications=listing,
-							next_exists=next_exists,
+							total=total,
 							page=page,
 							standalone=True,
 							render_replies=True,
@@ -153,10 +158,9 @@ def notifications_messages(v:User):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def notifications_posts(v:User):
-	try: page = max(int(request.values.get("page", 1)), 1)
-	except: page = 1
+	page = get_page()
 
-	listing = [x[0] for x in g.db.query(Submission.id).filter(
+	listing = g.db.query(Submission).filter(
 		or_(
 			Submission.author_id.in_(v.followed_users),
 			Submission.sub.in_(v.followed_subs)
@@ -168,10 +172,13 @@ def notifications_posts(v:User):
 		Submission.author_id != v.id,
 		Submission.ghost == False,
 		Submission.author_id.notin_(v.userblocks)
-	).order_by(Submission.created_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE+1).all()]
+	).options(load_only(Submission.id))
 
-	next_exists = (len(listing) > 25)
-	listing = listing[:25]
+	total = listing.count()
+
+	listing = listing.order_by(Submission.created_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
+	listing = [x.id for x in listing]
+
 	listing = get_posts(listing, v=v, eager=True)
 
 	for p in listing:
@@ -186,7 +193,7 @@ def notifications_posts(v:User):
 	return render_template("notifications.html",
 							v=v,
 							notifications=listing,
-							next_exists=next_exists,
+							total=total,
 							page=page,
 							standalone=True,
 							render_replies=True,
@@ -198,8 +205,7 @@ def notifications_posts(v:User):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def notifications_modactions(v:User):
-	try: page = max(int(request.values.get("page", 1)), 1)
-	except: page = 1
+	page = get_page()
 
 	if v.admin_level >= PERMS['NOTIFICATIONS_MODERATOR_ACTIONS']:
 		cls = ModAction
@@ -219,9 +225,9 @@ def notifications_modactions(v:User):
 	if cls == SubAction:
 		listing = listing.filter(cls.sub.in_(v.moderated_subs))
 
-	listing = listing.order_by(cls.id.desc()).offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE+1).all()
-	next_exists = len(listing) > PAGE_SIZE
-	listing = listing[:PAGE_SIZE]
+	total = listing.count()
+	listing = listing.order_by(cls.id.desc())
+	listing = listing.offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE).all()
 
 	for ma in listing:
 		ma.unread = ma.created_utc > v.last_viewed_log_notifs
@@ -233,7 +239,7 @@ def notifications_modactions(v:User):
 	return render_template("notifications.html",
 							v=v,
 							notifications=listing,
-							next_exists=next_exists,
+							total=total,
 							page=page,
 							standalone=True,
 							render_replies=True,
@@ -246,8 +252,7 @@ def notifications_modactions(v:User):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def notifications_reddit(v:User):
-	try: page = max(int(request.values.get("page", 1)), 1)
-	except: page = 1
+	page = get_page()
 
 	if not v.can_view_offsitementions: abort(403)
 
@@ -255,10 +260,10 @@ def notifications_reddit(v:User):
 		Comment.body_html.like('%<p>New site mention%<a href="https://old.reddit.com/r/%'),
 		Comment.parent_submission == None,
 		Comment.author_id == AUTOJANNY_ID
-	).order_by(Comment.created_utc.desc()).offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE+1).all()
+	)
 
-	next_exists = len(listing) > PAGE_SIZE
-	listing = listing[:PAGE_SIZE]
+	total = listing.count()
+	listing = listing.order_by(Comment.created_utc.desc()).offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE).all()
 
 	for ma in listing:
 		ma.unread = ma.created_utc > v.last_viewed_reddit_notifs
@@ -272,7 +277,7 @@ def notifications_reddit(v:User):
 	return render_template("notifications.html",
 							v=v,
 							notifications=listing,
-							next_exists=next_exists,
+							total=total,
 							page=page,
 							standalone=True,
 							render_replies=True,
@@ -286,8 +291,7 @@ def notifications_reddit(v:User):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def notifications(v:User):
-	try: page = max(int(request.values.get("page", 1)), 1)
-	except: page = 1
+	page = get_page()
 
 	if v.admin_level < PERMS['USER_SHADOWBAN']:
 		unread_and_inaccessible = g.db.query(Notification).join(Notification.comment).join(Comment.author).filter(
@@ -298,12 +302,12 @@ def notifications(v:User):
 				Comment.is_banned != False,
 				Comment.deleted_utc != 0,
 			)
-		).all()
+		).options(load_only(Notification.comment_id)).all()
 		for n in unread_and_inaccessible:
 			n.read = True
 			g.db.add(n)
 
-	comments = g.db.query(Comment, Notification).join(Notification.comment).filter(
+	comments = g.db.query(Comment, Notification).options(load_only(Comment.id)).join(Notification.comment).filter(
 		Notification.user_id == v.id,
 		or_(Comment.sentto == None, Comment.sentto != v.id),
 	)
@@ -319,11 +323,11 @@ def notifications(v:User):
 			Comment.deleted_utc == 0,
 		)
 
-	comments = comments.order_by(Notification.created_utc.desc(), Comment.id.desc())
-	comments = comments.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE+1).all()
+	total_count = comments.count()
 
-	next_exists = (len(comments) > PAGE_SIZE)
-	comments = comments[:PAGE_SIZE]
+	comments = comments.order_by(Notification.created_utc.desc(), Comment.id.desc())
+	comments = comments.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
+
 	cids = [x[0].id for x in comments]
 
 	listing = []
@@ -346,9 +350,9 @@ def notifications(v:User):
 				total.extend(c.replies2)
 				for x in c.replies2:
 					if x.replies2 == None: x.replies2 = []
-			
+
 			count = 0
-			while count < 50 and c.parent_comment and (c.parent_comment.author_id == v.id or c.parent_comment.id in cids):
+			while count < 30 and c.parent_comment and (c.parent_comment.author_id == v.id or c.parent_comment.id in cids):
 				count += 1
 				c = c.parent_comment
 
@@ -409,7 +413,7 @@ def notifications(v:User):
 	return render_template("notifications.html",
 							v=v,
 							notifications=listing,
-							next_exists=next_exists,
+							total=total_count,
 							page=page,
 							standalone=True,
 							render_replies=True,

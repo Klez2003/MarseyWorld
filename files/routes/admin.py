@@ -4,6 +4,7 @@ from math import floor
 import os
 
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy.orm import load_only
 from psycopg2.errors import UniqueViolation
 
 from files.__main__ import app, cache, limiter
@@ -49,6 +50,7 @@ def dm_images(v):
 	with open(f"{LOG_DIRECTORY}/dm_images.log", "r", encoding="utf-8") as f:
 		items=f.read().split("\n")[:-1]
 
+	total = len(items)
 	items = [x.split(", ") for x in items]
 	items.reverse()
 
@@ -56,11 +58,10 @@ def dm_images(v):
 	except: page = 1
 
 	firstrange = PAGE_SIZE * (page - 1)
-	secondrange = firstrange + PAGE_SIZE + 1
+	secondrange = firstrange + PAGE_SIZE
 	items = items[firstrange:secondrange]
-	next_exists = (len(items) > PAGE_SIZE)
 
-	return render_template("admin/dm_images.html", v=v, items=items, next_exists=next_exists, page=page)
+	return render_template("admin/dm_images.html", v=v, items=items, total=total, page=page)
 
 @app.get('/admin/edit_rules')
 @limiter.limit(DEFAULT_RATELIMIT)
@@ -298,15 +299,21 @@ def image_posts_listing(v):
 	try: page = int(request.values.get('page', 1))
 	except: page = 1
 
-	posts = g.db.query(Submission).order_by(Submission.id.desc())
+	posts = g.db.query(Submission).options(
+			load_only(Submission.id, Submission.url)
+		).order_by(Submission.id.desc())
+
+	posts = [x.id for x in posts if x.is_image]
+
+	total = len(posts)
 
 	firstrange = PAGE_SIZE * (page - 1)
-	secondrange = firstrange + PAGE_SIZE + 1
-	posts = [x.id for x in posts if x.is_image][firstrange:secondrange]
-	next_exists = (len(posts) > PAGE_SIZE)
-	posts = get_posts(posts[:PAGE_SIZE], v=v)
+	secondrange = firstrange + PAGE_SIZE
+	posts = posts[firstrange:secondrange]
 
-	return render_template("admin/image_posts.html", v=v, listing=posts, next_exists=next_exists, page=page, sort="new")
+	posts = get_posts(posts, v=v)
+
+	return render_template("admin/image_posts.html", v=v, listing=posts, total=total, page=page, sort="new")
 
 
 @app.get("/admin/reported/posts")
@@ -314,24 +321,22 @@ def image_posts_listing(v):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def reported_posts(v):
+	page = get_page()
 
-	try: page = max(1, int(request.values.get("page", 1)))
-	except: abort(400, "Invalid page input!")
+	listing = g.db.query(Submission).options(load_only(Submission.id)).filter_by(
+				is_approved=None,
+				is_banned=False,
+				deleted_utc=0
+			).join(Submission.flags)
 
-	listing = g.db.query(Submission).filter_by(
-		is_approved=None,
-		is_banned=False,
-		deleted_utc=0
-	).join(Submission.flags).order_by(Submission.id.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE+1)
+	total = listing.count()
 
+	listing = listing.order_by(Submission.id.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE)
 	listing = [p.id for p in listing]
-	next_exists = len(listing) > PAGE_SIZE
-	listing = listing[:PAGE_SIZE]
-
 	listing = get_posts(listing, v=v)
 
 	return render_template("admin/reported_posts.html",
-						next_exists=next_exists, listing=listing, page=page, v=v)
+						total=total, listing=listing, page=page, v=v)
 
 
 @app.get("/admin/reported/comments")
@@ -339,25 +344,22 @@ def reported_posts(v):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def reported_comments(v):
+	page = get_page()
 
-	try: page = max(1, int(request.values.get("page", 1)))
-	except: abort(400, "Invalid page input!")
+	listing = g.db.query(Comment).options(load_only(Comment.id)).filter_by(
+				is_approved=None,
+				is_banned=False,
+				deleted_utc=0
+			).join(Comment.flags)
 
-	listing = g.db.query(Comment
-					).filter_by(
-		is_approved=None,
-		is_banned=False,
-		deleted_utc=0
-	).join(Comment.flags).order_by(Comment.id.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE+1).all()
+	total = listing.count()
 
+	listing = listing.order_by(Comment.id.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE)
 	listing = [c.id for c in listing]
-	next_exists = len(listing) > PAGE_SIZE
-	listing = listing[:PAGE_SIZE]
-
 	listing = get_comments(listing, v=v)
 
 	return render_template("admin/reported_comments.html",
-						next_exists=next_exists,
+						total=total,
 						listing=listing,
 						page=page,
 						v=v,
@@ -731,21 +733,22 @@ def admin_delink_relink_alt(v:User, username, other):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def admin_removed(v):
-	try: page = int(request.values.get("page", 1))
-	except: page = 1
-	if page < 1: abort(400)
-	ids = g.db.query(Submission.id).join(Submission.author).filter(or_(Submission.is_banned==True, User.shadowbanned != None)).order_by(Submission.id.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
-	ids=[x[0] for x in ids]
-	next_exists = len(ids) > PAGE_SIZE
-	ids = ids[:PAGE_SIZE]
+	page = get_page()
 
-	posts = get_posts(ids, v=v)
+	listing = g.db.query(Submission).options(load_only(Submission.id)).join(Submission.author).filter(
+			or_(Submission.is_banned==True, User.shadowbanned != None))
+
+	total = listing.count()
+	listing = listing.order_by(Submission.id.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
+	listing = [x.id for x in listing]
+
+	posts = get_posts(listing, v=v)
 
 	return render_template("admin/removed_posts.html",
 						v=v,
 						listing=posts,
 						page=page,
-						next_exists=next_exists
+						total=total
 						)
 
 
@@ -754,20 +757,24 @@ def admin_removed(v):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def admin_removed_comments(v):
-	try: page = int(request.values.get("page", 1))
-	except: page = 1
+	page = get_page()
 
-	ids = g.db.query(Comment.id).join(Comment.author).filter(or_(Comment.is_banned==True, User.shadowbanned != None)).order_by(Comment.id.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
-	ids=[x[0] for x in ids]
-	next_exists = len(ids) > PAGE_SIZE
-	ids = ids[:PAGE_SIZE]
-	comments = get_comments(ids, v=v)
+	listing = g.db.query(Comment).options(load_only(Comment.id)).join(Comment.author).filter(
+			or_(Comment.is_banned==True, User.shadowbanned != None))
+
+	total = listing.count()
+	listing = listing.order_by(Comment.id.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
+	listing = [x.id for x in listing]
+
+	comments = get_comments(listing, v=v)
+
 	return render_template("admin/removed_comments.html",
 						v=v,
 						listing=comments,
 						page=page,
-						next_exists=next_exists
+						total=total
 						)
+
 
 @app.post("/unchud_user/<id>")
 @limiter.limit('1/second', scope=rpath)

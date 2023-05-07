@@ -31,7 +31,7 @@
 									Cancel Application
 								{%- endif -%}
 							</button>
-							
+
 							<button id="apply-{{group}}" type="button" class="ml-3 ml-md-5 {% if v.id in group.membership_user_ids %}d-none{% endif %} btn btn-primary" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/!{{group}}/apply','leave-{{group}}','apply-{{group}}','d-none')">Apply to Join</button>
 						{% endif %}
 					</td>

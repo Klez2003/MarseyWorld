@@ -243,7 +243,7 @@ function post_comment(fullname, hide){
 
 	const upload_prog = document.getElementById(`upload-prog-${fullname}`);
 	xhr.upload.onprogress = (e) => {handleUploadProgress(e, upload_prog)};
-	
+
 	xhr.setRequestHeader('xhr', 'xhr');
 	xhr.onload=function(){
 		upload_prog.classList.add("d-none")

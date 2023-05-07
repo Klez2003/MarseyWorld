@@ -27,14 +27,13 @@ def chart(kind, site):
 	if SITE == 'rdrama.net':
 		time_diff = time.time() - 1619827200
 		num_of_weeks = int(time_diff / 604800)
-		chart_width = int(num_of_weeks/1.4)
 	elif SITE == 'watchpeopledie.tv':
 		time_diff = time.time() - 1649181377
 		num_of_weeks = int(time_diff / 604800)
-		chart_width = int(num_of_weeks/1.4)
 	else:
 		num_of_weeks = 30
-		chart_width = 30
+
+	chart_width = int(num_of_weeks/0.7)
 
 	if kind == 'daily':
 		day_cutoffs = [today_cutoff - 86400 * i for i in range(num_of_weeks)][1:]
@@ -42,7 +41,7 @@ def chart(kind, site):
 		day_cutoffs = [today_cutoff - 86400 * 7 * i for i in range(num_of_weeks)][1:]
 	day_cutoffs.insert(0, calendar.timegm(now))
 
-	daily_times = [time.strftime('%d/%m', time.gmtime(day_cutoffs[i + 1]))
+	daily_times = [time.strftime('%Y-%m-%d', time.gmtime(day_cutoffs[i + 1]))
 		for i in range(len(day_cutoffs) - 1)][::-1]
 
 	daily_signups = [g.db.query(User).filter(
@@ -63,11 +62,11 @@ def chart(kind, site):
 			Comment.author_id != AUTOJANNY_ID).count()
 		for i in range(len(day_cutoffs) - 1)][::-1]
 
-	plt.rcParams['figure.figsize'] = (chart_width, 20)
+	plt.rcParams['figure.figsize'] = (chart_width, chart_width)
 
-	signup_chart = plt.subplot2grid((chart_width, 20), (0, 0), rowspan=6, colspan=chart_width)
-	posts_chart = plt.subplot2grid((chart_width, 20), (10, 0), rowspan=6, colspan=chart_width)
-	comments_chart = plt.subplot2grid((chart_width, 20), (20, 0), rowspan=6, colspan=chart_width)
+	signup_chart = plt.subplot2grid((chart_width, chart_width), (0, 0), rowspan=6, colspan=chart_width)
+	posts_chart = plt.subplot2grid((chart_width, chart_width), (10, 0), rowspan=6, colspan=chart_width)
+	comments_chart = plt.subplot2grid((chart_width, chart_width), (20, 0), rowspan=6, colspan=chart_width)
 
 	signup_chart.grid(), posts_chart.grid(), comments_chart.grid()
 
@@ -82,7 +81,7 @@ def chart(kind, site):
 	signup_chart.set_ylabel("Signups")
 	posts_chart.set_ylabel("Posts")
 	comments_chart.set_ylabel("Comments")
-	comments_chart.set_xlabel("Time (UTC)")
+	comments_chart.set_xlabel("Time (UTC) YYYY-MM-DD")
 
 	file = chart_path(kind, site)
 

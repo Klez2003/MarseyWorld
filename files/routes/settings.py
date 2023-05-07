@@ -649,6 +649,11 @@ def settings_security(v:User):
 						msg=get_msg()
 						)
 
+@app.get("/settings/blocks")
+@auth_required
+def settings_blocks(v:User):
+	return render_template("settings/blocks.html", v=v)
+
 @app.post("/settings/block")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)

@@ -90,7 +90,7 @@ def request_api_keys(v):
 	for admin_id in admin_ids:
 		notif = Notification(comment_id=new_comment.id, user_id=admin_id)
 		g.db.add(notif)
-	
+
 	push_notif(admin_ids, 'New notification', body, f'{SITE_FULL}/comment/{new_comment.id}?read=true#context')
 
 	return redirect('/settings/apps')
@@ -248,22 +248,20 @@ def admin_app_reject(v, aid):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['APPS_MODERATION'])
 def admin_app_id_posts(v, aid):
-	aid=aid
 	oauth = g.db.get(OauthApp, aid)
 	if not oauth: abort(404)
 
-	pids=oauth.idlist(g.db, page=int(request.values.get("page",1)))
+	page = get_page()
 
-	next_exists=len(pids)==101
-	pids=pids[:100]
+	pids, total = oauth.idlist(Submission, page=page)
 
-	posts=get_posts(pids, v=v)
+	posts = get_posts(pids, v=v)
 
 	return render_template("admin/app.html",
 						v=v,
 						app=oauth,
 						listing=posts,
-						next_exists=next_exists
+						total=total
 						)
 
 @app.get("/admin/app/<int:aid>/comments")
@@ -272,24 +270,21 @@ def admin_app_id_posts(v, aid):
 @admin_level_required(PERMS['APPS_MODERATION'])
 def admin_app_id_comments(v, aid):
 
-	aid=aid
-
 	oauth = g.db.get(OauthApp, aid)
 	if not oauth: abort(404)
 
-	cids=oauth.comments_idlist(g.db, page=int(request.values.get("page",1)))
+	page = get_page()
 
-	next_exists=len(cids)==101
-	cids=cids[:100]
+	cids, total = oauth.idlist(Comment, page=page)
 
-	comments=get_comments(cids, v=v)
+	comments = get_comments(cids, v=v)
 
 
 	return render_template("admin/app.html",
 						v=v,
 						app=oauth,
 						comments=comments,
-						next_exists=next_exists,
+						total=total,
 						standalone=True
 						)
 

@@ -2,6 +2,7 @@ import os
 from shutil import copyfile
 
 from sqlalchemy import func
+from sqlalchemy.sql.expression import nullslast
 from files.helpers.media import *
 
 import files.helpers.stats as statshelper
@@ -41,35 +42,44 @@ def reddit_post(subreddit, v, path):
 	return redirect(f'https://{reddit}/{post_id}')
 
 
-@cache.cached(key_prefix="marseys")
-def get_marseys(db:scoped_session):
-	if not FEATURES['MARSEYS']: return []
-	marseys = []
-	for marsey, author in db.query(Emoji, User).join(User, Emoji.author_id == User.id).filter(Emoji.kind == "Marsey", Emoji.submitter_id == None).order_by(Emoji.count.desc()):
-		marsey.author = author.username if FEATURES['ASSET_SUBMISSIONS'] else None
-		marseys.append(marsey)
-	return marseys
-
 @app.get("/marseys")
+@app.get("/marseys/all")
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def marseys(v:User):
-
-	if SITE_NAME != 'rDrama':
+	if SITE_NAME != 'rDrama' or not FEATURES['MARSEYS']:
 		abort(404)
 
-	marseys = get_marseys(g.db)
-	authors = get_accounts_dict([m.author_id for m in marseys], v=v, graceful=True)
+	marseys = g.db.query(Emoji, User).join(User, Emoji.author_id == User.id).filter(Emoji.kind == "Marsey", Emoji.submitter_id==None)
+
+	total = marseys.count()
+
+	sort = request.values.get("sort", "usage")
+	if sort == "author":
+		marseys = marseys.order_by(User.username, Emoji.count.desc())
+	elif sort == "name":
+		marseys = marseys.order_by(Emoji.name, Emoji.count.desc())
+	elif sort == "added_on":
+		marseys = marseys.order_by(nullslast(Emoji.created_utc.desc()), Emoji.count.desc())
+	elif sort == "usage":
+		marseys = marseys.order_by(Emoji.count.desc(), User.username)
+
+	page = get_page()
+
+	if request.path != "/marseys/all":
+		marseys = marseys.offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE)
+
+	marseys = marseys.all()
+
 	original = os.listdir("/asset_submissions/emojis/original")
-	for marsey in marseys:
-		marsey.user = authors.get(marsey.author_id)
+	for marsey, user in marseys:
 		for x in IMAGE_FORMATS:
 			if f'{marsey.name}.{x}' in original:
 				marsey.og = f'{marsey.name}.{x}'
 				break
-	return render_template("marseys.html", v=v, marseys=marseys)
 
+	return render_template("marseys.html", v=v, marseys=marseys, page=page, total=total, sort=sort)
 
 
 @cache.cached(key_prefix="emojis")
@@ -150,8 +160,7 @@ def admins(v:User):
 @auth_required
 def log(v:User):
 
-	try: page = max(int(request.values.get("page", 1)), 1)
-	except: page = 1
+	page = get_page()
 
 	admin = request.values.get("admin")
 	if admin: admin_id = get_id(admin)
@@ -169,6 +178,7 @@ def log(v:User):
 	if kind and kind not in types:
 		kind = None
 		actions = []
+		total = 0
 	else:
 		actions = g.db.query(ModAction)
 		if v.admin_level < PERMS['USER_SHADOWBAN']:
@@ -184,14 +194,12 @@ def log(v:User):
 				if k in kinds: types2[k] = val
 			types = types2
 		if kind: actions = actions.filter_by(kind=kind)
+		total = actions.count()
+		actions = actions.order_by(ModAction.id.desc()).offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE).all()
 
-		actions = actions.order_by(ModAction.id.desc()).offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE+1).all()
-
-	next_exists=len(actions) > PAGE_SIZE
-	actions=actions[:PAGE_SIZE]
 	admins = [x[0] for x in g.db.query(User.username).filter(User.admin_level >= PERMS['ADMIN_MOP_VISIBLE']).order_by(User.username).all()]
 
-	return render_template("log.html", v=v, admins=admins, types=types, admin=admin, type=kind, actions=actions, next_exists=next_exists, page=page, single_user_url='admin')
+	return render_template("log.html", v=v, admins=admins, types=types, admin=admin, type=kind, actions=actions, total=total, page=page, single_user_url='admin')
 
 @app.get("/log/<int:id>")
 @limiter.limit(DEFAULT_RATELIMIT)
@@ -217,7 +225,7 @@ def log_item(id, v):
 			types = MODACTION_TYPES__FILTERED
 	else: types = MODACTION_TYPES_FILTERED
 
-	return render_template("log.html", v=v, actions=[action], next_exists=False, page=1, action=action, admins=admins, types=types, single_user_url='admin')
+	return render_template("log.html", v=v, actions=[action], total=1, page=1, action=action, admins=admins, types=types, single_user_url='admin')
 
 @app.get("/directory")
 @limiter.limit(DEFAULT_RATELIMIT)
@@ -371,7 +379,7 @@ def transfers_id(id, v):
 
 	if not transfer: abort(404)
 
-	return render_template("transfers.html", v=v, page=1, comments=[transfer], standalone=True, next_exists=False)
+	return render_template("transfers.html", v=v, page=1, comments=[transfer], standalone=True, total=1)
 
 @app.get("/transfers")
 @limiter.limit(DEFAULT_RATELIMIT)
@@ -379,19 +387,17 @@ def transfers_id(id, v):
 @auth_required
 def transfers(v:User):
 
-	comments = g.db.query(Comment).filter(Comment.author_id == AUTOJANNY_ID, Comment.parent_submission == None, Comment.body_html.like("%</a> has transferred %")).order_by(Comment.id.desc())
+	comments = g.db.query(Comment).filter(Comment.author_id == AUTOJANNY_ID, Comment.parent_submission == None, Comment.body_html.like("%</a> has transferred %"))
 
-	try: page = max(int(request.values.get("page", 1)), 1)
-	except: page = 1
+	page = get_page()
 
-	comments = comments.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
-	next_exists = len(comments) > PAGE_SIZE
-	comments = comments[:PAGE_SIZE]
+	total = comments.count()
+	comments = comments.order_by(Comment.id.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
 
 	if v.client:
 		return {"data": [x.json(g.db) for x in comments]}
 	else:
-		return render_template("transfers.html", v=v, page=page, comments=comments, standalone=True, next_exists=next_exists)
+		return render_template("transfers.html", v=v, page=page, comments=comments, standalone=True, total=total)
 
 
 @app.get('/donate')

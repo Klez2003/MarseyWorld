@@ -5,7 +5,7 @@ from os import environ, listdir, path
 
 import user_agents
 
-from flask import g, session, has_request_context
+from flask import g, session, has_request_context, request
 from jinja2 import pass_context
 
 from files.classes.user import User
@@ -17,6 +17,8 @@ from files.helpers.cloudflare import *
 from files.helpers.sorting_and_time import make_age_string
 from files.routes.routehelpers import get_alt_graph, get_formkey
 from files.__main__ import app, cache
+
+from urllib.parse import parse_qs, urlencode,  urlsplit
 
 @app.template_filter("formkey")
 def formkey(u):
@@ -36,6 +38,15 @@ def post_embed(id, v):
 def template_asset(ctx, asset_path):
 	return assetcache_path(asset_path)
 
+
+@app.template_filter("change_page")
+def template_change_page(new_page, url):
+	parsed = urlsplit(url)
+	query_dict = parse_qs(parsed.query)
+	query_dict["page"] = new_page
+	query_new = urlencode(query_dict, doseq=True)
+	parsed = parsed._replace(query=query_new)
+	return parsed.geturl()
 
 @app.template_filter("asset_siteimg")
 def template_asset_siteimg(asset_path):
@@ -88,7 +99,7 @@ def calc_users():
 
 
 	return {'loggedin_counter':loggedin_counter,
-	        'loggedout_counter':loggedout_counter,
+			'loggedout_counter':loggedout_counter,
 			'loggedin_chat':loggedin_chat}
 
 def current_registered_users():

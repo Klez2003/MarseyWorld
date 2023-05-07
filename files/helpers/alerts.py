@@ -165,19 +165,19 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False):
 				if not group: continue
 
 				members = group.member_ids - notify_users - v.all_twoway_blocks
-				
+
 				notify_users.update(members)
 
 				if ghost or v.id not in group.member_ids:
 					if group.name == 'biofoids': mul = 10
 					else: mul = 5
-					
+
 					cost += len(members) * mul
 					if cost > v.coins:
 						abort(403, f"You need {cost} coins to mention these ping groups!")
 
 					g.db.query(User).filter(User.id.in_(members)).update({ User.coins: User.coins + mul })
-		
+
 		v.charge_account('coins', cost)
 
 

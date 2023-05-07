@@ -3,6 +3,7 @@ import time
 from calendar import timegm
 
 from sqlalchemy import *
+from sqlalchemy.orm import load_only
 
 from files.helpers.regex import *
 from files.helpers.sorting_and_time import *
@@ -53,15 +54,14 @@ def searchposts(v:User):
 	if not query:
 		abort(403, "Empty searches aren't allowed!")
 
-	try: page = max(1, int(request.values.get("page", 1)))
-	except: abort(400, "Invalid page input!")
+	page = get_page()
 
 	sort = request.values.get("sort", "new").lower()
 	t = request.values.get('t', 'all').lower()
 
 	criteria=searchparse(query)
 
-	posts = g.db.query(Submission.id) \
+	posts = g.db.query(Submission).options(load_only(Submission.id)) \
 				.join(Submission.author) \
 				.filter(Submission.author_id.notin_(v.userblocks))
 
@@ -85,7 +85,6 @@ def searchposts(v:User):
 								listing=[],
 								sort=sort,
 								t=t,
-								next_exists=False,
 								domain=None,
 								domain_obj=None,
 								error=f"@{author.username}'s profile is private; You can't use the 'author' syntax on them."
@@ -149,16 +148,13 @@ def searchposts(v:User):
 
 	posts = apply_time_filter(t, posts, Submission)
 
-	posts = sort_objects(sort, posts, Submission)
-
 	total = posts.count()
 
-	posts = posts.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE+1).all()
+	posts = sort_objects(sort, posts, Submission)
 
-	ids = [x[0] for x in posts]
+	posts = posts.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
 
-	next_exists = (len(ids) > PAGE_SIZE)
-	ids = ids[:PAGE_SIZE]
+	ids = [x.id for x in posts]
 
 	posts = get_posts(ids, v=v, eager=True)
 
@@ -167,12 +163,11 @@ def searchposts(v:User):
 	return render_template("search.html",
 						v=v,
 						query=query,
-						total=total,
 						page=page,
 						listing=posts,
 						sort=sort,
 						t=t,
-						next_exists=next_exists
+						total=total
 						)
 
 @app.get("/search/comments")
@@ -184,15 +179,14 @@ def searchcomments(v:User):
 	if not query:
 		abort(403, "Empty searches aren't allowed!")
 
-	try: page = max(1, int(request.values.get("page", 1)))
-	except: abort(400, "Invalid page input!")
+	page = get_page()
 
 	sort = request.values.get("sort", "new").lower()
 	t = request.values.get('t', 'all').lower()
 
 	criteria = searchparse(query)
 
-	comments = g.db.query(Comment.id).outerjoin(Comment.post) \
+	comments = g.db.query(Comment).options(load_only(Comment.id)).outerjoin(Comment.post) \
 		.filter(
 			or_(Comment.parent_submission != None, Comment.wall_user_id != None),
 			Comment.author_id.notin_(v.userblocks),
@@ -212,7 +206,7 @@ def searchcomments(v:User):
 			if v.client:
 				abort(403, f"@{author.username}'s profile is private; You can't use the 'author' syntax on them")
 
-			return render_template("search_comments.html", v=v, query=query, total=0, page=page, comments=[], sort=sort, t=t, next_exists=False, error=f"@{author.username}'s profile is private; You can't use the 'author' syntax on them!"), 403
+			return render_template("search_comments.html", v=v, query=query, total=0, page=page, comments=[], sort=sort, t=t, error=f"@{author.username}'s profile is private; You can't use the 'author' syntax on them!"), 403
 
 		else: comments = comments.filter(Comment.author_id == author.id)
 
@@ -262,21 +256,18 @@ def searchcomments(v:User):
 			except: abort(400)
 		comments = comments.filter(Comment.created_utc < before)
 
-	comments = sort_objects(sort, comments, Comment)
-
 	total = comments.count()
 
-	comments = comments.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE+1).all()
+	comments = sort_objects(sort, comments, Comment)
 
-	ids = [x[0] for x in comments]
+	comments = comments.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
 
-	next_exists = (len(ids) > PAGE_SIZE)
-	ids = ids[:PAGE_SIZE]
+	ids = [x.id for x in comments]
 
 	comments = get_comments(ids, v=v)
 
 	if v.client: return {"total":total, "data":[x.json(db=g.db) for x in comments]}
-	return render_template("search_comments.html", v=v, query=query, total=total, page=page, comments=comments, sort=sort, t=t, next_exists=next_exists, standalone=True)
+	return render_template("search_comments.html", v=v, query=query, page=page, comments=comments, sort=sort, t=t, total=total, standalone=True)
 
 
 @app.get("/search/messages")
@@ -288,8 +279,7 @@ def searchmessages(v:User):
 	if not query:
 		abort(403, "Empty searches aren't allowed!")
 
-	try: page = max(1, int(request.values.get("page", 1)))
-	except: abort(400, "Invalid page input!")
+	page = get_page()
 
 	sort = request.values.get("sort", "new").lower()
 	t = request.values.get('t', 'all').lower()
@@ -300,7 +290,7 @@ def searchmessages(v:User):
 	if v.admin_level >= PERMS['VIEW_MODMAIL']:
 		dm_conditions.append(Comment.sentto == MODMAIL_ID),
 
-	comments = g.db.query(Comment) \
+	comments = g.db.query(Comment).options(load_only(Comment.id)) \
 		.filter(
 			Comment.sentto != None,
 			Comment.parent_submission == None,
@@ -314,7 +304,7 @@ def searchmessages(v:User):
 			if v.client:
 				abort(403, f"@{author.username}'s profile is private; You can't use the 'author' syntax on them")
 
-			return render_template("search_comments.html", v=v, query=query, total=0, page=page, comments=[], sort=sort, t=t, next_exists=False, error=f"@{author.username}'s profile is private; You can't use the 'author' syntax on them!"), 403
+			return render_template("search_comments.html", v=v, query=query, total=0, page=page, comments=[], sort=sort, t=t, error=f"@{author.username}'s profile is private; You can't use the 'author' syntax on them!"), 403
 
 		else: comments = comments.filter(Comment.author_id == author.id)
 
@@ -353,21 +343,18 @@ def searchmessages(v:User):
 			abort(400, "The `sentto` field must contain a user's username!")
 		comments = comments.filter(Comment.sentto == sentto.id)
 
-	comments = sort_objects(sort, comments, Comment)
-
 	total = comments.count()
 
-	comments = comments.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE+1).all()
+	comments = sort_objects(sort, comments, Comment)
 
-	next_exists = (len(comments) > PAGE_SIZE)
-	comments = comments[:PAGE_SIZE]
+	comments = comments.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
 
 	for x in comments: x.unread = True
-	
+
 	comments = [x.top_comment for x in comments]
 
 	if v.client: return {"total":total, "data":[x.json(db=g.db) for x in comments]}
-	return render_template("search_comments.html", v=v, query=query, total=total, page=page, comments=comments, sort=sort, t=t, next_exists=next_exists, standalone=True, render_replies=True)
+	return render_template("search_comments.html", v=v, query=query, page=page, comments=comments, sort=sort, t=t, total=total, standalone=True, render_replies=True)
 
 @app.get("/search/users")
 @limiter.limit(DEFAULT_RATELIMIT)
@@ -378,8 +365,7 @@ def searchusers(v:User):
 	if not query:
 		abort(403, "Empty searches aren't allowed!")
 
-	try: page = max(1, int(request.values.get("page", 1)))
-	except: abort(400, "Invalid page input!")
+	page = get_page()
 
 	users = g.db.query(User)
 
@@ -415,10 +401,7 @@ def searchusers(v:User):
 
 	total = users.count()
 
-	users = users.offset(PAGE_SIZE * (page-1)).limit(PAGE_SIZE+1).all()
-
-	next_exists = (len(users)>PAGE_SIZE)
-	users = users[:PAGE_SIZE]
+	users = users.offset(PAGE_SIZE * (page-1)).limit(PAGE_SIZE).all()
 
 	if v.client: return {"data": [x.json for x in users]}
-	return render_template("search_users.html", v=v, query=query, total=total, page=page, users=users, next_exists=next_exists)
+	return render_template("search_users.html", v=v, query=query, page=page, users=users, total=total)

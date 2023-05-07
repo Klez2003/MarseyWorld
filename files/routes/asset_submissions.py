@@ -180,11 +180,9 @@ def approve_emoji(v, name):
 			badge_grant(badge_id=113, user=author)
 		else:
 			badge_grant(badge_id=112, user=author)
-	
+
 
 	cache.delete("emojis")
-	if emoji.kind == "Marsey":
-		cache.delete("marseys")
 
 	purge_files_in_cache(f"https://{SITE}/e/{emoji.name}/webp")
 
@@ -493,8 +491,6 @@ def update_emoji(v):
 	g.db.add(ma)
 
 	cache.delete("emojis")
-	if existing.kind == "Marsey":
-		cache.delete("marseys")
 
 	return render_template("admin/update_assets.html", v=v, msg=f"'{name}' updated successfully!", name=name, tags=tags, kind=kind, type="Emoji")
 

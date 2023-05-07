@@ -56,7 +56,7 @@ AWARDS = {
 		"ghost": False,
 		"enabled": IS_FISTMAS(),
 	},
-    "snow": {
+	"snow": {
 		"kind": "snow",
 		"title": "Snow",
 		"description": "",

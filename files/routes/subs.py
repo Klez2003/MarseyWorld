@@ -853,8 +853,7 @@ def hole_log(v:User, sub):
 	sub = get_sub_by_name(sub)
 	if not User.can_see(v, sub):
 		abort(403)
-	try: page = max(int(request.values.get("page", 1)), 1)
-	except: page = 1
+	page = get_page()
 
 	mod = request.values.get("mod")
 	if mod: mod_id = get_id(mod)
@@ -867,6 +866,7 @@ def hole_log(v:User, sub):
 	if kind and kind not in types:
 		kind = None
 		actions = []
+		total=0
 	else:
 		actions = g.db.query(SubAction).filter_by(sub=sub.name)
 
@@ -878,15 +878,13 @@ def hole_log(v:User, sub):
 				if k in kinds: types2[k] = val
 			types = types2
 		if kind: actions = actions.filter_by(kind=kind)
+		total = actions.count()
+		actions = actions.order_by(SubAction.id.desc()).offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE).all()
 
-		actions = actions.order_by(SubAction.id.desc()).offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE+1).all()
-
-	next_exists=len(actions)>25
-	actions=actions[:25]
 	mods = [x[0] for x in g.db.query(Mod.user_id).filter_by(sub=sub.name).all()]
 	mods = [x[0] for x in g.db.query(User.username).filter(User.id.in_(mods)).order_by(User.username).all()]
 
-	return render_template("log.html", v=v, admins=mods, types=types, admin=mod, type=kind, actions=actions, next_exists=next_exists, page=page, sub=sub, single_user_url='mod')
+	return render_template("log.html", v=v, admins=mods, types=types, admin=mod, type=kind, actions=actions, total=total, page=page, sub=sub, single_user_url='mod')
 
 @app.get("/h/<sub>/log/<int:id>")
 @limiter.limit(DEFAULT_RATELIMIT)
@@ -908,4 +906,4 @@ def hole_log_item(id, v, sub):
 
 	types = SUBACTION_TYPES
 
-	return render_template("log.html", v=v, actions=[action], next_exists=False, page=1, action=action, admins=mods, types=types, sub=sub, single_user_url='mod')
+	return render_template("log.html", v=v, actions=[action], total=1, page=1, action=action, admins=mods, types=types, sub=sub, single_user_url='mod')

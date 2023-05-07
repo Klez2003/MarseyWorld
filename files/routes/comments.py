@@ -132,7 +132,7 @@ def comment(v:User):
 	parent_user = parent if isinstance(parent, User) else parent.author
 	posting_to_submission = isinstance(post_target, Submission)
 
-	
+
 
 	if not User.can_see(v, parent): abort(403)
 	if not isinstance(parent, User) and parent.deleted_utc != 0:
@@ -386,6 +386,9 @@ def comment(v:User):
 		if n: g.db.delete(n)
 
 	g.db.flush()
+
+	if c.parent_submission:
+		cache.delete(f'post_{c.parent_submission}')
 
 	if v.client: return c.json(db=g.db)
 	return {"comment": render_template("comments.html", v=v, comments=[c])}

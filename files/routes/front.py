@@ -23,8 +23,7 @@ def front_all(v, sub=None, subdomain=None):
 
 	if (request.path.startswith('/h/') or request.path.startswith('/s/')) and not sub: abort(404)
 
-	try: page = max(int(request.values.get("page", 1)), 1)
-	except: abort(400)
+	page = get_page()
 
 	if v:
 		defaultsorting = v.defaultsorting
@@ -49,7 +48,7 @@ def front_all(v, sub=None, subdomain=None):
 
 	pins = session.get(sort, default)
 
-	ids, next_exists, size = frontlist(sort=sort,
+	ids, total, size = frontlist(sort=sort,
 					page=page,
 					t=t,
 					v=v,
@@ -66,8 +65,8 @@ def front_all(v, sub=None, subdomain=None):
 		if v.hidevotedon: posts = [x for x in posts if not hasattr(x, 'voted') or not x.voted]
 		award_timers(v)
 
-	if v and v.client: return {"data": [x.json(g.db) for x in posts], "next_exists": next_exists}
-	return render_template("home.html", v=v, listing=posts, next_exists=next_exists, sort=sort, t=t, page=page, sub=sub, home=True, pins=pins, size=size)
+	if v and v.client: return {"data": [x.json(g.db) for x in posts], "total": total}
+	return render_template("home.html", v=v, listing=posts, total=total, sort=sort, t=t, page=page, sub=sub, home=True, pins=pins, size=size)
 
 
 LIMITED_WPD_HOLES = ('gore', 'aftermath', 'selfharm', 'meta', 'discussion', 'social', 'music', 'request')
@@ -108,12 +107,13 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 			word = word.replace('\\', '').replace('_', '\_').replace('%', '\%').strip()
 			posts=posts.filter(not_(Submission.title.ilike(f'%{word}%')))
 
+	total = posts.count()
+
 	posts = sort_objects(sort, posts, Submission)
 
 	if v: size = v.frontsize or 0
 	else: size = PAGE_SIZE
 
-	next_exists = posts.count()
 	posts = posts.options(load_only(Submission.id)).offset(size * (page - 1))
 
 	if SITE_NAME == 'WPD' and sort == "hot" and sub == None:
@@ -149,7 +149,7 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 		posts = pins + posts
 
 	if ids_only: posts = [x.id for x in posts]
-	return posts, next_exists, size
+	return posts, total, size
 
 
 @app.get("/random_post")
@@ -180,8 +180,9 @@ def random_user(v:User):
 
 @cache.memoize()
 def comment_idlist(v=None, page=1, sort="new", t="day", gt=0, lt=0):
-	comments = g.db.query(Comment.id) \
+	comments = g.db.query(Comment) \
 		.outerjoin(Comment.post) \
+		.options(load_only(Comment.id)) \
 		.filter(
 			or_(Comment.parent_submission != None, Comment.wall_user_id != None),
 		)
@@ -200,18 +201,18 @@ def comment_idlist(v=None, page=1, sort="new", t="day", gt=0, lt=0):
 	if not gt and not lt:
 		comments = apply_time_filter(t, comments, Comment)
 
+	total = comments.count()
 	comments = sort_objects(sort, comments, Comment)
 
-	comments = comments.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
-	return [x[0] for x in comments]
+	comments = comments.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
+	return [x.id for x in comments], total
 
 @app.get("/comments")
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def all_comments(v:User):
-	try: page = max(int(request.values.get("page", 1)), 1)
-	except: page = 1
+	page = get_page()
 
 	sort=request.values.get("sort", "new")
 	t=request.values.get("t", "hour")
@@ -221,7 +222,7 @@ def all_comments(v:User):
 
 	try: lt=int(request.values.get("before", 0))
 	except: lt=0
-	idlist = comment_idlist(v=v,
+	idlist, total = comment_idlist(v=v,
 							page=page,
 							sort=sort,
 							t=t,
@@ -230,8 +231,6 @@ def all_comments(v:User):
 							)
 
 	comments = get_comments(idlist, v=v)
-	next_exists = len(idlist) > PAGE_SIZE
-	idlist = idlist[:PAGE_SIZE]
 
 	if v.client: return {"data": [x.json(g.db) for x in comments]}
-	return render_template("home_comments.html", v=v, sort=sort, t=t, page=page, comments=comments, standalone=True, next_exists=next_exists)
+	return render_template("home_comments.html", v=v, sort=sort, t=t, page=page, comments=comments, standalone=True, total=total, size = PAGE_SIZE)

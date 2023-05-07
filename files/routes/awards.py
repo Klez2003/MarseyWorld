@@ -59,8 +59,8 @@ def shop(v:User):
 @limiter.limit("100/minute;200/hour;1000/day", key_func=get_ID)
 @auth_required
 def buy(v:User, award):
-	if award == 'ghost' and v.admin_level < PERMS['BUY_GHOST_AWARD']:
-		abort(403, "Only admins can buy this award")
+	if award == 'ghost':
+		abort(403, "You can't buy this award!")
 
 	AWARDS = deepcopy(AWARDS_ENABLED)
 
@@ -227,12 +227,12 @@ def award_thing(v, thing_type, id):
 				link_text_in_notif = thing.title
 
 			msg = f"@{v.username} has given [{link_text_in_notif}]({thing.shortlink}) the {AWARDS[kind]['title']} Award"
-			
+
 			if kind == 'shit':
 				msg += f" and has stolen from you {awarded_coins} coins as a result"
 			elif awarded_coins:
 				msg += f" and you have received {awarded_coins} coins as a result"
-			
+
 			msg += "!"
 			if note:
 				note = '\n\n> '.join(note.splitlines())
@@ -250,7 +250,7 @@ def award_thing(v, thing_type, id):
 			link_text_in_notif = link
 		else:
 			link_text_in_notif = thing.title
-		
+
 		ban_reason = f'1-Day ban award used by <a href="/@{v.username}">@{v.username}</a> on <a href="{link}">{link}</a>'
 		if not author.is_suspended:
 			author.ban(reason=ban_reason, days=1)
@@ -428,7 +428,7 @@ def award_thing(v, thing_type, id):
 		else:
 			if author.house.startswith("Vampire"):
 				abort(400, f"{safe_username} is already a permanent vampire!")
-	
+
 			author.bite = int(time.time()) + 172800
 			author.old_house = author.house
 			author.house = "Vampire"

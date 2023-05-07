@@ -103,7 +103,7 @@ def leave_group(v:User, group_name):
 
 		send_notification(group.owner.id, text)
 		g.db.delete(existing)
-		
+
 		return {"message": msg}
 
 	return {"message": ''}
@@ -142,10 +142,10 @@ def group_approve(v:User, group_name, user_id):
 
 	group = g.db.get(Group, group_name)
 	if not group: abort(404)
-	
+
 	if v.id != group.owner.id and v.admin_level < PERMS['MODS_EVERY_GROUP']:
 		abort(403, f"Only the group owner (@{group.owner.username}) can approve applications!")
-	
+
 	application = g.db.query(GroupMembership).filter_by(user_id=user_id, group_name=group.name).one_or_none()
 	if not application:
 		abort(404, "There is no application to approve!")
@@ -168,7 +168,7 @@ def group_reject(v:User, group_name, user_id):
 
 	group = g.db.get(Group, group_name)
 	if not group: abort(404)
-	
+
 	if v.id != group.owner.id and v.admin_level < PERMS['MODS_EVERY_GROUP']:
 		abort(403, f"Only the group owner (@{group.owner.username}) can reject memberships!")
 

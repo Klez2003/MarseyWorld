@@ -16,7 +16,20 @@
 		{% for item in items %}
 			<tr>
 				<td>
-					<img alt="{{item[0]}}" src="{{item[0]}}" loading="lazy" class="dm_img" data-nonce="{{g.nonce}}" data-onclick="expandImage()">
+					{% set url=item[0] %}
+					{% if url.endswith('.webp') %}
+						<img alt="{{url}}" src="{{url}}" loading="lazy" class="dm_img" data-nonce="{{g.nonce}}" data-onclick="expandImage()">
+					{% elif url.endswith('.mp4') %}
+						<p class="resizable">
+							<video controls preload="none" src="{{url}}"></video>
+						</p>
+					{% elif url.endswith('.mp3') %}
+						<audio controls preload="none" src="\2"></audio>
+					{% else %}
+						<a href="{{url}}">
+							{{url}}
+						</a>
+					{% endif %}
 				</td>
 				<td>
 					{% if item[1] != "Unknown" %}
@@ -46,22 +59,5 @@
 {% endblock %}
 
 {% block pagenav %}
-<nav>
-	<ul class="pagination pagination-sm py-3 pl-3 mb-0">
-		{% if page>1 %}
-		<li class="page-item">
-			<small><a class="page-link" href="?page={{page-1}}" tabindex="-1">Prev</a></small>
-		</li>
-		{% else %}
-		<li class="page-item disabled"><span class="page-link">Prev</span></li>
-		{% endif %}
-		{% if next_exists %}
-		<li class="page-item">
-			<small><a class="page-link" href="?page={{page+1}}">Next</a></small>
-		</li>
-		{% else %}
-		<li class="page-item disabled"><span class="page-link">Next</span></li>
-		{% endif %}
-	</ul>
-</nav>
+{% include "pagination.html" %}
 {% endblock %}

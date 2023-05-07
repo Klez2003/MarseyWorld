@@ -18,12 +18,12 @@ function highlight_unread(localstoragevar) {
 highlight_unread("comment-counts")
 
 if (!location.href.includes("#context")) {
-    localStorage.setItem("old-comment-counts", localStorage.getItem("comment-counts"))
+	localStorage.setItem("old-comment-counts", localStorage.getItem("comment-counts"))
 
 	const comments = JSON.parse(localStorage.getItem("comment-counts")) || {}
-    const newTotal = pcc || ((comments[pid] || {c: 0}).c + 1)
-    comments[pid] = {c: newTotal, t: Date.now()}
-    localStorage.setItem("comment-counts", JSON.stringify(comments))
+	const newTotal = pcc || ((comments[pid] || {c: 0}).c + 1)
+	comments[pid] = {c: newTotal, t: Date.now()}
+	localStorage.setItem("comment-counts", JSON.stringify(comments))
 }
 
 const fake_textarea = document.querySelector('[data-href]')

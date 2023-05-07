@@ -7,7 +7,7 @@ from typing import Literal
 
 import gevent
 import qrcode
-from sqlalchemy.orm import aliased
+from sqlalchemy.orm import aliased, load_only
 
 from files.classes import *
 from files.classes.leaderboard import Leaderboard
@@ -36,14 +36,21 @@ def upvoters_downvoters(v, username, uid, cls, vote_cls, vote_dir, template, sta
 	except:
 		abort(404)
 
-	try: page = max(1, int(request.values.get("page", 1)))
-	except: abort(400, "Invalid page input!")
+	page = get_page()
 
-	listing = g.db.query(cls).join(vote_cls).filter(cls.ghost == False, cls.is_banned == False, cls.deleted_utc == 0, vote_cls.vote_type==vote_dir, cls.author_id==id, vote_cls.user_id==uid).order_by(cls.created_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
+	listing = g.db.query(cls).options(load_only(cls.id)).join(vote_cls).filter(
+			cls.ghost == False,
+			cls.is_banned == False,
+			cls.deleted_utc == 0,
+			vote_cls.vote_type==vote_dir,
+			cls.author_id==id,
+			vote_cls.user_id==uid,
+		)
 
-	listing = [p.id for p in listing]
-	next_exists = len(listing) > PAGE_SIZE
-	listing = listing[:PAGE_SIZE]
+	total = listing.count()
+
+	listing = listing.order_by(cls.created_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
+	listing = [x.id for x in listing]
 
 	if cls == Submission:
 		listing = get_posts(listing, v=v, eager=True)
@@ -52,7 +59,7 @@ def upvoters_downvoters(v, username, uid, cls, vote_cls, vote_dir, template, sta
 	else:
 		listing = []
 
-	return render_template(template, next_exists=next_exists, listing=listing, page=page, v=v, standalone=standalone)
+	return render_template(template, total=total, listing=listing, page=page, v=v, standalone=standalone)
 
 @app.get("/@<username>/upvoters/<int:uid>/posts")
 @limiter.limit(DEFAULT_RATELIMIT)
@@ -95,14 +102,21 @@ def upvoting_downvoting(v, username, uid, cls, vote_cls, vote_dir, template, sta
 	except:
 		abort(404)
 
-	try: page = max(1, int(request.values.get("page", 1)))
-	except: abort(400, "Invalid page input!")
+	page = get_page()
 
-	listing = g.db.query(cls).join(vote_cls).filter(cls.ghost == False, cls.is_banned == False, cls.deleted_utc == 0, vote_cls.vote_type==vote_dir, vote_cls.user_id==id, cls.author_id==uid).order_by(cls.created_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
+	listing = g.db.query(cls).options(load_only(cls.id)).join(vote_cls).filter(
+			cls.ghost == False,
+			cls.is_banned == False,
+			cls.deleted_utc == 0,
+			vote_cls.vote_type==vote_dir,
+			vote_cls.user_id==id,
+			cls.author_id==uid,
+		)
 
-	listing = [p.id for p in listing]
-	next_exists = len(listing) > PAGE_SIZE
-	listing = listing[:PAGE_SIZE]
+	total = listing.count()
+
+	listing = listing.order_by(cls.created_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
+	listing = [x.id for x in listing]
 
 	if cls == Submission:
 		listing = get_posts(listing, v=v, eager=True)
@@ -111,7 +125,7 @@ def upvoting_downvoting(v, username, uid, cls, vote_cls, vote_dir, template, sta
 	else:
 		listing = []
 
-	return render_template(template, next_exists=next_exists, listing=listing, page=page, v=v, standalone=standalone)
+	return render_template(template, total=total, listing=listing, page=page, v=v, standalone=standalone)
 
 @app.get("/@<username>/upvoting/<int:uid>/posts")
 @limiter.limit(DEFAULT_RATELIMIT)
@@ -149,8 +163,7 @@ def user_voted(v, username, cls, vote_cls, template, standalone):
 	if not u.is_visible_to(v): abort(403)
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
 
-	try: page = max(1, int(request.values.get("page", 1)))
-	except: abort(400, "Invalid page input!")
+	page = get_page()
 
 	listing = g.db.query(cls).join(vote_cls).filter(
 			cls.ghost == False,
@@ -158,11 +171,13 @@ def user_voted(v, username, cls, vote_cls, template, standalone):
 			cls.deleted_utc == 0,
 			cls.author_id != u.id,
 			vote_cls.user_id == u.id,
-		).order_by(cls.created_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
+		)
 
-	listing = [i.id for i in listing]
-	next_exists = len(listing) > PAGE_SIZE
-	listing = listing[:PAGE_SIZE]
+	total = listing.count()
+
+	listing = listing.order_by(cls.created_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
+	listing = [x.id for x in listing]
+
 	if cls == Submission:
 		listing = get_posts(listing, v=v, eager=True)
 	elif cls == Comment:
@@ -170,7 +185,7 @@ def user_voted(v, username, cls, vote_cls, template, standalone):
 	else:
 		listing = []
 
-	return render_template(template, next_exists=next_exists, listing=listing, page=page, v=v, standalone=standalone)
+	return render_template(template, total=total, listing=listing, page=page, v=v, standalone=standalone)
 
 @app.get("/@<username>/voted/posts")
 @limiter.limit(DEFAULT_RATELIMIT)
@@ -271,14 +286,13 @@ def all_upvoters_downvoters(v:User, username:str, vote_dir:int, is_who_simps_hat
 
 	name2 = f'Who @{username} {simps_haters}' if is_who_simps_hates else f"@{username}'s {simps_haters}"
 
-	try: page = int(request.values.get("page", 1))
-	except: page = 1
+	page = get_page()
 
 	users = users[PAGE_SIZE * (page-1):]
-	next_exists = (len(users) > PAGE_SIZE)
+	total = (len(users) > PAGE_SIZE)
 	users = users[:PAGE_SIZE]
 
-	return render_template("userpage/voters.html", v=v, users=users, pos=pos, name=vote_name, name2=name2, total=total, page=page, next_exists=next_exists)
+	return render_template("userpage/voters.html", v=v, users=users, pos=pos, name=vote_name, name2=name2, page=page, total=total)
 
 @app.get("/@<username>/upvoters")
 @limiter.limit(DEFAULT_RATELIMIT)
@@ -473,8 +487,13 @@ def get_profilecss(id):
 @limiter.limit(DEFAULT_RATELIMIT)
 def usersong(username:str):
 	user = get_user(username)
-	if user.song: return redirect(f"/songs/{user.song}.mp3")
-	else: abort(404)
+	if not user.song:
+		abort(404)
+
+	resp = make_response(redirect(f"/songs/{user.song}.mp3"))
+	resp.headers["Cache-Control"] = "no-store"
+	return resp
+
 
 @app.post("/subscribe/<int:post_id>")
 @limiter.limit('1/second', scope=rpath)
@@ -519,13 +538,15 @@ def message2(v:User, username:str):
 	if v.admin_level <= PERMS['MESSAGE_BLOCKED_USERS'] and hasattr(user, 'is_blocked') and user.is_blocked:
 		abort(403, f"@{user.username} is blocking you!")
 
-	message = sanitize_raw_body(request.values.get("message"), False)
+	body = sanitize_raw_body(request.values.get("message"), False)
 
-	message = process_dm_images(v, user, message)
+	if not g.is_tor and get_setting("dm_images"):
+		body = process_files(request.files, v, body, is_dm=True, dm_user=user)
+		body = body.strip()[:COMMENT_BODY_LENGTH_LIMIT] #process_files potentially adds characters to the post
 
-	if not message: abort(400, "Message is empty!")
+	if not body: abort(400, "Message is empty!")
 
-	body_html = sanitize(message)
+	body_html = sanitize(body)
 
 	existing = g.db.query(Comment.id).filter(
 		Comment.author_id == v.id,
@@ -539,7 +560,7 @@ def message2(v:User, username:str):
 						parent_submission=None,
 						level=1,
 						sentto=user.id,
-						body=message,
+						body=body,
 						body_html=body_html
 						)
 	g.db.add(c)
@@ -560,7 +581,7 @@ def message2(v:User, username:str):
 
 		url = f'{SITE_FULL}/notifications/messages'
 
-		push_notif({user.id}, title, message, url)
+		push_notif({user.id}, title, body, url)
 
 	return {"message": "Message sent!"}
 
@@ -596,9 +617,9 @@ def messagereply(v:User):
 				and hasattr(user, 'is_blocked') and user.is_blocked):
 			abort(403, f"You're blocked by @{user.username}")
 
-	body = process_dm_images(v, user, body)
-
-	body = body.strip()[:COMMENT_BODY_LENGTH_LIMIT]
+	if not g.is_tor and get_setting("dm_images"):
+		body = process_files(request.files, v, body, is_dm=True, dm_user=user)
+		body = body.strip()[:COMMENT_BODY_LENGTH_LIMIT] #process_files potentially adds characters to the post
 
 	if not body: abort(400, "Message is empty!")
 
@@ -715,6 +736,25 @@ def user_id(id):
 def redditor_moment_redirect(v:User, username:str):
 	return redirect(f"/@{username}")
 
+@app.get("/@<username>/blockers")
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@auth_required
+def blockers(v:User, username:str):
+	u = get_user(username, v=v)
+
+	page = get_page()
+
+	users = g.db.query(UserBlock, User).join(UserBlock, UserBlock.target_id == u.id) \
+		.filter(UserBlock.user_id == User.id)
+
+	total = users.count()
+
+	users = users.order_by(UserBlock.created_utc.desc()) \
+		.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE ).all()
+
+	return render_template("userpage/blockers.html", v=v, u=u, users=users, page=page, total=total)
+
 @app.get("/@<username>/followers")
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
@@ -725,38 +765,17 @@ def followers(v:User, username:str):
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_FOLLOWS_VISIBLE']):
 		abort(403)
 
-	try: page = int(request.values.get("page", 1))
-	except: page = 1
+	page = get_page()
 
 	users = g.db.query(Follow, User).join(Follow, Follow.target_id == u.id) \
-		.filter(Follow.user_id == User.id) \
-		.order_by(Follow.created_utc.desc()) \
-		.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
+		.filter(Follow.user_id == User.id)
 
-	next_exists = (len(users) > PAGE_SIZE)
-	users = users[:PAGE_SIZE]
+	total = users.count()
 
-	return render_template("userpage/followers.html", v=v, u=u, users=users, page=page, next_exists=next_exists)
+	users = users.order_by(Follow.created_utc.desc()) \
+		.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
 
-@app.get("/@<username>/blockers")
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
-@auth_required
-def blockers(v:User, username:str):
-	u = get_user(username, v=v)
-
-	try: page = int(request.values.get("page", 1))
-	except: page = 1
-
-	users = g.db.query(UserBlock, User).join(UserBlock, UserBlock.target_id == u.id) \
-		.filter(UserBlock.user_id == User.id) \
-		.order_by(UserBlock.created_utc.desc()) \
-		.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
-
-	next_exists = (len(users) > PAGE_SIZE)
-	users = users[:PAGE_SIZE]
-
-	return render_template("userpage/blockers.html", v=v, u=u, users=users, page=page, next_exists=next_exists)
+	return render_template("userpage/followers.html", v=v, u=u, users=users, page=page, total=total)
 
 @app.get("/@<username>/following")
 @limiter.limit(DEFAULT_RATELIMIT)
@@ -767,18 +786,17 @@ def following(v:User, username:str):
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_FOLLOWS_VISIBLE']):
 		abort(403)
 
-	try: page = int(request.values.get("page", 1))
-	except: page = 1
+	page = get_page()
 
 	users = g.db.query(User).join(Follow, Follow.user_id == u.id) \
-		.filter(Follow.target_id == User.id) \
-		.order_by(Follow.created_utc.desc()) \
-		.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
+		.filter(Follow.target_id == User.id)
 
-	next_exists = (len(users) > PAGE_SIZE)
-	users = users[:PAGE_SIZE]
+	total = users.count()
 
-	return render_template("userpage/following.html", v=v, u=u, users=users, page=page, next_exists=next_exists)
+	users = users.order_by(Follow.created_utc.desc()) \
+		.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
+
+	return render_template("userpage/following.html", v=v, u=u, users=users, page=page, total=total)
 
 @app.get("/@<username>/views")
 @limiter.limit(DEFAULT_RATELIMIT)
@@ -787,25 +805,24 @@ def following(v:User, username:str):
 def visitors(v:User, username:str):
 	u = get_user(username, v=v)
 
-	try: page = int(request.values.get("page", 1))
-	except: page = 1
+	page = get_page()
 
-	views = g.db.query(ViewerRelationship).filter_by(user_id=u.id).order_by(ViewerRelationship.last_view_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
+	views = g.db.query(ViewerRelationship).filter_by(user_id=u.id)
+	total = views.count()
+	views = views.order_by(ViewerRelationship.last_view_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
 
-	next_exists = (len(views) > PAGE_SIZE)
-	views = views[:PAGE_SIZE]
-
-	return render_template("userpage/views.html", v=v, u=u, views=views, next_exists=next_exists, page=page)
+	return render_template("userpage/views.html", v=v, u=u, views=views, total=total, page=page)
 
 @cache.memoize()
 def userpagelisting(user:User, v=None, page:int=1, sort="new", t="all"):
-	posts = g.db.query(Submission.id).filter_by(author_id=user.id, is_pinned=False)
+	posts = g.db.query(Submission).filter_by(author_id=user.id, is_pinned=False).options(load_only(Submission.id))
 	if not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or v.id == user.id)):
 		posts = posts.filter_by(is_banned=False, private=False, ghost=False, deleted_utc=0)
 	posts = apply_time_filter(t, posts, Submission)
+	total = posts.count()
 	posts = sort_objects(sort, posts, Submission)
-	posts = posts.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE+1).all()
-	return [x[0] for x in posts]
+	posts = posts.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
+	return [x.id for x in posts], total
 
 @app.get("/@<username>")
 @limiter.limit(DEFAULT_RATELIMIT)
@@ -828,8 +845,7 @@ def u_username_wall(v:Optional[User], username:str):
 		else: view = ViewerRelationship(viewer_id=v.id, user_id=u.id)
 		g.db.add(view)
 
-	try: page = max(int(request.values.get("page", "1")), 1)
-	except: page = 1
+	page = get_page()
 
 	if v:
 		comments, output = get_comments_v_properties(v, None, Comment.wall_user_id == u.id)
@@ -844,18 +860,16 @@ def u_username_wall(v:Optional[User], username:str):
 			Comment.deleted_utc == 0
 		)
 
+	total = comments.count()
 	comments = comments.order_by(Comment.created_utc.desc()) \
-		.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE+1).all()
+		.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
 	if v:
 		comments = [c[0] for c in comments]
-
-	next_exists = (len(comments) > PAGE_SIZE)
-	comments = comments[:PAGE_SIZE]
 
 	if v and v.client:
 		return {"data": [c.json(g.db) for c in comments]}
 
-	return render_template("userpage/wall.html", u=u, v=v, listing=comments, page=page, next_exists=next_exists, is_following=is_following, standalone=True, render_replies=True, wall=True)
+	return render_template("userpage/wall.html", u=u, v=v, listing=comments, page=page, total=total, is_following=is_following, standalone=True, render_replies=True, wall=True)
 
 
 @app.get("/@<username>/wall/comment/<int:cid>")
@@ -904,7 +918,7 @@ def u_username_wall_comment(v:User, username:str, cid):
 
 	if v and v.client: return top_comment.json(db=g.db)
 
-	return render_template("userpage/wall.html", u=u, v=v, listing=[top_comment], page=1, is_following=is_following, standalone=True, render_replies=True, wall=True, comment_info=comment_info)
+	return render_template("userpage/wall.html", u=u, v=v, listing=[top_comment], page=1, is_following=is_following, standalone=True, render_replies=True, wall=True, comment_info=comment_info, total=1)
 
 
 @app.get("/@<username>/posts")
@@ -936,13 +950,9 @@ def u_username(v:Optional[User], username:str):
 
 	sort = request.values.get("sort", "new")
 	t = request.values.get("t", "all")
-	try: page = max(int(request.values.get("page", 1)), 1)
-	except: page = 1
+	page = get_page()
 
-	ids = userpagelisting(u, v=v, page=page, sort=sort, t=t)
-
-	next_exists = (len(ids) > PAGE_SIZE)
-	ids = ids[:PAGE_SIZE]
+	ids, total = userpagelisting(u, v=v, page=page, sort=sort, t=t)
 
 	if page == 1 and sort == 'new':
 		sticky = []
@@ -965,7 +975,7 @@ def u_username(v:Optional[User], username:str):
 												page=page,
 												sort=sort,
 												t=t,
-												next_exists=next_exists,
+												total=total,
 												is_following=is_following)
 
 	if v and v.client:
@@ -978,7 +988,7 @@ def u_username(v:Optional[User], username:str):
 									page=page,
 									sort=sort,
 									t=t,
-									next_exists=next_exists,
+									total=total,
 									is_following=is_following)
 
 
@@ -1008,14 +1018,13 @@ def u_username_comments(username, v=None):
 		else: view = ViewerRelationship(viewer_id=v.id, user_id=u.id)
 		g.db.add(view)
 
-	try: page = max(int(request.values.get("page", "1")), 1)
-	except: page = 1
+	page = get_page()
 
 	sort=request.values.get("sort","new")
 	t=request.values.get("t","all")
 
 	comment_post_author = aliased(User)
-	comments = g.db.query(Comment.id) \
+	comments = g.db.query(Comment).options(load_only(Comment.id)) \
 				.outerjoin(Comment.post) \
 				.outerjoin(comment_post_author, Submission.author) \
 				.filter(
@@ -1032,20 +1041,19 @@ def u_username_comments(username, v=None):
 
 	comments = apply_time_filter(t, comments, Comment)
 
+	total = comments.count()
+
 	comments = sort_objects(sort, comments, Comment)
 
-	comments = comments.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE+1).all()
+	comments = comments.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
 	ids = [x.id for x in comments]
-
-	next_exists = (len(ids) > PAGE_SIZE)
-	ids = ids[:PAGE_SIZE]
 
 	listing = get_comments(ids, v=v)
 
 	if v and v.client:
 		return {"data": [c.json(g.db) for c in listing]}
 
-	return render_template("userpage/comments.html", u=u, v=v, listing=listing, page=page, sort=sort, t=t,next_exists=next_exists, is_following=is_following, standalone=True)
+	return render_template("userpage/comments.html", u=u, v=v, listing=listing, page=page, sort=sort, t=t,total=total, is_following=is_following, standalone=True)
 
 
 @app.get("/@<username>/info")
@@ -1186,9 +1194,14 @@ def get_saves_and_subscribes(v, template, relationship_cls, page:int, standalone
 		cls = Comment
 	else:
 		raise TypeError("Relationships supported is SaveRelationship, Subscription, CommentSaveRelationship")
-	ids = [x[0] for x in g.db.query(query).join(join).filter(relationship_cls.user_id == v.id).order_by(cls.created_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()]
-	next_exists = len(ids) > PAGE_SIZE
-	ids = ids[:PAGE_SIZE]
+
+	listing = g.db.query(query).join(join).filter(relationship_cls.user_id == v.id)
+
+	total = listing.count()
+
+	listing = listing.order_by(cls.created_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
+
+	ids = [x[0] for x in listing]
 
 	extra = None
 	if not v.admin_level >= PERMS['POST_COMMENT_MODERATION']:
@@ -1202,15 +1215,14 @@ def get_saves_and_subscribes(v, template, relationship_cls, page:int, standalone
 		raise TypeError("Only supports Submissions and Comments. This is probably the result of a bug with *this* function")
 
 	if v.client: return {"data": [x.json(g.db) for x in listing]}
-	return render_template(template, u=v, v=v, listing=listing, page=page, next_exists=next_exists, standalone=standalone)
+	return render_template(template, u=v, v=v, listing=listing, page=page, total=total, standalone=standalone)
 
 @app.get("/@<username>/saved/posts")
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def saved_posts(v:User, username):
-	try: page = max(1, int(request.values.get("page", 1)))
-	except: abort(400, "Invalid page input!")
+	page = get_page()
 
 	return get_saves_and_subscribes(v, "userpage/submissions.html", SaveRelationship, page, False)
 
@@ -1219,8 +1231,7 @@ def saved_posts(v:User, username):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def saved_comments(v:User, username):
-	try: page = max(1, int(request.values.get("page", 1)))
-	except: abort(400, "Invalid page input!")
+	page = get_page()
 
 	return get_saves_and_subscribes(v, "userpage/comments.html", CommentSaveRelationship, page, True)
 
@@ -1229,8 +1240,7 @@ def saved_comments(v:User, username):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def subscribed_posts(v:User, username):
-	try: page = max(1, int(request.values.get("page", 1)))
-	except: abort(400, "Invalid page input!")
+	page = get_page()
 
 	return get_saves_and_subscribes(v, "userpage/submissions.html", Subscription, page, False)
 
@@ -1263,7 +1273,7 @@ def fp(v:User, fp):
 	g.db.add(v)
 	return '', 204
 
-@app.get("/toggle_pins/<sort>")
+@app.post("/toggle_pins/<sort>")
 @limiter.limit(DEFAULT_RATELIMIT)
 def toggle_pins(sort):
 	if sort == 'hot': default = True
@@ -1286,18 +1296,18 @@ def bid_list(v:User, bid):
 	try: bid = int(bid)
 	except: abort(400)
 
-	try: page = int(request.values.get("page", 1))
-	except: page = 1
+	page = get_page()
 
-	users = g.db.query(User).join(User.badges).filter(Badge.badge_id==bid).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
+	users = g.db.query(User).join(User.badges).filter(Badge.badge_id==bid)
 
-	next_exists = (len(users) > PAGE_SIZE)
-	users = users[:PAGE_SIZE]
+	total = users.count()
+
+	users = users.order_by(Badge.created_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
 
 	return render_template("user_cards.html",
 						v=v,
 						users=users,
-						next_exists=next_exists,
+						total=total,
 						page=page,
 						user_cards_title="Badge Owners",
 						)
@@ -1456,18 +1466,18 @@ def settings_claim_rewards(v:User):
 @auth_required
 def users_list(v):
 
-	try: page = int(request.values.get("page", 1))
-	except: page = 1
+	page = get_page()
 
-	users = g.db.query(User).order_by(User.id.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE + 1).all()
+	users = g.db.query(User)
 
-	next_exists = (len(users) > PAGE_SIZE)
-	users = users[:PAGE_SIZE]
+	total = users.count()
+
+	users = users.order_by(User.id.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
 
 	return render_template("user_cards.html",
 						v=v,
 						users=users,
-						next_exists=next_exists,
+						total=total,
 						page=page,
 						user_cards_title="Users Feed",
 						)

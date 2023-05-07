@@ -95,24 +95,7 @@
 				<div class="p-3">There's nothing here right now.</div>
 			{% endfor %}
 		</div>
-		<nav class="mb-5">
-			<ul class="pagination pagination-sm mb-0">
-				{% if page>1 %}
-					<li class="page-item">
-						<small><a class="page-link" href="{% if sub %}/h/{{sub}}{% endif %}/log?page={{page-1}}{% if admin %}&{{single_user_url}}={{admin}}{% endif %}{% if type %}&kind={{type}}{% endif %}" tabindex="-1">Prev</a></small>
-					</li>
-				{% else %}
-					<li class="page-item disabled"><span class="page-link">Prev</span></li>
-				{% endif %}
-				{% if next_exists %}
-				<li class="page-item">
-					<small><a class="page-link" href="{% if sub %}/h/{{sub}}{% endif %}/log?page={{page+1}}{% if admin %}&{{single_user_url}}={{admin}}{% endif %}{% if type %}&kind={{type}}{% endif %}">Next</a></small>
-				</li>
-				{% else %}
-					<li class="page-item disabled"><span class="page-link">Next</span></li>
-				{% endif %}
-			</ul>
-		</nav>
+		{% include "pagination.html" %}
 	</div>
 </div>
 
