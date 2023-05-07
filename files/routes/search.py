@@ -89,7 +89,7 @@ def searchposts(v:User):
 								domain_obj=None,
 								error=f"@{author.username}'s profile is private; You can't use the 'author' syntax on them."
 								), 403
-		else: posts = posts.filter(Submission.author_id == author.id)
+		posts = posts.filter(Submission.author_id == author.id)
 
 	if 'q' in criteria:
 		if('title' in criteria):
