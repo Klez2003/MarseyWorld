@@ -59,8 +59,8 @@ def shop(v:User):
 @limiter.limit("100/minute;200/hour;1000/day", key_func=get_ID)
 @auth_required
 def buy(v:User, award):
-	if award == 'ghost' and v.admin_level < PERMS['BUY_GHOST_AWARD']:
-		abort(403, "Only admins can buy this award")
+	if award == 'ghost':
+		abort(403, "You can't buy this award!")
 
 	AWARDS = deepcopy(AWARDS_ENABLED)
 
