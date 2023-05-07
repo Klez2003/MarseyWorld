@@ -529,12 +529,13 @@ def submit_post(v:User, sub=None):
 		if repost and FEATURES['REPOST_DETECTION'] and not v.admin_level >= PERMS['POST_BYPASS_REPOST_CHECKING']:
 			return {"post_id": repost.id, "success": False}
 
-		y = tldextract.extract(url).registered_domain + parsed_url.path
-		y = y.lower()
-		banned_domains = g.db.query(BannedDomain).all()
-		for x in banned_domains:
-			if y.startswith(x.domain):
-				abort(400, f'Remove the banned link "{x.domain}" and try again!<br>Reason for link ban: "{x.reason}"')
+		if v.admin_level < PERMS["IGNORE_DOMAIN_BAN"]:
+			y = tldextract.extract(url).registered_domain + parsed_url.path
+			y = y.lower()
+			banned_domains = g.db.query(BannedDomain).all()
+			for x in banned_domains:
+				if y.startswith(x.domain):
+					abort(400, f'Remove the banned link "{x.domain}" and try again!<br>Reason for link ban: "{x.reason}"')
 
 		if "twitter.com" == domain:
 			try:
