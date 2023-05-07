@@ -5,25 +5,28 @@
 <div class="overflow-x-auto mt-3"><table class="table table-striped mb-5">
 <thead class="bg-primary text-white">
 	<tr>
-		<th class="disable-sort-click" {% if sort=="name" %}disabled{% endif %}><a href="?sort=name">Name</a></th>
-		<th class="disable-sort-click">Marsey</th>
-		<th class="disable-sort-click" {% if sort=="usage" %}disabled{% endif %}><a href="/marseys">Usage</a></th>
+		<th>#</th>
+		<th>Name</th>
+		<th>Marsey</th>
+		<th>Usage</th>
 		{% if FEATURES['ASSET_SUBMISSIONS'] %}
-			<th class="disable-sort-click" {% if sort=="author" %}disabled{% endif %}><a href="?sort=author">Author</a></th>
+			<th>Author</th>
 		{% endif %}
-		<th class="disable-sort-click" {% if sort=="added_on" %}disabled{% endif %}><a href="?sort=added_on">Added on</a></th>
+		<th>Added on</th>
 		{% if FEATURES['ASSET_SUBMISSIONS'] %}
 			<th class="disable-sort-click">Original File</th>
 		{% endif %}
 	</tr>
 </thead>
 <tbody id="marseys-table">
-{% for marsey, user in marseys %}
+{% for marsey in marseys %}
 <tr>
+	<td>{{loop.index}}</td>
 	<td>{{marsey.name}}</td>
 	<td><img class="marsey" loading="lazy" data-bs-toggle="tooltip" alt=":#{{marsey.name}}:" title=":{{marsey.name}}:" src="/e/{{marsey.name}}.webp"></td>
 	<td>{{marsey.count}}</td>
 	{% if FEATURES['ASSET_SUBMISSIONS'] %}
+	{% set user = marsey.user %}
 	<td>{% include "user_in_table.html" %}</td>
 	{% endif %}
 	<td data-sort-key="{{marsey.created_utc or 0}}" {% if marsey.created_utc != None %}data-time="{{marsey.created_utc}}"{% endif %}></td>
@@ -39,10 +42,4 @@
 </tbody>
 </table>
 
-{% endblock %}
-
-{% block pagenav %}
-{% if request.path != "/marseys/all" %}
-	{% include "pagination.html" %}
-{% endif %}
 {% endblock %}
