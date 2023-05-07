@@ -545,7 +545,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_emojis=
 			if y.startswith(x.domain):
 				return error(f'Remove the banned link "{x.domain}" and try again!\nReason for link ban: "{x.reason}"')
 
-	if discord_username_regex.match(sanitized):
+	if discord_username_regex.match(sanitized) and not (g.v and g.v.admin_level >= PERMS["GROOMING"]):
 		return error("Stop grooming!")
 
 	if '<pre>' not in sanitized and blackjack != "rules":
