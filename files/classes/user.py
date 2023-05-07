@@ -419,12 +419,12 @@ class User(Base):
 			now = time.strftime("%d %b", time.gmtime())
 			if date == now: return True
 
-		if time.time() - self.created_utc > 364 * 86400 and not self.has_badge(134):
+		if time.time() - self.created_utc > 363 * 86400 and not self.has_badge(134):
 			new_badge = Badge(badge_id=134, user_id=self.id)
 			g.db.add(new_badge)
 			g.db.flush()
 
-		if time.time() - self.created_utc > 364 * 86400 * 2 and not self.has_badge(237):
+		if time.time() - self.created_utc > 363 * 86400 * 2 and not self.has_badge(237):
 			new_badge = Badge(badge_id=237, user_id=self.id)
 			g.db.add(new_badge)
 			g.db.flush()
