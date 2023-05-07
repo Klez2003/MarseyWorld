@@ -111,7 +111,7 @@ class User(Base):
 	nitter = Column(Boolean)
 	imginn = Column(Boolean)
 	frontsize = Column(Integer, default=25)
-	controversial = Column(Boolean, default=True)
+	controversial = Column(Boolean, default=False)
 	bio = deferred(Column(String))
 	bio_html = Column(String)
 	sig = deferred(Column(String))
