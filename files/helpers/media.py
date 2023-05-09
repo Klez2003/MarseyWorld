@@ -25,7 +25,6 @@ def remove_media_using_link(path):
 		path = path.split(SITE, 1)[1]
 	os.remove(path)
 
-
 def media_ratelimit(v):
 	t = time.time() - 86400
 	count = g.db.query(Media).filter(Media.user_id == v.id, Media.created_utc > t).count()
