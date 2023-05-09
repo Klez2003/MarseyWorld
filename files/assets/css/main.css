@@ -6831,8 +6831,8 @@ div.markdown {
 	margin-bottom: 10px !important;
 }
 #desktop-expanded-image {
-	max-height:80vh;
-	border:5px white solid;
+	max-width: 100%;
+	border: 5px white solid;
 	object-fit: contain;
 }
 .fas.fa-ellipsis-h {
