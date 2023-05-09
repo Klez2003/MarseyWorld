@@ -414,25 +414,12 @@ class User(Base):
 	@property
 	@lazy
 	def is_cakeday(self):
-		return_value = False
-
 		if time.time() - self.created_utc > 363 * 86400:
 			date = time.strftime("%d %b", time.gmtime(self.created_utc))
 			now = time.strftime("%d %b", time.gmtime())
-			if date == now: 
-				return_value = True
-
-			if time.time() - self.created_utc > 365 * 86400 and not self.has_badge(134):
-				new_badge = Badge(badge_id=134, user_id=self.id)
-				g.db.add(new_badge)
-				g.db.flush()
-
-			if time.time() - self.created_utc > 365 * 86400 * 2 and not self.has_badge(237):
-				new_badge = Badge(badge_id=237, user_id=self.id)
-				g.db.add(new_badge)
-				g.db.flush()
-
-		return return_value
+			if date == now:
+				return True
+		return False
 
 	@property
 	@lazy

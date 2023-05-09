@@ -5,6 +5,7 @@ from flask import g
 from files.classes.user import User
 from files.helpers.alerts import send_repeatable_notification
 from files.helpers.config.const import *
+from files.helpers.useractions import *
 
 def award_timers(v, bot=False):
 	now = time.time()
@@ -99,6 +100,12 @@ def award_timers(v, bot=False):
 		notify_if_not_bot("Your spider friend has left you!")
 		badge = v.has_badge(179)
 		if badge: g.db.delete(badge)
+
+	if time.time() - v.created_utc > 365 * 86400:
+		badge_grant(user=v, badge_id=134)
+
+	if time.time() - v.created_utc > 365 * 86400:
+		badge_grant(user=v, badge_id=237)
 
 	g.db.add(v)
 
