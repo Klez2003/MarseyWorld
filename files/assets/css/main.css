@@ -6833,7 +6833,6 @@ div.markdown {
 #desktop-expanded-image {
 	max-width: 100%;
 	border: 5px white solid;
-	object-fit: contain;
 }
 .fas.fa-ellipsis-h {
 	margin: 0 0.15rem 0 0 !important;
