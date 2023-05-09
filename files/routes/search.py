@@ -338,9 +338,11 @@ def searchmessages(v:User):
 
 	if 'sentto' in criteria:
 		sentto = criteria['sentto']
-		try: sentto = get_user(sentto, graceful=True)
-		except:
+		sentto = get_user(sentto, graceful=True)
+
+		if not sentto:
 			abort(400, "The `sentto` field must contain a user's username!")
+
 		comments = comments.filter(Comment.sentto == sentto.id)
 
 	total = comments.count()
