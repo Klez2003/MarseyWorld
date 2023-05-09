@@ -270,11 +270,10 @@ def all_upvoters_downvoters(v:User, username:str, vote_dir:int, is_who_simps_hat
 		votes2 = g.db.query(CommentVote.user_id, func.count(CommentVote.user_id)).join(Comment).filter(Comment.ghost == False, Comment.is_banned == False, Comment.deleted_utc == 0, CommentVote.vote_type==vote_dir, Comment.author_id==id).group_by(CommentVote.user_id).order_by(func.count(CommentVote.user_id).desc()).all()
 	votes = Counter(dict(votes)) + Counter(dict(votes2))
 	total_items = sum(votes.values())
+
 	users = g.db.query(User).filter(User.id.in_(votes.keys()))
-
-	users2 = [(user, votes[user.id]) for user in users.all()]
-
-	users = sorted(users2, key=lambda x: x[1], reverse=True)
+	users = [(user, votes[user.id]) for user in users.all()]
+	users = sorted(users, key=lambda x: x[1], reverse=True)
 
 	try:
 		pos = [x[0].id for x in users].index(v.id)
@@ -291,7 +290,8 @@ def all_upvoters_downvoters(v:User, username:str, vote_dir:int, is_who_simps_hat
 
 	total = len(users)
 
-	users = users[PAGE_SIZE * (page-1):PAGE_SIZE]
+	users = users[PAGE_SIZE*(page-1):]
+	users = users[:PAGE_SIZE]
 
 	return render_template("userpage/voters.html", v=v, users=users, pos=pos, name=vote_name, name2=name2, page=page, total_items=total_items, total=total)
 
