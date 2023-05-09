@@ -104,7 +104,7 @@ def award_timers(v, bot=False):
 	if time.time() - v.created_utc > 365 * 86400:
 		badge_grant(user=v, badge_id=134)
 
-	if time.time() - v.created_utc > 365 * 86400:
+	if time.time() - v.created_utc > 365 * 86400 * 2:
 		badge_grant(user=v, badge_id=237)
 
 	g.db.add(v)
