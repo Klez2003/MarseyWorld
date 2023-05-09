@@ -213,13 +213,15 @@ INSERT INTO public.badge_defs VALUES (24, 'Landchad', 'Contributes $20/month', N
 INSERT INTO public.badge_defs VALUES (26, 'Marsey''s Sugar Daddy', 'Contributes $100/month', NULL);
 INSERT INTO public.badge_defs VALUES (27, 'JIDF Bankroller', 'Contributes $200/month', NULL);
 INSERT INTO public.badge_defs VALUES (58, 'Chud', 'Marked as a chud', NULL);
+INSERT INTO public.badge_defs VALUES (255, '2nd Birthgay Bash Survivor', 'Awarded for surviving rDrama''s second annual Birthgay Bash', 1683505877);
+INSERT INTO public.badge_defs VALUES (256, 'Birthgay Banner Artist', 'Contributed a beautiful banner to Marsey''s second birthgay celebration!', 1683506361);
 
 
 --
 -- Name: badge_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.badge_defs_id_seq', 254, true);
+SELECT pg_catalog.setval('public.badge_defs_id_seq', 256, true);
 
 
 --
@@ -2436,6 +2438,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseycarpmermaid','Marsey',2,'carp mermaid merman mercarp siren sexy legs temptress'),
 ('marseycarpnightmare','Marsey',2,'penis  birth   carpathianflorist fish jizz sperm ejaculate disgusting'),
 ('marseycarpnoticeme','Marsey',2,'carpathianflorist fish attn attention whore'),
+('marseycarppearlclutch','Marsey',2,'worried admin janny mod scared triggered cry fish gem'),
 ('marseycarpprotest','Marsey',2,'sign fish mad carpathianflorist sign admin jannie'),
 ('marseycarprentfree','Marsey',2,'fish bard stochiastic moderator jannie carpathianflorist fish'),
 ('marseycarprule34','Marsey',2,'booba boobs tits titties tiddies fish admin moderator jannie janitor carpathianflorist fish nipples nsfw r34'),
@@ -2839,6 +2842,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseyeric','Marsey',2,'columbine school shooter psycho gun carbine harris'),
 ('marseyeskimo','Marsey',2,'inuit native arctic fishing dog helpful ice freeze winter cold'),
 ('marseyespeon','Marsey',2,'trick or treat pokemon halloween eevee costume holiday'),
+('marseyestrogen','Marsey',2,'givemeestrogen givemeoestrogen givemeaestrogen trans catgirl hrt estradiol'),
 ('marseyetika','Marsey',2,'streamer youtuber nft psyops twitter antila trending black suicide bridge llm'),
 ('marseyeva','Marsey',2,'anime weeb neon genesis evangelion shinji robot mech japan'),
 ('marseyevil','Marsey',2,'evil bad malicious scary'),
@@ -3649,6 +3653,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseynoyou','Marsey',2,'nou no u pointing'),
 ('marseynoyoufellowpedo','Marsey',2,'point fbi glow libertarian mask discord agent'),
 ('marseynoyouglow','Marsey',2,'fbi no u animated feds glowies glowniggers atf cia nsa'),
+('marseynoyoupedo','Marsey',2,'chomo accuse groom pointing'),
 ('marseynoyouzoom','Marsey',2,'close up jaccuse cope seethe project gaslight point finger angry horseshoe leftoid rightoid'),
 ('marseynpc','Marsey',2,'sheeple'),
 ('marseynpc2','Marsey',2,'reaction idiot sheep'),
@@ -4045,6 +4050,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseyschizoexcited','Marsey',2,'animated schizo rare drugs excited watching oscillate amused interested'),
 ('marseyschizonotes','Marsey',2,'writing crazy nuts notice pen paper conspiracy'),
 ('marseyschizosal','Marsey',2,'schizo sal rare weeks nowhere'),
+('marseyschizoschizolove','Marsey',2,'schizomarsey'),
 ('marseyschizoshaking','Marsey',2,'crazy nuts insane traumatized shaking animated'),
 ('marseyschizotripping','Marsey',2,'animated schizo rare drugs trip'),
 ('marseyschizotwitch','Marsey',2,'twitching eyelid crazy nuts psycho insane traumatized animated'),
