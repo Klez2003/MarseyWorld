@@ -341,7 +341,7 @@ def searchmessages(v:User):
 		sentto = get_user(sentto, graceful=True)
 
 		if not sentto:
-			abort(400, "The `sentto` field must contain a user's username!")
+			abort(400, "The `sentto` field must contain an existing user's username!")
 
 		comments = comments.filter(Comment.sentto == sentto.id)
 
