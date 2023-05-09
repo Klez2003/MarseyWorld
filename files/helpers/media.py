@@ -29,7 +29,7 @@ def remove_media_using_link(path):
 def media_ratelimit(v):
 	t = time.time() - 86400
 	count = g.db.query(Media).filter(Media.user_id == v.id, Media.created_utc > t).count()
-	if count > 75 and v.admin_level < PERMS['USE_ADMIGGER_THREADS']:
+	if count > 100 and v.admin_level < PERMS['USE_ADMIGGER_THREADS']:
 		print(STARS, flush=True)
 		print(f'@{v.username} hit the 75 file daily limit!')
 		print(STARS, flush=True)
