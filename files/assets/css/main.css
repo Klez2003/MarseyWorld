@@ -5804,7 +5804,7 @@ toast {
 	z-index: 999999999999999999 !important;
 }
 
-@media (max-width: 464px) {
+@media (max-width: 426px) {
 	.awardbtn {
 		display:block;
 		margin-right:0 !important;
