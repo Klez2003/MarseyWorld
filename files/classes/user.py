@@ -4,7 +4,7 @@ from typing import Union
 import re
 
 import pyotp
-from sqlalchemy import Column, ForeignKey
+from sqlalchemy import Column, ForeignKey, FetchedValue
 from sqlalchemy.orm import aliased, deferred, Query
 from sqlalchemy.sql import case, func, literal
 from sqlalchemy.sql.expression import not_, and_, or_
@@ -176,6 +176,8 @@ class User(Base):
 	hats_equipped = relationship("Hat", lazy="raise", viewonly=True)
 	sub_mods = relationship("Mod", primaryjoin="User.id == Mod.user_id", lazy="raise")
 	sub_exiles = relationship("Exile", primaryjoin="User.id == Exile.user_id", lazy="raise")
+
+	lifetime_donated = deferred(Column(Integer, server_default=FetchedValue()))
 
 	def __init__(self, **kwargs):
 

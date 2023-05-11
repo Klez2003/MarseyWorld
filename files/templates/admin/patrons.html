@@ -7,6 +7,7 @@
 		<th>#</th>
 		<th>Name</th>
 		<th>Tier</th>
+		<th>Lifetime Donated</th>
 		<th>Truescore</th>
 	</tr>
 </thead>
@@ -19,6 +20,7 @@
 				<img class="contain" alt="2{{user.patron}}" loading="lazy" width=29.33 height=32 src="{{SITE_FULL_IMAGES}}/i/{{SITE_NAME}}/badges/2{{user.patron}}.webp?b=8">
 			{% endif %}
 		</td>
+		<td>{{user.lifetime_donated}}</td>
 		<td>{{user.truescore}}</td>
 	</tr>
 {% endfor %}
