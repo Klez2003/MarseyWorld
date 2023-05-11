@@ -58,7 +58,6 @@ INSERT INTO public.badge_defs VALUES (167, 'OwOified', 'This user''s comments ge
 INSERT INTO public.badge_defs VALUES (169, 'Early Life Checked', 'The Early Life section of this user is on full display', NULL);
 INSERT INTO public.badge_defs VALUES (172, 'God Save The Kween', 'Commemorative badge awarded for outliving Her Maj', NULL);
 INSERT INTO public.badge_defs VALUES (174, 'George', '@Marsey went to Spokane to fight @TrailerParkBride, but George the Mountain Lion was the real winner.', NULL);
-INSERT INTO public.badge_defs VALUES (175, 'Pressuring Peer', 'You have applied pressure to poor souls undergoing rehabilitation [n] times. Shame on you!', 1663105259);
 INSERT INTO public.badge_defs VALUES (4, 'White Hat', 'Discreetly reported an exploit', NULL);
 INSERT INTO public.badge_defs VALUES (176, 'Fish Of The Year', 'Awarded for outstanding achievement in the field of achievement. Well done!', 1663340894);
 INSERT INTO public.badge_defs VALUES (177, 'Sweatshop Laborer', 'lmao thanks retard', 1663616592);
@@ -2279,7 +2278,6 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseyblops2chadcel','Marsey',2,'incel black ops 2 saint gamer gussy pimp saint volcel iconic chad girls women foids alpha asian azn jbw just be white justbewhite threesome 3some'),
 ('marseyblops2chadcel2','Marsey',2,'incel black ops 2 saint gamer gussy pimp saint volcel iconic chad girls women foids alpha asian azn jbw just be white justbewhite threesome 3some'),
 ('marseyblowkiss','Marsey',2,'heart wink reaction muah loving mwah love'),
-('marseyblueanime','Marsey',2,'cirno touhou weebshit'),
 ('marseybluecheck','Marsey',2,'journoid checkmark verified journalist drolling drool twitter'),
 ('marseyblush','Marsey',2,'shy flirting reaction blushing happy cute embarrassed'),
 ('marseybo','Marsey',2,'bo magazinchik alien hare rabbit bunny'),
@@ -2568,6 +2566,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseycia','Marsey',2,'bane cia glowie plane big guy dr pavel batman'),
 ('marseycigar','Marsey',2,'cigar bbc sharty smoke'),
 ('marseycirno','Marsey',2,'is cirno anime weebshit otaku loli pedoshit pedophile'),
+('marseycirno2','Marsey',2,'cirno touhou weebshit'),
 ('marseycirnofumo','Marsey',2,'weeb anime touhou vidya'),
 ('marseycitrus','Marsey',2,'lemon orange citrus fruit'),
 ('marseycjng','Marsey',2,'cartel cj cjng atg camo gun balaclava green ski mask'),
