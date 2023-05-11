@@ -7429,3 +7429,7 @@ th.disable-sort-click[disabled] {
 		margin-bottom: 50px;
 	}
 }
+
+#mobile-bottom-navigation-bar > button {
+	overflow: visible
+}
