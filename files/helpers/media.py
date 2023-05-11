@@ -30,7 +30,7 @@ def media_ratelimit(v):
 	count = g.db.query(Media).filter(Media.user_id == v.id, Media.created_utc > t).count()
 	if count > 100 and v.admin_level < PERMS['USE_ADMIGGER_THREADS']:
 		print(STARS, flush=True)
-		print(f'@{v.username} hit the 75 file daily limit!')
+		print(f'@{v.username} hit the 100 file daily limit!')
 		print(STARS, flush=True)
 		abort(500)
 
