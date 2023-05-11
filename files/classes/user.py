@@ -177,7 +177,7 @@ class User(Base):
 	sub_mods = relationship("Mod", primaryjoin="User.id == Mod.user_id", lazy="raise")
 	sub_exiles = relationship("Exile", primaryjoin="User.id == Exile.user_id", lazy="raise")
 
-	lifetime_donated = deferred(Column(Integer, server_default=FetchedValue()))
+	lifetimedonated = deferred(Column(Integer, server_default=FetchedValue()))
 
 	def __init__(self, **kwargs):
 
@@ -250,6 +250,11 @@ class User(Base):
 			g.db.flush()
 
 		return (succeeded, charged_coins)
+
+	@property
+	@lazy
+	def lifetime_donated(self):
+		return self.lifetimedonated or 0
 
 	@property
 	@lazy

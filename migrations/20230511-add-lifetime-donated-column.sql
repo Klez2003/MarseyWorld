@@ -1,4 +1,4 @@
-create function public.lifetime_donated(public.users) returns integer
+create function public.lifetimedonated(public.users) returns integer
     language sql immutable strict
     as $_$
       select sum(amount)
