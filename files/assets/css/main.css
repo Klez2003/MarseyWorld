@@ -7423,3 +7423,9 @@ th.disable-sort-click[disabled] {
 #expandImageModal a {
 	pointer-events: auto;
 }
+
+@media (max-width: 768px) {
+	#award_price_block {
+		margin-bottom: 50px;
+	}
+}
