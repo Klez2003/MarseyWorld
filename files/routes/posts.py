@@ -95,6 +95,9 @@ def post_id(pid, anything=None, v=None, sub=None):
 		if g.is_api_or_xhr: abort(451, "Must be 18+ to view")
 		return render_template("errors/nsfw.html", v=v)
 
+	p.views += 1
+	g.db.add(p)
+
 	if not v and not request.values.get("sort"):
 		result = cache.get(f'post_{p.id}')
 		if result: return result
@@ -165,9 +168,6 @@ def post_id(pid, anything=None, v=None, sub=None):
 			pinned2[pin] = ''
 
 	p.replies = list(pinned2.keys()) + comments
-
-	p.views += 1
-	g.db.add(p)
 
 	if v and v.client:
 		return p.json(g.db)
