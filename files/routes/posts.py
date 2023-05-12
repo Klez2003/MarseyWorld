@@ -534,7 +534,7 @@ def submit_post(v:User, sub=None):
 		banned_domains = g.db.query(BannedDomain).all()
 		for x in banned_domains:
 			if y.startswith(x.domain):
-				abort(400, f'Remove the banned link "{x.domain}" and try again!<br>Reason for link ban: "{x.reason}"')
+				abort(400, f'Remove the banned link "{x.domain}" and try again!\nReason for link ban: "{x.reason}"')
 
 		if "twitter.com" == domain:
 			try:
