@@ -60,7 +60,7 @@ def process_files(files, v, body, is_dm=False, dm_user=None):
 		body = body.replace(f'[{file.filename}]', f' {url} ', 1)
 
 		if is_dm:
-			with open(f"{LOG_DIRECTORY}/dm_images.log", "a+", encoding="utf-8") as f:
+			with open(f"{LOG_DIRECTORY}/dm_media.log", "a+", encoding="utf-8") as f:
 				if dm_user:
 					f.write(f'{url}, {v.username}, {v.id}, {dm_user.username}, {dm_user.id}, {int(time.time())}\n')
 				else:

@@ -15,7 +15,7 @@ _SETTINGS = {
 	"offline_mode": False,
 	"signups": True,
 	"under_siege": False,
-	"dm_images": True,
+	"dm_media": True,
 	"ddos_detected": False
 }
 

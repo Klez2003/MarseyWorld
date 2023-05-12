@@ -42,12 +42,12 @@ def loggedout_list(v):
 	users = sorted([val[1] for x,val in cache.get('loggedout').items() if time.time()-val[0] < LOGGEDIN_ACTIVE_TIME])
 	return render_template("admin/loggedout.html", v=v, users=users)
 
-@app.get('/admin/dm_images')
+@app.get('/admin/dm_media')
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
-@admin_level_required(PERMS['ENABLE_DM_IMAGES'])
-def dm_images(v):
-	with open(f"{LOG_DIRECTORY}/dm_images.log", "r", encoding="utf-8") as f:
+@admin_level_required(PERMS['ENABLE_DM_MEDIA'])
+def dm_media(v):
+	with open(f"{LOG_DIRECTORY}/dm_media.log", "r", encoding="utf-8") as f:
 		items=f.read().split("\n")[:-1]
 
 	total = len(items)
@@ -61,7 +61,7 @@ def dm_images(v):
 	secondrange = firstrange + PAGE_SIZE
 	items = items[firstrange:secondrange]
 
-	return render_template("admin/dm_images.html", v=v, items=items, total=total, page=page)
+	return render_template("admin/dm_media.html", v=v, items=items, total=total, page=page)
 
 @app.get('/admin/edit_rules')
 @limiter.limit(DEFAULT_RATELIMIT)

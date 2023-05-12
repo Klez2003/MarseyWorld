@@ -40,7 +40,7 @@ pip3 install -r requirements.txt
 
 mkdir /images
 mkdir /chat_images
-mkdir /dm_images
+mkdir /dm_media
 mkdir /songs
 mkdir /temp_songs
 mkdir /videos

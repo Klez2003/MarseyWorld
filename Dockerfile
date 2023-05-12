@@ -20,7 +20,7 @@ RUN pip3 install -r /requirements.txt
 
 RUN mkdir /images
 RUN mkdir /chat_images
-RUN mkdir /dm_images
+RUN mkdir /dm_media
 RUN mkdir /songs
 RUN mkdir /temp_songs
 RUN mkdir /videos

@@ -541,7 +541,7 @@ def message2(v:User, username:str):
 
 	body = sanitize_raw_body(request.values.get("message"), False)
 
-	if not g.is_tor and get_setting("dm_images"):
+	if not g.is_tor and get_setting("dm_media"):
 		body = process_files(request.files, v, body, is_dm=True, dm_user=user)
 		body = body.strip()[:COMMENT_BODY_LENGTH_LIMIT] #process_files potentially adds characters to the post
 
@@ -618,7 +618,7 @@ def messagereply(v:User):
 				and hasattr(user, 'is_blocked') and user.is_blocked):
 			abort(403, f"You're blocked by @{user.username}")
 
-	if not g.is_tor and get_setting("dm_images"):
+	if not g.is_tor and get_setting("dm_media"):
 		body = process_files(request.files, v, body, is_dm=True, dm_user=user)
 		body = body.strip()[:COMMENT_BODY_LENGTH_LIMIT] #process_files potentially adds characters to the post
 
