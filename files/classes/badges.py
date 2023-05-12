@@ -79,7 +79,7 @@ class Badge(Base):
 		elif self.badge_id in {28, 170, 179}:
 			text = self.badge.description + " permanently"
 		elif self.badge_id in {257, 258, 259, 260, 261}:
-			text = self.badge.description + f" - ${self.lifetime_donated}"
+			text = self.badge.description + f" - ${self.user.lifetime_donated}"
 		elif self.description:
 			text = self.description
 		elif self.badge.description:
