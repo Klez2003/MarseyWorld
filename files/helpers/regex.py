@@ -40,8 +40,6 @@ title_regex = re.compile("[^\w ]", flags=re.A)
 
 controversial_regex = re.compile('["> ](https:\/\/old\.reddit\.com/r/\w{3,20}\/comments\/[\w\-.#&/=\?@%+]{5,250})["< ]', flags=re.A)
 
-fishylinks_regex = re.compile("(https?:\/\/)?[\w\-.#&/=\?@%;+,:]{2,10}\.[\w\-.#&/=\?@%;+,:]{2,250}", flags=re.A)
-
 spoiler_regex = re.compile('\|\|(.+?)\|\|(?!([^<]*<\/(code|pre|a)>|[^`]*`))', flags=re.A)
 reddit_regex = re.compile('(^|\s|<p>|\()\/?(([ruRU])\/(\w|-){3,25})(?!([^<]*<\/(code|pre|a)>|[^`]*`))', flags=re.A)
 sub_regex = re.compile('(^|\s|<p>|\()\/?([hH]\/(\w|-){3,25})(?!([^<]*<\/(code|pre|a)>|[^`]*`))', flags=re.A)
@@ -98,7 +96,7 @@ linefeeds_regex = re.compile("([^\n])\n([^\n])", flags=re.A)
 
 greentext_regex = re.compile("(\n|^)>([^ >][^\n]*)", flags=re.A)
 
-ascii_only_regex = re.compile("[ -~]+", flags=re.A)
+allowed_domain_regex = re.compile("[a-z0-9\-.]+", flags=re.I|re.A)
 
 reddit_to_vreddit_regex = re.compile('(^|>|")https:\/\/old.reddit.com\/(r|u)\/', flags=re.A)
 twitter_to_nitter_regex = re.compile('(^|>|")https:\/\/twitter.com\/(?!i\/)', flags=re.A)

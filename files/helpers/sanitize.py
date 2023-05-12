@@ -136,24 +136,6 @@ def build_url_re(tlds, protocols):
 
 url_re = build_url_re(tlds=TLDS, protocols=['http', 'https'])
 
-def callback(attrs, new=False):
-	if (None, "href") not in attrs:
-		return # Incorrect <a> tag
-
-	href = attrs[(None, "href")]
-
-	# \ in href right after / makes most browsers ditch site hostname and allows for a host injection bypassing the check, see <a href="/\google.com">cool</a>
-	if "\\" in href or not ascii_only_regex.fullmatch(href):
-		attrs["_text"] = href # Laugh at this user
-		del attrs[(None, "href")] # Make unclickable and reset harmful payload
-		return attrs
-
-	if not href.startswith('/') and not href.startswith(f'{SITE_FULL}/'):
-		attrs[(None, "target")] = "_blank"
-		attrs[(None, "rel")] = "nofollow noopener"
-
-	return attrs
-
 def create_comment_duplicated(text_html):
 	new_comment = Comment(author_id=AUTOJANNY_ID,
 							parent_submission=None,
@@ -448,14 +430,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_emojis=
 
 			tag["data-src"] = tag["data-src"].replace('/giphy.webp', '/200w.webp')
 
-	for tag in soup.find_all("a"):
-		if not tag.contents or not str(tag.contents[0]).strip():
-			tag.extract()
-		if not snappy and tag.get("href") and fishylinks_regex.fullmatch(str(tag.string)):
-			tag.string = tag["href"]
-
-
-	sanitized = str(soup)
+	sanitized = str(soup).replace('<html><body>','').replace('</body></html>','')
 
 	sanitized = spoiler_regex.sub(r'<spoiler>\1</spoiler>', sanitized)
 
@@ -503,7 +478,6 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_emojis=
 			g.db.add(emoji)
 
 	sanitized = sanitized.replace('<p></p>', '')
-	sanitized = sanitized.replace('<html><body>','').replace('</body></html>','')
 
 	if g.v and g.v.agendaposter:
 		allowed_css_properties = allowed_styles
@@ -516,10 +490,10 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_emojis=
 								protocols=['http', 'https'],
 								css_sanitizer=css_sanitizer,
 								filters=[partial(LinkifyFilter, skip_tags=["pre"],
-									parse_email=False, callbacks=[callback], url_re=url_re)]
+									parse_email=False, url_re=url_re)]
 								).clean(sanitized)
 
-	#doing it again cuz of the linkifyfilter right above it
+	#doing this here cuz of the linkifyfilter right above it (therefore unifying all link processing logic)
 	soup = BeautifulSoup(sanitized, 'lxml')
 
 	links = soup.find_all("a")
@@ -527,11 +501,38 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_emojis=
 	domain_list = set()
 
 	for link in links:
+		#remove empty links
+		if not link.contents or not str(link.contents[0]).strip():
+			link.extract()
+			continue
+
 		href = link.get("href")
 		if not href: continue
-		url = urlparse(href)
-		d = tldextract.extract(href).registered_domain + url.path
-		domain_list.add(d.lower())
+
+		domain = tldextract.extract(href).registered_domain
+
+		#\ in href right after / makes most browsers ditch site hostname and allows for a host injection bypassing the check, see <a href="/\google.com">cool</a>
+		if ("\\" in href 
+		#https://rdrama.net/post/78376/reminder-of-the-fact-that-our/2150032#context
+			or not allowed_domain_regex.fullmatch(domain)):
+			link.string = href
+			del link["href"]
+			continue
+
+		#insert target="_blank" and ref="nofollower noopener" for external link
+		if not href.startswith('/') and not href.startswith(f'{SITE_FULL}/'):
+			link["target"] = "_blank"
+			link["rel"] = "nofollow noopener"
+
+		#don't allow something like this [https://rԁrama.net/leaderboard](https://iplogger.org/1fRKk7)
+		if not snappy and tldextract.extract(link.string).registered_domain:
+			link.string = href
+
+		#add to set to check for banned domains later
+		combined = domain + urlparse(href).path
+		domain_list.add(combined.lower())
+	
+	sanitized = str(soup).replace('<html><body>','').replace('</body></html>','')
 
 	def error(error):
 		if chat:
