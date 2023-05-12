@@ -1230,7 +1230,27 @@ class User(Base):
 		x = sorted(self.badges, key=badge_ordering_func)
 		return x
 
-badge_ordering_tuple = (22, 23, 24, 25, 26, 27, 28, 257, 258, 259, 260, 261)
+badge_ordering_tuple = (
+		22, 23, 24, 25, 26, 27, 28, #paypig
+		257, 258, 259, 260, 261, #lifetime donation
+		134, 237, #1 year and 2 year
+		10, 11, 12, #referred users
+		17, 16, 143, #marsey making
+		69, 70, 71, 72, 73, #coins spent
+		76, 77, 78, #lootboxes bought
+		110, 111, #zwolf making
+		112, 113, #platy making
+		114, 115, #capy making
+		152, 153, 154, #hats bought
+		160, 161, 162, #casino win
+		157, 158, 159, #casino loss
+		163, 164, 165, 166, #hat making
+		243, 244, 245, 246, #kong
+		118, 119, 120, 121, 122, 123, #denazifying r/stupidpol
+		190, 192, #word filter
+		251, 250, 249, #marsey madness
+	)
+
 def badge_ordering_func(b):
 	if b.badge_id in badge_ordering_tuple:
 		return badge_ordering_tuple.index(b.badge_id)
