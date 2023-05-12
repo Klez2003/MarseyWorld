@@ -297,6 +297,7 @@ if SITE_NAME == 'rDrama':
 		'lesswrong.com',
 		'forum.porpl.net',
 		'ifunny.co',
+		'slashdot.org',
 
 		#misc
 		'cinchnews.com',
