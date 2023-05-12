@@ -7045,13 +7045,12 @@ body > .container {
 .emoji2 {
 	width:60px;
 	height: 85px;
-	overflow: visible;
 	border: none
 }
 .emoji2 > img {
 	object-fit: contain;
 	width: 60px;
-	height: 85px;
+	height: 75px;
 }
 
 .bg-image {
