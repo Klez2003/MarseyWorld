@@ -948,6 +948,12 @@ discounts = {
 	76: 0.01,
 	77: 0.01,
 	78: 0.01,
+	#Lifetime donated badges
+	257: 0.02,
+	258: 0.02,
+	259: 0.02,
+	260: 0.02,
+	261: 0.02,
 }
 
 CF_HEADERS = {"Authorization": f"Bearer {CF_KEY}", "Content-Type": "application/json"}
