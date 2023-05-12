@@ -1223,3 +1223,15 @@ class User(Base):
 	def can_see_my_shit(self):
 		v = g.v
 		return not self.shadowbanned or (v and (v.id == self.id or v.can_see_shadowbanned))
+
+	@property
+	@lazy
+	def ordered_badges(self):
+		x = sorted(self.badges, key=badge_ordering_func)
+		return x
+
+badge_ordering_tuple = (257, 258, 259, 260, 261)
+def badge_ordering_func(b):
+	if b.badge_id in badge_ordering_tuple:
+		return badge_ordering_tuple.index(b.badge_id)
+	return b.created_utc or len(badge_ordering_tuple)+1

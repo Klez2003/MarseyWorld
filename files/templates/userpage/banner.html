@@ -250,7 +250,7 @@
 
 			{% if FEATURES['BADGES'] -%}
 				<div id="profile--badges">
-					{% for b in u.badges %}
+					{% for b in u.ordered_badges %}
 						{% if b.url %}
 							<a class="contain" rel="nofollow noopener" href="{{b.url}}">
 								<img alt="{{b.name}}" width=55 height=60 loading="lazy" src="{{b.path}}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{b.text}}" {% if b.until %}data-until="{{b.until}}" data-nonce="{{g.nonce}}" data-onmouseover="badge_timestamp(this)"{% endif %}>
@@ -396,7 +396,7 @@
 				{% endif %}
 
 				<div class="mb-3" id="profile-mobile--badges">
-					{% for b in u.badges %}
+					{% for b in u.ordered_badges %}
 						{% if b.url %}
 							<a rel="nofollow noopener" href="{{b.url}}">
 								<img class="contain" alt="{{b.name}}" width=29.33 height=32 loading="lazy" src="{{b.path}}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{b.text}}" {% if b.until %}data-until="{{b.until}}" data-nonce="{{g.nonce}}" data-onmouseover="badge_timestamp(this)"{% endif %}>
