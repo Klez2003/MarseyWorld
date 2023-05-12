@@ -151,7 +151,7 @@ def create_comment_duplicated(text_html):
 
 def send_repeatable_notification_duplicated(uid, text):
 
-	if uid in bots: return
+	if uid in BOT_IDs: return
 
 	text_html = sanitize(text)
 

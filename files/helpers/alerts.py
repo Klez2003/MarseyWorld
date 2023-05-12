@@ -28,7 +28,7 @@ def create_comment(text_html):
 
 def send_repeatable_notification(uid, text):
 
-	if uid in bots: return
+	if uid in BOT_IDs: return
 
 	text_html = sanitize(text, blackjack="notification")
 
@@ -52,7 +52,7 @@ def send_repeatable_notification(uid, text):
 
 def send_notification(uid, text):
 
-	if uid in bots: return
+	if uid in BOT_IDs: return
 	cid = notif_comment(text)
 	add_notif(cid, uid, text)
 
@@ -106,7 +106,7 @@ def notif_comment2(p):
 
 
 def add_notif(cid, uid, text, pushnotif_url=''):
-	if uid in bots: return
+	if uid in BOT_IDs: return
 
 	existing = g.db.query(Notification.user_id).filter_by(comment_id=cid, user_id=uid).one_or_none()
 	if not existing:
@@ -182,7 +182,7 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False):
 
 
 
-	return notify_users - bots - {v.id, 0} - v.all_twoway_blocks
+	return notify_users - BOT_IDs - {v.id, 0} - v.all_twoway_blocks
 
 
 def push_notif(uids, title, body, url_or_comment):

@@ -570,7 +570,7 @@ def message2(v:User, username:str):
 	execute_under_siege(v, c, c.body_html, 'message')
 	c.top_comment_id = c.id
 
-	if user.id not in bots:
+	if user.id not in BOT_IDs:
 		notif = g.db.query(Notification).filter_by(comment_id=c.id, user_id=user.id).one_or_none()
 		if not notif:
 			notif = Notification(comment_id=c.id, user_id=user.id)
@@ -648,7 +648,7 @@ def messagereply(v:User):
 	execute_blackjack(v, c, c.body_html, 'message')
 	execute_under_siege(v, c, c.body_html, 'message')
 
-	if user_id and user_id not in {v.id, MODMAIL_ID} | bots:
+	if user_id and user_id not in {v.id, MODMAIL_ID} | BOT_IDs:
 		notif = g.db.query(Notification).filter_by(comment_id=c.id, user_id=user_id).one_or_none()
 		if not notif:
 			notif = Notification(comment_id=c.id, user_id=user_id)

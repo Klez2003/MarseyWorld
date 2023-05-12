@@ -342,7 +342,7 @@ def comment(v:User):
 			if parent_user.id != v.id and notify_op:
 				notify_users.add(parent_user.id)
 
-			for x in notify_users-bots:
+			for x in notify_users-BOT_IDs:
 				n = Notification(comment_id=c.id, user_id=x)
 				g.db.add(n)
 
@@ -641,7 +641,7 @@ def edit_comment(cid, v):
 		if notify_users == 'everyone':
 			alert_everyone(c.id)
 		else:
-			for x in notify_users-bots:
+			for x in notify_users-BOT_IDs:
 				notif = g.db.query(Notification).filter_by(comment_id=c.id, user_id=x).one_or_none()
 				if not notif:
 					n = Notification(comment_id=c.id, user_id=x)
