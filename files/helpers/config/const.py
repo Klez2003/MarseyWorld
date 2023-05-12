@@ -209,7 +209,7 @@ if SITE_NAME == 'rDrama':
 
 		#youtube-like
 		'bitchute.com',
-		'goyimtv.tv',
+		'goyimtv.com',
 		'odysee.com',
 
 		#4chan-like
