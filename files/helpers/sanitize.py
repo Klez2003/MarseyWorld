@@ -525,7 +525,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_emojis=
 			link["rel"] = "nofollow noopener"
 
 		#don't allow something like this [https://rԁrama.net/leaderboard](https://iplogger.org/1fRKk7)
-		if not snappy and tldextract.extract(link.string).registered_domain:
+		if not snappy and tldextract.extract(str(link.string)).registered_domain:
 			link.string = href
 
 		#add to set to check for banned domains later
