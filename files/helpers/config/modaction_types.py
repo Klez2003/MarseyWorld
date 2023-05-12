@@ -97,7 +97,7 @@ MODACTION_TYPES = {
 		"color": 'bg-muted'
 	},
 	'disable_dm_media': {
-		"str": 'disabled DM images',
+		"str": 'disabled DM media',
 		"icon": 'fa-images',
 		"color": 'bg-muted'
 	},
@@ -167,7 +167,7 @@ MODACTION_TYPES = {
 		"color": 'bg-success',
 	},
 	'enable_dm_media': {
-		"str": 'enabled DM images',
+		"str": 'enabled DM media',
 		"icon": 'fa-images',
 		"color": 'bg-success',
 	},
