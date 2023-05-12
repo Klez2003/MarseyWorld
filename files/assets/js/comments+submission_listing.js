@@ -27,7 +27,7 @@ document.addEventListener('shown.bs.popover', (e) => {
 		badgesDOM.innerHTML = "";
 		for (const badge of author["badges"]) {
 			const badgeDOM = popClickBadgeTemplateDOM.cloneNode();
-			badgeDOM.src = badge + "?b=8";
+			badgeDOM.src = badge + "?b=9";
 
 			badgesDOM.append(badgeDOM);
 		}

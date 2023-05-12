@@ -212,7 +212,7 @@ def comment(v:User):
 							g.db.flush()
 							filename = f'files/assets/images/badges/{badge.id}.webp'
 							copyfile(oldname, filename)
-							process_image(filename, v, resize=300)
+							process_image(filename, v, resize=300, trim=True)
 							purge_files_in_cache(f"https://{SITE}/assets/images/badges/{badge.id}.webp")
 						except Exception as e:
 							abort(400, str(e))
