@@ -298,7 +298,7 @@ def submit_contact(v):
 def archivesindex():
 	return redirect("/archives/index.html")
 
-no = (21,22,23,24,25,26,27)
+no = (22,23,24,25,26,27,28,257,258,259,260,261)
 
 @cache.memoize(timeout=3600)
 def badge_list(site):
