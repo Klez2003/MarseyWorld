@@ -509,12 +509,16 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_emojis=
 		href = link.get("href")
 		if not href: continue
 
+		#\ in href right after / makes most browsers ditch site hostname and allows for a host injection bypassing the check, see <a href="/\google.com">cool</a>
+		if "\\" in href:
+			link.string = href
+			del link["href"]
+			continue
+
 		domain = tldextract.extract(href).registered_domain
 
-		#\ in href right after / makes most browsers ditch site hostname and allows for a host injection bypassing the check, see <a href="/\google.com">cool</a>
-		if ("\\" in href 
-		#https://rdrama.net/post/78376/reminder-of-the-fact-that-our/2150032#context
-			or not allowed_domain_regex.fullmatch(domain)):
+		#don't allow something like this https://rdrama.net/post/78376/reminder-of-the-fact-that-our/2150032#context
+		if domain and not allowed_domain_regex.fullmatch(domain):
 			link.string = href
 			del link["href"]
 			continue
