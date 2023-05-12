@@ -540,15 +540,14 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_emojis=
 		else:
 			abort(403, error)
 
-	if not (g.v and g.v.admin_level >= PERMS["IGNORE_DOMAIN_BAN"]):
-		banned_domains = g.db.query(BannedDomain).all()
-		for x in banned_domains:
-			for y in domain_list:
-				if y.startswith(x.domain):
-					return error(f'Remove the banned link "{x.domain}" and try again!\nReason for link ban: "{x.reason}"')
+	banned_domains = g.db.query(BannedDomain).all()
+	for x in banned_domains:
+		for y in domain_list:
+			if y.startswith(x.domain):
+				return error(f'Remove the banned link "{x.domain}" and try again!\nReason for link ban: "{x.reason}"')
 
-		if discord_username_regex.match(sanitized):
-			return error("Stop grooming!")
+	if discord_username_regex.match(sanitized):
+		return error("Stop grooming!")
 
 	if '<pre>' not in sanitized and blackjack != "rules":
 		sanitized = sanitized.replace('\n','')
