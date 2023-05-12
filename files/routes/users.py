@@ -664,14 +664,14 @@ def messagereply(v:User):
 	top_comment = c.top_comment
 
 	if top_comment.sentto == MODMAIL_ID:
-		admins = g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_MODMAIL'], User.id != v.id)
+		admin_ids = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_MODMAIL'], User.id != v.id).all()]
+		if SITE_NAME == 'watchpeopledie.tv':
+			admin_ids += AEVANN_ID
 
-		admins = [x[0] for x in admins.all()]
+		if parent.author.id not in admin_ids + [v.id]:
+			admin_ids.append(parent.author.id)
 
-		if parent.author.id not in admins + [v.id]:
-			admins.append(parent.author.id)
-
-		for admin in admins:
+		for admin in admin_ids:
 			notif = Notification(comment_id=c.id, user_id=admin)
 			g.db.add(notif)
 
