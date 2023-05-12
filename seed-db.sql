@@ -219,13 +219,32 @@ INSERT INTO public.badge_defs VALUES (258, 'Silver-Tier Venture Capitalist', 'Th
 INSERT INTO public.badge_defs VALUES (259, 'Gold-Tier Venture Capitalist', 'This king has contributed a lifetime total of at least $2500 to keeping rDrama thriving', 1683678275);
 INSERT INTO public.badge_defs VALUES (260, 'Platinum-Tier Venture Capitalist', 'This king has contributed a lifetime total of at least $5000 to keeping rDrama thriving', 1683678305);
 INSERT INTO public.badge_defs VALUES (261, 'Double-Platinum-Tier Venture Capitalist', 'This king has contributed a lifetime total of at least $10000 to keeping rDrama thriving', 1683678332);
+INSERT INTO public.badge_defs VALUES (262, 'AHS Supersoldier', 'A strong person stands up for themself. A stronger person stands up for others.', 1683849886);
+INSERT INTO public.badge_defs VALUES (263, 'Antifa Supersoldier', '''No Trump, no KKK, no fascist USA.'' —All Thinking People of Conscience Everywhere', 1683849938);
+INSERT INTO public.badge_defs VALUES (264, 'BLM Fist', 'Made a mayo monkey shut up and listen', 1683849976);
+INSERT INTO public.badge_defs VALUES (265, 'Funko Floyd', 'Made a mayo monkey shut up and listen PERMANENTLY', 1683850005);
+INSERT INTO public.badge_defs VALUES (266, 'Elder Wand', 'Sent a Death Eater to Azkaban', 1683850028);
+INSERT INTO public.badge_defs VALUES (267, 'Order of Merlin 1st Class', 'Sent a Death Eater to Azkaban FOR LIFE', 1683850058);
+INSERT INTO public.badge_defs VALUES (268, 'LGBTSaber', 'It takes strength to resist the Dark Side. Only the weak embrace it.', 1683850082);
+INSERT INTO public.badge_defs VALUES (269, 'Rainbow Pussy Hat', 'The success of every woman should be the inspiration to another. We should raise each other up.', 1683850115);
+INSERT INTO public.badge_defs VALUES (270, 'Slava Ukraini Flag', 'STAND WITH UKRAINE', 1683850138);
+INSERT INTO public.badge_defs VALUES (271, 'Tranifesto', 'Sisters! We have nothing to lose but our balls!', 1683850162);
+INSERT INTO public.badge_defs VALUES (272, 'Mushroom Plushie', 'Grow to SUPER SIZE and JUMP ON TRANSPHOBES', 1683850194);
+INSERT INTO public.badge_defs VALUES (273, 'Fire Flower Plushie', 'Transphobes can''t spew hate if you set them on fire', 1683850223);
+INSERT INTO public.badge_defs VALUES (274, 'Mind Stone', 'You, Marsey, are the piece of the Mind Stone that lives in me.', 1683850259);
+INSERT INTO public.badge_defs VALUES (275, 'Power Stone', 'The bigger the target, the bigger the power surge.', 1683850283);
+INSERT INTO public.badge_defs VALUES (276, 'Reality Stone', 'First, it''s not a stone; someone called it a stone before. It''s more of a... an angry sludge sort of thing.', 1683850304);
+INSERT INTO public.badge_defs VALUES (277, 'Soul Stone', 'In order to take the stone, you must lose that which you love. A soul... for a soul.', 1683850325);
+INSERT INTO public.badge_defs VALUES (278, 'Space Stone', 'A lifetime ago, I too sought the stones. I even held one in my hand.', 1683850346);
+INSERT INTO public.badge_defs VALUES (279, 'Time Stone', 'Our oath to protect the Time Stone cannot change. And this stone may be the best chance we have against Spezos.', 1683850381);
+INSERT INTO public.badge_defs VALUES (280, 'Infinity Gauntlet', 'And so the sun rises on a grateful gay cartoon cat website.', 1683850413);
 
 
 --
 -- Name: badge_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.badge_defs_id_seq', 261, true);
+SELECT pg_catalog.setval('public.badge_defs_id_seq', 280, true);
 
 
 --
