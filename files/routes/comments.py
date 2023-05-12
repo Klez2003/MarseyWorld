@@ -98,6 +98,8 @@ def comment(v:User):
 	post_target = None
 	parent = None
 
+	notify_op = True
+
 	if parent_fullname.startswith("u_"):
 		parent = get_account(id, v=v)
 		post_target = parent
@@ -116,6 +118,9 @@ def comment(v:User):
 
 		if parent.id in ADMIGGER_THREADS and v.admin_level < PERMS['USE_ADMIGGER_THREADS']:
 			abort(403, "You can't post top-level comments in this thread!")
+
+		if SITE == 'rdrama.net' and parent.id == 33652:
+			notify_op = False
 
 		ghost = parent.ghost
 	elif parent_fullname.startswith("c_"):
@@ -334,7 +339,7 @@ def comment(v:User):
 
 				push_notif(subscriber_ids, f'New comment in subscribed thread by @{c.author_name}', c.body, c)
 
-			if parent_user.id != v.id:
+			if parent_user.id != v.id and notify_op:
 				notify_users.add(parent_user.id)
 
 			for x in notify_users-bots:
