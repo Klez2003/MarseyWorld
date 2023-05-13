@@ -498,7 +498,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_emojis=
 
 	links = soup.find_all("a")
 
-	domain_list = set()
+	banned_domains = [x.domain for x in g.db.query(BannedDomain.domain).all()]
 
 	for link in links:
 		#remove empty links
@@ -508,19 +508,31 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_emojis=
 
 		href = link.get("href")
 		if not href: continue
+		domain = tldextract.extract(href).registered_domain
+
+		def unlinkfy():
+			link.string = href
+			del link["href"]
 
 		#\ in href right after / makes most browsers ditch site hostname and allows for a host injection bypassing the check, see <a href="/\google.com">cool</a>
 		if "\\" in href:
-			link.string = href
-			del link["href"]
+			unlinkfy()
 			continue
-
-		domain = tldextract.extract(href).registered_domain
 
 		#don't allow something like this https://rdrama.net/post/78376/reminder-of-the-fact-that-our/2150032#context
 		if domain and not allowed_domain_regex.fullmatch(domain):
-			link.string = href
-			del link["href"]
+			unlinkfy()
+			continue
+
+		#check for banned domain
+		combined = (domain + urlparse(href).path).lower()
+		if any((combined.startswith(x) for x in banned_domains)):
+			unlinkfy()
+			continue
+
+		#don't allow something like this [https://rԁrama.net/leaderboard](https://iplogger.org/1fRKk7)
+		if not snappy and tldextract.extract(str(link.string)).registered_domain:
+			unlinkfy()
 			continue
 
 		#insert target="_blank" and ref="nofollower noopener" for external link
@@ -528,14 +540,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_emojis=
 			link["target"] = "_blank"
 			link["rel"] = "nofollow noopener"
 
-		#don't allow something like this [https://rԁrama.net/leaderboard](https://iplogger.org/1fRKk7)
-		if not snappy and tldextract.extract(str(link.string)).registered_domain:
-			link.string = href
 
-		#add to set to check for banned domains later
-		combined = domain + urlparse(href).path
-		domain_list.add(combined.lower())
-	
 	sanitized = str(soup).replace('<html><body>','').replace('</body></html>','')
 
 	def error(error):
@@ -544,11 +549,6 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_emojis=
 		else:
 			abort(403, error)
 
-	banned_domains = g.db.query(BannedDomain).all()
-	for x in banned_domains:
-		for y in domain_list:
-			if y.startswith(x.domain):
-				return error(f'Remove the banned link "{x.domain}" and try again!\nReason for link ban: "{x.reason}"')
 
 	if discord_username_regex.match(sanitized):
 		return error("Stop grooming!")
