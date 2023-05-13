@@ -413,6 +413,7 @@ def leaderboard(v:User):
 	users = g.db.query(User)
 
 	coins = Leaderboard("Coins", "coins", "coins", "Coins", None, Leaderboard.get_simple_lb, User.coins, v, lambda u:u.coins, g.db, users)
+	marseybux = Leaderboard("Marseybux", "marseybux", "marseybux", "Marseybux", None, Leaderboard.get_simple_lb, User.marseybux, v, lambda u:u.marseybux, g.db, users)
 	subscribers = Leaderboard("Followers", "followers", "followers", "Followers", "followers", Leaderboard.get_simple_lb, User.stored_subscriber_count, v, lambda u:u.stored_subscriber_count, g.db, users)
 	posts = Leaderboard("Posts", "post count", "posts", "Posts", "posts", Leaderboard.get_simple_lb, User.post_count, v, lambda u:u.post_count, g.db, users)
 	comments = Leaderboard("Comments", "comment count", "comments", "Comments", "comments", Leaderboard.get_simple_lb, User.comment_count, v, lambda u:u.comment_count, g.db, users)
@@ -426,7 +427,7 @@ def leaderboard(v:User):
 
 	owned_hats = Leaderboard("Owned hats", "owned hats", "owned-hats", "Owned Hats", None, Leaderboard.get_hat_lb, User.owned_hats, v, None, g.db, None)
 
-	leaderboards = [coins, coins_spent, truescore, subscribers, posts, comments, received_awards, badges, blocks, owned_hats]
+	leaderboards = [coins, marseybux, coins_spent, truescore, subscribers, posts, comments, received_awards, badges, blocks, owned_hats]
 
 	if SITE == 'rdrama.net':
 		leaderboards.append(Leaderboard("Designed hats", "designed hats", "designed-hats", "Designed Hats", None, Leaderboard.get_hat_lb, User.designed_hats, v, None, g.db, None))
