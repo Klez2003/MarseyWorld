@@ -1245,7 +1245,7 @@ badge_ordering_tuple = (
 		160, 161, 162, #casino win
 		157, 158, 159, #casino loss
 		163, 164, 165, 166, #hat making
-		243, 244, 245, 246, #kong
+		243, 244, 245, 247, #kong
 		118, 119, 120, 121, 122, 123, #denazifying r/stupidpol
 		190, 192, #word filter
 		251, 250, 249, #marsey madness
