@@ -3,9 +3,10 @@ from flask import g
 from files.classes.badges import Badge
 from files.helpers.alerts import send_repeatable_notification
 
-def badge_grant(user, badge_id, description=None, url=None, notify=True):
+def badge_grant(user, badge_id, description=None, url=None, notify=True, check_if_exists=True):
 	assert user != None
-	if user.has_badge(badge_id):
+
+	if check_if_exists and user.has_badge(badge_id):
 		return
 
 	if description and len(description) > 256:

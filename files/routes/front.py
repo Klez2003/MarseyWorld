@@ -4,7 +4,6 @@ from sqlalchemy.orm import load_only
 
 from files.classes.submission import Submission
 from files.classes.votes import Vote
-from files.helpers.awards import award_timers
 from files.helpers.config.const import *
 from files.helpers.get import *
 from files.helpers.sorting_and_time import *
@@ -61,9 +60,8 @@ def front_all(v, sub=None, subdomain=None):
 
 	posts = get_posts(ids, v=v, eager=True)
 
-	if v:
-		if v.hidevotedon: posts = [x for x in posts if not hasattr(x, 'voted') or not x.voted]
-		award_timers(v)
+	if v and v.hidevotedon:
+		posts = [x for x in posts if not hasattr(x, 'voted') or not x.voted]
 
 	if v and v.client: return {"data": [x.json(g.db) for x in posts], "total": total}
 	return render_template("home.html", v=v, listing=posts, total=total, sort=sort, t=t, page=page, sub=sub, home=True, pins=pins, size=size)
@@ -147,6 +145,12 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 			pins = pins.order_by(Submission.author_id != LAWLZ_ID)
 		pins = pins.order_by(Submission.created_utc.desc()).all()
 		posts = pins + posts
+
+	if time.time() - v.created_utc > 365 * 86400:
+		badge_grant(user=v, badge_id=134)
+
+	if time.time() - v.created_utc > 365 * 86400 * 2:
+		badge_grant(user=v, badge_id=237)
 
 	if ids_only: posts = [x.id for x in posts]
 	return posts, total, size

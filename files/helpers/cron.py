@@ -5,11 +5,11 @@ from sys import stdout
 from shutil import make_archive
 from hashlib import md5
 from collections import Counter
+from sqlalchemy.orm import load_only
 
 import click
 import requests
 
-import files.helpers.awards as awards
 import files.helpers.offsitementions as offsitementions
 import files.helpers.stats as stats
 import files.routes.static as route_static
@@ -32,21 +32,51 @@ def cron(every_5m, every_1h, every_1d, every_1mo):
 	g.db = db_session()
 	g.v = None
 
+	#I put commit under each task to release database locks and prevent main flask app crashing
 	if every_5m:
+		t = time.time()
+		_award_timers_task()
+		g.db.commit()
+		print(f'_award_timers_task: {time.time() - t}', flush=True)
+
 		if FEATURES['GAMBLING']:
+			t = time.time()
 			check_if_end_lottery_task()
+			g.db.commit()
+			print(f'check_if_end_lottery_task: {time.time() - t}', flush=True)
+
+			t = time.time()
 			spin_roulette_wheel()
-		offsitementions.offsite_mentions_task(cache)
+			g.db.commit()
+			print(f'spin_roulette_wheel: {time.time() - t}', flush=True)
+		#offsitementions.offsite_mentions_task(cache)
 
 	if every_1h:
-		awards.award_timers_bots_task()
+		t = time.time()
 		_generate_emojis_zip()
+		g.db.commit()
+		print(f'_generate_emojis_zip: {time.time() - t}', flush=True)
+
+		t = time.time()
 		_leaderboard_task()
+		g.db.commit()
+		print(f'_leaderboard_task: {time.time() - t}', flush=True)
 
 	if every_1d:
+		t = time.time()
 		stats.generate_charts_task(SITE)
+		g.db.commit()
+		print(f'generate_charts_task: {time.time() - t}', flush=True)
+
+		t = time.time()
 		_sub_inactive_purge_task()
+		g.db.commit()
+		print(f'_sub_inactive_purge_task: {time.time() - t}', flush=True)
+
+		t = time.time()
 		cache.set('stats', stats.stats())
+		g.db.commit()
+		print(f'stats: {time.time() - t}', flush=True)
 
 	g.db.commit()
 	g.db.close()
@@ -160,3 +190,55 @@ def _leaderboard_task():
 	cache.set("users9", list(users9))
 	cache.set("users9_1", list(users9_1))
 	cache.set("users9_2", list(users9_2))
+
+
+def _process_timer(attr, badge_ids, text, extra_attrs={}):
+	now = time.time()
+	users = g.db.query(User).options(load_only(User.id)).filter(1 < attr, attr < now)
+	uids = set([x.id for x in users])
+
+	#set user attributes
+	attr_dict = {attr: 0} | extra_attrs
+	users.update(attr_dict)
+
+	#remove corresponding badges
+	if badge_ids:
+		g.db.query(Badge).options(load_only(Badge.badge_id)).filter(Badge.badge_id.in_(badge_ids), Badge.user_id.in_(uids)).delete()
+
+	#notify users
+	for uid in uids:
+		send_repeatable_notification(uid, text)
+		g.db.commit()
+
+
+def _award_timers_task():
+	#only awards
+	_process_timer(User.deflector, [], "The deflector award you received has expired!")
+	_process_timer(User.progressivestack, [94], "The progressive stack award you received has expired!")
+	_process_timer(User.bird, [95], "The bird site award you received has expired!")
+	_process_timer(User.longpost, [97], "The pizzashill award you received has expired!")
+	_process_timer(User.marseyawarded, [98], "The marsey award you received has expired!")
+	_process_timer(User.rehab, [109], "The rehab award you received has expired!")
+	_process_timer(User.owoify, [167], "The OwOify award you received has expired!")
+	_process_timer(User.bite, [168], "Your vampire status has ended. You're now back in your original house!", {
+		User.house: User.old_house,
+		User.old_house: '',
+	})
+	_process_timer(User.earlylife, [169], "The earlylife award you received has expired!")
+	_process_timer(User.marsify, [170], "The marsify award you received has expired!")
+	_process_timer(User.rainbow, [171], "The rainbow award you received has expired!")
+	_process_timer(User.spider, [179], "The spider award you received has expired!")
+
+	#both awards and janny powers
+	_process_timer(User.unban_utc, [], "Your temporary ban has expired!", {
+		User.is_banned: None,
+		User.ban_reason: None,
+	})
+	_process_timer(User.patron_utc, [22,23,24,25,26,27,28], f"Your {patron} status has expired!", {
+		User.patron: 0,
+	})
+	_process_timer(User.agendaposter, [58], "Your temporary chud status has expired!", {
+		User.agendaposter_phrase: None,
+		User.chudded_by: None,
+	})
+	_process_timer(User.flairchanged, [96], "Your temporary flair-lock has expired. You can now change your flair!")
