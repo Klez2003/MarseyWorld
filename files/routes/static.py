@@ -298,11 +298,18 @@ def submit_contact(v):
 def archivesindex():
 	return redirect("/archives/index.html")
 
-no = (22,23,24,25,26,27,28,257,258,259,260,261)
+patron_badges = (22,23,24,25,26,27,28,257,258,259,260,261)
 
 @cache.memoize(timeout=3600)
-def badge_list(site):
-	badges = g.db.query(BadgeDef).filter(BadgeDef.id.notin_(no)).order_by(BadgeDef.id).all()
+def badge_list(site, can_view_patron_badges):
+
+	badges = g.db.query(BadgeDef)
+
+	if not can_view_patron_badges:
+		badges = badges.filter(BadgeDef.id.notin_(patron_badges))
+	
+	badges = badges.order_by(BadgeDef.id).all()
+
 	counts_raw = g.db.query(Badge.badge_id, func.count()).group_by(Badge.badge_id).all()
 	users = g.db.query(User).count()
 
@@ -318,7 +325,7 @@ def badge_list(site):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def badges(v:User):
-	badges, counts = badge_list(SITE)
+	badges, counts = badge_list(SITE, v.admin_level >= PERMS['VIEW_PATRONS'])
 	return render_template("badges.html", v=v, badges=badges, counts=counts)
 
 @app.get("/blocks")
