@@ -247,7 +247,9 @@ CREATE TABLE public.users (
     event_darkmode boolean,
     blacklisted_by integer,
     hidevotedon boolean DEFAULT false NOT NULL,
-    agendaposter_phrase character varying(35)
+    agendaposter_phrase character varying(35),
+    prelock_username character varying(30),
+    namechanged integer
 );
 
 
@@ -1613,6 +1615,14 @@ ALTER TABLE ONLY public.users
 
 
 --
+-- Name: users users_prelock_username_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_prelock_username_key UNIQUE (prelock_username);
+
+
+--
 -- Name: users users_username_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1973,6 +1983,13 @@ CREATE UNIQUE INDEX lowercase_original_username ON public.users USING btree (low
 
 
 --
+-- Name: lowercase_prelock_username; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX lowercase_prelock_username ON public.users USING btree (lower((prelock_username)::text));
+
+
+--
 -- Name: lowercase_username; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2257,6 +2274,13 @@ CREATE INDEX users_owoify_idx ON public.users USING btree (owoify);
 --
 
 CREATE INDEX users_patron_utc_idx ON public.users USING btree (patron_utc);
+
+
+--
+-- Name: users_prelock_username_trgm_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX users_prelock_username_trgm_idx ON public.users USING gin (prelock_username public.gin_trgm_ops);
 
 
 --
