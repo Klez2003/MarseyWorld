@@ -7,6 +7,7 @@ from files.classes.votes import Vote
 from files.helpers.config.const import *
 from files.helpers.get import *
 from files.helpers.sorting_and_time import *
+from files.helpers.useractions import *
 from files.routes.wrappers import *
 from files.__main__ import app, cache, limiter
 
