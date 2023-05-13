@@ -353,7 +353,7 @@ def searchmessages(v:User):
 
 	for x in comments: x.unread = True
 
-	comments = [x.top_comment for x in comments]
+	comments = dict.fromkeys([x.top_comment for x in comments])
 
 	if v.client: return {"total":total, "data":[x.json(db=g.db) for x in comments]}
 	return render_template("search_comments.html", v=v, query=query, page=page, comments=comments, sort=sort, t=t, total=total, standalone=True, render_replies=True)
