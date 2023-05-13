@@ -47,6 +47,8 @@ def sort_objects(sort, objects, cls):
 		return objects.order_by(cls.created_utc.desc())
 	elif sort == "old":
 		return objects.order_by(cls.created_utc)
+	elif sort == "controversial" and cls.__name__ == "Submission":
+		return objects.order_by((cls.upvotes+1)/(cls.downvotes+1) + (cls.downvotes+1)/(cls.upvotes+1) - cls.comment_count/500, cls.downvotes.desc(), cls.created_utc.desc())
 	elif sort == "controversial":
 		return objects.order_by((cls.upvotes+1)/(cls.downvotes+1) + (cls.downvotes+1)/(cls.upvotes+1), cls.downvotes.desc(), cls.created_utc.desc())
 	elif sort == "bottom":
