@@ -353,6 +353,10 @@ def award_thing(v, thing_type, id):
 		if not valid_username_regex.fullmatch(new_name):
 			abort(400, "Invalid username")
 
+		existing = get_user(new_name, graceful=True)
+		if existing:
+			abort(400, f"@{new_name} is already taken!")
+
 		if not new_name and author.prelock_username:
 			author.namechanged += 86400
 		else:
