@@ -510,7 +510,6 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_emojis=
 
 		href = link.get("href")
 		if not href: continue
-		domain = tldextract.extract(href).registered_domain
 
 		def unlinkfy():
 			link.string = href
@@ -522,6 +521,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_emojis=
 			continue
 
 		#don't allow something like this https://rdrama.net/post/78376/reminder-of-the-fact-that-our/2150032#context
+		domain = tldextract.extract(href).registered_domain
 		if domain and not allowed_domain_regex.fullmatch(domain):
 			unlinkfy()
 			continue
