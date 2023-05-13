@@ -225,7 +225,7 @@
 						<p id="profile--info--spent">Coins spent on hats: {{u.coins_spent_on_hats}}</p>
 
 						{% if v and (v.id == u.id or v.admin_level >= PERMS['VIEW_PATRONS']) %}
-							<p id="profile--info--lifetime-donated">Lifetime Donated: ${{u.lifetime_donated}}</p>
+							<p id="profile--info--lifetime-donated">Lifetime Donated: ${{u.lifetime_donated}} (Shown to you only)</p>
 						{% endif %}
 
 						{% if u.is_private %}
@@ -501,7 +501,7 @@
 					<p id="profile-mobile--info--spent">Coins spent on hats: {{u.coins_spent_on_hats}}</p>
 
 					{% if v and (v.id == u.id or v.admin_level >= PERMS['VIEW_PATRONS']) %}
-						<p id="profile-mobile--info--lifetime-donated">Lifetime Donated: ${{u.lifetime_donated}}</p>
+						<p id="profile-mobile--info--lifetime-donated">Lifetime Donated: ${{u.lifetime_donated}} (Shown to you only)</p>
 					{% endif %}
 
 					{% if u.is_private %}
