@@ -7435,7 +7435,7 @@ th.disable-sort-click[disabled] {
 }
 
 img[src="/e/marseycursor.webp"] {
-	width: 32px !important;
-	height: 32px !important;
+	width: 29px !important;
+	height: 29px !important;
 	image-rendering: pixelated;
 }
