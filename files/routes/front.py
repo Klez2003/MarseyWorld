@@ -147,10 +147,10 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 		pins = pins.order_by(Submission.created_utc.desc()).all()
 		posts = pins + posts
 
-	if time.time() - v.created_utc > 365 * 86400:
+	if v and time.time() - v.created_utc > 365 * 86400:
 		badge_grant(user=v, badge_id=134)
 
-	if time.time() - v.created_utc > 365 * 86400 * 2:
+	if v and time.time() - v.created_utc > 365 * 86400 * 2:
 		badge_grant(user=v, badge_id=237)
 
 	if ids_only: posts = [x.id for x in posts]
