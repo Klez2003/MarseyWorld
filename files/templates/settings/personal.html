@@ -163,10 +163,10 @@
 							<p>Your original username will always stay reserved for you: <code>{{v.original_username}}</code></p>
 							<form action="/settings/name_change" method="post">
 								<input hidden name="formkey" value="{{v|formkey}}">
-								<input autocomplete="off" type="text" name="name" class="form-control" value="{{v.username}}">
+								<input id="name-body" autocomplete="off" type="text" name="name" class="form-control" value="{{v.username}}"  {% if v.namechanged %}disabled{% endif %}>
 								<small>3-25 characters, including letters, numbers, _ , and -</small>
 								<div class="d-flex mt-2">
-									<input autocomplete="off" class="btn btn-primary ml-auto" type="submit" value="Change Display Name">
+									<input autocomplete="off" class="btn btn-primary ml-auto" type="submit" value="Change Display Name" {% if v.namechanged %}disabled{% endif %}>
 								</div>
 							</form>
 						</div>
@@ -268,6 +268,12 @@
 
 {% if v.flairchanged %}
 	<input hidden id="flairchanged" value="{{v.flairchanged}}">
+	<script defer src="{{'js/flairchanged.js' | asset}}"></script>
+{% endif %}
+
+{% if v.namechanged %}
+	<input hidden id="namechanged" value="{{v.namechanged}}">
+	<script defer src="{{'js/namechanged.js' | asset}}"></script>
 {% endif %}
 
 <script defer src="{{'js/settings_profile.js' | asset}}"></script>

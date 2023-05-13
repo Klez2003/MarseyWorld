@@ -133,6 +133,11 @@ function pick(kind, price, coins, marseybux) {
 		document.getElementById('note').placeholder = "Insert new flair here, or leave empty to add 1 day to the duration of the current flair. 100 characters max.";
 		document.getElementById('note').maxLength = 100;
 	}
+	else if (kind == "namelock") {
+		document.getElementById('notelabel').innerHTML = "New username:";
+		document.getElementById('note').placeholder = "Insert new username here, or leave empty to add 1 day to the duration of the current username. 25 characters max.";
+		document.getElementById('note').maxLength = 25;
+	}
 	else {
 		document.getElementById('notelabel').innerHTML = "Note (optional):";
 		document.getElementById('note').placeholder = "Note to include in award notification";

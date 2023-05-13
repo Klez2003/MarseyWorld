@@ -95,3 +95,7 @@ pre {
 h5.post-title a:visited {
 	color: #7a7a7a !important;
 }
+
+[disabled], .disabled, button[disabled], .btn[disabled], button.disabled, .btn.disabled {
+    color: #bbb !important;
+}

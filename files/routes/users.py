@@ -715,7 +715,8 @@ def is_available(name:str):
 	x = g.db.query(User).filter(
 		or_(
 			User.username.ilike(name2),
-			User.original_username.ilike(name2)
+			User.original_username.ilike(name2),
+			User.prelock_username.ilike(name2),
 			)
 		).one_or_none()
 

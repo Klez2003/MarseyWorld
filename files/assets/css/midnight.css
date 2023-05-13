@@ -64,3 +64,7 @@ h5.post-title a:visited {
 .modal-content {
     border: 1px var(--gray-500) solid;
 }
+
+[disabled], .disabled, button[disabled], .btn[disabled], button.disabled, .btn.disabled {
+    color: #bbb !important;
+}

@@ -397,7 +397,8 @@ def searchusers(v:User):
 		users = users.filter(
 			or_(
 				User.username.ilike(f'%{term}%'),
-				User.original_username.ilike(f'%{term}%')
+				User.original_username.ilike(f'%{term}%'),
+				User.prelock_username.ilike(f'%{term}%'),
 			)
 		).order_by(User.username.ilike(term).desc(), User.stored_subscriber_count.desc())
 

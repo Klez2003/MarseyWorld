@@ -903,7 +903,8 @@ def admin_title_change(user_id, v):
 
 	user=get_account(user.id)
 	user.customtitle=new_name
-	if request.values.get("locked"): user.flairchanged = int(time.time()) + 2629746
+	if request.values.get("locked"):
+		user.flairchanged = int(time.time()) + 2629746
 	else:
 		user.flairchanged = 0
 		badge = user.has_badge(96)

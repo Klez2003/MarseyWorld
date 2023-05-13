@@ -572,6 +572,7 @@ def settings_images_profile(v):
 	cache.delete_memoized(get_profile_picture, v.id)
 	cache.delete_memoized(get_profile_picture, v.username)
 	cache.delete_memoized(get_profile_picture, v.original_username)
+	cache.delete_memoized(get_profile_picture, v.prelock_username)
 
 	return redirect("/settings/personal?msg=Profile picture successfully updated!")
 
@@ -720,6 +721,8 @@ def settings_advanced_get(v:User):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @is_not_permabanned
 def settings_name_change(v):
+	if v.namechanged: abort(403)
+
 	new_name=request.values.get("name").strip()
 
 	if new_name==v.username:
@@ -737,7 +740,8 @@ def settings_name_change(v):
 	x = g.db.query(User).filter(
 		or_(
 			User.username.ilike(search_name),
-			User.original_username.ilike(search_name)
+			User.original_username.ilike(search_name),
+			User.prelock_username.ilike(search_name),
 			)
 		).one_or_none()
 

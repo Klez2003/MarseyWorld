@@ -381,6 +381,8 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_emojis=
 		users_dict[u.username.lower()] = u
 		if u.original_username:
 			users_dict[u.original_username.lower()] = u
+		if u.prelock_username:
+			users_dict[u.prelock_username.lower()] = u
 
 	def replacer(m):
 		u = users_dict.get(m.group(1).lower())

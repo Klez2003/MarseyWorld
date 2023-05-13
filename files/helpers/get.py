@@ -22,7 +22,8 @@ def get_id(username:str, graceful=False) -> Optional[int]:
 		).filter(
 		or_(
 			User.username.ilike(username),
-			User.original_username.ilike(username)
+			User.original_username.ilike(username),
+			User.prelock_username.ilike(username),
 			)
 		).one_or_none()
 
@@ -46,7 +47,8 @@ def get_user(username:Optional[str], v:Optional[User]=None, graceful=False, incl
 		).filter(
 		or_(
 			User.username.ilike(username),
-			User.original_username.ilike(username)
+			User.original_username.ilike(username),
+			User.prelock_username.ilike(username),
 			)
 		)
 
@@ -75,7 +77,8 @@ def get_users(usernames:Iterable[str], ids_only=False, graceful=False) -> List[U
 	users = users.filter(
 		or_(
 			User.username.ilike(any_(usernames)),
-			User.original_username.ilike(any_(usernames))
+			User.original_username.ilike(any_(usernames)),
+			User.prelock_username.ilike(any_(usernames)),
 			)
 		).all()
 

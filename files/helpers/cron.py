@@ -242,3 +242,7 @@ def _award_timers_task():
 		User.chudded_by: None,
 	})
 	_process_timer(User.flairchanged, [96], "Your temporary flair-lock has expired. You can now change your flair!")
+	_process_timer(User.namechanged, [], "Your temporary name-lock has expired. You're now back to your old username!", {
+		User.username: User.prelock_username,
+		User.prelock_username: None,
+	})
