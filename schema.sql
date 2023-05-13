@@ -2169,10 +2169,73 @@ CREATE INDEX user_private_idx ON public.users USING btree (is_private);
 
 
 --
+-- Name: users_agendaposter_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX users_agendaposter_idx ON public.users USING btree (agendaposter);
+
+
+--
+-- Name: users_bird_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX users_bird_idx ON public.users USING btree (bird);
+
+
+--
+-- Name: users_bite_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX users_bite_idx ON public.users USING btree (bite);
+
+
+--
 -- Name: users_created_utc_index; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX users_created_utc_index ON public.users USING btree (created_utc);
+
+
+--
+-- Name: users_deflector_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX users_deflector_idx ON public.users USING btree (deflector);
+
+
+--
+-- Name: users_earlylife_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX users_earlylife_idx ON public.users USING btree (earlylife);
+
+
+--
+-- Name: users_flairchanged_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX users_flairchanged_idx ON public.users USING btree (flairchanged);
+
+
+--
+-- Name: users_longpost_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX users_longpost_idx ON public.users USING btree (longpost);
+
+
+--
+-- Name: users_marseyawarded_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX users_marseyawarded_idx ON public.users USING btree (marseyawarded);
+
+
+--
+-- Name: users_marsify_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX users_marsify_idx ON public.users USING btree (marsify);
 
 
 --
@@ -2183,10 +2246,59 @@ CREATE INDEX users_original_username_trgm_idx ON public.users USING gin (origina
 
 
 --
+-- Name: users_owoify_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX users_owoify_idx ON public.users USING btree (owoify);
+
+
+--
+-- Name: users_patron_utc_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX users_patron_utc_idx ON public.users USING btree (patron_utc);
+
+
+--
+-- Name: users_progressivestack_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX users_progressivestack_idx ON public.users USING btree (progressivestack);
+
+
+--
+-- Name: users_rainbow_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX users_rainbow_idx ON public.users USING btree (rainbow);
+
+
+--
+-- Name: users_rehab_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX users_rehab_idx ON public.users USING btree (rehab);
+
+
+--
+-- Name: users_spider_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX users_spider_idx ON public.users USING btree (spider);
+
+
+--
 -- Name: users_subs_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX users_subs_idx ON public.users USING btree (stored_subscriber_count);
+
+
+--
+-- Name: users_unban_utc_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX users_unban_utc_idx ON public.users USING btree (unban_utc);
 
 
 --
