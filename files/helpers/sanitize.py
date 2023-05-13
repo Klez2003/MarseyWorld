@@ -532,8 +532,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_emojis=
 
 		#don't allow something like this [https://rԁrama.net/leaderboard](https://iplogger.org/1fRKk7)
 		if not snappy and tldextract.extract(str(link.string)).registered_domain:
-			unlinkfy()
-			continue
+			link.string = href
 
 		#insert target="_blank" and ref="nofollower noopener" for external link
 		if not href.startswith('/') and not href.startswith(f'{SITE_FULL}/'):
