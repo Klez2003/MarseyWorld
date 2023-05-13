@@ -1,5 +1,24 @@
 let u_username = document.getElementById('u_username')
 
+const anthem_button = document.getElementById('toggle-anthem')
+const anthem_button_mobile = document.getElementById('toggle-anthem-mobile')
+
+function play_audio(audio) {
+	audio.play()
+	if (anthem_button && !audio.paused) {
+		anthem_button.classList.add('text-primary')
+		anthem_button_mobile.classList.add('text-primary')
+	}
+}
+
+function pause_audio(audio) {
+	audio.pause()
+	if (anthem_button && audio.paused) {
+		anthem_button.classList.remove('text-primary')
+		anthem_button_mobile.classList.remove('text-primary')
+	}
+}
+
 if (u_username)
 {
 	u_username = u_username.innerHTML
@@ -9,18 +28,16 @@ if (u_username)
 
 	function toggle() {
 		if (audio.paused) {
-			audio.play();
-			audio.play();
+			play_audio(audio);
 		}
 		else {
-			audio.pause();
-			audio.pause();
+			pause_audio(audio);
 		}
 	}
 
-	audio.play();
+	play_audio(audio);
 	document.addEventListener('click', () => {
-		if (audio.paused) audio.play();
+		if (audio.paused) play_audio(audio);
 	}, {once : true});
 
 	prepare_to_pause(audio)
@@ -40,21 +57,21 @@ else
 		function toggle() {
 			if (audio.paused)
 			{
-				audio.play()
+				play_audio(audio)
 				localStorage.setItem("paused", "")
 			}
 			else
 			{
-				audio.pause()
+				pause_audio(audio)
 				localStorage.setItem("paused", "1")
 			}
 		}
 
 		if (!paused)
 		{
-			audio.play();
+			play_audio(audio);
 			document.addEventListener('click', () => {
-				if (audio.paused) audio.play();
+				if (audio.paused) play_audio(audio);
 			}, {once : true});
 		}
 
