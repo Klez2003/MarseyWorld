@@ -112,19 +112,19 @@ function idle() {
 	}
 	idleAnimation =
 		avalibleIdleAnimations[
-		Math.floor(Math.random() * avalibleIdleAnimations.length)
+			Math.floor(Math.random() * avalibleIdleAnimations.length)
 		];
 	}
 
 	switch (idleAnimation) {
 	case "sleeping":
 		if (idleAnimationFrame < 8) {
-		setSprite("tired", 0);
+			setSprite("tired", 0);
 		break;
 		}
 		setSprite("sleeping", Math.floor(idleAnimationFrame / 4));
 		if (idleAnimationFrame > 192) {
-		resetIdleAnimation();
+			resetIdleAnimation();
 		}
 		break;
 	case "scratchWallN":
