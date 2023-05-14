@@ -453,7 +453,7 @@ class User(Base):
 	@lazy
 	def formatted_discount(self):
 		discount = 100 - int(self.discount * 100)
-		return f'%{discount}'
+		return f'{discount}%'
 
 	@property
 	@lazy
