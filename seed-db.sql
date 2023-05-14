@@ -2249,7 +2249,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseybat3','Marsey',2,'bat scary wings flying vampire'),
 ('marseybateman','Marsey',2,'bret easton ellis serial halloween patrick american psycho killer holiday blood murderer'),
 ('marseybath','Marsey',2,'shower tub rubber duck'),
-('marseybattered','Marsey',2,'blackeye domestic violence black eye marseyismywaifu bardfinn steve akins penny beaten bruised housewife'),
+('marseybattered','Marsey',2,'blackeye domestic violence black eye marseyismywaifu bardfinn steve akins penny beaten bruised housewife abused punished injured stockholm deserved'),
 ('marseybdtf','Marsey',2,'kanye beautiful dark twisted fantasy mbdtf'),
 ('marseybeach','Marsey',2,'beach mojito cocktail summer hat sunglasses glasses hot tan vacation relax'),
 ('marseybean','Marsey',2,'bean uwu adorable'),
