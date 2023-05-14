@@ -473,7 +473,7 @@ def execute_under_siege(v:User, target:Optional[Union[Submission, Comment]], bod
 	unshadowbannedcels = [x[0] for x in g.db.query(ModAction.target_user_id).filter_by(kind='unshadowban').all()]
 	if v.id in unshadowbannedcels: return True
 
-	if type in ('flag', 'message'):
+	if type in ('report', 'message'):
 		threshold = 86400
 	else:
 		threshold = UNDER_SIEGE_AGE_THRESHOLD

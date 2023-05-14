@@ -22,8 +22,8 @@ def flag_post(pid, v):
 
 	post = get_post(pid)
 	reason = request.values.get("reason", "").strip()
-	execute_under_siege(v, post, reason, 'flag')
-	execute_blackjack(v, post, reason, 'flag')
+	execute_under_siege(v, post, reason, 'report')
+	execute_blackjack(v, post, reason, 'report')
 	reason = reason[:100]
 	og_flair = reason[1:]
 	reason_html = filter_emojis_only(reason)
@@ -89,8 +89,8 @@ def flag_comment(cid, v):
 	if existing: abort(409, "You already reported this comment!")
 
 	reason = request.values.get("reason", "").strip()
-	execute_under_siege(v, comment, reason, 'flag')
-	execute_blackjack(v, comment, reason, 'flag')
+	execute_under_siege(v, comment, reason, 'report')
+	execute_blackjack(v, comment, reason, 'report')
 	reason = reason[:100]
 	reason_html = filter_emojis_only(reason)
 

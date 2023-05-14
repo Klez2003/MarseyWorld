@@ -198,7 +198,7 @@ def execute_blackjack(v, target, body, type):
 	if target:
 		if type == 'submission':
 			extra_info = target.permalink
-		elif type == 'flag':
+		elif type == 'report':
 			extra_info = f"reports on {target.permalink}"
 		elif type in {'comment', 'message'}:
 			for id in notified_ids:
