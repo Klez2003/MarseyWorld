@@ -196,7 +196,7 @@ def execute_blackjack(v, target, body, type):
 	extra_info = type
 
 	if target:
-		if type == 'submission':
+		if type == 'post':
 			extra_info = target.permalink
 		elif type == 'report':
 			extra_info = f"reports on {target.permalink}"

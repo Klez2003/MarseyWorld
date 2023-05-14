@@ -613,12 +613,12 @@ def submit_post(v:User, sub=None):
 	g.db.add(p)
 	g.db.flush()
 
-	execute_under_siege(v, p, p.body, 'submission')
+	execute_under_siege(v, p, p.body, 'post')
 
 	process_poll_options(v, p)
 
 	for text in {p.body, p.title, p.url}:
-		if execute_blackjack(v, p, text, 'submission'): break
+		if execute_blackjack(v, p, text, 'post'): break
 
 	vote = Vote(user_id=v.id,
 				vote_type=1,
@@ -1046,10 +1046,10 @@ def edit_post(pid, v):
 
 		process_poll_options(v, p)
 
-		execute_under_siege(v, p, p.body, 'submission')
+		execute_under_siege(v, p, p.body, 'post')
 
 		for text in [p.body, p.title, p.url]:
-			if execute_blackjack(v, p, text, 'submission'): break
+			if execute_blackjack(v, p, text, 'post'): break
 
 		if len(body_html) > POST_BODY_HTML_LENGTH_LIMIT:
 			abort(400, "Submission body_html too long!")
