@@ -1088,7 +1088,7 @@ def agendaposter(id, v):
 	user.agendaposter_phrase = "trans lives matter"
 
 	text = f"@{v.username} (a site admin) has chudded you **{duration}**"
-	if reason: text += f"for the following reason:\n\n> {reason}"
+	if reason: text += f" for the following reason:\n\n> {reason}"
 	text += f"\n\n**You now have to say this phrase in all posts and comments you make {duration}:**\n\n> {user.agendaposter_phrase}"
 
 	user.chudded_by = v.id
