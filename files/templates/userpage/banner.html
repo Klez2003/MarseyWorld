@@ -228,6 +228,8 @@
 							<p id="profile--info--lifetime-donated">Lifetime Donated: ${{u.lifetime_donated}} (Shown to you only)</p>
 						{% endif %}
 
+						<p id="profile--info--discount">Total award discount: {{u.formatted_discount}}</p>
+
 						{% if u.is_private %}
 							<p id="profile--info--private">User has private mode enabled</p>
 						{% endif %}
@@ -503,6 +505,8 @@
 					{% if v and (v.id == u.id or v.admin_level >= PERMS['VIEW_PATRONS']) %}
 						<p id="profile-mobile--info--lifetime-donated">Lifetime Donated: ${{u.lifetime_donated}} (Shown to you only)</p>
 					{% endif %}
+
+					<p id="profile-mobile--info--discount">Total award discount: {{u.formatted_discount}}</p>
 
 					{% if u.is_private %}
 						<p id="profile-mobile--info--private">User has private mode enabled</p>

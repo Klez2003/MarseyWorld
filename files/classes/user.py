@@ -451,6 +451,12 @@ class User(Base):
 
 	@property
 	@lazy
+	def formatted_discount(self):
+		discount = 100 - int(self.discount * 100)
+		return f'%{discount}'
+
+	@property
+	@lazy
 	def can_view_offsitementions(self):
 		return self.offsitementions or self.admin_level >= PERMS['NOTIFICATIONS_REDDIT']
 

@@ -29,6 +29,7 @@
 			{% if FEATURES['MARSEYBUX'] %}
 				<li>Your current marseybux: {{"{:,}".format(v.marseybux)}}</li>
 			{% endif %}
+			<li>Your total award discount: {{v.formatted_discount}}</li>
 		</ul>
 	</header>
 {% endblock %}
