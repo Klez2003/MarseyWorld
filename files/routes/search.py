@@ -19,6 +19,7 @@ valid_params = [
 	'post',
 	'before',
 	'after',
+	'exact',
 	'title',
 	'sentto',
 	search_operator_hole,
@@ -91,7 +92,14 @@ def searchposts(v:User):
 								), 403
 		posts = posts.filter(Submission.author_id == author.id)
 
-	if 'q' in criteria:
+	if 'exact' in criteria and 'full_text' in criteria:
+		regex_str = '[[:<:]]'+criteria['full_text']+'[[:>:]]' # https://docs.oracle.com/cd/E17952_01/mysql-5.5-en/regexp.html "word boundaries"
+		if 'title' in criteria:
+			words = [Submission.title.regexp_match(regex_str)]
+		else:
+			words = [or_(Submission.title.regexp_match(regex_str), Submission.body.regexp_match(regex_str))]
+		posts = posts.filter(*words)
+	elif 'q' in criteria:
 		if('title' in criteria):
 			words = [or_(Submission.title.ilike('%'+x+'%')) \
 					for x in criteria['q']]
