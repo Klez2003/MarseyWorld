@@ -1002,8 +1002,8 @@ class User(Base):
 	@property
 	@lazy
 	def patron_tooltip(self):
-		tier_name = TIER_TO_NAME(self.patron)
-		tier_money = TIER_TO_MONEY(self.patron)
+		tier_name = TIER_TO_NAME[self.patron]
+		tier_money = TIER_TO_MONEY[self.patron]
 		return f'{tier_name} - Donates at least ${tier_money}/month'
 
 	@classmethod
