@@ -1849,6 +1849,7 @@ button.close {
 	height: 100%;
 	overflow: hidden;
 	outline: 0;
+	padding-right: 0 !important; /* fix Safari zoom issue */
 }
 .modal-dialog {
 	position: relative;
