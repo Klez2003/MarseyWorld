@@ -74,18 +74,11 @@
 				<div id="post-content" class="card-block w-100 my-md-auto">
 
 					<div class="post-meta text-left mb-2">
-						{{ macros.post_meta(p) }}
+						{{macros.post_meta(p)}}
 					</div>
-					{% if p.active_flags(v) %}
-					<div id="flaggers-{{p.id}}" class="flaggers d-none">
-						<strong><i class="far fa-fw fa-flag"></i> Reported by:</strong>
-						<ul class="mt-1 mb-0" style="padding-left:20px; word-wrap:break-word">
-							{% for f in p.filtered_flags(v) %}
-								<li><a style="font-weight:bold" href="{{f.user.url}}">{{f.user.username}}</a>{% if f.reason %}: {{f.realreason(v) | safe}}{% endif %} {% if v and v.admin_level >= PERMS['FLAGS_REMOVE'] %}<button type="button" data-nonce="{{g.nonce}}" data-onclick="delReportPost(this,'/del_report/post/{{f.post_id}}/{{f.user_id}}')">[remove]</button>{% endif %}</li>
-							{% endfor %}
-						</ul>
-					</div>
-					{% endif %}
+
+					{{macros.flags(p)}}
+
 					{% if p.realurl(v) and not v_forbid_deleted %}
 						<h1 id="post-title" class="card-title post-title text-left mb-md-3 {% if p.author.agendaposter and p.sub != 'chudrama' %}text-uppercase{% endif %}">
 								<a {% if p.author.rainbow %}class="rainbow-text"{% endif %} {% if not v or v.newtabexternal %}target="_blank"{% endif %} rel="nofollow noopener" href="{{p.realurl(v)}}">

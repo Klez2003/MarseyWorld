@@ -26,16 +26,7 @@
 
 {% set v_forbid_deleted = (p.deleted_utc != 0 or p.is_banned) and not (v and v.admin_level >= PERMS['POST_COMMENT_MODERATION']) and not (v and v.id == p.author_id) %}
 
-{% if p.active_flags(v) %}
-	<div id="flaggers-{{p.id}}" class="flaggers d-none">
-		<strong><i class="far fa-fw fa-flag"></i> Reported by:</strong>
-		<ul class="mt-1 mb-0" style="padding-left:20px; word-wrap:break-word">
-			{% for f in p.filtered_flags(v) %}
-				<li><a style="font-weight:bold" href="{{f.user.url}}">{{f.user.username}}</a>{% if f.reason %}: {{f.realreason(v) | safe}}{% endif %} {% if v and v.admin_level >= PERMS['FLAGS_REMOVE'] %}<button type="button" data-nonce="{{g.nonce}}" data-onclick="delReportPost(this,'/del_report/post/{{f.post_id}}/{{f.user_id}}')">[remove]</button>{% endif %}</li>
-			{% endfor %}
-		</ul>
-	</div>
-{% endif %}
+{{macros.flags(p)}}
 
 <div id="post-{{p.id}}" class="actual-post {% if p.ghost %}ghost-post{% endif %} {% if p.unread %}unread{% else %}card{% endif %} {% if p.is_banned %} banned{% endif %}{% if p.deleted_utc %} deleted{% endif %}{% if p.stickied %} stickied{% endif %}{% if voted==1 %} upvoted{% elif voted==-1 %} downvoted{% endif %}{% if p.over_18 %} nsfw{% endif %}">
 

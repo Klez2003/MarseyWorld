@@ -467,33 +467,47 @@ def execute_antispam_comment_check(body:str, v:User):
 	g.db.commit()
 	abort(403, "Too much spam!")
 
-def execute_under_siege(v:User, target:Optional[Union[Submission, Comment]], body, type:str) -> bool:
-	if not get_setting("under_siege"): return True
+def execute_under_siege(v:User, target:Optional[Union[Submission, Comment]], body, kind:str) -> bool:
+	if not get_setting("under_siege"): return
+	if v.shadowbanned: return
+	if v.admin_level >= PERMS['SITE_BYPASS_UNDER_SIEGE_MODE']: return
 
-	unshadowbannedcels = [x[0] for x in g.db.query(ModAction.target_user_id).filter_by(kind='unshadowban').all()]
-	if v.id in unshadowbannedcels: return True
-
-	if type in ('report', 'message'):
+	if kind in {'message', 'report'}:
 		threshold = 86400
 	else:
 		threshold = UNDER_SIEGE_AGE_THRESHOLD
 
-	if not v.shadowbanned and v.age < threshold and not v.admin_level >= PERMS['SITE_BYPASS_UNDER_SIEGE_MODE']:
-		v.shadowbanned = AUTOJANNY_ID
+	if v.age > threshold: return
 
-		ma = ModAction(
-			kind="shadowban",
-			user_id=AUTOJANNY_ID,
-			target_user_id=v.id,
-			_note=f'reason: "Under Siege ({type}, {v.age} seconds)"'
-		)
-		g.db.add(ma)
+	unshadowbannedcels = [x[0] for x in g.db.query(ModAction.target_user_id).filter_by(kind='unshadowban').all()]
+	if v.id in unshadowbannedcels: return
 
-		v.ban_reason = "Under Siege"
-		g.db.add(v)
-		t = time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime(time.time()))
-		return False
-	return True
+	v.shadowbanned = AUTOJANNY_ID
+	v.ban_reason = "Under Siege"
+	g.db.add(v)
+
+	if kind == "report":
+		if isinstance(target, Submission):
+			reason = f'report on <a href="{target.permalink}">post</a>'
+		else:
+			reason = f'report on <a href="{target.permalink}">comment</a>'
+	else:
+		reason = kind
+
+	ma = ModAction(
+		kind="shadowban",
+		user_id=AUTOJANNY_ID,
+		target_user_id=v.id,
+		_note=f'reason: "Under Siege ({reason}, {v.age} seconds)"'
+	)
+	g.db.add(ma)
+
+	if kind == 'message':
+		notified_ids = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['BLACKJACK_NOTIFICATIONS'])]
+		for uid in notified_ids:
+			n = Notification(comment_id=target.id, user_id=uid)
+			g.db.add(n)
+
 
 def execute_lawlz_actions(v:User, p:Submission):
 	if v.id != LAWLZ_ID: return

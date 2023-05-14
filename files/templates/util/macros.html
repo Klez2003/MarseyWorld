@@ -196,3 +196,25 @@
 </div>
 {% endif %}
 {% endmacro %}
+
+{% macro flags(i) %}
+{% if i.active_flags(v) %}
+<div id="flaggers-{{i.id}}" class="flaggers d-none">
+	<strong><i class="far fa-fw fa-flag"></i> Reported by:</strong>
+	<ul class="mt-1 mb-0" style="padding-left:20px;word-wrap:break-word">
+		{% for f in i.filtered_flags(v) %}
+			<li>
+				{% if v and v.admin_level %}
+					<i class="fas fa-user-times text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title='Shadowbanned by @{{f.user.shadowbanner}} for "{{f.user.ban_reason}}"'></i>
+				{% endif %}
+				<a style="font-weight:bold" href="{{f.user.url}}">{{f.user.username}}</a>
+				{% if f.reason %}: {{f.realreason(v) | safe}}{% endif %}
+				{% if v and v.admin_level >= PERMS['FLAGS_REMOVE'] %}
+					<button type="button" data-nonce="{{g.nonce}}" data-onclick="delReportComment(this,'/del_report/comment/{{f.comment_id}}/{{f.user_id}}')">[remove]</button>
+				{% endif %}
+			</li>
+		{% endfor %}
+	</ul>
+</div>
+{% endif %}
+{% endmacro %}

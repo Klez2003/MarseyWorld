@@ -365,7 +365,7 @@ class Submission(Base):
 
 	@lazy
 	def filtered_flags(self, v):
-		return [f for f in self.flags if (v and v.shadowbanned) or not f.user.shadowbanned]
+		return [f for f in self.flags if not f.user.shadowbanned or (v and v.id == f.user_id) or (v and v.admin_level)]
 
 	@lazy
 	def active_flags(self, v):
