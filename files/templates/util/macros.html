@@ -204,7 +204,7 @@
 	<ul class="mt-1 mb-0" style="padding-left:20px;word-wrap:break-word">
 		{% for f in i.filtered_flags(v) %}
 			<li>
-				{% if v and v.admin_level %}
+				{% if v and v.admin_level and f.user.shadowbanned %}
 					<i class="fas fa-user-times text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title='Shadowbanned by @{{f.user.shadowbanner}} for "{{f.user.ban_reason}}"'></i>
 				{% endif %}
 				<a style="font-weight:bold" href="{{f.user.url}}">{{f.user.username}}</a>
