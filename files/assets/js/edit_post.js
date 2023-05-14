@@ -9,6 +9,7 @@ function togglePostEdit(id){
 
 	box=document.getElementById("post-edit-box-"+id);
 	autoExpand(box);
+	markdown(box);
 	box=document.getElementById("post-edit-title");
 	autoExpand(box);
 };
