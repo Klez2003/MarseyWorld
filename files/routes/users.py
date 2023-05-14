@@ -1345,9 +1345,18 @@ def claim_rewards(v):
 
 		if highest_tier > v.patron:
 			v.patron = highest_tier
-			for badge in g.db.query(Badge).filter(Badge.user_id == v.id, Badge.badge_id > 20, Badge.badge_id < 28).all():
+			badge_id = 20 + highest_tier
+
+			badges_to_remove = g.db.query(Badge).filter(
+					Badge.user_id == v.id,
+					Badge.badge_id > badge_id,
+					Badge.badge_id < 29,
+				).all()
+			for badge in badges_to_remove:
 				g.db.delete(badge)
-			badge_grant(badge_id=20+highest_tier, user=v)
+
+			for x in range(22, badge_id+1):
+				badge_grant(badge_id=x, user=v)
 
 		if v.lifetime_donated >= 100:
 			badge_grant(badge_id=257, user=v)
