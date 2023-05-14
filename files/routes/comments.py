@@ -656,7 +656,6 @@ def edit_comment(cid, v):
 		c.body_html = body_html
 
 		execute_blackjack(v, c, c.body, "comment")
-		execute_under_siege(v, c, c.body, "comment")
 
 		if not complies_with_chud(c):
 			abort(403, f'You have to include "{v.agendaposter_phrase}" in your comment!')

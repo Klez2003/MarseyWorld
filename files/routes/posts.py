@@ -1046,8 +1046,6 @@ def edit_post(pid, v):
 
 		process_poll_options(v, p)
 
-		execute_under_siege(v, p, p.body, 'post')
-
 		for text in [p.body, p.title, p.url]:
 			if execute_blackjack(v, p, text, 'post'): break
 
