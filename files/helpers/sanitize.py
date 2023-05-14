@@ -169,7 +169,7 @@ def send_repeatable_notification_duplicated(uid, text):
 	g.db.add(notif)
 
 
-def execute_blackjack(v, target, body, type):
+def execute_blackjack(v, target, body, kind):
 	if not blackjack or not body: return False
 
 	execute = False
@@ -193,14 +193,14 @@ def execute_blackjack(v, target, body, type):
 	g.db.add(v)
 
 	notified_ids = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['BLACKJACK_NOTIFICATIONS'])]
-	extra_info = type
+	extra_info = kind
 
 	if target:
-		if type == 'post':
+		if kind == 'post':
 			extra_info = target.permalink
-		elif type == 'report':
+		elif kind == 'report':
 			extra_info = f"reports on {target.permalink}"
-		elif type in {'comment', 'message'}:
+		elif kind in {'comment', 'message'}:
 			for id in notified_ids:
 				n = Notification(comment_id=target.id, user_id=id)
 				g.db.add(n)
