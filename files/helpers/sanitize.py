@@ -532,6 +532,16 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_emojis=
 			unlinkfy()
 			continue
 
+		#don't allow something like this [@Aevann2](https://iplogger.org/1fRKk7)
+		if str(link.string).startswith('@') and not href.startswith('/'):
+			unlinkfy()
+			continue
+
+		#don't allow something like this [!jannies](https://iplogger.org/1fRKk7)
+		if str(link.string).startswith('!') and not href.startswith('/'):
+			unlinkfy()
+			continue
+
 		#don't allow something like this [https://rԁrama.net/leaderboard](https://iplogger.org/1fRKk7)
 		if not snappy and tldextract.extract(str(link.string)).registered_domain:
 			link.string = href
