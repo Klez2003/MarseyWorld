@@ -77,5 +77,3 @@ echo "y" | ufw enable
 curl https://rclone.org/install.sh | bash
 echo "psql -U postgres" > /p
 echo "cd /rDrama && git pull" > /g
-
-. imei.sh
