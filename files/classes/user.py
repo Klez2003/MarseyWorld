@@ -1004,7 +1004,7 @@ class User(Base):
 	def patron_tooltip(self):
 		tier_name = TIER_TO_NAME[self.patron]
 		tier_money = TIER_TO_MONEY[self.patron]
-		return f'{tier_name} - Donates at least ${tier_money}/month'
+		return f'{tier_name} - Donates ${tier_money}/month'
 
 	@classmethod
 	def can_see_content(cls, user:Optional["User"], other:Union[Submission, Comment, Sub]) -> bool:
