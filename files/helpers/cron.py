@@ -34,51 +34,33 @@ def cron(every_5m, every_1h, every_1d, every_1mo):
 
 	#I put commit under each task to release database locks and prevent main flask app crashing
 	if every_5m:
-		t = time.time()
 		_award_timers_task()
 		g.db.commit()
-		print(f'_award_timers_task: {time.time() - t}', flush=True)
 
 		if FEATURES['GAMBLING']:
-			t = time.time()
 			check_if_end_lottery_task()
 			g.db.commit()
-			print(f'check_if_end_lottery_task: {time.time() - t}', flush=True)
 
-			t = time.time()
 			spin_roulette_wheel()
 			g.db.commit()
-			print(f'spin_roulette_wheel: {time.time() - t}', flush=True)
 		#offsitementions.offsite_mentions_task(cache)
 
-	if every_1h:
-		t = time.time()
-		_generate_emojis_zip()
-		g.db.commit()
-		print(f'_generate_emojis_zip: {time.time() - t}', flush=True)
-
-		t = time.time()
-		_leaderboard_task()
-		g.db.commit()
-		print(f'_leaderboard_task: {time.time() - t}', flush=True)
-
 	if every_1d:
-		t = time.time()
 		stats.generate_charts_task(SITE)
 		g.db.commit()
-		print(f'generate_charts_task: {time.time() - t}', flush=True)
 
-		t = time.time()
 		_sub_inactive_purge_task()
 		g.db.commit()
-		print(f'_sub_inactive_purge_task: {time.time() - t}', flush=True)
 
-		t = time.time()
 		cache.set('stats', stats.stats())
 		g.db.commit()
-		print(f'stats: {time.time() - t}', flush=True)
 
-	g.db.commit()
+		_generate_emojis_zip()
+		g.db.commit()
+
+		_leaderboard_task()
+		g.db.commit()
+
 	g.db.close()
 	del g.db
 	stdout.flush()
