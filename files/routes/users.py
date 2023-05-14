@@ -1318,18 +1318,6 @@ def bid_list(v:User, bid):
 
 
 
-tiers={
-	5: 2,
-	10: 3,
-	20: 4,
-	50: 5,
-	100: 6,
-	200: 7,
-	500: 8,
-	}
-
-marseybux_li = (0,0,2500,5000,10000,25000,50000,100000,250000)
-
 def claim_rewards(v):
 	transactions = g.db.query(Transaction).filter_by(email=v.email, claimed=None).all()
 
@@ -1337,11 +1325,11 @@ def claim_rewards(v):
 	marseybux = 0
 
 	for transaction in transactions:
-		for money, t in tiers.items():
+		for t, money in TIER_TO_MONEY.items():
 			if transaction.amount < money: break
 			tier = t
 
-		marseybux += marseybux_li[tier]
+		marseybux += TIER_TO_MARSEYBUX[tier]
 		if tier > highest_tier:
 			highest_tier = tier
 		transaction.claimed = True

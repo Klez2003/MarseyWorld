@@ -700,7 +700,7 @@ LEADERBOARD_LIMIT = PAGE_SIZE
 HOUSE_JOIN_COST = 500
 HOUSE_SWITCH_COST = 2000
 
-TIERS_ID_TO_NAME = {
+TIER_TO_NAME = {
 	2: "Paypig",
 	3: "Renthog",
 	4: "Landchad",
@@ -708,6 +708,26 @@ TIERS_ID_TO_NAME = {
 	6: "Marsey's Sugar Daddy",
 	7: "JIDF Bankroller",
 	8: "Rich Bich",
+}
+
+TIER_TO_MONEY = {
+	2: 5,
+	3: 10,
+	4: 20,
+	5: 50,
+	6: 100,
+	7: 200,
+	8: 500,
+}
+
+TIER_TO_MBUX = {
+	2: 2500,
+	3: 5000,
+	4: 10000,
+	5: 25000,
+	6: 50000,
+	7: 100000,
+	8: 250000,
 }
 
 BADGE_BLACKLIST = { # only grantable by admins higher than PERMS['IGNORE_BADGE_BLACKLIST']
@@ -899,7 +919,7 @@ elif SITE == 'watchpeopledie.tv':
 	GIFT_NOTIF_ID = CARP_ID
 	SIGNUP_FOLLOW_ID = CARP_ID
 
-	TIERS_ID_TO_NAME = {
+	TIER_TO_NAME = {
 		2: "Victim",
 		3: "Corpse",
 		4: "Zombie",

@@ -1002,21 +1002,9 @@ class User(Base):
 	@property
 	@lazy
 	def patron_tooltip(self):
-		if self.patron == 2:
-			return 'Contributes $5/month'
-		if self.patron == 3:
-			return 'Contributes $10/month'
-		if self.patron == 4:
-			return 'Contributes $20/month'
-		if self.patron == 5:
-			return 'Contributes $50/month'
-		if self.patron == 6:
-			return 'Contributes $100/month'
-		if self.patron == 7:
-			return 'Contributes $200/month'
-		if self.patron == 8:
-			return 'Contributes $500/month'
-		return ''
+		tier_name = TIER_TO_NAME(self.patron)
+		tier_money = TIER_TO_MONEY(self.patron)
+		return f'{tier_name} - Donates at least ${tier_money}/month'
 
 	@classmethod
 	def can_see_content(cls, user:Optional["User"], other:Union[Submission, Comment, Sub]) -> bool:
