@@ -1329,7 +1329,7 @@ def claim_rewards(v):
 			if transaction.amount < money: break
 			tier = t
 
-		marseybux += TIER_TO_MARSEYBUX[tier]
+		marseybux += TIER_TO_MBUX[tier]
 		if tier > highest_tier:
 			highest_tier = tier
 		transaction.claimed = True

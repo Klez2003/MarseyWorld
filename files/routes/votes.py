@@ -164,7 +164,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 	mul = 1
 	if target.is_approved == PROGSTACK_ID:
 		mul = PROGSTACK_MUL
-	elif cls == Submission and (any(i in target.title.lower() for i in ENCOURAGED) or any(i in target.url.lower() for i in ENCOURAGED2)):
+	elif cls == Submission and (any(i in target.title.lower() for i in ENCOURAGED) or any(i in str(target.url).lower() for i in ENCOURAGED2)):
 		mul = PROGSTACK_MUL
 		send_notification(AEVANN_ID, target.permalink)
 	elif target.author.progressivestack or (target.author.admin_level and target.author.id not in {CARP_ID, SCHIZO_ID}):

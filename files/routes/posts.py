@@ -588,6 +588,8 @@ def submit_post(v:User, sub=None):
 	if url and url.startswith(SITE_FULL):
 		url = url.split(SITE_FULL)[1]
 
+	if url == '': url = None
+
 	p = Submission(
 		private=flag_private,
 		notify=flag_notify,
