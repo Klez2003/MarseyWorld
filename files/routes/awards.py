@@ -350,16 +350,16 @@ def award_thing(v, thing_type, id):
 			badge_grant(user=author, badge_id=96)
 	elif kind == "namelock":
 		new_name = note.strip()
-		if not valid_username_regex.fullmatch(new_name):
-			abort(400, "Invalid username")
-
-		existing = get_user(new_name, graceful=True)
-		if existing:
-			abort(400, f"@{new_name} is already taken!")
-
-		if not new_name and author.prelock_username:
+		if not new_name and author.namechanged:
 			author.namechanged += 86400
 		else:
+			if not valid_username_regex.fullmatch(new_name):
+				abort(400, "Invalid username")
+
+			existing = get_user(new_name, graceful=True)
+			if existing:
+				abort(400, f"@{new_name} is already taken!")
+
 			author.prelock_username = author.username
 			author.username = new_name
 			author.namechanged = int(time.time()) + 86400
