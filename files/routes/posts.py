@@ -30,8 +30,6 @@ from .users import userpagelisting
 
 from files.__main__ import app, limiter
 
-titleheaders = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Safari/537.36"}
-
 @app.post("/publish/<int:pid>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
@@ -291,10 +289,8 @@ def thumbnail_thread(pid:int, vid:int):
 	if fetch_url.startswith('/') and '\\' not in fetch_url:
 		fetch_url = f"{SITE_FULL}{fetch_url}"
 
-	headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Safari/537.36"}
-
 	try:
-		x=requests.get(fetch_url, headers=headers, timeout=5, proxies=proxies)
+		x=requests.get(fetch_url, headers=HEADERS, timeout=5, proxies=proxies)
 	except:
 		db.close()
 		return
@@ -342,7 +338,7 @@ def thumbnail_thread(pid:int, vid:int):
 
 		for url in thumb_candidate_urls:
 			try:
-				image_req=requests.get(url, headers=headers, timeout=5, proxies=proxies)
+				image_req=requests.get(url, headers=HEADERS, timeout=5, proxies=proxies)
 			except:
 				continue
 
@@ -965,7 +961,7 @@ def get_post_title(v):
 		abort(400)
 
 	try:
-		x = gevent.with_timeout(POST_TITLE_TIMEOUT, requests.get, url, headers=titleheaders, timeout=POST_TITLE_TIMEOUT, proxies=proxies)
+		x = gevent.with_timeout(POST_TITLE_TIMEOUT, requests.get, url, headers=HEADERS, timeout=POST_TITLE_TIMEOUT, proxies=proxies)
 	except: abort(400)
 
 	content_type = x.headers.get("Content-Type")

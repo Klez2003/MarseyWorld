@@ -26,14 +26,13 @@ from files.helpers.slots import check_slots_command
 post_target_type = Union[Submission, User]
 
 def _archiveorg(url):
-	headers = {'User-Agent': 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'}
 	try:
 		requests.get(f'https://web.archive.org/save/{url}',
-			headers=headers, timeout=10, proxies=proxies)
+			headers=HEADERS, timeout=10, proxies=proxies)
 	except: pass
 	try:
 		requests.post('https://ghostarchive.org/archive2', data={"archive": url},
-			headers=headers, timeout=10, proxies=proxies)
+			headers=HEADERS, timeout=10, proxies=proxies)
 	except: pass
 
 
