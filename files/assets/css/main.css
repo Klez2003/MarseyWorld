@@ -5827,7 +5827,7 @@ html {
 	content: '';
 	display: block;
 }
-.comment-anchor:target, .unread {
+*:target, .unread {
 	background: #ffffff22 !important;
 	padding: 12px;
 	padding-bottom: 4px;
