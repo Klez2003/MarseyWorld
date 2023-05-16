@@ -106,4 +106,5 @@ def distribute_wager_badges(user, wager, won):
 			badges_earned.add(159)
 
 	for badge in badges_earned:
-		badge_grant(user, badge)
+		try: badge_grant(user, badge)
+		except: continue
