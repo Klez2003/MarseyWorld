@@ -176,14 +176,15 @@ def group_reject(v:User, group_name, user_id):
 	if not membership:
 		abort(404, "There is no membership to reject!")
 
-	if membership.approved_utc:
-		text = f"@{v.username} (!{group}'s owner) has kicked you from the group!"
-		msg = f"You have kicked @{membership.user.username} successfully!"
+	if v.id == membership.user_id:
+		msg = f"You have left !{group} successfully!"
 	else:
-		text = f"@{v.username} (!{group}'s owner) has rejected your application!"
-		msg = f"You have rejected @{membership.user.username} successfully!"
-
-	if v.id != membership.user_id:
+		if membership.approved_utc:
+			text = f"@{v.username} (!{group}'s owner) has kicked you from the group!"
+			msg = f"You have kicked @{membership.user.username} successfully!"
+		else:
+			text = f"@{v.username} (!{group}'s owner) has rejected your application!"
+			msg = f"You have rejected @{membership.user.username} successfully!"
 		send_repeatable_notification(membership.user_id, text)
 
 	g.db.delete(membership)

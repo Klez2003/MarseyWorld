@@ -59,7 +59,7 @@
 						{% if v.id == group.owner.id or v.admin_level >= PERMS['MODS_EVERY_GROUP'] %}
 							<td>
 								<div id="kick-{{membership.user_id}}" {% if name == 'applications' %}class="d-none"{% endif %}>
-									<button type="button" class="btn btn-primary btn-block" data-nonce="{{g.nonce}}" data-onclick="reject_membership(this,'{{group}}','{{membership.user_id}}')">Kick</button>
+									<button type="button" class="btn btn-primary btn-block" data-nonce="{{g.nonce}}" data-onclick="reject_membership(this,'{{group}}','{{membership.user_id}}')">{% if v.id == membership.user_id %}Leave{% else %}Kick{% endif %}</button>
 								</div>
 
 								<div {% if name == 'members' %}class="d-none"{% endif %}>
