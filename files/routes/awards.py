@@ -360,7 +360,8 @@ def award_thing(v, thing_type, id):
 			if existing:
 				abort(400, f"@{new_name} is already taken!")
 
-			author.prelock_username = author.username
+			if not author.prelock_username:
+				author.prelock_username = author.username
 			author.username = new_name
 			author.namechanged = int(time.time()) + 86400
 			badge_grant(user=author, badge_id=281)
