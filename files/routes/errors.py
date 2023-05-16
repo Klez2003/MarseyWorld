@@ -65,7 +65,7 @@ def error_500(e):
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit(DEFAULT_RATELIMIT)
 def allow_nsfw():
-	session["over_18"] = int(time.time()) + 3600
+	session["over_18_cookies"] = int(time.time()) + 3600
 	redir = request.values.get("redir", "/")
 	if is_site_url(redir): return redirect(redir)
 	return redirect('/')

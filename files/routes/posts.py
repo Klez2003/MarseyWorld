@@ -89,7 +89,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 	p = get_post(pid, v=v)
 	if not User.can_see(v, p): abort(403)
 
-	if p.over_18 and not (v and v.over_18) and session.get('over_18', 0) < int(time.time()):
+	if p.over_18 and not (v and v.over_18) and session.get('over_18_cookies', 0) < int(time.time()):
 		if g.is_api_or_xhr: abort(451, "Must be 18+ to view")
 		return render_template("errors/nsfw.html", v=v)
 
