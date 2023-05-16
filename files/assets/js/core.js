@@ -236,13 +236,8 @@ function showmore(t) {
 	if (!text) text = div.getElementsByClassName('showmore-text')[0]
 	if (!text) text = div.querySelector('div.d-none')
 
-	text.classList.add('showmore-text')
-
-	text.classList.toggle('d-none')
-	if (text.classList.contains('d-none'))
-		t.innerHTML = 'SHOW MORE'
-	else
-		t.innerHTML = 'SHOW LESS'
+	text.classList.remove('d-none')
+	t.remove()
 }
 
 function formatDate(d) {
