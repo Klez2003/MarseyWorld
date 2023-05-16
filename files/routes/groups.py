@@ -183,7 +183,8 @@ def group_reject(v:User, group_name, user_id):
 		text = f"@{v.username} (!{group}'s owner) has rejected your application!"
 		msg = f"You have rejected @{membership.user.username} successfully!"
 
-	send_repeatable_notification(membership.user_id, text)
+	if v.id != membership.user_id:
+		send_repeatable_notification(membership.user_id, text)
 
 	g.db.delete(membership)
 
