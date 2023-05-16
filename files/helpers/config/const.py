@@ -65,7 +65,8 @@ else:
 	SITE_FULL_IMAGES = f'https://{SITE_IMAGES}'
 
 if SITE == 'staging.rdrama.net':
-	SITE_FULL_IMAGES = 'https://i.rdrama.net'	
+	SITE_IMAGES = 'i.rdrama.net'
+	SITE_FULL_IMAGES = f'https://{SITE_IMAGES}'
 
 LOGGED_IN_CACHE_KEY = "loggedin"
 LOGGED_OUT_CACHE_KEY = "loggedout"
