@@ -7,3 +7,13 @@ function unchud_or_unban(t, url) {
 		t.nextElementSibling.classList.remove('d-none');
 	});
 }
+
+function delReport(t, url) {
+	postToast(t, url,
+		{
+		},
+		() => {
+			t.parentElement.remove()
+		}
+	);
+}

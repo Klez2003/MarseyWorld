@@ -40,13 +40,3 @@ function approvePost(t,post_id,button1,button2,cls) {
 		}
 	);
 }
-
-function delReportPost(t, url) {
-	postToast(t, url,
-		{
-		},
-		() => {
-			t.parentElement.remove()
-		}
-	);
-}
