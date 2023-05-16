@@ -200,6 +200,7 @@ if SITE_NAME == 'rDrama':
 		"allah(?! \()": "Allah (ﷻ)",
 		"my wife(?! \()": "my wife (male)",
 		"(?<!cow) tools ": " cow tools ",
+		"explain": "mansplain",
 	}
 	SLURS.update(RDRAMA_SLURS)
 
