@@ -6,8 +6,9 @@ from files.helpers.alerts import send_repeatable_notification
 def badge_grant(user, badge_id, description=None, url=None, notify=True, check_if_exists=True):
 	assert user != None
 
-	if check_if_exists and user.has_badge(badge_id):
-		return
+	if check_if_exists:
+		existing = g.db.query(Badge).filter_by(user_id=user.id, badge_id=badge_id).one_or_none()
+		if existing: return
 
 	if description and len(description) > 256:
 		abort(400, "Custom description is too long, max 256 characters!")
