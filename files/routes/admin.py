@@ -62,6 +62,7 @@ def images(v):
 				ext = y.group(4)
 
 				url = f'https://{site}/{id}.{ext}'
+				print(url, flush=True)
 				try: image_req = requests.get(url, headers=HEADERS, timeout=5)
 				except: continue
 			
@@ -89,7 +90,6 @@ def images(v):
 					continue
 
 				size = os.stat(name).st_size
-				print(size, flush=True)
 				if not size: continue
 
 				new_url = f"https://{SITE_IMAGES}{name}"
