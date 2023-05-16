@@ -4,6 +4,9 @@
 {% if v and (v.admin_level >= PERMS['VIEW_ALTS'] or v.alt) %}
 	{% set alts = get_alt_graph(u.id) %}
 {% endif %}
+
+{% set ns = namespace() %}
+
 {% block desktopUserBanner %}
 <div class="row d-mob-none">
 	<div class="col px-0">
@@ -26,9 +29,15 @@
 								<h3 class="font-weight-bolder my-0 mr-2" id="profile--name" style="color: #{{u.name_color}}"><span {% if u.patron %}class="patron" style="background-color:#{{u.name_color}}"{% endif %}>{{u.user_name}}</span></h3>
 
 								{% if u.username != u.original_username %}
-								<span id="profile--origname">
-									<i class="fas fa-user-tag text-info align-middle ml-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Original Username: @{{u.original_username}}"></i>
-								</span>
+									{% set ns.og_usernames = 'Original Usernames:<br>@' ~ u.original_username %}
+
+									{% if u.prelock_username and u.prelock_username != u.original_username %}
+										{% set ns.og_usernames = ns.og_usernames + '<br>@' ~ u.prelock_username %}
+									{% endif %}
+
+									<span id="profile--origname">
+										<i class="fas fa-user-tag text-info align-middle ml-2" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true" title="{{ns.og_usernames}}"></i>
+									</span>
 								{% endif %}
 
 								{% if FEATURES['PATRON_ICONS'] and u.patron > 1 %}
@@ -297,7 +306,7 @@
 
 				{% if u.username != u.original_username %}
 					<span id="profile-mobile--origname">
-						<i class="fas fa-user-tag text-info align-middle ml-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Original Username: @{{u.original_username}}"></i>
+						<i class="fas fa-user-tag text-info align-middle ml-2" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true" title="{{ns.og_usernames}}"></i>
 					</span>
 				{% endif %}
 
