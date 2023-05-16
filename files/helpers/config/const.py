@@ -1002,8 +1002,6 @@ approved_embed_hosts = [
 
 	### Third-Party Image Hosts
 	# TODO: Might be able to keep these even if we media proxy?
-	'i.imgur.com',
-	'i.imgur.io',
 	'pomf2.lain.la/f',
 	'media.giphy.com/media', # used by the GIF Modal
 	'media0.giphy.com/media', 
