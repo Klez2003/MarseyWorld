@@ -107,9 +107,6 @@ a {
 }
 
 /*front page*/
-a.btn-block[href~="/submit"] {
-	display:none;
-}
 
 .sorting {
 	float:left !important;
@@ -119,7 +116,7 @@ a.btn-block[href~="/submit"] {
 #frontpage #main-content-col .row:first-child {
 	background-image: url(/i/classic1.webp);
 	background-position:center;
-	background-repeat: repeat-x;
+	background-repeat: repeat;
 	margin-top: -12px;
 	margin-bottom:-15px;
 }
