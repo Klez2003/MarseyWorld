@@ -32,6 +32,9 @@ def _initialize_marseys(db:scoped_session):
 		SNAPPY_KONGS = db.query(Emoji.name).filter(Emoji.kind=="Donkey Kong", Emoji.submitter_id==None).all()
 		SNAPPY_KONGS = [f':#{x[0]}:' for x in SNAPPY_KONGS]
 
+	db.commit()
+	db.close()
+
 
 def _initialize_snappy_marseys_and_quotes():
 	global SNAPPY_MARSEYS, SNAPPY_QUOTES
