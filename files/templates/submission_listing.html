@@ -26,7 +26,7 @@
 
 {% set v_forbid_deleted = (p.deleted_utc != 0 or p.is_banned) and not (v and v.admin_level >= PERMS['POST_COMMENT_MODERATION']) and not (v and v.id == p.author_id) %}
 
-{{macros.flags(p)}}
+{{macros.flags(p, 'post')}}
 
 <div id="post-{{p.id}}" class="actual-post {% if p.ghost %}ghost-post{% endif %} {% if p.unread %}unread{% else %}card{% endif %} {% if p.is_banned %} banned{% endif %}{% if p.deleted_utc %} deleted{% endif %}{% if p.stickied %} stickied{% endif %}{% if voted==1 %} upvoted{% elif voted==-1 %} downvoted{% endif %}{% if p.over_18 %} nsfw{% endif %}">
 

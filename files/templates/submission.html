@@ -77,7 +77,7 @@
 						{{macros.post_meta(p)}}
 					</div>
 
-					{{macros.flags(p)}}
+					{{macros.flags(p, 'post')}}
 
 					{% if p.realurl(v) and not v_forbid_deleted %}
 						<h1 id="post-title" class="card-title post-title text-left mb-md-3 {% if p.author.agendaposter and p.sub != 'chudrama' %}text-uppercase{% endif %}">

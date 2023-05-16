@@ -29,6 +29,12 @@ class Flag(Base):
 	def realreason(self, v):
 		return censor_slurs(self.reason, v)
 
+	#lazy hack to avoid having to rename the comment_id column and causing potential new bugs
+	@property
+	@lazy
+	def parent_id(self):
+		return self.post_id
+
 
 class CommentFlag(Base):
 	__tablename__ = "commentflags"
@@ -50,3 +56,9 @@ class CommentFlag(Base):
 	@lazy
 	def realreason(self, v):
 		return censor_slurs(self.reason, v)
+
+	#lazy hack to avoid having to rename the comment_id column and causing potential new bugs
+	@property
+	@lazy
+	def parent_id(self):
+		return self.comment_id

@@ -197,7 +197,7 @@
 {% endif %}
 {% endmacro %}
 
-{% macro flags(i) %}
+{% macro flags(i, kind) %}
 {% if i.active_flags(v) %}
 <div id="flaggers-{{i.id}}" class="flaggers d-none">
 	<strong><i class="far fa-fw fa-flag"></i> Reported by:</strong>
@@ -210,7 +210,7 @@
 				<a style="font-weight:bold" href="{{f.user.url}}">{{f.user.username}}</a>
 				{% if f.reason %}: {{f.realreason(v) | safe}}{% endif %}
 				{% if v and v.admin_level >= PERMS['FLAGS_REMOVE'] %}
-					<button type="button" data-nonce="{{g.nonce}}" data-onclick="delReport(this,'/del_report/comment/{{f.comment_id}}/{{f.user_id}}')">[remove]</button>
+					<button type="button" data-nonce="{{g.nonce}}" data-onclick="delReport(this,'/del_report/{{kind}}/{{f.parent_id}}/{{f.user_id}}')">[remove]</button>
 				{% endif %}
 			</li>
 		{% endfor %}

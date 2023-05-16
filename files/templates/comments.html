@@ -235,7 +235,7 @@
 				{% endif %}
 			</div>
 
-			{{macros.flags(c)}}
+			{{macros.flags(c, 'comment')}}
 
 			{% if c.is_banned and c.ban_reason %}
 				<div id="comment-banned-warning" class="comment-text text-removed mb-0">removed by @{{c.ban_reason}} (Admin)</div>
