@@ -108,7 +108,7 @@ a {
 
 /*front page*/
 a.btn-block[href~="/submit"] {
-	border: 2px solid #bbb !important;
+	border: 2px solid #ddd !important;
 }
 
 .sorting {
