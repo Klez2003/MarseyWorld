@@ -363,6 +363,7 @@ def award_thing(v, thing_type, id):
 			author.prelock_username = author.username
 			author.username = new_name
 			author.namechanged = int(time.time()) + 86400
+			badge_grant(user=author, badge_id=281)
 	elif kind == "pause":
 		badge_grant(badge_id=68, user=author)
 	elif kind == "unpausable":
