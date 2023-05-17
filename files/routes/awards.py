@@ -349,7 +349,7 @@ def award_thing(v, thing_type, id):
 			author.flairchanged = int(time.time()) + 86400
 			badge_grant(user=author, badge_id=96)
 	elif kind == "namelock":
-		new_name = note.strip()
+		new_name = note.strip().lstrip('@')
 		if not new_name and author.namechanged:
 			author.namechanged += 86400
 		else:
