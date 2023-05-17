@@ -410,7 +410,7 @@ MODACTION_PRIVILEGED_TYPES = {'shadowban', 'unshadowban',
 							'link_accounts', 'delink_accounts',
 							'progstack_post', 'progstack_comment',
 							'unprogstack_post', 'unprogstack_comment'
-							'enable_signups'}
+							'enable_signups', 'delete_media'}
 MODACTION_PRIVILEGED__TYPES = {'progstack_post', 'progstack_comment',
 							'unprogstack_post', 'unprogstack_comment'}
 MODACTION_TYPES_FILTERED = deepcopy({t:v for t,v in MODACTION_TYPES.items()
