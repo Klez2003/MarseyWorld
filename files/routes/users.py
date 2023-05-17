@@ -666,7 +666,7 @@ def messagereply(v:User):
 
 	if top_comment.sentto == MODMAIL_ID:
 		admin_ids = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_MODMAIL'], User.id != v.id).all()]
-		if SITE_NAME == 'watchpeopledie.tv':
+		if SITE == 'watchpeopledie.tv':
 			admin_ids.remove(AEVANN_ID)
 
 		if parent.author.id not in admin_ids + [v.id]:
