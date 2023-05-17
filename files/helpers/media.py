@@ -183,10 +183,6 @@ def process_image(filename:str, v, resize=0, trim=False, uploader_id:Optional[in
 	# if an image is too large or webp conversion fails, it'll crash
 	# to avoid this, we'll simply return None instead
 	has_request = has_request_context()
-
-	if request.path == '/admin/images':
-		has_request = False
-
 	size = os.stat(filename).st_size
 	patron = bool(v.patron)
 
