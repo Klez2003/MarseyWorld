@@ -57,6 +57,25 @@ def template_asset_siteimg(asset_path):
 def timestamp(timestamp):
 	return make_age_string(timestamp)
 
+@app.template_filter("selected_tab")
+def selected_tab(request):
+	if request.path == '/':
+		requested_sort = request.args.get('sort')
+		if g.v and g.v.defaultsorting == 'new' and requested_sort == 'hot':
+			return 'hot'
+		elif requested_sort == 'new':
+			return 'new' 
+	elif request.path == '/comments':
+		return 'comments'
+	elif request.path == '/leaderboard':
+		return 'leaderboard'
+	elif request.path == '/chat':
+		return 'chat'
+	elif request.path=='/shop/awards':
+		return 'shop'
+
+	return 'home'
+
 @app.context_processor
 def calc_users():
 	loggedin_counter = 0

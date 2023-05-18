@@ -4,7 +4,7 @@
 
 				<button type="button" class="nobackground border-0 col px-0 ml-3 btn btn-dead m-0">
 						<a href="/" class="text-decoration-none">
-								<div class="text-center {% if request.path=='/' and request.full_path!='/?sort=hot&t=all' and request.full_path!='/?sort=new&t=all' %}text-primary{% else %}text-muted{% endif %}">
+								<div class="text-center {% if request|selected_tab=='home' %}text-primary{% else %}text-muted{% endif %}">
 										<i class="fas fa-home-alt text-lg"></i>
 										<div class="text-small-extra">Home</div>
 								</div>
@@ -13,7 +13,7 @@
 {% if v and v.defaultsorting == 'new' %}
 				<button type="button" class="nobackground border-0 col px-0 btn btn-dead m-0">
 						<a href="/?sort=hot&t=all" class="text-decoration-none">
-								<div class="text-center {% if request.full_path=='/?sort=hot&t=all' %}text-primary{% else %}text-muted{% endif %}">
+								<div class="text-center {% if request|selected_tab=='hot' %}text-primary{% else %}text-muted{% endif %}">
 										<i class="fas fa-fire text-lg"></i>
 										<div class="text-small-extra">Hot</div>
 								</div>
@@ -22,7 +22,7 @@
 {% else %}
 				<button type="button" class="nobackground border-0 col px-0 btn btn-dead m-0">
 						<a href="/?sort=new&t=all" class="text-decoration-none">
-								<div class="text-center {% if request.full_path=='/?sort=new&t=all' %}text-primary{% else %}text-muted{% endif %}">
+								<div class="text-center {% if request|selected_tab=='new' %}text-primary{% else %}text-muted{% endif %}">
 										<i class="fas fa-sparkles text-lg"></i>
 										<div class="text-small-extra">New</div>
 								</div>
@@ -31,7 +31,7 @@
 {% endif %}
 				<button type="button" class="nobackground border-0 col px-0 mr-2 btn btn-dead m-0">
 						<a href="/comments" class="text-decoration-none">
-								<div class="text-center {% if request.path=='/comments' %}text-primary{% else %}text-muted{% endif %}">
+								<div class="text-center {% if request|selected_tab=='comments' %}text-primary{% else %}text-muted{% endif %}">
 										<i class="fas fa-comment-dots text-lg"></i>
 										<div class="text-small-extra">Comments</div>
 								</div>
@@ -39,7 +39,7 @@
 				</button>
 				<button type="button" class="nobackground border-0 col px-0 btn btn-dead m-0 ml-1">
 						<a href="/leaderboard" class="text-decoration-none">
-								<div class="text-center {% if request.path=='/leaderboard' %}text-primary{% else %}text-muted{% endif %}">
+								<div class="text-center {% if request|selected_tab=='leaderboard' %}text-primary{% else %}text-muted{% endif %}">
 										<i class="fas fa-trophy text-lg"></i>
 										<div class="text-small-extra">Leaderboard</div>
 								</div>
@@ -49,7 +49,7 @@
 				{% if FEATURES['CHAT'] and v.admin_level >= PERMS['CHAT'] -%}
 				<button type="button" class="nobackground border-0 col px-0 btn btn-dead m-0 pt-0">
 						<a href="/chat" class="text-decoration-none">
-								<div class="text-center {% if request.path=='/chat' %}text-primary{% else %}text-muted{% endif %}">
+								<div class="text-center {% if request|selected_tab=='chat' %}text-primary{% else %}text-muted{% endif %}">
 									<b class="text-lg" style="padding-top:10px" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Users in chat right now">{{loggedin_chat}}</b>
 									<div class="text-small-extra">Chat</div>
 								</div>
@@ -59,7 +59,7 @@
 				{% if FEATURES['AWARDS'] -%}
 				<button type="button" class="nobackground border-0 col px-0 mr-3 btn btn-dead m-0">
 						<a href="/shop/awards" class="text-decoration-none">
-								<div class="text-center {% if request.path=='/shop/awards' %}text-primary{% else %}text-muted{% endif %}">
+								<div class="text-center {% if request|selected_tab=='shop' %}text-primary{% else %}text-muted{% endif %}">
 										<i class="fas fa-store text-lg"></i>
 										<div class="text-small-extra">Shop</div>
 								</div>
