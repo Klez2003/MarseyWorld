@@ -332,11 +332,6 @@ def sign_up_post(v:Optional[User]):
 
 	g.db.flush()
 
-	if SITE_NAME == 'rDrama':
-		new_user.prelock_username = new_user.username
-		new_user.namechanged = time.time() + 86400
-		new_user.username = f'pizzashill-{new_user.id}'
-
 	if ref_id:
 		ref_user = get_account(ref_id)
 
