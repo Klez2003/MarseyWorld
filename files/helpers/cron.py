@@ -202,7 +202,7 @@ def _award_timers_task():
 	_process_timer(User.marseyawarded, [98], "The marsey award you received has expired!")
 	_process_timer(User.rehab, [109], "The rehab award you received has expired!")
 	_process_timer(User.owoify, [167], "The OwOify award you received has expired!")
-	_process_timer(User.bite, [168], "Your vampire status has ended. You're now back in your original house!", {
+	_process_timer(User.bite, [168], "The bite award you received has expired! You're now back in your original house!", {
 		User.house: User.old_house,
 		User.old_house: '',
 	})
@@ -210,6 +210,10 @@ def _award_timers_task():
 	_process_timer(User.marsify, [170], "The marsify award you received has expired!")
 	_process_timer(User.rainbow, [171], "The rainbow award you received has expired!")
 	_process_timer(User.spider, [179], "The spider award you received has expired!")
+	_process_timer(User.namechanged, [281], "The namelock award you received has expired. You're now back to your old username!", {
+		User.username: User.prelock_username,
+		User.prelock_username: None,
+	})
 
 	#both awards and janny powers
 	_process_timer(User.unban_utc, [], "Your temporary ban has expired!", {
@@ -224,7 +228,3 @@ def _award_timers_task():
 		User.chudded_by: None,
 	})
 	_process_timer(User.flairchanged, [96], "Your temporary flair-lock has expired. You can now change your flair!")
-	_process_timer(User.namechanged, [281], "Your temporary name-lock has expired. You're now back to your old username!", {
-		User.username: User.prelock_username,
-		User.prelock_username: None,
-	})
