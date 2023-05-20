@@ -61,7 +61,7 @@ def timestamp(timestamp):
 def selected_tab(request):
 	if request.path == '/':
 		requested_sort = request.args.get('sort')
-		if g.v and g.v.defaultsorting == 'new' and requested_sort == 'hot':
+		if hasattr(g, 'v') and g.v and g.v.defaultsorting == 'new' and requested_sort == 'hot':
 			return 'hot'
 		elif requested_sort == 'new':
 			return 'new' 
