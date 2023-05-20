@@ -282,7 +282,7 @@ def submit_contact(v):
 	new_comment.top_comment_id = new_comment.id
 
 	admin_ids = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_MODMAIL']).all()]
-	if SITE == 'watchpeopledie.tv':
+	if SITE == 'watchpeopledie.tv' and AEVANN_ID in admin_ids:
 		admin_ids.remove(AEVANN_ID)
 
 	for admin_id in admin_ids:
