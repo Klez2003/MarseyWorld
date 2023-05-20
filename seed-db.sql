@@ -197,7 +197,6 @@ INSERT INTO public.badge_defs VALUES (241, 'SNITCH', 'This nigga snitched on a f
 INSERT INTO public.badge_defs VALUES (242, 'HOT', 'This user is verified HOT and better than you', 1679179619);
 INSERT INTO public.badge_defs VALUES (243, 'Kongmaxxer: K', 'Contributed a KONGMAXXED banner during Donkey Kong December', 1679419172);
 INSERT INTO public.badge_defs VALUES (244, 'Kongmaxxer: O', 'Contributed a KONGMAXXED piece of sidebar art during Donkey Kong December', 1679419192);
-INSERT INTO public.badge_defs VALUES (245, 'Kongmaxxer: N', 'Contributed a KONGMAXXED Marsey or emoji [BADGE_N_FINAL.gif]during Donkey Kong December', 1679419208);
 INSERT INTO public.badge_defs VALUES (247, 'Kongmaxxer: G', 'KONGED TO THE MAX during Donkey Kong December', 1679419297);
 INSERT INTO public.badge_defs VALUES (248, 'Shithead', 'Shat out a Shit for the Bowel Movement Beauty Pageant', 1680057094);
 INSERT INTO public.badge_defs VALUES (249, 'Marsey Madness GOLD', 'Had the best bracket in the 2023 Marsey Madness tournament', 1681309271);
@@ -239,6 +238,7 @@ INSERT INTO public.badge_defs VALUES (24, 'Landchad', 'Donates at least $20/mont
 INSERT INTO public.badge_defs VALUES (26, 'Marsey''s Sugar Daddy', 'Donates at least $100/month', NULL);
 INSERT INTO public.badge_defs VALUES (27, 'JIDF Bankroller', 'Donates at least $200/month', NULL);
 INSERT INTO public.badge_defs VALUES (281, 'Namelock', 'This user has been forcibly renamed', 1684120696);
+INSERT INTO public.badge_defs VALUES (245, 'Kongmaxxer: N', 'Contributed a KONGMAXXED Marsey or emoji during Donkey Kong December', 1679419208);
 
 
 --
