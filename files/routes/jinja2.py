@@ -60,7 +60,7 @@ def timestamp(timestamp):
 @app.template_filter("selected_tab")
 def selected_tab(request):
 	if request.path == '/':
-		requested_sort = request.args.get('sort')
+		requested_sort = request.values.get('sort')
 		if hasattr(g, 'v') and g.v and g.v.defaultsorting == 'new' and requested_sort == 'hot':
 			return 'hot'
 		elif requested_sort == 'new':
