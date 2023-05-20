@@ -7440,3 +7440,7 @@ img[src="/e/marseycursor.webp"] {
 	height: 29px !important;
 	image-rendering: pixelated;
 }
+
+bdi {
+	overflow: hidden !important;
+}
