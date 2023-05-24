@@ -362,7 +362,7 @@ def mobile_app(v:Optional[User]):
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit(DEFAULT_RATELIMIT)
 def dismiss_mobile_tip():
-	session["tooltip_last_dismissed"] = int(time.time())
+	session["tooltip_dismissed"] = int(time.time())
 	return "", 204
 
 @app.get("/transfers/<int:id>")
