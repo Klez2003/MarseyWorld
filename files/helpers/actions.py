@@ -471,7 +471,7 @@ def execute_under_siege(v:User, target:Optional[Union[Submission, Comment]], bod
 	if v.shadowbanned: return
 	if v.admin_level >= PERMS['SITE_BYPASS_UNDER_SIEGE_MODE']: return
 
-	if kind in {'message', 'report'}:
+	if kind in {'message', 'report'} and SITE == 'rdrama.net':
 		threshold = 86400
 	else:
 		threshold = UNDER_SIEGE_AGE_THRESHOLD
