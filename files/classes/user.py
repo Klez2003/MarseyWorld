@@ -9,7 +9,7 @@ from sqlalchemy.orm import aliased, deferred, Query
 from sqlalchemy.sql import case, func, literal
 from sqlalchemy.sql.expression import not_, and_, or_
 from sqlalchemy.sql.sqltypes import *
-from flask import g, session
+from flask import g, session, request
 
 from files.classes import Base
 from files.classes.casino_game import CasinoGame
@@ -1036,6 +1036,8 @@ class User(Base):
 				if not (user and user.patron) and (other.title.lower().startswith('[paypigs]') or other.title.lower().startswith('[patrons]')):
 					return False
 				if other.sub and not cls.can_see(user, other.subr):
+					return False
+				if 'christchurch' in other.title.lower() and request.headers.get("Cf-Ipcountry") == 'NZ':
 					return False
 			else:
 				if other.parent_submission:
