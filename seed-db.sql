@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 14.7 (Ubuntu 14.7-1.pgdg22.04+1)
--- Dumped by pg_dump version 14.7 (Ubuntu 14.7-1.pgdg22.04+1)
+-- Dumped from database version 14.8 (Ubuntu 14.8-0ubuntu0.22.04.1)
+-- Dumped by pg_dump version 14.8 (Ubuntu 14.8-0ubuntu0.22.04.1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -239,13 +239,15 @@ INSERT INTO public.badge_defs VALUES (26, 'Marsey''s Sugar Daddy', 'Donates at l
 INSERT INTO public.badge_defs VALUES (27, 'JIDF Bankroller', 'Donates at least $200/month', NULL);
 INSERT INTO public.badge_defs VALUES (281, 'Namelock', 'This user has been forcibly renamed', 1684120696);
 INSERT INTO public.badge_defs VALUES (245, 'Kongmaxxer: N', 'Contributed a KONGMAXXED Marsey or emoji during Donkey Kong December', 1679419208);
+INSERT INTO public.badge_defs VALUES (282, 'Rehab Counselor', 'Awarded for participating in the Marsey''s Methlab Event', 1685121792);
+INSERT INTO public.badge_defs VALUES (283, 'Summer Fun', 'Awarded for contributing to the Marsey''s Summer Fun event', 1685121838);
 
 
 --
 -- Name: badge_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.badge_defs_id_seq', 281, true);
+SELECT pg_catalog.setval('public.badge_defs_id_seq', 283, true);
 
 
 --
@@ -256,8 +258,8 @@ SELECT pg_catalog.setval('public.badge_defs_id_seq', 281, true);
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 14.7 (Ubuntu 14.7-1.pgdg22.04+1)
--- Dumped by pg_dump version 14.7 (Ubuntu 14.7-1.pgdg22.04+1)
+-- Dumped from database version 14.8 (Ubuntu 14.8-0ubuntu0.22.04.1)
+-- Dumped by pg_dump version 14.8 (Ubuntu 14.8-0ubuntu0.22.04.1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -1271,11 +1273,12 @@ INSERT INTO public.hat_defs VALUES (1200, 'Swagger', 'You will never be this coo
 
 
 
+
 --
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1201, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1202, true);
 
 
 --
@@ -1301,6 +1304,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('9','Marsey Alphabet',2,'number'),
 ('90sdance','Misc',2,'kid'),
 ('a','Marsey Alphabet',2,'letter'),
+('a2m','Classic',2,'ass mouth suck hicarp'),
 ('abusivewife','Wojak',2,'bardfinn'),
 ('acab','Classic',2,'cop police antifa'),
 ('adore','Misc',2,'cat love heart adore cute'),
@@ -1330,6 +1334,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('aniki','Misc',2,'gay porn lgbt white mayo actor sexy'),
 ('animecelebrate','Misc',2,'anime feet kicking mfw mrw reaction celebrate'),
 ('animesexual','Misc',2,'mogai anime flag'),
+('animevampire','Misc',2,'vampire anime count korean capitalist communist landchad vlad'),
 ('antichrist','Rage',2,'trollface cursed'),
 ('antichristfffuuuu','Rage',2,'cursed'),
 ('antifajak','Wojak',2,'antifa fascist woke'),
@@ -2342,6 +2347,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseybountyhunter','Marsey',2,'abortion leather vest cowboy gunslinger texas revolver'),
 ('marseybow','Marsey',2,'bow ribbon happy cute adorable accessory gift present'),
 ('marseybowl','Marsey',2,'marijuana weed dude weed lmao ganja drugs reaction pot pipe'),
+('marseybowler','Marsey',2,'british bong english umbrella tea gentleman'),
 ('marseybrainlet','Marsey',2,'idiot imbecile smoothbrain crushed head retard caved in head sped dumb stupid drooling moron'),
 ('marseybrainletclapping','Marsey',2,'idiot dumb stupid applause cheering moron animated retard'),
 ('marseybrap','Marsey',2,'brap sniff smell huff gas fart animated'),
@@ -2411,6 +2417,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseycapychad2','Marsey',2,'aevann chad capy chadybara capybara muscular swole ripped egypt'),
 ('marseycapychad3','Marsey',2,'aevann chad capy chadybara capybara muscular swole ripped egypt nude naked'),
 ('marseycapycharmander','Marsey',2,'pokemon gaming pixel nintendo aevann'),
+('marseycapycowboy','Marsey',2,'hat'),
 ('marseycapydinosaur','Marsey',2,'capy aevann dinosaur rawr prehistoric'),
 ('marseycapyeffendi','Marsey',2,'capy aevann fez egyptian ottoman'),
 ('marseycapyexcited','Marsey',2,'excitement capybara bouncing jumping aevann bounce yay animated'),
@@ -2450,6 +2457,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseycarpblush','Marsey',2,'happy shy fish blushing carpathianflorist janitor moderator flushed'),
 ('marseycarpboobs','Marsey',2,'carpathianflorist boobs booba titties tiddies tits boobs breasts censored fish administrator jannie janny janitor'),
 ('marseycarpbounce','Misc',2,'fish admin jannie moderator carpathianflorist animated excited eager hopping'),
+('marseycarpbowler','Marsey',2,'british bong english umbrella tea gentleman'),
 ('marseycarpbritish','Marsey',2,'carp british bong teeth tea union uk britain gb flag'),
 ('marseycarpbuff','Marsey',2,'muscles tough strong carpathianflorist admin mod jannie'),
 ('marseycarpchud','Marsey',2,'smug carpathianflorist poljak fish glasses soyjak'),
@@ -2753,6 +2761,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseydeception','Marsey',2,'lies lying misinformation provoke internet troll'),
 ('marseydefenestration','Marsey',2,'suicide window jump kill murder kms jump out window death die defenestrate'),
 ('marseydefense','Marsey',2,'southpark black chewbacca starwars defense'),
+('marseydejected','Marsey',2,'sad dissapointed depressed disgusted dejected'),
 ('marseydelighted','Marsey',2,'happy smile cute cheeks sketchy blep buddhist'),
 ('marseydemiurge','Marsey',2,'gnostic gnosticism demiurge'),
 ('marseydemonicgrin','Marsey',2,'evil wicked horror teeth'),
@@ -3107,6 +3116,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseygarfield','Marsey',2,'mondays lasagna'),
 ('marseygarfieldpipe','Marsey',2,'marfield pipe smoking john yelling comic smoke'),
 ('marseygas','Marsey',2,'holocaust zyklon fart poison brap barf smell tremble dead genocide animated jews jewish'),
+('marseygaslighter','Marsey',2,'psychological abuser manipulative sociopath agitator instigator fire flame'),
 ('marseygasp','Marsey',2,'wow woah what how why whoa reaction appalled'),
 ('marseygeisha','Marsey',2,'foid birthing person girl woman girl lady slut thot noodlewhore chink jap gook asian azn blow kiss blowing kiss blowkiss love heart stockings nylons fishnets'),
 ('marseygem','Marsey',2,'diamond gemmy soyjak good quality post coal based'),
@@ -3194,6 +3204,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseygunshotsuicide','Marsey',2,'gun shoot suicide sad depressed animated dead death kms gunshot die suicidal pensive'),
 ('marseygunshotsuicideglow','Marsey',2,'shooting gun pistol glowie'),
 ('marseygunsuicide','Marsey',2,'shotgun kill death die gunshot windy kms animated'),
+('marseyguyfieri','Marsey',2,'flavor food chef cook'),
 ('marseyhacker','Marsey',2,'nerd matrix reaction computer animated'),
 ('marseyhacker2','Marsey',2,'dox anonymous computer codecel programmer'),
 ('marseyhalflife','Marsey',2,'gordon freeman crowbar burglar halflife pcgaming valve wink vandalize carjack'),
@@ -3293,6 +3304,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseyinnocent','Marsey',2,'innocent naive angelic dumb halo'),
 ('marseyinshallah','Marsey',2,'begging muslim animated please'),
 ('marseyinsurgent','Marsey',2,'insurgency iraq jaish gun mask balaclava iraqi'),
+('marseyinthehat','Marsey',2,'catinthehat  seuss  doctor  cith'),
 ('marseyinverted','Marsey',2,'inverted marsey black'),
 ('marseyinvestigate','Marsey',2,'pepe apu peepo investigate magnifying magnifier look lookup'),
 ('marseyinvisible','Marsey',2,'stealth'),
@@ -3457,6 +3469,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseylaughpoundfist','Marsey',2,'cry tears lmao lol kek bully laughing funny mocking animated'),
 ('marseylaughwith','Marsey',2,'cry tears lol lmao haha laughing'),
 ('marseylawlz','Marsey',2,'masterlawls zhcyid9 masterlawlz reaction glasses'),
+('marseylaying','Marsey',2,'laying flirting posing model interesting fascinating neat seductive dreamy coy sexy bashful'),
 ('marseyleaf','Marsey',2,'green hair clothes anime wings fairy tale blacksouls jrpg'),
 ('marseyleafeon','Marsey',2,'trick or treat pokemon halloween eevee costume holiday'),
 ('marseyleafpearlclutch','Marsey',2,'leaf leafs canadian canadians cuck canada rake canuck pearlclutch'),
@@ -3695,6 +3708,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseynope','Marsey',2,'bush grass simpsons homer hide avoid'),
 ('marseynorf','Marsey',2,'soccer british football sports'),
 ('marseynosleep','Marsey',2,'horror scary halloween holiday'),
+('marseynostalgiacritic','Marsey',2,'doug review movie'),
 ('marseynosuchcases','Marsey',2,'strawman fake news cope seethe none many luggage airport conveyor belt sam brinton'),
 ('marseynotameme','Marsey',2,'milhouse simpsons vanhouten millhouse notameme nonmeme bart homer marge'),
 ('marseynotes','Marsey',2,'notes writer writing journ*list therapist doodle pencil'),
@@ -3770,6 +3784,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseypaint','Marsey',2,'low effort art'),
 ('marseypaintdry','Marsey',2,'marsey bored paint dry boring uninterested'),
 ('marseypainter','Marsey',2,'palet reaction pallet paintbrush paints artist pallette'),
+('marseypaintermerchant','Marsey',2,'money payment artcel entitled'),
 ('marseypaintretard','Marsey',2,'retard retarded paint mspaint inbred rslurred'),
 ('marseypajeet','Marsey',2,'indian currycel bobs vagene streetshit street shit superpower 2020 happy'),
 ('marseypajeetitsover','Marsey',2,'dlmo pajeet itsover india indian bharat curry indian'),
@@ -3826,6 +3841,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseypicrew','Marsey',2,'trans lgbt gay lesbian picrew ugly'),
 ('marseypicrewwpd','Marsey',2,'wpd knife trans gay lgbt ugly calarts'),
 ('marseypie','Marsey',2,'apron bake cooking chef foid wife'),
+('marseypieceofcrap','Marsey',2,'pos shit poo'),
 ('marseypig','Marsey',2,'fat fursona furry hog fursuit oink'),
 ('marseypiggybank','Marsey',2,'pennies cents poor fry cheap futurama takemymoney'),
 ('marseypikachu','Marsey',2,'electric pokemon yellow'),
@@ -4164,6 +4180,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseyshy2','Marsey',2,'uwu weeb blush flushed finger owo'),
 ('marseyshy3','Marsey',2,'embarrassed blushing timid smile nervous reaction cute'),
 ('marseyshy4','Marsey',2,'embarrassed blushing timid smile nervous reaction cute'),
+('marseyshy5','Marsey',2,'marseyears animated cute flirting'),
 ('marseysiamese','Marsey',2,'asian'),
 ('marseysick','Marsey',2,'puke nausea green face vomit nauseated reaction nauseous barf judgment ill'),
 ('marseysickos','Marsey',2,'hahaha ha ha ha yes onion comic pervert sicko creep'),
@@ -4216,6 +4233,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseysnap','Marsey',2,'mad angry furious anger animated snap'),
 ('marseysnappyautism','Marsey',2,'snapshillbot hat neurodivergent robot autistic marppy'),
 ('marseysnappybackstab','Marsey',2,'marseysnappybackstab backstab marsey snappy snappybackstab death snap back stab'),
+('marseysnappychud','Marsey',2,'sentient'),
 ('marseysnappyhug','Marsey',2,'hug love robot sentient wholesome'),
 ('marseysnappymaga','Marsey',2,'maga snappy trump robot ai chud republican'),
 ('marseysneed','Marsey',2,'feed farmer reaction chuck simpsons buck'),
@@ -4427,6 +4445,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseytoasterbath','Marsey',2,'suicide suicidal kill death bathtub electrocution electricity kms'),
 ('marseytoasty','Marsey',2,'homer simpsons cozy comfy bed'),
 ('marseytoasty2','Marsey',2,'marsey comfy toasty bed sleep two cute'),
+('marseytoastygun','Marsey',2,'intruder homer simpsons'),
 ('marseytoht','Marsey',2,'toht melting hat'),
 ('marseytoilet','Marsey',2,'flush loo bog roll toilet paper swirly'),
 ('marseytom','Marsey',2,'thatfuckingmarsey fucking marsey tom and jerry tomjerry cartoon hanna barbera vintage smug'),
@@ -4602,6 +4621,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseywitch2','Marsey',2,'tranny troomer penny wvp feminist halloween bardfinn groomer magick troid steve monster'),
 ('marseywitch3','Marsey',2,'flying broomstick wave halloween wizard holiday'),
 ('marseywitchtriggered','Marsey',2,'witchcraft angry spell bardfinn tranny train troon snowflake redditor wvp magic science animated'),
+('marseywithcake','Marsey',2,'cute birthday food plate celebrate happy fluffy slice offer give serve'),
 ('marseywizard','Marsey',2,'wizard magic pepe apu'),
 ('marseywoah','Marsey',2,'tldr reaction wall of text wordswordswords stfu'),
 ('marseywock','Marsey',2,'purple drank purp sizzurp syrup wock oil bugging faded drug cough syrup tweaking animated lean'),
@@ -4971,6 +4991,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('ratdance','Misc',2,'dancing'),
 ('rattly','Donkey Kong',2,'donkeykong dk snake snek'),
 ('rdramajanny','Wojak',2,''),
+('rdramapatfast','Misc',2,'pet autist retard logo'),
 ('realisticelephant','Misc',2,'terry davis templeos'),
 ('redditchadrentfree','Wojak',2,'redditor snivel soycry wojak snoo'),
 ('redditgigachad','Misc',2,'chad gigachad'),
@@ -5131,6 +5152,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('star','Classic',2,'star animated smile'),
 ('stare','Classic',2,'stare emoticon look watch'),
 ('starecat','Misc',2,'stare cat staring'),
+('steamhappy','Misc',2,'steam happy valve game gamer discord'),
 ('stfu','Classic',2,'stfu animated emoticon shut up quiet angry enraged sign'),
 ('stfupussy','Misc',2,'stfu wordswordswords pussy yawn boring crybaby'),
 ('stoning','Misc',2,'muslim stoning animated'),
