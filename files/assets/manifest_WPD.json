@@ -2,7 +2,7 @@
 	"name": "WPD",
 	"short_name": "WPD",
 	"start_url": "https://watchpeopledie.tv",
-	"display": "minimal-ui",
+	"display": "standalone",
 	"background_color": "#805AD5",
 	"theme_color": "#805AD5",
 	"description": "WPD",
