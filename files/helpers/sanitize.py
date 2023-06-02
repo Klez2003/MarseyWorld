@@ -505,7 +505,18 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_emojis=
 
 	links = soup.find_all("a")
 
-	banned_domains = [x.domain for x in g.db.query(BannedDomain.domain).all()]
+	def error(error):
+		if chat:
+			return error, 403
+		else:
+			abort(403, error)
+
+	if g.v and g.v.admin_level >= PERMS["IGNORE_DOMAIN_BAN"]:
+		banned_domains = []
+	else:
+		if discord_username_regex.match(sanitized):
+			return error("Stop grooming!")
+		banned_domains = [x.domain for x in g.db.query(BannedDomain.domain).all()]
 
 	for link in links:
 		#remove empty links
@@ -558,16 +569,6 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_emojis=
 
 
 	sanitized = str(soup).replace('<html><body>','').replace('</body></html>','')
-
-	def error(error):
-		if chat:
-			return error, 403
-		else:
-			abort(403, error)
-
-
-	if discord_username_regex.match(sanitized):
-		return error("Stop grooming!")
 
 	if '<pre>' not in sanitized and blackjack != "rules":
 		sanitized = sanitized.replace('\n','')
