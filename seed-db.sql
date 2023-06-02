@@ -4666,7 +4666,6 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseywould','Marsey',2,'marsey would willing want cat microphone table animated'),
 ('marseywpdcatgirl','Marsey',2,'catgirlsey watchpeopledie anime nekojin weeb weeaboo anthro furry'),
 ('marseywpdrentfree','Marsey',2,'gore snuff watchpeopledie soy cuck jealousy'),
-('marseywpdsupremacy','Marsey',2,'watchpeopledie rdrama homosupremacy beheading throat bloody death die gore hood kkk klan gay lgbt'),
 ('marseywraith','Marsey',2,'evil scary ghost halloween undead horror'),
 ('marseywrongthonk','Marsey',2,'wrongthink hmmm thinking 1984 arrested police woke notice noticing'),
 ('marseywtf','Marsey',2,'scared reaction shook surprised shocked'),
