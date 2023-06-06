@@ -28,7 +28,7 @@
 							<div class="d-flex align-items-center mt-1 mb-2">
 								<h3 class="font-weight-bolder my-0 mr-2" id="profile--name" style="color: #{{u.name_color}}"><span {% if u.patron %}class="patron" style="background-color:#{{u.name_color}}"{% endif %}>{{u.user_name}}</span></h3>
 
-								{% if u.username != u.original_username %}
+								{% if u.can_see_my_shit and u.username != u.original_username %}
 									{% set ns.og_usernames = 'Original Usernames:<br>@' ~ u.original_username %}
 
 									{% if u.prelock_username and u.prelock_username != u.original_username %}
@@ -304,7 +304,7 @@
 				{{userpage_admintools.userBanBlock('mobile')}}
 				<h5 class=" d-inline-block" id="profile-mobile--name" style="color: #{{u.name_color}}"><span {% if u.patron %}class="patron" style="background-color:#{{u.name_color}}"{% endif %}>{{u.user_name}}</span></h5>
 
-				{% if u.username != u.original_username %}
+				{% if u.can_see_my_shit and u.username != u.original_username %}
 					<span id="profile-mobile--origname">
 						<i class="fas fa-user-tag text-info align-middle ml-2" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true" title="{{ns.og_usernames}}"></i>
 					</span>
