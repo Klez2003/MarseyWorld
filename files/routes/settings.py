@@ -723,6 +723,8 @@ def settings_advanced_get(v:User):
 def settings_name_change(v):
 	if v.namechanged: abort(403)
 
+	if v.shadowbanned: abort(500)
+
 	new_name=request.values.get("name").strip()
 
 	if new_name==v.username:
@@ -750,9 +752,8 @@ def settings_name_change(v):
 						v=v,
 						error=f"Username `{new_name}` is already in use.")
 
-	v=get_account(v.id)
-	v.username=new_name
-	v.name_changed_utc=int(time.time())
+	v.username = new_name
+	v.name_changed_utc = int(time.time())
 	g.db.add(v)
 
 	return redirect("/settings/personal?msg=Name successfully changed!")
