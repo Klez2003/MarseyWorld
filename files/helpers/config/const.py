@@ -884,17 +884,21 @@ elif SITE == 'watchpeopledie.tv':
 		500: "Internal Server Error",
 	})
 
-	ERROR_MSGS.update({
+	ERROR_MSGS = {
 		400: "That request is invalid.",
 		401: "You need to login or sign up to do that.",
 		403: "That wasn't found",
 		404: "That wasn't found.",
 		405: "You can't use this method here... if you keep getting this error tell us it's prolly something borked.",
+		406: "Max ping limit is 5 for comments and 50 for posts",
 		409: "There's a conflict between what you're trying to do and what you or someone else has done and because of that you can't do what you're trying to do.",
 		410: "This link is dead. Request a new one to try again.",
 		413: "You need to upload a smaller file please.",
+		415: "Please upload only Image, Video, or Audio files!",
+		418: "this really shouldn't happen now that we autoconvert webm files but if it does there's a cool teapot marsey so there's that",
 		429: "Please wait a bit before doing that.",
-	})
+		500: "Internal Server Error. Something went very wrong when trying to fulfill your request. Try refreshing the page. If it still doesn't work, shoot <a href='/@CLiTPEELER'>@CLiTPEELER</a> a message.",
+	}
 
 	ERROR_MARSEYS[403] = "marseyconfused"
 
