@@ -435,7 +435,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_emojis=
 				tag = tag.replace_with(a)
 				a.append(tag)
 
-			tag["data-src"] = tag["data-src"].replace('/giphy.webp', '/200w.webp')
+			tag["data-src"] = tag["data-src"]
 
 	sanitized = str(soup).replace('<html><body>','').replace('</body></html>','').replace('/>','>')
 
