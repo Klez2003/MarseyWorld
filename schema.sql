@@ -84,10 +84,10 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
--- Name: submissions; Type: TABLE; Schema: public; Owner: -
+-- Name: posts; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE public.submissions (
+CREATE TABLE public.posts (
     id integer NOT NULL,
     author_id integer NOT NULL,
     created_utc integer NOT NULL,
@@ -129,10 +129,10 @@ CREATE TABLE public.submissions (
 
 
 --
--- Name: bump_utc(public.submissions); Type: FUNCTION; Schema: public; Owner: -
+-- Name: bump_utc(public.posts); Type: FUNCTION; Schema: public; Owner: -
 --
 
-CREATE FUNCTION public.bump_utc(public.submissions) RETURNS integer
+CREATE FUNCTION public.bump_utc(public.posts) RETURNS integer
     LANGUAGE sql IMMUTABLE STRICT
     AS $_$
       SELECT CREATED_UTC
@@ -286,7 +286,7 @@ CREATE TABLE public.alts (
 CREATE TABLE public.award_relationships (
     id integer NOT NULL,
     user_id integer NOT NULL,
-    submission_id integer,
+    post_id integer,
     comment_id integer,
     kind character varying(20) NOT NULL,
     awarded_utc integer,
@@ -733,7 +733,7 @@ CREATE TABLE public.modactions (
     id integer NOT NULL,
     user_id integer,
     target_user_id integer,
-    target_submission_id integer,
+    target_post_id integer,
     target_comment_id integer,
     created_utc integer NOT NULL,
     kind character varying(33) DEFAULT NULL::character varying,
@@ -872,6 +872,44 @@ WITH (fillfactor='100');
 
 
 --
+-- Name: post_option_votes; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.post_option_votes (
+    option_id integer NOT NULL,
+    user_id integer NOT NULL,
+    created_utc integer NOT NULL,
+    post_id integer
+);
+
+
+--
+-- Name: submission_option_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.submission_option_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: post_options; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.post_options (
+    id integer DEFAULT nextval('public.submission_option_id_seq'::regclass) NOT NULL,
+    parent_id integer NOT NULL,
+    body_html character varying(500) NOT NULL,
+    exclusive integer NOT NULL,
+    created_utc integer
+);
+
+
+--
 -- Name: push_subscriptions; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -887,7 +925,7 @@ CREATE TABLE public.push_subscriptions (
 --
 
 CREATE TABLE public.save_relationship (
-    submission_id integer NOT NULL,
+    post_id integer NOT NULL,
     user_id integer NOT NULL,
     created_utc integer
 );
@@ -935,7 +973,7 @@ CREATE TABLE public.subactions (
     sub character varying(25) NOT NULL,
     user_id integer,
     target_user_id integer,
-    target_submission_id integer,
+    target_post_id integer,
     target_comment_id integer,
     created_utc integer NOT NULL,
     kind character varying(32) DEFAULT NULL::character varying,
@@ -964,44 +1002,6 @@ ALTER SEQUENCE public.subactions_id_seq OWNED BY public.subactions.id;
 
 
 --
--- Name: submission_option_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.submission_option_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: submission_option_votes; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.submission_option_votes (
-    option_id integer NOT NULL,
-    user_id integer NOT NULL,
-    created_utc integer NOT NULL,
-    submission_id integer
-);
-
-
---
--- Name: submission_options; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.submission_options (
-    id integer DEFAULT nextval('public.submission_option_id_seq'::regclass) NOT NULL,
-    parent_id integer NOT NULL,
-    body_html character varying(500) NOT NULL,
-    exclusive integer NOT NULL,
-    created_utc integer
-);
-
-
---
 -- Name: submissions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -1018,7 +1018,7 @@ CREATE SEQUENCE public.submissions_id_seq
 -- Name: submissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE public.submissions_id_seq OWNED BY public.submissions.id;
+ALTER SEQUENCE public.submissions_id_seq OWNED BY public.posts.id;
 
 
 --
@@ -1044,7 +1044,7 @@ CREATE TABLE public.subs (
 
 CREATE TABLE public.subscriptions (
     user_id integer NOT NULL,
-    submission_id integer NOT NULL,
+    post_id integer NOT NULL,
     created_utc integer
 );
 
@@ -1112,7 +1112,7 @@ CREATE TABLE public.viewers (
 
 CREATE TABLE public.votes (
     user_id integer NOT NULL,
-    submission_id integer NOT NULL,
+    post_id integer NOT NULL,
     vote_type integer NOT NULL,
     app_id integer,
     "real" boolean DEFAULT true NOT NULL,
@@ -1178,17 +1178,17 @@ ALTER TABLE ONLY public.oauth_apps ALTER COLUMN id SET DEFAULT nextval('public.o
 
 
 --
+-- Name: posts id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.posts ALTER COLUMN id SET DEFAULT nextval('public.submissions_id_seq'::regclass);
+
+
+--
 -- Name: subactions id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.subactions ALTER COLUMN id SET DEFAULT nextval('public.subactions_id_seq'::regclass);
-
-
---
--- Name: submissions id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.submissions ALTER COLUMN id SET DEFAULT nextval('public.submissions_id_seq'::regclass);
 
 
 --
@@ -1211,7 +1211,7 @@ ALTER TABLE ONLY public.alts
 --
 
 ALTER TABLE ONLY public.award_relationships
-    ADD CONSTRAINT award_constraint UNIQUE (user_id, submission_id, comment_id);
+    ADD CONSTRAINT award_constraint UNIQUE (user_id, post_id, comment_id);
 
 
 --
@@ -1483,7 +1483,7 @@ ALTER TABLE ONLY public.push_subscriptions
 --
 
 ALTER TABLE ONLY public.save_relationship
-    ADD CONSTRAINT save_relationship_pkey PRIMARY KEY (user_id, submission_id);
+    ADD CONSTRAINT save_relationship_pkey PRIMARY KEY (user_id, post_id);
 
 
 --
@@ -1519,26 +1519,26 @@ ALTER TABLE ONLY public.subactions
 
 
 --
--- Name: submission_option_votes submission_option_votes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: post_option_votes submission_option_votes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.submission_option_votes
+ALTER TABLE ONLY public.post_option_votes
     ADD CONSTRAINT submission_option_votes_pkey PRIMARY KEY (option_id, user_id);
 
 
 --
--- Name: submission_options submission_options_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: post_options submission_options_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.submission_options
+ALTER TABLE ONLY public.post_options
     ADD CONSTRAINT submission_options_pkey PRIMARY KEY (id);
 
 
 --
--- Name: submissions submissions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: posts submissions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.submissions
+ALTER TABLE ONLY public.posts
     ADD CONSTRAINT submissions_pkey PRIMARY KEY (id);
 
 
@@ -1555,7 +1555,7 @@ ALTER TABLE ONLY public.subs
 --
 
 ALTER TABLE ONLY public.subscriptions
-    ADD CONSTRAINT subscriptions_pkey PRIMARY KEY (submission_id, user_id);
+    ADD CONSTRAINT subscriptions_pkey PRIMARY KEY (post_id, user_id);
 
 
 --
@@ -1643,7 +1643,7 @@ ALTER TABLE ONLY public.viewers
 --
 
 ALTER TABLE ONLY public.votes
-    ADD CONSTRAINT votes_pkey PRIMARY KEY (submission_id, user_id);
+    ADD CONSTRAINT votes_pkey PRIMARY KEY (post_id, user_id);
 
 
 --
@@ -1678,7 +1678,7 @@ CREATE INDEX award_comment_idx ON public.award_relationships USING btree (commen
 -- Name: award_post_idx; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX award_post_idx ON public.award_relationships USING btree (submission_id);
+CREATE INDEX award_post_idx ON public.award_relationships USING btree (post_id);
 
 
 --
@@ -1860,7 +1860,7 @@ CREATE INDEX fki_modactions_user_fkey ON public.modactions USING btree (target_u
 -- Name: fki_save_relationship_submission_fkey; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX fki_save_relationship_submission_fkey ON public.save_relationship USING btree (submission_id);
+CREATE INDEX fki_save_relationship_submission_fkey ON public.save_relationship USING btree (post_id);
 
 
 --
@@ -1895,14 +1895,14 @@ CREATE INDEX fki_subactions_user_fkey ON public.subactions USING btree (target_u
 -- Name: fki_submission_sub_fkey; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX fki_submission_sub_fkey ON public.submissions USING btree (sub);
+CREATE INDEX fki_submission_sub_fkey ON public.posts USING btree (sub);
 
 
 --
 -- Name: fki_submissions_approver_fkey; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX fki_submissions_approver_fkey ON public.submissions USING btree (is_approved);
+CREATE INDEX fki_submissions_approver_fkey ON public.posts USING btree (is_approved);
 
 
 --
@@ -2049,7 +2049,7 @@ CREATE INDEX modaction_id_idx ON public.modactions USING btree (id DESC);
 -- Name: modaction_pid_idx; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX modaction_pid_idx ON public.modactions USING btree (target_submission_id);
+CREATE INDEX modaction_pid_idx ON public.modactions USING btree (target_post_id);
 
 
 --
@@ -2084,77 +2084,77 @@ CREATE INDEX option_comment ON public.comment_options USING btree (parent_id);
 -- Name: option_submission; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX option_submission ON public.submission_options USING btree (parent_id);
+CREATE INDEX option_submission ON public.post_options USING btree (parent_id);
 
 
 --
 -- Name: post_app_id_idx; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX post_app_id_idx ON public.submissions USING btree (app_id);
+CREATE INDEX post_app_id_idx ON public.posts USING btree (app_id);
 
 
 --
 -- Name: subimssion_binary_group_idx; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX subimssion_binary_group_idx ON public.submissions USING btree (is_banned, deleted_utc, over_18);
+CREATE INDEX subimssion_binary_group_idx ON public.posts USING btree (is_banned, deleted_utc, over_18);
 
 
 --
 -- Name: submission_isbanned_idx; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX submission_isbanned_idx ON public.submissions USING btree (is_banned);
+CREATE INDEX submission_isbanned_idx ON public.posts USING btree (is_banned);
 
 
 --
 -- Name: submission_isdeleted_idx; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX submission_isdeleted_idx ON public.submissions USING btree (deleted_utc);
+CREATE INDEX submission_isdeleted_idx ON public.posts USING btree (deleted_utc);
 
 
 --
 -- Name: submission_new_sort_idx; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX submission_new_sort_idx ON public.submissions USING btree (is_banned, deleted_utc, created_utc DESC, over_18);
+CREATE INDEX submission_new_sort_idx ON public.posts USING btree (is_banned, deleted_utc, created_utc DESC, over_18);
 
 
 --
 -- Name: submission_pinned_idx; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX submission_pinned_idx ON public.submissions USING btree (is_pinned);
+CREATE INDEX submission_pinned_idx ON public.posts USING btree (is_pinned);
 
 
 --
 -- Name: submissions_author_index; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX submissions_author_index ON public.submissions USING btree (author_id);
+CREATE INDEX submissions_author_index ON public.posts USING btree (author_id);
 
 
 --
 -- Name: submissions_created_utc_asc_idx; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX submissions_created_utc_asc_idx ON public.submissions USING btree (created_utc NULLS FIRST);
+CREATE INDEX submissions_created_utc_asc_idx ON public.posts USING btree (created_utc NULLS FIRST);
 
 
 --
 -- Name: submissions_created_utc_desc_idx; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX submissions_created_utc_desc_idx ON public.submissions USING btree (created_utc DESC);
+CREATE INDEX submissions_created_utc_desc_idx ON public.posts USING btree (created_utc DESC);
 
 
 --
 -- Name: submissions_over18_index; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX submissions_over18_index ON public.submissions USING btree (over_18);
+CREATE INDEX submissions_over18_index ON public.posts USING btree (over_18);
 
 
 --
@@ -2390,7 +2390,7 @@ ALTER TABLE ONLY public.award_relationships
 --
 
 ALTER TABLE ONLY public.award_relationships
-    ADD CONSTRAINT award_submission_fkey FOREIGN KEY (submission_id) REFERENCES public.submissions(id);
+    ADD CONSTRAINT award_submission_fkey FOREIGN KEY (post_id) REFERENCES public.posts(id);
 
 
 --
@@ -2478,7 +2478,7 @@ ALTER TABLE ONLY public.comments
 --
 
 ALTER TABLE ONLY public.comments
-    ADD CONSTRAINT comment_parent_submission_fkey FOREIGN KEY (parent_submission) REFERENCES public.submissions(id);
+    ADD CONSTRAINT comment_parent_submission_fkey FOREIGN KEY (parent_submission) REFERENCES public.posts(id);
 
 
 --
@@ -2582,7 +2582,7 @@ ALTER TABLE ONLY public.lotteries
 --
 
 ALTER TABLE ONLY public.flags
-    ADD CONSTRAINT flags_post_id_fkey FOREIGN KEY (post_id) REFERENCES public.submissions(id);
+    ADD CONSTRAINT flags_post_id_fkey FOREIGN KEY (post_id) REFERENCES public.posts(id);
 
 
 --
@@ -2702,7 +2702,7 @@ ALTER TABLE ONLY public.modactions
 --
 
 ALTER TABLE ONLY public.modactions
-    ADD CONSTRAINT modactions_submission_fkey FOREIGN KEY (target_submission_id) REFERENCES public.submissions(id);
+    ADD CONSTRAINT modactions_submission_fkey FOREIGN KEY (target_post_id) REFERENCES public.posts(id);
 
 
 --
@@ -2746,11 +2746,11 @@ ALTER TABLE ONLY public.comment_options
 
 
 --
--- Name: submission_options option_submission_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: post_options option_submission_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.submission_options
-    ADD CONSTRAINT option_submission_fkey FOREIGN KEY (parent_id) REFERENCES public.submissions(id) MATCH FULL;
+ALTER TABLE ONLY public.post_options
+    ADD CONSTRAINT option_submission_fkey FOREIGN KEY (parent_id) REFERENCES public.posts(id) MATCH FULL;
 
 
 --
@@ -2766,7 +2766,7 @@ ALTER TABLE ONLY public.push_subscriptions
 --
 
 ALTER TABLE ONLY public.save_relationship
-    ADD CONSTRAINT save_relationship_submission_fkey FOREIGN KEY (submission_id) REFERENCES public.submissions(id) MATCH FULL;
+    ADD CONSTRAINT save_relationship_submission_fkey FOREIGN KEY (post_id) REFERENCES public.posts(id) MATCH FULL;
 
 
 --
@@ -2802,10 +2802,10 @@ ALTER TABLE ONLY public.sub_blocks
 
 
 --
--- Name: submissions sub_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: posts sub_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.submissions
+ALTER TABLE ONLY public.posts
     ADD CONSTRAINT sub_fkey FOREIGN KEY (sub) REFERENCES public.subs(name);
 
 
@@ -2862,7 +2862,7 @@ ALTER TABLE ONLY public.subactions
 --
 
 ALTER TABLE ONLY public.subactions
-    ADD CONSTRAINT subactions_submission_fkey FOREIGN KEY (target_submission_id) REFERENCES public.submissions(id);
+    ADD CONSTRAINT subactions_submission_fkey FOREIGN KEY (target_post_id) REFERENCES public.posts(id);
 
 
 --
@@ -2874,18 +2874,18 @@ ALTER TABLE ONLY public.subactions
 
 
 --
--- Name: submissions submissions_approver_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: posts submissions_approver_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.submissions
+ALTER TABLE ONLY public.posts
     ADD CONSTRAINT submissions_approver_fkey FOREIGN KEY (is_approved) REFERENCES public.users(id);
 
 
 --
--- Name: submissions submissions_author_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: posts submissions_author_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.submissions
+ALTER TABLE ONLY public.posts
     ADD CONSTRAINT submissions_author_fkey FOREIGN KEY (author_id) REFERENCES public.users(id);
 
 
@@ -2894,7 +2894,7 @@ ALTER TABLE ONLY public.submissions
 --
 
 ALTER TABLE ONLY public.subscriptions
-    ADD CONSTRAINT subscription_submission_fkey FOREIGN KEY (submission_id) REFERENCES public.submissions(id);
+    ADD CONSTRAINT subscription_submission_fkey FOREIGN KEY (post_id) REFERENCES public.posts(id);
 
 
 --
@@ -2978,11 +2978,11 @@ ALTER TABLE ONLY public.comment_option_votes
 
 
 --
--- Name: submission_option_votes vote_option_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: post_option_votes vote_option_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.submission_option_votes
-    ADD CONSTRAINT vote_option_fkey FOREIGN KEY (option_id) REFERENCES public.submission_options(id) MATCH FULL;
+ALTER TABLE ONLY public.post_option_votes
+    ADD CONSTRAINT vote_option_fkey FOREIGN KEY (option_id) REFERENCES public.post_options(id) MATCH FULL;
 
 
 --
@@ -2994,11 +2994,11 @@ ALTER TABLE ONLY public.comment_option_votes
 
 
 --
--- Name: submission_option_votes vote_submission_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: post_option_votes vote_submission_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.submission_option_votes
-    ADD CONSTRAINT vote_submission_fkey FOREIGN KEY (submission_id) REFERENCES public.submissions(id) MATCH FULL;
+ALTER TABLE ONLY public.post_option_votes
+    ADD CONSTRAINT vote_submission_fkey FOREIGN KEY (post_id) REFERENCES public.posts(id) MATCH FULL;
 
 
 --
@@ -3006,7 +3006,7 @@ ALTER TABLE ONLY public.submission_option_votes
 --
 
 ALTER TABLE ONLY public.votes
-    ADD CONSTRAINT vote_submission_key FOREIGN KEY (submission_id) REFERENCES public.submissions(id);
+    ADD CONSTRAINT vote_submission_key FOREIGN KEY (post_id) REFERENCES public.posts(id);
 
 
 --
@@ -3018,10 +3018,10 @@ ALTER TABLE ONLY public.votes
 
 
 --
--- Name: submission_option_votes vote_user_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: post_option_votes vote_user_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.submission_option_votes
+ALTER TABLE ONLY public.post_option_votes
     ADD CONSTRAINT vote_user_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) MATCH FULL;
 
 
