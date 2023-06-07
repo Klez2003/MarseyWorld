@@ -231,16 +231,16 @@ def render_emoji(html, regexp, golden, emojis_used, b=False):
 		emoji = emoji.replace('!','').replace('#','')
 		if emoji == 'marseyrandom': emoji = random.choice(marseys_const2)
 
-		emoji_partial_pat = '<img loading="lazy" alt=":{0}:" src="{1}"{2}>'
-		emoji_partial = '<img loading="lazy" data-bs-toggle="tooltip" alt=":{0}:" title=":{0}:" src="{1}"{2}>'
+		emoji_partial_pat = '<img alt=":{0}:" loading="lazy" src="{1}"{2}>'
+		emoji_partial = '<img alt=":{0}:" data-bs-toggle="tooltip" loading="lazy" src="{1}" title=":{0}:"{2}>'
 		emoji_html = None
 
 		if emoji.endswith('pat') and emoji != 'marseyunpettablepat':
 			if path.isfile(f"files/assets/images/emojis/{emoji.replace('pat','')}.webp"):
-				emoji_html = f'<span data-bs-toggle="tooltip" alt=":{old}:" title=":{old}:"><img loading="lazy" src="/i/hand.webp">{emoji_partial_pat.format(old, f"/e/{emoji[:-3]}.webp", attrs)}</span>'
+				emoji_html = f'<span alt=":{old}:" data-bs-toggle="tooltip" title=":{old}:"><img loading="lazy" src="/i/hand.webp">{emoji_partial_pat.format(old, f"/e/{emoji[:-3]}.webp", attrs)}</span>'
 			elif emoji.startswith('@'):
 				if u := get_user(emoji[1:-3], graceful=True):
-					emoji_html = f'<span data-bs-toggle="tooltip" alt=":{old}:" title=":{old}:"><img loading="lazy" src="/i/hand.webp">{emoji_partial_pat.format(old, f"/pp/{u.id}", attrs)}</span>'
+					emoji_html = f'<span alt=":{old}:" data-bs-toggle="tooltip" title=":{old}:"><img loading="lazy" src="/i/hand.webp">{emoji_partial_pat.format(old, f"/pp/{u.id}", attrs)}</span>'
 		elif path.isfile(f'files/assets/images/emojis/{emoji}.webp'):
 			emoji_html = emoji_partial.format(old, f'/e/{emoji}.webp', attrs)
 
@@ -437,7 +437,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_emojis=
 
 			tag["data-src"] = tag["data-src"].replace('/giphy.webp', '/200w.webp')
 
-	sanitized = str(soup).replace('<html><body>','').replace('</body></html>','')
+	sanitized = str(soup).replace('<html><body>','').replace('</body></html>','').replace('/>','>')
 
 	sanitized = spoiler_regex.sub(r'<spoiler>\1</spoiler>', sanitized)
 
@@ -568,7 +568,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_emojis=
 			link["rel"] = "nofollow noopener"
 
 
-	sanitized = str(soup).replace('<html><body>','').replace('</body></html>','')
+	sanitized = str(soup).replace('<html><body>','').replace('</body></html>','').replace('/>','>')
 
 	if '<pre>' not in sanitized and blackjack != "rules":
 		sanitized = sanitized.replace('\n','')
