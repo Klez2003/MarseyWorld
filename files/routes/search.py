@@ -156,6 +156,9 @@ def searchposts(v:User):
 
 	posts = apply_time_filter(t, posts, Submission)
 
+	if not v.can_see_shadowbanned:
+		posts = posts.join(Submission.author).filter(User.shadowbanned == None)
+
 	total = posts.count()
 
 	posts = sort_objects(sort, posts, Submission)
@@ -264,6 +267,9 @@ def searchcomments(v:User):
 			except: abort(400)
 		comments = comments.filter(Comment.created_utc < before)
 
+	if not v.can_see_shadowbanned:
+		comments = comments.join(Comment.author).filter(User.shadowbanned == None)
+
 	total = comments.count()
 
 	comments = sort_objects(sort, comments, Comment)
@@ -352,6 +358,9 @@ def searchmessages(v:User):
 			abort(400, "The `sentto` field must contain an existing user's username!")
 
 		comments = comments.filter(Comment.sentto == sentto.id)
+
+	if not v.can_see_shadowbanned:
+		comments = comments.join(Comment.author).filter(User.shadowbanned == None)
 
 	total = comments.count()
 
