@@ -139,9 +139,7 @@ def process_video(file, v):
 	file.save(old)
 
 	size = os.stat(old).st_size
-	if (SITE_NAME != 'WPD' and
-			(size > MAX_VIDEO_SIZE_MB_PATRON * 1024 * 1024
-				or not v.patron and size > MAX_VIDEO_SIZE_MB * 1024 * 1024)):
+	if (SITE_NAME != 'WPD' and size > MAX_VIDEO_SIZE_MB * 1024 * 1024):
 		os.remove(old)
 		abort(413, f"Max video size is {MAX_VIDEO_SIZE_MB} MB ({MAX_VIDEO_SIZE_MB_PATRON} MB for paypigs)")
 
