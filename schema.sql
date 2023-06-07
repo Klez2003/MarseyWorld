@@ -872,6 +872,39 @@ WITH (fillfactor='100');
 
 
 --
+-- Name: post_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.post_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: post_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.post_id_seq OWNED BY public.posts.id;
+
+
+--
+-- Name: post_option_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.post_option_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
 -- Name: post_option_votes; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -884,24 +917,11 @@ CREATE TABLE public.post_option_votes (
 
 
 --
--- Name: submission_option_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.submission_option_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
 -- Name: post_options; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.post_options (
-    id integer DEFAULT nextval('public.submission_option_id_seq'::regclass) NOT NULL,
+    id integer DEFAULT nextval('public.post_option_id_seq'::regclass) NOT NULL,
     parent_id integer NOT NULL,
     body_html character varying(500) NOT NULL,
     exclusive integer NOT NULL,
@@ -999,26 +1019,6 @@ CREATE SEQUENCE public.subactions_id_seq
 --
 
 ALTER SEQUENCE public.subactions_id_seq OWNED BY public.subactions.id;
-
-
---
--- Name: submissions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.submissions_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: submissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.submissions_id_seq OWNED BY public.posts.id;
 
 
 --
@@ -1181,7 +1181,7 @@ ALTER TABLE ONLY public.oauth_apps ALTER COLUMN id SET DEFAULT nextval('public.o
 -- Name: posts id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.posts ALTER COLUMN id SET DEFAULT nextval('public.submissions_id_seq'::regclass);
+ALTER TABLE ONLY public.posts ALTER COLUMN id SET DEFAULT nextval('public.post_id_seq'::regclass);
 
 
 --
@@ -1471,6 +1471,30 @@ ALTER TABLE ONLY public.pgbench_tellers
 
 
 --
+-- Name: post_options post_option_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.post_options
+    ADD CONSTRAINT post_option_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: post_option_votes post_option_vote_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.post_option_votes
+    ADD CONSTRAINT post_option_vote_pkey PRIMARY KEY (option_id, user_id);
+
+
+--
+-- Name: posts post_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.posts
+    ADD CONSTRAINT post_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: push_subscriptions push_subscriptions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1516,30 +1540,6 @@ ALTER TABLE ONLY public.sub_subscriptions
 
 ALTER TABLE ONLY public.subactions
     ADD CONSTRAINT subactions_pkey PRIMARY KEY (id);
-
-
---
--- Name: post_option_votes submission_option_votes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.post_option_votes
-    ADD CONSTRAINT submission_option_votes_pkey PRIMARY KEY (option_id, user_id);
-
-
---
--- Name: post_options submission_options_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.post_options
-    ADD CONSTRAINT submission_options_pkey PRIMARY KEY (id);
-
-
---
--- Name: posts submissions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.posts
-    ADD CONSTRAINT submissions_pkey PRIMARY KEY (id);
 
 
 --
@@ -2095,66 +2095,66 @@ CREATE INDEX post_app_id_idx ON public.posts USING btree (app_id);
 
 
 --
+-- Name: post_author_id_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX post_author_id_idx ON public.posts USING btree (author_id);
+
+
+--
+-- Name: post_created_utc_asc_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX post_created_utc_asc_idx ON public.posts USING btree (created_utc NULLS FIRST);
+
+
+--
+-- Name: post_created_utc_desc_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX post_created_utc_desc_idx ON public.posts USING btree (created_utc DESC);
+
+
+--
+-- Name: post_deleted_utc_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX post_deleted_utc_idx ON public.posts USING btree (deleted_utc);
+
+
+--
+-- Name: post_is_banned_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX post_is_banned_idx ON public.posts USING btree (is_banned);
+
+
+--
+-- Name: post_is_pinned_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX post_is_pinned_idx ON public.posts USING btree (is_pinned);
+
+
+--
+-- Name: post_new_sort_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX post_new_sort_idx ON public.posts USING btree (is_banned, deleted_utc, created_utc DESC, over_18);
+
+
+--
+-- Name: post_over_18_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX post_over_18_idx ON public.posts USING btree (over_18);
+
+
+--
 -- Name: subimssion_binary_group_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX subimssion_binary_group_idx ON public.posts USING btree (is_banned, deleted_utc, over_18);
-
-
---
--- Name: submission_isbanned_idx; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX submission_isbanned_idx ON public.posts USING btree (is_banned);
-
-
---
--- Name: submission_isdeleted_idx; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX submission_isdeleted_idx ON public.posts USING btree (deleted_utc);
-
-
---
--- Name: submission_new_sort_idx; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX submission_new_sort_idx ON public.posts USING btree (is_banned, deleted_utc, created_utc DESC, over_18);
-
-
---
--- Name: submission_pinned_idx; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX submission_pinned_idx ON public.posts USING btree (is_pinned);
-
-
---
--- Name: submissions_author_index; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX submissions_author_index ON public.posts USING btree (author_id);
-
-
---
--- Name: submissions_created_utc_asc_idx; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX submissions_created_utc_asc_idx ON public.posts USING btree (created_utc NULLS FIRST);
-
-
---
--- Name: submissions_created_utc_desc_idx; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX submissions_created_utc_desc_idx ON public.posts USING btree (created_utc DESC);
-
-
---
--- Name: submissions_over18_index; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX submissions_over18_index ON public.posts USING btree (over_18);
 
 
 --
@@ -2754,6 +2754,22 @@ ALTER TABLE ONLY public.post_options
 
 
 --
+-- Name: posts post_approver_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.posts
+    ADD CONSTRAINT post_approver_fkey FOREIGN KEY (is_approved) REFERENCES public.users(id);
+
+
+--
+-- Name: posts post_author_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.posts
+    ADD CONSTRAINT post_author_fkey FOREIGN KEY (author_id) REFERENCES public.users(id);
+
+
+--
 -- Name: push_subscriptions push_subscriptions_user_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2871,22 +2887,6 @@ ALTER TABLE ONLY public.subactions
 
 ALTER TABLE ONLY public.subactions
     ADD CONSTRAINT subactions_user_fkey FOREIGN KEY (target_user_id) REFERENCES public.users(id);
-
-
---
--- Name: posts submissions_approver_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.posts
-    ADD CONSTRAINT submissions_approver_fkey FOREIGN KEY (is_approved) REFERENCES public.users(id);
-
-
---
--- Name: posts submissions_author_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.posts
-    ADD CONSTRAINT submissions_author_fkey FOREIGN KEY (author_id) REFERENCES public.users(id);
 
 
 --
