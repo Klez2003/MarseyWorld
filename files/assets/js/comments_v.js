@@ -84,6 +84,7 @@ function toggleEdit(id){
 	form.classList.toggle("d-none");
 	actions.classList.toggle("d-none");
 	autoExpand(box);
+	markdown(box);
 };
 
 
