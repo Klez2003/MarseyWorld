@@ -6838,6 +6838,11 @@ div.markdown {
 	margin-top: 0 !important;
     margin-bottom: 0 !important;
 }
+@media (min-width: 768px) {
+	#expandImageModal > .modal-dialog {
+		max-width: 90% !important;
+	}
+}
 .fas.fa-ellipsis-h {
 	margin: 0 0.15rem 0 0 !important;
 }
