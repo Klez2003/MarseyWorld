@@ -5,7 +5,7 @@ INSERT INTO public.users (
 	marsify, last_viewed_post_notifs, last_viewed_log_notifs, last_viewed_reddit_notifs
 ) VALUES
 ('AutoJanny', '', extract(epoch from now()), 0, true, true, 
-	'AutoJanny', 'hot', 'top', 'day', 'fa2d8b', 'fa2d8b', 'dark', 'fa2d8b',
+	'AutoJanny', 'hot', 'top', 'day', 'ff459a', 'ff459a', 'dark', 'ff459a',
 	'old.reddit.com', 'clean/itup', 'Verified', '/i/pfps/1.webp', '/i/pfps/1.webp',
 	0, 0, 0, 0),
 ('Snappy', '', extract(epoch from now()), 0, true, true, 
