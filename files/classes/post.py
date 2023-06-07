@@ -19,8 +19,8 @@ from .sub import *
 from .subscriptions import *
 from .saves import SaveRelationship
 
-class Submission(Base):
-	__tablename__ = "submissions"
+class Post(Base):
+	__tablename__ = "posts"
 
 	id = Column(Integer, primary_key=True)
 	author_id = Column(Integer, ForeignKey("users.id"))
@@ -60,14 +60,14 @@ class Submission(Base):
 	new = Column(Boolean)
 	notify = Column(Boolean)
 
-	author = relationship("User", primaryjoin="Submission.author_id==User.id")
+	author = relationship("User", primaryjoin="Post.author_id==User.id")
 	oauth_app = relationship("OauthApp")
-	approved_by = relationship("User", uselist=False, primaryjoin="Submission.is_approved==User.id")
+	approved_by = relationship("User", uselist=False, primaryjoin="Post.is_approved==User.id")
 	awards = relationship("AwardRelationship", order_by="AwardRelationship.awarded_utc.desc()", back_populates="post")
 	flags = relationship("Flag", order_by="Flag.created_utc")
-	comments = relationship("Comment", primaryjoin="Comment.parent_submission==Submission.id", back_populates="post")
-	subr = relationship("Sub", primaryjoin="foreign(Submission.sub)==remote(Sub.name)")
-	options = relationship("SubmissionOption", order_by="SubmissionOption.id")
+	comments = relationship("Comment", primaryjoin="Comment.parent_submission==Post.id", back_populates="post")
+	subr = relationship("Sub", primaryjoin="foreign(Post.sub)==remote(Sub.name)")
+	options = relationship("PostOption", order_by="PostOption.id")
 
 	bump_utc = deferred(Column(Integer, server_default=FetchedValue()))
 
@@ -372,9 +372,9 @@ class Submission(Base):
 	@property
 	@lazy
 	def num_subscribers(self):
-		return g.db.query(Subscription).filter_by(submission_id=self.id).count()
+		return g.db.query(Subscription).filter_by(post_id=self.id).count()
 
 	@property
 	@lazy
 	def num_savers(self):
-		return g.db.query(SaveRelationship).filter_by(submission_id=self.id).count()
+		return g.db.query(SaveRelationship).filter_by(post_id=self.id).count()

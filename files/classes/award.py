@@ -14,7 +14,7 @@ class AwardRelationship(Base):
 
 	id = Column(Integer, primary_key=True)
 	user_id = Column(Integer, ForeignKey("users.id"))
-	submission_id = Column(Integer, ForeignKey("submissions.id"))
+	post_id = Column(Integer, ForeignKey("posts.id"))
 	comment_id = Column(Integer, ForeignKey("comments.id"))
 	kind = Column(String, nullable=False)
 	awarded_utc = Column(Integer)
@@ -22,7 +22,7 @@ class AwardRelationship(Base):
 	price_paid = Column(Integer, default = 0, nullable=False)
 
 	user = relationship("User", primaryjoin="AwardRelationship.user_id==User.id", back_populates="awards")
-	post = relationship("Submission", primaryjoin="AwardRelationship.submission_id==Submission.id", back_populates="awards")
+	post = relationship("Post", primaryjoin="AwardRelationship.post_id==Post.id", back_populates="awards")
 	comment = relationship("Comment", primaryjoin="AwardRelationship.comment_id==Comment.id", back_populates="awards")
 
 	def __init__(self, *args, **kwargs):

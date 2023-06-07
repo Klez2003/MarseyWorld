@@ -11,7 +11,7 @@ from .flags import *
 from .user import *
 from .badges import *
 from .userblock import *
-from .submission import *
+from .post import *
 from .votes import *
 from .domains import *
 from .subscriptions import *

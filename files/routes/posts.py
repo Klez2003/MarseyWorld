@@ -170,10 +170,10 @@ def post_id(pid, anything=None, v=None, sub=None):
 	if v and v.client:
 		return p.json(g.db)
 
-	template = "submission.html"
+	template = "post.html"
 	if (p.is_banned or p.author.shadowbanned) \
 			and not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or p.author_id == v.id)):
-		template = "submission_banned.html"
+		template = "post_banned.html"
 
 	result = render_template(template, v=v, p=p, ids=list(ids),
 		sort=sort, render_replies=True, offset=offset, sub=p.subr,
@@ -276,11 +276,11 @@ def thumbnail_thread(pid:int, vid:int):
 		else:
 			return f"{post_url}/{fragment_url}"
 
-	p = db.get(Submission, pid)
+	p = db.get(Post, pid)
 
 	if not p or not p.url:
 		time.sleep(5)
-		p = db.get(Submission, pid)
+		p = db.get(Post, pid)
 
 	if not p or not p.url: return
 
@@ -427,10 +427,10 @@ def is_repost(v):
 	url = url.rstrip('/')
 
 	search_url = url.replace('%', '').replace('\\', '').replace('_', '\_').strip()
-	repost = g.db.query(Submission).filter(
-		Submission.url.ilike(search_url),
-		Submission.deleted_utc == 0,
-		Submission.is_banned == False
+	repost = g.db.query(Post).filter(
+		Post.url.ilike(search_url),
+		Post.deleted_utc == 0,
+		Post.is_banned == False
 	).first()
 	if repost: return {'permalink': repost.permalink}
 	else: return not_a_repost
@@ -517,10 +517,10 @@ def submit_post(v:User, sub=None):
 		url = url.rstrip('/')
 
 		search_url = url.replace('%', '').replace('\\', '').replace('_', '\_').strip()
-		repost = g.db.query(Submission).filter(
-			Submission.url.ilike(search_url),
-			Submission.deleted_utc == 0,
-			Submission.is_banned == False
+		repost = g.db.query(Post).filter(
+			Post.url.ilike(search_url),
+			Post.deleted_utc == 0,
+			Post.is_banned == False
 		).first()
 		if repost and FEATURES['REPOST_DETECTION'] and not v.admin_level >= PERMS['POST_BYPASS_REPOST_CHECKING']:
 			return {"post_id": repost.id, "success": False}
@@ -550,12 +550,12 @@ def submit_post(v:User, sub=None):
 		abort(400, "Please enter a url or some text!")
 
 	if not IS_LOCALHOST:
-		dup = g.db.query(Submission).filter(
-			Submission.author_id == v.id,
-			Submission.deleted_utc == 0,
-			Submission.title == title,
-			Submission.url == url,
-			Submission.body == body
+		dup = g.db.query(Post).filter(
+			Post.author_id == v.id,
+			Post.deleted_utc == 0,
+			Post.title == title,
+			Post.url == url,
+			Post.body == body
 		).one_or_none()
 		if dup:
 			return {"post_id": dup.id, "success": False}
@@ -575,7 +575,7 @@ def submit_post(v:User, sub=None):
 		abort(400, "You can only type marseys!")
 
 	if len(body_html) > POST_BODY_HTML_LENGTH_LIMIT:
-		abort(400, "Submission body_html too long!")
+		abort(400, "Post body_html too long!")
 
 	flag_notify = (request.values.get("notify", "on") == "on")
 	flag_new = request.values.get("new", False, bool) or 'megathread' in title.lower()
@@ -591,7 +591,7 @@ def submit_post(v:User, sub=None):
 
 	if url == '': url = None
 
-	p = Submission(
+	p = Post(
 		private=flag_private,
 		notify=flag_notify,
 		author_id=v.id,
@@ -621,7 +621,7 @@ def submit_post(v:User, sub=None):
 
 	vote = Vote(user_id=v.id,
 				vote_type=1,
-				submission_id=p.id,
+				post_id=p.id,
 				coins=0
 				)
 	g.db.add(vote)
@@ -701,7 +701,7 @@ def submit_post(v:User, sub=None):
 	if not p.private and not (p.sub and g.db.query(Exile.user_id).filter_by(user_id=SNAPPY_ID, sub=p.sub).one_or_none()):
 		execute_snappy(p, v)
 
-	v.post_count = g.db.query(Submission).filter_by(author_id=v.id, deleted_utc=0).count()
+	v.post_count = g.db.query(Post).filter_by(author_id=v.id, deleted_utc=0).count()
 	g.db.add(v)
 
 	execute_lawlz_actions(v, p)
@@ -744,7 +744,7 @@ def delete_post_pid(pid, v):
 		cache.delete_memoized(frontlist)
 		cache.delete_memoized(userpagelisting)
 
-		v.post_count = g.db.query(Submission).filter_by(author_id=v.id, deleted_utc=0).count()
+		v.post_count = g.db.query(Post).filter_by(author_id=v.id, deleted_utc=0).count()
 		g.db.add(v)
 
 	return {"message": "Post deleted!"}
@@ -766,7 +766,7 @@ def undelete_post_pid(pid, v):
 		cache.delete_memoized(frontlist)
 		cache.delete_memoized(userpagelisting)
 
-		v.post_count = g.db.query(Submission).filter_by(author_id=v.id, deleted_utc=0).count()
+		v.post_count = g.db.query(Post).filter_by(author_id=v.id, deleted_utc=0).count()
 		g.db.add(v)
 
 	return {"message": "Post undeleted!"}
@@ -796,7 +796,7 @@ def mark_post_nsfw(pid, v):
 			ma = ModAction(
 					kind = "set_nsfw",
 					user_id = v.id,
-					target_submission_id = p.id,
+					target_post_id = p.id,
 				)
 			g.db.add(ma)
 		else:
@@ -804,7 +804,7 @@ def mark_post_nsfw(pid, v):
 					sub = p.sub,
 					kind = "set_nsfw",
 					user_id = v.id,
-					target_submission_id = p.id,
+					target_post_id = p.id,
 				)
 			g.db.add(ma)
 		send_repeatable_notification(p.author_id, f"@{v.username} (a site admin) has marked [{p.title}](/post/{p.id}) as +18")
@@ -835,7 +835,7 @@ def unmark_post_nsfw(pid, v):
 			ma = ModAction(
 					kind = "unset_nsfw",
 					user_id = v.id,
-					target_submission_id = p.id,
+					target_post_id = p.id,
 				)
 			g.db.add(ma)
 		else:
@@ -843,7 +843,7 @@ def unmark_post_nsfw(pid, v):
 					sub = p.sub,
 					kind = "unset_nsfw",
 					user_id = v.id,
-					target_submission_id = p.id,
+					target_post_id = p.id,
 				)
 			g.db.add(ma)
 		send_repeatable_notification(p.author_id, f"@{v.username} (a site admin) has unmarked [{p.title}](/post/{p.id}) as +18")
@@ -860,10 +860,10 @@ def save_post(pid, v):
 
 	p = get_post(pid)
 
-	save = g.db.query(SaveRelationship).filter_by(user_id=v.id, submission_id=p.id).one_or_none()
+	save = g.db.query(SaveRelationship).filter_by(user_id=v.id, post_id=p.id).one_or_none()
 
 	if not save:
-		new_save=SaveRelationship(user_id=v.id, submission_id=p.id)
+		new_save=SaveRelationship(user_id=v.id, post_id=p.id)
 		g.db.add(new_save)
 
 	return {"message": "Post saved!"}
@@ -878,7 +878,7 @@ def unsave_post(pid, v):
 
 	p = get_post(pid)
 
-	save = g.db.query(SaveRelationship).filter_by(user_id=v.id, submission_id=p.id).one_or_none()
+	save = g.db.query(SaveRelationship).filter_by(user_id=v.id, post_id=p.id).one_or_none()
 
 	if save:
 		g.db.delete(save)
@@ -916,7 +916,7 @@ def set_new_sort(post_id:int, v:User):
 		ma = ModAction(
 				kind = "set_new",
 				user_id = v.id,
-				target_submission_id = p.id,
+				target_post_id = p.id,
 			)
 		g.db.add(ma)
 		send_repeatable_notification(p.author_id, f"@{v.username} (a site admin) has changed the the default sorting of comments on [{p.title}](/post/{p.id}) to `new`")
@@ -938,7 +938,7 @@ def unset_new_sort(post_id:int, v:User):
 		ma = ModAction(
 				kind = "set_hot",
 				user_id = v.id,
-				target_submission_id = p.id,
+				target_post_id = p.id,
 			)
 		g.db.add(ma)
 		send_repeatable_notification(p.author_id, f"@{v.username} (a site admin) has changed the the default sorting of comments on [{p.title}](/post/{p.id}) to `hot`")
@@ -1049,7 +1049,7 @@ def edit_post(pid, v):
 			if execute_blackjack(v, p, text, 'post'): break
 
 		if len(body_html) > POST_BODY_HTML_LENGTH_LIMIT:
-			abort(400, "Submission body_html too long!")
+			abort(400, "Post body_html too long!")
 
 		p.body_html = body_html
 
@@ -1065,7 +1065,7 @@ def edit_post(pid, v):
 		ma=ModAction(
 			kind="edit_post",
 			user_id=v.id,
-			target_submission_id=p.id
+			target_post_id=p.id
 		)
 		g.db.add(ma)
 

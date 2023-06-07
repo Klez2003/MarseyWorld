@@ -7,17 +7,17 @@ from sqlalchemy.sql.sqltypes import *
 from files.classes import Base
 from files.helpers.lazy import lazy
 
-class SubmissionOption(Base):
-	__tablename__ = "submission_options"
+class PostOption(Base):
+	__tablename__ = "post_options"
 
 	id = Column(Integer, primary_key=True)
-	parent_id = Column(Integer, ForeignKey("submissions.id"))
+	parent_id = Column(Integer, ForeignKey("posts.id"))
 	body_html = Column(Text)
 	exclusive = Column(Integer)
 	created_utc = Column(Integer)
 
-	votes = relationship("SubmissionOptionVote")
-	parent = relationship("Submission", back_populates="options")
+	votes = relationship("PostOptionVote")
+	parent = relationship("Post", back_populates="options")
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
@@ -37,14 +37,14 @@ class SubmissionOption(Base):
 		return v.id in [x.user_id for x in self.votes]
 
 
-class SubmissionOptionVote(Base):
+class PostOptionVote(Base):
 
-	__tablename__ = "submission_option_votes"
+	__tablename__ = "post_option_votes"
 
-	option_id = Column(Integer, ForeignKey("submission_options.id"), primary_key=True)
+	option_id = Column(Integer, ForeignKey("post_options.id"), primary_key=True)
 	user_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
 	created_utc = Column(Integer)
-	submission_id = Column(Integer, ForeignKey("submissions.id"))
+	post_id = Column(Integer, ForeignKey("posts.id"))
 
 	user = relationship("User")
 

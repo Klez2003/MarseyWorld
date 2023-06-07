@@ -10,7 +10,7 @@ from flask import g
 from files.classes.flags import Flag
 from files.classes.mod_logs import ModAction
 from files.classes.notifications import Notification
-from files.classes.polls import CommentOption, SubmissionOption
+from files.classes.polls import CommentOption, PostOption
 from files.classes.award import AwardRelationship
 
 from files.helpers.alerts import send_repeatable_notification, push_notif
@@ -23,7 +23,7 @@ from files.helpers.sanitize import *
 from files.helpers.settings import get_setting
 from files.helpers.slots import check_slots_command
 
-post_target_type = Union[Submission, User]
+post_target_type = Union[Post, User]
 
 def _archiveorg(url):
 	try:
@@ -51,7 +51,7 @@ def snappy_report(post, reason):
 	message = f'@Snappy reported [{post.title}]({post.shortlink})\n\n> {reason}'
 	send_repeatable_notification(post.author_id, message)
 
-def execute_snappy(post:Submission, v:User):
+def execute_snappy(post:Post, v:User):
 	group_members = []
 
 	ghost = post.ghost
@@ -92,7 +92,7 @@ def execute_snappy(post:Submission, v:User):
 			if body.startswith('▼'): body = body[1:]
 			vote = Vote(user_id=SNAPPY_ID,
 						vote_type=-1,
-						submission_id=post.id,
+						post_id=post.id,
 						real = True
 						)
 			g.db.add(vote)
@@ -105,7 +105,7 @@ def execute_snappy(post:Submission, v:User):
 			if body.startswith('▲'): body = body[1:]
 			vote = Vote(user_id=SNAPPY_ID,
 						vote_type=1,
-						submission_id=post.id,
+						post_id=post.id,
 						real = True
 						)
 			g.db.add(vote)
@@ -132,7 +132,7 @@ def execute_snappy(post:Submission, v:User):
 			award_object = AwardRelationship(
 					user_id=snappy.id,
 					kind="glowie",
-					submission_id=post.id,
+					post_id=post.id,
 				)
 			g.db.add(award_object)
 
@@ -256,7 +256,7 @@ def execute_snappy(post:Submission, v:User):
 
 def execute_zozbot(c:Comment, level:int, post_target:post_target_type, v):
 	if SITE_NAME != 'rDrama': return
-	posting_to_submission = isinstance(post_target, Submission)
+	posting_to_submission = isinstance(post_target, Post)
 	if random.random() >= 0.001: return
 	c2 = Comment(author_id=ZOZBOT_ID,
 		parent_submission=post_target.id if posting_to_submission else None,
@@ -321,7 +321,7 @@ def execute_zozbot(c:Comment, level:int, post_target:post_target_type, v):
 
 def execute_longpostbot(c:Comment, level:int, body, body_html, post_target:post_target_type, v:User):
 	if SITE_NAME != 'rDrama': return
-	posting_to_submission = isinstance(post_target, Submission)
+	posting_to_submission = isinstance(post_target, Post)
 	if not len(c.body.split()) >= 200: return
 	if "</blockquote>" in body_html: return
 	body = random.choice(LONGPOST_REPLIES)
@@ -369,17 +369,17 @@ def execute_antispam_submission_check(title, v, url):
 	now = int(time.time())
 	cutoff = now - 60 * 60 * 24
 
-	similar_posts = g.db.query(Submission).filter(
-					Submission.author_id == v.id,
-					Submission.title.op('<->')(title) < SPAM_SIMILARITY_THRESHOLD,
-					Submission.created_utc > cutoff
+	similar_posts = g.db.query(Post).filter(
+					Post.author_id == v.id,
+					Post.title.op('<->')(title) < SPAM_SIMILARITY_THRESHOLD,
+					Post.created_utc > cutoff
 	).all()
 
 	if url:
-		similar_urls = g.db.query(Submission).filter(
-					Submission.author_id == v.id,
-					Submission.url.op('<->')(url) < SPAM_URL_SIMILARITY_THRESHOLD,
-					Submission.created_utc > cutoff
+		similar_urls = g.db.query(Post).filter(
+					Post.author_id == v.id,
+					Post.url.op('<->')(url) < SPAM_URL_SIMILARITY_THRESHOLD,
+					Post.created_utc > cutoff
 		).all()
 	else: similar_urls = []
 
@@ -400,7 +400,7 @@ def execute_antispam_submission_check(title, v, url):
 			g.db.add(post)
 			ma=ModAction(
 					user_id=AUTOJANNY_ID,
-					target_submission_id=post.id,
+					target_post_id=post.id,
 					kind="ban_post",
 					_note="Spam"
 					)
@@ -466,7 +466,7 @@ def execute_antispam_comment_check(body:str, v:User):
 	g.db.commit()
 	abort(403, "Too much spam!")
 
-def execute_under_siege(v:User, target:Optional[Union[Submission, Comment]], body, kind:str) -> bool:
+def execute_under_siege(v:User, target:Optional[Union[Post, Comment]], body, kind:str) -> bool:
 	if not get_setting("under_siege"): return
 	if v.shadowbanned: return
 	if v.admin_level >= PERMS['SITE_BYPASS_UNDER_SIEGE_MODE']: return
@@ -486,7 +486,7 @@ def execute_under_siege(v:User, target:Optional[Union[Submission, Comment]], bod
 	g.db.add(v)
 
 	if kind == "report":
-		if isinstance(target, Submission):
+		if isinstance(target, Post):
 			reason = f'report on <a href="{target.permalink}">post</a>'
 		else:
 			reason = f'report on <a href="{target.permalink}">comment</a>'
@@ -508,7 +508,7 @@ def execute_under_siege(v:User, target:Optional[Union[Submission, Comment]], bod
 			g.db.add(n)
 
 
-def execute_lawlz_actions(v:User, p:Submission):
+def execute_lawlz_actions(v:User, p:Post):
 	if v.id != LAWLZ_ID: return
 	if SITE_NAME != 'rDrama': return
 	if not FEATURES['PINS']: return
@@ -519,18 +519,18 @@ def execute_lawlz_actions(v:User, p:Submission):
 	ma_1=ModAction(
 		kind="pin_post",
 		user_id=AUTOJANNY_ID,
-		target_submission_id=p.id,
+		target_post_id=p.id,
 		_note='for 1 day'
 	)
 	ma_2=ModAction(
 		kind="distinguish_post",
 		user_id=AUTOJANNY_ID,
-		target_submission_id=p.id
+		target_post_id=p.id
 	)
 	ma_3=ModAction(
 		kind="flair_post",
 		user_id=AUTOJANNY_ID,
-		target_submission_id=p.id,
+		target_post_id=p.id,
 		_note=f'"{p.flair}"'
 	)
 	g.db.add(p)
@@ -539,7 +539,7 @@ def execute_lawlz_actions(v:User, p:Submission):
 	g.db.add(ma_3)
 
 
-def process_poll_options(v:User, target:Union[Submission, Comment]):
+def process_poll_options(v:User, target:Union[Post, Comment]):
 
 	patterns = [(poll_regex, 0), (choice_regex, 1)]
 
@@ -562,8 +562,8 @@ def process_poll_options(v:User, target:Union[Submission, Comment]):
 			if len(body) > 500:
 				abort(400, f"Poll option body too long! (Max 500 characters)")
 
-			if isinstance(target, Submission):
-				cls = SubmissionOption
+			if isinstance(target, Post):
+				cls = PostOption
 			else:
 				cls = CommentOption
 

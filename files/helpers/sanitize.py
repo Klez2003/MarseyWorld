@@ -690,7 +690,7 @@ def complies_with_chud(obj):
 	#check for cases where u should leave
 	if not obj.author.agendaposter: return True
 	if obj.author.marseyawarded: return True
-	if isinstance(obj, Submission):
+	if isinstance(obj, Post):
 		if obj.id in ADMIGGER_THREADS: return True
 		if obj.sub == "chudrama": return True
 	elif obj.parent_submission:
@@ -709,7 +709,7 @@ def complies_with_chud(obj):
 		obj.body_html = str(soup).replace('<html><body>','').replace('</body></html>','')
 
 	#torture title_html and check for agendaposter_phrase in plain title and leave if it's there
-	if isinstance(obj, Submission):
+	if isinstance(obj, Post):
 		obj.title_html = torture_ap(obj.title_html, obj.author.username)
 		if obj.author.agendaposter_phrase in obj.title.lower():
 			return True

@@ -25,9 +25,9 @@ def vote_info_get(v, link):
 	if thing.author.shadowbanned and not (v and v.admin_level >= PERMS['USER_SHADOWBAN']):
 		abort(500)
 
-	if isinstance(thing, Submission):
+	if isinstance(thing, Post):
 		query = g.db.query(Vote).join(Vote.user).filter(
-			Vote.submission_id == thing.id,
+			Vote.post_id == thing.id,
 		).order_by(Vote.created_utc)
 
 		ups = query.filter(Vote.vote_type == 1).all()
@@ -56,7 +56,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 	if v.client and v.id not in PRIVILEGED_USER_BOTS: abort(403)
 	new = int(new)
 	target = None
-	if cls == Submission:
+	if cls == Post:
 		target = get_post(target_id)
 	elif cls == Comment:
 		target = get_comment(target_id)
@@ -79,7 +79,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 
 	existing = g.db.query(vote_cls).filter_by(user_id=v.id)
 	if vote_cls == Vote:
-		existing = existing.filter_by(submission_id=target.id)
+		existing = existing.filter_by(post_id=target.id)
 	elif vote_cls == CommentVote:
 		existing = existing.filter_by(comment_id=target.id)
 	else:
@@ -121,7 +121,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 		if vote_cls == Vote:
 			vote = Vote(user_id=v.id,
 						vote_type=new,
-						submission_id=target_id,
+						post_id=target_id,
 						app_id=v.client.application.id if v.client else None,
 						real=real,
 						coins=coin_value
@@ -146,7 +146,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 			votes = votes.filter(vote_cls.vote_type == dir)
 
 		if vote_cls == Vote:
-			votes = votes.filter(vote_cls.submission_id == target.id)
+			votes = votes.filter(vote_cls.post_id == target.id)
 		elif vote_cls == CommentVote:
 			votes = votes.filter(vote_cls.comment_id == target.id)
 		else:
@@ -164,12 +164,12 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 	mul = 1
 	if target.is_approved == PROGSTACK_ID:
 		mul = PROGSTACK_MUL
-	elif cls == Submission and (any(i in target.title.lower() for i in ENCOURAGED) or any(i in str(target.url).lower() for i in ENCOURAGED2)):
+	elif cls == Post and (any(i in target.title.lower() for i in ENCOURAGED) or any(i in str(target.url).lower() for i in ENCOURAGED2)):
 		mul = PROGSTACK_MUL
 		send_notification(AEVANN_ID, target.permalink)
 	elif target.author.progressivestack or (target.author.admin_level and target.author.id not in {CARP_ID, SCHIZO_ID}):
 		mul = 2
-	elif SITE == 'rdrama.net' and cls == Submission:
+	elif SITE == 'rdrama.net' and cls == Post:
 		if (target.domain.endswith('.win') or 'forum' in target.domain or 'chan' in target.domain
 				or (target.domain in BOOSTED_SITES and not target.url.startswith('/'))):
 			mul = 2
@@ -195,7 +195,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 @limiter.limit("60/minute;1000/hour;2000/day", key_func=get_ID)
 @is_not_permabanned
 def vote_post(post_id, new, v):
-	return vote_post_comment(post_id, new, v, Submission, Vote)
+	return vote_post_comment(post_id, new, v, Post, Vote)
 
 @app.post("/vote/comment/<int:comment_id>/<new>")
 @limiter.limit('1/second', scope=rpath)

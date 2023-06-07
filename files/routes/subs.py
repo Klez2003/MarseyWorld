@@ -419,7 +419,7 @@ def kick(v:User, pid):
 		sub=old,
 		kind='kick_post',
 		user_id=v.id,
-		target_submission_id=post.id
+		target_post_id=post.id
 	)
 	g.db.add(ma)
 
@@ -674,7 +674,7 @@ def sub_marsey(v:User, sub):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def subs(v:User):
-	subs = g.db.query(Sub, func.count(Submission.sub)).outerjoin(Submission, Sub.name == Submission.sub).group_by(Sub.name).order_by(func.count(Submission.sub).desc()).all()
+	subs = g.db.query(Sub, func.count(Post.sub)).outerjoin(Post, Sub.name == Post.sub).group_by(Sub.name).order_by(func.count(Post.sub).desc()).all()
 	total_users = g.db.query(User).count()
 	return render_template('sub/subs.html', v=v, subs=subs, total_users=total_users)
 
@@ -691,7 +691,7 @@ def hole_pin(v:User, pid):
 
 	if not v.mods(p.sub): abort(403)
 
-	num = g.db.query(Submission).filter(Submission.sub == p.sub, Submission.hole_pinned != None).count()
+	num = g.db.query(Post).filter(Post.sub == p.sub, Post.hole_pinned != None).count()
 	if num >= 2:
 		abort(403, f"You can only pin 2 posts to /h/{p.sub}")
 
@@ -706,7 +706,7 @@ def hole_pin(v:User, pid):
 		sub=p.sub,
 		kind='pin_post',
 		user_id=v.id,
-		target_submission_id=p.id
+		target_post_id=p.id
 	)
 	g.db.add(ma)
 
@@ -738,7 +738,7 @@ def hole_unpin(v:User, pid):
 		sub=p.sub,
 		kind='unpin_post',
 		user_id=v.id,
-		target_submission_id=p.id
+		target_post_id=p.id
 	)
 	g.db.add(ma)
 

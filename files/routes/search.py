@@ -62,18 +62,18 @@ def searchposts(v:User):
 
 	criteria=searchparse(query)
 
-	posts = g.db.query(Submission).options(load_only(Submission.id)) \
-				.join(Submission.author) \
-				.filter(Submission.author_id.notin_(v.userblocks))
+	posts = g.db.query(Post).options(load_only(Post.id)) \
+				.join(Post.author) \
+				.filter(Post.author_id.notin_(v.userblocks))
 
 	if v.admin_level < PERMS['POST_COMMENT_MODERATION']:
 		posts = posts.filter(
-			Submission.deleted_utc == 0,
-			Submission.is_banned == False,
-			Submission.private == False)
+			Post.deleted_utc == 0,
+			Post.is_banned == False,
+			Post.private == False)
 
 	if 'author' in criteria:
-		posts = posts.filter(Submission.ghost == False)
+		posts = posts.filter(Post.ghost == False)
 		author = get_user(criteria['author'], v=v)
 		if not author.is_visible_to(v):
 			if v.client:
@@ -90,28 +90,28 @@ def searchposts(v:User):
 								domain_obj=None,
 								error=f"@{author.username}'s profile is private; You can't use the 'author' syntax on them."
 								), 403
-		posts = posts.filter(Submission.author_id == author.id)
+		posts = posts.filter(Post.author_id == author.id)
 
 	if 'exact' in criteria and 'full_text' in criteria:
 		regex_str = '[[:<:]]'+criteria['full_text']+'[[:>:]]' # https://docs.oracle.com/cd/E17952_01/mysql-5.5-en/regexp.html "word boundaries"
 		if 'title' in criteria:
-			words = [Submission.title.regexp_match(regex_str)]
+			words = [Post.title.regexp_match(regex_str)]
 		else:
-			words = [or_(Submission.title.regexp_match(regex_str), Submission.body.regexp_match(regex_str))]
+			words = [or_(Post.title.regexp_match(regex_str), Post.body.regexp_match(regex_str))]
 		posts = posts.filter(*words)
 	elif 'q' in criteria:
 		if('title' in criteria):
-			words = [or_(Submission.title.ilike('%'+x+'%')) \
+			words = [or_(Post.title.ilike('%'+x+'%')) \
 					for x in criteria['q']]
 		else:
 			words = [or_(
-						Submission.title.ilike('%'+x+'%'),
-						Submission.body.ilike('%'+x+'%'),
-						Submission.url.ilike('%'+x+'%'),
+						Post.title.ilike('%'+x+'%'),
+						Post.body.ilike('%'+x+'%'),
+						Post.url.ilike('%'+x+'%'),
 					) for x in criteria['q']]
 		posts = posts.filter(*words)
 
-	if 'over18' in criteria: posts = posts.filter(Submission.over_18==True)
+	if 'over18' in criteria: posts = posts.filter(Post.over_18==True)
 
 	if 'domain' in criteria:
 		domain=criteria['domain']
@@ -120,23 +120,23 @@ def searchposts(v:User):
 
 		posts=posts.filter(
 			or_(
-				Submission.url.ilike("https://"+domain+'/%'),
-				Submission.url.ilike("https://"+domain+'/%'),
-				Submission.url.ilike("https://"+domain),
-				Submission.url.ilike("https://"+domain),
-				Submission.url.ilike("https://www."+domain+'/%'),
-				Submission.url.ilike("https://www."+domain+'/%'),
-				Submission.url.ilike("https://www."+domain),
-				Submission.url.ilike("https://www."+domain),
-				Submission.url.ilike("https://old." + domain + '/%'),
-				Submission.url.ilike("https://old." + domain + '/%'),
-				Submission.url.ilike("https://old." + domain),
-				Submission.url.ilike("https://old." + domain)
+				Post.url.ilike("https://"+domain+'/%'),
+				Post.url.ilike("https://"+domain+'/%'),
+				Post.url.ilike("https://"+domain),
+				Post.url.ilike("https://"+domain),
+				Post.url.ilike("https://www."+domain+'/%'),
+				Post.url.ilike("https://www."+domain+'/%'),
+				Post.url.ilike("https://www."+domain),
+				Post.url.ilike("https://www."+domain),
+				Post.url.ilike("https://old." + domain + '/%'),
+				Post.url.ilike("https://old." + domain + '/%'),
+				Post.url.ilike("https://old." + domain),
+				Post.url.ilike("https://old." + domain)
 				)
 			)
 
 	if search_operator_hole in criteria:
-		posts = posts.filter(Submission.sub == criteria[search_operator_hole])
+		posts = posts.filter(Post.sub == criteria[search_operator_hole])
 
 	if 'after' in criteria:
 		after = criteria['after']
@@ -144,7 +144,7 @@ def searchposts(v:User):
 		except:
 			try: after = timegm(time.strptime(after, "%Y-%m-%d"))
 			except: abort(400)
-		posts = posts.filter(Submission.created_utc > after)
+		posts = posts.filter(Post.created_utc > after)
 
 	if 'before' in criteria:
 		before = criteria['before']
@@ -152,16 +152,16 @@ def searchposts(v:User):
 		except:
 			try: before = timegm(time.strptime(before, "%Y-%m-%d"))
 			except: abort(400)
-		posts = posts.filter(Submission.created_utc < before)
+		posts = posts.filter(Post.created_utc < before)
 
-	posts = apply_time_filter(t, posts, Submission)
+	posts = apply_time_filter(t, posts, Post)
 
 	if not v.can_see_shadowbanned:
-		posts = posts.join(Submission.author).filter(User.shadowbanned == None)
+		posts = posts.join(Post.author).filter(User.shadowbanned == None)
 
 	total = posts.count()
 
-	posts = sort_objects(sort, posts, Submission)
+	posts = sort_objects(sort, posts, Post)
 
 	posts = posts.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
 
@@ -234,12 +234,12 @@ def searchcomments(v:User):
 	if 'over18' in criteria: comments = comments.filter(Comment.over_18 == True)
 
 	if search_operator_hole in criteria:
-		comments = comments.filter(Submission.sub == criteria[search_operator_hole])
+		comments = comments.filter(Post.sub == criteria[search_operator_hole])
 
 	comments = apply_time_filter(t, comments, Comment)
 
 	if v.admin_level < PERMS['POST_COMMENT_MODERATION']:
-		private = [x[0] for x in g.db.query(Submission.id).filter(Submission.private == True).all()]
+		private = [x[0] for x in g.db.query(Post.id).filter(Post.private == True).all()]
 
 		comments = comments.filter(
 			Comment.is_banned==False,

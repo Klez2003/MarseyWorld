@@ -160,23 +160,23 @@ def notifications_messages(v:User):
 def notifications_posts(v:User):
 	page = get_page()
 
-	listing = g.db.query(Submission).filter(
+	listing = g.db.query(Post).filter(
 		or_(
-			Submission.author_id.in_(v.followed_users),
-			Submission.sub.in_(v.followed_subs)
+			Post.author_id.in_(v.followed_users),
+			Post.sub.in_(v.followed_subs)
 		),
-		Submission.deleted_utc == 0,
-		Submission.is_banned == False,
-		Submission.private == False,
-		Submission.notify == True,
-		Submission.author_id != v.id,
-		Submission.ghost == False,
-		Submission.author_id.notin_(v.userblocks)
-	).options(load_only(Submission.id))
+		Post.deleted_utc == 0,
+		Post.is_banned == False,
+		Post.private == False,
+		Post.notify == True,
+		Post.author_id != v.id,
+		Post.ghost == False,
+		Post.author_id.notin_(v.userblocks)
+	).options(load_only(Post.id))
 
 	total = listing.count()
 
-	listing = listing.order_by(Submission.created_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
+	listing = listing.order_by(Post.created_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
 	listing = [x.id for x in listing]
 
 	listing = get_posts(listing, v=v, eager=True)

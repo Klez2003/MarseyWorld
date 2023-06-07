@@ -8,7 +8,7 @@ from sqlalchemy.sql.expression import or_
 
 from flask import g, session
 
-from files.classes import Alt, Comment, User, Submission
+from files.classes import Alt, Comment, User, Post
 from files.helpers.config.const import *
 from files.helpers.security import generate_hash, validate_hash
 from files.__main__ import cache
@@ -105,7 +105,7 @@ def check_for_alts(current:User, include_current_session=False):
 			u.blacklisted_by = current.blacklisted_by
 			g.db.add(u)
 
-def execute_shadowban_viewers_and_voters(v:Optional[User], target:Union[Submission, Comment]):
+def execute_shadowban_viewers_and_voters(v:Optional[User], target:Union[Post, Comment]):
 	if not v or not v.shadowbanned: return
 	if not target: return
 	if v.id != target.author_id: return
@@ -120,6 +120,6 @@ def execute_shadowban_viewers_and_voters(v:Optional[User], target:Union[Submissi
 	amount = randint(0, 3)
 
 	target.upvotes += amount
-	if isinstance(target, Submission):
+	if isinstance(target, Post):
 		target.views += amount*randint(3, 5)
 	g.db.add(target)

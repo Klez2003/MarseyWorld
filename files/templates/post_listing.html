@@ -280,10 +280,10 @@
 {% endif %}
 
 <script defer src="{{'js/vendor/clipboard.js' | asset}}"></script>
-<script defer src="{{'js/comments+submission_listing.js' | asset}}"></script>
-<script defer src="{{'js/submission_listing.js' | asset}}"></script>
+<script defer src="{{'js/comments+post_listing.js' | asset}}"></script>
+<script defer src="{{'js/post_listing.js' | asset}}"></script>
 {% if v and v.admin_level >= PERMS['POST_COMMENT_MODERATION']  %}
-	<script defer src="{{'js/admin/submission.js' | asset}}"></script>
+	<script defer src="{{'js/admin/post.js' | asset}}"></script>
 {% endif %}
 
 <script defer src="{{'js/new_comments.js' | asset}}"></script>

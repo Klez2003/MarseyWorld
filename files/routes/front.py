@@ -2,7 +2,7 @@
 from sqlalchemy import or_, not_
 from sqlalchemy.orm import load_only
 
-from files.classes.submission import Submission
+from files.classes.post import Post
 from files.classes.votes import Vote
 from files.helpers.config.const import *
 from files.helpers.get import *
@@ -72,48 +72,48 @@ LIMITED_WPD_HOLES = ('gore', 'aftermath', 'selfharm', 'meta', 'discussion', 'soc
 
 @cache.memoize()
 def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='', gt=0, lt=0, sub=None, pins=True):
-	posts = g.db.query(Submission)
+	posts = g.db.query(Post)
 
 	if v and v.hidevotedon:
 		posts = posts.outerjoin(Vote,
-					and_(Vote.submission_id == Submission.id, Vote.user_id == v.id)
-				).filter(Vote.submission_id == None)
+					and_(Vote.post_id == Post.id, Vote.user_id == v.id)
+				).filter(Vote.post_id == None)
 
-	if sub: posts = posts.filter(Submission.sub == sub.name)
-	elif v: posts = posts.filter(or_(Submission.sub == None, Submission.sub.notin_(v.all_blocks)))
+	if sub: posts = posts.filter(Post.sub == sub.name)
+	elif v: posts = posts.filter(or_(Post.sub == None, Post.sub.notin_(v.all_blocks)))
 
-	if gt: posts = posts.filter(Submission.created_utc > gt)
-	if lt: posts = posts.filter(Submission.created_utc < lt)
+	if gt: posts = posts.filter(Post.created_utc > gt)
+	if lt: posts = posts.filter(Post.created_utc < lt)
 
 	if not gt and not lt:
-		posts = apply_time_filter(t, posts, Submission)
+		posts = apply_time_filter(t, posts, Post)
 
 	posts = posts.filter(
-		Submission.is_banned == False,
-		Submission.private == False,
-		Submission.deleted_utc == 0,
+		Post.is_banned == False,
+		Post.private == False,
+		Post.deleted_utc == 0,
 	)
 
 	if pins and not gt and not lt:
-		if sub: posts = posts.filter(Submission.hole_pinned == None)
-		else: posts = posts.filter(Submission.stickied == None)
+		if sub: posts = posts.filter(Post.hole_pinned == None)
+		else: posts = posts.filter(Post.stickied == None)
 
 	if v:
-		posts = posts.filter(Submission.author_id.notin_(v.userblocks))
+		posts = posts.filter(Post.author_id.notin_(v.userblocks))
 
 	if v and filter_words:
 		for word in filter_words:
 			word = word.replace('\\', '').replace('_', '\_').replace('%', '\%').strip()
-			posts=posts.filter(not_(Submission.title.ilike(f'%{word}%')))
+			posts=posts.filter(not_(Post.title.ilike(f'%{word}%')))
 
 	total = posts.count()
 
-	posts = sort_objects(sort, posts, Submission)
+	posts = sort_objects(sort, posts, Post)
 
 	if v: size = v.frontsize or 0
 	else: size = PAGE_SIZE
 
-	posts = posts.options(load_only(Submission.id)).offset(size * (page - 1))
+	posts = posts.options(load_only(Post.id)).offset(size * (page - 1))
 
 	if SITE_NAME == 'WPD' and sort == "hot" and sub == None:
 		posts = posts.limit(200).all()
@@ -128,12 +128,12 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 
 	if pins and page == 1 and not gt and not lt:
 		if sub:
-			pins = g.db.query(Submission).options(load_only(Submission.id)).filter(Submission.sub == sub.name, Submission.hole_pinned != None)
+			pins = g.db.query(Post).options(load_only(Post.id)).filter(Post.sub == sub.name, Post.hole_pinned != None)
 		else:
-			pins = g.db.query(Submission).options(load_only(Submission.id)).filter(Submission.stickied != None, Submission.is_banned == False)
+			pins = g.db.query(Post).options(load_only(Post.id)).filter(Post.stickied != None, Post.is_banned == False)
 
 			if v:
-				pins = pins.filter(or_(Submission.sub == None, Submission.sub.notin_(v.all_blocks)))
+				pins = pins.filter(or_(Post.sub == None, Post.sub.notin_(v.all_blocks)))
 				for pin in pins:
 					if pin.stickied_utc and int(time.time()) > pin.stickied_utc:
 						pin.stickied = None
@@ -141,10 +141,10 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 						g.db.add(pin)
 
 
-		if v: pins = pins.filter(Submission.author_id.notin_(v.userblocks))
+		if v: pins = pins.filter(Post.author_id.notin_(v.userblocks))
 		if SITE_NAME == 'rDrama':
-			pins = pins.order_by(Submission.author_id != LAWLZ_ID)
-		pins = pins.order_by(Submission.created_utc.desc()).all()
+			pins = pins.order_by(Post.author_id != LAWLZ_ID)
+		pins = pins.order_by(Post.created_utc.desc()).all()
 		posts = pins + posts
 
 	if v and (time.time() - v.created_utc) > (365 * 86400 - 1):
@@ -163,7 +163,7 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 @auth_required
 def random_post(v:User):
 
-	p = g.db.query(Submission.id).filter(Submission.deleted_utc == 0, Submission.is_banned == False, Submission.private == False).order_by(func.random()).first()
+	p = g.db.query(Post.id).filter(Post.deleted_utc == 0, Post.is_banned == False, Post.private == False).order_by(func.random()).first()
 
 	if p: p = p[0]
 	else: abort(404)
@@ -197,7 +197,7 @@ def comment_idlist(v=None, page=1, sort="new", t="day", gt=0, lt=0):
 			Comment.is_banned == False,
 			Comment.deleted_utc == 0,
 			Comment.author_id.notin_(v.userblocks),
-			or_(Comment.parent_submission == None, Submission.private == False),
+			or_(Comment.parent_submission == None, Post.private == False),
 		)
 
 	if gt: comments = comments.filter(Comment.created_utc > gt)

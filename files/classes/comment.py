@@ -105,7 +105,7 @@ class Comment(Base):
 
 	id = Column(Integer, primary_key=True)
 	author_id = Column(Integer, ForeignKey("users.id"))
-	parent_submission = Column(Integer, ForeignKey("submissions.id"))
+	parent_submission = Column(Integer, ForeignKey("posts.id"))
 	wall_user_id = Column(Integer, ForeignKey("users.id"))
 	created_utc = Column(Integer)
 	edited_utc = Column(Integer, default=0)
@@ -139,7 +139,7 @@ class Comment(Base):
 	casino_game_id = Column(Integer, ForeignKey("casino_games.id"))
 
 	oauth_app = relationship("OauthApp")
-	post = relationship("Submission", back_populates="comments")
+	post = relationship("Post", back_populates="comments")
 	author = relationship("User", primaryjoin="User.id==Comment.author_id")
 	senttouser = relationship("User", primaryjoin="User.id==Comment.sentto")
 	parent_comment = relationship("Comment", remote_side=[id])

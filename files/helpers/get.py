@@ -4,7 +4,7 @@ from flask import *
 from sqlalchemy import and_, any_, or_
 from sqlalchemy.orm import joinedload, selectinload, Query
 
-from files.classes import Comment, CommentVote, Hat, Sub, Submission, User, UserBlock, Vote
+from files.classes import Comment, CommentVote, Hat, Sub, Post, User, UserBlock, Vote
 from files.helpers.config.const import *
 from files.__main__ import cache
 
@@ -121,7 +121,7 @@ def get_accounts_dict(ids:Union[Iterable[str], Iterable[int]], v:Optional[User]=
 	if len(users) != len(ids) and not graceful: abort(404)
 	return {u.id:u for u in users}
 
-def get_post(i:Union[str, int], v:Optional[User]=None, graceful=False) -> Optional[Submission]:
+def get_post(i:Union[str, int], v:Optional[User]=None, graceful=False) -> Optional[Post]:
 	try: i = int(i)
 	except:
 		if graceful: return None
@@ -132,22 +132,22 @@ def get_post(i:Union[str, int], v:Optional[User]=None, graceful=False) -> Option
 		else: abort(404)
 
 	if v:
-		vt = g.db.query(Vote).filter_by(user_id=v.id, submission_id=i).subquery()
+		vt = g.db.query(Vote).filter_by(user_id=v.id, post_id=i).subquery()
 		blocking = v.blocking.subquery()
 
 		post = g.db.query(
-			Submission,
+			Post,
 			vt.c.vote_type,
 			blocking.c.target_id,
 		)
 
-		post=post.filter(Submission.id == i
+		post=post.filter(Post.id == i
 		).outerjoin(
 			vt,
-			vt.c.submission_id == Submission.id,
+			vt.c.post_id == Post.id,
 		).outerjoin(
 			blocking,
-			blocking.c.target_id == Submission.author_id,
+			blocking.c.target_id == Post.author_id,
 		)
 
 		post=post.one_or_none()
@@ -160,7 +160,7 @@ def get_post(i:Union[str, int], v:Optional[User]=None, graceful=False) -> Option
 		x.voted = post[1] or 0
 		x.is_blocking = post[2] or 0
 	else:
-		post = g.db.get(Submission, i)
+		post = g.db.get(Post, i)
 		if not post:
 			if graceful: return None
 			else: abort(404)
@@ -169,12 +169,12 @@ def get_post(i:Union[str, int], v:Optional[User]=None, graceful=False) -> Option
 	return x
 
 
-def get_posts(pids:Iterable[int], v:Optional[User]=None, eager:bool=False, extra:Optional[Callable[[Query], Query]]=None) -> List[Submission]:
+def get_posts(pids:Iterable[int], v:Optional[User]=None, eager:bool=False, extra:Optional[Callable[[Query], Query]]=None) -> List[Post]:
 	if not pids: return []
 
 	if v:
-		vt = g.db.query(Vote.vote_type, Vote.submission_id).filter(
-			Vote.submission_id.in_(pids),
+		vt = g.db.query(Vote.vote_type, Vote.post_id).filter(
+			Vote.post_id.in_(pids),
 			Vote.user_id==v.id
 			).subquery()
 
@@ -182,38 +182,38 @@ def get_posts(pids:Iterable[int], v:Optional[User]=None, eager:bool=False, extra
 		blocked = v.blocked.subquery()
 
 		query = g.db.query(
-			Submission,
+			Post,
 			vt.c.vote_type,
 			blocking.c.target_id,
 			blocked.c.target_id,
 		).filter(
-			Submission.id.in_(pids)
+			Post.id.in_(pids)
 		).outerjoin(
-			vt, vt.c.submission_id==Submission.id
+			vt, vt.c.post_id==Post.id
 		).outerjoin(
 			blocking,
-			blocking.c.target_id == Submission.author_id,
+			blocking.c.target_id == Post.author_id,
 		).outerjoin(
 			blocked,
-			blocked.c.user_id == Submission.author_id,
+			blocked.c.user_id == Post.author_id,
 		)
 	else:
-		query = g.db.query(Submission).filter(Submission.id.in_(pids))
+		query = g.db.query(Post).filter(Post.id.in_(pids))
 
 	if extra: query = extra(query)
 
 	if eager:
 		query = query.options(
-			selectinload(Submission.author).options(
+			selectinload(Post.author).options(
 				selectinload(User.hats_equipped.and_(Hat.equipped == True)) \
 					.joinedload(Hat.hat_def, innerjoin=True),
 				selectinload(User.badges),
 				selectinload(User.sub_mods),
 				selectinload(User.sub_exiles),
 			),
-			selectinload(Submission.flags),
-			selectinload(Submission.awards),
-			selectinload(Submission.options),
+			selectinload(Post.flags),
+			selectinload(Post.awards),
+			selectinload(Post.options),
 		)
 
 	results = query.all()
@@ -246,16 +246,16 @@ def get_comment(i:Union[str, int], v:Optional[User]=None, graceful=False) -> Opt
 
 	return add_vote_and_block_props(comment, v, CommentVote)
 
-def add_block_props(target:Union[Submission, Comment, User], v:Optional[User]):
+def add_block_props(target:Union[Post, Comment, User], v:Optional[User]):
 	if not v: return target
 	id = None
 
-	if any(isinstance(target, cls) for cls in {Submission, Comment}):
+	if any(isinstance(target, cls) for cls in {Post, Comment}):
 		id = target.author_id
 	elif isinstance(target, User):
 		id = target.id
 	else:
-		raise TypeError("add_block_props only supports non-None submissions, comments, and users")
+		raise TypeError("add_block_props only supports non-None posts, comments, and users")
 
 	if hasattr(target, 'is_blocking') and hasattr(target, 'is_blocked'):
 		return target
@@ -281,12 +281,12 @@ def add_block_props(target:Union[Submission, Comment, User], v:Optional[User]):
 	target.is_blocked = block and block.target_id == v.id
 	return target
 
-def add_vote_props(target:Union[Submission, Comment], v:Optional[User], vote_cls):
+def add_vote_props(target:Union[Post, Comment], v:Optional[User], vote_cls):
 	if hasattr(target, 'voted'): return target
 
 	vt = g.db.query(vote_cls.vote_type).filter_by(user_id=v.id)
 	if vote_cls == Vote:
-		vt = vt.filter_by(submission_id=target.id)
+		vt = vt.filter_by(post_id=target.id)
 	elif vote_cls == CommentVote:
 		vt = vt.filter_by(comment_id=target.id)
 	else:
@@ -295,7 +295,7 @@ def add_vote_props(target:Union[Submission, Comment], v:Optional[User], vote_cls
 	target.voted = vt.vote_type if vt else 0
 	return target
 
-def add_vote_and_block_props(target:Union[Submission, Comment], v:Optional[User], vote_cls):
+def add_vote_and_block_props(target:Union[Post, Comment], v:Optional[User], vote_cls):
 	if not v: return target
 	target = add_block_props(target, v)
 	return add_vote_props(target, v, vote_cls)

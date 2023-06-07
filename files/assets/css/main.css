@@ -4290,7 +4290,7 @@ small, .small {
 	text-decoration: none;
 }
 .post-meta-domain {
-	/* fixes very long domains overflowing submission_listing */
+	/* fixes very long domains overflowing post_listing */
 	display: inline-block;
 	max-width: 20em;
 	overflow: hidden;
@@ -4868,10 +4868,10 @@ ul.comment-section {
 		width: 100% !important;
 }
 }
-.submission .body {
+.post .body {
 	padding: 1rem;
 }
-.submission .footer {
+.post .footer {
 	background-color: transparent;
 	padding: 1rem;
 	border-bottom-left-radius: 0.25rem;
@@ -5149,13 +5149,13 @@ pre .com, code .com {
 	#thread .post-title {
 		font-size: 16px;
 }
-	#submit .submission {
+	#submit .post {
 		border: none;
 }
-	#submit .submission .body {
+	#submit .post .body {
 		padding: 0;
 }
-	#submit .submission .footer {
+	#submit .post .footer {
 		background: transparent;
 		padding: 1rem 0;
 }

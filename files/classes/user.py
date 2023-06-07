@@ -460,10 +460,10 @@ class User(Base):
 		return self.offsitementions or self.admin_level >= PERMS['NOTIFICATIONS_REDDIT']
 
 	@lazy
-	def can_edit(self, target:Union[Submission, Comment]) -> bool:
+	def can_edit(self, target:Union[Post, Comment]) -> bool:
 		if isinstance(target, Comment) and not target.post: return False
 		if self.id == target.author_id: return True
-		if not isinstance(target, Submission): return False
+		if not isinstance(target, Post): return False
 		return bool(self.admin_level >= PERMS['POST_EDITING'])
 
 	@property
@@ -475,7 +475,7 @@ class User(Base):
 			return_value.append(HOUSE_AWARDS[self.house])
 
 		awards_owned = g.db.query(AwardRelationship.kind, func.count()) \
-			.filter_by(user_id=self.id, submission_id=None, comment_id=None) \
+			.filter_by(user_id=self.id, post_id=None, comment_id=None) \
 			.group_by(AwardRelationship.kind).all()
 		awards_owned = dict(awards_owned)
 
@@ -603,7 +603,7 @@ class User(Base):
 
 		awards = {}
 
-		post_awards = g.db.query(AwardRelationship).join(AwardRelationship.post).filter(Submission.author_id == self.id).all()
+		post_awards = g.db.query(AwardRelationship).join(AwardRelationship.post).filter(Post.author_id == self.id).all()
 		comment_awards = g.db.query(AwardRelationship).join(AwardRelationship.comment).filter(Comment.author_id == self.id).all()
 
 		total_awards = post_awards + comment_awards
@@ -687,19 +687,19 @@ class User(Base):
 	@property
 	@lazy
 	def post_notifications_count(self):
-		return g.db.query(Submission).filter(
+		return g.db.query(Post).filter(
 			or_(
-				Submission.author_id.in_(self.followed_users),
-				Submission.sub.in_(self.followed_subs)
+				Post.author_id.in_(self.followed_users),
+				Post.sub.in_(self.followed_subs)
 			),
-			Submission.created_utc > self.last_viewed_post_notifs,
-			Submission.deleted_utc == 0,
-			Submission.is_banned == False,
-			Submission.private == False,
-			Submission.notify == True,
-			Submission.author_id != self.id,
-			Submission.ghost == False,
-			Submission.author_id.notin_(self.userblocks)
+			Post.created_utc > self.last_viewed_post_notifs,
+			Post.deleted_utc == 0,
+			Post.is_banned == False,
+			Post.private == False,
+			Post.notify == True,
+			Post.author_id != self.id,
+			Post.ghost == False,
+			Post.author_id.notin_(self.userblocks)
 		).count()
 
 	@property
@@ -932,9 +932,9 @@ class User(Base):
 	def get_relationship_count(self, relationship_cls):
 		# TODO: deduplicate (see routes/users.py)
 		if relationship_cls in {SaveRelationship, Subscription}:
-			query = relationship_cls.submission_id
+			query = relationship_cls.post_id
 			join = relationship_cls.post
-			cls = Submission
+			cls = Post
 		elif relationship_cls is CommentSaveRelationship:
 			query = relationship_cls.comment_id
 			join = relationship_cls.comment
@@ -950,7 +950,7 @@ class User(Base):
 	@property
 	@lazy
 	def saved_idlist(self):
-		posts = g.db.query(SaveRelationship.submission_id).filter_by(user_id=self.id).all()
+		posts = g.db.query(SaveRelationship.post_id).filter_by(user_id=self.id).all()
 		return [x[0] for x in posts]
 
 	@property
@@ -962,7 +962,7 @@ class User(Base):
 	@property
 	@lazy
 	def subscribed_idlist(self):
-		posts = g.db.query(Subscription.submission_id).filter_by(user_id=self.id).all()
+		posts = g.db.query(Subscription.post_id).filter_by(user_id=self.id).all()
 		return [x[0] for x in posts]
 
 
@@ -1006,14 +1006,14 @@ class User(Base):
 		return f'{tier_name} - Donates ${tier_money}/month'
 
 	@classmethod
-	def can_see_content(cls, user:Optional["User"], other:Union[Submission, Comment, Sub]) -> bool:
+	def can_see_content(cls, user:Optional["User"], other:Union[Post, Comment, Sub]) -> bool:
 		'''
-		Whether a user can see this item (be it a submission or comment)'s content.
+		Whether a user can see this item (be it a post or comment)'s content.
 		If False, they won't be able to view its content.
 		'''
 		if not cls.can_see(user, other): return False
 		if user and user.admin_level >= PERMS["POST_COMMENT_MODERATION"]: return True
-		if isinstance(other, (Submission, Comment)):
+		if isinstance(other, (Post, Comment)):
 			if user and user.id == other.author_id: return True
 			if other.is_banned: return False
 			if other.deleted_utc: return False
@@ -1023,15 +1023,15 @@ class User(Base):
 		return True
 
 	@classmethod
-	def can_see(cls, user:Optional["User"], other:Union[Submission, Comment, Sub, "User"]) -> bool:
+	def can_see(cls, user:Optional["User"], other:Union[Post, Comment, Sub, "User"]) -> bool:
 		'''
 		Whether a user can strictly see this item. can_see_content is used where
 		content of a thing can be hidden from view
 		'''
-		if isinstance(other, (Submission, Comment)):
+		if isinstance(other, (Post, Comment)):
 			if not cls.can_see(user, other.author): return False
 			if user and user.id == other.author_id: return True
-			if isinstance(other, Submission):
+			if isinstance(other, Post):
 				if not (user and user.patron) and (other.title.lower().startswith('[paypigs]') or other.title.lower().startswith('[patrons]')):
 					return False
 				if other.sub and not cls.can_see(user, other.subr):

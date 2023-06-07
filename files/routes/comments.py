@@ -76,8 +76,8 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 
 	if v and v.client: return top_comment.json(db=g.db)
 	else:
-		if post.is_banned and not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or post.author_id == v.id)): template = "submission_banned.html"
-		else: template = "submission.html"
+		if post.is_banned and not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or post.author_id == v.id)): template = "post_banned.html"
+		else: template = "post.html"
 		return render_template(template, v=v, p=post, sort=sort, comment_info=comment_info, render_replies=True, sub=post.subr)
 
 @app.post("/comment")
@@ -128,20 +128,20 @@ def comment(v:User):
 		post_target = get_post(parent.parent_submission, v=v, graceful=True) or get_account(parent.wall_user_id, v=v, include_blocks=True)
 		parent_comment_id = parent.id
 		if parent.author_id == v.id: rts = True
-		if not v.can_post_in_ghost_threads and isinstance(post_target, Submission) and post_target.ghost:
+		if not v.can_post_in_ghost_threads and isinstance(post_target, Post) and post_target.ghost:
 			abort(403, f"You need {TRUESCORE_GHOST_MINIMUM} truescore to post in ghost threads")
 		ghost = parent.ghost
 	else: abort(404)
 
-	level = 1 if isinstance(parent, (Submission, User)) else int(parent.level) + 1
+	level = 1 if isinstance(parent, (Post, User)) else int(parent.level) + 1
 	parent_user = parent if isinstance(parent, User) else parent.author
-	posting_to_submission = isinstance(post_target, Submission)
+	posting_to_submission = isinstance(post_target, Post)
 
 
 
 	if not User.can_see(v, parent): abort(403)
 	if not isinstance(parent, User) and parent.deleted_utc != 0:
-		if isinstance(parent, Submission):
+		if isinstance(parent, Post):
 			abort(403, "You can't reply to deleted posts!")
 		else:
 			abort(403, "You can't reply to deleted comments!")
@@ -333,7 +333,7 @@ def comment(v:User):
 			push_notif(notify_users, f'New mention of you by @{c.author_name}', c.body, c)
 
 			if c.level == 1 and posting_to_submission:
-				subscriber_ids = [x[0] for x in g.db.query(Subscription.user_id).filter(Subscription.submission_id == post_target.id, Subscription.user_id != v.id).all()]
+				subscriber_ids = [x[0] for x in g.db.query(Subscription.user_id).filter(Subscription.post_id == post_target.id, Subscription.user_id != v.id).all()]
 
 				notify_users.update(subscriber_ids)
 

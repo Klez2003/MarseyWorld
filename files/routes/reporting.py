@@ -37,7 +37,7 @@ def flag_post(pid, v):
 			ma=ModAction(
 				kind="flair_post",
 				user_id=v.id,
-				target_submission_id=post.id,
+				target_post_id=post.id,
 				_note=f'"{post.flair}"'
 			)
 			g.db.add(ma)
@@ -47,7 +47,7 @@ def flag_post(pid, v):
 				sub=post.sub,
 				kind="flair_post",
 				user_id=v.id,
-				target_submission_id=post.id,
+				target_post_id=post.id,
 				_note=f'"{post.flair}"'
 			)
 			g.db.add(ma)
@@ -125,7 +125,7 @@ def remove_report_post(v, pid, uid):
 		ma=ModAction(
 			kind="delete_report",
 			user_id=v.id,
-			target_submission_id=pid
+			target_post_id=pid
 		)
 
 		g.db.add(ma)
@@ -157,7 +157,7 @@ def remove_report_comment(v, cid, uid):
 		g.db.add(ma)
 	return {"message": "Report removed successfully!"}
 
-def move_post(post:Submission, v:User, reason:str) -> Union[bool, str]:
+def move_post(post:Post, v:User, reason:str) -> Union[bool, str]:
 	if not reason.startswith('/h/') and not reason.startswith('h/'):
 		return False
 
@@ -207,7 +207,7 @@ def move_post(post:Submission, v:User, reason:str) -> Union[bool, str]:
 			ma = ModAction(
 				kind='move_hole',
 				user_id=v.id,
-				target_submission_id=post.id,
+				target_post_id=post.id,
 				_note=f'{sub_from_str} → {sub_to_str}',
 			)
 			g.db.add(ma)
@@ -216,7 +216,7 @@ def move_post(post:Submission, v:User, reason:str) -> Union[bool, str]:
 				sub=sub_from,
 				kind='move_hole',
 				user_id=v.id,
-				target_submission_id=post.id,
+				target_post_id=post.id,
 				_note=f'{sub_from_str} → {sub_to_str}',
 			)
 			g.db.add(ma)

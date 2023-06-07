@@ -70,10 +70,10 @@ def _sub_inactive_purge_task():
 		return False
 
 	one_week_ago = time.time() - 604800
-	active_holes = [x[0] for x in g.db.query(Submission.sub).distinct() \
-		.filter(Submission.sub != None, Submission.created_utc > one_week_ago,
-			Submission.private == False, Submission.is_banned == False,
-			Submission.deleted_utc == 0).all()]
+	active_holes = [x[0] for x in g.db.query(Post.sub).distinct() \
+		.filter(Post.sub != None, Post.created_utc > one_week_ago,
+			Post.private == False, Post.is_banned == False,
+			Post.deleted_utc == 0).all()]
 	active_holes.extend(['changelog','countryclub','museumofrdrama']) # holes immune from deletion
 
 	dead_holes = g.db.query(Sub).filter(Sub.name.notin_(active_holes)).all()
@@ -99,7 +99,7 @@ def _sub_inactive_purge_task():
 		for admin in admins:
 			send_repeatable_notification(admin, f":marseyrave: /h/{name} has been deleted for inactivity after one week without new posts. All posts in it have been moved to the main feed :marseyrave:")
 
-	posts = g.db.query(Submission).filter(Submission.sub.in_(names)).all()
+	posts = g.db.query(Post).filter(Post.sub.in_(names)).all()
 	for post in posts:
 		if post.sub == 'programming':
 			post.sub = 'slackernews'
@@ -158,7 +158,7 @@ def _leaderboard_task():
 	cache.set("users13_1", list(users13_1))
 	cache.set("users13_2", list(users13_2))
 
-	votes1 = g.db.query(Submission.author_id, func.count(Submission.author_id)).join(Vote).filter(Vote.vote_type==-1).group_by(Submission.author_id).order_by(func.count(Submission.author_id).desc()).all()
+	votes1 = g.db.query(Post.author_id, func.count(Post.author_id)).join(Vote).filter(Vote.vote_type==-1).group_by(Post.author_id).order_by(func.count(Post.author_id).desc()).all()
 	votes2 = g.db.query(Comment.author_id, func.count(Comment.author_id)).join(CommentVote).filter(CommentVote.vote_type==-1).group_by(Comment.author_id).order_by(func.count(Comment.author_id).desc()).all()
 	votes3 = Counter(dict(votes1)) + Counter(dict(votes2))
 	users8 = g.db.query(User.id).filter(User.id.in_(votes3.keys())).all()

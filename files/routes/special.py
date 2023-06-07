@@ -11,16 +11,16 @@ from files.__main__ import app, cache, limiter
 _special_leaderboard_query = text("""
 WITH bet_options AS (
 	SELECT p.id AS parent_id, so.id AS option_id, so.exclusive, cnt.count
-	FROM submission_options so
-	JOIN submissions p ON so.parent_id = p.id
+	FROM post_options so
+	JOIN posts p ON so.parent_id = p.id
 	JOIN (
-		SELECT option_id, COUNT(*) FROM submission_option_votes
+		SELECT option_id, COUNT(*) FROM post_option_votes
 		GROUP BY option_id
 	) AS cnt ON so.id = cnt.option_id
 	WHERE p.author_id in (30,152) AND p.created_utc > 1668953400
 		AND so.exclusive IN (2, 3)
 ),
-submission_payouts AS (
+post_payouts AS (
 	SELECT
 		sq_total.parent_id,
 		sq_winners.sum AS bettors,
@@ -41,13 +41,13 @@ bet_votes AS (
 		sov.user_id,
 		CASE
 			WHEN opt.exclusive = 2 THEN -200
-			WHEN opt.exclusive = 3 THEN (submission_payouts.winner_payout - 200)
+			WHEN opt.exclusive = 3 THEN (post_payouts.winner_payout - 200)
 		END payout
-	FROM submission_option_votes sov
+	FROM post_option_votes sov
 	LEFT OUTER JOIN bet_options AS opt
 		ON opt.option_id = sov.option_id
-	LEFT OUTER JOIN submission_payouts
-		ON opt.parent_id = submission_payouts.parent_id
+	LEFT OUTER JOIN post_payouts
+		ON opt.parent_id = post_payouts.parent_id
 	WHERE opt.option_id IS NOT NULL
 ),
 bettors AS (

@@ -16,14 +16,14 @@ class ModAction(Base):
 	user_id = Column(Integer, ForeignKey("users.id"))
 	kind = Column(String)
 	target_user_id = Column(Integer, ForeignKey("users.id"))
-	target_submission_id = Column(Integer, ForeignKey("submissions.id"))
+	target_post_id = Column(Integer, ForeignKey("posts.id"))
 	target_comment_id = Column(Integer, ForeignKey("comments.id"))
 	_note=Column(String)
 	created_utc = Column(Integer)
 
 	user = relationship("User", primaryjoin="User.id==ModAction.user_id")
 	target_user = relationship("User", primaryjoin="User.id==ModAction.target_user_id")
-	target_post = relationship("Submission")
+	target_post = relationship("Post")
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())

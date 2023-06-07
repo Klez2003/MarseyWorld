@@ -33,7 +33,7 @@ def offsite_mentions_task(cache:Cache):
 	g.db.commit() # commit early otherwise localhost testing fails to commit
 
 def get_mentions(cache:Cache, queries:Iterable[str], reddit_notifs_users=False):
-	kinds = ['submission', 'comment']
+	kinds = ['post', 'comment']
 	mentions = []
 	exclude_subreddits = ['PokemonGoRaids', 'SubSimulatorGPT2', 'SubSimGPT2Interactive']
 	try:

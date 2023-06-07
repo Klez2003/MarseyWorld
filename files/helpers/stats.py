@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from sqlalchemy import *
 
 from files.classes.user import User
-from files.classes.submission import Submission
+from files.classes.post import Post
 from files.classes.comment import Comment
 from files.classes.votes import Vote, CommentVote
 from files.classes.emoji import *
@@ -42,10 +42,10 @@ def chart(kind, site):
 			User.created_utc > day_cutoffs[i + 1]).count()
 		for i in range(len(day_cutoffs) - 1)][::-1]
 
-	post_stats = [g.db.query(Submission).filter(
-			Submission.created_utc < day_cutoffs[i],
-			Submission.created_utc > day_cutoffs[i + 1],
-			Submission.is_banned == False).count()
+	post_stats = [g.db.query(Post).filter(
+			Post.created_utc < day_cutoffs[i],
+			Post.created_utc > day_cutoffs[i + 1],
+			Post.is_banned == False).count()
 		for i in range(len(day_cutoffs) - 1)][::-1]
 
 	comment_stats = [g.db.query(Comment).filter(
@@ -89,7 +89,7 @@ def stats():
 	now = time.time()
 	day = int(now) - 86400
 	week = int(now) - 604800
-	posters = g.db.query(Submission.author_id).distinct(Submission.author_id).filter(Submission.created_utc > week).all()
+	posters = g.db.query(Post.author_id).distinct(Post.author_id).filter(Post.created_utc > week).all()
 	commenters = g.db.query(Comment.author_id).distinct(Comment.author_id).filter(Comment.created_utc > week).all()
 	voters = g.db.query(Vote.user_id).distinct(Vote.user_id).filter(Vote.created_utc > week).all()
 	commentvoters = g.db.query(CommentVote.user_id).distinct(CommentVote.user_id).filter(CommentVote.created_utc > week).all()
@@ -105,12 +105,12 @@ def stats():
 			"coins in circulation": "{:,}".format(g.db.query(func.sum(User.coins)).scalar()),
 			"total shop sales": "{:,}".format(g.db.query(func.sum(User.coins_spent)).scalar()),
 			"signups last 24h": "{:,}".format(g.db.query(User).filter(User.created_utc > day).count()),
-			"total posts": "{:,}".format(g.db.query(Submission).count()),
-			"posting users": "{:,}".format(g.db.query(Submission.author_id).distinct().count()),
-			"listed posts": "{:,}".format(g.db.query(Submission).filter_by(is_banned=False).filter(Submission.deleted_utc == 0).count()),
-			"removed posts (by admins)": "{:,}".format(g.db.query(Submission).filter_by(is_banned=True).count()),
-			"deleted posts (by author)": "{:,}".format(g.db.query(Submission).filter(Submission.deleted_utc > 0).count()),
-			"posts last 24h": "{:,}".format(g.db.query(Submission).filter(Submission.created_utc > day).count()),
+			"total posts": "{:,}".format(g.db.query(Post).count()),
+			"posting users": "{:,}".format(g.db.query(Post.author_id).distinct().count()),
+			"listed posts": "{:,}".format(g.db.query(Post).filter_by(is_banned=False).filter(Post.deleted_utc == 0).count()),
+			"removed posts (by admins)": "{:,}".format(g.db.query(Post).filter_by(is_banned=True).count()),
+			"deleted posts (by author)": "{:,}".format(g.db.query(Post).filter(Post.deleted_utc > 0).count()),
+			"posts last 24h": "{:,}".format(g.db.query(Post).filter(Post.created_utc > day).count()),
 			"total comments": "{:,}".format(g.db.query(Comment).filter(Comment.author_id != AUTOJANNY_ID).count()),
 			"commenting users": "{:,}".format(g.db.query(Comment.author_id).distinct().count()),
 			"removed comments (by admins)": "{:,}".format(g.db.query(Comment).filter_by(is_banned=True).count()),
@@ -121,7 +121,7 @@ def stats():
 			"total upvotes": "{:,}".format(g.db.query(Vote).filter_by(vote_type=1).count() + g.db.query(CommentVote).filter_by(vote_type=1).count()),
 			"total downvotes": "{:,}".format(g.db.query(Vote).filter_by(vote_type=-1).count() + g.db.query(CommentVote).filter_by(vote_type=-1).count()),
 			"total awards": "{:,}".format(g.db.query(AwardRelationship).count()),
-			"awards given": "{:,}".format(g.db.query(AwardRelationship).filter(or_(AwardRelationship.submission_id != None, AwardRelationship.comment_id != None)).count()),
+			"awards given": "{:,}".format(g.db.query(AwardRelationship).filter(or_(AwardRelationship.post_id != None, AwardRelationship.comment_id != None)).count()),
 			"users who posted, commented, or voted in the past 7 days": "{:,}".format(len(active_users)),
 			"users online in the past 7 days": "{:,}".format(g.db.query(User).filter(User.last_active > week).count()),
 			}

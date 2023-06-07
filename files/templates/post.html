@@ -356,14 +356,14 @@
 
 <input hidden class="twoattrs" value="{{p.id}},{{p.comment_count}}">
 <script defer src="{{'js/new_comments.js' | asset}}"></script>
-<script defer src="{{'js/submission.js' | asset}}"></script>
+<script defer src="{{'js/post.js' | asset}}"></script>
 
 {% if fart and not (v and v.has_badge(128)) %}
 	<script defer src="{{'js/fart.js' | asset}}"></script>
 {% endif %}
 
 {% if v and v.admin_level >= PERMS['POST_COMMENT_MODERATION']  %}
-	<script defer src="{{'js/admin/submission.js' | asset}}"></script>
+	<script defer src="{{'js/admin/post.js' | asset}}"></script>
 {% endif %}
 
 {% endblock %}

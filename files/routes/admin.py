@@ -163,7 +163,7 @@ def distribute(v:User, kind, option_id):
 	try: option_id = int(option_id)
 	except: abort(400)
 
-	if kind == 'post': cls = SubmissionOption
+	if kind == 'post': cls = PostOption
 	else: cls = CommentOption
 
 	option = g.db.get(cls, option_id)
@@ -203,11 +203,11 @@ def distribute(v:User, kind, option_id):
 	for uid in losing_voters:
 		add_notif(cid, uid, text)
 
-	if isinstance(parent, Submission):
+	if isinstance(parent, Post):
 		ma = ModAction(
 			kind="distribute",
 			user_id=v.id,
-			target_submission_id=parent.id
+			target_post_id=parent.id
 		)
 	else:
 		ma = ModAction(
@@ -241,8 +241,8 @@ def revert_actions(v:User, username):
 
 	cutoff = int(time.time()) - 86400
 
-	posts = [x[0] for x in g.db.query(ModAction.target_submission_id).filter(ModAction.user_id == revertee.id, ModAction.created_utc > cutoff, ModAction.kind == 'ban_post').all()]
-	posts = g.db.query(Submission).filter(Submission.id.in_(posts)).all()
+	posts = [x[0] for x in g.db.query(ModAction.target_post_id).filter(ModAction.user_id == revertee.id, ModAction.created_utc > cutoff, ModAction.kind == 'ban_post').all()]
+	posts = g.db.query(Post).filter(Post.id.in_(posts)).all()
 
 	comments = [x[0] for x in g.db.query(ModAction.target_comment_id).filter(ModAction.user_id == revertee.id, ModAction.created_utc > cutoff, ModAction.kind == 'ban_comment').all()]
 	comments = g.db.query(Comment).filter(Comment.id.in_(comments)).all()
@@ -299,9 +299,9 @@ def image_posts_listing(v):
 	try: page = int(request.values.get('page', 1))
 	except: page = 1
 
-	posts = g.db.query(Submission).options(
-			load_only(Submission.id, Submission.url)
-		).order_by(Submission.id.desc())
+	posts = g.db.query(Post).options(
+			load_only(Post.id, Post.url)
+		).order_by(Post.id.desc())
 
 	posts = [x.id for x in posts if x.is_image]
 
@@ -323,15 +323,15 @@ def image_posts_listing(v):
 def reported_posts(v):
 	page = get_page()
 
-	listing = g.db.query(Submission).options(load_only(Submission.id)).filter_by(
+	listing = g.db.query(Post).options(load_only(Post.id)).filter_by(
 				is_approved=None,
 				is_banned=False,
 				deleted_utc=0
-			).join(Submission.flags)
+			).join(Post.flags)
 
 	total = listing.count()
 
-	listing = listing.order_by(Submission.id.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE)
+	listing = listing.order_by(Post.id.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE)
 	listing = [p.id for p in listing]
 	listing = get_posts(listing, v=v)
 
@@ -566,11 +566,11 @@ def alt_votes_get(v):
 	u2 = get_user(u2)
 
 	u1_post_ups = g.db.query(
-		Vote.submission_id).filter_by(
+		Vote.post_id).filter_by(
 		user_id=u1.id,
 		vote_type=1).all()
 	u1_post_downs = g.db.query(
-		Vote.submission_id).filter_by(
+		Vote.post_id).filter_by(
 		user_id=u1.id,
 		vote_type=-1).all()
 	u1_comment_ups = g.db.query(
@@ -582,11 +582,11 @@ def alt_votes_get(v):
 		user_id=u1.id,
 		vote_type=-1).all()
 	u2_post_ups = g.db.query(
-		Vote.submission_id).filter_by(
+		Vote.post_id).filter_by(
 		user_id=u2.id,
 		vote_type=1).all()
 	u2_post_downs = g.db.query(
-		Vote.submission_id).filter_by(
+		Vote.post_id).filter_by(
 		user_id=u2.id,
 		vote_type=-1).all()
 	u2_comment_ups = g.db.query(
@@ -735,11 +735,11 @@ def admin_delink_relink_alt(v:User, username, other):
 def admin_removed(v):
 	page = get_page()
 
-	listing = g.db.query(Submission).options(load_only(Submission.id)).join(Submission.author).filter(
-			or_(Submission.is_banned==True, User.shadowbanned != None))
+	listing = g.db.query(Post).options(load_only(Post.id)).join(Post.author).filter(
+			or_(Post.is_banned==True, User.shadowbanned != None))
 
 	total = listing.count()
-	listing = listing.order_by(Submission.id.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
+	listing = listing.order_by(Post.id.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
 	listing = [x.id for x in listing]
 
 	posts = get_posts(listing, v=v)
@@ -786,7 +786,7 @@ def unagendaposter(id, v):
 
 	if id.startswith('p_'):
 		post_id = id.split('p_')[1]
-		post = g.db.get(Submission, post_id)
+		post = g.db.get(Post, post_id)
 		user = post.author
 	elif id.startswith('c_'):
 		comment_id = id.split('c_')[1]
@@ -942,7 +942,7 @@ def ban_user(id, v):
 
 	if id.startswith('p_'):
 		post_id = id.split('p_')[1]
-		post = g.db.get(Submission, post_id)
+		post = g.db.get(Post, post_id)
 		user = post.author
 	elif id.startswith('c_'):
 		comment_id = id.split('c_')[1]
@@ -1037,7 +1037,7 @@ def agendaposter(id, v):
 
 	if id.startswith('p_'):
 		post_id = id.split('p_')[1]
-		post = g.db.get(Submission, post_id)
+		post = g.db.get(Post, post_id)
 		user = post.author
 	elif id.startswith('c_'):
 		comment_id = id.split('c_')[1]
@@ -1140,7 +1140,7 @@ def unban_user(id, v):
 
 	if id.startswith('p_'):
 		post_id = id.split('p_')[1]
-		post = g.db.get(Submission, post_id)
+		post = g.db.get(Post, post_id)
 		user = post.author
 	elif id.startswith('c_'):
 		comment_id = id.split('c_')[1]
@@ -1236,7 +1236,7 @@ def progstack_post(post_id, v):
 	ma=ModAction(
 		kind="progstack_post",
 		user_id=v.id,
-		target_submission_id=post.id,
+		target_post_id=post.id,
 		)
 	g.db.add(ma)
 
@@ -1257,7 +1257,7 @@ def unprogstack_post(post_id, v):
 	ma=ModAction(
 		kind="unprogstack_post",
 		user_id=v.id,
-		target_submission_id=post.id,
+		target_post_id=post.id,
 		)
 	g.db.add(ma)
 
@@ -1324,7 +1324,7 @@ def remove_post(post_id, v):
 	ma=ModAction(
 		kind="ban_post",
 		user_id=v.id,
-		target_submission_id=post.id,
+		target_post_id=post.id,
 		)
 	g.db.add(ma)
 
@@ -1352,7 +1352,7 @@ def approve_post(post_id, v):
 		ma=ModAction(
 			kind="unban_post",
 			user_id=v.id,
-			target_submission_id=post.id,
+			target_post_id=post.id,
 		)
 		g.db.add(ma)
 
@@ -1391,7 +1391,7 @@ def distinguish_post(post_id, v):
 	ma = ModAction(
 		kind=kind,
 		user_id=v.id,
-		target_submission_id=post.id
+		target_post_id=post.id
 	)
 	g.db.add(ma)
 
@@ -1416,7 +1416,7 @@ def sticky_post(post_id, v):
 	if FEATURES['AWARDS'] and post.stickied and post.stickied.endswith(PIN_AWARD_TEXT) and v.admin_level < PERMS["UNDO_AWARD_PINS"]:
 		abort(403, "Can't pin award pins!")
 
-	pins = g.db.query(Submission).filter(Submission.stickied != None, Submission.is_banned == False).count()
+	pins = g.db.query(Post).filter(Post.stickied != None, Post.is_banned == False).count()
 
 	if not post.stickied_utc:
 		post.stickied_utc = int(time.time()) + 3600
@@ -1438,7 +1438,7 @@ def sticky_post(post_id, v):
 	ma=ModAction(
 		kind="pin_post",
 		user_id=v.id,
-		target_submission_id=post.id,
+		target_post_id=post.id,
 		_note=pin_time
 	)
 	g.db.add(ma)
@@ -1470,7 +1470,7 @@ def unsticky_post(post_id, v):
 		ma=ModAction(
 			kind="unpin_post",
 			user_id=v.id,
-			target_submission_id=post.id
+			target_post_id=post.id
 		)
 		g.db.add(ma)
 
@@ -1711,7 +1711,7 @@ def admin_nuke_user(v):
 
 	user=get_user(request.values.get("user"))
 
-	for post in g.db.query(Submission).filter_by(author_id=user.id).all():
+	for post in g.db.query(Post).filter_by(author_id=user.id).all():
 		if post.is_banned:
 			continue
 
@@ -1747,7 +1747,7 @@ def admin_nunuke_user(v):
 
 	user=get_user(request.values.get("user"))
 
-	for post in g.db.query(Submission).filter_by(author_id=user.id).all():
+	for post in g.db.query(Post).filter_by(author_id=user.id).all():
 		if not post.is_banned:
 			continue
 

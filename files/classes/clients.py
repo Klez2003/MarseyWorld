@@ -9,7 +9,7 @@ from files.helpers.config.const import *
 from files.helpers.lazy import lazy
 
 from .comment import Comment
-from .submission import Submission
+from .post import Post
 
 class OauthApp(Base):
 	__tablename__ = "oauth_apps"

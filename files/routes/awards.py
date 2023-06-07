@@ -39,7 +39,7 @@ def shop(v:User):
 
 	for val in AWARDS.values(): val["owned"] = 0
 
-	for useraward in g.db.query(AwardRelationship).filter(AwardRelationship.user_id == v.id, AwardRelationship.submission_id == None, AwardRelationship.comment_id == None).all():
+	for useraward in g.db.query(AwardRelationship).filter(AwardRelationship.user_id == v.id, AwardRelationship.post_id == None, AwardRelationship.comment_id == None).all():
 		if useraward.kind in AWARDS: AWARDS[useraward.kind]["owned"] += 1
 
 	for val in AWARDS.values():
@@ -160,13 +160,13 @@ def award_thing(v, thing_type, id):
 	award = g.db.query(AwardRelationship).filter(
 		AwardRelationship.kind == kind,
 		AwardRelationship.user_id == v.id,
-		AwardRelationship.submission_id == None,
+		AwardRelationship.post_id == None,
 		AwardRelationship.comment_id == None
 	).first()
 
 	if not award: abort(404, "You don't have that award")
 
-	if thing_type == 'post': award.submission_id = thing.id
+	if thing_type == 'post': award.post_id = thing.id
 	else: award.comment_id = thing.id
 	award.awarded_utc = int(time.time())
 

@@ -16,7 +16,7 @@ def vote_option(option_id, v):
 		option_id = int(option_id)
 	except:
 		abort(404)
-	option = g.db.get(SubmissionOption, option_id)
+	option = g.db.get(PostOption, option_id)
 	if not option: abort(404)
 	sub = option.parent.sub
 
@@ -34,21 +34,21 @@ def vote_option(option_id, v):
 		g.db.add(autojanny)
 
 	if option.exclusive:
-		vote = g.db.query(SubmissionOptionVote).join(SubmissionOption).filter(
-			SubmissionOptionVote.user_id==v.id,
-			SubmissionOptionVote.submission_id==option.parent_id,
-			SubmissionOption.exclusive==option.exclusive).all()
+		vote = g.db.query(PostOptionVote).join(PostOption).filter(
+			PostOptionVote.user_id==v.id,
+			PostOptionVote.post_id==option.parent_id,
+			PostOption.exclusive==option.exclusive).all()
 		if vote:
 			if option.exclusive == 2: abort(400, "You already voted on this bet!")
 			for x in vote:
 				g.db.delete(x)
 
-	existing = g.db.query(SubmissionOptionVote).filter_by(option_id=option_id, user_id=v.id).one_or_none()
+	existing = g.db.query(PostOptionVote).filter_by(option_id=option_id, user_id=v.id).one_or_none()
 	if not existing:
-		vote = SubmissionOptionVote(
+		vote = PostOptionVote(
 			option_id=option_id,
 			user_id=v.id,
-			submission_id=option.parent_id,
+			post_id=option.parent_id,
 		)
 		g.db.add(vote)
 	elif existing and not option.exclusive:
@@ -121,15 +121,15 @@ def option_votes(option_id, v):
 		option_id = int(option_id)
 	except:
 		abort(404)
-	option = g.db.get(SubmissionOption, option_id)
+	option = g.db.get(PostOption, option_id)
 	if not option: abort(404)
 
 	if option.parent.ghost and v.admin_level < PERMS['SEE_GHOST_VOTES']:
 		abort(403)
 
-	ups = g.db.query(SubmissionOptionVote).filter_by(option_id=option_id).order_by(SubmissionOptionVote.created_utc).all()
+	ups = g.db.query(PostOptionVote).filter_by(option_id=option_id).order_by(PostOptionVote.created_utc).all()
 
-	user_ids = [x[0] for x in g.db.query(SubmissionOptionVote.user_id).filter_by(option_id=option_id).all()]
+	user_ids = [x[0] for x in g.db.query(PostOptionVote.user_id).filter_by(option_id=option_id).all()]
 	total_ts = g.db.query(func.sum(User.truescore)).filter(User.id.in_(user_ids)).scalar()
 	total_ts = format(total_ts, ",") if total_ts else '0'
 

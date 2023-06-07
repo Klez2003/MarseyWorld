@@ -30,7 +30,7 @@ def post_embed(id, v):
 
 	from files.helpers.get import get_post
 	p = get_post(id, v, graceful=True)
-	if p: return render_template("submission_listing.html", listing=[p], v=v)
+	if p: return render_template("post_listing.html", listing=[p], v=v)
 	return ''
 
 @app.template_filter("asset")

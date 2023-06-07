@@ -57,7 +57,7 @@
 	{% if request.path == '/notifications/posts' %}
 		{% with listing=notifications %}
 			<div class="mt-4">
-				{% include "submission_listing.html" %}
+				{% include "post_listing.html" %}
 			</div>
 		{% endwith %}
 	{% elif request.path == '/notifications/modactions' %}

@@ -29,25 +29,25 @@ def sort_objects(sort, objects, cls):
 	if sort == 'hot':
 		ti = int(time.time()) + 3600
 		metric = cls.realupvotes
-		if cls.__name__ == "Submission": metric += cls.comment_count/5
+		if cls.__name__ == "Post": metric += cls.comment_count/5
 		return objects.order_by(-1000000*(metric + 1)/(func.power(((ti - cls.created_utc)/1000), 1.35)), cls.created_utc.desc())
-	elif sort == "views" and cls.__name__ == "Submission":
+	elif sort == "views" and cls.__name__ == "Post":
 		return objects.order_by(cls.views.desc(), cls.created_utc.desc())
-	elif sort == "bump" and cls.__name__ == "Submission":
+	elif sort == "bump" and cls.__name__ == "Post":
 		return objects.filter(cls.comment_count > 1).order_by(cls.bump_utc.desc(), cls.created_utc.desc())
-	elif sort == "comments" and cls.__name__ == "Submission":
+	elif sort == "comments" and cls.__name__ == "Post":
 		return objects.order_by(cls.comment_count.desc(), cls.created_utc.desc())
-	elif sort == "subscriptions" and cls.__name__ == "Submission":
-		return objects.outerjoin(Subscription, Subscription.submission_id == cls.id).group_by(cls.id).order_by(func.count(Subscription.submission_id).desc(), cls.created_utc.desc())
-	elif sort == "saves" and cls.__name__ == "Submission":
-		return objects.outerjoin(SaveRelationship, SaveRelationship.submission_id == cls.id).group_by(cls.id).order_by(func.count(SaveRelationship.submission_id).desc(), cls.created_utc.desc())
+	elif sort == "subscriptions" and cls.__name__ == "Post":
+		return objects.outerjoin(Subscription, Subscription.post_id == cls.id).group_by(cls.id).order_by(func.count(Subscription.post_id).desc(), cls.created_utc.desc())
+	elif sort == "saves" and cls.__name__ == "Post":
+		return objects.outerjoin(SaveRelationship, SaveRelationship.post_id == cls.id).group_by(cls.id).order_by(func.count(SaveRelationship.post_id).desc(), cls.created_utc.desc())
 	elif sort == "saves" and cls.__name__ == "Comment":
 		return objects.outerjoin(CommentSaveRelationship, CommentSaveRelationship.comment_id == cls.id).group_by(cls.id).order_by(func.count(CommentSaveRelationship.comment_id).desc(), cls.created_utc.desc())
 	elif sort == "new":
 		return objects.order_by(cls.created_utc.desc())
 	elif sort == "old":
 		return objects.order_by(cls.created_utc)
-	elif sort == "controversial" and cls.__name__ == "Submission":
+	elif sort == "controversial" and cls.__name__ == "Post":
 		return objects.order_by((cls.upvotes+1)/(cls.downvotes+1) + (cls.downvotes+1)/(cls.upvotes+1) - cls.comment_count/500, cls.downvotes.desc(), cls.created_utc.desc())
 	elif sort == "controversial":
 		return objects.order_by((cls.upvotes+1)/(cls.downvotes+1) + (cls.downvotes+1)/(cls.upvotes+1), cls.downvotes.desc(), cls.created_utc.desc())

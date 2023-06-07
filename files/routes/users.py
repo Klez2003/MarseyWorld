@@ -52,7 +52,7 @@ def upvoters_downvoters(v, username, uid, cls, vote_cls, vote_dir, template, sta
 	listing = listing.order_by(cls.created_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
 	listing = [x.id for x in listing]
 
-	if cls == Submission:
+	if cls == Post:
 		listing = get_posts(listing, v=v, eager=True)
 	elif cls == Comment:
 		listing = get_comments(listing, v=v)
@@ -66,7 +66,7 @@ def upvoters_downvoters(v, username, uid, cls, vote_cls, vote_dir, template, sta
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def upvoters_posts(v:User, username, uid):
-	return upvoters_downvoters(v, username, uid, Submission, Vote, 1, "userpage/voted_posts.html", None)
+	return upvoters_downvoters(v, username, uid, Post, Vote, 1, "userpage/voted_posts.html", None)
 
 
 @app.get("/@<username>/upvoters/<int:uid>/comments")
@@ -82,7 +82,7 @@ def upvoters_comments(v:User, username, uid):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def downvoters_posts(v:User, username, uid):
-	return upvoters_downvoters(v, username, uid, Submission, Vote, -1, "userpage/voted_posts.html", None)
+	return upvoters_downvoters(v, username, uid, Post, Vote, -1, "userpage/voted_posts.html", None)
 
 
 @app.get("/@<username>/downvoters/<int:uid>/comments")
@@ -118,7 +118,7 @@ def upvoting_downvoting(v, username, uid, cls, vote_cls, vote_dir, template, sta
 	listing = listing.order_by(cls.created_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
 	listing = [x.id for x in listing]
 
-	if cls == Submission:
+	if cls == Post:
 		listing = get_posts(listing, v=v, eager=True)
 	elif cls == Comment:
 		listing = get_comments(listing, v=v)
@@ -132,7 +132,7 @@ def upvoting_downvoting(v, username, uid, cls, vote_cls, vote_dir, template, sta
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def upvoting_posts(v:User, username, uid):
-	return upvoting_downvoting(v, username, uid, Submission, Vote, 1, "userpage/voted_posts.html", None)
+	return upvoting_downvoting(v, username, uid, Post, Vote, 1, "userpage/voted_posts.html", None)
 
 
 @app.get("/@<username>/upvoting/<int:uid>/comments")
@@ -148,7 +148,7 @@ def upvoting_comments(v:User, username, uid):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def downvoting_posts(v:User, username, uid):
-	return upvoting_downvoting(v, username, uid, Submission, Vote, -1, "userpage/voted_posts.html", None)
+	return upvoting_downvoting(v, username, uid, Post, Vote, -1, "userpage/voted_posts.html", None)
 
 
 @app.get("/@<username>/downvoting/<int:uid>/comments")
@@ -178,7 +178,7 @@ def user_voted(v, username, cls, vote_cls, template, standalone):
 	listing = listing.order_by(cls.created_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
 	listing = [x.id for x in listing]
 
-	if cls == Submission:
+	if cls == Post:
 		listing = get_posts(listing, v=v, eager=True)
 	elif cls == Comment:
 		listing = get_comments(listing, v=v)
@@ -192,7 +192,7 @@ def user_voted(v, username, cls, vote_cls, template, standalone):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def user_voted_posts(v:User, username):
-	return user_voted(v, username, Submission, Vote, "userpage/voted_posts.html", None)
+	return user_voted(v, username, Post, Vote, "userpage/voted_posts.html", None)
 
 
 @app.get("/@<username>/voted/comments")
@@ -263,10 +263,10 @@ def all_upvoters_downvoters(v:User, username:str, vote_dir:int, is_who_simps_hat
 	votes = []
 	votes2 = []
 	if is_who_simps_hates:
-		votes = g.db.query(Submission.author_id, func.count(Submission.author_id)).join(Vote).filter(Submission.ghost == False, Submission.is_banned == False, Submission.deleted_utc == 0, Vote.vote_type==vote_dir, Vote.user_id==id).group_by(Submission.author_id).order_by(func.count(Submission.author_id).desc()).all()
+		votes = g.db.query(Post.author_id, func.count(Post.author_id)).join(Vote).filter(Post.ghost == False, Post.is_banned == False, Post.deleted_utc == 0, Vote.vote_type==vote_dir, Vote.user_id==id).group_by(Post.author_id).order_by(func.count(Post.author_id).desc()).all()
 		votes2 = g.db.query(Comment.author_id, func.count(Comment.author_id)).join(CommentVote).filter(Comment.ghost == False, Comment.is_banned == False, Comment.deleted_utc == 0, CommentVote.vote_type==vote_dir, CommentVote.user_id==id).group_by(Comment.author_id).order_by(func.count(Comment.author_id).desc()).all()
 	else:
-		votes = g.db.query(Vote.user_id, func.count(Vote.user_id)).join(Submission).filter(Submission.ghost == False, Submission.is_banned == False, Submission.deleted_utc == 0, Vote.vote_type==vote_dir, Submission.author_id==id).group_by(Vote.user_id).order_by(func.count(Vote.user_id).desc()).all()
+		votes = g.db.query(Vote.user_id, func.count(Vote.user_id)).join(Post).filter(Post.ghost == False, Post.is_banned == False, Post.deleted_utc == 0, Vote.vote_type==vote_dir, Post.author_id==id).group_by(Vote.user_id).order_by(func.count(Vote.user_id).desc()).all()
 		votes2 = g.db.query(CommentVote.user_id, func.count(CommentVote.user_id)).join(Comment).filter(Comment.ghost == False, Comment.is_banned == False, Comment.deleted_utc == 0, CommentVote.vote_type==vote_dir, Comment.author_id==id).group_by(CommentVote.user_id).order_by(func.count(CommentVote.user_id).desc()).all()
 	votes = Counter(dict(votes)) + Counter(dict(votes2))
 	total_items = sum(votes.values())
@@ -504,9 +504,9 @@ def usersong(username:str):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def subscribe(v, post_id):
-	existing = g.db.query(Subscription).filter_by(user_id=v.id, submission_id=post_id).one_or_none()
+	existing = g.db.query(Subscription).filter_by(user_id=v.id, post_id=post_id).one_or_none()
 	if not existing:
-		new_sub = Subscription(user_id=v.id, submission_id=post_id)
+		new_sub = Subscription(user_id=v.id, post_id=post_id)
 		g.db.add(new_sub)
 	return {"message": "Subscribed to post successfully!"}
 
@@ -517,7 +517,7 @@ def subscribe(v, post_id):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def unsubscribe(v, post_id):
-	existing = g.db.query(Subscription).filter_by(user_id=v.id, submission_id=post_id).one_or_none()
+	existing = g.db.query(Subscription).filter_by(user_id=v.id, post_id=post_id).one_or_none()
 	if existing:
 		g.db.delete(existing)
 	return {"message": "Unsubscribed from post successfully!"}
@@ -818,12 +818,12 @@ def visitors(v:User, username:str):
 
 @cache.memoize()
 def userpagelisting(user:User, v=None, page:int=1, sort="new", t="all"):
-	posts = g.db.query(Submission).filter_by(author_id=user.id, is_pinned=False).options(load_only(Submission.id))
+	posts = g.db.query(Post).filter_by(author_id=user.id, is_pinned=False).options(load_only(Post.id))
 	if not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or v.id == user.id)):
 		posts = posts.filter_by(is_banned=False, private=False, ghost=False, deleted_utc=0)
-	posts = apply_time_filter(t, posts, Submission)
+	posts = apply_time_filter(t, posts, Post)
 	total = posts.count()
-	posts = sort_objects(sort, posts, Submission)
+	posts = sort_objects(sort, posts, Post)
 	posts = posts.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
 	return [x.id for x in posts], total
 
@@ -959,7 +959,7 @@ def u_username(v:Optional[User], username:str):
 
 	if page == 1 and sort == 'new':
 		sticky = []
-		sticky = g.db.query(Submission).filter_by(is_pinned=True, author_id=u.id, is_banned=False).all()
+		sticky = g.db.query(Post).filter_by(is_pinned=True, author_id=u.id, is_banned=False).all()
 		if sticky:
 			for p in sticky:
 				ids = [p.id] + ids
@@ -970,7 +970,7 @@ def u_username(v:Optional[User], username:str):
 		if v and v.client:
 			return {"data": [x.json(g.db) for x in listing]}
 
-		return render_template("userpage/submissions.html",
+		return render_template("userpage/posts.html",
 												unban=u.unban_string,
 												u=u,
 												v=v,
@@ -984,7 +984,7 @@ def u_username(v:Optional[User], username:str):
 	if v and v.client:
 		return {"data": [x.json(g.db) for x in listing]}
 
-	return render_template("userpage/submissions.html",
+	return render_template("userpage/posts.html",
 									u=u,
 									v=v,
 									listing=listing,
@@ -1029,7 +1029,7 @@ def u_username_comments(username, v=None):
 	comment_post_author = aliased(User)
 	comments = g.db.query(Comment).options(load_only(Comment.id)) \
 				.outerjoin(Comment.post) \
-				.outerjoin(comment_post_author, Submission.author) \
+				.outerjoin(comment_post_author, Post.author) \
 				.filter(
 					Comment.author_id == u.id,
 					or_(Comment.parent_submission != None, Comment.wall_user_id != None),
@@ -1188,9 +1188,9 @@ def user_profile_name(username):
 
 def get_saves_and_subscribes(v, template, relationship_cls, page:int, standalone=False):
 	if relationship_cls in {SaveRelationship, Subscription}:
-		query = relationship_cls.submission_id
+		query = relationship_cls.post_id
 		join = relationship_cls.post
-		cls = Submission
+		cls = Post
 	elif relationship_cls is CommentSaveRelationship:
 		query = relationship_cls.comment_id
 		join = relationship_cls.comment
@@ -1210,12 +1210,12 @@ def get_saves_and_subscribes(v, template, relationship_cls, page:int, standalone
 	if not v.admin_level >= PERMS['POST_COMMENT_MODERATION']:
 		extra = lambda q:q.filter(cls.is_banned == False, cls.deleted_utc == 0)
 
-	if cls is Submission:
+	if cls is Post:
 		listing = get_posts(ids, v=v, eager=True, extra=extra)
 	elif cls is Comment:
 		listing = get_comments(ids, v=v, extra=extra)
 	else:
-		raise TypeError("Only supports Submissions and Comments. This is probably the result of a bug with *this* function")
+		raise TypeError("Only supports Posts and Comments. This is probably the result of a bug with *this* function")
 
 	if v.client: return {"data": [x.json(g.db) for x in listing]}
 	return render_template(template, u=v, v=v, listing=listing, page=page, total=total, standalone=standalone)
@@ -1227,7 +1227,7 @@ def get_saves_and_subscribes(v, template, relationship_cls, page:int, standalone
 def saved_posts(v:User, username):
 	page = get_page()
 
-	return get_saves_and_subscribes(v, "userpage/submissions.html", SaveRelationship, page, False)
+	return get_saves_and_subscribes(v, "userpage/posts.html", SaveRelationship, page, False)
 
 @app.get("/@<username>/saved/comments")
 @limiter.limit(DEFAULT_RATELIMIT)
@@ -1245,7 +1245,7 @@ def saved_comments(v:User, username):
 def subscribed_posts(v:User, username):
 	page = get_page()
 
-	return get_saves_and_subscribes(v, "userpage/submissions.html", Subscription, page, False)
+	return get_saves_and_subscribes(v, "userpage/posts.html", Subscription, page, False)
 
 @app.post("/fp/<fp>")
 @limiter.limit('1/second', scope=rpath)

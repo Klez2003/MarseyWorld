@@ -10,17 +10,17 @@ class SaveRelationship(Base):
 	__tablename__="save_relationship"
 
 	user_id=Column(Integer, ForeignKey("users.id"), primary_key=True)
-	submission_id=Column(Integer, ForeignKey("submissions.id"), primary_key=True)
+	post_id=Column(Integer, ForeignKey("posts.id"), primary_key=True)
 	created_utc = Column(Integer)
 
-	post = relationship("Submission", uselist=False)
+	post = relationship("Post", uselist=False)
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
 		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
-		return f"<{self.__class__.__name__}(user_id={self.user_id}, submission_id={self.submission_id})>"
+		return f"<{self.__class__.__name__}(user_id={self.user_id}, post_id={self.post_id})>"
 
 
 class CommentSaveRelationship(Base):

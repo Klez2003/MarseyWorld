@@ -253,7 +253,7 @@ def admin_app_id_posts(v, aid):
 
 	page = get_page()
 
-	pids, total = oauth.idlist(Submission, page=page)
+	pids, total = oauth.idlist(Post, page=page)
 
 	posts = get_posts(pids, v=v)
 

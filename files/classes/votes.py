@@ -10,7 +10,7 @@ from files.helpers.lazy import lazy
 class Vote(Base):
 	__tablename__ = "votes"
 
-	submission_id = Column(Integer, ForeignKey("submissions.id"), primary_key=True)
+	post_id = Column(Integer, ForeignKey("posts.id"), primary_key=True)
 	user_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
 	vote_type = Column(Integer)
 	app_id = Column(Integer, ForeignKey("oauth_apps.id"))
@@ -32,7 +32,7 @@ class Vote(Base):
 	def json(self):
 		return {
 			"user_id": self.user_id,
-			"submission_id": self.submission_id,
+			"post_id": self.post_id,
 			"vote_type": self.vote_type,
 			"user": self.user.json,
 		}
@@ -63,7 +63,7 @@ class CommentVote(Base):
 	def json(self):
 		return {
 			"user_id": self.user_id,
-			"submission_id": self.submission_id,
+			"post_id": self.post_id,
 			"vote_type": self.vote_type,
 			"user": self.user.json,
 		}
