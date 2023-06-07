@@ -369,8 +369,7 @@ class Comment(Base):
 		if not body: return ""
 
 		if not (self.parent_submission and self.post.sub == 'chudrama'):
-			body = censor_slurs(body, v).replace('<img loading="lazy" data-bs-toggle="tooltip" alt=":marseytrain:" title=":marseytrain:" src="/e/marseytrain.webp">', ':marseytrain:') \
-			.replace('<img loading="lazy" data-bs-toggle="tooltip" alt=":marseysleep:" title=":marseysleep:" src="/e/marseysleep.webp">', ':marseysleep:')
+			body = censor_slurs(body, v).replace('<img loading="lazy" data-bs-toggle="tooltip" alt=":marseytrain:" title=":marseytrain:" src="/e/marseytrain.webp">', ':marseytrain:')
 
 		return body
 

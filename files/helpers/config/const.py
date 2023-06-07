@@ -193,7 +193,6 @@ if SITE_NAME == 'rDrama':
 		"it's almost like": "I'm a retard but",
 		"my brother in christ": "my brother in Allah",
 		"kyle": "Kylie",
-		"twitter files": 'twitter files <img loading="lazy" data-bs-toggle="tooltip" alt=":marseysleep:" title=":marseysleep:" src="/e/marseysleep.webp">',
 		" cool (?!it)": " fetch ",
 		"krayon": "krayon (sister toucher)",
 		"discord": "groomercord",
