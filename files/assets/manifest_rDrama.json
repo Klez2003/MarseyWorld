@@ -3,7 +3,7 @@
 	"short_name": "rDrama",
 	"start_url": "https://rdrama.net",
 	"display": "standalone",
-	"background_color": "#FF66AC",
+	"background_color": "#FA2D8B",
 	"theme_color": "#805AD5",
 	"description": "rDrama",
 	"icons": [
