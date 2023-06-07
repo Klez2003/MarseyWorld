@@ -828,7 +828,6 @@ def userpagelisting(user:User, v=None, page:int=1, sort="new", t="all"):
 	return [x.id for x in posts], total
 
 @app.get("/@<username>")
-@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @auth_required
 def u_username_wall(v:Optional[User], username:str):
