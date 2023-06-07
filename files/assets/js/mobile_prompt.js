@@ -1,4 +1,4 @@
-if (!window.matchMedia('(display-mode: minimal-ui)')['matches']) {
+if (!window.matchMedia('(display-mode: standalone)')['matches']) {
 	if (window.innerWidth <= 737) {
 		const tt = bootstrap.Tooltip.getOrCreateInstance(document.getElementById('mobile-prompt'))
 		tt.show()

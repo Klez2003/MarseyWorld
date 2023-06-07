@@ -383,7 +383,7 @@ function sort_table(t) {
 	}
 }
 
-if (window.matchMedia('(display-mode: minimal-ui)')['matches']) {
+if (window.matchMedia('(display-mode: standalone)')['matches']) {
 	const links = document.querySelectorAll('a[data-target="t"]');
 	for (const link of links) {
 		link.removeAttribute("target");
