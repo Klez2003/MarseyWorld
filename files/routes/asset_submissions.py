@@ -153,9 +153,9 @@ def approve_emoji(v, name):
 	if emoji.kind == "Marsey":
 		all_by_author = g.db.query(Emoji).filter_by(kind="Marsey", author_id=author.id).count()
 
-		if count >= 100:
+		if all_by_author >= 100:
 			badge_grant(badge_id=143, user=author)
-		elif count >= 10:
+		elif all_by_author >= 10:
 			badge_grant(badge_id=16, user=author)
 		else:
 			badge_grant(badge_id=17, user=author)
