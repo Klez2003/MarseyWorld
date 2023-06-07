@@ -1104,7 +1104,7 @@ class User(Base):
 	@property
 	@lazy
 	def winnings(self):
-		return g.db.query(func.sum(CasinoGame.winnings)).filter(CasinoGame.user_id == self.id).one()[0]
+		return g.db.query(func.sum(CasinoGame.winnings)).filter(CasinoGame.user_id == self.id).one()[0] or 0
 
 	@lazy
 	def show_sig(self, v):
