@@ -108,7 +108,6 @@ SLURS = {
 	" coons ": " BIPOCs ",
 	"niglet": 'BIPOClet',
 	"negress": "BIPOCette",
-	'nigga': 'neighbor',
 	"faggot": "cute twink",
 	"fag": "strag",
 	" spic ": " hard-working American ",
@@ -200,6 +199,7 @@ if SITE_NAME == 'rDrama':
 		"my wife(?! \()": "my wife (male)",
 		"(?<!cow) tools ": " cow tools ",
 		"explain": "mansplain",
+		'nigga': 'neighbor',
 	}
 	SLURS.update(RDRAMA_SLURS)
 
