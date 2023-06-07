@@ -266,6 +266,8 @@ if SITE_NAME == 'rDrama':
 		'breached.vc',
 		'community.myfitnesspal.com',
 		'mumsnet.com',
+		'voy.com',
+		'texags.com',
 
 		#nested-comments
 		SITE,
