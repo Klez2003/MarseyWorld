@@ -361,7 +361,7 @@ def award_thing(v, thing_type, id):
 				abort(400, "Invalid username")
 
 			existing = get_user(new_name, graceful=True)
-			if existing:
+			if existing and existing.id != author.id:
 				abort(400, f"@{new_name} is already taken!")
 
 			if not author.prelock_username:
