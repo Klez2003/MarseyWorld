@@ -200,6 +200,7 @@ if SITE_NAME == 'rDrama':
 		"(?<!cow) tools ": " cow tools ",
 		"explain": "mansplain",
 		'nigga': 'neighbor',
+		'(?<!:)marsey': 'marty',
 	}
 	SLURS.update(RDRAMA_SLURS)
 
