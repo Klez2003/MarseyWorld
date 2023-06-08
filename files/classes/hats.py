@@ -3,6 +3,7 @@ import time
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy.orm import relationship, scoped_session
 from sqlalchemy.sql.sqltypes import *
+from flask import g
 
 from files.classes import Base
 from files.helpers.lazy import lazy
@@ -32,7 +33,7 @@ class HatDef(Base):
 	@property
 	@lazy
 	def number_sold(self):
-		return db.query(Hat).filter_by(hat_id=self.id).count()
+		return g.db.query(Hat).filter_by(hat_id=self.id).count()
 
 	@lazy
 	def censored_description(self, v):
