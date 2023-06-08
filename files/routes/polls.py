@@ -134,7 +134,7 @@ def option_votes(option_id, v):
 	total_ts = format(total_ts, ",") if total_ts else '0'
 
 	if v.admin_level >= 3:
-		total_patrons = g.db.query(User).filter(User.id.in_(user_ids), User.patron > 0).count()
+		total_patrons = g.db.query(User).filter(User.id.in_(user_ids), User.patron > 1).count()
 	else:
 		total_patrons = None
 
@@ -170,7 +170,7 @@ def option_votes_comment(option_id, v):
 	total_ts = format(total_ts, ",") if total_ts else '0'
 
 	if v.admin_level >= 3:
-		total_patrons = g.db.query(User).filter(User.id.in_(user_ids), User.patron > 0).count()
+		total_patrons = g.db.query(User).filter(User.id.in_(user_ids), User.patron > 1).count()
 	else:
 		total_patrons = None
 
