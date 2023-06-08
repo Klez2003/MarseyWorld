@@ -7221,6 +7221,22 @@ input[type=number] {
 #note {
 	min-height: 60px;
 }
+#notelabel {
+	font-size: 16px;
+}
+
+@media (max-width: 767.98px) {
+	#note, #notelabel {
+		font-size: 14px !important;
+	}
+}
+
+@media (max-width: 394px) {
+	#note {
+		min-height: 80px;
+	}
+}
+
 
 .collapsed .showmore-text
 {
