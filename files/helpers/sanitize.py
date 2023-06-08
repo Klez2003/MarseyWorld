@@ -337,7 +337,7 @@ def handle_youtube_links(url):
 	return html
 
 @with_sigalrm_timeout(10)
-def sanitize(sanitized, golden=True, limit_pings=0, showmore=True, count_emojis=False, snappy=False, chat=False, blackjack=None):
+def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis=False, snappy=False, chat=False, blackjack=None):
 	sanitized = sanitized.strip()
 	if not sanitized: return ''
 

@@ -574,7 +574,7 @@ def submit_post(v:User, sub=None):
 	body = process_files(request.files, v, body)
 	body = body.strip()[:POST_BODY_LENGTH_LIMIT(v)] # process_files() adds content to the body, so we need to re-strip
 
-	body_html = sanitize(body, count_emojis=True, limit_pings=100, showmore=False)
+	body_html = sanitize(body, count_emojis=True, limit_pings=100)
 
 	if v.marseyawarded and marseyaward_body_regex.search(body_html):
 		abort(400, "You can only type marseys!")
@@ -1040,7 +1040,7 @@ def edit_post(pid, v):
 	body = body.strip()[:POST_BODY_LENGTH_LIMIT(v)] # process_files() may be adding stuff to the body
 
 	if body != p.body:
-		body_html = sanitize(body, golden=False, limit_pings=100, showmore=False)
+		body_html = sanitize(body, golden=False, limit_pings=100)
 
 		if v.id == p.author_id and v.marseyawarded and marseyaward_body_regex.search(body_html):
 			abort(403, "You can only type marseys!")
