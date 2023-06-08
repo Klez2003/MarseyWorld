@@ -109,7 +109,7 @@ SLURS = {
 	"niglet": 'BIPOClet',
 	"negress": "BIPOCette",
 	"faggot": "cute twink",
-	"fag": "strag",
+	"fag": "cute twink",
 	" spic ": " hard-working American ",
 	" spics ": " hard-working Americans ",
 	"trannie": '<img loading="lazy" data-bs-toggle="tooltip" alt=":marseytrain:" title=":marseytrain:" src="/e/marseytrain.webp">',
