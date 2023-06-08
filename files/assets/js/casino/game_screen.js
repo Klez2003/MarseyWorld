@@ -80,7 +80,7 @@ function updateFeed(newFeed) {
 			class="${entry.won_or_lost === "won" ? "text-success" : "text-danger"}">
 			<div>
 				<a href="/@${entry.user}">@${entry.user}</a> ${entry.won_or_lost} ${entry.amount
-				} ${entry.currency}
+				} ${entry.currency}${entry.currency === "coin" ? "s" : ""}
 			</div>
 		</li>
 	`
