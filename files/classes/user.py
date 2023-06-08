@@ -1031,8 +1031,11 @@ class User(Base):
 					return False
 				if other.sub and not cls.can_see(user, other.subr):
 					return False
-				if 'christchurch' in other.title.lower() and request.headers.get("Cf-Ipcountry") == 'NZ':
-					return False
+				if request.headers.get("Cf-Ipcountry") == 'NZ':
+					if 'christchurch' in other.title.lower():
+						return False
+					if SITE == 'watchpeopledie.tv' and other.id == 5:
+						return False
 			else:
 				if other.parent_submission:
 					return cls.can_see(user, other.post)
