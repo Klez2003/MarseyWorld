@@ -205,10 +205,6 @@ if SITE_NAME == 'rDrama':
 	SLURS.update(RDRAMA_SLURS)
 
 	BOOSTED_SITES = {
-		#All sites with .win TLD
-		#All sites with the word "forum" in the domain
-		#All sites with the word "chan" in the domain
-
 		#youtube-like
 		'bitchute.com',
 		'goyimtv.com',
@@ -220,6 +216,7 @@ if SITE_NAME == 'rDrama':
 		'8kun.top',
 		'soyjak.party',
 		'crystal.cafe',
+		#+All sites with the word "chan" in the domain
 
 		#twitter-like
 		'gab.com',
@@ -269,6 +266,7 @@ if SITE_NAME == 'rDrama':
 		'mumsnet.com',
 		'voy.com',
 		'texags.com',
+		#+All sites with the word "forum" in the domain
 
 		#nested-comments
 		SITE,
@@ -302,6 +300,7 @@ if SITE_NAME == 'rDrama':
 		'forum.porpl.net',
 		'ifunny.co',
 		'slashdot.org',
+		#+All sites with .win TLD
 
 		#misc
 		'cinchnews.com',
