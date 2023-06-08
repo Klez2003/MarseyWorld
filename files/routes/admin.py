@@ -467,7 +467,7 @@ def badge_grant_post(v):
 
 	if url:
 		if '\\' in url: abort(400)
-		if url.startswith(SITE_FULL):
+		if url.startswith(f'{SITE_FULL}/'):
 			url = url.split(SITE_FULL, 1)[1]
 
 	existing = user.has_badge(badge_id)
