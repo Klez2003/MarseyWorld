@@ -64,7 +64,7 @@ def front_all(v, sub=None, subdomain=None):
 	if v and v.hidevotedon:
 		posts = [x for x in posts if not hasattr(x, 'voted') or not x.voted]
 
-	if v and v.client: return {"data": [x.json(g.db) for x in posts], "total": total}
+	if v and v.client: return {"data": [x.json for x in posts], "total": total}
 	return render_template("home.html", v=v, listing=posts, total=total, sort=sort, t=t, page=page, sub=sub, home=True, pins=pins, size=size)
 
 
@@ -237,5 +237,5 @@ def all_comments(v:User):
 
 	comments = get_comments(idlist, v=v)
 
-	if v.client: return {"data": [x.json(g.db) for x in comments]}
+	if v.client: return {"data": [x.json for x in comments]}
 	return render_template("home_comments.html", v=v, sort=sort, t=t, page=page, comments=comments, standalone=True, total=total, size = PAGE_SIZE)

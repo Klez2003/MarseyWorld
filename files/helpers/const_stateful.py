@@ -13,11 +13,8 @@ SNAPPY_MARSEYS = []
 SNAPPY_QUOTES = []
 
 def const_initialize(db:scoped_session):
-	_initialize_marseys(db)
-	_initialize_snappy_marseys_and_quotes()
+	global marseys_const, marseys_const2, marsey_mappings, SNAPPY_KONGS, SNAPPY_MARSEYS, SNAPPY_QUOTES
 
-def _initialize_marseys(db:scoped_session):
-	global marseys_const, marseys_const2, marsey_mappings, SNAPPY_KONGS
 	marseys_const = [x[0] for x in db.query(Emoji.name).filter(Emoji.kind=="Marsey", Emoji.submitter_id==None, Emoji.name!='chudsey').all()]
 	marseys_const2 = marseys_const + ['chudsey','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','0','1','2','3','4','5','6','7','8','9','exclamationpoint','period','questionmark']
 	marseys = db.query(Emoji).filter(Emoji.kind=="Marsey", Emoji.submitter_id==None).all()
@@ -34,10 +31,6 @@ def _initialize_marseys(db:scoped_session):
 
 	db.commit()
 	db.close()
-
-
-def _initialize_snappy_marseys_and_quotes():
-	global SNAPPY_MARSEYS, SNAPPY_QUOTES
 
 	SNAPPY_MARSEYS = [f':#{x}:' for x in marseys_const2]
 

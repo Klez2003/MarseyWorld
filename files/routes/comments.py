@@ -74,7 +74,7 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 	execute_shadowban_viewers_and_voters(v, post)
 	execute_shadowban_viewers_and_voters(v, comment)
 
-	if v and v.client: return top_comment.json(db=g.db)
+	if v and v.client: return top_comment.json
 	else:
 		if post.is_banned and not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or post.author_id == v.id)): template = "post_banned.html"
 		else: template = "post.html"
@@ -395,7 +395,7 @@ def comment(v:User):
 	if c.parent_submission:
 		cache.delete(f'post_{c.parent_submission}')
 
-	if v.client: return c.json(db=g.db)
+	if v.client: return c.json
 	return {"comment": render_template("comments.html", v=v, comments=[c])}
 
 @app.post("/delete/comment/<int:cid>")

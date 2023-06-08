@@ -29,8 +29,9 @@ class HatDef(Base):
 	def __repr__(self):
 		return f"<{self.__class__.__name__}(id={self.id})>"
 
+	@property
 	@lazy
-	def number_sold(self, db:scoped_session):
+	def number_sold(self):
 		return db.query(Hat).filter_by(hat_id=self.id).count()
 
 	@lazy

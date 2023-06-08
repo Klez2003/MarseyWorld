@@ -412,30 +412,30 @@ def transfer_bux(v:User, username:str):
 def leaderboard(v:User):
 	users = g.db.query(User)
 
-	coins = Leaderboard("Coins", "coins", "coins", "Coins", None, Leaderboard.get_simple_lb, User.coins, v, lambda u:u.coins, g.db, users)
-	marseybux = Leaderboard("Marseybux", "marseybux", "marseybux", "Marseybux", None, Leaderboard.get_simple_lb, User.marseybux, v, lambda u:u.marseybux, g.db, users)
-	subscribers = Leaderboard("Followers", "followers", "followers", "Followers", "followers", Leaderboard.get_simple_lb, User.stored_subscriber_count, v, lambda u:u.stored_subscriber_count, g.db, users)
-	posts = Leaderboard("Posts", "post count", "posts", "Posts", "posts", Leaderboard.get_simple_lb, User.post_count, v, lambda u:u.post_count, g.db, users)
-	comments = Leaderboard("Comments", "comment count", "comments", "Comments", "comments", Leaderboard.get_simple_lb, User.comment_count, v, lambda u:u.comment_count, g.db, users)
-	received_awards = Leaderboard("Received awards", "received awards", "received-awards", "Received Awards", None, Leaderboard.get_simple_lb, User.received_award_count, v, lambda u:u.received_award_count, g.db, users)
-	coins_spent = Leaderboard("Coins spent on awards", "coins spent on awards", "spent", "Coins", None, Leaderboard.get_simple_lb, User.coins_spent, v, lambda u:u.coins_spent, g.db, users)
-	truescore = Leaderboard("Truescore", "truescore", "truescore", "Truescore", None, Leaderboard.get_simple_lb, User.truescore, v, lambda u:u.truescore, g.db, users)
+	coins = Leaderboard("Coins", "coins", "coins", "Coins", None, Leaderboard.get_simple_lb, User.coins, v, lambda u:u.coins, users)
+	marseybux = Leaderboard("Marseybux", "marseybux", "marseybux", "Marseybux", None, Leaderboard.get_simple_lb, User.marseybux, v, lambda u:u.marseybux, users)
+	subscribers = Leaderboard("Followers", "followers", "followers", "Followers", "followers", Leaderboard.get_simple_lb, User.stored_subscriber_count, v, lambda u:u.stored_subscriber_count, users)
+	posts = Leaderboard("Posts", "post count", "posts", "Posts", "posts", Leaderboard.get_simple_lb, User.post_count, v, lambda u:u.post_count, users)
+	comments = Leaderboard("Comments", "comment count", "comments", "Comments", "comments", Leaderboard.get_simple_lb, User.comment_count, v, lambda u:u.comment_count, users)
+	received_awards = Leaderboard("Received awards", "received awards", "received-awards", "Received Awards", None, Leaderboard.get_simple_lb, User.received_award_count, v, lambda u:u.received_award_count, users)
+	coins_spent = Leaderboard("Coins spent on awards", "coins spent on awards", "spent", "Coins", None, Leaderboard.get_simple_lb, User.coins_spent, v, lambda u:u.coins_spent, users)
+	truescore = Leaderboard("Truescore", "truescore", "truescore", "Truescore", None, Leaderboard.get_simple_lb, User.truescore, v, lambda u:u.truescore, users)
 
-	badges = Leaderboard("Badges", "badges", "badges", "Badges", None, Leaderboard.get_badge_marsey_lb, Badge.user_id, v, None, g.db, None)
+	badges = Leaderboard("Badges", "badges", "badges", "Badges", None, Leaderboard.get_badge_marsey_lb, Badge.user_id, v, None, None)
 
-	blocks = Leaderboard("Most blocked", "most blocked", "most-blocked", "Blocked By", "blockers", Leaderboard.get_blockers_lb, UserBlock.target_id, v, None, g.db, None)
+	blocks = Leaderboard("Most blocked", "most blocked", "most-blocked", "Blocked By", "blockers", Leaderboard.get_blockers_lb, UserBlock.target_id, v, None, None)
 
-	owned_hats = Leaderboard("Owned hats", "owned hats", "owned-hats", "Owned Hats", None, Leaderboard.get_hat_lb, User.owned_hats, v, None, g.db, None)
+	owned_hats = Leaderboard("Owned hats", "owned hats", "owned-hats", "Owned Hats", None, Leaderboard.get_hat_lb, User.owned_hats, v, None, None)
 
 	leaderboards = [coins, marseybux, coins_spent, truescore, subscribers, posts, comments, received_awards, badges, blocks, owned_hats]
 
 	if SITE == 'rdrama.net':
-		leaderboards.append(Leaderboard("Designed hats", "designed hats", "designed-hats", "Designed Hats", None, Leaderboard.get_hat_lb, User.designed_hats, v, None, g.db, None))
-		leaderboards.append(Leaderboard("Marseys made", "Marseys made", "marseys-made", "Marseys", None, Leaderboard.get_badge_marsey_lb, Emoji.author_id, v, None, g.db, None))
+		leaderboards.append(Leaderboard("Designed hats", "designed hats", "designed-hats", "Designed Hats", None, Leaderboard.get_hat_lb, User.designed_hats, v, None, None))
+		leaderboards.append(Leaderboard("Marseys made", "Marseys made", "marseys-made", "Marseys", None, Leaderboard.get_badge_marsey_lb, Emoji.author_id, v, None, None))
 
-	leaderboards.append(Leaderboard("Upvotes given", "upvotes given", "upvotes-given", "Upvotes Given", "upvoting", Leaderboard.get_upvotes_lb, None, v, None, g.db, None))
+	leaderboards.append(Leaderboard("Upvotes given", "upvotes given", "upvotes-given", "Upvotes Given", "upvoting", Leaderboard.get_upvotes_lb, None, v, None, None))
 
-	leaderboards.append(Leaderboard("Downvotes received", "downvotes received", "downvotes-received", "Downvotes Received", "downvoters", Leaderboard.get_downvotes_lb, None, v, None, g.db, None))
+	leaderboards.append(Leaderboard("Downvotes received", "downvotes received", "downvotes-received", "Downvotes Received", "downvoters", Leaderboard.get_downvotes_lb, None, v, None, None))
 
 	return render_template("leaderboard.html", v=v, leaderboards=leaderboards)
 
@@ -870,7 +870,7 @@ def u_username_wall(v:Optional[User], username:str):
 		comments = [c[0] for c in comments]
 
 	if v and v.client:
-		return {"data": [c.json(g.db) for c in comments]}
+		return {"data": [c.json for c in comments]}
 
 	return render_template("userpage/wall.html", u=u, v=v, listing=comments, page=page, total=total, is_following=is_following, standalone=True, render_replies=True, wall=True)
 
@@ -919,7 +919,7 @@ def u_username_wall_comment(v:User, username:str, cid):
 		# props won't save properly unless you put them in a list
 		output = get_comments_v_properties(v, None, Comment.top_comment_id == c.top_comment_id)[1]
 
-	if v and v.client: return top_comment.json(db=g.db)
+	if v and v.client: return top_comment.json
 
 	return render_template("userpage/wall.html", u=u, v=v, listing=[top_comment], page=1, is_following=is_following, standalone=True, render_replies=True, wall=True, comment_info=comment_info, total=1)
 
@@ -968,7 +968,7 @@ def u_username(v:Optional[User], username:str):
 
 	if u.unban_utc:
 		if v and v.client:
-			return {"data": [x.json(g.db) for x in listing]}
+			return {"data": [x.json for x in listing]}
 
 		return render_template("userpage/posts.html",
 												unban=u.unban_string,
@@ -982,7 +982,7 @@ def u_username(v:Optional[User], username:str):
 												is_following=is_following)
 
 	if v and v.client:
-		return {"data": [x.json(g.db) for x in listing]}
+		return {"data": [x.json for x in listing]}
 
 	return render_template("userpage/posts.html",
 									u=u,
@@ -1054,7 +1054,7 @@ def u_username_comments(username, v=None):
 	listing = get_comments(ids, v=v)
 
 	if v and v.client:
-		return {"data": [c.json(g.db) for c in listing]}
+		return {"data": [c.json for c in listing]}
 
 	return render_template("userpage/comments.html", u=u, v=v, listing=listing, page=page, sort=sort, t=t,total=total, is_following=is_following, standalone=True)
 
@@ -1217,7 +1217,7 @@ def get_saves_and_subscribes(v, template, relationship_cls, page:int, standalone
 	else:
 		raise TypeError("Only supports Posts and Comments. This is probably the result of a bug with *this* function")
 
-	if v.client: return {"data": [x.json(g.db) for x in listing]}
+	if v.client: return {"data": [x.json for x in listing]}
 	return render_template(template, u=v, v=v, listing=listing, page=page, total=total, standalone=standalone)
 
 @app.get("/@<username>/saved/posts")

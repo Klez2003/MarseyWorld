@@ -169,7 +169,7 @@ def searchposts(v:User):
 
 	posts = get_posts(ids, v=v, eager=True)
 
-	if v.client: return {"total":total, "data":[x.json(g.db) for x in posts]}
+	if v.client: return {"total":total, "data":[x.json for x in posts]}
 
 	return render_template("search.html",
 						v=v,
@@ -280,7 +280,7 @@ def searchcomments(v:User):
 
 	comments = get_comments(ids, v=v)
 
-	if v.client: return {"total":total, "data":[x.json(db=g.db) for x in comments]}
+	if v.client: return {"total":total, "data":[x.json for x in comments]}
 	return render_template("search_comments.html", v=v, query=query, page=page, comments=comments, sort=sort, t=t, total=total, standalone=True)
 
 
@@ -372,7 +372,7 @@ def searchmessages(v:User):
 
 	comments = dict.fromkeys([x.top_comment for x in comments])
 
-	if v.client: return {"total":total, "data":[x.json(db=g.db) for x in comments]}
+	if v.client: return {"total":total, "data":[x.json for x in comments]}
 	return render_template("search_comments.html", v=v, query=query, page=page, comments=comments, sort=sort, t=t, total=total, standalone=True, render_replies=True)
 
 @app.get("/search/users")

@@ -1,16 +1,17 @@
 import time
+from flask import g
 from files.classes.casino_game import CasinoGame
 from files.helpers.alerts import *
 from files.helpers.config.const import *
 from files.helpers.useractions import badge_grant
 
-def get_game_feed(game, db):
-	games = db.query(CasinoGame) \
+def get_game_feed(game):
+	games = g.db.query(CasinoGame) \
 		.filter(CasinoGame.active == False, CasinoGame.kind == game) \
 		.order_by(CasinoGame.created_utc.desc()).limit(30).all()
 
 	def format_game(game):
-		user = db.query(User).filter(User.id == game.user_id).one()
+		user = g.db.query(User).filter(User.id == game.user_id).one()
 		wonlost = 'lost' if game.winnings < 0 else 'won'
 		relevant_currency = "coin" if game.currency == "coins" else "marseybux"
 
@@ -23,27 +24,27 @@ def get_game_feed(game, db):
 
 	return list(map(format_game, games))
 
-def get_user_stats(u:User, game:str, db:scoped_session, include_ties=False):
-	games = db.query(CasinoGame.user_id, CasinoGame.winnings).filter(CasinoGame.kind == game, CasinoGame.user_id == u.id)
+def get_user_stats(u:User, game:str, include_ties=False):
+	games = g.db.query(CasinoGame.user_id, CasinoGame.winnings).filter(CasinoGame.kind == game, CasinoGame.user_id == u.id)
 	wins = games.filter(CasinoGame.winnings > 0).count()
 	ties = games.filter(CasinoGame.winnings == 0).count() if include_ties else 0
 	losses = games.filter(CasinoGame.winnings < 0).count()
 	return (wins, ties, losses)
 
-def get_game_leaderboard(game, db:scoped_session):
+def get_game_leaderboard(game):
 	timestamp_24h_ago = time.time() - 86400
 	timestamp_all_time = CASINO_RELEASE_DAY # "All Time" starts on release day
 
-	biggest_win_all_time = db.query(CasinoGame.user_id, User.username, CasinoGame.currency, CasinoGame.winnings).select_from(
+	biggest_win_all_time = g.db.query(CasinoGame.user_id, User.username, CasinoGame.currency, CasinoGame.winnings).select_from(
 		CasinoGame).join(User).order_by(CasinoGame.winnings.desc()).filter(CasinoGame.kind == game, CasinoGame.created_utc > timestamp_all_time).limit(1).one_or_none()
 
-	biggest_win_last_24h = db.query(CasinoGame.user_id, User.username, CasinoGame.currency, CasinoGame.winnings).select_from(
+	biggest_win_last_24h = g.db.query(CasinoGame.user_id, User.username, CasinoGame.currency, CasinoGame.winnings).select_from(
 		CasinoGame).join(User).order_by(CasinoGame.winnings.desc()).filter(CasinoGame.kind == game, CasinoGame.created_utc > timestamp_24h_ago).limit(1).one_or_none()
 
-	biggest_loss_all_time = db.query(CasinoGame.user_id, User.username, CasinoGame.currency, CasinoGame.winnings).select_from(
+	biggest_loss_all_time = g.db.query(CasinoGame.user_id, User.username, CasinoGame.currency, CasinoGame.winnings).select_from(
 		CasinoGame).join(User).order_by(CasinoGame.winnings.asc()).filter(CasinoGame.kind == game, CasinoGame.created_utc > timestamp_all_time).limit(1).one_or_none()
 
-	biggest_loss_last_24h = db.query(CasinoGame.user_id, User.username, CasinoGame.currency, CasinoGame.winnings).select_from(
+	biggest_loss_last_24h = g.db.query(CasinoGame.user_id, User.username, CasinoGame.currency, CasinoGame.winnings).select_from(
 		CasinoGame).join(User).order_by(CasinoGame.winnings.asc()).filter(CasinoGame.kind == game, CasinoGame.created_utc > timestamp_24h_ago).limit(1).one_or_none()
 
 	if not biggest_win_all_time:

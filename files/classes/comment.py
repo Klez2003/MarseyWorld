@@ -259,7 +259,9 @@ class Comment(Base):
 		if kind == 'tilt' and num > 4: return 4
 		return num
 
-	def json(self, db:scoped_session):
+	@property
+	@lazy
+	def json(self):
 		if self.is_banned:
 			data = {'is_banned': True,
 					'ban_reason': self.ban_reason,
@@ -301,7 +303,7 @@ class Comment(Base):
 				'is_bot': self.is_bot,
 				'flags': flags,
 				'author': '👻' if self.ghost else self.author.json,
-				# 'replies': [x.json(db=db) for x in self.replies(sort="old", v=None)] # WORKER TIMEOUTS ON BUGTHREAD
+				# 'replies': [x.json for x in self.replies(sort="old", v=None)] # WORKER TIMEOUTS ON BUGTHREAD
 				}
 
 		if self.level >= 2: data['parent_comment_id'] = self.parent_comment_id

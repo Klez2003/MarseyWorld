@@ -42,10 +42,10 @@ def reddit_post(subreddit, v, path):
 
 
 @cache.cached(key_prefix="marseys")
-def get_marseys(db:scoped_session):
+def get_marseys():
 	if not FEATURES['MARSEYS']: return []
 	marseys = []
-	for marsey, author in db.query(Emoji, User).join(User, Emoji.author_id == User.id).filter(Emoji.kind == "Marsey", Emoji.submitter_id == None).order_by(Emoji.count.desc()):
+	for marsey, author in g.db.query(Emoji, User).join(User, Emoji.author_id == User.id).filter(Emoji.kind == "Marsey", Emoji.submitter_id == None).order_by(Emoji.count.desc()):
 		marsey.author = author.username if FEATURES['ASSET_SUBMISSIONS'] else None
 		marseys.append(marsey)
 	return marseys
@@ -58,7 +58,7 @@ def marseys(v:User):
 	if SITE_NAME != 'rDrama':
 		abort(404)
 
-	marseys = get_marseys(g.db)
+	marseys = get_marseys()
 	authors = get_accounts_dict([m.author_id for m in marseys], v=v, graceful=True)
 	original = os.listdir("/asset_submissions/emojis/original")
 	for marsey in marseys:
@@ -394,7 +394,7 @@ def transfers(v:User):
 	comments = comments.order_by(Comment.id.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
 
 	if v.client:
-		return {"data": [x.json(g.db) for x in comments]}
+		return {"data": [x.json for x in comments]}
 	else:
 		return render_template("transfers.html", v=v, page=page, comments=comments, standalone=True, total=total)
 

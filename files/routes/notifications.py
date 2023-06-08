@@ -50,7 +50,7 @@ def unread(v):
 		n.read = True
 		g.db.add(n)
 
-	return {"data":[x[1].json(g.db) for x in listing]}
+	return {"data":[x[1].json for x in listing]}
 
 
 @app.get("/notifications/modmail")
@@ -70,7 +70,7 @@ def notifications_modmail(v):
 
 	g.db.flush()
 
-	if v.client: return {"data":[x.json(g.db) for x in listing]}
+	if v.client: return {"data":[x.json for x in listing]}
 
 	return render_template("notifications.html",
 							v=v,
@@ -141,7 +141,7 @@ def notifications_messages(v:User):
 	listing = message_threads.order_by(thread_order.c.created_utc.desc()) \
 					.offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE).all()
 
-	if v.client: return {"data":[x.json(g.db) for x in listing]}
+	if v.client: return {"data":[x.json for x in listing]}
 
 	return render_template("notifications.html",
 							v=v,
@@ -188,7 +188,7 @@ def notifications_posts(v:User):
 		v.last_viewed_post_notifs = int(time.time())
 		g.db.add(v)
 
-	if v.client: return {"data":[x.json(g.db) for x in listing]}
+	if v.client: return {"data":[x.json for x in listing]}
 
 	return render_template("notifications.html",
 							v=v,
@@ -272,7 +272,7 @@ def notifications_reddit(v:User):
 		v.last_viewed_reddit_notifs = int(time.time())
 		g.db.add(v)
 
-	if v.client: return {"data":[x.json(g.db) for x in listing]}
+	if v.client: return {"data":[x.json for x in listing]}
 
 	return render_template("notifications.html",
 							v=v,
@@ -408,7 +408,7 @@ def notifications(v:User):
 
 	g.db.flush()
 
-	if v.client: return {"data":[x.json(g.db) for x in listing]}
+	if v.client: return {"data":[x.json for x in listing]}
 
 	return render_template("notifications.html",
 							v=v,

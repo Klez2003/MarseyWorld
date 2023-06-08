@@ -168,7 +168,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 	p.replies = list(pinned2.keys()) + comments
 
 	if v and v.client:
-		return p.json(g.db)
+		return p.json
 
 	template = "post.html"
 	if (p.is_banned or p.author.shadowbanned) \
@@ -716,7 +716,7 @@ def submit_post(v:User, sub=None):
 	cache.delete_memoized(userpagelisting)
 
 	g.db.flush()
-	if v.client: return p.json(g.db)
+	if v.client: return p.json
 	else:
 		p.voted = 1
 		return {"post_id": p.id, "success": True}
