@@ -110,21 +110,23 @@ def post_id(pid, anything=None, v=None, sub=None):
 		# shadowban check is done in sort_objects
 		# output is needed: see comments.py
 		comments, output = get_comments_v_properties(v, None, Comment.parent_submission == p.id, Comment.level < 10)
-		pinned = [c[0] for c in comments.filter(Comment.stickied != None).order_by(Comment.created_utc.desc()).all()]
-		comments = comments.filter(Comment.level == 1, Comment.stickied == None)
+
+		if sort == "hot":
+			pinned = [c[0] for c in comments.filter(Comment.stickied != None).order_by(Comment.created_utc.desc()).all()]
+			comments = comments.filter(Comment.stickied == None)
+
+		comments = comments.filter(Comment.level == 1)
 		comments = sort_objects(sort, comments, Comment)
 		comments = [c[0] for c in comments.all()]
 	else:
-		pinned = g.db.query(Comment).filter(Comment.parent_submission == p.id, Comment.stickied != None).order_by(Comment.created_utc.desc()).all()
+		comments = g.db.query(Comment).filter(Comment.parent_submission == p.id)
 
-		comments = g.db.query(Comment).filter(
-				Comment.parent_submission == p.id,
-				Comment.level == 1,
-				Comment.stickied == None
-			)
+		if sort == "hot":
+			pinned = comments.filter(Comment.stickied != None).order_by(Comment.created_utc.desc()).all()
+			comments = comments.filter(Comment.stickied == None)
 
+		comments = comments.filter(Comment.level == 1)
 		comments = sort_objects(sort, comments, Comment)
-
 		comments = comments.all()
 
 	offset = 0
@@ -152,20 +154,23 @@ def post_id(pid, anything=None, v=None, sub=None):
 		else: offset = 1
 		comments = comments2
 
-	pinned2 = {}
-	for pin in pinned:
-		if pin.stickied_utc and int(time.time()) > pin.stickied_utc:
-			pin.stickied = None
-			pin.stickied_utc = None
-			g.db.add(pin)
-		elif pin.level > 1:
-			pinned2[pin.top_comment] = ''
-			if pin.top_comment in comments:
-				comments.remove(pin.top_comment)
-		else:
-			pinned2[pin] = ''
+	p.replies = comments
 
-	p.replies = list(pinned2.keys()) + comments
+	if sort == "hot":
+		pinned2 = {}
+		for pin in pinned:
+			if pin.stickied_utc and int(time.time()) > pin.stickied_utc:
+				pin.stickied = None
+				pin.stickied_utc = None
+				g.db.add(pin)
+			elif pin.level > 1:
+				pinned2[pin.top_comment] = ''
+				if pin.top_comment in comments:
+					comments.remove(pin.top_comment)
+			else:
+				pinned2[pin] = ''
+
+		p.replies = list(pinned2.keys()) + p.replies
 
 	if v and v.client:
 		return p.json
