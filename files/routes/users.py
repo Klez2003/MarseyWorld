@@ -674,13 +674,15 @@ def messagereply(v:User):
 		if parent.author.id not in admin_ids + [v.id]:
 			admin_ids.append(parent.author.id)
 
+		#Don't delete unread notifications, so the replies don't get collapsed and they get highlighted
+		ids = [top_comment.id] + [x.id for x in top_comment.replies(sort="old", v=v)]
+		notifications = g.db.query(Notification).filter(Notification.read == True, Notification.comment_id.in_(ids), Notification.user_id.in_(admin_ids))
+		for n in notifications:
+			g.db.delete(n)
+
 		for admin in admin_ids:
 			notif = Notification(comment_id=c.id, user_id=admin)
 			g.db.add(notif)
-
-		#I removed deleting previous notifs, cuz it interferred with the "unread" attribute for comments, in turn causing modmail replies u didnt read to be collapsed, which is annoying
-
-		#Also its position here meant all notifs generated now got deleted lol, this can be fixed by moving it to before the new notif is made, but it doesn't fix the issue in the previous comment
 
 	return {"comment": render_template("comments.html", v=v, comments=[c])}
 
