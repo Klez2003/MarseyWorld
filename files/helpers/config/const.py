@@ -705,6 +705,7 @@ HOUSE_JOIN_COST = 500
 HOUSE_SWITCH_COST = 2000
 
 TIER_TO_NAME = {
+	1: "Beneficiary",
 	2: "Paypig",
 	3: "Renthog",
 	4: "Landchad",
@@ -929,6 +930,7 @@ elif SITE == 'watchpeopledie.tv':
 	SIGNUP_FOLLOW_ID = CARP_ID
 
 	TIER_TO_NAME = {
+		1: "Beneficiary",
 		2: "Victim",
 		3: "Corpse",
 		4: "Zombie",
