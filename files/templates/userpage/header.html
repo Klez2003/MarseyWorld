@@ -67,6 +67,8 @@
 					{% if sort != "new" %}<a class="dropdown-item" href="?sort=new&t={{t}}"><i class="fas fa-sparkles mr-2"></i>New</a>{% endif %}
 					{% if sort != "old" %}<a class="dropdown-item" href="?sort=old&t={{t}}"><i class="fas fa-book mr-2"></i>Old</a>{% endif %}
 					{% if sort != "controversial" %}<a class="dropdown-item" href="?sort=controversial&t={{t}}"><i class="fas fa-bullhorn mr-2"></i>Controversial</a>{% endif %}
+					{% if sort != "subscriptions" and "/posts" in request.path %}<a class="dropdown-item" href="?sort=subscriptions&t={{t}}"><i class="fas fa-bell mr-2"></i>Subscriptions</a>{% endif %}
+					{% if sort != "saves" %}<a class="dropdown-item" href="?sort=saves&t={{t}}"><i class="fas fa-save mr-2"></i>Saves</a>{% endif %}
 				</div>
 			</div>
 		</div>

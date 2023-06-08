@@ -870,6 +870,7 @@ def save_post(pid, v):
 	if not save:
 		new_save=SaveRelationship(user_id=v.id, post_id=p.id)
 		g.db.add(new_save)
+		cache.delete_memoized(userpagelisting)
 
 	return {"message": "Post saved!"}
 
@@ -887,6 +888,7 @@ def unsave_post(pid, v):
 
 	if save:
 		g.db.delete(save)
+		cache.delete_memoized(userpagelisting)
 
 	return {"message": "Post unsaved!"}
 

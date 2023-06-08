@@ -137,7 +137,7 @@
 									{% if sort != "controversial" %}<a class="dropdown-item" href="?q={{query | urlencode}}&sort=controversial&t={{t}}"><i class="fas fa-bullhorn mr-2"></i>Controversial</a>{% endif %}
 									{% if sort != "comments" and "/posts" in request.path %}<a class="dropdown-item" href="?q={{query | urlencode}}&sort=comments&t={{t}}"><i class="fas fa-comments mr-2"></i>Comments</a>{% endif %}
 									{% if sort != "subscriptions" and "/posts" in request.path %}<a class="dropdown-item" href="?q={{query | urlencode}}&sort=subscriptions&t={{t}}"><i class="fas fa-bell mr-2"></i>Subscriptions</a>{% endif %}
-									{% if sort != "saves" and "/posts" in request.path %}<a class="dropdown-item" href="?q={{query | urlencode}}&sort=saves&t={{t}}"><i class="fas fa-save mr-2"></i>Saves</a>{% endif %}
+									{% if sort != "saves" %}<a class="dropdown-item" href="?q={{query | urlencode}}&sort=saves&t={{t}}"><i class="fas fa-save mr-2"></i>Saves</a>{% endif %}
 								</div>
 							</div>
 						</div>

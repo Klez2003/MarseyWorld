@@ -508,6 +508,7 @@ def subscribe(v, post_id):
 	if not existing:
 		new_sub = Subscription(user_id=v.id, post_id=post_id)
 		g.db.add(new_sub)
+		cache.delete_memoized(userpagelisting)
 	return {"message": "Subscribed to post successfully!"}
 
 @app.post("/unsubscribe/<int:post_id>")
@@ -520,6 +521,7 @@ def unsubscribe(v, post_id):
 	existing = g.db.query(Subscription).filter_by(user_id=v.id, post_id=post_id).one_or_none()
 	if existing:
 		g.db.delete(existing)
+		cache.delete_memoized(userpagelisting)
 	return {"message": "Unsubscribed from post successfully!"}
 
 @app.post("/@<username>/message")
