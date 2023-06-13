@@ -68,7 +68,7 @@ def front_all(v, sub=None, subdomain=None):
 	return render_template("home.html", v=v, listing=posts, total=total, sort=sort, t=t, page=page, sub=sub, home=True, pins=pins, size=size)
 
 
-LIMITED_WPD_HOLES = ('gore', 'aftermath', 'selfharm', 'meta', 'discussion', 'social', 'music', 'request')
+LIMITED_WPD_HOLES = ('gore', 'aftermath', 'selfharm', 'meta', 'discussion', 'social', 'music', 'request', 'fights')
 
 @cache.memoize()
 def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='', gt=0, lt=0, sub=None, pins=True):
