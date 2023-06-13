@@ -53,7 +53,7 @@ def get_marseys():
 @app.get("/marseys")
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
-@auth_required
+@auth_desired_with_logingate
 def marseys(v:User):
 	if SITE_NAME != 'rDrama':
 		abort(404)
