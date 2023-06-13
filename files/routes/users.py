@@ -1425,7 +1425,6 @@ if KOFI_TOKEN:
 def gumroad():
 	data = request.values
 	ip = request.headers.get('CF-Connecting-IP')
-	print(ip, flush=True)
 	if ip != '34.193.146.117':
 		print(STARS, flush=True)
 		print(f'/gumroad fail: {ip}')
@@ -1438,7 +1437,12 @@ def gumroad():
 	if existing: return ''
 
 	created_utc = int(time.mktime(time.strptime(data['sale_timestamp'].split('.')[0], "%Y-%m-%dT%H:%M:%SZ")))
-	type = data['recurrence']
+
+	if data.get('recurrenace'):
+		type = "monthly"
+	else:
+		type = "one-time"
+
 	amount = int(data['price']) / 100
 	email = data['email']
 
