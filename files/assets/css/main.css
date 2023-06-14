@@ -6737,6 +6737,7 @@ blockquote + blockquote, div > blockquote:first-child, blockquote:last-child {
 div.markdown {
 	height: auto;
 	white-space: pre-wrap;
+	word-break: break-word;
 }
 @media (max-width: 768px) or (min-width: 992px) {
 	#sidebar-btn {
