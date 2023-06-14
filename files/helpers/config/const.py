@@ -211,10 +211,12 @@ if SITE_NAME == 'rDrama':
 
 		#4chan-like
 		'archive.4plebs.org',
+		'archived.moe',
 		'lolcow.farm',
 		'8kun.top',
 		'soyjak.party',
 		'crystal.cafe',
+		'desuarchive.org',
 		#+All sites with the word "chan" in the domain
 
 		#twitter-like
