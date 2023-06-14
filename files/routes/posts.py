@@ -96,7 +96,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 	p.views += 1
 	g.db.add(p)
 
-	if not v and not request.values.get("sort"):
+	if SITE == 'watchpeopledie.tv' and not v and not request.values.get("sort"):
 		result = cache.get(f'post_{p.id}')
 		if result: return result
 
@@ -184,7 +184,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 		sort=sort, render_replies=True, offset=offset, sub=p.subr,
 		fart=get_setting('fart_mode'))
 
-	if not v and not request.values.get("sort"):
+	if SITE == 'watchpeopledie.tv' and not v and not request.values.get("sort"):
 		cache.set(f'post_{p.id}', result)
 
 	return result
