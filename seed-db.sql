@@ -1292,11 +1292,18 @@ INSERT INTO public.hat_defs VALUES (1220, 'Chained Border', '?????', 2, 500, NUL
 INSERT INTO public.hat_defs VALUES (1213, 'Secret Crack', 'Oh hi… AH', 2, 1000, NULL, 1686288898);
 
 
+
+
+
+
+
+
+
 --
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1220, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1231, true);
 
 
 --
@@ -1408,6 +1415,8 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('bitchslap','Classic',2,'slapping'),
 ('bite','Classic',2,'bite feral emoticon animated teeth ravenous insane'),
 ('blackfemboy','Wojak',2,'black femboy gay'),
+('blacklivesmatter','Misc',2,'blacklivesmatter blm black lives matter blacks niggas nigga nibba nibbas nigger niggers activist woke sjw race racial racism racist racists racesprotest activist activism grift grifter money corporate'),
+('blacklivesmattertrio','Misc',2,'blacklivesmatter blm black lives matter blacks niggas nigga nibba nibbas nigger niggers activist woke sjw race racial racism racist racists racesprotest activist activism grift grifter money corporate'),
 ('blacknation','Misc',2,'black flag'),
 ('blackpepe','Misc',2,'gun'),
 ('blacksoyjak','Wojak',2,'black soyjack BIPOC'),
@@ -1566,15 +1575,19 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('chudcelebrate','Wojak',2,'chud party dance celebrate happy 4chan incel soy manlet shorts'),
 ('chudcheers','Wojak',2,'chud wojak soyjak soy cheers toast'),
 ('chudconcerned','Wojak',2,'soy wojak soyjak chud rightoid concern worried shock sweat fear scared'),
+('chudcowboy','Wojak',2,'chud chudjak cowboy cowboys horse redneck nazi racist nazis nazism racism white aryan theoldwest hasfallen oldwest has fallen incel nosex incels chuddy chudlet swastika pol poljak 4chan rightoid right'),
 ('chudditorseethe','Wojak',2,'chudditor chuddit chud chudjak seethe cope sneed reddit redditor leddit ledditor snoo mascot alien redditalien redditsnoo snoochud chudsnoo'),
 ('chuddyhappy','Wojak',2,'chud chudlet chuddy manlet baby happy chuddie chuddy chuddies chuddys happy dance dancing jump jumping'),
 ('chudette','Wojak',2,'chud woman blonde'),
 ('chudglassesglow','Wojak',2,'chud glasses anime'),
 ('chudgrug','Wojak',2,'chud grug caveman'),
+('chuditsover','Wojak',2,'chud chudjak over itsover lose lost loss nazi racist nazis nazism racism white aryan thewest hasfallen west has fallen incel nosex incels chuddy chudlet swastika pol poljak 4chan rightoid right'),
 ('chudjakbaldspin','Wojak',2,'incel moid'),
 ('chudjakdancing','Wojak',2,'chud chudjak dance dancing moves jak wojak chudjakdancing chudjakdance chuddance chuddancing'),
 ('chudjaktalking','Wojak',2,'racist transphobic homophobic rude pol white cry sob grin teeth'),
 ('chudnazi','Wojak',2,'chud nazi'),
+('chudpanic','Wojak',2,'chud panic scared its over the west has fallen millions must die'),
+('chudseethe','Wojak',2,'chud chudjak seethe seething cope sneed coping nazi racist nazis nazism racism white aryan thewest hasfallen west has fallen incel nosex incels chuddy chudlet swastika pol poljak 4chan rightoid right'),
 ('chudsey','Marsey',2,'4chan virgin pol rightoid'),
 ('chudsmug','Wojak',2,'chud smug'),
 ('chudspin','Wojak',2,'chud chudjak chuddy chuddies chudoid chudspin racist nazi incel virgin manlet ugly glasses shortsighted'),
@@ -1867,7 +1880,9 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('gammacap','Marsey Alphabet',2,'Γ'),
 ('gasp','Classic',2,'gasp animated emoticon shocked'),
 ('gay','Misc',2,'gay gays lgbt fag faggot bussy twink hun gaaaaay ha hah rainbow woke love gaylove homo homosexual homosexuality homos alert gayalert'),
+('gayamongus','Misc',2,'amongus among us amogus hidden traitor straight notstraight gay lgbt lgb gay gays fag fags faggots homo homos homosexual homosexuality rainbow drama dramacel dramanaut dramautist'),
 ('gaydar','Misc',2,'gay gays lgbt fag faggot bussy twink hun gaaaaay ha hah rainbow woke love gaylove homo homosexual homosexuality homos alert gayalert gaydar gaydetected gayalarm'),
+('gaynadaflag','Misc',2,'canada can canuck leaf leaves rake gaynada flag flags nationalflags gay lgbt lgb gay gays fag fags faggots homo homos homosexual homosexuality rainbow drama dramacel dramanaut dramautist'),
 ('geeble','Misc',2,'cursed geeble witch doctor puppy hand uhh dog'),
 ('gem','Wojak',2,'gem gemmy soyjak soy coal based soyface'),
 ('george','Misc',2,'george mountain lion cougar catamount'),
@@ -2760,6 +2775,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseycoomer','Marsey',2,'masturbation goon cumbrain porn masturbate'),
 ('marseycoomer2','Marsey',2,'gooning masturbation fapping cumming gooner nofap'),
 ('marseycoomer3','Marsey',2,'coomer cumming masturbation blueballed'),
+('marseycoomthulhu','Marsey',2,'cthulhu eldritch tentacle hentai ocean rlyeh lovecraft'),
 ('marseycoonass','Marsey',2,'student lsu university louisana state'),
 ('marseycop','Marsey',2,'acab thin blue line chauvin police officer'),
 ('marseycop2','Marsey',2,'police officer acab thin blue line pig'),
@@ -3326,6 +3342,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseyhead','Marsey',2,'blood spurting headless horror halloween animated'),
 ('marseyheadcrab','Marsey',2,'zombie brain alien parasite valve game half life'),
 ('marseyheadlesshorseman','Marsey',2,'halloween headless horseman icabod'),
+('marseyheadshotgory','Marsey',2,'gore marsey headshot blood'),
 ('marseyhealthy','Marsey',2,'burger king fat fast food crown unhealthy junk food american'),
 ('marseyhealthysoberstillretard','Marsey',2,'marsona fartbinn elfbinn canadian mayofoid woman'),
 ('marseyhearts','Marsey',2,'reaction flirt loving adoration love happy cute crush'),
@@ -3608,6 +3625,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseylicking','Marsey',2,'spongebob tongue taste'),
 ('marseylicking2','Marsey',2,'tongue animated'),
 ('marseylickinglips','Marsey',2,'yummy tasty delicious'),
+('marseylifeadvice','Marsey',2,'marsey speechbubble advice kys'),
 ('marseylifting','Marsey',2,'workout muscular work out bench swole working out gains benchpress weightlifting weights muscles'),
 ('marseylion','Marsey',2,'fursona furry fursuit leo george mountain spokane feed trailerparkbride'),
 ('marseylion2','Marsey',2,'lion cat bigcat predator mane mufasa simba king prideland pride'),
@@ -4676,6 +4694,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseyunabomber','Marsey',2,'package industrial society delivery mail kaczynski uncle ted'),
 ('marseyunabomber2','Marsey',2,'gift christmas industrial society delivery mail kaczynski uncle ted package'),
 ('marseyunabomber3','Marsey',2,'ted theodore theodora unabomber terrorist incel'),
+('marseyunabomberdevil','Marsey',2,'unabomber devil ted kaczynski tedkaczynski fed fedpost amazon alexa technology tempting'),
 ('marseyunamused','Marsey',2,'annoyed staring reaction disappointed stare uh huh bored'),
 ('marseyunhappymerchant','Marsey',2,'jew mad angered greedy israel'),
 ('marseyunhinged','Marsey',2,'hinge unhinged crazy insane wink door smug smirk'),
@@ -4935,6 +4954,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('neg','Marsey Alphabet',2,'¬ not negation logical'),
 ('nervous','Classic',2,'nervous animated emoticon scared worried nail biting'),
 ('niger','Misc',2,'niger flag'),
+('niggaplease','Misc',2,'niggaplease nigga please niggas nibba nibbas nibbaplease nigger niggers niggerplease bruh black ghetto blacks africa african gangster gangsta homie friend friendship bud buddy rap rapping rapper hipho'),
 ('nikocadoavocadodance','Misc',2,'nick nikocado avocado nikocadoavocado nickavocado fat fatass fatty hambeast obese obesity mukang eat eating fastfood food faggot fag gay dance dancing coin coinslot gem cado youtube youtuber homo'),
 ('nikocadoavocadodance2','Misc',2,'nick nikocado avocado nikocadoavocado nickavocado fat fatass fatty hambeast obese obesity mukang eat eating fastfood food faggot fag gay dance dancing coin coinslot gem cado youtube youtuber homo'),
 ('ninja','Classic',2,'ninja animated emoticon japan'),
@@ -5036,11 +5056,15 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('pepeduck','Misc',2,'duck pet peepo'),
 ('pepeduck2','Misc',2,'rootitootishooti shooting peepo guns goose'),
 ('pepefbi','Misc',2,'pepe fbi feds glowie glownigger'),
+('pepegun','Misc',2,'pepe pepethefrog frog shoot shooting gun incel kill killing shot pistol tuxedo tuxedopepe based basedpepe point pointing'),
 ('pepejannie','Misc',2,'janny janitor cleaning cleanitup mopping'),
 ('pepeleave','Misc',2,'crying sad peepo'),
 ('pepemoney','Misc',2,'makeitrain'),
 ('pepepunch','Misc',2,'pepe punch rage cope anger violence'),
+('pepepunching','Misc',2,'pepe frog pepethefrog punch punching fight fighting kungfumovies kungfumoves kungfu anime weebshit dragonballz dbz dragon ball smug martialarts martial arts'),
 ('pepereeeeee','Misc',2,'triggered raging seething rage seethe autism sperging'),
+('pepereegun','Misc',2,'pepe pepethefrog frog shoot shooting gun incel kill killing shot rifle ak ak47 ree reeeeee sperg spergout angry anger betauprising beta uprising terrorist terrorism terrorists'),
+('peperun','Misc',2,'pepe pepethefrog frog run running pack packed muscle muscular schwarzenegger arnold arnoldschwarzenegger peperun peperunning'),
 ('pepesimp','Misc',2,'peepo cuck'),
 ('pepesinga','Misc',2,'singa pepe frog dance'),
 ('pepesmile','Misc',2,'frog'),
@@ -5293,6 +5317,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('smokey','Misc',2,'wpd watchpeopledie poweruser'),
 ('smugblackjak','Wojak',2,'black smug superior'),
 ('smugobama','Misc',2,'obama smug smuggie sneer cope'),
+('smugtranstwitter','Wojak',2,'smug trans troon twitter tweet tranny transgender gender socialmedia social media transflag flag troons trannies transexual transgenders'),
 ('sneed','Misc',2,'letters dancing animated'),
 ('sneedbuddy','Misc',2,'cat sneed irl kitty'),
 ('sneedcat','Misc',2,'sneed cat dancing whip gif'),
@@ -5323,6 +5348,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('soyjakfront','Wojak',2,'soy'),
 ('soyjakhipster','Wojak',2,''),
 ('soyjakmaga','Wojak',2,'maga israel nazi'),
+('soyjakssmirk','Wojak',2,'soyjak soyjaks soy smug smirk plan planning stare look saying think thinking hehe haha lol'),
 ('soyjaktalking','Wojak',2,''),
 ('soyjaktantrum','Wojak',2,'soy tantrum fit crying seething animated'),
 ('soyjakyell','Wojak',2,''),
@@ -5432,6 +5458,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('taythumbsup','Tay',2,'taylor swift approval approve animated good job like positive good nice yes agree'),
 ('tayvape','Tay',2,'vape'),
 ('tayvibin','Tay',2,'vibin'),
+('taywalking','Tay',2,'tay taytay taylorswift swift taylor walk walking boots walker walks'),
 ('taywhat','Tay',2,'what'),
 ('taywine','Tay',2,'wine'),
 ('taywine2','Tay',2,'wine2'),
