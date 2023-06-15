@@ -32,10 +32,6 @@
 		{% endif %}
 	</p>
 
-	{% if sub and sub.sidebar_html %}
-		<div class="mb-4">{{sub.sidebar_html|safe}}</div>
-	{% endif %}
-
 	<div class="sidebar-wpd--flairs sidebar-wpd--flairs--3">
 		<a href="/h/disaster">Disaster</a>
 		<a href="/h/accident">Accident</a>
@@ -78,12 +74,14 @@
 		<a href="/h/music">Music</a>
 	</div>
 
-	{% if not sub %}
-		<div class="sidebar--rules sidebar--rules--wpd pt-2">
+	<div class="sidebar--rules sidebar--rules--wpd pt-2">
+		{% if sub %}
+			{{sub.sidebar_html|safe}}
+		{% else %}
 			{% set rules = "rules_" ~ SITE_NAME ~ ".html" %}
 			{% include rules %}
-		</div>
-	{% endif %}
+		{% endif %}
+	</div>
 
 	<hr>
 	<div class="mt-3">
