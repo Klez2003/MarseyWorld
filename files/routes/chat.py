@@ -31,14 +31,14 @@ messages = cache.get(f'messages') or {}
 @app.get("/chat")
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
-@admin_level_required(PERMS['CHAT'])
+@is_not_permabanned
 def chat(v):
 	if not v.admin_level and TRUESCORE_CHAT_MINIMUM and v.truescore < TRUESCORE_CHAT_MINIMUM:
 		abort(403, f"Need at least {TRUESCORE_CHAT_MINIMUM} truescore for access to chat!")
 	return render_template("chat.html", v=v, messages=messages)
 
 @socketio.on('speak')
-@admin_level_required(PERMS['CHAT'])
+@is_not_permabanned
 def speak(data, v):
 	image = None
 	if data['file']:
@@ -132,7 +132,7 @@ def refresh_online():
 	cache.set(CHAT_ONLINE_CACHE_KEY, len(online), timeout=0)
 
 @socketio.on('connect')
-@admin_level_required(PERMS['CHAT'])
+@is_not_permabanned
 def connect(v):
 
 	if any(v.id in session for session in sessions) and [v.username, v.id, v.name_color] not in online:
@@ -151,7 +151,7 @@ def connect(v):
 	return '', 204
 
 @socketio.on('disconnect')
-@admin_level_required(PERMS['CHAT'])
+@is_not_permabanned
 def disconnect(v):
 	if ([v.id, request.sid]) in sessions:
 		sessions.remove([v.id, request.sid])
@@ -170,7 +170,7 @@ def disconnect(v):
 	return '', 204
 
 @socketio.on('typing')
-@admin_level_required(PERMS['CHAT'])
+@is_not_permabanned
 def typing_indicator(data, v):
 	if data and v.username not in typing:
 		typing.append(v.username)

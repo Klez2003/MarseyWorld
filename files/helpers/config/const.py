@@ -428,7 +428,6 @@ SUB_MARSEY_URL_LENGTH = 60
 ################################################################################
 
 PERMS = { # Minimum admin_level to perform action.
-	'CHAT': 0,
  	'HOLE_CREATE': 0,
  	'USER_BLOCKS_VISIBLE': 0,
  	'USER_FOLLOWS_VISIBLE': 0,
