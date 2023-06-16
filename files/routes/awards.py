@@ -260,7 +260,8 @@ def award_thing(v, thing_type, id):
 			author.ban_reason = ban_reason
 			send_repeatable_notification(author.id, f"Your account has been banned for **yet another day** for [{link_text_in_notif}]({link}). Seriously man?")
 	elif kind == "unban":
-		if not author.is_suspended or not author.unban_utc or time.time() > author.unban_utc: abort(403)
+		if not author.is_suspended or not author.unban_utc:
+			abort(403)
 
 		if author.unban_utc - time.time() > 86400:
 			author.unban_utc -= 86400
