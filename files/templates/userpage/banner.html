@@ -250,9 +250,11 @@
 								<span id="profile--alts">{{alts|length}} Alt{{macros.plural(alts|length)}}:</span>
 							{% endif %}
 							<ul id="profile--alts-list">
-								{% for account in alts %}
-									<li><a href="{{account.url}}">@{{account.username}}</a>{% if account._is_manual %} [m]{% endif %}</li>
-								{% endfor %}
+								{% if u.can_see_my_shit %}
+									{% for account in alts %}
+										<li><a href="{{account.url}}">@{{account.username}}</a>{% if account._is_manual %} [m]{% endif %}</li>
+									{% endfor %}
+								{% endif %}
 							</ul>
 						{% endif %}
 					</div>
@@ -528,9 +530,11 @@
 							<span id="profile-mobile--alts">{{alts|length}} Alt{{macros.plural(alts|length)}}:</span>
 						{% endif %}
 						<ul id="profile-mobile--alts-list">
-						{% for account in alts %}
-							<li><a href="{{account.url}}">@{{account.username}}</a>{% if account._is_manual %} [m]{% endif %}</li>
-						{% endfor %}
+							{% if u.can_see_my_shit %}
+								{% for account in alts %}
+									<li><a href="{{account.url}}">@{{account.username}}</a>{% if account._is_manual %} [m]{% endif %}</li>
+								{% endfor %}
+							{% endif %}
 						</ul>
 					{% endif %}
 				</div>
