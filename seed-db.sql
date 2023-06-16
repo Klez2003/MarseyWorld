@@ -3768,7 +3768,6 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseymodelo','Marsey',2,'cheers alcohol drinking beer'),
 ('marseymodelo2','Marsey',2,'cheers alcohol beer drinking'),
 ('marseymogeko','Marsey',2,'mogeko okegom cat yellow rape funamusea rpgmaker'),
-('marseymohammed','Marsey',2,'muhammad mohammad islam prophet'),
 ('marseymoidmoment','Marsey',2,'braincel incel forever alone male men acne pimple gamer neet virgin retard stupid idiot'),
 ('marseymommymilkers','Marsey',2,'pepe mellokind momma booba khazar abby shapiro tits breasts boobs'),
 ('marseymoney','Marsey',2,'capitalism capitalist rich dollar signs bag wealthy dollars dinero'),
