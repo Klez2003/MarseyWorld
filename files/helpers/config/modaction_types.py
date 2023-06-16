@@ -405,13 +405,16 @@ MODACTION_TYPES = {
 
 MODACTION_TYPES = dict(sorted(MODACTION_TYPES.items()))
 
-MODACTION_PRIVILEGED_TYPES = {'shadowban', 'unshadowban',
-							'mod_mute_user', 'mod_unmute_user',
-							'link_accounts', 'delink_accounts',
-							'progstack_post', 'progstack_comment',
-							'unprogstack_post', 'unprogstack_comment'
-							'enable_signups', 'delete_media',
-							'enable_login_required'}
+MODACTION_PRIVILEGED_TYPES = {
+								'shadowban', 'unshadowban',
+								'mod_mute_user', 'mod_unmute_user',
+								'link_accounts', 'delink_accounts',
+								'progstack_post', 'progstack_comment',
+								'unprogstack_post', 'unprogstack_comment'
+								'enable_signups', 'delete_media',
+								'link_accounts', 'delink_accounts',
+								'enable_login_required'
+							}
 MODACTION_PRIVILEGED__TYPES = {'progstack_post', 'progstack_comment',
 							'unprogstack_post', 'unprogstack_comment'}
 MODACTION_TYPES_FILTERED = deepcopy({t:v for t,v in MODACTION_TYPES.items()
