@@ -328,7 +328,7 @@ def award_thing(v, thing_type, id):
 		if author.misogynist and time.time() < author.misogynist: author.misogynist += 86400
 		else: author.misogynist = int(time.time()) + 86400
 
-		# badge_grant(user=author, badge_id=58)
+		badge_grant(user=author, badge_id=999)
 		
 	elif kind == "agendaposter":
 		if thing_type == 'post' and thing.sub == 'chudrama' \
