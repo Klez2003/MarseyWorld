@@ -249,7 +249,8 @@ CREATE TABLE public.users (
     hidevotedon boolean DEFAULT false NOT NULL,
     agendaposter_phrase character varying(35),
     prelock_username character varying(30),
-    namechanged integer
+    namechanged integer,
+    misogynist integer
 );
 
 
