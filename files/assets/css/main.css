@@ -6672,6 +6672,7 @@ g {
 .misogynist:not(a) {
 	color: hotpink !important;
 	font-weight: 700 !important;
+    text-transform: lowercase !important;
 }
 
 .rainbow-text:not(a) > p {
