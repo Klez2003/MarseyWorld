@@ -312,10 +312,31 @@ def award_thing(v, thing_type, id):
 			cache.delete_memoized(frontlist)
 		else: thing.stickied_utc = t
 		g.db.add(thing)
+	elif kind == "misogynist":
+		if author.agendaposter:
+			abort(409, f"{safe_username} is under the effect of a conflicting award: Chud award!")
+
+		if author.marseyawarded:
+			abort(409, f"{safe_username} is under the effect of a conflicting award: Marsey award!")
+
+		if author.marsify:
+			abort(409, f"{safe_username} is under the effect of a conflicting award: Marsify award!")
+
+		if author.owoify:
+			abort(409, f"{safe_username} is under the effect of a conflicting award: OwOify award!")
+
+		if author.misogynist and time.time() < author.misogynist: author.misogynist += 86400
+		else: author.misogynist = int(time.time()) + 86400
+
+		# badge_grant(user=author, badge_id=58)
+		
 	elif kind == "agendaposter":
 		if thing_type == 'post' and thing.sub == 'chudrama' \
 			or thing_type == 'comment' and thing.post and thing.post.sub == 'chudrama':
 			abort(403, "You can't give the chud award in /h/chudrama")
+
+		if author.misogynist:
+			abort(409, f"{safe_username} is under the effect of a conflicting award: Misogynist award!")
 
 		if author.marseyawarded:
 			abort(409, f"{safe_username} is under the effect of a conflicting award: Marsey award!")
@@ -377,6 +398,8 @@ def award_thing(v, thing_type, id):
 	elif kind == "marsey":
 		if author.agendaposter:
 			abort(409, f"{safe_username} is under the effect of a conflicting award: Chud award!")
+		if author.misogynist:
+			abort(409, f"{safe_username} is under the effect of a conflicting award: Misogynist award!")
 
 		if author.marseyawarded: author.marseyawarded += 86400
 		else: author.marseyawarded = int(time.time()) + 86400
@@ -433,6 +456,8 @@ def award_thing(v, thing_type, id):
 	elif kind == 'marsify':
 		if author.agendaposter:
 			abort(409, f"{safe_username} is under the effect of a conflicting award: Chud award!")
+		if author.misogynist:
+			abort(409, f"{safe_username} is under the effect of a conflicting award: Misogynist award!")
 
 		if not author.marsify or author.marsify != 1:
 			if author.marsify: author.marsify += 86400
@@ -463,6 +488,8 @@ def award_thing(v, thing_type, id):
 	elif ("Furry" in kind and kind == v.house) or kind == 'owoify':
 		if author.agendaposter:
 			abort(409, f"{safe_username} is under the effect of a conflicting award: Chud award!")
+		if author.misogynist:
+			abort(409, f"{safe_username} is under the effect of a conflicting award: Misogynist award!")
 
 		if author.owoify: author.owoify += 21600
 		else: author.owoify = int(time.time()) + 21600
