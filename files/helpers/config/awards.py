@@ -535,7 +535,7 @@ AWARDS = {
 		"kind": "misogynist",
 		"title": "Misogynist",
 		"description": "Gets the recipient in touch with their feminine side for 24 hours.",
-		"icon": "fas fa-snooze",
+		"icon": "fas fa-phone",
 		"color": "text-purple",
 		"price": 1,
 		"deflectable": True,
