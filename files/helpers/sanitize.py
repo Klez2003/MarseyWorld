@@ -689,11 +689,11 @@ def torture_ap(string, username):
 def torture_misogynist(string, key):
 	if not string: return string
 	string = string.lower()
-	string = sentence_ending_regex.sub(",", string)
+	string = sentence_ending_regex.sub(", and", string)
 	string = normal_punctuation_regex.sub("", string)
 	string = more_than_one_comma_regex.sub(",", string)
-	if string[-1] == ',':
-		string = string[0:-1]
+	if string[-5:] == ', and':
+		string = string[:-5]
 	girl_phrase = GIRL_PHRASES[key%len(GIRL_PHRASES)]
 	string = girl_phrase.replace("$", string)
 	return string
