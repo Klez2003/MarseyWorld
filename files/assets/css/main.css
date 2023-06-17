@@ -6669,6 +6669,11 @@ g {
 	font-weight: 700 !important;
 }
 
+.misogynist:not(a) {
+	color: hotpink !important;
+	font-weight: 700 !important;
+}
+
 .rainbow-text:not(a) > p {
 	color: transparent !important;
 }

@@ -96,6 +96,7 @@ class User(Base):
 	coins_spent_on_hats = Column(Integer, default=0)
 	lootboxes_bought = Column(Integer, default=0)
 	agendaposter = Column(Integer, default=0)
+	misogynist = Column(Integer, default=0)
 	agendaposter_phrase = Column(String)
 	is_activated = Column(Boolean, default=False)
 	shadowbanned = Column(Integer, ForeignKey("users.id"))
@@ -816,6 +817,10 @@ class User(Base):
 			return f"{SITE_FULL}/e/chudsey.webp"
 		if self.rainbow:
 			return f"{SITE_FULL}/e/marseysalutepride.webp"
+		if self.misogynist:
+			number_of_girl_pfps = 2
+			pic_num = (self.id % number_of_girl_pfps) + 1
+			return f"{SITE_FULL}/i/pfps/girls/{pic_num}.webp"
 		if self.profileurl and self.can_see_my_shit:
 			if self.profileurl.startswith('/'): return SITE_FULL + self.profileurl
 			return self.profileurl

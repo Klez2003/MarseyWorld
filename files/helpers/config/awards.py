@@ -531,6 +531,18 @@ AWARDS = {
 		"ghost": False,
 		"enabled": True,
 	},
+	"misogynist": {
+		"kind": "misogynist",
+		"title": "Misogynist",
+		"description": "Gets the recipient in touch with their feminine side for 24 hours.",
+		"icon": "fas fa-snooze",
+		"color": "text-purple",
+		"price": 1,
+		"deflectable": True,
+		"cosmetic": False,
+		"ghost": False,
+		"enabled": True,
+	},
 	"offsitementions": {
 		"kind": "offsitementions",
 		"title": "Y'all Seein' Eye",

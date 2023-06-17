@@ -81,13 +81,13 @@
 
 					{% if p.realurl(v) and not v_forbid_deleted %}
 						<h1 id="post-title" class="card-title post-title text-left mb-md-3 {% if p.author.agendaposter and p.sub != 'chudrama' %}text-uppercase{% endif %}">
-								<a {% if p.author.rainbow %}class="rainbow-text"{% endif %} {% if not v or v.newtabexternal %}target="_blank"{% endif %} rel="nofollow noopener" href="{{p.realurl(v)}}">
+								<a {% if p.author.rainbow %}class="rainbow-text"{% endif %} {%if p.author.misogynist%}misogynist{%endif%} {% if not v or v.newtabexternal %}target="_blank"{% endif %} rel="nofollow noopener" href="{{p.realurl(v)}}">
 								{% if p.flair %}<span class="patron font-weight-bolder mr-1" style="background-color:var(--primary); font-size:12px; line-height:2;">{{p.flair | safe}}</span>{% endif %}
 								{{p.realtitle(v) | safe}}
 							</a>
 						</h1>
 					{% else %}
-						<h1 id="post-title" class="card-title post-title text-left mb-md-3 {% if p.author.agendaposter and p.sub != 'chudrama' %}text-uppercase{% endif %} {% if p.author.rainbow %}rainbow-text{% endif %}">
+						<h1 id="post-title" class="card-title post-title text-left mb-md-3 {% if p.author.agendaposter and p.sub != 'chudrama' %}text-uppercase{% endif %} {% if p.author.rainbow %}rainbow-text{% endif %} {%if p.author.misogynist%}misogynist{%endif%}">
 							{% if p.flair %}<span class="patron font-weight-bolder mr-1" style="background-color:var(--primary); font-size:12px; line-height:2;">{{p.flair | safe}}</span>{% endif %}
 							{{p.realtitle(v) | safe}}
 						</h1>
@@ -117,7 +117,7 @@
 						{% endif %}
 
 
-						<div id="post-text" class="{% if p.author.agendaposter and p.sub != 'chudrama' %}text-uppercase agendaposter-img agendaposter-{{p.id_last_num}}{% endif %} {% if p.author.rainbow %}rainbow-text{% endif %}">
+						<div id="post-text" class="{% if p.author.agendaposter and p.sub != 'chudrama' %}text-uppercase agendaposter-img agendaposter-{{p.id_last_num}}{% endif %} {% if p.author.rainbow %}rainbow-text{% endif %} {%if p.author.misogynist%}misogynist{%endif%}">
 							{% if p.is_image %}
 								<div class="row no-gutters mb-4">
 									<div class="col">
