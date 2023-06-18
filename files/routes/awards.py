@@ -315,6 +315,9 @@ def award_thing(v, thing_type, id):
 	elif kind == "misogynist":
 		if author.agendaposter:
 			abort(409, f"{safe_username} is under the effect of a conflicting award: Chud award!")
+			
+		if author.namechanged:
+			abort(409, f"{safe_username} is under the effect of a conflicting award: Namelock award!")
 
 		if author.marseyawarded:
 			abort(409, f"{safe_username} is under the effect of a conflicting award: Marsey award!")
@@ -324,6 +327,30 @@ def award_thing(v, thing_type, id):
 
 		if author.owoify:
 			abort(409, f"{safe_username} is under the effect of a conflicting award: OwOify award!")
+
+		if not author.misogynist:
+
+			adjective = GIRL_NAME_ADJECTIVE[author.id%20].capitalize()
+			noun = GIRL_NAME_NOUN[(int(author.id/20))%20].capitalize()
+			prefix = GIRL_NAME_PREFIX[(int((id/20)/20))%8]
+			prefix = prefix[0].upper() + prefix[1:]
+			number = int(((author.id/20)/20)/8)
+
+			new_name = f"{prefix}{adjective}{noun}"+ (str(number) if number > 0 else "")
+
+			if not valid_username_regex.fullmatch(new_name):
+				new_name = f"SomeWeirdGirl{random.randrange(100000)}"
+
+			existing = get_user(new_name, graceful=True)
+			if existing and existing.id != author.id:
+				if len(new_name) < 23:
+					new_name = f"{new_name}_{random.randrange(pow(10, 23-len(new_name)))}"
+				else:
+					new_name = f"SomeQuirkyGirl{random.randrange(100000)}"
+
+			if not author.prelock_username:
+				author.prelock_username = author.username
+			author.username = new_name
 
 		if author.misogynist and time.time() < author.misogynist: author.misogynist += 86400
 		else: author.misogynist = int(time.time()) + 86400
@@ -375,6 +402,10 @@ def award_thing(v, thing_type, id):
 			author.flairchanged = int(time.time()) + 86400
 			badge_grant(user=author, badge_id=96)
 	elif kind == "namelock":
+
+		if author.misogynist:
+			abort(409, f"{safe_username} is under the effect of a conflicting award: Misogynist award!")
+
 		new_name = note.strip().lstrip('@')
 		if not new_name and author.namechanged:
 			author.namechanged += 86400
@@ -519,3 +550,4 @@ def award_thing(v, thing_type, id):
 	g.db.add(author)
 
 	return {"message": f"{AWARDS[kind]['title']} award given to {thing_type} successfully!"}
+
