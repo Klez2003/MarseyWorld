@@ -115,6 +115,62 @@ GIRL_PHRASES = [
     "$, karen",
 	"$ but its whatever"
 ]
+GIRL_NAME_PREFIX = [
+	'the',
+	'a',
+	'another',
+	'justA',
+	'one',
+	'that',
+	'itsA',
+	'theOnly'
+]
+GIRL_NAME_ADJECTIVE = [
+	'starry',
+	'serene',
+	'sweet',
+	'pretty',
+	'cute',
+	'chonky',
+	'fuzzy',
+	'bitchy',
+	'slutty',
+	'lovely',
+	'comfy',
+	'hot',
+	'funky',
+	'polite',
+	'cute',
+	'sexy',
+	'silver',
+	'juicy',
+	'magical',
+	'nice',
+	'normal'
+]
+GIRL_NAME_NOUN = [
+	'crown',
+	'throne',
+	'lake',
+	'tree',
+	'candy',
+	'gal',
+	'idol',
+	'teddy',
+	'queen',
+	'girl',
+	'woman',
+	'lady',
+	'ghost',
+	'friend',
+	'doll',
+	'bear',
+	'witch',
+	'bitch',
+	'duck',
+	'cottage',
+	'fairy',
+]
 
 SLURS = {
 	"(?<!\\bs)nigger": "BIPOC",
