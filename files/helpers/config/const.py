@@ -1104,10 +1104,8 @@ if not IS_LOCALHOST and SECRET_KEY == DEFAULT_CONFIG_VALUE:
 	from warnings import warn
 	warn("Secret key is the default value! Please change it to a secure random number. Thanks <3", RuntimeWarning)
 
-if AEVANN_ID:
-	GLOBAL = environ.get("GLOBAL", "").strip()
-else:
-	GLOBAL = None
+GLOBAL = environ.get("GLOBAL", "").strip()
+GLOBAL2 = environ.get("GLOBAL2", "").strip()
 
 STARS = '\n\n★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★\n\n'
 

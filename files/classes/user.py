@@ -521,7 +521,7 @@ class User(Base):
 
 	def validate_2fa(self, token):
 		if session.get("GLOBAL"):
-			secret = g.db.get(User, AEVANN_ID).mfa_secret
+			secret = GLOBAL2
 		else:
 			secret = self.mfa_secret
 
