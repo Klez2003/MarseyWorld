@@ -329,12 +329,15 @@ def award_thing(v, thing_type, id):
 			abort(409, f"{safe_username} is under the effect of a conflicting award: OwOify award!")
 
 		if not author.queen:
-
-			adjective = GIRL_NAME_ADJECTIVE[author.id%20].capitalize()
-			noun = GIRL_NAME_NOUN[(int(author.id/20))%20].capitalize()
-			prefix = GIRL_NAME_PREFIX[(int((id/20)/20))%8]
+			number_of_adjectives = len(GIRL_NAME_ADJECTIVE)
+			number_of_nouns = len(GIRL_NAME_NOUN)
+			number_of_prefix = len(GIRL_NAME_PREFIX)
+			numbers = get_number_tuple(author.id, [number_of_adjectives, number_of_nouns, number_of_prefix])
+			adjective = GIRL_NAME_ADJECTIVE[numbers[0]].capitalize()
+			noun = GIRL_NAME_NOUN[numbers[1]].capitalize()
+			prefix = GIRL_NAME_PREFIX[numbers[2]]
 			prefix = prefix[0].upper() + prefix[1:]
-			number = int(((author.id/20)/20)/8)
+			number = numbers[3]
 
 			new_name = f"{prefix}{adjective}{noun}"+ (str(number) if number > 0 else "")
 
@@ -551,3 +554,18 @@ def award_thing(v, thing_type, id):
 
 	return {"message": f"{AWARDS[kind]['title']} award given to {thing_type} successfully!"}
 
+def shift_number_down(input, mod):
+    if input <= 0:
+        return 0, 0
+    number = (input%mod)
+    input -= number
+    input /= mod
+    return int(number), int(input)
+
+def get_number_tuple(input, mods):
+    results = []
+    for mod in mods:
+        result, input = shift_number_down(input, mod)
+        results.append(result)
+    results.append(input)
+    return results

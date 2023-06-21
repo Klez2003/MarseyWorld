@@ -69,6 +69,7 @@ torture_regex = re.compile('(^|\s)(i|me)($|\s)', flags=re.I|re.A)
 torture_regex2 = re.compile("(^|\s)(i'm)($|\s)", flags=re.I|re.A)
 torture_regex3 = re.compile("(^|\s)(my|mine)($|\s)", flags=re.I|re.A)
 
+#matches ". ", does not match "..." or a.b
 sentence_ending_regex = re.compile('(?<!\.)(\.)(?=$|\n|\s)', flags=re.I|re.A)
 normal_punctuation_regex = re.compile('(\"|\')', flags=re.I|re.A)
 more_than_one_comma_regex = re.compile('\,\,+', flags=re.I|re.A)
