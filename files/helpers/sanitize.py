@@ -712,7 +712,7 @@ def torture_object(obj, torture_method):
 
 	#torture title_html and check for agendaposter_phrase in plain title and leave if it's there
 	if isinstance(obj, Post):
-		obj.title_html = torture_method(obj.title_html)
+		obj.title_html = obj.title_html
 
 def complies_with_chud(obj):
 	#check for cases where u should leave
