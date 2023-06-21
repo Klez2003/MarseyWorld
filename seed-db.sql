@@ -242,13 +242,14 @@ INSERT INTO public.badge_defs VALUES (245, 'Kongmaxxer: N', 'Contributed a KONGM
 INSERT INTO public.badge_defs VALUES (282, 'Rehab Counselor', 'Awarded for participating in the Marsey''s Methlab Event', 1685121792);
 INSERT INTO public.badge_defs VALUES (283, 'Summer Fun', 'Awarded for contributing to the Marsey''s Summer Fun event', 1685121838);
 INSERT INTO public.badge_defs VALUES (284, 'In Memoriam Theodroa', 'When God calls one of His most blessed angels home, the heavens rejoice while we are left behind to weep with the rain.', 1686502188);
+INSERT INTO public.badge_defs VALUES (285, 'Queen', 'This user SLAYS 💅👠💄', 1687282987);
 
 
 --
 -- Name: badge_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.badge_defs_id_seq', 284, true);
+SELECT pg_catalog.setval('public.badge_defs_id_seq', 285, true);
 
 
 --
@@ -1289,7 +1290,26 @@ INSERT INTO public.hat_defs VALUES (1200, 'Swagger', 'You will never be this coo
 
 
 INSERT INTO public.hat_defs VALUES (1220, 'Chained Border', '?????', 2, 500, NULL, 1686289778);
+
 INSERT INTO public.hat_defs VALUES (1213, 'Secret Crack', 'Oh hi… AH', 2, 1000, NULL, 1686288898);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1303,7 +1323,7 @@ INSERT INTO public.hat_defs VALUES (1213, 'Secret Crack', 'Oh hi… AH', 2, 1000
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1231, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1252, true);
 
 
 --
@@ -1852,6 +1872,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('fawfuleggcracking','Misc',2,'game nintendo mario transition hatched groomed'),
 ('feelsguy','Wojak',2,'feels tfw neutral'),
 ('feelssogood','Rage',2,'feels so good satisfaction'),
+('felipe','Misc',2,'felipe mask'),
 ('femboy','Wojak',2,'female bussy'),
 ('feraljaktantrum','Wojak',2,'soyjak feral feraljak tantrum angry cope seething sneeding rage fury crazy explode feraljaktantrum'),
 ('fetish','Misc',2,'animated'),
@@ -2388,6 +2409,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseybipocattentionseeker','Marsey',2,'ni black brown kang kween despite reparations blm'),
 ('marseybipocmerchant','Marsey',2,'black ni jew money greed rich gibs grift wuz kang africa brown kendi'),
 ('marseybipocrentfree','Marsey',2,'brown black african maga racist chud cope mayo serge bbc ni neg'),
+('marseybirdlove','Marsey',2,'hug terf lesbian avian mormon singer hearts duck'),
 ('marseybiting','Marsey',2,'reaction datass lip bite dat ass'),
 ('marseyblack','Marsey',2,'basketball black african american bipoc coon fade jersey sports kang gang jogger'),
 ('marseyblack2','Marsey',2,'nigger african coon ape monkey bipoc excited happy'),
@@ -2591,14 +2613,17 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseycarpmermaid','Marsey',2,'carp mermaid merman mercarp siren sexy legs temptress'),
 ('marseycarpnoticeme','Marsey',2,'carpathianflorist fish attn attention whore'),
 ('marseycarppearlclutch','Marsey',2,'worried admin janny mod scared triggered cry fish gem'),
+('marseycarppope','Marsey',2,'christian catholic carpathianflorist fish priest'),
 ('marseycarppretty','Marsey',2,'cute carpathianflorist fish'),
 ('marseycarpprotest','Marsey',2,'sign fish mad carpathianflorist sign admin jannie'),
 ('marseycarprentfree','Marsey',2,'fish bard stochiastic moderator jannie carpathianflorist fish'),
+('marseycarpsalute','Marsey',2,'fish army military uniform rank navy marines parade soldier carpathianfloriist'),
 ('marseycarpshy','Marsey',2,'embarrassed blush fish carpathianflorist'),
 ('marseycarpsick2','Marsey',2,'fish scarf ill thermometer carpathianflorist'),
 ('marseycarpsleeping','Marsey',2,'fish zzz bored administrator moderator carpathianflorist jannie tired'),
 ('marseycarpsnipe','Marsey',2,'shooter shooting gun sniper rifle scope crosshairs carpathianflorist kill murder bullet crosshair ajab'),
 ('marseycarpsquirtle','Marsey',2,'pokemon gaming pixel nintendo carpathian'),
+('marseycarptrollgun','Marsey',2,'crazy mad shoot carpathianflorist fish angry antichrist'),
 ('marseycarptrophy','Marsey',2,'carp head decapitated anticarp trophy defeat dead teaparty'),
 ('marseycarpunabomber','Marsey',2,'package ted kaczynski carpathianflorist fish terrorist'),
 ('marseycarpupset','Marsey',2,'carpathianflorist administrator jannie janitor fish crying tears'),
@@ -3478,6 +3503,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseyitsoverwerebackyall','Marsey',2,'buck south over sad sneed hat happy'),
 ('marseyitsoveryall','Marsey',2,'buck south over sad sneed hat'),
 ('marseyitsrigged','Marsey',2,'its rigged rig goomble gamble lottershe election dating test blackjack roulette'),
+('marseyjackmormon','Marsey',2,'mormon beer cigarette sin booze alcohol smoke'),
 ('marseyjackskellington','Marsey',2,'skeleton nightmarebeforechristmas halloween horror burton'),
 ('marseyjackson','Marsey',2,'music king pop mayo whiteface michael'),
 ('marseyjacksparrow','Marsey',2,'johnny depp amber heard abuse violence punch beat feminist Jack sparrow'),
@@ -3500,6 +3526,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseyjcrentfree','Marsey',2,'trans astolfo marstolfo justcool bard moderator jannie'),
 ('marseyjeanne','Marsey',2,'eyes blood dead bleeding orleans darc knight anime blacksouls jrpg'),
 ('marseyjeans','Marsey',2,'denim trousers pants'),
+('marseyjelly','Marsey',2,'jealous envy envious strawberry jam'),
 ('marseyjerkofffrown','Marsey',2,'sarcastic sarcasm jerk off eye roll whatever animated'),
 ('marseyjerkoffsmile','Marsey',2,'sarcastic sarcasm jerkoff eyeroll whatever animated'),
 ('marseyjesus','Marsey',2,'christian'),
@@ -4591,6 +4618,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseytariq','Marsey',2,'buck breaking nasheed nigger coon black'),
 ('marseytariq2','Marsey',2,'marsey tariq flex supremacist glow eye black king fba foundational bussy thong broken buck nasheed breaking k melanin melanoid wash yo ass'),
 ('marseytariqitsover','Marsey',2,'nasneed blm buckbreaking'),
+('marseytarotmoon','Marsey',2,'marsey tarot moon card'),
 ('marseytarrant','Marsey',2,'branton brenton newzealand kiwi shooter shooting killer ebba akerlund murderer rightoid chud strong'),
 ('marseytea','Marsey',2,'drama spill'),
 ('marseyteaparty','Marsey',2,'donger arran soren carp duck'),
