@@ -721,7 +721,7 @@ def settings_advanced_get(v:User):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @is_not_permabanned
 def settings_name_change(v):
-	if v.namechanged: abort(403)
+	if v.namechanged or v.queen: abort(403)
 
 	if v.shadowbanned: abort(500)
 

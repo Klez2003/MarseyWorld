@@ -244,8 +244,6 @@ INSERT INTO public.badge_defs VALUES (283, 'Summer Fun', 'Awarded for contributi
 INSERT INTO public.badge_defs VALUES (284, 'In Memoriam Theodroa', 'When God calls one of His most blessed angels home, the heavens rejoice while we are left behind to weep with the rain.', 1686502188);
 INSERT INTO public.badge_defs VALUES (285, 'Queen', 'This user SLAYS 💅👠💄', 1687282987);
 
-
---
 -- Name: badge_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 

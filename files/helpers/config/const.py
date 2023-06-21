@@ -101,6 +101,77 @@ AJ_REPLACEMENTS = {
 	'EVERYBODY': 'EVERYPONY',
 }
 
+GIRL_PHRASES = [
+	"ok so $",
+	"literally, $",
+	"i feel like $",
+	"my heart is telling me $",
+	"its almost as if $",
+	"omg! $",
+	"im literally screaming, $",
+    "$ and thats the tea, sis",
+    "$ but go off i guess",
+    "$ but go off",
+    "$, karen",
+	"$ but its whatever"
+]
+GIRL_NAME_PREFIX = [
+	'the',
+	'a',
+	'another',
+	'justA',
+	'one',
+	'that',
+	'itsA',
+	'theOnly'
+]
+GIRL_NAME_ADJECTIVE = [
+	'starry',
+	'serene',
+	'sweet',
+	'pretty',
+	'cute',
+	'chonky',
+	'fuzzy',
+	'bitchy',
+	'slutty',
+	'lovely',
+	'comfy',
+	'hot',
+	'funky',
+	'polite',
+	'cute',
+	'sexy',
+	'silver',
+	'juicy',
+	'magical',
+	'nice',
+	'normal'
+]
+GIRL_NAME_NOUN = [
+	'crown',
+	'throne',
+	'lake',
+	'tree',
+	'candy',
+	'gal',
+	'idol',
+	'teddy',
+	'queen',
+	'girl',
+	'woman',
+	'lady',
+	'ghost',
+	'friend',
+	'doll',
+	'bear',
+	'witch',
+	'bitch',
+	'duck',
+	'cottage',
+	'fairy',
+]
+
 SLURS = {
 	"(?<!\\bs)nigger": "BIPOC",
 	"negroid": "BIPOC",
@@ -1084,6 +1155,7 @@ forced_hats = {
 	"earlylife": ("The Merchant", "SHUT IT DOWN, the goys know!"),
 	"marsify": ("Marsified", "I can't pick my own Marseys, help!"),
 	"is_suspended": ("Behind Bars", "This user is banned and needs to do better!"),
+	"queen": ("Emoji Crown (hearts and shooting stars)", "This user is getting in touch with her feminine side 🥰"),
 	"agendaposter": (("Egg_irl", "This user is getting in touch with xir identity!"),
 				("Trans Flag", "Just in case you forgot, trans lives matter."),
 				("Trans Flag II", "Your egg is cracked; wear it with pride!"),

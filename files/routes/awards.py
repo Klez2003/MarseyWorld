@@ -312,10 +312,58 @@ def award_thing(v, thing_type, id):
 			cache.delete_memoized(frontlist)
 		else: thing.stickied_utc = t
 		g.db.add(thing)
+	elif kind == "queen":
+		if author.agendaposter:
+			abort(409, f"{safe_username} is under the effect of a conflicting award: Chud award!")
+			
+		if author.namechanged:
+			abort(409, f"{safe_username} is under the effect of a conflicting award: Namelock award!")
+
+		if author.marseyawarded:
+			abort(409, f"{safe_username} is under the effect of a conflicting award: Marsey award!")
+
+		if author.marsify:
+			abort(409, f"{safe_username} is under the effect of a conflicting award: Marsify award!")
+
+		if author.owoify:
+			abort(409, f"{safe_username} is under the effect of a conflicting award: OwOify award!")
+
+		if not author.queen:
+
+			adjective = GIRL_NAME_ADJECTIVE[author.id%20].capitalize()
+			noun = GIRL_NAME_NOUN[(int(author.id/20))%20].capitalize()
+			prefix = GIRL_NAME_PREFIX[(int((id/20)/20))%8]
+			prefix = prefix[0].upper() + prefix[1:]
+			number = int(((author.id/20)/20)/8)
+
+			new_name = f"{prefix}{adjective}{noun}"+ (str(number) if number > 0 else "")
+
+			if not valid_username_regex.fullmatch(new_name):
+				new_name = f"SomeWeirdGirl{random.randrange(100000)}"
+
+			existing = get_user(new_name, graceful=True)
+			if existing and existing.id != author.id:
+				if len(new_name) < 23:
+					new_name = f"{new_name}_{random.randrange(pow(10, 23-len(new_name)))}"
+				else:
+					new_name = f"SomeQuirkyGirl{random.randrange(100000)}"
+
+			if not author.prelock_username:
+				author.prelock_username = author.username
+			author.username = new_name
+
+		if author.queen and time.time() < author.queen: author.queen += 86400
+		else: author.queen = int(time.time()) + 86400
+
+		badge_grant(user=author, badge_id=285)
+		
 	elif kind == "agendaposter":
 		if thing_type == 'post' and thing.sub == 'chudrama' \
 			or thing_type == 'comment' and thing.post and thing.post.sub == 'chudrama':
 			abort(403, "You can't give the chud award in /h/chudrama")
+
+		if author.queen:
+			abort(409, f"{safe_username} is under the effect of a conflicting award: Queen award!")
 
 		if author.marseyawarded:
 			abort(409, f"{safe_username} is under the effect of a conflicting award: Marsey award!")
@@ -354,6 +402,10 @@ def award_thing(v, thing_type, id):
 			author.flairchanged = int(time.time()) + 86400
 			badge_grant(user=author, badge_id=96)
 	elif kind == "namelock":
+
+		if author.queen:
+			abort(409, f"{safe_username} is under the effect of a conflicting award: Queen award!")
+
 		new_name = note.strip().lstrip('@')
 		if not new_name and author.namechanged:
 			author.namechanged += 86400
@@ -377,6 +429,8 @@ def award_thing(v, thing_type, id):
 	elif kind == "marsey":
 		if author.agendaposter:
 			abort(409, f"{safe_username} is under the effect of a conflicting award: Chud award!")
+		if author.queen:
+			abort(409, f"{safe_username} is under the effect of a conflicting award: Queen award!")
 
 		if author.marseyawarded: author.marseyawarded += 86400
 		else: author.marseyawarded = int(time.time()) + 86400
@@ -433,6 +487,8 @@ def award_thing(v, thing_type, id):
 	elif kind == 'marsify':
 		if author.agendaposter:
 			abort(409, f"{safe_username} is under the effect of a conflicting award: Chud award!")
+		if author.queen:
+			abort(409, f"{safe_username} is under the effect of a conflicting award: Queen award!")
 
 		if not author.marsify or author.marsify != 1:
 			if author.marsify: author.marsify += 86400
@@ -463,6 +519,8 @@ def award_thing(v, thing_type, id):
 	elif ("Furry" in kind and kind == v.house) or kind == 'owoify':
 		if author.agendaposter:
 			abort(409, f"{safe_username} is under the effect of a conflicting award: Chud award!")
+		if author.queen:
+			abort(409, f"{safe_username} is under the effect of a conflicting award: Queen award!")
 
 		if author.owoify: author.owoify += 21600
 		else: author.owoify = int(time.time()) + 21600
@@ -492,3 +550,4 @@ def award_thing(v, thing_type, id):
 	g.db.add(author)
 
 	return {"message": f"{AWARDS[kind]['title']} award given to {thing_type} successfully!"}
+

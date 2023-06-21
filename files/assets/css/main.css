@@ -88,6 +88,7 @@
 .fa-link:before{content:"\f0c1"}
 .fa-link-slash:before{content:"\f127"}
 .fa-lock:before{content:"\f023"}
+.fa-phone:before{content:"\f095"}
 .fa-lock-alt:before{content:"\f30d"}
 .fa-search:before{content:"\f002"}
 .fa-cloudflare:before{content:"\e07d"}
@@ -6667,6 +6668,12 @@ g {
 	background-clip: text !important;
 	-webkit-background-clip: text !important;
 	font-weight: 700 !important;
+}
+
+.queen:not(a) {
+	color: hotpink !important;
+	font-weight: 700 !important;
+    text-transform: lowercase !important;
 }
 
 .rainbow-text:not(a) > p {

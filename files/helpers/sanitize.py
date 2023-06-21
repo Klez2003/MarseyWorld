@@ -677,8 +677,6 @@ def validate_css(css):
 
 	return True, ""
 
-
-
 def torture_ap(string, username):
 	if not string: return string
 	for k, l in AJ_REPLACEMENTS.items():
@@ -688,9 +686,37 @@ def torture_ap(string, username):
 	string = torture_regex3.sub(rf"\1@{username}'s\3", string)
 	return string
 
+def torture_queen(string, key):
+	if not string: return string
+	string = string.lower()
+	string = sentence_ending_regex.sub(", and", string)
+	string = normal_punctuation_regex.sub("", string)
+	string = more_than_one_comma_regex.sub(",", string)
+	if string[-5:] == ', and':
+		string = string[:-5]
+	girl_phrase = GIRL_PHRASES[key%len(GIRL_PHRASES)]
+	string = girl_phrase.replace("$", string)
+	return string
+
+def torture_object(obj, torture_method):
+	#torture body_html
+	if obj.body_html and '<p>&amp;&amp;' not in obj.body_html and '<p>$$' not in obj.body_html and '<p>##' not in obj.body_html:
+		soup = BeautifulSoup(obj.body_html, 'lxml')
+		tags = soup.html.body.find_all(lambda tag: tag.name not in {'blockquote','codeblock','pre'} and tag.string, recursive=False)
+		i = 0
+		for tag in tags:
+			i+=1
+			key = obj.id*i
+			tag.string.replace_with(torture_method(tag.string, key))
+		obj.body_html = str(soup).replace('<html><body>','').replace('</body></html>','')
+
+	#torture title_html and check for agendaposter_phrase in plain title and leave if it's there
+	if isinstance(obj, Post):
+		obj.title_html = torture_method(obj.title_html)
+
 def complies_with_chud(obj):
 	#check for cases where u should leave
-	if not obj.author.agendaposter: return True
+	if not (obj.author.agendaposter or obj.author.queen): return True
 	if obj.author.marseyawarded: return True
 	if isinstance(obj, Post):
 		if obj.id in ADMIGGER_THREADS: return True
@@ -699,31 +725,36 @@ def complies_with_chud(obj):
 		if obj.parent_submission in ADMIGGER_THREADS: return True
 		if obj.post.sub == "chudrama": return True
 
-	#perserve old body_html to be used in checking for chud phrase
-	old_body_html = obj.body_html
+	if obj.author.agendaposter:
+		#perserve old body_html to be used in checking for chud phrase
+		old_body_html = obj.body_html
 
-	#torture body_html
-	if obj.body_html and '<p>&amp;&amp;' not in obj.body_html and '<p>$$' not in obj.body_html and '<p>##' not in obj.body_html:
-		soup = BeautifulSoup(obj.body_html, 'lxml')
-		tags = soup.html.body.find_all(lambda tag: tag.name not in {'blockquote','codeblock','pre'} and tag.string, recursive=False)
-		for tag in tags:
-			tag.string.replace_with(torture_ap(tag.string, obj.author.username))
-		obj.body_html = str(soup).replace('<html><body>','').replace('</body></html>','')
+		# TODO: Replace this code to make it more generic
+		#torture body_html
+		if obj.body_html and '<p>&amp;&amp;' not in obj.body_html and '<p>$$' not in obj.body_html and '<p>##' not in obj.body_html:
+			soup = BeautifulSoup(obj.body_html, 'lxml')
+			tags = soup.html.body.find_all(lambda tag: tag.name not in {'blockquote','codeblock','pre'} and tag.string, recursive=False)
+			for tag in tags:
+				tag.string.replace_with(torture_ap(tag.string, obj.author.username))
+			obj.body_html = str(soup).replace('<html><body>','').replace('</body></html>','')
 
-	#torture title_html and check for agendaposter_phrase in plain title and leave if it's there
-	if isinstance(obj, Post):
-		obj.title_html = torture_ap(obj.title_html, obj.author.username)
-		if obj.author.agendaposter_phrase in obj.title.lower():
-			return True
+		#torture title_html and check for agendaposter_phrase in plain title and leave if it's there
+		if isinstance(obj, Post):
+			obj.title_html = torture_ap(obj.title_html, obj.author.username)
+			if obj.author.agendaposter_phrase in obj.title.lower():
+				return True
 
-	#check for agendaposter_phrase in body_html
-	if old_body_html:
-		excluded_tags = {'del','sub','sup','marquee','spoiler','lite-youtube','video','audio'}
-		soup = BeautifulSoup(old_body_html, 'lxml')
-		tags = soup.html.body.find_all(lambda tag: tag.name not in excluded_tags and not tag.attrs, recursive=False)
-		for tag in tags:
-			for text in tag.find_all(text=True, recursive=False):
-				if obj.author.agendaposter_phrase in text.lower():
-					return True
+		#check for agendaposter_phrase in body_html
+		if old_body_html:
+			excluded_tags = {'del','sub','sup','marquee','spoiler','lite-youtube','video','audio'}
+			soup = BeautifulSoup(old_body_html, 'lxml')
+			tags = soup.html.body.find_all(lambda tag: tag.name not in excluded_tags and not tag.attrs, recursive=False)
+			for tag in tags:
+				for text in tag.find_all(text=True, recursive=False):
+					if obj.author.agendaposter_phrase in text.lower():
+						return True
 
-	return False
+		return False
+	elif obj.author.queen:
+		torture_object(obj, torture_queen)
+		return True
