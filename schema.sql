@@ -250,7 +250,7 @@ CREATE TABLE public.users (
     agendaposter_phrase character varying(35),
     prelock_username character varying(30),
     namechanged integer,
-    misogynist integer
+    queen integer
 );
 
 

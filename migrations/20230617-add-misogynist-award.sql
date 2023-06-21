@@ -1,1 +1,1 @@
-alter table users add column misogynist integer;
+alter table users add column queen integer;

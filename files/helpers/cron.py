@@ -209,7 +209,7 @@ def _award_timers_task():
 	_process_timer(User.earlylife, [169], "The earlylife award you received has expired!")
 	_process_timer(User.marsify, [170], "The marsify award you received has expired!")
 	_process_timer(User.rainbow, [171], "The rainbow award you received has expired!")
-	_process_timer(User.misogynist, [999], "The misogynist award you received has expired!", {
+	_process_timer(User.queen, [999], "The queen award you received has expired!", {
 		User.username: User.prelock_username,
 		User.prelock_username: None,
     })

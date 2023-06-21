@@ -312,7 +312,7 @@ def award_thing(v, thing_type, id):
 			cache.delete_memoized(frontlist)
 		else: thing.stickied_utc = t
 		g.db.add(thing)
-	elif kind == "misogynist":
+	elif kind == "queen":
 		if author.agendaposter:
 			abort(409, f"{safe_username} is under the effect of a conflicting award: Chud award!")
 			
@@ -328,7 +328,7 @@ def award_thing(v, thing_type, id):
 		if author.owoify:
 			abort(409, f"{safe_username} is under the effect of a conflicting award: OwOify award!")
 
-		if not author.misogynist:
+		if not author.queen:
 
 			adjective = GIRL_NAME_ADJECTIVE[author.id%20].capitalize()
 			noun = GIRL_NAME_NOUN[(int(author.id/20))%20].capitalize()
@@ -352,8 +352,8 @@ def award_thing(v, thing_type, id):
 				author.prelock_username = author.username
 			author.username = new_name
 
-		if author.misogynist and time.time() < author.misogynist: author.misogynist += 86400
-		else: author.misogynist = int(time.time()) + 86400
+		if author.queen and time.time() < author.queen: author.queen += 86400
+		else: author.queen = int(time.time()) + 86400
 
 		badge_grant(user=author, badge_id=999)
 		
@@ -362,8 +362,8 @@ def award_thing(v, thing_type, id):
 			or thing_type == 'comment' and thing.post and thing.post.sub == 'chudrama':
 			abort(403, "You can't give the chud award in /h/chudrama")
 
-		if author.misogynist:
-			abort(409, f"{safe_username} is under the effect of a conflicting award: Misogynist award!")
+		if author.queen:
+			abort(409, f"{safe_username} is under the effect of a conflicting award: Queen award!")
 
 		if author.marseyawarded:
 			abort(409, f"{safe_username} is under the effect of a conflicting award: Marsey award!")
@@ -403,8 +403,8 @@ def award_thing(v, thing_type, id):
 			badge_grant(user=author, badge_id=96)
 	elif kind == "namelock":
 
-		if author.misogynist:
-			abort(409, f"{safe_username} is under the effect of a conflicting award: Misogynist award!")
+		if author.queen:
+			abort(409, f"{safe_username} is under the effect of a conflicting award: Queen award!")
 
 		new_name = note.strip().lstrip('@')
 		if not new_name and author.namechanged:
@@ -429,8 +429,8 @@ def award_thing(v, thing_type, id):
 	elif kind == "marsey":
 		if author.agendaposter:
 			abort(409, f"{safe_username} is under the effect of a conflicting award: Chud award!")
-		if author.misogynist:
-			abort(409, f"{safe_username} is under the effect of a conflicting award: Misogynist award!")
+		if author.queen:
+			abort(409, f"{safe_username} is under the effect of a conflicting award: Queen award!")
 
 		if author.marseyawarded: author.marseyawarded += 86400
 		else: author.marseyawarded = int(time.time()) + 86400
@@ -487,8 +487,8 @@ def award_thing(v, thing_type, id):
 	elif kind == 'marsify':
 		if author.agendaposter:
 			abort(409, f"{safe_username} is under the effect of a conflicting award: Chud award!")
-		if author.misogynist:
-			abort(409, f"{safe_username} is under the effect of a conflicting award: Misogynist award!")
+		if author.queen:
+			abort(409, f"{safe_username} is under the effect of a conflicting award: Queen award!")
 
 		if not author.marsify or author.marsify != 1:
 			if author.marsify: author.marsify += 86400
@@ -519,8 +519,8 @@ def award_thing(v, thing_type, id):
 	elif ("Furry" in kind and kind == v.house) or kind == 'owoify':
 		if author.agendaposter:
 			abort(409, f"{safe_username} is under the effect of a conflicting award: Chud award!")
-		if author.misogynist:
-			abort(409, f"{safe_username} is under the effect of a conflicting award: Misogynist award!")
+		if author.queen:
+			abort(409, f"{safe_username} is under the effect of a conflicting award: Queen award!")
 
 		if author.owoify: author.owoify += 21600
 		else: author.owoify = int(time.time()) + 21600

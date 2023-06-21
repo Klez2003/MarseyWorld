@@ -686,7 +686,7 @@ def torture_ap(string, username):
 	string = torture_regex3.sub(rf"\1@{username}'s\3", string)
 	return string
 
-def torture_misogynist(string, key):
+def torture_queen(string, key):
 	if not string: return string
 	string = string.lower()
 	string = sentence_ending_regex.sub(", and", string)
@@ -716,7 +716,7 @@ def torture_object(obj, torture_method):
 
 def complies_with_chud(obj):
 	#check for cases where u should leave
-	if not (obj.author.agendaposter or obj.author.misogynist): return True
+	if not (obj.author.agendaposter or obj.author.queen): return True
 	if obj.author.marseyawarded: return True
 	if isinstance(obj, Post):
 		if obj.id in ADMIGGER_THREADS: return True
@@ -755,6 +755,6 @@ def complies_with_chud(obj):
 						return True
 
 		return False
-	elif obj.author.misogynist:
-		torture_object(obj, torture_misogynist)
+	elif obj.author.queen:
+		torture_object(obj, torture_queen)
 		return True

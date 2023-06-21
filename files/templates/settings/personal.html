@@ -163,10 +163,10 @@
 							<p>Your original username will always stay reserved for you: <code>{{v.original_username}}</code></p>
 							<form action="/settings/name_change" method="post">
 								<input hidden name="formkey" value="{{v|formkey}}">
-								<input id="name-body" autocomplete="off" type="text" name="name" class="form-control" value="{{v.username}}"  {% if v.namechanged or v.misogynist %}disabled{% endif %}>
+								<input id="name-body" autocomplete="off" type="text" name="name" class="form-control" value="{{v.username}}"  {% if v.namechanged or v.queen %}disabled{% endif %}>
 								<small>3-25 characters, including letters, numbers, _ , and -</small>
 								<div class="d-flex mt-2">
-									<input autocomplete="off" class="btn btn-primary ml-auto" type="submit" value="Change Display Name" {% if v.namechanged or v.misogynist%}disabled{% endif %}>
+									<input autocomplete="off" class="btn btn-primary ml-auto" type="submit" value="Change Display Name" {% if v.namechanged or v.queen%}disabled{% endif %}>
 								</div>
 							</form>
 						</div>
@@ -271,8 +271,8 @@
 	<script defer src="{{'js/flairchanged.js' | asset}}"></script>
 {% endif %}
 
-{% if v.namechanged or v.misogynist%}
-	<input hidden id="namechanged" value="{{v.namechanged if v.namechanged else v.misogynist}}">
+{% if v.namechanged or v.queen%}
+	<input hidden id="namechanged" value="{{v.namechanged if v.namechanged else v.queen}}">
 	<script defer src="{{'js/namechanged.js' | asset}}"></script>
 {% endif %}
 
