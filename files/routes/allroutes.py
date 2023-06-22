@@ -68,16 +68,6 @@ def after_request(response:Response):
 		if user_id:
 			r.delete(f'LIMITER/{SITE}-{user_id}/{request.endpoint}:{request.path}/1/1/second')
 
-	counter = 0
-	for key in request.cookies.keys():
-		if key == app.config["SESSION_COOKIE_NAME"]:
-			counter += 1
-		elif key != "cf_clearance":
-			response.delete_cookie(key)
-
-	if counter > 1:
-		print(request.cookies.keys(), flush=True)
-
 	return response
 
 
