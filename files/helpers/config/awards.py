@@ -312,6 +312,18 @@ AWARDS = {
 	},
 
 	### Standard
+	"beano": {
+		"kind": "beano",
+		"title": "Beano",
+		"description": "Award it to yourself to stop fart noises on the site.",
+		"icon": "fas fa-gas-pump-slash",
+		"color": "text-green",
+		"price": 1,
+		"deflectable": True,
+		"cosmetic": False,
+		"ghost": False,
+		"enabled": True,
+	},
 	"shit": {
 		"kind": "shit",
 		"title": "Shit",
@@ -549,18 +561,6 @@ AWARDS = {
 		"description": "Gives the recipient access to notifications when people off-site talk about us.",
 		"icon": "fas fa-eyes",
 		"color": "text-orange",
-		"price": 1000,
-		"deflectable": True,
-		"cosmetic": False,
-		"ghost": False,
-		"enabled": True,
-	},
-	"beano": {
-		"kind": "beano",
-		"title": "Beano",
-		"description": "Stops you from embarrassing yourself with your flatulence",
-		"icon": "fas fa-gas-pump-slash",
-		"color": "text-green",
 		"price": 1000,
 		"deflectable": True,
 		"cosmetic": False,
