@@ -918,8 +918,8 @@ def settings_title_change(v):
 def settings_pronouns_change(v):
 	pronouns = sanitize_settings_text(request.values.get("pronouns"))
 
-	if len(pronouns) > 11:
-		return redirect("/settings/personal?error=Your pronouns exceed the character limit (11 characters)")
+	if len(pronouns) > 15:
+		return redirect("/settings/personal?error=Your pronouns exceed the character limit (15 characters)")
 
 	if pronouns == v.pronouns:
 		return redirect("/settings/personal?error=You didn't change anything!")
