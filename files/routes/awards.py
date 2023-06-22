@@ -339,6 +339,8 @@ def award_thing(v, thing_type, id):
 				existing = get_user(new_name, graceful=True)
 				if not existing: break
 				name_index += 1
+				if name_index > (len(GIRL_NAMES) - 1):
+					name_index = 0
 
 			if not author.prelock_username:
 				author.prelock_username = author.username
