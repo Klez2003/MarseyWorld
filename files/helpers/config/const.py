@@ -101,6 +101,7 @@ AJ_REPLACEMENTS = {
 	'EVERYBODY': 'EVERYPONY',
 }
 
+PHRASE_CHANCE = 0.5
 GIRL_PHRASES = [
 	"ok so $",
 	"um $",

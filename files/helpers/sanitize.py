@@ -703,8 +703,11 @@ def torture_queen(string, key):
 	string = more_than_one_comma_regex.sub(",", string)
 	if string[-5:] == ', and':
 		string = string[:-5]
-	girl_phrase = GIRL_PHRASES[key%len(GIRL_PHRASES)]
-	string = girl_phrase.replace("$", string)
+    
+	random.seed(key)
+	if random.random() < PHRASE_CHANCE:
+		girl_phrase = random.choice(GIRL_PHRASES)
+		string = girl_phrase.replace("$", string)
 	string = initial + string
 	return string
 
@@ -716,7 +719,7 @@ def torture_object(obj, torture_method):
 		i = 0
 		for tag in tags:
 			i+=1
-			key = obj.id*i
+			key = obj.id+i
 			tag.string.replace_with(torture_method(tag.string, key))
 		obj.body_html = str(soup).replace('<html><body>','').replace('</body></html>','')
 
