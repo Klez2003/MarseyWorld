@@ -1186,7 +1186,7 @@ GLOBAL2 = environ.get("GLOBAL2", "").strip()
 
 STARS = '\n\n★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★\n\n'
 
-EMOJI_KINDS = ("Marsey", "Platy", "Wolf", "Tay", "Donkey Kong", "Marsey Flags", "Marsey Alphabet", "Classic", "Rage", "Wojak", "Misc")
+EMOJI_KINDS = ("Marsey", "Platy", "Wolf", "Donkey Kong", "Tay", "Capy", "Carp", "Marsey Flags", "Marsey Alphabet", "Classic", "Rage", "Wojak", "Misc")
 
 t = datetime.datetime.now()
 
