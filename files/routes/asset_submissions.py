@@ -159,14 +159,11 @@ def approve_emoji(v, name):
 			badge_grant(badge_id=16, user=author)
 		else:
 			badge_grant(badge_id=17, user=author)
-
-		if emoji.name.startswith("marseycapy"):
-			all_by_author = all_by_author.filter(Emoji.name.like("marseycapy%")).count()
-			if all_by_author >= 10:
-				badge_grant(badge_id=115, user=author)
-			else:
-				badge_grant(badge_id=114, user=author)
-
+	elif emoji.kind == "Capy":
+		all_by_author = g.db.query(Emoji).filter_by(kind="Capy", author_id=author.id).count()
+		if all_by_author >= 10:
+			badge_grant(badge_id=115, user=author)
+		badge_grant(badge_id=114, user=author)
 	elif emoji.kind == "Wolf":
 		all_by_author = g.db.query(Emoji).filter_by(kind="Wolf", author_id=author.id).count()
 		if all_by_author >= 10:
