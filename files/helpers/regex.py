@@ -73,6 +73,15 @@ torture_regex3 = re.compile("(^|\s)(my|mine)($|\s)", flags=re.I|re.A)
 sentence_ending_regex = re.compile('(?<!\.)(\.)(?=$|\n|\s)', flags=re.I|re.A)
 normal_punctuation_regex = re.compile('(\"|\')', flags=re.I|re.A)
 more_than_one_comma_regex = re.compile('\,\,+', flags=re.I|re.A)
+#matches the various superlatives, but only if it as the start or end of a string or if it surrounded by spaces or is at the end of a word.
+superlative_regex = re.compile('(?<=^|(?<=\s))(everyone|everybody|nobody|all|none|every|any|no one|anything)(?=$|\n|\s|[.?!,])', flags=re.I|re.A)
+#like above, except only when totally doesn't already prefix
+totally_regex = re.compile('(?<=^|(?<=\s))(?<!totally )(into)(?=$|\n|\s|[.?!,])', flags=re.I|re.A)
+greeting_regex = re.compile('(?<=^|(?<=\s))(hello|hi|hey|hecko)(?=$|\n|\s|[.?!,])', flags=re.I|re.A)
+like_before_regex = re.compile('(?<=^|(?<=\s))(?<!like )(just|only)(?=$|\n|\s|[.?!,])', flags=re.I|re.A)
+like_after_regex = re.compile('(?<=^|(?<=\s))(i mean)(?! like)(?=$|\n|\s|[.?!,])', flags=re.I|re.A)
+#match ! or ? but only if it isn't touching another ! or ?, or is in front of a letter
+single_repeatable_punctuation = re.compile('(?<!!|\?)(!|\?)(?!!|\?)(?=\s|$)', flags=re.I|re.A)
 
 image_check_regex = re.compile(f'!\[\]\(((?!(https:\/\/({hosts})\/|\/)).*?)\)', flags=re.A)
 

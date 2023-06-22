@@ -690,6 +690,12 @@ def torture_queen(string, key):
 	if not string: return string
 	string = string.lower()
 	string = sentence_ending_regex.sub(", and", string)
+	string = superlative_regex.sub(r"literally \g<1>", string)
+	string = totally_regex.sub(r"totally \g<1>", string)
+	string = single_repeatable_punctuation.sub(r"\g<1>\g<1>\g<1>", string)
+	string = greeting_regex.sub(r"hiiiiiiiiii", string)
+	string = like_after_regex.sub(r"\g<1> like", string)
+	string = like_before_regex.sub(r"like \g<1>", string)
 	string = normal_punctuation_regex.sub("", string)
 	string = more_than_one_comma_regex.sub(",", string)
 	if string[-5:] == ', and':
