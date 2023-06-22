@@ -99,7 +99,6 @@ a {
 
 .spoiler, spoiler {
 	background-color: var(--grey) !important;
-	color: var(--grey) !important;
 }
 
 .spoiler:hover, spoiler:hover {
