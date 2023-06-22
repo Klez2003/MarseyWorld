@@ -101,8 +101,11 @@ AJ_REPLACEMENTS = {
 	'EVERYBODY': 'EVERYPONY',
 }
 
+PHRASE_CHANCE = 0.5
 GIRL_PHRASES = [
 	"ok so $",
+	"um $",
+	"also like $",
 	"literally, $",
 	"i feel like $",
 	"my heart is telling me $",
@@ -112,8 +115,10 @@ GIRL_PHRASES = [
     "$ and thats the tea, sis",
     "$ but go off i guess",
     "$ but go off",
-    "$, karen",
-	"$ but its whatever"
+	"$ but its whatever",
+	"$ and its EVERYTHING",
+	"$ *sips tea*",
+	"$ PERIODT"
 ]
 GIRL_NAME_PREFIX = [
 	'the',

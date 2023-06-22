@@ -688,14 +688,27 @@ def torture_ap(string, username):
 
 def torture_queen(string, key):
 	if not string: return string
+	result = initial_part_regex.search(string)
+	initial = result.group(1) if result else ""
 	string = string.lower()
+	string = initial_part_regex.sub("", string)
 	string = sentence_ending_regex.sub(", and", string)
+	string = superlative_regex.sub(r"literally \g<1>", string)
+	string = totally_regex.sub(r"totally \g<1>", string)
+	string = single_repeatable_punctuation.sub(r"\g<1>\g<1>\g<1>", string)
+	string = greeting_regex.sub(r"hiiiiiiiiii", string)
+	string = like_after_regex.sub(r"\g<1> like", string)
+	string = like_before_regex.sub(r"like \g<1>", string)
 	string = normal_punctuation_regex.sub("", string)
 	string = more_than_one_comma_regex.sub(",", string)
 	if string[-5:] == ', and':
 		string = string[:-5]
-	girl_phrase = GIRL_PHRASES[key%len(GIRL_PHRASES)]
-	string = girl_phrase.replace("$", string)
+    
+	random.seed(key)
+	if random.random() < PHRASE_CHANCE:
+		girl_phrase = random.choice(GIRL_PHRASES)
+		string = girl_phrase.replace("$", string)
+	string = initial + string
 	return string
 
 def torture_object(obj, torture_method):
@@ -706,7 +719,7 @@ def torture_object(obj, torture_method):
 		i = 0
 		for tag in tags:
 			i+=1
-			key = obj.id*i
+			key = obj.id+i
 			tag.string.replace_with(torture_method(tag.string, key))
 		obj.body_html = str(soup).replace('<html><body>','').replace('</body></html>','')
 
