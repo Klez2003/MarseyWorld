@@ -1157,7 +1157,8 @@ def unban_user(id, v):
 
 	user.is_banned = None
 	user.unban_utc = 0
-	user.ban_reason = None
+	if not user.shadowbanned:
+		user.ban_reason = None
 	send_repeatable_notification(user.id, f"@{v.username} (a site admin) has unbanned you!")
 	g.db.add(user)
 
@@ -1165,7 +1166,8 @@ def unban_user(id, v):
 		if x.is_banned: send_repeatable_notification(x.id, f"@{v.username} (a site admin) has unbanned you!")
 		x.is_banned = None
 		x.unban_utc = 0
-		x.ban_reason = None
+		if not x.shadowbanned:
+			x.ban_reason = None
 		g.db.add(x)
 
 	ma=ModAction(

@@ -269,7 +269,8 @@ def award_thing(v, thing_type, id):
 		else:
 			author.unban_utc = 0
 			author.is_banned = None
-			author.ban_reason = None
+			if not author.shadowbanned:
+				author.ban_reason = None
 			send_repeatable_notification(author.id, "You have been unbanned!")
 	elif kind == "grass":
 		link3 = f"/{thing_type}/{thing.id}"
