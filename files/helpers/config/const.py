@@ -115,7 +115,10 @@ GIRL_PHRASES = [
     "$ and thats the tea, sis",
     "$ but go off i guess",
     "$ but go off",
-	"$ but its whatever"
+	"$ but its whatever",
+	"$ and its EVERYTHING",
+	"$ *sips tea*",
+	"$ PERIODT"
 ]
 GIRL_NAME_PREFIX = [
 	'the',
