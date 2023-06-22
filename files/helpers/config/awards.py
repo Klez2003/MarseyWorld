@@ -318,7 +318,7 @@ AWARDS = {
 		"description": "Award it to yourself to stop fart noises on the site.",
 		"icon": "fas fa-gas-pump-slash",
 		"color": "text-green",
-		"price": 1,
+		"price": 100,
 		"deflectable": True,
 		"cosmetic": False,
 		"ghost": False,
