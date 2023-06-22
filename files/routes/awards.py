@@ -330,8 +330,10 @@ def award_thing(v, thing_type, id):
 			abort(409, f"{safe_username} is under the effect of a conflicting award: OwOify award!")
 
 		if not author.queen:
-			name_index = g.db.query(User).filter(User.queen != None).count()
-			
+			last_taken_name = g.db.query(User.username).filter(User.queen != None).order_by(User.queen.desc()).first()[0]
+			try: name_index = GIRL_NAMES.index(last_taken_name)
+			except: name_index = 0
+
 			while True:
 				new_name = GIRL_NAMES[name_index]
 				existing = get_user(new_name, graceful=True)
