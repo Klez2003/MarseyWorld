@@ -82,6 +82,7 @@ like_before_regex = re.compile('(?<=^|(?<=\s))(?<!like )(just|only)(?=$|\n|\s|[.
 like_after_regex = re.compile('(?<=^|(?<=\s))(i mean)(?! like)(?=$|\n|\s|[.?!,])', flags=re.I|re.A)
 #match ! or ? but only if it isn't touching another ! or ?, or is in front of a letter
 single_repeatable_punctuation = re.compile('(?<!!|\?)(!|\?)(?!!|\?)(?=\s|$)', flags=re.I|re.A)
+initial_part_regex = re.compile('(?<=^)(>+)', flags=re.I|re.A)
 
 image_check_regex = re.compile(f'!\[\]\(((?!(https:\/\/({hosts})\/|\/)).*?)\)', flags=re.A)
 

@@ -688,7 +688,10 @@ def torture_ap(string, username):
 
 def torture_queen(string, key):
 	if not string: return string
+	result = initial_part_regex.search(string)
+	initial = result.group(1) if result else ""
 	string = string.lower()
+	string = initial_part_regex.sub("", string)
 	string = sentence_ending_regex.sub(", and", string)
 	string = superlative_regex.sub(r"literally \g<1>", string)
 	string = totally_regex.sub(r"totally \g<1>", string)
@@ -702,6 +705,7 @@ def torture_queen(string, key):
 		string = string[:-5]
 	girl_phrase = GIRL_PHRASES[key%len(GIRL_PHRASES)]
 	string = girl_phrase.replace("$", string)
+	string = initial + string
 	return string
 
 def torture_object(obj, torture_method):
