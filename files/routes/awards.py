@@ -330,27 +330,13 @@ def award_thing(v, thing_type, id):
 			abort(409, f"{safe_username} is under the effect of a conflicting award: OwOify award!")
 
 		if not author.queen:
-			number_of_adjectives = len(GIRL_NAME_ADJECTIVE)
-			number_of_nouns = len(GIRL_NAME_NOUN)
-			number_of_prefix = len(GIRL_NAME_PREFIX)
-			numbers = get_number_tuple(author.id, [number_of_adjectives, number_of_nouns, number_of_prefix])
-			adjective = GIRL_NAME_ADJECTIVE[numbers[0]].capitalize()
-			noun = GIRL_NAME_NOUN[numbers[1]].capitalize()
-			prefix = GIRL_NAME_PREFIX[numbers[2]]
-			prefix = prefix[0].upper() + prefix[1:]
-			number = numbers[3]
-
-			new_name = f"{prefix}{adjective}{noun}"+ (str(number) if number > 0 else "")
-
-			if not valid_username_regex.fullmatch(new_name):
-				new_name = f"SomeWeirdGirl{random.randrange(100000)}"
-
-			existing = get_user(new_name, graceful=True)
-			if existing and existing.id != author.id:
-				if len(new_name) < 23:
-					new_name = f"{new_name}_{random.randrange(pow(10, 23-len(new_name)))}"
-				else:
-					new_name = f"SomeQuirkyGirl{random.randrange(100000)}"
+			name_index = g.db.query(User).filter(User.queen != None).count()
+			
+			while True:
+				new_name = GIRL_NAMES[name_index]
+				existing = get_user(new_name, graceful=True)
+				if not existing: break
+				name_index += 1
 
 			if not author.prelock_username:
 				author.prelock_username = author.username
