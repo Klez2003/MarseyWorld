@@ -243,11 +243,14 @@ INSERT INTO public.badge_defs VALUES (282, 'Rehab Counselor', 'Awarded for parti
 INSERT INTO public.badge_defs VALUES (283, 'Summer Fun', 'Awarded for contributing to the Marsey''s Summer Fun event', 1685121838);
 INSERT INTO public.badge_defs VALUES (284, 'In Memoriam Theodroa', 'When God calls one of His most blessed angels home, the heavens rejoice while we are left behind to weep with the rain.', 1686502188);
 INSERT INTO public.badge_defs VALUES (285, 'Queen', 'This user SLAYS 💅👠💄', 1687282987);
+INSERT INTO public.badge_defs VALUES (286, 'Pilgrimage', 'This user went on a quest to an rdrama holy site', 1687363815);
 
+
+--
 -- Name: badge_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.badge_defs_id_seq', 285, true);
+SELECT pg_catalog.setval('public.badge_defs_id_seq', 286, true);
 
 
 --
@@ -1317,11 +1320,12 @@ INSERT INTO public.hat_defs VALUES (1213, 'Secret Crack', 'Oh hi… AH', 2, 1000
 
 
 
+
 --
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1252, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1255, true);
 
 
 --
@@ -1354,6 +1358,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('adore','Misc',2,'cat love heart adore cute'),
 ('ae','Marsey Alphabet',2,'norwegian letter'),
 ('afroblackjak','Wojak',2,'black afro BIPOC'),
+('aidanhaleunamused','Misc',2,'trans shooter tranifesto mass murder lgbt'),
 ('albinopepe','Misc',2,'frogposting'),
 ('ale8blackberry','Misc',2,'kentucky'),
 ('aleph','Marsey Alphabet',2,'ℵ cardinal infinite'),
@@ -1368,6 +1373,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('ampersand','Marsey Alphabet',2,'& and'),
 ('anarchynow','Classic',2,'anarchy antifa'),
 ('ancap','Wojak',2,'pedo lib'),
+('andrewtate','Misc',2,'andrew tate drawing doodle'),
 ('angelic','Classic',2,'sopbabies wings halo innocent'),
 ('angle','Marsey Alphabet',2,'< > gt lt'),
 ('angle2','Marsey Alphabet',2,'⟨ ⟩ bra ket angle bracket'),
@@ -1864,6 +1870,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('fancywithwine','Rage',2,'fancy sophisticated wine monocle alcohol'),
 ('fap','Classic',2,'fap animated emoticon coomer'),
 ('fatbrain','Wojak',2,'fat fatty brain smart genius'),
+('fatchair','Misc',2,'fat fatty fatties obese hambeast hamplanet chair chairs sit sitting janny jannies jan redditor redditors reddit leddit ledditors moderator mods mop mopping'),
 ('fatdance','Misc',2,'black'),
 ('fatpride','Misc',2,'fat flag'),
 ('fatpriest','Wojak',2,'priest jesus'),
@@ -1887,6 +1894,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('forall','Marsey Alphabet',2,'∀'),
 ('foreveralone','Rage',2,'alone lonely'),
 ('foreveralonehappy','Rage',2,'alone lonely happy'),
+('francis','Misc',2,'skeptical hmm'),
 ('froth','Misc',2,'froth seethe angry ugh frothing sneed'),
 ('frown','Classic',2,'frown emoticon sad upset'),
 ('fuckboy','Classic',2,'biting fuckboi'),
@@ -1943,6 +1951,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('grug','Wojak',2,'caveman'),
 ('grugthink','Wojak',2,'grug think caveman'),
 ('gtfo','Classic',2,'gtfo emoticon leave point sign'),
+('gucci','Misc',2,'gucci allgood'),
 ('guidopepe','Misc',2,'sopranos italian'),
 ('guillotine','Classic',2,'french kill execution beheading'),
 ('guitar','Classic',2,'guitar animated emoticon music instrument rock'),
@@ -2571,6 +2580,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseycarp4','Marsey',2,'sicksadworld banhammer pin awards janny mod admin'),
 ('marseycarp41','Marsey',2,'carpathianflorist fish moderator jannie administrator suicide train rope transgender'),
 ('marseycarpabusivewife','Marsey',2,'carpathianflorist boobs sweater yesdear demeaning jannie fish'),
+('marseycarpagree','Marsey',2,'yes nod'),
 ('marseycarpasian','Marsey',2,'carpathianflorist fish azn racist hat paddy gook nip ching chong chink'),
 ('marseycarpautism','Marsey',2,'carpathianflorist special assburgers aspergers retarded janitor jannie'),
 ('marseycarpbackstab','Marsey',2,'marseybackstab fuckcarp  fish carpathianflorist'),
@@ -2885,6 +2895,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseydarkmarsey2','Marsey',2,'lasereyes redglow scary chudrama'),
 ('marseydarkpizzashill','Marsey',2,'chud rightoid leftoid debate owned lasereyes footlocker'),
 ('marseydarkrose','Marsey',2,'darkrose dark rose marsey flower uk'),
+('marseydarkspez','Marsey',2,'dark spez mop ban janny jannie clean choice'),
 ('marseydarktrump','Marsey',2,'maga lasereyes chud republican orange daddy donald'),
 ('marseydarkxd','Marsey',2,'laugh ragecomics lmao despair shadow'),
 ('marseydarwin','Marsey',2,'history darwinian euphoric atheist charles'),
@@ -3797,6 +3808,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseymfdoom','Marsey',2,'rapper hip hop hiphop rnb supervillain helmet mask'),
 ('marseymicrobus','Marsey',2,'vw van bussy'),
 ('marseymicrosoftpride','Marsey',2,'pride flag rights gay trans lgbt lgbtqia microsoft opensource intersectional sexuality queer nonbinary intersex bisexual twospirit progress nonbinary agender asexual'),
+('marseymid','Marsey',2,'mid foid zendaya would mic ahem'),
 ('marseymidsommarchristian','Marsey',2,'sweden movie film cult a24 scandinavia man cinema bear death kill fire murder torture drug'),
 ('marseymidsommardani','Marsey',2,'sweden movie film cult a24 scandinavia flowers dress happy tears joy woman cinema'),
 ('marseymike','Marsey',2,'disney pixar monsters inc cyclops'),
@@ -3901,6 +3913,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseynooticeglow','Marsey',2,'notice nootice noticer nooticer glowing think thonk'),
 ('marseynope','Marsey',2,'bush grass simpsons homer hide avoid'),
 ('marseynorf','Marsey',2,'soccer british football sports'),
+('marseynorm','Marsey',2,'everyone involved should die macdonald'),
 ('marseynosleep','Marsey',2,'horror scary halloween holiday'),
 ('marseynostalgiacritic','Marsey',2,'doug review movie'),
 ('marseynosuchcases','Marsey',2,'strawman fake news cope seethe none many luggage airport conveyor belt sam brinton'),
@@ -4373,6 +4386,9 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseysexylibrarian','Marsey',2,'books hoe old woman thot nerd boobs bra geek'),
 ('marseysexypepe','Marsey',2,'mellokind hotpepe frog lewd flirt ribbon'),
 ('marseyshadow','Marsey',2,'sonic hedgehog sneed me edge chaos control emerald'),
+('marseyshadowmoneywizardgang','Marsey',2,'marsey gang'),
+('marseyshadowmoneywizardgreen','Marsey',2,'marsey gang green'),
+('marseyshadowmoneywizardyellow','Marsey',2,'marsey gang yellow'),
 ('marseyshake','Marsey',2,'cartoon athf aqua fastfood shake dessert icecream'),
 ('marseyshakespeare','Marsey',2,'words writer author drama theater british poet william england english thespian playwright playwrite'),
 ('marseyshapiro','Marsey',2,'benjamin debate libtard facts and logic benny jewish ben shapiro'),
@@ -4468,6 +4484,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseysnekglow','Marsey',2,'snekky fed us cia fbi nsa dhs glowie admin mod agent plant handler infiltrate'),
 ('marseysniff','Marsey',2,'brap huff gas reaction fart creep smell'),
 ('marseysnoo','Marsey',2,'shaking redditor scared reaction nervous schizo reddit'),
+('marseysnoohug','Marsey',2,'hug snoo reddit friends'),
 ('marseysnoomask','Marsey',2,'redditor crying srd serious'),
 ('marseysnorlax','Marsey',2,'fat obese fatty fattie pokemon snorlax blocking snoring  sleeping'),
 ('marseysnow','Marsey',2,'snowman snowmarsey cold winter christmas holiday'),
@@ -5049,6 +5066,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('nuggetmatrix','Misc',2,'chicken spinning'),
 ('nuggetpink','Misc',2,'chicken spinning'),
 ('o','Marsey Alphabet',2,'letter'),
+('obama','Misc',2,'obama blackpresident smug'),
 ('obesedaddysgirl','Wojak',2,'fat fatty obese landwhale woman onlyfans'),
 ('obesetradwife','Wojak',2,'fat fatty landwhale trad wife tradwife blonde'),
 ('objection','Misc',2,'objection ace attorney lawyer'),
@@ -5281,6 +5299,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('realisticelephant','Misc',2,'terry davis templeos'),
 ('redditchadrentfree','Wojak',2,'redditor snivel soycry wojak snoo'),
 ('redditgigachad','Misc',2,'chad gigachad'),
+('redditretard','Misc',2,'reddit retard snoo drool'),
 ('redlight','Misc',2,'red light police cop emergency alert'),
 ('repostcapy','Misc',2,'capybara transphobic transphobia legislator'),
 ('reposthorse','Misc',2,'chud mlp horse cartoon'),
@@ -5636,6 +5655,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('wavyhairblackjack','Wojak',2,'black woman twitter wavy'),
 ('weewoo','Misc',2,'wee woo cop weewoo lights'),
 ('werechioback','Misc',2,'chiobu chibs back return operational functional working'),
+('westbrook','Misc',2,'russ westbrook laugh'),
 ('wewuz','Misc',2,'kangs kangz egypt pyramid'),
 ('whip','Classic',2,'whip animated emoticon bdsm'),
 ('whipping','Classic',2,'whip animated emoticon bdsm'),
