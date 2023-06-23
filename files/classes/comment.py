@@ -137,6 +137,7 @@ class Comment(Base):
 	slots_result = Column(String)
 	blackjack_result = Column(String)
 	casino_game_id = Column(Integer, ForeignKey("casino_games.id"))
+	chudded = Column(Boolean, default=False)
 
 	oauth_app = relationship("OauthApp")
 	post = relationship("Post", back_populates="comments")

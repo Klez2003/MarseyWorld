@@ -596,6 +596,8 @@ def submit_post(v:User, sub=None):
 
 	if url == '': url = None
 
+	flag_chudded = v.chud and sub != 'chudrama'
+
 	p = Post(
 		private=flag_private,
 		notify=flag_notify,
@@ -611,7 +613,8 @@ def submit_post(v:User, sub=None):
 		title=title,
 		title_html=title_html,
 		sub=sub,
-		ghost=flag_ghost
+		ghost=flag_ghost,
+		chudded=flag_chudded,
 	)
 
 	g.db.add(p)

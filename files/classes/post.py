@@ -59,6 +59,7 @@ class Post(Base):
 	embed = Column(String)
 	new = Column(Boolean)
 	notify = Column(Boolean)
+	chudded = Column(Boolean, default=False)
 
 	author = relationship("User", primaryjoin="Post.author_id==User.id")
 	oauth_app = relationship("OauthApp")

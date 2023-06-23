@@ -264,6 +264,8 @@ def comment(v:User):
 
 	is_bot = v.client is not None and v.id not in PRIVILEGED_USER_BOTS
 
+	chudded = v.chud and not (posting_to_submission and post_target.sub == 'chudrama')
+
 	c = Comment(author_id=v.id,
 				parent_submission=post_target.id if posting_to_submission else None,
 				wall_user_id=post_target.id if not posting_to_submission else None,
@@ -275,6 +277,7 @@ def comment(v:User):
 				body_html=body_html,
 				body=body,
 				ghost=ghost,
+				chudded=chudded,
 				)
 
 	c.upvotes = 1
