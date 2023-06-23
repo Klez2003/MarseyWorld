@@ -717,6 +717,12 @@ def admin_delink_relink_alt(v:User, username, other):
 	if not a: abort(404)
 	g.db.delete(a)
 
+	cache.delete_memoized(get_alt_graph_ids, user1.id)
+	cache.delete_memoized(get_alt_graph_ids, user2.id)
+
+	check_for_alts(user1)
+	check_for_alts(user2)
+
 	ma = ModAction(
 		kind=f"delink_accounts",
 		user_id=v.id,
