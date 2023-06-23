@@ -729,7 +729,6 @@ def torture_object(obj, torture_method):
 
 def complies_with_chud(obj):
 	#check for cases where u should leave
-	if not obj.chudded: return True
 	if not (obj.author.chud or obj.author.queen): return True
 	if obj.author.marseyawarded: return True
 	if isinstance(obj, Post):
@@ -740,6 +739,8 @@ def complies_with_chud(obj):
 		if obj.post.sub == "chudrama": return True
 
 	if obj.author.chud:
+		if not obj.chudded: return True
+
 		#perserve old body_html to be used in checking for chud phrase
 		old_body_html = obj.body_html
 
