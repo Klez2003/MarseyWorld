@@ -15,7 +15,7 @@
 	{% endif %}
 
 	{% if request.path != '/sidebar' %}
-		{% if v and (v.is_banned or v.agendaposter) %}
+		{% if v and (v.is_banned or v.chud) %}
 			<a href="{{SITE_FULL_IMAGES}}/i/{{SITE_NAME}}/sidebar2.webp">
 				<img class="mb-4 sidebar-img" alt="sidebar image" data-nonce="{{g.nonce}}" data-onclick="expandImage()" loading="lazy" src="{{SITE_FULL_IMAGES}}/i/{{SITE_NAME}}/sidebar2.webp">
 			</a>

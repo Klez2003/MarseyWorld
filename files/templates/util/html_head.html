@@ -100,8 +100,8 @@
 {% macro stylesheets(include_user_css) %}
 	<link rel="stylesheet" href="{{'css/main.css' | asset}}">
 	{% if v %}
-		{% if v.agendaposter %}
-			<link rel="stylesheet" href="{{('css/agendaposter.css') | asset}}">
+		{% if v.chud %}
+			<link rel="stylesheet" href="{{('css/chud.css') | asset}}">
 		{% endif %}
 		{% if include_user_css and not IS_FISTMAS() %}
 			{% if v.theme == 'classic_dark' %}
@@ -144,7 +144,7 @@
 
 {% macro stylesheets_lower() %}
 	{% if not (request.path.startswith('/@') and u) %}
-		{% if SITE_NAME == 'rDrama' and v and v.agendaposter %}
+		{% if SITE_NAME == 'rDrama' and v and v.chud %}
 			{% set background = '/i/backgrounds/anime/1.webp?x=2' %}
 		{% elif v and v.background %}
 			{% set background = v.background %}

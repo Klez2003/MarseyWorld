@@ -119,7 +119,7 @@ function pick(kind, price, coins, marseybux) {
 	}
 	document.getElementById(kind).classList.toggle('picked')
 
-	if (kind == "agendaposter") {
+	if (kind == "chud") {
 		document.getElementById('phrase_section').classList.remove("d-none")
 		document.getElementById('note_section').classList.add("d-none")
 	}
@@ -176,7 +176,7 @@ function buy() {
 function giveaward(t) {
 	const kind = document.getElementById('kind').value;
 
-	const note_id = (kind == "agendaposter" ? "agendaposter_phrase" : "note")
+	const note_id = (kind == "chud" ? "chud_phrase" : "note")
 
 	postToast(t, t.dataset.action,
 		{

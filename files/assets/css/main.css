@@ -7295,7 +7295,7 @@ button, .btn {
 	animation: rb 8s linear infinite;
 }
 
-.agendaposter-img:after {
+.chud-img:after {
 	content: "";
 	display: inline-block;
 	margin-top: 10px;
@@ -7306,40 +7306,40 @@ button, .btn {
 	background-repeat: no-repeat !important;
 }
 
-.agendaposter-0:after {
+.chud-0:after {
 	background: url("/i/chud/0.webp?x=2");
 }
-.agendaposter-1:after {
+.chud-1:after {
 	background: url("/i/chud/1.webp?x=2");
 }
-.agendaposter-2:after {
+.chud-2:after {
 	background: url("/i/chud/2.webp?x=2");
 }
-.agendaposter-3:after {
+.chud-3:after {
 	background: url("/i/chud/3.webp?x=2");
 }
-.agendaposter-4:after {
+.chud-4:after {
 	background: url("/i/chud/4.webp?x=2");
 }
-.agendaposter-5:after {
+.chud-5:after {
 	background: url("/i/chud/5.webp?x=2");
 	height: 100px;
 }
-.agendaposter-6:after {
+.chud-6:after {
 	background: url("/i/chud/6.webp?x=2");
 }
-.agendaposter-7:after, .agendaposter-8:after, .agendaposter-9:after {
+.chud-7:after, .chud-8:after, .chud-9:after {
 	background: url("/i/chud/7.webp?x=2");
 }
 
 
 @media (max-width: 410px) {
-	.agendaposter-img:after {
+	.chud-img:after {
 		margin-bottom: 0;
 		width: 50vw;
 		height: 100px;
 	}
-	.agendaposter-5:after {
+	.chud-5:after {
 		height: 65px;
 	}	
 }

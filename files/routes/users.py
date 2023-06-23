@@ -234,7 +234,7 @@ def grassed(v:User):
 @auth_required
 def chuds(v:User):
 	users = g.db.query(User).filter(
-		or_(User.agendaposter == 1, User.agendaposter > time.time()),
+		or_(User.chud == 1, User.chud > time.time()),
 	)
 	if v.admin_level >= PERMS['VIEW_LAST_ACTIVE']:
 		users = users.order_by(User.truescore.desc())

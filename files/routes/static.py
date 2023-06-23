@@ -403,5 +403,5 @@ def transfers(v:User):
 @limiter.limit(DEFAULT_RATELIMIT)
 @is_not_permabanned
 def donate(v):
-	if v.shadowbanned or v.agendaposter == 1: abort(404)
+	if v.shadowbanned or v.chud == 1: abort(404)
 	return render_template(f'donate.html', v=v)

@@ -227,8 +227,8 @@ def _award_timers_task():
 	_process_timer(User.patron_utc, [22,23,24,25,26,27,28], f"Your {patron} status has expired!", {
 		User.patron: 0,
 	})
-	_process_timer(User.agendaposter, [58], "Your temporary chud status has expired!", {
-		User.agendaposter_phrase: None,
+	_process_timer(User.chud, [58], "Your temporary chud status has expired!", {
+		User.chud_phrase: None,
 		User.chudded_by: None,
 	})
 	_process_timer(User.flairchanged, [96], "Your temporary flair-lock has expired. You can now change your flair!")

@@ -45,10 +45,10 @@
 
 						<button type="button" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#banModal" data-nonce="{{g.nonce}}" data-onclick="punishModal(this, 'ban', '/post/{{p.id}}', '{{p.author_name}}', '{{p.fullname}}')" class="nobackground btn btn-link btn-block btn-lg text-danger text-left {% if p.author.is_suspended_permanently %}d-none{% endif %}"><i class="fas fa-user-minus mr-2"></i>Ban user</button>
 					{% endif %}
-					{% if v.id != p.author_id and v.admin_level >= PERMS['USER_AGENDAPOSTER'] %}
-						<button type="button" id="unchud2-{{p.fullname}}" class="{% if not p.author.agendaposter %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-success text-left" data-nonce="{{g.nonce}}" data-onclick="unchud_or_unban(this,'/unchud_user/{{p.fullname}}')" data-bs-dismiss="modal"><i class="fas fa-face-sleeping mr-2"></i>Unchud user</button>
+					{% if v.id != p.author_id and v.admin_level >= PERMS['USER_CHUD'] %}
+						<button type="button" id="unchud2-{{p.fullname}}" class="{% if not p.author.chud %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-success text-left" data-nonce="{{g.nonce}}" data-onclick="unchud_or_unban(this,'/unchud_user/{{p.fullname}}')" data-bs-dismiss="modal"><i class="fas fa-face-sleeping mr-2"></i>Unchud user</button>
 
-						<button type="button" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#chudModal" data-nonce="{{g.nonce}}" data-onclick="punishModal(this, 'chud', '/post/{{p.id}}', '{{p.author_name}}', '{{p.fullname}}')" class="nobackground btn btn-link btn-block btn-lg text-danger text-left {% if p.author.agendaposter == 1 %}d-none{% endif %}"><i class="fas fa-face-sleeping mr-2"></i>Chud user</button>
+						<button type="button" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#chudModal" data-nonce="{{g.nonce}}" data-onclick="punishModal(this, 'chud', '/post/{{p.id}}', '{{p.author_name}}', '{{p.fullname}}')" class="nobackground btn btn-link btn-block btn-lg text-danger text-left {% if p.author.chud == 1 %}d-none{% endif %}"><i class="fas fa-face-sleeping mr-2"></i>Chud user</button>
 					{% endif %}
 				</ul>
 			</div>

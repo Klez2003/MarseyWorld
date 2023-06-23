@@ -676,7 +676,7 @@ def submit_post(v:User, sub=None):
 		p.is_banned = True
 		p.ban_reason = "AutoJanny"
 
-		body = AGENDAPOSTER_MSG.format(username=v.username, type='post', AGENDAPOSTER_PHRASE=v.agendaposter_phrase)
+		body = CHUD_MSG.format(username=v.username, type='post', CHUD_PHRASE=v.chud_phrase)
 		body_jannied_html = sanitize(body)
 
 
@@ -1062,7 +1062,7 @@ def edit_post(pid, v):
 
 
 	if not complies_with_chud(p):
-		abort(403, f'You have to include "{v.agendaposter_phrase}" in your post!')
+		abort(403, f'You have to include "{v.chud_phrase}" in your post!')
 
 
 	if v.id == p.author_id:

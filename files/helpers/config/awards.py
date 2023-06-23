@@ -531,8 +531,8 @@ AWARDS = {
 		"ghost": False,
 		"enabled": True,
 	},
-	"agendaposter": {
-		"kind": "agendaposter",
+	"chud": {
+		"kind": "chud",
 		"title": "Chud",
 		"description": "Chuds the recipient for 24 hours.",
 		"icon": "fas fa-snooze",

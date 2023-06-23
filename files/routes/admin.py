@@ -781,8 +781,8 @@ def admin_removed_comments(v):
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
-@admin_level_required(PERMS['USER_AGENDAPOSTER'])
-def unagendaposter(id, v):
+@admin_level_required(PERMS['USER_CHUD'])
+def unchud(id, v):
 
 	if id.startswith('p_'):
 		post_id = id.split('p_')[1]
@@ -798,8 +798,8 @@ def unagendaposter(id, v):
 	if not user.chudded_by:
 		abort(403, "Jannies can't undo chud awards anymore!")
 
-	user.agendaposter = 0
-	user.agendaposter_phrase = None
+	user.chud = 0
+	user.chud_phrase = None
 	user.chudded_by = None
 	g.db.add(user)
 
@@ -1032,8 +1032,8 @@ def ban_user(id, v):
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
-@admin_level_required(PERMS['USER_AGENDAPOSTER'])
-def agendaposter(id, v):
+@admin_level_required(PERMS['USER_CHUD'])
+def chud(id, v):
 
 	if id.startswith('p_'):
 		post_id = id.split('p_')[1]
@@ -1049,7 +1049,7 @@ def agendaposter(id, v):
 	if user.admin_level > v.admin_level:
 		abort(403)
 
-	if user.agendaposter == 1:
+	if user.chud == 1:
 		abort(403, f"@{user.username} is already chudded permanently!")
 
 	if user.marsify:
@@ -1072,24 +1072,24 @@ def agendaposter(id, v):
 	reason = reason_regex_comment.sub(r'<a href="\1#context">\1</a>', reason)
 
 	if days:
-		if user.agendaposter:
-			user.agendaposter += days * 86400
+		if user.chud:
+			user.chud += days * 86400
 		else:
-			user.agendaposter = int(time.time()) + (days * 86400)
+			user.chud = int(time.time()) + (days * 86400)
 
 		days_txt = str(days)
 		if days_txt.endswith('.0'): days_txt = days_txt[:-2]
 		duration = f"for {days_txt} day"
 		if days != 1: duration += "s"
 	else:
-		user.agendaposter = 1
+		user.chud = 1
 		duration = "permanently"
 
-	user.agendaposter_phrase = "trans lives matter"
+	user.chud_phrase = "trans lives matter"
 
 	text = f"@{v.username} (a site admin) has chudded you **{duration}**"
 	if reason: text += f" for the following reason:\n\n> {reason}"
-	text += f"\n\n**You now have to say this phrase in all posts and comments you make {duration}:**\n\n> {user.agendaposter_phrase}"
+	text += f"\n\n**You now have to say this phrase in all posts and comments you make {duration}:**\n\n> {user.chud_phrase}"
 
 	user.chudded_by = v.id
 	g.db.add(user)

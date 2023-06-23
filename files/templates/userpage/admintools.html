@@ -64,10 +64,10 @@
 					<input autocomplete="off" id="user-shadowban-submit-{{deviceType}}" type="submit" class="btn btn-danger" value="Shadowban user" disabled>
 				</form>
 			{% endif %}
-			{% if v.admin_level >= PERMS['USER_AGENDAPOSTER'] %}
-				<button type="button" id="unagendaposter-{{deviceType}}" class="mt-1 {% if not u.agendaposter %}d-none{% endif %} btn btn-success" data-nonce="{{g.nonce}}" data-onclick="unchud_or_unban(this,'/unchud_user/{{u.id}}')">Unchud</button>
+			{% if v.admin_level >= PERMS['USER_CHUD'] %}
+				<button type="button" id="unchud-{{deviceType}}" class="mt-1 {% if not u.chud %}d-none{% endif %} btn btn-success" data-nonce="{{g.nonce}}" data-onclick="unchud_or_unban(this,'/unchud_user/{{u.id}}')">Unchud</button>
 
-				<form class="my-3 {% if u.agendaposter == 1 %}d-none{% endif %}" action="/chud_user/{{u.id}}" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHRSwitch(this)">
+				<form class="my-3 {% if u.chud == 1 %}d-none{% endif %}" action="/chud_user/{{u.id}}" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHRSwitch(this)">
 					<input hidden name="formkey" value="{{v|formkey}}">
 					<input autocomplete="off" type="number" step="any" name="days" max="{{max_days()}}" class="form-control" placeholder="Days (0 or blank = permanent)">
 					<input type="submit" class="btn btn-danger" value="Chud">

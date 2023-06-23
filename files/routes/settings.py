@@ -615,7 +615,7 @@ def settings_css_get(v:User):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def settings_css(v):
-	if v.agendaposter: abort(400, "Agendapostered users can't edit CSS!")
+	if v.chud: abort(400, "Chuded users can't edit CSS!")
 	css = request.values.get("css", v.css).strip().replace('\\', '').strip()[:CSS_LENGTH_LIMIT]
 	v.css = css
 	g.db.add(v)

@@ -95,9 +95,9 @@ class User(Base):
 	coins_spent = Column(Integer, default=0)
 	coins_spent_on_hats = Column(Integer, default=0)
 	lootboxes_bought = Column(Integer, default=0)
-	agendaposter = Column(Integer, default=0)
+	chud = Column(Integer, default=0)
 	queen = Column(Integer, default=0)
-	agendaposter_phrase = Column(String)
+	chud_phrase = Column(String)
 	is_activated = Column(Boolean, default=False)
 	shadowbanned = Column(Integer, ForeignKey("users.id"))
 	chudded_by = Column(Integer, ForeignKey("users.id"))
@@ -305,7 +305,7 @@ class User(Base):
 		user_forced_hats = []
 		for k, val in forced_hats.items():
 			if getattr(self, k) and getattr(self, k) > 1:
-				if k == 'agendaposter':
+				if k == 'chud':
 					user_forced_hats.append(random.choice(val))
 				else:
 					user_forced_hats.append(val)
@@ -348,7 +348,7 @@ class User(Base):
 	def is_votes_real(self):
 		if self.patron: return True
 		if self.is_suspended_permanently or self.shadowbanned: return False
-		if self.agendaposter: return False
+		if self.chud: return False
 		if self.profile_url.startswith('/e/') and not self.customtitle and self.namecolor == DEFAULT_COLOR: return False
 		return True
 
@@ -373,7 +373,7 @@ class User(Base):
 	def all_blocks(self):
 		stealth = set([x[0] for x in g.db.query(Sub.name).filter_by(stealth=True).all()])
 		stealth = stealth - set([x[0] for x in g.db.query(SubJoin.sub).filter_by(user_id=self.id).all()])
-		if self.agendaposter == 1: stealth = stealth - {'chudrama'}
+		if self.chud == 1: stealth = stealth - {'chudrama'}
 
 		return list(stealth) + [x[0] for x in g.db.query(SubBlock.sub).filter_by(user_id=self.id).all()]
 
@@ -813,7 +813,7 @@ class User(Base):
 	@property
 	@lazy
 	def profile_url(self):
-		if self.agendaposter:
+		if self.chud:
 			return f"{SITE_FULL}/e/chudsey.webp"
 		if self.rainbow:
 			return f"{SITE_FULL}/e/marseysalutepride.webp"
@@ -889,7 +889,7 @@ class User(Base):
 				'coins': self.coins,
 				'post_count': self.real_post_count(g.v),
 				'comment_count': self.real_comment_count(g.v),
-				'agendaposter_phrase': self.agendaposter_phrase,
+				'chud_phrase': self.chud_phrase,
 				}
 
 
@@ -1080,14 +1080,14 @@ class User(Base):
 		if self.can_see_restricted_holes != None:
 			return self.can_see_restricted_holes
 
-		if self.agendaposter: return True
+		if self.chud: return True
 		if self.patron: return True
 		return False
 
 	@property
 	@lazy
 	def can_see_countryclub(self):
-		if self.agendaposter == 1: return False
+		if self.chud == 1: return False
 
 		if self.can_see_restricted_holes != None:
 			return self.can_see_restricted_holes

@@ -242,7 +242,7 @@ def comment(v:User):
 
 	body_html = sanitize(body_for_sanitize, limit_pings=5, showmore=True, count_emojis=not v.marsify)
 
-	if post_target.id not in ADMIGGER_THREADS and not (v.agendaposter and v.agendaposter_phrase in body.lower()):
+	if post_target.id not in ADMIGGER_THREADS and not (v.chud and v.chud_phrase in body.lower()):
 		existing = g.db.query(Comment.id).filter(
 			Comment.author_id == v.id,
 			Comment.deleted_utc == 0,
@@ -294,7 +294,7 @@ def comment(v:User):
 		c.ban_reason = "AutoJanny"
 		g.db.add(c)
 
-		body = AGENDAPOSTER_MSG.format(username=v.username, type='comment', AGENDAPOSTER_PHRASE=v.agendaposter_phrase)
+		body = CHUD_MSG.format(username=v.username, type='comment', CHUD_PHRASE=v.chud_phrase)
 		body_jannied_html = sanitize(body)
 
 		c_jannied = Comment(author_id=AUTOJANNY_ID,
@@ -658,7 +658,7 @@ def edit_comment(cid, v):
 		execute_blackjack(v, c, c.body, "comment")
 
 		if not complies_with_chud(c):
-			abort(403, f'You have to include "{v.agendaposter_phrase}" in your comment!')
+			abort(403, f'You have to include "{v.chud_phrase}" in your comment!')
 
 
 		if int(time.time()) - c.created_utc > 60 * 3: c.edited_utc = int(time.time())

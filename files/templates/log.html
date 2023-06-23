@@ -7,8 +7,8 @@
 		<link rel="stylesheet" href="{{('css/classic.css') | asset}}">
 	{% endif %}
 	<link rel="stylesheet" href="{{('css/'~v.theme~'.css') | asset}}">
-	{% if v.agendaposter %}
-		<link rel="stylesheet" href="{{('css/agendaposter.css') | asset}}">
+	{% if v.chud %}
+		<link rel="stylesheet" href="{{('css/chud.css') | asset}}">
 	{% elif v.css or v.background %}
 		<link rel="stylesheet" href="/{{v.id}}/css">
 	{% endif %}

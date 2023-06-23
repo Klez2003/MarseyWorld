@@ -23,7 +23,7 @@
 			<td {% if user.last_active %}data-time="{{user.last_active}}"{% endif %}></td>
 		{%- endif %}
 		<td>{{user.truescore}}</td>
-		<td {% if user.agendaposter != 1 %}data-time="{{user.agendaposter}}"{% endif %}></td>
+		<td {% if user.chud != 1 %}data-time="{{user.chud}}"{% endif %}></td>
 </tr>
 {% endfor %}
 </table>

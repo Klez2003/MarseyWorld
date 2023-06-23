@@ -236,7 +236,7 @@ def award_thing(v, thing_type, id):
 			msg += "!"
 			if note:
 				note = '\n\n> '.join(note.splitlines())
-				if kind == "agendaposter":
+				if kind == "chud":
 					msg += f"\n\n**You now have to say this phrase in all posts and comments you make for 24 hours:**"
 				msg += f"\n\n> {note}"
 			send_repeatable_notification(author.id, msg)
@@ -314,7 +314,7 @@ def award_thing(v, thing_type, id):
 		else: thing.stickied_utc = t
 		g.db.add(thing)
 	elif kind == "queen":
-		if author.agendaposter:
+		if author.chud:
 			abort(409, f"{safe_username} is under the effect of a conflicting award: Chud award!")
 			
 		if author.namechanged:
@@ -351,7 +351,7 @@ def award_thing(v, thing_type, id):
 
 		badge_grant(user=author, badge_id=285)
 		
-	elif kind == "agendaposter":
+	elif kind == "chud":
 		if thing_type == 'post' and thing.sub == 'chudrama' \
 			or thing_type == 'comment' and thing.post and thing.post.sub == 'chudrama':
 			abort(403, "You can't give the chud award in /h/chudrama")
@@ -368,18 +368,18 @@ def award_thing(v, thing_type, id):
 		if author.owoify:
 			abort(409, f"{safe_username} is under the effect of a conflicting award: OwOify award!")
 
-		if author.agendaposter == 1:
+		if author.chud == 1:
 			abort(409, f"{safe_username} is already chudded permanently!")
 
-		if author.agendaposter and time.time() < author.agendaposter: author.agendaposter += 86400
-		else: author.agendaposter = int(time.time()) + 86400
+		if author.chud and time.time() < author.chud: author.chud += 86400
+		else: author.chud = int(time.time()) + 86400
 
 		if not note: abort(400, "Missing phrase!")
 
 		if note not in CHUD_PHRASES:
 			abort(400, "Invalid phrase!")
 
-		author.agendaposter_phrase = note.lower()
+		author.chud_phrase = note.lower()
 
 		badge_grant(user=author, badge_id=58)
 	elif kind == "flairlock":
@@ -421,7 +421,7 @@ def award_thing(v, thing_type, id):
 	elif kind == "unpausable":
 		badge_grant(badge_id=67, user=author)
 	elif kind == "marsey":
-		if author.agendaposter:
+		if author.chud:
 			abort(409, f"{safe_username} is under the effect of a conflicting award: Chud award!")
 		if author.queen:
 			abort(409, f"{safe_username} is under the effect of a conflicting award: Queen award!")
@@ -479,7 +479,7 @@ def award_thing(v, thing_type, id):
 		author.verified = "Verified"
 		badge_grant(user=author, badge_id=150)
 	elif kind == 'marsify':
-		if author.agendaposter:
+		if author.chud:
 			abort(409, f"{safe_username} is under the effect of a conflicting award: Chud award!")
 		if author.queen:
 			abort(409, f"{safe_username} is under the effect of a conflicting award: Queen award!")
@@ -511,7 +511,7 @@ def award_thing(v, thing_type, id):
 		else: author.earlylife = int(time.time()) + 86400
 		badge_grant(user=author, badge_id=169)
 	elif ("Furry" in kind and kind == v.house) or kind == 'owoify':
-		if author.agendaposter:
+		if author.chud:
 			abort(409, f"{safe_username} is under the effect of a conflicting award: Chud award!")
 		if author.queen:
 			abort(409, f"{safe_username} is under the effect of a conflicting award: Queen award!")

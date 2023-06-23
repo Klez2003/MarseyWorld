@@ -55,7 +55,7 @@ class Badge(Base):
 	@property
 	@lazy
 	def until(self):
-		if self.badge_id == 58 and self.user.agendaposter != 1: return self.user.agendaposter
+		if self.badge_id == 58 and self.user.chud != 1: return self.user.chud
 		if self.badge_id == 170 and self.user.marsify != 1: return self.user.marsify
 
 		if self.badge_id == 94: return self.user.progressivestack

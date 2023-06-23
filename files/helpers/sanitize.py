@@ -486,7 +486,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 
 	sanitized = sanitized.replace('<p></p>', '')
 
-	if g.v and g.v.agendaposter:
+	if g.v and g.v.chud:
 		allowed_css_properties = allowed_styles
 	else:
 		allowed_css_properties = allowed_styles + ["filter"]
@@ -723,13 +723,13 @@ def torture_object(obj, torture_method):
 			tag.string.replace_with(torture_method(tag.string, key))
 		obj.body_html = str(soup).replace('<html><body>','').replace('</body></html>','')
 
-	#torture title_html and check for agendaposter_phrase in plain title and leave if it's there
+	#torture title_html and check for chud_phrase in plain title and leave if it's there
 	if isinstance(obj, Post):
 		obj.title_html = obj.title_html
 
 def complies_with_chud(obj):
 	#check for cases where u should leave
-	if not (obj.author.agendaposter or obj.author.queen): return True
+	if not (obj.author.chud or obj.author.queen): return True
 	if obj.author.marseyawarded: return True
 	if isinstance(obj, Post):
 		if obj.id in ADMIGGER_THREADS: return True
@@ -738,7 +738,7 @@ def complies_with_chud(obj):
 		if obj.parent_submission in ADMIGGER_THREADS: return True
 		if obj.post.sub == "chudrama": return True
 
-	if obj.author.agendaposter:
+	if obj.author.chud:
 		#perserve old body_html to be used in checking for chud phrase
 		old_body_html = obj.body_html
 
@@ -751,20 +751,20 @@ def complies_with_chud(obj):
 				tag.string.replace_with(torture_ap(tag.string, obj.author.username))
 			obj.body_html = str(soup).replace('<html><body>','').replace('</body></html>','')
 
-		#torture title_html and check for agendaposter_phrase in plain title and leave if it's there
+		#torture title_html and check for chud_phrase in plain title and leave if it's there
 		if isinstance(obj, Post):
 			obj.title_html = torture_ap(obj.title_html, obj.author.username)
-			if obj.author.agendaposter_phrase in obj.title.lower():
+			if obj.author.chud_phrase in obj.title.lower():
 				return True
 
-		#check for agendaposter_phrase in body_html
+		#check for chud_phrase in body_html
 		if old_body_html:
 			excluded_tags = {'del','sub','sup','marquee','spoiler','lite-youtube','video','audio'}
 			soup = BeautifulSoup(old_body_html, 'lxml')
 			tags = soup.html.body.find_all(lambda tag: tag.name not in excluded_tags and not tag.attrs, recursive=False)
 			for tag in tags:
 				for text in tag.find_all(text=True, recursive=False):
-					if obj.author.agendaposter_phrase in text.lower():
+					if obj.author.chud_phrase in text.lower():
 						return True
 
 		return False
