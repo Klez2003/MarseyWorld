@@ -7,7 +7,7 @@ from .alts import *
 from .clients import *
 from .comment import *
 from .domains import *
-from .flags import *
+from .reports import *
 from .user import *
 from .badges import *
 from .userblock import *

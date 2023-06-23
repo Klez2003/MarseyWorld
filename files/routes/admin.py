@@ -327,7 +327,7 @@ def reported_posts(v):
 				is_approved=None,
 				is_banned=False,
 				deleted_utc=0
-			).join(Post.flags)
+			).join(Post.reports)
 
 	total = listing.count()
 
@@ -350,7 +350,7 @@ def reported_comments(v):
 				is_approved=None,
 				is_banned=False,
 				deleted_utc=0
-			).join(Comment.flags)
+			).join(Comment.reports)
 
 	total = listing.count()
 

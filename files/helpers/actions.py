@@ -7,7 +7,7 @@ import gevent
 import requests
 from flask import g
 
-from files.classes.flags import Flag
+from files.classes.reports import Report
 from files.classes.mod_logs import ModAction
 from files.classes.notifications import Notification
 from files.classes.polls import CommentOption, PostOption
@@ -46,8 +46,8 @@ def archive_url(url):
 		gevent.spawn(_archiveorg, url)
 
 def snappy_report(post, reason):
-	flag = Flag(post_id=post.id, user_id=SNAPPY_ID, reason=reason)
-	g.db.add(flag)
+	report = Report(post_id=post.id, user_id=SNAPPY_ID, reason=reason)
+	g.db.add(report)
 	message = f'@Snappy reported [{post.title}]({post.shortlink})\n\n> {reason}'
 	send_repeatable_notification(post.author_id, message)
 

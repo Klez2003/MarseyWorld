@@ -27,8 +27,8 @@ function collapse_comment(id) {
 		window.scrollBy(0, - 100)
 	}
 
-	const flags = document.getElementById(`flaggers-${id}`)
-	if (flags) flags.classList.add('d-none')
+	const reports = document.getElementById(`reports-${id}`)
+	if (reports) reports.classList.add('d-none')
 
 	vids = element.getElementsByTagName('video')
 	for (let i=0; i < vids.length; i++)

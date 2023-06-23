@@ -1,6 +1,6 @@
 from flask import g
 
-from files.classes.flags import Flag, CommentFlag
+from files.classes.reports import Report, CommentReport
 from files.classes.mod_logs import ModAction
 from files.classes.sub_logs import SubAction
 from files.helpers.actions import *
@@ -17,7 +17,7 @@ from files.__main__ import app, limiter, cache
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
-def flag_post(pid, v):
+def report_post(pid, v):
 	if v.is_muted: abort(403, "You are forbidden from making reports!")
 
 	post = get_post(pid)
@@ -62,10 +62,10 @@ def flag_post(pid, v):
 	moved = move_post(post, v, reason)
 	if moved: return {"message": moved}
 
-	existing = g.db.query(Flag.post_id).filter_by(user_id=v.id, post_id=post.id).one_or_none()
+	existing = g.db.query(Report.post_id).filter_by(user_id=v.id, post_id=post.id).one_or_none()
 	if existing: abort(409, "You already reported this post!")
-	flag = Flag(post_id=post.id, user_id=v.id, reason=reason_html)
-	g.db.add(flag)
+	report = Report(post_id=post.id, user_id=v.id, reason=reason_html)
+	g.db.add(report)
 
 	if v.id != post.author_id and not v.shadowbanned and not post.author.has_blocked(v):
 		message = f'@{v.username} reported [{post.title}]({post.shortlink})\n\n> {reason}'
@@ -80,12 +80,12 @@ def flag_post(pid, v):
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
-def flag_comment(cid, v):
+def report_comment(cid, v):
 	if v.is_muted: abort(403, "You are forbidden from making reports!")
 
 	comment = get_comment(cid)
 
-	existing = g.db.query(CommentFlag.comment_id).filter_by(user_id=v.id, comment_id=comment.id).one_or_none()
+	existing = g.db.query(CommentReport.comment_id).filter_by(user_id=v.id, comment_id=comment.id).one_or_none()
 	if existing: abort(409, "You already reported this comment!")
 
 	reason = request.values.get("reason", "").strip()
@@ -96,8 +96,8 @@ def flag_comment(cid, v):
 
 	if len(reason_html) > 350: abort(400, "Too long!")
 
-	flag = CommentFlag(comment_id=comment.id, user_id=v.id, reason=reason_html)
-	g.db.add(flag)
+	report = CommentReport(comment_id=comment.id, user_id=v.id, reason=reason_html)
+	g.db.add(report)
 
 	if v.id != comment.author_id and not v.shadowbanned and not comment.author.has_blocked(v):
 		message = f'@{v.username} reported your [comment]({comment.shortlink})\n\n> {reason}'
@@ -111,13 +111,13 @@ def flag_comment(cid, v):
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit("100/minute;300/hour;2000/day")
 @limiter.limit("100/minute;300/hour;2000/day", key_func=get_ID)
-@admin_level_required(PERMS['FLAGS_REMOVE'])
+@admin_level_required(PERMS['REPORTS_REMOVE'])
 def remove_report_post(v, pid, uid):
 	try:
 		pid = int(pid)
 		uid = int(uid)
 	except: abort(404)
-	report = g.db.query(Flag).filter_by(post_id=pid, user_id=uid).one_or_none()
+	report = g.db.query(Report).filter_by(post_id=pid, user_id=uid).one_or_none()
 
 	if report:
 		g.db.delete(report)
@@ -137,13 +137,13 @@ def remove_report_post(v, pid, uid):
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit("100/minute;300/hour;2000/day")
 @limiter.limit("100/minute;300/hour;2000/day", key_func=get_ID)
-@admin_level_required(PERMS['FLAGS_REMOVE'])
+@admin_level_required(PERMS['REPORTS_REMOVE'])
 def remove_report_comment(v, cid, uid):
 	try:
 		cid = int(cid)
 		uid = int(uid)
 	except: abort(404)
-	report = g.db.query(CommentFlag).filter_by(comment_id=cid, user_id=uid).one_or_none()
+	report = g.db.query(CommentReport).filter_by(comment_id=cid, user_id=uid).one_or_none()
 
 	if report:
 		g.db.delete(report)

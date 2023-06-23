@@ -14,6 +14,6 @@
 	background-color: rgb(var(--background)) !important;
 }
 
-.App-side, .flaggers, .comment-section {
+.App-side, .reports, .comment-section {
 	background: transparent !important;
 }

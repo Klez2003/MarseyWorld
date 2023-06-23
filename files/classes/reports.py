@@ -8,15 +8,15 @@ from files.classes import Base
 from files.helpers.lazy import lazy
 from files.helpers.regex import censor_slurs
 
-class Flag(Base):
-	__tablename__ = "flags"
+class Report(Base):
+	__tablename__ = "reports"
 
 	post_id = Column(Integer, ForeignKey("posts.id"), primary_key=True)
 	user_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
 	reason = Column(String)
 	created_utc = Column(Integer)
 
-	user = relationship("User", primaryjoin = "Flag.user_id == User.id", uselist = False)
+	user = relationship("User", primaryjoin = "Report.user_id == User.id", uselist = False)
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
@@ -36,15 +36,15 @@ class Flag(Base):
 		return self.post_id
 
 
-class CommentFlag(Base):
-	__tablename__ = "commentflags"
+class CommentReport(Base):
+	__tablename__ = "commentreports"
 
 	comment_id = Column(Integer, ForeignKey("comments.id"), primary_key=True)
 	user_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
 	reason = Column(String)
 	created_utc = Column(Integer)
 
-	user = relationship("User", primaryjoin = "CommentFlag.user_id == User.id", uselist = False)
+	user = relationship("User", primaryjoin = "CommentReport.user_id == User.id", uselist = False)
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())

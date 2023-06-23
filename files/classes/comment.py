@@ -145,7 +145,7 @@ class Comment(Base):
 	senttouser = relationship("User", primaryjoin="User.id==Comment.sentto")
 	parent_comment = relationship("Comment", remote_side=[id])
 	awards = relationship("AwardRelationship", order_by="AwardRelationship.awarded_utc.desc()", back_populates="comment")
-	flags = relationship("CommentFlag", order_by="CommentFlag.created_utc")
+	reports = relationship("CommentReport", order_by="CommentReport.created_utc")
 	options = relationship("CommentOption", order_by="CommentOption.id")
 	casino_game = relationship("CasinoGame")
 	wall_user = relationship("User", primaryjoin="User.id==Comment.wall_user_id")
@@ -279,8 +279,9 @@ class Comment(Base):
 					'parent': self.parent_fullname
 					}
 		else:
-			flags = {}
-			for f in self.flags: flags[f.user.username] = f.reason
+			reports = {}
+			for r in self.reports:
+				reports[r.user.username] = r.reason
 
 			data = {
 				'id': self.id,
@@ -302,7 +303,7 @@ class Comment(Base):
 				'upvotes': self.upvotes,
 				'downvotes': self.downvotes,
 				'is_bot': self.is_bot,
-				'flags': flags,
+				'reports': reports,
 				'author': '👻' if self.ghost else self.author.json,
 				# 'replies': [x.json for x in self.replies(sort="old", v=None)] # WORKER TIMEOUTS ON BUGTHREAD
 				}
@@ -399,12 +400,12 @@ class Comment(Base):
 	def is_op(self): return self.author_id==self.post.author_id
 
 	@lazy
-	def filtered_flags(self, v):
-		return [f for f in self.flags if not f.user.shadowbanned or (v and v.id == f.user_id) or (v and v.admin_level)]
+	def filtered_reports(self, v):
+		return [r for r in self.reports if not r.user.shadowbanned or (v and v.id == r.user_id) or (v and v.admin_level)]
 
 	@lazy
-	def active_flags(self, v):
-		return len(self.filtered_flags(v))
+	def active_reports(self, v):
+		return len(self.filtered_reports(v))
 
 	@property
 	@lazy

@@ -65,7 +65,7 @@ class Post(Base):
 	oauth_app = relationship("OauthApp")
 	approved_by = relationship("User", uselist=False, primaryjoin="Post.is_approved==User.id")
 	awards = relationship("AwardRelationship", order_by="AwardRelationship.awarded_utc.desc()", back_populates="post")
-	flags = relationship("Flag", order_by="Flag.created_utc")
+	reports = relationship("Report", order_by="Report.created_utc")
 	comments = relationship("Comment", primaryjoin="Comment.parent_post==Post.id", back_populates="post")
 	subr = relationship("Sub", primaryjoin="foreign(Post.sub)==remote(Sub.name)")
 	options = relationship("PostOption", order_by="PostOption.id")
@@ -203,8 +203,9 @@ class Post(Base):
 					'permalink': self.permalink,
 					}
 
-		flags = {}
-		for f in self.flags: flags[f.user.username] = f.reason
+		reports = {}
+		for r in self.reports:
+			reports[r.user.username] = r.reason
 
 		data = {'author_name': self.author_name if self.author else '',
 				'permalink': self.permalink,
@@ -231,7 +232,7 @@ class Post(Base):
 				'private' : self.private,
 				'distinguish_level': self.distinguish_level,
 				'voted': self.voted if hasattr(self, 'voted') else 0,
-				'flags': flags,
+				'reports': reports,
 				'author': '👻' if self.ghost else self.author.json
 				}
 
@@ -364,12 +365,12 @@ class Post(Base):
 		return self.url and any((str(self.url).lower().split('?')[0].endswith(f'.{x}') for x in IMAGE_FORMATS)) and is_safe_url(self.url)
 
 	@lazy
-	def filtered_flags(self, v):
-		return [f for f in self.flags if not f.user.shadowbanned or (v and v.id == f.user_id) or (v and v.admin_level)]
+	def filtered_reports(self, v):
+		return [r for r in self.reports if not r.user.shadowbanned or (v and v.id == r.user_id) or (v and v.admin_level)]
 
 	@lazy
-	def active_flags(self, v):
-		return len(self.filtered_flags(v))
+	def active_reports(self, v):
+		return len(self.filtered_reports(v))
 
 	@property
 	@lazy

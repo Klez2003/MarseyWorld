@@ -466,7 +466,7 @@ PERMS = { # Minimum admin_level to perform action.
  	'MESSAGE_BLOCKED_USERS': 1,
  	'ADMIN_MOP_VISIBLE': 1,
  	'ADMIN_HOME_VISIBLE': 1,
- 	'FLAGS_REMOVE': 1,
+ 	'REPORTS_REMOVE': 1,
  	'POST_COMMENT_MODERATION': 1,
  	'USER_BAN': 1,
  	'USER_SHADOWBAN': 1,

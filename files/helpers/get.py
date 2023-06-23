@@ -211,7 +211,7 @@ def get_posts(pids:Iterable[int], v:Optional[User]=None, eager:bool=False, extra
 				selectinload(User.sub_mods),
 				selectinload(User.sub_exiles),
 			),
-			selectinload(Post.flags),
+			selectinload(Post.reports),
 			selectinload(Post.awards),
 			selectinload(Post.options),
 		)

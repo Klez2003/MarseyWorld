@@ -4512,7 +4512,7 @@ small, .small {
 		height: 60px;
 }
 }
-.post-actions .comments, .post-actions .share, .post-actions .flag {
+.post-actions .comments, .post-actions .share, .post-actions .report {
 	margin-right: 0.5rem;
 	vertical-align: top;
 }
@@ -5304,7 +5304,7 @@ span.green {
 .btn-primary:focus, .btn-primary.focus {
 	box-shadow: none !important;
 }
-.flaggers {
+.reports {
 	margin: 7px;
 	border: 1px solid var(--primary);
 	padding: 10px;

@@ -54,7 +54,7 @@
 	{% if p.is_blocking and not p.ghost %}<i class="fas fa-user-minus text-warning" data-bs-toggle="tooltip" data-bs-placement="bottom" title="You're blocking this user."></i>{% endif %}
 	{% if p.is_blocked and not p.ghost %}<i class="fas fa-user-minus text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="This user is blocking you."></i>{% endif %}
 	{% if p.private %}<span class="mr-2 badge border-warning border-1 text-small-extra">Draft</span>{% endif %}
-	{% if p.active_flags(v) %}<button type="button" class="btn btn-primary" style="padding:1px 5px; font-size:10px" data-nonce="{{g.nonce}}" data-toggleelement="#flaggers-{{p.id}}" data-toggleattr="d-none">{{p.active_flags(v)}} Report{{plural(p.active_flags(v))}}</button>{% endif %}
+	{% if p.active_reports(v) %}<button type="button" class="btn btn-primary" style="padding:1px 5px; font-size:10px" data-nonce="{{g.nonce}}" data-toggleelement="#reports-{{p.id}}" data-toggleattr="d-none">{{p.active_reports(v)}} Report{{plural(p.active_reports(v))}}</button>{% endif %}
 
 	{% if p.ghost %}
 		<span {% if p.distinguish_level %}class="mod {% if SITE_NAME == 'rDrama' %}mod-rdrama{% endif %}"{% endif %}>👻</span>
@@ -197,20 +197,20 @@
 {% endif %}
 {% endmacro %}
 
-{% macro flags(i, kind) %}
-{% if i.active_flags(v) %}
-<div id="flaggers-{{i.id}}" class="flaggers d-none">
+{% macro reports(i, kind) %}
+{% if i.active_reports(v) %}
+<div id="reports-{{i.id}}" class="reports d-none">
 	<strong><i class="far fa-fw fa-flag"></i> Reported by:</strong>
 	<ul class="mt-1 mb-0" style="padding-left:20px;word-wrap:break-word">
-		{% for f in i.filtered_flags(v) %}
+		{% for r in i.filtered_reports(v) %}
 			<li>
-				{% if v and v.admin_level and f.user.shadowbanned %}
-					<i class="fas fa-user-times text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title='Shadowbanned by @{{f.user.shadowbanner}} for "{{f.user.ban_reason}}"'></i>
+				{% if v and v.admin_level and r.user.shadowbanned %}
+					<i class="fas fa-user-times text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title='Shadowbanned by @{{r.user.shadowbanner}} for "{{r.user.ban_reason}}"'></i>
 				{% endif %}
-				<a style="font-weight:bold" href="{{f.user.url}}">{{f.user.username}}</a>
-				{% if f.reason %}: {{f.realreason(v) | safe}}{% endif %}
-				{% if v and v.admin_level >= PERMS['FLAGS_REMOVE'] %}
-					<button type="button" data-nonce="{{g.nonce}}" data-onclick="delReport(this,'/del_report/{{kind}}/{{f.parent_id}}/{{f.user_id}}')">[remove]</button>
+				<a style="font-weight:bold" href="{{r.user.url}}">{{r.user.username}}</a>
+				{% if r.reason %}: {{r.realreason(v) | safe}}{% endif %}
+				{% if v and v.admin_level >= PERMS['REPORTS_REMOVE'] %}
+					<button type="button" data-nonce="{{g.nonce}}" data-onclick="delReport(this,'/del_report/{{kind}}/{{r.parent_id}}/{{r.user_id}}')">[remove]</button>
 				{% endif %}
 			</li>
 		{% endfor %}
