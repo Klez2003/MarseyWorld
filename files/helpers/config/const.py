@@ -1057,6 +1057,7 @@ approved_embed_hosts = [
 	'live.staticflickr.com',
 	'substackcdn.com/image',
 	'i.kym-cdn.com/photos/images',
+	'i.kym-cdn.com/entries/icons',
 	'37.media.tumblr.com',
 	'64.media.tumblr.com',
 	'66.media.tumblr.com',
