@@ -706,6 +706,10 @@ def submit_post(v:User, sub=None):
 		n = Notification(comment_id=c_jannied.id, user_id=v.id)
 		g.db.add(n)
 
+		autojanny = g.db.get(User, AUTOJANNY_ID)
+		autojanny.comment_count += 1
+		g.db.add(autojanny)
+
 	if not p.private and not (p.sub and g.db.query(Exile.user_id).filter_by(user_id=SNAPPY_ID, sub=p.sub).one_or_none()):
 		execute_snappy(p, v)
 

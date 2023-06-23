@@ -320,9 +320,12 @@ def comment(v:User):
 			post_target.comment_count += 1
 			g.db.add(post_target)
 
-
 		n = Notification(comment_id=c_jannied.id, user_id=v.id)
 		g.db.add(n)
+
+		autojanny = g.db.get(User, AUTOJANNY_ID)
+		autojanny.comment_count += 1
+		g.db.add(autojanny)
 
 	execute_longpostbot(c, level, body, body_html, post_target, v)
 	execute_zozbot(c, level, post_target, v)
