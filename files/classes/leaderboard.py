@@ -67,7 +67,11 @@ class Leaderboard:
 
 	@classmethod
 	def get_badge_marsey_lb(cls, lb_criteria, v:User, users:Any, limit):
-		sq = g.db.query(lb_criteria, cls.count_and_label(lb_criteria), cls.rank_filtered_rank_label_by_desc(lb_criteria)).group_by(lb_criteria).subquery()
+		sq = g.db.query(lb_criteria, cls.count_and_label(lb_criteria), cls.rank_filtered_rank_label_by_desc(lb_criteria))
+		if lb_criteria == Emoji.author_id:
+			sq = sq.filter_by(kind='Marsey')
+		sq = sq.group_by(lb_criteria).subquery()
+
 		sq_criteria = None
 		if lb_criteria == Badge.user_id:
 			sq_criteria = User.id == sq.c.user_id
