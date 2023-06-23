@@ -859,6 +859,15 @@ class User(Base):
 		if v and (v.id == self.id or v.can_see_shadowbanned): return self.comment_count
 		return 0
 
+	@property
+	@lazy
+	def original_usernames_popover(self):
+		if self.username == self.original_username:
+			return ''
+		names = {self.original_username}
+		if self.prelock_username:
+			names.add(self.prelock_username)
+		return 'Original Usernames: @' + ', @'.join(names)
 
 	@lazy
 	def json_popover(self, v):
@@ -875,6 +884,7 @@ class User(Base):
 				'comment_count': self.real_comment_count(v),
 				'badges': [x.path for x in self.badges],
 				'created_date': self.created_date,
+				'original_usernames': self.original_usernames_popover,
 				}
 
 		return data

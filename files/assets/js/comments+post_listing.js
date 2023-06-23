@@ -35,7 +35,9 @@ document.addEventListener('shown.bs.popover', (e) => {
 
 	popover.getElementsByClassName('pop-banner')[0].src = author["bannerurl"]
 	popover.getElementsByClassName('pop-picture')[0].src = author["profile_url"]
-	if (author["hat"]) popover.getElementsByClassName('pop-hat')[0].src = author['hat'] + "?h=7"
+	if (author["hat"]) {
+		popover.getElementsByClassName('pop-hat')[0].src = author['hat'] + "?h=7"
+	}
 	popover.getElementsByClassName('pop-username')[0].innerHTML = author["username"]
 	if (popover.getElementsByClassName('pop-bio').length > 0) {
 		popover.getElementsByClassName('pop-bio')[0].innerHTML = author["bio_html"]
@@ -47,6 +49,9 @@ document.addEventListener('shown.bs.popover', (e) => {
 	popover.getElementsByClassName('pop-view_more')[0].href = author["url"]
 	popover.getElementsByClassName('pop-created-date')[0].innerHTML = author["created_date"]
 	popover.getElementsByClassName('pop-id')[0].innerHTML = author["id"]
+	if (author["original_usernames"]) {
+		popover.getElementsByClassName('pop-original-usernames')[0].innerHTML = author["original_usernames"]
+	}
 })
 
 function post(url) {
