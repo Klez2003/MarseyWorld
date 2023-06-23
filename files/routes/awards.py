@@ -1,3 +1,4 @@
+import string
 from copy import deepcopy
 
 from flask import g, request
@@ -330,17 +331,24 @@ def award_thing(v, thing_type, id):
 			abort(409, f"{safe_username} is under the effect of a conflicting award: OwOify award!")
 
 		if not author.queen:
-			last_taken_name = g.db.query(User.username).filter(User.queen != None).order_by(User.queen.desc()).first()[0]
-			try: name_index = GIRL_NAMES.index(last_taken_name)
-			except: name_index = 0
+			characters = list(filter(str.isalpha, author.username))
+			if characters:
+				first_character = characters[0].upper()
+			else:
+				first_character = random.choice(string.ascii_letters).upper()
 
-			while True:
-				new_name = GIRL_NAMES[name_index]
+			available_names = GIRL_NAMES[first_character]
+			random.shuffle(available_names)
+
+			broken = False
+			for new_name in available_names:
 				existing = get_user(new_name, graceful=True)
-				if not existing: break
-				name_index += 1
-				if name_index > (len(GIRL_NAMES) - 1):
-					name_index = 0
+				if not existing:
+					broken = True
+					break
+
+			if not broken:
+				new_name = new_name + f'-{author.id}'
 
 			if not author.prelock_username:
 				author.prelock_username = author.username
