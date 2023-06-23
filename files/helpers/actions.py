@@ -360,7 +360,7 @@ def execute_longpostbot(c:Comment, level:int, body, body_html, post_target:post_
 	g.db.add(n)
 
 	if posting_to_post:
-		post_target.comment_count += 3
+		post_target.comment_count += 1
 		g.db.add(post_target)
 
 	push_notif({v.id}, f'New reply by @{c2.author_name}', c2.body, c2)
