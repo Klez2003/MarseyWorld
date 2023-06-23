@@ -189,7 +189,7 @@ CREATE TABLE public.users (
     css character varying(10000),
     profilecss character varying(10000),
     coins integer DEFAULT 0 NOT NULL,
-    agendaposter integer DEFAULT 0 NOT NULL,
+    chud integer DEFAULT 0 NOT NULL,
     post_count integer DEFAULT 0 NOT NULL,
     comment_count integer DEFAULT 0 NOT NULL,
     highres character varying(60),
@@ -247,7 +247,7 @@ CREATE TABLE public.users (
     event_darkmode boolean,
     blacklisted_by integer,
     hidevotedon boolean DEFAULT false NOT NULL,
-    agendaposter_phrase character varying(35),
+    chud_phrase character varying(35),
     prelock_username character varying(30),
     namechanged integer,
     queen integer
@@ -2187,13 +2187,6 @@ CREATE INDEX user_private_idx ON public.users USING btree (is_private);
 
 
 --
--- Name: users_agendaposter_idx; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX users_agendaposter_idx ON public.users USING btree (agendaposter);
-
-
---
 -- Name: users_bird_idx; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2205,6 +2198,13 @@ CREATE INDEX users_bird_idx ON public.users USING btree (bird);
 --
 
 CREATE INDEX users_bite_idx ON public.users USING btree (bite);
+
+
+--
+-- Name: users_chud_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX users_chud_idx ON public.users USING btree (chud);
 
 
 --
