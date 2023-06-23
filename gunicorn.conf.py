@@ -4,7 +4,7 @@ bind = '0.0.0.0:5000'
 
 worker_class = 'gevent'
 
-max_requests = 10000
+max_requests = 5000
 max_requests_jitter = 10000
 
 reload = True
