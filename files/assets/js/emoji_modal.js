@@ -131,7 +131,13 @@ const emojisSearchDictionary = {
 		const result = new Set();
 
 		for(let i = 0; i < this.dict.length; i++)
-			if(this.dict[i].tag.includes(query))
+			if(this.dict[i].tag.startsWith('@'))
+			{
+				if(this.dict[i].tag == query)
+					for(let j = 0; j < this.dict[i].emojiNames.length; j++)
+						result.add(this.dict[i].emojiNames[j])
+			}
+			else if(this.dict[i].tag.includes(query))
 				for(let j = 0; j < this.dict[i].emojiNames.length; j++)
 					result.add(this.dict[i].emojiNames[j])
 
@@ -160,7 +166,9 @@ emojiRequest.onload = async () => {
 
 		emojisSearchDictionary.updateTag(emoji.name, emoji.name);
 		if(emoji.author !== undefined && emoji.author !== null)
-			emojisSearchDictionary.updateTag(emoji.author.toLowerCase(), emoji.name);
+		{
+			emojisSearchDictionary.updateTag(`@${emoji.author.toLowerCase()}`, emoji.name);
+		}
 
 		if(emoji.tags instanceof Array)
 			for(let i = 0; i < emoji.tags.length; i++)
