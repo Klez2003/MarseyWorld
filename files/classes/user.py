@@ -312,6 +312,11 @@ class User(Base):
 		if user_forced_hats: return random.choice(user_forced_hats)
 		else: return None
 
+	@property
+	@lazy
+	def new_user(self):
+		return self.age < NEW_USER_AGE
+
 	@lazy
 	def hat_active(self, v):
 		if FEATURES['HATS']:
@@ -325,7 +330,7 @@ class User(Base):
 			if self.is_cakeday:
 				return ('/i/hats/Cakeday.webp', "I've spent another year rotting my brain with dramaposting, please ridicule me 🤓")
 
-			if self.age < NEW_USER_HAT_AGE:
+			if self.new_user:
 				return ('/i/new-user.webp', "Hi, I'm new here! Please be gentle :)")
 
 			if self.forced_hat:
@@ -336,6 +341,22 @@ class User(Base):
 
 		return ('', '')
 
+
+	@lazy
+	def immune_to_awards(self, v):
+		if SITE_NAME != 'rDrama':
+			return False
+		if v.id == self.id:
+			return False
+		if v.admin_level >= PERMS['IGNORE_AWARD_IMMUNITY']:
+			return False
+		if self.alts:
+			return False
+		if self.id in IMMUNE_TO_AWARDS:
+			return True
+		if self.new_user:
+			return True
+		return False 
 
 	@property
 	@lazy
