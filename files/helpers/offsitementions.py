@@ -107,13 +107,13 @@ def notify_mentions(mentions, send_to=None, mention_str='site mention'):
 
 		existing_comment = g.db.query(Comment.id).filter_by(
 			author_id=const.AUTOJANNY_ID,
-			parent_submission=None,
+			parent_post=None,
 			body_html=notif_text).one_or_none()
 		if existing_comment: break
 
 		new_comment = Comment(
 						author_id=const.AUTOJANNY_ID,
-						parent_submission=None,
+						parent_post=None,
 						body_html=notif_text,
 						distinguish_level=6)
 		g.db.add(new_comment)

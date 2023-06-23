@@ -96,7 +96,7 @@ def notifications_messages(v:User):
 	message_threads = g.db.query(Comment).filter(
 		Comment.sentto != None,
 		or_(Comment.author_id == v.id, Comment.sentto == v.id),
-		Comment.parent_submission == None,
+		Comment.parent_post == None,
 		Comment.level == 1,
 	)
 
@@ -258,7 +258,7 @@ def notifications_reddit(v:User):
 
 	listing = g.db.query(Comment).filter(
 		Comment.body_html.like('%<p>New site mention%<a href="https://old.reddit.com/r/%'),
-		Comment.parent_submission == None,
+		Comment.parent_post == None,
 		Comment.author_id == AUTOJANNY_ID
 	)
 
@@ -342,7 +342,7 @@ def notifications(v:User):
 
 		if not n.read: c.unread = True
 
-		if c.parent_submission or c.wall_user_id:
+		if c.parent_post or c.wall_user_id:
 			all_items.append(c)
 
 			if c.replies2 == None:

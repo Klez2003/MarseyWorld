@@ -561,7 +561,7 @@ def message2(v:User, username:str):
 	if existing: abort(403, "Message already exists!")
 
 	c = Comment(author_id=v.id,
-						parent_submission=None,
+						parent_post=None,
 						level=1,
 						sentto=user.id,
 						body=body,
@@ -638,7 +638,7 @@ def messagereply(v:User):
 		sentto = user_id
 
 	c = Comment(author_id=v.id,
-							parent_submission=None,
+							parent_post=None,
 							parent_comment_id=id,
 							top_comment_id=parent.top_comment_id,
 							level=parent.level + 1,
@@ -1036,7 +1036,7 @@ def u_username_comments(username, v=None):
 				.outerjoin(comment_post_author, Post.author) \
 				.filter(
 					Comment.author_id == u.id,
-					or_(Comment.parent_submission != None, Comment.wall_user_id != None),
+					or_(Comment.parent_post != None, Comment.wall_user_id != None),
 				)
 
 	if not v or (v.id != u.id and v.admin_level < PERMS['POST_COMMENT_MODERATION']):

@@ -70,7 +70,7 @@ def vote_option_comment(option_id, v):
 	option = g.db.get(CommentOption, option_id)
 	if not option: abort(404)
 
-	if option.parent.parent_submission:
+	if option.parent.parent_post:
 		sub = option.parent.post.sub
 	else:
 		sub = None

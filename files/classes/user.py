@@ -698,7 +698,7 @@ class User(Base):
 					Notification.read == False,
 					Comment.sentto != None,
 					or_(Comment.author_id==self.id, Comment.sentto==self.id),
-					Comment.parent_submission == None,
+					Comment.parent_post == None,
 				)
 
 		if not self.can_see_shadowbanned:
@@ -762,7 +762,7 @@ class User(Base):
 			Comment.created_utc > self.last_viewed_reddit_notifs,
 			Comment.is_banned == False, Comment.deleted_utc == 0,
 			Comment.body_html.like('%<p>New site mention%<a href="https://old.reddit.com/r/%'),
-			Comment.parent_submission == None, Comment.author_id == AUTOJANNY_ID).count()
+			Comment.parent_post == None, Comment.author_id == AUTOJANNY_ID).count()
 
 	@property
 	@lazy
@@ -1040,7 +1040,7 @@ class User(Base):
 			if other.deleted_utc: return False
 			if other.author.shadowbanned and not (user and user.can_see_shadowbanned): return False
 			if isinstance(other, Comment):
-				if other.parent_submission and not cls.can_see(user, other.post): return False
+				if other.parent_post and not cls.can_see(user, other.post): return False
 		return True
 
 	@classmethod
@@ -1063,7 +1063,7 @@ class User(Base):
 					if SITE == 'watchpeopledie.tv' and other.id == 5:
 						return False
 			else:
-				if other.parent_submission:
+				if other.parent_post:
 					return cls.can_see(user, other.post)
 				else:
 					if not user and not other.wall_user_id: return False

@@ -204,7 +204,7 @@ def execute_snappy(post:Post, v:User):
 	if len(body_html) < COMMENT_BODY_HTML_LENGTH_LIMIT:
 		c = Comment(author_id=SNAPPY_ID,
 			distinguish_level=6,
-			parent_submission=post.id,
+			parent_post=post.id,
 			level=1,
 			over_18=False,
 			is_bot=True,
@@ -256,11 +256,11 @@ def execute_snappy(post:Post, v:User):
 
 def execute_zozbot(c:Comment, level:int, post_target:post_target_type, v):
 	if SITE_NAME != 'rDrama': return
-	posting_to_submission = isinstance(post_target, Post)
+	posting_to_post = isinstance(post_target, Post)
 	if random.random() >= 0.001: return
 	c2 = Comment(author_id=ZOZBOT_ID,
-		parent_submission=post_target.id if posting_to_submission else None,
-		wall_user_id=post_target.id if not posting_to_submission else None,
+		parent_post=post_target.id if posting_to_post else None,
+		wall_user_id=post_target.id if not posting_to_post else None,
 		parent_comment_id=c.id,
 		level=level+1,
 		is_bot=True,
@@ -277,8 +277,8 @@ def execute_zozbot(c:Comment, level:int, post_target:post_target_type, v):
 	g.db.add(n)
 
 	c3 = Comment(author_id=ZOZBOT_ID,
-		parent_submission=post_target.id if posting_to_submission else None,
-		wall_user_id=post_target.id if not posting_to_submission else None,
+		parent_post=post_target.id if posting_to_post else None,
+		wall_user_id=post_target.id if not posting_to_post else None,
 		parent_comment_id=c2.id,
 		level=level+2,
 		is_bot=True,
@@ -294,8 +294,8 @@ def execute_zozbot(c:Comment, level:int, post_target:post_target_type, v):
 
 
 	c4 = Comment(author_id=ZOZBOT_ID,
-		parent_submission=post_target.id if posting_to_submission else None,
-		wall_user_id=post_target.id if not posting_to_submission else None,
+		parent_post=post_target.id if posting_to_post else None,
+		wall_user_id=post_target.id if not posting_to_post else None,
 		parent_comment_id=c3.id,
 		level=level+3,
 		is_bot=True,
@@ -313,7 +313,7 @@ def execute_zozbot(c:Comment, level:int, post_target:post_target_type, v):
 	zozbot.pay_account('coins', 1)
 	g.db.add(zozbot)
 
-	if posting_to_submission:
+	if posting_to_post:
 		post_target.comment_count += 3
 		g.db.add(post_target)
 
@@ -321,7 +321,7 @@ def execute_zozbot(c:Comment, level:int, post_target:post_target_type, v):
 
 def execute_longpostbot(c:Comment, level:int, body, body_html, post_target:post_target_type, v:User):
 	if SITE_NAME != 'rDrama': return
-	posting_to_submission = isinstance(post_target, Post)
+	posting_to_post = isinstance(post_target, Post)
 	if not len(c.body.split()) >= 200: return
 	if "</blockquote>" in body_html: return
 	body = random.choice(LONGPOST_REPLIES)
@@ -338,8 +338,8 @@ def execute_longpostbot(c:Comment, level:int, body, body_html, post_target:post_
 	body_html = sanitize(body)
 
 	c2 = Comment(author_id=LONGPOSTBOT_ID,
-		parent_submission=post_target.id if posting_to_submission else None,
-		wall_user_id=post_target.id if not posting_to_submission else None,
+		parent_post=post_target.id if posting_to_post else None,
+		wall_user_id=post_target.id if not posting_to_post else None,
 		parent_comment_id=c.id,
 		level=level+1,
 		is_bot=True,
@@ -359,13 +359,13 @@ def execute_longpostbot(c:Comment, level:int, body, body_html, post_target:post_
 	n = Notification(comment_id=c2.id, user_id=v.id)
 	g.db.add(n)
 
-	if posting_to_submission:
+	if posting_to_post:
 		post_target.comment_count += 3
 		g.db.add(post_target)
 
 	push_notif({v.id}, f'New reply by @{c2.author_name}', c2.body, c2)
 
-def execute_antispam_submission_check(title, v, url):
+def execute_antispam_post_check(title, v, url):
 	now = int(time.time())
 	cutoff = now - 60 * 60 * 24
 

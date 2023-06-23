@@ -40,8 +40,8 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 			g.db.add(notif)
 			g.db.flush()
 
-	if comment.parent_submission:
-		post = comment.parent_submission
+	if comment.parent_post:
+		post = comment.parent_post
 	else:
 		post = NOTIFICATION_THREAD
 
@@ -125,7 +125,7 @@ def comment(v:User):
 		ghost = parent.ghost
 	elif parent_fullname.startswith("c_"):
 		parent = get_comment(id, v=v)
-		post_target = get_post(parent.parent_submission, v=v, graceful=True) or get_account(parent.wall_user_id, v=v, include_blocks=True)
+		post_target = get_post(parent.parent_post, v=v, graceful=True) or get_account(parent.wall_user_id, v=v, include_blocks=True)
 		parent_comment_id = parent.id
 		if parent.author_id == v.id: rts = True
 		if not v.can_post_in_ghost_threads and isinstance(post_target, Post) and post_target.ghost:
@@ -135,7 +135,7 @@ def comment(v:User):
 
 	level = 1 if isinstance(parent, (Post, User)) else int(parent.level) + 1
 	parent_user = parent if isinstance(parent, User) else parent.author
-	posting_to_submission = isinstance(post_target, Post)
+	posting_to_post = isinstance(post_target, Post)
 
 
 
@@ -146,7 +146,7 @@ def comment(v:User):
 		else:
 			abort(403, "You can't reply to deleted comments!")
 
-	if posting_to_submission:
+	if posting_to_post:
 		sub = post_target.sub
 		if sub and v.exiled_from(sub): abort(403, f"You're exiled from /h/{sub}")
 		if sub in {'furry','vampire','racist','femboy'} and not v.client and not v.house.lower().startswith(sub):
@@ -156,7 +156,7 @@ def comment(v:User):
 
 	body = sanitize_raw_body(request.values.get("body", ""), False)
 
-	if not posting_to_submission or post_target.id not in ADMIGGER_THREADS:
+	if not posting_to_post or post_target.id not in ADMIGGER_THREADS:
 		if v.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
 			abort(403, "You have to type more than 280 characters!")
 		elif v.bird and len(body) > 140:
@@ -183,7 +183,7 @@ def comment(v:User):
 				file.save(oldname)
 				image = process_image(oldname, v)
 				if image == "": abort(400, "Image upload failed")
-				if posting_to_submission and v.admin_level >= PERMS['USE_ADMIGGER_THREADS']:
+				if posting_to_post and v.admin_level >= PERMS['USE_ADMIGGER_THREADS']:
 					def process_sidebar_or_banner(type, resize=0):
 						li = sorted(os.listdir(f'files/assets/images/{SITE_NAME}/{type}'),
 							key=lambda e: int(e.split('.webp')[0]))[-1]
@@ -232,7 +232,7 @@ def comment(v:User):
 	body = body.replace('\n ', '\n')
 	body = body.strip()[:COMMENT_BODY_LENGTH_LIMIT]
 
-	if v.admin_level >= PERMS['USE_ADMIGGER_THREADS'] and posting_to_submission and post_target.id == SNAPPY_THREAD and level == 1 and body not in SNAPPY_QUOTES:
+	if v.admin_level >= PERMS['USE_ADMIGGER_THREADS'] and posting_to_post and post_target.id == SNAPPY_THREAD and level == 1 and body not in SNAPPY_QUOTES:
 		with open(f"snappy_{SITE_NAME}.txt", "a", encoding="utf-8") as f:
 			f.write('\n{[para]}\n' + body)
 
@@ -247,8 +247,8 @@ def comment(v:User):
 			Comment.author_id == v.id,
 			Comment.deleted_utc == 0,
 			Comment.parent_comment_id == parent_comment_id,
-			Comment.parent_submission == post_target.id if posting_to_submission else None,
-			Comment.wall_user_id == post_target.id if not posting_to_submission else None,
+			Comment.parent_post == post_target.id if posting_to_post else None,
+			Comment.wall_user_id == post_target.id if not posting_to_post else None,
 			Comment.body_html == body_html
 		).first()
 		if existing: abort(409, f"You already made that comment: /comment/{existing.id}#context")
@@ -256,7 +256,7 @@ def comment(v:User):
 	execute_antispam_comment_check(body, v)
 	execute_antispam_duplicate_comment_check(v, body_html)
 
-	if v.marseyawarded and posting_to_submission and post_target.id not in ADMIGGER_THREADS and marseyaward_body_regex.search(body_html):
+	if v.marseyawarded and posting_to_post and post_target.id not in ADMIGGER_THREADS and marseyaward_body_regex.search(body_html):
 		abort(403, "You can only type marseys!")
 
 	if len(body_html) > COMMENT_BODY_HTML_LENGTH_LIMIT:
@@ -264,14 +264,14 @@ def comment(v:User):
 
 	is_bot = v.client is not None and v.id not in PRIVILEGED_USER_BOTS
 
-	chudded = v.chud and not (posting_to_submission and post_target.sub == 'chudrama')
+	chudded = v.chud and not (posting_to_post and post_target.sub == 'chudrama')
 
 	c = Comment(author_id=v.id,
-				parent_submission=post_target.id if posting_to_submission else None,
-				wall_user_id=post_target.id if not posting_to_submission else None,
+				parent_post=post_target.id if posting_to_post else None,
+				wall_user_id=post_target.id if not posting_to_post else None,
 				parent_comment_id=parent_comment_id,
 				level=level,
-				over_18=post_target.over_18 if posting_to_submission else False,
+				over_18=post_target.over_18 if posting_to_post else False,
 				is_bot=is_bot,
 				app_id=v.client.application.id if v.client else None,
 				body_html=body_html,
@@ -301,8 +301,8 @@ def comment(v:User):
 		body_jannied_html = sanitize(body)
 
 		c_jannied = Comment(author_id=AUTOJANNY_ID,
-			parent_submission=post_target.id if posting_to_submission else None,
-			wall_user_id=post_target.id if not posting_to_submission else None,
+			parent_post=post_target.id if posting_to_post else None,
+			wall_user_id=post_target.id if not posting_to_post else None,
 			distinguish_level=6,
 			parent_comment_id=c.id,
 			level=level+1,
@@ -316,7 +316,7 @@ def comment(v:User):
 		g.db.add(c_jannied)
 		g.db.flush()
 
-		if posting_to_submission:
+		if posting_to_post:
 			post_target.comment_count += 1
 			g.db.add(post_target)
 
@@ -335,7 +335,7 @@ def comment(v:User):
 		else:
 			push_notif(notify_users, f'New mention of you by @{c.author_name}', c.body, c)
 
-			if c.level == 1 and posting_to_submission:
+			if c.level == 1 and posting_to_post:
 				subscriber_ids = [x[0] for x in g.db.query(Subscription.user_id).filter(Subscription.post_id == post_target.id, Subscription.user_id != v.id).all()]
 
 				notify_users.update(subscriber_ids)
@@ -370,7 +370,7 @@ def comment(v:User):
 
 	v.comment_count = g.db.query(Comment).filter(
 		Comment.author_id == v.id,
-		or_(Comment.parent_submission != None, Comment.wall_user_id != None),
+		or_(Comment.parent_post != None, Comment.wall_user_id != None),
 		Comment.deleted_utc == 0
 	).count()
 	g.db.add(v)
@@ -382,7 +382,7 @@ def comment(v:User):
 
 	# Increment post count iff not self-reply and not a spammy comment game
 	# Essentially a measure to make comment counts reflect "real" content
-	if (posting_to_submission and not rts and not c.slots_result):
+	if (posting_to_post and not rts and not c.slots_result):
 		post_target.comment_count += 1
 		g.db.add(post_target)
 
@@ -395,8 +395,8 @@ def comment(v:User):
 
 	g.db.flush()
 
-	if SITE == 'watchpeopledie.tv' and c.parent_submission:
-		cache.delete(f'post_{c.parent_submission}')
+	if SITE == 'watchpeopledie.tv' and c.parent_post:
+		cache.delete(f'post_{c.parent_post}')
 
 	if v.client: return c.json
 	return {"comment": render_template("comments.html", v=v, comments=[c])}
@@ -418,7 +418,7 @@ def delete_comment(cid, v):
 
 		v.comment_count = g.db.query(Comment).filter(
 			Comment.author_id == v.id,
-			or_(Comment.parent_submission != None, Comment.wall_user_id != None),
+			or_(Comment.parent_post != None, Comment.wall_user_id != None),
 			Comment.deleted_utc == 0
 		).count()
 		g.db.add(v)
@@ -439,7 +439,7 @@ def undelete_comment(cid, v):
 		cache.delete_memoized(comment_idlist)
 		v.comment_count = g.db.query(Comment).filter(
 			Comment.author_id == v.id,
-			or_(Comment.parent_submission != None, Comment.wall_user_id != None),
+			or_(Comment.parent_post != None, Comment.wall_user_id != None),
 			Comment.deleted_utc == 0
 		).count()
 		g.db.add(v)
@@ -607,7 +607,7 @@ def edit_comment(cid, v):
 		abort(403, "You can't edit comments older than 1 week!")
 
 	if c.author_id != v.id: abort(403)
-	if not c.parent_submission and not c.wall_user_id:
+	if not c.parent_post and not c.wall_user_id:
 		abort(403)
 
 	body = sanitize_raw_body(request.values.get("body", ""), False)

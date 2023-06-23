@@ -109,7 +109,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 		execute_shadowban_viewers_and_voters(v, p)
 		# shadowban check is done in sort_objects
 		# output is needed: see comments.py
-		comments, output = get_comments_v_properties(v, None, Comment.parent_submission == p.id, Comment.level < 10)
+		comments, output = get_comments_v_properties(v, None, Comment.parent_post == p.id, Comment.level < 10)
 
 		if sort == "hot":
 			pinned = [c[0] for c in comments.filter(Comment.stickied != None).order_by(Comment.created_utc.desc()).all()]
@@ -119,7 +119,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 		comments = sort_objects(sort, comments, Comment)
 		comments = [c[0] for c in comments.all()]
 	else:
-		comments = g.db.query(Comment).filter(Comment.parent_submission == p.id)
+		comments = g.db.query(Comment).filter(Comment.parent_post == p.id)
 
 		if sort == "hot":
 			pinned = comments.filter(Comment.stickied != None).order_by(Comment.created_utc.desc()).all()
@@ -141,13 +141,13 @@ def post_id(pid, anything=None, v=None, sub=None):
 			for comment in comments:
 				comments2.append(comment)
 				ids.add(comment.id)
-				count += g.db.query(Comment).filter_by(parent_submission=p.id, top_comment_id=comment.id).count() + 1
+				count += g.db.query(Comment).filter_by(parent_post=p.id, top_comment_id=comment.id).count() + 1
 				if count > threshold: break
 		else:
 			for comment in comments:
 				comments2.append(comment)
 				ids.add(comment.id)
-				count += g.db.query(Comment).filter_by(parent_submission=p.id, parent_comment_id=comment.id).count() + 1
+				count += g.db.query(Comment).filter_by(parent_post=p.id, parent_comment_id=comment.id).count() + 1
 				if count > 20: break
 
 		if len(comments) == len(comments2): offset = 0
@@ -203,14 +203,14 @@ def view_more(v, pid, sort, offset):
 	if v:
 		# shadowban check is done in sort_objects
 		# output is needed: see comments.py
-		comments, output = get_comments_v_properties(v, None, Comment.parent_submission == pid, Comment.stickied == None, Comment.id.notin_(ids), Comment.level < 10)
+		comments, output = get_comments_v_properties(v, None, Comment.parent_post == pid, Comment.stickied == None, Comment.id.notin_(ids), Comment.level < 10)
 		comments = comments.filter(Comment.level == 1)
 		comments = sort_objects(sort, comments, Comment)
 
 		comments = [c[0] for c in comments.all()]
 	else:
 		comments = g.db.query(Comment).filter(
-				Comment.parent_submission == pid,
+				Comment.parent_post == pid,
 				Comment.level == 1,
 				Comment.stickied == None,
 				Comment.id.notin_(ids)
@@ -226,13 +226,13 @@ def view_more(v, pid, sort, offset):
 		for comment in comments:
 			comments2.append(comment)
 			ids.add(comment.id)
-			count += g.db.query(Comment).filter_by(parent_submission=p.id, top_comment_id=comment.id).count() + 1
+			count += g.db.query(Comment).filter_by(parent_post=p.id, top_comment_id=comment.id).count() + 1
 			if count > 100: break
 	else:
 		for comment in comments:
 			comments2.append(comment)
 			ids.add(comment.id)
-			count += g.db.query(Comment).filter_by(parent_submission=p.id, parent_comment_id=comment.id).count() + 1
+			count += g.db.query(Comment).filter_by(parent_post=p.id, parent_comment_id=comment.id).count() + 1
 			if count > 20: break
 
 	if len(comments) == len(comments2): offset = 0
@@ -565,7 +565,7 @@ def submit_post(v:User, sub=None):
 		if dup:
 			return {"post_id": dup.id, "success": False}
 
-	if not execute_antispam_submission_check(title, v, url):
+	if not execute_antispam_post_check(title, v, url):
 		return redirect("/notifications")
 
 	if len(url) > 2048:
@@ -684,7 +684,7 @@ def submit_post(v:User, sub=None):
 
 
 		c_jannied = Comment(author_id=AUTOJANNY_ID,
-			parent_submission=p.id,
+			parent_post=p.id,
 			level=1,
 			over_18=False,
 			is_bot=True,

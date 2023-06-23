@@ -72,7 +72,7 @@ def add_options(self, body, v):
 			if v:
 				if kind == 'post':
 					sub = self.sub
-				elif self.parent_submission:
+				elif self.parent_post:
 					sub = self.post.sub
 				else:
 					sub = None
@@ -105,7 +105,7 @@ class Comment(Base):
 
 	id = Column(Integer, primary_key=True)
 	author_id = Column(Integer, ForeignKey("users.id"))
-	parent_submission = Column(Integer, ForeignKey("posts.id"))
+	parent_post = Column(Integer, ForeignKey("posts.id"))
 	wall_user_id = Column(Integer, ForeignKey("users.id"))
 	created_utc = Column(Integer)
 	edited_utc = Column(Integer, default=0)
@@ -203,7 +203,7 @@ class Comment(Base):
 	@lazy
 	def parent_fullname(self):
 		if self.parent_comment_id: return f"c_{self.parent_comment_id}"
-		elif self.parent_submission: return f"p_{self.parent_submission}"
+		elif self.parent_post: return f"p_{self.parent_post}"
 
 	@lazy
 	def replies(self, sort, v):
@@ -211,7 +211,7 @@ class Comment(Base):
 			return self.replies2
 
 		replies = g.db.query(Comment).filter_by(parent_comment_id=self.id).order_by(Comment.stickied, Comment.stickied_child_id)
-		if not self.parent_submission: sort='old'
+		if not self.parent_post: sort='old'
 		return sort_objects(sort, replies, Comment).all()
 
 
@@ -337,7 +337,7 @@ class Comment(Base):
 		body = add_options(self, body, v)
 
 		if body:
-			if not (self.parent_submission and self.post.sub == 'chudrama'):
+			if not (self.parent_post and self.post.sub == 'chudrama'):
 				body = censor_slurs(body, v)
 
 			body = normalize_urls_runtime(body, v)
@@ -371,7 +371,7 @@ class Comment(Base):
 
 		if not body: return ""
 
-		if not (self.parent_submission and self.post.sub == 'chudrama'):
+		if not (self.parent_post and self.post.sub == 'chudrama'):
 			body = censor_slurs(body, v).replace('<img loading="lazy" data-bs-toggle="tooltip" alt=":marseytrain:" title=":marseytrain:" src="/e/marseytrain.webp">', ':marseytrain:')
 
 		return body

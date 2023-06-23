@@ -269,7 +269,7 @@ def submit_contact(v):
 	execute_antispam_duplicate_comment_check(v, body_html)
 
 	new_comment = Comment(author_id=v.id,
-						parent_submission=None,
+						parent_post=None,
 						level=1,
 						body=body,
 						body_html=body_html,
@@ -386,7 +386,7 @@ def transfers_id(id, v):
 @auth_required
 def transfers(v:User):
 
-	comments = g.db.query(Comment).filter(Comment.author_id == AUTOJANNY_ID, Comment.parent_submission == None, Comment.body_html.like("%</a> has transferred %"))
+	comments = g.db.query(Comment).filter(Comment.author_id == AUTOJANNY_ID, Comment.parent_post == None, Comment.body_html.like("%</a> has transferred %"))
 
 	page = get_page()
 

@@ -15,7 +15,7 @@ from .sanitize import *
 
 def create_comment(text_html):
 	new_comment = Comment(author_id=AUTOJANNY_ID,
-							parent_submission=None,
+							parent_post=None,
 							body_html=text_html,
 							distinguish_level=6,
 							is_bot=True)
@@ -32,7 +32,7 @@ def send_repeatable_notification(uid, text):
 
 	text_html = sanitize(text, blackjack="notification")
 
-	existing_comments = g.db.query(Comment.id).filter_by(author_id=AUTOJANNY_ID, parent_submission=None, body_html=text_html, is_bot=True).order_by(Comment.id).all()
+	existing_comments = g.db.query(Comment.id).filter_by(author_id=AUTOJANNY_ID, parent_post=None, body_html=text_html, is_bot=True).order_by(Comment.id).all()
 
 	for c in existing_comments:
 		existing_notif = g.db.query(Notification.user_id).filter_by(user_id=uid, comment_id=c.id).one_or_none()
@@ -65,7 +65,7 @@ def notif_comment(text):
 
 	existing = g.db.query(Comment.id).filter(
 		Comment.author_id == AUTOJANNY_ID,
-		Comment.parent_submission == None,
+		Comment.parent_post == None,
 		Comment.body_html == text_html,
 		Comment.is_bot == True,
 	).order_by(Comment.id).all()
@@ -96,7 +96,7 @@ def notif_comment2(p):
 
 	search_html = f'%</a> has mentioned you: <a href="/post/{p.id}"%'
 
-	existing = g.db.query(Comment.id).filter(Comment.author_id == AUTOJANNY_ID, Comment.parent_submission == None, Comment.body_html.like(search_html)).first()
+	existing = g.db.query(Comment.id).filter(Comment.author_id == AUTOJANNY_ID, Comment.parent_post == None, Comment.body_html.like(search_html)).first()
 
 	if existing: return existing[0], text
 	else:

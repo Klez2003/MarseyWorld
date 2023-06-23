@@ -73,7 +73,7 @@ def request_api_keys(v):
 	body_html = sanitize(body, blackjack="app description")
 
 	new_comment = Comment(author_id=AUTOJANNY_ID,
-						parent_submission=None,
+						parent_post=None,
 						level=1,
 						body_html=body_html,
 						sentto=MODMAIL_ID,

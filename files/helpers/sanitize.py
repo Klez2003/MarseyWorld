@@ -138,7 +138,7 @@ url_re = build_url_re(tlds=TLDS, protocols=['http', 'https'])
 
 def create_comment_duplicated(text_html):
 	new_comment = Comment(author_id=AUTOJANNY_ID,
-							parent_submission=None,
+							parent_post=None,
 							body_html=text_html,
 							distinguish_level=6,
 							is_bot=True)
@@ -155,7 +155,7 @@ def send_repeatable_notification_duplicated(uid, text):
 
 	text_html = sanitize(text)
 
-	existing_comments = g.db.query(Comment.id).filter_by(author_id=AUTOJANNY_ID, parent_submission=None, body_html=text_html, is_bot=True).order_by(Comment.id).all()
+	existing_comments = g.db.query(Comment.id).filter_by(author_id=AUTOJANNY_ID, parent_post=None, body_html=text_html, is_bot=True).order_by(Comment.id).all()
 
 	for c in existing_comments:
 		existing_notif = g.db.query(Notification.user_id).filter_by(user_id=uid, comment_id=c.id).one_or_none()
@@ -735,8 +735,8 @@ def complies_with_chud(obj):
 	if isinstance(obj, Post):
 		if obj.id in ADMIGGER_THREADS: return True
 		if obj.sub == "chudrama": return True
-	elif obj.parent_submission:
-		if obj.parent_submission in ADMIGGER_THREADS: return True
+	elif obj.parent_post:
+		if obj.parent_post in ADMIGGER_THREADS: return True
 		if obj.post.sub == "chudrama": return True
 
 	if obj.author.chud:

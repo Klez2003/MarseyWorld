@@ -66,7 +66,7 @@ class Post(Base):
 	approved_by = relationship("User", uselist=False, primaryjoin="Post.is_approved==User.id")
 	awards = relationship("AwardRelationship", order_by="AwardRelationship.awarded_utc.desc()", back_populates="post")
 	flags = relationship("Flag", order_by="Flag.created_utc")
-	comments = relationship("Comment", primaryjoin="Comment.parent_submission==Post.id", back_populates="post")
+	comments = relationship("Comment", primaryjoin="Comment.parent_post==Post.id", back_populates="post")
 	subr = relationship("Sub", primaryjoin="foreign(Post.sub)==remote(Sub.name)")
 	options = relationship("PostOption", order_by="PostOption.id")
 

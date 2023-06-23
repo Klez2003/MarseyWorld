@@ -68,16 +68,16 @@
 
 {% if standalone and level==1 %}
 <div id="post-info-{{c.id}}" class="post-info mb-1 mr-2 {% if request.path.startswith('/notifications') %}mt-5{% elif request.path == '/search/messages' %}mt-6{% else %}mt-3{% endif %}">
-	{% if c.parent_submission and c.post.over_18 %}
+	{% if c.parent_post and c.post.over_18 %}
 		<span class="badge badge-danger text-small-extra mr-1">+18</span>
 	{% endif %}
 	<span class="align-top">
-	{% if c.parent_submission %}
+	{% if c.parent_post %}
 		{% if c.author_id==v.id and replies and is_notification_page %}
 			<span class="font-weight-bold">Comment {{'Replies' if (replies | length)>1 else 'Reply'}}: <a href="{{c.post.permalink}}">{{c.post.realtitle(v) | safe}}</a></span>
 		{% elif c.post.author_id==v.id and c.level == 1 and is_notification_page%}
 			<span class="font-weight-bold">Post Reply: <a href="{{c.post.permalink}}">{{c.post.realtitle(v) | safe}}</a></span>
-		{% elif is_notification_page and c.parent_submission in v.subscribed_idlist %}
+		{% elif is_notification_page and c.parent_post in v.subscribed_idlist %}
 			<span class="font-weight-bold">Subscribed Thread: <a href="{{c.post.permalink}}">{{c.post.realtitle(v) | safe}}</a></span>
 		{% elif is_notification_page %}
 			<span class="font-weight-bold">Username Mention: <a href="{{c.post.permalink}}">{{c.post.realtitle(v) | safe}}</a></span>
@@ -128,7 +128,7 @@
 					<i class="{{a.class_list}} px-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{a.title}} Award given by @{{a.user.username}}"></i>
 				{% endfor %}
 
-				{% if c.parent_submission %}
+				{% if c.parent_post %}
 					{% set sub = c.post.sub %}
 					{% if sub and c.author.exiled_from(sub) %}
 						<a><i class="fas fa-campfire text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="User has been exiled from /h/{{sub}}"></i></a>
@@ -245,7 +245,7 @@
 			<div id="comment-text-{{c.id}}" class="comment-text mb-0 {% if c.chudded %}text-uppercase chud-img chud-{{c.id_last_num}}{% endif %} {% if c.author.rainbow %}rainbow-text{% endif %} {%if c.author.queen%}queen{%endif%}">
 				{{realbody | safe}}
 			</div>
-			{% if c.parent_submission or c.wall_user_id %}
+			{% if c.parent_post or c.wall_user_id %}
 
 				{% if v and v.id==c.author_id %}
 
@@ -394,7 +394,7 @@
 							<button type="button" id="save-{{c.id}}" class="btn caction py-0 nobackground px-1 {% if c.id not in v.saved_comment_idlist %}d-md-inline-block{% endif %} text-muted d-none" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/save_comment/{{c.id}}','save-{{c.id}}','unsave-{{c.id}}','d-md-inline-block')"><i class="fas fa-save"></i>Save {% if c.num_savers %}<span data-bs-toggle="tooltip" data-bs-placement="bottom" title="Number of users who saved this comment">[{{c.num_savers}}]</span>{% endif %}</button>
 						{% endif %}
 
-						{% if c.parent_submission or c.wall_user_id %}
+						{% if c.parent_post or c.wall_user_id %}
 							{% if v and c.author_id == v.id %}
 								<button type="button" class="btn caction py-0 nobackground px-1 text-muted" data-nonce="{{g.nonce}}" data-onclick="toggleEdit('{{c.id}}')"><i class="fas fa-edit fa-fw"></i>Edit</button>
 
@@ -425,7 +425,7 @@
 	<button type="button" id="block-{{c.id}}" class="dropdown-item list-inline-item text-danger {% if c.is_blocking %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/settings/block?username={{c.author_name}}','block-{{c.id}}','unblock-{{c.id}}','d-none')"><i class="fas fa-eye-slash text-danger"></i>Block user</button>
 {% endif %}
 
-{% if c.parent_submission %}
+{% if c.parent_post %}
 {% set url = "" %}
 
 {% if v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
@@ -449,7 +449,7 @@
 	<button type="button" id="remove-{{c.id}}" class="dropdown-item list-inline-item d-none {% if not c.is_banned %}d-md-block{% endif %} text-danger" data-nonce="{{g.nonce}}" data-onclick="removeComment(this,'{{c.id}}','approve-{{c.id}}','remove-{{c.id}}','d-md-block')"><i class="fas fa-ban text-danger fa-fw"></i>Remove</button>
 {% endif %}
 
-{% if c.parent_submission %}
+{% if c.parent_post %}
 	{% set sub = c.post.sub %}
 	{% if sub and v.mods(sub) and not c.author.mods(sub) %}
 		<button type="button" id="exile-{{c.id}}" class="d-none {% if not c.author.exiled_from(sub) %}d-md-block{% endif %} dropdown-item list-inline-item text-danger" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/exile/comment/{{c.id}}','exile-{{c.id}}','unexile-{{c.id}}','d-none')"><i class="fas fa-campfire text-danger fa-fw"></i>Exile user</button>
@@ -462,7 +462,7 @@
 	<button type="button" id="unprogstack-{{c.id}}" class="dropdown-item list-inline-item d-none {% if c.is_approved == PROGSTACK_ID %}d-md-block{% endif %} text-danger" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/admin/unprogstack/comment/{{c.id}}','progstack-{{c.id}}','unprogstack-{{c.id}}','d-md-block')"><i class="fas fa-bullhorn text-danger fa-fw"></i>Remove Progressive Stack</button>
 {% endif %}
 
-{% if FEATURES['NSFW_MARKING'] and (c.parent_submission or c.wall_user_id) and (c.author_id==v.id or v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or (c.post.sub and v.mods(c.post.sub))) %}
+{% if FEATURES['NSFW_MARKING'] and (c.parent_post or c.wall_user_id) and (c.author_id==v.id or v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or (c.post.sub and v.mods(c.post.sub))) %}
 	<button type="button" id="unmark-{{c.id}}" class="dropdown-item list-inline-item d-none {% if c.over_18 %}d-md-block{% endif %} text-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/toggle_comment_nsfw/{{c.id}}','mark-{{c.id}}','unmark-{{c.id}}','d-md-block')"><i class="fas fa-eye-evil text-success fa-fw"></i>Unmark +18</button>
 	<button type="button" id="mark-{{c.id}}" class="dropdown-item list-inline-item d-none {% if not c.over_18 %}d-md-block{% endif %} text-danger" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/toggle_comment_nsfw/{{c.id}}','mark-{{c.id}}','unmark-{{c.id}}','d-md-block')"><i class="fas fa-eye-evil text-danger fa-fw"></i>Mark +18</button>
 {% endif %}
@@ -491,7 +491,7 @@
 			<div autocomplete="off" class="markdown d-none border my-2 p-3 rounded" id="markdown-{{c.fullname}}" readonly>{{c.body.strip()}}</div>
 		{% endif %}
 
-		{% if c.parent_submission or c.wall_user_id %}
+		{% if c.parent_post or c.wall_user_id %}
 			{{macros.comment_reply_box(c.fullname, "reply-to-" + c.fullname, "d-none", "collapsed child", 'reply-to-' + c.fullname, true)}}
 		{% endif %}
 
@@ -504,7 +504,7 @@
 		<div id="replies-of-{{c.fullname}}">
 			{% if request.path.startswith('/notifications') and replies|length > 8 %}
 				{% for reply in replies %}
-					{% if reply.parent_submission %}
+					{% if reply.parent_post %}
 						{% set collapse = reply.collapse %}
 					{% else %}
 						{% set collapse = not reply.unread and loop.index != replies|length %}
@@ -521,7 +521,7 @@
 			{% endif %}
 		</div>
 
-		{% if request.path.startswith('/notifications') and c.level == 1 and c.sentto and not c.parent_submission and c.author_id != AUTOJANNY_ID %}
+		{% if request.path.startswith('/notifications') and c.level == 1 and c.sentto and not c.parent_post and c.author_id != AUTOJANNY_ID %}
 			{% if (v and v.admin_level >= PERMS['USER_BAN']) and (c.sentto == MODMAIL_ID) %}
 				<button type="button" class="btn btn-danger mt-2 mr-3 {% if c.author.is_muted %}d-none{% endif %}" id="mute-user-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/mute_user/{{c.author.id}}','mute-user-{{c.id}}','unmute-user-{{c.id}}','d-none')">Mute</button>
 				<button type="button" class="btn btn-primary mt-2 mr-3 {% if not c.author.is_muted %}d-none{% endif %}" id="unmute-user-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unmute_user/{{c.author.id}}','mute-user-{{c.id}}','unmute-user-{{c.id}}','d-none')">Unmute</button>
@@ -616,7 +616,7 @@
 						{% endif %}
 
 						{% if v.admin_level < PERMS['POST_COMMENT_MODERATION'] %}
-							{% if c.parent_submission and v.id == c.post.author_id %}
+							{% if c.parent_post and v.id == c.post.author_id %}
 								<button type="button" id="pin2-{{c.id}}" class="list-group-item {% if c.stickied %}d-none{% endif %} text-info" data-bs-target="#actionsModal-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/pin_comment/{{c.id}}','pin2-{{c.id}}','unpin2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-thumbtack fa-rotate--45 text-info mr-2"></i>Pin</button>
 								<button type="button" id="unpin2-{{c.id}}" class="list-group-item {% if not c.stickied %}d-none{% endif %} text-info" data-bs-target="#actionsModal-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unpin_comment/{{c.id}}','pin2-{{c.id}}','unpin2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-thumbtack fa-rotate--45 text-info mr-2"></i>Unpin</button>
 							{% elif c.post.sub and v.mods(c.post.sub) %}
@@ -625,7 +625,7 @@
 							{% endif %}
 						{% endif %}
 
-						{% if c.parent_submission %}
+						{% if c.parent_post %}
 							{% set sub = c.post.sub %}
 							{% if sub and v.mods(sub) and not c.author.mods(sub) %}
 								<button type="button" data-bs-dismiss="modal" id="exile2-{{c.id}}" class="{% if c.author.exiled_from(sub) %}d-none{% endif %} list-group-item text-danger" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/exile/comment/{{c.id}}','exile2-{{c.id}}','unexile2-{{c.id}}','d-none')"><i class="fas fa-campfire text-danger mr-2"></i>Exile user</button>
@@ -656,7 +656,7 @@
 				</div>
 				<div class="modal-body">
 					<ul class="list-group comment-actions">
-						{% if c.parent_submission or c.wall_user_id %}
+						{% if c.parent_post or c.wall_user_id %}
 							{% if v.admin_level >= PERMS['APPS_MODERATION'] and c.oauth_app %}
 								<a href="{{c.oauth_app.permalink}}/comments" class="list-group-item text-info"><i class="fas fa-code text-info mr-2"></i>API App</a>
 							{% endif %}

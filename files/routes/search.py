@@ -199,7 +199,7 @@ def searchcomments(v:User):
 
 	comments = g.db.query(Comment).options(load_only(Comment.id)).outerjoin(Comment.post) \
 		.filter(
-			or_(Comment.parent_submission != None, Comment.wall_user_id != None),
+			or_(Comment.parent_post != None, Comment.wall_user_id != None),
 			Comment.author_id.notin_(v.userblocks),
 		)
 
@@ -207,7 +207,7 @@ def searchcomments(v:User):
 	if 'post' in criteria:
 		try: post = int(criteria['post'])
 		except: abort(404)
-		comments = comments.filter(Comment.parent_submission == post)
+		comments = comments.filter(Comment.parent_post == post)
 
 
 	if 'author' in criteria:
@@ -245,7 +245,7 @@ def searchcomments(v:User):
 			Comment.is_banned==False,
 			Comment.deleted_utc == 0,
 			or_(
-				Comment.parent_submission.notin_(private),
+				Comment.parent_post.notin_(private),
 				Comment.wall_user_id != None
 			)
 		)
@@ -307,7 +307,7 @@ def searchmessages(v:User):
 	comments = g.db.query(Comment).options(load_only(Comment.id)) \
 		.filter(
 			Comment.sentto != None,
-			Comment.parent_submission == None,
+			Comment.parent_post == None,
 			or_(*dm_conditions),
 		)
 

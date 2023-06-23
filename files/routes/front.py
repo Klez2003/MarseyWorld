@@ -189,7 +189,7 @@ def comment_idlist(v=None, page=1, sort="new", t="day", gt=0, lt=0):
 		.outerjoin(Comment.post) \
 		.options(load_only(Comment.id)) \
 		.filter(
-			or_(Comment.parent_submission != None, Comment.wall_user_id != None),
+			or_(Comment.parent_post != None, Comment.wall_user_id != None),
 		)
 
 	if v.admin_level < PERMS['POST_COMMENT_MODERATION']:
@@ -197,7 +197,7 @@ def comment_idlist(v=None, page=1, sort="new", t="day", gt=0, lt=0):
 			Comment.is_banned == False,
 			Comment.deleted_utc == 0,
 			Comment.author_id.notin_(v.userblocks),
-			or_(Comment.parent_submission == None, Post.private == False),
+			or_(Comment.parent_post == None, Post.private == False),
 		)
 
 	if gt: comments = comments.filter(Comment.created_utc > gt)
