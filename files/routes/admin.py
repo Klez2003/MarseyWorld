@@ -1048,6 +1048,8 @@ def chud(id, v):
 	elif id.startswith('c_'):
 		comment_id = id.split('c_')[1]
 		comment = g.db.get(Comment, comment_id)
+		comment.chudded = True
+		g.db.add(comment)
 		user = comment.author
 	else:
 		user = get_account(id)

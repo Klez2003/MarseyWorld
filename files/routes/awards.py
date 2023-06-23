@@ -382,6 +382,10 @@ def award_thing(v, thing_type, id):
 		author.chud_phrase = note.lower()
 
 		badge_grant(user=author, badge_id=58)
+
+		if thing_type == 'comment':
+			thing.chudded = True
+
 	elif kind == "flairlock":
 		new_name = note[:100]
 		new_name = remove_cuniform(new_name)
