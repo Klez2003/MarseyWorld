@@ -77,7 +77,7 @@ SESSION_LIFETIME = 60 * 60 * 24 * 365
 
 CASINO_RELEASE_DAY = 1662825600
 
-AJ_REPLACEMENTS = {
+CHUD_REPLACEMENTS = {
 	' your ': " you're ",
 	' to ': " too ",
 

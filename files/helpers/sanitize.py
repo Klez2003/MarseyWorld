@@ -677,9 +677,9 @@ def validate_css(css):
 
 	return True, ""
 
-def torture_ap(string, username):
+def torture_chud(string, username):
 	if not string: return string
-	for k, l in AJ_REPLACEMENTS.items():
+	for k, l in CHUD_REPLACEMENTS.items():
 		string = string.replace(k, l)
 	string = torture_regex.sub(rf'\1@{username}\3', string)
 	string = torture_regex2.sub(rf'\1@{username} is\3', string)
@@ -748,12 +748,12 @@ def complies_with_chud(obj):
 			soup = BeautifulSoup(obj.body_html, 'lxml')
 			tags = soup.html.body.find_all(lambda tag: tag.name not in {'blockquote','codeblock','pre'} and tag.string, recursive=False)
 			for tag in tags:
-				tag.string.replace_with(torture_ap(tag.string, obj.author.username))
+				tag.string.replace_with(torture_chud(tag.string, obj.author.username))
 			obj.body_html = str(soup).replace('<html><body>','').replace('</body></html>','')
 
 		#torture title_html and check for chud_phrase in plain title and leave if it's there
 		if isinstance(obj, Post):
-			obj.title_html = torture_ap(obj.title_html, obj.author.username)
+			obj.title_html = torture_chud(obj.title_html, obj.author.username)
 			if obj.author.chud_phrase in obj.title.lower():
 				return True
 
