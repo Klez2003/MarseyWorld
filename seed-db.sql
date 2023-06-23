@@ -244,13 +244,15 @@ INSERT INTO public.badge_defs VALUES (283, 'Summer Fun', 'Awarded for contributi
 INSERT INTO public.badge_defs VALUES (284, 'In Memoriam Theodroa', 'When God calls one of His most blessed angels home, the heavens rejoice while we are left behind to weep with the rain.', 1686502188);
 INSERT INTO public.badge_defs VALUES (285, 'Queen', 'This user SLAYS 💅👠💄', 1687282987);
 INSERT INTO public.badge_defs VALUES (286, 'Pilgrimage', 'This user went on a quest to an rdrama holy site', 1687363815);
+INSERT INTO public.badge_defs VALUES (287, 'Carp Artisan', 'Contributed a Carp emoji ✨', 1687530510);
+INSERT INTO public.badge_defs VALUES (288, 'Carp Master', 'Contributed 10 (or more!!!!) Carp emojis ✨', 1687530535);
 
 
 --
 -- Name: badge_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.badge_defs_id_seq', 286, true);
+SELECT pg_catalog.setval('public.badge_defs_id_seq', 288, true);
 
 
 --
@@ -1573,6 +1575,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('carpcarphug','Carp',2,'selflove narcissism carpathianflorist fish'),
 ('carpchud','Carp',2,'smug carpathianflorist poljak fish glasses soyjak'),
 ('carpclapping','Carp',2,'applaud'),
+('carpclapping2','Carp',2,'applause applaud yay cheering goodjob'),
 ('carpcrying','Carp',2,'tear reaction carpathianflorist fish sob tears sad'),
 ('carpdead','Carp',2,'fish janny kill'),
 ('carpdead2','Carp',2,'carp rope suicide carpathianflorist admin moderator jannie kaj ajab lynch fish'),
@@ -1588,6 +1591,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('carpghost','Carp',2,'halloween ethereal spooky scary janny pale mop fish carpathianflorist horror'),
 ('carpgigatetard','Carp',2,'dumb stupid drool'),
 ('carphearts','Carp',2,'love carpathianflorist fish'),
+('carpholyspirit','Carp',2,'ghost priest pope cadaversynod'),
 ('carphug','Carp',2,'love squish squeeze hug squeeze fish carpathianflorist'),
 ('carphug2','Carp',2,'fish love bottomfeeder carpathianflorist heart blow admin cute'),
 ('carpina','Carp',2,'carpathianflorist drag transgender admin jannie'),
@@ -1627,6 +1631,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('carpwitchtrans2','Carp',2,'carpathianflorist fish admin moderator jannie magic hairy transgender hat pentagram transgender hairy socks'),
 ('carpwizard','Carp',2,'mage magic witch buff muscles swole fish moderator jannie admin wand'),
 ('carpzoomer','Carp',2,'young kid carpathianflorist fish'),
+('carpzoomertarded','Carp',2,'gigaretard zoomie'),
 ('cartwheel','Classic',2,'cartwheel emoticon animated gymnastics'),
 ('casanovanova','Misc',2,'indian man'),
 ('cat','Classic',2,'cat animated cute itch sleep wake up'),
@@ -4503,6 +4508,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseysnowglobe','Marsey',2,'christmas tree small miniature'),
 ('marseysnowman','Marsey',2,'christmas cold snow winter'),
 ('marseysnowman2','Marsey',2,'christmas cold snow winter'),
+('marseysoap','Marsey',2,'clean dirty bath bubbles'),
 ('marseysob','Marsey',2,'tear crying depressed reaction sobbing depression sad cry animated tears pensive'),
 ('marseysoccer','Marsey',2,'soccer football sports jersey futbol'),
 ('marseysociety','Marsey',2,'batman joker capeshit jared leto'),
