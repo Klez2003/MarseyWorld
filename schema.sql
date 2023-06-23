@@ -124,7 +124,8 @@ CREATE TABLE public.posts (
     hole_pinned character varying(30),
     notify boolean NOT NULL,
     chuddedfor character varying(50),
-    posterurl character varying(200)
+    posterurl character varying(200),
+    chudded boolean
 );
 
 
@@ -137,7 +138,7 @@ CREATE FUNCTION public.bump_utc(public.posts) RETURNS integer
     AS $_$
       SELECT CREATED_UTC
       FROM comments
-      WHERE parent_submission = $1.id
+      WHERE parent_post = $1.id
       ORDER BY created_utc desc
       LIMIT 1
       $_$;
@@ -490,7 +491,7 @@ CREATE TABLE public.comments (
     id integer NOT NULL,
     author_id integer NOT NULL,
     created_utc integer NOT NULL,
-    parent_submission integer,
+    parent_post integer,
     is_banned boolean DEFAULT false NOT NULL,
     distinguish_level integer DEFAULT 0 NOT NULL,
     edited_utc integer DEFAULT 0 NOT NULL,
@@ -520,7 +521,8 @@ CREATE TABLE public.comments (
     casino_game_id integer,
     chuddedfor character varying(50),
     stickied_child_id integer,
-    wall_user_id integer
+    wall_user_id integer,
+    chudded boolean
 );
 
 
@@ -1735,7 +1737,7 @@ CREATE INDEX comment_parent_index ON public.comments USING btree (parent_comment
 -- Name: comment_post_id_index; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX comment_post_id_index ON public.comments USING btree (parent_submission);
+CREATE INDEX comment_post_id_index ON public.comments USING btree (parent_post);
 
 
 --
@@ -1858,10 +1860,24 @@ CREATE INDEX fki_modactions_user_fkey ON public.modactions USING btree (target_u
 
 
 --
--- Name: fki_save_relationship_submission_fkey; Type: INDEX; Schema: public; Owner: -
+-- Name: fki_post_approver_fkey; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX fki_save_relationship_submission_fkey ON public.save_relationship USING btree (post_id);
+CREATE INDEX fki_post_approver_fkey ON public.posts USING btree (is_approved);
+
+
+--
+-- Name: fki_post_sub_fkey; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_post_sub_fkey ON public.posts USING btree (sub);
+
+
+--
+-- Name: fki_save_relationship_post_fkey; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX fki_save_relationship_post_fkey ON public.save_relationship USING btree (post_id);
 
 
 --
@@ -1890,20 +1906,6 @@ CREATE INDEX fki_sub_subscriptions_sub_fkey ON public.sub_subscriptions USING bt
 --
 
 CREATE INDEX fki_subactions_user_fkey ON public.subactions USING btree (target_user_id);
-
-
---
--- Name: fki_submission_sub_fkey; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX fki_submission_sub_fkey ON public.posts USING btree (sub);
-
-
---
--- Name: fki_submissions_approver_fkey; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX fki_submissions_approver_fkey ON public.posts USING btree (is_approved);
 
 
 --
@@ -2082,10 +2084,10 @@ CREATE INDEX option_comment ON public.comment_options USING btree (parent_id);
 
 
 --
--- Name: option_submission; Type: INDEX; Schema: public; Owner: -
+-- Name: option_post; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX option_submission ON public.post_options USING btree (parent_id);
+CREATE INDEX option_post ON public.post_options USING btree (parent_id);
 
 
 --
@@ -2387,11 +2389,11 @@ ALTER TABLE ONLY public.award_relationships
 
 
 --
--- Name: award_relationships award_submission_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: award_relationships award_post_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.award_relationships
-    ADD CONSTRAINT award_submission_fkey FOREIGN KEY (post_id) REFERENCES public.posts(id);
+    ADD CONSTRAINT award_post_fkey FOREIGN KEY (post_id) REFERENCES public.posts(id);
 
 
 --
@@ -2475,11 +2477,11 @@ ALTER TABLE ONLY public.comments
 
 
 --
--- Name: comments comment_parent_submission_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: comments comment_parent_post_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.comments
-    ADD CONSTRAINT comment_parent_submission_fkey FOREIGN KEY (parent_submission) REFERENCES public.posts(id);
+    ADD CONSTRAINT comment_parent_post_fkey FOREIGN KEY (parent_post) REFERENCES public.posts(id);
 
 
 --
@@ -2699,11 +2701,11 @@ ALTER TABLE ONLY public.modactions
 
 
 --
--- Name: modactions modactions_submission_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: modactions modactions_post_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.modactions
-    ADD CONSTRAINT modactions_submission_fkey FOREIGN KEY (target_post_id) REFERENCES public.posts(id);
+    ADD CONSTRAINT modactions_post_fkey FOREIGN KEY (target_post_id) REFERENCES public.posts(id);
 
 
 --
@@ -2747,11 +2749,11 @@ ALTER TABLE ONLY public.comment_options
 
 
 --
--- Name: post_options option_submission_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: post_options option_post_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.post_options
-    ADD CONSTRAINT option_submission_fkey FOREIGN KEY (parent_id) REFERENCES public.posts(id) MATCH FULL;
+    ADD CONSTRAINT option_post_fkey FOREIGN KEY (parent_id) REFERENCES public.posts(id) MATCH FULL;
 
 
 --
@@ -2779,11 +2781,11 @@ ALTER TABLE ONLY public.push_subscriptions
 
 
 --
--- Name: save_relationship save_relationship_submission_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: save_relationship save_relationship_post_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.save_relationship
-    ADD CONSTRAINT save_relationship_submission_fkey FOREIGN KEY (post_id) REFERENCES public.posts(id) MATCH FULL;
+    ADD CONSTRAINT save_relationship_post_fkey FOREIGN KEY (post_id) REFERENCES public.posts(id) MATCH FULL;
 
 
 --
@@ -2867,19 +2869,19 @@ ALTER TABLE ONLY public.subactions
 
 
 --
+-- Name: subactions subactions_post_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.subactions
+    ADD CONSTRAINT subactions_post_fkey FOREIGN KEY (target_post_id) REFERENCES public.posts(id);
+
+
+--
 -- Name: subactions subactions_sub_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.subactions
     ADD CONSTRAINT subactions_sub_fkey FOREIGN KEY (sub) REFERENCES public.subs(name);
-
-
---
--- Name: subactions subactions_submission_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.subactions
-    ADD CONSTRAINT subactions_submission_fkey FOREIGN KEY (target_post_id) REFERENCES public.posts(id);
 
 
 --
@@ -2891,11 +2893,11 @@ ALTER TABLE ONLY public.subactions
 
 
 --
--- Name: subscriptions subscription_submission_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: subscriptions subscription_post_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.subscriptions
-    ADD CONSTRAINT subscription_submission_fkey FOREIGN KEY (post_id) REFERENCES public.posts(id);
+    ADD CONSTRAINT subscription_post_fkey FOREIGN KEY (post_id) REFERENCES public.posts(id);
 
 
 --
@@ -2995,19 +2997,19 @@ ALTER TABLE ONLY public.comment_option_votes
 
 
 --
--- Name: post_option_votes vote_submission_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: post_option_votes vote_post_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.post_option_votes
-    ADD CONSTRAINT vote_submission_fkey FOREIGN KEY (post_id) REFERENCES public.posts(id) MATCH FULL;
+    ADD CONSTRAINT vote_post_fkey FOREIGN KEY (post_id) REFERENCES public.posts(id) MATCH FULL;
 
 
 --
--- Name: votes vote_submission_key; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: votes vote_post_key; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.votes
-    ADD CONSTRAINT vote_submission_key FOREIGN KEY (post_id) REFERENCES public.posts(id);
+    ADD CONSTRAINT vote_post_key FOREIGN KEY (post_id) REFERENCES public.posts(id);
 
 
 --
