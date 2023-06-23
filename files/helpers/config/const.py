@@ -159,6 +159,7 @@ if not IS_LOCALHOST:
 TAGLINES = ()
 
 if SITE_NAME == 'rDrama':
+	DEFAULT_THEME = "midnight"
 	DEFAULT_COLOR = "ff459a"
 
 	patron = "Paypig"
