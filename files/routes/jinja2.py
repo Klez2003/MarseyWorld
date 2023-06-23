@@ -107,7 +107,7 @@ def calc_users():
 		loggedin_counter = len(loggedin)
 		loggedout_counter = len(loggedout)
 
-		if loggedout_counter > 1500:
+		if loggedout_counter > 1300:
 			if not get_setting('ddos_detected'):
 				toggle_setting('ddos_detected')
 				set_security_level('under_attack')
