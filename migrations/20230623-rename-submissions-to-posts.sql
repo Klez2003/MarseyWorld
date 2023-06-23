@@ -18,11 +18,11 @@ alter table votes rename constraint vote_submission_key to vote_post_key;
 drop function bump_utc;
 
 CREATE FUNCTION public.bump_utc(public.posts) RETURNS integer
-    LANGUAGE sql IMMUTABLE STRICT
-    AS $_$
-      SELECT CREATED_UTC
-      FROM comments
-      WHERE parent_post = $1.id
-      ORDER BY created_utc desc
-      LIMIT 1
-      $_$;
+	LANGUAGE sql IMMUTABLE STRICT
+	AS $_$
+		SELECT CREATED_UTC
+		FROM comments
+		WHERE parent_post = $1.id
+		ORDER BY created_utc desc
+		LIMIT 1
+		$_$;
