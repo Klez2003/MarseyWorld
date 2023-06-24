@@ -1,8 +1,10 @@
-function addParam(e) {
-	e = e || window.event;
-	let paramExample = e.target.innerText;
-	let param = paramExample.split(":")[0];
+function addParam(t, bool) {
+	let text = t.innerText;
+	if (bool)
+		text = text + ' '
+	else
+		text = text.split(":")[0] + ':';
 	let searchInput = document.querySelector("#large_searchbar input");
-	searchInput.value = `${searchInput.value} ${param}:`;
+	searchInput.value = `${searchInput.value} ${text}`;
 	searchInput.focus();
 }
