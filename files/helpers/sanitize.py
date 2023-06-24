@@ -278,19 +278,18 @@ def remove_cuniform(sanitized:Optional[str]) -> str:
 	sanitized = sanitized.replace('\u200e','').replace('\u200b','').replace('\u202e','').replace("\ufeff", "")
 	sanitized = sanitized.replace("𒐪","").replace("𒐫","").replace("﷽","")
 	sanitized = sanitized.replace("\r\n", "\n")
-	sanitized = sanitized.strip()
 	return sanitized
 
 def sanitize_raw_title(sanitized:Optional[str]) -> str:
 	if not sanitized: return ""
 	sanitized = sanitized.replace("\r","").replace("\n", "")
-	sanitized = remove_cuniform(sanitized)
+	sanitized = remove_cuniform(sanitized).strip()
 	return sanitized[:POST_TITLE_LENGTH_LIMIT]
 
 def sanitize_raw_body(sanitized:Optional[str], is_post:bool) -> str:
 	if not sanitized: return ""
 	sanitized = html_comment_regex.sub('', sanitized)
-	sanitized = remove_cuniform(sanitized)
+	sanitized = remove_cuniform(sanitized).strip()
 	return sanitized[:POST_BODY_LENGTH_LIMIT(g.v) if is_post else COMMENT_BODY_LENGTH_LIMIT]
 
 
@@ -611,6 +610,9 @@ def filter_emojis_only(title, golden=True, count_emojis=False, graceful=False, s
 	title = title.replace("\n", "").replace("\r", "").replace("\t", "").replace('<','&lt;').replace('>','&gt;')
 
 	title = remove_cuniform(title)
+
+	if strip:
+		title = title.strip()
 
 	emojis_used = set()
 

@@ -396,7 +396,7 @@ def award_thing(v, thing_type, id):
 
 	elif kind == "flairlock":
 		new_name = note[:100]
-		new_name = remove_cuniform(new_name)
+		new_name = remove_cuniform(new_name).strip()
 		if not new_name and author.flairchanged:
 			author.flairchanged += 86400
 		else:
