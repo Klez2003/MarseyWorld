@@ -42,7 +42,7 @@ def archive_url(url):
 		url = url.replace('https://twitter.com/', 'https://nitter.lacontrevoie.fr/')
 		gevent.spawn(_archiveorg, url)
 	if url.startswith('https://instagram.com/'):
-		url = url.replace('https://instagram.com/p/', 'https://imginn.com/p/')
+		url = url.replace('https://instagram.com/', 'https://imginn.com/')
 		gevent.spawn(_archiveorg, url)
 
 def snappy_report(post, reason):

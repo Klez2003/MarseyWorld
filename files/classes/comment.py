@@ -25,7 +25,7 @@ def normalize_urls_runtime(body, v):
 	if v.nitter:
 		body = twitter_to_nitter_regex.sub(r'\1https://nitter.lacontrevoie.fr/', body)
 	if v.imginn:
-		body = body.replace('https://instagram.com/p/', 'https://imginn.com/p/')
+		body = body.replace('https://instagram.com/', 'https://imginn.com/')
 	return body
 
 
