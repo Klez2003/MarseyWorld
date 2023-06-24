@@ -762,6 +762,25 @@ def blockers(v:User, username:str):
 
 	return render_template("userpage/blockers.html", v=v, u=u, users=users, page=page, total=total)
 
+@app.get("/@<username>/blocking")
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@auth_required
+def blocking(v:User, username:str):
+	u = get_user(username, v=v)
+
+	page = get_page()
+
+	users = g.db.query(UserBlock, User).join(UserBlock, UserBlock.user_id == u.id) \
+		.filter(UserBlock.target_id == User.id)
+
+	total = users.count()
+
+	users = users.order_by(UserBlock.created_utc.desc()) \
+		.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE ).all()
+
+	return render_template("userpage/blocking.html", v=v, u=u, users=users, page=page, total=total)
+
 @app.get("/@<username>/followers")
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
@@ -842,7 +861,7 @@ def u_username_wall(v:Optional[User], username:str):
 	if v and hasattr(u, 'is_blocking') and u.is_blocking:
 		if g.is_api_or_xhr:
 			abort(403, f"You are blocking @{u.username}.")
-		return render_template("userpage/blocking.html", u=u, v=v), 403
+		return render_template("userpage/blocked.html", u=u, v=v), 403
 
 	is_following = v and u.has_follower(v)
 
@@ -892,7 +911,7 @@ def u_username_wall_comment(v:User, username:str, cid):
 	if v and hasattr(u, 'is_blocking') and u.is_blocking:
 		if g.is_api_or_xhr:
 			abort(403, f"You are blocking @{u.username}.")
-		return render_template("userpage/blocking.html", u=u, v=v), 403
+		return render_template("userpage/blocked.html", u=u, v=v), 403
 
 	is_following = v and u.has_follower(v)
 
@@ -939,7 +958,7 @@ def u_username(v:Optional[User], username:str):
 	if v and hasattr(u, 'is_blocking') and u.is_blocking:
 		if g.is_api_or_xhr:
 			abort(403, f"You are blocking @{u.username}.")
-		return render_template("userpage/blocking.html", u=u, v=v), 403
+		return render_template("userpage/blocked.html", u=u, v=v), 403
 
 	is_following = v and u.has_follower(v)
 
@@ -1010,7 +1029,7 @@ def u_username_comments(username, v=None):
 	if v and hasattr(u, 'is_blocking') and u.is_blocking:
 		if g.is_api_or_xhr:
 			abort(403, f"You are blocking @{u.username}.")
-		return render_template("userpage/blocking.html", u=u, v=v), 403
+		return render_template("userpage/blocked.html", u=u, v=v), 403
 
 	is_following = v and u.has_follower(v)
 

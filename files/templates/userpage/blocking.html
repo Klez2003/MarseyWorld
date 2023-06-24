@@ -1,20 +1,38 @@
 {% extends "default.html" %}
-
-{% block pagetype %}userpage{% endblock %}
-{% block pagetitle %}@{{u.username}}{% endblock %}
+{% block pagetitle %}Users blocked by @{{u.username}}{% endblock %}
 {% block content %}
-<div class="row no-gutters">
-	<div class="col-12">
-		<div class="text-center py-6 py-md-8">
-			<span class="fa-stack fa-2x text-muted mb-2">
-				<i class="fas fa-square text-danger opacity-25 fa-stack-2x"></i>
-				<i class="fas text-danger fa-user-cog fa-stack-1x text-lg"></i>
-			</span>
-			<h5>You are blocking @{{u.username}}.</h5>
-			<p class="text-muted">So we aren't going to show you their profile.</p>
-			<button type="button" class="btn btn-success text-success mt-2" data-nonce="{{g.nonce}}" data-onclick="postToastReload(this,'/settings/unblock?username={{u.username}}')"><i class="fas fa-eye text-success mr-2"></i>Unblock @{{u.username}}</a>
-		</div>
-	</div>
-</div>
+<h5 class="my-3">Users blocked by @{{u.username}}</h5>
+<div class="overflow-x-auto mt-1"><table class="table table-striped mb-5">
+<thead class="bg-primary text-white">
+	<tr>
+		<th>Name</th>
+		<th class="disable-sort-click">Blocking since</th>
+		{% if v.id == u.id %}
+			<th class="disable-sort-click"></th>
+		{% endif %}
+	</tr>
+</thead>
+<tbody id="blockers-table">
+{% for block, user in users %}
+	<tr>
+		<td>{% include "user_in_table.html" %}</td>
+		<td {% if block.created_utc > 1599343262 %}data-time="{{block.created_utc}}"{% endif %}></td>
+		{% if v.id == u.id %}
+			<td>
+				<button type="button" class="btn btn-primary" data-nonce="{{g.nonce}}" data-onclick="unblock_user(this, '/settings/unblock?username={{user.username}}&formkey={{v|formkey}}')">Unblock</button>
+			</td>
+		{% endif %}
+	</tr>
+{% endfor %}
+</tbody>
+</table>
+
+{% if v.id == u.id %}
+	<script defer src="{{'js/settings_blocks.js' | asset}}"></script>
+{% endif %}
+
 {% endblock %}
-{% block pagenav %}{% endblock %}
+
+{% block pagenav %}
+{% include "pagination.html" %}
+{% endblock %}

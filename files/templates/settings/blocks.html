@@ -1,7 +1,6 @@
 {% extends "settings.html" %}
 {% block pagetitle %}Blocks{% endblock %}
 {% block content %}
-<script defer src="{{'js/settings_blocks.js' | asset}}"></script>
 <div class="row settings-page" id="settings-page-blocks">
 <div class="col col-lg-8">
 	<div class="settings">
@@ -79,4 +78,6 @@
 		<i class="fas fa-exclamation-circle text-danger mr-2"></i><span id="toast-error-message">Error. Please try again.</span>
 	</div>
 </div>
+
+<script defer src="{{'js/settings_blocks.js' | asset}}"></script>
 {% endblock %}
