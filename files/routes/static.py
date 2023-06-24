@@ -73,11 +73,16 @@ def marseys(v:User):
 
 @cache.cached(key_prefix="emojis", timeout=86400)
 def get_emojis():
-	emojis = []
-	for emoji, author in g.db.query(Emoji, User).join(User, Emoji.author_id == User.id).filter(Emoji.submitter_id == None).order_by(Emoji.count.desc()):
+	emojis = g.db.query(Emoji, User).join(User, Emoji.author_id == User.id).filter(Emoji.submitter_id == None)
+	emojis1 = emojis.filter(Emoji.kind != 'Marsey Alphabet').order_by(Emoji.count.desc()).all()
+	emojis2 = emojis.filter(Emoji.kind == 'Marsey Alphabet').order_by(func.length(Emoji.name), Emoji.name).all()
+	emojis = emojis1 + emojis2
+
+	collected = []
+	for emoji, author in emojis:
 		emoji.author = author.username if FEATURES['ASSET_SUBMISSIONS'] else None
-		emojis.append(emoji.json())
-	return emojis
+		collected.append(emoji.json())
+	return collected
 
 @app.get("/emojis")
 @limiter.limit(DEFAULT_RATELIMIT)
