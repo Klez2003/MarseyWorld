@@ -210,7 +210,8 @@ def spin_roulette_wheel():
 			else:
 				game.winnings = -game.wager
 
-			distribute_wager_badges(game.user, game.wager, won=(game.winnings > 0))
+			if game.currency == 'coins':
+				distribute_wager_badges(game.user, game.wager, won=(game.winnings > 0))
 
 			game.active = False
 			g.db.add(game)
