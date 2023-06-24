@@ -79,8 +79,13 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 					and_(Vote.post_id == Post.id, Vote.user_id == v.id)
 				).filter(Vote.post_id == None)
 
-	if sub: posts = posts.filter(Post.sub == sub.name)
-	elif v: posts = posts.filter(or_(Post.sub == None, Post.sub.notin_(v.all_blocks)))
+	if sub:
+		posts = posts.filter(Post.sub == sub.name)
+	elif v:
+		posts = posts.filter(or_(Post.sub == None, Post.sub.notin_(v.all_blocks)))
+	else:
+		stealth = [x[0] for x in g.db.query(Sub.name).filter_by(stealth=True).all()]
+		posts = posts.filter(or_(Post.sub == None, Post.sub.notin_(stealth)))
 
 	if gt: posts = posts.filter(Post.created_utc > gt)
 	if lt: posts = posts.filter(Post.created_utc < lt)
