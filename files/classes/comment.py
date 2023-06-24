@@ -92,10 +92,10 @@ def add_options(self, body, v):
 		elif o.exclusive: s = '&amp;&amp;'
 		else: s = '$$'
 
-		if f'{s}{o.body_html}{s}' in body:
-			body = body.replace(f'{s}{o.body_html}{s}', option_body, 1)
-		elif not o.created_utc or o.created_utc < 1677622270:
+		if not o.created_utc or o.created_utc < 1677622270:
 			body += option_body
+		else:
+			body = re.sub(rf'{s} *{o.body_html} *{s}', option_body, body, count=1, flags=re.I)
 
 	return body
 
