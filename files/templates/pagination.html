@@ -40,7 +40,7 @@
 
 		{% for x in range(start_point, end_point+1) %}
 			<li class="page-item">
-				<small><a class="page-link {% if x == page %}active{% endif %}" href="{{x|change_page(request.full_path)|safe}}">{{x}}</a></small>
+				<small><a class="page-link {% if x == page %}active disabled{% endif %}" href="{{x|change_page(request.full_path)|safe}}">{{x}}</a></small>
 			</li>
 		{% endfor %}
 
