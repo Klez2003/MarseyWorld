@@ -69,7 +69,7 @@ class Leaderboard:
 	def get_badge_marsey_lb(cls, lb_criteria, v:User, users:Any, limit):
 		sq = g.db.query(lb_criteria, cls.count_and_label(lb_criteria), cls.rank_filtered_rank_label_by_desc(lb_criteria))
 		if lb_criteria == Emoji.author_id:
-			sq = sq.filter_by(kind='Marsey')
+			sq = sq.filter(Emoji.kind.in_(["Marsey", "Platy", "Wolf", "Capy", "Carp", "Marsey Flags", "Marsey Alphabet"]))
 		sq = sq.group_by(lb_criteria).subquery()
 
 		sq_criteria = None
