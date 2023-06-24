@@ -472,10 +472,10 @@ CREATE TABLE public.comment_save_relationship (
 
 
 --
--- Name: commentflags; Type: TABLE; Schema: public; Owner: -
+-- Name: commentreports; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE public.commentflags (
+CREATE TABLE public.commentreports (
     user_id integer NOT NULL,
     comment_id integer NOT NULL,
     reason character varying(350),
@@ -585,18 +585,6 @@ CREATE TABLE public.exiles (
     sub character varying(25) NOT NULL,
     exiler_id integer NOT NULL,
     created_utc integer
-);
-
-
---
--- Name: flags; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.flags (
-    user_id integer NOT NULL,
-    post_id integer NOT NULL,
-    reason character varying(350),
-    created_utc integer NOT NULL
 );
 
 
@@ -939,6 +927,18 @@ CREATE TABLE public.post_options (
 CREATE TABLE public.push_subscriptions (
     user_id integer NOT NULL,
     subscription_json character varying(600) NOT NULL,
+    created_utc integer NOT NULL
+);
+
+
+--
+-- Name: reports; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.reports (
+    user_id integer NOT NULL,
+    post_id integer NOT NULL,
+    reason character varying(350),
     created_utc integer NOT NULL
 );
 
@@ -1290,11 +1290,11 @@ ALTER TABLE ONLY public.comment_save_relationship
 
 
 --
--- Name: commentflags commentflags_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: commentreports commentreports_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.commentflags
-    ADD CONSTRAINT commentflags_pkey PRIMARY KEY (comment_id, user_id);
+ALTER TABLE ONLY public.commentreports
+    ADD CONSTRAINT commentreports_pkey PRIMARY KEY (comment_id, user_id);
 
 
 --
@@ -1327,14 +1327,6 @@ ALTER TABLE ONLY public.banneddomains
 
 ALTER TABLE ONLY public.exiles
     ADD CONSTRAINT exiles_pkey PRIMARY KEY (user_id, sub);
-
-
---
--- Name: flags flags_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.flags
-    ADD CONSTRAINT flags_pkey PRIMARY KEY (post_id, user_id);
 
 
 --
@@ -1503,6 +1495,14 @@ ALTER TABLE ONLY public.posts
 
 ALTER TABLE ONLY public.push_subscriptions
     ADD CONSTRAINT push_subscriptions_pkey PRIMARY KEY (user_id, subscription_json);
+
+
+--
+-- Name: reports reports_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.reports
+    ADD CONSTRAINT reports_pkey PRIMARY KEY (post_id, user_id);
 
 
 --
@@ -1706,13 +1706,6 @@ CREATE INDEX block_target_idx ON public.userblocks USING btree (target_id);
 
 
 --
--- Name: cflag_user_idx; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX cflag_user_idx ON public.commentflags USING btree (user_id);
-
-
---
 -- Name: comment_is_banned_idx; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1787,6 +1780,13 @@ CREATE INDEX commentvotes_comments_type_index ON public.commentvotes USING btree
 --
 
 CREATE INDEX commentvotes_user_id_vote_type_idx ON public.commentvotes USING btree (user_id, vote_type) INCLUDE (comment_id);
+
+
+--
+-- Name: creport_user_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX creport_user_idx ON public.commentreports USING btree (user_id);
 
 
 --
@@ -1948,13 +1948,6 @@ CREATE INDEX fki_view_viewer_fkey ON public.viewers USING btree (viewer_id);
 --
 
 CREATE INDEX fki_wall_user_id_fkey ON public.comments USING btree (wall_user_id);
-
-
---
--- Name: flag_user_idx; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX flag_user_idx ON public.flags USING btree (user_id);
 
 
 --
@@ -2151,6 +2144,13 @@ CREATE INDEX post_new_sort_idx ON public.posts USING btree (is_banned, deleted_u
 --
 
 CREATE INDEX post_over_18_idx ON public.posts USING btree (over_18);
+
+
+--
+-- Name: report_user_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX report_user_idx ON public.reports USING btree (user_id);
 
 
 --
@@ -2509,19 +2509,19 @@ ALTER TABLE ONLY public.comments
 
 
 --
--- Name: commentflags commentflags_comment_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: commentreports commentreports_comment_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.commentflags
-    ADD CONSTRAINT commentflags_comment_id_fkey FOREIGN KEY (comment_id) REFERENCES public.comments(id);
+ALTER TABLE ONLY public.commentreports
+    ADD CONSTRAINT commentreports_comment_id_fkey FOREIGN KEY (comment_id) REFERENCES public.comments(id);
 
 
 --
--- Name: commentflags commentflags_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: commentreports commentreports_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.commentflags
-    ADD CONSTRAINT commentflags_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
+ALTER TABLE ONLY public.commentreports
+    ADD CONSTRAINT commentreports_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
 
 
 --
@@ -2578,22 +2578,6 @@ ALTER TABLE ONLY public.exiles
 
 ALTER TABLE ONLY public.lotteries
     ADD CONSTRAINT fk_winner FOREIGN KEY (winner_id) REFERENCES public.users(id);
-
-
---
--- Name: flags flags_post_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.flags
-    ADD CONSTRAINT flags_post_id_fkey FOREIGN KEY (post_id) REFERENCES public.posts(id);
-
-
---
--- Name: flags flags_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.flags
-    ADD CONSTRAINT flags_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
 
 
 --
@@ -2778,6 +2762,22 @@ ALTER TABLE ONLY public.posts
 
 ALTER TABLE ONLY public.push_subscriptions
     ADD CONSTRAINT push_subscriptions_user_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) MATCH FULL;
+
+
+--
+-- Name: reports reports_post_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.reports
+    ADD CONSTRAINT reports_post_id_fkey FOREIGN KEY (post_id) REFERENCES public.posts(id);
+
+
+--
+-- Name: reports reports_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.reports
+    ADD CONSTRAINT reports_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
 
 
 --
