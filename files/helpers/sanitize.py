@@ -357,7 +357,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 		sanitized = linefeeds_regex.sub(r'\1\n\n\2', sanitized)
 
 	sanitized = greentext_regex.sub(r'\1<g>\>\2</g>', sanitized)
-	sanitized = image_regex.sub(r'\1![](\2)', sanitized)
+	sanitized = image_sub_regex.sub(r'![](\1)', sanitized)
 	sanitized = image_check_regex.sub(r'\1', sanitized)
 	sanitized = link_fix_regex.sub(r'\1https://\2', sanitized)
 
@@ -476,8 +476,8 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 		if html:
 			sanitized = sanitized.replace(i.group(0), i.group(1) + html)
 
-	sanitized = video_sub_regex.sub(r'\1<p class="resizable"><video controls preload="none" src="\2"></video></p>', sanitized)
-	sanitized = audio_sub_regex.sub(r'\1<audio controls preload="none" src="\2"></audio>', sanitized)
+	sanitized = video_sub_regex.sub(r'<p class="resizable"><video controls preload="none" src="\1"></video></p>', sanitized)
+	sanitized = audio_sub_regex.sub(r'<audio controls preload="none" src="\1"></audio>', sanitized)
 
 	if count_emojis:
 		for emoji in g.db.query(Emoji).filter(Emoji.submitter_id==None, Emoji.name.in_(emojis_used)).all():

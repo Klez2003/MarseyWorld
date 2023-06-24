@@ -87,13 +87,13 @@ initial_part_regex = re.compile('(?<=^)(>+)', flags=re.I|re.A)
 image_check_regex = re.compile(f'!\[\]\(((?!(https:\/\/({hosts})\/|\/)).*?)\)', flags=re.A)
 
 video_regex_extensions = '|'.join(VIDEO_FORMATS)
-video_sub_regex = re.compile(f'(<p>[^<]*)(https:\/\/({hosts})\/[\w:~,()\-.#&\/=?@%;+]*?\.({video_regex_extensions}))', flags=re.A)
+video_sub_regex = re.compile(f'(?<!")(https:\/\/({hosts})\/[\w:~,()\-.#&\/=?@%;+]*?\.({video_regex_extensions}))(?!([^<]*<\/(code|pre|a)>|[^`]*`))', flags=re.A)
 
 audio_regex_extensions = '|'.join(AUDIO_FORMATS)
-audio_sub_regex = re.compile(f'(<p>[^<]*)(https:\/\/({hosts})\/[\w:~,()\-.#&\/=?@%;+]*?\.({audio_regex_extensions}))', flags=re.A)
+audio_sub_regex = re.compile(f'(?<!")(https:\/\/({hosts})\/[\w:~,()\-.#&\/=?@%;+]*?\.({audio_regex_extensions}))(?!([^<]*<\/(code|pre|a)>|[^`]*`))', flags=re.A)
 
 image_regex_extensions = '|'.join(IMAGE_FORMATS)
-image_regex = re.compile(f"(^|\s)(https:\/\/[\w\-.#&/=\?@%;+,:]{{5,250}}(\.|\?format=)({image_regex_extensions})((\?|&)[\w\-.#&/=\?@%;+,:]*)?)(?=$|\s)", flags=re.I|re.A)
+image_sub_regex = re.compile(f'(?<!")(https:\/\/[\w\-.#&/=\?@%;+,:]{{5,250}}(\.|\?format=)({image_regex_extensions})((\?|&)[\w\-.#&/=\?@%;+,:]*)?)(?=$|\s)', flags=re.I|re.A)
 
 image_regex_extensions_no_gif = image_regex_extensions.replace('|gif', '')
 imgur_regex = re.compile(f'(https:\/\/i\.imgur\.com\/[a-z0-9]+)\.({image_regex_extensions_no_gif})', flags=re.I|re.A)
