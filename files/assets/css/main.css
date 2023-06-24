@@ -7480,7 +7480,3 @@ img[src="/e/marseycursor.webp"] {
 bdi {
 	overflow: hidden !important;
 }
-
-.active {
-	pointer-events: none;
-}
