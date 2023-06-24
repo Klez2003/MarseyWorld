@@ -14,13 +14,8 @@ popClickBadgeTemplateDOM.loading = "lazy";
 popClickBadgeTemplateDOM.alt = "badge";
 
 document.addEventListener('shown.bs.popover', (e) => {
-    const popfix = document.getElementById("popover-fix")
-    if (popfix) document.body.removeChild(popfix);
-
-    const popover_old = document.getElementsByClassName("popover")[0];
-    const popover = document.createElement("DIV");
-    popover.innerHTML = popover_old.outerHTML;
-    popover.id = "popover-fix";
+	let popover = document.getElementsByClassName("popover")
+	popover = popover[popover.length-1]
 
 	const author = JSON.parse(e.target.dataset.popInfo);
 
@@ -57,21 +52,7 @@ document.addEventListener('shown.bs.popover', (e) => {
 	if (author["original_usernames"]) {
 		popover.getElementsByClassName('pop-original-usernames')[0].innerHTML = author["original_usernames"]
 	}
-
-    document.body.appendChild(popover);
-    document.body.removeChild(popover_old);
 })
-
-document.addEventListener("click", function(){
-	const cellText = document.getSelection();
-	if (cellText.type === 'Range') e.preventDefault();
-  
-    active = document.activeElement.getAttributeNode("class");
-    if (!(active && active.nodeValue == "user-name text-decoration-none")){
-        const popfix = document.getElementById("popover-fix")
-        if (popfix) document.body.removeChild(popfix);
-    }
-});
 
 function post(url) {
 	const xhr = createXhrWithFormKey(url);
