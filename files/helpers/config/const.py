@@ -5,7 +5,7 @@ import tldextract
 import datetime
 
 DEFAULT_TIME_FILTER = "all"
-DEFAULT_THEME = "coffee"
+DEFAULT_THEME = "midnight"
 DEFAULT_COLOR = "805ad5"
 SPAM_URL_SIMILARITY_THRESHOLD = 0.1
 
@@ -159,7 +159,7 @@ if not IS_LOCALHOST:
 TAGLINES = ()
 
 if SITE_NAME == 'rDrama':
-	DEFAULT_THEME = "midnight"
+	DEFAULT_THEME = "coffee"
 	DEFAULT_COLOR = "ff459a"
 
 	patron = "Paypig"
