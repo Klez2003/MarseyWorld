@@ -75,12 +75,8 @@
 	</div>
 
 	<div class="sidebar--rules sidebar--rules--wpd pt-2">
-		{% if sub %}
-			{{sub.sidebar_html|safe}}
-		{% else %}
-			{% set rules = "rules_" ~ SITE_NAME ~ ".html" %}
-			{% include rules %}
-		{% endif %}
+		{% set rules = "rules_" ~ SITE_NAME ~ ".html" %}
+		{% include rules %}
 	</div>
 
 	<hr>
