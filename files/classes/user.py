@@ -13,6 +13,7 @@ from flask import g, session, request
 
 from files.classes import Base
 from files.classes.casino_game import CasinoGame
+from files.classes.group import GroupMembership
 from files.classes.sub import Sub
 from files.helpers.config.const import *
 from files.helpers.config.modaction_types import *
@@ -811,6 +812,11 @@ class User(Base):
 	@lazy
 	def moderated_subs(self):
 		return [x[0] for x in g.db.query(Mod.sub).filter_by(user_id=self.id).all()]
+
+	@property
+	@lazy
+	def ping_groups(self):
+		return [x[0] for x in g.db.query(GroupMembership.group_name).filter_by(user_id=self.id).all()]
 
 	@lazy
 	def has_follower(self, user):
