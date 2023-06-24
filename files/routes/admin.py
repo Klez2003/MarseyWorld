@@ -294,6 +294,8 @@ def shadowbanned(v):
 		collected_users.append(u)
 		collected_alts = collected_alts | get_alt_graph_ids(u.id)
 
+	collected_users = sorted(collected_users, key=lambda x: x.ban_reason)
+
 	return render_template("admin/shadowbanned.html", v=v, users=collected_users)
 
 
