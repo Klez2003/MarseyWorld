@@ -815,8 +815,11 @@ class User(Base):
 
 	@property
 	@lazy
-	def ping_groups(self):
-		return [x[0] for x in g.db.query(GroupMembership.group_name).filter_by(user_id=self.id).all()]
+	def group_memberships(self):
+		return [x[0] for x in g.db.query(GroupMembership.group_name).filter(
+				GroupMembership.user_id == self.id, 
+				GroupMembership.approved_utc != None,
+			).all()]
 
 	@lazy
 	def has_follower(self, user):
