@@ -71,7 +71,7 @@ def marseys(v:User):
 
 
 
-@cache.cached(key_prefix="emojis")
+@cache.cached(key_prefix="emojis", timeout=86400)
 def get_emojis():
 	emojis = []
 	for emoji, author in g.db.query(Emoji, User).join(User, Emoji.author_id == User.id).filter(Emoji.submitter_id == None).order_by(Emoji.count.desc()):
