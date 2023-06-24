@@ -247,7 +247,7 @@ def render_emoji(html, regexp, golden, emojis_used, b=False):
 
 		if emoji_html:
 			emojis_used.add(emoji)
-			html = re.sub(f'(?<!"){i.group(0)}(?![^<]*<\/(code|pre|a)>)', emoji_html, html)
+			html = re.sub(f'(?<!"){i.group(0)}(?![^<]*<\/(code|pre)>)', emoji_html, html)
 	return html
 
 
