@@ -417,6 +417,13 @@ PROFANITIES = {
 	'peacock': 'peapeepee',
 }
 
+PROFANITIES_FOR_REPLACING = {}
+for k, val in PROFANITIES.items():
+	newkey = k.split('(?!')[0]
+	if ')' in newkey:
+		newkey = newkey.split(')')[1]
+	PROFANITIES_FOR_REPLACING[newkey] = val
+
 slur_single_words = "|".join([slur.lower() for slur in SLURS.keys()])
 profanity_single_words = "|".join([profanity.lower() for profanity in PROFANITIES.keys()])
 

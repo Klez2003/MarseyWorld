@@ -152,7 +152,7 @@ def sub_matcher_slurs_upper(match):
 	return sub_matcher_slurs(match, upper=True)
 
 def sub_matcher_profanities(match, upper=False):
-	return sub_matcher(match, upper, replace_with=PROFANITIES)
+	return sub_matcher(match, upper, replace_with=PROFANITIES_FOR_REPLACING)
 
 def sub_matcher_profanities_upper(match):
 	return sub_matcher_profanities(match, upper=True)
