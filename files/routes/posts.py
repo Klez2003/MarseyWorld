@@ -45,7 +45,7 @@ def publish(pid, v):
 	p.created_utc = int(time.time())
 	g.db.add(p)
 
-	notify_users = NOTIFY_USERS(f'{p.title} {p.body}', v, ghost=p.ghost)
+	notify_users = NOTIFY_USERS(f'{p.title} {p.body}', v, ghost=p.ghost, log_cost=p)
 
 	if notify_users:
 		cid, text = notif_comment2(p)
@@ -665,7 +665,7 @@ def submit_post(v:User, sub=None):
 		gevent.spawn(thumbnail_thread, p.id, v.id)
 
 	if not p.private:
-		notify_users = NOTIFY_USERS(f'{title} {body}', v, ghost=p.ghost)
+		notify_users = NOTIFY_USERS(f'{title} {body}', v, ghost=p.ghost, log_cost=p)
 
 		if notify_users:
 			cid, text = notif_comment2(p)
@@ -1023,7 +1023,7 @@ def edit_post(pid, v):
 
 
 	if not p.private:
-		notify_users = NOTIFY_USERS(f'{title} {body}', v, f'{p.title} {p.body}', ghost=p.ghost)
+		notify_users = NOTIFY_USERS(f'{title} {body}', v, f'{p.title} {p.body}', ghost=p.ghost, log_cost=p)
 		if notify_users:
 			cid, text = notif_comment2(p)
 			if notify_users == 'everyone':

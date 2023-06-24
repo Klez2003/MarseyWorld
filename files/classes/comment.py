@@ -135,6 +135,7 @@ class Comment(Base):
 	ban_reason = Column(String)
 	treasure_amount = Column(String)
 	slots_result = Column(String)
+	ping_cost = Column(Integer)
 	blackjack_result = Column(String)
 	casino_game_id = Column(Integer, ForeignKey("casino_games.id"))
 	chudded = Column(Boolean, default=False)

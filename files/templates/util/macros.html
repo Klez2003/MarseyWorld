@@ -96,6 +96,10 @@
 	{% endif %}
 	<span class="ml-2 d-inline-block">{{p.views}} thread views</span>
 	&nbsp;&nbsp;#{{p.id}}
+
+	{% if p.ping_cost %}
+		<em class="ml-2">spent {{p.ping_cost}} coins on pings</em>
+	{% endif %}
 {% endmacro %}
 
 

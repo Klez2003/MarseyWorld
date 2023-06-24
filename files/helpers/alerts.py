@@ -122,7 +122,7 @@ def add_notif(cid, uid, text, pushnotif_url=''):
 		push_notif({uid}, 'New notification', text, pushnotif_url)
 
 
-def NOTIFY_USERS(text, v, oldtext=None, ghost=False):
+def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None):
 	# Restrict young accounts from generating notifications
 	if v.age < NOTIFICATION_SPAM_AGE_THRESHOLD:
 		return set()
@@ -175,6 +175,9 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False):
 					cost += len(members) * mul
 					if cost > v.coins:
 						abort(403, f"You need {cost} coins to mention these ping groups!")
+
+					if log_cost:
+						log_cost.ping_cost = cost
 
 					g.db.query(User).filter(User.id.in_(members)).update({ User.coins: User.coins + mul })
 

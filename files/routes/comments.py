@@ -331,7 +331,7 @@ def comment(v:User):
 	execute_zozbot(c, level, post_target, v)
 
 	if not v.shadowbanned:
-		notify_users = NOTIFY_USERS(body, v, ghost=c.ghost)
+		notify_users = NOTIFY_USERS(body, v, ghost=c.ghost, log_cost=c)
 
 		if notify_users == 'everyone':
 			alert_everyone(c.id)
@@ -642,7 +642,7 @@ def edit_comment(cid, v):
 		if v.marseyawarded and marseyaward_body_regex.search(body_html):
 			abort(403, "You can only type marseys!")
 
-		notify_users = NOTIFY_USERS(body, v, c.body, ghost=c.ghost)
+		notify_users = NOTIFY_USERS(body, v, c.body, ghost=c.ghost, log_cost=c)
 
 		if notify_users == 'everyone':
 			alert_everyone(c.id)

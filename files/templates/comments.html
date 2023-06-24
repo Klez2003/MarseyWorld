@@ -223,11 +223,15 @@
 				{% endif %}
 				{% endif %}
 
+				{% if c.ping_cost %}
+					<em class="ml-2">spent {{c.ping_cost}} coins on pings</em>
+				{% endif %}
+
 				{% if c.slots_result %}
-					<em style="position: relative; top: 2px; margin-left: 0.5rem">{{c.slots_result}}</em>
+					<em class="ml-2">{{c.slots_result}}</em>
 				{% elif c.casino_game_id %}
 					{% set game_state = c.casino_game.game_state_json %}
-					<em style="position: relative; top: 2px; margin-left: 0.5rem">{{game_state['symbols'].replace(',','')}} {{game_state['text']}}</em>
+					<em class="ml-2">{{game_state['symbols'].replace(',','')}} {{game_state['text']}}</em>
 				{% endif %}
 
 				{% if c.blackjack_result %}
