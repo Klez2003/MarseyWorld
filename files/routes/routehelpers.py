@@ -1,7 +1,7 @@
 import time
 
 from random import randint
-from typing import Optional, Union, Callable, List
+from typing import Optional, Union, Callable, List, Set
 from sqlalchemy.orm import aliased, deferred
 from sqlalchemy.sql import case, literal
 from sqlalchemy.sql.expression import or_
@@ -25,7 +25,7 @@ def validate_formkey(u:User, formkey:Optional[str]) -> bool:
 	return validate_hash(get_raw_formkey(u), formkey)
 
 @cache.memoize()
-def get_alt_graph_ids(uid:int) -> List[int]:
+def get_alt_graph_ids(uid:int) -> Set[int]:
 	alt_graph_cte = g.db.query(literal(uid).label('user_id')).select_from(Alt).cte('alt_graph', recursive=True)
 
 	alt_graph_cte_inner = g.db.query(
