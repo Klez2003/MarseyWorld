@@ -421,7 +421,7 @@ def leaderboard(v:User):
 	coins_spent = Leaderboard("Coins spent on awards", "coins spent on awards", "spent", "Coins", None, Leaderboard.get_simple_lb, User.coins_spent, v, lambda u:u.coins_spent, users)
 	truescore = Leaderboard("Truescore", "truescore", "truescore", "Truescore", None, Leaderboard.get_simple_lb, User.truescore, v, lambda u:u.truescore, users)
 
-	badges = Leaderboard("Badges", "badges", "badges", "Badges", None, Leaderboard.get_badge_marsey_lb, Badge.user_id, v, None, None)
+	badges = Leaderboard("Badges", "badges", "badges", "Badges", None, Leaderboard.get_badge_emoji_lb, Badge.user_id, v, None, None)
 
 	blocks = Leaderboard("Most blocked", "most blocked", "most-blocked", "Blocked By", "blockers", Leaderboard.get_blockers_lb, UserBlock.target_id, v, None, None)
 
@@ -431,7 +431,7 @@ def leaderboard(v:User):
 
 	if SITE == 'rdrama.net':
 		leaderboards.append(Leaderboard("Designed hats", "designed hats", "designed-hats", "Designed Hats", None, Leaderboard.get_hat_lb, User.designed_hats, v, None, None))
-		leaderboards.append(Leaderboard("Marseys made", "Marseys made", "marseys-made", "Marseys", None, Leaderboard.get_badge_marsey_lb, Emoji.author_id, v, None, None))
+		leaderboards.append(Leaderboard("Emojis made", "Emojis made", "emojis-made", "Emojis", None, Leaderboard.get_badge_emoji_lb, Emoji.author_id, v, None, None))
 
 	leaderboards.append(Leaderboard("Upvotes given", "upvotes given", "upvotes-given", "Upvotes Given", "upvoting", Leaderboard.get_upvotes_lb, None, v, None, None))
 
