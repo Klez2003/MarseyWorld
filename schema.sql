@@ -125,7 +125,8 @@ CREATE TABLE public.posts (
     notify boolean NOT NULL,
     chuddedfor character varying(50),
     posterurl character varying(200),
-    chudded boolean
+    chudded boolean,
+    ping_cost integer
 );
 
 
@@ -522,7 +523,8 @@ CREATE TABLE public.comments (
     chuddedfor character varying(50),
     stickied_child_id integer,
     wall_user_id integer,
-    chudded boolean
+    chudded boolean,
+    ping_cost integer
 );
 
 
@@ -2259,6 +2261,13 @@ CREATE INDEX users_marsify_idx ON public.users USING btree (marsify);
 
 
 --
+-- Name: users_namechanged_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX users_namechanged_idx ON public.users USING btree (namechanged);
+
+
+--
 -- Name: users_original_username_trgm_idx; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2291,6 +2300,13 @@ CREATE INDEX users_prelock_username_trgm_idx ON public.users USING gin (prelock_
 --
 
 CREATE INDEX users_progressivestack_idx ON public.users USING btree (progressivestack);
+
+
+--
+-- Name: users_queen_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX users_queen_idx ON public.users USING btree (queen);
 
 
 --
