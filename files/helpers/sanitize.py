@@ -701,6 +701,14 @@ def torture_queen(string, key):
 	string = greeting_regex.sub(r"hiiiiiiiiii", string)
 	string = like_after_regex.sub(r"\g<1> like", string)
 	string = like_before_regex.sub(r"like \g<1>", string)
+	string = redpilled_regex.sub(r"goodpill\g<2>", string)
+	string = based_and_x_pilled_regex.sub(r"comfy \g<2> vibes", string)
+	string = based_regex.sub(r"comfy", string)
+	string = x_pilled_regex.sub(r"\g<2> vibes", string)
+	string = xmax_regex.sub(r"normalize good \g<2>s", string)
+	string = xmaxing_regex.sub(r"normalizing good \g<2>s", string)
+	string = xmaxed_regex.sub(r"normalized good \g<2>s", string)
+	
 	string = normal_punctuation_regex.sub("", string)
 	string = more_than_one_comma_regex.sub(",", string)
 	if string[-5:] == ', and':
