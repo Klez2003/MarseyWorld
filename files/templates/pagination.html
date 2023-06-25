@@ -1,44 +1,47 @@
 
 <nav>
 	<ul class="pagination pagination-sm mb-0 mt-4 pl-1">
+		{% set ns = namespace() %}
+
 		{% if not size %}
 			{% set size = PAGE_SIZE %}
 		{% endif %}
 		{% set num_pages = (total / size) | round(0, 'ceil') | int %}
 
-		{% set start_point = page - 2 %}
-		{% if start_point < 1 %}
-			{% set start_point = 1 %}
+		{% set ns.start_point = page - 2 %}
+		{% if ns.start_point < 1 %}
+			{% set ns.start_point = 1 %}
 		{% endif %}
 
-		{% set end_point = start_point+4 %}
+		{% set end_point = ns.start_point+4 %}
 		{% if end_point > num_pages %}
-			{% set start_point = start_point-(end_point-num_pages) %}
+			{% set ns.start_point = ns.start_point-(end_point-num_pages) %}
 			{% set end_point = num_pages %}
 		{% endif %}
 
-		{% if start_point < 1 %}
-			{% set start_point = 1 %}
+		{% if ns.start_point < 1 %}
+			{% set ns.start_point = 1 %}
 		{% endif %}
 
 
-		{% if start_point > 1 %}
+		{% if ns.start_point > 1 %}
 			<li class="page-item">
 				<small><a class="page-link" href="{{1|change_page(request.full_path)|safe}}">1</a></small>
 			</li>
 
-			{% if start_point == 3 %}
+			{% if ns.start_point == 3 %}
 				<li class="page-item">
 					<small><a class="page-link" href="{{2|change_page(request.full_path)|safe}}">2</a></small>
 				</li>
-			{% elif start_point != 2 %}
+			{% elif ns.start_point != 2 %}
 				<li class="page-item">
 					<small class="page-link dots">...</small>
 				</li>
+				{% set ns.start_point = ns.start_point + 1 %}
 			{% endif %}
 		{% endif %}
 
-		{% for x in range(start_point, end_point+1) %}
+		{% for x in range(ns.start_point, end_point+1) %}
 			<li class="page-item">
 				<small><a class="page-link {% if x == page %}active disabled{% endif %}" href="{{x|change_page(request.full_path)|safe}}">{{x}}</a></small>
 			</li>
