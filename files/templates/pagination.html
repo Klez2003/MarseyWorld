@@ -37,7 +37,9 @@
 				<li class="page-item">
 					<small class="page-link dots">...</small>
 				</li>
-				{% set ns.start_point = ns.start_point + 1 %}
+				{% if end_point != num_pages-1 %}
+					{% set ns.start_point = ns.start_point + 1 %}
+				{% endif %}
 			{% endif %}
 		{% endif %}
 
