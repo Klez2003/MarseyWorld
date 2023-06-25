@@ -6840,7 +6840,7 @@ div.markdown {
 	border: 5px white solid;
 }
 #expandImageModal > .modal-dialog {
-	max-width: 80% !important;
+	max-width: 100% !important;
 	max-height: 100%;
 	height: 100%;
 	margin-top: 0 !important;
