@@ -98,6 +98,13 @@ xmaxed_regex = re.compile('(?<=^|(?<=\s))(([a-zA-Z]+?)(s)?max*ed)(?=$|\n|\s|[.?!
 xmaxing_regex = re.compile('(?<=^|(?<=\s))(([a-zA-Z]+?)(s)?max*ing)(?=$|\n|\s|[.?!,])', flags=re.I|re.A)
 initial_part_regex = re.compile('(?<=^)(>+)', flags=re.I|re.A)
 
+#matches "the" or is, but only if it is not followed by "fucking"
+the_fucking_regex = re.compile('(?<=^|(?<=\s))(the|is)(?! fucking)(?=$|\n|\s|[.?!,])', flags=re.I|re.A)
+#matches a single question mark but only if it isn't preceded by ", bitch"
+bitch_question_mark_regex = re.compile('(?<!\?|\!)(?<!, bitch)(\?)(?!!|\?)(?=\s|$)', flags=re.I|re.A)
+#matches a single exclamation point but only if it isn't preceded by ", motherfucker"
+exclamation_point_regex = re.compile('(?<!!|\?)(?<!, motherfucker)(!)(?!!|\?)(?=\s|$)', flags=re.I|re.A)
+
 image_check_regex = re.compile(f'!\[\]\(((?!(https:\/\/({hosts})\/|\/)).*?)\)', flags=re.A)
 
 video_regex_extensions = '|'.join(VIDEO_FORMATS)

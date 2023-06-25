@@ -155,6 +155,7 @@ class User(Base):
 	bite = Column(Integer, default=0)
 	earlylife = Column(Integer, default=0)
 	owoify = Column(Integer, default=0)
+	sharpen = Column(Integer, default=0)
 	marsify = Column(Integer, default=0)
 	rainbow = Column(Integer, default=0)
 	spider = Column(Integer, default=0)
