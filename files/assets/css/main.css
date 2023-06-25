@@ -1605,7 +1605,7 @@ nav
 	border-color: #dee2e6;
 }
 .pagination-sm .page-link {
-	padding: 0.25rem min(20px, 2vw);
+	padding: 0.25rem min(20px, 3vw);
     font-size: min(25px, 5.8vw);
 	line-height: 1.5;
 }
