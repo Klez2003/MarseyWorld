@@ -99,7 +99,7 @@
 	bottom: 0;
 }
 .ricardo img {
-	max-height: min(30vw,15rem);
+	max-height: min(15vw,70px);
 }
 
 .ricardo1 {animation: ricardo1Xa 5.8s, ricardo1Xb 11.6s, ricardo1Y 23.2s;}
