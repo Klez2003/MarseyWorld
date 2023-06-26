@@ -310,6 +310,18 @@ AWARDS = {
 		"ghost": True,
 		"enabled": IS_HOMOWEEN(),
 	},
+	"confetti": {
+		"kind": "confetti",
+		"title": "Confetti",
+		"description": "Summons confetti to fall on the post.",
+		"icon": "fas fa-party-horn",
+		"color": "text-yellow",
+		"price": 200,
+		"deflectable": False,
+		"cosmetic": True,
+		"ghost": True,
+		"enabled": IS_BIRTHGAY()(),
+	},
 
 	### Standard
 	"beano": {
@@ -390,18 +402,6 @@ AWARDS = {
 		"description": "Summons fireworks on the post.",
 		"icon": "fas fa-bahai",
 		"color": "text-danger",
-		"price": 200,
-		"deflectable": False,
-		"cosmetic": True,
-		"ghost": True,
-		"enabled": True,
-	},
-	"confetti": {
-		"kind": "confetti",
-		"title": "Confetti",
-		"description": "Summons confetti to fall on the post.",
-		"icon": "fas fa-party-horn",
-		"color": "text-yellow",
 		"price": 200,
 		"deflectable": False,
 		"cosmetic": True,
