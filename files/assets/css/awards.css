@@ -90,7 +90,7 @@
 
 /*fireworks*/
 .firework img {
-	max-width: 15rem;
+	max-width: min(15vw,15rem);
 }
 
 /*ricardo*/
