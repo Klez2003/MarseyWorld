@@ -246,13 +246,14 @@ INSERT INTO public.badge_defs VALUES (285, 'Queen', 'This user SLAYS 💅👠�
 INSERT INTO public.badge_defs VALUES (286, 'Pilgrimage', 'This user went on a quest to an rdrama holy site', 1687363815);
 INSERT INTO public.badge_defs VALUES (287, 'Carp Artisan', 'Contributed a Carp emoji ✨', 1687530510);
 INSERT INTO public.badge_defs VALUES (288, 'Carp Master', 'Contributed 10 (or more!!!!) Carp emojis ✨', 1687530535);
+INSERT INTO public.badge_defs VALUES (289, 'Sharpened', 'No one understand this user.', 1687725417);
 
 
 --
 -- Name: badge_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.badge_defs_id_seq', 288, true);
+SELECT pg_catalog.setval('public.badge_defs_id_seq', 289, true);
 
 
 --
@@ -1323,11 +1324,12 @@ INSERT INTO public.hat_defs VALUES (1213, 'Secret Crack', 'Oh hi… AH', 2, 1000
 
 
 
+
 --
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1255, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1256, true);
 
 
 --
@@ -1528,9 +1530,6 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('capyheartsantahat','Capy',2,'capy marsey heart santahat santa hat'),
 ('capyitsdown','Capy',2,'aevann capy capybara itsdown ddos sad itsover'),
 ('capykiss','Capy',2,'capybara aevann love mwah xoxo smooch happy love'),
-('capylbgt1','Capy',2,'gay lesbian trans'),
-('capylgbt2','Capy',2,'gay lesbian trans'),
-('capylgbt3','Capy',2,'gay lesbian trans'),
 ('capylove','Capy',2,'aevann heart eyes hug adore adoration snuggle cuddle capybara'),
 ('capymad','Capy',2,'shaking aevann mad angry fury furious anger shook animated capybara'),
 ('capymerchant','Capy',2,'codecel admin janny egypt jew money chad'),
@@ -2027,6 +2026,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('g','Marsey Alphabet',2,'letter'),
 ('gamma','Marsey Alphabet',2,'γ'),
 ('gammacap','Marsey Alphabet',2,'Γ'),
+('gaslighter','Misc',2,'gaslighter'),
 ('gasp','Classic',2,'gasp animated emoticon shocked'),
 ('gay','Misc',2,'gay gays lgbt fag faggot bussy twink hun gaaaaay ha hah rainbow woke love gaylove homo homosexual homosexuality homos alert gayalert'),
 ('gayamongus','Misc',2,'amongus among us amogus hidden traitor straight notstraight gay lgbt lgb gay gays fag fags faggots homo homos homosexual homosexuality rainbow drama dramacel dramanaut dramautist'),
@@ -2438,6 +2438,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseybadass','Marsey',2,'badass whoa neil degrasse tyson science mustache ifls smug'),
 ('marseybadgejew','Marsey',2,'badge silver jewish merchant greedy award reward medal prize token coin'),
 ('marseybadgejewgold','Marsey',2,'badge gold jewish merchant greedy award reward medal prize token coin'),
+('marseybadgemaxxer','Marsey',2,'beg attention whore fat chonker'),
 ('marseybadger','Marsey',2,'animal marmot'),
 ('marseybadluck','Marsey',2,'unlucky black cat poc nigger blackcat'),
 ('marseybadnews','Marsey',2,'comic bad news drawing idgaf heathcliff smug troublemaker'),
@@ -2632,6 +2633,8 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseybudddwyer','Marsey',2,'suicide gunshot reporter journalist'),
 ('marseybuff','Marsey',2,'ripped muscular 6pack swole 6 pack sixpack abs six pack muscles'),
 ('marseybuffbipoc','Marsey',2,'kang black brown ni strong muscles fierce gym rat chad abs'),
+('marseybuffstop','Marsey',2,'forbidden bouncer no'),
+('marseybuffstopglow','Marsey',2,'forbidden bouncer no fedpost glowies nsa cia surveillance agent'),
 ('marseybug','Marsey',2,'beetle glitch error insect roach'),
 ('marseybug2','Marsey',2,'glitch code error'),
 ('marseybug3','Marsey',2,'error glitch 404 503'),
@@ -3430,6 +3433,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseyheadshotgory','Marsey',2,'gore marsey headshot blood'),
 ('marseyhealthy','Marsey',2,'burger king fat fast food crown unhealthy junk food american'),
 ('marseyhealthysoberstillretard','Marsey',2,'marsona fartbinn elfbinn canadian mayofoid woman'),
+('marseyhearnoevil','Marsey',2,'hearnoevil deaf muffle stab ears hearing music sound loud noise voice listen tone pitch stfu shhh quiet women speaking discord disharmony dissonance'),
 ('marseyhearts','Marsey',2,'reaction flirt loving adoration love happy cute crush'),
 ('marseyheathcliff','Marsey',2,'heathecliff'),
 ('marseyheavymetal','Marsey',2,'rocker musician rock guitar'),
@@ -3829,6 +3833,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseymeme','Marsey',2,'images 16862909597628224 webp'),
 ('marseymemeball','Marsey',2,'picardia strawman polcomp political'),
 ('marseymeowth','Marsey',2,'pokemon weeb anime manga team rocket nintendo video game vidya monster'),
+('marseymerari','Marsey',2,'janny admin mod mop animal joost dutch muppet sesame street cute fluffy'),
 ('marseymerchant','Marsey',2,'kike hebrew shopkeeper yid banker jew moneylender jewish greedy israel chosen'),
 ('marseymerchantelf','Marsey',2,'jew christmas elf santa greedy money chosen worker holiday xmas seth rogen sarah silverman holocaust coin kike'),
 ('marseymerchantsoy','Marsey',2,'merchant jewish kike greed soy wojak soyjak yarmulke soyyell'),
@@ -4153,6 +4158,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseypostal','Marsey',2,'postal smirk vidya game ginger'),
 ('marseypostal2','Marsey',2,'postal p3 game ginger'),
 ('marseypostmodern','Marsey',2,'postmodernist obscurantist art'),
+('marseypotatofamine','Marsey',2,'irish ireland mick hibernian genocide britain'),
 ('marseypotofsneed','Marsey',2,'pot sneed pottery dungeon ornamental ancient yugioh card anime potofgreed pot of greed'),
 ('marseypredator','Marsey',2,'predator drone obama wedding military'),
 ('marseypregunta','Marsey',2,'mexican mexico latinx hispanic confused question marks questionmarks hmm spic beaner wat what why how idgi sombrero'),
@@ -4229,6 +4235,8 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseyrapscallion','Marsey',2,'stinker rapscallion troublemaker mischevious meme naughty troll'),
 ('marseyrare','Marsey',2,'kangaroo wtf'),
 ('marseyrasta','Marsey',2,'marijuana weed dude weed lmao ganja drugs pot reggae joint jamaican'),
+('marseyrastaitsover','Marsey',2,'itsover rasta weed smoke jamaica pot dreadlocks drugs high'),
+('marseyrastawereback','Marsey',2,'wereback rasta weed smoke jamaica pot dreadlocks drugs high'),
 ('marseyrat','Marsey',2,'rodent black'),
 ('marseyratso','Marsey',2,'furry nsfw porn'),
 ('marseyrave','Marsey',2,'dead animated party death sandstorm darude crab dance'),
@@ -4670,6 +4678,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseytariq','Marsey',2,'buck breaking nasheed nigger coon black'),
 ('marseytariq2','Marsey',2,'marsey tariq flex supremacist glow eye black king fba foundational bussy thong broken buck nasheed breaking k melanin melanoid wash yo ass'),
 ('marseytariqitsover','Marsey',2,'nasneed blm buckbreaking'),
+('marseytarotfool','Marsey',2,'marsey tarot fool 0card'),
 ('marseytarotmoon','Marsey',2,'marsey tarot moon card'),
 ('marseytarrant','Marsey',2,'branton brenton newzealand kiwi shooter shooting killer ebba akerlund murderer rightoid chud strong'),
 ('marseytea','Marsey',2,'drama spill'),
@@ -5083,6 +5092,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('naziseethe','Wojak',2,'nazi seethe fascist upset angry mad enraged'),
 ('necky','Donkey Kong',2,'donkeykong dk bird vulture'),
 ('neg','Marsey Alphabet',2,'¬ not negation logical'),
+('nerd','Misc',2,'nerd actually ok dork'),
 ('nervous','Classic',2,'nervous animated emoticon scared worried nail biting'),
 ('niger','Misc',2,'niger flag'),
 ('niggaplease','Misc',2,'niggaplease nigga please niggas nibba nibbas nibbaplease nigger niggers niggerplease bruh black ghetto blacks africa african gangster gangsta homie friend friendship bud buddy rap rapping rapper hipho'),
