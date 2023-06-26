@@ -219,4 +219,4 @@ comment_link_regex = re.compile("/[0-9]+$", flags=re.A)
 
 image_link_regex = re.compile(f"https://(i\.)?{SITE}\/(chat_)?images\/[0-9]{{11,17}}r?\.webp", flags=re.A)
 
-video_link_regex = re.compile(f"https://(video\.)?{SITE}\/videos\/[0-9]{{11,17}}\.({video_regex_extensions})", flags=re.A)
+video_link_regex = re.compile(f"https://(video\.)?{SITE}\/(videos\/)?[0-9]{{11,17}}\.({video_regex_extensions})", flags=re.A)
