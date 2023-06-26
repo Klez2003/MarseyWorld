@@ -246,8 +246,6 @@ class Post(Base):
 	def award_count(self, kind, v):
 		if SITE_NAME == 'WPD' and not v and kind in {'confetti', 'fireworks'} and self.sub not in {'meta', 'discussion', 'social', 'music'}:
 			return 0
-		elif v and v.poor:
-			return 0
 		elif self.distinguish_level:
 			if SITE_NAME == 'rDrama' and kind in {'glowie', 'tilt',}:
 				return 0

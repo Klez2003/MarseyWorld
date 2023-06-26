@@ -63,7 +63,6 @@ def get_logged_in_user():
 	g.v = v
 
 	if v:
-		v.poor = session.get('poor')
 		# Check against last_active + ACTIVE_TIME to reduce frequency of
 		# UPDATEs in exchange for a ±ACTIVE_TIME margin of error.
 
