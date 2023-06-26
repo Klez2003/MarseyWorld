@@ -5,7 +5,7 @@ from io import BytesIO
 from os import path
 from shutil import copyfile
 from sys import stdout
-from urllib.parse import ParseResult, urlparse, urlunparse
+from urllib.parse import ParseResult, urlparse, urlunparse, unquote
 
 import gevent
 import requests
@@ -407,6 +407,7 @@ def is_repost(v):
 	if not url or len(url) < MIN_REPOST_CHECK_URL_LENGTH: abort(400)
 
 	url = normalize_url(url)
+	url = unquote(url)
 	parsed_url = urlparse(url)
 
 	domain = parsed_url.netloc
@@ -496,6 +497,7 @@ def submit_post(v:User, sub=None):
 
 	if url:
 		url = normalize_url(url)
+		url = unquote(url)
 		parsed_url = urlparse(url)
 
 		domain = parsed_url.netloc

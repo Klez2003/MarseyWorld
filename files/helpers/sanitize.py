@@ -660,7 +660,6 @@ def normalize_url(url):
 
 	url = imgur_regex.sub(r'\1_d.webp?maxwidth=9999&fidelity=grand', url)
 	url = giphy_regex.sub(r'\1.webp', url)
-	url = unquote(url)
 
 	return url
 
