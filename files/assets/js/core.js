@@ -417,15 +417,25 @@ function logout(t) {
 		});
 }
 
-const width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+const screen_width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 function focusSearchBar(element)
 {
-	if (width >= 768) {
+	if (screen_width >= 768) {
 		element.focus();
 	}
 }
 
+let MINFLIES;
+let MAXFLIES;
 
+if (screen_width < 768) {
+	MINFLIES = 5;
+	MAXFLIES = 10;
+}
+else {
+	MINFLIES = 10;
+	MAXFLIES = 20;
+}
 
 function insertText(input, text) {
 	const newPos = input.selectionStart + text.length;

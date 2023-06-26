@@ -7,9 +7,6 @@ const YOFFSET = 37;
 // chance of generating a new bug each second if not bugmaxxed
 const BUGCHANCEPERSEC = 0.5;
 
-// bug quantities
-const MINFLIES = 5;
-const MAXFLIES = 25;
 const MINSPIDERS = 1;
 const MAXSPIDERS = 1;
 
