@@ -183,7 +183,7 @@ def move_post(post:Post, v:User, reason:str) -> Union[bool, str]:
 	if sub_to == 'changelog':
 		abort(403, "/h/changelog is archived!")
 
-	if sub_to in {'furry','vampire','racist','femboy'} and not v.client and not post.author.house.lower().startswith(sub_to):
+	if sub_to in {'furry','vampire','racist','femboy','edgy'} and not v.client and not post.author.house.lower().startswith(sub_to):
 		if v.id == post.author_id:
 			abort(403, f"You need to be a member of House {sub_to.capitalize()} to post in /h/{sub_to}")
 		else:

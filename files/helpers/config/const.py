@@ -979,7 +979,7 @@ else: # localhost or testing environment implied
 	FEATURES['USERS_PERMANENT_WORD_FILTERS'] = True
 	SUB_BANNER_LIMIT = 69420
 
-HOUSES = ("None","Furry","Femboy","Vampire","Racist") if FEATURES['HOUSES'] else ("None")
+HOUSES = ("None","Furry","Femboy","Vampire","Racist","Edgy") if FEATURES['HOUSES'] else ("None")
 
 BOT_IDs = {AUTOJANNY_ID, SNAPPY_ID, LONGPOSTBOT_ID, ZOZBOT_ID}
 
@@ -1181,20 +1181,6 @@ def IS_EVENT():
 	elif IS_BIRTHDEAD():
 		return "birthdead"
 	return None
-
-SNAPPY_EDGY = """You will never be a real house. You have no award, you have no members, you have no symbol. You are a chuddite losers twisted by downmarseys and soren into a crude mockery of Carp's perfection.
-
-All the “validation” you get is two-faced and half-hearted. Behind your back people mock you. Your jannies are disgusted and ashamed of you, your “friends” laugh at your foolish appearance on groomercord.
-
-Dramatards are utterly repulsed by you. Thousands of years of evolution have allowed lurkers to sniff out fanfiction with incredible efficiency. Even your founders look uncanny and unnatural to a lurker. Your house structure is a dead giveaway. And even if you manage to get a member to join, he'll turn tail and bolt the second he gets enough marseycoin for a real house.
-
-You will never be happy. You wrench out a fake smile every single morning and tell yourself it's going to be ok, but deep inside you feel the depression creeping up like a weed, ready to crush you under the unbearable weight.
-
-Eventually it'll be too much to bear - you'll buy a rope, tie a noose, put it around your neck, and plunge into the cold abyss. Jannies will find you, heartbroken but relieved that they no longer have to live with the unbearable shame and disappointment. They'll bury you with a headstone marked with your real house, and every passerby for the rest of eternity will know a racist or vampire is buried there. Your body will decay and go back to the dust, and all that will remain of your legacy is a skeleton that is unmistakably soy.
-
-This is your fate. This is what you chose. There is no turning back.
-
-"""
 
 CHUD_PHRASES = (
 		"Trans lives matter",

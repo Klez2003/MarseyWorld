@@ -548,14 +548,14 @@ def award_thing(v, thing_type, id):
 			if author.marsify: body = marsify(body)
 			thing.body_html = sanitize(body, limit_pings=5, showmore=True)
 			g.db.add(thing)
-	elif kind == 'sharpen':
+	elif ("Edgy" in kind and kind == v.house) or kind == 'sharpen':
 		if author.chud:
 			abort(409, f"{safe_username} is under the effect of a conflicting award: Chud award!")
 		if author.queen:
 			abort(409, f"{safe_username} is under the effect of a conflicting award: Queen award!")
 
-		if author.sharpen: author.sharpen += 21600
-		else: author.sharpen = int(time.time()) + 21600
+		if author.sharpen: author.sharpen += 86400
+		else: author.sharpen = int(time.time()) + 86400
 		badge_grant(user=author, badge_id=289)
 
 		if thing_type == 'comment' and not thing.author.deflector:
