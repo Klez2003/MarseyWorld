@@ -360,6 +360,10 @@ def settings_personal_post(v):
 		if not success: abort(403)
 
 		if house == "None": house = ''
+
+		if house == "Edgy" and time.time() < 1687964863:
+			house = "Edgy Founder"
+
 		v.house = house
 
 		updated = True
