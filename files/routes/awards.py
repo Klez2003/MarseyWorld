@@ -556,7 +556,7 @@ def award_thing(v, thing_type, id):
 
 		if author.sharpen: author.sharpen += 21600
 		else: author.sharpen = int(time.time()) + 21600
-		# badge_grant(user=author, badge_id=167) #TODO: badge
+		badge_grant(user=author, badge_id=289)
 
 		if thing_type == 'comment' and not thing.author.deflector:
 			body = thing.body

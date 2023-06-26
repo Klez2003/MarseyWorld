@@ -202,7 +202,7 @@ def _award_timers_task():
 	_process_timer(User.marseyawarded, [98], "The marsey award you received has expired!")
 	_process_timer(User.rehab, [109], "The rehab award you received has expired!")
 	_process_timer(User.owoify, [167], "The OwOify award you received has expired!")
-	_process_timer(User.sharpen, [], "The Sharpen award you received has expired!") #TODO: badge
+	_process_timer(User.sharpen, [289], "The Sharpen award you received has expired!")
 	_process_timer(User.bite, [168], "The bite award you received has expired! You're now back in your original house!", {
 		User.house: User.old_house,
 		User.old_house: '',
