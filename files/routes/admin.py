@@ -1864,6 +1864,9 @@ def delete_media_post(v):
 
 	path = url.split(SITE)[1]
 
+	if path.startswith('/1'):
+		path = '/videos' + path
+
 	if not os.path.isfile(path):
 		return render_template("admin/delete_media.html", v=v, url=url, error="File not found on the server!")
 
