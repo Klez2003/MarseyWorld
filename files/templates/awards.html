@@ -27,7 +27,7 @@
 	{{ stackable_award('firework') }}
 {% endif %}
 
-{% if p.award_count("confetti", v) %}
+{% if p.award_count("confetti", v) and IS_BIRTHGAY() %}
 	<div class="confetti w-100 h-100"></div>
 {% endif %}
 
