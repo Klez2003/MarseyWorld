@@ -320,7 +320,7 @@ AWARDS = {
 		"deflectable": False,
 		"cosmetic": True,
 		"ghost": True,
-		"enabled": IS_BIRTHGAY()(),
+		"enabled": IS_BIRTHGAY(),
 	},
 
 	### Standard
