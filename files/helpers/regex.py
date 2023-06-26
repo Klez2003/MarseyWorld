@@ -99,7 +99,7 @@ xmaxing_regex = re.compile('(?<=^|(?<=\s))(([a-zA-Z]+?)(s)?max*ing)(?=$|\n|\s|[.
 initial_part_regex = re.compile('(?<=^)(>+)', flags=re.I|re.A)
 
 #matches "the" or is, but only if it is not followed by "fucking"
-the_fucking_regex = re.compile('(?<=^|(?<=\s))(the|is)(?! fucking)(?=$|\n|\s|[.?!,])', flags=re.I|re.A)
+the_fucking_regex = re.compile('(?<=^|(?<=\s))(the|(is (?:your|her|his|their|no|a|not|to|so|this|the|our|what)( (a|the))?)|is)(?=$|\n|\s)(?! fucking)', flags=re.I|re.A)
 #matches a single question mark but only if it isn't preceded by ", bitch"
 bitch_question_mark_regex = re.compile('(?<!\?|\!)(?<!, bitch)(\?)(?!!|\?)(?=\s|$)', flags=re.I|re.A)
 #matches a single exclamation point but only if it isn't preceded by ", motherfucker"
