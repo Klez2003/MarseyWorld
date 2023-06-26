@@ -82,7 +82,28 @@ like_before_regex = re.compile('(?<=^|(?<=\s))(?<!like )(just|only)(?=$|\n|\s|[.
 like_after_regex = re.compile('(?<=^|(?<=\s))(i mean)(?! like)(?=$|\n|\s|[.?!,])', flags=re.I|re.A)
 #match ! or ? but only if it isn't touching another ! or ?, or is in front of a letter
 single_repeatable_punctuation = re.compile('(?<!!|\?)(!|\?)(?!!|\?)(?=\s|$)', flags=re.I|re.A)
+#match "redpilled", to turn into "goodpilled" (extremely jankpilled but its whatever). Group 2 contained "ed" if exists
+redpilled_regex = re.compile('(?<=^|(?<=\s))(redpill(ed)*)(?=$|\n|\s|[.?!,])', flags=re.I|re.A)
+#match "based and Xpilled". To be turned into "comfy X vibes". Note that "X" is in group 2. No conditional "ed", "ed" will always be present
+based_and_x_pilled_regex = re.compile('(?<=^|(?<=\s))(based and ([a-zA-Z]*)pilled)(?=$|\n|\s|[.?!,])', flags=re.I|re.A)
+#match "based" to "comfy"
+based_regex = re.compile('(?<=^|(?<=\s))(based)(?=$|\n|\s|[.?!,])', flags=re.I|re.A)
+#match "Xpilled". To be turned into "X vibes". Note that "X" is in group 2, "ed" in group 3
+x_pilled_regex = re.compile('(?<=^|(?<=\s))(([a-zA-Z]+)pill(ed)?)(?=$|\n|\s|[.?!,])', flags=re.I|re.A)
+#match "Xmaxxx". To be turned into "normalize good Xs". Note that "X" is in group 2, "s" (after X) in group 3
+xmax_regex = re.compile('(?<=^|(?<=\s))(([a-zA-Z]+?)(s)?max*)(?=$|\n|\s|[.?!,])', flags=re.I|re.A)
+#same as above, except "Xmaxxed" this time (b/c I have crippling OCD and "normalized" isn't "normalize" + "ed") :marseyrage:
+xmaxed_regex = re.compile('(?<=^|(?<=\s))(([a-zA-Z]+?)(s)?max*ed)(?=$|\n|\s|[.?!,])', flags=re.I|re.A)
+#same as above, except "Xmaxxing" this time
+xmaxing_regex = re.compile('(?<=^|(?<=\s))(([a-zA-Z]+?)(s)?max*ing)(?=$|\n|\s|[.?!,])', flags=re.I|re.A)
 initial_part_regex = re.compile('(?<=^)(>+)', flags=re.I|re.A)
+
+#matches "the" or is, but only if it is not followed by "fucking". https://regex101.com/r/yxuYsQ/2
+the_fucking_regex = re.compile('(?<=^|(?<=\s))((?:the|a)( (?:only))?|((that )?(?:is|are|was|were|will be|would be)( (?:your|her|his|their|no|a|not|to|too|so|this|the|our|what))?( (a|the))?)|is)(?=\s)(?! fucking)', flags=re.I|re.A)
+#matches a single question mark but only if it isn't preceded by ", bitch"
+bitch_question_mark_regex = re.compile('(?<!\?|\!)(?<!, bitch)(\?)(?!!|\?)(?=\s|$)', flags=re.I|re.A)
+#matches a single exclamation point but only if it isn't preceded by ", motherfucker"
+exclamation_point_regex = re.compile('(?<!!|\?)(?<!, motherfucker)(!)(?!!|\?)(?=\s|$)', flags=re.I|re.A)
 
 image_check_regex = re.compile(f'!\[\]\(((?!(https:\/\/({hosts})\/|\/)).*?)\)', flags=re.A)
 

@@ -14,6 +14,7 @@ from files.helpers.get import *
 from files.helpers.marsify import marsify
 from files.helpers.media import *
 from files.helpers.owoify import owoify
+from files.helpers.sharpen import sharpen
 from files.helpers.regex import *
 from files.helpers.slots import *
 from files.helpers.treasure import *
@@ -239,6 +240,7 @@ def comment(v:User):
 	body_for_sanitize = body
 	if v.owoify: body_for_sanitize = owoify(body_for_sanitize)
 	if v.marsify: body_for_sanitize = marsify(body_for_sanitize)
+	if v.sharpen: body_for_sanitize = sharpen(body_for_sanitize)
 
 	body_html = sanitize(body_for_sanitize, limit_pings=5, showmore=True, count_emojis=not v.marsify)
 
@@ -634,6 +636,8 @@ def edit_comment(cid, v):
 			body_for_sanitize = owoify(body_for_sanitize)
 		if v.marsify:
 			body_for_sanitize = marsify(body_for_sanitize)
+		if v.sharpen:
+			body_for_sanitize = sharpen(body_for_sanitize)
 
 		body_html = sanitize(body_for_sanitize, golden=False, limit_pings=5, showmore=True)
 

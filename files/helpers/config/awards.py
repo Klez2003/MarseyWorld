@@ -494,7 +494,6 @@ AWARDS = {
 		"ghost": False,
 		"enabled": SITE_NAME != 'rDrama',
 	},
-
 	"rehab": {
 		"kind": "rehab",
 		"title": "Rehab",
@@ -502,6 +501,18 @@ AWARDS = {
 		"icon": "fas fa-dice-six",
 		"color": "text-black",
 		"price": 777,
+		"deflectable": True,
+		"cosmetic": False,
+		"ghost": False,
+		"enabled": True,
+	},
+	"sharpen": {
+		"kind": "sharpen",
+		"title": "Sharpen",
+		"description": "Adds a badass edge to all user's comments",
+		"icon": "fas fa-fire",
+		"color": "text-danger",
+		"price": 500,
 		"deflectable": True,
 		"cosmetic": False,
 		"ghost": False,

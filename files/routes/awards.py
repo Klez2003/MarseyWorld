@@ -13,6 +13,7 @@ from files.helpers.config.awards import AWARDS_ENABLED, HOUSE_AWARDS, LOOTBOX_IT
 from files.helpers.get import *
 from files.helpers.marsify import marsify
 from files.helpers.owoify import owoify
+from files.helpers.sharpen import sharpen
 from files.helpers.regex import *
 from files.helpers.sanitize import filter_emojis_only
 from files.helpers.useractions import *
@@ -330,6 +331,9 @@ def award_thing(v, thing_type, id):
 		if author.owoify:
 			abort(409, f"{safe_username} is under the effect of a conflicting award: OwOify award!")
 
+		if author.sharpen:
+			abort(409, f"{safe_username} is under the effect of a conflicting award: Sharpen!")
+
 		if not author.queen:
 			characters = list(filter(str.isalpha, author.username))
 			if characters:
@@ -375,6 +379,9 @@ def award_thing(v, thing_type, id):
 
 		if author.owoify:
 			abort(409, f"{safe_username} is under the effect of a conflicting award: OwOify award!")
+
+		if author.sharpen:
+			abort(409, f"{safe_username} is under the effect of a conflicting award: Sharpen!")
 
 		if author.chud == 1:
 			abort(409, f"{safe_username} is already chudded permanently!")
@@ -495,7 +502,8 @@ def award_thing(v, thing_type, id):
 			abort(409, f"{safe_username} is under the effect of a conflicting award: Chud award!")
 		if author.queen:
 			abort(409, f"{safe_username} is under the effect of a conflicting award: Queen award!")
-
+		if author.sharpen:
+			abort(409, f"{safe_username} is under the effect of a conflicting award: Sharpen!")
 		if not author.marsify or author.marsify != 1:
 			if author.marsify: author.marsify += 86400
 			else: author.marsify = int(time.time()) + 86400
@@ -527,6 +535,8 @@ def award_thing(v, thing_type, id):
 			abort(409, f"{safe_username} is under the effect of a conflicting award: Chud award!")
 		if author.queen:
 			abort(409, f"{safe_username} is under the effect of a conflicting award: Queen award!")
+		if author.sharpen:
+			abort(409, f"{safe_username} is under the effect of a conflicting award: Sharpen!")
 
 		if author.owoify: author.owoify += 21600
 		else: author.owoify = int(time.time()) + 21600
@@ -536,6 +546,21 @@ def award_thing(v, thing_type, id):
 			body = thing.body
 			body = owoify(body)
 			if author.marsify: body = marsify(body)
+			thing.body_html = sanitize(body, limit_pings=5, showmore=True)
+			g.db.add(thing)
+	elif kind == 'sharpen':
+		if author.chud:
+			abort(409, f"{safe_username} is under the effect of a conflicting award: Chud award!")
+		if author.queen:
+			abort(409, f"{safe_username} is under the effect of a conflicting award: Queen award!")
+
+		if author.sharpen: author.sharpen += 21600
+		else: author.sharpen = int(time.time()) + 21600
+		badge_grant(user=author, badge_id=289)
+
+		if thing_type == 'comment' and not thing.author.deflector:
+			body = thing.body
+			body = sharpen(body)
 			thing.body_html = sanitize(body, limit_pings=5, showmore=True)
 			g.db.add(thing)
 	elif ("Femboy" in kind and kind == v.house) or kind == 'rainbow':

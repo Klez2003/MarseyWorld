@@ -6676,6 +6676,12 @@ g {
     text-transform: lowercase !important;
 }
 
+.sharpen:not(a) {
+	color: red !important;
+	font-weight: bold !important;
+    font-style: italic !important;
+}
+
 .rainbow-text:not(a) > p {
 	color: transparent !important;
 }
