@@ -14,17 +14,19 @@
 	animation-timing-function: linear !important;
 }
 
-/*seal*/
+.scooter img {
+	width: min(7vw, 50px) !important;
+}
+
 .wholesome img {
-	width: 100px !important;
-	height: 89.5px !important;
+	width: min(8vw, 60px) !important;
 }
-@media (max-width: 992px) {
-	.wholesome img {
-		width: 40px !important;
-		height: 27px !important;
-	}
+
+.train img {
+	width: min(10vw, 80px) !important;
 }
+
+
 
 .wholesome {animation: sealX 9s alternate}
 .wholesome img {animation: sealY 10s alternate}
@@ -40,18 +42,6 @@
 	100% {transform: translateY(85vh)}
 }
 
-/*train*/
-.train img {
-	width: 100px !important;
-	height: 51px !important;
-}
-@media (max-width: 992px) {
-	.train img {
-		width: 40px !important;
-		height: 20px !important;
-	}
-}
-
 .train:nth-child(1), .scooter:nth-child(1) {top:2%}
 .train:nth-child(2), .scooter:nth-child(2) {top:27%}
 .train:nth-child(3), .scooter:nth-child(3) {top:52%}
@@ -64,18 +54,6 @@
 @keyframes train {
 	from {transform: translateX(-3vw)}
 	to {transform: translateX(99vw)}
-}
-
-/*scooter*/
-.scooter img {
-	width: 100px !important;
-	height: 135px !important;
-}
-@media (max-width: 992px) {
-	.scooter img {
-		width: 40px !important;
-		height: 54px !important;
-	}
 }
 
 .scooter {animation: train 14s;}
