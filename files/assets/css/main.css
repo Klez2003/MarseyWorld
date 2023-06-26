@@ -6834,11 +6834,7 @@ div.markdown {
 .actionbtns > form > * {
 	margin-bottom: 10px !important;
 }
-#desktop-expanded-image {
-	max-width: 100%;
-	max-height: 70vh;
-	border: 5px white solid;
-}
+
 #expandImageModal > .modal-dialog {
 	max-width: 100% !important;
 	max-height: 100%;
@@ -6846,14 +6842,20 @@ div.markdown {
 	margin-top: 0 !important;
     margin-bottom: 0 !important;
 }
-@media (min-width: 768px) {
+
+#desktop-expanded-image {
+	max-width: 90%;
+	max-height: 70vh;
+	border: 5px white solid;
+}
+@media (max-width: 768px) {
 	#desktop-expanded-image {
-		max-height: 80vh;
-	}	
-	#expandImageModal > .modal-dialog {
-		max-width: 90% !important;
+		max-width: 100%;
+		max-height: 65vh;
+		width: 100%;
 	}
 }
+
 .fas.fa-ellipsis-h {
 	margin: 0 0.15rem 0 0 !important;
 }
