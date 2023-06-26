@@ -210,7 +210,7 @@ if SITE_NAME == 'rDrama':
 		"america": 'ameriKKKa',
 		"it's almost as if": "I'm a retard but",
 		"it's almost like": "I'm a retard but",
-		"my brother in christ": "my brother in Allah",
+		"my brother in christ": "my brother in Allah (ﷻ)",
 		"kyle": "Kylie",
 		"(?<!\w)cool (?!it)": "fetch ",
 		"krayon": "krayon (sister toucher)",
