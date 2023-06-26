@@ -236,7 +236,6 @@ CREATE TABLE public.users (
     bite integer,
     old_house character varying(16),
     owoify integer,
-    sharpen integer,
     marsify integer,
     is_muted boolean DEFAULT false NOT NULL,
     coins_spent_on_hats integer DEFAULT 0 NOT NULL,
@@ -253,7 +252,8 @@ CREATE TABLE public.users (
     chud_phrase character varying(35),
     prelock_username character varying(30),
     namechanged integer,
-    queen integer
+    queen integer,
+    sharpen integer
 );
 
 
@@ -2234,6 +2234,13 @@ CREATE INDEX users_earlylife_idx ON public.users USING btree (earlylife);
 
 
 --
+-- Name: users_edgified_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX users_edgified_idx ON public.users USING btree (sharpen);
+
+
+--
 -- Name: users_flairchanged_idx; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2280,12 +2287,6 @@ CREATE INDEX users_original_username_trgm_idx ON public.users USING gin (origina
 --
 
 CREATE INDEX users_owoify_idx ON public.users USING btree (owoify);
-
---
--- Name: users_edgified_idx; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX users_edgified_idx ON public.users USING btree (sharpen);
 
 
 --
