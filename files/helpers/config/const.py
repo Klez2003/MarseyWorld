@@ -222,6 +222,7 @@ if SITE_NAME == 'rDrama':
 		'nigga': 'neighbor',
 		'(?<!\w)cat(?!\w)': 'marsey',
 		'(?<!\w)cats(?!\w)': 'marseys',
+		'shiogu': 'chiobu',
 	}
 	SLURS.update(RDRAMA_SLURS)
 
