@@ -8,71 +8,6 @@ function pinned_timestamp(id) {
 		}
 }
 
-const popClickBadgeTemplateDOM = document.createElement("IMG");
-popClickBadgeTemplateDOM.classList.add("pop-badge");
-popClickBadgeTemplateDOM.loading = "lazy";
-popClickBadgeTemplateDOM.alt = "badge";
-
-document.addEventListener('shown.bs.popover', (e) => {
-    const popfix = document.getElementById("popover-fix")
-    if (popfix) document.body.removeChild(popfix);
-
-    const popover_old = document.getElementsByClassName("popover")[0];
-    const popover = document.createElement("DIV");
-    popover.innerHTML = popover_old.outerHTML;
-    popover.id = "popover-fix";
-
-	const author = JSON.parse(e.target.dataset.popInfo);
-
-	if (popover.getElementsByClassName('pop-username')[0].innerHTML == author["username"])
-		return
-
-	if (popover.getElementsByClassName('pop-badges')) {
-		const badgesDOM = popover.getElementsByClassName('pop-badges')[0];
-		badgesDOM.innerHTML = "";
-		for (const badge of author["badges"]) {
-			const badgeDOM = popClickBadgeTemplateDOM.cloneNode();
-			badgeDOM.src = badge + "?b=10";
-
-			badgesDOM.append(badgeDOM);
-		}
-	}
-
-	popover.getElementsByClassName('pop-banner')[0].src = author["bannerurl"]
-	popover.getElementsByClassName('pop-picture')[0].src = author["profile_url"]
-	if (author["hat"]) {
-		popover.getElementsByClassName('pop-hat')[0].src = author['hat'] + "?h=7"
-	}
-	popover.getElementsByClassName('pop-username')[0].innerHTML = author["username"]
-	if (popover.getElementsByClassName('pop-bio').length > 0) {
-		popover.getElementsByClassName('pop-bio')[0].innerHTML = author["bio_html"]
-	}
-	popover.getElementsByClassName('pop-postcount')[0].innerHTML = author["post_count"]
-	popover.getElementsByClassName('pop-commentcount')[0].innerHTML = author["comment_count"]
-	popover.getElementsByClassName('pop-coins')[0].innerHTML = author["coins"]
-	popover.getElementsByClassName('pop-marseybux')[0].innerHTML = author["marseybux"]
-	popover.getElementsByClassName('pop-view_more')[0].href = author["url"]
-	popover.getElementsByClassName('pop-created-date')[0].innerHTML = author["created_date"]
-	popover.getElementsByClassName('pop-id')[0].innerHTML = author["id"]
-	if (author["original_usernames"]) {
-		popover.getElementsByClassName('pop-original-usernames')[0].innerHTML = author["original_usernames"]
-	}
-
-    document.body.appendChild(popover);
-    document.body.removeChild(popover_old);
-})
-
-document.addEventListener("click", function(){
-	const cellText = document.getSelection();
-	if (cellText.type === 'Range') e.preventDefault();
-  
-    active = document.activeElement.getAttributeNode("class");
-    if (!(active && active.nodeValue == "user-name text-decoration-none")){
-        const popfix = document.getElementById("popover-fix")
-        if (popfix) document.body.removeChild(popfix);
-    }
-});
-
 function post(url) {
 	const xhr = createXhrWithFormKey(url);
 	xhr[0].send(xhr[1]);
@@ -130,3 +65,69 @@ function bet_vote(t, oid, kind) {
 		}
 	);
 }
+
+
+
+
+//POPOVER
+
+const popClickBadgeTemplateDOM = document.createElement("IMG");
+popClickBadgeTemplateDOM.classList.add("pop-badge");
+popClickBadgeTemplateDOM.loading = "lazy";
+popClickBadgeTemplateDOM.alt = "badge";
+
+const popover = document.getElementById("popover");
+
+let pop_instance
+let is_popover_visible = false
+
+document.addEventListener("click", function() {
+
+	if (is_popover_visible && document.getSelection().type != 'Range') {
+		pop_instance.hide()
+	}
+
+    active = document.activeElement;
+
+	if (active.getAttribute("data-bs-toggle") == "popover") {
+		const author = JSON.parse(active.dataset.popInfo);
+		
+		if (popover.getElementsByClassName('pop-badges')) {
+			const badgesDOM = popover.getElementsByClassName('pop-badges')[0];
+			badgesDOM.innerHTML = "";
+			for (const badge of author["badges"]) {
+				const badgeDOM = popClickBadgeTemplateDOM.cloneNode();
+				badgeDOM.src = badge + "?b=10";
+	
+				badgesDOM.append(badgeDOM);
+			}
+		}
+	
+		popover.getElementsByClassName('pop-banner')[0].src = author["bannerurl"]
+		popover.getElementsByClassName('pop-picture')[0].src = author["profile_url"]
+		if (author["hat"]) {
+			popover.getElementsByClassName('pop-hat')[0].src = author['hat'] + "?h=7"
+		}
+		popover.getElementsByClassName('pop-username')[0].innerHTML = author["username"]
+		if (popover.getElementsByClassName('pop-bio').length > 0) {
+			popover.getElementsByClassName('pop-bio')[0].innerHTML = author["bio_html"]
+		}
+		popover.getElementsByClassName('pop-postcount')[0].innerHTML = author["post_count"]
+		popover.getElementsByClassName('pop-commentcount')[0].innerHTML = author["comment_count"]
+		popover.getElementsByClassName('pop-coins')[0].innerHTML = author["coins"]
+		popover.getElementsByClassName('pop-marseybux')[0].innerHTML = author["marseybux"]
+		popover.getElementsByClassName('pop-view_more')[0].href = author["url"]
+		popover.getElementsByClassName('pop-created-date')[0].innerHTML = author["created_date"]
+		popover.getElementsByClassName('pop-id')[0].innerHTML = author["id"]
+		if (author["original_usernames"]) {
+			popover.getElementsByClassName('pop-original-usernames')[0].innerHTML = author["original_usernames"]
+		}
+
+		pop_instance = bootstrap.Popover.getOrCreateInstance(active, {
+			content: popover.innerHTML,
+			html: true,
+		});
+		pop_instance.show()
+		is_popover_visible = true
+	}
+});
