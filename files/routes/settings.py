@@ -365,7 +365,7 @@ def settings_personal_post(v):
 
 		if house == "None": house = ''
 
-		if house == "Edgy" and time.time() < 1687964863:
+		if house == "Edgy" and time.time() < 1688342400:
 			house = "Edgy Founder"
 
 		v.house = house
