@@ -845,7 +845,7 @@ HOUSE_AWARDS = {
 		"description": "Checks the recipient's Early Life section on Wikipedia. Notices.",
 		"icon": "fas fa-star-of-david",
 		"color": "text-yellow",
-		"price": 200,
+		"price": 100,
 		"deflectable": True,
 		"cosmetic": False,
 		"ghost": False,
