@@ -143,6 +143,7 @@ SLURS = {
 	"daisy destruction": "Cars 2",
 	"pajeet": "sexy Indian dude",
 	"hunter2": "*******",
+	"dyke": "cute butch",
 }
 
 patron = "Patron"
