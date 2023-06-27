@@ -87,7 +87,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 	existing = existing.one_or_none()
 
 	if SITE_NAME == 'WPD':
-		coin_mult *= 2
+		coin_mult *= 4
 
 	if IS_EVENT():
 		coin_mult *= 2
