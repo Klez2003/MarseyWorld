@@ -319,21 +319,6 @@ def award_thing(v, thing_type, id):
 		if author.chud:
 			abort(409, f"{safe_username} is under the effect of a conflicting award: Chud award!")
 			
-		if author.namechanged:
-			abort(409, f"{safe_username} is under the effect of a conflicting award: Namelock award!")
-
-		if author.marseyawarded:
-			abort(409, f"{safe_username} is under the effect of a conflicting award: Marsey award!")
-
-		if author.marsify:
-			abort(409, f"{safe_username} is under the effect of a conflicting award: Marsify award!")
-
-		if author.owoify:
-			abort(409, f"{safe_username} is under the effect of a conflicting award: OwOify award!")
-
-		if author.sharpen:
-			abort(409, f"{safe_username} is under the effect of a conflicting award: Sharpen!")
-
 		if not author.queen:
 			characters = list(filter(str.isalpha, author.username))
 			if characters:
@@ -415,10 +400,6 @@ def award_thing(v, thing_type, id):
 			author.flairchanged = int(time.time()) + 86400
 			badge_grant(user=author, badge_id=96)
 	elif kind == "namelock":
-
-		if author.queen:
-			abort(409, f"{safe_username} is under the effect of a conflicting award: Queen award!")
-
 		new_name = note.strip().lstrip('@')
 		if not new_name and author.namechanged:
 			author.namechanged += 86400
@@ -442,8 +423,6 @@ def award_thing(v, thing_type, id):
 	elif kind == "marsey":
 		if author.chud:
 			abort(409, f"{safe_username} is under the effect of a conflicting award: Chud award!")
-		if author.queen:
-			abort(409, f"{safe_username} is under the effect of a conflicting award: Queen award!")
 
 		if author.marseyawarded: author.marseyawarded += 86400
 		else: author.marseyawarded = int(time.time()) + 86400
@@ -500,10 +479,6 @@ def award_thing(v, thing_type, id):
 	elif kind == 'marsify':
 		if author.chud:
 			abort(409, f"{safe_username} is under the effect of a conflicting award: Chud award!")
-		if author.queen:
-			abort(409, f"{safe_username} is under the effect of a conflicting award: Queen award!")
-		if author.sharpen:
-			abort(409, f"{safe_username} is under the effect of a conflicting award: Sharpen!")
 		if not author.marsify or author.marsify != 1:
 			if author.marsify: author.marsify += 86400
 			else: author.marsify = int(time.time()) + 86400
@@ -533,10 +508,6 @@ def award_thing(v, thing_type, id):
 	elif ("Furry" in kind and kind == v.house) or kind == 'owoify':
 		if author.chud:
 			abort(409, f"{safe_username} is under the effect of a conflicting award: Chud award!")
-		if author.queen:
-			abort(409, f"{safe_username} is under the effect of a conflicting award: Queen award!")
-		if author.sharpen:
-			abort(409, f"{safe_username} is under the effect of a conflicting award: Sharpen!")
 
 		if author.owoify: author.owoify += 21600
 		else: author.owoify = int(time.time()) + 21600
@@ -551,8 +522,6 @@ def award_thing(v, thing_type, id):
 	elif ("Edgy" in kind and kind == v.house) or kind == 'sharpen':
 		if author.chud:
 			abort(409, f"{safe_username} is under the effect of a conflicting award: Chud award!")
-		if author.queen:
-			abort(409, f"{safe_username} is under the effect of a conflicting award: Queen award!")
 
 		if author.sharpen: author.sharpen += 86400
 		else: author.sharpen = int(time.time()) + 86400
