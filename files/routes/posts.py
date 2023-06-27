@@ -28,7 +28,7 @@ from files.routes.wrappers import *
 from .front import frontlist
 from .users import userpagelisting
 
-from files.__main__ import app, limiter
+from files.__main__ import app, limiter, redis_instance
 
 @app.post("/publish/<int:pid>")
 @limiter.limit('1/second', scope=rpath)
@@ -733,6 +733,11 @@ def submit_post(v:User, sub=None):
 	cache.delete_memoized(userpagelisting)
 
 	g.db.flush()
+
+	key_pattern = app.config["CACHE_KEY_PREFIX"] + 'frontpage_*'
+	for key in redis_instance.scan_iter(key_pattern):
+		redis_instance.delete(key)
+
 	if v.client: return p.json
 	else:
 		p.voted = 1

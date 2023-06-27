@@ -9,7 +9,7 @@ from files.helpers.get import *
 from files.helpers.sorting_and_time import *
 from files.helpers.useractions import *
 from files.routes.wrappers import *
-from files.__main__ import app, cache, limiter
+from files.__main__ import app, cache, limiter, redis_instance
 
 @app.get("/")
 @app.get("/h/<sub>")
@@ -48,6 +48,10 @@ def front_all(v, sub=None, subdomain=None):
 
 	pins = session.get(sort, default)
 
+	if not v:
+		result = cache.get(f'frontpage_{sort}_{t}_{page}_{sub}_{pins}')
+		if result: return result
+
 	ids, total, size = frontlist(sort=sort,
 					page=page,
 					t=t,
@@ -65,7 +69,13 @@ def front_all(v, sub=None, subdomain=None):
 		posts = [x for x in posts if not hasattr(x, 'voted') or not x.voted]
 
 	if v and v.client: return {"data": [x.json for x in posts], "total": total}
-	return render_template("home.html", v=v, listing=posts, total=total, sort=sort, t=t, page=page, sub=sub, home=True, pins=pins, size=size)
+
+	result = render_template("home.html", v=v, listing=posts, total=total, sort=sort, t=t, page=page, sub=sub, home=True, pins=pins, size=size)
+
+	if not v:
+		cache.set(f'frontpage_{sort}_{t}_{page}_{sub}_{pins}', result)
+
+	return result
 
 
 LIMITED_WPD_HOLES = ('fights', 'gore', 'aftermath', 'selfharm', 'request', 'meta', 'discussion', 'social', 'music')

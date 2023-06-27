@@ -5,7 +5,7 @@ from files.helpers.config.const import *
 from files.helpers.settings import get_setting
 from files.helpers.cloudflare import CLOUDFLARE_AVAILABLE
 from files.routes.wrappers import *
-from files.__main__ import app, limiter, get_CF
+from files.__main__ import app, limiter, get_CF, redis_instance
 
 @app.before_request
 def before_request():
@@ -51,8 +51,6 @@ def before_request():
 
 	g.nonce = secrets.token_urlsafe(31)
 
-import redis
-r = redis.Redis.from_url(app.config["CACHE_REDIS_URL"])
 
 @app.after_request
 def after_request(response:Response):
@@ -64,9 +62,9 @@ def after_request(response:Response):
 		_commit_and_close_db()
 
 	if request.method == "POST" and not request.path.startswith('/casino/twentyone/'):
-		r.delete(f'LIMITER/{get_CF()}/{request.endpoint}:{request.path}/1/1/second')
+		redis_instance.delete(f'LIMITER/{get_CF()}/{request.endpoint}:{request.path}/1/1/second')
 		if user_id:
-			r.delete(f'LIMITER/{SITE}-{user_id}/{request.endpoint}:{request.path}/1/1/second')
+			redis_instance.delete(f'LIMITER/{SITE}-{user_id}/{request.endpoint}:{request.path}/1/1/second')
 
 	return response
 

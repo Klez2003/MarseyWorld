@@ -6,6 +6,7 @@ import faulthandler
 from os import environ
 from sys import argv, stdout
 
+import redis
 import gevent
 from flask import Flask
 from flask_caching import Cache
@@ -84,6 +85,8 @@ start_watching_settings()
 
 cache = Cache(app)
 Compress(app)
+
+redis_instance = redis.Redis.from_url(app.config["CACHE_REDIS_URL"])
 
 from files.routes.allroutes import *
 
