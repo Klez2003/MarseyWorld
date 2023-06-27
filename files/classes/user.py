@@ -1159,7 +1159,7 @@ class User(Base):
 		if not self.patron and SITE_NAME != 'WPD':
 			return False
 
-		if v and v.sigs_disabled:
+		if v and (v.sigs_disabled or v.poor):
 			return False
 
 		return True
