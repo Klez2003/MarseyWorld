@@ -6,33 +6,33 @@ for (let firework of fireworks){
 	counter++
 	setTimeout(() => {
 		setInterval(() => {
-		firework.firstElementChild.src = "/i/firework-trail.webp"
+			firework.firstElementChild.src = "/i/firework-trail.webp"
 
-		const xpos = Math.floor(Math.random() * 80) + 5
-		let ypos = 95
-		firework.style.top=ypos+"%"
-		firework.style.left=xpos+"%"
+			const xpos = Math.floor(Math.random() * 80) + 5
+			let ypos = 95
+			firework.style.top=ypos+"%"
+			firework.style.left=xpos+"%"
 
-		firework.style.display="inline-block"
-		const hue = Math.floor(Math.random()*360)+1
-		firework.style.filter="hue-rotate("+hue+"deg)"
+			firework.style.display="inline-block"
+			const hue = Math.floor(Math.random()*360)+1
+			firework.style.filter="hue-rotate("+hue+"deg)"
 
-		let id = null
-		const height = Math.floor(Math.random()*60)+15
-		clearInterval(id);
-		id = setInterval(frame, 20);
+			let id = null
+			const height = Math.floor(Math.random()*60)+15
+			clearInterval(id);
+			id = setInterval(frame, 20);
 
-		const vnum = Math.floor(Math.random()*1000)
+			const vnum = Math.floor(Math.random()*1000)
 
-		function frame() {
-			if (ypos <= height) {
-				clearInterval(id);
-				firework.firstElementChild.src = "/i/firework-explosion.webp?v="+vnum
-			} else {
-				ypos--;
-				firework.style.top=ypos+"%"
+			function frame() {
+				if (ypos <= height) {
+					clearInterval(id);
+					firework.firstElementChild.src = "/i/firework-explosion.webp?v="+vnum
+				} else {
+					ypos--;
+					firework.style.top=ypos+"%"
+				}
 			}
-		}
-		}, 5000)
+		}, 7000)
 	}, timeout)
 }
