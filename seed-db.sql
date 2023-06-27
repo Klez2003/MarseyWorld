@@ -1325,11 +1325,37 @@ INSERT INTO public.hat_defs VALUES (1213, 'Secret Crack', 'Oh hi… AH', 2, 1000
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 --
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1256, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1285, true);
 
 
 --
@@ -1564,6 +1590,8 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('carpbackstab','Carp',2,'marseybackstab fuckcarp  fish carpathianflorist'),
 ('carpbackstabber','Carp',2,'carpathianflorist murder kill marcus stabbing death blade admin jannie stab knife marley'),
 ('carpbean','Carp',2,'cute carpathianflorist'),
+('carpbeannpc','Carp',2,'sheep follower'),
+('carpbeannpcmad','Carp',2,'sheep follower angry rage upset'),
 ('carpblush','Carp',2,'happy shy fish blushing carpathianflorist janitor moderator flushed'),
 ('carpblush2','Carp',2,'shy embarrassed carpathianflorist fish'),
 ('carpboobs','Carp',2,'carpathianflorist boobs booba titties tiddies tits boobs breasts censored fish administrator jannie janny janitor'),
@@ -1584,6 +1612,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('carpdevil','Carp',2,'carp devil demon horns anticarp hell'),
 ('carpdino','Carp',2,'dinosaur costume furry fursuit carpathianflorist extinct reptile lizard rawr prehistoric jurassic'),
 ('carpdisagree','Carp',2,'no shake animated'),
+('carpdracula','Carp',2,'vampire'),
 ('carpembrace','Carp',2,'hug love blush fish carpathianflorist'),
 ('carpfans','Carp',2,'fish fussy onlyfans porn whore thot carpathianflorist fish admin moderator jannie prostitute'),
 ('carpfisherman','Carp',2,'admin janny bait caught mod sardine srdine carpathianflorist jannie'),
@@ -1593,6 +1622,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('carpgigatetard','Carp',2,'dumb stupid drool'),
 ('carphearts','Carp',2,'love carpathianflorist fish'),
 ('carpholyspirit','Carp',2,'ghost priest pope cadaversynod'),
+('carphotep','Carp',2,'black kang pharaoh'),
 ('carphug','Carp',2,'love squish squeeze hug squeeze fish carpathianflorist'),
 ('carphug2','Carp',2,'fish love bottomfeeder carpathianflorist heart blow admin cute'),
 ('carpina','Carp',2,'carpathianflorist drag transgender admin jannie'),
@@ -1608,6 +1638,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('carpnoticeme','Carp',2,'carpathianflorist fish attn attention whore'),
 ('carporeon','Marsey',2,'carp vaporeon pokemon eevee water tail fish aquatic'),
 ('carppearlclutch','Carp',2,'worried admin janny mod scared triggered cry fish gem'),
+('carppearlclutch2','Carp',2,'shock offend'),
 ('carppope','Carp',2,'christian catholic carpathianflorist fish priest'),
 ('carppretty','Carp',2,'cute carpathianflorist fish'),
 ('carpprotest','Carp',2,'sign fish mad carpathianflorist sign admin jannie'),
@@ -1622,12 +1653,15 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('carpsneed','Carp',2,'simpsons'),
 ('carpsnipe','Carp',2,'shooter shooting gun sniper rifle scope crosshairs carpathianflorist kill murder bullet crosshair ajab'),
 ('carpsquirtle','Carp',2,'pokemon gaming pixel nintendo carpathian'),
+('carpstake','Carp',2,'vampire kill heart blood'),
 ('carpthong','Carp',2,'bussy butt ass sexy sad'),
 ('carptrollgun','Carp',2,'crazy mad shoot carpathianflorist fish angry antichrist'),
 ('carptrophy','Carp',2,'carp head decapitated anticarp trophy defeat dead teaparty'),
 ('carptroublemaker','Carp',2,'evil'),
 ('carpunabomber','Carp',2,'package ted kaczynski carpathianflorist fish terrorist'),
 ('carpupset','Carp',2,'carpathianflorist administrator jannie janitor fish crying tears'),
+('carpvampire','Carp',2,'dracula'),
+('carpvampiredeath','Carp',2,'edgy stake kill slay blood dead fish'),
 ('carpwave','Carp',2,'waving fish moderator administrator jannie fish hi bye animated carpathianflorist'),
 ('carpwhip','Carp',2,'kink punish bdsm naughty chad muscle sexy fish yellow'),
 ('carpwitch','Carp',2,'witch broomstick carpathianflorist fish admin moderator jannie magic'),
@@ -2744,6 +2778,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseychineseballoon','Marsey',2,'chink chinx chinese balloon military spy air aircraft airship'),
 ('marseychinesedevil','Marsey',2,'devil evil horns satan china hell demonic'),
 ('marseychingchong','Marsey',2,'racist asian chinese chinx chink gook japanese vietnamese rice farmer nip racist paddy teeth hat china'),
+('marseychingchongattentionseek','Marsey',2,'rice asian jap nip gook azn notice me annoying loud fake'),
 ('marseychingchongitsover','Marsey',2,'asian sino chink chong sad dejected fail xi yellow nip gook wandanle pensive'),
 ('marseychingchongnotes','Marsey',2,'pencil pad write asian azn rice gook nip slit slant squint'),
 ('marseychingchongpearlclutch','Marsey',2,'asian chinese jap gook korean nip yikes scared chink rice'),
@@ -3012,6 +3047,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseydownvote','Marsey',2,'downvote negative karma arrow dislike reddit'),
 ('marseydownvotemad','Marsey',2,'downdoot mad angry karma reddit'),
 ('marseydracula','Marsey',2,'halloween fangs cape holiday vampire'),
+('marseydracula2','Marsey',2,'vampire'),
 ('marseydragon','Marsey',2,'smaug rich hoard gold treasure'),
 ('marseydrama','Marsey',2,'agendapost where drama seriouspost drama where'),
 ('marseydramabardfinn','Marsey',2,'drama bardfinn'),
@@ -3147,6 +3183,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseyfingergoodjob','Marsey',2,'cute encourage positive respect k-pop thumbs up congrats gif animated congratulations nice ok great'),
 ('marseyfingerhearts','Marsey',2,'cute love k-pop'),
 ('marseyfingerwords','Marsey',2,'cute long tldr didnt read'),
+('marseyfireman','Marsey',2,'fireman marsey axe doodle'),
 ('marseyflagafghanistan','Marsey Flags',2,'afghanistan muslim jihadi taliban'),
 ('marseyflagafrica','Marsey Flags',2,'africa african BIPOC'),
 ('marseyflagalaska','Marsey Flags',2,'cold blue north usa'),
@@ -3465,6 +3502,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseyhmmm','Marsey',2,'confused reaction thinking thunk thonk judgment'),
 ('marseyhobbes','Marsey',2,'calvin hobbes waterson tiger comic'),
 ('marseyholdingcoin','Marsey',2,'offer money upvote gift approve'),
+('marseyhole','Marsey',2,'hole dig diglett pokemon hide hidden under tunnel'),
 ('marseyholocaust','Marsey',2,'jew nazi adl merchant genocide chud rightoid hitler train auschwitz 109'),
 ('marseyhomestar','Marsey',2,'homestar runner fast everybody 2000s'),
 ('marseyhomochingchong','Marsey',2,'asian chinese jap gook chink rice gay strawhat  glasses squint rainbow tiedie tyedye tyedie tiedye'),
@@ -3861,6 +3899,10 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseyminimalism2','Marsey',2,'minimalist polygons polygonal art'),
 ('marseyminion','Marsey',2,'gru pixar'),
 ('marseyminipixel','Marsey',2,'miniature small smol place 8bit mouse'),
+('marseymisato','Marsey',2,'misato anime mommy alcoholic kiss blowkiss milf evangelion'),
+('marseymisatodress','Marsey',2,'misato anime mommy alcoholic kiss blowkiss milf evangelion'),
+('marseymisatogoggles','Marsey',2,'misato anime mommy alcoholic kiss blowkiss milf evangelion'),
+('marseymisatohat','Marsey',2,'misato anime mommy alcoholic kiss blowkiss milf evangelion'),
 ('marseymischevious','Marsey',2,'trickster mischevious troublesome plan scheme schemer evil clever think bad naughty prankish delinquet'),
 ('marseymischief','Marsey',2,'interface clown'),
 ('marseymisinformation','Marsey',2,'marsey meme sphere ball text misinformation internet purposefully  spread'),
@@ -4313,6 +4355,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseyropeyourself','Marsey',2,'kill yourself kys lynch reaction keep yourself safe hanging noose'),
 ('marseyropeyourself2','Marsey',2,'kill yourself kys lynch reaction keep yourself safe hanging noose'),
 ('marseyropeyourselfmirror','Marsey',2,'suicide kms kys death hanging noose chair suicidal depression depressed reflection'),
+('marseyross','Marsey',2,'friends ross gellar thumbs up david schwimmer resigned sad suicide'),
 ('marseyrowling','Marsey',2,'harry potter terf jkr transphobe'),
 ('marseyroxsneed','Marsey',2,'roxy roxxane wolf fnaf freddy furry fur chuck fuck suck'),
 ('marseyroxy','Marsey',2,'fnaf roxanne wolf freddy keytar rockstar vidya furry'),
