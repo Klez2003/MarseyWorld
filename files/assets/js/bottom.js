@@ -82,7 +82,12 @@ for (const element of setting_selects) {
 		continue
 	}
 	element.addEventListener('change', () => {
-		if (element.dataset.reload)
+		if (element.id == "changing-house") {
+			if (confirm('Are you sure you want to change houses?')) {
+				postToastReload(element,`/settings/personal?${element.name}=${element.value}`);
+			}
+		}
+		else if (element.dataset.reload)
 			postToastReload(element,`/settings/personal?${element.name}=${element.value}`);
 		else
 			postToast(element,`/settings/personal?${element.name}=${element.value}`);
