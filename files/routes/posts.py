@@ -96,14 +96,14 @@ def post_id(pid, anything=None, v=None, sub=None):
 	p.views += 1
 	g.db.add(p)
 
-	if SITE == 'watchpeopledie.tv' and not v and not request.values.get("sort"):
-		result = cache.get(f'post_{p.id}')
-		if result: return result
-
 	if p.new: defaultsortingcomments = 'new'
 	elif v: defaultsortingcomments = v.defaultsortingcomments
 	else: defaultsortingcomments = "hot"
 	sort = request.values.get("sort", defaultsortingcomments)
+
+	if not v:
+		result = cache.get(f'post_{p.id}_{sort}')
+		if result: return result
 
 	if v:
 		execute_shadowban_viewers_and_voters(v, p)
@@ -184,8 +184,8 @@ def post_id(pid, anything=None, v=None, sub=None):
 		sort=sort, render_replies=True, offset=offset, sub=p.subr,
 		fart=get_setting('fart_mode'))
 
-	if SITE == 'watchpeopledie.tv' and not v and not request.values.get("sort"):
-		cache.set(f'post_{p.id}', result)
+	if not v:
+		cache.set(f'post_{p.id}_{sort}', result)
 
 	return result
 

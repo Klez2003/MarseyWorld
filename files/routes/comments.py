@@ -400,8 +400,9 @@ def comment(v:User):
 
 	g.db.flush()
 
-	if SITE == 'watchpeopledie.tv' and c.parent_post:
-		cache.delete(f'post_{c.parent_post}')
+	if c.parent_post:
+		for sort in COMMENT_SORTS:
+			cache.delete(f'post_{c.parent_post}_{sort}')
 
 	if v.client: return c.json
 	return {"comment": render_template("comments.html", v=v, comments=[c])}
