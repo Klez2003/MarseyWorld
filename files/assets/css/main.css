@@ -7170,6 +7170,8 @@ body {
 .dm_img {
 	width: 200px;
 	max-height: 100vh !important;
+	object-fit: contain;
+    object-position: left;
 }
 
 .navbar-nav > .nav-item {
