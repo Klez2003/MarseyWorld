@@ -7490,3 +7490,9 @@ img[src="/e/marseycursor.webp"] {
 bdi {
 	overflow: hidden !important;
 }
+
+@media (max-width: 768px) {
+	.bug[style*="/i/spider-sprite.webp"] {
+		zoom: 0.6;
+	}
+}
