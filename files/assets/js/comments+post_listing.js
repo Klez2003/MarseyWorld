@@ -122,6 +122,9 @@ document.addEventListener("click", function() {
 		if (author["original_usernames"]) {
 			popover.getElementsByClassName('pop-original-usernames')[0].innerHTML = author["original_usernames"]
 		}
+		else {
+			popover.getElementsByClassName('pop-original-usernames')[0].innerHTML = ''
+		}
 
 		pop_instance = bootstrap.Popover.getOrCreateInstance(active, {
 			content: popover.innerHTML,
