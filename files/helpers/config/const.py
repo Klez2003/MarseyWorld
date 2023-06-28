@@ -165,7 +165,7 @@ if SITE_NAME == 'rDrama':
 	patron = "Paypig"
 
 	TAGLINES = (
-		"largest online gay club",
+		"largest online LGBTQ+ club",
 		"largest online furfest",
 		"largest cat pics site",
 		"largest basket-weaving forum",
@@ -175,6 +175,20 @@ if SITE_NAME == 'rDrama':
 		"CCP's official newspaper",
 		"nintendo gamers only",
 		"donkey kong country",
+		"banned from Reddit, Github & Bing!",
+		"as seen in WI v. Brooks 2022",
+		"#1 used marsuit exchange",
+		"Incel Matchmaking Services",
+		"AgainstHateSubreddits offsite",
+		"exotic pets for sale",
+		"cheap airfare and hotels",
+		"the backpage of the internet",
+		"socialist discourse & dating",
+		"DIY estrogen recipes",
+		"#1 guide to transitioning in Texas",
+		"Nintendo Switch ROMs",
+		"Erectile Dysfunction Treatments",
+		"Managing incontinence",
 	)
 
 	RDRAMA_SLURS = {
