@@ -35,6 +35,10 @@
 										{% set ns.og_usernames = ns.og_usernames + '<br>@' ~ u.prelock_username %}
 									{% endif %}
 
+									{% if SITE_NAME == 'rDrama' %}
+										{% set ns.og_usernames = 'Original Usernames:<br>@carpathianflorist' %}
+									{% endif %}
+
 									<span id="profile--origname">
 										<i class="fas fa-user-tag text-info align-middle ml-2" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true" title="{{ns.og_usernames}}"></i>
 									</span>

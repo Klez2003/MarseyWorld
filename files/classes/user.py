@@ -873,6 +873,9 @@ class User(Base):
 	@property
 	@lazy
 	def original_usernames_popover(self):
+		if SITE_NAME == 'rDrama':
+			return 'Original Usernames: @carpathianflorist'
+
 		if self.username == self.original_username:
 			return ''
 		names = {self.original_username}
