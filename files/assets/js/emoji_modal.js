@@ -483,6 +483,7 @@ function speed_carot_navigate(event)
 		select_items[emoji_index].classList.remove("selected");
 		modal_keybinds[event.key]();
 		select_items[emoji_index].classList.add("selected");
+		select_items[emoji_index].scrollIntoView({inline: "end", block: "nearest"});
 		event.preventDefault();
 	}
 }
