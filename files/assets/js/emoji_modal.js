@@ -435,7 +435,7 @@ function update_speed_emoji_modal(event)
 	// Get current word at string, such as ":marse" or "word"
 	let coords = text.indexOf(' ',box_coords.pos);
 	current_word = /:[!#a-zA-Z0-9_]+(?=\n|$)/.exec(text.slice(0, coords === -1 ? text.length : coords));
-	if (current_word) current_word = current_word.toString();
+	if (current_word) current_word = current_word[0].toLowerCase();
 
 	/* We could also check emoji_typing_state here, which is less accurate but more efficient. I've
 		* kept it unless someone wants to provide an option to toggle it for performance */
@@ -451,7 +451,7 @@ function update_speed_emoji_modal(event)
 		speed_carot_modal.style.top = modal_pos.y + box_coords.y + 14 + "px";
 
 		// Do the search (and do something with it)
-		const resultSet = emojisSearchDictionary.completeSearch(current_word.substr(1).replace(/#/g, "").replace(/!/g, ""))
+		const resultSet = emojisSearchDictionary.completeSearch(current_word.substring(1).replace(/[#!]/g, ""));
 
 		const found = globalEmojis.filter(i => resultSet.has(i.name));
 
