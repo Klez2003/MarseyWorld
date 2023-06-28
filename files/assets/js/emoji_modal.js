@@ -463,39 +463,27 @@ function update_speed_emoji_modal(event)
 	}
 }
 
-function speed_carot_navigate(e)
+function speed_carot_navigate(event)
 {
 	if (!selecting) return;
 
 	let select_items = speed_carot_modal.querySelectorAll(".speed-modal-option");
 	if (!select_items || !curr_word_is_emoji()) return;
-	// Up or down arrow or enter
-	if (e.keyCode == 38 || e.keyCode == 40 || e.keyCode == 13)
+
+	const modal_keybinds = {
+		// go up one, wrapping around to the bottom if pressed at the top
+		ArrowUp: () => emoji_index = ((emoji_index - 1) + select_items.length) % select_items.length,
+		// go down one, wrapping around to the top if pressed at the bottom
+		ArrowDown: () => emoji_index = ((emoji_index + 1) + select_items.length) % select_items.length,
+		// select the emoji
+		Enter: () => select_items[emoji_index].click(),
+	}
+	if (event.key in modal_keybinds)
 	{
-		if (emoji_index > select_items.length)
-			emoji_index = select_items;
-
 		select_items[emoji_index].classList.remove("selected");
-		switch (e.keyCode)
-		{
-			case 38: // Up arrow
-			if (emoji_index)
-				emoji_index--;
-			break;
-
-			case 40: // Down arrow
-			if (emoji_index < select_items.length-1) emoji_index++;
-			break;
-
-			case 13:
-			select_items[emoji_index].click();
-
-			default:
-			break;
-		}
-
+		modal_keybinds[event.key]();
 		select_items[emoji_index].classList.add("selected");
-		e.preventDefault();
+		event.preventDefault();
 	}
 }
 
