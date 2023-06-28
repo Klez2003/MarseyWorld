@@ -893,7 +893,7 @@ class User(Base):
 				'marseybux': self.marseybux,
 				'post_count': self.real_post_count(v),
 				'comment_count': self.real_comment_count(v),
-				'badges': [x.path for x in self.badges],
+				'badges': [x.path for x in self.ordered_badges],
 				'created_date': self.created_date,
 				'original_usernames': self.original_usernames_popover,
 				}
@@ -927,7 +927,7 @@ class User(Base):
 				'bio': self.bio,
 				'bio_html': self.bio_html_eager,
 				'flair': self.customtitle,
-				'badges': [x.json for x in self.badges],
+				'badges': [x.json for x in self.ordered_badges],
 				'coins': self.coins,
 				'post_count': self.real_post_count(g.v),
 				'comment_count': self.real_comment_count(g.v),
