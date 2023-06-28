@@ -11,7 +11,7 @@
 	{% elif IS_EVENT() %}
 		{% set image = macros.random_image("assets/events/" ~ IS_EVENT() ~ "/images/sidebar") %}
 	{% else %}
-		{% set image = macros.random_image("assets/images/" ~ SITE_NAME ~ "/sidebar") %}
+		{% set image = '/assets/images/rDrama/sidebar/1173.webp?x=2' %}
 	{% endif %}
 
 	{% if request.path != '/sidebar' %}
