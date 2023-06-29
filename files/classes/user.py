@@ -565,6 +565,16 @@ class User(Base):
 
 	@property
 	@lazy
+	def block_count(self):
+		return g.db.query(UserBlock).filter_by(user_id=self.id).count()
+
+	@property
+	@lazy
+	def blocking_count(self):
+		return g.db.query(UserBlock).filter_by(target_id=self.id).count()
+
+	@property
+	@lazy
 	def bio_html_eager(self):
 		if self.bio_html == None: return ''
 		return self.bio_html.replace('data-src', 'src') \
@@ -964,7 +974,6 @@ class User(Base):
 	@lazy
 	def applications(self):
 		return g.db.query(OauthApp).filter_by(author_id=self.id).order_by(OauthApp.id).all()
-
 
 	@property
 	@lazy
