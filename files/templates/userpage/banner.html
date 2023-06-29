@@ -381,9 +381,9 @@
 
 							<a href="/@{{u.username}}/following" class="font-weight-bolder mx-1" id="profile-mobile--following"> follows {{u.follow_count}} user{{'s' if u.follow_count != 1 else ''}}</a> | 
 
-							<a class="mx-1" href="/@{{u.username}}/blockers" id="profile--blockers">{{u.blocking_count}} blocker{{'s' if u.blocking_count != 1 else ''}}</a> | 
+							<a class="font-weight-bolder mx-1" href="/@{{u.username}}/blockers" id="profile--blockers">{{u.blocking_count}} blocker{{'s' if u.blocking_count != 1 else ''}}</a> | 
 
-							<a class="mx-1" href="/@{{u.username}}/blocking" id="profile--blocking">blocks {{u.block_count}} user{{'s' if u.block_count != 1 else ''}}</a>
+							<a class="font-weight-bolder mx-1" href="/@{{u.username}}/blocking" id="profile--blocking">blocks {{u.block_count}} user{{'s' if u.block_count != 1 else ''}}</a>
 						{%- endif %}
 					</div>
 
