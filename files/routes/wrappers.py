@@ -23,7 +23,6 @@ def get_ID():
 	else:
 		x = "logged_out"
 
-
 	return f'{SITE}-{x}'
 
 def calc_users():
