@@ -92,7 +92,7 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 	if sub:
 		posts = posts.filter(Post.sub == sub.name)
 	elif v:
-		posts = posts.filter(or_(Post.sub == None, Post.sub.notin_(v.all_blocks)))
+		posts = posts.filter(or_(Post.sub == None, Post.sub.notin_(v.sub_blocks)))
 	else:
 		stealth = [x[0] for x in g.db.query(Sub.name).filter_by(stealth=True).all()]
 		posts = posts.filter(or_(Post.sub == None, Post.sub.notin_(stealth)))
@@ -148,7 +148,7 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 			pins = g.db.query(Post).options(load_only(Post.id)).filter(Post.stickied != None, Post.is_banned == False)
 
 			if v:
-				pins = pins.filter(or_(Post.sub == None, Post.sub.notin_(v.all_blocks)))
+				pins = pins.filter(or_(Post.sub == None, Post.sub.notin_(v.sub_blocks)))
 				for pin in pins:
 					if pin.stickied_utc and int(time.time()) > pin.stickied_utc:
 						pin.stickied = None
