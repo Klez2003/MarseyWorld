@@ -240,7 +240,7 @@ if (!('serviceWorker' in navigator && 'PushManager' in window) || (gbrowser == '
 	if (e) {
 		e.classList.add('d-none')
 	}
-	let e = document.getElementById("enable-push-nav-item-mobile");
+	e = document.getElementById("enable-push-nav-item-mobile");
 	if (e) {
 		e.classList.add('d-none')
 	}
