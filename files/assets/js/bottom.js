@@ -247,7 +247,7 @@ if (!('serviceWorker' in navigator && 'PushManager' in window) || (gbrowser == '
 }
 
 if (gbrowser == 'iphone' && !is_pwa) {
-	let e = document.getElementById("enable-push-nav-item-iphone");
+	const e = document.getElementById("enable-push-nav-item-iphone");
 	if (e) {
 		e.classList.remove('d-none')
 	}
