@@ -7498,3 +7498,7 @@ bdi {
 		zoom: 0.6;
 	}
 }
+
+.breakable {
+	white-space: normal;
+}
