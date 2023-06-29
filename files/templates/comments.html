@@ -474,7 +474,7 @@
 {% if v.admin_level >= PERMS['USER_BAN'] and v.id != c.author_id %}
 	<button type="button" id="unban-{{c.fullname}}" class="dropdown-item list-inline-item d-mob-none {% if not c.author.is_suspended %}d-none{% endif %} text-success" data-nonce="{{g.nonce}}" data-onclick="unchud_or_unban(this,'/unban_user/{{c.fullname}}')"><i class="fas fa-user-slash text-success fa-fw"></i>Unban user</button>
 
-	<button type="button" class="{% if c.author.is_suspended_permanently %}d-none{% endif %} dropdown-item list-inline-item d-mob-none text-danger" data-bs-toggle="modal" data-bs-target="#banModal" data-nonce="{{g.nonce}}" data-onclick="punishModal(this, 'ban', '/comment/{{c.id}}', '{{c.author_name}}', '{{c.fullname}}')"><i class="fas fa-user-slash text-danger fa-fw"></i>Ban user</button>
+	<button type="button" class="{% if c.author.is_permabanned %}d-none{% endif %} dropdown-item list-inline-item d-mob-none text-danger" data-bs-toggle="modal" data-bs-target="#banModal" data-nonce="{{g.nonce}}" data-onclick="punishModal(this, 'ban', '/comment/{{c.id}}', '{{c.author_name}}', '{{c.fullname}}')"><i class="fas fa-user-slash text-danger fa-fw"></i>Ban user</button>
 {% endif %}
 
 {% if v.admin_level >= PERMS['USER_CHUD'] and v.id != c.author_id %}
@@ -687,7 +687,7 @@
 						{% if v.id != c.author_id and v.admin_level >= PERMS['USER_BAN'] %}
 							<button type="button" id="unban2-{{c.fullname}}" class="{% if not c.author.is_suspended %}d-none{% endif %} list-group-item text-success" data-nonce="{{g.nonce}}" data-onclick="unchud_or_unban(this,'/unban_user/{{c.fullname}}')" data-bs-dismiss="modal"><i class="fas fa-user-minus fa-fw text-success mr-2"></i>Unban user</button>
 
-							<button type="button" class="list-group-item text-danger {% if c.author.is_suspended_permanently %}d-none{% endif %}" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#banModal" data-nonce="{{g.nonce}}" data-onclick="punishModal(this, 'ban', '/comment/{{c.id}}', '{{c.author_name}}', '{{c.fullname}}')"><i class="fas fa-user-slash text-danger fa-fw mr-2"></i>Ban user</button>
+							<button type="button" class="list-group-item text-danger {% if c.author.is_permabanned %}d-none{% endif %}" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#banModal" data-nonce="{{g.nonce}}" data-onclick="punishModal(this, 'ban', '/comment/{{c.id}}', '{{c.author_name}}', '{{c.fullname}}')"><i class="fas fa-user-slash text-danger fa-fw mr-2"></i>Ban user</button>
 						{% endif %}
 
 						{% if v.id != c.author_id and v.admin_level >= PERMS['USER_CHUD'] %}

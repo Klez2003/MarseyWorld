@@ -573,7 +573,7 @@ def toggle_comment_nsfw(cid, v):
 	if comment.author_id != v.id and not v.admin_level >= PERMS['POST_COMMENT_MODERATION'] and not (comment.post.sub and v.mods(comment.post.sub)):
 		abort(403)
 
-	if comment.over_18 and v.is_suspended_permanently:
+	if comment.over_18 and v.is_permabanned:
 		abort(403)
 
 	comment.over_18 = not comment.over_18

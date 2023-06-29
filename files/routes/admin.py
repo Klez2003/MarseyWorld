@@ -969,7 +969,7 @@ def ban_user(id, v):
 	if user.admin_level > v.admin_level:
 		abort(403)
 
-	if user.is_suspended_permanently:
+	if user.is_permabanned:
 		abort(403, f"@{user.username} is already banned permanently!")
 
 	days = 0.0

@@ -603,7 +603,7 @@ def messagereply(v:User):
 	parent = get_comment(id, v=v)
 	user_id = parent.author.id
 
-	if v.is_suspended_permanently and parent.sentto != MODMAIL_ID:
+	if v.is_permabanned and parent.sentto != MODMAIL_ID:
 		abort(403, "You are permabanned and may not reply to messages!")
 	elif v.is_muted and parent.sentto == MODMAIL_ID:
 		abort(403, "You are forbidden from replying to modmail!")

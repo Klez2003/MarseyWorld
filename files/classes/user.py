@@ -374,14 +374,14 @@ class User(Base):
 	@lazy
 	def is_votes_real(self):
 		if self.patron: return True
-		if self.is_suspended_permanently or self.shadowbanned: return False
+		if self.is_permabanned or self.shadowbanned: return False
 		if self.chud: return False
 		if self.profile_url.startswith('/e/') and not self.customtitle and self.namecolor == DEFAULT_COLOR: return False
 		return True
 
 	@lazy
 	def mods(self, sub):
-		if self.is_suspended_permanently or self.shadowbanned: return False
+		if self.is_permabanned or self.shadowbanned: return False
 		if self.admin_level >= PERMS['MODS_EVERY_HOLE']: return True
 		try:
 			return any(map(lambda x: x.sub == sub, self.sub_mods))
@@ -965,7 +965,7 @@ class User(Base):
 
 	@property
 	@lazy
-	def is_suspended_permanently(self):
+	def is_permabanned(self):
 		return (self.is_banned and self.unban_utc == 0)
 
 	@property
@@ -1116,7 +1116,7 @@ class User(Base):
 		if self.client: return False
 		if self.blacklisted_by: return False
 		if self.shadowbanned: return False
-		if self.is_suspended_permanently: return False
+		if self.is_permabanned: return False
 
 		if self.admin_level >= PERMS['VIEW_RESTRICTED_HOLES']: return True
 		if self.truescore >= TRUESCORE_RESTRICTED_HOLES_MINIMUM: return True

@@ -807,7 +807,7 @@ def mark_post_nsfw(pid, v):
 	if p.author_id != v.id and not v.admin_level >= PERMS['POST_COMMENT_MODERATION'] and not (p.sub and v.mods(p.sub)):
 		abort(403)
 
-	if p.over_18 and v.is_suspended_permanently:
+	if p.over_18 and v.is_permabanned:
 		abort(403)
 
 	p.over_18 = True
@@ -846,7 +846,7 @@ def unmark_post_nsfw(pid, v):
 	if p.author_id != v.id and not v.admin_level >= PERMS['POST_COMMENT_MODERATION'] and not (p.sub and v.mods(p.sub)):
 		abort(403)
 
-	if p.over_18 and v.is_suspended_permanently:
+	if p.over_18 and v.is_permabanned:
 		abort(403)
 
 	p.over_18 = False

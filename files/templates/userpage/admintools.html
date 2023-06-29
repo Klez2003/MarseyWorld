@@ -44,7 +44,7 @@
 			{% if v.admin_level >= PERMS['USER_BAN'] %}
 				<button type="button" id="unban-{{deviceType}}" class="mt-1 {% if not u.is_suspended %}d-none{% endif %} btn btn-success" data-nonce="{{g.nonce}}" data-onclick="unchud_or_unban(this,'/unban_user/{{u.id}}')">Unban user</button>
 
-				<form class="my-3 {% if u.is_suspended_permanently %}d-none{% endif %}" action="/ban_user/{{u.id}}" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHRSwitch(this)">
+				<form class="my-3 {% if u.is_permabanned %}d-none{% endif %}" action="/ban_user/{{u.id}}" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHRSwitch(this)">
 					<input hidden name="formkey" value="{{v|formkey}}">
 					<input autocomplete="off" style="font-size:11px" type="text" class="form-control" maxlength="256" name="reason" placeholder="Ban Reason" data-nonce="{{g.nonce}}" data-undisable_element="user-ban-submit-{{deviceType}}" required>
 					<input autocomplete="off" style="font-size:11px" type="number" step="any" class="form-control" name="days" max="{{max_days()}}" placeholder="Days (blank = permanent)">
