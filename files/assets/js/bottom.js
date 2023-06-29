@@ -234,3 +234,10 @@ for (const input of inputs) {
 		if (parseInt(input.value) > parseInt(input.max)) input.value = input.max;
 	};
 }
+
+if (!('serviceWorker' in navigator && 'PushManager' in window)) {
+	let e = document.getElementById("enable-push-nav-item").style = "display: none"; 
+	if (e) {
+		e.style = "display: none"
+	}
+}

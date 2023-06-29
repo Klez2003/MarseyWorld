@@ -162,7 +162,6 @@
 
 {% if request.path == '/' and v %}
 	<script defer src="{{'js/register_service_worker.js' | asset}}"></script>
-	<input hidden id="VAPID_PUBLIC_KEY" value="{{VAPID_PUBLIC_KEY}}">
 {% endif %}
 
 {% if False and request.path == '/' and g.browser != 'webview' and time.time() > session.get('tooltip_dismissed',0)+86400*30 %}

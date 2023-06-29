@@ -605,3 +605,51 @@ document.querySelectorAll('form').forEach(form => {
 		form.classList.add('is-submitting');
 	});
 });
+
+function urlB64ToUint8Array(base64String) {
+	const padding = '='.repeat((4 - base64String.length % 4) % 4);
+	const base64 = (base64String + padding)
+		.replace(/\-/g, '+')
+		.replace(/_/g, '/');
+
+	const rawData = window.atob(base64);
+	const outputArray = new Uint8Array(rawData.length);
+
+	for (let i = 0; i < rawData.length; ++i) {
+		outputArray[i] = rawData.charCodeAt(i);
+	}
+	return outputArray;
+}
+
+function updateSubscriptionOnServer(subscription, apiEndpoint) {
+	const formData = new FormData();
+	formData.append("subscription_json", JSON.stringify(subscription));
+
+	const xhr = createXhrWithFormKey(
+		apiEndpoint,
+		'POST',
+		formData
+	);
+
+	xhr[0].send(xhr[1]);
+}
+
+function enablePushNotifications() {
+	if (!('serviceWorker' in navigator && 'PushManager' in window)) return;
+	let publicKeyElement = document.getElementById('VAPID_PUBLIC_KEY');
+	if (!publicKeyElement) return;
+
+	let publicKey = urlB64ToUint8Array(publicKeyElement.value);
+	navigator.serviceWorker.getRegistration("/assets/js/service_worker.js").then((reg) => {
+		return reg.pushManager.subscribe({
+			userVisibleOnly: true,
+			applicationServerKey: publicKey,
+		})
+	}).then((subscription) => {
+		updateSubscriptionOnServer(subscription, "/push_subscribe")
+		alert("Push notifications are enabled!")
+	}).catch((e) => {
+		alert("Please give the site access to notifications!")
+		console.log(e)
+	})
+}
