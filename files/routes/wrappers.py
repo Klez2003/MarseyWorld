@@ -64,8 +64,6 @@ def calc_users():
 				toggle_setting('ddos_detected')
 				set_security_level('high')
 
-		print('fuck', flush=True)
-
 def get_logged_in_user():
 	if hasattr(g, 'v') and g.v: return g.v
 	if not hasattr(g, 'db'): g.db = db_session()
