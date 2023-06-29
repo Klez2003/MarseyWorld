@@ -144,6 +144,7 @@ document.addEventListener("click", function(e) {
 			if (badge_el.alt) {
 				const date = formatDate(new Date(badge_el.alt*1000));
 				badge_el.title = badge_el.title + ' ' + date.toString();
+				badge_el.removeAttribute('alt');
 			}
 		}
 
