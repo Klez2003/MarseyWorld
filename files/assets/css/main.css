@@ -4271,7 +4271,7 @@ small, .small {
 	color: var(--muted);
 	font-size: 12px;
 	width: 100%;
-	overflow-x: scroll;
+	overflow-x: auto;
 }
 
 .posts .ghost-post .post-meta {
