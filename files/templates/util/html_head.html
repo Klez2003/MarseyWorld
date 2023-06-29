@@ -62,7 +62,7 @@
 		'/h/'+sub.name, sub.sidebar if sub.sidebar %}
 	{% endif %}
 
-	<link rel="icon" type="image/webp" href="/icon.webp?x=2">
+	<link rel="icon" type="image/webp" href="/icon.webp?x=6">
 
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta name="thumbnail" content="{{'site_preview.webp' | asset_siteimg}}">
@@ -145,7 +145,7 @@
 {% macro stylesheets_lower() %}
 	{% if not (request.path.startswith('/@') and u) %}
 		{% if SITE_NAME == 'rDrama' and v and v.chud %}
-			{% set background = '/i/backgrounds/anime/1.webp?x=2' %}
+			{% set background = '/i/backgrounds/anime/1.webp?x=6' %}
 		{% elif v and v.background %}
 			{% set background = v.background %}
 		{% endif %}
@@ -162,20 +162,20 @@
 	<meta name="format-detection" content="telephone=no">
 	<meta name="viewport" content="width=device-width,initial-scale=1">
 
-	<link rel="apple-touch-icon" sizes="180x180" href="/icon.webp?x=2">
+	<link rel="apple-touch-icon" sizes="180x180" href="/icon.webp?x=6">
 	<link rel="manifest" href="/assets/manifest_{{SITE_NAME}}.json?x=7">
-	<link rel="mask-icon" href="/icon.webp?x=2">
-	<link rel="shortcut icon" href="/icon.webp?x=2">
+	<link rel="mask-icon" href="/icon.webp?x=6">
+	<link rel="shortcut icon" href="/icon.webp?x=6">
 	<meta name="apple-mobile-web-app-title" content="{{SITE_NAME}}">
 	<meta name="application-name" content="{{SITE_NAME}}">
 	<meta name="msapplication-TileColor" content="#{% if v %}{{v.themecolor}}{% else %}{{DEFAULT_COLOR}}{% endif %}">
-	<meta name="msapplication-config" content="/assets/browserconfig.xml?x=3">
+	<meta name="msapplication-config" content="/assets/browserconfig.xml?x=6">
 	<meta name="theme-color" content="#{% if v %}{{v.themecolor}}{% else %}{{DEFAULT_COLOR}}{% endif %}">
 
 	{% for size in ('320x480', '640x960', '640x1136', '750x1334', '768x1004', '828x1792',
 					'1024x748', '1024x768', '1125x2436', '1242x2208', '1356x2048',
 					'1668x2224', '1792x828', '2048x1496', '2048x2732', '2208x1242',
 					'2224x1668', '2436x1125', '2668x1242', '2737x2048') %}
-			<link rel="apple-touch-startup-image" sizes="{{size}}" href="/icon.webp?x=2">
+			<link rel="apple-touch-startup-image" sizes="{{size}}" href="/icon.webp?x=6">
 	{% endfor %}
 {% endmacro %}

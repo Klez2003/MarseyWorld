@@ -221,7 +221,7 @@ function buildRouletteBets(bets) {
 	const normalizedBets = formatNormalizedBets(bets);
 	const coinImgHtml = `
 		<img
-			src="/i/rDrama/coins.webp?x=2"
+			src="/i/rDrama/coins.webp?x=6"
 			alt="coin"
 			width="32"
 			data-bs-toggle="tooltip"
@@ -230,7 +230,7 @@ function buildRouletteBets(bets) {
 	`;
 	const marseybuxImgHtml = `
 		<img
-			src="/i/marseybux.webp?x=2"
+			src="/i/marseybux.webp?x=6"
 			alt="marseybux"
 			data-bs-toggle="tooltip"
 			data-bs-placement="bottom"

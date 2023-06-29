@@ -48,7 +48,7 @@ def template_change_page(new_page, url):
 @app.template_filter("asset_siteimg")
 def template_asset_siteimg(asset_path):
 	# TODO: Add hashing for these using files.helpers.assetcache
-	return f'{SITE_FULL_IMAGES}/i/{SITE_NAME}/{asset_path}?x=3'
+	return f'{SITE_FULL_IMAGES}/i/{SITE_NAME}/{asset_path}?x=6'
 
 @app.template_filter("timestamp")
 def timestamp(timestamp):

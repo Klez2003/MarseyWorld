@@ -1,7 +1,7 @@
 {% if not (SITE_NAME == 'WPD' and not v) and not (v and v.poor) and (not v or v.event_music) and not (sub and sub.name == 'music') %}
 	{% if not song %}
 		{% set path = "assets/events/fistmas/music" %}
-		{% set song = "/" ~ path ~ "/" ~ listdir('files/' ~ path)|random() ~ '?x=2' %}
+		{% set song = "/" ~ path ~ "/" ~ listdir('files/' ~ path)|random() ~ '?x=6' %}
 		<input hidden id="fistmas-song" value="{{song}}">
 	{% endif %}
 	<script defer src="{{'events/fistmas/js/music.js' | asset}}"></script>

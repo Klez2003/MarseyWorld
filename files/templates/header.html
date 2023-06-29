@@ -247,7 +247,7 @@
 							<div class="profile-pic-35-wrapper">
 								<img loading="lazy" src="{{v.profile_url}}" class="profile-pic-35">
 								{% if v.hat_active(v)[0] -%}
-									<img id="profile-pic-35-hat" class="profile-pic-35-hat hat" loading="lazy" src="{{v.hat_active(v)[0]}}?x=2">
+									<img id="profile-pic-35-hat" class="profile-pic-35-hat hat" loading="lazy" src="{{v.hat_active(v)[0]}}?x=6">
 								{% elif request.path == '/shop/hats' %}
 									<img id="profile-pic-35-hat" class="profile-pic-35-hat hat d-none" loading="lazy">
 								{%- endif %}
@@ -256,7 +256,7 @@
 								<div style="color: #{{v.name_color}}" class="text-small font-weight-bold"><span id="header--username" {% if v.patron %}class="patron" style="background-color:#{{v.name_color}}"{% endif %}>{{v.user_name}}</span></div>
 								<div class="header--currency"><img loading="lazy" alt="coins" class="mr-1 ml-1" data-bs-toggle="tooltip" data-bs-placement="bottom" src="{{'coins.webp' | asset_siteimg}}" title="Coins"><span id="user-coins-amount">{{v.coins}}</span>{% if not FEATURES['MARSEYBUX'] %} Coin{{macros.plural(v.coins)}}{% endif %}</div>
 								{% if FEATURES['MARSEYBUX'] %}
-									<div class="header--currency"><img loading="lazy" alt="marseybux" class="mr-1 ml-1" data-bs-toggle="tooltip" data-bs-placement="bottom" src="{{SITE_FULL_IMAGES}}/i/marseybux.webp?x=2" title="Marseybux"><span id="user-bux-amount">{{v.marseybux}}</span></div>
+									<div class="header--currency"><img loading="lazy" alt="marseybux" class="mr-1 ml-1" data-bs-toggle="tooltip" data-bs-placement="bottom" src="{{SITE_FULL_IMAGES}}/i/marseybux.webp?x=6" title="Marseybux"><span id="user-bux-amount">{{v.marseybux}}</span></div>
 								{% endif %}
 							</div>
 						</div>

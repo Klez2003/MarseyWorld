@@ -163,7 +163,7 @@
 					{% endif %}
 
 					{% if FEATURES['HOUSES'] and c.author.house %}
-						<img loading="lazy" src="{{SITE_FULL_IMAGES}}/i/{{SITE_NAME}}/houses/{{c.author.house}}.webp?x=5" class="house-img" data-bs-toggle="tooltip" data-bs-placement="bottom" title="House {{c.author.house}}" alt="House {{c.author.house}}">
+						<img loading="lazy" src="{{SITE_FULL_IMAGES}}/i/{{SITE_NAME}}/houses/{{c.author.house}}.webp?x=6" class="house-img" data-bs-toggle="tooltip" data-bs-placement="bottom" title="House {{c.author.house}}" alt="House {{c.author.house}}">
 					{% endif %}
 
 					{% if c.author.verified %}<i class="fas fa-badge-check align-middle ml-1 {% if c.author.verified=='Glowiefied' %}glow{% endif %}" style="color:{% if c.author.verifiedcolor %}#{{c.author.verifiedcolor}}{% else %}#1DA1F2{% endif %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{c.author.verified}}"></i>
@@ -173,7 +173,7 @@
 						<div class="profile-pic-30-wrapper">
 							<img loading="lazy" alt="@{{c.author.username}}'s profile picture" src="{{c.author.profile_url}}" class="profile-pic-30 mr-2">
 							{% if c.author.hat_active(v)[0] -%}
-								<img class="profile-pic-30-hat hat" loading="lazy" src="{{c.author.hat_active(v)[0]}}?x=2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{c.author.hat_active(v)[1]}}" alt="@{{c.author.username}}'s hat">
+								<img class="profile-pic-30-hat hat" loading="lazy" src="{{c.author.hat_active(v)[0]}}?x=6" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{c.author.hat_active(v)[1]}}" alt="@{{c.author.username}}'s hat">
 							{%- endif %}
 						</div>
 						<span {% if c.author.patron and not c.distinguish_level %}class="patron" style="background-color:#{{c.author.name_color}};"{% elif c.distinguish_level %}class="mod {% if SITE_NAME == 'rDrama' %}mod-rdrama{% endif %}"{% endif %}>{{c.author_name}}</span>
