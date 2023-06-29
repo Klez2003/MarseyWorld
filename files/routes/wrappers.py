@@ -8,7 +8,7 @@ from files.helpers.alerts import *
 from files.helpers.config.const import *
 from files.helpers.get import get_account
 from files.helpers.logging import log_file
-from files.helpers.settings import get_setting
+from files.helpers.settings import get_setting, toggle_setting
 from files.routes.routehelpers import validate_formkey
 from files.__main__ import app, db_session, limiter
 
