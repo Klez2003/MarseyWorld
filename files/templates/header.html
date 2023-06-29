@@ -37,10 +37,10 @@
 							' Carp alts currently online',
 						] -%}
 					{% endif %}
-					{{loggedin_counter+loggedout_counter}} {{VISITORS_HERE_FLAVOR|random|safe}} ({{loggedin_counter}} logged in)
+					{{g.loggedin_counter+g.loggedout_counter}} {{VISITORS_HERE_FLAVOR|random|safe}} ({{g.loggedin_counter}} logged in)
 				{% endif %}
 			{% else %}
-				{{loggedin_counter+loggedout_counter}} people here now ({{loggedin_counter}} logged in)
+				{{g.loggedin_counter+g.loggedout_counter}} people here now ({{g.loggedin_counter}} logged in)
 			{% endif %}
 		</div>
 	{% else %}
@@ -178,7 +178,7 @@
 					<a class="nav-link position-relative" href="/chat">
 						<i class="fas fa-messages" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Chat"></i>
 						<b id="chat-count-header-bar" class="text-lg" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Users in chat right now">
-							{{loggedin_chat}}
+							{{g.loggedin_chat}}
 						</b>
 					</a>
 				</li>

@@ -1,4 +1,6 @@
 import time
+import secrets
+import user_agents
 from flask import g, request, session
 
 from files.classes.clients import ClientAuth
@@ -23,6 +25,47 @@ def get_ID():
 
 
 	return f'{SITE}-{x}'
+
+def calc_users():
+	g.loggedin_counter = 0
+	g.loggedout_counter = 0
+	g.loggedin_chat = 0
+	v = getattr(g, 'v', None) if g else None
+	if has_request_context and g and g.desires_auth and not g.is_api_or_xhr:
+		loggedin = cache.get(LOGGED_IN_CACHE_KEY) or {}
+		loggedout = cache.get(LOGGED_OUT_CACHE_KEY) or {}
+		g.loggedin_chat = cache.get(CHAT_ONLINE_CACHE_KEY) or 0
+		timestamp = int(time.time())
+
+		if not session.get("session_id"):
+			session.permanent = True
+			session["session_id"] = secrets.token_hex(49)
+
+		if v:
+			if session["session_id"] in loggedout: del loggedout[session["session_id"]]
+			loggedin[v.id] = timestamp
+		else:
+			ua = str(user_agents.parse(g.agent))
+			if 'spider' not in ua.lower() and 'bot' not in ua.lower():
+				loggedout[session["session_id"]] = (timestamp, ua)
+
+		loggedin = {k: v for k, v in loggedin.items() if (timestamp - v) < LOGGEDIN_ACTIVE_TIME}
+		loggedout = {k: v for k, v in loggedout.items() if (timestamp - v[0]) < LOGGEDIN_ACTIVE_TIME}
+		cache.set(LOGGED_IN_CACHE_KEY, loggedin)
+		cache.set(LOGGED_OUT_CACHE_KEY, loggedout)
+		g.loggedin_counter = len(loggedin)
+		g.loggedout_counter = len(loggedout)
+
+		if g.loggedout_counter > 1000:
+			if not get_setting('ddos_detected'):
+				toggle_setting('ddos_detected')
+				set_security_level('under_attack')
+		else:
+			if get_setting('ddos_detected'):
+				toggle_setting('ddos_detected')
+				set_security_level('high')
+
+		print('fuck', flush=True)
 
 def get_logged_in_user():
 	if hasattr(g, 'v') and g.v: return g.v
@@ -77,6 +120,8 @@ def get_logged_in_user():
 		abort(404)
 
 	g.is_api_or_xhr = bool((v and v.client) or request.headers.get("xhr"))
+
+	calc_users()
 
 	return v
 
