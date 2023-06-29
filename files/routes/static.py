@@ -406,7 +406,7 @@ def transfers(v:User):
 
 @app.get('/donate')
 @limiter.limit(DEFAULT_RATELIMIT)
-@is_not_permabanned
+@auth_desired
 def donate(v):
 	if v.shadowbanned or v.chud == 1 or v.is_permabanned:
 		abort(404)
