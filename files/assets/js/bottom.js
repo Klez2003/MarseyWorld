@@ -235,7 +235,7 @@ for (const input of inputs) {
 	};
 }
 
-if (!('serviceWorker' in navigator && 'PushManager' in window)) {
+if (!('serviceWorker' in navigator && 'PushManager' in window) || (gbrowser == 'iphone' && !is_pwa)) {
 	let e = document.getElementById("enable-push-nav-item");
 	if (e) {
 		e.classList.add('d-none')
