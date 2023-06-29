@@ -74,16 +74,15 @@ function bet_vote(t, oid, kind) {
 const popClickBadgeTemplateDOM = document.createElement("IMG");
 popClickBadgeTemplateDOM.classList.add("pop-badge");
 popClickBadgeTemplateDOM.loading = "lazy";
-popClickBadgeTemplateDOM.alt = "badge";
 
 const popover = document.getElementById("popover");
 
 let pop_instance
 let is_popover_visible = false
 
-document.addEventListener("click", function() {
+document.addEventListener("click", function(e) {
 
-	if (is_popover_visible && document.getSelection().type != 'Range') {
+	if (is_popover_visible && document.getSelection().type != 'Range' && !e.target.classList.contains('pop-badge')) {
 		pop_instance.hide()
 	}
 
@@ -97,8 +96,10 @@ document.addEventListener("click", function() {
 			badgesDOM.innerHTML = "";
 			for (const badge of author["badges"]) {
 				const badgeDOM = popClickBadgeTemplateDOM.cloneNode();
-				badgeDOM.src = badge + "?b=10";
-	
+				badgeDOM.src = badge[0];
+				badgeDOM.title = badge[1];
+				if (badge[2])
+					badgeDOM.alt = badge[2]
 				badgesDOM.append(badgeDOM);
 			}
 		}
@@ -132,5 +133,20 @@ document.addEventListener("click", function() {
 		});
 		pop_instance.show()
 		is_popover_visible = true
+
+		const generated_popovers = document.getElementsByClassName("popover")
+		generated_popover = generated_popovers[generated_popovers.length-1]
+
+		const badge_els = generated_popover.getElementsByClassName('pop-badge');
+		for (badge_el of badge_els) {
+			badge_el.setAttribute("data-bs-toggle", "tooltip");
+			badge_el.setAttribute("data-bs-placement", "bottom");
+			if (badge_el.alt) {
+				const date = formatDate(new Date(badge_el.alt*1000));
+				badge_el.title = badge_el.title + ' ' + date.toString();
+			}
+		}
+
+		bs_trigger(generated_popover)
 	}
 });

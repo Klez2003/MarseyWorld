@@ -903,7 +903,7 @@ class User(Base):
 				'marseybux': self.marseybux,
 				'post_count': self.real_post_count(v),
 				'comment_count': self.real_comment_count(v),
-				'badges': [x.path for x in self.ordered_badges],
+				'badges': [[x.path, x.text, x.until] for x in self.ordered_badges],
 				'created_date': self.created_date,
 				'original_usernames': self.original_usernames_popover,
 				}
