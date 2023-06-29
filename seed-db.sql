@@ -1606,6 +1606,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('carpbritish','Carp',2,'carp british bong teeth tea union uk britain gb flag'),
 ('carpbuff','Carp',2,'muscles tough strong carpathianflorist admin mod jannie'),
 ('carpcarphug','Carp',2,'selflove narcissism carpathianflorist fish'),
+('carpchonker','Carp',2,'fatty obesity obese'),
 ('carpchud','Carp',2,'smug carpathianflorist poljak fish glasses soyjak'),
 ('carpclapping','Carp',2,'applaud'),
 ('carpclapping2','Carp',2,'applause applaud yay cheering goodjob'),
