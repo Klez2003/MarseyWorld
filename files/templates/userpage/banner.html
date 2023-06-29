@@ -83,7 +83,7 @@
 				<div class="font-weight-bolder mb-1">
 					<div class="my-2">
 						{% if PERMS['USER_FOLLOWS_VISIBLE'] == 0 or (v and v.admin_level >= PERMS['USER_FOLLOWS_VISIBLE']) -%}
-							<a class="mx-1" href="/@{{u.username}}/followers" id="profile--followers">{{u.stored_subscriber_count}} follower{{'s' if u.stored_subscriber_count != 1 else ''}}</a> | 
+							<a class="mr-1" href="/@{{u.username}}/followers" id="profile--followers">{{u.stored_subscriber_count}} follower{{'s' if u.stored_subscriber_count != 1 else ''}}</a> | 
 
 							<a class="mx-1" href="/@{{u.username}}/following" id="profile--following">follows {{u.follow_count}} user{{'s' if u.follow_count != 1 else ''}}</a> | 
 
@@ -377,7 +377,7 @@
 				<div class="font-weight-bold">
 					<div class="mb-2">
 						{% if PERMS['USER_FOLLOWS_VISIBLE'] == 0 or (v and v.admin_level >= PERMS['USER_FOLLOWS_VISIBLE']) -%}
-							<a href="/@{{u.username}}/followers" class="font-weight-bolder mx-1" id="profile-mobile--followers">{{u.stored_subscriber_count}} follower{{'s' if u.stored_subscriber_count != 1 else ''}}</a> | 
+							<a href="/@{{u.username}}/followers" class="font-weight-bolder mr-1" id="profile-mobile--followers">{{u.stored_subscriber_count}} follower{{'s' if u.stored_subscriber_count != 1 else ''}}</a> | 
 
 							<a href="/@{{u.username}}/following" class="font-weight-bolder mx-1" id="profile-mobile--following"> follows {{u.follow_count}} user{{'s' if u.follow_count != 1 else ''}}</a> | 
 
