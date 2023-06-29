@@ -6,6 +6,8 @@
 
 	{% if not v and g.browser == 'chromium' %}
 		{% set type = 'chromium-lo' %}
+	{% elif g.browser in ('iphone','mac') %}
+		{% set type = 'apple' %}
 	{% else %}
 		{% set type = g.browser %}
 	{% endif %}

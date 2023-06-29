@@ -1,4 +1,4 @@
-if (!window.matchMedia('(display-mode: standalone)')['matches']) {
+if (!is_pwa) {
 	if (window.innerWidth <= 737) {
 		const tt = bootstrap.Tooltip.getOrCreateInstance(document.getElementById('mobile-prompt'))
 		tt.show()

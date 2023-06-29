@@ -240,6 +240,10 @@
 
 							<input hidden id="VAPID_PUBLIC_KEY" value="{{VAPID_PUBLIC_KEY}}">
 			
+							{% if g.browser == 'iphone' %}
+								<a id="enable-push-nav-item-iphone" class="dropdown-item" href="/app"><i class="fas fa-bell fa-fw mr-3 d-none"></i>Enable push notifications</a>
+							{% endif %}
+
 							<button id="enable-push-nav-item" type="button" class="dropdown-item" data-nonce="{{g.nonce}}"  data-onclick="enablePushNotifications()"><i class="fas fa-bell fa-fw mr-3"></i>Enable push notifications</button>
 
 							{% if g.browser != 'webview' %}

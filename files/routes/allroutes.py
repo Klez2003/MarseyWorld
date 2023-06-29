@@ -35,8 +35,10 @@ def before_request():
 		g.browser = 'webview'
 	elif ' firefox/' in ua:
 		g.browser = 'firefox'
-	elif 'iphone' in ua or 'ipad' in ua or 'ipod' in ua or 'mac os' in ua:
-		g.browser = 'apple'
+	elif 'iphone' in ua or 'ipad' in ua or 'ipod' in ua:
+		g.browser = 'iphone'
+	elif 'mac os' in ua:
+		g.browser = 'mac'
 	else:
 		g.browser = 'chromium'
 

@@ -369,14 +369,16 @@ function sort_table(t) {
 	}
 }
 
-if (window.matchMedia('(display-mode: standalone)')['matches']) {
+const is_pwa = window.matchMedia('(display-mode: standalone)')['matches']
+if (is_pwa) {
 	const links = document.querySelectorAll('a[data-target="t"]');
 	for (const link of links) {
 		link.removeAttribute("target");
 	}
 }
 
-if (document.getElementById('gbrowser').value == 'apple') {
+const gbrowser = document.getElementById('gbrowser').value
+if (gbrowser == 'iphone' || gbrowser == 'mac') {
 	const videos = document.querySelectorAll('video')
 
 	for (const video of videos) {

@@ -236,8 +236,15 @@ for (const input of inputs) {
 }
 
 if (!('serviceWorker' in navigator && 'PushManager' in window)) {
-	let e = document.getElementById("enable-push-nav-item").style = "display: none"; 
+	let e = document.getElementById("enable-push-nav-item");
 	if (e) {
-		e.style = "display: none"
+		e.classList.add('d-none')
+	}
+}
+
+if (gbrowser == 'iphone' && !is_pwa) {
+	let e = document.getElementById("enable-push-nav-item-iphone");
+	if (e) {
+		e.classList.remove('d-none')
 	}
 }
