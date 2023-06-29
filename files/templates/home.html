@@ -3,9 +3,7 @@
 	{% if sub %}
 		<title>/h/{{sub.name}}</title>
 	{% elif request.path == '/' %}
-		{% if SITE_NAME == 'rDrama' %}
-			<title>Carprama</title>
-		{% elif IS_DKD() %}
+		{% if IS_DKD() %}
 			<title>Kongrama</title>
 		{% else %}
 			<title>{{SITE_NAME}}{% if TAGLINES %}: {{TAGLINES|random()}}{% endif %}</title>

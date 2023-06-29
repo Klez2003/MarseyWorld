@@ -38,9 +38,6 @@ from .sub_logs import *
 from .subscriptions import *
 from .userblock import *
 
-if SITE_NAME == 'rDrama':
-	carps = ('carptroublemaker','carphotep','carphearts','carpthong','carpsad','carpshapiro','carpdracula','carpzoomertarded','carpholyspirit','carpclapping2','carpmerchant','carpdisagree','carpsquirtle','carpdead2','carpmerchant2','carpflorist','carpgossip','carpnoticeme','carpdeadinside','carpwitchtrans','carpwitchtrans2','carprentfree','carpbounce','carpautism','carpclueless','carpdevil','carpwitch2','carpwizard','carpdino','carpincel','carpclapping','carpgigatetard','carpsmug','carppope','carppearlclutch2','carpbane','carpsneed','carpbritish','carpfisherman','carpagree','carp','carpdead','carpblush','carpmermaid','carpdisagreefast','carpstake','carpagreefast','carpvampire','carp41','carpabusivewife','carpasian','carpbeannpc','carpbackstabber','carpbackstab','carpbean','carpblush2','carpbeannpcmad','carpbowler','carpboobs','carpbuff','carpcarphug','carpchud','carpcrying','carpdetermined','carpshy','carpsnipe','carpsleeping','carpsalute','carppearlclutch','carpjannie','carpzoomer','carpembrace','carpunabomber','carpfood','carptrollgun','carpler','carphug2','carpwhip','carpfans','carpjannie2','carpsick2','carpprotest','carptrophy','carpwave','carpghost','carpupset','carpwitch','carphug','carppretty','carplazy','carplove','carporeon')
-
 if SITE == 'devrama.net':
 	DEFAULT_ADMIN_LEVEL = 3
 	DEFAULT_COINS = 100000000
@@ -848,8 +845,6 @@ class User(Base):
 	@property
 	@lazy
 	def profile_url(self):
-		if SITE_NAME == 'rDrama':
-			return f"{SITE_FULL}/e/{random.choice(carps)}.webp"
 		if self.chud:
 			return f"{SITE_FULL}/e/chudsey.webp"
 		if self.rainbow:
@@ -878,9 +873,6 @@ class User(Base):
 	@property
 	@lazy
 	def original_usernames_popover(self):
-		if SITE_NAME == 'rDrama':
-			return 'Original Usernames: @carpathianflorist'
-
 		if self.username == self.original_username:
 			return ''
 		names = {self.original_username}
