@@ -408,6 +408,6 @@ def transfers(v:User):
 @limiter.limit(DEFAULT_RATELIMIT)
 @auth_desired
 def donate(v):
-	if v.shadowbanned or v.chud == 1 or v.is_permabanned:
+	if v and (v.shadowbanned or v.chud == 1 or v.is_permabanned):
 		abort(404)
 	return render_template(f'donate.html', v=v)
