@@ -647,6 +647,22 @@ def edit_comment(cid, v):
 		if v.marseyawarded and marseyaward_body_regex.search(body_html):
 			abort(403, "You can only type marseys!")
 
+		c.body = body
+
+		c.body_html = body_html
+
+		execute_blackjack(v, c, c.body, "comment")
+
+		if not complies_with_chud(c):
+			abort(403, f'You have to include "{v.chud_phrase}" in your comment!')
+
+		process_poll_options(v, c)
+
+		if int(time.time()) - c.created_utc > 60 * 3:
+			c.edited_utc = int(time.time())
+
+		g.db.add(c)
+
 		notify_users = NOTIFY_USERS(body, v, c.body, ghost=c.ghost, log_cost=c)
 
 		if notify_users == 'everyone':
@@ -659,22 +675,6 @@ def edit_comment(cid, v):
 					g.db.add(n)
 					if not v.shadowbanned:
 						push_notif({x}, f'New mention of you by @{c.author_name}', c.body, c)
-
-		c.body = body
-
-		process_poll_options(v, c)
-
-		c.body_html = body_html
-
-		execute_blackjack(v, c, c.body, "comment")
-
-		if not complies_with_chud(c):
-			abort(403, f'You have to include "{v.chud_phrase}" in your comment!')
-
-
-		if int(time.time()) - c.created_utc > 60 * 3: c.edited_utc = int(time.time())
-
-		g.db.add(c)
 
 
 	g.db.flush()
