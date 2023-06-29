@@ -87,7 +87,7 @@ def process_audio(file, v):
 	new = old + '.' + extension
 
 	try:
-		subprocess.run(["ffmpeg", "-y", "-loglevel", "warning", "-nostats", "-i", old, "-map_metadata", "-1", "-c:a", "copy", new], check=True)
+		subprocess.run(["ffmpeg", "-y", "-loglevel", "warning", "-nostats", "-i", old, "-map_metadata", "-1", "-c:a", "copy", new], check=True, timeout=SUBPROCESS_TIMEOUT_DURATION)
 	except:
 		os.remove(old)
 		if os.path.isfile(new):
@@ -110,7 +110,7 @@ def process_audio(file, v):
 def convert_to_mp4(old, new, vid, db):
 	tmp = new.replace('.mp4', '-t.mp4')
 	try:
-		subprocess.run(["ffmpeg", "-y", "-loglevel", "warning", "-nostats", "-threads:v", "1", "-i", old, "-map_metadata", "-1", tmp], check=True, stderr=subprocess.STDOUT)
+		subprocess.run(["ffmpeg", "-y", "-loglevel", "warning", "-nostats", "-threads:v", "1", "-i", old, "-map_metadata", "-1", tmp], check=True, stderr=subprocess.STDOUT, timeout=SUBPROCESS_TIMEOUT_DURATION)
 	except:
 		os.remove(old)
 		if os.path.isfile(tmp):
@@ -156,7 +156,7 @@ def process_video(file, v):
 		gevent.spawn(convert_to_mp4, old, new, v.id, db)
 	else:
 		try:
-			subprocess.run(["ffmpeg", "-y", "-loglevel", "warning", "-nostats", "-i", old, "-map_metadata", "-1", "-c:v", "copy", "-c:a", "copy", new], check=True)
+			subprocess.run(["ffmpeg", "-y", "-loglevel", "warning", "-nostats", "-i", old, "-map_metadata", "-1", "-c:v", "copy", "-c:a", "copy", new], check=True, timeout=SUBPROCESS_TIMEOUT_DURATION)
 		except:
 			os.remove(old)
 			if os.path.isfile(new):
@@ -212,7 +212,7 @@ def process_image(filename:str, v, resize=0, trim=False, uploader_id:Optional[in
 
 	params.append(filename)
 	try:
-		subprocess.run(params, timeout=MAX_IMAGE_CONVERSION_TIMEOUT)
+		subprocess.run(params, timeout=SUBPROCESS_TIMEOUT_DURATION)
 	except:
 		os.remove(filename)
 		if has_request:

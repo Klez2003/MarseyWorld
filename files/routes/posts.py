@@ -655,7 +655,7 @@ def submit_post(v:User, sub=None):
 			name = f'/images/{time.time()}'.replace('.','') + '.webp'
 			subprocess.run(['ffmpeg', '-y', '-loglevel', 'warning',
 				'-i', p.url, '-vf', "scale='iw':-2",
-				'-q:v', '3', '-frames:v', '1', name], check=True)
+				'-q:v', '3', '-frames:v', '1', name], check=True, timeout=SUBPROCESS_TIMEOUT_DURATION)
 			p.posterurl = name
 
 			name2 = name.replace('.webp', 'r.webp')
