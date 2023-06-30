@@ -5849,7 +5849,7 @@ html {
 	border-color: #dadada;
 }
 
-@media (max-width: 991.98px) {
+@media (max-width: 768px) {
 	.popover {
 		max-width: 90% !important;
 	}
