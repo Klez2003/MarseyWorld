@@ -464,9 +464,26 @@ def execute_antispam_comment_check(body:str, v:User):
 	g.db.commit()
 	abort(403, "Too much spam!")
 
+def execute_dylan(v:User):
+	if "dylan" in v.username.lower() and "hewitt" in v.username.lower():
+		v.shadowbanned = AUTOJANNY_ID
+		v.ban_reason = "Dylan"
+		g.db.add(v)
+		ma = ModAction(
+			kind="shadowban",
+			user_id=AUTOJANNY_ID,
+			target_user_id=v.id,
+			_note=f'reason: "Dylan ({v.age} seconds)"'
+		)
+		g.db.add(ma)
+
 def execute_under_siege(v:User, target:Optional[Union[Post, Comment]], body, kind:str) -> bool:
-	if not get_setting("under_siege"): return
 	if v.shadowbanned: return
+
+	if SITE == 'watchpeopledie.tv' or True:
+		execute_dylan(v)
+
+	if not get_setting("under_siege"): return
 	if v.admin_level >= PERMS['SITE_BYPASS_UNDER_SIEGE_MODE']: return
 
 	if kind in {'message', 'report'} and SITE == 'rdrama.net':
