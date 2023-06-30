@@ -123,6 +123,7 @@ GIRL_PHRASES = [
 
 SLURS = {
 	"(?<!\\bs)nigger": "BIPOC",
+	"nigga": "BIPOC",
 	"negroid": "BIPOC",
 	"(?<![a-z])coon(?![a-z])": "BIPOC",
 	"(?<![a-z])coons(?![a-z])": "BIPOCs",
