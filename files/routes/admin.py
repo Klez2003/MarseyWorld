@@ -115,7 +115,7 @@ def make_admin(v:User, username):
 	)
 	g.db.add(ma)
 
-	send_repeatable_notification(user.id, f"@{v.username} added you as an admin!")
+	send_repeatable_notification(user.id, f"@{v.username} (a site admin) added you as an admin!")
 
 	return {"message": f"@{user.username} has been made admin!"}
 
@@ -146,7 +146,7 @@ def remove_admin(v:User, username):
 		)
 		g.db.add(ma)
 
-		send_repeatable_notification(user.id, f"@{v.username} removed you as an admin!")
+		send_repeatable_notification(user.id, f"@{v.username} (a site admin) removed you as an admin!")
 
 	return {"message": f"@{user.username} has been removed as admin!"}
 
