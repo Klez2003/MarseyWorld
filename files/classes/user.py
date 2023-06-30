@@ -1093,6 +1093,8 @@ class User(Base):
 					if SITE == 'watchpeopledie.tv' and other.id == 5:
 						return False
 			else:
+				if hasattr(other, 'is_blocking') and other.is_blocking:
+					return False
 				if other.parent_post:
 					return cls.can_see(user, other.post)
 				else:
