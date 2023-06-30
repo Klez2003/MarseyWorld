@@ -147,3 +147,7 @@ color: var(--gray-700);
 h5.post-title a:visited {
 	color: #6e6e6e !important;
 }
+
+*:target, .unread {
+	background: #222b36 !important;
+}
