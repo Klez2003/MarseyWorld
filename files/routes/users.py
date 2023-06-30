@@ -410,6 +410,9 @@ def transfer_bux(v:User, username:str):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
 def leaderboard(v:User):
+	if SITE == 'watchpeopledie.tv':
+		abort(403, "Leaderboard siabled temporarily")
+
 	users = g.db.query(User)
 
 	coins = Leaderboard("Coins", "coins", "coins", "Coins", None, Leaderboard.get_simple_lb, User.coins, v, lambda u:u.coins, users)
