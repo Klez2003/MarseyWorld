@@ -104,7 +104,7 @@ for (const element of TH) {
 
 const btns_to_disable = document.querySelectorAll('[type="submit"]')
 for (const element of btns_to_disable) {
-	if (!element.className.contains("donotdisable"))
+	if (!element.classList.contains("donotdisable"))
 		element.addEventListener('click', () => {disable_btn(element)})
 }
 
