@@ -177,7 +177,7 @@ blockquote a {
 	color: skyblue;
 }
 
-.unread {
+*:target, .unread {
 	background-color: #9994 !important;
 }
 

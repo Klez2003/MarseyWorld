@@ -1,7 +1,7 @@
 blockquote {
 	color: var(--gray-400);
 }
-.comment-anchor:target, .unread {
+*:target, .unread {
 	background: #00000022 !important;
 }
 .deleted {

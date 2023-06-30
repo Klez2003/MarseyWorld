@@ -76,7 +76,7 @@ blockquote {
 	color: var(--gray-400) !important;
 }
 
-.comment-anchor:target, .unread {
+*:target, .unread {
 	background: #dddddd !important;
 }
 
