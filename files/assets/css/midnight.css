@@ -68,3 +68,7 @@ h5.post-title a:visited {
 [disabled], .disabled, button[disabled], .btn[disabled], button.disabled, .btn.disabled {
 	color: #858b91 !important;
 }
+
+*:target, .unread {
+	background: #000000 !important;
+}
