@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 14.8 (Ubuntu 14.8-0ubuntu0.22.04.1)
--- Dumped by pg_dump version 14.8 (Ubuntu 14.8-0ubuntu0.22.04.1)
+-- Dumped from database version 14.8 (Ubuntu 14.8-1.pgdg22.04+1)
+-- Dumped by pg_dump version 14.8 (Ubuntu 14.8-1.pgdg22.04+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -265,8 +265,8 @@ SELECT pg_catalog.setval('public.badge_defs_id_seq', 290, true);
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 14.8 (Ubuntu 14.8-0ubuntu0.22.04.1)
--- Dumped by pg_dump version 14.8 (Ubuntu 14.8-0ubuntu0.22.04.1)
+-- Dumped from database version 14.8 (Ubuntu 14.8-1.pgdg22.04+1)
+-- Dumped by pg_dump version 14.8 (Ubuntu 14.8-1.pgdg22.04+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -2126,6 +2126,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('grouphug','Classic',2,'group hug hug cute positive emoticon'),
 ('grr','Classic',2,'grr emoticon mad upset disgruntled'),
 ('grug','Wojak',2,'caveman'),
+('grugcry','Misc',2,'grug cry'),
 ('grugthink','Wojak',2,'grug think caveman'),
 ('gtfo','Classic',2,'gtfo emoticon leave point sign'),
 ('gucci','Misc',2,'gucci allgood'),
