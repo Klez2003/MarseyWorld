@@ -1,6 +1,11 @@
 {%- extends 'root.html' -%}
 {% block body_attributes %}id="{% if request.path != '/comments' %}{% block pagetype %}frontpage{% endblock %}{% endif %}" class="has_header"{% endblock %}
 {% block body %}
+{% block pulltorefresh %}
+<div id="pulltorefresh">
+	<img id="pulltorefresh-img" src="/e/marseyunamused.webp">
+</div>
+{% endblock %}
 {% block banner %}
 	{% include "modals/expanded_image.html" %}
 	{% if err or '@' not in request.path %}

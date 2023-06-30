@@ -7069,6 +7069,19 @@ body *::-webkit-scrollbar {
 	cursor: default !important;
 }
 
+#pulltorefresh {
+	align-content: center;
+	justify-content: center;
+	position: absolute;
+	top: 12px;
+	width: 100%;
+	display: flex;
+}
+
+#pulltorefresh > img {
+	height: 50px;
+}
+
 body > .container {
 	--safe-area-inset-left: env(safe-area-inset-left);
 	--safe-area-inset-right: env(safe-area-inset-right);
