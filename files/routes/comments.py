@@ -242,7 +242,7 @@ def comment(v:User):
 	if v.marsify: body_for_sanitize = marsify(body_for_sanitize)
 	if v.sharpen: body_for_sanitize = sharpen(body_for_sanitize)
 
-	body_html = sanitize(body_for_sanitize, limit_pings=5, showmore=True, count_emojis=not v.marsify)
+	body_html = sanitize(body_for_sanitize, limit_pings=5, showmore=(not v.marseyawarded), count_emojis=not v.marsify)
 
 	if post_target.id not in ADMIGGER_THREADS and not (v.chud and v.chud_phrase in body.lower()):
 		existing = g.db.query(Comment.id).filter(
@@ -640,7 +640,7 @@ def edit_comment(cid, v):
 		if v.sharpen:
 			body_for_sanitize = sharpen(body_for_sanitize)
 
-		body_html = sanitize(body_for_sanitize, golden=False, limit_pings=5, showmore=True)
+		body_html = sanitize(body_for_sanitize, golden=False, limit_pings=5, showmore=(not v.marseyawarded))
 
 		if len(body_html) > COMMENT_BODY_HTML_LENGTH_LIMIT: abort(400)
 
