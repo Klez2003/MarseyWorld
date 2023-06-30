@@ -88,7 +88,6 @@ function autoSuggestTitle()	{
 	if (isValidURL && urlField.value.length > 0 && titleField.value === "") {
 
 		const x = new XMLHttpRequest();
-		x.withCredentials=true;
 		x.onreadystatechange = function() {
 			if (x.readyState == 4 && x.status == 200 && !titleField.value) {
 
@@ -157,7 +156,6 @@ function submit(form) {
 	submitButton.disabled = true;
 
 	const xhr = new XMLHttpRequest();
-	xhr.withCredentials=true;
 
 	formData = new FormData(form);
 

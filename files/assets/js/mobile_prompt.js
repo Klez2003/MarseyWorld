@@ -5,7 +5,6 @@ if (!is_pwa) {
 		document.getElementsByClassName('tooltip')[0].addEventListener('click', function(e) {
 			tt.hide()
 			const xhr = new XMLHttpRequest();
-			xhr.withCredentials=true;
 			xhr.open("POST", '/dismiss_mobile_tip', true);
 			xhr.setRequestHeader('xhr', 'xhr');
 			xhr.send();
