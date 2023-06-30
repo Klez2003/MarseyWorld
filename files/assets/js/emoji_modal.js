@@ -522,8 +522,7 @@ function loadEmojis(inputTargetIDName)
 			emojiEngineState = "loading"
 			return fetchEmojis();
 		case "loading":
-			// this is a subpar solution because it means that globalEmojis won't be loaded for later keystrokes
-			// however, it doesn't matter because onInput only checks what the user is typing after everything is loaded
+			// this works because once the fetch completes, the first keystroke callback will fire and use the current value
 			return Promise.reject();
 		case "ready":
 			return Promise.resolve();
