@@ -76,7 +76,7 @@
 
 	<label for="email-register" class="mt-3">Email Address</label>
 
-	<small class="d-inline-block text-muted ml-1">(optional)</small>
+	<small class="d-inline-block text-muted ml-1">(optional, but you'll need it if you forget your password)</small>
 
 	<input style="background-color: var(--gray-800)" autocomplete="off" class="form-control" id="email-register" type="email" pattern='{{EMAIL_REGEX_PATTERN}}' name="email" readonly data-nonce="{{g.nonce}}" {% if email %}value="{{email}}"{% endif %}>
 
