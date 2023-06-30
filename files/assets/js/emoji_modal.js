@@ -510,10 +510,12 @@ forms.forEach(i => {
 	i.addEventListener('keydown', speed_carot_navigate, false);
 });
 
-function loadEmojis()
+function loadEmojis(inputTargetIDName)
 {
 	selecting = false;
 	speed_carot_modal.style.display = "none";
+
+	if (inputTargetIDName) emojiInputTargetDOM = document.getElementById(inputTargetIDName);
 
 	switch (emojiEngineState) {
 		case "inactive":
@@ -522,6 +524,7 @@ function loadEmojis()
 		case "loading":
 			// this is a subpar solution because it means that globalEmojis won't be loaded for later keystrokes
 			// however, it doesn't matter because onInput only checks what the user is typing after everything is loaded
+			return Promise.reject();
 		case "ready":
 			return Promise.resolve();
 		default:
