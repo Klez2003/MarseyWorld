@@ -367,7 +367,9 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 
 	sanitized = strikethrough_regex.sub(r'\1<del>\2</del>', sanitized)
 
+	sanitized = sanitized.replace('_', '▔')
 	sanitized = markdown(sanitized)
+	sanitized = sanitized.replace('▔', '_')
 
 	# replacing zero width characters, overlines, fake colons
 	sanitized = sanitized.replace('\u200e','').replace('\u200b','').replace("\ufeff", "").replace("\u033f","").replace("\u0589", ":")
