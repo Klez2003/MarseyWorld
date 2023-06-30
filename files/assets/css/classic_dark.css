@@ -3,3 +3,7 @@
 	--black: #999;
 	--background: 34, 34, 34;
 }
+
+*:target, .unread {
+	background: #000000 !important;
+}
