@@ -7529,3 +7529,7 @@ bdi {
 .breakable {
 	white-space: normal;
 }
+
+#system {
+	font-size: 16px;
+}
