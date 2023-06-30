@@ -64,7 +64,7 @@
 
 	<link rel="icon" type="image/webp" href="/icon.webp?x=6">
 
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover">
 	<meta name="thumbnail" content="{{'site_preview.webp' | asset_siteimg}}">
 	<meta name="description" content="{{DESCRIPTION}}">
 
@@ -159,8 +159,9 @@
 {% macro seo() %}
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="apple-touch-fullscreen" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 	<meta name="format-detection" content="telephone=no">
-	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<meta name="viewport" content="width=device-width,initial-scale=1, viewport-fit=cover">
 
 	<link rel="apple-touch-icon" sizes="180x180" href="/icon.webp?x=6">
 	<link rel="manifest" href="/assets/manifest_{{SITE_NAME}}.json?x=7">

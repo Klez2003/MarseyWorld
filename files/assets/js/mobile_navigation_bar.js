@@ -10,6 +10,8 @@ window.onscroll = function () {
 
 	const navbar = document.getElementById("navbar");
 
+	const bottomSafeAreaInset = parseInt(getComputedStyle(bottomBar).getPropertyValue("--safe-area-inset-bottom")) || 0;
+
 	if (bottomBar != null) {
 		if (prevScrollpos > currentScrollPos && (window.innerHeight + currentScrollPos) < (document.body.offsetHeight - 65)) {
 			bottomBar.style.bottom = "0px";
@@ -18,10 +20,10 @@ window.onscroll = function () {
 			bottomBar.style.bottom = "0px";
 		}
 		else if (prevScrollpos > currentScrollPos && (window.innerHeight + currentScrollPos) >= (document.body.offsetHeight - 65)) {
-			bottomBar.style.bottom = "-50px";
+			bottomBar.style.bottom = `-${50 + bottomSafeAreaInset}px`;
 		}
 		else {
-			bottomBar.style.bottom = "-50px";
+			bottomBar.style.bottom = `-${50 + bottomSafeAreaInset}px`;
 		}
 	}
 
