@@ -408,7 +408,7 @@ function populate_speed_emoji_modal(results, textbox)
 		emoji_option.addEventListener('click', () => {
 			selecting = false;
 			speed_carot_modal.style.display = "none";
-			textbox.value = textbox.value.replace(new RegExp(current_word+"(?=\\s|$)", "g"), `:${name}: `)
+			textbox.value = textbox.value.replace(new RegExp(current_word+"(?=\\s|$)", "gi"), `:${name}: `)
 			textbox.focus()
 			if (document.location.pathname != '/chat'){
 				markdown(textbox)
