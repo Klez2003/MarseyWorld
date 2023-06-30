@@ -5,12 +5,14 @@ from typing import List, Optional, Union
 
 from .config.const import *
 
+NOT_IN_CODE_OR_LINKS = '(?!([^<]*<\/(code|pre|a)>|[^`]*`))'
+
 valid_username_regex = re.compile("^[\w\-]{3,25}$", flags=re.A)
 
-mention_regex = re.compile('(?<![/;$#])@([\w\-]{1,30})(?!([^<]*<\/(code|pre|a)>|[^`]*`))', flags=re.A)
-group_mention_regex = re.compile('(?<![/;$#])!([\w\-]{3,25})(?!([^<]*<\/(code|pre|a)>|[^`]*`))', flags=re.A|re.I)
+mention_regex = re.compile('(?<![/;$#])@([\w\-]{1,30})' + NOT_IN_CODE_OR_LINKS, flags=re.A)
+group_mention_regex = re.compile('(?<![/;$#])!([\w\-]{3,25})' + NOT_IN_CODE_OR_LINKS, flags=re.A|re.I)
 
-everyone_regex = re.compile('(^|\s|>)!(everyone)(?!([^<]*<\/(code|pre|a)>|[^`]*`))', flags=re.A)
+everyone_regex = re.compile('(^|\s|>)!(everyone)' + NOT_IN_CODE_OR_LINKS, flags=re.A)
 
 valid_password_regex = re.compile("^.{8,100}$", flags=re.A)
 
@@ -30,9 +32,9 @@ valid_sub_regex = re.compile("^[\w\-]{3,25}$", flags=re.A)
 
 query_regex = re.compile("(\w+):(\S+)", flags=re.A)
 
-poll_regex = re.compile("(^|\n)\$\$([^\$\n]+)\$\$\s*?(?!([^<]*<\/(code|pre|a)>|[^`]*`))", flags=re.A)
-bet_regex = re.compile("(^|\n)##([^#\n]+)##\s*?(?!([^<]*<\/(code|pre|a)>|[^`]*`))", flags=re.A)
-choice_regex = re.compile("(^|\n)&&([^&\n]+)&&\s*?(?!([^<]*<\/(code|pre|a)>|[^`]*`))", flags=re.A)
+poll_regex = re.compile("(^|\n)\$\$([^\$\n]+)\$\$\s*?" + NOT_IN_CODE_OR_LINKS, flags=re.A)
+bet_regex = re.compile("(^|\n)##([^#\n]+)##\s*?" + NOT_IN_CODE_OR_LINKS, flags=re.A)
+choice_regex = re.compile("(^|\n)&&([^&\n]+)&&\s*?" + NOT_IN_CODE_OR_LINKS, flags=re.A)
 
 html_comment_regex = re.compile("<!--.*-->", flags=re.A)
 
@@ -40,11 +42,11 @@ title_regex = re.compile("[^\w ]", flags=re.A)
 
 controversial_regex = re.compile('["> ](https:\/\/old\.reddit\.com/r/\w{3,20}\/comments\/[\w\-.#&/=\?@%+]{5,250})["< ]', flags=re.A)
 
-spoiler_regex = re.compile('\|\|(.+?)\|\|(?!([^<]*<\/(code|pre|a)>|[^`]*`))', flags=re.A)
-reddit_regex = re.compile('(^|\s|<p>|\()\/?(([ruRU])\/(\w|-){3,25})(?!([^<]*<\/(code|pre|a)>|[^`]*`))', flags=re.A)
-sub_regex = re.compile('(^|\s|<p>|\()\/?([hH]\/(\w|-){3,25})(?!([^<]*<\/(code|pre|a)>|[^`]*`))', flags=re.A)
+spoiler_regex = re.compile('\|\|(.+?)\|\|' + NOT_IN_CODE_OR_LINKS, flags=re.A)
+reddit_regex = re.compile('(^|\s|<p>|\()\/?(([ruRU])\/(\w|-){3,25})' + NOT_IN_CODE_OR_LINKS, flags=re.A)
+sub_regex = re.compile('(^|\s|<p>|\()\/?([hH]\/(\w|-){3,25})' + NOT_IN_CODE_OR_LINKS, flags=re.A)
 
-strikethrough_regex = re.compile('(^|\s|>)~{1,2}([^~]+)~{1,2}(?!([^<]*<\/(code|pre|a)>|[^`]*`))', flags=re.A)
+strikethrough_regex = re.compile('(^|\s|>)~{1,2}([^~]+)~{1,2}' + NOT_IN_CODE_OR_LINKS, flags=re.A)
 
 mute_regex = re.compile("\/mute @?([\w\-]{3,30}) ([0-9]+)", flags=re.A|re.I)
 
@@ -108,10 +110,10 @@ exclamation_point_regex = re.compile('(?<!!|\?)(?<!, motherfucker)(!)(?!!|\?)(?=
 image_check_regex = re.compile(f'!\[\]\(((?!(https:\/\/({hosts})\/|\/)).*?)\)', flags=re.A)
 
 video_regex_extensions = '|'.join(VIDEO_FORMATS)
-video_sub_regex = re.compile(f'(?<!")(https:\/\/({hosts})\/[\w:~,()\-.#&\/=?@%;+]*?\.({video_regex_extensions}))(?!([^<]*<\/(code|pre|a)>|[^`]*`))', flags=re.A)
+video_sub_regex = re.compile(f'(?<!")(https:\/\/({hosts})\/[\w:~,()\-.#&\/=?@%;+]*?\.({video_regex_extensions}))' + NOT_IN_CODE_OR_LINKS, flags=re.A)
 
 audio_regex_extensions = '|'.join(AUDIO_FORMATS)
-audio_sub_regex = re.compile(f'(?<!")(https:\/\/({hosts})\/[\w:~,()\-.#&\/=?@%;+]*?\.({audio_regex_extensions}))(?!([^<]*<\/(code|pre|a)>|[^`]*`))', flags=re.A)
+audio_sub_regex = re.compile(f'(?<!")(https:\/\/({hosts})\/[\w:~,()\-.#&\/=?@%;+]*?\.({audio_regex_extensions}))' + NOT_IN_CODE_OR_LINKS, flags=re.A)
 
 image_regex_extensions = '|'.join(IMAGE_FORMATS)
 image_sub_regex = re.compile(f'(?<!")(https:\/\/[\w\-.#&/=\?@%;+,:]{{5,250}}(\.|\?format=)({image_regex_extensions})((\?|&)[\w\-.#&/=\?@%;+,:]*)?)(?=$|\s)', flags=re.I|re.A)
@@ -124,7 +126,7 @@ giphy_regex = re.compile('(https:\/\/media\.giphy\.com\/media\/[a-z0-9]+\/giphy)
 youtube_regex = re.compile('(<p>[^<]*)(https:\/\/youtube\.com\/watch\?[\w\-.#&/=?@%+]{7,})', flags=re.I|re.A)
 yt_id_regex = re.compile('[\w\-]{5,20}', flags=re.A)
 
-link_fix_regex = re.compile("(\[.*?\]\()(?!http|\/)(.*?\))(?!([^<]*<\/(code|pre|a)>|[^`]*`))", flags=re.A)
+link_fix_regex = re.compile("(\[.*?\]\()(?!http|\/)(.*?\))" + NOT_IN_CODE_OR_LINKS, flags=re.A)
 
 css_url_regex = re.compile('url\(\s*[\'"]?(.*?)[\'"]?\s*\)', flags=re.I|re.A)
 
