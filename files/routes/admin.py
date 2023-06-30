@@ -1890,7 +1890,7 @@ def delete_media_post(v):
 @admin_level_required(PERMS['USER_RESET_PASSWORD'])
 def admin_reset_password(user_id, v):
 	user = get_account(user_id)
-	new_password = secrets.token_hex(31)
+	new_password = secrets.token_urlsafe(57)
 	user.passhash = hash_password(new_password)
 	g.db.add(user)
 

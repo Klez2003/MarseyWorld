@@ -172,7 +172,7 @@ def sign_up_get(v:Optional[User]):
 		return render_template("login/sign_up_failed_ref.html"), 403
 
 	now = int(time.time())
-	token = secrets.token_hex(16)
+	token = secrets.token_urlsafe(32)
 	session["signup_token"] = token
 
 	formkey_hashstr = str(now) + token + g.agent
@@ -234,7 +234,7 @@ def sign_up_post(v:Optional[User]):
 			ref_user = None
 
 		now = int(time.time())
-		token = secrets.token_hex(16)
+		token = secrets.token_urlsafe(32)
 		session["signup_token"] = token
 		formkey_hashstr = str(now) + token + g.agent
 		formkey = hmac.new(key=bytes(SECRET_KEY, "utf-16"),

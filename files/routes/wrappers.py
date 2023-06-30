@@ -39,7 +39,7 @@ def calc_users():
 
 		if not session.get("session_id"):
 			session.permanent = True
-			session["session_id"] = secrets.token_hex(49)
+			session["session_id"] = secrets.token_urlsafe(98)
 
 		if v:
 			if session["session_id"] in loggedout: del loggedout[session["session_id"]]
