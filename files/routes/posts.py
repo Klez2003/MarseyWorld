@@ -404,7 +404,8 @@ def is_repost(v):
 		return not_a_repost
 
 	url = request.values.get('url')
-	if not url or len(url) < MIN_REPOST_CHECK_URL_LENGTH: abort(400)
+	if not url or len(url) < MIN_REPOST_CHECK_URL_LENGTH:
+		abort(400)
 
 	url = normalize_url(url)
 	url = unquote(url)
