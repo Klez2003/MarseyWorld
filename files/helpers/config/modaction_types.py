@@ -37,12 +37,12 @@ MODACTION_TYPES = {
 		"color": 'bg-danger'
 	},
 	'ban_user': {
-		"str": 'banned user {self.target_link}',
+		"str": 'banned {self.target_link}',
 		"icon": 'fa-user-slash',
 		"color": 'bg-danger'
 	},
 	'blacklist_user': {
-		"str": 'blacklisted user {self.target_link} from restricted holes',
+		"str": 'blacklisted {self.target_link} from restricted holes',
 		"icon": 'fa-lock',
 		"color": 'bg-danger'
 	},
@@ -192,12 +192,12 @@ MODACTION_TYPES = {
 		"color": 'bg-success'
 	},
 	'mod_mute_user': {
-		"str": 'muted reports from user {self.target_link}',
+		"str": 'muted reports from {self.target_link}',
 		"icon": 'fa-file-signature',
 		"color": 'bg-danger'
 	},
 	'mod_unmute_user': {
-		"str": 'unmuted reports from user {self.target_link}',
+		"str": 'unmuted reports from {self.target_link}',
 		"icon": 'fa-file-signature',
 		"color": 'bg-success'
 	},
@@ -322,12 +322,12 @@ MODACTION_TYPES = {
 		"color": 'bg-success'
 	},
 	'unban_user': {
-		"str": 'unbanned user {self.target_link}',
+		"str": 'unbanned {self.target_link}',
 		"icon": 'fa-user',
 		"color": 'bg-success'
 	},
 	'unblacklist_user': {
-		"str": 'unblacklisted user {self.target_link} from restricted holes',
+		"str": 'unblacklisted {self.target_link} from restricted holes',
 		"icon": 'fa-lock-open',
 		"color": 'bg-success'
 	},
