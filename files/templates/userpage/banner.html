@@ -227,7 +227,7 @@
 								<label class="btn btn-primary" for="upload-profile-background-file" style="margin-bottom:0!important">
 									<i class="fas fa-image mr-1"></i>
 									{% if v.profile_background -%}
-										{{v.profile_background}}
+										{{v.profile_background.split('/')[-1]}}
 									{% else -%}
 										Upload Profile Background
 									{% endif %}
