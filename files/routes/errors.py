@@ -20,7 +20,6 @@ from files.__main__ import app, limiter
 @app.errorhandler(403)
 @app.errorhandler(404)
 @app.errorhandler(405)
-@app.errorhandler(406)
 @app.errorhandler(409)
 @app.errorhandler(410)
 @app.errorhandler(413)

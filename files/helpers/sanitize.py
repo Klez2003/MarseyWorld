@@ -337,12 +337,18 @@ def handle_youtube_links(url):
 
 @with_sigalrm_timeout(10)
 def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis=False, snappy=False, chat=False, blackjack=None):
+	def error(error):
+		if chat:
+			return error, 403
+		else:
+			abort(403, error)
+
 	sanitized = sanitized.strip()
 	if not sanitized: return ''
 
 	if "style" in sanitized and "filter" in sanitized:
 		if sanitized.count("blur(") + sanitized.count("drop-shadow(") > 5:
-			abort(400, "Too many filters!")
+			error("Too many filters!")
 
 	if blackjack and execute_blackjack(g.v, None, sanitized, blackjack):
 		sanitized = 'g'
@@ -380,8 +386,10 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 	v = getattr(g, 'v', None)
 
 	names = set(m.group(1) for m in mention_regex.finditer(sanitized))
+
 	if limit_pings and len(names) > limit_pings and not v.admin_level >= PERMS['POST_COMMENT_INFINITE_PINGS']:
-		abort(406)
+		error("Max ping limit is 5 for comments and 50 for posts!")
+
 	users_list = get_users(names, graceful=True)
 	users_dict = {}
 	for u in users_list:
@@ -506,12 +514,6 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 	soup = BeautifulSoup(sanitized, 'lxml')
 
 	links = soup.find_all("a")
-
-	def error(error):
-		if chat:
-			return error, 403
-		else:
-			abort(403, error)
 
 	if g.v and g.v.admin_level >= PERMS["IGNORE_DOMAIN_BAN"]:
 		banned_domains = []
