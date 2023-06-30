@@ -128,6 +128,7 @@ const emojisSearchDictionary = {
 	 * @returns {Set}
 	 */
 	completeSearch: function(query) {
+		query = query.toLowerCase()
 		const result = new Set();
 
 		for(let i = 0; i < this.dict.length; i++)
