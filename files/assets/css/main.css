@@ -5844,14 +5844,14 @@ html {
 }
 
 .popover {
-	max-width: 50%;
+	max-width: min(50%, 500px);
 	box-shadow: 0 1rem 3rem rgba(0, 0, 0, .175);
 	border-color: #dadada;
 }
 
 @media (max-width: 768px) {
 	.popover {
-		max-width: 90% !important;
+		max-width: min(90%, 500px) !important;
 	}
 }
 
