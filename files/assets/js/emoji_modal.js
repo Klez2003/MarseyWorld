@@ -15,7 +15,13 @@ Copyright (C) 2022 Dr Steven Transmisia, anti-evil engineer,
 */
 
 // Status
-let emojiEngineStarted = false;
+/**
+ * inactive - user has not tried using an emoji
+ * loading - user has tried to use an emoji, and the engine is initializing itself
+ * ready - engine can handle all emoji usage
+ * @type {"inactive"|"loading"|"ready"}
+ */
+let emojiEngineState = "inactive";
 
 // DOM stuff
 const classesSelectorDOM = document.getElementById("emoji-modal-tabs");
@@ -146,88 +152,93 @@ const emojisSearchDictionary = {
 };
 
 // get public emojis list
-const emojiRequest = new XMLHttpRequest();
-emojiRequest.open("GET", '/emojis');
-emojiRequest.setRequestHeader('xhr', 'xhr');
-emojiRequest.onload = async () => {
-	let emojis = JSON.parse(emojiRequest.response);
-	if(! (emojis instanceof Array ))
-		throw new TypeError("[EMOJI DIALOG] rDrama's server should have sent a JSON-coded Array!");
+function fetchEmojis() {
+	const headers = new Headers({xhr: "xhr"})
+	return fetch("/emojis", {
+		headers,
+	})
+		.then(res => res.json())
+		.then(emojis => {
+			if(! (emojis instanceof Array ))
+				throw new TypeError("[EMOJI DIALOG] rDrama's server should have sent a JSON-coded Array!");
 
-	globalEmojis = emojis.map(({name, author, count}) => ({name, author, count}));
+			globalEmojis = emojis.map(({name, author, count}) => ({name, author, count}));
 
-	let classes = ["Marsey", "Platy", "Wolf", "Donkey Kong", "Tay", "Capy", "Carp", "Marsey Flags", "Marsey Alphabet", "Classic", "Rage", "Wojak", "Misc"]
+			let classes = ["Marsey", "Platy", "Wolf", "Donkey Kong", "Tay", "Capy", "Carp", "Marsey Flags", "Marsey Alphabet", "Classic", "Rage", "Wojak", "Misc"]
 
-	const bussyDOM = document.createElement("div");
+			const bussyDOM = document.createElement("div");
 
-	for(let i = 0; i < emojis.length; i++)
-	{
-		const emoji = emojis[i];
+			for(let i = 0; i < emojis.length; i++)
+			{
+				const emoji = emojis[i];
 
-		emojisSearchDictionary.updateTag(emoji.name, emoji.name);
-		if(emoji.author !== undefined && emoji.author !== null)
-		{
-			emojisSearchDictionary.updateTag(`@${emoji.author.toLowerCase()}`, emoji.name);
-		}
+				emojisSearchDictionary.updateTag(emoji.name, emoji.name);
+				if(emoji.author !== undefined && emoji.author !== null)
+				{
+					emojisSearchDictionary.updateTag(`@${emoji.author.toLowerCase()}`, emoji.name);
+				}
 
-		if(emoji.tags instanceof Array)
-			for(let i = 0; i < emoji.tags.length; i++)
-				emojisSearchDictionary.updateTag(emoji.tags[i], emoji.name);
+				if(emoji.tags instanceof Array)
+					for(let i = 0; i < emoji.tags.length; i++)
+						emojisSearchDictionary.updateTag(emoji.tags[i], emoji.name);
 
-		// Create emoji DOM
-		const emojiDOM = document.importNode(emojiButtonTemplateDOM.content, true).children[0];
+				// Create emoji DOM
+				const emojiDOM = document.importNode(emojiButtonTemplateDOM.content, true).children[0];
 
-		emojiDOM.title = emoji.name
-		if(emoji.author !== undefined && emoji.author !== null)
-			emojiDOM.title += "\nauthor\t" + emoji.author
-		if(emoji.count !== undefined)
-			emojiDOM.title += "\nused\t" + emoji.count;
-		emojiDOM.dataset.className = emoji.kind;
-		emojiDOM.dataset.emojiName = emoji.name;
-		emojiDOM.onclick = emojiAddToInput;
-		emojiDOM.hidden = true;
+				emojiDOM.title = emoji.name
+				if(emoji.author !== undefined && emoji.author !== null)
+					emojiDOM.title += "\nauthor\t" + emoji.author
+				if(emoji.count !== undefined)
+					emojiDOM.title += "\nused\t" + emoji.count;
+				emojiDOM.dataset.className = emoji.kind;
+				emojiDOM.dataset.emojiName = emoji.name;
+				emojiDOM.onclick = emojiAddToInput;
+				emojiDOM.hidden = true;
 
-		const emojiIMGDOM = emojiDOM.children[0];
-		emojiIMGDOM.src = "/e/" + emoji.name + ".webp";
-		emojiIMGDOM.alt = emoji.name;
-		/** Disableing lazy loading seems to reduce cpu usage somehow (?)
-			* idk it is difficult to benchmark */
-		emojiIMGDOM.loading = "lazy";
+				const emojiIMGDOM = emojiDOM.children[0];
+				emojiIMGDOM.src = "/e/" + emoji.name + ".webp";
+				emojiIMGDOM.alt = emoji.name;
+				/** Disableing lazy loading seems to reduce cpu usage somehow (?)
+				 * idk it is difficult to benchmark */
+				emojiIMGDOM.loading = "lazy";
 
-		// Save reference
-		emojiDOMs[emoji.name] = emojiDOM;
+				// Save reference
+				emojiDOMs[emoji.name] = emojiDOM;
 
-		// Add to the document!
-		bussyDOM.appendChild(emojiDOM);
-	}
+				// Add to the document!
+				bussyDOM.appendChild(emojiDOM);
+			}
 
-	// Create header
-	for(let className of classes)
-	{
-		let classSelectorDOM = document.createElement("li");
-		classSelectorDOM.classList.add("nav-item");
+			// Create header
+			for(let className of classes)
+			{
+				let classSelectorDOM = document.createElement("li");
+				classSelectorDOM.classList.add("nav-item");
 
-		let classSelectorLinkDOM = document.createElement("a");
-		classSelectorLinkDOM.href = "#";
-		classSelectorLinkDOM.classList.add("nav-link", "emojitab");
-		classSelectorLinkDOM.dataset.bsToggle = "tab";
-		classSelectorLinkDOM.dataset.className = className;
-		classSelectorLinkDOM.innerText = className;
-		classSelectorLinkDOM.addEventListener('click', switchEmojiTab);
+				let classSelectorLinkDOM = document.createElement("a");
+				classSelectorLinkDOM.href = "#";
+				classSelectorLinkDOM.classList.add("nav-link", "emojitab");
+				classSelectorLinkDOM.dataset.bsToggle = "tab";
+				classSelectorLinkDOM.dataset.className = className;
+				classSelectorLinkDOM.innerText = className;
+				classSelectorLinkDOM.addEventListener('click', switchEmojiTab);
 
-		classSelectorDOM.appendChild(classSelectorLinkDOM);
-		classesSelectorDOM.appendChild(classSelectorDOM);
-	}
+				classSelectorDOM.appendChild(classSelectorLinkDOM);
+				classesSelectorDOM.appendChild(classSelectorDOM);
+			}
 
-	// Show favorite for start.
-	await classesSelectorDOM.children[0].children[0].click();
+			// Show favorite for start.
+			classesSelectorDOM.children[0].children[0].click();
 
-	// Send it to the render machine!
-	emojiResultsDOM.appendChild(bussyDOM);
+			// Send it to the render machine!
+			emojiResultsDOM.appendChild(bussyDOM);
 
-	emojiResultsDOM.hidden = false;
-	emojiWorkingDOM.hidden = true;
-	emojiSearchBarDOM.disabled = false;
+			emojiResultsDOM.hidden = false;
+			emojiWorkingDOM.hidden = true;
+			emojiSearchBarDOM.disabled = false;
+
+			emojiEngineState = "ready";
+		})
 }
 
 /**
@@ -441,22 +452,22 @@ function update_speed_emoji_modal(event)
 		* kept it unless someone wants to provide an option to toggle it for performance */
 	if (curr_word_is_emoji() && current_word != ":")
 	{
-		loadEmojis(null);
-		let modal_pos = event.target.getBoundingClientRect();
-		modal_pos.x += window.scrollX;
-		modal_pos.y += window.scrollY;
+		loadEmojis().then( () => {
+			let modal_pos = event.target.getBoundingClientRect();
+			modal_pos.x += window.scrollX;
+			modal_pos.y += window.scrollY;
 
-		speed_carot_modal.style.display = "initial";
-		speed_carot_modal.style.left = box_coords.x - 35 + "px";
-		speed_carot_modal.style.top = modal_pos.y + box_coords.y + 14 + "px";
+			speed_carot_modal.style.display = "initial";
+			speed_carot_modal.style.left = box_coords.x - 35 + "px";
+			speed_carot_modal.style.top = modal_pos.y + box_coords.y + 14 + "px";
 
-		// Do the search (and do something with it)
-		const resultSet = emojisSearchDictionary.completeSearch(current_word.substring(1).replace(/[#!]/g, ""));
+			// Do the search (and do something with it)
+			const resultSet = emojisSearchDictionary.completeSearch(current_word.substring(1).replace(/[#!]/g, ""));
 
-		const found = globalEmojis.filter(i => resultSet.has(i.name));
+			const found = globalEmojis.filter(i => resultSet.has(i.name));
 
-		populate_speed_emoji_modal(found, event.target);
-
+			populate_speed_emoji_modal(found, event.target);
+		});
 	}
 	else {
 		speed_carot_modal.style.display = "none";
@@ -499,19 +510,23 @@ forms.forEach(i => {
 	i.addEventListener('keydown', speed_carot_navigate, false);
 });
 
-function loadEmojis(inputTargetIDName)
+function loadEmojis()
 {
 	selecting = false;
 	speed_carot_modal.style.display = "none";
 
-	if(!emojiEngineStarted)
-	{
-		emojiEngineStarted = true;
-		emojiRequest.send();
+	switch (emojiEngineState) {
+		case "inactive":
+			emojiEngineState = "loading"
+			return fetchEmojis();
+		case "loading":
+			// this is a subpar solution because it means that globalEmojis won't be loaded for later keystrokes
+			// however, it doesn't matter because onInput only checks what the user is typing after everything is loaded
+		case "ready":
+			return Promise.resolve();
+		default:
+			throw Error("Unknown emoji engine state");
 	}
-
-	if (inputTargetIDName)
-		emojiInputTargetDOM = document.getElementById(inputTargetIDName);
 }
 
 document.getElementById('emojiModal').addEventListener('shown.bs.modal', function () {
