@@ -380,7 +380,8 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 	v = getattr(g, 'v', None)
 
 	names = set(m.group(1) for m in mention_regex.finditer(sanitized))
-	if limit_pings and len(names) > limit_pings and not v.admin_level >= PERMS['POST_COMMENT_INFINITE_PINGS']: abort(406)
+	if limit_pings and len(names) > limit_pings and not v.admin_level >= PERMS['POST_COMMENT_INFINITE_PINGS']:
+		abort(406)
 	users_list = get_users(names, graceful=True)
 	users_dict = {}
 	for u in users_list:
