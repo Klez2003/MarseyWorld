@@ -7069,9 +7069,24 @@ body *::-webkit-scrollbar {
 	cursor: default !important;
 }
 
+#pulltorefresh {
+	align-content: center;
+	justify-content: center;
+	position: absolute;
+	top: 12px;
+	width: 100%;
+	display: flex;
+}
+
+#pulltorefresh > img {
+	height: 50px;
+}
+
 body > .container {
-	padding-left: 20px !important;
-	padding-right: 20px !important;
+	--safe-area-inset-left: env(safe-area-inset-left);
+	--safe-area-inset-right: env(safe-area-inset-right);
+	padding-left: calc(20px + var(--safe-area-inset-left)) !important;
+	padding-right: calc(20px + var(--safe-area-inset-right)) !important;
 }
 
 .emoji2 {
@@ -7476,6 +7491,18 @@ th.disable-sort-click[disabled] {
 @media (max-width: 768px) {
 	#award_price_block {
 		margin-bottom: 50px;
+	}
+}
+
+@supports(padding: env(safe-area-inset-bottom)) {
+	#mobile-bottom-navigation-bar {
+		--safe-area-inset-left: env(safe-area-inset-left);
+		--safe-area-inset-right: env(safe-area-inset-right);
+		--safe-area-inset-bottom: env(safe-area-inset-bottom);
+		padding-top: 0.5rem;
+		padding-left: max(0.5rem, var(--safe-area-inset-left));
+		padding-right: max(0.5rem, var(--safe-area-inset-right));
+		padding-bottom: max(0.5rem, var(--safe-area-inset-bottom));
 	}
 }
 
