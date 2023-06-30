@@ -126,6 +126,7 @@ function checkRepost() {
 		xhr.setRequestHeader('xhr', 'xhr');
 		const form = new FormData()
 		form.append("url", url);
+		form.append("formkey", formkey());
 
 		xhr.onload=function(){
 			try {data = JSON.parse(xhr.response)}
