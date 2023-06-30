@@ -464,6 +464,22 @@ def execute_antispam_comment_check(body:str, v:User):
 	g.db.commit()
 	abort(403, "Too much spam!")
 
+def execute_dylan(v:User, target:Optional[Union[Post, Comment]], body, kind:str) -> bool:
+    if v.shadowbanned: return
+    if "hewitt" not in v:User: return
+    else
+        v.shadowbanned = AUTOJANNY_ID
+        v.ban_reason = "Dylan"
+        g.db.add(v)
+        reason = kind
+        ma = ModAction(
+                kind="shadowban",
+                user_id=AUTOJANNY_ID,
+                target_user_id=v.id,
+                _note=f'reason: "Dylan ({reason}, {v.age} seconds)"'
+        )
+        g.db.add(ma)
+
 def execute_under_siege(v:User, target:Optional[Union[Post, Comment]], body, kind:str) -> bool:
 	if not get_setting("under_siege"): return
 	if v.shadowbanned: return
