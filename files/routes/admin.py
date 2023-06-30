@@ -1881,3 +1881,28 @@ def delete_media_post(v):
 
 	purge_files_in_cache(url)
 	return render_template("admin/delete_media.html", v=v, msg="Media deleted successfully!")
+
+@app.post("/admin/reset_password/<int:user_id>")
+@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@admin_level_required(PERMS['USER_RESET_PASSWORD'])
+def admin_reset_password(user_id, v):
+	user = get_account(user_id)
+	new_password = secrets.token_hex(31)
+	user.passhash = hash_password(new_password)
+	g.db.add(user)
+
+	ma = ModAction(
+		kind="reset_password",
+		user_id=v.id,
+		target_user_id=user.id
+	)
+	g.db.add(ma)
+
+	text = f"At your request, @{v.username} (a site admin) has reset your password to `{new_password}`, please change this to something else for personal security reasons. And be sure to save it this time, retard."
+
+	send_repeatable_notification(user.id, text)
+
+	return {"message": f"@{user.username}'s password has been reset! The new password has been messaged to them!"}

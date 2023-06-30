@@ -401,6 +401,11 @@ MODACTION_TYPES = {
 		"icon": 'fa-cat',
 		"color": 'bg-danger'
 	},
+	'reset_password': {
+		"str": 'reset the password of {self.target_link}',
+		"icon": 'fa-lock',
+		"color": 'bg-danger'
+	},
 }
 
 MODACTION_TYPES = dict(sorted(MODACTION_TYPES.items()))
@@ -413,7 +418,8 @@ MODACTION_PRIVILEGED_TYPES = {
 								'unprogstack_post', 'unprogstack_comment'
 								'enable_signups', 'delete_media',
 								'link_accounts', 'delink_accounts',
-								'enable_login_required'
+								'enable_login_required',
+								'reset_password',
 							}
 MODACTION_PRIVILEGED__TYPES = {'progstack_post', 'progstack_comment',
 							'unprogstack_post', 'unprogstack_comment'}
@@ -423,4 +429,4 @@ MODACTION_TYPES__FILTERED = deepcopy({t:v for t,v in MODACTION_TYPES.items()
 									 if not t in MODACTION_PRIVILEGED__TYPES})
 AEVANN_MODACTION_TYPES = {'ban_user','unban_user',
 						'shadowban','unshadowban',
-						'delete_media'}
+						'delete_media','reset_password'}

@@ -108,6 +108,9 @@
 					<button type="button" id="blacklist-{{deviceType}}" class="mt-1 {% if u.blacklisted_by %}d-none{% endif %} btn btn-danger" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/blacklist/{{u.id}}','blacklist-{{deviceType}}','unblacklist-{{deviceType}}','d-none')">Blacklist From Restricted Holes</button>
 				{% endif %}
 
+				{% if v.admin_level >= PERMS['USER_RESET_PASSWORD'] %}
+					<button type="button" id="reset-password-{{deviceType}}" class="mt-1 btn btn-danger" data-nonce="{{g.nonce}}" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)" data-areyousure="postToast(this,'/admin/reset_password/{{u.id}}')">Reset Password</button>
+				{% endif %}
 			</div>
 		</div>
 	{% endif %}
