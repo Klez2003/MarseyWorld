@@ -146,7 +146,6 @@ lite-youtube {
 }
 
 img[alt^="![]("], .img {
-    height: 150px;
     width: 90%;
     object-fit: contain;
     object-position: left;
