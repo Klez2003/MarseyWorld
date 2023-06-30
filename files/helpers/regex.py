@@ -46,7 +46,7 @@ spoiler_regex = re.compile('\|\|(.+?)\|\|' + NOT_IN_CODE_OR_LINKS, flags=re.A)
 reddit_regex = re.compile('(^|\s|<p>|\()\/?(([ruRU])\/(\w|-){3,25})' + NOT_IN_CODE_OR_LINKS, flags=re.A)
 sub_regex = re.compile('(^|\s|<p>|\()\/?([hH]\/(\w|-){3,25})' + NOT_IN_CODE_OR_LINKS, flags=re.A)
 
-strikethrough_regex = re.compile('(^|\s|>)~{1,2}([^~]+)~{1,2}' + NOT_IN_CODE_OR_LINKS, flags=re.A)
+strikethrough_regex = re.compile('(^|\s|>|")~{1,2}([^~]+)~{1,2}' + NOT_IN_CODE_OR_LINKS, flags=re.A)
 
 mute_regex = re.compile("\/mute @?([\w\-]{3,30}) ([0-9]+)", flags=re.A|re.I)
 
