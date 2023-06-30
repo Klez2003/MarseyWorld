@@ -527,15 +527,6 @@ def submit_post(v:User, sub=None):
 
 		url = url.rstrip('/')
 
-		search_url = url.replace('%', '').replace('\\', '').replace('_', '\_').strip()
-		repost = g.db.query(Post).filter(
-			Post.url.ilike(search_url),
-			Post.deleted_utc == 0,
-			Post.is_banned == False
-		).first()
-		if repost and FEATURES['REPOST_DETECTION'] and not v.admin_level >= PERMS['POST_BYPASS_REPOST_CHECKING']:
-			return {"post_id": repost.id, "success": False}
-
 		if v.admin_level < PERMS["IGNORE_DOMAIN_BAN"]:
 			y = tldextract.extract(url).registered_domain + parsed_url.path
 			y = y.lower()
