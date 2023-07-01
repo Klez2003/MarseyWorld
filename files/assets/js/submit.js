@@ -106,11 +106,15 @@ function autoSuggestTitle()	{
 
 function ghost_toggle(t) {
 	const followers = document.getElementById("post-notify")
+	const sub = document.getElementById("sub")
 	if (t.checked == true) {
 		followers.checked = false;
 		followers.disabled = true;
+		sub.value = '';
+		sub.disabled = true;
 	} else {
 		followers.disabled = false;
+		sub.disabled = false;
 	}
 }
 

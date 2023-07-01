@@ -158,6 +158,9 @@ def remove_report_comment(v, cid, uid):
 	return {"message": "Report removed successfully!"}
 
 def move_post(post:Post, v:User, reason:str) -> Union[bool, str]:
+	if post.ghost:
+		return False
+
 	if not reason.startswith('/h/') and not reason.startswith('h/'):
 		return False
 

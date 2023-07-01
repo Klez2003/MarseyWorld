@@ -585,6 +585,8 @@ def submit_post(v:User, sub=None):
 	flag_private = request.values.get("private", False, bool)
 	flag_ghost = request.values.get("ghost", False, bool) and v.can_post_in_ghost_threads
 
+	if flag_ghost: sub = None
+
 	if embed and len(embed) > 1500: embed = None
 	if embed: embed = embed.strip()
 
