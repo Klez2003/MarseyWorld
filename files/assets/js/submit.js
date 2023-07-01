@@ -162,6 +162,8 @@ function submit(form) {
 
 	const xhr = new XMLHttpRequest();
 
+	xhr.withCredentials=true;
+
 	formData = new FormData(form);
 
 	formData.append("formkey", formkey());
