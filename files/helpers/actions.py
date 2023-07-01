@@ -148,15 +148,7 @@ def execute_snappy(post:Post, v:User):
 	body += "\n\n"
 
 	if post.url and not post.url.startswith('/') and not post.url.startswith(f'{SITE_FULL}/') and not post.url.startswith(SITE_FULL_IMAGES):
-		if post.url.startswith('https://old.reddit.com/r/'):
-			rev = post.url.replace('https://old.reddit.com/', '')
-			rev = f"* [unddit.com](https://unddit.com/{rev})\n\n"
-		elif post.url.startswith("https://old.reddit.com/u/"):
-			rev = post.url.replace('https://old.reddit.com/u/', '')
-			rev = "* [camas.unddit.com](https://camas.unddit.com/reddit-search/#\u007b\"author\":\"{rev}\",\"resultSize\":100\u007d)\n\n"
-		else: rev = ''
-
-		body += f"Snapshots:\n\n{rev}* [archive.org](https://web.archive.org/{post.url})\n\n* [ghostarchive.org](https://ghostarchive.org/search?term={quote(post.url)})\n\n* [archive.ph](https://archive.ph/?url={quote(post.url)}&run=1) (click to archive)\n\n"
+		body += f"Snapshots:\n\n* [archive.org](https://web.archive.org/{post.url})\n\n* [ghostarchive.org](https://ghostarchive.org/search?term={quote(post.url)})\n\n* [archive.ph](https://archive.ph/?url={quote(post.url)}&run=1) (click to archive)\n\n"
 		archive_url(post.url)
 
 	captured = []
@@ -180,12 +172,6 @@ def execute_snappy(post:Post, v:User):
 		if "Snapshots:\n\n" not in body: body += "Snapshots:\n\n"
 		if f'**[{title}]({href})**:\n\n' not in body:
 			addition = f'**[{title}]({href})**:\n\n'
-			if href.startswith('https://old.reddit.com/r/'):
-				rev = href.replace('https://old.reddit.com/', '')
-				addition += f'* [unddit.com](https://unddit.com/{rev})\n\n'
-			if href.startswith('https://old.reddit.com/u/'):
-				rev = href.replace('https://old.reddit.com/u/', '')
-				addition += "* [camas.unddit.com](https://camas.unddit.com/reddit-search/#\u007b\"author\":\"{rev}\",\"resultSize\":100\u007d)\n\n"
 			addition += f'* [archive.org](https://web.archive.org/{href})\n\n'
 			addition += f'* [ghostarchive.org](https://ghostarchive.org/search?term={quote(href)})\n\n'
 			addition += f'* [archive.ph](https://archive.ph/?url={quote(href)}&run=1) (click to archive)\n\n'
