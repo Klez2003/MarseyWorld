@@ -151,3 +151,7 @@ h5.post-title a:visited {
 *:target, .unread {
 	background: #222b36 !important;
 }
+
+.modal .comment-actions .list-group-item {
+    background-color: rgb(var(--background));
+}
