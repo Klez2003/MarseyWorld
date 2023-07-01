@@ -230,6 +230,8 @@ article, aside, figcaption, figure, footer, header, main, nav, section {
 	display: block;
 }
 body {
+	--safe-area-inset-top: env(safe-area-inset-top);
+	padding-top: var(--safe-area-inset-top);
 	margin: 0;
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 	font-size: 1rem;
@@ -4966,7 +4968,7 @@ pre .com, code .com {
 }
 @media (max-width: 991.98px) {
 	body {
-		padding-top: 74.55px;
+		padding-top: calc(var(--safe-area-inset-top) + 74.55px);
 }
 }
 .modal-backdrop.show
@@ -5751,6 +5753,7 @@ img[src="/i/hand.webp"]+img[glow]:not([data-src]) {
 	width: 100%;
 	background-color: var(--primary);
 	padding: 2px;
+	padding-top: calc(2px + var(--safe-area-inset-top));
 	text-align: center;
 	font-weight: bold;
 	white-space: nowrap;
@@ -7213,7 +7216,7 @@ input[type=number] {
 
 @media (max-width: 767.98px) {
 	.has_header {
-		padding-top: 67.8px !important
+		padding-top: calc(var(--safe-area-inset-top) + 67.8px) !important
 	}
 }
 
