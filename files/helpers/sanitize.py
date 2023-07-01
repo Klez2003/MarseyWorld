@@ -375,7 +375,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 
 	sanitized = sanitized.replace('_', '▔')
 	sanitized = markdown(sanitized)
-	sanitized = sanitized.replace('▔', '_')
+	sanitized = sanitized.replace('▔', '_').replace('%E2%96%94', '_')
 
 	# replacing zero width characters, overlines, fake colons
 	sanitized = sanitized.replace('\u200e','').replace('\u200b','').replace("\ufeff", "").replace("\u033f","").replace("\u0589", ":")
