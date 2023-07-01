@@ -363,6 +363,21 @@ def execute_longpostbot(c:Comment, level:int, body, body_html, post_target:post_
 
 	push_notif({v.id}, f'New reply by @{c2.author_name}', c2.body, c2)
 
+
+def tempban_for_spam(v):
+	text = "Your account has been banned for **1 day** for the following reason:\n\n> Too much spam!"
+	send_repeatable_notification(v.id, text)
+	v.ban(reason="Spam", days=1)
+
+	ma=ModAction(
+		kind="ban_user",
+		user_id=AUTOJANNY_ID,
+		target_user_id=v.id,
+		_note=f'duration: for 1 day, reason: "Spam"'
+		)
+	g.db.add(ma)
+
+
 def execute_antispam_post_check(title, v, url):
 	now = int(time.time())
 	cutoff = now - 60 * 60 * 24
@@ -386,10 +401,7 @@ def execute_antispam_post_check(title, v, url):
 	elif v.age >= (60 * 60 * 24): threshold *= 2
 
 	if max(len(similar_urls), len(similar_posts)) >= threshold:
-		text = "Your account has been banned for **1 day** for the following reason:\n\n> Too much spam!"
-		send_repeatable_notification(v.id, text)
-
-		v.ban(reason="Spam", days=1)
+		tempban_for_spam(v)
 
 		for post in similar_posts + similar_urls:
 			post.is_banned = True
@@ -420,9 +432,9 @@ def execute_antispam_duplicate_comment_check(v:User, body_html:str):
 	count = g.db.query(Comment.id).filter(Comment.body_html == body_html,
 										  Comment.created_utc >= compare_time).count()
 	if count <= ANTISPAM_DUPLICATE_THRESHOLD: return
-	v.ban(reason="Spam", days=0.0)
-	send_repeatable_notification(v.id, "Your account has been banned **permanently** for the following reason:\n\n> Too much spam!")
-	g.db.add(v)
+
+	tempban_for_spam(v)
+
 	g.db.commit()
 	abort(403, "Too much spam!")
 
@@ -447,9 +459,9 @@ def execute_antispam_comment_check(body:str, v:User):
 		threshold *= 2
 
 	if len(similar_comments) <= threshold: return
-	text = "Your account has been banned for **1 day** for the following reason:\n\n> Too much spam!"
-	send_repeatable_notification(v.id, text)
-	v.ban(reason="Spam", days=1)
+
+	tempban_for_spam(v)
+
 	for comment in similar_comments:
 		comment.is_banned = True
 		comment.ban_reason = "AutoJanny"
