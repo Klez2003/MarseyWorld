@@ -970,6 +970,15 @@ elif SITE == 'watchpeopledie.tv':
 	GIFT_NOTIF_ID = CARP_ID
 	SIGNUP_FOLLOW_ID = CARP_ID
 
+	NOTIFIED_USERS = {
+		'aevan': AEVANN_ID,
+		'avean': AEVANN_ID,
+		' capy': AEVANN_ID,
+		'the rodent': AEVANN_ID,
+		'carp': CARP_ID,
+		'clit': CARP_ID,
+	}
+
 	TIER_TO_NAME = {
 		1: "Beneficiary",
 		2: "Victim",
@@ -980,6 +989,7 @@ elif SITE == 'watchpeopledie.tv':
 		7: "Jigsaw",
 		8: "P̵͇̕S̶̔̇Ȳ̴͙C̶͋͗H̵͒̉O̴̎̍ ",
 	}
+
 elif SITE == 'devrama.net':
 	AEVANN_ID = 7
 	FEATURES['ASSET_SUBMISSIONS'] = True
