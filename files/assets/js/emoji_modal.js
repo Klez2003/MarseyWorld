@@ -364,6 +364,11 @@ function curr_word_is_emoji()
 		current_word.charAt(current_word.length-1) != ":";
 }
 
+function close_inline_speed_emoji_modal() {
+	selecting = false;
+	speed_carot_modal.style.display = "none";
+}
+
 function populate_speed_emoji_modal(results, textbox)
 {
 	selecting = true;
@@ -407,8 +412,7 @@ function populate_speed_emoji_modal(results, textbox)
 		if (current_word.includes("!")) name = `!${name}`
 
 		emoji_option.addEventListener('click', () => {
-			selecting = false;
-			speed_carot_modal.style.display = "none";
+			close_inline_speed_emoji_modal()
 			textbox.value = textbox.value.replace(new RegExp(current_word+"(?=\\s|$)", "gi"), `:${name}: `)
 			textbox.focus()
 			if (document.location.pathname != '/chat'){

@@ -85,6 +85,8 @@ function toggleEdit(id){
 	actions.classList.toggle("d-none");
 	autoExpand(box);
 	markdown(box);
+
+	close_inline_speed_emoji_modal();
 };
 
 

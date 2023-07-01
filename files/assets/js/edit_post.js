@@ -12,4 +12,6 @@ function togglePostEdit(id){
 	markdown(box);
 	box=document.getElementById("post-edit-title");
 	autoExpand(box);
+
+	close_inline_speed_emoji_modal();
 };
