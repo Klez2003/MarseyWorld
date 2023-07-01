@@ -301,11 +301,6 @@ def submit_contact(v):
 
 	return redirect("/contact?msg=Your message has been sent to the admins!")
 
-@app.get('/archives')
-@limiter.limit(DEFAULT_RATELIMIT)
-def archivesindex():
-	return redirect("/archives/index.html")
-
 patron_badges = (22,23,24,25,26,27,28,257,258,259,260,261)
 
 @cache.memoize(timeout=3600)
