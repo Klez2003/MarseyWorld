@@ -174,11 +174,16 @@ function fetchEmojis() {
 				const emoji = emojis[i];
 
 				emojisSearchDictionary.updateTag(emoji.name, emoji.name);
-				if(emoji.author !== undefined && emoji.author !== null)
-				{
-					emojisSearchDictionary.updateTag(`@${emoji.author.toLowerCase()}`, emoji.name);
-				}
 
+				if(emoji.author_username !== undefined && emoji.author_username !== null)
+					emojisSearchDictionary.updateTag(`@${emoji.author_username.toLowerCase()}`, emoji.name);
+
+				if(emoji.author_original_username !== undefined && emoji.author_original_username !== null)
+					emojisSearchDictionary.updateTag(`@${emoji.author_original_username.toLowerCase()}`, emoji.name);
+
+				if(emoji.author_prelock_username !== undefined && emoji.author_prelock_username !== null)
+					emojisSearchDictionary.updateTag(`@${emoji.author_prelock_username.toLowerCase()}`, emoji.name);
+				
 				if(emoji.tags instanceof Array)
 					for(let i = 0; i < emoji.tags.length; i++)
 						emojisSearchDictionary.updateTag(emoji.tags[i], emoji.name);
@@ -187,8 +192,8 @@ function fetchEmojis() {
 				const emojiDOM = document.importNode(emojiButtonTemplateDOM.content, true).children[0];
 
 				emojiDOM.title = emoji.name
-				if(emoji.author !== undefined && emoji.author !== null)
-					emojiDOM.title += "\nauthor\t" + emoji.author
+				if(emoji.author_username !== undefined && emoji.author_username !== null)
+					emojiDOM.title += "\nauthor\t" + emoji.author_username
 				if(emoji.count !== undefined)
 					emojiDOM.title += "\nused\t" + emoji.count;
 				emojiDOM.dataset.className = emoji.kind;
@@ -400,8 +405,8 @@ function populate_speed_emoji_modal(results, textbox)
 
 		emoji_option_text.title = name;
 
-		if(emoji.author !== undefined && emoji.author !== null)
-			emoji_option_text.title += "\nauthor\t" + emoji.author
+		if(emoji.author_username !== undefined && emoji.author_username !== null)
+			emoji_option_text.title += "\nauthor\t" + emoji.author_username
 
 		if(emoji.count !== undefined)
 			emoji_option_text.title += "\nused\t" + emoji.count;

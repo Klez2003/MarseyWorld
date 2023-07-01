@@ -36,6 +36,10 @@ class Emoji(Base):
 			"created_utc": self.created_utc,
 			"kind": self.kind,
 		}
-		if "author" in self.__dict__ and self.author:
-			data["author"] = self.author
+		if "author_username" in self.__dict__ and self.author_username:
+			data["author_username"] = self.author_username
+		if "author_original_username" in self.__dict__ and self.author_original_username:
+			data["author_original_username"] = self.author_original_username
+		if "author_prelock_username" in self.__dict__ and self.author_prelock_username:
+			data["author_prelock_username"] = self.author_prelock_username
 		return data

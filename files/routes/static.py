@@ -80,7 +80,10 @@ def get_emojis():
 
 	collected = []
 	for emoji, author in emojis:
-		emoji.author = author.username if FEATURES['ASSET_SUBMISSIONS'] else None
+		if FEATURES['ASSET_SUBMISSIONS']:
+			emoji.author_username = author.username
+			emoji.author_original_username = author.original_username
+			emoji.author_prelock_username = author.prelock_username
 		collected.append(emoji.json())
 	return collected
 
