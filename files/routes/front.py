@@ -15,7 +15,7 @@ from files.__main__ import app, cache, limiter, redis_instance
 @app.get("/h/<sub>")
 @limiter.limit("30/minute;5000/hour;10000/day")
 @auth_desired_with_logingate
-def front_all(v, sub=None, subdomain=None):
+def front_all(v, sub=None):
 	if sub:
 		sub = get_sub_by_name(sub, graceful=True)
 		if sub and not User.can_see(v, sub):
