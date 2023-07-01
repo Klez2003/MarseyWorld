@@ -6,7 +6,7 @@
 <nav class="shadow-md fixed-top">
 		<div class="srd">
 			{% if SITE_NAME == 'rDrama' %}
-				{% if err or not hasattr(g, "loggedin_counter") or (range(1,5) | random == 1 and not (v and v.truescore > 1000)) %}
+				{% if not hasattr(g, "loggedin_counter") or (range(1,5) | random == 1 and not (v and v.truescore > 1000)) %}
 					{% include "journoid_banner.html" %}
 				{% else %}
 					{% if IS_DKD() %}
@@ -32,42 +32,44 @@
 							"having their chimneys stuffed by Santa",
 						] -%}
 					{% else %}
-					{%- set VISITORS_HERE_FLAVOR = [
-						"incels currently stalking roasties",
-						'gooners currently edging to <img loading="lazy" src="/e/marseycumjar3.webp" style="height:1.5em!important">',
-						"fanboys currently obsessing over Carp",
-						"NEETs currently LDARmaxxing",
-						"valid women currently dilating",
-						"negholes currently being pozzed",
-						"bussies currently on standby",
-						"gamers currently harassing women",
-						"Soros shills currently plotting mayocide",
-						"furries currently yiffing",
-						"incels currently harassing women",
-						"chuds currently agendaposting",
-						"coomers currently gooning",
-						"bacons currently narwhaling",
-						"well-behaved rule-following goodthinkers",
-						"throwing shade right now",
-						"currently petting Marseys",
-						"of Dr. Oaken's agents monitoring hate",
-						"capybara fetishists loudly beating off",
-						"gamers harassing women",
-						"hanging out on rDrama with their tulpas",
-						"furries trading marsuits",
-						"white knights simping for blownout gussy",
-						"Carp alts currently online",
-						"biofoids making everything about them",
-						"Mossad operatives watching you",
-						"frantically alt-tabbing before Mom sees",
-						"days until you die, you can't prevent it",
-						"cases of rectal prolapse reported today",
-					] -%}
-				{% endif %}
+						{%- set VISITORS_HERE_FLAVOR = [
+							"incels currently stalking roasties",
+							'gooners currently edging to <img loading="lazy" src="/e/marseycumjar3.webp" style="height:1.5em!important">',
+							"fanboys currently obsessing over Carp",
+							"NEETs currently LDARmaxxing",
+							"valid women currently dilating",
+							"negholes currently being pozzed",
+							"bussies currently on standby",
+							"gamers currently harassing women",
+							"Soros shills currently plotting mayocide",
+							"furries currently yiffing",
+							"incels currently harassing women",
+							"chuds currently agendaposting",
+							"coomers currently gooning",
+							"bacons currently narwhaling",
+							"well-behaved rule-following goodthinkers",
+							"throwing shade right now",
+							"currently petting Marseys",
+							"of Dr. Oaken's agents monitoring hate",
+							"capybara fetishists loudly beating off",
+							"gamers harassing women",
+							"hanging out on rDrama with their tulpas",
+							"furries trading marsuits",
+							"white knights simping for blownout gussy",
+							"Carp alts currently online",
+							"biofoids making everything about them",
+							"Mossad operatives watching you",
+							"frantically alt-tabbing before Mom sees",
+							"days until you die, you can't prevent it",
+							"cases of rectal prolapse reported today",
+						] -%}
+					{% endif %}
 					{{g.loggedin_counter+g.loggedout_counter}} {{VISITORS_HERE_FLAVOR|random|safe}} ({{g.loggedin_counter}} logged in)
 				{% endif %}
-			{% else %}
+			{% elif hasattr(g, "loggedin_counter") %}
 				{{g.loggedin_counter+g.loggedout_counter}} people here now ({{g.loggedin_counter}} logged in)
+			{% else %}
+				Don't make the mistakes seen here.
 			{% endif %}
 		</div>
 
