@@ -256,3 +256,10 @@ if (gbrowser == 'iphone' && !is_pwa) {
 		e.classList.remove('d-none')
 	}
 }
+
+if (is_pwa) {
+	const e = document.getElementById("mobile-app-nav-item");
+	if (e) {
+		e.classList.remove('d-none')
+	}
+}
