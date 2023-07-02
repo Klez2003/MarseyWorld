@@ -60,7 +60,7 @@ def upload_custom_background(v):
 	if g.is_tor: abort(403, "Image uploads are not allowed through TOR!")
 
 	if not v.patron:
-		abort(403, f"This feature is only available to {patron}s!")
+		abort(403, f"Custom site backgrounds are only available to {patron}s!")
 
 	file = request.files["file"]
 
@@ -232,7 +232,10 @@ def settings_personal_post(v):
 		g.db.add(v)
 		return render_template("settings/personal.html", v=v, msg="Your enemies list has been updated!")
 
-	elif not updated and v.patron and request.values.get("sig"):
+	elif not updated and request.values.get("sig"):
+		if not v.patron:
+			abort(403, f"Signatures are only available to {patron}s!")
+
 		sig = request.values.get("sig")[:200].replace('\n','').replace('\r','')
 		sig_html = sanitize(sig, blackjack="signature")
 		if len(sig_html) > 1000:
