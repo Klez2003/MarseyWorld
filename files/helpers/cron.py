@@ -34,9 +34,6 @@ def cron(every_5m, every_1h, every_1d, every_1mo):
 
 	#I put commit under each task to release database locks and prevent main flask app crashing
 	if every_5m:
-		_award_timers_task()
-		g.db.commit()
-
 		if FEATURES['GAMBLING']:
 			check_if_end_lottery_task()
 			g.db.commit()
@@ -44,6 +41,10 @@ def cron(every_5m, every_1h, every_1d, every_1mo):
 			spin_roulette_wheel()
 			g.db.commit()
 		#offsitementions.offsite_mentions_task(cache)
+
+	if every_1h:
+		_award_timers_task()
+		g.db.commit()
 
 	if every_1d:
 		stats.generate_charts_task(SITE)
