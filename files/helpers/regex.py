@@ -5,7 +5,7 @@ from typing import List, Optional, Union
 
 from .config.const import *
 
-NOT_IN_CODE_OR_LINKS = '(?!([^<]*<\/(code|pre|a)>|[^`]*`))'
+NOT_IN_CODE_OR_LINKS = '(?!([^<]*<\/(code|pre|a)>|[^`\n]*`|(.|\n)*```))'
 
 valid_username_regex = re.compile("^[\w\-]{3,25}$", flags=re.A)
 
