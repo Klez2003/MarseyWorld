@@ -1,11 +1,12 @@
 .orgy-top-container {
     display: flex;
-    flex-flow: row wrap;
+    flex-flow: row nowrap;
     justify-content: space-around;
 }
 
 .orgy-chat-window-item {
     flex-grow: 2;
+    width: fit-content;
 }
 .orgy-info-window-item {
     max-width: 550px;
