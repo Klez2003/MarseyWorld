@@ -1,0 +1,9 @@
+.orgy-top-container {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+}
+
+.orgy-chat-window-item {
+    flex-grow: 2;
+}

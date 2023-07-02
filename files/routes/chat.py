@@ -35,7 +35,7 @@ messages = cache.get(f'messages') or {}
 def chat(v):
 	if not v.admin_level and TRUESCORE_CHAT_MINIMUM and v.truescore < TRUESCORE_CHAT_MINIMUM:
 		abort(403, f"Need at least {TRUESCORE_CHAT_MINIMUM} truescore for access to chat!")
-	return render_template("chat.html", v=v, messages=messages)
+	return render_template("orgy.html", v=v, messages=messages)
 
 @socketio.on('speak')
 @is_not_permabanned
