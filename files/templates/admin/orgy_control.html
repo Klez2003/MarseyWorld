@@ -1,0 +1,52 @@
+{% extends "default.html" %}
+
+{% block pagetitle %}Edit {{SITE_NAME}}'s rules{% endblock %}
+
+{% block content %}
+{% if msg %}{{macros.alert(msg, false)}}{% endif %}
+<div class="row my-5">
+	<div class="col">
+		<div class="settings mx-3">
+			<div id="description">
+				<h2>Orgy Control Panel</h2>
+				<br>
+			</div>
+			<div class="body d-lg-flex">
+				<div class="w-lg-100">
+                    {%if not orgy%}
+                        <form id="orgy" action="/admin/start_orgy" method="post">
+                            <div class="d-lg-flex border-bottom">
+                                <div class="title w-lg-25">
+                                    <label for="title">Title</label>
+                                </div>
+                                <div class="body w-lg-100">
+                                    <input id="title" autocomplete="off" type="text" name="title" class="form-control">
+                                </div>
+                            </div>
+                            <div class="d-lg-flex border-bottom">
+                                <div class="title w-lg-25">
+                                    <label for="youtube_id">Youtube ID</label>
+                                </div>
+                                <div class="body w-lg-100">
+                                    <input id="youtube_id" autocomplete="off" type="text" name="youtube_id" class="form-control">
+                                </div>
+                            </div>
+                            <input hidden name="formkey" value="{{v|formkey}}">
+                            <div class="d-flex mt-2">
+                                <input autocomplete="off" class="btn btn-primary ml-auto" type="submit" value="Start Orgy">
+                            </div>
+                        </form>
+                    {%else%}
+                        <form id="orgy" action="/admin/stop_orgy" method="post">
+                            <input hidden name="formkey" value="{{v|formkey}}">
+                            <div class="d-flex mt-2">
+                                <input autocomplete="off" class="btn btn-primary ml-auto" type="submit" value="Stop Orgy">
+                            </div>
+                        </form>
+                    {%endif%}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

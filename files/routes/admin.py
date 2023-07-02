@@ -9,6 +9,7 @@ from psycopg2.errors import UniqueViolation
 
 from files.__main__ import app, cache, limiter
 from files.classes import *
+from files.classes.orgy import *
 from files.helpers.actions import *
 from files.helpers.alerts import *
 from files.helpers.cloudflare import *
@@ -1906,3 +1907,27 @@ def admin_reset_password(user_id, v):
 	send_repeatable_notification(user.id, text)
 
 	return {"message": f"@{user.username}'s password has been reset! The new password has been messaged to them!"}
+
+@app.get("/admin/orgy")
+@admin_level_required(PERMS['ORGIES'])
+def orgy_control(v):
+    return render_template("admin/orgy_control.html", v=v, orgy=get_orgy())
+
+@app.post("/admin/start_orgy")
+@admin_level_required(PERMS['ORGIES'])
+def start_orgy(v):
+    youtube_id = request.values.get("youtube_id")
+    title = request.values.get("title")
+
+    assert youtube_id
+    assert title
+
+    create_orgy(youtube_id, title)
+
+    return redirect("/chat")
+
+@app.post("/admin/stop_orgy")
+@admin_level_required(PERMS['ORGIES'])
+def stop_orgy(v):
+    end_orgy()
+    return redirect("/chat")
