@@ -158,9 +158,7 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None):
 				if cost > v.coins:
 					abort(403, f"You need {cost} coins to mention these ping groups!")
 
-				for user in g.db.query(User).all():
-					user.pay_account('coins', 5)
-					g.db.add(user)
+				g.db.query(User).update({ User.coins: User.coins + 5 })
 
 				v.charge_account('coins', cost)
 				if log_cost:
