@@ -34,34 +34,26 @@ def cron(every_5m, every_1h, every_1d, every_1mo):
 
 	#I put commit under each task to release database locks and prevent main flask app crashing
 	if every_5m:
+		_award_timers_task()
+
 		if FEATURES['GAMBLING']:
 			check_if_end_lottery_task()
-			g.db.commit()
 
 			spin_roulette_wheel()
-			g.db.commit()
 		#offsitementions.offsite_mentions_task(cache)
-
-	if every_1h:
-		_award_timers_task()
-		g.db.commit()
 
 	if every_1d:
 		stats.generate_charts_task(SITE)
-		g.db.commit()
 
 		_sub_inactive_purge_task()
-		g.db.commit()
 
 		cache.set('stats', stats.stats())
-		g.db.commit()
 
 		_generate_emojis_zip()
-		g.db.commit()
 
 		_leaderboard_task()
-		g.db.commit()
 
+	g.db.commit()
 	g.db.close()
 	del g.db
 	stdout.flush()
@@ -182,7 +174,13 @@ def _process_timer(attr, badge_ids, text, extra_attrs={}):
 
 	#set user attributes
 	attr_dict = {attr: 0} | extra_attrs
-	users.update(attr_dict)
+
+	for user in users:
+		for k, val in attr_dict.items():
+			k = str(k).split('.')[1]
+			if isinstance(val, tuple):
+				val = getattr(user, val[0])
+			setattr(user, k, val)
 
 	#remove corresponding badges
 	if badge_ids:
@@ -191,7 +189,6 @@ def _process_timer(attr, badge_ids, text, extra_attrs={}):
 	#notify users
 	for uid in uids:
 		send_repeatable_notification(uid, text)
-		g.db.commit()
 
 
 def _award_timers_task():
@@ -205,19 +202,19 @@ def _award_timers_task():
 	_process_timer(User.owoify, [167], "The OwOify award you received has expired!")
 	_process_timer(User.sharpen, [289], "The Sharpen award you received has expired!")
 	_process_timer(User.bite, [168], "The bite award you received has expired! You're now back in your original house!", {
-		User.house: User.old_house,
+		User.house: ("old_house"),
 		User.old_house: '',
 	})
 	_process_timer(User.earlylife, [169], "The earlylife award you received has expired!")
 	_process_timer(User.marsify, [170], "The marsify award you received has expired!")
 	_process_timer(User.rainbow, [171], "The rainbow award you received has expired!")
 	_process_timer(User.queen, [285], "The queen award you received has expired!", {
-		User.username: User.prelock_username,
+		User.username: ("prelock_username"),
 		User.prelock_username: None,
     })
 	_process_timer(User.spider, [179], "The spider award you received has expired!")
 	_process_timer(User.namechanged, [281], "The namelock award you received has expired. You're now back to your old username!", {
-		User.username: User.prelock_username,
+		User.username: ("prelock_username"),
 		User.prelock_username: None,
 	})
 

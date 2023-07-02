@@ -206,9 +206,9 @@ class User(Base):
 			return
 
 		if currency == 'coins':
-			g.db.query(User).filter(User.id == self.id).update({ User.coins: User.coins + amount })
+			self.coins += amount
 		else:
-			g.db.query(User).filter(User.id == self.id).update({ User.marseybux: User.marseybux + amount })
+			self.marseybux += amount
 
 		g.db.flush()
 
@@ -224,14 +224,14 @@ class User(Base):
 			account_balance = in_db.coins
 
 			if not should_check_balance or account_balance >= amount:
-				g.db.query(User).filter(User.id == self.id).update({ User.coins: User.coins - amount })
+				self.coins -= amount
 				succeeded = True
 				charged_coins = amount
 		elif currency == 'marseybux':
 			account_balance = in_db.marseybux
 
 			if not should_check_balance or account_balance >= amount:
-				g.db.query(User).filter(User.id == self.id).update({ User.marseybux: User.marseybux - amount })
+				self.marseybux -= amount
 				succeeded = True
 		elif currency == 'combined':
 			if in_db.marseybux >= amount:
@@ -243,10 +243,8 @@ class User(Base):
 				if subtracted_coins > in_db.coins:
 					return (False, 0)
 
-			g.db.query(User).filter(User.id == self.id).update({
-				User.marseybux: User.marseybux - subtracted_mbux,
-				User.coins: User.coins - subtracted_coins,
-			})
+			self.coins -= subtracted_coins
+			self.marseybux -= subtracted_mbux
 			succeeded = True
 			charged_coins = subtracted_coins
 

@@ -124,10 +124,15 @@ def notifications_messages(v:User):
 		).all()
 
 		notifs_unread = [n.comment_id for n in notifs_unread_row]
-		g.db.query(Notification).filter(
+		notif_list = g.db.query(Notification).filter(
 				Notification.user_id == v.id,
 				Notification.comment_id.in_(notifs_unread),
-			).update({Notification.read: True})
+			)
+
+		for n in notif_list:
+			n.read = True
+			g.db.add(n)
+
 		g.db.flush()
 
 		list_to_perserve_unread_attribute = []

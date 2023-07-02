@@ -157,7 +157,11 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None):
 				cost = g.db.query(User).count() * 5
 				if cost > v.coins:
 					abort(403, f"You need {cost} coins to mention these ping groups!")
-				g.db.query(User).update({ User.coins: User.coins + 5 })
+
+				for user in g.db.query(User).all():
+					user.pay_account('coins', 5)
+					g.db.add(user)
+
 				v.charge_account('coins', cost)
 				if log_cost:
 					log_cost.ping_cost = cost
@@ -181,7 +185,9 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None):
 					if log_cost:
 						log_cost.ping_cost = cost
 
-					g.db.query(User).filter(User.id.in_(members)).update({ User.coins: User.coins + mul })
+					for user in g.db.query(User).filter(User.id.in_(members)).all():
+						user.pay_account('coins', mul)
+						g.db.add(user)
 
 		v.charge_account('coins', cost)
 
