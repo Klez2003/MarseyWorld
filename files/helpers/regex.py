@@ -150,7 +150,7 @@ search_token_regex = re.compile('"([^"]*)"|(\S+)', flags=re.A)
 
 git_regex = re.compile("ref: (refs/.+)", flags=re.A)
 
-pronouns_regex = re.compile("([a-z]{1,7})/[a-z]{1,7}(/[a-z]{1,7})?", flags=re.A|re.I)
+pronouns_regex = re.compile("([a-z]{1,7})\/[a-z]{1,7}(\/[a-z]{1,7})?", flags=re.A|re.I)
 
 html_title_regex = re.compile("<title>(.{1,200})</title>", flags=re.I)
 
