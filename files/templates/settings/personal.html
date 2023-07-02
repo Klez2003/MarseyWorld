@@ -217,6 +217,7 @@
 					{# toggle_section(title, id, name, flag, below_text, disabled) #}
 					{{common.toggle_section('Private Mode', 'privateswitch', 'private', v.is_private, 'This will hide your profile page from others.', false)}}
 					{{common.toggle_section('Spider', 'spiderswitch', 'spider', v.spider, 'Have a spider friend accompany you during your journey on the site.', v.spider > 1)}}
+					{{common.toggle_section('Marsify', 'marsify', 'marsify', v.marsify, 'Automatically insert relevant marseys into your future comments.', v.marsify > 1)}}
 				</div>
 			</section>
 			<section id="site-settings-filters-section" class="settings-section-section">

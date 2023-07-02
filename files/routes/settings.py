@@ -202,6 +202,17 @@ def settings_personal_post(v):
 		if v.spider: badge_grant(user=v, badge_id=179)
 		else:
 			badge = v.has_badge(179)
+			if badge: 
+				g.db.delete(badge)
+
+	elif not updated and request.values.get("marsify", v.marsify) != v.marsify and v.marsify <= 1:
+		if not v.patron:
+			abort(403, f"Perma-marsify is only available to {patron}s!")
+		updated = True
+		v.marsify = int(request.values.get("marsify") == 'true')
+		if v.marsify: badge_grant(user=v, badge_id=170)
+		else:
+			badge = v.has_badge(170)
 			if badge: g.db.delete(badge)
 
 	elif IS_FISTMAS() and not updated and request.values.get("event_music", v.event_music) != v.event_music and v.can_toggle_event_music:
