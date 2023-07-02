@@ -93,11 +93,11 @@ based_regex = re.compile('(?<=^|(?<=\s))(based)(?=$|\n|\s|[.?!,])', flags=re.I|r
 #match "Xpilled". To be turned into "X vibes". Note that "X" is in group 2, "ed" in group 3
 x_pilled_regex = re.compile('(?<=^|(?<=\s))(([a-zA-Z]+)pill(ed)?)(?=$|\n|\s|[.?!,])', flags=re.I|re.A)
 #match "Xmaxxx". To be turned into "normalize good Xs". Note that "X" is in group 2, "s" (after X) in group 3
-xmax_regex = re.compile('(?<=^|(?<=\s))(([a-zA-Z]+?)(s)?max*)(?=$|\n|\s|[.?!,])', flags=re.I|re.A)
+xmax_regex = re.compile('(?<=^|(?<=\s))(([a-zA-Z]+?)(s)?max+)(?=$|\n|\s|[.?!,])', flags=re.I|re.A)
 #same as above, except "Xmaxxed" this time (b/c I have crippling OCD and "normalized" isn't "normalize" + "ed") :marseyrage:
-xmaxed_regex = re.compile('(?<=^|(?<=\s))(([a-zA-Z]+?)(s)?max*ed)(?=$|\n|\s|[.?!,])', flags=re.I|re.A)
+xmaxed_regex = re.compile('(?<=^|(?<=\s))(([a-zA-Z]+?)(s)?max+ed)(?=$|\n|\s|[.?!,])', flags=re.I|re.A)
 #same as above, except "Xmaxxing" this time
-xmaxing_regex = re.compile('(?<=^|(?<=\s))(([a-zA-Z]+?)(s)?max*ing)(?=$|\n|\s|[.?!,])', flags=re.I|re.A)
+xmaxing_regex = re.compile('(?<=^|(?<=\s))(([a-zA-Z]+?)(s)?max+ing)(?=$|\n|\s|[.?!,])', flags=re.I|re.A)
 initial_part_regex = re.compile('(?<=^)(>+)', flags=re.I|re.A)
 
 #matches "the" or is, but only if it is not followed by "fucking". https://regex101.com/r/yxuYsQ/2
