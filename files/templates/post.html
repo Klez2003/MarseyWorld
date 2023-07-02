@@ -106,7 +106,7 @@
 						{% if p.embed %}
 							{% if p.domain == "twitter.com" %}
 								{{p.embed | safe}}
-								{% if v and v.theme.split("_")[0] in ["light", "coffee", "4chan"] %}
+								{% if v and v.theme in LIGHT_THEMES %}
 									<script defer src="{{'js/vendor/twitterlight.js' | asset}}"></script>
 								{% else %}
 									<script defer src="{{'js/vendor/twitter.js' | asset}}"></script>

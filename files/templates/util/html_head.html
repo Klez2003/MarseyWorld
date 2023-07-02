@@ -130,10 +130,10 @@
 	{% if IS_FISTMAS() %}
 		<link rel="stylesheet" href="{{'events/fistmas/css/fistmas.css' | asset}}">
 
-		{% if v and v.event_darkmode %}
-			<link rel="stylesheet" href="{{'events/fistmas/css/themes/dark.css'| asset}}">
-		{% else %}
+		{% if v and v.theme in LIGHT_THEMES %}
 			<link rel="stylesheet" href="{{'events/fistmas/css/themes/light.css'| asset}}">
+		{% else %}
+			<link rel="stylesheet" href="{{'events/fistmas/css/themes/dark.css'| asset}}">
 		{% endif %}
 	{% endif %}
 

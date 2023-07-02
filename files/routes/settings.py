@@ -970,15 +970,3 @@ def settings_checkmark_text(v):
 	v.verified = new_name
 	g.db.add(v)
 	return redirect("/settings/personal?msg=Checkmark Text successfully updated!")
-
-if IS_FISTMAS():
-	@app.post("/events/fistmas2022/darkmode")
-	@limiter.limit('1/second', scope=rpath)
-	@limiter.limit('1/second', scope=rpath, key_func=get_ID)
-	@limiter.limit(DEFAULT_RATELIMIT)
-	@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
-	@auth_required
-	def event_darkmode(v):
-		v.event_darkmode = not v.event_darkmode
-		g.db.add(v)
-		return {"message": "Dark mode toggled successfully!"}

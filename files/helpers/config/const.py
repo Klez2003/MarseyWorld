@@ -450,6 +450,7 @@ CHUD_MSG = """:marseypirate: : Avast, ye scurvy cur! Yer {type} be walkin' the p
 PIN_AWARD_TEXT = " (pin award)"
 
 THEMES = ["4chan","classic","classic_dark","coffee","dark","dramblr","light","midnight","tron","win98"]
+LIGHT_THEMES = ["4chan","classic","coffee","light","win98"]
 BACKGROUND_CATEGORIES = ["glitter", "anime", "fantasy", "solarpunk", "pixelart"]
 COMMENT_SORTS = ["hot", "new", "old", "top", "bottom", "controversial", "saves"]
 SORTS = COMMENT_SORTS + ["bump", "comments", "views", "subscriptions", "saves"]

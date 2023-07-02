@@ -164,7 +164,6 @@ class User(Base):
 	if IS_FISTMAS():
 		#TODO: make event_music a cookie toggle instead
 		event_music = Column(Boolean, default=default_event_music, nullable=False)
-		event_darkmode = Column(Boolean, default=default_darkmode, nullable=False)
 
 	badges = relationship("Badge", order_by="Badge.created_utc", back_populates="user")
 	subscriptions = relationship("Subscription", back_populates="user")
