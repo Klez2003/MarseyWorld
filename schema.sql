@@ -1126,6 +1126,13 @@ CREATE TABLE public.votes (
     coins smallint DEFAULT 1 NOT NULL
 );
 
+--
+-- Name: orgies, Type: TABLE; Schema: public; Owner: -
+--
+CREATE TABLE public.orgies (
+    youtube_id character varying(12) NOT NULL,
+    title character varying(1000) NOT NULL
+);
 
 --
 -- Name: award_relationships id; Type: DEFAULT; Schema: public; Owner: -

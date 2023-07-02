@@ -13,6 +13,7 @@ from files.helpers.media import *
 from files.helpers.sanitize import *
 from files.helpers.alerts import push_notif
 from files.routes.wrappers import *
+from files.classes.orgy import *
 
 from files.__main__ import app, cache, limiter
 
@@ -33,6 +34,19 @@ messages = cache.get(f'messages') or {}
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @is_not_permabanned
 def chat(v):
+	if not v.admin_level and TRUESCORE_CHAT_MINIMUM and v.truescore < TRUESCORE_CHAT_MINIMUM:
+		abort(403, f"Need at least {TRUESCORE_CHAT_MINIMUM} truescore for access to chat!")
+	orgy = get_orgy()
+	if orgy:
+		return render_template("orgy.html", v=v, messages=messages, orgy = orgy)
+	else:
+		return render_template("chat.html", v=v, messages=messages)
+
+@app.get("/old_chat")
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@is_not_permabanned
+def old_chat(v):
 	if not v.admin_level and TRUESCORE_CHAT_MINIMUM and v.truescore < TRUESCORE_CHAT_MINIMUM:
 		abort(403, f"Need at least {TRUESCORE_CHAT_MINIMUM} truescore for access to chat!")
 	return render_template("chat.html", v=v, messages=messages)

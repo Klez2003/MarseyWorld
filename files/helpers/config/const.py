@@ -518,6 +518,7 @@ PERMS = { # Minimum admin_level to perform action.
  	'LOTTERY_VIEW_PARTICIPANTS': 2,
  	'POST_COMMENT_INFINITE_PINGS': 2,
 	'IGNORE_1WEEk_EDITING_LIMIT': 2,
+    'ORGIES': 2,
 
  	'ADMIN_REMOVE': 3,
  	'ADMIN_ACTIONS_REVERT': 3,
