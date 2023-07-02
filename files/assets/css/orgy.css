@@ -7,3 +7,7 @@
 .orgy-chat-window-item {
     flex-grow: 2;
 }
+.orgy-info-window-item {
+    max-width: 550px;
+    width: 550px;
+}
