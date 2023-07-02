@@ -1,21 +1,31 @@
 {% macro userBanBlock(deviceType) %}
+	{% if u.chud %}
+	<h5 class="text-primary" id="profile-{{deviceType}}--chudded">CHUDDED USER:
+		(by {{u.chudder | safe}})
+
+		{% if u.chud > 1 %}
+			- {{u.unchud_string}}
+		{% endif %}
+	</h5>
+	{% endif %}
 	{% if u.is_suspended %}
-		<h5 class="text-primary" id="profile-{{deviceType}}--banned">BANNED USER
-		{% if u.ban_reason %}:
+		<h5 class="text-primary" id="profile-{{deviceType}}--banned">BANNED USER:
 			{{u.ban_reason | safe}}
-		{% endif %}
-		(by <a href="{{u.banned_by.url}}">@{{u.banned_by.username}}</a>)
+			
+			{% if not u.ban_reason.startswith('1-Day ban award used by') %}
+				(by {{u.banned_by | safe}})
+			{% endif %}
+
+			{% if u.unban_utc %}
+				- {{u.unban_string}}
+			{% endif %}
 		</h5>
-		{% if u.unban_utc %}
-			<h5 class="text-primary" id="profile--unban">{{u.unban_string}}</h5>
-		{% endif %}
 	{% endif %}
 	{% if v and v.admin_level >= PERMS['USER_SHADOWBAN'] and u.shadowbanned %}
-		<h5 class="text-primary" id="profile-{{deviceType}}--shadowbanned">SHADOWBANNED USER
-		{% if u.ban_reason %}:
+		<h5 class="text-primary" id="profile-{{deviceType}}--shadowbanned">SHADOWBANNED USER:
 			{{u.ban_reason | safe}}
-		{% endif %}
-		(by <a href="/@{{u.shadowbanner}}">@{{u.shadowbanner}}</a>)
+
+			(by <a href="/@{{u.shadowbanner}}">@{{u.shadowbanner}}</a>)
 		</h5>
 	{% endif %}
 {% endmacro %}

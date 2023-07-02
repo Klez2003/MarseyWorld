@@ -587,12 +587,6 @@ class User(Base):
 	def fullname(self):
 		return f"u_{self.id}"
 
-	@property
-	@lazy
-	def banned_by(self):
-		if not self.is_suspended: return None
-		return g.db.get(User, self.is_banned)
-
 	@lazy
 	def has_badge(self, badge_id):
 		return g.db.query(Badge).filter_by(user_id=self.id, badge_id=badge_id).one_or_none()
@@ -631,6 +625,28 @@ class User(Base):
 
 		return f"Unban in {text}"
 
+	@property
+	@lazy
+	def unchud_string(self):
+		if self.chud == 1:
+			return "permanently chudded"
+
+		wait = self.chud - int(time.time())
+
+		if wait < 60:
+			text = f"{wait}s"
+		else:
+			days = wait//(24*60*60)
+			wait -= days*24*60*60
+
+			hours = wait//(60*60)
+			wait -= hours*60*60
+
+			mins = wait//60
+
+			text = f"{days}d {hours:02d}h {mins:02d}m"
+
+		return f"Unchud in {text}"
 
 	@property
 	@lazy
@@ -1234,6 +1250,19 @@ class User(Base):
 	@lazy
 	def shadowbanner(self):
 		return g.db.query(User.username).filter_by(id=self.shadowbanned).one()[0]
+
+	@property
+	@lazy
+	def banned_by(self):
+		username = g.db.query(User.username).filter_by(id=self.is_banned).one()[0]
+		return f'<a href="/@{username}">@{username}</a>'
+
+	@property
+	@lazy
+	def chudder(self):
+		if not self.chudded_by: return 'award'
+		username = g.db.query(User.username).filter_by(id=self.chudded_by).one()[0]
+		return f'<a href="/@{username}">@{username}</a>'
 
 	@property
 	@lazy

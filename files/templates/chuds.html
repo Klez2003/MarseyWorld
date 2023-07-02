@@ -12,6 +12,7 @@
 			<th>Last Active</th>
 		{%- endif %}
 		<th>Truescore</th>
+		<th>Chudded by</th>
 		<th>Unchud in</th>
 	</tr>
 </thead>
@@ -23,6 +24,7 @@
 			<td {% if user.last_active %}data-time="{{user.last_active}}"{% endif %}></td>
 		{%- endif %}
 		<td>{{user.truescore}}</td>
+		<td>{{user.chudder | safe}}</td>
 		<td {% if user.chud != 1 %}data-time="{{user.chud}}"{% endif %}></td>
 </tr>
 {% endfor %}
