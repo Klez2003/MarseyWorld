@@ -98,6 +98,12 @@
 </ul>
 {%- endif %}
 
+{% if v.admin_level >= PERMS['ORGIES'] %}
+<h4>Misc</h4>
+<ul>
+    <li><a href="/admin/orgy">Start/Stop Orgy</a></li>
+</ul>
+{%- endif %}
 <h4>Statistics</h4>
 <ul>
 	<li><a href="/stats">Content Stats</a></li>
