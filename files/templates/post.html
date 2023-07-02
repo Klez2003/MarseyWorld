@@ -117,7 +117,7 @@
 						{% endif %}
 
 
-						<div id="post-text" class="{% if p.chudded %}text-uppercase chud-img chud-{{p.id_last_num}}{% endif %} {% if p.author.rainbow %}rainbow-text{% endif %} {%if p.author.queen%}queen{%endif%} {%if p.author.sharpen%}sharpen{%endif%}">
+						<div id="post-text" class="{% if p.chudded %}text-uppercase chud-img chud-{{p.id_last_num}}{% endif %} {% if p.author.rainbow %}rainbow-text{% endif %} {%if p.author.queen%}queen{%endif%} {%if p.author.sharpen%}sharpen chud-img sharpen-{{p.id_last_num}}{%endif%}">
 							{% if p.is_image %}
 								<div class="row no-gutters mb-4">
 									<div class="col">
