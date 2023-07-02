@@ -151,7 +151,7 @@ def award_thing(v, thing_type, id):
 
 	if v.shadowbanned: abort(500)
 	author = thing.author
-	if author.shadowbanned: abort(404)
+	if author.shadowbanned and not v.admin_level: abort(404)
 
 	AWARDS = deepcopy(AWARDS_ENABLED)
 	if v.house:
