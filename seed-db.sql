@@ -3085,7 +3085,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseydoomer','Marsey',2,'cigarette smoker despair depression alcoholic suicidal smoking depressing'),
 ('marseydoomguy1','Marsey',2,'marsey pixel video game doom doomguy fps shooter gif animated john retro boomer sprite eyebrow vidya'),
 ('marseydorothy','Marsey',2,'wizard of oz witch purple dress fairy tale anime jrpg blacksouls'),
-('marseydose','Marsey',2,'doctor daily dose dailydose animated jump bounce'),
+('marseydose','Marsey',2,'doctor daily dose dailydose animated jump bounce gay dragonball vegeta anal rape buttsex'),
 ('marseydoubtit','Marsey',2,'dumpster defender redneck boomer shooting doubt it cocksucker gun'),
 ('marseydovahkiin','Marsey',2,'marsey skyrim iron helmet dragon dragonborn dovah dovahkiin'),
 ('marseydownvote','Marsey',2,'downvote negative karma arrow dislike reddit'),
