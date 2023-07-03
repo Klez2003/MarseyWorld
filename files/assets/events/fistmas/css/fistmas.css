@@ -4,8 +4,8 @@
 @font-face {
 	font-family: "Burbank Small Medium";
 	src: url("/assets/events/fistmas/fonts/Burbank-Small-Medium.woff2") format("woff2"),
-	     url("/assets/events/fistmas/fonts/Burbank-Small-Medium.woff")  format("woff"),
-	     url("/assets/events/fistmas/fonts/Burbank-Small-Medium.ttf")   format("truetype");
+		 url("/assets/events/fistmas/fonts/Burbank-Small-Medium.woff")  format("woff"),
+		 url("/assets/events/fistmas/fonts/Burbank-Small-Medium.ttf")   format("truetype");
 }
 
 :root {
@@ -136,15 +136,15 @@ color: #7a7a7a !important;
 }
 
 body {
-    cursor: url(/assets/events/fistmas/images/cursor.webp?x=6), auto !important;
+	cursor: url(/assets/events/fistmas/images/cursor.webp?x=6), auto !important;
 }
 
 textarea, input[type=textbox], input[type=search] {
-    cursor: url(/assets/events/fistmas/images/text.webp?x=6) 9 14, auto !important;
+	cursor: url(/assets/events/fistmas/images/text.webp?x=6) 9 14, auto !important;
 }
 
 .btn, input[type=button], button, a {
-    cursor: url(/assets/events/fistmas/images/pointer.webp?x=6), auto !important;
+	cursor: url(/assets/events/fistmas/images/pointer.webp?x=6), auto !important;
 }
 
 .fa-moon-over-sun:before{content:"\f74a"}
@@ -441,10 +441,10 @@ body {
 
 @keyframes spin {
   from {
-    transform: rotate(0deg);
+	transform: rotate(0deg);
   }
   to {
-    transform: rotate(360deg);
+	transform: rotate(360deg);
   }
 }
 
@@ -453,20 +453,20 @@ body {
 
 /* Change mobile navbar icon colors to basketball */
 #mobile-bottom-navigation-bar i {
-    color: var(--gray-200)!important;
+	color: var(--gray-200)!important;
 }
 
 #mobile-bottom-navigation-bar {
-    box-shadow: 0px 2px 5px #000000cc;
-    /* wtf??? */
-    z-index:999 !important;
+	box-shadow: 0px 2px 5px #000000cc;
+	/* wtf??? */
+	z-index:999 !important;
 }
 
 /* Revert the snowcaps on it, is bad */
 #mobile-bottom-navigation-bar button:after {
-    background: unset;
-    /* Real work, lol */
-    display: none;
+	background: unset;
+	/* Real work, lol */
+	display: none;
 }
 
 

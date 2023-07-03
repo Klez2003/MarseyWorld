@@ -86,11 +86,11 @@ document.addEventListener("click", function(e) {
 		pop_instance.hide()
 	}
 
-    active = document.activeElement;
+	active = document.activeElement;
 
 	if (active.getAttribute("data-bs-toggle") == "popover") {
 		const author = JSON.parse(active.dataset.popInfo);
-		
+
 		if (popover.getElementsByClassName('pop-badges')) {
 			const badgesDOM = popover.getElementsByClassName('pop-badges')[0];
 			badgesDOM.innerHTML = "";
@@ -103,7 +103,7 @@ document.addEventListener("click", function(e) {
 				badgesDOM.append(badgeDOM);
 			}
 		}
-	
+
 		popover.getElementsByClassName('pop-banner')[0].src = author["bannerurl"]
 		popover.getElementsByClassName('pop-picture')[0].src = author["profile_url"]
 		if (author["hat"]) {

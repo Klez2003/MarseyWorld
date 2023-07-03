@@ -310,7 +310,7 @@ def badge_list(site, can_view_patron_badges):
 
 	if not can_view_patron_badges:
 		badges = badges.filter(BadgeDef.id.notin_(patron_badges))
-	
+
 	badges = badges.order_by(BadgeDef.id).all()
 
 	counts_raw = g.db.query(Badge.badge_id, func.count()).group_by(Badge.badge_id).all()

@@ -59,8 +59,8 @@
 }
 
 blockquote {
-    background-color: #333;
-    color: #ddd;
+	background-color: #333;
+	color: #ddd;
 }
 
 .text-muted {
@@ -110,5 +110,5 @@ h5.post-title a:visited {
 }
 
 .spoiler, spoiler {
-    background-color: black !important;
+	background-color: black !important;
 }

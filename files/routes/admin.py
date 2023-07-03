@@ -285,7 +285,7 @@ def shadowbanned(v):
 	users = g.db.query(User).filter(
 			User.shadowbanned != None,
 		).order_by(User.truescore.desc()).all()
-	
+
 	collected_users = []
 	collected_alts = set()
 
@@ -1911,23 +1911,23 @@ def admin_reset_password(user_id, v):
 @app.get("/admin/orgy")
 @admin_level_required(PERMS['ORGIES'])
 def orgy_control(v):
-    return render_template("admin/orgy_control.html", v=v, orgy=get_orgy())
+	return render_template("admin/orgy_control.html", v=v, orgy=get_orgy())
 
 @app.post("/admin/start_orgy")
 @admin_level_required(PERMS['ORGIES'])
 def start_orgy(v):
-    youtube_id = request.values.get("youtube_id")
-    title = request.values.get("title")
+	youtube_id = request.values.get("youtube_id")
+	title = request.values.get("title")
 
-    assert youtube_id
-    assert title
+	assert youtube_id
+	assert title
 
-    create_orgy(youtube_id, title)
+	create_orgy(youtube_id, title)
 
-    return redirect("/chat")
+	return redirect("/chat")
 
 @app.post("/admin/stop_orgy")
 @admin_level_required(PERMS['ORGIES'])
 def stop_orgy(v):
-    end_orgy()
-    return redirect("/chat")
+	end_orgy()
+	return redirect("/chat")

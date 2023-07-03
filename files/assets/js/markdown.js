@@ -64,7 +64,7 @@ function replace_image(match, prefix, url) {
 
 	return match
 }
-  
+
 function markdown(t) {
 	let input = t.value;
 

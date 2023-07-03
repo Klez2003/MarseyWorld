@@ -183,7 +183,7 @@ function fetchEmojis() {
 
 				if(emoji.author_prelock_username !== undefined && emoji.author_prelock_username !== null)
 					emojisSearchDictionary.updateTag(`@${emoji.author_prelock_username.toLowerCase()}`, emoji.name);
-				
+
 				if(emoji.tags instanceof Array)
 					for(let i = 0; i < emoji.tags.length; i++)
 						emojisSearchDictionary.updateTag(emoji.tags[i], emoji.name);

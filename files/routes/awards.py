@@ -318,7 +318,7 @@ def award_thing(v, thing_type, id):
 	elif kind == "queen":
 		if author.chud:
 			abort(409, f"{safe_username} is under the effect of a conflicting award: Chud award!")
-			
+
 		if not author.queen:
 			characters = list(filter(str.isalpha, author.username))
 			if characters:
@@ -347,7 +347,7 @@ def award_thing(v, thing_type, id):
 		else: author.queen = int(time.time()) + 86400
 
 		badge_grant(user=author, badge_id=285)
-		
+
 	elif kind == "chud":
 		if thing_type == 'post' and thing.sub == 'chudrama' \
 			or thing_type == 'comment' and thing.post and thing.post.sub == 'chudrama':
@@ -552,17 +552,17 @@ def award_thing(v, thing_type, id):
 	return {"message": f"{AWARDS[kind]['title']} award given to {thing_type} successfully!"}
 
 def shift_number_down(input, mod):
-    if input <= 0:
-        return 0, 0
-    number = (input%mod)
-    input -= number
-    input /= mod
-    return int(number), int(input)
+	if input <= 0:
+		return 0, 0
+	number = (input%mod)
+	input -= number
+	input /= mod
+	return int(number), int(input)
 
 def get_number_tuple(input, mods):
-    results = []
-    for mod in mods:
-        result, input = shift_number_down(input, mod)
-        results.append(result)
-    results.append(input)
-    return results
+	results = []
+	for mod in mods:
+		result, input = shift_number_down(input, mod)
+		results.append(result)
+	results.append(input)
+	return results

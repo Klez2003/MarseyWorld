@@ -149,5 +149,5 @@ h5.post-title a:visited {
 }
 
 .modal .comment-actions .list-group-item {
-    background-color: rgb(var(--background));
+	background-color: rgb(var(--background));
 }

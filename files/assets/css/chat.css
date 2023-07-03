@@ -26,17 +26,17 @@
 }
 
 .chat-mention {
-    position: relative;
+	position: relative;
 }
 
 .chat-mention::before {
-    content: "";
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    left: 0;
-    background-color: var(--primary);
-    opacity: 0.2;
+	content: "";
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	left: 0;
+	background-color: var(--primary);
+	opacity: 0.2;
 	pointer-events: none !important;
 }
 
@@ -91,12 +91,12 @@ p {
 	color: var(--black);
 	font-size: 12px;
 	margin-top: auto;
-    margin-bottom: auto;
+	margin-bottom: auto;
 }
 
 lite-youtube {
 	max-width: min(70vw,500px) !important;
-    width: 500px;
+	width: 500px;
 }
 
 .chat-group:nth-child(even) {
@@ -104,7 +104,7 @@ lite-youtube {
 }
 
 .btn-secondary {
-    border: none !important;
+	border: none !important;
 }
 
 #cancel {
@@ -132,7 +132,7 @@ lite-youtube {
 .chat-message {
 	max-height: 50vh;
 	overflow: auto;
-    max-width: 80%;
+	max-width: 80%;
 	display: inline-block;
 }
 
@@ -141,14 +141,14 @@ lite-youtube {
 }
 
 .resizable>video {
-    max-height: 28vh!important;
+	max-height: 28vh!important;
 	margin: 14px 0 0 0!important;
 }
 
 img[alt^="![]("], .img {
-    width: 90%;
-    object-fit: contain;
-    object-position: left;
+	width: 90%;
+	object-fit: contain;
+	object-position: left;
 }
 
 * {
@@ -165,5 +165,5 @@ img[alt^="![]("], .img {
 }
 
 #online > li, #online3 > li {
-    margin-top: 0.35rem;
+	margin-top: 0.35rem;
 }

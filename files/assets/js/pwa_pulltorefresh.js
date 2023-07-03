@@ -4,13 +4,13 @@ if (standalone) {
 	const defaultImg = "/e/marseythinkorino.webp";
 	const thresholdImg = "/e/marseythumbsup.webp";
 	const threshold = -100;
-	
+
 	window.addEventListener("touchend", () => {
 		if (window.scrollY < threshold) {
 			window.location.reload();
 		}
 	});
-	
+
 	window.addEventListener("scroll", () => {
 		img.setAttribute("src", window.scrollY < threshold ? thresholdImg : defaultImg);
 	});

@@ -13,8 +13,8 @@ blockquote {
 	border-left: 10px solid #ff7e7e !important;
 }
 blockquote a {
-    color: #15de59;
+	color: #15de59;
 }
 .dropdown-item:hover, .dropdown-item:focus, .dropdown-item.active {
-    background-color: #becad5;
+	background-color: #becad5;
 }

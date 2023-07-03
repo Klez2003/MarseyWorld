@@ -713,12 +713,12 @@ def torture_queen(string, key):
 	string = xmax_regex.sub(r"normalize good \g<2>s", string)
 	string = xmaxing_regex.sub(r"normalizing good \g<2>s", string)
 	string = xmaxed_regex.sub(r"normalized good \g<2>s", string)
-	
+
 	string = normal_punctuation_regex.sub("", string)
 	string = more_than_one_comma_regex.sub(",", string)
 	if string[-5:] == ', and':
 		string = string[:-5]
-    
+
 	random.seed(key)
 	if random.random() < PHRASE_CHANCE:
 		girl_phrase = random.choice(GIRL_PHRASES)

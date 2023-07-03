@@ -1608,7 +1608,7 @@ nav
 }
 .pagination-sm .page-link {
 	padding: 0.25rem min(20px, 3vw);
-    font-size: min(25px, 5.8vw);
+	font-size: min(25px, 5.8vw);
 	line-height: 1.5;
 }
 .pagination-sm .page-item:first-child .page-link {
@@ -6676,13 +6676,13 @@ g {
 .queen:not(a) {
 	color: hotpink !important;
 	font-weight: 700 !important;
-    text-transform: lowercase !important;
+	text-transform: lowercase !important;
 }
 
 .sharpen:not(a) {
 	color: red !important;
 	font-weight: bold !important;
-    font-style: italic !important;
+	font-style: italic !important;
 }
 
 .sharpen-0:after {
@@ -6880,7 +6880,7 @@ div.markdown {
 	max-height: 100%;
 	height: 100%;
 	margin-top: 0 !important;
-    margin-bottom: 0 !important;
+	margin-bottom: 0 !important;
 }
 
 #desktop-expanded-image {
@@ -7220,7 +7220,7 @@ body {
 	width: 200px;
 	max-height: 100vh !important;
 	object-fit: contain;
-    object-position: left;
+	object-position: left;
 }
 
 .navbar-nav > .nav-item {

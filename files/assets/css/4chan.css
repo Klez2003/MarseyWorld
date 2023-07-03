@@ -153,7 +153,7 @@ h5.post-title a:visited {
 }
 
 .spoiler, spoiler {
-    background-color: black !important;
+	background-color: black !important;
 }
 
 *:target, .unread {

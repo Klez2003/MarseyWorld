@@ -11,7 +11,7 @@
 	{% if u.is_suspended %}
 		<h5 class="text-primary" id="profile-{{deviceType}}--banned">BANNED USER:
 			{{u.ban_reason | safe}}
-			
+
 			{% if not u.ban_reason.startswith('1-Day ban award used by') %}
 				(by {{u.banned_by | safe}})
 			{% endif %}
