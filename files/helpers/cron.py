@@ -5,7 +5,7 @@ from sys import stdout
 from shutil import make_archive
 from hashlib import md5
 from collections import Counter
-from sqlalchemy.orm import load_only
+from sqlalchemy.orm import load_only, InstrumentedAttribute
 
 import click
 import requests
@@ -178,8 +178,9 @@ def _process_timer(attr, badge_ids, text, extra_attrs={}):
 	for user in users:
 		for k, val in attr_dict.items():
 			k = str(k).split('.')[1]
-			if isinstance(val, tuple):
-				val = getattr(user, val[0])
+			if isinstance(val, InstrumentedAttribute):
+				val = str(val).split('.')[1]
+				val = getattr(user, val)
 			setattr(user, k, val)
 
 	#remove corresponding badges
@@ -202,19 +203,19 @@ def _award_timers_task():
 	_process_timer(User.owoify, [167], "The OwOify award you received has expired!")
 	_process_timer(User.sharpen, [289], "The Sharpen award you received has expired!")
 	_process_timer(User.bite, [168], "The bite award you received has expired! You're now back in your original house!", {
-		User.house: ("old_house"),
+		User.house: User.old_house,
 		User.old_house: '',
 	})
 	_process_timer(User.earlylife, [169], "The earlylife award you received has expired!")
 	_process_timer(User.marsify, [170], "The marsify award you received has expired!")
 	_process_timer(User.rainbow, [171], "The rainbow award you received has expired!")
 	_process_timer(User.queen, [285], "The queen award you received has expired!", {
-		User.username: ("prelock_username"),
+		User.username: User.prelock_username,
 		User.prelock_username: None,
 	})
 	_process_timer(User.spider, [179], "The spider award you received has expired!")
 	_process_timer(User.namechanged, [281], "The namelock award you received has expired. You're now back to your old username!", {
-		User.username: ("prelock_username"),
+		User.username: User.prelock_username,
 		User.prelock_username: None,
 	})
 
