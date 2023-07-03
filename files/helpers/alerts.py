@@ -92,9 +92,9 @@ def notif_comment(text):
 
 def notif_comment2(p):
 
-	text = f"@{p.author_name} has mentioned you: [{p.title}]({p.shortlink})"
+	text = f"@{p.author_name} has mentioned you: [{p.title}](/post/{p.id})"
 
-	search_html = f'%</a> has mentioned you: <a href="/post/{p.id}/%'
+	search_html = f'%</a> has mentioned you: <a href="/post/{p.id}"%'
 
 	existing = g.db.query(Comment.id).filter(Comment.author_id == AUTOJANNY_ID, Comment.parent_post == None, Comment.body_html.like(search_html)).first()
 
