@@ -488,7 +488,7 @@ function handle_files(input, newfiles) {
 		oldfiles[ta.id].push(file)
 		if (span.innerHTML != ' ') span.innerHTML += ', '
 		span.innerHTML += file.name.substr(0, 30);
-		if (location.pathname != '/chat')
+		if (location.pathname != '/chat' && location.pathname != '/old_chat')
 			insertText(ta, `[${file.name}]`);
 		}
 

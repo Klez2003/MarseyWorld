@@ -137,8 +137,11 @@
 		{% endif %}
 	{% endif %}
 
-	{% if request.path.endswith('/chat') %}
+	{% if request.path.endswith('/chat') or request.path.endswith('/old_chat') %}
 		<link rel="stylesheet" href="{{'css/chat.css' | asset}}">
+	{% endif %}
+
+	{% if request.path.endswith('/chat') %}
 		<link rel="stylesheet" href="{{'css/orgy.css' | asset}}">
 	{% endif %}
 {% endmacro %}
