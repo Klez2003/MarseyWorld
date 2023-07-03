@@ -813,6 +813,16 @@ ALTER SEQUENCE public.oauth_apps_id_seq OWNED BY public.oauth_apps.id;
 
 
 --
+-- Name: orgies; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.orgies (
+    youtube_id character varying(12) NOT NULL,
+    title character varying(1000) NOT NULL
+);
+
+
+--
 -- Name: pgbench_accounts; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1125,13 +1135,6 @@ CREATE TABLE public.votes (
     coins smallint DEFAULT 1 NOT NULL
 );
 
---
--- Name: orgies, Type: TABLE; Schema: public; Owner: -
---
-CREATE TABLE public.orgies (
-    youtube_id character varying(12) NOT NULL,
-    title character varying(1000) NOT NULL
-);
 
 --
 -- Name: award_relationships id; Type: DEFAULT; Schema: public; Owner: -
@@ -1331,6 +1334,14 @@ ALTER TABLE ONLY public.banneddomains
 
 
 --
+-- Name: emojis emoji_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.emojis
+    ADD CONSTRAINT emoji_pkey PRIMARY KEY (name);
+
+
+--
 -- Name: exiles exiles_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1392,14 +1403,6 @@ ALTER TABLE ONLY public.hats
 
 ALTER TABLE ONLY public.lotteries
     ADD CONSTRAINT lotteries_pkey PRIMARY KEY (id);
-
-
---
--- Name: emojis marseys_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.emojis
-    ADD CONSTRAINT marseys_pkey PRIMARY KEY (name);
 
 
 --
@@ -1813,6 +1816,34 @@ CREATE INDEX emoji_kind ON public.emojis USING btree (kind);
 
 
 --
+-- Name: emojis_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX emojis_idx ON public.emojis USING btree (name);
+
+
+--
+-- Name: emojis_idx2; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX emojis_idx2 ON public.emojis USING btree (author_id);
+
+
+--
+-- Name: emojis_idx3; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX emojis_idx3 ON public.emojis USING btree (count DESC);
+
+
+--
+-- Name: emojis_idx4; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX emojis_idx4 ON public.emojis USING btree (submitter_id);
+
+
+--
 -- Name: fki_comment_approver_fkey; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1985,34 +2016,6 @@ CREATE UNIQUE INDEX lowercase_prelock_username ON public.users USING btree (lowe
 --
 
 CREATE UNIQUE INDEX lowercase_username ON public.users USING btree (lower((username)::text));
-
-
---
--- Name: marseys_idx; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX marseys_idx ON public.emojis USING btree (name);
-
-
---
--- Name: marseys_idx2; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX marseys_idx2 ON public.emojis USING btree (author_id);
-
-
---
--- Name: marseys_idx3; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX marseys_idx3 ON public.emojis USING btree (count DESC);
-
-
---
--- Name: marseys_idx4; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX marseys_idx4 ON public.emojis USING btree (submitter_id);
 
 
 --
@@ -2558,6 +2561,22 @@ ALTER TABLE ONLY public.commentvotes
 
 
 --
+-- Name: emojis emoji_author_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.emojis
+    ADD CONSTRAINT emoji_author_fkey FOREIGN KEY (author_id) REFERENCES public.users(id);
+
+
+--
+-- Name: emojis emoji_submitter_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.emojis
+    ADD CONSTRAINT emoji_submitter_fkey FOREIGN KEY (submitter_id) REFERENCES public.users(id);
+
+
+--
 -- Name: exiles exile_exiler_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2651,22 +2670,6 @@ ALTER TABLE ONLY public.hats
 
 ALTER TABLE ONLY public.hats
     ADD CONSTRAINT hats_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
-
-
---
--- Name: emojis marsey_author_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.emojis
-    ADD CONSTRAINT marsey_author_fkey FOREIGN KEY (author_id) REFERENCES public.users(id);
-
-
---
--- Name: emojis marsey_submitter_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.emojis
-    ADD CONSTRAINT marsey_submitter_fkey FOREIGN KEY (submitter_id) REFERENCES public.users(id);
 
 
 --
