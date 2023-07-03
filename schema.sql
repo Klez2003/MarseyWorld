@@ -246,7 +246,6 @@ CREATE TABLE public.users (
     profile_background character varying(167),
     event_music boolean,
     chudded_by integer,
-    event_darkmode boolean,
     blacklisted_by integer,
     hidevotedon boolean DEFAULT false NOT NULL,
     chud_phrase character varying(35),
@@ -1807,13 +1806,6 @@ CREATE INDEX cvote_user_index ON public.commentvotes USING btree (user_id);
 
 
 --
--- Name: domains_domain_trgm_idx; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX domains_domain_trgm_idx ON public.banneddomains USING gin (domain public.gin_trgm_ops);
-
-
---
 -- Name: emoji_kind; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1968,13 +1960,6 @@ CREATE INDEX follow_user_id_index ON public.follows USING btree (user_id);
 
 
 --
--- Name: groups_index; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX groups_index ON public.groups USING btree (created_utc);
-
-
---
 -- Name: hat_defs_submitter_id_idx; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2056,13 +2041,6 @@ CREATE INDEX modaction_id_idx ON public.modactions USING btree (id DESC);
 --
 
 CREATE INDEX modaction_pid_idx ON public.modactions USING btree (target_post_id);
-
-
---
--- Name: notification_read_idx; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX notification_read_idx ON public.notifications USING btree (read);
 
 
 --
