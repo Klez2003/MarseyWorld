@@ -184,8 +184,7 @@ def approve_emoji(v, name):
 
 
 	cache.delete("emojis")
-	if emoji.kind == "Marsey":
-		cache.delete("marseys")
+	cache.delete("emoji_list")
 
 	purge_files_in_cache(f"https://{SITE}/e/{emoji.name}/webp")
 
@@ -494,8 +493,7 @@ def update_emoji(v):
 	g.db.add(ma)
 
 	cache.delete("emojis")
-	if existing.kind == "Marsey":
-		cache.delete("marseys")
+	cache.delete("emoji_list")
 
 	return render_template("admin/update_assets.html", v=v, msg=f"'{name}' updated successfully!", name=name, tags=tags, kind=kind, type="Emoji")
 

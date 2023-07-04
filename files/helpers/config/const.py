@@ -557,7 +557,6 @@ PERMS = { # Minimum admin_level to perform action.
 }
 
 FEATURES = {
-	'MARSEYS': True,
 	'MARSEYBUX': True,
 	'AWARDS': True,
 	'CHAT': True,

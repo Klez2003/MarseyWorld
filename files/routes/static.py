@@ -41,33 +41,29 @@ def reddit_post(subreddit, v, path):
 	return redirect(f'https://{reddit}/{post_id}')
 
 
-@cache.cached(key_prefix="marseys")
-def get_marseys():
-	if not FEATURES['MARSEYS']: return []
-	marseys = []
-	for marsey, author in g.db.query(Emoji, User).join(User, Emoji.author_id == User.id).filter(Emoji.kind == "Marsey", Emoji.submitter_id == None).order_by(Emoji.count.desc()):
-		marsey.author = author.username if FEATURES['ASSET_SUBMISSIONS'] else None
-		marseys.append(marsey)
-	return marseys
+@cache.cached(key_prefix="emoji_list")
+def get_emoji_list():
+	emojis = []
+	for emoji, author in g.db.query(Emoji, User).join(User, Emoji.author_id == User.id).filter(Emoji.submitter_id == None).order_by(Emoji.count.desc()):
+		emoji.author = author.username if FEATURES['ASSET_SUBMISSIONS'] else None
+		emojis.append(emoji)
+	return emojis
 
-@app.get("/marseys")
+@app.get("/emojis")
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
-@auth_desired_with_logingate
-def marseys(v:User):
-	if SITE_NAME != 'rDrama':
-		abort(404)
-
-	marseys = get_marseys()
-	authors = get_accounts_dict([m.author_id for m in marseys], v=v, graceful=True)
+@auth_required
+def emoji_list(v:User):
+	emojis = get_emoji_list()
+	authors = get_accounts_dict([e.author_id for e in emojis], v=v, graceful=True)
 	original = os.listdir("/asset_submissions/emojis/original")
-	for marsey in marseys:
-		marsey.user = authors.get(marsey.author_id)
+	for emoji in emojis:
+		emoji.user = authors.get(emoji.author_id)
 		for x in IMAGE_FORMATS:
-			if f'{marsey.name}.{x}' in original:
-				marsey.og = f'{marsey.name}.{x}'
+			if f'{emoji.name}.{x}' in original:
+				emoji.og = f'{emoji.name}.{x}'
 				break
-	return render_template("marseys.html", v=v, marseys=marseys)
+	return render_template("emojis.html", v=v, emojis=emojis)
 
 
 
@@ -91,7 +87,7 @@ def get_emojis():
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
-def emoji_list(v):
+def emojis(v):
 	return get_emojis()
 
 
