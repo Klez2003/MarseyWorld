@@ -173,10 +173,9 @@ def _process_timer(attr, badge_ids, text, extra_attrs={}):
 	uids = set([x.id for x in users])
 
 	#set user attributes
-	attr_dict = {attr: 0} | extra_attrs
-
 	for user in users:
-		for k, val in attr_dict.items():
+		setattr(user, attr, 0)
+		for k, val in extra_attrs.items():
 			k = str(k).split('.')[1]
 			if isinstance(val, InstrumentedAttribute):
 				val = str(val).split('.')[1]
