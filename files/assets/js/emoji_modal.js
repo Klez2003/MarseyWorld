@@ -155,7 +155,7 @@ const emojisSearchDictionary = {
 // get public emojis list
 function fetchEmojis() {
 	const headers = new Headers({xhr: "xhr"})
-	return fetch("/emojis", {
+	return fetch("/emojis_json", {
 		headers,
 	})
 		.then(res => res.json())

@@ -83,7 +83,7 @@ def get_emojis():
 		collected.append(emoji.json())
 	return collected
 
-@app.get("/emojis")
+@app.get("/emojis_json")
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
