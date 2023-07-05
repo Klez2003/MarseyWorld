@@ -1249,7 +1249,6 @@ INSERT INTO public.hat_defs VALUES (1138, 'Fallout Advanced Power Armour', 'War.
 INSERT INTO public.hat_defs VALUES (902, 'Shovel Knight', 'Cosplay as the shovel man himself!', 2, 500, NULL, 1665347426);
 INSERT INTO public.hat_defs VALUES (917, 'Bell Pepper (red)', 'Now you can cosplay as a bell pepper and make mama proud!', 2, 500, NULL, 1665417006);
 INSERT INTO public.hat_defs VALUES (911, 'Racecar Hat', 'I sleep in a hat with my wife', 2, 500, NULL, 1665355513);
-
 INSERT INTO public.hat_defs VALUES (1149, 'This hat kills fishists', 'This hat is perfect for anyone who loves fishing and has a sense of humor. Whether you’re a an amateur angler or master baiter, you can show off your confidence and charisma with this witty slogan. It is made of cotton and has an adjustable snapback. Order yours today and reel in the compliments!', 2, 500, NULL, 1677730441);
 INSERT INTO public.hat_defs VALUES (1153, 'Hope Eradicated', 'Who needs friends when you have money?', 2, 500, NULL, 1679346572);
 INSERT INTO public.hat_defs VALUES (1150, 'Power In Misery', 'Stop wasting company resources by getting killed...', 2, 500, NULL, 1679343066);
@@ -1610,6 +1609,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('carpbrainlet','Carp',2,'retarded stupid'),
 ('carpbritish','Carp',2,'carp british bong teeth tea union uk britain gb flag'),
 ('carpbuff','Carp',2,'muscles tough strong carpathianflorist admin mod jannie'),
+('carpburger','Carp',2,'american fat obese overweight food hungry'),
 ('carpcarphug','Carp',2,'selflove narcissism carpathianflorist fish'),
 ('carpchonker','Carp',2,'fatty obesity obese'),
 ('carpchud','Carp',2,'smug carpathianflorist poljak fish glasses soyjak'),
@@ -2630,6 +2630,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseybengal2','Marsey',2,'marsey bengal cat spotted wild'),
 ('marseybengal3','Marsey',2,'marsey bengal cat spotted wild'),
 ('marseybestfriends','Marsey',2,'snoo reddit alien slice kill kys stab blood wpd beheading revenge machete watchpeopledie murder death'),
+('marseybestiereject','Marsey',2,'carp gossip phone silent fish'),
 ('marseybetauprising','Marsey',2,'blackops2cel blops2cel incel volcel lasereyes dark involuntary celibate saint'),
 ('marseybiast','Marsey',2,'darrell brooks court biased biast'),
 ('marseybib','Marsey',2,'marsey baby bib diaper pacifier pin bonnet toddler abdl huh'),
@@ -2727,6 +2728,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseybrianna2','Marsey',2,'trans bear laundrie gabby'),
 ('marseybrick','Marsey',2,'throw riot subtlety broken paver'),
 ('marseybride','Marsey',2,'dress tiara married wedding veil marseyismywaifu marriage'),
+('marseybritbongitsover','Marsey',2,'sad giveup defeat verbose english frown'),
 ('marseybritish','Marsey',2,'marsey dumb teeth british gasp shocked'),
 ('marseybrofist','Marsey',2,'excited greeting cool'),
 ('marseybrokenrecord','Marsey',2,'repetitive boring tedious tiresome dreary wearisome unvarying unchanging monotonous uninteresting'),
@@ -4644,6 +4646,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseyslowpoke','Marsey',2,'pokemon stupid late anime weeb meme'),
 ('marseyslug','Marsey',2,'slug slut text'),
 ('marseyslurp','Marsey',2,'licking tongue'),
+('marseyslurpfast','Marsey',2,'lick tongue saliva yum creep'),
 ('marseysmirk','Marsey',2,'reaction snicker trolling lol'),
 ('marseysmoothbrain','Marsey',2,'idiot big brain brainlet retard reaction fool dumbass moron'),
 ('marseysmudge','Marsey',2,'diogenesjr diogenesjunior meme'),
@@ -4654,6 +4657,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseysmug5','Marsey',2,'scoff lol srdine mock gossip'),
 ('marseysmug6','Marsey',2,'scoff gossip lol srdine'),
 ('marseysmugautist','Marsey',2,'autism retard brainlet drool hat'),
+('marseysmugfinn','Marsey',2,'bardfinn witch trans tranny troon oaken'),
 ('marseysmughips','Marsey',2,'hips smug spicegirl spice spices cooking cuisine'),
 ('marseysmugretard','Marsey',2,'srdine drooling brainlet idiot fool buffoon idiot'),
 ('marseysmugsideeyes','Marsey',2,'marsey smug'),
