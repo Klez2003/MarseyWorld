@@ -9,6 +9,7 @@ from sqlalchemy.orm import load_only, InstrumentedAttribute
 
 import click
 import requests
+import traceback
 
 import files.helpers.offsitementions as offsitementions
 import files.helpers.stats as stats
@@ -32,28 +33,31 @@ def cron(every_5m, every_1h, every_1d, every_1mo):
 	g.db = db_session()
 	g.v = None
 
-	#I put commit under each task to release database locks and prevent main flask app crashing
-	if every_5m:
-		_award_timers_task()
+	try:
+		if every_5m:
+			_award_timers_task()
 
-		if FEATURES['GAMBLING']:
-			check_if_end_lottery_task()
+			if FEATURES['GAMBLING']:
+				check_if_end_lottery_task()
 
-			spin_roulette_wheel()
-		#offsitementions.offsite_mentions_task(cache)
+				spin_roulette_wheel()
+			#offsitementions.offsite_mentions_task(cache)
 
-	if every_1d:
-		stats.generate_charts_task(SITE)
+		if every_1d:
+			stats.generate_charts_task(SITE)
 
-		_sub_inactive_purge_task()
+			_sub_inactive_purge_task()
 
-		cache.set('stats', stats.stats())
+			cache.set('stats', stats.stats())
 
-		_generate_emojis_zip()
+			_generate_emojis_zip()
 
-		_leaderboard_task()
+			_leaderboard_task()
+		g.db.commit()
+	except:
+		print(traceback.format_exc(), flush=True)
+		g.db.rollback()
 
-	g.db.commit()
 	g.db.close()
 	del g.db
 	stdout.flush()
