@@ -470,7 +470,8 @@ def award_thing(v, thing_type, id):
 		else: author.rehab = int(time.time()) + 86400
 		badge_grant(user=author, badge_id=109)
 	elif kind == "deflector":
-		author.deflector = int(time.time()) + 36000
+		if author.deflector: author.deflector += 36000
+		else: author.deflector = int(time.time()) + 36000
 	elif kind == "beano":
 		badge_grant(user=author, badge_id=128)
 	elif kind == "checkmark":
