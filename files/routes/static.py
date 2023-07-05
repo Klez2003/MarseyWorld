@@ -56,13 +56,19 @@ def get_emoji_list():
 def emoji_list(v:User):
 	emojis = get_emoji_list()
 	authors = get_accounts_dict([e.author_id for e in emojis], v=v, graceful=True)
-	original = os.listdir("/asset_submissions/emojis/original")
-	for emoji in emojis:
-		emoji.user = authors.get(emoji.author_id)
-		for x in IMAGE_FORMATS:
-			if f'{emoji.name}.{x}' in original:
-				emoji.og = f'{emoji.name}.{x}'
-				break
+
+	if FEATURES['ASSET_SUBMISSIONS']:
+		original = os.listdir("/asset_submissions/emojis/original")
+		for emoji in emojis:
+			emoji.user = authors.get(emoji.author_id)
+			for x in IMAGE_FORMATS:
+				if f'{emoji.name}.{x}' in original:
+					emoji.og = f'{emoji.name}.{x}'
+					break
+	else:
+		for emoji in emojis:
+			emoji.user = authors.get(emoji.author_id)
+
 	return render_template("emojis.html", v=v, emojis=emojis)
 
 
