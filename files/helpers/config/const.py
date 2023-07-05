@@ -381,7 +381,6 @@ if SITE_NAME == 'rDrama':
 		'changelog',
 		'programming',
 		'slackernews',
-		'chudrama',
 		'wallstreetbets',
 		'lit',
 		'vidya',
