@@ -37,6 +37,7 @@ psql -U postgres -f schema.sql postgres
 psql -U postgres -f seed-users.sql postgres
 psql -U postgres -f seed-db.sql postgres
 pip3 install -r requirements.txt
+pip3 install --upgrade --force-reinstall "git+https://github.com/ytdl-org/youtube-dl.git"
 
 mkdir /images
 mkdir /chat_images

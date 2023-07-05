@@ -19,6 +19,7 @@ COPY requirements.txt /requirements.txt
 COPY startup_docker_chat.sh /s
 
 RUN pip3 install -r /requirements.txt
+RUN pip3 install --upgrade --force-reinstall "git+https://github.com/ytdl-org/youtube-dl.git"
 
 RUN mkdir /images
 RUN mkdir /chat_images
