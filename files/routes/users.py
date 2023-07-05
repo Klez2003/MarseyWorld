@@ -868,7 +868,7 @@ def u_username_wall(v:Optional[User], username:str):
 
 	is_following = v and u.has_follower(v)
 
-	if v and v.id != u.id and not v.admin_level:
+	if v and v.id != u.id and not v.admin_level and not session.get("GLOBAL"):
 		view = g.db.query(ViewerRelationship).filter_by(viewer_id=v.id, user_id=u.id).one_or_none()
 		if view: view.last_view_utc = int(time.time())
 		else: view = ViewerRelationship(viewer_id=v.id, user_id=u.id)
@@ -918,7 +918,7 @@ def u_username_wall_comment(v:User, username:str, cid):
 
 	is_following = v and u.has_follower(v)
 
-	if v and v.id != u.id and not v.admin_level:
+	if v and v.id != u.id and not v.admin_level and not session.get("GLOBAL"):
 		view = g.db.query(ViewerRelationship).filter_by(viewer_id=v.id, user_id=u.id).one_or_none()
 		if view: view.last_view_utc = int(time.time())
 		else: view = ViewerRelationship(viewer_id=v.id, user_id=u.id)
@@ -970,7 +970,7 @@ def u_username(v:Optional[User], username:str):
 			abort(403, f"@{u.username}'s userpage is private")
 		return render_template("userpage/private.html", u=u, v=v, is_following=is_following), 403
 
-	if v and v.id != u.id and not v.admin_level:
+	if v and v.id != u.id and not v.admin_level and not session.get("GLOBAL"):
 		view = g.db.query(ViewerRelationship).filter_by(viewer_id=v.id, user_id=u.id).one_or_none()
 		if view: view.last_view_utc = int(time.time())
 		else: view = ViewerRelationship(viewer_id=v.id, user_id=u.id)
@@ -1041,7 +1041,7 @@ def u_username_comments(username, v=None):
 			abort(403, f"@{u.username}'s userpage is private")
 		return render_template("userpage/private.html", u=u, v=v, is_following=is_following), 403
 
-	if v and v.id != u.id and not v.admin_level:
+	if v and v.id != u.id and not v.admin_level and not session.get("GLOBAL"):
 		view = g.db.query(ViewerRelationship).filter_by(viewer_id=v.id, user_id=u.id).one_or_none()
 		if view: view.last_view_utc = int(time.time())
 		else: view = ViewerRelationship(viewer_id=v.id, user_id=u.id)

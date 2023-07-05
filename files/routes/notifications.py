@@ -298,7 +298,7 @@ def notifications_reddit(v:User):
 def notifications(v:User):
 	page = get_page()
 
-	if v.admin_level < PERMS['USER_SHADOWBAN']:
+	if not session.get("GLOBAL") and v.admin_level < PERMS['USER_SHADOWBAN']:
 		unread_and_inaccessible = g.db.query(Notification).join(Notification.comment).join(Comment.author).filter(
 			Notification.user_id == v.id,
 			Notification.read == False,
