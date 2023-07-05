@@ -154,11 +154,11 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None):
 				continue
 
 			if i.group(1) == 'everyone' and not v.shadowbanned:
-				cost = g.db.query(User).count() * 5
+				cost = g.db.query(User).count() * 10
 				if cost > v.coins:
 					abort(403, f"You need {cost} coins to mention these ping groups!")
 
-				g.db.query(User).update({ User.coins: User.coins + 5 })
+				g.db.query(User).update({ User.coins: User.coins + 10 })
 
 				v.charge_account('coins', cost)
 				if log_cost:
@@ -173,8 +173,8 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None):
 				notify_users.update(members)
 
 				if ghost or v.id not in group.member_ids:
-					if group.name == 'biofoids': mul = 10
-					else: mul = 5
+					if group.name == 'biofoids': mul = 20
+					else: mul = 10
 
 					cost += len(members) * mul
 					if cost > v.coins:

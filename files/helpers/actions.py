@@ -117,8 +117,8 @@ def execute_snappy(post:Post, v:User):
 
 			group_members = group.member_ids
 
-			if group.name == 'biofoids': mul = 10
-			else: mul = 5
+			if group.name == 'biofoids': mul = 20
+			else: mul = 10
 
 			for user in g.db.query(User).filter(User.id.in_(group_members)).all():
 				user.pay_account('coins', mul)
