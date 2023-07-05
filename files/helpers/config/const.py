@@ -973,7 +973,6 @@ elif SITE == 'watchpeopledie.tv':
 		'aevan': AEVANN_ID,
 		'avean': AEVANN_ID,
 		' capy': AEVANN_ID,
-		'the rodent': AEVANN_ID,
 		'carp': CARP_ID,
 		'clit': CARP_ID,
 	}
