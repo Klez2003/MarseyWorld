@@ -31,4 +31,3 @@ user-agents
 psycopg2-binary
 yattag
 webptools
-setuptools>=65.5.1 # not directly required, pinned by Snyk to avoid a vulnerability
