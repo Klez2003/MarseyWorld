@@ -115,11 +115,11 @@ def login_post(v:Optional[User]):
 	return redirect('/')
 
 def log_failed_admin_login_attempt(account:User, type:str):
-		if not account or account.admin_level < PERMS['SITE_WARN_ON_INVALID_AUTH']: return
-		ip = get_CF()
-		print(f"A site admin from {ip} failed to login to account @{account.user_name} (invalid {type})")
-		t = time.strftime("%d/%B/%Y %H:%M:%S UTC", time.gmtime(time.time()))
-		log_file(f"{t}, {ip}, {account.username}, {type}", "admin_failed_logins.log")
+	if not account or account.admin_level < PERMS['SITE_WARN_ON_INVALID_AUTH']: return
+	ip = get_CF()
+	print(f"A site admin from {ip} failed to login to account @{account.user_name} (invalid {type})")
+	t = time.strftime("%d/%B/%Y %H:%M:%S UTC", time.gmtime(time.time()))
+	log_file(f"{t}, {ip}, {account.username}, {type}", "admin_failed_logins.log")
 
 def on_login(account, redir=None):
 	session.permanent = True
