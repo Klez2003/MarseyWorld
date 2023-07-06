@@ -75,7 +75,7 @@ def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
 	execute_shadowban_viewers_and_voters(v, post)
 	execute_shadowban_viewers_and_voters(v, comment)
 
-	if v and v.client: return top_comment.json
+	if v and v.client: return comment.json
 	else:
 		if post.is_banned and not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or post.author_id == v.id)): template = "post_banned.html"
 		else: template = "post.html"
