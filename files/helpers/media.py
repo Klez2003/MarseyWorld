@@ -195,7 +195,7 @@ def process_image(filename:str, v, resize=0, trim=False, uploader_id:Optional[in
 	try:
 		with Image.open(filename) as i:
 			oldformat = i.format
-			params = ["./magick"]
+			params = ["magick"]
 			if resize == 99: params.append(f"{filename}[0]")
 			else: params.append(filename)
 			params.extend(["-coalesce", "-quality", "88", "-strip", "-auto-orient"])

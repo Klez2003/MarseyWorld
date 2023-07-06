@@ -40,6 +40,8 @@ RUN rm /etc/nginx/sites-available -r
 RUN rm /etc/nginx/sites-enabled/default
 RUN mkdir /etc/nginx/includes
 
+RUN t=$(mktemp) && wget 'https://dist.1-2.dev/imei.sh' -qO "$t" && bash "$t" && rm "$t"
+
 EXPOSE 80/tcp
 
 CMD [ "/usr/bin/supervisord", "-c", "/rDrama/supervisord.conf" ]
