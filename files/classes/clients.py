@@ -1,5 +1,6 @@
 import time
 
+from flask import g
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy.orm import relationship, scoped_session
 from sqlalchemy.sql.sqltypes import *
