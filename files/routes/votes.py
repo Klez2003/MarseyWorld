@@ -125,7 +125,6 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 			vote = Vote(user_id=v.id,
 						vote_type=new,
 						post_id=target_id,
-						app_id=v.client.application.id if v.client else None,
 						real=real,
 						coins=coin_value
 			)
@@ -133,7 +132,6 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 			vote = CommentVote(user_id=v.id,
 						vote_type=new,
 						comment_id=target_id,
-						app_id=v.client.application.id if v.client else None,
 						real=real,
 						coins=coin_value
 			)
