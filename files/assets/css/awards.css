@@ -1,5 +1,6 @@
 #awards-container {
-	position: fixed;
+	position: absolute;
+	overflow: hidden;
 	pointer-events: none;
 	z-index: 9999;
 }
@@ -79,7 +80,8 @@
 
 /*ricardo*/
 .ricardo {
-	position: fixed !important;
+	position: absolute !important;
+	overflow: hidden !important;
 	bottom: 0;
 }
 .ricardo img {
