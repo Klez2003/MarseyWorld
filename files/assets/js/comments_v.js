@@ -114,7 +114,9 @@ function delete_commentModal(t, id) {
 	});
 }
 
-function post_reply(id){
+function post_reply(id) {
+	close_inline_speed_emoji_modal();
+
 	const btn = document.getElementById(`save-reply-to-${id}`)
 	btn.disabled = true;
 	btn.classList.add('disabled');
@@ -223,6 +225,8 @@ function comment_edit(id){
 }
 
 function post_comment(fullname, hide){
+	close_inline_speed_emoji_modal();
+
 	const btn = document.getElementById('save-reply-to-'+fullname)
 	const ta = document.getElementById('reply-form-body-'+fullname)
 	btn.disabled = true
