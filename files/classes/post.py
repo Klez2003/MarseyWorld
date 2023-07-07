@@ -208,7 +208,7 @@ class Post(Base):
 		for r in self.reports:
 			reports[r.user.username] = r.reason
 
-		data = {'author_name': self.author_name if self.author else '',
+		data = {'author_name': self.author_name,
 				'permalink': self.permalink,
 				'shortlink': self.shortlink,
 				'is_banned': bool(self.is_banned),
@@ -234,7 +234,6 @@ class Post(Base):
 				'distinguish_level': self.distinguish_level,
 				'voted': self.voted if hasattr(self, 'voted') else 0,
 				'reports': reports,
-				'author': '👻' if self.ghost else self.author.json
 				}
 
 		if "replies" in self.__dict__:

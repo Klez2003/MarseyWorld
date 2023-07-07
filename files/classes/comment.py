@@ -305,7 +305,6 @@ class Comment(Base):
 				'downvotes': self.downvotes,
 				'is_bot': self.is_bot,
 				'reports': reports,
-				'author': '👻' if self.ghost else self.author.json,
 				# 'replies': [x.json for x in self.replies(sort="old", v=None)] # WORKER TIMEOUTS ON BUGTHREAD
 				}
 
