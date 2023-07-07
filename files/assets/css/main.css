@@ -2000,7 +2000,7 @@ button.close {
 }
 .tooltip {
 	position: absolute;
-	z-index: 107000;
+	z-index: 1070;
 	display: block;
 	margin: 0;
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
@@ -2378,7 +2378,7 @@ a.bg-light:hover, a.bg-light:focus, button.bg-light:hover, button.bg-light:focus
 	top: 0;
 	right: 0;
 	left: 0;
-	z-index: 103000;
+	z-index: 1030;
 }
 .fixed-bottom {
 	position: fixed;
