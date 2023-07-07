@@ -38,7 +38,7 @@ class OauthApp(Base):
 
 	@lazy
 	def idlist(self, cls, page=1):
-		items = db.query(cls).options(load_only(cls.id)).filter_by(app_id=self.id)
+		items = g.db.query(cls).options(load_only(cls.id)).filter_by(app_id=self.id)
 		total = items.count()
 
 		items = items.order_by(cls.created_utc.desc())
