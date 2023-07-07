@@ -3,3 +3,11 @@
 	--black: #999;
 	--background: 34, 34, 34;
 }
+
+#speed-carot-modal .speed-modal-option {
+	background-color: rgb(var(--background));
+}
+
+#speed-carot-modal .speed-modal-option:hover, #speed-carot-modal .speed-modal-option:focus, #speed-carot-modal .speed-modal-option.selected {
+	background-color: #444444;
+}
