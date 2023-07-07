@@ -1,7 +1,5 @@
 from os import path
 
-from sqlalchemy.orm import scoped_session
-
 from files.classes import Emoji, Sub
 from files.helpers.config.const import *
 
@@ -13,7 +11,7 @@ SNAPPY_MARSEYS = []
 SNAPPY_QUOTES = []
 STEALTH_HOLES = []
 
-def const_initialize(db:scoped_session):
+def const_initialize(db):
 	global marseys_const, marseys_const2, marsey_mappings, SNAPPY_KONGS, SNAPPY_MARSEYS, SNAPPY_QUOTES, STEALTH_HOLES
 
 	marseys_const = [x[0] for x in db.query(Emoji.name).filter(Emoji.kind=="Marsey", Emoji.submitter_id==None, Emoji.name!='chudsey').all()]

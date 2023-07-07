@@ -4,7 +4,7 @@ from urllib.parse import urlparse
 from flask import g
 
 from sqlalchemy import Column, FetchedValue, ForeignKey
-from sqlalchemy.orm import deferred, relationship, scoped_session
+from sqlalchemy.orm import deferred, relationship
 from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base

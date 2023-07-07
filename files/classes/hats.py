@@ -1,7 +1,7 @@
 import time
 
 from sqlalchemy import Column, ForeignKey
-from sqlalchemy.orm import relationship, scoped_session
+from sqlalchemy.orm import relationship
 from sqlalchemy.sql.sqltypes import *
 from flask import g
 

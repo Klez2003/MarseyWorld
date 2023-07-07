@@ -6,7 +6,7 @@ from flask import g
 
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy.dialects.postgresql import TSVECTOR
-from sqlalchemy.orm import relationship, scoped_session
+from sqlalchemy.orm import relationship
 from sqlalchemy.schema import FetchedValue
 from sqlalchemy.sql.sqltypes import *
 

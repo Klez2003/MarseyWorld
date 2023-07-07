@@ -1,7 +1,6 @@
 from typing import Any, Callable, Optional, Tuple, Union
 
 from sqlalchemy import Column, func
-from sqlalchemy.orm import scoped_session
 from flask import g
 
 from files.helpers.config.const import *
