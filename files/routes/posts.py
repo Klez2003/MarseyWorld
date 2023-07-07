@@ -185,7 +185,7 @@ def post_id(pid, anything=None, v=None, sub=None):
 		fart=get_setting('fart_mode'))
 
 	if not v:
-		cache.set(f'post_{p.id}_{sort}', result)
+		cache.set(f'post_{p.id}_{sort}', result, timeout=3600)
 
 	return result
 

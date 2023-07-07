@@ -77,7 +77,7 @@ def emoji_list(v:User):
 
 
 
-@cache.cached(key_prefix="emojis", timeout=86400)
+@cache.cached(key_prefix="emojis")
 def get_emojis():
 	emojis = g.db.query(Emoji, User).join(User, Emoji.author_id == User.id).filter(Emoji.submitter_id == None)
 	emojis1 = emojis.filter(Emoji.kind != 'Marsey Alphabet').order_by(Emoji.count.desc()).all()

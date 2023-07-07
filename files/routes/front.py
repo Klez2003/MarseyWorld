@@ -73,7 +73,7 @@ def front_all(v, sub=None):
 	result = render_template("home.html", v=v, listing=posts, total=total, sort=sort, t=t, page=page, sub=sub, home=True, pins=pins, size=size)
 
 	if not v:
-		cache.set(f'frontpage_{sort}_{t}_{page}_{sub}_{pins}', result)
+		cache.set(f'frontpage_{sort}_{t}_{page}_{sub}_{pins}', result, timeout=3600)
 
 	return result
 

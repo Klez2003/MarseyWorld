@@ -24,6 +24,8 @@ from files.helpers.roulette import spin_roulette_wheel
 from files.helpers.useractions import *
 from files.cli import app, db_session, g
 
+CRON_CACHE_TIMEOUT = 172800
+
 @app.cli.command('cron', help='Run scheduled tasks.')
 @click.option('--every-5m', is_flag=True, help='Call every 5 minutes.')
 @click.option('--every-1h', is_flag=True, help='Call every 1 hour.')
@@ -48,7 +50,7 @@ def cron(every_5m, every_1h, every_1d, every_1mo):
 
 			_sub_inactive_purge_task()
 
-			cache.set('stats', stats.stats())
+			cache.set('stats', stats.stats(), timeout=CRON_CACHE_TIMEOUT)
 
 			_generate_emojis_zip()
 
@@ -130,13 +132,13 @@ def _generate_emojis_zip():
 		data = f.read()
 
 	m.update(data)
-	cache.set('emojis_hash', m.hexdigest())
+	cache.set('emojis_hash', m.hexdigest(), timeout=CRON_CACHE_TIMEOUT)
 
 	count = str(len(os.listdir('files/assets/images/emojis')))
-	cache.set('emojis_count', count)
+	cache.set('emojis_count', count, timeout=CRON_CACHE_TIMEOUT)
 
 	size = str(int(os.stat('files/assets/emojis.zip').st_size/1024/1024)) + ' MB'
-	cache.set('emojis_size', size)
+	cache.set('emojis_size', size, timeout=CRON_CACHE_TIMEOUT)
 
 
 def _leaderboard_task():
@@ -151,9 +153,9 @@ def _leaderboard_task():
 	users13 = sorted(users13, key=lambda x: x[1], reverse=True)
 	users13_1, users13_2 = zip(*users13[:25])
 
-	cache.set("users13", list(users13))
-	cache.set("users13_1", list(users13_1))
-	cache.set("users13_2", list(users13_2))
+	cache.set("users13", list(users13), timeout=CRON_CACHE_TIMEOUT)
+	cache.set("users13_1", list(users13_1), timeout=CRON_CACHE_TIMEOUT)
+	cache.set("users13_2", list(users13_2), timeout=CRON_CACHE_TIMEOUT)
 
 	votes1 = g.db.query(Post.author_id, func.count(Post.author_id)).join(Vote).filter(Vote.vote_type==-1).group_by(Post.author_id).order_by(func.count(Post.author_id).desc()).all()
 	votes2 = g.db.query(Comment.author_id, func.count(Comment.author_id)).join(CommentVote).filter(CommentVote.vote_type==-1).group_by(Comment.author_id).order_by(func.count(Comment.author_id).desc()).all()
@@ -166,9 +168,9 @@ def _leaderboard_task():
 	users9 = sorted(users9, key=lambda x: x[1], reverse=True)
 	users9_1, users9_2 = zip(*users9[:25])
 
-	cache.set("users9", list(users9))
-	cache.set("users9_1", list(users9_1))
-	cache.set("users9_2", list(users9_2))
+	cache.set("users9", list(users9), timeout=CRON_CACHE_TIMEOUT)
+	cache.set("users9_1", list(users9_1), timeout=CRON_CACHE_TIMEOUT)
+	cache.set("users9_2", list(users9_2), timeout=CRON_CACHE_TIMEOUT)
 
 
 def _process_timer(attr, badge_ids, text, extra_attrs={}):
