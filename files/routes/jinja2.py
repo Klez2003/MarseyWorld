@@ -11,6 +11,7 @@ from files.helpers.config.const import *
 from files.helpers.regex import *
 from files.helpers.settings import *
 from files.helpers.cloudflare import *
+from files.helpers.wrappers import calc_users
 from files.helpers.sorting_and_time import make_age_string
 from files.routes.routehelpers import get_alt_graph, get_formkey
 from files.__main__ import app, cache
@@ -121,5 +122,5 @@ def inject_constants():
 			"BIO_FRIENDS_ENEMIES_LENGTH_LIMIT":BIO_FRIENDS_ENEMIES_LENGTH_LIMIT,
 			"IMMUNE_TO_AWARDS": IMMUNE_TO_AWARDS, "SITE_FULL_IMAGES": SITE_FULL_IMAGES,
 			"IS_FISTMAS":IS_FISTMAS, "IS_HOMOWEEN":IS_HOMOWEEN, "IS_DKD":IS_DKD, "IS_EVENT":IS_EVENT, "IS_BIRTHGAY":IS_BIRTHGAY,
-			"CHUD_PHRASES":CHUD_PHRASES, "hasattr":hasattr,
+			"CHUD_PHRASES":CHUD_PHRASES, "hasattr":hasattr, "calc_users":calc_users,
 			}

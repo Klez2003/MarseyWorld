@@ -50,7 +50,9 @@ def front_all(v, sub=None):
 
 	if not v:
 		result = cache.get(f'frontpage_{sort}_{t}_{page}_{sub}_{pins}')
-		if result: return result
+		if result:
+			calc_users()
+			return result
 
 	ids, total, size = frontlist(sort=sort,
 					page=page,

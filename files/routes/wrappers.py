@@ -119,8 +119,6 @@ def get_logged_in_user():
 
 	g.is_api_or_xhr = bool((v and v.client) or request.headers.get("xhr"))
 
-	calc_users()
-
 	return v
 
 def auth_desired(f):

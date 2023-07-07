@@ -103,7 +103,9 @@ def post_id(pid, anything=None, v=None, sub=None):
 
 	if not v:
 		result = cache.get(f'post_{p.id}_{sort}')
-		if result: return result
+		if result:
+			calc_users()
+			return result
 
 	if v:
 		execute_shadowban_viewers_and_voters(v, p)

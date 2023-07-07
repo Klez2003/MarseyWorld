@@ -5,6 +5,7 @@
 
 <nav class="shadow-md fixed-top">
 		<div class="srd">
+			{{calc_users()}}
 			{% if SITE_NAME == 'rDrama' %}
 				{% if not hasattr(g, "loggedin_counter") or (range(1,5) | random == 1 and not (v and v.truescore > 1000)) %}
 					{% include "journoid_banner.html" %}
