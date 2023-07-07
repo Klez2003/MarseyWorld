@@ -49,6 +49,10 @@ def get_emoji_list():
 		emojis.append(emoji)
 	return emojis
 
+@app.get("/marseys")
+def marseys_redirect():
+	return redirect("/emojis")
+
 @app.get("/emojis")
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
