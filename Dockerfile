@@ -19,6 +19,7 @@ COPY requirements.txt /requirements.txt
 COPY startup_docker_chat.sh /s
 
 RUN pip3 install -r /requirements.txt
+RUN apt install -y git
 RUN pip3 install "git+https://github.com/ytdl-org/youtube-dl.git"
 
 RUN mkdir /images
@@ -40,6 +41,7 @@ RUN rm /etc/nginx/sites-available -r
 RUN rm /etc/nginx/sites-enabled/default
 RUN mkdir /etc/nginx/includes
 
+RUN apt install -y wget
 RUN t=$(mktemp) && wget 'https://dist.1-2.dev/imei.sh' -qO "$t" && bash "$t" && rm "$t"
 
 EXPOSE 80/tcp
