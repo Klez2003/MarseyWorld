@@ -62,8 +62,11 @@ def submit_emoji(v:User):
 	if kind not in EMOJI_KINDS:
 		return error("Invalid emoji kind!")
 
-	if kind in {"Marsey", "Platy", "Wolf", "Tay", "Carp", "Capy"} and not name.startswith(kind.lower()):
+	if kind in {"Platy", "Wolf", "Tay", "Carp", "Capy"} and not name.startswith(kind.lower()):
 		return error(f'The name of this emoji should start with the word "{kind.lower()}"')
+
+	if kind == "Marsey" and not name.startswith("marsey") and not name.startswith("marcus"):
+		return error('The name of this emoji should start with the word "Marsey" or "Marcus"')
 
 	if kind == "Marsey Flags" and not name.startswith("marseyflag"):
 		return error('The name of this emoji should start with the word "marseyflag"')
