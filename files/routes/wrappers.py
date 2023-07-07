@@ -1,6 +1,7 @@
 import time
 import secrets
 import user_agents
+import uuid
 from flask import g, request, session
 
 from files.classes.clients import ClientAuth
@@ -39,7 +40,7 @@ def calc_users():
 
 		if not session.get("session_id"):
 			session.permanent = True
-			session["session_id"] = secrets.token_urlsafe(98)
+			session["session_id"] = str(uuid.uuid4())
 
 		if v:
 			if session["session_id"] in loggedout: del loggedout[session["session_id"]]
