@@ -1012,7 +1012,7 @@ def edit_post(pid, v):
 
 	# Disable edits on things older than 1wk unless it's a draft or editor is a jannie
 	if time.time() - p.created_utc > 7*24*60*60 and not p.private \
-	and v.admin_level < PERMS["IGNORE_1WEEk_EDITING_LIMIT"]:
+	and v.admin_level < PERMS["IGNORE_1WEEk_EDITING_LIMIT"] and v.id not in EXEMPT_FROM_1WEEK_EDITING_LIMIT:
 		abort(403, "You can't edit posts older than 1 week!")
 
 	title = sanitize_raw_title(request.values.get("title", ""))
