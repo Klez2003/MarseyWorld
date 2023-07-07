@@ -2378,7 +2378,7 @@ a.bg-light:hover, a.bg-light:focus, button.bg-light:hover, button.bg-light:focus
 	top: 0;
 	right: 0;
 	left: 0;
-	z-index: 1030;
+	z-index: 103000;
 }
 .fixed-bottom {
 	position: fixed;
