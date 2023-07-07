@@ -64,6 +64,7 @@ def calc_users():
 			if get_setting('ddos_detected'):
 				toggle_setting('ddos_detected')
 				set_security_level('high')
+	return ''
 
 def get_logged_in_user():
 	if hasattr(g, 'v') and g.v: return g.v
