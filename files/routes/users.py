@@ -412,7 +412,7 @@ def transfer_bux(v:User, username:str):
 @auth_required
 def leaderboard(v:User):
 	if SITE == 'watchpeopledie.tv':
-		abort(403, "Leaderboard siabled temporarily")
+		abort(403, "Leaderboard disabled temporarily")
 
 	users = g.db.query(User)
 
