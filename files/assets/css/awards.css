@@ -28,8 +28,6 @@
 
 
 
-.wholesome {animation: sealX 9s alternate}
-.wholesome img {animation: sealY 10s alternate}
 
 .wholesome:nth-child(even),
 .wholesome:nth-child(n+2):nth-child(n+3) img
@@ -39,7 +37,7 @@
 	100% {transform: translateX(98vw)}
 }
 @keyframes sealY {
-	100% {transform: translateY(85vh)}
+	100% {transform: translateY(80vh)}
 }
 
 .train:nth-child(1), .scooter:nth-child(1) {top:2%}
@@ -47,18 +45,26 @@
 .train:nth-child(3), .scooter:nth-child(3) {top:52%}
 .train:nth-child(4), .scooter:nth-child(4) {top:77%}
 
-.train {animation: train 12s;}
 .train:nth-child(odd) {animation-direction: reverse;}
 .train:nth-child(odd) img {transform: scaleX(-1);}
 
 @keyframes train {
-	from {transform: translateX(-3vw)}
-	to {transform: translateX(99vw)}
+	from {transform: translateX(-10vw)}
+	to {transform: translateX(110vw)}
 }
 
-.scooter {animation: train 14s;}
 .scooter:nth-child(even) {animation-direction: reverse;}
 .scooter:nth-child(even) img {transform: scaleX(-1);}
+
+.wholesome {animation: sealX 8s alternate}
+.wholesome img {animation: sealY 9s alternate}
+.train, .scooter {animation: train 12s;}
+
+@media (max-width: 768px) {
+	.wholesome {animation: sealX 6s alternate}
+	.wholesome img {animation: sealY 7s alternate}
+	.train, .scooter {animation: train 6s;}	
+}
 
 /*confetti*/
 .confetti {
