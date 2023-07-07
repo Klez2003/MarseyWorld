@@ -264,7 +264,7 @@ def comment(v:User):
 	if len(body_html) > COMMENT_BODY_HTML_LENGTH_LIMIT:
 		abort(400, "Comment too long!")
 
-	is_bot = v.client is not None and v.id not in PRIVILEGED_USER_BOTS
+	is_bot = v.client is not None and v.id not in BOT_SYMBOL_HIDDEN
 
 	chudded = v.chud and not (posting_to_post and post_target.sub == 'chudrama')
 
