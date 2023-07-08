@@ -60,16 +60,18 @@ def login_post(v:Optional[User]):
 		except: abort(400, "Multiple usernames have this email attached;<br>Please specify the username you want to login to!")
 	else: account = get_user(username, graceful=True)
 
+	redir = request.values.get("redirect", "").strip().rstrip('?').lower()
+
 	if not account:
 		time.sleep(random.uniform(0, 2))
-		return render_template("login/login.html", failed=True), 401
+		return render_template("login/login.html", failed=True, redirect=redir), 401
 
 
 	if request.values.get("password"):
 		if not account.verifyPass(request.values.get("password")):
 			log_failed_admin_login_attempt(account, "password")
 			time.sleep(random.uniform(0, 2))
-			return render_template("login/login.html", failed=True), 401
+			return render_template("login/login.html", failed=True, redirect=redir), 401
 
 		if account.mfa_secret or session.get("GLOBAL"):
 			now = int(time.time())
@@ -102,6 +104,7 @@ def login_post(v:Optional[User]):
 								time=now,
 								hash=hash,
 								failed=True,
+								redirect=redir,
 								), 401
 	else:
 		abort(400)
@@ -109,7 +112,6 @@ def login_post(v:Optional[User]):
 	g.login_failed = False
 	on_login(account)
 
-	redir = request.values.get("redirect", "").strip().rstrip('?').lower()
 	if redir and is_site_url(redir) and redir not in NO_LOGIN_REDIRECT_URLS:
 		return redirect(redir)
 	return redirect('/')
