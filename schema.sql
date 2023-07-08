@@ -556,7 +556,6 @@ CREATE TABLE public.commentvotes (
     comment_id integer NOT NULL,
     vote_type integer NOT NULL,
     user_id integer NOT NULL,
-    app_id integer,
     "real" boolean DEFAULT true NOT NULL,
     created_utc integer NOT NULL,
     coins smallint DEFAULT 1 NOT NULL
@@ -1129,7 +1128,6 @@ CREATE TABLE public.votes (
     user_id integer NOT NULL,
     post_id integer NOT NULL,
     vote_type integer NOT NULL,
-    app_id integer,
     "real" boolean DEFAULT true NOT NULL,
     created_utc integer NOT NULL,
     coins smallint DEFAULT 1 NOT NULL

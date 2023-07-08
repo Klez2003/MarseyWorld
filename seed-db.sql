@@ -117,9 +117,7 @@ INSERT INTO public.badge_defs VALUES (90, 'Fish', 'This user cannot be unfollowe
 INSERT INTO public.badge_defs VALUES (91, 'Grinch', 'This user is a joyless grinch who pays money to avoid having fun', NULL);
 INSERT INTO public.badge_defs VALUES (92, 'NFT Artist', 'Drew a marsey that was used as an NFT', NULL);
 INSERT INTO public.badge_defs VALUES (93, 'NFT Owner', 'Bought a marsey NFT', NULL);
-INSERT INTO public.badge_defs VALUES (94, 'Progressive Stack Award', 'Upvotes/downvotes on this user''s posts and comments have double the ranking effect', NULL);
 INSERT INTO public.badge_defs VALUES (95, 'Bird Site Award', 'This user is limited to 140 characters', NULL);
-INSERT INTO public.badge_defs VALUES (96, 'Flairlock Award', 'This user''s flair has been locked by someone else', NULL);
 INSERT INTO public.badge_defs VALUES (97, 'Pizzashill Award', 'This user has to make their posts and comments more than 280 characters', NULL);
 INSERT INTO public.badge_defs VALUES (98, 'Marsey Award', 'This user is limited to posting marseys', NULL);
 INSERT INTO public.badge_defs VALUES (99, 'Sidebar Artist', 'Contributed artwork featured on the sidebar', NULL);
@@ -183,6 +181,7 @@ INSERT INTO public.badge_defs VALUES (227, 'Saved Christmas with Teh Codez', 'Go
 INSERT INTO public.badge_defs VALUES (229, 'Certified MONSTER Cock', 'This user submitted a photo of their dick and it was confirmed to be HUGE', 1674147916);
 INSERT INTO public.badge_defs VALUES (230, 'Itty Bitty Clitty', 'This user submitted a photo of their dick and it was determined to be more similar to a sad, undersized clit', 1674147964);
 INSERT INTO public.badge_defs VALUES (161, 'Pro Goombler', 'Won a 10,000 coin bet. Some would say to quit while you''re ahead, but they didn''t just win 10k - keep at it!', NULL);
+INSERT INTO public.badge_defs VALUES (96, 'Flairlock', 'This user''s flair has been locked by someone else', NULL);
 INSERT INTO public.badge_defs VALUES (216, 'Human Rights Abuse Profiteer', 'I hope those 6500 deaths were worth the coin.', 1671150403);
 INSERT INTO public.badge_defs VALUES (231, 'SICK FUCK', 'Awarded for contributing to the Morbid Marsey event', 1677791640);
 INSERT INTO public.badge_defs VALUES (232, 'Hardcore Gaymer', 'Awarded for contributing to the Gaymer Marsey event', 1677799338);
@@ -248,6 +247,7 @@ INSERT INTO public.badge_defs VALUES (287, 'Carp Artisan', 'Contributed a Carp e
 INSERT INTO public.badge_defs VALUES (288, 'Carp Master', 'Contributed 10 (or more!!!!) Carp emojis ✨', 1687530535);
 INSERT INTO public.badge_defs VALUES (289, 'Sharpened', 'No one understand this user.', 1687725417);
 INSERT INTO public.badge_defs VALUES (290, 'Smartest Fish Award', 'Awarded for outstanding achievement in the field of QA, signed by Aevann Himself. The highest honor that can be bestowed upon a codecel.', 1687901922);
+INSERT INTO public.badge_defs VALUES (94, 'Progressive Stack', 'Upvotes/downvotes on this user''s posts and comments have double the ranking effect', NULL);
 
 
 --
@@ -1720,6 +1720,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('cartwheel','Classic',2,'cartwheel emoticon animated gymnastics'),
 ('casanovanova','Misc',2,'indian man'),
 ('cat','Classic',2,'cat animated cute itch sleep wake up'),
+('catmunch','Misc',2,'chips popcorn eating'),
 ('caughtone','Misc',2,'l detained drugs'),
 ('ccedilla','Marsey Alphabet',2,'letter'),
 ('celebrate','Classic',2,'celebrate emoticon party'),
@@ -2374,6 +2375,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marcerberus','Marsey',2,'threeheadeddog horror halloween holiday greek three headed dog monster'),
 ('marchipmunk','Marsey',2,'rodent squirrel wuzizname'),
 ('marchipmunklove','Marsey',2,'chipmonk adoration loving rodent heart eyes adore acorn'),
+('marcusbeachtowel','Marsey',2,'summer beach towel drink june july august warm hot relax'),
 ('marcuscop','Marsey',2,'police officer acab thin blue line pig black bipoc'),
 ('marcusfootball','Marsey',2,'sport handegg hand egg athlete helmet'),
 ('marcussatisfied','Marsey',2,'black bipoc satisfying happy smile delightful grateful glad wholesome'),
@@ -3937,7 +3939,6 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseymap2','Marsey',2,'map geography topographical paper navigation chart cartography location place'),
 ('marseymar','Marsey',2,'dexter lab foid destruction irritating annoying sister cartoon network pigtails'),
 ('marseymarch','Marsey',2,'retard groyper march fat pepe drool hallway'),
-('marseymarcusbeachtowel','Marsey',2,'summer beach towel drink june july august warm hot relax'),
 ('marseymarfan','Marsey',2,'cumtown chud indian curry pajeet bipoc brown black glasses janny admin'),
 ('marseymariachi','Marsey',2,'animated latinx latino mexican mexico beaner taco burrito'),
 ('marseymario','Marsey',2,'mario nintendo vidya nintendo marseyo'),
