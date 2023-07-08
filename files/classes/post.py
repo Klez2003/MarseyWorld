@@ -208,7 +208,9 @@ class Post(Base):
 		for r in self.reports:
 			reports[r.user.username] = r.reason
 
-		data = {'author_name': self.author_name,
+		data = {
+				'author_id': '👻' if self.ghost else self.author_id,
+				'author_name': self.author_name,
 				'permalink': self.permalink,
 				'shortlink': self.shortlink,
 				'is_banned': bool(self.is_banned),
@@ -237,7 +239,7 @@ class Post(Base):
 				}
 
 		if "replies" in self.__dict__:
-			data["replies"]=[x.json for x in self.replies]
+			data["replies"] = [x.json for x in self.replies]
 
 		return data
 

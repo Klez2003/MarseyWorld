@@ -287,6 +287,7 @@ class Comment(Base):
 			data = {
 				'id': self.id,
 				'level': self.level,
+				'author_id': '👻' if self.ghost else self.author_id,
 				'author_name': self.author_name,
 				'body': self.body,
 				'body_html': self.body_html,
@@ -305,7 +306,7 @@ class Comment(Base):
 				'downvotes': self.downvotes,
 				'is_bot': self.is_bot,
 				'reports': reports,
-				# 'replies': [x.json for x in self.replies(sort="old", v=None)] # WORKER TIMEOUTS ON BUGTHREAD
+				'replies': [x.id for x in self.replies(sort="old")]
 				}
 
 		if self.level >= 2: data['parent_comment_id'] = self.parent_comment_id
