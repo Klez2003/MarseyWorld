@@ -29,7 +29,7 @@ from files.__main__ import app, cache, limiter
 @app.get("/h/<sub>/post/<int:pid>/<anything>/<int:cid>")
 @limiter.limit(DEFAULT_RATELIMIT)
 @auth_desired_with_logingate
-def post_pid_comment_cid(cid, pid=None, anything=None, v=None, sub=None):
+def post_pid_comment_cid(cid, v, pid=None, anything=None, sub=None):
 
 	comment = get_comment(cid, v=v)
 	if not User.can_see(v, comment): abort(403)

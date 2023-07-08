@@ -10,7 +10,7 @@ from files.__main__ import app
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
-def giphy(v=None, path=None):
+def giphy(v, path=None):
 
 	searchTerm = request.values.get("searchTerm", "").strip()
 	limit = 48

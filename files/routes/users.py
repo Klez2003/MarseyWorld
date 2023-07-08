@@ -677,7 +677,7 @@ def messagereply(v:User):
 			admin_ids.append(parent.author.id)
 
 		#Don't delete unread notifications, so the replies don't get collapsed and they get highlighted
-		ids = [top_comment.id] + [x.id for x in top_comment.replies(sort="old", v=v)]
+		ids = [top_comment.id] + [x.id for x in top_comment.replies(sort="old")]
 		notifications = g.db.query(Notification).filter(Notification.read == True, Notification.comment_id.in_(ids), Notification.user_id.in_(admin_ids))
 		for n in notifications:
 			g.db.delete(n)
@@ -1023,7 +1023,7 @@ def u_username(v:Optional[User], username:str):
 @app.get("/@<username>/comments")
 @limiter.limit(DEFAULT_RATELIMIT)
 @auth_required
-def u_username_comments(username, v=None):
+def u_username_comments(username, v):
 	u = get_user(username, v=v, include_blocks=True)
 	if username != u.username:
 		return redirect(f"/@{u.username}/comments")
@@ -1088,7 +1088,7 @@ def u_username_comments(username, v=None):
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
-def u_username_info(username, v=None):
+def u_username_info(username, v):
 
 	user=get_user(username, v=v, include_blocks=True)
 
@@ -1103,7 +1103,7 @@ def u_username_info(username, v=None):
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
-def u_user_id_info(id, v=None):
+def u_user_id_info(id, v):
 
 	user=get_account(id, v=v, include_blocks=True)
 

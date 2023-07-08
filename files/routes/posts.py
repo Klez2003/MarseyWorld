@@ -85,7 +85,7 @@ def submit_get(v:User, sub=None):
 @app.get("/h/<sub>/post/<int:pid>/<anything>")
 @limiter.limit(DEFAULT_RATELIMIT)
 @auth_desired_with_logingate
-def post_id(pid, anything=None, v=None, sub=None):
+def post_id(pid, v, anything=None, sub=None):
 	p = get_post(pid, v=v)
 	if not User.can_see(v, p): abort(403)
 
@@ -261,7 +261,7 @@ def more_comments(v, cid):
 		comments = [c[0] for c in comments.all()]
 	else:
 		c = get_comment(cid)
-		comments = c.replies(sort=request.values.get('sort'), v=v)
+		comments = c.replies(sort=request.values.get('sort'))
 
 	if comments: p = comments[0].post
 	else: p = None

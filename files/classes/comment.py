@@ -207,7 +207,7 @@ class Comment(Base):
 		elif self.parent_post: return f"p_{self.parent_post}"
 
 	@lazy
-	def replies(self, sort, v):
+	def replies(self, sort):
 		if self.replies2 != None:
 			return self.replies2
 
