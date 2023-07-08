@@ -346,6 +346,8 @@ def award_thing(v, thing_type, id):
 		if author.queen and time.time() < author.queen: author.queen += 86400
 		else: author.queen = int(time.time()) + 86400
 
+		author.namechanged = author.queen
+
 		badge_grant(user=author, badge_id=285)
 
 	elif kind == "chud":
