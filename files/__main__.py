@@ -52,10 +52,6 @@ app.config["CACHE_TYPE"] = "RedisCache"
 app.config["CACHE_REDIS_URL"] = environ.get("REDIS_URL").strip()
 app.config["CACHE_DEFAULT_TIMEOUT"] = 86400
 
-app.config['SERVICE'] = Service.RDRAMA
-if "load_chat" in argv:
-	app.config['SERVICE'] = Service.CHAT
-
 def get_CF():
 	with app.app_context():
 		x = request.headers.get('CF-Connecting-IP')
@@ -83,10 +79,9 @@ redis_instance = redis.Redis.from_url(app.config["CACHE_REDIS_URL"])
 
 from files.routes.allroutes import *
 
-if app.config['SERVICE'] == Service.RDRAMA:
-	from files.routes import *
-
-elif app.config['SERVICE'] == Service.CHAT:
+if "load_chat" in argv:
 	from files.routes.chat import *
+else:
+	from files.routes import *
 
 stdout.flush()
