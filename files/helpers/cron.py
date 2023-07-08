@@ -37,13 +37,12 @@ def cron(every_5m, every_1h, every_1d, every_1mo):
 
 	try:
 		if every_5m:
-			_award_timers_task()
-
 			if FEATURES['GAMBLING']:
 				check_if_end_lottery_task()
 
 				spin_roulette_wheel()
 			#offsitementions.offsite_mentions_task(cache)
+			_award_timers_task()
 
 		if every_1d:
 			stats.generate_charts_task(SITE)
