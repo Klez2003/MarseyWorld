@@ -12,7 +12,6 @@ from werkzeug.utils import secure_filename
 from PIL import Image
 from PIL import UnidentifiedImageError
 from PIL.ImageSequence import Iterator
-from sqlalchemy.orm.session import Session
 
 from files.classes.media import *
 from files.helpers.cloudflare import purge_files_in_cache
@@ -107,7 +106,7 @@ def process_audio(file, v):
 	return new
 
 
-def convert_to_mp4(old, new, vid, db):
+def convert_to_mp4(old, new, vid):
 	tmp = new.replace('.mp4', '-t.mp4')
 	try:
 		subprocess.run(["ffmpeg", "-y", "-loglevel", "warning", "-nostats", "-threads:v", "1", "-i", old, "-map_metadata", "-1", tmp], check=True, stderr=subprocess.STDOUT, timeout=SUBPROCESS_TIMEOUT_DURATION)
@@ -126,8 +125,15 @@ def convert_to_mp4(old, new, vid, db):
 		user_id=vid,
 		size=os.stat(new).st_size
 	)
+
+	db = db_session()
 	db.add(media)
-	db.commit()
+
+	try:
+		db.commit()
+	except:
+		db.rollback()
+
 	db.close()
 
 	purge_files_in_cache(f"{SITE_FULL}{new}")
@@ -152,8 +158,7 @@ def process_video(file, v):
 	if extension not in {'mp4','avi','mkv'}:
 		new = new.replace(f'.{extension}', '.mp4')
 		copyfile(old, new)
-		db = Session(bind=g.db.get_bind())
-		gevent.spawn(convert_to_mp4, old, new, v.id, db)
+		gevent.spawn(convert_to_mp4, old, new, v.id)
 	else:
 		try:
 			subprocess.run(["ffmpeg", "-y", "-loglevel", "warning", "-nostats", "-i", old, "-map_metadata", "-1", "-c:v", "copy", "-c:a", "copy", new], check=True, timeout=SUBPROCESS_TIMEOUT_DURATION)

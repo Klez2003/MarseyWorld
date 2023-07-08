@@ -1263,3 +1263,9 @@ GIRL_NAMES = {
 	'Y': ['Yesenia', 'Yasmine', 'Yasmin', 'Yvette', 'Yolanda', 'Yadira', 'Yvonne', 'Yamilet', 'Yazmin', 'Yasmeen', 'Yessenia'],
 	'Z': ['Zoe', 'Zoey', 'Zaria', 'Zoie']
 }
+
+from sqlalchemy import *
+from sqlalchemy.orm import scoped_session, sessionmaker
+
+engine = create_engine(environ.get("DATABASE_URL").strip())
+db_session = scoped_session(sessionmaker(bind=engine))
