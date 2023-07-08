@@ -410,6 +410,7 @@ def transfer_bux(v:User, username:str):
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @auth_required
+@cache.memoize()
 def leaderboard(v:User):
 	users = g.db.query(User)
 
