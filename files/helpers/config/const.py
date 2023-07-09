@@ -1187,7 +1187,7 @@ def IS_DKD():
 birthgay_begin = datetime.datetime.strptime(f'20/5/{t.year}', '%d/%m/%Y')
 birthgay_end = datetime.datetime.strptime(f'22/5/{t.year}', '%d/%m/%Y')
 def IS_BIRTHGAY():
-	return False and (SITE_NAME == 'rDrama' and birthgay_begin < datetime.datetime.now() < birthgay_end)
+	return SITE_NAME == 'rDrama' and birthgay_begin < datetime.datetime.now() < birthgay_end
 
 birthdead_begin = datetime.datetime.strptime(f'26/4/{t.year}', '%d/%m/%Y')
 birthdead_end = datetime.datetime.strptime(f'28/4/{t.year}', '%d/%m/%Y')
