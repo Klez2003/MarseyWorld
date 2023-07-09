@@ -482,6 +482,7 @@ def execute_under_siege(v:User, target:Optional[Union[Post, Comment]], body, kin
 
 	if SITE == 'watchpeopledie.tv' or True:
 		execute_dylan(v)
+		if v.shadowbanned: return
 
 	if not get_setting("under_siege"): return
 	if v.admin_level >= PERMS['SITE_BYPASS_UNDER_SIEGE_MODE']: return
