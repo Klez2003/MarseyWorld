@@ -11,7 +11,7 @@
 	<div class="container pb-4">
 
 		<div class="orgy-top-container">
-            <div class="col text-left d-none d-lg-block pt-3 orgy-info-window-item">
+            <div class="col text-left pt-3 orgy-info-window-item">
                 <h2>{{orgy.title}}</h1>
                 <div>
                     {% if orgy.is_youtube() %}
@@ -20,6 +20,7 @@
                         <iframe class="rumble rumble-player" width="100%"  src="{{orgy.data}}" frameborder="0" allowfullscreen></iframe>  
                     {%endif%}
                 </div>
+                <a href="/old_chat" class="btn btn-primary ml-auto" value="Old Chat">Old Chat</a>
                 {{macros.chat_users_list()}}
             </div>
 
