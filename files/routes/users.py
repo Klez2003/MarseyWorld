@@ -1380,22 +1380,22 @@ def claim_rewards_all_users():
 					g.db.delete(badge)
 
 				for x in range(22, badge_id+1):
-					badge_grant(badge_id=x, user=v)
+					badge_grant(badge_id=x, user=user)
 
 			if user.lifetime_donated >= 100:
-				badge_grant(badge_id=257, user=v)
+				badge_grant(badge_id=257, user=user)
 
 			if user.lifetime_donated >= 500:
-				badge_grant(badge_id=258, user=v)
+				badge_grant(badge_id=258, user=user)
 
 			if user.lifetime_donated >= 2500:
-				badge_grant(badge_id=259, user=v)
+				badge_grant(badge_id=259, user=user)
 
 			if user.lifetime_donated >= 5000:
-				badge_grant(badge_id=260, user=v)
+				badge_grant(badge_id=260, user=user)
 
 			if user.lifetime_donated >= 10000:
-				badge_grant(badge_id=261, user=v)
+				badge_grant(badge_id=261, user=user)
 
 			print(f'@{user.username} rewards claimed successfully!', flush=True)
 
