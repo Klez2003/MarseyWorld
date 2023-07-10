@@ -1917,13 +1917,13 @@ def orgy_control(v):
 @app.post("/admin/start_orgy")
 @admin_level_required(PERMS['ORGIES'])
 def start_orgy(v):
-	youtube_id = request.values.get("youtube_id")
+	link = request.values.get("link")
 	title = request.values.get("title")
 
-	assert youtube_id
+	assert link
 	assert title
 
-	create_orgy(youtube_id, title)
+	create_orgy(link, title)
 
 	return redirect("/chat")
 

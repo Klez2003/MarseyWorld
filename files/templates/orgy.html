@@ -11,11 +11,22 @@
 	<div class="container pb-4">
 
 		<div class="orgy-top-container">
-            <div class="col text-left d-none d-lg-block pt-3 orgy-info-window-item">
+            <div class="col text-left pt-3 orgy-info-window-item">
                 <h2>{{orgy.title}}</h1>
                 <div>
-                    <lite-youtube videoid="{{orgy.youtube_id}}" params="autoplay=1&modestbranding=1"/>
+                    {% if orgy.is_youtube() %}
+                        <lite-youtube videoid="{{orgy.data}}" params="autoplay=1&modestbranding=1"/>
+                    {% elif orgy.is_rumble() %}
+                        <iframe class="rumble rumble-player" width="100%"  src="{{orgy.data}}" frameborder="0" allowfullscreen></iframe>  
+                    {% elif orgy.is_twitch() %}
+                        <iframe
+                            src="https://player.twitch.tv/?channel={{orgy.data}}&parent={{site}}"
+                            class="rumble-player"
+                            allowfullscreen>
+                        </iframe>
+                    {%endif%}
                 </div>
+                <a href="/old_chat" class="btn btn-primary ml-auto" value="Old Chat">Old Chat</a>
                 {{macros.chat_users_list()}}
             </div>
 

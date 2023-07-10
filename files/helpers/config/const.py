@@ -1265,6 +1265,11 @@ GIRL_NAMES = {
 	'Z': ['Zoe', 'Zoey', 'Zaria', 'Zoie']
 }
 
+class OrgyTypes:
+	YOUTUBE = 1
+	RUMBLE = 2
+	TWITCH = 3
+
 from sqlalchemy import *
 from sqlalchemy.orm import scoped_session, sessionmaker
 
