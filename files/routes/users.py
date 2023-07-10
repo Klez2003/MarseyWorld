@@ -1339,71 +1339,65 @@ def bid_list(v:User, bid):
 						)
 
 
-
-def claim_rewards(v):
-	transactions = g.db.query(Transaction).filter_by(email=v.email, claimed=None).all()
-
-	highest_tier = 0
-	marseybux = 0
-
-	for transaction in transactions:
-		for t, money in TIER_TO_MONEY.items():
-			tier = t
-			if transaction.amount <= money: break
-
-		marseybux += TIER_TO_MBUX[tier]
-		if tier > highest_tier:
-			highest_tier = tier
-		transaction.claimed = True
-		g.db.add(transaction)
-
-	if marseybux:
-		v.pay_account('marseybux', marseybux)
-
-		send_repeatable_notification(v.id, f"You have received {marseybux} Marseybux! You can use them to buy awards or hats in the [shop](/shop/awards) or gamble them in the [casino](/casino).")
-		g.db.add(v)
-
-		v.patron_utc = int(time.time()) + 2937600
-
-		if highest_tier > v.patron:
-			v.patron = highest_tier
-			badge_id = 20 + highest_tier
-
-			badges_to_remove = g.db.query(Badge).filter(
-					Badge.user_id == v.id,
-					Badge.badge_id > badge_id,
-					Badge.badge_id < 29,
-				).all()
-			for badge in badges_to_remove:
-				g.db.delete(badge)
-
-			for x in range(22, badge_id+1):
-				badge_grant(badge_id=x, user=v)
-
-		if v.lifetime_donated >= 100:
-			badge_grant(badge_id=257, user=v)
-
-		if v.lifetime_donated >= 500:
-			badge_grant(badge_id=258, user=v)
-
-		if v.lifetime_donated >= 2500:
-			badge_grant(badge_id=259, user=v)
-
-		if v.lifetime_donated >= 5000:
-			badge_grant(badge_id=260, user=v)
-
-		if v.lifetime_donated >= 10000:
-			badge_grant(badge_id=261, user=v)
-
-		print(f'@{v.username} rewards claimed successfully!', flush=True)
-
-
 def claim_rewards_all_users():
 	emails = [x[0] for x in g.db.query(Transaction.email).filter_by(claimed=None).all()]
 	users = g.db.query(User).filter(User.email.in_(emails)).order_by(User.truescore.desc()).all()
 	for user in users:
-		claim_rewards(user)
+		transactions = g.db.query(Transaction).filter_by(email=v.email, claimed=None).all()
 
+		highest_tier = 0
+		marseybux = 0
+
+		for transaction in transactions:
+			for t, money in TIER_TO_MONEY.items():
+				tier = t
+				if transaction.amount <= money: break
+
+			marseybux += TIER_TO_MBUX[tier]
+			if tier > highest_tier:
+				highest_tier = tier
+			transaction.claimed = True
+			g.db.add(transaction)
+
+		if marseybux:
+			v.pay_account('marseybux', marseybux)
+
+			send_repeatable_notification(v.id, f"You have received {marseybux} Marseybux! You can use them to buy awards or hats in the [shop](/shop/awards) or gamble them in the [casino](/casino).")
+			g.db.add(v)
+
+			v.patron_utc = int(time.time()) + 2937600
+
+			if highest_tier > v.patron:
+				v.patron = highest_tier
+				badge_id = 20 + highest_tier
+
+				badges_to_remove = g.db.query(Badge).filter(
+						Badge.user_id == v.id,
+						Badge.badge_id > badge_id,
+						Badge.badge_id < 29,
+					).all()
+				for badge in badges_to_remove:
+					g.db.delete(badge)
+
+				for x in range(22, badge_id+1):
+					badge_grant(badge_id=x, user=v)
+
+			if v.lifetime_donated >= 100:
+				badge_grant(badge_id=257, user=v)
+
+			if v.lifetime_donated >= 500:
+				badge_grant(badge_id=258, user=v)
+
+			if v.lifetime_donated >= 2500:
+				badge_grant(badge_id=259, user=v)
+
+			if v.lifetime_donated >= 5000:
+				badge_grant(badge_id=260, user=v)
+
+			if v.lifetime_donated >= 10000:
+				badge_grant(badge_id=261, user=v)
+
+			print(f'@{v.username} rewards claimed successfully!', flush=True)
 
 KOFI_TOKEN = environ.get("KOFI_TOKEN", "").strip()
 if KOFI_TOKEN:
@@ -1497,7 +1491,7 @@ def settings_claim_rewards(v:User):
 	if not transactions:
 		abort(400, f"{patron} rewards already claimed!")
 
-	claim_rewards(v)
+	claim_rewards_all_users()
 
 	return {"message": f"{patron} rewards claimed!"}
 
