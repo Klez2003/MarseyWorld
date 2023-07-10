@@ -1343,7 +1343,7 @@ def claim_rewards_all_users():
 	emails = [x[0] for x in g.db.query(Transaction.email).filter_by(claimed=None).all()]
 	users = g.db.query(User).filter(User.email.in_(emails)).order_by(User.truescore.desc()).all()
 	for user in users:
-		transactions = g.db.query(Transaction).filter_by(email=v.email, claimed=None).all()
+		transactions = g.db.query(Transaction).filter_by(email=user.email, claimed=None).all()
 
 		highest_tier = 0
 		marseybux = 0
@@ -1360,19 +1360,19 @@ def claim_rewards_all_users():
 			g.db.add(transaction)
 
 		if marseybux:
-			v.pay_account('marseybux', marseybux)
+			user.pay_account('marseybux', marseybux)
 
-			send_repeatable_notification(v.id, f"You have received {marseybux} Marseybux! You can use them to buy awards or hats in the [shop](/shop/awards) or gamble them in the [casino](/casino).")
+			send_repeatable_notification(user.id, f"You have received {marseybux} Marseybux! You can use them to buy awards or hats in the [shop](/shop/awards) or gamble them in the [casino](/casino).")
 			g.db.add(v)
 
-			v.patron_utc = int(time.time()) + 2937600
+			user.patron_utc = int(time.time()) + 2937600
 
-			if highest_tier > v.patron:
-				v.patron = highest_tier
+			if highest_tier > user.patron:
+				user.patron = highest_tier
 				badge_id = 20 + highest_tier
 
 				badges_to_remove = g.db.query(Badge).filter(
-						Badge.user_id == v.id,
+						Badge.user_id == user.id,
 						Badge.badge_id > badge_id,
 						Badge.badge_id < 29,
 					).all()
@@ -1382,22 +1382,22 @@ def claim_rewards_all_users():
 				for x in range(22, badge_id+1):
 					badge_grant(badge_id=x, user=v)
 
-			if v.lifetime_donated >= 100:
+			if user.lifetime_donated >= 100:
 				badge_grant(badge_id=257, user=v)
 
-			if v.lifetime_donated >= 500:
+			if user.lifetime_donated >= 500:
 				badge_grant(badge_id=258, user=v)
 
-			if v.lifetime_donated >= 2500:
+			if user.lifetime_donated >= 2500:
 				badge_grant(badge_id=259, user=v)
 
-			if v.lifetime_donated >= 5000:
+			if user.lifetime_donated >= 5000:
 				badge_grant(badge_id=260, user=v)
 
-			if v.lifetime_donated >= 10000:
+			if user.lifetime_donated >= 10000:
 				badge_grant(badge_id=261, user=v)
 
-			print(f'@{v.username} rewards claimed successfully!', flush=True)
+			print(f'@{user.username} rewards claimed successfully!', flush=True)
 
 KOFI_TOKEN = environ.get("KOFI_TOKEN", "").strip()
 if KOFI_TOKEN:
