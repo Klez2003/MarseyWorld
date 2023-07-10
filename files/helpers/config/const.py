@@ -1270,7 +1270,7 @@ class OrgyTypes:
 	RUMBLE = 2
 	TWITCH = 3
 
-from sqlalchemy import *
+from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
 engine = create_engine(environ.get("DATABASE_URL").strip())

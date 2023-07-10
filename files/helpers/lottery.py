@@ -2,7 +2,6 @@ import time
 from random import choice
 
 from flask import g
-from sqlalchemy import *
 from files.classes.lottery import Lottery
 
 from files.helpers.alerts import *

@@ -2,7 +2,6 @@ from flask import g
 import time
 import calendar
 import matplotlib.pyplot as plt
-from sqlalchemy import *
 
 from files.classes.user import User
 from files.classes.post import Post
