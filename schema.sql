@@ -816,7 +816,9 @@ ALTER SEQUENCE public.oauth_apps_id_seq OWNED BY public.oauth_apps.id;
 --
 
 CREATE TABLE public.orgies (
-    youtube_id character varying(12) NOT NULL,
+    id integer NOT NULL,
+    type integer NOT NULL,
+    data character varying(200) NOT NULL,
     title character varying(1000) NOT NULL
 );
 
@@ -1133,15 +1135,6 @@ CREATE TABLE public.votes (
     coins smallint DEFAULT 1 NOT NULL
 );
 
---
--- Name: orgies, Type: TABLE; Schema: public; Owner: -
---
-CREATE TABLE public.orgies (
-    id integer NOT NULL,
-    type integer NOT NULL,
-    data character varying(200) NOT NULL,
-    title character varying(1000) NOT NULL
-);
 
 --
 -- Name: award_relationships id; Type: DEFAULT; Schema: public; Owner: -
