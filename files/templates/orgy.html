@@ -18,6 +18,12 @@
                         <lite-youtube videoid="{{orgy.data}}" params="autoplay=1&modestbranding=1"/>
                     {% elif orgy.is_rumble() %}
                         <iframe class="rumble rumble-player" width="100%"  src="{{orgy.data}}" frameborder="0" allowfullscreen></iframe>  
+                    {% elif orgy.is_twitch() %}
+                        <iframe
+                            src="https://player.twitch.tv/?channel={{orgy.data}}&parent={{site}}"
+                            class="rumble-player"
+                            allowfullscreen>
+                        </iframe>
                     {%endif%}
                 </div>
                 <a href="/old_chat" class="btn btn-primary ml-auto" value="Old Chat">Old Chat</a>

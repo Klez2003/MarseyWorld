@@ -32,6 +32,8 @@ class Orgy(Base):
 		return self.type == OrgyTypes.YOUTUBE
 	def is_rumble(self):
 		return self.type == OrgyTypes.RUMBLE
+	def is_twitch(self):
+		return self.type == OrgyTypes.TWITCH
 	
 	def __repr__(self):
 		return f"<{self.__class__.__name__}(id={self.id}, type={self.type}, data={self.data} title={self.title})>"
@@ -52,6 +54,9 @@ def create_orgy(link, title):
 	elif re.match(rumble_regex, normalized_link):
 		orgy_type = OrgyTypes.RUMBLE
 		data = normalized_link
+	elif re.match(twitch_regex, normalized_link):
+		orgy_type = OrgyTypes.TWITCH
+		data = re.search(twitch_regex, normalized_link).group(3)
 	else:
 		assert False
 

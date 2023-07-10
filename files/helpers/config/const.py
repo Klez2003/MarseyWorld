@@ -1268,6 +1268,7 @@ GIRL_NAMES = {
 class OrgyTypes:
 	YOUTUBE = 1
 	RUMBLE = 2
+	TWITCH = 3
 
 from sqlalchemy import *
 from sqlalchemy.orm import scoped_session, sessionmaker
