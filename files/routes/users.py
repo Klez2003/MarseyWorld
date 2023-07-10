@@ -1285,18 +1285,15 @@ def fp(v:User, fp):
 
 	v.fp = fp
 	users = g.db.query(User).filter(User.fp == fp, User.id != v.id).all()
-	if users: print(f'{v.username}: fp', flush=True)
 	if v.email and v.is_activated:
 		alts = g.db.query(User).filter(User.email == v.email, User.is_activated, User.id != v.id).all()
 		if alts:
-			print(f'{v.username}: email', flush=True)
 			users += alts
 	for u in users:
 		li = [v.id, u.id]
 		existing = g.db.query(Alt).filter(Alt.user1.in_(li), Alt.user2.in_(li)).one_or_none()
 		if existing: continue
 		add_alt(user1=v.id, user2=u.id)
-		print(v.username + ' + ' + u.username, flush=True)
 
 	check_for_alts(v, include_current_session=True)
 	g.db.add(v)
