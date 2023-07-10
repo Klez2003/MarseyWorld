@@ -209,8 +209,6 @@ class User(Base):
 		else:
 			self.marseybux += amount
 
-		g.db.flush()
-
 
 	def charge_account(self, currency, amount, **kwargs):
 		in_db = g.db.query(User).filter(User.id == self.id).with_for_update().one()
