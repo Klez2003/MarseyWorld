@@ -218,7 +218,7 @@ def award_thing(v, thing_type, id):
 				awarded_coins = 0
 
 			if kind == 'shit':
-				author.charge_account('coins', awarded_coins)
+				author.charge_account('coins', awarded_coins, should_check_balance=False)
 				v.pay_account('coins', awarded_coins)
 			elif AWARDS[kind]['cosmetic']:
 				author.pay_account('coins', awarded_coins)
