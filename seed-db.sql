@@ -248,13 +248,14 @@ INSERT INTO public.badge_defs VALUES (288, 'Carp Master', 'Contributed 10 (or mo
 INSERT INTO public.badge_defs VALUES (289, 'Sharpened', 'No one understand this user.', 1687725417);
 INSERT INTO public.badge_defs VALUES (290, 'Smartest Fish Award', 'Awarded for outstanding achievement in the field of QA, signed by Aevann Himself. The highest honor that can be bestowed upon a codecel.', 1687901922);
 INSERT INTO public.badge_defs VALUES (94, 'Progressive Stack', 'Upvotes/downvotes on this user''s posts and comments have double the ranking effect', NULL);
+INSERT INTO public.badge_defs VALUES (291, 'Griller', 'Enough about trans rights! Enough about trans wrongs! I just wanna grill for God''s sake!', 1689087935);
 
 
 --
 -- Name: badge_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.badge_defs_id_seq', 290, true);
+SELECT pg_catalog.setval('public.badge_defs_id_seq', 291, true);
 
 
 --
