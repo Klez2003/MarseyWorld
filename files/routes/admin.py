@@ -792,7 +792,7 @@ def admin_removed_comments(v):
 						)
 
 
-@app.post("/unchud_user/<id>")
+@app.post("/unchud_user/<int:id>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
@@ -949,7 +949,7 @@ def admin_title_change(user_id, v):
 
 	return {"message": f"@{user.username}'s flair has been changed!"}
 
-@app.post("/ban_user/<id>")
+@app.post("/ban_user/<int:id>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
@@ -1044,7 +1044,7 @@ def ban_user(id, v):
 	return {"message": f"@{user.username} has been banned {duration}!"}
 
 
-@app.post("/chud_user/<id>")
+@app.post("/chud_user/<int:id>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
@@ -1149,7 +1149,7 @@ def chud(id, v):
 	return {"message": f"@{user.username} has been chudded {duration}!"}
 
 
-@app.post("/unban_user/<id>")
+@app.post("/unban_user/<int:id>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
