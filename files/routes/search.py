@@ -2,7 +2,6 @@ import re
 import time
 from calendar import timegm
 
-from sqlalchemy import *
 from sqlalchemy.orm import load_only
 
 from files.helpers.regex import *

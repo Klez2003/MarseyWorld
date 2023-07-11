@@ -38,7 +38,7 @@ def chat(v):
 		abort(403, f"Need at least {TRUESCORE_CHAT_MINIMUM} truescore for access to chat!")
 	orgy = get_orgy()
 	if orgy:
-		return render_template("orgy.html", v=v, messages=messages, orgy = orgy)
+		return render_template("orgy.html", v=v, messages=messages, orgy = orgy, site = SITE)
 	else:
 		return render_template("chat.html", v=v, messages=messages)
 

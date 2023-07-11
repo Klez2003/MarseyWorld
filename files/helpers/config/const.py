@@ -325,6 +325,7 @@ if SITE_NAME == 'rDrama':
 		'retalk.com',
 		'talk.lol',
 		'lemmy.ml',
+		'lemmy.world',
 		'lemmygrad.ml',
 		'exploding-heads.com',
 		'raddle.me',
@@ -420,7 +421,7 @@ PROFANITIES = {
 	'(?<![a-z])sex(?![a-z])': 'intercourse',
 	'(?<![a-z])cum(?![a-z])': 'c*m',
 	'orgasm': 'sexual climax',
-	'dick': 'peepee',
+	'(?<![a-z])dick': 'peepee',
 	'cock': 'peepee',
 	'cocks': 'peepees',
 	'penis': 'peepee',
@@ -1188,7 +1189,7 @@ def IS_DKD():
 birthgay_begin = datetime.datetime.strptime(f'20/5/{t.year}', '%d/%m/%Y')
 birthgay_end = datetime.datetime.strptime(f'22/5/{t.year}', '%d/%m/%Y')
 def IS_BIRTHGAY():
-	return False and (SITE_NAME == 'rDrama' and birthgay_begin < datetime.datetime.now() < birthgay_end)
+	return SITE_NAME == 'rDrama' and birthgay_begin < datetime.datetime.now() < birthgay_end
 
 birthdead_begin = datetime.datetime.strptime(f'26/4/{t.year}', '%d/%m/%Y')
 birthdead_end = datetime.datetime.strptime(f'28/4/{t.year}', '%d/%m/%Y')
@@ -1266,7 +1267,12 @@ GIRL_NAMES = {
 	'Z': ['Zoe', 'Zoey', 'Zaria', 'Zoie']
 }
 
-from sqlalchemy import *
+class OrgyTypes:
+	YOUTUBE = 1
+	RUMBLE = 2
+	TWITCH = 3
+
+from sqlalchemy.engine.create import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
 engine = create_engine(environ.get("DATABASE_URL").strip())

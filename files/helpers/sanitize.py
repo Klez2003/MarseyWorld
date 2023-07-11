@@ -44,7 +44,7 @@ TLDS = ( # Original gTLDs and ccTLDs
 	'app','cleaning','club','dev','farm','florist','fun','gay','lgbt','life','lol',
 	'moe','mom','monster','new','news','online','pics','press','pub','site','blog',
 	'vip','win','world','wtf','xyz','video','host','art','media','wiki','tech',
-	'cooking','network','party','goog','markets','today',
+	'cooking','network','party','goog','markets','today','beauty','camp'
 	)
 
 allowed_tags = ('b','blockquote','br','code','del','em','h1','h2','h3','h4','h5','h6','hr','i',
@@ -300,14 +300,12 @@ def sanitize_settings_text(sanitized:Optional[str], max_length:Optional[int]=Non
 	if max_length: sanitized = sanitized[:max_length]
 	return sanitized
 
-
-def handle_youtube_links(url):
-	html = None
+def get_youtube_id_and_t(url):
 	params = parse_qs(urlparse(url).query, keep_blank_values=True)
 
 	id = params.get('v')
 
-	if not id: return None
+	if not id: return (None, None)
 
 	id = id[0]
 
@@ -318,7 +316,14 @@ def handle_youtube_links(url):
 		t = split[1]
 
 	id = id.split('?')[0]
+	
+	return (id, t)
 
+def handle_youtube_links(url):
+	params = parse_qs(urlparse(url).query, keep_blank_values=True)
+	html = None
+	id, t = get_youtube_id_and_t(url)
+	if not id: return None
 	if yt_id_regex.fullmatch(id):
 		if not t:
 			t = params.get('t', params.get('start', [0]))[0]

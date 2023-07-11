@@ -816,7 +816,9 @@ ALTER SEQUENCE public.oauth_apps_id_seq OWNED BY public.oauth_apps.id;
 --
 
 CREATE TABLE public.orgies (
-    youtube_id character varying(12) NOT NULL,
+    id integer NOT NULL,
+    type integer NOT NULL,
+    data character varying(200) NOT NULL,
     title character varying(1000) NOT NULL
 );
 

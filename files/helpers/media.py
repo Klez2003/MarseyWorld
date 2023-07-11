@@ -119,23 +119,6 @@ def convert_to_mp4(old, new, vid):
 	os.replace(tmp, new)
 	os.remove(old)
 
-	media = Media(
-		kind='video',
-		filename=new,
-		user_id=vid,
-		size=os.stat(new).st_size
-	)
-
-	db = db_session()
-	db.add(media)
-
-	try:
-		db.commit()
-	except:
-		db.rollback()
-
-	db.close()
-
 	purge_files_in_cache(f"{SITE_FULL}{new}")
 
 
@@ -170,13 +153,13 @@ def process_video(file, v):
 
 		os.remove(old)
 
-		media = Media(
-			kind='video',
-			filename=new,
-			user_id=v.id,
-			size=os.stat(new).st_size
-		)
-		g.db.add(media)
+	media = Media(
+		kind='video',
+		filename=new,
+		user_id=v.id,
+		size=os.stat(new).st_size
+	)
+	g.db.add(media)
 
 	if SITE == 'watchpeopledie.tv': 
 		return f'https://videos.{SITE}' + new.split('/videos')[1]

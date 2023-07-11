@@ -528,13 +528,17 @@ def unsubscribe(v, post_id):
 	return {"message": "Unsubscribed from post successfully!"}
 
 @app.post("/@<username>/message")
+@app.post("/id/<int:id>/message")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit("10/minute;20/hour;50/day")
 @limiter.limit("10/minute;20/hour;50/day", key_func=get_ID)
 @is_not_permabanned
-def message2(v:User, username:str):
-	user = get_user(username, v=v, include_blocks=True)
+def message2(v, username=None, id=None):
+	if id:
+		user = get_account(id, v=v, include_blocks=True)
+	else:
+		user = get_user(username, v=v, include_blocks=True)
 
 	if user.id == MODMAIL_ID:
 		abort(403, "Please use /contact to contact the admins")
@@ -733,11 +737,11 @@ def is_available(name:str):
 	else:
 		return {name: True}
 
-@app.get("/id/<int:id>")
+@app.route("/id/<int:id>/<path:path>")
 @limiter.limit(DEFAULT_RATELIMIT)
-def user_id(id):
+def user_id(id, path):
 	user = get_account(id)
-	return redirect(user.url)
+	return redirect(f'/@{user.username}/{path}')
 
 @app.get("/u/<username>")
 @limiter.limit(DEFAULT_RATELIMIT)
@@ -1286,18 +1290,15 @@ def fp(v:User, fp):
 
 	v.fp = fp
 	users = g.db.query(User).filter(User.fp == fp, User.id != v.id).all()
-	if users: print(f'{v.username}: fp', flush=True)
 	if v.email and v.is_activated:
 		alts = g.db.query(User).filter(User.email == v.email, User.is_activated, User.id != v.id).all()
 		if alts:
-			print(f'{v.username}: email', flush=True)
 			users += alts
 	for u in users:
 		li = [v.id, u.id]
 		existing = g.db.query(Alt).filter(Alt.user1.in_(li), Alt.user2.in_(li)).one_or_none()
 		if existing: continue
 		add_alt(user1=v.id, user2=u.id)
-		print(v.username + ' + ' + u.username, flush=True)
 
 	check_for_alts(v, include_current_session=True)
 	g.db.add(v)
@@ -1343,71 +1344,65 @@ def bid_list(v:User, bid):
 						)
 
 
-
-def claim_rewards(v):
-	transactions = g.db.query(Transaction).filter_by(email=v.email, claimed=None).all()
-
-	highest_tier = 0
-	marseybux = 0
-
-	for transaction in transactions:
-		for t, money in TIER_TO_MONEY.items():
-			tier = t
-			if transaction.amount <= money: break
-
-		marseybux += TIER_TO_MBUX[tier]
-		if tier > highest_tier:
-			highest_tier = tier
-		transaction.claimed = True
-		g.db.add(transaction)
-
-	if marseybux:
-		v.pay_account('marseybux', marseybux)
-
-		send_repeatable_notification(v.id, f"You have received {marseybux} Marseybux! You can use them to buy awards or hats in the [shop](/shop/awards) or gamble them in the [casino](/casino).")
-		g.db.add(v)
-
-		v.patron_utc = int(time.time()) + 2937600
-
-		if highest_tier > v.patron:
-			v.patron = highest_tier
-			badge_id = 20 + highest_tier
-
-			badges_to_remove = g.db.query(Badge).filter(
-					Badge.user_id == v.id,
-					Badge.badge_id > badge_id,
-					Badge.badge_id < 29,
-				).all()
-			for badge in badges_to_remove:
-				g.db.delete(badge)
-
-			for x in range(22, badge_id+1):
-				badge_grant(badge_id=x, user=v)
-
-		if v.lifetime_donated >= 100:
-			badge_grant(badge_id=257, user=v)
-
-		if v.lifetime_donated >= 500:
-			badge_grant(badge_id=258, user=v)
-
-		if v.lifetime_donated >= 2500:
-			badge_grant(badge_id=259, user=v)
-
-		if v.lifetime_donated >= 5000:
-			badge_grant(badge_id=260, user=v)
-
-		if v.lifetime_donated >= 10000:
-			badge_grant(badge_id=261, user=v)
-
-		print(f'@{v.username} rewards claimed successfully!', flush=True)
-
-
 def claim_rewards_all_users():
 	emails = [x[0] for x in g.db.query(Transaction.email).filter_by(claimed=None).all()]
 	users = g.db.query(User).filter(User.email.in_(emails)).order_by(User.truescore.desc()).all()
 	for user in users:
-		claim_rewards(user)
+		transactions = g.db.query(Transaction).filter_by(email=user.email, claimed=None).all()
 
+		highest_tier = 0
+		marseybux = 0
+
+		for transaction in transactions:
+			for t, money in TIER_TO_MONEY.items():
+				tier = t
+				if transaction.amount <= money: break
+
+			marseybux += TIER_TO_MBUX[tier]
+			if tier > highest_tier:
+				highest_tier = tier
+			transaction.claimed = True
+			g.db.add(transaction)
+
+		if marseybux:
+			user.pay_account('marseybux', marseybux)
+
+			send_repeatable_notification(user.id, f"You have received {marseybux} Marseybux! You can use them to buy awards or hats in the [shop](/shop/awards) or gamble them in the [casino](/casino).")
+			g.db.add(user)
+
+			user.patron_utc = int(time.time()) + 2937600
+
+			if highest_tier > user.patron:
+				user.patron = highest_tier
+				badge_id = 20 + highest_tier
+
+				badges_to_remove = g.db.query(Badge).filter(
+						Badge.user_id == user.id,
+						Badge.badge_id > badge_id,
+						Badge.badge_id < 29,
+					).all()
+				for badge in badges_to_remove:
+					g.db.delete(badge)
+
+				for x in range(22, badge_id+1):
+					badge_grant(badge_id=x, user=user)
+
+			if user.lifetime_donated >= 100:
+				badge_grant(badge_id=257, user=user)
+
+			if user.lifetime_donated >= 500:
+				badge_grant(badge_id=258, user=user)
+
+			if user.lifetime_donated >= 2500:
+				badge_grant(badge_id=259, user=user)
+
+			if user.lifetime_donated >= 5000:
+				badge_grant(badge_id=260, user=user)
+
+			if user.lifetime_donated >= 10000:
+				badge_grant(badge_id=261, user=user)
+
+			print(f'@{user.username} rewards claimed successfully!', flush=True)
 
 KOFI_TOKEN = environ.get("KOFI_TOKEN", "").strip()
 if KOFI_TOKEN:
@@ -1501,7 +1496,7 @@ def settings_claim_rewards(v:User):
 	if not transactions:
 		abort(400, f"{patron} rewards already claimed!")
 
-	claim_rewards(v)
+	claim_rewards_all_users()
 
 	return {"message": f"{patron} rewards claimed!"}
 

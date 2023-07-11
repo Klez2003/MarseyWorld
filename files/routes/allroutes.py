@@ -63,7 +63,7 @@ def after_request(response:Response):
 			user_id = g.v.id
 		_commit_and_close_db()
 
-	if request.method == "POST" and not request.path.startswith('/casino/twentyone/'):
+	if request.method == "POST":
 		redis_instance.delete(f'LIMITER/{get_CF()}/{request.endpoint}:{request.path}/1/1/second')
 		if user_id:
 			redis_instance.delete(f'LIMITER/{SITE}-{user_id}/{request.endpoint}:{request.path}/1/1/second')
