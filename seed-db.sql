@@ -3217,6 +3217,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseyeggirl','Marsey',2,'troomer tranny transgender lgbt groomer troid transsexual'),
 ('marseyeggless','Marsey',2,'postwall foid woman barren menopause old hag childfree fds'),
 ('marseyeh','Marsey',2,'canada canadian leafistan trudeau rake south park '),
+('marseyelbows','Marsey',2,'marsey johnny elbows'),
 ('marseyeldritch','Marsey',2,'lovecraft horror halloween tentacles holiday scary monster'),
 ('marseyeldritchcarp','Marsey',2,'eldritch carpathianflorist fish cthulhu hplovecraft horror ghost'),
 ('marseyelephant','Marsey',2,'oliphant dumbo'),
