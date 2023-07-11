@@ -325,6 +325,7 @@ if SITE_NAME == 'rDrama':
 		'retalk.com',
 		'talk.lol',
 		'lemmy.ml',
+		'lemmy.world',
 		'lemmygrad.ml',
 		'exploding-heads.com',
 		'raddle.me',
