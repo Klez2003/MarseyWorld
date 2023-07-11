@@ -792,24 +792,24 @@ def admin_removed_comments(v):
 						)
 
 
-@app.post("/unchud_user/<id>")
+@app.post("/unchud_user/<fullname>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['USER_CHUD'])
-def unchud(id, v):
+def unchud(fullname, v):
 
-	if id.startswith('p_'):
-		post_id = id.split('p_')[1]
+	if fullname.startswith('p_'):
+		post_id = fullname.split('p_')[1]
 		post = g.db.get(Post, post_id)
 		user = post.author
-	elif id.startswith('c_'):
-		comment_id = id.split('c_')[1]
+	elif fullname.startswith('c_'):
+		comment_id = fullname.split('c_')[1]
 		comment = g.db.get(Comment, comment_id)
 		user = comment.author
 	else:
-		user = get_account(id)
+		user = get_account(fullname)
 
 	if not user.chudded_by:
 		abort(403, "Jannies can't undo chud awards anymore!")
@@ -949,24 +949,24 @@ def admin_title_change(user_id, v):
 
 	return {"message": f"@{user.username}'s flair has been changed!"}
 
-@app.post("/ban_user/<id>")
+@app.post("/ban_user/<fullname>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['USER_BAN'])
-def ban_user(id, v):
+def ban_user(fullname, v):
 
-	if id.startswith('p_'):
-		post_id = id.split('p_')[1]
+	if fullname.startswith('p_'):
+		post_id = fullname.split('p_')[1]
 		post = g.db.get(Post, post_id)
 		user = post.author
-	elif id.startswith('c_'):
-		comment_id = id.split('c_')[1]
+	elif fullname.startswith('c_'):
+		comment_id = fullname.split('c_')[1]
 		comment = g.db.get(Comment, comment_id)
 		user = comment.author
 	else:
-		user = get_account(id)
+		user = get_account(fullname)
 
 	if user.admin_level > v.admin_level:
 		abort(403)
@@ -1044,26 +1044,26 @@ def ban_user(id, v):
 	return {"message": f"@{user.username} has been banned {duration}!"}
 
 
-@app.post("/chud_user/<id>")
+@app.post("/chud_user/<fullname>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['USER_CHUD'])
-def chud(id, v):
+def chud(fullname, v):
 
-	if id.startswith('p_'):
-		post_id = id.split('p_')[1]
+	if fullname.startswith('p_'):
+		post_id = fullname.split('p_')[1]
 		post = g.db.get(Post, post_id)
 		user = post.author
-	elif id.startswith('c_'):
-		comment_id = id.split('c_')[1]
+	elif fullname.startswith('c_'):
+		comment_id = fullname.split('c_')[1]
 		comment = g.db.get(Comment, comment_id)
 		comment.chudded = True
 		g.db.add(comment)
 		user = comment.author
 	else:
-		user = get_account(id)
+		user = get_account(fullname)
 
 	if user.admin_level > v.admin_level:
 		abort(403)
@@ -1149,24 +1149,24 @@ def chud(id, v):
 	return {"message": f"@{user.username} has been chudded {duration}!"}
 
 
-@app.post("/unban_user/<id>")
+@app.post("/unban_user/<fullname>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT)
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['USER_BAN'])
-def unban_user(id, v):
+def unban_user(fullname, v):
 
-	if id.startswith('p_'):
-		post_id = id.split('p_')[1]
+	if fullname.startswith('p_'):
+		post_id = fullname.split('p_')[1]
 		post = g.db.get(Post, post_id)
 		user = post.author
-	elif id.startswith('c_'):
-		comment_id = id.split('c_')[1]
+	elif fullname.startswith('c_'):
+		comment_id = fullname.split('c_')[1]
 		comment = g.db.get(Comment, comment_id)
 		user = comment.author
 	else:
-		user = get_account(id)
+		user = get_account(fullname)
 
 	if not user.is_banned:
 		abort(400)
