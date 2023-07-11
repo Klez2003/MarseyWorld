@@ -527,13 +527,17 @@ def unsubscribe(v, post_id):
 	return {"message": "Unsubscribed from post successfully!"}
 
 @app.post("/@<username>/message")
+@app.post("/id/<int:id>/message")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit("10/minute;20/hour;50/day")
 @limiter.limit("10/minute;20/hour;50/day", key_func=get_ID)
 @is_not_permabanned
-def message2(v:User, username:str):
-	user = get_user(username, v=v, include_blocks=True)
+def message2(v, username=None, id=None):
+	if id:
+		user = get_account(id, v=v, include_blocks=True)
+	else:
+		user = get_user(username, v=v, include_blocks=True)
 
 	if user.id == MODMAIL_ID:
 		abort(403, "Please use /contact to contact the admins")
