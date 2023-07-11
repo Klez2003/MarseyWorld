@@ -509,7 +509,7 @@ def post_sub_css(v:User, sub):
 def get_sub_css(sub):
 	sub = g.db.query(Sub.css).filter_by(name=sub.strip().lower()).one_or_none()
 	if not sub: abort(404)
-	resp=make_response(sub.css or "")
+	resp=make_response("")
 	resp.headers.add("Content-Type", "text/css")
 	return resp
 

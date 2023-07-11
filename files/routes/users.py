@@ -468,6 +468,7 @@ def get_css(id):
 @app.get("/<int:id>/profilecss")
 @limiter.limit(DEFAULT_RATELIMIT)
 def get_profilecss(id):
+	return ''
 	try: id = int(id)
 	except: abort(404)
 
