@@ -738,18 +738,24 @@ def is_available(name:str):
 
 @app.get("/id/<int:id>")
 @limiter.limit(DEFAULT_RATELIMIT)
-def user_id(id):
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@auth_required
+def user_id(v, id):
 	user = get_account(id)
 	return redirect(user.url)
 
 @app.route("/id/<int:id>/<path:path>")
 @limiter.limit(DEFAULT_RATELIMIT)
-def user_id_path(id, path):
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@auth_required
+def user_id_path(v, id, path):
 	user = get_account(id)
 	return redirect(f'/@{user.username}/{path}')
 
 @app.get("/u/<username>")
 @limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@auth_required
 def redditor_moment_redirect(v:User, username:str):
 	return redirect(f"/@{username}")
 
