@@ -744,7 +744,7 @@ def user_id(id):
 
 @app.route("/id/<int:id>/<path:path>")
 @limiter.limit(DEFAULT_RATELIMIT)
-def user_id(id, path):
+def user_id_path(id, path):
 	user = get_account(id)
 	return redirect(f'/@{user.username}/{path}')
 
