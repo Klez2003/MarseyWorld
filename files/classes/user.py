@@ -452,21 +452,21 @@ class User(Base):
 	@property
 	@lazy
 	def discount(self):
-		if self.patron in {1,2}: discount = 0.90
-		elif self.patron == 3: discount = 0.85
-		elif self.patron == 4: discount = 0.80
-		elif self.patron == 5: discount = 0.75
-		elif self.patron == 6: discount = 0.70
-		elif self.patron == 7: discount = 0.65
-		elif self.patron == 8: discount = 0.60
-		else: discount = 1
+		if self.patron in {1,2}: after_discount = 0.90
+		elif self.patron == 3: after_discount = 0.85
+		elif self.patron == 4: after_discount = 0.80
+		elif self.patron == 5: after_discount = 0.75
+		elif self.patron == 6: after_discount = 0.70
+		elif self.patron == 7: after_discount = 0.65
+		elif self.patron == 8: after_discount = 0.60
+		else: after_discount = 1
 
 		owned_badges = [x.badge_id for x in self.badges]
 
 		for badge in discounts:
-			if badge in owned_badges: discount -= discounts[badge]
+			if badge in owned_badges: after_discount -= discounts[badge]
 
-		return discount
+		return after_discount
 
 	@property
 	@lazy
