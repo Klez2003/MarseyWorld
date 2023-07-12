@@ -866,6 +866,7 @@ if SITE == 'rdrama.net':
 		'marseyismywaifu': 3377,
 		'mimw': 3377,
 		'heymoon': 3635,
+		'gaypoon': 3635,
 		'jollymoon': 3635,
 		'chiobu': 5214,
 		'mccox': 8239,
