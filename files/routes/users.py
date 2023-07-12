@@ -750,8 +750,6 @@ def user_id_path(id, path):
 
 @app.get("/u/<username>")
 @limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
-@auth_required
 def redditor_moment_redirect(v:User, username:str):
 	return redirect(f"/@{username}")
 
