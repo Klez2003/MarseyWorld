@@ -736,6 +736,12 @@ def is_available(name:str):
 	else:
 		return {name: True}
 
+@app.get("/id/<int:id>")
+@limiter.limit(DEFAULT_RATELIMIT)
+def user_id(id):
+	user = get_account(id)
+	return redirect(user.url)
+
 @app.route("/id/<int:id>/<path:path>")
 @limiter.limit(DEFAULT_RATELIMIT)
 def user_id(id, path):
