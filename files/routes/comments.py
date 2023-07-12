@@ -108,15 +108,6 @@ def comment(v:User):
 	elif parent_fullname.startswith("p_"):
 		parent = get_post(id, v=v)
 		post_target = parent
-		if POLL_THREAD and parent.id == POLL_THREAD and v.admin_level < PERMS['POST_TO_POLL_THREAD']:
-			abort(403, "You can't post top-level comments in this thread!")
-
-		if CHANGELOG_THREAD and parent.id == CHANGELOG_THREAD and v.admin_level < PERMS['POST_TO_CHANGELOG_THREAD']:
-			abort(403, "You can't post top-level comments in this thread!")
-
-		if BUGFIXING_THREAD and parent.id == BUGFIXING_THREAD and v.admin_level < PERMS['POST_TO_CHANGELOG_THREAD']:
-			abort(403, "You can't post top-level comments in this thread!")
-
 		if parent.id in ADMIGGER_THREADS and v.admin_level < PERMS['USE_ADMIGGER_THREADS']:
 			abort(403, "You can't post top-level comments in this thread!")
 

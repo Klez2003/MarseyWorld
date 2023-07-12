@@ -511,8 +511,6 @@ PERMS = { # Minimum admin_level to perform action.
  	'NOTIFICATIONS_HOLE_CREATION': 1,
  	'NOTIFICATIONS_MODERATOR_ACTIONS': 1,
 
- 	'POST_TO_POLL_THREAD': 2,
- 	'POST_TO_CHANGELOG_THREAD': 2,
  	'USER_BADGES': 2,
  	'USER_LINK': 2,
  	'USER_TITLE_CHANGE': 2,
@@ -716,10 +714,6 @@ MODMAIL_ID = 2
 GIFT_NOTIF_ID = 5
 SIGNUP_FOLLOW_ID = 0
 
-POLL_THREAD = 0
-CHANGELOG_THREAD = 0
-BUGFIXING_THREAD = 0
-
 POLL_BET_COINS = 200
 POLL_MAX_OPTIONS = 200
 WELCOME_MSG = f"Welcome to {SITE_NAME}!"
@@ -800,11 +794,13 @@ if SITE == 'rdrama.net':
 	FEATURES['USERS_PERMANENT_WORD_FILTERS'] = True
 	FEATURES['ASSET_SUBMISSIONS'] = True
 
+	NOTIFICATION_THREAD = 6489
+
 	SIDEBAR_THREAD = 37696
 	BANNER_THREAD = 37697
 	BADGE_THREAD = 37833
 	SNAPPY_THREAD = 37749
-	NOTIFICATION_THREAD = 6489
+	ADMIGGER_THREADS = {SIDEBAR_THREAD, BANNER_THREAD, BADGE_THREAD, SNAPPY_THREAD, 79285, 165657, 166300, 187078}
 
 	TRUESCORE_CHAT_MINIMUM = 10
 	TRUESCORE_GHOST_MINIMUM = 10
@@ -879,10 +875,6 @@ if SITE == 'rdrama.net':
 
 	GIFT_NOTIF_ID = CARP_ID
 
-	POLL_THREAD = 79285
-	CHANGELOG_THREAD = 165657
-	BUGFIXING_THREAD = 166300
-
 	WELCOME_MSG = "Hi there! It's me, your soon-to-be favorite rDrama user @carpathianflorist here to give you a brief rundown on some of the sick features we have here. You'll probably want to start by following me, though. So go ahead and click my name and then smash that Follow button. This is actually really important, so go on. Hurry.\n\nThanks!\n\nNext up: If you're a member of the media, similarly just shoot me a DM and I'll set about verifying you and then we can take care of your sad journalism stuff.\n\n**FOR EVERYONE ELSE**\n\n Begin by navigating to [the settings page](/settings/profile) (we'll be prettying this up so it's less convoluted soon, don't worry) and getting some basic customization done.\n\n### Themes\n\nDefinitely change your theme right away, the default one (Midnight) is pretty enough, but why not use something *exotic* like Win98, or *flashy* like Tron? Even Coffee is super tasteful and way more fun than the default. More themes to come when we get around to it!\n\n### Avatar/pfp\n\nYou'll want to set this pretty soon. Set the banner too while you're at it. Your profile is important!\n\n### Flairs\n\nSince you're already on the settings page, you may as well set a flair, too. As with your username, you can - obviously - choose the color of this, either with a hex value or just from the preset colors. And also like your username, you can change this at any time. Paypigs can even further relive the glory days of 90s-00s internet and set obnoxious signatures.\n\n### PROFILE ANTHEMS\n\nSpeaking of profiles, hey, remember MySpace? Do you miss autoplaying music assaulting your ears every time you visited a friend's page? Yeah, we brought that back. Enter a YouTube URL, wait a few seconds for it to process, and then BAM! you've got a profile anthem which people cannot mute. Unless they spend 20,000 dramacoin in the shop for a mute button. Which you can then remove from your profile by spending 40,000 dramacoin on an unmuteable anthem. Get fucked poors!\n\n### Dramacoin?\n\nDramacoin is basically our take on the karma system. Except unlike the karma system, it's not gay and boring and stupid and useless. Dramacoin can be spent at [Marsey's Dramacoin Emporium](/shop/awards) on upgrades to your user experience (many more coming than what's already listed there), and best of all on tremendously annoying awards to fuck with your fellow dramautists. We're always adding more, so check back regularly in case you happen to miss one of the announcement posts.\n\nLike karma, dramacoin is obtained by getting upvotes on your threads and comments. *Unlike* karma, it's also obtained by getting downvotes on your threads and comments. Downvotes don't really do anything here - they pay the same amount of dramacoin and they increase thread/comment ranking just the same as an upvote. You just use them to express petty disapproval and hopefully start a fight. Because all votes are visible here. To hell with your anonymity.\n\nDramacoin can also be traded amongst users from their profiles. Note that there is a 3% transaction fee.\n\n### Badges\n\nRemember all those neat little metallic icons you saw on my profile when you were following me? If not, scroll back up and go have a look. And doublecheck to make sure you pressed the Follow button. Anyway, those are badges. You earn them by doing a variety of things. Some of them even offer benefits, like discounts at the shop. A [complete list of badges and their requirements can be found here](/badges), though I add more pretty regularly, so keep an eye on the [changelog](/post/165657).\n\n### Other stuff\n\nWe're always adding new features, and we take a fun-first approach to development. If you have a suggestion for something that would be fun, funny, annoying - or best of all, some combination of all three - definitely make a thread about it. Or just DM me if you're shy. Weirdo. Anyway there's also the [leaderboards](/leaderboard), boring stuff like two-factor authentication you can toggle on somewhere in the settings page (psycho), the ability to save posts and comments, more than a thousand emojis already (most of which are rDrama originals), and on and on and on and on. This is just the basics, mostly to help you get acquainted with some of the things you can do here to make it more easy on the eyes, customizable, and enjoyable. If you don't enjoy it, just go away! We're not changing things to suit you! Get out of here loser! And no, you can't delete your account :na:\n\nI love you.<br>*xoxo Carp* 💋"
 
 	REDDIT_NOTIFS_USERS = {
@@ -917,7 +909,6 @@ elif SITE == 'watchpeopledie.tv':
 	PERMS['USER_BLACKLIST'] = 6
 
 	SUB_BANNER_LIMIT = 69420
-	NOTIFICATION_THREAD = 27855
 
 	ERROR_TITLES.update({
 		400: "Bad Request",
@@ -949,10 +940,11 @@ elif SITE == 'watchpeopledie.tv':
 
 	ERROR_MARSEYS[403] = "marseyconfused"
 
-	POLL_THREAD = 22937
+	NOTIFICATION_THREAD = 27855
 
 	SIDEBAR_THREAD = 5403
 	BANNER_THREAD = 9869
+	ADMIGGER_THREADS = {SIDEBAR_THREAD, BANNER_THREAD}
 
 	TRUESCORE_CHAT_MINIMUM = 10
 	TRUESCORE_GHOST_MINIMUM = 10
@@ -1041,8 +1033,6 @@ discounts = {
 }
 
 CF_HEADERS = {"Authorization": f"Bearer {CF_KEY}", "Content-Type": "application/json"}
-
-ADMIGGER_THREADS = {SIDEBAR_THREAD, BANNER_THREAD, BADGE_THREAD, SNAPPY_THREAD}
 
 proxies = {"http":PROXY_URL,"https":PROXY_URL}
 
