@@ -32,39 +32,40 @@ def calc_users():
 	g.loggedout_counter = 0
 	g.loggedin_chat = 0
 	v = getattr(g, 'v', None) if g else None
-	if has_request_context and g and g.desires_auth and not g.is_api_or_xhr:
-		loggedin = cache.get(LOGGED_IN_CACHE_KEY) or {}
-		loggedout = cache.get(LOGGED_OUT_CACHE_KEY) or {}
-		g.loggedin_chat = cache.get(CHAT_ONLINE_CACHE_KEY) or 0
-		timestamp = int(time.time())
 
-		if not session.get("session_id"):
-			session.permanent = True
-			session["session_id"] = str(uuid.uuid4())
+	loggedin = cache.get(LOGGED_IN_CACHE_KEY) or {}
+	loggedout = cache.get(LOGGED_OUT_CACHE_KEY) or {}
+	g.loggedin_chat = cache.get(CHAT_ONLINE_CACHE_KEY) or 0
+	timestamp = int(time.time())
 
-		if v:
-			if session["session_id"] in loggedout: del loggedout[session["session_id"]]
-			loggedin[v.id] = timestamp
-		else:
-			ua = str(user_agents.parse(g.agent))
-			if 'spider' not in ua.lower() and 'bot' not in ua.lower():
-				loggedout[session["session_id"]] = (timestamp, ua)
+	if not session.get("session_id"):
+		session.permanent = True
+		session["session_id"] = str(uuid.uuid4())
 
-		loggedin = {k: v for k, v in loggedin.items() if (timestamp - v) < LOGGEDIN_ACTIVE_TIME}
-		loggedout = {k: v for k, v in loggedout.items() if (timestamp - v[0]) < LOGGEDIN_ACTIVE_TIME}
-		cache.set(LOGGED_IN_CACHE_KEY, loggedin)
-		cache.set(LOGGED_OUT_CACHE_KEY, loggedout)
-		g.loggedin_counter = len(loggedin)
-		g.loggedout_counter = len(loggedout)
+	if v:
+		if session["session_id"] in loggedout: del loggedout[session["session_id"]]
+		loggedin[v.id] = timestamp
+	else:
+		ua = str(user_agents.parse(g.agent))
+		if 'spider' not in ua.lower() and 'bot' not in ua.lower():
+			loggedout[session["session_id"]] = (timestamp, ua)
 
-		if g.loggedout_counter > 3000:
-			if not get_setting('ddos_detected'):
-				toggle_setting('ddos_detected')
-				set_security_level('under_attack')
-		else:
-			if get_setting('ddos_detected'):
-				toggle_setting('ddos_detected')
-				set_security_level('high')
+	loggedin = {k: v for k, v in loggedin.items() if (timestamp - v) < LOGGEDIN_ACTIVE_TIME}
+	loggedout = {k: v for k, v in loggedout.items() if (timestamp - v[0]) < LOGGEDIN_ACTIVE_TIME}
+	cache.set(LOGGED_IN_CACHE_KEY, loggedin)
+	cache.set(LOGGED_OUT_CACHE_KEY, loggedout)
+	g.loggedin_counter = len(loggedin)
+	g.loggedout_counter = len(loggedout)
+
+	if g.loggedout_counter > 3000:
+		if not get_setting('ddos_detected'):
+			toggle_setting('ddos_detected')
+			set_security_level('under_attack')
+	else:
+		if get_setting('ddos_detected'):
+			toggle_setting('ddos_detected')
+			set_security_level('high')
+
 	return ''
 
 def get_logged_in_user():
