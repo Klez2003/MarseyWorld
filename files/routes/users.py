@@ -1461,7 +1461,7 @@ def gumroad():
 
 	created_utc = int(time.mktime(time.strptime(data['sale_timestamp'].split('.')[0], "%Y-%m-%dT%H:%M:%SZ")))
 
-	if data.get('recurrenace'):
+	if data.get('recurrence'):
 		type = "monthly"
 	else:
 		type = "one-time"
