@@ -2,7 +2,7 @@ from flask import g
 import time
 import calendar
 import matplotlib.pyplot as plt
-from sqlalchemy.sql import func
+from sqlalchemy.sql import func, or_
 
 from files.classes.user import User
 from files.classes.post import Post
