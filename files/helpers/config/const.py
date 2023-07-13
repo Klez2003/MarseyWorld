@@ -261,6 +261,7 @@ if SITE_NAME == 'rDrama':
 		#+All sites with the word "chan" in the domain
 
 		#twitter-like
+		'threads.net',
 		'gab.com',
 		'gettr.com',
 		'parler.com',
