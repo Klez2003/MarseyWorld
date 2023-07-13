@@ -306,6 +306,7 @@ if SITE_NAME == 'rDrama':
 		'mumsnet.com',
 		'voy.com',
 		'texags.com',
+		'lowendtalk.com',
 		#+All sites with the word "forum" in the domain
 
 		#nested-comments
