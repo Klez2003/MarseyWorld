@@ -301,7 +301,6 @@ if SITE_NAME == 'rDrama':
 		'neogaf.com',
 		'thebore.com',
 		'itjustbugsme.com',
-		'breached.vc',
 		'community.myfitnesspal.com',
 		'mumsnet.com',
 		'voy.com',
