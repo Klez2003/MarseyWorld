@@ -361,7 +361,7 @@ if SITE_NAME == 'rDrama':
 		'discuss.tchncs.de',
 		'exploding-heads.com',
 		#+All sites with .win TLD
-		#+All sites with 'lemmy' in the domain
+		#+All sites with the word 'lemmy' in the domain
 
 		#misc
 		'cinchnews.com',
