@@ -30,8 +30,7 @@ CRON_CACHE_TIMEOUT = 172800
 @click.option('--every-5m', is_flag=True, help='Call every 5 minutes.')
 @click.option('--every-1h', is_flag=True, help='Call every 1 hour.')
 @click.option('--every-1d', is_flag=True, help='Call every 1 day.')
-@click.option('--every-1mo', is_flag=True, help='Call every 1 month.')
-def cron(every_5m, every_1h, every_1d, every_1mo):
+def cron(every_5m, every_1h, every_1d):
 	g.db = db_session()
 	g.v = None
 
