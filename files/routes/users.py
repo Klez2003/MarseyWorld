@@ -407,12 +407,8 @@ def transfer_coins(v:User, username:str):
 def transfer_bux(v:User, username:str):
 	return transfer_currency(v, username, 'marseybux', False)
 
-@app.get("/leaderboard")
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
-@auth_required
 @cache.memoize()
-def leaderboard(v:User):
+def leaderboards(v):
 	users = g.db.query(User)
 
 	coins = Leaderboard("Coins", "coins", "coins", "Coins", None, Leaderboard.get_simple_lb, User.coins, v, lambda u:u.coins, users)
@@ -440,7 +436,15 @@ def leaderboard(v:User):
 
 	leaderboards.append(Leaderboard("Downvotes received", "downvotes received", "downvotes-received", "Downvotes Received", "downvoters", Leaderboard.get_downvotes_lb, None, v, None, None))
 
-	return render_template("leaderboard.html", v=v, leaderboards=leaderboards)
+	return leaderboards
+
+@app.get("/leaderboard")
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@auth_required
+def leaderboard(v:User):
+	return render_template("leaderboard.html", v=v, leaderboards=leaderboards(v))
+
 
 @app.get("/<int:id>/css")
 @limiter.limit(DEFAULT_RATELIMIT)
