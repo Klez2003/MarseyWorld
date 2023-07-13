@@ -1350,7 +1350,7 @@ INSERT INTO public.hat_defs VALUES (1213, 'Secret Crack', 'Oh hi… AH', 2, 1000
 
 
 
-
+INSERT INTO public.hat_defs VALUES (1256, 'dawnfag', 'I’m too tired to write a description I’m sorry here’s your hat toats', 2, 500, NULL, 1687739873);
 
 
 --
@@ -1634,6 +1634,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('carpcowboy','Carp',2,'hat western'),
 ('carpcry','Carp',2,'sad depressed'),
 ('carpcrying','Carp',2,'tear reaction carpathianflorist fish sob tears sad'),
+('carpcutetwinkbipoc','Carp',2,'anticarp'),
 ('carpdead','Carp',2,'fish janny kill'),
 ('carpdead2','Carp',2,'carp rope suicide carpathianflorist admin moderator jannie kaj ajab lynch fish'),
 ('carpdeadinside','Carp',2,'sad depressed despair doom'),
@@ -1916,6 +1917,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('dash','Marsey Alphabet',2,'- hyphen minus'),
 ('dasrite','Misc',2,'black israelite hotep thats thas right jewish bipoc nigger'),
 ('datalaugh','Misc',2,'spin star trek startrek'),
+('datboi','Misc',2,'frog that boy pepe'),
 ('daydream','Classic',2,'daydream animated emoticon wistful dream thinking'),
 ('ddagger','Marsey Alphabet',2,'‡ dagger footnote'),
 ('ddr','Classic',2,'ddr animated emoticon dancing dance firework celebration'),
@@ -1966,6 +1968,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('die','Classic',2,'die animated emoticon dead'),
 ('dinoconfused','Misc',2,'dino dinosaur confused'),
 ('dinono','Misc',2,'dino chad no dinosaur trex'),
+('dinosaurpepe','Misc',2,'dinosaur pepe frog brontosaurus'),
 ('dinoyes','Misc',2,'chad yes dino dinosaur trex'),
 ('directlypointingsoyjak','Wojak',2,'pointing soyjak you’re cringe'),
 ('disappoint','Misc',2,'disappointed disappointed yell shout'),
@@ -2247,6 +2250,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('heartbeat','Classic',2,'heartbeat animated heart love'),
 ('heartrainbow','Classic',2,'heart rainbow colors'),
 ('hearts','Classic',2,'hearts animated heart love'),
+('hehecat','Misc',2,'cat laugh hehe emoji'),
 ('hehepronoun','Misc',2,'transfemale transmale pronoun he she enby hehe michael jackson'),
 ('help','Wojak',2,'spinning'),
 ('hewillnever','Rage',2,'cereal cereal guy disbelief'),
@@ -2348,6 +2352,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('klennycry','Misc',2,'sob unhappy dog corgi'),
 ('klennycrysad','Misc',2,'dog sad sob'),
 ('klobber','Donkey Kong',2,'donkeykong dk barrel kremling'),
+('kloren','Misc',2,'klenny soren monochrome'),
 ('klubba','Donkey Kong',2,'threaten club donkeykong dk'),
 ('kms','Misc',2,'suicide anime gun'),
 ('knowless','Misc',2,'know less doomer sad zoomer jew knowless'),
@@ -3167,6 +3172,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseydoge1','Marsey',2,'doge dog puppy meme'),
 ('marseydogwalker','Marsey',2,'doreen antiwork walking powermod moderator'),
 ('marseydoit','Marsey',2,'pistol handgun kys kill yourself glowie federal agent fbi cia atf nsa glow nigger glownigger suicide suicidal keep yourself safe'),
+('marseydolan','Marsey',2,'duck donald dolan'),
 ('marseydolphin','Marsey',2,'ocean goggles rainbow'),
 ('marseydomesticabuse','Marsey',2,'domestic violence bardfinn foid beating punching battering battered bandage hurt pain woman female'),
 ('marseydonda','Marsey',2,'kanye square'),
@@ -3306,6 +3312,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseyfeelsgood','Marsey',2,'meme frog feels good man pepe feelsgoodman happy'),
 ('marseyfeelsgoodman','Marsey',2,'pepe feels good man mellokind frog happy'),
 ('marseyfeet','Marsey',2,'foot frozenchosen fetish'),
+('marseyfefe','Marsey',2,'scorpion arachnid bug insect arthropod'),
 ('marseyfeferi','Marsey',2,'feferi peixes homestuck troll'),
 ('marseyfellowkids','Marsey',2,'groomer adult buscemi skateboard'),
 ('marseyfellowpedo','Marsey',2,'libertarian glowie fbi'),
@@ -3672,6 +3679,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseyhwacha','Marsey',2,'korea historical animated artillery weapon gunpowder army combat war'),
 ('marseyhyperthonk','Marsey',2,'3d hmm wrong think hypercube animated tesseract spin consider noootice wonder'),
 ('marseyhypno','Marsey',2,'hypnosis spiral brainwash animated hypnotoad'),
+('marseyib','Marsey',2,'rpgmaker'),
 ('marseyicecream','Marsey',2,'ice cream sad disappoint pout cry. pensive'),
 ('marseyicecreamcone','Marsey',2,'sweet dessert dairy'),
 ('marseyicet','Marsey',2,'marsey icet rapper'),
@@ -3845,6 +3853,10 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseyklennycry','Marsey',2,'dog corgi sobbing crying'),
 ('marseyklennyheart','Marsey',2,'corgi puppy dog love hug'),
 ('marseyklennyrip','Marsey',2,'dead killed murdered decapitated corgi'),
+('marseyklennyshrug','Marsey',2,'dog puppy cute'),
+('marseyklennysleep','Marsey',2,'klenny klenvastergan futa corgi dog pup sleep bored longpost yawn zzz'),
+('marseyklennysoren','Marsey',2,'dog puppy corgi cute jesus christ crucifix'),
+('marseyklennysorenthumbsup','Marsey',2,'corgi puppy dog'),
 ('marseyklennywinner','Marsey',2,'medal award dog klenvastergan corgi'),
 ('marseykneel','Marsey',2,'blm bow black lives matter chauvin supremacy respect supreme'),
 ('marseyknifecat','Marsey',2,'smug devious scallywag threatening calm'),
@@ -5237,6 +5249,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseyyinandyang','Marsey',2,'yin yang balance light dark'),
 ('marseyyinzer','Marsey',2,'pittsburgh pennsylvania pens penguins steelers stillers pirates buccos buckos terrible towel pierogo yuengling beer city hat baseball football hockey nfl mlb nhl happy'),
 ('marseyyoda','Marsey',2,'yoda marsey starwars jedi'),
+('marseyyokaiwatch','Marsey',2,'marsey yokaiwatch jibanyan ghost'),
 ('marseyyoushouldkillyourselfnow','Marsey',2,'kill yourself meme marsey thunder'),
 ('marseyyugi','Marsey',2,'yugioh yu-gi-oh! cards trap anime'),
 ('marseyza','Marsey',2,'antlers flowers'),
