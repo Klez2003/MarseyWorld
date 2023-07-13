@@ -266,7 +266,6 @@ if SITE_NAME == 'rDrama':
 		'parler.com',
 		'truthsocial.com',
 		'blacktwitterapp.com',
-		'marsey.club',
 		'kiwifarms.cc',
 		'freespeechextremist.com'
 		'mstdn.social',
