@@ -171,8 +171,9 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 	elif target.author.progressivestack or (target.author.admin_level and target.author.id not in {CARP_ID, SCHIZO_ID}):
 		mul = 2
 	elif SITE == 'rdrama.net' and cls == Post:
-		if (target.domain.endswith('.win') or 'forum' in target.domain or 'chan' in target.domain
-				or (target.domain in BOOSTED_SITES and not target.url.startswith('/'))):
+		if (target.domain.endswith('.win')
+		or 'forum' in target.domain or 'chan' in target.domain or 'lemmy' in target.domain
+		or (target.domain in BOOSTED_SITES and not target.url.startswith('/'))):
 			mul = 2
 		elif target.sub in STEALTH_HOLES:
 			mul = 2

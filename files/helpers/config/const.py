@@ -353,24 +353,15 @@ if SITE_NAME == 'rDrama':
 		'livefilter.com',
 		'sift.quest',
 		##lemmy
-		'lemmy.world',
-		'lemmy.ml',
 		'beehaw.org',
 		'sh.itjust.works',
 		'lemm.ee',
 		'feddit.de',
-		'lemmynsfw.com',
-		'lemmy.fmhy.ml',
-		'lemmy.ca',
 		'programming.dev',
-		'lemmy.dbzer0.com',
-		'lemmy.blahaj.zone',
-		'lemmy.one',
-		'lemmy.sdf.org',
 		'discuss.tchncs.de',
-		'lemmygrad.ml',
 		'exploding-heads.com',
 		#+All sites with .win TLD
+		#+All sites with 'lemmy' in the domain
 
 		#misc
 		'cinchnews.com',
