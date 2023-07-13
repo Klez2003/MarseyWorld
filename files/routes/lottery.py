@@ -9,8 +9,8 @@ from files.__main__ import app, limiter
 @app.post("/lottery/start")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @admin_level_required(PERMS['LOTTERY_ADMIN'])
 def lottery_start(v):
 	start_new_lottery_session()
@@ -20,8 +20,8 @@ def lottery_start(v):
 @app.post("/lottery/buy")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit("100/minute;500/hour;1000/day")
-@limiter.limit("100/minute;500/hour;1000/day", key_func=get_ID)
+@limiter.limit("100/minute;500/hour;1000/day", deduct_when=lambda response: response.status_code < 400)
+@limiter.limit("100/minute;500/hour;1000/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def lottery_buy(v:User):
 	try: quantity = int(request.values.get("quantity"))
@@ -38,8 +38,8 @@ def lottery_buy(v:User):
 
 
 @app.get("/lottery/active")
-@limiter.limit("100/minute;500/hour;1000/day")
-@limiter.limit("100/minute;500/hour;1000/day", key_func=get_ID)
+@limiter.limit("100/minute;500/hour;1000/day", deduct_when=lambda response: response.status_code < 400)
+@limiter.limit("100/minute;500/hour;1000/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def lottery_active(v:User):
 	lottery, participants = get_active_lottery_stats()
@@ -47,8 +47,8 @@ def lottery_active(v:User):
 	return {"message": "", "stats": {"user": v.lottery_stats, "lottery": lottery, "participants": participants}}
 
 @app.get("/admin/lottery/participants")
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @admin_level_required(PERMS['LOTTERY_VIEW_PARTICIPANTS'])
 def lottery_admin(v):
 	participants = get_users_participating_in_lottery()

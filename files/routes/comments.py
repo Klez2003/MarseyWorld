@@ -27,7 +27,7 @@ from files.__main__ import app, cache, limiter
 @app.get("/post/<int:pid>/<anything>/<int:cid>")
 @app.get("/h/<sub>/comment/<int:cid>")
 @app.get("/h/<sub>/post/<int:pid>/<anything>/<int:cid>")
-@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @auth_desired_with_logingate
 def post_pid_comment_cid(cid, v, pid=None, anything=None, sub=None):
 
@@ -84,8 +84,8 @@ def post_pid_comment_cid(cid, v, pid=None, anything=None, sub=None):
 @app.post("/comment")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit("20/minute;200/hour;1000/day")
-@limiter.limit("20/minute;200/hour;1000/day", key_func=get_ID)
+@limiter.limit("20/minute;200/hour;1000/day", deduct_when=lambda response: response.status_code < 400)
+@limiter.limit("20/minute;200/hour;1000/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def comment(v:User):
 	if v.is_suspended: abort(403, "You can't perform this action while banned!")
@@ -401,8 +401,8 @@ def comment(v:User):
 @app.post("/delete/comment/<int:cid>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def delete_comment(cid, v):
 	if v.id == 253: abort(403)
@@ -424,8 +424,8 @@ def delete_comment(cid, v):
 @app.post("/undelete/comment/<int:cid>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def undelete_comment(cid, v):
 	c = get_comment(cid, v=v)
@@ -446,8 +446,8 @@ def undelete_comment(cid, v):
 @feature_required('PINS')
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def pin_comment(cid, v):
 
@@ -472,8 +472,8 @@ def pin_comment(cid, v):
 @app.post("/unpin_comment/<int:cid>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def unpin_comment(cid, v):
 
@@ -497,8 +497,8 @@ def unpin_comment(cid, v):
 @app.post("/save_comment/<int:cid>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def save_comment(cid, v):
 
@@ -516,8 +516,8 @@ def save_comment(cid, v):
 @app.post("/unsave_comment/<int:cid>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def unsave_comment(cid, v):
 
@@ -555,8 +555,8 @@ def diff_words(answer, guess):
 @feature_required('NSFW_MARKING')
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def toggle_comment_nsfw(cid, v):
 	comment = get_comment(cid)
@@ -593,8 +593,8 @@ def toggle_comment_nsfw(cid, v):
 @app.post("/edit_comment/<int:cid>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit("10/minute;100/hour;200/day")
-@limiter.limit("10/minute;100/hour;200/day", key_func=get_ID)
+@limiter.limit("10/minute;100/hour;200/day", deduct_when=lambda response: response.status_code < 400)
+@limiter.limit("10/minute;100/hour;200/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_permabanned
 def edit_comment(cid, v):
 	c = get_comment(cid, v=v)

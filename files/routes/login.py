@@ -21,7 +21,7 @@ from files.routes.wrappers import *
 NO_LOGIN_REDIRECT_URLS = ("/login", "/logout", "/signup", "/forgot", "/reset", "/reset_2fa", "/lost_2fa")
 
 @app.get("/login")
-@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @auth_desired
 def login_get(v:Optional[User]):
 	redir = request.values.get("redirect", "").strip().rstrip('?').lower()
@@ -31,21 +31,12 @@ def login_get(v:Optional[User]):
 		return redirect('/')
 	return render_template("login/login.html", failed=False, redirect=redir), 401
 
-def login_deduct_when(resp):
-	if not g:
-		return False
-	elif not hasattr(g, 'login_failed'):
-		return False
-	return g.login_failed
-
 @app.post("/login")
 @limiter.limit('1/second', scope=rpath)
-@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit("6/minute;10/day", deduct_when=lambda response: response.status_code < 400)
 @auth_desired
-@limiter.limit("6/minute;10/day", deduct_when=login_deduct_when)
 def login_post(v:Optional[User]):
 	if v: abort(400)
-	g.login_failed = True
 
 	username = request.values.get("username")
 
@@ -76,7 +67,6 @@ def login_post(v:Optional[User]):
 		if account.mfa_secret or session.get("GLOBAL"):
 			now = int(time.time())
 			hash = generate_hash(f"{account.id}+{now}+2fachallenge")
-			g.login_failed = False
 			return render_template("login/login_2fa.html",
 								v=account,
 								time=now,
@@ -109,7 +99,6 @@ def login_post(v:Optional[User]):
 	else:
 		abort(400)
 
-	g.login_failed = False
 	on_login(account)
 
 	if redir and is_site_url(redir) and redir not in NO_LOGIN_REDIRECT_URLS:
@@ -133,8 +122,8 @@ def on_login(account, redir=None):
 
 @app.get("/me")
 @app.get("/@me")
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def me(v:User):
 	if v.client: return v.json
@@ -144,8 +133,8 @@ def me(v:User):
 @app.post("/logout")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def logout(v):
 	loggedin = cache.get('loggedin') or {}
@@ -155,7 +144,7 @@ def logout(v):
 	return {"message": "Logout successful!"}
 
 @app.get("/signup")
-@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @auth_desired
 def sign_up_get(v:Optional[User]):
 	if not get_setting('signups'):
@@ -204,7 +193,7 @@ def sign_up_get(v:Optional[User]):
 
 @app.post("/signup")
 @limiter.limit('1/second', scope=rpath)
-@limiter.limit("10/day")
+@limiter.limit("10/day", deduct_when=lambda response: response.status_code < 400)
 @auth_desired
 def sign_up_post(v:Optional[User]):
 	if not get_setting('signups'):
@@ -372,14 +361,14 @@ def sign_up_post(v:Optional[User]):
 
 
 @app.get("/forgot")
-@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 def get_forgot():
 	return render_template("login/forgot_password.html")
 
 
 @app.post("/forgot")
 @limiter.limit('1/second', scope=rpath)
-@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 def post_forgot():
 
 	username = request.values.get("username")
@@ -415,7 +404,7 @@ def post_forgot():
 
 
 @app.get("/reset")
-@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 def get_reset():
 	user_id = request.values.get("id")
 	timestamp = 0
@@ -445,7 +434,7 @@ def get_reset():
 
 @app.post("/reset")
 @limiter.limit('1/second', scope=rpath)
-@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @auth_desired
 def post_reset(v:Optional[User]):
 	if v: return redirect('/')
@@ -484,7 +473,7 @@ def post_reset(v:Optional[User]):
 						message="Login normally to access your account.")
 
 @app.get("/lost_2fa")
-@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @auth_desired
 def lost_2fa(v:Optional[User]):
 	if v and not v.mfa_secret: abort(400, "You don't have two-factor authentication enabled")
@@ -492,7 +481,7 @@ def lost_2fa(v:Optional[User]):
 
 @app.post("/lost_2fa")
 @limiter.limit('1/second', scope=rpath)
-@limiter.limit("6/minute;200/hour;1000/day")
+@limiter.limit("6/minute;200/hour;1000/day", deduct_when=lambda response: response.status_code < 400)
 def lost_2fa_post():
 	username=request.values.get("username")
 	user=get_user(username, graceful=True)
@@ -530,7 +519,7 @@ def lost_2fa_post():
 						message="If the username, password, and email match, we will send you an email. Check your spam folder if you can't find it."), 202
 
 @app.get("/reset_2fa")
-@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 def reset_2fa():
 	now=int(time.time())
 	t = request.values.get("t")

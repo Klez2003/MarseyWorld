@@ -23,15 +23,15 @@ from files.__main__ import app, cache, limiter
 from .front import frontlist
 
 @app.get("/shop")
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def shop_awards(v:User):
 	return redirect('/shop/awards')
 
 @app.get("/shop/awards")
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def shop(v:User):
 	AWARDS = deepcopy(AWARDS_ENABLED)
@@ -57,8 +57,8 @@ def shop(v:User):
 @app.post("/buy/<award>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit("100/minute;200/hour;1000/day")
-@limiter.limit("100/minute;200/hour;1000/day", key_func=get_ID)
+@limiter.limit("100/minute;200/hour;1000/day", deduct_when=lambda response: response.status_code < 400)
+@limiter.limit("100/minute;200/hour;1000/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def buy(v:User, award):
 	if award == 'ghost':
@@ -137,8 +137,8 @@ def buy(v:User, award):
 @app.post("/award/<thing_type>/<int:id>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_permabanned
 def award_thing(v, thing_type, id):
 	kind = request.values.get("kind", "").strip()

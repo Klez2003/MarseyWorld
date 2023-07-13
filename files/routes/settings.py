@@ -25,22 +25,22 @@ from files.__main__ import app, cache, limiter
 
 
 @app.get("/settings")
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def settings(v:User):
 	return redirect("/settings/personal")
 
 @app.get("/settings/personal")
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def settings_personal(v:User):
 	return render_template("settings/personal.html", v=v, error=get_error(), msg=get_msg())
 
 @app.delete('/settings/background')
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def remove_background(v):
 	if v.background:
@@ -53,8 +53,8 @@ def remove_background(v):
 @app.post('/settings/custom_background')
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def upload_custom_background(v):
 	if g.is_tor: abort(403, "Image uploads are not allowed through TOR!")
@@ -79,8 +79,8 @@ def upload_custom_background(v):
 @app.post('/settings/profile_background')
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def upload_profile_background(v):
 	if g.is_tor: abort(403, "Image uploads are not allowed through TOR!")
@@ -100,8 +100,8 @@ def upload_profile_background(v):
 	return redirect(f'/@{v.username}')
 
 @app.delete('/settings/profile_background')
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def delete_profile_background(v):
 	if v.profile_background:
@@ -112,8 +112,8 @@ def delete_profile_background(v):
 @app.post("/settings/personal")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def settings_personal_post(v):
 	if v.id == 253 and request.values.get("private"):
@@ -393,8 +393,8 @@ def settings_personal_post(v):
 @app.post("/settings/filters")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def filters(v:User):
 	filters=request.values.get("filters")[:1000].strip()
@@ -423,8 +423,8 @@ def set_color(v:User, attr:str, color:Optional[str]):
 @app.post("/settings/namecolor")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def namecolor(v):
 	return set_color(v, "namecolor", request.values.get("namecolor"))
@@ -432,8 +432,8 @@ def namecolor(v):
 @app.post("/settings/themecolor")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def themecolor(v):
 	return set_color(v, "themecolor", request.values.get("themecolor"))
@@ -441,8 +441,8 @@ def themecolor(v):
 @app.post("/settings/titlecolor")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def titlecolor(v):
 	return set_color(v, "titlecolor", request.values.get("titlecolor"))
@@ -450,8 +450,8 @@ def titlecolor(v):
 @app.post("/settings/verifiedcolor")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def verifiedcolor(v):
 	if not v.verified: abort(403, "You don't have a checkmark")
@@ -460,8 +460,8 @@ def verifiedcolor(v):
 @app.post("/settings/security")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def settings_security_post(v):
 	if request.values.get("new_password"):
@@ -536,8 +536,8 @@ def settings_security_post(v):
 @app.post("/settings/log_out_all_others")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def settings_log_out_others(v):
 	submitted_password = request.values.get("password", "").strip()
@@ -554,8 +554,8 @@ def settings_log_out_others(v):
 @app.post("/settings/images/profile")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def settings_images_profile(v):
 	if g.is_tor: abort(403, "Image uploads are not allowed through TOR!")
@@ -596,8 +596,8 @@ def settings_images_profile(v):
 @feature_required('USERS_PROFILE_BANNER')
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def settings_images_banner(v):
 	if g.is_tor: abort(403, "Image uploads are not allowed through TOR!")
@@ -617,8 +617,8 @@ def settings_images_banner(v):
 	return redirect("/settings/personal?msg=Banner successfully updated!")
 
 @app.get("/settings/css")
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def settings_css_get(v:User):
 	return render_template("settings/css.html", v=v, msg=get_msg(), profilecss=v.profilecss)
@@ -626,8 +626,8 @@ def settings_css_get(v:User):
 @app.post("/settings/css")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def settings_css(v):
 	if v.chud: abort(400, "Chuded users can't edit CSS!")
@@ -640,8 +640,8 @@ def settings_css(v):
 @app.post("/settings/profilecss")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def settings_profilecss(v):
 	profilecss = request.values.get("profilecss", v.profilecss).strip().replace('\\', '').strip()[:CSS_LENGTH_LIMIT]
@@ -653,8 +653,8 @@ def settings_profilecss(v):
 	return redirect("/settings/css?msg=Profile CSS successfully updated!")
 
 @app.get("/settings/security")
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def settings_security(v:User):
 	return render_template("settings/security.html",
@@ -673,8 +673,8 @@ def settings_blocks(v:User):
 @app.post("/settings/block")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit("20/day")
-@limiter.limit("20/day", key_func=get_ID)
+@limiter.limit("20/day", deduct_when=lambda response: response.status_code < 400)
+@limiter.limit("20/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def settings_block_user(v):
 	user = get_user(request.values.get("username"), graceful=True)
@@ -703,8 +703,8 @@ def settings_block_user(v):
 @app.post("/settings/unblock")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def settings_unblock_user(v):
 	user = get_user(request.values.get("username"))
@@ -717,15 +717,15 @@ def settings_unblock_user(v):
 	return {"message": f"@{user.username} unblocked successfully!"}
 
 @app.get("/settings/apps")
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def settings_apps(v:User):
 	return render_template("settings/apps.html", v=v)
 
 @app.get("/settings/advanced")
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def settings_advanced_get(v:User):
 	return render_template("settings/advanced.html", v=v, msg=get_msg(), error=get_error())
@@ -733,8 +733,8 @@ def settings_advanced_get(v:User):
 @app.post("/settings/name_change")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_permabanned
 def settings_name_change(v):
 	if v.namechanged: abort(403)
@@ -778,8 +778,8 @@ def settings_name_change(v):
 @feature_required('USERS_PROFILE_SONG')
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit("10/day")
-@limiter.limit("10/day", key_func=get_ID)
+@limiter.limit("10/day", deduct_when=lambda response: response.status_code < 400)
+@limiter.limit("10/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def settings_song_change_mp3(v):
 	file = request.files['file']
@@ -844,8 +844,8 @@ def _change_song_youtube(vid, id):
 @feature_required('USERS_PROFILE_SONG')
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit("10/day")
-@limiter.limit("10/day", key_func=get_ID)
+@limiter.limit("10/day", deduct_when=lambda response: response.status_code < 400)
+@limiter.limit("10/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def settings_song_change(v):
 	song=request.values.get("song").strip()
@@ -897,8 +897,8 @@ def settings_song_change(v):
 @app.post("/settings/title_change")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def settings_title_change(v):
 	if v.flairchanged: abort(403)
@@ -928,8 +928,8 @@ def settings_title_change(v):
 @feature_required('PRONOUNS')
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def settings_pronouns_change(v):
 	pronouns = sanitize_settings_text(request.values.get("pronouns"))
@@ -956,8 +956,8 @@ def settings_pronouns_change(v):
 @app.post("/settings/checkmark_text")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def settings_checkmark_text(v):
 	if not v.verified: abort(403)

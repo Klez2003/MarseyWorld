@@ -11,7 +11,7 @@ from files.__main__ import app
 @app.get('/rss')
 @app.get('/feed')
 @app.get('/rss/<sort>/<t>')
-@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 def feeds_user(sort='hot', t='all'):
 	page = get_page()
 

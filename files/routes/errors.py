@@ -62,7 +62,7 @@ def error_500(e):
 
 @app.post("/allow_nsfw")
 @limiter.limit('1/second', scope=rpath)
-@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 def allow_nsfw():
 	session["over_18_cookies"] = int(time.time()) + 3600
 	redir = request.values.get("redir", "/")

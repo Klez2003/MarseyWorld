@@ -10,8 +10,8 @@ from files.__main__ import app, cache, limiter
 @app.post("/exile/post/<int:pid>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_permabanned
 def exile_post(v:User, pid):
 	if v.shadowbanned: abort(500)
@@ -45,8 +45,8 @@ def exile_post(v:User, pid):
 @app.post("/exile/comment/<int:cid>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_permabanned
 def exile_comment(v:User, cid):
 	if v.shadowbanned: abort(500)
@@ -80,8 +80,8 @@ def exile_comment(v:User, cid):
 @app.post("/h/<sub>/unexile/<int:uid>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_permabanned
 def unexile(v:User, sub, uid):
 	u = get_account(uid)
@@ -112,8 +112,8 @@ def unexile(v:User, sub, uid):
 @app.post("/h/<sub>/block")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def block_sub(v:User, sub):
 	sub = get_sub_by_name(sub).name
@@ -127,8 +127,8 @@ def block_sub(v:User, sub):
 @app.post("/h/<sub>/unblock")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def unblock_sub(v:User, sub):
 	sub = get_sub_by_name(sub)
@@ -146,8 +146,8 @@ def unblock_sub(v:User, sub):
 @app.post("/h/<sub>/subscribe")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def subscribe_sub(v:User, sub):
 	sub = get_sub_by_name(sub).name
@@ -161,8 +161,8 @@ def subscribe_sub(v:User, sub):
 @app.post("/h/<sub>/unsubscribe")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def unsubscribe_sub(v:User, sub):
 	sub = get_sub_by_name(sub).name
@@ -175,8 +175,8 @@ def unsubscribe_sub(v:User, sub):
 @app.post("/h/<sub>/follow")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def follow_sub(v:User, sub):
 	sub = get_sub_by_name(sub)
@@ -193,8 +193,8 @@ def follow_sub(v:User, sub):
 @app.post("/h/<sub>/unfollow")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def unfollow_sub(v:User, sub):
 	sub = get_sub_by_name(sub)
@@ -206,8 +206,8 @@ def unfollow_sub(v:User, sub):
 	return {"message": f"/h/{sub} unfollowed successfully!"}
 
 @app.get("/h/<sub>/mods")
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def mods(v:User, sub):
 	sub = get_sub_by_name(sub)
@@ -219,8 +219,8 @@ def mods(v:User, sub):
 
 
 @app.get("/h/<sub>/exilees")
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def sub_exilees(v:User, sub):
 	sub = get_sub_by_name(sub)
@@ -234,8 +234,8 @@ def sub_exilees(v:User, sub):
 
 
 @app.get("/h/<sub>/blockers")
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def sub_blockers(v:User, sub):
 	sub = get_sub_by_name(sub)
@@ -250,8 +250,8 @@ def sub_blockers(v:User, sub):
 
 
 @app.get("/h/<sub>/followers")
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def sub_followers(v:User, sub):
 	sub = get_sub_by_name(sub)
@@ -268,8 +268,8 @@ def sub_followers(v:User, sub):
 @app.post("/h/<sub>/add_mod")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit("30/day")
-@limiter.limit("30/day", key_func=get_ID)
+@limiter.limit("30/day", deduct_when=lambda response: response.status_code < 400)
+@limiter.limit("30/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_permabanned
 def add_mod(v:User, sub):
 	if SITE_NAME == 'WPD': abort(403)
@@ -308,8 +308,8 @@ def add_mod(v:User, sub):
 @app.post("/h/<sub>/remove_mod")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_permabanned
 def remove_mod(v:User, sub):
 	sub = get_sub_by_name(sub).name
@@ -349,8 +349,8 @@ def remove_mod(v:User, sub):
 	return {"message": f"@{user.username} has been removed as a mod!"}
 
 @app.get("/create_hole")
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_permabanned
 def create_sub(v):
 	if not v.can_create_hole:
@@ -361,8 +361,8 @@ def create_sub(v):
 @app.post("/create_hole")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_permabanned
 def create_sub2(v):
 	if not v.can_create_hole:
@@ -401,8 +401,8 @@ def create_sub2(v):
 @app.post("/kick/<int:pid>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_permabanned
 def kick(v:User, pid):
 	post = get_post(pid)
@@ -434,8 +434,8 @@ def kick(v:User, pid):
 	return {"message": f"Post kicked from /h/{old} successfully!"}
 
 @app.get('/h/<sub>/settings')
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_permabanned
 def sub_settings(v:User, sub):
 	sub = get_sub_by_name(sub)
@@ -446,8 +446,8 @@ def sub_settings(v:User, sub):
 @app.post('/h/<sub>/sidebar')
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_permabanned
 def post_sub_sidebar(v:User, sub):
 	sub = get_sub_by_name(sub)
@@ -473,8 +473,8 @@ def post_sub_sidebar(v:User, sub):
 @app.post('/h/<sub>/css')
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_permabanned
 def post_sub_css(v:User, sub):
 	sub = get_sub_by_name(sub)
@@ -505,7 +505,7 @@ def post_sub_css(v:User, sub):
 	return redirect(f'/h/{sub}/settings')
 
 @app.get("/h/<sub>/css")
-@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 def get_sub_css(sub):
 	sub = g.db.query(Sub.css).filter_by(name=sub.strip().lower()).one_or_none()
 	if not sub: abort(404)
@@ -516,8 +516,8 @@ def get_sub_css(sub):
 @app.post("/h/<sub>/settings/banners/")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit("50/day")
-@limiter.limit("50/day", key_func=get_ID)
+@limiter.limit("50/day", deduct_when=lambda response: response.status_code < 400)
+@limiter.limit("50/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_permabanned
 def upload_sub_banner(v:User, sub:str):
 	if g.is_tor: abort(403, "Image uploads are not allowed through Tor")
@@ -546,8 +546,8 @@ def upload_sub_banner(v:User, sub:str):
 	return redirect(f'/h/{sub}/settings')
 
 @app.delete("/h/<sub>/settings/banners/<int:index>")
-@limiter.limit("1/second;30/day")
-@limiter.limit("1/second;30/day", key_func=get_ID)
+@limiter.limit("1/second;30/day", deduct_when=lambda response: response.status_code < 400)
+@limiter.limit("1/second;30/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_permabanned
 def delete_sub_banner(v:User, sub:str, index:int):
 	sub = get_sub_by_name(sub)
@@ -577,8 +577,8 @@ def delete_sub_banner(v:User, sub:str, index:int):
 	return {"message": f"Deleted banner {index} from /h/{sub} successfully"}
 
 @app.delete("/h/<sub>/settings/banners/")
-@limiter.limit("1/10 second;30/day")
-@limiter.limit("1/10 second;30/day", key_func=get_ID)
+@limiter.limit("1/10 second;30/day", deduct_when=lambda response: response.status_code < 400)
+@limiter.limit("1/10 second;30/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_permabanned
 def delete_all_sub_banners(v:User, sub:str):
 	sub = get_sub_by_name(sub)
@@ -605,8 +605,8 @@ def delete_all_sub_banners(v:User, sub:str):
 @app.post("/h/<sub>/sidebar_image")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit("10/day")
-@limiter.limit("10/day", key_func=get_ID)
+@limiter.limit("10/day", deduct_when=lambda response: response.status_code < 400)
+@limiter.limit("10/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_permabanned
 def sub_sidebar(v:User, sub):
 	if g.is_tor: abort(403, "Image uploads are not allowed through TOR!")
@@ -638,8 +638,8 @@ def sub_sidebar(v:User, sub):
 @app.post("/h/<sub>/marsey_image")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit("10/day")
-@limiter.limit("10/day", key_func=get_ID)
+@limiter.limit("10/day", deduct_when=lambda response: response.status_code < 400)
+@limiter.limit("10/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_permabanned
 def sub_marsey(v:User, sub):
 	if g.is_tor: abort(403, "Image uploads are not allowed through TOR!")
@@ -670,8 +670,8 @@ def sub_marsey(v:User, sub):
 
 @app.get("/flairs")
 @app.get("/holes")
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def subs(v:User):
 	subs = g.db.query(Sub, func.count(Post.sub)).outerjoin(Post, Sub.name == Post.sub).group_by(Sub.name).order_by(func.count(Post.sub).desc()).all()
@@ -681,8 +681,8 @@ def subs(v:User):
 @app.post("/hole_pin/<int:pid>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_permabanned
 def hole_pin(v:User, pid):
 	p = get_post(pid)
@@ -717,8 +717,8 @@ def hole_pin(v:User, pid):
 @app.post("/hole_unpin/<int:pid>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_permabanned
 def hole_unpin(v:User, pid):
 	p = get_post(pid)
@@ -750,8 +750,8 @@ def hole_unpin(v:User, pid):
 @app.post('/h/<sub>/stealth')
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_permabanned
 def sub_stealth(v:User, sub):
 	sub = get_sub_by_name(sub)
@@ -786,8 +786,8 @@ def sub_stealth(v:User, sub):
 @feature_required('PINS')
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_permabanned
 def mod_pin(cid, v):
 
@@ -817,8 +817,8 @@ def mod_pin(cid, v):
 @app.post("/unmod_pin/<int:cid>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_permabanned
 def mod_unpin(cid, v):
 
@@ -846,8 +846,8 @@ def mod_unpin(cid, v):
 
 @app.get("/h/<sub>/log")
 @app.get("/h/<sub>/modlog")
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def hole_log(v:User, sub):
 	sub = get_sub_by_name(sub)
@@ -887,8 +887,8 @@ def hole_log(v:User, sub):
 	return render_template("log.html", v=v, admins=mods, types=types, admin=mod, type=kind, actions=actions, total=total, page=page, sub=sub, single_user_url='mod')
 
 @app.get("/h/<sub>/log/<int:id>")
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def hole_log_item(id, v, sub):
 	sub = get_sub_by_name(sub)

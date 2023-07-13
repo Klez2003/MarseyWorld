@@ -9,8 +9,8 @@ from files.routes.routehelpers import get_alt_graph
 from math import floor
 
 @app.get("/votes/<link>")
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def vote_info_get(v, link):
 	try:
@@ -195,8 +195,8 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 @app.post("/vote/post/<int:post_id>/<new>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit("60/minute;1000/hour;2000/day")
-@limiter.limit("60/minute;1000/hour;2000/day", key_func=get_ID)
+@limiter.limit("60/minute;1000/hour;2000/day", deduct_when=lambda response: response.status_code < 400)
+@limiter.limit("60/minute;1000/hour;2000/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_permabanned
 def vote_post(post_id, new, v):
 	return vote_post_comment(post_id, new, v, Post, Vote)
@@ -204,8 +204,8 @@ def vote_post(post_id, new, v):
 @app.post("/vote/comment/<int:comment_id>/<new>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit("60/minute;1000/hour;2000/day")
-@limiter.limit("60/minute;1000/hour;2000/day", key_func=get_ID)
+@limiter.limit("60/minute;1000/hour;2000/day", deduct_when=lambda response: response.status_code < 400)
+@limiter.limit("60/minute;1000/hour;2000/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_permabanned
 def vote_comment(comment_id, new, v):
 	return vote_post_comment(comment_id, new, v, Comment, CommentVote)

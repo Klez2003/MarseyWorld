@@ -33,8 +33,8 @@ from files.__main__ import app, limiter, redis_instance
 @app.post("/publish/<int:pid>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def publish(pid, v):
 	p = get_post(pid)
@@ -68,8 +68,8 @@ def publish(pid, v):
 
 @app.get("/submit")
 @app.get("/h/<sub>/submit")
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def submit_get(v:User, sub=None):
 	sub = get_sub_by_name(sub, graceful=True)
@@ -83,7 +83,7 @@ def submit_get(v:User, sub=None):
 @app.get("/post/<int:pid>/<anything>")
 @app.get("/h/<sub>/post/<int:pid>")
 @app.get("/h/<sub>/post/<int:pid>/<anything>")
-@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @auth_desired_with_logingate
 def post_id(pid, v, anything=None, sub=None):
 	p = get_post(pid, v=v)
@@ -192,7 +192,7 @@ def post_id(pid, v, anything=None, sub=None):
 	return result
 
 @app.get("/view_more/<int:pid>/<sort>/<offset>")
-@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @auth_desired_with_logingate
 def view_more(v, pid, sort, offset):
 	p = get_post(pid, v=v)
@@ -245,7 +245,7 @@ def view_more(v, pid, sort, offset):
 
 
 @app.get("/more_comments/<int:cid>")
-@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @auth_desired_with_logingate
 def more_comments(v, cid):
 	try: cid = int(cid)
@@ -397,8 +397,8 @@ def thumbnail_thread(pid:int, vid:int):
 @app.post("/is_repost")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def is_repost(v):
 	not_a_repost = {'permalink': ''}
@@ -448,8 +448,8 @@ def is_repost(v):
 @app.post("/h/<sub>/submit")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(POST_RATELIMIT)
-@limiter.limit(POST_RATELIMIT, key_func=get_ID)
+@limiter.limit(POST_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(POST_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def submit_post(v:User, sub=None):
 	url = request.values.get("url", "").strip()
@@ -742,8 +742,8 @@ def submit_post(v:User, sub=None):
 @app.post("/delete_post/<int:pid>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def delete_post_pid(pid, v):
 	p = get_post(pid)
@@ -770,8 +770,8 @@ def delete_post_pid(pid, v):
 @app.post("/undelete_post/<int:pid>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def undelete_post_pid(pid, v):
 	p = get_post(pid)
@@ -794,8 +794,8 @@ def undelete_post_pid(pid, v):
 @feature_required('NSFW_MARKING')
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def mark_post_nsfw(pid, v):
 	p = get_post(pid)
@@ -833,8 +833,8 @@ def mark_post_nsfw(pid, v):
 @feature_required('NSFW_MARKING')
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def unmark_post_nsfw(pid, v):
 	p = get_post(pid)
@@ -871,8 +871,8 @@ def unmark_post_nsfw(pid, v):
 @app.post("/save_post/<int:pid>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def save_post(pid, v):
 
@@ -890,8 +890,8 @@ def save_post(pid, v):
 @app.post("/unsave_post/<int:pid>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def unsave_post(pid, v):
 
@@ -908,8 +908,8 @@ def unsave_post(pid, v):
 @app.post("/pin/<int:post_id>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def pin_post(post_id, v):
 	p = get_post(post_id)
@@ -923,8 +923,8 @@ def pin_post(post_id, v):
 	return abort(404, "Post not found!")
 
 @app.put("/post/<int:post_id>/new")
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def set_new_sort(post_id:int, v:User):
 	p = get_post(post_id)
@@ -945,8 +945,8 @@ def set_new_sort(post_id:int, v:User):
 
 
 @app.delete("/post/<int:post_id>/new")
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def unset_new_sort(post_id:int, v:User):
 	p = get_post(post_id)
@@ -969,8 +969,8 @@ def unset_new_sort(post_id:int, v:User):
 extensions = IMAGE_FORMATS + VIDEO_FORMATS + AUDIO_FORMATS
 
 @app.get("/submit/title")
-@limiter.limit("3/minute")
-@limiter.limit("3/minute", key_func=get_ID)
+@limiter.limit("3/minute", deduct_when=lambda response: response.status_code < 400)
+@limiter.limit("3/minute", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def get_post_title(v):
 	POST_TITLE_TIMEOUT = 5
@@ -1003,8 +1003,8 @@ def get_post_title(v):
 @app.post("/edit_post/<int:pid>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit("10/minute;100/hour;200/day")
-@limiter.limit("10/minute;100/hour;200/day", key_func=get_ID)
+@limiter.limit("10/minute;100/hour;200/day", deduct_when=lambda response: response.status_code < 400)
+@limiter.limit("10/minute;100/hour;200/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_permabanned
 def edit_post(pid, v):
 	p = get_post(pid)

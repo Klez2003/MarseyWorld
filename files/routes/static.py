@@ -19,13 +19,13 @@ from files.__main__ import app, cache, limiter
 
 @app.get("/r/drama/comments/<int:id>/<title>")
 @app.get("/r/Drama/comments/<int:id>/<title>")
-@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 def rdrama(id, title):
 	id = ''.join(f'{x}/' for x in id)
 	return redirect(f'/archives/drama/comments/{id}{title}.html')
 
 @app.get("/r/<subreddit>")
-@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @auth_desired
 def subreddit(subreddit, v):
 	reddit = v.reddit if v else "old.reddit.com"
@@ -33,7 +33,7 @@ def subreddit(subreddit, v):
 
 @app.get("/reddit/<subreddit>/comments/<path:path>")
 @app.get("/r/<subreddit>/comments/<path:path>")
-@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @auth_desired
 def reddit_post(subreddit, v, path):
 	post_id = path.rsplit("/", 1)[0].replace('/', '')
@@ -54,8 +54,8 @@ def marseys_redirect():
 	return redirect("/emojis")
 
 @app.get("/emojis")
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def emoji_list(v:User):
 	emojis = get_emoji_list()
@@ -94,8 +94,8 @@ def get_emojis():
 	return collected
 
 @app.get("/emojis_json")
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def emojis(v):
 	return get_emojis()
@@ -103,15 +103,15 @@ def emojis(v):
 
 
 @app.get('/sidebar')
-@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @auth_desired
 def sidebar(v:Optional[User]):
 	return render_template('sidebar.html', v=v)
 
 
 @app.get("/stats")
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def participation_stats(v:User):
 	stats = cache.get('stats') or {}
@@ -119,28 +119,28 @@ def participation_stats(v:User):
 	return render_template("stats.html", v=v, title="Content Statistics", data=stats)
 
 @app.get("/chart")
-@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 def chart():
 	return redirect('/weekly_chart')
 
 @app.get("/weekly_chart")
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def weekly_chart(v:User):
 	return send_file(statshelper.chart_path(kind="weekly", site=SITE))
 
 @app.get("/daily_chart")
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def daily_chart(v:User):
 	return send_file(statshelper.chart_path(kind="daily", site=SITE))
 
 @app.get("/admin/patrons")
 @app.get("/admin/paypigs")
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @admin_level_required(PERMS['VIEW_PATRONS'])
 def patrons(v):
 	ids = [x[0] for x in g.db.query(User.id).filter(User.lifetimedonated > 0).order_by(User.email, User.truescore.desc()).distinct(User.email)]
@@ -150,8 +150,8 @@ def patrons(v):
 
 @app.get("/admins")
 @app.get("/badmins")
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def admins(v:User):
 	admins = g.db.query(User).filter(User.admin_level >= PERMS['ADMIN_MOP_VISIBLE']).order_by(User.admin_level.desc(), User.truescore.desc()).all()
@@ -159,8 +159,8 @@ def admins(v:User):
 
 @app.get("/log")
 @app.get("/modlog")
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def log(v:User):
 
@@ -206,8 +206,8 @@ def log(v:User):
 	return render_template("log.html", v=v, admins=admins, types=types, admin=admin, type=kind, actions=actions, total=total, page=page, single_user_url='admin')
 
 @app.get("/log/<int:id>")
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def log_item(id, v):
 	try: id = int(id)
@@ -232,8 +232,8 @@ def log_item(id, v):
 	return render_template("log.html", v=v, actions=[action], total=1, page=1, action=action, admins=admins, types=types, single_user_url='admin')
 
 @app.get("/directory")
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def static_megathread_index(v:User):
 	if SITE_NAME != 'rDrama':
@@ -246,8 +246,8 @@ def static_megathread_index(v:User):
 	return render_template("megathread_index.html", v=v, emojis_hash=emojis_hash, emojis_count=emojis_count, emojis_size=emojis_size)
 
 @app.get("/api")
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def api(v):
 	return render_template("api.html", v=v)
@@ -258,7 +258,7 @@ def api(v):
 @app.get("/press")
 @app.get("/media")
 @app.get("/admin/chat")
-@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @auth_desired
 def contact(v:Optional[User]):
 	return render_template("contact.html", v=v, msg=get_msg())
@@ -266,8 +266,8 @@ def contact(v:Optional[User]):
 @app.post("/contact")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit("1/minute;10/day")
-@limiter.limit("1/minute;10/day", key_func=get_ID)
+@limiter.limit("1/minute;10/day", deduct_when=lambda response: response.status_code < 400)
+@limiter.limit("1/minute;10/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def submit_contact(v):
 	body = request.values.get("message")
@@ -330,16 +330,16 @@ def badge_list(site, can_view_patron_badges):
 
 @app.get("/badges")
 @feature_required('BADGES')
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def badges(v:User):
 	badges, counts = badge_list(SITE, v.admin_level >= PERMS['VIEW_PATRONS'])
 	return render_template("badges.html", v=v, badges=badges, counts=counts)
 
 @app.get("/blocks")
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @admin_level_required(PERMS['USER_BLOCKS_VISIBLE'])
 def blocks(v):
 	blocks=g.db.query(UserBlock).all()
@@ -355,28 +355,28 @@ def blocks(v):
 	return render_template("blocks.html", v=v, users=users, targets=targets)
 
 @app.get("/formatting")
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def formatting(v:User):
 	return render_template("formatting.html", v=v)
 
 @app.get("/app")
-@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @auth_desired
 def mobile_app(v:Optional[User]):
 	return render_template("app.html", v=v)
 
 @app.post("/dismiss_mobile_tip")
 @limiter.limit('1/second', scope=rpath)
-@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 def dismiss_mobile_tip():
 	session["tooltip_dismissed"] = int(time.time())
 	return "", 204
 
 @app.get("/transfers/<int:id>")
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def transfers_id(id, v):
 
@@ -390,8 +390,8 @@ def transfers_id(id, v):
 	return render_template("transfers.html", v=v, page=1, comments=[transfer], standalone=True, total=1)
 
 @app.get("/transfers")
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def transfers(v:User):
 
@@ -409,7 +409,7 @@ def transfers(v:User):
 
 
 @app.get('/donate')
-@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @auth_desired
 def donate(v):
 	if v and (v.shadowbanned or v.chud == 1 or v.is_permabanned):

@@ -13,7 +13,7 @@ from files.__main__ import app, cache, limiter, redis_instance
 
 @app.get("/")
 @app.get("/h/<sub>")
-@limiter.limit("30/minute;5000/hour;10000/day")
+@limiter.limit("30/minute;5000/hour;10000/day", deduct_when=lambda response: response.status_code < 400)
 @auth_desired_with_logingate
 def front_all(v, sub=None):
 	if sub:
@@ -175,8 +175,8 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 
 
 @app.get("/random_post")
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def random_post(v:User):
 
@@ -189,8 +189,8 @@ def random_post(v:User):
 
 
 @app.get("/random_user")
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def random_user(v:User):
 	u = g.db.query(User.username).filter(User.song != None).order_by(func.random()).first()
@@ -230,8 +230,8 @@ def comment_idlist(v=None, page=1, sort="new", t="day", gt=0, lt=0):
 	return [x.id for x in comments], total
 
 @app.get("/comments")
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def all_comments(v:User):
 	page = get_page()

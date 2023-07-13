@@ -83,8 +83,8 @@ def _special_leaderboard_get():
 
 @app.get('/events/worldcup2022/leaderboard')
 @app.get('/special/worldcup2022/leaderboard')
-@limiter.limit(DEFAULT_RATELIMIT)
-@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def get_leaderboard(v):
 	if SITE_NAME != 'rDrama':
