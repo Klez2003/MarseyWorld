@@ -256,6 +256,8 @@ if SITE_NAME == 'rDrama':
 		'soyjak.party',
 		'crystal.cafe',
 		'desuarchive.org',
+		'touhou-project.com',
+		'thp.moe',
 		#+All sites with the word "chan" in the domain
 
 		#twitter-like
@@ -264,7 +266,6 @@ if SITE_NAME == 'rDrama':
 		'parler.com',
 		'truthsocial.com',
 		'blacktwitterapp.com',
-		'rdrama.cc',
 		'marsey.club',
 		'kiwifarms.cc',
 		'freespeechextremist.com'
@@ -321,6 +322,7 @@ if SITE_NAME == 'rDrama':
 		'steemit.com',
 		'ovarit.com',
 		'slashdot.org',
+		'wallstreetoasis.com',
 		'themotte.org',
 		'squabbles.io',
 		'hexbear.net',
