@@ -256,8 +256,6 @@ if SITE_NAME == 'rDrama':
 		'soyjak.party',
 		'crystal.cafe',
 		'desuarchive.org',
-		'touhou-project.com',
-		'thp.moe',
 		#+All sites with the word "chan" in the domain
 
 		#twitter-like
