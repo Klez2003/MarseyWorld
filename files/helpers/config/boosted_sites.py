@@ -147,4 +147,5 @@ BOOSTED_SITES = {
 	'goodreads.com',
 	'9gag.com',
 	'balkansirl.net',
+	'fark.com',
 }
