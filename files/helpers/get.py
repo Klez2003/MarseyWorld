@@ -370,10 +370,16 @@ def get_profile_picture(identifier:Union[int, str]) -> str:
 	return x.profile_url if x else 'not_found'
 
 def get_error():
-	return request.values.get("error")
+	if request.referrer and request.referrer.split('?')[0] == request.base_url:
+		return request.values.get("error")
+	else:
+		return None
 
 def get_msg():
-	return request.values.get("msg")
+	if request.referrer and request.referrer.split('?')[0] == request.base_url:
+		return request.values.get("msg")
+	else:
+		return None
 
 def get_page():
 	try: return max(int(request.values.get("page", 1)), 1)
