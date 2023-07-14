@@ -551,6 +551,10 @@ var Bug = {
 			bug.style.background = 'transparent url(' + this.options.imageSprite + ') no-repeat 0 ' + row;
 			bug.style.width = this.options.bugWidth + 'px';
 			bug.style.height = this.options.bugHeight + 'px';
+			if (this.options.imageSprite == '/i/spider-sprite.webp')
+				bug.style.position = 'fixed';
+			else
+				bug.style.position = 'absolute';
 
 			this.bug = bug;
 			this.setPos();
