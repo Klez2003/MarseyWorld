@@ -928,6 +928,7 @@ approved_embed_hosts = [
 	'i.imgur.com',
 	'i.imgur.io',
 	'pomf2.lain.la/f',
+	'i.giphy.com/media',
 	'media.giphy.com/media', # used by the GIF Modal
 	'media0.giphy.com/media', 
 	'media1.giphy.com/media', 
