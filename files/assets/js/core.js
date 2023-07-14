@@ -415,14 +415,17 @@ function focusSearchBar(element)
 
 let MINFLIES;
 let MAXFLIES;
+let ACTUALMAXFILES;
 
 if (screen_width < 768) {
 	MINFLIES = 5;
 	MAXFLIES = 10;
+	ACTUALMAXFILES = 50;
 }
 else {
 	MINFLIES = 10;
 	MAXFLIES = 20;
+	ACTUALMAXFILES = 150;
 }
 
 function insertText(input, text) {
