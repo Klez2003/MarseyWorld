@@ -1,5 +1,6 @@
 from files.classes import *
 from files.helpers.config.const import *
+from files.helpers.config.boosted_sites import *
 from files.helpers.get import *
 from files.helpers.alerts import *
 from files.routes.wrappers import *
