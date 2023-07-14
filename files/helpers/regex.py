@@ -142,7 +142,7 @@ allowed_domain_regex = re.compile("[a-z0-9\-.]+", flags=re.I|re.A)
 
 reddit_to_vreddit_regex = re.compile('(^|>|")https:\/\/old.reddit.com\/(r|u)\/', flags=re.A)
 twitter_to_nitter_regex = re.compile('(^|>|")https:\/\/twitter.com\/(?!i\/)', flags=re.A)
-reddit_domain_regex = re.compile("(^|\s|\()https?:\/\/(reddit\.com|(?:(?:[A-z]{2})(?:-[A-z]{2})" "?|beta|i|m|pay|ssl|www|new|alpha)\.reddit\.com|libredd\.it|reddit\.lol)\/(r|u)\/", flags=re.A)
+reddit_domain_regex = re.compile("(^|\s|\()https?:\/\/(reddit\.com|(?:(?:[A-z]{2})(?:-[A-z]{2})" "?|beta|i|m|pay|ssl|www|new|alpha)\.reddit\.com|libredd\.it|reddit\.lol)\/(r|u|comments)\/", flags=re.A)
 
 color_regex = re.compile("[a-f0-9]{6}", flags=re.A)
 
