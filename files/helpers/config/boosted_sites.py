@@ -70,7 +70,7 @@ BOOSTED_SITES = {
 	#nested-comments
 	#'all sites with .win TLD',
 	#'all sites with the word 'lemmy' in the domain',
-	SITE,
+	'rdrama.net',
 	'funnyjunk.com',
 	'news.ycombinator.com',
 	'ifunny.co',
