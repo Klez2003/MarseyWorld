@@ -470,7 +470,7 @@ def post_sub_sidebar(v:User, sub):
 	)
 	g.db.add(ma)
 
-	return redirect(f'/h/{sub}/settings')
+	return render_template('sub/settings.html', v=v, sidebar=sub.sidebar, sub=sub, msg='CSS changed successfully!', css=sub.css)
 
 
 @app.post('/h/<sub>/css')
@@ -505,7 +505,7 @@ def post_sub_css(v:User, sub):
 	)
 	g.db.add(ma)
 
-	return redirect(f'/h/{sub}/settings')
+	return render_template('sub/settings.html', v=v, sidebar=sub.sidebar, sub=sub, msg='CSS changed successfully!', css=sub.css)
 
 @app.get("/h/<sub>/css")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
