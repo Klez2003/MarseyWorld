@@ -265,6 +265,8 @@ if SITE_NAME == 'rDrama':
 		'parler.com',
 		'truthsocial.com',
 		'blacktwitterapp.com',
+		'trp.red',
+		##fediverse
 		'kiwifarms.cc',
 		'freespeechextremist.com'
 		'mstdn.social',
@@ -274,7 +276,8 @@ if SITE_NAME == 'rDrama':
 		'shitposter.club',
 		'sneed.social',
 		'seal.cafe',
-		'trp.red',
+		'marsey.moe',
+		'shitpost.cloud',
 
 		#forums
 		'kiwifarms.net',
