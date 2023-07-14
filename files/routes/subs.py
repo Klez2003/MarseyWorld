@@ -455,9 +455,12 @@ def post_sub_sidebar(v:User, sub):
 	if v.shadowbanned: return redirect(f'/h/{sub}/settings')
 
 	sub.sidebar = request.values.get('sidebar', '').strip()[:10000]
-	sub.sidebar_html = sanitize(sub.sidebar, blackjack=f"/h/{sub} sidebar")
-	if len(sub.sidebar_html) > 20000: abort(400, "Sidebar is too big!")
+	sidebar_html = sanitize(sub.sidebar, blackjack=f"/h/{sub} sidebar")
 
+	if len(sidebar_html) > 20000:
+		return render_template('sub/settings.html', v=v, sidebar=sub.sidebar, sub=sub, error="Sidebar is too big!", css=sub.css)
+
+	sub.sidebar_html = sidebar_html
 	g.db.add(sub)
 
 	ma = SubAction(
