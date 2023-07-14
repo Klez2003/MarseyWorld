@@ -7,7 +7,7 @@
 		<div class="srd">
 			{{calc_users()}}
 			{% if SITE_NAME == 'rDrama' %}
-				{% if not hasattr(g, "loggedin_counter") or (range(1,5) | random == 1 and not (v and v.truescore > 1000)) %}
+				{% if not hasattr(g, "loggedin_counter") or not g.loggedin_counter or (range(1,5) | random == 1 and not (v and v.truescore > 1000)) %}
 					{% include "journoid_banner.html" %}
 				{% else %}
 					{% if IS_DKD() %}
@@ -67,7 +67,7 @@
 					{% endif %}
 					{{g.loggedin_counter+g.loggedout_counter}} {{VISITORS_HERE_FLAVOR|random|safe}} ({{g.loggedin_counter}} logged in)
 				{% endif %}
-			{% elif hasattr(g, "loggedin_counter") %}
+			{% elif hasattr(g, "loggedin_counter") and g.loggedin_counter %}
 				{{g.loggedin_counter+g.loggedout_counter}} people here now ({{g.loggedin_counter}} logged in)
 			{% else %}
 				Don't make the mistakes seen here.
