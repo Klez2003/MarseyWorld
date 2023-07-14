@@ -6820,6 +6820,10 @@ div.markdown {
 
 .bug {
 	pointer-events: none !important;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 9999999;
 }
 
 @media (min-width: 768px) {

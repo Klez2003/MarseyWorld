@@ -29,6 +29,7 @@
  */
 "use strict";
 
+const awards_container = document.getElementById('awards-container')
 
 var startStationaryToggle  = Date.now() + 10000;
 
@@ -550,14 +551,9 @@ var Bug = {
 			bug.style.background = 'transparent url(' + this.options.imageSprite + ') no-repeat 0 ' + row;
 			bug.style.width = this.options.bugWidth + 'px';
 			bug.style.height = this.options.bugHeight + 'px';
-			bug.style.position = 'fixed';
-			bug.style.top = 0;
-			bug.style.left = 0;
-			bug.style.zIndex = '9999999';
 
 			this.bug = bug;
 			this.setPos();
-
 		}
 
 	},
@@ -601,7 +597,7 @@ var Bug = {
 		}
 		if (!this.inserted) {
 			this.inserted = true;
-			document.body.appendChild(this.bug);
+			awards_container.appendChild(this.bug);
 		}
 	},
 

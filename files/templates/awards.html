@@ -39,18 +39,4 @@
 	{% endfor %}
 {% endif %}
 
-{% if p.award_count("shit", v) %}
-	{% if v and v.spider %}
-		<script defer src="{{'js/spider-with-bugs.js' | asset}}"></script>
-	{% else %}
-		<script defer src="{{'js/vendor/critters.js' | asset}}"></script>
-	{% endif %}
-	<script defer src="{{'js/bugs.js' | asset}}"></script>
-{% endif %}
-
-{% if p.award_count("fireflies", v) %}
-	<script defer src="{{'js/vendor/critters.js' | asset}}"></script>
-	<script defer src="{{'js/fireflies.js' | asset}}"></script>
-{% endif %}
-
 </div>
