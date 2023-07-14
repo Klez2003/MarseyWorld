@@ -42,7 +42,6 @@ INSERT INTO public.badge_defs VALUES (150, 'Verified', 'Bought a Blue Checkmark.
 INSERT INTO public.badge_defs VALUES (151, 'Responsible Citizen', 'This user upheld democracy by committing voter fraud.', NULL);
 INSERT INTO public.badge_defs VALUES (152, 'Amateur Hathead', 'Collected 25 unique hats', NULL);
 INSERT INTO public.badge_defs VALUES (155, 'Ride Or Die Dramalo/Dramalette', 'When I die show no pity / Send my soul to the juggalo city / Dig my grave six feet deep / And put two matches by my feet / Put two hatchets on my chest / And tell my homies I did my best / WHOOP WHOOP', NULL);
-INSERT INTO public.badge_defs VALUES (157, 'A Minor Setback', 'Lost a 1,000 coin bet. Keep going!', NULL);
 INSERT INTO public.badge_defs VALUES (197, 'Best Marsey 2021', 'The creator of the best Marsey emote of 2021, as voted by rdrama users.', 1670627291);
 INSERT INTO public.badge_defs VALUES (198, 'Best Drama Post 2021', 'The author of the best drama post of 2021, as voted by rdrama users.', 1670627332);
 INSERT INTO public.badge_defs VALUES (199, 'Dramatard of the Year 2021', 'Voted as the best rdrama user of 2021. Congratulations!', 1670627437);
@@ -79,10 +78,7 @@ INSERT INTO public.badge_defs VALUES (17, 'Marsey Artisan', 'Contributed a Marse
 INSERT INTO public.badge_defs VALUES (18, 'Artisan', 'Contributed to site artwork', NULL);
 INSERT INTO public.badge_defs VALUES (181, 'INFECTED', 'This user is a mindless zombie.', 1666073382);
 INSERT INTO public.badge_defs VALUES (182, 'VAXXMAXXED', 'This user is a mindless zombie.', 1666074754);
-INSERT INTO public.badge_defs VALUES (158, 'Just One More Hand', 'Lost a 10,000 coin bet. But it''s fine, you''re due for a big win!', NULL);
-INSERT INTO public.badge_defs VALUES (160, 'Lil Goombler', 'Won a 1,000 coin bet. Nice job!', NULL);
 INSERT INTO public.badge_defs VALUES (85, 'Sigma User', '', NULL);
-INSERT INTO public.badge_defs VALUES (162, 'King Goombler', 'Won a 100,000 coin bet. Wipe your sweaty palms off and bet it all again, you''re on a roll!', NULL);
 INSERT INTO public.badge_defs VALUES (145, 'Amphetamine Aficionado', 'Totally not addicted™', NULL);
 INSERT INTO public.badge_defs VALUES (146, 'Coffee Consoomer', 'Don''t talk to me until I''ve had my soy latte.', NULL);
 INSERT INTO public.badge_defs VALUES (60, 'Unironically Retarded', 'Demonstrated a wholesale inability to read the room', NULL);
@@ -141,7 +137,6 @@ INSERT INTO public.badge_defs VALUES (116, 'Outreach Award', 'Brought invaluable
 INSERT INTO public.badge_defs VALUES (128, 'Fart-Free', 'This user does NOT fart.', NULL);
 INSERT INTO public.badge_defs VALUES (117, 'Stone Skeptic', 'This user rejects igneous lies', NULL);
 INSERT INTO public.badge_defs VALUES (129, 'Misinformation Superspreader', 'This poster was fact checked by real American patriots', NULL);
-INSERT INTO public.badge_defs VALUES (159, 'It''s Over', 'Lost a 100,000 coin bet. It''s fucking over.', NULL);
 INSERT INTO public.badge_defs VALUES (130, 'Columbine Enthusiast (TEMPORAL FLUX EDITION)', 'This user is an acclaimed Reb+VoDKa slash author', NULL);
 INSERT INTO public.badge_defs VALUES (165, 'Marsey Chanel', 'Designed 100 hats!!!', NULL);
 INSERT INTO public.badge_defs VALUES (171, 'Rainbowed', 'This user has super cute text', NULL);
@@ -180,8 +175,8 @@ INSERT INTO public.badge_defs VALUES (28, 'Rich Bich', 'Donates at least $500/mo
 INSERT INTO public.badge_defs VALUES (227, 'Saved Christmas with Teh Codez', 'Got the highest score and completed all 50 stars during Advent of Code 2022.', 1672289744);
 INSERT INTO public.badge_defs VALUES (229, 'Certified MONSTER Cock', 'This user submitted a photo of their dick and it was confirmed to be HUGE', 1674147916);
 INSERT INTO public.badge_defs VALUES (230, 'Itty Bitty Clitty', 'This user submitted a photo of their dick and it was determined to be more similar to a sad, undersized clit', 1674147964);
-INSERT INTO public.badge_defs VALUES (161, 'Pro Goombler', 'Won a 10,000 coin bet. Some would say to quit while you''re ahead, but they didn''t just win 10k - keep at it!', NULL);
 INSERT INTO public.badge_defs VALUES (96, 'Flairlock', 'This user''s flair has been locked by someone else', NULL);
+INSERT INTO public.badge_defs VALUES (159, 'It''s Over', 'Lost a 100,000 bet. It''s fucking over.', NULL);
 INSERT INTO public.badge_defs VALUES (216, 'Human Rights Abuse Profiteer', 'I hope those 6500 deaths were worth the coin.', 1671150403);
 INSERT INTO public.badge_defs VALUES (231, 'SICK FUCK', 'Awarded for contributing to the Morbid Marsey event', 1677791640);
 INSERT INTO public.badge_defs VALUES (232, 'Hardcore Gaymer', 'Awarded for contributing to the Gaymer Marsey event', 1677799338);
@@ -249,6 +244,11 @@ INSERT INTO public.badge_defs VALUES (289, 'Sharpened', 'No one understand this 
 INSERT INTO public.badge_defs VALUES (290, 'Smartest Fish Award', 'Awarded for outstanding achievement in the field of QA, signed by Aevann Himself. The highest honor that can be bestowed upon a codecel.', 1687901922);
 INSERT INTO public.badge_defs VALUES (94, 'Progressive Stack', 'Upvotes/downvotes on this user''s posts and comments have double the ranking effect', NULL);
 INSERT INTO public.badge_defs VALUES (291, 'Griller', 'Enough about trans rights! Enough about trans wrongs! I just wanna grill for God''s sake!', 1689087935);
+INSERT INTO public.badge_defs VALUES (157, 'A Minor Setback', 'Lost a 1,000 bet. Keep going!', NULL);
+INSERT INTO public.badge_defs VALUES (158, 'Just One More Hand', 'Lost a 10,000 bet. But it''s fine, you''re due for a big win!', NULL);
+INSERT INTO public.badge_defs VALUES (160, 'Lil Goombler', 'Won a 1,000 bet. Nice job!', NULL);
+INSERT INTO public.badge_defs VALUES (162, 'King Goombler', 'Won a 100,000 bet. Wipe your sweaty palms off and bet it all again, you''re on a roll!', NULL);
+INSERT INTO public.badge_defs VALUES (161, 'Pro Goombler', 'Won a 10,000 bet. Some would say to quit while you''re ahead, but they didn''t just win 10k - keep at it!', NULL);
 
 
 --
@@ -1354,11 +1354,12 @@ INSERT INTO public.hat_defs VALUES (1256, 'dawnfag', 'I’m too tired to write a
 
 
 
+
 --
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1288, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1289, true);
 
 
 --
@@ -5259,7 +5260,6 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseyyinandyang','Marsey',2,'yin yang balance light dark'),
 ('marseyyinzer','Marsey',2,'pittsburgh pennsylvania pens penguins steelers stillers pirates buccos buckos terrible towel pierogo yuengling beer city hat baseball football hockey nfl mlb nhl happy'),
 ('marseyyoda','Marsey',2,'yoda marsey starwars jedi'),
-('marseyyokaiwatch','Marsey',2,'marsey yokaiwatch jibanyan ghost'),
 ('marseyyoushouldkillyourselfnow','Marsey',2,'kill yourself meme marsey thunder'),
 ('marseyyugi','Marsey',2,'yugioh yu-gi-oh! cards trap anime'),
 ('marseyza','Marsey',2,'antlers flowers'),
