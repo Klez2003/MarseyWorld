@@ -7570,3 +7570,7 @@ bdi {
 #system {
 	font-size: 16px;
 }
+
+.comment-collapse-desktop {
+	border-left: 2px solid;
+}
