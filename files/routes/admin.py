@@ -38,7 +38,7 @@ def mass_css_validation_holes(v):
 			url = i.group(1)
 			if not is_safe_url(url):
 				print(f"wiped {h.name}\n{h.css}", flush=True)
-				with open(f"wipe holes.log", "a", encoding="utf-8") as f:
+				with open(f"wipe-holes.log", "a", encoding="utf-8") as f:
 					f.write(f'{h.name}\n{h.css}\n\n\n')
 				h.css = None
 				g.db.add(h)
