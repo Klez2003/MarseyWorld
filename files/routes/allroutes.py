@@ -68,7 +68,7 @@ def after_request(response:Response):
 		if user_id:
 			redis_instance.delete(f'LIMITER/{SITE}-{user_id}/{request.endpoint}:{request.path}/1/1/second')
 
-	if SITE != 'watchpeopledie.tv':
+	if SITE == 'rdrama.net':
 		cookie_name = app.config["SESSION_COOKIE_NAME"]
 		if len(request.cookies.getlist(cookie_name)) > 1:
 			response.set_cookie(cookie_name, 'test', max_age=0, domain=f".{SITE}")
