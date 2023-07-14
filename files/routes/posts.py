@@ -1089,5 +1089,4 @@ def edit_post(pid, v):
 		)
 		g.db.add(ma)
 
-
-	return redirect(p.permalink)
+	return {"message": "Post edited successfully!"}

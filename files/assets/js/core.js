@@ -327,6 +327,14 @@ function sendFormXHRSwitch(form) {
 	)
 }
 
+function sendFormXHRReload(form) {
+	sendFormXHR(form,
+		() => {
+			location.reload();
+		}
+	)
+}
+
 let sortAscending = {};
 
 function sort_table(t) {
