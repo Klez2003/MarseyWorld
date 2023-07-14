@@ -1753,6 +1753,13 @@ CREATE INDEX casino_games_user_id_winnings_idx ON public.casino_games USING btre
 
 
 --
+-- Name: casino_games_winnings_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX casino_games_winnings_idx ON public.casino_games USING btree (winnings);
+
+
+--
 -- Name: comment_is_banned_idx; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2268,6 +2275,13 @@ CREATE INDEX users_bite_idx ON public.users USING btree (bite);
 --
 
 CREATE INDEX users_chud_idx ON public.users USING btree (chud);
+
+
+--
+-- Name: users_coins_spent_on_hats_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX users_coins_spent_on_hats_idx ON public.users USING btree (coins_spent_on_hats);
 
 
 --
