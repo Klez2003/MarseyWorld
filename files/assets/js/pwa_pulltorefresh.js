@@ -7,7 +7,7 @@ if (standalone) {
 
 	window.addEventListener("touchend", () => {
 		if (window.scrollY < threshold) {
-			window.location.reload();
+			location.reload();
 		}
 	});
 
