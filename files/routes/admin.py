@@ -26,6 +26,25 @@ from files.routes.routehelpers import get_alt_graph, get_alt_graph_ids
 
 from .front import frontlist, comment_idlist
 
+@app.get('/admin/mass_css_validation_holes')
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
+@admin_level_required(5)
+def mass_css_validation_holes(v):
+	holes = g.db.query(Sub).filter(Sub.css != None)
+	for h in holes:
+		print(f'processing {h.name}', flush=True)
+		for i in css_url_regex.finditer(h.css):
+			url = i.group(1)
+			if not is_safe_url(url):
+				print(f"wiped {h.name}\n{h.css}", flush=True)
+				with open(f"wipe holes.log", "a", encoding="utf-8") as f:
+					f.write(f'{h.name}\n{h.css}\n\n\n')
+				h.css = None
+				g.db.add(h)
+				break
+	return 'success'
+
 @app.get('/admin/loggedin')
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
