@@ -1353,11 +1353,12 @@ INSERT INTO public.hat_defs VALUES (1213, 'Secret Crack', 'Oh hi… AH', 2, 1000
 INSERT INTO public.hat_defs VALUES (1256, 'dawnfag', 'I’m too tired to write a description I’m sorry here’s your hat toats', 2, 500, NULL, 1687739873);
 
 
+
 --
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1286, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1288, true);
 
 
 --
@@ -2223,6 +2224,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('haha','Classic',2,'haha animated emoticon laugh funny'),
 ('halal','Misc',2,'absolutely muslim islam'),
 ('hammer','Classic',2,'smash kill'),
+('hammerbear','Classic',2,'chipmunk grizzly animal attack weapon abuse'),
 ('hammerfight','Classic',2,'hitting fighting'),
 ('hammertime','Misc',2,'mchammer dance'),
 ('hamtarojoy','Misc',2,'hamster jumping stars happy rodent'),
@@ -2435,6 +2437,10 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marcusbeachtowel','Marsey',2,'summer beach towel drink june july august warm hot relax'),
 ('marcuscop','Marsey',2,'police officer acab thin blue line pig black bipoc'),
 ('marcusfootball','Marsey',2,'sport handegg hand egg athlete helmet'),
+('marcusrca','Marsey',2,'cable male wire'),
+('marcusrcaconnected','Marsey',2,'cable male wire'),
+('marcusrcaconnecting','Marsey',2,'cable male wire'),
+('marcusrcaconnectingfast','Marsey',2,'cable male wire'),
 ('marcussatisfied','Marsey',2,'black bipoc satisfying happy smile delightful grateful glad wholesome'),
 ('marfield','Marsey',2,'mondays garfield lasagna'),
 ('marioclapping','Misc',2,'game nintendo congratulatory'),
@@ -4475,6 +4481,10 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseyravegigaspeed','Marsey',2,'sneed seethe dilate smug crab dance celebrate mock seafood crustacean delicious fast'),
 ('marseyravesuperspeed','Marsey',2,'crab ripbozo dead dance'),
 ('marseyraytraced','Marsey',2,'beautiful raytraced 3d hd 4k realistic render'),
+('marseyrca','Marsey',2,'cable female wire'),
+('marseyrcaconnected','Marsey',2,'cable female wire'),
+('marseyrcaconnecting','Marsey',2,'cable femalewire'),
+('marseyrcaconnectingfast','Marsey',2,'cable wire'),
 ('marseyrdramauser','Marsey',2,'bussy fat lard gay homosexual obese poweruser neet dildo chef hat neckbeard meta'),
 ('marseyreactor','Marsey',2,'nuclear power reactor energy generation radioactive chernobyl'),
 ('marseyreading','Marsey',2,'study homework learn nerd novel reaction book'),
@@ -6078,6 +6088,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('yakub','Misc',2,'yakub yacub yaqub jacob jacub jakub black kang kangz blacks bbc nigga nigger tariq hotep we wuz shiet schizo muslim islam nation noi white wypipo mayo demon devil scientist true truth people'),
 ('yakuzajak','Wojak',2,'japan japanese yakuza tattoo mafia crime'),
 ('yargh','Classic',2,'david bugeyed yelling woah'),
+('yawn','Misc',2,'tired yawn boring sleepy meme emoji'),
 ('yay','Classic',2,'yay animated emoticon excited celebrate celebration happy bounce jump'),
 ('yikes','Misc',2,'sonic'),
 ('yoshismallwaddle','Misc',2,'game nintendo mario walk strut'),
