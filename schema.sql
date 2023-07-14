@@ -1781,6 +1781,13 @@ CREATE INDEX comment_post_id_index ON public.comments USING btree (parent_post);
 
 
 --
+-- Name: comments_author_id_created_utc_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX comments_author_id_created_utc_idx ON public.comments USING btree (author_id, created_utc);
+
+
+--
 -- Name: comments_author_id_id_idx; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1806,6 +1813,20 @@ CREATE INDEX comments_created_utc_asc_idx ON public.comments USING btree (create
 --
 
 CREATE INDEX comments_created_utc_desc_idx ON public.comments USING btree (created_utc DESC);
+
+
+--
+-- Name: comments_deleted_utc_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX comments_deleted_utc_idx ON public.comments USING btree (deleted_utc);
+
+
+--
+-- Name: comments_top_comment_id_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX comments_top_comment_id_idx ON public.comments USING btree (top_comment_id);
 
 
 --
@@ -2177,6 +2198,13 @@ CREATE INDEX post_new_sort_idx ON public.posts USING btree (is_banned, deleted_u
 --
 
 CREATE INDEX post_over_18_idx ON public.posts USING btree (over_18);
+
+
+--
+-- Name: posts_stickied_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX posts_stickied_idx ON public.posts USING btree (stickied);
 
 
 --
