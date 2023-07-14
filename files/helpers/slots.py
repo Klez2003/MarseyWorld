@@ -32,8 +32,7 @@ def casino_slot_pull(gambler, wager_value, currency):
 
 		gambler.pay_account(currency, reward)
 
-		if currency == 'coins':
-			distribute_wager_badges(gambler, wager_value, won=(payout > 0))
+		distribute_wager_badges(gambler, wager_value, won=(payout > 0))
 
 		symbols = build_symbols(payout)
 		text = build_text(wager_value, payout, currency)
