@@ -603,7 +603,7 @@ var Bug = {
 			this.inserted = true;
 
 			if (this.options.imageSprite == '/i/spider-sprite.webp')
-				body.appendChild(this.bug);
+				document.body.appendChild(this.bug);
 			else
 				awards_container.appendChild(this.bug);
 		}
