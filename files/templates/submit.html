@@ -12,7 +12,7 @@
 {% block content %}
 		{% block form %}
 		<div class="submit-grid-view">
-			<form id="submitform" action="{% if SITE == 'watchpeopledie.tv' and not SITE_SETTINGS['under_attack'] %}https://videos.watchpeopledie.tv{% elif sub %}/h/{{sub}}{% endif %}/submit" method="post" enctype="multipart/form-data" style="grid-column: 2" data-nonce="{{g.nonce}}" data-onsubmit="submit(this)">
+			<form id="submitform" action="{% if False and SITE == 'watchpeopledie.tv' and not SITE_SETTINGS['under_attack'] %}https://videos.watchpeopledie.tv{% elif sub %}/h/{{sub}}{% endif %}/submit" method="post" enctype="multipart/form-data" style="grid-column: 2" data-nonce="{{g.nonce}}" data-onsubmit="submit(this)">
 				<div class="container pb-0">
 						<div class="row justify-content-center">
 								<div class="col px-3 py-0">
