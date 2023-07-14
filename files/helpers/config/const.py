@@ -249,6 +249,7 @@ if SITE_NAME == 'rDrama':
 		'odysee.com',
 
 		#4chan-like
+		#'all sites with the word "chan" in the domain',
 		'archive.4plebs.org',
 		'archived.moe',
 		'lolcow.farm',
@@ -256,7 +257,6 @@ if SITE_NAME == 'rDrama':
 		'soyjak.party',
 		'crystal.cafe',
 		'desuarchive.org',
-		#+All sites with the word "chan" in the domain
 
 		#twitter-like
 		'threads.net',
@@ -280,6 +280,7 @@ if SITE_NAME == 'rDrama':
 		'shitpost.cloud',
 
 		#forums
+		#'all sites with the word "forum" in the domain',
 		'kiwifarms.net',
 		'sneed.today',
 		'onionfarms.com',
@@ -309,9 +310,10 @@ if SITE_NAME == 'rDrama':
 		'voy.com',
 		'texags.com',
 		'lowendtalk.com',
-		#+All sites with the word "forum" in the domain
 
 		#nested-comments
+		#'all sites with .win TLD',
+		#'all sites with the word 'lemmy' in the domain',
 		SITE,
 		'funnyjunk.com',
 		'news.ycombinator.com',
@@ -362,13 +364,10 @@ if SITE_NAME == 'rDrama':
 		'programming.dev',
 		'discuss.tchncs.de',
 		'exploding-heads.com',
-		#+All sites with .win TLD
-		#+All sites with the word 'lemmy' in the domain
 
 		#misc
 		'cinchnews.com',
 		'quora.com',
-		'givesendgo.com',
 		'groups.google.com',
 		'usenetarchives.com',
 		't.me',
