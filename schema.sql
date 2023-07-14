@@ -31,6 +31,20 @@ COMMENT ON EXTENSION fuzzystrmatch IS 'determine similarities and distance betwe
 
 
 --
+-- Name: hypopg; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS hypopg WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION hypopg; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION hypopg IS 'Hypothetical indexes for PostgreSQL';
+
+
+--
 -- Name: pg_stat_statements; Type: EXTENSION; Schema: -; Owner: -
 --
 
@@ -1718,6 +1732,27 @@ CREATE INDEX block_target_idx ON public.userblocks USING btree (target_id);
 
 
 --
+-- Name: casino_games_active_user_id_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX casino_games_active_user_id_idx ON public.casino_games USING btree (active, user_id);
+
+
+--
+-- Name: casino_games_created_utc_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX casino_games_created_utc_idx ON public.casino_games USING btree (created_utc);
+
+
+--
+-- Name: casino_games_user_id_winnings_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX casino_games_user_id_winnings_idx ON public.casino_games USING btree (user_id, winnings);
+
+
+--
 -- Name: comment_is_banned_idx; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1743,6 +1778,13 @@ CREATE INDEX comment_parent_index ON public.comments USING btree (parent_comment
 --
 
 CREATE INDEX comment_post_id_index ON public.comments USING btree (parent_post);
+
+
+--
+-- Name: comments_author_id_id_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX comments_author_id_id_idx ON public.comments USING btree (author_id, id);
 
 
 --
