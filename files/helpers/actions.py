@@ -567,7 +567,8 @@ def process_poll_options(v:User, target:Union[Post, Comment]):
 	option_objects = []
 
 	for pattern, exclusive in patterns:
-		for i in pattern.finditer(target.body):
+		body_html = target.body_html.replace('&amp;', '&')
+		for i in pattern.finditer(body_html):
 			option_count += 1
 
 			if option_count > POLL_MAX_OPTIONS:
@@ -583,18 +584,16 @@ def process_poll_options(v:User, target:Union[Post, Comment]):
 			else:
 				cls = CommentOption
 
-			body_html=filter_emojis_only(body, strip=False) #dont strip cuz ppl sometimes leave spaces before && or after it, which breaks the replacing logic
-
 			existing = g.db.query(cls).filter_by(
 					parent_id=target.id,
-					body_html=body_html,
+					body_html=body,
 					exclusive=exclusive,
 				).first()
 
 			if not existing:
 				option = cls(
 					parent_id=target.id,
-					body_html=body_html,
+					body_html=body,
 					exclusive=exclusive,
 				)
 				option_objects.append(option) #shitty hack to bypass autoflush

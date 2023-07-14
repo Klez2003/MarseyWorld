@@ -9,8 +9,8 @@ NOT_IN_CODE_OR_LINKS = '(?!([^<]*<\/(code|pre|a)>|[^`\n]*`|(.|\n)*```))'
 
 valid_username_regex = re.compile("^[\w\-]{3,25}$", flags=re.A)
 
-mention_regex = re.compile('(?<![/;$#])@([\w\-]{1,30})' + NOT_IN_CODE_OR_LINKS, flags=re.A)
-group_mention_regex = re.compile('(?<![/;$#])!([\w\-]{3,25})' + NOT_IN_CODE_OR_LINKS, flags=re.A|re.I)
+mention_regex = re.compile('(?<!/)@([\w\-]{1,30})' + NOT_IN_CODE_OR_LINKS, flags=re.A)
+group_mention_regex = re.compile('(?<!/)!([\w\-]{3,25})' + NOT_IN_CODE_OR_LINKS, flags=re.A|re.I)
 
 everyone_regex = re.compile('(^|\s|>)!(everyone)' + NOT_IN_CODE_OR_LINKS, flags=re.A)
 
@@ -32,9 +32,9 @@ valid_sub_regex = re.compile("^[\w\-]{3,25}$", flags=re.A)
 
 query_regex = re.compile("(\w+):(\S+)", flags=re.A)
 
-poll_regex = re.compile("(^|\n)\$\$([^\$\n]+)\$\$\s*?" + NOT_IN_CODE_OR_LINKS, flags=re.A)
-bet_regex = re.compile("(^|\n)##([^#\n]+)##\s*?" + NOT_IN_CODE_OR_LINKS, flags=re.A)
-choice_regex = re.compile("(^|\n)&&([^&\n]+)&&\s*?" + NOT_IN_CODE_OR_LINKS, flags=re.A)
+poll_regex = re.compile("(^|\n|>)\$\$([^\$\n]+)\$\$\s*?" + NOT_IN_CODE_OR_LINKS, flags=re.A)
+bet_regex = re.compile("(^|\n|>)##([^#\n]+)##\s*?" + NOT_IN_CODE_OR_LINKS, flags=re.A)
+choice_regex = re.compile("(^|\n|>)&&([^&\n]+)&&\s*?" + NOT_IN_CODE_OR_LINKS, flags=re.A)
 
 html_comment_regex = re.compile("<!--.*-->", flags=re.A)
 
