@@ -46,7 +46,6 @@ if FEATURES['HATS']:
 	from .hats import *
 if FEATURES['ASSET_SUBMISSIONS']:
 	from .asset_submissions import *
-from .special import *
 from .push_notifs import *
 if FEATURES['PING_GROUPS']:
 	from .groups import *
