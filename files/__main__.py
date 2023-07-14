@@ -52,6 +52,10 @@ app.config["CACHE_TYPE"] = "RedisCache"
 app.config["CACHE_REDIS_URL"] = environ.get("REDIS_URL").strip()
 app.config["CACHE_DEFAULT_TIMEOUT"] = 86400
 
+#to allow session cookie to work on videos.watchpeopledie.tv
+if SITE == 'watchpeopledie.tv':
+	app.config["SESSION_COOKIE_DOMAIN"] = SITE
+	
 def get_CF():
 	with app.app_context():
 		x = request.headers.get('CF-Connecting-IP')
