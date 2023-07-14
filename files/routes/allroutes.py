@@ -11,10 +11,6 @@ from files.__main__ import app, limiter, get_CF, redis_instance
 def before_request():
 	g.v = None
 
-	g.agent = request.headers.get("User-Agent")
-	if not g.agent and request.path != '/kofi':
-		abort(403, 'Please use a "User-Agent" header!')
-
 	if request.host != SITE:
 		abort(403, "Unauthorized host provided!")
 
@@ -23,6 +19,10 @@ def before_request():
 
 	if request.headers.get("CF-Worker"):
 		abort(403, "Cloudflare workers are not allowed to access this website!")
+
+	g.agent = request.headers.get("User-Agent", "")
+	if not g.agent and request.path != '/kofi':
+		abort(403, 'Please use a "User-Agent" header!')
 
 	if not get_setting('bots') and request.headers.get("Authorization"):
 		abort(403)
