@@ -25,7 +25,6 @@ def check_for_treasure(from_comment, in_text):
 	elif is_standard:
 		amount = randint(standard_min, standard_max)
 		if randint(1, 100) > 90:
-			if amount > user.coins: amount = user.coins
 			amount = -amount
 
 
