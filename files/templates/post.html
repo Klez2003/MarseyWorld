@@ -158,21 +158,21 @@
 					{% if v and v.can_edit(p) and not v.is_suspended %}
 						<div id="edit-post-body-{{p.id}}" class="d-none comment-write collapsed child">
 							<form id="post-edit-form-{{p.id}}" action="/edit_post/{{p.id}}" method="post" enctype="multipart/form-data" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHRReload(this)">
-									<input hidden name="formkey" value="{{v|formkey}}">
-									<input hidden name="current_page" value="{{request.path}}">
-									<textarea id="post-edit-title" autocomplete="off" max-length="500" name="title" class="comment-box form-control rounded" required placeholder="title">{{p.title}}</textarea>
-									<textarea autocomplete="off" name="body" {% if v.longpost %}minlength="280"{% endif %} maxlength="{% if v.bird %}140{% else %}{{POST_BODY_LENGTH_LIMIT(v)}}{% endif %}" data-preview="post-edit-{{p.id}}" data-nonce="{{g.nonce}}" data-oninput="markdown(this);charLimit('post-edit-box-{{p.id}}','charcount-post-edit')" id="post-edit-box-{{p.id}}" form="post-edit-form-{{p.id}}" class="file-ta comment-box form-control rounded" placeholder="Add text to your post..." rows="10" data-id="{{p.id}}">{{p.body}}</textarea>
+								<input hidden name="formkey" value="{{v|formkey}}">
+								<input hidden name="current_page" value="{{request.path}}">
+								<textarea id="post-edit-title" autocomplete="off" max-length="500" name="title" class="comment-box form-control rounded" required placeholder="title">{{p.title}}</textarea>
+								<textarea autocomplete="off" name="body" {% if v.longpost %}minlength="280"{% endif %} maxlength="{% if v.bird %}140{% else %}{{POST_BODY_LENGTH_LIMIT(v)}}{% endif %}" data-preview="post-edit-{{p.id}}" data-nonce="{{g.nonce}}" data-oninput="markdown(this);charLimit('post-edit-box-{{p.id}}','charcount-post-edit')" id="post-edit-box-{{p.id}}" form="post-edit-form-{{p.id}}" class="file-ta comment-box form-control rounded" placeholder="Add text to your post..." rows="10" data-id="{{p.id}}">{{p.body}}</textarea>
 
-									<div class="text-small font-weight-bold mt-1" id="charcount-post-edit" style="right: 1rem; bottom: 0.5rem; z-index: 3;"></div>
+								<div class="text-small font-weight-bold mt-1" id="charcount-post-edit" style="right: 1rem; bottom: 0.5rem; z-index: 3;"></div>
 
-									<div class="comment-format">
-										<button type="button" class="format btn btn-secondary"><span class="font-weight-bolder text-uppercase" data-nonce="{{g.nonce}}" data-onclick="getGifs('post-edit-box-{{p.id}}')" data-bs-toggle="modal" data-bs-target="#gifModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add GIF">GIF</span></button>
+								<div class="comment-format">
+									<button type="button" class="format btn btn-secondary"><span class="font-weight-bolder text-uppercase" data-nonce="{{g.nonce}}" data-onclick="getGifs('post-edit-box-{{p.id}}')" data-bs-toggle="modal" data-bs-target="#gifModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add GIF">GIF</span></button>
 
-										<button type="button" data-nonce="{{g.nonce}}" data-onclick="loadEmojis('post-edit-box-{{p.id}}')" class="format btn btn-secondary ml-2" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"><i class="fas fa-smile-beam"></i></button>
+									<button type="button" data-nonce="{{g.nonce}}" data-onclick="loadEmojis('post-edit-box-{{p.id}}')" class="format btn btn-secondary ml-2" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"><i class="fas fa-smile-beam"></i></button>
 
-										{{macros.file_input('file-upload-edit-' ~ p.id, False)}}
+									{{macros.file_input('file-upload-edit-' ~ p.id, False)}}
 
-										<small class="format d-none"><i class="fas fa-link"></i></small>
+									<small class="format d-none"><i class="fas fa-link"></i></small>
 								</div>
 								<a class="text-small mt-3 d-inline-block" href="/formatting" {% if v and v.newtab %}data-target="t" target="_blank"{% endif %}>Formatting help</a>
 								<button type="submit" form="post-edit-form-{{p.id}}" class="btn btn-primary ml-2 fl-r" data-nonce="{{g.nonce}}" data-onclick="remove_dialog()">Save Edit</button>
