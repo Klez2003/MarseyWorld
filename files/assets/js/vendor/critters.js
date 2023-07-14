@@ -601,7 +601,11 @@ var Bug = {
 		}
 		if (!this.inserted) {
 			this.inserted = true;
-			awards_container.appendChild(this.bug);
+
+			if (this.options.imageSprite == '/i/spider-sprite.webp')
+				body.appendChild(this.bug);
+			else
+				awards_container.appendChild(this.bug);
 		}
 	},
 
