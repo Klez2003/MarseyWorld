@@ -638,6 +638,8 @@ def edit_comment(cid, v):
 		if v.marseyawarded and marseyaward_body_regex.search(body_html):
 			abort(403, "You can only type marseys!")
 
+		oldtext = c.body
+
 		c.body = body
 
 		c.body_html = body_html
@@ -654,7 +656,7 @@ def edit_comment(cid, v):
 
 		g.db.add(c)
 
-		notify_users = NOTIFY_USERS(body, v, c.body, ghost=c.ghost, log_cost=c)
+		notify_users = NOTIFY_USERS(body, v, oldtext=oldtext, ghost=c.ghost, log_cost=c)
 
 		if notify_users == 'everyone':
 			alert_everyone(c.id)

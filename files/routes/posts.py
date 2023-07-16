@@ -1029,7 +1029,7 @@ def edit_post(pid, v):
 
 
 	if not p.private:
-		notify_users = NOTIFY_USERS(f'{title} {body}', v, f'{p.title} {p.body}', ghost=p.ghost, log_cost=p)
+		notify_users = NOTIFY_USERS(f'{title} {body}', v, oldtext=f'{p.title} {p.body}', ghost=p.ghost, log_cost=p)
 		if notify_users:
 			cid, text = notif_comment2(p)
 			if notify_users == 'everyone':

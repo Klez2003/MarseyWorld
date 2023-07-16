@@ -273,7 +273,7 @@ def settings_personal_post(v):
 
 		friends = friends[:BIO_FRIENDS_ENEMIES_LENGTH_LIMIT]
 
-		notify_users = NOTIFY_USERS(friends, v, v.friends)
+		notify_users = NOTIFY_USERS(friends, v, oldtext=v.friends)
 
 		if notify_users:
 			text = f"@{v.username} has added you to their friends list!"
@@ -304,7 +304,7 @@ def settings_personal_post(v):
 
 		enemies = enemies[:BIO_FRIENDS_ENEMIES_LENGTH_LIMIT]
 
-		notify_users = NOTIFY_USERS(enemies, v, v.enemies)
+		notify_users = NOTIFY_USERS(enemies, v, oldtext=v.enemies)
 		if notify_users:
 			text = f"@{v.username} has added you to their enemies list!"
 			cid = notif_comment(text)
