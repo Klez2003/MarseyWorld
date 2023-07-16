@@ -102,6 +102,7 @@ BOOSTED_SITES = {
 	'mainchan.com',
 	'retalk.com',
 	'arete.network',
+	'trustcafe.io',
 	'discussions.app',
 	'pcmemes.net',
 	'sociables.com',
