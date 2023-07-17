@@ -58,6 +58,8 @@ def execute_snappy(post:Post, v:User):
 
 	snappy = get_account(SNAPPY_ID)
 
+	ping_cost = None
+
 	if v.id == CARP_ID:
 		if random.random() < 0.02:
 			body = "i love you carp"
@@ -128,6 +130,8 @@ def execute_snappy(post:Post, v:User):
 			snappy.charge_account('coins', cost)
 
 			body = f'!{group.name}'
+			
+			ping_cost = cost
 		elif body.startswith(':#marseyglow'):
 			award_object = AwardRelationship(
 					user_id=snappy.id,
@@ -199,6 +203,9 @@ def execute_snappy(post:Post, v:User):
 			body_html=body_html,
 			ghost=ghost
 			)
+
+		if ping_cost:
+			c.ping_cost = ping_cost
 
 		g.db.add(c)
 
