@@ -56,7 +56,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 	if new not in {"-1", "0", "1"}: abort(400)
 
 	if request.headers.get("Authorization"):
-		abort(403, "Bots aren't allowed to vote right now")
+		abort(403, "Bots aren't allowed to vote right now!")
 
 	new = int(new)
 	target = None
