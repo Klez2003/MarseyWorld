@@ -344,6 +344,8 @@ class User(Base):
 			return False
 		if v.id == self.id:
 			return False
+		if v.id in IMMUNE_TO_AWARDS:
+			return False
 		if v.admin_level >= PERMS['IGNORE_AWARD_IMMUNITY']:
 			return False
 		if self.alts:
