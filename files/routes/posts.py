@@ -101,6 +101,9 @@ def post_id(pid, v, anything=None, sub=None):
 	else: defaultsortingcomments = "hot"
 	sort = request.values.get("sort", defaultsortingcomments)
 
+	if sort == 'saves':
+		sort = defaultsortingcomments
+
 	if not v:
 		result = cache.get(f'post_{p.id}_{sort}')
 		if result:
