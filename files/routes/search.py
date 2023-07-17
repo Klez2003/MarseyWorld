@@ -167,7 +167,7 @@ def searchposts(v:User):
 
 	ids = [x.id for x in posts]
 
-	posts = get_posts(ids, v=v, eager=True)
+	posts = get_posts(ids, v=v)
 
 	if v.client: return {"total":total, "data":[x.json for x in posts]}
 

@@ -65,7 +65,7 @@ def front_all(v, sub=None):
 					pins=pins,
 					)
 
-	posts = get_posts(ids, v=v, eager=True)
+	posts = get_posts(ids, v=v)
 
 	if v and v.hidevotedon:
 		posts = [x for x in posts if not hasattr(x, 'voted') or not x.voted]

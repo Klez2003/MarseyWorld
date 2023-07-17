@@ -137,7 +137,6 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 						coins=coin_value
 			)
 		g.db.add(vote)
-	g.db.flush()
 
 	# this is hacky but it works, we should probably do better later
 	def get_vote_count(dir, real_instead_of_dir):

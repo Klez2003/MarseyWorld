@@ -53,7 +53,7 @@ def upvoters_downvoters(v, username, uid, cls, vote_cls, vote_dir, template, sta
 	listing = [x.id for x in listing]
 
 	if cls == Post:
-		listing = get_posts(listing, v=v, eager=True)
+		listing = get_posts(listing, v=v)
 	elif cls == Comment:
 		listing = get_comments(listing, v=v)
 	else:
@@ -119,7 +119,7 @@ def upvoting_downvoting(v, username, uid, cls, vote_cls, vote_dir, template, sta
 	listing = [x.id for x in listing]
 
 	if cls == Post:
-		listing = get_posts(listing, v=v, eager=True)
+		listing = get_posts(listing, v=v)
 	elif cls == Comment:
 		listing = get_comments(listing, v=v)
 	else:
@@ -179,7 +179,7 @@ def user_voted(v, username, cls, vote_cls, template, standalone):
 	listing = [x.id for x in listing]
 
 	if cls == Post:
-		listing = get_posts(listing, v=v, eager=True)
+		listing = get_posts(listing, v=v)
 	elif cls == Comment:
 		listing = get_comments(listing, v=v)
 	else:
@@ -374,11 +374,10 @@ def transfer_currency(v:User, username:str, currency_name:Literal['coins', 'mars
 		abort(400, f"You don't have enough {currency_name}")
 
 	if not v.shadowbanned:
-		user_query = g.db.query(User).filter_by(id=receiver.id)
 		if currency_name == 'marseybux':
-			user_query.update({ User.marseybux: User.marseybux + amount - tax })
+			receiver.pay_account('marseybux', amount - tax)
 		elif currency_name == 'coins':
-			user_query.update({ User.coins: User.coins + amount - tax })
+			receiver.pay_account('coins', amount - tax)
 		else:
 			raise ValueError(f"Invalid currency '{currency_name}' got when transferring {amount} from {v.id} to {receiver.id}")
 		g.db.add(receiver)
@@ -999,7 +998,7 @@ def u_username(v:Optional[User], username:str):
 			for p in sticky:
 				ids = [p.id] + ids
 
-	listing = get_posts(ids, v=v, eager=True)
+	listing = get_posts(ids, v=v)
 
 	if u.unban_utc:
 		if v and v.client:
@@ -1247,7 +1246,7 @@ def get_saves_and_subscribes(v, template, relationship_cls, page:int, standalone
 		extra = lambda q:q.filter(cls.is_banned == False, cls.deleted_utc == 0)
 
 	if cls is Post:
-		listing = get_posts(ids, v=v, eager=True, extra=extra)
+		listing = get_posts(ids, v=v, extra=extra)
 	elif cls is Comment:
 		listing = get_comments(ids, v=v, extra=extra)
 	else:

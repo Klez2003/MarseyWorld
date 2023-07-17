@@ -184,7 +184,7 @@ def notifications_posts(v:User):
 	listing = listing.order_by(Post.created_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
 	listing = [x.id for x in listing]
 
-	listing = get_posts(listing, v=v, eager=True)
+	listing = get_posts(listing, v=v)
 
 	for p in listing:
 		p.unread = p.created_utc > v.last_viewed_post_notifs

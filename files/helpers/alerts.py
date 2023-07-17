@@ -216,7 +216,6 @@ def push_notif(uids, title, body, url_or_comment):
 
 	subscriptions = g.db.query(PushSubscription.subscription_json).filter(PushSubscription.user_id.in_(uids)).all()
 	subscriptions = [x[0] for x in subscriptions]
-	g.db.flush()
 	gevent.spawn(_push_notif_thread, subscriptions, title, body, url)
 
 

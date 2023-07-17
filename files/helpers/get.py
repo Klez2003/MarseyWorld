@@ -2,7 +2,7 @@ from typing import Callable, Iterable, List, Optional, Union
 
 from flask import *
 from sqlalchemy import and_, any_, or_
-from sqlalchemy.orm import joinedload, selectinload, Query
+from sqlalchemy.orm import joinedload, Query
 
 from files.classes import Comment, CommentVote, Hat, Sub, Post, User, UserBlock, Vote
 from files.helpers.config.const import *
@@ -169,7 +169,7 @@ def get_post(i:Union[str, int], v:Optional[User]=None, graceful=False) -> Option
 	return x
 
 
-def get_posts(pids:Iterable[int], v:Optional[User]=None, eager:bool=False, extra:Optional[Callable[[Query], Query]]=None) -> List[Post]:
+def get_posts(pids:Iterable[int], v:Optional[User]=None, extra:Optional[Callable[[Query], Query]]=None) -> List[Post]:
 	if not pids: return []
 
 	if v:
@@ -201,20 +201,6 @@ def get_posts(pids:Iterable[int], v:Optional[User]=None, eager:bool=False, extra
 		query = g.db.query(Post).filter(Post.id.in_(pids))
 
 	if extra: query = extra(query)
-
-	if eager:
-		query = query.options(
-			selectinload(Post.author).options(
-				selectinload(User.hats_equipped.and_(Hat.equipped == True)) \
-					.joinedload(Hat.hat_def, innerjoin=True),
-				selectinload(User.badges),
-				selectinload(User.sub_mods),
-				selectinload(User.sub_exiles),
-			),
-			selectinload(Post.reports),
-			selectinload(Post.awards),
-			selectinload(Post.options),
-		)
 
 	results = query.all()
 

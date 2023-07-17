@@ -211,33 +211,32 @@ class User(Base):
 
 
 	def charge_account(self, currency, amount, **kwargs):
-		in_db = g.db.query(User).filter(User.id == self.id).with_for_update().one()
 		succeeded = False
 		charged_coins = 0
 
 		should_check_balance = kwargs.get('should_check_balance', True)
 
 		if currency == 'coins':
-			account_balance = in_db.coins
+			account_balance = self.coins
 
 			if not should_check_balance or account_balance >= amount:
 				self.coins -= amount
 				succeeded = True
 				charged_coins = amount
 		elif currency == 'marseybux':
-			account_balance = in_db.marseybux
+			account_balance = self.marseybux
 
 			if not should_check_balance or account_balance >= amount:
 				self.marseybux -= amount
 				succeeded = True
 		elif currency == 'combined':
-			if in_db.marseybux >= amount:
+			if self.marseybux >= amount:
 				subtracted_mbux = amount
 				subtracted_coins = 0
 			else:
-				subtracted_mbux = in_db.marseybux
+				subtracted_mbux = self.marseybux
 				subtracted_coins = amount - subtracted_mbux
-				if subtracted_coins > in_db.coins:
+				if subtracted_coins > self.coins:
 					return (False, 0)
 
 			self.coins -= subtracted_coins
@@ -247,7 +246,6 @@ class User(Base):
 
 		if succeeded:
 			g.db.add(self)
-			g.db.flush()
 
 		return (succeeded, charged_coins)
 
