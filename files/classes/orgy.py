@@ -62,11 +62,7 @@ def create_orgy(link, title):
 
 	orgy = Orgy(title=title, id=0, type = orgy_type, data = data)
 	g.db.add(orgy)
-	g.db.flush()
-	g.db.commit()
 
 def end_orgy():
 	assert get_orgy()
 	g.db.query(Orgy).delete()
-	g.db.flush()
-	g.db.commit()
