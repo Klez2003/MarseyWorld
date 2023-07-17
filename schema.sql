@@ -1640,7 +1640,7 @@ ALTER TABLE ONLY public.users
 --
 
 ALTER TABLE ONLY public.users
-    ADD CONSTRAINT users_pkey PRIMARY KEY (username);
+    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
 
 
 --
@@ -1652,11 +1652,11 @@ ALTER TABLE ONLY public.users
 
 
 --
--- Name: users users_username_key; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: users users_username_unique; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.users
-    ADD CONSTRAINT users_username_key UNIQUE (username);
+    ADD CONSTRAINT users_username_unique UNIQUE (username);
 
 
 --
@@ -1683,13 +1683,6 @@ CREATE UNIQUE INDEX alts_unique_combination ON public.alts USING btree (GREATEST
 
 
 --
--- Name: alts_user1_idx; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX alts_user1_idx ON public.alts USING btree (user1);
-
-
---
 -- Name: alts_user2_idx; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1708,13 +1701,6 @@ CREATE INDEX award_comment_idx ON public.award_relationships USING btree (commen
 --
 
 CREATE INDEX award_post_idx ON public.award_relationships USING btree (post_id);
-
-
---
--- Name: award_user_idx; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX award_user_idx ON public.award_relationships USING btree (user_id);
 
 
 --
@@ -1757,13 +1743,6 @@ CREATE INDEX casino_games_user_id_winnings_idx ON public.casino_games USING btre
 --
 
 CREATE INDEX casino_games_winnings_idx ON public.casino_games USING btree (winnings);
-
-
---
--- Name: comment_is_banned_idx; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX comment_is_banned_idx ON public.comments USING btree (is_banned);
 
 
 --
@@ -1837,13 +1816,6 @@ CREATE INDEX comments_top_comment_id_idx ON public.comments USING btree (top_com
 
 
 --
--- Name: comments_user_index; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX comments_user_index ON public.comments USING btree (author_id);
-
-
---
 -- Name: commentvotes_commentid_userid_votetype_idx; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1872,24 +1844,10 @@ CREATE INDEX creport_user_idx ON public.commentreports USING btree (user_id);
 
 
 --
--- Name: cvote_user_index; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX cvote_user_index ON public.commentvotes USING btree (user_id);
-
-
---
 -- Name: emoji_kind; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX emoji_kind ON public.emojis USING btree (kind);
-
-
---
--- Name: emojis_idx; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX emojis_idx ON public.emojis USING btree (name);
 
 
 --
@@ -2180,13 +2138,6 @@ CREATE INDEX post_deleted_utc_idx ON public.posts USING btree (deleted_utc);
 
 
 --
--- Name: post_is_banned_idx; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX post_is_banned_idx ON public.posts USING btree (is_banned);
-
-
---
 -- Name: post_is_pinned_idx; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2226,13 +2177,6 @@ CREATE INDEX report_user_idx ON public.reports USING btree (user_id);
 --
 
 CREATE INDEX subimssion_binary_group_idx ON public.posts USING btree (is_banned, deleted_utc, over_18);
-
-
---
--- Name: subs_idx; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX subs_idx ON public.subs USING btree (name);
 
 
 --
@@ -2415,13 +2359,6 @@ CREATE INDEX users_spider_idx ON public.users USING btree (spider);
 --
 
 CREATE INDEX users_subs_idx ON public.users USING btree (stored_subscriber_count);
-
-
---
--- Name: users_unban_utc_idx; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX users_unban_utc_idx ON public.users USING btree (unban_utc);
 
 
 --
