@@ -61,7 +61,10 @@ def cron(every_5m, every_1d):
 
 	g.db.close()
 	del g.db
-	print(f'Finished {kind}', flush=True)
+
+	now = datetime.datetime.now().time()
+
+	print(f'Finished {kind} at {now}', flush=True)
 	stdout.flush()
 
 def _sub_inactive_purge_task():
