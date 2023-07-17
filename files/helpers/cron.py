@@ -28,14 +28,14 @@ CRON_CACHE_TIMEOUT = 172800
 
 @app.cli.command('cron', help='Run scheduled tasks.')
 @click.option('--every-5m', is_flag=True, help='Call every 5 minutes.')
-@click.option('--every-1h', is_flag=True, help='Call every 1 hour.')
 @click.option('--every-1d', is_flag=True, help='Call every 1 day.')
-def cron(every_5m, every_1h, every_1d):
+def cron(every_5m, every_1d):
 	g.db = db_session()
 	g.v = None
 
 	try:
 		if every_5m:
+			kind = 'every_5m' 
 			if FEATURES['GAMBLING']:
 				check_if_end_lottery_task()
 
@@ -44,6 +44,7 @@ def cron(every_5m, every_1h, every_1d):
 			_award_timers_task()
 
 		if every_1d:
+			kind = 'every_1d' 
 			stats.generate_charts_task(SITE)
 
 			_sub_inactive_purge_task()
@@ -60,6 +61,7 @@ def cron(every_5m, every_1h, every_1d):
 
 	g.db.close()
 	del g.db
+	print(f'Finished {kind}', flush=True)
 	stdout.flush()
 
 def _sub_inactive_purge_task():
