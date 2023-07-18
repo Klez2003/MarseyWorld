@@ -116,7 +116,7 @@ def notifications_messages(v:User):
 
 	# Clear notifications (used for unread indicator only) for all user messages.
 
-	if not session.get("GLOBAL"):
+	if not session.get("GLOBAL") and not request.values.get('nr'):
 		notifs_unread_row = g.db.query(Notification.comment_id).join(Comment).filter(
 			Notification.user_id == v.id,
 			Notification.read == False,
@@ -189,7 +189,7 @@ def notifications_posts(v:User):
 	for p in listing:
 		p.unread = p.created_utc > v.last_viewed_post_notifs
 
-	if not session.get("GLOBAL"):
+	if not session.get("GLOBAL") and not request.values.get('nr'):
 		v.last_viewed_post_notifs = int(time.time())
 		g.db.add(v)
 
@@ -237,7 +237,7 @@ def notifications_modactions(v:User):
 	for ma in listing:
 		ma.unread = ma.created_utc > v.last_viewed_log_notifs
 
-	if not session.get("GLOBAL"):
+	if not session.get("GLOBAL") and not request.values.get('nr'):
 		v.last_viewed_log_notifs = int(time.time())
 		g.db.add(v)
 
@@ -273,7 +273,7 @@ def notifications_reddit(v:User):
 	for ma in listing:
 		ma.unread = ma.created_utc > v.last_viewed_reddit_notifs
 
-	if not session.get("GLOBAL"):
+	if not session.get("GLOBAL") and not request.values.get('nr'):
 		v.last_viewed_reddit_notifs = int(time.time())
 		g.db.add(v)
 
@@ -298,7 +298,7 @@ def notifications_reddit(v:User):
 def notifications(v:User):
 	page = get_page()
 
-	if not session.get("GLOBAL") and v.admin_level < PERMS['USER_SHADOWBAN']:
+	if not session.get("GLOBAL") and v.admin_level < PERMS['USER_SHADOWBAN'] and not request.values.get('nr'):
 		unread_and_inaccessible = g.db.query(Notification).join(Notification.comment).join(Comment.author).filter(
 			Notification.user_id == v.id,
 			Notification.read == False,
@@ -381,7 +381,7 @@ def notifications(v:User):
 
 		if c not in listing: listing.append(c)
 
-		if not n.read and not session.get("GLOBAL"):
+		if not n.read and not session.get("GLOBAL") and not request.values.get('nr'):
 			n.read = True
 			g.db.add(n)
 
