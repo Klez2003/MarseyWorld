@@ -95,6 +95,8 @@ def post_id(pid, v, anything=None, sub=None):
 
 	p.views += 1
 	g.db.add(p)
+	try: g.db.flush()
+	except: g.db.rollback()
 
 	if p.new: defaultsortingcomments = 'new'
 	elif v: defaultsortingcomments = v.defaultsortingcomments
