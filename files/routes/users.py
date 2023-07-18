@@ -881,6 +881,8 @@ def u_username_wall(v:Optional[User], username:str):
 		if view: view.last_view_utc = int(time.time())
 		else: view = ViewerRelationship(viewer_id=v.id, user_id=u.id)
 		g.db.add(view)
+		try: g.db.flush()
+		except: g.db.rollback()
 
 	page = get_page()
 
@@ -931,6 +933,8 @@ def u_username_wall_comment(v:User, username:str, cid):
 		if view: view.last_view_utc = int(time.time())
 		else: view = ViewerRelationship(viewer_id=v.id, user_id=u.id)
 		g.db.add(view)
+		try: g.db.flush()
+		except: g.db.rollback()
 
 	if v and request.values.get("read"):
 		notif = g.db.query(Notification).filter_by(comment_id=cid, user_id=v.id, read=False).one_or_none()
@@ -983,7 +987,8 @@ def u_username(v:Optional[User], username:str):
 		if view: view.last_view_utc = int(time.time())
 		else: view = ViewerRelationship(viewer_id=v.id, user_id=u.id)
 		g.db.add(view)
-
+		try: g.db.flush()
+		except: g.db.rollback()
 
 	sort = request.values.get("sort", "new")
 	t = request.values.get("t", "all")
@@ -1054,6 +1059,8 @@ def u_username_comments(username, v):
 		if view: view.last_view_utc = int(time.time())
 		else: view = ViewerRelationship(viewer_id=v.id, user_id=u.id)
 		g.db.add(view)
+		try: g.db.flush()
+		except: g.db.rollback()
 
 	page = get_page()
 
