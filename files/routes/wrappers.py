@@ -115,6 +115,8 @@ def get_logged_in_user():
 			if (v.last_active + LOGGEDIN_ACTIVE_TIME) < timestamp:
 				v.last_active = timestamp
 				g.db.add(v)
+				try: g.db.flush()
+				except: g.db.rollback()
 
 	if not v and SITE == 'rdrama.net' and request.headers.get("Cf-Ipcountry") == 'EG':
 		abort(404)
