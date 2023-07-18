@@ -138,9 +138,6 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 			)
 		g.db.add(vote)
 
-	try: g.db.flush()
-	except: g.db.rollback()
-
 	# this is hacky but it works, we should probably do better later
 	def get_vote_count(dir, real_instead_of_dir):
 		votes = g.db.query(vote_cls)
@@ -155,6 +152,10 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 			votes = votes.filter(vote_cls.comment_id == target.id)
 		else:
 			return 0
+
+		try: g.db.flush()
+		except: g.db.rollback()
+
 		return votes.count()
 
 	target.upvotes = get_vote_count(1, False)
