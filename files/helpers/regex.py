@@ -189,6 +189,10 @@ def sub_matcher_profanities_upper(match):
 
 def censor_slurs(body:Optional[str], logged_user):
 	if not body: return ""
+
+	if '<pre>' in body or '<code>' in body:
+			return body
+
 	def replace_re(body:str, regex:re.Pattern, regex_upper:re.Pattern, sub_func, sub_func_upper):
 		body = regex_upper.sub(sub_func_upper, body)
 		return regex.sub(sub_func, body)
