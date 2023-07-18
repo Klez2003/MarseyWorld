@@ -165,7 +165,10 @@ def sub_matcher(match:re.Match, upper=False, replace_with:Union[dict[str, str], 
 		return match_str
 	else:
 		repl = replace_with[match_str.lower()]
-		return repl if not upper or "<img" in repl else repl.upper()
+		if not upper or "<img" in repl:
+			return repl
+		else:
+			return repl.upper()
 
 def sub_matcher_upper(match, replace_with:Union[dict[str, str], dict[str, List[str]]]=SLURS_FOR_REPLACING):
 	return sub_matcher(match, upper=True, replace_with=replace_with)
