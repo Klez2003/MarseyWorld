@@ -33,7 +33,7 @@ def login_get(v:Optional[User]):
 
 @app.post("/login")
 @limiter.limit('1/second', scope=rpath)
-@limiter.limit("6/minute;10/day", deduct_when=lambda response: response.status_code < 400)
+@limiter.limit("6/minute;20/day", deduct_when=lambda response: response.status_code < 400)
 @auth_desired
 def login_post(v:Optional[User]):
 	if v: abort(400)
