@@ -34,6 +34,8 @@ def front_all(v, sub=None):
 		if sub or SITE_NAME != 'rDrama': defaulttime = 'all'
 		else: defaulttime = DEFAULT_TIME_FILTER
 
+	if sub: defaultsorting = "new"
+
 	sort=request.values.get("sort", defaultsorting)
 	t=request.values.get('t', defaulttime)
 
