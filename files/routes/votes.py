@@ -154,7 +154,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 			return 0
 
 		try: g.db.flush()
-		except: g.db.rollback()
+		except: abort(500)
 
 		return votes.count()
 
