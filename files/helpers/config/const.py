@@ -248,7 +248,6 @@ if SITE_NAME == 'rDrama':
 		'anime',
 		'gaybros',
 		'againsthateholes',
-		'countryclub',
 		'changelog',
 		'programming',
 		'slackernews',

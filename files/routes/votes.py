@@ -179,7 +179,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 		or 'forum' in target.domain or 'chan' in target.domain or 'lemmy' in target.domain
 		or (target.domain in BOOSTED_SITES and not target.url.startswith('/'))):
 			mul = 2
-		elif target.sub in STEALTH_HOLES:
+		elif target.sub in STEALTH_HOLES or target.sub == 'countryclub':
 			mul = 2
 		elif target.sub in BOOSTED_HOLES:
 			mul = 1.25
