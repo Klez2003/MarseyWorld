@@ -1352,7 +1352,7 @@ INSERT INTO public.hat_defs VALUES (1213, 'Secret Crack', 'Oh hi… AH', 2, 1000
 
 INSERT INTO public.hat_defs VALUES (1256, 'dawnfag', 'I’m too tired to write a description I’m sorry here’s your hat toats', 2, 500, NULL, 1687739873);
 
-
+INSERT INTO public.hat_defs VALUES (1289, 'Energy Dome', 'Collects latent Orgone energy and recirculates it into the Medulla Oblongata.', 2, 500, NULL, 1689298931);
 
 
 --
@@ -1710,6 +1710,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('carpprotestyes','Carp',2,'sign'),
 ('carpraging','Carp',2,'animated mad angry'),
 ('carprain','Carp',2,'cloud sad depressed'),
+('carprapeface','Carp',2,'carp rape anger lust rage mad spongebob pissed'),
 ('carprentfree','Carp',2,'fish bard stochiastic moderator jannie carpathianflorist fish'),
 ('carprobot','Carp',2,'metal bot android scifi electric'),
 ('carpsad','Carp',2,'depressed'),
@@ -1718,6 +1719,8 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('carpsaluteusa','Carp',2,'patriot soldier army america fish flag free liberty eagle burgers brave'),
 ('carpscared','Carp',2,'sweat worried panic'),
 ('carpscooter','Carp',2,'usa america fat chonker obese burger'),
+('carpseethedilate','Carp',2,'cope'),
+('carpsexy','Carp',2,'sexy embarrassed shy blushing naked nude ahegao lying posing pinup'),
 ('carpshapiro','Carp',2,'ben smug logic'),
 ('carpshy','Carp',2,'embarrassed blush fish carpathianflorist'),
 ('carpsick2','Carp',2,'fish scarf ill thermometer carpathianflorist'),
@@ -2882,6 +2885,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseychainchad','Marsey',2,'chainsaw chainlet chainchad'),
 ('marseychameleon','Marsey',2,'chameleon lizard flies fly eat tongue hungry hunger predator outline lick'),
 ('marseychameleonest','Marsey',2,'chameleon chameleonbuthereal lizard outline'),
+('marseychaosdunk','Marsey',2,'chaos dunk barkley nba jam slam bomb basketball mogging btfo air mj'),
 ('marseychaosemerald','Marsey',2,'chaos emerald gem shine bright crystal polish rare power'),
 ('marseycharlesiii','Marsey',2,'king england britain royalty royal monarch'),
 ('marseycharlesmanson','Marsey',2,'charlie manson charliemanson murderer killer swastika crazy psycho schizo helterskelter prison cult'),
@@ -3101,6 +3105,8 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseydagothur2','Marsey',2,'elder scrolls morrowind game mask dagothur'),
 ('marseydamosuzuki','Marsey',2,'damo suzuki musician music singer krautrock asian japan germany celebrity'),
 ('marseydance','Marsey',2,'excited stomp jump feet step run animated'),
+('marseydanishitsover','Marsey',2,'scandicks scandinavia'),
+('marseydanishwereback','Marsey',2,'scandicks scandinavia'),
 ('marseydarkblackface','Marsey',2,'bipoc ni chad laser eyes meme based'),
 ('marseydarkbrandon','Marsey',2,'biden lasereyes gas sticker evil confused dementia daddy'),
 ('marseydarkcarp','Marsey',2,'lasereyes carpathianflorist fish admin jannie mod banned yalled'),
@@ -4130,6 +4136,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseymountaineer','Marsey',2,'winter climbing coat ice sport peak axe cleats mountain alpine climber'),
 ('marseymouse','Marsey',2,'rodent cheesed to meet you'),
 ('marseymrsclaus','Marsey',2,'christmas santa winter boobs'),
+('marseymrx','Marsey',2,'mrx misterx nemesis residentevil biohazard bossfight stalker fedora feds suit'),
 ('marseymspaint','Marsey',2,'paint mspaint pixel shifty squat'),
 ('marseymugshot','Marsey',2,'arran prison arrested criminal jail'),
 ('marseymuhammad','Marsey',2,'muhammad islam pbuh jihad sharia arab arabic muslim islamic'),
@@ -5008,6 +5015,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseytlop','Marsey',2,'kanye life pablo tlop yeezy yeezus'),
 ('marseytlsm','Marsey',2,'snake sex mating janny codecel tlsm schizocel'),
 ('marseytnt','Marsey',2,'marsey tnt minecraft boom mine craft explosive explosion dynamite'),
+('marseytoad','Marsey',2,'toad smb mushroom cucked papermario mariorpg'),
 ('marseytoaster','Marsey',2,'appliance bread'),
 ('marseytoasterbath','Marsey',2,'suicide suicidal kill death bathtub electrocution electricity kms'),
 ('marseytoasty','Marsey',2,'homer simpsons cozy comfy bed'),
@@ -5496,9 +5504,14 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('perineumsunning','Misc',2,'perineum sunning butthole tanning weird trend infertile'),
 ('period','Marsey Alphabet',2,'. dot'),
 ('pervertedspiderman','Rage',2,'spiderman pervert movie'),
+('peterdead','Misc',2,'peter griffin family guy pose dead death fall cartoon meme'),
+('peterghostbusters','Misc',2,'peter griffin family guy petergriffin familyguy ghostbusters ghost busters ghosts boo'),
 ('petergriffindance','Misc',2,'familyguy familyman family guy man petergriffing peter griffin fat hambeast obese jump dance dancing surfinbird surfin bird everybody heard about thebird birdbirdbird birdistheword'),
 ('petergriffindolphin','Misc',2,'familyguy familyman family guy man petergriffin peter griffin fat hambeast obese jump nude naked nekkid dolphin dolfin sea ocean fabulous'),
+('petergriffinface','Misc',2,'peter griffin family guy petergriffin familyguy face heylois lois'),
 ('petergriffinyes','Misc',2,'familyguy familyman family guy man petergriffing peter griffin fat hambeast obese jump happy jumping commemorating yes success victory hellyeah heckyeah fuckyeah fuckyes'),
+('peterrunning','Misc',2,'peter griffin family guy petergriffin familyguy running run flee quick escape escaping quickly bardfinn donotsearch do not google search censored censorship'),
+('petertoilet','Misc',2,'peter griffin family guy petergriffin familyguy toilet shit shitting poop pooping piss pissing pee peeing shitpost shitposting beter'),
 ('phi','Marsey Alphabet',2,'ϕ'),
 ('phicap','Marsey Alphabet',2,'Φ'),
 ('pi','Marsey Alphabet',2,'π'),
@@ -5875,6 +5888,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('tayflex','Tay',2,'flex'),
 ('tayflipoff','Tay',2,'middlefinger bird'),
 ('tayflirt','Tay',2,'flirt'),
+('tayfloor','Tay',2,'tay taytay taylor swift floor sing singing allfours erotic sexy sex song microphone songs sings'),
 ('taygrimacing','Tay',2,'grimacing'),
 ('tayhairflip','Tay',2,'sass happy flirtatious'),
 ('tayhappy','Tay',2,'happy'),
@@ -5885,6 +5899,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('tayjammin','Tay',2,'jammin'),
 ('taylaugh','Tay',2,'laugh'),
 ('taylorlorenzcrying','Misc',2,'sobbing woman foid journoid journalist'),
+('taylorrage','Tay',2,'red chair throw'),
 ('taylove','Tay',2,'love'),
 ('taymindblown','Tay',2,'mindblown'),
 ('tayno','Tay',2,'no'),
@@ -6003,6 +6018,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('violin','Classic',2,'violin animated emoticon music annoyed instrument'),
 ('vomit','Misc',2,'smudge cat disgust vomit barf hack puke'),
 ('vore','Classic',2,'eating'),
+('vs','Misc',2,'versus'),
 ('vulgar','Classic',2,'vulgar animated emoticon swear cursing angry mad enraged fuck shit bitch'),
 ('w','Marsey Alphabet',2,'letter'),
 ('wah','Classic',2,'wah  emoticon despair sad'),
