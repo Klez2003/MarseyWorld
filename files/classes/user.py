@@ -1135,7 +1135,6 @@ class User(Base):
 		if self.is_permabanned: return False
 
 		if self.admin_level >= PERMS['VIEW_RESTRICTED_HOLES']: return True
-		if self.truescore >= TRUESCORE_RESTRICTED_HOLES_MINIMUM: return True
 
 		return None
 
@@ -1146,6 +1145,7 @@ class User(Base):
 		if self.can_see_restricted_holes != None:
 			return self.can_see_restricted_holes
 
+		if self.truescore >= TRUESCORE_CHUDRAMA_MINIMUM: return True
 		if self.chud: return True
 		if self.patron: return True
 		return False
@@ -1157,6 +1157,8 @@ class User(Base):
 
 		if self.can_see_restricted_holes != None:
 			return self.can_see_restricted_holes
+
+		if self.truescore >= TRUESCORE_CC_MINIMUM: return True
 
 		return False
 
