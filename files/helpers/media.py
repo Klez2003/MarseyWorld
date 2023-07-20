@@ -25,6 +25,8 @@ def remove_media_using_link(path):
 	os.remove(path)
 
 def media_ratelimit(v):
+	if v.id == 15014: # Marseygen exception for a day
+		return
 	t = time.time() - 86400
 	count = g.db.query(Media).filter(Media.user_id == v.id, Media.created_utc > t).count()
 	if count > 100 and v.admin_level < PERMS['USE_ADMIGGER_THREADS']:
