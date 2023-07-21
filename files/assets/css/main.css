@@ -7578,3 +7578,7 @@ bdi {
 .page-link.active.disabled {
 	color: rgb(var(--background)) !important;
 }
+
+.active:not(.voting-arrow) {
+	pointer-events: none;
+}
