@@ -7574,3 +7574,7 @@ bdi {
 .comment-collapse-desktop {
 	border-left: 2px solid;
 }
+
+.page-link.active.disabled {
+	color: rgb(var(--background)) !important;
+}
