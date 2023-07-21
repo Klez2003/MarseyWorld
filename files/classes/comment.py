@@ -19,7 +19,7 @@ from files.helpers.sorting_and_time import *
 from .saves import CommentSaveRelationship
 
 def normalize_urls_runtime(body, v):
-	body = body.replace('https://old.reddit.com/r/place', 'https://new.reddit.com/r/place')
+	body = body.replace('https://old.reddit.com/r/place/?cx=', 'https://new.reddit.com/r/place/?cx=')
 
 	if not v: return body
 
@@ -30,7 +30,7 @@ def normalize_urls_runtime(body, v):
 	if v.imginn:
 		body = body.replace('https://instagram.com/', 'https://imginn.com/')
 
-	body = body.replace(f'https://{v.reddit}/r/place', 'https://new.reddit.com/r/place')
+	body = body.replace(f'https://{v.reddit}/r/place/?cx=', 'https://new.reddit.com/r/place/?cx=')
 
 	return body
 
