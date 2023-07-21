@@ -374,10 +374,11 @@ def transfer_currency(v:User, username:str, currency_name:Literal['coins', 'mars
 		abort(400, f"You don't have enough {currency_name}")
 
 	if not v.shadowbanned:
+		user_query = g.db.query(User).filter_by(id=receiver.id)
 		if currency_name == 'marseybux':
-			receiver.pay_account('marseybux', amount - tax)
+			user_query.update({ User.marseybux: User.marseybux + amount - tax })
 		elif currency_name == 'coins':
-			receiver.pay_account('coins', amount - tax)
+			user_query.update({ User.coins: User.coins + amount - tax })
 		else:
 			raise ValueError(f"Invalid currency '{currency_name}' got when transferring {amount} from {v.id} to {receiver.id}")
 		g.db.add(receiver)
