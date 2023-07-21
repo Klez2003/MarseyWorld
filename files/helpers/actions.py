@@ -65,6 +65,8 @@ def execute_snappy(post:Post, v:User):
 			body = "i love you carp"
 		elif random.random() < 0.02:
 			body = "https://i.rdrama.net/images/16614707883108485.webp"
+		elif random.random() < 0.02:
+			body = "https://i.rdrama.net/images/1636916964YyM.webp"
 		elif IS_DKD():
 			body = ":#donkeykongfuckoffcarp:"
 		else:
