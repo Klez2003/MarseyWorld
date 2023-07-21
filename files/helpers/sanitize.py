@@ -419,6 +419,8 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 
 			if name == 'everyone':
 				return f'<a href="/users">!{name}</a>'
+			elif name == 'jannies':
+				return f'<a href="/admins">!{name}</a>'
 			elif g.db.get(Group, name):
 				return f'<a href="/!{name}">!{name}</a>'
 			else:

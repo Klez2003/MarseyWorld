@@ -164,28 +164,32 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None):
 				if log_cost:
 					log_cost.ping_cost = cost
 				return 'everyone'
+			elif i.group(1) == 'jannies':
+				group = None
+				member_ids = set([x[0] for x in g.db.query(User.id).filter(User.admin_level > 0, User.id != AEVANN_ID).all()])
 			else:
 				group = g.db.get(Group, i.group(1))
 				if not group: continue
+				member_ids = group.member_ids
 
-				members = group.member_ids - notify_users - v.all_twoway_blocks
+			members = member_ids - notify_users - v.all_twoway_blocks
 
-				notify_users.update(members)
+			notify_users.update(members)
 
-				if ghost or v.id not in group.member_ids:
-					if group.name == 'biofoids': mul = 20
-					else: mul = 10
+			if ghost or v.id not in member_ids:
+				if group and group.name == 'biofoids': mul = 20
+				else: mul = 10
 
-					cost += len(members) * mul
-					if cost > v.coins:
-						abort(403, f"You need {cost} coins to mention these ping groups!")
+				cost += len(members) * mul
+				if cost > v.coins:
+					abort(403, f"You need {cost} coins to mention these ping groups!")
 
-					if log_cost:
-						log_cost.ping_cost = cost
+				if log_cost:
+					log_cost.ping_cost = cost
 
-					for user in g.db.query(User).filter(User.id.in_(members)).all():
-						user.pay_account('coins', mul)
-						g.db.add(user)
+				for user in g.db.query(User).filter(User.id.in_(members)).all():
+					user.pay_account('coins', mul)
+					g.db.add(user)
 
 		v.charge_account('coins', cost)
 

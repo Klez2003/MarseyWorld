@@ -32,7 +32,7 @@ def create_group(v):
 	if not valid_sub_regex.fullmatch(name):
 		return redirect(f"/ping_groups?error=Name does not match the required format!")
 
-	if name == 'everyone' or g.db.get(Group, name):
+	if name in {'everyone', 'jannies'} or g.db.get(Group, name):
 		return redirect(f"/ping_groups?error=This group already exists!")
 
 	if not v.charge_account('combined', GROUP_COST)[0]:
