@@ -149,7 +149,6 @@ def patrons(v):
 	return render_template("admin/patrons.html", v=v, users=users, benefactor_def=AWARDS['benefactor'])
 
 @app.get("/admins")
-@app.get("/badmins")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
