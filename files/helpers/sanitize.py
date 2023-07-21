@@ -383,6 +383,8 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 	sanitized = markdown(sanitized)
 	sanitized = sanitized.replace('▔', '_').replace('%E2%96%94', '_')
 
+	sanitized = sanitized.replace('<a href="/%21', '<a href="/!')
+
 	# replacing zero width characters, overlines, fake colons
 	sanitized = sanitized.replace('\u200e','').replace('\u200b','').replace("\ufeff", "").replace("\u033f","").replace("\u0589", ":")
 
