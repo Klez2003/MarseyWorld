@@ -641,6 +641,6 @@ function enablePushNotifications() {
 		alert("Push notifications are enabled!")
 	}).catch((e) => {
 		alert("Please give the site access to notifications!")
-		console.log(e)
+		console.error(e)
 	})
 }
