@@ -213,7 +213,7 @@ def execute_blackjack(v, target, body, kind):
 			send_repeatable_notification_duplicated(id, f"Blackjack by @{v.username}: {extra_info}")
 	return True
 
-def render_emoji(html, regexp, golden, emojis_used, b=False):
+def render_emoji(html, regexp, golden, emojis_used, b=False, is_title=False):
 	emojis = list(regexp.finditer(html))
 	captured = set()
 
@@ -224,6 +224,7 @@ def render_emoji(html, regexp, golden, emojis_used, b=False):
 		emoji = i.group(1).lower()
 		attrs = ''
 		if b: attrs += ' b'
+		if is_title: attrs += ' t'
 		if golden and len(emojis) <= 20 and ('marsey' in emoji or emoji in marseys_const2):
 			if random.random() < 0.0025: attrs += ' g'
 			elif random.random() < 0.00125: attrs += ' glow'
@@ -609,7 +610,7 @@ def allowed_attributes_emojis(tag, name, value):
 		if name == 'src' and value.startswith('/') and '\\' not in value: return True
 		if name == 'loading' and value == 'lazy': return True
 		if name == 'data-bs-toggle' and value == 'tooltip': return True
-		if name in {'g','glow'} and not value: return True
+		if name in {'g','glow','t'} and not value: return True
 		if name in {'alt','title'}: return True
 
 	if tag == 'span':
@@ -631,7 +632,7 @@ def filter_emojis_only(title, golden=True, count_emojis=False, graceful=False, s
 
 	emojis_used = set()
 
-	title = render_emoji(title, emoji_regex3, golden, emojis_used)
+	title = render_emoji(title, emoji_regex2, golden, emojis_used, is_title=True)
 
 	if count_emojis:
 		for emoji in g.db.query(Emoji).filter(Emoji.submitter_id==None, Emoji.name.in_(emojis_used)).all():

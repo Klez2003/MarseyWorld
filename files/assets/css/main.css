@@ -5509,7 +5509,7 @@ input[type=radio] ~ .custom-control-label::before {
 	height: 60px;
 	width: 60px;
 }
-.bigemoji, .emoji-lg, img[alt^=":"][alt*="#"] {
+.bigemoji, .emoji-lg, img[alt^=":"][alt*="#"]:not([t]) {
 	height: 150px;
 	width: 150px;
 }
