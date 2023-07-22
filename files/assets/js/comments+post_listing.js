@@ -109,6 +109,9 @@ document.addEventListener("click", function(e) {
 		if (author["hat"]) {
 			popover.getElementsByClassName('pop-hat')[0].src = author['hat'] + "?h=7"
 		}
+		else {
+			popover.getElementsByClassName('pop-hat')[0].removeAttribute('src');
+		}
 		popover.getElementsByClassName('pop-username')[0].innerHTML = author["username"]
 		if (popover.getElementsByClassName('pop-bio').length > 0) {
 			popover.getElementsByClassName('pop-bio')[0].innerHTML = author["bio_html"]
