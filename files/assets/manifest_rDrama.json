@@ -1,7 +1,7 @@
 {
 	"name": "rDrama",
 	"short_name": "rDrama",
-	"start_url": "https://rdrama.net",
+	"start_url": "/",
 	"display": "standalone",
 	"background_color": "#FF459A",
 	"theme_color": "#805AD5",
