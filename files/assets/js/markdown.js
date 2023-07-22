@@ -21,7 +21,7 @@ marked.use({
 			},
 			renderer(token) {
 				const u = token.raw;
-				return `<a href="/${u}"><img loading="lazy" src="${SITE_FULL_IMAGES}/${u}/pic" class="pp20"> ${u}</a>`;
+				return `<a href="/${u}"><img loading="lazy" src="/${u}/pic" class="pp20"> ${u}</a>`;
 			}
 		},
 		{
