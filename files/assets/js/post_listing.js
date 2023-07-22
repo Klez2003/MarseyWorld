@@ -24,5 +24,15 @@ function toggleyoutube(pid) {
 	if(e.ctrlKey || e.metaKey || e.shiftKey || e.altKey)
 		return;
 	e.preventDefault();
-	document.getElementById(`video-${pid}`).classList.toggle('d-none')
+	const el = document.getElementById(`video-${pid}`)
+	el.classList.toggle('d-none')
+
+	if (el.classList.contains('d-none')) {
+		const iframe = el.getElementsByTagName('iframe')[0]
+		iframe.src = iframe.src;
+	}
+	else {
+		const playbtn = el.getElementsByClassName('lty-playbtn')[0]
+		playbtn.click()
+	}
 }
