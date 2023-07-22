@@ -60,7 +60,11 @@ def execute_snappy(post:Post, v:User):
 
 	ping_cost = None
 
-	if v.id == CARP_ID:
+	post_ping_group_count = len(list(group_mention_regex.finditer(post.body)))
+	
+	if post_ping_group_count > 3:
+		body = "Unnecessary and uncalled for ping :marseydownvotemad: two more strikes and you're getting blocked + megadownvoted buddy, don't test your luck"
+	elif v.id == CARP_ID:
 		if random.random() < 0.02:
 			body = "i love you carp"
 		elif random.random() < 0.02:
