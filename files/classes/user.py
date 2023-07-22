@@ -1177,19 +1177,6 @@ class User(Base):
 	def winnings(self):
 		return g.db.query(func.sum(CasinoGame.winnings)).filter(CasinoGame.user_id == self.id).one()[0] or 0
 
-	@lazy
-	def show_sig(self, v):
-		if not self.sig_html:
-			return False
-
-		if not self.patron:
-			return False
-
-		if v and (v.sigs_disabled or v.poor):
-			return False
-
-		return True
-
 	@property
 	@lazy
 	def user_name(self):
@@ -1310,6 +1297,17 @@ class User(Base):
 	def ordered_badges(self):
 		x = sorted(self.badges, key=badge_ordering_func)
 		return x
+
+	@lazy
+	def rendered_sig(self, v):
+		if not self.sig_html or not self.patron:
+			return ''
+
+		if v and (v.sigs_disabled or v.poor):
+			return ''
+
+		return f'<section id="signature-{self.id}" class="user-signature"><hr>{self.sig_html}</section>'
+
 
 badge_ordering_tuple = (
 		22, 23, 24, 25, 26, 27, 28, #paypig

@@ -147,6 +147,9 @@
 								<div class="text-removed mb-0">removed by @{{p.ban_reason}} (Admin)</div>
 							{% endif %}
 
+							{% if not p.ghost %}
+								{{p.author.rendered_sig(v) | safe}}
+							{% endif %}
 						</div>
 					</div>
 					{% else %}

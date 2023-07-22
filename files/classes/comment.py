@@ -359,9 +359,6 @@ class Comment(Base):
 					body = body.replace(f'"{url}"', f'"{url_noquery}?{urlencode(p, True)}"')
 					body = body.replace(f'>{url}<', f'>{url_noquery}?{urlencode(p, True)}<')
 
-		if not self.ghost and self.author.show_sig(v):
-			body += f'<section id="signature-{self.author.id}" class="user-signature"><hr>{self.author.sig_html}</section>'
-
 		return body
 
 	@lazy

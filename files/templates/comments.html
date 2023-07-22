@@ -249,6 +249,11 @@
 			<div id="comment-text-{{c.id}}" class="comment-text mb-0 {% if c.chudded %}text-uppercase chud-img chud-{{c.id_last_num}}{% endif %} {% if c.author.rainbow %}rainbow-text{% endif %} {%if c.author.queen%}queen{%endif%} {%if c.author.sharpen%}sharpen chud-img sharpen-{{c.id_last_num}}{%endif%}">
 				{{realbody | safe}}
 			</div>
+
+			{% if not c.ghost %}
+				{{c.author.rendered_sig(v) | safe}}
+			{% endif %}
+
 			{% if c.parent_post or c.wall_user_id %}
 
 				{% if v and v.id==c.author_id %}
