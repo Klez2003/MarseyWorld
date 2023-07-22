@@ -26,10 +26,7 @@ from files.cli import app, db_session, g
 
 CRON_CACHE_TIMEOUT = 172800
 
-@app.cli.command('cron', help='Run scheduled tasks.')
-@click.option('--every-5m', is_flag=True, help='Call every 5 minutes.')
-@click.option('--every-1d', is_flag=True, help='Call every 1 day.')
-def cron(every_5m, every_1d):
+def cron_fn(every_5m, every_1d):
 	g.db = db_session()
 	g.v = None
 
@@ -66,6 +63,12 @@ def cron(every_5m, every_1d):
 
 	print(f'Finished {kind} at {now}', flush=True)
 	stdout.flush()
+
+@app.cli.command('cron', help='Run scheduled tasks.')
+@click.option('--every-5m', is_flag=True, help='Call every 5 minutes.')
+@click.option('--every-1d', is_flag=True, help='Call every 1 day.')
+def cron(every_5m, every_1d):
+	cron_fn(every_5m, every_1d)
 
 def _sub_inactive_purge_task():
 	if not HOLE_INACTIVITY_DELETION:

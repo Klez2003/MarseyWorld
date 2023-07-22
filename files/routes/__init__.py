@@ -49,3 +49,8 @@ if FEATURES['ASSET_SUBMISSIONS']:
 from .push_notifs import *
 if FEATURES['PING_GROUPS']:
 	from .groups import *
+
+if IS_LOCALHOST:
+	from files.helpers.cron import cron_fn
+	with app.app_context():
+		cron_fn(True, False)
