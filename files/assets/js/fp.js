@@ -1,5 +1,3 @@
-const fp_token = document.getElementById('fp_token').value
-
 function fp(fp) {
 	const xhr = new XMLHttpRequest();
 	xhr.open("POST", '/fp/'+fp);
@@ -9,16 +7,12 @@ function fp(fp) {
 	xhr.send(form);
 };
 
-const fpPromise = new Promise((resolve, reject) => {
-	const script = document.createElement('script');
-	script.onload = resolve;
-	script.onerror = reject;
-	script.async = true;
-	script.src = "/assets/js/vendor/fp.js?x=6";
-	document.head.appendChild(script);
-})
-	.then(() => FingerprintJS.load({token: fp_token}));
+const fpPromise = import('/assets/js/vendor/fp.js?x=7')
+.then(FingerprintJS => FingerprintJS.load())
 
 fpPromise
-	.then(fp => fp.get())
-	.then(result => {fp(result.visitorId);})
+.then(fp => fp.get())
+.then(result => {
+	console.log(result.requestId, result.visitorId);
+	fp(result.visitorId);
+})

@@ -169,7 +169,6 @@
 {% endif %}
 
 {% if FP and request.path == '/' and v and not v.fp %}
-	<input hidden id="fp_token" value="{{FP}}">
 	<script defer src="{{'js/fp.js' | asset}}"></script>
 {% endif %}
 
