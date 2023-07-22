@@ -299,7 +299,6 @@ PROFANITIES = {
 	'vaginas': 'girl peepees',
 	'cunt': 'girl peepee',
 	'twat': 'girl peepee',
-	'lmao': 'lmbo',
 }
 
 PROFANITIES_FOR_REPLACING = {}
