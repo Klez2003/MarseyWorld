@@ -479,7 +479,7 @@ function handle_files(input, newfiles) {
 	if (oldfiles[ta.id]) {
 		let list = new DataTransfer();
 		for (const file of oldfiles[ta.id]) {
-			 list.items.add(file);
+			list.items.add(file);
 		}
 		for (const file of newfiles) {
 			list.items.add(file);
