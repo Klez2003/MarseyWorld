@@ -435,7 +435,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 	soup = BeautifulSoup(sanitized, 'lxml')
 
 	for tag in soup.find_all("img"):
-		if tag.get("src") and not tag["src"].startswith('/pp/'):
+		if tag.get("src") and not tag["src"].startswith('/pp/') and not tag["src"].startswith('/e/'):
 			if not is_safe_url(tag["src"]):
 				a = soup.new_tag("a", href=tag["src"], rel="nofollow noopener", target="_blank")
 				a.string = tag["src"]
