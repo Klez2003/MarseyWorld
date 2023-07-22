@@ -52,7 +52,7 @@
 			</span>
 		</form>
 
-		<a class="btn btn-primary btn-block mt-3" href="{% if sub %}/h/{{sub}}{% endif %}/submit"><i class="fas fa-feather-alt mr-2"></i>Create Post in /h/{{sub}}</a>
+		<a class="btn btn-primary btn-block mt-3" href="{% if sub %}/h/{{sub}}{% endif %}/submit"><i class="fas fa-feather-alt mr-2"></i>Create Post {% if sub %}in /h/{{sub}}{% endif %}</a>
 
 		{% if sub %}
 			{% if v %}
