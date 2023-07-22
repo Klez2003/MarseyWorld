@@ -1,8 +1,5 @@
 {% if v and v.id==p.author_id and p.private %}
-	<form class="btn-block mb-0" action="/publish/{{p.id}}" method="post">
-		<input hidden name="formkey", value="{{v|formkey}}">
-		<button type="submit" class="nobackground btn btn-link btn-lg text-left text-muted" data-bs-dismiss="modal" type="submit"><i class="fas fa-globe text-center mr-2"></i>Publish</button>
-	</form>
+	<button type="button" class="nobackground btn btn-link btn-block btn-lg text-left text-muted" data-areyousure="postToastReload(this,'/publish/{{p.id}}')" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)"><i data-dismiss="modal" class="far fa-flag text-center text-muted mr-2"></i>Publish</button>
 {% endif %}
 
 

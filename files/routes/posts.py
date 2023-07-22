@@ -61,10 +61,7 @@ def publish(pid, v):
 
 	execute_snappy(p, v)
 
-	if is_site_url(request.referrer):
-		return redirect(request.referrer)
-
-	return redirect(p.permalink)
+	return {"message": "Post has been published successfully!"}
 
 @app.get("/submit")
 @app.get("/h/<sub>/submit")
