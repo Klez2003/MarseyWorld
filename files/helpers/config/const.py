@@ -742,7 +742,7 @@ if SITE == 'rdrama.net':
 		'klen': 2050,
 	}
 
-	ANTISPAM_BYPASS_IDS = {1703, 13427}
+	ANTISPAM_BYPASS_IDS = {1703, 13427, 15014}
 
 	GIFT_NOTIF_ID = CARP_ID
 
