@@ -15,5 +15,6 @@ if (standalone) {
 		img.setAttribute("src", window.scrollY < threshold ? thresholdImg : defaultImg);
 	});
 } else {
-	document.getElementById("pulltorefresh").remove();
+	const pulltorefresh = document.getElementById("pulltorefresh")
+	if (pulltorefresh) pulltorefresh.remove();
 }
