@@ -52,5 +52,4 @@ if FEATURES['PING_GROUPS']:
 
 if IS_LOCALHOST:
 	from files.helpers.cron import cron_fn
-	with app.app_context():
-		cron_fn(True, False)
+	gevent.spawn(cron_fn, True, False)

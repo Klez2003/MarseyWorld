@@ -27,42 +27,43 @@ from files.cli import app, db_session, g
 CRON_CACHE_TIMEOUT = 172800
 
 def cron_fn(every_5m, every_1d):
-	g.db = db_session()
-	g.v = None
+	with app.app_context():
+		g.db = db_session()
+		g.v = None
 
-	try:
-		if every_5m:
-			kind = 'every_5m' 
-			if FEATURES['GAMBLING']:
-				check_if_end_lottery_task()
+		try:
+			if every_5m:
+				kind = 'every_5m' 
+				if FEATURES['GAMBLING']:
+					check_if_end_lottery_task()
 
-				spin_roulette_wheel()
-			#offsitementions.offsite_mentions_task(cache)
-			_award_timers_task()
+					spin_roulette_wheel()
+				#offsitementions.offsite_mentions_task(cache)
+				_award_timers_task()
 
-		if every_1d:
-			kind = 'every_1d' 
-			stats.generate_charts_task(SITE)
+			if every_1d:
+				kind = 'every_1d' 
+				stats.generate_charts_task(SITE)
 
-			_sub_inactive_purge_task()
+				_sub_inactive_purge_task()
 
-			cache.set('stats', stats.stats(), timeout=CRON_CACHE_TIMEOUT)
+				cache.set('stats', stats.stats(), timeout=CRON_CACHE_TIMEOUT)
 
-			_generate_emojis_zip()
+				_generate_emojis_zip()
 
-			_leaderboard_task()
-		g.db.commit()
-	except:
-		print(traceback.format_exc(), flush=True)
-		g.db.rollback()
+				_leaderboard_task()
+			g.db.commit()
+		except:
+			print(traceback.format_exc(), flush=True)
+			g.db.rollback()
 
-	g.db.close()
-	del g.db
+		g.db.close()
+		del g.db
 
-	now = datetime.datetime.now().time()
+		now = datetime.datetime.now().time()
 
-	print(f'Finished {kind} at {now}', flush=True)
-	stdout.flush()
+		print(f'Finished {kind} at {now}', flush=True)
+		stdout.flush()
 
 @app.cli.command('cron', help='Run scheduled tasks.')
 @click.option('--every-5m', is_flag=True, help='Call every 5 minutes.')
