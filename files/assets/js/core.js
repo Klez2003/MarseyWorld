@@ -495,7 +495,6 @@ function handle_files(input, newfiles) {
 	{
 		alert("You can't upload more than 20 files at one time!")
 		input.value = null
-		input.parentElement.nextElementSibling.classList.add('d-none');
 		oldfiles[ta.id] = []
 		return
 	}
@@ -507,8 +506,6 @@ function handle_files(input, newfiles) {
 		}
 
 	autoExpand(ta)
-
-	input.parentElement.nextElementSibling.classList.remove('d-none')
 
 	if (typeof checkForRequired === "function") checkForRequired();
 }

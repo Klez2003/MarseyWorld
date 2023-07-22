@@ -80,7 +80,6 @@ function sendMessage(form) {
 				const input = ta.parentElement.querySelector('input[type="file"]');
 				input.previousElementSibling.innerHTML = '';
 				input.value = null;
-				input.parentElement.nextElementSibling.classList.add('d-none');
 				oldfiles[ta.id] = [];	
 			}
 		}

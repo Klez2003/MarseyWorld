@@ -169,7 +169,6 @@ function send() {
 		oldfiles[ta.id] = [];
 		input.value = null;
 		input.previousElementSibling.innerHTML = '<i class="fas fa-image" style="font-size:1.3rem!important"></i>'
-		input.parentElement.nextElementSibling.classList.add('d-none');
 
 		box.scrollTo(0, box.scrollHeight);
 		setTimeout(function () {

@@ -162,7 +162,6 @@ function post_reply(id) {
 			const input = ta.parentElement.querySelector('input[type="file"]')
 			input.previousElementSibling.innerHTML = '';
 			input.value = null;
-			input.parentElement.nextElementSibling.classList.add('d-none');
 			oldfiles[ta.id] = []
 		} else {
 			showToast(false, getMessageFromJsonData(false, data));
@@ -212,7 +211,6 @@ function comment_edit(id){
 			const input = ta.parentElement.querySelector('input[type="file"]')
 			input.previousElementSibling.innerHTML = '';
 			input.value = null;
-			input.parentElement.nextElementSibling.classList.add('d-none');
 			oldfiles[ta.id] = []
 		}
 		else {
@@ -284,7 +282,6 @@ function post_comment(fullname, hide){
 			const input = ta.parentElement.querySelector('input[type="file"]')
 			input.previousElementSibling.innerHTML = '';
 			input.value = null;
-			input.parentElement.nextElementSibling.classList.add('d-none');
 			oldfiles[ta.id] = []
 		}
 		else {
