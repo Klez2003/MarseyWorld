@@ -7,7 +7,7 @@ function fp(fp) {
 	xhr.send(form);
 };
 
-const fpPromise = import('/assets/js/vendor/fp.js?x=7')
+const fpPromise = import('/assets/js/vendor/fp.js?x=8')
 .then(FingerprintJS => FingerprintJS.load())
 
 fpPromise
