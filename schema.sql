@@ -98,68 +98,6 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
--- Name: posts; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.posts (
-    id integer NOT NULL,
-    author_id integer NOT NULL,
-    created_utc integer NOT NULL,
-    is_banned boolean DEFAULT false NOT NULL,
-    over_18 boolean DEFAULT false NOT NULL,
-    distinguish_level integer DEFAULT 0 NOT NULL,
-    deleted_utc integer DEFAULT 0 NOT NULL,
-    is_approved integer,
-    edited_utc integer DEFAULT 0 NOT NULL,
-    is_pinned boolean DEFAULT false NOT NULL,
-    upvotes integer DEFAULT 1 NOT NULL,
-    downvotes integer DEFAULT 0 NOT NULL,
-    app_id integer,
-    thumburl character varying(200),
-    private boolean DEFAULT false NOT NULL,
-    views integer DEFAULT 0 NOT NULL,
-    is_bot boolean DEFAULT false NOT NULL,
-    bannedfor character varying(50),
-    comment_count integer DEFAULT 0 NOT NULL,
-    stickied character varying(40),
-    title character varying(500) NOT NULL,
-    url character varying(2083),
-    body character varying(100000),
-    body_html character varying(200000),
-    embed character varying(1500),
-    ban_reason character varying(25),
-    title_html character varying(1500) NOT NULL,
-    realupvotes integer,
-    flair character varying(350),
-    stickied_utc integer,
-    ghost boolean DEFAULT false NOT NULL,
-    sub character varying(25),
-    new boolean,
-    hole_pinned character varying(30),
-    notify boolean NOT NULL,
-    chuddedfor character varying(50),
-    posterurl character varying(200),
-    chudded boolean,
-    ping_cost integer
-);
-
-
---
--- Name: bump_utc(public.posts); Type: FUNCTION; Schema: public; Owner: -
---
-
-CREATE FUNCTION public.bump_utc(public.posts) RETURNS integer
-    LANGUAGE sql IMMUTABLE STRICT
-    AS $_$
-      SELECT CREATED_UTC
-      FROM comments
-      WHERE parent_post = $1.id
-      ORDER BY created_utc desc
-      LIMIT 1
-      $_$;
-
-
---
 -- Name: users; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -887,6 +825,53 @@ CREATE TABLE public.pgbench_tellers (
     filler character(84)
 )
 WITH (fillfactor='100');
+
+
+--
+-- Name: posts; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.posts (
+    id integer NOT NULL,
+    author_id integer NOT NULL,
+    created_utc integer NOT NULL,
+    is_banned boolean DEFAULT false NOT NULL,
+    over_18 boolean DEFAULT false NOT NULL,
+    distinguish_level integer DEFAULT 0 NOT NULL,
+    deleted_utc integer DEFAULT 0 NOT NULL,
+    is_approved integer,
+    edited_utc integer DEFAULT 0 NOT NULL,
+    is_pinned boolean DEFAULT false NOT NULL,
+    upvotes integer DEFAULT 1 NOT NULL,
+    downvotes integer DEFAULT 0 NOT NULL,
+    app_id integer,
+    thumburl character varying(200),
+    private boolean DEFAULT false NOT NULL,
+    views integer DEFAULT 0 NOT NULL,
+    is_bot boolean DEFAULT false NOT NULL,
+    bannedfor character varying(50),
+    comment_count integer DEFAULT 0 NOT NULL,
+    stickied character varying(40),
+    title character varying(500) NOT NULL,
+    url character varying(2083),
+    body character varying(100000),
+    body_html character varying(200000),
+    embed character varying(1500),
+    ban_reason character varying(25),
+    title_html character varying(1500) NOT NULL,
+    realupvotes integer,
+    flair character varying(350),
+    stickied_utc integer,
+    ghost boolean DEFAULT false NOT NULL,
+    sub character varying(25),
+    new boolean,
+    hole_pinned character varying(30),
+    notify boolean NOT NULL,
+    chuddedfor character varying(50),
+    posterurl character varying(200),
+    chudded boolean,
+    ping_cost integer
+);
 
 
 --
