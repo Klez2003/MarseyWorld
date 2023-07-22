@@ -608,6 +608,10 @@ def messagereply(v:User):
 
 	id = request.values.get("parent_id")
 	parent = get_comment(id, v=v)
+
+	if parent.parent_post or parent.wall_user_id:
+		abort(403, "You can only reply to messages!")
+
 	user_id = parent.author.id
 
 	if v.is_permabanned and parent.sentto != MODMAIL_ID:
