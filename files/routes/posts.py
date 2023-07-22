@@ -469,7 +469,7 @@ def submit_post(v:User, sub=None):
 
 	sub = request.values.get("sub", "").lower().replace('/h/','').strip()
 
-	if SITE == 'rdrama.net' and v.chud == 1:
+	if SITE == 'rdrama.net' and (v.chud == 1 or v.id == 253):
 		sub = 'chudrama'
 
 	title_html = filter_emojis_only(title, graceful=True, count_emojis=True)
