@@ -7579,10 +7579,6 @@ bdi {
 	color: rgb(var(--background)) !important;
 }
 
-.active:not(.voting-arrow) {
-	pointer-events: none;
-}
-
 label.btn.btn-secondary > span {
 	word-break: break-word;
 }
