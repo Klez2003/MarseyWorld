@@ -185,9 +185,6 @@ document.addEventListener("click", function (e) {
 	else if (element.classList.contains('showmore')) {
 		showmore(element)
 	}
-	else if (element.classList.contains('remove-files')) {
-		cancel_files(element)
-	}
 	else if (element.dataset.url) {
 		if (element.dataset.nonce != nonce) {
 			console.log("Nonce check failed!")

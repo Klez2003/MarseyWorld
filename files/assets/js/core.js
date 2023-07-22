@@ -454,6 +454,8 @@ function insertText(input, text) {
 		}, 1);
 	else
 		input.setSelectionRange(newPos, newPos);
+
+	input.selectionStart = newPos;
 }
 
 
@@ -484,23 +486,17 @@ function handle_files(input, newfiles) {
 		oldfiles[ta.id] = []
 	}
 
-	const span = input.previousElementSibling
 	if (input.files.length > 20)
 	{
 		alert("You can't upload more than 20 files at one time!")
 		input.value = null
 		input.parentElement.nextElementSibling.classList.add('d-none');
-		span.innerHTML = ''
 		oldfiles[ta.id] = []
 		return
 	}
 
-	if (!span.textContent) span.textContent = ' '
-
 	for (const file of newfiles) {
 		oldfiles[ta.id].push(file)
-		if (span.innerHTML != ' ') span.innerHTML += ', '
-		span.innerHTML += file.name.substr(0, 25);
 		if (location.pathname != '/chat' && location.pathname != '/old_chat')
 			insertText(ta, `[${file.name}]`);
 		}
@@ -572,31 +568,6 @@ document.onpaste = function(event) {
 
 	event.preventDefault();
 	handle_files(input, files);
-}
-
-function cancel_files(element) {
-	const input = element.previousElementSibling.querySelector('input[type="file"]');
-	const span = input.previousElementSibling;
-	const ta = input.parentElement.parentElement.parentElement.parentElement.querySelector('textarea.file-ta');
-
-	for (const file of input.files) {
-		ta.value = ta.value.replaceAll(`[${file.name}]`, "");
-	}
-	ta.value = ta.value.trim();
-
-	span.innerHTML = '';
-
-	input.value = null;
-
-	input.parentElement.nextElementSibling.classList.add('d-none');
-
-	oldfiles[ta.id] = [];
-
-	element.classList.add('d-none');
-
-	ta.focus();
-
-	if (typeof checkForRequired === "function") checkForRequired();
 }
 
 function handleUploadProgress(e, upload_prog) {

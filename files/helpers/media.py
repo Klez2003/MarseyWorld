@@ -45,7 +45,7 @@ def process_files(files, v, body, is_dm=False, dm_user=None):
 
 	for file in files:
 		if f'[{file.filename}]' not in body:
-			body += f'\n[{file.filename}]'
+			continue
 
 		if file.content_type.startswith('image/'):
 			name = f'/images/{time.time()}'.replace('.','') + '.webp'

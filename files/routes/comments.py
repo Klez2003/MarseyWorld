@@ -166,7 +166,7 @@ def comment(v:User):
 
 		for file in files:
 			if f'[{file.filename}]' not in body:
-				body += f'\n[{file.filename}]'
+				continue
 
 			if file.content_type.startswith('image/'):
 				oldname = f'/images/{time.time()}'.replace('.','') + '.webp'
