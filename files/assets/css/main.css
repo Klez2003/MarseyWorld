@@ -4097,7 +4097,7 @@ small, .small {
 	width: 28px;
 	height: 28px;
 }
-.profile-pic-20, .pp20, img[src*="/uid/"], img[src*="/pp/"]:not(img[alt^=":"]) {
+.profile-pic-20, .pp20, img[src^="/uid/"], img[src^="/pp/"]:not(img[alt^=":"]) {
 	margin-right: 0.25rem !important;
 	width: 20px;
 	height: 20px;
@@ -5397,7 +5397,7 @@ textarea {
 }
 }
 .in-comment-image, .img, img[alt^="![]("],
-.preview img:not(img[src*="/uid/"], img[src*="/pp/"], img[src$="/pic"], img[src$="/i/hand.webp"], img[src*="/e/"]) {
+.preview img:not(img[src^="/uid/"], img[src^="/pp/"], img[src$="/pic"], img[src$="/i/hand.webp"], img[src*="/e/"]) {
 	max-height: 150px !important;
 	max-width: 100% !important;
 	border-radius: 0.2rem !important;
@@ -5541,7 +5541,7 @@ img[src$="/i/hand.webp"]+img {
 	text-align: center;
 	object-fit: contain;
 }
-img[src$="/i/hand.webp"]+img[src*="/pp/"], img[src$="/i/hand.webp"]+img[src$="/pic"] {
+img[src$="/i/hand.webp"]+img[src^="/pp/"], img[src$="/i/hand.webp"]+img[src$="/pic"] {
 	border-radius: 50%;
 }
 @keyframes pat-pfp-anim {

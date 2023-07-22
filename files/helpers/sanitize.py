@@ -412,7 +412,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 		u = users_dict.get(m.group(1).lower())
 		if not u or (v and u.id in v.all_twoway_blocks):
 			return m.group(0)
-		return f'<a href="/id/{u.id}"><img loading="lazy" src="{SITE_FULL_IMAGES}/pp/{u.id}">@{u.username}</a>'
+		return f'<a href="/id/{u.id}"><img loading="lazy" src="/pp/{u.id}">@{u.username}</a>'
 
 	sanitized = mention_regex.sub(replacer, sanitized)
 
