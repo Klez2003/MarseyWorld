@@ -18,8 +18,6 @@ from files.__main__ import app, limiter, cache
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def report_post(pid, v):
-	if v.is_muted: abort(403, "You are forbidden from making reports!")
-
 	post = get_post(pid)
 	reason = request.values.get("reason", "").strip()
 	execute_under_siege(v, post, reason, 'report')
@@ -61,6 +59,8 @@ def report_post(pid, v):
 
 	moved = move_post(post, v, reason)
 	if moved: return {"message": moved}
+
+	if v.is_muted: abort(403, "You are forbidden from making reports!")
 
 	existing = g.db.query(Report.post_id).filter_by(user_id=v.id, post_id=post.id).one_or_none()
 	if existing: abort(409, "You already reported this post!")
