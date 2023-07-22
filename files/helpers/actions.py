@@ -64,6 +64,13 @@ def execute_snappy(post:Post, v:User):
 	
 	if post_ping_group_count > 3:
 		body = "Unnecessary and uncalled for ping :marseydownvotemad: two more strikes and you're getting blocked + megadownvoted buddy, don't test your luck"
+		vote = Vote(user_id=SNAPPY_ID,
+					vote_type=-1,
+					post_id=post.id,
+					real = True
+					)
+		g.db.add(vote)
+		post.downvotes += 1
 	elif v.id == CARP_ID:
 		if random.random() < 0.02:
 			body = "i love you carp"
