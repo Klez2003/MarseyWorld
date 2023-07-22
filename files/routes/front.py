@@ -48,7 +48,7 @@ def front_all(v, sub=None):
 	if sort == 'hot': default = True
 	else: default = False
 
-	pins = session.get(sort, default)
+	pins = session.get(f'{sub}_{sort}', default)
 
 	if not v:
 		result = cache.get(f'frontpage_{sort}_{t}_{page}_{sub}_{pins}')

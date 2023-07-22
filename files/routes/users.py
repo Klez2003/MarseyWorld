@@ -1316,14 +1316,14 @@ def fp(v:User, fp):
 	g.db.add(v)
 	return '', 204
 
-@app.post("/toggle_pins/<sort>")
+@app.post("/toggle_pins/<sub>/<sort>")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-def toggle_pins(sort):
+def toggle_pins(sub, sort):
 	if sort == 'hot': default = True
 	else: default = False
 
-	pins = session.get(sort, default)
-	session[sort] = not pins
+	pins = session.get(f'{sub}_{sort}', default)
+	session[f'{sub}_{sort}'] = not pins
 
 	if is_site_url(request.referrer):
 		return redirect(request.referrer)
