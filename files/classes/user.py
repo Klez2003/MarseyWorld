@@ -1306,7 +1306,7 @@ class User(Base):
 		if v and (v.sigs_disabled or v.poor):
 			return ''
 
-		return f'<section id="signature-{self.id}" class="user-signature"><hr>{self.sig_html}</section>'
+		return f'<div id="signature-{self.id}" class="user-signature"><hr>{self.sig_html}</div>'
 
 
 badge_ordering_tuple = (
