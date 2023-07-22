@@ -674,6 +674,7 @@ def normalize_url(url):
 			 .replace("https://nitter.42l.fr/", "https://twitter.com/") \
 			 .replace("https://nitter.lacontrevoie.fr/", "https://twitter.com/") \
 			 .replace("/giphy.gif", "/giphy.webp") \
+			 .replace('https://old.reddit.com/r/place/?', 'https://new.reddit.com/r/place/?') \
 
 	url = imgur_regex.sub(r'\1_d.webp?maxwidth=9999&fidelity=grand', url)
 	url = giphy_regex.sub(r'\1.webp', url)
