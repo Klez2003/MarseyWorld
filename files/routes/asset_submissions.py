@@ -214,7 +214,7 @@ def approve_emoji(v, name):
 	ma = ModAction(
 		kind="approve_emoji",
 		user_id=v.id,
-		_note=f'<img loading="lazy" data-bs-toggle="tooltip" alt=":{name}:" title=":{name}:" src="/e/{name}.webp">'
+		_note=f'<img loading="lazy" data-bs-toggle="tooltip" alt=":{name}:" title=":{name}:" src="{SITE_FULL_IMAGES}/e/{name}.webp">'
 	)
 	g.db.add(ma)
 
@@ -491,7 +491,7 @@ def update_emoji(v):
 	ma = ModAction(
 		kind="update_emoji",
 		user_id=v.id,
-		_note=f'<img loading="lazy" data-bs-toggle="tooltip" alt=":{name}:" title=":{name}:" src="/e/{name}.webp">'
+		_note=f'<img loading="lazy" data-bs-toggle="tooltip" alt=":{name}:" title=":{name}:" src="{SITE_FULL_IMAGES}/e/{name}.webp">'
 	)
 	g.db.add(ma)
 

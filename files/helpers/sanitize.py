@@ -239,12 +239,12 @@ def render_emoji(html, regexp, golden, emojis_used, b=False, is_title=False):
 
 		if emoji.endswith('pat') and emoji != 'marseyunpettablepat':
 			if path.isfile(f"files/assets/images/emojis/{emoji.replace('pat','')}.webp"):
-				emoji_html = f'<span alt=":{old}:" data-bs-toggle="tooltip" title=":{old}:"><img loading="lazy" src="/i/hand.webp">{emoji_partial_pat.format(old, f"/e/{emoji[:-3]}.webp", attrs)}</span>'
+				emoji_html = f'<span alt=":{old}:" data-bs-toggle="tooltip" title=":{old}:"><img loading="lazy" src="{SITE_FULL_IMAGES}/i/hand.webp">{emoji_partial_pat.format(old, f"{SITE_FULL_IMAGES}/e/{emoji[:-3]}.webp", attrs)}</span>'
 			elif emoji.startswith('@'):
 				if u := get_user(emoji[1:-3], graceful=True):
-					emoji_html = f'<span alt=":{old}:" data-bs-toggle="tooltip" title=":{old}:"><img loading="lazy" src="/i/hand.webp">{emoji_partial_pat.format(old, f"/pp/{u.id}", attrs)}</span>'
+					emoji_html = f'<span alt=":{old}:" data-bs-toggle="tooltip" title=":{old}:"><img loading="lazy" src="{SITE_FULL_IMAGES}/i/hand.webp">{emoji_partial_pat.format(old, f"/pp/{u.id}", attrs)}</span>'
 		elif path.isfile(f'files/assets/images/emojis/{emoji}.webp'):
-			emoji_html = emoji_partial.format(old, f'/e/{emoji}.webp', attrs)
+			emoji_html = emoji_partial.format(old, f'{SITE_FULL_IMAGES}/e/{emoji}.webp', attrs)
 
 
 		if emoji_html:
@@ -412,7 +412,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 		u = users_dict.get(m.group(1).lower())
 		if not u or (v and u.id in v.all_twoway_blocks):
 			return m.group(0)
-		return f'<a href="/id/{u.id}"><img loading="lazy" src="/pp/{u.id}">@{u.username}</a>'
+		return f'<a href="/id/{u.id}"><img loading="lazy" src="{SITE_FULL_IMAGES}/pp/{u.id}">@{u.username}</a>'
 
 	sanitized = mention_regex.sub(replacer, sanitized)
 
@@ -435,7 +435,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 	soup = BeautifulSoup(sanitized, 'lxml')
 
 	for tag in soup.find_all("img"):
-		if tag.get("src") and not tag["src"].startswith('/pp/') and not tag["src"].startswith('/e/'):
+		if tag.get("src") and not tag["src"].startswith('/pp/') and not tag["src"].startswith(f'{SITE_FULL_IMAGES}/e/'):
 			if not is_safe_url(tag["src"]):
 				a = soup.new_tag("a", href=tag["src"], rel="nofollow noopener", target="_blank")
 				a.string = tag["src"]

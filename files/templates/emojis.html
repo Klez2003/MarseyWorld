@@ -23,7 +23,7 @@
 <tr>
 	<td>{{loop.index}}</td>
 	<td>{{emoji.name}}</td>
-	<td><img class="emoji" loading="lazy" data-bs-toggle="tooltip" alt=":#{{emoji.name}}:" title=":{{emoji.name}}:" src="/e/{{emoji.name}}.webp"></td>
+	<td><img class="emoji" loading="lazy" data-bs-toggle="tooltip" alt=":#{{emoji.name}}:" title=":{{emoji.name}}:" src="{{SITE_FULL_IMAGES}}/e/{{emoji.name}}.webp"></td>
 	<td>{{emoji.count}}</td>
 	{% if FEATURES['ASSET_SUBMISSIONS'] %}
 	{% set user = emoji.user %}

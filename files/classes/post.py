@@ -323,7 +323,7 @@ class Post(Base):
 		if not body: return ""
 
 		if self.sub != 'chudrama':
-			body = censor_slurs(body, v).replace('<img loading="lazy" data-bs-toggle="tooltip" alt=":marseytrain:" title=":marseytrain:" src="/e/marseytrain.webp">', ':marseytrain:')
+			body = censor_slurs(body, v).replace(f'<img loading="lazy" data-bs-toggle="tooltip" alt=":marseytrain:" title=":marseytrain:" src="{SITE_FULL_IMAGES}/e/marseytrain.webp">', ':marseytrain:')
 
 		body = normalize_urls_runtime(body, v)
 
@@ -343,7 +343,7 @@ class Post(Base):
 		title = self.title
 
 		if self.sub != 'chudrama':
-			title = censor_slurs(title, v).replace('<img loading="lazy" data-bs-toggle="tooltip" alt=":marseytrain:" title=":marseytrain:" src="/e/marseytrain.webp">', ':marseytrain:')
+			title = censor_slurs(title, v).replace(f'<img loading="lazy" data-bs-toggle="tooltip" alt=":marseytrain:" title=":marseytrain:" src="{SITE_FULL_IMAGES}/e/marseytrain.webp">', ':marseytrain:')
 
 		return title
 

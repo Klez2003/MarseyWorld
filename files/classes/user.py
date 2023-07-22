@@ -573,9 +573,9 @@ class User(Base):
 	def bio_html_eager(self):
 		if self.bio_html == None: return ''
 		return self.bio_html.replace('data-src', 'src') \
-			.replace('src="/i/loading.webp?x=6"', '') \
-			.replace('src="/i/loading.webp"', '') \
-			.replace('src="/i/l.webp"', '')
+			.replace(f'src="{SITE_FULL_IMAGES}/i/loading.webp?x=6"', '') \
+			.replace(f'src="{SITE_FULL_IMAGES}/i/loading.webp"', '') \
+			.replace(f'src="{SITE_FULL_IMAGES}/i/l.webp"', '')
 
 	@property
 	@lazy

@@ -4097,7 +4097,7 @@ small, .small {
 	width: 28px;
 	height: 28px;
 }
-.profile-pic-20, .pp20, img[src^="/uid/"], img[src^="/pp/"]:not(img[alt^=":"]) {
+.profile-pic-20, .pp20, img[src*="/uid/"], img[src*="/pp/"]:not(img[alt^=":"]) {
 	margin-right: 0.25rem !important;
 	width: 20px;
 	height: 20px;
@@ -5397,7 +5397,7 @@ textarea {
 }
 }
 .in-comment-image, .img, img[alt^="![]("],
-.preview img:not(img[src*="/uid/"], img[src*="/pp/"], img[src$="/pic"], img[src="/i/hand.webp"], img[src*="/e/"]) {
+.preview img:not(img[src*="/uid/"], img[src*="/pp/"], img[src$="/pic"], img[src$="/i/hand.webp"], img[src*="/e/"]) {
 	max-height: 150px !important;
 	max-width: 100% !important;
 	border-radius: 0.2rem !important;
@@ -5527,21 +5527,21 @@ span[data-bs-toggle], .pat-preview {
 	position: relative;
 	display: inline-block;
 }
-img[src="/i/hand.webp"] {
+img[src$="/i/hand.webp"] {
 	position: absolute;
 	width: 90%;
 	height: 90%;
 	margin-top: -10%;
 	z-index: 1;
 }
-img[src="/i/hand.webp"]+img {
+img[src$="/i/hand.webp"]+img {
 	animation: pat-pfp-anim 0.3s infinite;
 	transform-origin: bottom center;
 	margin-top: 10%;
 	text-align: center;
 	object-fit: contain;
 }
-img[src="/i/hand.webp"]+img[src^="/pp/"], img[src="/i/hand.webp"]+img[src$="/pic"] {
+img[src$="/i/hand.webp"]+img[src*="/pp/"], img[src$="/i/hand.webp"]+img[src$="/pic"] {
 	border-radius: 50%;
 }
 @keyframes pat-pfp-anim {
@@ -5688,8 +5688,8 @@ img.golden, img[g]:not([data-src]) {
 	animation: golden 1s infinite alternate linear;
 }
 
-img[src="/i/hand.webp"]+img[g]:not([data-src]),
-img[src="/i/hand.webp"]+img.golden {
+img[src$="/i/hand.webp"]+img[g]:not([data-src]),
+img[src$="/i/hand.webp"]+img.golden {
 	animation: golden 1s infinite alternate linear,
 	pat-pfp-anim .3s infinite;
 }
@@ -5703,7 +5703,7 @@ img[glow]:not([data-src]) {
 	animation: glowing 1s infinite alternate linear;
 }
 
-img[src="/i/hand.webp"]+img[glow]:not([data-src]) {
+img[src$="/i/hand.webp"]+img[glow]:not([data-src]) {
 	animation: glowing 1s infinite alternate linear,
 	pat-pfp-anim .3s infinite;
 }
@@ -7547,7 +7547,7 @@ th.disable-sort-click[disabled] {
 	overflow: visible
 }
 
-img[src="/e/marseycursor.webp"] {
+img[src$="/e/marseycursor.webp"] {
 	width: 29px !important;
 	height: 29px !important;
 	image-rendering: pixelated;

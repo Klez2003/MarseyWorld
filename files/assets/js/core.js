@@ -1,3 +1,5 @@
+const SITE_FULL_IMAGES = document.getElementById('SITE_FULL_IMAGES').value
+
 function getMessageFromJsonData(success, json) {
 	let message = success ? "Success!" : "Error, please try again later";
 	let key = success ? "message" : "error";

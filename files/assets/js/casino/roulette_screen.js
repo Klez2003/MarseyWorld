@@ -209,7 +209,7 @@ function formatNormalizedBets(bets) {
 function buildPokerChip(avatar) {
 	return `
 		<div class="roulette-poker-chip">
-			<img loading="lazy" src="/i/pokerchip.webp" width="40" height="40">
+			<img loading="lazy" src="${SITE_FULL_IMAGES}/i/pokerchip.webp" width="40" height="40">
 			<img loading="lazy" src="${avatar}" width="40" height="40">
 		</div>
 	`;
@@ -221,7 +221,7 @@ function buildRouletteBets(bets) {
 	const normalizedBets = formatNormalizedBets(bets);
 	const coinImgHtml = `
 		<img
-			src="/i/rDrama/coins.webp?x=6"
+			src="${SITE_FULL_IMAGES}/i/rDrama/coins.webp?x=6"
 			alt="coin"
 			width="32"
 			data-bs-toggle="tooltip"
@@ -230,7 +230,7 @@ function buildRouletteBets(bets) {
 	`;
 	const marseybuxImgHtml = `
 		<img
-			src="/i/marseybux.webp?x=6"
+			src="${SITE_FULL_IMAGES}/i/marseybux.webp?x=6"
 			alt="marseybux"
 			data-bs-toggle="tooltip"
 			data-bs-placement="bottom"

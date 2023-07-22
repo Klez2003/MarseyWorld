@@ -34,7 +34,7 @@
 				<td>
 					{% if item[1] != "Unknown" %}
 						<a href="/id/{{item[2]}}">
-							<img loading="lazy" src="/pp/{{item[2]}}">
+							<img loading="lazy" src="{{SITE_FULL_IMAGES}}/pp/{{item[2]}}">
 							@{{item[1]}}
 						</a>
 					{% endif %}
@@ -45,7 +45,7 @@
 							Modmail
 						{% else %}
 							<a href="/id/{{item[4]}}">
-								<img loading="lazy" src="/pp/{{item[4]}}">
+								<img loading="lazy" src="{{SITE_FULL_IMAGES}}/pp/{{item[4]}}">
 								@{{item[3]}}
 							</a>
 						{% endif %}
