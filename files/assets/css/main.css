@@ -7003,7 +7003,7 @@ div.markdown {
 	max-width: 500px;
 	margin-top: 5px;
 }
-.btn {
+.btn:not(.format) {
 	overflow: hidden;
 }
 
@@ -7581,4 +7581,8 @@ bdi {
 
 .active:not(.voting-arrow) {
 	pointer-events: none;
+}
+
+label.btn.btn-secondary > span {
+	word-break: break-word;
 }

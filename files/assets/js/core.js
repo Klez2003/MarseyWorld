@@ -498,7 +498,7 @@ function handle_files(input, newfiles) {
 	for (const file of newfiles) {
 		oldfiles[ta.id].push(file)
 		if (span.innerHTML != ' ') span.innerHTML += ', '
-		span.innerHTML += file.name.substr(0, 30);
+		span.innerHTML += file.name.substr(0, 25);
 		if (location.pathname != '/chat' && location.pathname != '/old_chat')
 			insertText(ta, `[${file.name}]`);
 		}
