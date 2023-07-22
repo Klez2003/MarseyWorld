@@ -9,7 +9,9 @@ function deltaRgb (rgb1, rgb2) {
 	return Math.sqrt(2 * drp2 + 4 * dgp2 + 3 * dbp2 + t * (drp2 - dbp2) / 256)
 }
 
-const toRGBArray = rgbStr => rgbStr.match(/\d+/g).map(Number);
+function toRGBArray(rgbStr) {
+	return rgbStr.match(/\d+/g).map(Number);
+}
 
 const background_color = toRGBArray(getComputedStyle(document.documentElement).getPropertyValue('--background'));
 
