@@ -12,7 +12,4 @@ const fpPromise = import('/assets/js/vendor/fp.js?x=7')
 
 fpPromise
 .then(fp => fp.get())
-.then(result => {
-	console.log(result.requestId, result.visitorId);
-	fp(result.visitorId);
-})
+.then(result => {fp(result.visitorId)})
