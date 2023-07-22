@@ -33,8 +33,6 @@ def sort_objects(sort, objects, cls):
 		return objects.order_by(-1000000*(metric + 1)/(func.power(((ti - cls.created_utc)/1000), 1.35)), cls.created_utc.desc())
 	elif sort == "views" and cls.__name__ == "Post":
 		return objects.order_by(cls.views.desc(), cls.created_utc.desc())
-	elif sort == "bump" and cls.__name__ == "Post":
-		return objects.filter(cls.comment_count > 1).order_by(cls.bump_utc.desc(), cls.created_utc.desc())
 	elif sort == "comments" and cls.__name__ == "Post":
 		return objects.order_by(cls.comment_count.desc(), cls.created_utc.desc())
 	elif sort == "subscriptions" and cls.__name__ == "Post":

@@ -322,7 +322,7 @@ THEMES = ["4chan","classic","classic_dark","coffee","dark","dramblr","light","mi
 LIGHT_THEMES = ["4chan","classic","coffee","light","win98"]
 BACKGROUND_CATEGORIES = ["glitter", "anime", "fantasy", "solarpunk", "pixelart"]
 COMMENT_SORTS = ["hot", "new", "old", "top", "bottom", "controversial", "saves"]
-SORTS = COMMENT_SORTS + ["bump", "comments", "views", "subscriptions", "saves"]
+SORTS = COMMENT_SORTS + ["comments", "views", "subscriptions", "saves"]
 TIME_FILTERS = ["hour", "day", "week", "month", "year", "all"]
 PAGE_SIZES = (10, 25, 50, 100)
 

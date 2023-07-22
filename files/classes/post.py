@@ -71,8 +71,6 @@ class Post(Base):
 	subr = relationship("Sub", primaryjoin="foreign(Post.sub)==remote(Sub.name)")
 	options = relationship("PostOption", order_by="PostOption.id")
 
-	bump_utc = deferred(Column(Integer, server_default=FetchedValue()))
-
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
 		super().__init__(*args, **kwargs)
