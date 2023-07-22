@@ -607,7 +607,10 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 
 def allowed_attributes_emojis(tag, name, value):
 	if tag == 'img':
-		if name == 'src' and value.startswith('/') and '\\' not in value: return True
+		if name == 'src':
+			if '\\' in value: return False
+			if value.startswith('/') : return True
+			if value.startswith(SITE_FULL_IMAGES) : return True
 		if name == 'loading' and value == 'lazy': return True
 		if name == 'data-bs-toggle' and value == 'tooltip': return True
 		if name in {'g','glow','t'} and not value: return True
