@@ -120,12 +120,12 @@ GIRL_PHRASES = [
 ]
 
 SLURS = {
-	"(?<!\\bs)nigger": "BIPOC",
-	"negroid": "BIPOC",
-	"(?<![a-z])coon(?![a-z])": "BIPOC",
-	"(?<![a-z])coons(?![a-z])": "BIPOCs",
-	"niglet": 'BIPOClet',
-	"negress": "BIPOCette",
+	"(?<!\\bs)nigger": "n'wah",
+	"negroid": "n'wah",
+	"(?<![a-z])coon(?![a-z])": "n'wah",
+	"(?<![a-z])coons(?![a-z])": "n'wahs",
+	"niglet": "n'wahlet",
+	"negress": "n'wahette",
 	"faggot": "cute twink",
 	"fag": "strag",
 	"(?<![a-z])spic(?![a-z])": "hard-working American",
