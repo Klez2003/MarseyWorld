@@ -86,10 +86,8 @@ def post_pid_comment_cid(cid, v, pid=None, anything=None, sub=None):
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit("20/minute;200/hour;1000/day", deduct_when=lambda response: response.status_code < 400)
 @limiter.limit("20/minute;200/hour;1000/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
-@auth_required
+@is_not_banned
 def comment(v:User):
-	if v.is_suspended: abort(403, "You can't perform this action while banned!")
-
 	parent_fullname = request.values.get("parent_fullname").strip()
 	if len(parent_fullname) < 3: abort(400)
 	id = parent_fullname[2:]

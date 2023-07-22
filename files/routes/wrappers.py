@@ -155,11 +155,20 @@ def auth_required(f):
 	wrapper.__name__ = f.__name__
 	return wrapper
 
+def is_not_banned(f):
+	def wrapper(*args, **kwargs):
+		v = get_logged_in_user()
+		if not v: abort(401)
+		if v.is_suspended: abort(403, "You can't perform this action while banned!")
+		return make_response(f(*args, v=v, **kwargs))
+	wrapper.__name__ = f.__name__
+	return wrapper
+
 def is_not_permabanned(f):
 	def wrapper(*args, **kwargs):
 		v = get_logged_in_user()
 		if not v: abort(401)
-		if v.is_permabanned: abort(403)
+		if v.is_permabanned: abort(403, "You can't perform this action while permabanned!")
 		return make_response(f(*args, v=v, **kwargs))
 	wrapper.__name__ = f.__name__
 	return wrapper

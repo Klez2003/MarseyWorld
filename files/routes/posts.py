@@ -35,7 +35,7 @@ from files.__main__ import app, limiter, redis_instance
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
-@auth_required
+@is_not_banned
 def publish(pid, v):
 	p = get_post(pid)
 	if not p.private: return {"message": "Post published!"}
@@ -455,7 +455,7 @@ def is_repost(v):
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(POST_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(POST_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
-@auth_required
+@is_not_banned
 def submit_post(v:User, sub=None):
 	url = request.values.get("url", "").strip()
 
@@ -495,8 +495,6 @@ def submit_post(v:User, sub=None):
 
 	if not sub and HOLE_REQUIRED:
 		abort(400, f"You must choose a {HOLE_NAME} for your post!")
-
-	if v.is_suspended: abort(400, "You can't perform this action while banned!")
 
 	if v.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
 		abort(400, "You have to type more than 280 characters!")
