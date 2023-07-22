@@ -950,6 +950,8 @@ approved_embed_hosts = [
 	'i.pinimg.com',
 	'kiwifarms.net/attachments',
 	'uploads.kiwifarms.net/data/attachments',
+	'sneed.today/attachments',
+	'uploads.sneed.today/data/attachments',
 	'upload.wikimedia.org/wikipedia',
 	'live.staticflickr.com',
 	'substackcdn.com/image',
