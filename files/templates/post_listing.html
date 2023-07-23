@@ -224,7 +224,7 @@
 			<audio id="video2-{{p.id}}" controls preload="none" src="{{p.realurl(v)}}"></audio>
 		</div>
 	{% elif p.is_youtube %}
-		<div id="video-{{p.id}}" class="d-none mt-3 mb-4 youtube_embed">
+		<div id="video-{{p.id}}" class="ml-md-5 d-none mt-4 mx-sm-auto">
 			{{p.embed | safe}}
 		</div>
 	{% endif %}
