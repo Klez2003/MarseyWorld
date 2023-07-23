@@ -10,6 +10,7 @@ function deltaRgb (rgb1, rgb2) {
 }
 
 function toRGBArray(rgbStr) {
+	console.log(rgbStr)
 	return rgbStr.match(/\d+/g).map(Number);
 }
 
