@@ -374,7 +374,7 @@ def comment(v:User):
 	check_for_treasure(c, body)
 	check_slots_command(c, v, v)
 
-	# Increment post count iff not self-reply and not a spammy comment game
+	# Increment post count if not self-reply and not a spammy comment game
 	# Essentially a measure to make comment counts reflect "real" content
 	if (posting_to_post and not rts and not c.slots_result):
 		post_target.comment_count += 1
