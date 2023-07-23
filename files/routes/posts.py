@@ -649,14 +649,18 @@ def submit_post(v:User, sub=None):
 		elif file.content_type.startswith('video/'):
 			p.url = process_video(file, v)
 			name = f'/images/{time.time()}'.replace('.','') + '.webp'
-			subprocess.run(['ffmpeg', '-y', '-loglevel', 'warning',
-				'-i', p.url, '-vf', "scale='iw':-2",
-				'-q:v', '3', '-frames:v', '1', name], check=True, timeout=SUBPROCESS_TIMEOUT_DURATION)
-			p.posterurl = name
-
-			name2 = name.replace('.webp', 'r.webp')
-			copyfile(name, name2)
-			p.thumburl = process_image(name2, v, resize=99)
+			try:
+				subprocess.run(['ffmpeg', '-y', '-loglevel', 'warning',
+					'-i', p.url, '-vf', "scale='iw':-2",
+					'-q:v', '3', '-frames:v', '1', name], check=True, timeout=SUBPROCESS_TIMEOUT_DURATION)
+			except:
+				if os.path.isfile(name):
+					os.remove(name)
+			else:
+				p.posterurl = name
+				name2 = name.replace('.webp', 'r.webp')
+				copyfile(name, name2)
+				p.thumburl = process_image(name2, v, resize=99)
 		elif file.content_type.startswith('audio/'):
 			p.url = process_audio(file, v)
 		else:
