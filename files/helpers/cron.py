@@ -1,4 +1,3 @@
-import datetime
 import time
 import os
 from sys import stdout
@@ -33,7 +32,6 @@ def cron_fn(every_5m, every_1d):
 
 		try:
 			if every_5m:
-				kind = 'every_5m' 
 				if FEATURES['GAMBLING']:
 					check_if_end_lottery_task()
 
@@ -42,7 +40,6 @@ def cron_fn(every_5m, every_1d):
 				_award_timers_task()
 
 			if every_1d:
-				kind = 'every_1d' 
 				stats.generate_charts_task(SITE)
 
 				_sub_inactive_purge_task()
@@ -59,10 +56,6 @@ def cron_fn(every_5m, every_1d):
 
 		g.db.close()
 		del g.db
-
-		now = datetime.datetime.now().time()
-
-		print(f'Finished {kind} at {now}', flush=True)
 		stdout.flush()
 
 @app.cli.command('cron', help='Run scheduled tasks.')
