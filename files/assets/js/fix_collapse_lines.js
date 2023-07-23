@@ -10,13 +10,14 @@ function deltaRgb (rgb1, rgb2) {
 }
 
 function toRGBArray(rgbStr) {
-	console.log(rgbStr)
 	return rgbStr.match(/\d+/g).map(Number);
 }
 
 const background_color = toRGBArray(getComputedStyle(document.documentElement).getPropertyValue('--background'));
 
 for (const line of document.getElementsByClassName('comment-collapse-desktop')) {
+	if (line.style.borderColor == 'var(--primary)')
+		continue
 	const line_color = toRGBArray(line.style.borderColor)
 	if (deltaRgb(line_color, background_color) < 100) {
 		const R = Math.abs(background_color[0] - 255)
