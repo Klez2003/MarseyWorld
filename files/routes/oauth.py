@@ -14,7 +14,8 @@ from files.__main__ import app, limiter
 def authorize_prompt(v:User):
 	client_id = request.values.get("client_id")
 	application = g.db.query(OauthApp).filter_by(client_id=client_id).one_or_none()
-	if not application: return {"oauth_error": "Invalid `client_id`"}, 401
+	if not application:
+		return {"oauth_error": "Invalid `client_id`"}, 400
 	return render_template("oauth.html", v=v, application=application)
 
 @app.post("/authorize")
@@ -26,7 +27,8 @@ def authorize_prompt(v:User):
 def authorize(v):
 	client_id = request.values.get("client_id")
 	application = g.db.query(OauthApp).filter_by(client_id=client_id).one_or_none()
-	if not application: return {"oauth_error": "Invalid `client_id`"}, 401
+	if not application:
+		return {"oauth_error": "Invalid `client_id`"}, 400
 	access_token = secrets.token_urlsafe(128)[:128]
 
 	try:

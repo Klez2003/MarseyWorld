@@ -55,14 +55,14 @@ def login_post(v:Optional[User]):
 
 	if not account:
 		time.sleep(random.uniform(0, 2))
-		return render_template("login/login.html", failed=True, redirect=redir), 401
+		return render_template("login/login.html", failed=True, redirect=redir), 400
 
 
 	if request.values.get("password"):
 		if not account.verifyPass(request.values.get("password")):
 			log_failed_admin_login_attempt(account, "password")
 			time.sleep(random.uniform(0, 2))
-			return render_template("login/login.html", failed=True, redirect=redir), 401
+			return render_template("login/login.html", failed=True, redirect=redir), 400
 
 		if account.mfa_secret or session.get("GLOBAL"):
 			now = int(time.time())
@@ -95,7 +95,7 @@ def login_post(v:Optional[User]):
 								hash=hash,
 								failed=True,
 								redirect=redir,
-								), 401
+								), 400
 	else:
 		abort(400)
 
