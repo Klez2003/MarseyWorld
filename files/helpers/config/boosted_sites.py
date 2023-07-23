@@ -66,6 +66,7 @@ BOOSTED_SITES = {
 	'voy.com',
 	'texags.com',
 	'lowendtalk.com',
+	'webhostingtalk.com',
 
 	#nested-comments
 	#'all sites with .win TLD',
