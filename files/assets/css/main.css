@@ -4677,7 +4677,7 @@ ul.comment-section {
 .comment.collapsed .comment-collapse-icon:hover::before {
 	color: var(--primary);
 }
-.comment.collapsed .comment-body p.text, .comment.collapsed div.comment-text, .comment.collapsed .comment-actions, .comment.collapsed .comment-write, .comment.collapsed .comment {
+.comment.collapsed .comment-body p.text, .comment.collapsed div.comment-text, .comment.collapsed .comment-actions, .comment.collapsed .comment-write, .comment.collapsed .comment, .comment.collapsed .user-signature {
 	display: none;
 }
 .comment.collapsed .user-info {
