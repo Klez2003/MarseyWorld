@@ -116,7 +116,7 @@ def convert_to_mp4(old, new, vid):
 		os.remove(old)
 		if os.path.isfile(tmp):
 			os.remove(tmp)
-		abort(400)
+		return
 
 	os.replace(tmp, new)
 	os.remove(old)
