@@ -785,14 +785,14 @@ def sub_stealth(v:User, sub):
 		return {"message": f"Stealth mode has been disabled for /h/{sub} successfully!"}
 
 
-@app.post("/mod_pin/<int:cid>")
+@app.post("/pin_comment_mod/<int:cid>")
 @feature_required('PINS')
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_permabanned
-def mod_pin(cid, v):
+def pin_comment_mod(cid, v):
 
 	comment = get_comment(cid, v=v)
 
@@ -817,13 +817,13 @@ def mod_pin(cid, v):
 
 	return {"message": "Comment pinned!"}
 
-@app.post("/unmod_pin/<int:cid>")
+@app.post("/unpin_comment_mod/<int:cid>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_permabanned
-def mod_unpin(cid, v):
+def unpin_comment_mod(cid, v):
 
 	comment = get_comment(cid, v=v)
 

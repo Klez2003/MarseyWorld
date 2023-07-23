@@ -442,7 +442,7 @@
 {% elif v.id == c.post.author_id %}
 	{% set url = "pin_comment" %}
 {% elif c.post.sub and v.mods(c.post.sub) %}
-	{% set url = "mod_pin" %}
+	{% set url = "pin_comment_mod" %}
 {% endif %}
 
 {% if url != "" %}
@@ -629,8 +629,8 @@
 								<button type="button" id="pin2-{{c.id}}" class="list-group-item {% if c.stickied %}d-none{% endif %} text-info" data-bs-target="#actionsModal-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/pin_comment/{{c.id}}','pin2-{{c.id}}','unpin2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-thumbtack fa-rotate--45 text-info mr-2"></i>Pin</button>
 								<button type="button" id="unpin2-{{c.id}}" class="list-group-item {% if not c.stickied %}d-none{% endif %} text-info" data-bs-target="#actionsModal-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unpin_comment/{{c.id}}','pin2-{{c.id}}','unpin2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-thumbtack fa-rotate--45 text-info mr-2"></i>Unpin</button>
 							{% elif c.post.sub and v.mods(c.post.sub) %}
-								<button type="button" id="pin2-{{c.id}}" class="list-group-item {% if c.stickied %}d-none{% endif %} text-info" data-bs-target="#actionsModal-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/mod_pin/{{c.id}}','pin2-{{c.id}}','unpin2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-thumbtack fa-rotate--45 text-info mr-2"></i>Pin</button>
-								<button type="button" id="unpin2-{{c.id}}" class="list-group-item {% if not c.stickied %}d-none{% endif %} text-info" data-bs-target="#actionsModal-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/mod_unpin/{{c.id}}','pin2-{{c.id}}','unpin2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-thumbtack fa-rotate--45 text-info mr-2"></i>Unpin</button>
+								<button type="button" id="pin2-{{c.id}}" class="list-group-item {% if c.stickied %}d-none{% endif %} text-info" data-bs-target="#actionsModal-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/pin_comment_mod/{{c.id}}','pin2-{{c.id}}','unpin2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-thumbtack fa-rotate--45 text-info mr-2"></i>Pin</button>
+								<button type="button" id="unpin2-{{c.id}}" class="list-group-item {% if not c.stickied %}d-none{% endif %} text-info" data-bs-target="#actionsModal-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unpin_comment_mod/{{c.id}}','pin2-{{c.id}}','unpin2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-thumbtack fa-rotate--45 text-info mr-2"></i>Unpin</button>
 							{% endif %}
 						{% endif %}
 
