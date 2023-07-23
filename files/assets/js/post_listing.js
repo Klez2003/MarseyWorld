@@ -27,11 +27,15 @@ function toggleyoutube(pid) {
 	const el = document.getElementById(`video-${pid}`)
 	el.classList.toggle('d-none')
 
+	const iframe = el.getElementsByTagName('iframe')[0]
+
 	if (el.classList.contains('d-none')) {
-		const iframe = el.getElementsByTagName('iframe')[0]
-		iframe.src = iframe.src;
+		iframe.dataset.src = iframe.src;
+		iframe.src = '';
 	}
 	else {
+		if (iframe && iframe.dataset.src)
+			iframe.src = iframe.dataset.src;
 		const playbtn = el.getElementsByClassName('lty-playbtn')[0]
 		playbtn.click()
 	}
