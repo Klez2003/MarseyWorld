@@ -29,7 +29,7 @@ def login_get(v:Optional[User]):
 		if redir and is_site_url(redir) and redir not in NO_LOGIN_REDIRECT_URLS:
 			return redirect(redir)
 		return redirect('/')
-	return render_template("login/login.html", failed=False, redirect=redir), 401
+	return render_template("login/login.html", failed=False, redirect=redir)
 
 @app.post("/login")
 @limiter.limit('1/second', scope=rpath)
