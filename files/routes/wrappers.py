@@ -136,7 +136,7 @@ def auth_desired_with_logingate(f):
 	def wrapper(*args, **kwargs):
 		v = get_logged_in_user()
 		if not v and (get_setting('login_required') or get_setting('ddos_detected')):
-			abort(401)
+			abort(401, "You need to login to perform this action!")
 
 		if request.path.startswith('/logged_out'):
 			redir = request.full_path.replace('/logged_out','')
@@ -150,7 +150,8 @@ def auth_desired_with_logingate(f):
 def auth_required(f):
 	def wrapper(*args, **kwargs):
 		v = get_logged_in_user()
-		if not v: abort(401)
+		if not v:
+			abort(401, "You need to login to perform this action!")
 		return make_response(f(*args, v=v, **kwargs))
 	wrapper.__name__ = f.__name__
 	return wrapper
@@ -158,7 +159,8 @@ def auth_required(f):
 def is_not_banned(f):
 	def wrapper(*args, **kwargs):
 		v = get_logged_in_user()
-		if not v: abort(401)
+		if not v:
+			abort(401, "You need to login to perform this action!")
 		if v.is_suspended: abort(403, "You can't perform this action while banned!")
 		return make_response(f(*args, v=v, **kwargs))
 	wrapper.__name__ = f.__name__
@@ -167,7 +169,8 @@ def is_not_banned(f):
 def is_not_permabanned(f):
 	def wrapper(*args, **kwargs):
 		v = get_logged_in_user()
-		if not v: abort(401)
+		if not v:
+			abort(401, "You need to login to perform this action!")
 		if v.is_permabanned: abort(403, "You can't perform this action while permabanned!")
 		return make_response(f(*args, v=v, **kwargs))
 	wrapper.__name__ = f.__name__
@@ -177,8 +180,10 @@ def admin_level_required(x):
 	def wrapper_maker(f):
 		def wrapper(*args, **kwargs):
 			v = get_logged_in_user()
-			if not v: abort(401)
-			if v.admin_level < x: abort(403)
+			if not v:
+				abort(401, "You need to login to perform this action!")
+			if v.admin_level < x:
+				abort(403, "Your admin-level is not sufficient enough for this action!")
 			if x and SITE != 'devrama.net' and not IS_LOCALHOST and not v.mfa_secret:
 				abort(403, "You need to enable two-factor authentication to use admin features!")
 			return make_response(f(*args, v=v, **kwargs))
