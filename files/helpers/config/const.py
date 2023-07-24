@@ -290,7 +290,7 @@ PROFANITIES = {
 	'(?<![a-z])cum(?![a-z])': 'c*m',
 	'orgasm': 'sexual climax',
 	'(?<![a-z])dick': 'peepee',
-	'cock': 'peepee',
+	'cock(?![a-z])': 'peepee',
 	'cocks': 'peepees',
 	'penis': 'peepee',
 	'pussy': 'girl peepee',
