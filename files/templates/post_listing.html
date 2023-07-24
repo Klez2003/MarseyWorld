@@ -214,17 +214,17 @@
 	{% endif %}
 
 	{% if p.is_video %}
-		<div id="video-{{p.id}}" class="ml-md-5 d-none mt-4 mx-sm-auto">
+		<div id="video-{{p.id}}" class="d-none ml-md-5 mt-4 mx-sm-auto">
 			<p class="resizable">
 				<video {% if p.poster_url %}poster="{{p.poster_url}}"{% endif %} id="video2-{{p.id}}" controls preload="none" src="{{p.realurl(v)}}"></video>
 			</p>
 		</div>
 	{% elif p.is_audio %}
-		<div id="video-{{p.id}}" class="ml-md-5 d-none mt-4 mx-sm-auto">
+		<div id="video-{{p.id}}" class="d-none ml-md-5 mt-4 mx-sm-auto">
 			<audio id="video2-{{p.id}}" controls preload="none" src="{{p.realurl(v)}}"></audio>
 		</div>
 	{% elif p.is_youtube %}
-		<div id="video-{{p.id}}" class="ml-md-5 d-none mt-4">
+		<div id="video-{{p.id}}" class="d-none ml-md-5 mt-4">
 			{{p.embed | safe}}
 		</div>
 	{% endif %}
