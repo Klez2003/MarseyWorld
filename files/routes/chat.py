@@ -52,7 +52,7 @@ def old_chat(v):
 	return render_template("chat.html", v=v, messages=messages)
 
 @socketio.on('speak')
-@is_not_permabanned
+@is_not_banned
 def speak(data, v):
 	image = None
 	if data['file']:
@@ -61,7 +61,6 @@ def speak(data, v):
 			f.write(data['file'])
 		image = process_image(name, v)
 
-	if v.is_banned: return '', 403
 	if TRUESCORE_CHAT_MINIMUM and v.truescore < TRUESCORE_CHAT_MINIMUM:
 		return '', 403
 
@@ -184,7 +183,7 @@ def disconnect(v):
 	return '', 204
 
 @socketio.on('typing')
-@is_not_permabanned
+@is_not_banned
 def typing_indicator(data, v):
 	if data and v.username not in typing:
 		typing.append(v.username)
