@@ -29,6 +29,24 @@ cache.set(CHAT_ONLINE_CACHE_KEY, len(online), timeout=0)
 muted = cache.get(f'muted') or {}
 messages = cache.get(f'messages') or {}
 
+def is_not_banned_socketio(f):
+	def wrapper(*args, **kwargs):
+		v = get_logged_in_user()
+		if not v: return '', 401
+		if v.is_suspended: return '', 403
+		return make_response(f(*args, v=v, **kwargs))
+	wrapper.__name__ = f.__name__
+	return wrapper
+
+def is_not_permabanned_socketio(f):
+	def wrapper(*args, **kwargs):
+		v = get_logged_in_user()
+		if not v: return '', 401
+		if v.is_permabanned: return '', 403
+		return make_response(f(*args, v=v, **kwargs))
+	wrapper.__name__ = f.__name__
+	return wrapper
+
 @app.get("/chat")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
@@ -52,7 +70,7 @@ def old_chat(v):
 	return render_template("chat.html", v=v, messages=messages)
 
 @socketio.on('speak')
-@is_not_banned
+@is_not_banned_socketio
 def speak(data, v):
 	image = None
 	if data['file']:
@@ -145,7 +163,7 @@ def refresh_online():
 	cache.set(CHAT_ONLINE_CACHE_KEY, len(online), timeout=0)
 
 @socketio.on('connect')
-@is_not_permabanned
+@is_not_permabanned_socketio
 def connect(v):
 
 	if any(v.id in session for session in sessions) and [v.username, v.id, v.name_color] not in online:
@@ -164,7 +182,7 @@ def connect(v):
 	return '', 204
 
 @socketio.on('disconnect')
-@is_not_permabanned
+@is_not_permabanned_socketio
 def disconnect(v):
 	if ([v.id, request.sid]) in sessions:
 		sessions.remove([v.id, request.sid])
@@ -183,7 +201,7 @@ def disconnect(v):
 	return '', 204
 
 @socketio.on('typing')
-@is_not_banned
+@is_not_banned_socketio
 def typing_indicator(data, v):
 	if data and v.username not in typing:
 		typing.append(v.username)
