@@ -737,6 +737,9 @@ def settings_advanced_get(v:User):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_permabanned
 def settings_name_change(v):
+	if SITE == 'rdrama.net' and v.id == 10489:
+		abort(403)
+
 	if v.namechanged: abort(403)
 
 	if v.shadowbanned: abort(500)
