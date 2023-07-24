@@ -161,7 +161,8 @@ def is_not_banned(f):
 		v = get_logged_in_user()
 		if not v:
 			abort(401, "You need to login to perform this action!")
-		if v.is_suspended: abort(403, "You can't perform this action while banned!")
+		if v.is_suspended:
+			abort(403, "You can't perform this action while banned!")
 		return make_response(f(*args, v=v, **kwargs))
 	wrapper.__name__ = f.__name__
 	return wrapper
@@ -171,7 +172,8 @@ def is_not_permabanned(f):
 		v = get_logged_in_user()
 		if not v:
 			abort(401, "You need to login to perform this action!")
-		if v.is_permabanned: abort(403, "You can't perform this action while permabanned!")
+		if v.is_permabanned:
+			abort(403, "You can't perform this action while permabanned!")
 		return make_response(f(*args, v=v, **kwargs))
 	wrapper.__name__ = f.__name__
 	return wrapper
