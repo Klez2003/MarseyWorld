@@ -3939,3 +3939,21 @@ https://i.rdrama.net/images/16901540773168614.webp
 https://rdrama.net/images/16565262787810516.webp
 {[para]}
 https://i.rdrama.net/images/16901754350513694.webp
+{[para]}
+SlimothyJash is the coding maestro who brings together the best of both worlds. With a dash of "sloppy" creativity from SloppyJosh and a sprinkle of "meticulous" perfection from Bimothy, SlimothyJash is a force to be reckoned with in the coding realm.
+
+When faced with a new project, SlimothyJash starts by meticulously planning the architecture and writing clean, well-documented code, just like Bimothy. He doesn't leave anything to chance and ensures every detail is perfect.
+
+However, as the project evolves, SlimothyJash embraces a touch of "sloppiness" to explore unconventional solutions and innovative approaches. He's not afraid to take risks and experiment, just like SloppyJosh, finding inspiration in the unlikeliest of places.
+
+When making API calls, SlimothyJash relies on the trusty axios extension, a nod to both his predecessor's preferences. He knows it's essential to strike a balance between efficiency and elegance.
+
+In the Chrome console, SlimothyJash runs his code with a twinkle in his eye. He enjoys the process of debugging and refining, appreciating the power of the console as a valuable development tool.
+
+And when it comes to AWS serverless architecture, SlimothyJash is no stranger. He leverages the power of AWS Lambda to create scalable and efficient applications that can handle any challenge that comes their way.
+
+So there you have it, the clever fusion of SloppyJosh and Bimothy: SlimothyJash, the code-wizard who weaves creativity and perfection into every line of Node.js code. Whether he's making you laugh with his quirky solutions or impressing you with his attention to detail, SlimothyJash is a name that represents the best of both worlds!
+{[para]}
+why wont the white people just fucking STOP :derpwhy:
+{[para]}
+Hi !catholics! God is great! :pray:
