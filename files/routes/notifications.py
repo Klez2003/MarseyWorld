@@ -68,8 +68,6 @@ def notifications_modmail(v):
 	total = comments.count()
 	listing = comments.order_by(Comment.id.desc()).offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE).all()
 
-	g.db.flush()
-
 	if v.client: return {"data":[x.json for x in listing]}
 
 	return render_template("notifications.html",
@@ -410,8 +408,6 @@ def notifications(v:User):
 	all_cids.extend(cids)
 	all_cids = set(all_cids)
 	output = get_comments_v_properties(v, None, Comment.id.in_(all_cids))[1]
-
-	g.db.flush()
 
 	if v.client: return {"data":[x.json for x in listing]}
 

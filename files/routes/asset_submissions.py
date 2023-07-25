@@ -361,8 +361,6 @@ def approve_hat(v, name):
 	hat.description = description
 	g.db.add(hat)
 
-
-	g.db.flush()
 	author = hat.author
 
 	all_by_author = g.db.query(HatDef).filter_by(author_id=author.id).count()

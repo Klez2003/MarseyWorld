@@ -52,7 +52,6 @@ def add_alt(user1:int, user2:int):
 	if not existing:
 		new_alt = Alt(user1=user1, user2=user2)
 		g.db.add(new_alt)
-		g.db.flush()
 		cache.delete_memoized(get_alt_graph_ids, user1)
 		cache.delete_memoized(get_alt_graph_ids, user2)
 
@@ -80,7 +79,7 @@ def check_for_alts(current:User, include_current_session=False):
 	past_accs.add(current_id)
 	if include_current_session:
 		session["history"] = list(past_accs)
-	g.db.flush()
+
 	for u in get_alt_graph(current.id):
 		if u.shadowbanned and not current.shadowbanned:
 			current.shadowbanned = u.shadowbanned

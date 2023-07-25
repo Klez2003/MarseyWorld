@@ -43,7 +43,6 @@ def create_group(v):
 
 	group = Group(name=name)
 	g.db.add(group)
-	g.db.flush()
 
 	group_membership = GroupMembership(
 		user_id=v.id,

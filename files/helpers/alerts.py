@@ -61,8 +61,6 @@ def notif_comment(text):
 
 	text_html = sanitize(text, blackjack="notification")
 
-	g.db.flush()
-
 	existing = g.db.query(Comment.id).filter(
 		Comment.author_id == AUTOJANNY_ID,
 		Comment.parent_post == None,
@@ -77,8 +75,6 @@ def notif_comment(text):
 		for n in g.db.query(Notification).filter(Notification.comment_id.in_(replaced)).all():
 			n.comment_id = replace_with
 			g.db.add(n)
-
-		g.db.flush()
 
 		for c in g.db.query(Comment).filter(Comment.id.in_(replaced)).all():
 			g.db.delete(c)

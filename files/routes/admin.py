@@ -696,7 +696,6 @@ def admin_add_alt(v:User, username):
 		is_manual=True,
 	)
 	g.db.add(a)
-	g.db.flush()
 
 	cache.delete_memoized(get_alt_graph_ids, user1.id)
 	cache.delete_memoized(get_alt_graph_ids, user2.id)

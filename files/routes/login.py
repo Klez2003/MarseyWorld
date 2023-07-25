@@ -321,8 +321,6 @@ def sign_up_post(v:Optional[User]):
 
 	g.db.add(new_user)
 
-	g.db.flush()
-
 	if ref_id:
 		ref_user = get_account(ref_id)
 
