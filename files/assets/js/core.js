@@ -384,7 +384,7 @@ function sort_table(t) {
 	}
 }
 
-const is_pwa = window.matchMedia('(display-mode: standalone)')['matches']
+const is_pwa = window.matchMedia('(display-mode: standalone)')['matches'] || window.matchMedia('(display-mode: minimal-ui)')['matches']
 if (is_pwa) {
 	const links = document.querySelectorAll('a[data-target="t"]');
 	for (const link of links) {
