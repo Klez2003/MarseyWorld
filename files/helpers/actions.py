@@ -54,6 +54,9 @@ def snappy_report(post, reason):
 	send_repeatable_notification(post.author_id, message)
 
 def execute_snappy(post:Post, v:User):
+	if post.sub and g.db.query(Exile.user_id).filter_by(user_id=SNAPPY_ID, sub=post.sub).one_or_none():
+		return
+
 	group_members = []
 
 	ghost = post.ghost
