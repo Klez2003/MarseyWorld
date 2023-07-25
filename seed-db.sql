@@ -1355,11 +1355,12 @@ INSERT INTO public.hat_defs VALUES (1256, 'dawnfag', 'I’m too tired to write a
 INSERT INTO public.hat_defs VALUES (1289, 'Energy Dome', 'Collects latent Orgone energy and recirculates it into the Medulla Oblongata.', 2, 500, NULL, 1689298931);
 
 
+
 --
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1289, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1290, true);
 
 
 --
