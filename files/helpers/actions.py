@@ -72,12 +72,8 @@ def execute_snappy(post:Post, v:User):
 		g.db.add(vote)
 		post.downvotes += 1
 	elif v.id == CARP_ID:
-		if random.random() < 0.02:
-			body = "i love you carp"
-		elif random.random() < 0.02:
-			body = "https://i.rdrama.net/images/16614707883108485.webp"
-		elif random.random() < 0.02:
-			body = "https://i.rdrama.net/images/1636916964YyM.webp"
+		if random.random() < 0.08:
+			body = random.choice(("i love you carp", "https://i.rdrama.net/images/16614707883108485.webp", "https://i.rdrama.net/images/1636916964YyM.webp", "https://youtube.com/watch?v=zRbQHTdsjuY"))
 		elif IS_DKD():
 			body = ":#donkeykongfuckoffcarp:"
 		else:
