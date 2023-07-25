@@ -153,11 +153,6 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 
 			if v:
 				pins = pins.filter(or_(Post.sub == None, Post.sub.notin_(v.sub_blocks)))
-				for pin in pins:
-					if pin.stickied_utc and int(time.time()) > pin.stickied_utc:
-						pin.stickied = None
-						pin.stickied_utc = None
-						g.db.add(pin)
 
 
 		if v: pins = pins.filter(Post.author_id.notin_(v.userblocks))

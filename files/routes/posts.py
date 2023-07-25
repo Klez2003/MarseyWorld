@@ -30,6 +30,17 @@ from .users import userpagelisting
 
 from files.__main__ import app, limiter, redis_instance
 
+def _add_post_view(pid):
+	db = db_session()
+
+	p = db.get(Post, pid)
+	p.views += 1
+	db.add(p)
+
+	db.commit()
+	db.close()
+	stdout.flush()
+
 @app.post("/publish/<int:pid>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
@@ -90,10 +101,7 @@ def post_id(pid, v, anything=None, sub=None):
 		if g.is_api_or_xhr: abort(451, "Must be 18+ to view")
 		return render_template("errors/nsfw.html", v=v)
 
-	p.views += 1
-	g.db.add(p)
-	try: g.db.flush()
-	except: g.db.rollback()
+	gevent.spawn(_add_post_view, pid)
 
 	if p.new: defaultsortingcomments = 'new'
 	elif v: defaultsortingcomments = v.defaultsortingcomments
@@ -163,11 +171,7 @@ def post_id(pid, v, anything=None, sub=None):
 	if sort == "hot":
 		pinned2 = {}
 		for pin in pinned:
-			if pin.stickied_utc and int(time.time()) > pin.stickied_utc:
-				pin.stickied = None
-				pin.stickied_utc = None
-				g.db.add(pin)
-			elif pin.level > 1:
+			if pin.level > 1:
 				pinned2[pin.top_comment] = ''
 				if pin.top_comment in comments:
 					comments.remove(pin.top_comment)

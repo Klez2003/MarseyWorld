@@ -23,6 +23,19 @@ from files.routes.routehelpers import execute_shadowban_viewers_and_voters
 from files.routes.wrappers import *
 from files.__main__ import app, cache, limiter
 
+def _mark_comment_as_read(cid, vid):
+	db = db_session()
+
+	notif = db.query(Notification).filter_by(comment_id=cid, user_id=vid, read=False).one_or_none()
+	
+	if notif:
+		notif.read = True
+		db.add(notif)
+
+	db.commit()
+	db.close()
+	stdout.flush()
+
 @app.get("/comment/<int:cid>")
 @app.get("/post/<int:pid>/<anything>/<int:cid>")
 @app.get("/h/<sub>/comment/<int:cid>")
@@ -35,11 +48,7 @@ def post_pid_comment_cid(cid, v, pid=None, anything=None, sub=None):
 	if not User.can_see(v, comment): abort(403)
 
 	if v and request.values.get("read"):
-		notif = g.db.query(Notification).filter_by(comment_id=cid, user_id=v.id, read=False).one_or_none()
-		if notif:
-			notif.read = True
-			g.db.add(notif)
-			g.db.flush()
+		gevent.spawn(_mark_comment_as_read, comment.id, v.id)
 
 	if comment.parent_post:
 		post = comment.parent_post

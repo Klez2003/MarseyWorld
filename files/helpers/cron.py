@@ -38,6 +38,7 @@ def cron_fn(every_5m, every_1d):
 					spin_roulette_wheel()
 				#offsitementions.offsite_mentions_task(cache)
 				_award_timers_task()
+				_unpin_expired()
 
 			if every_1d:
 				stats.generate_charts_task(SITE)
@@ -234,3 +235,19 @@ def _award_timers_task():
 		User.chudded_by: None,
 	})
 	_process_timer(User.flairchanged, [96], "Your temporary flair-lock has expired. You can now change your flair!")
+
+
+def _unpin_expired():
+	t = int(time.time())
+	pins = []
+
+	for cls in (Post, Comment):
+		pins += g.db.query(cls).options(load_only(cls.id)).filter(cls.stickied_utc < t)
+
+	for pin in pins:
+		pin.stickied = None
+		pin.stickied_utc = None
+		g.db.add(pin)
+
+	if pins:
+		cache.delete_memoized(frontlist)

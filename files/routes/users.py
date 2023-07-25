@@ -22,8 +22,21 @@ from files.helpers.sorting_and_time import *
 from files.helpers.useractions import badge_grant
 from files.routes.routehelpers import check_for_alts, add_alt
 from files.routes.wrappers import *
+from files.routes.comments import _mark_comment_as_read
 
 from files.__main__ import app, cache, limiter
+
+def _add_profile_view(vid, uid):
+	db = db_session()
+
+	view = db.query(ViewerRelationship).filter_by(viewer_id=vid, user_id=uid).one_or_none()
+	if view: view.last_view_utc = int(time.time())
+	else: view = ViewerRelationship(viewer_id=vid, user_id=uid)
+	db.add(view)
+
+	db.commit()
+	db.close()
+	stdout.flush()
 
 def claim_rewards_all_users():
 	emails = [x[0] for x in g.db.query(Transaction.email).filter_by(claimed=None).all()]
@@ -941,12 +954,7 @@ def u_username_wall(v:Optional[User], username:str):
 	is_following = v and u.has_follower(v)
 
 	if v and v.id != u.id and not v.admin_level and not session.get("GLOBAL"):
-		view = g.db.query(ViewerRelationship).filter_by(viewer_id=v.id, user_id=u.id).one_or_none()
-		if view: view.last_view_utc = int(time.time())
-		else: view = ViewerRelationship(viewer_id=v.id, user_id=u.id)
-		g.db.add(view)
-		try: g.db.flush()
-		except: g.db.rollback()
+		gevent.spawn(_add_profile_view, v.id, u.id)
 
 	page = get_page()
 
@@ -993,19 +1001,10 @@ def u_username_wall_comment(v:User, username:str, cid):
 	is_following = v and u.has_follower(v)
 
 	if v and v.id != u.id and not v.admin_level and not session.get("GLOBAL"):
-		view = g.db.query(ViewerRelationship).filter_by(viewer_id=v.id, user_id=u.id).one_or_none()
-		if view: view.last_view_utc = int(time.time())
-		else: view = ViewerRelationship(viewer_id=v.id, user_id=u.id)
-		g.db.add(view)
-		try: g.db.flush()
-		except: g.db.rollback()
+		gevent.spawn(_add_profile_view, v.id, u.id)
 
 	if v and request.values.get("read"):
-		notif = g.db.query(Notification).filter_by(comment_id=cid, user_id=v.id, read=False).one_or_none()
-		if notif:
-			notif.read = True
-			g.db.add(notif)
-			g.db.flush()
+		gevent.spawn(_mark_comment_as_read, comment.id, v.id)
 
 	try: context = min(int(request.values.get("context", 8)), 8)
 	except: context = 8
@@ -1047,12 +1046,7 @@ def u_username(v:Optional[User], username:str):
 		return render_template("userpage/private.html", u=u, v=v, is_following=is_following), 403
 
 	if v and v.id != u.id and not v.admin_level and not session.get("GLOBAL"):
-		view = g.db.query(ViewerRelationship).filter_by(viewer_id=v.id, user_id=u.id).one_or_none()
-		if view: view.last_view_utc = int(time.time())
-		else: view = ViewerRelationship(viewer_id=v.id, user_id=u.id)
-		g.db.add(view)
-		try: g.db.flush()
-		except: g.db.rollback()
+		gevent.spawn(_add_profile_view, v.id, u.id)
 
 	sort = request.values.get("sort", "new")
 	t = request.values.get("t", "all")
@@ -1119,12 +1113,7 @@ def u_username_comments(username, v):
 		return render_template("userpage/private.html", u=u, v=v, is_following=is_following), 403
 
 	if v and v.id != u.id and not v.admin_level and not session.get("GLOBAL"):
-		view = g.db.query(ViewerRelationship).filter_by(viewer_id=v.id, user_id=u.id).one_or_none()
-		if view: view.last_view_utc = int(time.time())
-		else: view = ViewerRelationship(viewer_id=v.id, user_id=u.id)
-		g.db.add(view)
-		try: g.db.flush()
-		except: g.db.rollback()
+		gevent.spawn(_add_profile_view, v.id, u.id)
 
 	page = get_page()
 
