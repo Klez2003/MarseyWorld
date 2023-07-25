@@ -52,4 +52,6 @@ if FEATURES['PING_GROUPS']:
 
 if IS_LOCALHOST:
 	from files.helpers.cron import cron_fn
+	print('Starting cron tasks!', flush=True)
 	gevent.spawn(cron_fn, True, False)
+	print('Finishing cron tasks!', flush=True)
