@@ -12,6 +12,7 @@ from files.classes.mod_logs import ModAction
 from files.classes.notifications import Notification
 from files.classes.polls import CommentOption, PostOption
 from files.classes.award import AwardRelationship
+from files.classes.exiles import Exile
 
 from files.helpers.alerts import send_repeatable_notification, push_notif
 from files.helpers.config.const import *
