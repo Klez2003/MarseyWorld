@@ -256,7 +256,5 @@ if (gbrowser == 'iphone' && !is_pwa) {
 
 if (is_pwa) {
 	const e = document.getElementById("mobile-app-nav-item");
-	if (e) {
-		e.classList.remove('d-none')
-	}
+	e.remove();
 }
