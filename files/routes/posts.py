@@ -736,8 +736,6 @@ def submit_post(v:User, sub=None):
 	cache.delete_memoized(frontlist)
 	cache.delete_memoized(userpagelisting)
 
-	g.db.flush()
-
 	key_pattern = app.config["CACHE_KEY_PREFIX"] + 'frontpage_*'
 	for key in redis_instance.scan_iter(key_pattern):
 		redis_instance.delete(key)
