@@ -715,9 +715,6 @@ def submit_post(v:User, sub=None):
 		autojanny.comment_count += 1
 		g.db.add(autojanny)
 
-	if not p.private and not (p.sub and g.db.query(Exile.user_id).filter_by(user_id=SNAPPY_ID, sub=p.sub).one_or_none()):
-		execute_snappy(p, v)
-
 	v.post_count = g.db.query(Post).filter_by(author_id=v.id, deleted_utc=0).count()
 	g.db.add(v)
 
@@ -739,6 +736,9 @@ def submit_post(v:User, sub=None):
 	key_pattern = app.config["CACHE_KEY_PREFIX"] + 'frontpage_*'
 	for key in redis_instance.scan_iter(key_pattern):
 		redis_instance.delete(key)
+
+	if not p.private:
+		execute_snappy(p, v)
 
 	if v.client: return p.json
 	else:
