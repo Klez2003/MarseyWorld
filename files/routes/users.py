@@ -870,8 +870,6 @@ def userpagelisting(user:User, v=None, page:int=1, sort="new", t="all"):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @auth_required
 def u_username_wall(v:Optional[User], username:str):
-	if v.id == AEVANN_ID:
-		print('fuck', flush=True)
 	u = get_user(username, v=v, include_blocks=True)
 	if username != u.username:
 		return redirect(f"/@{u.username}")
