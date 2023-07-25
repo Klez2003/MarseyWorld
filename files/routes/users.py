@@ -25,6 +25,107 @@ from files.routes.wrappers import *
 
 from files.__main__ import app, cache, limiter
 
+def claim_rewards_all_users():
+	emails = [x[0] for x in g.db.query(Transaction.email).filter_by(claimed=None).all()]
+	users = g.db.query(User).filter(User.email.in_(emails)).order_by(User.truescore.desc()).all()
+	for user in users:
+		transactions = g.db.query(Transaction).filter_by(email=user.email, claimed=None).all()
+
+		highest_tier = 0
+		marseybux = 0
+
+		for transaction in transactions:
+			for t, money in TIER_TO_MONEY.items():
+				tier = t
+				if transaction.amount <= money: break
+
+			marseybux += TIER_TO_MBUX[tier]
+			if tier > highest_tier:
+				highest_tier = tier
+			transaction.claimed = True
+			g.db.add(transaction)
+
+		if marseybux:
+			user.pay_account('marseybux', marseybux)
+
+			send_repeatable_notification(user.id, f"You have received {marseybux} Marseybux! You can use them to buy awards or hats in the [shop](/shop/awards) or gamble them in the [casino](/casino).")
+			g.db.add(user)
+
+			user.patron_utc = int(time.time()) + 2937600
+
+			if highest_tier > user.patron:
+				user.patron = highest_tier
+				badge_id = 20 + highest_tier
+
+				badges_to_remove = g.db.query(Badge).filter(
+						Badge.user_id == user.id,
+						Badge.badge_id > badge_id,
+						Badge.badge_id < 29,
+					).all()
+				for badge in badges_to_remove:
+					g.db.delete(badge)
+
+				for x in range(22, badge_id+1):
+					badge_grant(badge_id=x, user=user)
+
+			if user.lifetime_donated >= 100:
+				badge_grant(badge_id=257, user=user)
+
+			if user.lifetime_donated >= 500:
+				badge_grant(badge_id=258, user=user)
+
+			if user.lifetime_donated >= 2500:
+				badge_grant(badge_id=259, user=user)
+
+			if user.lifetime_donated >= 5000:
+				badge_grant(badge_id=260, user=user)
+
+			if user.lifetime_donated >= 10000:
+				badge_grant(badge_id=261, user=user)
+
+			print(f'@{user.username} rewards claimed successfully!', flush=True)
+
+def transfer_currency(v:User, username:str, currency_name:Literal['coins', 'marseybux'], apply_tax:bool):
+	MIN_CURRENCY_TRANSFER = 100
+	TAX_PCT = 0.03
+	receiver = get_user(username, v=v)
+	if receiver.id == v.id: abort(400, f"You can't transfer {currency_name} to yourself!")
+	amount = request.values.get("amount", "").strip()
+	amount = int(amount) if amount.isdigit() else None
+
+	if amount is None or amount <= 0: abort(400, f"Invalid number of {currency_name}")
+	if amount < MIN_CURRENCY_TRANSFER: abort(400, f"You have to gift at least {MIN_CURRENCY_TRANSFER} {currency_name}")
+	tax = 0
+	if apply_tax and not v.patron and not receiver.patron:
+		tax = math.ceil(amount*TAX_PCT)
+
+	reason = request.values.get("reason", "").strip()
+	log_message = f"@{v.username} has transferred {amount} {currency_name} to @{receiver.username}"
+	notif_text = f":marseycapitalistmanlet: @{v.username} has gifted you {amount-tax} {currency_name}!"
+
+	if reason:
+		if len(reason) > TRANSFER_MESSAGE_LENGTH_LIMIT:
+			abort(400, f"Reason is too long, max {TRANSFER_MESSAGE_LENGTH_LIMIT} characters")
+		notif_text += f"\n\n> {reason}"
+		log_message += f"\n\n> {reason}"
+
+	if not v.charge_account(currency_name, amount)[0]:
+		abort(400, f"You don't have enough {currency_name}")
+
+	if not v.shadowbanned:
+		user_query = g.db.query(User).filter_by(id=receiver.id)
+		if currency_name == 'marseybux':
+			user_query.update({ User.marseybux: User.marseybux + amount - tax })
+		elif currency_name == 'coins':
+			user_query.update({ User.coins: User.coins + amount - tax })
+		else:
+			raise ValueError(f"Invalid currency '{currency_name}' got when transferring {amount} from {v.id} to {receiver.id}")
+		g.db.add(receiver)
+		g.db.flush()
+		if GIFT_NOTIF_ID: send_repeatable_notification(GIFT_NOTIF_ID, log_message)
+		send_repeatable_notification(receiver.id, notif_text)
+	g.db.add(v)
+	return {"message": f"{amount - tax} {currency_name} have been transferred to @{receiver.username}"}
 
 def upvoters_downvoters(v, username, uid, cls, vote_cls, vote_dir, template, standalone):
 	u = get_user(username, v=v)
@@ -345,48 +446,6 @@ def suicide(v:User, username:str):
 def get_coins(v:User, username:str):
 	user = get_user(username, v=v)
 	return {"coins": user.coins}
-
-def transfer_currency(v:User, username:str, currency_name:Literal['coins', 'marseybux'], apply_tax:bool):
-	MIN_CURRENCY_TRANSFER = 100
-	TAX_PCT = 0.03
-	receiver = get_user(username, v=v)
-	if receiver.id == v.id: abort(400, f"You can't transfer {currency_name} to yourself!")
-	amount = request.values.get("amount", "").strip()
-	amount = int(amount) if amount.isdigit() else None
-
-	if amount is None or amount <= 0: abort(400, f"Invalid number of {currency_name}")
-	if amount < MIN_CURRENCY_TRANSFER: abort(400, f"You have to gift at least {MIN_CURRENCY_TRANSFER} {currency_name}")
-	tax = 0
-	if apply_tax and not v.patron and not receiver.patron:
-		tax = math.ceil(amount*TAX_PCT)
-
-	reason = request.values.get("reason", "").strip()
-	log_message = f"@{v.username} has transferred {amount} {currency_name} to @{receiver.username}"
-	notif_text = f":marseycapitalistmanlet: @{v.username} has gifted you {amount-tax} {currency_name}!"
-
-	if reason:
-		if len(reason) > TRANSFER_MESSAGE_LENGTH_LIMIT:
-			abort(400, f"Reason is too long, max {TRANSFER_MESSAGE_LENGTH_LIMIT} characters")
-		notif_text += f"\n\n> {reason}"
-		log_message += f"\n\n> {reason}"
-
-	if not v.charge_account(currency_name, amount)[0]:
-		abort(400, f"You don't have enough {currency_name}")
-
-	if not v.shadowbanned:
-		user_query = g.db.query(User).filter_by(id=receiver.id)
-		if currency_name == 'marseybux':
-			user_query.update({ User.marseybux: User.marseybux + amount - tax })
-		elif currency_name == 'coins':
-			user_query.update({ User.coins: User.coins + amount - tax })
-		else:
-			raise ValueError(f"Invalid currency '{currency_name}' got when transferring {amount} from {v.id} to {receiver.id}")
-		g.db.add(receiver)
-		g.db.flush()
-		if GIFT_NOTIF_ID: send_repeatable_notification(GIFT_NOTIF_ID, log_message)
-		send_repeatable_notification(receiver.id, notif_text)
-	g.db.add(v)
-	return {"message": f"{amount - tax} {currency_name} have been transferred to @{receiver.username}"}
 
 @app.post("/@<username>/transfer_coins")
 @limiter.limit('1/second', scope=rpath)
@@ -1358,67 +1417,6 @@ def bid_list(v:User, bid):
 						page=page,
 						user_cards_title="Badge Owners",
 						)
-
-
-def claim_rewards_all_users():
-	emails = [x[0] for x in g.db.query(Transaction.email).filter_by(claimed=None).all()]
-	users = g.db.query(User).filter(User.email.in_(emails)).order_by(User.truescore.desc()).all()
-	for user in users:
-		transactions = g.db.query(Transaction).filter_by(email=user.email, claimed=None).all()
-
-		highest_tier = 0
-		marseybux = 0
-
-		for transaction in transactions:
-			for t, money in TIER_TO_MONEY.items():
-				tier = t
-				if transaction.amount <= money: break
-
-			marseybux += TIER_TO_MBUX[tier]
-			if tier > highest_tier:
-				highest_tier = tier
-			transaction.claimed = True
-			g.db.add(transaction)
-
-		if marseybux:
-			user.pay_account('marseybux', marseybux)
-
-			send_repeatable_notification(user.id, f"You have received {marseybux} Marseybux! You can use them to buy awards or hats in the [shop](/shop/awards) or gamble them in the [casino](/casino).")
-			g.db.add(user)
-
-			user.patron_utc = int(time.time()) + 2937600
-
-			if highest_tier > user.patron:
-				user.patron = highest_tier
-				badge_id = 20 + highest_tier
-
-				badges_to_remove = g.db.query(Badge).filter(
-						Badge.user_id == user.id,
-						Badge.badge_id > badge_id,
-						Badge.badge_id < 29,
-					).all()
-				for badge in badges_to_remove:
-					g.db.delete(badge)
-
-				for x in range(22, badge_id+1):
-					badge_grant(badge_id=x, user=user)
-
-			if user.lifetime_donated >= 100:
-				badge_grant(badge_id=257, user=user)
-
-			if user.lifetime_donated >= 500:
-				badge_grant(badge_id=258, user=user)
-
-			if user.lifetime_donated >= 2500:
-				badge_grant(badge_id=259, user=user)
-
-			if user.lifetime_donated >= 5000:
-				badge_grant(badge_id=260, user=user)
-
-			if user.lifetime_donated >= 10000:
-				badge_grant(badge_id=261, user=user)
-
-			print(f'@{user.username} rewards claimed successfully!', flush=True)
 
 KOFI_TOKEN = environ.get("KOFI_TOKEN", "").strip()
 if KOFI_TOKEN:

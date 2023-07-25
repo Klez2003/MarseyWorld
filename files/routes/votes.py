@@ -9,48 +9,6 @@ from files.routes.routehelpers import get_alt_graph
 
 from math import floor
 
-@app.get("/votes/<link>")
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
-@auth_required
-def vote_info_get(v, link):
-	try:
-		if "p_" in link: thing = get_post(int(link.split("p_")[1]), v=v)
-		elif "c_" in link: thing = get_comment(int(link.split("c_")[1]), v=v)
-		else: abort(400)
-	except: abort(400)
-
-	if thing.ghost and v.admin_level < PERMS['SEE_GHOST_VOTES']:
-		abort(403)
-
-	if thing.author.shadowbanned and not (v and v.admin_level >= PERMS['USER_SHADOWBAN']):
-		abort(500)
-
-	if isinstance(thing, Post):
-		query = g.db.query(Vote).join(Vote.user).filter(
-			Vote.post_id == thing.id,
-		).order_by(Vote.created_utc)
-
-		ups = query.filter(Vote.vote_type == 1).all()
-		downs = query.filter(Vote.vote_type == -1).all()
-
-	elif isinstance(thing, Comment):
-		query = g.db.query(CommentVote).join(CommentVote.user).filter(
-			CommentVote.comment_id == thing.id,
-		).order_by(CommentVote.created_utc)
-
-		ups = query.filter(CommentVote.vote_type == 1).all()
-		downs = query.filter(CommentVote.vote_type == -1).all()
-
-	else: abort(400)
-
-	return render_template("votes.html",
-						v=v,
-						thing=thing,
-						ups=ups,
-						downs=downs)
-
-
 def vote_post_comment(target_id, new, v, cls, vote_cls):
 	if new == "-1" and DISABLE_DOWNVOTES: abort(403)
 	if new not in {"-1", "0", "1"}: abort(400)
@@ -195,6 +153,46 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 	g.db.add(target)
 	return "", 204
 
+@app.get("/votes/<link>")
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@auth_required
+def vote_info_get(v, link):
+	try:
+		if "p_" in link: thing = get_post(int(link.split("p_")[1]), v=v)
+		elif "c_" in link: thing = get_comment(int(link.split("c_")[1]), v=v)
+		else: abort(400)
+	except: abort(400)
+
+	if thing.ghost and v.admin_level < PERMS['SEE_GHOST_VOTES']:
+		abort(403)
+
+	if thing.author.shadowbanned and not (v and v.admin_level >= PERMS['USER_SHADOWBAN']):
+		abort(500)
+
+	if isinstance(thing, Post):
+		query = g.db.query(Vote).join(Vote.user).filter(
+			Vote.post_id == thing.id,
+		).order_by(Vote.created_utc)
+
+		ups = query.filter(Vote.vote_type == 1).all()
+		downs = query.filter(Vote.vote_type == -1).all()
+
+	elif isinstance(thing, Comment):
+		query = g.db.query(CommentVote).join(CommentVote.user).filter(
+			CommentVote.comment_id == thing.id,
+		).order_by(CommentVote.created_utc)
+
+		ups = query.filter(CommentVote.vote_type == 1).all()
+		downs = query.filter(CommentVote.vote_type == -1).all()
+
+	else: abort(400)
+
+	return render_template("votes.html",
+						v=v,
+						thing=thing,
+						ups=ups,
+						downs=downs)
 
 @app.post("/vote/post/<int:post_id>/<new>")
 @limiter.limit('1/second', scope=rpath)
