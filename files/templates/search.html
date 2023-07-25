@@ -127,6 +127,7 @@
 									{% if sort=="comments" %}<i class="fas fa-comments mr-1"></i>{% endif %}
 									{% if sort=="subscriptions" %}<i class="fas fa-bell mr-1"></i>{% endif %}
 									{% if sort=="saves" %}<i class="fas fa-save mr-1"></i>{% endif %}
+									{% if sort=="random" %}<i class="fas fa-random mr-1"></i>{% endif %}
 									{{sort | capitalize}}
 								</button>
 								<div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 31px, 0px);">
@@ -139,6 +140,7 @@
 									{% if sort != "comments" and "/posts" in request.path %}<a class="dropdown-item" href="?q={{query | urlencode}}&sort=comments&t={{t}}"><i class="fas fa-comments mr-2"></i>Comments</a>{% endif %}
 									{% if sort != "subscriptions" and "/posts" in request.path %}<a class="dropdown-item" href="?q={{query | urlencode}}&sort=subscriptions&t={{t}}"><i class="fas fa-bell mr-2"></i>Subscriptions</a>{% endif %}
 									{% if sort != "saves" %}<a class="dropdown-item" href="?q={{query | urlencode}}&sort=saves&t={{t}}"><i class="fas fa-save mr-2"></i>Saves</a>{% endif %}
+									{% if sort != "random" %}<a class="dropdown-item" href="?q={{query | urlencode}}&sort=random&t={{t}}"><i class="fas fa-random mr-2"></i>Random</a>{% endif %}
 								</div>
 							</div>
 						</div>
@@ -148,63 +150,36 @@
 		</div>
 	</div>
 </div>
-{% if not '/users' in request.path %}
-<div class="flex-row tab-bar sticky d-none">
-	<ul class="nav post-nav mr-auto">
-		<li class="nav-item">
-			<a class="nav-link{% if sort=='top' %} active{% endif %}" href="?sort=top&q={{query | urlencode}}&t={{t}}"><i class="fas fa-arrow-alt-circle-up"></i>Top</a>
-		</li>
-		<li class="nav-item">
-			<a class="nav-link{% if sort=='bottom' %} active{% endif %}" href="?sort=bottom&q={{query | urlencode}}&t={{t}}"><i class="fas fa-arrow-alt-circle-down"></i>Bottom</a>
-		</li>
-		<li class="nav-item">
-			<a class="nav-link{% if sort=='new' %} active{% endif %}" href="?sort=new&q={{query | urlencode}}&t={{t}}"><i class="fas fa-sparkles"></i>New</a>
-		</li>
-		<li class="nav-item">
-			<a class="nav-link{% if sort=='old' %} active{% endif %}" href="?sort=old&q={{query | urlencode}}&t={{t}}"><i class="fas fa-book"></i>Old</a>
-		</li>
-		<li class="nav-item">
-			<a class="nav-link{% if sort=='fiery' %} active{% endif %}" href="?sort=fiery&q={{query | urlencode}}&t={{t}}"><i class="fas fa-bullhorn"></i>Controversial</a>
-		</li>
-		<li class="nav-item ">
-			<a class="nav-link {% if sort=='comments' %} active{% endif %}" href="/?sort=comments&q={{query | urlencode}}&t={{t}}"><i class="fas fa-comments"></i>Comments</a>
-		</li>
-		<li class="nav-item">
-			<a class="nav-link{% if sort=='random' %} active{% endif %}" href="?sort=random&q={{query | urlencode}}&t={{t}}"><i class="fas fa-arrow-alt-circle-down"></i>Random</a>
-		</li>
-	</ul>
-	</div>
-	{% endif %}
-	<div class="row no-gutters">
-		<div class="col">
-			<div class="flex-row box-shadow-bottom d-flex justify-content-center justify-content-md-between align-items-center">
-				<ul class="nav settings-nav">
-					<li class="nav-item">
-						<a class="nav-link{% if '/posts' in request.path %} active{% endif %}" href="/search/posts/?sort={{sort}}&q={{query | urlencode}}&t={{t}}">Posts</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link{% if '/comments' in request.path %} active{% endif %}" href="/search/comments/?sort={{sort}}&q={{query | urlencode}}&t={{t}}">Comments</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link{% if '/users' in request.path %} active{% endif %}" href="/search/users/?sort={{sort}}&q={{query | urlencode}}&t={{t}}">Users</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link{% if '/messages' in request.path %} active{% endif %}" href="/search/messages/?sort={{sort}}&q={{query | urlencode}}&t={{t}}">Messages</a>
-					</li>
-				</ul>
-			</div>
+<div class="row no-gutters">
+	<div class="col">
+		<div class="flex-row box-shadow-bottom d-flex justify-content-center justify-content-md-between align-items-center">
+			<ul class="nav settings-nav">
+				<li class="nav-item">
+					<a class="nav-link{% if '/posts' in request.path %} active{% endif %}" href="/search/posts/?sort={{sort}}&q={{query | urlencode}}&t={{t}}">Posts</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link{% if '/comments' in request.path %} active{% endif %}" href="/search/comments/?sort={{sort}}&q={{query | urlencode}}&t={{t}}">Comments</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link{% if '/users' in request.path %} active{% endif %}" href="/search/users/?sort={{sort}}&q={{query | urlencode}}&t={{t}}">Users</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link{% if '/messages' in request.path %} active{% endif %}" href="/search/messages/?sort={{sort}}&q={{query | urlencode}}&t={{t}}">Messages</a>
+				</li>
+			</ul>
 		</div>
 	</div>
-	<div class="row no-gutters">
-		<div class="col-12">
-			<div class="posts" id="posts">
-				{% block listing_template %}
-					{% include "post_listing.html" %}
-				{% endblock %}
-			</div>
+</div>
+<div class="row no-gutters">
+	<div class="col-12">
+		<div class="posts" id="posts">
+			{% block listing_template %}
+				{% include "post_listing.html" %}
+			{% endblock %}
 		</div>
 	</div>
-	{% endblock %}
-	{% block pagenav %}
-	{% include "pagination.html" %}
-	{% endblock %}
+</div>
+{% endblock %}
+{% block pagenav %}
+{% include "pagination.html" %}
+{% endblock %}

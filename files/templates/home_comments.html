@@ -37,6 +37,7 @@
 					{% if sort=="old" %}<i class="fas fa-book mr-1"></i>{% endif %}
 					{% if sort=="controversial" %}<i class="fas fa-bullhorn mr-1"></i>{% endif %}
 					{% if sort=="saves" %}<i class="fas fa-save mr-1"></i>{% endif %}
+					{% if sort=="random" %}<i class="fas fa-random mr-1"></i>{% endif %}
 					{{sort | capitalize}}
 				</button>
 				<div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 31px, 0px);">
@@ -46,6 +47,7 @@
 					{% if sort != "old" %}<a class="dropdown-item" href="?sort=old&t={{t}}"><i class="fas fa-book mr-2"></i>Old</a>{% endif %}
 					{% if sort != "controversial" %}<a class="dropdown-item" href="?sort=controversial&t={{t}}"><i class="fas fa-bullhorn mr-2"></i>Controversial</a>{% endif %}
 					{% if sort != "saves" %}<a class="dropdown-item" href="?sort=saves&t={{t}}"><i class="fas fa-save mr-2"></i>Saves</a>{% endif %}
+					{% if sort != "random" %}<a class="dropdown-item" href="?sort=random&t={{t}}"><i class="fas fa-random mr-2"></i>Random</a>{% endif %}
 				</div>
 			</div>
 		</div>

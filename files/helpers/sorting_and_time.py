@@ -53,6 +53,8 @@ def sort_objects(sort, objects, cls):
 		return objects.order_by((cls.upvotes+1)/(cls.downvotes+1) + (cls.downvotes+1)/(cls.upvotes+1), cls.downvotes.desc(), cls.created_utc.desc())
 	elif sort == "bottom":
 		return objects.order_by(cls.upvotes - cls.downvotes, cls.created_utc.desc())
+	elif sort == "random":
+		return objects.order_by(func.random())
 	else:
 		return objects.order_by(cls.downvotes - cls.upvotes, cls.created_utc.desc())
 
