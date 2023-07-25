@@ -669,9 +669,6 @@ def normalize_url(url):
 			 .replace("https://www.twitter.com", "https://twitter.com") \
 			 .replace("https://www.instagram.com", "https://instagram.com") \
 			 .replace("https://www.tiktok.com", "https://tiktok.com") \
-			 .replace("https://www.streamable.com", "https://streamable.com") \
-			 .replace("https://streamable.com/", "https://streamable.com/e/") \
-			 .replace("https://streamable.com/e/e/", "https://streamable.com/e/") \
 			 .replace("https://imgur.com/", "https://i.imgur.com/") \
 			 .replace("https://nitter.net/", "https://twitter.com/") \
 			 .replace("https://nitter.42l.fr/", "https://twitter.com/") \
