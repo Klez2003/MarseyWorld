@@ -744,6 +744,8 @@ def submit_post(v:User, sub=None):
 	if not p.private:
 		execute_snappy(p, v)
 
+	g.db.flush() #Necessary, do NOT remove
+
 	if v.client: return p.json
 	else:
 		p.voted = 1
