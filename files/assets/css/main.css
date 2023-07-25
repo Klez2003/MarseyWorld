@@ -6631,7 +6631,7 @@ g {
 	border-radius: 4px;
 	border: 1px solid rgba(255, 255, 255, 0.3);
 	box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
-	z-index:999;
+	z-index: 1000000001;
 }
 
 #speed-carot-modal .speed-modal-option
