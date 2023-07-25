@@ -388,6 +388,7 @@ def create_sub2(v):
 
 	sub = Sub(name=name)
 	g.db.add(sub)
+	g.db.flush() #Necessary, following statement errors out otherwise
 	mod = Mod(user_id=v.id, sub=sub.name)
 	g.db.add(mod)
 
