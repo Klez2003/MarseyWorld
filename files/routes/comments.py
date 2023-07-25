@@ -387,6 +387,7 @@ def comment(v:User):
 	# Essentially a measure to make comment counts reflect "real" content
 	if (posting_to_post and not rts and not c.slots_result):
 		post_target.comment_count += 1
+		post_target.bump_utc = c.created_utc
 		g.db.add(post_target)
 
 	if c.level > 5:

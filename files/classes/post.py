@@ -61,6 +61,7 @@ class Post(Base):
 	notify = Column(Boolean)
 	chudded = Column(Boolean, default=False)
 	ping_cost = Column(Integer)
+	bump_utc = Column(Integer)
 
 	author = relationship("User", primaryjoin="Post.author_id==User.id")
 	oauth_app = relationship("OauthApp")
@@ -72,7 +73,9 @@ class Post(Base):
 	options = relationship("PostOption", order_by="PostOption.id")
 
 	def __init__(self, *args, **kwargs):
-		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
+		if "created_utc" not in kwargs:
+			kwargs["created_utc"] = int(time.time())
+			kwargs["bump_utc"] = kwargs["created_utc"]
 		super().__init__(*args, **kwargs)
 
 	def __repr__(self):

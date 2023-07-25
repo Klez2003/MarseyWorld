@@ -106,6 +106,7 @@
 					<button type="button" class="btn btn-secondary dropdown-toggle" id="dropdownMenuButton2" data-bs-toggle="dropdown">
 						{% if sort=="hot" %}<i class="fas fa-fire mr-1"></i>{% endif %}
 						{% if sort=="views" %}<i class="fas fa-eye mr-1"></i>{% endif %}
+						{% if sort=="bump" %}<i class="fas fa-arrow-up mr-1"></i>{% endif %}
 						{% if sort=="top" %}<i class="fas fa-arrow-alt-circle-up mr-1"></i>{% endif %}
 						{% if sort=="bottom" %}<i class="fas fa-arrow-alt-circle-down mr-1"></i>{% endif %}
 						{% if sort=="new" %}<i class="fas fa-sparkles mr-1"></i>{% endif %}
@@ -119,6 +120,7 @@
 					<div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px;">
 						{% if sort != "hot" %}<a class="dropdown-item" href="?sort=hot&t={{t}}"><i class="fas fa-fire mr-2"></i>Hot</a>{% endif %}
 						{% if sort != "views" %}<a class="dropdown-item" href="?sort=views&t={{t}}"><i class="fas fa-eye mr-2"></i>Views</a>{% endif %}
+						{% if sort != "bump" %}<a class="dropdown-item" href="?sort=bump&t={{t}}"><i class="fas fa-arrow-up mr-2"></i>Bump</a>{% endif %}
 						{% if sort != "top" %}<a class="dropdown-item" href="?sort=top&t={{t}}"><i class="fas fa-arrow-alt-circle-up mr-2"></i>Top</a>{% endif %}
 						{% if sort != "bottom" %}<a class="dropdown-item" href="?sort=bottom&t={{t}}"><i class="fas fa-arrow-alt-circle-down mr-2"></i>Bottom</a>{% endif %}
 						{% if sort != "new" %}<a class="dropdown-item" href="?sort=new&t={{t}}"><i class="fas fa-sparkles mr-2"></i>New</a>{% endif %}
