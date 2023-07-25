@@ -23,6 +23,8 @@ from files.helpers.sanitize import *
 from files.helpers.settings import get_setting
 from files.helpers.slots import check_slots_command
 
+from files.routes.routehelpers import check_for_alts
+
 post_target_type = Union[Post, User]
 
 def _archiveorg(url):
@@ -512,6 +514,9 @@ def execute_under_siege(v:User, target:Optional[Union[Post, Comment]], body, kin
 
 	unshadowbannedcels = [x[0] for x in g.db.query(ModAction.target_user_id).filter_by(kind='unshadowban').all()]
 	if v.id in unshadowbannedcels: return
+
+	check_for_alts(v)
+	if v.shadowbanned: return
 
 	v.shadowbanned = AUTOJANNY_ID
 	v.ban_reason = "Under Siege"
