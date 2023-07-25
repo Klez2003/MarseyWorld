@@ -283,6 +283,9 @@ function post_comment(fullname, hide){
 			input.previousElementSibling.innerHTML = '';
 			input.value = null;
 			oldfiles[ta.id] = []
+
+			const ghost_town_box = document.getElementById('ghost-town-box')
+			if (ghost_town_box) ghost_town_box.remove()
 		}
 		else {
 			showToast(false, getMessageFromJsonData(false, data));
