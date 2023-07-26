@@ -7,6 +7,8 @@ from os import path, listdir
 from typing import Any
 from urllib.parse import parse_qs, urlparse, unquote
 
+from sqlalchemy.sql import func
+
 import bleach
 from bleach.css_sanitizer import CSSSanitizer
 from bleach.linkifier import LinkifyFilter
@@ -234,7 +236,16 @@ def render_emoji(html, regexp, golden, emojis_used, b=False, is_title=False):
 
 		old = emoji
 		emoji = emoji.replace('!','').replace('#','')
-		if emoji == 'marseyrandom': emoji = random.choice(marseys_const2)
+
+		if emoji.endswith('random'):
+			kind = emoji.split('random')[0].title()
+			if kind == 'Donkeykong': kind = 'Donkey Kong'
+			elif kind == 'Marseyflag': kind = 'Marsey Flags'
+			elif kind == 'Marseyalphabet': kind = 'Marsey Alphabet'
+
+			if kind in EMOJI_KINDS:
+				emoji = g.db.query(Emoji.name).filter_by(kind=kind).order_by(func.random()).first()[0]
+
 
 		emoji_partial_pat = '<img alt=":{0}:" loading="lazy" src="{1}"{2}>'
 		emoji_partial = '<img alt=":{0}:" data-bs-toggle="tooltip" loading="lazy" src="{1}" title=":{0}:"{2}>'
