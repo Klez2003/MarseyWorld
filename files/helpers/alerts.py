@@ -222,7 +222,7 @@ def push_notif(uids, title, body, url_or_comment):
 def _push_notif_thread(subscriptions, title, body, url):
 	for subscription in subscriptions:
 		try:
-			response = webpush(
+			webpush(
 				subscription_info=json.loads(subscription),
 				data=json.dumps({
 					"title": title,
