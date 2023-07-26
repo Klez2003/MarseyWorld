@@ -16,11 +16,10 @@ RUN apt install -y nano
 RUN apt install -y mailutils
 
 COPY requirements.txt /requirements.txt
-COPY startup_docker_chat.sh /s
+COPY scripts/startup_docker_chat.sh /s
 
 RUN pip3 install -r /requirements.txt
-RUN apt install -y git
-RUN pip3 install "git+https://github.com/ytdl-org/youtube-dl.git"
+RUN pip3 install youtube-dl
 
 RUN mkdir /images
 RUN mkdir /chat_images
