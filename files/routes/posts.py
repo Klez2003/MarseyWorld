@@ -290,11 +290,11 @@ def thumbnail_thread(pid:int, vid:int):
 		else:
 			return f"{post_url}/{fragment_url}"
 
-	p = db.query(Post).filter_by(id=pid).options(load_only(Post.url)).one()
+	p = db.query(Post).filter_by(id=pid).options(load_only(Post.url)).one_or_none()
 
 	if not p or not p.url:
 		time.sleep(5)
-		p = db.query(Post).filter_by(id=pid).options(load_only(Post.url)).one()
+		p = db.query(Post).filter_by(id=pid).options(load_only(Post.url)).one_or_none()
 
 	if not p or not p.url: return
 
