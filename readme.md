@@ -9,7 +9,7 @@ This code runs https://rdrama.net and https://watchpeopledie.tv
 ```
 git clone https://fsdfsd.net/rDrama/rDrama.git /d
 
-cd rDrama
+cd /d
 
 cp env_template.env .env
 
