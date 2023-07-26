@@ -11,7 +11,7 @@ git clone https://fsdfsd.net/rDrama/rDrama.git
 
 cd rDrama
 
-cp env_template .env
+cp env_template.env .env
 
 docker-compose down --rmi all --remove-orphans --volumes
 
