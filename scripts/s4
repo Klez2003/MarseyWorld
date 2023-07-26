@@ -1,0 +1,6 @@
+#!/bin/bash
+
+cd /staging
+git pull
+. /es
+gunicorn files.__main__:app -w 1 -b 0.0.0.0:5002 -t 0
