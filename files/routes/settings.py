@@ -7,6 +7,8 @@ import pyotp
 import requests
 import youtube_dl
 
+from sqlalchemy.orm import load_only
+
 from files.helpers.actions import *
 from files.helpers.alerts import *
 from files.helpers.config.const import *
