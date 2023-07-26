@@ -7,9 +7,9 @@ This code runs https://rdrama.net and https://watchpeopledie.tv
 2- Run the following commands in the terminal:
 
 ```
-git clone https://fsdfsd.net/rDrama/rDrama.git /d
+git clone https://fsdfsd.net/rDrama/rDrama.git d
 
-cd /d
+cd d
 
 cp env_template.env .env
 
