@@ -108,7 +108,7 @@ def process_audio(file, v):
 	return new
 
 
-def convert_to_mp4(old, new, vid):
+def convert_to_mp4(old, new):
 	tmp = new.replace('.mp4', '-t.mp4')
 	try:
 		subprocess.run(["ffmpeg", "-y", "-loglevel", "warning", "-nostats", "-threads:v", "1", "-i", old, "-map_metadata", "-1", tmp], check=True, stderr=subprocess.STDOUT, timeout=SUBPROCESS_TIMEOUT_DURATION)
@@ -143,7 +143,7 @@ def process_video(file, v):
 	if extension not in {'mp4','avi','mkv'}:
 		new = new.replace(f'.{extension}', '.mp4')
 		copyfile(old, new)
-		gevent.spawn(convert_to_mp4, old, new, v.id)
+		gevent.spawn(convert_to_mp4, old, new)
 	else:
 		try:
 			subprocess.run(["ffmpeg", "-y", "-loglevel", "warning", "-nostats", "-i", old, "-map_metadata", "-1", "-c:v", "copy", "-c:a", "copy", new], check=True, timeout=SUBPROCESS_TIMEOUT_DURATION)
