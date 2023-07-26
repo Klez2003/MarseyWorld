@@ -33,7 +33,7 @@ from files.__main__ import app, limiter, redis_instance
 def _add_post_view(pid):
 	db = db_session()
 
-	p = db.get(Post, pid)
+	p = db.query(Post).filter_by(id=pid).options(load_only(Post.views)).one()
 	p.views += 1
 	db.add(p)
 
@@ -290,11 +290,11 @@ def thumbnail_thread(pid:int, vid:int):
 		else:
 			return f"{post_url}/{fragment_url}"
 
-	p = db.get(Post, pid)
+	p = db.query(Post).filter_by(id=pid).options(load_only(Post.url)).one()
 
 	if not p or not p.url:
 		time.sleep(5)
-		p = db.get(Post, pid)
+		p = db.query(Post).filter_by(id=pid).options(load_only(Post.url)).one()
 
 	if not p or not p.url: return
 
@@ -391,7 +391,8 @@ def thumbnail_thread(pid:int, vid:int):
 		for chunk in image_req.iter_content(1024):
 			file.write(chunk)
 
-	v = db.get(User, vid)
+	v = db.query(User).filter_by(id=vid).options(load_only(User.id, User.patron)).one()
+
 	url = process_image(name, v, resize=99, uploader_id=p.author_id, db=db)
 	if url:
 		p.thumburl = url

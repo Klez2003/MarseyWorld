@@ -809,7 +809,8 @@ def settings_song_change_mp3(v):
 
 def _change_song_youtube(vid, id):
 	db = db_session()
-	v = db.get(User, vid)
+
+	v = db.query(User).filter_by(id=vid).options(load_only(User.song)).one()
 
 	if v.song and path.isfile(f"/songs/{v.song}.mp3") and db.query(User).filter_by(song=v.song).count() == 1:
 		os.remove(f"/songs/{v.song}.mp3")

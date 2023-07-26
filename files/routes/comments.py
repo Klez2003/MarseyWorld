@@ -26,13 +26,13 @@ from files.__main__ import app, cache, limiter
 def _mark_comment_as_read(cid, vid):
 	db = db_session()
 
-	notif = db.query(Notification).filter_by(comment_id=cid, user_id=vid, read=False).one_or_none()
+	notif = db.query(Notification).options(load_only(Notification.read)).filter_by(comment_id=cid, user_id=vid, read=False).one_or_none()
 	
-	if notif:
+	if notif and not notif.read:
 		notif.read = True
 		db.add(notif)
+		db.commit()
 
-	db.commit()
 	db.close()
 	stdout.flush()
 

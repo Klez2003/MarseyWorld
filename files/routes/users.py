@@ -29,7 +29,8 @@ from files.__main__ import app, cache, limiter
 def _add_profile_view(vid, uid):
 	db = db_session()
 
-	view = db.query(ViewerRelationship).filter_by(viewer_id=vid, user_id=uid).one_or_none()
+	view = db.query(ViewerRelationship).options(load_only(ViewerRelationship.viewer_id)).filter_by(viewer_id=vid, user_id=uid).one_or_none()
+
 	if view: view.last_view_utc = int(time.time())
 	else: view = ViewerRelationship(viewer_id=vid, user_id=uid)
 	db.add(view)
