@@ -37,7 +37,8 @@ def _add_post_view(pid):
 	p.views += 1
 	db.add(p)
 
-	db.commit()
+	try: db.commit()
+	except: db.rollback()
 	db.close()
 	stdout.flush()
 
