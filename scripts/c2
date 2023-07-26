@@ -1,0 +1,2 @@
+nano /var/log/rdrama/cron.log
+rm /var/log/rdrama/cron.log

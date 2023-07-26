@@ -1,0 +1,7 @@
+cd /d
+git add .
+git commit -m "sneed"
+git pull
+git push
+chown -R rdrama:rdrama /d
+chown -R rdrama:rdrama /var/log/rdrama
