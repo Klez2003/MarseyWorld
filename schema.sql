@@ -870,7 +870,8 @@ CREATE TABLE public.posts (
     chuddedfor character varying(50),
     posterurl character varying(200),
     chudded boolean,
-    ping_cost integer
+    ping_cost integer,
+    bump_utc integer NOT NULL
 );
 
 
@@ -2141,6 +2142,13 @@ CREATE INDEX post_new_sort_idx ON public.posts USING btree (is_banned, deleted_u
 --
 
 CREATE INDEX post_over_18_idx ON public.posts USING btree (over_18);
+
+
+--
+-- Name: posts_bump_utc_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX posts_bump_utc_idx ON public.posts USING btree (bump_utc);
 
 
 --

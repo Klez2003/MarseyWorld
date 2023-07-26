@@ -235,9 +235,7 @@ INSERT INTO public.badge_defs VALUES (281, 'Namelock', 'This user has been forci
 INSERT INTO public.badge_defs VALUES (245, 'Kongmaxxer: N', 'Contributed a KONGMAXXED Marsey or emoji during Donkey Kong December', 1679419208);
 INSERT INTO public.badge_defs VALUES (282, 'Rehab Counselor', 'Awarded for participating in the Marsey''s Methlab Event', 1685121792);
 INSERT INTO public.badge_defs VALUES (283, 'Summer Fun', 'Awarded for contributing to the Marsey''s Summer Fun event', 1685121838);
-INSERT INTO public.badge_defs VALUES (284, 'In Memoriam Theodroa', 'When God calls one of His most blessed angels home, the heavens rejoice while we are left behind to weep with the rain.', 1686502188);
 INSERT INTO public.badge_defs VALUES (285, 'Queen', 'This user SLAYS 💅👠💄', 1687282987);
-INSERT INTO public.badge_defs VALUES (286, 'Pilgrimage', 'This user went on a quest to an rdrama holy site', 1687363815);
 INSERT INTO public.badge_defs VALUES (287, 'Carp Artisan', 'Contributed a Carp emoji ✨', 1687530510);
 INSERT INTO public.badge_defs VALUES (288, 'Carp Master', 'Contributed 10 (or more!!!!) Carp emojis ✨', 1687530535);
 INSERT INTO public.badge_defs VALUES (289, 'Sharpened', 'No one understand this user.', 1687725417);
@@ -248,7 +246,9 @@ INSERT INTO public.badge_defs VALUES (157, 'A Minor Setback', 'Lost a 1,000 bet.
 INSERT INTO public.badge_defs VALUES (158, 'Just One More Hand', 'Lost a 10,000 bet. But it''s fine, you''re due for a big win!', NULL);
 INSERT INTO public.badge_defs VALUES (160, 'Lil Goombler', 'Won a 1,000 bet. Nice job!', NULL);
 INSERT INTO public.badge_defs VALUES (162, 'King Goombler', 'Won a 100,000 bet. Wipe your sweaty palms off and bet it all again, you''re on a roll!', NULL);
+INSERT INTO public.badge_defs VALUES (286, 'Pilgrimage', 'This user went on a quest to an rDrama holy site', 1687363815);
 INSERT INTO public.badge_defs VALUES (161, 'Pro Goombler', 'Won a 10,000 bet. Some would say to quit while you''re ahead, but they didn''t just win 10k - keep at it!', NULL);
+INSERT INTO public.badge_defs VALUES (284, 'In Memoriam Theodora', 'When God calls one of His most blessed angels home, the heavens rejoice while we are left behind to weep with the rain.', 1686502188);
 
 
 --
