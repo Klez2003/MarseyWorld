@@ -1,2 +1,2 @@
 . /e
-export PATH="/scripts/:${PATH}"
+export PATH="/d/scripts/:${PATH}"
