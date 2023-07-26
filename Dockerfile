@@ -46,4 +46,4 @@ RUN t=$(mktemp) && wget 'https://dist.1-2.dev/imei.sh' -qO "$t" && bash "$t" && 
 
 EXPOSE 80/tcp
 
-CMD [ "/usr/bin/supervisord", "-c", "/rDrama/supervisord.conf" ]
+CMD [ "/usr/bin/supervisord", "-c", "/d/supervisord.conf" ]
