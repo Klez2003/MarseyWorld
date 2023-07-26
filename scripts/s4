@@ -1,4 +1,5 @@
 cd /staging
 git pull
-. /es
+. /e
+export SITE="staging.rdrama.net"
 gunicorn files.__main__:app -w 1 -b 0.0.0.0:5002 -t 0

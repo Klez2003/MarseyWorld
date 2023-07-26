@@ -1,1 +1,0 @@
-psql "$DATABASE_URL" -c "update users set passhash=(select passhash from users where username='Aev9') where id=$1;";
