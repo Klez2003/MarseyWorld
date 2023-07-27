@@ -1129,7 +1129,6 @@ class User(Base):
 	@property
 	@lazy
 	def can_see_restricted_holes(self):
-		if self.client: return False
 		if self.blacklisted_by: return False
 		if self.shadowbanned: return False
 		if self.is_permabanned: return False
