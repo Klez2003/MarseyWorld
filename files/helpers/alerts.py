@@ -6,6 +6,7 @@ from flask import g
 from pywebpush import webpush
 import time
 from sqlalchemy.sql import text
+from sqlalchemy.orm import load_only
 
 from files.classes import Comment, Notification, PushSubscription, Group
 
@@ -154,7 +155,7 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None):
 				if cost > v.coins:
 					abort(403, f"You need {cost} coins to mention these ping groups!")
 
-				g.db.query(User).update({ User.coins: User.coins + 10 })
+				g.db.query(User).options(load_only(User.coins)).update({ User.coins: User.coins + 10 })
 
 				v.charge_account('coins', cost)
 				if log_cost:
