@@ -249,13 +249,15 @@ INSERT INTO public.badge_defs VALUES (162, 'King Goombler', 'Won a 100,000 bet. 
 INSERT INTO public.badge_defs VALUES (286, 'Pilgrimage', 'This user went on a quest to an rDrama holy site', 1687363815);
 INSERT INTO public.badge_defs VALUES (161, 'Pro Goombler', 'Won a 10,000 bet. Some would say to quit while you''re ahead, but they didn''t just win 10k - keep at it!', NULL);
 INSERT INTO public.badge_defs VALUES (284, 'In Memoriam Theodora', 'When God calls one of His most blessed angels home, the heavens rejoice while we are left behind to weep with the rain.', 1686502188);
+INSERT INTO public.badge_defs VALUES (292, 'George ''Hard R'' Marsey', 'This user is an rDrama Times Best-Selling Author', 1690462861);
+INSERT INTO public.badge_defs VALUES (293, 'Gloriously Girthy', 'This user consumes the FDA recommended amount of sustenance', 1690470720);
 
 
 --
 -- Name: badge_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.badge_defs_id_seq', 291, true);
+SELECT pg_catalog.setval('public.badge_defs_id_seq', 293, true);
 
 
 --
