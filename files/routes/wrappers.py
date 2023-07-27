@@ -82,7 +82,7 @@ def get_logged_in_user():
 		lo_user = session.get("lo_user")
 		if lo_user:
 			id = int(lo_user)
-			v = g.db.query(User).options(load_only(User.id)).filter_by(id=id).one_or_none()
+			v = get_account(id, graceful=True)
 			if v:
 				v.client = None
 				nonce = session.get("login_nonce", 0)
