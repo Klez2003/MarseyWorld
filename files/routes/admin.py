@@ -1352,7 +1352,6 @@ def remove_post(post_id, v):
 
 	v.pay_account('coins', 1)
 	g.db.add(v)
-	purge_files_in_cache(f"https://{SITE}/")
 	return {"message": "Post removed!"}
 
 
