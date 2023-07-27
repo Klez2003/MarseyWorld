@@ -357,7 +357,7 @@ def handle_youtube_links(url):
 	return html
 
 @with_sigalrm_timeout(10)
-def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis=False, snappy=False, chat=False, blackjack=None):
+def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis=False, snappy=False, chat=False, blackjack=None, post_mention_notif=False):
 	def error(error):
 		if chat:
 			return error, 403
@@ -588,7 +588,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 			continue
 
 		#don't allow something like this [https://rԁrama.net/leaderboard](https://iplogger.org/1fRKk7)
-		if not snappy:
+		if not snappy and not post_mention_notif:
 			string_domain = tldextract.extract(str(link.string)).registered_domain
 			if string_domain and string_domain != tldextract.extract(href).registered_domain:
 				link.string = href
