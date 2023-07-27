@@ -7585,3 +7585,7 @@ bdi {
 label.btn.btn-secondary > span {
 	word-break: break-word;
 }
+
+body {
+	overflow-x: hidden;
+}
