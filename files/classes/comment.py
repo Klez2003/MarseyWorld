@@ -69,6 +69,8 @@ def add_options(self, body, v):
 			option_body += f'<div class="custom-control mt-2"><input type="{input_type}" class="custom-control-input" id="{kind}-{o.id}" name="option-{self.id}"'
 			if o.voted(v): option_body += " checked"
 
+			disabled = False
+
 			if v:
 				if kind == 'post':
 					sub = self.sub
@@ -77,7 +79,6 @@ def add_options(self, body, v):
 				else:
 					sub = None
 				
-				disabled = False
 				if sub in {'furry','vampire','racist','femboy','edgy'} and not v.house.lower().startswith(sub):
 					disabled = True
 					option_body += ' disabled '
