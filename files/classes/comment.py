@@ -387,7 +387,7 @@ class Comment(Base):
 
 		if comment_link_regex.search(path): return False
 
-		if self.over_18 and not (v and v.over_18) and not (self.post and self.post.over_18): return True
+		if self.over_18 and not (v and v.over_18): return True
 
 		if self.is_banned: return True
 
