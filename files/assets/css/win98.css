@@ -107,6 +107,14 @@ blockquote {
 	color: black !important
 }
 
+.arrow-down::before {
+	color: var(--muted) !important;
+}
+
+.active.arrow-down::before {
+	color: #38B2AC !important;
+}
+
 .table {
 	color: black !important;
 }
