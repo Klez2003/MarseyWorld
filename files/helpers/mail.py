@@ -53,7 +53,7 @@ def send_verification_email(user, email=None):
 	if not email:
 		email = user.email
 
-	url = f"https://{SITE}/activate"
+	url = f"{SITE_FULL}/activate"
 	now = int(time.time())
 	token = generate_hash(f"{email}+{user.id}+{now}")
 	params = f"?email={quote(email)}&id={user.id}&time={now}&token={token}"
