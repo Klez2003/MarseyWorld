@@ -144,10 +144,6 @@ blockquote {
 	color: #000;
 }
 
-.arrow-up:hover::before {
-	color: var(--muted);
-}
-
 #thread {
 	background: var(--white) !important;
 }
