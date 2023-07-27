@@ -87,7 +87,7 @@ blockquote p {
 }
 
 .navbar-light, .navbar .container-fluid, #mobile-bottom-navigation-bar {
-	background:#ffe url(/assets/images/4chan.webp);
+	background:#ffe url(/i/4chan.webp);
 	background-size: contain;
 }
 
