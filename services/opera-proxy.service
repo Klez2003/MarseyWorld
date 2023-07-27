@@ -1,0 +1,14 @@
+[Unit]
+Description = Opera Proxy
+After = network-online.target
+
+[Service]
+Restart = on-failure
+RestartSec = 30s
+User = rdrama
+Group = rdrama
+ExecStart = /snap/bin/opera-proxy
+
+[Install]
+WantedBy = multi-user.target
+

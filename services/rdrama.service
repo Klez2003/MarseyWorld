@@ -1,0 +1,22 @@
+[Unit]
+Description = rDrama
+After = network-online.target
+
+[Service]
+Restart = on-failure
+RestartSec = 10s
+PermissionsStartOnly = true
+PIDFile = /run/rdrama/rdrama.pid
+User = rdrama
+Group = rdrama
+WorkingDirectory = /d
+ExecStartPre = /bin/mkdir /run/rdrama
+ExecStartPre = /bin/chown -R rdrama:rdrama /run/rdrama
+ExecStart = /bin/bash -c 'set -a && source /e && /usr/bin/env gunicorn files.__main__:app -w 16 --pid /run/rdrama/rdrama.pid'
+ExecReload = /bin/kill -s HUP $MAINPID
+ExecStop = /bin/kill -s TERM $MAINPID
+ExecStopPost = /bin/rm -rf /run/rdrama
+PrivateTmp = true
+
+[Install]
+WantedBy = multi-user.target

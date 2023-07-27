@@ -1,0 +1,22 @@
+[Unit]
+Description = rDrama marsey.world
+After = network-online.target
+
+[Service]
+Restart = on-failure
+RestartSec = 5s
+PermissionsStartOnly = true
+PIDFile = /run/rdrama-marseyworld/rdrama-marseyworld.pid
+User = rdrama
+Group = rdrama
+WorkingDirectory = /d
+ExecStartPre = /bin/mkdir /run/rdrama-marseyworld
+ExecStartPre = /bin/chown -R rdrama:rdrama /run/rdrama-marseyworld
+ExecStart = /bin/bash -c 'set -a && source /e && SITE=marsey.world /usr/bin/env gunicorn files.__main__:app -k gevent -w 1 --reload -b 0.0.0.0:5010 --max-requests 30000 --max-requests-jitter 30000 --pid /run/rdrama-marseyworld/rdrama-marseyworld.pid'
+ExecReload = /bin/kill -s HUP $MAINPID
+ExecStop = /bin/kill -s TERM $MAINPID
+ExecStopPost = /bin/rm -rf /run/rdrama-marseyworld
+PrivateTmp = true
+
+[Install]
+WantedBy = multi-user.target
