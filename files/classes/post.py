@@ -75,7 +75,7 @@ class Post(Base):
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs:
 			kwargs["created_utc"] = int(time.time())
-			kwargs["bump_utc"] = kwargs["created_utc"]
+		kwargs["bump_utc"] = kwargs["created_utc"]
 		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
