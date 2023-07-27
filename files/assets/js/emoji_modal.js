@@ -339,7 +339,7 @@ function update_ghost_div_textarea(text)
 
 	// Now lets get coordinates
 
-	ghostdiv.style.display = "initial";
+	ghostdiv.style.display = "block";
 	let end = ghostdiv.querySelector("span");
 	const carot_coords = end.getBoundingClientRect();
 	const ghostdiv_coords = ghostdiv.getBoundingClientRect();
