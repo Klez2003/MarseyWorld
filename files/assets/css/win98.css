@@ -107,10 +107,6 @@ blockquote {
 	color: black !important
 }
 
-.arrow-down::before {
-	color: var(--muted) !important;
-}
-
 .table {
 	color: black !important;
 }
