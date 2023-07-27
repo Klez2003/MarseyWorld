@@ -57,9 +57,8 @@ def post_pid_comment_cid(cid, v, pid=None, anything=None, sub=None):
 
 	post = get_post(post, v=v)
 
-	if post.over_18 and not (v and v.over_18) and not session.get('over_18_cookies', 0) >= int(time.time()):
-		if v and v.client: abort(403, "This content is not suitable for some users and situations!")
-		else: return render_template("errors/nsfw.html", v=v), 403
+	if not (v and v.client) and post.over_18 and not (v and v.over_18) and not session.get('over_18_cookies', 0) >= int(time.time()):
+		return render_template("errors/nsfw.html", v=v), 403
 
 	try: context = min(int(request.values.get("context", 8)), 8)
 	except: context = 8
