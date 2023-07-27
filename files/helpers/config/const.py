@@ -227,7 +227,6 @@ if SITE_NAME == 'rDrama':
 		"its almost like": "I'm a retard but",
 		"my brother in christ": "my brother in Allah (ﷻ)",
 		"kyle": "Kylie",
-		"(?<![a-z])cool (?!it)": "fetch ",
 		"krayon": "krayon (sister toucher)",
 		"discord": "groomercord",
 		"allah(?! \()": "Allah (ﷻ)",
