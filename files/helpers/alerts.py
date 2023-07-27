@@ -145,6 +145,7 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None):
 
 	if FEATURES['PING_GROUPS']:
 		cost = 0
+		total_members = set()
 
 		for i in group_mention_regex.finditer(text):
 			if oldtext and i.group(1) in oldtext:
@@ -174,21 +175,19 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None):
 			notify_users.update(members)
 
 			if ghost or v.id not in member_ids:
-				if group and group.name == 'biofoids': mul = 20
-				else: mul = 10
-
-				cost += len(members) * mul
+				cost += len(members) * 10
 				if cost > v.coins:
 					abort(403, f"You need {cost} coins to mention these ping groups!")
+
+				total_members.update(members)
 
 				if log_cost:
 					log_cost.ping_cost = cost
 
-				for user in g.db.query(User).filter(User.id.in_(members)).all():
-					user.pay_account('coins', mul)
-					g.db.add(user)
+		if total_members:
+			g.db.query(User).options(load_only(User.coins)).filter(User.id.in_(total_members)).update({ User.coins: User.coins + 10 })
 
-		v.charge_account('coins', cost)
+			v.charge_account('coins', cost)
 
 
 

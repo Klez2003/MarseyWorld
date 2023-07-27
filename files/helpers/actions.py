@@ -134,14 +134,11 @@ def execute_snappy(post:Post, v:User):
 
 			group_members = group.member_ids
 
-			if group.name == 'biofoids': mul = 20
-			else: mul = 10
-
 			for user in g.db.query(User).filter(User.id.in_(group_members)).all():
-				user.pay_account('coins', mul)
+				user.pay_account('coins', 10)
 				g.db.add(user)
 
-			cost = len(group_members) * mul
+			cost = len(group_members) * 10
 			snappy.charge_account('coins', cost)
 
 			body = f'!{group.name}'
