@@ -121,7 +121,12 @@ def convert_to_mp4(old, new):
 	os.replace(tmp, new)
 	os.remove(old)
 
-	purge_files_in_cache(f"{SITE_FULL}{new}")
+	if SITE == 'watchpeopledie.tv':
+		url = f'https://videos.{SITE}' + new.split('/videos')[1]
+	else:
+		url = f"{SITE_FULL}{new}"
+
+	purge_files_in_cache(url)
 
 
 
