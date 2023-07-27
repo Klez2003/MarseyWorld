@@ -1175,7 +1175,7 @@ def u_username_info(username, v):
 @auth_required
 def u_user_id_info(id, v):
 
-	user=get_account(id, v=v, include_blocks=True)
+	user = get_account(id, v=v, include_blocks=True)
 
 	if hasattr(user, 'is_blocking') and user.is_blocking:
 		abort(403, f"You're blocking @{user.username}")
