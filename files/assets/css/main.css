@@ -1558,7 +1558,8 @@ nav
 }
 .pagination {
 	display: flex;
-	padding-left: 0;
+	flex-flow: wrap;
+	padding: 1rem 0;
 	list-style: none;
 	border-radius: 0.35rem;
 }
@@ -4719,9 +4720,6 @@ ul.comment-section {
 	background-size: cover;
 	background-position: bottom;
 	object-fit: cover;
-}
-.pagination {
-	padding: 1rem 0;
 }
 .table .thead-dark th {
 	color: var(--muted);
