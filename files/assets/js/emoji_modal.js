@@ -438,6 +438,8 @@ function update_speed_emoji_modal(event)
 {
 	const box_coords = update_ghost_div_textarea(event.target);
 
+	box_coords.x = Math.min(box_coords.x, screen_width - 150)
+
 	let text = event.target.value;
 
 	// Unused, but left incase anyone wants to use this more efficient method for emojos
