@@ -216,7 +216,7 @@ def comment(v:User):
 							filename = f'files/assets/images/{SITE_NAME}/badges/{badge.id}.webp'
 							copyfile(oldname, filename)
 							process_image(filename, v, resize=300, trim=True)
-							purge_files_in_cache(f"https://{SITE}/assets/images/{SITE_NAME}/badges/{badge.id}.webp")
+							purge_files_in_cache(f"{SITE_FULL_IMAGES}/i/{SITE_NAME}/badges/{badge.id}.webp")
 						except Exception as e:
 							abort(400, str(e))
 				body = body.replace(f'[{file.filename}]', f' {image} ', 1)

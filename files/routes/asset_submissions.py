@@ -189,7 +189,7 @@ def approve_emoji(v, name):
 	cache.delete("emojis")
 	cache.delete("emoji_list")
 
-	purge_files_in_cache(f"https://{SITE}/e/{emoji.name}/webp")
+	purge_files_in_cache(f"{SITE_FULL_IMAGES}/e/{emoji.name}/webp")
 
 	move(f"/asset_submissions/emojis/{name}.webp", f"files/assets/images/emojis/{emoji.name}.webp")
 
@@ -465,7 +465,7 @@ def update_emoji(v):
 		filename = f"files/assets/images/emojis/{name}.webp"
 		copyfile(new_path, filename)
 		process_image(filename, v, resize=200, trim=True)
-		purge_files_in_cache([f"https://{SITE}/e/{name}.webp", f"https://{SITE}/assets/images/emojis/{name}.webp", f"https://{SITE}/asset_submissions/emojis/original/{name}.{format}"])
+		purge_files_in_cache([f"{SITE_FULL_IMAGES}/e/{name}.webp", f"{SITE_FULL_IMAGES}/asset_submissions/emojis/original/{name}.{format}"])
 		updated = True
 
 
@@ -552,7 +552,7 @@ def update_hat(v):
 	filename = f"files/assets/images/hats/{name}.webp"
 	copyfile(new_path, filename)
 	process_image(filename, v, resize=100)
-	purge_files_in_cache([f"https://{SITE}/i/hats/{name}.webp", f"https://{SITE}/assets/images/hats/{name}.webp", f"https://{SITE}/asset_submissions/hats/original/{name}.{format}"])
+	purge_files_in_cache([f"{SITE_FULL_IMAGES}/i/hats/{name}.webp", f"{SITE_FULL_IMAGES}/asset_submissions/hats/original/{name}.{format}"])
 	ma = ModAction(
 		kind="update_hat",
 		user_id=v.id,

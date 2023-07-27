@@ -101,7 +101,7 @@ function markdown(t) {
 			const emojiClass = old.indexOf('#') == -1 ? 'emoji' : 'emoji-lg';
 			if (emoji.endsWith('pat') && emoji != 'marseyunpettablepat') {
 				emoji = emoji.substr(0, emoji.length - 3);
-				const url = old.indexOf('@') != -1 ? `/@${emoji}/pic` : `/e/${emoji}.webp`;
+				const url = old.indexOf('@') != -1 ? `/@${emoji}/pic` : `${SITE_FULL_IMAGES}/e/${emoji}.webp`;
 				input = input.replace(old, `<span class="pat-preview ${mirroredClass}" data-bs-toggle="tooltip"><img loading="lazy" src="${SITE_FULL_IMAGES}/i/hand.webp"><img loading="lazy" class="${emojiClass}" src="${url}"></span>`);
 			} else {
 				input = input.replace(old, `<img loading="lazy" class="${emojiClass} ${mirroredClass}" src="${SITE_FULL_IMAGES}/e/${emoji}.webp">`);
