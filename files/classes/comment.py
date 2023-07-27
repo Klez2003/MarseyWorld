@@ -76,8 +76,10 @@ def add_options(self, body, v):
 					sub = self.post.sub
 				else:
 					sub = None
-
+				
+				disabled = False
 				if sub in {'furry','vampire','racist','femboy','edgy'} and not v.house.lower().startswith(sub):
+					disabled = True
 					option_body += ' disabled '
 
 				option_body += f''' data-nonce="{g.nonce}" data-onclick="poll_vote_{o.exclusive}('{o.id}', '{self.id}', '{kind}')"'''
@@ -85,7 +87,8 @@ def add_options(self, body, v):
 				option_body += f''' data-nonce="{g.nonce}" data-onclick="poll_vote_no_v()"'''
 
 			option_body += f'''><label class="custom-control-label" for="{kind}-{o.id}">{o.body_html}<span class="presult-{self.id}'''
-			if not self.total_poll_voted(v): option_body += ' d-none'
+			if not disabled and not self.total_poll_voted(v):
+				option_body += ' d-none'
 			option_body += f'"> - <a href="/votes/{kind}/option/{o.id}"><span id="score-{kind}-{o.id}">{o.upvotes}</span> votes</a></label></div>'''
 
 		if o.exclusive > 1: s = '##'
