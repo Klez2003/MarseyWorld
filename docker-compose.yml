@@ -40,7 +40,8 @@ services:
             - "./schema.sql:/docker-entrypoint-initdb.d/00-schema.sql"
             - "./seed-users.sql:/docker-entrypoint-initdb.d/01-seed-users.sql"
             - "./seed-badges.sql:/docker-entrypoint-initdb.d/02-seed-badges.sql"
-            - "./seed-db.sql:/docker-entrypoint-initdb.d/03-seed-db.sql"
+            - "./seed-hats.sql:/docker-entrypoint-initdb.d/03-seed-hats.sql"
+            - "./seed-emojis.sql:/docker-entrypoint-initdb.d/04-seed-emojis.sql"
         environment:
             - POSTGRES_HOST_AUTH_METHOD=trust
         ports:
