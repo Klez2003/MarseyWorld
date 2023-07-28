@@ -145,7 +145,7 @@ def process_video(file, v):
 	extension = name_original.split('.')[-1].lower()
 	new = old + '.' + extension
 
-	if extension not in {'mp4','avi','mkv'}:
+	if extension != 'mp4':
 		new = new.replace(f'.{extension}', '.mp4')
 		copyfile(old, new)
 		gevent.spawn(convert_to_mp4, old, new)
