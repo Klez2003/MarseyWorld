@@ -255,7 +255,7 @@ def comment(v:User):
 	execute_antispam_comment_check(body, v)
 	execute_antispam_duplicate_comment_check(v, body_html)
 
-	if v.marseyawarded and posting_to_post and post_target.id not in ADMIGGER_THREADS and marseyaward_body_regex.search(body_html):
+	if v.marseyawarded and marseyaward_body_regex.search(body_html) and not (posting_to_post and post_target.id in ADMIGGER_THREADS):
 		abort(403, "You can only type marseys!")
 
 	if len(body_html) > COMMENT_BODY_HTML_LENGTH_LIMIT:
