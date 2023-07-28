@@ -19,6 +19,9 @@ from files.helpers.settings import get_setting
 
 from .config.const import *
 
+def subprocess_run(params):
+	subprocess.run(params, check=True, timeout=30)
+
 def remove_media_using_link(path):
 	if SITE in path:
 		path = path.split(SITE, 1)[1]
@@ -85,7 +88,7 @@ def process_audio(file, v):
 	new = old + '.' + extension
 
 	try:
-		subprocess.run(["ffmpeg", "-y", "-loglevel", "warning", "-nostats", "-i", old, "-map_metadata", "-1", "-c:a", "copy", new], check=True, timeout=SUBPROCESS_TIMEOUT_DURATION)
+		subprocess_run(["ffmpeg", "-y", "-i", old, "-map_metadata", "-1", "-c:a", "copy", new])
 	except:
 		os.remove(old)
 		if os.path.isfile(new):
@@ -108,7 +111,7 @@ def process_audio(file, v):
 def convert_to_mp4(old, new):
 	tmp = new.replace('.mp4', '-t.mp4')
 	try:
-		subprocess.run(["ffmpeg", "-y", "-loglevel", "warning", "-nostats", "-threads:v", "1", "-i", old, "-map_metadata", "-1", tmp], check=True, stderr=subprocess.STDOUT, timeout=SUBPROCESS_TIMEOUT_DURATION)
+		subprocess_run(["ffmpeg", "-y", "-threads:v", "1", "-i", old, "-map_metadata", "-1", tmp])
 	except:
 		os.remove(old)
 		if os.path.isfile(tmp):
@@ -148,7 +151,7 @@ def process_video(file, v):
 		gevent.spawn(convert_to_mp4, old, new)
 	else:
 		try:
-			subprocess.run(["ffmpeg", "-y", "-loglevel", "warning", "-nostats", "-i", old, "-map_metadata", "-1", "-c:v", "copy", "-c:a", "copy", new], check=True, timeout=SUBPROCESS_TIMEOUT_DURATION)
+			subprocess_run(["ffmpeg", "-y", "-i", old, "-map_metadata", "-1", "-c:v", "copy", "-c:a", "copy", new])
 		except:
 			os.remove(old)
 			if os.path.isfile(new):
@@ -204,7 +207,7 @@ def process_image(filename:str, v, resize=0, trim=False, uploader_id:Optional[in
 
 	params.append(filename)
 	try:
-		subprocess.run(params, timeout=SUBPROCESS_TIMEOUT_DURATION)
+		subprocess_run(params)
 	except:
 		os.remove(filename)
 		if has_request:

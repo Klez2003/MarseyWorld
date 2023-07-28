@@ -22,6 +22,7 @@ from files.helpers.sanitize import *
 from files.helpers.settings import get_setting
 from files.helpers.slots import *
 from files.helpers.sorting_and_time import *
+from files.helpers.media import subprocess_run
 from files.routes.routehelpers import execute_shadowban_viewers_and_voters
 from files.routes.wrappers import *
 
@@ -655,9 +656,7 @@ def submit_post(v:User, sub=None):
 			p.url = process_video(file, v)
 			name = f'/images/{time.time()}'.replace('.','') + '.webp'
 			try:
-				subprocess.run(['ffmpeg', '-y', '-loglevel', 'warning',
-					'-i', p.url, '-vf', "scale='iw':-2",
-					'-q:v', '3', '-frames:v', '1', name], check=True, timeout=SUBPROCESS_TIMEOUT_DURATION)
+				subprocess_run(["ffmpeg", "-y", "-i", p.url, "-vf", "scale='iw':-2", "-q:v", "3", "-frames:v", "1", name])
 			except:
 				if os.path.isfile(name):
 					os.remove(name)
