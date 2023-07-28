@@ -367,6 +367,11 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 	sanitized = sanitized.strip()
 	if not sanitized: return ''
 
+	if FEATURES['PING_GROUPS']:
+		ping_group_count = len(list(group_mention_regex.finditer(sanitized)))
+		if ping_group_count > 5:
+			error("You can only ping a maximum of 5 ping groups!")
+
 	if "style" in sanitized and "filter" in sanitized:
 		if sanitized.count("blur(") + sanitized.count("drop-shadow(") > 5:
 			error("Too many filters!")
