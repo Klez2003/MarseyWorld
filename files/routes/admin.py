@@ -1352,6 +1352,10 @@ def remove_post(post_id, v):
 
 	v.pay_account('coins', 1)
 	g.db.add(v)
+
+	for sort in COMMENT_SORTS:
+		cache.delete(f'post_{post.id}_{sort}')
+
 	return {"message": "Post removed!"}
 
 
@@ -1385,6 +1389,9 @@ def approve_post(post_id, v):
 
 	v.charge_account('coins', 1)
 	g.db.add(v)
+
+	for sort in COMMENT_SORTS:
+		cache.delete(f'post_{post.id}_{sort}')
 
 	return {"message": "Post approved!"}
 
