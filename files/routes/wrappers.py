@@ -57,7 +57,12 @@ def calc_users():
 		g.loggedin_counter = len(loggedin)
 		g.loggedout_counter = len(loggedout)
 
-		if g.loggedout_counter > 3000:
+		if SITE == 'watchpeopledie.tv':
+			ddos_threshold = 3000
+		else:
+			ddos_threshold = 1000
+
+		if g.loggedout_counter > ddos_threshold:
 			if not get_setting('ddos_detected'):
 				toggle_setting('ddos_detected')
 				set_security_level('under_attack')
