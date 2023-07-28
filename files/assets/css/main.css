@@ -4279,7 +4279,7 @@ small, .small {
 }
 
 .posts .ghost-post .post-meta {
-	height: 30px;
+	min-height: 30px;
 }
 
 .sub-flair {
