@@ -810,13 +810,6 @@ def settings_song_change_mp3(v):
 
 
 def _change_song_youtube(vid, id):
-	db = db_session()
-
-	v = db.query(User).filter_by(id=vid).options(load_only(User.song)).one()
-
-	if v.song and path.isfile(f"/songs/{v.song}.mp3") and db.query(User).filter_by(song=v.song).count() == 1:
-		os.remove(f"/songs/{v.song}.mp3")
-
 	ydl_opts = {
 		'cookiefile': '/cookies',
 		'outtmpl': '/temp_songs/%(id)s.%(ext)s',
@@ -837,6 +830,13 @@ def _change_song_youtube(vid, id):
 			return
 
 	os.rename(f"/temp_songs/{id}.mp3", f"/songs/{id}.mp3")
+
+	db = db_session()
+
+	v = db.query(User).filter_by(id=vid).options(load_only(User.song)).one()
+
+	if v.song and path.isfile(f"/songs/{v.song}.mp3") and db.query(User).filter_by(song=v.song).count() == 1:
+		os.remove(f"/songs/{v.song}.mp3")
 
 	v.song = id
 	db.add(v)
