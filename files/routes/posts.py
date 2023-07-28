@@ -656,7 +656,7 @@ def submit_post(v:User, sub=None):
 			p.url = process_video(file, v)
 			name = f'/images/{time.time()}'.replace('.','') + '.webp'
 			try:
-				subprocess_run(["ffmpeg", "-y", "-i", p.url, "-vf", "scale='iw':-2", "-q:v", "3", "-frames:v", "1", name])
+				subprocess_run(["ffmpeg", "-loglevel", "quiet", "-y", "-i", p.url, "-vf", "scale='iw':-2", "-q:v", "3", "-frames:v", "1", name])
 			except:
 				if os.path.isfile(name):
 					os.remove(name)
