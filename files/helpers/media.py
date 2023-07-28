@@ -82,9 +82,6 @@ def process_audio(file, v):
 	name_original = secure_filename(file.filename)
 	extension = name_original.split('.')[-1].lower()
 
-	if extension not in {'mp3','ogg','flac','m4a'}:
-		extension = 'mp3'
-
 	new = old + '.' + extension
 
 	try:
