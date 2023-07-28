@@ -525,7 +525,7 @@
 					<form class="d-none toggleable text-left" id='message-mobile' action="/@{{u.username}}/message" data-nonce="{{g.nonce}}" data-onsubmit="sendMessage(this)">
 						<input class="mt-1" hidden name="formkey" value="{{v|formkey}}">
 						<textarea autocomplete="off" id="input-message-mobile" form="message-mobile" name="message" rows="3" minlength="1" maxlength="10000" class="file-ta form-control" data-preview="message-preview-mobile" data-nonce="{{g.nonce}}" data-oninput="markdown(this)" required></textarea>
-						<button type="button" class="btn btn-secondary format d-inline-block m-0 py-2 fas fa-smile-beam" data-nonce="{{g.nonce}}" data-onclick="loadEmojis('input-message')" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"></button>
+						<button type="button" class="btn btn-secondary format d-inline-block m-0 py-2 fas fa-smile-beam" data-nonce="{{g.nonce}}" data-onclick="loadEmojis('input-message-mobile')" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"></button>
 
 						{{macros.file_input('file-upload-mobile', True)}}
 
