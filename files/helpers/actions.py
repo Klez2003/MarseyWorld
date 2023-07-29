@@ -67,7 +67,7 @@ def execute_snappy(post:Post, v:User):
 	ping_cost = None
 
 	post_ping_group_count = len(list(group_mention_regex.finditer(post.body)))
-	
+
 	if post_ping_group_count > 3:
 		body = "Unnecessary and uncalled for ping :marseydownvotemad: two more strikes and you're getting blocked + megadownvoted buddy, don't test your luck"
 		vote = Vote(user_id=SNAPPY_ID,
