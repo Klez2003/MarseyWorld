@@ -294,6 +294,7 @@ def remove_cuniform(sanitized:Optional[str]) -> str:
 	sanitized = sanitized.replace('\u200e','').replace('\u200b','').replace('\u202e','').replace("\ufeff", "")
 	sanitized = sanitized.replace("𒐪","").replace("𒐫","").replace("﷽","")
 	sanitized = sanitized.replace("\r\n", "\n")
+	sanitized = sanitized.replace("’", "'")
 	return sanitized.strip()
 
 def sanitize_settings_text(sanitized:Optional[str], max_length:Optional[int]=None) -> str:
