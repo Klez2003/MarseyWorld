@@ -622,7 +622,8 @@ def message2(v, username=None, id=None):
 	if v.admin_level <= PERMS['MESSAGE_BLOCKED_USERS'] and hasattr(user, 'is_blocked') and user.is_blocked:
 		abort(403, f"@{user.username} is blocking you!")
 
-	body = sanitize_raw_body(request.values.get("message"), False)
+	body = request.values.get("message", "")
+	body = body[:COMMENT_BODY_LENGTH_LIMIT]
 
 	if not g.is_tor and get_setting("dm_media"):
 		body = process_files(request.files, v, body, is_dm=True, dm_user=user)
@@ -677,7 +678,8 @@ def message2(v, username=None, id=None):
 @limiter.limit("6/minute;50/hour;200/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def messagereply(v:User):
-	body = sanitize_raw_body(request.values.get("body"), False)
+	body = request.values.get("body", "")
+	body = body[:COMMENT_BODY_LENGTH_LIMIT]
 
 	id = request.values.get("parent_id")
 	parent = get_comment(id, v=v)

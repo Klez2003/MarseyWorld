@@ -152,7 +152,8 @@ def comment(v:User):
 
 	if level > COMMENT_MAX_DEPTH: abort(400, f"Max comment level is {COMMENT_MAX_DEPTH}")
 
-	body = sanitize_raw_body(request.values.get("body", ""), False)
+	body = request.values.get("body", "")
+	body = body[:COMMENT_BODY_LENGTH_LIMIT]
 
 	if not posting_to_post or post_target.id not in ADMIGGER_THREADS:
 		if v.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
@@ -612,7 +613,8 @@ def edit_comment(cid, v):
 	if not c.parent_post and not c.wall_user_id:
 		abort(403)
 
-	body = sanitize_raw_body(request.values.get("body", ""), False)
+	body = request.values.get("body", "")
+	body = body[:COMMENT_BODY_LENGTH_LIMIT]
 
 	if len(body) < 1 and not (request.files.get("file") and not g.is_tor):
 		abort(400, "You have to actually type something!")
