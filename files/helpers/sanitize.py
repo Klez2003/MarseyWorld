@@ -615,7 +615,7 @@ def allowed_attributes_emojis(tag, name, value):
 			if value.startswith(f'{SITE_FULL_IMAGES}/') : return True
 		if name == 'loading' and value == 'lazy': return True
 		if name == 'data-bs-toggle' and value == 'tooltip': return True
-		if name in {'g','glow','t'} and not value: return True
+		if name in {'g','glow'} and not value: return True
 		if name in {'alt','title'}: return True
 
 	if tag == 'span':
