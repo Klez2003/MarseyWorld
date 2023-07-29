@@ -465,10 +465,10 @@ def submit_post(v:User, sub=None):
 	if '\\' in url: abort(400)
 
 	title = request.values.get("title", "")
-	title = title[:POST_TITLE_LENGTH_LIMIT]
+	title = title[:POST_TITLE_LENGTH_LIMIT].strip()
 
 	body = request.values.get("body", "")
-	body = body[:POST_BODY_LENGTH_LIMIT(g.v)]
+	body = body[:POST_BODY_LENGTH_LIMIT(g.v)].strip()
 
 	post_ping_group_count = len(list(group_mention_regex.finditer(body)))
 
@@ -1042,10 +1042,10 @@ def edit_post(pid, v):
 		abort(403, "You can't edit posts older than 1 week!")
 
 	title = request.values.get("title", "")
-	title = title[:POST_TITLE_LENGTH_LIMIT]
+	title = title[:POST_TITLE_LENGTH_LIMIT].strip()
 
 	body = request.values.get("body", "")
-	body = body[:POST_BODY_LENGTH_LIMIT(g.v)]
+	body = body[:POST_BODY_LENGTH_LIMIT(g.v)].strip()
 
 	if v.id == p.author_id:
 		if v.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):

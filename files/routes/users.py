@@ -623,7 +623,7 @@ def message2(v, username=None, id=None):
 		abort(403, f"@{user.username} is blocking you!")
 
 	body = request.values.get("message", "")
-	body = body[:COMMENT_BODY_LENGTH_LIMIT]
+	body = body[:COMMENT_BODY_LENGTH_LIMIT].strip()
 
 	if not g.is_tor and get_setting("dm_media"):
 		body = process_files(request.files, v, body, is_dm=True, dm_user=user)
@@ -679,7 +679,7 @@ def message2(v, username=None, id=None):
 @auth_required
 def messagereply(v:User):
 	body = request.values.get("body", "")
-	body = body[:COMMENT_BODY_LENGTH_LIMIT]
+	body = body[:COMMENT_BODY_LENGTH_LIMIT].strip()
 
 	id = request.values.get("parent_id")
 	parent = get_comment(id, v=v)
