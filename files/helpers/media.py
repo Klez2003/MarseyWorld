@@ -19,6 +19,8 @@ from files.helpers.settings import get_setting
 
 from .config.const import *
 
+generic_ffmpeg_params = ["ffmpeg", "-loglevel", "quiet", "-y", "-map_metadata", "-1"]
+
 def subprocess_run(params):
 	subprocess.run(params, check=True, timeout=30)
 
@@ -88,7 +90,7 @@ def process_audio(file, v):
 	new = old + '.' + extension
 
 	try:
-		subprocess_run(["ffmpeg", "-loglevel", "quiet", "-y", "-i", old, "-map_metadata", "-1", "-c:a", "copy", new])
+		subprocess_run(generic_ffmpeg_params + ["-i", old, "-c:a", "copy", new])
 	except:
 		os.remove(old)
 		if os.path.isfile(new):
@@ -111,7 +113,7 @@ def process_audio(file, v):
 def convert_to_mp4(old, new):
 	tmp = new.replace('.mp4', '-t.mp4')
 	try:
-		subprocess_run(["ffmpeg", "-loglevel", "quiet", "-y", "-threads:v", "1", "-i", old, "-map_metadata", "-1", tmp])
+		subprocess_run(generic_ffmpeg_params + ["-i", old, "-threads:v", "1", tmp])
 	except:
 		os.remove(old)
 		if os.path.isfile(tmp):
@@ -151,7 +153,7 @@ def process_video(file, v):
 		gevent.spawn(convert_to_mp4, old, new)
 	else:
 		try:
-			subprocess_run(["ffmpeg", "-loglevel", "quiet", "-y", "-i", old, "-map_metadata", "-1", "-c:v", "copy", "-c:a", "copy", new])
+			subprocess_run(["-i", old, "-c:v", "copy", "-c:a", "copy", new])
 		except:
 			os.remove(old)
 			if os.path.isfile(new):
