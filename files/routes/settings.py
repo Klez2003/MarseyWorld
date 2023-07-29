@@ -899,6 +899,22 @@ def settings_song_change(v):
 
 	return redirect("/settings/personal?msg=Profile Anthem successfully updated. Wait 5 minutes for the change to take effect.")
 
+
+def process_settings_plaintext(value, current, length):
+	value = request.values.get(value, "").strip()
+
+	if not value:
+		return redirect("/settings/personal?error=You didn't enter anything!"), 400
+
+	if len(value) > 100:
+		return redirect("/settings/personal?error=The value you entered exceeds the character limit (100 characters)"), 400
+
+	if value == current:
+		return redirect("/settings/personal?error=You didn't change anything!"), 400
+
+	return value
+
+
 @app.post("/settings/title_change")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
@@ -908,21 +924,17 @@ def settings_song_change(v):
 def settings_title_change(v):
 	if v.flairchanged: abort(403)
 
-	customtitleplain = sanitize_settings_text(request.values.get("title"), 100)
+	processed = process_settings_plaintext("title", v.customtitleplain, 100)
+	if isinstance(processed, tuple):
+		return processed
 
-	if len(customtitleplain) > 100:
-		return redirect("/settings/personal?error=Flair too long!")
-
-	if customtitleplain == v.customtitleplain:
-		return redirect("/settings/personal?error=You didn't change anything!")
-
-	customtitle = filter_emojis_only(customtitleplain)
+	customtitle = filter_emojis_only(processed)
 	customtitle = censor_slurs(customtitle, None)
 
 	if len(customtitle) > 1000:
 		return redirect("/settings/personal?error=Flair too long!")
 
-	v.customtitleplain = customtitleplain
+	v.customtitleplain = processed
 	v.customtitle = customtitle
 	g.db.add(v)
 
@@ -937,14 +949,11 @@ def settings_title_change(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def settings_pronouns_change(v):
-	pronouns = sanitize_settings_text(request.values.get("pronouns"))
-
-	if len(pronouns) > 15:
-		return redirect("/settings/personal?error=Your pronouns exceed the character limit (15 characters)")
-
-	if pronouns == v.pronouns:
-		return redirect("/settings/personal?error=You didn't change anything!")
-
+	processed = process_settings_plaintext("pronouns", v.pronouns, 15)
+	if isinstance(processed, tuple):
+		return processed
+	
+	pronouns = processed
 	if not pronouns_regex.fullmatch(pronouns):
 		return redirect("/settings/personal?error=The pronouns you entered don't match the required format!")
 
@@ -966,9 +975,11 @@ def settings_pronouns_change(v):
 @auth_required
 def settings_checkmark_text(v):
 	if not v.verified: abort(403)
-	new_name = sanitize_settings_text(request.values.get("checkmark-text"), 100)
-	if not new_name: abort(400)
-	if new_name == v.verified: return redirect("/settings/personal?error=You didn't change anything!")
-	v.verified = new_name
+
+	processed = process_settings_plaintext("checkmark-text", v.verified, 100)
+	if isinstance(processed, tuple):
+		return processed
+
+	v.verified = processed
 	g.db.add(v)
 	return redirect("/settings/personal?msg=Checkmark Text successfully updated!")

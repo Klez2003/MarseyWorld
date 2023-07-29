@@ -297,13 +297,6 @@ def remove_cuniform(sanitized:Optional[str]) -> str:
 	sanitized = sanitized.replace("’", "'")
 	return sanitized.strip()
 
-def sanitize_settings_text(sanitized:Optional[str], max_length:Optional[int]=None) -> str:
-	if not sanitized: return ""
-	sanitized = sanitized.replace('\u200e','').replace('\u200b','').replace("\ufeff", "").replace("\r", "").replace("\n","")
-	sanitized = sanitized.strip()
-	if max_length: sanitized = sanitized[:max_length]
-	return sanitized
-
 def get_youtube_id_and_t(url):
 	params = parse_qs(urlparse(url).query, keep_blank_values=True)
 
