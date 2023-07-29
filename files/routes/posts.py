@@ -467,6 +467,11 @@ def submit_post(v:User, sub=None):
 	title = sanitize_raw_title(request.values.get("title", ""))
 	body = sanitize_raw_body(request.values.get("body", ""), True)
 
+	post_ping_group_count = len(list(group_mention_regex.finditer(body)))
+
+	if post_ping_group_count:
+		abort(400, "Ping group usage is temporarily disabled on creating posts due to performance issues (will fix in a bit), for now make the post without ping groups then edit it and add the ping groups")
+
 	if not title:
 		abort(400, "Please enter a better title!")
 
