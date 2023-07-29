@@ -652,13 +652,10 @@ def filter_emojis_only(title, golden=True, count_emojis=False, graceful=False):
 
 	title = bleach.clean(title, tags=['img','del','span'], attributes=allowed_attributes_emojis, protocols=['http','https']).replace('\n','')
 
-	if strip:
-		title = title.strip()
-
 	if len(title) > POST_TITLE_HTML_LENGTH_LIMIT and not graceful:
 		abort(400)
 	else:
-		return title
+		return title.strip()
 
 def normalize_url(url):
 	url = reddit_domain_regex.sub(r'\1https://old.reddit.com/\3/', url)
