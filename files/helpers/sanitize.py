@@ -229,7 +229,7 @@ def render_emoji(html, regexp, golden, emojis_used, b=False, is_title=False):
 		emoji = i.group(1).lower()
 		attrs = ''
 		if b: attrs += ' b'
-		if is_title: attrs += ' t'
+		if is_title: emoji = emoji.replace('#','')
 		if golden and len(emojis) <= 20 and ('marsey' in emoji or emoji in marseys_const2):
 			if random.random() < 0.0025: attrs += ' g'
 			elif random.random() < 0.00125: attrs += ' glow'

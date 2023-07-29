@@ -5512,10 +5512,6 @@ input[type=radio] ~ .custom-control-label::before {
 	height: 150px;
 	width: 150px;
 }
-img[t] {
-	height: 40px !important;
-	width: 40px !important;
-}
 .emj, .emoji, .bigemoji, .emoji-md, .emoji-lg, img[alt^=":"]
 {
 	max-width: 150px !important;
