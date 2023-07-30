@@ -1,3 +1,5 @@
 include includes/headers;
 sendfile on;
+sendfile_max_chunk 1m;
 aio threads;
+directio 4m;
