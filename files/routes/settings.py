@@ -825,8 +825,6 @@ def _change_song_youtube(vid, id):
 		try: ydl.download([f"https://youtube.com/watch?v={id}"])
 		except Exception as e:
 			print(e, flush=True)
-			db.rollback()
-			db.close()
 			return
 
 	os.rename(f"/temp_songs/{id}.mp3", f"/songs/{id}.mp3")
