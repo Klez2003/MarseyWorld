@@ -7594,7 +7594,7 @@ body {
 	overflow-x: hidden;
 }
 
-del {
+.rainbow-text del {
     color: var(--black);
 	font-weight: 400;
 }
