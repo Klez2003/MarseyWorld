@@ -623,7 +623,7 @@ def settings_css_get(v):
 @auth_required
 def settings_css(v):
 	if v.chud: abort(400, "Chuded users can't edit CSS!")
-	css = request.values.get("css", v.css).strip().replace('\\', '').strip()[:CSS_LENGTH_LIMIT]
+	css = request.values.get("css", v.css).strip().replace('\\', '')[:CSS_LENGTH_LIMIT].strip()
 	v.css = css
 	g.db.add(v)
 
@@ -636,7 +636,7 @@ def settings_css(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def settings_profilecss(v):
-	profilecss = request.values.get("profilecss", v.profilecss).strip().replace('\\', '').strip()[:CSS_LENGTH_LIMIT]
+	profilecss = request.values.get("profilecss", v.profilecss).replace('\\', '')[:CSS_LENGTH_LIMIT].strip()
 	valid, error = validate_css(profilecss)
 	if not valid:
 		return render_template("settings/css.html", error=error, v=v, profilecss=profilecss)

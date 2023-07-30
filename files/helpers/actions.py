@@ -194,7 +194,7 @@ def execute_snappy(post, v):
 			body += addition
 			archive_url(href)
 
-	body = body.strip()[:COMMENT_BODY_LENGTH_LIMIT]
+	body = body[:COMMENT_BODY_LENGTH_LIMIT].strip()
 	body_html = sanitize(body, snappy=True, showmore=True)
 
 	if len(body_html) == 0:

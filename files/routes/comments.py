@@ -229,7 +229,7 @@ def comment(v):
 				abort(415)
 
 	body = body.replace('\n ', '\n').replace('\r', '')
-	body = body.strip()[:COMMENT_BODY_LENGTH_LIMIT].strip()
+	body = body[:COMMENT_BODY_LENGTH_LIMIT].strip()
 
 	if v.admin_level >= PERMS['USE_ADMIGGER_THREADS'] and posting_to_post and post_target.id == SNAPPY_THREAD and level == 1:
 		with open(f"snappy_{SITE_NAME}.txt", "r+", encoding="utf-8") as f:
@@ -631,7 +631,7 @@ def edit_comment(cid, v):
 		execute_antispam_comment_check(body, v)
 
 		body = process_files(request.files, v, body)
-		body = body.strip()[:COMMENT_BODY_LENGTH_LIMIT] # process_files potentially adds characters to the post
+		body = body[:COMMENT_BODY_LENGTH_LIMIT].strip() # process_files potentially adds characters to the post
 
 		body_for_sanitize = body
 		if v.owoify:

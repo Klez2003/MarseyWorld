@@ -564,7 +564,7 @@ def submit_post(v, sub=None):
 		abort(400, "There's a 2048 character limit for URLs!")
 
 	body = process_files(request.files, v, body)
-	body = body.strip()[:POST_BODY_LENGTH_LIMIT(v)] # process_files() adds content to the body, so we need to re-strip
+	body = body[:POST_BODY_LENGTH_LIMIT(v)].strip() # process_files() adds content to the body, so we need to re-strip
 
 	body_html = sanitize(body, count_emojis=True, limit_pings=100)
 
@@ -1060,7 +1060,7 @@ def edit_post(pid, v):
 		p.title_html = title_html
 
 	body = process_files(request.files, v, body)
-	body = body.strip()[:POST_BODY_LENGTH_LIMIT(v)] # process_files() may be adding stuff to the body
+	body = body[:POST_BODY_LENGTH_LIMIT(v)].strip() # process_files() may be adding stuff to the body
 
 	if body != p.body:
 		body_html = sanitize(body, golden=False, limit_pings=100)

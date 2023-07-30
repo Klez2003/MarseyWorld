@@ -845,7 +845,7 @@ def shadowban(user_id, v):
 	if user.admin_level > v.admin_level:
 		abort(403)
 	user.shadowbanned = v.id
-	reason = request.values.get("reason", "").strip()[:256]
+	reason = request.values.get("reason", "")[:256].strip()
 
 	if not reason:
 		abort(400, "You need to submit a reason for shadowbanning!")
@@ -910,7 +910,7 @@ def admin_title_change(user_id, v):
 
 	user = get_account(user_id)
 
-	new_name=request.values.get("title").strip()[:256]
+	new_name=request.values.get("title")[:256].strip()
 
 	user.customtitleplain=new_name
 	new_name = filter_emojis_only(new_name)
@@ -982,7 +982,7 @@ def ban_user(fullname, v):
 	if days < 0:
 		abort(400, "You can't bans people for negative days!")
 
-	reason = request.values.get("reason", "").strip()[:256]
+	reason = request.values.get("reason", "")[:256].strip()
 
 	if not reason:
 		abort(400, "You need to submit a reason for banning!")

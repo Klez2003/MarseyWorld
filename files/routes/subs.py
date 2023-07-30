@@ -454,7 +454,7 @@ def post_sub_sidebar(v, sub):
 	if not v.mods(sub.name): abort(403)
 	if v.shadowbanned: return redirect(f'/h/{sub}/settings')
 
-	sub.sidebar = request.values.get('sidebar', '').strip()[:10000]
+	sub.sidebar = request.values.get('sidebar', '')[:10000].strip()
 	sidebar_html = sanitize(sub.sidebar, blackjack=f"/h/{sub} sidebar")
 
 	if len(sidebar_html) > 20000:

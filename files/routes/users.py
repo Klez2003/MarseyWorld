@@ -626,7 +626,7 @@ def message2(v, username=None, id=None):
 
 	if not g.is_tor and get_setting("dm_media"):
 		body = process_files(request.files, v, body, is_dm=True, dm_user=user)
-		body = body.strip()[:COMMENT_BODY_LENGTH_LIMIT] #process_files potentially adds characters to the post
+		body = body[:COMMENT_BODY_LENGTH_LIMIT].strip() #process_files potentially adds characters to the post
 
 	if not body: abort(400, "Message is empty!")
 
@@ -708,7 +708,7 @@ def messagereply(v):
 
 	if not g.is_tor and get_setting("dm_media"):
 		body = process_files(request.files, v, body, is_dm=True, dm_user=user)
-		body = body.strip()[:COMMENT_BODY_LENGTH_LIMIT] #process_files potentially adds characters to the post
+		body = body[:COMMENT_BODY_LENGTH_LIMIT].strip() #process_files potentially adds characters to the post
 
 	if not body: abort(400, "Message is empty!")
 
