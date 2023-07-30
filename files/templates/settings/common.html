@@ -52,8 +52,7 @@
 </div>
 {% endmacro %}
 
-{% macro line_text_section(id, form_action, form_name, section_title, contents, below_text, placeholder_text, button_text, show_marseys, minlength, maxlength, pattern, show_if, disabled) %}
-{% if show_if -%}
+{% macro line_text_section(id, form_action, form_name, section_title, contents, below_text, placeholder_text, button_text, show_marseys, minlength, maxlength, pattern, disabled) %}
 	<div class="body d-lg-flex border-bottom">
 		<label class="text-black w-lg-25">{{section_title}}</label>
 		<div class="w-lg-100">
@@ -70,11 +69,9 @@
 			</form>
 		</div>
 	</div>
-{%- endif %}
 {% endmacro %}
 
-{% macro text_area_section(id, form_action, form_name, section_title, contents, below_text, placeholder_text, show_extras, show_file_upload, maxlength, show_if) %}
-{% if show_if -%}
+{% macro text_area_section(id, form_action, form_name, section_title, contents, below_text, placeholder_text, show_extras, show_file_upload, maxlength) %}
 <div class="body d-lg-flex border-bottom">
 	<label class="text-black w-lg-25">{{section_title}}</label>
 	<div class="w-lg-100">
@@ -99,5 +96,4 @@
 		</form>
 	</div>
 </div>
-{%- endif %}
 {% endmacro %}

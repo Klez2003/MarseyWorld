@@ -423,7 +423,7 @@ def titlecolor(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def verifiedcolor(v):
-	if not v.verified: abort(403, "You don't have a checkmark")
+	if not v.verified: abort(403, "You don't have a checkmark to edit its color!")
 	return set_color(v, "verifiedcolor", request.values.get("verifiedcolor"))
 
 @app.post("/settings/security")
@@ -963,7 +963,8 @@ def settings_pronouns_change(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def settings_checkmark_text(v):
-	if not v.verified: abort(403)
+	if not v.verified:
+		abort(403, "You don't have a checkmark to edit its hover text!")
 
 	processed = process_settings_plaintext("checkmark-text", v.verified, 100)
 	if isinstance(processed, tuple):
