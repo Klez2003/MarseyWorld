@@ -1,8 +1,11 @@
+from os import environ
+
 STARS = '\n\n★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★\n\n'
 
 bind = '0.0.0.0:5000'
 
 worker_class = 'gevent'
+worker_count = int(environ.get("WORKER_COUNT").strip())
 
 max_requests = 5000
 max_requests_jitter = 10000

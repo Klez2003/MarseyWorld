@@ -12,7 +12,7 @@ Group = rdrama
 WorkingDirectory = /d
 ExecStartPre = /bin/mkdir /run/rdrama-marseyworld
 ExecStartPre = /bin/chown -R rdrama:rdrama /run/rdrama-marseyworld
-ExecStart = /bin/bash -c 'set -a && source /e && SITE=marsey.world /usr/bin/env gunicorn files.__main__:app -k gevent -w 1 --reload -b 0.0.0.0:5010 --max-requests 30000 --max-requests-jitter 30000 --pid /run/rdrama-marseyworld/rdrama-marseyworld.pid'
+ExecStart = /bin/bash -c 'set -a && source /e && SITE=marsey.world && WORKER_COUNT=1 && /usr/bin/env gunicorn files.__main__:app -k gevent --reload -b 0.0.0.0:5010 --max-requests 30000 --max-requests-jitter 30000 --pid /run/rdrama-marseyworld/rdrama-marseyworld.pid'
 ExecReload = /bin/kill -s HUP $MAINPID
 ExecStop = /bin/kill -s TERM $MAINPID
 ExecStopPost = /bin/rm -rf /run/rdrama-marseyworld
