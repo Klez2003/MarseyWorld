@@ -54,7 +54,7 @@
 				<td class="shop-table-icon"><i class="{{a['icon']}} {{a['color']}}" style="font-size: 30px"></i></td>
 				<td class="shop-table-title">{{a['title']}}</td>
 				{% if a['baseprice'] != price %}
-					<td class="shop-table-price">
+					<td  data-sort-key="{{price}}" class="shop-table-price">
 						<span class="discounted-price">{{a['baseprice']}}</span> <em class="text-success">{{price}}</em>
 					</td>
 				{% else %}
