@@ -36,7 +36,9 @@ if (u_username)
 	}
 
 	play_audio(audio);
-	document.addEventListener('click', () => {
+	document.addEventListener('click', (e) => {
+		if (e.target.id.startsWith("toggle-anthem"))
+			return
 		if (audio.paused) play_audio(audio);
 	}, {once : true});
 
@@ -70,7 +72,9 @@ else
 		if (!paused)
 		{
 			play_audio(audio);
-			document.addEventListener('click', () => {
+			document.addEventListener('click', (e) => {
+				if (e.target.id.startsWith("toggle-anthem"))
+					return	
 				if (audio.paused) play_audio(audio);
 			}, {once : true});
 		}

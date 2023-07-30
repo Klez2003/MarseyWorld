@@ -218,7 +218,9 @@
 						{% endif %}
 
 						{% if FEATURES['USERS_PROFILE_SONG'] and u.song and v and (v.id == u.id or v.mute and not u.unmutable) %}
-							<button id="toggle-anthem" type="button" class="btn btn-secondary" data-nonce="{{g.nonce}}" data-onclick="toggle()" {% if v.id == u.id %}style="margin-bottom:0!important;padding:0.3rem 0.75rem!important"{% endif %}><i class="fas fa-music mr-1"></i> Profile Anthem</button>
+							<button id="toggle-anthem" type="button" class="btn btn-secondary" data-nonce="{{g.nonce}}" data-onclick="toggle()" {% if v.id == u.id %}style="margin-bottom:0!important;padding:0.3rem 0.75rem!important"{% endif %}>
+								<i id="toggle-anthem-icon" class="fas fa-music mr-1"></i> Profile Anthem
+							</button>
 						{% endif %}
 
 						{% if v and v.id == u.id %}
@@ -472,7 +474,9 @@
 					{% endif %}
 
 					{% if FEATURES['USERS_PROFILE_SONG'] and u.song and v and (v.id == u.id or v.mute and not u.unmutable) %}
-						<button id="toggle-anthem-mobile" type="button" class="btn btn-secondary" data-nonce="{{g.nonce}}" data-onclick="toggle()" {% if v.id == u.id %}style="margin-bottom:0!important;padding:0.3rem 0.75rem!important"{% endif %}><i class="fas fa-music mr-1"></i> Profile Anthem</button>
+						<button id="toggle-anthem-mobile" type="button" class="btn btn-secondary" data-nonce="{{g.nonce}}" data-onclick="toggle()" {% if v.id == u.id %}style="margin-bottom:0!important;padding:0.3rem 0.75rem!important"{% endif %}>
+							<i id="toggle-anthem-mobile-icon" class="fas fa-music mr-1"></i> Profile Anthem
+						</button>
 					{% endif %}
 
 					{% if v and v.id == u.id %}
