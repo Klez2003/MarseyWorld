@@ -201,7 +201,6 @@ def process_image(filename:str, v, resize=0, trim=False, uploader_id:Optional[in
 			if resize and i.width > resize:
 				params.extend(["-resize", f"{resize}>"])
 	except:
-		print(f"Couldn't identify an image for {filename}; deleting... (user {v.id if v else '-no user-'})")
 		os.remove(filename)
 		if has_request:
 			abort(415)
