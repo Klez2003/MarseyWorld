@@ -502,7 +502,7 @@
 					{{userpage_admintools.userAdminTools('mobile')}}
 				{% endif %}
 
-				<div id="profile-mobile--info">
+				<div id="profile-mobile--info" {% if v.id == u.id %}class="mt-4"{% endif %}>
 					<p id="profile-mobile--info--id">User ID: {{u.id}}</p>
 					<p id="profile-mobile--info--truescore">True score: {{u.truescore}}</p>
 					<p id="profile-mobile--info--casino-winnings">Casino winnings: {{u.winnings}}</p>
