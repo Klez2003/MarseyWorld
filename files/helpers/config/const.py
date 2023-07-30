@@ -119,7 +119,20 @@ GIRL_PHRASES = [
 	"$ PERIODT"
 ]
 
+tranny = f'<img loading="lazy" data-bs-toggle="tooltip" alt=":marseytrain:" title=":marseytrain:" src="{SITE_FULL_IMAGES}/e/marseytrain.webp">'
+trannie = f'<img loading="lazy" data-bs-toggle="tooltip" alt=":!marseytrain:" title=":!marseytrain:" src="{SITE_FULL_IMAGES}/e/marseytrain.webp">'
+troon = f'<img loading="lazy" data-bs-toggle="tooltip" alt=":marseytrain2:" title=":marseytrain2:" src="{SITE_FULL_IMAGES}/e/marseytrain2.webp">'
+
+def replace_train_html(body):
+	body = body.replace(tranny, ':marseytrain:')
+	body = body.replace(trannie, ':!marseytrain:')
+	body = body.replace(troon, ':marseytrain2:')
+	return body
+
 SLURS = {
+	"tranny": tranny,
+	"trannie": trannie,
+	"troon": troon,
 	"(?<!\\bs)nigger": "BIPOC",
 	"negroid": "BIPOC",
 	"(?<![a-z])coon(?![a-z])": "BIPOC",
@@ -130,10 +143,6 @@ SLURS = {
 	"fag": "strag",
 	"(?<![a-z])spic(?![a-z])": "hard-working American",
 	"(?<![a-z])spics(?![a-z])": "hard-working Americans",
-	"trannie": f'<img loading="lazy" data-bs-toggle="tooltip" alt=":marseytrain:" title=":marseytrain:" src="{SITE_FULL_IMAGES}/e/marseytrain.webp">',
-	"tranny": f'<img loading="lazy" data-bs-toggle="tooltip" alt=":marseytrain:" title=":marseytrain:" src="{SITE_FULL_IMAGES}/e/marseytrain.webp">',
-	"troon": f'<img loading="lazy" data-bs-toggle="tooltip" alt=":marseytrain:" title=":marseytrain:" src="{SITE_FULL_IMAGES}/e/marseytrain.webp">',
-	"tranner": f'<img loading="lazy" data-bs-toggle="tooltip" alt=":marseytrain:" title=":marseytrain:" src="{SITE_FULL_IMAGES}/e/marseytrain.webp">',
 	"kike": "jewish chad",
 	"(?<![a-z])heeb": "jewish chad",
 	"daisy's destruction": "Cars 2",
