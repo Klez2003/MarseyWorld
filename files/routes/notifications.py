@@ -85,7 +85,7 @@ def notifications_modmail(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def notifications_messages(v:User):
+def notifications_messages(v):
 	page = get_page()
 
 	# All of these queries are horrible. For whomever comes here after me,
@@ -160,7 +160,7 @@ def notifications_messages(v:User):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def notifications_posts(v:User):
+def notifications_posts(v):
 	page = get_page()
 
 	listing = g.db.query(Post).filter(
@@ -207,7 +207,7 @@ def notifications_posts(v:User):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def notifications_modactions(v:User):
+def notifications_modactions(v):
 	page = get_page()
 
 	if v.admin_level >= PERMS['NOTIFICATIONS_MODERATOR_ACTIONS']:
@@ -254,7 +254,7 @@ def notifications_modactions(v:User):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def notifications_reddit(v:User):
+def notifications_reddit(v):
 	page = get_page()
 
 	if not v.can_view_offsitementions: abort(403)
@@ -293,7 +293,7 @@ def notifications_reddit(v:User):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def notifications(v:User):
+def notifications(v):
 	page = get_page()
 
 	if not session.get("GLOBAL") and v.admin_level < PERMS['USER_SHADOWBAN'] and not request.values.get('nr'):

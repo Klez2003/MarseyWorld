@@ -3,7 +3,6 @@ import json
 import math
 import time
 from collections import Counter
-from typing import Literal
 
 import gevent
 import qrcode
@@ -99,7 +98,7 @@ def claim_rewards_all_users():
 
 			print(f'@{user.username} rewards claimed successfully!', flush=True)
 
-def transfer_currency(v:User, username:str, currency_name:Literal['coins', 'marseybux'], apply_tax:bool):
+def transfer_currency(v, username, currency_name, apply_tax):
 	MIN_CURRENCY_TRANSFER = 100
 	TAX_PCT = 0.03
 	receiver = get_user(username, v=v)
@@ -180,7 +179,7 @@ def upvoters_downvoters(v, username, uid, cls, vote_cls, vote_dir, template, sta
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def upvoters_posts(v:User, username, uid):
+def upvoters_posts(v, username, uid):
 	return upvoters_downvoters(v, username, uid, Post, Vote, 1, "userpage/voted_posts.html", None)
 
 
@@ -188,7 +187,7 @@ def upvoters_posts(v:User, username, uid):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def upvoters_comments(v:User, username, uid):
+def upvoters_comments(v, username, uid):
 	return upvoters_downvoters(v, username, uid, Comment, CommentVote, 1, "userpage/voted_comments.html", True)
 
 
@@ -196,7 +195,7 @@ def upvoters_comments(v:User, username, uid):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def downvoters_posts(v:User, username, uid):
+def downvoters_posts(v, username, uid):
 	return upvoters_downvoters(v, username, uid, Post, Vote, -1, "userpage/voted_posts.html", None)
 
 
@@ -204,7 +203,7 @@ def downvoters_posts(v:User, username, uid):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def downvoters_comments(v:User, username, uid):
+def downvoters_comments(v, username, uid):
 	return upvoters_downvoters(v, username, uid, Comment, CommentVote, -1, "userpage/voted_comments.html", True)
 
 def upvoting_downvoting(v, username, uid, cls, vote_cls, vote_dir, template, standalone):
@@ -246,7 +245,7 @@ def upvoting_downvoting(v, username, uid, cls, vote_cls, vote_dir, template, sta
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def upvoting_posts(v:User, username, uid):
+def upvoting_posts(v, username, uid):
 	return upvoting_downvoting(v, username, uid, Post, Vote, 1, "userpage/voted_posts.html", None)
 
 
@@ -254,7 +253,7 @@ def upvoting_posts(v:User, username, uid):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def upvoting_comments(v:User, username, uid):
+def upvoting_comments(v, username, uid):
 	return upvoting_downvoting(v, username, uid, Comment, CommentVote, 1, "userpage/voted_comments.html", True)
 
 
@@ -262,7 +261,7 @@ def upvoting_comments(v:User, username, uid):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def downvoting_posts(v:User, username, uid):
+def downvoting_posts(v, username, uid):
 	return upvoting_downvoting(v, username, uid, Post, Vote, -1, "userpage/voted_posts.html", None)
 
 
@@ -270,7 +269,7 @@ def downvoting_posts(v:User, username, uid):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def downvoting_comments(v:User, username, uid):
+def downvoting_comments(v, username, uid):
 	return upvoting_downvoting(v, username, uid, Comment, CommentVote, -1, "userpage/voted_comments.html", True)
 
 def user_voted(v, username, cls, vote_cls, template, standalone):
@@ -306,7 +305,7 @@ def user_voted(v, username, cls, vote_cls, template, standalone):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def user_voted_posts(v:User, username):
+def user_voted_posts(v, username):
 	return user_voted(v, username, Post, Vote, "userpage/voted_posts.html", None)
 
 
@@ -314,14 +313,14 @@ def user_voted_posts(v:User, username):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def user_voted_comments(v:User, username):
+def user_voted_comments(v, username):
 	return user_voted(v, username, Comment, CommentVote, "userpage/voted_comments.html", True)
 
 @app.get("/banned")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def banned(v:User):
+def banned(v):
 	users = g.db.query(User).filter(
 		User.is_banned != None,
 		or_(User.unban_utc == 0, User.unban_utc > time.time()),
@@ -334,7 +333,7 @@ def banned(v:User):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def grassed(v:User):
+def grassed(v):
 	users = g.db.query(User).filter(
 		User.ban_reason.like('grass award used by @%'),
 		User.unban_utc > time.time(),
@@ -347,7 +346,7 @@ def grassed(v:User):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def chuds(v:User):
+def chuds(v):
 	users = g.db.query(User).filter(
 		or_(User.chud == 1, User.chud > time.time()),
 	)
@@ -357,7 +356,7 @@ def chuds(v:User):
 	users = users.order_by(User.username).all()
 	return render_template("chuds.html", v=v, users=users)
 
-def all_upvoters_downvoters(v:User, username:str, vote_dir:int, is_who_simps_hates:bool):
+def all_upvoters_downvoters(v, username, vote_dir, is_who_simps_hates):
 	if username == 'Snappy':
 		abort(403, "For performance reasons, you can't see Snappy's statistics!")
 	vote_str = 'votes'
@@ -414,28 +413,28 @@ def all_upvoters_downvoters(v:User, username:str, vote_dir:int, is_who_simps_hat
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def upvoters(v:User, username:str):
+def upvoters(v, username):
 	return all_upvoters_downvoters(v, username, 1, False)
 
 @app.get("/@<username>/downvoters")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def downvoters(v:User, username:str):
+def downvoters(v, username):
 	return all_upvoters_downvoters(v, username, -1, False)
 
 @app.get("/@<username>/upvoting")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def upvoting(v:User, username:str):
+def upvoting(v, username):
 	return all_upvoters_downvoters(v, username, 1, True)
 
 @app.get("/@<username>/downvoting")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def downvoting(v:User, username:str):
+def downvoting(v, username):
 	return all_upvoters_downvoters(v, username, -1, True)
 
 @app.post("/@<username>/suicide")
@@ -445,7 +444,7 @@ def downvoting(v:User, username:str):
 @limiter.limit("5/day", deduct_when=lambda response: response.status_code < 400)
 @limiter.limit("5/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def suicide(v:User, username:str):
+def suicide(v, username):
 	user = get_user(username)
 	suicide = f"Hi there,\n\nA [concerned user](/id/{v.id}) reached out to us about you.\n\nWhen you're in the middle of something painful, it may feel like you don't have a lot of options. But whatever you're going through, you deserve help and there are people who are here for you.\n\nThere are resources available in your area that are free, confidential, and available 24/7:\n\n- Call, Text, or Chat with Canada's [Crisis Services Canada](https://www.crisisservicescanada.ca/en/)\n\n- Call, Email, or Visit the UK's [Samaritans](https://www.samaritans.org/)\n\n- Text CHAT to America's [Crisis Text Line](https://www.crisistextline.org/) at 741741.\n\nIf you don't see a resource in your area above, the moderators keep a comprehensive list of resources and hotlines for people organized by location. Find Someone Now\n\nIf you think you may be depressed or struggling in another way, don't ignore it or brush it aside. Take yourself and your feelings seriously, and reach out to someone.\n\nIt may not feel like it, but you have options. There are people available to listen to you, and ways to move forward.\n\nYour fellow users care about you and there are people who want to help."
 	if not v.shadowbanned:
@@ -457,7 +456,7 @@ def suicide(v:User, username:str):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def get_coins(v:User, username:str):
+def get_coins(v, username):
 	user = get_user(username, v=v)
 	return {"coins": user.coins}
 
@@ -467,7 +466,7 @@ def get_coins(v:User, username:str):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_permabanned
-def transfer_coins(v:User, username:str):
+def transfer_coins(v, username):
 	return transfer_currency(v, username, 'coins', True)
 
 @app.post("/@<username>/transfer_bux")
@@ -477,7 +476,7 @@ def transfer_coins(v:User, username:str):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_permabanned
-def transfer_bux(v:User, username:str):
+def transfer_bux(v, username):
 	return transfer_currency(v, username, 'marseybux', False)
 
 @app.get("/leaderboard")
@@ -485,7 +484,7 @@ def transfer_bux(v:User, username:str):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 @cache.memoize()
-def leaderboard(v:User):
+def leaderboard(v):
 	users = g.db.query(User)
 
 	coins = Leaderboard("Coins", "coins", "coins", "Coins", None, Leaderboard.get_simple_lb, User.coins, v, lambda u:u.coins, users)
@@ -563,7 +562,7 @@ def get_profilecss(id):
 
 @app.get("/@<username>/song")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-def usersong(username:str):
+def usersong(username):
 	user = get_user(username)
 	if not user.song:
 		abort(404)
@@ -677,7 +676,7 @@ def message2(v, username=None, id=None):
 @limiter.limit("6/minute;50/hour;200/day", deduct_when=lambda response: response.status_code < 400)
 @limiter.limit("6/minute;50/hour;200/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def messagereply(v:User):
+def messagereply(v):
 	body = request.values.get("body", "")
 	body = body[:COMMENT_BODY_LENGTH_LIMIT].strip()
 
@@ -776,7 +775,7 @@ def messagereply(v:User):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def mfa_qr(v:User, secret:str):
+def mfa_qr(v, secret):
 	x = pyotp.TOTP(secret)
 	qr = qrcode.QRCode(
 		error_correction=qrcode.constants.ERROR_CORRECT_L
@@ -794,7 +793,7 @@ def mfa_qr(v:User, secret:str):
 
 @app.get("/is_available/<name>")
 @limiter.limit("100/day", deduct_when=lambda response: response.status_code < 400)
-def is_available(name:str):
+def is_available(name):
 
 	name=name.strip()
 
@@ -831,14 +830,14 @@ def user_id(v, id, path=''):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def redditor_moment_redirect(v:User, username:str):
+def redditor_moment_redirect(v, username):
 	return redirect(f"/@{username}")
 
 @app.get("/@<username>/blockers")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def blockers(v:User, username:str):
+def blockers(v, username):
 	u = get_user(username, v=v)
 
 	page = get_page()
@@ -857,7 +856,7 @@ def blockers(v:User, username:str):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def blocking(v:User, username:str):
+def blocking(v, username):
 	u = get_user(username, v=v)
 
 	page = get_page()
@@ -876,7 +875,7 @@ def blocking(v:User, username:str):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def followers(v:User, username:str):
+def followers(v, username):
 	u = get_user(username, v=v)
 
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_FOLLOWS_VISIBLE']):
@@ -898,7 +897,7 @@ def followers(v:User, username:str):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def following(v:User, username:str):
+def following(v, username):
 	u = get_user(username, v=v)
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_FOLLOWS_VISIBLE']):
 		abort(403)
@@ -919,7 +918,7 @@ def following(v:User, username:str):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def visitors(v:User, username:str):
+def visitors(v, username):
 	u = get_user(username, v=v)
 
 	page = get_page()
@@ -931,7 +930,7 @@ def visitors(v:User, username:str):
 	return render_template("userpage/views.html", v=v, u=u, views=views, total=total, page=page)
 
 @cache.memoize()
-def userpagelisting(user:User, v=None, page:int=1, sort="new", t="all"):
+def userpagelisting(user, v=None, page=1, sort="new", t="all"):
 	posts = g.db.query(Post).filter_by(author_id=user.id, is_pinned=False).options(load_only(Post.id))
 	if not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or v.id == user.id)):
 		posts = posts.filter_by(is_banned=False, private=False, ghost=False, deleted_utc=0)
@@ -944,7 +943,7 @@ def userpagelisting(user:User, v=None, page:int=1, sort="new", t="all"):
 @app.get("/@<username>")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @auth_required
-def u_username_wall(v:Optional[User], username:str):
+def u_username_wall(v, username):
 	u = get_user(username, v=v, include_blocks=True)
 	if username != u.username:
 		return redirect(f"/@{u.username}")
@@ -989,7 +988,7 @@ def u_username_wall(v:Optional[User], username:str):
 @app.get("/@<username>/wall/comment/<int:cid>")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @auth_required
-def u_username_wall_comment(v:User, username:str, cid):
+def u_username_wall_comment(v, username, cid):
 	comment = get_comment(cid, v=v)
 	if not comment.wall_user_id: abort(400)
 	if not User.can_see(v, comment): abort(403)
@@ -1031,7 +1030,7 @@ def u_username_wall_comment(v:User, username:str, cid):
 @app.get("/@<username>/posts")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @auth_required
-def u_username(v:Optional[User], username:str):
+def u_username(v, username):
 	u = get_user(username, v=v, include_blocks=True)
 	if username != u.username:
 		return redirect(SITE_FULL + request.full_path.replace(username, u.username))
@@ -1284,7 +1283,7 @@ def user_profile_name(username):
 	return redirect(get_profile_picture(username))
 
 
-def get_saves_and_subscribes(v, template, relationship_cls, page:int, standalone=False):
+def get_saves_and_subscribes(v, template, relationship_cls, page, standalone=False):
 	if relationship_cls in {SaveRelationship, Subscription}:
 		query = relationship_cls.post_id
 		join = relationship_cls.post
@@ -1322,7 +1321,7 @@ def get_saves_and_subscribes(v, template, relationship_cls, page:int, standalone
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def saved_posts(v:User, username):
+def saved_posts(v, username):
 	page = get_page()
 
 	return get_saves_and_subscribes(v, "userpage/posts.html", SaveRelationship, page, False)
@@ -1331,7 +1330,7 @@ def saved_posts(v:User, username):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def saved_comments(v:User, username):
+def saved_comments(v, username):
 	page = get_page()
 
 	return get_saves_and_subscribes(v, "userpage/comments.html", CommentSaveRelationship, page, True)
@@ -1340,7 +1339,7 @@ def saved_comments(v:User, username):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def subscribed_posts(v:User, username):
+def subscribed_posts(v, username):
 	page = get_page()
 
 	return get_saves_and_subscribes(v, "userpage/posts.html", Subscription, page, False)
@@ -1351,7 +1350,7 @@ def subscribed_posts(v:User, username):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def fp(v:User, fp):
+def fp(v, fp):
 	if session.get("GLOBAL"):
 		return '', 204
 
@@ -1389,7 +1388,7 @@ def toggle_pins(sub, sort):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def bid_list(v:User, bid):
+def bid_list(v, bid):
 
 	try: bid = int(bid)
 	except: abort(400)
@@ -1493,7 +1492,7 @@ def gumroad():
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def settings_claim_rewards(v:User):
+def settings_claim_rewards(v):
 	if not (v.email and v.is_activated):
 		abort(400, f"You must have a verified email to verify {patron} status and claim your rewards!")
 

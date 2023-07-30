@@ -1,5 +1,4 @@
 import json
-from typing import List, Optional, Union
 
 import requests
 
@@ -10,7 +9,7 @@ CLOUDFLARE_REQUEST_TIMEOUT_SECS = 5
 
 CLOUDFLARE_AVAILABLE = CF_ZONE and CF_ZONE != DEFAULT_CONFIG_VALUE
 
-def _request_from_cloudflare(url:str, method:str, post_data_str) -> bool:
+def _request_from_cloudflare(url, method, post_data_str):
 	if not CLOUDFLARE_AVAILABLE: return False
 	try:
 		res = str(requests.request(method, f"{CLOUDFLARE_API_URL}/zones/{CF_ZONE}/{url}", headers=CF_HEADERS, data=post_data_str, timeout=CLOUDFLARE_REQUEST_TIMEOUT_SECS))
@@ -18,13 +17,13 @@ def _request_from_cloudflare(url:str, method:str, post_data_str) -> bool:
 		return False
 	return res == "<Response [200]>"
 
-def set_security_level(under_attack="high") -> bool:
+def set_security_level(under_attack="high"):
 	return _request_from_cloudflare("settings/security_level", "PATCH", f'{{"value":"{under_attack}"}}')
 
-def clear_entire_cache() -> bool:
+def clear_entire_cache():
 	return _request_from_cloudflare("purge_cache", "POST", '{"purge_everything":true}')
 
-def purge_files_in_cache(files:Union[List[str],str]) -> bool:
+def purge_files_in_cache(files):
 	if not CLOUDFLARE_AVAILABLE: return False
 	if isinstance(files, str):
 		files = [files]

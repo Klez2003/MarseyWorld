@@ -1,5 +1,4 @@
 import time
-from typing import Iterable
 import itertools
 
 import requests
@@ -21,7 +20,7 @@ from files.classes.notifications import Notification
 # with current keyword quantities. If this ever changes, consider reading the
 # value from /meta (or just guessing) and doing a random selection of keywords.
 
-def offsite_mentions_task(cache:Cache):
+def offsite_mentions_task(cache):
 	site_mentions = get_mentions(cache, const.REDDIT_NOTIFS_SITE)
 	notify_mentions(site_mentions)
 
@@ -32,7 +31,7 @@ def offsite_mentions_task(cache:Cache):
 
 	g.db.commit() # commit early otherwise localhost testing fails to commit
 
-def get_mentions(cache:Cache, queries:Iterable[str], reddit_notifs_users=False):
+def get_mentions(cache, queries, reddit_notifs_users=False):
 	kinds = ['post', 'comment']
 	mentions = []
 	exclude_subreddits = ['PokemonGoRaids', 'SubSimulatorGPT2', 'SubSimGPT2Interactive']

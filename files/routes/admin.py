@@ -103,7 +103,7 @@ def edit_rules_post(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @admin_level_required(PERMS['ADMIN_ADD'])
-def make_admin(v:User, username):
+def make_admin(v, username):
 	user = get_user(username)
 
 	user.admin_level = 1
@@ -127,7 +127,7 @@ def make_admin(v:User, username):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @admin_level_required(PERMS['ADMIN_REMOVE'])
-def remove_admin(v:User, username):
+def remove_admin(v, username):
 	if SITE == 'devrama.net':
 		abort(403, "You can't remove admins on devrama!")
 
@@ -157,7 +157,7 @@ def remove_admin(v:User, username):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @admin_level_required(PERMS['POST_BETS_DISTRIBUTE'])
-def distribute(v:User, kind, option_id):
+def distribute(v, kind, option_id):
 	autojanny = get_account(AUTOJANNY_ID)
 	if autojanny.coins == 0: abort(400, "@AutoJanny has 0 coins")
 
@@ -227,7 +227,7 @@ def distribute(v:User, kind, option_id):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @admin_level_required(PERMS['ADMIN_ACTIONS_REVERT'])
-def revert_actions(v:User, username):
+def revert_actions(v, username):
 	revertee = get_user(username)
 
 	if revertee.admin_level > v.admin_level:
@@ -388,7 +388,7 @@ def admin_home(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @admin_level_required(PERMS['SITE_SETTINGS'])
-def change_settings(v:User, setting):
+def change_settings(v, setting):
 	if setting not in get_settings().keys():
 		abort(404, f"Setting '{setting}' not found")
 
@@ -672,7 +672,7 @@ def alt_votes_get(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @admin_level_required(PERMS['USER_LINK'])
-def admin_view_alts(v:User, username=None):
+def admin_view_alts(v, username=None):
 	u = get_user(username or request.values.get('username'), graceful=True)
 	return render_template('admin/alts.html', v=v, u=u, alts=u.alts if u else None)
 
@@ -682,7 +682,7 @@ def admin_view_alts(v:User, username=None):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @admin_level_required(PERMS['USER_LINK'])
-def admin_add_alt(v:User, username):
+def admin_add_alt(v, username):
 	user1 = get_user(username)
 	user2 = get_user(request.values.get('other_username'))
 	if user1.id == user2.id: abort(400, "Can't add the same account as alts of each other")
@@ -718,7 +718,7 @@ def admin_add_alt(v:User, username):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @admin_level_required(PERMS['USER_LINK'])
-def admin_delink_relink_alt(v:User, username, other):
+def admin_delink_relink_alt(v, username, other):
 	user1 = get_user(username)
 	user2 = get_account(other)
 	ids = [user1.id, user2.id]
@@ -1203,7 +1203,7 @@ def unban_user(fullname, v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @admin_level_required(PERMS['USER_BAN'])
-def mute_user(v:User, user_id):
+def mute_user(v, user_id):
 	user = get_account(user_id)
 
 	if not user.is_muted:
@@ -1226,7 +1226,7 @@ def mute_user(v:User, user_id):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @admin_level_required(PERMS['USER_BAN'])
-def unmute_user(v:User, user_id):
+def unmute_user(v, user_id):
 	user = get_account(user_id)
 
 	if user.is_muted:
@@ -1711,7 +1711,7 @@ def ban_domain(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @admin_level_required(PERMS['DOMAINS_BAN'])
-def unban_domain(v:User, domain):
+def unban_domain(v, domain):
 	existing = g.db.get(BannedDomain, domain)
 	if not existing: abort(400, 'Domain is not banned!')
 

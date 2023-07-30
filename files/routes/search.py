@@ -49,7 +49,7 @@ def searchparse(text):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def searchposts(v:User):
+def searchposts(v):
 	query = request.values.get("q", '').strip()
 	if not query:
 		abort(403, "Empty searches aren't allowed!")
@@ -185,7 +185,7 @@ def searchposts(v:User):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def searchcomments(v:User):
+def searchcomments(v):
 	query = request.values.get("q", '').strip()
 	if not query:
 		abort(403, "Empty searches aren't allowed!")
@@ -289,7 +289,7 @@ def searchcomments(v:User):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def searchmessages(v:User):
+def searchmessages(v):
 	query = request.values.get("q", '').strip()
 	if not query:
 		abort(403, "Empty searches aren't allowed!")
@@ -380,7 +380,7 @@ def searchmessages(v:User):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def searchusers(v:User):
+def searchusers(v):
 	query = request.values.get("q", '').strip()
 	if not query:
 		abort(403, "Empty searches aren't allowed!")

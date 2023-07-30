@@ -11,7 +11,7 @@ from files.__main__ import app, limiter
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def authorize_prompt(v:User):
+def authorize_prompt(v):
 	client_id = request.values.get("client_id")
 	application = g.db.query(OauthApp).filter_by(client_id=client_id).one_or_none()
 	if not application:

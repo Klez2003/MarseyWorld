@@ -15,7 +15,7 @@ from files.__main__ import app, limiter
 @limiter.limit(CASINO_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(CASINO_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def casino(v:User):
+def casino(v):
 	if v.rehab:
 		return render_template("casino/rehab.html", v=v), 403
 
@@ -26,7 +26,7 @@ def casino(v:User):
 @limiter.limit(CASINO_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(CASINO_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def casino_game_page(v:User, game):
+def casino_game_page(v, game):
 	if v.rehab:
 		return render_template("casino/rehab.html", v=v), 403
 	elif game not in CASINO_GAME_KINDS:
@@ -56,7 +56,7 @@ def casino_game_page(v:User, game):
 @limiter.limit(CASINO_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(CASINO_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def casino_game_feed(v:User, game):
+def casino_game_feed(v, game):
 	if v.rehab:
 		abort(403, "You are under Rehab award effect!")
 	elif game not in CASINO_GAME_KINDS:
@@ -71,7 +71,7 @@ def casino_game_feed(v:User, game):
 @limiter.limit(CASINO_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(CASINO_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def lottershe(v:User):
+def lottershe(v):
 	if v.rehab:
 		return render_template("casino/rehab.html", v=v)
 
@@ -85,7 +85,7 @@ def lottershe(v:User):
 @limiter.limit(CASINO_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(CASINO_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def pull_slots(v:User):
+def pull_slots(v):
 	if v.rehab:
 		abort(403, "You are under Rehab award effect!")
 
@@ -119,7 +119,7 @@ def pull_slots(v:User):
 @limiter.limit(CASINO_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(CASINO_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def blackjack_deal_to_player(v:User):
+def blackjack_deal_to_player(v):
 	if v.rehab:
 		abort(403, "You are under Rehab award effect!")
 
@@ -141,7 +141,7 @@ def blackjack_deal_to_player(v:User):
 @limiter.limit(CASINO_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(CASINO_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def blackjack_player_hit(v:User):
+def blackjack_player_hit(v):
 	if v.rehab:
 		abort(403, "You are under Rehab award effect!")
 
@@ -159,7 +159,7 @@ def blackjack_player_hit(v:User):
 @limiter.limit(CASINO_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(CASINO_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def blackjack_player_stay(v:User):
+def blackjack_player_stay(v):
 	if v.rehab:
 		abort(403, "You are under Rehab award effect!")
 
@@ -177,7 +177,7 @@ def blackjack_player_stay(v:User):
 @limiter.limit(CASINO_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(CASINO_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def blackjack_player_doubled_down(v:User):
+def blackjack_player_doubled_down(v):
 	if v.rehab:
 		abort(403, "You are under Rehab award effect!")
 
@@ -195,7 +195,7 @@ def blackjack_player_doubled_down(v:User):
 @limiter.limit(CASINO_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(CASINO_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def blackjack_player_bought_insurance(v:User):
+def blackjack_player_bought_insurance(v):
 	if v.rehab:
 		abort(403, "You are under Rehab award effect!")
 
@@ -211,7 +211,7 @@ def blackjack_player_bought_insurance(v:User):
 @limiter.limit(CASINO_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(CASINO_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def roulette_get_bets(v:User):
+def roulette_get_bets(v):
 	if v.rehab:
 		abort(403, "You are under Rehab award effect!")
 
@@ -226,7 +226,7 @@ def roulette_get_bets(v:User):
 @limiter.limit(CASINO_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(CASINO_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def roulette_player_placed_bet(v:User):
+def roulette_player_placed_bet(v):
 	if v.rehab:
 		abort(403, "You are under Rehab award effect!")
 

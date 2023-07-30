@@ -1,6 +1,5 @@
 import random
 from operator import *
-from typing import Union
 import re
 
 import pyotp
@@ -480,7 +479,7 @@ class User(Base):
 		return self.offsitementions or self.admin_level >= PERMS['NOTIFICATIONS_REDDIT']
 
 	@lazy
-	def can_edit(self, target:Union[Post, Comment]) -> bool:
+	def can_edit(self, target):
 		if isinstance(target, Comment) and not target.post: return False
 		if self.id == target.author_id: return True
 		if not isinstance(target, Post): return False
@@ -850,7 +849,7 @@ class User(Base):
 		return g.db.query(Follow).filter_by(target_id=self.id, user_id=user.id).one_or_none()
 
 	@lazy
-	def is_visible_to(self, user) -> bool:
+	def is_visible_to(self, user):
 		if not self.is_private: return True
 		if not user: return False
 		if self.id == user.id: return True
@@ -1070,7 +1069,7 @@ class User(Base):
 		return f'{tier_name} - Donates ${tier_money}/month'
 
 	@classmethod
-	def can_see_content(cls, user:Optional["User"], other:Union[Post, Comment, Sub]) -> bool:
+	def can_see_content(cls, user, other):
 		'''
 		Whether a user can see this item (be it a post or comment)'s content.
 		If False, they won't be able to view its content.
@@ -1087,7 +1086,7 @@ class User(Base):
 		return True
 
 	@classmethod
-	def can_see(cls, user:Optional["User"], other:Union[Post, Comment, Sub, "User"]) -> bool:
+	def can_see(cls, user, other):
 		'''
 		Whether a user can strictly see this item. can_see_content is used where
 		content of a thing can be hidden from view

@@ -1,5 +1,4 @@
 import time
-from typing import Optional
 
 from sqlalchemy.sql import func
 
@@ -58,7 +57,7 @@ def sort_objects(sort, objects, cls):
 	else:
 		return objects.order_by(cls.downvotes - cls.upvotes, cls.created_utc.desc())
 
-def make_age_string(compare:Optional[int]) -> str:
+def make_age_string(compare):
 	if not compare or compare < 1577865600: return ""
 	age = int(time.time()) - compare
 

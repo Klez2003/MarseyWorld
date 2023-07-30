@@ -55,7 +55,7 @@ def before_request():
 
 
 @app.after_request
-def after_request(response:Response):
+def after_request(response):
 	user_id = None
 
 	if response.status_code < 400:
@@ -91,14 +91,14 @@ def teardown_request(error):
 	_rollback_and_close_db()
 	stdout.flush()
 
-def _commit_and_close_db() -> bool:
+def _commit_and_close_db():
 	if not getattr(g, 'db', None): return False
 	g.db.commit()
 	g.db.close()
 	del g.db
 	return True
 
-def _rollback_and_close_db() -> bool:
+def _rollback_and_close_db():
 	if not getattr(g, 'db', None): return False
 	g.db.rollback()
 	g.db.close()

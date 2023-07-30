@@ -175,7 +175,7 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def random_post(v:User):
+def random_post(v):
 
 	p = g.db.query(Post.id).filter(Post.deleted_utc == 0, Post.is_banned == False, Post.private == False).order_by(func.random()).first()
 
@@ -189,7 +189,7 @@ def random_post(v:User):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def random_user(v:User):
+def random_user(v):
 	u = g.db.query(User.username).filter(User.song != None).order_by(func.random()).first()
 
 	if u: u = u[0]
@@ -230,7 +230,7 @@ def comment_idlist(v=None, page=1, sort="new", t="day", gt=0, lt=0):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def all_comments(v:User):
+def all_comments(v):
 	page = get_page()
 
 	sort=request.values.get("sort", "new")

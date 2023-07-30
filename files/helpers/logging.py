@@ -1,6 +1,6 @@
 from files.helpers.config.const import *
 
-def log_file(log_str:str, log_filename="rdrama.log"):
+def log_file(log_str, log_filename="rdrama.log"):
 	'''
 	Simple method to log a string to a file
 	'''

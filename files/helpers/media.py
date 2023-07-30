@@ -3,7 +3,6 @@ import subprocess
 import time
 import requests
 from shutil import copyfile
-from typing import Optional
 
 import gevent
 import imagehash
@@ -175,7 +174,7 @@ def process_video(file, v):
 	else:
 		return f"{SITE_FULL}{new}"
 
-def process_image(filename:str, v, resize=0, trim=False, uploader_id:Optional[int]=None, db=None):
+def process_image(filename, v, resize=0, trim=False, uploader_id=None, db=None):
 	# thumbnails are processed in a thread and not in the request context
 	# if an image is too large or webp conversion fails, it'll crash
 	# to avoid this, we'll simply return None instead

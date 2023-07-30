@@ -1,4 +1,3 @@
-from typing import Callable, Iterable, List, Optional, Union
 
 from flask import *
 from sqlalchemy import and_, any_, or_
@@ -8,11 +7,11 @@ from files.classes import Comment, CommentVote, Hat, Sub, Post, User, UserBlock,
 from files.helpers.config.const import *
 from files.__main__ import cache
 
-def sanitize_username(username:str) -> str:
+def sanitize_username(username):
 	if not username: return username
 	return username.replace('\\', '').replace('_', '\_').replace('%', '').replace('(', '').replace(')', '').strip()
 
-def get_id(username:str, graceful=False) -> Optional[int]:
+def get_id(username, graceful=False):
 	username = sanitize_username(username)
 	if not username:
 		if graceful: return None
@@ -33,7 +32,7 @@ def get_id(username:str, graceful=False) -> Optional[int]:
 
 	return user[0]
 
-def get_user(username:Optional[str], v:Optional[User]=None, graceful=False, include_blocks=False) -> Optional[User]:
+def get_user(username, v=None, graceful=False, include_blocks=False):
 	if not username:
 		if graceful: return None
 		abort(404)
@@ -62,7 +61,7 @@ def get_user(username:Optional[str], v:Optional[User]=None, graceful=False, incl
 		user = add_block_props(user, v)
 	return user
 
-def get_users(usernames:Iterable[str], ids_only=False, graceful=False) -> List[User]:
+def get_users(usernames, ids_only=False, graceful=False):
 	if not usernames: return []
 	usernames = [sanitize_username(n) for n in usernames]
 	if not any(usernames):
@@ -90,7 +89,7 @@ def get_users(usernames:Iterable[str], ids_only=False, graceful=False) -> List[U
 
 	return users
 
-def get_account(id:Union[str, int], v:Optional[User]=None, graceful=False, include_blocks=False) -> Optional[User]:
+def get_account(id, v=None, graceful=False, include_blocks=False):
 	try:
 		id = int(id)
 	except:
@@ -108,7 +107,7 @@ def get_account(id:Union[str, int], v:Optional[User]=None, graceful=False, inclu
 	return user
 
 
-def get_accounts_dict(ids:Union[Iterable[str], Iterable[int]], v:Optional[User]=None, graceful=False) -> Optional[dict[int, User]]:
+def get_accounts_dict(ids, v=None, graceful=False):
 	if not ids: return {}
 	try:
 		ids = set([int(id) for id in ids])
@@ -121,7 +120,7 @@ def get_accounts_dict(ids:Union[Iterable[str], Iterable[int]], v:Optional[User]=
 	if len(users) != len(ids) and not graceful: abort(404)
 	return {u.id:u for u in users}
 
-def get_post(i:Union[str, int], v:Optional[User]=None, graceful=False) -> Optional[Post]:
+def get_post(i, v=None, graceful=False):
 	try: i = int(i)
 	except:
 		if graceful: return None
@@ -169,7 +168,7 @@ def get_post(i:Union[str, int], v:Optional[User]=None, graceful=False) -> Option
 	return x
 
 
-def get_posts(pids:Iterable[int], v:Optional[User]=None, extra:Optional[Callable[[Query], Query]]=None) -> List[Post]:
+def get_posts(pids, v=None, extra=None):
 	if not pids: return []
 
 	if v:
@@ -215,7 +214,7 @@ def get_posts(pids:Iterable[int], v:Optional[User]=None, extra:Optional[Callable
 
 	return sorted(output, key=lambda x: pids.index(x.id))
 
-def get_comment(i:Union[str, int], v:Optional[User]=None, graceful=False) -> Optional[Comment]:
+def get_comment(i, v=None, graceful=False):
 	try: i = int(i)
 	except:
 		if graceful: return None
@@ -232,7 +231,7 @@ def get_comment(i:Union[str, int], v:Optional[User]=None, graceful=False) -> Opt
 
 	return add_vote_and_block_props(comment, v, CommentVote)
 
-def add_block_props(target:Union[Post, Comment, User], v:Optional[User]):
+def add_block_props(target, v):
 	if not v: return target
 	id = None
 
@@ -267,7 +266,7 @@ def add_block_props(target:Union[Post, Comment, User], v:Optional[User]):
 	target.is_blocked = block and block.target_id == v.id
 	return target
 
-def add_vote_props(target:Union[Post, Comment], v:Optional[User], vote_cls):
+def add_vote_props(target, v, vote_cls):
 	if hasattr(target, 'voted'): return target
 
 	vt = g.db.query(vote_cls.vote_type).filter_by(user_id=v.id)
@@ -281,12 +280,12 @@ def add_vote_props(target:Union[Post, Comment], v:Optional[User], vote_cls):
 	target.voted = vt.vote_type if vt else 0
 	return target
 
-def add_vote_and_block_props(target:Union[Post, Comment], v:Optional[User], vote_cls):
+def add_vote_and_block_props(target, v, vote_cls):
 	if not v: return target
 	target = add_block_props(target, v)
 	return add_vote_props(target, v, vote_cls)
 
-def get_comments(cids:Iterable[int], v:Optional[User]=None, extra:Optional[Callable[[Query], Query]]=None) -> List[Comment]:
+def get_comments(cids, v=None, extra=None):
 	if not cids: return []
 	if v:
 		output = get_comments_v_properties(v, None, Comment.id.in_(cids))[1]
@@ -296,7 +295,7 @@ def get_comments(cids:Iterable[int], v:Optional[User]=None, extra:Optional[Calla
 		output = output.filter(Comment.id.in_(cids)).all()
 	return sorted(output, key=lambda x: cids.index(x.id))
 
-def get_comments_v_properties(v:User, should_keep_func:Optional[Callable[[Comment], bool]]=None, *criterion):
+def get_comments_v_properties(v, should_keep_func=None, *criterion):
 	if not v:
 		raise TypeError("A user is required")
 	votes = g.db.query(CommentVote.vote_type, CommentVote.comment_id).filter_by(user_id=v.id).subquery()
@@ -332,7 +331,7 @@ def get_comments_v_properties(v:User, should_keep_func:Optional[Callable[[Commen
 		else: dump.append(comment)
 	return (comments, output)
 
-def get_sub_by_name(sub:str, v:Optional[User]=None, graceful=False) -> Optional[Sub]:
+def get_sub_by_name(sub, v=None, graceful=False):
 	if not sub:
 		if graceful: return None
 		else: abort(404)
@@ -347,7 +346,7 @@ def get_sub_by_name(sub:str, v:Optional[User]=None, graceful=False) -> Optional[
 	return sub
 
 @cache.memoize(timeout=3600)
-def get_profile_picture(identifier:Union[int, str]) -> str:
+def get_profile_picture(identifier):
 	if isinstance(identifier, int):
 		x = get_account(identifier, graceful=True)
 	else:

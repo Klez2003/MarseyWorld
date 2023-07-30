@@ -157,7 +157,7 @@ def remove_report_comment(v, cid, uid):
 		g.db.add(ma)
 	return {"message": "Report removed successfully!"}
 
-def move_post(post:Post, v:User, reason:str) -> Union[bool, str]:
+def move_post(post, v, reason):
 	if post.ghost:
 		return False
 

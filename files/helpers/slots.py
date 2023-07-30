@@ -119,7 +119,7 @@ def shuffle(stuff):
 	return stuff
 
 
-def check_slots_command(c:Comment, v:User, u:User):
+def check_slots_command(c, v, u):
 	if not FEATURES['GAMBLING']: return
 	body = c.body.lower()
 

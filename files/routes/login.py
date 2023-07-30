@@ -23,7 +23,7 @@ NO_LOGIN_REDIRECT_URLS = ("/login", "/logout", "/signup", "/forgot", "/reset", "
 @app.get("/login")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @auth_desired
-def login_get(v:Optional[User]):
+def login_get(v):
 	redir = request.values.get("redirect", "").strip().rstrip('?').lower()
 	if v:
 		if redir and is_site_url(redir) and redir not in NO_LOGIN_REDIRECT_URLS:
@@ -35,7 +35,7 @@ def login_get(v:Optional[User]):
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit("6/minute;20/day", deduct_when=lambda response: response.status_code < 400)
 @auth_desired
-def login_post(v:Optional[User]):
+def login_post(v):
 	if v: abort(400)
 
 	username = request.values.get("username")
@@ -105,7 +105,7 @@ def login_post(v:Optional[User]):
 		return redirect(redir)
 	return redirect('/')
 
-def log_failed_admin_login_attempt(account:User, type:str):
+def log_failed_admin_login_attempt(account, type):
 	if not account or account.admin_level < PERMS['SITE_WARN_ON_INVALID_AUTH']: return
 	ip = get_CF()
 	print(f"A site admin from {ip} failed to login to account @{account.user_name} (invalid {type})")
@@ -125,7 +125,7 @@ def on_login(account, redir=None):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def me(v:User):
+def me(v):
 	if v.client: return v.json
 	else: return redirect(v.url)
 
@@ -146,7 +146,7 @@ def logout(v):
 @app.get("/signup")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @auth_desired
-def sign_up_get(v:Optional[User]):
+def sign_up_get(v):
 	if not get_setting('signups'):
 		abort(403, "New account registration is currently closed. Please come back later!")
 
@@ -195,7 +195,7 @@ def sign_up_get(v:Optional[User]):
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit("10/day", deduct_when=lambda response: response.status_code < 400)
 @auth_desired
-def sign_up_post(v:Optional[User]):
+def sign_up_post(v):
 	if not get_setting('signups'):
 		abort(403, "New account registration is currently closed. Please come back later!")
 
@@ -436,7 +436,7 @@ def get_reset():
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @auth_desired
-def post_reset(v:Optional[User]):
+def post_reset(v):
 	if v: return redirect('/')
 	user_id = request.values.get("user_id")
 	timestamp = 0
@@ -475,7 +475,7 @@ def post_reset(v:Optional[User]):
 @app.get("/lost_2fa")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @auth_desired
-def lost_2fa(v:Optional[User]):
+def lost_2fa(v):
 	if v and not v.mfa_secret: abort(400, "You don't have two-factor authentication enabled")
 	return render_template("login/lost_2fa.html", v=v)
 

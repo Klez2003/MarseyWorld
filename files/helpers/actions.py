@@ -1,6 +1,5 @@
 import random
 import time
-from typing import Type
 from urllib.parse import quote
 from sqlalchemy.sql import func
 import gevent
@@ -25,8 +24,6 @@ from files.helpers.settings import get_setting
 from files.helpers.slots import check_slots_command
 
 from files.routes.routehelpers import check_for_alts
-
-post_target_type = Union[Post, User]
 
 def _archiveorg(url):
 	try:
@@ -54,7 +51,7 @@ def snappy_report(post, reason):
 	message = f'@Snappy reported [{post.title}]({post.shortlink})\n\n> {reason}'
 	send_repeatable_notification(post.author_id, message)
 
-def execute_snappy(post:Post, v:User):
+def execute_snappy(post, v):
 	if post.sub and g.db.query(Exile.user_id).filter_by(user_id=SNAPPY_ID, sub=post.sub).one_or_none():
 		return
 
@@ -259,7 +256,7 @@ def execute_snappy(post:Post, v:User):
 		post.comment_count += 1
 		post.replies = [c]
 
-def execute_zozbot(c:Comment, level:int, post_target:post_target_type, v):
+def execute_zozbot(c, level, post_target, v):
 	if SITE_NAME != 'rDrama': return
 	posting_to_post = isinstance(post_target, Post)
 	if random.random() >= 0.001: return
@@ -324,7 +321,7 @@ def execute_zozbot(c:Comment, level:int, post_target:post_target_type, v):
 
 	push_notif({v.id}, f'New reply by @{c2.author_name}', "zoz", c2)
 
-def execute_longpostbot(c:Comment, level:int, body, body_html, post_target:post_target_type, v:User):
+def execute_longpostbot(c, level, body, body_html, post_target, v):
 	if SITE_NAME != 'rDrama': return
 	posting_to_post = isinstance(post_target, Post)
 	if not len(c.body.split()) >= 200: return
@@ -425,7 +422,7 @@ def execute_antispam_post_check(title, v, url):
 		return False
 	return True
 
-def execute_antispam_duplicate_comment_check(v:User, body_html:str):
+def execute_antispam_duplicate_comment_check(v, body_html):
 	if v.admin_level >= PERMS['USE_ADMIGGER_THREADS']: return
 
 	'''
@@ -445,7 +442,7 @@ def execute_antispam_duplicate_comment_check(v:User, body_html:str):
 	g.db.commit()
 	abort(403, "Too much spam!")
 
-def execute_antispam_comment_check(body:str, v:User):
+def execute_antispam_comment_check(body, v):
 	if v.admin_level >= PERMS['USE_ADMIGGER_THREADS']: return
 
 	if v.id in ANTISPAM_BYPASS_IDS: return
@@ -483,7 +480,7 @@ def execute_antispam_comment_check(body:str, v:User):
 	g.db.commit()
 	abort(403, "Too much spam!")
 
-def execute_dylan(v:User):
+def execute_dylan(v):
 	if "dylan" in v.username.lower() and "hewitt" in v.username.lower():
 		v.shadowbanned = AUTOJANNY_ID
 		v.ban_reason = "Dylan"
@@ -496,7 +493,7 @@ def execute_dylan(v:User):
 		)
 		g.db.add(ma)
 
-def execute_under_siege(v:User, target:Optional[Union[Post, Comment]], body, kind:str) -> bool:
+def execute_under_siege(v, target, body, kind):
 	if v.shadowbanned: return
 
 	if SITE == 'watchpeopledie.tv':
@@ -546,7 +543,7 @@ def execute_under_siege(v:User, target:Optional[Union[Post, Comment]], body, kin
 			g.db.add(n)
 
 
-def execute_lawlz_actions(v:User, p:Post):
+def execute_lawlz_actions(v, p):
 	if v.id != LAWLZ_ID: return
 	if SITE_NAME != 'rDrama': return
 	if not FEATURES['PINS']: return
@@ -577,7 +574,7 @@ def execute_lawlz_actions(v:User, p:Post):
 	g.db.add(ma_3)
 
 
-def process_poll_options(v:User, target:Union[Post, Comment]):
+def process_poll_options(v, target):
 
 	patterns = [(poll_regex, 0), (choice_regex, 1)]
 

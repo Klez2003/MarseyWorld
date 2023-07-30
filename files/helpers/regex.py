@@ -1,7 +1,6 @@
 import random
 import re
 from random import choice, choices
-from typing import List, Optional, Union
 
 from .config.const import *
 
@@ -157,7 +156,7 @@ pronouns_regex = re.compile("([a-z]{1,7})\/[a-z]{1,7}(\/[a-z]{1,7})?", flags=re.
 
 html_title_regex = re.compile("<title>(.{1,200})</title>", flags=re.I)
 
-def sub_matcher(match:re.Match, upper=False, replace_with:Union[dict[str, str], dict[str, List[str]]]=SLURS_FOR_REPLACING):
+def sub_matcher(match, upper=False, replace_with=SLURS_FOR_REPLACING):
 	group_num = 0
 	match_str = match.group(group_num)
 	if match_str.startswith('<'):
@@ -169,7 +168,7 @@ def sub_matcher(match:re.Match, upper=False, replace_with:Union[dict[str, str], 
 		else:
 			return repl.upper()
 
-def sub_matcher_upper(match, replace_with:Union[dict[str, str], dict[str, List[str]]]=SLURS_FOR_REPLACING):
+def sub_matcher_upper(match, replace_with=SLURS_FOR_REPLACING):
 	return sub_matcher(match, upper=True, replace_with=replace_with)
 
 
@@ -186,13 +185,13 @@ def sub_matcher_profanities(match, upper=False):
 def sub_matcher_profanities_upper(match):
 	return sub_matcher_profanities(match, upper=True)
 
-def censor_slurs(body:Optional[str], logged_user):
+def censor_slurs(body, logged_user):
 	if not body: return ""
 
 	if '<pre>' in body or '<code>' in body:
 			return body
 
-	def replace_re(body:str, regex:re.Pattern, regex_upper:re.Pattern, sub_func, sub_func_upper):
+	def replace_re(body, regex, regex_upper, sub_func, sub_func_upper):
 		body = regex_upper.sub(sub_func_upper, body)
 		return regex.sub(sub_func, body)
 

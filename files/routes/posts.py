@@ -81,7 +81,7 @@ def publish(pid, v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def submit_get(v:User, sub=None):
+def submit_get(v, sub=None):
 	sub = get_sub_by_name(sub, graceful=True)
 	if request.path.startswith('/h/') and not sub: abort(404)
 
@@ -275,7 +275,7 @@ def more_comments(v, cid):
 
 	return render_template("comments.html", v=v, comments=comments, p=p, render_replies=True)
 
-def thumbnail_thread(pid:int, vid:int):
+def thumbnail_thread(pid, vid):
 	db = db_session()
 	def expand_url(post_url, fragment_url):
 		if fragment_url.startswith("https://"):
@@ -459,7 +459,7 @@ def is_repost(v):
 @limiter.limit(POST_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(POST_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_banned
-def submit_post(v:User, sub=None):
+def submit_post(v, sub=None):
 	url = request.values.get("url", "").strip()
 
 	if '\\' in url: abort(400)
@@ -952,7 +952,7 @@ def pin_post(post_id, v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def set_new_sort(post_id:int, v:User):
+def set_new_sort(post_id, v):
 	p = get_post(post_id)
 	if not v.can_edit(p): abort(403, "Only the post author can do that!")
 	p.new = True
@@ -974,7 +974,7 @@ def set_new_sort(post_id:int, v:User):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def unset_new_sort(post_id:int, v:User):
+def unset_new_sort(post_id, v):
 	p = get_post(post_id)
 	if not v.can_edit(p): abort(403, "Only the post author can do that!")
 	p.new = None

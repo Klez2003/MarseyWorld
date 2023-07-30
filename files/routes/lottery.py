@@ -23,7 +23,7 @@ def lottery_start(v):
 @limiter.limit("100/minute;500/hour;1000/day", deduct_when=lambda response: response.status_code < 400)
 @limiter.limit("100/minute;500/hour;1000/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def lottery_buy(v:User):
+def lottery_buy(v):
 	try: quantity = int(request.values.get("quantity"))
 	except: abort(400, "Invalid ticket quantity!")
 
@@ -41,7 +41,7 @@ def lottery_buy(v:User):
 @limiter.limit("100/minute;500/hour;1000/day", deduct_when=lambda response: response.status_code < 400)
 @limiter.limit("100/minute;500/hour;1000/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def lottery_active(v:User):
+def lottery_active(v):
 	lottery, participants = get_active_lottery_stats()
 
 	return {"message": "", "stats": {"user": v.lottery_stats, "lottery": lottery, "participants": participants}}

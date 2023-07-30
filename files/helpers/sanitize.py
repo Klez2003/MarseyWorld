@@ -4,7 +4,6 @@ import re
 import signal
 from functools import partial
 from os import path, listdir
-from typing import Any
 from urllib.parse import parse_qs, urlparse, unquote
 
 from sqlalchemy.sql import func
@@ -267,7 +266,7 @@ def render_emoji(html, regexp, golden, emojis_used, b=False, is_title=False):
 	return html
 
 
-def with_sigalrm_timeout(timeout: int):
+def with_sigalrm_timeout(timeout):
 	'Use SIGALRM to raise an exception if the function executes for longer than timeout seconds'
 
 	# while trying to test this using time.sleep I discovered that gunicorn does in fact do some
@@ -289,7 +288,7 @@ def with_sigalrm_timeout(timeout: int):
 		return wrapped
 	return inner
 
-def remove_cuniform(sanitized:Optional[str]) -> str:
+def remove_cuniform(sanitized):
 	if not sanitized: return ""
 	sanitized = sanitized.replace('\u200e','').replace('\u200b','').replace('\u202e','').replace("\ufeff", "")
 	sanitized = sanitized.replace("𒐪","").replace("𒐫","").replace("﷽","")

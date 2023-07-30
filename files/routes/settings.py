@@ -30,14 +30,14 @@ from files.__main__ import app, cache, limiter
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def settings(v:User):
+def settings(v):
 	return redirect("/settings/personal")
 
 @app.get("/settings/personal")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def settings_personal(v:User):
+def settings_personal(v):
 	return render_template("settings/personal.html", v=v, error=get_error(), msg=get_msg())
 
 @app.delete('/settings/background')
@@ -124,7 +124,7 @@ def settings_personal_post(v):
 
 	# begin common selectors #
 
-	def update_flag(column_name:str, request_name:str):
+	def update_flag(column_name, request_name):
 		if not request.values.get(request_name, ''): return False
 		request_flag = request.values.get(request_name, '') == 'true'
 		if request_flag != getattr(v, column_name):
@@ -132,7 +132,7 @@ def settings_personal_post(v):
 			return True
 		return False
 
-	def update_potentially_permanent_flag(column_name:str, request_name:str, friendly_name:str, badge_id:Optional[int]):
+	def update_potentially_permanent_flag(column_name, request_name, friendly_name, badge_id):
 		if not request.values.get(request_name): return False
 		current_value = getattr(v, column_name)
 		if FEATURES['USERS_PERMANENT_WORD_FILTERS'] and current_value > 1:
@@ -149,7 +149,7 @@ def settings_personal_post(v):
 			return True
 		return False
 
-	def set_selector_option(column_name:str, api_name:str, valid_values:Iterable[str], error_msg:str="value"):
+	def set_selector_option(column_name, api_name, valid_values, error_msg="value"):
 		opt = request.values.get(api_name)
 		if opt: opt = opt.strip()
 		if not opt: return False
@@ -398,7 +398,7 @@ def settings_personal_post(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def filters(v:User):
+def filters(v):
 	filters=request.values.get("filters")[:1000].strip()
 
 	if filters == v.custom_filter_list:
@@ -409,7 +409,7 @@ def filters(v:User):
 	return redirect("/settings/advanced?msg=Your custom filters have been updated!")
 
 
-def set_color(v:User, attr:str, color:Optional[str]):
+def set_color(v, attr, color):
 	current = getattr(v, attr)
 	color = color.strip().lower() if color else None
 	if color:
@@ -621,7 +621,7 @@ def settings_images_banner(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def settings_css_get(v:User):
+def settings_css_get(v):
 	return render_template("settings/css.html", v=v, msg=get_msg(), profilecss=v.profilecss)
 
 @app.post("/settings/css")
@@ -657,7 +657,7 @@ def settings_profilecss(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def settings_security(v:User):
+def settings_security(v):
 	return render_template("settings/security.html",
 						v=v,
 						mfa_secret=pyotp.random_base32() if not v.mfa_secret else None,
@@ -668,7 +668,7 @@ def settings_security(v:User):
 
 @app.get("/settings/blocks")
 @auth_required
-def settings_blocks(v:User):
+def settings_blocks(v):
 	return render_template("settings/blocks.html", v=v)
 
 @app.post("/settings/block")
@@ -721,14 +721,14 @@ def settings_unblock_user(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def settings_apps(v:User):
+def settings_apps(v):
 	return render_template("settings/apps.html", v=v)
 
 @app.get("/settings/advanced")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def settings_advanced_get(v:User):
+def settings_advanced_get(v):
 	return render_template("settings/advanced.html", v=v, msg=get_msg(), error=get_error())
 
 @app.post("/settings/name_change")

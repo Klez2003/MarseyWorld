@@ -13,7 +13,7 @@ from files.__main__ import app, cache, limiter
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_permabanned
-def exile_post(v:User, pid):
+def exile_post(v, pid):
 	if v.shadowbanned: abort(500)
 	p = get_post(pid)
 	sub = p.sub
@@ -48,7 +48,7 @@ def exile_post(v:User, pid):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_permabanned
-def exile_comment(v:User, cid):
+def exile_comment(v, cid):
 	if v.shadowbanned: abort(500)
 	c = get_comment(cid)
 	sub = c.post.sub
@@ -83,7 +83,7 @@ def exile_comment(v:User, cid):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_permabanned
-def unexile(v:User, sub, uid):
+def unexile(v, sub, uid):
 	u = get_account(uid)
 
 	if not v.mods(sub): abort(403)
@@ -115,7 +115,7 @@ def unexile(v:User, sub, uid):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def block_sub(v:User, sub):
+def block_sub(v, sub):
 	sub = get_sub_by_name(sub).name
 	existing = g.db.query(SubBlock).filter_by(user_id=v.id, sub=sub).one_or_none()
 	if not existing:
@@ -130,7 +130,7 @@ def block_sub(v:User, sub):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def unblock_sub(v:User, sub):
+def unblock_sub(v, sub):
 	sub = get_sub_by_name(sub)
 	if not User.can_see(v, sub):
 		abort(403)
@@ -149,7 +149,7 @@ def unblock_sub(v:User, sub):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def subscribe_sub(v:User, sub):
+def subscribe_sub(v, sub):
 	sub = get_sub_by_name(sub).name
 	existing = g.db.query(SubJoin).filter_by(user_id=v.id, sub=sub).one_or_none()
 	if not existing:
@@ -164,7 +164,7 @@ def subscribe_sub(v:User, sub):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def unsubscribe_sub(v:User, sub):
+def unsubscribe_sub(v, sub):
 	sub = get_sub_by_name(sub).name
 	subscribe = g.db.query(SubJoin).filter_by(user_id=v.id, sub=sub).one_or_none()
 	if subscribe:
@@ -178,7 +178,7 @@ def unsubscribe_sub(v:User, sub):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def follow_sub(v:User, sub):
+def follow_sub(v, sub):
 	sub = get_sub_by_name(sub)
 	if not User.can_see(v, sub):
 		abort(403)
@@ -196,7 +196,7 @@ def follow_sub(v:User, sub):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def unfollow_sub(v:User, sub):
+def unfollow_sub(v, sub):
 	sub = get_sub_by_name(sub)
 	subscription = g.db.query(SubSubscription).filter_by(user_id=v.id, sub=sub.name).one_or_none()
 	if subscription:
@@ -209,7 +209,7 @@ def unfollow_sub(v:User, sub):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def mods(v:User, sub):
+def mods(v, sub):
 	sub = get_sub_by_name(sub)
 	if not User.can_see(v, sub):
 		abort(403)
@@ -222,7 +222,7 @@ def mods(v:User, sub):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def sub_exilees(v:User, sub):
+def sub_exilees(v, sub):
 	sub = get_sub_by_name(sub)
 	if not User.can_see(v, sub):
 		abort(403)
@@ -237,7 +237,7 @@ def sub_exilees(v:User, sub):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def sub_blockers(v:User, sub):
+def sub_blockers(v, sub):
 	sub = get_sub_by_name(sub)
 	if not User.can_see(v, sub):
 		abort(403)
@@ -253,7 +253,7 @@ def sub_blockers(v:User, sub):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def sub_followers(v:User, sub):
+def sub_followers(v, sub):
 	sub = get_sub_by_name(sub)
 	if not User.can_see(v, sub):
 		abort(403)
@@ -271,7 +271,7 @@ def sub_followers(v:User, sub):
 @limiter.limit("30/day", deduct_when=lambda response: response.status_code < 400)
 @limiter.limit("30/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_permabanned
-def add_mod(v:User, sub):
+def add_mod(v, sub):
 	if SITE_NAME == 'WPD': abort(403)
 	sub = get_sub_by_name(sub).name
 	if not v.mods(sub): abort(403)
@@ -311,7 +311,7 @@ def add_mod(v:User, sub):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_permabanned
-def remove_mod(v:User, sub):
+def remove_mod(v, sub):
 	sub = get_sub_by_name(sub).name
 
 	if not v.mods(sub): abort(403)
@@ -404,7 +404,7 @@ def create_sub2(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_permabanned
-def kick(v:User, pid):
+def kick(v, pid):
 	post = get_post(pid)
 
 	if not post.sub: abort(403)
@@ -437,7 +437,7 @@ def kick(v:User, pid):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_permabanned
-def sub_settings(v:User, sub):
+def sub_settings(v, sub):
 	sub = get_sub_by_name(sub)
 	if not v.mods(sub.name): abort(403)
 	return render_template('sub/settings.html', v=v, sidebar=sub.sidebar, sub=sub, css=sub.css)
@@ -449,7 +449,7 @@ def sub_settings(v:User, sub):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_permabanned
-def post_sub_sidebar(v:User, sub):
+def post_sub_sidebar(v, sub):
 	sub = get_sub_by_name(sub)
 	if not v.mods(sub.name): abort(403)
 	if v.shadowbanned: return redirect(f'/h/{sub}/settings')
@@ -479,7 +479,7 @@ def post_sub_sidebar(v:User, sub):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_permabanned
-def post_sub_css(v:User, sub):
+def post_sub_css(v, sub):
 	sub = get_sub_by_name(sub)
 	css = request.values.get('css', '').strip()
 
@@ -522,7 +522,7 @@ def get_sub_css(sub):
 @limiter.limit("50/day", deduct_when=lambda response: response.status_code < 400)
 @limiter.limit("50/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_permabanned
-def upload_sub_banner(v:User, sub:str):
+def upload_sub_banner(v, sub):
 	if g.is_tor: abort(403, "Image uploads are not allowed through Tor")
 
 	sub = get_sub_by_name(sub)
@@ -552,7 +552,7 @@ def upload_sub_banner(v:User, sub:str):
 @limiter.limit("1/second;30/day", deduct_when=lambda response: response.status_code < 400)
 @limiter.limit("1/second;30/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_permabanned
-def delete_sub_banner(v:User, sub:str, index:int):
+def delete_sub_banner(v, sub, index):
 	sub = get_sub_by_name(sub)
 	if not v.mods(sub.name): abort(403)
 	if v.shadowbanned: return redirect(f'/h/{sub}/settings')
@@ -583,7 +583,7 @@ def delete_sub_banner(v:User, sub:str, index:int):
 @limiter.limit("1/10 second;30/day", deduct_when=lambda response: response.status_code < 400)
 @limiter.limit("1/10 second;30/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_permabanned
-def delete_all_sub_banners(v:User, sub:str):
+def delete_all_sub_banners(v, sub):
 	sub = get_sub_by_name(sub)
 	if not v.mods(sub.name): abort(403)
 	if v.shadowbanned: return redirect(f'/h/{sub}/settings')
@@ -611,7 +611,7 @@ def delete_all_sub_banners(v:User, sub:str):
 @limiter.limit("10/day", deduct_when=lambda response: response.status_code < 400)
 @limiter.limit("10/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_permabanned
-def sub_sidebar(v:User, sub):
+def sub_sidebar(v, sub):
 	if g.is_tor: abort(403, "Image uploads are not allowed through TOR!")
 
 	sub = get_sub_by_name(sub)
@@ -644,7 +644,7 @@ def sub_sidebar(v:User, sub):
 @limiter.limit("10/day", deduct_when=lambda response: response.status_code < 400)
 @limiter.limit("10/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_permabanned
-def sub_marsey(v:User, sub):
+def sub_marsey(v, sub):
 	if g.is_tor: abort(403, "Image uploads are not allowed through TOR!")
 
 	sub = get_sub_by_name(sub)
@@ -676,7 +676,7 @@ def sub_marsey(v:User, sub):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def subs(v:User):
+def subs(v):
 	subs = g.db.query(Sub, func.count(Post.sub)).outerjoin(Post, Sub.name == Post.sub).group_by(Sub.name).order_by(func.count(Post.sub).desc()).all()
 	total_users = g.db.query(User).count()
 	return render_template('sub/subs.html', v=v, subs=subs, total_users=total_users)
@@ -687,7 +687,7 @@ def subs(v:User):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_permabanned
-def hole_pin(v:User, pid):
+def hole_pin(v, pid):
 	p = get_post(pid)
 
 	if not p.sub: abort(403)
@@ -723,7 +723,7 @@ def hole_pin(v:User, pid):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_permabanned
-def hole_unpin(v:User, pid):
+def hole_unpin(v, pid):
 	p = get_post(pid)
 
 	if not p.sub: abort(403)
@@ -756,7 +756,7 @@ def hole_unpin(v:User, pid):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_permabanned
-def sub_stealth(v:User, sub):
+def sub_stealth(v, sub):
 	sub = get_sub_by_name(sub)
 	if sub.name in {'braincels','smuggies','mnn'} and v.admin_level < PERMS["MODS_EVERY_HOLE"]:
 		abort(403)
@@ -852,7 +852,7 @@ def unpin_comment_mod(cid, v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def hole_log(v:User, sub):
+def hole_log(v, sub):
 	sub = get_sub_by_name(sub)
 	if not User.can_see(v, sub):
 		abort(403)

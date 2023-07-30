@@ -11,7 +11,7 @@ from files.__main__ import app, limiter
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def ping_groups(v:User):
+def ping_groups(v):
 	groups = g.db.query(Group).order_by(Group.created_utc).all()
 	return render_template('groups.html', v=v, groups=groups, cost=GROUP_COST, msg=get_msg(), error=get_error())
 
@@ -64,7 +64,7 @@ def create_group(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def join_group(v:User, group_name):
+def join_group(v, group_name):
 	group_name = group_name.strip().lower()
 
 	group = g.db.get(Group, group_name)
@@ -83,7 +83,7 @@ def join_group(v:User, group_name):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def leave_group(v:User, group_name):
+def leave_group(v, group_name):
 	group_name = group_name.strip().lower()
 
 	if group_name == 'jannies':
@@ -112,7 +112,7 @@ def leave_group(v:User, group_name):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def memberships(v:User, group_name):
+def memberships(v, group_name):
 	group_name = group_name.strip().lower()
 
 	group = g.db.get(Group, group_name)
@@ -136,7 +136,7 @@ def memberships(v:User, group_name):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def group_approve(v:User, group_name, user_id):
+def group_approve(v, group_name, user_id):
 	group_name = group_name.strip().lower()
 
 	group = g.db.get(Group, group_name)
@@ -162,7 +162,7 @@ def group_approve(v:User, group_name, user_id):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def group_reject(v:User, group_name, user_id):
+def group_reject(v, group_name, user_id):
 	group_name = group_name.strip().lower()
 
 	group = g.db.get(Group, group_name)

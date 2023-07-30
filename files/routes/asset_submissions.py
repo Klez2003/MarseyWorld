@@ -22,7 +22,7 @@ def submit_marseys_redirect():
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def submit_emojis(v:User):
+def submit_emojis(v):
 	if v.admin_level >= PERMS['VIEW_PENDING_SUBMITTED_EMOJIS']:
 		emojis = g.db.query(Emoji).filter(Emoji.submitter_id != None)
 	else:
@@ -43,7 +43,7 @@ def submit_emojis(v:User):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def submit_emoji(v:User):
+def submit_emoji(v):
 	file = request.files["image"]
 	name = request.values.get('name', '').lower().strip()
 	tags = request.values.get('tags', '').lower().strip()
@@ -103,7 +103,7 @@ def submit_emoji(v:User):
 
 	return redirect(f"/submit/emojis?msg='{name}' submitted successfully!")
 
-def verify_permissions_and_get_asset(cls, asset_type:str, v:User, name:str, make_lower=False):
+def verify_permissions_and_get_asset(cls, asset_type, v, name, make_lower=False):
 	if cls not in ASSET_TYPES: raise Exception("not a valid asset type")
 	name = name.strip()
 	if make_lower: name = name.lower()
@@ -220,7 +220,7 @@ def approve_emoji(v, name):
 
 	return {"message": f"'{emoji.name}' approved!"}
 
-def remove_asset(cls, type_name:str, v:User, name:str) -> dict[str, str]:
+def remove_asset(cls, type_name, v, name):
 	if cls not in ASSET_TYPES: raise Exception("not a valid asset type")
 	should_make_lower = cls == Emoji
 	if should_make_lower: name = name.lower()
@@ -262,14 +262,14 @@ def remove_asset(cls, type_name:str, v:User, name:str) -> dict[str, str]:
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def remove_emoji(v:User, name):
+def remove_emoji(v, name):
 	return remove_asset(Emoji, "emoji", v, name)
 
 @app.get("/submit/hats")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def submit_hats(v:User):
+def submit_hats(v):
 	if v.admin_level >= PERMS['VIEW_PENDING_SUBMITTED_HATS']: hats = g.db.query(HatDef).filter(HatDef.submitter_id != None)
 	else: hats = g.db.query(HatDef).filter(HatDef.submitter_id == v.id)
 	hats = hats.order_by(HatDef.created_utc.desc()).all()
@@ -283,7 +283,7 @@ def submit_hats(v:User):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def submit_hat(v:User):
+def submit_hat(v):
 	name = request.values.get('name', '').strip()
 	description = request.values.get('description', '').strip()
 	username = request.values.get('author', '').strip()
@@ -413,7 +413,7 @@ def approve_hat(v, name):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def remove_hat(v:User, name):
+def remove_hat(v, name):
 	return remove_asset(HatDef, 'hat', v, name)
 
 @app.get("/admin/update/emojis")

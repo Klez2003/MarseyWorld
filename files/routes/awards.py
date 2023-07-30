@@ -26,14 +26,14 @@ from .front import frontlist
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def shop_awards(v:User):
+def shop_awards(v):
 	return redirect('/shop/awards')
 
 @app.get("/shop/awards")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def shop(v:User):
+def shop(v):
 	AWARDS = deepcopy(AWARDS_ENABLED)
 
 	if v.house:
@@ -60,7 +60,7 @@ def shop(v:User):
 @limiter.limit("100/minute;200/hour;1000/day", deduct_when=lambda response: response.status_code < 400)
 @limiter.limit("100/minute;200/hour;1000/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def buy(v:User, award):
+def buy(v, award):
 	if award == 'ghost':
 		abort(403, "You can't buy this award!")
 

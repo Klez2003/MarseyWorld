@@ -57,7 +57,7 @@ def marseys_redirect():
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def emoji_list(v:User):
+def emoji_list(v):
 	emojis = get_emoji_list()
 	authors = get_accounts_dict([e.author_id for e in emojis], v=v, graceful=True)
 
@@ -105,7 +105,7 @@ def emojis(v):
 @app.get('/sidebar')
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @auth_desired
-def sidebar(v:Optional[User]):
+def sidebar(v):
 	return render_template('sidebar.html', v=v)
 
 
@@ -113,7 +113,7 @@ def sidebar(v:Optional[User]):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def participation_stats(v:User):
+def participation_stats(v):
 	stats = cache.get('stats') or {}
 	if v.client: return stats
 	return render_template("stats.html", v=v, title="Content Statistics", data=stats)
@@ -127,14 +127,14 @@ def chart():
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def weekly_chart(v:User):
+def weekly_chart(v):
 	return send_file(statshelper.chart_path(kind="weekly", site=SITE))
 
 @app.get("/daily_chart")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def daily_chart(v:User):
+def daily_chart(v):
 	return send_file(statshelper.chart_path(kind="daily", site=SITE))
 
 @app.get("/admin/patrons")
@@ -152,7 +152,7 @@ def patrons(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def admins(v:User):
+def admins(v):
 	admins = g.db.query(User).filter(User.admin_level >= PERMS['ADMIN_MOP_VISIBLE']).order_by(User.admin_level.desc(), User.truescore.desc()).all()
 	return render_template("admins.html", v=v, admins=admins)
 
@@ -161,7 +161,7 @@ def admins(v:User):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def log(v:User):
+def log(v):
 
 	page = get_page()
 
@@ -234,7 +234,7 @@ def log_item(id, v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def static_megathread_index(v:User):
+def static_megathread_index(v):
 	if SITE_NAME != 'rDrama':
 		abort(404)
 
@@ -259,7 +259,7 @@ def api(v):
 @app.get("/admin/chat")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @auth_desired
-def contact(v:Optional[User]):
+def contact(v):
 	return render_template("contact.html", v=v, msg=get_msg())
 
 @app.post("/contact")
@@ -332,7 +332,7 @@ def badge_list(site, can_view_patron_badges):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def badges(v:User):
+def badges(v):
 	badges, counts = badge_list(SITE, v.admin_level >= PERMS['VIEW_PATRONS'])
 	return render_template("badges.html", v=v, badges=badges, counts=counts)
 
@@ -357,13 +357,13 @@ def blocks(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def formatting(v:User):
+def formatting(v):
 	return render_template("formatting.html", v=v)
 
 @app.get("/app")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @auth_desired
-def mobile_app(v:Optional[User]):
+def mobile_app(v):
 	return render_template("app.html", v=v)
 
 @app.post("/dismiss_mobile_tip")
@@ -392,7 +392,7 @@ def transfers_id(id, v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def transfers(v:User):
+def transfers(v):
 
 	comments = g.db.query(Comment).filter(Comment.author_id == AUTOJANNY_ID, Comment.parent_post == None, Comment.body_html.like("%</a> has transferred %"))
 

@@ -1,7 +1,6 @@
 import time
 
 from random import randint
-from typing import Optional, Union, Callable, List, Set
 from sqlalchemy.orm import aliased, deferred
 from sqlalchemy.sql import case, literal
 from sqlalchemy.sql.expression import or_
@@ -13,19 +12,19 @@ from files.helpers.config.const import *
 from files.helpers.security import generate_hash, validate_hash
 from files.__main__ import cache
 
-def get_raw_formkey(u:User):
+def get_raw_formkey(u):
 	return f"{session['session_id']}+{u.id}+{u.login_nonce}"
 
-def get_formkey(u:Optional[User]):
+def get_formkey(u):
 	if not u: return "" # if no user exists, give them a blank formkey
 	return generate_hash(get_raw_formkey(u))
 
-def validate_formkey(u:User, formkey:Optional[str]) -> bool:
+def validate_formkey(u, formkey):
 	if not formkey: return False
 	return validate_hash(get_raw_formkey(u), formkey)
 
 @cache.memoize()
-def get_alt_graph_ids(uid:int) -> Set[int]:
+def get_alt_graph_ids(uid):
 	alt_graph_cte = g.db.query(literal(uid).label('user_id')).select_from(Alt).cte('alt_graph', recursive=True)
 
 	alt_graph_cte_inner = g.db.query(
@@ -40,11 +39,11 @@ def get_alt_graph_ids(uid:int) -> Set[int]:
 	alt_graph_cte = alt_graph_cte.union(alt_graph_cte_inner)
 	return set([x[0] for x in g.db.query(User.id).filter(User.id == alt_graph_cte.c.user_id, User.id != uid).all()])
 
-def get_alt_graph(uid:int) -> List[User]:
+def get_alt_graph(uid):
 	alt_ids = get_alt_graph_ids(uid)
 	return g.db.query(User).filter(User.id.in_(alt_ids)).order_by(User.username).all()
 
-def add_alt(user1:int, user2:int):
+def add_alt(user1, user2):
 	if AEVANN_ID in (user1, user2) or CARP_ID in (user1, user2):
 		return
 	li = [user1, user2]
@@ -56,7 +55,7 @@ def add_alt(user1:int, user2:int):
 		cache.delete_memoized(get_alt_graph_ids, user1)
 		cache.delete_memoized(get_alt_graph_ids, user2)
 
-def check_for_alts(current:User, include_current_session=False):
+def check_for_alts(current, include_current_session=False):
 	current_id = current.id
 	ids = [x[0] for x in g.db.query(User.id).all()]
 	past_accs = set(session.get("history", [])) if include_current_session else set()
@@ -105,7 +104,7 @@ def check_for_alts(current:User, include_current_session=False):
 			u.blacklisted_by = current.blacklisted_by
 			g.db.add(u)
 
-def execute_shadowban_viewers_and_voters(v:Optional[User], target:Union[Post, Comment]):
+def execute_shadowban_viewers_and_voters(v, target):
 	if not v or not v.shadowbanned: return
 	if not target: return
 	if v.id != target.author_id: return

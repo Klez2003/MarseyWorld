@@ -24,7 +24,7 @@ def get_game_feed(game):
 
 	return list(map(format_game, games))
 
-def get_user_stats(u:User, game:str, include_ties=False):
+def get_user_stats(u, game, include_ties=False):
 	games = g.db.query(CasinoGame.user_id, CasinoGame.winnings).filter(CasinoGame.kind == game, CasinoGame.user_id == u.id)
 	wins = games.filter(CasinoGame.winnings > 0).count()
 	ties = games.filter(CasinoGame.winnings == 0).count() if include_ties else 0

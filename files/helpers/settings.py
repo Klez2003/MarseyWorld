@@ -19,14 +19,14 @@ _SETTINGS = {
 	"ddos_detected": False
 }
 
-def get_setting(setting:str):
+def get_setting(setting):
 	if not setting or not isinstance(setting, str): raise TypeError()
 	return _SETTINGS[setting]
 
-def get_settings() -> dict[str, bool]:
+def get_settings():
 	return _SETTINGS
 
-def toggle_setting(setting:str):
+def toggle_setting(setting):
 	val = not _SETTINGS[setting]
 	_SETTINGS[setting] = val
 	_save_settings()

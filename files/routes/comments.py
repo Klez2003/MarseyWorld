@@ -95,7 +95,7 @@ def post_pid_comment_cid(cid, v, pid=None, anything=None, sub=None):
 @limiter.limit("20/minute;200/hour;1000/day", deduct_when=lambda response: response.status_code < 400)
 @limiter.limit("20/minute;200/hour;1000/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_banned
-def comment(v:User):
+def comment(v):
 	parent_fullname = request.values.get("parent_fullname").strip()
 	if len(parent_fullname) < 3: abort(400)
 	id = parent_fullname[2:]

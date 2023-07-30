@@ -27,7 +27,7 @@ OWO_EXCLUDE_PATTERNS = [
 	re.compile(r'\bthe\b', flags=re.I|re.A), # exclude: 'the' ↦ 'teh'
 ]
 
-def owoify(source: str) -> str:
+def owoify(source):
 	word_matches = OWO_WORD_REGEX.findall(source)
 	space_matches = OWO_SPACE_REGEX.findall(source)
 

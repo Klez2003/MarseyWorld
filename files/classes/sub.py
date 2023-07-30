@@ -1,6 +1,5 @@
 import random
 import time
-from typing import Optional
 
 from sqlalchemy import Column
 from sqlalchemy.ext.mutable import MutableList
@@ -55,7 +54,7 @@ class Sub(Base):
 
 	@property
 	@lazy
-	def has_banners(self) -> bool:
+	def has_banners(self):
 		return bool(self.bannerurls)
 
 	@property
