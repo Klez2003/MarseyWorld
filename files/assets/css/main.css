@@ -7596,4 +7596,5 @@ body {
 
 del {
     color: var(--black);
+	font-weight: 400;
 }
