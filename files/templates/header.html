@@ -135,41 +135,58 @@
 
 			{% if not (v and v.patron) %}
 				{% if v %}
-					<a href="/donate" type="button" class="mobile-nav-icon d-md-none donate-link"><i class="fas fa-dollar-sign align-middle text-gray-500 black"></i></a>
+					<a href="/donate" type="button" class="mobile-nav-icon d-md-none donate-link" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Donate">
+						<i class="fas fa-dollar-sign align-middle text-gray-500 black"></i>
+					</a>
 				{% else %}
-					<a href="/donate" type="button" class="btn btn-primary mobile-nav-icon d-md-none donate-link mr-3">Donate</a>
+					<a href="/donate" type="button" class="btn btn-primary mobile-nav-icon d-md-none donate-link mr-3" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Donate">Donate</a>
 				{% endif %}
 			{% endif %}
 
 			{% if g.browser == 'webview' %}
-				<a href="" type="button" class="mobile-nav-icon d-md-none"><i class="fas fa-arrow-rotate-right align-middle text-gray-500 black"></i></a>
+				<a href="" type="button" class="mobile-nav-icon d-md-none" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Refresh">
+					<i class="fas fa-arrow-rotate-right align-middle text-gray-500 black"></i>
+				</a>
 			{% endif %}
 
 			{% if v %}
 				{% if v.notifications_count %}
-					<a class="mobile-nav-icon d-md-none" href="/notifications{% if v.notifications_do %}/{{v.notifications_do}}{% endif %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Notifications"><i class="notif-{{v.notifications_do}}-bell fas fa-bell align-middle" style="color: {{v.notifications_color}}"></i><span class="notif-count notif-{{v.notifications_do}} ml-1" style="padding-left: 4.5px;{% if v.notifications_do %}background:{{v.notifications_color}}{% endif %}">{{v.notifications_count}}</span></a>
+					<a class="mobile-nav-icon d-md-none" href="/notifications{% if v.notifications_do %}/{{v.notifications_do}}{% endif %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Notifications">
+						<i class="notif-{{v.notifications_do}}-bell fas fa-bell align-middle" style="color: {{v.notifications_color}}"></i>
+						<span class="notif-count notif-{{v.notifications_do}} ml-1" style="padding-left: 4.5px;{% if v.notifications_do %}background:{{v.notifications_color}}{% endif %}">
+							{{v.notifications_count}}
+						</span>
+					</a>
 				{% else %}
-					<a class="mobile-nav-icon d-md-none" href="/notifications" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Notifications"><i class="fas fa-bell align-middle text-gray-500 black"></i></a>
+					<a class="mobile-nav-icon d-md-none" href="/notifications" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Notifications">
+						<i class="fas fa-bell align-middle text-gray-500 black"></i>
+					</a>
 				{% endif %}
 			{% endif %}
 
 		{% if not err %}
 			{% if v and v.admin_level >= PERMS['ADMIN_HOME_VISIBLE'] %}
-				<a class="mobile-nav-icon d-md-none" href="/admin"><i class="fas fa-crown align-middle text-gray-500 black"></i></a>
+				<a class="mobile-nav-icon d-md-none" href="/admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Admin Tools">
+					<i class="fas fa-crown align-middle text-gray-500 black"></i>
+				</a>
 			{% endif %}
 
 			{% if v %}
-				<a class="mobile-nav-icon d-md-none" href="/submit"><i class="fas fa-feather-alt align-middle text-gray-500 black"></i></a>
+				<a class="mobile-nav-icon d-md-none" href="/submit" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Create Post">
+					<i class="fas fa-feather-alt align-middle text-gray-500 black"></i>
+				</a>
 			{% else %}
-				<a class="mobile-nav-icon d-md-none" href="/login?redirect={{request.full_path | urlencode}}"><i class="fas fa-feather-alt align-middle text-gray-500 black"></i></a>
+				<a class="mobile-nav-icon d-md-none" href="/login?redirect={{request.full_path | urlencode}}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Create Post">
+					<i class="fas fa-feather-alt align-middle text-gray-500 black"></i>
+				</a>
 			{% endif %}
 
-			<a class="mobile-nav-icon d-md-none" href="/random_user">
+			<a class="mobile-nav-icon d-md-none" href="/random_user" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Random User with a Profile Anthem">
 				<i class="fas fa-music align-middle text-gray-500 black"></i>
 			</a>
 
 			{% if v and FEATURES['GAMBLING'] %}
-				<a class="mobile-nav-icon d-md-none" href="/casino">
+				<a class="mobile-nav-icon d-md-none" href="/casino" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Casino">
 					<i class="fas fa-cards align-middle text-gray-500 black"></i>
 				</a>
 			{% endif %}
