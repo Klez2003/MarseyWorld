@@ -584,6 +584,26 @@ function handleUploadProgress(e, upload_prog) {
 	}
 }
 
+
+if (screen_width <= 768) {
+	document.addEventListener('shown.bs.modal', () => {
+		location.hash = "modal";
+	});
+
+	document.addEventListener('hidden.bs.modal', () => {
+		if(location.hash == "#modal") {
+			history.back();
+		}
+	});
+
+	window.addEventListener('hashchange', () => {
+		if(location.hash != "#modal") {
+			const curr_modal = bootstrap.Modal.getInstance(document.getElementsByClassName('show')[0])
+			if (curr_modal) curr_modal.hide()
+		}
+	});
+}
+
 document.querySelectorAll('form').forEach(form => {
 	form.addEventListener('submit', (e) => {
 		if (form.classList.contains('is-submitting')) {
