@@ -586,15 +586,17 @@ function handleUploadProgress(e, upload_prog) {
 
 
 if (screen_width <= 768) {
-	document.addEventListener('shown.bs.modal', () => {
-		location.hash = "modal";
-	});
+	if (expandImageModal) {
+		expandImageModal.addEventListener('shown.bs.modal', () => {
+			location.hash = "modal";
+		});
 
-	document.addEventListener('hidden.bs.modal', () => {
-		if(location.hash == "#modal") {
-			history.back();
-		}
-	});
+		expandImageModal.addEventListener('hidden.bs.modal', () => {
+			if(location.hash == "#modal") {
+				history.back();
+			}
+		});
+	}
 
 	window.addEventListener('hashchange', () => {
 		if(location.hash != "#modal") {
