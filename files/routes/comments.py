@@ -228,11 +228,14 @@ def comment(v):
 			else:
 				abort(415)
 
-	body = body.replace('\n ', '\n')
-	body = body.strip()[:COMMENT_BODY_LENGTH_LIMIT]
+	body = body.replace('\n ', '\n').replace('\r', '')
+	body = body.strip()[:COMMENT_BODY_LENGTH_LIMIT].strip()
 
-	if v.admin_level >= PERMS['USE_ADMIGGER_THREADS'] and posting_to_post and post_target.id == SNAPPY_THREAD and level == 1 and body not in SNAPPY_QUOTES:
-		with open(f"snappy_{SITE_NAME}.txt", "a", encoding="utf-8") as f:
+	if v.admin_level >= PERMS['USE_ADMIGGER_THREADS'] and posting_to_post and post_target.id == SNAPPY_THREAD and level == 1:
+		with open(f"snappy_{SITE_NAME}.txt", "r+", encoding="utf-8") as f:
+			body_for_checking = '\n{[para]}\n' + body + '\n{[para]}\n'
+			if body_for_checking in f.read():
+				abort(400, "Snappy quote already exists!")
 			f.write('\n{[para]}\n' + body)
 
 	body_for_sanitize = body
