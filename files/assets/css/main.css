@@ -7593,3 +7593,7 @@ label.btn.btn-secondary > span {
 body {
 	overflow-x: hidden;
 }
+
+del {
+    color: var(--black);
+}
