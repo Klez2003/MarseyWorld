@@ -88,7 +88,7 @@
 	<span class="ml-2 d-inline-block" data-bs-toggle="tooltip" data-bs-placement="bottom" data-nonce="{{g.nonce}}" data-onmouseover="timestamp(this, '{{p.created_utc}}')" id="timestamp-{{p.id}}">&nbsp;{{p.age_string}}</span>
 
 	{% if not p.deleted_utc %}
-		<span class="ml-2 d-inline-block">({% if p.is_image %}image post{% elif p.is_video %}video post{% elif p.is_audio %}audio post{% elif p.domain %}<a href="/search/posts/?q=domain%3A{{p.domain}}&sort=new&t=all" class="post-meta-domain" {% if v and v.newtab %}data-target="t" target="_blank"{% endif %}>{{p.domain|truncate(50, True)}}</a>{% else %}text post{% endif %})</span>
+		<span class="ml-2 d-inline-block">({% if p.is_image %}image post{% elif p.is_video %}video post{% elif p.is_audio %}audio post{% elif p.domain %}<a href="/search/posts/?q=domain%3A{{p.domain}}" class="post-meta-domain" {% if v and v.newtab %}data-target="t" target="_blank"{% endif %}>{{p.domain|truncate(50, True)}}</a>{% else %}text post{% endif %})</span>
 	{% endif %}
 
 	{% if p.edited_utc %}

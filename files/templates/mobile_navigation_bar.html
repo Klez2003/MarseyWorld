@@ -12,7 +12,7 @@
 				</button>
 {% if v and v.defaultsorting == 'new' %}
 				<button type="button" class="nobackground border-0 col px-0 btn btn-dead m-0">
-						<a href="/?sort=hot&t=all" class="text-decoration-none">
+						<a href="/?sort=hot" class="text-decoration-none">
 								<div class="text-center {% if request|selected_tab=='hot' %}text-primary{% else %}text-muted{% endif %}">
 										<i class="fas fa-fire text-lg"></i>
 										<div class="text-small-extra">Hot</div>
@@ -21,7 +21,7 @@
 				</button>
 {% else %}
 				<button type="button" class="nobackground border-0 col px-0 btn btn-dead m-0" style="margin-left:-10px!important">
-						<a href="/?sort=new&t=all" class="text-decoration-none">
+						<a href="/?sort=new" class="text-decoration-none">
 								<div class="text-center {% if request|selected_tab=='new' %}text-primary{% else %}text-muted{% endif %}">
 										<i class="fas fa-sparkles text-lg"></i>
 										<div class="text-small-extra">New</div>
