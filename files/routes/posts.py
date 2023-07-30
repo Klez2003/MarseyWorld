@@ -290,69 +290,49 @@ def thumbnail_thread(pid, vid):
 		else:
 			return f"{post_url}/{fragment_url}"
 
-	p = db.query(Post).filter_by(id=pid).options(load_only(Post.url)).one_or_none()
+def expand_url(post_url, fragment_url):
+	if fragment_url.startswith("https://"):
+		return fragment_url
+	elif fragment_url.startswith("https://"):
+		return f"https://{fragment_url.split('https://')[1]}"
+	elif fragment_url.startswith('//'):
+		return f"https:{fragment_url}"
+	elif fragment_url.startswith('/') and '\\' not in fragment_url:
+		parsed_url = urlparse(post_url)
+		return f"https://{parsed_url.netloc}{fragment_url}"
+	else:
+		return f"{post_url}/{fragment_url}"
 
-	if not p or not p.url:
-		time.sleep(5)
-		p = db.query(Post).filter_by(id=pid).options(load_only(Post.url)).one_or_none()
-
-	if not p or not p.url: return
-
-	fetch_url = p.url
-
+def thumbnail_thread(fetch_url, pid):
 	if fetch_url.startswith('/') and '\\' not in fetch_url:
 		fetch_url = f"{SITE_FULL}{fetch_url}"
 
 	try:
-		x=requests.get(fetch_url, headers=HEADERS, timeout=5, proxies=proxies)
+		x = requests.get(fetch_url, headers=HEADERS, timeout=5, proxies=proxies)
 	except:
-		db.close()
 		return
 
 	if x.status_code != 200:
-		db.close()
 		return
 
 	if x.headers.get("Content-Type","").startswith("text/html"):
-		soup=BeautifulSoup(x.content, 'lxml')
+		soup = BeautifulSoup(x.content, 'lxml')
 
-		thumb_candidate_urls=[]
+		thumb_candidate_urls = []
 
-		meta_tags = [
-			"drama:thumbnail",
-			"twitter:image",
-			"og:image",
-			"thumbnail"
-			]
-
-		for tag_name in meta_tags:
-
-
-			tag = soup.find(
-				'meta',
-				attrs={
-					"name": tag_name,
-					"content": True
-					}
-				)
+		for tag_name in ("twitter:image", "og:image", "thumbnail"):
+			tag = soup.find('meta', attrs={"name": tag_name, "content": True})
 			if not tag:
-				tag = soup.find(
-					'meta',
-					attrs={
-						'property': tag_name,
-						'content': True
-						}
-					)
+				tag = soup.find('meta', attrs={"property": tag_name, "content": True})
 			if tag:
-				thumb_candidate_urls.append(expand_url(p.url, tag['content']))
+				thumb_candidate_urls.append(expand_url(fetch_url, tag['content']))
 
-		for tag in soup.find_all("img", attrs={'src':True}):
-			thumb_candidate_urls.append(expand_url(p.url, tag['src']))
-
+		for tag in soup.find_all("img", attrs={'src': True}):
+			thumb_candidate_urls.append(expand_url(fetch_url, tag['src']))
 
 		for url in thumb_candidate_urls:
 			try:
-				image_req=requests.get(url, headers=HEADERS, timeout=5, proxies=proxies)
+				image_req = requests.get(url, headers=HEADERS, timeout=5, proxies=proxies)
 			except:
 				continue
 
@@ -370,19 +350,14 @@ def thumbnail_thread(pid, vid):
 					continue
 			break
 		else:
-			db.close()
 			return
-
 	elif x.headers.get("Content-Type","").startswith("image/"):
-		image_req=x
+		image_req = x
 		with Image.open(BytesIO(x.content)) as i:
 			size = len(i.fp.read())
 			if size > 8 * 1024 * 1024:
-				db.close()
 				return
-
 	else:
-		db.close()
 		return
 
 	name = f'/images/{time.time()}'.replace('.','') + '.webp'
@@ -391,13 +366,17 @@ def thumbnail_thread(pid, vid):
 		for chunk in image_req.iter_content(1024):
 			file.write(chunk)
 
-	v = db.query(User).filter_by(id=vid).options(load_only(User.id, User.patron)).one()
+	db = db_session()
 
-	url = process_image(name, v, resize=99, uploader_id=p.author_id, db=db)
-	if url:
-		p.thumburl = url
+	p = db.query(Post).filter_by(id=pid).options(load_only(Post.author_id)).one_or_none()
+
+	thumburl = process_image(name, None, resize=99, uploader_id=p.author_id, db=db)
+
+	if thumburl:
+		p.thumburl = thumburl
 		db.add(p)
 		db.commit()
+
 	db.close()
 	stdout.flush()
 
@@ -678,9 +657,6 @@ def submit_post(v, sub=None):
 		else:
 			abort(415)
 
-	if not p.thumburl and p.url and p.domain != SITE:
-		gevent.spawn(thumbnail_thread, p.id, v.id)
-
 	if not p.private:
 		notify_users = NOTIFY_USERS(f'{title} {body}', v, ghost=p.ghost, log_cost=p)
 
@@ -752,7 +728,10 @@ def submit_post(v, sub=None):
 	if not p.private:
 		execute_snappy(p, v)
 
-	g.db.flush() #Necessary, do NOT remove
+	g.db.commit() #Necessary, do NOT remove
+
+	if not p.thumburl and p.url and p.domain != SITE:
+		gevent.spawn(thumbnail_thread, p.url, p.id)
 
 	if v.client: return p.json
 	else:
