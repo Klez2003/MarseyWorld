@@ -138,7 +138,7 @@
 								<label for="banner">Banner</label>
 							</div>
 							<div class="title w-lg-75 text-md-center">
-								<img loading="lazy" alt="your banner" src="{{v.banner_url}}" class="banner-pic-135">
+								<img loading="lazy" alt="your banner" src="{{v.banner_url}}" class="banner-pic">
 							</div>
 							<div class="body w-lg-100 my-auto">
 								<div class="d-flex">
@@ -155,6 +155,31 @@
 							</div>
 						</div>
 					{%- endif %}
+
+					<div class="d-lg-flex border-bottom">
+						<div class="title w-lg-25">
+							<label for="profile_background">Profile Background</label>
+						</div>
+						{% if v.profile_background %}
+							<div class="title w-lg-75 text-md-center">
+								<img loading="lazy" alt="your profile background" src="{{v.profile_background}}" class="profile-background-pic">
+							</div>
+						{% endif %}
+						<div class="body w-lg-100 my-auto">
+							<div class="d-flex">
+								<div>
+									<form action="/settings/images/profile_background" method="post" enctype="multipart/form-data">
+										<input hidden name="formkey" value="{{v|formkey}}">
+										<label class="btn btn-secondary text-capitalize mr-2 mb-0">
+											Update<input autocomplete="off" type="file" {% if g.is_tor %}disabled{% endif %} accept="image/*" hidden name="profile_background" data-nonce="{{g.nonce}}" onchange_submit>
+										</label>
+									</form>
+								</div>
+							</div>
+							<div class="text-small text-muted mt-3">All image files are supported. Max file size is {% if v and v.patron %}16{% else %}8{% endif %} MB.</div>
+						</div>
+					</div>
+
 					<div class="d-lg-flex border-bottom">
 						<div class="title w-lg-25">
 							<label for="name">Username</label>

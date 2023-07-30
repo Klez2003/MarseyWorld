@@ -222,30 +222,6 @@
 								<i id="toggle-anthem-icon" class="fas fa-music mr-1"></i> Profile Anthem
 							</button>
 						{% endif %}
-
-						{% if v and v.id == u.id %}
-							<form id="upload-profile-background" action="/settings/profile_background" method="post" enctype="multipart/form-data">
-								<input hidden name="formkey" value="{{v|formkey}}">
-								<label class="btn btn-primary" for="upload-profile-background-file" style="margin-bottom:0!important">
-									<i class="fas fa-image mr-1"></i>
-									{% if v.profile_background -%}
-										{{v.profile_background.split('/')[-1]}}
-									{% else -%}
-										Upload Profile Background
-									{% endif %}
-								</label>
-								<input autocomplete="off" id="upload-profile-background-file" accept="image/*", type="file" name="file" data-nonce="{{g.nonce}}" onchange_submit hidden>
-							</form>
-
-							{% if v.profile_background -%}
-								<div class="d-flex mb-3">
-									<button type="button" class="btn btn-danger" data-nonce="{{g.nonce}}" data-onclick="postToastReload(this,'/settings/profile_background', 'DELETE')">
-										<i class="fas fa-image-slash mr-1"></i>
-										Remove current background
-									</button>
-								</div>
-							{%- endif %}
-						{% endif %}
 					</div>
 
 					<div class="mt-3" id="profile--info">
@@ -477,34 +453,6 @@
 						<button id="toggle-anthem-mobile" type="button" class="btn btn-secondary" data-nonce="{{g.nonce}}" data-onclick="toggle()" {% if v.id == u.id %}style="margin-bottom:0!important;padding:0.3rem 0.75rem!important"{% endif %}>
 							<i id="toggle-anthem-mobile-icon" class="fas fa-music mr-1"></i> Profile Anthem
 						</button>
-					{% endif %}
-
-					{% if v and v.id == u.id %}
-						<div>
-							<form class="mt-3" id="upload-profile-background-mobile" action="/settings/profile_background" method="post" enctype="multipart/form-data">
-								<input hidden name="formkey" value="{{v|formkey}}">
-								<label class="btn btn-primary text-break" for="upload-profile-background-file-mobile" style="margin-bottom:0!important">
-									<i class="fas fa-image mr-1"></i>
-									{% if v.profile_background %}
-										{{v.profile_background.split('/')[-1]}}
-									{% else %}
-										Upload Profile Background
-									{% endif %}
-								</label>
-								<input autocomplete="off" id="upload-profile-background-file-mobile" accept="image/*", type="file" name="file" data-nonce="{{g.nonce}}" onchange_submit hidden>
-							</form>
-
-							{% if v.profile_background -%}
-								<div class="d-block mt-3">
-									<button type="button" class="btn btn-danger" data-nonce="{{g.nonce}}" data-onclick="postToastReload(this,'/settings/profile_background', 'DELETE')">
-										<i class="fas fa-image-slash mr-1"></i>
-										Remove current background
-									</button>
-								</div>
-							{%- endif %}
-						</div>
-					{% else %}
-						<br>
 					{% endif %}
 
 					{% if v and v.id != u.id %}

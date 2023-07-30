@@ -78,39 +78,6 @@ def upload_custom_background(v):
 
 	return redirect('/settings/personal')
 
-@app.post('/settings/profile_background')
-@limiter.limit('1/second', scope=rpath)
-@limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
-@auth_required
-def upload_profile_background(v):
-	if g.is_tor: abort(403, "Image uploads are not allowed through TOR!")
-
-	file = request.files["file"]
-
-	name = f'/images/{time.time()}'.replace('.','') + '.webp'
-	file.save(name)
-	background = process_image(name, v)
-
-	if background:
-		if v.profile_background and path.isfile(v.profile_background):
-			remove_media_using_link(v.profile_background)
-		v.profile_background = background
-		g.db.add(v)
-		badge_grant(badge_id=193, user=v)
-	return redirect(f'/@{v.username}')
-
-@app.delete('/settings/profile_background')
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
-@auth_required
-def delete_profile_background(v):
-	if v.profile_background:
-		remove_media_using_link(v.profile_background)
-		v.profile_background = None
-	return {"message": "Profile background removed!"}
-
 @app.post("/settings/personal")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
@@ -616,6 +583,30 @@ def settings_images_banner(v):
 		g.db.add(v)
 
 	return redirect("/settings/personal?msg=Banner successfully updated!")
+
+
+@app.post("/settings/images/profile_background")
+@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@auth_required
+def settings_images_profile_background(v):
+	if g.is_tor: abort(403, "Image uploads are not allowed through TOR!")
+
+	file = request.files["profile_background"]
+
+	name = f'/images/{time.time()}'.replace('.','') + '.webp'
+	file.save(name)
+	profile_background = process_image(name, v)
+
+	if profile_background:
+		if v.profile_background and '/images/' in v.profile_background and path.isfile(v.profile_background):
+			remove_media_using_link(v.profile_background)
+		v.profile_background = profile_background
+		g.db.add(v)
+
+	return redirect("/settings/personal?msg=Profile background successfully updated!")
 
 @app.get("/settings/css")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)

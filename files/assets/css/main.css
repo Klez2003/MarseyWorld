@@ -4079,11 +4079,11 @@ small, .small {
 .user-name {
 	color: inherit;
 }
-.banner-pic-135 {
-	object-fit: cover;
-	height: 135px;
-	max-width: 572px;
-	width: 572px;
+.banner-pic {
+	max-width: min(100%, 600px);
+}
+.profile-background-pic {
+	max-width: min(100%, 400px);
 }
 .profile-pic {
 	width: 50px;
@@ -5136,9 +5136,6 @@ pre .com, code .com {
 }
 	.comment.collapsed .comment-body:hover {
 		opacity: 0.5;
-}
-	.banner-pic-135 {
-		max-width: 100%;
 }
 	.x-scroll-parent {
 		overflow: hidden;
