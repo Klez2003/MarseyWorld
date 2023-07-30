@@ -54,7 +54,7 @@
 	{% if p.is_blocking and not p.ghost %}<i class="fas fa-user-minus text-warning" data-bs-toggle="tooltip" data-bs-placement="bottom" title="You're blocking this user."></i>{% endif %}
 	{% if p.is_blocked and not p.ghost %}<i class="fas fa-user-minus text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="This user is blocking you."></i>{% endif %}
 	{% if p.private %}<span class="mr-2 badge border-warning border-1 text-small-extra">Draft</span>{% endif %}
-	{% if p.active_reports(v) %}<button type="button" class="btn btn-primary" style="padding:1px 5px; font-size:10px" data-nonce="{{g.nonce}}" data-toggleelement="#reports-{{p.id}}" data-toggleattr="d-none">{{p.active_reports(v)}} Report{{plural(p.active_reports(v))}}</button>{% endif %}
+	{% if p.active_reports(v) %}<button type="button" class="btn btn-primary mr-1" style="padding:1px 5px; font-size:10px" data-nonce="{{g.nonce}}" data-toggleelement="#reports-{{p.id}}" data-toggleattr="d-none">{{p.active_reports(v)}} Report{{plural(p.active_reports(v))}}</button>{% endif %}
 
 	{% if p.ghost %}
 		<span {% if p.distinguish_level %}class="mod {% if SITE_NAME == 'rDrama' %}mod-rdrama{% endif %}"{% endif %}>👻</span>
