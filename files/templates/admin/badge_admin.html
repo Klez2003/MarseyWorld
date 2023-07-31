@@ -8,14 +8,10 @@
 {% if error %}{{macros.alert(error, true)}}{% endif %}
 {% if msg %}{{macros.alert(msg, false)}}{% endif %}
 
-<h5 class="mt-2">{{title}}</h5>
 {% set form_action = "/admin/badge_grant" if grant else "/admin/badge_remove" %}
 
 <form action="{{form_action}}" method="post">
 <input hidden name="formkey" value="{{v|formkey}}">
-
-<label for="input-username">Username</label>
-<input autocomplete="off" id="input-username" class="form-control" type="text" name="username" required>
 
 <div class="overflow-x-auto"><table class="table table-striped">
 <thead class="bg-primary text-white">
@@ -45,11 +41,14 @@
 </tr>
 {% endfor %}
 </table>
+<label for="input-username">Username</label>
+<input autocomplete="off" id="input-username" class="form-control" type="text" name="username" required>
+
 {% if grant %}
-<label class="mb-0 pb-0" for="input-url">URL</label>
+<label class="mt-2" for="input-url">URL</label>
 <input autocomplete="off" id="input-url" class="form-control" type="text" name="url" type="url" placeholder="Optional">
 
-<label class="mt-2 mb-0 pb-0" for="input-description">Custom description</label>
+<label class="mt-2" for="input-description">Custom description</label>
 <input autocomplete="off" id="input-description" class="form-control" type="text" name="description" placeholder="Leave blank for badge default">
 {% endif %}
 <input autocomplete="off" class="btn btn-primary mt-3" type="submit">
