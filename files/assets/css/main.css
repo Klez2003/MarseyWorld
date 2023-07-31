@@ -4038,6 +4038,7 @@ small, .small {
 .voting .arrow-down
 {
 	display: block;
+    text-decoration: none;
 }
 
 .box-shadow-bottom {
