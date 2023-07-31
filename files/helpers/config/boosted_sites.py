@@ -68,6 +68,8 @@ BOOSTED_SITES = {
 	'texags.com',
 	'lowendtalk.com',
 	'webhostingtalk.com',
+	'blackhatworld.com',
+	'nulled.to',
 
 	#nested-comments
 	#'all sites with .win TLD',
