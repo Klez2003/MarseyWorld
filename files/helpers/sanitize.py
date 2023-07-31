@@ -49,14 +49,9 @@ TLDS = ( # Original gTLDs and ccTLDs
 	'red','city','quest','works'
 	)
 
-allowed_tags = (
-		'b','blockquote','br','code','del','em','h1','h2','h3','h4','h5','h6','hr','i',
-		'li','ol','p','pre','strong','sub','sup','table','tbody','th','thead','td','tr','ul',
-		'marquee','a','span','ruby','rp','rt','spoiler','img','lite-youtube','video','audio','g','u','small',
-		'strike','center','details','summary',
-	)
+allowed_tags = ('a','audio','b','blockquote','br','center','code','del','details','em','g','h1','h2','h3','h4','h5','h6','hr','i','img','li','lite-youtube','marquee','ol','p','pre','rp','rt','ruby','small','span','spoiler','strike','strong','sub','summary','sup','table','tbody','td','th','thead','tr','u','ul','video')
 
-allowed_styles = ['color', 'background-color', 'font-weight', 'text-align']
+allowed_styles = ['background-color', 'color', 'filter', 'font-weight', 'text-align']
 
 def allowed_attributes(tag, name, value):
 
@@ -508,10 +503,9 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 
 	sanitized = sanitized.replace('<p></p>', '')
 
+	allowed_css_properties = allowed_styles.copy()
 	if g.v and g.v.chud:
-		allowed_css_properties = allowed_styles
-	else:
-		allowed_css_properties = allowed_styles + ["filter"]
+		allowed_css_properties.remove('filter')		
 
 	css_sanitizer = CSSSanitizer(allowed_css_properties=allowed_css_properties)
 	sanitized = bleach.Cleaner(tags=allowed_tags,
