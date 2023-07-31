@@ -126,15 +126,12 @@ def transfer_currency(v, username, currency_name, apply_tax):
 		abort(400, f"You don't have enough {currency_name}")
 
 	if not v.shadowbanned:
-		user_query = g.db.query(User).filter_by(id=receiver.id)
 		if currency_name == 'marseybux':
-			user_query.options(load_only(User.marseybux)).update({ User.marseybux: User.marseybux + amount - tax })
+			receiver.pay_account('marseybux', amount - tax)
 		elif currency_name == 'coins':
-			user_query.options(load_only(User.coins)).update({ User.coins: User.coins + amount - tax })
+			receiver.pay_account('coins', amount - tax)
 		else:
 			raise ValueError(f"Invalid currency '{currency_name}' got when transferring {amount} from {v.id} to {receiver.id}")
-		g.db.add(receiver)
-		g.db.flush()
 		if GIFT_NOTIF_ID: send_repeatable_notification(GIFT_NOTIF_ID, log_message)
 		send_repeatable_notification(receiver.id, notif_text)
 	g.db.add(v)
