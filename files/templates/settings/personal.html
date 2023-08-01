@@ -189,7 +189,7 @@
 							<form action="/settings/name_change" method="post">
 								<input hidden name="formkey" value="{{v|formkey}}">
 								<input id="name-body" autocomplete="off" type="text" name="name" class="form-control" value="{{v.username}}"  {% if v.namechanged %}disabled{% endif %}>
-								<small>3-25 characters, including letters, numbers, _ , and -</small>
+								<small>{% if v.patron %}1{% else %}3{% endif %}-25 characters, including letters, numbers, _ , and -</small>
 								<div class="d-flex mt-2">
 									<input autocomplete="off" class="btn btn-primary ml-auto" type="submit" value="Change Display Name" {% if v.namechanged %}disabled{% endif %}>
 								</div>
