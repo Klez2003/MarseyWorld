@@ -81,25 +81,27 @@ def claim_rewards_all_users():
 				for x in range(22, badge_id+1):
 					badge_grant(badge_id=x, user=user)
 
-			if user.lifetime_donated >= 100:
+			user.lifetimedonated = g.db.query(func.sum(Transaction.amount)).filter_by(email=user.email).scalar()
+
+			if user.lifetimedonated >= 100:
 				badge_grant(badge_id=257, user=user)
 
-			if user.lifetime_donated >= 500:
+			if user.lifetimedonated >= 500:
 				badge_grant(badge_id=258, user=user)
 
-			if user.lifetime_donated >= 2500:
+			if user.lifetimedonated >= 2500:
 				badge_grant(badge_id=259, user=user)
 
-			if user.lifetime_donated >= 5000:
+			if user.lifetimedonated >= 5000:
 				badge_grant(badge_id=260, user=user)
 
-			if user.lifetime_donated >= 10000:
+			if user.lifetimedonated >= 10000:
 				badge_grant(badge_id=261, user=user)
 
 			print(f'@{user.username} rewards claimed successfully!', flush=True)
 
-	# for user in g.db.query(User).options(load_only(User.id)).order_by(User.lifetimedonated.desc()).limit(10).all():
-	# 	badge_grant(badge_id=294, user=user)
+	for user in g.db.query(User).options(load_only(User.id)).order_by(User.lifetimedonated.desc()).limit(10).all():
+		badge_grant(badge_id=294, user=user)
 
 def transfer_currency(v, username, currency_name, apply_tax):
 	MIN_CURRENCY_TRANSFER = 100

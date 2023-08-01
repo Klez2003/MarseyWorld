@@ -158,6 +158,7 @@ class User(Base):
 	marsify = Column(Integer, default=0)
 	rainbow = Column(Integer, default=0)
 	spider = Column(Integer, default=0)
+	lifetimedonated = Column(Integer, default=0)
 	blacklisted_by = Column(Integer, ForeignKey("users.id"))
 
 	if IS_FISTMAS():
@@ -179,8 +180,6 @@ class User(Base):
 	hats_equipped = relationship("Hat", lazy="raise", viewonly=True)
 	sub_mods = relationship("Mod", primaryjoin="User.id == Mod.user_id", lazy="raise")
 	sub_exiles = relationship("Exile", primaryjoin="User.id == Exile.user_id", lazy="raise")
-
-	lifetimedonated = deferred(Column(Integer, server_default=FetchedValue()))
 
 	def __init__(self, **kwargs):
 
@@ -252,11 +251,6 @@ class User(Base):
 			g.db.add(self)
 
 		return (succeeded, charged_coins)
-
-	@property
-	@lazy
-	def lifetime_donated(self):
-		return self.lifetimedonated or 0
 
 	@property
 	@lazy
