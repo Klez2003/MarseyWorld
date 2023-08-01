@@ -132,8 +132,9 @@ def speak(data, v):
 		"username": v.username,
 		"namecolor": v.name_color,
 		"text": text,
+		"text_censored": censor_slurs(text, 'chat'),
 		"text_html": text_html,
-		"text_censored": censor_slurs(text_html, 'chat'),
+		"text_html_censored": censor_slurs(text_html, 'chat'),
 		"time": int(time.time()),
 	}
 

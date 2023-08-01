@@ -252,7 +252,11 @@
                         </span></span>: 
                         <em class="QuotedMessage text-break">
                             {%- if quote_exists -%}
-                                {{messages[m['quotes']]['text']}}
+								{%- if v.slurreplacer -%}
+									{{messages[m['quotes']]['text_censored']}}
+								{%- else -%}
+									{{messages[m['quotes']]['text']}}
+								{%- endif -%}
                             {%- endif -%}
                         </em>
                     </a>
@@ -262,13 +266,21 @@
                     <span class="chat-message text-black text-break">
                         {% if m %}
                             {% if v.slurreplacer %}
-                                {{m['text_censored'] | safe}}
+                                {{m['text_html_censored'] | safe}}
                             {% else %}
                                 {{m['text_html'] | safe}}
                             {% endif %}
                         {% endif %}
                     </span>
-                    <span class="text d-none">{% if m %}{{m['text']}}{% endif %}</span>
+                    <span class="text d-none">
+						{%- if m -%}
+                            {%- if v.slurreplacer -%}
+                                {{m['text_censored']}}
+                            {%- else -%}
+                                {{m['text']}}
+                            {%- endif -%}
+						{%- endif -%}
+					</span>
                     <i class="quote btn fas fa-reply ml-auto" data-nonce="{{g.nonce}}" data-onclick="quote(this)"></i>
                     {% if v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
                         <i class="btn del delconfirm fas fa-trash-alt"></i>

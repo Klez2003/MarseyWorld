@@ -65,11 +65,17 @@ function flash(){
 
 
 socket.on('speak', function(json) {
-	let text = json['text']
+	let text
 	let text_html
 
-	if (slurreplacer != '0') text_html = json['text_censored']
-	else text_html = json['text_html']
+	if (slurreplacer != '0') {
+		text = json['text_censored']
+		text_html = json['text_html_censored']
+	}
+	else {
+		text = json['text']
+		text_html = json['text_html']
+	}
 
 	chatline.classList.remove('chat-mention');
 	if (text_html.includes(`<a href="/id/${vid}">`)){
