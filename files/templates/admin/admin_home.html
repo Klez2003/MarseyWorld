@@ -141,7 +141,7 @@
 {% endif %}
 
 {% if v.admin_level >= PERMS['CLAIM_REWARDS_ALL_USERS'] %}
-	<button type="button" class="btn btn-primary d-block" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/admin/claim_rewards_all_users');" style="margin-bottom: 2em;">CLAIM PAYPIG REWARDS FOR ALL USERS</button>
+	<button type="button" class="btn btn-primary d-block" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/admin/claim_rewards_all_users');" style="margin-bottom: 2em;">CLAIM {{patron.upper()}} REWARDS FOR ALL USERS</button>
 {% endif %}
 
 {% endblock %}

@@ -138,7 +138,7 @@ def process_video(file, v):
 			(size > MAX_VIDEO_SIZE_MB_PATRON * 1024 * 1024
 				or not v.patron and size > MAX_VIDEO_SIZE_MB * 1024 * 1024)):
 		os.remove(old)
-		abort(413, f"Max video size is {MAX_VIDEO_SIZE_MB} MB ({MAX_VIDEO_SIZE_MB_PATRON} MB for paypigs)")
+		abort(413, f"Max video size is {MAX_VIDEO_SIZE_MB} MB ({MAX_VIDEO_SIZE_MB_PATRON} MB for {patron}s)")
 
 	name_original = secure_filename(file.filename)
 	extension = name_original.split('.')[-1].lower()
@@ -183,7 +183,7 @@ def process_image(filename, v, resize=0, trim=False, uploader_id=None, db=None):
 	if size > MAX_IMAGE_AUDIO_SIZE_MB_PATRON * 1024 * 1024 or not patron and size > MAX_IMAGE_AUDIO_SIZE_MB * 1024 * 1024:
 		os.remove(filename)
 		if has_request:
-			abort(413, f"Max image/audio size is {MAX_IMAGE_AUDIO_SIZE_MB} MB ({MAX_IMAGE_AUDIO_SIZE_MB_PATRON} MB for paypigs)")
+			abort(413, f"Max image/audio size is {MAX_IMAGE_AUDIO_SIZE_MB} MB ({MAX_IMAGE_AUDIO_SIZE_MB_PATRON} MB for {patron}s)")
 		return None
 
 	try:
