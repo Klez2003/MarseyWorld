@@ -32,7 +32,7 @@ def create_group(v):
 	if not valid_sub_regex.fullmatch(name):
 		return redirect(f"/ping_groups?error=Name does not match the required format!")
 
-	if name in {'everyone', 'jannies', 'verifiedrich'} or g.db.get(Group, name):
+	if name in {'everyone', 'jannies'} or g.db.get(Group, name):
 		return redirect(f"/ping_groups?error=This group already exists!")
 
 	if not v.charge_account('combined', GROUP_COST)[0]:
@@ -66,6 +66,9 @@ def create_group(v):
 @auth_required
 def join_group(v, group_name):
 	group_name = group_name.strip().lower()
+
+	if group_name == 'verifiedrich' and not v.patron:
+		abort(403, f"Only {patron}s can join !verifiedrich")
 
 	group = g.db.get(Group, group_name)
 	if not group: abort(404)
