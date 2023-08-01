@@ -743,7 +743,12 @@ def settings_name_change(v):
 						v=v,
 						error="You didn't change anything")
 
-	if not valid_username_regex.fullmatch(new_name):
+	if v.patron:
+		used_regex = valid_username_patron_regex
+	else:
+		used_regex = valid_username_regex
+
+	if not used_regex.fullmatch(new_name):
 		return render_template("settings/personal.html",
 						v=v,
 						error="This isn't a valid username.")
