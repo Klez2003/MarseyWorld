@@ -115,8 +115,10 @@ BOOSTED_SITES = {
 	'headcycle.com',
 	'discardedtruth.com',
 	'dojo.press',
+	'commentcastles.org',
 	'livefilter.com',
 	'sift.quest',
+	'klique.io',
 	##lemmy
 	'beehaw.org',
 	'sh.itjust.works',
