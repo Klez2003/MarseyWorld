@@ -946,7 +946,7 @@ def settings_pronouns_change(v):
 	processed = process_settings_plaintext("pronouns", v.pronouns, 15)
 	if isinstance(processed, tuple):
 		return processed
-	
+
 	pronouns = processed
 	if not pronouns_regex.fullmatch(pronouns):
 		return redirect("/settings/personal?error=The pronouns you entered don't match the required format!")

@@ -33,7 +33,7 @@ class Orgy(Base):
 		return self.type == OrgyTypes.RUMBLE
 	def is_twitch(self):
 		return self.type == OrgyTypes.TWITCH
-	
+
 	def __repr__(self):
 		return f"<{self.__class__.__name__}(id={self.id}, type={self.type}, data={self.data} title={self.title})>"
 

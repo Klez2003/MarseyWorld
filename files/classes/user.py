@@ -203,7 +203,7 @@ class User(Base):
 			return
 
 		user_query = g.db.query(User).options(load_only(User.id)).filter_by(id=self.id)
-	
+
 		if currency == 'coins':
 			user_query.update({ User.coins: User.coins + amount })
 		else:

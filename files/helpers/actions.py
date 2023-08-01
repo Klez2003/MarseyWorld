@@ -139,7 +139,7 @@ def execute_snappy(post, v):
 			snappy.charge_account('coins', cost)
 
 			body = f'!{group.name}'
-			
+
 			ping_cost = cost
 		elif body.startswith(':#marseyglow'):
 			award_object = AwardRelationship(

@@ -307,7 +307,7 @@ def get_youtube_id_and_t(url):
 		t = split[1]
 
 	id = id.split('?')[0]
-	
+
 	return (id, t)
 
 def handle_youtube_links(url):

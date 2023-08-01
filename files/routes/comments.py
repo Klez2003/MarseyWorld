@@ -27,7 +27,7 @@ def _mark_comment_as_read(cid, vid):
 	db = db_session()
 
 	notif = db.query(Notification).options(load_only(Notification.read)).filter_by(comment_id=cid, user_id=vid, read=False).one_or_none()
-	
+
 	if notif and not notif.read:
 		notif.read = True
 		db.add(notif)

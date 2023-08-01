@@ -201,9 +201,9 @@
 					{% if FEATURES['PRONOUNS'] %}
 						{{common.line_text_section('pronouns', '/settings/pronouns_change', 'pronouns', 'Pronouns', v.pronouns, 'Limit of 15 characters', 'Enter pronouns here', 'Change Pronouns', false, 3, 15, '([a-zA-Z]{1,7})/[a-zA-Z]{1,7}(/[a-zA-Z]{1,7})?', false)}}
 					{% endif %}
-										
+
 					{{common.line_text_section('flair', '/settings/title_change', 'title', 'Flair', v.customtitleplain, 'Limit of 100 characters', 'Enter a flair here', 'Change Flair', true, 0, 100, '.*', v.flairchanged)}}
-					
+
 					{{common.color_section('flaircolor', '/settings/titlecolor', 'titlecolor', 'Flair Color', v.titlecolor)}}
 
 					{% if FEATURES['USERS_PROFILE_SONG'] -%}
@@ -239,11 +239,11 @@
 					{% if FEATURES['USERS_PROFILE_BODYTEXT'] %}
 						{{common.text_area_section('profile-bio', '/settings/personal', 'bio', 'Bio', v.bio, 'Limit of ' ~ BIO_FRIENDS_ENEMIES_LENGTH_LIMIT ~ ' characters', 'Tell the community a bit about yourself.', true, true, BIO_FRIENDS_ENEMIES_LENGTH_LIMIT)}}
 					{% endif %}
-					
+
 					{{common.text_area_section('profile-friends', '/settings/personal', 'friends', 'Friends', v.friends, 'Limit of ' ~ BIO_FRIENDS_ENEMIES_LENGTH_LIMIT ~ ' characters', 'Enter your friends on the site...', false, false, BIO_FRIENDS_ENEMIES_LENGTH_LIMIT)}}
-					
+
 					{{common.text_area_section('profile-enemies', '/settings/personal', 'enemies', 'Enemies', v.enemies, 'Limit of ' ~ BIO_FRIENDS_ENEMIES_LENGTH_LIMIT ~ ' characters', 'Enter your enemies on the site...', false, false, BIO_FRIENDS_ENEMIES_LENGTH_LIMIT)}}
-					
+
 					{{common.text_area_section('profile-signature', '/settings/personal', 'sig', 'Signature', v.sig, 'Limit of 200 characters', 'Enter a signature...', true, false, 200)}}
 
 					{{common.toggle_section('Private Mode', 'privateswitch', 'private', v.is_private, 'This will hide your profile page from others.', false)}}
@@ -256,7 +256,7 @@
 				<h5>Checkmark Customization</h5>
 				<div class="settings-section rounded" id="site-settings-checkmark">
 					{{common.color_section('verifiedcolor', '/settings/verifiedcolor', 'verifiedcolor', 'Checkmark Color', v.verifiedcolor)}}
-							
+
 					{{common.line_text_section('checkmark_text', '/settings/checkmark_text', 'checkmark-text', 'Checkmark Hover Text', v.verified, 'Limit of 100 characters', 'Enter checkmark hover text here', 'Change Text', false, 0, 100, '.*', false)}}
 				</div>
 			</section>

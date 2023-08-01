@@ -56,7 +56,7 @@ class Badge(Base):
 		if self.badge_id == 94 and self.user.progressivestack != 1: return self.user.progressivestack
 		if self.badge_id == 170 and self.user.marsify != 1: return self.user.marsify
 		if self.badge_id == 179 and self.user.spider != 1: return self.user.spider
-		
+
 		if self.badge_id == 95: return self.user.bird
 		if self.badge_id == 96: return self.user.flairchanged
 		if self.badge_id == 97: return self.user.longpost
