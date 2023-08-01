@@ -256,6 +256,7 @@ if SITE_NAME == 'rDrama':
 		'museumofrdrama',
 		'space',
 		'femaledatingstrategy',
+		'highrollerclub',
 	}
 
 	REDDIT_NOTIFS_SITE.add('marsey')
