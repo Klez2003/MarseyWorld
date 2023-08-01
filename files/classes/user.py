@@ -1094,8 +1094,6 @@ class User(Base):
 			if not cls.can_see(user, other.author): return False
 			if user and user.id == other.author_id: return True
 			if isinstance(other, Post):
-				if not (user and user.patron) and (other.title.lower().startswith('[paypigs]') or other.title.lower().startswith('[patrons]')):
-					return False
 				if other.sub and not cls.can_see(user, other.subr):
 					return False
 				if request.headers.get("Cf-Ipcountry") == 'NZ':
