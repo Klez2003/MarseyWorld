@@ -44,13 +44,13 @@ def cron_fn(every_5m, every_1d):
 			if every_1d:
 				stats.generate_charts_task(SITE)
 
-				_sub_inactive_purge_task()
-
 				cache.set('stats', stats.stats(), timeout=CRON_CACHE_TIMEOUT)
 
 				_generate_emojis_zip()
 
 				_leaderboard_task()
+
+				_sub_inactive_purge_task()
 			g.db.commit()
 		except:
 			print(traceback.format_exc(), flush=True)
