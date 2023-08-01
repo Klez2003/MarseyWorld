@@ -418,6 +418,7 @@ PERMS = { # Minimum admin_level to perform action.
 	'MODS_EVERY_GROUP': 5,
 	'IGNORE_DOMAIN_BAN': 5,
 	'USER_RESET_PASSWORD': 5,
+	'CLAIM_REWARDS_ALL_USERS': 5,
 }
 
 FEATURES = {

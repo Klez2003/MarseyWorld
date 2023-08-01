@@ -23,6 +23,7 @@ from files.helpers.useractions import *
 from files.routes.routehelpers import check_for_alts
 from files.routes.wrappers import *
 from files.routes.routehelpers import get_alt_graph, get_alt_graph_ids
+from files.routes.users import claim_rewards_all_users
 
 from .front import frontlist, comment_idlist
 
@@ -427,6 +428,16 @@ def clear_cloudflare_cache(v):
 	)
 	g.db.add(ma)
 	return {"message": "Cloudflare cache cleared!"}
+
+@app.post("/admin/claim_rewards_all_users")
+@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@admin_level_required(PERMS['CLAIM_REWARDS_ALL_USERS'])
+def admin_claim_rewards_all_users(v):
+	claim_rewards_all_users()
+	return {"message": "User rewards claimed!"}
 
 def admin_badges_grantable_list(v):
 	query = g.db.query(BadgeDef)
