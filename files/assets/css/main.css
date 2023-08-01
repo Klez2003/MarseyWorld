@@ -4038,7 +4038,7 @@ small, .small {
 .voting .arrow-down
 {
 	display: block;
-    text-decoration: none;
+	text-decoration: none;
 }
 
 .box-shadow-bottom {
@@ -7593,6 +7593,6 @@ body {
 }
 
 .rainbow-text del {
-    color: var(--black);
+	color: var(--black);
 	font-weight: 400;
 }

@@ -4,22 +4,22 @@
 }
 
 @media all and (max-width: 900px) {
-    .orgy-top-container {
-        flex-flow: column wrap;
-    }
-    .orgy-info-window-item {
-        max-height: 20% !important;
-        height: 20% !important;
-    }
-    .orgy-chat-window-item {
-        max-height: 80% !important;
-        height: 80% !important;
-    }
+	.orgy-top-container {
+		flex-flow: column wrap;
+	}
+	.orgy-info-window-item {
+		max-height: 20% !important;
+		height: 20% !important;
+	}
+	.orgy-chat-window-item {
+		max-height: 80% !important;
+		height: 80% !important;
+	}
 }
 @media all and (min-width: 900px) {
-    .orgy-top-container {
-        flex-flow: row nowrap;
-    }
+	.orgy-top-container {
+		flex-flow: row nowrap;
+	}
 }
 
 .orgy-chat-window-item {
@@ -31,7 +31,7 @@
 	width: 550px;
 }
 .rumble-player {
-    aspect-ratio: 16/9; 
-    max-width: min(70vw,500px) !important; 
-    width: 500px;
+	aspect-ratio: 16/9; 
+	max-width: min(70vw,500px) !important; 
+	width: 500px;
 }
