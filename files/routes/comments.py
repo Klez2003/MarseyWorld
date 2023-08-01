@@ -374,12 +374,9 @@ def comment(v):
 	g.db.add(vote)
 	cache.delete_memoized(comment_idlist)
 
-	v.comment_count = g.db.query(Comment).filter(
-		Comment.author_id == v.id,
-		or_(Comment.parent_post != None, Comment.wall_user_id != None),
-		Comment.deleted_utc == 0
-	).count()
-	g.db.add(v)
+	if not (c.parent_post in ADMIGGER_THREADS and c.level == 1):
+		v.comment_count += 1
+		g.db.add(v)
 
 	c.voted = 1
 
@@ -420,14 +417,12 @@ def delete_comment(cid, v):
 		if c.author_id != v.id: abort(403)
 		c.deleted_utc = int(time.time())
 		g.db.add(c)
-		cache.delete_memoized(comment_idlist)
 
-		v.comment_count = g.db.query(Comment).filter(
-			Comment.author_id == v.id,
-			or_(Comment.parent_post != None, Comment.wall_user_id != None),
-			Comment.deleted_utc == 0
-		).count()
-		g.db.add(v)
+		if not (c.parent_post in ADMIGGER_THREADS and c.level == 1):
+			v.comment_count -= 1
+			g.db.add(v)
+
+		cache.delete_memoized(comment_idlist)
 	return {"message": "Comment deleted!"}
 
 @app.post("/undelete/comment/<int:cid>")
@@ -442,13 +437,12 @@ def undelete_comment(cid, v):
 		if c.author_id != v.id: abort(403)
 		c.deleted_utc = 0
 		g.db.add(c)
+
+		if not (c.parent_post in ADMIGGER_THREADS and c.level == 1):
+			v.comment_count += 1
+			g.db.add(v)
+
 		cache.delete_memoized(comment_idlist)
-		v.comment_count = g.db.query(Comment).filter(
-			Comment.author_id == v.id,
-			or_(Comment.parent_post != None, Comment.wall_user_id != None),
-			Comment.deleted_utc == 0
-		).count()
-		g.db.add(v)
 	return {"message": "Comment undeleted!"}
 
 @app.post("/pin_comment/<int:cid>")
