@@ -386,7 +386,7 @@ class Comment(Base):
 
 		if path == '/admin/removed/comments': return False
 
-		if comment_link_regex.search(path): return False
+		if path.endswith(f'/{self.id}'): return False
 
 		if self.over_18 and not (v and v.over_18) and not (path.startswith('/post/') and self.post.over_18): return True
 
