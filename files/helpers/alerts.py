@@ -165,6 +165,11 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None):
 			elif i.group(1) == 'jannies':
 				group = None
 				member_ids = set([x[0] for x in g.db.query(User.id).filter(User.admin_level > 0, User.id != AEVANN_ID).all()])
+			elif i.group(1) == 'verifiedrich':
+				if not v.patron:
+					abort(403, f"Only !verifiedrich members can mention it!")
+				group = None
+				member_ids = set([x[0] for x in g.db.query(User.id).filter(User.patron > 0).all()])
 			else:
 				group = g.db.get(Group, i.group(1))
 				if not group: continue

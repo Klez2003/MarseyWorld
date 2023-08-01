@@ -1126,6 +1126,7 @@ class User(Base):
 		elif isinstance(other, Sub):
 			if other.name == 'chudrama': return bool(user) and user.can_see_chudrama
 			if other.name == 'countryclub': return bool(user) and user.can_see_countryclub
+			if other.name == 'highrollerclub': return bool(user) and user.can_see_highrollerclub
 		elif isinstance(other, User):
 			return (user and user.id == other.id) or (user and user.can_see_shadowbanned) or not other.shadowbanned
 		return True
@@ -1162,6 +1163,16 @@ class User(Base):
 			return self.can_see_restricted_holes
 
 		if self.truescore >= TRUESCORE_CC_MINIMUM: return True
+
+		return False
+
+	@property
+	@lazy
+	def can_see_highrollerclub(self):
+		if self.can_see_restricted_holes != None:
+			return self.can_see_restricted_holes
+
+		if self.patron: return True
 
 		return False
 
