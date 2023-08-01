@@ -4,14 +4,14 @@
 
 {% if v.id != group.owner.id %}
 	<button id="leave-{{group}}" type="button" class="mt-4 btn btn-primary btn-block {% if v.id not in group.membership_user_ids %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/!{{group}}/leave','leave-{{group}}','apply-{{group}}','d-none')">
-		{%- if v.id in group.member_ids -%}
+		{%- if v.id in group.member_ids or group.name == 'verifiedrich' -%}
 			Leave
 		{%- else -%}
 			Cancel Application
 		{%- endif -%}
 	</button>
 
-	<button id="apply-{{group}}" type="button" class="mt-4 {% if v.id in group.membership_user_ids %}d-none{% endif %} btn btn-primary btn-block" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/!{{group}}/apply','leave-{{group}}','apply-{{group}}','d-none')">Apply to Join</button>
+	<button id="apply-{{group}}" type="button" class="mt-4 {% if v.id in group.membership_user_ids %}d-none{% endif %} btn btn-primary btn-block" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/!{{group}}/apply','leave-{{group}}','apply-{{group}}','d-none')">{% if group.name != 'verifiedrich' %}Apply to {% endif %}Join</button>
 {% endif %}
 
 <br>
