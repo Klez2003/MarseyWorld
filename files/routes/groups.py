@@ -86,9 +86,6 @@ def join_group(v, group_name):
 def leave_group(v, group_name):
 	group_name = group_name.strip().lower()
 
-	if group_name == 'jannies':
-		abort(403, "You can't leave !jannies")
-
 	group = g.db.get(Group, group_name)
 	if not group: abort(404)
 	existing = g.db.query(GroupMembership).filter_by(user_id=v.id, group_name=group_name).one_or_none()
