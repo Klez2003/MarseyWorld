@@ -208,7 +208,7 @@ def sign_up_post(v):
 	if not username: abort(400)
 	username = username.strip()
 
-	email = request.values.get("email").strip().lower()
+	email = request.values.get("email", "").strip().lower()
 
 	ref_id = 0
 	try:
