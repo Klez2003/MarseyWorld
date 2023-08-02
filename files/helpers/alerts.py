@@ -116,7 +116,8 @@ def add_notif(cid, uid, text, pushnotif_url=''):
 		if ' has mentioned you: [' in text:
 			text = text.split(':')[0] + '!'
 
-		push_notif({uid}, 'New notification', text, pushnotif_url)
+		if not request.path.startswith('/submit'):
+			push_notif({uid}, 'New notification', text, pushnotif_url)
 
 
 def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None):
