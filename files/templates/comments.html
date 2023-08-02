@@ -303,7 +303,7 @@
 								</li>
 
 								{% if v and not c.deleted_utc %}
-									<button type="button" class="list-inline-item mr-3 btn nobackground" data-nonce="{{g.nonce}}" data-onclick="toggleReplyBox('reply-to-{{c.fullname}}')"><i class="fas fa-reply" style="margin-top:0.35rem"></i></button>
+									<button type="button" class="list-inline-item mr-3 btn nobackground" data-nonce="{{g.nonce}}" data-onclick="toggleReplyBox(this, 'reply-to-{{c.fullname}}')"><i class="fas fa-reply"></i></button>
 								{% endif %}
 
 								<li class="list-inline-item">
@@ -394,7 +394,7 @@
 
 						{% if v %}
 							{% if not c.deleted_utc %}
-								<button type="button" class="btn caction py-0 nobackground px-1 text-muted" data-nonce="{{g.nonce}}" data-onclick="toggleReplyBox('reply-to-{{c.fullname}}')"><i class="fas fa-reply"></i>Reply</button>
+								<button type="button" class="btn caction py-0 nobackground px-1 text-muted" data-nonce="{{g.nonce}}" data-onclick="toggleReplyBox(this, 'reply-to-{{c.fullname}}')"><i class="fas fa-reply"></i>Reply</button>
 							{% endif %}
 
 							<button type="button" class="btn caction py-0 nobackground px-1 text-muted" data-bs-toggle="modal" data-bs-target="#reportCommentModal" data-nonce="{{g.nonce}}" data-onclick="report_commentModal('{{c.id}}','{{c.author_name}}',)"><i class="fas fa-flag fa-fw"></i>Report</button>
@@ -541,7 +541,7 @@
 				<button type="button" class="btn btn-primary mt-2 mr-3 {% if not c.author.is_muted %}d-none{% endif %}" id="unmute-user-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unmute_user/{{c.author.id}}','mute-user-{{c.id}}','unmute-user-{{c.id}}','d-none')">Unmute</button>
 			{% endif %}
 
-			<button type="button" class="btn btn-primary nobackground mt-2" data-nonce="{{g.nonce}}" data-onclick="toggleReplyBox('reply-message-{{c.fullname}}')">Reply</button>
+			<button type="button" class="btn btn-primary nobackground mt-2" data-nonce="{{g.nonce}}" data-onclick="toggleReplyBox(this, 'reply-message-{{c.fullname}}')">Reply</button>
 
 			<div id="reply-message-{{c.fullname}}" class="d-none">
 				<div id="comment-form-space-{{c.id}}" class="comment-write collapsed child">

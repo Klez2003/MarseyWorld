@@ -51,7 +51,7 @@ function getSelectionTextHtml() {
 	return html;
 }
 
-function toggleReplyBox(id) {
+function toggleReplyBox(t, id) {
 	const element = document.getElementById(id);
 	const ta = element.getElementsByTagName('textarea')[0]
 	element.classList.remove('d-none')
@@ -72,6 +72,14 @@ function toggleReplyBox(id) {
 	ta.focus()
 
 	autoExpand(ta);
+
+	let newHTML = ''
+
+	if (t.innerHTML.includes('<i class="fas fa-'))
+		newHTML += '<i class="fas fa-quotes"></i>'
+	if (t.innerText)
+		newHTML += 'Quote selection'
+	t.innerHTML = newHTML
 }
 
 function toggleEdit(id){
