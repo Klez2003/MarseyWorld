@@ -201,7 +201,7 @@ function quote(t) {
 }
 
 ta.addEventListener("keyup", function(e) {
-	if (e.key === 'Enter') {
+	if (e.key === 'Enter' && !current_word) {
 		e.preventDefault();
 		send();
 	}
