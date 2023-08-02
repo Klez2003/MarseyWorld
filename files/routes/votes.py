@@ -56,27 +56,24 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 
 	coin_value = coin_delta * coin_mult
 
+	imlazy = 0
+
 	if existing and existing.vote_type == new: return "", 204
 	if existing:
 		if existing.vote_type == 0 and new != 0:
-			target.author.pay_account('coins', coin_value)
-			target.author.truescore += coin_delta
-			g.db.add(target.author)
+			imlazy = 1
 			existing.vote_type = new
 			existing.coins = coin_value
 			g.db.add(existing)
 		elif existing.vote_type != 0 and new == 0:
-			target.author.charge_account('coins', existing.coins, should_check_balance=False)
-			target.author.truescore -= coin_delta
-			g.db.add(target.author)
+			imlazy = 2
+			existing_coins = existing.coins
 			g.db.delete(existing)
 		else:
 			existing.vote_type = new
 			g.db.add(existing)
 	elif new != 0:
-		target.author.pay_account('coins', coin_value)
-		target.author.truescore += coin_delta
-		g.db.add(target.author)
+		imlazy = 3
 
 		real = new == -1 or (not alt and v.is_votes_real)
 		vote = None
@@ -149,6 +146,17 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 	target.realupvotes = floor(target.realupvotes * mul)
 
 	g.db.add(target)
+
+	if imlazy == 1:
+		target.author.pay_account('coins', coin_value)
+		target.author.truescore += coin_delta
+	elif imlazy == 2:
+		target.author.charge_account('coins', existing.coins, should_check_balance=False)
+		target.author.truescore -= coin_delta
+	elif imlazy == 3:
+		target.author.pay_account('coins', coin_value)
+		target.author.truescore += coin_delta
+
 	return "", 204
 
 @app.get("/votes/<link>")
