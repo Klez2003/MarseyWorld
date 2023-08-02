@@ -81,6 +81,8 @@ def execute_snappy(post, v):
 			body = ":#donkeykongfuckoffcarp:"
 		else:
 			body = ":#marseyfuckoffcarp:"
+	elif v.id == AEVANN_ID:
+		body="https://i.rdrama.net/images/16909380805064178.webp"
 	elif v.id == LAWLZ_ID:
 		if random.random() < 0.5: body = "wow, this lawlzpost sucks!"
 		else: body = "wow, a good lawlzpost for once!"
