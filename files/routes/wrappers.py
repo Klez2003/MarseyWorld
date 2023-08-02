@@ -1,7 +1,6 @@
 import time
 import secrets
 import user_agents
-import uuid
 from flask import g, request, session
 
 from files.classes.clients import ClientAuth
