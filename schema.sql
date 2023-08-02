@@ -204,7 +204,8 @@ CREATE TABLE public.users (
     prelock_username character varying(30),
     namechanged integer,
     queen integer,
-    sharpen integer
+    sharpen integer,
+    lifetimedonated integer NOT NULL
 );
 
 
