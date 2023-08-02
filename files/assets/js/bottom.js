@@ -201,14 +201,6 @@ document.addEventListener("click", function (e) {
 		const toggling = document.querySelector(element.dataset.toggleelement)
 		const attr = element.dataset.toggleattr;
 
-		if (attr == "d-none" && toggling.classList.contains(attr)) {
-			document.querySelectorAll(".toggled-visible").forEach(i => {
-				i.classList.add(attr)
-				i.classList.remove("toggled-visible")
-			});
-			toggling.classList.add("toggled-visible")
-		}
-
 		toggling.classList.toggle(attr);
 	}
 
