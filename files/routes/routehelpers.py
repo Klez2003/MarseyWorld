@@ -12,7 +12,13 @@ from files.helpers.config.const import *
 from files.helpers.security import generate_hash, validate_hash
 from files.__main__ import cache
 
+def check_session_id():
+	if not session.get("session_id"):
+		session.permanent = True
+		session["session_id"] = str(uuid.uuid4())
+
 def get_raw_formkey(u):
+	check_session_id()
 	return f"{session['session_id']}+{u.id}+{u.login_nonce}"
 
 def get_formkey(u):

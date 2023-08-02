@@ -11,7 +11,7 @@ from files.helpers.get import get_account
 from files.helpers.logging import log_file
 from files.helpers.settings import *
 from files.helpers.cloudflare import *
-from files.routes.routehelpers import validate_formkey
+from files.routes.routehelpers import validate_formkey, check_session_id
 from files.__main__ import app, db_session, limiter
 
 def rpath(n):
@@ -38,9 +38,7 @@ def calc_users():
 		g.loggedin_chat = cache.get(CHAT_ONLINE_CACHE_KEY) or 0
 		timestamp = int(time.time())
 
-		if not session.get("session_id"):
-			session.permanent = True
-			session["session_id"] = str(uuid.uuid4())
+		check_session_id()
 
 		if v:
 			if session["session_id"] in loggedout: del loggedout[session["session_id"]]
