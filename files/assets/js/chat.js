@@ -228,10 +228,10 @@ socket.on('online', function(data){
 	bs_trigger(document.getElementById('online3'))
 })
 
-window.addEventListener('blur', function(){
+addEventListener('blur', function(){
 	focused=false
 })
-window.addEventListener('focus', function(){
+addEventListener('focus', function(){
 	focused=true
 })
 
