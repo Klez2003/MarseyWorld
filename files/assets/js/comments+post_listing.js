@@ -53,10 +53,11 @@ function option_vote_2(t, oid, kind) {
 		},
 		() => {
 			t.disabled = true;
-			for(let el of document.getElementsByClassName('bet')) {
+			const parent = t.parentElement.parentElement
+			for(let el of parent.getElementsByClassName('bet')) {
 				el.disabled = true;
 			}
-			for(let el of document.getElementsByClassName('cost')) {
+			for(let el of parent.getElementsByClassName('cost')) {
 				el.classList.add('d-none')
 			}
 			const scoretext = document.getElementById('option-' + oid);
