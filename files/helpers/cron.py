@@ -158,7 +158,7 @@ def _generate_emojis_original_zip():
 	count = str(len(os.listdir('/asset_submissions/emojis/original')))
 	cache.set('emojis_original_count', count, timeout=CRON_CACHE_TIMEOUT)
 
-	size = str(int(os.stat('files/assets/emojis_original.zip').st_size/1024/1024/1024)) + ' GB'
+	size = str(int(os.stat('files/assets/emojis_original.zip').st_size/1024/1024)) + ' GB'
 	cache.set('emojis_original_size', size, timeout=CRON_CACHE_TIMEOUT)
 
 def _leaderboard_task():
