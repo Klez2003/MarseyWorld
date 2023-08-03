@@ -586,11 +586,11 @@ function handleUploadProgress(e, upload_prog) {
 
 
 if (screen_width <= 768) {
-	addEventListener('show.bs.modal', function () {
+	addEventListener('shown.bs.modal', function () {
 		location.hash = "modal";
 	});
 	
-	addEventListener('hide.bs.modal', function () {
+	addEventListener('hidden.bs.modal', function () {
 		if(location.hash == "#modal") {
 			history.back();
 		}
