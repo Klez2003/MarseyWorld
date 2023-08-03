@@ -485,6 +485,7 @@ def transfer_bux(v, username):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
+@cache.memoize()
 def leaderboard(v):
 	users = g.db.query(User)
 
@@ -513,10 +514,8 @@ def leaderboard(v):
 
 	leaderboards.append(Leaderboard("Downvotes received", "downvotes received", "downvotes-received", "Downvotes Received", "downvoters", Leaderboard.get_downvotes_lb, None, v, None, None))
 
-	t = time.time()
 	leaderboards.append(Leaderboard("Casino winnings", "casino winnings", "casino-winnings", "Casino Winnings", None, Leaderboard.get_winnings_lb, CasinoGame.winnings, v, None, None))
 	leaderboards.append(Leaderboard("Casino winnings", "casino winnings", "casino-winnings", "Casino Winnings", None, Leaderboard.get_winnings_lb, CasinoGame.winnings, v, None, None, 25, False))
-	print(time.time() - t, flush=True)
 
 	return render_template("leaderboard.html", v=v, leaderboards=leaderboards)
 
