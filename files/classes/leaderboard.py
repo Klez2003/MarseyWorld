@@ -9,6 +9,7 @@ from .emoji import *
 from .user import User
 from .userblock import UserBlock
 from .votes import Vote, CommentVote
+from .casino_game import CasinoGame
 
 from files.__main__ import cache
 
@@ -25,14 +26,14 @@ class Leaderboard:
 	value_func = None
 
 	def __init__(self, header_name, table_header_name, html_id, table_column_name,
-				user_relative_url, query_function, criteria, v, value_func, users, limit=LEADERBOARD_LIMIT):
+				user_relative_url, query_function, criteria, v, value_func, users, limit=LEADERBOARD_LIMIT, desc=True):
 		self.header_name = header_name
 		self.table_header_name = table_header_name
 		self.html_id = html_id
 		self.table_column_name = table_column_name
 		self.user_relative_url = user_relative_url
 		self.limit = limit
-		lb = query_function(criteria, v, users, limit)
+		lb = query_function(criteria, v, users, limit, desc)
 		self.all_users = lb[0]
 		self.v_position = lb[1]
 		self.v_value = lb[2]
@@ -44,9 +45,10 @@ class Leaderboard:
 		else:
 			self.user_func = lambda u:u[0]
 			self.value_func = lambda u: u[1] or 0
+		self.desc = desc
 
 	@classmethod
-	def get_simple_lb(cls, order_by, v, users, limit):
+	def get_simple_lb(cls, order_by, v, users, limit, desc):
 		leaderboard = users.order_by(order_by.desc()).limit(limit).all()
 		position = None
 		if v not in leaderboard:
@@ -63,7 +65,19 @@ class Leaderboard:
 		return func.rank().over(order_by=func.count(criteria).desc()).label("rank")
 
 	@classmethod
-	def get_badge_emoji_lb(cls, lb_criteria, v, users, limit):
+	def sum_and_label(cls, criteria):
+		return func.sum(criteria).label("sum")
+
+	@classmethod
+	def rank_filtered_rank_label_by_desc_sum(cls, criteria):
+		return func.rank().over(order_by=func.sum(criteria).desc()).label("rank")
+
+	@classmethod
+	def rank_filtered_rank_label_by_asc_sum(cls, criteria):
+		return func.rank().over(order_by=func.sum(criteria).asc()).label("rank")
+
+	@classmethod
+	def get_badge_emoji_lb(cls, lb_criteria, v, users, limit, desc):
 		sq = g.db.query(lb_criteria, cls.count_and_label(lb_criteria), cls.rank_filtered_rank_label_by_desc(lb_criteria))
 		if lb_criteria == Emoji.author_id:
 			sq = sq.filter(Emoji.kind.in_(["Marsey", "Platy", "Wolf", "Capy", "Carp", "Marsey Flags", "Marsey Alphabet"]))
@@ -85,7 +99,28 @@ class Leaderboard:
 		return (leaderboard, position[0], position[1])
 
 	@classmethod
-	def get_blockers_lb(cls, lb_criteria, v, users, limit):
+	def get_winnings_lb(cls, lb_criteria, v, users, limit, desc):
+		if lb_criteria != CasinoGame.winnings:
+			raise ValueError("This leaderboard function only supports CasinoGame.user_id")
+
+		if desc: fn = cls.rank_filtered_rank_label_by_desc_sum
+		else: fn = cls.rank_filtered_rank_label_by_asc_sum
+		sq = g.db.query(CasinoGame.user_id, cls.sum_and_label(lb_criteria), fn(lb_criteria))
+		sq = sq.group_by(CasinoGame.user_id).subquery()
+
+		sq_criteria = User.id == sq.c.user_id
+
+		if desc: order = sq.c.sum.desc()
+		else: order = sq.c.sum
+		leaderboard = g.db.query(User, sq.c.sum).join(sq, sq_criteria).order_by(order)
+		position = g.db.query(User.id, sq.c.rank, sq.c.sum).join(sq, sq_criteria).filter(User.id == v.id).one_or_none()
+		if position: position = (position[1], position[2])
+		else: position = (leaderboard.count() + 1, 0)
+		leaderboard = leaderboard.limit(limit).all()
+		return (leaderboard, position[0], position[1])
+
+	@classmethod
+	def get_blockers_lb(cls, lb_criteria, v, users, limit, desc):
 		if lb_criteria != UserBlock.target_id:
 			raise ValueError("This leaderboard function only supports UserBlock.target_id")
 		sq = g.db.query(lb_criteria, cls.count_and_label(lb_criteria)).group_by(lb_criteria).subquery()
@@ -98,7 +133,7 @@ class Leaderboard:
 		return (leaderboard, position[0], position[1])
 
 	@classmethod
-	def get_hat_lb(cls, lb_criteria, v, users, limit):
+	def get_hat_lb(cls, lb_criteria, v, users, limit, desc):
 		leaderboard = g.db.query(User, func.count(lb_criteria)).join(lb_criteria).group_by(User).order_by(func.count(lb_criteria).desc())
 		sq = g.db.query(User.id, cls.count_and_label(lb_criteria), cls.rank_filtered_rank_label_by_desc(lb_criteria)).join(lb_criteria).group_by(User).subquery()
 		position = g.db.query(sq.c.rank, sq.c.count).filter(sq.c.id == v.id).limit(1).one_or_none()
@@ -107,7 +142,7 @@ class Leaderboard:
 		return (leaderboard, position[0], position[1])
 
 	@classmethod
-	def get_upvotes_lb(cls, lb_criteria, v, users, limit):
+	def get_upvotes_lb(cls, lb_criteria, v, users, limit, desc):
 		users13 = cache.get("users13") or []
 		users13_1 = cache.get("users13_1") or []
 		users13_2 = cache.get("users13_2") or []
@@ -123,7 +158,7 @@ class Leaderboard:
 		return (users13_accs, pos13[0], pos13[1])
 
 	@classmethod
-	def get_downvotes_lb(cls, lb_criteria, v, users, limit):
+	def get_downvotes_lb(cls, lb_criteria, v, users, limit, desc):
 		users9 = cache.get("users9") or []
 		users9_1 = cache.get("users9_1") or []
 		users9_2 = cache.get("users9_2") or []
