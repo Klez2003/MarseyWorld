@@ -833,7 +833,7 @@ class User(Base):
 	@property
 	@lazy
 	def moderated_subs(self):
-		return [x[0] for x in g.db.query(Mod.sub).filter_by(user_id=self.id).all()]
+		return [x[0] for x in g.db.query(Mod.sub).filter_by(user_id=self.id).order_by(Mod.sub).all()]
 
 	@property
 	@lazy
