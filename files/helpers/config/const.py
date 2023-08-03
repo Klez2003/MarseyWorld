@@ -237,6 +237,7 @@ if SITE_NAME == 'rDrama':
 		'(?<![a-z])cat(?![a-z])': 'marsey',
 		'(?<![a-z])cats(?![a-z])': 'marseys',
 		'hello': 'hecko',
+		'ryan gosling': 'literally me',
 	}
 	SLURS.update(RDRAMA_SLURS)
 
