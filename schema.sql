@@ -205,7 +205,8 @@ CREATE TABLE public.users (
     namechanged integer,
     queen integer,
     sharpen integer,
-    lifetimedonated integer NOT NULL
+    lifetimedonated integer NOT NULL,
+    lifetimedonated_visible boolean NOT NULL
 );
 
 
