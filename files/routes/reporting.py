@@ -14,8 +14,8 @@ from files.__main__ import app, limiter, cache
 @app.post("/report/post/<int:pid>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@limiter.limit('5/hour;10/day', deduct_when=lambda response: response.status_code < 400)
+@limiter.limit('5/hour;10/day', deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def report_post(pid, v):
 	post = get_post(pid)
@@ -77,8 +77,8 @@ def report_post(pid, v):
 @app.post("/report/comment/<int:cid>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@limiter.limit('5/hour;10/day', deduct_when=lambda response: response.status_code < 400)
+@limiter.limit('5/hour;10/day', deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def report_comment(cid, v):
 	if v.is_muted: abort(403, "You are forbidden from making reports!")
