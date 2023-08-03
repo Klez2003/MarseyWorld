@@ -43,8 +43,8 @@ title_regex = re.compile("[^\w ]", flags=re.A)
 controversial_regex = re.compile('["> ](https:\/\/old\.reddit\.com/r/\w{3,20}\/comments\/[\w\-.#&/=\?@%+]{5,250})["< ]', flags=re.A)
 
 spoiler_regex = re.compile('\|\|(.+?)\|\|' + NOT_IN_CODE_OR_LINKS, flags=re.A)
-reddit_regex = re.compile('(?<!\w)\/?(([ruRU])\/(\w|-){3,25})' + NOT_IN_CODE_OR_LINKS, flags=re.A)
-sub_regex = re.compile('(?<!\w)\/?([hH]\/(\w|-){3,25})' + NOT_IN_CODE_OR_LINKS, flags=re.A)
+reddit_regex = re.compile('(?<![\w/])\/?(([ruRU])\/(\w|-){3,25})' + NOT_IN_CODE_OR_LINKS, flags=re.A)
+sub_regex = re.compile('(?<![\w/])\/?([hH]\/(\w|-){3,25})' + NOT_IN_CODE_OR_LINKS, flags=re.A)
 
 strikethrough_regex = re.compile('(^|\s|>|")~{1,2}([^~]+)~{1,2}' + NOT_IN_CODE_OR_LINKS, flags=re.A)
 
