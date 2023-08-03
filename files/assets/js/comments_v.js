@@ -170,6 +170,8 @@ function post_reply(id) {
 			input.previousElementSibling.innerHTML = '';
 			input.value = null;
 			oldfiles[ta.id] = []
+
+			remove_dialog();
 		} else {
 			showToast(false, getMessageFromJsonData(false, data));
 		}
@@ -219,6 +221,8 @@ function comment_edit(id){
 			input.previousElementSibling.innerHTML = '';
 			input.value = null;
 			oldfiles[ta.id] = []
+
+			remove_dialog();
 		}
 		else {
 			showToast(false, getMessageFromJsonData(false, data));
@@ -293,6 +297,8 @@ function post_comment(fullname, hide){
 
 			const ghost_town_box = document.getElementById('ghost-town-box')
 			if (ghost_town_box) ghost_town_box.remove()
+
+			remove_dialog();
 		}
 		else {
 			showToast(false, getMessageFromJsonData(false, data));
