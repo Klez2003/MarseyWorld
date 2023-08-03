@@ -51,6 +51,7 @@ app.config["CACHE_KEY_PREFIX"] = f"{SITE}_flask_cache_"
 app.config["CACHE_TYPE"] = "RedisCache"
 app.config["CACHE_REDIS_URL"] = environ.get("REDIS_URL").strip()
 app.config["CACHE_DEFAULT_TIMEOUT"] = 86400
+app.config["CACHE_SOURCE_CHECK"] = True
 
 #to allow session cookie to work on videos.watchpeopledie.tv
 if SITE == 'watchpeopledie.tv':
