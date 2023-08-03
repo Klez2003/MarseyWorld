@@ -388,7 +388,7 @@ class Comment(Base):
 
 		if path.endswith(f'/{self.id}'): return False
 
-		if self.over_18 and not (v and v.over_18) and not (path.startswith('/post/') and self.post.over_18): return True
+		if self.over_18 and not (v and v.over_18) and not (any(path.startswith(x) for x in ('/post/','/comment/','/h/')) and self.post.over_18): return True
 
 		if self.is_banned: return True
 
