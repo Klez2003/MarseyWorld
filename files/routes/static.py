@@ -242,7 +242,11 @@ def static_megathread_index(v):
 	emojis_count = cache.get('emojis_count') or ''
 	emojis_size = cache.get('emojis_size') or ''
 
-	return render_template("megathread_index.html", v=v, emojis_hash=emojis_hash, emojis_count=emojis_count, emojis_size=emojis_size)
+	emojis_original_hash = cache.get('emojis_original_hash') or ''
+	emojis_original_count = cache.get('emojis_original_count') or ''
+	emojis_original_size = cache.get('emojis_original_size') or ''
+
+	return render_template("megathread_index.html", v=v, emojis_hash=emojis_hash, emojis_count=emojis_count, emojis_size=emojis_size, emojis_original_hash=emojis_original_hash, emojis_original_count=emojis_original_count, emojis_original_size=emojis_original_size)
 
 @app.get("/api")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
