@@ -145,6 +145,8 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 			x += target.body_html.count('" rel="nofollow noopener" target="_blank">')
 			target.realupvotes += min(x*2, 20)
 			mul += min(x/10, 1)
+	elif SITE == 'rdrama.net' and cls == Comment and 6 <= datetime.fromtimestamp(target.created_utc).hour <= 10:
+		mul = 2
 
 	target.realupvotes = floor(target.realupvotes * mul)
 
