@@ -580,7 +580,14 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 			link["rel"] = "nofollow noopener"
 
 
-	sanitized = str(soup).replace('<html><body>','').replace('</body></html>','').replace('/>','>')
+	sanitized = str(soup).replace('<html><body>','').replace('</body></html>','')
+
+	def error(error):
+		if chat:
+			return error, 403
+		else:
+			abort(403, error)
+
 
 	if '<pre>' not in sanitized and blackjack != "rules":
 		sanitized = sanitized.replace('\n','')
