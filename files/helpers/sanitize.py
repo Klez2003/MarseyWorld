@@ -385,8 +385,8 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 	# replacing zero width characters, overlines, fake colons
 	sanitized = sanitized.replace('\u200e','').replace('\u200b','').replace("\ufeff", "").replace("\u033f","").replace("\u0589", ":")
 
-	sanitized = reddit_regex.sub(r'\1<a href="https://old.reddit.com/\2" rel="nofollow noopener" target="_blank">/\2</a>', sanitized)
-	sanitized = sub_regex.sub(r'\1<a href="/\2">/\2</a>', sanitized)
+	sanitized = reddit_regex.sub(r'<a href="https://old.reddit.com/\1" rel="nofollow noopener" target="_blank">/\1</a>', sanitized)
+	sanitized = sub_regex.sub(r'<a href="/\1">/\1</a>', sanitized)
 
 	v = getattr(g, 'v', None)
 
