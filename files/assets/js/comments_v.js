@@ -171,6 +171,7 @@ function post_reply(id) {
 			input.value = null;
 			oldfiles[ta.id] = []
 
+			remove_dialog();
 			restore_reply_buttons(`c_${id}`)
 		} else {
 			showToast(false, getMessageFromJsonData(false, data));
@@ -298,7 +299,9 @@ function post_comment(fullname, hide){
 			const ghost_town_box = document.getElementById('ghost-town-box')
 			if (ghost_town_box) ghost_town_box.remove()
 
-			restore_reply_buttons(fullname)
+			remove_dialog();
+			if (fullname.startsWith('c_'))
+				restore_reply_buttons(fullname)
 		}
 		else {
 			showToast(false, getMessageFromJsonData(false, data));
@@ -360,10 +363,10 @@ function restore_reply_buttons(fullname) {
 			newHTML += 'Reply'
 		t.innerHTML = newHTML
 	}
-	remove_dialog();
 }
 
 function cancel(fullname) {
 	document.getElementById(`reply-to-${fullname}`).classList.add('d-none')
+	remove_dialog();
 	restore_reply_buttons(fullname)
 }
