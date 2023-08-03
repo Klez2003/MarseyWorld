@@ -70,6 +70,7 @@ BOOSTED_SITES = {
 	'webhostingtalk.com',
 	'blackhatworld.com',
 	'nulled.to',
+	'fanclubs.org',
 
 	#nested-comments
 	#'all sites with .win TLD',
