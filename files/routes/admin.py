@@ -471,65 +471,72 @@ def badge_grant_get(v):
 def badge_grant_post(v):
 	badges = admin_badges_grantable_list(v)
 
-	user = get_user(request.values.get("username"), graceful=True)
-	if not user:
-		error = "User not found!"
+	usernames = request.values.get("usernames", "").strip()
+	if not usernames:
+		error = "You must enter usernames!"
 		if v.client: return {"error": error}
 		return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=True, error=error)
 
-	try: badge_id = int(request.values.get("badge_id"))
-	except: abort(400)
+	for username in usernames.split():
+		user = get_user(username, graceful=True)
+		if not user:
+			error = "User not found!"
+			if v.client: return {"error": error}
+			return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=True, error=error)
 
-	if badge_id not in [b.id for b in badges]:
-		abort(403, "You can't grant this badge!")
+		try: badge_id = int(request.values.get("badge_id"))
+		except: abort(400)
 
-	description = request.values.get("description")
-	url = request.values.get("url")
+		if badge_id not in [b.id for b in badges]:
+			abort(403, "You can't grant this badge!")
 
-	if url:
-		if '\\' in url: abort(400)
-		if url.startswith(f'{SITE_FULL}/'):
-			url = url.split(SITE_FULL, 1)[1]
+		description = request.values.get("description")
+		url = request.values.get("url")
 
-	existing = user.has_badge(badge_id)
-	if existing:
-		if url or description:
-			existing.url = url
-			existing.description = description
-			g.db.add(existing)
+		if url:
+			if '\\' in url: abort(400)
+			if url.startswith(f'{SITE_FULL}/'):
+				url = url.split(SITE_FULL, 1)[1]
 
-			msg = "Badge attributes edited successfully!"
-			if v.client: return {"message": msg}
-			return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=True, msg=msg)
+		existing = user.has_badge(badge_id)
+		if existing:
+			if url or description:
+				existing.url = url
+				existing.description = description
+				g.db.add(existing)
 
-		error = "User already has that badge!"
-		if v.client: return {"error": error}
-		return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=True, error=error)
+				msg = "Badge attributes edited successfully!"
+				if v.client: return {"message": msg}
+				return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=True, msg=msg)
 
-	new_badge = Badge(
-		badge_id=badge_id,
-		user_id=user.id,
-		url=url,
-		description=description
+			error = "User already has that badge!"
+			if v.client: return {"error": error}
+			return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=True, error=error)
+
+		new_badge = Badge(
+			badge_id=badge_id,
+			user_id=user.id,
+			url=url,
+			description=description
+			)
+
+		g.db.add(new_badge)
+		g.db.flush()
+
+		if v.id != user.id:
+			text = f"@{v.username} (a site admin) has given you the following profile badge:\n\n{new_badge.path}\n\n**{new_badge.name}**\n\n{new_badge.badge.description}"
+			send_repeatable_notification(user.id, text)
+
+		ma = ModAction(
+			kind="badge_grant",
+			user_id=v.id,
+			target_user_id=user.id,
+			_note=new_badge.name
 		)
+		g.db.add(ma)
 
-	g.db.add(new_badge)
-	g.db.flush()
 
-	if v.id != user.id:
-		text = f"@{v.username} (a site admin) has given you the following profile badge:\n\n{new_badge.path}\n\n**{new_badge.name}**\n\n{new_badge.badge.description}"
-		send_repeatable_notification(user.id, text)
-
-	ma = ModAction(
-		kind="badge_grant",
-		user_id=v.id,
-		target_user_id=user.id,
-		_note=new_badge.name
-	)
-	g.db.add(ma)
-
-	msg = f"{new_badge.name} Badge granted to @{user.username} successfully!"
-
+	msg = f"{new_badge.name} Badge granted to users successfully!"
 	if v.client: return {"message": msg}
 	return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=True, msg=msg)
 
@@ -543,33 +550,44 @@ def badge_grant_post(v):
 def badge_remove_post(v):
 	badges = admin_badges_grantable_list(v)
 
-	user = get_user(request.values.get("username"), graceful=True)
-	if not user:
-		return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=False, error="User not found!")
+	usernames = request.values.get("usernames", "").strip()
+	if not usernames:
+		error = "You must enter usernames!"
+		if v.client: return {"error": error}
+		return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=False, error=error)
 
-	try: badge_id = int(request.values.get("badge_id"))
-	except: abort(400)
+	for username in usernames.split():
+		user = get_user(username, graceful=True)
+		if not user:
+			return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=False, error="User not found!")
 
-	if badge_id not in [b.id for b in badges]:
-		abort(403)
+		try: badge_id = int(request.values.get("badge_id"))
+		except: abort(400)
 
-	badge = user.has_badge(badge_id)
-	if not badge:
-		return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=False, error="User doesn't have that badge!")
+		if badge_id not in [b.id for b in badges]:
+			abort(403)
 
-	if v.id != user.id:
-		text = f"@{v.username} (a site admin) has removed the following profile badge from you:\n\n{badge.path}\n\n**{badge.name}**\n\n{badge.badge.description}"
-		send_repeatable_notification(user.id, text)
+		badge = user.has_badge(badge_id)
+		if not badge:
+			return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=False, error="User doesn't have that badge!")
 
-	ma = ModAction(
-		kind="badge_remove",
-		user_id=v.id,
-		target_user_id=user.id,
-		_note=badge.name
-	)
-	g.db.add(ma)
-	g.db.delete(badge)
-	return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=False, msg=f"{badge.name} Badge removed from @{user.username} successfully!")
+		if v.id != user.id:
+			text = f"@{v.username} (a site admin) has removed the following profile badge from you:\n\n{badge.path}\n\n**{badge.name}**\n\n{badge.badge.description}"
+			send_repeatable_notification(user.id, text)
+
+		ma = ModAction(
+			kind="badge_remove",
+			user_id=v.id,
+			target_user_id=user.id,
+			_note=badge.name
+		)
+		g.db.add(ma)
+		g.db.delete(badge)
+
+
+	msg = f"{badge.name} Badge removed from users successfully!"
+	if v.client: return {"message": msg}
+	return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=False, msg=msg)
 
 
 @app.get("/admin/alt_votes")
