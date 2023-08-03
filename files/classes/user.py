@@ -261,7 +261,7 @@ class User(Base):
 	@property
 	@lazy
 	def cursormarsey(self):
-		return session.get('cursormarsey', True)
+		return session.get('cursormarsey', CURSORMARSEY_DEFAULT)
 
 	@property
 	@lazy
