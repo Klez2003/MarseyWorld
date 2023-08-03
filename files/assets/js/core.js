@@ -586,20 +586,18 @@ function handleUploadProgress(e, upload_prog) {
 
 
 if (screen_width <= 768) {
-	if (expandImageModal) {
-		expandImageModal.addEventListener('shown.bs.modal', () => {
-			location.hash = "modal";
-		});
+	document.addEventListener('shown.bs.modal', (e) => {
+		location.hash = `m-${e.target.id}`;
+	});
 
-		expandImageModal.addEventListener('hidden.bs.modal', () => {
-			if(location.hash == "#modal") {
-				history.back();
-			}
-		});
-	}
+	document.addEventListener('hidden.bs.modal', (e) => {
+		if (location.hash == `#m-${e.target.id}`) {
+			history.back();
+		}
+	});
 
 	window.addEventListener('hashchange', () => {
-		if(location.hash != "#modal") {
+		if (!location.hash.startsWith("#m-")) {
 			const curr_modal = bootstrap.Modal.getInstance(document.getElementsByClassName('show')[0])
 			if (curr_modal) curr_modal.hide()
 		}
