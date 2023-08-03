@@ -81,7 +81,7 @@ def _special_leaderboard_get():
 	result = g.db.execute(_special_leaderboard_query).all()
 	return result
 
-@app.get('/womenworldcup2023_leaderboard')
+@app.get('/womenworldcup2023')
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
