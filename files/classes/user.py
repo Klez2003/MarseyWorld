@@ -260,6 +260,11 @@ class User(Base):
 
 	@property
 	@lazy
+	def cursormarsey(self):
+		return session.get('cursormarsey', True)
+
+	@property
+	@lazy
 	def num_of_bought_awards(self):
 		return g.db.query(AwardRelationship).filter_by(user_id=self.id).count()
 

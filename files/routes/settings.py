@@ -174,6 +174,10 @@ def settings_personal_post(v):
 			if badge: 
 				g.db.delete(badge)
 
+	elif not updated and request.values.get("cursormarsey", v.cursormarsey) != v.cursormarsey:
+		updated = True
+		session["cursormarsey"] = int(request.values.get("cursormarsey") == 'true')
+
 	elif not updated and request.values.get("marsify", v.marsify) != v.marsify and v.marsify <= 1:
 		if not v.patron:
 			abort(403, f"Perma-marsify is only available to {patron}s!")

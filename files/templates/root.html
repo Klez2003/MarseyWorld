@@ -39,7 +39,7 @@
 		{{html_head.stylesheets_lower()}}
 		<script defer src="{{'js/bottom.js' | asset}}"></script>
 
-		{% if SITE_NAME == 'rDrama' %}
+		{% if not v or v.cursormarsey %}
 			<div id="cursormarsey"></div>
 			<div id="cursormarsey-heart" class="d-none"></div>
 			<script defer src="{{'js/cursormarsey.js' | asset}}"></script>
