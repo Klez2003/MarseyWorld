@@ -98,7 +98,7 @@ class User(Base):
 	chud = Column(Integer, default=0)
 	queen = Column(Integer, default=0)
 	chud_phrase = Column(String)
-	is_activated = Column(Boolean, default=False)
+	email_verified = Column(Boolean, default=False)
 	shadowbanned = Column(Integer, ForeignKey("users.id"))
 	chudded_by = Column(Integer, ForeignKey("users.id"))
 	over_18 = Column(Boolean, default=False)

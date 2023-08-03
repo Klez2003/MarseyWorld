@@ -1,5 +1,5 @@
 INSERT INTO public.users (
-	username, passhash, created_utc, admin_level, over_18, is_activated, 
+	username, passhash, created_utc, admin_level, over_18, email_verified, 
 	original_username, defaultsorting, defaultsortingcomments, defaulttime, namecolor, titlecolor, theme, themecolor,
 	reddit, pronouns, verified, profileurl, highres,
 	marsify, last_viewed_post_notifs, last_viewed_log_notifs, last_viewed_reddit_notifs

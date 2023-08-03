@@ -1358,8 +1358,8 @@ def fp(v, fp):
 
 	v.fp = fp
 	users = g.db.query(User).filter(User.fp == fp, User.id != v.id).all()
-	if v.email and v.is_activated:
-		alts = g.db.query(User).filter(User.email == v.email, User.is_activated, User.id != v.id).all()
+	if v.email and v.email_verified:
+		alts = g.db.query(User).filter(User.email == v.email, User.email_verified, User.id != v.id).all()
 		if alts:
 			users += alts
 	for u in users:
@@ -1495,7 +1495,7 @@ def gumroad():
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def settings_claim_rewards(v):
-	if not (v.email and v.is_activated):
+	if not (v.email and v.email_verified):
 		abort(400, f"You must have a verified email to verify {patron} status and claim your rewards!")
 
 	transactions = g.db.query(Transaction).filter_by(email=v.email, claimed=None).all()

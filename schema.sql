@@ -109,7 +109,7 @@ CREATE TABLE public.users (
     created_utc integer NOT NULL,
     admin_level integer DEFAULT 0 NOT NULL,
     over_18 boolean DEFAULT false NOT NULL,
-    is_activated boolean DEFAULT false NOT NULL,
+    email_verified boolean DEFAULT false NOT NULL,
     bio character varying(5000),
     bio_html character varying(20000),
     referred_by integer,
@@ -3074,4 +3074,3 @@ ALTER TABLE ONLY public.comments
 --
 -- PostgreSQL database dump complete
 --
-
