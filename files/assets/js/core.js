@@ -585,23 +585,31 @@ function handleUploadProgress(e, upload_prog) {
 }
 
 
-if (screen_width <= 768 && gbrowser != 'iphone') {
-	addEventListener('hide.bs.modal', function () {
-		if(location.hash == "#modal") {
-			history.back();
-		}
-	});
-
-	addEventListener('shown.bs.modal', function () {
-		location.hash = "modal";
-	});
+if (screen_width <= 768) {
+	let object
+	if (gbrowser == 'iphone' && expandImageModal)
+		object = expandImageModal
+	if (gbrowser != 'iphone')
+		object = document
 	
-	addEventListener('hashchange', function () {
-		if(location.hash != "#modal") {
-			const curr_modal = bootstrap.Modal.getInstance(document.getElementsByClassName('show')[0])
-			if (curr_modal) curr_modal.hide()
-		}
-	});
+	if (object) {
+		object.addEventListener('hide.bs.modal', function () {
+			if(location.hash == "#modal") {
+				history.back();
+			}
+		});
+
+		object.addEventListener('shown.bs.modal', function () {
+			location.hash = "modal";
+		});
+		
+		addEventListener('hashchange', function () {
+			if(location.hash != "#modal") {
+				const curr_modal = bootstrap.Modal.getInstance(document.getElementsByClassName('show')[0])
+				if (curr_modal) curr_modal.hide()
+			}
+		});
+	}
 }
 
 document.querySelectorAll('form').forEach(form => {
