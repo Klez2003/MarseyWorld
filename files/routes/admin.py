@@ -1268,6 +1268,11 @@ def unmute_user(v, user_id):
 		g.db.add(user)
 		g.db.add(ma)
 
+		for x in get_alt_graph(user.id):
+			if x.is_muted:
+				x.is_muted = False
+				g.db.add(x)
+
 	return {"message": f"@{user.username} has been unmuted!"}
 
 @app.post("/admin/progstack/post/<int:post_id>")
