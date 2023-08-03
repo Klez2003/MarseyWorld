@@ -1,4 +1,4 @@
-function poll_vote_no_v() {
+function option_vote_no_v() {
 	showToast(false, "Only logged-in users can vote!");
 }
 

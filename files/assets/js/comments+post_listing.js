@@ -13,7 +13,7 @@ function post(url) {
 	xhr[0].send(xhr[1]);
 };
 
-function poll_vote_0(oid, parentid, kind) {
+function option_vote_0(oid, parentid, kind) {
 	for(let el of document.getElementsByClassName('presult-'+parentid)) {
 		el.classList.remove('d-none');
 	}
@@ -26,7 +26,7 @@ function poll_vote_0(oid, parentid, kind) {
 	post(`/vote/${kind}/option/${oid}`);
 }
 
-function poll_vote_1(oid, parentid, kind) {
+function option_vote_1(oid, parentid, kind) {
 	for(let el of document.getElementsByClassName('presult-'+parentid)) {
 		el.classList.remove('d-none');
 	}
@@ -47,7 +47,7 @@ function poll_vote_1(oid, parentid, kind) {
 	curr.value = full_oid
 }
 
-function bet_vote(t, oid, kind) {
+function option_vote_2(t, oid, kind) {
 	postToast(t, `/vote/${kind}/option/${oid}`,
 		{
 		},
