@@ -591,9 +591,11 @@ if (screen_width <= 768) {
 	});
 
 	document.addEventListener('hidden.bs.modal', (e) => {
-		if (location.hash == `#m-${e.target.id}`) {
-			history.back();
-		}
+		setTimeout(() => {
+			if (location.hash == `#m-${e.target.id}`) {
+				history.back();
+			}
+		}, 100);	
 	});
 
 	window.addEventListener('hashchange', (e) => {
