@@ -595,7 +595,7 @@ if (screen_width <= 768) {
 			if (location.hash == `#m-${e.target.id}`) {
 				history.back();
 			}
-		}, 100);	
+		}, 1);	
 	});
 
 	window.addEventListener('hashchange', () => {
