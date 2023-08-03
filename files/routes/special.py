@@ -18,7 +18,7 @@ WITH bet_options AS (
 		GROUP BY option_id
 	) AS cnt ON so.id = cnt.option_id
 	WHERE p.author_id = 7465 AND p.created_utc > 1688950032
-		AND so.exclusive IN (2, 3)
+		AND so.exclusive IN (2, 3) AND p.title ilike 'women''s world cup betting: %'
 ),
 post_payouts AS (
 	SELECT
