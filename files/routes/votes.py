@@ -8,6 +8,7 @@ from files.__main__ import app, limiter
 from files.routes.routehelpers import get_alt_graph
 
 from math import floor
+from datetime import datetime
 
 def vote_post_comment(target_id, new, v, cls, vote_cls):
 	if new == "-1" and DISABLE_DOWNVOTES: abort(403)
@@ -133,6 +134,8 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 		or (target.domain in BOOSTED_SITES and not target.url.startswith('/'))):
 			mul = 2
 		elif target.sub in STEALTH_HOLES or target.sub == 'countryclub':
+			mul = 2
+		elif 6 <= datetime.fromtimestamp(target.created_utc).hour <= 10:
 			mul = 2
 		elif target.sub in BOOSTED_HOLES:
 			mul = 1.25
