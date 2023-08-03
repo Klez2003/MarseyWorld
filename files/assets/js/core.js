@@ -585,7 +585,7 @@ function handleUploadProgress(e, upload_prog) {
 }
 
 
-if (screen_width <= 768) {
+if (screen_width <= 768 && gbrowser != 'iphone') {
 	addEventListener('hide.bs.modal', function () {
 		if(location.hash == "#modal") {
 			history.back();
