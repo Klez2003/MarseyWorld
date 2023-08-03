@@ -598,7 +598,9 @@ if (screen_width <= 768) {
 
 	window.addEventListener('hashchange', (e) => {
 		if (e.oldURL.includes('#m-')) {
-			bootstrap.Modal.getInstance(document.getElementById(e.oldURL.split('#m-')[1])).hide()
+			const modal_id = e.oldURL.split('#m-')[1]
+			const modal = document.getElementById(modal_id)
+			bootstrap.Modal.getInstance(modal).hide()
 		}
 	});
 }
