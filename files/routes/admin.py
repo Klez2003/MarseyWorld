@@ -1238,7 +1238,7 @@ def mute_user(v, user_id):
 	if not user.is_muted:
 		user.is_muted = True
 		ma = ModAction(
-				kind='mod_mute_user',
+				kind='mute_user',
 				user_id=v.id,
 				target_user_id=user.id,
 				)
@@ -1261,7 +1261,7 @@ def unmute_user(v, user_id):
 	if user.is_muted:
 		user.is_muted = False
 		ma = ModAction(
-				kind='mod_unmute_user',
+				kind='unmute_user',
 				user_id=v.id,
 				target_user_id=user.id,
 				)

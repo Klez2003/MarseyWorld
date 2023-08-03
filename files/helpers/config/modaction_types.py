@@ -191,12 +191,12 @@ MODACTION_TYPES = {
 		"icon": 'fa-user-crown',
 		"color": 'bg-success'
 	},
-	'mod_mute_user': {
+	'mute_user': {
 		"str": 'muted reports from {self.target_link}',
 		"icon": 'fa-file-signature',
 		"color": 'bg-danger'
 	},
-	'mod_unmute_user': {
+	'unmute_user': {
 		"str": 'unmuted reports from {self.target_link}',
 		"icon": 'fa-file-signature',
 		"color": 'bg-success'
@@ -412,7 +412,7 @@ MODACTION_TYPES = dict(sorted(MODACTION_TYPES.items()))
 
 MODACTION_PRIVILEGED_TYPES = {
 								'shadowban', 'unshadowban',
-								'mod_mute_user', 'mod_unmute_user',
+								'mute_user', 'unmute_user',
 								'link_accounts', 'delink_accounts',
 								'progstack_post', 'progstack_comment',
 								'unprogstack_post', 'unprogstack_comment'
