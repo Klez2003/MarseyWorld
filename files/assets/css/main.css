@@ -5385,7 +5385,7 @@ textarea {
 }
 @media (min-width: 767.98px) {
 	.navbar {
-		padding: 0.5rem 1.5rem 0.5rem 0.5rem;
+		padding: 0.5rem 1.5rem 0.2rem 0.5rem;
 }
 }
 @media (min-width: 767.98px) {
@@ -7251,7 +7251,7 @@ input[type=number] {
 }
 
 .has_header {
-	padding-top: 85.75px !important
+	padding-top: 81.55px !important
 }
 
 @media (max-width: 767.98px) {
