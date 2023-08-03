@@ -159,6 +159,7 @@ class User(Base):
 	rainbow = Column(Integer, default=0)
 	spider = Column(Integer, default=0)
 	lifetimedonated = Column(Integer, default=0)
+	lifetimedonated_visible = Column(Boolean, default=False)
 	blacklisted_by = Column(Integer, ForeignKey("users.id"))
 
 	if IS_FISTMAS():
