@@ -514,8 +514,8 @@ def leaderboard(v):
 
 	leaderboards.append(Leaderboard("Downvotes received", "downvotes received", "downvotes-received", "Downvotes Received", "downvoters", Leaderboard.get_downvotes_lb, None, v, None, None))
 
-	leaderboards.append(Leaderboard("Casino winnings", "casino winnings", "casino-winnings", "Casino Winnings", None, Leaderboard.get_winnings_lb, CasinoGame.winnings, v, None, None))
-	leaderboards.append(Leaderboard("Casino winnings", "casino winnings", "casino-winnings", "Casino Winnings", None, Leaderboard.get_winnings_lb, CasinoGame.winnings, v, None, None, 25, False))
+	leaderboards.append(Leaderboard("Casino winnings (top)", "casino winnings", "casino-winnings-top", "Casino Winnings", None, Leaderboard.get_winnings_lb, CasinoGame.winnings, v, None, None))
+	leaderboards.append(Leaderboard("Casino winnings (bottom)", "casino winnings", "casino-winnings-bottom", "Casino Winnings", None, Leaderboard.get_winnings_lb, CasinoGame.winnings, v, None, None, 25, False))
 
 	return render_template("leaderboard.html", v=v, leaderboards=leaderboards)
 
