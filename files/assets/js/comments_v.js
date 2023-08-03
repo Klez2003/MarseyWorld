@@ -164,14 +164,14 @@ function post_reply(id) {
 
 			ta.value = ''
 			document.getElementById('message-reply-'+id).innerHTML = ''
-			document.getElementById('reply-message-c_'+id).classList.add('d-none')
+			document.getElementById('reply-to-c_'+id).classList.add('d-none')
 
 			const input = ta.parentElement.querySelector('input[type="file"]')
 			input.previousElementSibling.innerHTML = '';
 			input.value = null;
 			oldfiles[ta.id] = []
 
-			remove_dialog();
+			restore_reply_buttons(`c_${id}`)
 		} else {
 			showToast(false, getMessageFromJsonData(false, data));
 		}
@@ -298,7 +298,7 @@ function post_comment(fullname, hide){
 			const ghost_town_box = document.getElementById('ghost-town-box')
 			if (ghost_town_box) ghost_town_box.remove()
 
-			remove_dialog();
+			restore_reply_buttons(fullname)
 		}
 		else {
 			showToast(false, getMessageFromJsonData(false, data));
@@ -346,4 +346,24 @@ function handle_action(type, cid, thing) {
 		}
 	}
 	xhr.send(form)
+}
+
+function restore_reply_buttons(fullname) {
+	const reply_buttons = [document.getElementById(`toggle-reply-${fullname}`)]
+	const mobile_reply_button = document.getElementById(`toggle-reply-${fullname}-mobile`)
+	if (mobile_reply_button) reply_buttons.push(mobile_reply_button)
+	for (const t of reply_buttons) {
+		let newHTML = ''
+		if (t.innerHTML.includes('<i class="fas fa-'))
+			newHTML += '<i class="fas fa-reply"></i>'
+		if (t.innerText)
+			newHTML += 'Reply'
+		t.innerHTML = newHTML
+	}
+	remove_dialog();
+}
+
+function cancel(fullname) {
+	document.getElementById(`reply-to-${fullname}`).classList.add('d-none')
+	restore_reply_buttons(fullname)
 }
