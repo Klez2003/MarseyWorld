@@ -221,19 +221,6 @@ document.addEventListener("click", function (e) {
 				i.removeAttribute("data-bs-dismiss")
 		});
 	}
-
-	if (screen_width < 768) {
-		if (element.tagName == 'SPOILER') {
-			for (const a of element.getElementsByTagName('a')) {
-				a.setAttribute('clicked', true)
-			}
-		}
-		else if (element.tagName != 'A') {
-			for (const a of document.querySelectorAll('a[clicked]')) {
-				a.removeAttribute('clicked')
-			}
-		}
-	}
 });
 
 const inputs = document.querySelectorAll('input[type="number"]')
