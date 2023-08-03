@@ -208,10 +208,11 @@ commands = {
 	"fortune": FORTUNE_REPLIES,
 	"factcheck": FACTCHECK_REPLIES,
 	"8ball": EIGHTBALL_REPLIES,
-	"roll": range(1, 10000)
+	"roll": range(1, 10000),
+	"coin": COINTOSS_REPLIES
 }
 
-command_regex = re.compile("(\s|^)#(fortune|factcheck|8ball|roll)", flags=re.A|re.I)
+command_regex = re.compile("(\s|^)#(fortune|factcheck|8ball|roll|coin)", flags=re.A|re.I)
 
 def command_regex_matcher(match, upper=False):
 	result = str(choice(commands[match.group(2).lower()]))
