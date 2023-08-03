@@ -586,18 +586,18 @@ function handleUploadProgress(e, upload_prog) {
 
 
 if (screen_width <= 768) {
-	document.addEventListener('shown.bs.modal', (e) => {
-		location.hash = `m-${e.target.id}`;
+	addEventListener('show.bs.modal', function () {
+		location.hash = "modal";
 	});
-
-	document.addEventListener('hidden.bs.modal', (e) => {
-		if (location.hash == `#m-${e.target.id}`) {
+	
+	addEventListener('hide.bs.modal', function () {
+		if(location.hash == "#modal") {
 			history.back();
 		}
 	});
-
-	window.addEventListener('hashchange', () => {
-		if (!location.hash.startsWith("#m-")) {
+	
+	addEventListener('hashchange', function () {
+		if(location.hash != "#modal") {
 			const curr_modal = bootstrap.Modal.getInstance(document.getElementsByClassName('show')[0])
 			if (curr_modal) curr_modal.hide()
 		}
