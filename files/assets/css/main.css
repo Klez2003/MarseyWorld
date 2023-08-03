@@ -5234,11 +5234,12 @@ span.green {
 .spoiler:hover, spoiler:hover {
 	color: var(--gray) !important;
 }
-.spoiler img, spoiler img {
+.spoiler *, spoiler * {
 	visibility: hidden;
 }
-.spoiler:hover img, spoiler:hover img {
+.spoiler:hover *, spoiler:hover * {
 	visibility: visible;
+	transition-delay: 0.00001s;
 }
 
 @media (min-width: 768px) {
