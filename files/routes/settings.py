@@ -138,8 +138,7 @@ def settings_personal_post(v):
 			v.reddit = reddit
 	elif request.values.get("poor", v.poor) != v.poor:
 		updated = True
-		v.poor = request.values.get("poor", v.poor) == 'true'
-		session['poor'] = v.poor
+		session['poor'] = request.values.get("poor", v.poor) == 'true'
 
 	slur_filter_updated = updated or update_potentially_permanent_flag("slurreplacer", "slurreplacer", "slur replacer", 192)
 	if isinstance(slur_filter_updated, bool):

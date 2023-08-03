@@ -255,6 +255,11 @@ class User(Base):
 
 	@property
 	@lazy
+	def poor(self):
+		return session.get('poor')
+
+	@property
+	@lazy
 	def num_of_bought_awards(self):
 		return g.db.query(AwardRelationship).filter_by(user_id=self.id).count()
 
