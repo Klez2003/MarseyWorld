@@ -161,7 +161,6 @@ def settings_personal_post(v):
 	updated = updated or update_flag("imginn", "imginn")
 	updated = updated or update_flag("controversial", "controversial")
 	updated = updated or update_flag("sigs_disabled", "sigs_disabled")
-	updated = updated or update_flag("over_18", "over_18")
 	updated = updated or update_flag("is_private", "private")
 	updated = updated or update_flag("lifetimedonated_visible", "lifetimedonated_visible")
 
@@ -177,6 +176,10 @@ def settings_personal_post(v):
 	elif not updated and request.values.get("cursormarsey", v.cursormarsey) != v.cursormarsey:
 		updated = True
 		session["cursormarsey"] = int(request.values.get("cursormarsey") == 'true')
+
+	elif not updated and request.values.get("over_18", v.over_18) != v.over_18:
+		updated = True
+		session["over_18"] = int(request.values.get("over_18") == 'true')
 
 	elif not updated and request.values.get("marsify", v.marsify) != v.marsify and v.marsify <= 1:
 		if not v.patron:

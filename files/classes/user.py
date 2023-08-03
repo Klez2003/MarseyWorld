@@ -101,7 +101,6 @@ class User(Base):
 	email_verified = Column(Boolean, default=False)
 	shadowbanned = Column(Integer, ForeignKey("users.id"))
 	chudded_by = Column(Integer, ForeignKey("users.id"))
-	over_18 = Column(Boolean, default=False)
 	hidevotedon = Column(Boolean, default=False)
 	slurreplacer = Column(Integer, default=1)
 	profanityreplacer = Column(Integer, default=1)
@@ -262,6 +261,11 @@ class User(Base):
 	@lazy
 	def cursormarsey(self):
 		return session.get('cursormarsey', CURSORMARSEY_DEFAULT)
+
+	@property
+	@lazy
+	def over_18(self):
+		return session.get('over_18', False)
 
 	@property
 	@lazy
