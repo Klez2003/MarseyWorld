@@ -179,6 +179,8 @@ document.addEventListener("click", function (e) {
 	if (element.tagName == "I")
 		element = element.parentElement
 
+	if (!element) return
+
 	if (element instanceof HTMLImageElement && (element.alt.startsWith('![](') || element.classList.contains('in-comment-image') || element.classList.contains('img'))) {
 		expandImage()
 	}
