@@ -598,11 +598,10 @@ if (screen_width <= 768) {
 		}, 100);	
 	});
 
-	window.addEventListener('hashchange', (e) => {
-		if (e.oldURL.includes('#m-')) {
-			const modal_id = e.oldURL.split('#m-')[1]
-			const modal = document.getElementById(modal_id)
-			bootstrap.Modal.getInstance(modal).hide()
+	window.addEventListener('hashchange', () => {
+		if (!location.hash.startsWith("#m-")) {
+			const curr_modal = bootstrap.Modal.getInstance(document.getElementsByClassName('show')[0])
+			if (curr_modal) curr_modal.hide()
 		}
 	});
 }
