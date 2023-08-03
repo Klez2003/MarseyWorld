@@ -74,7 +74,6 @@ function toggleReplyBox(t, id) {
 	autoExpand(ta);
 
 	let newHTML = ''
-
 	if (t.innerHTML.includes('<i class="fas fa-'))
 		newHTML += '<i class="fas fa-quotes"></i>'
 	if (t.innerText)
