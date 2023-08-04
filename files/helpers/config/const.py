@@ -51,6 +51,7 @@ class Service(Enum):
 POST_RATELIMIT = '20/day'
 DEFAULT_RATELIMIT = "30/minute;200/hour;1000/day"
 CASINO_RATELIMIT = "100/minute;2000/hour;12000/day"
+REPORT_RATELIMIT = DEFAULT_RATELIMIT
 
 PUSH_NOTIF_LIMIT = 1000
 
@@ -656,6 +657,8 @@ BADGE_BLACKLIST = { # only grantable by admins higher than PERMS['IGNORE_BADGE_B
 NOTIFIED_USERS = {}
 
 if SITE == 'rdrama.net':
+	REPORT_RATELIMIT = '5/hour;10/day'
+
 	NOTIFICATION_SPAM_AGE_THRESHOLD = 0.5 * 86400
 
 	TELEGRAM_ID = "rdramanet"
