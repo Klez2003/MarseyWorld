@@ -236,12 +236,8 @@ def process_image(filename, v, resize=0, trim=False, uploader_id=None, db=None):
 					with Image.open(img_path) as i:
 						i_hash = str(imagehash.phash(i))
 
-					if i_hash in hashes.keys():
-						print(STARS, flush=True)
-						print(hashes[i_hash], flush=True)
-						print(img_path, flush=True)
-						print(STARS, flush=True)
-					else: hashes[i_hash] = img_path
+					if i_hash not in hashes.keys():
+						hashes[i_hash] = img_path
 
 				with Image.open(filename) as i:
 					i_hash = str(imagehash.phash(i))
