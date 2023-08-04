@@ -7623,9 +7623,3 @@ body {
 .toggle-reply-mobile > i {
 	margin-top: 0.35rem !important;
 }
-
-@media (max-width: 768px) {
-	.report {
-		max-width: 70vw;
-	}
-}
