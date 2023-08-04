@@ -117,7 +117,7 @@ def get_logged_in_user():
 				v.last_active = timestamp
 				g.db.add(v)
 
-	if not v and SITE == 'rdrama.net' and request.headers.get("Cf-Ipcountry") == 'EG':
+	if not v and SITE == 'rdrama.net' and request.headers.get("Cf-Ipcountry") == 'EG' and request.full_path != '/login?nig=a':
 		abort(404)
 
 	g.is_api_or_xhr = bool((v and v.client) or request.headers.get("xhr"))
