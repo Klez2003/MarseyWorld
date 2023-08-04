@@ -255,7 +255,9 @@ def render_emoji(html, regexp, golden, emojis_used, b=False, is_title=False):
 		end_modifier_length = 3 if is_patted else 0
 		end_modifier_length = end_modifier_length + 7 if is_talking else end_modifier_length
 
-		hand_html = f'<img loading="lazy" src="{SITE_FULL_IMAGES}/i/hand.webp">' if is_patted and emoji != 'marseyunpettablepat' else ''
+		print(emoji, flush=True)
+
+		hand_html = f'<img loading="lazy" src="{SITE_FULL_IMAGES}/i/hand.webp">' if is_patted and emoji != 'marseyunpettable' else ''
 		talking_html = f'<img loading="lazy" src="{SITE_FULL_IMAGES}/i/talking.webp">' if is_talking else ''
 		
 		modifier_html = None
@@ -266,7 +268,7 @@ def render_emoji(html, regexp, golden, emojis_used, b=False, is_title=False):
 		elif (is_talking):
 			modifier_html = talking_html
 
-		if (is_patted and emoji != 'marseyunpettablepat') or is_talking:
+		if (is_patted and emoji != 'marseyunpettable') or is_talking:
 			if path.isfile(f"files/assets/images/emojis/{emoji}.webp"):
 				emoji_html = f'<span alt=":{old}:" data-bs-toggle="tooltip" title=":{old}:">{modifier_html}{emoji_partial_pat.format(old, f"{SITE_FULL_IMAGES}/e/{emoji}.webp", attrs)}</span>'
 			elif is_user:
