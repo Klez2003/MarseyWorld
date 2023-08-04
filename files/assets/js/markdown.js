@@ -65,6 +65,14 @@ function replace_image(match, prefix, url) {
 	return match
 }
 
+const MODIFIERS = {
+	PAT: 1,
+	TALKING: 2, 
+	LARGE: 3,
+	REVERSED: 4,
+	USER: 5
+};
+
 function markdown(t) {
 	let input = t.value;
 
@@ -95,14 +103,52 @@ function markdown(t) {
 	if(emojis != null){
 		for(i = 0; i < emojis.length; i++){
 			const old = emojis[i][0];
-			if (old.includes('marseyrandom')) continue
-			let emoji = old.replace(/[:!@#]/g,'').toLowerCase();
-			const mirroredClass = old.indexOf('!') == -1 ? '' : 'mirrored';
-			const emojiClass = old.indexOf('#') == -1 ? 'emoji' : 'emoji-lg';
-			if (emoji.endsWith('pat') && emoji != 'marseyunpettablepat') {
-				emoji = emoji.substr(0, emoji.length - 3);
-				const url = old.indexOf('@') != -1 ? `/@${emoji}/pic` : `${SITE_FULL_IMAGES}/e/${emoji}.webp`;
-				input = input.replace(old, `<span class="pat-preview ${mirroredClass}" data-bs-toggle="tooltip"><img loading="lazy" src="${SITE_FULL_IMAGES}/i/hand.webp"><img loading="lazy" class="${emojiClass}" src="${url}"></span>`);
+			if (old.includes('marseyrandom')) continue;
+						if (old.includes('marseyrandom')) continue
+			let emoji = old.replace(/[:]/g,'').toLowerCase();
+			
+			const modifiers = new Set();
+			const isTalkingFirst = !(emoji.endsWith('pat') && emoji.slice(0, -3).endsWith('talking'));
+			if(emoji.endsWith('talking') || (emoji.endsWith('pat') && emoji.slice(0, -3).endsWith('talking'))) {
+				modifiers.add(MODIFIERS.TALKING);
+				emoji = emoji.endsWith('pat') ? [emoji.slice(0, -10), emoji.slice(-3)].join('') : emoji.slice(0, -7);
+			}
+			if(emoji.endsWith('pat')) {
+				modifiers.add(MODIFIERS.PAT);
+				emoji = emoji.slice(0, -3);
+			}
+			let length = emoji.length
+			emoji = emoji.startsWith('@', '') ? emoji.slice(1): emoji;
+			if(length !== emoji.length) {
+				modifiers.add(MODIFIERS.USER);
+				length = emoji.length
+			}
+			emoji = emoji.replaceAll('!', '');
+			if(length !== emoji.length) {
+				modifiers.add(MODIFIERS.REVERSED);
+				length = emoji.length;
+			}
+			emoji = emoji.replaceAll('#', '');
+			if(length !== emoji.length) {
+				modifiers.add(MODIFIERS.LARGE);
+			}
+			
+			if(emoji === 'marseyunpettable') {
+				modifiers.delete(MODIFIERS.PAT);
+				if(!isTalkingFirst) {
+					modifiers.delete(MODIFIERS.TALKING);
+				}
+			}
+
+			const mirroredClass = modifiers.has(MODIFIERS.REVERSED) ? 'mirrored' : '';
+			const emojiClass = modifiers.has(MODIFIERS.LARGE) ? 'emoji-lg' : 'emoji';
+			
+			if (modifiers.has(MODIFIERS.PAT) || modifiers.has(MODIFIERS.TALKING)) {
+				const talkingHtml = modifiers.has(MODIFIERS.TALKING) ? `<img loading="lazy" src="${SITE_FULL_IMAGES}/i/talking.webp">` : '';
+				const patHtml = modifiers.has(MODIFIERS.PAT) ? `<img loading="lazy" src="${SITE_FULL_IMAGES}/i/hand.webp">` : '';
+				const url = modifiers.has(MODIFIERS.USER) ? `/@${emoji}/pic` : `${SITE_FULL_IMAGES}/e/${emoji}.webp`;
+				const modifierHtml = isTalkingFirst ? `${talkingHtml}${patHtml}` : `${patHtml}${talkingHtml}`;
+				input = input.replace(old, `<span class="pat-preview ${mirroredClass}" data-bs-toggle="tooltip">${modifierHtml}<img loading="lazy" class="${emojiClass}" src="${url}"></span>`);
 			} else {
 				input = input.replace(old, `<img loading="lazy" class="${emojiClass} ${mirroredClass}" src="${SITE_FULL_IMAGES}/e/${emoji}.webp">`);
 			}

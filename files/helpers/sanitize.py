@@ -245,12 +245,33 @@ def render_emoji(html, regexp, golden, emojis_used, b=False, is_title=False):
 		emoji_partial = '<img alt=":{0}:" data-bs-toggle="tooltip" loading="lazy" src="{1}" title=":{0}:"{2}>'
 		emoji_html = None
 
-		if emoji.endswith('pat') and emoji != 'marseyunpettablepat':
-			if path.isfile(f"files/assets/images/emojis/{emoji.replace('pat','')}.webp"):
-				emoji_html = f'<span alt=":{old}:" data-bs-toggle="tooltip" title=":{old}:"><img loading="lazy" src="{SITE_FULL_IMAGES}/i/hand.webp">{emoji_partial_pat.format(old, f"{SITE_FULL_IMAGES}/e/{emoji[:-3]}.webp", attrs)}</span>'
-			elif emoji.startswith('@'):
-				if u := get_user(emoji[1:-3], graceful=True):
-					emoji_html = f'<span alt=":{old}:" data-bs-toggle="tooltip" title=":{old}:"><img loading="lazy" src="{SITE_FULL_IMAGES}/i/hand.webp">{emoji_partial_pat.format(old, f"/pp/{u.id}", attrs)}</span>'
+		is_talking = emoji.endswith('talking') or (emoji[:-3].endswith('talking') and emoji.endswith('pat'))
+		is_talking_first  = emoji.endswith('talking')
+		emoji = emoji.replace('talking', '') if is_talking else emoji
+		is_patted = emoji.endswith('pat')
+		emoji = emoji.replace('pat', '')
+		is_user = emoji.startswith('@')
+
+		end_modifier_length = 3 if is_patted else 0
+		end_modifier_length = end_modifier_length + 7 if is_talking else end_modifier_length
+
+		hand_html = f'<img loading="lazy" src="{SITE_FULL_IMAGES}/i/hand.webp">' if is_patted and emoji != 'marseyunpettablepat' else ''
+		talking_html = f'<img loading="lazy" src="{SITE_FULL_IMAGES}/i/talking.webp">' if is_talking else ''
+		
+		modifier_html = None
+		if (is_talking and is_patted):
+			modifier_html = f'{talking_html}{hand_html}' if is_talking_first else f'{hand_html}{talking_html}' 
+		elif (is_patted): 
+			modifier_html = hand_html
+		elif (is_talking):
+			modifier_html = talking_html
+
+		if (is_patted and emoji != 'marseyunpettablepat') or is_talking:
+			if path.isfile(f"files/assets/images/emojis/{emoji}.webp"):
+				emoji_html = f'<span alt=":{old}:" data-bs-toggle="tooltip" title=":{old}:">{modifier_html}{emoji_partial_pat.format(old, f"{SITE_FULL_IMAGES}/e/{emoji}.webp", attrs)}</span>'
+			elif is_user:
+				if u := get_user(emoji[1:], graceful=True):
+					emoji_html = f'<span alt=":{old}:" data-bs-toggle="tooltip" title=":{old}:">{modifier_html}{emoji_partial_pat.format(old, f"/pp/{u.id}", attrs)}</span>'
 		elif path.isfile(f'files/assets/images/emojis/{emoji}.webp'):
 			emoji_html = emoji_partial.format(old, f'{SITE_FULL_IMAGES}/e/{emoji}.webp', attrs)
 

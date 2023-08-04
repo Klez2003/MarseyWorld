@@ -5396,7 +5396,7 @@ textarea {
 }
 }
 .in-comment-image, .img, img[alt^="![]("],
-.preview img:not(img[src^="/uid/"], img[src^="/pp/"], img[src$="/pic"], img[src$="/i/hand.webp"], img[src*="/e/"]) {
+.preview img:not(img[src^="/uid/"], img[src^="/pp/"], img[src$="/pic"], img[src$="/i/hand.webp"], img[src$="/i/talking.webp"], img[src*="/e/"]) {
 	max-height: 150px !important;
 	max-width: 100% !important;
 	border-radius: 0.2rem !important;
@@ -5533,6 +5533,10 @@ img[src$="/i/hand.webp"] {
 	margin-top: -10%;
 	z-index: 1;
 }
+img[src$="/i/talking.webp"] {
+	position: absolute;
+	width: 70%;
+}
 img[src$="/i/hand.webp"]+img {
 	animation: pat-pfp-anim 0.3s infinite;
 	transform-origin: bottom center;
@@ -5540,7 +5544,24 @@ img[src$="/i/hand.webp"]+img {
 	text-align: center;
 	object-fit: contain;
 }
-img[src$="/i/hand.webp"]+img[src^="/pp/"], img[src$="/i/hand.webp"]+img[src$="/pic"] {
+img[src$="/i/hand.webp"]+img[src$="/i/talking.webp"] {
+	padding-top: 20%;
+	padding-right: 5%;
+}
+img[src$="/i/hand.webp"]+img[src$="/i/talking.webp"]+img {
+	animation: pat-pfp-anim 0.3s infinite;
+	transform-origin: bottom center;
+	margin-top: 20%;
+	text-align: center;
+	object-fit: contain;
+}
+img[src$="/i/talking.webp"]+img {
+	padding-top: 22%;
+}
+img[src$="/i/talking.webp"]+img[src$="/i/hand.webp"]+img  {
+	padding-top: 20%;
+}
+img[src$="/i/hand.webp"]+img[src^="/pp/"], img[src$="/i/hand.webp"]+img[src$="/pic"], img[src$="/i/talking.webp"]+img[src$="/pic"] {
 	border-radius: 50%;
 }
 @keyframes pat-pfp-anim {
