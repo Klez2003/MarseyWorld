@@ -247,15 +247,14 @@ def render_emoji(html, regexp, golden, emojis_used, b=False, is_title=False):
 
 		is_talking = emoji.endswith('talking') or (emoji[:-3].endswith('talking') and emoji.endswith('pat'))
 		is_talking_first  = emoji.endswith('talking')
-		emoji = emoji.replace('talking', '') if is_talking else emoji
+		emoji = emoji[:-7] if emoji.endswith('talking') else emoji
+		emoji = f'{emoji[:-10]}pat' if emoji[:-3].endswith('talking') and emoji.endswith('pat') else emoji
 		is_patted = emoji.endswith('pat')
-		emoji = emoji.replace('pat', '')
+		emoji = emoji[:-3] if is_patted else emoji
 		is_user = emoji.startswith('@')
 
 		end_modifier_length = 3 if is_patted else 0
 		end_modifier_length = end_modifier_length + 7 if is_talking else end_modifier_length
-
-		print(emoji, flush=True)
 
 		hand_html = f'<img loading="lazy" src="{SITE_FULL_IMAGES}/i/hand.webp">' if is_patted and emoji != 'marseyunpettable' else ''
 		talking_html = f'<img loading="lazy" src="{SITE_FULL_IMAGES}/i/talking.webp">' if is_talking else ''

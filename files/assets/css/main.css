@@ -5451,7 +5451,27 @@ video {
 .text-removed {
 	color: #ffabab !important;
 }
-.mirrored, img[alt^=":"][alt*="!"], span[alt^=":"][alt*="!"] {
+.mirrored {
+	transform: scaleX(-1);
+	-webkit-transform: scaleX(-1);
+}
+
+span[alt^=":"][alt*="!"] {
+	transform: scaleX(-1);
+	-webkit-transform: scaleX(-1);
+}
+
+span[alt^=":"][alt*="!!"] {
+	transform: scaleX(1);
+	-webkit-transform: scaleX(1);
+}
+
+span[alt^=":"][alt*="!!"][alt*="pat"] {
+	transform: scaleX(-1);
+	-webkit-transform: scaleX(-1);
+}
+
+img[alt^=":"][alt*="!!"] {
 	transform: scaleX(-1);
 	-webkit-transform: scaleX(-1);
 }
