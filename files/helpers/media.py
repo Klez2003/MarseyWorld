@@ -248,8 +248,6 @@ def process_image(filename, v, resize=0, trim=False, uploader_id=None, db=None):
 
 				if i_hash in hashes.keys():
 					os.remove(filename)
-					if has_request:
-						abort(409, "Image already exists! " + hashes[i_hash].split('/')[-1])
 					return None
 
 	db = db or g.db
