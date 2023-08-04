@@ -19,7 +19,6 @@ COPY requirements.txt /requirements.txt
 COPY scripts/startup_docker_chat.sh /s
 
 RUN pip3 install -r /requirements.txt
-RUN pip3 install youtube-dl
 
 RUN mkdir /images
 RUN mkdir /chat_images

@@ -31,3 +31,4 @@ user-agents
 psycopg2-binary
 yattag
 webptools
+yt_dlp

@@ -5,7 +5,7 @@ from shutil import copyfile
 
 import pyotp
 import requests
-import youtube_dl
+import yt_dlp
 
 from sqlalchemy.orm import load_only
 
@@ -824,7 +824,7 @@ def _change_song_youtube(vid, id):
 		}],
 	}
 
-	with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+	with yt_dlp.YoutubeDL(ydl_opts) as ydl:
 		try: ydl.download([f"https://youtube.com/watch?v={id}"])
 		except Exception as e:
 			print(e, flush=True)
