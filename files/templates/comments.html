@@ -303,7 +303,7 @@
 								</li>
 
 								{% if v and not c.deleted_utc %}
-									<button id="toggle-reply-{{c.fullname}}-mobile" type="button" class="list-inline-item mr-3 btn nobackground" data-nonce="{{g.nonce}}" data-onclick="toggleReplyBox(this, 'reply-to-{{c.fullname}}')"><i class="fas fa-reply"></i></button>
+									<button id="toggle-reply-{{c.fullname}}-mobile" type="button" class="list-inline-item mr-3 btn nobackground toggle-reply-mobile" data-nonce="{{g.nonce}}" data-onclick="toggleReplyBox(this, 'reply-to-{{c.fullname}}')"><i class="fas fa-reply"></i></button>
 								{% endif %}
 
 								<li class="list-inline-item">

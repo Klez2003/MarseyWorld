@@ -7619,3 +7619,7 @@ body {
 	color: var(--black);
 	font-weight: 400;
 }
+
+.toggle-reply-mobile > i {
+	margin-top: 0.35rem !important;
+}
