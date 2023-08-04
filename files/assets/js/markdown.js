@@ -108,7 +108,7 @@ function markdown(t) {
 			let emoji = old.replace(/[:]/g,'').toLowerCase();
 			
 			const modifiers = new Set();
-			const isTalkingFirst = !emoji.endsWith('pat') && emoji.endsWith('talking', -3);
+			const isTalkingFirst = !(emoji.endsWith('pat') && emoji.slice(0, -3).endsWith('talking'));
 			if(emoji.endsWith('talking') || (emoji.endsWith('pat') && emoji.slice(0, -3).endsWith('talking'))) {
 				modifiers.add(MODIFIERS.TALKING);
 				emoji = emoji.endsWith('pat') ? [emoji.slice(0, -10), emoji.slice(-3)].join('') : emoji.slice(0, -7);
@@ -133,6 +133,12 @@ function markdown(t) {
 				modifiers.add(MODIFIERS.LARGE);
 			}
 			
+			if(emoji === 'marseyunpettable') {
+				modifiers.delete(MODIFIERS.PAT);
+				if(!isTalkingFirst) {
+					modifiers.delete(MODIFIERS.TALKING);
+				}
+			}
 
 			const mirroredClass = modifiers.has(MODIFIERS.REVERSED) ? 'mirrored' : '';
 			const emojiClass = modifiers.has(MODIFIERS.LARGE) ? 'emoji-lg' : 'emoji';
