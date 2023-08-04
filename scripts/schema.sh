@@ -1,7 +1,7 @@
 #!/bin/bash
 
 . /e
-pg_dump -O -x --schema-only "$DATABASE_URL" | grep -v -E '^(CREATE\ EXTENSION|COMMENT\ ON)' > '/d/schema.sql'
+pg_dump -O -x --schema-only "$DATABASE_URL" > '/d/schema.sql'
 
 pg_dump -O -x --data-only --inserts -t 'badge_defs' "$DATABASE_URL" >> "/d/seed-badges.sql"
 
