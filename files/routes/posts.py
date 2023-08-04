@@ -1066,8 +1066,6 @@ def edit_post(pid, v):
 
 		p.body = body
 
-		process_poll_options(v, p)
-
 		for text in [p.body, p.title, p.url]:
 			if execute_blackjack(v, p, text, 'post'): break
 
@@ -1075,6 +1073,8 @@ def edit_post(pid, v):
 			abort(400, "Post body_html too long!")
 
 		p.body_html = body_html
+
+		process_poll_options(v, p)
 
 
 	if not complies_with_chud(p):
