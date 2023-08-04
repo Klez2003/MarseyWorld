@@ -604,7 +604,11 @@ if (screen_width <= 768) {
 		});
 		
 		addEventListener('hashchange', function () {
-			if(location.hash != "#modal") {
+			if (location.hash == "#modal") {
+				const curr_modal = bootstrap.Modal.getInstance(document.getElementsByClassName('show')[0])
+				if (!curr_modal) history.back();
+			}
+			else {
 				const curr_modal = bootstrap.Modal.getInstance(document.getElementsByClassName('show')[0])
 				if (curr_modal) curr_modal.hide()
 			}
