@@ -504,14 +504,7 @@ def badge_grant_post(v):
 				existing.url = url
 				existing.description = description
 				g.db.add(existing)
-
-				msg = "Badge attributes edited successfully!"
-				if v.client: return {"message": msg}
-				return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=True, msg=msg)
-
-			error = "User already has that badge!"
-			if v.client: return {"error": error}
-			return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=True, error=error)
+			continue
 
 		new_badge = Badge(
 			badge_id=badge_id,
@@ -569,7 +562,7 @@ def badge_remove_post(v):
 
 		badge = user.has_badge(badge_id)
 		if not badge:
-			return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=False, error="User doesn't have that badge!")
+			continue
 
 		if v.id != user.id:
 			text = f"@{v.username} (a site admin) has removed the following profile badge from you:\n\n{badge.path}\n\n**{badge.name}**\n\n{badge.badge.description}"
