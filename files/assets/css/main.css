@@ -5476,6 +5476,21 @@ img[alt^=":"][alt*="!!"] {
 	-webkit-transform: scaleX(-1);
 }
 
+img[alt^=":"][alt*="!"] {
+	transform: scaleX(-1);
+	-webkit-transform: scaleX(-1);
+}
+
+span[alt^=":"][alt*="!"] > img[alt^=":"][alt*="!"] {
+	transform: scaleX(1);
+	-webkit-transform: scaleX(1);
+}
+
+span[alt^=":"][alt*="!!"] > img[alt^=":"][alt*="!"] {
+	transform: scaleX(-1);
+	-webkit-transform: scaleX(-1);
+}
+
 @media (max-width: 768px) {
 	.popover-bio * {
 		font-size: 0.8rem !important;
