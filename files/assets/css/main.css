@@ -5541,13 +5541,14 @@ img[src$="/i/hand.webp"]+img[src$="/i/talking.webp"]+img {
 	object-fit: contain;
 }
 img[src$="/i/talking.webp"]+img {
-	padding-top: 22%;
+	margin-top: 22%;
 }
 img[src$="/i/talking.webp"]+img[src$="/i/hand.webp"]+img  {
-	padding-top: 20%;
+	margin-top: 20%;
 }
-img[src$="/i/hand.webp"]+img[src^="/pp/"], img[src$="/i/hand.webp"]+img[src$="/pic"], img[src$="/i/talking.webp"]+img[src$="/pic"] {
+img[src$="/i/hand.webp"]+img[src^="/pp/"], img[src$="/i/hand.webp"]+img[src$="/pic"], img[src$="/i/talking.webp"]+img[src^="/pp/"], img[src$="/i/talking.webp"]+img[src$="/pic"] {
 	border-radius: 50%;
+	object-fit: cover;
 }
 @keyframes pat-pfp-anim {
 	0% { transform: scale(1, 0.8) }
