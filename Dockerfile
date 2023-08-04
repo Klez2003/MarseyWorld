@@ -41,6 +41,8 @@ RUN rm /etc/nginx/sites-enabled/default
 RUN mkdir /etc/nginx/includes
 
 RUN apt install -y wget
+RUN apt -y update
+RUN apt upgrade -y cmake
 RUN t=$(mktemp) && wget 'https://dist.1-2.dev/imei.sh' -qO "$t" && bash "$t" && rm "$t"
 
 EXPOSE 80/tcp
