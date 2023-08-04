@@ -529,7 +529,7 @@ def badge_grant_post(v):
 		g.db.add(ma)
 
 
-	msg = f"{new_badge.name} Badge granted to users successfully!"
+	msg = "Badge granted to users successfully!"
 	if v.client: return {"message": msg}
 	return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=True, msg=msg)
 
@@ -561,8 +561,7 @@ def badge_remove_post(v):
 			abort(403)
 
 		badge = user.has_badge(badge_id)
-		if not badge:
-			continue
+		if not badge: continue
 
 		if v.id != user.id:
 			text = f"@{v.username} (a site admin) has removed the following profile badge from you:\n\n{badge.path}\n\n**{badge.name}**\n\n{badge.badge.description}"
@@ -578,7 +577,7 @@ def badge_remove_post(v):
 		g.db.delete(badge)
 
 
-	msg = f"{badge.name} Badge removed from users successfully!"
+	msg = "Badge removed from users successfully!"
 	if v.client: return {"message": msg}
 	return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=False, msg=msg)
 
