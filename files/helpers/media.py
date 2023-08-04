@@ -177,9 +177,9 @@ def process_image(filename, v, resize=0, trim=False, uploader_id=None, db=None):
 	# to avoid this, we'll simply return None instead
 	has_request = has_request_context()
 	size = os.stat(filename).st_size
-	patron = bool(v and v.patron)
+	is_patron = bool(v and v.patron)
 
-	if size > MAX_IMAGE_AUDIO_SIZE_MB_PATRON * 1024 * 1024 or not patron and size > MAX_IMAGE_AUDIO_SIZE_MB * 1024 * 1024:
+	if size > MAX_IMAGE_AUDIO_SIZE_MB_PATRON * 1024 * 1024 or not is_patron and size > MAX_IMAGE_AUDIO_SIZE_MB * 1024 * 1024:
 		os.remove(filename)
 		if has_request:
 			abort(413, f"Max image/audio size is {MAX_IMAGE_AUDIO_SIZE_MB} MB ({MAX_IMAGE_AUDIO_SIZE_MB_PATRON} MB for {patron}s)")
