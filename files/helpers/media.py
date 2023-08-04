@@ -7,7 +7,7 @@ from shutil import copyfile
 import gevent
 import imagehash
 from flask import abort, g, has_request_context, request
-from werkzeug.utils import secure_filename
+from mimetypes import guess_extension
 from PIL import Image
 from PIL import UnidentifiedImageError
 from PIL.ImageSequence import Iterator
@@ -81,10 +81,8 @@ def process_audio(file, v):
 		os.remove(old)
 		abort(413, f"Max image/audio size is {MAX_IMAGE_AUDIO_SIZE_MB} MB ({MAX_IMAGE_AUDIO_SIZE_MB_PATRON} MB for {patron.lower()}s)")
 
-	name_original = secure_filename(file.filename)
-	extension = name_original.split('.')[-1].lower()
-
-	new = old + '.' + extension
+	extension = guess_extension(file.content_type)
+	new = old + extension
 
 	try:
 		subprocess_run(["ffmpeg", "-loglevel", "quiet", "-y", "-i", old, "-map_metadata", "-1", "-c:a", "copy", new])
@@ -139,12 +137,11 @@ def process_video(file, v):
 			os.remove(old)
 			abort(413, f"Max video size is {MAX_VIDEO_SIZE_MB} MB ({MAX_VIDEO_SIZE_MB_PATRON} MB for {patron}s)")
 
-	name_original = secure_filename(file.filename)
-	extension = name_original.split('.')[-1].lower()
-	new = old + '.' + extension
+	extension = guess_extension(file.content_type)
+	new = old + extension
 
-	if extension != 'mp4':
-		new = new.replace(f'.{extension}', '.mp4')
+	if extension != '.mp4':
+		new = new.replace(extension, '.mp4')
 		copyfile(old, new)
 		gevent.spawn(convert_to_mp4, old, new)
 	else:
