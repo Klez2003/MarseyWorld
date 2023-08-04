@@ -281,7 +281,7 @@ class User(Base):
 	@lazy
 	def hats_owned_proportion_display(self):
 		total_num_of_hats = g.db.query(HatDef).filter(HatDef.submitter_id == None, HatDef.price > 0).count()
-		proportion = f'{float(self.num_of_owned_hats) / total_num_of_hats:.1%}' if total_num_of_hats > 0 else 'N/A'
+		proportion = f'{float(self.num_of_owned_hats) / total_num_of_hats:.1%}' if total_num_of_hats else 'N/A'
 		return (proportion, total_num_of_hats)
 
 	@property
