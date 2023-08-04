@@ -524,7 +524,6 @@ pre {
 pre code {
 	font-size: inherit;
 	color: inherit;
-	word-break: normal;
 }
 .container {
 	width: 100%;
@@ -2016,7 +2015,6 @@ button.close {
 	text-shadow: none;
 	text-transform: none;
 	letter-spacing: normal;
-	word-break: normal;
 	word-spacing: normal;
 	white-space: normal;
 	line-break: auto;
@@ -2064,7 +2062,6 @@ button.close {
 	text-shadow: none;
 	text-transform: none;
 	letter-spacing: normal;
-	word-break: normal;
 	word-spacing: normal;
 	white-space: normal;
 	line-break: auto;
@@ -3404,10 +3401,6 @@ a.text-danger:hover, a.text-danger:focus, :not(td) > a[href="/h/chudrama"]:focus
 .text-decoration-none {
 	text-decoration: none !important;
 }
-.text-break {
-	word-break: break-word !important;
-	overflow-wrap: break-word !important;
-}
 .visible {
 	visibility: visible !important;
 }
@@ -3949,7 +3942,6 @@ small, .small {
 	font-size: 12px;
 	font-weight: 600;
 	text-align: center;
-	word-break: keep-all;
 	min-width: 40px;
 }
 .voting.d-md-flex {
@@ -4251,7 +4243,6 @@ small, .small {
 .post-title {
 	font-size: 16px;
 	font-weight: 600;
-	word-break: break-word;
 	overflow: hidden;
 }
 .post-title a {
@@ -4311,7 +4302,6 @@ small, .small {
 	padding: 0;
 }
 .post-body {
-	word-break: break-word;
 	overflow: hidden;
 }
 .modal-backdrop.show {
@@ -4561,7 +4551,6 @@ small, .small {
 }
 .comment .comment-body .comment-text {
 	margin-bottom: 1rem;
-	word-break: break-word;
 	color: var(--black);
 	overflow: hidden;
 	padding-right: 10px !important;
@@ -4581,9 +4570,6 @@ small, .small {
 }
 .comment-section {
 	background-color: rgb(var(--background));
-}
-.comment p {
-	word-break: break-word;
 }
 .comment-actions {
 	font-weight: 600;
@@ -4943,7 +4929,6 @@ ul.comment-section {
 	transform: translateX(1.25rem);
 }
 pre code {
-	word-break: break-word;
 	white-space: break-spaces;
 	color: var(--primary);
 }
@@ -6065,10 +6050,6 @@ th, td {
 	color: green !important;
 }
 
-#profile--bio a, #profile-mobile--bio a {
-	overflow-wrap: break-word;
-}
-
 #content .nav-link {
 	font-size: 0.85rem;
 	padding: 0.75rem 0.5rem;
@@ -6637,7 +6618,6 @@ g {
 {
 	display: block;
 	white-space: pre-wrap;
-	word-break: break-word;
 	/* Attempt to copy the textarea/input padding */
 	padding: 15px;
 	padding-left: 10px;
@@ -6805,7 +6785,6 @@ blockquote + blockquote, div > blockquote:first-child, blockquote:last-child {
 div.markdown {
 	height: auto;
 	white-space: pre-wrap;
-	word-break: break-word;
 }
 @media (max-width: 768px) or (min-width: 992px) {
 	#sidebar-btn {
@@ -6960,7 +6939,6 @@ div.markdown {
 	position: relative;
 	align-items: center;
 	justify-content: space-between;
-	overflow-wrap: anywhere;
 	padding: 1rem 1rem 1rem 1rem;
 }
 
@@ -7607,10 +7585,6 @@ bdi {
 	color: rgb(var(--background)) !important;
 }
 
-label.btn.btn-secondary > span {
-	word-break: break-word;
-}
-
 body {
 	overflow-x: hidden;
 }
@@ -7622,4 +7596,9 @@ body {
 
 .toggle-reply-mobile > i {
 	margin-top: 0.35rem !important;
+}
+
+* {
+    word-break: break-word !important;
+	overflow-wrap: break-word !important;
 }
