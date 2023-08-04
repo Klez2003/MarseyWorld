@@ -108,7 +108,6 @@ CREATE TABLE public.users (
     passhash character varying(255) NOT NULL,
     created_utc integer NOT NULL,
     admin_level integer DEFAULT 0 NOT NULL,
-    over_18 boolean DEFAULT false NOT NULL,
     email_verified boolean DEFAULT false NOT NULL,
     bio character varying(5000),
     bio_html character varying(20000),
