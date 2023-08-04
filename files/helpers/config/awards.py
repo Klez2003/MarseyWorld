@@ -525,7 +525,7 @@ AWARDS = {
 		"description": "Prevents the user from gambling for 24 hours in a last-ditch effort to save them from themself.",
 		"icon": "fas fa-dice-six",
 		"color": "text-black",
-		"price": 500,
+		"price": 777,
 		"deflectable": True,
 		"cosmetic": False,
 		"ghost": False,
