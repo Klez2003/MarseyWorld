@@ -5563,6 +5563,9 @@ img[src$="/i/hand.webp"]+img[src$="/i/talking.webp"]+img {
 img[src$="/i/talking.webp"]+img {
 	margin-top: 22%;
 }
+img[src$="/i/talking.webp"]+img[src$="/i/hand.webp"] {
+	margin-top: 5%;
+}
 img[src$="/i/talking.webp"]+img[src$="/i/hand.webp"]+img  {
 	margin-top: 20%;
 }
