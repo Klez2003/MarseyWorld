@@ -270,13 +270,6 @@ class Post(Base):
 			if "?" in url: url += "&context=9"
 			else: url += "?context=8"
 			if not v or v.controversial: url += "&sort=controversial"
-		elif url.startswith("https://watchpeopledie.tv/videos/"):
-			# Semi-temporary fix for self-hosted unproxied video serving
-			url = url.replace("https://watchpeopledie.tv/videos/",
-							  "https://videos.watchpeopledie.tv/", 1)
-		elif SITE == 'watchpeopledie.tv' and url.startswith('/videos'):
-				url = url.replace("/videos/",
-						"https://videos.watchpeopledie.tv/", 1)
 
 		if url.startswith('/'): return SITE_FULL + url
 
