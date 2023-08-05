@@ -490,7 +490,10 @@ def badge_grant_post(v):
 			abort(403, "You can't grant this badge!")
 
 		description = request.values.get("description")
-		url = request.values.get("url")
+		url = request.values.get("url", "").strip()
+
+		if badge_id in {63,66,149,178,180,240,242,286,291,293} and not url:
+			abort(400, "This badge requires a url!")
 
 		if url:
 			if '\\' in url: abort(400)
