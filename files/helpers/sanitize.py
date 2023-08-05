@@ -663,13 +663,13 @@ def filter_emojis_only(title, golden=True, count_emojis=False, graceful=False):
 		return title.strip()
 
 def is_whitelisted(domain, k):
-	if k.lower().endswith('id'):
-		return True
 	if 'sort' in k.lower() or 'query' in k.lower():
 		return True
-	if k in {'v','context','q','page','time_continue','title','scrollToComments','u','url'}:
+	if k in {'v','context','q','page','time_continue','title','scrollToComments','u','url','story_fbid','fbid','forum_id','vid','oldid','postid','post_id','threadid','thread_id','ticket_form_id'}:
 		return True
-	if k == 't' and domain != 'youtube.com':
+	if k == 't' and domain != 'twitter.com':
+		return True
+	if k == 'oid' and domain != 'quora.com':
 		return True
 	return False
 
