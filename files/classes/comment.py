@@ -1,7 +1,7 @@
 import time
 from math import floor
 from random import randint
-from urllib.parse import parse_qs, urlencode, urlparse
+from urllib.parse import parse_qs, urlencode, urlparse, urlunparse
 from flask import g
 
 from sqlalchemy import Column, ForeignKey
