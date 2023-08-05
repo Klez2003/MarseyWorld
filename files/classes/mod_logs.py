@@ -24,6 +24,7 @@ class ModAction(Base):
 	user = relationship("User", primaryjoin="User.id==ModAction.user_id")
 	target_user = relationship("User", primaryjoin="User.id==ModAction.target_user_id")
 	target_post = relationship("Post")
+	target_comment = relationship("Comment")
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
@@ -41,7 +42,7 @@ class ModAction(Base):
 	def note(self):
 		if self.kind=="ban_user":
 			if self.target_post: return f'for <a href="{self.target_post.permalink}">post</a>'
-			elif self.target_comment_id: return f'for <a href="/comment/{self.target_comment_id}">comment</a>'
+			if self.target_comment: return f'for <a href="{self.target_comment.permalink}">comment</a>'
 			else: return self._note
 		else:
 			return self._note or ""
