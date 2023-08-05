@@ -1,7 +1,7 @@
 
 from flask import *
 from sqlalchemy import and_, any_, or_
-from sqlalchemy.orm import joinedload, Query
+from sqlalchemy.orm import joinedload, Query, load_only
 
 from files.classes import Comment, CommentVote, Hat, Sub, Post, User, UserBlock, Vote
 from files.helpers.config.const import *
@@ -32,7 +32,7 @@ def get_id(username, graceful=False):
 
 	return user[0]
 
-def get_user(username, v=None, graceful=False, include_blocks=False):
+def get_user(username, v=None, graceful=False, include_blocks=False, id_only=False):
 	if not username:
 		if graceful: return None
 		abort(404)
@@ -50,6 +50,9 @@ def get_user(username, v=None, graceful=False, include_blocks=False):
 			User.prelock_username.ilike(username),
 			)
 		)
+
+	if id_only:
+		user = user.options(load_only(User.id))
 
 	user = user.one_or_none()
 

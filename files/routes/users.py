@@ -142,15 +142,13 @@ def transfer_currency(v, username, currency_name, apply_tax):
 	g.db.add(v)
 	return {"message": f"{amount - tax} {currency_name} have been transferred to @{receiver.username}"}
 
-def upvoters_downvoters(v, username, uid, cls, vote_cls, vote_dir, template, standalone):
+def upvoters_downvoters(v, username, username2, cls, vote_cls, vote_dir, template, standalone):
 	u = get_user(username, v=v)
 	if not u.is_visible_to(v): abort(403)
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
 	id = u.id
-	try:
-		uid = int(uid)
-	except:
-		abort(404)
+	
+	uid = get_user(username2, id_only=True).id
 
 	page = get_page()
 
@@ -177,46 +175,44 @@ def upvoters_downvoters(v, username, uid, cls, vote_cls, vote_dir, template, sta
 
 	return render_template(template, total=total, listing=listing, page=page, v=v, standalone=standalone)
 
-@app.get("/@<username>/upvoters/<int:uid>/posts")
+@app.get("/@<username>/upvoters/@<username2>/posts")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def upvoters_posts(v, username, uid):
-	return upvoters_downvoters(v, username, uid, Post, Vote, 1, "userpage/voted_posts.html", None)
+def upvoters_posts(v, username, username2):
+	return upvoters_downvoters(v, username, username2, Post, Vote, 1, "userpage/voted_posts.html", None)
 
 
-@app.get("/@<username>/upvoters/<int:uid>/comments")
+@app.get("/@<username>/upvoters/@<username2>/comments")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def upvoters_comments(v, username, uid):
-	return upvoters_downvoters(v, username, uid, Comment, CommentVote, 1, "userpage/voted_comments.html", True)
+def upvoters_comments(v, username, username2):
+	return upvoters_downvoters(v, username, username2, Comment, CommentVote, 1, "userpage/voted_comments.html", True)
 
 
-@app.get("/@<username>/downvoters/<int:uid>/posts")
+@app.get("/@<username>/downvoters/@<username2>/posts")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def downvoters_posts(v, username, uid):
-	return upvoters_downvoters(v, username, uid, Post, Vote, -1, "userpage/voted_posts.html", None)
+def downvoters_posts(v, username, username2):
+	return upvoters_downvoters(v, username, username2, Post, Vote, -1, "userpage/voted_posts.html", None)
 
 
-@app.get("/@<username>/downvoters/<int:uid>/comments")
+@app.get("/@<username>/downvoters/@<username2>/comments")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def downvoters_comments(v, username, uid):
-	return upvoters_downvoters(v, username, uid, Comment, CommentVote, -1, "userpage/voted_comments.html", True)
+def downvoters_comments(v, username, username2):
+	return upvoters_downvoters(v, username, username2, Comment, CommentVote, -1, "userpage/voted_comments.html", True)
 
-def upvoting_downvoting(v, username, uid, cls, vote_cls, vote_dir, template, standalone):
+def upvoting_downvoting(v, username, username2, cls, vote_cls, vote_dir, template, standalone):
 	u = get_user(username, v=v)
 	if not u.is_visible_to(v): abort(403)
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
 	id = u.id
-	try:
-		uid = int(uid)
-	except:
-		abort(404)
+
+	uid = get_user(username2, id_only=True).id
 
 	page = get_page()
 
@@ -243,36 +239,36 @@ def upvoting_downvoting(v, username, uid, cls, vote_cls, vote_dir, template, sta
 
 	return render_template(template, total=total, listing=listing, page=page, v=v, standalone=standalone)
 
-@app.get("/@<username>/upvoting/<int:uid>/posts")
+@app.get("/@<username>/upvoting/@<username2>/posts")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def upvoting_posts(v, username, uid):
-	return upvoting_downvoting(v, username, uid, Post, Vote, 1, "userpage/voted_posts.html", None)
+def upvoting_posts(v, username, username2):
+	return upvoting_downvoting(v, username, username2, Post, Vote, 1, "userpage/voted_posts.html", None)
 
 
-@app.get("/@<username>/upvoting/<int:uid>/comments")
+@app.get("/@<username>/upvoting/@<username2>/comments")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def upvoting_comments(v, username, uid):
-	return upvoting_downvoting(v, username, uid, Comment, CommentVote, 1, "userpage/voted_comments.html", True)
+def upvoting_comments(v, username, username2):
+	return upvoting_downvoting(v, username, username2, Comment, CommentVote, 1, "userpage/voted_comments.html", True)
 
 
-@app.get("/@<username>/downvoting/<int:uid>/posts")
+@app.get("/@<username>/downvoting/@<username2>/posts")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def downvoting_posts(v, username, uid):
-	return upvoting_downvoting(v, username, uid, Post, Vote, -1, "userpage/voted_posts.html", None)
+def downvoting_posts(v, username, username2):
+	return upvoting_downvoting(v, username, username2, Post, Vote, -1, "userpage/voted_posts.html", None)
 
 
-@app.get("/@<username>/downvoting/<int:uid>/comments")
+@app.get("/@<username>/downvoting/@<username2>/comments")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def downvoting_comments(v, username, uid):
-	return upvoting_downvoting(v, username, uid, Comment, CommentVote, -1, "userpage/voted_comments.html", True)
+def downvoting_comments(v, username, username2):
+	return upvoting_downvoting(v, username, username2, Comment, CommentVote, -1, "userpage/voted_comments.html", True)
 
 def user_voted(v, username, cls, vote_cls, template, standalone):
 	u = get_user(username, v=v)
