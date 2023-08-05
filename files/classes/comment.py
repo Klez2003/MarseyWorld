@@ -381,12 +381,12 @@ class Comment(Base):
 		return body
 
 	@lazy
-	def collapse_for_user(self, v, path=''):
+	def collapse_for_user(self, v, comment_info, path=''):
 		if v and self.author_id == v.id: return False
 
 		if path == '/admin/removed/comments': return False
 
-		if path.endswith(f'/{self.id}'): return False
+		if comment_info: return False
 
 		if self.over_18 and not (v and v.over_18) and not (any(path.startswith(x) for x in ('/post/','/comment/','/h/')) and self.post.over_18): return True
 

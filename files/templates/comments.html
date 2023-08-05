@@ -113,7 +113,7 @@
 	{% set isreply = False %}
 {% endif %}
 
-<div id="comment-{{c.id}}" class="anchor comment {% if wall and level == 1 %}mt-5{% elif wall %}mt-4{% elif standalone and level==1 %}mt-0{% endif %} {% if collapse or c.collapse_for_user(v,request.full_path) %}collapsed{% endif %}" style="{% if isreply %}padding-left:0!important{% endif %}">
+<div id="comment-{{c.id}}" class="anchor comment {% if wall and level == 1 %}mt-5{% elif wall %}mt-4{% elif standalone and level==1 %}mt-0{% endif %} {% if collapse or c.collapse_for_user(v, comment_info, request.full_path) %}collapsed{% endif %}" style="{% if isreply %}padding-left:0!important{% endif %}">
 	{% if not isreply %}
 		<span class="comment-collapse-desktop" style="border-color: {% if c.ghost %}var(--primary){% else %}#{{c.author.name_color}}{% endif %}" data-nonce="{{g.nonce}}" data-onclick="collapse_comment('{{c.id}}')"></span>
 	{% endif %}
