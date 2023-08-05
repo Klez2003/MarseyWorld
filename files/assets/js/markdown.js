@@ -1,4 +1,5 @@
 marked.use({
+	breaks: true,
 	extensions: [
 		{
 			name: 'mention',
@@ -93,8 +94,6 @@ function markdown(t) {
 		}
 	}
 
-	if (!input.includes('```') && !input.includes('<pre>'))
-		input = input.replace(/\n/g, '\n\n')
 	input = input.replace(/\|\|(.*?)\|\|/g, '<spoiler>$1</spoiler>')
 	input = input.replace(/(\n|^)>([^ >][^\n]*)/g, '$1<g>\>$2</g>')
 	input = input.replace(/((\s|^)[0-9]+)\. /g, '$1\\. ')
