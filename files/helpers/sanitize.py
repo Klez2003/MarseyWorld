@@ -554,7 +554,10 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 		href = link.get("href")
 		if not href: continue
 
-		href = normalize_url(href)
+		link["href"] = normalize_url(href)
+		if link.string == href:
+			link.string = link["href"]
+		href = link["href"]
 
 		def unlinkfy():
 			link.string = href
@@ -665,7 +668,7 @@ def filter_emojis_only(title, golden=True, count_emojis=False, graceful=False):
 def is_whitelisted(domain, k):
 	if 'sort' in k.lower() or 'query' in k.lower():
 		return True
-	if k in {'v','context','q','page','time_continue','title','scrollToComments','u','url','story_fbid','fbid','forum_id','vid','oldid','postid','post_id','threadid','thread_id','ticket_form_id'}:
+	if k in {'v','context','q','page','time_continue','title','scrollToComments','u','url','story_fbid','fbid','forum_id','vid','oldid','postid','post_id','threadid','thread_id','ticket_form_id','_x_tr_sl','_x_tr_tl','_x_tr_hl','_x_tr_pto'}:
 		return True
 	if k == 't' and domain != 'twitter.com':
 		return True
