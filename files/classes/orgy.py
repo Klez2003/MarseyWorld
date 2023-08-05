@@ -1,18 +1,12 @@
 import time
-from math import floor
-from random import randint
 from flask import g
 
-from sqlalchemy import Column, ForeignKey
-from sqlalchemy.orm import relationship
-from sqlalchemy.schema import FetchedValue
+from sqlalchemy import Column
 from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
 from files.helpers.config.const import *
-from files.helpers.lazy import lazy
 from files.helpers.regex import *
-from files.helpers.sorting_and_time import *
 from files.helpers.sanitize import normalize_url, get_youtube_id_and_t
 
 class Orgy(Base):
