@@ -7642,6 +7642,6 @@ body {
 	overflow-wrap: break-word !important;
 }
 
-.table * {
+.table *, .playing-card_large {
     word-break: keep-all !important;
 }
