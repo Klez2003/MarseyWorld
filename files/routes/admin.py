@@ -1238,6 +1238,8 @@ def mute_user(v, user_id):
 		g.db.add(ma)
 		check_for_alts(user)
 
+		send_repeatable_notification(user.id, f"@{v.username} (a site admin) has muted you!")
+
 	return {"message": f"@{user.username} has been muted!"}
 
 
@@ -1264,6 +1266,8 @@ def unmute_user(v, user_id):
 			if x.is_muted:
 				x.is_muted = False
 				g.db.add(x)
+
+		send_repeatable_notification(user.id, f"@{v.username} (a site admin) has unmuted you!")
 
 	return {"message": f"@{user.username} has been unmuted!"}
 
