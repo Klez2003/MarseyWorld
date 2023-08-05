@@ -455,7 +455,7 @@ def admin_badges_grantable_list(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @admin_level_required(PERMS['USER_BADGES'])
 def badge_grant_get(v):
-	grant = request.url.endswith("grant")
+	grant = request.path.endswith("grant")
 	badge_types = admin_badges_grantable_list(v)
 
 	return render_template("admin/badge_admin.html", v=v,

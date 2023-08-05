@@ -85,6 +85,10 @@
 			{% endif %}
 
 			<div class="actionbtns my-3">
+				{% if FEATURES['BADGES'] and v.admin_level >= PERMS['USER_BADGES'] %}
+					<a id="give-badge-{{deviceType}}" class="btn btn-primary" style="display:inline-block!important" href="/admin/badge_grant?usernames={{u.username}}">Give Badge</a>
+				{% endif %}
+
 				{% if v.admin_level >= PERMS['ADMIN_ADD'] and not u.admin_level %}
 					<button type="button" id="add-admin-{{deviceType}}" class="btn btn-primary" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/@{{u.username}}/make_admin','add-admin-{{deviceType}}','remove-admin-{{deviceType}}','d-none')">Make Admin</button>
 				{% endif %}

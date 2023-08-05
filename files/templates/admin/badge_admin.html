@@ -42,7 +42,8 @@
 {% endfor %}
 </table>
 <label for="input-usernames">Usernames</label>
-<input autocomplete="off" id="input-usernames" class="form-control" type="text" name="usernames" placeholder="Required (separated by space)" required>
+{% set usernames = request.values.get('usernames') %}
+<input autocomplete="off" id="input-usernames" class="form-control" type="text" name="usernames" placeholder="Required (separated by space)" {% if usernames %}value="{{usernames}}"{% endif %} required>
 
 {% if grant %}
 <label class="mt-2" for="input-url">URL</label>
