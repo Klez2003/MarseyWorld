@@ -3,24 +3,13 @@ from flask import g
 from files.classes.badges import Badge
 from files.helpers.alerts import send_repeatable_notification
 
-def badge_grant(user, badge_id, description=None, url=None, notify=True, check_if_exists=True):
-	assert user != None
-
-	if check_if_exists:
-		existing = g.db.query(Badge).filter_by(user_id=user.id, badge_id=badge_id).one_or_none()
-		if existing: return
-
-	if description and len(description) > 256:
-		abort(400, "Custom description is too long, max 256 characters!")
-
-	if url and len(url) > 256:
-		abort(400, "URL is too long, max 256 characters!")
+def badge_grant(user, badge_id, notify=True, check_if_exists=True):
+	existing = g.db.query(Badge).filter_by(user_id=user.id, badge_id=badge_id).one_or_none()
+	if existing: return
 
 	badge = Badge(
 		badge_id=int(badge_id),
 		user_id=user.id,
-		description=description,
-		url=url,
 	)
 
 	g.db.add(badge)
