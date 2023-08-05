@@ -122,7 +122,7 @@ imgur_regex = re.compile(f'(https:\/\/i\.imgur\.com\/[a-z0-9]+)\.({image_regex_e
 
 giphy_regex = re.compile('(https:\/\/media\.giphy\.com\/media\/[a-z0-9]+\/giphy)\.gif', flags=re.I|re.A)
 
-youtube_regex = re.compile('(<p>[^<]*)(https:\/\/youtube\.com\/watch\?[\w\-.#&/=?@%+]{7,})', flags=re.I|re.A)
+youtube_regex = re.compile('((<p>|<img)[^<]*)(https:\/\/youtube\.com\/watch\?[\w\-.#&/=?@%+]{7,})', flags=re.I|re.A)
 yt_id_regex = re.compile('[\w\-]{5,20}', flags=re.A)
 
 rumble_regex = re.compile('https://rumble\.com/embed/([a-zA-Z0-9]*)/\?pub=([a-zA-Z0-9]*)',flags=re.I|re.A)

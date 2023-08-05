@@ -511,7 +511,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 		if i.group(0) in captured: continue
 		captured.append(i.group(0))
 
-		html = handle_youtube_links(i.group(2))
+		html = handle_youtube_links(i.group(3))
 		if html:
 			sanitized = sanitized.replace(i.group(0), i.group(1) + html)
 
