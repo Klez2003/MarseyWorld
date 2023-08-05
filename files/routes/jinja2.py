@@ -65,8 +65,8 @@ def selected_tab(request):
 			return 'new' 
 	elif request.path == '/comments':
 		return 'comments'
-	elif request.path == '/leaderboard':
-		return 'leaderboard'
+	elif request.path == '/casino':
+		return 'casino'
 	elif request.path == '/chat':
 		return 'chat'
 	elif request.path=='/shop/awards':
