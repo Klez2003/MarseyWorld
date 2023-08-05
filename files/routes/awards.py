@@ -175,19 +175,13 @@ def award_thing(v, thing_type, id):
 
 	note = request.values.get("note", "").strip()
 
-	safe_username = f"@{thing.author_name}"
+	safe_username = f"@{thing.author_name} is"
 
 	if author.immune_to_awards(v):
-		abort(403, f"{safe_username} is immune to awards!")
+		abort(403, f"{safe_username} immune to awards!")
 
 	if kind == "benefactor" and author.id == v.id:
 		abort(403, "You can't use this award on yourself!")
-
-	if kind == 'marsify' and author.marsify == 1:
-		abort(409, f"{safe_username} is already permanently marsified!")
-
-	if kind == 'spider' and author.spider == 1:
-		abort(409, f"{safe_username} already has a permanent spider friend!")
 
 	if thing.ghost and not AWARDS[kind]['ghost']:
 		abort(403, "This kind of award can't be used on ghost posts!")
@@ -197,7 +191,7 @@ def award_thing(v, thing_type, id):
 			msg = f"@{v.username} has tried to give your [{thing_type}]({thing.shortlink}) the {AWARDS[kind]['title']} Award but it was deflected on them, they also had a deflector up, so it bounced back and forth until it vaporized!"
 			send_repeatable_notification(author.id, msg)
 
-			msg = f"{safe_username} is under the effect of a deflector award; your {AWARDS[kind]['title']} Award has been deflected back to you but your deflector protected you, the award bounced back and forth until it vaporized!"
+			msg = f"{safe_username} under the effect of a deflector award; your {AWARDS[kind]['title']} Award has been deflected back to you but your deflector protected you, the award bounced back and forth until it vaporized!"
 			send_repeatable_notification(v.id, msg)
 
 			g.db.delete(award)
@@ -207,9 +201,10 @@ def award_thing(v, thing_type, id):
 		if author.deflector and AWARDS[kind]['deflectable']:
 			msg = f"@{v.username} has tried to give your [{thing_type}]({thing.shortlink}) the {AWARDS[kind]['title']} Award but it was deflected and applied to them :marseytroll:"
 			send_repeatable_notification(author.id, msg)
-			msg = f"{safe_username} is under the effect of a deflector award; your {AWARDS[kind]['title']} Award has been deflected back to you :marseytroll:"
+			msg = f"{safe_username} under the effect of a deflector award; your {AWARDS[kind]['title']} Award has been deflected back to you :marseytroll:"
 			send_repeatable_notification(v.id, msg)
 			author = v
+			safe_username = f"Your award has been deflected but failed since you're"
 		elif kind != 'spider':
 			if AWARDS[kind]['cosmetic']:
 				awarded_coins = int(AWARDS[kind]['price'] * COSMETIC_AWARD_COIN_AWARD_PCT)
@@ -241,6 +236,12 @@ def award_thing(v, thing_type, id):
 					msg += f"\n\n**You now have to say this phrase in all posts and comments you make for 24 hours:**"
 				msg += f"\n\n> {note}"
 			send_repeatable_notification(author.id, msg)
+
+	if kind == 'marsify' and author.marsify == 1:
+		abort(409, f"{safe_username} already permanently marsified!")
+
+	if kind == 'spider' and author.spider == 1:
+		abort(409, f"{safe_username} already best friends with a spider!")
 
 	link = f"[this {thing_type}]({thing.shortlink})"
 
@@ -316,7 +317,7 @@ def award_thing(v, thing_type, id):
 		g.db.add(thing)
 	elif kind == "queen":
 		if author.chud:
-			abort(409, f"{safe_username} is under the effect of a conflicting award: Chud award!")
+			abort(409, f"{safe_username} under the effect of a conflicting award: Chud award!")
 
 		if not author.queen:
 			characters = list(filter(str.isalpha, author.username))
@@ -355,22 +356,22 @@ def award_thing(v, thing_type, id):
 			abort(403, "You can't give the chud award in /h/chudrama")
 
 		if author.queen:
-			abort(409, f"{safe_username} is under the effect of a conflicting award: Queen award!")
+			abort(409, f"{safe_username} under the effect of a conflicting award: Queen award!")
 
 		if author.marseyawarded:
-			abort(409, f"{safe_username} is under the effect of a conflicting award: Marsey award!")
+			abort(409, f"{safe_username} under the effect of a conflicting award: Marsey award!")
 
 		if author.marsify:
-			abort(409, f"{safe_username} is under the effect of a conflicting award: Marsify award!")
+			abort(409, f"{safe_username} under the effect of a conflicting award: Marsify award!")
 
 		if author.owoify:
-			abort(409, f"{safe_username} is under the effect of a conflicting award: OwOify award!")
+			abort(409, f"{safe_username} under the effect of a conflicting award: OwOify award!")
 
 		if author.sharpen:
-			abort(409, f"{safe_username} is under the effect of a conflicting award: Sharpen!")
+			abort(409, f"{safe_username} under the effect of a conflicting award: Sharpen!")
 
 		if author.chud == 1:
-			abort(409, f"{safe_username} is already chudded permanently!")
+			abort(409, f"{safe_username} already chudded permanently!")
 
 		if author.chud and time.time() < author.chud: author.chud += 86400
 		else: author.chud = int(time.time()) + 86400
@@ -422,20 +423,20 @@ def award_thing(v, thing_type, id):
 		badge_grant(badge_id=67, user=author)
 	elif kind == "marsey":
 		if author.chud:
-			abort(409, f"{safe_username} is under the effect of a conflicting award: Chud award!")
+			abort(409, f"{safe_username} under the effect of a conflicting award: Chud award!")
 
 		if author.marseyawarded: author.marseyawarded += 86400
 		else: author.marseyawarded = int(time.time()) + 86400
 		badge_grant(user=author, badge_id=98)
 	elif kind == "pizzashill":
 		if author.bird:
-			abort(409, f"{safe_username} is under the effect of a conflicting award: Bird Site award!")
+			abort(409, f"{safe_username} under the effect of a conflicting award: Bird Site award!")
 		if author.longpost: author.longpost += 86400
 		else: author.longpost = int(time.time()) + 86400
 		badge_grant(user=author, badge_id=97)
 	elif kind == "bird":
 		if author.longpost:
-			abort(409, f"{safe_username} is under the effect of a conflicting award: Pizzashill award!")
+			abort(409, f"{safe_username} under the effect of a conflicting award: Pizzashill award!")
 		if author.bird: author.bird += 86400
 		else: author.bird = int(time.time()) + 86400
 		badge_grant(user=author, badge_id=95)
@@ -479,7 +480,7 @@ def award_thing(v, thing_type, id):
 		badge_grant(user=author, badge_id=150)
 	elif kind == 'marsify':
 		if author.chud:
-			abort(409, f"{safe_username} is under the effect of a conflicting award: Chud award!")
+			abort(409, f"{safe_username} under the effect of a conflicting award: Chud award!")
 		if not author.marsify or author.marsify != 1:
 			if author.marsify: author.marsify += 86400
 			else: author.marsify = int(time.time()) + 86400
@@ -495,7 +496,7 @@ def award_thing(v, thing_type, id):
 		if author.bite: author.bite += 172800
 		else:
 			if author.house.startswith("Vampire"):
-				abort(400, f"{safe_username} is already a permanent vampire!")
+				abort(400, f"{safe_username} already a permanent vampire!")
 
 			author.bite = int(time.time()) + 172800
 			author.old_house = author.house
@@ -508,7 +509,7 @@ def award_thing(v, thing_type, id):
 		badge_grant(user=author, badge_id=169)
 	elif ("Furry" in kind and kind == v.house) or kind == 'owoify':
 		if author.chud:
-			abort(409, f"{safe_username} is under the effect of a conflicting award: Chud award!")
+			abort(409, f"{safe_username} under the effect of a conflicting award: Chud award!")
 
 		if author.owoify: author.owoify += 21600
 		else: author.owoify = int(time.time()) + 21600
@@ -522,7 +523,7 @@ def award_thing(v, thing_type, id):
 			g.db.add(thing)
 	elif ("Edgy" in kind and kind == v.house) or kind == 'sharpen':
 		if author.chud:
-			abort(409, f"{safe_username} is under the effect of a conflicting award: Chud award!")
+			abort(409, f"{safe_username} under the effect of a conflicting award: Chud award!")
 
 		if author.sharpen: author.sharpen += 86400
 		else: author.sharpen = int(time.time()) + 86400
