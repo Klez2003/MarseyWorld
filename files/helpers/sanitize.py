@@ -4,7 +4,7 @@ import re
 import signal
 from functools import partial
 from os import path, listdir
-from urllib.parse import parse_qs, urlparse, unquote, ParseResult, urlencode
+from urllib.parse import parse_qs, urlparse, unquote, ParseResult, urlencode, urlunparse
 
 from sqlalchemy.sql import func
 
