@@ -123,7 +123,7 @@
 				{% endif %}
 
 				{% if v.admin_level >= PERMS['USER_RESET_PASSWORD'] %}
-					<button type="button" id="reset-password-{{deviceType}}" class="mt-1 btn btn-danger" data-nonce="{{g.nonce}}" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)" data-areyousure="postToast(this,'/admin/reset_password/{{u.id}}')">Reset Password</button>
+					<button type="button" id="reset-password-{{deviceType}}" class="mt-1 btn btn-danger" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)" data-areyousure="postToast(this,'/admin/reset_password/{{u.id}}')">Reset Password</button>
 				{% endif %}
 			</div>
 		</div>
