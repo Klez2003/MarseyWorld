@@ -3,10 +3,10 @@
 {% block pagetype %}directory{% endblock %}
 {# Title (~25char max), Description (~80char max),
 	Icon (fa-foo-bar), Color (#ff0000), URL (/post/12345/) #}
-{%- set MEGATHREAD_INDEX = [] -%}
+{%- set DIRECTORY = [] -%}
 
 {%- if SITE_NAME == 'rDrama' -%}
-{%- do MEGATHREAD_INDEX.extend([
+{%- do DIRECTORY.extend([
 	(
 		'Download All Emojis',
 		'Download a zip containing all emojis.<br>' ~ emojis_count ~ ' emojis - ' ~ emojis_size,
@@ -108,7 +108,7 @@
 
 {% block content %}
 <div id="directory--wrapper">
-{% for thread in MEGATHREAD_INDEX %}
+{% for thread in DIRECTORY %}
 <a class="directory--link" href="{{thread[4]}}">
 	<div class="directory--link-content">
 		<i class="directory--link--icon fas {{thread[2]}}" style="color:{{thread[3]}}"></i>

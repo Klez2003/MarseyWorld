@@ -235,7 +235,7 @@ def log_item(id, v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def static_megathread_index(v):
+def directory(v):
 	if SITE_NAME != 'rDrama':
 		abort(404)
 
@@ -247,7 +247,7 @@ def static_megathread_index(v):
 	emojis_original_count = cache.get('emojis_original_count') or ''
 	emojis_original_size = cache.get('emojis_original_size') or ''
 
-	return render_template("megathread_index.html", v=v, emojis_hash=emojis_hash, emojis_count=emojis_count, emojis_size=emojis_size, emojis_original_hash=emojis_original_hash, emojis_original_count=emojis_original_count, emojis_original_size=emojis_original_size)
+	return render_template("directory.html", v=v, emojis_hash=emojis_hash, emojis_count=emojis_count, emojis_size=emojis_size, emojis_original_hash=emojis_original_hash, emojis_original_count=emojis_original_count, emojis_original_size=emojis_original_size)
 
 @app.get("/api")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
