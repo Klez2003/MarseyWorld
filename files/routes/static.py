@@ -41,24 +41,25 @@ def reddit_post(subreddit, v, path):
 	return redirect(f'https://{reddit}/{post_id}')
 
 
-@cache.cached(make_cache_key=lambda:"emoji_list")
-def get_emoji_list():
+@cache.cached(make_cache_key=lambda kind:f"emoji_list_{kind}")
+def get_emoji_list(kind):
 	emojis = []
-	for emoji, author in g.db.query(Emoji, User).join(User, Emoji.author_id == User.id).filter(Emoji.submitter_id == None).order_by(Emoji.count.desc()):
+	for emoji, author in g.db.query(Emoji, User).join(User, Emoji.author_id == User.id).filter(Emoji.submitter_id == None, Emoji.kind == kind).order_by(Emoji.count.desc()):
 		emoji.author = author.username if FEATURES['ASSET_SUBMISSIONS'] else None
 		emojis.append(emoji)
 	return emojis
 
 @app.get("/marseys")
-def marseys_redirect():
-	return redirect("/emojis")
-
 @app.get("/emojis")
+def marseys_redirect():
+	return redirect("/emojis/Platy")
+
+@app.get("/emojis/<kind>")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def emoji_list(v):
-	emojis = get_emoji_list()
+def emoji_list(v, kind):
+	emojis = get_emoji_list(kind)
 	authors = get_accounts_dict([e.author_id for e in emojis], v=v, graceful=True)
 
 	if FEATURES['ASSET_SUBMISSIONS']:
@@ -73,7 +74,7 @@ def emoji_list(v):
 		for emoji in emojis:
 			emoji.user = authors.get(emoji.author_id)
 
-	return render_template("emojis.html", v=v, emojis=emojis)
+	return render_template("emojis.html", v=v, emojis=emojis, kind=kind)
 
 
 
