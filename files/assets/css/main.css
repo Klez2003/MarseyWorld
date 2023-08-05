@@ -5451,7 +5451,42 @@ video {
 .text-removed {
 	color: #ffabab !important;
 }
-.mirrored, img[alt^=":"][alt*="!"], span[alt^=":"][alt*="!"] {
+.mirrored {
+	transform: scaleX(-1);
+	-webkit-transform: scaleX(-1);
+}
+
+span[alt^=":"][alt*="!"] {
+	transform: scaleX(-1);
+	-webkit-transform: scaleX(-1);
+}
+
+span[alt^=":"][alt*="!!"] {
+	transform: scaleX(1);
+	-webkit-transform: scaleX(1);
+}
+
+span[alt^=":"][alt*="!!"][alt*="pat"] {
+	transform: scaleX(-1);
+	-webkit-transform: scaleX(-1);
+}
+
+img[alt^=":"][alt*="!!"] {
+	transform: scaleX(-1);
+	-webkit-transform: scaleX(-1);
+}
+
+img[alt^=":"][alt*="!"] {
+	transform: scaleX(-1);
+	-webkit-transform: scaleX(-1);
+}
+
+span[alt^=":"][alt*="!"] > img[alt^=":"][alt*="!"] {
+	transform: scaleX(1);
+	-webkit-transform: scaleX(1);
+}
+
+span[alt^=":"][alt*="!!"] > img[alt^=":"][alt*="!"] {
 	transform: scaleX(-1);
 	-webkit-transform: scaleX(-1);
 }
@@ -5542,6 +5577,9 @@ img[src$="/i/hand.webp"]+img[src$="/i/talking.webp"]+img {
 }
 img[src$="/i/talking.webp"]+img {
 	margin-top: 22%;
+}
+img[src$="/i/talking.webp"]+img[src$="/i/hand.webp"] {
+	margin-top: 5%;
 }
 img[src$="/i/talking.webp"]+img[src$="/i/hand.webp"]+img  {
 	margin-top: 20%;
