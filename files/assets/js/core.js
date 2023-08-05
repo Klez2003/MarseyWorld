@@ -291,6 +291,10 @@ function prepare_to_pause(audio) {
 }
 
 function sendFormXHR(form, extraActionsOnSuccess) {
+	const submit_btn = form.querySelector('[type="submit"]')
+	submit_btn.disabled = true;
+	submit_btn.classList.add("disabled");
+
 	const xhr = new XMLHttpRequest();
 
 	formData = new FormData(form);
@@ -318,6 +322,8 @@ function sendFormXHR(form, extraActionsOnSuccess) {
 				bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-error')).show();
 			}
 		}
+		submit_btn.disabled = false;
+		submit_btn.classList.remove("disabled");	
 	};
 
 	xhr.send(formData);

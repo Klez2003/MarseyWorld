@@ -102,31 +102,6 @@ for (const element of TH) {
 	element.addEventListener('click', () => {sort_table(element)});
 }
 
-const btns_to_disable = document.querySelectorAll('[type="submit"]')
-for (const element of btns_to_disable) {
-	if (!element.classList.contains("donotdisable"))
-		element.addEventListener('click', () => {disable_btn(element)})
-}
-
-function disable_btn(t) {
-	if (!t.classList.contains('disabled')) {
-		const isShopConfirm = t.id.startsWith('buy-') || t.id.startsWith('giveaward')
-
-		if (!isShopConfirm) {
-			t.classList.add('disabled');
-
-			setTimeout(() => {
-				t.disabled = true;
-			}, 0.1);
-
-			setTimeout(() => {
-				t.classList.remove("disabled");
-				t.disabled = false;
-			}, 2000);	
-		}
-	}
-}
-
 function register_new_elements(e) {
 	const oninput = e.querySelectorAll('[data-oninput]');
 	for (const element of oninput) {
