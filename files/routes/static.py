@@ -41,7 +41,7 @@ def reddit_post(subreddit, v, path):
 	return redirect(f'https://{reddit}/{post_id}')
 
 
-@cache.cached(key_prefix="emoji_list")
+@cache.cached(make_cache_key=lambda:"emoji_list")
 def get_emoji_list():
 	emojis = []
 	for emoji, author in g.db.query(Emoji, User).join(User, Emoji.author_id == User.id).filter(Emoji.submitter_id == None).order_by(Emoji.count.desc()):
@@ -77,7 +77,7 @@ def emoji_list(v):
 
 
 
-@cache.cached(key_prefix="emojis")
+@cache.cached(make_cache_key=lambda:"emojis")
 def get_emojis():
 	emojis = g.db.query(Emoji, User).join(User, Emoji.author_id == User.id).filter(Emoji.submitter_id == None)
 	emojis1 = emojis.filter(Emoji.kind != 'Marsey Alphabet').order_by(Emoji.count.desc()).all()
