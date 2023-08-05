@@ -69,7 +69,7 @@ def selected_tab(request):
 		return 'casino'
 	elif request.path == '/chat':
 		return 'chat'
-	elif request.path=='/shop/awards':
+	elif request.path.startswith('/shop/'):
 		return 'shop'
 
 	return 'home'
