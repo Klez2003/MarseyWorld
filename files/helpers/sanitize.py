@@ -378,11 +378,6 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 	if blackjack and execute_blackjack(g.v, None, sanitized, blackjack):
 		sanitized = 'g'
 
-	sanitized = utm_regex.sub('', sanitized)
-	sanitized = utm_regex2.sub('', sanitized)
-
-	sanitized = normalize_url(sanitized)
-
 	if '```' not in sanitized and '<pre>' not in sanitized:
 		sanitized = linefeeds_regex.sub(r'\1\n\n\2', sanitized)
 
@@ -559,6 +554,8 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 		href = link.get("href")
 		if not href: continue
 
+		href = normalize_url(href)
+
 		def unlinkfy():
 			link.string = href
 			del link["href"]
@@ -665,7 +662,21 @@ def filter_emojis_only(title, golden=True, count_emojis=False, graceful=False):
 	else:
 		return title.strip()
 
+def is_whitelisted(domain, k):
+	if k.lower().endswith('id'):
+		return True
+	if 'sort' in k.lower() or 'query' in k.lower():
+		return True
+	if k in {'v','context','q','page','time_continue','title','scrollToComments','u','url'}:
+		return True
+	if k == 't' and domain != 'youtube.com':
+		return True
+	return False
+
+
 def normalize_url(url):
+	url = unquote(url)
+
 	url = reddit_domain_regex.sub(r'\1https://old.reddit.com/\3/', url)
 
 	url = url.replace("https://youtu.be/", "https://youtube.com/watch?v=") \
@@ -685,10 +696,25 @@ def normalize_url(url):
 			 .replace("https://nitter.42l.fr/", "https://twitter.com/") \
 			 .replace("https://nitter.lacontrevoie.fr/", "https://twitter.com/") \
 			 .replace("/giphy.gif", "/giphy.webp") \
-			 .replace('https://old.reddit.com/r/place/?', 'https://new.reddit.com/r/place/?') \
+
+	url = giphy_regex.sub(r'\1.webp', url)
+
+	if not url.startswith('/'):
+		parsed_url = urlparse(url)
+		domain = parsed_url.netloc
+		qd = parse_qs(parsed_url.query, keep_blank_values=True)
+		filtered = {k: val for k, val in qd.items() if is_whitelisted(domain, k)}
+		new_url = ParseResult(scheme="https",
+							netloc=parsed_url.netloc,
+							path=parsed_url.path,
+							params=parsed_url.params,
+							query=urlencode(filtered, doseq=True),
+							fragment=parsed_url.fragment)
+		url = urlunparse(new_url)
+
+	url = url.rstrip('/')
 
 	url = imgur_regex.sub(r'\1_d.webp?maxwidth=9999&fidelity=grand', url)
-	url = giphy_regex.sub(r'\1.webp', url)
 
 	return url
 

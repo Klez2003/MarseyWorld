@@ -5,7 +5,7 @@ from io import BytesIO
 from os import path
 from shutil import copyfile
 from sys import stdout
-from urllib.parse import ParseResult, urlparse, urlunparse, unquote
+from urllib.parse import urlparse
 
 import gevent
 import requests
@@ -397,30 +397,6 @@ def is_repost(v):
 		abort(400)
 
 	url = normalize_url(url)
-	url = unquote(url)
-	parsed_url = urlparse(url)
-
-	domain = parsed_url.netloc
-	if domain in {'old.reddit.com','twitter.com','instagram.com','tiktok.com'} and '/search' not in url:
-		new_url = ParseResult(scheme="https",
-				netloc=parsed_url.netloc,
-				path=parsed_url.path,
-				params=parsed_url.params,
-				query=None,
-				fragment=parsed_url.fragment)
-	else:
-		qd = parse_qs(parsed_url.query, keep_blank_values=True)
-		filtered = {k: val for k, val in qd.items() if not k.startswith('utm_') and not k.startswith('ref_')}
-
-		new_url = ParseResult(scheme="https",
-							netloc=parsed_url.netloc,
-							path=parsed_url.path,
-							params=parsed_url.params,
-							query=urlencode(filtered, doseq=True),
-							fragment=parsed_url.fragment)
-
-	url = urlunparse(new_url)
-	url = url.rstrip('/')
 
 	search_url = url.replace('%', '').replace('\\', '').replace('_', '\_').strip()
 	repost = g.db.query(Post).filter(
@@ -491,31 +467,6 @@ def submit_post(v, sub=None):
 
 	if url:
 		url = normalize_url(url)
-		url = unquote(url)
-		parsed_url = urlparse(url)
-
-		domain = parsed_url.netloc
-		if domain in {'old.reddit.com','twitter.com','instagram.com','tiktok.com'} and '/search' not in url:
-			new_url = ParseResult(scheme="https",
-					netloc=parsed_url.netloc,
-					path=parsed_url.path,
-					params=parsed_url.params,
-					query=None,
-					fragment=parsed_url.fragment)
-		else:
-			qd = parse_qs(parsed_url.query, keep_blank_values=True)
-			filtered = {k: val for k, val in qd.items() if not k.startswith('utm_') and not k.startswith('ref_')}
-
-			new_url = ParseResult(scheme="https",
-								netloc=parsed_url.netloc,
-								path=parsed_url.path,
-								params=parsed_url.params,
-								query=urlencode(filtered, doseq=True),
-								fragment=parsed_url.fragment)
-
-		url = urlunparse(new_url)
-
-		url = url.rstrip('/')
 
 		if v.admin_level < PERMS["IGNORE_DOMAIN_BAN"]:
 			y = tldextract.extract(url).registered_domain + parsed_url.path
