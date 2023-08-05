@@ -473,7 +473,8 @@ def submit_post(v, sub=None):
 				if url.startswith(x.domain):
 					abort(400, f'Remove the banned link "{x.domain}" and try again!\nReason for link ban: "{x.reason}"')
 
-		if "twitter.com" == domain:
+		domain = tldextract.extract(url).registered_domain
+		if domain == "twitter.com":
 			try:
 				embed = requests.get("https://publish.twitter.com/oembed", params={"url":url, "omit_script":"t"}, timeout=5).json()["html"]
 				embed = embed.replace('<a href', '<a rel="nofollow noopener" href')
