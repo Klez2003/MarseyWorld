@@ -5752,6 +5752,20 @@ img[src$="/i/hand.webp"]+img[glow]:not([data-src]) {
 	pat-pfp-anim .3s infinite;
 }
 
+@keyframes party {
+	from{filter:sepia(100%) saturate(500%) hue-rotate(270deg)}
+	to{filter:sepia(100%) saturate(600%) hue-rotate(1500deg)}
+}
+
+img[party]:not([data-src]) {
+	animation: party 2s infinite alternate linear;
+}
+
+img[src$="/i/hand.webp"]+img[party]:not([data-src]) {
+	animation: party 1s infinite alternate linear,
+	pat-pfp-anim .3s infinite;
+}
+
 .glow .post-title, .glow a, .glow .post-meta *, .glow .user-info *, .glow .comment-text, .glow .comment-actions *, .glow  {
 	color:lightgreen !important;
 	text-shadow:1px 1px 1px darkgreen, 0 0 5px green;
