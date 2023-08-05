@@ -8,18 +8,6 @@
 {%- if SITE_NAME == 'rDrama' -%}
 {%- do DIRECTORY.extend([
 	(
-		'Download All Emojis',
-		'Download a zip containing all emojis.<br>' ~ emojis_count ~ ' emojis - ' ~ emojis_size,
-		'fa-down', '#38a169',
-		'/assets/emojis.zip?v=' + emojis_hash,
-	),
-	(
-		'Download Original Emoji Files',
-		'Download a zip containing all original emoji files.<br>' ~ emojis_original_count ~ ' files - ' ~ emojis_original_size,
-		'fa-down', '#38a169',
-		'/assets/emojis_original.zip?v=' + emojis_original_hash,
-	),
-	(
 		'Bugs / Suggestions',
 		'Something broken? Improvements?',
 		'fa-bug', '#6b8e23',

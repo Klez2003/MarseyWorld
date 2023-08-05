@@ -135,31 +135,11 @@ def _generate_emojis_zip():
 	m = md5()
 	with open('files/assets/emojis.zip', "rb") as f:
 		data = f.read()
-
 	m.update(data)
 	cache.set('emojis_hash', m.hexdigest(), timeout=CRON_CACHE_TIMEOUT)
 
-	count = str(len(os.listdir('files/assets/images/emojis')))
-	cache.set('emojis_count', count, timeout=CRON_CACHE_TIMEOUT)
-
-	size = str(int(os.stat('files/assets/emojis.zip').st_size/1024/1024)) + ' MB'
-	cache.set('emojis_size', size, timeout=CRON_CACHE_TIMEOUT)
-
 def _generate_emojis_original_zip():
 	make_archive('files/assets/emojis_original', 'zip', '/asset_submissions/emojis/original')
-
-	m = md5()
-	with open('files/assets/emojis_original.zip', "rb") as f:
-		data = f.read()
-
-	m.update(data)
-	cache.set('emojis_original_hash', m.hexdigest(), timeout=CRON_CACHE_TIMEOUT)
-
-	count = str(len(os.listdir('/asset_submissions/emojis/original')))
-	cache.set('emojis_original_count', count, timeout=CRON_CACHE_TIMEOUT)
-
-	size = str(int(os.stat('files/assets/emojis_original.zip').st_size/1024/1024)) + ' MB'
-	cache.set('emojis_original_size', size, timeout=CRON_CACHE_TIMEOUT)
 
 def _leaderboard_task():
 	votes1 = g.db.query(Vote.user_id, func.count(Vote.user_id)).filter(Vote.vote_type==1).group_by(Vote.user_id).order_by(func.count(Vote.user_id).desc()).all()

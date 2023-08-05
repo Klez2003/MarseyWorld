@@ -74,7 +74,9 @@ def emoji_list(v, kind):
 		for emoji in emojis:
 			emoji.user = authors.get(emoji.author_id)
 
-	return render_template("emojis.html", v=v, emojis=emojis, kind=kind)
+	emojis_hash = cache.get('emojis_hash') or ''
+
+	return render_template("emojis.html", v=v, emojis=emojis, kind=kind, emojis_hash=emojis_hash)
 
 
 
@@ -239,15 +241,8 @@ def directory(v):
 	if SITE_NAME != 'rDrama':
 		abort(404)
 
-	emojis_hash = cache.get('emojis_hash') or ''
-	emojis_count = cache.get('emojis_count') or ''
-	emojis_size = cache.get('emojis_size') or ''
 
-	emojis_original_hash = cache.get('emojis_original_hash') or ''
-	emojis_original_count = cache.get('emojis_original_count') or ''
-	emojis_original_size = cache.get('emojis_original_size') or ''
-
-	return render_template("directory.html", v=v, emojis_hash=emojis_hash, emojis_count=emojis_count, emojis_size=emojis_size, emojis_original_hash=emojis_original_hash, emojis_original_count=emojis_original_count, emojis_original_size=emojis_original_size)
+	return render_template("directory.html", v=v)
 
 @app.get("/api")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
