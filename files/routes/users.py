@@ -100,7 +100,7 @@ def claim_rewards_all_users():
 
 			print(f'@{user.username} rewards claimed successfully!', flush=True)
 
-	for user in g.db.query(User).options(load_only(User.id)).order_by(User.lifetimedonated.desc()).limit(10).all():
+	for user in g.db.query(User).options(load_only(User.id)).order_by(User.lifetimedonated.desc()).limit(10):
 		badge_grant(badge_id=294, user=user)
 
 def transfer_currency(v, username, currency_name, apply_tax):

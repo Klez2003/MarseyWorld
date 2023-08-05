@@ -73,11 +73,11 @@ def notif_comment(text):
 		replace_with = existing[0][0]
 		replaced = [x[0] for x in existing[1:]]
 
-		for n in g.db.query(Notification).filter(Notification.comment_id.in_(replaced)).all():
+		for n in g.db.query(Notification).filter(Notification.comment_id.in_(replaced)):
 			n.comment_id = replace_with
 			g.db.add(n)
 
-		for c in g.db.query(Comment).filter(Comment.id.in_(replaced)).all():
+		for c in g.db.query(Comment).filter(Comment.id.in_(replaced)):
 			g.db.delete(c)
 
 		return replace_with

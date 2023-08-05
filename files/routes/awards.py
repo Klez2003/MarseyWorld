@@ -41,7 +41,7 @@ def shop(v):
 
 	for val in AWARDS.values(): val["owned"] = 0
 
-	for useraward in g.db.query(AwardRelationship).filter(AwardRelationship.user_id == v.id, AwardRelationship.post_id == None, AwardRelationship.comment_id == None).all():
+	for useraward in g.db.query(AwardRelationship).filter(AwardRelationship.user_id == v.id, AwardRelationship.post_id == None, AwardRelationship.comment_id == None):
 		if useraward.kind in AWARDS: AWARDS[useraward.kind]["owned"] += 1
 
 	for val in AWARDS.values():
@@ -448,7 +448,7 @@ def award_thing(v, thing_type, id):
 		badge_grant(badge_id=84, user=author)
 	elif kind == "unblockable":
 		badge_grant(badge_id=87, user=author)
-		for block in g.db.query(UserBlock).filter_by(target_id=author.id).all(): g.db.delete(block)
+		for block in g.db.query(UserBlock).filter_by(target_id=author.id): g.db.delete(block)
 	elif kind == "fish":
 		badge_grant(badge_id=90, user=author)
 	elif kind == "progressivestack":

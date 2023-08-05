@@ -1766,7 +1766,7 @@ def admin_nuke_user(v):
 
 	user=get_user(request.values.get("user"))
 
-	for post in g.db.query(Post).filter_by(author_id=user.id).all():
+	for post in g.db.query(Post).filter_by(author_id=user.id):
 		if post.is_banned:
 			continue
 
@@ -1774,7 +1774,7 @@ def admin_nuke_user(v):
 		post.ban_reason = v.username
 		g.db.add(post)
 
-	for comment in g.db.query(Comment).filter_by(author_id=user.id).all():
+	for comment in g.db.query(Comment).filter_by(author_id=user.id):
 		if comment.is_banned:
 			continue
 
@@ -1802,7 +1802,7 @@ def admin_nunuke_user(v):
 
 	user=get_user(request.values.get("user"))
 
-	for post in g.db.query(Post).filter_by(author_id=user.id).all():
+	for post in g.db.query(Post).filter_by(author_id=user.id):
 		if not post.is_banned:
 			continue
 
@@ -1811,7 +1811,7 @@ def admin_nunuke_user(v):
 		post.is_approved = v.id
 		g.db.add(post)
 
-	for comment in g.db.query(Comment).filter_by(author_id=user.id).all():
+	for comment in g.db.query(Comment).filter_by(author_id=user.id):
 		if not comment.is_banned:
 			continue
 

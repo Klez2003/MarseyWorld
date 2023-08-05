@@ -133,7 +133,7 @@ def execute_snappy(post, v):
 
 			group_members = group.member_ids
 
-			for user in g.db.query(User).filter(User.id.in_(group_members)).all():
+			for user in g.db.query(User).filter(User.id.in_(group_members)):
 				user.pay_account('coins', 10)
 				g.db.add(user)
 

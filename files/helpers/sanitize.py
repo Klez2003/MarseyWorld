@@ -514,7 +514,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 	sanitized = audio_sub_regex.sub(r'<audio controls preload="none" src="\1"></audio>', sanitized)
 
 	if count_emojis:
-		for emoji in g.db.query(Emoji).filter(Emoji.submitter_id==None, Emoji.name.in_(emojis_used)).all():
+		for emoji in g.db.query(Emoji).filter(Emoji.submitter_id==None, Emoji.name.in_(emojis_used)):
 			emoji.count += 1
 			g.db.add(emoji)
 
@@ -649,7 +649,7 @@ def filter_emojis_only(title, golden=True, count_emojis=False, graceful=False):
 	title = render_emoji(title, emoji_regex2, golden, emojis_used, is_title=True)
 
 	if count_emojis:
-		for emoji in g.db.query(Emoji).filter(Emoji.submitter_id==None, Emoji.name.in_(emojis_used)).all():
+		for emoji in g.db.query(Emoji).filter(Emoji.submitter_id==None, Emoji.name.in_(emojis_used)):
 			emoji.count += 1
 			g.db.add(emoji)
 

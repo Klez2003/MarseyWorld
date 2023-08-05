@@ -114,7 +114,7 @@ def delete_oauth_app(v, aid):
 
 	if app.author_id != v.id: abort(403)
 
-	for auth in g.db.query(ClientAuth).filter_by(oauth_client=app.id).all():
+	for auth in g.db.query(ClientAuth).filter_by(oauth_client=app.id):
 		g.db.delete(auth)
 
 	g.db.delete(app)
@@ -198,7 +198,7 @@ def admin_app_revoke(v, aid):
 
 	app = g.db.get(OauthApp, aid)
 	if app:
-		for auth in g.db.query(ClientAuth).filter_by(oauth_client=app.id).all(): g.db.delete(auth)
+		for auth in g.db.query(ClientAuth).filter_by(oauth_client=app.id): g.db.delete(auth)
 
 		if v.id != app.author.id:
 			send_repeatable_notification(app.author.id, f"@{v.username} (a site admin) has revoked your application `{app.app_name}`.")
@@ -227,7 +227,7 @@ def admin_app_reject(v, aid):
 	app = g.db.get(OauthApp, aid)
 
 	if app:
-		for auth in g.db.query(ClientAuth).filter_by(oauth_client=app.id).all(): g.db.delete(auth)
+		for auth in g.db.query(ClientAuth).filter_by(oauth_client=app.id): g.db.delete(auth)
 
 		if v.id != app.author.id:
 			send_repeatable_notification(app.author.id, f"@{v.username} (a site admin) has rejected your application `{app.app_name}`.")

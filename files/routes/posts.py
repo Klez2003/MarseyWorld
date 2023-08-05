@@ -469,7 +469,7 @@ def submit_post(v, sub=None):
 		url = normalize_url(url)
 
 		if v.admin_level < PERMS["IGNORE_DOMAIN_BAN"]:
-			for x in g.db.query(BannedDomain).all():
+			for x in g.db.query(BannedDomain):
 				if url.startswith(x.domain):
 					abort(400, f'Remove the banned link "{x.domain}" and try again!\nReason for link ban: "{x.reason}"')
 
