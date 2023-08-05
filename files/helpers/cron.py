@@ -42,10 +42,6 @@ def cron_fn(every_5m, every_1d):
 				_unpin_expired()
 
 			if every_1d:
-				stats.generate_charts_task(SITE)
-
-				cache.set('stats', stats.stats(), timeout=CRON_CACHE_TIMEOUT)
-
 				_generate_emojis_zip()
 
 				if FEATURES['ASSET_SUBMISSIONS']:
@@ -54,6 +50,10 @@ def cron_fn(every_5m, every_1d):
 				_leaderboard_task()
 
 				_sub_inactive_purge_task()
+
+				stats.generate_charts_task(SITE)
+
+				cache.set('stats', stats.stats(), timeout=CRON_CACHE_TIMEOUT)
 			g.db.commit()
 		except:
 			print(traceback.format_exc(), flush=True)
