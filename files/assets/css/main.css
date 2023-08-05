@@ -5762,7 +5762,7 @@ img[party]:not([data-src]) {
 }
 
 img[src$="/i/hand.webp"]+img[party]:not([data-src]) {
-	animation: party 1s infinite alternate linear,
+	animation: party 2s infinite alternate linear,
 	pat-pfp-anim .3s infinite;
 }
 
