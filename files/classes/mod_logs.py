@@ -40,10 +40,13 @@ class ModAction(Base):
 
 	@property
 	def note(self):
-		if self.kind=="ban_user":
-			if self.target_post: return f'for <a href="{self.target_post.permalink}">post</a>'
-			if self.target_comment: return f'for <a href="{self.target_comment.permalink}">comment</a>'
-			else: return self._note
+		if self.kind == "ban_user":
+			if self.target_post_id:
+				return f'for <a href="{self.target_post.permalink}">post</a>'
+			elif self.target_comment_id:
+				return f'for <a href="{self.target_comment.permalink}">comment</a>'
+			else:
+				return self._note
 		else:
 			return self._note or ""
 
@@ -57,10 +60,12 @@ class ModAction(Base):
 	@property
 	@lazy
 	def target_link(self):
-		if self.target_user: return f'<a href="{self.target_user.url}">@{self.target_user.username}</a>'
-		elif self.target_post:
+		if self.target_user_id:
+			return f'<a href="{self.target_user.url}">@{self.target_user.username}</a>'
+		elif self.target_post_id:
 			return censor_slurs(f'<a href="{self.target_post.permalink}">{self.target_post.title_html}</a>', None)
-		elif self.target_comment_id: return f'<a href="/comment/{self.target_comment_id}#context">comment</a>'
+		elif self.target_comment_id:
+			return f'<a href="{self.target_comment.permalink}">comment</a>'
 
 	@property
 	@lazy
