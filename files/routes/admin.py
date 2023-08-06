@@ -80,8 +80,8 @@ def edit_rules_get(v):
 @app.post('/admin/edit_rules')
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit("30/minute;200/hour;1000/day", deduct_when=lambda response: response.status_code < 400)
-@limiter.limit("30/minute;200/hour;1000/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @admin_level_required(PERMS['EDIT_RULES'])
 def edit_rules_post(v):
 	rules = request.values.get('rules', '').strip()
