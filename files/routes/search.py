@@ -100,7 +100,7 @@ def searchposts(v):
 			words = [or_(Post.title.regexp_match(regex_str), Post.body.regexp_match(regex_str))]
 		posts = posts.filter(*words)
 	elif 'q' in criteria:
-		if('title' in criteria):
+		if 'title' in criteria:
 			words = [or_(Post.title.ilike('%'+x+'%')) \
 					for x in criteria['q']]
 		else:

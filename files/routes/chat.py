@@ -170,7 +170,7 @@ def connect(v):
 	if any(v.id in session for session in sessions) and [v.username, v.id, v.name_color] not in online:
 		# user has previous running sessions with a different username or name_color
 		for chat_user in online:
-			if(v.id == chat_user[1]):
+			if v.id == chat_user[1]:
 				online.remove(chat_user)
 
 	sessions.append([v.id, request.sid])
@@ -192,7 +192,7 @@ def disconnect(v):
 			return '', 204
 
 	for chat_user in online:
-		if(v.id == chat_user[1]):
+		if v.id == chat_user[1]:
 			online.remove(chat_user)
 			if chat_user[0] in typing:
 				typing.remove(chat_user[0])
