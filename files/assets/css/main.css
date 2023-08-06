@@ -7411,7 +7411,7 @@ button, .btn {
 .form-inline.search .form-control, [readonly] {
 	background-color: var(--gray-800);
 	font-size: 1rem;
-	color: var(--white) !important;
+	color: var(--black) !important;
 }
 
 :not(td) > a[href="/h/countryclub"] {
