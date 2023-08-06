@@ -247,11 +247,13 @@
 					{{common.text_area_section('profile-signature', '/settings/personal', 'sig', 'Signature', v.sig, 'Limit of 200 characters', 'Enter a signature...', true, false, 200)}}
 
 					{{common.toggle_section('Private Mode', 'privateswitch', 'private', v.is_private, 'This will hide your profile page from others.', false)}}
-					{{common.toggle_section('Lifetime donated visiblity', 'lifetimedonated_visible', 'lifetimedonated_visible', v.lifetimedonated_visible, 'Make the "lifetime donated" field in your profile visible to everyone instead of just you.', false)}}
+					{{common.toggle_section('Lifetime donated visiblity', 'lifetimedonated_visibleswitch', 'lifetimedonated_visible', v.lifetimedonated_visible, 'Make the "lifetime donated" field in your profile visible to everyone instead of just you.', false)}}
 
-					{{common.toggle_section('Cursor Marsey', 'cursormarsey', 'cursormarsey', v.cursormarsey, 'Have a cute marsey accompany you during your journey on the site.', false)}}
+					{{common.toggle_section('Cursor Marsey', 'cursormarseyswitch', 'cursormarsey', v.cursormarsey, 'Have a cute
+					marsey accompany you during your journey on the site.', false)}}
 					{{common.toggle_section('Spider', 'spiderswitch', 'spider', v.spider, 'Have a spider friend accompany you during your journey on the site.', v.spider > 1)}}
-					{{common.toggle_section('Marsify', 'marsify', 'marsify', v.marsify, 'Automatically insert relevant marseys into your future comments.', v.marsify > 1)}}
+					{{common.toggle_section('Marsify', 'marsifyswitch', 'marsify', v.marsify, 'Automatically insert relevant
+					marseys into your future comments.', v.marsify > 1)}}
 				</div>
 			</section>
 
@@ -268,22 +270,25 @@
 				<h5>Filters</h5>
 				<div class="settings-section rounded" id="site-settings-filters">
 					{% set ns = namespace(slurtext='Enable if you would like to automatically replace slurs.', profanitytext='Enable if you would like to automatically replace profanities.') %}
-					{% if FEATURES['USERS_PERMANENT_WORD_FILTERS'] and v.slurreplacer %}
-						{% if v.slurreplacer == 1 %}
-							{% set ns.slurtext = 'Enable if you would like to automatically replace slurs. <a id="slurreplacer-perma-link" href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#modal-slurreplacer">Make filter permanent for a badge!</a>' %}
+					{% if FEATURES['USERS_PERMANENT_WORD_FILTERS'] %}
+						{% if v.slurreplacer == 0 %}
+							{% set ns.slurtext = 'Enable if you would like to automatically replace slurs. <a hidden id="slurreplacer-perma-link" href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#modal-slurreplacer">Make filter permanent for a badge!</a>' %}
+            {% elif v.slurreplacer == 1 %}
+              {% set ns.slurtext = 'Enable if you would like to automatically replace slurs. <a id="slurreplacer-perma-link" href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#modal-slurreplacer">Make filter permanent for a badge!</a>' %}
 						{% else %}
 							{% set ns.slurtext = "You've enabled the slur replacer permanently! ✊🏿" %}
 						{% endif %}
-					{% endif %}
-					{% if FEATURES['USERS_PERMANENT_WORD_FILTERS'] and v.profanityreplacer %}
-						{% if v.profanityreplacer == 1 %}
-							{% set ns.profanitytext = 'Enable if you would like to automatically replace profanities. <a id="profanityreplacer-perma-link" href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#modal-profanityreplacer">Make filter permanent for a badge!</a>' %}
+
+            {% if v.profanityreplacer == 0 %}
+              {% set ns.profanitytext = 'Enable if you would like to automatically replace profanities. <a hidden id="profanityreplacer-perma-link" href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#modal-profanityreplacer">Make filter permanent for a badge!</a>' %}
+						{% elif v.profanityreplacer == 1 %}
+              {% set ns.profanitytext = 'Enable if you would like to automatically replace profanities. <a id="profanityreplacer-perma-link" href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#modal-profanityreplacer">Make filter permanent for a badge!</a>' %}
 						{% else %}
 							{% set ns.profanitytext = "You've enabled the profanity replacer permanently! 😇" %}
 						{% endif %}
 					{% endif %}
-					{{common.toggle_section("Slur Replacer", "slurreplacer", 'slurreplacer', v.slurreplacer, ns.slurtext, FEATURES['USERS_PERMANENT_WORD_FILTERS'] and v.slurreplacer > 1)}}
-					{{common.toggle_section("Profanity Replacer", "profanityreplacer", 'profanityreplacer', v.profanityreplacer, ns.profanitytext, FEATURES['USERS_PERMANENT_WORD_FILTERS'] and v.profanityreplacer > 1)}}
+					{{common.toggle_section("Slur Replacer", "slurreplacerswitch", 'slurreplacer', v.slurreplacer, ns.slurtext, FEATURES['USERS_PERMANENT_WORD_FILTERS'] and v.slurreplacer > 1)}}
+					{{common.toggle_section("Profanity Replacer", "profanityreplacerswitch", 'profanityreplacer', v .profanityreplacer, ns.profanitytext, FEATURES['USERS_PERMANENT_WORD_FILTERS'] and v.profanityreplacer > 1)}}
 				</div>
 			</section>
 			<section id="site-settings-referral-section" class="settings-section-section">
@@ -352,10 +357,6 @@
 </div>
 {%- endif %}
 {% endmacro %}
-{% if v.slurreplacer == 1 -%}
 {{permanent_filter_modal('slurreplacer', '/settings/personal', 'slurreplacer', 'Slur Replacer', 'Social Justice Berserker')}}
-{%- endif %}
-{% if v.profanityreplacer == 1 -%}
 {{permanent_filter_modal('profanityreplacer', '/settings/personal', 'profanityreplacer', 'Profanity Replacer', 'Soapy-Mouthed Angel')}}
-{%- endif %}
 {% endblock %}
