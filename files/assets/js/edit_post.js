@@ -15,3 +15,7 @@ function togglePostEdit(id){
 
 	close_inline_speed_emoji_modal();
 };
+
+document.getElementById('post-edit-title').addEventListener('keydown', (e) => {
+	if(e.key === "Enter") e.preventDefault();
+})

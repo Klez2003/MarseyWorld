@@ -155,6 +155,10 @@ document.addEventListener('keydown', (e) => {
 	submitButton.click();
 });
 
+document.getElementById('post-title').addEventListener('keydown', (e) => {
+	if(e.key === "Enter") e.preventDefault();
+})
+
 checkRepost();
 
 function submit(form) {
