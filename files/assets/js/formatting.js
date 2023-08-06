@@ -6,7 +6,7 @@ function addFormattingCopyButtons() {
 
 	for (let table = 0; table < allTablesGenerateCopyButtons.length; table++) {
 
-		if(allTablesGenerateCopyButtons[table].tagName != 'TABLE') {
+		if (allTablesGenerateCopyButtons[table].tagName != 'TABLE') {
 			continue;
 		}
 

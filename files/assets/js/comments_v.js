@@ -2,10 +2,10 @@ const reason_comment = document.getElementById("reason_comment")
 const reportCommentButton = document.getElementById("reportCommentButton");
 
 reason_comment.addEventListener('keydown', (e) => {
-	if(!((e.ctrlKey || e.metaKey) && e.key === "Enter")) return;
+	if (!((e.ctrlKey || e.metaKey) && e.key === "Enter")) return;
 
 	const targetDOM = document.activeElement;
-	if(!(targetDOM instanceof HTMLInputElement)) return;
+	if (!(targetDOM instanceof HTMLInputElement)) return;
 
 	reportCommentButton.click()
 	bootstrap.Modal.getOrCreateInstance(document.getElementById('reportCommentModal')).hide()

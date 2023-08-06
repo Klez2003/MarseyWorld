@@ -3,7 +3,7 @@ function pinPost(t, id) {
 		{
 		},
 		(xhr) => {
-			if(xhr.status == 201) {
+			if (xhr.status == 201) {
 				t.innerHTML = t.innerHTML.replace(t.textContent, 'Pin for 1 hour');
 				t.classList.add('d-none');
 			} else {

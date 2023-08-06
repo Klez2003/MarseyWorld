@@ -2,10 +2,10 @@ const reason_post = document.getElementById("reason_post")
 const reportPostButton = document.getElementById("reportPostButton");
 
 reason_post.addEventListener('keydown', (e) => {
-	if(!((e.ctrlKey || e.metaKey) && e.key === "Enter")) return;
+	if (!((e.ctrlKey || e.metaKey) && e.key === "Enter")) return;
 
 	const targetDOM = document.activeElement;
-	if(!(targetDOM instanceof HTMLInputElement)) return;
+	if (!(targetDOM instanceof HTMLInputElement)) return;
 
 	reportPostButton.click()
 	bootstrap.Modal.getOrCreateInstance(document.getElementById('reportPostModal')).hide()

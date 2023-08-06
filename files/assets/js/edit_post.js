@@ -17,5 +17,5 @@ function togglePostEdit(id){
 };
 
 document.getElementById('post-edit-title').addEventListener('keydown', (e) => {
-	if(e.key === "Enter") e.preventDefault();
+	if (e.key === "Enter") e.preventDefault();
 })

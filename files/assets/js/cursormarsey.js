@@ -193,7 +193,7 @@ window.marseykoInterval = setInterval(frame, 100);
 document.addEventListener('click', (event) => {
 	cursormarseyEl.style.removeProperty("pointer-events");
 	let elementClicked = document.elementFromPoint(event.clientX,event.clientY);
-	if(elementClicked.id === cursormarseyEl.id) {
+	if (elementClicked.id === cursormarseyEl.id) {
 		heartEl.classList.remove("d-none");
 		setTimeout(() => {
 			heartEl.classList.add("d-none");

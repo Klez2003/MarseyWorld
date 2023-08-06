@@ -54,7 +54,7 @@ let emojiSearcher = {
 	addQuery: function(query)
 	{
 		this.queries.push(query);
-		if(!this.working)
+		if (!this.working)
 			this.work();
 	},
 
@@ -70,7 +70,7 @@ let emojiSearcher = {
 			this.queries = [];
 
 			// To improve perf we avoid showing all emojis at the same time.
-			if(query === "")
+			if (query === "")
 			{
 				await classesSelectorDOM.children[0].children[0].click();
 				classesSelectorDOM.children[0].children[0].classList.add("active");
@@ -87,7 +87,7 @@ let emojiSearcher = {
 			emojiNotFoundDOM.hidden = resultSet.size !== 0;
 
 			let sleepTime = EMOIJ_SEARCH_ENGINE_MIN_INTERVAL - (Date.now() - startTime);
-			if(sleepTime > 0)
+			if (sleepTime > 0)
 				await new Promise(r => setTimeout(r, sleepTime));
 		}
 
@@ -107,7 +107,7 @@ const emojisSearchDictionary = {
 	dict: [],
 
 	updateTag: function(tag, emojiName) {
-		if(tag === undefined || emojiName === undefined)
+		if (tag === undefined || emojiName === undefined)
 			return;
 
 		let low = 0;
@@ -122,7 +122,7 @@ const emojisSearchDictionary = {
 		}
 
 		let target = low;
-		if(this.dict[target] !== undefined && this.dict[target].tag === tag)
+		if (this.dict[target] !== undefined && this.dict[target].tag === tag)
 			this.dict[target].emojiNames.push(emojiName);
 		else
 			this.dict.splice(target ,0,new EmoijsDictNode(tag, emojiName));
@@ -138,9 +138,9 @@ const emojisSearchDictionary = {
 		const result = new Set();
 
 		for(let i = 0; i < this.dict.length; i++)
-			if(this.dict[i].tag.startsWith('@'))
+			if (this.dict[i].tag.startsWith('@'))
 			{
-				if(this.dict[i].tag == query)
+				if (this.dict[i].tag == query)
 					for(let j = 0; j < this.dict[i].emojiNames.length; j++)
 						result.add(this.dict[i].emojiNames[j])
 			}
@@ -160,7 +160,7 @@ function fetchEmojis() {
 	})
 		.then(res => res.json())
 		.then(emojis => {
-			if(! (emojis instanceof Array ))
+			if (! (emojis instanceof Array ))
 				throw new TypeError("[EMOJI DIALOG] rDrama's server should have sent a JSON-coded Array!");
 
 			globalEmojis = emojis.map(({name, author, count}) => ({name, author, count}));
@@ -175,16 +175,16 @@ function fetchEmojis() {
 
 				emojisSearchDictionary.updateTag(emoji.name, emoji.name);
 
-				if(emoji.author_username !== undefined && emoji.author_username !== null)
+				if (emoji.author_username !== undefined && emoji.author_username !== null)
 					emojisSearchDictionary.updateTag(`@${emoji.author_username.toLowerCase()}`, emoji.name);
 
-				if(emoji.author_original_username !== undefined && emoji.author_original_username !== null)
+				if (emoji.author_original_username !== undefined && emoji.author_original_username !== null)
 					emojisSearchDictionary.updateTag(`@${emoji.author_original_username.toLowerCase()}`, emoji.name);
 
-				if(emoji.author_prelock_username !== undefined && emoji.author_prelock_username !== null)
+				if (emoji.author_prelock_username !== undefined && emoji.author_prelock_username !== null)
 					emojisSearchDictionary.updateTag(`@${emoji.author_prelock_username.toLowerCase()}`, emoji.name);
 
-				if(emoji.tags instanceof Array)
+				if (emoji.tags instanceof Array)
 					for(let i = 0; i < emoji.tags.length; i++)
 						emojisSearchDictionary.updateTag(emoji.tags[i], emoji.name);
 
@@ -192,9 +192,9 @@ function fetchEmojis() {
 				const emojiDOM = document.importNode(emojiButtonTemplateDOM.content, true).children[0];
 
 				emojiDOM.title = emoji.name
-				if(emoji.author_username !== undefined && emoji.author_username !== null)
+				if (emoji.author_username !== undefined && emoji.author_username !== null)
 					emojiDOM.title += "\nauthor\t" + emoji.author_username
-				if(emoji.count !== undefined)
+				if (emoji.count !== undefined)
 					emojiDOM.title += "\nused\t" + emoji.count;
 				emojiDOM.dataset.className = emoji.kind;
 				emojiDOM.dataset.emojiName = emoji.name;
@@ -260,7 +260,7 @@ function switchEmojiTab(e)
 	emojiNotFoundDOM.hidden = true;
 
 	// Special case: favorites
-	if(className === "favorite")
+	if (className === "favorite")
 	{
 		for(const emojiDOM of Object.values(emojiDOMs))
 			emojiDOM.hidden = true;
@@ -270,7 +270,7 @@ function switchEmojiTab(e)
 		)).slice(0, 25);
 
 		for (const emoji of favs)
-			if(emojiDOMs[emoji] instanceof HTMLElement)
+			if (emojiDOMs[emoji] instanceof HTMLElement)
 				emojiDOMs[emoji].hidden = false;
 
 		return;
@@ -299,17 +299,17 @@ async function start_search() {
 function emojiAddToInput(event)
 {
 	// This should not happen if used properly but whatever
-	if(!(emojiInputTargetDOM instanceof HTMLTextAreaElement) && !(emojiInputTargetDOM instanceof HTMLInputElement))
+	if (!(emojiInputTargetDOM instanceof HTMLTextAreaElement) && !(emojiInputTargetDOM instanceof HTMLInputElement))
 		return;
 
 	let strToInsert = event.currentTarget.dataset.emojiName;
 
 	for(let i = 0; i < emojiSelectPostfixDOMs.length; i++)
-		if(emojiSelectPostfixDOMs[i].checked)
+		if (emojiSelectPostfixDOMs[i].checked)
 			strToInsert = strToInsert + emojiSelectPostfixDOMs[i].value;
 
 	for(let i = 0; i < emojiSelectSuffixDOMs.length; i++)
-		if(emojiSelectSuffixDOMs[i].checked)
+		if (emojiSelectSuffixDOMs[i].checked)
 			strToInsert = emojiSelectSuffixDOMs[i].value + strToInsert;
 
 	strToInsert = ":" + strToInsert + ":"
@@ -405,10 +405,10 @@ function populate_speed_emoji_modal(results, textbox)
 
 		emoji_option_text.title = name;
 
-		if(emoji.author_username !== undefined && emoji.author_username !== null)
+		if (emoji.author_username !== undefined && emoji.author_username !== null)
 			emoji_option_text.title += "\nauthor\t" + emoji.author_username
 
-		if(emoji.count !== undefined)
+		if (emoji.count !== undefined)
 			emoji_option_text.title += "\nused\t" + emoji.count;
 
 		emoji_option_text.innerText = name;

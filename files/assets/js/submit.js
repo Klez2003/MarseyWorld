@@ -149,14 +149,14 @@ function checkRepost() {
 }
 
 document.addEventListener('keydown', (e) => {
-	if(!((e.ctrlKey || e.metaKey) && e.key === "Enter"))
+	if (!((e.ctrlKey || e.metaKey) && e.key === "Enter"))
 		return;
 
 	submitButton.click();
 });
 
 document.getElementById('post-title').addEventListener('keydown', (e) => {
-	if(e.key === "Enter") e.preventDefault();
+	if (e.key === "Enter") e.preventDefault();
 })
 
 checkRepost();

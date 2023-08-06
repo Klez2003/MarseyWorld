@@ -44,7 +44,7 @@ function postToast(t, url, data, extraActionsOnSuccess, method="POST") {
 	}
 
 	let form = new FormData();
-	if(typeof data === 'object' && data !== null) {
+	if (typeof data === 'object' && data !== null) {
 		for(let k of Object.keys(data)) {
 			form.append(k, data[k]);
 		}
@@ -111,10 +111,10 @@ function postToastSwitch(t, url, button1, button2, cls, extraActionsOnSuccess, m
 if (!location.pathname.endsWith('/submit'))
 {
 	document.addEventListener('keydown', (e) => {
-		if(!((e.ctrlKey || e.metaKey) && e.key === "Enter")) return;
+		if (!((e.ctrlKey || e.metaKey) && e.key === "Enter")) return;
 
 		const targetDOM = document.activeElement;
-		if(!(targetDOM instanceof HTMLTextAreaElement || targetDOM instanceof HTMLInputElement)) return;
+		if (!(targetDOM instanceof HTMLTextAreaElement || targetDOM instanceof HTMLInputElement)) return;
 
 		const formDOM = targetDOM.parentElement;
 
@@ -124,7 +124,7 @@ if (!location.pathname.endsWith('/submit'))
 		}
 
 		const submitButtonDOMs = formDOM.querySelectorAll('input[type=submit], .btn-primary');
-		if(submitButtonDOMs.length === 0)
+		if (submitButtonDOMs.length === 0)
 			throw new TypeError("I am unable to find the submit button :(. Contact the head custodian immediately.")
 
 		const btn = submitButtonDOMs[0]
@@ -181,7 +181,7 @@ const expandImageModal = document.getElementById('expandImageModal')
 
 function expandImage(url) {
 	const e = this.event
-	if(e.ctrlKey || e.metaKey || e.shiftKey || e.altKey)
+	if (e.ctrlKey || e.metaKey || e.shiftKey || e.altKey)
 		return;
 	e.preventDefault();
 

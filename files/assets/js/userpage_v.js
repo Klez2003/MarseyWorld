@@ -1,6 +1,6 @@
 function toggleElement(id, id2) {
 	for(let el of document.getElementsByClassName('toggleable')) {
-		if(el.id != id) {
+		if (el.id != id) {
 			el.classList.add('d-none');
 		}
 	}
@@ -14,13 +14,13 @@ let TRANSFER_TAX = document.getElementById('tax').innerHTML
 function updateTax(mobile=false) {
 	let suf = mobile ? "-mobile" : "";
 	let amount = parseInt(document.getElementById("coin-transfer-amount" + suf).value);
-	if(amount > 0) document.getElementById("coins-transfer-taxed" + suf).innerText = amount - Math.ceil(amount*TRANSFER_TAX);
+	if (amount > 0) document.getElementById("coins-transfer-taxed" + suf).innerText = amount - Math.ceil(amount*TRANSFER_TAX);
 }
 
 function updateBux(mobile=false) {
 	let suf = mobile ? "-mobile" : "";
 	let amount = parseInt(document.getElementById("bux-transfer-amount" + suf).value);
-	if(amount > 0) document.getElementById("bux-transfer-taxed" + suf).innerText = amount;
+	if (amount > 0) document.getElementById("bux-transfer-taxed" + suf).innerText = amount;
 }
 
 function transferCoins(t, mobile=false) {

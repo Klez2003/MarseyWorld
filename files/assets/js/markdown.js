@@ -10,7 +10,7 @@ marked.use({
 			tokenizer: function(src) {
 				const rule = /^@[a-zA-Z0-9_\-]+/;
 				const match = rule.exec(src);
-				if(match){
+				if (match){
 					return {
 						type: 'mention',
 						raw: match[0],
@@ -34,7 +34,7 @@ marked.use({
 			tokenizer: function(src) {
 				const rule = /^![a-zA-Z0-9_\-]+/;
 				const match = rule.exec(src);
-				if(match){
+				if (match){
 					return {
 						type: 'group_mention',
 						raw: match[0],
@@ -101,7 +101,7 @@ function markdown(t) {
 	input = input.replace(/((\s|^)[0-9]+)\. /g, '$1\\. ')
 
 	const emojis = Array.from(input.matchAll(/:([a-z0-9_\-!#@]{1,36}):(?![^`]*`)/gi))
-	if(emojis != null){
+	if (emojis != null){
 		for(i = 0; i < emojis.length; i++){
 			const old = emojis[i][0];
 			if (old.includes('marseyrandom')) continue;
@@ -111,35 +111,35 @@ function markdown(t) {
 			const modifiers = new Set();
 			
 			let length = emoji.length
-			if(emoji.includes('!!')) modifiers.add(MODIFIERS.REVERSED_MODIFIER);
+			if (emoji.includes('!!')) modifiers.add(MODIFIERS.REVERSED_MODIFIER);
 			emoji = emoji.replaceAll('!', '');
-			if(length !== emoji.length) {
+			if (length !== emoji.length) {
 				modifiers.add(MODIFIERS.REVERSED);
 				length = emoji.length;
 			}
 			emoji = emoji.replaceAll('#', '');
-			if(length !== emoji.length) {
+			if (length !== emoji.length) {
 				modifiers.add(MODIFIERS.LARGE);
 			}
 			const isTalkingFirst = !(emoji.endsWith('pat') && emoji.slice(0, -3).endsWith('talking'));
-			if(emoji.endsWith('talking') || (emoji.endsWith('pat') && emoji.slice(0, -3).endsWith('talking'))) {
+			if (emoji.endsWith('talking') || (emoji.endsWith('pat') && emoji.slice(0, -3).endsWith('talking'))) {
 				modifiers.add(MODIFIERS.TALKING);
 				emoji = emoji.endsWith('pat') ? [emoji.slice(0, -10), emoji.slice(-3)].join('') : emoji.slice(0, -7);
 			}
-			if(emoji.endsWith('pat')) {
+			if (emoji.endsWith('pat')) {
 				modifiers.add(MODIFIERS.PAT);
 				emoji = emoji.slice(0, -3);
 			}
 			
-			if(emoji.startsWith('@')) {
+			if (emoji.startsWith('@')) {
 				emoji = emoji.slice(1);
 				modifiers.add(MODIFIERS.USER);
 			}
 			
 			
-			if(emoji === 'marseyunpettable') {
+			if (emoji === 'marseyunpettable') {
 				modifiers.delete(MODIFIERS.PAT);
-				if(!isTalkingFirst) {
+				if (!isTalkingFirst) {
 					modifiers.delete(MODIFIERS.TALKING);
 				}
 			}
@@ -164,7 +164,7 @@ function markdown(t) {
 	}
 
 	let options = Array.from(input.matchAll(/\$\$([^\$\n]+)\$\$(?![^`]*`)/gi))
-	if(options != null){
+	if (options != null){
 		for(i = 0; i < options.length; i++){
 			const option = options[i][0];
 			const option2 = option.replace(/\$\$/g, '').replace(/\n/g, '')
@@ -173,7 +173,7 @@ function markdown(t) {
 	}
 
 	options = Array.from(input.matchAll(/&&([^&\n]+)&&(?![^`]*`)/gi))
-	if(options != null){
+	if (options != null){
 		for(i = 0; i < options.length; i++){
 			const option = options[i][0];
 			const option2 = option.replace(/&&/g, '').replace(/\n/g, '')
