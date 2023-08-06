@@ -501,15 +501,6 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 
 	sanitized = sanitized.replace('&amp;','&')
 
-	captured = []
-	for i in youtube_regex.finditer(sanitized):
-		if i.group(0) in captured: continue
-		captured.append(i.group(0))
-
-		html = handle_youtube_links(i.group(3))
-		if html:
-			sanitized = sanitized.replace(i.group(0), i.group(1) + html)
-
 	sanitized = video_sub_regex.sub(r'<p class="resizable"><video controls preload="none" src="\1"></video></p>', sanitized)
 	sanitized = audio_sub_regex.sub(r'<audio controls preload="none" src="\1"></audio>', sanitized)
 
@@ -601,8 +592,16 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 			link["target"] = "_blank"
 			link["rel"] = "nofollow noopener"
 
-
 	sanitized = str(soup).replace('<html><body>','').replace('</body></html>','').replace('/>','>')
+
+	captured = []
+	for i in youtube_regex.finditer(sanitized):
+		if i.group(0) in captured: continue
+		captured.append(i.group(0))
+
+		html = handle_youtube_links(i.group(1))
+		if html:
+			sanitized = sanitized.replace(i.group(0), html)
 
 	if '<pre>' not in sanitized and blackjack != "rules":
 		sanitized = sanitized.replace('\n','')
