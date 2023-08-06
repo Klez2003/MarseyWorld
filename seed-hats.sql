@@ -1080,11 +1080,21 @@ INSERT INTO public.hat_defs VALUES (1270, 'Dark Aura', 'Let your inner troll OUT
 INSERT INTO public.hat_defs VALUES (1269, 'Rainbowfriends Hat', 'This user is special needs. No ands ifs or buts about it.', 2, 500, NULL, 1687832169);
 
 
+
+
+
+
+
+
+
+
+
+
 --
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1300, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1310, true);
 
 
 --
