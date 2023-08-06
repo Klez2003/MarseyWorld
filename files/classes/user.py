@@ -1335,12 +1335,13 @@ badge_ordering_tuple = (
 		257, 258, 259, 260, 261, #lifetime donation
 		134, 237, #1 year and 2 year
 		10, 11, 12, #referred users
-		17, 16, 143, #marsey making
 		69, 70, 71, 72, 73, #coins spent
 		76, 77, 78, #lootboxes bought
+		17, 16, 143, #marsey making
 		110, 111, #zwolf making
 		112, 113, #platy making
 		114, 115, #capy making
+		287, 288, #carp making
 		152, 153, 154, #hats bought
 		160, 161, 162, #casino win
 		157, 158, 159, #casino loss
