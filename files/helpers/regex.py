@@ -220,8 +220,6 @@ def command_regex_matcher(match, upper=False):
 reason_regex_post = re.compile('(/post/[0-9]+)', flags=re.A)
 reason_regex_comment = re.compile('(/comment/[0-9]+)', flags=re.A)
 
-discord_username_regex = re.compile("(\s|^|>).{2,32}#[0-9]{4}(?=[^0-9]|$)", flags=re.A)
-
 numbered_list_regex = re.compile('((\s|^)[0-9]+)\. ', flags=re.A)
 
 image_link_regex = re.compile(f"https://(i\.)?{SITE}\/(chat_)?images\/[0-9]{{11,17}}r?\.webp", flags=re.A)
