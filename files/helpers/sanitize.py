@@ -668,7 +668,7 @@ def filter_emojis_only(title, golden=True, count_emojis=False, graceful=False):
 def is_whitelisted(domain, k):
 	if 'sort' in k.lower() or 'query' in k.lower():
 		return True
-	if k in {'id','v','context','q','page','time_continue','title','scrollToComments','u','url','story_fbid','fbid','forum_id','vid','oldid','postid','post_id','threadid','thread_id','ticket_form_id','_x_tr_sl','_x_tr_tl','_x_tr_hl','_x_tr_pto'}:
+	if k in {'id','v','context','q','page','time_continue','title','scrollToComments','u','url','story_fbid','fbid','forum_id','vid','oldid','postid','post_id','threadid','thread_id','ticket_form_id','_x_tr_sl','_x_tr_tl','_x_tr_hl','_x_tr_pto','format','comments','list','f','token','p','lb','udca','topic','viewkey','term','type','tab','sp','title_no'}:
 		return True
 	if k == 't' and domain != 'twitter.com':
 		return True
