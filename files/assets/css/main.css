@@ -7651,7 +7651,7 @@ body {
 	margin-top: 0.35rem !important;
 }
 
-* {
+*:not(#post-title) {
     word-break: break-word !important;
 	overflow-wrap: break-word !important;
 }
