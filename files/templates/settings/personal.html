@@ -278,8 +278,7 @@
 						{% else %}
 							{% set ns.slurtext = "You've enabled the slur replacer permanently! ✊🏿" %}
 						{% endif %}
-					{% endif %}
-					{% if FEATURES['USERS_PERMANENT_WORD_FILTERS'] %}
+
             {% if v.profanityreplacer == 0 %}
               {% set ns.profanitytext = 'Enable if you would like to automatically replace profanities. <a hidden id="profanityreplacer-perma-link" href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#modal-profanityreplacer">Make filter permanent for a badge!</a>' %}
 						{% elif v.profanityreplacer == 1 %}
@@ -289,8 +288,7 @@
 						{% endif %}
 					{% endif %}
 					{{common.toggle_section("Slur Replacer", "slurreplacerswitch", 'slurreplacer', v.slurreplacer, ns.slurtext, FEATURES['USERS_PERMANENT_WORD_FILTERS'] and v.slurreplacer > 1)}}
-					{{common.toggle_section("Profanity Replacer", "profanityreplacerswitch", 'profanityreplacer', v
-					.profanityreplacer, ns.profanitytext, FEATURES['USERS_PERMANENT_WORD_FILTERS'] and v.profanityreplacer > 1)}}
+					{{common.toggle_section("Profanity Replacer", "profanityreplacerswitch", 'profanityreplacer', v .profanityreplacer, ns.profanitytext, FEATURES['USERS_PERMANENT_WORD_FILTERS'] and v.profanityreplacer > 1)}}
 				</div>
 			</section>
 			<section id="site-settings-referral-section" class="settings-section-section">
