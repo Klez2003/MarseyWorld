@@ -133,7 +133,7 @@
 				</div>
 			{% endif %}
 
-			{% if not (v and v.patron) %}
+			{% if not (v and v.patron) and not (v and v.admin_level) %}
 				{% if v %}
 					<a href="/donate" type="button" class="mobile-nav-icon d-md-none donate-link" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Donate">
 						<i class="fas fa-dollar-sign align-middle text-gray-500 black"></i>
