@@ -71,6 +71,7 @@ BOOSTED_SITES = {
 	'blackhatworld.com',
 	'nulled.to',
 	'fanclubs.org',
+	'dcurbanmom.com',
 
 	#nested-comments
 	#'all sites with .win TLD',
