@@ -66,12 +66,37 @@ for (const element of undisable_element) {
 
 const setting_switchs = document.getElementsByClassName('setting_switch');
 for (const element of setting_switchs) {
+	console.log(element);
 	if (element.dataset.nonce != nonce) {
 		console.log("Nonce check failed!")
 		continue
 	}
-	element.addEventListener('change', () => {
-		postToastSwitch(element,`/settings/personal?${element.name}=${element.checked}`);
+	element.addEventListener('change', async (event) => {
+		element.disabled = true;
+		element.classList.add("disabled");
+		const form = new FormData();
+		form.append("formkey", formkey());
+		const res = await fetch(`/settings/personal?${element.name}=${element.checked}`, {
+			method: "POST",
+			headers: {
+				xhr: "xhr",
+			},
+			body: form,
+		}).catch(() => ({ok: false}));
+		let message;
+		if (res.ok) {
+			({message} = await res.json());
+		} else {
+			// toggle the input back if the request doesn't go through
+			element.checked = !element.checked;
+		}
+		let oldToast = bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-' + (res.ok ? 'error': 'success'))); // intentionally reversed here: this is the old toast
+		oldToast.hide();
+		showToast(res.ok, message);
+		element.disabled = false;
+		element.classList.remove("disabled");
+
+		// postToastSwitch(element,`/settings/personal?${element.name}=${element.checked}`);
 	});
 }
 
