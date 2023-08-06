@@ -82,6 +82,9 @@ def process_audio(file, v):
 		abort(413, f"Max image/audio size is {MAX_IMAGE_AUDIO_SIZE_MB} MB ({MAX_IMAGE_AUDIO_SIZE_MB_PATRON} MB for {patron.lower()}s)")
 
 	extension = guess_extension(file.content_type)
+	if not extension:
+		os.remove(old)
+		abort(400)
 	new = old + extension
 
 	try:
@@ -138,6 +141,9 @@ def process_video(file, v):
 			abort(413, f"Max video size is {MAX_VIDEO_SIZE_MB} MB ({MAX_VIDEO_SIZE_MB_PATRON} MB for {patron}s)")
 
 	extension = guess_extension(file.content_type)
+	if not extension:
+		os.remove(old)
+		abort(400)
 	new = old + extension
 
 	if extension != '.mp4':
