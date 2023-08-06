@@ -33,7 +33,7 @@
 				{%- endif %}
 
 				{% if FEATURES['USERS_PROFILE_BODYTEXT'] and not hide_bios and u.bio_html and u.can_see_my_shit %}
-					<div class="card-text mt-3">{{u.bio_html | safe}}</div>
+					<div class="card-text user-card-bio mt-3">{{u.bio_html | safe}}</div>
 				{% endif %}
 			</div>
 		</div>

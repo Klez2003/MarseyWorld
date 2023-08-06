@@ -7659,3 +7659,8 @@ body {
 .table *, .playing-card_large {
     word-break: keep-all !important;
 }
+
+.user-card-bio {
+	max-height: 50px;
+    overflow-y: auto;
+}
