@@ -533,6 +533,8 @@ if (file_upload) {
 					fileReader.onload = function () {
 						document.getElementById('image-preview').setAttribute('src', this.result);
 						document.getElementById('image-preview').classList.remove('d-none');
+						document.getElementById('image-preview').classList.add('mr-2');
+						document.getElementById('image-preview').nextElementSibling.classList.add('mt-3');
 					};
 					break;
 				}
