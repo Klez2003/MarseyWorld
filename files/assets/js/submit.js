@@ -15,7 +15,6 @@ for (const key of save_checked) {
 		const element = document.getElementById(key)
 		if (element) element.checked = (value == 'true')
 	}
-
 }
 
 function savetext() {
@@ -197,6 +196,9 @@ function submit(form) {
 					const value = (id == "post-notify")
 					localStorage.setItem(id, value)
 				}
+
+				localStorage.removeItem("attachment_b64")
+				localStorage.removeItem("files_b64")
 			}
 
 			location.href = "/post/" + post_id
@@ -217,3 +219,37 @@ function submit(form) {
 
 	xhr.send(formData);
 }
+
+async function array_to_file(array) {
+	const res = await fetch(array[1]);
+	const blob = await res.blob();
+	return new File([blob], array[0], { type: 'image/png' });
+}
+
+async function restore_attachment() {
+	const array = JSON.parse(localStorage.getItem("attachment_b64"))
+	if (!array) return
+
+	const list = new DataTransfer();
+	const file = await array_to_file(array)
+	list.items.add(file);
+
+	document.getElementById("file-upload").files = list.files
+	process_url_image()
+}
+
+async function restore_files() {
+	oldfiles["post-text"] = []
+	const files_b64_get = JSON.parse(localStorage.getItem("files_b64"))
+	if (!files_b64_get) return
+	const list = new DataTransfer();
+	for (const array of files_b64_get) {
+		const file = await array_to_file(array)
+		list.items.add(file);
+		oldfiles["post-text"].push(file)
+	}
+	document.getElementById("file-upload-submit").files = list.files
+}
+
+restore_attachment()
+restore_files()
