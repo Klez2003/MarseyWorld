@@ -20,7 +20,7 @@
 <div class="settings-section rounded">
 	<div class="d-flex">
 		<div class="title w-lg-25 text-md-center">
-			<img loading="lazy" alt="sub marsey picture" src="{{sub.marsey_url}}" class="profile-pic-75">
+			<img loading="lazy" alt="sub marsey picture" src="{{sub.marsey_url}}" style="max-width:100px">
 		</div>
 		<div class="body w-lg-100 my-auto">
 			<div class="d-flex">
@@ -41,10 +41,10 @@
 <h5 class=" mt-5">Sidebar Picture</h5>
 <div class="settings-section rounded">
 	<div class="d-flex">
-		<div class="title w-lg-25 text-md-center">
-			<img loading="lazy" alt="sub sidebar picture" src="{{sub.sidebar_url}}" class="profile-pic-75">
+		<div class="title text-md-center">
+			<img loading="lazy" alt="sub sidebar picture" src="{{sub.sidebar_url}}" style="max-width:300px">
 		</div>
-		<div class="body w-lg-100 my-auto">
+		<div class="body w-lg-100 my-auto ml-3">
 			<div class="d-flex">
 				<div>
 					<form action="/h/{{sub}}/sidebar_image" method="post" enctype="multipart/form-data">
@@ -67,7 +67,7 @@
 		<div class="title w-lg-75">
 			<img loading="lazy" alt="/h/{{sub.name}} banner" src="{{banner}}" class="banner-pic sub-banner-preview sub-banner-{{sub.name}}">
 		</div>
-		<div class="body w-lg-100 my-auto">
+		<div class="body w-lg-100 my-auto ml-3">
 			<div class="d-flex">
 				<button class="btn btn-danger sub-banner-delete-button" id="sub-banner-delete-{{loop.index}}" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)" data-areyousure="postToastReload(this, '/h/{{sub.name}}/settings/banners/{{loop.index - 1}}', 'DELETE');">Delete</button>
 			</div>
