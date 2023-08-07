@@ -72,6 +72,7 @@ BOOSTED_SITES = {
 	'nulled.to',
 	'fanclubs.org',
 	'dcurbanmom.com',
+	'godlike.com',
 
 	#nested-comments
 	#'all sites with .win TLD',
