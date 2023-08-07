@@ -212,7 +212,7 @@ commands = {
 command_regex = re.compile("(\s|^)#(fortune|factcheck|8ball|roll|coinflip)", flags=re.A|re.I)
 
 def command_regex_matcher(match, upper=False):
-	if match.group(2) == 'coinflip' and random.random() < 0.05:
+	if match.group(2) == 'coinflip' and random.random() < 0.01:
 		result = COINFLIP_EDGE
 	else:
 		result = str(choice(commands[match.group(2).lower()]))
