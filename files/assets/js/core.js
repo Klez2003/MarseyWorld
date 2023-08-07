@@ -530,10 +530,10 @@ if (file_upload) {
 				if (filename.toLowerCase().endsWith(s)) {
 					const fileReader = new FileReader();
 					fileReader.readAsDataURL(file_upload.files[0]);
-					fileReader.addEventListener("load", function () {
+					fileReader.onload = function () {
 						document.getElementById('image-preview').setAttribute('src', this.result);
 						document.getElementById('image-preview').classList.remove('d-none');
-					});
+					};
 					break;
 				}
 			}
