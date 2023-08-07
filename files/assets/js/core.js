@@ -518,9 +518,11 @@ function handle_files(input, newfiles) {
 	if (location.pathname.endsWith('/submit')) {
 		files_b64 = JSON.parse(localStorage.getItem("files_b64")) || [];
 		for (const file of newfiles) {
+			if (!file.type.startsWith('image/'))
+				continue
 			fileReader = new FileReader();
 			fileReader.onload = function () {
-				files_b64.push([this.filename, this.result]);
+				files_b64.push([file.name, file.type, this.result]);
 				localStorage.setItem("files_b64", JSON.stringify(files_b64));
 				savetext()
 			};
@@ -537,23 +539,24 @@ if (file_upload) {
 	function process_url_image() {
 		if (file_upload.files)
 		{
-			const filename = file_upload.files[0].name
-			file_upload.previousElementSibling.textContent = filename.substr(0, 50);
-			for (const s of document.getElementById('IMAGE_FORMATS').value.split(','))
-			{
-				if (filename.toLowerCase().endsWith(s)) {
-					const fileReader = new FileReader();
-					fileReader.readAsDataURL(file_upload.files[0]);
-					fileReader.onload = function () {
-						document.getElementById('image-preview').setAttribute('src', this.result);
-						const str = JSON.stringify([filename, this.result])
-						localStorage.setItem("attachment_b64", str);
-						document.getElementById('image-preview').classList.remove('d-none');
-						document.getElementById('image-preview').classList.add('mr-2');
-						document.getElementById('image-preview').nextElementSibling.classList.add('mt-3');
-					};
-					break;
-				}
+			const file = file_upload.files[0]
+			file_upload.previousElementSibling.textContent = file.name.substr(0, 50);
+			if (file.type.startsWith('image/')) {
+				const fileReader = new FileReader();
+				fileReader.readAsDataURL(file_upload.files[0]);
+				fileReader.onload = function () {
+					document.getElementById('image-preview').setAttribute('src', this.result);
+					const str = JSON.stringify([file.name, file.type, this.result])
+					localStorage.setItem("attachment_b64", str);
+					document.getElementById('image-preview').classList.remove('d-none');
+					document.getElementById('image-preview').classList.add('mr-2');
+					document.getElementById('image-preview').nextElementSibling.classList.add('mt-3');
+				};
+			}
+			else {
+				document.getElementById('image-preview').classList.add('d-none');
+				document.getElementById('image-preview').classList.remove('mr-2');
+				document.getElementById('image-preview').nextElementSibling.classList.remove('mt-3');
 			}
 
 			if (typeof checkForRequired === "function") {

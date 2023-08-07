@@ -221,9 +221,9 @@ function submit(form) {
 }
 
 async function array_to_file(array) {
-	const res = await fetch(array[1]);
+	const res = await fetch(array[2]);
 	const blob = await res.blob();
-	return new File([blob], array[0], { type: 'image/png' });
+	return new File([blob], array[0], {type: array[1]});
 }
 
 async function restore_attachment() {
