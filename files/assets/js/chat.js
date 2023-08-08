@@ -172,7 +172,7 @@ function send() {
 		autoExpand(ta);
 		document.getElementById("quotes").classList.add("d-none")
 		document.getElementById('quotes_id').value = null;
-		oldfiles[ta.id] = [];
+		oldfiles[ta.id] = new DataTransfer();
 		input.value = null;
 		input.previousElementSibling.innerHTML = '<i class="fas fa-image" style="font-size:1.3rem!important"></i>'
 

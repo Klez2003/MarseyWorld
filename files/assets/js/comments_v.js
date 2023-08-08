@@ -169,7 +169,7 @@ function post_reply(id) {
 			const input = ta.parentElement.querySelector('input[type="file"]')
 			input.previousElementSibling.innerHTML = '';
 			input.value = null;
-			oldfiles[ta.id] = []
+			oldfiles[ta.id] = new DataTransfer();
 
 			remove_dialog();
 			restore_reply_buttons(`c_${id}`)
@@ -221,7 +221,7 @@ function comment_edit(id){
 			const input = ta.parentElement.querySelector('input[type="file"]')
 			input.previousElementSibling.innerHTML = '';
 			input.value = null;
-			oldfiles[ta.id] = []
+			oldfiles[ta.id] = new DataTransfer();
 
 			remove_dialog();
 		}
@@ -294,7 +294,7 @@ function post_comment(fullname, hide){
 			const input = ta.parentElement.querySelector('input[type="file"]')
 			input.previousElementSibling.innerHTML = '';
 			input.value = null;
-			oldfiles[ta.id] = []
+			oldfiles[ta.id] = new DataTransfer();
 
 			const ghost_town_box = document.getElementById('ghost-town-box')
 			if (ghost_town_box) ghost_town_box.remove()

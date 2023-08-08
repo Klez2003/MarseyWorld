@@ -483,33 +483,28 @@ function handle_files(input, newfiles) {
 	const ta = input.parentElement.parentElement.parentElement.parentElement.querySelector('textarea.file-ta');
 
 	if (oldfiles[ta.id]) {
-		let list = new DataTransfer();
-		for (const file of oldfiles[ta.id]) {
-			list.items.add(file);
-		}
 		for (const file of newfiles) {
-			list.items.add(file);
+			oldfiles[ta.id].items.add(file);
 		}
-		input.files = list.files;
+		input.files = oldfiles[ta.id].files;
 	}
 	else {
-		input.files = newfiles;
-		oldfiles[ta.id] = []
+		oldfiles[ta.id] = new DataTransfer();
 	}
 
 	if (input.files.length > 20)
 	{
 		alert("You can't upload more than 20 files at one time!")
 		input.value = null
-		oldfiles[ta.id] = []
+		oldfiles[ta.id] = new DataTransfer();
 		return
 	}
 
-	for (const file of newfiles) {
-		oldfiles[ta.id].push(file)
-		if (location.pathname != '/chat' && location.pathname != '/old_chat')
+	if (location.pathname != '/chat' && location.pathname != '/old_chat') {
+		for (const file of newfiles) {
 			insertText(ta, `[${file.name}]`);
 		}
+	}
 
 	autoExpand(ta)
 
