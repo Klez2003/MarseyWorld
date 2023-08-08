@@ -238,12 +238,12 @@ addEventListener('focus', function(){
 
 ta.addEventListener("input", function() {
 	text = ta.value
-	if (!text && is_typing==true){
-		is_typing=false;
+	if (!text && is_typing){
+		is_typing = false;
 		socket.emit('typing', false);
 	}
-	else if (text && is_typing==false) {
-		is_typing=true;
+	else if (text && !is_typing) {
+		is_typing = true;
 		socket.emit('typing', true);
 	}
 })
