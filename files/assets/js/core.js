@@ -417,15 +417,6 @@ if (gbrowser == 'iphone' || gbrowser == 'mac') {
 	}
 }
 
-function logout(t) {
-	postToast(t, '/logout',
-		{
-		},
-		() => {
-			location.href = '/'
-		});
-}
-
 const screen_width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 function focusSearchBar(element)
 {
