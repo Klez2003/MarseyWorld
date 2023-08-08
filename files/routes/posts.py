@@ -502,7 +502,7 @@ def submit_post(v, sub=None):
 			return {"post_id": dup.id, "success": False}
 
 	if not execute_antispam_post_check(title, v, url):
-		return redirect("/notifications")
+		abort(403, "You have been banned for 1 day for spamming!")
 
 	if len(url) > 2048:
 		abort(400, "There's a 2048 character limit for URLs!")
