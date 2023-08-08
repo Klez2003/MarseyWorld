@@ -146,7 +146,7 @@ def comment(v):
 
 	if posting_to_post:
 		sub = post_target.sub
-		if sub and v.exiled_from(sub): abort(403, f"You're exiled from /h/{sub}")
+		if sub and v.exiler_username(sub): abort(403, f"You're exiled from /h/{sub}")
 		if sub in {'furry','vampire','racist','femboy','edgy'} and not v.client and not v.house.lower().startswith(sub):
 			abort(403, f"You need to be a member of House {sub.capitalize()} to comment in /h/{sub}")
 

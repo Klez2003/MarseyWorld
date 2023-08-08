@@ -130,8 +130,8 @@
 
 				{% if c.parent_post %}
 					{% set sub = c.post.sub %}
-					{% if sub and c.author.exiled_from(sub) %}
-						<a><i class="fas fa-campfire text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="User has been exiled from /h/{{sub}}"></i></a>
+					{% if sub and c.author.exiler_username(sub) %}
+						<a><i class="fas fa-campfire text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="User has been exiled from /h/{{sub}} by @{{c.author.exiler_username(sub)}}"></i></a>
 					{% endif %}
 				{% endif %}
 
@@ -466,8 +466,8 @@
 {% if c.parent_post %}
 	{% set sub = c.post.sub %}
 	{% if sub and v.mods(sub) and not c.author.mods(sub) %}
-		<button type="button" id="exile-{{c.id}}" class="d-none {% if not c.author.exiled_from(sub) %}d-md-block{% endif %} dropdown-item list-inline-item text-danger" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/exile/comment/{{c.id}}','exile-{{c.id}}','unexile-{{c.id}}','d-none')"><i class="fas fa-campfire text-danger fa-fw"></i>Exile user</button>
-		<button type="button" id="unexile-{{c.id}}" class="d-none {% if c.author.exiled_from(sub) %}d-md-block{% endif %} dropdown-item list-inline-item text-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/h/{{sub}}/unexile/{{c.author_id}}','exile-{{c.id}}','unexile-{{c.id}}','d-none')"><i class="fas fa-campfire text-success fa-fw"></i>Unexile user</button>
+		<button type="button" id="exile-{{c.id}}" class="d-none {% if not c.author.exiler_username(sub) %}d-md-block{% endif %} dropdown-item list-inline-item text-danger" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/exile/comment/{{c.id}}','exile-{{c.id}}','unexile-{{c.id}}','d-none')"><i class="fas fa-campfire text-danger fa-fw"></i>Exile user</button>
+		<button type="button" id="unexile-{{c.id}}" class="d-none {% if c.author.exiler_username(sub) %}d-md-block{% endif %} dropdown-item list-inline-item text-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/h/{{sub}}/unexile/{{c.author_id}}','exile-{{c.id}}','unexile-{{c.id}}','d-none')"><i class="fas fa-campfire text-success fa-fw"></i>Unexile user</button>
 	{% endif %}
 {% endif %}
 
@@ -642,8 +642,8 @@
 						{% if c.parent_post %}
 							{% set sub = c.post.sub %}
 							{% if sub and v.mods(sub) and not c.author.mods(sub) %}
-								<button type="button" data-bs-dismiss="modal" id="exile2-{{c.id}}" class="{% if c.author.exiled_from(sub) %}d-none{% endif %} list-group-item text-danger" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/exile/comment/{{c.id}}','exile2-{{c.id}}','unexile2-{{c.id}}','d-none')"><i class="fas fa-campfire text-danger mr-2"></i>Exile user</button>
-								<button type="button" data-bs-dismiss="modal" id="unexile2-{{c.id}}" class="{% if not c.author.exiled_from(sub) %}d-none{% endif %} list-group-item text-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/h/{{sub}}/unexile/{{c.author_id}}','exile2-{{c.id}}','unexile2-{{c.id}}','d-none')"><i class="fas fa-campfire text-success mr-2"></i>Unexile user</button>
+								<button type="button" data-bs-dismiss="modal" id="exile2-{{c.id}}" class="{% if c.author.exiler_username(sub) %}d-none{% endif %} list-group-item text-danger" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/exile/comment/{{c.id}}','exile2-{{c.id}}','unexile2-{{c.id}}','d-none')"><i class="fas fa-campfire text-danger mr-2"></i>Exile user</button>
+								<button type="button" data-bs-dismiss="modal" id="unexile2-{{c.id}}" class="{% if not c.author.exiler_username(sub) %}d-none{% endif %} list-group-item text-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/h/{{sub}}/unexile/{{c.author_id}}','exile2-{{c.id}}','unexile2-{{c.id}}','d-none')"><i class="fas fa-campfire text-success mr-2"></i>Unexile user</button>
 							{% endif %}
 						{% endif %}
 					{% endif %}

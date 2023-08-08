@@ -394,11 +394,12 @@ class User(Base):
 			return bool(g.db.query(Mod.user_id).filter_by(user_id=self.id, sub=sub).one_or_none())
 
 	@lazy
-	def exiled_from(self, sub):
-		try:
-			return any(map(lambda x: x.sub == sub, self.sub_exiles))
-		except:
-			return bool(g.db.query(Exile.user_id).filter_by(user_id=self.id, sub=sub).one_or_none())
+	def exiler_username(self, sub):
+		exile = g.db.query(Exile).options(load_only(Exile.exiler_id)).filter_by(user_id=self.id, sub=sub).one_or_none()
+		if exile:
+			return exile.exiler.username
+		else:
+			return None
 
 	@property
 	@lazy

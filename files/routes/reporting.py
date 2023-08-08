@@ -180,7 +180,7 @@ def move_post(post, v, reason):
 
 	if sub_from == sub_to: abort(409, f"Post is already in {sub_to_in_notif}")
 
-	if post.author.exiled_from(sub_to):
+	if post.author.exiler_username(sub_to):
 		abort(403, f"User is exiled from this {HOLE_NAME}!")
 
 	if sub_to == 'changelog':

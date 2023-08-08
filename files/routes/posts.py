@@ -451,7 +451,7 @@ def submit_post(v, sub=None):
 		sub = g.db.query(Sub.name).filter_by(name=sname).one_or_none()
 		if not sub: abort(400, f"/h/{sname} not found!")
 		sub = sub[0]
-		if v.exiled_from(sub): abort(400, f"You're exiled from /h/{sub}")
+		if v.exiler_username(sub): abort(400, f"You're exiled from /h/{sub}")
 	else: sub = None
 
 	if not sub and HOLE_REQUIRED:

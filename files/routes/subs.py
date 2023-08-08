@@ -25,7 +25,7 @@ def exile_post(v, pid):
 
 	if u.mods(sub): abort(403)
 
-	if not u.exiled_from(sub):
+	if not u.exiler_username(sub):
 		exile = Exile(user_id=u.id, sub=sub, exiler_id=v.id)
 		g.db.add(exile)
 
@@ -60,7 +60,7 @@ def exile_comment(v, cid):
 
 	if u.mods(sub): abort(403)
 
-	if not u.exiled_from(sub):
+	if not u.exiler_username(sub):
 		exile = Exile(user_id=u.id, sub=sub, exiler_id=v.id)
 		g.db.add(exile)
 
@@ -89,7 +89,7 @@ def unexile(v, sub, uid):
 	if not v.mods(sub): abort(403)
 	if v.shadowbanned: return redirect(f'/h/{sub}/exilees')
 
-	if u.exiled_from(sub):
+	if u.exiler_username(sub):
 		exile = g.db.query(Exile).filter_by(user_id=u.id, sub=sub).one_or_none()
 		g.db.delete(exile)
 

@@ -17,8 +17,8 @@
 		{%- endif %}
 	{% endif %}
 
-	{% if p.sub and p.author.exiled_from(p.sub) %}
-		<a><i class="fas fa-campfire text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="User has been exiled from {% if not HOLE_STYLE_FLAIR %}/h/{% endif %}{{p.sub}}"></i></a>
+	{% if p.sub and p.author.exiler_username(p.sub) %}
+		<a><i class="fas fa-campfire text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="User has been exiled from /h/{{p.sub}} by @{{p.author.exiler_username(p.sub)}}"></i></a>
 	{% endif %}
 
 	{% if p.bannedfor %}
