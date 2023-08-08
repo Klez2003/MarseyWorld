@@ -197,8 +197,7 @@ function submit(form) {
 					localStorage.setItem(id, value)
 				}
 
-				localStorage.removeItem("attachment_b64")
-				localStorage.removeItem("files_b64")
+				clear_files()
 			}
 
 			location.href = "/post/" + post_id
@@ -220,36 +219,98 @@ function submit(form) {
 	xhr.send(formData);
 }
 
-async function array_to_file(array) {
-	const res = await fetch(array[2]);
-	const blob = await res.blob();
-	return new File([blob], array[0], {type: array[1]});
+
+
+
+
+
+
+
+//SAVE FILES
+
+const indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB || window.shimIndexedDB;
+
+const open = indexedDB.open("files", 1);
+
+open.onupgradeneeded = () => {
+	const db = open.result;
+	db.createObjectStore("files", {keyPath:"kind"});
+	db.close();
 }
 
-async function restore_attachment() {
-	const array = JSON.parse(localStorage.getItem("attachment_b64"))
-	if (!array) return
+function submit_save_files(kind, files) {
+	const open = indexedDB.open("files", 1);
+	open.onsuccess = () => {
+		const db = open.result;
+		const tx = db.transaction("files", "readwrite");
+		const store = tx.objectStore("files");
 
-	const list = new DataTransfer();
-	const file = await array_to_file(array)
-	list.items.add(file);
+		tx.oncomplete = () => {
+			db.close();
+		};
 
-	document.getElementById("file-upload").files = list.files
-	process_url_image()
-}
-
-async function restore_files() {
-	oldfiles["post-text"] = []
-	const files_b64_get = JSON.parse(localStorage.getItem("files_b64"))
-	if (!files_b64_get) return
-	const list = new DataTransfer();
-	for (const array of files_b64_get) {
-		const file = await array_to_file(array)
-		list.items.add(file);
-		oldfiles["post-text"].push(file)
+		store.put({kind:kind, files:files});
 	}
-	document.getElementById("file-upload-submit").files = list.files
 }
 
-restore_attachment()
-restore_files()
+
+//RESTORE FILES
+
+function submit_restore_files(kind, id) {
+	const open = indexedDB.open("files", 1);
+	open.onsuccess = () => {
+		const db = open.result;
+		const tx = db.transaction("files", "readwrite");
+		const store = tx.objectStore("files");
+
+		tx.oncomplete = () => {
+			db.close();
+		};
+
+		const get_files = store.get(kind);
+
+		get_files.onsuccess = () => {
+			let files = get_files.result
+			if (!files) return
+			files = files.files
+
+			const list = new DataTransfer();
+			for (const file of files) {
+				list.items.add(file);
+			}
+
+			document.getElementById(id).files = list.files
+
+			if (kind == "attachment") {
+				process_url_image()
+			}
+			else {
+				oldfiles["post-text"] = new DataTransfer();
+				for (const file of files) {
+					oldfiles["post-text"].items.add(file);
+				}	
+			}
+		};
+	}
+}
+
+submit_restore_files("attachment", "file-upload")
+submit_restore_files("textarea", "file-upload-submit")
+
+
+//CLEAR FILES
+
+function clear_files() {
+	const open = indexedDB.open("files", 1);
+	open.onsuccess = () => {
+		const db = open.result;
+		const tx = db.transaction("files", "readwrite");
+		const store = tx.objectStore("files");
+
+		tx.oncomplete = () => {
+			db.close();
+		};
+
+		store.clear();
+	}
+}

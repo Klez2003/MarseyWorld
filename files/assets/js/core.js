@@ -508,23 +508,12 @@ function handle_files(input, newfiles) {
 
 	autoExpand(ta)
 
-	if (typeof checkForRequired === "function") checkForRequired();
-
-	if (location.pathname.endsWith('/submit')) {
-		files_b64 = JSON.parse(localStorage.getItem("files_b64")) || [];
-		for (const file of newfiles) {
-			if (!file.type.startsWith('image/'))
-				continue
-			fileReader = new FileReader();
-			fileReader.onload = function () {
-				files_b64.push([file.name, file.type, this.result]);
-				localStorage.setItem("files_b64", JSON.stringify(files_b64));
-				savetext()
-			};
-			fileReader.filename = file.name
-			fileReader.readAsDataURL(file);
-		}
-	}
+	if (typeof checkForRequired === "function") 
+		checkForRequired();
+	if (typeof savetext === "function") 
+		savetext();
+	if (typeof submit_save_files === "function")
+		submit_save_files("textarea", newfiles);
 }
 
 
@@ -541,8 +530,6 @@ if (file_upload) {
 				fileReader.readAsDataURL(file_upload.files[0]);
 				fileReader.onload = function () {
 					document.getElementById('image-preview').setAttribute('src', this.result);
-					const str = JSON.stringify([file.name, file.type, this.result])
-					localStorage.setItem("attachment_b64", str);
 					document.getElementById('image-preview').classList.remove('d-none');
 					document.getElementById('image-preview').classList.add('mr-2');
 					document.getElementById('image-preview').nextElementSibling.classList.add('mt-3');
@@ -560,6 +547,10 @@ if (file_upload) {
 			}
 			else {
 				document.getElementById('submit-btn').disabled = false;
+			}
+
+			if (typeof submit_save_files === "function") {
+				submit_save_files("attachment", [file]);
 			}
 		}
 	}
