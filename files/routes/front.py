@@ -177,7 +177,12 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 @auth_required
 def random_post(v):
 
-	p = g.db.query(Post.id).filter(Post.deleted_utc == 0, Post.is_banned == False, Post.private == False).order_by(func.random()).first()
+	p = g.db.query(Post.id).filter(
+			Post.deleted_utc == 0,
+			Post.is_banned == False,
+			Post.private == False,
+			or_(Post.sub == None, Post.sub.notin_(v.sub_blocks)),
+		).order_by(func.random()).first()
 
 	if p: p = p[0]
 	else: abort(404)
