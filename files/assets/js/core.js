@@ -489,6 +489,7 @@ function handle_files(input, newfiles) {
 		input.files = oldfiles[ta.id].files;
 	}
 	else {
+		input.files = newfiles;
 		oldfiles[ta.id] = new DataTransfer();
 	}
 
