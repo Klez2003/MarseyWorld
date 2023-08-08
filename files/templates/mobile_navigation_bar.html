@@ -50,7 +50,7 @@
 	<button type="button" class="nobackground border-0 col px-0 btn btn-dead m-0 pt-0" style="margin-right:-10px!important">
 		<a href="/chat" class="text-decoration-none">
 			<div class="text-center {% if request|selected_tab=='chat' %}text-primary{% else %}text-muted{% endif %}">
-				<b class="text-lg" style="padding-top:10px" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Users in chat right now">{{g.loggedin_chat}}</b>
+				<b class="text-lg {% if g.loggedin_chat > 40 %}text-danger{% elif g.loggedin_chat > 20 %}text-yellow{% endif %}" style="padding-top:10px" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Users in chat right now">{{g.loggedin_chat}}</b>
 				<div class="text-small-extra">Chat</div>
 			</div>
 		</a>
