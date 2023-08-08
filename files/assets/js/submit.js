@@ -282,7 +282,7 @@ function submit_restore_files(kind, id) {
 			document.getElementById(id).files = list.files
 
 			if (kind == "attachment") {
-				process_url_image()
+				display_url_image()
 			}
 			else {
 				oldfiles["post-text"] = new DataTransfer();

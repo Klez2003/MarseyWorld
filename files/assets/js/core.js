@@ -525,7 +525,7 @@ function handle_files(input, newfiles) {
 file_upload = document.getElementById('file-upload');
 
 if (file_upload) {
-	function process_url_image() {
+	function display_url_image() {
 		if (file_upload.files)
 		{
 			const file = file_upload.files[0]
@@ -553,13 +553,19 @@ if (file_upload) {
 			else {
 				document.getElementById('submit-btn').disabled = false;
 			}
-
-			if (typeof submit_save_files === "function") {
-				submit_save_files("attachment", [file]);
-			}
 		}
 	}
-	file_upload.onchange = process_url_image
+	file_upload.onchange = () => {
+		display_url_image()
+		if (typeof submit_save_files === "function") {
+			const array = []
+			for (const x of file_upload.files) {
+				array.push(x)
+			}
+			submit_save_files("attachment", array);
+		}
+	}
+
 }
 
 document.onpaste = function(event) {
@@ -575,7 +581,14 @@ document.onpaste = function(event) {
 		}
 		else {
 			file_upload.files = files;
-			process_url_image();
+			display_url_image();
+			if (typeof submit_save_files === "function") {
+				const array = []
+				for (const x of file_upload.files) {
+					array.push(x)
+				}
+				submit_save_files("attachment", array);
+			}
 			return;
 		}
 	}
