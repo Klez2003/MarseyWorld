@@ -1396,19 +1396,14 @@ def bid_list(v, bid):
 
 	page = get_page()
 
-	users = g.db.query(User).join(User.badges).filter(Badge.badge_id==bid)
+	users = g.db.query(User, Badge.created_utc).join(User.badges).filter(Badge.badge_id==bid)
 
 	total = users.count()
 
 	users = users.order_by(Badge.created_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
 
-	return render_template("user_cards.html",
-						v=v,
-						users=users,
-						total=total,
-						page=page,
-						user_cards_title="Badge Owners",
-						)
+	return render_template("owners.html", v=v, users=users, page=page, total=total, kind="Badge")
+
 
 KOFI_TOKEN = environ.get("KOFI_TOKEN", "").strip()
 if KOFI_TOKEN:

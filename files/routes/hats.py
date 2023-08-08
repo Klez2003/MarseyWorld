@@ -160,16 +160,10 @@ def hat_owners(v, hat_id):
 
 	page = get_page()
 
-	users = g.db.query(User).join(Hat.owners).filter(Hat.hat_id == hat_id)
+	users = g.db.query(User, Hat.created_utc).join(Hat.owners).filter(Hat.hat_id == hat_id)
 
 	total = users.count()
 
 	users = users.order_by(Hat.created_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
 
-	return render_template("user_cards.html",
-						v=v,
-						users=users,
-						total=total,
-						page=page,
-						user_cards_title="Hat Owners",
-						)
+	return render_template("owners.html", v=v, users=users, page=page, total=total, kind="Hat")
