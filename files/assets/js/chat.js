@@ -235,8 +235,15 @@ addEventListener('focus', function(){
 	focused=true
 })
 
+let timer_id;
+function remove_typing() {
+	is_typing = false;
+	socket.emit('typing', false);
+}
 
 ta.addEventListener("input", function() {
+	clearTimeout(timer_id)
+
 	text = ta.value
 	if (!text && is_typing){
 		is_typing = false;
@@ -245,6 +252,7 @@ ta.addEventListener("input", function() {
 	else if (text && !is_typing) {
 		is_typing = true;
 		socket.emit('typing', true);
+		timer_id = setTimeout(remove_typing, 2000);	
 	}
 })
 
