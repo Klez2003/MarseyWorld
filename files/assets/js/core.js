@@ -512,8 +512,13 @@ function handle_files(input, newfiles) {
 		checkForRequired();
 	if (typeof savetext === "function") 
 		savetext();
-	if (typeof submit_save_files === "function")
-		submit_save_files("textarea", newfiles);
+	if (typeof submit_save_files === "function") {
+		const array = []
+		for (const x of input.files) {
+			array.push(x)
+		}
+		submit_save_files("textarea", array);
+	}
 }
 
 
