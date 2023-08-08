@@ -2,7 +2,7 @@ import time
 
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy.orm import relationship
-from sqlalchemy.types import Integer, String
+from sqlalchemy.types import Integer, String, Boolean
 
 from files.classes import Base
 
@@ -12,6 +12,7 @@ class GroupMembership(Base):
 	group_name = Column(String, ForeignKey("groups.name"), primary_key=True)
 	created_utc = Column(Integer)
 	approved_utc = Column(Integer)
+	is_mod = Column(Boolean, default=False)
 
 	user = relationship("User", uselist=False)
 

@@ -394,6 +394,13 @@ class User(Base):
 			return bool(g.db.query(Mod.user_id).filter_by(user_id=self.id, sub=sub).one_or_none())
 
 	@lazy
+	def mods_group(self, group):
+		if self.is_permabanned or self.shadowbanned: return False
+		if self.id == group.owner.id: return True
+		if self.admin_level >= PERMS['MODS_EVERY_GROUP']: return True
+		return bool(g.db.query(GroupMembership.user_id).filter_by(user_id=self.id, group_name=group.name, is_mod=True).one_or_none())
+
+	@lazy
 	def exiler_username(self, sub):
 		exile = g.db.query(Exile).options(load_only(Exile.exiler_id)).filter_by(user_id=self.id, sub=sub).one_or_none()
 		if exile:

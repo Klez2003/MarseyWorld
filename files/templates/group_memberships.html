@@ -31,7 +31,7 @@
 						<th>Applied on</th>
 					{% endif %}
 
-					{% if v.id == group.owner.id or v.admin_level >= PERMS['MODS_EVERY_GROUP'] %}
+					{% if v.mods_group(group) %}
 						<th class="disable-sort-click"></th>
 					{% endif %}
 				</tr>
@@ -47,6 +47,8 @@
 							{% endwith %}
 							{% if owner %}
 								<img class="mx-2 group-owner" data-bs-toggle="tooltip" alt="Owner" title="Owner" src="{{SITE_FULL_IMAGES}}/e/marseykingretard.webp">
+							{% elif membership.is_mod %}
+								<img class="mx-2 group-mod" data-bs-toggle="tooltip" alt="Mod" title="Mod" src="{{SITE_FULL_IMAGES}}/e/marseyjanny.webp">
 							{% endif %}
 						</td>
 
@@ -56,8 +58,15 @@
 							<td id="time-{{membership.user_id}}" data-time="{{membership.created_utc}}"></td>
 						{% endif %}
 
-						{% if v.id == group.owner.id or v.admin_level >= PERMS['MODS_EVERY_GROUP'] %}
+						{% if v.mods_group(group) %}
 							<td>
+								{% if v.id == group.owner.id and v.id != membership.user_id %}
+									<div id="mod-{{membership.user_id}}" class="mb-2 {% if name == 'applications' %}d-none{% endif %}">
+										<button id="add-mod-{{membership.user_id}}" type="button" class="btn btn-success btn-block {% if membership.is_mod %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/!{{group.name}}/{{membership.user_id}}/add_mod','add-mod-{{membership.user_id}}','remove-mod-{{membership.user_id}}','d-none')">Add as Mod</button>
+										<button id="remove-mod-{{membership.user_id}}" type="button" class="btn btn-danger btn-block {% if not membership.is_mod %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/!{{group.name}}/{{membership.user_id}}/remove_mod','add-mod-{{membership.user_id}}','remove-mod-{{membership.user_id}}','d-none')">Remove as Mod</button>
+									</div>
+								{% endif %}
+	
 								<div id="kick-{{membership.user_id}}" {% if name == 'applications' %}class="d-none"{% endif %}>
 									<button type="button" class="btn btn-primary btn-block" data-nonce="{{g.nonce}}" data-onclick="reject_membership(this,'{{group}}','{{membership.user_id}}')">{% if v.id == membership.user_id %}Leave{% else %}Kick{% endif %}</button>
 								</div>
@@ -75,7 +84,7 @@
 	</div>
 {% endmacro %}
 
-{% if v.id == group.owner.id or v.admin_level >= PERMS['MODS_EVERY_GROUP'] %}
+{% if v.mods_group(group) %}
 	{{process_memberships(applications, 'applications')}}
 	{{process_memberships(members, 'members')}}
 	<script defer src="{{'js/group_members_owner.js' | asset}}"></script>

@@ -7321,6 +7321,10 @@ input[type=number] {
 	height: 50px;
 }
 
+.group-mod {
+	height: 40px;
+}
+
 @media (max-width: 768px) {
 	.award-tab {
 		font-size: 10px !important;
@@ -7342,6 +7346,10 @@ input[type=number] {
 
 	.group-owner {
 		height: 30px;
+	}
+
+	.group-mod {
+		height: 23px;
 	}
 }
 
