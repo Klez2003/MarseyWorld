@@ -152,7 +152,7 @@ def check_slots_command(c, v, u):
 
 	if (currency == "coins" and wager > u.coins) or (currency == "marseybux" and wager > u.marseybux):
 		if v.id == u.id:
-			abort(400, f"Not enough {currency} to make that bet")
+			abort(400, f"You don't have enough {currency} to make that bet!")
 		return
 
 	game_id, game_state = casino_slot_pull(u, wager, currency)
