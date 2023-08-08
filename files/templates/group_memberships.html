@@ -3,7 +3,7 @@
 {% block content %}
 
 {% if v.id != group.owner.id %}
-	<button id="leave-{{group}}" type="button" class="mt-4 btn btn-primary btn-block {% if v.id not in group.membership_user_ids %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/!{{group}}/leave','leave-{{group}}','apply-{{group}}','d-none')">
+	<button id="leave-{{group}}" type="button" class="mt-4 btn btn-danger btn-block {% if v.id not in group.membership_user_ids %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/!{{group}}/leave','leave-{{group}}','apply-{{group}}','d-none')">
 		{%- if v.id in group.member_ids or group.name == 'verifiedrich' -%}
 			Leave
 		{%- else -%}
@@ -11,7 +11,7 @@
 		{%- endif -%}
 	</button>
 
-	<button id="apply-{{group}}" type="button" class="mt-4 {% if v.id in group.membership_user_ids %}d-none{% endif %} btn btn-primary btn-block" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/!{{group}}/apply','leave-{{group}}','apply-{{group}}','d-none')">{% if group.name != 'verifiedrich' %}Apply to {% endif %}Join</button>
+	<button id="apply-{{group}}" type="button" class="mt-4 {% if v.id in group.membership_user_ids %}d-none{% endif %} btn btn-success btn-block" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/!{{group}}/apply','leave-{{group}}','apply-{{group}}','d-none')">{% if group.name != 'verifiedrich' %}Apply to {% endif %}Join</button>
 {% endif %}
 
 <br>
@@ -68,12 +68,12 @@
 								{% endif %}
 	
 								<div id="kick-{{membership.user_id}}" {% if name == 'applications' %}class="d-none"{% endif %}>
-									<button type="button" class="btn btn-primary btn-block" data-nonce="{{g.nonce}}" data-onclick="reject_membership(this,'{{group}}','{{membership.user_id}}')">{% if v.id == membership.user_id %}Leave{% else %}Kick{% endif %}</button>
+									<button type="button" class="btn btn-danger btn-block" data-nonce="{{g.nonce}}" data-onclick="reject_membership(this,'{{group}}','{{membership.user_id}}')">{% if v.id == membership.user_id %}Leave{% else %}Kick{% endif %}</button>
 								</div>
 
 								<div {% if name == 'members' %}class="d-none"{% endif %}>
-									<button type="button" class="btn btn-primary btn-block" data-nonce="{{g.nonce}}" data-onclick="approve_membership(this,'{{group}}','{{membership.user_id}}')">Approve</button>
-									<button type="button" class="btn btn-primary btn-block" data-nonce="{{g.nonce}}" data-onclick="reject_membership(this,'{{group}}','{{membership.user_id}}')">Reject</button>
+									<button type="button" class="btn btn-success btn-block" data-nonce="{{g.nonce}}" data-onclick="approve_membership(this,'{{group}}','{{membership.user_id}}')">Approve</button>
+									<button type="button" class="btn btn-danger btn-block" data-nonce="{{g.nonce}}" data-onclick="reject_membership(this,'{{group}}','{{membership.user_id}}')">Reject</button>
 								</div>
 							</td>
 						{% endif %}
