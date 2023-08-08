@@ -200,6 +200,7 @@ if SITE_NAME == 'rDrama':
 		"Nintendo Switch ROMs",
 		"Erectile Dysfunction Treatments",
 		"Managing incontinence",
+		"Quran study group",
 	)
 
 	RDRAMA_SLURS = {
