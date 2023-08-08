@@ -14,7 +14,7 @@ function handleBlackjackResponse(xhr) {
 		const succeeded = xhr.status >= 200 &&
 			xhr.status < 300 &&
 			response &&
-			!response.error;
+			!response.details;
 
 		clearResult();
 		status = xhr.status;
@@ -28,7 +28,7 @@ function handleBlackjackResponse(xhr) {
 			updateFeed(response.feed);
 			updatePlayerCurrencies(response.gambler);
 		} else {
-			console.error("Error: ", response.error);
+			console.error("Error: ", response.details);
 			throw new Error("Error")
 		}
 	} catch (error) {

@@ -30,7 +30,7 @@ function handleSlotsResponse(xhr) {
 	}
 
 	const succeeded =
-		xhr.status >= 200 && xhr.status < 300 && response && !response.error;
+		xhr.status >= 200 && xhr.status < 300 && response && !response.details;
 
 	if (succeeded) {
 		const { game_state, gambler } = response;
@@ -58,8 +58,8 @@ function handleSlotsResponse(xhr) {
 		updatePlayerCurrencies(gambler);
 		reloadFeed()
 	} else {
-		updateResult(response.error, "danger");
-		console.error(response.error);
+		updateResult(response.details, "danger");
+		console.error(response.details);
 	}
 
 	enableWager();

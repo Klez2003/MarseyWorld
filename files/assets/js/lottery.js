@@ -87,7 +87,7 @@ function handleLotteryResponse(xhr, method, callback) {
 		const toastMessage = document.getElementById("lottery-post-error-text");
 
 		toastMessage.innerText =
-		(response && response.error) || "Error, please try again later.";
+		(response && response.details) || "Error, please try again later.";
 
 		bootstrap.Toast.getOrCreateInstance(toast).show();
 	}

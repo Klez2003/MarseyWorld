@@ -364,7 +364,7 @@ function handleRouletteResponse(xhr) {
 	}
 
 	const succeeded =
-		xhr.status >= 200 && xhr.status < 300 && response && !response.error;
+		xhr.status >= 200 && xhr.status < 300 && response && !response.details;
 
 	if (succeeded) {
 		buildRouletteBets(response.bets);
