@@ -486,7 +486,7 @@ function handle_files(input, newfiles) {
 
 	if (input.files.length > 20)
 	{
-		alert("You can't upload more than 20 files at one time!")
+		window.alert("You can't upload more than 20 files at one time!")
 		input.value = null
 		oldfiles[ta.id] = new DataTransfer();
 		return
@@ -686,9 +686,9 @@ function enablePushNotifications() {
 		})
 	}).then((subscription) => {
 		updateSubscriptionOnServer(subscription, "/push_subscribe")
-		alert("Push notifications are enabled!")
+		window.alert("Push notifications are enabled!")
 	}).catch((e) => {
-		alert("Please give the site access to notifications!")
+		window.alert("Please give the site access to notifications!")
 		console.error(e)
 	})
 }
