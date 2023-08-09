@@ -164,7 +164,7 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None):
 			elif i.group(1) == 'jannies':
 				group = None
 				member_ids = set([x[0] for x in g.db.query(User.id).filter(User.admin_level > 0, User.id != AEVANN_ID).all()])
-				coins_receivers.update(member_ids)
+				coin_receivers.update(member_ids)
 			else:
 				group = g.db.get(Group, i.group(1))
 				if not group: continue
@@ -185,13 +185,13 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None):
 					log_cost.ping_cost = cost
 
 				if group.name == 'biofoids':
-					coins_receivers.update(member_ids)
+					coin_receivers.update(member_ids)
 
 		if cost:
 			v.charge_account('combined', cost)
 
-		if coins_receivers:
-			g.db.query(User).options(load_only(User.id)).filter(User.id.in_(coins_receivers)).update({ User.coins: User.coins + 10 })
+		if coin_receivers:
+			g.db.query(User).options(load_only(User.id)).filter(User.id.in_(coin_receivers)).update({ User.coins: User.coins + 10 })
 
 	return notify_users - BOT_IDs - {v.id, 0} - v.all_twoway_blocks
 
