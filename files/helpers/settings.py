@@ -16,7 +16,6 @@ _SETTINGS = {
 	"offline_mode": False,
 	"under_siege": False,
 	"dm_media": True,
-	"ddos_detected": False
 }
 
 def get_setting(setting):
