@@ -231,31 +231,31 @@
 
 {% macro chat_group_template(id, m) %}
 	<div class="chat-group">
-		<a class="font-weight-bold userlink" target="_blank" {% if m %}style="color:#{{m['namecolor']}}" href="/@{{m['username']}}" {% endif %}><div class="avatar profile-pic-20-wrapper mr-1"><img loading="lazy" class="avatar-pic pp20 mr-1" {% if m %}src="/pp/{{m['user_id']}}"{% endif %}><img class="avatar-hat profile-pic-20-hat hat" loading="lazy" {% if m %}src="{{m['hat']}}"{% endif %}></div>{% if m %}{{m['username']}}{% else %}NULL{% endif %}</a>
-		<span class="text-black time ml-1 mb-3 text-center">{% if m %}{{m['time'] | timestamp}}{% else %}just now{% endif %}</span>
-		<input hidden class="user_id" {% if m %}value="{{m['user_id']}}"{% endif %}>
+		<a class="font-weight-bold userlink" target="_blank" {% if m %}style="color:#{{m.namecolor}}" href="/@{{m.username}}" {% endif %}><div class="avatar profile-pic-20-wrapper mr-1"><img loading="lazy" class="avatar-pic pp20 mr-1" {% if m %}src="/pp/{{m.user_id}}"{% endif %}><img class="avatar-hat profile-pic-20-hat hat" loading="lazy" {% if m %}src="{{m.hat}}"{% endif %}></div>{% if m %}{{m.username}}{% else %}NULL{% endif %}</a>
+		<span class="text-black time ml-1 mb-3 text-center">{% if m %}{{m.time | timestamp}}{% else %}just now{% endif %}</span>
+		<input hidden class="user_id" {% if m %}value="{{m.user_id}}"{% endif %}>
 {% endmacro %}
 
 {% macro chat_line_template(id, m, vlink) %}
-	{% set quote_exists = m and m['quotes'] and messages.get(m['quotes']) %}
-	{% set mentioned = m and vlink in m['text_html'] or (quote_exists and messages[m['quotes']]['user_id'] == v.id) %}
+	{% set quote_exists = m and m.quotes and messages.get(m.quotes) %}
+	{% set mentioned = m and vlink in m.text_html or (quote_exists and messages[m.quotes].user_id == v.id) %}
 	<div class="chat-line {% if mentioned %}chat-mention{% endif %}" {% if m %}id="{{id}}"{% endif %}>
 		<div class="d-flex align-items-center">
 			<div class="text-muted chat-line-content">
-				<div class="{% if not (m and m['quotes']) %}d-none{% endif %} quotes" style="font-size:12px">
-					<a class="QuotedMessageLink" {% if m and m['quotes'] %}href="#{{m['quotes']}}"{% endif %}>
+				<div class="{% if not (m and m.quotes) %}d-none{% endif %} quotes" style="font-size:12px">
+					<a class="QuotedMessageLink" {% if m and m.quotes %}href="#{{m.quotes}}"{% endif %}>
 						<i class="fas fa-reply"></i> 
 						<span class="text-primary">@<span class="QuotedUser">
 							{%- if quote_exists -%}
-								{{messages[m['quotes']]['username']}}
+								{{messages[m.quotes].username}}
 							{%- endif -%}
 						</span></span>: 
 						<em class="QuotedMessage text-break">
 							{%- if quote_exists -%}
 								{%- if v.slurreplacer -%}
-									{{messages[m['quotes']]['text_censored']}}
+									{{messages[m.quotes].text_censored}}
 								{%- else -%}
-									{{messages[m['quotes']]['text']}}
+									{{messages[m.quotes].text}}
 								{%- endif -%}
 							{%- endif -%}
 						</em>
@@ -266,23 +266,23 @@
 					<span class="chat-message text-black text-break">
 						{% if m %}
 							{% if v.slurreplacer %}
-								{{m['text_html_censored'] | safe}}
+								{{m.text_html_censored | safe}}
 							{% else %}
-								{{m['text_html'] | safe}}
+								{{m.text_html | safe}}
 							{% endif %}
 						{% endif %}
 					</span>
 					<span class="text d-none">
 						{%- if m -%}
 							{%- if v.slurreplacer -%}
-								{{m['text_censored']}}
+								{{m.text_censored}}
 							{%- else -%}
-								{{m['text']}}
+								{{m.text}}
 							{%- endif -%}
 						{%- endif -%}
 					</span>
 					<i class="quote btn fas fa-reply ml-auto" data-nonce="{{g.nonce}}" data-onclick="quote(this)"></i>
-					{% if v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
+					{% if v.admin_level >= PERMS.POST_COMMENT_MODERATION %}
 						<i class="btn del delconfirm fas fa-trash-alt"></i>
 						<i class="btn d-none del delmsg fas fa-trash-alt text-danger" data-nonce="{{g.nonce}}" data-onclick="del(this)"></i>
 					{% endif %}
@@ -297,7 +297,7 @@
 	<div id="chat-window" class="container p-0">
 		{% set messages_list = messages.items()|list %}
 		{% for id, m in messages_list %}
-			{% set same = loop.index > 1 and m['user_id'] == messages_list[loop.index-2][1]['user_id'] %}
+			{% set same = loop.index > 1 and m.user_id == messages_list[loop.index-2][1].user_id %}
 			{% if not same %}
 				{% if loop.index > 1 %}
 					</div>

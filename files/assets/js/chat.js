@@ -69,12 +69,12 @@ socket.on('speak', function(json) {
 	let text_html
 
 	if (slurreplacer != '0') {
-		text = json['text_censored']
-		text_html = json['text_html_censored']
+		text = json.text_censored
+		text_html = json.text_html_censored
 	}
 	else {
-		text = json['text']
-		text_html = json['text_html']
+		text = json.text
+		text_html = json.text_html
 	}
 
 	chatline.classList.remove('chat-mention');
@@ -91,42 +91,42 @@ socket.on('speak', function(json) {
 	const last_user = users[users.length-1].value;
 	const scrolled_down = (box.scrollHeight - box.scrollTop <= window.innerHeight)
 
-	if (last_user != json['user_id']) {
-		document.getElementsByClassName('avatar-pic')[0].src = '/pp/' + json["user_id"]
+	if (last_user != json.user_id) {
+		document.getElementsByClassName('avatar-pic')[0].src = '/pp/' + json.user_id
 
-		if (json['hat'])
-			document.getElementsByClassName('avatar-hat')[0].src = json['hat'] + "?h=7"
+		if (json.hat)
+			document.getElementsByClassName('avatar-hat')[0].src = json.hat + "?h=7"
 		else
 			document.getElementsByClassName('avatar-hat')[0].removeAttribute("src")
 
 		const userlink = document.getElementsByClassName('userlink')[0]
 
-		userlink.innerHTML = userlink.innerHTML.replace(userlink.textContent, json['username'])
-		userlink.href = '/@' + json['username']
-		userlink.style.color = '#' + json['namecolor']
+		userlink.innerHTML = userlink.innerHTML.replace(userlink.textContent, json.username)
+		userlink.href = '/@' + json.username
+		userlink.style.color = '#' + json.namecolor
 
-		document.getElementsByClassName('user_id')[0].value = json['user_id']
+		document.getElementsByClassName('user_id')[0].value = json.user_id
 
-		if (Date.now() - json['time']*1000 > 5000)
-			document.getElementsByClassName('time')[0].innerHTML = timeSince(json['time']*1000) + ' ago'
+		if (Date.now() - json.time*1000 > 5000)
+			document.getElementsByClassName('time')[0].innerHTML = timeSince(json.time*1000) + ' ago'
 		else
 			document.getElementsByClassName('time')[0].innerHTML = "just now"
 	}
 
-	document.getElementsByClassName('chat-line')[0].id = json['id']
+	document.getElementsByClassName('chat-line')[0].id = json.id
 	document.getElementsByClassName('text')[0].innerHTML = escapeHTML(text)
 	document.getElementsByClassName('chat-message')[0].innerHTML = text_html.replace(/data-src/g, 'src').replace(/data-cfsrc/g, 'src').replace(/style="display:none;visibility:hidden;"/g, '')
 
 	document.getElementsByClassName('quotes')[0].classList.add("d-none")
-	if (json['quotes']) {
-		const quoted = document.getElementById(json['quotes'])
+	if (json.quotes) {
+		const quoted = document.getElementById(json.quotes)
 		if (quoted) {
 			const quoted_user = quoted.parentElement.querySelector('.user_id').value
 			if (quoted_user == vid){
 				chatline.classList.add('chat-mention');
 			}
 			document.getElementsByClassName('quotes')[0].classList.remove("d-none")
-			document.getElementsByClassName('QuotedMessageLink')[0].href = '#' + json['quotes']
+			document.getElementsByClassName('QuotedMessageLink')[0].href = '#' + json.quotes
 			document.getElementsByClassName('QuotedUser')[0].innerHTML = quoted.parentElement.querySelector('.userlink').textContent
 			document.getElementsByClassName('QuotedMessage')[0].innerHTML = quoted.querySelector('.text').innerHTML
 		}
@@ -135,7 +135,7 @@ socket.on('speak', function(json) {
 	let line = document.getElementsByClassName('chat-line')[0].cloneNode(true)
 	register_new_elements(line);
 	bs_trigger(line)
-	if (last_user == json['user_id']) {
+	if (last_user == json.user_id) {
 		box.querySelector('.chat-group:last-child').append(line)
 	}
 	else {
@@ -144,11 +144,11 @@ socket.on('speak', function(json) {
 		box.append(chatgroup)
 	}
 
-	const line2 = document.getElementById(json['id'])
+	const line2 = document.getElementById(json.id)
 	register_new_elements(line2);
 	bs_trigger(line2)
 
-	if (scrolled_down || json['user_id'] == vid)
+	if (scrolled_down || json.user_id == vid)
 		box.scrollTo(0, box.scrollHeight)
 })
 
