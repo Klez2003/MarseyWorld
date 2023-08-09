@@ -99,6 +99,7 @@ def allowed_attributes(tag, name, value):
 		if name == 'data-bs-toggle' and value == 'tooltip': return True
 		if name == 'title': return True
 		if name == 'alt': return True
+		if name == 'cide' and not value: return True
 
 	if tag == 'table':
 		if name == 'class' and value == 'table': return True
@@ -212,6 +213,42 @@ def execute_blackjack(v, target, body, kind):
 			send_repeatable_notification_duplicated(id, f"Blackjack by @{v.username}: {extra_info}")
 	return True
 
+def find_all_emote_endings(word):
+	endings = list()
+	curr_word = word
+
+	is_non_ending_found = False
+	while not is_non_ending_found:
+		print(curr_word)
+		if curr_word.endswith('pat'):
+			if 'pat' in endings:
+				is_non_ending_found = True
+				continue
+			endings.append('pat')
+			curr_word = curr_word[:-3]
+			continue
+		
+		if curr_word.endswith('talking'):
+			if 'talking' in endings:
+				is_non_ending_found = True
+				continue
+			endings.append('talking')
+			curr_word = curr_word[:-7]
+			continue
+
+		if curr_word.endswith('genocide'):
+			if 'genocide' in endings:
+				is_non_ending_found = True
+				continue
+			endings.append('genocide')
+			curr_word = curr_word[:-8]
+			continue
+		
+		is_non_ending_found = True
+	
+	return endings, curr_word
+
+
 def render_emoji(html, regexp, golden, emojis_used, b=False, is_title=False):
 	emojis = list(regexp.finditer(html))
 	captured = set()
@@ -245,12 +282,13 @@ def render_emoji(html, regexp, golden, emojis_used, b=False, is_title=False):
 		emoji_partial = '<img alt=":{0}:" data-bs-toggle="tooltip" loading="lazy" src="{1}" title=":{0}:"{2}>'
 		emoji_html = None
 
-		is_talking = emoji.endswith('talking') or (emoji[:-3].endswith('talking') and emoji.endswith('pat'))
-		is_talking_first  = emoji.endswith('talking')
-		emoji = emoji[:-7] if emoji.endswith('talking') else emoji
-		emoji = f'{emoji[:-10]}pat' if emoji[:-3].endswith('talking') and emoji.endswith('pat') else emoji
-		is_patted = emoji.endswith('pat')
-		emoji = emoji[:-3] if is_patted else emoji
+		ending_modifiers, emoji = find_all_emote_endings(emoji)
+
+		is_talking = 'talking' in ending_modifiers
+		is_patted = 'pat' in ending_modifiers
+		is_talking_first = ending_modifiers.index('pat') > ending_modifiers.index('talking') if is_talking and is_patted else False
+
+		is_genocided = 'genocide' in ending_modifiers
 		is_user = emoji.startswith('@')
 
 		end_modifier_length = 3 if is_patted else 0
@@ -258,8 +296,9 @@ def render_emoji(html, regexp, golden, emojis_used, b=False, is_title=False):
 
 		hand_html = f'<img loading="lazy" src="{SITE_FULL_IMAGES}/i/hand.webp">' if is_patted and emoji != 'marseyunpettable' else ''
 		talking_html = f'<img loading="lazy" src="{SITE_FULL_IMAGES}/i/talking.webp">' if is_talking else ''
+		genocide_attr = ' cide' if is_genocided else ''
 		
-		modifier_html = None
+		modifier_html = ''
 		if (is_talking and is_patted):
 			modifier_html = f'{talking_html}{hand_html}' if is_talking_first else f'{hand_html}{talking_html}' 
 		elif (is_patted): 
@@ -267,12 +306,12 @@ def render_emoji(html, regexp, golden, emojis_used, b=False, is_title=False):
 		elif (is_talking):
 			modifier_html = talking_html
 
-		if (is_patted and emoji != 'marseyunpettable') or is_talking:
+		if (is_patted and emoji != 'marseyunpettable') or is_talking or is_genocided:
 			if path.isfile(f"files/assets/images/emojis/{emoji}.webp"):
-				emoji_html = f'<span alt=":{old}:" data-bs-toggle="tooltip" title=":{old}:">{modifier_html}{emoji_partial_pat.format(old, f"{SITE_FULL_IMAGES}/e/{emoji}.webp", attrs)}</span>'
+				emoji_html = f'<span alt=":{old}:" data-bs-toggle="tooltip" title=":{old}:"{genocide_attr}>{modifier_html}{emoji_partial_pat.format(old, f"{SITE_FULL_IMAGES}/e/{emoji}.webp", attrs)}</span>'
 			elif is_user:
 				if u := get_user(emoji[1:], graceful=True):
-					emoji_html = f'<span alt=":{old}:" data-bs-toggle="tooltip" title=":{old}:">{modifier_html}{emoji_partial_pat.format(old, f"/pp/{u.id}", attrs)}</span>'
+					emoji_html = f'<span alt=":{old}:" data-bs-toggle="tooltip" title=":{old}:"{genocide_attr}>{modifier_html}{emoji_partial_pat.format(old, f"/pp/{u.id}", attrs)}</span>'
 		elif path.isfile(f'files/assets/images/emojis/{emoji}.webp'):
 			emoji_html = emoji_partial.format(old, f'{SITE_FULL_IMAGES}/e/{emoji}.webp', attrs)
 
@@ -634,6 +673,7 @@ def allowed_attributes_emojis(tag, name, value):
 		if name == 'data-bs-toggle' and value == 'tooltip': return True
 		if name == 'title': return True
 		if name == 'alt': return True
+		if name == 'cide' and not value: return True
 	return False
 
 
