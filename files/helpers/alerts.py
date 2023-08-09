@@ -156,7 +156,7 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None):
 				if cost > v.coins:
 					abort(403, f"You need {cost} coins to mention these ping groups!")
 
-				v.charge_account('coins', cost)
+				v.charge_account('combined', cost)
 				if log_cost:
 					log_cost.ping_cost = cost
 				return 'everyone'
@@ -183,7 +183,7 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None):
 					log_cost.ping_cost = cost
 
 		if cost:
-			v.charge_account('coins', cost)
+			v.charge_account('combined', cost)
 
 	return notify_users - BOT_IDs - {v.id, 0} - v.all_twoway_blocks
 
