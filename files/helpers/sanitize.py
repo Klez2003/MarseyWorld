@@ -493,6 +493,10 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 				a.string = tag["src"]
 				tag.replace_with(a)
 				continue
+			
+			del tag["g"]
+			del tag["glow"]
+			del tag["party"]
 
 			tag["loading"] = "lazy"
 			tag["data-src"] = tag["src"]
