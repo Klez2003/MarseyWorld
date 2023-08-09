@@ -131,13 +131,7 @@ def execute_snappy(post, v):
 		elif body == '!pinggroup':
 			group = g.db.query(Group).order_by(func.random()).first()
 
-			group_members = group.member_ids
-
-			for user in g.db.query(User).filter(User.id.in_(group_members)):
-				user.pay_account('coins', 10)
-				g.db.add(user)
-
-			cost = len(group_members) * 10
+			cost = len(group.member_ids) * 10
 			snappy.charge_account('coins', cost)
 
 			body = f'!{group.name}'

@@ -146,7 +146,6 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None):
 
 	if FEATURES['PING_GROUPS']:
 		cost = 0
-		total_members = set()
 
 		for i in group_mention_regex.finditer(text):
 			if oldtext and i.group(1) in oldtext:
@@ -156,8 +155,6 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None):
 				cost = g.db.query(User).count() * 10
 				if cost > v.coins:
 					abort(403, f"You need {cost} coins to mention these ping groups!")
-
-				g.db.query(User).options(load_only(User.id)).update({ User.coins: User.coins + 10 })
 
 				v.charge_account('coins', cost)
 				if log_cost:
@@ -182,17 +179,11 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None):
 				if cost > v.coins:
 					abort(403, f"You need {cost} coins to mention these ping groups!")
 
-				total_members.update(members)
-
 				if log_cost:
 					log_cost.ping_cost = cost
 
-		if total_members:
-			g.db.query(User).options(load_only(User.id)).filter(User.id.in_(total_members)).update({ User.coins: User.coins + 10 })
-
+		if cost:
 			v.charge_account('coins', cost)
-
-
 
 	return notify_users - BOT_IDs - {v.id, 0} - v.all_twoway_blocks
 
