@@ -114,6 +114,7 @@ BOOSTED_SITES = {
 	'discussions.app',
 	'pcmemes.net',
 	'sociables.com',
+	'brutalinks.tech',
 	'phuks.co',
 	'narwhal.city',
 	'headcycle.com',
