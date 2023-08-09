@@ -692,9 +692,6 @@ def delete_post_pid(pid, v):
 	p = get_post(pid)
 	if p.author_id != v.id: abort(403)
 
-	# Temporary special logic by Carp request for events of 2022-10-10
-	if SITE_NAME == 'rDrama' and p.author_id == 3161: abort(403)
-
 	if not p.deleted_utc:
 		p.deleted_utc = int(time.time())
 		p.is_pinned = False
