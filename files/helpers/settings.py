@@ -7,8 +7,8 @@ import gevent_inotifyx as inotify
 from files.helpers.config.const import *
 
 _SETTINGS = {
-	"login_required": False,
 	"under_attack": False,
+	"login_required": False,
 	"signups": True,
 	"bots": True,
 	"fart_mode": False,
