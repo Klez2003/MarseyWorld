@@ -103,6 +103,7 @@ BOOSTED_SITES = {
 	'non.io',
 	'wt.social',
 	'stacker.news',
+	'voat.xyz',
 	'talk.lol',
 	'coracle.social',
 	'discuit.net',
