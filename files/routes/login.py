@@ -146,7 +146,7 @@ def logout(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @auth_desired
 def sign_up_get(v):
-	if not get_setting('signups'):
+	if not get_setting('signups') or get_setting("ddos_detected"):
 		abort(403, "New account registration is currently closed. Please come back later!")
 
 	if v: return redirect(SITE_FULL)
@@ -195,7 +195,7 @@ def sign_up_get(v):
 @limiter.limit("10/day", deduct_when=lambda response: response.status_code < 400)
 @auth_desired
 def sign_up_post(v):
-	if not get_setting('signups'):
+	if not get_setting('signups') or get_setting("ddos_detected"):
 		abort(403, "New account registration is currently closed. Please come back later!")
 
 	if v: abort(403)
