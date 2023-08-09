@@ -7324,7 +7324,7 @@ input[type=number] {
 	}
 }
 
-.unbreakable, a[href^="/id/"] {
+.unbreakable, a[href^="/id/"], .btn {
 	white-space: nowrap;
 }
 
