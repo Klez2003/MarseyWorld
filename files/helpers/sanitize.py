@@ -219,7 +219,6 @@ def find_all_emote_endings(word):
 
 	is_non_ending_found = False
 	while not is_non_ending_found:
-		print(curr_word)
 		if curr_word.endswith('pat'):
 			if 'pat' in endings:
 				is_non_ending_found = True
