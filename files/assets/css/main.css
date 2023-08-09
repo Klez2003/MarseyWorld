@@ -5594,6 +5594,17 @@ img[src$="/i/hand.webp"]+img[src^="/pp/"], img[src$="/i/hand.webp"]+img[src$="/p
 	100% { transform: scale(1, 0.8) }
 }
 
+@keyframes cide-anim {
+	0% { transform: scale(1,1) rotate(0deg) }
+	100% { transform: scale(0, 0)  rotate(360deg) }
+}
+
+.cide, span[cide] {
+	display: inline-block;
+	animation: cide-anim 2s infinite;
+	animation-timing-function: linear;
+}
+
 /* Fix for <ol> being populated with <li><p></p></li> in many contexts. */
 .post-body li > p:first-child,
 .comment-text li > p:first-child,

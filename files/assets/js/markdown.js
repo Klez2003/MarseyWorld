@@ -72,7 +72,50 @@ const MODIFIERS = {
 	REVERSED: 4,
 	USER: 5,
 	REVERSED_MODIFIER: 6,
+	GENOCIDE: 7,
 };
+
+const findAllEmoteEndings = (word) => {
+	let hasReachedNonModifer = false;
+	let currWord = word;
+	const currEndings = [];
+	while(!hasReachedNonModifer) {
+		if(currWord.endsWith('pat')) {
+			if(currEndings.indexOf(MODIFIERS.PAT) !== -1) {
+				hasReachedNonModifer = true;
+				continue;
+			}
+			currWord = currWord.slice(0, -3);
+			currEndings.push(MODIFIERS.PAT);
+			continue;
+		}
+	
+		if(currWord.endsWith('talking')) {
+			if(currEndings.indexOf(MODIFIERS.TALKING) !== -1) {
+				hasReachedNonModifer = true;
+				continue;
+			}
+			currWord = currWord.slice(0, -7);
+			currEndings.push(MODIFIERS.TALKING);
+			continue;
+		}
+	
+		if(currWord.endsWith('genocide')) {
+			if(currEndings.indexOf(MODIFIERS.GENOCIDE) !== -1) {
+				hasReachedNonModifer = true;
+				continue;
+			}
+			currWord = currWord.slice(0, -8);
+			currEndings.push(MODIFIERS.GENOCIDE);
+			continue;
+		}
+
+		hasReachedNonModifer = true;
+	}
+	
+
+	return [currEndings, currWord];
+}
 
 function markdown(t) {
 	let input = t.value;
@@ -110,8 +153,8 @@ function markdown(t) {
 			
 			const modifiers = new Set();
 			
-			let length = emoji.length
-			if (emoji.includes('!!')) modifiers.add(MODIFIERS.REVERSED_MODIFIER);
+			let length = emoji.length;
+			if(emoji.includes('!!')) modifiers.add(MODIFIERS.REVERSED_MODIFIER);
 			emoji = emoji.replaceAll('!', '');
 			if (length !== emoji.length) {
 				modifiers.add(MODIFIERS.REVERSED);
@@ -121,15 +164,11 @@ function markdown(t) {
 			if (length !== emoji.length) {
 				modifiers.add(MODIFIERS.LARGE);
 			}
-			const isTalkingFirst = !(emoji.endsWith('pat') && emoji.slice(0, -3).endsWith('talking'));
-			if (emoji.endsWith('talking') || (emoji.endsWith('pat') && emoji.slice(0, -3).endsWith('talking'))) {
-				modifiers.add(MODIFIERS.TALKING);
-				emoji = emoji.endsWith('pat') ? [emoji.slice(0, -10), emoji.slice(-3)].join('') : emoji.slice(0, -7);
-			}
-			if (emoji.endsWith('pat')) {
-				modifiers.add(MODIFIERS.PAT);
-				emoji = emoji.slice(0, -3);
-			}
+			let endingModifiers;
+			[endingModifiers, emoji] = findAllEmoteEndings(emoji);
+			const isTalkingFirst = endingModifiers.indexOf(MODIFIERS.PAT) > endingModifiers.indexOf(MODIFIERS.TALKING);
+
+			endingModifiers.forEach(modifiers.add, modifiers)
 			
 			if (emoji.startsWith('@')) {
 				emoji = emoji.slice(1);
@@ -145,18 +184,19 @@ function markdown(t) {
 			}
 
 			const mirroredClass = 'mirrored';
+			const genocideClass = modifiers.has(MODIFIERS.GENOCIDE) ? 'cide' : '';
 			const emojiClass = modifiers.has(MODIFIERS.LARGE) ? 'emoji-lg' : 'emoji';
 
 			// patted emotes cannot be flipped back easily so they don't support double flipping
 			const spanClass = modifiers.has(MODIFIERS.REVERSED) && (modifiers.has(MODIFIERS.PAT) || !modifiers.has(MODIFIERS.REVERSED_MODIFIER)) ? mirroredClass : '';
 			const imgClass = modifiers.has(MODIFIERS.REVERSED) && modifiers.has(MODIFIERS.REVERSED_MODIFIER) ? mirroredClass : ''
 			
-			if (modifiers.has(MODIFIERS.PAT) || modifiers.has(MODIFIERS.TALKING)) {
+			if (modifiers.has(MODIFIERS.PAT) || modifiers.has(MODIFIERS.TALKING) || modifiers.has(MODIFIERS.GENOCIDE)) {
 				const talkingHtml = modifiers.has(MODIFIERS.TALKING) ? `<img loading="lazy" src="${SITE_FULL_IMAGES}/i/talking.webp">` : '';
 				const patHtml = modifiers.has(MODIFIERS.PAT) ? `<img loading="lazy" src="${SITE_FULL_IMAGES}/i/hand.webp">` : '';
 				const url = modifiers.has(MODIFIERS.USER) ? `/@${emoji}/pic` : `${SITE_FULL_IMAGES}/e/${emoji}.webp`;
 				const modifierHtml = isTalkingFirst ? `${talkingHtml}${patHtml}` : `${patHtml}${talkingHtml}`;
-				input = input.replace(old, `<span class="pat-preview ${spanClass}" data-bs-toggle="tooltip">${modifierHtml}<img loading="lazy" class="${emojiClass} ${imgClass}" src="${url}"></span>`);
+				input = input.replace(old, `<span class="pat-preview ${spanClass} ${genocideClass}" data-bs-toggle="tooltip">${modifierHtml}<img loading="lazy" class="${emojiClass} ${imgClass} " src="${url}"></span>`);
 			} else {
 				input = input.replace(old, `<img loading="lazy" class="${emojiClass} ${modifiers.has(MODIFIERS.REVERSED) ? mirroredClass : ''}" src="${SITE_FULL_IMAGES}/e/${emoji}.webp">`);
 			}
