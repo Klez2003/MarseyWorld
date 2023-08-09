@@ -13,7 +13,7 @@
 
 {% set login_namespace = namespace() %}
 
-{% set login_required = SITE_SETTINGS['login_required'] or SITE_SETTINGS['ddos_detected'] %}
+{% set login_required = SITE_SETTINGS['login_required'] %}
 
 {% if ref_user %}
 	{% set login_namespace.authtitle = '@' ~ ref_user.username ~ ' has invited you!' %}
