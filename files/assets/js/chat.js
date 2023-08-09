@@ -64,7 +64,13 @@ function flash(){
 }
 
 
+const blocked_user_ids = document.getElementById('blocked_user_ids').value.split(',')
+
 socket.on('speak', function(json) {
+	if (blocked_user_ids.includes(json.user_id.toString())) {
+		return
+	}
+
 	let text
 	let text_html
 

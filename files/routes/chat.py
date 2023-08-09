@@ -55,10 +55,13 @@ def chat(v):
 	if not v.admin_level and TRUESCORE_CHAT_MINIMUM and v.truescore < TRUESCORE_CHAT_MINIMUM:
 		abort(403, f"Need at least {TRUESCORE_CHAT_MINIMUM} truescore for access to chat!")
 	orgy = get_orgy()
+
+	displayed_messages = {k: val for k, val in messages.items() if val["user_id"] not in v.userblocks}
+
 	if orgy:
-		return render_template("orgy.html", v=v, messages=messages, orgy = orgy, site = SITE)
+		return render_template("orgy.html", v=v, messages=displayed_messages, orgy=orgy, site=SITE)
 	else:
-		return render_template("chat.html", v=v, messages=messages)
+		return render_template("chat.html", v=v, messages=displayed_messages)
 
 @app.get("/old_chat")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
@@ -67,7 +70,10 @@ def chat(v):
 def old_chat(v):
 	if not v.admin_level and TRUESCORE_CHAT_MINIMUM and v.truescore < TRUESCORE_CHAT_MINIMUM:
 		abort(403, f"Need at least {TRUESCORE_CHAT_MINIMUM} truescore for access to chat!")
-	return render_template("chat.html", v=v, messages=messages)
+
+	displayed_messages = {k: val for k, val in messages.items() if val["user_id"] not in v.userblocks}
+
+	return render_template("chat.html", v=v, messages=displayed_messages)
 
 @socketio.on('speak')
 @is_not_banned_socketio
