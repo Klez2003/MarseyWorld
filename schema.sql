@@ -533,7 +533,8 @@ CREATE TABLE public.group_memberships (
     user_id integer NOT NULL,
     group_name character varying(25) NOT NULL,
     created_utc integer NOT NULL,
-    approved_utc integer
+    approved_utc integer,
+    is_mod boolean NOT NULL
 );
 
 
