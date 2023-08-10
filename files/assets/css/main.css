@@ -5551,13 +5551,13 @@ img[src$="/i/hand.webp"] {
 	width: 90%;
 	height: 90%;
 	margin-top: -10%;
-	z-index: 1;
+	z-index: 101;
 }
 img[src$="/i/talking.webp"] {
 	position: absolute;
 	width: 70%;
 }
-img[src$="/i/hand.webp"]+img {
+img[src$="/i/hand.webp"]~img {
 	animation: pat-pfp-anim 0.3s infinite;
 	transform-origin: bottom center;
 	margin-top: 10%;
@@ -5568,14 +5568,17 @@ img[src$="/i/hand.webp"]+img[src$="/i/talking.webp"] {
 	padding-top: 20%;
 	padding-right: 5%;
 }
-img[src$="/i/hand.webp"]+img[src$="/i/talking.webp"]+img {
+img[src$="/i/hand.webp"]+img[src$="/i/talking.webp"]~img {
 	animation: pat-pfp-anim 0.3s infinite;
 	transform-origin: bottom center;
 	margin-top: 20%;
 	text-align: center;
 	object-fit: contain;
 }
-img[src$="/i/talking.webp"]+img {
+img[src$="/i/talking.webp"]~img {
+	margin-top: 22%;
+}
+img[src$="/i/talking.webp"]+img+img[src$="/i/love-background.webp"] {
 	margin-top: 22%;
 }
 img[src$="/i/talking.webp"]+img[src$="/i/hand.webp"] {
@@ -5588,6 +5591,31 @@ img[src$="/i/hand.webp"]+img[src^="/pp/"], img[src$="/i/hand.webp"]+img[src$="/p
 	border-radius: 50%;
 	object-fit: cover;
 }
+
+.love-preview {
+	bottom: calc(2px + 2%) !important;
+}
+
+img[src$="/i/love-foreground.webp"]+img[src$="/i/love-background.webp"]+img {
+	position: absolute;
+	z-index: 50;
+	height: 40%;
+	width: 40%;
+	bottom: -2%;
+	left: 40%;
+}
+
+img[src$="/i/love-foreground.webp"] {
+	position: absolute;
+	z-index: 100;
+}
+img[src$="/i/love-background.webp"] {
+	position: relative;
+	z-index: 1;
+}
+
+
+
 @keyframes pat-pfp-anim {
 	0% { transform: scale(1, 0.8) }
 	50% { transform: scale(0.8, 1) }
