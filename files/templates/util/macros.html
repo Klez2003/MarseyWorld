@@ -34,7 +34,7 @@
 	{% endfor %}
 
 	{% if v and v.admin_level >= PERMS['USER_SHADOWBAN'] and p.author.shadowbanned %}
-		<i class="fas fa-user-times text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title='Shadowbanned by @{{p.author.shadowbanner}} for "{{p.author.ban_reason}}"'></i>
+		<i class="fas fa-user-times text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title='Shadowbanned by @{{p.author.shadowbanner}} for "{{p.author.ban_reason}}"' data-bs-html="true"></i>
 	{% endif %}
 
 	{% if p.stickied %}
@@ -206,7 +206,7 @@
 		{% for r in i.filtered_reports(v) %}
 			<li>
 				{% if v and v.admin_level and r.user.shadowbanned %}
-					<i class="fas fa-user-times text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title='Shadowbanned by @{{r.user.shadowbanner}} for "{{r.user.ban_reason}}"'></i>
+					<i class="fas fa-user-times text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title='Shadowbanned by @{{r.user.shadowbanner}} for "{{r.user.ban_reason}}"' data-bs-html="true"></i>
 				{% endif %}
 				<a style="font-weight:bold" href="{{r.user.url}}">{{r.user.username}}</a>
 				{% if r.reason %}: {{r.realreason(v) | safe}}{% endif %}
