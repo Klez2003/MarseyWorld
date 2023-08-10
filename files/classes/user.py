@@ -1171,6 +1171,8 @@ class User(Base):
 		if self.truescore >= TRUESCORE_CHUDRAMA_MINIMUM: return True
 		if self.chud: return True
 		if self.patron: return True
+		if SITE == 'rdrama.net' and self.id == 5237: return True
+
 		return False
 
 	@property
@@ -1182,6 +1184,8 @@ class User(Base):
 			return self.can_see_restricted_holes
 
 		if self.truescore >= TRUESCORE_CC_MINIMUM: return True
+
+		if SITE == 'rdrama.net' and self.id == 5237: return True
 
 		return False
 
