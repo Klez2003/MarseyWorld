@@ -57,8 +57,10 @@ def process_files(files, v, body, is_dm=False, dm_user=None):
 			url = process_video(file, v)
 		elif file.content_type.startswith('audio/'):
 			url = f'{SITE_FULL}{process_audio(file, v)}'
-		else:
+		elif has_request_context():
 			abort(415)
+		else:
+			return None
 
 		body = body.replace(f'[{file.filename}]', f' {url} ', 1)
 
