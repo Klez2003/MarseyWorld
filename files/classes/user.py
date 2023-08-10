@@ -1159,7 +1159,7 @@ class User(Base):
 		if self.admin_level >= PERMS['VIEW_RESTRICTED_HOLES']: return True
 		if SITE == 'rdrama.net' and self.id == 5237: return True
 
-		return False
+		return None
 
 
 	@property
