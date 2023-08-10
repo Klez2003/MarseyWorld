@@ -61,6 +61,13 @@ def after_request(response):
 	if response.status_code < 400:
 		if hasattr(g, 'v') and g.v:
 			user_id = g.v.id
+
+			if not session.get("GLOBAL") and request.method == "POST":
+				timestamp = int(time.time())
+				if (g.v.last_active + LOGGEDIN_ACTIVE_TIME) < timestamp:
+					g.v.last_active = timestamp
+					g.db.add(g.v)
+
 		_commit_and_close_db()
 
 	if request.method == "POST":
