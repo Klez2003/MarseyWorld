@@ -322,7 +322,7 @@ def execute_longpostbot(c, level, body, body_html, post_target, v):
 	posting_to_post = isinstance(post_target, Post)
 	if not len(c.body.split()) >= 200: return
 	if "</blockquote>" in body_html: return
-	body = random.choice(LONGPOST_REPLIES)
+	body = random.choice(LONGPOSTBOT_REPLIES)
 	if body.startswith('▼'):
 		body = body[1:]
 		vote = CommentVote(user_id=LONGPOSTBOT_ID,
