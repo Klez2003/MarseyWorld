@@ -926,7 +926,7 @@ def settings_title_change(v):
 	if v.flairchanged: abort(403)
 
 	processed = process_settings_plaintext("title", v.customtitleplain, 100)
-	if isinstance(processed, tuple):
+	if not isinstance(processed, str):
 		return processed
 
 	customtitle = filter_emojis_only(processed)
@@ -951,7 +951,7 @@ def settings_title_change(v):
 @auth_required
 def settings_pronouns_change(v):
 	processed = process_settings_plaintext("pronouns", v.pronouns, 15)
-	if isinstance(processed, tuple):
+	if not isinstance(processed, str):
 		return processed
 
 	pronouns = processed
@@ -979,7 +979,7 @@ def settings_checkmark_text(v):
 		abort(403, "You don't have a checkmark to edit its hover text!")
 
 	processed = process_settings_plaintext("checkmark-text", v.verified, 100)
-	if isinstance(processed, tuple):
+	if not isinstance(processed, str):
 		return processed
 
 	v.verified = processed
