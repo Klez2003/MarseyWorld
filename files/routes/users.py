@@ -287,7 +287,7 @@ def user_voted(v, username, cls, vote_cls, template, standalone):
 
 	total = listing.count()
 
-	listing = listing.order_by(cls.created_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
+	listing = listing.order_by(vote_cls.created_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
 	listing = [x.id for x in listing]
 
 	if cls == Post:
