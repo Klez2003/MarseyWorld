@@ -247,7 +247,7 @@
 
 			{{macros.reports(c, 'comment')}}
 
-			{% if c.is_banned and c.ban_reason %}
+			{% if c.is_banned %}
 				<div id="comment-banned-warning" class="comment-text text-removed mb-0">removed by @{{c.ban_reason}} (Site Admin)</div>
 			{% endif %}
 

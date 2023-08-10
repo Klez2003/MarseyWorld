@@ -143,7 +143,7 @@
 							{% endif %}
 							{{p.realbody(v) | safe}}
 
-							{% if p.is_banned and p.ban_reason %}
+							{% if p.is_banned %}
 								<div class="text-removed mb-0">removed by @{{p.ban_reason}} (Site Admin)</div>
 							{% endif %}
 						</div>
