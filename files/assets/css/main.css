@@ -7678,7 +7678,7 @@ body {
     overflow-y: auto;
 }
 
-img[src^="/pp/"], img[src^="/uid/"], img[src$="/pic"] {
+.profile-pic, .profile-pic-20, .pp20, .profile-pic-25, .profile-pic-30, .profile-pic-35, .profile-pic-50, .profile-pic-65, .profile-pic-75, .profile-pic-100, img[src^="/pp/"], img[src^="/uid/"], img[src$="/pic"] {
 	border-radius: 50%;
 	object-fit: cover;
 }
