@@ -35,14 +35,6 @@ function createXhrWithFormKey(url, method="POST", form=new FormData()) {
 }
 
 function postToast(t, url, data, extraActionsOnSuccess, method="POST") {
-	const isShopConfirm = t.id.startsWith('buy-') || t.id.startsWith('giveaward')
-
-	if (!isShopConfirm)
-	{
-		t.disabled = true;
-		t.classList.add("disabled");
-	}
-
 	let form = new FormData();
 	if (typeof data === 'object' && data !== null) {
 		for(let k of Object.keys(data)) {
@@ -51,6 +43,8 @@ function postToast(t, url, data, extraActionsOnSuccess, method="POST") {
 	}
 	const xhr = createXhrWithFormKey(url, method, form);
 	xhr[0].onload = function() {
+		t.disabled = false;
+		t.classList.remove("disabled");
 		let result
 		let message;
 		let success = xhr[0].status >= 200 && xhr[0].status < 300;
@@ -62,10 +56,6 @@ function postToast(t, url, data, extraActionsOnSuccess, method="POST") {
 		let oldToast = bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-' + (success ? 'error': 'success'))); // intentionally reversed here: this is the old toast
 		oldToast.hide();
 		showToast(success, message);
-		if (!isShopConfirm) {
-			t.disabled = false;
-			t.classList.remove("disabled");
-		}
 		if (success && extraActionsOnSuccess) result = extraActionsOnSuccess(xhr[0]);
 		return success;
 	};
