@@ -54,14 +54,14 @@ def login_post(v):
 
 	if not account:
 		time.sleep(random.uniform(0, 2))
-		return render_template("login/login.html", failed=True, redirect=redir), 400
+		return render_template("login/login.html", failed=True, redirect=redir)
 
 
 	if request.values.get("password"):
 		if not account.verifyPass(request.values.get("password")):
 			log_failed_admin_login_attempt(account, "password")
 			time.sleep(random.uniform(0, 2))
-			return render_template("login/login.html", failed=True, redirect=redir), 400
+			return render_template("login/login.html", failed=True, redirect=redir)
 
 		if account.mfa_secret or session.get("GLOBAL"):
 			now = int(time.time())
