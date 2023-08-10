@@ -869,13 +869,13 @@ def settings_song_change(v):
 	elif song.startswith("https://youtu.be/"):
 		id = song.split("https://youtu.be/")[1]
 	else:
-		return redirect("/settings/personal?error=Not a YouTube link!"), 400
+		return redirect("/settings/personal?error=Not a YouTube link!")
 
 	if "?" in id: id = id.split("?")[0]
 	if "&" in id: id = id.split("&")[0]
 
 	if not yt_id_regex.fullmatch(id):
-		return redirect("/settings/personal?error=Not a YouTube link!"), 400
+		return redirect("/settings/personal?error=Not a YouTube link!")
 	if path.isfile(f'/songs/{id}.mp3'):
 		v.song = id
 		g.db.add(v)
@@ -886,15 +886,15 @@ def settings_song_change(v):
 		req = requests.get(f"https://www.googleapis.com/youtube/v3/videos?id={id}&key={YOUTUBE_KEY}&part=contentDetails", timeout=5).json()
 		duration = req['items'][0]['contentDetails']['duration']
 		if duration == 'P0D':
-			return redirect("/settings/personal?error=Can't use a live youtube video!"), 400
+			return redirect("/settings/personal?error=Can't use a live youtube video!")
 
 		if "H" in duration:
-			return redirect("/settings/personal?error=Duration of the video must not exceed 15 minutes!"), 400
+			return redirect("/settings/personal?error=Duration of the video must not exceed 15 minutes!")
 
 		if "M" in duration:
 			duration = int(duration.split("PT")[1].split("M")[0])
 			if duration > 15:
-				return redirect("/settings/personal?error=Duration of the video must not exceed 15 minutes!"), 400
+				return redirect("/settings/personal?error=Duration of the video must not exceed 15 minutes!")
 
 	gevent.spawn(_change_song_youtube, v.id, id)
 
@@ -905,13 +905,13 @@ def process_settings_plaintext(value, current, length):
 	value = request.values.get(value, "").strip()
 
 	if not value:
-		return redirect("/settings/personal?error=You didn't enter anything!"), 400
+		return redirect("/settings/personal?error=You didn't enter anything!")
 
 	if len(value) > 100:
-		return redirect("/settings/personal?error=The value you entered exceeds the character limit (100 characters)"), 400
+		return redirect("/settings/personal?error=The value you entered exceeds the character limit (100 characters)")
 
 	if value == current:
-		return redirect("/settings/personal?error=You didn't change anything!"), 400
+		return redirect("/settings/personal?error=You didn't change anything!")
 
 	return value
 
