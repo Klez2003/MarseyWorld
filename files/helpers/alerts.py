@@ -184,7 +184,7 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None):
 				if log_cost:
 					log_cost.ping_cost = cost
 
-				if group and group.name == 'biofoids':
+				if group and group.name in {'biofoids','neofoids'}:
 					coin_receivers.update(member_ids)
 
 		if cost:
