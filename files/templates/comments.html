@@ -29,7 +29,7 @@
 			<span class="comment-collapse-desktop" style="border-color: #{{c.author.name_color}}" data-nonce="{{g.nonce}}" data-onclick="collapse_comment('{{c.id}}')"></span>
 
 			<div class="comment-body">
-					<div id="comment-{{c.id}}-only" class="{% if c.award_count('tilt', v) %}tilt tilt-{{c.award_count('tilt', v)}}{% endif %} {% if c.award_count('glowie', v) %}glow{% endif %} comment-{{c.id}}-only">
+					<div id="comment-{{c.id}}-only" class="{% if c.award_count('tilt', v) %}tilt-comment{% endif %} {% if c.award_count('glowie', v) %}glow{% endif %} comment-{{c.id}}-only">
 							<div class="user-info">
 								<span class="comment-collapse-icon" data-nonce="{{g.nonce}}" data-onclick="collapse_comment('{{c.id}}')"></span>
 								{% if standalone and c.over_18 %}<span class="badge badge-danger">+18</span> {% endif %}
@@ -119,7 +119,7 @@
 	{% endif %}
 	<div class="comment-body">
 
-		<div id="{% if comment_info and comment_info.id == c.id %}context{%else%}comment-{{c.id}}-only{% endif %}" class="{% if c.award_count('tilt', v) %}tilt tilt-{{c.award_count('tilt', v)}}{% endif %} {% if c.unread %}unread{% endif %} {% if c.award_count('glowie', v) %}glow{% endif %} comment-{{c.id}}-only comment-anchor {% if comment_info and comment_info.id == c.id %}context{%endif%}{% if c.is_banned %} banned{% endif %}{% if c.deleted_utc %} deleted{% endif %}">
+		<div id="{% if comment_info and comment_info.id == c.id %}context{%else%}comment-{{c.id}}-only{% endif %}" class="{% if c.award_count('tilt', v) %}tilt-comment{% endif %} {% if c.unread %}unread{% endif %} {% if c.award_count('glowie', v) %}glow{% endif %} comment-{{c.id}}-only comment-anchor {% if comment_info and comment_info.id == c.id %}context{%endif%}{% if c.is_banned %} banned{% endif %}{% if c.deleted_utc %} deleted{% endif %}">
 
 			<div class="user-info">
 				<span class="comment-collapse-icon" data-nonce="{{g.nonce}}" data-onclick="collapse_comment('{{c.id}}')"></span>
@@ -145,7 +145,7 @@
 
 				{% if c.active_reports(v) %}<button type="button" class="btn btn-primary mr-1" style="padding:1px 5px; font-size:10px" data-toggleelement="#reports-{{c.id}}" data-toggleattr="d-none">{{c.active_reports(v)}} Report{{macros.plural(c.active_reports(v))}}</button>{% endif %}
 				{% if c.over_18 %}<span class="badge badge-danger text-small-extra mr-1">+18</span>{% endif %}
-				{% if v and v.admin_level >= PERMS['USER_SHADOWBAN'] and c.author.shadowbanned %}<i class="fas fa-user-times text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title='Shadowbanned by @{{c.author.shadowbanner}} for "{{c.author.ban_reason}}"'></i>{% endif %}
+				{% if v and v.admin_level >= PERMS['USER_SHADOWBAN'] and c.author.shadowbanned %}<i class="fas fa-user-times text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title='Shadowbanned by @{{c.author.shadowbanner}} for "{{c.author.ban_reason}}"' data-bs-html="true"></i>{% endif %}
 				{% if c.stickied %}
 					<i id='pinned-{{c.id}}'class="fas fa-thumbtack fa-rotate--45 pr-1 text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Pinned by @{{c.stickied}}" {% if c.stickied_utc %}data-onmouseover="pinned_timestamp('pinned-{{c.id}}')" data-timestamp={{c.stickied_utc}} data-nonce="{{g.nonce}}"{% endif %}></i>
 				{% endif %}
@@ -247,7 +247,7 @@
 
 			{{macros.reports(c, 'comment')}}
 
-			{% if c.is_banned and c.ban_reason %}
+			{% if c.is_banned %}
 				<div id="comment-banned-warning" class="comment-text text-removed mb-0">removed by @{{c.ban_reason}} (Site Admin)</div>
 			{% endif %}
 

@@ -392,7 +392,7 @@ def create_sub2(v):
 	mod = Mod(user_id=v.id, sub=sub.name)
 	g.db.add(mod)
 
-	admins = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_HOLE_CREATION'], User.id != v.id).all()]
+	admins = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_HOLE_CREATION'], User.id != v.id)]
 	for admin in admins:
 		send_repeatable_notification(admin, f":!marseyparty: /h/{sub} has been created by @{v.username} :marseyparty:")
 
@@ -884,8 +884,8 @@ def hole_log(v, sub):
 		total = actions.count()
 		actions = actions.order_by(SubAction.id.desc()).offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE).all()
 
-	mods = [x[0] for x in g.db.query(Mod.user_id).filter_by(sub=sub.name).all()]
-	mods = [x[0] for x in g.db.query(User.username).filter(User.id.in_(mods)).order_by(User.username).all()]
+	mods = [x[0] for x in g.db.query(Mod.user_id).filter_by(sub=sub.name)]
+	mods = [x[0] for x in g.db.query(User.username).filter(User.id.in_(mods)).order_by(User.username)]
 
 	return render_template("log.html", v=v, admins=mods, types=types, admin=mod, type=kind, actions=actions, total=total, page=page, sub=sub, single_user_url='mod')
 
@@ -904,8 +904,8 @@ def hole_log_item(id, v, sub):
 
 	if not action: abort(404)
 
-	mods = [x[0] for x in g.db.query(Mod.user_id).filter_by(sub=sub.name).all()]
-	mods = [x[0] for x in g.db.query(User.username).filter(User.id.in_(mods)).order_by(User.username).all()]
+	mods = [x[0] for x in g.db.query(Mod.user_id).filter_by(sub=sub.name)]
+	mods = [x[0] for x in g.db.query(User.username).filter(User.id.in_(mods)).order_by(User.username)]
 
 	types = SUBACTION_TYPES
 

@@ -210,6 +210,20 @@
 .fa-ankh:before{content:"\f644"}
 .fa-quotes:before{content:"\e234"}
 
+/* do not remove - fixes hand, talking, marsey-love components 
+	from breaking out of the comment box
+*/
+.comment-text a > img {
+	position: relative !important;
+	max-height: 150px !important;
+	margin: 0 !important;
+}
+.preview > img {
+	position: relative !important;
+	max-height: 150px !important;
+	margin: 0 !important;
+}
+
 button {
 	background: none;
 	border: none;
@@ -4082,10 +4096,7 @@ small, .small {
 .profile-pic {
 	width: 50px;
 	height: 50px;
-	border-radius: 50%;
 	margin: auto;
-	text-align: center;
-	object-fit: cover;
 	color: var(--white);
 }
 .navbar .navbar-nav .profile-pic {
@@ -4097,58 +4108,34 @@ small, .small {
 	margin-right: 0.25rem !important;
 	width: 20px;
 	height: 20px;
-	border-radius: 50%;
-	text-align: center;
-	object-fit: cover;
 }
 .profile-pic-25 {
 	width: 25px;
 	height: 25px;
-	border-radius: 50%;
-	text-align: center;
-	object-fit: cover;
 }
 .profile-pic-30 {
 	width: 30px;
 	height: 30px;
-	border-radius: 50%;
-	text-align: center;
-	object-fit: cover;
 }
 .profile-pic-35 {
 	width: 35px;
 	height: 35px;
-	border-radius: 50%;
-	text-align: center;
-	object-fit: cover;
 }
 .profile-pic-50 {
 	width: 50px;
 	height: 50px;
-	border-radius: 50%;
-	text-align: center;
-	object-fit: cover;
 }
 .profile-pic-65 {
 	width: 65px;
 	height: 65px;
-	border-radius: 50%;
-	text-align: center;
-	object-fit: cover;
 }
 .profile-pic-75 {
 	width: 75px;
 	height: 75px;
-	border-radius: 50%;
-	text-align: center;
-	object-fit: cover;
 }
 .profile-pic-100 {
 	width: 100px;
 	height: 100px;
-	border-radius: 50%;
-	text-align: center;
-	object-fit: cover;
 }
 
 .profile-pic-20-wrapper,
@@ -4824,9 +4811,6 @@ ul.comment-section {
 	border: .1px solid var(--gray-400);
 	border-radius: .35rem;
 	overflow: hidden;
-}
-.rounded-circle {
-	border-radius: 50%;
 }
 @media (min-width: 768px) {
 	.border-md {
@@ -5546,48 +5530,72 @@ span[data-bs-toggle], .pat-preview {
 	position: relative;
 	display: inline-block;
 }
-img[src$="/i/hand.webp"] {
+span > img[src$="/i/hand.webp"] {
 	position: absolute;
 	width: 90%;
 	height: 90%;
 	margin-top: -10%;
-	z-index: 1;
+	z-index: 101;
 }
-img[src$="/i/talking.webp"] {
+span > img[src$="/i/talking.webp"] {
 	position: absolute;
 	width: 70%;
 }
-img[src$="/i/hand.webp"]+img {
+span > img[src$="/i/hand.webp"] ~ img {
 	animation: pat-pfp-anim 0.3s infinite;
 	transform-origin: bottom center;
 	margin-top: 10%;
 	text-align: center;
 	object-fit: contain;
 }
-img[src$="/i/hand.webp"]+img[src$="/i/talking.webp"] {
+span > img[src$="/i/hand.webp"]+img[src$="/i/talking.webp"] {
 	padding-top: 20%;
 	padding-right: 5%;
 }
-img[src$="/i/hand.webp"]+img[src$="/i/talking.webp"]+img {
+span > img[src$="/i/hand.webp"]+img[src$="/i/talking.webp"]~img {
 	animation: pat-pfp-anim 0.3s infinite;
 	transform-origin: bottom center;
 	margin-top: 20%;
 	text-align: center;
 	object-fit: contain;
 }
-img[src$="/i/talking.webp"]+img {
+span > img[src$="/i/talking.webp"]~img {
 	margin-top: 22%;
 }
-img[src$="/i/talking.webp"]+img[src$="/i/hand.webp"] {
+span > img[src$="/i/talking.webp"]+img+img[src$="/i/love-background.webp"] {
+	margin-top: 22%;
+}
+span > img[src$="/i/talking.webp"]+img[src$="/i/hand.webp"] {
 	margin-top: 5%;
 }
-img[src$="/i/talking.webp"]+img[src$="/i/hand.webp"]+img  {
+span > img[src$="/i/talking.webp"]+img[src$="/i/hand.webp"]+img  {
 	margin-top: 20%;
 }
-img[src$="/i/hand.webp"]+img[src^="/pp/"], img[src$="/i/hand.webp"]+img[src$="/pic"], img[src$="/i/talking.webp"]+img[src^="/pp/"], img[src$="/i/talking.webp"]+img[src$="/pic"] {
-	border-radius: 50%;
-	object-fit: cover;
+
+.love-preview {
+	bottom: calc(2px + 2%) !important;
 }
+
+span > img[src$="/i/love-foreground.webp"]+img[src$="/i/love-background.webp"]+img {
+	position: absolute;
+	z-index: 50;
+	height: 40%;
+	width: 40%;
+	bottom: -2%;
+	left: 40%;
+}
+
+span > img[src$="/i/love-foreground.webp"] {
+	position: absolute;
+	z-index: 100;
+}
+span > img[src$="/i/love-background.webp"] {
+	position: relative;
+	z-index: 1;
+}
+
+
+
 @keyframes pat-pfp-anim {
 	0% { transform: scale(1, 0.8) }
 	50% { transform: scale(0.8, 1) }
@@ -5743,8 +5751,8 @@ img.golden, img[g]:not([data-src]) {
 	animation: golden 1s infinite alternate linear;
 }
 
-img[src$="/i/hand.webp"]+img[g]:not([data-src]),
-img[src$="/i/hand.webp"]+img.golden {
+span > img[src$="/i/hand.webp"]+img[g]:not([data-src]),
+span > img[src$="/i/hand.webp"]+img.golden {
 	animation: golden 1s infinite alternate linear,
 	pat-pfp-anim .3s infinite;
 }
@@ -5758,7 +5766,7 @@ img[glow]:not([data-src]) {
 	animation: glowing 1s infinite alternate linear;
 }
 
-img[src$="/i/hand.webp"]+img[glow]:not([data-src]) {
+span > img[src$="/i/hand.webp"]+img[glow]:not([data-src]) {
 	animation: glowing 1s infinite alternate linear,
 	pat-pfp-anim .3s infinite;
 }
@@ -5772,7 +5780,7 @@ img[party]:not([data-src]) {
 	animation: party 2s infinite alternate linear;
 }
 
-img[src$="/i/hand.webp"]+img[party]:not([data-src]) {
+span > img[src$="/i/hand.webp"]+img[party]:not([data-src]) {
 	animation: party 2s infinite alternate linear,
 	pat-pfp-anim .3s infinite;
 }
@@ -7682,4 +7690,9 @@ body {
 .user-card-bio {
 	max-height: 50px;
     overflow-y: auto;
+}
+
+.profile-pic, .profile-pic-20, .pp20, .profile-pic-25, .profile-pic-30, .profile-pic-35, .profile-pic-50, .profile-pic-65, .profile-pic-75, .profile-pic-100, img[src^="/pp/"], img[src^="/uid/"], img[src$="/pic"] {
+	border-radius: 50%;
+	object-fit: cover;
 }

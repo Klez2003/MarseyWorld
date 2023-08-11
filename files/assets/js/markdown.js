@@ -73,6 +73,7 @@ const MODIFIERS = {
 	USER: 5,
 	REVERSED_MODIFIER: 6,
 	GENOCIDE: 7,
+	LOVE: 8,
 };
 
 const findAllEmoteEndings = (word) => {
@@ -110,6 +111,16 @@ const findAllEmoteEndings = (word) => {
 			continue;
 		}
 
+		if(currWord.endsWith('heart')) {
+			if(currEndings.indexOf(MODIFIERS.LOVE) !== -1) {
+				hasReachedNonModifer = true;
+				continue;
+			}
+			currWord = currWord.slice(0, -5);
+			currEndings.push(MODIFIERS.LOVE);
+			continue;
+		}
+
 		hasReachedNonModifer = true;
 	}
 	
@@ -143,7 +154,7 @@ function markdown(t) {
 	input = input.replace(/(\n|^)>([^ >][^\n]*)/g, '$1<g>\>$2</g>')
 	input = input.replace(/((\s|^)[0-9]+)\. /g, '$1\\. ')
 
-	const emojis = Array.from(input.matchAll(/:([a-z0-9_\-!#@]{1,36}):(?![^`]*`)/gi))
+	const emojis = Array.from(input.matchAll(/:([a-z0-9_\-!#@]{1,72}):(?![^`]*`)/gi))
 	if (emojis != null){
 		for(i = 0; i < emojis.length; i++){
 			const old = emojis[i][0];
@@ -186,17 +197,20 @@ function markdown(t) {
 			const mirroredClass = 'mirrored';
 			const genocideClass = modifiers.has(MODIFIERS.GENOCIDE) ? 'cide' : '';
 			const emojiClass = modifiers.has(MODIFIERS.LARGE) ? 'emoji-lg' : 'emoji';
+			const patClass = modifiers.has(MODIFIERS.PAT) ? 'pat-preview' : '';
 
 			// patted emotes cannot be flipped back easily so they don't support double flipping
 			const spanClass = modifiers.has(MODIFIERS.REVERSED) && (modifiers.has(MODIFIERS.PAT) || !modifiers.has(MODIFIERS.REVERSED_MODIFIER)) ? mirroredClass : '';
 			const imgClass = modifiers.has(MODIFIERS.REVERSED) && modifiers.has(MODIFIERS.REVERSED_MODIFIER) ? mirroredClass : ''
-			
-			if (modifiers.has(MODIFIERS.PAT) || modifiers.has(MODIFIERS.TALKING) || modifiers.has(MODIFIERS.GENOCIDE)) {
+			const lovedClass = modifiers.has(MODIFIERS.LOVE) ? 'love-preview' : '';
+
+			if ([MODIFIERS.TALKING, MODIFIERS.GENOCIDE, MODIFIERS.PAT, MODIFIERS.LOVE].some((modifer) =>  modifiers.has(modifer))) {
 				const talkingHtml = modifiers.has(MODIFIERS.TALKING) ? `<img loading="lazy" src="${SITE_FULL_IMAGES}/i/talking.webp">` : '';
 				const patHtml = modifiers.has(MODIFIERS.PAT) ? `<img loading="lazy" src="${SITE_FULL_IMAGES}/i/hand.webp">` : '';
+				const loveHtml = modifiers.has(MODIFIERS.LOVE) ? `<img loading="lazy" class="${emojiClass}" src="${SITE_FULL_IMAGES}/i/love-foreground.webp"><img loading="lazy" class="${emojiClass}" src="${SITE_FULL_IMAGES}/i/love-background.webp">` : '';
 				const url = modifiers.has(MODIFIERS.USER) ? `/@${emoji}/pic` : `${SITE_FULL_IMAGES}/e/${emoji}.webp`;
-				const modifierHtml = isTalkingFirst ? `${talkingHtml}${patHtml}` : `${patHtml}${talkingHtml}`;
-				input = input.replace(old, `<span class="pat-preview ${spanClass} ${genocideClass}" data-bs-toggle="tooltip">${modifierHtml}<img loading="lazy" class="${emojiClass} ${imgClass} " src="${url}"></span>`);
+				const modifierHtml = isTalkingFirst ? `${talkingHtml}${patHtml}${loveHtml}` : `${patHtml}${talkingHtml}${loveHtml}`;
+				input = input.replace(old, `<span class="${patClass} ${spanClass} ${genocideClass}" data-bs-toggle="tooltip">${modifierHtml}<img loading="lazy" class="${emojiClass} ${imgClass} ${lovedClass}" src="${url}"></span>`);
 			} else {
 				input = input.replace(old, `<img loading="lazy" class="${emojiClass} ${modifiers.has(MODIFIERS.REVERSED) ? mirroredClass : ''}" src="${SITE_FULL_IMAGES}/e/${emoji}.webp">`);
 			}

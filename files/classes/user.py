@@ -202,6 +202,9 @@ class User(Base):
 		if SITE == 'watchpeopledie.tv' and self.id == 5222:
 			return
 
+		if SITE == 'rdrama.net' and self.id == 5237:
+			return
+
 		user_query = g.db.query(User).options(load_only(User.id)).filter_by(id=self.id)
 
 		if currency == 'coins':
@@ -411,11 +414,11 @@ class User(Base):
 	@property
 	@lazy
 	def sub_blocks(self):
-		stealth = set([x[0] for x in g.db.query(Sub.name).filter_by(stealth=True).all()])
-		stealth = stealth - set([x[0] for x in g.db.query(SubJoin.sub).filter_by(user_id=self.id).all()])
+		stealth = set([x[0] for x in g.db.query(Sub.name).filter_by(stealth=True)])
+		stealth = stealth - set([x[0] for x in g.db.query(SubJoin.sub).filter_by(user_id=self.id)])
 		if self.chud == 1: stealth = stealth - {'chudrama'}
 
-		return list(stealth) + [x[0] for x in g.db.query(SubBlock.sub).filter_by(user_id=self.id).all()]
+		return list(stealth) + [x[0] for x in g.db.query(SubBlock.sub).filter_by(user_id=self.id)]
 
 	@lazy
 	def blocks(self, sub):
@@ -428,7 +431,7 @@ class User(Base):
 	@property
 	@lazy
 	def all_follows(self):
-		return [x[0] for x in g.db.query(SubSubscription.sub).filter_by(user_id=self.id).all()]
+		return [x[0] for x in g.db.query(SubSubscription.sub).filter_by(user_id=self.id)]
 
 	@lazy
 	def follows(self, sub):
@@ -694,12 +697,12 @@ class User(Base):
 	@property
 	@lazy
 	def followed_users(self):
-		return [x[0] for x in g.db.query(Follow.target_id).filter_by(user_id=self.id).all()]
+		return [x[0] for x in g.db.query(Follow.target_id).filter_by(user_id=self.id)]
 
 	@property
 	@lazy
 	def followed_subs(self):
-		return [x[0] for x in g.db.query(SubSubscription.sub).filter_by(user_id=self.id).all()]
+		return [x[0] for x in g.db.query(SubSubscription.sub).filter_by(user_id=self.id)]
 
 	@property
 	@lazy
@@ -766,7 +769,8 @@ class User(Base):
 			Post.notify == True,
 			Post.author_id != self.id,
 			Post.ghost == False,
-			Post.author_id.notin_(self.userblocks)
+			Post.author_id.notin_(self.userblocks),
+			or_(Post.sub == None, Post.sub.notin_(self.sub_blocks)),
 		).count()
 
 	@property
@@ -855,7 +859,7 @@ class User(Base):
 	@property
 	@lazy
 	def moderated_subs(self):
-		return [x[0] for x in g.db.query(Mod.sub).filter_by(user_id=self.id).order_by(Mod.sub).all()]
+		return [x[0] for x in g.db.query(Mod.sub).filter_by(user_id=self.id).order_by(Mod.sub)]
 
 	@property
 	@lazy
@@ -863,7 +867,7 @@ class User(Base):
 		return [x[0] for x in g.db.query(GroupMembership.group_name).filter(
 				GroupMembership.user_id == self.id, 
 				GroupMembership.approved_utc != None,
-			).order_by(GroupMembership.group_name).all()]
+			).order_by(GroupMembership.group_name)]
 
 	@lazy
 	def has_follower(self, user):
@@ -1012,7 +1016,7 @@ class User(Base):
 	@property
 	@lazy
 	def userblocks(self):
-		return [x[0] for x in g.db.query(UserBlock.target_id).filter_by(user_id=self.id).all()]
+		return [x[0] for x in g.db.query(UserBlock.target_id).filter_by(user_id=self.id)]
 
 	def get_relationship_count(self, relationship_cls):
 		# TODO: deduplicate (see routes/users.py)
@@ -1154,6 +1158,7 @@ class User(Base):
 		if self.is_permabanned: return False
 
 		if self.admin_level >= PERMS['VIEW_RESTRICTED_HOLES']: return True
+		if SITE == 'rdrama.net' and self.id == 5237: return True
 
 		return None
 
@@ -1167,6 +1172,8 @@ class User(Base):
 		if self.truescore >= TRUESCORE_CHUDRAMA_MINIMUM: return True
 		if self.chud: return True
 		if self.patron: return True
+		if SITE == 'rdrama.net' and self.id == 5237: return True
+
 		return False
 
 	@property
@@ -1178,6 +1185,8 @@ class User(Base):
 			return self.can_see_restricted_holes
 
 		if self.truescore >= TRUESCORE_CC_MINIMUM: return True
+
+		if SITE == 'rdrama.net' and self.id == 5237: return True
 
 		return False
 
@@ -1248,11 +1257,6 @@ class User(Base):
 	@lazy
 	def unblockable(self):
 		return self.has_badge(87)
-
-	@property
-	@lazy
-	def fish(self):
-		return self.has_badge(90)
 
 	@property
 	@lazy

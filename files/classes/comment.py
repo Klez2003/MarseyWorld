@@ -262,7 +262,8 @@ class Comment(Base):
 	def award_count(self, kind, v):
 		if v and v.poor and kind.islower(): return 0
 		num = len([x for x in self.awards if x.kind == kind])
-		if kind == 'tilt' and num > 4: return 4
+		if num > 4 and kind not in {"shit", "fireflies", "gingerbread"}:
+			return 4
 		return num
 
 	@property

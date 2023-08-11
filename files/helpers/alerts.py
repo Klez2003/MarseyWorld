@@ -120,7 +120,7 @@ def add_notif(cid, uid, text, pushnotif_url=''):
 			push_notif({uid}, 'New notification', text, pushnotif_url)
 
 
-def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None):
+def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None, followers_ping=True):
 	# Restrict young accounts from generating notifications
 	if v.age < NOTIFICATION_SPAM_AGE_THRESHOLD:
 		return set()
@@ -138,7 +138,7 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None):
 	notify_users.update(user_ids)
 
 	if SITE_NAME == "WPD" and 'daisy' in text:
-		admin_ids = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_SPECIFIC_WPD_COMMENTS']).all()]
+		admin_ids = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_SPECIFIC_WPD_COMMENTS'])]
 		notify_users.update(admin_ids)
 
 
@@ -163,8 +163,12 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None):
 				return 'everyone'
 			elif i.group(1) == 'jannies':
 				group = None
-				member_ids = set([x[0] for x in g.db.query(User.id).filter(User.admin_level > 0, User.id != AEVANN_ID).all()])
-				coin_receivers.update(member_ids)
+				member_ids = set([x[0] for x in g.db.query(User.id).filter(User.admin_level > 0, User.id != AEVANN_ID)])
+			elif i.group(1) == 'followers':
+				if not followers_ping:
+					abort(403, f"You can't use !followers in posts!")
+				group = None
+				member_ids = set([x[0] for x in g.db.query(Follow.user_id).filter_by(target_id=v.id)])
 			else:
 				group = g.db.get(Group, i.group(1))
 				if not group: continue
@@ -174,7 +178,7 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None):
 
 			notify_users.update(members)
 
-			if ghost or v.id not in member_ids:
+			if (ghost or v.id not in member_ids) and i.group(1) != 'followers':
 				if group and group.name == 'verifiedrich':
 					abort(403, f"Only !verifiedrich members can mention it!")
 				cost += len(members) * 10
@@ -184,7 +188,7 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None):
 				if log_cost:
 					log_cost.ping_cost = cost
 
-				if group and group.name == 'biofoids':
+				if i.group(1) in {'biofoids','neofoids','jannies'}:
 					coin_receivers.update(member_ids)
 
 		if cost:

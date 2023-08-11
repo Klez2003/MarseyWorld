@@ -77,13 +77,13 @@ def _sub_inactive_purge_task():
 	active_holes = [x[0] for x in g.db.query(Post.sub).distinct() \
 		.filter(Post.sub != None, Post.created_utc > one_week_ago,
 			Post.private == False, Post.is_banned == False,
-			Post.deleted_utc == 0).all()]
+			Post.deleted_utc == 0)]
 	active_holes.extend(['changelog','countryclub','museumofrdrama','highrollerclub']) # holes immune from deletion
 
 	dead_holes = g.db.query(Sub).filter(Sub.name.notin_(active_holes)).all()
 	names = [x.name for x in dead_holes]
 
-	admins = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_HOLE_INACTIVITY_DELETION']).all()]
+	admins = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_HOLE_INACTIVITY_DELETION'])]
 
 	mods = g.db.query(Mod).filter(Mod.sub.in_(names)).all()
 	for x in mods:

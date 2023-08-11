@@ -1027,8 +1027,6 @@ INSERT INTO public.hat_defs VALUES (1200, 'Swagger', 'You will never be this coo
 
 
 
-
-
 INSERT INTO public.hat_defs VALUES (1220, 'Chained Border', '?????', 2, 500, NULL, 1686289778);
 INSERT INTO public.hat_defs VALUES (1213, 'Secret Crack', 'Oh hi… AH', 2, 1000, NULL, 1686288898);
 

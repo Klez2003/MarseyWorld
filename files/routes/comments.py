@@ -342,7 +342,7 @@ def comment(v):
 			push_notif(notify_users, f'New mention of you by @{c.author_name}', c.body, c)
 
 			if c.level == 1 and posting_to_post:
-				subscriber_ids = [x[0] for x in g.db.query(Subscription.user_id).filter(Subscription.post_id == post_target.id, Subscription.user_id != v.id).all()]
+				subscriber_ids = [x[0] for x in g.db.query(Subscription.user_id).filter(Subscription.post_id == post_target.id, Subscription.user_id != v.id)]
 
 				notify_users.update(subscriber_ids)
 

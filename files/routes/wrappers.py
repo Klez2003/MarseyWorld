@@ -60,12 +60,12 @@ def calc_users():
 			ddos_threshold = 1000
 
 		if g.loggedout_counter > ddos_threshold:
-			if not get_setting('ddos_detected'):
-				toggle_setting('ddos_detected')
+			if not get_setting('under_attack'):
+				toggle_setting('under_attack')
 				set_security_level('under_attack')
 		else:
-			if get_setting('ddos_detected'):
-				toggle_setting('ddos_detected')
+			if get_setting('under_attack'):
+				toggle_setting('under_attack')
 				set_security_level('high')
 	return ''
 
@@ -107,17 +107,7 @@ def get_logged_in_user():
 
 	g.v = v
 
-	if v:
-		# Check against last_active + ACTIVE_TIME to reduce frequency of
-		# UPDATEs in exchange for a ±ACTIVE_TIME margin of error.
-
-		if not session.get("GLOBAL") and request.method == "POST" and not request.path.startswith('/vote/'):
-			timestamp = int(time.time())
-			if (v.last_active + LOGGEDIN_ACTIVE_TIME) < timestamp:
-				v.last_active = timestamp
-				g.db.add(v)
-
-	if not v and SITE == 'rdrama.net' and request.headers.get("Cf-Ipcountry") == 'EG' and request.method == 'GET' and request.full_path != '/login?nig=a':
+	if not v and SITE == 'rdrama.net' and request.headers.get("Cf-Ipcountry") == 'EG':
 		abort(404)
 
 	g.is_api_or_xhr = bool((v and v.client) or request.headers.get("xhr"))
@@ -134,7 +124,7 @@ def auth_desired(f):
 def auth_desired_with_logingate(f):
 	def wrapper(*args, **kwargs):
 		v = get_logged_in_user()
-		if not v and (get_setting('login_required') or get_setting('ddos_detected')):
+		if not v and get_setting('login_required'):
 			abort(401, "You need to login to perform this action!")
 
 		if request.path.startswith('/logged_out'):

@@ -18,6 +18,7 @@ from files.classes.domains import BannedDomain
 from files.classes.mod_logs import ModAction
 from files.classes.notifications import Notification
 from files.classes.group import Group
+from files.classes.follows import Follow
 
 from files.helpers.config.const import *
 from files.helpers.const_stateful import *
@@ -243,6 +244,14 @@ def find_all_emote_endings(word):
 			curr_word = curr_word[:-8]
 			continue
 		
+		if curr_word.endswith('heart'):
+			if 'heart' in endings:
+				is_non_ending_found = True
+				continue
+			endings.append('heart')
+			curr_word = curr_word[:-5]
+			continue
+
 		is_non_ending_found = True
 	
 	return endings, curr_word
@@ -286,7 +295,7 @@ def render_emoji(html, regexp, golden, emojis_used, b=False, is_title=False):
 		is_talking = 'talking' in ending_modifiers
 		is_patted = 'pat' in ending_modifiers
 		is_talking_first = ending_modifiers.index('pat') > ending_modifiers.index('talking') if is_talking and is_patted else False
-
+		is_loved = 'heart' in ending_modifiers
 		is_genocided = 'genocide' in ending_modifiers
 		is_user = emoji.startswith('@')
 
@@ -295,6 +304,7 @@ def render_emoji(html, regexp, golden, emojis_used, b=False, is_title=False):
 
 		hand_html = f'<img loading="lazy" src="{SITE_FULL_IMAGES}/i/hand.webp">' if is_patted and emoji != 'marseyunpettable' else ''
 		talking_html = f'<img loading="lazy" src="{SITE_FULL_IMAGES}/i/talking.webp">' if is_talking else ''
+		loved_html = f'<img loading="lazy" src="{SITE_FULL_IMAGES}/i/love-foreground.webp" alt=":{old}:" {attrs}><img loading="lazy" alt=":{old}:" src="{SITE_FULL_IMAGES}/i/love-background.webp" {attrs}>'		
 		genocide_attr = ' cide' if is_genocided else ''
 		
 		modifier_html = ''
@@ -304,8 +314,11 @@ def render_emoji(html, regexp, golden, emojis_used, b=False, is_title=False):
 			modifier_html = hand_html
 		elif (is_talking):
 			modifier_html = talking_html
+		
+		if(is_loved):
+			modifier_html = f'{modifier_html}{loved_html}'
 
-		if (is_patted and emoji != 'marseyunpettable') or is_talking or is_genocided:
+		if (is_patted and emoji != 'marseyunpettable') or is_talking or is_genocided or is_loved:
 			if path.isfile(f"files/assets/images/emojis/{emoji}.webp"):
 				emoji_html = f'<span alt=":{old}:" data-bs-toggle="tooltip" title=":{old}:"{genocide_attr}>{modifier_html}{emoji_partial_pat.format(old, f"{SITE_FULL_IMAGES}/e/{emoji}.webp", attrs)}</span>'
 			elif is_user:
@@ -475,6 +488,8 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 				return f'<a href="/users">!{name}</a>'
 			elif name == 'jannies':
 				return f'<a href="/admins">!{name}</a>'
+			elif name == 'followers':
+				return f'<a href="/id/{g.v.id}/followers">!{name}</a>'
 			elif g.db.get(Group, name):
 				return f'<a href="/!{name}">!{name}</a>'
 			else:
@@ -574,7 +589,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 	if g.v and g.v.admin_level >= PERMS["IGNORE_DOMAIN_BAN"]:
 		banned_domains = []
 	else:
-		banned_domains = [x.domain for x in g.db.query(BannedDomain.domain).all()]
+		banned_domains = [x.domain for x in g.db.query(BannedDomain.domain)]
 
 	for link in links:
 		#remove empty links

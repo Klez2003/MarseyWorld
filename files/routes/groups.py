@@ -32,7 +32,7 @@ def create_group(v):
 	if not valid_sub_regex.fullmatch(name):
 		return redirect(f"/ping_groups?error=Name does not match the required format!")
 
-	if name in {'everyone', 'jannies'} or g.db.get(Group, name):
+	if name in {'everyone', 'jannies', 'followers'} or g.db.get(Group, name):
 		return redirect(f"/ping_groups?error=This group already exists!")
 
 	if not v.charge_account('combined', GROUP_COST)[0]:
@@ -52,7 +52,7 @@ def create_group(v):
 		)
 	g.db.add(group_membership)
 
-	admins = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_HOLE_CREATION'], User.id != v.id).all()]
+	admins = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_HOLE_CREATION'], User.id != v.id)]
 	for admin in admins:
 		send_repeatable_notification(admin, f":!marseyparty: !{group} has been created by @{v.username} :marseyparty:")
 
@@ -184,6 +184,9 @@ def group_reject(v, group_name, user_id):
 	membership = g.db.query(GroupMembership).filter_by(user_id=user_id, group_name=group.name).one_or_none()
 	if not membership:
 		abort(404, "There is no membership to reject!")
+
+	if v.id != group.owner.id and membership.is_mod:
+		abort(403, "Only the group owner can kick mods!")
 
 	if v.id == membership.user_id:
 		msg = f"You have left !{group} successfully!"
