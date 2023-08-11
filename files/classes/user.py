@@ -769,7 +769,8 @@ class User(Base):
 			Post.notify == True,
 			Post.author_id != self.id,
 			Post.ghost == False,
-			Post.author_id.notin_(self.userblocks)
+			Post.author_id.notin_(self.userblocks),
+			or_(Post.sub == None, Post.sub.notin_(self.sub_blocks)),
 		).count()
 
 	@property

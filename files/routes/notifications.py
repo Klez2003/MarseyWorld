@@ -174,7 +174,8 @@ def notifications_posts(v):
 		Post.notify == True,
 		Post.author_id != v.id,
 		Post.ghost == False,
-		Post.author_id.notin_(v.userblocks)
+		Post.author_id.notin_(v.userblocks),
+		or_(Post.sub == None, Post.sub.notin_(v.sub_blocks)),
 	).options(load_only(Post.id))
 
 	total = listing.count()
