@@ -62,7 +62,7 @@ def upload_custom_background(v):
 	if g.is_tor: abort(403, "Image uploads are not allowed through TOR!")
 
 	if not v.patron:
-		abort(403, f"Custom site backgrounds are only available to {patron}s!")
+		return redirect("/settings/personal?error=Custom site backgrounds are only available to {patron}s!")
 
 	file = request.files["file"]
 
@@ -183,7 +183,7 @@ def settings_personal_post(v):
 
 	elif not updated and request.values.get("marsify", v.marsify) != v.marsify and v.marsify <= 1:
 		if not v.patron:
-			abort(403, f"Perma-marsify is only available to {patron}s!")
+			return redirect("/settings/personal?error=Perma-marsify is only available to {patron}s!")
 		updated = True
 		v.marsify = int(request.values.get("marsify") == 'true')
 		if v.marsify: badge_grant(user=v, badge_id=170)
@@ -221,7 +221,7 @@ def settings_personal_post(v):
 
 	elif not updated and request.values.get("sig"):
 		if not v.patron:
-			abort(403, f"Signatures are only available to {patron}s!")
+			return redirect("/settings/personal?error=Signatures are only available to {patron}s!")
 
 		sig = request.values.get("sig")[:200].replace('\n','').replace('\r','')
 		sig_html = sanitize(sig, blackjack="signature")
@@ -429,7 +429,7 @@ def titlecolor(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def verifiedcolor(v):
-	if not v.verified: abort(403, "You don't have a checkmark to edit its color!")
+	if not v.verified: redirect("/settings/personal?error=You don't have a checkmark to edit its color!")
 	return set_color(v, "verifiedcolor", request.values.get("verifiedcolor"))
 
 @app.post("/settings/security")
@@ -628,7 +628,7 @@ def settings_css_get(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def settings_css(v):
-	if v.chud: abort(400, "Chuded users can't edit CSS!")
+	if v.chud: abort(400, "Chudded users can't edit CSS!")
 	css = request.values.get("css", v.css).strip().replace('\\', '')[:CSS_LENGTH_LIMIT].strip()
 	v.css = css
 	g.db.add(v)
@@ -975,7 +975,7 @@ def settings_pronouns_change(v):
 @auth_required
 def settings_checkmark_text(v):
 	if not v.verified:
-		abort(403, "You don't have a checkmark to edit its hover text!")
+		redirect("/settings/personal?error=You don't have a checkmark to edit its hover text!")
 
 	processed = process_settings_plaintext("checkmark-text", v.verified, 100)
 	if not isinstance(processed, str):
