@@ -65,15 +65,11 @@ function checkForRequired() {
 }
 checkForRequired();
 
-function hide_image() {
-	x=document.getElementById('image-upload-block');
-	url=document.getElementById('post-url').value;
-	if (url.length>=1){
-		x.classList.add('d-none');
-	}
-	else {
-		x.classList.remove('d-none');
-	}
+function remove_attachment() {
+	document.getElementById("file-upload").value = null;
+	document.getElementById('image-upload-block').classList.add('d-none');
+	document.getElementById('urlblock').classList.remove('d-none');
+	clear_files("attachment");
 }
 
 function autoSuggestTitle()	{
@@ -197,7 +193,8 @@ function submit(form) {
 					localStorage.setItem(id, value)
 				}
 
-				clear_files()
+				clear_files("attachment")
+				clear_files("textarea")
 			}
 
 			location.href = "/post/" + post_id
@@ -300,7 +297,7 @@ submit_restore_files("textarea", "file-upload-submit")
 
 //CLEAR FILES
 
-function clear_files() {
+function clear_files(kind) {
 	const open = indexedDB.open("files", 1);
 	open.onsuccess = () => {
 		const db = open.result;
@@ -311,6 +308,6 @@ function clear_files() {
 			db.close();
 		};
 
-		store.clear();
+		store.delete(kind);
 	}
 }

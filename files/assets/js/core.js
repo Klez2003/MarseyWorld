@@ -519,17 +519,16 @@ if (file_upload) {
 					document.getElementById('image-preview').setAttribute('src', this.result);
 					document.getElementById('image-preview').classList.remove('d-none');
 					document.getElementById('image-preview').classList.add('mr-2');
-					document.getElementById('image-preview').nextElementSibling.classList.add('mt-3');
 				};
 			}
 			else {
 				document.getElementById('image-preview').classList.add('d-none');
 				document.getElementById('image-preview').classList.remove('mr-2');
-				document.getElementById('image-preview').nextElementSibling.classList.remove('mt-3');
 			}
 
 			if (typeof checkForRequired === "function") {
 				document.getElementById('urlblock').classList.add('d-none');
+				document.getElementById('remove-attachment').classList.remove('d-none');
 				checkForRequired();
 			}
 			else {
