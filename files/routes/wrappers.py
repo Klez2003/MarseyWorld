@@ -107,7 +107,7 @@ def get_logged_in_user():
 
 	g.v = v
 
-	if not v and SITE == 'rdrama.net' and request.headers.get("Cf-Ipcountry") == 'EG' and request.method == 'GET' and request.full_path != '/login?nig=a':
+	if not v and SITE == 'rdrama.net' and request.headers.get("Cf-Ipcountry") == 'EG':
 		abort(404)
 
 	g.is_api_or_xhr = bool((v and v.client) or request.headers.get("xhr"))
