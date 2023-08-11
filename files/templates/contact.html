@@ -1,10 +1,9 @@
 {% extends "default.html" %}
 {% block pagetitle %}Contact{% endblock %}
 {% block content %}
-	{% if msg %}{{macros.alert(msg, false)}}{% endif %}
 	<h1 class="article-title">Contact {{SITE_NAME}} Admins</h1>
 	{% if v %}
-		<form id="contactform" action="/contact" method="post" enctype="multipart/form-data">
+		<form id="contactform" action="/contact" method="post" enctype="multipart/form-data" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHR(this)">
 
 			<label for="input-message" class="mt-3">Your message</label>
 			<input hidden name="formkey" value="{{v|formkey}}">

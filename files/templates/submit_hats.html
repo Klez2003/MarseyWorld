@@ -2,15 +2,12 @@
 {% block pagetitle %}Submit Hats{% endblock %}
 {% block pagetype %}message{% endblock %}
 {% block content %}
-	{% if error %}{{macros.alert(error, true)}}{% endif %}
-	{% if msg %}{{macros.alert(msg, false)}}{% endif %}
-
 	<div class="mx-4">
 		<h2 class="mt-5">Submit Hat</h2>
 			<div class="settings-section rounded">
 				<div class="d-lg-flex">
 					<div class="body w-lg-100">
-						<form action="/submit/hats" method="post" enctype="multipart/form-data">
+						<form action="/submit/hats" method="post" enctype="multipart/form-data" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHRReload(this)">
 							<input hidden name="formkey" value="{{v|formkey}}">
 
 							<div id="image-upload-block">

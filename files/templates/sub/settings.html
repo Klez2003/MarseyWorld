@@ -2,8 +2,6 @@
 {% block pagetitle %}/h/{{sub}} Settings{% endblock %}
 
 {% block content %}
-{% if error %}{{macros.alert(error, true)}}{% endif %}
-{% if msg %}{{macros.alert(msg, false)}}{% endif %}
 
 <div class="title mt-5">
 	<label class="text-lg" for="stealth">Stealth Mode</label>
@@ -82,7 +80,7 @@
 			</div>
 			<div class="body d-lg-flex">
 				<div class="w-lg-100">
-					<form id="sidebar" action="/h/{{sub}}/sidebar" method="post">
+					<form id="sidebar" action="/h/{{sub}}/sidebar" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHR(this)">
 						<input hidden name="formkey" value="{{v|formkey}}">
 						<textarea autocomplete="off" maxlength="10000" class="form-control rounded" id="bio-text" placeholder="Enter sidebar here..." rows="10" name="sidebar" form="sidebar">{% if sub.sidebar %}{{sub.sidebar}}{% endif %}</textarea>
 						<div class="d-flex mt-2">
@@ -103,7 +101,7 @@
 			</div>
 			<div class="body d-lg-flex">
 				<div class="w-lg-100">
-					<form id="css" action="/h/{{sub}}/css" method="post">
+					<form id="css" action="/h/{{sub}}/css" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHR(this)">
 						<input hidden name="formkey" value="{{v|formkey}}">
 						<textarea autocomplete="off" maxlength="6000" class="form-control rounded" id="bio-text" placeholder="Enter css here..." rows="10" name="css" form="css">{% if css %}{{css}}{% endif %}</textarea>
 						<div class="d-flex mt-2">

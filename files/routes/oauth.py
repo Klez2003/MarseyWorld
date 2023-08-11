@@ -95,7 +95,7 @@ def request_api_keys(v):
 
 	push_notif(admin_ids, 'New notification', body, f'{SITE_FULL}/comment/{new_comment.id}?read=true#context')
 
-	return redirect('/settings/apps')
+	return {"message": "API keys requested successfully!"}
 
 
 @app.post("/delete_app/<int:aid>")
@@ -145,8 +145,7 @@ def edit_oauth_app(v, aid):
 
 	g.db.add(app)
 
-
-	return redirect('/settings/apps')
+	return {"message": "App edited successfully!"}
 
 
 @app.post("/admin/app/approve/<int:aid>")

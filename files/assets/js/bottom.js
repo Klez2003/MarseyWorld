@@ -93,10 +93,6 @@ async function handleSettingSwitch(event) {
 		 // toggle the input back if the request doesn't go through
 		 input.checked = !input.checked;
 	}
-	let oldToast = bootstrap.Toast.getOrCreateInstance(
-		 document.getElementById('toast-post-' + (res.ok ? 'error': 'success'))
-	); // intentionally reversed here: this is the old toast
-	oldToast.hide();
 	showToast(res.ok, message);
 	input.disabled = false;
 	input.classList.remove("disabled");

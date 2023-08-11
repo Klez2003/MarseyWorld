@@ -15,7 +15,7 @@
 						<div class="d-lg-flex">
 							<label for="new-email" class="w-lg-25">Email</label>
 							<div class="w-lg-100">
-								<input autocomplete="off" class="form-control" id="new_email" {% if v.email %}placeholder="{{v.email}}"{% else %}placeholder="Your email"{% endif %} type="email" pattern='{{EMAIL_REGEX_PATTERN}}' name="new_email" required>
+								<input autocomplete="off" class="form-control" id="new_email" {% if v.email %}placeholder="{{v.email}}"{% else %}placeholder="Your email"{% endif %} type="email" name="new_email" required>
 								{% if v.email and not v.email_verified %}
 									<div class="text-danger mt-1" id="email-verify-text">Email not verified. You will not be able to recover your account with this email until you verify it. <u><button type="button" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/verify_email');emailVerifyText()" class="text-primary font-weight-bold ml-1">Verify now.</button></u></div>
 								{% elif not v.email %}
@@ -58,7 +58,7 @@
 		<section id="site-settings-password-section" class="settings-section-section">
 			<h5>Password</h5>
 			<div class="settings-section rounded">
-				<form action="/settings/security" method="post">
+				<form action="/settings/security" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHR(this)">
 					<div class="body">
 						<div class="d-lg-flex">
 							<label for="old_password" class="mb-0 w-lg-25">Old Password</label>
@@ -106,8 +106,8 @@
 		</section>
 		<section id="site-settings-logout-everywhere-section" class="settings-section-section">
 			<h5>Log Out Everywhere</h5>
-			<form action="/settings/log_out_all_others" method="post">
-					<input hidden name="formkey" value="{{v|formkey}}">
+			<form action="/settings/log_out_all_others" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHR(this)">
+				<input hidden name="formkey" value="{{v|formkey}}">
 				<div class="body">
 					<div class="d-lg-flex">
 						<label for="forcelog-password" class="w-lg-25" id="email-password-label">Password</label>
@@ -145,7 +145,7 @@
 					<span><i class="far fa-times"></i></span>
 				</button>
 			</div>
-			<form action="/settings/security" method="post">
+			<form action="/settings/security" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHRReload(this)">
 				<input hidden name="formkey" value="{{v|formkey}}">
 				<input hidden name="2fa_secret" value="{{mfa_secret}}">
 				<div class="modal-body">

@@ -90,12 +90,12 @@ def edit_rules_post(v):
 	with open(f'files/templates/rules_{SITE_NAME}.html', 'w+', encoding="utf-8") as f:
 		f.write(rules)
 
-	# ma = ModAction(
-	# 	kind="edit_rules",
-	# 	user_id=v.id,
-	# )
-	# g.db.add(ma)
-	return render_template('admin/edit_rules.html', v=v, rules=rules, msg='Rules edited successfully!')
+	ma = ModAction(
+		kind="edit_rules",
+		user_id=v.id,
+	)
+	g.db.add(ma)
+	return {"message": "Rules edited successfully!"}
 
 @app.post("/@<username>/make_admin")
 @limiter.limit('1/second', scope=rpath)
@@ -472,16 +472,12 @@ def badge_grant_post(v):
 
 	usernames = request.values.get("usernames", "").strip()
 	if not usernames:
-		error = "You must enter usernames!"
-		if v.client: abort(400, error)
-		return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=True, error=error)
+		abort(400, "You must enter usernames!")
 
 	for username in usernames.split():
 		user = get_user(username, graceful=True)
 		if not user:
-			error = "User not found!"
-			if v.client: abort(400, error)
-			return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=True, error=error)
+			abort(400, "User not found!")
 
 		try: badge_id = int(request.values.get("badge_id"))
 		except: abort(400)
@@ -532,10 +528,7 @@ def badge_grant_post(v):
 		)
 		g.db.add(ma)
 
-
-	msg = "Badge granted to users successfully!"
-	if v.client: return {"message": msg}
-	return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=True, msg=msg)
+	return {"message": "Badge granted to users successfully!"}
 
 @app.post("/admin/badge_remove")
 @feature_required('BADGES')
@@ -549,14 +542,12 @@ def badge_remove_post(v):
 
 	usernames = request.values.get("usernames", "").strip()
 	if not usernames:
-		error = "You must enter usernames!"
-		if v.client: abort(400, error)
-		return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=False, error=error)
+		abort(400, "You must enter usernames!")
 
 	for username in usernames.split():
 		user = get_user(username, graceful=True)
 		if not user:
-			return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=False, error="User not found!")
+			abort(400, "User not found!")
 
 		try: badge_id = int(request.values.get("badge_id"))
 		except: abort(400)
@@ -580,10 +571,7 @@ def badge_remove_post(v):
 		g.db.add(ma)
 		g.db.delete(badge)
 
-
-	msg = "Badge removed from users successfully!"
-	if v.client: return {"message": msg}
-	return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=False, msg=msg)
+	return {"message": "Badge removed from users successfully!"}
 
 
 @app.get("/admin/alt_votes")
@@ -1702,8 +1690,7 @@ def admin_distinguish_comment(c_id, v):
 def admin_banned_domains(v):
 	banned_domains = g.db.query(BannedDomain) \
 		.order_by(BannedDomain.reason).all()
-	return render_template("admin/banned_domains.html", v=v,
-		banned_domains=banned_domains)
+	return render_template("admin/banned_domains.html", v=v, banned_domains=banned_domains)
 
 @app.post("/admin/ban_domain")
 @limiter.limit('1/second', scope=rpath)
@@ -1736,7 +1723,7 @@ def ban_domain(v):
 		)
 		g.db.add(ma)
 
-	return redirect("/admin/banned_domains/")
+	return {"message": "Domain banned successfully!"}
 
 
 @app.post("/admin/unban_domain/<path:domain>")
@@ -1898,10 +1885,10 @@ def delete_media_post(v):
 
 	url = request.values.get("url")
 	if not url:
-		return render_template("admin/delete_media.html", v=v, url=url, error="No url provided!")
+		abort(400, "No url provided!")
 
 	if not image_link_regex.fullmatch(url) and not video_link_regex.fullmatch(url):
-		return render_template("admin/delete_media.html", v=v, url=url, error="Invalid url!")
+		abort(400, "Invalid url!")
 
 	path = url.split(SITE)[1]
 
@@ -1909,7 +1896,7 @@ def delete_media_post(v):
 		path = '/videos' + path
 
 	if not os.path.isfile(path):
-		return render_template("admin/delete_media.html", v=v, url=url, error="File not found on the server!")
+		abort(400, "File not found on the server!")
 
 	os.remove(path)
 
@@ -1921,7 +1908,7 @@ def delete_media_post(v):
 	g.db.add(ma)
 
 	purge_files_in_cache(url)
-	return render_template("admin/delete_media.html", v=v, msg="Media deleted successfully!")
+	return {"message": "Media deleted successfully!"}
 
 @app.post("/admin/reset_password/<int:user_id>")
 @limiter.limit('1/second', scope=rpath)
@@ -1964,10 +1951,10 @@ def start_orgy(v):
 
 	create_orgy(link, title)
 
-	return redirect("/chat")
+	return {"message": "Orgy started successfully!"}
 
 @app.post("/admin/stop_orgy")
 @admin_level_required(PERMS['ORGIES'])
 def stop_orgy(v):
 	end_orgy()
-	return redirect("/chat")
+	return {"message": "Orgy stopped successfully!"}

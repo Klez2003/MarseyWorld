@@ -260,7 +260,7 @@ def api(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @auth_desired
 def contact(v):
-	return render_template("contact.html", v=v, msg=get_msg())
+	return render_template("contact.html", v=v)
 
 @app.post("/contact")
 @limiter.limit('1/second', scope=rpath)
@@ -304,7 +304,7 @@ def submit_contact(v):
 
 	push_notif(admin_ids, f'New modmail from @{new_comment.author_name}', new_comment.body, f'{SITE_FULL}/notifications/modmail')
 
-	return redirect("/contact?msg=Your message has been sent to the admins!")
+	return {"message": "Your message has been sent to the admins!"}
 
 patron_badges = (22,23,24,25,26,27,28,257,258,259,260,261)
 

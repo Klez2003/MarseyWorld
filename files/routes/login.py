@@ -77,13 +77,13 @@ def login_post(v):
 
 		try:
 			if now - int(request.values.get("time")) > 600:
-				return redirect('/login')
+				return render_template("login/login.html", failed=True, redirect=redir)
 		except:
 			abort(400)
 
 		formhash = request.values.get("hash")
 		if not validate_hash(f"{account.id}+{request.values.get('time')}+2fachallenge", formhash):
-			return redirect("/login")
+			return render_template("login/login.html", failed=True, redirect=redir)
 
 		if not account.validate_2fa(request.values.get("2fa_token", "").strip()):
 			hash = generate_hash(f"{account.id}+{now}+2fachallenge")

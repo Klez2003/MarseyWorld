@@ -11,15 +11,13 @@ function getMessageFromJsonData(success, json) {
 	return message;
 }
 
-function showToast(success, message, isToastTwo=false) {
+function showToast(success, message) {
+	const oldToast = bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-' + (success ? 'error': 'success'))); // intentionally reversed here: this is the old toast
+	oldToast.hide();
 	let element = success ? "toast-post-success" : "toast-post-error";
 	let textElement = element + "-text";
-	if (isToastTwo) {
-		element = element + "2";
-		textElement = textElement + "2";
-	}
 	if (!message) {
-		message = success ? "Success" : "Error, please try again later";
+		message = success ? "Action successful!" : "Error, please try again later";
 	}
 	document.getElementById(textElement).innerText = message;
 	bootstrap.Toast.getOrCreateInstance(document.getElementById(element)).show();
@@ -43,18 +41,20 @@ function postToast(t, url, data, extraActionsOnSuccess, method="POST") {
 	}
 	const xhr = createXhrWithFormKey(url, method, form);
 	xhr[0].onload = function() {
-		t.disabled = false;
-		t.classList.remove("disabled");
+		const success = xhr[0].status >= 200 && xhr[0].status < 300;
+
+		if (!(extraActionsOnSuccess == reload && success)) {
+			t.disabled = false;
+			t.classList.remove("disabled");
+		}
+
 		let result
 		let message;
-		let success = xhr[0].status >= 200 && xhr[0].status < 300;
 		if (typeof result == "string") {
 			message = result;
 		} else {
 			message = getMessageFromJsonData(success, JSON.parse(xhr[0].response));
 		}
-		let oldToast = bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-' + (success ? 'error': 'success'))); // intentionally reversed here: this is the old toast
-		oldToast.hide();
 		showToast(success, message);
 		if (success && extraActionsOnSuccess) result = extraActionsOnSuccess(xhr[0]);
 		return success;
@@ -63,13 +63,7 @@ function postToast(t, url, data, extraActionsOnSuccess, method="POST") {
 }
 
 function postToastReload(t, url, method="POST") {
-	postToast(t, url,
-		{
-		},
-		() => {
-			location.reload()
-		}
-	, method);
+	postToast(t, url, {}, reload, method);
 }
 
 function postToastSwitch(t, url, button1, button2, cls, extraActionsOnSuccess, method="POST") {
@@ -280,10 +274,14 @@ function prepare_to_pause(audio) {
 	});
 }
 
+function reload() {
+	location.reload();
+}
+
 function sendFormXHR(form, extraActionsOnSuccess) {
-	const submit_btn = form.querySelector('[type="submit"]')
-	submit_btn.disabled = true;
-	submit_btn.classList.add("disabled");
+	const t = form.querySelector('[type="submit"]')
+	t.disabled = true;
+	t.classList.add("disabled");
 
 	const xhr = new XMLHttpRequest();
 
@@ -296,24 +294,18 @@ function sendFormXHR(form, extraActionsOnSuccess) {
 	xhr.setRequestHeader('xhr', 'xhr');
 
 	xhr.onload = function() {
-		if (xhr.status >= 200 && xhr.status < 300) {
-			let data = JSON.parse(xhr.response);
-			showToast(true, getMessageFromJsonData(true, data));
-			if (extraActionsOnSuccess) extraActionsOnSuccess(xhr);
-		} else {
-			document.getElementById('toast-post-error-text').innerText = "Error, please try again later."
-			try {
-				let data=JSON.parse(xhr.response);
-				bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-error')).show();
-				document.getElementById('toast-post-error-text').innerText = data["error"];
-				if (data && data["details"]) document.getElementById('toast-post-error-text').innerText = data["details"];
-			} catch(e) {
-				bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-success')).hide();
-				bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-error')).show();
-			}
+		const success = xhr.status >= 200 && xhr.status < 300;
+
+		if (!(extraActionsOnSuccess == reload && success)) {
+			t.disabled = false;
+			t.classList.remove("disabled");
 		}
-		submit_btn.disabled = false;
-		submit_btn.classList.remove("disabled");	
+
+		if (xhr.status != 204) {
+			const data = JSON.parse(xhr.response);
+			showToast(success, getMessageFromJsonData(success, data));
+		}
+		if (success && extraActionsOnSuccess) extraActionsOnSuccess(xhr);
 	};
 
 	xhr.send(formData);
@@ -331,11 +323,7 @@ function sendFormXHRSwitch(form) {
 }
 
 function sendFormXHRReload(form) {
-	sendFormXHR(form,
-		() => {
-			location.reload();
-		}
-	)
+	sendFormXHR(form, reload)
 }
 
 let sortAscending = {};

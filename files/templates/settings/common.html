@@ -56,7 +56,7 @@
 	<div class="body d-lg-flex border-bottom">
 		<label class="text-black w-lg-25">{{section_title}}</label>
 		<div class="w-lg-100">
-			<form id="{{id}}-form" action="{{form_action}}" method="post">
+			<form id="{{id}}-form" action="{{form_action}}" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHR(this)">
 				<input hidden name="formkey" value="{{v|formkey}}">
 				<input minlength={{minlength}} maxlength={{maxlength}} pattern="{{pattern}}" autocomplete="off" id="{{id}}-body" type="text" name="{{form_name}}" class="form-control" placeholder='{{placeholder_text}}' value="{% if contents %}{{contents}}{% endif %}" {% if disabled %}disabled{% endif %}>
 				<div class="d-flex mt-2">
@@ -75,7 +75,7 @@
 <div class="body d-lg-flex border-bottom">
 	<label class="text-black w-lg-25">{{section_title}}</label>
 	<div class="w-lg-100">
-		<form id="{{id}}-form" action="{{form_action}}" method="post" enctype="multipart/form-data">
+		<form id="{{id}}-form" action="{{form_action}}" method="post" enctype="multipart/form-data" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHR(this)">
 			<input hidden name="formkey" value="{{v|formkey}}">
 			<textarea autocomplete="off" id="{{id}}-text" class="file-ta form-control rounded" placeholder="{{placeholder_text}}" rows="3" name="{{form_name}}" form="{{id}}-form" maxlength="{{maxlength}}">{% if contents %}{{contents}}{% endif %}</textarea>
 			{% if show_extras %}

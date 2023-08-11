@@ -16,10 +16,8 @@
 						</div>
 						<div class="body w-lg-100">
 							<p>You're a {{TIER_TO_NAME[v.patron] if v.patron else "freeloader"}}!</p>{% if v.patron %} Thanks ily! &lt;3{% endif %}
-							{% if not v.patron and v.truescore >= TRUESCORE_DONATE_MINIMUM %}
-								<p class="font-italic">To stop freeloading, first <a href="/settings/security#new_email">verify your email</a>, support us on <a href="{{DONATE_LINK}}">{{DONATE_SERVICE}}</a> with the same email, and click "Claim {{patron}} Rewards"</p>
-							{% elif not v.patron %}
-								<p class="font-italic">To stop freeloading, you can <a href="/donate">donate via crypto</a>. Please let us know first beforehand by <a href="/contact">sending us a modmail.</a> Thanks!</p>
+							{% if not v.patron %}
+								<p class="font-italic">To stop freeloading, support us <a href="/donate">here</a></p>
 							{% endif %}
 						</div>
 					</div>
@@ -186,7 +184,7 @@
 						</div>
 						<div class="body w-lg-100">
 							<p>Your original username will always stay reserved for you: <code>{{v.original_username}}</code></p>
-							<form action="/settings/name_change" method="post">
+							<form action="/settings/name_change" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHR(this)">
 								<input hidden name="formkey" value="{{v|formkey}}">
 								<input id="name-body" autocomplete="off" type="text" name="name" class="form-control" value="{{v.username}}"  {% if v.namechanged %}disabled{% endif %}>
 								<small>{% if v.patron %}1{% else %}3{% endif %}-25 characters, including letters, numbers, _ , and -</small>
@@ -332,7 +330,7 @@
 {% if FEATURES['USERS_PERMANENT_WORD_FILTERS'] -%}
 <div class="modal fade" id="modal-{{id}}" tabindex="-1">
 	<div class="modal-dialog modal-dialog-centered">
-		<form class="m-auto" action="{{form_action}}" id="{{id}}-form" method="post">
+		<form class="m-auto" action="{{form_action}}" id="{{id}}-form" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHRReload(this)">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title">Make {{friendly_name}} Permanent</h5>

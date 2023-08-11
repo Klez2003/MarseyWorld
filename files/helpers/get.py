@@ -363,12 +363,6 @@ def get_error():
 	else:
 		return None
 
-def get_msg():
-	if request.referrer and request.referrer.split('?')[0] == request.base_url:
-		return request.values.get("msg")
-	else:
-		return None
-
 def get_page():
 	try: return max(int(request.values.get("page", 1)), 1)
 	except: return 1

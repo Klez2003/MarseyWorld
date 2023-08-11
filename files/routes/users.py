@@ -1374,9 +1374,7 @@ def toggle_pins(sub, sort):
 	pins = session.get(f'{sub}_{sort}', default)
 	session[f'{sub}_{sort}'] = not pins
 
-	if is_site_url(request.referrer):
-		return redirect(request.referrer)
-	return redirect('/')
+	return {"message": "Pins toggled successfully!"}
 
 
 @app.get("/badge_owners/<int:bid>")

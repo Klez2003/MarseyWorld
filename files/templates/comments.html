@@ -24,35 +24,30 @@
 {% endif %}
 
 {% if c.is_blocking and not c.ghost or (c.is_banned or c.deleted_utc) and not (v and v.admin_level >= PERMS['POST_COMMENT_MODERATION']) and not (v and v.id==c.author_id) %}
-
 	<div id="comment-{{c.id}}" class="comment {% if not (v and v.id == author_id) and not (v and v.admin_level) and not comment_info %}collapsed{% endif %}">
-			<span class="comment-collapse-desktop" style="border-color: #{{c.author.name_color}}" data-nonce="{{g.nonce}}" data-onclick="collapse_comment('{{c.id}}')"></span>
-
-			<div class="comment-body">
-					<div id="comment-{{c.id}}-only" class="{% if c.award_count('tilt', v) %}tilt-comment{% endif %} {% if c.award_count('glowie', v) %}glow{% endif %} comment-{{c.id}}-only">
-							<div class="user-info">
-								<span class="comment-collapse-icon" data-nonce="{{g.nonce}}" data-onclick="collapse_comment('{{c.id}}')"></span>
-								{% if standalone and c.over_18 %}<span class="badge badge-danger">+18</span> {% endif %}
-								{% if c.is_banned %}removed by @{{c.ban_reason}} (Site Admin){% elif c.deleted_utc %}Deleted by author{% elif c.is_blocking %}You are blocking @{{c.author_name}}{% endif %}
-							</div>
-					</div>
-
-		{% if render_replies %}
-			<div id="replies-of-{{c.fullname}}">
-				{% if level<9 or request.path.startswith('/notifications') %}
-					{% for reply in replies %}
-						{{single_comment(reply, level=level+1)}}
-					{% endfor %}
-				{% elif replies %}
-					<button type="button" id="btn-{{c.id}}" class="d-mob-none btn btn-primary mt-3" data-nonce="{{g.nonce}}" data-onclick="more_comments('{{c.id}}', '{{sort}}')">More comments</button>
-					<a class="d-md-none py-3" href="{{c.more_comments}}">More comments <i class="fas fa-long-arrow-right ml-1"></i></a>
-				{% endif %}
+		<span class="comment-collapse-desktop" style="border-color: #{{c.author.name_color}}" data-nonce="{{g.nonce}}" data-onclick="collapse_comment('{{c.id}}')"></span>
+		<div class="comment-body">
+			<div id="comment-{{c.id}}-only" class="{% if c.award_count('tilt', v) %}tilt-comment{% endif %} {% if c.award_count('glowie', v) %}glow{% endif %} comment-{{c.id}}-only">
+				<div class="user-info">
+					<span class="comment-collapse-icon" data-nonce="{{g.nonce}}" data-onclick="collapse_comment('{{c.id}}')"></span>
+					{% if standalone and c.over_18 %}<span class="badge badge-danger">+18</span> {% endif %}
+					{% if c.is_banned %}removed by @{{c.ban_reason}} (Site Admin){% elif c.deleted_utc %}Deleted by author{% elif c.is_blocking %}You are blocking @{{c.author_name}}{% endif %}
+				</div>
 			</div>
-		{% endif %}
+			{% if render_replies %}
+				<div id="replies-of-{{c.fullname}}">
+					{% if level<9 or request.path.startswith('/notifications') %}
+						{% for reply in replies %}
+							{{single_comment(reply, level=level+1)}}
+						{% endfor %}
+					{% elif replies %}
+						<button type="button" id="btn-{{c.id}}" class="d-mob-none btn btn-primary mt-3" data-nonce="{{g.nonce}}" data-onclick="more_comments('{{c.id}}', '{{sort}}')">More comments</button>
+						<a class="d-md-none py-3" href="{{c.more_comments}}">More comments <i class="fas fa-long-arrow-right ml-1"></i></a>
+					{% endif %}
+				</div>
+			{% endif %}
+		</div>
 	</div>
-	</div>
-
-
 {% else %}
 
 {% set score=c.score %}

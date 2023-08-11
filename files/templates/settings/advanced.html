@@ -140,7 +140,7 @@
 							<label for="custom-filter">Custom Filters</label>
 						</div>
 						<div class="body w-lg-100">
-							<form id="custom-filter" action="/settings/filters" method="post">
+							<form id="custom-filter" action="/settings/filters" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHR(this)">
 								<input hidden name="formkey" value="{{v|formkey}}">
 									<small>Hides matching posts from the frontpage and collapses matching comments.</small>
 								<textarea autocomplete="off" class="form-control rounded" id="filters-text"
