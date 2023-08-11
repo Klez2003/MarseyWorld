@@ -341,7 +341,10 @@ def badges(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @admin_level_required(PERMS['USER_BLOCKS_VISIBLE'])
 def blocks(v):
-	blocks = g.db.query(UserBlock).order_by(UserBlock.created_utc.desc()).all()
+	blocks = g.db.query(UserBlock).options(
+			joinedload(UserBlock.user),
+			joinedload(UserBlock.target),
+		).order_by(UserBlock.created_utc.desc()).all()
 
 	return render_template("blocks.html", v=v, blocks=blocks)
 
