@@ -45,7 +45,7 @@ AWARDS = {
 	"fish": {
 		"kind": "fish",
 		"title": "Fish",
-		"description": "This user cannot be unfollowed",
+		"description": "",
 		"icon": "fas fa-fish",
 		"color": "text-gold",
 		"price": 20000,
