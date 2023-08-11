@@ -42,6 +42,19 @@ AWARDS = {
 		"ghost": False,
 		"enabled": False,
 	},
+	"fish": {
+		"kind": "fish",
+		"title": "Fish",
+		"description": "This user cannot be unfollowed",
+		"icon": "fas fa-fish",
+		"color": "text-gold",
+		"price": 20000,
+		"deflectable": True,
+		"cosmetic": False,
+		"ghost": False,
+		"enabled": False,
+	},
+
 
 	### Fistmas
 	"lootbox": {
@@ -729,18 +742,6 @@ AWARDS = {
 		"description": "Makes the recipient unblockable and removes all blocks on them.",
 		"icon": "fas fa-laugh-squint",
 		"color": "text-lightgreen",
-		"price": 20000,
-		"deflectable": True,
-		"cosmetic": False,
-		"ghost": False,
-		"enabled": True,
-	},
-	"fish": {
-		"kind": "fish",
-		"title": "Fish",
-		"description": "This user cannot be unfollowed",
-		"icon": "fas fa-fish",
-		"color": "text-gold",
 		"price": 20000,
 		"deflectable": True,
 		"cosmetic": False,

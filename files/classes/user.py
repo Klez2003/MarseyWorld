@@ -1260,11 +1260,6 @@ class User(Base):
 
 	@property
 	@lazy
-	def fish(self):
-		return self.has_badge(90)
-
-	@property
-	@lazy
 	def offsitementions(self):
 		return self.has_badge(140)
 
