@@ -248,11 +248,6 @@ class Post(Base):
 	def award_count(self, kind, v):
 		if v and v.poor:
 			return 0
-		elif self.distinguish_level:
-			if SITE_NAME == 'rDrama' and kind in {'glowie', 'tilt',}:
-				return 0
-			elif SITE_NAME == 'WPD':
-				return 0
 
 		num = len([x for x in self.awards if x.kind == kind])
 		if num > 4 and kind not in {"shit", "fireflies", "gingerbread"}:

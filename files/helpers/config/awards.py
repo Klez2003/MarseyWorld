@@ -438,7 +438,7 @@ AWARDS = {
 		"description": "Tilts the post or comment",
 		"icon": "fas fa-car-tilt",
 		"color": "text-blue",
-		"price": 500,
+		"price": 300,
 		"deflectable": False,
 		"cosmetic": True,
 		"ghost": True,
