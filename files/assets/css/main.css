@@ -210,6 +210,16 @@
 .fa-ankh:before{content:"\f644"}
 .fa-quotes:before{content:"\e234"}
 
+/* do not remove - fixes hand, talking, marsey-love components 
+	from breaking out of the comment box
+*/
+.comment-text a > img {
+	position: relative !important;
+}
+.preview a > img {
+	position: relative !important;
+}
+
 button {
 	background: none;
 	border: none;
