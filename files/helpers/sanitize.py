@@ -102,6 +102,7 @@ def allowed_attributes(tag, name, value):
 		if name == 'title': return True
 		if name == 'alt': return True
 		if name == 'cide' and not value: return True
+		if name == 'bounce' and not value: return True
 
 	if tag == 'table':
 		if name == 'class' and value == 'table': return True

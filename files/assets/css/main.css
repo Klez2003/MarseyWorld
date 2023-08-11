@@ -213,7 +213,7 @@
 /* do not remove - fixes hand, talking, marsey-love components 
 	from breaking out of the comment box
 */
-.comment-text a > img, img[data-user-submitted], .preview > img {
+.comment-text a > img, img[data-user-submitted], .preview > img, .popover-bio {
 	position: relative !important;
 	max-height: 150px !important;
 	margin: 0 !important;
@@ -5547,13 +5547,14 @@ span > img[src$="/i/hand.webp"]+img[src$="/i/talking.webp"] {
 	padding-top: 20%;
 	padding-right: 5%;
 }
-span > img[src$="/i/hand.webp"]+img[src$="/i/talking.webp"]~img {
+span > img[src$="/i/hand.webp"]+img[src$="/i/talking.webp"]~img, span[bounce] {
 	animation: pat-pfp-anim 0.3s infinite;
 	transform-origin: bottom center;
 	margin-top: 20%;
 	text-align: center;
 	object-fit: contain;
 }
+
 span > img[src$="/i/talking.webp"]~img {
 	margin-top: 22%;
 }
@@ -6910,6 +6911,13 @@ div.markdown {
 .popover-bio-div {
 	max-height: 20vh !important;
 	overflow: auto;
+}
+
+.popover-bio {
+	overflow: scroll;
+	position: relative;
+	display: inline-block;
+	height: 100%;
 }
 
 .popover-badges-div {
