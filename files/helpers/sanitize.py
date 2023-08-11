@@ -78,6 +78,7 @@ def allowed_attributes(tag, name, value):
 		if name in {'g','b','glow','party'} and not value: return True
 		if name in {'alt','title'}: return True
 		if name == 'class' and value == 'img': return True
+		if name == 'data-user-submitted' and not value: return True
 
 	if tag == 'lite-youtube':
 		if name == 'params' and value.startswith('autoplay=1&modestbranding=1'): return True
@@ -527,6 +528,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 				a.append(tag)
 
 			tag["data-src"] = tag["data-src"]
+		tag["data-user-submitted"] = ""
 
 	sanitized = str(soup).replace('<html><body>','').replace('</body></html>','').replace('/>','>')
 
