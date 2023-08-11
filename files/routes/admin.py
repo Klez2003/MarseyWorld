@@ -473,14 +473,14 @@ def badge_grant_post(v):
 	usernames = request.values.get("usernames", "").strip()
 	if not usernames:
 		error = "You must enter usernames!"
-		if v.client: return {"error": error}
+		if v.client: abort(400, error)
 		return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=True, error=error)
 
 	for username in usernames.split():
 		user = get_user(username, graceful=True)
 		if not user:
 			error = "User not found!"
-			if v.client: return {"error": error}
+			if v.client: abort(400, error)
 			return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=True, error=error)
 
 		try: badge_id = int(request.values.get("badge_id"))
@@ -550,7 +550,7 @@ def badge_remove_post(v):
 	usernames = request.values.get("usernames", "").strip()
 	if not usernames:
 		error = "You must enter usernames!"
-		if v.client: return {"error": error}
+		if v.client: abort(400, error)
 		return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=False, error=error)
 
 	for username in usernames.split():
