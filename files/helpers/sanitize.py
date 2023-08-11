@@ -18,6 +18,7 @@ from files.classes.domains import BannedDomain
 from files.classes.mod_logs import ModAction
 from files.classes.notifications import Notification
 from files.classes.group import Group
+from files.classes.follows import Follow
 
 from files.helpers.config.const import *
 from files.helpers.const_stateful import *
@@ -487,6 +488,8 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 				return f'<a href="/users">!{name}</a>'
 			elif name == 'jannies':
 				return f'<a href="/admins">!{name}</a>'
+			elif name == 'followers':
+				return f'<a href="/id/{g.v.id}/followers">!{name}</a>'
 			elif g.db.get(Group, name):
 				return f'<a href="/!{name}">!{name}</a>'
 			else:

@@ -164,7 +164,9 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None):
 			elif i.group(1) == 'jannies':
 				group = None
 				member_ids = set([x[0] for x in g.db.query(User.id).filter(User.admin_level > 0, User.id != AEVANN_ID)])
-				coin_receivers.update(member_ids)
+			elif i.group(1) == 'followers':
+				group = None
+				member_ids = set([x[0] for x in g.db.query(Follow.user_id).filter_by(target_id=v.id)])
 			else:
 				group = g.db.get(Group, i.group(1))
 				if not group: continue
@@ -174,7 +176,7 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None):
 
 			notify_users.update(members)
 
-			if ghost or v.id not in member_ids:
+			if (ghost or v.id not in member_ids) and i.group(1) != 'followers':
 				if group and group.name == 'verifiedrich':
 					abort(403, f"Only !verifiedrich members can mention it!")
 				cost += len(members) * 10
@@ -184,7 +186,7 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None):
 				if log_cost:
 					log_cost.ping_cost = cost
 
-				if group and group.name in {'biofoids','neofoids'}:
+				if i.group(1) in {'biofoids','neofoids','jannies'}:
 					coin_receivers.update(member_ids)
 
 		if cost:
