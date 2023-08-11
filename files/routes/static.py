@@ -344,7 +344,7 @@ def blocks(v):
 	blocks = g.db.query(UserBlock).options(
 			joinedload(UserBlock.user),
 			joinedload(UserBlock.target),
-		).order_by(UserBlock.created_utc.desc()).all()
+		).order_by(UserBlock.created_utc.desc())
 
 	return render_template("blocks.html", v=v, blocks=blocks)
 
