@@ -9,6 +9,7 @@ from files.classes.saves import *
 
 def apply_time_filter(t, objects, cls):
 	now = int(time.time())
+
 	if t == 'hour':
 		cutoff = now - 3600
 	elif t == 'day':
@@ -20,9 +21,10 @@ def apply_time_filter(t, objects, cls):
 	elif t == 'year':
 		cutoff = now - 31536000
 	else:
-		cutoff = 0
+		return objects
 
 	return objects.filter(cls.created_utc >= cutoff)
+	
 
 def sort_objects(sort, objects, cls):
 	if sort == 'hot':
