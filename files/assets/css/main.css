@@ -5547,12 +5547,20 @@ span > img[src$="/i/hand.webp"]+img[src$="/i/talking.webp"] {
 	padding-top: 20%;
 	padding-right: 5%;
 }
-span > img[src$="/i/hand.webp"]+img[src$="/i/talking.webp"]~img, span[bounce] {
+span > img[src$="/i/hand.webp"]+img[src$="/i/talking.webp"]~img {
 	animation: pat-pfp-anim 0.3s infinite;
 	transform-origin: bottom center;
 	margin-top: 20%;
 	text-align: center;
 	object-fit: contain;
+}
+
+span[bounce] {
+	animation: pat-pfp-anim 0.6s infinite;
+	transform-origin: bottom center;
+	text-align: center;
+	object-fit: contain;
+	display: inline-block;
 }
 
 span > img[src$="/i/talking.webp"]~img {
