@@ -120,7 +120,7 @@ def add_notif(cid, uid, text, pushnotif_url=''):
 			push_notif({uid}, 'New notification', text, pushnotif_url)
 
 
-def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None):
+def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None, followers_ping=True):
 	# Restrict young accounts from generating notifications
 	if v.age < NOTIFICATION_SPAM_AGE_THRESHOLD:
 		return set()
@@ -165,6 +165,8 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None):
 				group = None
 				member_ids = set([x[0] for x in g.db.query(User.id).filter(User.admin_level > 0, User.id != AEVANN_ID)])
 			elif i.group(1) == 'followers':
+				if not followers_ping:
+					abort(403, f"You can't use !followers in posts!")
 				group = None
 				member_ids = set([x[0] for x in g.db.query(Follow.user_id).filter_by(target_id=v.id)])
 			else:
