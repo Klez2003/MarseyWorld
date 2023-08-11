@@ -250,7 +250,6 @@ def settings_personal_post(v):
 		friends = friends[:BIO_FRIENDS_ENEMIES_LENGTH_LIMIT]
 
 		notify_users = NOTIFY_USERS(friends, v, oldtext=v.friends)
-
 		if notify_users:
 			text = f"@{v.username} has added you to their friends list!"
 			cid = notif_comment(text)
