@@ -414,11 +414,11 @@ class User(Base):
 	@property
 	@lazy
 	def sub_blocks(self):
-		stealth = set([x[0] for x in g.db.query(Sub.name).filter_by(stealth=True).all()])
-		stealth = stealth - set([x[0] for x in g.db.query(SubJoin.sub).filter_by(user_id=self.id).all()])
+		stealth = set([x[0] for x in g.db.query(Sub.name).filter_by(stealth=True)])
+		stealth = stealth - set([x[0] for x in g.db.query(SubJoin.sub).filter_by(user_id=self.id)])
 		if self.chud == 1: stealth = stealth - {'chudrama'}
 
-		return list(stealth) + [x[0] for x in g.db.query(SubBlock.sub).filter_by(user_id=self.id).all()]
+		return list(stealth) + [x[0] for x in g.db.query(SubBlock.sub).filter_by(user_id=self.id)]
 
 	@lazy
 	def blocks(self, sub):
@@ -431,7 +431,7 @@ class User(Base):
 	@property
 	@lazy
 	def all_follows(self):
-		return [x[0] for x in g.db.query(SubSubscription.sub).filter_by(user_id=self.id).all()]
+		return [x[0] for x in g.db.query(SubSubscription.sub).filter_by(user_id=self.id)]
 
 	@lazy
 	def follows(self, sub):
@@ -560,7 +560,7 @@ class User(Base):
 	@lazy
 	def all_twoway_blocks(self):
 		return set([x[0] for x in g.db.query(UserBlock.target_id).filter_by(user_id=self.id).all() + \
-			g.db.query(UserBlock.user_id).filter_by(target_id=self.id).all()])
+			g.db.query(UserBlock.user_id).filter_by(target_id=self.id)])
 
 
 	def validate_2fa(self, token):
@@ -697,12 +697,12 @@ class User(Base):
 	@property
 	@lazy
 	def followed_users(self):
-		return [x[0] for x in g.db.query(Follow.target_id).filter_by(user_id=self.id).all()]
+		return [x[0] for x in g.db.query(Follow.target_id).filter_by(user_id=self.id)]
 
 	@property
 	@lazy
 	def followed_subs(self):
-		return [x[0] for x in g.db.query(SubSubscription.sub).filter_by(user_id=self.id).all()]
+		return [x[0] for x in g.db.query(SubSubscription.sub).filter_by(user_id=self.id)]
 
 	@property
 	@lazy
@@ -859,7 +859,7 @@ class User(Base):
 	@property
 	@lazy
 	def moderated_subs(self):
-		return [x[0] for x in g.db.query(Mod.sub).filter_by(user_id=self.id).order_by(Mod.sub).all()]
+		return [x[0] for x in g.db.query(Mod.sub).filter_by(user_id=self.id).order_by(Mod.sub)]
 
 	@property
 	@lazy
@@ -867,7 +867,7 @@ class User(Base):
 		return [x[0] for x in g.db.query(GroupMembership.group_name).filter(
 				GroupMembership.user_id == self.id, 
 				GroupMembership.approved_utc != None,
-			).order_by(GroupMembership.group_name).all()]
+			).order_by(GroupMembership.group_name)]
 
 	@lazy
 	def has_follower(self, user):
@@ -1016,7 +1016,7 @@ class User(Base):
 	@property
 	@lazy
 	def userblocks(self):
-		return [x[0] for x in g.db.query(UserBlock.target_id).filter_by(user_id=self.id).all()]
+		return [x[0] for x in g.db.query(UserBlock.target_id).filter_by(user_id=self.id)]
 
 	def get_relationship_count(self, relationship_cls):
 		# TODO: deduplicate (see routes/users.py)

@@ -138,7 +138,7 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None):
 	notify_users.update(user_ids)
 
 	if SITE_NAME == "WPD" and 'daisy' in text:
-		admin_ids = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_SPECIFIC_WPD_COMMENTS']).all()]
+		admin_ids = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_SPECIFIC_WPD_COMMENTS'])]
 		notify_users.update(admin_ids)
 
 
@@ -163,7 +163,7 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None):
 				return 'everyone'
 			elif i.group(1) == 'jannies':
 				group = None
-				member_ids = set([x[0] for x in g.db.query(User.id).filter(User.admin_level > 0, User.id != AEVANN_ID).all()])
+				member_ids = set([x[0] for x in g.db.query(User.id).filter(User.admin_level > 0, User.id != AEVANN_ID)])
 				coin_receivers.update(member_ids)
 			else:
 				group = g.db.get(Group, i.group(1))

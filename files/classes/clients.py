@@ -44,7 +44,7 @@ class OauthApp(Base):
 
 		items = items.order_by(cls.created_utc.desc())
 		items = items.offset(100*(page-1)).limit(100)
-		items = [x.id for x in items.all()]
+		items = [x.id for x in items]
 
 		return items, total
 

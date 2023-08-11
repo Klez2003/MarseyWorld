@@ -586,7 +586,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 	if g.v and g.v.admin_level >= PERMS["IGNORE_DOMAIN_BAN"]:
 		banned_domains = []
 	else:
-		banned_domains = [x.domain for x in g.db.query(BannedDomain.domain).all()]
+		banned_domains = [x.domain for x in g.db.query(BannedDomain.domain)]
 
 	for link in links:
 		#remove empty links

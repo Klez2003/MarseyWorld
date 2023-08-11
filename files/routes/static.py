@@ -203,7 +203,7 @@ def log(v):
 		total = actions.count()
 		actions = actions.order_by(ModAction.id.desc()).offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE).all()
 
-	admins = [x[0] for x in g.db.query(User.username).filter(User.admin_level >= PERMS['ADMIN_MOP_VISIBLE']).order_by(User.username).all()]
+	admins = [x[0] for x in g.db.query(User.username).filter(User.admin_level >= PERMS['ADMIN_MOP_VISIBLE']).order_by(User.username)]
 
 	return render_template("log.html", v=v, admins=admins, types=types, admin=admin, type=kind, actions=actions, total=total, page=page, single_user_url='admin')
 
@@ -222,7 +222,7 @@ def log_item(id, v):
 	if action.kind in MODACTION_PRIVILEGED_TYPES and v.admin_level < PERMS['USER_SHADOWBAN']:
 		abort(404)
 
-	admins = [x[0] for x in g.db.query(User.username).filter(User.admin_level >= PERMS['ADMIN_MOP_VISIBLE']).all()]
+	admins = [x[0] for x in g.db.query(User.username).filter(User.admin_level >= PERMS['ADMIN_MOP_VISIBLE'])]
 
 	if v.admin_level >= PERMS['USER_SHADOWBAN']:
 		if v.admin_level >= PERMS['PROGSTACK']:
@@ -294,7 +294,7 @@ def submit_contact(v):
 	execute_under_siege(v, new_comment, new_comment.body_html, 'modmail')
 	new_comment.top_comment_id = new_comment.id
 
-	admin_ids = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_MODMAIL']).all()]
+	admin_ids = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_MODMAIL'])]
 	if SITE == 'watchpeopledie.tv' and AEVANN_ID in admin_ids:
 		admin_ids.remove(AEVANN_ID)
 

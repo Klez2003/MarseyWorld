@@ -508,7 +508,7 @@ def execute_under_siege(v, target, body, kind):
 
 	if v.age > threshold: return
 
-	unshadowbannedcels = [x[0] for x in g.db.query(ModAction.target_user_id).filter_by(kind='unshadowban').all()]
+	unshadowbannedcels = [x[0] for x in g.db.query(ModAction.target_user_id).filter_by(kind='unshadowban')]
 	if v.id in unshadowbannedcels: return
 
 	check_for_alts(v)

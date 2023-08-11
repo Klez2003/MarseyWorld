@@ -129,7 +129,7 @@ def option_votes(option_id, v):
 
 	ups = g.db.query(PostOptionVote).filter_by(option_id=option_id).order_by(PostOptionVote.created_utc).all()
 
-	user_ids = [x[0] for x in g.db.query(PostOptionVote.user_id).filter_by(option_id=option_id).all()]
+	user_ids = [x[0] for x in g.db.query(PostOptionVote.user_id).filter_by(option_id=option_id)]
 	total_ts = g.db.query(func.sum(User.truescore)).filter(User.id.in_(user_ids)).scalar()
 	total_ts = format(total_ts, ",") if total_ts else '0'
 
@@ -165,7 +165,7 @@ def option_votes_comment(option_id, v):
 
 	ups = g.db.query(CommentOptionVote).filter_by(option_id=option_id).order_by(CommentOptionVote.created_utc).all()
 
-	user_ids = [x[0] for x in g.db.query(CommentOptionVote.user_id).filter_by(option_id=option_id).all()]
+	user_ids = [x[0] for x in g.db.query(CommentOptionVote.user_id).filter_by(option_id=option_id)]
 	total_ts = g.db.query(func.sum(User.truescore)).filter(User.id.in_(user_ids)).scalar()
 	total_ts = format(total_ts, ",") if total_ts else '0'
 

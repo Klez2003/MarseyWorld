@@ -39,7 +39,7 @@ def _add_profile_view(vid, uid):
 	stdout.flush()
 
 def claim_rewards_all_users():
-	emails = [x[0] for x in g.db.query(Transaction.email).filter_by(claimed=None).all()]
+	emails = [x[0] for x in g.db.query(Transaction.email).filter_by(claimed=None)]
 	users = g.db.query(User).filter(User.email.in_(emails)).order_by(User.truescore.desc()).all()
 	for user in users:
 		transactions = g.db.query(Transaction).filter_by(email=user.email, claimed=None).all()
@@ -384,7 +384,7 @@ def all_upvoters_downvoters(v, username, vote_dir, is_who_simps_hates):
 	total_items = sum(votes.values())
 
 	users = g.db.query(User).filter(User.id.in_(votes.keys()))
-	users = [(user, votes[user.id]) for user in users.all()]
+	users = [(user, votes[user.id]) for user in users]
 	users = sorted(users, key=lambda x: x[1], reverse=True)
 
 	try:
@@ -753,7 +753,7 @@ def messagereply(v):
 	top_comment = c.top_comment
 
 	if top_comment.sentto == MODMAIL_ID:
-		admin_ids = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_MODMAIL'], User.id != v.id).all()]
+		admin_ids = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_MODMAIL'], User.id != v.id)]
 		if SITE == 'watchpeopledie.tv' and AEVANN_ID in admin_ids:
 			admin_ids.remove(AEVANN_ID)
 

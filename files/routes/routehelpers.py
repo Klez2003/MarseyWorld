@@ -44,7 +44,7 @@ def get_alt_graph_ids(uid):
 	)
 
 	alt_graph_cte = alt_graph_cte.union(alt_graph_cte_inner)
-	return set([x[0] for x in g.db.query(User.id).filter(User.id == alt_graph_cte.c.user_id, User.id != uid).all()])
+	return set([x[0] for x in g.db.query(User.id).filter(User.id == alt_graph_cte.c.user_id, User.id != uid)])
 
 def get_alt_graph(uid):
 	alt_ids = get_alt_graph_ids(uid)
@@ -64,7 +64,7 @@ def add_alt(user1, user2):
 
 def check_for_alts(current, include_current_session=False):
 	current_id = current.id
-	ids = [x[0] for x in g.db.query(User.id).all()]
+	ids = [x[0] for x in g.db.query(User.id)]
 	past_accs = set(session.get("history", [])) if include_current_session else set()
 
 	for past_id in list(past_accs):

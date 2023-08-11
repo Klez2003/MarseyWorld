@@ -85,7 +85,7 @@ def submit_get(v, sub=None):
 	sub = get_sub_by_name(sub, graceful=True)
 	if request.path.startswith('/h/') and not sub: abort(404)
 
-	SUBS = [x[0] for x in g.db.query(Sub.name).order_by(Sub.name).all()]
+	SUBS = [x[0] for x in g.db.query(Sub.name).order_by(Sub.name)]
 
 	return render_template("submit.html", SUBS=SUBS, v=v, sub=sub)
 
@@ -125,12 +125,12 @@ def post_id(pid, v, anything=None, sub=None):
 		comments, output = get_comments_v_properties(v, None, Comment.parent_post == p.id, Comment.level < 10)
 
 		if sort == "hot":
-			pinned = [c[0] for c in comments.filter(Comment.stickied != None).order_by(Comment.created_utc.desc()).all()]
+			pinned = [c[0] for c in comments.filter(Comment.stickied != None).order_by(Comment.created_utc.desc())]
 			comments = comments.filter(Comment.stickied == None)
 
 		comments = comments.filter(Comment.level == 1)
 		comments = sort_objects(sort, comments, Comment)
-		comments = [c[0] for c in comments.all()]
+		comments = [c[0] for c in comments]
 	else:
 		comments = g.db.query(Comment).filter(Comment.parent_post == p.id)
 
@@ -216,7 +216,7 @@ def view_more(v, pid, sort, offset):
 		comments = comments.filter(Comment.level == 1)
 		comments = sort_objects(sort, comments, Comment)
 
-		comments = [c[0] for c in comments.all()]
+		comments = [c[0] for c in comments]
 	else:
 		comments = g.db.query(Comment).filter(
 				Comment.parent_post == pid,
@@ -265,7 +265,7 @@ def more_comments(v, cid):
 		# output is needed: see comments.py
 		comments, output = get_comments_v_properties(v, None, Comment.top_comment_id == tcid, Comment.level > 9)
 		comments = comments.filter(Comment.parent_comment_id == cid)
-		comments = [c[0] for c in comments.all()]
+		comments = [c[0] for c in comments]
 	else:
 		c = get_comment(cid)
 		comments = c.replies(sort=request.values.get('sort'))

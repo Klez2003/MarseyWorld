@@ -242,10 +242,10 @@ def revert_actions(v, username):
 
 	cutoff = int(time.time()) - 86400
 
-	posts = [x[0] for x in g.db.query(ModAction.target_post_id).filter(ModAction.user_id == revertee.id, ModAction.created_utc > cutoff, ModAction.kind == 'ban_post').all()]
+	posts = [x[0] for x in g.db.query(ModAction.target_post_id).filter(ModAction.user_id == revertee.id, ModAction.created_utc > cutoff, ModAction.kind == 'ban_post')]
 	posts = g.db.query(Post).filter(Post.id.in_(posts)).all()
 
-	comments = [x[0] for x in g.db.query(ModAction.target_comment_id).filter(ModAction.user_id == revertee.id, ModAction.created_utc > cutoff, ModAction.kind == 'ban_comment').all()]
+	comments = [x[0] for x in g.db.query(ModAction.target_comment_id).filter(ModAction.user_id == revertee.id, ModAction.created_utc > cutoff, ModAction.kind == 'ban_comment')]
 	comments = g.db.query(Comment).filter(Comment.id.in_(comments)).all()
 
 	for item in posts + comments:
@@ -254,7 +254,7 @@ def revert_actions(v, username):
 		item.is_approved = v.id
 		g.db.add(item)
 
-	users = (x[0] for x in g.db.query(ModAction.target_user_id).filter(ModAction.user_id == revertee.id, ModAction.created_utc > cutoff, ModAction.kind.in_(('shadowban', 'ban_user'))).all())
+	users = (x[0] for x in g.db.query(ModAction.target_user_id).filter(ModAction.user_id == revertee.id, ModAction.created_utc > cutoff, ModAction.kind.in_(('shadowban', 'ban_user'))))
 	users = g.db.query(User).filter(User.id.in_(users)).all()
 
 	for user in users:
