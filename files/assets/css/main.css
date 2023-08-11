@@ -215,9 +215,13 @@
 */
 .comment-text a > img {
 	position: relative !important;
+	max-height: 150px !important;
+	margin: 0 !important;
 }
-.preview a > img {
+.preview > img {
 	position: relative !important;
+	max-height: 150px !important;
+	margin: 0 !important;
 }
 
 button {
@@ -5526,45 +5530,45 @@ span[data-bs-toggle], .pat-preview {
 	position: relative;
 	display: inline-block;
 }
-img[src$="/i/hand.webp"] {
+span > img[src$="/i/hand.webp"] {
 	position: absolute;
 	width: 90%;
 	height: 90%;
 	margin-top: -10%;
 	z-index: 101;
 }
-img[src$="/i/talking.webp"] {
+span > img[src$="/i/talking.webp"] {
 	position: absolute;
 	width: 70%;
 }
-img[src$="/i/hand.webp"]~img {
+span > img[src$="/i/hand.webp"] ~ img {
 	animation: pat-pfp-anim 0.3s infinite;
 	transform-origin: bottom center;
 	margin-top: 10%;
 	text-align: center;
 	object-fit: contain;
 }
-img[src$="/i/hand.webp"]+img[src$="/i/talking.webp"] {
+span > img[src$="/i/hand.webp"]+img[src$="/i/talking.webp"] {
 	padding-top: 20%;
 	padding-right: 5%;
 }
-img[src$="/i/hand.webp"]+img[src$="/i/talking.webp"]~img {
+span > img[src$="/i/hand.webp"]+img[src$="/i/talking.webp"]~img {
 	animation: pat-pfp-anim 0.3s infinite;
 	transform-origin: bottom center;
 	margin-top: 20%;
 	text-align: center;
 	object-fit: contain;
 }
-img[src$="/i/talking.webp"]~img {
+span > img[src$="/i/talking.webp"]~img {
 	margin-top: 22%;
 }
-img[src$="/i/talking.webp"]+img+img[src$="/i/love-background.webp"] {
+span > img[src$="/i/talking.webp"]+img+img[src$="/i/love-background.webp"] {
 	margin-top: 22%;
 }
-img[src$="/i/talking.webp"]+img[src$="/i/hand.webp"] {
+span > img[src$="/i/talking.webp"]+img[src$="/i/hand.webp"] {
 	margin-top: 5%;
 }
-img[src$="/i/talking.webp"]+img[src$="/i/hand.webp"]+img  {
+span > img[src$="/i/talking.webp"]+img[src$="/i/hand.webp"]+img  {
 	margin-top: 20%;
 }
 
@@ -5572,7 +5576,7 @@ img[src$="/i/talking.webp"]+img[src$="/i/hand.webp"]+img  {
 	bottom: calc(2px + 2%) !important;
 }
 
-img[src$="/i/love-foreground.webp"]+img[src$="/i/love-background.webp"]+img {
+span > img[src$="/i/love-foreground.webp"]+img[src$="/i/love-background.webp"]+img {
 	position: absolute;
 	z-index: 50;
 	height: 40%;
@@ -5581,11 +5585,11 @@ img[src$="/i/love-foreground.webp"]+img[src$="/i/love-background.webp"]+img {
 	left: 40%;
 }
 
-img[src$="/i/love-foreground.webp"] {
+span > img[src$="/i/love-foreground.webp"] {
 	position: absolute;
 	z-index: 100;
 }
-img[src$="/i/love-background.webp"] {
+span > img[src$="/i/love-background.webp"] {
 	position: relative;
 	z-index: 1;
 }
@@ -5747,8 +5751,8 @@ img.golden, img[g]:not([data-src]) {
 	animation: golden 1s infinite alternate linear;
 }
 
-img[src$="/i/hand.webp"]+img[g]:not([data-src]),
-img[src$="/i/hand.webp"]+img.golden {
+span > img[src$="/i/hand.webp"]+img[g]:not([data-src]),
+span > img[src$="/i/hand.webp"]+img.golden {
 	animation: golden 1s infinite alternate linear,
 	pat-pfp-anim .3s infinite;
 }
@@ -5762,7 +5766,7 @@ img[glow]:not([data-src]) {
 	animation: glowing 1s infinite alternate linear;
 }
 
-img[src$="/i/hand.webp"]+img[glow]:not([data-src]) {
+span > img[src$="/i/hand.webp"]+img[glow]:not([data-src]) {
 	animation: glowing 1s infinite alternate linear,
 	pat-pfp-anim .3s infinite;
 }
@@ -5776,7 +5780,7 @@ img[party]:not([data-src]) {
 	animation: party 2s infinite alternate linear;
 }
 
-img[src$="/i/hand.webp"]+img[party]:not([data-src]) {
+span > img[src$="/i/hand.webp"]+img[party]:not([data-src]) {
 	animation: party 2s infinite alternate linear,
 	pat-pfp-anim .3s infinite;
 }
