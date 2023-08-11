@@ -341,17 +341,9 @@ def badges(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @admin_level_required(PERMS['USER_BLOCKS_VISIBLE'])
 def blocks(v):
-	blocks=g.db.query(UserBlock).all()
-	users = []
-	targets = []
-	for x in blocks:
-		acc_user = get_account(x.user_id)
-		acc_tgt = get_account(x.target_id)
-		if acc_user.shadowbanned or acc_tgt.shadowbanned: continue
-		users.append(acc_user)
-		targets.append(acc_tgt)
+	blocks = g.db.query(UserBlock).order_by(UserBlock.created_utc.desc()).all()
 
-	return render_template("blocks.html", v=v, users=users, targets=targets)
+	return render_template("blocks.html", v=v, blocks=blocks)
 
 @app.get("/formatting")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
