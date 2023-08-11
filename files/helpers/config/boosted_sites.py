@@ -108,6 +108,7 @@ BOOSTED_SITES = {
 	'coracle.social',
 	'discuit.net',
 	'mainchan.com',
+	'klique.io',
 	'retalk.com',
 	'arete.network',
 	'trustcafe.io',
@@ -123,7 +124,7 @@ BOOSTED_SITES = {
 	'commentcastles.org',
 	'livefilter.com',
 	'sift.quest',
-	'klique.io',
+	'limereader.com',
 	##lemmy
 	'beehaw.org',
 	'sh.itjust.works',
