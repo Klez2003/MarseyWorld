@@ -213,7 +213,7 @@
 /* do not remove - fixes hand, talking, marsey-love components 
 	from breaking out of the comment box
 */
-.comment-text a > img, img[data-user-submitted], .preview > img, .popover-bio {
+.comment-text a > img, img[data-user-submitted], .preview > img {
 	position: relative !important;
 	max-height: 150px !important;
 	margin: 0 !important;
