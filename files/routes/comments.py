@@ -64,15 +64,20 @@ def post_pid_comment_cid(cid, v, pid=None, anything=None, sub=None):
 	except: context = 8
 	comment_info = comment
 	c = comment
-	while context and c.level > 1:
-		c = c.parent_comment
-		context -= 1
-	top_comment = c
 
 	if post.new: defaultsortingcomments = 'new'
 	elif v: defaultsortingcomments = v.defaultsortingcomments
 	else: defaultsortingcomments = "hot"
 	sort=request.values.get("sort", defaultsortingcomments)
+
+	while context and c.level > 1:
+		parent = c.parent_comment
+		replies = parent.replies(sort)
+		replies.remove(c)
+		parent.replies2 = [c] + replies
+		c = parent
+		context -= 1
+	top_comment = c
 
 	if v:
 		# this is required because otherwise the vote and block
