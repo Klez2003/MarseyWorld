@@ -136,11 +136,10 @@ def process_video(file, v):
 	old = f'/videos/{time.time()}'.replace('.','')
 	file.save(old)
 
-	if SITE_NAME != 'WPD':
-		size = os.stat(old).st_size
-		if size > MAX_VIDEO_SIZE_MB_PATRON * 1024 * 1024 or (not v.patron and size > MAX_VIDEO_SIZE_MB * 1024 * 1024):
-			os.remove(old)
-			abort(413, f"Max video size is {MAX_VIDEO_SIZE_MB} MB ({MAX_VIDEO_SIZE_MB_PATRON} MB for {patron}s)")
+	size = os.stat(old).st_size
+	if size > MAX_VIDEO_SIZE_MB_PATRON * 1024 * 1024 or (not v.patron and size > MAX_VIDEO_SIZE_MB * 1024 * 1024):
+		os.remove(old)
+		abort(413, f"Max video size is {MAX_VIDEO_SIZE_MB} MB ({MAX_VIDEO_SIZE_MB_PATRON} MB for {patron}s)")
 
 	extension = guess_extension(file.content_type)
 	if not extension:

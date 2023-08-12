@@ -449,8 +449,41 @@ function insertText(input, text) {
 
 let oldfiles = {};
 
+const MAX_IMAGE_AUDIO_SIZE_MB = parseInt(document.getElementById("MAX_IMAGE_AUDIO_SIZE_MB").value)
+const MAX_IMAGE_AUDIO_SIZE_MB_PATRON = parseInt(document.getElementById("MAX_IMAGE_AUDIO_SIZE_MB_PATRON").value)
+const MAX_VIDEO_SIZE_MB = parseInt(document.getElementById("MAX_VIDEO_SIZE_MB").value)
+const MAX_VIDEO_SIZE_MB_PATRON = parseInt(document.getElementById("MAX_VIDEO_SIZE_MB_PATRON").value)
+
+let patron
+if (location.host == 'rdrama.net') patron = 'paypig'
+else patron = 'patron'
+
 function handle_files(input, newfiles) {
 	if (!newfiles) return;
+
+	for (const file of newfiles) {
+		let max_size
+		let max_size_patron
+		let type
+
+		if (file.type.startsWith('video/')) {
+			max_size = MAX_VIDEO_SIZE_MB
+			max_size_patron = MAX_VIDEO_SIZE_MB_PATRON
+			type = 'video'
+		}
+		else {
+			max_size = MAX_IMAGE_AUDIO_SIZE_MB
+			max_size_patron = MAX_IMAGE_AUDIO_SIZE_MB_PATRON
+			type = 'image/audio'
+		}
+
+		if (file.size > max_size * 1024 * 1024) {
+			const msg = `Max ${type} size is ${max_size} MB (${max_size_patron} MB for ${patron}s)`
+			showToast(false, msg);
+			input.value = null;
+			return
+		}
+	}
 
 	const ta = input.parentElement.parentElement.parentElement.parentElement.querySelector('textarea.file-ta');
 
