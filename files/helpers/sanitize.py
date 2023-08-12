@@ -386,6 +386,7 @@ def get_youtube_id_and_t(url):
 	return (id, t)
 
 def handle_youtube_links(url):
+	url = url.replace('&amp;','&')
 	params = parse_qs(urlparse(url).query, keep_blank_values=True)
 	html = None
 	id, t = get_youtube_id_and_t(url)
