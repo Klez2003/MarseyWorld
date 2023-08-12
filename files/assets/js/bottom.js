@@ -182,6 +182,21 @@ document.addEventListener("click", function (e) {
 			return
 		}
 		document.getElementById('giveaward').dataset.action = element.dataset.url
+
+		const effect_author_tab = document.getElementById('effect-author-tab')
+		const effect_content_tab = document.getElementById('effect-content-tab')
+		const effect_author_section = document.getElementById('effect-author-section')
+		const effect_content_section = document.getElementById('effect-content-section')
+		if (element.dataset.ghost == 'True') {
+			effect_author_tab.classList.add('disabled')
+			effect_author_tab.classList.remove('active')
+			effect_author_section.classList.add('d-none')
+			effect_content_tab.classList.add('active')
+			effect_content_section.classList.remove('d-none')
+		}
+		else {
+			effect_author_tab.classList.remove('disabled')
+		}
 	}
 
 
