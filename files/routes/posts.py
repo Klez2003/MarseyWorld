@@ -432,6 +432,9 @@ def submit_post(v, sub=None):
 
 	if SITE == 'rdrama.net' and (v.chud == 1 or v.id == 253):
 		sub = 'chudrama'
+	
+	if SITE == 'rdrama.net' and v.id == 10947:
+		sub = 'mnn'
 
 	title_html = filter_emojis_only(title, graceful=True, count_emojis=True)
 
