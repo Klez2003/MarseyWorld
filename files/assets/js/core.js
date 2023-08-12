@@ -33,6 +33,9 @@ function createXhrWithFormKey(url, form=new FormData()) {
 }
 
 function postToast(t, url, data, extraActionsOnSuccess, extraActionsOnFailure) {
+	t.disabled = true;
+	t.classList.add("disabled");
+
 	let form = new FormData();
 	if (typeof data === 'object' && data !== null) {
 		for(let k of Object.keys(data)) {
