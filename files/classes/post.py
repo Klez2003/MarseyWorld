@@ -249,6 +249,9 @@ class Post(Base):
 		if v and v.poor:
 			return 0
 
+		if self.distinguish_level and SITE_NAME == 'WPD':
+			return 0
+
 		num = len([x for x in self.awards if x.kind == kind])
 		if num > 4 and kind not in {"shit", "fireflies", "gingerbread"}:
 			return 4
