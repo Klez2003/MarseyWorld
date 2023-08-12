@@ -456,6 +456,9 @@ function handle_files(input, newfiles) {
 	if (!newfiles) return;
 
 	for (const file of newfiles) {
+		if (file.type.startsWith('image/'))
+			continue
+
 		let max_size
 		let max_size_patron
 		let type

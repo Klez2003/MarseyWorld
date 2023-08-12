@@ -179,18 +179,20 @@ def process_image(filename, v, resize=0, trim=False, uploader_id=None, db=None):
 	# thumbnails are processed in a thread and not in the request context
 	# if an image is too large or webp conversion fails, it'll crash
 	# to avoid this, we'll simply return None instead
+	original_resize = resize
 	has_request = has_request_context()
 	size = os.stat(filename).st_size
-	is_patron = bool(v and v.patron)
-
-	if size > MAX_IMAGE_AUDIO_SIZE_MB_PATRON * 1024 * 1024 or not is_patron and size > MAX_IMAGE_AUDIO_SIZE_MB * 1024 * 1024:
-		os.remove(filename)
-		if has_request:
-			abort(413, f"Max image/audio size is {MAX_IMAGE_AUDIO_SIZE_MB} MB ({MAX_IMAGE_AUDIO_SIZE_MB_PATRON} MB for {patron}s)")
-		return None
+	if v and v.patron:
+		max_size = MAX_IMAGE_AUDIO_SIZE_MB_PATRON * 1024 * 1024
+	else:
+		max_size = MAX_IMAGE_AUDIO_SIZE_MB * 1024 * 1024
 
 	try:
 		with Image.open(filename) as i:
+			if size > max_size:
+				ratio = max_size / size
+				resize = i.width * ratio
+
 			oldformat = i.format
 			params = ["magick"]
 			if resize == 99: params.append(f"{filename}[0]")
@@ -218,7 +220,7 @@ def process_image(filename, v, resize=0, trim=False, uploader_id=None, db=None):
 
 	size_after_conversion = os.stat(filename).st_size
 
-	if resize:
+	if original_resize:
 		if size_after_conversion > MAX_IMAGE_SIZE_BANNER_RESIZED_MB * 1024 * 1024:
 			os.remove(filename)
 			if has_request:
@@ -233,7 +235,7 @@ def process_image(filename, v, resize=0, trim=False, uploader_id=None, db=None):
 				hashes = {}
 
 				for img in os.listdir(path):
-					if resize == 400 and img in {'256.webp','585.webp'}: continue
+					if original_resize == 400 and img in {'256.webp','585.webp'}: continue
 					img_path = f'{path}/{img}'
 					if img_path == filename: continue
 
