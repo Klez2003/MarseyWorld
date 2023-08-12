@@ -148,7 +148,7 @@
 
 
 .tilt-post {
-	animation-duration: 200s !important;
+	animation-duration: 100s !important;
 	animation-iteration-count: infinite !important;
 	animation-direction: alternate !important;
 	animation-timing-function: linear !important;
@@ -166,7 +166,7 @@
 
 @media (min-width: 768px) {
 	.tilt-post {
-		animation-duration: 500s !important;
+		animation-duration: 200s !important;
 	}
 	@keyframes tilt-post {
 		0% {transform: rotate(0deg);}
