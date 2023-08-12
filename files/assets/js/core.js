@@ -32,7 +32,7 @@ function createXhrWithFormKey(url, form=new FormData()) {
 	return [xhr, form]; // hacky but less stupid than what we were doing before
 }
 
-function postToast(t, url, data, extraActionsOnSuccess) {
+function postToast(t, url, data, extraActionsOnSuccess, extraActionsOnFailure) {
 	let form = new FormData();
 	if (typeof data === 'object' && data !== null) {
 		for(let k of Object.keys(data)) {
@@ -57,6 +57,7 @@ function postToast(t, url, data, extraActionsOnSuccess) {
 		}
 		showToast(success, message);
 		if (success && extraActionsOnSuccess) extraActionsOnSuccess(xhr[0]);
+		if (!success && extraActionsOnFailure) extraActionsOnFailure(xhr[0]);
 		return success;
 	};
 	xhr[0].send(xhr[1]);
