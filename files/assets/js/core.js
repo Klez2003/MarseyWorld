@@ -56,7 +56,7 @@ function postToast(t, url, data, extraActionsOnSuccess) {
 			message = getMessageFromJsonData(success, JSON.parse(xhr[0].response));
 		}
 		showToast(success, message);
-		if (success && extraActionsOnSuccess) result = extraActionsOnSuccess(xhr[0]);
+		if (success && extraActionsOnSuccess) extraActionsOnSuccess(xhr[0]);
 		return success;
 	};
 	xhr[0].send(xhr[1]);
