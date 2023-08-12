@@ -37,9 +37,9 @@ def add_options(self, body, v):
 
 	if self.options:
 		curr = [x for x in self.options if x.exclusive and x.voted(v)]
-		if curr: curr = f" value={kind}-" + str(curr[0].id)
+		if curr: curr = f" value=option-{kind}-" + str(curr[0].id)
 		else: curr = ''
-		body += f'<input class="d-none" id="current-{kind}-{self.id}"{curr}>'
+		body += f'<input class="d-none" id="current-option-{kind}-{self.id}"{curr}>'
 		winner = [x for x in self.options if x.exclusive == 3]
 
 	for o in self.options:
@@ -66,7 +66,7 @@ def add_options(self, body, v):
 			option_body += "</div>"
 		else:
 			input_type = 'radio' if o.exclusive else 'checkbox'
-			option_body += f'<div class="custom-control mt-2"><input type="{input_type}" class="custom-control-input" id="{kind}-{o.id}" name="option-{self.id}"'
+			option_body += f'<div class="custom-control mt-2"><input type="{input_type}" class="custom-control-input" id="option-{kind}-{o.id}" name="option-{self.id}"'
 			if o.voted(v): option_body += " checked"
 
 			disabled = False
@@ -87,10 +87,10 @@ def add_options(self, body, v):
 			else:
 				option_body += f''' data-nonce="{g.nonce}" data-onclick="option_vote_no_v()"'''
 
-			option_body += f'''><label class="custom-control-label" for="{kind}-{o.id}">{o.body_html}<span class="presult-{self.id}'''
+			option_body += f'''><label class="custom-control-label" for="option-{kind}-{o.id}">{o.body_html}<span class="presult-{self.id}'''
 			if not disabled and not self.total_poll_voted(v):
 				option_body += ' d-none'
-			option_body += f'"> - <a href="/votes/{kind}/option/{o.id}"><span id="score-{kind}-{o.id}">{o.upvotes}</span> votes</a></label></div>'''
+			option_body += f'"> - <a href="/votes/{kind}/option/{o.id}"><span id="score-option-{kind}-{o.id}">{o.upvotes}</span> votes</a></label></div>'''
 
 		if o.exclusive > 1: s = '##'
 		elif o.exclusive: s = '&amp;&amp;'

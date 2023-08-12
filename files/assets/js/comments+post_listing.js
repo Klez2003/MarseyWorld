@@ -17,7 +17,7 @@ function option_vote_0(oid, parentid, kind) {
 	for(let el of document.getElementsByClassName('presult-'+parentid)) {
 		el.classList.remove('d-none');
 	}
-	const full_oid = kind + '-' + oid
+	const full_oid = `option-${kind}-${oid}`
 	const type = document.getElementById(full_oid).checked;
 	const scoretext = document.getElementById('score-' + full_oid);
 	const score = Number(scoretext.textContent);
@@ -30,8 +30,8 @@ function option_vote_1(oid, parentid, kind) {
 	for(let el of document.getElementsByClassName('presult-'+parentid)) {
 		el.classList.remove('d-none');
 	}
-	const full_oid = kind + '-' + oid
-	let curr = document.getElementById(`current-${kind}-${parentid}`)
+	const full_oid = `option-${kind}-${oid}`
+	let curr = document.getElementById(`current-option-${kind}-${parentid}`)
 	if (curr && curr.value)
 	{
 		const scoretext = document.getElementById('score-' + curr.value);
