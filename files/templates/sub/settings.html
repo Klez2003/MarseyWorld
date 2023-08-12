@@ -49,7 +49,7 @@
 	{% for banner in sub.banner_urls %}
 	<section id="sub-banner-update-{{loop.index - 1}}" class="d-inline-block sub-settings-subsection">
 		<img class="mr-3" loading="lazy" alt="/h/{{sub.name}} banner" src="{{banner}}" style="max-height:300px;max-width:100%">
-		<button class="btn btn-danger sub-banner-delete-button mt-2" id="sub-banner-delete-{{loop.index}}" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)" data-areyousure="postToastReload(this, '/h/{{sub.name}}/settings/banners/{{loop.index - 1}}', 'DELETE');">Delete</button>
+		<button class="btn btn-danger sub-banner-delete-button mt-2" id="sub-banner-delete-{{loop.index}}" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)" data-areyousure="postToastReload(this, '/h/{{sub.name}}/settings/banners/delete/{{loop.index - 1}}');">Delete</button>
 	</section>
 	{% else %}
 		<section id="sub-banner-no-banners" class="d-inline-block sub-settings-subsection">
@@ -63,7 +63,7 @@
 			<label class="btn btn-secondary text-capitalize mr-2 mb-0 mt-3">
 				Upload New Banner<input autocomplete="off" type="file" accept="image/*" hidden name="banner" data-nonce="{{g.nonce}}" onchange_submit>
 			</label>
-			<button type="button" class="btn btn-danger sub-banner-delete-button mt-3" id="sub-banner-delete-all" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)" data-areyousure="postToastReload(this, '/h/{{sub.name}}/settings/banners/', 'DELETE');">Delete All Banners</button>
+			<button type="button" class="btn btn-danger sub-banner-delete-button mt-3" id="sub-banner-delete-all" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)" data-areyousure="postToastReload(this, '/h/{{sub.name}}/settings/banners/delete_all');">Delete All Banners</button>
 		</form>
 		<div class="text-small text-muted mt-3">
 			All image files are supported. Max file size is {% if v and v.patron %}16{% else %}8{% endif %} MB.

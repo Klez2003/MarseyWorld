@@ -40,7 +40,7 @@ def settings(v):
 def settings_personal(v):
 	return render_template("settings/personal.html", v=v, error=get_error())
 
-@app.delete('/settings/background')
+@app.post('/settings/remove_background')
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required

@@ -871,7 +871,7 @@ def pin_post(post_id, v):
 		else: return {"message": "Post unpinned!"}
 	return abort(404, "Post not found!")
 
-@app.put("/post/<int:post_id>/new")
+@app.post("/post/<int:post_id>/new")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
@@ -893,7 +893,7 @@ def set_new_sort(post_id, v):
 	return {"message": "Changed the the default sorting of comments on this post to 'new'"}
 
 
-@app.delete("/post/<int:post_id>/new")
+@app.post("/post/<int:post_id>/hot")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required

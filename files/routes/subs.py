@@ -543,7 +543,7 @@ def upload_sub_banner(v, sub):
 
 	return redirect(f'/h/{sub}/settings')
 
-@app.delete("/h/<sub>/settings/banners/<int:index>")
+@app.post("/h/<sub>/settings/banners/delete/<int:index>")
 @limiter.limit("1/second;30/day", deduct_when=lambda response: response.status_code < 400)
 @limiter.limit("1/second;30/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_permabanned
@@ -574,7 +574,7 @@ def delete_sub_banner(v, sub, index):
 
 	return {"message": f"Deleted banner {index} from /h/{sub} successfully"}
 
-@app.delete("/h/<sub>/settings/banners/")
+@app.post("/h/<sub>/settings/banners/delete_all")
 @limiter.limit("1/10 second;30/day", deduct_when=lambda response: response.status_code < 400)
 @limiter.limit("1/10 second;30/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_permabanned
