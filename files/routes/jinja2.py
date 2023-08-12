@@ -4,6 +4,7 @@ from os import environ, listdir, path
 
 from flask import g, session, has_request_context, request
 from jinja2 import pass_context
+from PIL import ImageColor
 
 from files.classes.user import User
 from files.helpers.assetcache import assetcache_path
@@ -17,6 +18,10 @@ from files.routes.wrappers import calc_users
 from files.__main__ import app, cache
 
 from urllib.parse import parse_qs, urlencode,  urlsplit
+
+@app.template_filter("rgb")
+def rgb(color):
+	return str(ImageColor.getcolor(f"#{color}", "RGB"))[1:-1]
 
 @app.template_filter("formkey")
 def formkey(u):

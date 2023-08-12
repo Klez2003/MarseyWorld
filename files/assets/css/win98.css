@@ -152,7 +152,7 @@ blockquote {
 	color: #cfcfcf !important;
 }
 
-*:target, .unread {
+.unread {
 	background: #ffffffaa !important;
 }
 

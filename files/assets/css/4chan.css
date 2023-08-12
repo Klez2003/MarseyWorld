@@ -156,6 +156,6 @@ h5.post-title a:visited {
 	background-color: black !important;
 }
 
-*:target, .unread {
+.unread {
 	background: #fdccad !important;
 }

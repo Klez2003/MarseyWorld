@@ -5912,8 +5912,14 @@ html {
 	content: '';
 	display: block;
 }
-*:target, .unread {
+
+.unread {
 	background: #ffffff22 !important;
+	padding: 12px;
+	padding-bottom: 4px;
+}
+*:target {
+	background: rgba(var(--primary_rgb), 0.15) !important;
 	padding: 12px;
 	padding-bottom: 4px;
 }

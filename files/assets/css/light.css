@@ -76,8 +76,11 @@ blockquote {
 	color: var(--gray-400) !important;
 }
 
-*:target, .unread {
+.unread {
 	background: #dddddd !important;
+}
+*:target {
+    background: rgba(var(--primary_rgb), 0.2) !important;
 }
 
 h5.post-title a:visited {

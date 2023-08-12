@@ -11,3 +11,7 @@
 #speed-carot-modal .speed-modal-option:hover, #speed-carot-modal .speed-modal-option:focus, #speed-carot-modal .speed-modal-option.selected {
 	background-color: #444444;
 }
+
+.unread {
+    background-color: #3d3d3d !important;
+}
