@@ -23,23 +23,23 @@ function showToast(success, message) {
 	bootstrap.Toast.getOrCreateInstance(document.getElementById(element)).show();
 }
 
-function createXhrWithFormKey(url, method="POST", form=new FormData()) {
+function createXhrWithFormKey(url, form=new FormData()) {
 	const xhr = new XMLHttpRequest();
-	xhr.open(method, url);
+	xhr.open('POST', url);
 	xhr.setRequestHeader('xhr', 'xhr');
 	if (!form) form = new FormData();
 	form.append("formkey", formkey());
 	return [xhr, form]; // hacky but less stupid than what we were doing before
 }
 
-function postToast(t, url, data, extraActionsOnSuccess, method="POST") {
+function postToast(t, url, data, extraActionsOnSuccess) {
 	let form = new FormData();
 	if (typeof data === 'object' && data !== null) {
 		for(let k of Object.keys(data)) {
 			form.append(k, data[k]);
 		}
 	}
-	const xhr = createXhrWithFormKey(url, method, form);
+	const xhr = createXhrWithFormKey(url, form);
 	xhr[0].onload = function() {
 		const success = xhr[0].status >= 200 && xhr[0].status < 300;
 
@@ -62,11 +62,11 @@ function postToast(t, url, data, extraActionsOnSuccess, method="POST") {
 	xhr[0].send(xhr[1]);
 }
 
-function postToastReload(t, url, method="POST") {
-	postToast(t, url, {}, reload, method);
+function postToastReload(t, url) {
+	postToast(t, url, {}, reload);
 }
 
-function postToastSwitch(t, url, button1, button2, cls, extraActionsOnSuccess, method="POST") {
+function postToastSwitch(t, url, button1, button2, cls, extraActionsOnSuccess) {
 	postToast(t, url,
 		{
 		},
@@ -87,9 +87,8 @@ function postToastSwitch(t, url, button1, button2, cls, extraActionsOnSuccess, m
 				}
 			}
 			if (typeof extraActionsOnSuccess == 'function')
-			extraActionsOnSuccess(xhr);
-		}
-	, method);
+				extraActionsOnSuccess(xhr);
+		});
 }
 
 if (!location.pathname.endsWith('/submit'))
@@ -643,7 +642,6 @@ function updateSubscriptionOnServer(subscription, apiEndpoint) {
 
 	const xhr = createXhrWithFormKey(
 		apiEndpoint,
-		'POST',
 		formData
 	);
 

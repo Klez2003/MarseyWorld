@@ -139,7 +139,7 @@ function post_reply(id) {
 	}
 	catch(e) {}
 
-	const xhr = createXhrWithFormKey("/reply", "POST", form);
+	const xhr = createXhrWithFormKey("/reply", form);
 
 	const upload_prog = document.getElementById(`upload-prog-c_${id}`);
 	xhr[0].upload.onprogress = (e) => {handleUploadProgress(e, upload_prog)};
@@ -197,7 +197,7 @@ function comment_edit(id){
 			form.append('file', e);
 	}
 	catch(e) {}
-	const xhr = createXhrWithFormKey("/edit_comment/"+id, "POST", form);
+	const xhr = createXhrWithFormKey("/edit_comment/"+id, form);
 
 	const upload_prog = document.getElementById(`upload-prog-edit-c_${id}`);
 	xhr[0].upload.onprogress = (e) => {handleUploadProgress(e, upload_prog)};
