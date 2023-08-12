@@ -240,7 +240,7 @@ def comment(v):
 
 	body_for_sanitize = body
 	if v.owoify: body_for_sanitize = owoify(body_for_sanitize)
-	if v.marsify: body_for_sanitize = marsify(body_for_sanitize)
+	if v.marsify and not v.chud: body_for_sanitize = marsify(body_for_sanitize)
 	if v.sharpen: body_for_sanitize = sharpen(body_for_sanitize)
 
 	body_html = sanitize(body_for_sanitize, limit_pings=5, showmore=(not v.marseyawarded), count_emojis=not v.marsify)
@@ -630,7 +630,7 @@ def edit_comment(cid, v):
 		body_for_sanitize = body
 		if v.owoify:
 			body_for_sanitize = owoify(body_for_sanitize)
-		if v.marsify:
+		if v.marsify and not v.chud:
 			body_for_sanitize = marsify(body_for_sanitize)
 		if v.sharpen:
 			body_for_sanitize = sharpen(body_for_sanitize)

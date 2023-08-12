@@ -361,9 +361,6 @@ def award_thing(v, thing_type, id):
 		if author.marseyawarded:
 			abort(409, f"{safe_username} under the effect of a conflicting award: Marsey award!")
 
-		if author.marsify:
-			abort(409, f"{safe_username} under the effect of a conflicting award: Marsify award!")
-
 		if author.owoify:
 			abort(409, f"{safe_username} under the effect of a conflicting award: OwOify award!")
 
@@ -516,7 +513,8 @@ def award_thing(v, thing_type, id):
 		if thing_type == 'comment' and not thing.author.deflector:
 			body = thing.body
 			body = owoify(body)
-			if author.marsify: body = marsify(body)
+			if author.marsify and not author.chud:
+				body = marsify(body)
 			thing.body_html = sanitize(body, limit_pings=5, showmore=True)
 			g.db.add(thing)
 	elif ("Edgy" in kind and kind == v.house) or kind == 'sharpen':
