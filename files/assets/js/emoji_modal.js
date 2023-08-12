@@ -511,16 +511,17 @@ function speed_carot_navigate(event)
 	}
 }
 
-// Let's get it running now
-let forms = document.querySelectorAll("textarea, .allow-emojis");
-forms.forEach(i => {
-	let pseudo_div = document.createElement("div");
-	pseudo_div.className = "ghostdiv";
-	pseudo_div.style.display = "none";
-	i.after(pseudo_div);
-	i.addEventListener('input', update_speed_emoji_modal, false);
-	i.addEventListener('keydown', speed_carot_navigate, false);
-});
+function insertGhostDivs(element) {
+	let forms = element.querySelectorAll("textarea, .allow-emojis");
+	forms.forEach(i => {
+		let pseudo_div = document.createElement("div");
+		pseudo_div.className = "ghostdiv";
+		pseudo_div.style.display = "none";
+		i.after(pseudo_div);
+		i.addEventListener('input', update_speed_emoji_modal, false);
+		i.addEventListener('keydown', speed_carot_navigate, false);
+	});	
+}
 
 function loadEmojis(inputTargetIDName)
 {
