@@ -358,7 +358,7 @@ def with_sigalrm_timeout(timeout):
 
 def remove_cuniform(sanitized):
 	if not sanitized: return ""
-	sanitized = sanitized.replace('\u200e','').replace('\u200b','').replace('\u202e','').replace("\ufeff", "")
+	sanitized = sanitized.replace('\u200e','').replace('\u200b','').replace('\u202e','').replace("\ufeff", "").replace("\u033f","").replace("\u0589", ":")
 	sanitized = sanitized.replace("𒐪","").replace("𒐫","").replace("﷽","")
 	sanitized = sanitized.replace("\r\n", "\n")
 	sanitized = sanitized.replace("’", "'")
@@ -422,10 +422,6 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 		if ping_group_count > 5:
 			error("You can only ping a maximum of 5 ping groups!")
 
-	if "style" in sanitized and "filter" in sanitized:
-		if sanitized.count("blur(") + sanitized.count("drop-shadow(") > 5:
-			error("Too many filters!")
-
 	if blackjack and execute_blackjack(g.v, None, sanitized, blackjack):
 		sanitized = 'g'
 
@@ -449,9 +445,6 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 	sanitized = sanitized.replace('▔', '_').replace('%E2%96%94', '_')
 
 	sanitized = sanitized.replace('<a href="/%21', '<a href="/!')
-
-	# replacing zero width characters, overlines, fake colons
-	sanitized = sanitized.replace('\u200e','').replace('\u200b','').replace("\ufeff", "").replace("\u033f","").replace("\u0589", ":")
 
 	sanitized = reddit_regex.sub(r'<a href="https://old.reddit.com/\1" rel="nofollow noopener" target="_blank">/\1</a>', sanitized)
 	sanitized = sub_regex.sub(r'<a href="/\1">/\1</a>', sanitized)
@@ -673,6 +666,10 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 			pos = CHARLIMIT - 500
 		if pos >= 0:
 			sanitized = (sanitized[:pos] + showmore_regex.sub(r'\1<p><button class="showmore">SHOW MORE</button></p><d class="d-none">\2</d>', sanitized[pos:], count=1))
+
+	if "style" in sanitized and "filter" in sanitized:
+		if sanitized.count("blur(") + sanitized.count("drop-shadow(") > 5:
+			error("Too many filters!")
 
 	return sanitized.strip()
 
