@@ -31,7 +31,7 @@
 				<div class="user-info">
 					<span class="comment-collapse-icon" data-nonce="{{g.nonce}}" data-onclick="collapse_comment('{{c.id}}')"></span>
 					{% if standalone and c.over_18 %}<span class="badge badge-danger">+18</span> {% endif %}
-					{% if c.is_banned %}removed by @{{c.ban_reason}} (Site Admin){% elif c.deleted_utc %}Deleted by author{% elif c.is_blocking %}You are blocking @{{c.author_name}}{% endif %}
+					{% if c.is_banned %}Removed by @{{c.ban_reason}} (Site Admin){% elif c.deleted_utc %}Deleted by author{% elif c.is_blocking %}You are blocking @{{c.author_name}}{% endif %}
 				</div>
 			</div>
 			{% if render_replies %}
@@ -243,7 +243,7 @@
 			{{macros.reports(c, 'comment')}}
 
 			{% if c.is_banned %}
-				<div id="comment-banned-warning" class="comment-text text-removed mb-0">removed by @{{c.ban_reason}} (Site Admin)</div>
+				<div id="comment-banned-warning" class="comment-text text-removed mb-0">Removed by @{{c.ban_reason}} (Site Admin)</div>
 			{% endif %}
 
 			{% set realbody = c.realbody(v) %}
