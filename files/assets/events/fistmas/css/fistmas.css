@@ -91,8 +91,8 @@ pre {
 	background: None !important;
 }
 
-#frontpage .post-title a:visited {
-color: #7a7a7a !important;
+.post-title a:visited, a[href^="https://"]:not([href^="https://rdrama.net"]):not([href^="https://watchpeopledie.tv"]):visited {
+	color: #7a7a7a !important;
 }
 
 .post-title a, h1.post-title {

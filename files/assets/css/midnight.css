@@ -57,7 +57,7 @@ body, .navbar-light, .navbar-dark, .card, .modal-content, .comment-write textare
 	background-color: #313131 !important;
 }
 
-h5.post-title a:visited {
+.post-title a:visited, a[href^="https://"]:not([href^="https://rdrama.net"]):not([href^="https://watchpeopledie.tv"]):visited {
 	color: #6e6e6e !important;
 }
 
