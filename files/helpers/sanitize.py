@@ -718,8 +718,13 @@ def filter_emojis_only(title, golden=True, count_emojis=False, graceful=False):
 
 	if len(title) > POST_TITLE_HTML_LENGTH_LIMIT and not graceful:
 		abort(400)
-	else:
-		return title.strip()
+	
+	title = title.strip()
+	soup = BeautifulSoup(title, 'lxml')
+	text = soup.html.body.text.strip()
+	if not text: title = f'--- {title} ---'
+
+	return title
 
 def is_whitelisted(domain, k):
 	if domain.endswith('pullpush.io'):
