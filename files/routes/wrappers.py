@@ -22,7 +22,7 @@ def get_ID():
 	elif session.get("lo_user"):
 		x = session.get("lo_user")
 	else:
-		x = "logged_out"
+		x = f"logged_out-{g.nonce}"
 
 	return f'{SITE}-{x}'
 
