@@ -48,7 +48,7 @@
 		{{html_head.stylesheets_lower()}}
 		<script defer src="{{'js/bottom.js' | asset}}"></script>
 
-		{% if not v or v.cursormarsey %}
+		{% if (v and v.cursormarsey) or (not v and CURSORMARSEY_DEFAULT) %}
 			<div id="cursormarsey"></div>
 			<div id="cursormarsey-heart" class="d-none"></div>
 			<script defer src="{{'js/cursormarsey.js' | asset}}"></script>
