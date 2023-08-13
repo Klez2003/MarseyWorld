@@ -449,7 +449,7 @@ CREATE TABLE public.comments (
     stickied_child_id integer,
     wall_user_id integer,
     chudded boolean,
-    ping_cost integer
+    ping_cost integer NOT NULL
 );
 
 
@@ -844,7 +844,7 @@ CREATE TABLE public.posts (
     chuddedfor character varying(50),
     posterurl character varying(200),
     chudded boolean,
-    ping_cost integer,
+    ping_cost integer NOT NULL,
     bump_utc integer NOT NULL
 );
 
