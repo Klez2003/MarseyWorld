@@ -7108,15 +7108,17 @@ div.markdown {
 .gif-categories img {
 	border-radius: 0.35rem;
 	width: 200px;
-	height: 35vh;
 	margin: 0 10px;
-	object-fit: contain;
 	-webkit-transition: all 0.15s ease;
 	-moz-transition: all 0.15s ease;
 	-o-transition: all 0.15s ease;
 	-ms-transition: all 0.15s ease;
 	transition: all 0.15s ease;
 	cursor: pointer;
+}
+.gif-categories .card img {
+	height: 20vh;
+	object-fit: cover;
 }
 .gif-categories img:hover {
 	border: 3px solid var(--primary);
