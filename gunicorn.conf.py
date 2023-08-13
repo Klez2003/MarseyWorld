@@ -10,6 +10,8 @@ workers = int(environ.get("WORKER_COUNT").strip())
 max_requests = 5000
 max_requests_jitter = 10000
 
+limit_request_line = 8190
+
 reload = True
 reload_engine = 'poll'
 
