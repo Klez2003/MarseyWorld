@@ -60,7 +60,7 @@ class Post(Base):
 	new = Column(Boolean)
 	notify = Column(Boolean)
 	chudded = Column(Boolean, default=False)
-	ping_cost = Column(Integer)
+	ping_cost = Column(Integer, default=0)
 	bump_utc = Column(Integer)
 
 	author = relationship("User", primaryjoin="Post.author_id==User.id")

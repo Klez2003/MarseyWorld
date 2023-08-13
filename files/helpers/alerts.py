@@ -159,7 +159,7 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None, followers_pi
 
 				v.charge_account('combined', cost)
 				if log_cost:
-					log_cost.ping_cost = cost
+					log_cost.ping_cost += cost
 				return 'everyone'
 			elif i.group(1) == 'jannies':
 				group = None
@@ -186,7 +186,7 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None, followers_pi
 					abort(403, f"You need {cost} coins to mention these ping groups!")
 
 				if log_cost:
-					log_cost.ping_cost = cost
+					log_cost.ping_cost += cost
 
 				if i.group(1) in {'biofoids','neofoids','jannies'}:
 					coin_receivers.update(member_ids)

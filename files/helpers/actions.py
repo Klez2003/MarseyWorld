@@ -210,7 +210,7 @@ def execute_snappy(post, v):
 			)
 
 		if ping_cost:
-			c.ping_cost = ping_cost
+			c.ping_cost += ping_cost
 
 		g.db.add(c)
 
