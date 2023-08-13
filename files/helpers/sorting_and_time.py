@@ -27,6 +27,8 @@ def apply_time_filter(t, objects, cls):
 	
 
 def sort_objects(sort, objects, cls):
+	objects = objects.order_by(cls.is_banned, cls.deleted_utc)
+
 	if sort == 'hot':
 		ti = int(time.time()) + 3600
 		metric = cls.realupvotes
