@@ -25,9 +25,9 @@ function showToast(success, message) {
 	bootstrap.Toast.getOrCreateInstance(document.getElementById(element)).show();
 }
 
-function createXhrWithFormKey(url, form=new FormData()) {
+function createXhrWithFormKey(url, form=new FormData(), method='POST') {
 	const xhr = new XMLHttpRequest();
-	xhr.open('POST', url);
+	xhr.open(method, url);
 	xhr.setRequestHeader('xhr', 'xhr');
 	if (!form) form = new FormData();
 	form.append("formkey", formkey());

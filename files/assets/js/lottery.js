@@ -53,7 +53,7 @@ function handleLotteryRequest(uri, method, callback = () => {}) {
 	const form = new FormData();
 	form.append("formkey", formkey());
 	form.append("quantity", purchaseQuantity);
-	const xhr = createXhrWithFormKey(`/lottery/${uri}`, method, form);
+	const xhr = createXhrWithFormKey(`/lottery/${uri}`, form, method);
 	xhr[0].onload = handleLotteryResponse.bind(null, xhr[0], method, callback);
 	xhr[0].send(xhr[1]);
 }
