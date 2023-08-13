@@ -272,6 +272,14 @@ class User(Base):
 
 	@property
 	@lazy
+	def allowed_in_chat(self):
+		if self.admin_level: return True
+		if self.truescore >= TRUESCORE_CHAT_MINIMUM: return True
+		if self.email_verified: return True
+		return False
+
+	@property
+	@lazy
 	def num_of_bought_awards(self):
 		return g.db.query(AwardRelationship).filter_by(user_id=self.id).count()
 

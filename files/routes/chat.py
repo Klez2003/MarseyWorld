@@ -47,13 +47,16 @@ def is_not_permabanned_socketio(f):
 	wrapper.__name__ = f.__name__
 	return wrapper
 
+CHAT_ERROR_MESSAGE = f"To prevent spam, you'll need either {TRUESCORE_CHAT_MINIMUM} truescore (this is {TRUESCORE_CHAT_MINIMUM} votes, either up or down, on any threads or comments you've made) <i class='p-0'>OR</i> simply <a class='p-0' href=/settings/security>verify your email</a> in order to access chat. Sorry! I love you  💖"
+
 @app.get("/chat")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_permabanned
 def chat(v):
-	if not v.admin_level and TRUESCORE_CHAT_MINIMUM and v.truescore < TRUESCORE_CHAT_MINIMUM:
-		abort(403, f"Need at least {TRUESCORE_CHAT_MINIMUM} truescore for access to chat!")
+	if not v.allowed_in_chat:
+		abort(403, CHAT_ERROR_MESSAGE)
+
 	orgy = get_orgy()
 
 	displayed_messages = {k: val for k, val in messages.items() if val["user_id"] not in v.userblocks}
@@ -68,8 +71,8 @@ def chat(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_permabanned
 def old_chat(v):
-	if not v.admin_level and TRUESCORE_CHAT_MINIMUM and v.truescore < TRUESCORE_CHAT_MINIMUM:
-		abort(403, f"Need at least {TRUESCORE_CHAT_MINIMUM} truescore for access to chat!")
+	if not v.allowed_in_chat:
+		abort(403, CHAT_ERROR_MESSAGE)
 
 	displayed_messages = {k: val for k, val in messages.items() if val["user_id"] not in v.userblocks}
 
@@ -85,7 +88,7 @@ def speak(data, v):
 			f.write(data['file'])
 		image = process_image(name, v)
 
-	if TRUESCORE_CHAT_MINIMUM and v.truescore < TRUESCORE_CHAT_MINIMUM:
+	if not v.allowed_in_chat:
 		return '', 403
 
 	global messages
