@@ -697,7 +697,7 @@ def allowed_attributes_emojis(tag, name, value):
 
 
 @with_sigalrm_timeout(2)
-def filter_emojis_only(title, golden=True, count_emojis=False, graceful=False):
+def filter_emojis_only(title, golden=True, count_emojis=False, graceful=False, is_post_title=False):
 
 	title = title.replace("\n", "").replace("\r", "").replace("\t", "").replace('<','&lt;').replace('>','&gt;')
 
@@ -720,9 +720,11 @@ def filter_emojis_only(title, golden=True, count_emojis=False, graceful=False):
 		abort(400)
 	
 	title = title.strip()
-	soup = BeautifulSoup(title, 'lxml')
-	text = soup.html.body.text.strip()
-	if not text: title = f'--- {title} ---'
+
+	if is_post_title:
+		soup = BeautifulSoup(title, 'lxml')
+		text = soup.html.body.text.strip()
+		if not text: title = f'--- {title} ---'
 
 	return title
 

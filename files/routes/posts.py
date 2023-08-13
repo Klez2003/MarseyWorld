@@ -436,7 +436,7 @@ def submit_post(v, sub=None):
 	if SITE == 'rdrama.net' and v.id == 10947:
 		sub = 'mnn'
 
-	title_html = filter_emojis_only(title, graceful=True, count_emojis=True)
+	title_html = filter_emojis_only(title, graceful=True, count_emojis=True, is_post_title=True)
 
 	if v.marseyawarded and not marseyaward_title_regex.fullmatch(title_html):
 		abort(400, "You can only type marseys!")
@@ -992,7 +992,7 @@ def edit_post(pid, v):
 
 
 	if title != p.title:
-		title_html = filter_emojis_only(title, golden=False)
+		title_html = filter_emojis_only(title, golden=False, is_post_title=True)
 
 		if v.id == p.author_id and v.marseyawarded and not marseyaward_title_regex.fullmatch(title_html):
 			abort(403, "You can only type marseys!")
