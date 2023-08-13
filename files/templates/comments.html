@@ -224,9 +224,9 @@
 				{% endif %}
 				{% endif %}
 
-				{% if c.ping_cost %}
-					<em class="ml-2">spent {{c.ping_cost}} currency on pings</em>
-				{% endif %}
+				<em class="ml-2 {% if not c.ping_cost %}d-none{% endif %}">
+					spent <span id="comment-ping-cost-{{c.id}}">{{c.ping_cost}}</span> currency on pings
+				</em>
 
 				{% if c.slots_result %}
 					<em class="ml-2">{{c.slots_result}}</em>
