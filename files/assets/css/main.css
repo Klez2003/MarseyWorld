@@ -7108,7 +7108,7 @@ div.markdown {
 .gif-categories img {
 	border-radius: 0.35rem;
 	width: 200px;
-	margin: 0 10px;
+	margin: 10 10px;
 	-webkit-transition: all 0.15s ease;
 	-moz-transition: all 0.15s ease;
 	-o-transition: all 0.15s ease;
