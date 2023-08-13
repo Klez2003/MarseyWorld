@@ -112,7 +112,6 @@ INSERT INTO public.badge_defs VALUES (92, 'NFT Artist', 'Drew a marsey that was 
 INSERT INTO public.badge_defs VALUES (93, 'NFT Owner', 'Bought a marsey NFT', NULL);
 INSERT INTO public.badge_defs VALUES (95, 'Bird Site Award', 'This user is limited to 140 characters', NULL);
 INSERT INTO public.badge_defs VALUES (97, 'Pizzashill Award', 'This user has to make their posts and comments more than 280 characters', NULL);
-INSERT INTO public.badge_defs VALUES (98, 'Marsey Award', 'This user is limited to posting marseys', NULL);
 INSERT INTO public.badge_defs VALUES (99, 'Sidebar Artist', 'Contributed artwork featured on the sidebar', NULL);
 INSERT INTO public.badge_defs VALUES (100, 'True Believer', 'This user sees through communist lies', NULL);
 INSERT INTO public.badge_defs VALUES (101, 'Banner Artist', 'Contributed a banner image to the site', NULL);
@@ -173,6 +172,7 @@ INSERT INTO public.badge_defs VALUES (159, 'It''s Over', 'Lost a 100,000 bet. It
 INSERT INTO public.badge_defs VALUES (212, 'Dramatard of the Year 2022', 'Voted as the best rDrama user of 2022. Congratulations!', 1670719153);
 INSERT INTO public.badge_defs VALUES (213, 'Best Marsey 2022', 'The creator of the best Marsey emote of 2022, as voted by rDrama users.', 1670719193);
 INSERT INTO public.badge_defs VALUES (90, 'Fish', 'This user used to be impossible to unfollow', NULL);
+INSERT INTO public.badge_defs VALUES (98, 'Hieroglyphs Award', 'This user is limited to posting emojis', NULL);
 INSERT INTO public.badge_defs VALUES (216, 'Human Rights Abuse Profiteer', 'I hope those 6500 deaths were worth the coin.', 1671150403);
 INSERT INTO public.badge_defs VALUES (231, 'SICK FUCK', 'Awarded for contributing to the Morbid Marsey event', 1677791640);
 INSERT INTO public.badge_defs VALUES (232, 'Hardcore Gaymer', 'Awarded for contributing to the Gaymer Marsey event', 1677799338);
