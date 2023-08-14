@@ -50,7 +50,7 @@ TLDS = ( # Original gTLDs and ccTLDs
 	'red','city','quest','works'
 	)
 
-allowed_tags = ('a','audio','b','big','blockquote','br','center','code','del','em','g','h1','h2','h3','h4','h5','h6','hr','i','img','li','lite-youtube','marquee','ol','p','pre','rp','rt','ruby','small','span','spoiler','strike','strong','sub','sup','table','tbody','td','th','thead','tr','u','ul','video')
+allowed_tags = ('a','audio','b','big','blockquote','br','center','code','del','details','em','g','h1','h2','h3','h4','h5','h6','hr','i','img','li','lite-youtube','marquee','ol','p','pre','rp','rt','ruby','small','span','spoiler','strike','strong','sub','summary','sup','table','tbody','td','th','thead','tr','u','ul','video')
 
 allowed_styles = ['background-color', 'color', 'filter', 'font-weight', 'text-align']
 
