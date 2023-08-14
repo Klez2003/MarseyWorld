@@ -448,8 +448,11 @@ CREATE TABLE public.comments (
     chuddedfor character varying(50),
     stickied_child_id integer,
     wall_user_id integer,
-    chudded boolean,
-    ping_cost integer NOT NULL
+    chudded boolean NOT NULL,
+    ping_cost integer NOT NULL,
+    rainbowed boolean NOT NULL,
+    queened boolean NOT NULL,
+    sharpened boolean NOT NULL
 );
 
 
@@ -843,9 +846,12 @@ CREATE TABLE public.posts (
     notify boolean NOT NULL,
     chuddedfor character varying(50),
     posterurl character varying(200),
-    chudded boolean,
+    chudded boolean NOT NULL,
     ping_cost integer NOT NULL,
-    bump_utc integer NOT NULL
+    bump_utc integer NOT NULL,
+    rainbowed boolean NOT NULL,
+    queened boolean NOT NULL,
+    sharpened boolean NOT NULL
 );
 
 
