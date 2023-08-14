@@ -218,9 +218,11 @@ function comment_edit(id){
 
 			document.getElementById('comment-edit-body-' + id).value = data["body"];
 
-			const ping_cost = document.getElementById('comment-ping-cost-' + id)
-			ping_cost.innerText = data["ping_cost"];
-			ping_cost.parentElement.classList.remove('d-none')
+			if (data["ping_cost"]) {
+				const ping_cost = document.getElementById('comment-ping-cost-' + id)
+				ping_cost.innerText = data["ping_cost"]
+				ping_cost.parentElement.classList.remove('d-none')
+			}
 
 			const input = ta.parentElement.querySelector('input[type="file"]')
 			input.previousElementSibling.innerHTML = '';
