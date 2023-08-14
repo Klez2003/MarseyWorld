@@ -106,6 +106,7 @@ BOOSTED_SITES = {
 	'voat.xyz',
 	'talk.lol',
 	'coracle.social',
+	'satellite.earth',
 	'comsta.net',
 	'discuit.net',
 	'mainchan.com',
