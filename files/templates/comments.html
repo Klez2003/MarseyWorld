@@ -201,9 +201,9 @@
 				{% endif %}
 				&nbsp;&nbsp;#{{c.id}}
 
-				{% if c.edited_utc %}
-				<span class="time-edited" id="time-edit-{{c.id}}" data-nonce="{{g.nonce}}" data-onmouseover="timestamp(this, '{{c.edited_utc}}')"><span>&#183;</span> <span class="font-italic d-inline-block">Edited {{c.edited_string}}</span></span>
-				{% endif %}
+				<span class="{% if not c.edited_utc %}d-none{% endif %} font-italic" data-nonce="{{g.nonce}}" data-onmouseover="timestamp(this, '{{c.edited_utc}}')">
+					&nbsp; Edited <span id="comment-edited_string-{{c.id}}">{{c.edited_string}}</span>
+				</span>
 
 				{% if c.treasure_amount and c.treasure_amount != '0' %}
 				{% if c.treasure_amount.startswith('l') %}

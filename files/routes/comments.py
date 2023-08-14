@@ -680,4 +680,9 @@ def edit_comment(cid, v):
 
 
 	g.db.flush()
-	return {"body": c.body, "comment": c.realbody(v), "ping_cost": c.ping_cost}
+	return {
+			"body": c.body,
+			"comment": c.realbody(v),
+			"ping_cost": c.ping_cost,
+			"edited_string": c.edited_string,
+		}

@@ -187,6 +187,7 @@ class Comment(Base):
 	@property
 	@lazy
 	def edited_string(self):
+		if not self.edited_utc: return None
 		return make_age_string(self.edited_utc)
 
 	@property

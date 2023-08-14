@@ -224,6 +224,12 @@ function comment_edit(id){
 				ping_cost.parentElement.classList.remove('d-none')
 			}
 
+			if (data["edited_string"]) {
+				const edited_string = document.getElementById('comment-edited_string-' + id)
+				edited_string.innerText = data["edited_string"]
+				edited_string.parentElement.classList.remove('d-none')
+			}
+
 			const input = ta.parentElement.querySelector('input[type="file"]')
 			input.previousElementSibling.innerHTML = '';
 			input.value = null;
