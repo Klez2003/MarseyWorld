@@ -107,9 +107,19 @@ socket.on('speak', function(json) {
 
 		const userlink = document.getElementsByClassName('userlink')[0]
 
-		userlink.innerHTML = userlink.innerHTML.replace(userlink.textContent, json.username)
 		userlink.href = '/@' + json.username
 		userlink.style.color = '#' + json.namecolor
+
+		const username = document.getElementsByClassName('username')[0]
+		username.textContent = json.username
+		if (json.patron) {
+			username.classList.add('patron')
+			username.style.backgroundColor = '#' + json.namecolor
+		}
+		else {
+			username.classList.remove('patron')
+			username.style.backgroundColor = null
+		}
 
 		document.getElementsByClassName('user_id')[0].value = json.user_id
 
@@ -221,10 +231,14 @@ socket.on('online', function(data){
 	let online2 = '<b>Users Online</b>'
 	for (const u of data[0])
 	{
+		let patron = ''
+		if (u[3])
+			patron = ` class="patron" style="background-color:#${u[2]}"`
+
 		online += `<li>`
 		if (admin_level && Object.keys(data[1]).includes(u[0].toLowerCase()))
 			online += '<b class="text-danger muted" data-bs-toggle="tooltip" title="Muted">X</b> '
-		online += `<a class="font-weight-bold" target="_blank" href="/@${u[0]}" style="color:#${u[2]}"><img loading="lazy" class="mr-1" src="/pp/${u[1]}">${u[0]}</a></li>`
+		online += `<a class="font-weight-bold" target="_blank" href="/@${u[0]}" style="color:#${u[2]}"><img loading="lazy" class="mr-1" src="/pp/${u[1]}"><span${patron}>${u[0]}</span></a></li>`
 		online2 += `<br>@${u[0]}`
 	}
 	document.getElementById('online').innerHTML = online

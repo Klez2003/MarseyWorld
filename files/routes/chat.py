@@ -140,6 +140,7 @@ def speak(data, v):
 		"user_id": v.id,
 		"username": v.username,
 		"namecolor": v.name_color,
+		"patron": v.patron,
 		"text": text,
 		"text_censored": censor_slurs(text, 'chat'),
 		"text_html": text_html,
@@ -176,15 +177,15 @@ def refresh_online():
 @is_not_permabanned_socketio
 def connect(v):
 
-	if any(v.id in session for session in sessions) and [v.username, v.id, v.name_color] not in online:
+	if any(v.id in session for session in sessions) and [v.username, v.id, v.name_color, v.patron] not in online:
 		# user has previous running sessions with a different username or name_color
 		for chat_user in online:
 			if v.id == chat_user[1]:
 				online.remove(chat_user)
 
 	sessions.append([v.id, request.sid])
-	if [v.username, v.id, v.name_color] not in online:
-		online.append([v.username, v.id, v.name_color])
+	if [v.username, v.id, v.name_color, v.patron] not in online:
+		online.append([v.username, v.id, v.name_color, v.patron])
 
 	refresh_online()
 
