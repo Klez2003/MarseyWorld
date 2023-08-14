@@ -14,13 +14,13 @@ let TRANSFER_TAX = document.getElementById('tax').innerHTML
 function updateTax(mobile=false) {
 	let suf = mobile ? "-mobile" : "";
 	let amount = parseInt(document.getElementById("coin-transfer-amount" + suf).value);
-	if (amount > 0) document.getElementById("coins-transfer-taxed" + suf).innerText = amount - Math.ceil(amount*TRANSFER_TAX);
+	if (amount > 0) document.getElementById("coins-transfer-taxed" + suf).textContent = amount - Math.ceil(amount*TRANSFER_TAX);
 }
 
 function updateBux(mobile=false) {
 	let suf = mobile ? "-mobile" : "";
 	let amount = parseInt(document.getElementById("bux-transfer-amount" + suf).value);
-	if (amount > 0) document.getElementById("bux-transfer-taxed" + suf).innerText = amount;
+	if (amount > 0) document.getElementById("bux-transfer-taxed" + suf).textContent = amount;
 }
 
 function transferCoins(t, mobile=false) {
@@ -39,9 +39,9 @@ function transferCoins(t, mobile=false) {
 		"reason": document.getElementById(mobile ? "coin-transfer-reason-mobile" : "coin-transfer-reason").value
 		},
 		() => {
-			document.getElementById("user-coins-amount").innerText = parseInt(document.getElementById("user-coins-amount").innerText) - amount;
-			document.getElementById("profile-coins-amount-mobile").innerText = parseInt(document.getElementById("profile-coins-amount-mobile").innerText) + transferred;
-			document.getElementById("profile-coins-amount").innerText = parseInt(document.getElementById("profile-coins-amount").innerText) + transferred;
+			document.getElementById("user-coins-amount").textContent = parseInt(document.getElementById("user-coins-amount").textContent) - amount;
+			document.getElementById("profile-coins-amount-mobile").textContent = parseInt(document.getElementById("profile-coins-amount-mobile").textContent) + transferred;
+			document.getElementById("profile-coins-amount").textContent = parseInt(document.getElementById("profile-coins-amount").textContent) + transferred;
 		}
 	);
 }
@@ -60,9 +60,9 @@ function transferBux(t, mobile=false) {
 		"reason": document.getElementById(mobile ? "bux-transfer-reason-mobile" : "bux-transfer-reason").value
 		},
 		() => {
-			document.getElementById("user-bux-amount").innerText = parseInt(document.getElementById("user-bux-amount").innerText) - amount;
-			document.getElementById("profile-bux-amount-mobile").innerText = parseInt(document.getElementById("profile-bux-amount-mobile").innerText) + amount;
-			document.getElementById("profile-bux-amount").innerText = parseInt(document.getElementById("profile-bux-amount").innerText) + amount;
+			document.getElementById("user-bux-amount").textContent = parseInt(document.getElementById("user-bux-amount").textContent) - amount;
+			document.getElementById("profile-bux-amount-mobile").textContent = parseInt(document.getElementById("profile-bux-amount-mobile").textContent) + amount;
+			document.getElementById("profile-bux-amount").textContent = parseInt(document.getElementById("profile-bux-amount").textContent) + amount;
 		}
 	);
 }

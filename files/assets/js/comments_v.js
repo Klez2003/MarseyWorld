@@ -76,7 +76,7 @@ function toggleReplyBox(t, id) {
 	let newHTML = ''
 	if (t.innerHTML.includes('<i class="fas fa-'))
 		newHTML += '<i class="fas fa-quotes"></i>'
-	if (t.innerText)
+	if (t.textContent)
 		newHTML += 'Quote selection'
 	t.innerHTML = newHTML
 }
@@ -220,13 +220,13 @@ function comment_edit(id){
 
 			if (data["ping_cost"]) {
 				const ping_cost = document.getElementById('comment-ping-cost-' + id)
-				ping_cost.innerText = data["ping_cost"]
+				ping_cost.textContent = data["ping_cost"]
 				ping_cost.parentElement.classList.remove('d-none')
 			}
 
 			if (data["edited_string"]) {
 				const edited_string = document.getElementById('comment-edited_string-' + id)
-				edited_string.innerText = data["edited_string"]
+				edited_string.textContent = data["edited_string"]
 				edited_string.parentElement.classList.remove('d-none')
 			}
 
@@ -371,7 +371,7 @@ function restore_reply_buttons(fullname) {
 		let newHTML = ''
 		if (t.innerHTML.includes('<i class="fas fa-'))
 			newHTML += '<i class="fas fa-reply"></i>'
-		if (t.innerText)
+		if (t.textContent)
 			newHTML += 'Reply'
 		t.innerHTML = newHTML
 	}

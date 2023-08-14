@@ -269,7 +269,7 @@ function charLimit(form, text) {
 		text.style.color = "#A0AEC0";
 	}
 
-	text.innerText = length + ' / ' + maxLength;
+	text.textContent = length + ' / ' + maxLength;
 }
 
 function remove_dialog() {

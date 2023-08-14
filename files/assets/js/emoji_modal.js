@@ -226,7 +226,7 @@ function fetchEmojis() {
 				classSelectorLinkDOM.classList.add("nav-link", "emojitab");
 				classSelectorLinkDOM.dataset.bsToggle = "tab";
 				classSelectorLinkDOM.dataset.className = className;
-				classSelectorLinkDOM.innerText = className;
+				classSelectorLinkDOM.textContent = className;
 				classSelectorLinkDOM.addEventListener('click', switchEmojiTab);
 
 				classSelectorDOM.appendChild(classSelectorLinkDOM);
@@ -333,7 +333,7 @@ function update_ghost_div_textarea(text)
 	let ghostdiv = text.parentNode.querySelector(".ghostdiv");
 	if (!ghostdiv) return;
 
-	ghostdiv.innerText = text.value.substring(0, text.selectionStart);
+	ghostdiv.textContent = text.value.substring(0, text.selectionStart);
 
 	ghostdiv.insertAdjacentHTML('beforeend', "<span></span>");
 
@@ -411,7 +411,7 @@ function populate_speed_emoji_modal(results, textbox)
 		if (emoji.count !== undefined)
 			emoji_option_text.title += "\nused\t" + emoji.count;
 
-		emoji_option_text.innerText = name;
+		emoji_option_text.textContent = name;
 
 		if (current_word.includes("#")) name = `#${name}`
 		if (current_word.includes("!")) name = `!${name}`

@@ -30,8 +30,8 @@ const lotteryOnReady = function () {
 	ticketPurchaseQuantityInput.addEventListener("change", (event) => {
 	const value = Math.max(1, parseInt(event.target.value))
 	purchaseQuantity = value
-	purchaseQuantityField.innerText = value
-	purchaseTotalCostField.innerText = value * 12
+	purchaseQuantityField.textContent = value
+	purchaseTotalCostField.textContent = value * 12
 	});
 };
 
@@ -76,7 +76,7 @@ function handleLotteryResponse(xhr, method, callback) {
 		const toast = document.getElementById("lottery-post-success");
 		const toastMessage = document.getElementById("lottery-post-success-text");
 
-		toastMessage.innerText = response.message;
+		toastMessage.textContent = response.message;
 
 		bootstrap.Toast.getOrCreateInstance(toast).show();
 
@@ -86,7 +86,7 @@ function handleLotteryResponse(xhr, method, callback) {
 		const toast = document.getElementById("lottery-post-error");
 		const toastMessage = document.getElementById("lottery-post-error-text");
 
-		toastMessage.innerText =
+		toastMessage.textContent =
 		(response && response.details) || "Error, please try again later.";
 
 		bootstrap.Toast.getOrCreateInstance(toast).show();

@@ -21,7 +21,7 @@ function showToast(success, message) {
 	if (!message) {
 		message = success ? "Action successful!" : "Error, please try again later";
 	}
-	document.getElementById(textElement).innerText = message;
+	document.getElementById(textElement).textContent = message;
 	bootstrap.Toast.getOrCreateInstance(document.getElementById(element)).show();
 }
 
@@ -345,7 +345,7 @@ function sort_table(t) {
 		} else if ('time' in x.dataset) {
 			attr = parseInt(x.dataset.time);
 		} else {
-			attr = x.innerText
+			attr = x.textContent
 			if (/^[\d-,]+$/.test(x.innerHTML)) {
 				attr = parseInt(attr.replace(/,/g, ''))
 			}
