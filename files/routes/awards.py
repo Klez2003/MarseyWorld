@@ -382,9 +382,8 @@ def award_thing(v, thing_type, id):
 
 		badge_grant(user=author, badge_id=58)
 
-		if thing_type == 'comment':
+		if thing_type == 'comment' and not thing.author.deflector:
 			thing.chudded = True
-
 	elif kind == "flairlock":
 		new_name = note[:100]
 		if not new_name and author.flairchanged:
