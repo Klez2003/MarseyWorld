@@ -755,15 +755,15 @@ def normalize_url(url):
 			 .replace("https://youtube.com/v/", "https://youtube.com/watch?v=") \
 			 .replace("https://mobile.twitter.com", "https://twitter.com") \
 			 .replace("https://x.com", "https://twitter.com") \
-			 .replace("https://m.facebook.com", "https://facebook.com") \
-			 .replace("https://m.wikipedia.org", "https://wikipedia.org") \
 			 .replace("https://www.twitter.com", "https://twitter.com") \
-			 .replace("https://www.instagram.com", "https://instagram.com") \
-			 .replace("https://www.tiktok.com", "https://tiktok.com") \
-			 .replace("https://imgur.com/", "https://i.imgur.com/") \
 			 .replace("https://nitter.net/", "https://twitter.com/") \
 			 .replace("https://nitter.42l.fr/", "https://twitter.com/") \
 			 .replace("https://nitter.lacontrevoie.fr/", "https://twitter.com/") \
+			 .replace("https://m.facebook.com", "https://facebook.com") \
+			 .replace("https://m.wikipedia.org", "https://wikipedia.org") \
+			 .replace("https://www.instagram.com", "https://instagram.com") \
+			 .replace("https://www.tiktok.com", "https://tiktok.com") \
+			 .replace("https://imgur.com/", "https://i.imgur.com/") \
 			 .replace("/giphy.gif", "/giphy.webp") \
 
 	url = giphy_regex.sub(r'\1.webp', url)
