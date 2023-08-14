@@ -40,7 +40,7 @@ def front_all(v, sub=None):
 	t=request.values.get('t', defaulttime)
 
 	if SITE == 'rdrama.net' and t == 'all' and sort == 'hot':
-		sort = 'top'
+		t = 'day'
 
 	try: gt=int(request.values.get("after", 0))
 	except: gt=0
