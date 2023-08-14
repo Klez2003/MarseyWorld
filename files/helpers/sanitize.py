@@ -754,6 +754,7 @@ def normalize_url(url):
 			 .replace("https://youtube.com/shorts/", "https://youtube.com/watch?v=") \
 			 .replace("https://youtube.com/v/", "https://youtube.com/watch?v=") \
 			 .replace("https://mobile.twitter.com", "https://twitter.com") \
+			 .replace("https://x.com", "https://twitter.com") \
 			 .replace("https://m.facebook.com", "https://facebook.com") \
 			 .replace("https://m.wikipedia.org", "https://wikipedia.org") \
 			 .replace("https://www.twitter.com", "https://twitter.com") \
