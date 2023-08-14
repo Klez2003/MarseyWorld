@@ -230,6 +230,6 @@
 	background-color: #313131 !important;
 }
 
-.post-title a:visited, a[href^="https://"]:not([href^="https://rdrama.net"]):not([href^="https://watchpeopledie.tv"]):visited {
+.post-title a:visited, a[href^="https://"]:not([href^="https://rdrama.net"], [href^="https://watchpeopledie.tv"], .dropdown-item, .nav-link):visited {
 	color: #b0b0b0 !important;
 }
