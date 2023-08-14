@@ -1,3 +1,5 @@
+change recovery_target_time in /etc/postgresql/15/main/postgresql.conf
+
 systemctl stop postgresql@15-main
 mv /var/lib/postgresql/15/main/pg_wal /pg_wal
 rm -rf /var/lib/postgresql/15/main
