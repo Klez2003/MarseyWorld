@@ -54,10 +54,6 @@
 												<textarea form="submitform" id="post-text" class="file-ta form-control rounded" placeholder="Optional if you have a link or an image." rows="7" name="body" data-preview="preview" data-nonce="{{g.nonce}}" data-oninput="markdown(this);charLimit('post-text','character-count-submit-text-form');checkForRequired();savetext()" {% if v.longpost %}minlength="280"{% endif %} maxlength="{% if v.bird %}140{% else %}{{POST_BODY_LENGTH_LIMIT(v)}}{% endif %}" required></textarea>
 												<div class="ghostdiv" style="display:none"></div>
 												<div class="text-small font-weight-bold mt-1" id="character-count-submit-text-form" style="right: 1rem; bottom: 0.5rem; z-index: 3;"></div>
-												<p></p>
-												<div class="btn btn-secondary fl-r" data-nonce="{{g.nonce}}" data-toggleelement="#preview" data-toggleattr="d-none">
-													Toggle preview
-												</div>
 
 												{{macros.file_input('file-upload-submit', 'post-text')}}
 
