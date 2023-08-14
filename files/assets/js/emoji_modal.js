@@ -386,7 +386,7 @@ function populate_speed_emoji_modal(results, textbox)
 
 	emoji_index = 0;
 	speed_carot_modal.innerHTML = "";
-	const MAXXX = 25;
+	const MAXXX = 50;
 	// Not sure why the results is a Set... but oh well
 	let i = 0;
 	for (let emoji of results)
