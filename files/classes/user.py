@@ -275,7 +275,6 @@ class User(Base):
 	def allowed_in_chat(self):
 		if self.admin_level: return True
 		if self.truescore >= TRUESCORE_CHAT_MINIMUM: return True
-		if self.email_verified: return True
 		if self.patron: return True
 		return False
 
