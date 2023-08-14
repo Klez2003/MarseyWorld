@@ -350,6 +350,10 @@ def award_thing(v, thing_type, id):
 
 		badge_grant(user=author, badge_id=285)
 
+		if thing_type == 'comment' and not thing.author.deflector:
+			thing.queened = True
+			g.db.add(thing)
+
 	elif kind == "chud":
 		if thing_type == 'post' and thing.sub == 'chudrama' \
 			or thing_type == 'comment' and thing.post and thing.post.sub == 'chudrama':
@@ -528,11 +532,15 @@ def award_thing(v, thing_type, id):
 			body = thing.body
 			body = sharpen(body)
 			thing.body_html = sanitize(body, limit_pings=5, showmore=True)
+			thing.sharpened = True
 			g.db.add(thing)
 	elif ("Femboy" in kind and kind == v.house) or kind == 'rainbow':
 		if author.rainbow: author.rainbow += 86400
 		else: author.rainbow = int(time.time()) + 86400
 		badge_grant(user=author, badge_id=171)
+		if thing_type == 'comment' and not thing.author.deflector:
+			thing.rainbowed = True
+			g.db.add(thing)
 	elif kind == "spider":
 		if author.spider: author.spider += 86400
 		else: author.spider = int(time.time()) + 86400

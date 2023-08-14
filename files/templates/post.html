@@ -79,7 +79,7 @@
 
 					{{macros.reports(p, 'post')}}
 
-					<h1 id="post-title" class="card-title post-title text-left mb-md-3 {% if p.chudded %}text-uppercase{% endif %} {% if p.author.rainbow %}rainbow-text{% endif %} {% if p.author.queen %}queen{% endif %} {%if p.author.sharpen %}sharpen{% endif %}">
+					<h1 id="post-title" class="card-title post-title text-left mb-md-3 {% if p.chudded %}text-uppercase{% endif %} {% if p.rainbowed %}rainbow-text{% endif %} {% if p.queened %}queen{% endif %} {%if p.sharpened %}sharpen{% endif %}">
 						{% if p.flair %}<span class="patron font-weight-bolder mr-1" style="background-color:var(--primary); font-size:12px; line-height:2;">{{p.flair | safe}}</span>{% endif %}
 						{{p.realtitle(v) | safe}}
 					</h1>
@@ -108,7 +108,7 @@
 						{% endif %}
 
 
-						<div id="post-text" class="{% if p.chudded %}text-uppercase chud-img chud-{{p.id_last_num}}{% endif %} {% if p.author.rainbow %}rainbow-text{% endif %} {%if p.author.queen%}queen{%endif%} {%if p.author.sharpen%}sharpen chud-img sharpen-{{p.id_last_num}}{%endif%}">
+						<div id="post-text" class="{% if p.chudded %}text-uppercase chud-img chud-{{p.id_last_num}}{% endif %} {% if p.rainbowed %}rainbow-text{% endif %} {%if p.queened%}queen{%endif%} {%if p.sharpened%}sharpen chud-img sharpen-{{p.id_last_num}}{%endif%}">
 							{% if p.is_image %}
 								<div class="row no-gutters mb-4">
 									<div class="col">

@@ -143,6 +143,9 @@ class Comment(Base):
 	blackjack_result = Column(String)
 	casino_game_id = Column(Integer, ForeignKey("casino_games.id"))
 	chudded = Column(Boolean, default=False)
+	rainbowed = Column(Boolean, default=False)
+	queened = Column(Boolean, default=False)
+	sharpened = Column(Boolean, default=False)
 
 	oauth_app = relationship("OauthApp")
 	post = relationship("Post", back_populates="comments")

@@ -247,7 +247,7 @@
 			{% endif %}
 
 			{% set realbody = c.realbody(v) %}
-			<div id="comment-text-{{c.id}}" class="comment-text mb-0 {% if c.chudded %}text-uppercase chud-img chud-{{c.id_last_num}}{% endif %} {% if c.author.rainbow %}rainbow-text{% endif %} {%if c.author.queen%}queen{%endif%} {%if c.author.sharpen%}sharpen chud-img sharpen-{{c.id_last_num}}{%endif%}">
+			<div id="comment-text-{{c.id}}" class="comment-text mb-0 {% if c.chudded %}text-uppercase chud-img chud-{{c.id_last_num}}{% endif %} {% if c.rainbowed %}rainbow-text{% endif %} {%if c.queened%}queen{%endif%} {%if c.sharpened%}sharpen chud-img sharpen-{{c.id_last_num}}{%endif%}">
 				{{realbody | safe}}
 			</div>
 

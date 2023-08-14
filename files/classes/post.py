@@ -60,6 +60,9 @@ class Post(Base):
 	new = Column(Boolean)
 	notify = Column(Boolean)
 	chudded = Column(Boolean, default=False)
+	rainbowed = Column(Boolean, default=False)
+	queened = Column(Boolean, default=False)
+	sharpened = Column(Boolean, default=False)
 	ping_cost = Column(Integer, default=0)
 	bump_utc = Column(Integer)
 

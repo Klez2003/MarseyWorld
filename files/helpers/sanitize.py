@@ -860,8 +860,9 @@ def torture_object(obj, torture_method):
 
 def complies_with_chud(obj):
 	#check for cases where u should leave
-	if not (obj.author.chud or obj.author.queen): return True
+	if not (obj.chudded or obj.queened): return True
 	if obj.author.marseyawarded: return True
+
 	if isinstance(obj, Post):
 		if obj.id in ADMIGGER_THREADS: return True
 		if obj.sub == "chudrama": return True
@@ -869,9 +870,7 @@ def complies_with_chud(obj):
 		if obj.parent_post in ADMIGGER_THREADS: return True
 		if obj.post.sub == "chudrama": return True
 
-	if obj.author.chud:
-		if not obj.chudded: return True
-
+	if obj.chudded:
 		#perserve old body_html to be used in checking for chud phrase
 		old_body_html = obj.body_html
 
@@ -887,7 +886,7 @@ def complies_with_chud(obj):
 		#torture title_html and check for chud_phrase in plain title and leave if it's there
 		if isinstance(obj, Post):
 			obj.title_html = torture_chud(obj.title_html, obj.author.username)
-			if obj.author.chud_phrase in obj.title.lower():
+			if not obj.author.chud or obj.author.chud_phrase in obj.title.lower():
 				return True
 
 		#check for chud_phrase in body_html
@@ -897,10 +896,10 @@ def complies_with_chud(obj):
 			tags = soup.html.body.find_all(lambda tag: tag.name not in excluded_tags and not tag.attrs, recursive=False)
 			for tag in tags:
 				for text in tag.find_all(text=True, recursive=False):
-					if obj.author.chud_phrase in text.lower():
+					if not obj.author.chud or obj.author.chud_phrase in text.lower():
 						return True
 
 		return False
-	elif obj.author.queen:
+	elif obj.queened:
 		torture_object(obj, torture_queen)
 		return True

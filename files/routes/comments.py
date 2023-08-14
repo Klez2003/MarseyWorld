@@ -286,7 +286,10 @@ def comment(v):
 				body=body,
 				ghost=ghost,
 				chudded=chudded,
-				)
+				rainbowed=bool(v.rainbow),
+				queened=bool(v.queen),
+				sharpened=bool(v.sharpen),
+			)
 
 	c.upvotes = 1
 	g.db.add(c)
@@ -637,7 +640,7 @@ def edit_comment(cid, v):
 			body_for_sanitize = owoify(body_for_sanitize)
 		if v.marsify and not v.chud:
 			body_for_sanitize = marsify(body_for_sanitize)
-		if v.sharpen:
+		if c.sharpened:
 			body_for_sanitize = sharpen(body_for_sanitize)
 
 		body_html = sanitize(body_for_sanitize, golden=False, limit_pings=5, showmore=(not v.marseyawarded))

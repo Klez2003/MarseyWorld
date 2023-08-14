@@ -17,6 +17,7 @@ from files.helpers.actions import *
 from files.helpers.alerts import *
 from files.helpers.config.const import *
 from files.helpers.get import *
+from files.helpers.sharpen import *
 from files.helpers.regex import *
 from files.helpers.sanitize import *
 from files.helpers.settings import get_setting
@@ -513,7 +514,10 @@ def submit_post(v, sub=None):
 	body = process_files(request.files, v, body)
 	body = body[:POST_BODY_LENGTH_LIMIT(v)].strip() # process_files() adds content to the body, so we need to re-strip
 
-	body_html = sanitize(body, count_emojis=True, limit_pings=100)
+	body_for_sanitize = body
+	if v.sharpen: body_for_sanitize = sharpen(body_for_sanitize)
+
+	body_html = sanitize(body_for_sanitize, count_emojis=True, limit_pings=100)
 
 	if v.marseyawarded and marseyaward_body_regex.search(body_html):
 		abort(400, "You can only type marseys!")
@@ -556,6 +560,9 @@ def submit_post(v, sub=None):
 		sub=sub,
 		ghost=flag_ghost,
 		chudded=flag_chudded,
+		rainbowed=bool(v.rainbow),
+		queened=bool(v.queen),
+		sharpened=bool(v.sharpen),
 	)
 
 	g.db.add(p)
@@ -1007,7 +1014,10 @@ def edit_post(pid, v):
 	body = body[:POST_BODY_LENGTH_LIMIT(v)].strip() # process_files() may be adding stuff to the body
 
 	if body != p.body:
-		body_html = sanitize(body, golden=False, limit_pings=100)
+		body_for_sanitize = body
+		if p.sharpened: body_for_sanitize = sharpen(body_for_sanitize)
+
+		body_html = sanitize(body_for_sanitize, golden=False, limit_pings=100)
 
 		if v.id == p.author_id and v.marseyawarded and marseyaward_body_regex.search(body_html):
 			abort(403, "You can only type marseys!")
