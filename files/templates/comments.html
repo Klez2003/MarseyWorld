@@ -259,13 +259,8 @@
 
 						<div class="text-small font-weight-bold mt-1" id="charcount-edit-{{c.id}}" style="right: 1rem; bottom: 0.5rem; z-index: 3;"></div>
 
-						<div class="comment-format">
-							<small class="btn btn-secondary format m-0" data-nonce="{{g.nonce}}" data-onclick="getGifs('comment-edit-body-{{c.id}}')" data-bs-toggle="modal" data-bs-target="#gifModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add GIF"><span class="font-weight-bolder text-uppercase">GIF</span></small>
+						{{macros.file_input('file-edit-reply-' ~ c.id, 'comment-edit-body-' ~ c.id)}}
 
-							<small class="btn btn-secondary format m-0 ml-2" data-nonce="{{g.nonce}}" data-onclick="loadEmojis('comment-edit-body-{{c.id}}')" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"><i class="fas fa-smile-beam"></i></small>
-
-							{{macros.file_input('file-edit-reply-' ~ c.id, False)}}
-						</div>
 						<a class="text-small mt-3 d-inline-block" href="/formatting" {% if v and v.newtab %}data-target="t" target="_blank"{% endif %}>Formatting help</a>
 
 						<button type="button" id="edit-btn-{{c.id}}" form="comment-edit-form-{{c.id}}" class="btn btn-primary ml-2 fl-r commentmob" data-nonce="{{g.nonce}}" data-onclick="comment_edit('{{c.id}}')">Save Edit</button>
@@ -543,11 +538,8 @@
 					<div class="input-group">
 						<input hidden name="formkey" value="{{v|formkey}}">
 						<textarea data-fullname="{{c.fullname}}" required autocomplete="off" minlength="1" maxlength="10000" name="body" form="reply-to-c_{{c.id}}" data-id="{{c.id}}" class="file-ta comment-box form-control rounded" id="reply-form-body-{{c.id}}" rows="3" data-preview="message-reply-{{c.id}}" data-nonce="{{g.nonce}}" data-oninput="markdown(this)"></textarea>
-						<div class="comment-format" id="comment-format-bar-{{c.id}}">
-							<button type="button" data-nonce="{{g.nonce}}" data-onclick="loadEmojis('reply-form-body-{{c.id}}')" class="btn btn-secondary format m-0" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"><i class="fas fa-smile-beam"></i></button>
 
-							{{macros.file_input('file-upload-reply-' ~ c.fullname, False, not get_setting('dm_media'))}}
-						</div>
+						{{macros.file_input('file-upload-reply-' ~ c.fullname, 'reply-form-body-' ~ c.id, not get_setting('dm_media'))}}
 
 						<div class="ml-auto">
 							<span id="upload-prog-{{c.fullname}}" class="d-none mt-1 mr-2">
@@ -724,8 +716,8 @@
 
 {% if not request.headers.get("xhr") %}
 	{% if v %}
-		{% include "modals/gif.html" %}
 		{% include "modals/emoji.html" %}
+		{% include "modals/gif.html" %}
 		{% if v.admin_level >= PERMS['USER_BAN'] %}
 			{% include "modals/punish.html" %}
 		{% endif %}

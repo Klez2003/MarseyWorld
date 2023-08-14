@@ -42,8 +42,9 @@
 	<script defer src="{{'js/markdown.js' | asset}}"></script>
 {% endif %}
 
-{% if v and v.id != u.id and not request.path.endswith('/comments') and not request.path.endswith(u.username) %}
+{% if v and v.id != u.id and request.path.endswith('/posts') %}
 	{% include "modals/emoji.html" %}
+	{% include "modals/gif.html" %}
 {% endif %}
 {% endblock %}
 {% block GIFpicker %}{% endblock %}
