@@ -167,3 +167,7 @@ img[alt^="![]("], .img {
 #online > li, #online3 > li {
 	margin-top: 0.35rem;
 }
+
+.patron {
+	padding-top: 1px !important;
+}
