@@ -56,7 +56,7 @@ emoji_regex2 = re.compile(f'(?<!"):([!#@\w\-]{{1,72}}?):(?!([^<]*<\/(code|pre)>|
 snappy_url_regex = re.compile('<a href="(https?:\/\/.+?)".*?>(.+?)<\/a>', flags=re.A)
 snappy_youtube_regex = re.compile('<lite-youtube videoid="(.+?)" params="autoplay=1', flags=re.A)
 
-email_regex = re.compile(EMAIL_REGEX_PATTERN, flags=re.A)
+email_regex = re.compile('[A-Za-z0-9._%+-]{1,64}@[A-Za-z0-9.-]{2,63}\.[A-Za-z]{2,63}', flags=re.A)
 
 slur_regex = re.compile(f"<[^>]*>|{slur_single_words}", flags=re.I|re.A)
 slur_regex_upper = re.compile(f"<[^>]*>|{slur_single_words.upper()}", flags=re.A)
