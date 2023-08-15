@@ -1098,11 +1098,13 @@ INSERT INTO public.hat_defs VALUES (1269, 'Rainbowfriends Hat', 'This user is sp
 
 
 
+
+
 --
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1320, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1322, true);
 
 
 --
