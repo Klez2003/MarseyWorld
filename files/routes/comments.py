@@ -630,10 +630,12 @@ def edit_comment(cid, v):
 		abort(400, "You have to actually type something!")
 
 	if body != c.body or request.files.get("file") and not g.is_tor:
-		if v.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
-			abort(403, "You have to type more than 280 characters!")
-		elif v.bird and len(body) > 140:
-			abort(403, "You have to type less than 140 characters!")
+
+		if v.id == c.author_id:
+			if v.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
+				abort(403, "You have to type more than 280 characters!")
+			elif v.bird and len(body) > 140:
+				abort(403, "You have to type less than 140 characters!")
 
 		execute_antispam_comment_check(body, v)
 
@@ -641,10 +643,13 @@ def edit_comment(cid, v):
 		body = body[:COMMENT_BODY_LENGTH_LIMIT].strip() # process_files potentially adds characters to the post
 
 		body_for_sanitize = body
-		if v.owoify:
-			body_for_sanitize = owoify(body_for_sanitize)
-		if v.marsify and not v.chud:
-			body_for_sanitize = marsify(body_for_sanitize)
+
+		if v.id == c.author_id:
+			if v.owoify:
+				body_for_sanitize = owoify(body_for_sanitize)
+			if v.marsify and not v.chud:
+				body_for_sanitize = marsify(body_for_sanitize)
+
 		if c.sharpened:
 			body_for_sanitize = sharpen(body_for_sanitize)
 
@@ -652,7 +657,7 @@ def edit_comment(cid, v):
 
 		if len(body_html) > COMMENT_BODY_HTML_LENGTH_LIMIT: abort(400)
 
-		if v.marseyawarded and marseyaward_body_regex.search(body_html):
+		if v.id == c.author_id and v.marseyawarded and marseyaward_body_regex.search(body_html):
 			abort(403, "You can only type marseys!")
 
 		oldtext = c.body
@@ -668,8 +673,16 @@ def edit_comment(cid, v):
 
 		process_poll_options(v, c)
 
-		if int(time.time()) - c.created_utc > 60 * 3:
-			c.edited_utc = int(time.time())
+		if v.id == c.author_id:
+			if int(time.time()) - c.created_utc > 60 * 3:
+				c.edited_utc = int(time.time())
+		else:
+			ma=ModAction(
+				kind="edit_comment",
+				user_id=v.id,
+				target_comment_id=c.id
+			)
+			g.db.add(ma)
 
 		g.db.add(c)
 

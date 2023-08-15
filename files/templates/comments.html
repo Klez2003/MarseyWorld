@@ -252,7 +252,7 @@
 			</div>
 
 			{% if c.parent_post or c.wall_user_id %}
-				{% if v and v.id==c.author_id %}
+				{% if v and (v.id == c.author_id or v.admin_level >= PERMS['POST_COMMENT_EDITING']) %}
 					<div id="comment-edit-{{c.id}}" class="d-none comment-write collapsed child">
 						<input hidden name="formkey" value="{{v|formkey}}">
 						<textarea autocomplete="off" {% if v.longpost %}minlength="280"{% endif %} maxlength="{% if v.bird %}140{% else %}10000{% endif %}" data-preview="preview-edit-{{c.id}}" data-nonce="{{g.nonce}}" data-oninput="markdown(this);charLimit('comment-edit-body-{{c.id}}','charcount-edit-{{c.id}}')" id="comment-edit-body-{{c.id}}" data-id="{{c.id}}" name="body" form="comment-edit-form-{{c.id}}" class="file-ta comment-box form-control rounded" placeholder="Add your comment..." rows="3">{{c.body}}</textarea>

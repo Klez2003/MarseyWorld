@@ -1041,8 +1041,8 @@ def edit_post(pid, v):
 
 
 	if v.id == p.author_id:
-		if int(time.time()) - p.created_utc > 60 * 3: p.edited_utc = int(time.time())
-		g.db.add(p)
+		if int(time.time()) - p.created_utc > 60 * 3:
+			p.edited_utc = int(time.time())
 	else:
 		ma=ModAction(
 			kind="edit_post",
