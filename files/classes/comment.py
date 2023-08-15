@@ -31,7 +31,7 @@ def normalize_urls_runtime(body, v):
 
 def add_options(self, body, v):
 	if 'details>' in body or 'summary>' in body:
-		return
+		return body
 
 	if isinstance(self, Comment):
 		kind = 'comment'
