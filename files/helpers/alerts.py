@@ -197,6 +197,9 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None, followers_pi
 		if coin_receivers:
 			g.db.query(User).options(load_only(User.id)).filter(User.id.in_(coin_receivers)).update({ User.coins: User.coins + 10 })
 
+	if SITE == 'rdrama.net' and v.id in {256, 9287, 10489, 18701}:
+		notify_users.discard(AEVANN_ID)
+
 	return notify_users - BOT_IDs - {v.id, 0} - v.all_twoway_blocks
 
 
