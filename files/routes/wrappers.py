@@ -22,6 +22,7 @@ def get_ID():
 	elif session.get("lo_user"):
 		x = session.get("lo_user")
 	else:
+		check_session_id()
 		x = f"logged_out-{session['session_id']}"
 
 	return f'{SITE}-{x}'
