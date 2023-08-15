@@ -516,7 +516,7 @@ class User(Base):
 		if isinstance(target, Comment) and not target.post: return False
 		if self.id == target.author_id: return True
 		if not isinstance(target, Post): return False
-		return bool(self.admin_level >= PERMS['POST_EDITING'])
+		return bool(self.admin_level >= PERMS['POST_COMMENT_EDITING'])
 
 	@property
 	@lazy

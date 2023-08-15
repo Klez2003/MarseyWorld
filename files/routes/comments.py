@@ -617,7 +617,9 @@ def edit_comment(cid, v):
 	and v.admin_level < PERMS["IGNORE_1WEEk_EDITING_LIMIT"] and v.id not in EXEMPT_FROM_1WEEK_EDITING_LIMIT:
 		abort(403, "You can't edit comments older than 1 week!")
 
-	if c.author_id != v.id: abort(403)
+	if c.author_id != v.id and v.admin_level < PERMS['POST_COMMENT_EDITING']:
+		abort(403)
+
 	if not c.parent_post and not c.wall_user_id:
 		abort(403)
 
