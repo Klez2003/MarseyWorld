@@ -28,6 +28,9 @@ OWO_EXCLUDE_PATTERNS = [
 ]
 
 def owoify(source):
+	if '`' in source or '<pre>' in source or '<code>' in source:
+		return source
+
 	word_matches = OWO_WORD_REGEX.findall(source)
 	space_matches = OWO_SPACE_REGEX.findall(source)
 
