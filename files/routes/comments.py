@@ -434,6 +434,11 @@ def delete_comment(cid, v):
 			g.db.add(v)
 
 		cache.delete_memoized(comment_idlist)
+
+		if c.parent_post:
+			for sort in COMMENT_SORTS:
+				cache.delete(f'post_{c.parent_post}_{sort}')
+
 	return {"message": "Comment deleted!"}
 
 @app.post("/undelete/comment/<int:cid>")
@@ -454,6 +459,11 @@ def undelete_comment(cid, v):
 			g.db.add(v)
 
 		cache.delete_memoized(comment_idlist)
+
+		if c.parent_post:
+			for sort in COMMENT_SORTS:
+				cache.delete(f'post_{c.parent_post}_{sort}')
+
 	return {"message": "Comment undeleted!"}
 
 @app.post("/pin_comment/<int:cid>")

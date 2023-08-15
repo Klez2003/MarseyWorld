@@ -1619,6 +1619,10 @@ def remove_comment(c_id, v):
 		)
 	g.db.add(ma)
 
+	if comment.parent_post:
+		for sort in COMMENT_SORTS:
+			cache.delete(f'post_{comment.parent_post}_{sort}')
+
 	return {"message": "Comment removed!"}
 
 
@@ -1647,6 +1651,10 @@ def approve_comment(c_id, v):
 	comment.is_approved = v.id
 
 	g.db.add(comment)
+
+	if comment.parent_post:
+		for sort in COMMENT_SORTS:
+			cache.delete(f'post_{comment.parent_post}_{sort}')
 
 	return {"message": "Comment approved!"}
 
