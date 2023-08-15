@@ -47,7 +47,7 @@ TLDS = ( # Original gTLDs and ccTLDs
 	'moe','mom','monster','new','news','online','pics','press','pub','site','blog',
 	'vip','win','world','wtf','xyz','video','host','art','media','wiki','tech',
 	'cooking','network','party','goog','markets','today','beauty','camp','top',
-	'red','city','quest','works'
+	'red','city','quest','works','soy',
 	)
 
 allowed_tags = ('a','audio','b','big','blockquote','br','center','code','del','details','em','g','h1','h2','h3','h4','h5','h6','hr','i','img','li','lite-youtube','marquee','ol','p','pre','rp','rt','ruby','small','span','spoiler','strike','strong','sub','summary','sup','table','tbody','td','th','thead','tr','u','ul','video')
