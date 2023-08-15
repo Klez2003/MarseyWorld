@@ -5197,13 +5197,14 @@ span.green {
 }
 .spoiler:hover, spoiler:hover {
 	color: var(--gray) !important;
+	transition-delay: 0.01s;
 }
 .spoiler *, spoiler * {
 	visibility: hidden;
 }
 .spoiler:hover *, spoiler:hover * {
 	visibility: visible;
-	transition-delay: 0.1s;
+	transition-delay: 0.01s;
 }
 
 @media (min-width: 768px) {
