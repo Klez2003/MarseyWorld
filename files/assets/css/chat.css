@@ -168,6 +168,8 @@ img[alt^="![]("], .img {
 	margin-top: 0.35rem;
 }
 
-.patron {
-	padding-top: 1px !important;
+@media (min-width: 768px) {
+	.patron {
+		padding-top: 1px !important;
+	}
 }
