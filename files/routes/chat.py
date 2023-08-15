@@ -47,7 +47,7 @@ def is_not_permabanned_socketio(f):
 	wrapper.__name__ = f.__name__
 	return wrapper
 
-CHAT_ERROR_MESSAGE = f"To prevent spam, you'll need either {TRUESCORE_CHAT_MINIMUM} truescore (this is {TRUESCORE_CHAT_MINIMUM} votes, either up or down, on any threads or comments you've made) <i class='p-0'>OR</i> simply <a class='p-0' href=/settings/security>verify your email</a> in order to access chat. Sorry! I love you  💖"
+CHAT_ERROR_MESSAGE = f"To prevent spam, you'll need {TRUESCORE_CHAT_MINIMUM} truescore (this is {TRUESCORE_CHAT_MINIMUM} votes, either up or down, on any threads or comments you've made) in order to access chat. Sorry! I love you 💖"
 
 @app.get("/chat")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
