@@ -126,6 +126,10 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None, followers_pi
 		return set()
 
 	text = text.lower()
+
+	if oldtext:
+		oldtext = oldtext.lower()
+
 	notify_users = set()
 
 	for word, id in NOTIFIED_USERS.items():
@@ -133,6 +137,10 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None, followers_pi
 			notify_users.add(id)
 
 	names = set(m.group(1) for m in mention_regex.finditer(text))
+
+	if oldtext:
+		oldnames = set(m.group(1) for m in mention_regex.finditer(oldtext))
+		names = names - oldnames
 
 	user_ids = get_users(names, ids_only=True, graceful=True)
 	notify_users.update(user_ids)
