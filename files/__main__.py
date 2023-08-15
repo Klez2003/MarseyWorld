@@ -68,7 +68,7 @@ limiter = Limiter(
 	app=app,
 	key_func=get_CF,
 	default_limits=[DEFAULT_RATELIMIT],
-	application_limits=["10/second;200/minute;5000/hour;10000/day"],
+	application_limits=["10/second;200/minute;5000/hour;20000/day"],
 	storage_uri=app.config["CACHE_REDIS_URL"],
 	default_limits_deduct_when=lambda response: response.status_code < 400,
 )
