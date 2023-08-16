@@ -11,3 +11,6 @@ rm -rf /var/lib/postgresql/15/main/pg_wal
 mv /pg_wal /var/lib/postgresql/15/main/pg_wal
 touch /var/lib/postgresql/15/main/recovery.signal
 systemctl start postgresql@15-main
+
+wait after recovery is done then:
+rm /var/lib/postgresql/15/main/recovery.signal
