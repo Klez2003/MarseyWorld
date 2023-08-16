@@ -93,7 +93,7 @@
 		</div>
 		<div class="card-block text-left x-scroll-parent w-100">
 			<div class="post-meta text-left x-scroll mb-md-2">
-				{{ macros.post_meta(p) }}
+				{{macros.post_meta(p)}}
 			</div>
 			<h5 class="card-title post-title text-left w-lg-95 pb-0 pb-md-1">
 				<a id="{{p.id}}-title" {% if v and v.newtab %}data-target="t" target="_blank"{% endif %} href="{{p.permalink}}" class="{% if p.sub %}sub{% endif %} stretched-link {% if p.chudded %}text-uppercase{% endif %}">

@@ -11,20 +11,20 @@
 
 {% if p.award_count("wholesome", v) %}
 	{% set wholesome = '/e/marseywholesome.webp' %}
-	{{ stackable_award('wholesome', wholesome, ':#marseywholesome:') }}
+	{{stackable_award('wholesome', wholesome, ':#marseywholesome:')}}
 {% endif %}
 
 {% if p.award_count("train", v) %}
-	{{ stackable_award('train', '/e/marseytrain.webp', ':#marseytrain:') }}
+	{{stackable_award('train', '/e/marseytrain.webp', ':#marseytrain:')}}
 {% endif %}
 
 {% if p.award_count("scooter", v) %}
-	{{ stackable_award('scooter', '/e/marseyscooter.webp', ':#marseyscooter:') }}
+	{{stackable_award('scooter', '/e/marseyscooter.webp', ':#marseyscooter:')}}
 {% endif %}
 
 {% if p.award_count("firework", v) %}
 	<script defer src="{{'js/fireworks.js' | asset}}"></script>
-	{{ stackable_award('firework') }}
+	{{stackable_award('firework')}}
 {% endif %}
 
 {% if p.award_count("confetti", v) and IS_BIRTHGAY() %}
