@@ -577,6 +577,7 @@ PROGSTACK_ID = 4
 CARP_ID = 0
 AEVANN_ID = 0
 SNAKES_ID = 0
+GTIX_ID = 0
 JUSTCOOL_ID = 0
 LAWLZ_ID = 0
 TGTW_ID = 0
@@ -846,6 +847,7 @@ elif SITE == 'watchpeopledie.tv':
 	CARP_ID = 48
 	AEVANN_ID = 9
 	SNAKES_ID = 32
+	GTIX_ID = 77694
 
 	GIFT_NOTIF_ID = CARP_ID
 	SIGNUP_FOLLOW_ID = CARP_ID
@@ -856,6 +858,8 @@ elif SITE == 'watchpeopledie.tv':
 		' capy': AEVANN_ID,
 		'carp': CARP_ID,
 		'clit': CARP_ID,
+		'g-tix': GTIX_ID,
+		'gtix': GTIX_ID,
 	}
 
 	TIER_TO_NAME = {
@@ -1149,11 +1153,6 @@ GIRL_NAMES = {
 	'Y': ['Yesenia', 'Yasmine', 'Yasmin', 'Yvette', 'Yolanda', 'Yadira', 'Yvonne', 'Yamilet', 'Yazmin', 'Yasmeen', 'Yessenia'],
 	'Z': ['Zoe', 'Zoey', 'Zaria', 'Zoie']
 }
-
-class OrgyTypes:
-	YOUTUBE = 1
-	RUMBLE = 2
-	TWITCH = 3
 
 from sqlalchemy.engine.create import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker

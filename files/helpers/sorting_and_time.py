@@ -1,6 +1,7 @@
 import time
 
 from sqlalchemy.sql import func
+from flask import g
 
 from files.helpers.config.const import *
 
@@ -27,7 +28,8 @@ def apply_time_filter(t, objects, cls):
 	
 
 def sort_objects(sort, objects, cls):
-	objects = objects.order_by(cls.is_banned, cls.deleted_utc)
+	if not (SITE == 'watchpeopledie.tv' and g.v and g.v.id == GTIX_ID):
+		objects = objects.order_by(cls.is_banned, cls.deleted_utc)
 
 	if sort == 'hot':
 		ti = int(time.time()) + 3600
