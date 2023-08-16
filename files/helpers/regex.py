@@ -226,6 +226,6 @@ reason_regex_comment = re.compile('(/comment/[0-9]+)', flags=re.A)
 
 numbered_list_regex = re.compile('((\s|^)[0-9]+)\. ', flags=re.A)
 
-image_link_regex = re.compile(f"https://(i\.)?{SITE}\/(chat_)?images\/[0-9]{{11,17}}r?\.webp", flags=re.A)
+image_link_regex = re.compile(f"https:\/\/(i\.)?{SITE}\/(chat_)?images\/[0-9]{{11,17}}r?\.webp", flags=re.A)
 
 video_link_regex = re.compile(f"https://(videos\.)?{SITE}\/(videos\/)?[0-9a-zA-Z._-]{{4,66}}\.({video_regex_extensions})", flags=re.A)
