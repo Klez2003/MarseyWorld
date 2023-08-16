@@ -112,6 +112,11 @@ if (!location.pathname.endsWith('/submit'))
 			return
 		}
 
+		if (location.pathname == '/admin/orgy') {
+			document.getElementById('start-orgy').click();
+			return
+		}
+
 		const submitButtonDOMs = formDOM.querySelectorAll('input[type=submit], .btn-primary');
 		if (submitButtonDOMs.length === 0)
 			throw new TypeError("I am unable to find the submit button :(. Contact the head custodian immediately.")
