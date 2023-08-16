@@ -1,60 +1,25 @@
 import time
-from flask import g
+from flask import g, abort
 
 from sqlalchemy import Column
 from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
-from files.helpers.config.const import *
-from files.helpers.regex import *
-from files.helpers.sanitize import normalize_url, get_youtube_id_and_t
 
 class Orgy(Base):
 	__tablename__ = "orgies"
 
-	id = Column(Integer, primary_key = True)
-	type = Column(Integer, primary_key = True)
+	type = Column(String, primary_key=True)
 	data = Column(String)
 	title = Column(String)
+	created_utc = Column(Integer)
 
-	def __init__(self, **kwargs):
-		super().__init__(**kwargs)
-
-	def is_youtube(self):
-		return self.type == OrgyTypes.YOUTUBE
-	def is_rumble(self):
-		return self.type == OrgyTypes.RUMBLE
-	def is_twitch(self):
-		return self.type == OrgyTypes.TWITCH
+	def __init__(self, *args, **kwargs):
+		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
+		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
-		return f"<{self.__class__.__name__}(id={self.id}, type={self.type}, data={self.data} title={self.title})>"
-
+		return f"<{self.__class__.__name__}(type={self.type}, data={self.data} title={self.title})>"
 
 def get_orgy():
-	orgy = g.db.query(Orgy).one_or_none()
-	return orgy
-
-def create_orgy(link, title):
-	assert not get_orgy()
-	normalized_link = normalize_url(link)
-	data = None
-	orgy_type = -1
-	if re.match(bare_youtube_regex, normalized_link):
-		orgy_type = OrgyTypes.YOUTUBE
-		data, _ = get_youtube_id_and_t(normalized_link)
-	elif re.match(rumble_regex, normalized_link):
-		orgy_type = OrgyTypes.RUMBLE
-		data = normalized_link
-	elif re.match(twitch_regex, normalized_link):
-		orgy_type = OrgyTypes.TWITCH
-		data = re.search(twitch_regex, normalized_link).group(3)
-	else:
-		assert False
-
-	orgy = Orgy(title=title, id=0, type = orgy_type, data = data)
-	g.db.add(orgy)
-
-def end_orgy():
-	assert get_orgy()
-	g.db.query(Orgy).delete()
+	return g.db.query(Orgy).one_or_none()

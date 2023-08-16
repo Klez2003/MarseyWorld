@@ -1948,18 +1948,46 @@ def orgy_control(v):
 @app.post("/admin/start_orgy")
 @admin_level_required(PERMS['ORGIES'])
 def start_orgy(v):
-	link = request.values.get("link")
-	title = request.values.get("title")
+	link = request.values.get("link", "").strip()
+	title = request.values.get("title", "").strip()
 
-	assert link
-	assert title
+	if not link:
+		abort(400, "A link is required!")
 
-	create_orgy(link, title)
+	if not title:
+		abort(400, "A title is required!")
+
+	if get_orgy():
+		abort(400, "An orgy is already in progress")
+
+	normalized_link = normalize_url(link)
+
+	if re.match(bare_youtube_regex, normalized_link):
+		orgy_type = 'youtube'
+		data, _ = get_youtube_id_and_t(normalized_link)
+	elif re.match(rumble_regex, normalized_link):
+		orgy_type = 'rumble'
+		data = normalized_link
+	elif re.match(twitch_regex, normalized_link):
+		orgy_type = 'twitch'
+		data = re.search(twitch_regex, normalized_link).group(3)
+	elif normalized_link.endswith('.mp4'):
+		orgy_type = 'file'
+		data = normalized_link
+	else:
+		abort(400)
+
+	orgy = Orgy(
+			title=title,
+			type=orgy_type,
+			data=data
+		)
+	g.db.add(orgy)
 
 	return {"message": "Orgy started successfully!"}
 
 @app.post("/admin/stop_orgy")
 @admin_level_required(PERMS['ORGIES'])
 def stop_orgy(v):
-	end_orgy()
+	g.db.query(Orgy).delete()
 	return {"message": "Orgy stopped successfully!"}
