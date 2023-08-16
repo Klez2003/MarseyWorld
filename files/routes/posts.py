@@ -658,8 +658,9 @@ def submit_post(v, sub=None):
 		autojanny.comment_count += 1
 		g.db.add(autojanny)
 
-	v.post_count = g.db.query(Post).filter_by(author_id=v.id, deleted_utc=0).count()
-	g.db.add(v)
+	if SITE != 'watchpeopledie.tv':
+		v.post_count = g.db.query(Post).filter_by(author_id=v.id, deleted_utc=0).count()
+		g.db.add(v)
 
 	execute_lawlz_actions(v, p)
 
