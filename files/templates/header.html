@@ -108,9 +108,9 @@
 				<div id="logo-container" class="flex-grow-1 logo-container">
 					<a href="/">
 						{% if IS_DKD() %}	
-							{% set logo_url = '/assets/events/DKD/images/logo.webp' %}
+							{% set logo_url = SITE_FULL_IMAGES ~ '/assets/events/DKD/images/logo.webp' %}
 						{% elif IS_FISTMAS() %}
-							{% set logo_url = '/assets/events/fistmas/images/logo/' ~ SITE_NAME %}
+							{% set logo_url = SITE_FULL_IMAGES ~ '/assets/events/fistmas/images/logo/' ~ SITE_NAME %}
 						{% else %}
 							{% set logo_url = 'logo.webp' | asset_siteimg %}
 						{% endif %}

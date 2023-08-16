@@ -51,7 +51,7 @@
 				{% endif %}
 
 				{% macro img_element() %}
-					<img data-nonce="{{g.nonce}}" data-onclick="{{expand|default('expandImage()')}}" class="{{class|default('site-banner')}}" alt="{{alt|default('site banner')}}" src="{{banner_url}}">
+					<img data-nonce="{{g.nonce}}" data-onclick="{{expand|default('expandImage()')}}" class="{{class|default('site-banner')}}" alt="{{alt|default('site banner')}}" src="{{SITE_FULL_IMAGES}}{{banner_url}}">
 				{% endmacro %}
 
 				{% if sub and sub.has_banners %}
