@@ -41,6 +41,7 @@ INSERT INTO public.badge_defs VALUES (150, 'Verified', 'Bought a Blue Checkmark.
 INSERT INTO public.badge_defs VALUES (151, 'Responsible Citizen', 'This user upheld democracy by committing voter fraud.', NULL);
 INSERT INTO public.badge_defs VALUES (152, 'Amateur Hathead', 'Collected 25 unique hats', NULL);
 INSERT INTO public.badge_defs VALUES (155, 'Ride Or Die Dramalo/Dramalette', 'When I die show no pity / Send my soul to the juggalo city / Dig my grave six feet deep / And put two matches by my feet / Put two hatchets on my chest / And tell my homies I did my best / WHOOP WHOOP', NULL);
+INSERT INTO public.badge_defs VALUES (296, 'SEX!', 'This user verifiably had sex with another dramatard.', 1692195588);
 INSERT INTO public.badge_defs VALUES (163, 'Marsey Jacobs', 'Designed 10 hats!', NULL);
 INSERT INTO public.badge_defs VALUES (166, 'Giorgio Armarsey', 'Designed 250 hats 😲', NULL);
 INSERT INTO public.badge_defs VALUES (164, 'Marsey de Givenchy', 'Designed 50 hats, holy cap.', NULL);
@@ -259,7 +260,7 @@ INSERT INTO public.badge_defs VALUES (295, 'August''s August August', 'This user
 -- Name: badge_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.badge_defs_id_seq', 295, true);
+SELECT pg_catalog.setval('public.badge_defs_id_seq', 296, true);
 
 
 --
