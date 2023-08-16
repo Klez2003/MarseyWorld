@@ -23,6 +23,8 @@ def hats(v):
 	else:
 		hats = g.db.query(HatDef)
 
+	hats = hats.filter_by(submitter_id=None)
+
 	if sort and sort != "owners":
 		if sort == "name":
 			key = HatDef.name
@@ -49,13 +51,13 @@ def hats(v):
 		hats = hats[firstrange:secondrange]
 	else:
 		if v.equipped_hat_ids:
-			equipped = hats.filter(HatDef.submitter_id == None, HatDef.id.in_(owned_hat_ids), HatDef.id.in_(v.equipped_hat_ids)).order_by(HatDef.price, HatDef.name).all()
-			not_equipped = hats.filter(HatDef.submitter_id == None, HatDef.id.in_(owned_hat_ids), HatDef.id.notin_(v.equipped_hat_ids)).order_by(HatDef.price, HatDef.name).all()
+			equipped = hats.filter(HatDef.id.in_(owned_hat_ids), HatDef.id.in_(v.equipped_hat_ids)).order_by(HatDef.price, HatDef.name).all()
+			not_equipped = hats.filter(HatDef.id.in_(owned_hat_ids), HatDef.id.notin_(v.equipped_hat_ids)).order_by(HatDef.price, HatDef.name).all()
 			owned = equipped + not_equipped
 		else:
-			owned = hats.filter(HatDef.submitter_id == None, HatDef.id.in_(owned_hat_ids)).order_by(HatDef.price, HatDef.name).all()
+			owned = hats.filter(HatDef.id.in_(owned_hat_ids)).order_by(HatDef.price, HatDef.name).all()
 
-		not_owned = hats.filter(HatDef.submitter_id == None, HatDef.id.notin_(owned_hat_ids)).order_by(HatDef.price == 0, HatDef.price, HatDef.name).all()
+		not_owned = hats.filter(HatDef.id.notin_(owned_hat_ids)).order_by(HatDef.price == 0, HatDef.price, HatDef.name).all()
 		hats = owned + not_owned
 
 		firstrange = PAGE_SIZE * (page - 1)
