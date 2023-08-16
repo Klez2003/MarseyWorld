@@ -21,6 +21,7 @@ from files.helpers.treasure import *
 from files.routes.front import comment_idlist
 from files.routes.routehelpers import execute_shadowban_viewers_and_voters
 from files.routes.wrappers import *
+from files.routes.static import badge_list
 from files.__main__ import app, cache, limiter
 
 def _mark_comment_as_read(cid, vid):
@@ -226,6 +227,7 @@ def comment(v):
 							copyfile(oldname, filename)
 							process_image(filename, v, resize=300, trim=True)
 							purge_files_in_cache(f"{SITE_FULL_IMAGES}/i/{SITE_NAME}/badges/{badge.id}.webp")
+							cache.delete_memoized(badge_list)
 						except Exception as e:
 							abort(400, str(e))
 				body = body.replace(f'[{file.filename}]', f' {image} ', 1)
