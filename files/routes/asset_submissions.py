@@ -260,9 +260,7 @@ def remove_emoji(v, name):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def submit_hats(v):
-	if v.admin_level >= PERMS['VIEW_PENDING_SUBMITTED_HATS']: hats = g.db.query(HatDef).filter(HatDef.submitter_id != None)
-	else: hats = g.db.query(HatDef).filter(HatDef.submitter_id == v.id)
-	hats = hats.order_by(HatDef.created_utc.desc()).all()
+	hats = g.db.query(HatDef).filter(HatDef.submitter_id != None).order_by(HatDef.created_utc.desc()).all()
 
 	return render_template("submit_hats.html", v=v, hats=hats)
 
