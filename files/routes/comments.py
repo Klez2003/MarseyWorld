@@ -146,7 +146,9 @@ def comment(v):
 
 
 
-	if not User.can_see(v, parent): abort(403)
+	if posting_to_post and not User.can_see(v, parent):
+		abort(403)
+
 	if not isinstance(parent, User) and parent.deleted_utc != 0:
 		if isinstance(parent, Post):
 			abort(403, "You can't reply to deleted posts!")
