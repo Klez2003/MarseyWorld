@@ -193,7 +193,7 @@ def distribute(v, kind, option_id):
 	for vote in votes:
 		u = vote.user
 		u.pay_account('coins', coinsperperson)
-		add_notif(cid, u.id, text)
+		add_notif(cid, u.id, text, pushnotif_url=parent.permalink)
 
 	text = f"You lost the {POLL_BET_COINS} coins you bet on {parent.permalink} :marseylaugh:"
 	cid = notif_comment(text)
@@ -202,7 +202,7 @@ def distribute(v, kind, option_id):
 		if o.exclusive == 2:
 			losing_voters.extend([x.user_id for x in o.votes])
 	for uid in losing_voters:
-		add_notif(cid, uid, text)
+		add_notif(cid, uid, text, pushnotif_url=parent.permalink)
 
 	if isinstance(parent, Post):
 		ma = ModAction(

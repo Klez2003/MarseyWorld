@@ -251,7 +251,7 @@ def settings_personal_post(v):
 				alert_everyone(cid)
 			else:
 				for x in notify_users:
-					add_notif(cid, x, text)
+					add_notif(cid, x, text, pushnotif_url=f'{SITE_FULL}{v.url}')
 
 		v.friends = friends
 		v.friends_html=friends_html
@@ -277,7 +277,7 @@ def settings_personal_post(v):
 				alert_everyone(cid)
 			else:
 				for x in notify_users:
-					add_notif(cid, x, text)
+					add_notif(cid, x, text, pushnotif_url=f'{SITE_FULL}{v.url}')
 
 		v.enemies = enemies
 		v.enemies_html=enemies_html
