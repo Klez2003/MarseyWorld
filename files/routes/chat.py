@@ -66,18 +66,6 @@ def chat(v):
 	else:
 		return render_template("chat.html", v=v, messages=displayed_messages)
 
-@app.get("/old_chat")
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
-@is_not_permabanned
-def old_chat(v):
-	if not v.allowed_in_chat:
-		abort(403, CHAT_ERROR_MESSAGE)
-
-	displayed_messages = {k: val for k, val in messages.items() if val["user_id"] not in v.userblocks}
-
-	return render_template("chat.html", v=v, messages=displayed_messages)
-
 @socketio.on('speak')
 @is_not_banned_socketio
 def speak(data, v):

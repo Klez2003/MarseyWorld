@@ -1,7 +1,5 @@
 const SITE_FULL_IMAGES = document.getElementById('SITE_FULL_IMAGES').value
 
-const is_chat = (location.pathname == '/chat' || location.pathname == '/old_chat')
-
 function getMessageFromJsonData(success, json) {
 	let message = success ? "Success!" : "Error, please try again later";
 	let key = success ? "message" : "error";
@@ -508,7 +506,7 @@ function handle_files(input, newfiles) {
 		return
 	}
 
-	if (!is_chat) {
+	if (location.pathname != '/chat') {
 		for (const file of newfiles) {
 			insertText(ta, `[${file.name}]`);
 		}
