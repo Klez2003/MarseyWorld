@@ -23,7 +23,7 @@ def hats(v):
 	else:
 		hats = g.db.query(HatDef)
 
-	hats = hats.filter_by(submitter_id=None)
+	hats = hats.filter(HatDef.submitter_id == None)
 
 	if sort and sort != "owners":
 		if sort == "name":
