@@ -224,11 +224,15 @@ def settings_personal_post(v):
 			abort(403, f"Signatures are only available to {patron}s!")
 
 		sig = request.values.get("sig")[:200].replace('\n','').replace('\r','')
+
+		sig = process_files(request.files, v, sig)
+		sig = sig[:200].strip() # process_files potentially adds characters to the post
+
 		sig_html = sanitize(sig, blackjack="signature")
 		if len(sig_html) > 1000:
 			abort(400, "Your sig is too long")
 
-		v.sig = sig[:200]
+		v.sig = sig
 		v.sig_html=sig_html
 		g.db.add(v)
 		return {"message": "Your sig has been updated."}
