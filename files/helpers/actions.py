@@ -503,6 +503,8 @@ def execute_under_siege(v, target, body, kind):
 
 	if kind in {'message', 'report'} and SITE == 'rdrama.net':
 		threshold = 86400
+	elif kind == 'post' and SITE == 'watchpeopledie.tv':
+		threshold = 86400
 	else:
 		threshold = UNDER_SIEGE_AGE_THRESHOLD
 
