@@ -70,7 +70,7 @@
 	{% if c.parent_post %}
 		{% if c.author_id==v.id and replies and is_notification_page %}
 			<span class="font-weight-bold">Comment {{'Replies' if (replies | length)>1 else 'Reply'}}: <a href="{{c.post.permalink}}">{{c.post.realtitle(v) | safe}}</a></span>
-		{% elif c.post.author_id==v.id and c.level == 1 and is_notification_page%}
+		{% elif c.post.author_id==v.id and c.level == 1 and is_notification_page %}
 			<span class="font-weight-bold">Post Reply: <a href="{{c.post.permalink}}">{{c.post.realtitle(v) | safe}}</a></span>
 		{% elif is_notification_page and c.parent_post in v.subscribed_idlist %}
 			<span class="font-weight-bold">Subscribed Thread: <a href="{{c.post.permalink}}">{{c.post.realtitle(v) | safe}}</a></span>
@@ -114,7 +114,7 @@
 	{% endif %}
 	<div class="comment-body">
 
-		<div id="{% if comment_info and comment_info.id == c.id %}context{%else%}comment-{{c.id}}-only{% endif %}" class="{% if c.award_count('tilt', v) %}tilt-comment{% endif %} {% if c.unread %}unread{% endif %} {% if c.award_count('glowie', v) %}glow{% endif %} comment-{{c.id}}-only comment-anchor {% if comment_info and comment_info.id == c.id %}context{%endif%}{% if c.is_banned %} banned{% endif %}{% if c.deleted_utc %} deleted{% endif %}">
+		<div id="{% if comment_info and comment_info.id == c.id %}context{% else %}comment-{{c.id}}-only{% endif %}" class="{% if c.award_count('tilt', v) %}tilt-comment{% endif %} {% if c.unread %}unread{% endif %} {% if c.award_count('glowie', v) %}glow{% endif %} comment-{{c.id}}-only comment-anchor {% if comment_info and comment_info.id == c.id %}context{% endif %}{% if c.is_banned %} banned{% endif %}{% if c.deleted_utc %} deleted{% endif %}">
 
 			<div class="user-info">
 				<span class="comment-collapse-icon" data-nonce="{{g.nonce}}" data-onclick="collapse_comment('{{c.id}}')"></span>
@@ -247,7 +247,7 @@
 			{% endif %}
 
 			{% set realbody = c.realbody(v) %}
-			<div id="comment-text-{{c.id}}" class="comment-text mb-0 {% if c.chudded %}text-uppercase chud-img chud-{{c.id_last_num}}{% endif %} {% if c.rainbowed %}rainbow-text{% endif %} {%if c.queened%}queen{%endif%} {%if c.sharpened%}sharpen chud-img sharpen-{{c.id_last_num}}{%endif%}">
+			<div id="comment-text-{{c.id}}" class="comment-text mb-0 {% if c.chudded %}text-uppercase chud-img chud-{{c.id_last_num}}{% endif %} {% if c.rainbowed %}rainbow-text{% endif %} {% if c.queened %}queen{% endif %} {% if c.sharpened %}sharpen chud-img sharpen-{{c.id_last_num}}{% endif %}">
 				{{realbody | safe}}
 			</div>
 
@@ -308,7 +308,7 @@
 											<span class="mr-2 arrow-up comment-{{c.id}}-up active"></span>
 										{% endif %}
 
-										<span class="comment-mobile-score-{{c.id}} score comment-score-{{c.id}} {% if voted==1 %}score-up{% elif voted==-1%}score-down{% endif %}{% if c.controversial %} controversial{% endif %}"{% if not c.is_banned %} data-bs-toggle="tooltip" data-bs-placement="top" title="+{{ups}} | -{{downs}}"{% endif %} style="cursor: default">{{score}}</span>
+										<span class="comment-mobile-score-{{c.id}} score comment-score-{{c.id}} {% if voted==1 %}score-up{% elif voted==-1 %}score-down{% endif %}{% if c.controversial %} controversial{% endif %}"{% if not c.is_banned %} data-bs-toggle="tooltip" data-bs-placement="top" title="+{{ups}} | -{{downs}}"{% endif %} style="cursor: default">{{score}}</span>
 
 										{% if voted==-1 %}
 											<span class="ml-2 my-0 arrow-down comment-{{c.id}}-down active"></span>
@@ -320,7 +320,7 @@
 										<span tabindex="0" data-nonce="{{g.nonce}}" data-onclick="vote('comment-mobile', '{{c.id}}', '1')" class="comment-mobile-{{c.id}}-up mx-0 pr-1 arrow-up upvote-button comment-{{c.id}}-up {% if voted==1 %}active{% endif %}">
 										</span>
 
-										<span class="comment-mobile-score-{{c.id}} score comment-score-{{c.id}} {% if voted==1 %}score-up{% elif voted==-1%}score-down{% endif %}{% if c.controversial %} controversial{% endif %}"{% if not c.is_banned %} data-bs-toggle="tooltip" data-bs-placement="top" title="+{{ups}} | -{{downs}}"{% endif %} style="cursor: default">{{score}}</span>
+										<span class="comment-mobile-score-{{c.id}} score comment-score-{{c.id}} {% if voted==1 %}score-up{% elif voted==-1 %}score-down{% endif %}{% if c.controversial %} controversial{% endif %}"{% if not c.is_banned %} data-bs-toggle="tooltip" data-bs-placement="top" title="+{{ups}} | -{{downs}}"{% endif %} style="cursor: default">{{score}}</span>
 
 										<span {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" data-nonce="{{g.nonce}}" data-onclick="vote('comment-mobile', '{{c.id}}', '-1')" class="comment-mobile-{{c.id}}-down mx-0 pl-1 my-0 arrow-down downvote-button comment-{{c.id}}-down {% if voted==-1 %}active{% endif %}">
 										</span>
@@ -358,7 +358,7 @@
 						{% endif %}
 
 						<span class="btn caction nobackground p-0 m-0" style="cursor: default">
-							<span data-bs-toggle="tooltip" data-bs-placement="top" title="+{{ups}} | -{{downs}}" class="comment-score-{{c.id}} score comment-score-{{c.id}} {% if voted==1 %}score-up{% elif voted==-1%}score-down{% endif %} {% if c.controversial %}controversial{% endif %}">{{score}}</span>
+							<span data-bs-toggle="tooltip" data-bs-placement="top" title="+{{ups}} | -{{downs}}" class="comment-score-{{c.id}} score comment-score-{{c.id}} {% if voted==1 %}score-up{% elif voted==-1 %}score-down{% endif %} {% if c.controversial %}controversial{% endif %}">{{score}}</span>
 						</span>
 
 						{% if v and (request.path.startswith('/@') and not wall) and v.admin_level < PERMS['VIEW_VOTE_BUTTONS_ON_USER_PAGE'] %}
