@@ -73,8 +73,7 @@ def publish(pid, v):
 	cache.delete_memoized(frontlist)
 	cache.delete_memoized(userpagelisting)
 
-	if SITE != 'watchpeopledie.tv':
-		execute_snappy(p, v)
+	execute_snappy(p, v)
 
 	return {"message": "Post has been published successfully!"}
 
@@ -680,7 +679,7 @@ def submit_post(v, sub=None):
 	for key in redis_instance.scan_iter(key_pattern):
 		redis_instance.delete(key)
 
-	if SITE != 'watchpeopledie.tv' and not p.private:
+	if not p.private:
 		execute_snappy(p, v)
 
 	g.db.commit() #Necessary, do NOT remove

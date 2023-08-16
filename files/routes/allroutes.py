@@ -62,7 +62,7 @@ def after_request(response):
 		if hasattr(g, 'v') and g.v:
 			user_id = g.v.id
 
-			if SITE != 'watchpeopledie.tv' and not session.get("GLOBAL") and request.method == "POST":
+			if not session.get("GLOBAL") and request.method == "POST":
 				timestamp = int(time.time())
 				if (g.v.last_active + LOGGEDIN_ACTIVE_TIME) < timestamp:
 					g.v.last_active = timestamp
