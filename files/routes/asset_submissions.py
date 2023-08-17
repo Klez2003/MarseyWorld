@@ -37,6 +37,8 @@ def submit_emojis(v):
 	return render_template("submit_emojis.html", v=v, emojis=emojis)
 
 
+emoji_modifiers = ('pat', 'talking', 'genocide', 'heart')
+
 @app.post("/submit/emojis")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
@@ -49,6 +51,10 @@ def submit_emoji(v):
 	tags = request.values.get('tags', '').lower().strip()
 	username = request.values.get('author', '').lower().strip()
 	kind = request.values.get('kind', '').strip()
+
+	for modifier in emoji_modifiers:
+		if name.endswith(modifier):
+			abort(400, f'Submitted emoji names should NOT end with the word "{modifier}"')
 
 	if kind not in EMOJI_KINDS:
 		abort(400, "Invalid emoji kind!")
