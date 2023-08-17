@@ -188,7 +188,9 @@
 
 							{{macros.file_input('file-upload-macro', 'input-message', not get_setting('dm_media'))}}
 
-							<input type="submit" data-nonce="{{g.nonce}}" data-onclick="remove_dialog()" value="Submit" class="btn btn-primary fl-r">
+							<div class="d-flex">
+								<input type="submit" data-nonce="{{g.nonce}}" data-onclick="remove_dialog()" value="Submit" class="btn btn-primary ml-auto">
+							</div>
 						</form>
 
 						<div id="message-preview" class="preview mt-2"></div>
@@ -480,7 +482,9 @@
 
 						{{macros.file_input('file-upload-mobile', 'input-message-mobile')}}
 
-						<input type="submit" data-nonce="{{g.nonce}}" data-onclick="remove_dialog()" value="Submit" class="btn btn-primary fl-r">
+						<div class="d-flex">
+							<input type="submit" data-nonce="{{g.nonce}}" data-onclick="remove_dialog()" value="Submit" class="btn btn-primary ml-auto">
+						</div>
 					</form>
 
 					<div id="message-preview-mobile" class="preview my-3"></div>
