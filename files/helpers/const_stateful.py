@@ -40,7 +40,7 @@ def const_initialize():
 	if IS_FISTMAS():
 		filename = f"snappy_fistmas_{SITE_NAME}.txt"
 	else:
-		filename = f"snappy_{SITE_NAME}.txt"
+		filename = f"snappy_rDrama.txt"
 
 	try:
 		with open(filename, "r", encoding="utf-8") as f:
