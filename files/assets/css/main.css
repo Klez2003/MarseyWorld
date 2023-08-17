@@ -5584,10 +5584,12 @@ span > img[src$="/i/talking.webp"]+img[src$="/i/hand.webp"]+img  {
 span > img[src$="/i/love-foreground.webp"]+img[src$="/i/love-background.webp"]+img {
 	position: absolute;
 	z-index: 50;
-	height: 40%;
-	width: 40%;
+    height: 60%;
+    width: 60%;
 	bottom: -2%;
-	left: 40%;
+    left: 37%;
+    transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
 }
 
 span > img[src$="/i/love-foreground.webp"] {
