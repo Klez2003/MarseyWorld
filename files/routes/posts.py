@@ -412,8 +412,8 @@ def is_repost(v):
 @app.post("/h/<sub>/submit")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(POST_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-@limiter.limit(POST_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@limiter.limit('20/day', deduct_when=lambda response: response.status_code < 400)
+@limiter.limit('20/day', deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_banned
 def submit_post(v, sub=None):
 	url = request.values.get("url", "").strip()

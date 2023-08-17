@@ -48,7 +48,6 @@ class Service(Enum):
 	RDRAMA = auto()
 	CHAT = auto()
 
-POST_RATELIMIT = '20/day'
 DEFAULT_RATELIMIT = "30/minute;200/hour;1000/day"
 CASINO_RATELIMIT = "100/minute;2000/hour;12000/day"
 
@@ -768,8 +767,6 @@ if SITE == 'rdrama.net':
 		'justcool393': JUSTCOOL_ID
 	}
 elif SITE == 'watchpeopledie.tv':
-	POST_RATELIMIT = '30/day'
-
 	NOTIFICATION_SPAM_AGE_THRESHOLD = 0.5 * 86400
 
 	EMAIL = "wpd@watchpeopledie.tv"
