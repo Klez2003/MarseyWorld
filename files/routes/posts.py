@@ -675,10 +675,6 @@ def submit_post(v, sub=None):
 	cache.delete_memoized(frontlist)
 	cache.delete_memoized(userpagelisting)
 
-	key_pattern = app.config["CACHE_KEY_PREFIX"] + 'frontpage_*'
-	for key in redis_instance.scan_iter(key_pattern):
-		redis_instance.delete(key)
-
 	if not p.private:
 		execute_snappy(p, v)
 
