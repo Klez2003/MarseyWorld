@@ -745,10 +745,10 @@ ALTER SEQUENCE public.oauth_apps_id_seq OWNED BY public.oauth_apps.id;
 --
 
 CREATE TABLE public.orgies (
-    id integer NOT NULL,
-    type integer NOT NULL,
+    type character varying(8) NOT NULL,
     data character varying(200) NOT NULL,
-    title character varying(1000) NOT NULL
+    title character varying(1000) NOT NULL,
+    created_utc integer NOT NULL
 );
 
 
@@ -1379,6 +1379,14 @@ ALTER TABLE ONLY public.oauth_apps
 
 ALTER TABLE ONLY public.users
     ADD CONSTRAINT one_banner UNIQUE (bannerurl);
+
+
+--
+-- Name: orgies orgies_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.orgies
+    ADD CONSTRAINT orgies_pkey PRIMARY KEY (type);
 
 
 --

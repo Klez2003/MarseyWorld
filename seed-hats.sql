@@ -1026,7 +1026,6 @@ INSERT INTO public.hat_defs VALUES (1200, 'Swagger', 'You will never be this coo
 
 
 
-
 INSERT INTO public.hat_defs VALUES (1220, 'Chained Border', '?????', 2, 500, NULL, 1686289778);
 INSERT INTO public.hat_defs VALUES (1213, 'Secret Crack', 'Oh hi… AH', 2, 1000, NULL, 1686288898);
 
@@ -1060,8 +1059,24 @@ INSERT INTO public.hat_defs VALUES (1246, 'Bisexual Border', 'Show off your bise
 INSERT INTO public.hat_defs VALUES (1245, 'Pansexual Border', 'Show off your pansexual pride!', 2, 500, NULL, 1687287794);
 INSERT INTO public.hat_defs VALUES (1243, 'Trans Border I', 'Show off your Trans pride!', 2, 500, NULL, 1687287722);
 INSERT INTO public.hat_defs VALUES (1242, 'Pride Hat', 'It''s pride time girlies!', 2, 500, NULL, 1687287201);
+INSERT INTO public.hat_defs VALUES (1322, 'Butthead', '"Eh, this website sucks, ehuhuh ehuhuh."', 2, 500, NULL, 1692085079);
+INSERT INTO public.hat_defs VALUES (1321, 'Beavis', '"GIVE ME TP FOR MY BUNGHOLE!"', 2, 500, NULL, 1692085009);
+INSERT INTO public.hat_defs VALUES (1320, 'The Master', '"So what shall it be? Do you join the Unity, or do you die here? Join! Die! Join! Die!"', 2, 500, NULL, 1691983112);
+INSERT INTO public.hat_defs VALUES (1319, 'Crown of thorns', 'King of the Jews', 2, 500, NULL, 1691981795);
+INSERT INTO public.hat_defs VALUES (1318, 'Football Helmet II', 'Touchdown!', 2, 500, NULL, 1691981743);
+INSERT INTO public.hat_defs VALUES (1317, 'Top Hat (Tiny)', 'A tiny top hat for a tiny man', 2, 500, NULL, 1691981612);
+INSERT INTO public.hat_defs VALUES (1315, 'Pink Devil Wings', 'Succubus???', 2, 500, NULL, 1691908707);
+INSERT INTO public.hat_defs VALUES (1314, 'Scouter Red', 'My stragdar is picking up something powerful...', 2, 1000, NULL, 1691470486);
+INSERT INTO public.hat_defs VALUES (1313, 'Scouter Green', 'My stragdar is picking up something powerful...', 2, 1000, NULL, 1691470421);
+INSERT INTO public.hat_defs VALUES (1312, 'Hollywood Hogan', 'Poop brother HH', 2, 500, NULL, 1691376795);
+INSERT INTO public.hat_defs VALUES (1311, 'Hulk Hogan', 'POOP BROTHER HH', 2, 500, NULL, 1691376726);
 INSERT INTO public.hat_defs VALUES (1256, 'dawnfag', 'I’m too tired to write a description I’m sorry here’s your hat toats', 2, 500, NULL, 1687739873);
+INSERT INTO public.hat_defs VALUES (1309, 'Vault-Tec', 'When the bombs drop I''ll be the safest.', 2, 500, NULL, 1691293282);
+INSERT INTO public.hat_defs VALUES (1308, 'NukaCola', 'Soda and radiation? Sign me up!', 2, 500, NULL, 1691293260);
 INSERT INTO public.hat_defs VALUES (1289, 'Energy Dome', 'Collects latent Orgone energy and recirculates it into the Medulla Oblongata.', 2, 500, NULL, 1689298931);
+INSERT INTO public.hat_defs VALUES (1307, 'Puppet', 'Am I really in control?', 2, 500, NULL, 1691293222);
+INSERT INTO public.hat_defs VALUES (1306, 'Neon Green Halo', 'So toxic that even my halo changed color.', 2, 500, NULL, 1691293205);
+INSERT INTO public.hat_defs VALUES (1303, 'SCP999', 'Cute and cuddly maybe people will finally like me!', 2, 500, NULL, 1691293125);
 INSERT INTO public.hat_defs VALUES (1300, 'Gongzilla Hat', 'Welcome to Jamrock, camp where the thugs dem camp at, two pound ah weed inna van back.', 2, 500, NULL, 1691114503);
 INSERT INTO public.hat_defs VALUES (1299, 'DEATHBLOW', '"This is no place for the weak, or the foolhardy." - Narrator', 2, 500, NULL, 1691091987);
 INSERT INTO public.hat_defs VALUES (1297, 'Futurama Jar', 'Good news everyone! I''ve invented a device that makes you read this in your head, with my voice!', 2, 500, NULL, 1690935048);
@@ -1076,26 +1091,6 @@ INSERT INTO public.hat_defs VALUES (1277, 'Fuck off', 'FUCK OFFFFFF', 2, 1000, N
 INSERT INTO public.hat_defs VALUES (1271, 'Fire Aura', 'RELEASE YOUR INNER RAGE!', 2, 500, NULL, 1687832669);
 INSERT INTO public.hat_defs VALUES (1270, 'Dark Aura', 'Let your inner troll OUT!', 2, 500, NULL, 1687832646);
 INSERT INTO public.hat_defs VALUES (1269, 'Rainbowfriends Hat', 'This user is special needs. No ands ifs or buts about it.', 2, 500, NULL, 1687832169);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
