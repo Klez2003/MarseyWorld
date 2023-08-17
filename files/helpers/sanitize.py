@@ -246,12 +246,12 @@ def find_all_emote_endings(word):
 			curr_word = curr_word[:-8]
 			continue
 		
-		if curr_word.endswith('heart'):
-			if 'heart' in endings:
+		if curr_word.endswith('love'):
+			if 'love' in endings:
 				is_non_ending_found = True
 				continue
-			endings.append('heart')
-			curr_word = curr_word[:-5]
+			endings.append('love')
+			curr_word = curr_word[:-4]
 			continue
 
 		is_non_ending_found = True
@@ -297,7 +297,7 @@ def render_emoji(html, regexp, golden, emojis_used, b=False, is_title=False):
 		is_talking = 'talking' in ending_modifiers
 		is_patted = 'pat' in ending_modifiers
 		is_talking_first = ending_modifiers.index('pat') > ending_modifiers.index('talking') if is_talking and is_patted else False
-		is_loved = 'heart' in ending_modifiers
+		is_loved = 'love' in ending_modifiers
 		is_genocided = 'genocide' in ending_modifiers
 		is_user = emoji.startswith('@')
 

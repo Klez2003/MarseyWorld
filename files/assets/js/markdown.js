@@ -111,7 +111,7 @@ const findAllEmoteEndings = (word) => {
 			continue;
 		}
 
-		if(currWord.endsWith('heart')) {
+		if(currWord.endsWith('love')) {
 			if(currEndings.indexOf(MODIFIERS.LOVE) !== -1) {
 				hasReachedNonModifer = true;
 				continue;

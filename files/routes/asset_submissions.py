@@ -37,7 +37,7 @@ def submit_emojis(v):
 	return render_template("submit_emojis.html", v=v, emojis=emojis)
 
 
-emoji_modifiers = ('pat', 'talking', 'genocide', 'heart')
+emoji_modifiers = ('pat', 'talking', 'genocide', 'love')
 
 @app.post("/submit/emojis")
 @limiter.limit('1/second', scope=rpath)
