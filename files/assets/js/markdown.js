@@ -116,7 +116,7 @@ const findAllEmoteEndings = (word) => {
 				hasReachedNonModifer = true;
 				continue;
 			}
-			currWord = currWord.slice(0, -5);
+			currWord = currWord.slice(0, -4);
 			currEndings.push(MODIFIERS.LOVE);
 			continue;
 		}
