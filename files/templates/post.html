@@ -81,7 +81,7 @@
 
 					<h1 id="post-title" class="card-title post-title text-left mb-md-3 {% if p.chudded %}text-uppercase{% endif %} {% if p.rainbowed %}rainbow-text{% endif %} {% if p.queened %}queen{% endif %} {% if p.sharpened %}sharpen{% endif %}">
 						{% if p.realurl(v) and not v_forbid_deleted %}
-							<a {% if not v or v.newtabexternal %}target="_blank"{% endif %} rel="nofollow noopener" href="{{p.realurl(v)}}">
+							<a class="no-visited" {% if not v or v.newtabexternal %}target="_blank"{% endif %} rel="nofollow noopener" href="{{p.realurl(v)}}">
 								{% if p.flair %}<span class="patron font-weight-bolder mr-1" style="background-color:var(--primary); font-size:12px; line-height:2;">{{p.flair | safe}}</span>{% endif %}
 								{{p.realtitle(v) | safe}}
 							</a>
