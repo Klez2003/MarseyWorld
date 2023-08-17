@@ -1892,13 +1892,16 @@ def delete_media_post(v):
 	if not url:
 		abort(400, "No url provided!")
 
-	if not image_link_regex.fullmatch(url) and not video_link_regex.fullmatch(url):
+	if not image_link_regex.fullmatch(url) and not video_link_regex.fullmatch(url) and not asset_image_link_regex.fullmatch(url):
 		abort(400, "Invalid url!")
 
 	path = url.split(SITE)[1]
 
 	if path.startswith('/1'):
 		path = '/videos' + path
+
+	if path.startswith('/assets/images'):
+		path = 'files' + path.split('?x=')[0]
 
 	if not os.path.isfile(path):
 		abort(400, "File not found on the server!")
