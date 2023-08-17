@@ -44,14 +44,14 @@
 					{%- if not v and os_path.exists(path ~ "/cached.webp") -%}
 						{% set banner_url = 'cached.webp' | asset_siteimg %}
 					{% elif os_path.exists(path ~ "/banners") -%}
-						{% set banner_url = macros.random_image("assets/images/" ~ SITE_NAME ~ "/banners") %}
+						{% set banner_url = SITE_FULL_IMAGES ~ macros.random_image("assets/images/" ~ SITE_NAME ~ "/banners") %}
 					{% else -%}
 						{% set banner_url = 'banner.webp' | asset_siteimg %}
 					{% endif %}
 				{% endif %}
 
 				{% macro img_element() %}
-					<img data-nonce="{{g.nonce}}" data-onclick="{{expand|default('expandImage()')}}" class="{{class|default('site-banner')}}" alt="{{alt|default('site banner')}}" src="{{SITE_FULL_IMAGES}}{{banner_url}}">
+					<img data-nonce="{{g.nonce}}" data-onclick="{{expand|default('expandImage()')}}" class="{{class|default('site-banner')}}" alt="{{alt|default('site banner')}}" src="{{banner_url}}">
 				{% endmacro %}
 
 				{% if sub and sub.has_banners %}
