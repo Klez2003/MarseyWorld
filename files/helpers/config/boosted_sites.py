@@ -73,6 +73,7 @@ BOOSTED_SITES = {
 	'fanclubs.org',
 	'dcurbanmom.com',
 	'godlike.com',
+	'linustechtips.com',
 
 	#nested-comments
 	#'all sites with .win TLD',
