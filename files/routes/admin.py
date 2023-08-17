@@ -1893,7 +1893,7 @@ def delete_media_post(v):
 		abort(400, "No url provided!")
 
 	if not image_link_regex.fullmatch(url) and not video_link_regex.fullmatch(url) and not asset_image_link_regex.fullmatch(url):
-		abort(400, "Invalid url!")
+		abort(400, "Invalid url")
 
 	path = url.split(SITE)[1]
 
