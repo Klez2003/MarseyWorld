@@ -5587,9 +5587,9 @@ span > img[src$="/i/love-foreground.webp"]+img[src$="/i/love-background.webp"]+i
     height: 60%;
     width: 60%;
 	bottom: -2%;
-    left: 37%;
-    transform: scaleX(-1) rotate(-15deg);
-    -webkit-transform: scaleX(-1) rotate(-15deg);
+    left: 33%;
+    transform: scaleX(-1) rotate(-10deg);
+    -webkit-transform: scaleX(-1) rotate(-10deg);
 }
 
 span > img[src$="/i/love-foreground.webp"] {
