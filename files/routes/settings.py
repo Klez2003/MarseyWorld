@@ -600,6 +600,7 @@ def settings_images_profile_background(v):
 			remove_media_using_link(v.profile_background)
 		v.profile_background = profile_background
 		g.db.add(v)
+		badge_grant(badge_id=193, user=v)
 
 	return redirect("/settings/personal?msg=Profile background successfully updated!")
 
