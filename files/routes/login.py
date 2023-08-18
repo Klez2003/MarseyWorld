@@ -350,7 +350,6 @@ def sign_up_post(v):
 		g.db.add(new_follow)
 		signup_autofollow.stored_subscriber_count += 1
 		g.db.add(signup_autofollow)
-		send_notification(signup_autofollow.id, f"A new user - @{new_user.username} - has followed you automatically!")
 	elif CARP_ID:
 		send_notification(CARP_ID, f"A new user - @{new_user.username} - has signed up!")
 
