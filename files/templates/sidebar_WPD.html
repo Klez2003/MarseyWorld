@@ -11,12 +11,12 @@
 	{%- elif v -%}
 		{%- set image = macros.random_image("assets/images/" ~ SITE_NAME ~ "/sidebar") -%}
 	{%- else -%}
-		{%- set image = '/i/' ~ SITE_NAME ~ '/sidebar.webp?x=6' -%}
+		{%- set image = SITE_FULL_IMAGES ~ '/i/' ~ SITE_NAME ~ '/sidebar.webp?x=6' -%}
 	{%- endif -%}
 
 	{% if request.path != '/sidebar' %}
 		<a href="{{image}}">
-			<img class="mb-4 sidebar-img" alt="sidebar image" data-nonce="{{g.nonce}}" data-onclick="expandImage()" loading="lazy" src="{{SITE_FULL_IMAGES}}{{image}}">
+			<img class="mb-4 sidebar-img" alt="sidebar image" data-nonce="{{g.nonce}}" data-onclick="expandImage()" loading="lazy" src="{{image}}">
 		</a>
 	{% endif %}
 

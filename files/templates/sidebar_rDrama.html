@@ -7,7 +7,7 @@
 	</a>
 
 	{% if sub %}
-		{% set image=sub.sidebar_url %}
+		{% set image = sub.sidebar_url %}
 	{% elif IS_EVENT() %}
 		{% set image = macros.random_image("assets/events/" ~ IS_EVENT() ~ "/images/sidebar") %}
 	{% else %}
@@ -21,7 +21,7 @@
 			</a>
 		{% elif not (sub and sub.name == 'chudrama' and v and not v.can_see_chudrama) %}
 			<a href="{{image}}">
-				<img class="mb-4 sidebar-img" alt="sidebar image" data-nonce="{{g.nonce}}" data-onclick="expandImage()" loading="lazy" src="{{SITE_FULL_IMAGES}}{{image}}">
+				<img class="mb-4 sidebar-img" alt="sidebar image" data-nonce="{{g.nonce}}" data-onclick="expandImage()" loading="lazy" src="{{image}}">
 			</a>
 		{% endif %}
 	{% endif %}
