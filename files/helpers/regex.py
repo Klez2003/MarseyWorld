@@ -40,7 +40,7 @@ html_comment_regex = re.compile("<!--.*-->", flags=re.A)
 
 title_regex = re.compile("[^\w ]", flags=re.A)
 
-controversial_regex = re.compile('["> ](https:\/\/old\.reddit\.com/r/\w{3,20}\/comments\/[\w\-.#&/=\?@%+]{5,250})["< ]', flags=re.A)
+controversial_regex = re.compile('["> ](https:\/\/old\.reddit\.com/r/\w{2,20}\/comments\/[\w\-.#&/=\?@%+]{5,250})["< ]', flags=re.A)
 
 spoiler_regex = re.compile('\|\|(.+?)\|\|' + NOT_IN_CODE_OR_LINKS, flags=re.A)
 reddit_regex = re.compile('(?<![\w/])\/?(([ruRU])\/(\w|-){2,25})' + NOT_IN_CODE_OR_LINKS, flags=re.A)
