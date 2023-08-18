@@ -264,7 +264,6 @@ if SITE_NAME == 'rDrama':
 		'museumofrdrama',
 		'space',
 		'femaledatingstrategy',
-		'highrollerclub',
 		'meta',
 	}
 
