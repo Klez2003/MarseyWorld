@@ -487,17 +487,16 @@ function handle_files(input, newfiles) {
 
 	const ta = input.parentElement.parentElement.parentElement.parentElement.querySelector('textarea.file-ta');
 
-	if (oldfiles[ta.id]) {
-		for (const file of newfiles) {
-			oldfiles[ta.id].items.add(file);
-		}
-		input.files = oldfiles[ta.id].files;
-	}
-	else {
-		input.files = newfiles;
+	if (!oldfiles[ta.id]) {
 		oldfiles[ta.id] = new DataTransfer();
 	}
+		
+	for (const file of newfiles) {
+		oldfiles[ta.id].items.add(file);
+	}
+	input.files = oldfiles[ta.id].files;
 
+	
 	if (input.files.length > 20)
 	{
 		window.alert("You can't upload more than 20 files at one time!")
