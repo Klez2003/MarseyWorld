@@ -1058,7 +1058,10 @@ INSERT INTO public.hat_defs VALUES (1242, 'Pride Hat', 'It''s pride time girlies
 INSERT INTO public.hat_defs VALUES (1206, 'Popping Hearts', 'Showing some love to the cutie!', 2, 1000, NULL, 1686285679);
 INSERT INTO public.hat_defs VALUES (1205, 'Poof', 'Take a chill and stop busting damn!', 2, 1000, NULL, 1686285654);
 INSERT INTO public.hat_defs VALUES (1204, 'Fish Drive By', 'You got a fish mother fucker!', 2, 1000, NULL, 1686285260);
+
 INSERT INTO public.hat_defs VALUES (1226, 'Kitten Border', 'uwu *nuzzles*', 2, 500, NULL, 1686787106);
+
+
 INSERT INTO public.hat_defs VALUES (1322, 'Butthead', '"Eh, this website sucks, ehuhuh ehuhuh."', 2, 500, NULL, 1692085079);
 INSERT INTO public.hat_defs VALUES (1321, 'Beavis', '"GIVE ME TP FOR MY BUNGHOLE!"', 2, 500, NULL, 1692085009);
 INSERT INTO public.hat_defs VALUES (1320, 'The Master', '"So what shall it be? Do you join the Unity, or do you die here? Join! Die! Join! Die!"', 2, 500, NULL, 1691983112);
@@ -1079,6 +1082,8 @@ INSERT INTO public.hat_defs VALUES (1306, 'Neon Green Halo', 'So toxic that even
 INSERT INTO public.hat_defs VALUES (1303, 'SCP999', 'Cute and cuddly maybe people will finally like me!', 2, 500, NULL, 1691293125);
 INSERT INTO public.hat_defs VALUES (1302, 'SCP173', 'Stop watching me for a second, and I''ll snap your neck!', 2, 500, NULL, 1691293099);
 INSERT INTO public.hat_defs VALUES (1301, 'DBZ Cell', 'Oh how cute, he named it, "Oh shit!"', 2, 500, NULL, 1691282440);
+
+
 INSERT INTO public.hat_defs VALUES (1300, 'Gongzilla Hat', 'Welcome to Jamrock, camp where the thugs dem camp at, two pound ah weed inna van back.', 2, 500, NULL, 1691114503);
 INSERT INTO public.hat_defs VALUES (1299, 'DEATHBLOW', '"This is no place for the weak, or the foolhardy." - Narrator', 2, 500, NULL, 1691091987);
 INSERT INTO public.hat_defs VALUES (1297, 'Futurama Jar', 'Good news everyone! I''ve invented a device that makes you read this in your head, with my voice!', 2, 500, NULL, 1690935048);
@@ -1099,7 +1104,7 @@ INSERT INTO public.hat_defs VALUES (1269, 'Rainbowfriends Hat', 'This user is sp
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1322, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1327, true);
 
 
 --
