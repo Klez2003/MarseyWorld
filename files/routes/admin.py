@@ -488,7 +488,7 @@ def badge_grant_post(v):
 		description = request.values.get("description")
 		url = request.values.get("url", "").strip()
 
-		if badge_id in {63,66,74,149,178,180,240,241,242,248,286,291,293} and not url:
+		if badge_id in {63,74,149,178,180,240,241,242,248,286,291,293} and not url:
 			abort(400, "This badge requires a url!")
 
 		if url:
