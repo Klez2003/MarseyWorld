@@ -55,13 +55,11 @@ def execute_snappy(post, v):
 	if post.sub and g.db.query(Exile.user_id).filter_by(user_id=SNAPPY_ID, sub=post.sub).one_or_none():
 		return
 
-	group_members = []
-
 	ghost = post.ghost
 
 	snappy = get_account(SNAPPY_ID)
 
-	ping_cost = None
+	ping_cost = 0
 
 	post_ping_group_count = len(list(group_mention_regex.finditer(post.body)))
 
@@ -206,11 +204,9 @@ def execute_snappy(post, v):
 			app_id=None,
 			body=body,
 			body_html=body_html,
-			ghost=ghost
+			ghost=ghost,
+			ping_cost=ping_cost,
 			)
-
-		if ping_cost:
-			c.ping_cost += ping_cost
 
 		g.db.add(c)
 
@@ -242,10 +238,11 @@ def execute_snappy(post, v):
 
 		g.db.flush()
 
-		for x in group_members:
-			n = Notification(comment_id=c.id, user_id=x)
-			g.db.add(n)
-			push_notif({x}, f'New mention of you by @Snappy', c.body, c)
+		if c.ping_cost:
+			for x in group.member_ids:
+				n = Notification(comment_id=c.id, user_id=x)
+				g.db.add(n)
+				push_notif({x}, f'New mention of you by @Snappy', c.body, c)
 
 		c.top_comment_id = c.id
 
