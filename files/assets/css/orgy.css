@@ -31,7 +31,6 @@
 #orgy-file-container {
 	position: relative;
 	width: -webkit-fill-available;
-	width: 1080px;
 }
 @media all and (max-width: 900px) {
 	#orgy-file-container {
