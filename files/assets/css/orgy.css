@@ -37,6 +37,11 @@
 		width: 100% !important;	
 	}
 }
+@media (min-width: 1900px) {
+	#orgy-file-container {
+		width: 1300px !important;	
+	}
+}
 
 #orgy-file-container > video {
     max-height: 100% !important;
