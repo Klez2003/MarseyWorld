@@ -410,6 +410,8 @@ def notifications(v):
 	all_cids = set(all_cids)
 	output = get_comments_v_properties(v, None, Comment.id.in_(all_cids))[1]
 
+	g.db.flush()
+
 	if v.client: return {"data":[x.json for x in listing]}
 
 	return render_template("notifications.html",
