@@ -778,6 +778,8 @@ def normalize_url(url):
 							fragment=parsed_url.fragment)
 		url = urlunparse(new_url)
 
+	url = url.rstrip('/')
+
 	url = imgur_regex.sub(r'\1_d.webp?maxwidth=9999&fidelity=grand', url)
 
 	return url
