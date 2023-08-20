@@ -110,8 +110,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 		else:
 			return 0
 
-		try: return votes.count()
-		except: abort(500)
+		return votes.count()
 
 	target.upvotes = get_vote_count(1, False)
 	target.downvotes = get_vote_count(-1, False)
