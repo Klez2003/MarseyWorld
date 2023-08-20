@@ -1,5 +1,7 @@
 {% if v and v.id==p.author_id and p.private %}
-	<button type="button" class="nobackground btn btn-link btn-block btn-lg text-left text-muted" data-areyousure="postToastReload(this,'/publish/{{p.id}}')" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)"><i data-dismiss="modal" class="far fa-flag text-center text-muted mr-2"></i>Publish</button>
+	<button type="button" class="nobackground btn btn-link btn-block btn-lg text-left text-muted" data-areyousure="postToastReload(this,'/publish/{{p.id}}')" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)" data-dismiss="modal">
+		<i class="far fa-flag text-center text-muted mr-2"></i>Publish
+	</button>
 {% endif %}
 
 
