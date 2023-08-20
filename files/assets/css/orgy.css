@@ -24,13 +24,7 @@
 
 #orgy-file-container {
 	position: relative;
-	width: 65vw;
-}
-
-@media (min-width: 1500px) {
-	#orgy-file-container {
-		width: 75vw;
-	}
+	width: min(1080px, 75vw);
 }
 
 #orgy-file-container > video {
