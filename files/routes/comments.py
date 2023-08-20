@@ -370,7 +370,7 @@ def comment(v):
 				n = Notification(comment_id=c.id, user_id=x)
 				g.db.add(n)
 
-			if parent_user.id != v.id and not v.shadowbanned:
+			if parent_user.id != v.id:
 				if isinstance(parent, User):
 					title = f"New comment on your wall by @{c.author_name}"
 				else:
@@ -710,8 +710,7 @@ def edit_comment(cid, v):
 				if not notif:
 					n = Notification(comment_id=c.id, user_id=x)
 					g.db.add(n)
-					if not v.shadowbanned:
-						push_notif({x}, f'New mention of you by @{c.author_name}', c.body, c)
+					push_notif({x}, f'New mention of you by @{c.author_name}', c.body, c)
 
 
 	g.db.flush()

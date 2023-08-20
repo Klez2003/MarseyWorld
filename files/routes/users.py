@@ -663,12 +663,11 @@ def message2(v, username=None, id=None):
 			g.db.add(notif)
 
 
-	if not v.shadowbanned:
-		title = f'New message from @{c.author_name}'
+	title = f'New message from @{c.author_name}'
 
-		url = f'{SITE_FULL}/notifications/messages'
+	url = f'{SITE_FULL}/notifications/messages'
 
-		push_notif({user.id}, title, body, url)
+	push_notif({user.id}, title, body, url)
 
 	return {"message": "Message sent!"}
 
@@ -745,12 +744,11 @@ def messagereply(v):
 			notif = Notification(comment_id=c.id, user_id=user_id)
 			g.db.add(notif)
 
-		if not v.shadowbanned:
-			title = f'New message from @{c.author_name}'
+		title = f'New message from @{c.author_name}'
 
-			url = f'{SITE_FULL}/notifications/messages'
+		url = f'{SITE_FULL}/notifications/messages'
 
-			push_notif({user_id}, title, body, url)
+		push_notif({user_id}, title, body, url)
 
 	top_comment = c.top_comment
 
