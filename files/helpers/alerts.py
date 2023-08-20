@@ -162,8 +162,8 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None, followers_pi
 
 			if i.group(1) == 'everyone' and not v.shadowbanned:
 				cost = g.db.query(User).count() * 5
-				if cost > v.coins:
-					abort(403, f"You need {cost} coins to mention these ping groups!")
+				if cost > v.coins + v.marseybux:
+					abort(403, f"You need {cost} currency to mention these ping groups!")
 
 				v.charge_account('combined', cost)
 				if log_cost:
@@ -190,8 +190,8 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None, followers_pi
 				if group and group.name == 'verifiedrich':
 					abort(403, f"Only !verifiedrich members can mention it!")
 				cost += len(members) * 5
-				if cost > v.coins:
-					abort(403, f"You need {cost} coins to mention these ping groups!")
+				if cost > v.coins + v.marseybux:
+					abort(403, f"You need {cost} currency to mention these ping groups!")
 
 				if log_cost:
 					log_cost.ping_cost += cost
