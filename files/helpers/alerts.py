@@ -156,11 +156,7 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None, followers_pi
 		cost = 0
 		coin_receivers = set()
 
-		groups = group_mention_regex.finditer(text)
-		if len(list(groups)) > 5:
-			abort(403, "You can only ping a maximum of 5 ping groups!")
-
-		for i in groups:
+		for i in group_mention_regex.finditer(text):
 			if oldtext and i.group(1) in oldtext:
 				continue
 
@@ -211,6 +207,9 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None, followers_pi
 
 	if SITE == 'rdrama.net' and v.id in {256, 9287, 10489, 18701}:
 		notify_users.discard(AEVANN_ID)
+
+	if len(notify_users) > 200:
+		abort(403, "You can only notify a maximum of 200 users.")
 
 	return notify_users - BOT_IDs - {v.id, 0} - v.all_twoway_blocks
 
