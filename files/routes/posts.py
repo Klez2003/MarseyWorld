@@ -678,7 +678,7 @@ def submit_post(v, sub=None):
 	if not p.private:
 		execute_snappy(p, v)
 
-	g.db.commit() #Necessary, do NOT remove
+	g.db.flush() #Necessary, do NOT remove
 
 	if not p.thumburl and p.url and p.domain != SITE:
 		gevent.spawn(thumbnail_thread, p.url, p.id)
