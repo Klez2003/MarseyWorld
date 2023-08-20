@@ -84,7 +84,7 @@ socket.on('speak', function(json) {
 	}
 
 	chatline.classList.remove('chat-mention');
-	if (text_html.includes(`<a href="/id/${vid}">`)){
+	if (text_html.includes(`<a href="/id/${vid}"`)){
 		chatline.classList.add('chat-mention');
 	}
 
