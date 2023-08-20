@@ -169,6 +169,9 @@ socket.on('speak', function(json) {
 		setTimeout(function () {
 			box.scrollTo(0, box.scrollHeight)
 		}, 200);
+		setTimeout(function () {
+			box.scrollTo(0, box.scrollHeight)
+		}, 500);
 	}
 })
 
@@ -200,6 +203,9 @@ function send() {
 		setTimeout(function () {
 			box.scrollTo(0, box.scrollHeight)
 		}, 200);
+		setTimeout(function () {
+			box.scrollTo(0, box.scrollHeight)
+		}, 500);
 	}
 }
 
