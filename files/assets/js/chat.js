@@ -164,8 +164,12 @@ socket.on('speak', function(json) {
 	register_new_elements(line2);
 	bs_trigger(line2)
 
-	if (scrolled_down || json.user_id == vid)
+	if (scrolled_down || json.user_id == vid) {
 		box.scrollTo(0, box.scrollHeight)
+		setTimeout(function () {
+			box.scrollTo(0, box.scrollHeight)
+		}, 200);
+	}
 })
 
 function send() {
