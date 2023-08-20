@@ -50,6 +50,9 @@
 		height: 100% !important;
 		width: 100% !important;
 	}
+	#orgy-chat-window-item {
+		max-width: 100%
+	}
 }
 
 
