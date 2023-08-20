@@ -39,7 +39,7 @@ def _archiveorg(url):
 def archive_url(url):
 	gevent.spawn(_archiveorg, url)
 	if url.startswith('https://twitter.com/'):
-		url = url.replace('https://twitter.com/', 'https://nitter.lacontrevoie.fr/')
+		url = url.replace('https://twitter.com/', 'https://nitter.net/')
 		gevent.spawn(_archiveorg, url)
 	if url.startswith('https://instagram.com/'):
 		url = url.replace('https://instagram.com/', 'https://imginn.com/')

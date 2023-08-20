@@ -23,7 +23,7 @@ def normalize_urls_runtime(body, v):
 	if v.reddit != 'old.reddit.com':
 		body = reddit_to_vreddit_regex.sub(rf'\1https://{v.reddit}/\2/', body)
 	if v.nitter:
-		body = twitter_to_nitter_regex.sub(r'\1https://nitter.lacontrevoie.fr/', body)
+		body = twitter_to_nitter_regex.sub(r'\1https://nitter.net/', body)
 	if v.imginn:
 		body = body.replace('https://instagram.com/', 'https://imginn.com/')
 	return body

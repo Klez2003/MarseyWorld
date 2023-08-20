@@ -755,7 +755,7 @@ def normalize_url(url):
 			 .replace("https://www.twitter.com", "https://twitter.com") \
 			 .replace("https://nitter.net/", "https://twitter.com/") \
 			 .replace("https://nitter.42l.fr/", "https://twitter.com/") \
-			 .replace("https://nitter.lacontrevoie.fr/", "https://twitter.com/") \
+			 .replace("https://nitter.net/", "https://twitter.com/") \
 			 .replace("https://m.facebook.com", "https://facebook.com") \
 			 .replace("https://m.wikipedia.org", "https://wikipedia.org") \
 			 .replace("https://www.instagram.com", "https://instagram.com") \
