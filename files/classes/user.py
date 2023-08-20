@@ -388,7 +388,7 @@ class User(Base):
 
 	@property
 	@lazy
-	def is_votes_real(self):
+	def has_real_votes(self):
 		if self.patron: return True
 		if self.is_permabanned or self.shadowbanned: return False
 		if self.chud: return False
