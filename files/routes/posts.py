@@ -657,7 +657,7 @@ def submit_post(v, sub=None):
 		autojanny.comment_count += 1
 		g.db.add(autojanny)
 
-	v.post_count = g.db.query(Post).filter_by(author_id=v.id, deleted_utc=0).count()
+	v.post_count += 1
 	g.db.add(v)
 
 	execute_lawlz_actions(v, p)
@@ -708,7 +708,7 @@ def delete_post_pid(pid, v):
 		cache.delete_memoized(frontlist)
 		cache.delete_memoized(userpagelisting)
 
-		v.post_count = g.db.query(Post).filter_by(author_id=v.id, deleted_utc=0).count()
+		v.post_count -= 1
 		g.db.add(v)
 
 		for sort in COMMENT_SORTS:
@@ -733,7 +733,7 @@ def undelete_post_pid(pid, v):
 		cache.delete_memoized(frontlist)
 		cache.delete_memoized(userpagelisting)
 
-		v.post_count = g.db.query(Post).filter_by(author_id=v.id, deleted_utc=0).count()
+		v.post_count += 1
 		g.db.add(v)
 
 		for sort in COMMENT_SORTS:

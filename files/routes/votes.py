@@ -96,6 +96,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 
 	# this is hacky but it works, we should probably do better later
 	def get_vote_count(dir, real_instead_of_dir):
+		g.db.flush()
 		votes = g.db.query(vote_cls)
 		if real_instead_of_dir:
 			votes = votes.filter(vote_cls.real == True)

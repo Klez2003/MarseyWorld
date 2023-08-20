@@ -42,6 +42,7 @@ def claim_rewards_all_users():
 	emails = [x[0] for x in g.db.query(Transaction.email).filter_by(claimed=None)]
 	users = g.db.query(User).filter(User.email.in_(emails)).order_by(User.truescore.desc()).all()
 	for user in users:
+		g.db.flush()
 		transactions = g.db.query(Transaction).filter_by(email=user.email, claimed=None).all()
 
 		highest_tier = 0
@@ -81,6 +82,7 @@ def claim_rewards_all_users():
 				for x in range(22, badge_id+1):
 					badge_grant(badge_id=x, user=user)
 
+			g.db.flush()
 			user.lifetimedonated = g.db.query(func.sum(Transaction.amount)).filter_by(email=user.email).scalar()
 
 			if user.lifetimedonated >= 100:
@@ -1205,7 +1207,7 @@ def follow_user(username, v):
 	new_follow = Follow(user_id=v.id, target_id=target.id)
 	g.db.add(new_follow)
 
-	target.stored_subscriber_count = g.db.query(Follow).filter_by(target_id=target.id).count()
+	target.stored_subscriber_count += 1
 	g.db.add(target)
 
 	if not v.shadowbanned:
@@ -1229,7 +1231,7 @@ def unfollow_user(username, v):
 	if follow:
 		g.db.delete(follow)
 
-		target.stored_subscriber_count = g.db.query(Follow).filter_by(target_id=target.id).count()
+		target.stored_subscriber_count -= 1
 		g.db.add(target)
 
 		if not v.shadowbanned:
@@ -1256,7 +1258,7 @@ def remove_follow(username, v):
 
 	g.db.delete(follow)
 
-	v.stored_subscriber_count = g.db.query(Follow).filter_by(target_id=v.id).count()
+	v.stored_subscriber_count -= 1
 	g.db.add(v)
 
 	send_repeatable_notification(target.id, f"@{v.username} has removed your follow!")

@@ -154,30 +154,30 @@ def approve_emoji(v, name):
 	if emoji.kind == "Marsey":
 		all_by_author = g.db.query(Emoji).filter_by(kind="Marsey", author_id=author.id).count()
 
-		if all_by_author >= 100:
+		if all_by_author >= 99:
 			badge_grant(badge_id=143, user=author)
-		elif all_by_author >= 10:
+		elif all_by_author >= 9:
 			badge_grant(badge_id=16, user=author)
 		else:
 			badge_grant(badge_id=17, user=author)
 	elif emoji.kind == "Capy":
 		all_by_author = g.db.query(Emoji).filter_by(kind="Capy", author_id=author.id).count()
-		if all_by_author >= 10:
+		if all_by_author >= 9:
 			badge_grant(badge_id=115, user=author)
 		badge_grant(badge_id=114, user=author)
 	elif emoji.kind == "Carp":
 		all_by_author = g.db.query(Emoji).filter_by(kind="Carp", author_id=author.id).count()
-		if all_by_author >= 10:
+		if all_by_author >= 9:
 			badge_grant(badge_id=288, user=author)
 		badge_grant(badge_id=287, user=author)
 	elif emoji.kind == "Wolf":
 		all_by_author = g.db.query(Emoji).filter_by(kind="Wolf", author_id=author.id).count()
-		if all_by_author >= 10:
+		if all_by_author >= 9:
 			badge_grant(badge_id=111, user=author)
 		badge_grant(badge_id=110, user=author)
 	elif emoji.kind == "Platy":
 		all_by_author = g.db.query(Emoji).filter_by(kind="Platy", author_id=author.id).count()
-		if all_by_author >= 10:
+		if all_by_author >= 9:
 			badge_grant(badge_id=113, user=author)
 		badge_grant(badge_id=112, user=author)
 
@@ -353,13 +353,13 @@ def approve_hat(v, name):
 
 	all_by_author = g.db.query(HatDef).filter_by(author_id=author.id).count()
 
-	if all_by_author >= 250:
+	if all_by_author >= 249:
 		badge_grant(badge_id=166, user=author)
-	elif all_by_author >= 100:
+	elif all_by_author >= 99:
 		badge_grant(badge_id=165, user=author)
-	elif all_by_author >= 50:
+	elif all_by_author >= 49:
 		badge_grant(badge_id=164, user=author)
-	elif all_by_author >= 10:
+	elif all_by_author >= 9:
 		badge_grant(badge_id=163, user=author)
 
 	hat_copy = Hat(
