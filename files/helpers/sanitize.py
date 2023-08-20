@@ -719,7 +719,7 @@ def filter_emojis_only(title, golden=True, count_emojis=False, graceful=False, i
 	if is_post_title:
 		soup = BeautifulSoup(title, 'lxml')
 		text = soup.html.body.text.strip()
-		if not text: title = f'--- {title} ---'
+		if not text: title = f'### {title} ###'
 
 	return title
 
