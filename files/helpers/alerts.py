@@ -156,7 +156,11 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None, followers_pi
 		cost = 0
 		coin_receivers = set()
 
-		for i in group_mention_regex.finditer(text):
+		groups = group_mention_regex.finditer(text)
+		if len(list(groups)) > 5:
+			abort(403, "You can only ping a maximum of 5 ping groups!")
+
+		for i in groups:
 			if oldtext and i.group(1) in oldtext:
 				continue
 

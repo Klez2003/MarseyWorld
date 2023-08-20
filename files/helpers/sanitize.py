@@ -420,11 +420,6 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 
 	if not sanitized: return ''
 
-	if FEATURES['PING_GROUPS']:
-		ping_group_count = len(list(group_mention_regex.finditer(sanitized)))
-		if ping_group_count > 5:
-			error("You can only ping a maximum of 5 ping groups!")
-
 	if blackjack and execute_blackjack(g.v, None, sanitized, blackjack):
 		sanitized = 'g'
 
