@@ -201,6 +201,7 @@ def group_reject(v, group_name, user_id):
 
 	g.db.delete(membership)
 
+	g.db.flush()
 	count = g.db.query(GroupMembership).filter_by(group_name=group.name).count()
 	if not count:
 		g.db.commit() #need it to fix "Dependency rule tried to blank-out primary key column 'group_memberships.group_name' on instance"
