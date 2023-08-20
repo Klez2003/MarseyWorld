@@ -37,13 +37,13 @@ def _archiveorg(url):
 
 
 def archive_url(url):
-	gevent.spawn(_archiveorg, url)
+	gevent.with_timeout(GEVENT_GENERIC_TIMEOUT, _archiveorg, url)
 	if url.startswith('https://twitter.com/'):
 		url = url.replace('https://twitter.com/', 'https://nitter.net/')
-		gevent.spawn(_archiveorg, url)
+		gevent.with_timeout(GEVENT_GENERIC_TIMEOUT, _archiveorg, url)
 	if url.startswith('https://instagram.com/'):
 		url = url.replace('https://instagram.com/', 'https://imginn.com/')
-		gevent.spawn(_archiveorg, url)
+		gevent.with_timeout(GEVENT_GENERIC_TIMEOUT, _archiveorg, url)
 
 def snappy_report(post, reason):
 	report = Report(post_id=post.id, user_id=SNAPPY_ID, reason=reason)

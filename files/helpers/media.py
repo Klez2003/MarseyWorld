@@ -150,7 +150,7 @@ def process_video(file, v):
 	if extension != '.mp4':
 		new = new.replace(extension, '.mp4')
 		copyfile(old, new)
-		gevent.spawn(convert_to_mp4, old, new)
+		gevent.with_timeout(35, convert_to_mp4, old, new)
 	else:
 		try:
 			subprocess_run(["ffmpeg", "-loglevel", "quiet", "-y", "-i", old, "-map_metadata", "-1", "-c:v", "copy", "-c:a", "copy", new])

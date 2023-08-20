@@ -103,7 +103,7 @@ def post_id(pid, v, anything=None, sub=None):
 	if not g.is_api_or_xhr and p.over_18 and not (v and v.over_18) and session.get('over_18_cookies', 0) < int(time.time()):
 		return render_template("errors/nsfw.html", v=v)
 
-	gevent.spawn(_add_post_view, pid)
+	gevent.with_timeout(GEVENT_GENERIC_TIMEOUT, _add_post_view, pid)
 
 	if p.new: defaultsortingcomments = 'new'
 	elif v: defaultsortingcomments = v.defaultsortingcomments
@@ -676,7 +676,7 @@ def submit_post(v, sub=None):
 	g.db.flush() #Necessary, do NOT remove
 
 	if not p.thumburl and p.url and p.domain != SITE:
-		gevent.spawn(thumbnail_thread, p.url, p.id)
+		gevent.with_timeout(GEVENT_GENERIC_TIMEOUT, thumbnail_thread, p.url, p.id)
 
 	if v.client: return p.json
 	else:
@@ -920,7 +920,6 @@ extensions = IMAGE_FORMATS + VIDEO_FORMATS + AUDIO_FORMATS
 @limiter.limit("3/minute", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def get_post_title(v):
-	POST_TITLE_TIMEOUT = 5
 	url = request.values.get("url")
 	if not url or '\\' in url: abort(400)
 	url = url.strip()
@@ -931,7 +930,7 @@ def get_post_title(v):
 		abort(400)
 
 	try:
-		x = gevent.with_timeout(POST_TITLE_TIMEOUT, requests.get, url, headers=HEADERS, timeout=POST_TITLE_TIMEOUT, proxies=proxies)
+		x = gevent.with_timeout(GEVENT_GENERIC_TIMEOUT, requests.get, url, headers=HEADERS, proxies=proxies)
 	except: abort(400)
 
 	content_type = x.headers.get("Content-Type")
