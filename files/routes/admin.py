@@ -161,9 +161,6 @@ def distribute(v, kind, option_id):
 	autojanny = get_account(AUTOJANNY_ID)
 	if autojanny.coins == 0: abort(400, "@AutoJanny has 0 coins")
 
-	try: option_id = int(option_id)
-	except: abort(400)
-
 	if kind == 'post': cls = PostOption
 	else: cls = CommentOption
 

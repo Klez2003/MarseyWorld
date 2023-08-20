@@ -212,9 +212,6 @@ def log(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def log_item(id, v):
-	try: id = int(id)
-	except: abort(404)
-
 	action=g.db.get(ModAction, id)
 
 	if not action: abort(404)
@@ -373,9 +370,6 @@ def dismiss_mobile_tip():
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def transfers_id(id, v):
-
-	try: id = int(id)
-	except: abort(404)
 
 	transfer = g.db.get(Comment, id)
 

@@ -892,8 +892,6 @@ def hole_log_item(id, v, sub):
 	sub = get_sub_by_name(sub)
 	if not User.can_see(v, sub):
 		abort(403)
-	try: id = int(id)
-	except: abort(404)
 
 	action=g.db.get(SubAction, id)
 

@@ -520,9 +520,6 @@ def leaderboard(v):
 @app.get("/<int:id>/css")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 def get_css(id):
-	try: id = int(id)
-	except: abort(404)
-
 	css, bg = g.db.query(User.css, User.background).filter_by(id=id).one_or_none()
 
 	if bg:
@@ -544,9 +541,6 @@ def get_css(id):
 @app.get("/<int:id>/profilecss")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 def get_profilecss(id):
-	try: id = int(id)
-	except: abort(404)
-
 	css, bg = g.db.query(User.profilecss, User.profile_background).filter_by(id=id).one_or_none()
 
 	if bg:
@@ -1382,9 +1376,6 @@ def toggle_pins(sub, sort):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def bid_list(v, bid):
-
-	try: bid = int(bid)
-	except: abort(400)
 
 	page = get_page()
 

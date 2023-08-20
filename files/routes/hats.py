@@ -76,9 +76,6 @@ def hats(v):
 @limiter.limit('100/minute;1000/3 days', deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def buy_hat(v, hat_id):
-	try: hat_id = int(hat_id)
-	except: abort(404, "Hat not found!")
-
 	hat = g.db.query(HatDef).filter_by(submitter_id=None, id=hat_id).one_or_none()
 	if not hat: abort(404, "Hat not found!")
 
@@ -123,9 +120,6 @@ def buy_hat(v, hat_id):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def equip_hat(v, hat_id):
-	try: hat_id = int(hat_id)
-	except: abort(404, "Hat not found!")
-
 	hat = g.db.query(Hat).filter_by(hat_id=hat_id, user_id=v.id).one_or_none()
 	if not hat: abort(403, "You don't own this hat!")
 
@@ -141,9 +135,6 @@ def equip_hat(v, hat_id):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def unequip_hat(v, hat_id):
-	try: hat_id = int(hat_id)
-	except: abort(404, "Hat not found!")
-
 	hat = g.db.query(Hat).filter_by(hat_id=hat_id, user_id=v.id).one_or_none()
 	if not hat: abort(403, "You don't own this hat!")
 
@@ -157,9 +148,6 @@ def unequip_hat(v, hat_id):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def hat_owners(v, hat_id):
-	try: hat_id = int(hat_id)
-	except: abort(404, "Hat not found!")
-
 	page = get_page()
 
 	users = g.db.query(User, Hat.created_utc).join(Hat.owners).filter(Hat.hat_id == hat_id)

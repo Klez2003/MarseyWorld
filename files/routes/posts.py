@@ -199,14 +199,12 @@ def post_id(pid, v, anything=None, sub=None):
 
 	return result
 
-@app.get("/view_more/<int:pid>/<sort>/<offset>")
+@app.get("/view_more/<int:pid>/<sort>/<int:offset>")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @auth_desired_with_logingate
 def view_more(v, pid, sort, offset):
 	p = get_post(pid, v=v)
-	try:
-		offset = int(offset)
-	except: abort(400)
+
 	try: ids = set(int(x) for x in request.values.get("ids").split(','))
 	except: abort(400)
 
@@ -256,9 +254,6 @@ def view_more(v, pid, sort, offset):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @auth_desired_with_logingate
 def more_comments(v, cid):
-	try: cid = int(cid)
-	except: abort(404)
-
 	tcid = g.db.query(Comment.top_comment_id).filter_by(id=cid).one_or_none()[0]
 
 	if v:

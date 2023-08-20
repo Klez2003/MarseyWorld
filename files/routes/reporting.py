@@ -113,10 +113,6 @@ def report_comment(cid, v):
 @limiter.limit("100/minute;300/hour;2000/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @admin_level_required(PERMS['REPORTS_REMOVE'])
 def remove_report_post(v, pid, uid):
-	try:
-		pid = int(pid)
-		uid = int(uid)
-	except: abort(404)
 	report = g.db.query(Report).filter_by(post_id=pid, user_id=uid).one_or_none()
 
 	if report:
@@ -139,10 +135,6 @@ def remove_report_post(v, pid, uid):
 @limiter.limit("100/minute;300/hour;2000/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @admin_level_required(PERMS['REPORTS_REMOVE'])
 def remove_report_comment(v, cid, uid):
-	try:
-		cid = int(cid)
-		uid = int(uid)
-	except: abort(404)
 	report = g.db.query(CommentReport).filter_by(comment_id=cid, user_id=uid).one_or_none()
 
 	if report:
