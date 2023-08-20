@@ -14,7 +14,7 @@
 }
 @media all and (min-width: 900px) {
 	.orgy-chat-window-item {
-		max-width: max(30vw, calc(100vw - 1080px));
+		max-width: 30vw;
 	}
 }
 
@@ -35,11 +35,6 @@
 @media all and (max-width: 900px) {
 	#orgy-file-container {
 		width: 100% !important;	
-	}
-}
-@media (min-width: 1700px) {
-	#orgy-file-container {
-		width: 1300px !important;	
 	}
 }
 
