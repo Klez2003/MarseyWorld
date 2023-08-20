@@ -173,3 +173,7 @@ img[alt^="![]("], .img {
 		padding-top: 1px !important;
 	}
 }
+
+textarea {
+	resize: none !important;
+}
