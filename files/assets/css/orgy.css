@@ -8,12 +8,7 @@
 		flex-flow: column wrap;
 	}
 	#chat-window {
-		max-height: 42vh !important;
-	}
-}
-@media all and (min-width: 900px) {
-	.orgy-chat-window-item {
-		max-width: 25vw;
+		max-height: 37vh !important;
 	}
 }
 
@@ -29,12 +24,7 @@
 
 #orgy-file-container {
 	position: relative;
-	width: -webkit-fill-available;
-}
-@media all and (max-width: 900px) {
-	#orgy-file-container {
-		width: 100% !important;	
-	}
+	width: 75vw;
 }
 
 #orgy-file-container > video {
@@ -43,6 +33,24 @@
     height: 98% !important;
     width: 98% !important;
 }
+
+@media all and (max-width: 900px) {
+	#orgy-file-container {
+		width: 100% !important;	
+		resize: none !important;
+	}
+	#orgy-title {
+		display: none;
+	}
+	#orgy-col {
+		padding: 0px;
+	}
+	#orgy-file-container > video {
+		height: 100% !important;
+		width: 100% !important;
+	}	
+}
+
 
 #cursormarsey, #cursormarsey-heart {
 	display: none;

@@ -9,8 +9,8 @@
 	{% include "util/macros.html" %}
 	{% set vlink = '<a href="/id/' ~ v.id ~ '">' %}
 	<div class="orgy-top-container">
-		<div class="col text-left pt-3">
-			<h2>{{orgy.title}}</h1>
+		<div id="orgy-col" class="col text-left pt-3">
+			<h2 id="orgy-title">{{orgy.title}}</h1>
 			<div>
 				{% if orgy.type == 'youtube' %}
 					<lite-youtube videoid="{{orgy.data}}" params="autoplay=1&modestbranding=1"/>
