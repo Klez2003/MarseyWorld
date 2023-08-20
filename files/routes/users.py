@@ -951,7 +951,7 @@ def u_username_wall(v, username):
 	is_following = v and u.has_follower(v)
 
 	if v and v.id != u.id and not v.admin_level and not session.get("GLOBAL"):
-		gevent.with_timeout(GEVENT_GENERIC_TIMEOUT, _add_profile_view, v.id, u.id)
+		gevent.spawn(_add_profile_view, v.id, u.id)
 
 	page = get_page()
 
@@ -998,10 +998,10 @@ def u_username_wall_comment(v, username, cid):
 	is_following = v and u.has_follower(v)
 
 	if v and v.id != u.id and not v.admin_level and not session.get("GLOBAL"):
-		gevent.with_timeout(GEVENT_GENERIC_TIMEOUT, _add_profile_view, v.id, u.id)
+		gevent.spawn(_add_profile_view, v.id, u.id)
 
 	if v and request.values.get("read"):
-		gevent.with_timeout(GEVENT_GENERIC_TIMEOUT, _mark_comment_as_read, comment.id, v.id)
+		gevent.spawn(_mark_comment_as_read, comment.id, v.id)
 
 	try: context = min(int(request.values.get("context", 8)), 8)
 	except: context = 8
@@ -1043,7 +1043,7 @@ def u_username(v, username):
 		return render_template("userpage/private.html", u=u, v=v, is_following=is_following), 403
 
 	if v and v.id != u.id and not v.admin_level and not session.get("GLOBAL"):
-		gevent.with_timeout(GEVENT_GENERIC_TIMEOUT, _add_profile_view, v.id, u.id)
+		gevent.spawn(_add_profile_view, v.id, u.id)
 
 	sort = request.values.get("sort", "new")
 	t = request.values.get("t", "all")
@@ -1110,7 +1110,7 @@ def u_username_comments(username, v):
 		return render_template("userpage/private.html", u=u, v=v, is_following=is_following), 403
 
 	if v and v.id != u.id and not v.admin_level and not session.get("GLOBAL"):
-		gevent.with_timeout(GEVENT_GENERIC_TIMEOUT, _add_profile_view, v.id, u.id)
+		gevent.spawn(_add_profile_view, v.id, u.id)
 
 	page = get_page()
 

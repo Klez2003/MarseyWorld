@@ -57,7 +57,7 @@ def post_pid_comment_cid(cid, v, pid=None, anything=None, sub=None):
 		post = NOTIFICATION_THREAD
 
 	if v and request.values.get("read"):
-		gevent.with_timeout(GEVENT_GENERIC_TIMEOUT, _mark_comment_as_read, comment.id, v.id)
+		gevent.spawn(_mark_comment_as_read, comment.id, v.id)
 
 	post = get_post(post, v=v)
 

@@ -1157,5 +1157,3 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 
 engine = create_engine(environ.get("DATABASE_URL").strip(), connect_args={"options": "-c statement_timeout=5000 -c idle_in_transaction_session_timeout=40000"})
 db_session = scoped_session(sessionmaker(bind=engine, autoflush=False))
-
-GEVENT_GENERIC_TIMEOUT = 10

@@ -877,7 +877,7 @@ def settings_song_change(v):
 			if duration > 15:
 				return redirect("/settings/personal?error=Duration of the video must not exceed 15 minutes!")
 
-	gevent.with_timeout(60, _change_song_youtube, v.id, id)
+	gevent.spawn(_change_song_youtube, v.id, id)
 
 	return redirect("/settings/personal?msg=Profile Anthem successfully updated. Wait 5 minutes for the change to take effect.")
 
