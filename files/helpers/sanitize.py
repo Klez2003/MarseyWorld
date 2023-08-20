@@ -217,46 +217,48 @@ def execute_blackjack(v, target, body, kind):
 	return True
 
 def find_all_emote_endings(word):
-	endings = list()
-	curr_word = word
+	endings = []
+
+	if path.isfile(f'files/assets/images/emojis/{word}.webp'):
+		return endings, word
 
 	is_non_ending_found = False
 	while not is_non_ending_found:
-		if curr_word.endswith('pat'):
+		if word.endswith('pat'):
 			if 'pat' in endings:
 				is_non_ending_found = True
 				continue
 			endings.append('pat')
-			curr_word = curr_word[:-3]
+			word = word[:-3]
 			continue
 		
-		if curr_word.endswith('talking'):
+		if word.endswith('talking'):
 			if 'talking' in endings:
 				is_non_ending_found = True
 				continue
 			endings.append('talking')
-			curr_word = curr_word[:-7]
+			word = word[:-7]
 			continue
 
-		if curr_word.endswith('genocide'):
+		if word.endswith('genocide'):
 			if 'genocide' in endings:
 				is_non_ending_found = True
 				continue
 			endings.append('genocide')
-			curr_word = curr_word[:-8]
+			word = word[:-8]
 			continue
 		
-		if curr_word.endswith('love'):
+		if word.endswith('love'):
 			if 'love' in endings:
 				is_non_ending_found = True
 				continue
 			endings.append('love')
-			curr_word = curr_word[:-4]
+			word = word[:-4]
 			continue
 
 		is_non_ending_found = True
 	
-	return endings, curr_word
+	return endings, word
 
 
 def render_emoji(html, regexp, golden, emojis_used, b=False, is_title=False):
