@@ -215,7 +215,7 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None, followers_pi
 
 
 def push_notif(uids, title, body, url_or_comment):
-	if g.v.shadowbanned:
+	if hasattr(g, 'v') and g.v and g.v.shadowbanned:
 		return
 
 	if VAPID_PUBLIC_KEY == DEFAULT_CONFIG_VALUE:
