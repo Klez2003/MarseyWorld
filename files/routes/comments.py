@@ -412,6 +412,8 @@ def comment(v):
 		).one_or_none()
 		if n: g.db.delete(n)
 
+	g.db.flush()
+
 	if c.parent_post:
 		for sort in COMMENT_SORTS:
 			cache.delete(f'post_{c.parent_post}_{sort}')
