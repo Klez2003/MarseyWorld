@@ -204,7 +204,7 @@ def process_image(filename, v, resize=0, trim=False, uploader_id=None, db=None):
 				params.extend(["-resize", f"{resize}>"])
 	except:
 		os.remove(filename)
-		if has_request:
+		if has_request and not filename.startswith('/chat_images/'):
 			abort(415)
 		return None
 
