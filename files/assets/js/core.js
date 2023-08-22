@@ -509,6 +509,7 @@ function handle_files(input, newfiles) {
 		for (const file of newfiles) {
 			insertText(ta, `[${file.name}]`);
 		}
+		markdown(ta)
 	}
 
 	autoExpand(ta)
