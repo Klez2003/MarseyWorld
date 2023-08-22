@@ -75,6 +75,7 @@ BOOSTED_SITES = {
 	'godlike.com',
 	'linustechtips.com',
 	'defense.pk',
+	'smogon.com',
 
 	#nested-comments
 	#'all sites with .win TLD',
