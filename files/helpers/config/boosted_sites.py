@@ -11,6 +11,7 @@ BOOSTED_SITES = {
 	'lolcow.farm',
 	'8kun.top',
 	'soyjak.party',
+	'jakparty.soy',
 	'crystal.cafe',
 	'desuarchive.org',
 
