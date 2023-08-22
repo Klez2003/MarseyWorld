@@ -57,6 +57,8 @@ def add_alt(user1, user2):
 	if AEVANN_ID in (user1, user2) or CARP_ID in (user1, user2):
 		return
 	li = [user1, user2]
+
+	g.db.flush()
 	existing = g.db.query(Alt).filter(Alt.user1.in_(li), Alt.user2.in_(li)).one_or_none()
 	if not existing:
 		new_alt = Alt(user1=user1, user2=user2)
