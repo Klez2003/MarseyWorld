@@ -182,7 +182,7 @@
 								<button type="button" class="btn btn-danger" data-nonce="{{g.nonce}}" data-onclick="postToastReload(this,'/settings/block?username={{u.username}}')">Block</button>
 							</div>
 						</div>
-						<form class="d-none toggleable" id="message" action="/@{{u.username}}/message" data-nonce="{{g.nonce}}" data-onsubmit="sendMessage(this)">
+						<form class="d-none toggleable" id="message" action="/@{{u.username}}/message" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendMessage(this)">
 							<input hidden name="formkey" value="{{v|formkey}}">
 							<textarea autocomplete="off" id="input-message" form="message" name="message" rows="3" minlength="1" maxlength="10000" class="file-ta form-control b2 mt-1" data-preview="message-preview" data-nonce="{{g.nonce}}" data-oninput="markdown(this)"></textarea>
 
@@ -476,7 +476,7 @@
 				</div>
 
 				{% if v and v.id != u.id %}
-					<form class="d-none toggleable text-left" id='message-mobile' action="/@{{u.username}}/message" data-nonce="{{g.nonce}}" data-onsubmit="sendMessage(this)">
+					<form class="d-none toggleable text-left" id='message-mobile' action="/@{{u.username}}/message" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendMessage(this)">
 						<input class="mt-1" hidden name="formkey" value="{{v|formkey}}">
 						<textarea autocomplete="off" id="input-message-mobile" form="message-mobile" name="message" rows="3" minlength="1" maxlength="10000" class="file-ta form-control" data-preview="message-preview-mobile" data-nonce="{{g.nonce}}" data-oninput="markdown(this)" required></textarea>
 
