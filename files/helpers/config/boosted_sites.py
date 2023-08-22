@@ -24,11 +24,10 @@ BOOSTED_SITES = {
 	'blacktwitterapp.com',
 	'trp.red',
 	##fediverse
+	#'all sites with the word "mastodon" in the domain',
 	'kiwifarms.cc',
 	'freespeechextremist.com'
 	'mstdn.social',
-	'mastodon.social',
-	'mastodon.online',
 	'poa.st',
 	'shitposter.club',
 	'sneed.social',
@@ -80,7 +79,7 @@ BOOSTED_SITES = {
 
 	#nested-comments
 	#'all sites with .win TLD',
-	#'all sites with the word 'lemmy' in the domain',
+	#'all sites with the word "lemmy" in the domain',
 	'rdrama.net',
 	'funnyjunk.com',
 	'news.ycombinator.com',

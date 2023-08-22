@@ -131,7 +131,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 		mul = 2
 	elif SITE == 'rdrama.net' and cls == Post:
 		if (target.domain.endswith('.win')
-		or 'forum' in target.domain or 'chan' in target.domain or 'lemmy' in target.domain
+		or 'forum' in target.domain or 'chan' in target.domain or 'lemmy' in target.domain or 'mastodon' in target.domain
 		or (target.domain in BOOSTED_SITES and not target.url.startswith('/'))):
 			mul = 2
 		elif target.sub in STEALTH_HOLES or target.sub in {'countryclub', 'highrollerclub'}:
