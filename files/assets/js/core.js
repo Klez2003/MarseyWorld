@@ -505,12 +505,10 @@ function handle_files(input, newfiles) {
 		return
 	}
 
-	if (location.pathname != '/chat') {
-		for (const file of newfiles) {
-			insertText(ta, `[${file.name}]`);
-		}
-		markdown(ta)
+	for (const file of newfiles) {
+		insertText(ta, `[${file.name}]`);
 	}
+	markdown(ta)
 
 	autoExpand(ta)
 
