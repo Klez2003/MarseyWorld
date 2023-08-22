@@ -112,7 +112,7 @@ def inject_constants():
 			"DEFAULT_THEME":DEFAULT_THEME, "DESCRIPTION":DESCRIPTION,
 			"has_sidebar":has_sidebar, "has_logo":has_logo,
 			"FP":FP, "patron":patron, "get_setting": get_setting,
-			"SIDEBAR_THREAD":SIDEBAR_THREAD, "BANNER_THREAD":BANNER_THREAD,
+			"SIDEBAR_THREAD":SIDEBAR_THREAD, "BANNER_THREAD":BANNER_THREAD, "BUG_THREAD":BUG_THREAD,
 			"BADGE_THREAD":BADGE_THREAD, "SNAPPY_THREAD":SNAPPY_THREAD, "CHANGELOG_THREAD":CHANGELOG_THREAD,
 			"approved_embed_hosts":approved_embed_hosts, "POST_BODY_LENGTH_LIMIT":POST_BODY_LENGTH_LIMIT,
 			"SITE_SETTINGS":get_settings(), "EMAIL":EMAIL, "max": max, "min": min, "user_can_see":User.can_see,
