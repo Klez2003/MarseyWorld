@@ -762,6 +762,12 @@ def normalize_url(url):
 			 .replace("https://www.tiktok.com", "https://tiktok.com") \
 			 .replace("https://imgur.com/", "https://i.imgur.com/") \
 			 .replace("/giphy.gif", "/giphy.webp") \
+			 .replace('https://www.google.com/amp/s/', 'https://') \
+			 .replace('https://amp.', 'https://') \
+			 .replace('/amp/', '/') \
+
+	if url.endswith('.amp'):
+		url = url.split('.amp')[0]
 
 	url = giphy_regex.sub(r'\1.webp', url)
 
