@@ -40,6 +40,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 
 	coin_mult = 1
 
+	g.db.flush()
 	existing = g.db.query(vote_cls).filter_by(user_id=v.id)
 	if vote_cls == Vote:
 		existing = existing.filter_by(post_id=target.id)
