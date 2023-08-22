@@ -514,6 +514,9 @@ def submit_post(v, sub=None):
 
 	body_html = sanitize(body_for_sanitize, count_emojis=True, limit_pings=100)
 
+	if SITE_NAME == 'rDrama':
+		body_html += '<p>/s</p>'
+
 	if v.marseyawarded and marseyaward_body_regex.search(body_html):
 		abort(400, "You can only type marseys!")
 
@@ -1009,6 +1012,9 @@ def edit_post(pid, v):
 		if p.sharpened: body_for_sanitize = sharpen(body_for_sanitize)
 
 		body_html = sanitize(body_for_sanitize, golden=False, limit_pings=100)
+
+		if SITE_NAME == 'rDrama':
+			body_html += '<p>/s</p>'
 
 		if v.id == p.author_id and v.marseyawarded and marseyaward_body_regex.search(body_html):
 			abort(403, "You can only type marseys!")
