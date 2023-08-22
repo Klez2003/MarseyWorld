@@ -1351,6 +1351,7 @@ def fp(v, fp):
 			users += alts
 	for u in users:
 		li = [v.id, u.id]
+		g.db.flush()
 		existing = g.db.query(Alt).filter(Alt.user1.in_(li), Alt.user2.in_(li)).one_or_none()
 		if existing: continue
 		add_alt(user1=v.id, user2=u.id)
