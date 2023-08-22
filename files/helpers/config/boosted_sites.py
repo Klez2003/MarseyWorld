@@ -74,6 +74,7 @@ BOOSTED_SITES = {
 	'dcurbanmom.com',
 	'godlike.com',
 	'linustechtips.com',
+	'defense.pk',
 
 	#nested-comments
 	#'all sites with .win TLD',
