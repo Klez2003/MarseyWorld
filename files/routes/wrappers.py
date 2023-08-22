@@ -107,6 +107,7 @@ def get_logged_in_user():
 		abort(403, "Site is in offline mode right now. It will be back shortly!")
 
 	g.v = v
+	g.vid = v.id
 
 	if not v and SITE == 'rdrama.net' and request.headers.get("Cf-Ipcountry") == 'EG':
 		abort(404)

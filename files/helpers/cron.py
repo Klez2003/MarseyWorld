@@ -30,6 +30,7 @@ def cron_fn(every_5m, every_1d):
 	with app.app_context():
 		g.db = db_session()
 		g.v = None
+		g.vid = None
 
 		try:
 			if every_5m:

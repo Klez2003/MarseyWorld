@@ -10,6 +10,7 @@ from files.__main__ import app, limiter, get_CF, redis_instance
 @app.before_request
 def before_request():
 	g.v = None
+	g.vid = None
 
 	if request.host != SITE:
 		abort(403, "Unauthorized host provided!")
