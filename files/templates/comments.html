@@ -595,7 +595,7 @@
 
 						<button type="button" id="unsave2-{{c.id}}" class="list-group-item {% if c.id not in v.saved_comment_idlist %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unsave_comment/{{c.id}}','save2-{{c.id}}','unsave2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-save mr-2"></i>Unsave {% if c.num_savers %}<span data-bs-toggle="tooltip" data-bs-placement="bottom" title="Number of users who saved this comment">[{{c.num_savers}}]</span>{% endif %}</button>
 
-						{% if c.author_id == v.id or v.admin_level >= PERMS['POST_COMMENT_EDITING'] %}
+						{% if c.author_id == v.id %}
 							<button type="button" data-bs-dismiss="modal" data-nonce="{{g.nonce}}" data-onclick="toggleEdit('{{c.id}}')" class="list-group-item"><i class="fas fa-edit mr-2"></i>Edit</button>
 
 							<button type="button" id="undelete2-{{c.id}}" class="{% if not c.deleted_utc %}d-none{% endif %} list-group-item text-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/undelete/comment/{{c.id}}', 'delete2-{{c.id}}', 'undelete2-{{c.id}}','d-none')" data-toggleelement=".comment-{{c.id}}-only" data-toggleattr="deleted" data-bs-dismiss="modal"><i class="far fa-trash-alt text-success mr-2"></i>Undelete</button>
@@ -662,6 +662,12 @@
 						{% if c.parent_post or c.wall_user_id %}
 							{% if v.admin_level >= PERMS['APPS_MODERATION'] and c.oauth_app %}
 								<a href="{{c.oauth_app.permalink}}/comments" class="list-group-item text-info"><i class="fas fa-code text-info mr-2"></i>API App</a>
+							{% endif %}
+
+							{% if v.admin_level >= PERMS['POST_COMMENT_EDITING'] %}
+								<button type="button" class="list-group-item text-muted" data-nonce="{{g.nonce}}" data-onclick="toggleEdit('{{c.id}}')" data-bs-dismiss="modal">
+									<i class="fas fa-edit text-muted mr-2"></i>Edit
+								</button>
 							{% endif %}
 
 							{% if v.admin_level >= PERMS['POST_COMMENT_DISTINGUISH'] %}
