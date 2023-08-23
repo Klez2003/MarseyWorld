@@ -72,6 +72,7 @@ body > .container {
     height: 90% !important;
     width: 95% !important;
 	max-width: 95% !important;
+    overflow-y: clip;
 }
 
 @media (max-width: 900px) {
