@@ -819,7 +819,7 @@ elif SITE == 'watchpeopledie.tv':
 
 	ERROR_MARSEYS[403] = "marseyconfused"
 
-	BUG_THREAD = 18459
+	BUG_THREAD = 61549
 
 	SIDEBAR_THREAD = 5403
 	BANNER_THREAD = 9869
