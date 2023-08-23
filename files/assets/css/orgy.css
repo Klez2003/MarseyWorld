@@ -3,7 +3,7 @@
 	justify-content: space-around;
 }
 
-@media all and (max-width: 900px) {
+@media (max-width: 900px) {
 	.orgy-top-container {
 		flex-flow: column wrap;
 	}
@@ -34,7 +34,7 @@
     width: 98% !important;
 }
 
-@media all and (max-width: 900px) {
+@media (max-width: 900px) {
 	#orgy-file-container {
 		width: 100% !important;	
 	}
