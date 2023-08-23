@@ -275,26 +275,13 @@ def revert_actions(v, username):
 	return {"message": f"@{revertee.username}'s admin actions have been reverted!"}
 
 @app.get("/admin/shadowbanned")
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['USER_SHADOWBAN'])
 def shadowbanned(v):
-	users = g.db.query(User).filter(
-			User.shadowbanned != None,
-		).order_by(User.truescore.desc()).all()
+	users = g.db.query(User).filter(User.shadowbanned != None).order_by(User.ban_reason).all()
 
-	collected_users = []
-	collected_alts = set()
-
-	for u in users:
-		if u.id in collected_alts:
-			continue
-		collected_users.append(u)
-		collected_alts = collected_alts | get_alt_graph_ids(u.id)
-
-	collected_users = sorted(collected_users, key=lambda x: x.ban_reason)
-
-	return render_template("admin/shadowbanned.html", v=v, users=collected_users)
+	return render_template("admin/shadowbanned.html", v=v, users=users)
 
 
 @app.get("/admin/image_posts")
