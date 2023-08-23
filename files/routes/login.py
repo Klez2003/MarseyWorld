@@ -301,8 +301,6 @@ def sign_up_post(v):
 
 	session.pop("signup_token")
 
-	users_count = g.db.query(User).count()
-
 	profileurl = None
 	if PFP_DEFAULT_MARSEY:
 		profileurl = '/e/' + random.choice(marseys_const) + '.webp'
@@ -316,13 +314,13 @@ def sign_up_post(v):
 		profileurl=profileurl
 		)
 
-	if users_count == 4:
-		new_user.admin_level = 4
-		session["history"] = []
-
 	g.db.add(new_user)
 
 	g.db.flush()
+
+	if new_user.id == 5:
+		new_user.admin_level = 4
+		session["history"] = []
 
 	if ref_id:
 		ref_user = get_account(ref_id)
