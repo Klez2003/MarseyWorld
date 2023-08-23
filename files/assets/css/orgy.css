@@ -14,7 +14,6 @@
 
 .orgy-chat-window-item {
 	flex-grow: 2;
-	max-width: 25vw;
 }
 
 .rumble-player {
@@ -23,9 +22,9 @@
 	width: 500px;
 }
 
-#orgy-file-container {
-	position: relative;
-	width: -webkit-fill-available;
+#orgy-file-container, lite-youtube {
+	width: 70vw;
+	max-width: 100vw !important;
 }
 
 #orgy-file-container > video {
