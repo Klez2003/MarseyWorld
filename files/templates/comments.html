@@ -401,12 +401,14 @@
 						{% if v and (c.parent_post or c.wall_user_id) %}
 							{% if c.author_id == v.id or v.admin_level >= PERMS['POST_COMMENT_EDITING'] %}
 								<button type="button" class="btn caction py-0 nobackground px-1 text-muted" data-nonce="{{g.nonce}}" data-onclick="toggleEdit('{{c.id}}')"><i class="fas fa-edit fa-fw"></i>Edit</button>
+							{% elif c.body %}
+								<button type="button" class="btn caction py-0 nobackground px-1 text-muted" data-nonce="{{g.nonce}}" data-onclick="expandMarkdown('{{c.fullname}}')"><i class="fas text-expand-icon-{{c.fullname}} fa-expand-alt"></i><span class="expand-text-{{c.fullname}}">View source</span></button>
+							{% endif %}
 
+							{% if c.author_id == v.id %}
 								<button type="button" id="undelete-{{c.id}}" class="btn caction py-0 nobackground px-1 text-muted {% if not c.deleted_utc %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/undelete/comment/{{c.id}}','delete-{{c.id}}','undelete-{{c.id}}','d-none')" data-toggleelement=".comment-{{c.id}}-only" data-toggleattr="deleted"><i class="fas fa-trash-alt fa-fw"></i>Undelete</button>
 
 								<button type="button" id="delete-{{c.id}}" class="btn caction py-0 nobackground px-1 text-muted {% if c.deleted_utc %}d-none{% endif %}" data-bs-toggle="modal" data-bs-target="#deleteCommentModal" data-nonce="{{g.nonce}}" data-onclick="delete_commentModal(this, '{{c.id}}')"><i class="fas fa-trash-alt fa-fw"></i>Delete</button>
-							{% elif c.body %}
-								<button type="button" class="btn caction py-0 nobackground px-1 text-muted" data-nonce="{{g.nonce}}" data-onclick="expandMarkdown('{{c.fullname}}')"><i class="fas text-expand-icon-{{c.fullname}} fa-expand-alt"></i><span class="expand-text-{{c.fullname}}">View source</span></button>
 							{% endif %}
 						{% endif %}
 
