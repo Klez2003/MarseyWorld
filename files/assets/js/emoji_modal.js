@@ -278,6 +278,8 @@ function switchEmojiTab(e)
 
 	for(const emojiDOM of Object.values(emojiDOMs))
 		emojiDOM.hidden = emojiDOM.dataset.className !== className;
+
+	document.getElementById('emoji-container').scrollTop = 0;
 }
 
 for (const emojitab of document.getElementsByClassName('emojitab')) {
