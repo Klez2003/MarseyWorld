@@ -190,7 +190,7 @@
 	<i class="fas {% if error %}fa-exclamation-circle{% else %}fa-check-circle{% endif %} my-auto"></i>
 	<span>{{msg}}</span>
 	<button type="button" class="close" data-bs-dismiss="alert">
-		<span><i class="far fa-times"></i></span>
+		<span><i class="fas fa-times"></i></span>
 	</button>
 </div>
 {% endmacro %}
@@ -198,7 +198,7 @@
 {% macro reports(i, kind) %}
 {% if i.active_reports(v) %}
 <div id="reports-{{i.id}}" class="reports d-none">
-	<strong><i class="far fa-fw fa-flag"></i> Reported by:</strong>
+	<strong><i class="fas fa-fw fa-flag"></i> Reported by:</strong>
 	<ul class="mt-1 mb-0" style="padding-left:20px;word-wrap:break-word">
 		{% for r in i.filtered_reports(v) %}
 			<li>
@@ -220,7 +220,7 @@
 {% macro chat_users_online() %}
 <div class="border-right pb-1 px-3">
 	<span id="online2" data-bs-html="true" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Users Online" class="text-muted">
-		<i class="far fa-user fa-sm mr-1"></i>
+		<i class="fas fa-user fa-sm mr-1"></i>
 		<span class="board-chat-count">0</span>
 	</span>
 </div>

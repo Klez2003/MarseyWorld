@@ -502,8 +502,8 @@
 		{% endif %}
 
 	{% if request.path.startswith('/transfers') %}
-		<a href="{{c.log_link}}"><i class="far fa-link ml-1 text-muted"></i></a>
-		<button type="button" class="copy-link ml-3" data-clipboard-text="{{c.log_link}}"><i class="far fa-copy text-muted"></i></button>
+		<a href="{{c.log_link}}"><i class="fas fa-link ml-1 text-muted"></i></a>
+		<button type="button" class="copy-link ml-3" data-clipboard-text="{{c.log_link}}"><i class="fas fa-copy text-muted"></i></button>
 	{% endif %}
 
 	{% if render_replies %}
@@ -570,7 +570,7 @@
 			<div class="modal-header">
 				<h6 class="modal-title">More options</h6>
 				<button type="button" class="close" data-bs-dismiss="modal">
-					<span><i class="far fa-times"></i></span>
+					<span><i class="fas fa-times"></i></span>
 				</button>
 			</div>
 			<div class="modal-body">
@@ -598,9 +598,9 @@
 						{% if c.author_id == v.id %}
 							<button type="button" data-bs-dismiss="modal" data-nonce="{{g.nonce}}" data-onclick="toggleEdit('{{c.id}}')" class="list-group-item"><i class="fas fa-edit mr-2"></i>Edit</button>
 
-							<button type="button" id="undelete2-{{c.id}}" class="{% if not c.deleted_utc %}d-none{% endif %} list-group-item text-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/undelete/comment/{{c.id}}', 'delete2-{{c.id}}', 'undelete2-{{c.id}}','d-none')" data-toggleelement=".comment-{{c.id}}-only" data-toggleattr="deleted" data-bs-dismiss="modal"><i class="far fa-trash-alt text-success mr-2"></i>Undelete</button>
+							<button type="button" id="undelete2-{{c.id}}" class="{% if not c.deleted_utc %}d-none{% endif %} list-group-item text-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/undelete/comment/{{c.id}}', 'delete2-{{c.id}}', 'undelete2-{{c.id}}','d-none')" data-toggleelement=".comment-{{c.id}}-only" data-toggleattr="deleted" data-bs-dismiss="modal"><i class="fas fa-trash-alt text-success mr-2"></i>Undelete</button>
 
-							<button type="button" id="delete2-{{c.id}}" class="{% if c.deleted_utc %}d-none{% endif %} list-group-item text-danger" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#deleteCommentModal" data-nonce="{{g.nonce}}" data-onclick="delete_commentModal(this, '{{c.id}}')"><i class="far fa-trash-alt text-danger mr-2"></i>Delete</button>
+							<button type="button" id="delete2-{{c.id}}" class="{% if c.deleted_utc %}d-none{% endif %} list-group-item text-danger" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#deleteCommentModal" data-nonce="{{g.nonce}}" data-onclick="delete_commentModal(this, '{{c.id}}')"><i class="fas fa-trash-alt text-danger mr-2"></i>Delete</button>
 						{% else %}
 							{% if c.body %}
 								<button type="button" data-bs-dismiss="modal" data-nonce="{{g.nonce}}" data-onclick="expandMarkdown('{{c.fullname}}')" class="list-group-item"><i class="fas text-expand-icon-{{c.fullname}} fa-expand-alt mr-2"></i><span class="expand-text-{{c.fullname}}">View source</span></button>
@@ -654,7 +654,7 @@
 				<div class="modal-header">
 					<h6 class="modal-title">Admin options</h6>
 					<button type="button" class="close" data-bs-dismiss="modal">
-						<span><i class="far fa-times"></i></span>
+						<span><i class="fas fa-times"></i></span>
 					</button>
 				</div>
 				<div class="modal-body">
@@ -736,7 +736,7 @@
 			<div class="modal-header d-none d-md-flex">
 				<h5 class="modal-title">Delete comment?</h5>
 				<button type="button" class="close" data-bs-dismiss="modal">
-					<span><i class="far fa-times"></i></span>
+					<span><i class="fas fa-times"></i></span>
 				</button>
 			</div>
 			<div class="modal-body text-center">
@@ -765,7 +765,7 @@
 					<div class="modal-header">
 						<h5 class="modal-title">Report <span id="comment-author"></span>'s comment</h5>
 						<button type="button" class="close" data-bs-dismiss="modal">
-							<span><i class="far fa-times"></i></span>
+							<span><i class="fas fa-times"></i></span>
 						</button>
 					</div>
 					<div class="modal-body">

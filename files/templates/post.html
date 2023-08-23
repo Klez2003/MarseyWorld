@@ -37,7 +37,7 @@
 				<div class="modal-body">
 					<ul class="list-group post-actions">
 						{% if v.id==p.author_id %}
-							<button type="button" class="nobackground btn btn-link btn-block btn-lg text-left text-muted" data-bs-dismiss="modal" data-nonce="{{g.nonce}}" data-onclick="togglePostEdit('{{p.id}}')"><i class="far fa-edit text-center text-muted mr-2"></i>Edit</button>
+							<button type="button" class="nobackground btn btn-link btn-block btn-lg text-left text-muted" data-bs-dismiss="modal" data-nonce="{{g.nonce}}" data-onclick="togglePostEdit('{{p.id}}')"><i class="fas fa-edit text-center text-muted mr-2"></i>Edit</button>
 						{% elif p.body and v.admin_level < PERMS['POST_COMMENT_EDITING'] %}
 							<button type="button" class="nobackground btn btn-link btn-block btn-lg text-left text-muted" data-bs-dismiss="modal" data-nonce="{{g.nonce}}" data-onclick="expandMarkdown('{{p.fullname}}')"><i class="fas text-expand-icon-{{p.fullname}} fa-expand-alt text-center mr-2"></i><span class="expand-text-{{p.fullname}}">View source</span></button>
 						{% endif %}
