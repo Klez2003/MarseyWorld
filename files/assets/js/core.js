@@ -77,7 +77,7 @@ function postToastSwitch(t, url, button1, button2, cls, extraActionsOnSuccess) {
 		(xhr) => {
 			if (button1)
 			{
-				if (typeof(button1) == 'boolean') {
+				if (typeof button1 == 'boolean') {
 					location.reload()
 				} else {
 					try {
