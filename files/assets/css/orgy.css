@@ -73,3 +73,11 @@ body > .container {
     width: 95% !important;
 	max-width: 95% !important;
 }
+
+@media (max-width: 900px) {
+	#orgy-file-container > lite-youtube {
+		height: 100% !important;
+		width: 100% !important;
+		max-width: 100% !important;
+	}
+}
