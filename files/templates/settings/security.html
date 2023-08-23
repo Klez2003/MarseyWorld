@@ -44,12 +44,12 @@
 							{% endif %}
 						</div>
 						{% if FEATURES['MARSEYBUX'] %}
-							<span class="text-small text-muted pl-1">Must be same email as the one you used to donate
-							{% if v.truescore >= TRUESCORE_DONATE_MINIMUM %}
-							on
-								<a rel="nofollow noopener" class="text-primary" href="{{DONATE_LINK}}">{{DONATE_SERVICE}}</a>
-							{% endif %}
-							</span>
+							<div class="text-small text-muted pl-1 pt-1 pt-sm-3">
+								Must be same email as the one you used to donate
+								{% if v.truescore >= TRUESCORE_DONATE_MINIMUM %}
+									on <a rel="nofollow noopener" class="text-primary" href="{{DONATE_LINK}}">{{DONATE_SERVICE}}</a>
+								{% endif %}
+							</div>
 						{% endif %}
 					</div>
 				</form>
