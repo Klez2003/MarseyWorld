@@ -198,7 +198,7 @@
 {% macro reports(i, kind) %}
 {% if i.active_reports(v) %}
 <div id="reports-{{i.id}}" class="reports d-none">
-	<strong><i class="fas fa-fw fa-flag"></i> Reported by:</strong>
+	<strong><i class="far fa-fw fa-flag"></i> Reported by:</strong>
 	<ul class="mt-1 mb-0" style="padding-left:20px;word-wrap:break-word">
 		{% for r in i.filtered_reports(v) %}
 			<li>
