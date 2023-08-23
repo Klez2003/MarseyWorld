@@ -52,7 +52,7 @@ def get_emoji_list(kind):
 @app.get("/marseys")
 @app.get("/emojis")
 def marseys_redirect():
-	return redirect("/emojis/Platy")
+	return redirect("/emojis/Marsey")
 
 @app.get("/emojis/<kind>")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
