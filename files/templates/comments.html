@@ -247,7 +247,7 @@
 			{% endif %}
 
 			{% set realbody = c.realbody(v) %}
-			<div id="comment-text-{{c.id}}" class="comment-text mb-0 {% if c.chudded %}text-uppercase chud-img chud-{{c.id_last_num}}{% endif %} {% if c.rainbowed %}rainbow-text{% endif %} {% if c.queened %}queen{% endif %} {% if c.sharpened %}sharpen chud-img sharpen-{{c.id_last_num}}{% endif %} {% if c.award_count('tilt', v) %}tilt-comment{% endif %}">
+			<div id="comment-text-{{c.id}}" class="comment-text mb-0 {% if c.chudded %}text-uppercase chud-img chud-{{c.id_last_num}}{% endif %} {% if c.rainbowed %}rainbow-text{% endif %} {% if c.queened %}queen{% endif %} {% if c.sharpened %}sharpen chud-img sharpen-{{c.id_last_num}}{% endif %}" {% if c.award_count('tilt', v) %}style="transform: rotate({{c.award_count('tilt', v)}}deg)"{% endif %}>
 				{{realbody | safe}}
 			</div>
 
