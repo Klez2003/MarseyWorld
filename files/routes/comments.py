@@ -257,9 +257,6 @@ def comment(v):
 
 	body_html = sanitize(body_for_sanitize, limit_pings=5, showmore=(not v.marseyawarded), count_emojis=not v.marsify)
 
-	if SITE_NAME == 'rDrama':
-		body_html += '<p>/s</p>'
-
 	if post_target.id not in ADMIGGER_THREADS and not (v.chud and v.chud_phrase in body.lower()):
 		existing = g.db.query(Comment.id).filter(
 			Comment.author_id == v.id,
@@ -673,9 +670,6 @@ def edit_comment(cid, v):
 			body_for_sanitize = sharpen(body_for_sanitize)
 
 		body_html = sanitize(body_for_sanitize, golden=False, limit_pings=5, showmore=(not v.marseyawarded))
-
-		if SITE_NAME == 'rDrama':
-			body_html += '<p>/s</p>'
 
 		if len(body_html) > COMMENT_BODY_HTML_LENGTH_LIMIT: abort(400)
 
