@@ -173,7 +173,3 @@ img[alt^="![]("], .img {
 		padding-top: 1px !important;
 	}
 }
-
-*:not(#orgy-file-container) {
-	resize: none !important;
-}

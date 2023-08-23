@@ -65,3 +65,7 @@ body > .container {
 	margin: 0 !important;
 	margin-right: 0 !important;
 }
+
+*:not(#orgy-file-container) {
+	resize: none !important;
+}
