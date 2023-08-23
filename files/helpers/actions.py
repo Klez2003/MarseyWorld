@@ -227,7 +227,7 @@ def execute_snappy(post, v):
 			text = f"@Snappy has banned you for **{days}** days for the following reason:\n\n> {reason}"
 			send_repeatable_notification(v.id, text)
 			duration = f"for {days} days"
-			ma=ModAction(
+			ma = ModAction(
 				kind="ban_user",
 				user_id=snappy.id,
 				target_user_id=v.id,
@@ -366,7 +366,7 @@ def tempban_for_spam(v):
 	send_repeatable_notification(v.id, text)
 	v.ban(reason="Spam", days=1)
 
-	ma=ModAction(
+	ma = ModAction(
 		kind="ban_user",
 		user_id=AUTOJANNY_ID,
 		target_user_id=v.id,
@@ -549,18 +549,18 @@ def execute_lawlz_actions(v, p):
 	p.stickied = "AutoJanny"
 	p.distinguish_level = 6
 	p.flair = filter_emojis_only(":ben10: Required Reading")
-	ma_1=ModAction(
+	ma_1 = ModAction(
 		kind="pin_post",
 		user_id=AUTOJANNY_ID,
 		target_post_id=p.id,
 		_note='for 1 day'
 	)
-	ma_2=ModAction(
+	ma_2 = ModAction(
 		kind="distinguish_post",
 		user_id=AUTOJANNY_ID,
 		target_post_id=p.id
 	)
-	ma_3=ModAction(
+	ma_3 = ModAction(
 		kind="flair_post",
 		user_id=AUTOJANNY_ID,
 		target_post_id=p.id,

@@ -231,7 +231,7 @@ def get_comment(i, v=None, graceful=False):
 		if graceful: return None
 		else: abort(404, "Empty comment ID.")
 
-	comment=g.db.get(Comment, i)
+	comment = g.db.get(Comment, i)
 	if not comment:
 		if graceful: return None
 		else: abort(404, "Comment not found.")

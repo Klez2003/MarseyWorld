@@ -360,7 +360,7 @@ def settings_personal_post(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def filters(v):
-	filters=request.values.get("filters")[:1000].strip()
+	filters = request.values.get("filters")[:1000].strip()
 
 	if filters == v.custom_filter_list:
 		abort(400, "You didn't change anything!")
@@ -730,7 +730,7 @@ def settings_name_change(v):
 
 	if v.shadowbanned: abort(500)
 
-	new_name=request.values.get("name").strip()
+	new_name = request.values.get("name").strip()
 
 	if new_name==v.username:
 		abort(400, "You didn't change anything")
@@ -835,7 +835,7 @@ def _change_song_youtube(vid, id):
 @limiter.limit("10/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def settings_song_change(v):
-	song=request.values.get("song").strip()
+	song = request.values.get("song").strip()
 
 	if song == "" and v.song:
 		if path.isfile(f"/songs/{v.song}.mp3") and g.db.query(User).filter_by(song=v.song).count() == 1:

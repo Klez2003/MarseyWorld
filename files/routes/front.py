@@ -36,14 +36,14 @@ def front_all(v, sub=None):
 
 	if sub: defaultsorting = "new"
 
-	sort=request.values.get("sort", defaultsorting)
-	t=request.values.get('t', defaulttime)
+	sort = request.values.get("sort", defaultsorting)
+	t = request.values.get('t', defaulttime)
 
-	try: gt=int(request.values.get("after", 0))
-	except: gt=0
+	try: gt = int(request.values.get("after", 0))
+	except: gt = 0
 
-	try: lt=int(request.values.get("before", 0))
-	except: lt=0
+	try: lt = int(request.values.get("before", 0))
+	except: lt = 0
 
 	if sort == 'hot': default = True
 	else: default = False
@@ -238,8 +238,8 @@ def comment_idlist(v=None, page=1, sort="new", t="day", gt=0, lt=0):
 def all_comments(v):
 	page = get_page()
 
-	sort=request.values.get("sort", "new")
-	t=request.values.get("t", "hour")
+	sort = request.values.get("sort", "new")
+	t = request.values.get("t", "hour")
 
 	try: gt=int(request.values.get("after", 0))
 	except: gt=0

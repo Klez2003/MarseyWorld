@@ -72,7 +72,7 @@ def post_pid_comment_cid(cid, v, pid=None, anything=None, sub=None):
 	if post.new: defaultsortingcomments = 'new'
 	elif v: defaultsortingcomments = v.defaultsortingcomments
 	else: defaultsortingcomments = "hot"
-	sort=request.values.get("sort", defaultsortingcomments)
+	sort = request.values.get("sort", defaultsortingcomments)
 
 	while context and c.level > 1:
 		parent = c.parent_comment
@@ -532,9 +532,9 @@ def unpin_comment(cid, v):
 @auth_required
 def save_comment(cid, v):
 
-	comment=get_comment(cid)
+	comment = get_comment(cid)
 
-	save=g.db.query(CommentSaveRelationship).filter_by(user_id=v.id, comment_id=comment.id).one_or_none()
+	save = g.db.query(CommentSaveRelationship).filter_by(user_id=v.id, comment_id=comment.id).one_or_none()
 
 	if not save:
 		new_save=CommentSaveRelationship(user_id=v.id, comment_id=comment.id)
@@ -551,9 +551,9 @@ def save_comment(cid, v):
 @auth_required
 def unsave_comment(cid, v):
 
-	comment=get_comment(cid)
+	comment = get_comment(cid)
 
-	save=g.db.query(CommentSaveRelationship).filter_by(user_id=v.id, comment_id=comment.id).one_or_none()
+	save = g.db.query(CommentSaveRelationship).filter_by(user_id=v.id, comment_id=comment.id).one_or_none()
 
 	if save:
 		g.db.delete(save)

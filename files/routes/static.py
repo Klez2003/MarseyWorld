@@ -212,7 +212,7 @@ def log(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def log_item(id, v):
-	action=g.db.get(ModAction, id)
+	action = g.db.get(ModAction, id)
 
 	if not action: abort(404)
 

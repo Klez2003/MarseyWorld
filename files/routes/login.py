@@ -482,15 +482,15 @@ def lost_2fa(v):
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit("6/minute;200/hour;1000/day", deduct_when=lambda response: response.status_code < 400)
 def lost_2fa_post():
-	username=request.values.get("username")
-	user=get_user(username, graceful=True)
+	username = request.values.get("username")
+	user = get_user(username, graceful=True)
 	if not user or not user.email or not user.mfa_secret:
 		return render_template("message.html",
 						title="Removal request received",
 						message="If username, password, and email match, we will send you an email."), 202
 
 
-	email=request.values.get("email").strip().lower()
+	email = request.values.get("email").strip().lower()
 
 	if not email_regex.fullmatch(email):
 		abort(400, "Invalid email")
@@ -501,10 +501,10 @@ def lost_2fa_post():
 						title="Removal request received",
 						message="If username, password, and email match, we will send you an email."), 202
 
-	valid=int(time.time())
-	token=generate_hash(f"{user.id}+{user.username}+disable2fa+{valid}+{user.mfa_secret}+{user.login_nonce}")
+	valid = int(time.time())
+	token = generate_hash(f"{user.id}+{user.username}+disable2fa+{valid}+{user.mfa_secret}+{user.login_nonce}")
 
-	action_url=f"{SITE_FULL}/reset_2fa?id={user.id}&t={valid}&token={token}"
+	action_url = f"{SITE_FULL}/reset_2fa?id={user.id}&t={valid}&token={token}"
 
 	send_mail(to_address=user.email,
 			subject="Two-factor Authentication Removal Request",
@@ -520,7 +520,7 @@ def lost_2fa_post():
 @app.get("/reset_2fa")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 def reset_2fa():
-	now=int(time.time())
+	now = int(time.time())
 	t = request.values.get("t")
 	if not t: abort(400)
 	try:
@@ -531,10 +531,10 @@ def reset_2fa():
 	if now > t+3600*24:
 		abort(410, "This two-factor authentication reset link has expired!")
 
-	token=request.values.get("token")
-	uid=request.values.get("id")
+	token = request.values.get("token")
+	uid = request.values.get("id")
 
-	user=get_account(uid)
+	user = get_account(uid)
 
 	if not validate_hash(f"{user.id}+{user.username}+disable2fa+{t}+{user.mfa_secret}+{user.login_nonce}", token):
 		abort(403)

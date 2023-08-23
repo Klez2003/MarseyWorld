@@ -259,10 +259,10 @@ socket.on('online', function(data){
 })
 
 addEventListener('blur', function(){
-	focused=false
+	focused = false
 })
 addEventListener('focus', function(){
-	focused=true
+	focused = true
 })
 
 let timer_id;

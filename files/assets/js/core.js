@@ -126,8 +126,8 @@ if (!location.pathname.endsWith('/submit'))
 
 
 function autoExpand(field) {
-	xpos=window.scrollX;
-	ypos=window.scrollY;
+	xpos = window.scrollX;
+	ypos = window.scrollY;
 
 	field.style.height = 'inherit';
 

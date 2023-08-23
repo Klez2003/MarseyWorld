@@ -907,7 +907,7 @@ def admin_title_change(user_id, v):
 
 	user = get_account(user_id)
 
-	new_name=request.values.get("title")[:256].strip()
+	new_name = request.values.get("title")[:256].strip()
 
 	user.customtitleplain=new_name
 	new_name = filter_emojis_only(new_name)
@@ -928,7 +928,7 @@ def admin_title_change(user_id, v):
 	if user.flairchanged: kind = "set_flair_locked"
 	else: kind = "set_flair_notlocked"
 
-	ma=ModAction(
+	ma = ModAction(
 		kind=kind,
 		user_id=v.id,
 		target_user_id=user.id,
@@ -1014,7 +1014,7 @@ def ban_user(fullname, v):
 	send_repeatable_notification(user.id, text)
 
 	note = f'duration: {duration}, reason: "{reason}"'
-	ma=ModAction(
+	ma = ModAction(
 		kind="ban_user",
 		user_id=v.id,
 		target_user_id=user.id,
@@ -1111,7 +1111,7 @@ def chud(fullname, v):
 	note = f'duration: {duration}'
 	if reason: note += f', reason: "{reason}"'
 
-	ma=ModAction(
+	ma = ModAction(
 		kind="chud",
 		user_id=v.id,
 		target_user_id=user.id,
@@ -1182,7 +1182,7 @@ def unban_user(fullname, v):
 			x.ban_reason = None
 		g.db.add(x)
 
-	ma=ModAction(
+	ma = ModAction(
 		kind="unban_user",
 		user_id=v.id,
 		target_user_id=user.id,
@@ -1256,7 +1256,7 @@ def progstack_post(post_id, v):
 	post.realupvotes = floor(post.realupvotes * PROGSTACK_MUL)
 	g.db.add(post)
 
-	ma=ModAction(
+	ma = ModAction(
 		kind="progstack_post",
 		user_id=v.id,
 		target_post_id=post.id,
@@ -1277,7 +1277,7 @@ def unprogstack_post(post_id, v):
 	post.is_approved = None
 	g.db.add(post)
 
-	ma=ModAction(
+	ma = ModAction(
 		kind="unprogstack_post",
 		user_id=v.id,
 		target_post_id=post.id,
@@ -1298,7 +1298,7 @@ def progstack_comment(comment_id, v):
 	comment.realupvotes = floor(comment.realupvotes * PROGSTACK_MUL)
 	g.db.add(comment)
 
-	ma=ModAction(
+	ma = ModAction(
 		kind="progstack_comment",
 		user_id=v.id,
 		target_comment_id=comment.id,
@@ -1319,7 +1319,7 @@ def unprogstack_comment(comment_id, v):
 	comment.is_approved = None
 	g.db.add(comment)
 
-	ma=ModAction(
+	ma = ModAction(
 		kind="unprogstack_comment",
 		user_id=v.id,
 		target_comment_id=comment.id,
@@ -1344,7 +1344,7 @@ def remove_post(post_id, v):
 	post.ban_reason = v.username
 	g.db.add(post)
 
-	ma=ModAction(
+	ma = ModAction(
 		kind="ban_post",
 		user_id=v.id,
 		target_post_id=post.id,
@@ -1464,7 +1464,7 @@ def sticky_post(post_id, v):
 
 	g.db.add(post)
 
-	ma=ModAction(
+	ma = ModAction(
 		kind="pin_post",
 		user_id=v.id,
 		target_post_id=post.id,
@@ -1596,7 +1596,7 @@ def remove_comment(c_id, v):
 	comment.is_approved = None
 	comment.ban_reason = v.username
 	g.db.add(comment)
-	ma=ModAction(
+	ma = ModAction(
 		kind="ban_comment",
 		user_id=v.id,
 		target_comment_id=comment.id,
@@ -1689,10 +1689,10 @@ def admin_banned_domains(v):
 @admin_level_required(PERMS['DOMAINS_BAN'])
 def ban_domain(v):
 
-	domain=request.values.get("domain", "").strip().lower()
+	domain = request.values.get("domain", "").strip().lower()
 	if not domain: abort(400)
 
-	reason=request.values.get("reason", "").strip()
+	reason = request.values.get("reason", "").strip()
 	if not reason: abort(400, 'Reason is required!')
 
 	if len(reason) > 100:
@@ -1745,7 +1745,7 @@ def unban_domain(v, domain):
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def admin_nuke_user(v):
 
-	user=get_user(request.values.get("user"))
+	user = get_user(request.values.get("user"))
 
 	for post in g.db.query(Post).filter_by(author_id=user.id):
 		if post.is_banned:
@@ -1763,7 +1763,7 @@ def admin_nuke_user(v):
 		comment.ban_reason = v.username
 		g.db.add(comment)
 
-	ma=ModAction(
+	ma = ModAction(
 		kind="nuke_user",
 		user_id=v.id,
 		target_user_id=user.id,
@@ -1781,7 +1781,7 @@ def admin_nuke_user(v):
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def admin_nunuke_user(v):
 
-	user=get_user(request.values.get("user"))
+	user = get_user(request.values.get("user"))
 
 	for post in g.db.query(Post).filter_by(author_id=user.id):
 		if not post.is_banned:
@@ -1801,7 +1801,7 @@ def admin_nunuke_user(v):
 		comment.is_approved = v.id
 		g.db.add(comment)
 
-	ma=ModAction(
+	ma = ModAction(
 		kind="unnuke_user",
 		user_id=v.id,
 		target_user_id=user.id,
@@ -1892,7 +1892,7 @@ def delete_media_post(v):
 
 	os.remove(path)
 
-	ma=ModAction(
+	ma = ModAction(
 		kind="delete_media",
 		user_id=v.id,
 		_note=url,

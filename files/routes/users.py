@@ -790,7 +790,7 @@ def mfa_qr(v, secret):
 @limiter.limit("100/day", deduct_when=lambda response: response.status_code < 400)
 def is_available(name):
 
-	name=name.strip()
+	name = name.strip()
 
 	if len(name)<3 or len(name)>25:
 		return {name:False}
@@ -1114,8 +1114,8 @@ def u_username_comments(username, v):
 
 	page = get_page()
 
-	sort=request.values.get("sort","new")
-	t=request.values.get("t","all")
+	sort = request.values.get("sort","new")
+	t = request.values.get("t","all")
 
 	comment_post_author = aliased(User)
 	comments = g.db.query(Comment).options(load_only(Comment.id)) \
@@ -1156,7 +1156,7 @@ def u_username_comments(username, v):
 @auth_required
 def u_username_info(username, v):
 
-	user=get_user(username, v=v, include_blocks=True)
+	user = get_user(username, v=v, include_blocks=True)
 
 	if hasattr(user, 'is_blocking') and user.is_blocking:
 		abort(401, f"You're blocking @{user.username}")
