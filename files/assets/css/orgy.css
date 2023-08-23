@@ -38,7 +38,6 @@
 @media all and (max-width: 900px) {
 	#orgy-file-container {
 		width: 100% !important;	
-		resize: none !important;
 	}
 	#orgy-title {
 		display: none;
