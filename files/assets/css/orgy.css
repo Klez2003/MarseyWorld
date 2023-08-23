@@ -82,3 +82,7 @@ body > .container {
 		max-width: 100% !important;
 	}
 }
+
+lite-youtube {
+	max-width: min(20vw,500px) !important;
+}
