@@ -93,7 +93,7 @@ def request_api_keys(v):
 		notif = Notification(comment_id=new_comment.id, user_id=admin_id)
 		g.db.add(notif)
 
-	push_notif(admin_ids, 'New notification', body, f'{SITE_FULL}/comment/{new_comment.id}?read=true#context')
+	push_notif(admin_ids, 'New notification', body, f'{SITE_FULL}/admin/apps')
 
 	return {"message": "API keys requested successfully!"}
 

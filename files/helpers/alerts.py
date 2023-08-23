@@ -41,14 +41,14 @@ def send_repeatable_notification(uid, text):
 			notif = Notification(comment_id=c.id, user_id=uid)
 			g.db.add(notif)
 
-			push_notif({uid}, 'New notification', text, f'{SITE_FULL}/comment/{c.id}?read=true#context')
+			push_notif({uid}, 'New notification', text, f'{SITE_FULL}/notification/{c.id}')
 			return
 
 	cid = create_comment(text_html)
 	notif = Notification(comment_id=cid, user_id=uid)
 	g.db.add(notif)
 
-	push_notif({uid}, 'New notification', text, f'{SITE_FULL}/comment/{cid}?read=true#context')
+	push_notif({uid}, 'New notification', text, f'{SITE_FULL}/notification/{cid}')
 
 
 def send_notification(uid, text):
@@ -111,7 +111,7 @@ def add_notif(cid, uid, text, pushnotif_url=''):
 		g.db.add(notif)
 
 		if not pushnotif_url:
-			pushnotif_url = f'{SITE_FULL}/comment/{cid}?read=true#context'
+			pushnotif_url = f'{SITE_FULL}/notification/{cid}'
 
 		if ' has mentioned you: [' in text:
 			text = text.split(':')[0] + '!'

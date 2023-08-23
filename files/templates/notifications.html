@@ -11,7 +11,7 @@
 	<div class="col p-0 w-100">
 	<ul class="nav settings-nav" style="padding:0 0 0 20px" id="notifications--nav-list">
 	<li class="nav-item">
-		<a class="nav-link py-3{% if request.path == '/notifications' %} active{% endif %}" href="/notifications">
+		<a class="nav-link py-3{% if request.path == '/notifications' or request.path.startswith('/notification/') %} active{% endif %}" href="/notifications">
 		All {% if v.normal_notifications_count %}<span class="font-weight-bold" style="color:#dc3545">({{v.normal_notifications_count}})</span>{% endif %}
 		</a>
 	</li>
@@ -50,7 +50,11 @@
 	</div>
 </div>
 
-<button type="button" class="btn btn-primary btn-rainbow ml-3 mt-4" data-nonce="{{g.nonce}}" data-onclick="postToastReload(this,'/clear')">Mark all notifications as read</button>
+{% if request.path.startswith('/notification/') %}
+	<div class="mt-4 mb-5 ml-3 text-lg"><a href="/notifications">View all notifications <i class="fas fa-long-arrow-right ml-1"></i></a></div>
+{% else %}
+	<button type="button" class="btn btn-primary btn-rainbow ml-3 mt-4" data-nonce="{{g.nonce}}" data-onclick="postToastReload(this,'/clear')">Mark all notifications as read</button>
+{% endif %}
 
 <div class="notifs px-3 p-md-0">
 

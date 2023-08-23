@@ -54,7 +54,7 @@ def post_pid_comment_cid(cid, v, pid=None, anything=None, sub=None):
 	elif comment.wall_user_id:
 		return redirect(f"/id/{comment.wall_user_id}/wall/comment/{comment.id}")
 	else:
-		post = NOTIFICATION_THREAD
+		return redirect(f"/notification/{comment.id}")
 
 	if v and request.values.get("read"):
 		gevent.spawn(_mark_comment_as_read, comment.id, v.id)

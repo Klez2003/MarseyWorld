@@ -9,6 +9,7 @@ from files.helpers.config.const import *
 from files.helpers.config.modaction_types import *
 from files.helpers.get import *
 from files.routes.wrappers import *
+from files.routes.comments import _mark_comment_as_read
 from files.__main__ import app
 
 @app.post("/clear")
@@ -419,6 +420,29 @@ def notifications(v):
 							notifications=listing,
 							total=total,
 							page=page,
+							standalone=True,
+							render_replies=True,
+						)
+
+
+@app.get("/notification//<int:cid>")
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@auth_required
+def notification(v, cid):
+	comment = get_comment(cid, v=v)
+
+	if not User.can_see(v, comment): abort(403)
+
+	comment.unread = True
+
+	gevent.spawn(_mark_comment_as_read, comment.id, v.id)
+
+	return render_template("notifications.html",
+							v=v,
+							notifications=[comment],
+							total=1,
+							page=1,
 							standalone=True,
 							render_replies=True,
 						)
