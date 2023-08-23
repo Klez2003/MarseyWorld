@@ -13,7 +13,9 @@
 			<h2 id="orgy-title">{{orgy.title}}</h1>
 			<div>
 				{% if orgy.type == 'youtube' %}
-					<lite-youtube videoid="{{orgy.data}}" params="autoplay=1&modestbranding=1"/>
+					<p id="orgy-file-container" class="resizable">
+						<lite-youtube videoid="{{orgy.data}}" params="autoplay=1&modestbranding=1"/>
+					</p>
 				{% elif orgy.type == 'rumble' %}
 					<iframe class="rumble rumble-player" width="100%"  src="{{orgy.data}}" frameborder="0" allowfullscreen></iframe>  
 				{% elif orgy.type == 'twitch' %}
