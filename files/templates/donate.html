@@ -1,7 +1,7 @@
 {% extends "default.html" %}
 {% block pagetitle %}Donate{% endblock %}
 {% block content %}
-	<h1 class="py-3">Donate</h1>
+	<h1 class="py-3">Donate and get {{patron}} rewards</h1>
 	<div class="overflow-x-auto">
 		<table class="table table-striped mb-5">
 			<tbody>
@@ -25,5 +25,13 @@
 				</tr>
 			</tbody>
 		</table>
+		{% if v and v.truescore >= TRUESCORE_DONATE_MINIMUM or True %}
+			<div class="pl-2 pb-2">
+				If you donate via {{DONATE_SERVICE}}, please first <a href="/settings/security#new_email">verify your email on the site</a>, and then use that same email on {{DONATE_SERVICE}} to get your <a rel="nofollow noopener" href="{{DONATE_LINK}}">{{patron}} rewards</a> automatically!
+			</div>
+		{% endif %}
+		<div class="pl-2">
+			If you donate crypto, please let us know by <a href="/contact">sending us a modmail</a> so we can give you your {{patron}} rewards manually!
+		</div>
 	</div>
 {% endblock %}
