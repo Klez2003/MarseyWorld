@@ -1,20 +1,14 @@
 .orgy-top-container {
 	display: flex;
-	justify-content: space-around;
 }
 
-@media all and (max-width: 900px) {
+@media (max-width: 900px) {
 	.orgy-top-container {
 		flex-flow: column wrap;
 	}
 	#chat-window {
 		max-height: 37vh !important;
 	}
-}
-
-.orgy-chat-window-item {
-	flex-grow: 2;
-	max-width: 25vw;
 }
 
 .rumble-player {
@@ -24,18 +18,15 @@
 }
 
 #orgy-file-container {
-	position: relative;
-	width: -webkit-fill-available;
+	width: 75vw;
 }
 
 #orgy-file-container > video {
     max-height: 100% !important;
 	margin: 0 !important;
-    height: 98% !important;
-    width: 98% !important;
 }
 
-@media all and (max-width: 900px) {
+@media (max-width: 900px) {
 	#orgy-file-container {
 		width: 100% !important;	
 	}
@@ -49,20 +40,10 @@
 		height: 100% !important;
 		width: 100% !important;
 	}
-	.orgy-chat-window-item {
-		max-width: 100%
-	}
 }
-
 
 #cursormarsey, #cursormarsey-heart {
 	display: none;
-}
-
-body > .container {
-	padding: 0 !important;
-	margin: 0 !important;
-	margin-right: 0 !important;
 }
 
 *:not(#orgy-file-container) {
