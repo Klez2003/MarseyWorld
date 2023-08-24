@@ -183,6 +183,10 @@ def distribute(v, kind, option_id):
 	g.db.add(autojanny)
 
 	votes = option.votes
+
+	if not votes:
+		abort(400, "Nobody voted on that, it can't be the winner!")
+
 	coinsperperson = int(pool / len(votes))
 
 	text = f"You won {coinsperperson} coins betting on {parent.permalink} :marseyparty:"
