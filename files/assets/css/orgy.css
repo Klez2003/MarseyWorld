@@ -12,7 +12,7 @@ lite-youtube {
 		flex-flow: column wrap;
 	}
 	#chat-window {
-		max-height: 32vh !important;
+		max-height: 37vh !important;
 	}
 }
 
