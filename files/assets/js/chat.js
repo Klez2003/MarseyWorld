@@ -251,8 +251,13 @@ socket.on('online', function(data){
 		online += `<a class="font-weight-bold" target="_blank" href="/@${u[0]}" style="color:#${u[2]}"><img loading="lazy" class="mr-1" src="/pp/${u[1]}"><span${patron}>${u[0]}</span></a></li>`
 		online2 += `<br>@${u[0]}`
 	}
-	document.getElementById('online').innerHTML = online
-	bs_trigger(document.getElementById('online'))
+
+	const online_el = document.getElementById('online')
+	if (online) {
+		online_el.innerHTML = online
+		bs_trigger(online_el)
+	}
+
 	document.getElementById('online2').setAttribute("data-bs-original-title", online2);
 	document.getElementById('online3').innerHTML = online
 	bs_trigger(document.getElementById('online3'))
