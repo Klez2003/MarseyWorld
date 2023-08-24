@@ -45,5 +45,7 @@ def const_initialize():
 	try:
 		with open(filename, "r", encoding="utf-8") as f:
 			SNAPPY_QUOTES = f.read().split("\n{[para]}\n")
+		if SITE_NAME == 'WPD':
+			SNAPPY_QUOTES = [x for x in SNAPPY_QUOTES if 'drama' not in x.lower()]
 	except FileNotFoundError:
 		pass
