@@ -253,7 +253,7 @@ socket.on('online', function(data){
 	}
 
 	const online_el = document.getElementById('online')
-	if (online) {
+	if (online_el) {
 		online_el.innerHTML = online
 		bs_trigger(online_el)
 	}
