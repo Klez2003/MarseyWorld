@@ -764,6 +764,7 @@ def normalize_url(url):
 			 .replace("/giphy.gif", "/giphy.webp") \
 			 .replace('https://www.google.com/amp/s/', 'https://') \
 			 .replace('https://amp.', 'https://') \
+			 .replace('https://cnn.com/cnn/', 'https://edition.cnn.com/') \
 			 .replace('/amp/', '/') \
 
 	if url.endswith('.amp'):
