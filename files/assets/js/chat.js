@@ -131,7 +131,7 @@ socket.on('speak', function(json) {
 
 	document.getElementsByClassName('chat-line')[0].id = json.id
 	document.getElementsByClassName('text')[0].innerHTML = escapeHTML(text)
-	document.getElementsByClassName('chat-message')[0].innerHTML = text_html.replace(/data-src/g, 'src').replace(/data-cfsrc/g, 'src').replace(/style="display:none;visibility:hidden;"/g, '')
+	document.getElementsByClassName('chat-message')[0].innerHTML = text_html.replace(/data-src/g, 'src').replace(/data-cfsrc/g, 'src').replace(/style="display:none;visibility:hidden;"/g, '').replace(/ loading="lazy"/g, '')
 
 	document.getElementsByClassName('quotes')[0].classList.add("d-none")
 	if (json.quotes) {
