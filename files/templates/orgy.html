@@ -12,27 +12,21 @@
 		<div id="orgy-col" class="col text-left pt-3">
 			<h2 id="orgy-title">{{orgy.title}}</h1>
 			<div>
-				{% if orgy.type == 'youtube' %}
-					<p id="orgy-file-container" class="resizable">
+				<p id="orgy-file-container" class="resizable">
+					{% if orgy.type == 'youtube' %}
 						<lite-youtube videoid="{{orgy.data}}" params="autoplay=1&modestbranding=1"/>
-					</p>
-				{% elif orgy.type == 'rumble' %}
-					<iframe class="rumble rumble-player" width="100%"  src="{{orgy.data}}" frameborder="0" allowfullscreen></iframe>  
-				{% elif orgy.type == 'twitch' %}
-					<iframe
-						src="https://player.twitch.tv/?channel={{orgy.data}}&parent={{site}}"
-						class="rumble-player"
-						allowfullscreen>
-					</iframe>
-				{% elif orgy.type == 'file' %}
-					<meta name="referrer" content="strict-origin-when-cross-origin">
-					<p id="orgy-file-container" class="resizable">
+					{% elif orgy.type == 'rumble' %}
+						<iframe src="{{orgy.data}}" frameborder="0" allowfullscreen></iframe>  
+					{% elif orgy.type == 'twitch' %}
+						<iframe src="https://player.twitch.tv/?channel={{orgy.data}}&parent={{site}}" frameborder="0" allowfullscreen></iframe>
+					{% elif orgy.type == 'file' %}
+						<meta name="referrer" content="strict-origin-when-cross-origin">
 						<video id="orgy-file" data-created_utc="{{orgy.created_utc}}" controls preload="none" src="{{orgy.data}}">
 							<track label="English" kind="subtitles" srclang="en" src="/assets/subtitles/2.vtt" default>						
 						</video>
-					</p>
-					<script defer src="{{'js/orgy_file.js' | asset}}"></script>
-				{% endif %}
+						<script defer src="{{'js/orgy_file.js' | asset}}"></script>
+					{% endif %}
+				</p>
 				{{macros.chat_users_list()}}
 			</div>
 		</div>
