@@ -865,7 +865,12 @@ def settings_song_change(v):
 
 	if YOUTUBE_KEY != DEFAULT_CONFIG_VALUE:
 		req = requests.get(f"https://www.googleapis.com/youtube/v3/videos?id={id}&key={YOUTUBE_KEY}&part=contentDetails", timeout=5).json()
-		duration = req['items'][0]['contentDetails']['duration']
+
+		try:
+			duration = req['items'][0]['contentDetails']['duration']
+		except:
+			return redirect("/settings/personal?error=Anthem change failed, please try another video!")
+
 		if duration == 'P0D':
 			return redirect("/settings/personal?error=Can't use a live youtube video!")
 
