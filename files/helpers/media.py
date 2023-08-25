@@ -235,7 +235,6 @@ def process_image(filename, v, resize=0, trim=False, uploader_id=None, db=None):
 				hashes = {}
 
 				for img in os.listdir(path):
-					if original_resize == 400 and img in {'256.webp','585.webp'}: continue
 					img_path = f'{path}/{img}'
 					if img_path == filename: continue
 
