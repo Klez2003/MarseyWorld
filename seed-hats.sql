@@ -1062,6 +1062,7 @@ INSERT INTO public.hat_defs VALUES (1204, 'Fish Drive By', 'You got a fish mothe
 INSERT INTO public.hat_defs VALUES (1226, 'Kitten Border', 'uwu *nuzzles*', 2, 500, NULL, 1686787106);
 
 
+
 INSERT INTO public.hat_defs VALUES (1322, 'Butthead', '"Eh, this website sucks, ehuhuh ehuhuh."', 2, 500, NULL, 1692085079);
 INSERT INTO public.hat_defs VALUES (1321, 'Beavis', '"GIVE ME TP FOR MY BUNGHOLE!"', 2, 500, NULL, 1692085009);
 INSERT INTO public.hat_defs VALUES (1320, 'The Master', '"So what shall it be? Do you join the Unity, or do you die here? Join! Die! Join! Die!"', 2, 500, NULL, 1691983112);
@@ -1100,11 +1101,12 @@ INSERT INTO public.hat_defs VALUES (1270, 'Dark Aura', 'Let your inner troll OUT
 INSERT INTO public.hat_defs VALUES (1269, 'Rainbowfriends Hat', 'This user is special needs. No ands ifs or buts about it.', 2, 500, NULL, 1687832169);
 
 
+
 --
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1327, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1332, true);
 
 
 --
