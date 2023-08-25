@@ -166,6 +166,8 @@ def move_post(post, v, reason):
 	if not can_move_post: return False
 
 	if sub_to == None:
+		if HOLE_REQUIRED:
+			abort(403, "All posts are required to be flaired!")
 		sub_to_in_notif = 'the main feed'
 	else:
 		sub_to_in_notif = f'/h/{sub_to}'
