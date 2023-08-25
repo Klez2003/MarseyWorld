@@ -43,6 +43,7 @@ def vote_option(option_id, v):
 			for x in vote:
 				g.db.delete(x)
 
+	g.db.flush()
 	existing = g.db.query(PostOptionVote).filter_by(option_id=option_id, user_id=v.id).one_or_none()
 	if not existing:
 		vote = PostOptionVote(
@@ -98,6 +99,7 @@ def vote_option_comment(option_id, v):
 			for x in vote:
 				g.db.delete(x)
 
+	g.db.flush()
 	existing = g.db.query(CommentOptionVote).filter_by(option_id=option_id, user_id=v.id).one_or_none()
 	if not existing:
 		vote = CommentOptionVote(
