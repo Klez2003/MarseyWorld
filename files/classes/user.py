@@ -274,7 +274,7 @@ class User(Base):
 	@lazy
 	def allowed_in_chat(self):
 		if self.admin_level: return True
-		if self.truescore >= TRUESCORE_CHAT_MINIMUM: return True
+		if self.truescore >= TRUESCORE_CC_CHAT_MINIMUM: return True
 		if self.patron: return True
 		return False
 
@@ -1192,7 +1192,7 @@ class User(Base):
 		if self.can_see_restricted_holes != None:
 			return self.can_see_restricted_holes
 
-		if self.truescore >= TRUESCORE_CC_MINIMUM: return True
+		if self.truescore >= TRUESCORE_CC_CHAT_MINIMUM: return True
 
 		if SITE == 'rdrama.net' and self.id == 5237: return True
 
