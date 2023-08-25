@@ -189,7 +189,7 @@ def process_image(filename, v, resize=0, trim=False, uploader_id=None, db=None):
 
 	try:
 		with Image.open(filename) as i:
-			if size > max_size:
+			if not resize and size > max_size:
 				ratio = max_size / size
 				resize = i.width * ratio
 
