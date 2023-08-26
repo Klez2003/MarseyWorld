@@ -296,7 +296,10 @@ def sign_up_post(v):
 
 		x = requests.post(url, data=data, timeout=5)
 
-		if not x.json().get("success"):
+		try:
+			if not x.json().get("success"):
+				return signup_error("Unable to verify captcha [2].")
+		except:
 			return signup_error("Unable to verify captcha [2].")
 
 	session.pop("signup_token")
