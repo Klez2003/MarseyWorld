@@ -204,6 +204,7 @@ if SITE_NAME == 'rDrama':
 	)
 
 	RDRAMA_SLURS = {
+		"linux": "GNU/Linux",
 		"retarded": "r-slurred",
 		"retard": "r-slur",
 		"pedophile": "p-dophile",
