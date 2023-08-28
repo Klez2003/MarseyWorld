@@ -297,17 +297,10 @@ PROFANITIES = {
 	'(?<![a-z])hell(?![a-z])': 'heck',
 	'(?<![a-z])sex(?![a-z])': 'intercourse',
 	'(?<![a-z])cum(?![a-z])': 'c*m',
-	'orgasm': 'sexual climax',
 	'(?<![a-z])dick': 'peepee',
 	'cock(?![a-z])': 'peepee',
 	'cocks': 'peepees',
 	'penis': 'peepee',
-	'pussy': 'girl peepee',
-	'pussies': 'girl peepees',
-	'vagina(?![a-z])': 'girl peepee',
-	'vaginas': 'girl peepees',
-	'cunt': 'girl peepee',
-	'twat': 'girl peepee',
 }
 
 PROFANITIES_FOR_REPLACING = {}
