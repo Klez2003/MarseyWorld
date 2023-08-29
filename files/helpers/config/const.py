@@ -732,7 +732,6 @@ if SITE == 'rdrama.net':
 		'homocracy': 147,
 		'donger': 541,
 		'geese': 1710,
-		'soren': 2546,
 		'marseyismywaifu': 3377,
 		'mimw': 3377,
 		'heymoon': 3635,
