@@ -68,6 +68,7 @@ function toggleReplyBox(t, id) {
 		if (ta.value && !ta.value.endsWith('\n')) ta.value += '\n'
 		ta.value += text
 		if (!ta.value.endsWith('\n')) ta.value += '\n'
+		markdown(ta);
 	}
 	ta.focus()
 
