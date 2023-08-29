@@ -126,7 +126,7 @@ class Post(Base):
 		link = f"/post/{self.id}"
 		if self.sub: link = f"/h/{self.sub}{link}"
 
-		if self.sub and self.sub in {'chudrama', 'countryclub'}:
+		if self.sub and self.sub in {'chudrama', 'countryclub', 'highrollerclub'}:
 			output = '-'
 		else:
 			title = self.plaintitle(None).lower()
