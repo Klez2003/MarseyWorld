@@ -86,6 +86,7 @@ def allowed_attributes(tag, name, value):
 		if name in {'alt','title'}: return True
 		if name == 'class' and value == 'img': return True
 		if name == 'data-user-submitted' and not value: return True
+		if name == 'data-kind' and value in EMOJI_KINDS: return True
 
 	if tag == 'lite-youtube':
 		if name == 'params' and value.startswith('autoplay=1&modestbranding=1'): return True
@@ -341,6 +342,10 @@ def old_render_emoji(html, regexp, golden, emojis_used, b=False, is_title=False)
 
 		if(is_loved):
 			modifier_html = f'{modifier_html}{loved_html}'
+
+		kind = g.db.query(Emoji.kind).filter(Emoji.name==emoji).one_or_none()
+		if kind:
+			attrs += ' data-kind="' + kind[0].replace('"', '') + '"'
 
 		if (is_patted and emoji != 'marseyunpettable') or is_talking or is_genocided or is_loved:
 			if path.isfile(f"files/assets/images/emojis/{emoji}.webp"):
