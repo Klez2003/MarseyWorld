@@ -95,7 +95,7 @@ def allowed_attributes(tag, name, value):
 		if name == 'preload' and value == 'none': return True
 
 	if tag == 'p':
-		if name == 'class' and value in {'mb-0','resizable','text-center'}: return True
+		if name == 'class' and value in {'mb-0','resizable','yt','text-center'}: return True
 
 	if tag == 'span':
 		if name == 'data-bs-toggle' and value == 'tooltip': return True
@@ -650,6 +650,8 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 
 		html = handle_youtube_links(i.group(1))
 		if html:
+			if not chat:
+				html = f'<p class="resizable yt">{html}</p>'
 			sanitized = sanitized.replace(i.group(0), html)
 
 	if '<pre>' not in sanitized and blackjack != "rules":

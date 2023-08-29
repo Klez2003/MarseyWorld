@@ -110,7 +110,9 @@
 									<script defer src="{{'js/vendor/twitter.js' | asset}}"></script>
 								{% endif %}
 							{% elif p.domain in ['youtu.be','youtube.com'] and p.embed and p.embed.startswith('<lite-youtube') %}
-								{{p.embed | safe}}
+								<p class="resizable yt">
+									{{p.embed | safe}}
+								</p>
 							{% endif %}
 						{% endif %}
 

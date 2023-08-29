@@ -74,12 +74,6 @@
 {% block mobileUserBanner %}{% endblock %}
 <div class="container">
 	<div class="row justify-content-around" id="main-content-row">
-		{% block sidebar %}
-			{% if has_sidebar and (home or p) %}
-				{% set sidebar = "sidebar_" ~ SITE_NAME ~ ".html" %}
-				{% include sidebar %}
-			{% endif %}
-		{% endblock %}
 		<div class="order-first col h-100 {% block customPadding %}{% if request.path.startswith('/@') %}user-gutters{% else %}custom-gutters{% endif %}{% endblock %}" id="main-content-col">
 			{% block desktopUserBanner %}{% endblock %}
 			{% block desktopBanner %}{% endblock %}
@@ -88,6 +82,12 @@
 			{% block content %}{% endblock %}
 			{% block pagenav %}{% endblock %}
 		</div>
+		{% block sidebar %}
+			{% if has_sidebar and (home or p) %}
+				{% set sidebar = "sidebar_" ~ SITE_NAME ~ ".html" %}
+				{% include sidebar %}
+			{% endif %}
+		{% endblock %}
 	</div>
 </div>
 {% block mobilenavbar %}{% include "mobile_navigation_bar.html" %}{% endblock %}
