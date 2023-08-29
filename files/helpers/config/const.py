@@ -240,7 +240,7 @@ if SITE_NAME == 'rDrama':
 		"(?<!cow) tools(?![a-z])": " cow tools",
 		"explain": "mansplain",
 		'nigga': 'neighbor',
-		'(?<![a-z])cat(?![a-z])': 'marsey',
+		'(?<![a-z.])cat(?![a-z])': 'marsey',
 		'(?<![a-z])cats(?![a-z])': 'marseys',
 		'hello': 'hecko',
 		'ryan gosling': 'literally me',
