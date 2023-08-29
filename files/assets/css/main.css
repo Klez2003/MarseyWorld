@@ -5517,14 +5517,16 @@ input[type=radio] ~ .custom-control-label::before {
 	height: 150px;
 	width: 150px;
 }
-.emj, .emoji, .bigemoji, .emoji-md, .emoji-lg, img[alt^=":"]
-{
+.emj, .emoji, .bigemoji, .emoji-md, .emoji-lg, img[alt^=":"] {
 	max-width: 150px !important;
 	max-height: 150px !important;
 	max-width: min(150px,25vw) !important;
 	max-height: min(150px,25vw) !important;
 	display: inline-block;
 	object-fit: contain;
+}
+.emoji, .emoji-lg, img[data-kind=Classic] {
+	image-rendering: pixelated;
 }
 
 span[data-bs-toggle], .pat-preview {
