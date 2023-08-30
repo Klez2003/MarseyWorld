@@ -297,7 +297,7 @@ def submit_contact(v):
 		if AEVANN_ID in admin_ids:
 			admin_ids.remove(AEVANN_ID)
 		if 'delete' in new_comment.body.lower() and 'account' in new_comment.body.lower():
-			admin_ids = [GTIX_ID]
+			admin_ids.remove(15447)
 
 	for admin_id in admin_ids:
 		notif = Notification(comment_id=new_comment.id, user_id=admin_id)
