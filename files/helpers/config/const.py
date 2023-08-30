@@ -49,7 +49,7 @@ class Service(Enum):
 	CHAT = auto()
 
 DEFAULT_RATELIMIT = "30/minute;200/hour;1000/day"
-CASINO_RATELIMIT = "100/minute;2000/hour;20000/day"
+CASINO_RATELIMIT = "100/minute;5000/hour;20000/day"
 
 PUSH_NOTIF_LIMIT = 1000
 
