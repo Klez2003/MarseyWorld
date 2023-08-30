@@ -371,7 +371,7 @@ AWARDS = {
 		"deflectable": True,
 		"cosmetic": False,
 		"ghost": False,
-		"enabled": SITE_NAME != 'rDrama',
+		"enabled": not FEATURES['HOUSES'],
 	},
 	"sharpen": {
 		"kind": "sharpen",
@@ -383,7 +383,7 @@ AWARDS = {
 		"deflectable": True,
 		"cosmetic": False,
 		"ghost": False,
-		"enabled": SITE_NAME != 'rDrama',
+		"enabled": not FEATURES['HOUSES'],
 	},
 	"shit": {
 		"kind": "shit",
@@ -515,7 +515,7 @@ AWARDS = {
 		"deflectable": True,
 		"cosmetic": False,
 		"ghost": False,
-		"enabled": SITE_NAME != 'rDrama',
+		"enabled": not FEATURES['HOUSES'],
 	},
 	"flairlock": {
 		"kind": "flairlock",
