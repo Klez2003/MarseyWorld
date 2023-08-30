@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 .visited img {
-	opacity: 0.5;
+	opacity: 0.6;
 }
 
 .fa-align-left:before{content:"\f036"}
