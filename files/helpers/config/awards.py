@@ -340,7 +340,7 @@ AWARDS = {
 	"beano": {
 		"kind": "beano",
 		"title": "Beano",
-		"description": "Award it to yourself to stop fart noises on the site.",
+		"description": "Makes the recipient not hear fart noises on the site.",
 		"icon": "fas fa-gas-pump-slash",
 		"color": "text-green",
 		"price": 100,
