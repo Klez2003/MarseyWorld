@@ -1336,8 +1336,7 @@ class User(Base):
 	@property
 	@lazy
 	def ordered_badges(self):
-		x = sorted(self.badges, key=badge_ordering_func)
-		return x
+		return sorted(self.badges, key=badge_ordering_func)
 
 	@lazy
 	def rendered_sig(self, v):
