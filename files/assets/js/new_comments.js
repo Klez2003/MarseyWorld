@@ -8,7 +8,8 @@ for (let twoattrs of document.getElementsByClassName("twoattrs")) {
 	pcc = twoattrs[1]
 	const lastCount = comments[pid]
 	if (lastCount) {
-		document.getElementById(`${pid}-title`).classList.add('visited')
+		const title = document.getElementById(`${pid}-title`)
+		if (title) title.classList.add('visited')
 		const newComments = pcc - lastCount.c
 		if (newComments > 0) {
 			const elems = document.getElementsByClassName(`${pid}-new-comments`)
