@@ -7082,6 +7082,17 @@ div.markdown {
 	max-width: 85vw !important;
 }
 
+@media (max-width: 768px) {
+	.resizable {
+		max-width: 100vw !important;
+	}
+	.resizable > * {
+		height: 100% !important;
+		width: 100% !important;
+		max-width: 100vw !important;
+	}	
+}
+
 .user-signature video {
 	max-height: min(var(--signature-max-height),50vh) !important;
 }
