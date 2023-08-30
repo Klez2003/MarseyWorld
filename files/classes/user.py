@@ -1134,7 +1134,7 @@ class User(Base):
 				if request.headers.get("Cf-Ipcountry") == 'NZ':
 					if 'christchurch' in other.title.lower():
 						return False
-					if SITE == 'watchpeopledie.tv' and other.id == 5:
+					if SITE == 'watchpeopledie.tv' and other.id in {5, 17212, 22653, 23814}:
 						return False
 			else:
 				if hasattr(other, 'is_blocking') and other.is_blocking and not request.path.endswith(f'/{other.id}'):
