@@ -887,11 +887,11 @@ def settings_song_change(v):
 	return redirect("/settings/personal?msg=Profile Anthem successfully updated. Wait 5 minutes for the change to take effect.")
 
 
-def process_settings_plaintext(value, current, length):
+def process_settings_plaintext(value, current, length, default_value):
 	value = request.values.get(value, "").strip()
 
 	if not value:
-		abort(400, "You didn't enter anything!")
+		return default_value
 
 	if len(value) > 100:
 		abort(400, "The value you entered exceeds the character limit (100 characters)")
@@ -911,13 +911,16 @@ def process_settings_plaintext(value, current, length):
 def settings_title_change(v):
 	if v.flairchanged: abort(403)
 
-	customtitleplain = process_settings_plaintext("title", v.customtitleplain, 100)
+	customtitleplain = process_settings_plaintext("title", v.customtitleplain, 100, None)
 
-	customtitle = filter_emojis_only(customtitleplain)
-	customtitle = censor_slurs(customtitle, None)
+	if customtitleplain:
+		customtitle = filter_emojis_only(customtitleplain)
+		customtitle = censor_slurs(customtitle, None)
 
-	if len(customtitle) > 1000:
-		abort(400, "Flair too long!")
+		if len(customtitle) > 1000:
+			abort(400, "Flair too long!")
+	else:
+		customtitle = None
 
 	v.customtitleplain = customtitleplain
 	v.customtitle = customtitle
@@ -934,7 +937,7 @@ def settings_title_change(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def settings_pronouns_change(v):
-	pronouns = process_settings_plaintext("pronouns", v.pronouns, 15)
+	pronouns = process_settings_plaintext("pronouns", v.pronouns, 15, "they/them")
 
 	if not pronouns_regex.fullmatch(pronouns):
 		abort(400, "The pronouns you entered don't match the required format!")
@@ -959,6 +962,6 @@ def settings_checkmark_text(v):
 	if not v.verified:
 		abort(403, "You don't have a checkmark to edit its hover text!")
 
-	v.verified = process_settings_plaintext("checkmark-text", v.verified, 100)
+	v.verified = process_settings_plaintext("checkmark-text", v.verified, 100, "Verified")
 	g.db.add(v)
 	return {"message": "Checkmark Text successfully updated!"}
