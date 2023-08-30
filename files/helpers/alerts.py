@@ -208,7 +208,7 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None, followers_pi
 	if SITE == 'rdrama.net' and v.id in {256, 9287, 10489, 18701}:
 		notify_users.discard(AEVANN_ID)
 
-	if len(notify_users) > 400:
+	if len(notify_users) > 400 and not v.admin_level >= PERMS['POST_COMMENT_INFINITE_PINGS']:
 		abort(403, "You can only notify a maximum of 400 users.")
 
 	return notify_users - BOT_IDs - {v.id, 0} - v.all_twoway_blocks
