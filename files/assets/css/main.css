@@ -1,5 +1,9 @@
 @charset "UTF-8";
 
+.visited img {
+	opacity: 0.5;
+}
+
 .fa-align-left:before{content:"\f036"}
 .fa-long-arrow-left:before{content:"\f177"}
 .fa-arrow-right:before{content:"\f061"}
