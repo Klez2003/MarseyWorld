@@ -292,8 +292,12 @@ def submit_contact(v):
 	new_comment.top_comment_id = new_comment.id
 
 	admin_ids = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_MODMAIL'])]
-	if SITE == 'watchpeopledie.tv' and AEVANN_ID in admin_ids:
-		admin_ids.remove(AEVANN_ID)
+
+	if SITE == 'watchpeopledie.tv':
+		if AEVANN_ID in admin_ids:
+			admin_ids.remove(AEVANN_ID)
+		if 'delete' in new_comment.body.lower() and 'account' in new_comment.body.lower():
+			admin_ids = [GTIX_ID]
 
 	for admin_id in admin_ids:
 		notif = Notification(comment_id=new_comment.id, user_id=admin_id)
