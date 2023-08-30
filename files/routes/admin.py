@@ -913,7 +913,7 @@ def admin_title_change(user_id, v):
 
 	new_name = request.values.get("title")[:256].strip()
 
-	user.customtitleplain=new_name
+	user.customtitleplain = new_name
 	new_name = filter_emojis_only(new_name)
 	new_name = censor_slurs(new_name, None)
 
