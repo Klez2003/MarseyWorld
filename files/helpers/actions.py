@@ -376,7 +376,8 @@ def tempban_for_spam(v):
 
 
 def execute_antispam_post_check(title, v, url):
-	if v.admin_level: return True
+	if v.admin_level >= PERMS['SITE_BYPASS_ANTISPAM_CHECKS']:
+		return True
 
 	now = int(time.time())
 	cutoff = now - 60 * 60 * 24
@@ -418,15 +419,16 @@ def execute_antispam_post_check(title, v, url):
 	return True
 
 def execute_antispam_duplicate_comment_check(v, body_html):
-	if v.admin_level: return
+	if v.admin_level >= PERMS['SITE_BYPASS_ANTISPAM_CHECKS']:
+		return
+	if v.id in ANTISPAM_BYPASS_IDS:
+		return
+	if v.age >= NOTIFICATION_SPAM_AGE_THRESHOLD:
+		return
+	if len(body_html) < 16:
+		return
 
-	'''
-	Sanity check for newfriends
-	'''
 	ANTISPAM_DUPLICATE_THRESHOLD = 3
-	if v.id in ANTISPAM_BYPASS_IDS or v.admin_level: return
-	if v.age >= NOTIFICATION_SPAM_AGE_THRESHOLD: return
-	if len(body_html) < 16: return
 	compare_time = int(time.time()) - 60 * 60 * 24
 	count = g.db.query(Comment.id).filter(Comment.body_html == body_html,
 										  Comment.created_utc >= compare_time).count()
@@ -438,7 +440,8 @@ def execute_antispam_duplicate_comment_check(v, body_html):
 	abort(403, "Too much spam!")
 
 def execute_antispam_comment_check(body, v):
-	if v.admin_level: return
+	if v.admin_level >= PERMS['SITE_BYPASS_ANTISPAM_CHECKS']:
+		return
 
 	if v.id in ANTISPAM_BYPASS_IDS: return
 	if len(body) <= COMMENT_SPAM_LENGTH_THRESHOLD: return

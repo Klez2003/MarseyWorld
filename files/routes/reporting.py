@@ -200,7 +200,7 @@ def move_post(post, v, reason):
 		sub_to_str = 'main feed' if sub_to is None else \
 			f'<a href="/h/{sub_to}">/h/{sub_to}</a>'
 
-		if v.admin_level:
+		if v.admin_level >= PERMS['POST_COMMENT_MODERATION']:
 			ma = ModAction(
 				kind='move_hole',
 				user_id=v.id,

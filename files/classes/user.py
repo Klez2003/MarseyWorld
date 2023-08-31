@@ -273,9 +273,12 @@ class User(Base):
 	@property
 	@lazy
 	def allowed_in_chat(self):
-		if self.admin_level: return True
-		if self.truescore >= TRUESCORE_CC_CHAT_MINIMUM: return True
-		if self.patron: return True
+		if self.admin_level >= PERMS['SITE_BYPASS_CHAT_TRUESCORE_REQUIREMENT']:
+			return True
+		if self.truescore >= TRUESCORE_CC_CHAT_MINIMUM:
+			return True
+		if self.patron:
+			return True
 		return False
 
 	@property
@@ -787,7 +790,7 @@ class User(Base):
 		if self.id == AEVANN_ID and SITE_NAME != 'rDrama':
 			return 0
 
-		if self.admin_level:
+		if self.admin_level >= PERMS['NOTIFICATIONS_MODERATOR_ACTIONS']:
 			q = g.db.query(ModAction).filter(
 				ModAction.created_utc > self.last_viewed_log_notifs,
 				ModAction.user_id != self.id,

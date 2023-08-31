@@ -127,7 +127,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 	elif cls == Post and (any(i in target.title.lower() for i in ENCOURAGED) or any(i in str(target.url).lower() for i in ENCOURAGED2)):
 		mul = PROGSTACK_MUL
 		send_notification(AEVANN_ID, target.permalink)
-	elif target.author.progressivestack or (target.author.admin_level and target.author.id != SCHIZO_ID):
+	elif target.author.progressivestack or target.author.admin_level >= PERMS['IS_PERMA_PROGSTACKED']:
 		mul = 2
 	elif SITE == 'rdrama.net' and cls == Post:
 		if (target.domain.endswith('.win')
