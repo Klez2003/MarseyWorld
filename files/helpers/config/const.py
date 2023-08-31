@@ -714,6 +714,7 @@ if SITE == 'rdrama.net':
 		'august': 1830,
 		'marco': 152,
 		'klen': 2050,
+		'gaslight': 18121,
 	}
 
 	ANTISPAM_BYPASS_IDS = {1703, 13427, 15014}
