@@ -77,7 +77,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 	elif new != 0:
 		imlazy = 3
 
-		real = new == -1 or (not alt and v.has_real_votes)
+		real = new == -1 and not alt and v.has_real_votes
 		vote = None
 		if vote_cls == Vote:
 			vote = Vote(user_id=v.id,
