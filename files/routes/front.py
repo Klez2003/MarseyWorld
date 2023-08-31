@@ -164,12 +164,6 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 		pins = pins.order_by(Post.created_utc.desc()).all()
 		posts = pins + posts
 
-	if v and (time.time() - v.created_utc) > (364 * 86400):
-		badge_grant(user=v, badge_id=134)
-
-	if v and (time.time() - v.created_utc) > (729 * 86400):
-		badge_grant(user=v, badge_id=237)
-
 	if ids_only: posts = [x.id for x in posts]
 	return posts, total, size
 

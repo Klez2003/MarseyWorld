@@ -5,6 +5,7 @@ from shutil import make_archive
 from hashlib import md5
 from collections import Counter
 from sqlalchemy.orm import load_only, InstrumentedAttribute
+from sqlalchemy.sql import text
 
 import click
 import requests
@@ -16,7 +17,7 @@ import files.routes.static as route_static
 from files.routes.front import frontlist
 from files.__main__ import cache
 from files.classes import *
-from files.helpers.alerts import send_repeatable_notification
+from files.helpers.alerts import send_repeatable_notification, notif_comment
 from files.helpers.config.const import *
 from files.helpers.get import *
 from files.helpers.lottery import check_if_end_lottery_task
@@ -40,6 +41,8 @@ def cron_fn(every_5m, every_1d):
 				#offsitementions.offsite_mentions_task(cache)
 				_award_timers_task()
 				_unpin_expired()
+				_grant_one_year_badges()
+				_grant_two_year_badges()
 
 			if every_1d:
 				_generate_emojis_zip()
@@ -54,6 +57,7 @@ def cron_fn(every_5m, every_1d):
 				stats.generate_charts_task(SITE)
 
 				cache.set('stats', stats.stats(), timeout=CRON_CACHE_TIMEOUT)
+
 			g.db.commit()
 		except:
 			print(traceback.format_exc(), flush=True)
@@ -68,6 +72,36 @@ def cron_fn(every_5m, every_1d):
 @click.option('--every-1d', is_flag=True, help='Call every 1 day.')
 def cron(every_5m, every_1d):
 	cron_fn(every_5m, every_1d)
+
+def _grant_one_year_badges():
+	one_year_ago = int(time.time()) - 364 * 86400
+
+	notif_text = f"@AutoJanny has given you the following profile badge:\n\n{SITE_FULL_IMAGES}/i/{SITE_NAME}/badges/134.webp\n\n**1 Year Old 🥰**\n\nThis user has wasted an ENTIRE YEAR of their life here! Happy birthday!"
+	cid = notif_comment(notif_text)
+	_notif_query = text(f"""insert into notifications
+	select id, {cid}, false, extract(epoch from now())
+	from users where created_utc < {one_year_ago} and id not in (select user_id from badges where badge_id=134);""")
+	g.db.execute(_notif_query)
+
+	_badge_query = text(f"""insert into badges
+	select 134, id, null, null, extract(epoch from now())
+	from users where created_utc < {one_year_ago} and id not in (select user_id from badges where badge_id=134);""")
+	g.db.execute(_badge_query)
+
+def _grant_two_year_badges():
+	two_years_ago = int(time.time()) - 729 * 86400
+
+	notif_text = f"@AutoJanny has given you the following profile badge:\n\n{SITE_FULL_IMAGES}/i/{SITE_NAME}/badges/237.webp\n\n**2 Years Old 🥰🥰**\n\nThis user has wasted TWO WHOLE BUTT YEARS of their life here! Happy birthday!"
+	cid = notif_comment(notif_text)
+	_notif_query = text(f"""insert into notifications
+	select id, {cid}, false, extract(epoch from now())
+	from users where created_utc < {two_years_ago} and id not in (select user_id from badges where badge_id=237);""")
+	g.db.execute(_notif_query)
+
+	_badge_query = text(f"""insert into badges
+	select 237, id, null, null, extract(epoch from now())
+	from users where created_utc < {two_years_ago} and id not in (select user_id from badges where badge_id=237);""")
+	g.db.execute(_badge_query)
 
 def _sub_inactive_purge_task():
 	if not HOLE_INACTIVITY_DELETION:
