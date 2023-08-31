@@ -770,7 +770,10 @@ def normalize_url(url):
 	url = giphy_regex.sub(r'\1.webp', url)
 
 	if not url.startswith('/') and not url.startswith('https://rdrama.net') and not url.startswith('https://watchpeopledie.tv'):
-		parsed_url = urlparse(url)
+		try: parsed_url = urlparse(url)
+		except:
+			print(url, flush=True)
+			abort(500)
 		domain = parsed_url.netloc
 		qd = parse_qs(parsed_url.query, keep_blank_values=True)
 		filtered = {k: val for k, val in qd.items() if is_whitelisted(domain, k)}
