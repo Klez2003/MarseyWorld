@@ -1,6 +1,6 @@
 @charset "UTF-8";
 
-.visited img {
+.visited > img {
 	opacity: 0.6;
 }
 
