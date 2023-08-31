@@ -174,7 +174,7 @@ def comment(v):
 
 	if not body and not request.files.get('file'): abort(400, "You need to actually write something!")
 
-	if not v.admin_level >= PERMS['POST_COMMENT_MODERATION'] and parent_user.any_block_exists(v):
+	if v.admin_level < PERMS['POST_COMMENT_MODERATION'] and parent_user.any_block_exists(v):
 		abort(403, "You can't reply to users who have blocked you or users that you have blocked!")
 
 	if request.files.get("file") and not g.is_tor:
@@ -591,7 +591,7 @@ def diff_words(answer, guess):
 def toggle_comment_nsfw(cid, v):
 	comment = get_comment(cid)
 
-	if comment.author_id != v.id and not v.admin_level >= PERMS['POST_COMMENT_MODERATION'] and not (comment.post.sub and v.mods(comment.post.sub)):
+	if comment.author_id != v.id and v.admin_level < PERMS['POST_COMMENT_MODERATION'] and not (comment.post.sub and v.mods(comment.post.sub)):
 		abort(403)
 
 	if comment.over_18 and v.is_permabanned:

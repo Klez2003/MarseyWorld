@@ -747,7 +747,7 @@ def undelete_post_pid(pid, v):
 def mark_post_nsfw(pid, v):
 	p = get_post(pid)
 
-	if p.author_id != v.id and not v.admin_level >= PERMS['POST_COMMENT_MODERATION'] and not (p.sub and v.mods(p.sub)):
+	if p.author_id != v.id and v.admin_level < PERMS['POST_COMMENT_MODERATION'] and not (p.sub and v.mods(p.sub)):
 		abort(403)
 
 	if p.over_18 and v.is_permabanned:
@@ -786,7 +786,7 @@ def mark_post_nsfw(pid, v):
 def unmark_post_nsfw(pid, v):
 	p = get_post(pid)
 
-	if p.author_id != v.id and not v.admin_level >= PERMS['POST_COMMENT_MODERATION'] and not (p.sub and v.mods(p.sub)):
+	if p.author_id != v.id and v.admin_level < PERMS['POST_COMMENT_MODERATION'] and not (p.sub and v.mods(p.sub)):
 		abort(403)
 
 	if p.over_18 and v.is_permabanned:

@@ -1043,7 +1043,7 @@ class User(Base):
 			raise TypeError("Relationships supported is SaveRelationship, Subscription, CommentSaveRelationship")
 
 		query = g.db.query(query).join(join).filter(relationship_cls.user_id == self.id)
-		if not self.admin_level >= PERMS['POST_COMMENT_MODERATION']:
+		if self.admin_level < PERMS['POST_COMMENT_MODERATION']:
 			query = query.filter(cls.is_banned == False, cls.deleted_utc == 0)
 		return query.count()
 

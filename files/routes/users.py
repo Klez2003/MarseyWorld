@@ -1293,7 +1293,7 @@ def get_saves_and_subscribes(v, template, relationship_cls, page, standalone=Fal
 	ids = [x[0] for x in listing]
 
 	extra = None
-	if not v.admin_level >= PERMS['POST_COMMENT_MODERATION']:
+	if v.admin_level < PERMS['POST_COMMENT_MODERATION']:
 		extra = lambda q:q.filter(cls.is_banned == False, cls.deleted_utc == 0)
 
 	if cls is Post:
