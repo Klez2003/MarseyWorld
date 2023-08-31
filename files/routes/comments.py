@@ -174,9 +174,6 @@ def comment(v):
 
 	if not body and not request.files.get('file'): abort(400, "You need to actually write something!")
 
-	if v.admin_level < PERMS['POST_COMMENT_MODERATION'] and parent_user.any_block_exists(v):
-		abort(403, "You can't reply to users who have blocked you or users that you have blocked!")
-
 	if request.files.get("file") and not g.is_tor:
 		files = request.files.getlist('file')[:20]
 
