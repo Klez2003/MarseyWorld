@@ -4539,7 +4539,6 @@ small, .small {
 	margin-bottom: 1rem;
 	color: var(--black);
 	overflow: hidden;
-	padding-right: 10px !important;
 	padding-top: 10px !important;
 }
 .modal .comment-actions .list-group-item {
