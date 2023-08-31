@@ -6,6 +6,8 @@ from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
 
+from files.helpers.lazy import lazy
+
 class Orgy(Base):
 	__tablename__ = "orgies"
 
@@ -20,6 +22,14 @@ class Orgy(Base):
 
 	def __repr__(self):
 		return f"<{self.__class__.__name__}(type={self.type}, data={self.data} title={self.title})>"
+
+	@property
+	@lazy
+	def real_created_utc(self):
+		t = self.created_utc
+		if int(time.time()) - t > 3000:
+			t += 303
+		return t
 
 def get_orgy():
 	return g.db.query(Orgy).one_or_none()

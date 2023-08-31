@@ -21,9 +21,10 @@
 						<iframe src="https://player.twitch.tv/?channel={{orgy.data}}&parent={{site}}" frameborder="0" allowfullscreen></iframe>
 					{% elif orgy.type == 'file' %}
 						<meta name="referrer" content="strict-origin-when-cross-origin">
-						<video id="orgy-file" data-created_utc="{{orgy.created_utc}}" controls preload="none" src="http://localhost/assets/3.mp4">
+						<video id="orgy-file" data-created_utc="{{orgy.real_created_utc}}" controls preload="none" src="http://localhost/assets/3.mp4">
 							<track label="English" kind="subtitles" srclang="en" src="/assets/3.vtt" default>						
 						</video>
+						<video id="break-file" class="d-none" controls preload="none" src="/assets/break.mp4" data-run="0"></video>
 						<script defer src="{{'js/orgy_file.js' | asset}}"></script>
 					{% endif %}
 				</p>

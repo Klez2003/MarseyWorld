@@ -1,4 +1,5 @@
 const orgy_file = document.getElementById('orgy-file');
+const break_file = document.getElementById('break-file');
 
 addEventListener("load", () => {
 	orgy_file.play()
@@ -20,3 +21,20 @@ add_playing_listener()
 orgy_file.addEventListener('pause', () => {
 	add_playing_listener()
 })
+
+orgy_file.addEventListener("timeupdate", function(){
+    if (break_file.dataset.run == "0" && parseInt(orgy_file.currentTime) == 3000) {
+		break_file.dataset.run = "1"
+        orgy_file.pause();
+		orgy_file.classList.add('d-none');
+		break_file.classList.remove('d-none');
+		break_file.play()
+		setTimeout(function () {
+			break_file.pause()
+			break_file.classList.add('d-none');
+			orgy_file.classList.remove('d-none');
+			orgy_file.dataset.created_utc = parseInt(orgy_file.dataset.created_utc) + 303
+			orgy_file.play()
+		}, 300000);
+    }
+});
