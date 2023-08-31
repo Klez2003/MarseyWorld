@@ -561,12 +561,6 @@ class User(Base):
 	def has_blocked(self, target):
 		return g.db.query(UserBlock).filter_by(user_id=self.id, target_id=target.id).one_or_none()
 
-	@lazy
-	def any_block_exists(self, other):
-		return g.db.query(UserBlock).filter(
-			or_(and_(UserBlock.user_id == self.id, UserBlock.target_id == other.id), and_(
-				UserBlock.user_id == other.id, UserBlock.target_id == self.id))).first()
-
 	@property
 	@lazy
 	def all_twoway_blocks(self):
