@@ -376,7 +376,7 @@ def tempban_for_spam(v):
 
 
 def execute_antispam_post_check(title, v, url):
-	if v.admin_level >= PERMS['SITE_BYPASS_ANTISPAM_CHECKS']:
+	if v.admin_level >= PERMS['BYPASS_ANTISPAM_CHECKS']:
 		return True
 
 	now = int(time.time())
@@ -419,7 +419,7 @@ def execute_antispam_post_check(title, v, url):
 	return True
 
 def execute_antispam_duplicate_comment_check(v, body_html):
-	if v.admin_level >= PERMS['SITE_BYPASS_ANTISPAM_CHECKS']:
+	if v.admin_level >= PERMS['BYPASS_ANTISPAM_CHECKS']:
 		return
 	if v.id in ANTISPAM_BYPASS_IDS:
 		return
@@ -440,7 +440,7 @@ def execute_antispam_duplicate_comment_check(v, body_html):
 	abort(403, "Too much spam!")
 
 def execute_antispam_comment_check(body, v):
-	if v.admin_level >= PERMS['SITE_BYPASS_ANTISPAM_CHECKS']:
+	if v.admin_level >= PERMS['BYPASS_ANTISPAM_CHECKS']:
 		return
 
 	if v.id in ANTISPAM_BYPASS_IDS: return
@@ -500,7 +500,7 @@ def execute_under_siege(v, target, body, kind):
 		if kind != 'post': return
 
 	if not get_setting("under_siege"): return
-	if v.admin_level >= PERMS['SITE_BYPASS_UNDER_SIEGE_MODE']: return
+	if v.admin_level >= PERMS['BYPASS_UNDER_SIEGE_MODE']: return
 
 	if kind in {'message', 'report'} and SITE == 'rdrama.net':
 		threshold = 86400

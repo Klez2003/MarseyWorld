@@ -273,7 +273,7 @@ class User(Base):
 	@property
 	@lazy
 	def allowed_in_chat(self):
-		if self.admin_level >= PERMS['SITE_BYPASS_CHAT_TRUESCORE_REQUIREMENT']:
+		if self.admin_level >= PERMS['BYPASS_CHAT_TRUESCORE_REQUIREMENT']:
 			return True
 		if self.truescore >= TRUESCORE_CC_CHAT_MINIMUM:
 			return True
