@@ -1064,6 +1064,7 @@ INSERT INTO public.hat_defs VALUES (1332, 'Mugshot Solid', 'Trump mugshot emblem
 INSERT INTO public.hat_defs VALUES (1327, 'beard', 'Showing off my MANLINESS.', 2, 500, NULL, 1692294921);
 INSERT INTO public.hat_defs VALUES (1325, 'Sutton Hoo helmet', 'A symbol of its owner''s power and prestige!', 2, 500, NULL, 1692294300);
 INSERT INTO public.hat_defs VALUES (1323, 'love hands', 'No matter what this user will always love you!', 2, 1000, NULL, 1692291028);
+
 INSERT INTO public.hat_defs VALUES (1322, 'Butthead', '"Eh, this website sucks, ehuhuh ehuhuh."', 2, 500, NULL, 1692085079);
 INSERT INTO public.hat_defs VALUES (1321, 'Beavis', '"GIVE ME TP FOR MY BUNGHOLE!"', 2, 500, NULL, 1692085009);
 INSERT INTO public.hat_defs VALUES (1320, 'The Master', '"So what shall it be? Do you join the Unity, or do you die here? Join! Die! Join! Die!"', 2, 500, NULL, 1691983112);
@@ -1107,7 +1108,7 @@ INSERT INTO public.hat_defs VALUES (1269, 'Rainbowfriends Hat', 'This user is sp
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1333, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1334, true);
 
 
 --
