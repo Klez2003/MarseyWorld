@@ -686,8 +686,8 @@ def submit_post(v, sub=None):
 @app.post("/delete/post/<int:pid>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@limiter.limit(DELETE_EDIT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DELETE_EDIT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def delete_post_pid(pid, v):
 	p = get_post(pid)
@@ -950,8 +950,8 @@ def get_post_title(v):
 @app.post("/edit_post/<int:pid>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit("10/minute;100/hour;200/day", deduct_when=lambda response: response.status_code < 400)
-@limiter.limit("10/minute;100/hour;200/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@limiter.limit(DELETE_EDIT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DELETE_EDIT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_permabanned
 def edit_post(pid, v):
 	p = get_post(pid)
