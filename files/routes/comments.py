@@ -172,11 +172,14 @@ def comment(v):
 		elif v.bird and len(body) > 140:
 			abort(403, "You have to type less than 140 characters!")
 
-	if not body and not request.files.get('file'): abort(400, "You need to actually write something!")
+	if not body and not request.files.get('file'):
+		abort(400, "You need to actually write something!")
+
+	if parent_user.has_blocked(v):
+		notify_op = False
 
 	if request.files.get("file") and not g.is_tor:
 		files = request.files.getlist('file')[:20]
-
 
 		if files:
 			media_ratelimit(v)
@@ -367,7 +370,7 @@ def comment(v):
 				n = Notification(comment_id=c.id, user_id=x)
 				g.db.add(n)
 
-			if parent_user.id != v.id:
+			if parent_user.id != v.id and notify_op:
 				if isinstance(parent, User):
 					title = f"New comment on your wall by @{c.author_name}"
 				else:
