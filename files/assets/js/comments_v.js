@@ -98,29 +98,33 @@ function toggleEdit(id){
 };
 
 
-function delete_commentModal(t, id) {
-	document.getElementById("deleteCommentButton").addEventListener('click', function() {
-		postToast(t, `/delete/comment/${id}`,
-			{
-			},
-			() => {
-				if (location.pathname == '/admin/reported/comments')
-				{
-					document.getElementById("post-info-"+id).remove()
-					document.getElementById("comment-"+id).remove()
-				}
-				else
-				{
-					document.getElementsByClassName(`comment-${id}-only`)[0].classList.add('deleted');
-					document.getElementById(`delete-${id}`).classList.add('d-none');
-					document.getElementById(`undelete-${id}`).classList.remove('d-none');
-					document.getElementById(`delete2-${id}`).classList.add('d-none');
-					document.getElementById(`undelete2-${id}`).classList.remove('d-none');
-				}
-			}
-		);
-	});
+const deleteCommentButton = document.getElementById("deleteCommentButton");
+
+function delete_commentModal(id) {
+	deleteCommentButton.dataset.id = id
 }
+
+deleteCommentButton.onclick = () => {
+	const id = deleteCommentButton.dataset.id
+	postToast(deleteCommentButton, `/delete/comment/${id}`,
+		{},
+		() => {
+			if (location.pathname == '/admin/reported/comments')
+			{
+				document.getElementById("post-info-"+id).remove()
+				document.getElementById("comment-"+id).remove()
+			}
+			else
+			{
+				document.getElementsByClassName(`comment-${id}-only`)[0].classList.add('deleted');
+				document.getElementById(`delete-${id}`).classList.add('d-none');
+				document.getElementById(`undelete-${id}`).classList.remove('d-none');
+				document.getElementById(`delete2-${id}`).classList.add('d-none');
+				document.getElementById(`undelete2-${id}`).classList.remove('d-none');
+			}
+		}
+	);
+};
 
 function post_reply(id) {
 	close_inline_speed_emoji_modal();

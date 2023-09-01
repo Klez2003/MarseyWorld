@@ -683,7 +683,7 @@ def submit_post(v, sub=None):
 		p.voted = 1
 		return {"post_id": p.id, "success": True}
 
-@app.post("/delete_post/<int:pid>")
+@app.post("/delete/post/<int:pid>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
