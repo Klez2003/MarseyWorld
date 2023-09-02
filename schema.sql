@@ -867,7 +867,7 @@ CREATE TABLE public.post_options (
 
 CREATE TABLE public.push_subscriptions (
     user_id integer NOT NULL,
-    subscription_json character varying(600) NOT NULL,
+    subscription_json character varying(700) NOT NULL,
     created_utc integer NOT NULL
 );
 
