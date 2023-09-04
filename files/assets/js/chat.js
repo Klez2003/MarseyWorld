@@ -226,7 +226,7 @@ function quote(t) {
 	ta.focus()
 }
 
-ta.addEventListener("keyup", function(e) {
+ta.addEventListener("keydown", function(e) {
 	if (e.key === 'Enter' && !current_word) {
 		e.preventDefault();
 		send();
