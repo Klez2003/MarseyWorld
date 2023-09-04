@@ -1,7 +1,7 @@
 {% extends "default.html" %}
 {% block pagetitle %}Users followed by @{{u.username}}{% endblock %}
 {% block content %}
-<h5 class="my-3">Users followed by @{{u.username}}</h5>
+<h5 class="my-3">Users followed by @{{u.username}} ({{users|length}} users)</h5>
 <div class="overflow-x-auto"><table class="table table-striped mb-5">
 <thead class="bg-primary text-white">
 	<tr>
