@@ -56,7 +56,7 @@
 								</div>
 							{% elif request.path.startswith('/search/posts') or request.path.startswith('/search/comments') %}
 								<div>
-									<div style="display: inline-block; width: 150px; text-align: center;">{{HOLE_NAME | capitalize }}:</div>
+									<div style="display: inline-block; width: 150px; text-align: center;">{{HOLE_NAME | capitalize}}:</div>
 									<button type="button" data-nonce="{{g.nonce}}" data-onclick="addParam(this)" class="searchparam mb-1">{{HOLE_NAME}}:music</button>
 								</div>
 								{% if request.path.startswith('/search/comments') %}

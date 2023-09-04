@@ -51,9 +51,14 @@ def get_alt_graph(uid):
 	return g.db.query(User).filter(User.id.in_(alt_ids)).order_by(User.username).all()
 
 def add_alt(user1, user2):
+	if session.get("GLOBAL"):
+		return
+
 	if AEVANN_ID in (user1, user2) or CARP_ID in (user1, user2):
 		return
 	li = [user1, user2]
+
+	g.db.flush()
 	existing = g.db.query(Alt).filter(Alt.user1.in_(li), Alt.user2.in_(li)).one_or_none()
 	if not existing:
 		new_alt = Alt(user1=user1, user2=user2)
@@ -63,6 +68,9 @@ def add_alt(user1, user2):
 		cache.delete_memoized(get_alt_graph_ids, user2)
 
 def check_for_alts(current, include_current_session=False):
+	if session.get("GLOBAL"):
+		return
+
 	current_id = current.id
 	ids = [x[0] for x in g.db.query(User.id)]
 	past_accs = set(session.get("history", [])) if include_current_session else set()

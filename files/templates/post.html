@@ -37,8 +37,8 @@
 				<div class="modal-body">
 					<ul class="list-group post-actions">
 						{% if v.id==p.author_id %}
-							<button type="button" class="nobackground btn btn-link btn-block btn-lg text-left text-muted" data-bs-dismiss="modal" data-nonce="{{g.nonce}}" data-onclick="togglePostEdit('{{p.id}}')"><i class="far fa-edit text-center text-muted mr-2"></i>Edit</button>
-						{% elif p.body and v.admin_level < PERMS['POST_EDITING']  %}
+							<button type="button" class="nobackground btn btn-link btn-block btn-lg text-left text-muted" data-bs-dismiss="modal" data-nonce="{{g.nonce}}" data-onclick="togglePostEdit('{{p.id}}')"><i class="fas fa-edit text-center text-muted mr-2"></i>Edit</button>
+						{% elif p.body and v.admin_level < PERMS['POST_COMMENT_EDITING'] %}
 							<button type="button" class="nobackground btn btn-link btn-block btn-lg text-left text-muted" data-bs-dismiss="modal" data-nonce="{{g.nonce}}" data-onclick="expandMarkdown('{{p.fullname}}')"><i class="fas text-expand-icon-{{p.fullname}} fa-expand-alt text-center mr-2"></i><span class="expand-text-{{p.fullname}}">View source</span></button>
 						{% endif %}
 
@@ -60,7 +60,7 @@
 
 <div class="row mb-3">
 
-	<div id="post-root" class="col-12 {% if p.award_count('tilt', v) %}tilt-post{% endif %}">
+	<div id="post-root" class="col-12">
 
 		<div class="card border-0 mt-3 {% if p.stickied %}stickied{% endif %} {% if voted==1 %}upvoted{% elif voted==-1 %} downvoted{% endif %}">
 			<div id="post-{{p.id}}" class="actual-post {% if p.ghost %}ghost-post{% endif %} {% if p.is_banned %}banned{% endif %} {% if p.deleted_utc %}deleted {% endif %} {% if p.award_count('glowie', v) %}glow{% endif %} d-flex flex-row-reverse flex-nowrap justify-content-end">
@@ -79,23 +79,21 @@
 
 					{{macros.reports(p, 'post')}}
 
-					{% if p.realurl(v) and not v_forbid_deleted %}
-						<h1 id="post-title" class="card-title post-title text-left mb-md-3 {% if p.chudded %}text-uppercase{% endif %}">
-								<a {% if p.author.rainbow %}class="rainbow-text"{% endif %} {%if p.author.queen%}queen{%endif%} {%if p.author.sharpen%}sharpen{%endif%} {% if not v or v.newtabexternal %}target="_blank"{% endif %} rel="nofollow noopener" href="{{p.realurl(v)}}">
+					<h1 id="post-title" class="card-title post-title text-left mb-md-3 {% if p.chudded %}text-uppercase{% endif %} {% if p.rainbowed %}rainbow-text{% endif %} {% if p.queened %}queen{% endif %} {% if p.sharpened %}sharpen{% endif %}">
+						{% if p.realurl(v) and not v_forbid_deleted %}
+							<a class="no-visited" {% if not v or v.newtabexternal %}target="_blank"{% endif %} rel="nofollow noopener" href="{{p.realurl(v)}}">
 								{% if p.flair %}<span class="patron font-weight-bolder mr-1" style="background-color:var(--primary); font-size:12px; line-height:2;">{{p.flair | safe}}</span>{% endif %}
 								{{p.realtitle(v) | safe}}
 							</a>
-						</h1>
-					{% else %}
-						<h1 id="post-title" class="card-title post-title text-left mb-md-3 {% if p.chudded %}text-uppercase{% endif %} {% if p.author.rainbow %}rainbow-text{% endif %} {%if p.author.queen%}queen{%endif%} {%if p.author.sharpen%}sharpen{%endif%}">
+						{% else %}
 							{% if p.flair %}<span class="patron font-weight-bolder mr-1" style="background-color:var(--primary); font-size:12px; line-height:2;">{{p.flair | safe}}</span>{% endif %}
 							{{p.realtitle(v) | safe}}
-						</h1>
-					{% endif %}
+						{% endif %}
+					</h1>
 
 					{% if not v_forbid_deleted %}
-					<div id="post-body" class="post-body mt-3">
-						{% if p.realurl(v) and not p.embed and not p.is_image and not p.is_video and not p.is_audio %}
+					<div id="post-body" class="post-body mt-3 {% if p.award_count('tilt', v) %}tilt-post{% endif %}">
+						{% if p.realurl(v) and not p.is_image and not p.is_video and not p.is_audio %}
 							<a rel="nofollow noopener" href="{{p.realurl(v)}}" {% if not v or v.newtabexternal %}target="_blank"{% endif %}>
 								<div class="d-flex justify-content-between align-items-center border rounded p-2 mb-3">
 									<span>{{p.realurl(v)}}</span>
@@ -112,12 +110,14 @@
 									<script defer src="{{'js/vendor/twitter.js' | asset}}"></script>
 								{% endif %}
 							{% elif p.domain in ['youtu.be','youtube.com'] and p.embed and p.embed.startswith('<lite-youtube') %}
-								{{p.embed | safe}}
+								<p class="resizable yt">
+									{{p.embed | safe}}
+								</p>
 							{% endif %}
 						{% endif %}
 
 
-						<div id="post-text" class="{% if p.chudded %}text-uppercase chud-img chud-{{p.id_last_num}}{% endif %} {% if p.author.rainbow %}rainbow-text{% endif %} {%if p.author.queen%}queen{%endif%} {%if p.author.sharpen%}sharpen chud-img sharpen-{{p.id_last_num}}{%endif%}">
+						<div id="post-text" class="{% if p.chudded %}text-uppercase chud-img chud-{{p.id_last_num}}{% endif %} {% if p.rainbowed %}rainbow-text{% endif %} {% if p.queened %}queen{% endif %} {% if p.sharpened %}sharpen chud-img sharpen-{{p.id_last_num}}{% endif %}">
 							{% if p.is_image %}
 								<div class="row no-gutters mb-4">
 									<div class="col">
@@ -144,7 +144,7 @@
 							{{p.realbody(v) | safe}}
 
 							{% if p.is_banned %}
-								<div class="text-removed mb-0">removed by @{{p.ban_reason}} (Site Admin)</div>
+								<div class="text-removed mb-0">Removed by @{{p.ban_reason}} (Site Admin)</div>
 							{% endif %}
 						</div>
 						{% if not p.ghost %}
@@ -167,15 +167,8 @@
 
 								<div class="text-small font-weight-bold mt-1" id="charcount-post-edit" style="right: 1rem; bottom: 0.5rem; z-index: 3;"></div>
 
-								<div class="comment-format">
-									<button type="button" class="format btn btn-secondary"><span class="font-weight-bolder text-uppercase" data-nonce="{{g.nonce}}" data-onclick="getGifs('post-edit-box-{{p.id}}')" data-bs-toggle="modal" data-bs-target="#gifModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add GIF">GIF</span></button>
+								{{macros.file_input('file-upload-edit-' ~ p.id, 'post-edit-box-' ~ p.id)}}
 
-									<button type="button" data-nonce="{{g.nonce}}" data-onclick="loadEmojis('post-edit-box-{{p.id}}')" class="format btn btn-secondary ml-2" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"><i class="fas fa-smile-beam"></i></button>
-
-									{{macros.file_input('file-upload-edit-' ~ p.id, False)}}
-
-									<small class="format d-none"><i class="fas fa-link"></i></small>
-								</div>
 								<a class="text-small mt-3 d-inline-block" href="/formatting" {% if v and v.newtab %}data-target="t" target="_blank"{% endif %}>Formatting help</a>
 								<button type="submit" form="post-edit-form-{{p.id}}" class="btn btn-primary ml-2 fl-r" data-nonce="{{g.nonce}}" data-onclick="remove_dialog()">Save Edit</button>
 								<button type="button" data-nonce="{{g.nonce}}" data-onclick="togglePostEdit('{{p.id}}');remove_dialog()" class="btn btn-link text-muted ml-auto fl-r">Cancel</button>
@@ -218,7 +211,7 @@
 					<div id="voting" class="voting d-mob-none mb-auto mt-1">
 						<div tabindex="0" data-nonce="{{g.nonce}}" data-onclick="vote('post', '{{p.id}}', '1')" class="post-{{p.id}}-up mx-auto arrow-up upvote-button post-{{p.id}}-up {% if voted==1 %}active{% endif %}"></div>
 
-						<span class="post-score-{{p.id}} score post-score-{{p.id}} {% if voted==1 %}score-up{% elif voted==-1%}score-down{% endif %}{% if p.controversial %} controversial{% endif %}" data-bs-toggle="tooltip" data-bs-placement="right" title="+{{ups}} | -{{downs}}" style="cursor: default">{{score}}</span>
+						<span class="post-score-{{p.id}} score post-score-{{p.id}} {% if voted==1 %}score-up{% elif voted==-1 %}score-down{% endif %}{% if p.controversial %} controversial{% endif %}" data-bs-toggle="tooltip" data-bs-placement="right" title="+{{ups}} | -{{downs}}" style="cursor: default">{{score}}</span>
 						<div {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" data-nonce="{{g.nonce}}" data-onclick="vote('post', '{{p.id}}', '-1')" class="post-{{p.id}}-down text-muted mx-auto arrow-down downvote-button post-{{p.id}}-down {% if voted==-1 %}active{% endif %}"></div>
 					</div>
 
@@ -269,7 +262,7 @@
 						</a>
 					{% endif %}
 
-					<span class="post-mobile-score-{{p.id}} score post-score-{{p.id}} {% if voted==1 %}score-up{% elif voted==-1%}score-down{% endif %}{% if p.controversial %} controversial{% endif %}" data-bs-toggle="tooltip" data-bs-placement="top" title="+{{ups}} | -{{downs}}" style="cursor: default">{{score}}</span>
+					<span class="post-mobile-score-{{p.id}} score post-score-{{p.id}} {% if voted==1 %}score-up{% elif voted==-1 %}score-down{% endif %}{% if p.controversial %} controversial{% endif %}" data-bs-toggle="tooltip" data-bs-placement="top" title="+{{ups}} | -{{downs}}" style="cursor: default">{{score}}</span>
 
 					{% if v %}
 						<span {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" data-nonce="{{g.nonce}}" data-onclick="vote('post-mobile', '{{p.id}}', '-1')" class="post-mobile-{{p.id}}-down mx-0 pl-1 my-0 arrow-down downvote-button post-{{p.id}}-down {% if voted==-1 %}active{% endif %}"></span>
@@ -284,7 +277,7 @@
 	</div>
 </div>
 
-{% if v and v.id != p.author_id and p.body and not v_forbid_deleted and v.admin_level < PERMS['POST_EDITING'] %}
+{% if v and v.id != p.author_id and p.body and not v_forbid_deleted and v.admin_level < PERMS['POST_COMMENT_EDITING'] %}
 	<div autocomplete="off" class="markdown d-none border my-2 p-3 rounded" id="markdown-{{p.fullname}}" readonly>{{p.body.strip()}}</div>
 {% endif %}
 
@@ -317,7 +310,7 @@
 	{{macros.comment_reply_box(p.fullname, 'comment-reply-' + p.fullname, subwrapper_css_classes='mb-3', enable_cancel_button=false)}}
 
 {% if comment_info %}
-	<div class="total mt-1"><a href="{{p.permalink}}">View entire discussion</a></div>
+	<div class="total mt-1"><a href="{{p.permalink}}">View entire discussion <i class="fas fa-long-arrow-right ml-1"></i></a></div>
 {% endif %}
 
 {% if p.replies %}
@@ -366,7 +359,7 @@
 	<script defer src="{{'js/fart.js' | asset}}"></script>
 {% endif %}
 
-{% if v and v.admin_level >= PERMS['POST_COMMENT_MODERATION']  %}
+{% if v and v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
 	<script defer src="{{'js/admin/post.js' | asset}}"></script>
 {% endif %}
 

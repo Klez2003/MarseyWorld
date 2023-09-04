@@ -3,7 +3,7 @@ function submitAddAlt(element, username) {
 	element.classList.add('disabled');
 	const form = new FormData();
 	form.append('other_username', document.getElementById('link-input-other').value);
-	const xhr = createXhrWithFormKey(`/@${username}/alts/`, 'POST', form);
+	const xhr = createXhrWithFormKey(`/@${username}/alts/`, form);
 	xhr[0].onload = function() {
 		let data;
 		try {

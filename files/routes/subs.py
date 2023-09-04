@@ -87,7 +87,7 @@ def unexile(v, sub, uid):
 	u = get_account(uid)
 
 	if not v.mods(sub): abort(403)
-	if v.shadowbanned: return redirect(f'/h/{sub}/exilees')
+	if v.shadowbanned: abort(403)
 
 	if u.exiler_username(sub):
 		exile = g.db.query(Exile).filter_by(user_id=u.id, sub=sub).one_or_none()
@@ -103,11 +103,7 @@ def unexile(v, sub, uid):
 		)
 		g.db.add(ma)
 
-	if g.is_api_or_xhr:
-		return {"message": f"@{u.username} has been unexiled from /h/{sub} successfully!"}
-
-
-	return redirect(f'/h/{sub}/exilees')
+	return {"message": f"@{u.username} has been unexiled from /h/{sub} successfully!"}
 
 @app.post("/h/<sub>/block")
 @limiter.limit('1/second', scope=rpath)
@@ -275,7 +271,7 @@ def add_mod(v, sub):
 	if SITE_NAME == 'WPD': abort(403)
 	sub = get_sub_by_name(sub).name
 	if not v.mods(sub): abort(403)
-	if v.shadowbanned: return redirect(f'/h/{sub}/mods')
+	if v.shadowbanned: abort(400)
 
 	user = request.values.get('user')
 
@@ -303,7 +299,7 @@ def add_mod(v, sub):
 		)
 		g.db.add(ma)
 
-	return redirect(f'/h/{sub}/mods')
+	return {"message": "Mod added successfully!"}
 
 @app.post("/h/<sub>/remove_mod")
 @limiter.limit('1/second', scope=rpath)
@@ -356,7 +352,7 @@ def create_sub(v):
 	if not v.can_create_hole:
 		abort(403)
 
-	return render_template("sub/create_hole.html", v=v, cost=HOLE_COST, error=get_error())
+	return render_template("sub/create_hole.html", v=v, cost=HOLE_COST)
 
 @app.post("/create_hole")
 @limiter.limit('1/second', scope=rpath)
@@ -373,15 +369,15 @@ def create_sub2(v):
 	name = name.strip().lower()
 
 	if not valid_sub_regex.fullmatch(name):
-		return redirect(f"/create_hole?error=Name does not match the required format!")
+		abort(400, "Name does not match the required format!")
 
 	if not v.charge_account('combined', HOLE_COST)[0]:
-		return redirect(f"/create_hole?error=You don't have enough coins or marseybux!")
+		abort(400, "You don't have enough coins or marseybux!")
 
 	sub = get_sub_by_name(name, graceful=True)
 
 	if sub:
-		return redirect(f"/create_hole?error=/h/{sub} already exists!")
+		abort(400, f"/h/{sub} already exists!")
 
 	g.db.add(v)
 	if v.shadowbanned: abort(500)
@@ -396,7 +392,7 @@ def create_sub2(v):
 	for admin in admins:
 		send_repeatable_notification(admin, f":!marseyparty: /h/{sub} has been created by @{v.username} :marseyparty:")
 
-	return redirect(f'/h/{sub}')
+	return {"message": f"/h/{sub} created successfully!"}
 
 @app.post("/kick/<int:pid>")
 @limiter.limit('1/second', scope=rpath)
@@ -452,13 +448,13 @@ def sub_settings(v, sub):
 def post_sub_sidebar(v, sub):
 	sub = get_sub_by_name(sub)
 	if not v.mods(sub.name): abort(403)
-	if v.shadowbanned: return redirect(f'/h/{sub}/settings')
+	if v.shadowbanned: abort(400)
 
 	sub.sidebar = request.values.get('sidebar', '')[:10000].strip()
 	sidebar_html = sanitize(sub.sidebar, blackjack=f"/h/{sub} sidebar")
 
 	if len(sidebar_html) > 20000:
-		return render_template('sub/settings.html', v=v, sidebar=sub.sidebar, sub=sub, error="Sidebar is too big!", css=sub.css)
+		abort(400, "Sidebar is too big! (max 20000 characters)")
 
 	sub.sidebar_html = sidebar_html
 	g.db.add(sub)
@@ -470,7 +466,7 @@ def post_sub_sidebar(v, sub):
 	)
 	g.db.add(ma)
 
-	return render_template('sub/settings.html', v=v, sidebar=sub.sidebar, sub=sub, msg='CSS changed successfully!', css=sub.css)
+	return {"message": "Sidebar changed successfully!"}
 
 
 @app.post('/h/<sub>/css')
@@ -485,15 +481,14 @@ def post_sub_css(v, sub):
 
 	if not sub: abort(404)
 	if not v.mods(sub.name): abort(403)
-	if v.shadowbanned: return redirect(f'/h/{sub}/settings')
+	if v.shadowbanned: abort(400)
 
 	if len(css) > 6000:
-		error = "CSS is too long (max 6000 characters)"
-		return render_template('sub/settings.html', v=v, sidebar=sub.sidebar, sub=sub, error=error, css=css)
+		abort(400, "CSS is too long (max 6000 characters)")
 
 	valid, error = validate_css(css)
 	if not valid:
-		return render_template('sub/settings.html', v=v, sidebar=sub.sidebar, sub=sub, error=error, css=css)
+		abort(400, error)
 
 	sub.css = css
 	g.db.add(sub)
@@ -505,14 +500,14 @@ def post_sub_css(v, sub):
 	)
 	g.db.add(ma)
 
-	return render_template('sub/settings.html', v=v, sidebar=sub.sidebar, sub=sub, msg='CSS changed successfully!', css=sub.css)
+	return {"message": "CSS changed successfully!"}
 
 @app.get("/h/<sub>/css")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 def get_sub_css(sub):
 	sub = g.db.query(Sub.css).filter_by(name=sub.strip().lower()).one_or_none()
 	if not sub: abort(404)
-	resp=make_response(sub.css or "")
+	resp = make_response(sub.css or "")
 	resp.headers.add("Content-Type", "text/css")
 	return resp
 
@@ -548,7 +543,7 @@ def upload_sub_banner(v, sub):
 
 	return redirect(f'/h/{sub}/settings')
 
-@app.delete("/h/<sub>/settings/banners/<int:index>")
+@app.post("/h/<sub>/settings/banners/delete/<int:index>")
 @limiter.limit("1/second;30/day", deduct_when=lambda response: response.status_code < 400)
 @limiter.limit("1/second;30/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_permabanned
@@ -579,7 +574,7 @@ def delete_sub_banner(v, sub, index):
 
 	return {"message": f"Deleted banner {index} from /h/{sub} successfully"}
 
-@app.delete("/h/<sub>/settings/banners/")
+@app.post("/h/<sub>/settings/banners/delete_all")
 @limiter.limit("1/10 second;30/day", deduct_when=lambda response: response.status_code < 400)
 @limiter.limit("1/10 second;30/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_permabanned
@@ -897,10 +892,8 @@ def hole_log_item(id, v, sub):
 	sub = get_sub_by_name(sub)
 	if not User.can_see(v, sub):
 		abort(403)
-	try: id = int(id)
-	except: abort(404)
 
-	action=g.db.get(SubAction, id)
+	action = g.db.get(SubAction, id)
 
 	if not action: abort(404)
 

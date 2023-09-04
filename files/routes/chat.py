@@ -47,13 +47,16 @@ def is_not_permabanned_socketio(f):
 	wrapper.__name__ = f.__name__
 	return wrapper
 
+CHAT_ERROR_MESSAGE = f"To prevent spam, you'll need {TRUESCORE_CC_CHAT_MINIMUM} truescore (this is {TRUESCORE_CC_CHAT_MINIMUM} votes, either up or down, on any threads or comments you've made) in order to access chat. Sorry! I love you 💖"
+
 @app.get("/chat")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_permabanned
 def chat(v):
-	if not v.admin_level and TRUESCORE_CHAT_MINIMUM and v.truescore < TRUESCORE_CHAT_MINIMUM:
-		abort(403, f"Need at least {TRUESCORE_CHAT_MINIMUM} truescore for access to chat!")
+	if not v.allowed_in_chat:
+		abort(403, CHAT_ERROR_MESSAGE)
+
 	orgy = get_orgy()
 
 	displayed_messages = {k: val for k, val in messages.items() if val["user_id"] not in v.userblocks}
@@ -62,18 +65,6 @@ def chat(v):
 		return render_template("orgy.html", v=v, messages=displayed_messages, orgy=orgy, site=SITE)
 	else:
 		return render_template("chat.html", v=v, messages=displayed_messages)
-
-@app.get("/old_chat")
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
-@is_not_permabanned
-def old_chat(v):
-	if not v.admin_level and TRUESCORE_CHAT_MINIMUM and v.truescore < TRUESCORE_CHAT_MINIMUM:
-		abort(403, f"Need at least {TRUESCORE_CHAT_MINIMUM} truescore for access to chat!")
-
-	displayed_messages = {k: val for k, val in messages.items() if val["user_id"] not in v.userblocks}
-
-	return render_template("chat.html", v=v, messages=displayed_messages)
 
 @socketio.on('speak')
 @is_not_banned_socketio
@@ -85,7 +76,7 @@ def speak(data, v):
 			f.write(data['file'])
 		image = process_image(name, v)
 
-	if TRUESCORE_CHAT_MINIMUM and v.truescore < TRUESCORE_CHAT_MINIMUM:
+	if not v.allowed_in_chat:
 		return '', 403
 
 	global messages
@@ -137,6 +128,7 @@ def speak(data, v):
 		"user_id": v.id,
 		"username": v.username,
 		"namecolor": v.name_color,
+		"patron": v.patron,
 		"text": text,
 		"text_censored": censor_slurs(text, 'chat'),
 		"text_html": text_html,
@@ -173,15 +165,15 @@ def refresh_online():
 @is_not_permabanned_socketio
 def connect(v):
 
-	if any(v.id in session for session in sessions) and [v.username, v.id, v.name_color] not in online:
+	if any(v.id in session for session in sessions) and [v.username, v.id, v.name_color, v.patron] not in online:
 		# user has previous running sessions with a different username or name_color
 		for chat_user in online:
 			if v.id == chat_user[1]:
 				online.remove(chat_user)
 
 	sessions.append([v.id, request.sid])
-	if [v.username, v.id, v.name_color] not in online:
-		online.append([v.username, v.id, v.name_color])
+	if [v.username, v.id, v.name_color, v.patron] not in online:
+		online.append([v.username, v.id, v.name_color, v.patron])
 
 	refresh_online()
 

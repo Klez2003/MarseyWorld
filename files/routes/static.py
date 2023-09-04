@@ -52,7 +52,7 @@ def get_emoji_list(kind):
 @app.get("/marseys")
 @app.get("/emojis")
 def marseys_redirect():
-	return redirect("/emojis/Platy")
+	return redirect("/emojis/Marsey")
 
 @app.get("/emojis/<kind>")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
@@ -212,10 +212,7 @@ def log(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def log_item(id, v):
-	try: id = int(id)
-	except: abort(404)
-
-	action=g.db.get(ModAction, id)
+	action = g.db.get(ModAction, id)
 
 	if not action: abort(404)
 
@@ -260,7 +257,7 @@ def api(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @auth_desired
 def contact(v):
-	return render_template("contact.html", v=v, msg=get_msg())
+	return render_template("contact.html", v=v)
 
 @app.post("/contact")
 @limiter.limit('1/second', scope=rpath)
@@ -295,8 +292,12 @@ def submit_contact(v):
 	new_comment.top_comment_id = new_comment.id
 
 	admin_ids = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_MODMAIL'])]
-	if SITE == 'watchpeopledie.tv' and AEVANN_ID in admin_ids:
-		admin_ids.remove(AEVANN_ID)
+
+	if SITE == 'watchpeopledie.tv':
+		if AEVANN_ID in admin_ids:
+			admin_ids.remove(AEVANN_ID)
+		if 'delete' in new_comment.body.lower() and 'account' in new_comment.body.lower():
+			admin_ids.remove(15447)
 
 	for admin_id in admin_ids:
 		notif = Notification(comment_id=new_comment.id, user_id=admin_id)
@@ -304,7 +305,7 @@ def submit_contact(v):
 
 	push_notif(admin_ids, f'New modmail from @{new_comment.author_name}', new_comment.body, f'{SITE_FULL}/notifications/modmail')
 
-	return redirect("/contact?msg=Your message has been sent to the admins!")
+	return {"message": "Your message has been sent to the admins!"}
 
 patron_badges = (22,23,24,25,26,27,28,257,258,259,260,261)
 
@@ -373,9 +374,6 @@ def dismiss_mobile_tip():
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def transfers_id(id, v):
-
-	try: id = int(id)
-	except: abort(404)
 
 	transfer = g.db.get(Comment, id)
 

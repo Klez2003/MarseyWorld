@@ -12,13 +12,13 @@ function initializeGame() {
 
 function updatePlayerCurrencies(updated) {
 	if (updated.coins) {
-		document.getElementById("user-coins-amount").innerText = updated.coins;
-		document.getElementById("user-coins-amount-casino").innerText = updated.coins;
+		document.getElementById("user-coins-amount").textContent = updated.coins;
+		document.getElementById("user-coins-amount-casino").textContent = updated.coins;
 	}
 
 	if (updated.marseybux) {
-		document.getElementById("user-bux-amount").innerText = updated.marseybux;
-		document.getElementById("user-bux-amount-casino").innerText = updated.marseybux;
+		document.getElementById("user-bux-amount").textContent = updated.marseybux;
+		document.getElementById("user-bux-amount-casino").textContent = updated.marseybux;
 	}
 }
 
@@ -48,14 +48,14 @@ function updateResult(text, className) {
 	clearResult();
 	const result = document.getElementById("casinoGameResult");
 	result.style.visibility = "visible";
-	result.innerText = text;
+	result.textContent = text;
 	result.classList.add(`alert-${className}`);
 }
 
 function clearResult() {
 	const result = document.getElementById("casinoGameResult");
 	result.style.visibility = "hidden";
-	result.innerText = "N/A";
+	result.textContent = "N/A";
 	result.classList.remove("alert-success", "alert-danger", "alert-warning");
 }
 

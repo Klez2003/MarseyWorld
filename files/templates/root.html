@@ -1,6 +1,5 @@
 {% set root_scope = namespace() %}
 {% block template_config %}
-	{% set root_scope.js = true %}
 	{% set root_scope.include_user_css = true %}
 	{% set root_scope.include_seo = true %}
 	{% set root_scope.include_cf_2fa_verify = false %}
@@ -13,7 +12,9 @@
 	{%- if IS_DKD() and not (v and v.theme == 'light') -%}
 		style="--primary:#2AAA8A"
 	{%- elif not IS_FISTMAS() -%}
-		style="--primary:#{{v.themecolor if v else DEFAULT_COLOR}}"
+		{% set primary = v.themecolor if v else DEFAULT_COLOR %}
+		{% set primary_rgb = primary|rgb %}
+		style="--primary:#{{primary}};--primary_rgb:{{primary_rgb}}"
 	{%- endif -%}
 >
 	<head>
@@ -21,29 +22,47 @@
 		<meta charset="utf-8">
 		{% block title %}<title>{% block pagetitle %}if you see this pls report it as a bug &lt;3{% endblock %} - {{SITE_NAME}}</title>{% endblock %}
 		{{html_head.page_meta(self.pagetitle() or none)}}
-		{{html_head.javascript() if root_scope.js}}
+		{{html_head.javascript()}}
 		{{html_head.stylesheets(root_scope.include_user_css)}}
 		{{html_head.seo() if root_scope.include_seo}}
 		{{html_head.cf_2fa_verify() if root_scope.include_2fa_verify}}
 		{% block head_final %}{% endblock %}
 	{% endblock %}
 	</head>
-	<body {% block body_attributes %}id="{%block pagetype %}{% endblock %}"{% endblock %}>
+	<body {% block body_attributes %}id="{% block pagetype %}{% endblock %}"{% endblock %}>
 		<input hidden id="gnonce" value="{{g.nonce}}">
 		<input hidden id="gbrowser" value="{{g.browser}}">
 		<input hidden id="IMAGE_FORMATS" value="{{IMAGE_FORMATS}}">
 		<input hidden id="approved_embed_hosts" value="{{approved_embed_hosts}}">
 		<input hidden id="SITE_FULL_IMAGES" value="{{SITE_FULL_IMAGES}}">
+		
+		{% if v %}
+			<input hidden id="MAX_IMAGE_AUDIO_SIZE_MB" value="{{MAX_IMAGE_AUDIO_SIZE_MB}}">
+			<input hidden id="MAX_IMAGE_AUDIO_SIZE_MB_PATRON" value="{{MAX_IMAGE_AUDIO_SIZE_MB_PATRON}}">
+			<input hidden id="MAX_VIDEO_SIZE_MB" value="{{MAX_VIDEO_SIZE_MB}}">
+			<input hidden id="MAX_VIDEO_SIZE_MB_PATRON" value="{{MAX_VIDEO_SIZE_MB_PATRON}}">			
+		{% endif %}
+
 		<script src="{{'js/top.js' | asset}}"></script>	
 		{% block body required %}{% endblock %}
 		{{html_head.stylesheets_lower()}}
 		<script defer src="{{'js/bottom.js' | asset}}"></script>
 
-		{% if not v or v.cursormarsey %}
+		{% if (v and v.cursormarsey) or (not v and CURSORMARSEY_DEFAULT) %}
 			<div id="cursormarsey"></div>
 			<div id="cursormarsey-heart" class="d-none"></div>
 			<script defer src="{{'js/cursormarsey.js' | asset}}"></script>
 		{% endif %}
 		<script defer src="{{'js/pwa_pulltorefresh.js' | asset}}"></script>
+		<div class="toast" id="toast-post-success" style="position: fixed; bottom: 1.5rem; margin: 0 auto; left: 0; right: 0; width: 275px; z-index: 100000" data-bs-animation="true" data-bs-autohide="true" data-bs-delay="5000">
+			<div class="toast-body bg-success text-center text-white">
+				<i class="fas fa-comment-alt-smile mr-2"></i><span id="toast-post-success-text">Action successful!</span>
+			</div>
+		</div>
+		<div class="toast" id="toast-post-error" style="position: fixed; bottom: 1.5rem; margin: 0 auto; left: 0; right: 0; width: 275px; z-index: 100000" data-bs-animation="true" data-bs-autohide="true" data-bs-delay="5000">
+			<div class="toast-body bg-danger text-center text-white">
+				<i class="fas fa-exclamation-circle mr-2"></i><span id="toast-post-error-text">Error, please try again later.</span>
+			</div>
+		</div>		
 	</body>
 </html>

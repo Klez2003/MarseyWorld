@@ -23,6 +23,8 @@ def hats(v):
 	else:
 		hats = g.db.query(HatDef)
 
+	hats = hats.filter(HatDef.submitter_id == None)
+
 	if sort and sort != "owners":
 		if sort == "name":
 			key = HatDef.name
@@ -49,13 +51,13 @@ def hats(v):
 		hats = hats[firstrange:secondrange]
 	else:
 		if v.equipped_hat_ids:
-			equipped = hats.filter(HatDef.submitter_id == None, HatDef.id.in_(owned_hat_ids), HatDef.id.in_(v.equipped_hat_ids)).order_by(HatDef.price, HatDef.name).all()
-			not_equipped = hats.filter(HatDef.submitter_id == None, HatDef.id.in_(owned_hat_ids), HatDef.id.notin_(v.equipped_hat_ids)).order_by(HatDef.price, HatDef.name).all()
+			equipped = hats.filter(HatDef.id.in_(owned_hat_ids), HatDef.id.in_(v.equipped_hat_ids)).order_by(HatDef.price, HatDef.name).all()
+			not_equipped = hats.filter(HatDef.id.in_(owned_hat_ids), HatDef.id.notin_(v.equipped_hat_ids)).order_by(HatDef.price, HatDef.name).all()
 			owned = equipped + not_equipped
 		else:
-			owned = hats.filter(HatDef.submitter_id == None, HatDef.id.in_(owned_hat_ids)).order_by(HatDef.price, HatDef.name).all()
+			owned = hats.filter(HatDef.id.in_(owned_hat_ids)).order_by(HatDef.price, HatDef.name).all()
 
-		not_owned = hats.filter(HatDef.submitter_id == None, HatDef.id.notin_(owned_hat_ids)).order_by(HatDef.price == 0, HatDef.price, HatDef.name).all()
+		not_owned = hats.filter(HatDef.id.notin_(owned_hat_ids)).order_by(HatDef.price == 0, HatDef.price, HatDef.name).all()
 		hats = owned + not_owned
 
 		firstrange = PAGE_SIZE * (page - 1)
@@ -74,9 +76,6 @@ def hats(v):
 @limiter.limit('100/minute;1000/3 days', deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def buy_hat(v, hat_id):
-	try: hat_id = int(hat_id)
-	except: abort(404, "Hat not found!")
-
 	hat = g.db.query(HatDef).filter_by(submitter_id=None, id=hat_id).one_or_none()
 	if not hat: abort(404, "Hat not found!")
 
@@ -104,11 +103,11 @@ def buy_hat(v, hat_id):
 		f":marseycapitalistmanlet: @{v.username} has just bought `{hat.name}`, you have received your 10% cut ({int(hat.price * 0.1)} coins) :!marseycapitalistmanlet:"
 	)
 
-	if v.num_of_owned_hats >= 250:
+	if v.num_of_owned_hats >= 249:
 		badge_grant(user=v, badge_id=154)
-	elif v.num_of_owned_hats >= 100:
+	elif v.num_of_owned_hats >= 99:
 		badge_grant(user=v, badge_id=153)
-	elif v.num_of_owned_hats >= 25:
+	elif v.num_of_owned_hats >= 24:
 		badge_grant(user=v, badge_id=152)
 
 	return {"message": f"'{hat.name}' bought!"}
@@ -121,9 +120,6 @@ def buy_hat(v, hat_id):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def equip_hat(v, hat_id):
-	try: hat_id = int(hat_id)
-	except: abort(404, "Hat not found!")
-
 	hat = g.db.query(Hat).filter_by(hat_id=hat_id, user_id=v.id).one_or_none()
 	if not hat: abort(403, "You don't own this hat!")
 
@@ -139,9 +135,6 @@ def equip_hat(v, hat_id):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def unequip_hat(v, hat_id):
-	try: hat_id = int(hat_id)
-	except: abort(404, "Hat not found!")
-
 	hat = g.db.query(Hat).filter_by(hat_id=hat_id, user_id=v.id).one_or_none()
 	if not hat: abort(403, "You don't own this hat!")
 
@@ -155,9 +148,6 @@ def unequip_hat(v, hat_id):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def hat_owners(v, hat_id):
-	try: hat_id = int(hat_id)
-	except: abort(404, "Hat not found!")
-
 	page = get_page()
 
 	users = g.db.query(User, Hat.created_utc).join(Hat.owners).filter(Hat.hat_id == hat_id)

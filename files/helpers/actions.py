@@ -39,7 +39,7 @@ def _archiveorg(url):
 def archive_url(url):
 	gevent.spawn(_archiveorg, url)
 	if url.startswith('https://twitter.com/'):
-		url = url.replace('https://twitter.com/', 'https://nitter.lacontrevoie.fr/')
+		url = url.replace('https://twitter.com/', 'https://nitter.net/')
 		gevent.spawn(_archiveorg, url)
 	if url.startswith('https://instagram.com/'):
 		url = url.replace('https://instagram.com/', 'https://imginn.com/')
@@ -55,13 +55,11 @@ def execute_snappy(post, v):
 	if post.sub and g.db.query(Exile.user_id).filter_by(user_id=SNAPPY_ID, sub=post.sub).one_or_none():
 		return
 
-	group_members = []
-
 	ghost = post.ghost
 
 	snappy = get_account(SNAPPY_ID)
 
-	ping_cost = None
+	ping_cost = 0
 
 	post_ping_group_count = len(list(group_mention_regex.finditer(post.body)))
 
@@ -131,7 +129,7 @@ def execute_snappy(post, v):
 		elif body == '!pinggroup':
 			group = g.db.query(Group).order_by(func.random()).first()
 
-			cost = len(group.member_ids) * 10
+			cost = len(group.member_ids) * 5
 			snappy.charge_account('coins', cost)
 
 			body = f'!{group.name}'
@@ -206,11 +204,9 @@ def execute_snappy(post, v):
 			app_id=None,
 			body=body,
 			body_html=body_html,
-			ghost=ghost
+			ghost=ghost,
+			ping_cost=ping_cost,
 			)
-
-		if ping_cost:
-			c.ping_cost = ping_cost
 
 		g.db.add(c)
 
@@ -231,7 +227,7 @@ def execute_snappy(post, v):
 			text = f"@Snappy has banned you for **{days}** days for the following reason:\n\n> {reason}"
 			send_repeatable_notification(v.id, text)
 			duration = f"for {days} days"
-			ma=ModAction(
+			ma = ModAction(
 				kind="ban_user",
 				user_id=snappy.id,
 				target_user_id=v.id,
@@ -242,10 +238,11 @@ def execute_snappy(post, v):
 
 		g.db.flush()
 
-		for x in group_members:
-			n = Notification(comment_id=c.id, user_id=x)
-			g.db.add(n)
-			push_notif({x}, f'New mention of you by @Snappy', c.body, c)
+		if c.ping_cost:
+			for x in group.member_ids:
+				n = Notification(comment_id=c.id, user_id=x)
+				g.db.add(n)
+				push_notif({x}, f'New mention of you by @Snappy', c.body, c)
 
 		c.top_comment_id = c.id
 
@@ -369,7 +366,7 @@ def tempban_for_spam(v):
 	send_repeatable_notification(v.id, text)
 	v.ban(reason="Spam", days=1)
 
-	ma=ModAction(
+	ma = ModAction(
 		kind="ban_user",
 		user_id=AUTOJANNY_ID,
 		target_user_id=v.id,
@@ -379,7 +376,8 @@ def tempban_for_spam(v):
 
 
 def execute_antispam_post_check(title, v, url):
-	if v.admin_level: return True
+	if v.admin_level >= PERMS['BYPASS_ANTISPAM_CHECKS']:
+		return True
 
 	now = int(time.time())
 	cutoff = now - 60 * 60 * 24
@@ -421,15 +419,16 @@ def execute_antispam_post_check(title, v, url):
 	return True
 
 def execute_antispam_duplicate_comment_check(v, body_html):
-	if v.admin_level: return
+	if v.admin_level >= PERMS['BYPASS_ANTISPAM_CHECKS']:
+		return
+	if v.id in ANTISPAM_BYPASS_IDS:
+		return
+	if v.age >= NOTIFICATION_SPAM_AGE_THRESHOLD:
+		return
+	if len(body_html) < 16:
+		return
 
-	'''
-	Sanity check for newfriends
-	'''
 	ANTISPAM_DUPLICATE_THRESHOLD = 3
-	if v.id in ANTISPAM_BYPASS_IDS or v.admin_level: return
-	if v.age >= NOTIFICATION_SPAM_AGE_THRESHOLD: return
-	if len(body_html) < 16: return
 	compare_time = int(time.time()) - 60 * 60 * 24
 	count = g.db.query(Comment.id).filter(Comment.body_html == body_html,
 										  Comment.created_utc >= compare_time).count()
@@ -441,7 +440,8 @@ def execute_antispam_duplicate_comment_check(v, body_html):
 	abort(403, "Too much spam!")
 
 def execute_antispam_comment_check(body, v):
-	if v.admin_level: return
+	if v.admin_level >= PERMS['BYPASS_ANTISPAM_CHECKS']:
+		return
 
 	if v.id in ANTISPAM_BYPASS_IDS: return
 	if len(body) <= COMMENT_SPAM_LENGTH_THRESHOLD: return
@@ -497,11 +497,14 @@ def execute_under_siege(v, target, body, kind):
 	if SITE == 'watchpeopledie.tv':
 		execute_dylan(v)
 		if v.shadowbanned: return
+		if kind != 'post': return
 
 	if not get_setting("under_siege"): return
-	if v.admin_level >= PERMS['SITE_BYPASS_UNDER_SIEGE_MODE']: return
+	if v.admin_level >= PERMS['BYPASS_UNDER_SIEGE_MODE']: return
 
 	if kind in {'message', 'report'} and SITE == 'rdrama.net':
+		threshold = 86400
+	elif kind == 'post' and SITE == 'watchpeopledie.tv':
 		threshold = 86400
 	else:
 		threshold = UNDER_SIEGE_AGE_THRESHOLD
@@ -549,18 +552,18 @@ def execute_lawlz_actions(v, p):
 	p.stickied = "AutoJanny"
 	p.distinguish_level = 6
 	p.flair = filter_emojis_only(":ben10: Required Reading")
-	ma_1=ModAction(
+	ma_1 = ModAction(
 		kind="pin_post",
 		user_id=AUTOJANNY_ID,
 		target_post_id=p.id,
 		_note='for 1 day'
 	)
-	ma_2=ModAction(
+	ma_2 = ModAction(
 		kind="distinguish_post",
 		user_id=AUTOJANNY_ID,
 		target_post_id=p.id
 	)
-	ma_3=ModAction(
+	ma_3 = ModAction(
 		kind="flair_post",
 		user_id=AUTOJANNY_ID,
 		target_post_id=p.id,

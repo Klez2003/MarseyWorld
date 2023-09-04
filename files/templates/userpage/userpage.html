@@ -27,7 +27,7 @@
 <div id="username" class="d-none">{{u.username}}</div>
 {% endif %}
 <script defer src="{{'js/userpage.js' | asset}}"></script>
-{% if (not (IS_FISTMAS() or IS_DKD()) or SITE_NAME == 'WPD') and u.can_see_my_shit  %}
+{% if (not (IS_FISTMAS() or IS_DKD()) or SITE_NAME == 'WPD') and u.can_see_my_shit %}
 	<script defer src="{{'js/profile_song.js' | asset}}"></script>
 {% endif %}
 {% endblock %}
@@ -42,8 +42,9 @@
 	<script defer src="{{'js/markdown.js' | asset}}"></script>
 {% endif %}
 
-{% if v and v.id != u.id and not request.path.endswith('/comments') and not request.path.endswith(u.username) %}
+{% if v and v.id != u.id and request.path.endswith('/posts') %}
 	{% include "modals/emoji.html" %}
+	{% include "modals/gif.html" %}
 {% endif %}
 {% endblock %}
 {% block GIFpicker %}{% endblock %}

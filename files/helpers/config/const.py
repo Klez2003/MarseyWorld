@@ -48,9 +48,9 @@ class Service(Enum):
 	RDRAMA = auto()
 	CHAT = auto()
 
-POST_RATELIMIT = '20/day'
 DEFAULT_RATELIMIT = "30/minute;200/hour;1000/day"
-CASINO_RATELIMIT = "100/minute;2000/hour;12000/day"
+CASINO_RATELIMIT = "100/minute;5000/hour;20000/day"
+DELETE_EDIT_RATELIMIT = "10/minute;50/day"
 
 PUSH_NOTIF_LIMIT = 1000
 
@@ -241,11 +241,13 @@ if SITE_NAME == 'rDrama':
 		"(?<!cow) tools(?![a-z])": " cow tools",
 		"explain": "mansplain",
 		'nigga': 'neighbor',
-		'(?<![a-z])cat(?![a-z])': 'marsey',
+		'(?<![a-z.])cat(?![a-z])': 'marsey',
 		'(?<![a-z])cats(?![a-z])': 'marseys',
 		'hello': 'hecko',
 		'ryan gosling': 'literally me',
 		'howdy': 'meowdy',
+		'corgi': 'klenny',
+		"right now": "right meow",
 	}
 	SLURS.update(RDRAMA_SLURS)
 
@@ -265,7 +267,7 @@ if SITE_NAME == 'rDrama':
 		'museumofrdrama',
 		'space',
 		'femaledatingstrategy',
-		'highrollerclub',
+		'meta',
 	}
 
 	REDDIT_NOTIFS_SITE.add('marsey')
@@ -292,21 +294,14 @@ PROFANITIES = {
 	'bitch(?![a-z])': 'b-word',
 	'toilet': 'potty',
 	'(?<![a-z])asshole': 'butthole',
-	'(?<![a-z])rape': 'r*pe',
+	'(?<![a-z])rape': 'consent accident',
 	'(?<![a-z])hell(?![a-z])': 'heck',
-	'(?<![a-z])sex(?![a-z])': 'intercourse',
+	'(?<![a-z])sex(?![a-z])': 's*x',
 	'(?<![a-z])cum(?![a-z])': 'c*m',
-	'orgasm': 'sexual climax',
 	'(?<![a-z])dick': 'peepee',
 	'cock(?![a-z])': 'peepee',
 	'cocks': 'peepees',
 	'penis': 'peepee',
-	'pussy': 'girl peepee',
-	'pussies': 'girl peepees',
-	'vagina(?![a-z])': 'girl peepee',
-	'vaginas': 'girl peepees',
-	'cunt': 'girl peepee',
-	'twat': 'girl peepee',
 }
 
 PROFANITIES_FOR_REPLACING = {}
@@ -319,7 +314,7 @@ for k, val in PROFANITIES.items():
 slur_single_words = "|".join([slur.lower() for slur in SLURS.keys()])
 profanity_single_words = "|".join([profanity.lower() for profanity in PROFANITIES.keys()])
 
-LONGPOSTBOT_REPLIES = ('Wow, you must be a JP fan.', 'This is one of the worst posts I have EVER seen. Delete it.', "No, don't reply like this, please do another wall of unhinged rant please.", '# 😴😴😴', "Ma'am we've been over this before. You need to stop.", "I've known more coherent downies.", "Your pulitzer's in the mail", "That's great and all, but I asked for my burger without cheese.", 'That degree finally paying off', "That's nice sweaty. Why don't you have a seat in the time out corner with Pizzashill until you calm down, then you can have your Capri Sun.", "All them words won't bring your pa back.", "You had a chance to not be completely worthless, but it looks like you threw it away. At least you're consistent.", 'Some people are able to display their intelligence by going on at length on a subject and never actually saying anything. This ability is most common in trades such as politics, public relations, and law. You have impressed me by being able to best them all, while still coming off as an absolute idiot.', "You can type 10,000 characters and you decided that these were the one's that you wanted.", 'Have you owned the libs yet?', "I don't know what you said, because I've seen another human naked.", 'Impressive. Normally people with such severe developmental disabilities struggle to write much more than a sentence or two. He really has exceded our expectations for the writing portion. Sadly the coherency of his writing, along with his abilities in the social skills and reading portions, are far behind his peers with similar disabilities.', "This is a really long way of saying you don't fuck.", "Sorry ma'am, looks like his delusions have gotten worse. We'll have to admit him.", 'If only you could put that energy into your relationships', 'Posts like this is why I do Heroine.', 'still unemployed then?', 'K', 'look im gunna have 2 ask u 2 keep ur giant dumps in the toilet not in my replys 😷😷😷', "Mommy is soooo proud of you, sweaty. Let's put this sperg out up on the fridge with all your other failures.", "Good job bobby, here's a star", "That was a mistake. You're about to find out the hard way why.", 'You sat down and wrote all this shit. You could have done so many other things with your life. What happened to your life that made you decide writing novels of bullshit here was the best option?', "I don't have enough spoons to read this shit", "All those words won't bring daddy back.", 'OUT!', "Damn, you're really mad over this, but thanks for the effort you put into typing that all out! Sadly I won't read it all.", "Jesse what the fuck are you talking about??", "▼you're fucking bananas if you think I'm reading all that, take my downvote and shut up idiot", "Are you feeling okay bud?", ':#marseywoah:', 'At no point in your rambling, incoherent post were you even close to anything that could be considered a rational thought. Everyone on this site is now dumber for having read it. May God have mercy on your soul.', 'https://rdrama.net/videos/1671169024815045.mp4', 'https://i.rdrama.net/images/16766675896248007.webp', 'https://i.rdrama.net/images/1683531328305875.webp', 'https://i.rdrama.net/images/1691152552869678.webp', 'You could have done crack instead of this shit', 'Not one single person is gonna read all that', 'PlsRope')
+LONGPOSTBOT_REPLIES = ('Wow, you must be a JP fan.', 'This is one of the worst posts I have EVER seen. Delete it.', "No, don't reply like this, please do another wall of unhinged rant please.", '# 😴😴😴', "Ma'am we've been over this before. You need to stop.", "I've known more coherent downies.", "Your pulitzer's in the mail", "That's great and all, but I asked for my burger without cheese.", 'That degree finally paying off', "That's nice sweaty. Why don't you have a seat in the time out corner with Pizzashill until you calm down, then you can have your Capri Sun.", "All them words won't bring your pa back.", "You had a chance to not be completely worthless, but it looks like you threw it away. At least you're consistent.", 'Some people are able to display their intelligence by going on at length on a subject and never actually saying anything. This ability is most common in trades such as politics, public relations, and law. You have impressed me by being able to best them all, while still coming off as an absolute idiot.', "You can type 10,000 characters and you decided that these were the one's that you wanted.", 'Have you owned the libs yet?', "I don't know what you said, because I've seen another human naked.", 'Impressive. Normally people with such severe developmental disabilities struggle to write much more than a sentence or two. He really has exceded our expectations for the writing portion. Sadly the coherency of his writing, along with his abilities in the social skills and reading portions, are far behind his peers with similar disabilities.', "This is a really long way of saying you don't fuck.", "Sorry ma'am, looks like his delusions have gotten worse. We'll have to admit him.", 'If only you could put that energy into your relationships', 'Posts like this is why I do Heroine.', 'still unemployed then?', 'K', 'look im gunna have 2 ask u 2 keep ur giant dumps in the toilet not in my replys 😷😷😷', "Mommy is soooo proud of you, sweaty. Let's put this sperg out up on the fridge with all your other failures.", "Good job bobby, here's a star", "That was a mistake. You're about to find out the hard way why.", 'You sat down and wrote all this shit. You could have done so many other things with your life. What happened to your life that made you decide writing novels of bullshit here was the best option?', "I don't have enough spoons to read this shit", "All those words won't bring daddy back.", 'OUT!', "Damn, you're really mad over this, but thanks for the effort you put into typing that all out! Sadly I won't read it all.", "Jesse what the fuck are you talking about??", "▼you're fucking bananas if you think I'm reading all that, take my downvote and shut up idiot", "Are you feeling okay bud?", ':#marseywoah:', 'At no point in your rambling, incoherent post were you even close to anything that could be considered a rational thought. Everyone on this site is now dumber for having read it. May God have mercy on your soul.', 'https://rdrama.net/videos/1671169024815045.mp4', 'https://i.rdrama.net/images/16766675896248007.webp', 'https://i.rdrama.net/images/1683531328305875.webp', 'https://i.rdrama.net/images/1691152552869678.webp', 'You could have done crack instead of this shit', 'Not one single person is gonna read all that', 'PlsRope', 'I hope you had chatgpt pen that one fam')
 
 CHUD_MSG = """:marseypirate: Avast, ye scurvy cur! Yer {type} be walkin' the plank for forgettin' to include `{CHUD_PHRASE}`! We be helpin' ye, right enough - we'll ne'er let ye post or comment anythin' that doesn't be expressin' yer love an' acceptance o' minorities! Heave to an' resubmit yer {type} with `{CHUD_PHRASE}` included, or it'll be the deep six for ye, savvy? This be an automated message; if ye need help, ye can message us ['ere](/contact). Arrr!"""
 
@@ -328,7 +323,7 @@ PIN_AWARD_TEXT = " (pin award)"
 THEMES = ["4chan","classic","classic_dark","coffee","dark","dramblr","light","midnight","tron","win98"]
 LIGHT_THEMES = ["4chan","classic","coffee","light","win98"]
 BACKGROUND_CATEGORIES = ["glitter", "anime", "fantasy", "solarpunk", "pixelart"]
-COMMENT_SORTS = ["hot", "new", "old", "top", "bottom", "controversial", "saves"]
+COMMENT_SORTS = ["hot", "new", "old", "top", "bottom", "controversial", "random"]
 SORTS = COMMENT_SORTS + ["bump", "comments", "views", "subscriptions", "saves"]
 TIME_FILTERS = ["hour", "day", "week", "month", "year", "all"]
 PAGE_SIZES = (10, 25, 50, 100)
@@ -350,85 +345,86 @@ SUB_MARSEY_URL_LENGTH = 60
 ################################################################################
 
 PERMS = { # Minimum admin_level to perform action.
- 	'HOLE_CREATE': 0,
- 	'USER_BLOCKS_VISIBLE': 0,
- 	'USER_FOLLOWS_VISIBLE': 0,
- 	'USER_VOTERS_VISIBLE': 0,
- 	'VIEW_PENDING_SUBMITTED_EMOJIS': 0,
+	'HOLE_CREATE': 0,
+	'USER_BLOCKS_VISIBLE': 0,
+	'USER_FOLLOWS_VISIBLE': 0,
+	'USER_VOTERS_VISIBLE': 0,
+	'VIEW_PENDING_SUBMITTED_EMOJIS': 0,
 
- 	'POST_COMMENT_DISTINGUISH': 1,
- 	'POST_BYPASS_REPOST_CHECKING': 1,
- 	'POST_IN_GHOST_THREADS': 1,
- 	'VIEW_RESTRICTED_HOLES': 1,
- 	'SITE_BYPASS_READ_ONLY_MODE': 1,
- 	'SITE_BYPASS_UNDER_SIEGE_MODE': 1,
- 	'SITE_WARN_ON_INVALID_AUTH': 1,
- 	'NOTIFICATIONS_REDDIT': 1,
- 	'NOTIFICATIONS_SPECIFIC_WPD_COMMENTS': 1,
- 	'MESSAGE_BLOCKED_USERS': 1,
- 	'ADMIN_MOP_VISIBLE': 1,
- 	'ADMIN_HOME_VISIBLE': 1,
- 	'REPORTS_REMOVE': 1,
- 	'POST_COMMENT_MODERATION': 1,
- 	'USER_BAN': 1,
- 	'USER_SHADOWBAN': 1,
- 	'USER_CHUD': 1,
- 	'USER_MODERATION_TOOLS_VISIBLE': 1,
- 	'VIEW_MODMAIL': 1,
- 	'NOTIFICATIONS_MODMAIL': 1,
- 	'VIEW_PRIVATE_PROFILES': 1,
- 	'VIEW_ALTS': 1,
- 	'VIEW_ACTIVE_USERS': 1,
- 	'VIEW_ALT_VOTES': 1,
- 	'VIEW_LAST_ACTIVE': 1,
- 	'VIEW_VOTE_BUTTONS_ON_USER_PAGE': 1,
- 	'NOTIFICATIONS_HOLE_INACTIVITY_DELETION': 1,
- 	'NOTIFICATIONS_HOLE_CREATION': 1,
- 	'NOTIFICATIONS_MODERATOR_ACTIONS': 1,
+	'POST_COMMENT_DISTINGUISH': 1,
+	'POST_IN_GHOST_THREADS': 1,
+	'VIEW_RESTRICTED_HOLES': 1,
+	'BYPASS_SITE_READ_ONLY_MODE': 1,
+	'BYPASS_UNDER_SIEGE_MODE': 1,
+	'BYPASS_CHAT_TRUESCORE_REQUIREMENT': 1,
+	'BYPASS_ANTISPAM_CHECKS': 1,
+	'WARN_ON_FAILED_LOGIN': 1,
+	'NOTIFICATIONS_REDDIT': 1,
+	'NOTIFICATIONS_SPECIFIC_WPD_COMMENTS': 1,
+	'MESSAGE_BLOCKED_USERS': 1,
+	'ADMIN_MOP_VISIBLE': 1,
+	'ADMIN_HOME_VISIBLE': 1,
+	'REPORTS_REMOVE': 1,
+	'POST_COMMENT_MODERATION': 1,
+	'USER_BAN': 1,
+	'USER_SHADOWBAN': 1,
+	'USER_CHUD': 1,
+	'USER_MODERATION_TOOLS_VISIBLE': 1,
+	'VIEW_MODMAIL': 1,
+	'NOTIFICATIONS_MODMAIL': 1,
+	'VIEW_PRIVATE_PROFILES': 1,
+	'VIEW_ALTS': 1,
+	'VIEW_ACTIVE_USERS': 1,
+	'VIEW_ALT_VOTES': 1,
+	'VIEW_LAST_ACTIVE': 1,
+	'VIEW_VOTE_BUTTONS_ON_USER_PAGE': 1,
+	'NOTIFICATIONS_HOLE_INACTIVITY_DELETION': 1,
+	'NOTIFICATIONS_HOLE_CREATION': 1,
+	'NOTIFICATIONS_MODERATOR_ACTIONS': 1,
 
- 	'USER_BADGES': 2,
- 	'USER_LINK': 2,
- 	'USER_TITLE_CHANGE': 2,
- 	'LOTTERY_VIEW_PARTICIPANTS': 2,
- 	'POST_COMMENT_INFINITE_PINGS': 2,
+	'IS_PERMA_PROGSTACKED': 2,
+	'USER_BADGES': 2,
+	'USER_LINK': 2,
+	'USER_TITLE_CHANGE': 2,
+	'LOTTERY_VIEW_PARTICIPANTS': 2,
+	'POST_COMMENT_INFINITE_PINGS': 2,
 	'IGNORE_1WEEk_EDITING_LIMIT': 2,
 	'ORGIES': 2,
 
- 	'ADMIN_REMOVE': 3,
- 	'ADMIN_ACTIONS_REVERT': 3,
- 	'DOMAINS_BAN': 3,
- 	'EDIT_RULES': 3,
- 	'POST_BETS': 3,
- 	'POST_BETS_DISTRIBUTE': 3,
- 	'VIEW_PENDING_SUBMITTED_HATS': 3,
- 	'LOTTERY_ADMIN': 3,
- 	'SITE_SETTINGS': 3,
- 	'SITE_CACHE_PURGE_CDN': 3,
- 	'NOTIFICATIONS_FROM_SHADOWBANNED_USERS': 3,
- 	'APPS_MODERATION': 3,
- 	'USE_ADMIGGER_THREADS': 3,
+	'ADMIN_REMOVE': 3,
+	'ADMIN_ACTIONS_REVERT': 3,
+	'DOMAINS_BAN': 3,
+	'EDIT_RULES': 3,
+	'POST_BETS': 3,
+	'POST_BETS_DISTRIBUTE': 3,
+	'VIEW_PENDING_SUBMITTED_HATS': 3,
+	'LOTTERY_ADMIN': 3,
+	'SITE_SETTINGS': 3,
+	'SITE_CACHE_PURGE_CDN': 3,
+	'NOTIFICATIONS_FROM_SHADOWBANNED_USERS': 3,
+	'APPS_MODERATION': 3,
+	'USE_ADMIGGER_THREADS': 3,
 	'IGNORE_AWARD_IMMUNITY': 3,
+	'MODERATE_PENDING_SUBMITTED_ASSETS': 3,
+	'UPDATE_ASSETS': 3,
+	'UNDO_AWARD_PINS': 3,
+	'DELETE_MEDIA': 3,
 
- 	'MODERATE_PENDING_SUBMITTED_ASSETS': 4,
- 	'UPDATE_ASSETS': 4,
 	'PROGSTACK': 4,
-	'UNDO_AWARD_PINS': 4,
-	'DELETE_MEDIA': 4,
-
- 	'ADMIN_ADD': 5,
-	'USER_BLACKLIST': 5,
- 	'POST_EDITING': 5,
- 	'VIEW_PATRONS': 5,
- 	'BLACKJACK_NOTIFICATIONS': 5,
- 	'IGNORE_BADGE_BLACKLIST': 5,
- 	'ENABLE_DM_MEDIA': 5,
- 	'SEE_GHOST_VOTES': 5,
-	'SITE_OFFLINE_MODE': 5,
- 	'MODS_EVERY_HOLE': 5,
-	'MODS_EVERY_GROUP': 5,
-	'IGNORE_DOMAIN_BAN': 5,
-	'USER_RESET_PASSWORD': 5,
-	'CLAIM_REWARDS_ALL_USERS': 5,
+	'ADMIN_ADD': 4,
+	'USER_BLACKLIST': 4,
+	'POST_COMMENT_EDITING': 4,
+	'VIEW_PATRONS': 4,
+	'BLACKJACK_NOTIFICATIONS': 4,
+	'IGNORE_BADGE_BLACKLIST': 4,
+	'ENABLE_DM_MEDIA': 4,
+	'SEE_GHOST_VOTES': 4,
+	'SITE_OFFLINE_MODE': 4,
+	'MODS_EVERY_HOLE': 4,
+	'MODS_EVERY_GROUP': 4,
+	'IGNORE_DOMAIN_BAN': 4,
+	'USER_RESET_PASSWORD': 4,
+	'CLAIM_REWARDS_ALL_USERS': 4,
 }
 
 FEATURES = {
@@ -543,11 +539,10 @@ BIO_FRIENDS_ENEMIES_HTML_LENGTH_LIMIT = 20000 # do not make larger than 20000 ch
 
 COSMETIC_AWARD_COIN_AWARD_PCT = 0.50
 
-TRUESCORE_CHAT_MINIMUM = 0
+TRUESCORE_CC_CHAT_MINIMUM = 0
 TRUESCORE_GHOST_MINIMUM = 10
 TRUESCORE_DONATE_MINIMUM = 10
-TRUESCORE_CC_MINIMUM = 1
-TRUESCORE_CHUDRAMA_MINIMUM = 100
+TRUESCORE_CHUDRAMA_MINIMUM = 10
 
 LOGGEDIN_ACTIVE_TIME = 15 * 60
 PFP_DEFAULT_MARSEY = True
@@ -572,18 +567,10 @@ ZOZBOT_ID = 4
 
 PIZZASHILL_ID = 0
 IMPASSIONATA_ID = 0
-PROGSTACK_ID = 4
-
 CARP_ID = 0
 AEVANN_ID = 0
-SNAKES_ID = 0
-JUSTCOOL_ID = 0
+GTIX_ID = 0
 LAWLZ_ID = 0
-TGTW_ID = 0
-IDIO_ID = 0
-SCHIZO_ID = 0
-SNALLY_ID = 0
-LNTERNETCUSTODIAN_ID = 0
 
 IMMUNE_TO_AWARDS = {}
 EXEMPT_FROM_1WEEK_EDITING_LIMIT = {}
@@ -591,6 +578,7 @@ EXEMPT_FROM_1WEEK_EDITING_LIMIT = {}
 MODMAIL_ID = 2
 GIFT_NOTIF_ID = 5
 SIGNUP_FOLLOW_ID = 0
+PROGSTACK_ID = 4
 
 POLL_BET_COINS = 200
 POLL_MAX_OPTIONS = 200
@@ -600,7 +588,7 @@ LOTTERY_TICKET_COST = 12
 LOTTERY_SINK_RATE = 3
 LOTTERY_DURATION = 60 * 60 * 24 * 7
 
-NOTIFICATION_THREAD = 1
+BUG_THREAD = 0
 
 SIDEBAR_THREAD = 0
 BANNER_THREAD = 0
@@ -674,7 +662,7 @@ if SITE == 'rdrama.net':
 	FEATURES['USERS_PERMANENT_WORD_FILTERS'] = True
 	FEATURES['ASSET_SUBMISSIONS'] = True
 
-	NOTIFICATION_THREAD = 6489
+	BUG_THREAD = 18459
 
 	SIDEBAR_THREAD = 37696
 	BANNER_THREAD = 37697
@@ -683,7 +671,7 @@ if SITE == 'rdrama.net':
 	CHANGELOG_THREAD = 165657
 	ADMIGGER_THREADS = {SIDEBAR_THREAD, BANNER_THREAD, BADGE_THREAD, SNAPPY_THREAD, CHANGELOG_THREAD, 79285, 166300, 187078}
 
-	TRUESCORE_CHAT_MINIMUM = 10
+	TRUESCORE_CC_CHAT_MINIMUM = 10
 
 	HOLE_COST = 50000
 	HOLE_INACTIVITY_DELETION = True
@@ -701,14 +689,7 @@ if SITE == 'rdrama.net':
 	PROGSTACK_ID = 15531
 	CARP_ID = 995
 	AEVANN_ID = 1
-	SNAKES_ID = 10288
-	JUSTCOOL_ID = 4999
 	LAWLZ_ID = 3833
-	TGTW_ID = 2008
-	IDIO_ID = 30
-	SCHIZO_ID = 8494
-	SNALLY_ID = 3336
-	LNTERNETCUSTODIAN_ID = 8768
 
 	IMMUNE_TO_AWARDS = {PIZZASHILL_ID, CARP_ID}
 
@@ -719,57 +700,38 @@ if SITE == 'rdrama.net':
 		'the rodent': AEVANN_ID,
 		'carp': CARP_ID,
 		'clit': CARP_ID,
-		'snakes': SNAKES_ID,
-		'sneks': SNAKES_ID,
-		'snekky': SNAKES_ID,
-		'snekchad': SNAKES_ID,
-		'jc': JUSTCOOL_ID,
-		'justcool': JUSTCOOL_ID,
-		'lawlz': LAWLZ_ID,
-		'transgirltradwife': TGTW_ID,
 		'impassionata': IMPASSIONATA_ID,
 		'pizzashill': PIZZASHILL_ID,
-		'idio3': IDIO_ID,
-		'idio ': IDIO_ID,
-		'telegram ': IDIO_ID,
-		'schizo': SCHIZO_ID,
+		'schizo': 8494,
 
 		'joan': 28,
 		'pewkie': 28,
 		'homocracy': 147,
 		'donger': 541,
-		'geese': 1710,
-		'soren': 2546,
 		'marseyismywaifu': 3377,
 		'mimw': 3377,
 		'heymoon': 3635,
-		'gaypoon': 3635,
-		'jollymoon': 3635,
 		'chiobu': 5214,
-		'mccox': 8239,
 		'august': 1830,
 		'marco': 152,
 		'klen': 2050,
+		'gaslight': 18121,
 	}
 
 	ANTISPAM_BYPASS_IDS = {1703, 13427, 15014}
 
 	GIFT_NOTIF_ID = CARP_ID
 
-	WELCOME_MSG = "Hi there! It's me, your soon-to-be favorite rDrama user @carpathianflorist here to give you a brief rundown on some of the sick features we have here. You'll probably want to start by following me, though. So go ahead and click my name and then smash that Follow button. This is actually really important, so go on. Hurry.\n\nThanks!\n\nNext up: If you're a member of the media, similarly just shoot me a DM and I'll set about verifying you and then we can take care of your sad journalism stuff.\n\n**FOR EVERYONE ELSE**\n\n Begin by navigating to [the settings page](/settings/profile) (we'll be prettying this up so it's less convoluted soon, don't worry) and getting some basic customization done.\n\n### Themes\n\nDefinitely change your theme right away, the default one (Midnight) is pretty enough, but why not use something *exotic* like Win98, or *flashy* like Tron? Even Coffee is super tasteful and way more fun than the default. More themes to come when we get around to it!\n\n### Avatar/pfp\n\nYou'll want to set this pretty soon. Set the banner too while you're at it. Your profile is important!\n\n### Flairs\n\nSince you're already on the settings page, you may as well set a flair, too. As with your username, you can - obviously - choose the color of this, either with a hex value or just from the preset colors. And also like your username, you can change this at any time. Paypigs can even further relive the glory days of 90s-00s internet and set obnoxious signatures.\n\n### PROFILE ANTHEMS\n\nSpeaking of profiles, hey, remember MySpace? Do you miss autoplaying music assaulting your ears every time you visited a friend's page? Yeah, we brought that back. Enter a YouTube URL, wait a few seconds for it to process, and then BAM! you've got a profile anthem which people cannot mute. Unless they spend 20,000 dramacoin in the shop for a mute button. Which you can then remove from your profile by spending 40,000 dramacoin on an unmuteable anthem. Get fucked poors!\n\n### Dramacoin?\n\nDramacoin is basically our take on the karma system. Except unlike the karma system, it's not gay and boring and stupid and useless. Dramacoin can be spent at [Marsey's Dramacoin Emporium](/shop/awards) on upgrades to your user experience (many more coming than what's already listed there), and best of all on tremendously annoying awards to fuck with your fellow dramautists. We're always adding more, so check back regularly in case you happen to miss one of the announcement posts.\n\nLike karma, dramacoin is obtained by getting upvotes on your threads and comments. *Unlike* karma, it's also obtained by getting downvotes on your threads and comments. Downvotes don't really do anything here - they pay the same amount of dramacoin and they increase thread/comment ranking just the same as an upvote. You just use them to express petty disapproval and hopefully start a fight. Because all votes are visible here. To hell with your anonymity.\n\nDramacoin can also be traded amongst users from their profiles. Note that there is a 3% transaction fee.\n\n### Badges\n\nRemember all those neat little metallic icons you saw on my profile when you were following me? If not, scroll back up and go have a look. And doublecheck to make sure you pressed the Follow button. Anyway, those are badges. You earn them by doing a variety of things. Some of them even offer benefits, like discounts at the shop. A [complete list of badges and their requirements can be found here](/badges), though I add more pretty regularly, so keep an eye on the [changelog](/post/165657).\n\n### Other stuff\n\nWe're always adding new features, and we take a fun-first approach to development. If you have a suggestion for something that would be fun, funny, annoying - or best of all, some combination of all three - definitely make a thread about it. Or just DM me if you're shy. Weirdo. Anyway there's also the [leaderboards](/leaderboard), boring stuff like two-factor authentication you can toggle on somewhere in the settings page (psycho), the ability to save posts and comments, more than a thousand emojis already (most of which are rDrama originals), and on and on and on and on. This is just the basics, mostly to help you get acquainted with some of the things you can do here to make it more easy on the eyes, customizable, and enjoyable. If you don't enjoy it, just go away! We're not changing things to suit you! Get out of here loser! And no, you can't delete your account :na:\n\nI love you.<br>*xoxo Carp* 💋"
+	WELCOME_MSG = f"Hi there! It's me, your soon-to-be favorite rDrama user @carpathianflorist here to give you a brief rundown on some of the sick features we have here. You'll probably want to start by following me, though. So go ahead and click my name and then smash that Follow button. This is actually really important, so go on. Hurry.\n\nThanks!\n\nNext up: If you're a member of the media, similarly just shoot me a DM and I'll set about verifying you and then we can take care of your sad journalism stuff.\n\n**FOR EVERYONE ELSE**\n\n Begin by navigating to [the settings page](/settings/profile) (we'll be prettying this up so it's less convoluted soon, don't worry) and getting some basic customization done.\n\n### Themes\n\nDefinitely change your theme right away, the default one (Midnight) is pretty enough, but why not use something *exotic* like Win98, or *flashy* like Tron? Even Coffee is super tasteful and way more fun than the default. More themes to come when we get around to it!\n\n### Avatar/pfp\n\nYou'll want to set this pretty soon. Set the banner too while you're at it. Your profile is important!\n\n### Flairs\n\nSince you're already on the settings page, you may as well set a flair, too. As with your username, you can - obviously - choose the color of this, either with a hex value or just from the preset colors. And also like your username, you can change this at any time. Paypigs can even further relive the glory days of 90s-00s internet and set obnoxious signatures.\n\n### PROFILE ANTHEMS\n\nSpeaking of profiles, hey, remember MySpace? Do you miss autoplaying music assaulting your ears every time you visited a friend's page? Yeah, we brought that back. Enter a YouTube URL, wait a few seconds for it to process, and then BAM! you've got a profile anthem which people cannot mute. Unless they spend 20,000 dramacoin in the shop for a mute button. Which you can then remove from your profile by spending 40,000 dramacoin on an unmuteable anthem. Get fucked poors!\n\n### Dramacoin?\n\nDramacoin is basically our take on the karma system. Except unlike the karma system, it's not gay and boring and stupid and useless. Dramacoin can be spent at [Marsey's Dramacoin Emporium](/shop/awards) on upgrades to your user experience (many more coming than what's already listed there), and best of all on tremendously annoying awards to fuck with your fellow dramautists. We're always adding more, so check back regularly in case you happen to miss one of the announcement posts.\n\nLike karma, dramacoin is obtained by getting upvotes on your threads and comments. *Unlike* karma, it's also obtained by getting downvotes on your threads and comments. Downvotes don't really do anything here - they pay the same amount of dramacoin and they increase thread/comment ranking just the same as an upvote. You just use them to express petty disapproval and hopefully start a fight. Because all votes are visible here. To hell with your anonymity.\n\nDramacoin can also be traded amongst users from their profiles. Note that there is a 3% transaction fee.\n\n### Badges\n\nRemember all those neat little metallic icons you saw on my profile when you were following me? If not, scroll back up and go have a look. And doublecheck to make sure you pressed the Follow button. Anyway, those are badges. You earn them by doing a variety of things. Some of them even offer benefits, like discounts at the shop. A [complete list of badges and their requirements can be found here](/badges), though I add more pretty regularly, so keep an eye on the [changelog](/post/{CHANGELOG_THREAD}).\n\n### Other stuff\n\nWe're always adding new features, and we take a fun-first approach to development. If you have a suggestion for something that would be fun, funny, annoying - or best of all, some combination of all three - definitely make a thread about it. Or just DM me if you're shy. Weirdo. Anyway there's also the [leaderboards](/leaderboard), boring stuff like two-factor authentication you can toggle on somewhere in the settings page (psycho), the ability to save posts and comments, more than a thousand emojis already (most of which are rDrama originals), and on and on and on and on. This is just the basics, mostly to help you get acquainted with some of the things you can do here to make it more easy on the eyes, customizable, and enjoyable. If you don't enjoy it, just go away! We're not changing things to suit you! Get out of here loser! And no, you can't delete your account :na:\n\nI love you.<br>*xoxo Carp* 💋"
 
 	REDDIT_NOTIFS_USERS = {
-		'idio3': IDIO_ID,
 		'aevann': AEVANN_ID,
 		'carpflo': CARP_ID,
 		'carpathianflorist': CARP_ID,
 		'carpathian florist': CARP_ID,
 		'the_homocracy': 147,
-		'justcool393': JUSTCOOL_ID
 	}
 elif SITE == 'watchpeopledie.tv':
-	POST_RATELIMIT = '30/day'
-
 	NOTIFICATION_SPAM_AGE_THRESHOLD = 0.5 * 86400
 
 	EMAIL = "wpd@watchpeopledie.tv"
@@ -779,15 +741,15 @@ elif SITE == 'watchpeopledie.tv':
 	DESCRIPTION = "People die and this is the place to see it. You only have one life, don't make the mistakes seen here."
 
 	PIN_LIMIT = 4
-	WELCOME_MSG = """Hi, you! Welcome to WatchPeopleDie.tv, this really cool site where you can go to watch people die. I'm @CLiTPEELER! If you have any questions about how things work here, or suggestions on how to make them work better than they already do, definitely slide on into my DMs (no fat chicks).\n\nThere's an enormously robust suite of fun features we have here and we're always looking for more to add. Way, way too many to go over in an automated welcome message. And you're probably here for the videos of people dying more than any sort of weird, paradoxical digital community aspect anyway, so I won't bore you with a tedious overview of them. Just head on over to [your settings page](https://watchpeopledie.tv/settings/profile) and have a look at some of the basic profile stuff, at least. You can change your profile picture, username, flair, colors, banners, bio, profile anthem (autoplaying song on your page, like it's MySpace or some shit, hell yeah), CSS, all sorts of things.\n\nOr you can just go back to the main feed and carry on with watching people die. That's what the site is for, after all. Have fun!\n\nAnyway, in closing, WPD is entirely open source. We don't really need new full-time coders or anything, but if you'd like to take a look at our repo - or even submit a PR to change, fix, or add some things - go right ahead! Our codebase lives at https://fsdfsd.net/rDrama/rDrama\n\nWell, that's all. Thanks again for signing up. It's an automated message and all, but I really do mean that. Thank you, specifically. I love you. Romantically. Deeply. Passionately.\n\nHave fun!"""
+	WELCOME_MSG = """Hi, you! Welcome to WatchPeopleDie.tv, this really cool site where you can go to watch people die. I'm @CLiTPEELER! If you have any questions about how things work here, or suggestions on how to make them work better than they already do, definitely slide on into my DMs (no fat chicks).\n\nThere's an enormously robust suite of fun features we have here and we're always looking for more to add. Way, way too many to go over in an automated welcome message. And you're probably here for the videos of people dying more than any sort of weird, paradoxical digital community aspect anyway, so I won't bore you with a tedious overview of them. Just head on over to [your settings page](/settings/profile) and have a look at some of the basic profile stuff, at least. You can change your profile picture, username, flair, colors, banners, bio, profile anthem (autoplaying song on your page, like it's MySpace or some shit, hell yeah), CSS, all sorts of things.\n\nOr you can just go back to the main feed and carry on with watching people die. That's what the site is for, after all. Have fun!\n\nAnyway, in closing, WPD is entirely open source. We don't really need new full-time coders or anything, but if you'd like to take a look at our repo - or even submit a PR to change, fix, or add some things - go right ahead! Our codebase lives at https://fsdfsd.net/rDrama/rDrama\n\nWell, that's all. Thanks again for signing up. It's an automated message and all, but I really do mean that. Thank you, specifically. I love you. Romantically. Deeply. Passionately.\n\nHave fun!"""
 
 	FEATURES['PATRON_ICONS'] = True
 	FEATURES['NSFW_MARKING'] = False
 	FEATURES['BOTS'] = False
 
 	PERMS['HOLE_CREATE'] = 2
-	PERMS['POST_EDITING'] = 2
-	PERMS['USER_BLACKLIST'] = 6
+	PERMS['POST_COMMENT_EDITING'] = 3
+	PERMS['MODS_EVERY_HOLE'] = 3
 
 	SUB_BANNER_LIMIT = 69420
 
@@ -821,15 +783,18 @@ elif SITE == 'watchpeopledie.tv':
 
 	ERROR_MARSEYS[403] = "marseyconfused"
 
-	NOTIFICATION_THREAD = 27855
+	BUG_THREAD = 61549
 
 	SIDEBAR_THREAD = 5403
 	BANNER_THREAD = 9869
 	BADGE_THREAD = 52519
 	CHANGELOG_THREAD = 56363
-	ADMIGGER_THREADS = {SIDEBAR_THREAD, BANNER_THREAD, BADGE_THREAD, CHANGELOG_THREAD}
+	ADMIGGER_THREADS = {SIDEBAR_THREAD, BANNER_THREAD, BADGE_THREAD, CHANGELOG_THREAD, 22937}
 
-	TRUESCORE_CHAT_MINIMUM = 10
+	MAX_VIDEO_SIZE_MB = 500
+	MAX_VIDEO_SIZE_MB_PATRON = 500
+
+	TRUESCORE_CC_CHAT_MINIMUM = 50
 
 	HOLE_NAME = 'flair'
 	HOLE_STYLE_FLAIR = True
@@ -842,7 +807,7 @@ elif SITE == 'watchpeopledie.tv':
 
 	CARP_ID = 48
 	AEVANN_ID = 9
-	SNAKES_ID = 32
+	GTIX_ID = 77694
 
 	GIFT_NOTIF_ID = CARP_ID
 	SIGNUP_FOLLOW_ID = CARP_ID
@@ -853,6 +818,8 @@ elif SITE == 'watchpeopledie.tv':
 		' capy': AEVANN_ID,
 		'carp': CARP_ID,
 		'clit': CARP_ID,
+		'g-tix': GTIX_ID,
+		'gtix': GTIX_ID,
 	}
 
 	TIER_TO_NAME = {
@@ -873,6 +840,7 @@ elif SITE == 'devrama.net':
 	FEATURES['HOUSES'] = True
 	FEATURES['USERS_PERMANENT_WORD_FILTERS'] = True
 	PERMS["SITE_SETTINGS"] = 4
+	PERMS["ORGIES"] = 4
 else: # localhost or testing environment implied
 	FEATURES['ASSET_SUBMISSIONS'] = True
 	FEATURES['PRONOUNS'] = True
@@ -965,12 +933,8 @@ approved_embed_hosts = [
 	'external-preview.redd.it',
 	'pbs.twimg.com/media',
 	'i.pinimg.com',
-	'kiwifarms.net/attachments',
-	'uploads.kiwifarms.net/data/attachments',
-	'sneed.today/attachments',
-	'uploads.sneed.today/data/attachments',
-	'kiwifarms.pl/attachments',
-	'uploads.kiwifarms.pl/data/attachments',
+	'kiwifarms.st/attachments',
+	'uploads.kiwifarms.st/data/attachments',
 	'upload.wikimedia.org/wikipedia',
 	'live.staticflickr.com',
 	'substackcdn.com/image',
@@ -1033,8 +997,6 @@ forced_hats = {
 				("Pride Flag II", "This user is a proud supporter of LGBTQ+ rights."))
 
 }
-
-EMAIL_REGEX_PATTERN = '[A-Za-z0-9._%+-]{1,64}@[A-Za-z0-9.-]{2,63}\.[A-Za-z]{2,63}'
 
 IMAGE_FORMATS = ('png','jpg','jpeg','webp','gif')
 VIDEO_FORMATS = ('mp4','webm','mov','avi','mkv','flv','m4v','3gp')
@@ -1109,6 +1071,7 @@ CHUD_PHRASES = (
 		"Climate action now",
 		"Long live the CCP",
 		"I stand with Ukraine",
+		"Leo Frank was innocent",
 	)
 
 HEADERS = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36"}
@@ -1149,13 +1112,8 @@ GIRL_NAMES = {
 	'Z': ['Zoe', 'Zoey', 'Zaria', 'Zoie']
 }
 
-class OrgyTypes:
-	YOUTUBE = 1
-	RUMBLE = 2
-	TWITCH = 3
-
 from sqlalchemy.engine.create import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
 engine = create_engine(environ.get("DATABASE_URL").strip(), connect_args={"options": "-c statement_timeout=5000 -c idle_in_transaction_session_timeout=40000"})
-db_session = scoped_session(sessionmaker(bind=engine))
+db_session = scoped_session(sessionmaker(bind=engine, autoflush=False))

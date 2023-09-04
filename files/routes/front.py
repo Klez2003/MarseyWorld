@@ -36,14 +36,17 @@ def front_all(v, sub=None):
 
 	if sub: defaultsorting = "new"
 
-	sort=request.values.get("sort", defaultsorting)
-	t=request.values.get('t', defaulttime)
+	sort = request.values.get("sort", defaultsorting)
+	t = request.values.get('t', defaulttime)
 
-	try: gt=int(request.values.get("after", 0))
-	except: gt=0
+	if SITE == 'rdrama.net' and t == 'all' and sort == 'hot' and page > 6000:
+		sort = 'top'
 
-	try: lt=int(request.values.get("before", 0))
-	except: lt=0
+	try: gt = int(request.values.get("after", 0))
+	except: gt = 0
+
+	try: lt = int(request.values.get("before", 0))
+	except: lt = 0
 
 	if sort == 'hot': default = True
 	else: default = False
@@ -77,7 +80,7 @@ def front_all(v, sub=None):
 	result = render_template("home.html", v=v, listing=posts, total=total, sort=sort, t=t, page=page, sub=sub, home=True, pins=pins, size=size)
 
 	if not v:
-		cache.set(f'frontpage_{sort}_{t}_{page}_{sub}_{pins}', result, timeout=3600)
+		cache.set(f'frontpage_{sort}_{t}_{page}_{sub}_{pins}', result, timeout=900)
 
 	return result
 
@@ -161,12 +164,6 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 		pins = pins.order_by(Post.created_utc.desc()).all()
 		posts = pins + posts
 
-	if v and (time.time() - v.created_utc) > (364 * 86400):
-		badge_grant(user=v, badge_id=134)
-
-	if v and (time.time() - v.created_utc) > (729 * 86400):
-		badge_grant(user=v, badge_id=237)
-
 	if ids_only: posts = [x.id for x in posts]
 	return posts, total, size
 
@@ -238,8 +235,8 @@ def comment_idlist(v=None, page=1, sort="new", t="day", gt=0, lt=0):
 def all_comments(v):
 	page = get_page()
 
-	sort=request.values.get("sort", "new")
-	t=request.values.get("t", "hour")
+	sort = request.values.get("sort", "new")
+	t = request.values.get("t", "hour")
 
 	try: gt=int(request.values.get("after", 0))
 	except: gt=0

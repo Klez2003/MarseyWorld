@@ -30,8 +30,8 @@ const lotteryOnReady = function () {
 	ticketPurchaseQuantityInput.addEventListener("change", (event) => {
 	const value = Math.max(1, parseInt(event.target.value))
 	purchaseQuantity = value
-	purchaseQuantityField.innerText = value
-	purchaseTotalCostField.innerText = value * 12
+	purchaseQuantityField.textContent = value
+	purchaseTotalCostField.textContent = value * 12
 	});
 };
 
@@ -53,7 +53,7 @@ function handleLotteryRequest(uri, method, callback = () => {}) {
 	const form = new FormData();
 	form.append("formkey", formkey());
 	form.append("quantity", purchaseQuantity);
-	const xhr = createXhrWithFormKey(`/lottery/${uri}`, method, form);
+	const xhr = createXhrWithFormKey(`/lottery/${uri}`, form, method);
 	xhr[0].onload = handleLotteryResponse.bind(null, xhr[0], method, callback);
 	xhr[0].send(xhr[1]);
 }
@@ -76,7 +76,7 @@ function handleLotteryResponse(xhr, method, callback) {
 		const toast = document.getElementById("lottery-post-success");
 		const toastMessage = document.getElementById("lottery-post-success-text");
 
-		toastMessage.innerText = response.message;
+		toastMessage.textContent = response.message;
 
 		bootstrap.Toast.getOrCreateInstance(toast).show();
 
@@ -86,7 +86,7 @@ function handleLotteryResponse(xhr, method, callback) {
 		const toast = document.getElementById("lottery-post-error");
 		const toastMessage = document.getElementById("lottery-post-error-text");
 
-		toastMessage.innerText =
+		toastMessage.textContent =
 		(response && response.details) || "Error, please try again later.";
 
 		bootstrap.Toast.getOrCreateInstance(toast).show();

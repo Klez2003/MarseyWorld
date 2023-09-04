@@ -272,6 +272,17 @@ class User(Base):
 
 	@property
 	@lazy
+	def allowed_in_chat(self):
+		if self.admin_level >= PERMS['BYPASS_CHAT_TRUESCORE_REQUIREMENT']:
+			return True
+		if self.truescore >= TRUESCORE_CC_CHAT_MINIMUM:
+			return True
+		if self.patron:
+			return True
+		return False
+
+	@property
+	@lazy
 	def num_of_bought_awards(self):
 		return g.db.query(AwardRelationship).filter_by(user_id=self.id).count()
 
@@ -380,7 +391,7 @@ class User(Base):
 
 	@property
 	@lazy
-	def is_votes_real(self):
+	def has_real_votes(self):
 		if self.patron: return True
 		if self.is_permabanned or self.shadowbanned: return False
 		if self.chud: return False
@@ -508,7 +519,7 @@ class User(Base):
 		if isinstance(target, Comment) and not target.post: return False
 		if self.id == target.author_id: return True
 		if not isinstance(target, Post): return False
-		return bool(self.admin_level >= PERMS['POST_EDITING'])
+		return bool(self.admin_level >= PERMS['POST_COMMENT_EDITING'])
 
 	@property
 	@lazy
@@ -549,12 +560,6 @@ class User(Base):
 	@lazy
 	def has_blocked(self, target):
 		return g.db.query(UserBlock).filter_by(user_id=self.id, target_id=target.id).one_or_none()
-
-	@lazy
-	def any_block_exists(self, other):
-		return g.db.query(UserBlock).filter(
-			or_(and_(UserBlock.user_id == self.id, UserBlock.target_id == other.id), and_(
-				UserBlock.user_id == other.id, UserBlock.target_id == self.id))).first()
 
 	@property
 	@lazy
@@ -779,7 +784,7 @@ class User(Base):
 		if self.id == AEVANN_ID and SITE_NAME != 'rDrama':
 			return 0
 
-		if self.admin_level:
+		if self.admin_level >= PERMS['NOTIFICATIONS_MODERATOR_ACTIONS']:
 			q = g.db.query(ModAction).filter(
 				ModAction.created_utc > self.last_viewed_log_notifs,
 				ModAction.user_id != self.id,
@@ -1032,7 +1037,7 @@ class User(Base):
 			raise TypeError("Relationships supported is SaveRelationship, Subscription, CommentSaveRelationship")
 
 		query = g.db.query(query).join(join).filter(relationship_cls.user_id == self.id)
-		if not self.admin_level >= PERMS['POST_COMMENT_MODERATION']:
+		if self.admin_level < PERMS['POST_COMMENT_MODERATION']:
 			query = query.filter(cls.is_banned == False, cls.deleted_utc == 0)
 		return query.count()
 
@@ -1126,10 +1131,10 @@ class User(Base):
 				if request.headers.get("Cf-Ipcountry") == 'NZ':
 					if 'christchurch' in other.title.lower():
 						return False
-					if SITE == 'watchpeopledie.tv' and other.id == 5:
+					if SITE == 'watchpeopledie.tv' and other.id in {5, 17212, 22653, 23814}:
 						return False
 			else:
-				if hasattr(other, 'is_blocking') and other.is_blocking:
+				if hasattr(other, 'is_blocking') and other.is_blocking and not request.path.endswith(f'/{other.id}'):
 					return False
 				if other.parent_post:
 					return cls.can_see(user, other.post)
@@ -1184,7 +1189,7 @@ class User(Base):
 		if self.can_see_restricted_holes != None:
 			return self.can_see_restricted_holes
 
-		if self.truescore >= TRUESCORE_CC_MINIMUM: return True
+		if self.truescore >= TRUESCORE_CC_CHAT_MINIMUM: return True
 
 		if SITE == 'rdrama.net' and self.id == 5237: return True
 
@@ -1328,8 +1333,7 @@ class User(Base):
 	@property
 	@lazy
 	def ordered_badges(self):
-		x = sorted(self.badges, key=badge_ordering_func)
-		return x
+		return sorted(self.badges, key=badge_ordering_func)
 
 	@lazy
 	def rendered_sig(self, v):

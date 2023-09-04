@@ -47,7 +47,7 @@ TLDS = ( # Original gTLDs and ccTLDs
 	'moe','mom','monster','new','news','online','pics','press','pub','site','blog',
 	'vip','win','world','wtf','xyz','video','host','art','media','wiki','tech',
 	'cooking','network','party','goog','markets','today','beauty','camp','top',
-	'red','city','quest','works'
+	'red','city','quest','works','soy',
 	)
 
 allowed_tags = ('a','audio','b','big','blockquote','br','center','code','del','details','em','g','h1','h2','h3','h4','h5','h6','hr','i','img','li','lite-youtube','marquee','ol','p','pre','rp','rt','ruby','small','span','spoiler','strike','strong','sub','summary','sup','table','tbody','td','th','thead','tr','u','ul','video')
@@ -78,6 +78,7 @@ def allowed_attributes(tag, name, value):
 		if name in {'g','b','glow','party'} and not value: return True
 		if name in {'alt','title'}: return True
 		if name == 'class' and value == 'img': return True
+		if name == 'data-user-submitted' and not value: return True
 
 	if tag == 'lite-youtube':
 		if name == 'params' and value.startswith('autoplay=1&modestbranding=1'): return True
@@ -94,13 +95,14 @@ def allowed_attributes(tag, name, value):
 		if name == 'preload' and value == 'none': return True
 
 	if tag == 'p':
-		if name == 'class' and value in {'mb-0','resizable','text-center'}: return True
+		if name == 'class' and value in {'mb-0','resizable','yt','text-center'}: return True
 
 	if tag == 'span':
 		if name == 'data-bs-toggle' and value == 'tooltip': return True
 		if name == 'title': return True
 		if name == 'alt': return True
 		if name == 'cide' and not value: return True
+		if name == 'bounce' and not value: return True
 
 	if tag == 'table':
 		if name == 'class' and value == 'table': return True
@@ -215,46 +217,48 @@ def execute_blackjack(v, target, body, kind):
 	return True
 
 def find_all_emote_endings(word):
-	endings = list()
-	curr_word = word
+	endings = []
+
+	if path.isfile(f'files/assets/images/emojis/{word}.webp'):
+		return endings, word
 
 	is_non_ending_found = False
 	while not is_non_ending_found:
-		if curr_word.endswith('pat'):
+		if word.endswith('pat'):
 			if 'pat' in endings:
 				is_non_ending_found = True
 				continue
 			endings.append('pat')
-			curr_word = curr_word[:-3]
+			word = word[:-3]
 			continue
 		
-		if curr_word.endswith('talking'):
+		if word.endswith('talking'):
 			if 'talking' in endings:
 				is_non_ending_found = True
 				continue
 			endings.append('talking')
-			curr_word = curr_word[:-7]
+			word = word[:-7]
 			continue
 
-		if curr_word.endswith('genocide'):
+		if word.endswith('genocide'):
 			if 'genocide' in endings:
 				is_non_ending_found = True
 				continue
 			endings.append('genocide')
-			curr_word = curr_word[:-8]
+			word = word[:-8]
 			continue
 		
-		if curr_word.endswith('heart'):
-			if 'heart' in endings:
+		if word.endswith('love'):
+			if 'love' in endings:
 				is_non_ending_found = True
 				continue
-			endings.append('heart')
-			curr_word = curr_word[:-5]
+			endings.append('love')
+			word = word[:-4]
 			continue
 
 		is_non_ending_found = True
 	
-	return endings, curr_word
+	return endings, word
 
 
 def render_emoji(html, regexp, golden, emojis_used, b=False, is_title=False):
@@ -295,7 +299,7 @@ def render_emoji(html, regexp, golden, emojis_used, b=False, is_title=False):
 		is_talking = 'talking' in ending_modifiers
 		is_patted = 'pat' in ending_modifiers
 		is_talking_first = ending_modifiers.index('pat') > ending_modifiers.index('talking') if is_talking and is_patted else False
-		is_loved = 'heart' in ending_modifiers
+		is_loved = 'love' in ending_modifiers
 		is_genocided = 'genocide' in ending_modifiers
 		is_user = emoji.startswith('@')
 
@@ -358,7 +362,7 @@ def with_sigalrm_timeout(timeout):
 
 def remove_cuniform(sanitized):
 	if not sanitized: return ""
-	sanitized = sanitized.replace('\u200e','').replace('\u200b','').replace('\u202e','').replace("\ufeff", "")
+	sanitized = sanitized.replace('\u200e','').replace('\u200b','').replace('\u202e','').replace("\ufeff", "").replace("\u033f","").replace("\u0589", ":")
 	sanitized = sanitized.replace("𒐪","").replace("𒐫","").replace("﷽","")
 	sanitized = sanitized.replace("\r\n", "\n")
 	sanitized = sanitized.replace("’", "'")
@@ -384,6 +388,7 @@ def get_youtube_id_and_t(url):
 	return (id, t)
 
 def handle_youtube_links(url):
+	url = url.replace('&amp;','&')
 	params = parse_qs(urlparse(url).query, keep_blank_values=True)
 	html = None
 	id, t = get_youtube_id_and_t(url)
@@ -417,15 +422,6 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 
 	if not sanitized: return ''
 
-	if FEATURES['PING_GROUPS']:
-		ping_group_count = len(list(group_mention_regex.finditer(sanitized)))
-		if ping_group_count > 5:
-			error("You can only ping a maximum of 5 ping groups!")
-
-	if "style" in sanitized and "filter" in sanitized:
-		if sanitized.count("blur(") + sanitized.count("drop-shadow(") > 5:
-			error("Too many filters!")
-
 	if blackjack and execute_blackjack(g.v, None, sanitized, blackjack):
 		sanitized = 'g'
 
@@ -450,9 +446,6 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 
 	sanitized = sanitized.replace('<a href="/%21', '<a href="/!')
 
-	# replacing zero width characters, overlines, fake colons
-	sanitized = sanitized.replace('\u200e','').replace('\u200b','').replace("\ufeff", "").replace("\u033f","").replace("\u0589", ":")
-
 	sanitized = reddit_regex.sub(r'<a href="https://old.reddit.com/\1" rel="nofollow noopener" target="_blank">/\1</a>', sanitized)
 	sanitized = sub_regex.sub(r'<a href="/\1">/\1</a>', sanitized)
 
@@ -460,7 +453,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 
 	names = set(m.group(1) for m in mention_regex.finditer(sanitized))
 
-	if limit_pings and len(names) > limit_pings and not v.admin_level >= PERMS['POST_COMMENT_INFINITE_PINGS']:
+	if limit_pings and len(names) > limit_pings and v.admin_level < PERMS['POST_COMMENT_INFINITE_PINGS']:
 		error("Max ping limit is 5 for comments and 50 for posts!")
 
 	users_list = get_users(names, graceful=True)
@@ -527,6 +520,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 				a.append(tag)
 
 			tag["data-src"] = tag["data-src"]
+		tag["data-user-submitted"] = ""
 
 	sanitized = str(soup).replace('<html><body>','').replace('</body></html>','').replace('/>','>')
 
@@ -656,6 +650,8 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 
 		html = handle_youtube_links(i.group(1))
 		if html:
+			if not chat:
+				html = f'<p class="resizable yt">{html}</p>'
 			sanitized = sanitized.replace(i.group(0), html)
 
 	if '<pre>' not in sanitized and blackjack != "rules":
@@ -673,6 +669,10 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 			pos = CHARLIMIT - 500
 		if pos >= 0:
 			sanitized = (sanitized[:pos] + showmore_regex.sub(r'\1<p><button class="showmore">SHOW MORE</button></p><d class="d-none">\2</d>', sanitized[pos:], count=1))
+
+	if "style" in sanitized and "filter" in sanitized:
+		if sanitized.count("blur(") + sanitized.count("drop-shadow(") > 5:
+			error("Too many filters!")
 
 	return sanitized.strip()
 
@@ -717,15 +717,17 @@ def filter_emojis_only(title, golden=True, count_emojis=False, graceful=False):
 
 	if len(title) > POST_TITLE_HTML_LENGTH_LIMIT and not graceful:
 		abort(400)
-	else:
-		return title.strip()
+	
+	title = title.strip()
+
+	return title
 
 def is_whitelisted(domain, k):
 	if domain.endswith('pullpush.io'):
 		return True
 	if 'sort' in k.lower() or 'query' in k.lower():
 		return True
-	if k in {'_x_tr_hl','_x_tr_pto','_x_tr_sl','_x_tr_tl','abstract_id','after','article','bill_id','comments','context','count','f','fbid','format','forum_id','i','ID','id','lb','list','oldid','p','page','post_id','postid','q','run','scrollToComments','search','sl','sp','story_fbid','tab','term','text','thread_id','threadid','ticket_form_id','time_continue','title','title_no','tl','token','topic','type','u','udca','url','v','vid','viewkey'}:
+	if k in {'_x_tr_hl','_x_tr_pto','_x_tr_sl','_x_tr_tl','abstract_id','after','article','bill_id','c','clip','comments','context','count','f','fbid','format','forum_id','i','ID','id','lb','list','oldid','p','page','post_id','postid','q','run','scrollToComments','search','sl','sp','story_fbid','tab','term','text','thread_id','threadid','ticket_form_id','time_continue','title','title_no','tl','token','topic','type','tz1','tz2','u','udca','url','v','vid','viewkey'}:
 		return True
 	if k == 't' and domain != 'twitter.com':
 		return True
@@ -746,21 +748,32 @@ def normalize_url(url):
 			 .replace("https://youtube.com/shorts/", "https://youtube.com/watch?v=") \
 			 .replace("https://youtube.com/v/", "https://youtube.com/watch?v=") \
 			 .replace("https://mobile.twitter.com", "https://twitter.com") \
-			 .replace("https://m.facebook.com", "https://facebook.com") \
-			 .replace("https://m.wikipedia.org", "https://wikipedia.org") \
+			 .replace("https://x.com", "https://twitter.com") \
 			 .replace("https://www.twitter.com", "https://twitter.com") \
+			 .replace("https://nitter.net/", "https://twitter.com/") \
+			 .replace("https://nitter.42l.fr/", "https://twitter.com/") \
+			 .replace("https://nitter.net/", "https://twitter.com/") \
+			 .replace("https://m.facebook.com", "https://facebook.com") \
+			 .replace("https://en.m.wikipedia.org", "https://en.wikipedia.org") \
 			 .replace("https://www.instagram.com", "https://instagram.com") \
 			 .replace("https://www.tiktok.com", "https://tiktok.com") \
 			 .replace("https://imgur.com/", "https://i.imgur.com/") \
-			 .replace("https://nitter.net/", "https://twitter.com/") \
-			 .replace("https://nitter.42l.fr/", "https://twitter.com/") \
-			 .replace("https://nitter.lacontrevoie.fr/", "https://twitter.com/") \
 			 .replace("/giphy.gif", "/giphy.webp") \
+			 .replace('https://www.google.com/amp/s/', 'https://') \
+			 .replace('https://amp.', 'https://') \
+			 .replace('https://cnn.com/cnn/', 'https://edition.cnn.com/') \
+			 .replace('/amp/', '/') \
+
+	if url.endswith('.amp'):
+		url = url.split('.amp')[0]
 
 	url = giphy_regex.sub(r'\1.webp', url)
 
 	if not url.startswith('/') and not url.startswith('https://rdrama.net') and not url.startswith('https://watchpeopledie.tv'):
-		parsed_url = urlparse(url)
+		try: parsed_url = urlparse(url)
+		except:
+			print(url, flush=True)
+			abort(500)
 		domain = parsed_url.netloc
 		qd = parse_qs(parsed_url.query, keep_blank_values=True)
 		filtered = {k: val for k, val in qd.items() if is_whitelisted(domain, k)}
@@ -853,8 +866,9 @@ def torture_object(obj, torture_method):
 
 def complies_with_chud(obj):
 	#check for cases where u should leave
-	if not (obj.author.chud or obj.author.queen): return True
+	if not (obj.chudded or obj.queened): return True
 	if obj.author.marseyawarded: return True
+
 	if isinstance(obj, Post):
 		if obj.id in ADMIGGER_THREADS: return True
 		if obj.sub == "chudrama": return True
@@ -862,9 +876,7 @@ def complies_with_chud(obj):
 		if obj.parent_post in ADMIGGER_THREADS: return True
 		if obj.post.sub == "chudrama": return True
 
-	if obj.author.chud:
-		if not obj.chudded: return True
-
+	if obj.chudded:
 		#perserve old body_html to be used in checking for chud phrase
 		old_body_html = obj.body_html
 
@@ -880,7 +892,7 @@ def complies_with_chud(obj):
 		#torture title_html and check for chud_phrase in plain title and leave if it's there
 		if isinstance(obj, Post):
 			obj.title_html = torture_chud(obj.title_html, obj.author.username)
-			if obj.author.chud_phrase in obj.title.lower():
+			if not obj.author.chud or obj.author.chud_phrase in obj.title.lower():
 				return True
 
 		#check for chud_phrase in body_html
@@ -890,10 +902,10 @@ def complies_with_chud(obj):
 			tags = soup.html.body.find_all(lambda tag: tag.name not in excluded_tags and not tag.attrs, recursive=False)
 			for tag in tags:
 				for text in tag.find_all(text=True, recursive=False):
-					if obj.author.chud_phrase in text.lower():
+					if not obj.author.chud or obj.author.chud_phrase in text.lower():
 						return True
 
 		return False
-	elif obj.author.queen:
+	elif obj.queened:
 		torture_object(obj, torture_queen)
 		return True

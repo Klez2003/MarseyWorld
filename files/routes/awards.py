@@ -150,7 +150,6 @@ def award_thing(v, thing_type, id):
 
 	if v.shadowbanned: abort(500)
 	author = thing.author
-	if author.shadowbanned and not v.admin_level: abort(404)
 
 	AWARDS = deepcopy(AWARDS_ENABLED)
 	if v.house:
@@ -350,6 +349,10 @@ def award_thing(v, thing_type, id):
 
 		badge_grant(user=author, badge_id=285)
 
+		if thing_type == 'comment' and not thing.author.deflector:
+			thing.queened = True
+			g.db.add(thing)
+
 	elif kind == "chud":
 		if thing_type == 'post' and thing.sub == 'chudrama' \
 			or thing_type == 'comment' and thing.post and thing.post.sub == 'chudrama':
@@ -360,9 +363,6 @@ def award_thing(v, thing_type, id):
 
 		if author.marseyawarded:
 			abort(409, f"{safe_username} under the effect of a conflicting award: Marsey award!")
-
-		if author.marsify:
-			abort(409, f"{safe_username} under the effect of a conflicting award: Marsify award!")
 
 		if author.owoify:
 			abort(409, f"{safe_username} under the effect of a conflicting award: OwOify award!")
@@ -385,9 +385,8 @@ def award_thing(v, thing_type, id):
 
 		badge_grant(user=author, badge_id=58)
 
-		if thing_type == 'comment':
+		if thing_type == 'comment' and not thing.author.deflector:
 			thing.chudded = True
-
 	elif kind == "flairlock":
 		new_name = note[:100]
 		if not new_name and author.flairchanged:
@@ -516,7 +515,8 @@ def award_thing(v, thing_type, id):
 		if thing_type == 'comment' and not thing.author.deflector:
 			body = thing.body
 			body = owoify(body)
-			if author.marsify: body = marsify(body)
+			if author.marsify and not author.chud:
+				body = marsify(body)
 			thing.body_html = sanitize(body, limit_pings=5, showmore=True)
 			g.db.add(thing)
 	elif ("Edgy" in kind and kind == v.house) or kind == 'sharpen':
@@ -531,11 +531,15 @@ def award_thing(v, thing_type, id):
 			body = thing.body
 			body = sharpen(body)
 			thing.body_html = sanitize(body, limit_pings=5, showmore=True)
+			thing.sharpened = True
 			g.db.add(thing)
 	elif ("Femboy" in kind and kind == v.house) or kind == 'rainbow':
 		if author.rainbow: author.rainbow += 86400
 		else: author.rainbow = int(time.time()) + 86400
 		badge_grant(user=author, badge_id=171)
+		if thing_type == 'comment' and not thing.author.deflector:
+			thing.rainbowed = True
+			g.db.add(thing)
 	elif kind == "spider":
 		if author.spider: author.spider += 86400
 		else: author.spider = int(time.time()) + 86400

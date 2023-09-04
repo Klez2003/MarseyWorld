@@ -7,10 +7,10 @@ from sqlalchemy.sql.sqltypes import *
 from files.classes import Base
 
 class SaveRelationship(Base):
-	__tablename__="save_relationship"
+	__tablename__ = "save_relationship"
 
-	user_id=Column(Integer, ForeignKey("users.id"), primary_key=True)
-	post_id=Column(Integer, ForeignKey("posts.id"), primary_key=True)
+	user_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
+	post_id = Column(Integer, ForeignKey("posts.id"), primary_key=True)
 	created_utc = Column(Integer)
 
 	post = relationship("Post", uselist=False)
@@ -25,10 +25,10 @@ class SaveRelationship(Base):
 
 class CommentSaveRelationship(Base):
 
-	__tablename__="comment_save_relationship"
+	__tablename__ = "comment_save_relationship"
 
-	user_id=Column(Integer, ForeignKey("users.id"), primary_key=True)
-	comment_id=Column(Integer, ForeignKey("comments.id"), primary_key=True)
+	user_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
+	comment_id = Column(Integer, ForeignKey("comments.id"), primary_key=True)
 	created_utc = Column(Integer)
 
 	comment = relationship("Comment", uselist=False)

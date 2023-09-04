@@ -31,13 +31,8 @@ def authorize(v):
 		return {"oauth_error": "Invalid `client_id`"}, 400
 	access_token = secrets.token_urlsafe(128)[:128]
 
-	try:
-		new_auth = ClientAuth(oauth_client = application.id, user_id = v.id, access_token=access_token)
-		g.db.add(new_auth)
-	except sqlalchemy.exc.IntegrityError:
-		g.db.rollback()
-		old_auth = g.db.query(ClientAuth).filter_by(oauth_client = application.id, user_id = v.id).one()
-		access_token = old_auth.access_token
+	new_auth = ClientAuth(oauth_client = application.id, user_id = v.id, access_token=access_token)
+	g.db.add(new_auth)
 
 	return redirect(f"{application.redirect_uri}?token={access_token}")
 
@@ -93,9 +88,9 @@ def request_api_keys(v):
 		notif = Notification(comment_id=new_comment.id, user_id=admin_id)
 		g.db.add(notif)
 
-	push_notif(admin_ids, 'New notification', body, f'{SITE_FULL}/comment/{new_comment.id}?read=true#context')
+	push_notif(admin_ids, 'New notification', body, f'{SITE_FULL}/admin/apps')
 
-	return redirect('/settings/apps')
+	return {"message": "API keys requested successfully!"}
 
 
 @app.post("/delete_app/<int:aid>")
@@ -145,8 +140,7 @@ def edit_oauth_app(v, aid):
 
 	g.db.add(app)
 
-
-	return redirect('/settings/apps')
+	return {"message": "App edited successfully!"}
 
 
 @app.post("/admin/app/approve/<int:aid>")

@@ -13,7 +13,7 @@ from files.__main__ import app, limiter
 @auth_required
 def ping_groups(v):
 	groups = g.db.query(Group).order_by(Group.created_utc).all()
-	return render_template('groups.html', v=v, groups=groups, cost=GROUP_COST, msg=get_msg(), error=get_error())
+	return render_template('groups.html', v=v, groups=groups, cost=GROUP_COST)
 
 @app.post("/create_group")
 @limiter.limit('1/second', scope=rpath)
@@ -27,16 +27,16 @@ def create_group(v):
 	name = name.strip().lower()
 
 	if name.startswith('slots') or name.startswith('remindme'):
-		return redirect(f"/ping_groups?error=You can't make a group with that name!")
+		abort(400, "You can't make a group with that name!")
 
 	if not valid_sub_regex.fullmatch(name):
-		return redirect(f"/ping_groups?error=Name does not match the required format!")
+		abort(400, "Name does not match the required format!")
 
 	if name in {'everyone', 'jannies', 'followers'} or g.db.get(Group, name):
-		return redirect(f"/ping_groups?error=This group already exists!")
+		abort(400, "This group already exists!")
 
 	if not v.charge_account('combined', GROUP_COST)[0]:
-		return redirect(f"/ping_groups?error=You don't have enough coins or marseybux!")
+		abort(403, "You don't have enough coins or marseybux!")
 
 	g.db.add(v)
 	if v.shadowbanned: abort(500)
@@ -56,7 +56,7 @@ def create_group(v):
 	for admin in admins:
 		send_repeatable_notification(admin, f":!marseyparty: !{group} has been created by @{v.username} :marseyparty:")
 
-	return redirect(f'/ping_groups?msg=!{group} created successfully!')
+	return {"message": f"!{group} created successfully!"}
 
 @app.post("/!<group_name>/apply")
 @limiter.limit('1/second', scope=rpath)
@@ -201,6 +201,7 @@ def group_reject(v, group_name, user_id):
 
 	g.db.delete(membership)
 
+	g.db.flush()
 	count = g.db.query(GroupMembership).filter_by(group_name=group.name).count()
 	if not count:
 		g.db.commit() #need it to fix "Dependency rule tried to blank-out primary key column 'group_memberships.group_name' on instance"

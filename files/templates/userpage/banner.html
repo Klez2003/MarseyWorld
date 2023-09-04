@@ -182,15 +182,15 @@
 								<button type="button" class="btn btn-danger" data-nonce="{{g.nonce}}" data-onclick="postToastReload(this,'/settings/block?username={{u.username}}')">Block</button>
 							</div>
 						</div>
-						<form class="d-none toggleable" id="message" action="/@{{u.username}}/message" data-nonce="{{g.nonce}}" data-onsubmit="sendMessage(this)">
+						<form class="d-none toggleable" id="message" action="/@{{u.username}}/message" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendMessage(this)">
 							<input hidden name="formkey" value="{{v|formkey}}">
 							<textarea autocomplete="off" id="input-message" form="message" name="message" rows="3" minlength="1" maxlength="10000" class="file-ta form-control b2 mt-1" data-preview="message-preview" data-nonce="{{g.nonce}}" data-oninput="markdown(this)"></textarea>
 
-							<button type="button" class="btn btn-secondary format d-inline-block m-0 py-2 fas fa-smile-beam" data-nonce="{{g.nonce}}" data-onclick="loadEmojis('input-message')" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"></button>
+							{{macros.file_input('file-upload-macro', 'input-message', not get_setting('dm_media'))}}
 
-							{{macros.file_input('file-upload-macro', False, not get_setting('dm_media'))}}
-
-							<input type="submit" data-nonce="{{g.nonce}}" data-onclick="remove_dialog()" value="Submit" class="btn btn-primary fl-r">
+							<div class="d-flex">
+								<input type="submit" data-nonce="{{g.nonce}}" data-onclick="remove_dialog()" value="Submit" class="btn btn-primary ml-auto">
+							</div>
 						</form>
 
 						<div id="message-preview" class="preview mt-2"></div>
@@ -476,14 +476,15 @@
 				</div>
 
 				{% if v and v.id != u.id %}
-					<form class="d-none toggleable text-left" id='message-mobile' action="/@{{u.username}}/message" data-nonce="{{g.nonce}}" data-onsubmit="sendMessage(this)">
+					<form class="d-none toggleable text-left" id='message-mobile' action="/@{{u.username}}/message" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendMessage(this)">
 						<input class="mt-1" hidden name="formkey" value="{{v|formkey}}">
 						<textarea autocomplete="off" id="input-message-mobile" form="message-mobile" name="message" rows="3" minlength="1" maxlength="10000" class="file-ta form-control" data-preview="message-preview-mobile" data-nonce="{{g.nonce}}" data-oninput="markdown(this)" required></textarea>
-						<button type="button" class="btn btn-secondary format d-inline-block m-0 py-2 fas fa-smile-beam" data-nonce="{{g.nonce}}" data-onclick="loadEmojis('input-message-mobile')" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"></button>
 
-						{{macros.file_input('file-upload-mobile', True)}}
+						{{macros.file_input('file-upload-mobile', 'input-message-mobile')}}
 
-						<input type="submit" data-nonce="{{g.nonce}}" data-onclick="remove_dialog()" value="Submit" class="btn btn-primary fl-r">
+						<div class="d-flex">
+							<input type="submit" data-nonce="{{g.nonce}}" data-onclick="remove_dialog()" value="Submit" class="btn btn-primary ml-auto">
+						</div>
 					</form>
 
 					<div id="message-preview-mobile" class="preview my-3"></div>

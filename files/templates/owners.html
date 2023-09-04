@@ -13,7 +13,7 @@
 {% for user, created_utc in users %}
 	<tr>
 		<td>{% include "user_in_table.html" %}</td>
-		<td {% if created_utc > 1599343262 %}data-time="{{created_utc}}"{% endif %}></td>
+		<td {% if created_utc %}data-time="{{created_utc}}"{% endif %}></td>
 	</tr>
 {% endfor %}
 </tbody>

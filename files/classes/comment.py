@@ -23,13 +23,16 @@ def normalize_urls_runtime(body, v):
 	if v.reddit != 'old.reddit.com':
 		body = reddit_to_vreddit_regex.sub(rf'\1https://{v.reddit}/\2/', body)
 	if v.nitter:
-		body = twitter_to_nitter_regex.sub(r'\1https://nitter.lacontrevoie.fr/', body)
+		body = twitter_to_nitter_regex.sub(r'\1https://nitter.net/', body)
 	if v.imginn:
 		body = body.replace('https://instagram.com/', 'https://imginn.com/')
 	return body
 
 
 def add_options(self, body, v):
+	if 'details>' in body or 'summary>' in body:
+		return body
+
 	if isinstance(self, Comment):
 		kind = 'comment'
 	else:
@@ -37,9 +40,9 @@ def add_options(self, body, v):
 
 	if self.options:
 		curr = [x for x in self.options if x.exclusive and x.voted(v)]
-		if curr: curr = f" value={kind}-" + str(curr[0].id)
+		if curr: curr = f" value=option-{kind}-" + str(curr[0].id)
 		else: curr = ''
-		body += f'<input class="d-none" id="current-{kind}-{self.id}"{curr}>'
+		body += f'<input class="d-none" id="current-option-{kind}-{self.id}"{curr}>'
 		winner = [x for x in self.options if x.exclusive == 3]
 
 	for o in self.options:
@@ -66,7 +69,7 @@ def add_options(self, body, v):
 			option_body += "</div>"
 		else:
 			input_type = 'radio' if o.exclusive else 'checkbox'
-			option_body += f'<div class="custom-control mt-2"><input type="{input_type}" class="custom-control-input" id="{kind}-{o.id}" name="option-{self.id}"'
+			option_body += f'<div class="custom-control mt-2"><input type="{input_type}" class="custom-control-input" id="option-{kind}-{o.id}" name="option-{self.id}"'
 			if o.voted(v): option_body += " checked"
 
 			disabled = False
@@ -87,10 +90,10 @@ def add_options(self, body, v):
 			else:
 				option_body += f''' data-nonce="{g.nonce}" data-onclick="option_vote_no_v()"'''
 
-			option_body += f'''><label class="custom-control-label" for="{kind}-{o.id}">{o.body_html}<span class="presult-{self.id}'''
+			option_body += f'''><label class="custom-control-label" for="option-{kind}-{o.id}">{o.body_html}<span class="presult-{self.id}'''
 			if not disabled and not self.total_poll_voted(v):
 				option_body += ' d-none'
-			option_body += f'"> - <a href="/votes/{kind}/option/{o.id}"><span id="score-{kind}-{o.id}">{o.upvotes}</span> votes</a></label></div>'''
+			option_body += f'"> - <a href="/votes/{kind}/option/{o.id}"><span id="score-option-{kind}-{o.id}">{o.upvotes}</span> votes</a></label></div>'''
 
 		if o.exclusive > 1: s = '##'
 		elif o.exclusive: s = '&amp;&amp;'
@@ -139,10 +142,13 @@ class Comment(Base):
 	ban_reason = Column(String)
 	treasure_amount = Column(String)
 	slots_result = Column(String)
-	ping_cost = Column(Integer)
+	ping_cost = Column(Integer, default=0)
 	blackjack_result = Column(String)
 	casino_game_id = Column(Integer, ForeignKey("casino_games.id"))
 	chudded = Column(Boolean, default=False)
+	rainbowed = Column(Boolean, default=False)
+	queened = Column(Boolean, default=False)
+	sharpened = Column(Boolean, default=False)
 
 	oauth_app = relationship("OauthApp")
 	post = relationship("Post", back_populates="comments")
@@ -187,6 +193,7 @@ class Comment(Base):
 	@property
 	@lazy
 	def edited_string(self):
+		if not self.edited_utc: return None
 		return make_age_string(self.edited_utc)
 
 	@property
@@ -260,11 +267,7 @@ class Comment(Base):
 
 	@lazy
 	def award_count(self, kind, v):
-		if v and v.poor and kind.islower(): return 0
-		num = len([x for x in self.awards if x.kind == kind])
-		if num > 4 and kind not in {"shit", "fireflies", "gingerbread"}:
-			return 4
-		return num
+		return len([x for x in self.awards if x.kind == kind])
 
 	@property
 	@lazy

@@ -17,7 +17,7 @@
 						<div class="body w-lg-100">
 							<p>You're a {{TIER_TO_NAME[v.patron] if v.patron else "freeloader"}}!</p>{% if v.patron %} Thanks ily! &lt;3{% endif %}
 							{% if not v.patron and v.truescore >= TRUESCORE_DONATE_MINIMUM %}
-								<p class="font-italic">To stop freeloading, first <a href="/settings/security#new_email">verify your email</a>, support us on <a href="{{DONATE_LINK}}">{{DONATE_SERVICE}}</a> with the same email, and click "Claim {{patron}} Rewards"</p>
+								<p class="font-italic">To stop freeloading, first <a href="/settings/security#site-settings-email-section">verify your email</a>, support us on <a href="{{DONATE_LINK}}">{{DONATE_SERVICE}}</a> with the same email, and click "Claim {{patron}} Rewards"</p>
 							{% elif not v.patron %}
 								<p class="font-italic">To stop freeloading, you can <a href="/donate">donate via crypto</a>. Please let us know first beforehand by <a href="/contact">sending us a modmail.</a> Thanks!</p>
 							{% endif %}
@@ -69,7 +69,7 @@
 							</form>
 							{% if v.background %}
 								<div class="d-flex mb-3">
-									<button type="button" class="btn btn-danger" data-nonce="{{g.nonce}}" data-onclick="postToastReload(this,'/settings/background', 'DELETE')">
+									<button type="button" class="btn btn-danger" data-nonce="{{g.nonce}}" data-onclick="postToastReload(this,'/settings/remove_background')">
 										<i class="fas fa-image-slash mr-1"></i>
 										Remove current background
 									</button>
@@ -186,7 +186,7 @@
 						</div>
 						<div class="body w-lg-100">
 							<p>Your original username will always stay reserved for you: <code>{{v.original_username}}</code></p>
-							<form action="/settings/name_change" method="post">
+							<form action="/settings/name_change" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHR(this)">
 								<input hidden name="formkey" value="{{v|formkey}}">
 								<input id="name-body" autocomplete="off" type="text" name="name" class="form-control" value="{{v.username}}"  {% if v.namechanged %}disabled{% endif %}>
 								<small>{% if v.patron %}1{% else %}3{% endif %}-25 characters, including letters, numbers, _ , and -</small>
@@ -237,14 +237,14 @@
 					{%- endif %}
 
 					{% if FEATURES['USERS_PROFILE_BODYTEXT'] %}
-						{{common.text_area_section('profile-bio', '/settings/personal', 'bio', 'Bio', v.bio, 'Limit of ' ~ BIO_FRIENDS_ENEMIES_LENGTH_LIMIT ~ ' characters', 'Tell the community a bit about yourself.', true, true, BIO_FRIENDS_ENEMIES_LENGTH_LIMIT)}}
+						{{common.text_area_section('profile-bio', '/settings/personal', 'bio', 'Bio', v.bio, 'Limit of ' ~ BIO_FRIENDS_ENEMIES_LENGTH_LIMIT ~ ' characters', 'Tell the community a bit about yourself.', true, BIO_FRIENDS_ENEMIES_LENGTH_LIMIT)}}
 					{% endif %}
 
-					{{common.text_area_section('profile-friends', '/settings/personal', 'friends', 'Friends', v.friends, 'Limit of ' ~ BIO_FRIENDS_ENEMIES_LENGTH_LIMIT ~ ' characters', 'Enter your friends on the site...', false, false, BIO_FRIENDS_ENEMIES_LENGTH_LIMIT)}}
+					{{common.text_area_section('profile-friends', '/settings/personal', 'friends', 'Friends', v.friends, 'Limit of ' ~ BIO_FRIENDS_ENEMIES_LENGTH_LIMIT ~ ' characters', 'Enter your friends on the site...', false, BIO_FRIENDS_ENEMIES_LENGTH_LIMIT)}}
 
-					{{common.text_area_section('profile-enemies', '/settings/personal', 'enemies', 'Enemies', v.enemies, 'Limit of ' ~ BIO_FRIENDS_ENEMIES_LENGTH_LIMIT ~ ' characters', 'Enter your enemies on the site...', false, false, BIO_FRIENDS_ENEMIES_LENGTH_LIMIT)}}
+					{{common.text_area_section('profile-enemies', '/settings/personal', 'enemies', 'Enemies', v.enemies, 'Limit of ' ~ BIO_FRIENDS_ENEMIES_LENGTH_LIMIT ~ ' characters', 'Enter your enemies on the site...', false, BIO_FRIENDS_ENEMIES_LENGTH_LIMIT)}}
 
-					{{common.text_area_section('profile-signature', '/settings/personal', 'sig', 'Signature', v.sig, 'Limit of 200 characters', 'Enter a signature...', true, false, 200)}}
+					{{common.text_area_section('profile-signature', '/settings/personal', 'sig', 'Signature', v.sig, 'Limit of 200 characters', 'Enter a signature...', true, 200)}}
 
 					{{common.toggle_section('Private Mode', 'privateswitch', 'private', v.is_private, 'This will hide your profile page from others.', false)}}
 					{{common.toggle_section('Lifetime donated visiblity', 'lifetimedonated_visibleswitch', 'lifetimedonated_visible', v.lifetimedonated_visible, 'Make the "lifetime donated" field in your profile visible to everyone instead of just you.', false)}}
@@ -301,8 +301,8 @@
 						<div class="body w-lg-100">
 							<div class="input-group">
 								<input autocomplete="off" type="text" readonly class="form-control copy-link" id="referral_code" value="{{SITE_FULL}}/signup?ref={{v.username}}" data-clipboard-text="{{SITE_FULL}}/signup?ref={{v.username}}">
-								<span class="input-group-append" data-bs-toggle="tooltip" data-bs-placement="top" title="You have referred {{v.referral_count}} user{{'s' if v.referral_count != 1 else ''}} so far. {% if v.referral_count==0 %}¯\_(ツ)_/¯{% elif v.referral_count>10%}Wow!{% endif %}">
-									<span class="input-group-text text-primary border-0"><i class="far fa-user mr-1"></i>{{v.referral_count}}</span>
+								<span class="input-group-append" data-bs-toggle="tooltip" data-bs-placement="top" title="You have referred {{v.referral_count}} user{{'s' if v.referral_count != 1 else ''}} so far. {% if v.referral_count==0 %}¯\_(ツ)_/¯{% elif v.referral_count>10 %}Wow!{% endif %}">
+									<span class="input-group-text text-primary border-0"><i class="fas fa-user mr-1"></i>{{v.referral_count}}</span>
 								</span>
 							</div>
 							<div class="text-small text-muted mt-3">Share this link with a friend. {% if v.referral_count==0 %} When they sign up, you'll get the bronze recruitment badge. <a href="/badges">Learn more.</a>{% elif v.referral_count<10 %} When you refer 10 friends, you'll receive the silver recruitment badge. <a href="/badges">Learn more.</a>{% elif v.referral_count<100 %} When you refer 100 friends, you'll receive the gold recruitment badge. <a href="/badges">Learn more</a>.{% endif %}</div>
@@ -332,12 +332,12 @@
 {% if FEATURES['USERS_PERMANENT_WORD_FILTERS'] -%}
 <div class="modal fade" id="modal-{{id}}" tabindex="-1">
 	<div class="modal-dialog modal-dialog-centered">
-		<form class="m-auto" action="{{form_action}}" id="{{id}}-form" method="post">
+		<form class="m-auto" action="{{form_action}}" id="{{id}}-form" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHRReload(this)">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title">Make {{friendly_name}} Permanent</h5>
 					<button type="button" class="close" data-bs-dismiss="modal">
-						<span><i class="far fa-times"></i></span>
+						<span><i class="fas fa-times"></i></span>
 					</button>
 				</div>
 				<div class="modal-body">

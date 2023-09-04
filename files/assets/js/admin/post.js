@@ -1,5 +1,5 @@
 function removePost(t,post_id,button1,button2,cls) {
-	url="/remove_post/"+post_id
+	url = "/remove_post/"+post_id
 
 	postToastSwitch(t, url,
 		button1,
@@ -21,7 +21,7 @@ function removePost(t,post_id,button1,button2,cls) {
 
 
 function approvePost(t,post_id,button1,button2,cls) {
-	url="/approve_post/"+post_id
+	url = "/approve_post/"+post_id
 
 	postToastSwitch(t, url,
 		button1,

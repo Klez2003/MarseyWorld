@@ -9,8 +9,8 @@ NOT_IN_CODE_OR_LINKS = '(?!([^<]*<\/(code|pre|a)>|[^`\n]*`|(.|\n)*```))'
 valid_username_regex = re.compile("^[\w\-]{3,25}$", flags=re.A)
 valid_username_patron_regex = re.compile("^[\w\-]{1,25}$", flags=re.A)
 
-mention_regex = re.compile('(?<![/\w])@([\w\-]{1,30})' + NOT_IN_CODE_OR_LINKS, flags=re.A)
-group_mention_regex = re.compile('(?<![/\w])!([\w\-]{3,25})' + NOT_IN_CODE_OR_LINKS, flags=re.A|re.I)
+mention_regex = re.compile('(?<![:/\w])@([\w\-]{1,30})' + NOT_IN_CODE_OR_LINKS, flags=re.A)
+group_mention_regex = re.compile('(?<![:/\w])!([\w\-]{3,25})' + NOT_IN_CODE_OR_LINKS, flags=re.A|re.I)
 
 everyone_regex = re.compile('(^|\s|>)!(everyone)' + NOT_IN_CODE_OR_LINKS, flags=re.A)
 
@@ -40,7 +40,7 @@ html_comment_regex = re.compile("<!--.*-->", flags=re.A)
 
 title_regex = re.compile("[^\w ]", flags=re.A)
 
-controversial_regex = re.compile('["> ](https:\/\/old\.reddit\.com/r/\w{3,20}\/comments\/[\w\-.#&/=\?@%+]{5,250})["< ]', flags=re.A)
+controversial_regex = re.compile('["> ](https:\/\/old\.reddit\.com/r/\w{2,20}\/comments\/[\w\-.#&/=\?@%+]{5,250})["< ]', flags=re.A)
 
 spoiler_regex = re.compile('\|\|(.+?)\|\|' + NOT_IN_CODE_OR_LINKS, flags=re.A)
 reddit_regex = re.compile('(?<![\w/])\/?(([ruRU])\/(\w|-){2,25})' + NOT_IN_CODE_OR_LINKS, flags=re.A)
@@ -48,7 +48,7 @@ sub_regex = re.compile('(?<![\w/])\/?([hH]\/(\w|-){3,25})' + NOT_IN_CODE_OR_LINK
 
 strikethrough_regex = re.compile('(^|\s|>|")~{1,2}([^~]+)~{1,2}' + NOT_IN_CODE_OR_LINKS, flags=re.A)
 
-mute_regex = re.compile("\/mute @?([\w\-]{3,30}) ([0-9]+)", flags=re.A|re.I)
+mute_regex = re.compile("\/mute @?([\w\-]{1,30}) ([0-9]+)", flags=re.A|re.I)
 
 emoji_regex = re.compile(f"<p>\s*(:[!#@\w\-]{{1,72}}:\s*)+<\/p>", flags=re.A)
 emoji_regex2 = re.compile(f'(?<!"):([!#@\w\-]{{1,72}}?):(?!([^<]*<\/(code|pre)>|[^`]*`))', flags=re.A)
@@ -56,7 +56,7 @@ emoji_regex2 = re.compile(f'(?<!"):([!#@\w\-]{{1,72}}?):(?!([^<]*<\/(code|pre)>|
 snappy_url_regex = re.compile('<a href="(https?:\/\/.+?)".*?>(.+?)<\/a>', flags=re.A)
 snappy_youtube_regex = re.compile('<lite-youtube videoid="(.+?)" params="autoplay=1', flags=re.A)
 
-email_regex = re.compile(EMAIL_REGEX_PATTERN, flags=re.A)
+email_regex = re.compile('[A-Za-z0-9._%+-]{1,64}@[A-Za-z0-9.-]{2,63}\.[A-Za-z]{2,63}', flags=re.A)
 
 slur_regex = re.compile(f"<[^>]*>|{slur_single_words}", flags=re.I|re.A)
 slur_regex_upper = re.compile(f"<[^>]*>|{slur_single_words.upper()}", flags=re.A)
@@ -97,11 +97,11 @@ xmaxing_regex = re.compile('(?<=^|(?<=\s))(([a-zA-Z]+?)(s)?max+ing)(?=$|\n|\s|[.
 initial_part_regex = re.compile('(?<=^)(>+)', flags=re.I|re.A)
 
 #matches "the" or is, but only if it is not followed by "fucking". https://regex101.com/r/yxuYsQ/2
-the_fucking_regex = re.compile('(?<=^|(?<=\s))((?:the|a)( (?:only))?|((that )?(?:is|are|was|were|will be|would be)( (?:your|her|his|their|no|a|not|to|too|so|this|the|our|what))?( (a|the))?)|is)(?=\s)(?! fucking)', flags=re.I|re.A)
+the_fucking_regex = re.compile('(?<=^|(?<=\s))((?:the|a)( (?:only))?|((that )?(?:is|are|was|were|will be|would be)( (?:your|her|his|their|no|a|not|to|too|so|this|the|our|what))?( (a|the))?)|is)(?=\s)(?! fucking)' + NOT_IN_CODE_OR_LINKS, flags=re.I|re.A)
 #matches a single question mark but only if it isn't preceded by ", bitch"
-bitch_question_mark_regex = re.compile('(?<!\?|\!)(?<!, bitch)(\?)(?!!|\?)(?=\s|$)', flags=re.I|re.A)
+bitch_question_mark_regex = re.compile('(?<!\?|\!)(?<!, bitch)(\?)(?!!|\?)(?=\s|$)' + NOT_IN_CODE_OR_LINKS, flags=re.I|re.A)
 #matches a single exclamation point but only if it isn't preceded by ", motherfucker"
-exclamation_point_regex = re.compile('(?<!!|\?)(?<!, motherfucker)(!)(?!!|\?)(?=\s|$)', flags=re.I|re.A)
+exclamation_point_regex = re.compile('(?<!!|\?)(?<!, motherfucker)(!)(?!!|\?)(?=\s|$)' + NOT_IN_CODE_OR_LINKS, flags=re.I|re.A)
 
 image_check_regex = re.compile(f'!\[\]\(((?!(https:\/\/({hosts})\/|\/)).*?)\)', flags=re.A)
 
@@ -119,12 +119,12 @@ imgur_regex = re.compile(f'(https:\/\/i\.imgur\.com\/[a-z0-9]+)\.({image_regex_e
 
 giphy_regex = re.compile('(https:\/\/media\.giphy\.com\/media\/[a-z0-9]+\/giphy)\.gif', flags=re.I|re.A)
 
-youtube_regex = re.compile('<a href="(https:\/\/youtube\.com\/watch\?[\w\-.#&/=?@%+]{7,}).*?<\/a>' + NOT_IN_CODE_OR_LINKS, flags=re.I|re.A)
+youtube_regex = re.compile('<a href="(https:\/\/youtube\.com\/watch\?[\w\-.#&/=?@%+;]{7,}).*?<\/a>' + NOT_IN_CODE_OR_LINKS, flags=re.I|re.A)
 yt_id_regex = re.compile('[\w\-]{5,20}', flags=re.A)
 
-rumble_regex = re.compile('https://rumble\.com/embed/([a-zA-Z0-9]*)/\?pub=([a-zA-Z0-9]*)',flags=re.I|re.A)
-bare_youtube_regex = re.compile('https:\/\/youtube\.com\/watch\?([\w\-.#&/=?@%+]{7,})',flags=re.I|re.A)
-twitch_regex = re.compile('(https:\/\/)?(www\.)?twitch.tv/(.*)',flags=re.I|re.A)
+rumble_regex = re.compile('https://rumble\.com/embed/([a-zA-Z0-9]*)(/\?pub=([a-zA-Z0-9]*))?', flags=re.I|re.A)
+bare_youtube_regex = re.compile('https:\/\/youtube\.com\/watch\?([\w\-.#&/=?@%+;]{7,})', flags=re.I|re.A)
+twitch_regex = re.compile('(https:\/\/)?(www\.)?twitch.tv\/(.*)', flags=re.I|re.A)
 
 link_fix_regex = re.compile("(\[.*?\]\()(?!http|\/)(.*?\))" + NOT_IN_CODE_OR_LINKS, flags=re.A)
 
@@ -138,7 +138,7 @@ allowed_domain_regex = re.compile("[a-z0-9\-.]+", flags=re.I|re.A)
 
 reddit_to_vreddit_regex = re.compile('(^|>|")https:\/\/old.reddit.com\/(r|u)\/', flags=re.A)
 twitter_to_nitter_regex = re.compile('(^|>|")https:\/\/twitter.com\/(?!i\/)', flags=re.A)
-reddit_domain_regex = re.compile("(^|\s|\()https?:\/\/(reddit\.com|(?:(?:[A-z]{2})(?:-[A-z]{2})" "?|beta|i|m|pay|ssl|www|new|alpha)\.reddit\.com|libredd\.it|reddit\.lol)\/(r|u|comments)\/", flags=re.A)
+reddit_domain_regex = re.compile("(^|\s|\()https?:\/\/(reddit\.com|(?:(?:[A-z]{2})(?:-[A-z]{2})" "?|beta|i|m|pay|ssl|www|new|alpha)\.reddit\.com|libredd\.it|reddit\.lol)\/(u|(r\/(\w|-){2,25}\/)?comments)\/", flags=re.A)
 
 color_regex = re.compile("[a-f0-9]{6}", flags=re.A)
 
@@ -226,6 +226,8 @@ reason_regex_comment = re.compile('(/comment/[0-9]+)', flags=re.A)
 
 numbered_list_regex = re.compile('((\s|^)[0-9]+)\. ', flags=re.A)
 
-image_link_regex = re.compile(f"https://(i\.)?{SITE}\/(chat_)?images\/[0-9]{{11,17}}r?\.webp", flags=re.A)
+image_link_regex = re.compile(f"https:\/\/(i\.)?{SITE}\/(chat_)?images\/[0-9]{{11,17}}r?\.webp", flags=re.A)
 
 video_link_regex = re.compile(f"https://(videos\.)?{SITE}\/(videos\/)?[0-9a-zA-Z._-]{{4,66}}\.({video_regex_extensions})", flags=re.A)
+
+asset_image_link_regex = re.compile(f"https:\/\/(i\.)?{SITE}\/assets\/images\/[\w\/]+.webp(\?x=\d+)?", flags=re.A)

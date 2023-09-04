@@ -21,6 +21,7 @@ from files.helpers.treasure import *
 from files.routes.front import comment_idlist
 from files.routes.routehelpers import execute_shadowban_viewers_and_voters
 from files.routes.wrappers import *
+from files.routes.static import badge_list
 from files.__main__ import app, cache, limiter
 
 def _mark_comment_as_read(cid, vid):
@@ -45,15 +46,18 @@ def _mark_comment_as_read(cid, vid):
 def post_pid_comment_cid(cid, v, pid=None, anything=None, sub=None):
 
 	comment = get_comment(cid, v=v)
-	if not User.can_see(v, comment): abort(403)
 
-	if v and request.values.get("read"):
-		gevent.spawn(_mark_comment_as_read, comment.id, v.id)
+	if not User.can_see(v, comment): abort(403)
 
 	if comment.parent_post:
 		post = comment.parent_post
+	elif comment.wall_user_id:
+		return redirect(f"/id/{comment.wall_user_id}/wall/comment/{comment.id}")
 	else:
-		post = NOTIFICATION_THREAD
+		return redirect(f"/notification/{comment.id}")
+
+	if v and request.values.get("read"):
+		gevent.spawn(_mark_comment_as_read, comment.id, v.id)
 
 	post = get_post(post, v=v)
 
@@ -64,15 +68,20 @@ def post_pid_comment_cid(cid, v, pid=None, anything=None, sub=None):
 	except: context = 8
 	comment_info = comment
 	c = comment
-	while context and c.level > 1:
-		c = c.parent_comment
-		context -= 1
-	top_comment = c
 
 	if post.new: defaultsortingcomments = 'new'
 	elif v: defaultsortingcomments = v.defaultsortingcomments
 	else: defaultsortingcomments = "hot"
-	sort=request.values.get("sort", defaultsortingcomments)
+	sort = request.values.get("sort", defaultsortingcomments)
+
+	while context and c.level > 1:
+		parent = c.parent_comment
+		replies = parent.replies(sort)
+		replies.remove(c)
+		parent.replies2 = [c] + replies
+		c = parent
+		context -= 1
+	top_comment = c
 
 	if v:
 		# this is required because otherwise the vote and block
@@ -137,7 +146,9 @@ def comment(v):
 
 
 
-	if not User.can_see(v, parent): abort(403)
+	if posting_to_post and not User.can_see(v, parent):
+		abort(403)
+
 	if not isinstance(parent, User) and parent.deleted_utc != 0:
 		if isinstance(parent, Post):
 			abort(403, "You can't reply to deleted posts!")
@@ -161,14 +172,14 @@ def comment(v):
 		elif v.bird and len(body) > 140:
 			abort(403, "You have to type less than 140 characters!")
 
-	if not body and not request.files.get('file'): abort(400, "You need to actually write something!")
+	if not body and not request.files.get('file'):
+		abort(400, "You need to actually write something!")
 
-	if not v.admin_level >= PERMS['POST_COMMENT_MODERATION'] and parent_user.any_block_exists(v):
-		abort(403, "You can't reply to users who have blocked you or users that you have blocked!")
+	if parent_user.has_blocked(v):
+		notify_op = False
 
 	if request.files.get("file") and not g.is_tor:
 		files = request.files.getlist('file')[:20]
-
 
 		if files:
 			media_ratelimit(v)
@@ -218,6 +229,7 @@ def comment(v):
 							copyfile(oldname, filename)
 							process_image(filename, v, resize=300, trim=True)
 							purge_files_in_cache(f"{SITE_FULL_IMAGES}/i/{SITE_NAME}/badges/{badge.id}.webp")
+							cache.delete_memoized(badge_list)
 						except Exception as e:
 							abort(400, str(e))
 				body = body.replace(f'[{file.filename}]', f' {image} ', 1)
@@ -240,7 +252,7 @@ def comment(v):
 
 	body_for_sanitize = body
 	if v.owoify: body_for_sanitize = owoify(body_for_sanitize)
-	if v.marsify: body_for_sanitize = marsify(body_for_sanitize)
+	if v.marsify and not v.chud: body_for_sanitize = marsify(body_for_sanitize)
 	if v.sharpen: body_for_sanitize = sharpen(body_for_sanitize)
 
 	body_html = sanitize(body_for_sanitize, limit_pings=5, showmore=(not v.marseyawarded), count_emojis=not v.marsify)
@@ -281,7 +293,10 @@ def comment(v):
 				body=body,
 				ghost=ghost,
 				chudded=chudded,
-				)
+				rainbowed=bool(v.rainbow),
+				queened=bool(v.queen),
+				sharpened=bool(v.sharpen),
+			)
 
 	c.upvotes = 1
 	g.db.add(c)
@@ -355,7 +370,7 @@ def comment(v):
 				n = Notification(comment_id=c.id, user_id=x)
 				g.db.add(n)
 
-			if parent_user.id != v.id and not v.shadowbanned:
+			if parent_user.id != v.id and notify_op:
 				if isinstance(parent, User):
 					title = f"New comment on your wall by @{c.author_name}"
 				else:
@@ -397,6 +412,8 @@ def comment(v):
 		).one_or_none()
 		if n: g.db.delete(n)
 
+	g.db.flush()
+
 	if c.parent_post:
 		for sort in COMMENT_SORTS:
 			cache.delete(f'post_{c.parent_post}_{sort}')
@@ -407,11 +424,13 @@ def comment(v):
 @app.post("/delete/comment/<int:cid>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@limiter.limit(DELETE_EDIT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DELETE_EDIT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def delete_comment(cid, v):
-	if v.id == 253: abort(403)
+	if SITE == 'rdrama.net' and v.id == 253:
+		abort(403)
+
 	c = get_comment(cid, v=v)
 	if not c.deleted_utc:
 		if c.author_id != v.id: abort(403)
@@ -423,6 +442,11 @@ def delete_comment(cid, v):
 			g.db.add(v)
 
 		cache.delete_memoized(comment_idlist)
+
+		if c.parent_post:
+			for sort in COMMENT_SORTS:
+				cache.delete(f'post_{c.parent_post}_{sort}')
+
 	return {"message": "Comment deleted!"}
 
 @app.post("/undelete/comment/<int:cid>")
@@ -443,6 +467,11 @@ def undelete_comment(cid, v):
 			g.db.add(v)
 
 		cache.delete_memoized(comment_idlist)
+
+		if c.parent_post:
+			for sort in COMMENT_SORTS:
+				cache.delete(f'post_{c.parent_post}_{sort}')
+
 	return {"message": "Comment undeleted!"}
 
 @app.post("/pin_comment/<int:cid>")
@@ -505,9 +534,9 @@ def unpin_comment(cid, v):
 @auth_required
 def save_comment(cid, v):
 
-	comment=get_comment(cid)
+	comment = get_comment(cid)
 
-	save=g.db.query(CommentSaveRelationship).filter_by(user_id=v.id, comment_id=comment.id).one_or_none()
+	save = g.db.query(CommentSaveRelationship).filter_by(user_id=v.id, comment_id=comment.id).one_or_none()
 
 	if not save:
 		new_save=CommentSaveRelationship(user_id=v.id, comment_id=comment.id)
@@ -524,9 +553,9 @@ def save_comment(cid, v):
 @auth_required
 def unsave_comment(cid, v):
 
-	comment=get_comment(cid)
+	comment = get_comment(cid)
 
-	save=g.db.query(CommentSaveRelationship).filter_by(user_id=v.id, comment_id=comment.id).one_or_none()
+	save = g.db.query(CommentSaveRelationship).filter_by(user_id=v.id, comment_id=comment.id).one_or_none()
 
 	if save:
 		g.db.delete(save)
@@ -564,7 +593,7 @@ def diff_words(answer, guess):
 def toggle_comment_nsfw(cid, v):
 	comment = get_comment(cid)
 
-	if comment.author_id != v.id and not v.admin_level >= PERMS['POST_COMMENT_MODERATION'] and not (comment.post.sub and v.mods(comment.post.sub)):
+	if comment.author_id != v.id and v.admin_level < PERMS['POST_COMMENT_MODERATION'] and not (comment.post.sub and v.mods(comment.post.sub)):
 		abort(403)
 
 	if comment.over_18 and v.is_permabanned:
@@ -596,8 +625,8 @@ def toggle_comment_nsfw(cid, v):
 @app.post("/edit_comment/<int:cid>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit("10/minute;100/hour;200/day", deduct_when=lambda response: response.status_code < 400)
-@limiter.limit("10/minute;100/hour;200/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@limiter.limit(DELETE_EDIT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DELETE_EDIT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_permabanned
 def edit_comment(cid, v):
 	c = get_comment(cid, v=v)
@@ -606,7 +635,9 @@ def edit_comment(cid, v):
 	and v.admin_level < PERMS["IGNORE_1WEEk_EDITING_LIMIT"] and v.id not in EXEMPT_FROM_1WEEK_EDITING_LIMIT:
 		abort(403, "You can't edit comments older than 1 week!")
 
-	if c.author_id != v.id: abort(403)
+	if c.author_id != v.id and v.admin_level < PERMS['POST_COMMENT_EDITING']:
+		abort(403)
+
 	if not c.parent_post and not c.wall_user_id:
 		abort(403)
 
@@ -617,10 +648,12 @@ def edit_comment(cid, v):
 		abort(400, "You have to actually type something!")
 
 	if body != c.body or request.files.get("file") and not g.is_tor:
-		if v.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
-			abort(403, "You have to type more than 280 characters!")
-		elif v.bird and len(body) > 140:
-			abort(403, "You have to type less than 140 characters!")
+
+		if v.id == c.author_id:
+			if v.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
+				abort(403, "You have to type more than 280 characters!")
+			elif v.bird and len(body) > 140:
+				abort(403, "You have to type less than 140 characters!")
 
 		execute_antispam_comment_check(body, v)
 
@@ -628,18 +661,21 @@ def edit_comment(cid, v):
 		body = body[:COMMENT_BODY_LENGTH_LIMIT].strip() # process_files potentially adds characters to the post
 
 		body_for_sanitize = body
-		if v.owoify:
-			body_for_sanitize = owoify(body_for_sanitize)
-		if v.marsify:
-			body_for_sanitize = marsify(body_for_sanitize)
-		if v.sharpen:
+
+		if v.id == c.author_id:
+			if v.owoify:
+				body_for_sanitize = owoify(body_for_sanitize)
+			if v.marsify and not v.chud:
+				body_for_sanitize = marsify(body_for_sanitize)
+
+		if c.sharpened:
 			body_for_sanitize = sharpen(body_for_sanitize)
 
 		body_html = sanitize(body_for_sanitize, golden=False, limit_pings=5, showmore=(not v.marseyawarded))
 
 		if len(body_html) > COMMENT_BODY_HTML_LENGTH_LIMIT: abort(400)
 
-		if v.marseyawarded and marseyaward_body_regex.search(body_html):
+		if v.id == c.author_id and v.marseyawarded and marseyaward_body_regex.search(body_html):
 			abort(403, "You can only type marseys!")
 
 		oldtext = c.body
@@ -655,8 +691,16 @@ def edit_comment(cid, v):
 
 		process_poll_options(v, c)
 
-		if int(time.time()) - c.created_utc > 60 * 3:
-			c.edited_utc = int(time.time())
+		if v.id == c.author_id:
+			if int(time.time()) - c.created_utc > 60 * 3:
+				c.edited_utc = int(time.time())
+		else:
+			ma=ModAction(
+				kind="edit_comment",
+				user_id=v.id,
+				target_comment_id=c.id
+			)
+			g.db.add(ma)
 
 		g.db.add(c)
 
@@ -670,9 +714,13 @@ def edit_comment(cid, v):
 				if not notif:
 					n = Notification(comment_id=c.id, user_id=x)
 					g.db.add(n)
-					if not v.shadowbanned:
-						push_notif({x}, f'New mention of you by @{c.author_name}', c.body, c)
+					push_notif({x}, f'New mention of you by @{c.author_name}', c.body, c)
 
 
 	g.db.flush()
-	return {"body": c.body, "comment": c.realbody(v)}
+	return {
+			"body": c.body,
+			"comment": c.realbody(v),
+			"ping_cost": c.ping_cost,
+			"edited_string": c.edited_string,
+		}

@@ -67,5 +67,4 @@ def error_500(e):
 def allow_nsfw():
 	session["over_18_cookies"] = int(time.time()) + 3600
 	redir = request.values.get("redir", "/")
-	if is_site_url(redir): return redirect(redir)
-	return redirect('/')
+	return '', 204

@@ -9,7 +9,7 @@
 				<p class="text-small text-muted pt-2 pl-3">Edit your custom CSS for the site</p>
 				<div class="body d-lg-flex border-bottom">
 					<div class="w-lg-100">
-						<form id="profile-settings-css" action="/settings/css" method="post">
+						<form id="profile-settings-css" action="/settings/css" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHR(this)">
 							<input hidden name="formkey" value="{{v|formkey}}">
 							<textarea autocomplete="off" class="form-control rounded" id="css-textarea" placeholder="Custom CSS" rows="3" name="css" form="profile-settings-css" maxlength="{{CSS_LENGTH_LIMIT}}">{% if v.css %}{{v.csslazy}}{% endif %}</textarea>
 							<small>Limit of {{CSS_LENGTH_LIMIT}} characters</small>
@@ -27,7 +27,7 @@
 				<p class="text-small text-muted pt-2 pl-3">Edit your profile CSS</p>
 				<div class="body d-lg-flex border-bottom">
 					<div class="w-lg-100">
-						<form id="profile-settings-profilecss" action="/settings/profilecss" method="post">
+						<form id="profile-settings-profilecss" action="/settings/profilecss" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHR(this)">
 							<input hidden name="formkey" value="{{v|formkey}}">
 							<textarea autocomplete="off" class="form-control rounded" id="profilecss-textarea" placeholder="Custom profile CSS" rows="3" name="profilecss" form="profile-settings-profilecss" maxlength="{{CSS_LENGTH_LIMIT}}">{% if profilecss %}{{profilecss}}{% endif %}</textarea>
 							<small>Limit of {{CSS_LENGTH_LIMIT}} characters</small>

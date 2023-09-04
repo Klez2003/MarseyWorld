@@ -144,7 +144,7 @@ color: var(--gray-700);
 	background-color: #313131 !important;
 }
 
-h5.post-title a:visited {
+.visited, h5.post-title a:visited, a[href^="https://"]:not([href^="https://rdrama.net"], [href^="https://watchpeopledie.tv"], .dropdown-item, .nav-link, .no-visited):visited {
 	color: #6e6e6e !important;
 }
 

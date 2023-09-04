@@ -4,6 +4,7 @@ from os import environ, listdir, path
 
 from flask import g, session, has_request_context, request
 from jinja2 import pass_context
+from PIL import ImageColor
 
 from files.classes.user import User
 from files.helpers.assetcache import assetcache_path
@@ -17,6 +18,10 @@ from files.routes.wrappers import calc_users
 from files.__main__ import app, cache
 
 from urllib.parse import parse_qs, urlencode,  urlsplit
+
+@app.template_filter("rgb")
+def rgb(color):
+	return str(ImageColor.getcolor(f"#{color}", "RGB"))[1:-1]
 
 @app.template_filter("formkey")
 def formkey(u):
@@ -107,12 +112,11 @@ def inject_constants():
 			"DEFAULT_THEME":DEFAULT_THEME, "DESCRIPTION":DESCRIPTION,
 			"has_sidebar":has_sidebar, "has_logo":has_logo,
 			"FP":FP, "patron":patron, "get_setting": get_setting,
-			"SIDEBAR_THREAD":SIDEBAR_THREAD, "BANNER_THREAD":BANNER_THREAD,
+			"SIDEBAR_THREAD":SIDEBAR_THREAD, "BANNER_THREAD":BANNER_THREAD, "BUG_THREAD":BUG_THREAD,
 			"BADGE_THREAD":BADGE_THREAD, "SNAPPY_THREAD":SNAPPY_THREAD, "CHANGELOG_THREAD":CHANGELOG_THREAD,
 			"approved_embed_hosts":approved_embed_hosts, "POST_BODY_LENGTH_LIMIT":POST_BODY_LENGTH_LIMIT,
 			"SITE_SETTINGS":get_settings(), "EMAIL":EMAIL, "max": max, "min": min, "user_can_see":User.can_see,
-			"TELEGRAM_ID":TELEGRAM_ID, "EMAIL_REGEX_PATTERN":EMAIL_REGEX_PATTERN,
-			"TRUESCORE_DONATE_MINIMUM":TRUESCORE_DONATE_MINIMUM, "PROGSTACK_ID":PROGSTACK_ID,
+			"TELEGRAM_ID":TELEGRAM_ID, "TRUESCORE_DONATE_MINIMUM":TRUESCORE_DONATE_MINIMUM, "PROGSTACK_ID":PROGSTACK_ID,
 			"DONATE_LINK":DONATE_LINK, "DONATE_SERVICE":DONATE_SERVICE,
 			"HOUSE_JOIN_COST":HOUSE_JOIN_COST, "HOUSE_SWITCH_COST":HOUSE_SWITCH_COST, "IMAGE_FORMATS":','.join(IMAGE_FORMATS),
 			"PAGE_SIZES":PAGE_SIZES, "THEMES":THEMES, "COMMENT_SORTS":COMMENT_SORTS, "SORTS":SORTS,
@@ -122,5 +126,8 @@ def inject_constants():
 			"BIO_FRIENDS_ENEMIES_LENGTH_LIMIT":BIO_FRIENDS_ENEMIES_LENGTH_LIMIT,
 			"IMMUNE_TO_AWARDS": IMMUNE_TO_AWARDS, "SITE_FULL_IMAGES": SITE_FULL_IMAGES,
 			"IS_FISTMAS":IS_FISTMAS, "IS_HOMOWEEN":IS_HOMOWEEN, "IS_DKD":IS_DKD, "IS_EVENT":IS_EVENT, "IS_BIRTHGAY":IS_BIRTHGAY,
-			"CHUD_PHRASES":CHUD_PHRASES, "hasattr":hasattr, "calc_users":calc_users, "HOLE_INACTIVITY_DELETION":HOLE_INACTIVITY_DELETION
-			}
+			"CHUD_PHRASES":CHUD_PHRASES, "hasattr":hasattr, "calc_users":calc_users, "HOLE_INACTIVITY_DELETION":HOLE_INACTIVITY_DELETION,
+			"MAX_IMAGE_AUDIO_SIZE_MB":MAX_IMAGE_AUDIO_SIZE_MB, "MAX_IMAGE_AUDIO_SIZE_MB_PATRON":MAX_IMAGE_AUDIO_SIZE_MB_PATRON,
+			"MAX_VIDEO_SIZE_MB":MAX_VIDEO_SIZE_MB, "MAX_VIDEO_SIZE_MB_PATRON":MAX_VIDEO_SIZE_MB_PATRON,
+			"CURSORMARSEY_DEFAULT":CURSORMARSEY_DEFAULT,
+		}

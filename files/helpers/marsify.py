@@ -3,6 +3,9 @@ from random import choice
 from .const_stateful import marsey_mappings
 
 def marsify(text):
+	if '`' in text or '<pre>' in text or '<code>' in text:
+		return text
+
 	new_text = ''
 	for x in text.split(' '):
 		new_text += f'{x} '

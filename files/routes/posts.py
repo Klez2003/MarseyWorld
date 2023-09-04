@@ -17,6 +17,7 @@ from files.helpers.actions import *
 from files.helpers.alerts import *
 from files.helpers.config.const import *
 from files.helpers.get import *
+from files.helpers.sharpen import *
 from files.helpers.regex import *
 from files.helpers.sanitize import *
 from files.helpers.settings import get_setting
@@ -198,14 +199,12 @@ def post_id(pid, v, anything=None, sub=None):
 
 	return result
 
-@app.get("/view_more/<int:pid>/<sort>/<offset>")
+@app.get("/view_more/<int:pid>/<sort>/<int:offset>")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @auth_desired_with_logingate
 def view_more(v, pid, sort, offset):
 	p = get_post(pid, v=v)
-	try:
-		offset = int(offset)
-	except: abort(400)
+
 	try: ids = set(int(x) for x in request.values.get("ids").split(','))
 	except: abort(400)
 
@@ -255,9 +254,6 @@ def view_more(v, pid, sort, offset):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @auth_desired_with_logingate
 def more_comments(v, cid):
-	try: cid = int(cid)
-	except: abort(404)
-
 	tcid = g.db.query(Comment.top_comment_id).filter_by(id=cid).one_or_none()[0]
 
 	if v:
@@ -411,8 +407,8 @@ def is_repost(v):
 @app.post("/h/<sub>/submit")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(POST_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-@limiter.limit(POST_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@limiter.limit('20/day', deduct_when=lambda response: response.status_code < 400)
+@limiter.limit('20/day', deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_banned
 def submit_post(v, sub=None):
 	url = request.values.get("url", "").strip()
@@ -432,6 +428,9 @@ def submit_post(v, sub=None):
 
 	if SITE == 'rdrama.net' and (v.chud == 1 or v.id == 253):
 		sub = 'chudrama'
+	
+	if SITE == 'rdrama.net' and v.id == 10947:
+		sub = 'mnn'
 
 	title_html = filter_emojis_only(title, graceful=True, count_emojis=True)
 
@@ -510,7 +509,10 @@ def submit_post(v, sub=None):
 	body = process_files(request.files, v, body)
 	body = body[:POST_BODY_LENGTH_LIMIT(v)].strip() # process_files() adds content to the body, so we need to re-strip
 
-	body_html = sanitize(body, count_emojis=True, limit_pings=100)
+	body_for_sanitize = body
+	if v.sharpen: body_for_sanitize = sharpen(body_for_sanitize)
+
+	body_html = sanitize(body_for_sanitize, count_emojis=True, limit_pings=100)
 
 	if v.marseyawarded and marseyaward_body_regex.search(body_html):
 		abort(400, "You can only type marseys!")
@@ -553,6 +555,9 @@ def submit_post(v, sub=None):
 		sub=sub,
 		ghost=flag_ghost,
 		chudded=flag_chudded,
+		rainbowed=bool(v.rainbow),
+		queened=bool(v.queen),
+		sharpened=bool(v.sharpen),
 	)
 
 	g.db.add(p)
@@ -647,13 +652,13 @@ def submit_post(v, sub=None):
 		autojanny.comment_count += 1
 		g.db.add(autojanny)
 
-	v.post_count = g.db.query(Post).filter_by(author_id=v.id, deleted_utc=0).count()
+	v.post_count += 1
 	g.db.add(v)
 
 	execute_lawlz_actions(v, p)
 
 	if (SITE == 'rdrama.net'
-			and v.id in {TGTW_ID, SNALLY_ID}
+			and v.id in {2008, 3336}
 			and not (p.sub and p.subr.stealth)) and p.sub != 'slavshit' and not p.ghost:
 		p.stickied_utc = int(time.time()) + 28800
 		p.stickied = "AutoJanny"
@@ -665,14 +670,10 @@ def submit_post(v, sub=None):
 	cache.delete_memoized(frontlist)
 	cache.delete_memoized(userpagelisting)
 
-	key_pattern = app.config["CACHE_KEY_PREFIX"] + 'frontpage_*'
-	for key in redis_instance.scan_iter(key_pattern):
-		redis_instance.delete(key)
-
 	if not p.private:
 		execute_snappy(p, v)
 
-	g.db.commit() #Necessary, do NOT remove
+	g.db.flush() #Necessary, do NOT remove
 
 	if not p.thumburl and p.url and p.domain != SITE:
 		gevent.spawn(thumbnail_thread, p.url, p.id)
@@ -682,11 +683,11 @@ def submit_post(v, sub=None):
 		p.voted = 1
 		return {"post_id": p.id, "success": True}
 
-@app.post("/delete_post/<int:pid>")
+@app.post("/delete/post/<int:pid>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@limiter.limit(DELETE_EDIT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DELETE_EDIT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def delete_post_pid(pid, v):
 	p = get_post(pid)
@@ -702,7 +703,7 @@ def delete_post_pid(pid, v):
 		cache.delete_memoized(frontlist)
 		cache.delete_memoized(userpagelisting)
 
-		v.post_count = g.db.query(Post).filter_by(author_id=v.id, deleted_utc=0).count()
+		v.post_count -= 1
 		g.db.add(v)
 
 		for sort in COMMENT_SORTS:
@@ -727,7 +728,7 @@ def undelete_post_pid(pid, v):
 		cache.delete_memoized(frontlist)
 		cache.delete_memoized(userpagelisting)
 
-		v.post_count = g.db.query(Post).filter_by(author_id=v.id, deleted_utc=0).count()
+		v.post_count += 1
 		g.db.add(v)
 
 		for sort in COMMENT_SORTS:
@@ -746,7 +747,7 @@ def undelete_post_pid(pid, v):
 def mark_post_nsfw(pid, v):
 	p = get_post(pid)
 
-	if p.author_id != v.id and not v.admin_level >= PERMS['POST_COMMENT_MODERATION'] and not (p.sub and v.mods(p.sub)):
+	if p.author_id != v.id and v.admin_level < PERMS['POST_COMMENT_MODERATION'] and not (p.sub and v.mods(p.sub)):
 		abort(403)
 
 	if p.over_18 and v.is_permabanned:
@@ -785,7 +786,7 @@ def mark_post_nsfw(pid, v):
 def unmark_post_nsfw(pid, v):
 	p = get_post(pid)
 
-	if p.author_id != v.id and not v.admin_level >= PERMS['POST_COMMENT_MODERATION'] and not (p.sub and v.mods(p.sub)):
+	if p.author_id != v.id and v.admin_level < PERMS['POST_COMMENT_MODERATION'] and not (p.sub and v.mods(p.sub)):
 		abort(403)
 
 	if p.over_18 and v.is_permabanned:
@@ -868,7 +869,7 @@ def pin_post(post_id, v):
 		else: return {"message": "Post unpinned!"}
 	return abort(404, "Post not found!")
 
-@app.put("/post/<int:post_id>/new")
+@app.post("/post/<int:post_id>/new")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
@@ -890,7 +891,7 @@ def set_new_sort(post_id, v):
 	return {"message": "Changed the the default sorting of comments on this post to 'new'"}
 
 
-@app.delete("/post/<int:post_id>/new")
+@app.post("/post/<int:post_id>/hot")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
@@ -949,8 +950,8 @@ def get_post_title(v):
 @app.post("/edit_post/<int:pid>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit("10/minute;100/hour;200/day", deduct_when=lambda response: response.status_code < 400)
-@limiter.limit("10/minute;100/hour;200/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@limiter.limit(DELETE_EDIT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DELETE_EDIT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_permabanned
 def edit_post(pid, v):
 	p = get_post(pid)
@@ -1004,7 +1005,10 @@ def edit_post(pid, v):
 	body = body[:POST_BODY_LENGTH_LIMIT(v)].strip() # process_files() may be adding stuff to the body
 
 	if body != p.body:
-		body_html = sanitize(body, golden=False, limit_pings=100)
+		body_for_sanitize = body
+		if p.sharpened: body_for_sanitize = sharpen(body_for_sanitize)
+
+		body_html = sanitize(body_for_sanitize, golden=False, limit_pings=100)
 
 		if v.id == p.author_id and v.marseyawarded and marseyaward_body_regex.search(body_html):
 			abort(403, "You can only type marseys!")
@@ -1028,8 +1032,8 @@ def edit_post(pid, v):
 
 
 	if v.id == p.author_id:
-		if int(time.time()) - p.created_utc > 60 * 3: p.edited_utc = int(time.time())
-		g.db.add(p)
+		if int(time.time()) - p.created_utc > 60 * 3:
+			p.edited_utc = int(time.time())
 	else:
 		ma=ModAction(
 			kind="edit_post",

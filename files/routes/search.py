@@ -59,7 +59,7 @@ def searchposts(v):
 	sort = request.values.get("sort", "new").lower()
 	t = request.values.get('t', 'all').lower()
 
-	criteria=searchparse(query)
+	criteria = searchparse(query)
 
 	posts = g.db.query(Post).options(load_only(Post.id)) \
 				.join(Post.author) \

@@ -22,7 +22,8 @@ def get_ID():
 	elif session.get("lo_user"):
 		x = session.get("lo_user")
 	else:
-		x = "logged_out"
+		check_session_id()
+		x = f"logged_out-{session['session_id']}"
 
 	return f'{SITE}-{x}'
 
@@ -99,13 +100,15 @@ def get_logged_in_user():
 			else:
 				session.pop("lo_user")
 
-	if request.method.lower() != "get" and get_setting('read_only_mode') and not (v and v.admin_level >= PERMS['SITE_BYPASS_READ_ONLY_MODE']):
+	if request.method.lower() != "get" and get_setting('read_only_mode') and not (v and v.admin_level >= PERMS['BYPASS_SITE_READ_ONLY_MODE']):
 		abort(403, "Site is in read-only mode right now. It will be back shortly!")
 
 	if get_setting('offline_mode') and not (v and v.admin_level >= PERMS['SITE_OFFLINE_MODE']):
 		abort(403, "Site is in offline mode right now. It will be back shortly!")
 
 	g.v = v
+	if v:
+		g.vid = v.username
 
 	if not v and SITE == 'rdrama.net' and request.headers.get("Cf-Ipcountry") == 'EG':
 		abort(404)

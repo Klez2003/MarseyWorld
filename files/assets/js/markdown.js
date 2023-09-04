@@ -111,12 +111,12 @@ const findAllEmoteEndings = (word) => {
 			continue;
 		}
 
-		if(currWord.endsWith('heart')) {
+		if(currWord.endsWith('love')) {
 			if(currEndings.indexOf(MODIFIERS.LOVE) !== -1) {
 				hasReachedNonModifer = true;
 				continue;
 			}
-			currWord = currWord.slice(0, -5);
+			currWord = currWord.slice(0, -4);
 			currEndings.push(MODIFIERS.LOVE);
 			continue;
 		}
@@ -269,7 +269,7 @@ function charLimit(form, text) {
 		text.style.color = "#A0AEC0";
 	}
 
-	text.innerText = length + ' / ' + maxLength;
+	text.textContent = length + ' / ' + maxLength;
 }
 
 function remove_dialog() {
