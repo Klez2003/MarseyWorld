@@ -33,9 +33,9 @@ def sort_objects(sort, objects, cls):
 
 	if sort == 'hot':
 		ti = int(time.time()) + 3600
-		metric = cls.realupvotes
+		metric = cls.realupvotes + 1
 		if cls.__name__ == "Post": metric += cls.comment_count/5
-		return objects.order_by(-1000000*((metric + 1)/func.power(((ti - cls.created_utc)/1000), 1.4)), cls.created_utc.desc())
+		return objects.order_by(-1000000*(metric / func.power(((ti - cls.created_utc)/1000), 1.4)), cls.created_utc.desc())
 	elif sort == "views" and cls.__name__ == "Post":
 		return objects.order_by(cls.views.desc(), cls.created_utc.desc())
 	elif sort == "bump" and cls.__name__ == "Post":
