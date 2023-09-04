@@ -201,7 +201,7 @@
 				{% endif %}
 				&nbsp;&nbsp;#{{c.id}}
 
-				<span class="{% if not c.edited_utc %}d-none{% endif %} font-italic" data-nonce="{{g.nonce}}" data-bs-toggle="tooltip" data-onmouseover="timestamp(this, '{{c.edited_utc}}')">
+				<span class="{% if not c.edited_utc %}d-none{% endif %} font-italic" data-nonce="{{g.nonce}}" data-bs-toggle="tooltip" data-bs-placement="bottom" data-onmouseover="timestamp(this, '{{c.edited_utc}}')">
 					&nbsp; Edited <span id="comment-edited_string-{{c.id}}">{{c.edited_string}}</span>
 				</span>
 
