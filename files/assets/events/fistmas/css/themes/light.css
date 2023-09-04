@@ -1,7 +1,7 @@
 blockquote {
 	color: var(--gray-400);
 }
-*:target, .unread {
+.unread {
 	background: #00000022 !important;
 }
 .deleted {

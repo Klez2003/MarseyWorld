@@ -178,8 +178,9 @@ function submit(form) {
 
 	xhr.onload = function() {
 		upload_prog.classList.add("d-none")
+		const success = xhr.status >= 200 && xhr.status < 300
 
-		if (xhr.status >= 200 && xhr.status < 300) {
+		if (success) {
 			const res = JSON.parse(xhr.response)
 			const post_id = res['post_id'];
 
@@ -200,16 +201,8 @@ function submit(form) {
 			location.href = "/post/" + post_id
 		} else {
 			submitButton.disabled = false;
-			document.getElementById('toast-post-error-text').innerText = "Error, please try again later."
-			try {
-				let data=JSON.parse(xhr.response);
-				bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-error')).show();
-				document.getElementById('toast-post-error-text').innerText = data["error"];
-				if (data && data["details"]) document.getElementById('toast-post-error-text').innerText = data["details"];
-			} catch(e) {
-				bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-success')).hide();
-				bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-error')).show();
-			}
+			const data = JSON.parse(xhr.response);
+			showToast(success, getMessageFromJsonData(success, data));
 		}
 	};
 

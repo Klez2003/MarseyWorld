@@ -41,14 +41,14 @@ def send_repeatable_notification(uid, text):
 			notif = Notification(comment_id=c.id, user_id=uid)
 			g.db.add(notif)
 
-			push_notif({uid}, 'New notification', text, f'{SITE_FULL}/comment/{c.id}?read=true#context')
+			push_notif({uid}, 'New notification', text, f'{SITE_FULL}/notification/{c.id}')
 			return
 
 	cid = create_comment(text_html)
 	notif = Notification(comment_id=cid, user_id=uid)
 	g.db.add(notif)
 
-	push_notif({uid}, 'New notification', text, f'{SITE_FULL}/comment/{cid}?read=true#context')
+	push_notif({uid}, 'New notification', text, f'{SITE_FULL}/notification/{cid}')
 
 
 def send_notification(uid, text):
@@ -111,7 +111,7 @@ def add_notif(cid, uid, text, pushnotif_url=''):
 		g.db.add(notif)
 
 		if not pushnotif_url:
-			pushnotif_url = f'{SITE_FULL}/comment/{cid}?read=true#context'
+			pushnotif_url = f'{SITE_FULL}/notification/{cid}'
 
 		if ' has mentioned you: [' in text:
 			text = text.split(':')[0] + '!'
@@ -126,6 +126,10 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None, followers_pi
 		return set()
 
 	text = text.lower()
+
+	if oldtext:
+		oldtext = oldtext.lower()
+
 	notify_users = set()
 
 	for word, id in NOTIFIED_USERS.items():
@@ -133,6 +137,10 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None, followers_pi
 			notify_users.add(id)
 
 	names = set(m.group(1) for m in mention_regex.finditer(text))
+
+	if oldtext:
+		oldnames = set(m.group(1) for m in mention_regex.finditer(oldtext))
+		names = names - oldnames
 
 	user_ids = get_users(names, ids_only=True, graceful=True)
 	notify_users.update(user_ids)
@@ -153,13 +161,13 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None, followers_pi
 				continue
 
 			if i.group(1) == 'everyone' and not v.shadowbanned:
-				cost = g.db.query(User).count() * 10
-				if cost > v.coins:
-					abort(403, f"You need {cost} coins to mention these ping groups!")
+				cost = g.db.query(User).count() * 5
+				if cost > v.coins + v.marseybux:
+					abort(403, f"You need {cost} currency to mention these ping groups!")
 
 				v.charge_account('combined', cost)
 				if log_cost:
-					log_cost.ping_cost = cost
+					log_cost.ping_cost += cost
 				return 'everyone'
 			elif i.group(1) == 'jannies':
 				group = None
@@ -181,12 +189,12 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None, followers_pi
 			if (ghost or v.id not in member_ids) and i.group(1) != 'followers':
 				if group and group.name == 'verifiedrich':
 					abort(403, f"Only !verifiedrich members can mention it!")
-				cost += len(members) * 10
-				if cost > v.coins:
-					abort(403, f"You need {cost} coins to mention these ping groups!")
+				cost += len(members) * 5
+				if cost > v.coins + v.marseybux:
+					abort(403, f"You need {cost} currency to mention these ping groups!")
 
 				if log_cost:
-					log_cost.ping_cost = cost
+					log_cost.ping_cost += cost
 
 				if i.group(1) in {'biofoids','neofoids','jannies'}:
 					coin_receivers.update(member_ids)
@@ -197,10 +205,19 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None, followers_pi
 		if coin_receivers:
 			g.db.query(User).options(load_only(User.id)).filter(User.id.in_(coin_receivers)).update({ User.coins: User.coins + 10 })
 
+	if SITE == 'rdrama.net' and v.id in {256, 9287, 10489, 18701}:
+		notify_users.discard(AEVANN_ID)
+
+	if len(notify_users) > 400 and v.admin_level < PERMS['POST_COMMENT_INFINITE_PINGS']:
+		abort(403, "You can only notify a maximum of 400 users.")
+
 	return notify_users - BOT_IDs - {v.id, 0} - v.all_twoway_blocks
 
 
 def push_notif(uids, title, body, url_or_comment):
+	if hasattr(g, 'v') and g.v and g.v.shadowbanned:
+		return
+
 	if VAPID_PUBLIC_KEY == DEFAULT_CONFIG_VALUE:
 		return
 

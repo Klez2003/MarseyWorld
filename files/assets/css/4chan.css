@@ -144,7 +144,7 @@ blockquote a {
 	margin-top: 6px;
 }
 
-h5.post-title a:visited {
+.visited, h5.post-title a:visited, a[href^="https://"]:not([href^="https://rdrama.net"], [href^="https://watchpeopledie.tv"], .dropdown-item, .nav-link, .no-visited):visited {
 	color: #949494 !important;
 }
 
@@ -156,6 +156,6 @@ h5.post-title a:visited {
 	background-color: black !important;
 }
 
-*:target, .unread {
+.unread {
 	background: #fdccad !important;
 }

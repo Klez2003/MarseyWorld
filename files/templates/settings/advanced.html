@@ -105,7 +105,7 @@
 			<section id="site-settings-external-services-section" class="settings-section-section">
 				<h5>External Services</h5>
 				<div class="settings-section rounded">
-					{{common.toggle_section("Use Nitter for Twitter Links", "nitter", "nitter", v.nitter, "Enable if you would like to automatically convert twitter.com links to nitter.lacontrevoie.fr links.", false)}}
+					{{common.toggle_section("Use Nitter for Twitter Links", "nitter", "nitter", v.nitter, "Enable if you would like to automatically convert twitter.com links to nitter.net links.", false)}}
 					{{common.toggle_section("Use Imginn for Instagram Links", "imginn", "imginn", v.imginn, "Enable if you would like to automatically convert instagram.com links to imginn.com links.", false)}}
 					<div class="d-lg-flex border-bottom">
 						<div class="title w-lg-25">
@@ -115,7 +115,7 @@
 							<p>Change the domain you would like to view reddit posts in.</p>
 							<div class="input-group">
 								<select autocomplete="off" id='reddit' class="form-control setting_select" data-nonce="{{g.nonce}}" form="profile-settings" name="reddit">
-								{% for entry in ['old.reddit.com', 'reddit.com', 'i.reddit.com', 'reddit.lol', 'libredd.it'] %}
+								{% for entry in ['old.reddit.com', 'reddit.com', 'i.reddit.com', 'reddit.lol', 'libreddit.hu'] %}
 									<option value="{{entry}}"{{' selected' if v.reddit==entry}}>{{entry}}</option>
 								{% endfor %}
 							</select>
@@ -140,7 +140,7 @@
 							<label for="custom-filter">Custom Filters</label>
 						</div>
 						<div class="body w-lg-100">
-							<form id="custom-filter" action="/settings/filters" method="post">
+							<form id="custom-filter" action="/settings/filters" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHR(this)">
 								<input hidden name="formkey" value="{{v|formkey}}">
 									<small>Hides matching posts from the frontpage and collapses matching comments.</small>
 								<textarea autocomplete="off" class="form-control rounded" id="filters-text"

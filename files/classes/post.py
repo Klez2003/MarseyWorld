@@ -48,7 +48,7 @@ class Post(Base):
 	upvotes = Column(Integer, default=1)
 	downvotes = Column(Integer, default=0)
 	realupvotes = Column(Integer, default=1)
-	app_id=Column(Integer, ForeignKey("oauth_apps.id"))
+	app_id = Column(Integer, ForeignKey("oauth_apps.id"))
 	title = Column(String)
 	title_html = Column(String)
 	url = Column(String)
@@ -60,7 +60,10 @@ class Post(Base):
 	new = Column(Boolean)
 	notify = Column(Boolean)
 	chudded = Column(Boolean, default=False)
-	ping_cost = Column(Integer)
+	rainbowed = Column(Boolean, default=False)
+	queened = Column(Boolean, default=False)
+	sharpened = Column(Boolean, default=False)
+	ping_cost = Column(Integer, default=0)
 	bump_utc = Column(Integer)
 
 	author = relationship("User", primaryjoin="Post.author_id==User.id")
@@ -123,7 +126,7 @@ class Post(Base):
 		link = f"/post/{self.id}"
 		if self.sub: link = f"/h/{self.sub}{link}"
 
-		if self.sub and self.sub in {'chudrama', 'countryclub'}:
+		if self.sub and self.sub in {'chudrama', 'countryclub', 'highrollerclub'}:
 			output = '-'
 		else:
 			title = self.plaintitle(None).lower()
@@ -247,6 +250,9 @@ class Post(Base):
 	@lazy
 	def award_count(self, kind, v):
 		if v and v.poor:
+			return 0
+
+		if self.distinguish_level and SITE_NAME == 'WPD':
 			return 0
 
 		num = len([x for x in self.awards if x.kind == kind])

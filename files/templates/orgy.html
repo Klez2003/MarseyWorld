@@ -7,42 +7,41 @@
 	{% include "modals/expanded_image.html" %}
 	{% include "modals/emoji.html" %}
 	{% include "util/macros.html" %}
-	{% set vlink = '<a href="/id/' ~ v.id ~ '">' %}
-	<div class="container pb-4">
-
-		<div class="orgy-top-container">
-			<div class="col text-left pt-3 orgy-info-window-item">
-				<h2>{{orgy.title}}</h1>
-				<div>
-					{% if orgy.is_youtube() %}
+	{% set vlink = '<a href="/id/' ~ v.id ~ '"' %}
+	<div class="orgy-top-container">
+		<div id="orgy-col" class="col text-left pt-md-3">
+			<h2 id="orgy-title">{{orgy.title}}</h1>
+			<div>
+				<p id="orgy-file-container" class="resizable">
+					{% if orgy.type == 'youtube' %}
 						<lite-youtube videoid="{{orgy.data}}" params="autoplay=1&modestbranding=1"/>
-					{% elif orgy.is_rumble() %}
-						<iframe class="rumble rumble-player" width="100%"  src="{{orgy.data}}" frameborder="0" allowfullscreen></iframe>  
-					{% elif orgy.is_twitch() %}
-						<iframe
-							src="https://player.twitch.tv/?channel={{orgy.data}}&parent={{site}}"
-							class="rumble-player"
-							allowfullscreen>
-						</iframe>
-					{%endif%}
+					{% elif orgy.type == 'rumble' %}
+						<iframe src="{{orgy.data}}" frameborder="0" allowfullscreen></iframe>  
+					{% elif orgy.type == 'twitch' %}
+						<iframe src="https://player.twitch.tv/?channel={{orgy.data}}&parent={{site}}" frameborder="0" allowfullscreen></iframe>
+					{% elif orgy.type == 'file' %}
+						<meta name="referrer" content="strict-origin-when-cross-origin">
+						<video id="orgy-file" data-created_utc="{{orgy.real_created_utc}}" controls preload="none" src="{{orgy.data}}">
+							<track label="English" kind="subtitles" srclang="en" src="/assets/3.vtt" default>						
+						</video>
+						<video id="break-file" class="d-none" controls preload="none" src="/assets/break.mp4" data-run="0"></video>
+						<script defer src="{{'js/orgy_file.js' | asset}}"></script>
+					{% endif %}
+				</p>
+			</div>
+		</div>
+
+		<div class="orgy-chat-window-item pl-1 pr-2">
+			<div id="chat-group-template" class="d-none">
+				{{macros.chat_group_template()}}
 				</div>
-				<a href="/old_chat" class="btn btn-primary ml-auto" value="Old Chat">Old Chat</a>
-				{{macros.chat_users_list()}}
 			</div>
 
-			<div class="orgy-chat-window-item">
-				<div id="chat-group-template" class="d-none">
-					{{macros.chat_group_template()}}
-					</div>
-				</div>
-
-				<div id="chat-line-template" class="d-none">
-					{{macros.chat_line_template()}}
-				</div>
-				{{macros.chat_users_online()}}
-				{{macros.chat_window(vlink)}}
+			<div id="chat-line-template" class="d-none">
+				{{macros.chat_line_template()}}
 			</div>
-
+			{{macros.chat_users_online()}}
+			{{macros.chat_window(vlink)}}
 		</div>
 	</div>
 
@@ -50,6 +49,8 @@
 	<input id="site_name" hidden value="{{SITE_NAME}}">
 	<input id="slurreplacer" hidden value="{{v.slurreplacer}}">
 	<input id="admin_level" hidden value="{{v.admin_level}}">
+	<input id="blocked_user_ids" hidden value="{{(v.userblocks|string)[1:-1]}}">
+	<link rel="stylesheet" href="{{'css/orgy.css' | asset}}">
 	<script defer src="{{'js/vendor/socketio.js' | asset}}"></script>
 	<script defer src="{{'js/chat.js' | asset}}"></script>
 	<script defer src="{{'js/vendor/lozad.js' | asset}}"></script>

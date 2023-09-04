@@ -116,6 +116,11 @@ MODACTION_TYPES = {
 		"icon": 'fa-dollar-sign',
 		"color": 'bg-success'
 	},
+	'edit_comment': {
+		"str": 'edited {self.target_link}',
+		"icon": 'fa-edit',
+		"color": 'bg-primary'
+	},
 	'edit_post': {
 		"str": 'edited {self.target_link}',
 		"icon": 'fa-edit',

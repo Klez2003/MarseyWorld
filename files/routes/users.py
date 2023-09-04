@@ -42,6 +42,7 @@ def claim_rewards_all_users():
 	emails = [x[0] for x in g.db.query(Transaction.email).filter_by(claimed=None)]
 	users = g.db.query(User).filter(User.email.in_(emails)).order_by(User.truescore.desc()).all()
 	for user in users:
+		g.db.flush()
 		transactions = g.db.query(Transaction).filter_by(email=user.email, claimed=None).all()
 
 		highest_tier = 0
@@ -81,6 +82,7 @@ def claim_rewards_all_users():
 				for x in range(22, badge_id+1):
 					badge_grant(badge_id=x, user=user)
 
+			g.db.flush()
 			user.lifetimedonated = g.db.query(func.sum(Transaction.amount)).filter_by(email=user.email).scalar()
 
 			if user.lifetimedonated >= 100:
@@ -518,9 +520,6 @@ def leaderboard(v):
 @app.get("/<int:id>/css")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 def get_css(id):
-	try: id = int(id)
-	except: abort(404)
-
 	css, bg = g.db.query(User.css, User.background).filter_by(id=id).one_or_none()
 
 	if bg:
@@ -542,9 +541,6 @@ def get_css(id):
 @app.get("/<int:id>/profilecss")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 def get_profilecss(id):
-	try: id = int(id)
-	except: abort(404)
-
 	css, bg = g.db.query(User.profilecss, User.profile_background).filter_by(id=id).one_or_none()
 
 	if bg:
@@ -661,12 +657,11 @@ def message2(v, username=None, id=None):
 			g.db.add(notif)
 
 
-	if not v.shadowbanned:
-		title = f'New message from @{c.author_name}'
+	title = f'New message from @{c.author_name}'
 
-		url = f'{SITE_FULL}/notifications/messages'
+	url = f'{SITE_FULL}/notifications/messages'
 
-		push_notif({user.id}, title, body, url)
+	push_notif({user.id}, title, body, url)
 
 	return {"message": "Message sent!"}
 
@@ -743,12 +738,11 @@ def messagereply(v):
 			notif = Notification(comment_id=c.id, user_id=user_id)
 			g.db.add(notif)
 
-		if not v.shadowbanned:
-			title = f'New message from @{c.author_name}'
+		title = f'New message from @{c.author_name}'
 
-			url = f'{SITE_FULL}/notifications/messages'
+		url = f'{SITE_FULL}/notifications/messages'
 
-			push_notif({user_id}, title, body, url)
+		push_notif({user_id}, title, body, url)
 
 	top_comment = c.top_comment
 
@@ -796,7 +790,7 @@ def mfa_qr(v, secret):
 @limiter.limit("100/day", deduct_when=lambda response: response.status_code < 400)
 def is_available(name):
 
-	name=name.strip()
+	name = name.strip()
 
 	if len(name)<3 or len(name)>25:
 		return {name:False}
@@ -956,7 +950,7 @@ def u_username_wall(v, username):
 
 	is_following = v and u.has_follower(v)
 
-	if v and v.id != u.id and not v.admin_level and not session.get("GLOBAL"):
+	if v and v.id != u.id and v.admin_level < PERMS['USER_SHADOWBAN'] and not session.get("GLOBAL"):
 		gevent.spawn(_add_profile_view, v.id, u.id)
 
 	page = get_page()
@@ -1003,7 +997,7 @@ def u_username_wall_comment(v, username, cid):
 
 	is_following = v and u.has_follower(v)
 
-	if v and v.id != u.id and not v.admin_level and not session.get("GLOBAL"):
+	if v and v.id != u.id and v.admin_level < PERMS['USER_SHADOWBAN'] and not session.get("GLOBAL"):
 		gevent.spawn(_add_profile_view, v.id, u.id)
 
 	if v and request.values.get("read"):
@@ -1048,7 +1042,7 @@ def u_username(v, username):
 			abort(403, f"@{u.username}'s userpage is private")
 		return render_template("userpage/private.html", u=u, v=v, is_following=is_following), 403
 
-	if v and v.id != u.id and not v.admin_level and not session.get("GLOBAL"):
+	if v and v.id != u.id and v.admin_level < PERMS['USER_SHADOWBAN'] and not session.get("GLOBAL"):
 		gevent.spawn(_add_profile_view, v.id, u.id)
 
 	sort = request.values.get("sort", "new")
@@ -1115,13 +1109,13 @@ def u_username_comments(username, v):
 			abort(403, f"@{u.username}'s userpage is private")
 		return render_template("userpage/private.html", u=u, v=v, is_following=is_following), 403
 
-	if v and v.id != u.id and not v.admin_level and not session.get("GLOBAL"):
+	if v and v.id != u.id and v.admin_level < PERMS['USER_SHADOWBAN'] and not session.get("GLOBAL"):
 		gevent.spawn(_add_profile_view, v.id, u.id)
 
 	page = get_page()
 
-	sort=request.values.get("sort","new")
-	t=request.values.get("t","all")
+	sort = request.values.get("sort","new")
+	t = request.values.get("t","all")
 
 	comment_post_author = aliased(User)
 	comments = g.db.query(Comment).options(load_only(Comment.id)) \
@@ -1162,7 +1156,7 @@ def u_username_comments(username, v):
 @auth_required
 def u_username_info(username, v):
 
-	user=get_user(username, v=v, include_blocks=True)
+	user = get_user(username, v=v, include_blocks=True)
 
 	if hasattr(user, 'is_blocking') and user.is_blocking:
 		abort(401, f"You're blocking @{user.username}")
@@ -1205,7 +1199,7 @@ def follow_user(username, v):
 	new_follow = Follow(user_id=v.id, target_id=target.id)
 	g.db.add(new_follow)
 
-	target.stored_subscriber_count = g.db.query(Follow).filter_by(target_id=target.id).count()
+	target.stored_subscriber_count += 1
 	g.db.add(target)
 
 	if not v.shadowbanned:
@@ -1229,7 +1223,7 @@ def unfollow_user(username, v):
 	if follow:
 		g.db.delete(follow)
 
-		target.stored_subscriber_count = g.db.query(Follow).filter_by(target_id=target.id).count()
+		target.stored_subscriber_count -= 1
 		g.db.add(target)
 
 		if not v.shadowbanned:
@@ -1256,7 +1250,7 @@ def remove_follow(username, v):
 
 	g.db.delete(follow)
 
-	v.stored_subscriber_count = g.db.query(Follow).filter_by(target_id=v.id).count()
+	v.stored_subscriber_count -= 1
 	g.db.add(v)
 
 	send_repeatable_notification(target.id, f"@{v.username} has removed your follow!")
@@ -1299,7 +1293,7 @@ def get_saves_and_subscribes(v, template, relationship_cls, page, standalone=Fal
 	ids = [x[0] for x in listing]
 
 	extra = None
-	if not v.admin_level >= PERMS['POST_COMMENT_MODERATION']:
+	if v.admin_level < PERMS['POST_COMMENT_MODERATION']:
 		extra = lambda q:q.filter(cls.is_banned == False, cls.deleted_utc == 0)
 
 	if cls is Post:
@@ -1357,6 +1351,7 @@ def fp(v, fp):
 			users += alts
 	for u in users:
 		li = [v.id, u.id]
+		g.db.flush()
 		existing = g.db.query(Alt).filter(Alt.user1.in_(li), Alt.user2.in_(li)).one_or_none()
 		if existing: continue
 		add_alt(user1=v.id, user2=u.id)
@@ -1374,9 +1369,7 @@ def toggle_pins(sub, sort):
 	pins = session.get(f'{sub}_{sort}', default)
 	session[f'{sub}_{sort}'] = not pins
 
-	if is_site_url(request.referrer):
-		return redirect(request.referrer)
-	return redirect('/')
+	return {"message": "Pins toggled successfully!"}
 
 
 @app.get("/badge_owners/<int:bid>")
@@ -1384,9 +1377,6 @@ def toggle_pins(sub, sort):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def bid_list(v, bid):
-
-	try: bid = int(bid)
-	except: abort(400)
 
 	page = get_page()
 

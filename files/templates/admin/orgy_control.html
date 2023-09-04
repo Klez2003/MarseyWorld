@@ -3,7 +3,6 @@
 {% block pagetitle %}Orgy Control Panel{% endblock %}
 
 {% block content %}
-{% if msg %}{{macros.alert(msg, false)}}{% endif %}
 <div class="row my-5">
 	<div class="col">
 		<div class="settings mx-3">
@@ -13,8 +12,8 @@
 			</div>
 			<div class="body d-lg-flex">
 				<div class="w-lg-100">
-					{%if not orgy%}
-						<form id="orgy" action="/admin/start_orgy" method="post">
+					{% if not orgy %}
+						<form id="orgy" action="/admin/start_orgy" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHRReload(this)">
 							<div class="d-lg-flex border-bottom">
 								<div class="title w-lg-25">
 									<label for="title">Title</label>
@@ -25,7 +24,7 @@
 							</div>
 							<div class="d-lg-flex border-bottom">
 								<div class="title w-lg-25">
-									<label for="link">Livestream link (youtube, twitch, rumble)</label>
+									<label for="link">Livestream link (youtube, twitch, rumble, mp4 file)</label>
 								</div>
 								<div class="body w-lg-100">
 									<input id="link" autocomplete="off" type="text" name="link" class="form-control">
@@ -33,17 +32,17 @@
 							</div>
 							<input hidden name="formkey" value="{{v|formkey}}">
 							<div class="d-flex mt-2">
-								<input autocomplete="off" class="btn btn-primary ml-auto" type="submit" value="Start Orgy">
+								<input id="start-orgy" autocomplete="off" class="btn btn-primary ml-auto" type="submit" value="Start Orgy">
 							</div>
 						</form>
-					{%else%}
-						<form id="orgy" action="/admin/stop_orgy" method="post">
+					{% else %}
+						<form id="orgy" action="/admin/stop_orgy" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHRReload(this)">
 							<input hidden name="formkey" value="{{v|formkey}}">
 							<div class="d-flex mt-2">
 								<input autocomplete="off" class="btn btn-primary ml-auto" type="submit" value="Stop Orgy">
 							</div>
 						</form>
-					{%endif%}
+					{% endif %}
 				</div>
 			</div>
 		</div>

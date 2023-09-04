@@ -113,10 +113,6 @@ def report_comment(cid, v):
 @limiter.limit("100/minute;300/hour;2000/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @admin_level_required(PERMS['REPORTS_REMOVE'])
 def remove_report_post(v, pid, uid):
-	try:
-		pid = int(pid)
-		uid = int(uid)
-	except: abort(404)
 	report = g.db.query(Report).filter_by(post_id=pid, user_id=uid).one_or_none()
 
 	if report:
@@ -139,10 +135,6 @@ def remove_report_post(v, pid, uid):
 @limiter.limit("100/minute;300/hour;2000/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @admin_level_required(PERMS['REPORTS_REMOVE'])
 def remove_report_comment(v, cid, uid):
-	try:
-		cid = int(cid)
-		uid = int(uid)
-	except: abort(404)
 	report = g.db.query(CommentReport).filter_by(comment_id=cid, user_id=uid).one_or_none()
 
 	if report:
@@ -174,6 +166,8 @@ def move_post(post, v, reason):
 	if not can_move_post: return False
 
 	if sub_to == None:
+		if HOLE_REQUIRED:
+			abort(403, "All posts are required to be flaired!")
 		sub_to_in_notif = 'the main feed'
 	else:
 		sub_to_in_notif = f'/h/{sub_to}'
@@ -206,7 +200,7 @@ def move_post(post, v, reason):
 		sub_to_str = 'main feed' if sub_to is None else \
 			f'<a href="/h/{sub_to}">/h/{sub_to}</a>'
 
-		if v.admin_level:
+		if v.admin_level >= PERMS['POST_COMMENT_MODERATION']:
 			ma = ModAction(
 				kind='move_hole',
 				user_id=v.id,

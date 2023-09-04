@@ -77,13 +77,13 @@ def login_post(v):
 
 		try:
 			if now - int(request.values.get("time")) > 600:
-				return redirect('/login')
+				return render_template("login/login.html", failed=True, redirect=redir)
 		except:
 			abort(400)
 
 		formhash = request.values.get("hash")
 		if not validate_hash(f"{account.id}+{request.values.get('time')}+2fachallenge", formhash):
-			return redirect("/login")
+			return render_template("login/login.html", failed=True, redirect=redir)
 
 		if not account.validate_2fa(request.values.get("2fa_token", "").strip()):
 			hash = generate_hash(f"{account.id}+{now}+2fachallenge")
@@ -105,7 +105,7 @@ def login_post(v):
 	return redirect('/')
 
 def log_failed_admin_login_attempt(account, type):
-	if not account or account.admin_level < PERMS['SITE_WARN_ON_INVALID_AUTH']: return
+	if not account or account.admin_level < PERMS['WARN_ON_FAILED_LOGIN']: return
 	ip = get_CF()
 	print(f"A site admin from {ip} failed to login to account @{account.user_name} (invalid {type})")
 	t = time.strftime("%d/%B/%Y %H:%M:%S UTC", time.gmtime(time.time()))
@@ -115,6 +115,7 @@ def on_login(account, redir=None):
 	session.permanent = True
 	session["lo_user"] = account.id
 	g.v = account
+	g.vid = account.username
 	session["login_nonce"] = account.login_nonce
 	check_for_alts(account, include_current_session=True)
 
@@ -278,6 +279,7 @@ def sign_up_post(v):
 			return signup_error("Invalid email!")
 	else: email = None
 
+	g.db.flush()
 	existing_account = get_user(username, graceful=True)
 	if existing_account:
 		return signup_error("An account with that username already exists!")
@@ -294,12 +296,13 @@ def sign_up_post(v):
 
 		x = requests.post(url, data=data, timeout=5)
 
-		if not x.json().get("success"):
+		try:
+			if not x.json().get("success"):
+				return signup_error("Unable to verify captcha [2].")
+		except:
 			return signup_error("Unable to verify captcha [2].")
 
 	session.pop("signup_token")
-
-	users_count = g.db.query(User).count()
 
 	profileurl = None
 	if PFP_DEFAULT_MARSEY:
@@ -314,13 +317,13 @@ def sign_up_post(v):
 		profileurl=profileurl
 		)
 
-	if users_count == 4:
-		new_user.admin_level = 4
-		session["history"] = []
-
 	g.db.add(new_user)
 
 	g.db.flush()
+
+	if new_user.id == 5:
+		new_user.admin_level = 4
+		session["history"] = []
 
 	if ref_id:
 		ref_user = get_account(ref_id)
@@ -340,6 +343,7 @@ def sign_up_post(v):
 	session.permanent = True
 	session["lo_user"] = new_user.id
 	g.v = new_user
+	g.vid = new_user.username
 
 	check_for_alts(new_user, include_current_session=True)
 	send_notification(new_user.id, WELCOME_MSG)
@@ -350,7 +354,6 @@ def sign_up_post(v):
 		g.db.add(new_follow)
 		signup_autofollow.stored_subscriber_count += 1
 		g.db.add(signup_autofollow)
-		send_notification(signup_autofollow.id, f"A new user - @{new_user.username} - has followed you automatically!")
 	elif CARP_ID:
 		send_notification(CARP_ID, f"A new user - @{new_user.username} - has signed up!")
 
@@ -482,15 +485,15 @@ def lost_2fa(v):
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit("6/minute;200/hour;1000/day", deduct_when=lambda response: response.status_code < 400)
 def lost_2fa_post():
-	username=request.values.get("username")
-	user=get_user(username, graceful=True)
+	username = request.values.get("username")
+	user = get_user(username, graceful=True)
 	if not user or not user.email or not user.mfa_secret:
 		return render_template("message.html",
 						title="Removal request received",
 						message="If username, password, and email match, we will send you an email."), 202
 
 
-	email=request.values.get("email").strip().lower()
+	email = request.values.get("email").strip().lower()
 
 	if not email_regex.fullmatch(email):
 		abort(400, "Invalid email")
@@ -501,10 +504,10 @@ def lost_2fa_post():
 						title="Removal request received",
 						message="If username, password, and email match, we will send you an email."), 202
 
-	valid=int(time.time())
-	token=generate_hash(f"{user.id}+{user.username}+disable2fa+{valid}+{user.mfa_secret}+{user.login_nonce}")
+	valid = int(time.time())
+	token = generate_hash(f"{user.id}+{user.username}+disable2fa+{valid}+{user.mfa_secret}+{user.login_nonce}")
 
-	action_url=f"{SITE_FULL}/reset_2fa?id={user.id}&t={valid}&token={token}"
+	action_url = f"{SITE_FULL}/reset_2fa?id={user.id}&t={valid}&token={token}"
 
 	send_mail(to_address=user.email,
 			subject="Two-factor Authentication Removal Request",
@@ -520,7 +523,7 @@ def lost_2fa_post():
 @app.get("/reset_2fa")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 def reset_2fa():
-	now=int(time.time())
+	now = int(time.time())
 	t = request.values.get("t")
 	if not t: abort(400)
 	try:
@@ -531,10 +534,10 @@ def reset_2fa():
 	if now > t+3600*24:
 		abort(410, "This two-factor authentication reset link has expired!")
 
-	token=request.values.get("token")
-	uid=request.values.get("id")
+	token = request.values.get("token")
+	uid = request.values.get("id")
 
-	user=get_account(uid)
+	user = get_account(uid)
 
 	if not validate_hash(f"{user.id}+{user.username}+disable2fa+{t}+{user.mfa_secret}+{user.login_nonce}", token):
 		abort(403)

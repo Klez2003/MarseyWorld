@@ -1,20 +1,15 @@
 {% extends "default.html" %}
 {% block pagetitle %}Contact{% endblock %}
 {% block content %}
-	{% if msg %}{{macros.alert(msg, false)}}{% endif %}
 	<h1 class="article-title">Contact {{SITE_NAME}} Admins</h1>
 	{% if v %}
-		<form id="contactform" action="/contact" method="post" enctype="multipart/form-data">
+		<form id="contactform" action="/contact" method="post" enctype="multipart/form-data" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHR(this)">
 
 			<label for="input-message" class="mt-3">Your message</label>
 			<input hidden name="formkey" value="{{v|formkey}}">
 			<textarea autocomplete="off" maxlength="10000" id="input-message" form="contactform" name="message" class="file-ta form-control" required></textarea>
 			<div class="mt-1">
-				<label class="btn btn-secondary m-0 format" data-nonce="{{g.nonce}}" data-onclick="loadEmojis('input-message')" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji">
-					<i class="fas fa-smile-beam"></i>
-				</label>
-
-				{{macros.file_input('file-uplod', False)}}
+				{{macros.file_input('file-upload', 'input-message')}}
 
 				<input type="submit" value="Submit" class="btn btn-primary fl-r">
 			</div>
@@ -23,6 +18,7 @@
 		<p class="my-3">Warrant Canary has been moved to <a href="/search/posts/?q=%22Monthly%20Website%20Stats%20Post%22">Monthly Website Stats Posts</a>.</p>
 
 		{% include "modals/emoji.html" %}
+		{% include "modals/gif.html" %}
 	{% else %}
 		<h4>by email: {{EMAIL}}</h4>
 	{% endif %}

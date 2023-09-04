@@ -7,12 +7,12 @@
 	{% include "modals/expanded_image.html" %}
 	{% include "modals/emoji.html" %}
 	{% include "util/macros.html" %}
-	{% set vlink = '<a href="/id/' ~ v.id ~ '">' %}
-	<div class="container pb-4">
+	{% set vlink = '<a href="/id/' ~ v.id ~ '"' %}
+	<div class="container pb-4 pb-md-2">
 		<div class="row justify-content-around" id="main-content-row">
 			<div class="col h-100 {% block customPadding %}custom-gutters{% endblock %}" id="main-content-col">	
 
-			{{ macros.chat_users_online() }}
+			{{macros.chat_users_online()}}
 
 			<div id="chat-group-template" class="d-none">
 				{{macros.chat_group_template()}}
@@ -27,17 +27,6 @@
 		</div>
 
 		{{macros.chat_users_list()}}
-	</div>
-
-	<div class="toast" id="toast-post-success" style="position: fixed; bottom: 1.5rem; margin: 0 auto; left: 0; right: 0; width: 275px; z-index: 100000" data-bs-animation="true" data-bs-autohide="true" data-bs-delay="5000">
-		<div class="toast-body bg-success text-center text-white">
-			<i class="fas fa-comment-alt-smile mr-2"></i><span id="toast-post-success-text">Action successful!</span>
-		</div>
-	</div>
-	<div class="toast" id="toast-post-error" style="position: fixed; bottom: 1.5rem; margin: 0 auto; left: 0; right: 0; width: 275px; z-index: 100000" data-bs-animation="true" data-bs-autohide="true" data-bs-delay="5000">
-		<div class="toast-body bg-danger text-center text-white">
-			<i class="fas fa-exclamation-circle mr-2"></i><span id="toast-post-error-text">Error, please try again later.</span>
-		</div>
 	</div>
 	
 	<input id="vid" hidden value="{{v.id}}">

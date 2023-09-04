@@ -140,9 +140,9 @@ lite-youtube {
 	max-width: 80%;
 }
 
-.resizable>video {
-	max-height: 28vh!important;
-	margin: 14px 0 0 0!important;
+.resizable > video {
+	max-height: 28vh !important;
+	margin: 14px 0 0 0 !important;
 }
 
 img[alt^="![]("], .img {
@@ -166,4 +166,10 @@ img[alt^="![]("], .img {
 
 #online > li, #online3 > li {
 	margin-top: 0.35rem;
+}
+
+@media (min-width: 768px) {
+	.patron {
+		padding-top: 1px !important;
+	}
 }

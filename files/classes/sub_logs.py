@@ -19,7 +19,7 @@ class SubAction(Base):
 	target_user_id = Column(Integer, ForeignKey("users.id"))
 	target_post_id = Column(Integer, ForeignKey("posts.id"))
 	target_comment_id = Column(Integer, ForeignKey("comments.id"))
-	_note=Column(String)
+	_note = Column(String)
 	created_utc = Column(Integer)
 
 	user = relationship("User", primaryjoin="User.id==SubAction.user_id")

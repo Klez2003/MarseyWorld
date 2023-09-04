@@ -15,7 +15,8 @@ def get_id(username, graceful=False):
 	username = sanitize_username(username)
 	if not username:
 		if graceful: return None
-		abort(404)
+		abort(400, "Empty username.")
+
 	user = g.db.query(
 		User.id
 		).filter(
@@ -28,19 +29,20 @@ def get_id(username, graceful=False):
 
 	if not user:
 		if graceful: return None
-		abort(404)
+		abort(404, "User not found.")
 
 	return user[0]
 
 def get_user(username, v=None, graceful=False, include_blocks=False, id_only=False):
 	if not username:
 		if graceful: return None
-		abort(404)
+		abort(400, "Empty username.")
 
 	username = sanitize_username(username)
 	if not username:
 		if graceful: return None
-		abort(404)
+		abort(400, "Empty username.")
+\
 	user = g.db.query(
 		User
 		).filter(
@@ -58,7 +60,7 @@ def get_user(username, v=None, graceful=False, include_blocks=False, id_only=Fal
 
 	if not user:
 		if graceful: return None
-		abort(404)
+		abort(404, "User not found.")
 
 	if v and include_blocks:
 		user = add_block_props(user, v)
@@ -69,7 +71,7 @@ def get_users(usernames, ids_only=False, graceful=False):
 	usernames = [sanitize_username(n) for n in usernames]
 	if not any(usernames):
 		if graceful and len(usernames) == 0: return []
-		abort(404)
+		abort(400, "Empty usernames.")
 
 	if ids_only:
 		users = g.db.query(User.id)
@@ -85,7 +87,7 @@ def get_users(usernames, ids_only=False, graceful=False):
 		).all()
 
 	if len(users) != len(usernames) and not graceful:
-		abort(404)
+		abort(404, "Users not found.")
 
 	if ids_only:
 		users = [x[0] for x in users]
@@ -97,12 +99,12 @@ def get_account(id, v=None, graceful=False, include_blocks=False):
 		id = int(id)
 	except:
 		if graceful: return None
-		abort(404)
+		abort(400, "User ID needs to be an integer.")
 
 	user = g.db.get(User, id)
 
 	if not user:
-		if not graceful: abort(404)
+		if not graceful: abort(404, "User not found.")
 		else: return None
 
 	if include_blocks:
@@ -116,22 +118,24 @@ def get_accounts_dict(ids, v=None, graceful=False):
 		ids = set([int(id) for id in ids])
 	except:
 		if graceful: return None
-		abort(404)
+		abort(400, "User IDs need to be an integer.")
 
 	users = g.db.query(User).filter(User.id.in_(ids))
 	users = users.all()
-	if len(users) != len(ids) and not graceful: abort(404)
+	if len(users) != len(ids) and not graceful:
+		abort(404, "Users not found.")
+
 	return {u.id:u for u in users}
 
 def get_post(i, v=None, graceful=False):
 	try: i = int(i)
 	except:
 		if graceful: return None
-		else: abort(404)
+		else: abort(400, "Post ID needs to be an integer.")
 
 	if not i:
 		if graceful: return None
-		else: abort(404)
+		else: abort(400, "Empty post ID.")
 
 	if v:
 		vt = g.db.query(Vote).filter_by(user_id=v.id, post_id=i).subquery()
@@ -156,7 +160,7 @@ def get_post(i, v=None, graceful=False):
 
 		if not post:
 			if graceful: return None
-			else: abort(404)
+			else: abort(404, "Post not found.")
 
 		x = post[0]
 		x.voted = post[1] or 0
@@ -165,7 +169,7 @@ def get_post(i, v=None, graceful=False):
 		post = g.db.get(Post, i)
 		if not post:
 			if graceful: return None
-			else: abort(404)
+			else: abort(404, "Post not found.")
 		x=post
 
 	return x
@@ -221,16 +225,16 @@ def get_comment(i, v=None, graceful=False):
 	try: i = int(i)
 	except:
 		if graceful: return None
-		abort(404)
+		abort(404, "Comment ID needs to be an integer.")
 
 	if not i:
 		if graceful: return None
-		else: abort(404)
+		else: abort(404, "Empty comment ID.")
 
-	comment=g.db.get(Comment, i)
+	comment = g.db.get(Comment, i)
 	if not comment:
 		if graceful: return None
-		else: abort(404)
+		else: abort(404, "Comment not found.")
 
 	return add_vote_and_block_props(comment, v, CommentVote)
 
@@ -360,12 +364,6 @@ def get_profile_picture(identifier):
 def get_error():
 	if request.referrer and request.referrer.split('?')[0] == request.base_url:
 		return request.values.get("error")
-	else:
-		return None
-
-def get_msg():
-	if request.referrer and request.referrer.split('?')[0] == request.base_url:
-		return request.values.get("msg")
 	else:
 		return None
 

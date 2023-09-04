@@ -157,7 +157,7 @@ function buy() {
 		try {data = JSON.parse(xhr[0].response)}
 		catch(e) {console.error(e)}
 		success = xhr[0].status >= 200 && xhr[0].status < 300;
-		showToast(success, getMessageFromJsonData(success, data), true);
+		showToast(success, getMessageFromJsonData(success, data));
 		if (success) {
 			if (kind != "lootbox")
 			{

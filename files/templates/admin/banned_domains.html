@@ -29,7 +29,7 @@
 	</table>
 
 
-	<form action="/admin/ban_domain" method="post">
+	<form action="/admin/ban_domain" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHRReload(this)">
 		<input hidden name="formkey" value="{{v|formkey}}">
 		<input autocomplete="off" name="domain" placeholder="Enter domain here.." class="form-control" required>
 		<input autocomplete="off" name="reason" placeholder="Enter ban reason here.." data-nonce="{{g.nonce}}" data-undisable_element="ban-submit" class="form-control mt-2">

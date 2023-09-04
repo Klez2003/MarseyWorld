@@ -1,5 +1,5 @@
 function addParam(t, bool) {
-	let text = t.innerText;
+	let text = t.textContent;
 	if (bool)
 		text = text + ' '
 	else

@@ -90,12 +90,12 @@ def edit_rules_post(v):
 	with open(f'files/templates/rules_{SITE_NAME}.html', 'w+', encoding="utf-8") as f:
 		f.write(rules)
 
-	# ma = ModAction(
-	# 	kind="edit_rules",
-	# 	user_id=v.id,
-	# )
-	# g.db.add(ma)
-	return render_template('admin/edit_rules.html', v=v, rules=rules, msg='Rules edited successfully!')
+	ma = ModAction(
+		kind="edit_rules",
+		user_id=v.id,
+	)
+	g.db.add(ma)
+	return {"message": "Rules edited successfully!"}
 
 @app.post("/@<username>/make_admin")
 @limiter.limit('1/second', scope=rpath)
@@ -161,9 +161,6 @@ def distribute(v, kind, option_id):
 	autojanny = get_account(AUTOJANNY_ID)
 	if autojanny.coins == 0: abort(400, "@AutoJanny has 0 coins")
 
-	try: option_id = int(option_id)
-	except: abort(400)
-
 	if kind == 'post': cls = PostOption
 	else: cls = CommentOption
 
@@ -186,6 +183,10 @@ def distribute(v, kind, option_id):
 	g.db.add(autojanny)
 
 	votes = option.votes
+
+	if not votes:
+		abort(400, "Nobody voted on that, it can't be the winner!")
+
 	coinsperperson = int(pool / len(votes))
 
 	text = f"You won {coinsperperson} coins betting on {parent.permalink} :marseyparty:"
@@ -193,7 +194,7 @@ def distribute(v, kind, option_id):
 	for vote in votes:
 		u = vote.user
 		u.pay_account('coins', coinsperperson)
-		add_notif(cid, u.id, text)
+		add_notif(cid, u.id, text, pushnotif_url=parent.permalink)
 
 	text = f"You lost the {POLL_BET_COINS} coins you bet on {parent.permalink} :marseylaugh:"
 	cid = notif_comment(text)
@@ -202,7 +203,7 @@ def distribute(v, kind, option_id):
 		if o.exclusive == 2:
 			losing_voters.extend([x.user_id for x in o.votes])
 	for uid in losing_voters:
-		add_notif(cid, uid, text)
+		add_notif(cid, uid, text, pushnotif_url=parent.permalink)
 
 	if isinstance(parent, Post):
 		ma = ModAction(
@@ -278,26 +279,13 @@ def revert_actions(v, username):
 	return {"message": f"@{revertee.username}'s admin actions have been reverted!"}
 
 @app.get("/admin/shadowbanned")
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT)
+@limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['USER_SHADOWBAN'])
 def shadowbanned(v):
-	users = g.db.query(User).filter(
-			User.shadowbanned != None,
-		).order_by(User.truescore.desc()).all()
+	users = g.db.query(User).filter(User.shadowbanned != None).order_by(User.ban_reason).all()
 
-	collected_users = []
-	collected_alts = set()
-
-	for u in users:
-		if u.id in collected_alts:
-			continue
-		collected_users.append(u)
-		collected_alts = collected_alts | get_alt_graph_ids(u.id)
-
-	collected_users = sorted(collected_users, key=lambda x: x.ban_reason)
-
-	return render_template("admin/shadowbanned.html", v=v, users=collected_users)
+	return render_template("admin/shadowbanned.html", v=v, users=users)
 
 
 @app.get("/admin/image_posts")
@@ -472,16 +460,12 @@ def badge_grant_post(v):
 
 	usernames = request.values.get("usernames", "").strip()
 	if not usernames:
-		error = "You must enter usernames!"
-		if v.client: return {"error": error}
-		return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=True, error=error)
+		abort(400, "You must enter usernames!")
 
 	for username in usernames.split():
 		user = get_user(username, graceful=True)
 		if not user:
-			error = "User not found!"
-			if v.client: return {"error": error}
-			return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=True, error=error)
+			abort(400, "User not found!")
 
 		try: badge_id = int(request.values.get("badge_id"))
 		except: abort(400)
@@ -492,7 +476,7 @@ def badge_grant_post(v):
 		description = request.values.get("description")
 		url = request.values.get("url", "").strip()
 
-		if badge_id in {63,66,74,149,178,180,240,241,242,248,286,291,293} and not url:
+		if badge_id in {63,74,149,178,180,240,241,242,248,286,291,293} and not url:
 			abort(400, "This badge requires a url!")
 
 		if url:
@@ -532,10 +516,7 @@ def badge_grant_post(v):
 		)
 		g.db.add(ma)
 
-
-	msg = "Badge granted to users successfully!"
-	if v.client: return {"message": msg}
-	return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=True, msg=msg)
+	return {"message": "Badge granted to users successfully!"}
 
 @app.post("/admin/badge_remove")
 @feature_required('BADGES')
@@ -549,14 +530,12 @@ def badge_remove_post(v):
 
 	usernames = request.values.get("usernames", "").strip()
 	if not usernames:
-		error = "You must enter usernames!"
-		if v.client: return {"error": error}
-		return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=False, error=error)
+		abort(400, "You must enter usernames!")
 
 	for username in usernames.split():
 		user = get_user(username, graceful=True)
 		if not user:
-			return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=False, error="User not found!")
+			abort(400, "User not found!")
 
 		try: badge_id = int(request.values.get("badge_id"))
 		except: abort(400)
@@ -580,10 +559,7 @@ def badge_remove_post(v):
 		g.db.add(ma)
 		g.db.delete(badge)
 
-
-	msg = "Badge removed from users successfully!"
-	if v.client: return {"message": msg}
-	return render_template("admin/badge_admin.html", v=v, badge_types=badges, grant=False, msg=msg)
+	return {"message": "Badge removed from users successfully!"}
 
 
 @app.get("/admin/alt_votes")
@@ -935,9 +911,9 @@ def admin_title_change(user_id, v):
 
 	user = get_account(user_id)
 
-	new_name=request.values.get("title")[:256].strip()
+	new_name = request.values.get("title")[:256].strip()
 
-	user.customtitleplain=new_name
+	user.customtitleplain = new_name
 	new_name = filter_emojis_only(new_name)
 	new_name = censor_slurs(new_name, None)
 
@@ -956,7 +932,7 @@ def admin_title_change(user_id, v):
 	if user.flairchanged: kind = "set_flair_locked"
 	else: kind = "set_flair_notlocked"
 
-	ma=ModAction(
+	ma = ModAction(
 		kind=kind,
 		user_id=v.id,
 		target_user_id=user.id,
@@ -1042,7 +1018,7 @@ def ban_user(fullname, v):
 	send_repeatable_notification(user.id, text)
 
 	note = f'duration: {duration}, reason: "{reason}"'
-	ma=ModAction(
+	ma = ModAction(
 		kind="ban_user",
 		user_id=v.id,
 		target_user_id=user.id,
@@ -1095,9 +1071,6 @@ def chud(fullname, v):
 	if user.chud == 1:
 		abort(403, f"@{user.username} is already chudded permanently!")
 
-	if user.marsify:
-		abort(403, f"You can't chud someone while they're marsified!")
-
 	days = 0.0
 	try:
 		days = float(request.values.get("days"))
@@ -1142,7 +1115,7 @@ def chud(fullname, v):
 	note = f'duration: {duration}'
 	if reason: note += f', reason: "{reason}"'
 
-	ma=ModAction(
+	ma = ModAction(
 		kind="chud",
 		user_id=v.id,
 		target_user_id=user.id,
@@ -1213,7 +1186,7 @@ def unban_user(fullname, v):
 			x.ban_reason = None
 		g.db.add(x)
 
-	ma=ModAction(
+	ma = ModAction(
 		kind="unban_user",
 		user_id=v.id,
 		target_user_id=user.id,
@@ -1287,7 +1260,7 @@ def progstack_post(post_id, v):
 	post.realupvotes = floor(post.realupvotes * PROGSTACK_MUL)
 	g.db.add(post)
 
-	ma=ModAction(
+	ma = ModAction(
 		kind="progstack_post",
 		user_id=v.id,
 		target_post_id=post.id,
@@ -1308,7 +1281,7 @@ def unprogstack_post(post_id, v):
 	post.is_approved = None
 	g.db.add(post)
 
-	ma=ModAction(
+	ma = ModAction(
 		kind="unprogstack_post",
 		user_id=v.id,
 		target_post_id=post.id,
@@ -1329,7 +1302,7 @@ def progstack_comment(comment_id, v):
 	comment.realupvotes = floor(comment.realupvotes * PROGSTACK_MUL)
 	g.db.add(comment)
 
-	ma=ModAction(
+	ma = ModAction(
 		kind="progstack_comment",
 		user_id=v.id,
 		target_comment_id=comment.id,
@@ -1350,7 +1323,7 @@ def unprogstack_comment(comment_id, v):
 	comment.is_approved = None
 	g.db.add(comment)
 
-	ma=ModAction(
+	ma = ModAction(
 		kind="unprogstack_comment",
 		user_id=v.id,
 		target_comment_id=comment.id,
@@ -1375,7 +1348,7 @@ def remove_post(post_id, v):
 	post.ban_reason = v.username
 	g.db.add(post)
 
-	ma=ModAction(
+	ma = ModAction(
 		kind="ban_post",
 		user_id=v.id,
 		target_post_id=post.id,
@@ -1495,7 +1468,7 @@ def sticky_post(post_id, v):
 
 	g.db.add(post)
 
-	ma=ModAction(
+	ma = ModAction(
 		kind="pin_post",
 		user_id=v.id,
 		target_post_id=post.id,
@@ -1627,12 +1600,16 @@ def remove_comment(c_id, v):
 	comment.is_approved = None
 	comment.ban_reason = v.username
 	g.db.add(comment)
-	ma=ModAction(
+	ma = ModAction(
 		kind="ban_comment",
 		user_id=v.id,
 		target_comment_id=comment.id,
 		)
 	g.db.add(ma)
+
+	if comment.parent_post:
+		for sort in COMMENT_SORTS:
+			cache.delete(f'post_{comment.parent_post}_{sort}')
 
 	return {"message": "Comment removed!"}
 
@@ -1662,6 +1639,10 @@ def approve_comment(c_id, v):
 	comment.is_approved = v.id
 
 	g.db.add(comment)
+
+	if comment.parent_post:
+		for sort in COMMENT_SORTS:
+			cache.delete(f'post_{comment.parent_post}_{sort}')
 
 	return {"message": "Comment approved!"}
 
@@ -1701,9 +1682,8 @@ def admin_distinguish_comment(c_id, v):
 @admin_level_required(PERMS['DOMAINS_BAN'])
 def admin_banned_domains(v):
 	banned_domains = g.db.query(BannedDomain) \
-		.order_by(BannedDomain.reason).all()
-	return render_template("admin/banned_domains.html", v=v,
-		banned_domains=banned_domains)
+		.order_by(BannedDomain.created_utc).all()
+	return render_template("admin/banned_domains.html", v=v, banned_domains=banned_domains)
 
 @app.post("/admin/ban_domain")
 @limiter.limit('1/second', scope=rpath)
@@ -1713,10 +1693,10 @@ def admin_banned_domains(v):
 @admin_level_required(PERMS['DOMAINS_BAN'])
 def ban_domain(v):
 
-	domain=request.values.get("domain", "").strip().lower()
+	domain = request.values.get("domain", "").strip().lower()
 	if not domain: abort(400)
 
-	reason=request.values.get("reason", "").strip()
+	reason = request.values.get("reason", "").strip()
 	if not reason: abort(400, 'Reason is required!')
 
 	if len(reason) > 100:
@@ -1736,7 +1716,7 @@ def ban_domain(v):
 		)
 		g.db.add(ma)
 
-	return redirect("/admin/banned_domains/")
+	return {"message": "Domain banned successfully!"}
 
 
 @app.post("/admin/unban_domain/<path:domain>")
@@ -1769,7 +1749,7 @@ def unban_domain(v, domain):
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def admin_nuke_user(v):
 
-	user=get_user(request.values.get("user"))
+	user = get_user(request.values.get("user"))
 
 	for post in g.db.query(Post).filter_by(author_id=user.id):
 		if post.is_banned:
@@ -1787,7 +1767,7 @@ def admin_nuke_user(v):
 		comment.ban_reason = v.username
 		g.db.add(comment)
 
-	ma=ModAction(
+	ma = ModAction(
 		kind="nuke_user",
 		user_id=v.id,
 		target_user_id=user.id,
@@ -1805,7 +1785,7 @@ def admin_nuke_user(v):
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def admin_nunuke_user(v):
 
-	user=get_user(request.values.get("user"))
+	user = get_user(request.values.get("user"))
 
 	for post in g.db.query(Post).filter_by(author_id=user.id):
 		if not post.is_banned:
@@ -1825,7 +1805,7 @@ def admin_nunuke_user(v):
 		comment.is_approved = v.id
 		g.db.add(comment)
 
-	ma=ModAction(
+	ma = ModAction(
 		kind="unnuke_user",
 		user_id=v.id,
 		target_user_id=user.id,
@@ -1898,22 +1878,25 @@ def delete_media_post(v):
 
 	url = request.values.get("url")
 	if not url:
-		return render_template("admin/delete_media.html", v=v, url=url, error="No url provided!")
+		abort(400, "No url provided!")
 
-	if not image_link_regex.fullmatch(url) and not video_link_regex.fullmatch(url):
-		return render_template("admin/delete_media.html", v=v, url=url, error="Invalid url!")
+	if not image_link_regex.fullmatch(url) and not video_link_regex.fullmatch(url) and not asset_image_link_regex.fullmatch(url):
+		abort(400, "Invalid url")
 
 	path = url.split(SITE)[1]
 
 	if path.startswith('/1'):
 		path = '/videos' + path
 
+	if path.startswith('/assets/images'):
+		path = 'files' + path.split('?x=')[0]
+
 	if not os.path.isfile(path):
-		return render_template("admin/delete_media.html", v=v, url=url, error="File not found on the server!")
+		abort(400, "File not found on the server!")
 
 	os.remove(path)
 
-	ma=ModAction(
+	ma = ModAction(
 		kind="delete_media",
 		user_id=v.id,
 		_note=url,
@@ -1921,7 +1904,7 @@ def delete_media_post(v):
 	g.db.add(ma)
 
 	purge_files_in_cache(url)
-	return render_template("admin/delete_media.html", v=v, msg="Media deleted successfully!")
+	return {"message": "Media deleted successfully!"}
 
 @app.post("/admin/reset_password/<int:user_id>")
 @limiter.limit('1/second', scope=rpath)
@@ -1956,18 +1939,46 @@ def orgy_control(v):
 @app.post("/admin/start_orgy")
 @admin_level_required(PERMS['ORGIES'])
 def start_orgy(v):
-	link = request.values.get("link")
-	title = request.values.get("title")
+	link = request.values.get("link", "").strip()
+	title = request.values.get("title", "").strip()
 
-	assert link
-	assert title
+	if not link:
+		abort(400, "A link is required!")
 
-	create_orgy(link, title)
+	if not title:
+		abort(400, "A title is required!")
 
-	return redirect("/chat")
+	if get_orgy():
+		abort(400, "An orgy is already in progress")
+
+	normalized_link = normalize_url(link)
+
+	if re.match(bare_youtube_regex, normalized_link):
+		orgy_type = 'youtube'
+		data, _ = get_youtube_id_and_t(normalized_link)
+	elif re.match(rumble_regex, normalized_link):
+		orgy_type = 'rumble'
+		data = normalized_link
+	elif re.match(twitch_regex, normalized_link):
+		orgy_type = 'twitch'
+		data = re.search(twitch_regex, normalized_link).group(3)
+	elif normalized_link.endswith('.mp4'):
+		orgy_type = 'file'
+		data = normalized_link
+	else:
+		abort(400)
+
+	orgy = Orgy(
+			title=title,
+			type=orgy_type,
+			data=data
+		)
+	g.db.add(orgy)
+
+	return {"message": "Orgy started successfully!"}
 
 @app.post("/admin/stop_orgy")
 @admin_level_required(PERMS['ORGIES'])
 def stop_orgy(v):
-	end_orgy()
-	return redirect("/chat")
+	g.db.query(Orgy).delete()
+	return {"message": "Orgy stopped successfully!"}

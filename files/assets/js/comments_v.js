@@ -68,6 +68,7 @@ function toggleReplyBox(t, id) {
 		if (ta.value && !ta.value.endsWith('\n')) ta.value += '\n'
 		ta.value += text
 		if (!ta.value.endsWith('\n')) ta.value += '\n'
+		markdown(ta);
 	}
 	ta.focus()
 
@@ -76,15 +77,15 @@ function toggleReplyBox(t, id) {
 	let newHTML = ''
 	if (t.innerHTML.includes('<i class="fas fa-'))
 		newHTML += '<i class="fas fa-quotes"></i>'
-	if (t.innerText)
+	if (t.textContent)
 		newHTML += 'Quote selection'
 	t.innerHTML = newHTML
 }
 
 function toggleEdit(id){
-	comment=document.getElementById("comment-text-"+id);
-	form=document.getElementById("comment-edit-"+id);
-	box=document.getElementById('comment-edit-body-'+id);
+	comment = document.getElementById("comment-text-"+id);
+	form = document.getElementById("comment-edit-"+id);
+	box = document.getElementById('comment-edit-body-'+id);
 	actions = document.getElementById('comment-' + id +'-actions');
 
 	comment.classList.toggle("d-none");
@@ -97,29 +98,33 @@ function toggleEdit(id){
 };
 
 
-function delete_commentModal(t, id) {
-	document.getElementById("deleteCommentButton").addEventListener('click', function() {
-		postToast(t, `/delete/comment/${id}`,
-			{
-			},
-			() => {
-				if (location.pathname == '/admin/reported/comments')
-				{
-					document.getElementById("post-info-"+id).remove()
-					document.getElementById("comment-"+id).remove()
-				}
-				else
-				{
-					document.getElementsByClassName(`comment-${id}-only`)[0].classList.add('deleted');
-					document.getElementById(`delete-${id}`).classList.add('d-none');
-					document.getElementById(`undelete-${id}`).classList.remove('d-none');
-					document.getElementById(`delete2-${id}`).classList.add('d-none');
-					document.getElementById(`undelete2-${id}`).classList.remove('d-none');
-				}
-			}
-		);
-	});
+const deleteCommentButton = document.getElementById("deleteCommentButton");
+
+function delete_commentModal(id) {
+	deleteCommentButton.dataset.id = id
 }
+
+deleteCommentButton.onclick = () => {
+	const id = deleteCommentButton.dataset.id
+	postToast(deleteCommentButton, `/delete/comment/${id}`,
+		{},
+		() => {
+			if (location.pathname == '/admin/reported/comments')
+			{
+				document.getElementById("post-info-"+id).remove()
+				document.getElementById("comment-"+id).remove()
+			}
+			else
+			{
+				document.getElementsByClassName(`comment-${id}-only`)[0].classList.add('deleted');
+				document.getElementById(`delete-${id}`).classList.add('d-none');
+				document.getElementById(`undelete-${id}`).classList.remove('d-none');
+				document.getElementById(`delete2-${id}`).classList.add('d-none');
+				document.getElementById(`undelete2-${id}`).classList.remove('d-none');
+			}
+		}
+	);
+};
 
 function post_reply(id) {
 	close_inline_speed_emoji_modal();
@@ -139,7 +144,7 @@ function post_reply(id) {
 	}
 	catch(e) {}
 
-	const xhr = createXhrWithFormKey("/reply", "POST", form);
+	const xhr = createXhrWithFormKey("/reply", form);
 
 	const upload_prog = document.getElementById(`upload-prog-c_${id}`);
 	xhr[0].upload.onprogress = (e) => {handleUploadProgress(e, upload_prog)};
@@ -197,7 +202,7 @@ function comment_edit(id){
 			form.append('file', e);
 	}
 	catch(e) {}
-	const xhr = createXhrWithFormKey("/edit_comment/"+id, "POST", form);
+	const xhr = createXhrWithFormKey("/edit_comment/"+id, form);
 
 	const upload_prog = document.getElementById(`upload-prog-edit-c_${id}`);
 	xhr[0].upload.onprogress = (e) => {handleUploadProgress(e, upload_prog)};
@@ -217,6 +222,18 @@ function comment_edit(id){
 			bs_trigger(commentForm);
 
 			document.getElementById('comment-edit-body-' + id).value = data["body"];
+
+			if (data["ping_cost"]) {
+				const ping_cost = document.getElementById('comment-ping-cost-' + id)
+				ping_cost.textContent = data["ping_cost"]
+				ping_cost.parentElement.classList.remove('d-none')
+			}
+
+			if (data["edited_string"]) {
+				const edited_string = document.getElementById('comment-edited_string-' + id)
+				edited_string.textContent = data["edited_string"]
+				edited_string.parentElement.classList.remove('d-none')
+			}
 
 			const input = ta.parentElement.querySelector('input[type="file"]')
 			input.previousElementSibling.innerHTML = '';
@@ -359,7 +376,7 @@ function restore_reply_buttons(fullname) {
 		let newHTML = ''
 		if (t.innerHTML.includes('<i class="fas fa-'))
 			newHTML += '<i class="fas fa-reply"></i>'
-		if (t.innerText)
+		if (t.textContent)
 			newHTML += 'Reply'
 		t.innerHTML = newHTML
 	}

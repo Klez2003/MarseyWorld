@@ -5,12 +5,9 @@
 
 <link rel="stylesheet" href="{{('css/admin/badges.css') | asset}}">
 
-{% if error %}{{macros.alert(error, true)}}{% endif %}
-{% if msg %}{{macros.alert(msg, false)}}{% endif %}
-
 {% set form_action = "/admin/badge_grant" if grant else "/admin/badge_remove" %}
 
-<form action="{{form_action}}" method="post">
+<form action="{{form_action}}" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHR(this)">
 <input hidden name="formkey" value="{{v|formkey}}">
 
 <div class="overflow-x-auto mt-4"><table class="table table-striped">

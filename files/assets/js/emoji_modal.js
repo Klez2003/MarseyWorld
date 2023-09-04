@@ -226,7 +226,7 @@ function fetchEmojis() {
 				classSelectorLinkDOM.classList.add("nav-link", "emojitab");
 				classSelectorLinkDOM.dataset.bsToggle = "tab";
 				classSelectorLinkDOM.dataset.className = className;
-				classSelectorLinkDOM.innerText = className;
+				classSelectorLinkDOM.textContent = className;
 				classSelectorLinkDOM.addEventListener('click', switchEmojiTab);
 
 				classSelectorDOM.appendChild(classSelectorLinkDOM);
@@ -278,6 +278,8 @@ function switchEmojiTab(e)
 
 	for(const emojiDOM of Object.values(emojiDOMs))
 		emojiDOM.hidden = emojiDOM.dataset.className !== className;
+
+	document.getElementById('emoji-container').scrollTop = 0;
 }
 
 for (const emojitab of document.getElementsByClassName('emojitab')) {
@@ -333,7 +335,7 @@ function update_ghost_div_textarea(text)
 	let ghostdiv = text.parentNode.querySelector(".ghostdiv");
 	if (!ghostdiv) return;
 
-	ghostdiv.innerText = text.value.substring(0, text.selectionStart);
+	ghostdiv.textContent = text.value.substring(0, text.selectionStart);
 
 	ghostdiv.insertAdjacentHTML('beforeend', "<span></span>");
 
@@ -386,7 +388,7 @@ function populate_speed_emoji_modal(results, textbox)
 
 	emoji_index = 0;
 	speed_carot_modal.innerHTML = "";
-	const MAXXX = 25;
+	const MAXXX = 50;
 	// Not sure why the results is a Set... but oh well
 	let i = 0;
 	for (let emoji of results)
@@ -411,7 +413,7 @@ function populate_speed_emoji_modal(results, textbox)
 		if (emoji.count !== undefined)
 			emoji_option_text.title += "\nused\t" + emoji.count;
 
-		emoji_option_text.innerText = name;
+		emoji_option_text.textContent = name;
 
 		if (current_word.includes("#")) name = `#${name}`
 		if (current_word.includes("!")) name = `!${name}`
@@ -420,7 +422,7 @@ function populate_speed_emoji_modal(results, textbox)
 			close_inline_speed_emoji_modal()
 			textbox.value = textbox.value.replace(new RegExp(current_word+"(?=\\s|$)", "gi"), `:${name}: `)
 			textbox.focus()
-			if (document.location.pathname != '/chat' && document.location.pathname != '/old_chat'){
+			if (location.pathname != '/chat'){
 				markdown(textbox)
 			}
 		});
@@ -511,16 +513,17 @@ function speed_carot_navigate(event)
 	}
 }
 
-// Let's get it running now
-let forms = document.querySelectorAll("textarea, .allow-emojis");
-forms.forEach(i => {
-	let pseudo_div = document.createElement("div");
-	pseudo_div.className = "ghostdiv";
-	pseudo_div.style.display = "none";
-	i.after(pseudo_div);
-	i.addEventListener('input', update_speed_emoji_modal, false);
-	i.addEventListener('keydown', speed_carot_navigate, false);
-});
+function insertGhostDivs(element) {
+	let forms = element.querySelectorAll("textarea, .allow-emojis");
+	forms.forEach(i => {
+		let pseudo_div = document.createElement("div");
+		pseudo_div.className = "ghostdiv";
+		pseudo_div.style.display = "none";
+		i.after(pseudo_div);
+		i.addEventListener('input', update_speed_emoji_modal, false);
+		i.addEventListener('keydown', speed_carot_navigate, false);
+	});	
+}
 
 function loadEmojis(inputTargetIDName)
 {

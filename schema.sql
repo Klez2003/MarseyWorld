@@ -448,8 +448,11 @@ CREATE TABLE public.comments (
     chuddedfor character varying(50),
     stickied_child_id integer,
     wall_user_id integer,
-    chudded boolean,
-    ping_cost integer
+    chudded boolean NOT NULL,
+    ping_cost integer NOT NULL,
+    rainbowed boolean NOT NULL,
+    queened boolean NOT NULL,
+    sharpened boolean NOT NULL
 );
 
 
@@ -742,63 +745,11 @@ ALTER SEQUENCE public.oauth_apps_id_seq OWNED BY public.oauth_apps.id;
 --
 
 CREATE TABLE public.orgies (
-    id integer NOT NULL,
-    type integer NOT NULL,
+    type character varying(8) NOT NULL,
     data character varying(200) NOT NULL,
-    title character varying(1000) NOT NULL
+    title character varying(1000) NOT NULL,
+    created_utc integer NOT NULL
 );
-
-
---
--- Name: pgbench_accounts; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.pgbench_accounts (
-    aid integer NOT NULL,
-    bid integer,
-    abalance integer,
-    filler character(84)
-)
-WITH (fillfactor='100');
-
-
---
--- Name: pgbench_branches; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.pgbench_branches (
-    bid integer NOT NULL,
-    bbalance integer,
-    filler character(88)
-)
-WITH (fillfactor='100');
-
-
---
--- Name: pgbench_history; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.pgbench_history (
-    tid integer,
-    bid integer,
-    aid integer,
-    delta integer,
-    mtime timestamp without time zone,
-    filler character(22)
-);
-
-
---
--- Name: pgbench_tellers; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.pgbench_tellers (
-    tid integer NOT NULL,
-    bid integer,
-    tbalance integer,
-    filler character(84)
-)
-WITH (fillfactor='100');
 
 
 --
@@ -843,9 +794,12 @@ CREATE TABLE public.posts (
     notify boolean NOT NULL,
     chuddedfor character varying(50),
     posterurl character varying(200),
-    chudded boolean,
-    ping_cost integer,
-    bump_utc integer NOT NULL
+    chudded boolean NOT NULL,
+    ping_cost integer NOT NULL,
+    bump_utc integer NOT NULL,
+    rainbowed boolean NOT NULL,
+    queened boolean NOT NULL,
+    sharpened boolean NOT NULL
 );
 
 
@@ -913,7 +867,7 @@ CREATE TABLE public.post_options (
 
 CREATE TABLE public.push_subscriptions (
     user_id integer NOT NULL,
-    subscription_json character varying(600) NOT NULL,
+    subscription_json character varying(700) NOT NULL,
     created_utc integer NOT NULL
 );
 
@@ -1428,27 +1382,11 @@ ALTER TABLE ONLY public.users
 
 
 --
--- Name: pgbench_accounts pgbench_accounts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: orgies orgies_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.pgbench_accounts
-    ADD CONSTRAINT pgbench_accounts_pkey PRIMARY KEY (aid);
-
-
---
--- Name: pgbench_branches pgbench_branches_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.pgbench_branches
-    ADD CONSTRAINT pgbench_branches_pkey PRIMARY KEY (bid);
-
-
---
--- Name: pgbench_tellers pgbench_tellers_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.pgbench_tellers
-    ADD CONSTRAINT pgbench_tellers_pkey PRIMARY KEY (tid);
+ALTER TABLE ONLY public.orgies
+    ADD CONSTRAINT orgies_pkey PRIMARY KEY (type);
 
 
 --
@@ -1724,6 +1662,13 @@ CREATE INDEX comment_parent_index ON public.comments USING btree (parent_comment
 --
 
 CREATE INDEX comment_post_id_index ON public.comments USING btree (parent_post);
+
+
+--
+-- Name: comment_sticked_utc_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX comment_sticked_utc_idx ON public.comments USING btree (stickied_utc);
 
 
 --
@@ -2116,6 +2061,13 @@ CREATE INDEX post_new_sort_idx ON public.posts USING btree (is_banned, deleted_u
 --
 
 CREATE INDEX post_over_18_idx ON public.posts USING btree (over_18);
+
+
+--
+-- Name: post_sticked_utc_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX post_sticked_utc_idx ON public.posts USING btree (stickied_utc);
 
 
 --

@@ -2,7 +2,7 @@
 {% block pagetitle %}Directory{% endblock %}
 {% block pagetype %}directory{% endblock %}
 {# Title (~25char max), Description (~80char max),
-	Icon (fa-foo-bar), Color (#ff0000), URL (/post/12345/) #}
+	Icon (fa-foo-bar), Color (#ff0000), URL (/submit/hats) #}
 {%- set DIRECTORY = [] -%}
 
 {%- if SITE_NAME == 'rDrama' -%}
@@ -11,13 +11,13 @@
 		'Bugs / Suggestions',
 		'Something broken? Improvements?',
 		'fa-bug', '#6b8e23',
-		'/post/18459',
+		'/post/' ~ BUG_THREAD,
 	),
 	(
 		'Changelog',
 		'Log of all site changes.',
 		'fa-clipboard', '#ffffff',
-		'/post/165657',
+		'/post/' ~ CHANGELOG_THREAD,
 	),
 	(
 		'Submit Emojis',

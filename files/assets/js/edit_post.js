@@ -1,16 +1,16 @@
 function togglePostEdit(id){
-	body=document.getElementById("post-body");
-	title=document.getElementById("post-title");
-	form=document.getElementById("edit-post-body-"+id);
+	body = document.getElementById("post-body");
+	title = document.getElementById("post-title");
+	form = document.getElementById("edit-post-body-"+id);
 
 	body.classList.toggle("d-none");
 	title.classList.toggle("d-none");
 	form.classList.toggle("d-none");
 
-	box=document.getElementById("post-edit-box-"+id);
+	box = document.getElementById("post-edit-box-"+id);
 	autoExpand(box);
 	markdown(box);
-	box=document.getElementById("post-edit-title");
+	box = document.getElementById("post-edit-title");
 	autoExpand(box);
 
 	close_inline_speed_emoji_modal();

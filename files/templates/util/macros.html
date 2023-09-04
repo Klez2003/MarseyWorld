@@ -5,7 +5,7 @@
 {%- endmacro -%}
 
 {%- macro random_image(path) -%}
-	{{- "/" ~ path ~ "/" ~ listdir('files/' ~ path)|random() ~ '?x=6' }}
+	{{- SITE_FULL_IMAGES ~ "/" ~ path ~ "/" ~ listdir('files/' ~ path)|random() ~ '?x=6' -}}
 {%- endmacro -%}
 
 {% macro post_meta(p) %}
@@ -103,14 +103,20 @@
 {% endmacro %}
 
 
-{% macro file_input(id, image_only, disabled) %}
-<label class="btn btn-secondary format m-0 ml-2" for="{{id}}" {% if g.is_tor or disabled %}disabled{% endif %}>
-	<i class="fas fa-{% if image_only %}image{% else %}file{% endif %}"></i>
-	<input autocomplete="off" id="{{id}}" accept="image/*{% if not image_only %}, video/*, audio/*{% endif %}" type="file" multiple="multiple" name="file" {% if g.is_tor or disabled %}disabled{% endif %} hidden>
-</label>
+{% macro file_input(input_id, textarea_id, disabled) %}
+	<div class="comment-format">
+		<button type="button" class="btn btn-secondary format m-0 font-weight-bolder text-uppercase" data-nonce="{{g.nonce}}" data-onclick="getGifs('{{textarea_id}}')" data-bs-toggle="modal" data-bs-target="#gifModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add GIF">GIF</button>
+
+		<button type="button" class="btn btn-secondary format m-0 ml-2" data-nonce="{{g.nonce}}" data-onclick="loadEmojis('{{textarea_id}}')" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"><i class="fas fa-smile-beam"></i></button>
+
+		<label class="btn btn-secondary format m-0 ml-2" for="{{input_id}}" {% if g.is_tor or disabled %}disabled{% endif %}>
+			<i class="fas fa-{% if image_only %}image{% else %}file{% endif %}"></i>
+			<input autocomplete="off" id="{{input_id}}" accept="image/*{% if not image_only %}, video/*, audio/*{% endif %}" type="file" multiple="multiple" name="file" {% if g.is_tor or disabled %}disabled{% endif %} hidden>
+		</label>
+	</div>
 {% endmacro %}
 
-{% macro comment_reply_box(target_fullname, html_id, wrapper_css_classes="", subwrapper_css_classes="", hide="", allow_file_upload=true, enable_cancel_button=true) %}
+{% macro comment_reply_box(target_fullname, html_id, wrapper_css_classes="", subwrapper_css_classes="", hide="", enable_cancel_button=true) %}
 	<div class="comment-box-wrapper{% if wrapper_css_classes %} {{wrapper_css_classes}}{% endif %}" id="{{html_id}}">
 	{% if v %}
 		<div id="comment-form-space-{{target_fullname}}" class="comment-write {{subwrapper_css_classes}}">
@@ -120,17 +126,8 @@
 
 			<div class="text-small font-weight-bold mt-1" id="charcount-{{target_fullname}}" style="right: 1rem; bottom: 0.5rem; z-index: 3;"></div>
 
-			<div class="comment-format">
-				<button type="button" class="btn btn-secondary format d-inline-block m-0" for="gif-reply-btn-{{target_fullname}}">
-					<span id="gif-reply-btn-{{target_fullname}}" class="font-weight-bolder text-uppercase" data-nonce="{{g.nonce}}" data-onclick="getGifs('reply-form-body-{{target_fullname}}')" data-bs-toggle="modal" data-bs-target="#gifModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add GIF">GIF</span>
-				</button>
+			{{file_input('file-upload-reply-' ~ target_fullname, 'reply-form-body-' ~ target_fullname, False)}}
 
-				<button type="button" data-nonce="{{g.nonce}}" data-onclick="loadEmojis('reply-form-body-{{target_fullname}}')" class="btn btn-secondary format d-inline-block m-0 ml-2" id="emoji-reply-btn-{{target_fullname}}" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"><i class="fas fa-smile-beam"></i></button>
-
-				{% if allow_file_upload %}
-					{{file_input('file-upload-reply-' ~ target_fullname, False)}}
-				{% endif %}
-			</div>
 			<button type="button" id="save-reply-to-{{target_fullname}}" form="reply-to-{{target_fullname}}" class="btn btn-primary text-whitebtn ml-auto fl-r" data-nonce="{{g.nonce}}" data-onclick="post_comment('{{target_fullname}}', '{{hide}}')">Comment</button>
 
 			{% if enable_cancel_button %}
@@ -167,7 +164,7 @@
 {% macro ghost_box(text1, text2, mode, extra_css) %}
 {# TODO: use in saved (search for "fa-ghost" in source) #}
 {% if mode == 1 %}
-<div id="ghost-town-box" class="text-center py-6"{% if extra_css %} style="{{extra_css}}"{% endif %}>
+<div id="ghost-town-box" class="text-center p-6"{% if extra_css %} style="{{extra_css}}"{% endif %}>
 	<span class="fa-stack fa-2x text-muted mb-4">
 		<i class="fas fa-square text-gray-500 opacity-25 fa-stack-2x"></i>
 		<i class="fas text-gray-500 fa-ghost fa-stack-1x text-lg"></i>
@@ -181,7 +178,7 @@
 	{% endif %}
 </div>
 {% elif mode == 2 %}
-<div id="ghost-town-box" class="text-center border-md rounded py-6"{% if extra_css %} style="{{extra_css}}"{% endif %}>
+<div id="ghost-town-box" class="text-center border-md rounded p-6"{% if extra_css %} style="{{extra_css}}"{% endif %}>
 	<i class="fas fa-ghost text-gray-500 mb-3" style="font-size: 3.5rem;"></i>
 	<p class="font-weight-bold text-gray-500 mb-0">{{text1|safe}}</p>
 </div>
@@ -193,7 +190,7 @@
 	<i class="fas {% if error %}fa-exclamation-circle{% else %}fa-check-circle{% endif %} my-auto"></i>
 	<span>{{msg}}</span>
 	<button type="button" class="close" data-bs-dismiss="alert">
-		<span><i class="far fa-times"></i></span>
+		<span><i class="fas fa-times"></i></span>
 	</button>
 </div>
 {% endmacro %}
@@ -205,7 +202,7 @@
 	<ul class="mt-1 mb-0" style="padding-left:20px;word-wrap:break-word">
 		{% for r in i.filtered_reports(v) %}
 			<li>
-				{% if v and v.admin_level and r.user.shadowbanned %}
+				{% if v and v.admin_level >= PERMS['USER_SHADOWBAN'] and r.user.shadowbanned %}
 					<i class="fas fa-user-times text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title='Shadowbanned by @{{r.user.shadowbanner}} for "{{r.user.ban_reason}}"' data-bs-html="true"></i>
 				{% endif %}
 				<a style="font-weight:bold" href="{{r.user.url}}">{{r.user.username}}</a>
@@ -223,7 +220,7 @@
 {% macro chat_users_online() %}
 <div class="border-right pb-1 px-3">
 	<span id="online2" data-bs-html="true" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Users Online" class="text-muted">
-		<i class="far fa-user fa-sm mr-1"></i>
+		<i class="fas fa-user fa-sm mr-1"></i>
 		<span class="board-chat-count">0</span>
 	</span>
 </div>
@@ -231,7 +228,13 @@
 
 {% macro chat_group_template(id, m) %}
 	<div class="chat-group">
-		<a class="font-weight-bold userlink" target="_blank" {% if m %}style="color:#{{m.namecolor}}" href="/@{{m.username}}" {% endif %}><div class="avatar profile-pic-20-wrapper mr-1"><img loading="lazy" class="avatar-pic pp20 mr-1" {% if m %}src="/pp/{{m.user_id}}"{% endif %}><img class="avatar-hat profile-pic-20-hat hat" loading="lazy" {% if m %}src="{{m.hat}}"{% endif %}></div>{% if m %}{{m.username}}{% else %}NULL{% endif %}</a>
+		<a class="font-weight-bold userlink" target="_blank" {% if m %}style="color:#{{m.namecolor}}" href="/@{{m.username}}" {% endif %}>
+			<div class="avatar profile-pic-20-wrapper mr-1">
+				<img loading="lazy" class="avatar-pic pp20 mr-1" {% if m %}src="/pp/{{m.user_id}}"{% endif %}>
+				<img class="avatar-hat profile-pic-20-hat hat" loading="lazy" {% if m %}src="{{m.hat}}"{% endif %}>
+			</div>
+			<span {% if m and m.patron %}class="username patron" style="background-color:#{{m.namecolor}}"{% else %}class="username"{% endif %}>{% if m %}{{m.username}}{% endif %}</span>
+		</a>
 		<span class="text-black time ml-1 mb-3 text-center">{% if m %}{{m.time | timestamp}}{% else %}just now{% endif %}</span>
 		<input hidden class="user_id" {% if m %}value="{{m.user_id}}"{% endif %}>
 {% endmacro %}
@@ -318,7 +321,7 @@
 		</a>
 	</div>
 
-	<div id='message' class="d-none position-relative form-group d-flex">
+	<div id='message' class="position-relative form-group d-flex">
 		<div class="position-absolute text-muted text-small ml-1" style="bottom: -1.5rem; line-height: 1;">
 			<span id="typing-indicator"></span>
 			<span id="loading-indicator" class="d-none"></span>
@@ -342,7 +345,7 @@
 {% endmacro %}
 
 {% macro chat_users_list() %}
-	<div class="col text-left d-none d-lg-block pt-3" style="max-width:300px">
+	<div class="col text-left d-none d-lg-block pt-3 pb-5" style="max-width:300px">
 		<h5>Users Online</h5>
 		<div id="online" class="mt-3"></div>
 	</div>

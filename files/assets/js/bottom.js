@@ -64,42 +64,20 @@ for (const element of undisable_element) {
 	});
 }
 
-async function handleSettingSwitch(event) {
-	let input = event.currentTarget;
-	input.disabled = true;
-	input.classList.add("disabled");
-	const form = new FormData();
-	form.append("formkey", formkey());
-	const res = await fetch(
-		 `/settings/personal?${input.name}=${input.checked}`,
-		 {
-			 method: "POST",
-			 headers: {
-				 xhr: "xhr",
-			 },
-			 body: form,
-		 },
-	).catch(() => ({ ok: false }));
-	let message;
-	if (res.ok) {
-		 ({message} = await res.json());
-		 // the slur and profanity replacers have special make-permanent switches
-		 if (["slurreplacerswitch", "profanityreplacerswitch"].includes(input.id)) {
-			 document.getElementById(
-				 `${input.id.replace("switch", "")}-perma-link`
-			 ).hidden = !input.checked;
-		 }
-	} else {
-		 // toggle the input back if the request doesn't go through
-		 input.checked = !input.checked;
-	}
-	let oldToast = bootstrap.Toast.getOrCreateInstance(
-		 document.getElementById('toast-post-' + (res.ok ? 'error': 'success'))
-	); // intentionally reversed here: this is the old toast
-	oldToast.hide();
-	showToast(res.ok, message);
-	input.disabled = false;
-	input.classList.remove("disabled");
+function handleSettingSwitch(t) {
+	postToast(t, `/settings/personal?${t.name}=${t.checked}`,
+		{},
+		() => {
+			if (["slurreplacerswitch", "profanityreplacerswitch"].includes(t.id)) {
+				document.getElementById(
+					`${t.id.replace("switch", "")}-perma-link`
+				).hidden = !t.checked;
+			}
+		},
+		() => {
+			t.checked = !t.checked;
+		},
+	);
 }
 
 const setting_switchs = document.getElementsByClassName('setting_switch');
@@ -108,7 +86,7 @@ for (const element of setting_switchs) {
 		console.log("Nonce check failed!")
 		continue
 	}
-	element.addEventListener('change', handleSettingSwitch);
+	element.addEventListener('change', () => {handleSettingSwitch(element)});
 }
 
 const setting_selects = document.getElementsByClassName('setting_select');
@@ -204,6 +182,21 @@ document.addEventListener("click", function (e) {
 			return
 		}
 		document.getElementById('giveaward').dataset.action = element.dataset.url
+
+		const effect_author_tab = document.getElementById('effect-author-tab')
+		const effect_content_tab = document.getElementById('effect-content-tab')
+		const effect_author_section = document.getElementById('effect-author-section')
+		const effect_content_section = document.getElementById('effect-content-section')
+		if (element.dataset.ghost == 'True') {
+			effect_author_tab.classList.add('disabled')
+			effect_author_tab.classList.remove('active')
+			effect_author_section.classList.add('d-none')
+			effect_content_tab.classList.add('active')
+			effect_content_section.classList.remove('d-none')
+		}
+		else {
+			effect_author_tab.classList.remove('disabled')
+		}
 	}
 
 

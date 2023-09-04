@@ -11,21 +11,19 @@ function getMessageFromJsonData(success, json) {
 	return message;
 }
 
-function showToast(success, message, isToastTwo=false) {
+function showToast(success, message) {
+	const oldToast = bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-' + (success ? 'error': 'success'))); // intentionally reversed here: this is the old toast
+	oldToast.hide();
 	let element = success ? "toast-post-success" : "toast-post-error";
 	let textElement = element + "-text";
-	if (isToastTwo) {
-		element = element + "2";
-		textElement = textElement + "2";
-	}
 	if (!message) {
-		message = success ? "Success" : "Error, please try again later";
+		message = success ? "Action successful!" : "Error, please try again later";
 	}
-	document.getElementById(textElement).innerText = message;
+	document.getElementById(textElement).textContent = message;
 	bootstrap.Toast.getOrCreateInstance(document.getElementById(element)).show();
 }
 
-function createXhrWithFormKey(url, method="POST", form=new FormData()) {
+function createXhrWithFormKey(url, form=new FormData(), method='POST') {
 	const xhr = new XMLHttpRequest();
 	xhr.open(method, url);
 	xhr.setRequestHeader('xhr', 'xhr');
@@ -34,52 +32,52 @@ function createXhrWithFormKey(url, method="POST", form=new FormData()) {
 	return [xhr, form]; // hacky but less stupid than what we were doing before
 }
 
-function postToast(t, url, data, extraActionsOnSuccess, method="POST") {
+function postToast(t, url, data, extraActionsOnSuccess, extraActionsOnFailure) {
+	t.disabled = true;
+	t.classList.add("disabled");
+
 	let form = new FormData();
 	if (typeof data === 'object' && data !== null) {
 		for(let k of Object.keys(data)) {
 			form.append(k, data[k]);
 		}
 	}
-	const xhr = createXhrWithFormKey(url, method, form);
+	const xhr = createXhrWithFormKey(url, form);
 	xhr[0].onload = function() {
-		t.disabled = false;
-		t.classList.remove("disabled");
+		const success = xhr[0].status >= 200 && xhr[0].status < 300;
+
+		if (!(extraActionsOnSuccess == reload && success)) {
+			t.disabled = false;
+			t.classList.remove("disabled");
+		}
+
 		let result
 		let message;
-		let success = xhr[0].status >= 200 && xhr[0].status < 300;
 		if (typeof result == "string") {
 			message = result;
 		} else {
 			message = getMessageFromJsonData(success, JSON.parse(xhr[0].response));
 		}
-		let oldToast = bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-' + (success ? 'error': 'success'))); // intentionally reversed here: this is the old toast
-		oldToast.hide();
 		showToast(success, message);
-		if (success && extraActionsOnSuccess) result = extraActionsOnSuccess(xhr[0]);
+		if (success && extraActionsOnSuccess) extraActionsOnSuccess(xhr[0]);
+		if (!success && extraActionsOnFailure) extraActionsOnFailure(xhr[0]);
 		return success;
 	};
 	xhr[0].send(xhr[1]);
 }
 
-function postToastReload(t, url, method="POST") {
-	postToast(t, url,
-		{
-		},
-		() => {
-			location.reload()
-		}
-	, method);
+function postToastReload(t, url) {
+	postToast(t, url, {}, reload);
 }
 
-function postToastSwitch(t, url, button1, button2, cls, extraActionsOnSuccess, method="POST") {
+function postToastSwitch(t, url, button1, button2, cls, extraActionsOnSuccess) {
 	postToast(t, url,
 		{
 		},
 		(xhr) => {
 			if (button1)
 			{
-				if (typeof(button1) == 'boolean') {
+				if (typeof button1 == 'boolean') {
 					location.reload()
 				} else {
 					try {
@@ -93,9 +91,8 @@ function postToastSwitch(t, url, button1, button2, cls, extraActionsOnSuccess, m
 				}
 			}
 			if (typeof extraActionsOnSuccess == 'function')
-			extraActionsOnSuccess(xhr);
-		}
-	, method);
+				extraActionsOnSuccess(xhr);
+		});
 }
 
 if (!location.pathname.endsWith('/submit'))
@@ -113,6 +110,11 @@ if (!location.pathname.endsWith('/submit'))
 			return
 		}
 
+		if (location.pathname == '/admin/orgy') {
+			document.getElementById('start-orgy').click();
+			return
+		}
+
 		const submitButtonDOMs = formDOM.querySelectorAll('input[type=submit], .btn-primary');
 		if (submitButtonDOMs.length === 0)
 			throw new TypeError("I am unable to find the submit button :(. Contact the head custodian immediately.")
@@ -124,8 +126,8 @@ if (!location.pathname.endsWith('/submit'))
 
 
 function autoExpand(field) {
-	xpos=window.scrollX;
-	ypos=window.scrollY;
+	xpos = window.scrollX;
+	ypos = window.scrollY;
 
 	field.style.height = 'inherit';
 
@@ -196,15 +198,7 @@ function bs_trigger(e) {
 	});
 
 	if (typeof update_speed_emoji_modal == 'function') {
-		let forms = e.querySelectorAll("textarea, .allow-emojis");
-		forms.forEach(i => {
-			let pseudo_div = document.createElement("div");
-			pseudo_div.className = "ghostdiv";
-			pseudo_div.style.display = "none";
-			i.after(pseudo_div);
-			i.addEventListener('input', update_speed_emoji_modal, false);
-			i.addEventListener('keydown', speed_carot_navigate, false);
-		});
+		insertGhostDivs(e)
 	}
 }
 
@@ -280,10 +274,14 @@ function prepare_to_pause(audio) {
 	});
 }
 
+function reload() {
+	location.reload();
+}
+
 function sendFormXHR(form, extraActionsOnSuccess) {
-	const submit_btn = form.querySelector('[type="submit"]')
-	submit_btn.disabled = true;
-	submit_btn.classList.add("disabled");
+	const t = form.querySelector('[type="submit"]')
+	t.disabled = true;
+	t.classList.add("disabled");
 
 	const xhr = new XMLHttpRequest();
 
@@ -296,24 +294,18 @@ function sendFormXHR(form, extraActionsOnSuccess) {
 	xhr.setRequestHeader('xhr', 'xhr');
 
 	xhr.onload = function() {
-		if (xhr.status >= 200 && xhr.status < 300) {
-			let data = JSON.parse(xhr.response);
-			showToast(true, getMessageFromJsonData(true, data));
-			if (extraActionsOnSuccess) extraActionsOnSuccess(xhr);
-		} else {
-			document.getElementById('toast-post-error-text').innerText = "Error, please try again later."
-			try {
-				let data=JSON.parse(xhr.response);
-				bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-error')).show();
-				document.getElementById('toast-post-error-text').innerText = data["error"];
-				if (data && data["details"]) document.getElementById('toast-post-error-text').innerText = data["details"];
-			} catch(e) {
-				bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-success')).hide();
-				bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-error')).show();
-			}
+		const success = xhr.status >= 200 && xhr.status < 300;
+
+		if (!(extraActionsOnSuccess == reload && success)) {
+			t.disabled = false;
+			t.classList.remove("disabled");
 		}
-		submit_btn.disabled = false;
-		submit_btn.classList.remove("disabled");	
+
+		if (xhr.status != 204) {
+			const data = JSON.parse(xhr.response);
+			showToast(success, getMessageFromJsonData(success, data));
+		}
+		if (success && extraActionsOnSuccess) extraActionsOnSuccess(xhr);
 	};
 
 	xhr.send(formData);
@@ -331,11 +323,7 @@ function sendFormXHRSwitch(form) {
 }
 
 function sendFormXHRReload(form) {
-	sendFormXHR(form,
-		() => {
-			location.reload();
-		}
-	)
+	sendFormXHR(form, reload)
 }
 
 let sortAscending = {};
@@ -360,7 +348,7 @@ function sort_table(t) {
 		} else if ('time' in x.dataset) {
 			attr = parseInt(x.dataset.time);
 		} else {
-			attr = x.innerText
+			attr = x.textContent
 			if (/^[\d-,]+$/.test(x.innerHTML)) {
 				attr = parseInt(attr.replace(/,/g, ''))
 			}
@@ -457,23 +445,64 @@ function insertText(input, text) {
 
 
 let oldfiles = {};
+let MAX_IMAGE_AUDIO_SIZE_MB
+let MAX_IMAGE_AUDIO_SIZE_MB_PATRON
+let MAX_VIDEO_SIZE_MB
+let MAX_VIDEO_SIZE_MB_PATRON
+
+if (document.getElementById("MAX_IMAGE_AUDIO_SIZE_MB")) {
+	MAX_IMAGE_AUDIO_SIZE_MB = parseInt(document.getElementById("MAX_IMAGE_AUDIO_SIZE_MB").value)
+	MAX_IMAGE_AUDIO_SIZE_MB_PATRON = parseInt(document.getElementById("MAX_IMAGE_AUDIO_SIZE_MB_PATRON").value)
+	MAX_VIDEO_SIZE_MB = parseInt(document.getElementById("MAX_VIDEO_SIZE_MB").value)
+	MAX_VIDEO_SIZE_MB_PATRON = parseInt(document.getElementById("MAX_VIDEO_SIZE_MB_PATRON").value)
+}
+
+let patron
+if (location.host == 'rdrama.net') patron = 'paypig'
+else patron = 'patron'
 
 function handle_files(input, newfiles) {
 	if (!newfiles) return;
 
+	for (const file of newfiles) {
+		if (file.type.startsWith('image/'))
+			continue
+
+		let max_size
+		let max_size_patron
+		let type
+
+		if (file.type.startsWith('video/')) {
+			max_size = MAX_VIDEO_SIZE_MB
+			max_size_patron = MAX_VIDEO_SIZE_MB_PATRON
+			type = 'video'
+		}
+		else {
+			max_size = MAX_IMAGE_AUDIO_SIZE_MB
+			max_size_patron = MAX_IMAGE_AUDIO_SIZE_MB_PATRON
+			type = 'image/audio'
+		}
+
+		if (file.size > max_size * 1024 * 1024) {
+			const msg = `Max ${type} size is ${max_size} MB (${max_size_patron} MB for ${patron}s)`
+			showToast(false, msg);
+			input.value = null;
+			return
+		}
+	}
+
 	const ta = input.parentElement.parentElement.parentElement.parentElement.querySelector('textarea.file-ta');
 
-	if (oldfiles[ta.id]) {
-		for (const file of newfiles) {
-			oldfiles[ta.id].items.add(file);
-		}
-		input.files = oldfiles[ta.id].files;
-	}
-	else {
-		input.files = newfiles;
+	if (!oldfiles[ta.id]) {
 		oldfiles[ta.id] = new DataTransfer();
 	}
+		
+	for (const file of newfiles) {
+		oldfiles[ta.id].items.add(file);
+	}
+	input.files = oldfiles[ta.id].files;
 
+	
 	if (input.files.length > 20)
 	{
 		window.alert("You can't upload more than 20 files at one time!")
@@ -482,11 +511,10 @@ function handle_files(input, newfiles) {
 		return
 	}
 
-	if (location.pathname != '/chat' && location.pathname != '/old_chat') {
-		for (const file of newfiles) {
-			insertText(ta, `[${file.name}]`);
-		}
+	for (const file of newfiles) {
+		insertText(ta, `[${file.name}]`);
 	}
+	markdown(ta)
 
 	autoExpand(ta)
 
@@ -655,7 +683,6 @@ function updateSubscriptionOnServer(subscription, apiEndpoint) {
 
 	const xhr = createXhrWithFormKey(
 		apiEndpoint,
-		'POST',
 		formData
 	);
 

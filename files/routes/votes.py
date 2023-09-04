@@ -40,6 +40,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 
 	coin_mult = 1
 
+	g.db.flush()
 	existing = g.db.query(vote_cls).filter_by(user_id=v.id)
 	if vote_cls == Vote:
 		existing = existing.filter_by(post_id=target.id)
@@ -76,7 +77,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 	elif new != 0:
 		imlazy = 3
 
-		real = new == -1 or (not alt and v.is_votes_real)
+		real = new == -1 and not alt and v.has_real_votes
 		vote = None
 		if vote_cls == Vote:
 			vote = Vote(user_id=v.id,
@@ -96,6 +97,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 
 	# this is hacky but it works, we should probably do better later
 	def get_vote_count(dir, real_instead_of_dir):
+		g.db.flush()
 		votes = g.db.query(vote_cls)
 		if real_instead_of_dir:
 			votes = votes.filter(vote_cls.real == True)
@@ -109,8 +111,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 		else:
 			return 0
 
-		try: return votes.count()
-		except: abort(500)
+		return votes.count()
 
 	target.upvotes = get_vote_count(1, False)
 	target.downvotes = get_vote_count(-1, False)
@@ -126,21 +127,21 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 	elif cls == Post and (any(i in target.title.lower() for i in ENCOURAGED) or any(i in str(target.url).lower() for i in ENCOURAGED2)):
 		mul = PROGSTACK_MUL
 		send_notification(AEVANN_ID, target.permalink)
-	elif target.author.progressivestack or (target.author.admin_level and target.author.id != SCHIZO_ID):
+	elif target.author.progressivestack or target.author.admin_level >= PERMS['IS_PERMA_PROGSTACKED']:
 		mul = 2
 	elif SITE == 'rdrama.net' and cls == Post:
 		if (target.domain.endswith('.win')
-		or 'forum' in target.domain or 'chan' in target.domain or 'lemmy' in target.domain
+		or 'forum' in target.domain or 'chan' in target.domain or 'lemmy' in target.domain or 'mastodon' in target.domain
 		or (target.domain in BOOSTED_SITES and not target.url.startswith('/'))):
 			mul = 2
-		elif target.sub in STEALTH_HOLES or target.sub == 'countryclub':
+		elif target.sub in STEALTH_HOLES or target.sub in {'countryclub', 'highrollerclub'}:
 			mul = 2
 		elif 6 <= datetime.fromtimestamp(target.created_utc).hour <= 10:
 			mul = 2
 		elif target.sub in BOOSTED_HOLES:
 			mul = 1.25
 
-		if target.body_html and target.author.id != LNTERNETCUSTODIAN_ID:
+		if target.body_html and target.author.id != 8768:
 			x = target.body_html.count('" target="_blank" rel="nofollow noopener">')
 			x += target.body_html.count('" rel="nofollow noopener" target="_blank">')
 			target.realupvotes += min(x*2, 20)

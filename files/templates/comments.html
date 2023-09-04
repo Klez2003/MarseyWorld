@@ -23,36 +23,31 @@
 	{% set replies=c.replies(sort=sort) %}
 {% endif %}
 
-{% if c.is_blocking and not c.ghost or (c.is_banned or c.deleted_utc) and not (v and v.admin_level >= PERMS['POST_COMMENT_MODERATION']) and not (v and v.id==c.author_id) %}
-
+{% if (c.is_banned or c.deleted_utc) and not (v and v.admin_level >= PERMS['POST_COMMENT_MODERATION']) and not (v and v.id==c.author_id) %}
 	<div id="comment-{{c.id}}" class="comment {% if not (v and v.id == author_id) and not (v and v.admin_level) and not comment_info %}collapsed{% endif %}">
-			<span class="comment-collapse-desktop" style="border-color: #{{c.author.name_color}}" data-nonce="{{g.nonce}}" data-onclick="collapse_comment('{{c.id}}')"></span>
-
-			<div class="comment-body">
-					<div id="comment-{{c.id}}-only" class="{% if c.award_count('tilt', v) %}tilt-comment{% endif %} {% if c.award_count('glowie', v) %}glow{% endif %} comment-{{c.id}}-only">
-							<div class="user-info">
-								<span class="comment-collapse-icon" data-nonce="{{g.nonce}}" data-onclick="collapse_comment('{{c.id}}')"></span>
-								{% if standalone and c.over_18 %}<span class="badge badge-danger">+18</span> {% endif %}
-								{% if c.is_banned %}removed by @{{c.ban_reason}} (Site Admin){% elif c.deleted_utc %}Deleted by author{% elif c.is_blocking %}You are blocking @{{c.author_name}}{% endif %}
-							</div>
-					</div>
-
-		{% if render_replies %}
-			<div id="replies-of-{{c.fullname}}">
-				{% if level<9 or request.path.startswith('/notifications') %}
-					{% for reply in replies %}
-						{{single_comment(reply, level=level+1)}}
-					{% endfor %}
-				{% elif replies %}
-					<button type="button" id="btn-{{c.id}}" class="d-mob-none btn btn-primary mt-3" data-nonce="{{g.nonce}}" data-onclick="more_comments('{{c.id}}', '{{sort}}')">More comments</button>
-					<a class="d-md-none py-3" href="{{c.more_comments}}">More comments <i class="fas fa-long-arrow-right ml-1"></i></a>
-				{% endif %}
+		<span class="comment-collapse-desktop" style="border-color: #{{c.author.name_color}}" data-nonce="{{g.nonce}}" data-onclick="collapse_comment('{{c.id}}')"></span>
+		<div class="comment-body">
+			<div id="comment-{{c.id}}-only" class="{% if c.award_count('glowie', v) %}glow{% endif %} comment-{{c.id}}-only">
+				<div class="user-info">
+					<span class="comment-collapse-icon" data-nonce="{{g.nonce}}" data-onclick="collapse_comment('{{c.id}}')"></span>
+					{% if standalone and c.over_18 %}<span class="badge badge-danger">+18</span> {% endif %}
+					{% if c.is_banned %}Removed by @{{c.ban_reason}} (Site Admin){% elif c.deleted_utc %}Deleted by author{% endif %}
+				</div>
 			</div>
-		{% endif %}
+			{% if render_replies %}
+				<div id="replies-of-{{c.fullname}}">
+					{% if level<9 or request.path.startswith('/notifications') %}
+						{% for reply in replies %}
+							{{single_comment(reply, level=level+1)}}
+						{% endfor %}
+					{% elif replies %}
+						<button type="button" id="btn-{{c.id}}" class="d-mob-none btn btn-primary mt-3" data-nonce="{{g.nonce}}" data-onclick="more_comments('{{c.id}}', '{{sort}}')">More comments</button>
+						<a class="d-md-none py-3" href="{{c.more_comments}}">More comments <i class="fas fa-long-arrow-right ml-1"></i></a>
+					{% endif %}
+				</div>
+			{% endif %}
+		</div>
 	</div>
-	</div>
-
-
 {% else %}
 
 {% set score=c.score %}
@@ -75,7 +70,7 @@
 	{% if c.parent_post %}
 		{% if c.author_id==v.id and replies and is_notification_page %}
 			<span class="font-weight-bold">Comment {{'Replies' if (replies | length)>1 else 'Reply'}}: <a href="{{c.post.permalink}}">{{c.post.realtitle(v) | safe}}</a></span>
-		{% elif c.post.author_id==v.id and c.level == 1 and is_notification_page%}
+		{% elif c.post.author_id==v.id and c.level == 1 and is_notification_page %}
 			<span class="font-weight-bold">Post Reply: <a href="{{c.post.permalink}}">{{c.post.realtitle(v) | safe}}</a></span>
 		{% elif is_notification_page and c.parent_post in v.subscribed_idlist %}
 			<span class="font-weight-bold">Subscribed Thread: <a href="{{c.post.permalink}}">{{c.post.realtitle(v) | safe}}</a></span>
@@ -119,7 +114,7 @@
 	{% endif %}
 	<div class="comment-body">
 
-		<div id="{% if comment_info and comment_info.id == c.id %}context{%else%}comment-{{c.id}}-only{% endif %}" class="{% if c.award_count('tilt', v) %}tilt-comment{% endif %} {% if c.unread %}unread{% endif %} {% if c.award_count('glowie', v) %}glow{% endif %} comment-{{c.id}}-only comment-anchor {% if comment_info and comment_info.id == c.id %}context{%endif%}{% if c.is_banned %} banned{% endif %}{% if c.deleted_utc %} deleted{% endif %}">
+		<div id="{% if comment_info and comment_info.id == c.id %}context{% else %}comment-{{c.id}}-only{% endif %}" class="{% if c.unread %}unread{% endif %} {% if c.award_count('glowie', v) %}glow{% endif %} comment-{{c.id}}-only comment-anchor {% if comment_info and comment_info.id == c.id %}context{% endif %}{% if c.is_banned %} banned{% endif %}{% if c.deleted_utc %} deleted{% endif %}">
 
 			<div class="user-info">
 				<span class="comment-collapse-icon" data-nonce="{{g.nonce}}" data-onclick="collapse_comment('{{c.id}}')"></span>
@@ -206,9 +201,9 @@
 				{% endif %}
 				&nbsp;&nbsp;#{{c.id}}
 
-				{% if c.edited_utc %}
-				<span class="time-edited" id="time-edit-{{c.id}}" data-nonce="{{g.nonce}}" data-onmouseover="timestamp(this, '{{c.edited_utc}}')"><span>&#183;</span> <span class="font-italic d-inline-block">Edited {{c.edited_string}}</span></span>
-				{% endif %}
+				<span class="{% if not c.edited_utc %}d-none{% endif %} font-italic" data-nonce="{{g.nonce}}" data-onmouseover="timestamp(this, '{{c.edited_utc}}')">
+					&nbsp; Edited <span id="comment-edited_string-{{c.id}}">{{c.edited_string}}</span>
+				</span>
 
 				{% if c.treasure_amount and c.treasure_amount != '0' %}
 				{% if c.treasure_amount.startswith('l') %}
@@ -229,9 +224,9 @@
 				{% endif %}
 				{% endif %}
 
-				{% if c.ping_cost %}
-					<em class="ml-2">spent {{c.ping_cost}} currency on pings</em>
-				{% endif %}
+				<em class="ml-2 {% if not c.ping_cost %}d-none{% endif %}">
+					spent <span id="comment-ping-cost-{{c.id}}">{{c.ping_cost}}</span> currency on pings
+				</em>
 
 				{% if c.slots_result %}
 					<em class="ml-2">{{c.slots_result}}</em>
@@ -248,29 +243,24 @@
 			{{macros.reports(c, 'comment')}}
 
 			{% if c.is_banned %}
-				<div id="comment-banned-warning" class="comment-text text-removed mb-0">removed by @{{c.ban_reason}} (Site Admin)</div>
+				<div id="comment-banned-warning" class="comment-text text-removed mb-0">Removed by @{{c.ban_reason}} (Site Admin)</div>
 			{% endif %}
 
 			{% set realbody = c.realbody(v) %}
-			<div id="comment-text-{{c.id}}" class="comment-text mb-0 {% if c.chudded %}text-uppercase chud-img chud-{{c.id_last_num}}{% endif %} {% if c.author.rainbow %}rainbow-text{% endif %} {%if c.author.queen%}queen{%endif%} {%if c.author.sharpen%}sharpen chud-img sharpen-{{c.id_last_num}}{%endif%}">
+			<div id="comment-text-{{c.id}}" class="comment-text mb-0 {% if c.chudded %}text-uppercase chud-img chud-{{c.id_last_num}}{% endif %} {% if c.rainbowed %}rainbow-text{% endif %} {% if c.queened %}queen{% endif %} {% if c.sharpened %}sharpen chud-img sharpen-{{c.id_last_num}}{% endif %}" {% if c.award_count('tilt', v) %}style="transform: rotate({{c.award_count('tilt', v)}}deg)"{% endif %}>
 				{{realbody | safe}}
 			</div>
 
 			{% if c.parent_post or c.wall_user_id %}
-				{% if v and v.id==c.author_id %}
+				{% if v and (v.id == c.author_id or v.admin_level >= PERMS['POST_COMMENT_EDITING']) %}
 					<div id="comment-edit-{{c.id}}" class="d-none comment-write collapsed child">
 						<input hidden name="formkey" value="{{v|formkey}}">
 						<textarea autocomplete="off" {% if v.longpost %}minlength="280"{% endif %} maxlength="{% if v.bird %}140{% else %}10000{% endif %}" data-preview="preview-edit-{{c.id}}" data-nonce="{{g.nonce}}" data-oninput="markdown(this);charLimit('comment-edit-body-{{c.id}}','charcount-edit-{{c.id}}')" id="comment-edit-body-{{c.id}}" data-id="{{c.id}}" name="body" form="comment-edit-form-{{c.id}}" class="file-ta comment-box form-control rounded" placeholder="Add your comment..." rows="3">{{c.body}}</textarea>
 
 						<div class="text-small font-weight-bold mt-1" id="charcount-edit-{{c.id}}" style="right: 1rem; bottom: 0.5rem; z-index: 3;"></div>
 
-						<div class="comment-format">
-							<small class="btn btn-secondary format m-0" data-nonce="{{g.nonce}}" data-onclick="getGifs('comment-edit-body-{{c.id}}')" data-bs-toggle="modal" data-bs-target="#gifModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add GIF"><span class="font-weight-bolder text-uppercase">GIF</span></small>
+						{{macros.file_input('file-edit-reply-' ~ c.id, 'comment-edit-body-' ~ c.id)}}
 
-							<small class="btn btn-secondary format m-0 ml-2" data-nonce="{{g.nonce}}" data-onclick="loadEmojis('comment-edit-body-{{c.id}}')" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"><i class="fas fa-smile-beam"></i></small>
-
-							{{macros.file_input('file-edit-reply-' ~ c.id, False)}}
-						</div>
 						<a class="text-small mt-3 d-inline-block" href="/formatting" {% if v and v.newtab %}data-target="t" target="_blank"{% endif %}>Formatting help</a>
 
 						<button type="button" id="edit-btn-{{c.id}}" form="comment-edit-form-{{c.id}}" class="btn btn-primary ml-2 fl-r commentmob" data-nonce="{{g.nonce}}" data-onclick="comment_edit('{{c.id}}')">Save Edit</button>
@@ -318,7 +308,7 @@
 											<span class="mr-2 arrow-up comment-{{c.id}}-up active"></span>
 										{% endif %}
 
-										<span class="comment-mobile-score-{{c.id}} score comment-score-{{c.id}} {% if voted==1 %}score-up{% elif voted==-1%}score-down{% endif %}{% if c.controversial %} controversial{% endif %}"{% if not c.is_banned %} data-bs-toggle="tooltip" data-bs-placement="top" title="+{{ups}} | -{{downs}}"{% endif %} style="cursor: default">{{score}}</span>
+										<span class="comment-mobile-score-{{c.id}} score comment-score-{{c.id}} {% if voted==1 %}score-up{% elif voted==-1 %}score-down{% endif %}{% if c.controversial %} controversial{% endif %}"{% if not c.is_banned %} data-bs-toggle="tooltip" data-bs-placement="top" title="+{{ups}} | -{{downs}}"{% endif %} style="cursor: default">{{score}}</span>
 
 										{% if voted==-1 %}
 											<span class="ml-2 my-0 arrow-down comment-{{c.id}}-down active"></span>
@@ -330,7 +320,7 @@
 										<span tabindex="0" data-nonce="{{g.nonce}}" data-onclick="vote('comment-mobile', '{{c.id}}', '1')" class="comment-mobile-{{c.id}}-up mx-0 pr-1 arrow-up upvote-button comment-{{c.id}}-up {% if voted==1 %}active{% endif %}">
 										</span>
 
-										<span class="comment-mobile-score-{{c.id}} score comment-score-{{c.id}} {% if voted==1 %}score-up{% elif voted==-1%}score-down{% endif %}{% if c.controversial %} controversial{% endif %}"{% if not c.is_banned %} data-bs-toggle="tooltip" data-bs-placement="top" title="+{{ups}} | -{{downs}}"{% endif %} style="cursor: default">{{score}}</span>
+										<span class="comment-mobile-score-{{c.id}} score comment-score-{{c.id}} {% if voted==1 %}score-up{% elif voted==-1 %}score-down{% endif %}{% if c.controversial %} controversial{% endif %}"{% if not c.is_banned %} data-bs-toggle="tooltip" data-bs-placement="top" title="+{{ups}} | -{{downs}}"{% endif %} style="cursor: default">{{score}}</span>
 
 										<span {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" data-nonce="{{g.nonce}}" data-onclick="vote('comment-mobile', '{{c.id}}', '-1')" class="comment-mobile-{{c.id}}-down mx-0 pl-1 my-0 arrow-down downvote-button comment-{{c.id}}-down {% if voted==-1 %}active{% endif %}">
 										</span>
@@ -368,7 +358,7 @@
 						{% endif %}
 
 						<span class="btn caction nobackground p-0 m-0" style="cursor: default">
-							<span data-bs-toggle="tooltip" data-bs-placement="top" title="+{{ups}} | -{{downs}}" class="comment-score-{{c.id}} score comment-score-{{c.id}} {% if voted==1 %}score-up{% elif voted==-1%}score-down{% endif %} {% if c.controversial %}controversial{% endif %}">{{score}}</span>
+							<span data-bs-toggle="tooltip" data-bs-placement="top" title="+{{ups}} | -{{downs}}" class="comment-score-{{c.id}} score comment-score-{{c.id}} {% if voted==1 %}score-up{% elif voted==-1 %}score-down{% endif %} {% if c.controversial %}controversial{% endif %}">{{score}}</span>
 						</span>
 
 						{% if v and (request.path.startswith('/@') and not wall) and v.admin_level < PERMS['VIEW_VOTE_BUTTONS_ON_USER_PAGE'] %}
@@ -400,7 +390,7 @@
 							<button type="button" class="btn caction py-0 nobackground px-1 text-muted" data-bs-toggle="modal" data-bs-target="#reportCommentModal" data-nonce="{{g.nonce}}" data-onclick="report_commentModal('{{c.id}}','{{c.author_name}}',)"><i class="fas fa-flag fa-fw"></i>Report</button>
 
 							{% if FEATURES['AWARDS'] -%}
-							<button type="button" class="btn caction py-0 nobackground px-1 text-muted" data-bs-toggle="modal" data-bs-target="#awardModal" data-url="/award/comment/{{c.id}}" data-nonce="{{g.nonce}}" {% if c.author.immune_to_awards(v) %}disabled{% endif %}><i class="fas fa-gift"></i>Give Award</button>
+							<button type="button" class="btn caction py-0 nobackground px-1 text-muted" data-bs-toggle="modal" data-bs-target="#awardModal" data-url="/award/comment/{{c.id}}" data-ghost="{{c.ghost}}" data-nonce="{{g.nonce}}" {% if c.author.immune_to_awards(v) %}disabled{% endif %}><i class="fas fa-gift"></i>Give Award</button>
 							{%- endif %}
 
 							<button type="button" id="unsave-{{c.id}}" class="btn caction py-0 nobackground px-1 {% if c.id in v.saved_comment_idlist %}d-md-inline-block{% endif %} text-muted d-none" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unsave_comment/{{c.id}}','save-{{c.id}}','unsave-{{c.id}}','d-md-inline-block')"><i class="fas fa-save"></i>Unsave {% if c.num_savers %}<span data-bs-toggle="tooltip" data-bs-placement="bottom" title="Number of users who saved this comment">[{{c.num_savers}}]</span>{% endif %}</button>
@@ -408,15 +398,17 @@
 							<button type="button" id="save-{{c.id}}" class="btn caction py-0 nobackground px-1 {% if c.id not in v.saved_comment_idlist %}d-md-inline-block{% endif %} text-muted d-none" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/save_comment/{{c.id}}','save-{{c.id}}','unsave-{{c.id}}','d-md-inline-block')"><i class="fas fa-save"></i>Save {% if c.num_savers %}<span data-bs-toggle="tooltip" data-bs-placement="bottom" title="Number of users who saved this comment">[{{c.num_savers}}]</span>{% endif %}</button>
 						{% endif %}
 
-						{% if c.parent_post or c.wall_user_id %}
-							{% if v and c.author_id == v.id %}
+						{% if v and (c.parent_post or c.wall_user_id) %}
+							{% if c.author_id == v.id or v.admin_level >= PERMS['POST_COMMENT_EDITING'] %}
 								<button type="button" class="btn caction py-0 nobackground px-1 text-muted" data-nonce="{{g.nonce}}" data-onclick="toggleEdit('{{c.id}}')"><i class="fas fa-edit fa-fw"></i>Edit</button>
+							{% elif c.body %}
+								<button type="button" class="btn caction py-0 nobackground px-1 text-muted" data-nonce="{{g.nonce}}" data-onclick="expandMarkdown('{{c.fullname}}')"><i class="fas text-expand-icon-{{c.fullname}} fa-expand-alt"></i><span class="expand-text-{{c.fullname}}">View source</span></button>
+							{% endif %}
 
+							{% if c.author_id == v.id %}
 								<button type="button" id="undelete-{{c.id}}" class="btn caction py-0 nobackground px-1 text-muted {% if not c.deleted_utc %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/undelete/comment/{{c.id}}','delete-{{c.id}}','undelete-{{c.id}}','d-none')" data-toggleelement=".comment-{{c.id}}-only" data-toggleattr="deleted"><i class="fas fa-trash-alt fa-fw"></i>Undelete</button>
 
-								<button type="button" id="delete-{{c.id}}" class="btn caction py-0 nobackground px-1 text-muted {% if c.deleted_utc %}d-none{% endif %}" data-bs-toggle="modal" data-bs-target="#deleteCommentModal" data-nonce="{{g.nonce}}" data-onclick="delete_commentModal(this, '{{c.id}}')"><i class="fas fa-trash-alt fa-fw"></i>Delete</button>
-							{% elif v and c.body %}
-								<button type="button" class="btn caction py-0 nobackground px-1 text-muted" data-nonce="{{g.nonce}}" data-onclick="expandMarkdown('{{c.fullname}}')"><i class="fas text-expand-icon-{{c.fullname}} fa-expand-alt"></i><span class="expand-text-{{c.fullname}}">View source</span></button>
+								<button type="button" id="delete-{{c.id}}" class="btn caction py-0 nobackground px-1 text-muted {% if c.deleted_utc %}d-none{% endif %}" data-bs-toggle="modal" data-bs-target="#deleteCommentModal" data-nonce="{{g.nonce}}" data-onclick="delete_commentModal('{{c.id}}')"><i class="fas fa-trash-alt fa-fw"></i>Delete</button>
 							{% endif %}
 						{% endif %}
 
@@ -510,8 +502,8 @@
 		{% endif %}
 
 	{% if request.path.startswith('/transfers') %}
-		<a href="{{c.log_link}}"><i class="far fa-link ml-1 text-muted"></i></a>
-		<button type="button" class="copy-link ml-3" data-clipboard-text="{{c.log_link}}"><i class="far fa-copy text-muted"></i></button>
+		<a href="{{c.log_link}}"><i class="fas fa-link ml-1 text-muted"></i></a>
+		<button type="button" class="copy-link ml-3" data-clipboard-text="{{c.log_link}}"><i class="fas fa-copy text-muted"></i></button>
 	{% endif %}
 
 	{% if render_replies %}
@@ -548,11 +540,8 @@
 					<div class="input-group">
 						<input hidden name="formkey" value="{{v|formkey}}">
 						<textarea data-fullname="{{c.fullname}}" required autocomplete="off" minlength="1" maxlength="10000" name="body" form="reply-to-c_{{c.id}}" data-id="{{c.id}}" class="file-ta comment-box form-control rounded" id="reply-form-body-{{c.id}}" rows="3" data-preview="message-reply-{{c.id}}" data-nonce="{{g.nonce}}" data-oninput="markdown(this)"></textarea>
-						<div class="comment-format" id="comment-format-bar-{{c.id}}">
-							<button type="button" data-nonce="{{g.nonce}}" data-onclick="loadEmojis('reply-form-body-{{c.id}}')" class="btn btn-secondary format m-0" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"><i class="fas fa-smile-beam"></i></button>
 
-							{{macros.file_input('file-upload-reply-' ~ c.fullname, False, not get_setting('dm_media'))}}
-						</div>
+						{{macros.file_input('file-upload-reply-' ~ c.fullname, 'reply-form-body-' ~ c.id, not get_setting('dm_media'))}}
 
 						<div class="ml-auto">
 							<span id="upload-prog-{{c.fullname}}" class="d-none mt-1 mr-2">
@@ -581,7 +570,7 @@
 			<div class="modal-header">
 				<h6 class="modal-title">More options</h6>
 				<button type="button" class="close" data-bs-dismiss="modal">
-					<span><i class="far fa-times"></i></span>
+					<span><i class="fas fa-times"></i></span>
 				</button>
 			</div>
 			<div class="modal-body">
@@ -599,7 +588,7 @@
 						<button type="button" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#reportCommentModal" data-nonce="{{g.nonce}}" data-onclick="report_commentModal('{{c.id}}','{{c.author_name}}')" class="list-group-item"><i class="fas fa-flag mr-2"></i>Report</button>
 
 						{% if FEATURES['AWARDS'] -%}
-						<button type="button" class="list-group-item" data-bs-toggle="modal" data-bs-target="#awardModal" data-url="/award/comment/{{c.id}}" data-nonce="{{g.nonce}}" {% if c.author.immune_to_awards(v) %}disabled{% endif %}><i class="fas fa-gift mr-2"></i>Give Award</button>
+						<button type="button" class="list-group-item" data-bs-toggle="modal" data-bs-target="#awardModal" data-url="/award/comment/{{c.id}}" data-ghost="{{c.ghost}}" data-nonce="{{g.nonce}}" {% if c.author.immune_to_awards(v) %}disabled{% endif %}><i class="fas fa-gift mr-2"></i>Give Award</button>
 						{%- endif %}
 
 						<button type="button" id="save2-{{c.id}}" class="list-group-item {% if c.id in v.saved_comment_idlist %}d-none{% endif %}" data-bs-dismiss="modal" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/save_comment/{{c.id}}','save2-{{c.id}}','unsave2-{{c.id}}','d-none')"><i class="fas fa-save mr-2"></i>Save {% if c.num_savers %}<span data-bs-toggle="tooltip" data-bs-placement="bottom" title="Number of users who saved this comment">[{{c.num_savers}}]</span>{% endif %}</button>
@@ -609,9 +598,9 @@
 						{% if c.author_id == v.id %}
 							<button type="button" data-bs-dismiss="modal" data-nonce="{{g.nonce}}" data-onclick="toggleEdit('{{c.id}}')" class="list-group-item"><i class="fas fa-edit mr-2"></i>Edit</button>
 
-							<button type="button" id="undelete2-{{c.id}}" class="{% if not c.deleted_utc %}d-none{% endif %} list-group-item text-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/undelete/comment/{{c.id}}', 'delete2-{{c.id}}', 'undelete2-{{c.id}}','d-none')" data-toggleelement=".comment-{{c.id}}-only" data-toggleattr="deleted" data-bs-dismiss="modal"><i class="far fa-trash-alt text-success mr-2"></i>Undelete</button>
+							<button type="button" id="undelete2-{{c.id}}" class="{% if not c.deleted_utc %}d-none{% endif %} list-group-item text-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/undelete/comment/{{c.id}}', 'delete2-{{c.id}}', 'undelete2-{{c.id}}','d-none')" data-toggleelement=".comment-{{c.id}}-only" data-toggleattr="deleted" data-bs-dismiss="modal"><i class="fas fa-trash-alt text-success mr-2"></i>Undelete</button>
 
-							<button type="button" id="delete2-{{c.id}}" class="{% if c.deleted_utc %}d-none{% endif %} list-group-item text-danger" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#deleteCommentModal" data-nonce="{{g.nonce}}" data-onclick="delete_commentModal(this, '{{c.id}}')"><i class="far fa-trash-alt text-danger mr-2"></i>Delete</button>
+							<button type="button" id="delete2-{{c.id}}" class="{% if c.deleted_utc %}d-none{% endif %} list-group-item text-danger" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#deleteCommentModal" data-nonce="{{g.nonce}}" data-onclick="delete_commentModal('{{c.id}}')"><i class="fas fa-trash-alt text-danger mr-2"></i>Delete</button>
 						{% else %}
 							{% if c.body %}
 								<button type="button" data-bs-dismiss="modal" data-nonce="{{g.nonce}}" data-onclick="expandMarkdown('{{c.fullname}}')" class="list-group-item"><i class="fas text-expand-icon-{{c.fullname}} fa-expand-alt mr-2"></i><span class="expand-text-{{c.fullname}}">View source</span></button>
@@ -665,7 +654,7 @@
 				<div class="modal-header">
 					<h6 class="modal-title">Admin options</h6>
 					<button type="button" class="close" data-bs-dismiss="modal">
-						<span><i class="far fa-times"></i></span>
+						<span><i class="fas fa-times"></i></span>
 					</button>
 				</div>
 				<div class="modal-body">
@@ -673,6 +662,12 @@
 						{% if c.parent_post or c.wall_user_id %}
 							{% if v.admin_level >= PERMS['APPS_MODERATION'] and c.oauth_app %}
 								<a href="{{c.oauth_app.permalink}}/comments" class="list-group-item text-info"><i class="fas fa-code text-info mr-2"></i>API App</a>
+							{% endif %}
+
+							{% if v.admin_level >= PERMS['POST_COMMENT_EDITING'] %}
+								<button type="button" class="list-group-item text-muted" data-nonce="{{g.nonce}}" data-onclick="toggleEdit('{{c.id}}')" data-bs-dismiss="modal">
+									<i class="fas fa-edit text-muted mr-2"></i>Edit
+								</button>
 							{% endif %}
 
 							{% if v.admin_level >= PERMS['POST_COMMENT_DISTINGUISH'] %}
@@ -729,8 +724,8 @@
 
 {% if not request.headers.get("xhr") %}
 	{% if v %}
-		{% include "modals/gif.html" %}
 		{% include "modals/emoji.html" %}
+		{% include "modals/gif.html" %}
 		{% if v.admin_level >= PERMS['USER_BAN'] %}
 			{% include "modals/punish.html" %}
 		{% endif %}
@@ -741,7 +736,7 @@
 			<div class="modal-header d-none d-md-flex">
 				<h5 class="modal-title">Delete comment?</h5>
 				<button type="button" class="close" data-bs-dismiss="modal">
-					<span><i class="far fa-times"></i></span>
+					<span><i class="fas fa-times"></i></span>
 				</button>
 			</div>
 			<div class="modal-body text-center">
@@ -770,7 +765,7 @@
 					<div class="modal-header">
 						<h5 class="modal-title">Report <span id="comment-author"></span>'s comment</h5>
 						<button type="button" class="close" data-bs-dismiss="modal">
-							<span><i class="far fa-times"></i></span>
+							<span><i class="fas fa-times"></i></span>
 						</button>
 					</div>
 					<div class="modal-body">
