@@ -7025,7 +7025,6 @@ div.markdown {
 .user-signature {
 	max-height: var(--signature-max-height);
 	overflow: clip;
-	position: relative;
 }
 
 .award-name {
