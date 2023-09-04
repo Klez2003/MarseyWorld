@@ -302,6 +302,9 @@ PROFANITIES = {
 	'cock(?![a-z])': 'peepee',
 	'cocks': 'peepees',
 	'penis': 'peepee',
+	'pussy': 'kitty',
+	'pussies': 'kitties',
+	'cunt': 'c*nt',
 }
 
 PROFANITIES_FOR_REPLACING = {}
