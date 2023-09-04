@@ -7076,6 +7076,7 @@ div.markdown {
 }
 .resizable.yt {
 	display: block;
+    width: min(100%,500px);
 }
 .resizable > * {
 	height: 95% !important;
