@@ -894,12 +894,13 @@ def followers(v, username):
 @auth_required
 def following(v, username):
 	u = get_user(username, v=v)
+
 	if not (v.id == u.id or v.admin_level >= PERMS['USER_FOLLOWS_VISIBLE']):
 		abort(403)
 
 	page = get_page()
 
-	users = g.db.query(User).join(Follow, Follow.user_id == u.id) \
+	users = g.db.query(Follow, User).join(Follow, Follow.user_id == u.id) \
 		.filter(Follow.target_id == User.id)
 
 	total = users.count()

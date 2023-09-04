@@ -13,7 +13,7 @@
 	</tr>
 </thead>
 <tbody id="followers-table">
-{% for user in users %}
+{% for follow, user in users %}
 	<tr>
 		<td>{% include "user_in_table.html" %}</td>
 		<td {% if follow.created_utc > 1599343262 %}data-time="{{follow.created_utc}}"{% endif %}></td>
