@@ -2,9 +2,7 @@ import time
 from math import floor
 import os
 
-from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import load_only
-from psycopg2.errors import UniqueViolation
 
 from files.__main__ import app, cache, limiter
 from files.classes import *
