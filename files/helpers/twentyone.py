@@ -310,7 +310,7 @@ def handle_payout(gambler, state, game):
 		raise Exception("Attempted to payout a game that has not finished.")
 	
 	if split_status == BlackjackStatus.WON:
-		game.winnings = game.wager
+		game.winnings += game.wager
 		payout += game.wager * 2
 	elif split_status == BlackjackStatus.LOST:
 		game.winnings += -game.wager
