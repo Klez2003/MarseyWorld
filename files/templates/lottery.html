@@ -37,7 +37,13 @@
 			</div>
 			<div id="timeLeft">-</div>
 			<div id="ticketsSoldThisSession">-</div>
-			<div id="participantsThisSession">-</div>
+			{% if v.admin_level >= PERMS['LOTTERY_VIEW_PARTICIPANTS'] %}
+				<a href="/admin/lottery/participants">
+					<div id="participantsThisSession">-</div>
+				</a>
+			{% else %}
+				<div id="participantsThisSession">-</div>
+			{% endif %}
 		</div>
 		</div>
 		<div class="lottery-page--stat">
