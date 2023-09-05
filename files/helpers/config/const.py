@@ -234,7 +234,7 @@ if SITE_NAME == 'rDrama':
 		"its almost like": "I'm a retard but",
 		"my brother in christ": "my brother in Allah (ﷻ)",
 		"(?<![a-z])cool (?!it|down|off)": "fetch ",
-		"krayon": "krayon (sister toucher)",
+		"krayon(?! \()": "krayon (sister toucher)",
 		"discord": "groomercord",
 		"allah(?! \()": "Allah (ﷻ)",
 		"my wife(?! \()": "my wife (male)",
