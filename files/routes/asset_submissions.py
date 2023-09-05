@@ -23,10 +23,7 @@ def submit_marseys_redirect():
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def submit_emojis(v):
-	if v.admin_level >= PERMS['VIEW_PENDING_SUBMITTED_EMOJIS']:
-		emojis = g.db.query(Emoji).filter(Emoji.submitter_id != None)
-	else:
-		emojis = g.db.query(Emoji).filter(Emoji.submitter_id == v.id)
+	emojis = g.db.query(Emoji).filter(Emoji.submitter_id != None)
 
 	emojis = emojis.order_by(Emoji.created_utc.desc()).all()
 

@@ -147,7 +147,6 @@ def transfer_currency(v, username, currency_name, apply_tax):
 def upvoters_downvoters(v, username, username2, cls, vote_cls, vote_dir, template, standalone):
 	u = get_user(username, v=v)
 	if not u.is_visible_to(v): abort(403)
-	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
 	id = u.id
 	
 	uid = get_user(username2, id_only=True).id
@@ -211,7 +210,6 @@ def downvoters_comments(v, username, username2):
 def upvoting_downvoting(v, username, username2, cls, vote_cls, vote_dir, template, standalone):
 	u = get_user(username, v=v)
 	if not u.is_visible_to(v): abort(403)
-	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
 	id = u.id
 
 	uid = get_user(username2, id_only=True).id
@@ -275,7 +273,6 @@ def downvoting_comments(v, username, username2):
 def user_voted(v, username, cls, vote_cls, template, standalone):
 	u = get_user(username, v=v)
 	if not u.is_visible_to(v): abort(403)
-	if not (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']): abort(403)
 
 	page = get_page()
 
@@ -372,8 +369,6 @@ def all_upvoters_downvoters(v, username, vote_dir, is_who_simps_hates):
 		vote_name = 'Down'
 
 	id = get_user(username, v=v).id
-	if not (v.id == id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']):
-		abort(403)
 	votes = []
 	votes2 = []
 	if is_who_simps_hates:
@@ -874,9 +869,6 @@ def blocking(v, username):
 def followers(v, username):
 	u = get_user(username, v=v)
 
-	if not (v.id == u.id or v.admin_level >= PERMS['USER_FOLLOWS_VISIBLE']):
-		abort(403)
-
 	page = get_page()
 
 	users = g.db.query(Follow, User).join(Follow, Follow.target_id == u.id) \
@@ -895,9 +887,6 @@ def followers(v, username):
 @auth_required
 def following(v, username):
 	u = get_user(username, v=v)
-
-	if not (v.id == u.id or v.admin_level >= PERMS['USER_FOLLOWS_VISIBLE']):
-		abort(403)
 
 	page = get_page()
 

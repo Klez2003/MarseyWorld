@@ -340,7 +340,7 @@ def badges(v):
 @app.get("/blocks")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
-@admin_level_required(PERMS['USER_BLOCKS_VISIBLE'])
+@auth_required
 def blocks(v):
 	blocks = g.db.query(UserBlock).options(
 			joinedload(UserBlock.user),

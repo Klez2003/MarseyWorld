@@ -70,7 +70,6 @@
 					<p class="font-weight-bolder" id="profile--flair" style="color: #{{u.titlecolor}}">{{u.customtitle | safe}}</p>
 				{% endif %}
 
-				{% if v and (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']) -%}
 				<div class="font-weight-bolder mb-2" id="profile--simphate">
 					<a class="mr-1" href="/@{{u.username}}/views">Profile Views</a> | 
 					<a class="mx-1" href="/@{{u.username}}/upvoters">Simps</a> | 
@@ -78,19 +77,16 @@
 					<a class="mx-1" href="/@{{u.username}}/upvoting">Simps For</a> | 
 					<a class="mx-1" href="/@{{u.username}}/downvoting">Hates</a> | 
 					<a class="mx-1" href="/@{{u.username}}/voted/posts">Voted</a>
-				{%- endif %}
 
 				<div class="font-weight-bolder mb-1">
 					<div class="my-2">
-						{% if PERMS['USER_FOLLOWS_VISIBLE'] == 0 or (v and v.admin_level >= PERMS['USER_FOLLOWS_VISIBLE']) -%}
-							<a class="mr-1" href="/@{{u.username}}/followers" id="profile--followers">{{u.stored_subscriber_count}} follower{{'s' if u.stored_subscriber_count != 1 else ''}}</a> | 
+						<a class="mr-1" href="/@{{u.username}}/followers" id="profile--followers">{{u.stored_subscriber_count}} follower{{'s' if u.stored_subscriber_count != 1 else ''}}</a> | 
 
-							<a class="mx-1" href="/@{{u.username}}/following" id="profile--following">follows {{u.follow_count}} user{{'s' if u.follow_count != 1 else ''}}</a> | 
+						<a class="mx-1" href="/@{{u.username}}/following" id="profile--following">follows {{u.follow_count}} user{{'s' if u.follow_count != 1 else ''}}</a> | 
 
-							<a class="mx-1" href="/@{{u.username}}/blockers" id="profile--blockers">{{u.blocking_count}} blocker{{'s' if u.blocking_count != 1 else ''}}</a> | 
+						<a class="mx-1" href="/@{{u.username}}/blockers" id="profile--blockers">{{u.blocking_count}} blocker{{'s' if u.blocking_count != 1 else ''}}</a> | 
 
-							<a class="mx-1" href="/@{{u.username}}/blocking" id="profile--blocking">blocks {{u.block_count}} user{{'s' if u.block_count != 1 else ''}}</a>
-						{%- endif %}
+						<a class="mx-1" href="/@{{u.username}}/blocking" id="profile--blocking">blocks {{u.block_count}} user{{'s' if u.block_count != 1 else ''}}</a>
 					</div>
 
 					<span id="profile-coins-amount">{{u.coins}}</span>
@@ -343,24 +339,20 @@
 					<p style="color: #{{u.titlecolor}}" id="profile-mobile--flair">{{u.customtitle | safe}}</p>
 				{% endif %}
 
-				{% if v and (v.id == u.id or v.admin_level >= PERMS['USER_VOTERS_VISIBLE']) -%}
-					<div class="font-weight-bolder mb-2" id="profile-mobile--simphate">
-						<a class="mr-1" href="/@{{u.username}}/views">Profile Views</a> | 
-						<a class="mx-1" href="/@{{u.username}}/upvoters">Simps</a> | 
-						<a class="mx-1" href="/@{{u.username}}/downvoters">Haters</a> | 
-						<a class="mx-1" href="/@{{u.username}}/upvoting">Simps For</a> | 
-						<a class="mx-1" href="/@{{u.username}}/downvoting">Hates</a> | 
-						<a class="mx-1" href="/@{{u.username}}/voted/posts">Voted</a>
-					</div>
-				{%- endif %}
+				<div class="font-weight-bolder mb-2" id="profile-mobile--simphate">
+					<a class="mr-1" href="/@{{u.username}}/views">Profile Views</a> | 
+					<a class="mx-1" href="/@{{u.username}}/upvoters">Simps</a> | 
+					<a class="mx-1" href="/@{{u.username}}/downvoters">Haters</a> | 
+					<a class="mx-1" href="/@{{u.username}}/upvoting">Simps For</a> | 
+					<a class="mx-1" href="/@{{u.username}}/downvoting">Hates</a> | 
+					<a class="mx-1" href="/@{{u.username}}/voted/posts">Voted</a>
+				</div>
 
 				<div class="font-weight-bolder">
 					<div>
-						{% if PERMS['USER_FOLLOWS_VISIBLE'] == 0 or (v and v.admin_level >= PERMS['USER_FOLLOWS_VISIBLE']) -%}
-							<a class="mr-1" href="/@{{u.username}}/followers" id="profile-mobile--followers">{{u.stored_subscriber_count}} follower{{'s' if u.stored_subscriber_count != 1 else ''}}</a>
+						<a class="mr-1" href="/@{{u.username}}/followers" id="profile-mobile--followers">{{u.stored_subscriber_count}} follower{{'s' if u.stored_subscriber_count != 1 else ''}}</a>
 
-							<a class="mx-1" href="/@{{u.username}}/following" id="profile-mobile--following"> follows {{u.follow_count}} user{{'s' if u.follow_count != 1 else ''}}</a>
-						{%- endif %}
+						<a class="mx-1" href="/@{{u.username}}/following" id="profile-mobile--following"> follows {{u.follow_count}} user{{'s' if u.follow_count != 1 else ''}}</a>
 					</div>
 
 					<div class="mb-2">
