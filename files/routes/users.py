@@ -651,6 +651,7 @@ def message2(v, username=None, id=None):
 	c.top_comment_id = c.id
 
 	if user.id not in BOT_IDs:
+		g.db.flush()
 		notif = g.db.query(Notification).filter_by(comment_id=c.id, user_id=user.id).one_or_none()
 		if not notif:
 			notif = Notification(comment_id=c.id, user_id=user.id)
