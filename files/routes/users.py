@@ -744,8 +744,12 @@ def messagereply(v):
 
 	if top_comment.sentto == MODMAIL_ID:
 		admin_ids = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_MODMAIL'], User.id != v.id)]
-		if SITE == 'watchpeopledie.tv' and AEVANN_ID in admin_ids:
-			admin_ids.remove(AEVANN_ID)
+
+		if SITE == 'watchpeopledie.tv':
+			if AEVANN_ID in admin_ids:
+				admin_ids.remove(AEVANN_ID)
+			if 'delete' in top_comment.body.lower() and 'account' in top_comment.body.lower():
+				admin_ids.remove(15447)
 
 		if parent.author.id not in admin_ids + [v.id]:
 			admin_ids.append(parent.author.id)
