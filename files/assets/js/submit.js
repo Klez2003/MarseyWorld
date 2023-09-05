@@ -21,7 +21,8 @@ function savetext() {
 	for (const id of save_value)
 	{
 		const value = document.getElementById(id).value
-		if (value) localStorage.setItem(id, value)
+		if (value || id != 'post-text')
+			localStorage.setItem(id, value)
 	}
 
 	for (const id of save_checked) {
