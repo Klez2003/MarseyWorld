@@ -351,16 +351,9 @@ document.addEventListener('click', function (e) {
 
 
 const input = document.getElementById('file')
-function handle_files() {
-	if (!input.files.length) return
-	input.previousElementSibling.textContent = input.files[0].name.substr(0, 50);
-}
-
-input.onchange = handle_files
 
 document.onpaste = function(event) {
 	input.files = structuredClone(event.clipboardData.files);
-	handle_files()
 }
 
 box.scrollTo(0, box.scrollHeight)
