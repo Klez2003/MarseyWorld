@@ -93,7 +93,13 @@
 	<input autocomplete="off" class="form-control" id="password_confirm" type="password" name="password_confirm" required>
 	<div class="custom-control custom-checkbox mt-4">
 		<input autocomplete="off" type="checkbox" class="custom-control-input" id="termsCheck" required>
-		<label class="custom-control-label terms" for="termsCheck">I accept the <a href="/sidebar">rules</a> and am over 18</label>
+		<label class="custom-control-label terms" for="termsCheck">
+			{%- if SITE_NAME == 'rDrama' -%}
+				I swear lifelong allegiance to the state of Israel.
+			{%- else -%}
+				I accept the <a href="/sidebar">rules</a> and am over 18.
+			{%- endif -%}
+		</label>
 	</div>
 
 	{% if turnstile != DEFAULT_CONFIG_VALUE %}
