@@ -136,10 +136,6 @@
 			<link rel="stylesheet" href="{{'events/fistmas/css/themes/dark.css'| asset}}">
 		{% endif %}
 	{% endif %}
-
-	{% if request.path.endswith('/chat') %}
-		<link rel="stylesheet" href="{{'css/chat.css' | asset}}">
-	{% endif %}
 {% endmacro %}
 
 {% macro stylesheets_lower() %}

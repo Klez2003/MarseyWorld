@@ -54,7 +54,10 @@ function flash(){
 	else {
 		icon.href = `/i/${site_name}/icon.webp?x=6`
 		notifs = 0
-		title.innerHTML = 'Chat';
+		if (location.pathname == '/chat')
+			title.innerHTML = 'Chat';
+		else
+			title.innerHTML = 'Orgy';
 	}
 
 	if (is_typing) {

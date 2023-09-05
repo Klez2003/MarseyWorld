@@ -1973,7 +1973,7 @@ def start_orgy(v):
 		)
 	g.db.add(orgy)
 
-	return {"message": "Orgy started successfully!"}
+	return redirect('/orgy')
 
 @app.post("/admin/stop_orgy")
 @admin_level_required(PERMS['ORGIES'])

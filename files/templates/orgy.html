@@ -1,5 +1,5 @@
 {%- extends 'root.html' -%}
-{% block pagetitle -%}Chat{%- endblock %}
+{% block pagetitle -%}Orgy{%- endblock %}
 {% block pagetype %}chat{% endblock %}
 {% block body_attributes %}class="has_header"{% endblock %}
 {% block body %}
@@ -50,6 +50,7 @@
 	<input id="slurreplacer" hidden value="{{v.slurreplacer}}">
 	<input id="admin_level" hidden value="{{v.admin_level}}">
 	<input id="blocked_user_ids" hidden value="{{(v.userblocks|string)[1:-1]}}">
+	<link rel="stylesheet" href="{{'css/chat.css' | asset}}">
 	<link rel="stylesheet" href="{{'css/orgy.css' | asset}}">
 	<script defer src="{{'js/vendor/socketio.js' | asset}}"></script>
 	<script defer src="{{'js/chat.js' | asset}}"></script>

@@ -2,7 +2,7 @@ import atexit
 import time
 import uuid
 
-from flask_socketio import SocketIO, emit
+from flask_socketio import SocketIO, emit, join_room, leave_room
 from flask import request
 
 from files.helpers.actions import *
@@ -22,12 +22,23 @@ socketio = SocketIO(
 	async_mode='gevent',
 )
 
-typing = []
-online =  []
 sessions = []
-cache.set(CHAT_ONLINE_CACHE_KEY, len(online), timeout=0)
 muted = cache.get(f'muted') or {}
-messages = cache.get(f'messages') or {}
+
+messages = cache.get(f'messages') or {
+	f'{SITE_FULL}/chat': {},
+	f'{SITE_FULL}/orgy': {},
+}
+typing = {
+	f'{SITE_FULL}/chat': [],
+	f'{SITE_FULL}/orgy': [],
+}
+online = {
+	f'{SITE_FULL}/chat': [],
+	f'{SITE_FULL}/orgy': [],
+}
+
+cache.set(CHAT_ONLINE_CACHE_KEY, len(online[f'{SITE_FULL}/chat']), timeout=0)
 
 def is_not_banned_socketio(f):
 	def wrapper(*args, **kwargs):
@@ -57,18 +68,33 @@ def chat(v):
 	if not v.allowed_in_chat:
 		abort(403, CHAT_ERROR_MESSAGE)
 
+	displayed_messages = {k: val for k, val in messages[f"{SITE_FULL}/chat"].items() if val["user_id"] not in v.userblocks}
+
+	return render_template("chat.html", v=v, messages=displayed_messages)
+
+@app.get("/orgy")
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@is_not_permabanned
+def orgy(v):
+	if not v.allowed_in_chat:
+		abort(403, CHAT_ERROR_MESSAGE)
+
 	orgy = get_orgy()
 
-	displayed_messages = {k: val for k, val in messages.items() if val["user_id"] not in v.userblocks}
+	if not orgy:
+		abort(404, "An orgy isn't currently in progress!")
 
-	if orgy:
-		return render_template("orgy.html", v=v, messages=displayed_messages, orgy=orgy, site=SITE)
-	else:
-		return render_template("chat.html", v=v, messages=displayed_messages)
+	displayed_messages = {k: val for k, val in messages[f"{SITE_FULL}/orgy"].items() if val["user_id"] not in v.userblocks}
+
+	return render_template("orgy.html", v=v, messages=displayed_messages, orgy=orgy, site=SITE)
 
 @socketio.on('speak')
 @is_not_banned_socketio
 def speak(data, v):
+	if not request.referrer:
+		return '', 400
+
 	image = None
 	if data['file']:
 		name = f'/chat_images/{time.time()}'.replace('.','') + '.webp'
@@ -100,30 +126,30 @@ def speak(data, v):
 			self_only = True
 		else:
 			del muted[vname]
-			emit("online", [online, muted], broadcast=True)
+			emit("online", [online[request.referrer], muted], room=request.referrer, broadcast=True)
 
 	if SITE == 'rdrama.net':
 		def shut_up():
 			self_only = True
 			muted_until = int(time.time() + 600)
 			muted[vname] = muted_until
-			emit("online", [online, muted], broadcast=True)
+			emit("online", [online[request.referrer], muted], room=request.referrer, broadcast=True)
 
 		if not self_only:
-			identical = [x for x in list(messages.values())[-5:] if v.id == x['user_id'] and text == x['text']]
+			identical = [x for x in list(messages[request.referrer].values())[-5:] if v.id == x['user_id'] and text == x['text']]
 			if len(identical) >= 3: shut_up()
 
 		if not self_only:
-			count = len([x for x in list(messages.values())[-12:] if v.id == x['user_id']])
+			count = len([x for x in list(messages[request.referrer].values())[-12:] if v.id == x['user_id']])
 			if count >= 10: shut_up()
 
 		if not self_only:
-			count = len([x for x in list(messages.values())[-25:] if v.id == x['user_id']])
+			count = len([x for x in list(messages[request.referrer].values())[-25:] if v.id == x['user_id']])
 			if count >= 20: shut_up()
 
 	data = {
 		"id": id,
-		"quotes": quotes if messages.get(quotes) else '',
+		"quotes": quotes if messages[request.referrer].get(quotes) else '',
 		"hat": v.hat_active(v)[0],
 		"user_id": v.id,
 		"username": v.username,
@@ -143,41 +169,46 @@ def speak(data, v):
 			username = i.group(1).lower()
 			muted_until = int(int(i.group(2)) * 60 + time.time())
 			muted[username] = muted_until
-			emit("online", [online, muted], broadcast=True)
+			emit("online", [online[request.referrer], muted], room=request.referrer, broadcast=True)
 			self_only = True
 
 	if self_only or v.shadowbanned or execute_blackjack(v, None, text, "chat"):
 		emit('speak', data)
 	else:
-		emit('speak', data, broadcast=True)
-		messages[id] = data
-		messages = dict(list(messages.items())[-250:])
+		emit('speak', data, room=request.referrer, broadcast=True)
+		messages[request.referrer][id] = data
+		messages[request.referrer] = dict(list(messages[request.referrer].items())[-250:])
 
 	typing = []
 
 	return '', 204
 
 def refresh_online():
-	emit("online", [online, muted], broadcast=True)
-	cache.set(CHAT_ONLINE_CACHE_KEY, len(online), timeout=0)
+	emit("online", [online[request.referrer], muted], room=request.referrer, broadcast=True)
+	if request.referrer == f'{SITE_FULL}/chat':
+		cache.set(CHAT_ONLINE_CACHE_KEY, len(online[f'{SITE_FULL}/chat']), timeout=0)
 
 @socketio.on('connect')
 @is_not_permabanned_socketio
 def connect(v):
+	if not request.referrer:
+		return '', 400
 
-	if any(v.id in session for session in sessions) and [v.username, v.id, v.name_color, v.patron] not in online:
+	join_room(request.referrer)
+
+	if any(v.id in session for session in sessions) and [v.username, v.id, v.name_color, v.patron] not in online[request.referrer]:
 		# user has previous running sessions with a different username or name_color
-		for chat_user in online:
-			if v.id == chat_user[1]:
-				online.remove(chat_user)
+		for val in online.values():
+			if [v.username, v.id, v.name_color, v.patron] in val:
+				val.remove([v.username, v.id, v.name_color, v.patron])
 
 	sessions.append([v.id, request.sid])
-	if [v.username, v.id, v.name_color, v.patron] not in online:
-		online.append([v.username, v.id, v.name_color, v.patron])
+	if [v.username, v.id, v.name_color, v.patron] not in online[request.referrer]:
+		online[request.referrer].append([v.username, v.id, v.name_color, v.patron])
 
 	refresh_online()
 
-	emit('typing', typing)
+	emit('typing', typing[request.referrer], room=request.referrer)
 	return '', 204
 
 @socketio.on('disconnect')
@@ -189,34 +220,48 @@ def disconnect(v):
 			# user has other running sessions
 			return '', 204
 
-	for chat_user in online:
-		if v.id == chat_user[1]:
-			online.remove(chat_user)
-			if chat_user[0] in typing:
-				typing.remove(chat_user[0])
+	for val in online.values():
+		if [v.username, v.id, v.name_color, v.patron] in val:
+			val.remove([v.username, v.id, v.name_color, v.patron])
+
+	for val in typing.values():
+		if v.username in val:
+			val.remove(v.username)
 
 	refresh_online()
 
+	if request.referrer:
+		leave_room(request.referrer)
+	
 	return '', 204
 
 @socketio.on('typing')
 @is_not_banned_socketio
 def typing_indicator(data, v):
-	if data and v.username not in typing:
-		typing.append(v.username)
-	elif not data and v.username in typing:
-		typing.remove(v.username)
+	if not request.referrer:
+		return '', 400
 
-	emit('typing', typing, broadcast=True)
+	if data and v.username not in typing[request.referrer]:
+		typing[request.referrer].append(v.username)
+	elif not data and v.username in typing[request.referrer]:
+		typing[request.referrer].remove(v.username)
+
+	emit('typing', typing[request.referrer], room=request.referrer, broadcast=True)
 	return '', 204
 
 
 @socketio.on('delete')
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def delete(id, v):
-	del messages[id]
+	if not request.referrer:
+		return '', 400
 
-	emit('delete', id, broadcast=True)
+	for k, val in messages[request.referrer].items():
+		if k == id:
+			del messages[request.referrer][k]
+			break
+
+	emit('delete', id, room=request.referrer, broadcast=True)
 
 	return '', 204
 

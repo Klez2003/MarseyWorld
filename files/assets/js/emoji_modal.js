@@ -422,7 +422,7 @@ function populate_speed_emoji_modal(results, textbox)
 			close_inline_speed_emoji_modal()
 			textbox.value = textbox.value.replace(new RegExp(current_word+"(?=\\s|$)", "gi"), `:${name}: `)
 			textbox.focus()
-			if (location.pathname != '/chat'){
+			if (!['/chat','/orgy'].includes(location.pathname)) {
 				markdown(textbox)
 			}
 		});
