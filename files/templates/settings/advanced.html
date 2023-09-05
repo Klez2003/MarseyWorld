@@ -56,7 +56,7 @@
 								<p>Change the default sorting for comments.</p>
 								<div class="input-group">
 									<select autocomplete="off" id='defaultsortingcomments' class="form-control setting_select" data-nonce="{{g.nonce}}" form="profile-settings" name="defaultsortingcomments">
-									{% for entry in COMMENT_SORTS %}
+									{% for entry in COMMENT_SORTS.keys() %}
 										<option value="{{entry}}"{{' selected' if v.defaultsortingcomments==entry}}>{{entry}}</option>
 									{% endfor %}
 								</select>
@@ -71,7 +71,7 @@
 								<p>Change the default sorting for posts.</p>
 								<div class="input-group">
 									<select autocomplete="off" id='defaultsorting' class="form-control setting_select" data-nonce="{{g.nonce}}" form="profile-settings" name="defaultsorting">
-									{% for entry in SORTS %}
+									{% for entry in POST_SORTS.keys() %}
 									<option value="{{entry}}"{{' selected' if v.defaultsorting==entry}}>{{entry}}</option>
 									{% endfor %}
 								</select>
@@ -86,7 +86,7 @@
 							<p>Change the default time filter for posts.</p>
 							<div class="input-group">
 								<select autocomplete="off" id='defaulttime' class="form-control setting_select" data-nonce="{{g.nonce}}" form="profile-settings" name="defaulttime">
-								{% for entry in TIME_FILTERS %}
+								{% for entry in TIME_FILTERS.keys() %}
 									<option value="{{entry}}"{{' selected' if v.defaulttime==entry}}>{{entry}}</option>
 								{% endfor %}
 							</select>

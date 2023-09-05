@@ -120,7 +120,7 @@ def settings_personal_post(v):
 		opt = request.values.get(api_name)
 		if opt: opt = opt.strip()
 		if not opt: return False
-		if opt in valid_values:
+		if opt in valid_values.keys():
 			setattr(v, column_name, opt)
 			return True
 		abort(400, f"'{opt}' is not a valid {error_msg}")
@@ -316,7 +316,7 @@ def settings_personal_post(v):
 		else: abort(400)
 
 	updated = updated or set_selector_option("defaultsortingcomments", "defaultsortingcomments", COMMENT_SORTS, "comment sort")
-	updated = updated or set_selector_option("defaultsorting", "defaultsorting", SORTS, "post sort")
+	updated = updated or set_selector_option("defaultsorting", "defaultsorting", POST_SORTS, "post sort")
 	updated = updated or set_selector_option("defaulttime", "defaulttime", TIME_FILTERS, "time filter")
 
 	theme = request.values.get("theme")

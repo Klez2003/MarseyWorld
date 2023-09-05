@@ -415,7 +415,7 @@ def comment(v):
 	g.db.flush()
 
 	if c.parent_post:
-		for sort in COMMENT_SORTS:
+		for sort in COMMENT_SORTS.keys():
 			cache.delete(f'post_{c.parent_post}_{sort}')
 
 	if v.client: return c.json
@@ -444,7 +444,7 @@ def delete_comment(cid, v):
 		cache.delete_memoized(comment_idlist)
 
 		if c.parent_post:
-			for sort in COMMENT_SORTS:
+			for sort in COMMENT_SORTS.keys():
 				cache.delete(f'post_{c.parent_post}_{sort}')
 
 	return {"message": "Comment deleted!"}
@@ -469,7 +469,7 @@ def undelete_comment(cid, v):
 		cache.delete_memoized(comment_idlist)
 
 		if c.parent_post:
-			for sort in COMMENT_SORTS:
+			for sort in COMMENT_SORTS.keys():
 				cache.delete(f'post_{c.parent_post}_{sort}')
 
 	return {"message": "Comment undeleted!"}

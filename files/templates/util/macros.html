@@ -350,3 +350,41 @@
 		<div id="online" class="mt-3"></div>
 	</div>
 {% endmacro %}
+
+{% macro time_filter_buttons() %}
+	<div class="dropdown dropdown-actions mr-2">
+		<button type="button" class="btn btn-secondary dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown">
+			<i class="fas fa-{{TIME_FILTERS[t]}} mr-2"></i>
+			{{t | capitalize}}
+		</button>
+		<div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px;">
+			{% for new_time, icon in TIME_FILTERS.items() %}
+				{% if t != new_time %}
+					<a class="dropdown-item" href="{{'t'|change_arg(new_time, request.full_path)|safe}}">
+						<i class="fas fa-{{icon}} mr-2"></i>
+						{{new_time | capitalize}}
+					</a>
+				{% endif %}
+			{% endfor %}
+		</div>
+	</div>
+{% endmacro %}
+
+{% macro sorting_buttons(sorts) %}
+	<div class="dropdown dropdown-actions">
+		<button type="button" class="btn btn-secondary dropdown-toggle" id="dropdownMenuButton2" data-bs-toggle="dropdown">
+			<i class="fas fa-{{sorts[sort]}} mr-1"></i>
+			{{sort | capitalize}}
+		</button>
+		<div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px;">
+			{% for new_sort, icon in sorts.items() %}
+				{% if sort != new_sort %}
+					<a class="dropdown-item" href="{{'sort'|change_arg(new_sort, request.full_path)|safe}}">
+						<i class="fas fa-{{icon}} mr-2"></i>
+						{{new_sort | capitalize}}
+					</a>
+				{% endif %}
+			{% endfor %}
+		</div>
+	</div>
+{% endmacro %}

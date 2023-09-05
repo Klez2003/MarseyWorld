@@ -81,58 +81,9 @@
 					<button type="submit" class="btn btn-{{pcolor}} text-{{pcolor}} mx-2"><i type="submit" class="fas fas fa-thumbtack fa-rotate--45 mr-2"></i>Pins</button>					
 				</form>
 
-				<div class="dropdown dropdown-actions mx-2">
-					<button type="button" class="btn btn-secondary dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown">
-						{% if t=="hour" %}<i class="fas fa-clock mr-2"></i>
-						{% elif t=="day" %}<i class="fas fa-calendar-day mr-2"></i>
-						{% elif t=="week" %}<i class="fas fa-calendar-week mr-2"></i>
-						{% elif t=="month" %}<i class="fas fa-calendar-alt mr-2"></i>
-						{% elif t=="year" %}<i class="fas fa-calendar mr-2"></i>
-						{% elif t=="all" %}<i class="fas fa-infinity mr-2"></i>
-						{% endif %}
-						{{t | capitalize}}
-					</button>
-					<div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px;">
-						{% if t != "hour" %}<a class="dropdown-item" href="?sort={{sort}}&t=hour"><i class="fas fa-clock mr-2"></i>Hour</a>{% endif %}
-						{% if t != "day" %}<a class="dropdown-item" href="?sort={{sort}}&t=day"><i class="fas fa-calendar-day mr-2"></i>Day</a>{% endif %}
-						{% if t != "week" %}<a class="dropdown-item" href="?sort={{sort}}&t=week"><i class="fas fa-calendar-week mr-2"></i>Week</a>{% endif %}
-						{% if t != "month" %}<a class="dropdown-item" href="?sort={{sort}}&t=month"><i class="fas fa-calendar-alt mr-2"></i>Month</a>{% endif %}
-						{% if t != "year" %}<a class="dropdown-item" href="?sort={{sort}}&t=year"><i class="fas fa-calendar mr-2"></i>Year</a>{% endif %}
-						{% if t != "all" %}<a class="dropdown-item" href="?sort={{sort}}&t=all"><i class="fas fa-infinity mr-2"></i>All</a>{% endif %}
-					</div>
-				</div>
-
-				<div class="dropdown dropdown-actions ml-2">
-					<button type="button" class="btn btn-secondary dropdown-toggle" id="dropdownMenuButton2" data-bs-toggle="dropdown">
-						{% if sort=="hot" %}<i class="fas fa-fire mr-1"></i>{% endif %}
-						{% if sort=="views" %}<i class="fas fa-eye mr-1"></i>{% endif %}
-						{% if sort=="bump" %}<i class="fas fa-arrow-up mr-1"></i>{% endif %}
-						{% if sort=="top" %}<i class="fas fa-arrow-alt-circle-up mr-1"></i>{% endif %}
-						{% if sort=="bottom" %}<i class="fas fa-arrow-alt-circle-down mr-1"></i>{% endif %}
-						{% if sort=="new" %}<i class="fas fa-sparkles mr-1"></i>{% endif %}
-						{% if sort=="old" %}<i class="fas fa-book mr-1"></i>{% endif %}
-						{% if sort=="controversial" %}<i class="fas fa-bullhorn mr-1"></i>{% endif %}
-						{% if sort=="comments" %}<i class="fas fa-comments mr-1"></i>{% endif %}
-						{% if sort=="subscriptions" %}<i class="fas fa-bell mr-1"></i>{% endif %}
-						{% if sort=="saves" %}<i class="fas fa-save mr-1"></i>{% endif %}
-						{% if sort=="random" %}<i class="fas fa-random mr-1"></i>{% endif %}
-						{{sort | capitalize}}
-					</button>
-					<div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px;">
-						{% if sort != "hot" %}<a class="dropdown-item" href="?sort=hot&t={{t}}"><i class="fas fa-fire mr-2"></i>Hot</a>{% endif %}
-						{% if sort != "views" %}<a class="dropdown-item" href="?sort=views&t={{t}}"><i class="fas fa-eye mr-2"></i>Views</a>{% endif %}
-						{% if sort != "bump" %}<a class="dropdown-item" href="?sort=bump&t={{t}}"><i class="fas fa-arrow-up mr-2"></i>Bump</a>{% endif %}
-						{% if sort != "top" %}<a class="dropdown-item" href="?sort=top&t={{t}}"><i class="fas fa-arrow-alt-circle-up mr-2"></i>Top</a>{% endif %}
-						{% if sort != "bottom" %}<a class="dropdown-item" href="?sort=bottom&t={{t}}"><i class="fas fa-arrow-alt-circle-down mr-2"></i>Bottom</a>{% endif %}
-						{% if sort != "new" %}<a class="dropdown-item" href="?sort=new&t={{t}}"><i class="fas fa-sparkles mr-2"></i>New</a>{% endif %}
-						{% if sort != "old" %}<a class="dropdown-item" href="?sort=old&t={{t}}"><i class="fas fa-book mr-2"></i>Old</a>{% endif %}
-						{% if sort != "controversial" %}<a class="dropdown-item" href="?sort=controversial&t={{t}}"><i class="fas fa-bullhorn mr-2"></i>Controversial</a>{% endif %}
-						{% if sort != "comments" %}<a class="dropdown-item" href="?sort=comments&t={{t}}"><i class="fas fa-comments mr-2"></i>Comments</a>{% endif %}
-						{% if sort != "subscriptions" %}<a class="dropdown-item" href="?sort=subscriptions&t={{t}}"><i class="fas fa-bell mr-2"></i>Subscriptions</a>{% endif %}
-						{% if sort != "saves" %}<a class="dropdown-item" href="?sort=saves&t={{t}}"><i class="fas fa-save mr-2"></i>Saves</a>{% endif %}
-						{% if sort != "random" %}<a class="dropdown-item" href="?sort=random&t={{t}}"><i class="fas fa-random mr-2"></i>Random</a>{% endif %}
-					</div>
-				</div>
+				{%- import 'util/macros.html' as macros with context -%}
+				{{- macros.time_filter_buttons() -}}
+				{{- macros.sorting_buttons(POST_SORTS) -}}
 			</div>
 			{% endblock %}
 		</div>

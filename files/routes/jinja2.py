@@ -41,12 +41,11 @@ def post_embed(id, v):
 def template_asset(ctx, asset_path):
 	return assetcache_path(asset_path)
 
-
-@app.template_filter("change_page")
-def template_change_page(new_page, url):
+@app.template_filter("change_arg")
+def template_change_arg(arg, value, url):
 	parsed = urlsplit(url)
 	query_dict = parse_qs(parsed.query)
-	query_dict["page"] = new_page
+	query_dict[arg] = value
 	query_new = urlencode(query_dict, doseq=True)
 	parsed = parsed._replace(query=query_new)
 	return parsed.geturl()
@@ -119,7 +118,7 @@ def inject_constants():
 			"TELEGRAM_ID":TELEGRAM_ID, "TRUESCORE_DONATE_MINIMUM":TRUESCORE_DONATE_MINIMUM, "PROGSTACK_ID":PROGSTACK_ID,
 			"DONATE_LINK":DONATE_LINK, "DONATE_SERVICE":DONATE_SERVICE,
 			"HOUSE_JOIN_COST":HOUSE_JOIN_COST, "HOUSE_SWITCH_COST":HOUSE_SWITCH_COST, "IMAGE_FORMATS":','.join(IMAGE_FORMATS),
-			"PAGE_SIZES":PAGE_SIZES, "THEMES":THEMES, "COMMENT_SORTS":COMMENT_SORTS, "SORTS":SORTS,
+			"PAGE_SIZES":PAGE_SIZES, "THEMES":THEMES, "COMMENT_SORTS":COMMENT_SORTS, "POST_SORTS":POST_SORTS,
 			"TIME_FILTERS":TIME_FILTERS, "HOUSES":HOUSES, "TIER_TO_NAME":TIER_TO_NAME,
 			"DEFAULT_CONFIG_VALUE":DEFAULT_CONFIG_VALUE, "IS_LOCALHOST":IS_LOCALHOST, "BACKGROUND_CATEGORIES":BACKGROUND_CATEGORIES, "PAGE_SIZE":PAGE_SIZE, "TAGLINES":TAGLINES, "get_alt_graph":get_alt_graph, "current_registered_users":current_registered_users,
 			"git_head":git_head, "max_days":max_days, "EMOJI_KINDS":EMOJI_KINDS,

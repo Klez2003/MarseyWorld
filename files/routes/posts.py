@@ -706,7 +706,7 @@ def delete_post_pid(pid, v):
 		v.post_count -= 1
 		g.db.add(v)
 
-		for sort in COMMENT_SORTS:
+		for sort in COMMENT_SORTS.keys():
 			cache.delete(f'post_{p.id}_{sort}')
 
 	return {"message": "Post deleted!"}
@@ -731,7 +731,7 @@ def undelete_post_pid(pid, v):
 		v.post_count += 1
 		g.db.add(v)
 
-		for sort in COMMENT_SORTS:
+		for sort in COMMENT_SORTS.keys():
 			cache.delete(f'post_{p.id}_{sort}')
 
 	return {"message": "Post undeleted!"}
