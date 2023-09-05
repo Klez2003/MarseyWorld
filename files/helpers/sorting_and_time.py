@@ -46,8 +46,6 @@ def sort_objects(sort, objects, cls):
 		return objects.outerjoin(Subscription, Subscription.post_id == cls.id).group_by(cls.id).order_by(func.count(Subscription.post_id).desc(), cls.created_utc.desc())
 	elif sort == "saves" and cls.__name__ == "Post":
 		return objects.outerjoin(SaveRelationship, SaveRelationship.post_id == cls.id).group_by(cls.id).order_by(func.count(SaveRelationship.post_id).desc(), cls.created_utc.desc())
-	elif sort == "saves" and cls.__name__ == "Comment":
-		return objects.outerjoin(CommentSaveRelationship, CommentSaveRelationship.comment_id == cls.id).group_by(cls.id).order_by(func.count(CommentSaveRelationship.comment_id).desc(), cls.created_utc.desc())
 	elif sort == "new":
 		return objects.order_by(cls.created_utc.desc())
 	elif sort == "old":
