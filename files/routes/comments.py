@@ -739,7 +739,7 @@ def commenters(v, pid, time):
 		Comment.parent_post == pid,
 		Comment.created_utc < time-1,
 		User.id.notin_(BOT_IDs),
-	).all()
+	).order_by(User.id, Comment.created_utc).all()
 
 	users = sorted(users, key=lambda x: x[1])
 
