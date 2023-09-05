@@ -44,7 +44,7 @@ def cron_fn(every_5m, every_1d):
 				_grant_one_year_badges()
 				_grant_two_year_badges()
 
-			if every_1d:
+			if every_1d or not cache.get('stats'):
 				_generate_emojis_zip()
 
 				if FEATURES['ASSET_SUBMISSIONS']:
