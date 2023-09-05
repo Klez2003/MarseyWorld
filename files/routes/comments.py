@@ -144,10 +144,13 @@ def comment(v):
 	parent_user = parent if isinstance(parent, User) else parent.author
 	posting_to_post = isinstance(post_target, Post)
 
-
-
 	if posting_to_post and not User.can_see(v, parent):
 		abort(403)
+
+	if posting_to_post:
+		commenters_ping_post_id = post_target.id
+	else:
+		commenters_ping_post_id = None
 
 	if not isinstance(parent, User) and parent.deleted_utc != 0:
 		if isinstance(parent, Post):
@@ -255,7 +258,7 @@ def comment(v):
 	if v.marsify and not v.chud: body_for_sanitize = marsify(body_for_sanitize)
 	if v.sharpen: body_for_sanitize = sharpen(body_for_sanitize)
 
-	body_html = sanitize(body_for_sanitize, limit_pings=5, showmore=(not v.marseyawarded), count_emojis=not v.marsify)
+	body_html = sanitize(body_for_sanitize, limit_pings=5, showmore=(not v.marseyawarded), count_emojis=not v.marsify, commenters_ping_post_id=commenters_ping_post_id)
 
 	if post_target.id not in ADMIGGER_THREADS and not (v.chud and v.chud_phrase in body.lower()):
 		existing = g.db.query(Comment.id).filter(
@@ -349,7 +352,7 @@ def comment(v):
 	execute_zozbot(c, level, post_target, v)
 
 	if not v.shadowbanned:
-		notify_users = NOTIFY_USERS(body, v, ghost=c.ghost, log_cost=c)
+		notify_users = NOTIFY_USERS(body, v, ghost=c.ghost, log_cost=c, commenters_ping_post_id=commenters_ping_post_id)
 
 		if notify_users == 'everyone':
 			alert_everyone(c.id)
@@ -671,7 +674,7 @@ def edit_comment(cid, v):
 		if c.sharpened:
 			body_for_sanitize = sharpen(body_for_sanitize)
 
-		body_html = sanitize(body_for_sanitize, golden=False, limit_pings=5, showmore=(not v.marseyawarded))
+		body_html = sanitize(body_for_sanitize, golden=False, limit_pings=5, showmore=(not v.marseyawarded), commenters_ping_post_id=c.parent_post)
 
 		if len(body_html) > COMMENT_BODY_HTML_LENGTH_LIMIT: abort(400)
 
@@ -704,7 +707,7 @@ def edit_comment(cid, v):
 
 		g.db.add(c)
 
-		notify_users = NOTIFY_USERS(body, v, oldtext=oldtext, ghost=c.ghost, log_cost=c)
+		notify_users = NOTIFY_USERS(body, v, oldtext=oldtext, ghost=c.ghost, log_cost=c, commenters_ping_post_id=c.parent_post)
 
 		if notify_users == 'everyone':
 			alert_everyone(c.id)
@@ -724,3 +727,20 @@ def edit_comment(cid, v):
 			"ping_cost": c.ping_cost,
 			"edited_string": c.edited_string,
 		}
+
+@app.get("/!commenters/<int:pid>/<int:time>")
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@auth_required
+def commenters(v, pid, time):
+	users = g.db.query(User, Comment.id, Comment.created_utc).distinct(User.id).join(
+		Comment, Comment.author_id == User.id
+	).filter(
+		Comment.parent_post == pid,
+		Comment.created_utc < time-1,
+		User.id.notin_(BOT_IDs),
+	).all()
+
+	users = sorted(users, key=lambda x: x[1])
+
+	return render_template('commenters.html', v=v, users=users)

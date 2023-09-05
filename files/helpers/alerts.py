@@ -120,7 +120,7 @@ def add_notif(cid, uid, text, pushnotif_url=''):
 			push_notif({uid}, 'New notification', text, pushnotif_url)
 
 
-def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None, followers_ping=True):
+def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None, followers_ping=True, commenters_ping_post_id=None):
 	# Restrict young accounts from generating notifications
 	if v.age < NOTIFICATION_SPAM_AGE_THRESHOLD:
 		return set()
@@ -177,12 +177,17 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None, followers_pi
 					abort(403, f"You can't use !followers in posts!")
 				group = None
 				member_ids = set([x[0] for x in g.db.query(Follow.user_id).filter_by(target_id=v.id)])
+			elif i.group(1) == 'commenters':
+				if not commenters_ping_post_id:
+					abort(403, "You can only use !commenters in comments made under posts!")
+				group = None
+				member_ids = set([x[0] for x in g.db.query(User.id).join(Comment, Comment.author_id == User.id).filter(Comment.parent_post == commenters_ping_post_id)]) - {v.id}
 			else:
 				group = g.db.get(Group, i.group(1))
 				if not group: continue
 				member_ids = group.member_ids
 
-			members = member_ids - notify_users - v.all_twoway_blocks
+			members = member_ids - notify_users - BOT_IDs - v.all_twoway_blocks
 
 			notify_users.update(members)
 

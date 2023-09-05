@@ -5,6 +5,7 @@ import signal
 from functools import partial
 from os import path, listdir
 from urllib.parse import parse_qs, urlparse, unquote, ParseResult, urlencode, urlunparse
+import time
 
 from sqlalchemy.sql import func
 
@@ -410,7 +411,7 @@ def handle_youtube_links(url):
 	return html
 
 @with_sigalrm_timeout(10)
-def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis=False, snappy=False, chat=False, blackjack=None, post_mention_notif=False):
+def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis=False, snappy=False, chat=False, blackjack=None, post_mention_notif=False, commenters_ping_post_id=None):
 	def error(error):
 		if chat:
 			return error, 403
@@ -481,6 +482,8 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 				return f'<a href="/users">!{name}</a>'
 			elif name == 'jannies':
 				return f'<a href="/admins">!{name}</a>'
+			elif name == 'commenters' and commenters_ping_post_id:
+				return f'<a href="/!commenters/{commenters_ping_post_id}/{int(time.time())}">!{name}</a>'
 			elif name == 'followers':
 				return f'<a href="/id/{g.v.id}/followers">!{name}</a>'
 			elif g.db.get(Group, name):
