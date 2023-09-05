@@ -474,12 +474,8 @@ def transfer_coins(v, username):
 def transfer_bux(v, username):
 	return transfer_currency(v, username, 'marseybux', False)
 
-@app.get("/leaderboard")
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
-@auth_required
 @cache.memoize()
-def leaderboard(v):
+def leaderboard_cached(v):
 	users = g.db.query(User)
 
 	coins = Leaderboard("Coins", "coins", "coins", "Coins", None, Leaderboard.get_simple_lb, User.coins, v, lambda u:u.coins, users)
@@ -510,7 +506,14 @@ def leaderboard(v):
 	leaderboards.append(Leaderboard("Casino winnings (top)", "casino winnings", "casino-winnings-top", "Casino Winnings", None, Leaderboard.get_winnings_lb, CasinoGame.winnings, v, None, None))
 	leaderboards.append(Leaderboard("Casino winnings (bottom)", "casino winnings", "casino-winnings-bottom", "Casino Winnings", None, Leaderboard.get_winnings_lb, CasinoGame.winnings, v, None, None, 25, False))
 
-	return render_template("leaderboard.html", v=v, leaderboards=leaderboards)
+	return render_template("leaderboard_cached.html", v=v, leaderboards=leaderboards)
+
+@app.get("/leaderboard")
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@auth_required
+def leaderboard(v):
+	return render_template("leaderboard.html", v=v, leaderboard_cached=leaderboard_cached(v))
 
 @app.get("/<int:id>/css")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
