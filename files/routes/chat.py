@@ -20,6 +20,7 @@ from files.__main__ import app, cache, limiter
 socketio = SocketIO(
 	app,
 	async_mode='gevent',
+	max_http_buffer_size=8388608,
 )
 
 sessions = []
