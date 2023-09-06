@@ -71,10 +71,9 @@ def chart(kind, site):
 	posts_chart.set_ylim(ymin=0)
 	comments_chart.set_ylim(ymin=0)
 
-	signup_chart.set_ylabel("Signups")
-	posts_chart.set_ylabel("Posts")
-	comments_chart.set_ylabel("Comments")
-	comments_chart.set_xlabel("Time (UTC) YYYY-MM-DD")
+	signup_chart.set_xlabel("Signups", labelpad=10.0, size=30)
+	posts_chart.set_xlabel("Posts", labelpad=10.0, size=30)
+	comments_chart.set_xlabel("Comments", labelpad=10.0, size=30)
 
 	file = chart_path(kind, site)
 
