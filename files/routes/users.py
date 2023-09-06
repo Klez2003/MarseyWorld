@@ -7,6 +7,7 @@ from collections import Counter
 import gevent
 import qrcode
 from sqlalchemy.orm import aliased, load_only
+from sqlalchemy.exc import IntegrityError
 
 from files.classes import *
 from files.classes.leaderboard import Leaderboard
@@ -33,8 +34,14 @@ def _add_profile_view(vid, uid):
 	if view: view.last_view_utc = int(time.time())
 	else: view = ViewerRelationship(viewer_id=vid, user_id=uid)
 	db.add(view)
+		
+	try:
+		db.commit()
+	except IntegrityError as e:
+		db.rollback()
+		if not str(e).startswith('(psycopg2.errors.UniqueViolation) duplicate key value violates unique constraint "'):
+			print(STARS + e + STARS, flush=True)
 
-	db.commit()
 	db.close()
 	stdout.flush()
 
