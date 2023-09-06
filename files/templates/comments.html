@@ -233,7 +233,7 @@
 					{{c.blackjack_html | safe}}
 				{% endif %}
 
-				{% if c.is_notif or (request.path == '/notifications/messages' and c.author_id != v.id) %}
+				{% if (c.is_notif and c.author_id != AUTOJANNY_ID) or (request.path == '/notifications/messages' and c.author_id != v.id) %}
 					<button type="button" class="text-danger font-weight-bold ml-1 mt-2 mr-3 p-1 {% if v.has_muted(c.author) %}d-none{% endif %}" id="mute-notifs-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/mute_notifs/{{c.author.id}}','mute-notifs-{{c.id}}','unmute-notifs-{{c.id}}','d-none')">Mute notifications from @{{c.author.username}}</button>
 					<button type="button" class="text-success font-weight-bold ml-1 mt-2 mr-3 p-1 {% if not v.has_muted(c.author) %}d-none{% endif %}" id="unmute-notifs-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unmute_notifs/{{c.author.id}}','mute-notifs-{{c.id}}','unmute-notifs-{{c.id}}','d-none')">Unmute notifications from @{{c.author.username}}</button>
 				{% endif %}
