@@ -52,7 +52,9 @@ if FEATURES['PING_GROUPS']:
 	from .groups import *
 
 if IS_LOCALHOST:
-	from files.helpers.cron import cron_fn
-	print('Starting cron tasks!', flush=True)
-	gevent.spawn(cron_fn, True, False)
-	print('Cron tasks Finished!', flush=True)
+	from sys import argv
+	if "cron" not in argv:
+		from files.helpers.cron import cron_fn
+		print('Starting cron tasks!', flush=True)
+		gevent.spawn(cron_fn, True, False)
+		print('Cron tasks Finished!', flush=True)
