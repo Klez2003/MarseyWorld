@@ -26,6 +26,8 @@ socketio = SocketIO(
 sessions = []
 muted = cache.get(f'muted') or {}
 
+ALLOWED_REFERRERS = {f'{SITE_FULL}/chat', f'{SITE_FULL}/orgy'}
+
 messages = cache.get(f'messages') or {
 	f'{SITE_FULL}/chat': {},
 	f'{SITE_FULL}/orgy': {},
@@ -93,7 +95,7 @@ def orgy(v):
 @socketio.on('speak')
 @is_not_banned_socketio
 def speak(data, v):
-	if not request.referrer:
+	if request.referrer not in ALLOWED_REFERRERS:
 		return '', 400
 
 	image = None
@@ -192,7 +194,7 @@ def refresh_online():
 @socketio.on('connect')
 @is_not_permabanned_socketio
 def connect(v):
-	if not request.referrer:
+	if request.referrer not in ALLOWED_REFERRERS:
 		return '', 400
 
 	join_room(request.referrer)
@@ -215,6 +217,11 @@ def connect(v):
 @socketio.on('disconnect')
 @is_not_permabanned_socketio
 def disconnect(v):
+	if request.referrer not in ALLOWED_REFERRERS:
+		return '', 400
+
+	leave_room(request.referrer)
+
 	if ([v.id, request.sid]) in sessions:
 		sessions.remove([v.id, request.sid])
 		if any(v.id in session for session in sessions):
@@ -230,16 +237,13 @@ def disconnect(v):
 			val.remove(v.username)
 
 	refresh_online()
-
-	if request.referrer:
-		leave_room(request.referrer)
 	
 	return '', 204
 
 @socketio.on('typing')
 @is_not_banned_socketio
 def typing_indicator(data, v):
-	if not request.referrer:
+	if request.referrer not in ALLOWED_REFERRERS:
 		return '', 400
 
 	if data and v.username not in typing[request.referrer]:
@@ -254,7 +258,7 @@ def typing_indicator(data, v):
 @socketio.on('delete')
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def delete(id, v):
-	if not request.referrer:
+	if request.referrer not in ALLOWED_REFERRERS:
 		return '', 400
 
 	for k, val in messages[request.referrer].items():
