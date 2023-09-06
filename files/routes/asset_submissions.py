@@ -81,9 +81,7 @@ def submit_emoji(v):
 	if not tags_regex.fullmatch(tags):
 		abort(400, "Invalid tags!")
 
-	author = get_user(username, v=v, graceful=True)
-	if not author:
-		abort(400, f"A user with the name '{username}' was not found!")
+	author = get_user(username, v=v)
 
 	highquality = f'/asset_submissions/emojis/{name}'
 	file.save(highquality)
@@ -296,9 +294,7 @@ def submit_hat(v):
 	if not description_regex.fullmatch(description):
 		abort(400, "Invalid description!")
 
-	author = get_user(username, v=v, graceful=True)
-	if not author:
-		abort(400, f"A user with the name '{username}' was not found!")
+	author = get_user(username, v=v)
 
 	highquality = f'/asset_submissions/hats/{name}'
 	file.save(highquality)

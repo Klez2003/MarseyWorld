@@ -461,9 +461,7 @@ def badge_grant_post(v):
 		abort(400, "You must enter usernames!")
 
 	for username in usernames.split():
-		user = get_user(username, graceful=True)
-		if not user:
-			abort(400, "User not found!")
+		user = get_user(username)
 
 		try: badge_id = int(request.values.get("badge_id"))
 		except: abort(400)
@@ -531,9 +529,7 @@ def badge_remove_post(v):
 		abort(400, "You must enter usernames!")
 
 	for username in usernames.split():
-		user = get_user(username, graceful=True)
-		if not user:
-			abort(400, "User not found!")
+		user = get_user(username)
 
 		try: badge_id = int(request.values.get("badge_id"))
 		except: abort(400)

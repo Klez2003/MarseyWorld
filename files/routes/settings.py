@@ -663,8 +663,7 @@ def settings_blocks(v):
 @limiter.limit("20/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def settings_block_user(v):
-	user = get_user(request.values.get("username"), graceful=True)
-	if not user: abort(404, "This user doesn't exist!")
+	user = get_user(request.values.get("username"))
 
 	if user.unblockable:
 		if not v.shadowbanned:

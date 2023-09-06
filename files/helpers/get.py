@@ -60,7 +60,7 @@ def get_user(username, v=None, graceful=False, include_blocks=False, id_only=Fal
 
 	if not user:
 		if graceful: return None
-		abort(404, "User not found.")
+		abort(404, f"A user with the name '{username}' was not found!")
 
 	if v and include_blocks:
 		user = add_block_props(user, v)
