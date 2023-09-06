@@ -699,7 +699,7 @@ def allowed_attributes_emojis(tag, name, value):
 
 
 @with_sigalrm_timeout(2)
-def filter_emojis_only(title, golden=True, count_emojis=False, graceful=False):
+def filter_emojis_only(title, golden=True, count_emojis=False):
 
 	title = title.replace("\n", "").replace("\r", "").replace("\t", "").replace('<','&lt;').replace('>','&gt;')
 
@@ -718,8 +718,8 @@ def filter_emojis_only(title, golden=True, count_emojis=False, graceful=False):
 
 	title = bleach.clean(title, tags=['img','del','span'], attributes=allowed_attributes_emojis, protocols=['http','https']).replace('\n','')
 
-	if len(title) > POST_TITLE_HTML_LENGTH_LIMIT and not graceful:
-		abort(400)
+	if len(title) > POST_TITLE_HTML_LENGTH_LIMIT:
+		abort(400, "Rendered title is too big!")
 	
 	title = title.strip()
 

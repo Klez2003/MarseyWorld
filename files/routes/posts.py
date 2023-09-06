@@ -432,12 +432,10 @@ def submit_post(v, sub=None):
 	if SITE == 'rdrama.net' and v.id == 10947:
 		sub = 'mnn'
 
-	title_html = filter_emojis_only(title, graceful=True, count_emojis=True)
+	title_html = filter_emojis_only(title, count_emojis=True)
 
 	if v.marseyawarded and not marseyaward_title_regex.fullmatch(title_html):
 		abort(400, "You can only type marseys!")
-	if len(title_html) > POST_TITLE_HTML_LENGTH_LIMIT:
-		abort(400, "Rendered title is too big!")
 
 	if sub == 'changelog':
 		abort(400, "/h/changelog is archived")
