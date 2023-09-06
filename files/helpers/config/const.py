@@ -289,7 +289,7 @@ PROFANITIES = {
 	'motherfucker': 'motherlover',
 	'fuck': 'frick',
 	'(?<![a-z])ass(?![a-z])': 'butt',
-	'shitting': 'pooping',
+	'shit': 'poop',
 	'damn': 'darn',
 	'bitch(?![a-z])': 'b-word',
 	'toilet': 'potty',
