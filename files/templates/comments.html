@@ -116,7 +116,7 @@
 
 		<div id="{% if comment_info and comment_info.id == c.id %}context{% else %}comment-{{c.id}}-only{% endif %}" class="{% if c.unread %}unread{% endif %} {% if c.award_count('glowie', v) %}glow{% endif %} comment-{{c.id}}-only comment-anchor {% if comment_info and comment_info.id == c.id %}context{% endif %}{% if c.is_banned %} banned{% endif %}{% if c.deleted_utc %} deleted{% endif %}">
 
-			<div class="user-info">
+			<div class="user-info {% if request.path.startswith('/notifications') %}x-scroll{% endif %}">
 				<span class="comment-collapse-icon" data-nonce="{{g.nonce}}" data-onclick="collapse_comment('{{c.id}}')"></span>
 
 				{% for a in c.awards %}
@@ -237,6 +237,11 @@
 
 				{% if c.blackjack_result %}
 					{{c.blackjack_html | safe}}
+				{% endif %}
+
+				{% if c.is_notif or (request.path == '/notifications/messages' and c.author_id != v.id) %}
+					<button type="button" class="text-danger font-weight-bold ml-1 mt-2 mr-3 p-1 {% if v.has_muted(c.author) %}d-none{% endif %}" id="mute-notifs-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/mute_notifs/{{c.author.id}}','mute-notifs-{{c.id}}','unmute-notifs-{{c.id}}','d-none')">Mute notifications from @{{c.author.username}}</button>
+					<button type="button" class="text-success font-weight-bold ml-1 mt-2 mr-3 p-1 {% if not v.has_muted(c.author) %}d-none{% endif %}" id="unmute-notifs-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unmute_notifs/{{c.author.id}}','mute-notifs-{{c.id}}','unmute-notifs-{{c.id}}','d-none')">Unmute notifications from @{{c.author.username}}</button>
 				{% endif %}
 			</div>
 

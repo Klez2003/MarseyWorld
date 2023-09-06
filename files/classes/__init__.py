@@ -11,6 +11,7 @@ from .reports import *
 from .user import *
 from .badges import *
 from .userblock import *
+from .usermute import *
 from .post import *
 from .votes import *
 from .domains import *

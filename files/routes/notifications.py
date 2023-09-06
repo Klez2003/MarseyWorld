@@ -346,6 +346,7 @@ def notifications(v):
 		if n.created_utc > 1620391248: c.notif_utc = n.created_utc
 
 		if not n.read: c.unread = True
+		c.is_notif = True
 
 		if c.parent_post or c.wall_user_id:
 			all_items.append(c)

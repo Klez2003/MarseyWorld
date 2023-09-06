@@ -187,7 +187,7 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None, followers_pi
 				if not group: continue
 				member_ids = group.member_ids
 
-			members = member_ids - notify_users - BOT_IDs - v.all_twoway_blocks
+			members = member_ids - notify_users - BOT_IDs - v.all_twoway_blocks - v.muters
 
 			notify_users.update(members)
 
@@ -210,13 +210,10 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None, followers_pi
 		if coin_receivers:
 			g.db.query(User).options(load_only(User.id)).filter(User.id.in_(coin_receivers)).update({ User.coins: User.coins + 10 })
 
-	if SITE == 'rdrama.net' and v.id in {256, 9287, 10489, 18701}:
-		notify_users.discard(AEVANN_ID)
-
 	if len(notify_users) > 400 and v.admin_level < PERMS['POST_COMMENT_INFINITE_PINGS']:
 		abort(403, "You can only notify a maximum of 400 users.")
 
-	return notify_users - BOT_IDs - {v.id, 0} - v.all_twoway_blocks
+	return notify_users - BOT_IDs - {v.id, 0} - v.all_twoway_blocks - v.muters
 
 
 def push_notif(uids, title, body, url_or_comment):

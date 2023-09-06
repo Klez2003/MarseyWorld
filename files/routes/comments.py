@@ -178,7 +178,7 @@ def comment(v):
 	if not body and not request.files.get('file'):
 		abort(400, "You need to actually write something!")
 
-	if parent_user.has_blocked(v):
+	if parent_user.has_blocked(v) or parent_user.has_muted(v):
 		notify_op = False
 
 	if request.files.get("file") and not g.is_tor:

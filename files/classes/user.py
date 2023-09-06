@@ -36,6 +36,7 @@ from .sub_relationship import *
 from .sub_logs import *
 from .subscriptions import *
 from .userblock import *
+from .usermute import *
 
 if SITE == 'devrama.net':
 	DEFAULT_ADMIN_LEVEL = 3
@@ -561,6 +562,10 @@ class User(Base):
 	def has_blocked(self, target):
 		return g.db.query(UserBlock).filter_by(user_id=self.id, target_id=target.id).one_or_none()
 
+	@lazy
+	def has_muted(self, target):
+		return g.db.query(UserMute).filter_by(user_id=self.id, target_id=target.id).one_or_none()
+
 	@property
 	@lazy
 	def all_twoway_blocks(self):
@@ -1022,6 +1027,12 @@ class User(Base):
 	@lazy
 	def userblocks(self):
 		return [x[0] for x in g.db.query(UserBlock.target_id).filter_by(user_id=self.id)]
+
+	@property
+	@lazy
+	def muters(self):
+		return set([x[0] for x in g.db.query(UserMute.user_id).filter_by(target_id=self.id)])
+
 
 	def get_relationship_count(self, relationship_cls):
 		# TODO: deduplicate (see routes/users.py)

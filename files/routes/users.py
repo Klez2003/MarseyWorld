@@ -623,6 +623,9 @@ def message2(v, username=None, id=None):
 	if v.admin_level <= PERMS['MESSAGE_BLOCKED_USERS'] and hasattr(user, 'is_blocked') and user.is_blocked:
 		abort(403, f"@{user.username} is blocking you!")
 
+	if user.has_muted(v):
+			abort(403, f"@{user.username} is muting notifications from you, so messaging them is pointless!")
+
 	body = request.values.get("message", "")
 	body = body[:COMMENT_BODY_LENGTH_LIMIT].strip()
 
@@ -707,6 +710,9 @@ def messagereply(v):
 		elif (v.admin_level <= PERMS['MESSAGE_BLOCKED_USERS']
 				and hasattr(user, 'is_blocked') and user.is_blocked):
 			abort(403, f"You're blocked by @{user.username}")
+
+		if user.has_muted(v):
+			abort(403, f"@{user.username} is muting notifications from you, so messaging them is pointless!")
 
 	if not g.is_tor and get_setting("dm_media"):
 		body = process_files(request.files, v, body, is_dm=True, dm_user=user)
@@ -1511,3 +1517,47 @@ def users_list(v):
 						page=page,
 						user_cards_title="Users Feed",
 						)
+
+@app.post("/mute_notifs/<int:uid>")
+@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
+@limiter.limit("20/day", deduct_when=lambda response: response.status_code < 400)
+@limiter.limit("20/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@auth_required
+def mute_notifs(v, uid):
+	user = get_account(uid)
+
+	if user.id == v.id:
+		abort(400, "You can't mute notifications from yourself!")
+	if user.id == AUTOJANNY_ID:
+		abort(403, f"You can't mute notifications from @{user.username}")
+	if v.has_muted(user):
+		abort(409, f"You have already muted notifications from @{user.username}")
+
+	new_mute = UserMute(user_id=v.id, target_id=user.id)
+	g.db.add(new_mute)
+
+	send_notification(user.id, f"@{v.username} has muted notifications from you!")
+
+	return {"message": f"You have muted notifications from @{user.username} successfully!"}
+
+
+@app.post("/unmute_notifs/<int:uid>")
+@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@auth_required
+def unmute_notifs(v, uid):
+	user = get_account(uid)
+
+	x = v.has_muted(user)
+
+	if not x:
+		abort(409, "You can't unmute notifications from someone you haven't muted notifications from!")
+
+	g.db.delete(x)
+
+	send_notification(user.id, f"@{v.username} has unmuted notifications from you!")
+
+	return {"message": f"You have unmuted notifications from @{user.username} successfully!"}
