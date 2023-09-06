@@ -805,7 +805,7 @@ def validate_css(css):
 		url = i.group(1)
 		if not is_safe_url(url):
 			domain = tldextract.extract(url).registered_domain
-			return False, f"The domain '{domain}' is not allowed, please use one of these domains\n\n{approved_embed_hosts}."
+			return False, f"The domain '{domain}' is not allowed here!"
 
 	return True, ""
 
