@@ -248,6 +248,7 @@ if SITE_NAME == 'rDrama':
 		'howdy': 'meowdy',
 		'corgi': 'klenny',
 		"right now": "right meow",
+		'(?<![a-z])drama(?![a-z])': 'dtama',
 	}
 	SLURS.update(RDRAMA_SLURS)
 
