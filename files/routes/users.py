@@ -882,6 +882,44 @@ def blocking(v, username):
 
 	return render_template("userpage/blocking.html", v=v, u=u, users=users, page=page, total=total)
 
+@app.get("/@<username>/muters")
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@auth_required
+def muters(v, username):
+	u = get_user(username, v=v)
+
+	page = get_page()
+
+	users = g.db.query(UserMute, User).join(UserMute, UserMute.target_id == u.id) \
+		.filter(UserMute.user_id == User.id)
+
+	total = users.count()
+
+	users = users.order_by(UserMute.created_utc.desc()) \
+		.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE ).all()
+
+	return render_template("userpage/muters.html", v=v, u=u, users=users, page=page, total=total)
+
+@app.get("/@<username>/muting")
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@auth_required
+def muting(v, username):
+	u = get_user(username, v=v)
+
+	page = get_page()
+
+	users = g.db.query(UserMute, User).join(UserMute, UserMute.user_id == u.id) \
+		.filter(UserMute.target_id == User.id)
+
+	total = users.count()
+
+	users = users.order_by(UserMute.created_utc.desc()) \
+		.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE ).all()
+
+	return render_template("userpage/muting.html", v=v, u=u, users=users, page=page, total=total)
+	
 @app.get("/@<username>/followers")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)

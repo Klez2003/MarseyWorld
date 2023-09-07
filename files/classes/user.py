@@ -604,6 +604,16 @@ class User(Base):
 
 	@property
 	@lazy
+	def mute_count(self):
+		return g.db.query(UserMute).filter_by(user_id=self.id).count()
+
+	@property
+	@lazy
+	def muting_count(self):
+		return g.db.query(UserMute).filter_by(target_id=self.id).count()
+
+	@property
+	@lazy
 	def bio_html_eager(self):
 		if self.bio_html == None: return ''
 		return self.bio_html.replace('data-src', 'src') \

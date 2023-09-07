@@ -86,7 +86,11 @@
 
 						<a class="mx-1" href="/@{{u.username}}/blockers" id="profile--blockers">{{u.blocking_count}} blocker{{'s' if u.blocking_count != 1 else ''}}</a> | 
 
-						<a class="mx-1" href="/@{{u.username}}/blocking" id="profile--blocking">blocks {{u.block_count}} user{{'s' if u.block_count != 1 else ''}}</a>
+						<a class="mx-1" href="/@{{u.username}}/blocking" id="profile--blocking">blocks {{u.block_count}} user{{'s' if u.block_count != 1 else ''}}</a> | 
+
+						<a class="mx-1" href="/@{{u.username}}/muters" id="profile--muters">{{u.muting_count}} muter{{'s' if u.muting_count != 1 else ''}}</a> | 
+
+						<a class="mx-1" href="/@{{u.username}}/muting" id="profile--muting">mutes {{u.mute_count}} user{{'s' if u.mute_count != 1 else ''}}</a>
 					</div>
 
 					<span id="profile-coins-amount">{{u.coins}}</span>
@@ -361,12 +365,18 @@
 						<a class="mx-1" href="/@{{u.username}}/following" id="profile-mobile--following"> follows {{u.follow_count}} user{{'s' if u.follow_count != 1 else ''}}</a>
 					</div>
 
-					<div class="mb-2">
+					<div>
 						<a class="mr-1" href="/@{{u.username}}/blockers" id="profile-mobile--blockers">{{u.blocking_count}} blocker{{'s' if u.blocking_count != 1 else ''}}</a>
 
 						<a class="mx-1" href="/@{{u.username}}/blocking" id="profile-mobile--blocking">blocks {{u.block_count}} user{{'s' if u.block_count != 1 else ''}}</a>
 					</div>
 
+					<div class="mb-2">
+						<a class="mr-1" href="/@{{u.username}}/muters" id="profile-mobile--muters">{{u.muting_count}} muter{{'s' if u.muting_count != 1 else ''}}</a>
+					
+						<a class="mx-1" href="/@{{u.username}}/muting" id="profile-mobile--muting">mutes {{u.mute_count}} user{{'s' if u.mute_count != 1 else ''}}</a>
+					</div>
+					
 					<span id="profile-coins-amount-mobile" class="font-weight-bold">{{u.coins}}</span>
 					<img loading="lazy" alt="coins" class="ml-1 mb-1 mr-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Coins" height="15" src="{{'coins.webp' | asset_siteimg}}">
 
