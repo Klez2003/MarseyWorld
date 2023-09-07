@@ -1,12 +1,12 @@
 {% extends "default.html" %}
-{% block pagetitle %}@{{u.username}}'s muters{% endblock %}
+{% block pagetitle %}@{{u.username}}'s notification muters{% endblock %}
 {% block content %}
-<h5 class="my-3">@{{u.username}}'s muters ({{users|length}} users)</h5>
+<h5 class="my-3">@{{u.username}}'s notification muters ({{users|length}} users)</h5>
 <div class="overflow-x-auto mt-1"><table class="table table-striped mb-5">
 <thead class="bg-primary text-white">
 	<tr>
 		<th>Name</th>
-		<th class="disable-sort-click">Muting since</td>
+		<th class="disable-sort-click">Muting notifications since</td>
 	</tr>
 </thead>
 <tbody id="muters-table">

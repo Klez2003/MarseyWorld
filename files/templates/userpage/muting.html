@@ -1,12 +1,12 @@
 {% extends "default.html" %}
-{% block pagetitle %}Users muted by @{{u.username}}{% endblock %}
+{% block pagetitle %}Users whose notifications are muted by @{{u.username}}{% endblock %}
 {% block content %}
-<h5 class="my-3">Users muted by @{{u.username}} ({{users|length}} users)</h5>
+<h5 class="my-3">Users whose notifications are muted by @{{u.username}} ({{users|length}} users)</h5>
 <div class="overflow-x-auto mt-1"><table class="table table-striped mb-5">
 <thead class="bg-primary text-white">
 	<tr>
 		<th>Name</th>
-		<th class="disable-sort-click">Muting since</th>
+		<th class="disable-sort-click">Muting notifications since</th>
 		{% if v.id == u.id %}
 			<th class="disable-sort-click"></th>
 		{% endif %}
