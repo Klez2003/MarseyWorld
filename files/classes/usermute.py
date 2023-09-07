@@ -1,6 +1,7 @@
 import time
 
 from sqlalchemy import Column, ForeignKey
+from sqlalchemy.orm import relationship
 from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
@@ -10,6 +11,9 @@ class UserMute(Base):
 	user_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
 	target_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
 	created_utc = Column(Integer)
+
+	user = relationship("User", primaryjoin="User.id==UserMute.user_id")
+	target = relationship("User", primaryjoin="User.id==UserMute.target_id")
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())

@@ -9,6 +9,7 @@ from files.classes.award import AWARDS
 from files.classes.badges import Badge, BadgeDef
 from files.classes.mod_logs import ModAction
 from files.classes.userblock import UserBlock
+from files.classes.usermute import UserMute
 from files.helpers.actions import *
 from files.helpers.alerts import *
 from files.helpers.config.const import *
@@ -337,17 +338,17 @@ def badges(v):
 	badges, counts = badge_list(SITE, v.admin_level >= PERMS['VIEW_PATRONS'])
 	return render_template("badges.html", v=v, badges=badges, counts=counts)
 
-@app.get("/blocks")
+@app.get("/notification_mutes")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def blocks(v):
-	blocks = g.db.query(UserBlock).options(
-			joinedload(UserBlock.user),
-			joinedload(UserBlock.target),
-		).order_by(UserBlock.created_utc.desc())
+def mutes(v):
+	mutes = g.db.query(UserMute).options(
+			joinedload(UserMute.user),
+			joinedload(UserMute.target),
+		).order_by(UserMute.created_utc.desc())
 
-	return render_template("blocks.html", v=v, blocks=blocks)
+	return render_template("notification_mutes.html", v=v, mutes=mutes)
 
 @app.get("/formatting")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
