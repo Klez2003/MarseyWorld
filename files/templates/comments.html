@@ -419,18 +419,6 @@
 									<button type="button" id="undistinguish-{{c.id}}" class="dropdown-item list-inline-item d-none {% if c.distinguish_level %}d-md-block{% endif %} text-info" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/distinguish_comment/{{c.id}}','distinguish-{{c.id}}','undistinguish-{{c.id}}','d-md-block')"><i class="fas fa-id-badge text-info fa-fw"></i>Undistinguish</button>
 								{% endif %}
 
-								{% if v.id != c.author_id and not c.ghost %}
-									<button type="button" id="block-{{c.id}}" class="dropdown-item list-inline-item text-danger {% if c.is_blocking %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/block_user?username={{c.author_name}}','block-{{c.id}}','unblock-{{c.id}}','d-none')"><i class="fas fa-eye-slash text-danger"></i>Block user</button>
-
-									<button type="button" id="unblock-{{c.id}}" class="dropdown-item text-success list-inline-item {% if not c.is_blocking %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unblock_user?username={{c.author_name}}','block-{{c.id}}','unblock-{{c.id}}','d-none')"><i class="fas fa-eye text-success"></i>Unblock user</button>
-
-									{% if (c.is_notif and c.author_id != AUTOJANNY_ID) or request.path == '/notifications/messages' %}
-										<button type="button" id="mute-notifs-{{c.id}}" class="dropdown-item text-danger list-inline-item {% if v.has_muted(c.author) %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/mute_notifs/{{c.author.id}}','mute-notifs-{{c.id}}','unmute-notifs-{{c.id}}','d-none')"><i class="fas fa-bell-slash text-danger"></i>Mute notifications from user</button>
-
-										<button type="button" id="unmute-notifs-{{c.id}}" class="dropdown-item text-success list-inline-item {% if not v.has_muted(c.author) %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unmute_notifs/{{c.author.id}}','mute-notifs-{{c.id}}','unmute-notifs-{{c.id}}','d-none')"><i class="fas fa-bell text-success mr-25"></i>Unmute notifications from user</button>
-									{% endif %}
-								{% endif %}
-
 								{% if c.parent_post %}
 									{% set url = "" %}
 
@@ -446,6 +434,18 @@
 										<button type="button" id="pin-{{c.id}}" class="dropdown-item list-inline-item {% if not c.stickied %}d-md-block{% endif %} text-muted d-none text-info" data-bs-dismiss="modal" data-bs-target="#actionsModal-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/{{url}}/{{c.id}}','pin-{{c.id}}','unpin-{{c.id}}','d-md-block')"><i class="fas fa-thumbtack fa-rotate--45 text-info fa-fw"></i>Pin</button>
 
 										<button type="button" id="unpin-{{c.id}}" class="dropdown-item list-inline-item {% if c.stickied %}d-md-block{% endif %} text-muted d-none text-info" data-bs-dismiss="modal" data-bs-target="#actionsModal-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/un{{url}}/{{c.id}}','pin-{{c.id}}','unpin-{{c.id}}','d-md-block')"><i class="fas fa-thumbtack fa-rotate--45 text-info fa-fw"></i>Unpin</button>
+									{% endif %}
+								{% endif %}
+
+								{% if v.id != c.author_id and not c.ghost %}
+									<button type="button" id="block-{{c.id}}" class="dropdown-item list-inline-item text-danger {% if c.is_blocking %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/block_user?username={{c.author_name}}','block-{{c.id}}','unblock-{{c.id}}','d-none')"><i class="fas fa-eye-slash text-danger"></i>Block user</button>
+
+									<button type="button" id="unblock-{{c.id}}" class="dropdown-item text-success list-inline-item {% if not c.is_blocking %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unblock_user?username={{c.author_name}}','block-{{c.id}}','unblock-{{c.id}}','d-none')"><i class="fas fa-eye text-success"></i>Unblock user</button>
+
+									{% if (c.is_notif and c.author_id != AUTOJANNY_ID) or request.path == '/notifications/messages' %}
+										<button type="button" id="mute-notifs-{{c.id}}" class="dropdown-item text-danger list-inline-item {% if v.has_muted(c.author) %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/mute_notifs/{{c.author.id}}','mute-notifs-{{c.id}}','unmute-notifs-{{c.id}}','d-none')"><i class="fas fa-bell-slash text-danger"></i>Mute notifications from user</button>
+
+										<button type="button" id="unmute-notifs-{{c.id}}" class="dropdown-item text-success list-inline-item {% if not v.has_muted(c.author) %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unmute_notifs/{{c.author.id}}','mute-notifs-{{c.id}}','unmute-notifs-{{c.id}}','d-none')"><i class="fas fa-bell text-success mr-25"></i>Unmute notifications from user</button>
 									{% endif %}
 								{% endif %}
 
