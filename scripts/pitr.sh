@@ -1,4 +1,4 @@
-change recovery_target_time in /var/lib/postgresql/15/new/postgresql.auto.conf like this
+change recovery_target_time in /etc/postgresql/15/new/postgresql.conf like this
 recovery_target_time = '2023-09-07 3:18:24'
 
 systemctl stop postgresql@15-new
