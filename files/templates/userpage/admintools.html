@@ -52,8 +52,6 @@
 				</div>
 			{% endif %}
 			{% if v.admin_level >= PERMS['USER_BAN'] %}
-				<button type="button" id="unban-{{deviceType}}" class="mt-1 {% if not u.is_suspended %}d-none{% endif %} btn btn-success" data-nonce="{{g.nonce}}" data-onclick="unchud_or_unban(this,'/unban_user/{{u.id}}')">Unban user</button>
-
 				<form class="my-3 {% if u.is_permabanned %}d-none{% endif %}" action="/ban_user/{{u.id}}" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHRSwitch(this)">
 					<input hidden name="formkey" value="{{v|formkey}}">
 					<input autocomplete="off" style="font-size:11px" type="text" class="form-control" maxlength="256" name="reason" placeholder="Ban Reason" data-nonce="{{g.nonce}}" data-undisable_element="user-ban-submit-{{deviceType}}" required>
@@ -64,24 +62,26 @@
 					</div>
 					<input autocomplete="off" id="user-ban-submit-{{deviceType}}" type="submit" class="btn btn-danger" value="Ban user" disabled>
 				</form>
+
+				<button type="button" id="unban-{{deviceType}}" class="mt-1 {% if not u.is_suspended %}d-none{% endif %} btn btn-success" data-nonce="{{g.nonce}}" data-onclick="unchud_or_unban(this,'/unban_user/{{u.id}}')">Unban user</button>
 			{% endif %}
 			{% if v.admin_level >= PERMS['USER_SHADOWBAN'] %}
-				<button type="button" id="unshadowban-{{deviceType}}" class="mt-1 {% if not u.shadowbanned %}d-none{% endif %} btn btn-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unshadowban/{{u.id}}','shadowban-{{deviceType}}','unshadowban-{{deviceType}}','d-none')">Unshadowban user</button>
-
 				<form id="shadowban-{{deviceType}}" class="my-3 {% if u.shadowbanned %}d-none{% endif %}" action="/shadowban/{{u.id}}" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHRSwitch(this)">
 					<input hidden name="formkey" value="{{v|formkey}}">
 					<input autocomplete="off" style="font-size:11px" type="text" class="form-control" maxlength="256" name="reason" placeholder="Shadowban Reason" data-nonce="{{g.nonce}}" data-undisable_element="user-shadowban-submit-{{deviceType}}" required>
 					<input autocomplete="off" id="user-shadowban-submit-{{deviceType}}" type="submit" class="btn btn-danger" value="Shadowban user" disabled>
 				</form>
+
+				<button type="button" id="unshadowban-{{deviceType}}" class="mt-1 {% if not u.shadowbanned %}d-none{% endif %} btn btn-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unshadowban/{{u.id}}','shadowban-{{deviceType}}','unshadowban-{{deviceType}}','d-none')">Unshadowban user</button>
 			{% endif %}
 			{% if v.admin_level >= PERMS['USER_CHUD'] %}
-				<button type="button" id="unchud-{{deviceType}}" class="mt-1 {% if not u.chud %}d-none{% endif %} btn btn-success" data-nonce="{{g.nonce}}" data-onclick="unchud_or_unban(this,'/unchud_user/{{u.id}}')">Unchud</button>
-
 				<form class="my-3 {% if u.chud == 1 %}d-none{% endif %}" action="/chud_user/{{u.id}}" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHRSwitch(this)">
 					<input hidden name="formkey" value="{{v|formkey}}">
 					<input autocomplete="off" type="number" step="any" name="days" max="{{max_days()}}" class="form-control" placeholder="Days (0 or blank = permanent)">
 					<input type="submit" class="btn btn-danger" value="Chud">
 				</form>
+
+				<button type="button" id="unchud-{{deviceType}}" class="mt-1 {% if not u.chud %}d-none{% endif %} btn btn-success" data-nonce="{{g.nonce}}" data-onclick="unchud_or_unban(this,'/unchud_user/{{u.id}}')">Unchud</button>
 			{% endif %}
 
 			<div class="actionbtns my-3">
@@ -117,9 +117,9 @@
 				{% endif %}
 
 				{% if v.admin_level >= PERMS['USER_BLACKLIST'] %}
-					<button type="button" id="unblacklist-{{deviceType}}" class="mt-1 {% if not u.blacklisted_by %}d-none{% endif %} btn btn-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unblacklist/{{u.id}}','blacklist-{{deviceType}}','unblacklist-{{deviceType}}','d-none')">Unblacklist From Restricted Holes</button>
-
 					<button type="button" id="blacklist-{{deviceType}}" class="mt-1 {% if u.blacklisted_by %}d-none{% endif %} btn btn-danger" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/blacklist/{{u.id}}','blacklist-{{deviceType}}','unblacklist-{{deviceType}}','d-none')">Blacklist From Restricted Holes</button>
+
+					<button type="button" id="unblacklist-{{deviceType}}" class="mt-1 {% if not u.blacklisted_by %}d-none{% endif %} btn btn-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unblacklist/{{u.id}}','blacklist-{{deviceType}}','unblacklist-{{deviceType}}','d-none')">Unblacklist From Restricted Holes</button>
 				{% endif %}
 
 				{% if v.admin_level >= PERMS['USER_RESET_PASSWORD'] %}

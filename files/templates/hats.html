@@ -86,9 +86,9 @@
 						{% endif %}
 
 						<div id="if-owned-{{hat.id}}" {% if hat.id not in owned_hat_ids %}class="d-none"{% endif %}>
-							<button type="button" id="unequip-{{hat.id}}" class="unequip {% if hat.id not in v.equipped_hat_ids %}d-none{% endif %} btn btn-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this, '/unequip_hat/{{hat.id}}', 'equip-{{hat.id}}', 'unequip-{{hat.id}}', 'd-none')">Unequip</button>
-
 							<button type="button" id="equip-{{hat.id}}" class="equip {% if hat.id in v.equipped_hat_ids %}d-none{% endif %} btn btn-success" data-nonce="{{g.nonce}}" data-onclick="equip_hat(this, '{{hat.id}}', '{{hat.name}}')">Equip</button>
+
+							<button type="button" id="unequip-{{hat.id}}" class="unequip {% if hat.id not in v.equipped_hat_ids %}d-none{% endif %} btn btn-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this, '/unequip_hat/{{hat.id}}', 'equip-{{hat.id}}', 'unequip-{{hat.id}}', 'd-none')">Unequip</button>
 						</div>
 					</td>
 

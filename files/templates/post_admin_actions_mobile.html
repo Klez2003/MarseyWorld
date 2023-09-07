@@ -22,13 +22,14 @@
 						<button id="{{p.id}}-unsort-new-mobile" type="button" class="{% if not p.new %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-left text-primary" id="{{p.id}}-unsort-new-mobile" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this, '/post/{{p.id}}/hot', '{{p.id}}-unsort-new-mobile', '{{p.id}}-sort-new-mobile', 'd-none', 'null')" data-bs-dismiss="modal"><i class="fas fa-fire text-center text-primary mr-2"></i>Set Default Sort Hot</button>
 					{% endif %}
 					{% if v.admin_level >= PERMS['POST_COMMENT_DISTINGUISH'] %}
-					<button type="button" id="distinguish2-{{p.id}}" class="{% if p.distinguish_level %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-left text-primary" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/distinguish/{{p.id}}','distinguish2-{{p.id}}','undistinguish2-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-crown text-center text-primary mr-2"></i>Distinguish</button>
+						<button type="button" id="distinguish2-{{p.id}}" class="{% if p.distinguish_level %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-left text-primary" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/distinguish/{{p.id}}','distinguish2-{{p.id}}','undistinguish2-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-crown text-center text-primary mr-2"></i>Distinguish</button>
 
-					<button type="button" id="undistinguish2-{{p.id}}" class="{% if not p.distinguish_level %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-left text-primary" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/distinguish/{{p.id}}','distinguish2-{{p.id}}','undistinguish2-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-crown text-center text-primary mr-2"></i>Undistinguish</button>
+						<button type="button" id="undistinguish2-{{p.id}}" class="{% if not p.distinguish_level %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-left text-primary" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/distinguish/{{p.id}}','distinguish2-{{p.id}}','undistinguish2-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-crown text-center text-primary mr-2"></i>Undistinguish</button>
 					{% endif %}
 					{% if v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
 						<button type="button" id="pin2-{{p.id}}" class="{% if p.stickied and not p.stickied_utc %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-left text-primary" data-nonce="{{g.nonce}}" data-onclick="pinPost(this,'{{p.id}}')" data-bs-dismiss="modal"><i class="fas fa-thumbtack fa-rotate--45 text-center text-primary mr-2"></i>Pin {% if p.stickied_utc %}permanently{% else %}for 1 hour{% endif %}</button>
 						<button type="button" id="unpin2-{{p.id}}" class="{% if not p.stickied %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-left text-primary" data-nonce="{{g.nonce}}" data-onclick="unpinPost(this,'{{p.id}}')" data-bs-dismiss="modal"><i class="fas fa-thumbtack fa-rotate--45 text-center text-primary mr-2"></i>Unpin</button>
+
 						<button type="button" id="remove2-{{p.id}}" class="{% if p.is_banned %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-danger text-left" data-nonce="{{g.nonce}}" data-onclick="removePost(this,'{{p.id}}','remove2-{{p.id}}','approve2-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-ban text-center mr-2"></i>Remove</button>
 						<button type="button" id="approve2-{{p.id}}" class="{% if not p.is_banned and request.path != '/admin/reported/posts' %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-success text-left" data-nonce="{{g.nonce}}" data-onclick="approvePost(this,'{{p.id}}','remove2-{{p.id}}','approve2-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-check text-center mr-2"></i>Approve</button>
 					{% endif %}
@@ -41,14 +42,14 @@
 						<button type="button" id="unprogstack2-{{p.id}}" class="{% if p.is_approved != PROGSTACK_ID %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-left text-danger" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/admin/unprogstack/post/{{p.id}}','progstack2-{{p.id}}','unprogstack2-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-bullhorn text-center text-danger mr-2"></i>Remove Progressive Stack</button>
 					{% endif %}
 					{% if v.id != p.author_id and v.admin_level >= PERMS['USER_BAN'] %}
-						<button type="button" id="unban2-{{p.fullname}}" class="{% if not p.author.is_suspended %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-success text-left" data-nonce="{{g.nonce}}" data-onclick="unchud_or_unban(this,'/unban_user/{{p.fullname}}')" data-bs-dismiss="modal"><i class="fas fa-user-minus mr-2"></i>Unban user</button>
-
 						<button type="button" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#banModal" data-nonce="{{g.nonce}}" data-onclick="punishModal(this, 'ban', '/post/{{p.id}}', '{{p.author_name}}', '{{p.fullname}}')" class="nobackground btn btn-link btn-block btn-lg text-danger text-left {% if p.author.is_permabanned %}d-none{% endif %}"><i class="fas fa-user-minus mr-2"></i>Ban user</button>
+
+						<button type="button" id="unban2-{{p.fullname}}" class="{% if not p.author.is_suspended %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-success text-left" data-nonce="{{g.nonce}}" data-onclick="unchud_or_unban(this,'/unban_user/{{p.fullname}}')" data-bs-dismiss="modal"><i class="fas fa-user-minus mr-2"></i>Unban user</button>
 					{% endif %}
 					{% if v.id != p.author_id and v.admin_level >= PERMS['USER_CHUD'] %}
-						<button type="button" id="unchud2-{{p.fullname}}" class="{% if not p.author.chud %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-success text-left" data-nonce="{{g.nonce}}" data-onclick="unchud_or_unban(this,'/unchud_user/{{p.fullname}}')" data-bs-dismiss="modal"><i class="fas fa-face-sleeping mr-2"></i>Unchud user</button>
-
 						<button type="button" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#chudModal" data-nonce="{{g.nonce}}" data-onclick="punishModal(this, 'chud', '/post/{{p.id}}', '{{p.author_name}}', '{{p.fullname}}')" class="nobackground btn btn-link btn-block btn-lg text-danger text-left {% if p.author.chud == 1 %}d-none{% endif %}"><i class="fas fa-face-sleeping mr-2"></i>Chud user</button>
+
+						<button type="button" id="unchud2-{{p.fullname}}" class="{% if not p.author.chud %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-success text-left" data-nonce="{{g.nonce}}" data-onclick="unchud_or_unban(this,'/unchud_user/{{p.fullname}}')" data-bs-dismiss="modal"><i class="fas fa-face-sleeping mr-2"></i>Unchud user</button>
 					{% endif %}
 				</ul>
 			</div>

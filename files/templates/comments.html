@@ -387,9 +387,9 @@
 							<button type="button" class="btn caction py-0 nobackground px-1 text-muted" data-bs-toggle="modal" data-bs-target="#awardModal" data-url="/award/comment/{{c.id}}" data-ghost="{{c.ghost}}" data-nonce="{{g.nonce}}" {% if c.author.immune_to_awards(v) %}disabled{% endif %}><i class="fas fa-gift"></i>Give Award</button>
 							{%- endif %}
 
-							<button type="button" id="unsave-{{c.id}}" class="btn caction py-0 nobackground px-1 {% if c.id in v.saved_comment_idlist %}d-md-inline-block{% endif %} text-muted d-none" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unsave_comment/{{c.id}}','save-{{c.id}}','unsave-{{c.id}}','d-md-inline-block')"><i class="fas fa-save"></i>Unsave {% if c.num_savers %}<span data-bs-toggle="tooltip" data-bs-placement="bottom" title="Number of users who saved this comment">[{{c.num_savers}}]</span>{% endif %}</button>
-
 							<button type="button" id="save-{{c.id}}" class="btn caction py-0 nobackground px-1 {% if c.id not in v.saved_comment_idlist %}d-md-inline-block{% endif %} text-muted d-none" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/save_comment/{{c.id}}','save-{{c.id}}','unsave-{{c.id}}','d-md-inline-block')"><i class="fas fa-save"></i>Save {% if c.num_savers %}<span data-bs-toggle="tooltip" data-bs-placement="bottom" title="Number of users who saved this comment">[{{c.num_savers}}]</span>{% endif %}</button>
+
+							<button type="button" id="unsave-{{c.id}}" class="btn caction py-0 nobackground px-1 {% if c.id in v.saved_comment_idlist %}d-md-inline-block{% endif %} text-muted d-none" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unsave_comment/{{c.id}}','save-{{c.id}}','unsave-{{c.id}}','d-md-inline-block')"><i class="fas fa-save"></i>Unsave {% if c.num_savers %}<span data-bs-toggle="tooltip" data-bs-placement="bottom" title="Number of users who saved this comment">[{{c.num_savers}}]</span>{% endif %}</button>
 						{% endif %}
 
 						{% if v and (c.parent_post or c.wall_user_id) %}
@@ -400,9 +400,9 @@
 							{% endif %}
 
 							{% if c.author_id == v.id %}
-								<button type="button" id="undelete-{{c.id}}" class="btn caction py-0 nobackground px-1 text-muted {% if not c.deleted_utc %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/undelete/comment/{{c.id}}','delete-{{c.id}}','undelete-{{c.id}}','d-none')" data-toggleelement=".comment-{{c.id}}-only" data-toggleattr="deleted"><i class="fas fa-trash-alt fa-fw"></i>Undelete</button>
-
 								<button type="button" id="delete-{{c.id}}" class="btn caction py-0 nobackground px-1 text-muted {% if c.deleted_utc %}d-none{% endif %}" data-bs-toggle="modal" data-bs-target="#deleteCommentModal" data-nonce="{{g.nonce}}" data-onclick="delete_commentModal('{{c.id}}')"><i class="fas fa-trash-alt fa-fw"></i>Delete</button>
+
+								<button type="button" id="undelete-{{c.id}}" class="btn caction py-0 nobackground px-1 text-muted {% if not c.deleted_utc %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/undelete/comment/{{c.id}}','delete-{{c.id}}','undelete-{{c.id}}','d-none')" data-toggleelement=".comment-{{c.id}}-only" data-toggleattr="deleted"><i class="fas fa-trash-alt fa-fw"></i>Undelete</button>
 							{% endif %}
 						{% endif %}
 
@@ -415,14 +415,15 @@
 {% endif %}
 
 {% if v.admin_level >= PERMS['POST_COMMENT_DISTINGUISH'] %}
-	<button type="button" id="undistinguish-{{c.id}}" class="dropdown-item list-inline-item d-none {% if c.distinguish_level %}d-md-block{% endif %} text-info" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/distinguish_comment/{{c.id}}','distinguish-{{c.id}}','undistinguish-{{c.id}}','d-md-block')"><i class="fas fa-id-badge text-info fa-fw"></i>Undistinguish</button>
 	<button type="button" id="distinguish-{{c.id}}" class="dropdown-item list-inline-item d-none {% if not c.distinguish_level %}d-md-block{% endif %} text-info" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/distinguish_comment/{{c.id}}','distinguish-{{c.id}}','undistinguish-{{c.id}}','d-md-block')"><i class="fas fa-id-badge text-info fa-fw"></i>Distinguish</button>
+
+	<button type="button" id="undistinguish-{{c.id}}" class="dropdown-item list-inline-item d-none {% if c.distinguish_level %}d-md-block{% endif %} text-info" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/distinguish_comment/{{c.id}}','distinguish-{{c.id}}','undistinguish-{{c.id}}','d-md-block')"><i class="fas fa-id-badge text-info fa-fw"></i>Undistinguish</button>
 {% endif %}
 
 {% if v.id != c.author_id and not c.ghost %}
-	<button type="button" id="unblock-{{c.id}}" class="dropdown-item text-success list-inline-item {% if not c.is_blocking %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/settings/unblock?username={{c.author_name}}','block-{{c.id}}','unblock-{{c.id}}','d-none')"><i class="fas fa-eye text-success"></i>Unblock user</button>
-
 	<button type="button" id="block-{{c.id}}" class="dropdown-item list-inline-item text-danger {% if c.is_blocking %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/settings/block?username={{c.author_name}}','block-{{c.id}}','unblock-{{c.id}}','d-none')"><i class="fas fa-eye-slash text-danger"></i>Block user</button>
+
+	<button type="button" id="unblock-{{c.id}}" class="dropdown-item text-success list-inline-item {% if not c.is_blocking %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/settings/unblock?username={{c.author_name}}','block-{{c.id}}','unblock-{{c.id}}','d-none')"><i class="fas fa-eye text-success"></i>Unblock user</button>
 
 	{% if (c.is_notif and c.author_id != AUTOJANNY_ID) or request.path == '/notifications/messages' %}
 		<button type="button" id="mute-notifs-{{c.id}}" class="dropdown-item text-danger list-inline-item {% if v.has_muted(c.author) %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/mute_notifs/{{c.author.id}}','mute-notifs-{{c.id}}','unmute-notifs-{{c.id}}','d-none')"><i class="fas fa-bell-slash text-danger"></i>Mute notifications from user</button>
@@ -432,21 +433,21 @@
 {% endif %}
 
 {% if c.parent_post %}
-{% set url = "" %}
+	{% set url = "" %}
 
-{% if v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
-	{% set url = "sticky_comment" %}
-{% elif v.id == c.post.author_id %}
-	{% set url = "pin_comment" %}
-{% elif c.post.sub and v.mods(c.post.sub) %}
-	{% set url = "pin_comment_mod" %}
-{% endif %}
+	{% if v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
+		{% set url = "sticky_comment" %}
+	{% elif v.id == c.post.author_id %}
+		{% set url = "pin_comment" %}
+	{% elif c.post.sub and v.mods(c.post.sub) %}
+		{% set url = "pin_comment_mod" %}
+	{% endif %}
 
-{% if url != "" %}
-	<button type="button" id="unpin-{{c.id}}" class="dropdown-item list-inline-item {% if c.stickied %}d-md-block{% endif %} text-muted d-none text-info" data-bs-dismiss="modal" data-bs-target="#actionsModal-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/un{{url}}/{{c.id}}','pin-{{c.id}}','unpin-{{c.id}}','d-md-block')"><i class="fas fa-thumbtack fa-rotate--45 text-info fa-fw"></i>Unpin</button>
+	{% if url != "" %}
+		<button type="button" id="pin-{{c.id}}" class="dropdown-item list-inline-item {% if not c.stickied %}d-md-block{% endif %} text-muted d-none text-info" data-bs-dismiss="modal" data-bs-target="#actionsModal-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/{{url}}/{{c.id}}','pin-{{c.id}}','unpin-{{c.id}}','d-md-block')"><i class="fas fa-thumbtack fa-rotate--45 text-info fa-fw"></i>Pin</button>
 
-	<button type="button" id="pin-{{c.id}}" class="dropdown-item list-inline-item {% if not c.stickied %}d-md-block{% endif %} text-muted d-none text-info" data-bs-dismiss="modal" data-bs-target="#actionsModal-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/{{url}}/{{c.id}}','pin-{{c.id}}','unpin-{{c.id}}','d-md-block')"><i class="fas fa-thumbtack fa-rotate--45 text-info fa-fw"></i>Pin</button>
-{% endif %}
+		<button type="button" id="unpin-{{c.id}}" class="dropdown-item list-inline-item {% if c.stickied %}d-md-block{% endif %} text-muted d-none text-info" data-bs-dismiss="modal" data-bs-target="#actionsModal-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/un{{url}}/{{c.id}}','pin-{{c.id}}','unpin-{{c.id}}','d-md-block')"><i class="fas fa-thumbtack fa-rotate--45 text-info fa-fw"></i>Unpin</button>
+	{% endif %}
 {% endif %}
 
 
@@ -469,20 +470,20 @@
 {% endif %}
 
 {% if FEATURES['NSFW_MARKING'] and (c.parent_post or c.wall_user_id) and (c.author_id==v.id or v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or (c.post.sub and v.mods(c.post.sub))) %}
-	<button type="button" id="unmark-{{c.id}}" class="dropdown-item list-inline-item d-none {% if c.over_18 %}d-md-block{% endif %} text-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/toggle_comment_nsfw/{{c.id}}','mark-{{c.id}}','unmark-{{c.id}}','d-md-block')"><i class="fas fa-eye-evil text-success fa-fw"></i>Unmark +18</button>
 	<button type="button" id="mark-{{c.id}}" class="dropdown-item list-inline-item d-none {% if not c.over_18 %}d-md-block{% endif %} text-danger" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/toggle_comment_nsfw/{{c.id}}','mark-{{c.id}}','unmark-{{c.id}}','d-md-block')"><i class="fas fa-eye-evil text-danger fa-fw"></i>Mark +18</button>
+	<button type="button" id="unmark-{{c.id}}" class="dropdown-item list-inline-item d-none {% if c.over_18 %}d-md-block{% endif %} text-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/toggle_comment_nsfw/{{c.id}}','mark-{{c.id}}','unmark-{{c.id}}','d-md-block')"><i class="fas fa-eye-evil text-success fa-fw"></i>Unmark +18</button>
 {% endif %}
 
 {% if v.admin_level >= PERMS['USER_BAN'] and v.id != c.author_id %}
-	<button type="button" id="unban-{{c.fullname}}" class="dropdown-item list-inline-item d-mob-none {% if not c.author.is_suspended %}d-none{% endif %} text-success" data-nonce="{{g.nonce}}" data-onclick="unchud_or_unban(this,'/unban_user/{{c.fullname}}')"><i class="fas fa-user-slash text-success fa-fw"></i>Unban user</button>
-
 	<button type="button" class="{% if c.author.is_permabanned %}d-none{% endif %} dropdown-item list-inline-item d-mob-none text-danger" data-bs-toggle="modal" data-bs-target="#banModal" data-nonce="{{g.nonce}}" data-onclick="punishModal(this, 'ban', '/comment/{{c.id}}', '{{c.author_name}}', '{{c.fullname}}')"><i class="fas fa-user-slash text-danger fa-fw"></i>Ban user</button>
+
+	<button type="button" id="unban-{{c.fullname}}" class="dropdown-item list-inline-item d-mob-none {% if not c.author.is_suspended %}d-none{% endif %} text-success" data-nonce="{{g.nonce}}" data-onclick="unchud_or_unban(this,'/unban_user/{{c.fullname}}')"><i class="fas fa-user-slash text-success fa-fw"></i>Unban user</button>
 {% endif %}
 
 {% if v.admin_level >= PERMS['USER_CHUD'] and v.id != c.author_id %}
-	<button type="button" id="unchud-{{c.fullname}}" class="dropdown-item list-inline-item d-mob-none {% if not c.author.chud %}d-none{% endif %} text-success" data-nonce="{{g.nonce}}" data-onclick="unchud_or_unban(this,'/unchud_user/{{c.fullname}}')"><i class="fas fa-face-sleeping text-success fa-fw"></i>Unchud user</button>
-
 	<button type="button" class="{% if c.author.chud == 1 %}d-none{% endif %} dropdown-item list-inline-item d-mob-none text-danger" data-bs-toggle="modal" data-bs-target="#chudModal" data-nonce="{{g.nonce}}" data-onclick="punishModal(this, 'chud', '/comment/{{c.id}}', '{{c.author_name}}', '{{c.fullname}}')"><i class="fas fa-face-sleeping text-danger fa-fw"></i>Chud user</button>
+
+	<button type="button" id="unchud-{{c.fullname}}" class="dropdown-item list-inline-item d-mob-none {% if not c.author.chud %}d-none{% endif %} text-success" data-nonce="{{g.nonce}}" data-onclick="unchud_or_unban(this,'/unchud_user/{{c.fullname}}')"><i class="fas fa-face-sleeping text-success fa-fw"></i>Unchud user</button>
 {% endif %}
 
 							</ul>
@@ -592,24 +593,22 @@
 						{%- endif %}
 
 						<button type="button" id="save2-{{c.id}}" class="list-group-item {% if c.id in v.saved_comment_idlist %}d-none{% endif %}" data-bs-dismiss="modal" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/save_comment/{{c.id}}','save2-{{c.id}}','unsave2-{{c.id}}','d-none')"><i class="fas fa-save mr-2"></i>Save {% if c.num_savers %}<span data-bs-toggle="tooltip" data-bs-placement="bottom" title="Number of users who saved this comment">[{{c.num_savers}}]</span>{% endif %}</button>
-
 						<button type="button" id="unsave2-{{c.id}}" class="list-group-item {% if c.id not in v.saved_comment_idlist %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unsave_comment/{{c.id}}','save2-{{c.id}}','unsave2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-save mr-2"></i>Unsave {% if c.num_savers %}<span data-bs-toggle="tooltip" data-bs-placement="bottom" title="Number of users who saved this comment">[{{c.num_savers}}]</span>{% endif %}</button>
 
 						{% if c.author_id == v.id %}
 							<button type="button" data-bs-dismiss="modal" data-nonce="{{g.nonce}}" data-onclick="toggleEdit('{{c.id}}')" class="list-group-item"><i class="fas fa-edit mr-2"></i>Edit</button>
 
-							<button type="button" id="undelete2-{{c.id}}" class="{% if not c.deleted_utc %}d-none{% endif %} list-group-item text-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/undelete/comment/{{c.id}}', 'delete2-{{c.id}}', 'undelete2-{{c.id}}','d-none')" data-toggleelement=".comment-{{c.id}}-only" data-toggleattr="deleted" data-bs-dismiss="modal"><i class="fas fa-trash-alt text-success mr-2"></i>Undelete</button>
-
 							<button type="button" id="delete2-{{c.id}}" class="{% if c.deleted_utc %}d-none{% endif %} list-group-item text-danger" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#deleteCommentModal" data-nonce="{{g.nonce}}" data-onclick="delete_commentModal('{{c.id}}')"><i class="fas fa-trash-alt text-danger mr-2"></i>Delete</button>
+							<button type="button" id="undelete2-{{c.id}}" class="{% if not c.deleted_utc %}d-none{% endif %} list-group-item text-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/undelete/comment/{{c.id}}', 'delete2-{{c.id}}', 'undelete2-{{c.id}}','d-none')" data-toggleelement=".comment-{{c.id}}-only" data-toggleattr="deleted" data-bs-dismiss="modal"><i class="fas fa-trash-alt text-success mr-2"></i>Undelete</button>
 						{% else %}
 							{% if c.body %}
 								<button type="button" data-bs-dismiss="modal" data-nonce="{{g.nonce}}" data-onclick="expandMarkdown('{{c.fullname}}')" class="list-group-item"><i class="fas text-expand-icon-{{c.fullname}} fa-expand-alt mr-2"></i><span class="expand-text-{{c.fullname}}">View source</span></button>
 							{% endif %}
 
 							{% if not c.ghost %}
-								<button type="button" id="unblock2-{{c.id}}" data-bs-dismiss="modal" class="text-success list-group-item {% if not c.is_blocking %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/settings/unblock?username={{c.author_name}}','block2-{{c.id}}','unblock2-{{c.id}}','d-none')"><i class="fas fa-eye text-success mr-2"></i>Unblock user</button>
-
 								<button type="button" id="block2-{{c.id}}" class="{% if c.is_blocking %}d-none{% endif %} list-group-item text-danger" data-areyousure="postToastSwitch(this,'/settings/block?username={{c.author_name}}','block2-{{c.id}}','unblock2-{{c.id}}','d-none')" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)" data-dismiss="modal"><i class="fas fa-eye-slash fa-fw text-danger mr-2"></i>Block user</button>
+
+								<button type="button" id="unblock2-{{c.id}}" data-bs-dismiss="modal" class="text-success list-group-item {% if not c.is_blocking %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/settings/unblock?username={{c.author_name}}','block2-{{c.id}}','unblock2-{{c.id}}','d-none')"><i class="fas fa-eye text-success mr-2"></i>Unblock user</button>
 
 								{% if (c.is_notif and c.author_id != AUTOJANNY_ID) or request.path == '/notifications/messages' %}
 									<button type="button" id="mute-notifs2-{{c.id}}" class="{% if v.has_muted(c.author) %}d-none{% endif %} list-group-item text-danger" data-areyousure="postToastSwitch(this,'/mute_notifs/{{c.author.id}}','mute-notifs2-{{c.id}}','unmute-notifs2-{{c.id}}','d-none')" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)" data-dismiss="modal"><i class="fas fa-bell-slash fa-fw text-danger mr-2"></i>Mute notifications from user</button>
@@ -621,6 +620,7 @@
 
 						{% if FEATURES['NSFW_MARKING'] and (c.author_id == v.id or (c.post.sub and v.mods(c.post.sub))) %}
 							<button type="button" id="mark2-{{c.id}}" class="{% if c.over_18 %}d-none{% endif %} list-group-item text-danger" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/toggle_comment_nsfw/{{c.id}}','mark2-{{c.id}}','unmark2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-eye-evil text-danger mr-2"></i>Mark +18</button>
+
 							<button type="button" id="unmark2-{{c.id}}" class="{% if not c.over_18 %}d-none{% endif %} list-group-item text-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/toggle_comment_nsfw/{{c.id}}','mark2-{{c.id}}','unmark2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-eye-evil text-success mr-2"></i>Unmark +18</button>
 						{% endif %}
 
@@ -696,15 +696,13 @@
 						{% endif %}
 
 						{% if v.id != c.author_id and v.admin_level >= PERMS['USER_BAN'] %}
-							<button type="button" id="unban2-{{c.fullname}}" class="{% if not c.author.is_suspended %}d-none{% endif %} list-group-item text-success" data-nonce="{{g.nonce}}" data-onclick="unchud_or_unban(this,'/unban_user/{{c.fullname}}')" data-bs-dismiss="modal"><i class="fas fa-user-minus fa-fw text-success mr-2"></i>Unban user</button>
-
 							<button type="button" class="list-group-item text-danger {% if c.author.is_permabanned %}d-none{% endif %}" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#banModal" data-nonce="{{g.nonce}}" data-onclick="punishModal(this, 'ban', '/comment/{{c.id}}', '{{c.author_name}}', '{{c.fullname}}')"><i class="fas fa-user-slash text-danger fa-fw mr-2"></i>Ban user</button>
+							<button type="button" id="unban2-{{c.fullname}}" class="{% if not c.author.is_suspended %}d-none{% endif %} list-group-item text-success" data-nonce="{{g.nonce}}" data-onclick="unchud_or_unban(this,'/unban_user/{{c.fullname}}')" data-bs-dismiss="modal"><i class="fas fa-user-minus fa-fw text-success mr-2"></i>Unban user</button>
 						{% endif %}
 
 						{% if v.id != c.author_id and v.admin_level >= PERMS['USER_CHUD'] %}
-							<button type="button" id="unchud2-{{c.fullname}}" class="{% if not c.author.chud %}d-none{% endif %} list-group-item text-success" data-nonce="{{g.nonce}}" data-onclick="unchud_or_unban(this,'/unchud_user/{{c.fullname}}')" data-bs-dismiss="modal"><i class="fas fa-face-sleeping fa-fw text-success mr-2"></i>Unchud user</button>
-
 							<button type="button" class="list-group-item text-danger {% if c.author.chud == 1 %}d-none{% endif %}" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#chudModal" data-nonce="{{g.nonce}}" data-onclick="punishModal(this, 'chud', '/comment/{{c.id}}', '{{c.author_name}}', '{{c.fullname}}')"><i class="fas fa-face-sleeping text-danger fa-fw mr-2"></i>Chud user</button>
+							<button type="button" id="unchud2-{{c.fullname}}" class="{% if not c.author.chud %}d-none{% endif %} list-group-item text-success" data-nonce="{{g.nonce}}" data-onclick="unchud_or_unban(this,'/unchud_user/{{c.fullname}}')" data-bs-dismiss="modal"><i class="fas fa-face-sleeping fa-fw text-success mr-2"></i>Unchud user</button>
 						{% endif %}
 
 						{% if v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
