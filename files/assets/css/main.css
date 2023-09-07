@@ -2473,6 +2473,10 @@ a.bg-light:hover, a.bg-light:focus, button.bg-light:hover, button.bg-light:focus
 	margin-left: 0.5rem !important;
 }
 
+.mr-25 {
+	margin-right: 0.8rem !important;
+}
+
 .m-3 {
 	margin: 1rem !important;
 }

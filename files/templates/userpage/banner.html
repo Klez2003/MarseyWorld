@@ -176,6 +176,12 @@
 								{%- endif %}
 
 								<button type="button" class="btn btn-danger" data-nonce="{{g.nonce}}" data-onclick="postToastReload(this,'/settings/block?username={{u.username}}')">Block</button>
+
+								{% if u.id != AUTOJANNY_ID %}
+									<button type="button" id="mute-notifs" class="btn btn-danger {% if v.has_muted(u) %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/mute_notifs/{{u.id}}','mute-notifs','unmute-notifs','d-none')">Mute notifications from user</button>
+
+									<button type="button" id="unmute-notifs" class="btn btn-success {% if not v.has_muted(u) %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unmute_notifs/{{u.id}}','mute-notifs','unmute-notifs','d-none')">Unmute notifications from user</button>
+								{% endif %}
 							</div>
 						</div>
 						<form class="d-none toggleable" id="message" action="/@{{u.username}}/message" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendMessage(this)">
@@ -464,6 +470,12 @@
 						{%- endif %}
 
 						<button type="button" class="btn btn-danger" data-nonce="{{g.nonce}}" data-onclick="postToastReload(this,'/settings/block?username={{u.username}}')">Block</button>
+
+						{% if u.id != AUTOJANNY_ID %}
+							<button type="button" id="mute-notifs2" class="btn btn-danger {% if v.has_muted(u) %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/mute_notifs/{{u.id}}','mute-notifs2','unmute-notifs2','d-none')">Mute notifications from user</button>
+
+							<button type="button" id="unmute-notifs2" class="btn btn-success {% if not v.has_muted(u) %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unmute_notifs/{{u.id}}','mute-notifs2','unmute-notifs2','d-none')">Unmute notifications from user</button>
+						{% endif %}
 					{% endif %}
 				</div>
 
