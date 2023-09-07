@@ -1,6 +1,7 @@
 import time
 
 from sqlalchemy.sql import func
+from sqlalchemy.sql.sqltypes import *
 from flask import g
 
 from files.helpers.config.const import *
@@ -30,7 +31,7 @@ def apply_time_filter(t, objects, cls):
 def sort_objects(sort, objects, cls):
 	if sort == 'hot':
 		if not (SITE == 'watchpeopledie.tv' and g.v and g.v.id == GTIX_ID):
-			objects = objects.order_by(cls.is_banned, cls.deleted_utc)
+			objects = objects.order_by(func.cast(cls.is_banned, Boolean), func.cast(cls.deleted_utc, Boolean))
 
 		ti = int(time.time()) + 3600
 		metric = cls.realupvotes + 1
