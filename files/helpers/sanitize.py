@@ -798,8 +798,8 @@ def normalize_url(url):
 	return url
 
 def validate_css(css):
-	if '@' in css:
-		return False, "CSS @ statements are not allowed!"
+	if '@import' in css:
+		return False, "CSS @import statements are not allowed!"
 
 	if '/*' in css:
 		return False, "CSS comments are not allowed!"
