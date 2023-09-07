@@ -1019,6 +1019,17 @@ CREATE TABLE public.userblocks (
 
 
 --
+-- Name: usermutes; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.usermutes (
+    user_id integer NOT NULL,
+    target_id integer NOT NULL,
+    created_utc integer
+);
+
+
+--
 -- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -1526,6 +1537,14 @@ ALTER TABLE ONLY public.userblocks
 
 
 --
+-- Name: usermutes usermutes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.usermutes
+    ADD CONSTRAINT usermutes_pkey PRIMARY KEY (user_id, target_id);
+
+
+--
 -- Name: users users_original_username_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1977,6 +1996,13 @@ CREATE INDEX modaction_id_idx ON public.modactions USING btree (id DESC);
 --
 
 CREATE INDEX modaction_pid_idx ON public.modactions USING btree (target_post_id);
+
+
+--
+-- Name: mute_target_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX mute_target_idx ON public.usermutes USING btree (target_id);
 
 
 --
@@ -2650,6 +2676,22 @@ ALTER TABLE ONLY public.modactions
 
 ALTER TABLE ONLY public.modactions
     ADD CONSTRAINT modactions_user_fkey FOREIGN KEY (target_user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: usermutes mute_target_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.usermutes
+    ADD CONSTRAINT mute_target_fkey FOREIGN KEY (target_id) REFERENCES public.users(id);
+
+
+--
+-- Name: usermutes mute_user_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.usermutes
+    ADD CONSTRAINT mute_user_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
 
 
 --
