@@ -66,7 +66,7 @@ def selected_tab(request):
 		if hasattr(g, 'v') and g.v and g.v.defaultsorting == 'new' and requested_sort == 'hot':
 			return 'hot'
 		elif requested_sort == 'new':
-			return 'new' 
+			return 'new'
 	elif request.path == '/comments':
 		return 'comments'
 	elif request.path == '/casino':

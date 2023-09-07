@@ -64,7 +64,7 @@
 @media (max-width: 768px) {
 	.wholesome {animation: sealX 6s alternate}
 	.wholesome img {animation: sealY 7s alternate}
-	.train, .scooter {animation: train 6s;}	
+	.train, .scooter {animation: train 6s;}
 }
 
 /*confetti*/

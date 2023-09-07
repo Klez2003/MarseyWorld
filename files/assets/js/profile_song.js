@@ -74,7 +74,7 @@ else
 			play_audio(audio);
 			document.addEventListener('click', (e) => {
 				if (e.target.id.startsWith("toggle-anthem"))
-					return	
+					return
 				if (audio.paused) play_audio(audio);
 			}, {once : true});
 		}

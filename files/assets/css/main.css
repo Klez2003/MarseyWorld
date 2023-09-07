@@ -214,7 +214,7 @@
 .fa-ankh:before{content:"\f644"}
 .fa-quotes:before{content:"\e234"}
 
-/* do not remove - fixes hand, talking, marsey-love components 
+/* do not remove - fixes hand, talking, marsey-love components
 	from breaking out of the comment box
 */
 .comment-text a > img, img[data-user-submitted], .preview > img {
@@ -7098,7 +7098,7 @@ div.markdown {
 		height: 100% !important;
 		width: 100% !important;
 		max-width: 100vw !important;
-	}	
+	}
 }
 
 .user-signature video {
@@ -7489,7 +7489,7 @@ button, .btn {
 	margin-bottom: 10px;
 	width: 250px;
 	height: 150px;
-	background-size: contain !important;	
+	background-size: contain !important;
 	background-repeat: no-repeat !important;
 }
 
@@ -7528,7 +7528,7 @@ button, .btn {
 	}
 	.chud-5:after {
 		height: 65px;
-	}	
+	}
 }
 
 #cursormarsey {
@@ -7633,7 +7633,7 @@ button, .btn {
 	15% {transform: scale(1);}
 	50% {transform: scale(0.8);}
 	100% {transform: scale(0.8);}
-}		
+}
 
 #cursormarsey-heart {
 	animation: animateHeart 0.3s infinite;

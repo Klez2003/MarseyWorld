@@ -78,7 +78,7 @@
 			<div class="d-flex align-items-center">
 				{% set pcolor = "primary" if pins else "secondary" %}
 				<form action="/toggle_pins/{{sub}}/{{sort}}" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHRReload(this)">
-					<button type="submit" class="btn btn-{{pcolor}} text-{{pcolor}} mx-2"><i type="submit" class="fas fas fa-thumbtack fa-rotate--45 mr-2"></i>Pins</button>					
+					<button type="submit" class="btn btn-{{pcolor}} text-{{pcolor}} mx-2"><i type="submit" class="fas fas fa-thumbtack fa-rotate--45 mr-2"></i>Pins</button>
 				</form>
 
 				{%- import 'util/macros.html' as macros with context -%}

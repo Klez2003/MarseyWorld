@@ -67,7 +67,7 @@ function replace_image(match, prefix, url) {
 
 const MODIFIERS = {
 	PAT: 1,
-	TALKING: 2, 
+	TALKING: 2,
 	LARGE: 3,
 	REVERSED: 4,
 	USER: 5,
@@ -90,7 +90,7 @@ const findAllEmoteEndings = (word) => {
 			currEndings.push(MODIFIERS.PAT);
 			continue;
 		}
-	
+
 		if(currWord.endsWith('talking')) {
 			if(currEndings.indexOf(MODIFIERS.TALKING) !== -1) {
 				hasReachedNonModifer = true;
@@ -100,7 +100,7 @@ const findAllEmoteEndings = (word) => {
 			currEndings.push(MODIFIERS.TALKING);
 			continue;
 		}
-	
+
 		if(currWord.endsWith('genocide')) {
 			if(currEndings.indexOf(MODIFIERS.GENOCIDE) !== -1) {
 				hasReachedNonModifer = true;
@@ -123,7 +123,7 @@ const findAllEmoteEndings = (word) => {
 
 		hasReachedNonModifer = true;
 	}
-	
+
 
 	return [currEndings, currWord];
 }
@@ -161,9 +161,9 @@ function markdown(t) {
 			if (old.includes('marseyrandom')) continue;
 						if (old.includes('marseyrandom')) continue
 			let emoji = old.replace(/[:]/g,'').toLowerCase();
-			
+
 			const modifiers = new Set();
-			
+
 			let length = emoji.length;
 			if(emoji.includes('!!')) modifiers.add(MODIFIERS.REVERSED_MODIFIER);
 			emoji = emoji.replaceAll('!', '');
@@ -180,13 +180,13 @@ function markdown(t) {
 			const isTalkingFirst = endingModifiers.indexOf(MODIFIERS.PAT) > endingModifiers.indexOf(MODIFIERS.TALKING);
 
 			endingModifiers.forEach(modifiers.add, modifiers)
-			
+
 			if (emoji.startsWith('@')) {
 				emoji = emoji.slice(1);
 				modifiers.add(MODIFIERS.USER);
 			}
-			
-			
+
+
 			if (emoji === 'marseyunpettable') {
 				modifiers.delete(MODIFIERS.PAT);
 				if (!isTalkingFirst) {

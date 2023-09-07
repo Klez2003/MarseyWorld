@@ -496,13 +496,13 @@ function handle_files(input, newfiles) {
 	if (!oldfiles[ta.id]) {
 		oldfiles[ta.id] = new DataTransfer();
 	}
-		
+
 	for (const file of newfiles) {
 		oldfiles[ta.id].items.add(file);
 	}
 	input.files = oldfiles[ta.id].files;
 
-	
+
 	if (input.files.length > 20)
 	{
 		window.alert("You can't upload more than 20 files at one time!")
@@ -518,9 +518,9 @@ function handle_files(input, newfiles) {
 
 	autoExpand(ta)
 
-	if (typeof checkForRequired === "function") 
+	if (typeof checkForRequired === "function")
 		checkForRequired();
-	if (typeof savetext === "function") 
+	if (typeof savetext === "function")
 		savetext();
 	if (typeof submit_save_files === "function") {
 		const array = []
@@ -631,7 +631,7 @@ if (screen_width <= 768) {
 		object = expandImageModal
 	if (gbrowser != 'iphone')
 		object = document
-	
+
 	if (object) {
 		object.addEventListener('shown.bs.modal', function (e) {
 			location.hash = `m-${e.target.id}`;
@@ -642,7 +642,7 @@ if (screen_width <= 768) {
 				history.back();
 			}
 		});
-		
+
 		addEventListener('hashchange', function () {
 			if (!location.hash.startsWith("#m-")) {
 				const curr_modal = bootstrap.Modal.getInstance(document.getElementsByClassName('show')[0])

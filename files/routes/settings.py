@@ -170,7 +170,7 @@ def settings_personal_post(v):
 		if v.spider: badge_grant(user=v, badge_id=179)
 		else:
 			badge = v.has_badge(179)
-			if badge: 
+			if badge:
 				g.db.delete(badge)
 
 	elif not updated and request.values.get("cursormarsey", v.cursormarsey) != v.cursormarsey:

@@ -25,7 +25,7 @@ def apply_time_filter(t, objects, cls):
 		return objects
 
 	return objects.filter(cls.created_utc >= cutoff)
-	
+
 
 def sort_objects(sort, objects, cls):
 	if sort == 'hot':

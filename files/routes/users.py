@@ -34,7 +34,7 @@ def _add_profile_view(vid, uid):
 	if view: view.last_view_utc = int(time.time())
 	else: view = ViewerRelationship(viewer_id=vid, user_id=uid)
 	db.add(view)
-		
+
 	try:
 		db.commit()
 	except IntegrityError as e:
@@ -155,7 +155,7 @@ def upvoters_downvoters(v, username, username2, cls, vote_cls, vote_dir, templat
 	u = get_user(username, v=v)
 	if not u.is_visible_to(v): abort(403)
 	id = u.id
-	
+
 	uid = get_user(username2, id_only=True).id
 
 	page = get_page()
@@ -919,7 +919,7 @@ def muting(v, username):
 		.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE ).all()
 
 	return render_template("userpage/muting.html", v=v, u=u, users=users, page=page, total=total)
-	
+
 @app.get("/@<username>/followers")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)

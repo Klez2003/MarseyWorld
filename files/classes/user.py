@@ -382,7 +382,7 @@ class User(Base):
 			return True
 		if self.new_user:
 			return True
-		return False 
+		return False
 
 	@property
 	@lazy
@@ -885,7 +885,7 @@ class User(Base):
 	@lazy
 	def group_memberships(self):
 		return [x[0] for x in g.db.query(GroupMembership.group_name).filter(
-				GroupMembership.user_id == self.id, 
+				GroupMembership.user_id == self.id,
 				GroupMembership.approved_utc != None,
 			).order_by(GroupMembership.group_name)]
 

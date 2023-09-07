@@ -279,7 +279,7 @@ function submit_restore_files(kind, id) {
 				oldfiles["post-text"] = new DataTransfer();
 				for (const file of files) {
 					oldfiles["post-text"].items.add(file);
-				}	
+				}
 			}
 		};
 	}

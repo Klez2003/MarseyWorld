@@ -290,7 +290,7 @@ ta.addEventListener("input", function() {
 	else if (text && !is_typing) {
 		is_typing = true;
 		socket.emit('typing', true);
-		timer_id = setTimeout(remove_typing, 2000);	
+		timer_id = setTimeout(remove_typing, 2000);
 	}
 })
 

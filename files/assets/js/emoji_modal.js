@@ -522,7 +522,7 @@ function insertGhostDivs(element) {
 		i.after(pseudo_div);
 		i.addEventListener('input', update_speed_emoji_modal, false);
 		i.addEventListener('keydown', speed_carot_navigate, false);
-	});	
+	});
 }
 
 function loadEmojis(inputTargetIDName)

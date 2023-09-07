@@ -235,7 +235,7 @@ def find_all_emote_endings(word):
 			endings.append('pat')
 			word = word[:-3]
 			continue
-		
+
 		if word.endswith('talking'):
 			if 'talking' in endings:
 				is_non_ending_found = True
@@ -251,7 +251,7 @@ def find_all_emote_endings(word):
 			endings.append('genocide')
 			word = word[:-8]
 			continue
-		
+
 		if word.endswith('love'):
 			if 'love' in endings:
 				is_non_ending_found = True
@@ -261,7 +261,7 @@ def find_all_emote_endings(word):
 			continue
 
 		is_non_ending_found = True
-	
+
 	return endings, word
 
 
@@ -312,17 +312,17 @@ def render_emoji(html, regexp, golden, emojis_used, b=False, is_title=False):
 
 		hand_html = f'<img loading="lazy" src="{SITE_FULL_IMAGES}/i/hand.webp">' if is_patted and emoji != 'marseyunpettable' else ''
 		talking_html = f'<img loading="lazy" src="{SITE_FULL_IMAGES}/i/talking.webp">' if is_talking else ''
-		loved_html = f'<img loading="lazy" src="{SITE_FULL_IMAGES}/i/love-foreground.webp" alt=":{old}:" {attrs}><img loading="lazy" alt=":{old}:" src="{SITE_FULL_IMAGES}/i/love-background.webp" {attrs}>'		
+		loved_html = f'<img loading="lazy" src="{SITE_FULL_IMAGES}/i/love-foreground.webp" alt=":{old}:" {attrs}><img loading="lazy" alt=":{old}:" src="{SITE_FULL_IMAGES}/i/love-background.webp" {attrs}>'
 		genocide_attr = ' cide' if is_genocided else ''
-		
+
 		modifier_html = ''
 		if (is_talking and is_patted):
-			modifier_html = f'{talking_html}{hand_html}' if is_talking_first else f'{hand_html}{talking_html}' 
-		elif (is_patted): 
+			modifier_html = f'{talking_html}{hand_html}' if is_talking_first else f'{hand_html}{talking_html}'
+		elif (is_patted):
 			modifier_html = hand_html
 		elif (is_talking):
 			modifier_html = talking_html
-		
+
 		if(is_loved):
 			modifier_html = f'{modifier_html}{loved_html}'
 
@@ -506,7 +506,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 				a.string = tag["src"]
 				tag.replace_with(a)
 				continue
-			
+
 			del tag["g"]
 			del tag["glow"]
 			del tag["party"]
@@ -570,7 +570,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 
 	allowed_css_properties = allowed_styles.copy()
 	if g.v and g.v.chud:
-		allowed_css_properties.remove('filter')		
+		allowed_css_properties.remove('filter')
 
 	css_sanitizer = CSSSanitizer(allowed_css_properties=allowed_css_properties)
 	sanitized = bleach.Cleaner(tags=allowed_tags,
@@ -723,7 +723,7 @@ def filter_emojis_only(title, golden=True, count_emojis=False):
 
 	if len(title) > POST_TITLE_HTML_LENGTH_LIMIT:
 		abort(400, "Rendered title is too big!")
-	
+
 	title = title.strip()
 
 	return title

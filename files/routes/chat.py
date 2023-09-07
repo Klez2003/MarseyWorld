@@ -237,7 +237,7 @@ def disconnect(v):
 			val.remove(v.username)
 
 	refresh_online()
-	
+
 	return '', 204
 
 @socketio.on('typing')

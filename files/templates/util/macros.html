@@ -247,12 +247,12 @@
 			<div class="text-muted chat-line-content">
 				<div class="{% if not (m and m.quotes) %}d-none{% endif %} quotes" style="font-size:12px">
 					<a class="QuotedMessageLink" {% if m and m.quotes %}href="#{{m.quotes}}"{% endif %}>
-						<i class="fas fa-reply"></i> 
+						<i class="fas fa-reply"></i>
 						<span class="text-primary">@<span class="QuotedUser">
 							{%- if quote_exists -%}
 								{{messages[m.quotes].username}}
 							{%- endif -%}
-						</span></span>: 
+						</span></span>:
 						<em class="QuotedMessage text-break">
 							{%- if quote_exists -%}
 								{%- if v.slurreplacer -%}

@@ -35,15 +35,15 @@
 		<input hidden id="IMAGE_FORMATS" value="{{IMAGE_FORMATS}}">
 		<input hidden id="approved_embed_hosts" value="{{approved_embed_hosts}}">
 		<input hidden id="SITE_FULL_IMAGES" value="{{SITE_FULL_IMAGES}}">
-		
+
 		{% if v %}
 			<input hidden id="MAX_IMAGE_AUDIO_SIZE_MB" value="{{MAX_IMAGE_AUDIO_SIZE_MB}}">
 			<input hidden id="MAX_IMAGE_AUDIO_SIZE_MB_PATRON" value="{{MAX_IMAGE_AUDIO_SIZE_MB_PATRON}}">
 			<input hidden id="MAX_VIDEO_SIZE_MB" value="{{MAX_VIDEO_SIZE_MB}}">
-			<input hidden id="MAX_VIDEO_SIZE_MB_PATRON" value="{{MAX_VIDEO_SIZE_MB_PATRON}}">			
+			<input hidden id="MAX_VIDEO_SIZE_MB_PATRON" value="{{MAX_VIDEO_SIZE_MB_PATRON}}">
 		{% endif %}
 
-		<script src="{{'js/top.js' | asset}}"></script>	
+		<script src="{{'js/top.js' | asset}}"></script>
 		{% block body required %}{% endblock %}
 		{{html_head.stylesheets_lower()}}
 		<script defer src="{{'js/bottom.js' | asset}}"></script>
@@ -63,6 +63,6 @@
 			<div class="toast-body bg-danger text-center text-white">
 				<i class="fas fa-exclamation-circle mr-2"></i><span id="toast-post-error-text">Error, please try again later.</span>
 			</div>
-		</div>		
+		</div>
 	</body>
 </html>
