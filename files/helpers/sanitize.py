@@ -53,7 +53,7 @@ TLDS = ( # Original gTLDs and ccTLDs
 
 allowed_tags = ('a','audio','b','big','blockquote','br','center','code','del','details','em','g','h1','h2','h3','h4','h5','h6','hr','i','img','li','lite-youtube','marquee','ol','p','pre','rp','rt','ruby','small','span','spoiler','strike','strong','sub','summary','sup','table','tbody','td','th','thead','tr','u','ul','video')
 
-allowed_styles = ['background-color', 'color', 'filter', 'font-weight', 'text-align']
+allowed_styles = ['background-color', 'color', 'filter', 'font-weight', 'text-align', 'transform']
 
 def allowed_attributes(tag, name, value):
 
