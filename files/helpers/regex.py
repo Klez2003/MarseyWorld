@@ -129,6 +129,7 @@ twitch_regex = re.compile('(https:\/\/)?(www\.)?twitch.tv\/(.*)', flags=re.I|re.
 link_fix_regex = re.compile("(\[.*?\]\()(?!http|\/)(.*?\))" + NOT_IN_CODE_OR_LINKS, flags=re.A)
 
 css_url_regex = re.compile('url\(\s*[\'"]?([^\'"]*)', flags=re.I|re.A)
+css_url2_regex = re.compile('(http[^\s]*)', flags=re.I|re.A)
 
 linefeeds_regex = re.compile("([^\n])\n([^\n])", flags=re.A)
 
