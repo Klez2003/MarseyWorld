@@ -6,7 +6,7 @@
 		<link rel="stylesheet" href="{{('css/transparent.css') | asset}}">
 	{% endif %}
 	{% if u and (u.profilecss or u.profile_background) and not request.values.get('nocss') and u.can_see_my_shit %}
-		<link rel="stylesheet" href="/{{u.id}}/profilecss">
+		<link rel="stylesheet" href="/@{{u.username}}/profilecss">
 	{% endif %}
 {% endblock %}
 {% block content %}

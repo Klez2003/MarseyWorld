@@ -33,7 +33,7 @@ def get_id(username, graceful=False):
 
 	return user[0]
 
-def get_user(username, v=None, graceful=False, include_blocks=False, id_only=False):
+def get_user(username, v=None, graceful=False, include_blocks=False, attributes=None):
 	if not username:
 		if graceful: return None
 		abort(400, "Empty username.")
@@ -42,7 +42,7 @@ def get_user(username, v=None, graceful=False, include_blocks=False, id_only=Fal
 	if not username:
 		if graceful: return None
 		abort(400, "Empty username.")
-\
+
 	user = g.db.query(
 		User
 		).filter(
@@ -53,8 +53,8 @@ def get_user(username, v=None, graceful=False, include_blocks=False, id_only=Fal
 			)
 		)
 
-	if id_only:
-		user = user.options(load_only(User.id))
+	if attributes:
+		user = user.options(load_only(*attributes))
 
 	user = user.one_or_none()
 

@@ -156,7 +156,7 @@ def upvoters_downvoters(v, username, username2, cls, vote_cls, vote_dir, templat
 	if not u.is_visible_to(v): abort(403)
 	id = u.id
 
-	uid = get_user(username2, id_only=True).id
+	uid = get_user(username2, attributes=[User.id]).id
 
 	page = get_page()
 
@@ -219,7 +219,7 @@ def upvoting_downvoting(v, username, username2, cls, vote_cls, vote_dir, templat
 	if not u.is_visible_to(v): abort(403)
 	id = u.id
 
-	uid = get_user(username2, id_only=True).id
+	uid = get_user(username2, attributes=[User.id]).id
 
 	page = get_page()
 
@@ -522,10 +522,13 @@ def leaderboard_cached(v):
 def leaderboard(v):
 	return render_template("leaderboard.html", v=v, leaderboard_cached=leaderboard_cached(v))
 
-@app.get("/<int:id>/css")
+@app.get("/@<username>/css")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-def get_css(id):
-	css, bg = g.db.query(User.css, User.background).filter_by(id=id).one_or_none()
+def get_css(username):
+	user = get_user(username, attributes=[User.css, User.background])
+
+	css = user.css
+	bg = user.background
 
 	if bg:
 		if not css: css = ''
@@ -543,10 +546,13 @@ def get_css(id):
 	resp.headers["Content-Type"] = "text/css"
 	return resp
 
-@app.get("/<int:id>/profilecss")
+@app.get("/@<username>/profilecss")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-def get_profilecss(id):
-	css, bg = g.db.query(User.profilecss, User.profile_background).filter_by(id=id).one_or_none()
+def get_profilecss(username):
+	user = get_user(username, attributes=[User.profilecss, User.profile_background])
+
+	css = user.profilecss
+	bg = user.profile_background
 
 	if bg:
 		if not css: css = ''

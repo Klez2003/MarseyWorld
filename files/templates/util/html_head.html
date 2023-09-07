@@ -109,7 +109,7 @@
 			{% endif %}
 			<link rel="stylesheet" href="{{('css/'~v.theme~'.css') | asset}}">
 			{% if (v.css or v.background) and not request.path.startswith('/settings') %}
-				<link rel="stylesheet" href="/{{v.id}}/css">
+				<link rel="stylesheet" href="/@{{v.username}}/css">
 			{% endif %}
 			{% if v.themecolor == '30409f' %}
 				<link rel="stylesheet" href="{{('css/30409f.css') | asset}}">
