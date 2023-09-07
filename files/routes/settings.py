@@ -654,7 +654,7 @@ def settings_security(v):
 @app.get("/settings/blocks")
 @auth_required
 def settings_blocks(v):
-	return render_template("settings/blocks.html", v=v)
+	return redirect(f'/@{v.username}/blocking')
 
 @app.post("/settings/block")
 @limiter.limit('1/second', scope=rpath)
