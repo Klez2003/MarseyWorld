@@ -804,8 +804,7 @@ def validate_css(css):
 	if '/*' in css:
 		return False, "CSS comments are not allowed!"
 
-	matches = list(css_url_regex.finditer(css)) + list(css_url2_regex.finditer(css))
-	for i in matches:
+	for i in css_url_regex.finditer(css):
 		url = i.group(1)
 		if not is_safe_url(url):
 			domain = tldextract.extract(url).registered_domain
