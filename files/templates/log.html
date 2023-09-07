@@ -1,22 +1,6 @@
 {% extends "default.html" %}
 {% block pagetitle %}Moderation Log{% endblock %}
 {% block content %}
-{% if v %}
-	<link rel="stylesheet" href="{{'css/main.css' | asset}}">
-	{% if v.theme == 'classic_dark' %}
-		<link rel="stylesheet" href="{{('css/classic.css') | asset}}">
-	{% endif %}
-	<link rel="stylesheet" href="{{('css/'~v.theme~'.css') | asset}}">
-	{% if v.chud %}
-		<link rel="stylesheet" href="{{('css/chud.css') | asset}}">
-	{% elif v.css or v.background %}
-		<link rel="stylesheet" href="/{{v.id}}/css">
-	{% endif %}
-{% else %}
-	<link rel="stylesheet" href="{{'css/main.css' | asset}}">
-	<link rel="stylesheet" href="{{('css/'~DEFAULT_THEME~'.css') | asset}}">
-{% endif %}
-
 <div class="row justify-content-around">
 	<div class="col h-100">
 		<div class="justify-content-between">
