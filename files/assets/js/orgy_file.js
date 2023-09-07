@@ -23,9 +23,9 @@ orgy_file.addEventListener('pause', () => {
 })
 
 orgy_file.addEventListener("timeupdate", function(){
-    if (break_file.dataset.run == "0" && parseInt(orgy_file.currentTime) == 3000) {
+	if (break_file.dataset.run == "0" && parseInt(orgy_file.currentTime) == 3000) {
 		break_file.dataset.run = "1"
-        orgy_file.pause();
+		orgy_file.pause();
 		orgy_file.classList.add('d-none');
 		break_file.classList.remove('d-none');
 		break_file.play()
@@ -36,5 +36,5 @@ orgy_file.addEventListener("timeupdate", function(){
 			orgy_file.dataset.created_utc = parseInt(orgy_file.dataset.created_utc) + 303
 			orgy_file.play()
 		}, 300000);
-    }
+	}
 });

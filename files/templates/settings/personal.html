@@ -273,16 +273,16 @@
 					{% if FEATURES['USERS_PERMANENT_WORD_FILTERS'] %}
 						{% if v.slurreplacer == 0 %}
 							{% set ns.slurtext = 'Enable if you would like to automatically replace slurs. <a hidden id="slurreplacer-perma-link" href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#modal-slurreplacer">Make filter permanent for a badge!</a>' %}
-            {% elif v.slurreplacer == 1 %}
-              {% set ns.slurtext = 'Enable if you would like to automatically replace slurs. <a id="slurreplacer-perma-link" href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#modal-slurreplacer">Make filter permanent for a badge!</a>' %}
+						{% elif v.slurreplacer == 1 %}
+							{% set ns.slurtext = 'Enable if you would like to automatically replace slurs. <a id="slurreplacer-perma-link" href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#modal-slurreplacer">Make filter permanent for a badge!</a>' %}
 						{% else %}
 							{% set ns.slurtext = "You've enabled the slur replacer permanently! ✊🏿" %}
 						{% endif %}
 
-            {% if v.profanityreplacer == 0 %}
-              {% set ns.profanitytext = 'Enable if you would like to automatically replace profanities. <a hidden id="profanityreplacer-perma-link" href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#modal-profanityreplacer">Make filter permanent for a badge!</a>' %}
-						{% elif v.profanityreplacer == 1 %}
-              {% set ns.profanitytext = 'Enable if you would like to automatically replace profanities. <a id="profanityreplacer-perma-link" href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#modal-profanityreplacer">Make filter permanent for a badge!</a>' %}
+						{% if v.profanityreplacer == 0 %}
+							{% set ns.profanitytext = 'Enable if you would like to automatically replace profanities. <a hidden id="profanityreplacer-perma-link" href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#modal-profanityreplacer">Make filter permanent for a badge!</a>' %}
+										{% elif v.profanityreplacer == 1 %}
+							{% set ns.profanitytext = 'Enable if you would like to automatically replace profanities. <a id="profanityreplacer-perma-link" href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#modal-profanityreplacer">Make filter permanent for a badge!</a>' %}
 						{% else %}
 							{% set ns.profanitytext = "You've enabled the profanity replacer permanently! 😇" %}
 						{% endif %}
