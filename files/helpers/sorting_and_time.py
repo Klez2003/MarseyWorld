@@ -28,10 +28,10 @@ def apply_time_filter(t, objects, cls):
 	
 
 def sort_objects(sort, objects, cls):
-	if not (SITE == 'watchpeopledie.tv' and g.v and g.v.id == GTIX_ID):
-		objects = objects.order_by(cls.is_banned, cls.deleted_utc)
-
 	if sort == 'hot':
+		if not (SITE == 'watchpeopledie.tv' and g.v and g.v.id == GTIX_ID):
+			objects = objects.order_by(cls.is_banned, cls.deleted_utc)
+
 		ti = int(time.time()) + 3600
 		metric = cls.realupvotes + 1
 		if cls.__name__ == "Post": metric += cls.comment_count/5
