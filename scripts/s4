@@ -2,5 +2,6 @@ cd /staging
 git pull
 . /e
 export SITE="staging.rdrama.net"
+export DATABASE_URL=RECOVERY_DATABASE_URL
 export WORKER_COUNT="1"
 gunicorn files.__main__:app -b 0.0.0.0:5002 -t 0
