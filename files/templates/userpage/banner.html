@@ -175,7 +175,7 @@
 									<button type="button" class="btn btn-primary" data-nonce="{{g.nonce}}" data-onclick="toggleElement('bux-transfer', 'bux-transfer-amount')">Gift Marseybux</button>
 								{%- endif %}
 
-								<button type="button" class="btn btn-danger" data-nonce="{{g.nonce}}" data-onclick="postToastReload(this,'/settings/block?username={{u.username}}')">Block</button>
+								<button type="button" class="btn btn-danger" data-nonce="{{g.nonce}}" data-onclick="postToastReload(this,'/block_user?username={{u.username}}')">Block</button>
 
 								{% if u.id != AUTOJANNY_ID %}
 									<button type="button" id="mute-notifs" class="btn btn-danger {% if v.has_muted(u) %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/mute_notifs/{{u.id}}','mute-notifs','unmute-notifs','d-none')">Mute notifications from user</button>
@@ -468,7 +468,7 @@
 							<button type="button" class="btn btn-primary" data-nonce="{{g.nonce}}" data-onclick="toggleElement('bux-transfer-mobile', 'bux-transfer-amount-mobile')">Gift Marseybux</button>
 						{%- endif %}
 
-						<button type="button" class="btn btn-danger" data-nonce="{{g.nonce}}" data-onclick="postToastReload(this,'/settings/block?username={{u.username}}')">Block</button>
+						<button type="button" class="btn btn-danger" data-nonce="{{g.nonce}}" data-onclick="postToastReload(this,'/block_user?username={{u.username}}')">Block</button>
 
 						{% if u.id != AUTOJANNY_ID %}
 							<button type="button" id="mute-notifs2" class="btn btn-danger {% if v.has_muted(u) %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/mute_notifs/{{u.id}}','mute-notifs2','unmute-notifs2','d-none')">Mute notifications from user</button>

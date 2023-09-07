@@ -656,7 +656,7 @@ def settings_security(v):
 def settings_blocks(v):
 	return redirect(f'/@{v.username}/blocking')
 
-@app.post("/settings/block")
+@app.post("/block_user")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit("20/day", deduct_when=lambda response: response.status_code < 400)
@@ -684,7 +684,7 @@ def settings_block_user(v):
 	return {"message": f"@{user.username} blocked!"}
 
 
-@app.post("/settings/unblock")
+@app.post("/unblock_user")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
