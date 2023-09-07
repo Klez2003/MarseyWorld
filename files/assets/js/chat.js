@@ -353,7 +353,8 @@ document.addEventListener('click', function (e) {
 const input = document.getElementById('file')
 function handle_files() {
 	if (!input.files.length) return
-	input.previousElementSibling.textContent = input.files[0].name.substr(0, 50);
+	const char_limit = screen_width >= 768 ? 50 : 5;
+	input.previousElementSibling.textContent = input.files[0].name.substr(0, char_limit);
 }
 
 input.onchange = handle_files
