@@ -249,6 +249,7 @@ if SITE_NAME == 'rDrama':
 		'corgi': 'klenny',
 		"right now": "right meow",
 		'(?<![a-z])drama(?![a-z])': 'dtama',
+		"(?<!\/)linux": "GNU/Linux",
 	}
 	SLURS.update(RDRAMA_SLURS)
 
