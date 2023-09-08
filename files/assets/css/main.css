@@ -5004,7 +5004,7 @@ pre .com, code .com {
 		border-width: 0 0 0.1px 0;
 		border-radius: 0;
 	}
-	#frontpage .posts .card, #userpage .posts .card, #search .posts .card {
+	.posts .card {
 		padding: 7px;
 	}
 	#frontpage .posts .card:first-of-type, #userpage .posts .card:first-of-type, #search .posts .card:first-of-type {

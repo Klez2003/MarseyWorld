@@ -60,7 +60,7 @@
 
 	{% if request.path == '/notifications/posts' %}
 		{% with listing=notifications %}
-			<div class="mt-4">
+			<div class="mt-4 posts">
 				{% include "post_listing.html" %}
 			</div>
 		{% endwith %}
