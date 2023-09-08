@@ -83,9 +83,9 @@
 			<button type="button" id="unprogstack-{{p.id}}" class="dropdown-item {% if p.is_approved != PROGSTACK_ID %}d-none{% endif %} list-inline-item text-danger" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/admin/unprogstack/post/{{p.id}}','progstack-{{p.id}}','unprogstack-{{p.id}}','d-none')"><i class="fas fa-bullhorn"></i>Remove Progressive Stack</button>
 		{% endif %}
 		{% if v.admin_level >= PERMS['USER_BAN'] and v.id != p.author_id %}
-			<button type="button" class="dropdown-item list-inline-item text-danger" data-bs-toggle="modal" data-bs-target="#banModal" data-nonce="{{g.nonce}}" data-onclick="punishModal(this, 'ban', '/post/{{p.id}}', '{{p.author_name}}', '{{p.fullname}}')"><i class="fas fa-user-slash text-danger fa-fw"></i>Ban user</button>
+			<button type="button" class="dropdown-item list-inline-item text-danger {% if p.author.is_permabanned %}d-none{% endif %}" data-bs-toggle="modal" data-bs-target="#banModal" data-nonce="{{g.nonce}}" data-onclick="punishModal(this, 'ban', '/post/{{p.id}}', '{{p.author_name}}', '{{p.fullname}}')"><i class="fas fa-user-slash text-danger fa-fw"></i>Ban user</button>
 
-			<button type="button" id="unban-{{p.fullname}}" class="dropdown-item {% if not p.author.is_suspended %}d-none{% endif %} list-inline-item text-success {% if p.author.is_permabanned %}d-none{% endif %}" id="unexile2-user-{{p.id}}" data-nonce="{{g.nonce}}" data-onclick="unchud_or_unban(this,'/unban_user/{{p.fullname}}')"><i class="fas fa-user-slash"></i>Unban user</button>
+			<button type="button" id="unban-{{p.fullname}}" class="dropdown-item list-inline-item text-success {% if not p.author.is_suspended %}d-none{% endif %}" id="unexile2-user-{{p.id}}" data-nonce="{{g.nonce}}" data-onclick="unchud_or_unban(this,'/unban_user/{{p.fullname}}')"><i class="fas fa-user-slash"></i>Unban user</button>
 		{% endif %}
 		{% if v.admin_level >= PERMS['USER_CHUD'] and v.id != p.author_id %}
 			<button type="button" class="dropdown-item list-inline-item text-danger {% if p.author.chud == 1 %}d-none{% endif %}" data-bs-toggle="modal" data-bs-target="#chudModal" data-nonce="{{g.nonce}}" data-onclick="punishModal(this, 'chud', '/post/{{p.id}}', '{{p.author_name}}', '{{p.fullname}}')"><i class="fas fa-face-sleeping text-danger fa-fw"></i>Chud user</button>
