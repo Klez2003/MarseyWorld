@@ -60,14 +60,9 @@ def calc_users():
 		else:
 			ddos_threshold = 1000
 
-		if g.loggedout_counter > ddos_threshold:
-			if not get_setting('under_attack'):
-				toggle_setting('under_attack')
-				set_security_level('under_attack')
-		else:
-			if get_setting('under_attack'):
-				toggle_setting('under_attack')
-				set_security_level('high')
+		if g.loggedout_counter > ddos_threshold and not get_setting('under_attack'):
+			toggle_setting('under_attack')
+			set_security_level('under_attack')
 	return ''
 
 def get_logged_in_user():
