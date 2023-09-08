@@ -338,6 +338,18 @@ def badges(v):
 	badges, counts = badge_list(SITE, v.admin_level >= PERMS['VIEW_PATRONS'])
 	return render_template("badges.html", v=v, badges=badges, counts=counts)
 
+@app.get("/blocks")
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@auth_required
+def blocks(v):
+	blocks = g.db.query(UserBlock).options(
+			joinedload(UserBlock.user),
+			joinedload(UserBlock.target),
+		).order_by(UserBlock.created_utc.desc())
+
+	return render_template("blocks.html", v=v, blocks=blocks)
+
 @app.get("/notification_mutes")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
