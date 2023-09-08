@@ -6,7 +6,6 @@ from functools import partial
 from os import path, listdir
 from urllib.parse import parse_qs, urlparse, unquote, ParseResult, urlencode, urlunparse
 import time
-import requests
 
 from sqlalchemy.sql import func
 
@@ -742,9 +741,6 @@ def is_whitelisted(domain, k):
 
 def normalize_url(url):
 	url = unquote(url)
-
-	if reddit_s_regex.fullmatch(url):
-		url = requests.get(url, headers=HEADERS, timeout=1, proxies=proxies).url
 
 	url = reddit_domain_regex.sub(r'\1https://old.reddit.com/\3/', url)
 
