@@ -32,8 +32,8 @@ def _mark_comment_as_read(cid, vid):
 	if notif and not notif.read:
 		notif.read = True
 		db.add(notif)
-		db.commit()
 
+	db.commit()
 	db.close()
 	stdout.flush()
 

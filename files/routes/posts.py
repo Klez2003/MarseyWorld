@@ -356,8 +356,8 @@ def thumbnail_thread(fetch_url, pid):
 	if thumburl:
 		p.thumburl = thumburl
 		db.add(p)
-		db.commit()
 
+	db.commit()
 	db.close()
 	stdout.flush()
 
