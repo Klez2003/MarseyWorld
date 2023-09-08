@@ -284,7 +284,38 @@ def expand_url(post_url, fragment_url):
 	else:
 		return f"{post_url}/{fragment_url}"
 
-def thumbnail_thread(fetch_url, pid):
+
+def reddit_s_url_cleaner(match):
+	return normalize_url(requests.get(match.group(0), headers=HEADERS, timeout=2, proxies=proxies).url)
+
+def surl_and_thumbnail_thread(old_url, old_body_html, pid, generate_thumb):
+	fetch_url = old_url
+
+	#s_url
+	new_url = None
+	if old_url:
+		new_url = reddit_s_url_regex.sub(reddit_s_url_cleaner, old_url)
+
+	new_body_html = None
+	if old_body_html:
+		new_body_html = reddit_s_url_regex.sub(reddit_s_url_cleaner, old_body_html)
+
+	if old_url != new_url or old_body_html != new_body_html:
+		db = db_session()
+
+		p = db.query(Post).filter_by(id=pid).options(load_only(Post.id)).one_or_none()
+		p.url = new_url
+		fetch_url = p.url
+		p.body_html = new_body_html
+
+		db.commit()
+		db.close()
+
+	stdout.flush()
+
+	#thumbnail
+	if not generate_thumb: return
+
 	if fetch_url.startswith('/') and '\\' not in fetch_url:
 		fetch_url = f"{SITE_FULL}{fetch_url}"
 
@@ -658,8 +689,8 @@ def submit_post(v, sub=None):
 
 	g.db.flush() #Necessary, do NOT remove
 
-	if not p.thumburl and p.url and p.domain != SITE:
-		gevent.spawn(thumbnail_thread, p.url, p.id)
+	generate_thumb = (not p.thumburl and p.url and p.domain != SITE)
+	gevent.spawn(surl_and_thumbnail_thread, p.url, p.body_html, p.id, generate_thumb)
 
 	if v.client: return p.json
 	else:
