@@ -6,8 +6,7 @@ services:
         volumes:
             - "./:/d"
             - "./nginx.conf:/etc/nginx/sites-enabled/1"
-            - "./includes/serve-static:/etc/nginx/includes/serve-static"
-            - "./includes/headers:/etc/nginx/includes/headers"
+            - "./includes:/etc/nginx/includes"
         links:
             - "redis"
             - "postgres"
