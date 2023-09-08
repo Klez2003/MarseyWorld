@@ -368,7 +368,7 @@ def create_sub2(v):
 	if not name: abort(400)
 	name = name.strip().lower()
 
-	if not valid_sub_regex.fullmatch(name):
+	if not hole_group_name_regex.fullmatch(name):
 		abort(400, "Name does not match the required format!")
 
 	if not v.charge_account('combined', HOLE_COST)[0]:

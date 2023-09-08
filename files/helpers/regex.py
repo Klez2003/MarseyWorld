@@ -28,7 +28,7 @@ description_regex = re.compile("[^<>&\n\t]{1,300}", flags=re.A)
 
 badge_name_regex = re.compile(r"[^\/.]+", flags=re.A)
 
-valid_sub_regex = re.compile("^[\w\-]{3,25}$", flags=re.A)
+hole_group_name_regex = re.compile("^[\w\-]{3,25}$", flags=re.A)
 
 query_regex = re.compile("(\w+):(\S+)", flags=re.A)
 

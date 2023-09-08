@@ -29,7 +29,7 @@ def create_group(v):
 	if name.startswith('slots') or name.startswith('remindme'):
 		abort(400, "You can't make a group with that name!")
 
-	if not valid_sub_regex.fullmatch(name):
+	if not hole_group_name_regex.fullmatch(name):
 		abort(400, "Name does not match the required format!")
 
 	if name in {'everyone', 'jannies', 'followers', 'commenters'} or g.db.get(Group, name):
