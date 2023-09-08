@@ -1023,17 +1023,23 @@ def ban_user(fullname, v):
 	if 'reason' in request.values:
 		reason = request.values["reason"]
 		if reason.startswith("/post/"):
-			try: post = int(reason.split("/post/")[1].split(None, 1)[0])
+			try: post_id = int(reason.split("/post/")[1].split(None, 1)[0])
 			except: abort(400)
-			post = get_post(post)
+			actual_reason = reason.split(str(post_id))[1].strip()
+			post = get_post(post_id)
 			if post.sub != 'chudrama':
 				post.bannedfor = f'{duration} by @{v.username}'
+				if actual_reason:
+					post.bannedfor += f' for "{actual_reason}"'
 			g.db.add(post)
 		elif reason.startswith("/comment/"):
-			try: comment = int(reason.split("/comment/")[1].split(None, 1)[0])
+			try: comment_id = int(reason.split("/comment/")[1].split(None, 1)[0])
 			except: abort(400)
-			comment = get_comment(comment)
+			actual_reason = reason.split(str(comment_id))[1].strip()
+			comment = get_comment(comment_id)
 			comment.bannedfor = f'{duration} by @{v.username}'
+			if actual_reason:
+				comment.bannedfor += f' for "{actual_reason}"'
 			g.db.add(comment)
 
 	return {"message": f"@{user.username} has been banned {duration}!"}
