@@ -4941,7 +4941,7 @@ pre .com, code .com {
 @media (max-width: 992px) {
 	body {
 		padding-top: calc(var(--safe-area-inset-top) + 74.55px);
-}
+	}
 }
 .modal-backdrop.show
 {
@@ -4951,128 +4951,128 @@ pre .com, code .com {
 @media (max-width: 768px) {
 	html {
 		font-size: 14px;
-}
+	}
 	.container {
 		overflow: hidden;
 		max-width: none;
-}
+	}
 	body, #settings, #notifications, #submit {
 		background-color: rgb(var(--background));
-}
+	}
 	#thread, #userpage {
 		background-color: var(--gray-600);
-}
+	}
 	.custom-gutters, .user-gutters {
 		padding-left: 0;
 		padding-right: 0;
-}
+	}
 	.navbar.bg-primary {
 		background-color: var(--dark) !important;
-}
+	}
 	.navbar-nav {
 		height: 100vh;
-}
+	}
 	.navbar-nav .nav-link, .navbar-expand-md .navbar-nav .nav-link {
 		padding: 0.5rem;
-}
+	}
 	.navbar-dark .navbar-nav .nav-link:hover {
 		background-color: transparent;
 		border-radius: 0;
-}
+	}
 	.navbar-dark .navbar-nav .nav-link:active {
 		background-color: rgba(0, 0, 0, 0.15);
 		border-radius: 0;
-}
+	}
 	.navbar-dark .navbar-nav .nav-link .fa, .navbar-dark .navbar-nav .nav-link .fas, .navbar-dark .navbar-nav .nav-link .far, .navbar-dark .navbar-nav .nav-link .fab {
 		font-size: 1rem;
-}
+	}
 	.navbar-light .navbar-nav .nav-link .fa, .navbar-light .navbar-nav .nav-link .fas, .navbar-light .navbar-nav .nav-link .far, .navbar-light .navbar-nav .nav-link .fab {
 		color: var(--primary);
 		font-size: 1.25rem;
-}
+	}
 	#fixed-bar-mobile {
 		box-shadow: none;
-}
+	}
 	.mobile-nav-icon {
 		padding: 0.25rem 0.6rem;
-}
+	}
 	#thread, #submit {
 		background-color: var(--light);
-}
+	}
 	#search .search-results.card {
 		border-bottom: 0.1px solid var(--gray-400);
 		border-width: 0 0 0.1px 0;
 		border-radius: 0;
-}
+	}
 	#frontpage .posts .card, #userpage .posts .card, #search .posts .card {
 		padding: 7px;
-}
+	}
 	#frontpage .posts .card:first-of-type, #userpage .posts .card:first-of-type, #search .posts .card:first-of-type {
 		border-radius: 0;
-}
+	}
 	#frontpage .posts .card, #userpage .posts .card, #search .posts .card, #userpage .posts .card {
 		background-color: var(--gray-600);
-}
+	}
 	#frontpage .posts .card:hover .post-title a, #search .posts .card:hover .post-title a {
 		color: var(--primary);
-}
+	}
 	#frontpage .posts .card .post-img, #search .posts .card .post-img {
 		z-index: 3;
-}
+	}
 	.toast {
 		bottom: 1.5rem;
 		margin: 0 auto;
 		left: 0;
 		right: 0;
-}
+	}
 	#thread .card {
 		background-color: var(--gray-600);
-}
+	}
 	.card {
 		background-color: var(--gray-600);
-}
+	}
 	.posts, #thread #main-content-col {
 		box-shadow: none;
 		border: none;
 		border-radius: 0;
-}
+	}
 	#thread #main-content-col {
 		margin: 0;
-}
+	}
 	.post-title a {
 		color: var(--black);
-}
+	}
 	.post-title a:hover, .post-title a:active, .post-title a:focus {
 		color: var(--primary);
-}
+	}
 	#thread .voting {
 		min-width: 0;
 		margin-right: 0;
 		margin-top: 0;
-}
+	}
 	.voting {
 		font-weight: 400;
 		font-size: 1.2rem;
-}
+	}
 	#frontpage .voting, #search .voting, #userpage .voting {
 		margin: 0;
-}
+	}
 	.post-title {
 		font-size: 14px;
 		font-weight: 400;
 		line-height: normal;
 		overflow: hidden;
-}
+	}
 	.post-meta {
 		font-size: 1rem;
 		padding-left: 3px;
-}
+	}
 	.post-actions .fa, .post-actions .fas, .post-actions .far {
 		font-size: 1rem;
-}
+	}
 	.post-actions .voting .fa, .post-actions .voting .fas, .post-actions .voting .far {
 		font-size: 1.25rem;
-}
+	}
 	.arrow-up::before, .arrow-down::before, .arrow-up:hover::before, .arrow-down:hover::before {
 		font-size: 1.5rem;
 		color: var(--gray-200);
@@ -5087,79 +5087,79 @@ pre .com, code .com {
 
 	.active.arrow-up::before, .active.arrow-up:hover::before {
 		color: var(--primary);
-}
+	}
 	.active.arrow-down::before, .active.arrow-down:hover::before {
 		color: #38B2AC;
-}
+	}
 	.dropdown-actions a {
 		font-size: 1rem;
-}
+	}
 	.dropdown-actions .fa, .dropdown-actions .fas, .dropdown-actions .far {
 		font-size: 1rem;
-}
+	}
 	.comment-section {
 		background-color: var(--gray-600);
-}
+	}
 	.comment {
 		padding-left: 0;
 		margin-top: 1.5rem;
-}
+	}
 	.comment.collapsed .user-info {
 		padding-top: 0.5rem;
-}
+	}
 	.comment.collapsed .comment-body:hover {
 		opacity: 0.5;
-}
+	}
 	.x-scroll-parent {
 		overflow: hidden;
-}
+	}
 	.x-scroll {
 		width: 100%;
 		overflow-x: auto;
 		white-space: nowrap;
-}
+	}
 	#thread .post-title {
 		font-size: 16px;
-}
+	}
 	#submit .post {
 		border: none;
-}
+	}
 	#submit .post .body {
 		padding: 0;
-}
+	}
 	#submit .post .footer {
 		background: transparent;
 		padding: 1rem 0;
-}
+	}
 	.footer .list-inline-item {
 		line-height: 3;
-}
+	}
 	.comments-count .total {
 		font-weight: 400;
 		font-size: 1rem;
-}
+	}
 	.comment-actions {
 		font-weight: 400;
 		font-size: 1.2rem;
-}
+	}
 	.user-name {
 		font-weight: 400;
-}
+	}
 	.comment .comment-body .user-name {
 		color: var(--black);
 		font-weight: 600;
-}
+	}
 	.pagination {
 		padding: 1rem;
-}
+	}
 	input[type=color], input[type=date], input[type=email], input[type=month], input[type=number], input[type=password], input[type=search], input[type=tel], input[type=text], input[type=time], input[type=url], input[type=week], select:focus, textarea, .ghostdiv {
 		font-size: 16px !important;
-}
+	}
 	textarea, input[type=text] {
 		-webkit-appearance: none;
 		-moz-appearance: none;
 		appearance: none;
-}
+	}
 }
 .bg-white {
 	background-color: var(--gray-600) !important;
