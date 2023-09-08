@@ -20,7 +20,7 @@
 					{% elif orgy.type == 'rumble' %}
 						<iframe src="{{orgy.data}}" frameborder="0" allowfullscreen></iframe>
 					{% elif orgy.type == 'twitch' %}
-						<iframe src="https://player.twitch.tv/?channel={{orgy.data}}&parent={{site}}" frameborder="0" allowfullscreen></iframe>
+						<iframe src="https://player.twitch.tv/?channel={{orgy.data}}&parent={{SITE}}" frameborder="0" allowfullscreen></iframe>
 					{% elif orgy.type == 'file' %}
 						<meta name="referrer" content="strict-origin-when-cross-origin">
 						<video id="orgy-file" data-created_utc="{{orgy.real_created_utc}}" controls preload="none" src="{{orgy.data}}">

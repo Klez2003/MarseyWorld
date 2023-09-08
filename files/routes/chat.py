@@ -85,12 +85,12 @@ def orgy(v):
 
 	orgy = get_orgy()
 
-	if not orgy:
-		abort(403, "An orgy isn't currently in progress!")
-
 	displayed_messages = {k: val for k, val in messages[f"{SITE_FULL}/orgy"].items() if val["user_id"] not in v.userblocks}
 
-	return render_template("orgy.html", v=v, messages=displayed_messages, orgy=orgy, site=SITE)
+	if not orgy:
+		return render_template("chat.html", v=v, messages=displayed_messages)
+
+	return render_template("orgy.html", v=v, messages=displayed_messages, orgy=orgy)
 
 @socketio.on('speak')
 @is_not_banned_socketio
