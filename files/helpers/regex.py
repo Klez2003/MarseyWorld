@@ -43,7 +43,6 @@ title_regex = re.compile("[^\w ]", flags=re.A)
 controversial_regex = re.compile('["> ](https:\/\/old\.reddit\.com/r/\w{2,20}\/comments\/[\w\-.#&/=\?@%+]{5,250})["< ]', flags=re.A)
 
 spoiler_regex = re.compile('\|\|(.+?)\|\|' + NOT_IN_CODE_OR_LINKS, flags=re.A)
-reddit_mention_regex = re.compile('(?<![\w/])\/?(([ruRU])\/(\w|-){2,25})' + NOT_IN_CODE_OR_LINKS, flags=re.A)
 sub_regex = re.compile('(?<![\w/])\/?([hH]\/(\w|-){3,25})' + NOT_IN_CODE_OR_LINKS, flags=re.A)
 
 strikethrough_regex = re.compile('(^|\s|>|")~{1,2}([^~]+)~{1,2}' + NOT_IN_CODE_OR_LINKS, flags=re.A)
@@ -136,9 +135,7 @@ greentext_regex = re.compile("(\n|^)>([^ >][^\n]*)", flags=re.A)
 
 allowed_domain_regex = re.compile("[a-z0-9\-.]+", flags=re.I|re.A)
 
-reddit_to_vreddit_regex = re.compile('(^|>|")https:\/\/old.reddit.com\/(r|u)\/', flags=re.A)
 twitter_to_nitter_regex = re.compile('(^|>|")https:\/\/twitter.com\/(?!i\/)', flags=re.A)
-reddit_domain_regex = re.compile("(^|\s|\()https?:\/\/(reddit\.com|(?:(?:[A-z]{2})(?:-[A-z]{2})" "?|beta|i|m|pay|ssl|www|new|alpha)\.reddit\.com|libredd\.it|reddit\.lol)\/(u|(r\/(\w|-){2,25}\/)?comments)\/", flags=re.A)
 
 color_regex = re.compile("[a-f0-9]{6}", flags=re.A)
 
@@ -231,3 +228,10 @@ image_link_regex = re.compile(f"https:\/\/(i\.)?{SITE}\/(chat_)?images\/[0-9]{{1
 video_link_regex = re.compile(f"https://(videos\.)?{SITE}\/(videos\/)?[0-9a-zA-Z._-]{{4,66}}\.({video_regex_extensions})", flags=re.A)
 
 asset_image_link_regex = re.compile(f"https:\/\/(i\.)?{SITE}\/assets\/images\/[\w\/]+.webp(\?x=\d+)?", flags=re.A)
+
+#sanitizing
+reddit_mention_regex = re.compile('(?<![\w/])\/?(([ruRU])\/(\w|-){2,25})' + NOT_IN_CODE_OR_LINKS, flags=re.A)
+reddit_domain_regex = re.compile("(^|\s|\()https?:\/\/(reddit\.com|(?:(?:[A-z]{2})(?:-[A-z]{2})" "?|beta|i|m|pay|ssl|www|new|alpha)\.reddit\.com|libredd\.it|reddit\.lol)\/(u|(r\/(\w|-){2,25}\/)?comments)\/", flags=re.A)
+
+#run-time
+reddit_to_vreddit_regex = re.compile('(^|>|")https:\/\/old.reddit.com\/(r|u)\/', flags=re.A)
