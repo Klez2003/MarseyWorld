@@ -151,3 +151,8 @@ color: var(--gray-700);
 .modal .comment-actions .list-group-item {
 	background-color: rgb(var(--background));
 }
+
+/* repeated here to override an earlier rule in this file */
+.unread {
+	background: #ffffff22 !important;
+}
