@@ -86,7 +86,7 @@ def orgy(v):
 	orgy = get_orgy()
 
 	if not orgy:
-		abort(404, "An orgy isn't currently in progress!")
+		abort(403, "An orgy isn't currently in progress!")
 
 	displayed_messages = {k: val for k, val in messages[f"{SITE_FULL}/orgy"].items() if val["user_id"] not in v.userblocks}
 
