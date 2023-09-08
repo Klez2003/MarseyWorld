@@ -285,42 +285,48 @@ def expand_url(post_url, fragment_url):
 		return f"{post_url}/{fragment_url}"
 
 
-def reddit_s_url_cleaner(match):
-	return normalize_url(requests.get(match.group(0), headers=HEADERS, timeout=2, proxies=proxies).url)
+def reddit_s_url_cleaner(url):
+	return normalize_url(requests.get(url, headers=HEADERS, timeout=2, proxies=proxies).url)
 
-def surl_and_thumbnail_thread(old_url, old_body_html, pid, generate_thumb):
-	fetch_url = old_url
-
+def surl_and_thumbnail_thread(post_url, post_body, post_body_html, pid, generate_thumb):
 	#s_url
-	new_url = None
-	if old_url:
-		new_url = reddit_s_url_regex.sub(reddit_s_url_cleaner, old_url)
+	dirty = False
 
-	new_body_html = None
-	if old_body_html:
-		new_body_html = reddit_s_url_regex.sub(reddit_s_url_cleaner, old_body_html)
+	if post_url and reddit_s_url_regex.fullmatch(post_url):
+		post_url = reddit_s_url_cleaner(post_url)
+		dirty = True
 
-	if old_url != new_url or old_body_html != new_body_html:
+	if post_body:
+		for i in reddit_s_url_regex.finditer(post_body):
+			old = i.group(0)
+			new = reddit_s_url_cleaner(old)
+			post_body = post_body.replace(old, new)
+			post_body_html = post_body_html.replace(old, new)
+			dirty = True
+
+	if dirty:
 		db = db_session()
 
 		p = db.query(Post).filter_by(id=pid).options(load_only(Post.id)).one_or_none()
-		p.url = new_url
-		fetch_url = p.url
-		p.body_html = new_body_html
+		p.url = post_url
+		p.body = post_body
+		p.body_html = post_body_html
 
+		db.add(p)
 		db.commit()
 		db.close()
 
 	stdout.flush()
 
+
 	#thumbnail
 	if not generate_thumb: return
 
-	if fetch_url.startswith('/') and '\\' not in fetch_url:
-		fetch_url = f"{SITE_FULL}{fetch_url}"
+	if post_url.startswith('/') and '\\' not in post_url:
+		post_url = f"{SITE_FULL}{post_url}"
 
 	try:
-		x = requests.get(fetch_url, headers=HEADERS, timeout=5, proxies=proxies)
+		x = requests.get(post_url, headers=HEADERS, timeout=5, proxies=proxies)
 	except:
 		return
 
@@ -337,10 +343,10 @@ def surl_and_thumbnail_thread(old_url, old_body_html, pid, generate_thumb):
 			if not tag:
 				tag = soup.find('meta', attrs={"property": tag_name, "content": True})
 			if tag:
-				thumb_candidate_urls.append(expand_url(fetch_url, tag['content']))
+				thumb_candidate_urls.append(expand_url(post_url, tag['content']))
 
 		for tag in soup.find_all("img", attrs={'src': True}):
-			thumb_candidate_urls.append(expand_url(fetch_url, tag['src']))
+			thumb_candidate_urls.append(expand_url(post_url, tag['src']))
 
 		for url in thumb_candidate_urls:
 			try:
@@ -690,7 +696,7 @@ def submit_post(v, sub=None):
 	g.db.flush() #Necessary, do NOT remove
 
 	generate_thumb = (not p.thumburl and p.url and p.domain != SITE)
-	gevent.spawn(surl_and_thumbnail_thread, p.url, p.body_html, p.id, generate_thumb)
+	gevent.spawn(surl_and_thumbnail_thread, p.url, p.body, p.body_html, p.id, generate_thumb)
 
 	if v.client: return p.json
 	else:
@@ -1039,6 +1045,8 @@ def edit_post(pid, v):
 		p.body_html = body_html
 
 		process_poll_options(v, p)
+
+		gevent.spawn(surl_and_thumbnail_thread, p.url, p.body, p.body_html, p.id, False)
 
 
 	if not complies_with_chud(p):
