@@ -268,11 +268,6 @@ class Post(Base):
 
 		url = normalize_urls_runtime(url, v)
 
-		if url.startswith("https://old.reddit.com/r/") and '/comments/' in url and "sort=" not in url:
-			if "?" in url: url += "&context=9"
-			else: url += "?context=8"
-			if not v or v.controversial: url += "&sort=controversial"
-
 		if url.startswith('/'): return SITE_FULL + url
 
 		return url

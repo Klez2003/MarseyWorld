@@ -19,13 +19,31 @@ from files.helpers.sorting_and_time import *
 from .saves import CommentSaveRelationship
 
 def normalize_urls_runtime(body, v):
-	if not v: return body
-	if v.reddit != 'old.reddit.com':
+	if v and v.reddit != 'old.reddit.com':
 		body = reddit_to_vreddit_regex.sub(rf'\1https://{v.reddit}/\2/', body)
-	if v.nitter:
+
+	if v and v.nitter:
 		body = twitter_to_nitter_regex.sub(r'\1https://nitter.net/', body)
-	if v.imginn:
+
+	if v and v.imginn:
 		body = body.replace('https://instagram.com/', 'https://imginn.com/')
+
+	if not v or v.controversial:
+		captured = []
+		for i in controversial_regex.finditer(body):
+			if i.group(0) in captured: continue
+			captured.append(i.group(0))
+
+			url = i.group(0)
+			p = urlparse(url).query
+			p = parse_qs(p, keep_blank_values=True)
+
+			if 'sort' not in p:
+				p['sort'] = ['controversial']
+
+			url_noquery = url.split('?')[0]
+			body = body.replace(f'{url}', f'{url_noquery}?{urlencode(p, True)}')
+
 	return body
 
 
@@ -351,21 +369,6 @@ class Comment(Base):
 				body = censor_slurs(body, v)
 
 			body = normalize_urls_runtime(body, v)
-			if not v or v.controversial:
-				captured = []
-				for i in controversial_regex.finditer(body):
-					if i.group(1) in captured: continue
-					captured.append(i.group(1))
-
-					url = i.group(1)
-					p = urlparse(url).query
-					p = parse_qs(p, keep_blank_values=True)
-
-					if 'sort' not in p: p['sort'] = ['controversial']
-
-					url_noquery = url.split('?')[0]
-					body = body.replace(f'"{url}"', f'"{url_noquery}?{urlencode(p, True)}"')
-					body = body.replace(f'>{url}<', f'>{url_noquery}?{urlencode(p, True)}<')
 
 		return body
 
