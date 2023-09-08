@@ -1021,15 +1021,16 @@ def ban_user(fullname, v):
 	g.db.add(ma)
 
 	if 'reason' in request.values:
-		if request.values["reason"].startswith("/post/"):
-			try: post = int(request.values["reason"].split("/post/")[1].split(None, 1)[0])
+		reason = request.values["reason"]
+		if reason.startswith("/post/"):
+			try: post = int(reason.split("/post/")[1].split(None, 1)[0])
 			except: abort(400)
 			post = get_post(post)
 			if post.sub != 'chudrama':
 				post.bannedfor = f'{duration} by @{v.username}'
 			g.db.add(post)
-		elif request.values["reason"].startswith("/comment/"):
-			try: comment = int(request.values["reason"].split("/comment/")[1].split(None, 1)[0])
+		elif reason.startswith("/comment/"):
+			try: comment = int(reason.split("/comment/")[1].split(None, 1)[0])
 			except: abort(400)
 			comment = get_comment(comment)
 			comment.bannedfor = f'{duration} by @{v.username}'
@@ -1120,16 +1121,17 @@ def chud(fullname, v):
 	badge_grant(user=user, badge_id=58)
 
 	if 'reason' in request.values:
-		if request.values["reason"].startswith("/post/"):
-			try: post = int(request.values["reason"].split("/post/")[1].split(None, 1)[0])
+		reason = request.values["reason"]
+		if reason.startswith("/post/"):
+			try: post = int(reason.split("/post/")[1].split(None, 1)[0])
 			except: abort(400)
 			post = get_post(post)
 			if post.sub == 'chudrama':
 				abort(403, "You can't chud people in /h/chudrama")
 			post.chuddedfor = f'{duration} by @{v.username}'
 			g.db.add(post)
-		elif request.values["reason"].startswith("/comment/"):
-			try: comment = int(request.values["reason"].split("/comment/")[1].split(None, 1)[0])
+		elif reason.startswith("/comment/"):
+			try: comment = int(reason.split("/comment/")[1].split(None, 1)[0])
 			except: abort(400)
 			comment = get_comment(comment)
 			if comment.post.sub == 'chudrama':
