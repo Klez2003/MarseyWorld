@@ -271,21 +271,6 @@ def more_comments(v, cid):
 
 	return render_template("comments.html", v=v, comments=comments, p=p, render_replies=True)
 
-def thumbnail_thread(pid, vid):
-	db = db_session()
-	def expand_url(post_url, fragment_url):
-		if fragment_url.startswith("https://"):
-			return fragment_url
-		elif fragment_url.startswith("https://"):
-			return f"https://{fragment_url.split('https://')[1]}"
-		elif fragment_url.startswith('//'):
-			return f"https:{fragment_url}"
-		elif fragment_url.startswith('/') and '\\' not in fragment_url:
-			parsed_url = urlparse(post_url)
-			return f"https://{parsed_url.netloc}{fragment_url}"
-		else:
-			return f"{post_url}/{fragment_url}"
-
 def expand_url(post_url, fragment_url):
 	if fragment_url.startswith("https://"):
 		return fragment_url
