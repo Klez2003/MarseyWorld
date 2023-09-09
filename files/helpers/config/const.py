@@ -270,6 +270,7 @@ if SITE_NAME == 'rDrama':
 		'space',
 		'femaledatingstrategy',
 		'meta',
+		'love4fatpeople',
 	}
 
 	REDDIT_NOTIFS_SITE.add('marsey')
