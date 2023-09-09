@@ -863,7 +863,7 @@ def settings_song_change(v):
 
 
 	if YOUTUBE_KEY != DEFAULT_CONFIG_VALUE:
-		req = requests.get(f"https://www.googleapis.com/youtube/v3/videos?id={id}&key={YOUTUBE_KEY}&part=contentDetails", timeout=5).json()
+		req = requests.get(f"https://www.googleapis.com/youtube/v3/videos?id={id}&key={YOUTUBE_KEY}&part=contentDetails", headers=HEADERS, timeout=5).json()
 
 		try:
 			duration = req['items'][0]['contentDetails']['duration']

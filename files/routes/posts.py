@@ -495,7 +495,7 @@ def submit_post(v, sub=None):
 		domain = tldextract.extract(url).registered_domain
 		if domain == "twitter.com":
 			try:
-				embed = requests.get("https://publish.twitter.com/oembed", params={"url":url, "omit_script":"t"}, timeout=5).json()["html"]
+				embed = requests.get("https://publish.twitter.com/oembed", params={"url":url, "omit_script":"t"}, headers=HEADERS, timeout=5).json()["html"]
 				embed = embed.replace('<a href', '<a rel="nofollow noopener" href')
 			except: pass
 		elif url.startswith('https://youtube.com/watch?'):

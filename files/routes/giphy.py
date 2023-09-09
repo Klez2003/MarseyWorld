@@ -24,4 +24,4 @@ def giphy(v, path=None):
 		url = f"https://api.giphy.com/v1/gifs/search?q={searchTerm}&api_key={GIPHY_KEY}&limit=48"
 	else:
 		url = f"https://api.giphy.com/v1/gifs?api_key={GIPHY_KEY}&limit=48"
-	return requests.get(url, timeout=5).json()
+	return requests.get(url, headers=HEADERS, timeout=5).json()
