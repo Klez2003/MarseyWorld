@@ -7,6 +7,7 @@ from files.routes.wrappers import *
 from files.__main__ import app, limiter
 from files.routes.routehelpers import get_alt_graph
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy.orm.exc import StaleDataError
 
 from math import floor
 from datetime import datetime
@@ -99,6 +100,8 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 	# this is hacky but it works, we should probably do better later
 	def get_vote_count(dir, real_instead_of_dir):
 		try: g.db.flush()
+		except StaleDataError:
+			abort(500, "You already cancelled your vote on this!")
 		except IntegrityError as e:
 			if str(e).startswith('(psycopg2.errors.UniqueViolation) duplicate key value violates unique constraint "'):
 				abort(400, "You already voted on this!")
