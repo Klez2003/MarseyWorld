@@ -6,3 +6,4 @@ __pycache__/
 .DS_Store
 emojis.zip
 emojis_original.zip
+includes/content-security-policy
