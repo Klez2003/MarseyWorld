@@ -32,32 +32,27 @@ def offsite_mentions_task(cache):
 	g.db.commit() # commit early otherwise localhost testing fails to commit
 
 def get_mentions(cache, queries, reddit_notifs_users=False):
-	kinds = ['post', 'comment']
+	kinds = ['submission', 'comment']
 	mentions = []
-	exclude_subreddits = ['PokemonGoRaids', 'SubSimulatorGPT2', 'SubSimGPT2Interactive']
-	try:
-		after = int(cache.get(const.REDDIT_NOTIFS_CACHE_KEY) or time.time())
-	except:
-		print("Failed to retrieve last mention time from cache", flush=True)
-		after = time.time()
-	size = 1 if reddit_notifs_users else 100
 	for kind in kinds:
-		try:
-			url = (
-				f'https://api.pushshift.io/reddit/{kind}/search?html_decode=true'
-				f'&q={"%7C".join(queries)}'
-				# f'&subreddit=!{",!".join(exclude_subreddits)}'
-				f'&after={after}'
-				f'&size={size}')
-			data = requests.get(url, timeout=15).json()['data']
-		except Exception as e:
-			continue
+		data = []
+
+		for query in queries:
+			last_processed = 9999999999
+			while True:
+				url = f'https://api.pullpush.io/reddit/search/{kind}?q={query}&before={last_processed}'
+				new_data = requests.get(url, headers=HEADERS, timeout=5, proxies=proxies).json()['data']
+				data += new_data
+				try: last_processed = int(new_data[-1]['created_utc'])
+				except: break
+				if last_processed < 1682872206 or len(new_data) < 100: break
+
+		data = sorted(data, key=lambda x: x['created_utc'], reverse=True)
 
 		for thing in data:
-			if thing['subreddit'] in exclude_subreddits: continue
+			if thing['subreddit'] in {'IAmA', 'PokemonGoRaids', 'SubSimulatorGPT2', 'SubSimGPT2Interactive'}: continue
 			if 'bot' in thing['author'].lower(): continue
 			if 'AutoModerator' == thing['author']: continue
-			after = max(after, thing["created_utc"]) if thing["created_utc"] else after
 			if kind == 'comment':
 				body = thing["body"].replace('>', '> ')
 				text = f'<blockquote><p>{body}</p></blockquote>'
@@ -72,17 +67,12 @@ def get_mentions(cache, queries, reddit_notifs_users=False):
 					selftext = thing["selftext"].replace('>', '> ')[:5000]
 					text += f'<br><blockquote><p>{selftext}</p></blockquote>'
 
-
 			mentions.append({
 				'permalink': thing['permalink'],
 				'author': thing['author'],
+				'created_utc': thing['created_utc'],
 				'text': text,
 			})
-	try:
-		if not reddit_notifs_users:
-			cache.set(const.REDDIT_NOTIFS_CACHE_KEY, after + 1)
-	except:
-		print("Failed to set cache value; there may be duplication of reddit notifications", flush=True)
 	return mentions
 
 def notify_mentions(mentions, send_to=None, mention_str='site mention'):
@@ -99,17 +89,20 @@ def notify_mentions(mentions, send_to=None, mention_str='site mention'):
 			f'{text}'
 		)
 
+		g.db.flush()
 		existing_comment = g.db.query(Comment.id).filter_by(
 			author_id=const.AUTOJANNY_ID,
 			parent_post=None,
 			body_html=notif_text).one_or_none()
-		if existing_comment: break
+		if existing_comment: continue
 
 		new_comment = Comment(
-						author_id=const.AUTOJANNY_ID,
-						parent_post=None,
-						body_html=notif_text,
-						distinguish_level=6)
+							author_id=const.AUTOJANNY_ID,
+							parent_post=None,
+							body_html=notif_text,
+							distinguish_level=6,
+							created_utc=int(m['created_utc']),
+						)
 		g.db.add(new_comment)
 		g.db.flush()
 		new_comment.top_comment_id = new_comment.id

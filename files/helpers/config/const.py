@@ -72,7 +72,6 @@ if SITE == 'staging.rdrama.net':
 LOGGED_IN_CACHE_KEY = "loggedin"
 LOGGED_OUT_CACHE_KEY = "loggedout"
 CHAT_ONLINE_CACHE_KEY = "online"
-REDDIT_NOTIFS_CACHE_KEY = "reddit_notifications"
 
 CASINO_RELEASE_DAY = 1662825600
 
@@ -272,10 +271,8 @@ if SITE_NAME == 'rDrama':
 		'love4fatpeople',
 	}
 
-	REDDIT_NOTIFS_SITE.add('marsey')
-	REDDIT_NOTIFS_SITE.add('"r/drama"')
-	REDDIT_NOTIFS_SITE.add('justice4darrell')
-	REDDIT_NOTIFS_SITE.add('cringetopia.org')
+	REDDIT_NOTIFS_SITE.update({'marsey', 'r/drama', 'justice4darrell', 'cringetopia.org'})
+
 elif SITE_NAME == 'WPD':
 	REDDIT_NOTIFS_SITE.update({'watchpeopledie', 'makemycoffin'})
 
