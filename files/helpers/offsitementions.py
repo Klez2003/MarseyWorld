@@ -49,12 +49,7 @@ def get_mentions(cache, queries, reddit_notifs_users=False):
 				# f'&subreddit=!{",!".join(exclude_subreddits)}'
 				f'&after={after}'
 				f'&size={size}')
-			data = requests.get((
-				f'https://api.pushshift.io/reddit/{kind}/search?html_decode=true'
-				f'&q={"%7C".join(queries)}'
-				# f'&subreddit=!{",!".join(exclude_subreddits)}'
-				f'&after={after}'
-				f'&size={size}'), timeout=15).json()['data']
+			data = requests.get(url, timeout=15).json()['data']
 		except Exception as e:
 			continue
 
