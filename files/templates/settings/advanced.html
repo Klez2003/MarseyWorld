@@ -115,7 +115,7 @@
 							<p>Change the domain you would like to view reddit posts in.</p>
 							<div class="input-group">
 								<select autocomplete="off" id='reddit' class="form-control setting_select" data-nonce="{{g.nonce}}" form="profile-settings" name="reddit">
-								{% for entry in ['old.reddit.com', 'reddit.com', 'i.reddit.com', 'reddit.lol', 'libreddit.hu'] %}
+								{% for entry in ['old.reddit.com', 'reddit.com', 'i.reddit.com', 'reddit.lol', 'libreddit.hu', 'undelete.pullpush.io'] %}
 									<option value="{{entry}}"{{' selected' if v.reddit==entry}}>{{entry}}</option>
 								{% endfor %}
 							</select>
