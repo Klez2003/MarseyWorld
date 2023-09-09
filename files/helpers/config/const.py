@@ -271,7 +271,6 @@ if SITE_NAME == 'rDrama':
 		'femaledatingstrategy',
 		'meta',
 		'love4fatpeople',
-		'marseycrossing',
 	}
 
 	REDDIT_NOTIFS_SITE.add('marsey')
