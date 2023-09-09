@@ -926,6 +926,7 @@ approved_embed_hosts = [
 	### TODO: Run a media proxy and kill most of these. Impossible to review.
 
 	### First-Party
+	'localhost',
 	'rdrama.net',
 	'i.rdrama.net',
 	'watchpeopledie.tv',
