@@ -27,12 +27,10 @@ from files.routes.routehelpers import check_for_alts
 
 def _archiveorg(url):
 	try:
-		requests.get(f'https://web.archive.org/save/{url}',
-			headers=HEADERS, timeout=10, proxies=proxies)
+		requests.get(f'https://web.archive.org/save/{url}', headers=HEADERS, timeout=10, proxies=proxies)
 	except: pass
 	try:
-		requests.post('https://ghostarchive.org/archive2', data={"archive": url},
-			headers=HEADERS, timeout=10, proxies=proxies)
+		requests.post('https://ghostarchive.org/archive2', data={"archive": url}, headers=HEADERS, timeout=10, proxies=proxies)
 	except: pass
 
 
