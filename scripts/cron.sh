@@ -2,7 +2,7 @@
 
 LOG='/var/log/rdrama/cron.log'
 
-echo -e "\n======================================== $1 === $(date --iso-8601=minutes)" >> "$LOG"
+echo -e "\n---------------------------------------- $1 === $(date --iso-8601=minutes)" >> "$LOG"
 
 source /e
 . .env
