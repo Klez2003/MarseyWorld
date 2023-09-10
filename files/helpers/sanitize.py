@@ -53,7 +53,11 @@ TLDS = ( # Original gTLDs and ccTLDs
 
 allowed_tags = ('a','audio','b','big','blockquote','br','center','code','del','details','em','g','h1','h2','h3','h4','h5','h6','hr','i','img','li','lite-youtube','marquee','ol','p','pre','rp','rt','ruby','small','span','spoiler','strike','strong','sub','summary','sup','table','tbody','td','th','thead','tr','u','ul','video')
 
-allowed_styles = ['background-color', 'color', 'filter', 'font-weight', 'text-align']
+allowed_global_styles = ['background-color', 'color', 'filter', 'font-weight', 'text-align']
+
+additional_img_styles = ['transform']
+
+allowed_styles = allowed_global_styles + additional_img_styles
 
 def allowed_attributes(tag, name, value):
 
@@ -580,6 +584,21 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 
 	#doing this here cuz of the linkifyfilter right above it (therefore unifying all link processing logic)
 	soup = BeautifulSoup(sanitized, 'lxml')
+
+	# style validation
+	styled_elements = soup.find_all(style=True)
+	for element in styled_elements:
+		# Images have all allowed styles, so we dont need to check these
+		if element.name == 'img':
+			# We will wrap the images in a div so that they cannot leave the container
+			element.wrap(soup.new_tag('div', **{'class': 'transformed-img'}))
+			continue
+
+		style = element['style']
+		matches = css_style_attr_regex.findall(style)
+		for match in matches:
+			if match[0] not in allowed_global_styles:
+				error(f"Invalid style property: {match[0]}")
 
 	links = soup.find_all("a")
 

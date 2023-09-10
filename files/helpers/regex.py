@@ -126,7 +126,15 @@ twitch_regex = re.compile('(https:\/\/)?(www\.)?twitch.tv\/(.*)', flags=re.I|re.
 
 link_fix_regex = re.compile("(\[.*?\]\()(?!http|\/)(.*?\))" + NOT_IN_CODE_OR_LINKS, flags=re.A)
 
-css_url_regex = re.compile('url\([\'"]?((.|\n)*?)[",);}$]', flags=re.I|re.A) # AEVANN, DO NOT TOUCH THIS, IT WENT THROUGH A MILLION ITERATIONS, IT'S PERFECT NOW
+css_url_regex = re.compile('url\([\'"]?((.|\n)*?)[",);}$]', flags=re.I|re.A) # AEVANN, DO NOT TOUCH THIS, IT WENT THROUGH A MILLION ITERATIONS, IT'S PERFECT NOW <-- you probably dont actually need this anymore lol (CSP covers it)
+css_style_attr_regex = re.compile('\s*([\w-]+?)\s*:((".*?"|\'.*?\'|\(.*?\)|{.*?}|\[.*?]|[^;])*);?', flags=re.I|re.A)
+"""
+CSS style attribute regex explanation:
+Each match is one declaration. (Example: "color: red;")
+Capture groups:
+1. The property name (Example: "color")
+2. The value, excluding the trailing ";", but including whitespace (Example: " red")
+"""
 
 linefeeds_regex = re.compile("([^\n])\n([^\n])", flags=re.A)
 
