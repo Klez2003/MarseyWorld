@@ -7740,3 +7740,8 @@ body {
 		resize: none !important;
 	}
 }
+
+.transformed-img {
+	display: inline-flex;
+	overflow: hidden;
+}
