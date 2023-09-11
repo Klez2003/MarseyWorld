@@ -38,18 +38,15 @@ def get_mentions(cache, queries, reddit_notifs_users=False):
 		data = []
 
 		for query in queries:
-			last_processed = 9999999999
-			while True:
-				url = f'https://api.pullpush.io/reddit/search/{kind}?q={query}&before={last_processed}'
-				new_data = requests.get(url, headers=HEADERS, timeout=5, proxies=proxies).json()['data']
-				data += new_data
-				try: last_processed = int(new_data[-1]['created_utc'])
-				except: break
-				if last_processed < 1682872206 or len(new_data) < 100: break
+			url = f'https://api.pullpush.io/reddit/search/{kind}?q={query}'
+			data += requests.get(url, headers=HEADERS, timeout=5, proxies=proxies).json()['data']
 
-		data = sorted(data, key=lambda x: x['created_utc'], reverse=True)
+		data = sorted(data, key=lambda x: int(x['created_utc']), reverse=True)
 
 		for thing in data:
+			if not thing.get('permalink'):
+				continue
+
 			if thing['subreddit'] in {'IAmA', 'PokemonGoRaids', 'SubSimulatorGPT2', 'SubSimGPT2Interactive'}: continue
 			if 'bot' in thing['author'].lower(): continue
 			if 'AutoModerator' == thing['author']: continue
@@ -66,7 +63,6 @@ def get_mentions(cache, queries, reddit_notifs_users=False):
 				if thing["selftext"]:
 					selftext = thing["selftext"].replace('>', '> ')[:5000]
 					text += f'<br><blockquote><p>{selftext}</p></blockquote>'
-
 			mentions.append({
 				'permalink': thing['permalink'],
 				'author': thing['author'],
@@ -94,7 +90,7 @@ def notify_mentions(mentions, send_to=None, mention_str='site mention'):
 			author_id=const.AUTOJANNY_ID,
 			parent_post=None,
 			body_html=notif_text).one_or_none()
-		if existing_comment: continue
+		if existing_comment: break
 
 		new_comment = Comment(
 							author_id=const.AUTOJANNY_ID,
