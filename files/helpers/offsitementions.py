@@ -45,7 +45,6 @@ def get_mentions(cache, queries, reddit_notifs_users=False):
 
 		for thing in data:
 			if not thing.get('permalink'):
-				print(thing, flush=True)
 				continue
 
 			if thing['subreddit'] in {'IAmA', 'PokemonGoRaids', 'SubSimulatorGPT2', 'SubSimGPT2Interactive'}: continue
