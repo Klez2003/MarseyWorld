@@ -8,6 +8,7 @@ from sqlalchemy.orm import aliased, deferred, Query
 from sqlalchemy.sql import case, func, literal
 from sqlalchemy.sql.expression import not_, and_, or_
 from sqlalchemy.sql.sqltypes import *
+from sqlalchemy.exc import OperationalError
 from flask import g, session, request
 
 from files.classes import Base
@@ -209,7 +210,12 @@ class User(Base):
 		user_query = g.db.query(User).options(load_only(User.id)).filter_by(id=self.id)
 
 		if currency == 'coins':
-			user_query.update({ User.coins: User.coins + amount })
+			try:
+				user_query.update({ User.coins: User.coins + amount })
+			except OperationalError as e:
+				if str(e).startswith('(psycopg2.errors.QueryCanceled) canceling statement due to statement timeout'):
+					abort(409, f"Statement timeout while trying to pay @{self.username} {amount} coins!")
+				raise
 		else:
 			user_query.update({ User.marseybux: User.marseybux + amount })
 
