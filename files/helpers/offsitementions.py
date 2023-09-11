@@ -44,6 +44,10 @@ def get_mentions(cache, queries, reddit_notifs_users=False):
 		data = sorted(data, key=lambda x: int(x['created_utc']), reverse=True)
 
 		for thing in data:
+			if not thing['permalink']:
+				print(thing, flush=True)
+				continue
+
 			if thing['subreddit'] in {'IAmA', 'PokemonGoRaids', 'SubSimulatorGPT2', 'SubSimGPT2Interactive'}: continue
 			if 'bot' in thing['author'].lower(): continue
 			if 'AutoModerator' == thing['author']: continue
@@ -60,7 +64,6 @@ def get_mentions(cache, queries, reddit_notifs_users=False):
 				if thing["selftext"]:
 					selftext = thing["selftext"].replace('>', '> ')[:5000]
 					text += f'<br><blockquote><p>{selftext}</p></blockquote>'
-
 			mentions.append({
 				'permalink': thing['permalink'],
 				'author': thing['author'],
