@@ -417,7 +417,6 @@ PERMS = { # Minimum admin_level to perform action.
 	'ADMIN_ACTIONS_REVERT': 3,
 	'DOMAINS_BAN': 3,
 	'EDIT_RULES': 3,
-	'VIEW_PENDING_SUBMITTED_HATS': 3,
 	'LOTTERY_ADMIN': 3,
 	'SITE_SETTINGS': 3,
 	'SITE_CACHE_PURGE_CDN': 3,
