@@ -3,7 +3,7 @@ from flask import g
 from files.classes.badges import Badge
 from files.helpers.alerts import send_repeatable_notification
 
-def badge_grant(user, badge_id, description=None, url=None, notify=True, check_if_exists=True):
+def badge_grant(user, badge_id, description=None, url=None, notify=True):
 	g.db.flush()
 	existing = g.db.query(Badge).filter_by(user_id=user.id, badge_id=badge_id).one_or_none()
 	if existing: return
