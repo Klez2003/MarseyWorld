@@ -44,7 +44,7 @@ def get_mentions(cache, queries, reddit_notifs_users=False):
 		data = sorted(data, key=lambda x: int(x['created_utc']), reverse=True)
 
 		for thing in data:
-			if not thing['permalink']:
+			if not thing.get('permalink'):
 				print(thing, flush=True)
 				continue
 
