@@ -581,6 +581,13 @@ document.onpaste = function(event) {
 	const files = structuredClone(event.clipboardData.files);
 	if (!files.length) return
 
+	for (let file of files) {
+		Object.defineProperty(file, 'name', {
+			writable: true,
+			value: Math.random().toString(32).substring(2,10) + '.png'
+		});		  
+	}
+
 	const focused = document.activeElement;
 	let input;
 
