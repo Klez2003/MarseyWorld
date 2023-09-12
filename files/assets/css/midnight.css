@@ -68,3 +68,8 @@ body, .navbar-light, .navbar-dark, .card, .modal-content, .comment-write textare
 [disabled], .disabled, button[disabled], .btn[disabled], button.disabled, .btn.disabled {
 	color: #858b91 !important;
 }
+
+/* repeated here to override an earlier rule in this file */
+.unread {
+	background: #ffffff22 !important;
+}
