@@ -38,7 +38,6 @@ def cron_fn(every_5m, every_1d):
 					check_if_end_lottery_task()
 
 					spin_roulette_wheel()
-				t = time.time()
 				offsitementions.offsite_mentions_task(cache)
 				_award_timers_task()
 				_unpin_expired()
