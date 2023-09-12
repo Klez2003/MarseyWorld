@@ -40,7 +40,7 @@ def get_mentions(cache, queries, reddit_notifs_users=False):
 		for query in queries:
 			url = f'https://api.pullpush.io/reddit/search/{kind}?q={query}'
 			try: req = requests.get(url, headers=HEADERS, timeout=5, proxies=proxies)
-			except: break
+			except: return []
 			data += req.json()['data']
 
 		data = sorted(data, key=lambda x: int(x['created_utc']), reverse=True)
