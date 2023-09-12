@@ -37,10 +37,12 @@ let focused = true;
 let is_typing = false;
 let alert=true;
 
+const page_title = document.getElementsByTagName('title')[0].innerHTML;
+
 function flash(){
 	let title = document.getElementsByTagName('title')[0]
 	if (notifs >= 1 && !focused){
-		title.innerHTML = `[+${notifs}] Chat`;
+		title.innerHTML = `[+${notifs}] ${page_title}`;
 		if (alert) {
 			icon.href = `/i/${site_name}/alert.ico?v=3009`
 			alert=false;
@@ -54,10 +56,7 @@ function flash(){
 	else {
 		icon.href = `/i/${site_name}/icon.webp?x=6`
 		notifs = 0
-		if (location.pathname == '/chat')
-			title.innerHTML = 'Chat';
-		else
-			title.innerHTML = 'Orgy';
+		title.innerHTML = page_title;
 	}
 
 	if (is_typing) {
