@@ -71,6 +71,10 @@ def chat(v):
 	if not v.allowed_in_chat:
 		abort(403, CHAT_ERROR_MESSAGE)
 
+	orgy = get_orgy()
+	if orgy:
+		return redirect('/orgy')
+
 	displayed_messages = {k: val for k, val in messages[f"{SITE_FULL}/chat"].items() if val["user_id"] not in v.userblocks}
 
 	return render_template("chat.html", v=v, messages=displayed_messages)
@@ -188,8 +192,13 @@ def speak(data, v):
 
 def refresh_online():
 	emit("online", [online[request.referrer], muted], room=request.referrer, broadcast=True)
-	if request.referrer == f'{SITE_FULL}/chat':
-		cache.set(CHAT_ONLINE_CACHE_KEY, len(online[f'{SITE_FULL}/chat']), timeout=0)
+
+	if get_orgy():
+		key = f'{SITE_FULL}/orgy'
+	else:
+		key = f'{SITE_FULL}/chat'
+
+	cache.set(CHAT_ONLINE_CACHE_KEY, len(online[key]), timeout=0)
 
 @socketio.on('connect')
 @is_not_permabanned_socketio
