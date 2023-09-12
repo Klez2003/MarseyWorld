@@ -45,8 +45,6 @@ def get_mentions(cache, queries, reddit_notifs_users=False):
 			data += req.json()['data']
 			if query == 'rdrama': print(req.json()['data'])
 
-		data = sorted(data, key=lambda x: int(x['created_utc']), reverse=True)
-
 		for thing in data:
 			if not thing.get('permalink'):
 				continue
@@ -76,6 +74,7 @@ def get_mentions(cache, queries, reddit_notifs_users=False):
 	return mentions
 
 def notify_mentions(mentions, send_to=None, mention_str='site mention'):
+	mentions = sorted(mentions, key=lambda x: int(x['created_utc']), reverse=True)
 	for m in mentions:
 		author = m['author']
 		permalink = m['permalink']
