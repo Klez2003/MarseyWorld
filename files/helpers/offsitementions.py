@@ -32,9 +32,8 @@ def offsite_mentions_task(cache):
 	g.db.commit() # commit early otherwise localhost testing fails to commit
 
 def get_mentions(cache, queries, reddit_notifs_users=False):
-	kinds = ['submission', 'comment']
 	mentions = []
-	for kind in kinds:
+	for kind in ('submission', 'comment'):
 		data = []
 
 		for query in queries:
