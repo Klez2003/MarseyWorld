@@ -272,6 +272,6 @@ def delete(id, v):
 
 
 def close_running_threads():
-	cache.set(f'messages', messages)
-	cache.set(f'muted', muted)
+	cache.set('messages', messages)
+	cache.set('muted', muted)
 atexit.register(close_running_threads)
