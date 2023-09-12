@@ -1,7 +1,7 @@
 {% extends "default.html" %}
 {% block pagetitle %}@{{u.username}}'s blockers{% endblock %}
 {% block content %}
-<h5 class="my-3">@{{u.username}}'s blockers ({{users|length}} users)</h5>
+<h5 class="my-3">@{{u.username}}'s blockers ({{total}} users)</h5>
 <div class="overflow-x-auto mt-1"><table class="table table-striped mb-5">
 <thead class="bg-primary text-white">
 	<tr>
