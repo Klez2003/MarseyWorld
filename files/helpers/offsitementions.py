@@ -39,11 +39,9 @@ def get_mentions(cache, queries, reddit_notifs_users=False):
 
 		for query in queries:
 			url = f'https://api.pullpush.io/reddit/search/{kind}?q={query}'
-			print(url, flush=True)
 			try: req = requests.get(url, headers=HEADERS, timeout=5, proxies=proxies)
 			except: return []
 			data += req.json()['data']
-			if query == 'rdrama': print(req.json()['data'])
 
 		for thing in data:
 			if not thing.get('permalink'):
