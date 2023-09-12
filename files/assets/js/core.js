@@ -497,11 +497,17 @@ function handle_files(input, newfiles) {
 		oldfiles[ta.id] = new DataTransfer();
 	}
 
-	for (const file of newfiles) {
+	for (let file of newfiles) {
+		if (file.name == 'image.png') {
+			const blob = file.slice(0, file.size, 'image/png');
+			const new_name = Math.random().toString(32).substring(2,10) + '.png'
+			file = new File([blob], new_name, {type: 'image/png'});
+		}
 		oldfiles[ta.id].items.add(file);
+		insertText(ta, `[${file.name}]`);
 	}
-	input.files = oldfiles[ta.id].files;
 
+	input.files = oldfiles[ta.id].files;
 
 	if (input.files.length > 20)
 	{
@@ -511,9 +517,6 @@ function handle_files(input, newfiles) {
 		return
 	}
 
-	for (const file of newfiles) {
-		insertText(ta, `[${file.name}]`);
-	}
 	markdown(ta)
 
 	autoExpand(ta)
@@ -580,13 +583,6 @@ if (file_upload) {
 document.onpaste = function(event) {
 	const files = structuredClone(event.clipboardData.files);
 	if (!files.length) return
-
-	for (let file of files) {
-		Object.defineProperty(file, 'name', {
-			writable: true,
-			value: Math.random().toString(32).substring(2,10) + '.png'
-		});		  
-	}
 
 	const focused = document.activeElement;
 	let input;
