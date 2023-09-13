@@ -466,10 +466,16 @@ def submit_post(v, sub=None):
 		abort(400, f"You need to be a member of House {sub.capitalize()} to post in /h/{sub}")
 
 	if sub and sub != 'none':
-		sname = sub.strip().lower()
-		sub = g.db.query(Sub.name).filter_by(name=sname).one_or_none()
-		if not sub: abort(400, f"/h/{sname} not found!")
-		sub = sub[0]
+		sub_name = sub.strip().lower()
+		sub = g.db.query(Sub).filter_by(name=sub_name).one_or_none()
+		if not sub: abort(400, f"/h/{sub_name} not found!")
+
+		if not User.can_see(v, sub):
+			if sub.name == 'highrollerclub':
+				abort(403, f"Only {patron}s can post in /h/{sub}")
+			abort(403, f"You're not allowed to post in /h/{sub}")
+
+		sub = sub.name
 		if v.exiler_username(sub): abort(400, f"You're exiled from /h/{sub}")
 	else: sub = None
 
