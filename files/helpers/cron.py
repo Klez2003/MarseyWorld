@@ -75,6 +75,9 @@ def cron_fn(every_5m, every_1d, every_fri):
 
 				cache.set('stats', stats.stats(), timeout=CRON_CACHE_TIMEOUT)
 				g.db.commit()
+
+			if every_fri:
+				print('test!!!', flush=True)
 		except:
 			print(traceback.format_exc(), flush=True)
 			g.db.rollback()
