@@ -36,31 +36,45 @@ def cron_fn(every_5m, every_1d):
 			if every_5m:
 				if FEATURES['GAMBLING']:
 					check_if_end_lottery_task()
+					g.db.commit()
 
 					spin_roulette_wheel()
-				offsitementions.offsite_mentions_task(cache)
-				_award_timers_task()
-				_unpin_expired()
-				_grant_one_year_badges()
-				_grant_two_year_badges()
+					g.db.commit()
 
-			if every_1d or (not cache.get('stats') and not IS_LOCALHOST):
+				_award_timers_task()
 				g.db.commit()
 
+				_unpin_expired()
+				g.db.commit()
+
+				_grant_one_year_badges()
+				g.db.commit()
+
+				_grant_two_year_badges()
+				g.db.commit()
+
+				offsitementions.offsite_mentions_task(cache)
+				g.db.commit()
+
+			if every_1d or (not cache.get('stats') and not IS_LOCALHOST):
 				_generate_emojis_zip()
+				g.db.commit()
 
 				if FEATURES['ASSET_SUBMISSIONS']:
 					_generate_emojis_original_zip()
+					g.db.commit()
 
 				_leaderboard_task()
+				g.db.commit()
 
 				_sub_inactive_purge_task()
+				g.db.commit()
 
 				stats.generate_charts_task(SITE)
+				g.db.commit()
 
 				cache.set('stats', stats.stats(), timeout=CRON_CACHE_TIMEOUT)
-
-			g.db.commit()
+				g.db.commit()
 		except:
 			print(traceback.format_exc(), flush=True)
 			g.db.rollback()
