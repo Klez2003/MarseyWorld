@@ -293,7 +293,7 @@ PROFANITIES = {
 	'bitch(?![a-z])': 'b-word',
 	'toilet': 'potty',
 	'(?<![a-z])asshole': 'butthole',
-	'(?<![a-z])rape': 'consent accident',
+	'(?<![a-z])rape': 'r*pe',
 	'(?<![a-z])hell(?![a-z])': 'heck',
 	'(?<![a-z])sex(?![a-z])': 's*x',
 	'(?<![a-z])cum(?![a-z])': 'c*m',
