@@ -467,7 +467,7 @@ def submit_post(v, sub=None):
 
 	if sub and sub != 'none':
 		sub_name = sub.strip().lower()
-		sub = g.db.query(Sub).filter_by(name=sub_name).one_or_none()
+		sub = g.db.query(Sub).options(load_only(Sub.name)).filter_by(name=sub_name).one_or_none()
 		if not sub: abort(400, f"/h/{sub_name} not found!")
 
 		if not User.can_see(v, sub):
