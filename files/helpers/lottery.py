@@ -84,8 +84,6 @@ def start_new_lottery_session():
 	lottery.is_active = True
 
 	g.db.add(lottery)
-	g.db.commit() # Intentionally commit early, not autocommitted from cron
-
 
 def check_if_end_lottery_task():
 	active_lottery = get_active_lottery()

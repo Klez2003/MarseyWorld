@@ -29,8 +29,6 @@ def offsite_mentions_task(cache):
 			user_mentions = get_mentions(cache, [query], reddit_notifs_users=True)
 			notify_mentions(user_mentions, send_to=send_user, mention_str='mention of you')
 
-	g.db.commit() # commit early otherwise localhost testing fails to commit
-
 def get_mentions(cache, queries, reddit_notifs_users=False):
 	mentions = []
 	for kind in ('submission', 'comment'):

@@ -215,10 +215,6 @@ def spin_roulette_wheel():
 			game.active = False
 			g.db.add(game)
 
-		# Commit early when dirty because of long-running tasks after roulette
-		g.db.commit()
-
-
 def determine_roulette_winners(number, bets):
 	winners = []
 	payouts = {}
