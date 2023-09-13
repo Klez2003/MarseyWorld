@@ -1,5 +1,6 @@
 import time
 import os
+import glob
 from sys import stdout
 from shutil import make_archive
 from hashlib import md5
@@ -22,12 +23,13 @@ from files.helpers.config.const import *
 from files.helpers.get import *
 from files.helpers.lottery import check_if_end_lottery_task
 from files.helpers.roulette import spin_roulette_wheel
+from files.helpers.sanitize import filter_emojis_only, sanitize
 from files.helpers.useractions import *
 from files.cli import app, db_session, g
 
 CRON_CACHE_TIMEOUT = 172800
 
-def cron_fn(every_5m, every_1d, every_fri):
+def cron_fn(every_5m, every_1d, every_fri_12, every_fri_23, every_sat_00, every_sat_03):
 	with app.app_context():
 		g.db = db_session()
 		g.v = None
@@ -76,8 +78,22 @@ def cron_fn(every_5m, every_1d, every_fri):
 				cache.set('stats', stats.stats(), timeout=CRON_CACHE_TIMEOUT)
 				g.db.commit()
 
-			if every_fri:
-				print('test!!!', flush=True)
+			if every_fri_12:
+				_create_1st_post()
+				g.db.commit()
+
+			if every_fri_23:
+				_create_2nd_post()
+				g.db.commit()
+
+			if every_sat_00:
+				_create_orgy()
+				g.db.commit()
+
+			if every_sat_03:
+				_delete_all()
+				g.db.commit()
+
 		except:
 			print(traceback.format_exc(), flush=True)
 			g.db.rollback()
@@ -89,9 +105,89 @@ def cron_fn(every_5m, every_1d, every_fri):
 @app.cli.command('cron', help='Run scheduled tasks.')
 @click.option('--every-5m', is_flag=True, help='Call every 5 minutes.')
 @click.option('--every-1d', is_flag=True, help='Call every 1 day.')
-@click.option('--every-fri', is_flag=True, help='Call every Friday.')
-def cron(every_5m, every_1d, every_fri):
-	cron_fn(every_5m, every_1d, every_fri)
+@click.option('--every-fri-12', is_flag=True, help='Call every Friday.')
+@click.option('--every-fri-23', is_flag=True, help='Call every Friday.')
+@click.option('--every-sat-00', is_flag=True, help='Call every Saturday.')
+@click.option('--every-sat-03', is_flag=True, help='Call every Saturday.')
+def cron(every_5m, every_1d, every_fri_12, every_fri_23, every_sat_00, every_sat_03):
+	cron_fn(every_5m, every_1d, every_fri_12, every_fri_23, every_sat_00, every_sat_03)
+
+def get_file():
+	return max(glob.glob('/orgies/*'), key=os.path.getctime).split('/orgies/')[1]
+
+def get_name():
+	return get_file().split('.')[0]
+
+def _create_post(title, body):
+	title += f': {get_name()}'
+	body += f'''It will be shown [here](/orgy).\nRerun will be Sunday 4 PM EST.\nThere will be a 5-minute bathroom break at the 50:00 mark.'''
+
+	title_html = filter_emojis_only(title)
+	body_html = sanitize(body)
+
+	p = Post(
+		private=False,
+		notify=True,
+		author_id=AUTOJANNY_ID,
+		over_18=False,
+		new=False,
+		app_id=None,
+		is_bot=False,
+		url='/orgy',
+		body=body,
+		body_html=body_html,
+		embed=None,
+		title=title,
+		title_html=title_html,
+		sub='countryclub',
+		ghost=False,
+		chudded=False,
+		rainbowed=False,
+		queened=False,
+		sharpened=False,
+		stickied_utc=int(time.time())+3600,
+		stickied="AutoJanny",
+		distinguish_level=6,
+	)
+	g.db.add(p)
+
+	cache.delete_memoized(frontlist)
+
+
+def _create_1st_post():
+	title = f'Movie Night'
+	body = f'''Our Movie Night this week will show {get_name()}.\nThe movie will start at 8 PM EST. [Here is a timezone converter for whoever needs it.](https://dateful.com/time-zone-converter?t=8pm&tz1=EST-EDT-Eastern-Time). You can also check this [countdown timer](https://www.tickcounter.com/countdown/4435809/movie-night) instead.\n'''
+	_create_post(title, body)
+
+def _create_2nd_post():
+	title = f'Movie Night in 60 minutes'
+	body = ''
+	_create_post(title, body)
+
+def _create_orgy():
+	orgy = Orgy(
+		title=get_name(),
+		type='file',
+		data=f'https://videos.watchpeopledie.tv/orgies/{get_file()}'
+	)
+	g.db.add(orgy)
+
+def _delete_all():
+	orgy = g.db.query(Orgy).one_or_none()
+	if orgy:
+		g.db.delete(orgy)
+	
+	posts = g.db.query(Post).filter_by(author_id=AUTOJANNY_ID, deleted_utc=0).all()
+	for p in posts:
+		p.deleted_utc = int(time.time())
+		p.is_pinned = False
+		p.stickied = None
+		g.db.add(p)
+
+		cache.delete_memoized(frontlist)
+
+		for sort in COMMENT_SORTS.keys():
+			cache.delete(f'post_{p.id}_{sort}')
 
 def _grant_one_year_badges():
 	one_year_ago = int(time.time()) - 364 * 86400
