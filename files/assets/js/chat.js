@@ -237,8 +237,7 @@ ta.addEventListener("keydown", function(e) {
 
 socket.on('online', function(data){
 	document.getElementsByClassName('board-chat-count')[0].innerHTML = data[0].length
-	if (location.pathname == '/chat')
-		document.getElementById('chat-count-header-bar').innerHTML = data[0].length
+	document.getElementById('chat-count-header-bar').innerHTML = data[0].length
 	const admin_level = parseInt(document.getElementById('admin_level').value)
 	let online = ''
 	let online2 = '<b>Users Online</b>'
