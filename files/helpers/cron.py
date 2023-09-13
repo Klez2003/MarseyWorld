@@ -347,7 +347,7 @@ def _process_timer(attr, badge_ids, text, extra_attrs={}):
 	for uid in uids:
 		send_repeatable_notification(uid, text)
 
-	if attr == User.patron_utc:
+	if attr == 'patron_utc':
 		verifiedrich_memberships = g.db.query(GroupMembership).filter(
 			GroupMembership.user_id.in_(uids),
 			GroupMembership.group_name == 'verifiedrich'
