@@ -56,5 +56,5 @@ if IS_LOCALHOST:
 	if "cron" not in argv:
 		from files.helpers.cron import cron_fn
 		print('Starting cron tasks!', flush=True)
-		gevent.spawn(cron_fn, True, False)
+		gevent.spawn(cron_fn, True, False, False)
 		print('Cron tasks Finished!', flush=True)

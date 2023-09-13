@@ -27,7 +27,7 @@ from files.cli import app, db_session, g
 
 CRON_CACHE_TIMEOUT = 172800
 
-def cron_fn(every_5m, every_1d):
+def cron_fn(every_5m, every_1d, every_fri):
 	with app.app_context():
 		g.db = db_session()
 		g.v = None
@@ -86,8 +86,9 @@ def cron_fn(every_5m, every_1d):
 @app.cli.command('cron', help='Run scheduled tasks.')
 @click.option('--every-5m', is_flag=True, help='Call every 5 minutes.')
 @click.option('--every-1d', is_flag=True, help='Call every 1 day.')
-def cron(every_5m, every_1d):
-	cron_fn(every_5m, every_1d)
+@click.option('--every-fri', is_flag=True, help='Call every Friday.')
+def cron(every_5m, every_1d, every_fri):
+	cron_fn(every_5m, every_1d, every_fri)
 
 def _grant_one_year_badges():
 	one_year_ago = int(time.time()) - 364 * 86400
