@@ -67,9 +67,13 @@ function checkForRequired() {
 checkForRequired();
 
 function remove_attachment() {
-	document.getElementById("file-upload").value = null;
-	document.getElementById('image-upload-block').classList.add('d-none');
+	file_upload.value = null;
+	file_upload.previousElementSibling.textContent = 'Select File';
+	document.getElementById('image-preview').classList.add('d-none');
+	document.getElementById('image-preview').classList.remove('mr-2');
 	document.getElementById('urlblock').classList.remove('d-none');
+	document.getElementById('remove-attachment').classList.add('d-none');
+	checkForRequired();
 	clear_files("attachment");
 }
 
