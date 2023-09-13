@@ -1,6 +1,7 @@
 import atexit
 import time
 import uuid
+from hashlib import md5
 
 from flask_socketio import SocketIO, emit, join_room, leave_room
 from flask import request
@@ -94,7 +95,13 @@ def orgy(v):
 	if not orgy:
 		return render_template("chat.html", v=v, messages=displayed_messages)
 
-	return render_template("orgy.html", v=v, messages=displayed_messages, orgy=orgy)
+	m = md5()
+	with open('files/assets/subtitles.vtt', "rb") as f:
+		data = f.read()
+	m.update(data)
+	subtitles_hash = m.hexdigest()
+
+	return render_template("orgy.html", v=v, messages=displayed_messages, orgy=orgy, subtitles_hash=subtitles_hash)
 
 @socketio.on('speak')
 @is_not_banned_socketio
