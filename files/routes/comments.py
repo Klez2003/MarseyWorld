@@ -251,7 +251,7 @@ def comment(v):
 			body_for_checking = '\n{[para]}\n' + body + '\n{[para]}\n'
 			if body_for_checking in f.read():
 				abort(400, "Snappy quote already exists!")
-			f.write('{[para]}\n' + body)
+			f.write('{[para]}\n' + body + '\n')
 
 	body_for_sanitize = body
 	if v.owoify: body_for_sanitize = owoify(body_for_sanitize)
