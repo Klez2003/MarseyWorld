@@ -1139,7 +1139,7 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 engine = create_engine(environ.get("DATABASE_URL").strip(), connect_args={"options": "-c statement_timeout=5000 -c idle_in_transaction_session_timeout=40000"})
 db_session = scoped_session(sessionmaker(bind=engine, autoflush=False))
 
-approved_embed_hosts_for_csp = ' '.join([x.split('/')[0] for x in approved_embed_hosts])
+approved_embed_hosts_for_csp = ' '.join(set([x.split('/')[0] for x in approved_embed_hosts]))
 csp = f'''add_header Content-Security-Policy "upgrade-insecure-requests; default-src 'none'; frame-ancestors 'none'; form-action 'self'; manifest-src 'self'; worker-src 'self'; base-uri 'self'; font-src 'self'; style-src-elem 'self'; style-src-attr 'unsafe-inline'; style-src 'self' 'unsafe-inline'; script-src-elem 'self' challenges.cloudflare.com; script-src-attr 'none'; script-src 'self' challenges.cloudflare.com; frame-src challenges.cloudflare.com www.youtube-nocookie.com platform.twitter.com rumble.com player.twitch.tv; connect-src 'self' videos.watchpeopledie.tv use1.fptls.com use1.fptls3.com api.fpjs.io; img-src {approved_embed_hosts_for_csp} data:; media-src {approved_embed_hosts_for_csp};";'''
 with open("includes/content-security-policy", "w", encoding="utf-8") as f:
 	f.write(csp)
