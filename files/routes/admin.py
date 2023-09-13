@@ -1964,7 +1964,7 @@ def start_orgy(v):
 	elif re.match(twitch_regex, normalized_link):
 		orgy_type = 'twitch'
 		data = re.search(twitch_regex, normalized_link).group(3)
-	elif normalized_link.endswith('.mp4'):
+	elif any((normalized_link.lower().endswith(f'.{x}') for x in VIDEO_FORMATS)):
 		orgy_type = 'file'
 		data = normalized_link
 	else:
