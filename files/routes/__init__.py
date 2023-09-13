@@ -53,7 +53,7 @@ if FEATURES['PING_GROUPS']:
 
 if IS_LOCALHOST:
 	from sys import argv
-	if "cron" not in argv:
+	if "cron" not in argv and "load_chat" not in argv:
 		from files.helpers.cron import cron_fn
 		print('Starting cron tasks!', flush=True)
 		gevent.spawn(cron_fn, True, False, False)
