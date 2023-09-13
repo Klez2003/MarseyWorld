@@ -966,10 +966,6 @@ approved_embed_hosts = [
 	'66.media.tumblr.com',
 	'78.media.tumblr.com',
 	'i.ytimg.com/vi',
-
-	### Third-Party Resources (For e.g. Profile Customization)
-	# TODO: Any reasonable way to proxy these instead?
-	'fonts.googleapis.com', # Google font CDN
 	'raw.githubusercontent.com', # using repos as media sources. no obvious exploit
 ]
 
