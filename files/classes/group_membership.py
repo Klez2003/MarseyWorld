@@ -21,4 +21,4 @@ class GroupMembership(Base):
 		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
-		return f"<{self.__class__.__name__}(user_id={self.user_id}, group={self.group})>"
+		return f"<{self.__class__.__name__}(user_id={self.user_id}, group_name={self.group_name})>"
