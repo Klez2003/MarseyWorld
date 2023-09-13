@@ -6,7 +6,7 @@ INSERT INTO public.users (
 ) VALUES
 ('AutoJanny', '', extract(epoch from now()), 0, true,
 	'AutoJanny', 'hot', 'top', 'day', 'ff459a', 'ff459a', 'dark', 'ff459a',
-	'old.reddit.com', 'clean/itup', 'Verified', '/i/pfps/1.webp', '/i/pfps/1.webp',
+	'old.reddit.com', 'clean/it/up', 'Verified', '/i/pfps/1.webp', '/i/pfps/1.webp',
 	0, 0, 0, 0, 0, false),
 ('Snappy', '', extract(epoch from now()), 0, true,
 	'Snappy', 'hot', 'top', 'day', '62ca56', 'e4432d', 'dark', '30409f',
