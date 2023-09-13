@@ -766,6 +766,8 @@ def normalize_url(url):
 			 .replace('https://amp.', 'https://') \
 			 .replace('https://cnn.com/cnn/', 'https://edition.cnn.com/') \
 			 .replace('/amp/', '/') \
+			 .replace('https://letmegooglethat.com/?q=', 'https://google.com/search?q=') \
+			 .replace('https://lmgtfy.app/?q=', 'https://google.com/search?q=') \
 
 	if url.endswith('.amp'):
 		url = url.split('.amp')[0]
