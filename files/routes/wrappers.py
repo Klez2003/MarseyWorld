@@ -95,7 +95,7 @@ def get_logged_in_user():
 			else:
 				session.pop("lo_user")
 
-	if request.method.lower() != "get" and get_setting('read_only_mode') and not (v and v.admin_level >= PERMS['BYPASS_SITE_READ_ONLY_MODE']):
+	if request.method != "GET" and get_setting('read_only_mode') and not (v and v.admin_level >= PERMS['BYPASS_SITE_READ_ONLY_MODE']):
 		abort(403, "Site is in read-only mode right now. It will be back shortly!")
 
 	if get_setting('offline_mode') and not (v and v.admin_level >= PERMS['SITE_OFFLINE_MODE']):
