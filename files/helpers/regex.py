@@ -58,8 +58,11 @@ snappy_youtube_regex = re.compile('<lite-youtube videoid="(.+?)" params="autopla
 email_regex = re.compile('[A-Za-z0-9._%+-]{1,64}@[A-Za-z0-9.-]{2,63}\.[A-Za-z]{2,63}', flags=re.A)
 
 slur_regex = re.compile(f"<[^>]*>|{slur_single_words}", flags=re.I|re.A)
+slur_regex_title = re.compile(f"<[^>]*>|{slur_single_words.title()}", flags=re.A)
 slur_regex_upper = re.compile(f"<[^>]*>|{slur_single_words.upper()}", flags=re.A)
+
 profanity_regex = re.compile(f"<[^>]*>|{profanity_single_words}", flags=re.I|re.A)
+profanity_regex_title = re.compile(f"<[^>]*>|{profanity_single_words.title()}", flags=re.A)
 profanity_regex_upper = re.compile(f"<[^>]*>|{profanity_single_words.upper()}", flags=re.A)
 
 torture_regex = re.compile('(^|\s)(i|me)($|\s)', flags=re.I|re.A)
@@ -151,15 +154,17 @@ pronouns_regex = re.compile("([a-z]{1,7})\/[a-z]{1,7}(\/[a-z]{1,7})?", flags=re.
 
 html_title_regex = re.compile("<title>(.{1,200})</title>", flags=re.I)
 
-def sub_matcher(match, upper=False, replace_with=SLURS_FOR_REPLACING):
+def sub_matcher(match, upper=False, title=False, replace_with=SLURS_FOR_REPLACING):
 	group_num = 0
 	match_str = match.group(group_num)
 	if match_str.startswith('<'):
 		return match_str
 	else:
 		repl = replace_with[match_str.lower()]
-		if not upper or "<img" in repl:
+		if (not upper and not title) or "<img" in repl:
 			return repl
+		elif title:
+			return repl.title()
 		else:
 			return repl.upper()
 
@@ -168,17 +173,30 @@ def sub_matcher_upper(match, replace_with=SLURS_FOR_REPLACING):
 
 
 # TODO: make censoring a bit better
-def sub_matcher_slurs(match, upper=False):
-	return sub_matcher(match, upper, replace_with=SLURS_FOR_REPLACING)
+def sub_matcher_slurs(match, upper=False, title=False):
+	return sub_matcher(match, upper, title, replace_with=SLURS_FOR_REPLACING)
+
+def sub_matcher_slurs_title(match):
+	return sub_matcher_slurs(match, title=True)
 
 def sub_matcher_slurs_upper(match):
 	return sub_matcher_slurs(match, upper=True)
 
-def sub_matcher_profanities(match, upper=False):
-	return sub_matcher(match, upper, replace_with=PROFANITIES_FOR_REPLACING)
+
+def sub_matcher_profanities(match, upper=False, title=False):
+	return sub_matcher(match, upper, title, replace_with=PROFANITIES_FOR_REPLACING)
+
+def sub_matcher_profanities_title(match):
+	return sub_matcher_profanities(match, title=True)
 
 def sub_matcher_profanities_upper(match):
 	return sub_matcher_profanities(match, upper=True)
+
+
+def replace_re(body, regex, regex_title, regex_upper, sub_func, sub_func_title, sub_func_upper):
+	body = regex_upper.sub(sub_func_upper, body)
+	body = regex_title.sub(sub_func_title, body)
+	return regex.sub(sub_func, body)
 
 def censor_slurs(body, logged_user):
 	if not body: return ""
@@ -186,15 +204,12 @@ def censor_slurs(body, logged_user):
 	if '<pre>' in body or '<code>' in body:
 			return body
 
-	def replace_re(body, regex, regex_upper, sub_func, sub_func_upper):
-		body = regex_upper.sub(sub_func_upper, body)
-		return regex.sub(sub_func, body)
-
 	if not logged_user or logged_user == 'chat' or logged_user.slurreplacer:
-		body = replace_re(body, slur_regex, slur_regex_upper, sub_matcher_slurs, sub_matcher_slurs_upper)
+		body = replace_re(body, slur_regex, slur_regex_title, slur_regex_upper, sub_matcher_slurs, sub_matcher_slurs_title, sub_matcher_slurs_upper)
+
 	if SITE_NAME == 'rDrama':
 		if not logged_user or logged_user == 'chat' or logged_user.profanityreplacer:
-			body = replace_re(body, profanity_regex, profanity_regex_upper, sub_matcher_profanities, sub_matcher_profanities_upper)
+			body = replace_re(body, profanity_regex, profanity_regex_title, profanity_regex_upper, sub_matcher_profanities, sub_matcher_profanities_title, sub_matcher_profanities_upper)
 
 	return body
 
