@@ -784,17 +784,19 @@ class User(Base):
 	@lazy
 	def post_notifications_count(self):
 		return g.db.query(Post).filter(
-			or_(
-				Post.author_id.in_(self.followed_users),
-				Post.sub.in_(self.followed_subs)
-			),
 			Post.created_utc > self.last_viewed_post_notifs,
+			or_(
+				Post.sub.in_(self.followed_subs),
+				and_(
+					Post.author_id.in_(self.followed_users),
+					Post.notify == True,
+					Post.ghost == False,
+				),
+			),
 			Post.deleted_utc == 0,
 			Post.is_banned == False,
 			Post.private == False,
-			Post.notify == True,
 			Post.author_id != self.id,
-			Post.ghost == False,
 			Post.author_id.notin_(self.userblocks),
 			or_(Post.sub == None, Post.sub.notin_(self.sub_blocks)),
 		).count()

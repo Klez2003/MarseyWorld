@@ -166,15 +166,17 @@ def notifications_posts(v):
 
 	listing = g.db.query(Post).filter(
 		or_(
-			Post.author_id.in_(v.followed_users),
-			Post.sub.in_(v.followed_subs)
+			Post.sub.in_(v.followed_subs),
+			and_(
+				Post.author_id.in_(v.followed_users),
+				Post.notify == True,
+				Post.ghost == False,
+			),
 		),
 		Post.deleted_utc == 0,
 		Post.is_banned == False,
 		Post.private == False,
-		Post.notify == True,
 		Post.author_id != v.id,
-		Post.ghost == False,
 		Post.author_id.notin_(v.userblocks),
 		or_(Post.sub == None, Post.sub.notin_(v.sub_blocks)),
 	).options(load_only(Post.id))
