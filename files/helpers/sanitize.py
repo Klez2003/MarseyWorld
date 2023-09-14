@@ -786,7 +786,7 @@ def normalize_url(url):
 			filtered['context'] = 8
 		new_url = ParseResult(scheme="https",
 							netloc=parsed_url.netloc,
-							path=parsed_url.path,
+							path=parsed_url.path.rstrip('/'),
 							params=parsed_url.params,
 							query=urlencode(filtered, doseq=True),
 							fragment=parsed_url.fragment)
