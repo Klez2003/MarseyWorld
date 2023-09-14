@@ -104,6 +104,16 @@ def check_for_alts(current, include_current_session=False):
 			u.shadowbanned = current.shadowbanned
 			u.ban_reason = current.ban_reason
 			g.db.add(u)
+		elif u.is_permabanned and not current.is_permabanned:
+			current.is_banned = u.is_banned
+			current.ban_reason = u.ban_reason
+			current.unban_utc = 0
+			g.db.add(current)
+		elif current.is_permabanned and not u.is_permabanned:
+			u.is_banned = current.is_banned
+			u.ban_reason = current.ban_reason
+			u.unban_utc = 0
+			g.db.add(u)
 
 		if u.is_muted and not current.is_muted:
 			current.is_muted = u.is_muted
