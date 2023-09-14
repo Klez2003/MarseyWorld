@@ -670,7 +670,7 @@ BADGE_BLACKLIST = { # only grantable by admins higher than PERMS['IGNORE_BADGE_B
 
 NOTIFIED_USERS = {}
 
-if SITE == 'rdrama.net':
+if SITE in {'rdrama.net', 'staging.rdrama.net'}:
 	NOTIFICATION_SPAM_AGE_THRESHOLD = 0.5 * 86400
 
 	TELEGRAM_ID = "rdramanet"
