@@ -966,7 +966,6 @@ approved_embed_hosts = [
 	'66.media.tumblr.com',
 	'78.media.tumblr.com',
 	'i.ytimg.com/vi',
-	'raw.githubusercontent.com', # using repos as media sources. no obvious exploit
 ]
 
 if SITE_IMAGES not in approved_embed_hosts:
