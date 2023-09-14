@@ -43,7 +43,7 @@ def const_initialize():
 		filename = f"snappy_{SITE_NAME}.txt"
 
 	try:
-		with open(filename, "r", encoding="utf-8") as f:
+		with open(filename, "r") as f:
 			SNAPPY_QUOTES = f.read().split("\n{[para]}\n")
 	except FileNotFoundError:
 		pass

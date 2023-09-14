@@ -6,7 +6,7 @@ def log_file(log_str, log_filename="rdrama.log"):
 	'''
 	log_target = f"{LOG_DIRECTORY}/{log_filename}"
 	try:
-		with open(log_target, "a", encoding="utf-8") as f:
+		with open(log_target, "a") as f:
 			f.write(log_str + '\n')
 	except Exception as e:
 		print(f"Failed to log to file {log_target} due to {e.__class__.__name__}")

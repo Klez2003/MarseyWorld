@@ -46,7 +46,7 @@ def loggedout_list(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @admin_level_required(PERMS['ENABLE_DM_MEDIA'])
 def dm_media(v):
-	with open(f"{LOG_DIRECTORY}/dm_media.log", "r", encoding="utf-8") as f:
+	with open(f"{LOG_DIRECTORY}/dm_media.log", "r") as f:
 		items=f.read().split("\n")[:-1]
 
 	total = len(items)
@@ -68,7 +68,7 @@ def dm_media(v):
 @admin_level_required(PERMS['EDIT_RULES'])
 def edit_rules_get(v):
 	try:
-		with open(f'files/templates/rules_{SITE_NAME}.html', 'r', encoding="utf-8") as f:
+		with open(f'files/templates/rules_{SITE_NAME}.html', 'r') as f:
 			rules = f.read()
 	except:
 		rules = None
@@ -85,7 +85,7 @@ def edit_rules_post(v):
 	rules = request.values.get('rules', '').strip()
 	rules = sanitize(rules, blackjack="rules")
 
-	with open(f'files/templates/rules_{SITE_NAME}.html', 'w+', encoding="utf-8") as f:
+	with open(f'files/templates/rules_{SITE_NAME}.html', 'w+') as f:
 		f.write(rules)
 
 	ma = ModAction(

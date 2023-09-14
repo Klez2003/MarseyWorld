@@ -247,7 +247,7 @@ def comment(v):
 	body = body[:COMMENT_BODY_LENGTH_LIMIT].strip()
 
 	if v.admin_level >= PERMS['USE_ADMIGGER_THREADS'] and posting_to_post and post_target.id == SNAPPY_THREAD and level == 1:
-		with open(f"snappy_{SITE_NAME}.txt", "r+", encoding="utf-8") as f:
+		with open(f"snappy_{SITE_NAME}.txt", "r+") as f:
 			body_for_checking = '\n{[para]}\n' + body + '\n{[para]}\n'
 			if body_for_checking in f.read():
 				abort(400, "Snappy quote already exists!")
@@ -452,12 +452,12 @@ def delete_comment(cid, v):
 
 		if v.admin_level >= PERMS['USE_ADMIGGER_THREADS'] and c.parent_post == SNAPPY_THREAD and c.level == 1:
 			body = '\n{[para]}\n' + c.body + '\n'
-			with open(f"snappy_{SITE_NAME}.txt", "r", encoding="utf-8") as f:
+			with open(f"snappy_{SITE_NAME}.txt", "r") as f:
 				old_text = f.read()
 
 			if old_text.endswith(body):
 				new_text = old_text.split(body)[0] + '\n'
-				with open(f"snappy_{SITE_NAME}.txt", "w", encoding="utf-8") as f:
+				with open(f"snappy_{SITE_NAME}.txt", "w") as f:
 					f.write(new_text)
 
 	return {"message": "Comment deleted!"}

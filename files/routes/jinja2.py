@@ -88,11 +88,11 @@ def git_head():
 	# However, they forbid '..', so I don't see an obvious dir traversal attack.
 	# Also, a malicious branch name would mean someone already owned the server
 	# or repo, so I think this isn't a weak link.
-	with open('.git/HEAD', encoding='utf_8') as head_f:
+	with open('.git/HEAD') as head_f:
 		head_txt = head_f.read()
 		try:
 			head_path = git_regex.match(head_txt).group(1)
-			with open('.git/' + head_path, encoding='utf_8') as ref_f:
+			with open('.git/' + head_path) as ref_f:
 				gitref = ref_f.read()[:7]
 		except:
 			gitref = 'Error'

@@ -1139,5 +1139,5 @@ csp = f"default-src 'none'; frame-ancestors 'none'; form-action 'self'; manifest
 if not IS_LOCALHOST:
 	csp += ' upgrade-insecure-requests;'
 
-with open("includes/content-security-policy", "w", encoding="utf-8") as f:
+with open("includes/content-security-policy", "w") as f:
 	f.write(f'add_header Content-Security-Policy "{csp}";')
