@@ -224,7 +224,7 @@ def vote_info_get(v, link):
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit("60/minute;1000/hour;2000/day", deduct_when=lambda response: response.status_code < 400)
 @limiter.limit("60/minute;1000/hour;2000/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
-@is_not_permabanned
+@auth_required
 def vote_post(post_id, new, v):
 	return vote_post_comment(post_id, new, v, Post, Vote)
 
@@ -233,6 +233,6 @@ def vote_post(post_id, new, v):
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit("60/minute;1000/hour;2000/day", deduct_when=lambda response: response.status_code < 400)
 @limiter.limit("60/minute;1000/hour;2000/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
-@is_not_permabanned
+@auth_required
 def vote_comment(comment_id, new, v):
 	return vote_post_comment(comment_id, new, v, Comment, CommentVote)

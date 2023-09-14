@@ -55,7 +55,7 @@ def rescind(v, aid):
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
-@is_not_permabanned
+@auth_required
 def request_api_keys(v):
 	new_app = OauthApp(
 		app_name=request.values.get('name').replace('<','').replace('>',''),
@@ -123,7 +123,7 @@ def delete_oauth_app(v, aid):
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
-@is_not_permabanned
+@auth_required
 def edit_oauth_app(v, aid):
 	try:
 		aid = int(aid)

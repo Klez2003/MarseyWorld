@@ -978,7 +978,7 @@ def get_post_title(v):
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DELETE_EDIT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DELETE_EDIT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
-@is_not_permabanned
+@auth_required
 def edit_post(pid, v):
 	p = get_post(pid)
 	if not v.can_edit(p): abort(403)

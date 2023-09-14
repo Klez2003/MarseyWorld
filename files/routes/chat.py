@@ -53,7 +53,7 @@ def is_not_banned_socketio(f):
 	wrapper.__name__ = f.__name__
 	return wrapper
 
-def is_not_permabanned_socketio(f):
+def auth_required_socketio(f):
 	def wrapper(*args, **kwargs):
 		v = get_logged_in_user()
 		if not v: return '', 401
@@ -67,7 +67,7 @@ CHAT_ERROR_MESSAGE = f"To prevent spam, you'll need {TRUESCORE_CC_CHAT_MINIMUM} 
 @app.get("/chat")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
-@is_not_permabanned
+@auth_required
 def chat(v):
 	if not v.allowed_in_chat:
 		abort(403, CHAT_ERROR_MESSAGE)
@@ -83,7 +83,7 @@ def chat(v):
 @app.get("/orgy")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
-@is_not_permabanned
+@auth_required
 def orgy(v):
 	if not v.allowed_in_chat:
 		abort(403, CHAT_ERROR_MESSAGE)
@@ -208,7 +208,7 @@ def refresh_online():
 	cache.set(CHAT_ONLINE_CACHE_KEY, len(online[key]), timeout=0)
 
 @socketio.on('connect')
-@is_not_permabanned_socketio
+@auth_required_socketio
 def connect(v):
 	if request.referrer not in ALLOWED_REFERRERS:
 		return '', 400
@@ -231,7 +231,7 @@ def connect(v):
 	return '', 204
 
 @socketio.on('disconnect')
-@is_not_permabanned_socketio
+@auth_required_socketio
 def disconnect(v):
 	if request.referrer not in ALLOWED_REFERRERS:
 		return '', 400

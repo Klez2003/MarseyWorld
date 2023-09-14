@@ -630,7 +630,7 @@ def toggle_comment_nsfw(cid, v):
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DELETE_EDIT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DELETE_EDIT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
-@is_not_permabanned
+@auth_required
 def edit_comment(cid, v):
 	c = get_comment(cid, v=v)
 

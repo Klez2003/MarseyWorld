@@ -139,6 +139,8 @@ def auth_required(f):
 		v = get_logged_in_user()
 		if not v:
 			abort(401, "You need to login to perform this action!")
+		if v.is_permabanned and request.method == "POST" and request.path not in {'/contact','/reply'} and not request.path.startswith('/delete/'):
+			abort(403, "You can't perform this action while permabanned!")
 		return make_response(f(*args, v=v, **kwargs))
 	wrapper.__name__ = f.__name__
 	return wrapper
@@ -150,17 +152,6 @@ def is_not_banned(f):
 			abort(401, "You need to login to perform this action!")
 		if v.is_suspended:
 			abort(403, "You can't perform this action while banned!")
-		return make_response(f(*args, v=v, **kwargs))
-	wrapper.__name__ = f.__name__
-	return wrapper
-
-def is_not_permabanned(f):
-	def wrapper(*args, **kwargs):
-		v = get_logged_in_user()
-		if not v:
-			abort(401, "You need to login to perform this action!")
-		if v.is_permabanned:
-			abort(403, "You can't perform this action while permabanned!")
 		return make_response(f(*args, v=v, **kwargs))
 	wrapper.__name__ = f.__name__
 	return wrapper
