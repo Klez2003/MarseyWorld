@@ -102,6 +102,9 @@ def cron_fn(every_5m, every_1d, every_fri_12, every_fri_23, every_sat_00, every_
 		del g.db
 		stdout.flush()
 
+	if IS_LOCALHOST:
+		print('Cron tasks Finished!', flush=True)
+
 @app.cli.command('cron', help='Run scheduled tasks.')
 @click.option('--every-5m', is_flag=True, help='Call every 5 minutes.')
 @click.option('--every-1d', is_flag=True, help='Call every 1 day.')
