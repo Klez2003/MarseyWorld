@@ -43,12 +43,9 @@
 								<input autocomplete="off" class="btn btn-primary ml-auto" type="submit" value="Add email">
 							{% endif %}
 						</div>
-						{% if FEATURES['MARSEYBUX'] %}
+						{% if v.truescore >= TRUESCORE_DONATE_MINIMUM and DONATE_SERVICE != DEFAULT_CONFIG_VALUE %}
 							<div class="text-small text-muted pl-1 pt-1 pt-sm-3">
-								Must be same email as the one you used to donate
-								{% if v.truescore >= TRUESCORE_DONATE_MINIMUM %}
-									on <a rel="nofollow noopener" class="text-primary no-visited" href="{{DONATE_LINK}}">{{DONATE_SERVICE}}</a>
-								{% endif %}
+								Must be same email as the one you used to donate on <a rel="nofollow noopener" class="text-primary no-visited" href="{{DONATE_LINK}}">{{DONATE_SERVICE}}</a>
 							</div>
 						{% endif %}
 					</div>
