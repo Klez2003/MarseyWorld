@@ -32,13 +32,11 @@ def offsite_mentions_task(cache):
 def get_mentions(cache, queries, reddit_notifs_users=False):
 	mentions = []
 	for kind in ('submission', 'comment'):
-		data = []
-
-		for query in queries:
-			url = f'https://api.pullpush.io/reddit/search/{kind}?q={query}'
-			try: req = requests.get(url, headers=HEADERS, timeout=5, proxies=proxies)
-			except: return []
-			data += req.json()['data']
+		q = " or ".join(queries)
+		url = f'https://api.pullpush.io/reddit/search/{kind}?q={q}'
+		try: req = requests.get(url, headers=HEADERS, timeout=5, proxies=proxies)
+		except: return []
+		data = req.json()['data']
 
 		for thing in data:
 			if not thing.get('permalink'):
