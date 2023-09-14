@@ -44,20 +44,20 @@ online = {
 
 cache.set(CHAT_ONLINE_CACHE_KEY, len(online[f'{SITE_FULL}/chat']), timeout=0)
 
-def is_not_banned_socketio(f):
-	def wrapper(*args, **kwargs):
-		v = get_logged_in_user()
-		if not v: return '', 401
-		if v.is_suspended: return '', 403
-		return make_response(f(*args, v=v, **kwargs))
-	wrapper.__name__ = f.__name__
-	return wrapper
-
 def auth_required_socketio(f):
 	def wrapper(*args, **kwargs):
 		v = get_logged_in_user()
 		if not v: return '', 401
 		if v.is_permabanned: return '', 403
+		return make_response(f(*args, v=v, **kwargs))
+	wrapper.__name__ = f.__name__
+	return wrapper
+
+def is_not_banned_socketio(f):
+	def wrapper(*args, **kwargs):
+		v = get_logged_in_user()
+		if not v: return '', 401
+		if v.is_suspended: return '', 403
 		return make_response(f(*args, v=v, **kwargs))
 	wrapper.__name__ = f.__name__
 	return wrapper
