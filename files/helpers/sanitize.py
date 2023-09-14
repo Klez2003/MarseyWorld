@@ -782,7 +782,7 @@ def normalize_url(url):
 		domain = parsed_url.netloc
 		qd = parse_qs(parsed_url.query, keep_blank_values=True)
 		filtered = {k: val for k, val in qd.items() if is_whitelisted(domain, k)}
-		if domain == 'old.reddit.com':
+		if domain == 'old.reddit.com' and reddit_comment_link_regex.fullmatch(url):
 			filtered['context'] = 8
 		new_url = ParseResult(scheme="https",
 							netloc=parsed_url.netloc,
