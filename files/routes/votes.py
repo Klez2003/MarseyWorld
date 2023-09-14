@@ -6,7 +6,7 @@ from files.helpers.alerts import *
 from files.routes.wrappers import *
 from files.__main__ import app, limiter
 from files.routes.routehelpers import get_alt_graph
-from sqlalchemy.exc import IntegrityError
+from sqlalchemy.exc import IntegrityError, OperationalError
 from sqlalchemy.orm.exc import StaleDataError
 
 from math import floor
@@ -105,6 +105,10 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 		except IntegrityError as e:
 			if str(e).startswith('(psycopg2.errors.UniqueViolation) duplicate key value violates unique constraint "'):
 				abort(400, "You already voted on this!")
+			raise
+		except OperationalError as e:
+			if str(e).startswith('(psycopg2.errors.QueryCanceled) canceling statement due to statement timeout'):
+				abort(409, f"Statement timeout while trying to register your vote!")
 			raise
 
 		votes = g.db.query(vote_cls)
