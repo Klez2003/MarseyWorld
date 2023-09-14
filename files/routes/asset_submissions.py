@@ -85,6 +85,7 @@ def submit_emoji(v):
 
 	highquality = f'/asset_submissions/emojis/{name}'
 	file.save(highquality)
+	process_image(highquality, v) #to ensure not malware
 
 	filename = f'/asset_submissions/emojis/{name}.webp'
 	copyfile(highquality, filename)
@@ -298,6 +299,7 @@ def submit_hat(v):
 
 	highquality = f'/asset_submissions/hats/{name}'
 	file.save(highquality)
+	process_image(highquality, v) #to ensure not malware
 
 	with Image.open(highquality) as i:
 		if i.width > 100 or i.height > 130:
@@ -435,6 +437,7 @@ def update_emoji(v):
 
 		highquality = f"/asset_submissions/emojis/{name}"
 		file.save(highquality)
+		process_image(highquality, v) #to ensure not malware
 		with Image.open(highquality) as i:
 			format = i.format.lower()
 		new_path = f'/asset_submissions/emojis/original/{name}.{format}'
@@ -509,6 +512,7 @@ def update_hat(v):
 
 	highquality = f"/asset_submissions/hats/{name}"
 	file.save(highquality)
+	process_image(highquality, v) #to ensure not malware
 
 	with Image.open(highquality) as i:
 		if i.width > 100 or i.height > 130:

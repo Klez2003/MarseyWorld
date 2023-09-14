@@ -777,6 +777,7 @@ def settings_song_change_mp3(v):
 
 	name = f'/songs/{song}.mp3'
 	file.save(name)
+	process_audio(file, v) #to ensure not malware
 
 	size = os.stat(name).st_size
 	if size > 8 * 1024 * 1024:
