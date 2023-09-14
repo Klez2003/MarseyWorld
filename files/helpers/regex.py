@@ -231,10 +231,10 @@ asset_image_link_regex = re.compile(f"https:\/\/(i\.)?{SITE}\/assets\/images\/[\
 
 #sanitizing
 reddit_mention_regex = re.compile('(?<![\w/])\/?(([ruRU])\/(\w|-){2,25})' + NOT_IN_CODE_OR_LINKS, flags=re.A)
-reddit_domain_regex = re.compile("(^|\s|\()https?:\/\/(reddit\.com|(?:(?:[A-z]{2})(?:-[A-z]{2})" "?|beta|i|m|pay|ssl|www|new|alpha)\.reddit\.com|libredd\.it|reddit\.lol)\/(u|(r\/(\w|-){2,25}\/)?comments)\/", flags=re.A)
+reddit_domain_regex = re.compile("(^|\s|\()https?:\/\/(reddit\.com|(?:(?:[A-z]{2})(?:-[A-z]{2})" "?|beta|i|m|pay|ssl|www|new|alpha)\.reddit\.com|libredd\.it|reddit\.lol)\/(u|user|(r\/(\w|-){2,25}\/)?comments)\/", flags=re.A)
 
 #gevent
 reddit_s_url_regex = re.compile("https:\/\/reddit.com\/r\/(\w|-){2,25}\/s\/\w{10}", flags=re.A)
 
 #run-time
-reddit_to_vreddit_regex = re.compile('(^|>|")https:\/\/old.reddit.com\/(r|u)\/', flags=re.A)
+reddit_to_vreddit_regex = re.compile('(^|>|")https:\/\/old.reddit.com\/(r|u|user)\/', flags=re.A)
