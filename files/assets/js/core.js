@@ -218,16 +218,14 @@ function showmore(t) {
 }
 
 function formatDate(d) {
-	let year = d.getFullYear();
-	let monthAbbr = d.toLocaleDateString('en-us', {month: 'short'});
-	let day = d.getDate();
-	let hour = ("0" + d.getHours()).slice(-2);
-	let minute = ("0" + d.getMinutes()).slice(-2);
-	let second = ("0" + d.getSeconds()).slice(-2);
-	let tzAbbr = d.toLocaleTimeString('en-us', {timeZoneName: 'short'}).split(' ')[2];
-
-	return (day + " " + monthAbbr + " " + year + " "
-			 + hour + ":" + minute + ":" + second + " " + tzAbbr);
+	const year = d.getFullYear();
+	const monthAbbr = d.toLocaleDateString('en-us', {month: 'short'});
+	const day = d.getDate();
+	const hour = ("0" + d.getHours()).slice(-2);
+	const minute = ("0" + d.getMinutes()).slice(-2);
+	const second = ("0" + d.getSeconds()).slice(-2);
+	const tzAbbr = d.toLocaleTimeString('en-us', {timeZoneName: 'short'}).split(' ')[2];
+	return day + " " + monthAbbr + " " + year + " " + hour + ":" + minute + ":" + second + " " + tzAbbr;
 }
 
 const timestamps = document.querySelectorAll('[data-time]');
