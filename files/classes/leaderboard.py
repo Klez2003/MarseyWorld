@@ -186,10 +186,15 @@ class Leaderboard:
 
 	@classmethod
 	def get_avg_upvotes_lb(cls, lb_criteria, v, users, limit, desc):
-		sq = g.db.query(lb_criteria.author_id, cls.avg_and_label(lb_criteria.upvotes, lb_criteria.author_id)).filter_by(deleted_utc=0).group_by(lb_criteria.author_id).having(func.count(lb_criteria.author_id) >= 10).subquery()
+		if lb_criteria == Post:
+			limit = 10
+		else:
+			limit = 100
+
+		sq = g.db.query(lb_criteria.author_id, cls.avg_and_label(lb_criteria.upvotes, lb_criteria.author_id)).filter_by(deleted_utc=0).group_by(lb_criteria.author_id).having(func.count(lb_criteria.author_id) >= limit).subquery()
 		leaderboard = g.db.query(User, sq.c.avg).join(User, User.id == sq.c.author_id).order_by(sq.c.avg.desc())
 
-		sq = g.db.query(lb_criteria.author_id, cls.avg_and_label(lb_criteria.upvotes, lb_criteria.author_id), cls.rank_filtered_rank_label_by_desc_avg(lb_criteria.upvotes, lb_criteria.author_id)).filter_by(deleted_utc=0).group_by(lb_criteria.author_id).having(func.count(lb_criteria.author_id) >= 10).subquery()
+		sq = g.db.query(lb_criteria.author_id, cls.avg_and_label(lb_criteria.upvotes, lb_criteria.author_id), cls.rank_filtered_rank_label_by_desc_avg(lb_criteria.upvotes, lb_criteria.author_id)).filter_by(deleted_utc=0).group_by(lb_criteria.author_id).having(func.count(lb_criteria.author_id) >= limit).subquery()
 		position = g.db.query(sq.c.rank, sq.c.avg).join(User, User.id == sq.c.author_id).filter(sq.c.author_id == v.id).limit(1).one_or_none()
 		if not position: position = (leaderboard.count() + 1, 0)
 		leaderboard = leaderboard.limit(limit).all()
