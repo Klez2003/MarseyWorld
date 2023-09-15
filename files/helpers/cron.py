@@ -159,7 +159,7 @@ def _create_post(title, body):
 
 def _create_1st_post():
 	title = f'Movie Night'
-	body = f'''Our Movie Night this week will show {get_name()}.\nThe movie will start at 8 PM EST. [Here is a timezone converter for whoever needs it.](https://dateful.com/time-zone-converter?t=8pm&tz1=EST-EDT-Eastern-Time). You can also check this [countdown timer](https://www.tickcounter.com/countdown/4435809/movie-night) instead.\n'''
+	body = f'''Our Movie Night this week will show `{get_name()}`.\nThe movie will start at 8 PM EST. [Here is a timezone converter for whoever needs it.](https://dateful.com/time-zone-converter?t=8pm&tz1=EST-EDT-Eastern-Time). You can also check this [countdown timer](https://www.tickcounter.com/countdown/4435809/movie-night) instead.\n'''
 	_create_post(title, body)
 
 def _create_2nd_post():
