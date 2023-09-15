@@ -68,7 +68,7 @@
 	{% endif %}
 	<span class="align-top">
 	{% if c.parent_post %}
-		{% if c.parent_post in v.subscribed_idlist %}
+		{% if request.path == '/notifications' and c.parent_post in v.subscribed_idlist %}
 			<span class="font-weight-bold">Subscribed Thread: <a href="{{c.post.permalink}}">{{c.post.realtitle(v) | safe}}</a></span>
 		{% else %}
 			<span class="font-weight-bold"><a {% if v and v.newtab %}data-target="t" target="_blank"{% endif %} href="{{c.post.permalink}}">{{c.post.realtitle(v) | safe}}</a></span>
