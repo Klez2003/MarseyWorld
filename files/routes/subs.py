@@ -854,7 +854,7 @@ def hole_log(v, sub):
 	page = get_page()
 
 	mod = request.values.get("mod")
-	if mod: mod_id = get_id(mod)
+	if mod: mod_id = get_user(mod, attributes=[User.id]).id
 	else: mod_id = 0
 
 	kind = request.values.get("kind")

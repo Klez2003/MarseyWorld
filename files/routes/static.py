@@ -170,7 +170,7 @@ def log(v):
 	page = get_page()
 
 	admin = request.values.get("admin")
-	if admin: admin_id = get_id(admin)
+	if admin: admin_id = get_user(admin, attributes=[User.id]).id
 	else: admin_id = 0
 
 	kind = request.values.get("kind")

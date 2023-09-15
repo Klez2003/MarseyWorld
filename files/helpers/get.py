@@ -11,28 +11,6 @@ def sanitize_username(username):
 	if not username: return username
 	return username.replace('\\', '').replace('_', '\_').replace('%', '').replace('(', '').replace(')', '').strip()
 
-def get_id(username, graceful=False):
-	username = sanitize_username(username)
-	if not username:
-		if graceful: return None
-		abort(400, "Empty username.")
-
-	user = g.db.query(
-		User.id
-		).filter(
-		or_(
-			User.username.ilike(username),
-			User.original_username.ilike(username),
-			User.prelock_username.ilike(username),
-			)
-		).one_or_none()
-
-	if not user:
-		if graceful: return None
-		abort(404, "User not found.")
-
-	return user[0]
-
 def get_user(username, v=None, graceful=False, include_blocks=False, attributes=None):
 	if not username:
 		if graceful: return None
