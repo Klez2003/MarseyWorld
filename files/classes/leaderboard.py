@@ -10,6 +10,7 @@ from .user import User
 from .userblock import UserBlock
 from .votes import Vote, CommentVote
 from .casino_game import CasinoGame
+from .post import Post
 
 from files.__main__ import cache
 
