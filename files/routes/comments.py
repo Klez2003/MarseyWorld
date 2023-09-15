@@ -408,10 +408,11 @@ def comment(v):
 		post_target.bump_utc = c.created_utc
 		g.db.add(post_target)
 
-	if c.level > 5:
+	if c.level >= 3:
 		n = g.db.query(Notification).filter_by(
-			comment_id=c.parent_comment.parent_comment.parent_comment.parent_comment_id,
+			comment_id=c.parent_comment.parent_comment_id,
 			user_id=c.parent_comment.author_id,
+			read=True,
 		).one_or_none()
 		if n: g.db.delete(n)
 
