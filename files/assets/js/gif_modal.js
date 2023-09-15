@@ -11,6 +11,7 @@ function insertGIF(url) {
 	if (old) commentBox.value = `${old}\n${url}`;
 	else commentBox.value = url
 
+	handle_disabled(commentBox)
 	if (typeof checkForRequired === "function") checkForRequired();
 }
 

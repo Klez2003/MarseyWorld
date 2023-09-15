@@ -190,12 +190,12 @@
 						</div>
 						<form class="d-none toggleable" id="message" action="/@{{u.username}}/message" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendMessage(this)">
 							<input hidden name="formkey" value="{{v|formkey}}">
-							<textarea autocomplete="off" id="input-message" form="message" name="message" rows="3" minlength="1" maxlength="10000" class="file-ta form-control b2 mt-1" data-preview="message-preview" data-nonce="{{g.nonce}}" data-oninput="markdown(this)"></textarea>
+							<textarea autocomplete="off" id="input-message" form="message" name="message" rows="3" minlength="1" maxlength="10000" class="file-ta form-control b2 mt-1" data-preview="message-preview" data-nonce="{{g.nonce}}" data-oninput="markdown(this);handle_disabled(this)"></textarea>
 
 							{{macros.file_input('file-upload-macro', 'input-message', not get_setting('dm_media'))}}
 
 							<div class="d-flex">
-								<input type="submit" data-nonce="{{g.nonce}}" data-onclick="remove_dialog()" value="Submit" class="btn btn-primary ml-auto">
+								<input type="submit" data-nonce="{{g.nonce}}" data-onclick="remove_dialog()" value="Submit" class="btn btn-primary ml-auto handle_disabled disabled" disabled>
 							</div>
 						</form>
 
@@ -491,12 +491,12 @@
 				{% if v and v.id != u.id %}
 					<form class="d-none toggleable text-left" id='message-mobile' action="/@{{u.username}}/message" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendMessage(this)">
 						<input class="mt-1" hidden name="formkey" value="{{v|formkey}}">
-						<textarea autocomplete="off" id="input-message-mobile" form="message-mobile" name="message" rows="3" minlength="1" maxlength="10000" class="file-ta form-control" data-preview="message-preview-mobile" data-nonce="{{g.nonce}}" data-oninput="markdown(this)" required></textarea>
+						<textarea autocomplete="off" id="input-message-mobile" form="message-mobile" name="message" rows="3" minlength="1" maxlength="10000" class="file-ta form-control" data-preview="message-preview-mobile" data-nonce="{{g.nonce}}" data-oninput="markdown(this);handle_disabled(this)" required></textarea>
 
 						{{macros.file_input('file-upload-mobile', 'input-message-mobile')}}
 
 						<div class="d-flex">
-							<input type="submit" data-nonce="{{g.nonce}}" data-onclick="remove_dialog()" value="Submit" class="btn btn-primary ml-auto">
+							<input type="submit" data-nonce="{{g.nonce}}" data-onclick="remove_dialog()" value="Submit" class="btn btn-primary ml-auto handle_disabled disabled" disabled>
 						</div>
 					</form>
 

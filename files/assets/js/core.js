@@ -66,6 +66,18 @@ function postToast(t, url, data, extraActionsOnSuccess, extraActionsOnFailure) {
 	xhr[0].send(xhr[1]);
 }
 
+function handle_disabled(t) {
+	btn = t.parentElement.getElementsByClassName('handle_disabled')[0]
+	if (t.value) {
+		btn.disabled = false;
+		btn.classList.remove('disabled')
+	}
+	else {
+		btn.disabled = true;
+		btn.classList.add('disabled')
+	}
+}
+
 function postToastReload(t, url) {
 	postToast(t, url, {}, reload);
 }
@@ -434,6 +446,8 @@ function insertText(input, text) {
 		input.setSelectionRange(newPos, newPos);
 
 	input.selectionStart = newPos;
+
+	handle_disabled(input)
 }
 
 

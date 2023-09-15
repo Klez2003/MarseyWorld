@@ -122,13 +122,13 @@
 		<div id="comment-form-space-{{target_fullname}}" class="comment-write {{subwrapper_css_classes}}">
 			<input hidden name="formkey" value="{{v|formkey}}">
 			<input hidden name="parent_fullname" value="{target_fullname}}">
-			<textarea required autocomplete="off" {% if not (p and p.id in ADMIGGER_THREADS) %}{% if v.longpost %}minlength="280"{% elif v.bird %}maxlength="140"{% endif %}{% endif %} minlength="1" maxlength="10000" data-preview="form-preview-{{target_fullname}}" data-nonce="{{g.nonce}}" data-oninput="markdown(this);charLimit('reply-form-body-{{target_fullname}}','charcount-{{target_fullname}}')" id="reply-form-body-{{target_fullname}}" data-fullname="{{target_fullname}}" class="file-ta comment-box form-control rounded" name="body" form="reply-to-{{target_fullname}}" placeholder="Add your comment..." rows="3"></textarea>
+			<textarea required autocomplete="off" {% if not (p and p.id in ADMIGGER_THREADS) %}{% if v.longpost %}minlength="280"{% elif v.bird %}maxlength="140"{% endif %}{% endif %} minlength="1" maxlength="10000" data-preview="form-preview-{{target_fullname}}" data-nonce="{{g.nonce}}" data-oninput="markdown(this);charLimit('reply-form-body-{{target_fullname}}','charcount-{{target_fullname}}');handle_disabled(this)" id="reply-form-body-{{target_fullname}}" data-fullname="{{target_fullname}}" class="file-ta comment-box form-control rounded" name="body" form="reply-to-{{target_fullname}}" placeholder="Add your comment..." rows="3"></textarea>
 
 			<div class="text-small font-weight-bold mt-1" id="charcount-{{target_fullname}}" style="right: 1rem; bottom: 0.5rem; z-index: 3"></div>
 
 			{{file_input('file-upload-reply-' ~ target_fullname, 'reply-form-body-' ~ target_fullname, False)}}
 
-			<button type="button" id="save-reply-to-{{target_fullname}}" form="reply-to-{{target_fullname}}" class="btn btn-primary text-whitebtn ml-auto fl-r" data-nonce="{{g.nonce}}" data-onclick="post_comment('{{target_fullname}}', '{{hide}}')">Comment</button>
+			<button type="button" id="save-reply-to-{{target_fullname}}" form="reply-to-{{target_fullname}}" class="btn btn-primary text-whitebtn ml-auto fl-r handle_disabled disabled" disabled data-nonce="{{g.nonce}}" data-onclick="post_comment('{{target_fullname}}', '{{hide}}')">Comment</button>
 
 			{% if enable_cancel_button %}
 				<button type="button" data-nonce="{{g.nonce}}" data-onclick="cancel('{{target_fullname}}')" class="btn btn-link text-muted ml-auto fl-r mr-3">Cancel</button>
