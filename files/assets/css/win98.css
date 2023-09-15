@@ -177,3 +177,7 @@ blockquote {
 .sidebar--rules {
 	color: black;
 }
+
+.award-name {
+    color: var(--black);
+}
