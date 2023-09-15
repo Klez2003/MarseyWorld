@@ -126,7 +126,7 @@ twitch_regex = re.compile('(https:\/\/)?(www\.)?twitch.tv\/(.*)', flags=re.I|re.
 
 link_fix_regex = re.compile("(\[.*?\]\()(?!http|\/)(.*?\))" + NOT_IN_CODE_OR_LINKS, flags=re.A)
 
-css_url_regex = re.compile('url\([\'"]?((.|\n)*?)[);}$]', flags=re.I|re.A) # AEVANN, DO NOT TOUCH THIS, IT WENT THROUGH A MILLION ITERATIONS, IT'S PERFECT NOW
+css_url_regex = re.compile('url\([\'"]?((.|\n)*?)[",);}$]', flags=re.I|re.A) # AEVANN, DO NOT TOUCH THIS, IT WENT THROUGH A MILLION ITERATIONS, IT'S PERFECT NOW
 
 linefeeds_regex = re.compile("([^\n])\n([^\n])", flags=re.A)
 
