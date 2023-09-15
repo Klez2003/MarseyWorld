@@ -173,11 +173,6 @@ def execute_snappy(post, v):
 		title = i.group(2)
 		captured.append((href, title))
 
-	for i in list(snappy_youtube_regex.finditer(body_for_snappy)):
-		href = f'https://youtube.com/watch?v={i.group(1)}'
-		if href in [x[0] for x in captured]: continue
-		captured.append((href, href))
-
 
 	for href, title in captured:
 		if href.startswith(f'{SITE_FULL}/') or href.startswith(SITE_FULL_IMAGES): continue
