@@ -504,7 +504,7 @@ def leaderboard_cached(v):
 
 	if SITE == 'rdrama.net':
 		leaderboards.append(Leaderboard("Designed hats", "designed hats", "designed-hats", "Designed Hats", None, Leaderboard.get_hat_lb, User.designed_hats, v, None, None))
-		leaderboards.append(Leaderboard("Emojis made", "emojis made", "emojis-made", "Emojis", None, Leaderboard.get_badge_emoji_lb, Emoji.author_id, v, None, None))
+		leaderboards.append(Leaderboard("Emojis made", "emojis made", "emojis-made", "Emojis Made", None, Leaderboard.get_badge_emoji_lb, Emoji.author_id, v, None, None))
 
 	leaderboards.append(Leaderboard("Upvotes given", "upvotes given", "upvotes-given", "Upvotes Given", "upvoting", Leaderboard.get_upvotes_lb, None, v, None, None))
 
@@ -513,8 +513,8 @@ def leaderboard_cached(v):
 	leaderboards.append(Leaderboard("Casino winnings (top)", "casino winnings", "casino-winnings-top", "Casino Winnings", None, Leaderboard.get_winnings_lb, CasinoGame.winnings, v, None, None))
 	leaderboards.append(Leaderboard("Casino winnings (bottom)", "casino winnings", "casino-winnings-bottom", "Casino Winnings", None, Leaderboard.get_winnings_lb, CasinoGame.winnings, v, None, None, 25, False))
 
-	leaderboards.append(Leaderboard("Average upvotes per post", "average upvotes per post", "average-upvotes-per-post", "Average Upvotes", "posts", Leaderboard.get_avg_upvotes_lb, Post, v, None, None))
-	leaderboards.append(Leaderboard("Average upvotes per comment", "average upvotes per comment", "average-upvotes-per-comment", "Average Upvotes", "comments", Leaderboard.get_avg_upvotes_lb, Comment, v, None, None))
+	leaderboards.append(Leaderboard("Average upvotes per post", "average upvotes per post", "average-upvotes-per-post", "Average Upvotes per Post", "posts", Leaderboard.get_avg_upvotes_lb, Post, v, None, None))
+	leaderboards.append(Leaderboard("Average upvotes per comment", "average upvotes per comment", "average-upvotes-per-comment", "Average Upvotes per Comment", "comments", Leaderboard.get_avg_upvotes_lb, Comment, v, None, None))
 
 	return render_template("leaderboard_cached.html", v=v, leaderboards=leaderboards)
 
