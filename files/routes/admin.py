@@ -1905,7 +1905,7 @@ def delete_media_post(v):
 		)
 	g.db.add(ma)
 
-	purge_files_in_cache(url)
+	purge_files_in_cloudflare_cache(url)
 	return {"message": "Media deleted successfully!"}
 
 @app.post("/admin/reset_password/<int:user_id>")

@@ -23,7 +23,7 @@ def set_security_level(under_attack="high"):
 def clear_entire_cache():
 	return _request_from_cloudflare("purge_cache", "POST", '{"purge_everything":true}')
 
-def purge_files_in_cache(files):
+def purge_files_in_cloudflare_cache(files):
 	if not CLOUDFLARE_AVAILABLE: return False
 	if isinstance(files, str):
 		files = [files]

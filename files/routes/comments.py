@@ -8,7 +8,7 @@ import gevent
 from files.classes import *
 from files.helpers.actions import *
 from files.helpers.alerts import *
-from files.helpers.cloudflare import purge_files_in_cache
+from files.helpers.cloudflare import purge_files_in_cloudflare_cache
 from files.helpers.config.const import *
 from files.helpers.get import *
 from files.helpers.marsify import marsify
@@ -231,7 +231,7 @@ def comment(v):
 							filename = f'files/assets/images/{SITE_NAME}/badges/{badge.id}.webp'
 							copyfile(oldname, filename)
 							process_image(filename, v, resize=300, trim=True)
-							purge_files_in_cache(f"{SITE_FULL_IMAGES}/i/{SITE_NAME}/badges/{badge.id}.webp")
+							purge_files_in_cloudflare_cache(f"{SITE_FULL_IMAGES}/i/{SITE_NAME}/badges/{badge.id}.webp")
 							cache.delete_memoized(badge_list)
 						except Exception as e:
 							abort(400, str(e))

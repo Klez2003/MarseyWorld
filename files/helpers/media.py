@@ -13,7 +13,7 @@ from PIL import UnidentifiedImageError
 from PIL.ImageSequence import Iterator
 
 from files.classes.media import *
-from files.helpers.cloudflare import purge_files_in_cache
+from files.helpers.cloudflare import purge_files_in_cloudflare_cache
 from files.helpers.settings import get_setting
 
 from .config.const import *
@@ -128,7 +128,7 @@ def convert_to_mp4(old, new):
 	else:
 		url = f"{SITE_FULL}{new}"
 
-	purge_files_in_cache(url)
+	purge_files_in_cloudflare_cache(url)
 
 
 
