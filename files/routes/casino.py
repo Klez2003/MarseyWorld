@@ -146,8 +146,7 @@ def blackjack_player_hit(v):
 		abort(403, "You are under Rehab award effect!")
 
 	try:
-		hand = request.args.get('hand')
-		state = dispatch_action(v, BlackjackAction.HIT, True if hand == 'split' else False)
+		state = dispatch_action(v, BlackjackAction.HIT)
 		feed = get_game_feed('blackjack')
 		return {"success": True, "state": state, "feed": feed, "gambler": {"coins": v.coins, "marseybux": v.marseybux}}
 	except:
@@ -165,8 +164,7 @@ def blackjack_player_stay(v):
 		abort(403, "You are under Rehab award effect!")
 
 	try:
-		hand = request.args.get('hand')
-		state = dispatch_action(v, BlackjackAction.STAY, True if hand == 'split' else False)
+		state = dispatch_action(v, BlackjackAction.STAY)
 		feed = get_game_feed('blackjack')
 		return {"success": True, "state": state, "feed": feed, "gambler": {"coins": v.coins, "marseybux": v.marseybux}}
 	except:
@@ -207,23 +205,6 @@ def blackjack_player_bought_insurance(v):
 		return {"success": True, "state": state, "feed": feed, "gambler": {"coins": v.coins, "marseybux": v.marseybux}}
 	except:
 		abort(403, "Unable to buy insurance!")
-
-@app.post("/casino/twentyone/split")
-@limiter.limit('1/second', scope=rpath)
-@limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(CASINO_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-@limiter.limit(CASINO_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
-@auth_required
-def split(v):
-	if v.rehab:
-		abort(403, "You are under Rehab award effect!")
-
-	try:
-		state = dispatch_action(v, BlackjackAction.SPLIT)
-		feed = get_game_feed('blackjack')
-		return {"success": True, "state": state, "feed": feed, "gambler": {"coins": v.coins, "marseybux": v.marseybux}}
-	except:
-		abort(403, "Unable to split!")
 
 # Roulette
 @app.get("/casino/roulette/bets")
