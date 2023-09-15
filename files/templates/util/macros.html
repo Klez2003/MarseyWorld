@@ -69,14 +69,14 @@
 
 		{% if p.author.verified %}<i class="fas fa-badge-check align-middle ml-1 {% if p.author.verified=='Glowiefied' %}glow{% endif %}" style="color:{% if p.author.verifiedcolor %}#{{p.author.verifiedcolor}}{% else %}#1DA1F2{% endif %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{p.author.verified}}"></i>
 		{% endif %}
-		<a class="user-name text-decoration-none" href="{{p.author.url}}" data-pop-info='{{p.author.json_popover(v) | tojson}}' data-bs-placement="bottom" data-bs-toggle="popover" data-bs-trigger="manual" data-content-id="popover" tabindex="0" style="color: #{{p.author.name_color}}; font-weight: bold;">
+		<a class="user-name text-decoration-none" href="{{p.author.url}}" data-pop-info='{{p.author.json_popover(v) | tojson}}' data-bs-placement="bottom" data-bs-toggle="popover" data-bs-trigger="manual" data-content-id="popover" tabindex="0" style="color: #{{p.author.name_color}}; font-weight: bold">
 			<div class="profile-pic-30-wrapper" style="margin-top:9px">
 				<img loading="lazy" alt="@{{p.author.username}}'s profile picture" src="{{p.author.profile_url}}" class="profile-pic-30 mr-2">
 				{% if p.author.hat_active(v)[0] -%}
 					<img class="profile-pic-30-hat hat" loading="lazy" src="{{p.author.hat_active(v)[0]}}?x=6" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{p.author.hat_active(v)[1]}}" alt="@{{p.author.username}}'s hat">
 				{%- endif %}
 			</div>
-			<span {% if p.author.patron and not p.distinguish_level %}class="patron" style="background-color:#{{p.author.name_color}};"{% elif p.distinguish_level %}class="mod {% if SITE_NAME == 'rDrama' %}mod-rdrama{% endif %}"{% endif %}>{{p.author_name}}</span>
+			<span {% if p.author.patron and not p.distinguish_level %}class="patron" style="background-color:#{{p.author.name_color}}"{% elif p.distinguish_level %}class="mod {% if SITE_NAME == 'rDrama' %}mod-rdrama{% endif %}"{% endif %}>{{p.author_name}}</span>
 		</a>
 		{% if FEATURES['PRONOUNS'] %}
 			<span class="pronouns" style="color:#{{p.author.titlecolor}};border-color:#{{p.author.titlecolor}}">{{p.author.pronouns}}</span>
@@ -124,7 +124,7 @@
 			<input hidden name="parent_fullname" value="{target_fullname}}">
 			<textarea required autocomplete="off" {% if not (p and p.id in ADMIGGER_THREADS) %}{% if v.longpost %}minlength="280"{% elif v.bird %}maxlength="140"{% endif %}{% endif %} minlength="1" maxlength="10000" data-preview="form-preview-{{target_fullname}}" data-nonce="{{g.nonce}}" data-oninput="markdown(this);charLimit('reply-form-body-{{target_fullname}}','charcount-{{target_fullname}}')" id="reply-form-body-{{target_fullname}}" data-fullname="{{target_fullname}}" class="file-ta comment-box form-control rounded" name="body" form="reply-to-{{target_fullname}}" placeholder="Add your comment..." rows="3"></textarea>
 
-			<div class="text-small font-weight-bold mt-1" id="charcount-{{target_fullname}}" style="right: 1rem; bottom: 0.5rem; z-index: 3;"></div>
+			<div class="text-small font-weight-bold mt-1" id="charcount-{{target_fullname}}" style="right: 1rem; bottom: 0.5rem; z-index: 3"></div>
 
 			{{file_input('file-upload-reply-' ~ target_fullname, 'reply-form-body-' ~ target_fullname, False)}}
 
@@ -179,7 +179,7 @@
 </div>
 {% elif mode == 2 %}
 <div id="ghost-town-box" class="text-center border-md rounded p-6"{% if extra_css %} style="{{extra_css}}"{% endif %}>
-	<i class="fas fa-ghost text-gray-500 mb-3" style="font-size: 3.5rem;"></i>
+	<i class="fas fa-ghost text-gray-500 mb-3" style="font-size: 3.5rem"></i>
 	<p class="font-weight-bold text-gray-500 mb-0">{{text1|safe}}</p>
 </div>
 {% endif %}
@@ -322,7 +322,7 @@
 	</div>
 
 	<div id='message' class="position-relative form-group d-flex">
-		<div class="position-absolute text-muted text-small ml-1" style="bottom: -1.5rem; line-height: 1;">
+		<div class="position-absolute text-muted text-small ml-1" style="bottom: -1.5rem; line-height: 1">
 			<span id="typing-indicator"></span>
 			<span id="loading-indicator" class="d-none"></span>
 		</div>
@@ -357,7 +357,7 @@
 			<i class="fas fa-{{TIME_FILTERS[t]}} mr-2"></i>
 			{{t | capitalize}}
 		</button>
-		<div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px;">
+		<div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px">
 			{% for new_time, icon in TIME_FILTERS.items() %}
 				{% if t != new_time %}
 					<a class="dropdown-item" href="{{'t'|change_arg(new_time, request.full_path)|safe}}">
@@ -376,7 +376,7 @@
 			<i class="fas fa-{{sorts[sort]}} mr-1"></i>
 			{{sort | capitalize}}
 		</button>
-		<div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px;">
+		<div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px">
 			{% for new_sort, icon in sorts.items() %}
 				{% if sort != new_sort %}
 					<a class="dropdown-item" href="{{'sort'|change_arg(new_sort, request.full_path)|safe}}">

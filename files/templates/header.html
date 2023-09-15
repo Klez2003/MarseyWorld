@@ -76,7 +76,7 @@
 		</div>
 
 		<div class="navbar navbar-expand-md navbar-light" id="navbar">
-			<div class="container-fluid" style="padding:0;">
+			<div class="container-fluid" style="padding:0">
 			<a href="/" class="navbar-brand mr-auto {% if not has_logo and not sub %}flex-grow-1{% endif %}">
 				{% if IS_DKD() %}
 					{% set icon_url = macros.random_image('assets/events/DKD/images/icon') %}
@@ -124,7 +124,7 @@
 					<form class="form-inline search d-mob-none flex-nowrap mx-0 mx-lg-auto mb-0" {% if err %}style="margin-right:40rem!important"{% endif %} action="{% if request.path.startswith('/search') %}{{request.path}}{% else %}/search/posts/{% endif %}" method="get">
 						<input autocomplete="off" class="form-control w-100" type="search" placeholder="{{search_placeholder}}" name="q" value="{{request.values.get('q', '')}}">
 						<span class="input-group-append">
-							<span class="input-group-text border-0 bg-transparent" style="margin-left: -2.5rem;">
+							<span class="input-group-text border-0 bg-transparent" style="margin-left: -2.5rem">
 								<i class="fa fa-search"></i>
 							</span>
 						</span>

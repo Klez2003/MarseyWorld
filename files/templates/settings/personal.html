@@ -47,7 +47,7 @@
 							<div class="body w-lg-100">
 								<p>Change the background for the website.</p>
 								<div class="input-group">
-									<select autocomplete="off" id='backgroundSelector' class="form-control" form="profile-settings" name="background" data-nonce="{{g.nonce}}" data-onchange="updatebgselection();">
+									<select autocomplete="off" id='backgroundSelector' class="form-control" form="profile-settings" name="background" data-nonce="{{g.nonce}}" data-onchange="updatebgselection()">
 									{% for entry in BACKGROUND_CATEGORIES %}
 										<option value="{{entry}}" {% if v.background and v.background.startswith(entry) %}selected{% endif %}>
 											{{entry}}

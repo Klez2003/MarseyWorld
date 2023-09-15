@@ -6,14 +6,14 @@
 {% include "header.html" %}
 {% block subNav %}
 	{% if not request.path.startswith('/h/') %}
-		<div class="container-fluid bg-white sticky d-mob-none" style="padding-top: 50px; padding-bottom: 0 !important;">
+		<div class="container-fluid bg-white sticky d-mob-none" style="padding-top: 50px; padding-bottom: 0 !important">
 			<div class="row box-shadow-bottom">
 				<div class="col">
-					<div class="container" style="padding-bottom: 0;">
+					<div class="container" style="padding-bottom: 0">
 						<div class="row box-shadow-bottom bg-white">
 							<div class="col">
 								<div class="d-flex flex-row-reverse justify-content-end">
-									<ul class="nav settings-nav" style="margin-left: -15px;">
+									<ul class="nav settings-nav" style="margin-left: -15px">
 										<li class="nav-item">
 											<a class="nav-link{% if request.path == '/leaderboard' %} active{% endif %}" href="/leaderboard"><i class="fas fa-trophy pr-2"></i>Leaderboard</a>
 										</li>

@@ -128,8 +128,8 @@
 				{%- endif %}
 
 				{% if u.received_awards and FEATURES['AWARDS'] %}
-				<div class="text-white rounded p-2 mb-3" id="profile--awards" style="background-color: rgba(50, 50, 50, 0.6); width: 30%;">
-					<p class="text-uppercase my-0" style="font-weight: bold; font-size: 12px;">Awards received</p>
+				<div class="text-white rounded p-2 mb-3" id="profile--awards" style="background-color: rgba(50, 50, 50, 0.6); width: 30%">
+					<p class="text-uppercase my-0" style="font-weight: bold; font-size: 12px">Awards received</p>
 					{% for a in u.received_awards %}
 					<span class="d-inline-block mx-1 profile--awards--award">
 						<i class="{{a['icon']}} {{a['color']}} fa-fw" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{a['title']}} Awards received"></i>
@@ -140,8 +140,8 @@
 				{% endif %}
 
 				{% if u.moderated_subs %}
-					<div class="text-white rounded p-2 mb-3" id="profile--holes" style="background-color: rgba(50, 50, 50, 0.6); width: 30%;">
-						<p class="text-uppercase my-0 pb-1" style="font-weight: bold; font-size: 12px;">Moderator of</p>
+					<div class="text-white rounded p-2 mb-3" id="profile--holes" style="background-color: rgba(50, 50, 50, 0.6); width: 30%">
+						<p class="text-uppercase my-0 pb-1" style="font-weight: bold; font-size: 12px">Moderator of</p>
 						{% for i in u.moderated_subs %}
 							<span class="d-inline-block mx-1">
 								<a href="/h/{{i}}">/h/{{i}}</a>
@@ -151,8 +151,8 @@
 				{% endif %}
 
 				{% if u.group_memberships %}
-					<div class="text-white rounded p-2 mb-3" id="profile--groups" style="background-color: rgba(50, 50, 50, 0.6); width: 30%;">
-						<p class="text-uppercase my-0 pb-1" style="font-weight: bold; font-size: 12px;">Member of</p>
+					<div class="text-white rounded p-2 mb-3" id="profile--groups" style="background-color: rgba(50, 50, 50, 0.6); width: 30%">
+						<p class="text-uppercase my-0 pb-1" style="font-weight: bold; font-size: 12px">Member of</p>
 						{% for i in u.group_memberships %}
 							<span class="d-inline-block mx-1">
 								<a href="/!{{i}}">!{{i}}</a>
@@ -292,7 +292,7 @@
 {% endblock %}
 
 {% block mobileUserBanner %}
-<div class="container-fluid pb-0 text-center bg-white d-md-none" style="border-radius:0!important;">
+<div class="container-fluid pb-0 text-center bg-white d-md-none" style="border-radius:0!important">
 	<div class="row">
 		<div class="col px-0">
 			<a rel="nofollow noopener" href="{{u.banner_url}}">
@@ -302,7 +302,7 @@
 	</div>
 	<div class="row border-bottom">
 		<div class="col">
-			<div style="margin-top: -34px;" id="profile-mobile--pfp">
+			<div style="margin-top: -34px" id="profile-mobile--pfp">
 				<a rel="nofollow noopener" href="{% if u.highres and u.can_see_my_shit %}{{u.highres}}{% else %}{{u.profile_url}}{% endif %}" class="profile-pic-65-wrapper">
 					<img data-nonce="{{g.nonce}}" data-onclick="expandImage('{% if u.highres and u.can_see_my_shit %}{{u.highres}}{% else %}{{u.profile_url}}{% endif %}')" loading="lazy" src="{{u.profile_url}}" class="profile-pic-65 bg-white mb-2">
 					{% if u.hat_active(v)[0] -%}
@@ -409,8 +409,8 @@
 				{%- endif %}
 
 				{% if u.received_awards and FEATURES['AWARDS'] %}
-				<div class="text-white rounded p-2 my-3 text-center" id="profile-mobile--awards" style="background-color: rgba(50, 50, 50, 0.6);">
-					<p class="text-uppercase my-0" style="font-weight: bold; font-size: 12px;">Awards received</p>
+				<div class="text-white rounded p-2 my-3 text-center" id="profile-mobile--awards" style="background-color: rgba(50, 50, 50, 0.6)">
+					<p class="text-uppercase my-0" style="font-weight: bold; font-size: 12px">Awards received</p>
 					{% for a in u.received_awards %}
 					<span class="d-inline-block mx-1 profile-mobile--awards--award">
 						<i class="{{a['icon']}} {{a['color']}} fa-fw" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{a['title']}} Awards received"></i>
@@ -421,8 +421,8 @@
 				{% endif %}
 
 				{% if u.moderated_subs %}
-					<div class="text-white rounded p-2 mb-3" id="profile-mobile--holes" style="background-color: rgba(50, 50, 50, 0.6);">
-						<p class="text-uppercase my-0 pb-1" style="font-weight: bold; font-size: 12px;">Moderator of</p>
+					<div class="text-white rounded p-2 mb-3" id="profile-mobile--holes" style="background-color: rgba(50, 50, 50, 0.6)">
+						<p class="text-uppercase my-0 pb-1" style="font-weight: bold; font-size: 12px">Moderator of</p>
 						{% for i in u.moderated_subs %}
 							<span class="d-inline-block mx-1">
 								<a href="/h/{{i}}">/h/{{i}}</a>
@@ -432,8 +432,8 @@
 				{% endif %}
 
 				{% if u.group_memberships %}
-					<div class="text-white rounded p-2 mb-3" id="profile-mobile--groups" style="background-color: rgba(50, 50, 50, 0.6);">
-						<p class="text-uppercase my-0 pb-1" style="font-weight: bold; font-size: 12px;">Member of</p>
+					<div class="text-white rounded p-2 mb-3" id="profile-mobile--groups" style="background-color: rgba(50, 50, 50, 0.6)">
+						<p class="text-uppercase my-0 pb-1" style="font-weight: bold; font-size: 12px">Member of</p>
 						{% for i in u.group_memberships %}
 							<span class="d-inline-block mx-1">
 								<a href="/!{{i}}">!{{i}}</a>

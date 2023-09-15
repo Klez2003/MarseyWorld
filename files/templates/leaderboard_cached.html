@@ -2,7 +2,7 @@
 	<img loading="lazy" id="leaderboard-banner" alt="leaderboard banner" src="{{SITE_FULL_IMAGES}}/i/leaderboard.webp">
 </header>
 
-<div class="mt-2" id="leaderboard-contents" style="text-align: center; margin-bottom: 1.5rem; font-size: 1.2rem;">
+<div class="mt-2" id="leaderboard-contents" style="text-align: center; margin-bottom: 1.5rem; font-size: 1.2rem">
 	{% for lb in leaderboards %}
 		{% if lb %}
 			<a href="#leaderboard-{{lb.html_id}}">{{lb.header_name}}</a>{% if not loop.last %} &bull;{% endif %}
@@ -57,6 +57,6 @@
 {% endfor %}
 
 <a id="leader--top-btn" href="#leaderboard-contents"
-		style="position: fixed; bottom: 5rem; right: 2rem; font-size: 3rem;">
+		style="position: fixed; bottom: 5rem; right: 2rem; font-size: 3rem">
 	<i class="fas fa-arrow-alt-circle-up"></i>
 </a>
