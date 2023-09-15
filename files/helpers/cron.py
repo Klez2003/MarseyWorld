@@ -121,13 +121,15 @@ def get_file():
 def get_name():
 	return get_file().split('.')[0]
 
-def _create_post(title, body):
+def _create_post(title, body, pin_hours):
 	title += f': {get_name()}'
 	body += f'''It will be shown [here](/orgy).\nRerun will be Sunday 4 PM EST.\nThere will be a 5-minute bathroom break at the 50:00 mark.'''
 
 	title_html = filter_emojis_only(title)
 	body_html = sanitize(body)
 
+	stickied_utc = int(time.time()) + (3600 * pin_hours)
+	
 	p = Post(
 		private=False,
 		notify=True,
@@ -148,7 +150,7 @@ def _create_post(title, body):
 		rainbowed=False,
 		queened=False,
 		sharpened=False,
-		stickied_utc=int(time.time())+3600,
+		stickied_utc=stickied_utc,
 		stickied="AutoJanny",
 		distinguish_level=6,
 	)
@@ -160,12 +162,12 @@ def _create_post(title, body):
 def _create_1st_post():
 	title = f'Movie Night'
 	body = f'''Our Movie Night this week will show `{get_name()}`.\nThe movie will start at 8 PM EST. [Here is a timezone converter for whoever needs it.](https://dateful.com/time-zone-converter?t=8pm&tz1=EST-EDT-Eastern-Time). You can also check this [countdown timer](https://www.tickcounter.com/countdown/4435809/movie-night) instead.\n'''
-	_create_post(title, body)
+	_create_post(title, body, 11)
 
 def _create_2nd_post():
 	title = f'Movie Night in 60 minutes'
 	body = ''
-	_create_post(title, body)
+	_create_post(title, body, 1)
 
 def _create_orgy():
 	orgy = Orgy(
