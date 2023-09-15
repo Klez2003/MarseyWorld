@@ -308,21 +308,19 @@
 							<div class="text-small text-muted mt-3">Share this link with a friend. {% if v.referral_count==0 %} When they sign up, you'll get the bronze recruitment badge. <a href="/badges">Learn more.</a>{% elif v.referral_count<10 %} When you refer 10 friends, you'll receive the silver recruitment badge. <a href="/badges">Learn more.</a>{% elif v.referral_count<100 %} When you refer 100 friends, you'll receive the gold recruitment badge. <a href="/badges">Learn more</a>.{% endif %}</div>
 						</div>
 					</div>
-					{% if v.referral_count %}
-						<div class="d-lg-flex border-bottom px-3">
-							<div class="title w-lg-25 px-0">
-								<label>Referred Users</label>
-							</div>
-							<table class="table">
-								{% for user in v.referrals %}
-									<tr>
-										<td>{% include "user_in_table.html" %}</td>
-										<td data-time="{{user.created_utc}}"></td>
-									</tr>
-								{% endfor %}
-							</table>
+					<div class="d-lg-flex border-bottom px-3">
+						<div class="title w-lg-25 px-0">
+							<label>Referred Users</label>
 						</div>
-					{% endif %}
+						<table class="table">
+							{% for user in v.referrals %}
+								<tr>
+									<td>{% include "user_in_table.html" %}</td>
+									<td data-time="{{user.created_utc}}"></td>
+								</tr>
+							{% endfor %}
+						</table>
+					</div>
 				</div>
 			</section>
 		</div>
