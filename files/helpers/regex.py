@@ -120,11 +120,7 @@ imgur_regex = re.compile(f'(https:\/\/i\.imgur\.com\/[a-z0-9]+)\.({image_regex_e
 
 giphy_regex = re.compile('(https:\/\/media\.giphy\.com\/media\/[a-z0-9]+\/giphy)\.gif', flags=re.I|re.A)
 
-youtube_regex = re.compile('<a href="(https:\/\/youtube\.com\/watch\?v=[\w-]{11}[\w&;=]*)" rel="nofollow noopener" target="_blank">https:\/\/youtube\.com\/watch\?v=[\w-]{11}[\w&;=]*<\/a>' + NOT_IN_CODE_OR_LINKS, flags=re.I|re.A)
-yt_id_regex = re.compile('[\w-]{11}', flags=re.A)
-
 rumble_regex = re.compile('https://rumble\.com/embed/([a-zA-Z0-9]*)(/\?pub=([a-zA-Z0-9]*))?', flags=re.I|re.A)
-bare_youtube_regex = re.compile('https:\/\/youtube\.com\/watch\?v=[\w-]{11}[\w&;=]*', flags=re.I|re.A)
 
 twitch_regex = re.compile('(https:\/\/)?(www\.)?twitch.tv\/(.*)', flags=re.I|re.A)
 
@@ -244,6 +240,10 @@ video_link_regex = re.compile(f"https://(videos\.)?{SITE}\/(videos\/)?[0-9a-zA-Z
 
 asset_image_link_regex = re.compile(f"https:\/\/(i\.)?{SITE}\/assets\/images\/[\w\/]+.webp(\?x=\d+)?", flags=re.A)
 
+
+
+###REDDIT
+
 #sanitizing
 reddit_mention_regex = re.compile('(?<![\w/])\/?(([ruRU])\/[\w-]{2,25})' + NOT_IN_CODE_OR_LINKS, flags=re.A)
 reddit_domain_regex = re.compile("(^|\s|\()https?:\/\/(reddit\.com|(?:(?:[A-z]{2})(?:-[A-z]{2})" "?|www|new)\.reddit\.com|libredd\.it|reddit\.lol)\/(u\/|user\/|(r\/\w{2,25}\/)?comments\/|r\/\w{2,25}\/?$)", flags=re.A)
@@ -254,3 +254,16 @@ reddit_s_url_regex = re.compile("https:\/\/reddit.com\/r\/\w{2,25}\/s\/\w{10}", 
 
 #run-time
 reddit_to_vreddit_regex = re.compile('(^|>|")https:\/\/old.reddit.com\/(r|u|user)\/', flags=re.A)
+
+
+
+###YOUTUBE
+
+#sanitize
+youtube_regex = re.compile('<a href="(https:\/\/youtube\.com\/watch\?v=[\w-]{11}[\w&;=]*)" rel="nofollow noopener" target="_blank">https:\/\/youtube\.com\/watch\?v=[\w-]{11}[\w&;=]*<\/a>' + NOT_IN_CODE_OR_LINKS, flags=re.I|re.A)
+
+#sanitize and song
+yt_id_regex = re.compile('[\w-]{11}', flags=re.A)
+
+#orgy
+bare_youtube_regex = re.compile('https:\/\/youtube\.com\/watch\?v=[\w-]{11}[\w&;=]*', flags=re.I|re.A)
