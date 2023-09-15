@@ -41,7 +41,7 @@
 	background-color: rgb(var(--background)) !important;
 }
 
-.btn-primary {
+.btn-primary:not(.shop-tab) {
 	background-color: var(--primary) !important;
 	color:white;
 }
