@@ -527,12 +527,12 @@
 		</div>
 
 		{% if (request.path.startswith('/notifications') or request.path == '/search/messages') and c.level == 1 and c.sentto and not c.parent_post and c.author_id != AUTOJANNY_ID %}
-			{% if c.sentto == MODMAIL_ID and v and v.id != c.author_id and v.admin_level >= PERMS['USER_BAN'] %}
-				<button type="button" class="btn btn-danger mt-2 mr-2 {% if c.author.is_muted %}d-none{% endif %}" id="mute-user-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/mute_user/{{c.author.id}}','mute-user-{{c.id}}','unmute-user-{{c.id}}','d-none')">Mute</button>
-				<button type="button" class="btn btn-primary mt-2 mr-2 {% if not c.author.is_muted %}d-none{% endif %} btn-success" id="unmute-user-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unmute_user/{{c.author.id}}','mute-user-{{c.id}}','unmute-user-{{c.id}}','d-none')">Unmute</button>
-			{% endif %}
-
 			<button id="toggle-reply-{{c.fullname}}" type="button" class="btn btn-primary nobackground mt-2" data-nonce="{{g.nonce}}" data-onclick="toggleReplyBox(this, 'reply-to-{{c.fullname}}')">Reply</button>
+
+			{% if c.sentto == MODMAIL_ID and v and v.id != c.author_id and v.admin_level >= PERMS['USER_BAN'] %}
+				<button type="button" class="btn btn-danger mt-2 ml-2 {% if c.author.is_muted %}d-none{% endif %}" id="mute-user-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/mute_user/{{c.author.id}}','mute-user-{{c.id}}','unmute-user-{{c.id}}','d-none')">Mute</button>
+				<button type="button" class="btn btn-primary mt-2 ml-2 {% if not c.author.is_muted %}d-none{% endif %} btn-success" id="unmute-user-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unmute_user/{{c.author.id}}','mute-user-{{c.id}}','unmute-user-{{c.id}}','d-none')">Unmute</button>
+			{% endif %}
 
 			{% if c.author_id != v.id and request.path == '/notifications/messages' %}
 				<button type="button" id="mute-notifs-{{c.id}}" class="btn btn-danger nobackground ml-2 mt-2 {% if v.has_muted(c.author) %}d-none{% endif %}" data-areyousure="postToastSwitch(this,'/mute_notifs/{{c.author.id}}','mute-notifs-{{c.id}}','unmute-notifs-{{c.id}}','d-none')" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)" data-dismiss="modal">Mute notifications from user</button>
