@@ -614,7 +614,7 @@
 
 								<button type="button" id="unblock2-{{c.id}}" data-bs-dismiss="modal" class="text-success list-group-item {% if not c.is_blocking %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unblock_user?username={{c.author_name}}','block2-{{c.id}}','unblock2-{{c.id}}','d-none')"><i class="fas fa-eye text-success mr-2"></i>Unblock user</button>
 
-								{% if (c.is_notif and c.author_id != AUTOJANNY_ID) or request.path == '/notifications/messages' %}
+								{% if c.is_notif and c.author_id != AUTOJANNY_ID %}
 									<button type="button" id="mute-notifs2-{{c.id}}" class="{% if v.has_muted(c.author) %}d-none{% endif %} list-group-item text-danger" data-areyousure="postToastSwitch(this,'/mute_notifs/{{c.author.id}}','mute-notifs2-{{c.id}}','unmute-notifs2-{{c.id}}','d-none')" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)" data-dismiss="modal"><i class="fas fa-bell-slash fa-fw text-danger mr-2"></i>Mute notifications from user</button>
 
 									<button type="button" id="unmute-notifs2-{{c.id}}" data-bs-dismiss="modal" class="text-success list-group-item {% if not v.has_muted(c.author) %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unmute_notifs/{{c.author.id}}','mute-notifs2-{{c.id}}','unmute-notifs2-{{c.id}}','d-none')"><i class="fas fa-bell text-success mr-2"></i>Unmute notifications from user</button>
