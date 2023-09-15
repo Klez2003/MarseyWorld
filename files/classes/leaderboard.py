@@ -56,17 +56,23 @@ class Leaderboard:
 			position = g.db.query(sq.c.id, sq.c.rank).filter(sq.c.id == v.id).limit(1).one()[1]
 		return (leaderboard, position, None)
 
+
 	@classmethod
 	def count_and_label(cls, criteria):
 		return func.count(criteria).label("count")
 
 	@classmethod
-	def rank_filtered_rank_label_by_desc(cls, criteria):
-		return func.rank().over(order_by=func.count(criteria).desc()).label("rank")
-
-	@classmethod
 	def sum_and_label(cls, criteria):
 		return func.sum(criteria).label("sum")
+
+	@classmethod
+	def avg_and_label(cls, criteria1, criteria2):
+		return (func.sum(criteria1)/func.count(criteria2)).label("avg")
+
+
+	@classmethod
+	def rank_filtered_rank_label_by_desc(cls, criteria):
+		return func.rank().over(order_by=func.count(criteria).desc()).label("rank")
 
 	@classmethod
 	def rank_filtered_rank_label_by_desc_sum(cls, criteria):
@@ -75,6 +81,11 @@ class Leaderboard:
 	@classmethod
 	def rank_filtered_rank_label_by_asc_sum(cls, criteria):
 		return func.rank().over(order_by=func.sum(criteria).asc()).label("rank")
+
+	@classmethod
+	def rank_filtered_rank_label_by_desc_avg(cls, criteria1, criteria2):
+		return func.rank().over(order_by=-func.sum(criteria1)/func.count(criteria2)).label("rank")
+
 
 	@classmethod
 	def get_badge_emoji_lb(cls, lb_criteria, v, users, limit, desc):
@@ -172,3 +183,14 @@ class Leaderboard:
 		except: pos9 = (len(users9)+1, 0)
 
 		return (users9_accs, pos9[0], pos9[1])
+
+	@classmethod
+	def get_avg_upvotes_lb(cls, lb_criteria, v, users, limit, desc):
+		sq = g.db.query(lb_criteria.author_id, cls.avg_and_label(lb_criteria.upvotes, lb_criteria.author_id)).filter_by(deleted_utc=0).group_by(lb_criteria.author_id).subquery()
+		leaderboard = g.db.query(User, sq.c.avg).join(User, User.id == sq.c.author_id).order_by(sq.c.avg.desc())
+
+		sq = g.db.query(lb_criteria.author_id, cls.avg_and_label(lb_criteria.upvotes, lb_criteria.author_id), cls.rank_filtered_rank_label_by_desc_avg(lb_criteria.upvotes, lb_criteria.author_id)).filter_by(deleted_utc=0).group_by(lb_criteria.author_id).subquery()
+		position = g.db.query(sq.c.rank, sq.c.avg).join(User, User.id == sq.c.author_id).filter(sq.c.author_id == v.id).limit(1).one_or_none()
+		if not position: position = (leaderboard.count() + 1, 0)
+		leaderboard = leaderboard.limit(limit).all()
+		return (leaderboard, position[0], position[1])
