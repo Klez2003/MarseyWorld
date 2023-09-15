@@ -325,7 +325,7 @@ def sign_up_post(v):
 		new_user.admin_level = 4
 		session["history"] = []
 
-	if ref_id:
+	if ref_id and ref_id not in session.get("history", []):
 		ref_user = get_account(ref_id)
 
 		if ref_user:
