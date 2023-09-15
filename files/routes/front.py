@@ -85,7 +85,8 @@ def front_all(v, sub=None):
 	return result
 
 
-LIMITED_WPD_HOLES = ('aftermath', 'fights', 'gore', 'request', 'selfharm', 'discussion', 'meta', 'music', 'pets', 'social')
+LIMITED_WPD_HOLES = ('aftermath', 'fights', 'gore', 'medical', 'request', 'selfharm',
+					 'discussion', 'meta', 'music', 'pets', 'social')
 
 @cache.memoize()
 def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='', gt=0, lt=0, sub=None, pins=True):
