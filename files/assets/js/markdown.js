@@ -4,11 +4,11 @@ marked.use({
 			name: 'mention',
 			level: 'inline',
 			start: function(src){
-				const match = src.match(/@[\w\-]{1,30}/);
+				const match = src.match(/@[\w-]{1,30}/);
 				return match != null ? match.index : -1;
 			},
 			tokenizer: function(src) {
-				const rule = /^@[\w\-]{1,30}/;
+				const rule = /^@[\w-]{1,30}/;
 				const match = rule.exec(src);
 				if (match){
 					return {
@@ -28,11 +28,11 @@ marked.use({
 			name: 'group_mention',
 			level: 'inline',
 			start: function(src){
-				const match = src.match(/![\w\-]{3,25}/);
+				const match = src.match(/![\w-]{3,25}/);
 				return match != null ? match.index : -1;
 			},
 			tokenizer: function(src) {
-				const rule = /^![\w\-]{3,25}/;
+				const rule = /^![\w-]{3,25}/;
 				const match = rule.exec(src);
 				if (match){
 					return {

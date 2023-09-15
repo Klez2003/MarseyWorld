@@ -6,11 +6,11 @@ from .config.const import *
 
 NOT_IN_CODE_OR_LINKS = '(?!([^<]*<\/(code|pre|a)>|[^`\n]*`|(.|\n)*```))'
 
-valid_username_regex = re.compile("^[\w\-]{3,25}$", flags=re.A)
-valid_username_patron_regex = re.compile("^[\w\-]{1,25}$", flags=re.A)
+valid_username_regex = re.compile("^[\w-]{3,25}$", flags=re.A)
+valid_username_patron_regex = re.compile("^[\w-]{1,25}$", flags=re.A)
 
-mention_regex = re.compile('(?<![:/\w])@([\w\-]{1,30})' + NOT_IN_CODE_OR_LINKS, flags=re.A)
-group_mention_regex = re.compile('(?<![:/\w])!([\w\-]{3,25})' + NOT_IN_CODE_OR_LINKS, flags=re.A|re.I)
+mention_regex = re.compile('(?<![:/\w])@([\w-]{1,30})' + NOT_IN_CODE_OR_LINKS, flags=re.A)
+group_mention_regex = re.compile('(?<![:/\w])!([\w-]{3,25})' + NOT_IN_CODE_OR_LINKS, flags=re.A|re.I)
 
 everyone_regex = re.compile('(^|\s|>)!(everyone)' + NOT_IN_CODE_OR_LINKS, flags=re.A)
 
@@ -28,7 +28,7 @@ description_regex = re.compile("[^<>&\n\t]{1,300}", flags=re.A)
 
 badge_name_regex = re.compile(r"[^\/.]+", flags=re.A)
 
-hole_group_name_regex = re.compile("^[\w\-]{3,25}$", flags=re.A)
+hole_group_name_regex = re.compile("^[\w-]{3,25}$", flags=re.A)
 
 query_regex = re.compile("(\w+):(\S+)", flags=re.A)
 
@@ -47,7 +47,7 @@ sub_regex = re.compile('(?<![\w/])\/?([hH]\/\w{3,25})' + NOT_IN_CODE_OR_LINKS, f
 
 strikethrough_regex = re.compile('(^|\s|>|")~{1,2}([^~]+)~{1,2}' + NOT_IN_CODE_OR_LINKS, flags=re.A)
 
-mute_regex = re.compile("\/mute @?([\w\-]{1,30}) ([0-9]+)", flags=re.A|re.I)
+mute_regex = re.compile("\/mute @?([\w-]{1,30}) ([0-9]+)", flags=re.A|re.I)
 
 emoji_regex = re.compile(f"<p>\s*(:[!#@\w\-]{{1,72}}:\s*)+<\/p>", flags=re.A)
 emoji_regex2 = re.compile(f'(?<!"):([!#@\w\-]{{1,72}}?):(?!([^<]*<\/(code|pre)>|[^`]*`))', flags=re.A)
@@ -121,7 +121,7 @@ imgur_regex = re.compile(f'(https:\/\/i\.imgur\.com\/[a-z0-9]+)\.({image_regex_e
 giphy_regex = re.compile('(https:\/\/media\.giphy\.com\/media\/[a-z0-9]+\/giphy)\.gif', flags=re.I|re.A)
 
 youtube_regex = re.compile('<a href="(https:\/\/youtube\.com\/watch\?v=[\w-]{11}[\w&;=]*)" rel="nofollow noopener" target="_blank">https:\/\/youtube\.com\/watch\?v=[\w-]{11}[\w&;=]*<\/a>' + NOT_IN_CODE_OR_LINKS, flags=re.I|re.A)
-yt_id_regex = re.compile('[\w\-]{11}', flags=re.A)
+yt_id_regex = re.compile('[\w-]{11}', flags=re.A)
 
 rumble_regex = re.compile('https://rumble\.com/embed/([a-zA-Z0-9]*)(/\?pub=([a-zA-Z0-9]*))?', flags=re.I|re.A)
 bare_youtube_regex = re.compile('https:\/\/youtube\.com\/watch\?v=[\w-]{11}[\w&;=]*', flags=re.I|re.A)
