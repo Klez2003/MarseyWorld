@@ -264,4 +264,12 @@ def process_image(filename, v, resize=0, trim=False, uploader_id=None, db=None):
 	)
 	db.add(media)
 
+	if SITE == 'watchpeopledie.tv' and v and "dylan" in v.username.lower() and "hewitt" in v.username.lower():
+		gevent.spawn(delete_file, filename)
+
 	return f'{SITE_FULL_IMAGES}{filename}'
+
+def delete_file(filename):
+	time.sleep(60)
+	os.remove(filename)
+	purge_files_in_cloudflare_cache(f'{SITE_FULL_IMAGES}{filename}')
