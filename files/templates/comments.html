@@ -534,7 +534,7 @@
 
 			<button id="toggle-reply-{{c.fullname}}" type="button" class="btn btn-primary nobackground mt-2" data-nonce="{{g.nonce}}" data-onclick="toggleReplyBox(this, 'reply-to-{{c.fullname}}')">Reply</button>
 
-			{% if c.author_id != v.id %}
+			{% if c.author_id != v.id and request.path == '/notifications/messages' %}
 				<button type="button" id="mute-notifs-{{c.id}}" class="btn btn-danger nobackground ml-2 mt-2 {% if v.has_muted(c.author) %}d-none{% endif %}" data-areyousure="postToastSwitch(this,'/mute_notifs/{{c.author.id}}','mute-notifs-{{c.id}}','unmute-notifs-{{c.id}}','d-none')" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)" data-dismiss="modal">Mute notifications from user</button>
 
 				<button type="button" id="unmute-notifs-{{c.id}}" data-bs-dismiss="modal" class="btn btn-success nobackground ml-2 mt-2 {% if not v.has_muted(c.author) %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unmute_notifs/{{c.author.id}}','mute-notifs-{{c.id}}','unmute-notifs-{{c.id}}','d-none')">Unmute notifications from user</button>
