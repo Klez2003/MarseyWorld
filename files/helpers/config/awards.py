@@ -575,7 +575,7 @@ AWARDS = {
 		"deflectable": True,
 		"cosmetic": False,
 		"ghost": False,
-		"enabled": False,
+		"enabled": True,
 	},
 	"unpin": {
 		"kind": "unpin",
