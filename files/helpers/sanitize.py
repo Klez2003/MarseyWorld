@@ -744,8 +744,7 @@ def normalize_url(url):
 
 	url = reddit_domain_regex.sub(r'\1https://old.reddit.com/\3', url)
 
-	url = url.replace("https://youtu.be/", "https://youtube.com/watch?v=") \
-			 .replace("https://music.youtube.com/watch?v=", "https://youtube.com/watch?v=") \
+	url = url.replace("https://music.youtube.com/watch?v=", "https://youtube.com/watch?v=") \
 			 .replace("https://www.youtube.com", "https://youtube.com") \
 			 .replace("https://m.youtube.com", "https://youtube.com") \
 			 .replace("https://youtube.com/shorts/", "https://youtube.com/watch?v=") \
@@ -779,14 +778,26 @@ def normalize_url(url):
 		except:
 			print(url, flush=True)
 			abort(500)
-		domain = parsed_url.netloc
+
+		netloc = parsed_url.netloc
+		path = parsed_url.path.rstrip('/')
 		qd = parse_qs(parsed_url.query, keep_blank_values=True)
-		filtered = {k: val for k, val in qd.items() if is_whitelisted(domain, k)}
-		if domain == 'old.reddit.com' and reddit_comment_link_regex.fullmatch(url):
+
+		filtered = {}
+
+		if netloc == 'youtu.be':
+			filtered['v'] = path.lstrip('/')
+			netloc = 'youtube.com'
+			path = '/watch'
+
+		filtered |= {k: val for k, val in qd.items() if is_whitelisted(netloc, k)}
+
+		if netloc == 'old.reddit.com' and reddit_comment_link_regex.fullmatch(url):
 			filtered['context'] = 8
+
 		new_url = ParseResult(scheme="https",
-							netloc=parsed_url.netloc,
-							path=parsed_url.path.rstrip('/'),
+							netloc=netloc,
+							path=path,
 							params=parsed_url.params,
 							query=urlencode(filtered, doseq=True),
 							fragment=parsed_url.fragment)
