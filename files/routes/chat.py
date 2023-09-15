@@ -187,7 +187,7 @@ def speak(data, v):
 			self_only = True
 
 	if self_only or v.shadowbanned or execute_blackjack(v, None, text, "chat"):
-		emit('speak', data, room=request.referrer)
+		emit('speak', data)
 	else:
 		emit('speak', data, room=request.referrer, broadcast=True)
 		messages[request.referrer][id] = data
