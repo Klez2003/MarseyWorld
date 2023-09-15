@@ -115,7 +115,7 @@ a.btn-block[href~="/submit"] {
 	padding-top: 5px !important;
 }
 
-#frontpage #main-content-col .row:first-child {
+#frontpage #main-content-col .row:first-child:not(#award-tabs) {
 	background-image: url(/i/classic1.webp);
 	background-position: center;
 	background-repeat: repeat;
