@@ -145,13 +145,11 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 	elif target.author.progressivestack or target.author.admin_level >= PERMS['IS_PERMA_PROGSTACKED']:
 		mul = 2
 	elif SITE == 'rdrama.net' and cls == Post:
-		if target.sub in {'countryclub', 'highrollerclub'}:
-			mul = 3
-		elif (target.domain.endswith('.win')
+		if (target.domain.endswith('.win')
 		or 'forum' in target.domain or 'chan' in target.domain or 'lemmy' in target.domain or 'mastodon' in target.domain
 		or (target.domain in BOOSTED_SITES and not target.url.startswith('/'))):
 			mul = 2
-		elif target.sub in STEALTH_HOLES:
+		elif target.sub in STEALTH_HOLES or target.sub in {'countryclub', 'highrollerclub'}:
 			mul = 2
 		elif 6 <= datetime.fromtimestamp(target.created_utc).hour <= 10:
 			mul = 2
