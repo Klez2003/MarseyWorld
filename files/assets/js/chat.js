@@ -1,22 +1,13 @@
-function timeSince(timeStamp) {
-	const now = new Date(),
-		secondsPast = (now.getTime() - timeStamp) / 1000;
-	if (secondsPast < 60) {
-		return parseInt(secondsPast) + 's';
-	}
-	if (secondsPast < 3600) {
-		return parseInt(secondsPast / 60) + 'm';
-	}
-	if (secondsPast <= 86400) {
-		return parseInt(secondsPast / 3600) + 'h';
-	}
-	if (secondsPast > 86400) {
-		day = timeStamp.getDate();
-		month = timeStamp.toDateString().match(/ [a-zA-Z]*/)[0].replace(" ", "");
-		year = timeStamp.getFullYear() == now.getFullYear() ? "" : " " + timeStamp.getFullYear();
-		return day + " " + month + year;
-	}
+function formatDate(d) {
+	const hour = ("0" + d.getHours()).slice(-2);
+	const minute = ("0" + d.getMinutes()).slice(-2);
+	const second = ("0" + d.getSeconds()).slice(-2);
+	return hour + ":" + minute + ":" + second;
 }
+
+for (const e of timestamps) {
+	e.innerHTML = formatDate(new Date(e.dataset.time*1000));
+};
 
 const ua=window.navigator.userAgent
 let socket
@@ -125,10 +116,7 @@ socket.on('speak', function(json) {
 
 		document.getElementsByClassName('user_id')[0].value = json.user_id
 
-		if (Date.now() - json.time*1000 > 5000)
-			document.getElementsByClassName('time')[0].innerHTML = timeSince(json.time*1000) + ' ago'
-		else
-			document.getElementsByClassName('time')[0].innerHTML = "just now"
+		document.getElementsByClassName('time')[0].innerHTML = formatDate(new Date(json.time*1000))
 	}
 
 	document.getElementsByClassName('chat-line')[0].id = json.id

@@ -235,7 +235,7 @@
 			</div>
 			<span {% if m and m.patron %}class="username patron" style="background-color:#{{m.namecolor}}"{% else %}class="username"{% endif %}>{% if m %}{{m.username}}{% endif %}</span>
 		</a>
-		<span class="text-black time ml-1 mb-3 text-center">{% if m %}{{m.time | timestamp}}{% else %}just now{% endif %}</span>
+		<span class="text-black time ml-1 mb-3 text-center" {% if m %}data-time="{{m.time}}"{% endif %}></span>
 		<input hidden class="user_id" {% if m %}value="{{m.user_id}}"{% endif %}>
 {% endmacro %}
 
