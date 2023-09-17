@@ -1,4 +1,5 @@
 function approve_hat(t, name) {
+	console.log(name)
 	console.log(`${name}-description`)
 	postToast(t, `/admin/approve/hat/${name}`,
 		{
