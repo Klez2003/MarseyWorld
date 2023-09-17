@@ -68,6 +68,7 @@ function postToast(t, url, data, extraActionsOnSuccess, extraActionsOnFailure) {
 
 function handle_disabled(t) {
 	btn = t.parentElement.getElementsByClassName('handle_disabled')[0]
+	if (!btn) return
 	if (t.value) {
 		btn.disabled = false;
 		btn.classList.remove('disabled')
