@@ -21,11 +21,11 @@
 		<a><i class="fas fa-campfire text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="User has been exiled from /h/{{p.sub}} by @{{p.author.exiler_username(p.sub)}}"></i></a>
 	{% endif %}
 
-	{% if p.bannedfor and not (c.parent_post and c.post.sub == 'chudrama') %}
+	{% if p.bannedfor and p.sub != 'chudrama' %}
 		<i class="fas fa-hammer-crash text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="User was banned for this post {{p.bannedfor}}"></i>
 	{% endif %}
 
-	{% if p.chuddedfor and not (c.parent_post and c.post.sub == 'chudrama') %}
+	{% if p.chuddedfor and p.sub != 'chudrama' %}
 		<i class="fas fa-face-sleeping text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="User was chudded for this post {{p.chuddedfor}}"></i>
 	{% endif %}
 
