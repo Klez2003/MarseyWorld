@@ -42,8 +42,6 @@ def before_request():
 	else:
 		g.browser = 'chromium'
 
-	g.is_tor = request.headers.get("cf-ipcountry") == "T1"
-
 	request.path = request.path.rstrip('/')
 	if not request.path: request.path = '/'
 	request.full_path = request.full_path.rstrip('?').rstrip('/')
