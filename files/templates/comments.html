@@ -124,11 +124,11 @@
 					{% endif %}
 				{% endif %}
 
-				{% if c.bannedfor %}
+				{% if c.bannedfor and not (c.parent_post and c.post.sub == 'chudrama') %}
 					<i class="fas fa-hammer-crash text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="User was banned for this comment {{c.bannedfor}}"></i>
 				{% endif %}
 
-				{% if c.chuddedfor %}
+				{% if c.chuddedfor and not (c.parent_post and c.post.sub == 'chudrama') %}
 					<i class="fas fa-face-sleeping text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="User was chudded for this comment {{c.chuddedfor}}"></i>
 				{% endif %}
 
