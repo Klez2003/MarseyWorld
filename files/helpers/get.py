@@ -339,6 +339,12 @@ def get_profile_picture(identifier):
 
 	return x.profile_url if x else 'not_found'
 
+def get_msg():
+	if request.referrer and request.referrer.split('?')[0] == request.base_url:
+		return request.values.get("msg")
+	else:
+		return None
+
 def get_error():
 	if request.referrer and request.referrer.split('?')[0] == request.base_url:
 		return request.values.get("error")

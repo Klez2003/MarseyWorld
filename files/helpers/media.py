@@ -74,8 +74,10 @@ def process_files(files, v, body, is_dm=False, dm_user=None):
 	return body.replace('\n ', '\n')
 
 
-def process_audio(file, v):
-	old = f'/audio/{time.time()}'.replace('.','')
+def process_audio(file, v, old):
+	if not old:
+		old = f'/audio/{time.time()}'.replace('.','')
+
 	file.save(old)
 
 	size = os.stat(old).st_size

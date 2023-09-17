@@ -38,7 +38,7 @@ def settings(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def settings_personal(v):
-	return render_template("settings/personal.html", v=v, error=get_error())
+	return render_template("settings/personal.html", v=v, msg=get_msg(), error=get_error())
 
 @app.post('/settings/remove_background')
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
@@ -775,14 +775,7 @@ def settings_song_change_mp3(v):
 
 	song = str(time.time()).replace('.','')
 
-	name = f'/songs/{song}.mp3'
-	file.save(name)
-	process_audio(file, v) #to ensure not malware
-
-	size = os.stat(name).st_size
-	if size > 8 * 1024 * 1024:
-		os.remove(name)
-		return redirect("/settings/personal?error=MP3 file must be smaller than 8MB")
+	process_audio(file, v, f'/songs/{song}') #to ensure not malware
 
 	if path.isfile(f"/songs/{v.song}.mp3") and g.db.query(User).filter_by(song=v.song).count() == 1:
 		os.remove(f"/songs/{v.song}.mp3")
