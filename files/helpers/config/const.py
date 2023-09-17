@@ -246,6 +246,7 @@ if SITE_NAME == 'rDrama':
 		'corgi': 'klenny',
 		"right now": "right meow",
 		"(?<!\/)linux": "GNU/Linux",
+		'based': 'keyed',
 	}
 	SLURS.update(RDRAMA_SLURS)
 
