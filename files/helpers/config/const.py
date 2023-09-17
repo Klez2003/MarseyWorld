@@ -71,7 +71,6 @@ if SITE == 'staging.rdrama.net':
 
 LOGGED_IN_CACHE_KEY = "loggedin"
 LOGGED_OUT_CACHE_KEY = "loggedout"
-CHAT_ONLINE_CACHE_KEY = "online"
 
 CASINO_RELEASE_DAY = 1662825600
 

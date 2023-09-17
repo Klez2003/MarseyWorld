@@ -4,6 +4,13 @@
 {% block content %}
 <h3 class="py-2">Admin Tools</h3>
 
+{% if v.admin_level >= PERMS['ORGIES'] %}
+	<h4>Orgies</h4>
+	<ul>
+		<li><a href="/admin/orgy">Start/Stop Orgy</a></li>
+	</ul>
+{%- endif %}
+
 {% if v.admin_level >= PERMS['USE_ADMIGGER_THREADS'] and (SITE_NAME == 'rDrama' or SIDEBAR_THREAD or BANNER_THREAD or BADGE_THREAD or SNAPPY_THREAD) %}
 	<h4>Add Stuff</h4>
 	<ul>
@@ -98,12 +105,6 @@
 </ul>
 {%- endif %}
 
-{% if v.admin_level >= PERMS['ORGIES'] %}
-<h4>Misc</h4>
-<ul>
-	<li><a href="/admin/orgy">Start/Stop Orgy</a></li>
-</ul>
-{%- endif %}
 <h4>Statistics</h4>
 <ul>
 	<li><a href="/stats">Content Stats</a></li>

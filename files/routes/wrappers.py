@@ -31,11 +31,14 @@ def calc_users():
 	g.loggedin_counter = 0
 	g.loggedout_counter = 0
 	g.loggedin_chat = 0
+	g.loggedin_orgy = 0
 	v = getattr(g, 'v', None) if g else None
 	if has_request_context and g and g.desires_auth and not g.is_api_or_xhr:
 		loggedin = cache.get(LOGGED_IN_CACHE_KEY) or {}
 		loggedout = cache.get(LOGGED_OUT_CACHE_KEY) or {}
-		g.loggedin_chat = cache.get(CHAT_ONLINE_CACHE_KEY) or 0
+		g.loggedin_chat = cache.get('loggedin_chat') or 0
+		g.loggedin_orgy = cache.get('loggedin_orgy') or 0
+
 		timestamp = int(time.time())
 
 		check_session_id()

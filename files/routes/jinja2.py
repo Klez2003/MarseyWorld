@@ -7,6 +7,7 @@ from jinja2 import pass_context
 from PIL import ImageColor
 
 from files.classes.user import User
+from files.classes.orgy import get_orgy
 from files.helpers.assetcache import assetcache_path
 from files.helpers.config.const import *
 from files.helpers.regex import *
@@ -129,5 +130,5 @@ def inject_constants():
 			"CHUD_PHRASES":CHUD_PHRASES, "hasattr":hasattr, "calc_users":calc_users, "HOLE_INACTIVITY_DELETION":HOLE_INACTIVITY_DELETION,
 			"MAX_IMAGE_AUDIO_SIZE_MB":MAX_IMAGE_AUDIO_SIZE_MB, "MAX_IMAGE_AUDIO_SIZE_MB_PATRON":MAX_IMAGE_AUDIO_SIZE_MB_PATRON,
 			"MAX_VIDEO_SIZE_MB":MAX_VIDEO_SIZE_MB, "MAX_VIDEO_SIZE_MB_PATRON":MAX_VIDEO_SIZE_MB_PATRON,
-			"CURSORMARSEY_DEFAULT":CURSORMARSEY_DEFAULT, "SNAPPY_ID":SNAPPY_ID,
+			"CURSORMARSEY_DEFAULT":CURSORMARSEY_DEFAULT, "SNAPPY_ID":SNAPPY_ID, "get_orgy":get_orgy, "TRUESCORE_CC_CHAT_MINIMUM":TRUESCORE_CC_CHAT_MINIMUM,
 		}
