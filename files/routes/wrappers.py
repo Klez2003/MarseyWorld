@@ -110,7 +110,7 @@ def get_logged_in_user():
 
 	g.is_api_or_xhr = bool((v and v.client) or request.headers.get("xhr"))
 
-	g.is_tor = (request.headers.get("cf-ipcountry") == "T1" and not (SITE_NAME == 'rDrama' and v and v.truescore >= 100))
+	g.is_tor = (request.headers.get("cf-ipcountry") == "T1" and not (SITE_NAME == 'rDrama' and v and v.truescore >= 1000))
 
 	return v
 
