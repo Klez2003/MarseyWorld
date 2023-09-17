@@ -250,7 +250,7 @@ reddit_domain_regex = re.compile("(^|\s|\()https?:\/\/(reddit\.com|(?:(?:[A-z]{2
 reddit_comment_link_regex = re.compile("https:\/\/old.reddit.com\/r\/\w{2,25}\/comments(\/\w+){3}\/?", flags=re.A)
 
 #gevent
-reddit_s_url_regex = re.compile("https:\/\/reddit.com\/r\/\w{2,25}\/s\/\w{10}", flags=re.A)
+reddit_s_url_regex = re.compile("https:\/\/reddit.com\/[ru]\/\w{2,25}\/s\/\w{10}", flags=re.A)
 
 #run-time
 reddit_to_vreddit_regex = re.compile('(^|>|")https:\/\/old.reddit.com\/(r|u|user)\/', flags=re.A)
