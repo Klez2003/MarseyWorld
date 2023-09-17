@@ -1,6 +1,5 @@
-function approve_hat(t, name) {
-	console.log(name)
-	console.log(`${name}-description`)
+function approve_hat(t) {
+	const name = t.dataset.name
 	postToast(t, `/admin/approve/hat/${name}`,
 		{
 			"description": document.getElementById(`${name}-description`).value,
@@ -13,7 +12,8 @@ function approve_hat(t, name) {
 	);
 }
 
-function remove_hat(t, name) {
+function remove_hat(t) {
+	const name = t.dataset.name
 	postToast(t, `/remove/hat/${name}`,
 		{
 		},
