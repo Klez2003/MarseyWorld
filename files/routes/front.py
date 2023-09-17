@@ -21,7 +21,8 @@ def front_all(v, sub=None):
 		if sub and not User.can_see(v, sub):
 			abort(403)
 
-	if (request.path.startswith('/h/') or request.path.startswith('/s/')) and not sub: abort(404)
+	if request.path.startswith('/h/') and not sub:
+		abort(404)
 
 	page = get_page()
 
