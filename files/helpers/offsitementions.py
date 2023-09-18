@@ -43,7 +43,7 @@ def get_mentions(cache, queries, reddit_notifs_users=False):
 				continue
 
 			if thing.get('subreddit_subscribers') and thing['subreddit_subscribers'] < 2: continue
-			if thing['subreddit_type'] == 'user': continue
+			if thing.get('subreddit_type') == 'user': continue
 			if thing['subreddit'] in {'IAmA', 'PokemonGoRaids', 'SubSimulatorGPT2', 'SubSimGPT2Interactive'}: continue
 			if 'bot' in thing['author'].lower(): continue
 			if 'AutoModerator' == thing['author']: continue
