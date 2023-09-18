@@ -74,7 +74,7 @@ def process_files(files, v, body, is_dm=False, dm_user=None):
 	return body.replace('\n ', '\n')
 
 
-def process_audio(file, v, old):
+def process_audio(file, v, old=None):
 	if not old:
 		old = f'/audio/{time.time()}'.replace('.','')
 
