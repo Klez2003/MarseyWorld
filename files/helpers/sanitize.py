@@ -273,7 +273,7 @@ def render_emojis(markup: str):
 
 	for emoji_match in marseyfx_emoji_regex.finditer(markup):
 		emoji_str = emoji_match.group()[1:-1] # Cut off colons
-		success, emoji = parse_emoji(emoji_str)
+		success, emoji, _ = parse_emoji(emoji_str)
 		if success:
 			emojis_used.add(emoji.name)
 			emoji_html = str(emoji.create_el())
@@ -553,8 +553,6 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 
 	sanitized = spoiler_regex.sub(r'<spoiler>\1</spoiler>', sanitized)
 
-	santiized, emojis_used = render_emojis(sanitized)
-
 	sanitized = sanitized.replace('&amp;','&')
 
 	sanitized = video_sub_regex.sub(r'<p class="resizable"><video controls preload="none" src="\1"></video></p>', sanitized)
@@ -580,11 +578,13 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 									parse_email=False, url_re=url_re)]
 								).clean(sanitized)
 
+	sanitized, emojis_used = render_emojis(sanitized)
+
 	#doing this here cuz of the linkifyfilter right above it (therefore unifying all link processing logic)
 	soup = BeautifulSoup(sanitized, 'lxml')
 
 	# style validation
-	styled_elements = soup.find_all(style=True)
+	"""styled_elements = soup.find_all(style=True)
 	for element in styled_elements:
 		# Images have all allowed styles, so we dont need to check these
 		if element.name == 'img':
@@ -596,7 +596,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 		matches = css_style_attr_regex.findall(style)
 		for match in matches:
 			if match[0] not in allowed_global_styles:
-				error(f"Invalid style property: {match[0]}")
+				error(f"Invalid style property: {match[0]}")"""
 
 	links = soup.find_all("a")
 

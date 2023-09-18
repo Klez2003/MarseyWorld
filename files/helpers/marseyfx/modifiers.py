@@ -1,15 +1,24 @@
+import re
 from bs4 import BeautifulSoup, Tag
 from files.helpers.config.const import SITE_FULL_IMAGES
-from files.helpers.marseyfx.parser import Modifier
-from files.helpers.marseyfx.tokenizer import StringLiteralToken
+from files.helpers.marseyfx.tokenizer import StringLiteralToken, Token
 
 modifier_whitelist = []
+
+class Modifier:
+    name: str
+    args: list[Token]
+
+    def __init__(self, name: str, args: list[Token]):
+        self.name = name
+        self.args = args
 
 def modifier(fn):
     modifier_whitelist.append(fn.__name__)
 
     def wrapper(*args, **kwargs):
-        args[0].el['class'].append('marseyfx-modifier-' + fn.__name__)
+        slf = args[0]
+        slf.el = slf.el.wrap(slf.soup.new_tag('div', attrs={'class': f'marseyfx-modifier marseyfx-modifier-{fn.__name__}'}))
         return fn(*args, **kwargs)
     return wrapper
 
@@ -19,7 +28,7 @@ class Modified:
 
     def __init__(self, el):
         self.soup = BeautifulSoup()
-        self.el = el.wrap(self.soup.new_tag('div', class_='marseyfx-container'))
+        self.el = el
 
     def add_class(self, class_: str):
         self.el.attrs['class'].append(' ' + class_)
@@ -32,12 +41,20 @@ class Modified:
     # Using this instead of throwing everything in a string and then parsing it helps
     # mitigate the risk of XSS attacks
     def image(self, name: str):
-        return self.soup.new_tag(
+        image = self.soup.new_tag(
             'img', 
             loading='lazy', 
-            class_=f'marseyfx-{name}',
-            src=f'{SITE_FULL_IMAGES}/i/{name}.webp'
-        ) 
+            src=f'{SITE_FULL_IMAGES}/i/{name}.webp',
+            attrs={'class': f'marseyfx-image marseyfx-image-{name}'}
+        )
+
+        container = self.soup.new_tag(
+            'div',
+            attrs={'class': f'marseyfx-image-container marseyfx-image-container-{name}'}
+        )
+
+        container.append(image)
+        return container
     
     def underlay(self, underlay: Tag):
         self.el.insert(0, underlay)
@@ -47,16 +64,16 @@ class Modified:
 
     @modifier
     def pat(self):
-        self.overlay(self.el, self.image('pat'))
+        self.overlay(self.image('pat'))
 
     @modifier
     def love(self):
-        self.overlay(self.el, self.image('love-foreground'))
-        self.underlay(self.el, self.image('love-background'))
+        self.overlay(self.image('love-foreground'))
+        self.underlay(self.image('love-background'))
 
     @modifier
     def talking(self):
-        self.overlay(self.el, self.image('talking'))
+        self.overlay(self.image('talking'))
 
     @modifier
     def genocide(self):
@@ -67,35 +84,34 @@ class Modified:
         if not isinstance(msg, StringLiteralToken):
             return
         
-        self.overlay(self.el, self.image('says'))
+        self.overlay(self.image('says'))
         self.el.append(self.soup.new_tag(
             'span',
-            class_='marseyfx-modifier-says-text',
-            string=msg.value
+            string=msg.value,
+            attrs={'class': 'marseyfx-modifier-says-text'}
         ))
 
     @modifier
     def fallover(self):
-        self.el.wrap(self.soup.new_tag(
+        self.el = self.el.wrap(self.soup.new_tag(
             'div',
-            class_='marseyfx-modifier-fallover-container'
+            attrs={'class': 'marseyfx-modifier-fallover-container'}
         ))
 
     @modifier
-    def transform(self, transformstyle: str):
-        if not transformstyle.fullmatch(r'[\w()\s%\.]*'):
+    def transform(self, transformstyle: StringLiteralToken):
+        if not re.fullmatch(r'[\w()\s%\.,]*', transformstyle.value):
+            print(f'Evil transform detected: {transformstyle.value}')
             return
         
-        if not 'style' in self.el.attrs:
-            self.el.attrs['style'] = ''
+        self.el.attrs['style'] = f'transform: {transformstyle.value};'
 
-        self.el.attrs['style'] += f'transform: {transformstyle};'
     
     @modifier
     def enraged(self):
         self.underlay(self.soup.new_tag(
             'div', 
-            class_='marseyfx-enraged-underlay'
+            attrs={'class': 'marseyfx-enraged-underlay'}
         ))
 
     @modifier

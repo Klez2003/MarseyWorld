@@ -3,15 +3,7 @@ from tokenize import Token
 from bs4 import BeautifulSoup
 from files.helpers.config.const import SITE_FULL_IMAGES
 from files.helpers.marseyfx.tokenizer import ArgsToken, DotToken, GroupToken, Tokenizer, WordToken
-from modified import Modified
-
-class Modifier:
-    name: str
-    args: list[Token]
-
-    def __init__(self, name: str, args: list[Token]):
-        self.name = name
-        self.args = args
+from files.helpers.marseyfx.modifiers import Modified, Modifier
 
 emoji_replacers = {
     '!': 'is_flipped',
@@ -29,41 +21,49 @@ class Emoji:
 
     def __init__(self, name: str, modifiers, token: Token):
         for symbol, value in emoji_replacers.items():
-            name = name.replace(symbol, '')
-            setattr(self, value, True)
+            if symbol in name:
+                name = name.replace(symbol, '')
+                setattr(self, value, True)
 
         self.name = name
         self.modifiers = modifiers
         self.token = token
+
     def create_el(self):
         soup = BeautifulSoup()
         
         el = soup.new_tag(
             'img',
             loading='lazy',
-            class_='marseyfx-emoji',
-            src=f'{SITE_FULL_IMAGES}/e/{self.name}.webp'
+            src=f'{SITE_FULL_IMAGES}/e/{self.name}.webp',
+            attrs={'class': f'marseyfx-emoji marseyfx-image'}
         )
-
-        if (self.is_big):
-            el['class'].append(' marseyfx-big')
-
-        if (self.is_flipped):
-            el['class'].append(' marseyfx-flipped')
+        soup.append(el)
+        el = el.wrap(
+            soup.new_tag('div', attrs={'class': 'marseyfx-emoji-container'})
+        )
 
         mod = Modified(el)
         mod.apply_modifiers(self.modifiers)
 
-        return mod.el
+        container = soup.new_tag('div', attrs={'class': 'marseyfx-container'})
+        if (self.is_big):
+            container['class'].append(' marseyfx-big')
+
+        if (self.is_flipped):
+            container['class'].append(' marseyfx-flipped')
+
+        return mod.el.wrap(container)
 
 def parse_emoji(str: str):
     tokenizer = Tokenizer(str)
     token = tokenizer.parse_next_tokens()
 
-    if len(tokenizer.errors) > 0:
+    if len(tokenizer.errors) > 0 or token is None:
         return False, None, token
 
     emoji = parse_from_token(tokenizer, token)
+    print(f'Here! {emoji}')
 
     if not emoji:
         return False, None, token
@@ -75,7 +75,7 @@ def parse_from_token(tokenizer: Tokenizer, token: GroupToken):
         tokenizer.error('Malformed token -- Expected a group token')
         return
 
-    emoji = token.tokens[0]
+    emoji = token.children[0]
 
     if not isinstance(emoji, WordToken):
         tokenizer.error('Malformed token -- Expected an emoji (word token)')
@@ -84,24 +84,24 @@ def parse_from_token(tokenizer: Tokenizer, token: GroupToken):
     modifiers = []
 
     i = 1
-    while i + 1 < len(token.tokens):
-        t = token.tokens[i]
+    while i + 1 < len(token.children):
+        t = token.children[i]
 
         if not isinstance(t, DotToken):
             tokenizer.error('Malformed token -- Expected a dot')
             return
 
-        modifier = token.tokens[i + 1]
+        modifier = token.children[i + 1]
         if not isinstance(modifier, WordToken):
             tokenizer.error('Malformed token -- Expected a modifier name (word token)')
             return
         
-        if not i + 2 < len(token.tokens) or not isinstance(token.tokens[i + 2], ArgsToken):
+        if not i + 2 < len(token.children) or not isinstance(token.children[i + 2], ArgsToken):
             modifiers.append(Modifier(modifier.value, []))
             i += 2
         else:
-            args = token.tokens[i + 2]
-            modifiers.append(Modifier(modifier.value, args.tokens))
+            args = token.children[i + 2]
+            modifiers.append(Modifier(modifier.value, args.children))
             i += 3
 
     return Emoji(emoji.value, modifiers, token)
