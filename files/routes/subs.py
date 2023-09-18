@@ -182,7 +182,6 @@ def follow_sub(v, sub):
 	if not existing:
 		subscription = SubSubscription(user_id=v.id, sub=sub.name)
 		g.db.add(subscription)
-		cache.delete_memoized(frontlist)
 
 	return {"message": f"/h/{sub} followed successfully!"}
 
@@ -197,7 +196,6 @@ def unfollow_sub(v, sub):
 	subscription = g.db.query(SubSubscription).filter_by(user_id=v.id, sub=sub.name).one_or_none()
 	if subscription:
 		g.db.delete(subscription)
-		cache.delete_memoized(frontlist)
 
 	return {"message": f"/h/{sub} unfollowed successfully!"}
 
