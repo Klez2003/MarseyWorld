@@ -53,7 +53,7 @@ class Emoji:
         if (self.is_flipped):
             container['class'].append(' marseyfx-flipped')
 
-        return mod.el.wrap(container)
+        return mod.container.wrap(container)
 
 def parse_emoji(str: str):
     tokenizer = Tokenizer(str)
@@ -101,7 +101,7 @@ def parse_from_token(tokenizer: Tokenizer, token: GroupToken):
             i += 2
         else:
             args = token.children[i + 2]
-            modifiers.append(Modifier(modifier.value, args.children))
+            modifiers.append(Modifier(modifier.value, *args.children))
             i += 3
 
     return Emoji(emoji.value, modifiers, token)
