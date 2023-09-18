@@ -284,6 +284,8 @@ class Post(Base):
 	@lazy
 	def total_poll_voted(self, v):
 		if v:
+			if v.id == self.author_id:
+				return True
 			for o in self.options:
 				if o.voted(v): return True
 		return False
