@@ -271,6 +271,8 @@
 {% endif %}
 {% endfor %}
 
+<script src="{{'js/new_comments.js' | asset}}"></script>
+
 {% if v %}
 	{% include "modals/delete_post.html" %}
 	{% include "modals/report_post.html" %}
@@ -285,5 +287,3 @@
 {% if v and v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
 	<script defer src="{{'js/admin/post.js' | asset}}"></script>
 {% endif %}
-
-<script defer src="{{'js/new_comments.js' | asset}}"></script>
