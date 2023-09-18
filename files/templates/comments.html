@@ -89,8 +89,10 @@
 		{% endif %}
 	{% elif c.sentto == MODMAIL_ID %}
 		<span class="font-weight-bold">Sent to admins</span>
+	{% elif c.sentto == v.id %}
+		<span class="font-weight-bold">Sent to you</span>
 	{% else %}
-		<span class="font-weight-bold">Sent to @{{c.senttouser.username}}</span>
+		<span class="font-weight-bold">Sent to <a href="/@{{c.senttouser.username}}">@{{c.senttouser.username}}</a></span>
 	{% endif %}
 </span>
 </div>
