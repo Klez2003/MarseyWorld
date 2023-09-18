@@ -1,7 +1,8 @@
 import re
 from bs4 import BeautifulSoup, Tag
 from files.helpers.config.const import SITE_FULL_IMAGES
-from files.helpers.marseyfx.tokenizer import StringLiteralToken, Token
+from files.helpers.marseyfx.tokenizer import GroupToken, NumberLiteralToken, StringLiteralToken, Token, Tokenizer
+import files.helpers.marseyfx.parser as parser
 
 modifier_whitelist = []
 
@@ -18,20 +19,41 @@ def modifier(fn):
 
     def wrapper(*args, **kwargs):
         slf = args[0]
-        slf.el = slf.el.wrap(slf.soup.new_tag('div', attrs={'class': f'marseyfx-modifier marseyfx-modifier-{fn.__name__}'}))
+        slf.child = slf.container
+        slf.container = slf.child.wrap(slf.soup.new_tag('div', attrs={'class': f'marseyfx-modifier marseyfx-modifier-{fn.__name__}'}))
+        return fn(*args, **kwargs)
+    return wrapper
+
+def heavy(fn):
+    def wrapper(*args, **kwargs):
+        slf = args[0]
+        slf.heavy_count += 1
         return fn(*args, **kwargs)
     return wrapper
 
 class Modified:
     soup: BeautifulSoup
-    el: Tag #BeautifulSoup element
+    container: Tag
+    child: Tag
+    tokenizer: Tokenizer
+    heavy_count = 0
 
-    def __init__(self, el):
+    def __init__(self, el, tokenizer):
         self.soup = BeautifulSoup()
-        self.el = el
+        self.container = el
+        self.tokenizer = tokenizer
 
     def add_class(self, class_: str):
-        self.el.attrs['class'].append(' ' + class_)
+        if not 'class' in self.container.attrs:
+            self.container.attrs['class'] = ''
+        else:
+            self.container.attrs['class'].append(' ' + class_)
+
+    def add_child_class(self, class_: str):
+        if not 'class' in self.child.attrs:
+            self.child.attrs['class'] = ''
+        else:
+            self.child.attrs['class'].append(' ' + class_)
 
     def apply_modifiers(self, modifiers: list[Modifier]):
         for modifier in modifiers:
@@ -40,7 +62,7 @@ class Modified:
 
     # Using this instead of throwing everything in a string and then parsing it helps
     # mitigate the risk of XSS attacks
-    def image(self, name: str):
+    def image_href(self, name: str):
         image = self.soup.new_tag(
             'img', 
             loading='lazy', 
@@ -57,10 +79,16 @@ class Modified:
         return container
     
     def underlay(self, underlay: Tag):
-        self.el.insert(0, underlay)
+        self.container.insert(0, underlay)
 
     def overlay(self, overlay: Tag):
-        self.el.append(overlay)
+        self.container.append(overlay)
+
+    def add_style(self, style: str):
+        if 'style' in self.container.attrs:
+            style = self.container.attrs['style'] + style
+
+        self.container.attrs['style'] = style
 
     @modifier
     def pat(self):
@@ -85,7 +113,7 @@ class Modified:
             return
         
         self.overlay(self.image('says'))
-        self.el.append(self.soup.new_tag(
+        self.container.append(self.soup.new_tag(
             'span',
             string=msg.value,
             attrs={'class': 'marseyfx-modifier-says-text'}
@@ -93,7 +121,7 @@ class Modified:
 
     @modifier
     def fallover(self):
-        self.el = self.el.wrap(self.soup.new_tag(
+        self.container = self.container.wrap(self.soup.new_tag(
             'div',
             attrs={'class': 'marseyfx-modifier-fallover-container'}
         ))
@@ -104,9 +132,9 @@ class Modified:
             print(f'Evil transform detected: {transformstyle.value}')
             return
         
-        self.el.attrs['style'] = f'transform: {transformstyle.value};'
-
+        self.add_style(f'transform: {transformstyle.value};')
     
+    @heavy
     @modifier
     def enraged(self):
         self.underlay(self.soup.new_tag(
@@ -114,10 +142,54 @@ class Modified:
             attrs={'class': 'marseyfx-enraged-underlay'}
         ))
 
+    @heavy
     @modifier
     def corrupted(self):
         pass
 
+    @heavy
     @modifier
     def wavy(self):
-        self.el.wrap(self.soup.new_tag('svg'))
+        self.container.wrap(self.soup.new_tag('svg'))
+
+    @modifier
+    def toptext(self, text: StringLiteralToken):
+        if not isinstance(text, StringLiteralToken):
+            return
+
+        self.overlay(self.soup.new_tag(
+            'span',
+            string=text.value,
+            attrs={'class': 'marseyfx-modifier-toptext-text'}
+        ))
+
+    @modifier
+    def bottomtext(self, text: StringLiteralToken):
+        if not isinstance(text, StringLiteralToken):
+            return
+
+        self.overlay(self.soup.new_tag(
+            'span',
+            string=text.value,
+            attrs={'class': 'marseyfx-modifier-bottomtext-text'}
+        ))
+
+    @modifier
+    def spin(self, speed: NumberLiteralToken):
+        self.add_style('--marseyfx-spin-speed: ' + speed.value + ';')
+
+    @modifier
+    def triumphs(self, other: GroupToken):
+        other_emoji = parser.parse_from_token(self.tokenizer, other)
+
+        if other_emoji is None:
+            return
+        
+        self.add_child_class('marseyfx-modifier-triumphs-self')
+
+        other = other_emoji.create_el().wrap(
+            self.soup.new_tag('div', attrs={'class': 'marseyfx-modifier-triumphs-other'})
+        )
+        self.underlay(other)
+
+    

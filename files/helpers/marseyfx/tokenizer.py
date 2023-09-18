@@ -40,11 +40,12 @@ class Tokenizer:
         return self.str[token.span[0]:token.span[1]]
 
     def parse_next_tokens(self):
-        print(self.str[self.index:])
         start = self.index
         tokens = []
         while self.has_next():
-            if WordToken.can_parse(self):
+            if NumberLiteralToken.can_parse(self):
+                tokens.append(NumberLiteralToken.parse(self))
+            elif WordToken.can_parse(self):
                 tokens.append(WordToken.parse(self))
             elif DotToken.can_parse(self):
                 tokens.append(DotToken.parse(self))
@@ -58,9 +59,6 @@ class Tokenizer:
         if len(tokens) == 0:
             self.error('Expected a token')
             return None
-        
-        if len(tokens) == 1:
-            return tokens[0]
 
         return GroupToken((start, self.index), tokens)
 
@@ -86,7 +84,7 @@ class WordToken(Token):
 
     @staticmethod
     def can_parse(tokenizer: Tokenizer):
-        return re.fullmatch(r'[!#\w@]', tokenizer.peek())
+        return re.fullmatch(r'[!#@a-zA-Z]', tokenizer.peek())
 
     @staticmethod
     def parse(tokenizer: Tokenizer):
@@ -205,6 +203,6 @@ class ArgsToken(Token):
                 tokenizer.eat()
             else:
                 tokenizer.eat()
-                tokens.append(tokenizer.parse_next_tokens())
+                tokens.extend(tokenizer.parse_next_tokens())
 
         return ArgsToken((start, tokenizer.index), tokens)
