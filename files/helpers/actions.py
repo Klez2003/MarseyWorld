@@ -158,6 +158,9 @@ def execute_snappy(post, v):
 		if post.url.startswith('https://old.reddit.com/r/'):
 			rev = post.url.replace('https://old.reddit.com/', '')
 			rev = f"* [undelete.pullpush.io](https://undelete.pullpush.io/{rev})\n\n"
+		elif post.url.startswith("https://old.reddit.com/user/"):
+			rev = post.url.replace('https://old.reddit.com/user/', '')
+			rev = f"* [search-new.pullpush.io](https://search-new.pullpush.io/?author={rev}&type=submission)\n\n"
 		else: rev = ''
 
 		body += f"Snapshots:\n\n{rev}* [archive.org](https://web.archive.org/{post.url})\n\n* [ghostarchive.org](https://ghostarchive.org/search?term={quote(post.url)})\n\n* [archive.ph](https://archive.ph/?url={quote(post.url)}&run=1) (click to archive)\n\n"
@@ -182,6 +185,9 @@ def execute_snappy(post, v):
 			if href.startswith('https://old.reddit.com/r/'):
 				rev = href.replace('https://old.reddit.com/', '')
 				addition += f'* [undelete.pullpush.io](https://undelete.pullpush.io/{rev})\n\n'
+			elif href.startswith('https://old.reddit.com/user/'):
+				rev = href.replace('https://old.reddit.com/user/', '')
+				addition += f"* [search-new.pullpush.io](https://search-new.pullpush.io/?author={rev}&type=submission)\n\n"
 			addition += f'* [archive.org](https://web.archive.org/{href})\n\n'
 			addition += f'* [ghostarchive.org](https://ghostarchive.org/search?term={quote(href)})\n\n'
 			addition += f'* [archive.ph](https://archive.ph/?url={quote(href)}&run=1) (click to archive)\n\n'

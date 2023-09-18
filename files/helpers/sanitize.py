@@ -745,6 +745,8 @@ def is_whitelisted(domain, k):
 def normalize_url(url):
 	url = unquote(url)
 
+	url = url.replace("reddit.com/u/", "reddit.com/user/")
+
 	url = reddit_domain_regex.sub(r'\1https://old.reddit.com/\3', url)
 
 	url = url.replace("https://music.youtube.com/watch?v=", "https://youtube.com/watch?v=") \

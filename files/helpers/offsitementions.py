@@ -75,7 +75,7 @@ def notify_mentions(mentions, send_to=None, mention_str='site mention'):
 		permalink = m['permalink']
 		text = sanitize(m['text'], blackjack="reddit mention", golden=False)
 		notif_text = (
-			f'<p>New {mention_str} by <a href="https://old.reddit.com/u/{author}" '
+			f'<p>New {mention_str} by <a href="https://old.reddit.com/user/{author}" '
 				f'rel="nofollow noopener" target="_blank">/u/{author}</a></p>'
 			f'<p><a href="https://old.reddit.com{permalink}?context=89" '
 				'rel="nofollow noopener" target="_blank">'
