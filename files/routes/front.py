@@ -145,6 +145,9 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 			to_remove += [x.id for x in posts if x.sub == h][1:]
 
 		posts = [x for x in posts if x.id not in to_remove][:size]
+	elif SITE_NAME == 'WPD' and not v and sub == None:
+		posts = posts.limit(200).all()
+		posts = [x for x in posts if x.sub not in {'pets','selfharm'}][:size]
 	else:
 		posts = posts.limit(size).all()
 

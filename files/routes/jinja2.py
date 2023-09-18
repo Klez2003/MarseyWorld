@@ -45,6 +45,7 @@ def template_asset(ctx, asset_path):
 def template_change_arg(arg, value, url):
 	parsed = urlsplit(url)
 	query_dict = parse_qs(parsed.query)
+	query_dict.pop('page', None)
 	query_dict[arg] = value
 	query_new = urlencode(query_dict, doseq=True)
 	parsed = parsed._replace(query=query_new)
