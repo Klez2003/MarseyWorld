@@ -4,8 +4,10 @@ import re
 import signal
 from functools import partial
 from os import path, listdir
+from typing_extensions import deprecated
 from urllib.parse import parse_qs, urlparse, unquote, ParseResult, urlencode, urlunparse
 import time
+from files.helpers.marseyfx.parser import parse_emoji
 
 from sqlalchemy.sql import func
 
@@ -271,8 +273,21 @@ def find_all_emote_endings(word):
 
 	return endings, word
 
+def render_emojis(markup: str):
+	emojis_used = set()
 
-def render_emoji(html, regexp, golden, emojis_used, b=False, is_title=False):
+	for emoji_match in marseyfx_emoji_regex.finditer(markup):
+		emoji_str = emoji_match.group()[1:-1] # Cut off colons
+		success, emoji = parse_emoji(emoji_str)
+		if success:
+			emojis_used.add(emoji.name)
+			emoji_html = str(emoji.create_el())
+			markup = markup.replace(emoji_match.group(), emoji_html)
+
+	return markup, emojis_used
+
+@deprecated("Use the new one")
+def old_render_emoji(html, regexp, golden, emojis_used, b=False, is_title=False):
 	emojis = list(regexp.finditer(html))
 	captured = set()
 
@@ -529,29 +544,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 
 	sanitized = spoiler_regex.sub(r'<spoiler>\1</spoiler>', sanitized)
 
-	emojis_used = set()
-
-	emojis = list(emoji_regex.finditer(sanitized))
-	if len(emojis) > 20: golden = False
-
-	captured = []
-	for i in emojis:
-		if i.group(0) in captured: continue
-		captured.append(i.group(0))
-
-		old = i.group(0)
-		if 'marseylong1' in old or 'marseylong2' in old or 'marseylongcockandballs' in old or 'marseyllama1' in old or 'marseyllama2' in old:
-			new = old.lower().replace(">", " class='mb-0'>")
-		else: new = old.lower()
-
-		new = render_emoji(new, emoji_regex2, golden, emojis_used, True)
-
-		sanitized = sanitized.replace(old, new)
-
-	emojis = list(emoji_regex2.finditer(sanitized))
-	if len(emojis) > 20: golden = False
-
-	sanitized = render_emoji(sanitized, emoji_regex2, golden, emojis_used)
+	santiized, emojis_used = render_emojis(sanitized)
 
 	sanitized = sanitized.replace('&amp;','&')
 
@@ -710,9 +703,7 @@ def filter_emojis_only(title, golden=True, count_emojis=False):
 
 	title = remove_cuniform(title)
 
-	emojis_used = set()
-
-	title = render_emoji(title, emoji_regex2, golden, emojis_used, is_title=True)
+	title, emojis_used = render_emojis(title) #old_render_emoji(title, emoji_regex2, golden, emojis_used, is_title=True)
 
 	if count_emojis:
 		for emoji in g.db.query(Emoji).filter(Emoji.submitter_id==None, Emoji.name.in_(emojis_used)):
