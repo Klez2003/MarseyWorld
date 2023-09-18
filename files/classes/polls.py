@@ -36,7 +36,6 @@ class PostOption(Base):
 		if not v: return False
 		return v.id in [x.user_id for x in self.votes]
 
-
 class PostOptionVote(Base):
 
 	__tablename__ = "post_option_votes"
