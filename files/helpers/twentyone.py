@@ -314,7 +314,7 @@ def handle_payout(gambler, state, game):
 		payout += game.wager * 2
 	elif split_status == BlackjackStatus.LOST:
 		game.winnings += -game.wager
-	elif status == BlackjackStatus.PUSHED:
+	elif split_status == BlackjackStatus.PUSHED:
 		payout += game.wager
 
 
