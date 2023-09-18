@@ -1,4 +1,5 @@
 from abc import abstractmethod
+import re
 
 class TokenizerError:
     index: int
@@ -39,6 +40,7 @@ class Tokenizer:
         return self.str[token.span[0]:token.span[1]]
 
     def parse_next_tokens(self):
+        print(self.str[self.index:])
         start = self.index
         tokens = []
         while self.has_next():
@@ -48,8 +50,17 @@ class Tokenizer:
                 tokens.append(DotToken.parse(self))
             elif ArgsToken.can_parse(self):
                 tokens.append(ArgsToken.parse(self))
+            elif StringLiteralToken.can_parse(self):
+                tokens.append(StringLiteralToken.parse(self))
             else:
                 break
+
+        if len(tokens) == 0:
+            self.error('Expected a token')
+            return None
+        
+        if len(tokens) == 1:
+            return tokens[0]
 
         return GroupToken((start, self.index), tokens)
 
@@ -75,7 +86,7 @@ class WordToken(Token):
 
     @staticmethod
     def can_parse(tokenizer: Tokenizer):
-        return tokenizer.peek().fullmatch(r'[!#\w@]')
+        return re.fullmatch(r'[!#\w@]', tokenizer.peek())
 
     @staticmethod
     def parse(tokenizer: Tokenizer):
@@ -129,7 +140,7 @@ class NumberLiteralToken(Token):
 
     @staticmethod
     def can_parse(tokenizer: Tokenizer):
-        return tokenizer.peek().fullmatch(r'[-\d\.]')
+        return re.fullmatch(r'[-\d\.]', tokenizer.peek())
 
     @staticmethod
     def parse(tokenizer: Tokenizer):
@@ -193,6 +204,7 @@ class ArgsToken(Token):
             elif tokenizer.peek() == ',':
                 tokenizer.eat()
             else:
+                tokenizer.eat()
                 tokens.append(tokenizer.parse_next_tokens())
 
         return ArgsToken((start, tokenizer.index), tokens)

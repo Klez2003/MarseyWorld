@@ -54,7 +54,8 @@ DELETE_EDIT_RATELIMIT = "10/minute;50/day"
 
 PUSH_NOTIF_LIMIT = 1000
 
-IS_LOCALHOST = SITE == "localhost" or SITE == "127.0.0.1" or SITE.startswith("192.168.") or SITE.endswith(".local")
+IS_LOCALHOST = SITE.startswith("localhost:") or SITE.startswith("127.0.0.1") or SITE.startswith("192.168.") or SITE.endswith(".local")
+print(f"IS_LOCALHOST: {IS_LOCALHOST}")
 
 if IS_LOCALHOST:
 	SITE_FULL = 'http://' + SITE
@@ -1073,9 +1074,10 @@ engine = create_engine(environ.get("DATABASE_URL").strip(), connect_args={"optio
 db_session = scoped_session(sessionmaker(bind=engine, autoflush=False))
 
 approved_embed_hosts_for_csp = ' '.join(set([x.split('/')[0] for x in approved_embed_hosts]))
-csp = f"default-src 'none'; frame-ancestors 'none'; form-action 'self'; manifest-src 'self'; worker-src 'self'; base-uri 'self'; font-src 'self'; style-src-elem 'self'; style-src-attr 'unsafe-inline'; style-src 'self' 'unsafe-inline'; script-src-elem 'self' challenges.cloudflare.com; script-src-attr 'none'; script-src 'self' challenges.cloudflare.com; frame-src challenges.cloudflare.com www.youtube-nocookie.com platform.twitter.com rumble.com player.twitch.tv; connect-src 'self' videos.watchpeopledie.tv use1.fptls.com use1.fptls3.com api.fpjs.io; img-src {approved_embed_hosts_for_csp} data:; media-src {approved_embed_hosts_for_csp};"
+csp = f"default-src 'none'; frame-ancestors 'none'; form-action 'self'; manifest-src 'self'; worker-src 'self'; base-uri 'self'; font-src 'self'; style-src-elem 'self'; style-src-attr 'unsafe-inline'; style-src 'self' 'unsafe-inline'; script-src-elem 'self' challenges.cloudflare.com; script-src-attr 'none'; script-src 'self' challenges.cloudflare.com; frame-src challenges.cloudflare.com www.youtube-nocookie.com platform.twitter.com rumble.com player.twitch.tv; connect-src 'self' videos.watchpeopledie.tv use1.fptls.com use1.fptls3.com api.fpjs.io; img-src 'self' {approved_embed_hosts_for_csp} data:; media-src 'self' {approved_embed_hosts_for_csp};"
 if not IS_LOCALHOST:
 	csp += ' upgrade-insecure-requests;'
+	
 
 with open("includes/content-security-policy", "w") as f:
-	f.write(f'add_header Content-Security-Policy "{csp}";')
+		f.write(f'add_header Content-Security-Policy "{csp}";')
