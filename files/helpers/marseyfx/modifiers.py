@@ -62,7 +62,7 @@ class Modified:
 
     # Using this instead of throwing everything in a string and then parsing it helps
     # mitigate the risk of XSS attacks
-    def image_href(self, name: str):
+    def image(self, name: str):
         image = self.soup.new_tag(
             'img', 
             loading='lazy', 
@@ -139,12 +139,12 @@ class Modified:
     def enraged(self):
         self.underlay(self.soup.new_tag(
             'div', 
-            attrs={'class': 'marseyfx-enraged-underlay'}
+            attrs={'class': 'marseyfx-modifier-enraged-underlay'}
         ))
 
     @heavy
     @modifier
-    def corrupted(self):
+    def highcontrast(self):
         pass
 
     @heavy
@@ -176,7 +176,7 @@ class Modified:
 
     @modifier
     def spin(self, speed: NumberLiteralToken):
-        self.add_style('--marseyfx-spin-speed: ' + speed.value + ';')
+        self.add_style('--marseyfx-spin-peroid-multiplier: ' + (1/speed.value) + ';')
 
     @modifier
     def triumphs(self, other: GroupToken):
