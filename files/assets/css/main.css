@@ -7815,3 +7815,40 @@ body {
   	animation: 3s marseyfx-modifier-fallover infinite 
 		cubic-bezier(0.19, -0.02, 0.77, 0.16);
 }
+
+.marseyfx-modifier-toptext-text, .marseyfx-modifier-bottomtext-text {
+	position: absolute;
+	display: block;
+	inset: 0;
+	font: Impact;
+	font-weight: 900;
+	font-size: 1.5em;
+	color: white;
+	text-align: center;
+	text-justify: center;
+	text-shadow: 
+		 1px  1px black,
+		-1px -1px black,
+		 1px -1px black,
+		-1px -1px black;
+}
+
+.marseyfx-modifier-toptext-text {
+	bottom: unset;
+}
+
+.marseyfx-modifier-bottomtext-text {
+	top: unset;
+}
+
+.marseyfx-modifier-highcontrast {
+	filter: contrast(100)
+}
+
+.marseyfx-modifier-enraged {
+	filter: sepia(1) hue-rotate(315deg) saturate(10)
+}
+
+.marseyfx-modifier-enraged-underlay {
+	background-color: red;
+}
