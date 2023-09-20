@@ -1086,7 +1086,7 @@ def u_username_wall_comment(v, username, cid):
 def u_username(v, username):
 	u = get_user(username, v=v, include_blocks=True)
 	if username != u.username:
-		return redirect(SITE_FULL + request.full_path.replace(username, u.username))
+		return redirect(SITE_FULL + request.full_path.replace(f'/@{username}/posts', f'/@{u.username}/posts'))
 
 	if v and hasattr(u, 'is_blocking') and u.is_blocking:
 		if g.is_api_or_xhr:
