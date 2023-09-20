@@ -56,6 +56,14 @@ snappy_url_regex = re.compile('<a href="(https?:\/\/.+?)".*?>(.+?)<\/a>', flags=
 
 email_regex = re.compile('[A-Za-z0-9._%+-]{1,64}@[A-Za-z0-9.-]{2,63}\.[A-Za-z]{2,63}', flags=re.A)
 
+slur_single_words = "|".join([slur.lower() for slur in SLURS.keys()])
+slur_single_words_title = slur_single_words.title().replace('!\W','!\w')
+slur_single_words_upper = slur_single_words.upper().replace('!\W','!\w')
+
+profanity_single_words = "|".join([profanity.lower() for profanity in PROFANITIES.keys()])
+profanity_single_words_title = profanity_single_words.title().replace('!\W','!\w')
+profanity_single_words_upper = profanity_single_words.upper().replace('!\W','!\w')
+
 slur_regex = re.compile(f"<[^>]*>|{slur_single_words}", flags=re.I|re.A)
 slur_regex_title = re.compile(f"<[^>]*>|{slur_single_words_title}", flags=re.A)
 slur_regex_upper = re.compile(f"<[^>]*>|{slur_single_words_upper}", flags=re.A)
@@ -149,6 +157,22 @@ git_regex = re.compile("ref: (refs/.+)", flags=re.A)
 pronouns_regex = re.compile("([a-z]{1,7})\/[a-z]{1,7}(\/[a-z]{1,7})?", flags=re.A|re.I)
 
 html_title_regex = re.compile("<title>(.{1,200})</title>", flags=re.I)
+
+
+
+SLURS_FOR_REPLACING = {}
+for k, val in SLURS.items():
+	newkey = k.split('(?!')[0]
+	if ')' in newkey:
+		newkey = newkey.split(')')[1]
+	SLURS_FOR_REPLACING[newkey] = val
+
+PROFANITIES_FOR_REPLACING = {}
+for k, val in PROFANITIES.items():
+	newkey = k.split('(?!')[0]
+	if ')' in newkey:
+		newkey = newkey.split(')')[1]
+	PROFANITIES_FOR_REPLACING[newkey] = val
 
 def sub_matcher(match, upper=False, title=False, replace_with=SLURS_FOR_REPLACING):
 	group_num = 0
