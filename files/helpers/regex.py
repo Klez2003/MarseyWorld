@@ -57,12 +57,12 @@ snappy_url_regex = re.compile('<a href="(https?:\/\/.+?)".*?>(.+?)<\/a>', flags=
 email_regex = re.compile('[A-Za-z0-9._%+-]{1,64}@[A-Za-z0-9.-]{2,63}\.[A-Za-z]{2,63}', flags=re.A)
 
 slur_regex = re.compile(f"<[^>]*>|{slur_single_words}", flags=re.I|re.A)
-slur_regex_title = re.compile(f"<[^>]*>|{slur_single_words.title()}", flags=re.A)
-slur_regex_upper = re.compile(f"<[^>]*>|{slur_single_words.upper()}", flags=re.A)
+slur_regex_title = re.compile(f"<[^>]*>|{slur_single_words_title}", flags=re.A)
+slur_regex_upper = re.compile(f"<[^>]*>|{slur_single_words_upper}", flags=re.A)
 
 profanity_regex = re.compile(f"<[^>]*>|{profanity_single_words}", flags=re.I|re.A)
-profanity_regex_title = re.compile(f"<[^>]*>|{profanity_single_words.title()}", flags=re.A)
-profanity_regex_upper = re.compile(f"<[^>]*>|{profanity_single_words.upper()}", flags=re.A)
+profanity_regex_title = re.compile(f"<[^>]*>|{profanity_single_words_title}", flags=re.A)
+profanity_regex_upper = re.compile(f"<[^>]*>|{profanity_single_words_upper}", flags=re.A)
 
 torture_regex = re.compile('(^|\s)(i|me)($|\s)', flags=re.I|re.A)
 torture_regex2 = re.compile("(^|\s)(i'm)($|\s)", flags=re.I|re.A)
