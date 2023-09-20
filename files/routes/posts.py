@@ -6,6 +6,7 @@ from os import path
 from shutil import copyfile
 from sys import stdout
 from urllib.parse import urlparse
+import random
 
 import gevent
 import requests
@@ -647,7 +648,7 @@ def submit_post(v, sub=None):
 		p.is_banned = True
 		p.ban_reason = "AutoJanny"
 
-		body = CHUD_MSG.format(username=v.username, type='post', CHUD_PHRASE=v.chud_phrase)
+		body = random.choice(CHUD_MSGS).format(username=v.username, type='post', CHUD_PHRASE=v.chud_phrase)
 		body_jannied_html = sanitize(body)
 
 

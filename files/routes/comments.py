@@ -2,6 +2,7 @@ import os
 from collections import Counter
 from json import loads
 from shutil import copyfile
+import random
 
 import gevent
 
@@ -318,7 +319,7 @@ def comment(v):
 		c.ban_reason = "AutoJanny"
 		g.db.add(c)
 
-		body = CHUD_MSG.format(username=v.username, type='comment', CHUD_PHRASE=v.chud_phrase)
+		body = random.choice(CHUD_MSGS).format(username=v.username, type='comment', CHUD_PHRASE=v.chud_phrase)
 		body_jannied_html = sanitize(body)
 
 		c_jannied = Comment(author_id=AUTOJANNY_ID,
