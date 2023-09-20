@@ -1213,8 +1213,6 @@ class User(Base):
 	@property
 	@lazy
 	def can_see_countryclub(self):
-		if self.chud == 1: return False
-
 		if self.can_see_restricted_holes != None:
 			return self.can_see_restricted_holes
 
