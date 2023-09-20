@@ -46,4 +46,5 @@ let millis = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(),
 if (millis < 0)
 	millis += 86400000;
 
+console.log(millis/1000/60)
 setTimeout(() => location.reload(), millis);
