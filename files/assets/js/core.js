@@ -325,7 +325,7 @@ function sendFormXHR(form, extraActionsOnSuccess) {
 function sendFormXHRSwitch(form) {
 	sendFormXHR(form,
 		() => {
-			form.previousElementSibling.classList.remove('d-none');
+			form.nextElementSibling.classList.remove('d-none');
 			const days = form.querySelector("input[name=days]")
 			if (!days || !days.value)
 				form.classList.add('d-none');
