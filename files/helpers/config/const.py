@@ -746,6 +746,7 @@ if SITE in {'rdrama.net', 'staging.rdrama.net'}:
 	}
 elif SITE == 'watchpeopledie.tv':
 	NOTIFICATION_SPAM_AGE_THRESHOLD = 0.5 * 86400
+	TRUESCORE_DONATE_MINIMUM = 100
 
 	EMAIL = "wpd@watchpeopledie.tv"
 	TELEGRAM_ID = "wpdtv"
