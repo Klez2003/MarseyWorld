@@ -87,7 +87,7 @@ def cron_fn(every_5m, every_1d, every_fri_12, every_fri_23, every_sat_00, every_
 				g.db.commit()
 
 			if every_sun_07:
-				_create_post(f'Movie Night Rerun', f'''Our Movie Night Rerun today will show `{get_name()}`.\nThe movie will start at 4 PM EST. [Here is a timezone converter for whoever needs it.](https://dateful.com/time-zone-converter?t=4pm&tz1=EST-EDT-Eastern-Time). You can also check this [countdown timer](https://www.tickcounter.com/countdown/4465675/movie-night-rerun) instead.\nIt will be shown [here](/orgy).\nThere will be a 5-minute bathroom break at the 50:00 mark.''', 11)
+				_create_post(f'Movie Night Rerun', f'''Our Movie Night Rerun today will show `{get_name()}`.\nThe movie will start at 4 PM EST. [Here is a timezone converter for whoever needs it.](https://dateful.com/time-zone-converter?t=4pm&tz1=EST-EDT-Eastern-Time). You can also check this [countdown timer](https://www.tickcounter.com/countdown/4465675/movie-night-rerun) instead.\nIt will be shown [here](/orgy).\nThere will be a 5-minute bathroom break at the 50:00 mark.''', 1)
 				g.db.commit()
 
 			if every_sun_19:
