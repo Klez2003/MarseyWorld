@@ -29,7 +29,7 @@ from files.cli import app, db_session, g
 
 CRON_CACHE_TIMEOUT = 172800
 
-def cron_fn(every_5m, every_1d, every_fri_12, every_fri_23, every_sat_00, every_sat_03):
+def cron_fn(every_5m, every_1d, every_fri_12, every_fri_23, every_sat_00, every_sat_03, every_sun_07, every_sun_19, every_sun_20, every_sun_23):
 	with app.app_context():
 		g.db = db_session()
 		g.v = None
@@ -79,18 +79,26 @@ def cron_fn(every_5m, every_1d, every_fri_12, every_fri_23, every_sat_00, every_
 				g.db.commit()
 
 			if every_fri_12:
-				_create_1st_post()
+				_create_post(f'Movie Night', f'''Our Movie Night today will show `{get_name()}`.\nThe movie will start at 8 PM EST. [Here is a timezone converter for whoever needs it.](https://dateful.com/time-zone-converter?t=8pm&tz1=EST-EDT-Eastern-Time). You can also check this [countdown timer](https://www.tickcounter.com/countdown/4435809/movie-night) instead.\nIt will be shown [here](/orgy).\nThere will be a 5-minute bathroom break at the 50:00 mark.\nRerun will be Sunday 4 PM EST.''', 11)
 				g.db.commit()
 
 			if every_fri_23:
-				_create_2nd_post()
+				_create_post(f'Movie Night in 60 minutes', 'It will be shown [here](/orgy).\nThere will be a 5-minute bathroom break at the 50:00 mark.\nRerun will be Sunday 4 PM EST.', 1)
 				g.db.commit()
 
-			if every_sat_00:
+			if every_sun_07:
+				_create_post(f'Movie Night Rerun', f'''Our Movie Night Rerun today will show `{get_name()}`.\nThe movie will start at 4 PM EST. [Here is a timezone converter for whoever needs it.](https://dateful.com/time-zone-converter?t=4pm&tz1=EST-EDT-Eastern-Time). You can also check this [countdown timer](https://www.tickcounter.com/countdown/4465675/movie-night-rerun) instead.\nIt will be shown [here](/orgy).\nThere will be a 5-minute bathroom break at the 50:00 mark.''', 11)
+				g.db.commit()
+
+			if every_sun_19:
+				_create_post(f'Movie Night Rerun in 60 minutes', 'It will be shown [here](/orgy).\nThere will be a 5-minute bathroom break at the 50:00 mark.', 1)
+				g.db.commit()
+
+			if every_sat_00 or every_sun_20:
 				_create_orgy()
 				g.db.commit()
 
-			if every_sat_03:
+			if every_sat_03 or every_sun_23:
 				_delete_all()
 				g.db.commit()
 
@@ -112,8 +120,12 @@ def cron_fn(every_5m, every_1d, every_fri_12, every_fri_23, every_sat_00, every_
 @click.option('--every-fri-23', is_flag=True, help='Call every Friday.')
 @click.option('--every-sat-00', is_flag=True, help='Call every Saturday.')
 @click.option('--every-sat-03', is_flag=True, help='Call every Saturday.')
-def cron(every_5m, every_1d, every_fri_12, every_fri_23, every_sat_00, every_sat_03):
-	cron_fn(every_5m, every_1d, every_fri_12, every_fri_23, every_sat_00, every_sat_03)
+@click.option('--every-sun-07', is_flag=True, help='Call every Sunday.')
+@click.option('--every-sun-19', is_flag=True, help='Call every Sunday.')
+@click.option('--every-sun-20', is_flag=True, help='Call every Sunday.')
+@click.option('--every-sun-23', is_flag=True, help='Call every Sunday.')
+def cron(**kwargs):
+	cron_fn(**kwargs)
 
 def get_file():
 	return max(glob.glob('/orgies/*'), key=os.path.getctime).split('/orgies/')[1]
@@ -123,7 +135,6 @@ def get_name():
 
 def _create_post(title, body, pin_hours):
 	title += f': {get_name()}'
-	body += f'''It will be shown [here](/orgy).\nRerun will be Sunday 4 PM EST.\nThere will be a 5-minute bathroom break at the 50:00 mark.'''
 
 	title_html = filter_emojis_only(title)
 	body_html = sanitize(body)
@@ -157,17 +168,6 @@ def _create_post(title, body, pin_hours):
 	g.db.add(p)
 
 	cache.delete_memoized(frontlist)
-
-
-def _create_1st_post():
-	title = f'Movie Night'
-	body = f'''Our Movie Night this week will show `{get_name()}`.\nThe movie will start at 8 PM EST. [Here is a timezone converter for whoever needs it.](https://dateful.com/time-zone-converter?t=8pm&tz1=EST-EDT-Eastern-Time). You can also check this [countdown timer](https://www.tickcounter.com/countdown/4435809/movie-night) instead.\n'''
-	_create_post(title, body, 11)
-
-def _create_2nd_post():
-	title = f'Movie Night in 60 minutes'
-	body = ''
-	_create_post(title, body, 1)
 
 def _create_orgy():
 	orgy = Orgy(
