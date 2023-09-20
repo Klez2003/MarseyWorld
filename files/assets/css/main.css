@@ -7744,3 +7744,7 @@ body {
 		resize: none !important;
 	}
 }
+
+p { /* fix the transform:exploit */
+	overflow: hidden !important;
+}

@@ -58,8 +58,6 @@ allowed_styles = ['background-color', 'color', 'filter', 'font-weight', 'text-al
 def allowed_attributes(tag, name, value):
 
 	if name == 'style':
-		if 'transform' in value.lower() and 'scale' in value.lower():
-			return False
 		return True
 
 	if tag == 'marquee':
