@@ -7745,6 +7745,10 @@ body {
 	}
 }
 
+p { /* DO NOT REMOVE */
+	overflow: hidden !important;
+}
+
 #sub-name {
 	font-size: max(14px, 1.2vw);
 }
