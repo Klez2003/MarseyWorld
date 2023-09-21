@@ -645,6 +645,11 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 			link["target"] = "_blank"
 			link["rel"] = "nofollow noopener"
 
+		for child in link.findChildren():
+			if 'transform' in child.get("style", "").lower():
+				del link["href"]
+				break
+
 	sanitized = str(soup).replace('<html><body>','').replace('</body></html>','').replace('/>','>')
 
 	captured = []
