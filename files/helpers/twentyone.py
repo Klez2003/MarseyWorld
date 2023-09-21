@@ -269,12 +269,12 @@ def can_double_down(state):
 	player = state['player']
 	player_hand_value = get_value_of_hand(player)
 	player_never_hit = len(player) == 2
-	return not state['has_player_split'] and player_hand_value in (10, 11) and player_never_hit
+	return not state['has_player_split'] and player_hand_value in (9, 10, 11) and player_never_hit
 
 def can_split(state):
 	player = state['player']
 	player_never_hit = len(player) == 2
-	hand_can_split = player[0][0] == player[1][0]
+	hand_can_split = player[0][1] == player[1][1]
 	player_has_split = state['has_player_split']
 	return hand_can_split and player_never_hit and not player_has_split
 
