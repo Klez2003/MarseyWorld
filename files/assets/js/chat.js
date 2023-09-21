@@ -367,3 +367,22 @@ setTimeout(function () {
 document.addEventListener('DOMContentLoaded', function () {
 	box.scrollTo(0, box.scrollHeight)
 });
+
+if (location.pathname == '/orgy') {
+	const now = new Date();
+	const day_of_week = now.getUTCDay()
+
+	if (day_of_week == 5 || day_of_week == 7) {
+		let hour
+		if (day_of_week == 5) hour = 0
+		else hour = 20
+
+		let millis = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), hour, 0, 10) - now;
+		if (millis < 0)
+			millis += 86400000;
+
+		const minutes = Math.round(millis/1000/60*10)/10
+		console.log(`Refreshing page in ${minutes} minutes`)
+		setTimeout(() => location.reload(), millis);
+	}
+}
