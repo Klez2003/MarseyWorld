@@ -124,7 +124,7 @@
 									<form action="/settings/images/profile" method="post" enctype="multipart/form-data">
 										<input hidden name="formkey" value="{{v|formkey}}">
 										<label class="btn btn-secondary text-capitalize mr-2 mb-0">
-											Update<input autocomplete="off" type="file" accept="image/*" {% if g.is_tor %}disabled{% endif %} hidden name="profile" data-nonce="{{g.nonce}}" onchange_submit>
+											Upload<input autocomplete="off" type="file" accept="image/*" {% if g.is_tor %}disabled{% endif %} hidden name="profile" data-nonce="{{g.nonce}}" onchange_submit>
 										</label>
 									</form>
 								</div>
@@ -146,7 +146,7 @@
 										<form action="/settings/images/banner" method="post" enctype="multipart/form-data">
 											<input hidden name="formkey" value="{{v|formkey}}">
 											<label class="btn btn-secondary text-capitalize mr-2 mb-0">
-												Update<input autocomplete="off" type="file" {% if g.is_tor %}disabled{% endif %} accept="image/*" hidden name="banner" data-nonce="{{g.nonce}}" onchange_submit>
+												Upload<input autocomplete="off" type="file" {% if g.is_tor %}disabled{% endif %} accept="image/*" hidden name="banner" data-nonce="{{g.nonce}}" onchange_submit>
 											</label>
 										</form>
 									</div>
@@ -171,7 +171,7 @@
 									<form action="/settings/images/profile_background" method="post" enctype="multipart/form-data">
 										<input hidden name="formkey" value="{{v|formkey}}">
 										<label class="btn btn-secondary text-capitalize mr-2 mb-0">
-											Update<input autocomplete="off" type="file" {% if g.is_tor %}disabled{% endif %} accept="image/*" hidden name="profile_background" data-nonce="{{g.nonce}}" onchange_submit>
+											Upload<input autocomplete="off" type="file" {% if g.is_tor %}disabled{% endif %} accept="image/*" hidden name="profile_background" data-nonce="{{g.nonce}}" onchange_submit>
 										</label>
 									</form>
 								</div>
