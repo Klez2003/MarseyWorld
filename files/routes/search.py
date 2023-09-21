@@ -121,16 +121,10 @@ def searchposts(v):
 		posts=posts.filter(
 			or_(
 				Post.url.ilike("https://"+domain+'/%'),
-				Post.url.ilike("https://"+domain+'/%'),
-				Post.url.ilike("https://"+domain),
 				Post.url.ilike("https://"+domain),
 				Post.url.ilike("https://www."+domain+'/%'),
-				Post.url.ilike("https://www."+domain+'/%'),
-				Post.url.ilike("https://www."+domain),
 				Post.url.ilike("https://www."+domain),
 				Post.url.ilike("https://old." + domain + '/%'),
-				Post.url.ilike("https://old." + domain + '/%'),
-				Post.url.ilike("https://old." + domain),
 				Post.url.ilike("https://old." + domain)
 				)
 			)
