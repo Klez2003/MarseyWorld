@@ -995,11 +995,10 @@ def edit_post(pid, v):
 	body = request.values.get("body", "")
 	body = body[:POST_BODY_LENGTH_LIMIT(g.v)].strip()
 
-	if v.id == p.author_id:
-		if v.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
-			abort(403, "You have to type more than 280 characters!")
-		elif v.bird and len(body) > 140:
-			abort(403, "You have to type less than 140 characters!")
+	if p.author.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
+		abort(403, "You have to type more than 280 characters!")
+	elif p.author.bird and len(body) > 140:
+		abort(403, "You have to type less than 140 characters!")
 
 	if not title:
 		abort(400, "Please enter a better title!")
@@ -1019,7 +1018,7 @@ def edit_post(pid, v):
 	if title != p.title:
 		title_html = filter_emojis_only(title, golden=False)
 
-		if v.id == p.author_id and v.marseyawarded and not marseyaward_title_regex.fullmatch(title_html):
+		if p.author.marseyawarded and not marseyaward_title_regex.fullmatch(title_html):
 			abort(403, "You can only type marseys!")
 
 		if 'megathread' in title.lower() and 'megathread' not in p.title.lower():
@@ -1037,7 +1036,7 @@ def edit_post(pid, v):
 
 		body_html = sanitize(body_for_sanitize, golden=False, limit_pings=100)
 
-		if v.id == p.author_id and v.marseyawarded and marseyaward_body_regex.search(body_html):
+		if p.author.marseyawarded and marseyaward_body_regex.search(body_html):
 			abort(403, "You can only type marseys!")
 
 
@@ -1057,7 +1056,7 @@ def edit_post(pid, v):
 
 
 	if not complies_with_chud(p):
-		abort(403, f'You have to include "{v.chud_phrase}" in your post!')
+		abort(403, f'You have to include "{p.author.chud_phrase}" in your post!')
 
 
 	if v.id == p.author_id:

@@ -663,12 +663,10 @@ def edit_comment(cid, v):
 		abort(400, "You have to actually type something!")
 
 	if body != c.body or request.files.get("file") and not g.is_tor:
-
-		if v.id == c.author_id:
-			if v.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
-				abort(403, "You have to type more than 280 characters!")
-			elif v.bird and len(body) > 140:
-				abort(403, "You have to type less than 140 characters!")
+		if c.author.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
+			abort(403, "You have to type more than 280 characters!")
+		elif c.author.bird and len(body) > 140:
+			abort(403, "You have to type less than 140 characters!")
 
 		execute_antispam_comment_check(body, v)
 
@@ -677,11 +675,10 @@ def edit_comment(cid, v):
 
 		body_for_sanitize = body
 
-		if v.id == c.author_id:
-			if v.owoify:
-				body_for_sanitize = owoify(body_for_sanitize)
-			if v.marsify and not v.chud:
-				body_for_sanitize = marsify(body_for_sanitize)
+		if c.author.owoify:
+			body_for_sanitize = owoify(body_for_sanitize)
+		if c.author.marsify and not c.author.chud:
+			body_for_sanitize = marsify(body_for_sanitize)
 
 		if c.sharpened:
 			body_for_sanitize = sharpen(body_for_sanitize)
@@ -690,7 +687,7 @@ def edit_comment(cid, v):
 
 		if len(body_html) > COMMENT_BODY_HTML_LENGTH_LIMIT: abort(400)
 
-		if v.id == c.author_id and v.marseyawarded and marseyaward_body_regex.search(body_html):
+		if c.author.marseyawarded and marseyaward_body_regex.search(body_html):
 			abort(403, "You can only type marseys!")
 
 		oldtext = c.body
@@ -702,7 +699,7 @@ def edit_comment(cid, v):
 		execute_blackjack(v, c, c.body, "comment")
 
 		if not complies_with_chud(c):
-			abort(403, f'You have to include "{v.chud_phrase}" in your comment!')
+			abort(403, f'You have to include "{c.author.chud_phrase}" in your comment!')
 
 		process_poll_options(v, c)
 
