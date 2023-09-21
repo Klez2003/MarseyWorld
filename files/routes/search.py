@@ -22,6 +22,7 @@ valid_params = [
 	'title',
 	'sentto',
 	search_operator_hole,
+	'subreddit',
 ]
 
 def searchparse(text):
@@ -128,6 +129,15 @@ def searchposts(v):
 				Post.url.ilike("https://old." + domain)
 				)
 			)
+
+	if 'subreddit' in criteria:
+		subreddit = criteria['subreddit']
+
+		if not subreddit_name_regex.fullmatch(subreddit):
+			abort(400, "Invalid subreddit name.")
+
+		posts = posts.filter(Post.url.ilike(f"https://old.reddit.com/r/{subreddit}/%"))
+
 
 	if search_operator_hole in criteria:
 		posts = posts.filter(Post.sub == criteria[search_operator_hole])

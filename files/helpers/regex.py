@@ -279,6 +279,8 @@ reddit_s_url_regex = re.compile("https:\/\/reddit.com\/[ru]\/\w{2,25}\/s\/\w{10}
 #run-time
 reddit_to_vreddit_regex = re.compile('(^|>|")https:\/\/old.reddit.com\/(r|user)\/', flags=re.A)
 
+#post search
+subreddit_name_regex = re.compile('\w{2,25}', flags=re.A)
 
 
 ###YOUTUBE
