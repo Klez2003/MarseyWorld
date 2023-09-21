@@ -114,11 +114,11 @@ def searchposts(v):
 	if 'over18' in criteria: posts = posts.filter(Post.over_18==True)
 
 	if 'domain' in criteria:
-		domain=criteria['domain']
+		domain = criteria['domain']
 
 		domain = domain.replace('\\', '').replace('_', '\_').replace('%', '').strip()
 
-		posts=posts.filter(
+		posts = posts.filter(
 			or_(
 				Post.url.ilike("https://"+domain+'/%'),
 				Post.url.ilike("https://"+domain),
