@@ -372,10 +372,10 @@ if (location.pathname == '/orgy') {
 	const now = new Date();
 	const day_of_week = now.getUTCDay()
 
-	if (day_of_week == 5 || day_of_week == 7) {
+	if ([4,5,7].includes(day_of_week)) {
 		let hour
-		if (day_of_week == 5) hour = 0
-		else hour = 20
+		if (day_of_week == 7) hour = 20
+		else hour = 0
 
 		let millis = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), hour, 0, 10) - now;
 		if (millis < 0)
