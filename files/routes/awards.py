@@ -9,6 +9,7 @@ from files.classes.userblock import UserBlock
 from files.helpers.actions import *
 from files.helpers.alerts import *
 from files.helpers.config.const import *
+from files.helpers.slurs_and_profanities import censor_slurs_profanities
 from files.helpers.config.awards import AWARDS_ENABLED, HOUSE_AWARDS, LOOTBOX_ITEM_COUNT, LOOTBOX_CONTENTS
 from files.helpers.get import *
 from files.helpers.marsify import marsify
@@ -394,7 +395,7 @@ def award_thing(v, thing_type, id):
 		else:
 			author.customtitleplain = new_name
 			new_name = filter_emojis_only(new_name)
-			new_name = censor_slurs(new_name, None)
+			new_name = censor_slurs_profanities(new_name, None)
 			if len(new_name) > 1000: abort(403)
 			author.customtitle = new_name
 			author.flairchanged = int(time.time()) + 86400

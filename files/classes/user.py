@@ -1,6 +1,5 @@
 import random
 from operator import *
-import re
 
 import pyotp
 from sqlalchemy import Column, ForeignKey, FetchedValue

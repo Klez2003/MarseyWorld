@@ -7,7 +7,7 @@ from sqlalchemy.sql.sqltypes import *
 from files.classes import Base
 from files.helpers.config.const import *
 from files.helpers.lazy import lazy
-from files.helpers.regex import censor_slurs
+from files.helpers.slurs_and_profanities import censor_slurs_profanities
 from files.helpers.sorting_and_time import make_age_string
 
 class ModAction(Base):
@@ -63,7 +63,7 @@ class ModAction(Base):
 		if self.target_user_id:
 			return f'<a href="{self.target_user.url}">@{self.target_user.username}</a>'
 		elif self.target_post_id:
-			return censor_slurs(f'<a href="{self.target_post.permalink}">{self.target_post.title_html}</a>', None)
+			return censor_slurs_profanities(f'<a href="{self.target_post.permalink}">{self.target_post.title_html}</a>', None)
 		elif self.target_comment_id:
 			return f'<a href="{self.target_comment.permalink}">comment</a>'
 

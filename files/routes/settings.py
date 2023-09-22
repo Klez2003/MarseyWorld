@@ -12,6 +12,7 @@ from sqlalchemy.orm import load_only
 from files.helpers.actions import *
 from files.helpers.alerts import *
 from files.helpers.config.const import *
+from files.helpers.slurs_and_profanities import censor_slurs_profanities
 from files.helpers.get import *
 from files.helpers.mail import *
 from files.helpers.media import *
@@ -908,7 +909,7 @@ def settings_title_change(v):
 
 	if customtitleplain:
 		customtitle = filter_emojis_only(customtitleplain)
-		customtitle = censor_slurs(customtitle, None)
+		customtitle = censor_slurs_profanities(customtitle, None)
 
 		if len(customtitle) > 1000:
 			abort(400, "Flair too long!")
