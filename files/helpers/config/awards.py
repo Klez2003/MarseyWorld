@@ -700,7 +700,7 @@ AWARDS = {
 	"benefactor": {
 		"kind": "benefactor",
 		"title": "Benefactor",
-		"description": f"Grants one month of {patron} status and 2500 marseybux to the recipient. Cannot be used on yourself.",
+		"description": f"Grants one month of {patron} status and 2000 marseybux to the recipient. Cannot be used on yourself.",
 		"icon": "fas fa-gift",
 		"color": "text-blue",
 		"price": 4000,
