@@ -394,7 +394,7 @@
 
 				{% if FEATURES['USERS_PROFILE_BODYTEXT'] -%}
 					{% if u.bio_html and u.can_see_my_shit %}
-						<div class="text-muted text-break" id="profile-mobile--bio">{{u.bio_html | safe}}</div>
+						<div class="text-muted text-break mt-1" id="profile-mobile--bio">{{u.bio_html | safe}}</div>
 					{% endif %}
 
 					{% if u.friends_html and u.can_see_my_shit %}
