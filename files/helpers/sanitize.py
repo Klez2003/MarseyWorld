@@ -582,6 +582,8 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 	#doing this here cuz of the linkifyfilter right above it (therefore unifying all link processing logic)
 	soup = BeautifulSoup(sanitized, 'lxml')
 
+	has_transform = bool(soup.select('[style*=transform]'))
+
 	links = soup.find_all("a")
 
 	if g.v and g.v.admin_level >= PERMS["IGNORE_DOMAIN_BAN"]:
@@ -645,10 +647,8 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 			link["target"] = "_blank"
 			link["rel"] = "nofollow noopener"
 
-		for child in link.findChildren():
-			if 'transform' in child.get("style", "").lower():
-				del link["href"]
-				break
+		if has_transform:
+			del link["href"]
 
 	sanitized = str(soup).replace('<html><body>','').replace('</body></html>','').replace('/>','>')
 
