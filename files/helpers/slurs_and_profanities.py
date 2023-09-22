@@ -120,8 +120,6 @@ for k, val in SLURS.items():
 	if ')' in newkey:
 		newkey = newkey.split(')')[1]
 	SLURS_FOR_REPLACING[newkey] = val
-	SLURS_FOR_REPLACING[newkey.title()] = val.title()
-	SLURS_FOR_REPLACING[newkey.upper()] = val.upper()
 
 PROFANITIES_FOR_REPLACING = {}
 for k, val in PROFANITIES.items():
@@ -129,8 +127,6 @@ for k, val in PROFANITIES.items():
 	if ')' in newkey:
 		newkey = newkey.split(')')[1]
 	PROFANITIES_FOR_REPLACING[newkey] = val
-	PROFANITIES_FOR_REPLACING[newkey.title()] = val.title()
-	PROFANITIES_FOR_REPLACING[newkey.upper()] = val.upper()
 
 
 
@@ -140,7 +136,11 @@ def sub_matcher(match, X_FOR_REPLACING):
 	if match_str.startswith('<'):
 		return match_str
 	else:
-		repl = X_FOR_REPLACING[match_str]
+		repl = X_FOR_REPLACING[match_str.lower()]
+		if match_str.isupper():
+			return repl.upper()
+		if match_str.istitle():
+			return repl.title()
 		return repl
 
 def sub_matcher_slurs(match):
