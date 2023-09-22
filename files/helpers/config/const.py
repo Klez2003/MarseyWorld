@@ -106,7 +106,6 @@ GIRL_PHRASES = [
 	"literally, $",
 	"i feel like $",
 	"my heart is telling me $",
-	"its almost as if $",
 	"omg! $",
 	"im literally screaming, $",
 	"$ and thats the tea, sis",
