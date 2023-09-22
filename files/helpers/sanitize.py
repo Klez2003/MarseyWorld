@@ -260,6 +260,15 @@ def find_all_emote_endings(word):
 
 		is_non_ending_found = True
 
+	if word.endswith('random'):
+		kind = word.split('random')[0].title()
+		if kind == 'Donkeykong': kind = 'Donkey Kong'
+		elif kind == 'Marseyflag': kind = 'Marsey Flags'
+		elif kind == 'Marseyalphabet': kind = 'Marsey Alphabet'
+
+		if kind in EMOJI_KINDS:
+			word = g.db.query(Emoji.name).filter_by(kind=kind).order_by(func.random()).first()[0]
+
 	return endings, word
 
 
@@ -281,16 +290,6 @@ def render_emoji(html, regexp, golden, emojis_used, b=False, is_title=False):
 
 		old = emoji
 		emoji = emoji.replace('!','').replace('#','')
-
-		if emoji.endswith('random'):
-			kind = emoji.split('random')[0].title()
-			if kind == 'Donkeykong': kind = 'Donkey Kong'
-			elif kind == 'Marseyflag': kind = 'Marsey Flags'
-			elif kind == 'Marseyalphabet': kind = 'Marsey Alphabet'
-
-			if kind in EMOJI_KINDS:
-				emoji = g.db.query(Emoji.name).filter_by(kind=kind).order_by(func.random()).first()[0]
-
 
 		emoji_partial_pat = '<img alt=":{0}:" loading="lazy" src="{1}"{2}>'
 		emoji_partial = '<img alt=":{0}:" data-bs-toggle="tooltip" loading="lazy" src="{1}" title=":{0}:"{2}>'
