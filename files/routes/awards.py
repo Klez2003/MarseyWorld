@@ -48,7 +48,7 @@ def shop(v):
 		val["baseprice"] = int(val["price"])
 		if val["kind"].endswith('Founder'):
 			val["baseprice"] = int(val["baseprice"] / 0.75)
-		val["price"] = int(val["price"] * v.discount)
+		val["price"] = int(val["price"] * v.award_discount)
 
 	sales = g.db.query(func.sum(User.coins_spent)).scalar()
 	return render_template("shop.html", awards=list(AWARDS.values()), v=v, sales=sales)
@@ -73,7 +73,7 @@ def buy(v, award):
 	og_price = AWARDS[award]["price"]
 
 	award_title = AWARDS[award]['title']
-	price = int(og_price * v.discount)
+	price = int(og_price * v.award_discount)
 
 
 	if award == "grass":

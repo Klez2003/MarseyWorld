@@ -493,7 +493,7 @@ class User(Base):
 
 	@property
 	@lazy
-	def discount(self):
+	def award_discount(self):
 		if self.patron in {1,2}: after_discount = 0.90
 		elif self.patron == 3: after_discount = 0.85
 		elif self.patron == 4: after_discount = 0.80
@@ -512,8 +512,8 @@ class User(Base):
 
 	@property
 	@lazy
-	def formatted_discount(self):
-		discount = 100 - int(self.discount * 100)
+	def formatted_award_discount(self):
+		discount = 100 - int(self.award_discount * 100)
 		return f'{discount}%'
 
 	@property
