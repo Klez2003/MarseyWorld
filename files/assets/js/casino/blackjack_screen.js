@@ -171,7 +171,7 @@ function updateBlackjackTable(state) {
 
 
 	if (state.status === 'PLAYING' || (state.has_player_split && state.status_split === 'PLAYING')) {
-		updateResult(`${state.wager.amount} ${currency} are at stake`, "success");
+		updateResult(`${state.has_player_split ? state.wager.amount * 2 : state.wager.amount} ${currency} are at stake`, "success");
 	} else {
 		enableWager();
 	}

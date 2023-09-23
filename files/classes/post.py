@@ -9,6 +9,7 @@ from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
 from files.helpers.config.const import *
+from files.helpers.slurs_and_profanities import *
 from files.helpers.lazy import lazy
 from files.helpers.regex import *
 from files.helpers.sorting_and_time import make_age_string
@@ -300,7 +301,7 @@ class Post(Base):
 		body = add_options(self, body, v)
 
 		if self.sub != 'chudrama':
-			body = censor_slurs(body, v)
+			body = censor_slurs_profanities(body, v)
 
 		body = normalize_urls_runtime(body, v)
 
@@ -315,7 +316,7 @@ class Post(Base):
 		if not body: return ""
 
 		if self.sub != 'chudrama':
-			body = censor_slurs(body, v)
+			body = censor_slurs_profanities(body, v)
 			body = replace_train_html(body)
 
 		body = normalize_urls_runtime(body, v)
@@ -327,7 +328,7 @@ class Post(Base):
 		title = self.title_html
 
 		if self.sub != 'chudrama':
-			title = censor_slurs(title, v)
+			title = censor_slurs_profanities(title, v)
 
 		return title
 
@@ -336,7 +337,7 @@ class Post(Base):
 		title = self.title
 
 		if self.sub != 'chudrama':
-			title = censor_slurs(title, v)
+			title = censor_slurs_profanities(title, v)
 			title = replace_train_html(title)
 
 		return title

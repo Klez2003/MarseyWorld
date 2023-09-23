@@ -9,6 +9,7 @@ from files.classes.userblock import UserBlock
 from files.helpers.actions import *
 from files.helpers.alerts import *
 from files.helpers.config.const import *
+from files.helpers.slurs_and_profanities import censor_slurs_profanities
 from files.helpers.config.awards import AWARDS_ENABLED, HOUSE_AWARDS, LOOTBOX_ITEM_COUNT, LOOTBOX_CONTENTS
 from files.helpers.get import *
 from files.helpers.marsify import marsify
@@ -48,7 +49,7 @@ def shop(v):
 		val["baseprice"] = int(val["price"])
 		if val["kind"].endswith('Founder'):
 			val["baseprice"] = int(val["baseprice"] / 0.75)
-		val["price"] = int(val["price"] * v.discount)
+		val["price"] = int(val["price"] * v.award_discount)
 
 	sales = g.db.query(func.sum(User.coins_spent)).scalar()
 	return render_template("shop.html", awards=list(AWARDS.values()), v=v, sales=sales)
@@ -73,7 +74,7 @@ def buy(v, award):
 	og_price = AWARDS[award]["price"]
 
 	award_title = AWARDS[award]['title']
-	price = int(og_price * v.discount)
+	price = int(og_price * v.award_discount)
 
 
 	if award == "grass":
@@ -394,7 +395,7 @@ def award_thing(v, thing_type, id):
 		else:
 			author.customtitleplain = new_name
 			new_name = filter_emojis_only(new_name)
-			new_name = censor_slurs(new_name, None)
+			new_name = censor_slurs_profanities(new_name, None)
 			if len(new_name) > 1000: abort(403)
 			author.customtitle = new_name
 			author.flairchanged = int(time.time()) + 86400
@@ -461,7 +462,7 @@ def award_thing(v, thing_type, id):
 			author.patron = 1
 		if author.patron_utc: author.patron_utc += 2629746
 		else: author.patron_utc = int(time.time()) + 2629746
-		author.pay_account('marseybux', 2500)
+		author.pay_account('marseybux', 2000)
 		badge_grant(user=v, badge_id=103)
 	elif kind == "rehab":
 		if author.rehab: author.rehab += 86400

@@ -22,6 +22,7 @@ valid_params = [
 	'title',
 	'sentto',
 	search_operator_hole,
+	'subreddit',
 ]
 
 def searchparse(text):
@@ -114,26 +115,29 @@ def searchposts(v):
 	if 'over18' in criteria: posts = posts.filter(Post.over_18==True)
 
 	if 'domain' in criteria:
-		domain=criteria['domain']
+		domain = criteria['domain']
 
 		domain = domain.replace('\\', '').replace('_', '\_').replace('%', '').strip()
 
-		posts=posts.filter(
+		posts = posts.filter(
 			or_(
 				Post.url.ilike("https://"+domain+'/%'),
-				Post.url.ilike("https://"+domain+'/%'),
-				Post.url.ilike("https://"+domain),
 				Post.url.ilike("https://"+domain),
 				Post.url.ilike("https://www."+domain+'/%'),
-				Post.url.ilike("https://www."+domain+'/%'),
-				Post.url.ilike("https://www."+domain),
 				Post.url.ilike("https://www."+domain),
 				Post.url.ilike("https://old." + domain + '/%'),
-				Post.url.ilike("https://old." + domain + '/%'),
-				Post.url.ilike("https://old." + domain),
 				Post.url.ilike("https://old." + domain)
 				)
 			)
+
+	if 'subreddit' in criteria:
+		subreddit = criteria['subreddit']
+
+		if not subreddit_name_regex.fullmatch(subreddit):
+			abort(400, "Invalid subreddit name.")
+
+		posts = posts.filter(Post.url.ilike(f"https://old.reddit.com/r/{subreddit}/%"))
+
 
 	if search_operator_hole in criteria:
 		posts = posts.filter(Post.sub == criteria[search_operator_hole])

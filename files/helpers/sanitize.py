@@ -260,6 +260,15 @@ def find_all_emote_endings(word):
 
 		is_non_ending_found = True
 
+	if word.endswith('random'):
+		kind = word.split('random')[0].title()
+		if kind == 'Donkeykong': kind = 'Donkey Kong'
+		elif kind == 'Marseyflag': kind = 'Marsey Flags'
+		elif kind == 'Marseyalphabet': kind = 'Marsey Alphabet'
+
+		if kind in EMOJI_KINDS:
+			word = g.db.query(Emoji.name).filter_by(kind=kind).order_by(func.random()).first()[0]
+
 	return endings, word
 
 
@@ -281,16 +290,6 @@ def render_emoji(html, regexp, golden, emojis_used, b=False, is_title=False):
 
 		old = emoji
 		emoji = emoji.replace('!','').replace('#','')
-
-		if emoji.endswith('random'):
-			kind = emoji.split('random')[0].title()
-			if kind == 'Donkeykong': kind = 'Donkey Kong'
-			elif kind == 'Marseyflag': kind = 'Marsey Flags'
-			elif kind == 'Marseyalphabet': kind = 'Marsey Alphabet'
-
-			if kind in EMOJI_KINDS:
-				emoji = g.db.query(Emoji.name).filter_by(kind=kind).order_by(func.random()).first()[0]
-
 
 		emoji_partial_pat = '<img alt=":{0}:" loading="lazy" src="{1}"{2}>'
 		emoji_partial = '<img alt=":{0}:" data-bs-toggle="tooltip" loading="lazy" src="{1}" title=":{0}:"{2}>'
@@ -449,7 +448,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 	sanitized = sanitized.replace('<a href="/%21', '<a href="/!')
 
 	sanitized = reddit_mention_regex.sub(r'<a href="https://old.reddit.com/\1" rel="nofollow noopener" target="_blank">/\1</a>', sanitized)
-	sanitized = sub_regex.sub(r'<a href="/\1">/\1</a>', sanitized)
+	sanitized = hole_mention_regex.sub(r'<a href="/\1">/\1</a>', sanitized)
 
 	v = getattr(g, 'v', None)
 
@@ -582,6 +581,8 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 	#doing this here cuz of the linkifyfilter right above it (therefore unifying all link processing logic)
 	soup = BeautifulSoup(sanitized, 'lxml')
 
+	has_transform = bool(soup.select('[style*=transform]'))
+
 	links = soup.find_all("a")
 
 	if g.v and g.v.admin_level >= PERMS["IGNORE_DOMAIN_BAN"]:
@@ -644,6 +645,9 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 		if not href.startswith('/') and not href.startswith(f'{SITE_FULL}/'):
 			link["target"] = "_blank"
 			link["rel"] = "nofollow noopener"
+
+		if has_transform:
+			del link["href"]
 
 	sanitized = str(soup).replace('<html><body>','').replace('</body></html>','').replace('/>','>')
 

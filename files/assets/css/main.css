@@ -7745,7 +7745,7 @@ body {
 	}
 }
 
-p { /* fix the transform:exploit */
+p { /* DO NOT REMOVE */
 	overflow: hidden !important;
 }
 

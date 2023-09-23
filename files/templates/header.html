@@ -103,7 +103,7 @@
 			</a>
 
 			{% if sub %}
-				<a id="sub-name" href="/h/{{sub}}" class="font-weight-bold ml-1 flex-grow-1 mt-1" {% if sub.name|length >= 17 %}style="font-size:max(10px,1.2vw)"{% endif %}>{% if not HOLE_STYLE_FLAIR %}/h/{% endif %}{{sub}}</a>
+				<a id="sub-name" href="/h/{{sub}}" class="font-weight-bold flex-grow-1 ml-2 mt-1" {% if sub.name|length >= 17 %}style="font-size:max(10px,1.2vw)"{% endif %}>{% if not HOLE_STYLE_FLAIR %}/h/{% endif %}{{sub}}</a>
 			{% elif has_logo %}
 				<div id="logo-container" class="flex-grow-1 logo-container">
 					<a href="/">

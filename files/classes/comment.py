@@ -12,6 +12,7 @@ from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
 from files.helpers.config.const import *
+from files.helpers.slurs_and_profanities import *
 from files.helpers.lazy import lazy
 from files.helpers.regex import *
 from files.helpers.sorting_and_time import *
@@ -368,7 +369,7 @@ class Comment(Base):
 
 		if body:
 			if not (self.parent_post and self.post.sub == 'chudrama'):
-				body = censor_slurs(body, v)
+				body = censor_slurs_profanities(body, v)
 
 			body = normalize_urls_runtime(body, v)
 
@@ -384,7 +385,7 @@ class Comment(Base):
 		if not body: return ""
 
 		if not (self.parent_post and self.post.sub == 'chudrama'):
-			body = censor_slurs(body, v)
+			body = censor_slurs_profanities(body, v)
 			body = replace_train_html(body)
 
 		return body

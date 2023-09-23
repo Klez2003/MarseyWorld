@@ -22,7 +22,7 @@
 	<form class="d-inline-block" action="/h/{{sub}}/marsey_image" method="post" enctype="multipart/form-data">
 		<input hidden name="formkey" value="{{v|formkey}}">
 		<label class="btn btn-secondary text-capitalize mr-2 mb-0">
-			Update<input autocomplete="off" type="file" accept="image/*" {% if g.is_tor %}disabled{% endif %} hidden name="marsey" data-nonce="{{g.nonce}}" onchange_submit>
+			Upload<input autocomplete="off" type="file" accept="image/*" {% if g.is_tor %}disabled{% endif %} hidden name="marsey" data-nonce="{{g.nonce}}" onchange_submit>
 		</label>
 	</form>
 	<div class="text-small text-muted mt-3">
@@ -36,7 +36,7 @@
 	<form class="d-inline-block mt-2" action="/h/{{sub}}/sidebar_image" method="post" enctype="multipart/form-data">
 		<input hidden name="formkey" value="{{v|formkey}}">
 		<label class="btn btn-secondary text-capitalize mr-2 mb-0">
-			Update<input autocomplete="off" type="file" accept="image/*" {% if g.is_tor %}disabled{% endif %} hidden name="sidebar" data-nonce="{{g.nonce}}" onchange_submit>
+			Upload<input autocomplete="off" type="file" accept="image/*" {% if g.is_tor %}disabled{% endif %} hidden name="sidebar" data-nonce="{{g.nonce}}" onchange_submit>
 		</label>
 	</form>
 	<div class="text-small text-muted mt-3">

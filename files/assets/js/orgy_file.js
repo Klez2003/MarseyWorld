@@ -38,21 +38,3 @@ orgy_file.addEventListener("timeupdate", function(){
 		}, 300000);
 	}
 });
-
-const now = new Date();
-const now_utc = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
-
-let millis_00 = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 0, 0, 10) - now;
-if (millis_00 < 0)
-	millis_00 += 86400000;
-
-console.log(millis_00/1000/60)
-setTimeout(() => location.reload(), millis_00);
-
-
-let millis_20 = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 20, 0, 10) - now;
-if (millis_20 < 0)
-	millis_20 += 86400000;
-
-console.log(millis_20/1000/60)
-setTimeout(() => location.reload(), millis_20);

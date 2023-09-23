@@ -9,6 +9,7 @@ from flask import request
 from files.helpers.actions import *
 from files.helpers.alerts import *
 from files.helpers.config.const import *
+from files.helpers.slurs_and_profanities import censor_slurs_profanities
 from files.helpers.regex import *
 from files.helpers.media import *
 from files.helpers.sanitize import *
@@ -167,9 +168,9 @@ def speak(data, v):
 		"namecolor": v.name_color,
 		"patron": v.patron,
 		"text": text,
-		"text_censored": censor_slurs(text, 'chat'),
+		"text_censored": censor_slurs_profanities(text, 'chat'),
 		"text_html": text_html,
-		"text_html_censored": censor_slurs(text_html, 'chat'),
+		"text_html_censored": censor_slurs_profanities(text_html, 'chat'),
 		"time": int(time.time()),
 	}
 
