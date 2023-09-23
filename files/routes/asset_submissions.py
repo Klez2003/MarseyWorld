@@ -89,7 +89,7 @@ def submit_emoji(v):
 
 	filename = f'/asset_submissions/emojis/{name}.webp'
 	copyfile(highquality, filename)
-	process_image(filename, v, resize=200, trim=True)
+	process_image(filename, v, resize=300, trim=True)
 
 	emoji = Emoji(name=name, kind=kind, author_id=author.id, tags=tags, count=0, submitter_id=v.id)
 	g.db.add(emoji)
@@ -445,7 +445,7 @@ def update_emoji(v):
 
 		filename = f"files/assets/images/emojis/{name}.webp"
 		copyfile(new_path, filename)
-		process_image(filename, v, resize=200, trim=True)
+		process_image(filename, v, resize=300, trim=True)
 		purge_files_in_cloudflare_cache([f"{SITE_FULL_IMAGES}/e/{name}.webp", f"{SITE_FULL_IMAGES}/asset_submissions/emojis/original/{name}.{format}"])
 		updated = True
 
