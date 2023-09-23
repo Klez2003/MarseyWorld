@@ -210,6 +210,7 @@ LONGPOSTBOT_REPLIES = (
 	'I hope you had chatgpt pen that one fam',
 	'What?',
 	':#didntreadlol:',
+	':#bruh:',
 )
 
 CHUD_MSGS = (
