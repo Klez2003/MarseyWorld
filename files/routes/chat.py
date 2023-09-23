@@ -140,7 +140,7 @@ def speak(data, v):
 			del muted[vname]
 			emit("online", [online[request.referrer], muted], room=request.referrer, broadcast=True)
 
-	if SITE == 'rdrama.net':
+	if SITE == 'rdrama.net' and v.admin_level < PERMS['BYPASS_ANTISPAM_CHECKS']:
 		def shut_up():
 			self_only = True
 			muted_until = int(time.time() + 600)
