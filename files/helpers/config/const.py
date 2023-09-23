@@ -208,6 +208,8 @@ LONGPOSTBOT_REPLIES = (
 	'Not one single person is gonna read all that',
 	'PlsRope',
 	'I hope you had chatgpt pen that one fam',
+	'What?',
+	':#didntreadlol:',
 )
 
 CHUD_MSGS = (
