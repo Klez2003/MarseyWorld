@@ -99,7 +99,7 @@ def cron_fn(every_5m, every_1d, every_fri_12, every_fri_23, every_sat_00, every_
 				g.db.commit()
 
 			if every_sat_03 or every_sun_23:
-				_delete_all()
+				_delete_all_posts()
 				g.db.commit()
 
 			if every_1mo:
@@ -182,11 +182,7 @@ def _create_orgy():
 	)
 	g.db.add(orgy)
 
-def _delete_all():
-	orgy = g.db.query(Orgy).one_or_none()
-	if orgy:
-		g.db.delete(orgy)
-	
+def _delete_all_posts():
 	posts = g.db.query(Post).filter_by(author_id=AUTOJANNY_ID, deleted_utc=0).all()
 	for p in posts:
 		p.deleted_utc = int(time.time())
