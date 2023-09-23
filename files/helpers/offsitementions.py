@@ -84,11 +84,16 @@ def notify_mentions(mentions, send_to=None, mention_str='site mention'):
 		)
 
 		g.db.flush()
-		existing_comment = g.db.query(Comment.id).filter_by(
-			author_id=const.AUTOJANNY_ID,
-			parent_post=None,
-			body_html=notif_text).one_or_none()
-		if existing_comment: break
+		try:
+			existing_comment = g.db.query(Comment.id).filter_by(
+				author_id=const.AUTOJANNY_ID,
+				parent_post=None,
+				body_html=notif_text).one_or_none()
+			if existing_comment: break
+		# todo: handle this exception by removing one of the existing
+		# means that multiple rows were found, happens on new install for some reason
+		except:
+			pass
 
 		new_comment = Comment(
 							author_id=const.AUTOJANNY_ID,

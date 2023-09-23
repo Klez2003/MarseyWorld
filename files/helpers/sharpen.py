@@ -1,4 +1,3 @@
-import re
 from files.helpers.regex import *
 
 def sharpen(string):

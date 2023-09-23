@@ -13,6 +13,7 @@ from files.classes import Comment, Notification, PushSubscription, Group
 from .config.const import *
 from .regex import *
 from .sanitize import *
+from .slurs_and_profanities import censor_slurs_profanities
 
 def create_comment(text_html):
 	new_comment = Comment(author_id=AUTOJANNY_ID,
@@ -237,7 +238,7 @@ def push_notif(uids, title, body, url_or_comment):
 	if len(body) > PUSH_NOTIF_LIMIT:
 		body = body[:PUSH_NOTIF_LIMIT] + "..."
 
-	body = censor_slurs(body, None)
+	body = censor_slurs_profanities(body, None)
 
 	subscriptions = g.db.query(PushSubscription.subscription_json).filter(PushSubscription.user_id.in_(uids)).all()
 	subscriptions = [x[0] for x in subscriptions]

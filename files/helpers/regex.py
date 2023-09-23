@@ -43,7 +43,7 @@ title_regex = re.compile("[^\w ]", flags=re.A)
 controversial_regex = re.compile('https:\/\/old\.reddit\.com/r/\w{2,20}\/comments\/[\w\-.#&/=\?@%+]{5,250}', flags=re.A)
 
 spoiler_regex = re.compile('\|\|(.+?)\|\|' + NOT_IN_CODE_OR_LINKS, flags=re.A)
-sub_regex = re.compile('(?<![\w/])\/?([hH]\/\w{3,25})' + NOT_IN_CODE_OR_LINKS, flags=re.A)
+hole_mention_regex = re.compile('(?<![\w/])\/?([hH]\/\w{3,25})' + NOT_IN_CODE_OR_LINKS, flags=re.A)
 
 strikethrough_regex = re.compile('(^|\s|>|")~{1,2}([^~]+)~{1,2}' + NOT_IN_CODE_OR_LINKS, flags=re.A)
 
@@ -55,22 +55,6 @@ emoji_regex2 = re.compile(f'(?<!"):([!#@\w\-]{{1,72}}?):(?!([^<]*<\/(code|pre)>|
 snappy_url_regex = re.compile('<a href="(https?:\/\/.+?)".*?>(.+?)<\/a>', flags=re.A)
 
 email_regex = re.compile('[A-Za-z0-9._%+-]{1,64}@[A-Za-z0-9.-]{2,63}\.[A-Za-z]{2,63}', flags=re.A)
-
-slur_single_words = "|".join([slur.lower() for slur in SLURS.keys()])
-slur_single_words_title = slur_single_words.title().replace('!\W','!\w')
-slur_single_words_upper = slur_single_words.upper().replace('!\W','!\w')
-
-profanity_single_words = "|".join([profanity.lower() for profanity in PROFANITIES.keys()])
-profanity_single_words_title = profanity_single_words.title().replace('!\W','!\w')
-profanity_single_words_upper = profanity_single_words.upper().replace('!\W','!\w')
-
-slur_regex = re.compile(f"<[^>]*>|{slur_single_words}", flags=re.I|re.A)
-slur_regex_title = re.compile(f"<[^>]*>|{slur_single_words_title}", flags=re.A)
-slur_regex_upper = re.compile(f"<[^>]*>|{slur_single_words_upper}", flags=re.A)
-
-profanity_regex = re.compile(f"<[^>]*>|{profanity_single_words}", flags=re.I|re.A)
-profanity_regex_title = re.compile(f"<[^>]*>|{profanity_single_words_title}", flags=re.A)
-profanity_regex_upper = re.compile(f"<[^>]*>|{profanity_single_words_upper}", flags=re.A)
 
 torture_regex = re.compile('(^|\s)(i|me)($|\s)', flags=re.I|re.A)
 torture_regex2 = re.compile("(^|\s)(i'm)($|\s)", flags=re.I|re.A)
@@ -158,81 +142,6 @@ pronouns_regex = re.compile("([a-z]{1,7})\/[a-z]{1,7}(\/[a-z]{1,7})?", flags=re.
 
 html_title_regex = re.compile("<title>(.{1,200})</title>", flags=re.I)
 
-
-
-SLURS_FOR_REPLACING = {}
-for k, val in SLURS.items():
-	newkey = k.split('(?!')[0]
-	if ')' in newkey:
-		newkey = newkey.split(')')[1]
-	SLURS_FOR_REPLACING[newkey] = val
-
-PROFANITIES_FOR_REPLACING = {}
-for k, val in PROFANITIES.items():
-	newkey = k.split('(?!')[0]
-	if ')' in newkey:
-		newkey = newkey.split(')')[1]
-	PROFANITIES_FOR_REPLACING[newkey] = val
-
-def sub_matcher(match, upper=False, title=False, replace_with=SLURS_FOR_REPLACING):
-	group_num = 0
-	match_str = match.group(group_num)
-	if match_str.startswith('<'):
-		return match_str
-	else:
-		repl = replace_with[match_str.lower()]
-		if (not upper and not title) or "<img" in repl:
-			return repl
-		elif title:
-			return repl.title()
-		else:
-			return repl.upper()
-
-def sub_matcher_upper(match, replace_with=SLURS_FOR_REPLACING):
-	return sub_matcher(match, upper=True, replace_with=replace_with)
-
-
-# TODO: make censoring a bit better
-def sub_matcher_slurs(match, upper=False, title=False):
-	return sub_matcher(match, upper, title, replace_with=SLURS_FOR_REPLACING)
-
-def sub_matcher_slurs_title(match):
-	return sub_matcher_slurs(match, title=True)
-
-def sub_matcher_slurs_upper(match):
-	return sub_matcher_slurs(match, upper=True)
-
-
-def sub_matcher_profanities(match, upper=False, title=False):
-	return sub_matcher(match, upper, title, replace_with=PROFANITIES_FOR_REPLACING)
-
-def sub_matcher_profanities_title(match):
-	return sub_matcher_profanities(match, title=True)
-
-def sub_matcher_profanities_upper(match):
-	return sub_matcher_profanities(match, upper=True)
-
-
-def replace_re(body, regex, regex_title, regex_upper, sub_func, sub_func_title, sub_func_upper):
-	body = regex_upper.sub(sub_func_upper, body)
-	body = regex_title.sub(sub_func_title, body)
-	return regex.sub(sub_func, body)
-
-def censor_slurs(body, logged_user):
-	if not body: return ""
-
-	if '<pre>' in body or '<code>' in body:
-			return body
-
-	if not logged_user or logged_user == 'chat' or logged_user.slurreplacer:
-		body = replace_re(body, slur_regex, slur_regex_title, slur_regex_upper, sub_matcher_slurs, sub_matcher_slurs_title, sub_matcher_slurs_upper)
-
-	if SITE_NAME == 'rDrama':
-		if not logged_user or logged_user == 'chat' or logged_user.profanityreplacer:
-			body = replace_re(body, profanity_regex, profanity_regex_title, profanity_regex_upper, sub_matcher_profanities, sub_matcher_profanities_title, sub_matcher_profanities_upper)
-
-	return body
-
 commands = {
 	"fortune": FORTUNE_REPLIES,
 	"factcheck": FACTCHECK_REPLIES,
@@ -279,6 +188,8 @@ reddit_s_url_regex = re.compile("https:\/\/reddit.com\/[ru]\/\w{2,25}\/s\/\w{10}
 #run-time
 reddit_to_vreddit_regex = re.compile('(^|>|")https:\/\/old.reddit.com\/(r|user)\/', flags=re.A)
 
+#post search
+subreddit_name_regex = re.compile('\w{2,25}', flags=re.A)
 
 
 ###YOUTUBE

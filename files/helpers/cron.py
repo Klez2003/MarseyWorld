@@ -29,7 +29,7 @@ from files.cli import app, db_session, g
 
 CRON_CACHE_TIMEOUT = 172800
 
-def cron_fn(every_5m, every_1d, every_fri_12, every_fri_23, every_sat_00, every_sat_03, every_sun_07, every_sun_19, every_sun_20, every_sun_23):
+def cron_fn(every_5m, every_1d, every_fri_12, every_fri_23, every_sat_00, every_sat_03, every_sun_07, every_sun_19, every_sun_20, every_sun_23, every_1mo):
 	with app.app_context():
 		g.db = db_session()
 		g.v = None
@@ -99,7 +99,11 @@ def cron_fn(every_5m, every_1d, every_fri_12, every_fri_23, every_sat_00, every_
 				g.db.commit()
 
 			if every_sat_03 or every_sun_23:
-				_delete_all()
+				_delete_all_posts()
+				g.db.commit()
+
+			if every_1mo:
+				_give_marseybux_salary()
 				g.db.commit()
 
 		except:
@@ -124,6 +128,7 @@ def cron_fn(every_5m, every_1d, every_fri_12, every_fri_23, every_sat_00, every_
 @click.option('--every-sun-19', is_flag=True, help='Call every Sunday.')
 @click.option('--every-sun-20', is_flag=True, help='Call every Sunday.')
 @click.option('--every-sun-23', is_flag=True, help='Call every Sunday.')
+@click.option('--every-1mo', is_flag=True, help='Call every 1 month.')
 def cron(**kwargs):
 	cron_fn(**kwargs)
 
@@ -177,11 +182,7 @@ def _create_orgy():
 	)
 	g.db.add(orgy)
 
-def _delete_all():
-	orgy = g.db.query(Orgy).one_or_none()
-	if orgy:
-		g.db.delete(orgy)
-	
+def _delete_all_posts():
 	posts = g.db.query(Post).filter_by(author_id=AUTOJANNY_ID, deleted_utc=0).all()
 	for p in posts:
 		p.deleted_utc = int(time.time())
@@ -415,3 +416,9 @@ def _unpin_expired():
 
 	if pins:
 		cache.delete_memoized(frontlist)
+
+def _give_marseybux_salary():
+	for u in g.db.query(User).filter(User.admin_level > 0).all():
+		marseybux_salary = u.admin_level * 10000
+		u.pay_account('marseybux', marseybux_salary)
+		send_repeatable_notification(u.id, f"You have received your monthly janny salary of {marseybux_salary} Marseybux!")

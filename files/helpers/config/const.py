@@ -106,7 +106,6 @@ GIRL_PHRASES = [
 	"literally, $",
 	"i feel like $",
 	"my heart is telling me $",
-	"its almost as if $",
 	"omg! $",
 	"im literally screaming, $",
 	"$ and thats the tea, sis",
@@ -117,40 +116,6 @@ GIRL_PHRASES = [
 	"$ *sips tea*",
 	"$ PERIODT"
 ]
-
-tranny = f'<img loading="lazy" data-bs-toggle="tooltip" alt=":marseytrain:" title=":marseytrain:" src="{SITE_FULL_IMAGES}/e/marseytrain.webp">'
-trannie = f'<img loading="lazy" data-bs-toggle="tooltip" alt=":!marseytrain:" title=":!marseytrain:" src="{SITE_FULL_IMAGES}/e/marseytrain.webp">'
-troon = f'<img loading="lazy" data-bs-toggle="tooltip" alt=":marseytrain2:" title=":marseytrain2:" src="{SITE_FULL_IMAGES}/e/marseytrain2.webp">'
-
-def replace_train_html(body):
-	body = body.replace(tranny, ':marseytrain:')
-	body = body.replace(trannie, ':!marseytrain:')
-	body = body.replace(troon, ':marseytrain2:')
-	return body
-
-SLURS = {
-	"tranny": tranny,
-	"trannie": trannie,
-	"troon": troon,
-	"(?<!\\bs)nigger": "BIPOC",
-	"negroid": "BIPOC",
-	"nignog": "BIPOC",
-	"nig nog": "BIPOC",
-	"niglet": 'BIPOClet',
-	"negress": "BIPOCette",
-	"faggot": "cute twink",
-	"fag": "strag",
-	"(?<!\w)spic(?!\w)": "hard-working American",
-	"(?<!\w)spics(?!\w)": "hard-working Americans",
-	"kike": "jewish chad",
-	"(?<!\w)heeb": "jewish chad",
-	"daisy's destruction": "Cars 2",
-	"daisys destruction": "Cars 2",
-	"daisy destruction": "Cars 2",
-	"pajeet": "sexy Indian dude",
-	"hunter2": "*******",
-	"dyke": "cute butch",
-}
 
 patron = "Patron"
 
@@ -200,55 +165,6 @@ if SITE_NAME == 'rDrama':
 		"watch Family Guy online",
 	)
 
-	RDRAMA_SLURS = {
-		"retarded": "r-slurred",
-		"retard": "r-slur",
-		"pedophile": "p-dophile",
-		"kill youself": "keep yourself safe",
-		"kill yourself": "keep yourself safe",
-		"kill yourselves": "keep yourselves safe",
-		"latinos": "latinx",
-		"latino": "latinx",
-		"latinas": "latinx",
-		"latina": "latinx",
-		"hispanics": "latinx",
-		"hispanic": "latinx",
-		"autistic": "neurodivergent",
-		"gamer": "g*mer",
-		"journalist": "journ*list",
-		"journalism": "journ*lism",
-		"fake and gay": "fake and straight",
-		"(?<!\w)rapist": "male feminist",
-		"(?<!\w)pedo(?!\w)": "p-do",
-		"(?<!\w)kys": "keep yourself safe",
-		"kys(?!\w)": "keep yourself safe",
-		"republican": 'rethuglican',
-		"america": 'ameriKKKa',
-		"it's almost as if": "I'm an r-slur but",
-		"it's almost like": "I'm an r-slur but",
-		"its almost as if": "I'm an r-slur but",
-		"its almost like": "I'm an r-slur but",
-		"my brother in christ": "my brother in Allah (ﷻ)",
-		"(?<!\w)cool (?!it|down|off)": "fetch ",
-		"krayon(?! \()": "krayon (sister toucher)",
-		"discord": "groomercord",
-		"allah(?! \()": "Allah (ﷻ)",
-		"my wife(?! \()": "my wife (male)",
-		"(?<!cow) tools(?!\w)": " cow tools",
-		"explain": "mansplain",
-		'nigga': 'neighbor',
-		'(?<![\w.])cat(?!\w)': 'marsey',
-		'(?<!\w)cats(?!\w)': 'marseys',
-		'hello': 'hecko',
-		'ryan gosling': 'literally me',
-		'howdy': 'meowdy',
-		'corgi': 'klenny',
-		"right now": "right meow",
-		"(?<!\/)linux": "GNU/Linux",
-		'(?<!-)based': 'keyed',
-	}
-	SLURS.update(RDRAMA_SLURS)
-
 	BOOSTED_HOLES = {
 		'furry',
 		'femboy',
@@ -275,28 +191,6 @@ if SITE_NAME == 'rDrama':
 elif SITE_NAME == 'WPD':
 	REDDIT_NOTIFS_SITE.update({'watchpeopledie', 'makemycoffin'})
 
-
-PROFANITIES = {
-	'motherfucker': 'motherlover',
-	'fuck': 'frick',
-	'(?<!\w)ass(?!\w)': 'butt',
-	'shitting': 'pooping',
-	'damn': 'darn',
-	'bitch(?!\w)': 'b-word',
-	'toilet': 'potty',
-	'(?<!\w)asshole': 'butthole',
-	'(?<!\w)rape': 'r*pe',
-	'(?<!\w)hell(?!\w)': 'heck',
-	'(?<!\w)sex(?!\w)': 's*x',
-	'(?<!\w)cum(?!\w)': 'c*m',
-	'(?<!\w)dick': 'peepee',
-	'cock(?!\w)': 'peepee',
-	'cocks': 'peepees',
-	'penis': 'peepee',
-	'pussy': 'kitty',
-	'pussies': 'kitties',
-	'cunt': 'c*nt',
-}
 
 LONGPOSTBOT_REPLIES = ('Wow, you must be a JP fan.', 'This is one of the worst posts I have EVER seen. Delete it.', "No, don't reply like this, please do another wall of unhinged rant please.", '# 😴😴😴', "Ma'am we've been over this before. You need to stop.", "I've known more coherent downies.", "Your pulitzer's in the mail", "That's great and all, but I asked for my burger without cheese.", 'That degree finally paying off', "That's nice sweaty. Why don't you have a seat in the time out corner with Pizzashill until you calm down, then you can have your Capri Sun.", "All them words won't bring your pa back.", "You had a chance to not be completely worthless, but it looks like you threw it away. At least you're consistent.", 'Some people are able to display their intelligence by going on at length on a subject and never actually saying anything. This ability is most common in trades such as politics, public relations, and law. You have impressed me by being able to best them all, while still coming off as an absolute idiot.', "You can type 10,000 characters and you decided that these were the one's that you wanted.", 'Have you owned the libs yet?', "I don't know what you said, because I've seen another human naked.", 'Impressive. Normally people with such severe developmental disabilities struggle to write much more than a sentence or two. He really has exceded our expectations for the writing portion. Sadly the coherency of his writing, along with his abilities in the social skills and reading portions, are far behind his peers with similar disabilities.', "This is a really long way of saying you don't fuck.", "Sorry ma'am, looks like his delusions have gotten worse. We'll have to admit him.", 'If only you could put that energy into your relationships', 'Posts like this is why I do Heroine.', 'still unemployed then?', 'K', 'look im gunna have 2 ask u 2 keep ur giant dumps in the toilet not in my replys 😷😷😷', "Mommy is soooo proud of you, sweaty. Let's put this sperg out up on the fridge with all your other failures.", "Good job bobby, here's a star", "That was a mistake. You're about to find out the hard way why.", 'You sat down and wrote all this shit. You could have done so many other things with your life. What happened to your life that made you decide writing novels of bullshit here was the best option?', "I don't have enough spoons to read this shit", "All those words won't bring daddy back.", 'OUT!', "Damn, you're really mad over this, but thanks for the effort you put into typing that all out! Sadly I won't read it all.", "Jesse what the fuck are you talking about??", "▼you're fucking bananas if you think I'm reading all that, take my downvote and shut up idiot", "Are you feeling okay bud?", ':#marseywoah:', 'At no point in your rambling, incoherent post were you even close to anything that could be considered a rational thought. Everyone on this site is now dumber for having read it. May God have mercy on your soul.', 'https://rdrama.net/videos/1671169024815045.mp4', 'https://i.rdrama.net/images/16766675896248007.webp', 'https://i.rdrama.net/images/1683531328305875.webp', 'https://i.rdrama.net/images/1691152552869678.webp', 'You could have done crack instead of this shit', 'Not one single person is gonna read all that', 'PlsRope', 'I hope you had chatgpt pen that one fam')
 
@@ -764,6 +658,7 @@ elif SITE == 'watchpeopledie.tv':
 	PERMS['HOLE_CREATE'] = 2
 	PERMS['POST_COMMENT_EDITING'] = 3
 	PERMS['MODS_EVERY_HOLE'] = 3
+	PERMS['IS_PERMA_PROGSTACKED'] = 4
 
 	SUB_BANNER_LIMIT = 69420
 
