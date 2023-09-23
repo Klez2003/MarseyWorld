@@ -202,7 +202,7 @@ function fetchEmojis() {
 				emojiDOM.hidden = true;
 
 				const emojiIMGDOM = emojiDOM.children[0];
-				emojiIMGDOM.src = "/e/" + emoji.name + ".webp";
+				emojiIMGDOM.src = `${SITE_FULL_IMAGES}/e/${emoji.name}.webp`
 				emojiIMGDOM.alt = emoji.name;
 				/** Disableing lazy loading seems to reduce cpu usage somehow (?)
 				 * idk it is difficult to benchmark */
@@ -403,7 +403,7 @@ function populate_speed_emoji_modal(results, textbox)
 		let emoji_option_img = document.createElement("img");
 		emoji_option_img.className = "speed-modal-image emoji-option-image";
 		// This is a bit
-		emoji_option_img.src = `/e/${name}.webp`;
+		emoji_option_img.src = `${SITE_FULL_IMAGES}/e/${name}.webp`
 		let emoji_option_text = document.createElement("span");
 
 		emoji_option_text.title = name;
