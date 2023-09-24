@@ -22,15 +22,15 @@ lite-youtube {
 
 #orgy-file-container {
 	width: 65vw;
-    max-height: 80vh !important;
+	max-height: 80vh !important;
 	max-width: 100vw !important;
 }
 
 #orgy-file-container > * {
-    max-height: 80vh !important;
+	max-height: 80vh !important;
 	margin: 0 !important;
-    height: 98% !important;
-    width: 98% !important;
+	height: 98% !important;
+	width: 98% !important;
 }
 
 @media (max-width: 768px) {
@@ -68,10 +68,10 @@ body > .container {
 }
 
 #orgy-file-container > :not(video) {
-    height: 90% !important;
-    width: 95% !important;
+	height: 90% !important;
+	width: 95% !important;
 	max-width: 95% !important;
-    overflow-y: clip;
+	overflow-y: clip;
 }
 
 @media (max-width: 768px) {
