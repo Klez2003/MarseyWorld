@@ -7,3 +7,7 @@ __pycache__/
 emojis.zip
 emojis_original.zip
 includes/content-security-policy
+includes/headers
+nginx.conf
+.gitignore
+docker-compose.yml

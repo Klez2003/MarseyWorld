@@ -8,6 +8,7 @@ from typing_extensions import deprecated
 from urllib.parse import parse_qs, urlparse, unquote, ParseResult, urlencode, urlunparse
 import time
 from files.helpers.marseyfx.parser import parse_emoji
+from files.helpers.marseyfx.tokenizer import Tokenizer
 
 from sqlalchemy.sql import func
 
@@ -129,7 +130,7 @@ def build_url_re(tlds, protocols):
 	"""
 	return re.compile(
 		r"""\(*# Match any opening parentheses.
-		\b(?<![@.])(?:(?:{0}):/{{0,3}}(?:(?:\w+:)?\w+@)?)?# http://
+		\b(?<![@.#:])(?:(?:{0}):/{{0,3}}(?:(?:\w+:)?\w+@)?)?# http://
 		([\w-]+\.)+(?:{1})(?:\:[0-9]+)?(?!\.\w)\b# xx.yy.tld(:##)?
 		(?:[/?][^#\s\{{\}}\|\\\^\[\]`<>"]*)?
 			# /path/zz (excluding "unsafe" chars from RFC 1738,
@@ -274,18 +275,56 @@ def find_all_emote_endings(word):
 
 	return endings, word
 
-def render_emojis(markup: str):
-	emojis_used = set()
+class RenderEmojisResult:
+	emojis_used: set[str]
+	heavy_count = 0
+	tags: list[str]
+
+	def __init__(self):
+		self.emojis_used = set()
+		self.tags = []
+
+	def update(self, other):
+		self.emojis_used |= other.emojis_used
+		self.heavy_count += other.heavy_count
+		self.tags.extend(other.tags)
+
+def render_emojis(markup: str, **kwargs):
+	result = RenderEmojisResult()
+	last_match_end = 0
+
+	golden = kwargs.get('golden', True)
+	permit_big = kwargs.get('permit_big', True)
 
 	for emoji_match in marseyfx_emoji_regex.finditer(markup):
-		emoji_str = emoji_match.group()[1:-1] # Cut off colons
-		success, emoji, _ = parse_emoji(emoji_str)
-		if success:
-			emojis_used.add(emoji.name)
-			emoji_html = str(emoji.create_el())
-			markup = markup.replace(emoji_match.group(), emoji_html)
+		previous_text = markup[last_match_end:emoji_match.start()]
+		if previous_text != '':
+			result.tags.append(previous_text)
+		last_match_end = emoji_match.end()
 
-	return markup, emojis_used
+		emoji_str = emoji_match.group()[1:-1] # Cut off colons
+
+		tokenizer = Tokenizer(emoji_str)
+		success, emoji, _ = parse_emoji(tokenizer)
+		if success:
+			result.emojis_used.add(emoji.name)
+
+			if not permit_big:
+				emoji.is_big = False
+
+			emoji_html = emoji.create_el(tokenizer)
+			result.tags.append(emoji_html)
+		
+		if len(tokenizer.errors) > 0:
+			soup = BeautifulSoup()
+			err_tag = soup.new_tag('pre', attrs={'class': 'marseyfx-error'})
+			nl = "\n    "
+			err_tag.string = 'MarseyFX error:' + nl + nl.join(map(str,tokenizer.errors))
+			result.tags.append(err_tag)
+		#result.tags.append(f':{emoji_str}:')
+
+	result.tags.append(markup[last_match_end:])
+	return result
 
 @deprecated("Use the new one")
 def old_render_emoji(html, regexp, golden, emojis_used, b=False, is_title=False):
@@ -554,11 +593,6 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 	sanitized = video_sub_regex.sub(r'<p class="resizable"><video controls preload="none" src="\1"></video></p>', sanitized)
 	sanitized = audio_sub_regex.sub(r'<audio controls preload="none" src="\1"></audio>', sanitized)
 
-	if count_emojis:
-		for emoji in g.db.query(Emoji).filter(Emoji.submitter_id==None, Emoji.name.in_(emojis_used)):
-			emoji.count += 1
-			g.db.add(emoji)
-
 	sanitized = sanitized.replace('<p></p>', '')
 
 	allowed_css_properties = allowed_styles.copy()
@@ -574,9 +608,8 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 									parse_email=False, url_re=url_re)]
 								).clean(sanitized)
 
-	sanitized, emojis_used = render_emojis(sanitized)
 
-	#doing this here cuz of the linkifyfilter right above it (therefore unifying all link processing logic)
+	#doing this here cuz of the linkifyfilter right above it (therefore unifying all link processing logic) <-- i have no clue what this means lol
 	soup = BeautifulSoup(sanitized, 'lxml')
 
 	has_transform = bool(soup.select('[style*=transform i]'))
@@ -660,9 +693,6 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 				html = f'<p class="resizable yt">{html}</p>'
 			sanitized = sanitized.replace(i.group(0), html)
 
-	if '<pre>' not in sanitized and blackjack != "rules":
-		sanitized = sanitized.replace('\n','')
-
 	if showmore:
 		# Insert a show more button if the text is too long or has too many paragraphs
 		CHARLIMIT = 3000
@@ -708,7 +738,9 @@ def filter_emojis_only(title, golden=True, count_emojis=False):
 
 	title = remove_cuniform(title)
 
-	title, emojis_used = render_emojis(title) #old_render_emoji(title, emoji_regex2, golden, emojis_used, is_title=True)
+	res = render_emojis(title) #old_render_emoji(title, emoji_regex2, golden, emojis_used, is_title=True)
+
+	title = ''.join(map(str, res.tags))
 
 	if count_emojis:
 		for emoji in g.db.query(Emoji).filter(Emoji.submitter_id==None, Emoji.name.in_(emojis_used)):
