@@ -11,8 +11,8 @@
 	{% include "util/macros.html" %}
 	{% set vlink = '<a href="/id/' ~ v.id ~ '"' %}
 	<div class="orgy-top-container">
-		<div id="orgy-col" class="col text-left pt-md-3">
-			<h2 id="orgy-title">{{orgy.title}}</h1>
+		<div id="orgy-col" class="col text-left">
+			<h3 id="orgy-title" class="mt-0 mb-2">{{orgy.title}}</h1>
 			<div>
 				<p id="orgy-file-container" class="resizable">
 					{% if orgy.type == 'youtube' %}
