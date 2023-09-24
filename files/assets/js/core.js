@@ -388,7 +388,7 @@ if (is_pwa) {
 }
 
 const gbrowser = document.getElementById('gbrowser').value
-if (location.pathname != '/orgy' && (gbrowser == 'iphone' || gbrowser == 'mac')) {
+if (location.pathname != '/chat' && (gbrowser == 'iphone' || gbrowser == 'mac')) {
 	const videos = document.querySelectorAll('video')
 
 	for (const video of videos) {

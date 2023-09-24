@@ -28,12 +28,10 @@ let focused = true;
 let is_typing = false;
 let alert=true;
 
-const page_title = document.getElementsByTagName('title')[0].innerHTML;
-
 function flash(){
 	let title = document.getElementsByTagName('title')[0]
 	if (notifs >= 1 && !focused){
-		title.innerHTML = `[+${notifs}] ${page_title}`;
+		title.innerHTML = `[+${notifs}] Chat`;
 		if (alert) {
 			icon.href = `/i/${site_name}/alert.ico?v=3009`
 			alert=false;
@@ -47,7 +45,7 @@ function flash(){
 	else {
 		icon.href = `/i/${site_name}/icon.webp?x=6`
 		notifs = 0
-		title.innerHTML = page_title;
+		title.innerHTML = 'Chat';
 	}
 
 	if (is_typing) {
@@ -368,21 +366,19 @@ document.addEventListener('DOMContentLoaded', function () {
 	box.scrollTo(0, box.scrollHeight)
 });
 
-if (location.pathname == '/orgy') {
-	const now = new Date();
-	const day_of_week = now.getUTCDay()
+const now = new Date();
+const day_of_week = now.getUTCDay()
 
-	if ([4,5,7].includes(day_of_week)) {
-		let hour
-		if (day_of_week == 7) hour = 20
-		else hour = 0
+if ([4,5,7].includes(day_of_week)) {
+	let hour
+	if (day_of_week == 7) hour = 20
+	else hour = 0
 
-		let millis = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), hour, 0, 10) - now;
-		if (millis < 0)
-			millis += 86400000;
+	let millis = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), hour, 0, 10) - now;
+	if (millis < 0)
+		millis += 86400000;
 
-		const minutes = Math.round(millis/1000/60*10)/10
-		console.log(`Refreshing page in ${minutes} minutes`)
-		setTimeout(() => location.reload(), millis);
-	}
+	const minutes = Math.round(millis/1000/60*10)/10
+	console.log(`Refreshing page in ${minutes} minutes`)
+	setTimeout(() => location.reload(), millis);
 }

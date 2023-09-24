@@ -28,23 +28,19 @@ socketio = SocketIO(
 sessions = []
 muted = cache.get(f'muted') or {}
 
-ALLOWED_REFERRERS = {f'{SITE_FULL}/chat', f'{SITE_FULL}/orgy'}
+ALLOWED_REFERRERS = {f'{SITE_FULL}/chat'}
 
 messages = cache.get(f'messages') or {
 	f'{SITE_FULL}/chat': {},
-	f'{SITE_FULL}/orgy': {},
 }
 typing = {
 	f'{SITE_FULL}/chat': [],
-	f'{SITE_FULL}/orgy': [],
 }
 online = {
 	f'{SITE_FULL}/chat': [],
-	f'{SITE_FULL}/orgy': [],
 }
 
 cache.set('loggedin_chat', len(online[f'{SITE_FULL}/chat']), timeout=0)
-cache.set('loggedin_orgy', len(online[f'{SITE_FULL}/orgy']), timeout=0)
 
 def auth_required_socketio(f):
 	def wrapper(*args, **kwargs):
@@ -76,30 +72,17 @@ def chat(v):
 
 	displayed_messages = {k: val for k, val in messages[f"{SITE_FULL}/chat"].items() if val["user_id"] not in v.userblocks}
 
+	orgy = get_orgy(v)
+	if orgy:
+		m = md5()
+		with open('files/assets/subtitles.vtt', "rb") as f:
+			data = f.read()
+		m.update(data)
+		subtitles_hash = m.hexdigest()
+
+		return render_template("orgy.html", v=v, messages=displayed_messages, orgy=orgy, subtitles_hash=subtitles_hash)
+
 	return render_template("chat.html", v=v, messages=displayed_messages)
-
-@app.get("/orgy")
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
-@auth_required
-def orgy(v):
-	if not v.allowed_in_chat:
-		abort(403, CHAT_ERROR_MESSAGE)
-
-	orgy = get_orgy()
-
-	displayed_messages = {k: val for k, val in messages[f"{SITE_FULL}/orgy"].items() if val["user_id"] not in v.userblocks}
-
-	if not orgy:
-		return render_template("chat.html", v=v, messages=displayed_messages)
-
-	m = md5()
-	with open('files/assets/subtitles.vtt', "rb") as f:
-		data = f.read()
-	m.update(data)
-	subtitles_hash = m.hexdigest()
-
-	return render_template("orgy.html", v=v, messages=displayed_messages, orgy=orgy, subtitles_hash=subtitles_hash)
 
 @socketio.on('speak')
 @is_not_banned_socketio
@@ -197,9 +180,7 @@ def speak(data, v):
 
 def refresh_online():
 	emit("online", [online[request.referrer], muted], room=request.referrer, broadcast=True)
-
 	cache.set('loggedin_chat', len(online[f'{SITE_FULL}/chat']), timeout=0)
-	cache.set('loggedin_orgy', len(online[f'{SITE_FULL}/orgy']), timeout=0)
 
 @socketio.on('connect')
 @auth_required_socketio

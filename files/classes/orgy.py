@@ -31,5 +31,6 @@ class Orgy(Base):
 			t += 303
 		return t
 
-def get_orgy():
+def get_orgy(v):
+	if not (v and v.allowed_in_chat): return None
 	return g.db.query(Orgy).one_or_none()

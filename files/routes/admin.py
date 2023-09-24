@@ -1937,7 +1937,7 @@ def admin_reset_password(user_id, v):
 @app.get("/admin/orgy")
 @admin_level_required(PERMS['ORGIES'])
 def orgy_control(v):
-	return render_template("admin/orgy_control.html", v=v, orgy=get_orgy())
+	return render_template("admin/orgy_control.html", v=v, orgy=get_orgy(v))
 
 @app.post("/admin/start_orgy")
 @admin_level_required(PERMS['ORGIES'])
@@ -1951,7 +1951,7 @@ def start_orgy(v):
 	if not title:
 		abort(400, "A title is required!")
 
-	if get_orgy():
+	if get_orgy(v):
 		abort(400, "An orgy is already in progress")
 
 	normalized_link = normalize_url(link)
@@ -1978,7 +1978,7 @@ def start_orgy(v):
 		)
 	g.db.add(orgy)
 
-	return redirect('/orgy')
+	return redirect('/chat')
 
 @app.post("/admin/stop_orgy")
 @admin_level_required(PERMS['ORGIES'])
