@@ -7766,17 +7766,53 @@ body {
 	display: flex;
 }
 
+:root .marseyfx-container .marseyfx-container {
+	width: unset;
+	height: unset;
+}
+
 .marseyfx-image {
 	width: 100%;
 	height: 100%;
 	object-fit: contain;
 }
 
-/* Top aligned images */
+.marseyfx-error {
+	background-color: rgb(129, 0, 0);
+	color: white;
+	font-family: monospace;
+	padding: 5px;
+}
 
 .marseyfx-image-talking {
 	bottom: unset;
 	height: unset;
+}
+
+.marseyfx-modifier-pat {
+	animation: marseyfx-modifier-pat 0.3s infinite;
+	transform-origin: bottom center;
+}
+
+.marseyfx-image-hand {
+	animation: marseyfx-modifier-pat 0.3s infinite;
+	top: -30%;
+}
+
+@keyframes marseyfx-modifier-pat {
+	0% {
+		transform: scale(1, 0.8)
+	}
+	50% { 
+		transform: scale(0.8, 1)
+	}
+	100% {
+		transform: scale(1, 0.8)
+	}
+}
+
+.marseyfx-modifier-love-self {
+	transform: scale(0.5) translate(20%, 50%);
 }
 
 @keyframes marseyfx-modifier-genocide {
@@ -7795,60 +7831,257 @@ body {
 	animation-timing-function: linear;
 }
 
+.marseyfx-modifier-party {
+	animation: marseyfx-modifier-party-color 0.5s infinite alternate linear,
+			   marseyfx-modifier-party-skew 0.15s infinite alternate linear;
+	transform-origin: bottom center;
+}
+
+@keyframes marseyfx-modifier-party-color {
+	from{
+		filter:sepia(100%) saturate(500%) hue-rotate(270deg)
+	}
+	to{
+		filter:sepia(100%) saturate(600%) hue-rotate(1500deg)
+	}
+}
+
+@keyframes marseyfx-modifier-party-skew {
+	0% {
+		transform: skew(-15deg, 0deg) scale(0.9, 0.7);
+	}
+
+	50% {
+		transform: skew(0deg, 0deg) scale(1.0);
+	}
+
+	100% {
+		transform: skew(15deg, 0deg) scale(0.9, 0.7);
+	}
+}
+
+.marseyfx-modifier-says > .marseyfx-emoji-container {
+	transform-origin: bottom center;
+	transform: scale(0.8, 0.8);
+}
+
 @keyframes marseyfx-modifier-fallover {
 	0% {
 		transform: rotateX(0deg);
 	}
 	  
 	50%, 100% {
-		transform: rotateX(80deg);
+		transform: rotateX(90deg);
     }
 }
 
+.marseyfx-modifier-says-container {
+	position: absolute;
+	inset: 0;
+	filter: drop-shadow(0 2px 5px black)
+}
+
+.marseyfx-modifier-says-text {
+	display: block;
+	color: black;
+	font-family: Impact;
+	background-color: white;
+	border-radius: 25px;
+	padding: 2px;
+	text-align: center;
+	bottom: unset;
+}
+
+.marseyfx-modifier-says-nub {
+	width: 15px;
+	position: absolute;
+	top: 20px;
+	bottom: 50%;
+	left: 75%;
+	clip-path: polygon(0 0, 100% 0, 50% 100%);
+	transform: rotate(20deg) translateX(-50%);
+	background-color: white;
+}
+
 .marseyfx-modifier-fallover-container {
-	perspective: 500px;
-  	perspective-origin: 200px;
+	perspective: 400px;
+  	perspective-origin: 150%;
 }
 
 .marseyfx-modifier-fallover {
 	transform-origin: bottom center;
   	animation: 3s marseyfx-modifier-fallover infinite 
-		cubic-bezier(0.19, -0.02, 0.77, 0.16);
+	    cubic-bezier(0.19, -0.02, 0.9, 0.1);
 }
 
-.marseyfx-modifier-toptext-text, .marseyfx-modifier-bottomtext-text {
+.marseyfx-memetext-toptext, .marseyfx-memetext-bottomtext {
 	position: absolute;
 	display: block;
 	inset: 0;
-	font: Impact;
-	font-weight: 900;
-	font-size: 1.5em;
+	font-family: Impact;
+	font-size: 2rem;
+	text-transform: uppercase;
 	color: white;
 	text-align: center;
 	text-justify: center;
 	text-shadow: 
 		 1px  1px black,
-		-1px -1px black,
+		-1px  1px black,
 		 1px -1px black,
-		-1px -1px black;
+		-1px -1px black,
+		 2px  2px black,
+		-2px  2px black,
+		 2px -2px black,
+		-2px -2px black;
 }
 
-.marseyfx-modifier-toptext-text {
+.marseyfx-memetext-toptext {
 	bottom: unset;
 }
 
-.marseyfx-modifier-bottomtext-text {
+.marseyfx-memetext-bottomtext {
 	top: unset;
 }
 
-.marseyfx-modifier-highcontrast {
-	filter: contrast(100)
-}
 
 .marseyfx-modifier-enraged {
-	filter: sepia(1) hue-rotate(315deg) saturate(10)
+	filter: sepia(1) hue-rotate(315deg) saturate(10);
+	animation: marsey-modifier-enraged 0.05s infinite linear;
+}
+
+@keyframes marsey-modifier-enraged {
+	0% {
+		transform: translate(4%, 4%)
+	}
+	25% {
+		transform: translate(-4%, -4%)
+	}
+	50% {
+		transform: translate(-4%, 4%)
+	}
+	75% {
+		transform: translate(4%, -4%)
+	}
 }
 
 .marseyfx-modifier-enraged-underlay {
-	background-color: red;
+	/*background-color: red;*/
+}
+
+.marseyfx-modifier-spin {
+	animation: marseyfx-modifier-spin 1s infinite linear;
+}
+
+@keyframes marseyfx-modifier-spin {
+	0% {
+		transform: rotate(0)
+	}
+	100% {
+		transform: rotate(1turn)
+	}
+}
+
+.marseyfx-modifier-triumphs-self {
+	animation: marseyfx-modifier-triumphs-self 0.25s infinite alternate;
+}
+
+@keyframes marseyfx-modifier-triumphs-self {
+	0% {
+		transform: scale(0.9, 0.7) translate(0, 0) ;
+	}
+	100% {
+		transform: scale(0.7, 0.9) translate(0, -40%);
+	}
+}
+
+.marseyfx-modifier-triumphs-other {
+	animation: marseyfx-modifier-triumphs-other 0.25s infinite alternate;
+	transform-origin: bottom center;
+}
+
+@keyframes marseyfx-modifier-triumphs-other {
+	0% {
+		transform: scale(0.8, 0.2);
+	}
+	50%, 100% {
+		transform: scale(0.8, 0.5);
+	}
+}
+
+.marseyfx-modifier-nested-other {
+	transform: scale(0.7);
+}
+
+.marseyfx-modifier-nested-outer-container {
+	position: absolute;
+	inset: 0;
+	filter: drop-shadow(0 2px 5px black);
+}
+
+.marseyfx-modifier-nested-side {
+	transform: scale(0.8);
+}
+
+.marseyfx-modifier-nested-outer-container > .marseyfx-modifier-nested-side:nth-child(1) {
+	transform-origin: left center;
+	clip-path: inset(0 50% 0 0);
+}
+
+.marseyfx-modifier-nested-outer-container > .marseyfx-modifier-nested-side:nth-child(2) {
+	transform-origin: right center;
+	clip-path: inset(0 0 0 50%);
+}
+
+.marseyfx-modifier-morph-self {
+	animation: marseyfx-modifier-morph 2s infinite linear;
+}
+
+.marseyfx-modifier-morph-other {
+	animation: marseyfx-modifier-morph 2s infinite reverse linear;
+}
+
+@keyframes marseyfx-modifier-morph {
+	0%, 20% {
+		opacity: 1;
+	}
+
+	80%, 100% {
+		opacity: 0;
+	}
+}
+
+.marseyfx-modifier-snipe-target {
+	transform: scale(0.8);
+}
+
+/*.marseyfx-modifier-bulge {
+	filter: url('/i/filters.svg#bulge')
+} I'll come back to this later
+*/
+
+.marseyfx-modifier-fucks-self {
+	animation: marseyfx-modifier-fucks-self 0.25s infinite;
+}
+
+@keyframes marseyfx-modifier-fucks-self {
+	0%, 100% {
+		transform: scale(0.7) translate(-30%, 0)
+	}
+	45%, 55% {
+		transform: scale(0.7) translate(-20%, 0)
+	}
+}
+
+.marseyfx-modifier-fucks-other {
+	animation: marseyfx-modifier-fucks-other 0.25s infinite;
+}
+
+@keyframes marseyfx-modifier-fucks-other {
+	0%, 100% {
+		transform: rotate(95deg) scale(0.7) translate(25%, -50%)
+	}
+
+	50% {
+		transform: rotate(95deg) scale(0.7) translate(25%, -45%);
+	}
 }

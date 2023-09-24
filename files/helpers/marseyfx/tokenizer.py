@@ -5,9 +5,13 @@ class TokenizerError:
     index: int
     error: str
 
-    def __init__(self, index: int, error: str):
+    def __init__(self, tokenizer, index: int, error: str):
+        self.tokenizer = tokenizer
         self.index = index
         self.error = error
+
+    def __str__(self):
+        return f'{self.error}\n    {self.tokenizer.str}\n    {" " * self.index}^'
 
 class Tokenizer:
     str: str
@@ -23,6 +27,9 @@ class Tokenizer:
         return self.index < len(self.str)
 
     def peek(self):
+        if not self.has_next():
+            self.error('Unexpected end of input')
+            return None
         return self.str[self.index]
     
     def eat(self):
@@ -34,7 +41,7 @@ class Tokenizer:
         self.index -= 1
     
     def error(self, error: str):
-        self.errors.append(TokenizerError(self.index, error))
+        self.errors.append(TokenizerError(self, self.index, error))
 
     def token_to_string(self, token):
         return self.str[token.span[0]:token.span[1]]
@@ -43,7 +50,9 @@ class Tokenizer:
         start = self.index
         tokens = []
         while self.has_next():
-            if NumberLiteralToken.can_parse(self):
+            if self.peek() == ' ':
+                self.eat()
+            elif NumberLiteralToken.can_parse(self):
                 tokens.append(NumberLiteralToken.parse(self))
             elif WordToken.can_parse(self):
                 tokens.append(WordToken.parse(self))
@@ -64,6 +73,12 @@ class Tokenizer:
 
 class Token:
     span: tuple[int, int]
+
+    def wrap(self):
+        if isinstance(self, GroupToken):
+            return self
+        else:
+            return GroupToken(self.span, [self])
 
     @staticmethod
     @abstractmethod
@@ -138,6 +153,10 @@ class NumberLiteralToken(Token):
 
     @staticmethod
     def can_parse(tokenizer: Tokenizer):
+        return re.fullmatch(r'[-\d]', tokenizer.peek())
+    
+    @staticmethod
+    def can_parse_next(tokenizer: Tokenizer):
         return re.fullmatch(r'[-\d\.]', tokenizer.peek())
 
     @staticmethod
@@ -145,7 +164,7 @@ class NumberLiteralToken(Token):
         start = tokenizer.index
         value = ''
         while tokenizer.has_next():
-            if NumberLiteralToken.can_parse(tokenizer):
+            if NumberLiteralToken.can_parse_next(tokenizer):
                 value += tokenizer.eat()
             else:
                 break
@@ -179,7 +198,15 @@ class GroupToken(Token):
 
     def __init__(self, span: tuple[int, int], children: list[Token]):
         self.children = children
+
+        # this span is probably wrong tbh but idc
         self.span = span
+
+    def unwrap(self):
+        if len(self.children) == 1:
+            return self.children[0]
+        else:
+            return self
 
 class ArgsToken(Token):
     children: list[GroupToken]
@@ -196,13 +223,14 @@ class ArgsToken(Token):
         start = tokenizer.index
         tokens = []
         while tokenizer.has_next():
+            if tokenizer.peek() == '(':
+                tokenizer.eat()
             if tokenizer.peek() == ')':
                 tokenizer.eat()
                 break
             elif tokenizer.peek() == ',':
                 tokenizer.eat()
             else:
-                tokenizer.eat()
-                tokens.extend(tokenizer.parse_next_tokens())
+                tokens.append(tokenizer.parse_next_tokens())
 
         return ArgsToken((start, tokenizer.index), tokens)
