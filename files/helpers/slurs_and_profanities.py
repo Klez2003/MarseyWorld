@@ -137,10 +137,11 @@ def sub_matcher(match, X_FOR_REPLACING):
 		return match_str
 	else:
 		repl = X_FOR_REPLACING[match_str.lower()]
-		if match_str.isupper():
-			return repl.upper()
-		if match_str.istitle():
-			return repl.title()
+		if "<img" not in repl:
+			if match_str.isupper():
+				return repl.upper()
+			if match_str.istitle():
+				return repl.title()
 		return repl
 
 def sub_matcher_slurs(match):
