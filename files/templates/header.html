@@ -229,7 +229,7 @@
 						<a class="nav-link position-relative" href="/chat" style="margin-top: -1.6px !important">
 							<i class="fas {% if get_orgy(v) %}
 							fa-tv text-danger{% else %}fa-messages{% endif %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Chat"></i>
-							<b id="chat-count-header-bar" class="text-lg {% if g.loggedin_chat > 40 %}text-danger{% elif g.loggedin_chat > 20 %}text-yellow{% endif %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Users in chat right now">
+							<b id="chat-count-header-bar" class="text-lg {% if get_orgy(v) or g.loggedin_chat > 40 %}text-danger{% elif g.loggedin_chat > 20 %}text-yellow{% endif %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Users in chat right now">
 								{{g.loggedin_chat}}
 							</b>
 						</a>
