@@ -604,32 +604,36 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 			link.string = link["href"]
 		href = link["href"]
 
-		def unlinkfy_and_continue():
+		def unlinkfy():
 			link.string = href
 			del link["href"]
-			continue
 
 		#\ in href right after / makes most browsers ditch site hostname and allows for a host injection bypassing the check, see <a href="/\google.com">cool</a>
 		if "\\" in href:
-			unlinkfy_and_continue()
+			unlinkfy()
+			continue
 
 		#don't allow something like this https://rdrama.net/post/78376/reminder-of-the-fact-that-our/2150032#context
 		domain = tldextract.extract(href).registered_domain
 		if domain and not allowed_domain_regex.fullmatch(domain):
-			unlinkfy_and_continue()
+			unlinkfy()
+			continue
 
 		#check for banned domain
 		combined = (domain + urlparse(href).path).lower()
 		if any((combined.startswith(x) for x in banned_domains)):
-			unlinkfy_and_continue()
+			unlinkfy()
+			continue
 
 		#don't allow something like this [@Aevann2](https://iplogger.org/1fRKk7)
 		if str(link.string).startswith('@') and not href.startswith('/'):
-			unlinkfy_and_continue()
+			unlinkfy()
+			continue
 
 		#don't allow something like this [!jannies](https://iplogger.org/1fRKk7)
 		if str(link.string).startswith('!') and not href.startswith('/'):
-			unlinkfy_and_continue()
+			unlinkfy()
+			continue
 
 		#don't allow something like this [https://rԁrama.net/leaderboard](https://iplogger.org/1fRKk7)
 		if not snappy and not post_mention_notif:
