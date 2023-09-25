@@ -226,9 +226,12 @@
 
 				{%- if FEATURES['CHAT'] -%}
 					<li class="nav-item d-none d-lg-flex align-items-center justify-content-center text-center mx-1" id="header--chat--item">
-						<a class="nav-link position-relative" href="/chat" style="margin-top: -1.6px !important">
-							<i class="fas {% if get_orgy(v) %}
-							fa-tv text-danger{% else %}fa-messages{% endif %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Chat"></i>
+						<a class="nav-link position-relative" href="/chat" style="margin-top: {% if get_orgy(v) %}-4px{% else %}-1.6px{% endif %} !important">
+							{% if get_orgy(v) %}
+								<img src="{{SITE_FULL_IMAGES}}/i/orgy.webp" width="30">
+							{% else %}
+								<i class="fas fa-messages" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Chat"></i>
+							{% endif %}
 							<b id="chat-count-header-bar" class="text-lg {% if get_orgy(v) or g.loggedin_chat > 40 %}text-danger{% elif g.loggedin_chat > 20 %}text-yellow{% endif %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Users in chat right now">
 								{{g.loggedin_chat}}
 							</b>

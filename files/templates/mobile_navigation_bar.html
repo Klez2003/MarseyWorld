@@ -51,13 +51,13 @@
 			<a href="/chat" class="text-decoration-none">
 				<div class="text-center {% if request|selected_tab=='chat' %}text-primary{% else %}text-muted{% endif %}">
 					{%- if get_orgy(v) -%}
-						<i class="fas fa-tv text-lg text-danger"></i>
+						<img src="{{SITE_FULL_IMAGES}}/i/orgy.webp" width="30">
 					{%- else -%}
 						<b class="text-lg {% if g.loggedin_chat > 40 %}text-danger{% elif g.loggedin_chat > 20 %}text-yellow{% endif %}" style="padding-top:10px" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Users in chat right now">
 							{{g.loggedin_chat}}
 						</b>
 					{%- endif -%}
-					<div class="text-small-extra">Chat</div>
+					<div class="text-small-extra {% if get_orgy(v) %}text-danger{% endif %}">Chat</div>
 				</div>
 			</a>
 		</button>
