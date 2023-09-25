@@ -62,13 +62,13 @@ class Modified:
 
     def add_class(self, class_: str):
         if not 'class' in self.container.attrs:
-            self.container.attrs['class'] = ''
+            self.container.attrs['class'] = [class_]
         else:
             self.container.attrs['class'].append(' ' + class_)
 
     def add_child_class(self, class_: str):
         if not 'class' in self.child.attrs:
-            self.child.attrs['class'] = ''
+            self.child.attrs['class'] = [class_]
         else:
             self.child.attrs['class'].append(' ' + class_)
 
@@ -313,3 +313,17 @@ class Modified:
     def fucks(self, other: GroupToken):
         other = self.create_other(other)
         self.container.append(other)
+
+    @heavy
+    @modifier
+    def glow(self):
+        pass
+
+    @heavy
+    @modifier
+    def transcendent(self):
+        for i in range(1, 4):
+            tag = copy.copy(self.child)
+            tag.attrs['class'] = tag.attrs['class'].copy()
+            tag.attrs['class'].append(f'marseyfx-modifier-transcendent-clone marseyfx-modifier-transcendent-clone-{i}')
+            self.container.append(tag)
