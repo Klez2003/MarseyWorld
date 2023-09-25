@@ -2,6 +2,7 @@ from tokenize import Token
 
 from bs4 import BeautifulSoup
 from files.helpers.config.const import SITE_FULL_IMAGES
+from files.helpers.get import get_user
 from files.helpers.marseyfx.tokenizer import ArgsToken, DotToken, GroupToken, NumberLiteralToken, Tokenizer, WordToken
 from files.helpers.marseyfx.modifiers import Modified, Modifier, modifier_whitelist
 
@@ -33,15 +34,31 @@ class Emoji:
 
     def create_el(self, tokenizer: Tokenizer):
         soup = BeautifulSoup()
-        
-        el = soup.new_tag(
-            'img',
-            loading='lazy',
-            src=f'{SITE_FULL_IMAGES}/e/{self.name}.webp',
-            attrs={
-                'class': f'marseyfx-emoji marseyfx-image',
-            }
-        )
+        el = None
+        if (self.is_user):
+            user = get_user(self.name, graceful=True)
+            src = None
+            if user:
+                src = f'/pp/{user.id}'
+            
+            el = soup.new_tag(
+                'img',
+                loading='lazy',
+                src=src,
+                attrs={
+                    'class': f'marseyfx-emoji marseyfx-image marseyfx-user',
+                }
+            )
+        else:
+            el = soup.new_tag(
+                'img',
+                loading='lazy',
+                src=f'{SITE_FULL_IMAGES}/e/{self.name}.webp',
+                attrs={
+                    'class': f'marseyfx-emoji marseyfx-image',
+                }
+            )
+
         soup.append(el)
         el = el.wrap(
             soup.new_tag('div', attrs={

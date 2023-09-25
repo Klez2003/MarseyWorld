@@ -515,28 +515,6 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 
 	v = getattr(g, 'v', None)
 
-	names = set(m.group(1) for m in mention_regex.finditer(sanitized))
-
-	if limit_pings and len(names) > limit_pings and v.admin_level < PERMS['POST_COMMENT_INFINITE_PINGS']:
-		error("Max ping limit is 5 for comments and 50 for posts!")
-
-	users_list = get_users(names, graceful=True)
-	users_dict = {}
-	for u in users_list:
-		users_dict[u.username.lower()] = u
-		if u.original_username:
-			users_dict[u.original_username.lower()] = u
-		if u.prelock_username:
-			users_dict[u.prelock_username.lower()] = u
-
-	def replacer(m):
-		u = users_dict.get(m.group(1).lower())
-		if not u or (v and u.id in v.all_twoway_blocks) or (v and u.has_muted(v)):
-			return m.group(0)
-		return f'<a href="/id/{u.id}"><img loading="lazy" src="/pp/{u.id}">@{u.username}</a>'
-
-	sanitized = mention_regex.sub(replacer, sanitized)
-
 	if FEATURES['PING_GROUPS']:
 		def group_replacer(m):
 			name = m.group(1).lower()
@@ -616,6 +594,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 	#doing this here cuz of the linkifyfilter right above it (therefore unifying all link processing logic) <-- i have no clue what this means lol
 	soup = BeautifulSoup(sanitized, 'lxml')
 
+	# -- EMOJI RENDERING --
 	emojis_used = set()
 
 	for text_el in soup.find_all(text=True):
@@ -629,6 +608,54 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 		for emoji in g.db.query(Emoji).filter(Emoji.submitter_id==None, Emoji.name.in_(emojis_used)):
 			emoji.count += 1
 			g.db.add(emoji)
+
+	# -- @ MENTIONS --
+	ping_count = 0
+	names = set(m.group(1) for m in mention_regex.finditer(sanitized))
+
+	users_list = get_users(names, graceful=True)
+	users_dict = {}
+	for u in users_list:
+		users_dict[u.username.lower()] = u
+		if u.original_username:
+			users_dict[u.original_username.lower()] = u
+		if u.prelock_username:
+			users_dict[u.prelock_username.lower()] = u
+	
+	for text_el in soup.find_all(text=True):
+		start = 0
+		tags = []
+		for match in mention_regex.finditer(text_el):
+			tags.append(text_el[start:match.start()])
+			start = match.end()
+			name = match.group(1).lower()
+			u = users_dict.get(name)
+			if not u or (v and u.id in v.all_twoway_blocks) or (v and u.has_muted(v)):
+				tags.append(match.group(0))
+				continue
+			else:
+				link = soup.new_tag("a", href=f"/id/{u.id}")
+				img = soup.new_tag("img", loading="lazy", src=f"/pp/{u.id}")
+				link.extend([img, f'@{u.username}'])
+				tags.append(link)
+			ping_count += 1
+			if limit_pings and ping_count >= limit_pings:
+				if limit_pings and len(names) > limit_pings and v.admin_level < PERMS['POST_COMMENT_INFINITE_PINGS']:
+					error("Max ping limit is 5 for comments and 50 for posts!")
+
+		def replacer(m):
+			u = users_dict.get(m.group(1).lower())
+			if not u or (v and u.id in v.all_twoway_blocks) or (v and u.has_muted(v)):
+				return m.group(0)
+			#return f'<a href="/id/{u.id}"><img loading="lazy" src="/pp/{u.id}">@{u.username}</a>'
+	
+		if not text_el.parent or text_el.parent.name in {'code', 'pre', 'a'}:
+			continue
+		text_el.replace_with(*tags, text_el[start:])
+
+	sanitized = mention_regex.sub(replacer, sanitized)
+
+	# -- LINKS --
 
 	links = soup.find_all("a")
 
