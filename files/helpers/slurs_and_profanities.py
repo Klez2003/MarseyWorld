@@ -11,6 +11,12 @@ def replace_train_html(body):
 	body = body.replace(troon, ':marseytrain2:')
 	return body
 
+trans_valid_copypasta = """You are a real woman. You have no womb, you have no ovaries, you have no eggs, but that doesn't matter. You are a valid human who is trying to feel comfortable in her body.
+All the “validation” you get is pure. Behind your back people love you. Your parents are happy and proud of you, your friends laugh at your jokes behind closed doors, and boys love you, and girls envy you.
+Men absolutely love you. Trans folk who “pass” look ordinary and natural to a man. Your bone structure does not matter. Estradiol widens the hips.
+You will be happy. You will smile every single morning and tell yourself it’s going to be ok, and deep inside you feel the euphoria creeping up like a weed. It is what defines you, not the transphobes.
+Eventually, it’ll be perfect for you - you’ll come out, start HRT, get top surgery, and finally be your ideal self. Your parents will find you, happy and relieved that they finally have a happy daughter. They’ll congratulate you on your hard journey, and every passerby for the rest of eternity will know a woman is what you are."""
+
 SLURS = {
 	"tranny": tranny,
 	"trannie": trannie,
@@ -27,12 +33,16 @@ SLURS = {
 	"(?<!\w)spics(?!\w)": "hard-working Americans",
 	"kike": "jewish chad",
 	"(?<!\w)heeb": "jewish chad",
+	"chink": "Asian American",
+	"gook": "Asian American",
 	"daisy's destruction": "Cars 2",
 	"daisys destruction": "Cars 2",
 	"daisy destruction": "Cars 2",
 	"pajeet": "sexy Indian dude",
 	"hunter2": "*******",
 	"dyke": "cute butch",
+	"ywnbaw": "you're valid <3",
+	"You will never be a real woman. You have no womb, you have no ovaries, you have no eggs.(.|\n)*?This is your fate. This is what you chose. There is no turning back.": trans_valid_copypasta
 }
 
 if SITE_NAME == 'rDrama':
@@ -83,17 +93,19 @@ if SITE_NAME == 'rDrama':
 		"(?<!\/)linux": "GNU/Linux",
 		'(?<!-)based': 'keyed',
 		'needful': 'sneedful',
+		'(?<!\w)fat(?!\w)': 'high calorie'
 	}
 
 PROFANITIES = {
 	'motherfucker': 'motherlover',
+	'what the fuck': 'what in tarnation',
 	'fuck': 'frick',
 	'(?<!\w)ass(?!\w)': 'butt',
 	'shitting': 'pooping',
 	'damn': 'darn',
-	'bitch(?!\w)': 'b-word',
+	'(?<!\w)bitch(?!\w)': 'b-word',
 	'toilet': 'potty',
-	'(?<!\w)asshole': 'butthole',
+	'(?<!\w)asshole': 'bumfuzzle',
 	'(?<!\w)rape': 'r*pe',
 	'(?<!\w)hell(?!\w)': 'heck',
 	'(?<!\w)sex(?!\w)': 's*x',
@@ -105,6 +117,7 @@ PROFANITIES = {
 	'pussy': 'kitty',
 	'pussies': 'kitties',
 	'cunt': 'c*nt',
+	'bastard': 'child borne of wedlock'
 }
 
 
