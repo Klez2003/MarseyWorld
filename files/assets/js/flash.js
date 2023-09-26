@@ -1,4 +1,4 @@
-const SITE_NAME = document.querySelector("[property='og:site_name']").content
+const SITE_NAME = document.querySelector("[name='application-name']").content
 const icon = document.querySelector("link[rel~='icon']")
 const page_title = document.getElementsByTagName('title')[0].innerHTML
 
