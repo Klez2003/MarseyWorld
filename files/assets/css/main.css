@@ -4029,6 +4029,7 @@ small, .small {
 .score {
 	color: var(--black);
 	font-size: 1.1rem;
+	word-break: initial !important;
 }
 .score-up {
 	color: var(--primary);
