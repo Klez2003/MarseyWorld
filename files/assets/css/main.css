@@ -7759,3 +7759,7 @@ p { /* DO NOT REMOVE */
 		font-size: 1.5vw;
 	}
 }
+
+ul {
+	padding-inline-start: 20px;
+}
