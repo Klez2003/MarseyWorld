@@ -7181,14 +7181,6 @@ div.markdown {
 	font-weight: bold;
 }
 
-body * {
-	-ms-overflow-style: none;
-	scrollbar-width: none;
-}
-body *::-webkit-scrollbar {
-	display: none;
-}
-
 .shop-tabs {
 	padding-top: 50px;
 }
