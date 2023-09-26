@@ -1979,7 +1979,7 @@ def start_orgy(v):
 	g.db.add(orgy)
 
 	g.db.commit()
-	x = requests.post('http://localhost:5001/refresh_chat')
+	x = requests.post('http://localhost:5001/refresh_chat', headers={"Host": SITE})
 	print(x.text, flush=True)
 
 	return redirect('/chat')
