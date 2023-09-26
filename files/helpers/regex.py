@@ -50,7 +50,7 @@ strikethrough_regex = re.compile('(^|\s|>|")~{1,2}([^~]+)~{1,2}' + NOT_IN_CODE_O
 mute_regex = re.compile("\/mute @?([\w-]{1,30}) ([0-9]+)", flags=re.A|re.I)
 
 emoji_regex = re.compile(f"<p>\s*(:[!#@\w\-]{{1,72}}:\s*)+<\/p>", flags=re.A)
-emoji_regex2 = re.compile(f'(?<!"):([!#@\w\-]{{1,72}}?):(?!([^<]*<\/(code|pre)>|[^`]*`))', flags=re.A)
+emoji_regex2 = re.compile(f'(?<!"):([!#@\w\-]{{1,72}}?):(?![^<]*<\/(code|pre)>)', flags=re.A)
 
 snappy_url_regex = re.compile('<a href="(https?:\/\/.+?)".*?>(.+?)<\/a>', flags=re.A)
 
