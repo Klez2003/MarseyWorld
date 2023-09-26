@@ -381,7 +381,7 @@ def post_forgot():
 	
 	email = escape_for_search(email)
 
-	if user and user.email.lower() == email.lower():
+	if user and user.email and user.email.lower() == email.lower():
 		now = int(time.time())
 		token = generate_hash(f"{user.id}+{now}+forgot+{user.login_nonce}")
 		url = f"{SITE_FULL}/reset?id={user.id}&time={now}&token={token}"
