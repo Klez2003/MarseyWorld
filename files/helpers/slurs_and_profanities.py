@@ -5,12 +5,6 @@ tranny = f'<img loading="lazy" data-bs-toggle="tooltip" alt=":marseytrain:" titl
 trannie = f'<img loading="lazy" data-bs-toggle="tooltip" alt=":!marseytrain:" title=":!marseytrain:" src="{SITE_FULL_IMAGES}/e/marseytrain.webp">'
 troon = f'<img loading="lazy" data-bs-toggle="tooltip" alt=":marseytrain2:" title=":marseytrain2:" src="{SITE_FULL_IMAGES}/e/marseytrain2.webp">'
 
-def replace_train_html(body):
-	body = body.replace(tranny, ':marseytrain:')
-	body = body.replace(trannie, ':!marseytrain:')
-	body = body.replace(troon, ':marseytrain2:')
-	return body
-
 SLURS = {
 	"tranny": tranny,
 	"trannie": trannie,
@@ -152,7 +146,7 @@ def sub_matcher_profanities(match):
 
 
 
-def censor_slurs_profanities(body, logged_user):
+def censor_slurs_profanities(body, logged_user, is_plain=False):
 	if not body: return ""
 
 	if '<pre>' in body or '<code>' in body:
@@ -164,5 +158,10 @@ def censor_slurs_profanities(body, logged_user):
 	if SITE_NAME == 'rDrama':
 		if not logged_user or logged_user == 'chat' or logged_user.profanityreplacer:
 			body = profanity_regex.sub(sub_matcher_profanities, body)
+
+	if is_plain:
+		body = body.replace(tranny, ':marseytrain:')
+		body = body.replace(trannie, ':!marseytrain:')
+		body = body.replace(troon, ':marseytrain2:')
 
 	return body

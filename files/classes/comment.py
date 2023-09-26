@@ -385,8 +385,7 @@ class Comment(Base):
 		if not body: return ""
 
 		if not (self.parent_post and self.post.sub == 'chudrama'):
-			body = censor_slurs_profanities(body, v)
-			body = replace_train_html(body)
+			body = censor_slurs_profanities(body, v, True)
 
 		return body
 

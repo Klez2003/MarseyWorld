@@ -155,7 +155,7 @@ def speak(data, v):
 		"namecolor": v.name_color,
 		"patron": v.patron,
 		"text": text,
-		"text_censored": censor_slurs_profanities(text, 'chat'),
+		"text_censored": censor_slurs_profanities(text, 'chat', True),
 		"text_html": text_html,
 		"text_html_censored": censor_slurs_profanities(text_html, 'chat'),
 		"time": int(time.time()),

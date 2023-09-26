@@ -37,7 +37,7 @@ class HatDef(Base):
 
 	@lazy
 	def censored_description(self, v):
-		return censor_slurs_profanities(self.description, v)
+		return censor_slurs_profanities(self.description, v, True)
 
 	@property
 	@lazy

@@ -316,8 +316,7 @@ class Post(Base):
 		if not body: return ""
 
 		if self.sub != 'chudrama':
-			body = censor_slurs_profanities(body, v)
-			body = replace_train_html(body)
+			body = censor_slurs_profanities(body, v, True)
 
 		body = normalize_urls_runtime(body, v)
 
@@ -337,8 +336,7 @@ class Post(Base):
 		title = self.title
 
 		if self.sub != 'chudrama':
-			title = censor_slurs_profanities(title, v)
-			title = replace_train_html(title)
+			title = censor_slurs_profanities(title, v, True)
 
 		return title
 
