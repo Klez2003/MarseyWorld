@@ -4,6 +4,7 @@ import time
 import requests
 from shutil import copyfile
 
+import ffmpeg
 import gevent
 import imagehash
 from flask import abort, g, has_request_context, request
@@ -17,9 +18,6 @@ from files.helpers.cloudflare import purge_files_in_cloudflare_cache
 from files.helpers.settings import get_setting
 
 from .config.const import *
-
-def subprocess_run(params):
-	subprocess.run(params, check=True, timeout=30)
 
 def remove_media_using_link(path):
 	if SITE in path:
@@ -92,7 +90,7 @@ def process_audio(file, v, old=None):
 	new = old + extension
 
 	try:
-		subprocess_run(["ffmpeg", "-loglevel", "quiet", "-y", "-i", old, "-map_metadata", "-1", "-c:a", "copy", new])
+		ffmpeg.input(old).output(new, loglevel="quiet", map_metadata=-1, acodec="copy").run()
 	except:
 		os.remove(old)
 		if os.path.isfile(new):
@@ -115,7 +113,7 @@ def process_audio(file, v, old=None):
 def convert_to_mp4(old, new):
 	tmp = new.replace('.mp4', '-t.mp4')
 	try:
-		subprocess_run(["ffmpeg", "-loglevel", "quiet", "-y", "-threads:v", "1", "-i", old, "-map_metadata", "-1", tmp])
+		ffmpeg.input(old).output(tmp, loglevel="quiet", map_metadata=-1).run()
 	except:
 		os.remove(old)
 		if os.path.isfile(tmp):
@@ -155,7 +153,7 @@ def process_video(file, v):
 		gevent.spawn(convert_to_mp4, old, new)
 	else:
 		try:
-			subprocess_run(["ffmpeg", "-loglevel", "quiet", "-y", "-i", old, "-map_metadata", "-1", "-c:v", "copy", "-c:a", "copy", new])
+			ffmpeg.input(old).output(new, loglevel="quiet", map_metadata=-1, acodec="copy", vcodec="copy").run()
 		except:
 			os.remove(old)
 			if os.path.isfile(new):
@@ -212,7 +210,7 @@ def process_image(filename, v, resize=0, trim=False, uploader_id=None, db=None):
 
 	params.append(filename)
 	try:
-		subprocess_run(params)
+		subprocess.run(params, check=True, timeout=30)
 	except:
 		os.remove(filename)
 		if has_request:
