@@ -1,0 +1,51 @@
+/* <89wc */
+.srd {
+  display:none;
+}
+.container {
+  margin-top:-25px;
+} 
+#banner-link {
+  display:none;
+}
+
+#casino-game-wrapper {
+  padding-top:10px;
+}
+
+.blackjack-cardset {
+  height:40px;
+}
+
+#casinoGameResult {
+  padding:0;
+  margin-top:0;
+}
+#casinoGameStats {
+  display:none;
+}
+
+.game_screen-title {
+  height:20px;
+}
+.game_screen-title > h3 {
+  font-size:0.9rem;
+}
+.game_screen-title > h5 {
+  font-size:0.9rem;
+}
+
+
+#casinoGameFeedList {
+  max-height:100%;
+}
+
+
+#mobile-bottom-navigation-bar {
+  display:none;
+}
+    
+.game_screen-title > h3::after {
+  content:' - GOOMBLE PRO EDITION';
+}
+/* 89wc> */
