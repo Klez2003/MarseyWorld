@@ -25,7 +25,6 @@ socketio = SocketIO(
 	max_http_buffer_size=8388608,
 )
 
-sessions = []
 muted = cache.get(f'muted') or {}
 
 ALLOWED_REFERRERS = {f'{SITE_FULL}/chat'}
@@ -188,15 +187,14 @@ def connect(v):
 	if request.referrer not in ALLOWED_REFERRERS:
 		return '', 400
 
+	print('bitch', flush=True)
 	join_room(request.referrer)
 
-	if any(v.id in session for session in sessions) and [v.username, v.id, v.name_color, v.patron] not in online[request.referrer]:
-		# user has previous running sessions with a different username or name_color
+	if [v.username, v.id, v.name_color, v.patron] not in online[request.referrer]:
 		for val in online.values():
 			if [v.username, v.id, v.name_color, v.patron] in val:
 				val.remove([v.username, v.id, v.name_color, v.patron])
 
-	sessions.append([v.id, request.sid])
 	if [v.username, v.id, v.name_color, v.patron] not in online[request.referrer]:
 		online[request.referrer].append([v.username, v.id, v.name_color, v.patron])
 
@@ -212,12 +210,6 @@ def disconnect(v):
 		return '', 400
 
 	leave_room(request.referrer)
-
-	if ([v.id, request.sid]) in sessions:
-		sessions.remove([v.id, request.sid])
-		if any(v.id in session for session in sessions):
-			# user has other running sessions
-			return '', 204
 
 	for val in online.values():
 		if [v.username, v.id, v.name_color, v.patron] in val:
