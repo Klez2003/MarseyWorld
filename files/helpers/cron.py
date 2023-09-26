@@ -97,6 +97,7 @@ def cron_fn(every_5m, every_1d, every_fri_12, every_fri_23, every_sat_00, every_
 			if every_sat_00 or every_sun_20:
 				_create_orgy()
 				g.db.commit()
+				requests.get(f'{SITE_FULL}/refresh_chat')
 
 			if every_sat_03 or every_sun_23:
 				_delete_all_posts()

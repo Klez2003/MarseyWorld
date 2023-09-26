@@ -313,6 +313,10 @@ socket.on('delete', function(text) {
 	}
 })
 
+socket.on('refresh_chat', () => {
+	location.reload()
+})
+
 document.addEventListener('click', function (e) {
 	if (e.target.classList.contains('delconfirm')) {
 		e.target.nextElementSibling.classList.remove('d-none');
@@ -362,20 +366,3 @@ setTimeout(function () {
 document.addEventListener('DOMContentLoaded', function () {
 	box.scrollTo(0, box.scrollHeight)
 });
-
-const now = new Date();
-const day_of_week = now.getUTCDay()
-
-if ([4,5,7].includes(day_of_week)) {
-	let hour
-	if (day_of_week == 7) hour = 20
-	else hour = 0
-
-	let millis = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), hour, 0, 10) - now;
-	if (millis < 0)
-		millis += 86400000;
-
-	const minutes = Math.round(millis/1000/60*10)/10
-	console.log(`Refreshing page in ${minutes} minutes`)
-	setTimeout(() => location.reload(), millis);
-}

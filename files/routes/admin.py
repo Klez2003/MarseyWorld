@@ -1978,10 +1978,14 @@ def start_orgy(v):
 		)
 	g.db.add(orgy)
 
+	g.db.commit()
+	requests.get(f'{SITE_FULL}/refresh_chat')
+
 	return redirect('/chat')
 
 @app.post("/admin/stop_orgy")
 @admin_level_required(PERMS['ORGIES'])
 def stop_orgy(v):
 	g.db.query(Orgy).delete()
+	requests.get(f'{SITE_FULL}/refresh_chat')
 	return {"message": "Orgy stopped successfully!"}
