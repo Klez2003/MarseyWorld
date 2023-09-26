@@ -183,7 +183,7 @@ def speak(data, v):
 
 	typing = []
 
-	return ''
+	return '', 204
 
 def refresh_online():
 	emit("online", [online[request.referrer], muted], room=request.referrer, broadcast=True)
@@ -212,7 +212,7 @@ def connect(v):
 	refresh_online()
 
 	emit('typing', typing[request.referrer], room=request.referrer)
-	return ''
+	return '', 204
 
 @socketio.on('disconnect')
 @auth_required_socketio
@@ -236,7 +236,7 @@ def disconnect(v):
 	else:
 		leave_room(request.referrer)
 
-	return ''
+	return '', 204
 
 @socketio.on('typing')
 @is_not_banned_socketio
@@ -250,7 +250,7 @@ def typing_indicator(data, v):
 		typing[request.referrer].remove(v.username)
 
 	emit('typing', typing[request.referrer], room=request.referrer, broadcast=True)
-	return ''
+	return '', 204
 
 
 @socketio.on('delete')
@@ -266,7 +266,7 @@ def delete(id, v):
 
 	emit('delete', id, room=request.referrer, broadcast=True)
 
-	return ''
+	return '', 204
 
 
 def close_running_threads():
