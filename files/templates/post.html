@@ -113,7 +113,17 @@
 								<p class="resizable yt" style="width:100%">
 									{{p.embed | safe}}
 								</p>
-							{% endif %}
+							{elif p.embed and "http" not in p.embed and "<" not in p.embed %}
+								<div id="crosspost-embed" class="mb-3">
+									<div class="row no-gutters">
+										<div id="frontpage" class="col-12 pt-0">
+											<div class="posts">
+												{{p.embed | post_embed(v) | safe}}
+											</div>
+										</div>
+									</div>
+								</div>
+							{% endif %}							
 						{% endif %}
 
 
@@ -176,58 +186,46 @@
 							<div id="post-edit-{{p.id}}" class="preview mb-3 mt-5"></div>
 						</div>
 					{% endif %}
-							{% if p.embed and "http" not in p.embed and "<" not in p.embed %}
-								<div id="crosspost-embed" class="mb-3">
-									<div class="row no-gutters">
-										<div id="frontpage" class="col-12 pt-0">
-											<div class="posts">
-												{{p.embed | post_embed(v) | safe}}
-											</div>
-										</div>
-									</div>
-								</div>
-							{% endif %}
-							<div class="d-none d-md-flex justify-content-between align-items-center mt-2">
-								<div class="post-actions mt-2">
-				<ul class="list-inline text-right d-flex">
-						<a class="list-inline-item" {% if v and v.newtab %}data-target="t" target="_blank"{% endif %} href="{{p.permalink}}">
-							<i class="fas fa-comment-dots mr-2"></i>{{p.comment_count}}
-							<span class="text-info d-none {{p.id}}-new-comments"></span>
-						</a>
+					<div class="d-none d-md-flex justify-content-between align-items-center mt-2">
+						<div class="post-actions mt-2">
+							<ul class="list-inline text-right d-flex">
+								<a class="list-inline-item" {% if v and v.newtab %}data-target="t" target="_blank"{% endif %} href="{{p.permalink}}">
+									<i class="fas fa-comment-dots mr-2"></i>{{p.comment_count}}
+									<span class="text-info d-none {{p.id}}-new-comments"></span>
+								</a>
 
-						{% if v and v.can_edit(p) %}
-							<button type="button" class="list-inline-item" data-nonce="{{g.nonce}}" data-onclick="togglePostEdit('{{p.id}}')"><i class="fas fa-edit"></i>Edit</button>
-						{% elif v and v.id != p.author_id and p.body and not v_forbid_deleted %}
-							<button type="button" class="list-inline-item" data-nonce="{{g.nonce}}" data-onclick="expandMarkdown('{{p.fullname}}')"><i class="fas text-expand-icon-{{p.fullname}} fa-expand-alt"></i><span class="expand-text-{{p.fullname}}">View source</span></button>
-						{% endif %}
+								{% if v and v.can_edit(p) %}
+									<button type="button" class="list-inline-item" data-nonce="{{g.nonce}}" data-onclick="togglePostEdit('{{p.id}}')"><i class="fas fa-edit"></i>Edit</button>
+								{% elif v and v.id != p.author_id and p.body and not v_forbid_deleted %}
+									<button type="button" class="list-inline-item" data-nonce="{{g.nonce}}" data-onclick="expandMarkdown('{{p.fullname}}')"><i class="fas text-expand-icon-{{p.fullname}} fa-expand-alt"></i><span class="expand-text-{{p.fullname}}">View source</span></button>
+								{% endif %}
 
-						{% include 'post_actions.html' %}
-					</ul>
+								{% include 'post_actions.html' %}
+							</ul>
 						</div>
-						</div>
-
 					</div>
-					{% if v %}
-					<div id="voting" class="voting d-mob-none mb-auto mt-1">
-						<div tabindex="0" data-nonce="{{g.nonce}}" data-onclick="vote('post', '{{p.id}}', '1')" class="post-{{p.id}}-up mx-auto arrow-up upvote-button post-{{p.id}}-up {% if voted==1 %}active{% endif %}"></div>
-
-						<span class="post-score-{{p.id}} score post-score-{{p.id}} {% if voted==1 %}score-up{% elif voted==-1 %}score-down{% endif %}{% if p.controversial %} controversial{% endif %}" data-bs-toggle="tooltip" data-bs-placement="right" title="+{{ups}} | -{{downs}}" style="cursor: default">{{score}}</span>
-						<div {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" data-nonce="{{g.nonce}}" data-onclick="vote('post', '{{p.id}}', '-1')" class="post-{{p.id}}-down text-muted mx-auto arrow-down downvote-button post-{{p.id}}-down {% if voted==-1 %}active{% endif %}"></div>
-					</div>
-
-					{% else %}
-
-					<div id="voting" class="voting d-mob-none mb-auto mt-1">
-						<a tabindex="0" class="post-{{p.id}}-up arrow-up mx-auto" href="/login?redirect={{request.full_path | urlencode}}">
-						</a>
-						<span class="post-{{p.id}}-score-none score text-muted{% if p.controversial %} controversial{% endif %}"{% if not p.is_banned %} data-bs-toggle="tooltip" data-bs-placement="right" title="+{{ups}} | -{{downs}}"{% endif %}style="cursor: default">{{score}}</span>
-						<a {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" data-nonce="{{g.nonce}}" data-onclick="vote('post', '{{p.id}}', '-1')" class="post-{{p.id}}-down arrow-down mx-auto" href="/login?redirect={{request.full_path | urlencode}}"></a>
-					</div>
-					{% endif %}
 				</div>
+				{% if v %}
+				<div id="voting" class="voting d-mob-none mb-auto mt-1">
+					<div tabindex="0" data-nonce="{{g.nonce}}" data-onclick="vote('post', '{{p.id}}', '1')" class="post-{{p.id}}-up mx-auto arrow-up upvote-button post-{{p.id}}-up {% if voted==1 %}active{% endif %}"></div>
+
+					<span class="post-score-{{p.id}} score post-score-{{p.id}} {% if voted==1 %}score-up{% elif voted==-1 %}score-down{% endif %}{% if p.controversial %} controversial{% endif %}" data-bs-toggle="tooltip" data-bs-placement="right" title="+{{ups}} | -{{downs}}" style="cursor: default">{{score}}</span>
+					<div {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" data-nonce="{{g.nonce}}" data-onclick="vote('post', '{{p.id}}', '-1')" class="post-{{p.id}}-down text-muted mx-auto arrow-down downvote-button post-{{p.id}}-down {% if voted==-1 %}active{% endif %}"></div>
+				</div>
+
+				{% else %}
+
+				<div id="voting" class="voting d-mob-none mb-auto mt-1">
+					<a tabindex="0" class="post-{{p.id}}-up arrow-up mx-auto" href="/login?redirect={{request.full_path | urlencode}}">
+					</a>
+					<span class="post-{{p.id}}-score-none score text-muted{% if p.controversial %} controversial{% endif %}"{% if not p.is_banned %} data-bs-toggle="tooltip" data-bs-placement="right" title="+{{ups}} | -{{downs}}"{% endif %}style="cursor: default">{{score}}</span>
+					<a {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" data-nonce="{{g.nonce}}" data-onclick="vote('post', '{{p.id}}', '-1')" class="post-{{p.id}}-down arrow-down mx-auto" href="/login?redirect={{request.full_path | urlencode}}"></a>
+				</div>
+				{% endif %}
 			</div>
 		</div>
 	</div>
+</div>
 
  <div class="row mb-3 d-md-none">
 	<div class="col-12">
