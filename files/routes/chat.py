@@ -61,7 +61,7 @@ def is_not_banned_socketio(f):
 
 CHAT_ERROR_MESSAGE = f"To prevent spam, you'll need {TRUESCORE_CC_CHAT_MINIMUM} truescore (this is {TRUESCORE_CC_CHAT_MINIMUM} votes, either up or down, on any threads or comments you've made) in order to access chat. Sorry! I love you 💖"
 
-@app.get('/refresh_chat')
+@app.post('/refresh_chat')
 def refresh_chat():
 	emit('refresh_chat', namespace='/', to=f'{SITE_FULL}/chat')
 	return ''
