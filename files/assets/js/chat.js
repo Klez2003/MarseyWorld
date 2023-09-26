@@ -1,8 +1,5 @@
 function formatDate(d) {
-	const hour = ("0" + d.getHours()).slice(-2);
-	const minute = ("0" + d.getMinutes()).slice(-2);
-	const second = ("0" + d.getSeconds()).slice(-2);
-	return hour + ":" + minute + ":" + second;
+	return d.toLocaleTimeString()
 }
 
 for (const e of timestamps) {

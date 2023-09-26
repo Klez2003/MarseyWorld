@@ -231,14 +231,8 @@ function showmore(t) {
 }
 
 function formatDate(d) {
-	const year = d.getFullYear();
-	const monthAbbr = d.toLocaleDateString('en-us', {month: 'short'});
-	const day = d.getDate();
-	const hour = ("0" + d.getHours()).slice(-2);
-	const minute = ("0" + d.getMinutes()).slice(-2);
-	const second = ("0" + d.getSeconds()).slice(-2);
-	const tzAbbr = d.toLocaleTimeString('en-us', {timeZoneName: 'short'}).split(' ')[2];
-	return day + " " + monthAbbr + " " + year + " " + hour + ":" + minute + ":" + second + " " + tzAbbr;
+	const options = {year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', timeZoneName: 'short'};
+	return d.toLocaleTimeString([], options)
 }
 
 const timestamps = document.querySelectorAll('[data-time]');
