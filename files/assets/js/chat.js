@@ -13,43 +13,11 @@ const socket = io()
 const chatline = document.getElementsByClassName('chat-line')[0]
 const box = document.getElementById('chat-window')
 const ta = document.getElementById('input-text')
-const icon = document.querySelector("link[rel~='icon']")
 
 const vid = document.getElementById('vid').value
-const site_name = document.getElementById('site_name').value
 const slurreplacer = document.getElementById('slurreplacer').value
 
-let notifs = 0;
-let focused = true;
 let is_typing = false;
-let alert=true;
-
-function flash(){
-	let title = document.getElementsByTagName('title')[0]
-	if (notifs >= 1 && !focused){
-		title.innerHTML = `[+${notifs}] Chat`;
-		if (alert) {
-			icon.href = `/i/${site_name}/alert.ico?v=3009`
-			alert=false;
-		}
-		else {
-			icon.href = `/i/${site_name}/icon.webp?x=6`
-			alert=true;
-		}
-		setTimeout(flash, 500)
-	}
-	else {
-		icon.href = `/i/${site_name}/icon.webp?x=6`
-		notifs = 0
-		title.innerHTML = 'Chat';
-	}
-
-	if (is_typing) {
-		is_typing = false
-		socket.emit('typing', false);
-	}
-}
-
 
 const blocked_user_ids = document.getElementById('blocked_user_ids').value.split(', ')
 
@@ -77,7 +45,7 @@ socket.on('speak', function(json) {
 
 	notifs = notifs + 1;
 	if (notifs == 1) {
-		setTimeout(flash, 500);
+		flash();
 	}
 
 	const users = document.getElementsByClassName('user_id');
@@ -247,12 +215,6 @@ socket.on('online', function(data){
 	bs_trigger(document.getElementById('online3'))
 })
 
-addEventListener('blur', function(){
-	focused = false
-})
-addEventListener('focus', function(){
-	focused = true
-})
 
 let timer_id;
 function remove_typing() {

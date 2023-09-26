@@ -140,6 +140,12 @@
 
 <link rel="stylesheet" href="{{('css/notifications.css') | asset}}">
 
+{% if request.path == '/notifications/messages' %}
+	<script defer src="{{'js/vendor/socketio.js' | asset}}"></script>
+	<script defer src="{{'js/flash.js' | asset}}"></script>
+	<script defer src="{{'js/messages.js' | asset}}"></script>
+{% endif %}
+
 {% endblock %}
 
 {% block GIFpicker %}{% endblock %}
