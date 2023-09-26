@@ -9,7 +9,7 @@ from files.__main__ import cache
 
 def sanitize_username(username):
 	if not username: return username
-	return username.replace('\\', '').replace('_', '\_').replace('%', '').replace('(', '').replace(')', '').strip()
+	return username.lstrip('@').replace('\\', '').replace('_', '\_').replace('%', '').replace('(', '').replace(')', '').strip()
 
 def get_user(username, v=None, graceful=False, include_blocks=False, attributes=None):
 	if not username:
