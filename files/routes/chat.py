@@ -61,7 +61,7 @@ def is_not_banned_socketio(f):
 
 CHAT_ERROR_MESSAGE = f"To prevent spam, you'll need {TRUESCORE_CC_CHAT_MINIMUM} truescore (this is {TRUESCORE_CC_CHAT_MINIMUM} votes, either up or down, on any threads or comments you've made) in order to access chat. Sorry! I love you 💖"
 
-@app.get('/refresh_chat')
+@app.post('/refresh_chat')
 def refresh_chat():
 	emit('refresh_chat', namespace='/', to=f'{SITE_FULL}/chat')
 	return ''
@@ -155,7 +155,7 @@ def speak(data, v):
 		"namecolor": v.name_color,
 		"patron": v.patron,
 		"text": text,
-		"text_censored": censor_slurs_profanities(text, 'chat'),
+		"text_censored": censor_slurs_profanities(text, 'chat', True),
 		"text_html": text_html,
 		"text_html_censored": censor_slurs_profanities(text_html, 'chat'),
 		"time": int(time.time()),
@@ -180,7 +180,7 @@ def speak(data, v):
 
 	typing = []
 
-	return '', 204
+	return ''
 
 def refresh_online():
 	emit("online", [online[request.referrer], muted], room=request.referrer, broadcast=True)
@@ -205,7 +205,7 @@ def connect(v):
 	refresh_online()
 
 	emit('typing', typing[request.referrer], room=request.referrer)
-	return '', 204
+	return ''
 
 @socketio.on('disconnect')
 @auth_required_socketio
@@ -225,7 +225,7 @@ def disconnect(v):
 
 	refresh_online()
 
-	return '', 204
+	return ''
 
 @socketio.on('typing')
 @is_not_banned_socketio
@@ -239,7 +239,7 @@ def typing_indicator(data, v):
 		typing[request.referrer].remove(v.username)
 
 	emit('typing', typing[request.referrer], room=request.referrer, broadcast=True)
-	return '', 204
+	return ''
 
 
 @socketio.on('delete')
@@ -255,7 +255,7 @@ def delete(id, v):
 
 	emit('delete', id, room=request.referrer, broadcast=True)
 
-	return '', 204
+	return ''
 
 
 def close_running_threads():

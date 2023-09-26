@@ -105,9 +105,9 @@
 		{% endif %}
 		{% if include_user_css and not IS_FISTMAS() %}
 			{% if v.theme == 'classic_dark' %}
-				<link rel="stylesheet" href="{{('css/classic.css') | asset}}">
+				<link rel="stylesheet" href="{{('css/themes/classic.css') | asset}}">
 			{% endif %}
-			<link rel="stylesheet" href="{{('css/'~v.theme~'.css') | asset}}">
+			<link rel="stylesheet" href="{{('css/themes/'~v.theme~'.css') | asset}}">
 			{% if (v.css or v.background) and not request.path.startswith('/settings') %}
 				<link rel="stylesheet" href="/@{{v.username}}/css">
 			{% endif %}
@@ -115,10 +115,10 @@
 				<link rel="stylesheet" href="{{('css/30409f.css') | asset}}">
 			{% endif %}
 		{% else %}
-			<link rel="stylesheet" href="{{('css/'~DEFAULT_THEME~'.css') | asset}}">
+			<link rel="stylesheet" href="{{('css/themes/'~DEFAULT_THEME~'.css') | asset}}">
 		{% endif %}
 	{% else %}
-		<link rel="stylesheet" href="{{('css/'~DEFAULT_THEME~'.css') | asset}}">
+		<link rel="stylesheet" href="{{('css/themes/'~DEFAULT_THEME~'.css') | asset}}">
 	{% endif %}
 
 	<link rel="stylesheet" href="{{'css/awards.css' | asset}}">

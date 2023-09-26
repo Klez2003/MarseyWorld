@@ -1399,7 +1399,7 @@ def subscribed_posts(v, username):
 @auth_required
 def fp(v, fp):
 	if session.get("GLOBAL"):
-		return '', 204
+		return ''
 
 	v.fp = fp
 	users = g.db.query(User).filter(User.fp == fp, User.id != v.id).all()
@@ -1416,7 +1416,7 @@ def fp(v, fp):
 
 	check_for_alts(v, include_current_session=True)
 	g.db.add(v)
-	return '', 204
+	return ''
 
 @app.post("/toggle_pins/<sub>/<sort>")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
