@@ -146,6 +146,7 @@
   }
 
 :root {
+	color-scheme: dark;
 	--dark: #00001f;
 	--secondary: var(--primary);
 	--white: #f0f0f0;

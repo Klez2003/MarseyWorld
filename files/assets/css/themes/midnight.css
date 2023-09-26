@@ -1,6 +1,7 @@
 @charset "UTF-8";
 
 :root {
+	color-scheme: dark;
 	--dark: #505961;
 	--secondary: #505961;
 	--white: #c9d1d9;
