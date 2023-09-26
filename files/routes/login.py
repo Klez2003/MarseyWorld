@@ -151,13 +151,9 @@ def sign_up_get(v):
 		abort(403, "New account registration is currently closed. Please come back later!")
 
 	if v: return redirect(SITE_FULL)
-	ref = request.values.get("ref")
+	ref = request.values.get("ref", "")
 
-	if ref:
-		ref = ref.replace('\\', '').replace('_', '\_').replace('%', '').strip()
-		ref_user = g.db.query(User).filter(User.username.ilike(ref)).one_or_none()
-	else:
-		ref_user = None
+	ref_user = get_user(ref)
 
 	if ref_user and (ref_user.id in session.get("history", [])):
 		return render_template("login/sign_up_failed_ref.html"), 403
