@@ -18,17 +18,17 @@ function flash(){
 	if (notifs >= 1 && !focused){
 		title.innerHTML = `[+${notifs}] ${page_title}`
 		if (alert) {
-			icon.href = `/i/${SITE_NAME}/alert.ico?v=3009`
+			icon.href = `${SITE_FULL_IMAGES}/i/${SITE_NAME}/alert.ico?v=3009`
 			alert = false
 		}
 		else {
-			icon.href = `/i/${SITE_NAME}/icon.webp?x=6`
+			icon.href = `${SITE_FULL_IMAGES}/i/${SITE_NAME}/icon.webp?x=6`
 			alert = true
 		}
 		setTimeout(flash, 500)
 	}
 	else {
-		icon.href = `/i/${SITE_NAME}/icon.webp?x=6`
+		icon.href = `${SITE_FULL_IMAGES}/i/${SITE_NAME}/icon.webp?x=6`
 		notifs = 0
 		title.innerHTML = page_title
 	}

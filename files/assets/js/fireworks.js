@@ -1,5 +1,5 @@
 function execute_fireworks(firework) {
-	firework.firstElementChild.src = "/i/firework-trail.webp"
+	firework.firstElementChild.src = `${SITE_FULL_IMAGES}/i/firework-trail.webp`
 
 	const xpos = Math.floor(Math.random() * 80) + 5
 	let ypos = 95
@@ -20,7 +20,7 @@ function execute_fireworks(firework) {
 	function frame() {
 		if (ypos <= height) {
 			clearInterval(id);
-			firework.firstElementChild.src = "/i/firework-explosion.webp?v="+vnum
+			firework.firstElementChild.src = `${SITE_FULL_IMAGES}/i/firework-explosion.webp?v=${vnum}`
 		} else {
 			ypos--;
 			firework.style.top=ypos+"%"

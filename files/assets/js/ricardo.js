@@ -13,7 +13,7 @@ setInterval(() => {
 			isleft = true
 		}
 
-		ricardo1.firstElementChild.src = "/i/ricardo1.webp"
+		ricardo1.firstElementChild.src = `${SITE_FULL_IMAGES}/i/ricardo1.webp`
 		ricardo1.style.top=height+"%"
 	}
 }, 5800)
