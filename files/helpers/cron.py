@@ -10,6 +10,7 @@ from sqlalchemy.sql import text
 
 import click
 import requests
+import ffmpeg
 
 import files.helpers.offsitementions as offsitementions
 import files.helpers.stats as stats
@@ -94,9 +95,7 @@ def cron_fn(every_5m, every_1d, every_fri_12, every_fri_23, every_sat_00, every_
 				g.db.commit()
 
 			if every_sat_00 or every_sun_20:
-				_create_orgy()
-				g.db.commit()
-				requests.get(f'{SITE_FULL}/refresh_chat')
+				_create_and_delete_orgy()
 
 			if every_sat_03 or every_sun_23:
 				_delete_all_posts()
@@ -174,13 +173,29 @@ def _create_post(title, body, pin_hours):
 
 	cache.delete_memoized(frontlist)
 
-def _create_orgy():
+def _create_and_delete_orgy():
 	orgy = Orgy(
 		title=get_name(),
 		type='file',
 		data=f'https://videos.watchpeopledie.tv/orgies/{get_file()}'
 	)
 	g.db.add(orgy)
+	g.db.commit()
+	g.db.close()
+	del g.db
+	stdout.flush()
+	
+	requests.get(f'{SITE_FULL}/refresh_chat')
+
+	video_info = ffmpeg.probe(f'/orgies/{get_file()}')
+	seconds = int(video_info['streams'][0]['duration'])
+	time.sleep(seconds)
+
+	orgy = g.db.query(Orgy).one_or_none()
+	if orgy:
+		g.db.delete(orgy)
+		g.db.commit()
+		requests.get(f'{SITE_FULL}/refresh_chat')
 
 def _delete_all_posts():
 	posts = g.db.query(Post).filter_by(author_id=AUTOJANNY_ID, deleted_utc=0).all()
