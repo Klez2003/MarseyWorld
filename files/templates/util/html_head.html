@@ -140,13 +140,7 @@
 
 {% macro stylesheets_lower() %}
 	{% if not (request.path.startswith('/@') and u) %}
-		{% if SITE_NAME == 'rDrama' and v and v.chud %}
-			{% set background = '/i/backgrounds/anime/1.webp?x=6' %}
-		{% elif v and v.background %}
-			{% set background = v.background %}
-		{% endif %}
-
-		{% if background %}
+		{% if (v and v.background) or (SITE_NAME == 'rDrama' and v and v.chud) %}
 			<link rel="stylesheet" href="{{('css/transparent.css') | asset}}">
 		{% endif %}
 	{% endif %}
