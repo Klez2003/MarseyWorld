@@ -282,8 +282,6 @@ atexit.register(close_running_threads)
 @limiter.limit("6/minute;50/hour;200/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def messagereply(v):
-	print('NIGGER', flush=True)
-
 	body = request.values.get("body", "")
 	body = body[:COMMENT_BODY_LENGTH_LIMIT].strip()
 
@@ -382,7 +380,6 @@ def messagereply(v):
 			notif = Notification(comment_id=c.id, user_id=admin)
 			g.db.add(notif)
 	elif user_id and user_id not in {v.id, MODMAIL_ID} | BOT_IDs:
-		print(user_id, flush=True)
 		c.unread = True
 		rendered = render_template("comments.html", v=get_account(user_id), comments=[c])
 		emit('insert_reply', [parent.id, rendered], namespace='/', to=user_id)
