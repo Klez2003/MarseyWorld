@@ -7755,3 +7755,11 @@ p { /* DO NOT REMOVE */
 ul {
 	padding-inline-start: 20px;
 }
+
+.hide-scrollbar {
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+}
+.hide-scrollbar::-webkit-scrollbar {
+	display: none;
+}
