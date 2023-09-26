@@ -710,20 +710,12 @@ def is_available(name):
 
 	name = name.strip()
 
-	if len(name)<3 or len(name)>25:
-		return {name:False}
+	if len(name) < 3 or len(name) > 25:
+		return {name: False}
 
-	name2 = name.replace('\\', '').replace('_','\_').replace('%','')
+	existing = get_user(name, graceful=True)
 
-	x = g.db.query(User).filter(
-		or_(
-			User.username.ilike(name2),
-			User.original_username.ilike(name2),
-			User.prelock_username.ilike(name2),
-			)
-		).one_or_none()
-
-	if x:
+	if existing:
 		return {name: False}
 	else:
 		return {name: True}

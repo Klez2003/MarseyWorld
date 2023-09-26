@@ -377,15 +377,11 @@ def post_forgot():
 	if not email_regex.fullmatch(email):
 		return render_template("login/forgot_password.html", error="Invalid email!"), 400
 
-
-	username = username.lstrip('@').replace('\\', '').replace('_', '\_').replace('%', '').strip()
+	user = get_user(username, graceful=True)
+	
 	email = email.replace('\\', '').replace('_', '\_').replace('%', '').strip()
 
-	user = g.db.query(User).filter(
-		User.username.ilike(username),
-		User.email.ilike(email)).one_or_none()
-
-	if user:
+	if user and user.email.lower() == email.lower():
 		now = int(time.time())
 		token = generate_hash(f"{user.id}+{now}+forgot+{user.login_nonce}")
 		url = f"{SITE_FULL}/reset?id={user.id}&time={now}&token={token}"

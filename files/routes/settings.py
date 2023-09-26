@@ -732,7 +732,7 @@ def settings_name_change(v):
 
 	new_name = request.values.get("name").strip()
 
-	if new_name==v.username:
+	if new_name == v.username:
 		abort(400, "You didn't change anything")
 
 	if v.patron:
@@ -743,17 +743,9 @@ def settings_name_change(v):
 	if not used_regex.fullmatch(new_name):
 		abort(400, "This isn't a valid username.")
 
-	search_name = new_name.replace('\\', '').replace('_','\_').replace('%','')
+	existing = get_user(new_name, graceful=True)
 
-	x = g.db.query(User).filter(
-		or_(
-			User.username.ilike(search_name),
-			User.original_username.ilike(search_name),
-			User.prelock_username.ilike(search_name),
-			)
-		).one_or_none()
-
-	if x and x.id != v.id:
+	if existing and existing.id != v.id:
 		abort(400, f"Username `{new_name}` is already in use.")
 
 	v.username = new_name
