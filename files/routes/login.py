@@ -40,7 +40,7 @@ def login_post(v):
 	username = request.values.get("username")
 
 	if not username: abort(400)
-	username = username.lstrip('@').replace('\\', '').replace('_', '\_').replace('%', '').strip()
+	username = sanitize_username(username)
 
 	if not username: abort(400)
 	if username.startswith('@'): username = username[1:]
@@ -379,7 +379,7 @@ def post_forgot():
 
 	user = get_user(username, graceful=True)
 	
-	email = email.replace('\\', '').replace('_', '\_').replace('%', '').strip()
+	email = escape_for_search(email)
 
 	if user and user.email.lower() == email.lower():
 		now = int(time.time())

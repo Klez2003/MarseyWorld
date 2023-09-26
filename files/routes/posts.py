@@ -417,12 +417,14 @@ def is_repost(v):
 
 	url = normalize_url(url)
 
-	search_url = url.replace('%', '').replace('\\', '').replace('_', '\_').strip()
+	url = escape_for_search(url)
+
 	repost = g.db.query(Post).filter(
-		Post.url.ilike(search_url),
+		Post.url.ilike(url),
 		Post.deleted_utc == 0,
 		Post.is_banned == False
 	).first()
+
 	if repost: return {'permalink': repost.permalink}
 	else: return not_a_repost
 

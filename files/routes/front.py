@@ -128,8 +128,8 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 
 	if v and filter_words:
 		for word in filter_words:
-			word = word.replace('\\', '').replace('_', '\_').replace('%', '\%').strip()
-			posts=posts.filter(not_(Post.title.ilike(f'%{word}%')))
+			word = escape_for_search(word)
+			posts = posts.filter(not_(Post.title.ilike(f'%{word}%')))
 
 	total = posts.count()
 

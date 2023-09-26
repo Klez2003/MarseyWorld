@@ -7,9 +7,14 @@ from files.classes import Comment, CommentVote, Hat, Sub, Post, User, UserBlock,
 from files.helpers.config.const import *
 from files.__main__ import cache
 
+# Escape SQL pattern-matching special characters
+def escape_for_search(string):
+	return string.replace('\\', '').replace('_', '\_').replace('%', '\%').strip()
+
 def sanitize_username(username):
-	if not username: return username
-	return username.lstrip('@').replace('\\', '').replace('_', '\_').replace('%', '').replace('(', '').replace(')', '').strip()
+	username = username.lstrip('@').replace('(', '').replace(')', '')
+	username = escape_for_search(username)
+	return username
 
 def get_user(username, v=None, graceful=False, include_blocks=False, attributes=None):
 	if not username:

@@ -6,6 +6,7 @@ from sqlalchemy.orm import load_only
 
 from files.helpers.regex import *
 from files.helpers.sorting_and_time import *
+from files.helpers.get import *
 from files.routes.wrappers import *
 from files.__main__ import app
 
@@ -40,8 +41,7 @@ def searchparse(text):
 		for m in search_token_regex.finditer(text):
 			token = m[1] if m[1] else m[2]
 			if not token: token = ''
-			# Escape SQL pattern matching special characters
-			token = token.replace('\\', '').replace('_', '\_').replace('%', '\%')
+			token = escape_for_search(token)
 			criteria['q'].append(token)
 
 	return criteria
@@ -117,7 +117,7 @@ def searchposts(v):
 	if 'domain' in criteria:
 		domain = criteria['domain']
 
-		domain = domain.replace('\\', '').replace('_', '\_').replace('%', '').strip()
+		domain = escape_for_search(domain)
 
 		posts = posts.filter(
 			or_(
@@ -413,8 +413,8 @@ def searchusers(v):
 
 	if 'q' in criteria:
 		term = criteria['q'][0]
-		term = term.lstrip('@')
-		term = term.replace('\\','').replace('_','\_').replace('%','')
+
+		term = sanitize_username(term)
 
 		users = users.filter(
 			or_(
