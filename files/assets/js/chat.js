@@ -6,10 +6,9 @@ for (const e of timestamps) {
 	e.innerHTML = formatDate(new Date(e.dataset.time*1000));
 };
 
-const ua=window.navigator.userAgent
-let socket
+const ua = window.navigator.userAgent
 
-socket=io()
+const socket = io()
 
 const chatline = document.getElementsByClassName('chat-line')[0]
 const box = document.getElementById('chat-window')
