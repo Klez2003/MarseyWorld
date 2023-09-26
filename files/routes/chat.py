@@ -379,9 +379,9 @@ def messagereply(v):
 		for admin in admin_ids:
 			notif = Notification(comment_id=c.id, user_id=admin)
 			g.db.add(notif)
-	else:
+	elif user_id and user_id not in {v.id, MODMAIL_ID} | BOT_IDs:
 		c.unread = True
-		rendered = render_template("comments.html", v=get_account(top_comment.sentto), comments=[c])
-		emit('insert_reply', [parent.id, rendered], namespace='/', to=top_comment.sentto)
+		rendered = render_template("comments.html", v=get_account(user_id), comments=[c])
+		emit('insert_reply', [parent.id, rendered], namespace='/', to=user_id)
 
 	return {"comment": render_template("comments.html", v=v, comments=[c])}
