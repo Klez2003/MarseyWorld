@@ -141,14 +141,9 @@ def process_video(file, v):
 		os.remove(old)
 		abort(413, f"Max video size is {MAX_VIDEO_SIZE_MB} MB ({MAX_VIDEO_SIZE_MB_PATRON} MB for {patron}s)")
 
-	extension = guess_extension(file.content_type)
-	if not extension:
-		os.remove(old)
-		abort(400)
-	new = old + extension
+	new = f'{old}.mp4'
 
-	if extension != '.mp4':
-		new = new.replace(extension, '.mp4')
+	if file.content_type != 'video/mp4':
 		copyfile(old, new)
 		gevent.spawn(convert_to_mp4, old, new)
 	else:
