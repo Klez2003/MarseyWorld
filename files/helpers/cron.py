@@ -10,7 +10,6 @@ from sqlalchemy.sql import text
 
 import click
 import requests
-import traceback
 
 import files.helpers.offsitementions as offsitementions
 import files.helpers.stats as stats
@@ -108,8 +107,8 @@ def cron_fn(every_5m, every_1d, every_fri_12, every_fri_23, every_sat_00, every_
 				g.db.commit()
 
 		except:
-			print(traceback.format_exc(), flush=True)
 			g.db.rollback()
+			raise
 
 		g.db.close()
 		del g.db
