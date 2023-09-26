@@ -1,5 +1,5 @@
 function formatDate(d) {
-	return d.toLocaleTimeString()
+	return d.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
 }
 
 for (const e of timestamps) {
