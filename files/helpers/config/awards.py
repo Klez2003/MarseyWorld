@@ -364,7 +364,7 @@ AWARDS = {
 	"rainbow": {
 		"kind": "rainbow",
 		"title": "Rainbow",
-		"description": "Makes the recipient's comments and posts in rainbow text for 24 hours.",
+		"description": "Makes the recipient's posts and comments in rainbow text for 24 hours.",
 		"icon": "fas fa-cloud-rainbow",
 		"color": "text-pink",
 		"price": 200,
@@ -818,7 +818,7 @@ HOUSE_AWARDS = {
 	"Femboy": {
 		"kind": "Femboy",
 		"title": "Rainbow",
-		"description": "Makes the recipient's comments and posts in rainbow text for 24 hours.",
+		"description": "Makes the recipient's posts and comments in rainbow text for 24 hours.",
 		"icon": "fas fa-cloud-rainbow",
 		"color": "text-pink",
 		"price": 200,
