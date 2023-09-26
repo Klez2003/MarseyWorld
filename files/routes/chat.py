@@ -187,7 +187,6 @@ def connect(v):
 	if request.referrer not in ALLOWED_REFERRERS:
 		return '', 400
 
-	print('bitch', flush=True)
 	join_room(request.referrer)
 
 	if [v.username, v.id, v.name_color, v.patron] not in online[request.referrer]:
