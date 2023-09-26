@@ -138,6 +138,8 @@ def get_name():
 	return get_file().split('.')[0]
 
 def _create_post(title, body, pin_hours):
+	_delete_all_posts()
+
 	title += f': {get_name()}'
 
 	title_html = filter_emojis_only(title)
