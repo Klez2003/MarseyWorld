@@ -6935,7 +6935,7 @@ div.markdown {
 }
 
 .popover-bio {
-	overflow: scroll;
+	overflow: auto;
 	position: relative;
 	display: inline-block;
 	height: 100%;
