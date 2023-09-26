@@ -185,7 +185,7 @@ def _create_and_delete_orgy():
 	del g.db
 	stdout.flush()
 	
-	requests.post(f'{SITE_FULL}/refresh_chat')
+	requests.post('http://localhost:5001/refresh_chat')
 
 	video_info = ffmpeg.probe(f'/orgies/{get_file()}')
 	seconds = int(video_info['streams'][0]['duration'])
@@ -195,7 +195,7 @@ def _create_and_delete_orgy():
 	if orgy:
 		g.db.delete(orgy)
 		g.db.commit()
-		requests.post(f'{SITE_FULL}/refresh_chat')
+		requests.post('http://localhost:5001/refresh_chat')
 
 def _delete_all_posts():
 	posts = g.db.query(Post).filter_by(author_id=AUTOJANNY_ID, deleted_utc=0).all()

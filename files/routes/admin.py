@@ -1979,7 +1979,8 @@ def start_orgy(v):
 	g.db.add(orgy)
 
 	g.db.commit()
-	requests.post(f'{SITE_FULL}/refresh_chat')
+	x = requests.post('http://localhost:5001/refresh_chat')
+	print(x.text, flush=True)
 
 	return redirect('/chat')
 
@@ -1987,5 +1988,5 @@ def start_orgy(v):
 @admin_level_required(PERMS['ORGIES'])
 def stop_orgy(v):
 	g.db.query(Orgy).delete()
-	requests.post(f'{SITE_FULL}/refresh_chat')
+	requests.post('http://localhost:5001/refresh_chat')
 	return {"message": "Orgy stopped successfully!"}
