@@ -200,7 +200,9 @@
 			<ul class="navbar-nav ml-auto d-none d-md-flex mr-3">
 
 			{% if not (v and v.patron) %}
-				<a class="btn btn-primary mr-3 pb-0 pt-2 donate-link" id="header--donate--item" href="/donate">Donate</a>
+				<li id="header--donate--item" class="nav-item d-flex align-items-center justify-content-center mx-1 mr-2">
+					<a class="btn btn-primary" href="/donate">Donate</a>
+				</li>
 			{% endif %}
 
 			{% if v %}
