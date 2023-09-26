@@ -679,7 +679,6 @@ def edit_comment(cid, v):
 			body_for_sanitize = owoify(body_for_sanitize)
 		if c.author.marsify and not c.author.chud:
 			body_for_sanitize = marsify(body_for_sanitize)
-
 		if c.sharpened:
 			body_for_sanitize = sharpen(body_for_sanitize)
 
