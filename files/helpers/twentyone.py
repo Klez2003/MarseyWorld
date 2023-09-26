@@ -274,7 +274,7 @@ def can_double_down(state):
 def can_split(state):
 	player = state['player']
 	player_never_hit = len(player) == 2
-	hand_can_split = player[0][1] == player[1][1]
+	hand_can_split = get_value_of_card(player[0]) == get_value_of_card(player[1])
 	player_has_split = state['has_player_split']
 	return hand_can_split and player_never_hit and not player_has_split
 
