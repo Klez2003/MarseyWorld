@@ -1,7 +1,7 @@
 
 @media (min-width: 768px) {
 	lite-youtube { /* fix overflow */
-		max-width: 20vw !important;
+		max-width: 25vw !important;
 	}
 }
 
