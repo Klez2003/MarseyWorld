@@ -6,6 +6,7 @@
 {% endif %}
 
 {% set ns = namespace() %}
+{% set pfp = u.highres if (u.highres and u.can_see_my_shit) else u.profile_url %}
 
 {% block desktopUserBanner %}
 <div class="row d-mob-none">
@@ -16,10 +17,10 @@
 				<div class="container-fluid nobackground">
 					<div class="d-md-flex text-center text-md-left">
 						<div id="profile--pfp" {% if u.hat_active(v)[0] %}class="profile--pfp--hat hat"{% endif %}>
-							<a rel="nofollow noopener" href="{% if u.highres and u.can_see_my_shit %}{{u.highres}}{% else %}{{u.profile_url}}{% endif %}" class="profile-pic-100-wrapper">
-								<img data-nonce="{{g.nonce}}" data-onclick="expandImage('{% if u.highres and u.can_see_my_shit %}{{u.highres}}{% else %}{{u.profile_url}}{% endif %}')" loading="lazy" src="{{u.profile_url}}" class="profile-pic profile-pic-100 mb-5">
+							<a rel="nofollow noopener" href="{{pfp}}" class="profile-pic-100-wrapper">
+								<img data-nonce="{{g.nonce}}" data-onclick="expandImage('{{pfp}}')" loading="lazy" src="{{u.profile_url}}" class="profile-pic profile-pic-100 mb-5">
 								{% if u.hat_active(v)[0] -%}
-									<img data-nonce="{{g.nonce}}" data-onclick="expandImage('{% if u.highres and u.can_see_my_shit %}{{u.highres}}{% else %}{{u.profile_url}}{% endif %}')" class="profile-pic-100-hat hat" loading="lazy" src="{{u.hat_active(v)[0]}}?x=6" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{u.hat_active(v)[1]}}">
+									<img data-nonce="{{g.nonce}}" data-onclick="expandImage('{{pfp}}')" class="profile-pic-100-hat hat" loading="lazy" src="{{u.hat_active(v)[0]}}?x=6" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{u.hat_active(v)[1]}}">
 								{%- endif %}
 							</a>
 						</div>
@@ -303,10 +304,10 @@
 	<div class="row border-bottom">
 		<div class="col">
 			<div style="margin-top: -34px" id="profile-mobile--pfp">
-				<a rel="nofollow noopener" href="{% if u.highres and u.can_see_my_shit %}{{u.highres}}{% else %}{{u.profile_url}}{% endif %}" class="profile-pic-65-wrapper">
-					<img data-nonce="{{g.nonce}}" data-onclick="expandImage('{% if u.highres and u.can_see_my_shit %}{{u.highres}}{% else %}{{u.profile_url}}{% endif %}')" loading="lazy" src="{{u.profile_url}}" class="profile-pic-65 bg-white mb-2">
+				<a rel="nofollow noopener" href="{{pfp}}" class="profile-pic-65-wrapper">
+					<img data-nonce="{{g.nonce}}" data-onclick="expandImage('{{pfp}}')" loading="lazy" src="{{u.profile_url}}" class="profile-pic-65 bg-white mb-2">
 					{% if u.hat_active(v)[0] -%}
-						<img data-nonce="{{g.nonce}}" data-onclick="expandImage('{% if u.highres and u.can_see_my_shit %}{{u.highres}}{% else %}{{u.profile_url}}{% endif %}')" class="profile-pic-65-hat hat" loading="lazy" src="{{u.hat_active(v)[0]}}?x=6">
+						<img data-nonce="{{g.nonce}}" data-onclick="expandImage('{{pfp}}')" class="profile-pic-65-hat hat" loading="lazy" src="{{u.hat_active(v)[0]}}?x=6">
 					{%- endif %}
 				</a>
 			</div>
