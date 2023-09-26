@@ -217,24 +217,24 @@ def connect(v):
 @socketio.on('disconnect')
 @auth_required_socketio
 def disconnect(v):
+	if request.referrer != f'{SITE_FULL}/notifications/messages':
+		for val in online.values():
+			if [v.username, v.id, v.name_color, v.patron] in val:
+				val.remove([v.username, v.id, v.name_color, v.patron])
+
+		for val in typing.values():
+			if v.username in val:
+				val.remove(v.username)
+
+		refresh_online()
+
+
 	if request.referrer not in ALLOWED_REFERRERS:
 		return '', 400
-
-	if request.referrer == f'{SITE_FULL}/notifications/messages':
+	elif request.referrer == f'{SITE_FULL}/notifications/messages':
 		leave_room(v.id)
-		return ''
-
-	leave_room(request.referrer)
-
-	for val in online.values():
-		if [v.username, v.id, v.name_color, v.patron] in val:
-			val.remove([v.username, v.id, v.name_color, v.patron])
-
-	for val in typing.values():
-		if v.username in val:
-			val.remove(v.username)
-
-	refresh_online()
+	else:
+		leave_room(request.referrer)
 
 	return ''
 
