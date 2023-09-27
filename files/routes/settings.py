@@ -178,13 +178,11 @@ def settings_personal_post(v):
 		updated = True
 		session["cursormarsey"] = int(request.values.get("cursormarsey") == 'true')
 
-# <89wc
 	elif not updated and request.values.get("progoombler", v.progoombler) != v.progoombler:
 		if not v.has_badge(161):
 			abort(403, f"This setting is only available for people with a crippling gambling addiction")
 		updated = True
 		session["progoombler"] = int(request.values.get("progoombler") == 'true')
-# 89wc>
 
 	elif not updated and request.values.get("over_18", v.over_18) != v.over_18:
 		updated = True

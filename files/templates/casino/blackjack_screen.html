@@ -12,11 +12,9 @@
 
 {% block actions %}
 <link rel="stylesheet" href="{{('css/casino/blackjack_screen.css') | asset}}">
-<!-- <89wc -->
 {% if v.progoombler %}
-<link rel="stylesheet" href="{{('css/casino/blackjack_screen_compact.css') | asset}}">
+  <link rel="stylesheet" href="{{('css/casino/blackjack_screen_compact.css') | asset}}">
 {% endif %}
-<!-- 89wc> -->
 
 <div class="btn-group">
 	<button type="button" id="twentyone-DEAL" class="btn btn-primary twentyone-btn" data-nonce="{{g.nonce}}" data-onclick="deal()">Deal</button>

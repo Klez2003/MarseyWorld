@@ -271,13 +271,10 @@ class User(Base):
 	def cursormarsey(self):
 		return session.get('cursormarsey', CURSORMARSEY_DEFAULT)
 
-# <89wc
 	@property
 	@lazy
 	def progoombler(self):
 		return session.get('progoombler', False)
-
-# 89wc>
 
 	@property
 	@lazy
