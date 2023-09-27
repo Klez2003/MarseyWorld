@@ -49,6 +49,7 @@ def auth_required_socketio(f):
 		v = get_logged_in_user()
 		if not v: return '', 401
 		if v.is_permabanned: return '', 403
+		g.referrer = request.referrer.split('?')[0]
 		return make_response(f(*args, v=v, **kwargs))
 	wrapper.__name__ = f.__name__
 	return wrapper
@@ -58,6 +59,7 @@ def is_not_banned_socketio(f):
 		v = get_logged_in_user()
 		if not v: return '', 401
 		if v.is_suspended: return '', 403
+		g.referrer = request.referrer.split('?')[0]
 		return make_response(f(*args, v=v, **kwargs))
 	wrapper.__name__ = f.__name__
 	return wrapper
@@ -94,7 +96,7 @@ def chat(v):
 @socketio.on('speak')
 @is_not_banned_socketio
 def speak(data, v):
-	if request.referrer not in ALLOWED_REFERRERS:
+	if g.referrer not in ALLOWED_REFERRERS:
 		return '', 400
 
 	image = None
@@ -128,30 +130,30 @@ def speak(data, v):
 			self_only = True
 		else:
 			del muted[vname]
-			emit("online", [online[request.referrer], muted], room=request.referrer, broadcast=True)
+			emit("online", [online[g.referrer], muted], room=g.referrer, broadcast=True)
 
 	if SITE == 'rdrama.net' and v.admin_level < PERMS['BYPASS_ANTISPAM_CHECKS']:
 		def shut_up():
 			self_only = True
 			muted_until = int(time.time() + 600)
 			muted[vname] = muted_until
-			emit("online", [online[request.referrer], muted], room=request.referrer, broadcast=True)
+			emit("online", [online[g.referrer], muted], room=g.referrer, broadcast=True)
 
 		if not self_only:
-			identical = [x for x in list(messages[request.referrer].values())[-5:] if v.id == x['user_id'] and text == x['text']]
+			identical = [x for x in list(messages[g.referrer].values())[-5:] if v.id == x['user_id'] and text == x['text']]
 			if len(identical) >= 3: shut_up()
 
 		if not self_only:
-			count = len([x for x in list(messages[request.referrer].values())[-12:] if v.id == x['user_id']])
+			count = len([x for x in list(messages[g.referrer].values())[-12:] if v.id == x['user_id']])
 			if count >= 10: shut_up()
 
 		if not self_only:
-			count = len([x for x in list(messages[request.referrer].values())[-25:] if v.id == x['user_id']])
+			count = len([x for x in list(messages[g.referrer].values())[-25:] if v.id == x['user_id']])
 			if count >= 20: shut_up()
 
 	data = {
 		"id": id,
-		"quotes": quotes if messages[request.referrer].get(quotes) else '',
+		"quotes": quotes if messages[g.referrer].get(quotes) else '',
 		"hat": v.hat_active(v)[0],
 		"user_id": v.id,
 		"username": v.username,
@@ -171,53 +173,53 @@ def speak(data, v):
 			username = i.group(1).lower()
 			muted_until = int(int(i.group(2)) * 60 + time.time())
 			muted[username] = muted_until
-			emit("online", [online[request.referrer], muted], room=request.referrer, broadcast=True)
+			emit("online", [online[g.referrer], muted], room=g.referrer, broadcast=True)
 			self_only = True
 
 	if self_only or v.shadowbanned or execute_blackjack(v, None, text, "chat"):
 		emit('speak', data)
 	else:
-		emit('speak', data, room=request.referrer, broadcast=True)
-		messages[request.referrer][id] = data
-		messages[request.referrer] = dict(list(messages[request.referrer].items())[-250:])
+		emit('speak', data, room=g.referrer, broadcast=True)
+		messages[g.referrer][id] = data
+		messages[g.referrer] = dict(list(messages[g.referrer].items())[-250:])
 
 	typing = []
 
 	return '', 204
 
 def refresh_online():
-	emit("online", [online[request.referrer], muted], room=request.referrer, broadcast=True)
+	emit("online", [online[g.referrer], muted], room=g.referrer, broadcast=True)
 	cache.set('loggedin_chat', len(online[f'{SITE_FULL}/chat']), timeout=0)
 
 @socketio.on('connect')
 @auth_required_socketio
 def connect(v):
-	if request.referrer not in ALLOWED_REFERRERS:
+	if g.referrer not in ALLOWED_REFERRERS:
 		return '', 400
 
-	if request.referrer == f'{SITE_FULL}/notifications/messages':
+	if g.referrer == f'{SITE_FULL}/notifications/messages':
 		join_room(v.id)
 		return ''
 
-	join_room(request.referrer)
+	join_room(g.referrer)
 
-	if [v.username, v.id, v.name_color, v.patron] not in online[request.referrer]:
+	if [v.username, v.id, v.name_color, v.patron] not in online[g.referrer]:
 		for val in online.values():
 			if [v.username, v.id, v.name_color, v.patron] in val:
 				val.remove([v.username, v.id, v.name_color, v.patron])
 
-	if [v.username, v.id, v.name_color, v.patron] not in online[request.referrer]:
-		online[request.referrer].append([v.username, v.id, v.name_color, v.patron])
+	if [v.username, v.id, v.name_color, v.patron] not in online[g.referrer]:
+		online[g.referrer].append([v.username, v.id, v.name_color, v.patron])
 
 	refresh_online()
 
-	emit('typing', typing[request.referrer], room=request.referrer)
+	emit('typing', typing[g.referrer], room=g.referrer)
 	return '', 204
 
 @socketio.on('disconnect')
 @auth_required_socketio
 def disconnect(v):
-	if request.referrer != f'{SITE_FULL}/notifications/messages':
+	if g.referrer != f'{SITE_FULL}/notifications/messages':
 		for val in online.values():
 			if [v.username, v.id, v.name_color, v.patron] in val:
 				val.remove([v.username, v.id, v.name_color, v.patron])
@@ -226,12 +228,12 @@ def disconnect(v):
 			if v.username in val:
 				val.remove(v.username)
 
-	if request.referrer not in ALLOWED_REFERRERS:
+	if g.referrer not in ALLOWED_REFERRERS:
 		return '', 400
-	elif request.referrer == f'{SITE_FULL}/notifications/messages':
+	elif g.referrer == f'{SITE_FULL}/notifications/messages':
 		leave_room(v.id)
 	else:
-		leave_room(request.referrer)
+		leave_room(g.referrer)
 		refresh_online()
 
 	return '', 204
@@ -239,30 +241,30 @@ def disconnect(v):
 @socketio.on('typing')
 @is_not_banned_socketio
 def typing_indicator(data, v):
-	if request.referrer not in ALLOWED_REFERRERS:
+	if g.referrer not in ALLOWED_REFERRERS:
 		return '', 400
 
-	if data and v.username not in typing[request.referrer]:
-		typing[request.referrer].append(v.username)
-	elif not data and v.username in typing[request.referrer]:
-		typing[request.referrer].remove(v.username)
+	if data and v.username not in typing[g.referrer]:
+		typing[g.referrer].append(v.username)
+	elif not data and v.username in typing[g.referrer]:
+		typing[g.referrer].remove(v.username)
 
-	emit('typing', typing[request.referrer], room=request.referrer, broadcast=True)
+	emit('typing', typing[g.referrer], room=g.referrer, broadcast=True)
 	return '', 204
 
 
 @socketio.on('delete')
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def delete(id, v):
-	if request.referrer not in ALLOWED_REFERRERS:
+	if g.referrer not in ALLOWED_REFERRERS:
 		return '', 400
 
-	for k, val in messages[request.referrer].items():
+	for k, val in messages[g.referrer].items():
 		if k == id:
-			del messages[request.referrer][k]
+			del messages[g.referrer][k]
 			break
 
-	emit('delete', id, room=request.referrer, broadcast=True)
+	emit('delete', id, room=g.referrer, broadcast=True)
 
 	return '', 204
 
