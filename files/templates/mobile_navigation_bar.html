@@ -52,12 +52,13 @@
 				<div class="text-center {% if request|selected_tab=='chat' %}text-primary{% else %}text-muted{% endif %}">
 					{%- if get_orgy(v) -%}
 						<img src="{{SITE_FULL_IMAGES}}/i/orgy.webp" width="30">
+						<div class="text-small-extra text-danger">Chat ({{g.loggedin_chat}})</div>
 					{%- else -%}
 						<b class="text-lg {% if g.loggedin_chat > 40 %}text-danger{% elif g.loggedin_chat > 20 %}text-yellow{% endif %}" style="padding-top:10px" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Users in chat right now">
 							{{g.loggedin_chat}}
 						</b>
+						<div class="text-small-extra">Chat</div>
 					{%- endif -%}
-					<div class="text-small-extra {% if get_orgy(v) %}text-danger{% endif %}">Chat (73)</div>
 				</div>
 			</a>
 		</button>
