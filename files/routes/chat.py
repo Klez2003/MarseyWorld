@@ -226,15 +226,13 @@ def disconnect(v):
 			if v.username in val:
 				val.remove(v.username)
 
-		refresh_online()
-
-
 	if request.referrer not in ALLOWED_REFERRERS:
 		return '', 400
 	elif request.referrer == f'{SITE_FULL}/notifications/messages':
 		leave_room(v.id)
 	else:
 		leave_room(request.referrer)
+		refresh_online()
 
 	return '', 204
 
