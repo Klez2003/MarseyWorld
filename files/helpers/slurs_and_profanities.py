@@ -76,6 +76,7 @@ if SITE_NAME == 'rDrama':
 		"(?<!\/)linux": "GNU/Linux",
 		'(?<!-)based': 'keyed',
 		'needful': 'sneedful',
+		'think tank': 'twink tank',
 	}
 
 PROFANITIES = {
