@@ -40,6 +40,7 @@ def heavy(fn):
 
 class ModifierContextFrame:
     name: str
+    wrap_depth: int = 0
     def __init__(self, name: str):
         self.name = name
 
@@ -142,6 +143,16 @@ class Modified:
         other_emoji.is_primary = False
 
         return other_emoji.create_el(self.tokenizer).wrap(wrapper)
+    
+    def wrap_child(self, class_: str = ''):
+        ctx = self.ctx()
+        wrap_insert = ''
+        if ctx.wrap_depth > 0:
+            wrap_insert = f'-{ctx.wrap_depth + 1}'
+        
+        self.child = self.child.wrap(self.soup.new_tag('div', attrs={'class': f'marseyfx-modifier-{self.ctx().name}-wrapper{wrap_insert} {class_}'}))
+
+        ctx.wrap_depth += 1
 
     @modifier
     def pat(self):
@@ -327,3 +338,8 @@ class Modified:
             tag.attrs['class'] = tag.attrs['class'].copy()
             tag.attrs['class'].append(f'marseyfx-modifier-transcendent-clone marseyfx-modifier-transcendent-clone-{i}')
             self.container.append(tag)
+
+    @modifier
+    def rentfree(self):
+        self.wrap_child()
+        self.overlay(self.image('rentfree.png'))

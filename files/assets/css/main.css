@@ -8143,3 +8143,12 @@ body {
 		opacity: 0;
 	}
 }
+
+.marseyfx-modifier-rentfree-wrapper {
+	clip-path: polygon(32% 60%, 25% 52%, 22% 42%, 24% 31%, 29% 19%, 36% 14%, 48% 11%, 61% 11%, 72% 15%, 79% 20%, 86% 26%, 89% 35%, 91% 45%, 88% 54%, 81% 60%);
+	background-color: white;
+}
+
+.marseyfx-modifier-rentfree-self {
+	transform: scale(0.5) translate(11%, -20%);
+}

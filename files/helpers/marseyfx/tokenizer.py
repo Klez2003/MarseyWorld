@@ -106,7 +106,7 @@ class WordToken(Token):
         start = tokenizer.index
         value = ''
         while tokenizer.has_next():
-            if WordToken.can_parse(tokenizer):
+            if re.fullmatch(r'[!#@a-zA-Z\d]', tokenizer.peek()):
                 value += tokenizer.eat()
             else:
                 break
