@@ -49,7 +49,10 @@ def auth_required_socketio(f):
 		v = get_logged_in_user()
 		if not v: return '', 401
 		if v.is_permabanned: return '', 403
-		g.referrer = request.referrer.split('?')[0]
+		if request.referrer:
+			g.referrer = request.referrer.split('?')[0]
+		else:
+			g.referrer = None
 		return make_response(f(*args, v=v, **kwargs))
 	wrapper.__name__ = f.__name__
 	return wrapper
@@ -59,7 +62,10 @@ def is_not_banned_socketio(f):
 		v = get_logged_in_user()
 		if not v: return '', 401
 		if v.is_suspended: return '', 403
-		g.referrer = request.referrer.split('?')[0]
+		if request.referrer:
+			g.referrer = request.referrer.split('?')[0]
+		else:
+			g.referrer = None
 		return make_response(f(*args, v=v, **kwargs))
 	wrapper.__name__ = f.__name__
 	return wrapper
