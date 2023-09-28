@@ -1,42 +1,51 @@
 <div id="awards-container" class="w-100 h-100">
-{% macro stackable_award(award, src, alt) %}
-	<div class="stackable-container">
-	{% for i in range(p.award_count(award, v)) %}
-		<div class="{{award}}">
-			<img loading="lazy" alt="{{alt}}" src="{{src}}">
+	{% macro stackable_award(award, src, alt) %}
+		<div class="stackable-container">
+		{% for i in range(p.award_count(award, v)) %}
+			<div class="{{award}}">
+				<img loading="lazy" alt="{{alt}}" src="{{src}}">
+			</div>
+		{% endfor %}
 		</div>
-	{% endfor %}
-	</div>
-{% endmacro %}
+	{% endmacro %}
 
-{% if p.award_count("wholesome", v) %}
-	{% set wholesome = '/e/marseywholesome.webp' %}
-	{{stackable_award('wholesome', wholesome, ':#marseywholesome:')}}
-{% endif %}
+	{% if p.award_count("wholesome", v) %}
+		{% if IS_HOMOWEEN() %}
+			{% set wholesome = '/e/marseypumpkin.webp' %}
+		{% else %}
+			{% set wholesome = '/e/marseywholesome.webp' %}
+		{% endif %}
+		{{stackable_award('wholesome', wholesome, ':#marseywholesome:')}}
+	{% endif %}
 
-{% if p.award_count("train", v) %}
-	{{stackable_award('train', '/e/marseytrain.webp', ':#marseytrain:')}}
-{% endif %}
+	{% if p.award_count("train", v) %}
+		{{stackable_award('train', '/e/marseytrain.webp', ':#marseytrain:')}}
+	{% endif %}
 
-{% if p.award_count("scooter", v) %}
-	{{stackable_award('scooter', '/e/marseyscooter.webp', ':#marseyscooter:')}}
-{% endif %}
+	{% if p.award_count("scooter", v) %}
+		{{stackable_award('scooter', '/e/marseyscooter.webp', ':#marseyscooter:')}}
+	{% endif %}
 
-{% if p.award_count("firework", v) %}
-	<script defer src="{{'js/fireworks.js' | asset}}"></script>
-	{{stackable_award('firework')}}
-{% endif %}
+	{% if p.award_count("firework", v) %}
+		<script defer src="{{'js/fireworks.js' | asset}}"></script>
+		{{stackable_award('firework')}}
+	{% endif %}
 
-{% if p.award_count("confetti", v) and IS_BIRTHGAY() %}
-	<div class="confetti w-100 h-100"></div>
-{% endif %}
+	{% if p.award_count("confetti", v) and (IS_BIRTHGAY() or IS_BIRTHDEAD()) %}
+		<div class="confetti w-100 h-100"></div>
+	{% endif %}
 
-{% if p.award_count("ricardo", v) %}
-	{% for i in range(min(p.award_count("ricardo", v), 3)) %}
-		<div class="ricardo ricardo{{i+1}}">
-			<img loading="lazy" src="{{SITE_FULL_IMAGES}}/i/ricardo{{i+1}}.webp">
-		</div>
-	{% endfor %}
-{% endif %}
-
+	{% if p.award_count("ricardo", v) %}
+		{% for i in range(min(p.award_count("ricardo", v), 3)) %}
+			{% set i = i + 1 %}
+			<div class="ricardo ricardo{{i}}">
+				{% if IS_HOMOWEEN() %}
+					{% set src = SITE_FULL_IMAGES ~ "/assets/events/homoween/images/ricardo" ~ i ~ ".webp" %}
+				{% else %}
+					{% set src = SITE_FULL_IMAGES ~ "/i/ricardo" ~ i ~ ".webp" %}
+				{% endif %}
+				<img loading="lazy" src="{{src}}">
+			</div>
+		{% endfor %}
+	{% endif %}
 </div>

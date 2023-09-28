@@ -692,10 +692,6 @@ def submit_post(v, sub=None):
 		p.stickied_utc = int(time.time()) + 28800
 		p.stickied = "AutoJanny"
 
-	if SITE == 'rdrama.net' and v.id == 7465 and p.title.lower().startswith("women's world cup betting: "):
-		p.stickied_utc = int(time.time()) + 28800
-		p.stickied = "AutoJanny"
-
 	cache.delete_memoized(frontlist)
 	cache.delete_memoized(userpagelisting)
 

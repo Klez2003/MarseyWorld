@@ -75,6 +75,8 @@ def execute_snappy(post, v):
 			body = random.choice(("i love you carp", "https://i.rdrama.net/images/16614707883108485.webp", "https://i.rdrama.net/images/1636916964YyM.webp", "https://youtube.com/watch?v=zRbQHTdsjuY"))
 		elif IS_DKD():
 			body = ":#donkeykongfuckoffcarp:"
+		elif IS_HOMOWEEN():
+			body = "F̵̽̉U̷̓̕C̵̟̍K̴̾̍ ̵́̒O̶͐̇F̷͗̐F̴͛̄ ̸̆͠CARP"
 		else:
 			body = ":#marseyfuckoffcarp:"
 	elif v.id == AEVANN_ID:
@@ -85,8 +87,12 @@ def execute_snappy(post, v):
 	else:
 		if IS_DKD():
 			SNAPPY_CHOICES = SNAPPY_KONGS
+		elif IS_FISTMAS():
+			SNAPPY_CHOICES = SNAPPY_QUOTES_FISTMAS
+		elif IS_HOMOWEEN():
+			SNAPPY_CHOICES = SNAPPY_QUOTES_HOMOWEEN
 		elif SNAPPY_MARSEYS and SNAPPY_QUOTES:
-			if IS_FISTMAS() or random.random() > 0.5:
+			if random.random() > 0.5:
 				SNAPPY_CHOICES = SNAPPY_QUOTES
 			else:
 				SNAPPY_CHOICES = SNAPPY_MARSEYS

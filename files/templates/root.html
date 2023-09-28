@@ -31,6 +31,14 @@
 	{% endblock %}
 	</head>
 	<body {% block body_attributes %}id="{% block pagetype %}{% endblock %}"{% endblock %}>
+		{% if IS_HOMOWEEN() and (v and v.jumpscare) or 'shop' in request.path %}
+			{% set image_src = SITE_FULL_IMAGES ~ "/assets/events/homoween/images/jumpscares/" ~ listdir("files/assets/events/homoween/images/jumpscares")|random() ~ "?x=45" %}
+			<img src="{{image_src}}" id="jump-scare-img" style="display: none"/>
+			{% set audio_src = "/assets/events/homoween/audio/jumpscares/" ~ listdir("files/assets/events/homoween/audio/jumpscares")|random() ~ "?x=45" %}
+			<audio id="jumpscare-audio" preload="none" src="{{audio_src}}"></audio>
+			<script defer src="{{'events/homoween/js/jumpscare.js' | asset}}"></script>
+		{% endif %}
+
 		<input hidden id="gnonce" value="{{g.nonce}}">
 		<input hidden id="gbrowser" value="{{g.browser}}">
 		<input hidden id="IMAGE_FORMATS" value="{{IMAGE_FORMATS}}">
@@ -55,12 +63,12 @@
 			<script defer src="{{'js/cursormarsey.js' | asset}}"></script>
 		{% endif %}
 		<script defer src="{{'js/pwa_pulltorefresh.js' | asset}}"></script>
-		<div class="toast" id="toast-post-success" style="position: fixed; bottom: 1.5rem; margin: 0 auto; left: 0; right: 0; width: 275px; z-index: 100000" data-bs-animation="true" data-bs-autohide="true" data-bs-delay="5000">
+		<div class="toast" id="toast-post-success" style="position: fixed; bottom: 1.5rem; margin: 0 auto; left: 0; right: 0; width: 275px; z-index: 10000000000" data-bs-animation="true" data-bs-autohide="true" data-bs-delay="5000">
 			<div class="toast-body bg-success text-center text-white">
 				<i class="fas fa-comment-alt-smile mr-2"></i><span id="toast-post-success-text">Action successful!</span>
 			</div>
 		</div>
-		<div class="toast" id="toast-post-error" style="position: fixed; bottom: 1.5rem; margin: 0 auto; left: 0; right: 0; width: 275px; z-index: 100000" data-bs-animation="true" data-bs-autohide="true" data-bs-delay="5000">
+		<div class="toast" id="toast-post-error" style="position: fixed; bottom: 1.5rem; margin: 0 auto; left: 0; right: 0; width: 275px; z-index: 10000000000" data-bs-animation="true" data-bs-autohide="true" data-bs-delay="5000">
 			<div class="toast-body bg-danger text-center text-white">
 				<i class="fas fa-exclamation-circle mr-2"></i><span id="toast-post-error-text">Error, please try again later.</span>
 			</div>

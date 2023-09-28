@@ -20,7 +20,7 @@ function execute_fireworks(firework) {
 	function frame() {
 		if (ypos <= height) {
 			clearInterval(id);
-			firework.firstElementChild.src = `${SITE_FULL_IMAGES}/i/firework-explosion.webp?v=${vnum}`
+			firework.firstElementChild.src = `${SITE_FULL_IMAGES}/i/firework-explosion.webp?x=${vnum}`
 		} else {
 			ypos--;
 			firework.style.top=ypos+"%"

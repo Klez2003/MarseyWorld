@@ -6,15 +6,14 @@
 		</div>
 	{% endfor %}
 
-	{# idk why snow isn't working vvvvvvvvvv #}
 	{% if p.award_count("snow", v) %}
 		<script defer src="{{'events/fistmas/js/vendor/snow.js'|asset}}"></script>
 	{% endif %}
 
 	{% if p.award_count("frostbite", v) %}
 		<div class="frost"></div>
+		<link rel="stylesheet" href="{{('events/fistmas/css/frostbite.css') | asset}}">
 		<script defer src="{{'events/fistmas/js/frostbite.js' | asset}}"></script>
-		<script defer src="{{'events/fistmas/css/frostbite.css' | asset}}"></script>
 	{% endif %}
 </div>
 

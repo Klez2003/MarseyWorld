@@ -107,7 +107,13 @@
 			{% if v.theme == 'classic_dark' %}
 				<link rel="stylesheet" href="{{('css/themes/classic.css') | asset}}">
 			{% endif %}
-			<link rel="stylesheet" href="{{('css/themes/'~v.theme~'.css') | asset}}">
+
+			{% if IS_HOMOWEEN() %}
+				<link rel="stylesheet" href="{{('css/themes/midnight.css') | asset}}">
+			{% else %}
+				<link rel="stylesheet" href="{{('css/themes/'~v.theme~'.css') | asset}}">
+			{% endif %}
+
 			{% if (v.css or v.background) and not request.path.startswith('/settings') %}
 				<link rel="stylesheet" href="/@{{v.username}}/css">
 			{% endif %}
@@ -123,12 +129,16 @@
 
 	<link rel="stylesheet" href="{{'css/awards.css' | asset}}">
 
+	{% if IS_HOMOWEEN() %}
+		<link rel="stylesheet" href="{{'events/homoween/css/homoween_main.css' | asset}}">
+	{% endif %}
+
 	{% if sub and sub.css and not request.path.endswith('settings') and not request.values.get('nocss') %}
 		<link rel="stylesheet" href="/h/{{sub}}/css">
 	{% endif %}
 
 	{% if IS_FISTMAS() %}
-		<link rel="stylesheet" href="{{'events/fistmas/css/fistmas.css' | asset}}">
+		<link rel="stylesheet" href="{{'events/fistmas/css/fistmas_main.css' | asset}}">
 
 		{% if v and v.theme in LIGHT_THEMES %}
 			<link rel="stylesheet" href="{{'events/fistmas/css/themes/light.css'| asset}}">

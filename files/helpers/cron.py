@@ -55,8 +55,9 @@ def cron_fn(every_5m, every_1d, every_fri_12, every_fri_23, every_sat_00, every_
 				_grant_two_year_badges()
 				g.db.commit()
 
-				offsitementions.offsite_mentions_task(cache)
-				g.db.commit()
+				if not IS_LOCALHOST:
+					offsitementions.offsite_mentions_task(cache)
+					g.db.commit()
 
 			if every_1d or (not cache.get('stats') and not IS_LOCALHOST):
 				_generate_emojis_zip()
@@ -77,6 +78,14 @@ def cron_fn(every_5m, every_1d, every_fri_12, every_fri_23, every_sat_00, every_
 
 				cache.set('stats', stats.stats(), timeout=CRON_CACHE_TIMEOUT)
 				g.db.commit()
+
+				if IS_HOMOWEEN():
+					g.db.execute(text(
+						"INSERT INTO award_relationships (user_id, kind, created_utc) "
+						f"SELECT id, 'bite', {int(time.time())} FROM users "
+						"WHERE users.zombie < 0"))
+					g.db.commit()
+
 
 			if every_fri_12:
 				_create_post(f'Movie Night', f'''Our Movie Night today will show `{get_name()}`.\nThe movie will start at 8 PM EST. [Here is a timezone converter for whoever needs it.](https://dateful.com/time-zone-converter?t=8pm&tz1=EST-EDT-Eastern-Time). You can also check this [countdown timer](https://www.tickcounter.com/countdown/4435809/movie-night) instead.\nIt will be shown [here](/chat).\nThere will be a 5-minute bathroom break at the 50:00 mark.\nRerun will be Sunday 4 PM EST.''', 11)
@@ -146,7 +155,7 @@ def _create_post(title, body, pin_hours):
 	body_html = sanitize(body)
 
 	stickied_utc = int(time.time()) + (3600 * pin_hours)
-	
+
 	p = Post(
 		private=False,
 		notify=True,
@@ -186,7 +195,7 @@ def _create_and_delete_orgy():
 	g.db.close()
 	del g.db
 	stdout.flush()
-	
+
 	requests.post('http://localhost:5001/refresh_chat', headers={"Host": SITE})
 
 	video_info = ffmpeg.probe(f'/orgies/{get_file()}')

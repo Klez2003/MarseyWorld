@@ -47,15 +47,6 @@ else:
 	DEFAULT_COINS = 0
 	DEFAULT_MARSEYBUX = 0
 
-if IS_FISTMAS():
-	if SITE_NAME == 'rDrama':
-		default_event_music = True
-		default_darkmode = False
-	else:
-		default_event_music = False
-		default_darkmode = True
-
-
 class User(Base):
 	__tablename__ = "users"
 
@@ -162,9 +153,9 @@ class User(Base):
 	lifetimedonated_visible = Column(Boolean, default=False)
 	blacklisted_by = Column(Integer, ForeignKey("users.id"))
 
-	if IS_FISTMAS():
-		#TODO: make event_music a cookie toggle instead
-		event_music = Column(Boolean, default=default_event_music, nullable=False)
+	if IS_HOMOWEEN():
+		zombie = Column(Integer, default=0, nullable=False) # > 0 vaxxed; < 0 zombie
+		jumpscare = Column(Integer, default=0)
 
 	badges = relationship("Badge", order_by="Badge.created_utc", back_populates="user")
 	subscriptions = relationship("Subscription", back_populates="user")
@@ -260,6 +251,24 @@ class User(Base):
 			g.db.add(self)
 
 		return (succeeded, charged_coins)
+
+
+	if IS_FISTMAS():
+		@property
+		@lazy
+		def can_toggle_event_music(self):
+			return SITE_NAME != 'rDrama' or self.has_badge(91)
+	elif IS_HOMOWEEN():
+		@property
+		@lazy
+		def can_toggle_event_music(self):
+			return SITE_NAME != 'rDrama' or self.has_badge(185)
+
+	if IS_EVENT():
+		@property
+		@lazy
+		def event_music(self):
+			return session.get('event_music', SITE_NAME == 'rDrama')
 
 	@property
 	@lazy
@@ -374,6 +383,8 @@ class User(Base):
 	@lazy
 	def immune_to_awards(self, v):
 		if SITE_NAME != 'rDrama':
+			return False
+		if IS_EVENT():
 			return False
 		if v.id == self.id:
 			return False
@@ -920,7 +931,11 @@ class User(Base):
 	@property
 	@lazy
 	def profile_url(self):
+		if IS_HOMOWEEN() and self.zombie < 0:
+			return f"{SITE_FULL_IMAGES}/assets/events/homoween/images/zombies/{random.randint(1, 10)}.webp?x=1"
 		if self.chud:
+			if IS_HOMOWEEN():
+				return f"{SITE_FULL}/assets/events/homoween/images/chud/{random.randint(1, 19)}.webp?x=1"
 			return f"{SITE_FULL}/e/chudsey.webp"
 		if self.rainbow:
 			return f"{SITE_FULL}/e/marseysalutepride.webp"
@@ -932,6 +947,16 @@ class User(Base):
 			if self.profileurl.startswith('/'): return SITE_FULL + self.profileurl
 			return self.profileurl
 		return f"{SITE_FULL_IMAGES}/i/default-profile-pic.webp?x=6"
+
+	@property
+	@lazy
+	def pronouns_display(self):
+		if IS_HOMOWEEN():
+			if self.zombie > 2:
+				return 'VAX/MAXXED'
+			elif self.zombie > 0:
+				return 'giga/boosted'
+		return self.pronouns
 
 	@lazy
 	def real_post_count(self, v):
@@ -1346,12 +1371,6 @@ class User(Base):
 
 		return output
 
-	if IS_FISTMAS():
-		@property
-		@lazy
-		def can_toggle_event_music(self):
-			return SITE_NAME != 'rDrama' or self.has_badge(91)
-
 	@property
 	@lazy
 	def can_see_my_shit(self):
@@ -1375,26 +1394,26 @@ class User(Base):
 
 
 badge_ordering_tuple = (
-		22, 23, 24, 25, 26, 27, 28, #paypig
-		257, 258, 259, 260, 261, #lifetime donation
-		134, 237, #1 year and 2 year
-		10, 11, 12, #referred users
-		69, 70, 71, 72, 73, #coins spent
-		76, 77, 78, #lootboxes bought
-		17, 16, 143, #marsey making
-		110, 111, #zwolf making
-		112, 113, #platy making
-		114, 115, #capy making
-		287, 288, #carp making
-		152, 153, 154, #hats bought
-		160, 161, 162, #casino win
-		157, 158, 159, #casino loss
-		163, 164, 165, 166, #hat making
-		243, 244, 245, 247, #kong
-		118, 119, 120, 121, 122, 123, #denazifying r/stupidpol
-		190, 192, #word filter
-		251, 250, 249, #marsey madness
-	)
+	22, 23, 24, 25, 26, 27, 28, #paypig
+	257, 258, 259, 260, 261, #lifetime donation
+	134, 237, #1 year and 2 year
+	10, 11, 12, #referred users
+	69, 70, 71, 72, 73, #coins spent
+	76, 77, 78, #lootboxes bought
+	17, 16, 143, #marsey making
+	110, 111, #zwolf making
+	112, 113, #platy making
+	114, 115, #capy making
+	287, 288, #carp making
+	152, 153, 154, #hats bought
+	160, 161, 162, #casino win
+	157, 158, 159, #casino loss
+	163, 164, 165, 166, #hat making
+	243, 244, 245, 247, #kong
+	118, 119, 120, 121, 122, 123, #denazifying r/stupidpol
+	190, 192, #word filter
+	251, 250, 249, #marsey madness
+)
 
 def badge_ordering_func(b):
 	if b.badge_id in badge_ordering_tuple:

@@ -9,14 +9,18 @@
 	background-clip: text;
 	color: transparent;
 	-webkit-background-clip: text;
-	animation: 45s linear 0s infinite candycorn-move;
+	animation: 45s linear 0s infinite candy-corn-move;
 }
 
 #post-title a {
 	color: transparent !important;
 }
 
-@keyframes candycorn-move {
+#post-title:hover, #post-content p:hover {
+	animation-duration: 10s;
+}
+
+@keyframes candy-corn-move {
 	from {background-position: 0px;}
 	to {background-position: 1000px;}
 }

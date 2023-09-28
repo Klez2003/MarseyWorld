@@ -5590,12 +5590,12 @@ span > img[src$="/i/talking.webp"]+img[src$="/i/hand.webp"]+img  {
 span > img[src$="/i/love-foreground.webp"]+img[src$="/i/love-background.webp"]+img {
 	position: absolute;
 	z-index: 50;
-    height: 60%;
-    width: 60%;
+	height: 60%;
+	width: 60%;
 	bottom: -2%;
-    left: 33%;
-    transform: scaleX(-1) rotate(-10deg);
-    -webkit-transform: scaleX(-1) rotate(-10deg);
+	left: 33%;
+	transform: scaleX(-1) rotate(-10deg);
+	-webkit-transform: scaleX(-1) rotate(-10deg);
 }
 
 span > img[src$="/i/love-foreground.webp"] {
@@ -6758,13 +6758,13 @@ g {
 .rainbow-text:not(a) {
 	background-image: repeating-linear-gradient(135deg, violet, rgb(178, 94, 238), lightblue, green, yellow, orange, #ff7f7f 50%) !important;
 	color: transparent !important;
+	font-weight: 700 !important;
 	background-clip: text !important;
 	-webkit-background-clip: text !important;
-	font-weight: 700 !important;
 }
 
-.queen:not(a) {
-	color: hotpink !important;
+.queen:not(a):not(.ectoplasm) {
+	color: hotpink;
 	font-weight: 700 !important;
 	text-transform: lowercase !important;
 }
@@ -7085,7 +7085,7 @@ div.markdown {
 }
 .resizable.yt {
 	display: block;
-    width: min(100%, 500px);
+	width: min(100%, 500px);
 }
 .resizable > * {
 	height: 95% !important;
@@ -7713,17 +7713,17 @@ body {
 }
 
 * {
-    word-break: break-word !important;
+	word-break: break-word !important;
 	overflow-wrap: break-word !important;
 }
 
 .table *, .playing-card_large {
-    word-break: keep-all !important;
+	word-break: keep-all !important;
 }
 
 .user-card-bio {
 	max-height: 50px;
-    overflow-y: auto;
+	overflow-y: auto;
 }
 
 .profile-pic, .profile-pic-20, .pp20, .profile-pic-25, .profile-pic-30, .profile-pic-35, .profile-pic-50, .profile-pic-65, .profile-pic-75, .profile-pic-100, img[src^="/pp/"], img[src^="/uid/"], img[src$="/pic"] {

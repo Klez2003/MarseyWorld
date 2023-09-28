@@ -114,7 +114,7 @@ function updateBlackjackTable(state) {
 	const currency = state.wager.currency === 'coins' ? 'coins' : 'marseybux';
 
 	const gameCompleted = ['BLACKJACK', 'WON', 'PUSHED', 'LOST'].indexOf(state.status) !== -1 && (!state.has_player_split || ['WON', 'PUSHED', 'LOST'].indexOf(state.status_split) !== -1);
- 
+
 	if(gameCompleted) {
 		switch (state.status) {
 			case 'BLACKJACK':
@@ -141,7 +141,7 @@ function updateBlackjackTable(state) {
 				else {
 					updateResult(`Pushed: Received ${state.wager.amount} ${currency}`, "success");
 				}
-				
+
 				break;
 			case 'LOST':
 				if(state.status_split === 'WON') {
@@ -157,7 +157,7 @@ function updateBlackjackTable(state) {
 					}
 					updateResult(`Lost ${lost} ${currency}`, "danger");
 				}
-				
+
 				break;
 			default:
 				break;

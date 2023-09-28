@@ -23,20 +23,27 @@
 						] -%}
 					{% elif IS_FISTMAS() %}
 						{%- set VISITORS_HERE_FLAVOR = [
-							'Santa enjoyers kissing under a misletoe',
-							'bringing up family drama at Christmas dinner',
-							'stroking their candy canes',
+							"Santa enjoyers kissing under a misletoe",
+							"bringing up family drama at Christmas dinner",
+							"stroking their candy canes",
 							"dramanauts jingling each other's balls",
 							"Santa deniers getting reamed by Rudolph",
 							"naughty listers getting coal for fistmas",
 							"plus-sized dramanauts eating Santa's cookies",
 							"having their chimneys stuffed by Santa",
 						] -%}
+					{% elif IS_HOMOWEEN() %}
+						{%- set VISITORS_HERE_FLAVOR = [
+							"jack-off-lanterns currently jacking each other off",
+							"cute twinks currently trick or treating",
+							"scary skeletons currently spooking",
+							"headless horsemen currently horsing around",
+						] -%}
 					{% else %}
 						{%- set CUMJAR = '<img loading="lazy" src="' ~ SITE_FULL_IMAGES ~ '/e/marseycumjar3.webp" style="height:1.5em!important">' %}
 						{%- set VISITORS_HERE_FLAVOR = [
 							"incels currently stalking roasties",
-							'gooners currently edging to ' ~ CUMJAR,
+							"gooners currently edging to " ~ CUMJAR,
 							"fanboys currently obsessing over Carp",
 							"NEETs currently LDARmaxxing",
 							"valid women currently dilating",
@@ -82,6 +89,20 @@
 					{% set icon_url = macros.random_image('assets/events/DKD/images/icon') %}
 				{% elif IS_FISTMAS() %}
 					{% set icon_url = macros.random_image('assets/events/fistmas/images/icon/' ~ SITE_NAME) %}
+				{% elif IS_HOMOWEEN() %}
+					{%- set icons = [
+						'marseyscalped',
+						'marseybaphomet',
+						'marseydemonicgrin',
+						'marseyjason',
+						'marseyolantern',
+						'marseyskeleton',
+						'marseyzombie',
+						'marseydracula',
+						'marseywitch3',
+						'marseyhannibal'
+					] -%}
+					{% set icon_url = "/e/" ~icons|random~ ".webp" %}
 				{% else %}
 					{% set icon_url = 'headericon.webp' | asset_siteimg %}
 					{% if SITE_NAME == 'rDrama' %}

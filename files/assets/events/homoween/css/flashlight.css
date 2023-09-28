@@ -1,0 +1,40 @@
+#flashlight-effect {
+	--Xpos: 50vw;
+	--Ypos: 50vh;
+	position: fixed;
+	width:100%;
+	height:100%;
+	z-index:1061;
+	pointer-events:none;
+	opacity:0.8;
+	/*looks better but is too expensive to justify :(*/
+	backdrop-filter: brightness(1.5);
+	background-color: rgba(256,256,256,0.06);
+}
+#flashlight-effect:before {
+	content: "";
+	display: block;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	pointer-events: none;
+	background: radial-gradient(
+		circle 30vmax at var(--Xpos) var(--Ypos),
+		rgba(0,0,0,0) 0%,
+		rgba(0,0,0,.5) 70%,
+		rgba(0,0,0,.93) 100%
+		);
+	z-index: 1061;
+}
+@media (max-width: 767.98px) {
+	#flashlight-effect::before {
+		background: radial-gradient(
+			circle 20em at 50% var(--Ypos),
+			rgba(0,0,0,0) 0%,
+			rgba(0,0,0,0) 80%,
+			rgba(0,0,0,.93) 100%
+		);
+		opacity:0.9;
+		pointer-events: none;
+	}
+}

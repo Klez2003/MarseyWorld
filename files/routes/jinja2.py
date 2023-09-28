@@ -1,10 +1,12 @@
 import time
+import math
 
 from os import environ, listdir, path
 
 from flask import g, session, has_request_context, request
 from jinja2 import pass_context
 from PIL import ImageColor
+from sqlalchemy import text
 
 from files.classes.user import User
 from files.classes.orgy import get_orgy
@@ -102,6 +104,20 @@ def git_head():
 def max_days():
 	return int((2147483647-time.time())/86400)
 
+@cache.memoize(timeout=60)
+def bar_position():
+	db = db_session()
+	vaxxed = db.execute(text("SELECT COUNT(*) FROM users WHERE zombie > 0")).one()[0]
+	zombie = db.execute(text("SELECT COUNT(*) FROM users WHERE zombie < 0")).one()[0]
+	total = db.execute(text("SELECT COUNT(*) FROM "
+		"(SELECT DISTINCT ON (author_id) author_id AS uid FROM comments "
+			"WHERE created_utc > 1666402200) AS q1 "
+		"FULL OUTER JOIN (SELECT id AS uid FROM users WHERE zombie != 0) as q2 "
+		"ON q1.uid = q2.uid")).one()[0]
+	total = max(total, 1)
+
+	return [int((vaxxed * 100) / total), int((zombie * 100) / total), vaxxed, zombie]
+
 @app.context_processor
 def inject_constants():
 	return {"environ":environ, "SITE":SITE, "SITE_NAME":SITE_NAME, "SITE_FULL":SITE_FULL,
@@ -127,8 +143,8 @@ def inject_constants():
 			"BIO_FRIENDS_ENEMIES_LENGTH_LIMIT":BIO_FRIENDS_ENEMIES_LENGTH_LIMIT,
 			"IMMUNE_TO_AWARDS": IMMUNE_TO_AWARDS, "SITE_FULL_IMAGES": SITE_FULL_IMAGES,
 			"IS_FISTMAS":IS_FISTMAS, "IS_HOMOWEEN":IS_HOMOWEEN, "IS_DKD":IS_DKD, "IS_EVENT":IS_EVENT, "IS_BIRTHGAY":IS_BIRTHGAY,
-			"CHUD_PHRASES":CHUD_PHRASES, "hasattr":hasattr, "calc_users":calc_users, "HOLE_INACTIVITY_DELETION":HOLE_INACTIVITY_DELETION,
+			"CHUD_PHRASES":CHUD_PHRASES, "hasattr":hasattr, "calc_users":calc_users, "HOLE_INACTIVITY_DELETION":HOLE_INACTIVITY_DELETION, "LIGHT_THEMES":LIGHT_THEMES,
 			"MAX_IMAGE_AUDIO_SIZE_MB":MAX_IMAGE_AUDIO_SIZE_MB, "MAX_IMAGE_AUDIO_SIZE_MB_PATRON":MAX_IMAGE_AUDIO_SIZE_MB_PATRON,
 			"MAX_VIDEO_SIZE_MB":MAX_VIDEO_SIZE_MB, "MAX_VIDEO_SIZE_MB_PATRON":MAX_VIDEO_SIZE_MB_PATRON,
-			"CURSORMARSEY_DEFAULT":CURSORMARSEY_DEFAULT, "SNAPPY_ID":SNAPPY_ID, "get_orgy":get_orgy, "TRUESCORE_CC_CHAT_MINIMUM":TRUESCORE_CC_CHAT_MINIMUM,
+			"CURSORMARSEY_DEFAULT":CURSORMARSEY_DEFAULT, "SNAPPY_ID":SNAPPY_ID, "get_orgy":get_orgy, "TRUESCORE_CC_CHAT_MINIMUM":TRUESCORE_CC_CHAT_MINIMUM, "bar_position":bar_position,
 		}

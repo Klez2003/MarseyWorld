@@ -11,6 +11,8 @@
 	{% if err or '@' not in request.path %}
 		{% if IS_FISTMAS() and not sub %}
 			{% include 'events/fistmas/banner.html' %}
+		{% elif IS_HOMOWEEN() and not sub %}
+			{% include 'events/homoween/banner.html' %}
 		{% else %}
 			{% set path = "files/assets/images/" ~ SITE_NAME %}
 
@@ -75,7 +77,15 @@
 {% endblock %}
 
 {% include "header.html" %}
-{% block mobileUserBanner %}{% endblock %}
+
+{% block mobileUserBanner %}
+{% endblock %}
+
+{% if IS_HOMOWEEN() %}
+	{% block hauntBg %}
+	{% endblock %}
+{% endif %}
+
 <div class="container">
 	<div class="row justify-content-around" id="main-content-row">
 		<div class="order-first col h-100 {% block customPadding %}{% if request.path.startswith('/@') %}user-gutters{% else %}custom-gutters{% endif %}{% endblock %}" id="main-content-col">
@@ -89,7 +99,9 @@
 		{% block sidebar %}
 			{% if has_sidebar and (home or p) %}
 				{% set sidebar = "sidebar_" ~ SITE_NAME ~ ".html" %}
-				{% include sidebar %}
+				<div id="desktop-sidebar">
+					{% include sidebar %}
+				</div>
 			{% endif %}
 		{% endblock %}
 	</div>
@@ -125,10 +137,8 @@
 	{% endif %}
 {% endif %}
 
-{% if IS_DKD() %}
-	{% include "events/DKD/music.html" %}
-{% elif IS_FISTMAS() %}
-	{% include "events/fistmas/music.html" %}
+{% if IS_EVENT() %}
+	{% include "events/shared/music.html" %}
 {% endif %}
 
 {% endblock %}

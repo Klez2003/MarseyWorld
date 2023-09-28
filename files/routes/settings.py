@@ -182,6 +182,10 @@ def settings_personal_post(v):
 		updated = True
 		session["over_18"] = int(request.values.get("over_18") == 'true')
 
+	elif not updated and v.can_toggle_event_music and request.values.get("event_music", v.event_music) != v.event_music:
+		updated = True
+		session['event_music'] = request.values.get("event_music", v.event_music) == 'true'
+
 	elif not updated and request.values.get("marsify", v.marsify) != v.marsify and v.marsify <= 1:
 		if not v.patron:
 			abort(403, f"Perma-marsify is only available to {patron}s!")
@@ -191,10 +195,6 @@ def settings_personal_post(v):
 		else:
 			badge = v.has_badge(170)
 			if badge: g.db.delete(badge)
-
-	elif IS_FISTMAS() and not updated and request.values.get("event_music", v.event_music) != v.event_music and v.can_toggle_event_music:
-		updated = True
-		v.event_music = not v.event_music
 
 	elif not updated and request.values.get("bio") == "" and not request.files.get('file'):
 		v.bio = None

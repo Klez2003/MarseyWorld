@@ -18,7 +18,7 @@ function flash(){
 	if (notifs >= 1 && !focused){
 		title.innerHTML = `[+${notifs}] ${page_title}`
 		if (alert) {
-			icon.href = `${SITE_FULL_IMAGES}/i/${SITE_NAME}/alert.ico?v=3009`
+			icon.href = `${SITE_FULL_IMAGES}/i/${SITE_NAME}/alert.ico?x=3009`
 			alert = false
 		}
 		else {

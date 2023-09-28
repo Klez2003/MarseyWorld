@@ -80,7 +80,7 @@ blockquote {
 	background: #dddddd !important;
 }
 *:target {
-    background: rgba(var(--primary_rgb), 0.2) !important;
+	background: rgba(var(--primary_rgb), 0.2) !important;
 }
 
 .visited, h5.post-title a:visited, a[href^="https://"]:not([href^="https://rdrama.net" i], [href^="https://watchpeopledie.tv" i], .dropdown-item, .nav-link, .no-visited):visited {
@@ -88,5 +88,5 @@ blockquote {
 }
 
 .award-name {
-    color: var(--black);
+	color: var(--black);
 }

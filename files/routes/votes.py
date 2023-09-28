@@ -58,6 +58,9 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 	if IS_EVENT():
 		coin_mult *= 2
 
+	if IS_HOMOWEEN() and target.author.zombie > 0:
+		coin_mult += 1
+
 	coin_value = coin_delta * coin_mult
 
 	imlazy = 0
@@ -142,7 +145,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 		send_notification(AEVANN_ID, target.permalink)
 	elif SITE == 'rdrama.net' and target.author_id == 29:
 		mul = 3
-	elif target.author.progressivestack or target.author.admin_level >= PERMS['IS_PERMA_PROGSTACKED']:
+	elif target.author.progressivestack or (IS_HOMOWEEN() and target.author.zombie < 0) or target.author.admin_level >= PERMS['IS_PERMA_PROGSTACKED']:
 		mul = 2
 	elif SITE == 'rdrama.net' and cls == Post:
 		if (target.domain.endswith('.win')

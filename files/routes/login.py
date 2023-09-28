@@ -378,7 +378,7 @@ def post_forgot():
 		return render_template("login/forgot_password.html", error="Invalid email!"), 400
 
 	user = get_user(username, graceful=True)
-	
+
 	email = escape_for_search(email)
 
 	if user and user.email and user.email.lower() == email.lower():

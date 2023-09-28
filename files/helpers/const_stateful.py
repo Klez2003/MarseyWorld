@@ -9,10 +9,12 @@ marseys_const2 = []
 marsey_mappings = {}
 SNAPPY_MARSEYS = []
 SNAPPY_QUOTES = []
+SNAPPY_QUOTES_FISTMAS = []
+SNAPPY_QUOTES_HOMOWEEN = []
 STEALTH_HOLES = []
 
 def const_initialize():
-	global marseys_const, marseys_const2, marsey_mappings, SNAPPY_KONGS, SNAPPY_MARSEYS, SNAPPY_QUOTES, STEALTH_HOLES
+	global marseys_const, marseys_const2, marsey_mappings, SNAPPY_KONGS, SNAPPY_MARSEYS, SNAPPY_QUOTES, SNAPPY_QUOTES_FISTMAS, SNAPPY_QUOTES_HOMOWEEN, STEALTH_HOLES
 
 	db = db_session()
 
@@ -26,9 +28,8 @@ def const_initialize():
 			else:
 				marsey_mappings[tag] = [marsey.name]
 
-	if IS_DKD():
-		SNAPPY_KONGS = db.query(Emoji.name).filter(Emoji.kind=="Donkey Kong", Emoji.submitter_id==None).all()
-		SNAPPY_KONGS = [f':#{x[0]}:' for x in SNAPPY_KONGS]
+	SNAPPY_KONGS = db.query(Emoji.name).filter(Emoji.kind=="Donkey Kong", Emoji.submitter_id==None).all()
+	SNAPPY_KONGS = [f':#{x[0]}:' for x in SNAPPY_KONGS]
 
 	STEALTH_HOLES = [x[0] for x in db.query(Sub.name).filter_by(stealth=True)]
 
@@ -37,13 +38,12 @@ def const_initialize():
 
 	SNAPPY_MARSEYS = [f':#{x}:' for x in marseys_const2]
 
-	if IS_FISTMAS():
-		filename = f"snappy_fistmas_{SITE_NAME}.txt"
-	else:
-		filename = f"snappy_{SITE_NAME}.txt"
-
 	try:
-		with open(filename, "r") as f:
+		with open(f"snappy_{SITE_NAME}.txt", "r") as f:
 			SNAPPY_QUOTES = f.read().split("\n{[para]}\n")
+		with open(f"snappy_fistmas_{SITE_NAME}.txt", "r") as f:
+			SNAPPY_QUOTES_FISTMAS = f.read().split("\n{[para]}\n")
+		with open("snappy_homoween.txt", "r") as f:
+			SNAPPY_QUOTES_HOMOWEEN = f.read().split("\n{[para]}\n")
 	except FileNotFoundError:
 		pass

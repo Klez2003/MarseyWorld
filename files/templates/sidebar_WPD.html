@@ -15,9 +15,13 @@
 	{%- endif -%}
 
 	{% if request.path != '/sidebar' %}
-		<a href="{{image}}">
-			<img class="mb-4 sidebar-img" alt="sidebar image" data-nonce="{{g.nonce}}" data-onclick="expandImage()" loading="lazy" src="{{image}}">
-		</a>
+		{% if IS_FISTMAS() or IS_HOMOWEEN() %}
+			{% include "events/shared/eye_tracking.html" %}
+		{% else %}
+			<a href="{{image}}">
+				<img class="mb-4 sidebar-img" alt="sidebar image" data-nonce="{{g.nonce}}" data-onclick="expandImage()" loading="lazy" src="{{image}}">
+			</a>
+		{% endif %}
 	{% endif %}
 
 	<p class="text-center text-md mb-4">
@@ -28,6 +32,15 @@
 		<a class="sidebar-link" href="/transfers" data-bs-toggle="tooltip" data-bs-placement="top" title="Transfers"><i class="fas fa-arrow-right-arrow-left"></i></a>
 		<a class="sidebar-link" href="/random_post" data-bs-toggle="tooltip" data-bs-placement="top" title="Random Post"><i class="fas fa-random"></i></a>
 	</p>
+
+	<div class="progress">
+		<div style="--width:{{bar_position()[0]}}%" class="bar-left"></div>
+		<div style="--width:{{bar_position()[1]}}%" class="bar-right"></div>
+		<div class="legend">
+			<span title="{{bar_position()[2]}}">{{bar_position()[0]}}% Vaxxed</span>
+			<span title="{{bar_position()[3]}}">{{bar_position()[1]}}% Infected</span>
+		</div>
+	</div>
 
 	<div class="sidebar-wpd--flairs sidebar-wpd--flairs--3">
 		<a href="/h/accident">Accident</a>

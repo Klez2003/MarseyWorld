@@ -10,7 +10,7 @@ from files.helpers.actions import *
 from files.helpers.alerts import *
 from files.helpers.config.const import *
 from files.helpers.slurs_and_profanities import censor_slurs_profanities
-from files.helpers.config.awards import AWARDS_ENABLED, HOUSE_AWARDS, LOOTBOX_ITEM_COUNT, LOOTBOX_CONTENTS
+from files.helpers.config.awards import *
 from files.helpers.get import *
 from files.helpers.marsify import marsify
 from files.helpers.owoify import owoify
@@ -105,6 +105,10 @@ def buy(v, award):
 	if award == "lootbox":
 		lootbox_items = []
 		for _ in range(LOOTBOX_ITEM_COUNT): # five items per lootbox
+			if IS_FISTMAS():
+				LOOTBOX_CONTENTS = FISTMAS_AWARDS
+			elif IS_HOMOWEEN():
+				LOOTBOX_CONTENTS = HOMOWEEN_AWARDS
 			lb_award = random.choice(LOOTBOX_CONTENTS)
 			lootbox_items.append(AWARDS[lb_award]['title'])
 			lb_award = AwardRelationship(user_id=v.id, kind=lb_award, price_paid=price // LOOTBOX_ITEM_COUNT)
@@ -545,9 +549,46 @@ def award_thing(v, thing_type, id):
 		if author.spider: author.spider += 86400
 		else: author.spider = int(time.time()) + 86400
 		badge_grant(user=author, badge_id=179, notify=False)
-	if kind == "grinch":
+	elif kind == "grinch":
 		badge_grant(badge_id=91, user=author)
-		author.event_music = False
+	elif kind == "hw-grinch":
+		badge_grant(badge_id=185, user=author)
+	elif kind == "bite":
+		if author.zombie < 0:
+			author = v
+
+		if author.zombie == 0:
+			author.zombie = -1
+			badge_grant(user=author, badge_id=181)
+
+			award_object = AwardRelationship(user_id=author.id, kind='bite')
+			g.db.add(award_object)
+			send_repeatable_notification(author.id,
+				"As the zombie virus washes over your mind, you feel the urge "
+				"to… BITE YUMMY BRAINS :marseyzombie:<br>"
+				"You receive a free **Zombie Bite** award: pass it on!")
+
+		elif author.zombie > 0:
+			author.zombie -= 1
+			if author.zombie == 0:
+				send_repeatable_notification(author.id, "You are no longer **VAXXMAXXED**! Time for another booster!")
+
+				badge = author.has_badge(182)
+				if badge: g.db.delete(badge)
+	elif kind == "vax":
+		if author.zombie < 0:
+			author.zombie = 0
+			send_repeatable_notification(author.id, "You are no longer **INFECTED**! Praise Fauci!")
+
+			badge = author.has_badge(181)
+			if badge: g.db.delete(badge)
+		elif author.zombie >= 0:
+			author.zombie += 2
+			author.zombie = min(author.zombie, 10)
+
+			badge_grant(user=author, badge_id=182)
+	elif kind == "jumpscare":
+		author.jumpscare += 1
 
 
 	if author.received_award_count: author.received_award_count += 1
@@ -556,18 +597,33 @@ def award_thing(v, thing_type, id):
 
 	return {"message": f"{AWARDS[kind]['title']} award given to {thing_type} successfully!"}
 
-def shift_number_down(input, mod):
-	if input <= 0:
-		return 0, 0
-	number = (input%mod)
-	input -= number
-	input /= mod
-	return int(number), int(input)
+@app.post("/trick-or-treat")
+@limiter.limit("1/hour", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
+@auth_required
+def trick_or_treat(v):
+	if v.client: abort(403, "Not allowed from the API")
 
-def get_number_tuple(input, mods):
-	results = []
-	for mod in mods:
-		result, input = shift_number_down(input, mod)
-		results.append(result)
-	results.append(input)
-	return results
+	result = random.choice([0,1])
+
+	if result == 0:
+		message = "Trick!"
+	else:
+		award = random.choice(HOMOWEEN_AWARDS)
+		award_object = AwardRelationship(user_id=v.id, kind=award)
+		g.db.add(award_object)
+
+		award_title = AWARDS_ENABLED[award]['title']
+		message = f"Treat! You got a {award_title} award!"
+
+	return {"message": f"{message}", "result": f"{result}"}
+
+
+@app.post("/jumpscare")
+@auth_required
+def execute_jumpscare(v):
+	if v.client: abort(403, "Not allowed from the API")
+	if v.jumpscare > 0:
+		v.jumpscare -= 1
+		g.db.add(v)
+
+	return {}

@@ -970,14 +970,14 @@ EMOJI_KINDS = ("Marsey", "Platy", "Wolf", "Donkey Kong", "Tay", "Capy", "Carp", 
 t = datetime.datetime.now()
 
 fistmas_begin = datetime.datetime.strptime(f'1/12/{t.year}', '%d/%m/%Y')
-fistmas_end = datetime.datetime.strptime(f'30/12/{t.year}', '%d/%m/%Y')
+fistmas_end = datetime.datetime.strptime(f'26/12/{t.year}', '%d/%m/%Y')
 def IS_FISTMAS():
 	return fistmas_begin < datetime.datetime.now() < fistmas_end
 
-homoween_begin = datetime.datetime.strptime(f'15/10/{t.year}', '%d/%m/%Y')
+homoween_begin = datetime.datetime.strptime(f'10/10/{t.year}', '%d/%m/%Y')
 homoween_end = datetime.datetime.strptime(f'1/11/{t.year}', '%d/%m/%Y')
 def IS_HOMOWEEN():
-	return homoween_begin < datetime.datetime.now() < homoween_end
+	return IS_LOCALHOST or SITE == 'devrama.net' or homoween_begin < datetime.datetime.now() < homoween_end
 
 dkd_begin = datetime.datetime.strptime(f'25/4/{t.year}', '%d/%m/%Y')
 dkd_end = datetime.datetime.strptime(f'2/5/{t.year}', '%d/%m/%Y')

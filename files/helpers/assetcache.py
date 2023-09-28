@@ -11,11 +11,13 @@ ASSET_DIR = 'files/assets'
 ASSET_URL = '/assets/'
 ASSET_CACHE = defaultdict(lambda: None)
 
-ASSET_SUBDIRS = ['/css', '/js']
-if IS_DKD():
-	ASSET_SUBDIRS.extend(['/events/DKD/js'])
-elif IS_FISTMAS():
-	ASSET_SUBDIRS.extend(['/events/fistmas/css', '/events/fistmas/js'])
+ASSET_SUBDIRS = [
+		'/css', '/js',
+		'/events/shared/js',
+		'/events/DKD/js',
+		'/events/fistmas/css', '/events/fistmas/js',
+		'/events/homoween/css', '/events/homoween/js',
+	]
 
 new_dirs = []
 for directory in ASSET_SUBDIRS:
@@ -40,7 +42,7 @@ def assetcache_path(asset_path):
 
 	url = ASSET_URL + asset_path
 	if cachehash:
-		url += '?v=' + cachehash
+		url += '?x=' + cachehash
 
 	return url
 

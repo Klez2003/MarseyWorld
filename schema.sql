@@ -167,7 +167,6 @@ CREATE TABLE public.users (
     profanityreplacer integer DEFAULT 1 NOT NULL,
     last_viewed_reddit_notifs integer NOT NULL,
     profile_background character varying(167),
-    event_music boolean,
     chudded_by integer,
     blacklisted_by integer,
     hidevotedon boolean DEFAULT false NOT NULL,
@@ -3041,4 +3040,3 @@ ALTER TABLE ONLY public.comments
 --
 -- PostgreSQL database dump complete
 --
-

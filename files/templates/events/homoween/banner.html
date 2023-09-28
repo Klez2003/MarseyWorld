@@ -1,0 +1,11 @@
+<a rel="nofollow noopener noreferrer" href="https://youtu.be/3l7X94GLqSQ?t=16" style="text-decoration: none !important">
+	{% set banner_day = 10 %}
+	<link rel="stylesheet" href="{{'events/homoween/css/banner.css' | asset}}">
+	<script defer src="{{'events/homoween/js/banner.js' | asset}}"></script>
+
+	{% include "events/homoween/banner_" ~SITE_NAME~ ".svg" %}
+</a>
+
+{% if IS_LOCALHOST or SITE == 'devrama.net' %}
+	<script defer src="{{'events/homoween/js/banner-debug.js' | asset}}"></script>
+{% endif %}

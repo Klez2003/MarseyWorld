@@ -24,7 +24,7 @@ if (u_username)
 	u_username = u_username.innerHTML
 
 	let audio = new Audio(`/@${u_username}/song`);
-	audio.loop=true;
+	audio.loop = true;
 
 	function toggle() {
 		if (audio.paused) {
@@ -54,7 +54,7 @@ else
 		const paused = localStorage.getItem("paused")
 
 		let audio = new Audio(`/@${v_username}/song`);
-		audio.loop=true;
+		audio.loop = true;
 
 		function toggle() {
 			if (audio.paused)

@@ -231,7 +231,7 @@ def check_for_completion(state):
 				state['status'] = BlackjackStatus.LOST
 			else:
 				state['status'] = BlackjackStatus.PUSHED
-		
+
 		state['player_value'] = get_value_of_hand(state['player'])
 		state['dealer_value'] = get_value_of_hand(state['dealer'])
 
@@ -308,7 +308,7 @@ def handle_payout(gambler, state, game):
 		payout = game.wager
 	else:
 		raise Exception("Attempted to payout a game that has not finished.")
-	
+
 	if split_status == BlackjackStatus.WON:
 		game.winnings += game.wager
 		payout += game.wager * 2
@@ -466,7 +466,7 @@ def get_available_actions(state):
 
 	if can_purchase_insurance(state):
 		actions.append(BlackjackAction.BUY_INSURANCE)
-	
+
 	if can_split(state):
 		actions.append(BlackjackAction.SPLIT)
 
