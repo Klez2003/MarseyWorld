@@ -400,7 +400,7 @@ if (location.pathname != '/chat' && (gbrowser == 'iphone' || gbrowser == 'mac'))
 	}
 }
 
-const screen_width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+const screen_width = (innerWidth > 0) ? innerWidth : screen.width;
 function focusSearchBar(element)
 {
 	if (screen_width >= 768) {

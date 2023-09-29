@@ -267,9 +267,9 @@ function snow(flakesMax) {
 	};
 
 	this.resizeHandler = function () {
-	  if (window.innerWidth || window.innerHeight) {
-		screenX = window.innerWidth - 16 - storm.flakeRightOffset;
-		screenY = storm.flakeBottom || window.innerHeight;
+	  if (innerWidth || innerHeight) {
+		screenX = innerWidth - 16 - storm.flakeRightOffset;
+		screenY = storm.flakeBottom || innerHeight;
 	  } else {
 		screenX =
 		  (document.documentElement.clientWidth ||

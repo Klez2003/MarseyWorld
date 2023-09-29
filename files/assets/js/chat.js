@@ -50,7 +50,7 @@ socket.on('speak', function(json) {
 
 	const users = document.getElementsByClassName('user_id');
 	const last_user = users[users.length-1].value;
-	const scrolled_down = (box.scrollHeight - box.scrollTop <= window.innerHeight)
+	const scrolled_down = (box.scrollHeight - box.scrollTop <= innerHeight)
 
 	if (last_user != json.user_id) {
 		document.getElementsByClassName('avatar-pic')[0].src = '/pp/' + json.user_id

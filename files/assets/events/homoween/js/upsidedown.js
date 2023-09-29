@@ -1,6 +1,6 @@
 let st = init("canvas"), // stranger things var
 w = (canvas.width = innerWidth),
-h = (canvas.height = window.innerHeight);
+h = (canvas.height = innerHeight);
 
 class firefly {
 	constructor() {
@@ -45,7 +45,7 @@ function init(elemid) {
 	let canvas = document.getElementById(elemid),
 		st = canvas.getContext("2d"),
 		w = (canvas.width = innerWidth),
-		h = (canvas.height = window.innerHeight);
+		h = (canvas.height = innerHeight);
 	st.fillStyle = "rgba(30,30,30,1)";
 	st.fillRect(0, 0, w, h);
 	return st;
@@ -70,9 +70,9 @@ function loop() {
 	draw();
 }
 
-window.addEventListener("resize", function () {
+addEventListener("resize", function () {
 	(w = canvas.width = innerWidth),
-		(h = canvas.height = window.innerHeight);
+		(h = canvas.height = innerHeight);
 	loop();
 });
 
