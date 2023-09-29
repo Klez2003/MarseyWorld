@@ -1,4 +1,3 @@
-// TODO: Refactor this ugly shit who wrote this lmao
 function vote(type, id, dir) {
 	const upvotes = document.getElementsByClassName(type + '-' + id + '-up');
 	const downvotes = document.getElementsByClassName(type + '-' + id + '-down');

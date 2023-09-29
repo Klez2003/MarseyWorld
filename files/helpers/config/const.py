@@ -857,7 +857,6 @@ approved_embed_hosts = [
 	# 2) Cannot have open redirects based on query string. (tightest constraint)
 	# 3) #2 but pre-stored, ex: s.lain.la 302 with jannie DM attack.
 	# 4) Use the exact subdomain.
-	### TODO: Run a media proxy and kill most of these. Impossible to review.
 
 	### First-Party
 	'rdrama.net',
@@ -867,7 +866,6 @@ approved_embed_hosts = [
 	'videos.watchpeopledie.tv',
 
 	### Third-Party Image Hosts
-	# TODO: Might be able to keep these even if we media proxy?
 	'i.imgur.com',
 	'i.imgur.io',
 	'pomf2.lain.la/f',
@@ -885,7 +883,6 @@ approved_embed_hosts = [
 	'files.catbox.moe',
 
 	### Third-Party Media
-	# TODO: Preferably kill these. Media proxy.
 	# DO NOT ADD: wordpress.com, wp.com (maybe) | Or frankly anything. No more.
 	'i.redd.it',
 	'preview.redd.it',

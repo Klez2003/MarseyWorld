@@ -906,7 +906,6 @@ def complies_with_chud(obj):
 		#perserve old body_html to be used in checking for chud phrase
 		old_body_html = obj.body_html
 
-		# TODO: Replace this code to make it more generic
 		#torture body_html
 		if obj.body_html and '<p>&amp;&amp;' not in obj.body_html and '<p>$$' not in obj.body_html and '<p>##' not in obj.body_html:
 			soup = BeautifulSoup(obj.body_html, 'lxml')
