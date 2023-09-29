@@ -7671,3 +7671,7 @@ ul {
 .hide-scrollbar::-webkit-scrollbar {
 	display: none;
 }
+
+*:target {
+	scroll-margin-top: 100px;
+}
