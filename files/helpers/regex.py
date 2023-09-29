@@ -195,7 +195,7 @@ subreddit_name_regex = re.compile('\w{2,25}', flags=re.A)
 ###YOUTUBE
 
 #sanitize
-youtube_regex = re.compile('<a href="(https:\/\/youtube\.com\/watch\?v=[\w-]{11}[\w&;=]*)" rel="nofollow noopener" target="_blank">https:\/\/youtube\.com\/watch\?v=[\w-]{11}[\w&;=]*<\/a>' + NOT_IN_CODE_OR_LINKS, flags=re.I|re.A)
+youtube_regex = re.compile('<a href="(https:\/\/youtube\.com\/watch\?v=[\w-]{11}[\w&;=]*)" rel="nofollow noopener" target="_blank">(https:\/\/)?youtube\.com\/watch\?v=[\w-]{11}[\w&;=]*<\/a>' + NOT_IN_CODE_OR_LINKS, flags=re.I|re.A)
 
 #sanitize and song
 yt_id_regex = re.compile('[\w-]{11}', flags=re.A)
