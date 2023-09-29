@@ -31,7 +31,7 @@
 	{% endblock %}
 	</head>
 	<body {% block body_attributes %}id="{% block pagetype %}{% endblock %}"{% endblock %}>
-		{% if IS_HOMOWEEN() and (v and v.jumpscare) or 'shop' in request.path %}
+		{% if IS_HOMOWEEN() and ((v and v.jumpscare) or request.path.startswith('/shop/')) %}
 			{% set image_src = SITE_FULL_IMAGES ~ "/assets/events/homoween/images/jumpscares/" ~ listdir("files/assets/events/homoween/images/jumpscares")|random() ~ "?x=45" %}
 			<img src="{{image_src}}" id="jump-scare-img" style="display: none">
 			{% set audio_src = "/assets/events/homoween/audio/jumpscares/" ~ listdir("files/assets/events/homoween/audio/jumpscares")|random() ~ "?x=45" %}
