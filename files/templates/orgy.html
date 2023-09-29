@@ -16,7 +16,7 @@
 			<div>
 				<p id="orgy-file-container" class="resizable">
 					{% if orgy.type == 'youtube' %}
-						<lite-youtube videoid="{{orgy.data}}" params="autoplay=1&modestbranding=1"/>
+						<iframe style="border: none" sandbox="allow-scripts allow-same-origin allow-popups allow-presentation allow-popups-to-escape-sandbox" title="Play" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen src="https://www.youtube-nocookie.com/embed/{{orgy.data}}?autoplay=1&modestbranding=1&autoplay=1"></iframe>
 					{% elif orgy.type == 'rumble' %}
 						<iframe src="{{orgy.data}}" frameborder="0" allowfullscreen></iframe>
 					{% elif orgy.type == 'twitch' %}

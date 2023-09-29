@@ -105,6 +105,6 @@ pre {
 	background: rgba(var(--primary_rgb), 0.2) !important;
 }
 
-lite-youtube {
+lite-youtube, iframe {
 	color-scheme: light !important;
 }

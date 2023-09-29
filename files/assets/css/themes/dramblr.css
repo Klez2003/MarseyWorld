@@ -158,6 +158,6 @@ color: var(--gray-700);
 	background: #ffffff22 !important;
 }
 
-lite-youtube {
+lite-youtube, iframe {
 	color-scheme: light !important;
 }

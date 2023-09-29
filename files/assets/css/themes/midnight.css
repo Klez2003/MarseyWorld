@@ -73,6 +73,6 @@ body, .navbar-light, .navbar-dark, .card, .modal-content, .comment-write textare
 	background: #ffffff22 !important;
 }
 
-lite-youtube {
+lite-youtube, iframe {
 	color-scheme: light !important;
 }
