@@ -126,7 +126,7 @@ def speak(data, v):
 		return text_html
 
 	quotes = data['quotes']
-	id = str(uuid.uuid4())
+	id = secrets.token_urlsafe(4).lower()
 
 	self_only = False
 
