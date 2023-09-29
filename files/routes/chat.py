@@ -197,6 +197,12 @@ def refresh_online():
 	emit("online", [online[g.referrer], muted], room=g.referrer, broadcast=True)
 	cache.set('loggedin_chat', len(online[f'{SITE_FULL}/chat']), timeout=0)
 
+def remove_from_online(v):
+	for li in online.values():
+		for entry in li:
+			if entry[1] == v.id:
+				li.remove(entry)
+
 @socketio.on('connect')
 @auth_required_socketio
 def connect(v):
@@ -209,13 +215,9 @@ def connect(v):
 
 	join_room(g.referrer)
 
-	if [v.username, v.id, v.name_color, v.patron] not in online[g.referrer]:
-		for val in online.values():
-			if [v.username, v.id, v.name_color, v.patron] in val:
-				val.remove([v.username, v.id, v.name_color, v.patron])
+	remove_from_online(v)
 
-	if [v.username, v.id, v.name_color, v.patron] not in online[g.referrer]:
-		online[g.referrer].append([v.username, v.id, v.name_color, v.patron])
+	online[g.referrer].append([v.username, v.id, v.name_color, v.patron])
 
 	refresh_online()
 
@@ -226,13 +228,7 @@ def connect(v):
 @auth_required_socketio
 def disconnect(v):
 	if g.referrer != f'{SITE_FULL}/notifications/messages':
-		for val in online.values():
-			if [v.username, v.id, v.name_color, v.patron] in val:
-				val.remove([v.username, v.id, v.name_color, v.patron])
-
-		for val in typing.values():
-			if v.username in val:
-				val.remove(v.username)
+		remove_from_online(v)
 
 	if g.referrer not in ALLOWED_REFERRERS:
 		return '', 400
