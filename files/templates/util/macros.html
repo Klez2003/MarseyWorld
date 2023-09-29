@@ -326,7 +326,7 @@
 			<span id="loading-indicator" class="d-none"></span>
 		</div>
 		<span class="my-auto">
-			<i class="btn btn-secondary fas fa-smile-beam" style="font-size:1.3rem!important" data-nonce="{{g.nonce}}" data-onclick="loadEmojis('input-text')" data-bs-toggle="modal" data-bs-target="#emojiModal"></i>
+			<i class="btn btn-secondary fas fa-smile-beam" style="font-size:1.3rem!important" data-nonce="{{g.nonce}}" data-onclick="loadEmojis('input-text-chat')" data-bs-toggle="modal" data-bs-target="#emojiModal"></i>
 		</span>
 
 		<span class="my-auto ml-1">
@@ -336,10 +336,11 @@
 			</label>
 		</span>
 
-		<textarea id="input-text" minlength="1" maxlength="{% if SITE == 'rdrama.net' %}200{% else %}1000{% endif %}" {% if g.browser in ("iphone","mac") %}style="font-size:16px!important"{% endif %} class="file-ta form-control" placeholder="Message" autocomplete="off" autofocus rows="1"></textarea>
+		<textarea id="input-text-chat" minlength="1" maxlength="{% if SITE == 'rdrama.net' %}200{% else %}1000{% endif %}" {% if g.browser in ("iphone","mac") %}style="font-size:16px!important"{% endif %} class="file-ta form-control" placeholder="Message" autocomplete="off" autofocus rows="1"></textarea>
 
 		<i id="chatsend" data-nonce="{{g.nonce}}" data-onclick="send()" class="btn btn-secondary fas fa-reply ml-3 my-auto" style="transform:rotateY(180deg);font-size:1.3rem!important"></i>
 	</div>
+	<div id="ghostdiv-chat" class="ghostdiv" style="display: none"><span></span></div>
 </div>
 {% endmacro %}
 

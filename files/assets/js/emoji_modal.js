@@ -332,7 +332,13 @@ let emoji_typing_state = false;
 
 function update_ghost_div_textarea(text)
 {
-	let ghostdiv = text.parentNode.querySelector(".ghostdiv");
+	let ghostdiv
+
+	if (location.pathname == '/chat') 
+		ghostdiv = document.getElementById("ghostdiv-chat");
+	else
+		ghostdiv = text.parentNode.getElementsByClassName("ghostdiv")[0];
+
 	if (!ghostdiv) return;
 
 	ghostdiv.textContent = text.value.substring(0, text.selectionStart);
@@ -517,10 +523,16 @@ function speed_carot_navigate(event)
 function insertGhostDivs(element) {
 	let forms = element.querySelectorAll("textarea, .allow-emojis");
 	forms.forEach(i => {
-		let pseudo_div = document.createElement("div");
-		pseudo_div.className = "ghostdiv";
-		pseudo_div.style.display = "none";
-		i.after(pseudo_div);
+		let ghostdiv
+		if (i.id == 'input-text-chat') {
+			ghostdiv = document.getElementsByClassName("ghostdiv")[0];
+		}
+		else {
+			ghostdiv = document.createElement("div");
+			ghostdiv.className = "ghostdiv";
+			ghostdiv.style.display = "none";
+			i.after(ghostdiv);
+		}
 		i.addEventListener('input', update_speed_emoji_modal, false);
 		i.addEventListener('keydown', speed_carot_navigate, false);
 	});

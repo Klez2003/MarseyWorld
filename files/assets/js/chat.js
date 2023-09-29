@@ -12,7 +12,7 @@ const socket = io()
 
 const chatline = document.getElementsByClassName('chat-line')[0]
 const box = document.getElementById('chat-window')
-const ta = document.getElementById('input-text')
+const ta = document.getElementById('input-text-chat')
 
 const vid = document.getElementById('vid').value
 const slurreplacer = document.getElementById('slurreplacer').value
