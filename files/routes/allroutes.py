@@ -11,7 +11,7 @@ from files.__main__ import app, limiter, get_CF, redis_instance
 def before_request():
 	g.v = None
 
-	if request.host != SITE and request.path != '/refresh_chat':
+	if request.host != SITE:
 		abort(403, "Unauthorized host provided!")
 
 	if SITE == 'marsey.world' and request.path != '/kofi':
