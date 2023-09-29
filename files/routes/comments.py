@@ -533,6 +533,7 @@ def unpin_comment(cid, v):
 			abort(403, "You can only unpin comments you have pinned!")
 
 		comment.stickied = None
+		comment.stickied_utc = None
 		g.db.add(comment)
 
 		if v.id != comment.author_id:

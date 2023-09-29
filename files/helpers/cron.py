@@ -214,6 +214,7 @@ def _delete_all_posts():
 		p.deleted_utc = int(time.time())
 		p.is_pinned = False
 		p.stickied = None
+		p.stickied_utc = None
 		g.db.add(p)
 
 		cache.delete_memoized(frontlist)

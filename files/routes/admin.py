@@ -1345,8 +1345,11 @@ def remove_post(post_id, v):
 	post = get_post(post_id)
 	post.is_banned = True
 	post.is_approved = None
+
 	if not FEATURES['AWARDS'] or not post.stickied or not post.stickied.endswith(PIN_AWARD_TEXT):
 		post.stickied = None
+		post.stickied_utc = None
+
 	post.is_pinned = False
 	post.ban_reason = v.username
 	g.db.add(post)
@@ -1569,6 +1572,7 @@ def unsticky_comment(cid, v):
 			abort(403, "Can't unpin award pins!")
 
 		comment.stickied = None
+		comment.stickied_utc = None
 		g.db.add(comment)
 
 		ma=ModAction(

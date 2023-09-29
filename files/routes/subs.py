@@ -824,6 +824,7 @@ def unpin_comment_mod(cid, v):
 		if not (comment.post.sub and v.mods(comment.post.sub)): abort(403)
 
 		comment.stickied = None
+		comment.stickied_utc = None
 		g.db.add(comment)
 
 		ma = SubAction(
