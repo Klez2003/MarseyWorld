@@ -83,7 +83,7 @@
 
 				{%- import 'util/macros.html' as macros with context -%}
 				{{- macros.time_filter_buttons() -}}
-				{{- macros.sorting_buttons(POST_SORTS) -}}
+				{{- macros.sorting_buttons(POST_SORTS, True) -}}
 			</div>
 			{% endblock %}
 		</div>

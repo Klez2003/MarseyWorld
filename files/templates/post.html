@@ -299,7 +299,7 @@
 	<div class="col border-top">
 		<div class="comments-count py-3">
 			{%- import 'util/macros.html' as macros with context -%}
-			{{- macros.sorting_buttons(COMMENT_SORTS) -}}
+			{{- macros.sorting_buttons(COMMENT_SORTS, True) -}}
 		</div>
 
 	{{macros.comment_reply_box(p.fullname, 'comment-reply-' + p.fullname, subwrapper_css_classes='mb-3', enable_cancel_button=false)}}

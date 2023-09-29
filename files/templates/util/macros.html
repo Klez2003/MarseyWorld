@@ -370,14 +370,19 @@
 	</div>
 {% endmacro %}
 
-{% macro sorting_buttons(sorts) %}
+{% macro sorting_buttons(sorts, hot_allowed) %}
 	<div class="dropdown dropdown-actions">
 		<button type="button" class="btn btn-secondary dropdown-toggle" id="dropdownMenuButton2" data-bs-toggle="dropdown">
 			<i class="fas fa-{{sorts[sort]}} mr-1"></i>
 			{{sort | capitalize}}
 		</button>
 		<div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px">
-			{% for new_sort, icon in sorts.items() %}
+			{% set sorts = sorts.items()|list %}
+			{% if not hot_allowed %}
+				{% set sorts = sorts[1:] %}
+			{% endif %}
+
+			{% for new_sort, icon in sorts %}
 				{% if sort != new_sort %}
 					<a class="dropdown-item" href="{{'sort'|change_arg(new_sort, request.full_path)|safe}}">
 						<i class="fas fa-{{icon}} mr-2"></i>
