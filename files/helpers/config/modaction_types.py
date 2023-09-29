@@ -292,12 +292,12 @@ MODACTION_TYPES = {
 		"color": 'bg-primary'
 	},
 	'set_nsfw': {
-		"str": 'set {self.target_link} as +18',
+		"str": 'set {self.target_link} as 18+',
 		"icon": 'fa-eye-evil',
 		"color": 'bg-danger'
 	},
 	'set_nsfw_comment': {
-		"str": 'set {self.target_link} as +18',
+		"str": 'set {self.target_link} as 18+',
 		"icon": 'fa-eye-evil',
 		"color": 'bg-danger'
 	},
@@ -362,12 +362,12 @@ MODACTION_TYPES = {
 		"color": 'bg-muted'
 	},
 	'unset_nsfw': {
-		"str": 'unset {self.target_link} as +18',
+		"str": 'unset {self.target_link} as 18+',
 		"icon": 'fa-eye-evil',
 		"color": 'bg-success'
 	},
 	'unset_nsfw_comment': {
-		"str": 'unset {self.target_link} as +18',
+		"str": 'unset {self.target_link} as 18+',
 		"icon": 'fa-eye-evil',
 		"color": 'bg-success'
 	},

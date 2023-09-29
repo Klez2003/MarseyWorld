@@ -637,8 +637,8 @@ def toggle_comment_nsfw(cid, v):
 				)
 			g.db.add(ma)
 
-	if comment.over_18: return {"message": "Comment has been marked as +18!"}
-	else: return {"message": "Comment has been unmarked as +18!"}
+	if comment.over_18: return {"message": "Comment has been marked as 18+!"}
+	else: return {"message": "Comment has been unmarked as 18+!"}
 
 @app.post("/edit_comment/<int:cid>")
 @limiter.limit('1/second', scope=rpath)
