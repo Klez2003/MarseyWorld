@@ -457,11 +457,6 @@ def submit_post(v, sub=None):
 	if SITE == 'rdrama.net' and v.id == 10947:
 		sub = 'mnn'
 
-	title_html = filter_emojis_only(title, count_emojis=True)
-
-	if v.marseyawarded and not marseyaward_title_regex.fullmatch(title_html):
-		abort(400, "You can only type marseys!")
-
 	if sub == 'changelog':
 		abort(400, "/h/changelog is archived")
 
@@ -541,14 +536,6 @@ def submit_post(v, sub=None):
 	body_for_sanitize = body
 	if v.sharpen: body_for_sanitize = sharpen(body_for_sanitize)
 
-	body_html = sanitize(body_for_sanitize, count_emojis=True, limit_pings=100)
-
-	if v.marseyawarded and marseyaward_body_regex.search(body_html):
-		abort(400, "You can only type marseys!")
-
-	if len(body_html) > POST_BODY_HTML_LENGTH_LIMIT:
-		abort(400, "Post body_html too long!")
-
 	flag_notify = (request.values.get("notify", "on") == "on")
 	flag_new = request.values.get("new", False, bool) or 'megathread' in title.lower()
 	flag_over_18 = FEATURES['NSFW_MARKING'] and request.values.get("over_18", False, bool)
@@ -577,10 +564,8 @@ def submit_post(v, sub=None):
 		is_bot=(v.client is not None),
 		url=url,
 		body=body,
-		body_html=body_html,
 		embed=embed,
 		title=title,
-		title_html=title_html,
 		sub=sub,
 		ghost=flag_ghost,
 		chudded=flag_chudded,
@@ -588,6 +573,23 @@ def submit_post(v, sub=None):
 		queened=bool(v.queen),
 		sharpened=bool(v.sharpen),
 	)
+
+	title_html = filter_emojis_only(title, count_emojis=True, obj=p)
+
+	if v.marseyawarded and not marseyaward_title_regex.fullmatch(title_html):
+		abort(400, "You can only type marseys!")
+
+	p.title_html = title_html
+
+	body_html = sanitize(body_for_sanitize, count_emojis=True, limit_pings=100, obj=p)
+
+	if v.marseyawarded and marseyaward_body_regex.search(body_html):
+		abort(400, "You can only type marseys!")
+
+	if len(body_html) > POST_BODY_HTML_LENGTH_LIMIT:
+		abort(400, "Post body_html too long!")
+
+	p.body_html = body_html
 
 	g.db.add(p)
 	g.db.flush()
@@ -1015,7 +1017,7 @@ def edit_post(pid, v):
 
 
 	if title != p.title:
-		title_html = filter_emojis_only(title, golden=False)
+		title_html = filter_emojis_only(title, golden=False, obj=p)
 
 		if p.author.marseyawarded and not marseyaward_title_regex.fullmatch(title_html):
 			abort(403, "You can only type marseys!")
@@ -1033,7 +1035,7 @@ def edit_post(pid, v):
 		body_for_sanitize = body
 		if p.sharpened: body_for_sanitize = sharpen(body_for_sanitize)
 
-		body_html = sanitize(body_for_sanitize, golden=False, limit_pings=100)
+		body_html = sanitize(body_for_sanitize, golden=False, limit_pings=100, obj=p)
 
 		if p.author.marseyawarded and marseyaward_body_regex.search(body_html):
 			abort(403, "You can only type marseys!")

@@ -260,7 +260,29 @@ def comment(v):
 	if v.marsify and not v.chud: body_for_sanitize = marsify(body_for_sanitize)
 	if v.sharpen: body_for_sanitize = sharpen(body_for_sanitize)
 
-	body_html = sanitize(body_for_sanitize, limit_pings=5, showmore=(not v.marseyawarded), count_emojis=not v.marsify, commenters_ping_post_id=commenters_ping_post_id)
+	is_bot = v.client is not None and v.id not in BOT_SYMBOL_HIDDEN
+
+	chudded = v.chud and not (posting_to_post and post_target.sub == 'chudrama')
+
+	c = Comment(author_id=v.id,
+				parent_post=post_target.id if posting_to_post else None,
+				wall_user_id=post_target.id if not posting_to_post else None,
+				parent_comment_id=parent_comment_id,
+				level=level,
+				over_18=post_target.over_18 if posting_to_post else False,
+				is_bot=is_bot,
+				app_id=v.client.application.id if v.client else None,
+				body=body,
+				ghost=ghost,
+				chudded=chudded,
+				rainbowed=bool(v.rainbow),
+				queened=bool(v.queen),
+				sharpened=bool(v.sharpen),
+			)
+
+	c.upvotes = 1
+
+	body_html = sanitize(body_for_sanitize, limit_pings=5, showmore=(not v.marseyawarded), count_emojis=not v.marsify, commenters_ping_post_id=commenters_ping_post_id, obj=c)
 
 	if post_target.id not in ADMIGGER_THREADS and not (v.chud and v.chud_phrase in body.lower()):
 		existing = g.db.query(Comment.id).filter(
@@ -282,28 +304,8 @@ def comment(v):
 	if len(body_html) > COMMENT_BODY_HTML_LENGTH_LIMIT:
 		abort(400, "Comment too long!")
 
-	is_bot = v.client is not None and v.id not in BOT_SYMBOL_HIDDEN
+	c.body_html = body_html
 
-	chudded = v.chud and not (posting_to_post and post_target.sub == 'chudrama')
-
-	c = Comment(author_id=v.id,
-				parent_post=post_target.id if posting_to_post else None,
-				wall_user_id=post_target.id if not posting_to_post else None,
-				parent_comment_id=parent_comment_id,
-				level=level,
-				over_18=post_target.over_18 if posting_to_post else False,
-				is_bot=is_bot,
-				app_id=v.client.application.id if v.client else None,
-				body_html=body_html,
-				body=body,
-				ghost=ghost,
-				chudded=chudded,
-				rainbowed=bool(v.rainbow),
-				queened=bool(v.queen),
-				sharpened=bool(v.sharpen),
-			)
-
-	c.upvotes = 1
 	g.db.add(c)
 	g.db.flush()
 
@@ -683,7 +685,7 @@ def edit_comment(cid, v):
 		if c.sharpened:
 			body_for_sanitize = sharpen(body_for_sanitize)
 
-		body_html = sanitize(body_for_sanitize, golden=False, limit_pings=5, showmore=(not v.marseyawarded), commenters_ping_post_id=c.parent_post)
+		body_html = sanitize(body_for_sanitize, golden=False, limit_pings=5, showmore=(not v.marseyawarded), commenters_ping_post_id=c.parent_post, obj=c)
 
 		if len(body_html) > COMMENT_BODY_HTML_LENGTH_LIMIT: abort(400)
 

@@ -218,58 +218,58 @@ def execute_blackjack(v, target, body, kind):
 			send_repeatable_notification_duplicated(id, f"Blackjack by @{v.username}: {extra_info}")
 	return True
 
-def find_all_emote_endings(word):
+def find_all_emote_endings(emoji):
 	endings = []
 
-	if path.isfile(f'files/assets/images/emojis/{word}.webp'):
-		return endings, word
+	if path.isfile(f'files/assets/images/emojis/{emoji}.webp'):
+		return endings, emoji
 
 	is_non_ending_found = False
 	while not is_non_ending_found:
-		if word.endswith('pat'):
+		if emoji.endswith('pat'):
 			if 'pat' in endings:
 				is_non_ending_found = True
 				continue
 			endings.append('pat')
-			word = word[:-3]
+			emoji = emoji[:-3]
 			continue
 
-		if word.endswith('talking'):
+		if emoji.endswith('talking'):
 			if 'talking' in endings:
 				is_non_ending_found = True
 				continue
 			endings.append('talking')
-			word = word[:-7]
+			emoji = emoji[:-7]
 			continue
 
-		if word.endswith('genocide'):
+		if emoji.endswith('genocide'):
 			if 'genocide' in endings:
 				is_non_ending_found = True
 				continue
 			endings.append('genocide')
-			word = word[:-8]
+			emoji = emoji[:-8]
 			continue
 
-		if word.endswith('love'):
+		if emoji.endswith('love'):
 			if 'love' in endings:
 				is_non_ending_found = True
 				continue
 			endings.append('love')
-			word = word[:-4]
+			emoji = emoji[:-4]
 			continue
 
 		is_non_ending_found = True
 
-	if word.endswith('random'):
-		kind = word.split('random')[0].title()
+	if emoji.endswith('random'):
+		kind = emoji.split('random')[0].title()
 		if kind == 'Donkeykong': kind = 'Donkey Kong'
 		elif kind == 'Marseyflag': kind = 'Marsey Flags'
 		elif kind == 'Marseyalphabet': kind = 'Marsey Alphabet'
 
 		if kind in EMOJI_KINDS:
-			word = g.db.query(Emoji.name).filter_by(kind=kind).order_by(func.random()).first()[0]
+			emoji = g.db.query(Emoji.name).filter_by(kind=kind, over_18=False).order_by(func.random()).first()[0]
 
-	return endings, word
+	return endings, emoji
 
 
 def render_emoji(html, regexp, golden, emojis_used, b=False, is_title=False):
@@ -411,7 +411,7 @@ def handle_youtube_links(url):
 	return html
 
 @with_sigalrm_timeout(10)
-def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis=False, snappy=False, chat=False, blackjack=None, post_mention_notif=False, commenters_ping_post_id=None):
+def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis=False, snappy=False, chat=False, blackjack=None, post_mention_notif=False, commenters_ping_post_id=None, obj=None):
 	def error(error):
 		if chat:
 			return error, 403
@@ -563,6 +563,12 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 			emoji.count += 1
 			g.db.add(emoji)
 
+	if obj:
+		for emoji in emojis_used:
+			if emoji in OVER_18_EMOJIS:
+				obj.over_18 = True
+				break
+
 	sanitized = sanitized.replace('<p></p>', '')
 
 	allowed_css_properties = allowed_styles.copy()
@@ -704,7 +710,7 @@ def allowed_attributes_emojis(tag, name, value):
 
 
 @with_sigalrm_timeout(2)
-def filter_emojis_only(title, golden=True, count_emojis=False):
+def filter_emojis_only(title, golden=True, count_emojis=False, obj=None):
 
 	title = title.replace("\n", "").replace("\r", "").replace("\t", "").replace('<','&lt;').replace('>','&gt;')
 
@@ -718,6 +724,12 @@ def filter_emojis_only(title, golden=True, count_emojis=False):
 		for emoji in g.db.query(Emoji).filter(Emoji.submitter_id==None, Emoji.name.in_(emojis_used)):
 			emoji.count += 1
 			g.db.add(emoji)
+
+	if obj:
+		for emoji in emojis_used:
+			if emoji in OVER_18_EMOJIS:
+				obj.over_18 = True
+				break
 
 	title = strikethrough_regex.sub(r'\1<del>\2</del>', title)
 

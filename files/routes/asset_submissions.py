@@ -48,6 +48,7 @@ def submit_emoji(v):
 	tags = request.values.get('tags', '').lower().strip()
 	username = request.values.get('author', '').lower().strip()
 	kind = request.values.get('kind', '').strip()
+	over_18 = request.values.get("over_18", False, bool)
 
 	for modifier in emoji_modifiers:
 		if name.endswith(modifier):
@@ -91,7 +92,15 @@ def submit_emoji(v):
 	copyfile(highquality, filename)
 	process_image(filename, v, resize=300, trim=True)
 
-	emoji = Emoji(name=name, kind=kind, author_id=author.id, tags=tags, count=0, submitter_id=v.id)
+	emoji = Emoji(
+				name=name,
+				kind=kind,
+				author_id=author.id,
+				tags=tags,
+				count=0,
+				submitter_id=v.id,
+				over_18=over_18,
+			)
 	g.db.add(emoji)
 
 	return {"message": f"'{name}' submitted successfully!"}
@@ -139,10 +148,12 @@ def approve_emoji(v, name):
 	if new_kind not in EMOJI_KINDS:
 		abort(400, "Invalid kind!")
 
+	over_18 = request.values.get("over_18", False, bool)
 
 	emoji.name = new_name
 	emoji.kind = new_kind
 	emoji.tags = tags
+	emoji.over_18 = over_18
 	g.db.add(emoji)
 
 	author = get_account(emoji.author_id)
@@ -177,9 +188,9 @@ def approve_emoji(v, name):
 			badge_grant(badge_id=113, user=author)
 		badge_grant(badge_id=112, user=author)
 
-
-	cache.delete("emojis")
-	cache.delete(f"emoji_list_{emoji.kind}")
+	if not Emoji.over_18:
+		cache.delete("emojis")
+		cache.delete(f"emoji_list_{emoji.kind}")
 
 	purge_files_in_cloudflare_cache(f"{SITE_FULL_IMAGES}/e/{emoji.name}/webp")
 
@@ -209,6 +220,9 @@ def approve_emoji(v, name):
 		_note=f'<img loading="lazy" data-bs-toggle="tooltip" alt=":{name}:" title=":{name}:" src="{SITE_FULL_IMAGES}/e/{name}.webp">'
 	)
 	g.db.add(ma)
+
+	if emoji.over_18:
+		OVER_18_EMOJIS.append(emoji.name)
 
 	return {"message": f"'{emoji.name}' approved!"}
 
@@ -474,8 +488,9 @@ def update_emoji(v):
 	)
 	g.db.add(ma)
 
-	cache.delete("emojis")
-	cache.delete(f"emoji_list_{existing.kind}")
+	if not Emoji.over_18:
+		cache.delete("emojis")
+		cache.delete(f"emoji_list_{existing.kind}")
 
 	return {"message": f"'{name}' updated successfully!"}
 

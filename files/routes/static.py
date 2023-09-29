@@ -45,7 +45,7 @@ def reddit_post(subreddit, v, path):
 @cache.cached(make_cache_key=lambda kind:f"emoji_list_{kind}")
 def get_emoji_list(kind):
 	emojis = []
-	for emoji, author in g.db.query(Emoji, User).join(User, Emoji.author_id == User.id).filter(Emoji.submitter_id == None, Emoji.kind == kind).order_by(Emoji.count.desc()):
+	for emoji, author in g.db.query(Emoji, User).join(User, Emoji.author_id == User.id).filter(Emoji.submitter_id == None, Emoji.kind == kind, Emoji.over_18 == False).order_by(Emoji.count.desc()):
 		emoji.author = author.username if FEATURES['ASSET_SUBMISSIONS'] else None
 		emojis.append(emoji)
 	return emojis
@@ -83,7 +83,7 @@ def emoji_list(v, kind):
 
 @cache.cached(make_cache_key=lambda:"emojis")
 def get_emojis():
-	emojis = g.db.query(Emoji, User).join(User, Emoji.author_id == User.id).filter(Emoji.submitter_id == None)
+	emojis = g.db.query(Emoji, User).join(User, Emoji.author_id == User.id).filter(Emoji.submitter_id == None, Emoji.over_18 == False)
 	emojis1 = emojis.filter(Emoji.kind != 'Marsey Alphabet').order_by(Emoji.count.desc()).all()
 	emojis2 = emojis.filter(Emoji.kind == 'Marsey Alphabet').order_by(func.length(Emoji.name), Emoji.name).all()
 	emojis = emojis1 + emojis2
