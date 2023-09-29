@@ -302,7 +302,7 @@ def sign_up_post(v):
 
 	profileurl = None
 	if PFP_DEFAULT_MARSEY:
-		profileurl = '/e/' + random.choice(marseys_const) + '.webp'
+		profileurl = '/e/' + random.choice(MARSEYS_CONST) + '.webp'
 
 	new_user = User(
 		username=username,

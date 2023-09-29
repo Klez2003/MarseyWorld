@@ -284,7 +284,7 @@ def render_emoji(html, regexp, golden, emojis_used, b=False, is_title=False):
 		attrs = ''
 		if b: attrs += ' b'
 		if is_title: emoji = emoji.replace('#','')
-		if golden and len(emojis) <= 20 and ('marsey' in emoji or emoji in marseys_const2):
+		if golden and len(emojis) <= 20 and ('marsey' in emoji or emoji in MARSEYS_CONST2):
 			if random.random() < 0.005:
 				attrs += ' ' + random.choice(('g', 'glow', 'party'))
 
