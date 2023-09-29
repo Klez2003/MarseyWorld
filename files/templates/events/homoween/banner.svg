@@ -118,16 +118,15 @@
 	<g id="banner-homoween-scene" transform="matrix(1,0,0,1.0023048,427.09249,-121.25261)">
 			<g id="banner-homoween-text" fill="#fff" transform="translate(-27.135979,1.5613725)" style="transform:rotate(-6deg) skewX(-12deg)">
 				<text id="banner-homoween-presenting" style="font-family:verdana,arial;text-transform:uppercase">
-					<tspan x="200" y="290">rDrama Presents</tspan>
+					<tspan x="180" y="300">{{SITE_NAME}} Presents</tspan>
 				</text>
 				<g style="font-size:80px;font-family:Creepster,arial;">
-					<text id="banner-homoween-title" y="370" fill-opacity="0.9">
-						<tspan x="200">H</tspan><tspan x="235">O</tspan><tspan x="270">M</tspan><tspan x="320">O</tspan>
-						<tspan x="355">W</tspan><tspan x="405">E</tspan><tspan x="440">E</tspan><tspan x="475">N</tspan>
+					<text id="banner-homoween-title" y="380" fill-opacity="0.9">
+						<tspan x="180">HOMOWEEN</tspan>
 					</text>
 				</g>
 				<text id="banner-homoween-text-evil" style="opacity:0">
-					<tspan x="200" y="370" fill="white" style="font-size:72px;font-family:Jo_wrote_a_lovesong;">straggotween</tspan>
+					<tspan x="180" y="370" fill="white" style="font-size:72px;font-family:Jo_wrote_a_lovesong;">HOMOWEEN</tspan>
 				</text>
 			</g>
 		<g id="banner-homoween-house" transform="translate(-166.09098,3.8681347)">
