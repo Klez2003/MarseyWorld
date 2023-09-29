@@ -1960,15 +1960,15 @@ def start_orgy(v):
 
 	normalized_link = normalize_url(link)
 
-	if re.match(bare_youtube_regex, normalized_link):
+	if bare_youtube_regex.match(normalized_link):
 		orgy_type = 'youtube'
 		data, _ = get_youtube_id_and_t(normalized_link)
-	elif re.match(rumble_regex, normalized_link):
+	elif rumble_regex.match(normalized_link):
 		orgy_type = 'rumble'
 		data = normalized_link
-	elif re.match(twitch_regex, normalized_link):
+	elif twitch_regex.match(normalized_link):
 		orgy_type = 'twitch'
-		data = re.search(twitch_regex, normalized_link).group(3)
+		data = twitch_regex.search(normalized_link).group(3)
 	elif any((normalized_link.lower().endswith(f'.{x}') for x in VIDEO_FORMATS)):
 		orgy_type = 'file'
 		data = normalized_link
