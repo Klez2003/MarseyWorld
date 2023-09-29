@@ -253,6 +253,7 @@ def comment(v):
 			if body_for_checking in f.read().lower():
 				abort(400, "Snappy quote already exists!")
 			f.write('{[para]}\n' + body + '\n')
+			SNAPPY_QUOTES.append(body)
 
 	body_for_sanitize = body
 	if v.owoify: body_for_sanitize = owoify(body_for_sanitize)
@@ -455,15 +456,11 @@ def delete_comment(cid, v):
 			for sort in COMMENT_SORTS.keys():
 				cache.delete(f'post_{c.parent_post}_{sort}')
 
-		if v.admin_level >= PERMS['USE_ADMIGGER_THREADS'] and c.parent_post == SNAPPY_THREAD and c.level == 1:
-			body = '\n{[para]}\n' + c.body + '\n'
-			with open(f"snappy_{SITE_NAME}.txt", "r") as f:
-				old_text = f.read()
-
-			if old_text.endswith(body):
-				new_text = old_text.split(body)[0] + '\n'
-				with open(f"snappy_{SITE_NAME}.txt", "w") as f:
-					f.write(new_text)
+		if v.admin_level >= PERMS['USE_ADMIGGER_THREADS'] and c.parent_post == SNAPPY_THREAD and c.level == 1 and c.body in SNAPPY_QUOTES:
+			SNAPPY_QUOTES.remove(c.body)
+			new_text = "\n{[para]}\n".join(SNAPPY_QUOTES)
+			with open(f"snappy_{SITE_NAME}.txt", "w") as f:
+				f.write(new_text + "\n")
 
 	return {"message": "Comment deleted!"}
 

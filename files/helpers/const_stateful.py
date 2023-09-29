@@ -40,10 +40,10 @@ def const_initialize():
 
 	try:
 		with open(f"snappy_{SITE_NAME}.txt", "r") as f:
-			SNAPPY_QUOTES = f.read().split("\n{[para]}\n")
+			SNAPPY_QUOTES = f.read().strip().split("\n{[para]}\n")
 		with open(f"snappy_fistmas_{SITE_NAME}.txt", "r") as f:
-			SNAPPY_QUOTES_FISTMAS = f.read().split("\n{[para]}\n")
+			SNAPPY_QUOTES_FISTMAS = f.read().strip().split("\n{[para]}\n")
 		with open("snappy_homoween.txt", "r") as f:
-			SNAPPY_QUOTES_HOMOWEEN = f.read().split("\n{[para]}\n")
+			SNAPPY_QUOTES_HOMOWEEN = f.read().strip().split("\n{[para]}\n")
 	except FileNotFoundError:
 		pass
