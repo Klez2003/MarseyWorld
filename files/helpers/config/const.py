@@ -940,12 +940,30 @@ forced_hats = {
 	"earlylife": ("The Merchant", "SHUT IT DOWN, the goys know!"),
 	"marsify": ("Marsified", "I can't pick my own Marseys, help!"),
 	"is_suspended": ("Behind Bars", "This user is banned and needs to do better!"),
-	"queen": ("Emoji Crown (hearts and shooting stars)", "This user is getting in touch with her feminine side 🥰"),
-	"chud": (("Egg_irl", "This user is getting in touch with xir identity!"),
+	"chud": (
+				("Egg_irl", "This user is getting in touch with xir identity!"),
 				("Trans Flag", "Just in case you forgot, trans lives matter."),
 				("Trans Flag II", "Your egg is cracked; wear it with pride!"),
 				("Pride Flag", "Never forget that this is a primarily gay community. Dude bussy lmao."),
-				("Pride Flag II", "This user is a proud supporter of LGBTQ+ rights."))
+				("Pride Flag II", "This user is a proud supporter of LGBTQ+ rights."),
+			),
+	"queen": (
+				("Flower Crown I", "This user is getting in touch with her feminine side 🥰"),
+				("Flower Crown II", "This user is getting in touch with her feminine side 🥰"),
+				("Flower Crown III", "This user is getting in touch with her feminine side 🥰"),
+				("Flower Crown IV", "This user is getting in touch with her feminine side 🥰"),
+				("Flower Crown V", "This user is getting in touch with her feminine side 🥰"),
+				("Flower Crown VI", "This user is getting in touch with her feminine side 🥰"),
+				("Flower Crown VII", "This user is getting in touch with her feminine side 🥰"),
+				("Flower Crown VIII", "This user is getting in touch with her feminine side 🥰"),
+				("Flower Crown IX", "This user is getting in touch with her feminine side 🥰"),
+				("Flower Crown X", "This user is getting in touch with her feminine side 🥰"),
+				("Flower Crown XI", "This user is getting in touch with her feminine side 🥰"),
+				("Flower Crown XII", "This user is getting in touch with her feminine side 🥰"),
+				("Flower Crown XIII", "This user is getting in touch with her feminine side 🥰"),
+				("Flower Crown XIV", "This user is getting in touch with her feminine side 🥰"),
+				("Emoji Crown (hearts and shooting stars)", "This user is getting in touch with her feminine side 🥰")
+			 ),
 
 }
 
