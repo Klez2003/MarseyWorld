@@ -27,6 +27,7 @@
 							<track label="English" kind="subtitles" srclang="en" src="/assets/subtitles.vtt?x={{subtitles_hash}}" default>
 						</video>
 						<video id="break-file" class="d-none" controls preload="none" src="/assets/break.mp4" data-run="0"></video>
+						<script defer src="{{'js/orgy_file.js' | asset}}"></script>
 					{% endif %}
 				</p>
 			</div>
@@ -55,5 +56,4 @@
 	<script defer src="{{'js/vendor/lozad.js' | asset}}"></script>
 	<script defer src="{{'js/vendor/lite-youtube.js' | asset}}"></script>
 	<script defer src="{{'js/chat.js' | asset}}"></script>
-	<script defer src="{{'js/orgy.js' | asset}}"></script>
 {% endblock %}
