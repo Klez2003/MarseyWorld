@@ -45,7 +45,7 @@ function checkLotteryStats() {
 
 // Admin
 function ensureIntent() {
-	return window.confirm("Are you sure you want to end the current lottery?");
+	return confirm("Are you sure you want to end the current lottery?");
 }
 
 // Composed

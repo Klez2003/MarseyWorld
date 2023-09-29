@@ -24,7 +24,7 @@ function collapse_comment(id) {
 
 	if (closed && top < 0) {
 		element.scrollIntoView()
-		window.scrollBy(0, - 100)
+		scrollBy(0, - 100)
 	}
 
 	const reports = document.getElementById(`reports-${id}`)

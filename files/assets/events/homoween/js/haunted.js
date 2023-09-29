@@ -9,7 +9,7 @@ stylesheet_haunted.setAttribute("href", "/assets/events/homoween/css/haunted2.cs
 stylesheet_haunted.disabled = true
 document.head.appendChild(stylesheet_haunted)
 
-window.onload = function(){
+onload = function(){
 	thunder2.volume = 0.5
 	lightningStrike("normal")
 }

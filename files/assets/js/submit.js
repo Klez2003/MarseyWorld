@@ -223,7 +223,7 @@ function submit(form) {
 
 //SAVE FILES
 
-const indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB || window.shimIndexedDB;
+const indexedDB = indexedDB || mozIndexedDB || webkitIndexedDB || msIndexedDB || shimIndexedDB;
 
 const open = indexedDB.open("files", 1);
 

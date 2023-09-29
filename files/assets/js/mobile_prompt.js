@@ -1,5 +1,5 @@
 if (!is_pwa) {
-	if (window.innerWidth <= 737) {
+	if (innerWidth <= 737) {
 		const tt = bootstrap.Tooltip.getOrCreateInstance(document.getElementById('mobile-prompt'))
 		tt.show()
 		document.getElementsByClassName('tooltip')[0].addEventListener('click', function(e) {
