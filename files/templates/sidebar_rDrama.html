@@ -37,14 +37,16 @@
 		<a class="sidebar-link" href="/random_post" data-bs-toggle="tooltip" data-bs-placement="top" title="Random Post"><i class="fas fa-random"></i></a>
 	</p>
 
-	<div class="progress">
-		<div style="--width:{{bar_position()[0]}}%" class="bar-left"></div>
-		<div style="--width:{{bar_position()[1]}}%" class="bar-right"></div>
-		<div class="legend">
-			<span title="{{bar_position()[2]}}">{{bar_position()[0]}}% Vaxxed</span>
-			<span title="{{bar_position()[3]}}">{{bar_position()[1]}}% Infected</span>
+	{% if IS_HOMOWEEN() %}
+		<div class="progress">
+			<div style="--width:{{bar_position()[0]}}%" class="bar-left"></div>
+			<div style="--width:{{bar_position()[1]}}%" class="bar-right"></div>
+			<div class="legend">
+				<span title="{{bar_position()[2]}}">{{bar_position()[0]}}% Vaxxed</span>
+				<span title="{{bar_position()[3]}}">{{bar_position()[1]}}% Infected</span>
+			</div>
 		</div>
-	</div>
+	{% endif %}
 
 	{% if sub and sub.sidebar_html %}
 		<div class="mb-4">{{sub.sidebar_html|safe}}</div>
