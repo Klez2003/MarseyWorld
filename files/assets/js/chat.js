@@ -95,7 +95,7 @@ socket.on('speak', function(json) {
 			}
 			document.getElementsByClassName('quotes')[0].classList.remove("d-none")
 			document.getElementsByClassName('QuotedMessageLink')[0].href = '#' + json.quotes
-			document.getElementsByClassName('QuotedUser')[0].innerHTML = quoted.parentElement.querySelector('.userlink').textContent
+			document.getElementsByClassName('QuotedUser')[0].innerHTML = quoted.parentElement.querySelector('.userlink').textContent.trim()
 			document.getElementsByClassName('QuotedMessage')[0].innerHTML = quoted.querySelector('.text').innerHTML
 		}
 	}
@@ -169,7 +169,7 @@ function quote(t) {
 	document.getElementById('QuotedMessage').innerHTML = text
 
 	const username = t.parentElement.parentElement.parentElement.parentElement.parentElement.getElementsByClassName('userlink')[0].textContent
-	document.getElementById('QuotedUser').innerHTML = username
+	document.getElementById('QuotedUser').innerHTML = username.trim()
 
 	const id = t.parentElement.parentElement.parentElement.parentElement.id
 	document.getElementById('quotes_id').value = id
