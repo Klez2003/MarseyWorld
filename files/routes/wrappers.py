@@ -118,7 +118,7 @@ def get_logged_in_user():
 
 	g.is_tor = (request.headers.get("cf-ipcountry") == "T1" and not (v and v.truescore >= 1000))
 
-	if v and not IS_EVENT() and session.get("event_music"):
+	if v and session.get("event_music") and not IS_EVENT():
 		session.pop("event_music")
 
 	return v
