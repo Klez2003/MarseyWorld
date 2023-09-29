@@ -198,10 +198,10 @@ socket.on('online', function(data){
 			patron = ` class="patron" style="background-color:#${u[2]}"`
 
 		online += `<li>`
-		if (admin_level && Object.keys(data[1]).includes(u[0].toLowerCase()))
+		if (admin_level && Object.keys(data[1]).includes(u[1].toLowerCase()))
 			online += '<b class="text-danger muted" data-bs-toggle="tooltip" title="Muted">X</b> '
-		online += `<a class="font-weight-bold" target="_blank" href="/@${u[0]}" style="color:#${u[2]}"><img loading="lazy" class="mr-1" src="/pp/${u[1]}"><span${patron}>${u[0]}</span></a></li>`
-		online2 += `<br>@${u[0]}`
+		online += `<a class="font-weight-bold" target="_blank" href="/@${u[1]}" style="color:#${u[2]}"><img loading="lazy" class="mr-1" src="/pp/${u[0]}"><span${patron}>${u[1]}</span></a></li>`
+		online2 += `<br>@${u[1]}`
 	}
 
 	const online_el = document.getElementById('online')

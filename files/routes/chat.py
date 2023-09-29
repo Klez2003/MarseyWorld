@@ -200,7 +200,7 @@ def refresh_online():
 def remove_from_online(v):
 	for li in online.values():
 		for entry in li:
-			if entry[1] == v.id:
+			if entry[0] == v.id:
 				li.remove(entry)
 
 @socketio.on('connect')
@@ -217,7 +217,7 @@ def connect(v):
 
 	remove_from_online(v)
 
-	online[g.referrer].append([v.username, v.id, v.name_color, v.patron])
+	online[g.referrer].append([v.id, v.username, v.name_color, v.patron])
 
 	refresh_online()
 
