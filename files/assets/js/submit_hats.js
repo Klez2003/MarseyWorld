@@ -16,6 +16,7 @@ function remove_hat(t) {
 	const name = t.dataset.name
 	postToast(t, `/remove/hat/${name}`,
 		{
+			"reason": document.getElementById(`${name}-reason`).value,
 		},
 		() => {
 			document.getElementById(`${name}-hat`).remove()

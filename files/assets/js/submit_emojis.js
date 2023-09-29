@@ -15,6 +15,7 @@ function approve_emoji(t, name) {
 function remove_emoji(t, name) {
 	postToast(t, `/remove/emoji/${name}`,
 		{
+			"reason": document.getElementById(`${name}-reason`).value,
 		},
 		() => {
 			document.getElementById(`${name}-emoji`).remove()

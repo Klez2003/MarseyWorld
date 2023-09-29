@@ -7035,9 +7035,6 @@ div.markdown {
 	max-width: 500px;
 	margin-top: 5px;
 }
-.btn:not(.format) {
-	overflow: hidden;
-}
 
 .giphy {
 	overflow: hidden;

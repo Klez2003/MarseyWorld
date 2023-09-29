@@ -245,7 +245,10 @@ def remove_asset(cls, type_name, v, name):
 	name = asset.name
 
 	if v.id != asset.submitter_id:
+		reason = request.values.get("reason")
 		msg = f"@{v.username} has rejected a {type_name} you submitted: `'{name}'`"
+		if reason:
+			msg += f"\nReason: `{reason}`"
 		send_repeatable_notification(asset.submitter_id, msg)
 
 		ma = ModAction(
