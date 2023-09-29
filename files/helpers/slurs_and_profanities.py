@@ -134,8 +134,8 @@ def sub_matcher(match, X_FOR_REPLACING):
 		if "<img" not in repl:
 			if match_str.isupper():
 				return repl.upper()
-			if match_str.istitle():
-				return repl.title()
+			if match_str[0].isupper():
+				return repl.capitalize()
 		return repl
 
 def sub_matcher_slurs(match):
