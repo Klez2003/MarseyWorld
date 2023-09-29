@@ -439,7 +439,10 @@ def delete_comment(cid, v):
 	c = get_comment(cid, v=v)
 	if not c.deleted_utc:
 		if c.author_id != v.id: abort(403)
+
 		c.deleted_utc = int(time.time())
+		c.stickied = None
+		c.stickied_utc = None
 		g.db.add(c)
 
 		if not (c.parent_post in ADMIGGER_THREADS and c.level == 1):
