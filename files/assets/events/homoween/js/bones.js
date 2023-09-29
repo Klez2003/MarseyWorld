@@ -52,7 +52,7 @@ function Circle(x, y, v, range) {
 	bones_container.appendChild(this.element);
 
 	this.update = function() {
-		if (_this.y > innerHeight) {
+		if (_this.y > window.innerHeight) {
 			_this.y = 80 + Math.random() * 4;
 			_this.x = _this.range[0] + Math.random() * _this.range[1];
 		}

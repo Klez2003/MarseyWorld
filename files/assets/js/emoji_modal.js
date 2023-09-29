@@ -469,8 +469,8 @@ function update_speed_emoji_modal(event)
 	{
 		loadEmojis().then( () => {
 			let modal_pos = event.target.getBoundingClientRect();
-			modal_pos.x += scrollX;
-			modal_pos.y += scrollY;
+			modal_pos.x += window.scrollX;
+			modal_pos.y += window.scrollY;
 
 			speed_carot_modal.style.display = "initial";
 			speed_carot_modal.style.left = box_coords.x - 30 + "px";

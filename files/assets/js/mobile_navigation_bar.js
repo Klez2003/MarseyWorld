@@ -1,6 +1,6 @@
-let prevScrollpos = pageYOffset;
-onscroll = function () {
-	const currentScrollPos = pageYOffset;
+let prevScrollpos = window.pageYOffset;
+window.onscroll = function () {
+	const currentScrollPos = window.pageYOffset;
 
 	const topBar = document.getElementById("fixed-bar-mobile");
 
@@ -13,13 +13,13 @@ onscroll = function () {
 	const bottomSafeAreaInset = parseInt(getComputedStyle(bottomBar).getPropertyValue("--safe-area-inset-bottom")) || 0;
 
 	if (bottomBar != null) {
-		if (prevScrollpos > currentScrollPos && (innerHeight + currentScrollPos) < (document.body.offsetHeight - 65)) {
+		if (prevScrollpos > currentScrollPos && (window.innerHeight + currentScrollPos) < (document.body.offsetHeight - 65)) {
 			bottomBar.style.bottom = "0px";
 		}
-		else if (currentScrollPos <= 125 && (innerHeight + currentScrollPos) < (document.body.offsetHeight - 65)) {
+		else if (currentScrollPos <= 125 && (window.innerHeight + currentScrollPos) < (document.body.offsetHeight - 65)) {
 			bottomBar.style.bottom = "0px";
 		}
-		else if (prevScrollpos > currentScrollPos && (innerHeight + currentScrollPos) >= (document.body.offsetHeight - 65)) {
+		else if (prevScrollpos > currentScrollPos && (window.innerHeight + currentScrollPos) >= (document.body.offsetHeight - 65)) {
 			bottomBar.style.bottom = `-${50 + bottomSafeAreaInset}px`;
 		}
 		else {

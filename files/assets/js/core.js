@@ -139,12 +139,12 @@ if (!location.pathname.endsWith('/submit'))
 
 
 function autoExpand(field) {
-	xpos = scrollX;
-	ypos = scrollY;
+	xpos = window.scrollX;
+	ypos = window.scrollY;
 
 	field.style.height = 'inherit';
 
-	let computed = getComputedStyle(field);
+	let computed = window.getComputedStyle(field);
 
 	let height = parseInt(computed.getPropertyValue('border-top-width'), 10)
 	+ parseInt(computed.getPropertyValue('padding-top'), 10)
@@ -153,13 +153,13 @@ function autoExpand(field) {
 	+ parseInt(computed.getPropertyValue('border-bottom-width'), 10);
 
 	field.style.height = height + 'px';
-	if (Math.abs(scrollX - xpos) < 1 && Math.abs(scrollY - ypos) < 1) return;
-	scrollTo(xpos,ypos);
+	if (Math.abs(window.scrollX - xpos) < 1 && Math.abs(window.scrollY - ypos) < 1) return;
+	window.scrollTo(xpos,ypos);
 };
 
 function smoothScrollTop()
 {
-	scrollTo({ top: 0, behavior: 'smooth' });
+	window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 // Click navbar to scroll back to top
@@ -373,7 +373,7 @@ function sort_table(t) {
 	}
 }
 
-const is_pwa = matchMedia('(display-mode: standalone)')['matches'] || matchMedia('(display-mode: minimal-ui)')['matches']
+const is_pwa = window.matchMedia('(display-mode: standalone)')['matches'] || window.matchMedia('(display-mode: minimal-ui)')['matches']
 if (is_pwa) {
 	const links = document.querySelectorAll('a[data-target="t"]');
 	for (const link of links) {
@@ -400,7 +400,7 @@ if (location.pathname != '/chat' && (gbrowser == 'iphone' || gbrowser == 'mac'))
 	}
 }
 
-const screen_width = (innerWidth > 0) ? innerWidth : screen.width;
+const screen_width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 function focusSearchBar(element)
 {
 	if (screen_width >= 768) {
@@ -427,7 +427,7 @@ function insertText(input, text) {
 	const newPos = input.selectionStart + text.length;
 	input.setRangeText(text);
 
-	if (chrome !== undefined)
+	if (window.chrome !== undefined)
 		setTimeout(function(){
 			input.focus();
 			for(let i = 0; i < 2; i++)
@@ -518,7 +518,7 @@ function handle_files(input, newfiles) {
 
 	if (input.files.length > 20)
 	{
-		alert("You can't upload more than 20 files at one time!")
+		window.alert("You can't upload more than 20 files at one time!")
 		input.value = null
 		oldfiles[ta.id] = new DataTransfer();
 		return
@@ -678,7 +678,7 @@ function urlB64ToUint8Array(base64String) {
 		.replace(/\-/g, '+')
 		.replace(/_/g, '/');
 
-	const rawData = atob(base64);
+	const rawData = window.atob(base64);
 	const outputArray = new Uint8Array(rawData.length);
 
 	for (let i = 0; i < rawData.length; ++i) {
@@ -712,9 +712,9 @@ function enablePushNotifications() {
 		})
 	}).then((subscription) => {
 		updateSubscriptionOnServer(subscription, "/push_subscribe")
-		alert("Push notifications are enabled!")
+		window.alert("Push notifications are enabled!")
 	}).catch((e) => {
-		alert("Please give the site access to notifications!")
+		window.alert("Please give the site access to notifications!")
 		console.error(e)
 	})
 }

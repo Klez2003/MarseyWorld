@@ -1,6 +1,6 @@
 let st = init("canvas"), // stranger things var
 w = (canvas.width = innerWidth),
-h = (canvas.height = innerHeight);
+h = (canvas.height = window.innerHeight);
 
 class firefly {
 	constructor() {
@@ -45,34 +45,34 @@ function init(elemid) {
 	let canvas = document.getElementById(elemid),
 		st = canvas.getContext("2d"),
 		w = (canvas.width = innerWidth),
-		h = (canvas.height = innerHeight);
+		h = (canvas.height = window.innerHeight);
 	st.fillStyle = "rgba(30,30,30,1)";
 	st.fillRect(0, 0, w, h);
 	return st;
 }
 
-requestAnimFrame = function () {
+window.requestAnimFrame = function () {
 	return (
-		requestAnimationFrame ||
-		webkitRequestAnimationFrame ||
-		mozRequestAnimationFrame ||
-		oRequestAnimationFrame ||
-		msRequestAnimationFrame ||
+		window.requestAnimationFrame ||
+		window.webkitRequestAnimationFrame ||
+		window.mozRequestAnimationFrame ||
+		window.oRequestAnimationFrame ||
+		window.msRequestAnimationFrame ||
 		function (callback) {
-			setTimeout(callback);
+			window.setTimeout(callback);
 		}
 	);
 };
 
 function loop() {
-	requestAnimFrame(loop);
+	window.requestAnimFrame(loop);
 	st.clearRect(0, 0, w, h);
 	draw();
 }
 
-addEventListener("resize", function () {
+window.addEventListener("resize", function () {
 	(w = canvas.width = innerWidth),
-		(h = canvas.height = innerHeight);
+		(h = canvas.height = window.innerHeight);
 	loop();
 });
 

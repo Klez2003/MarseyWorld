@@ -1,4 +1,4 @@
-const standalone = navigator.standalone || matchMedia("(display-mode: standalone)").matches;
+const standalone = navigator.standalone || window.matchMedia("(display-mode: standalone)").matches;
 if (standalone) {
 	const img = document.getElementById("pulltorefresh-img");
 	const defaultImg = "/e/marseythinkorino.webp";
@@ -6,13 +6,13 @@ if (standalone) {
 	const threshold = -100;
 
 	addEventListener("touchend", () => {
-		if (scrollY < threshold) {
+		if (window.scrollY < threshold) {
 			location.reload();
 		}
 	});
 
 	addEventListener("scroll", () => {
-		img.setAttribute("src", scrollY < threshold ? thresholdImg : defaultImg);
+		img.setAttribute("src", window.scrollY < threshold ? thresholdImg : defaultImg);
 	});
 } else {
 	const pulltorefresh = document.getElementById("pulltorefresh")

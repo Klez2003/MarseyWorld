@@ -313,7 +313,7 @@ function placeChip(bet, which) {
 		HIGH_LOW_BET: `Bet ${amount} ${currency} that the number will be ${which === "HIGH" ? "higher than 18" : "lower than 19"}?\nYou could win ${amount} ${currency}.`,
 	}
 	const text = texts[bet] || "";
-	const confirmed = confirm(text);
+	const confirmed = window.confirm(text);
 
 	if (confirmed) {
 		const xhr = new XMLHttpRequest();

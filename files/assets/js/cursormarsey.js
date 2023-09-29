@@ -104,10 +104,10 @@ function idle() {
 	if (cursormarseyPosY < 32) {
 		avalibleIdleAnimations.push("scratchWallN");
 	}
-	if (cursormarseyPosX > innerWidth - 32) {
+	if (cursormarseyPosX > window.innerWidth - 32) {
 		avalibleIdleAnimations.push("scratchWallE");
 	}
-	if (cursormarseyPosY > innerHeight - 32) {
+	if (cursormarseyPosY > window.innerHeight - 32) {
 		avalibleIdleAnimations.push("scratchWallS");
 	}
 	idleAnimation =
@@ -175,8 +175,8 @@ function frame() {
 	cursormarseyPosX -= (diffX / distance) * cursormarseySpeed;
 	cursormarseyPosY -= (diffY / distance) * cursormarseySpeed;
 
-	cursormarseyPosX = Math.min(Math.max(16, cursormarseyPosX), innerWidth - 16);
-	cursormarseyPosY = Math.min(Math.max(16, cursormarseyPosY), innerHeight - 16);
+	cursormarseyPosX = Math.min(Math.max(16, cursormarseyPosX), window.innerWidth - 16);
+	cursormarseyPosY = Math.min(Math.max(16, cursormarseyPosY), window.innerHeight - 16);
 
 	cursormarseyEl.style.left = `${cursormarseyPosX}px`;
 	cursormarseyEl.style.top = `${cursormarseyPosY}px`;
@@ -188,7 +188,7 @@ document.onmousemove = (event) => {
 		mousePosX = event.clientX;
 		mousePosY = event.clientY;
 	};
-marseykoInterval = setInterval(frame, 100);
+window.marseykoInterval = setInterval(frame, 100);
 
 document.addEventListener('click', (event) => {
 	cursormarseyEl.style.removeProperty("pointer-events");

@@ -133,10 +133,10 @@ function markdown(t) {
 
 	if (!reDisableBeforeUnload.test(location.pathname))
 	{
-		if (!onbeforeunload)
+		if (!window.onbeforeunload)
 		{
-			onbeforeunload = function (e) {
-				e = e || event;
+			window.onbeforeunload = function (e) {
+				e = e || window.event;
 				if (e) {
 					e.returnValue = 'Any string';
 				}
@@ -144,7 +144,7 @@ function markdown(t) {
 			};
 		}
 		else if (!input) {
-			onbeforeunload = null
+			window.onbeforeunload = null
 		}
 	}
 
@@ -273,5 +273,5 @@ function charLimit(form, text) {
 }
 
 function remove_dialog() {
-	onbeforeunload = null;
+	window.onbeforeunload = null;
 }
