@@ -21,8 +21,6 @@
 	--background: 33, 38, 45;
 }
 
-
-
 body, .navbar-light, .navbar-dark, .card, .modal-content, .comment-write textarea, #root > div.App {
 	background-color: var(--gray-600) !important;
 }
@@ -73,4 +71,8 @@ body, .navbar-light, .navbar-dark, .card, .modal-content, .comment-write textare
 /* repeated here to override an earlier rule in this file */
 .unread {
 	background: #ffffff22 !important;
+}
+
+lite-youtube {
+	color-scheme: light !important;
 }

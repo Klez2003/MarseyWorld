@@ -157,3 +157,7 @@ color: var(--gray-700);
 .unread {
 	background: #ffffff22 !important;
 }
+
+lite-youtube {
+	color-scheme: light !important;
+}

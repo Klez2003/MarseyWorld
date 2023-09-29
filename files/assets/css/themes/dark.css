@@ -104,3 +104,7 @@ pre {
 *:target {
 	background: rgba(var(--primary_rgb), 0.2) !important;
 }
+
+lite-youtube {
+	color-scheme: light !important;
+}
