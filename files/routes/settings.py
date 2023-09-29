@@ -182,7 +182,7 @@ def settings_personal_post(v):
 		updated = True
 		session["over_18"] = int(request.values.get("over_18") == 'true')
 
-	elif not updated and v.can_toggle_event_music and request.values.get("event_music", v.event_music) != v.event_music:
+	elif not updated and IS_EVENT() and v.can_toggle_event_music and request.values.get("event_music", v.event_music) != v.event_music:
 		updated = True
 		session['event_music'] = request.values.get("event_music", v.event_music) == 'true'
 
