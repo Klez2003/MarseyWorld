@@ -644,7 +644,10 @@ if (screen_width <= 768) {
 
 	if (object) {
 		object.addEventListener('shown.bs.modal', function (e) {
-			location.hash = `m-${e.target.id}`;
+			if (location.hash)
+				location.replace(`${location.href.split('#')[0]}#m-${e.target.id}`);
+			else
+				location.hash = `m-${e.target.id}`;
 		});
 
 		object.addEventListener('hide.bs.modal', function (e) {
