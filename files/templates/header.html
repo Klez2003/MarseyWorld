@@ -129,7 +129,7 @@
 				<div id="logo-container" class="flex-grow-1 logo-container">
 					<a href="/">
 						{% if IS_EVENT() %}
-							{% set logo_url = SITE_FULL_IMAGES ~ '/assets/events/' ~ IS_EVENT() ~ '/images/logo/' ~ SITE_NAME %}
+							{% set logo_url = SITE_FULL_IMAGES ~ '/assets/events/' ~ IS_EVENT() ~ '/images/logo/' ~ SITE_NAME ~ '.webp' %}
 						{% else %}
 							{% set logo_url = 'logo.webp' | asset_siteimg %}
 						{% endif %}
