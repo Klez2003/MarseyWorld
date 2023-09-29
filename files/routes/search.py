@@ -176,13 +176,13 @@ def searchposts(v):
 	if v.client: return {"total":total, "data":[x.json for x in posts]}
 
 	return render_template("search.html",
-						v=v,
-						query=query,
-						page=page,
-						listing=posts,
-						sort=sort,
-						t=t,
-						total=total
+							v=v,
+							query=query,
+							page=page,
+							listing=posts,
+							sort=sort,
+							t=t,
+							total=total
 						)
 
 @app.get("/search/comments")
