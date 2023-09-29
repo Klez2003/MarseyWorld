@@ -977,7 +977,7 @@ def IS_FISTMAS():
 homoween_begin = datetime.datetime.strptime(f'10/10/{t.year}', '%d/%m/%Y')
 homoween_end = datetime.datetime.strptime(f'1/11/{t.year}', '%d/%m/%Y')
 def IS_HOMOWEEN():
-	return SITE == 'devrama.net' or homoween_begin < datetime.datetime.now() < homoween_end
+	return IS_LOCALHOST or SITE == 'devrama.net' or homoween_begin < datetime.datetime.now() < homoween_end
 
 dkd_begin = datetime.datetime.strptime(f'25/4/{t.year}', '%d/%m/%Y')
 dkd_end = datetime.datetime.strptime(f'2/5/{t.year}', '%d/%m/%Y')
