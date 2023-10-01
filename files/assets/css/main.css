@@ -1811,6 +1811,9 @@ button.close {
 	.modal-open {
 		padding-right: 1.3vw;
 	}
+	.modal-open nav {
+		padding-right: 1.3vw;
+	}
 }
 .modal-open .modal {
 	overflow-x: hidden;
