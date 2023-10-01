@@ -79,7 +79,7 @@ blockquote {
 .unread {
 	background: #dddddd !important;
 }
-*:target {
+:not(.modal):target {
 	background: rgba(var(--primary_rgb), 0.2) !important;
 }
 

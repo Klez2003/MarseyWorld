@@ -5854,7 +5854,7 @@ html {
 	padding: 12px;
 	padding-bottom: 4px;
 }
-*:target {
+:not(.modal):target {
 	background: rgba(var(--primary_rgb), 0.15) !important;
 	padding: 12px;
 	padding-bottom: 4px;
@@ -7684,6 +7684,6 @@ ul {
 	display: none;
 }
 
-*:target {
+:not(.modal):target {
 	scroll-margin-top: 100px;
 }

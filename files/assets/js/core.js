@@ -695,11 +695,13 @@ function enablePushNotifications() {
 }
 
 const body = document.getElementsByTagName('body')[0]
-function body_fix() {
+addEventListener('hashchange', () => {
 	if (location.hash.startsWith("#m-"))
 		body.classList.add('modal-open')
 	else
 		body.classList.remove('modal-open')
+})
+
+if (location.hash.startsWith("#m-")) {
+	history.replaceState({}, '', location.href.split('#')[0])
 }
-body_fix()
-addEventListener('hashchange', body_fix)
