@@ -1809,7 +1809,7 @@ button.close {
 }
 @media (min-width: 768px) {
 	.modal-open {
-		padding-right: 21px;
+		padding-right: 1.3vw;
 	}
 }
 .modal-open .modal {
