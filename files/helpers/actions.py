@@ -27,10 +27,10 @@ from files.routes.routehelpers import check_for_alts
 
 def _archiveorg(url):
 	try:
-		requests.get(f'https://web.archive.org/save/{url}', headers=HEADERS, timeout=10, proxies=proxies)
+		requests.post('https://ghostarchive.org/archive2', data={"archive": url}, headers=HEADERS, timeout=10, proxies=proxies)
 	except: pass
 	try:
-		requests.post('https://ghostarchive.org/archive2', data={"archive": url}, headers=HEADERS, timeout=10, proxies=proxies)
+		requests.get(f'https://web.archive.org/save/{url}', headers=HEADERS, timeout=10, proxies=proxies)
 	except: pass
 
 
@@ -169,7 +169,7 @@ def execute_snappy(post, v):
 			rev = f"* [search-new.pullpush.io](https://search-new.pullpush.io/?author={rev}&type=submission)\n\n"
 		else: rev = ''
 
-		body += f"Snapshots:\n\n{rev}* [archive.org](https://web.archive.org/{post.url})\n\n* [ghostarchive.org](https://ghostarchive.org/search?term={quote(post.url)})\n\n* [archive.ph](https://archive.ph/?url={quote(post.url)}&run=1) (click to archive)\n\n"
+		body += f"Snapshots:\n\n{rev}* [ghostarchive.org](https://ghostarchive.org/search?term={quote(post.url)})\n\n* [archive.org](https://web.archive.org/{post.url})\n\n* [archive.ph](https://archive.ph/?url={quote(post.url)}&run=1) (click to archive)\n\n"
 		archive_url(post.url)
 
 	captured = []
@@ -194,8 +194,8 @@ def execute_snappy(post, v):
 			elif href.startswith('https://old.reddit.com/user/'):
 				rev = href.replace('https://old.reddit.com/user/', '')
 				addition += f"* [search-new.pullpush.io](https://search-new.pullpush.io/?author={rev}&type=submission)\n\n"
-			addition += f'* [archive.org](https://web.archive.org/{href})\n\n'
 			addition += f'* [ghostarchive.org](https://ghostarchive.org/search?term={quote(href)})\n\n'
+			addition += f'* [archive.org](https://web.archive.org/{href})\n\n'
 			addition += f'* [archive.ph](https://archive.ph/?url={quote(href)}&run=1) (click to archive)\n\n'
 			if len(f'{body}{addition}') > COMMENT_BODY_LENGTH_LIMIT: break
 			body += addition
