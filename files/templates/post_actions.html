@@ -8,7 +8,7 @@
 {% endif %}
 
 {% if v and FEATURES['AWARDS'] %}
-	<button type="button" class="list-inline-item d-none d-md-inline-block" data-bs-toggle="modal" data-bs-target="#awardModal" data-url='/award/post/{{p.id}}' data-ghost="{{p.ghost}}" data-nonce="{{g.nonce}}" {% if p.author.immune_to_awards(v) %}disabled{% endif %}><i class="fas fa-gift fa-fw"></i>Give Award</button>
+	<a class="list-inline-item d-none d-md-inline-block" href="#m-award" data-url='/award/post/{{p.id}}' data-ghost="{{p.ghost}}" data-nonce="{{g.nonce}}" {% if p.author.immune_to_awards(v) %}disabled{% endif %}><i class="fas fa-gift fa-fw"></i>Give Award</a>
 {% endif %}
 
 <button type="button" class="list-inline-item copy-link" data-clipboard-text="{% if SITE == 'rdrama.net' %}{{SITE_FULL}}{{p.shortlink}}{% else %}{{p.permalink}}{% endif %}"><i class="fas fa-copy"></i>Copy link</button>
@@ -20,7 +20,7 @@
 	<button type="button" id="save-{{p.id}}" class="{% if p.id in v.saved_idlist %}d-none{% endif %} list-inline-item" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/save_post/{{p.id}}','save-{{p.id}}','unsave-{{p.id}}','d-none')"><i class="fas fa-save"></i>Save {% if p.num_savers %}<span data-bs-toggle="tooltip" data-bs-placement="bottom" title="Number of users who saved this post">[{{p.num_savers}}]</span>{% endif %}</button>
 	<button type="button" id="unsave-{{p.id}}" class="{% if not p.id in v.saved_idlist %}d-none{% endif %} list-inline-item" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unsave_post/{{p.id}}','save-{{p.id}}','unsave-{{p.id}}','d-none')"><i class="fas fa-save"></i>Unsave {% if p.num_savers %}<span data-bs-toggle="tooltip" data-bs-placement="bottom" title="Number of users who saved this post">[{{p.num_savers}}]</span>{% endif %}</button>
 
-	<button type="button" class="list-inline-item" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#reportPostModal" data-nonce="{{g.nonce}}" data-onclick="report_postModal('{{p.id}}')"><i class="fas fa-flag"></i>Report</button>
+	<a class="list-inline-item" href="#m-reportPost" data-nonce="{{g.nonce}}" data-onclick="report_postModal('{{p.id}}')"><i class="fas fa-flag"></i>Report</a>
 {% endif %}
 
 {% if v and v.id==p.author_id %}
@@ -29,7 +29,7 @@
 		<button type="button" id="unpin-profile-{{p.id}}" class="{% if not p.is_pinned %}d-none{% endif %} list-inline-item" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/pin/{{p.id}}','unpin-profile-{{p.id}}','pin-profile-{{p.id}}','d-none')"><i class="fas fa-thumbtack fa-rotate--45"></i>Unpin from profile</button>
 	{% endif %}
 
-	<button type="button" id="delete2-{{p.id}}" class="{% if p.deleted_utc %}d-none{% endif %} list-inline-item" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#deletePostModal" data-nonce="{{g.nonce}}" data-onclick="delete_postModal('{{p.id}}')"><i class="fas fa-trash-alt"></i>Delete</button>
+	<a id="delete2-{{p.id}}" class="{% if p.deleted_utc %}d-none{% endif %} list-inline-item" href="#m-deletePost" data-nonce="{{g.nonce}}" data-onclick="delete_postModal('{{p.id}}')"><i class="fas fa-trash-alt"></i>Delete</a>
 	<button type="button" id="undelete2-{{p.id}}" class="{% if not p.deleted_utc %}d-none{% endif %} list-inline-item" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/undelete_post/{{p.id}}', 'delete2-{{p.id}}', 'undelete2-{{p.id}}','d-none')" data-toggleelement="#post-{{p.id}}" data-toggleattr="deleted"><i class="fas fa-trash-alt"></i>Undelete</button>
 {% endif %}
 
@@ -83,12 +83,12 @@
 			<button type="button" id="unprogstack-{{p.id}}" class="dropdown-item {% if p.is_approved != PROGSTACK_ID %}d-none{% endif %} list-inline-item text-danger" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/admin/unprogstack/post/{{p.id}}','progstack-{{p.id}}','unprogstack-{{p.id}}','d-none')"><i class="fas fa-bullhorn"></i>Remove Progressive Stack</button>
 		{% endif %}
 		{% if v.admin_level >= PERMS['USER_BAN'] and v.id != p.author_id %}
-			<button type="button" class="dropdown-item list-inline-item text-danger {% if p.author.is_permabanned %}d-none{% endif %}" data-bs-toggle="modal" data-bs-target="#banModal" data-nonce="{{g.nonce}}" data-onclick="punishModal(this, 'ban', '/post/{{p.id}}', '{{p.author_name}}', '{{p.fullname}}')"><i class="fas fa-user-slash text-danger fa-fw"></i>Ban user</button>
+			<a class="dropdown-item list-inline-item text-danger {% if p.author.is_permabanned %}d-none{% endif %}" href="#m-ban" data-nonce="{{g.nonce}}" data-onclick="punishModal(this, 'ban', '/post/{{p.id}}', '{{p.author_name}}', '{{p.fullname}}')"><i class="fas fa-user-slash text-danger fa-fw"></i>Ban user</a>
 
 			<button type="button" id="unban-{{p.fullname}}" class="dropdown-item list-inline-item text-success {% if not p.author.is_suspended %}d-none{% endif %}" id="unexile2-user-{{p.id}}" data-nonce="{{g.nonce}}" data-onclick="unchud_or_unban(this,'/unban_user/{{p.fullname}}')"><i class="fas fa-user-slash"></i>Unban user</button>
 		{% endif %}
 		{% if v.admin_level >= PERMS['USER_CHUD'] and v.id != p.author_id %}
-			<button type="button" class="dropdown-item list-inline-item text-danger {% if p.author.chud == 1 %}d-none{% endif %}" data-bs-toggle="modal" data-bs-target="#chudModal" data-nonce="{{g.nonce}}" data-onclick="punishModal(this, 'chud', '/post/{{p.id}}', '{{p.author_name}}', '{{p.fullname}}')"><i class="fas fa-face-sleeping text-danger fa-fw"></i>Chud user</button>
+			<a class="dropdown-item list-inline-item text-danger {% if p.author.chud == 1 %}d-none{% endif %}" href="#m-chud" data-nonce="{{g.nonce}}" data-onclick="punishModal(this, 'chud', '/post/{{p.id}}', '{{p.author_name}}', '{{p.fullname}}')"><i class="fas fa-face-sleeping text-danger fa-fw"></i>Chud user</a>
 
 			<button type="button" id="unchud-{{p.fullname}}" class="dropdown-item {% if not p.author.chud %}d-none{% endif %} list-inline-item text-success" id="unexile2-user-{{p.id}}" data-nonce="{{g.nonce}}" data-onclick="unchud_or_unban(this,'/unchud_user/{{p.fullname}}')"><i class="fas fa-face-sleeping"></i>Unchud user</button>
 		{% endif %}

@@ -15,16 +15,6 @@ function insertGIF(url) {
 	if (typeof checkForRequired === "function") checkForRequired();
 }
 
-document.getElementById('gifModal').addEventListener('shown.bs.modal', function () {
-	focusSearchBar(gifSearchBar);
-	setTimeout(() => {
-		focusSearchBar(gifSearchBar);
-	}, 200);
-	setTimeout(() => {
-		focusSearchBar(gifSearchBar);
-	}, 1000);
-});
-
 async function getGifs(form) {
 	commentFormID = form;
 
@@ -126,7 +116,7 @@ async function searchGifs(searchTerm) {
 	if (data.length) {
 		for (const e of data) {
 			const url = "https://media.giphy.com/media/" + e.id + "/giphy.webp";
-			const insert = `<img class="giphy" loading="lazy" data-bs-dismiss="modal" src="${url}"></div>`
+			const insert = `<img class="giphy" loading="lazy" dismiss_modal src="${url}"></div>`
 			container.insertAdjacentHTML('beforeend', insert);
 		}
 
@@ -141,3 +131,9 @@ async function searchGifs(searchTerm) {
 }
 
 gifSearchBar.addEventListener('change', () => {searchGifs(gifSearchBar.value)});
+
+addEventListener('hashchange', function () {
+	if (location.hash == "#m-gif") {
+		focusSearchBar(gifSearchBar);
+	}
+});

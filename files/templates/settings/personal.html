@@ -272,17 +272,17 @@
 					{% set ns = namespace(slurtext='Enable if you would like to automatically replace slurs.', profanitytext='Enable if you would like to automatically replace profanities.') %}
 					{% if FEATURES['USERS_PERMANENT_WORD_FILTERS'] %}
 						{% if v.slurreplacer == 0 %}
-							{% set slurtext = 'Enable if you would like to automatically replace slurs. <a hidden id="slurreplacer-perma-link" href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#modal-slurreplacer">Make filter permanent for a badge!</a>' %}
+							{% set slurtext = 'Enable if you would like to automatically replace slurs. <a hidden id="slurreplacer-perma-link" class="text-primary" href="#m-slurreplacer">Make filter permanent for a badge!</a>' %}
 						{% elif v.slurreplacer == 1 %}
-							{% set slurtext = 'Enable if you would like to automatically replace slurs. <a id="slurreplacer-perma-link" href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#modal-slurreplacer">Make filter permanent for a badge!</a>' %}
+							{% set slurtext = 'Enable if you would like to automatically replace slurs. <a id="slurreplacer-perma-link" class="text-primary" href="#m-slurreplacer">Make filter permanent for a badge!</a>' %}
 						{% else %}
 							{% set slurtext = "You've enabled the slur replacer permanently! ✊🏿" %}
 						{% endif %}
 
 						{% if v.profanityreplacer == 0 %}
-							{% set profanitytext = 'Enable if you would like to automatically replace profanities. <a hidden id="profanityreplacer-perma-link" href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#modal-profanityreplacer">Make filter permanent for a badge!</a>' %}
+							{% set profanitytext = 'Enable if you would like to automatically replace profanities. <a hidden id="profanityreplacer-perma-link" class="text-primary" href="#m-profanityreplacer">Make filter permanent for a badge!</a>' %}
 										{% elif v.profanityreplacer == 1 %}
-							{% set profanitytext = 'Enable if you would like to automatically replace profanities. <a id="profanityreplacer-perma-link" href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#modal-profanityreplacer">Make filter permanent for a badge!</a>' %}
+							{% set profanitytext = 'Enable if you would like to automatically replace profanities. <a id="profanityreplacer-perma-link" class="text-primary" href="#m-profanityreplacer">Make filter permanent for a badge!</a>' %}
 						{% else %}
 							{% set profanitytext = "You've enabled the profanity replacer permanently! 😇" %}
 						{% endif %}
@@ -343,13 +343,13 @@
 
 {% macro permanent_filter_modal(id, form_action, field, friendly_name, badge_name) %}
 {% if FEATURES['USERS_PERMANENT_WORD_FILTERS'] -%}
-<div class="modal fade" id="modal-{{id}}" tabindex="-1">
+<div class="modal" id="m-{{id}}" tabindex="-1">
 	<div class="modal-dialog modal-dialog-centered">
 		<form class="m-auto" action="{{form_action}}" id="{{id}}-form" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHRReload(this)">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title">Make {{friendly_name}} Permanent</h5>
-					<button type="button" class="close" data-bs-dismiss="modal">
+					<button type="button" class="close" dismiss_modal>
 						<span><i class="fas fa-times"></i></span>
 					</button>
 				</div>
@@ -361,7 +361,7 @@
 					<input autocomplete="off" type="text" name="username" placeholder="Enter your username to confirm" id="username-{{id}}" class="form-control" pattern="{{v.username}}" required>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-link text-muted" data-bs-dismiss="modal">Cancel</button>
+					<button type="button" class="btn btn-link text-muted" dismiss_modal>Cancel</button>
 					<button type="submit" class="btn btn-danger" id="submit-{{id}}-form">Make Permanent</button>
 				</div>
 			</div>

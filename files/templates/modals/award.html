@@ -1,11 +1,11 @@
 <script defer src="{{'js/award_modal.js' | asset}}"></script>
 
-<div class="modal fade" id="awardModal" tabindex="-1">
+<div class="modal" id="m-award" tabindex="-1">
 	<div class="modal-dialog modal-dialog-scrollable modal-dialog-centered awardmodal pt-5">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h5 class="modal-title">Give Award</h5>
-				<button type="button" class="close" data-bs-dismiss="modal">
+				<button type="button" class="close" dismiss_modal>
 					<span><i class="fas fa-times"></i></span>
 				</button>
 			</div>
@@ -58,7 +58,7 @@
 					<textarea autocomplete="off" id="note" maxlength="200" class="form-control" placeholder="Note to include in award notification..."></textarea>
 				</div>
 
-				<input autocomplete="off" id="giveaward" class="awardbtn btn btn-primary mt-3 fl-r" type="submit" data-nonce="{{g.nonce}}" data-onclick="giveaward(this)" value="Give Award" data-bs-dismiss="modal" disabled>
+				<input autocomplete="off" id="giveaward" class="awardbtn btn btn-primary mt-3 fl-r" type="submit" data-nonce="{{g.nonce}}" data-onclick="giveaward(this)" value="Give Award" dismiss_modal disabled>
 
 				<button type="button" id="buy" class="awardbtn btn btn-primary mt-3 mr-3 fl-r" disabled data-areyousure="buy()" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)">Buy</button>
 

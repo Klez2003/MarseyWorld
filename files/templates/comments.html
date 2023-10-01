@@ -282,7 +282,7 @@
 							<ul class="list-inline text-right d-flex">
 								<li class="list-inline-item mr-auto">
 									{% if v and v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
-										<button type="button" data-bs-toggle="modal" data-bs-target="#adminModal-{{c.id}}">
+										<button type="button" href="#m-adminModal-{{c.id}}">
 											<i class="fas fa-broom"></i>
 										</button>
 									{% endif %}
@@ -293,7 +293,7 @@
 								{% endif %}
 
 								<li class="list-inline-item">
-									<button type="button" data-bs-toggle="modal" data-bs-target="#actionsModal-{{c.id}}">
+									<button type="button" href="#m-actionsModal-{{c.id}}">
 										<i class="fas fa-ellipsis-h"></i>
 									</button>
 								</li>
@@ -349,7 +349,7 @@
 							<button type="button" tabindex="0" data-nonce="{{g.nonce}}" data-onclick="vote('comment', '{{c.id}}', '1')" class="comment-{{c.id}}-up btn caction py-0 m-0 px-3 nobackground arrow-up upvote-button mx-0 comment-{{c.id}}-up {% if voted==1 %}active{% endif %}"></button>
 
 						{% else %}
-							<a type="button" tabindex="0" class="comment-{{c.id}}-up btn caction nobackground py-0 m-0 px-3 arrow-up" href="/login?redirect={{request.full_path | urlencode}}"></a>
+							<a tabindex="0" class="comment-{{c.id}}-up btn caction nobackground py-0 m-0 px-3 arrow-up" href="/login?redirect={{request.full_path | urlencode}}"></a>
 
 						{% endif %}
 
@@ -366,7 +366,7 @@
 
 						{% else %}
 
-							<a type="button" {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" class="comment-{{c.id}}-down btn caction py-0 m-0 px-3 nobackground arrow-down" href="/login?redirect={{request.full_path | urlencode}}"></a>
+							<a {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" class="comment-{{c.id}}-down btn caction py-0 m-0 px-3 nobackground arrow-down" href="/login?redirect={{request.full_path | urlencode}}"></a>
 
 						{% endif %}
 
@@ -383,10 +383,10 @@
 								<button id="toggle-reply-{{c.fullname}}" type="button" class="btn caction py-0 nobackground px-1 text-muted" data-nonce="{{g.nonce}}" data-onclick="toggleReplyBox(this, 'reply-to-{{c.fullname}}')"><i class="fas fa-reply"></i>Reply</button>
 							{% endif %}
 
-							<button type="button" class="btn caction py-0 nobackground px-1 text-muted" data-bs-toggle="modal" data-bs-target="#reportCommentModal" data-nonce="{{g.nonce}}" data-onclick="report_commentModal('{{c.id}}','{{c.author_name}}',)"><i class="fas fa-flag fa-fw"></i>Report</button>
+							<a class="btn caction py-0 nobackground px-1 text-muted" href="#m-reportComment" data-nonce="{{g.nonce}}" data-onclick="report_commentModal('{{c.id}}','{{c.author_name}}',)"><i class="fas fa-flag fa-fw"></i>Report</a>
 
 							{% if FEATURES['AWARDS'] -%}
-							<button type="button" class="btn caction py-0 nobackground px-1 text-muted" data-bs-toggle="modal" data-bs-target="#awardModal" data-url="/award/comment/{{c.id}}" data-ghost="{{c.ghost}}" data-nonce="{{g.nonce}}" {% if c.author.immune_to_awards(v) %}disabled{% endif %}><i class="fas fa-gift"></i>Give Award</button>
+							<a class="btn caction py-0 nobackground px-1 text-muted" href="#m-award" data-url="/award/comment/{{c.id}}" data-ghost="{{c.ghost}}" data-nonce="{{g.nonce}}" {% if c.author.immune_to_awards(v) %}disabled{% endif %}><i class="fas fa-gift"></i>Give Award</a>
 							{%- endif %}
 
 							<button type="button" id="save-{{c.id}}" class="btn caction py-0 nobackground px-1 {% if c.id not in v.saved_comment_idlist %}d-md-inline-block{% endif %} text-muted d-none" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/save_comment/{{c.id}}','save-{{c.id}}','unsave-{{c.id}}','d-md-inline-block')"><i class="fas fa-save"></i>Save {% if c.num_savers %}<span data-bs-toggle="tooltip" data-bs-placement="bottom" title="Number of users who saved this comment">[{{c.num_savers}}]</span>{% endif %}</button>
@@ -402,7 +402,7 @@
 							{% endif %}
 
 							{% if c.author_id == v.id %}
-								<button type="button" id="delete-{{c.id}}" class="btn caction py-0 nobackground px-1 text-muted {% if c.deleted_utc %}d-none{% endif %}" data-bs-toggle="modal" data-bs-target="#deleteCommentModal" data-nonce="{{g.nonce}}" data-onclick="delete_commentModal('{{c.id}}')"><i class="fas fa-trash-alt fa-fw"></i>Delete</button>
+								<a id="delete-{{c.id}}" class="btn caction py-0 nobackground px-1 text-muted {% if c.deleted_utc %}d-none{% endif %}" href="#m-deleteComment" data-nonce="{{g.nonce}}" data-onclick="delete_commentModal('{{c.id}}')"><i class="fas fa-trash-alt fa-fw"></i>Delete</a>
 
 								<button type="button" id="undelete-{{c.id}}" class="btn caction py-0 nobackground px-1 text-muted {% if not c.deleted_utc %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/undelete/comment/{{c.id}}','delete-{{c.id}}','undelete-{{c.id}}','d-none')" data-toggleelement=".comment-{{c.id}}-only" data-toggleattr="deleted"><i class="fas fa-trash-alt fa-fw"></i>Undelete</button>
 							{% endif %}
@@ -433,9 +433,9 @@
 									{% endif %}
 
 									{% if url != "" %}
-										<button type="button" id="pin-{{c.id}}" class="dropdown-item list-inline-item {% if not c.stickied %}d-md-block{% endif %} text-muted d-none text-info" data-bs-dismiss="modal" data-bs-target="#actionsModal-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/{{url}}/{{c.id}}','pin-{{c.id}}','unpin-{{c.id}}','d-md-block')"><i class="fas fa-thumbtack fa-rotate--45 text-info fa-fw"></i>Pin</button>
+										<a id="pin-{{c.id}}" class="dropdown-item list-inline-item {% if not c.stickied %}d-md-block{% endif %} text-muted d-none text-info" href="#m-actionsModal-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/{{url}}/{{c.id}}','pin-{{c.id}}','unpin-{{c.id}}','d-md-block')"><i class="fas fa-thumbtack fa-rotate--45 text-info fa-fw"></i>Pin</a>
 
-										<button type="button" id="unpin-{{c.id}}" class="dropdown-item list-inline-item {% if c.stickied %}d-md-block{% endif %} text-muted d-none text-info" data-bs-dismiss="modal" data-bs-target="#actionsModal-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/un{{url}}/{{c.id}}','pin-{{c.id}}','unpin-{{c.id}}','d-md-block')"><i class="fas fa-thumbtack fa-rotate--45 text-info fa-fw"></i>Unpin</button>
+										<a id="unpin-{{c.id}}" class="dropdown-item list-inline-item {% if c.stickied %}d-md-block{% endif %} text-muted d-none text-info" href="#m-actionsModal-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/un{{url}}/{{c.id}}','pin-{{c.id}}','unpin-{{c.id}}','d-md-block')"><i class="fas fa-thumbtack fa-rotate--45 text-info fa-fw"></i>Unpin</a>
 									{% endif %}
 								{% endif %}
 
@@ -476,13 +476,13 @@
 								{% endif %}
 
 								{% if v.admin_level >= PERMS['USER_BAN'] and v.id != c.author_id %}
-									<button type="button" class="{% if c.author.is_permabanned %}d-none{% endif %} dropdown-item list-inline-item d-mob-none text-danger" data-bs-toggle="modal" data-bs-target="#banModal" data-nonce="{{g.nonce}}" data-onclick="punishModal(this, 'ban', '/comment/{{c.id}}', '{{c.author_name}}', '{{c.fullname}}')"><i class="fas fa-user-slash text-danger fa-fw"></i>Ban user</button>
+									<a class="{% if c.author.is_permabanned %}d-none{% endif %} dropdown-item list-inline-item d-mob-none text-danger" href="#m-ban" data-nonce="{{g.nonce}}" data-onclick="punishModal(this, 'ban', '/comment/{{c.id}}', '{{c.author_name}}', '{{c.fullname}}')"><i class="fas fa-user-slash text-danger fa-fw"></i>Ban user</a>
 
 									<button type="button" id="unban-{{c.fullname}}" class="dropdown-item list-inline-item d-mob-none {% if not c.author.is_suspended %}d-none{% endif %} text-success" data-nonce="{{g.nonce}}" data-onclick="unchud_or_unban(this,'/unban_user/{{c.fullname}}')"><i class="fas fa-user-slash text-success fa-fw"></i>Unban user</button>
 								{% endif %}
 
 								{% if v.admin_level >= PERMS['USER_CHUD'] and v.id != c.author_id %}
-									<button type="button" class="{% if c.author.chud == 1 %}d-none{% endif %} dropdown-item list-inline-item d-mob-none text-danger" data-bs-toggle="modal" data-bs-target="#chudModal" data-nonce="{{g.nonce}}" data-onclick="punishModal(this, 'chud', '/comment/{{c.id}}', '{{c.author_name}}', '{{c.fullname}}')"><i class="fas fa-face-sleeping text-danger fa-fw"></i>Chud user</button>
+									<a class="{% if c.author.chud == 1 %}d-none{% endif %} dropdown-item list-inline-item d-mob-none text-danger" href="#m-chud" data-nonce="{{g.nonce}}" data-onclick="punishModal(this, 'chud', '/comment/{{c.id}}', '{{c.author_name}}', '{{c.fullname}}')"><i class="fas fa-face-sleeping text-danger fa-fw"></i>Chud user</a>
 
 									<button type="button" id="unchud-{{c.fullname}}" class="dropdown-item list-inline-item d-mob-none {% if not c.author.chud %}d-none{% endif %} text-success" data-nonce="{{g.nonce}}" data-onclick="unchud_or_unban(this,'/unchud_user/{{c.fullname}}')"><i class="fas fa-face-sleeping text-success fa-fw"></i>Unchud user</button>
 								{% endif %}
@@ -539,7 +539,7 @@
 			{% if c.author_id != v.id and request.path == '/notifications/messages' %}
 				<button type="button" id="mute-notifs-{{c.id}}" class="btn btn-danger nobackground ml-2 mt-2 {% if v.has_muted(c.author) %}d-none{% endif %}" data-areyousure="postToastSwitch(this,'/mute_notifs/{{c.author.id}}','mute-notifs-{{c.id}}','unmute-notifs-{{c.id}}','d-none')" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)" data-dismiss="modal">Mute notifications from user</button>
 
-				<button type="button" id="unmute-notifs-{{c.id}}" data-bs-dismiss="modal" class="btn btn-success nobackground ml-2 mt-2 {% if not v.has_muted(c.author) %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unmute_notifs/{{c.author.id}}','mute-notifs-{{c.id}}','unmute-notifs-{{c.id}}','d-none')">Unmute notifications from user</button>
+				<button type="button" id="unmute-notifs-{{c.id}}" dismiss_modal class="btn btn-success nobackground ml-2 mt-2 {% if not v.has_muted(c.author) %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unmute_notifs/{{c.author.id}}','mute-notifs-{{c.id}}','unmute-notifs-{{c.id}}','d-none')">Unmute notifications from user</button>
 			{% endif %}
 
 			<div id="reply-to-{{c.fullname}}" class="d-none">
@@ -571,12 +571,12 @@
 	</div>
 
 
-<div class="modal fade d-md-none" id="actionsModal-{{c.id}}" tabindex="-1">
+<div class="modal d-md-none" id="actionsModal-{{c.id}}" tabindex="-1">
 	<div class="modal-dialog modal-dialog-centered">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h6 class="modal-title">More options</h6>
-				<button type="button" class="close" data-bs-dismiss="modal">
+				<button type="button" class="close" dismiss_modal>
 					<span><i class="fas fa-times"></i></span>
 				</button>
 			</div>
@@ -589,62 +589,62 @@
 
 					<a class="list-group-item" href="{{c.permalink}}"><i class="fas fa-book-open mr-2"></i>Context</a>
 
-					<button type="button" class="list-group-item copy-link" data-bs-dismiss="modal" data-clipboard-text="{% if SITE == 'rdrama.net' %}{{SITE_FULL}}{{c.shortlink}}{% else %}{{c.permalink}}{% endif %}"><i class="fas fa-copy mr-2"></i>Copy link</button>
+					<button type="button" class="list-group-item copy-link" dismiss_modal data-clipboard-text="{% if SITE == 'rdrama.net' %}{{SITE_FULL}}{{c.shortlink}}{% else %}{{c.permalink}}{% endif %}"><i class="fas fa-copy mr-2"></i>Copy link</button>
 
 					{% if v %}
-						<button type="button" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#reportCommentModal" data-nonce="{{g.nonce}}" data-onclick="report_commentModal('{{c.id}}','{{c.author_name}}')" class="list-group-item"><i class="fas fa-flag mr-2"></i>Report</button>
+						<a href="#m-reportComment" data-nonce="{{g.nonce}}" data-onclick="report_commentModal('{{c.id}}','{{c.author_name}}')" class="list-group-item"><i class="fas fa-flag mr-2"></i>Report</a>
 
 						{% if FEATURES['AWARDS'] -%}
-						<button type="button" class="list-group-item" data-bs-toggle="modal" data-bs-target="#awardModal" data-url="/award/comment/{{c.id}}" data-ghost="{{c.ghost}}" data-nonce="{{g.nonce}}" {% if c.author.immune_to_awards(v) %}disabled{% endif %}><i class="fas fa-gift mr-2"></i>Give Award</button>
+						<a class="list-group-item" href="#m-award" data-url="/award/comment/{{c.id}}" data-ghost="{{c.ghost}}" data-nonce="{{g.nonce}}" {% if c.author.immune_to_awards(v) %}disabled{% endif %}><i class="fas fa-gift mr-2"></i>Give Award</a>
 						{%- endif %}
 
-						<button type="button" id="save2-{{c.id}}" class="list-group-item {% if c.id in v.saved_comment_idlist %}d-none{% endif %}" data-bs-dismiss="modal" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/save_comment/{{c.id}}','save2-{{c.id}}','unsave2-{{c.id}}','d-none')"><i class="fas fa-save mr-2"></i>Save {% if c.num_savers %}<span data-bs-toggle="tooltip" data-bs-placement="bottom" title="Number of users who saved this comment">[{{c.num_savers}}]</span>{% endif %}</button>
-						<button type="button" id="unsave2-{{c.id}}" class="list-group-item {% if c.id not in v.saved_comment_idlist %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unsave_comment/{{c.id}}','save2-{{c.id}}','unsave2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-save mr-2"></i>Unsave {% if c.num_savers %}<span data-bs-toggle="tooltip" data-bs-placement="bottom" title="Number of users who saved this comment">[{{c.num_savers}}]</span>{% endif %}</button>
+						<button type="button" id="save2-{{c.id}}" class="list-group-item {% if c.id in v.saved_comment_idlist %}d-none{% endif %}" dismiss_modal data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/save_comment/{{c.id}}','save2-{{c.id}}','unsave2-{{c.id}}','d-none')"><i class="fas fa-save mr-2"></i>Save {% if c.num_savers %}<span data-bs-toggle="tooltip" data-bs-placement="bottom" title="Number of users who saved this comment">[{{c.num_savers}}]</span>{% endif %}</button>
+						<button type="button" id="unsave2-{{c.id}}" class="list-group-item {% if c.id not in v.saved_comment_idlist %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unsave_comment/{{c.id}}','save2-{{c.id}}','unsave2-{{c.id}}','d-none')" dismiss_modal><i class="fas fa-save mr-2"></i>Unsave {% if c.num_savers %}<span data-bs-toggle="tooltip" data-bs-placement="bottom" title="Number of users who saved this comment">[{{c.num_savers}}]</span>{% endif %}</button>
 
 						{% if c.author_id == v.id %}
-							<button type="button" data-bs-dismiss="modal" data-nonce="{{g.nonce}}" data-onclick="toggleEdit('{{c.id}}')" class="list-group-item"><i class="fas fa-edit mr-2"></i>Edit</button>
+							<button type="button" dismiss_modal data-nonce="{{g.nonce}}" data-onclick="toggleEdit('{{c.id}}')" class="list-group-item"><i class="fas fa-edit mr-2"></i>Edit</button>
 
-							<button type="button" id="delete2-{{c.id}}" class="{% if c.deleted_utc %}d-none{% endif %} list-group-item text-danger" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#deleteCommentModal" data-nonce="{{g.nonce}}" data-onclick="delete_commentModal('{{c.id}}')"><i class="fas fa-trash-alt text-danger mr-2"></i>Delete</button>
-							<button type="button" id="undelete2-{{c.id}}" class="{% if not c.deleted_utc %}d-none{% endif %} list-group-item text-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/undelete/comment/{{c.id}}', 'delete2-{{c.id}}', 'undelete2-{{c.id}}','d-none')" data-toggleelement=".comment-{{c.id}}-only" data-toggleattr="deleted" data-bs-dismiss="modal"><i class="fas fa-trash-alt text-success mr-2"></i>Undelete</button>
+							<a id="delete2-{{c.id}}" class="{% if c.deleted_utc %}d-none{% endif %} list-group-item text-danger" href="#m-deleteComment" data-nonce="{{g.nonce}}" data-onclick="delete_commentModal('{{c.id}}')"><i class="fas fa-trash-alt text-danger mr-2"></i>Delete</a>
+							<button type="button" id="undelete2-{{c.id}}" class="{% if not c.deleted_utc %}d-none{% endif %} list-group-item text-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/undelete/comment/{{c.id}}', 'delete2-{{c.id}}', 'undelete2-{{c.id}}','d-none')" data-toggleelement=".comment-{{c.id}}-only" data-toggleattr="deleted" dismiss_modal><i class="fas fa-trash-alt text-success mr-2"></i>Undelete</button>
 						{% else %}
 							{% if c.body %}
-								<button type="button" data-bs-dismiss="modal" data-nonce="{{g.nonce}}" data-onclick="expandMarkdown('{{c.fullname}}')" class="list-group-item"><i class="fas text-expand-icon-{{c.fullname}} fa-expand-alt mr-2"></i><span class="expand-text-{{c.fullname}}">View source</span></button>
+								<button type="button" dismiss_modal data-nonce="{{g.nonce}}" data-onclick="expandMarkdown('{{c.fullname}}')" class="list-group-item"><i class="fas text-expand-icon-{{c.fullname}} fa-expand-alt mr-2"></i><span class="expand-text-{{c.fullname}}">View source</span></button>
 							{% endif %}
 
 							{% if not c.ghost %}
 								<button type="button" id="block2-{{c.id}}" class="{% if c.is_blocking %}d-none{% endif %} list-group-item text-danger" data-areyousure="postToastSwitch(this,'/block_user?username={{c.author_name}}','block2-{{c.id}}','unblock2-{{c.id}}','d-none')" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)" data-dismiss="modal"><i class="fas fa-eye-slash fa-fw text-danger mr-2"></i>Block user</button>
 
-								<button type="button" id="unblock2-{{c.id}}" data-bs-dismiss="modal" class="text-success list-group-item {% if not c.is_blocking %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unblock_user?username={{c.author_name}}','block2-{{c.id}}','unblock2-{{c.id}}','d-none')"><i class="fas fa-eye text-success mr-2"></i>Unblock user</button>
+								<button type="button" id="unblock2-{{c.id}}" dismiss_modal class="text-success list-group-item {% if not c.is_blocking %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unblock_user?username={{c.author_name}}','block2-{{c.id}}','unblock2-{{c.id}}','d-none')"><i class="fas fa-eye text-success mr-2"></i>Unblock user</button>
 
 								{% if c.is_notif and c.author_id != AUTOJANNY_ID %}
 									<button type="button" id="mute-notifs2-{{c.id}}" class="{% if v.has_muted(c.author) %}d-none{% endif %} list-group-item text-danger" data-areyousure="postToastSwitch(this,'/mute_notifs/{{c.author.id}}','mute-notifs2-{{c.id}}','unmute-notifs2-{{c.id}}','d-none')" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)" data-dismiss="modal"><i class="fas fa-bell-slash fa-fw text-danger mr-2"></i>Mute notifications from user</button>
 
-									<button type="button" id="unmute-notifs2-{{c.id}}" data-bs-dismiss="modal" class="text-success list-group-item {% if not v.has_muted(c.author) %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unmute_notifs/{{c.author.id}}','mute-notifs2-{{c.id}}','unmute-notifs2-{{c.id}}','d-none')"><i class="fas fa-bell text-success mr-2"></i>Unmute notifications from user</button>
+									<button type="button" id="unmute-notifs2-{{c.id}}" dismiss_modal class="text-success list-group-item {% if not v.has_muted(c.author) %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unmute_notifs/{{c.author.id}}','mute-notifs2-{{c.id}}','unmute-notifs2-{{c.id}}','d-none')"><i class="fas fa-bell text-success mr-2"></i>Unmute notifications from user</button>
 								{% endif %}
 							{% endif %}
 						{% endif %}
 
 						{% if FEATURES['NSFW_MARKING'] and (c.author_id == v.id or (c.post.sub and v.mods(c.post.sub))) %}
-							<button type="button" id="mark2-{{c.id}}" class="{% if c.over_18 %}d-none{% endif %} list-group-item text-danger" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/toggle_comment_nsfw/{{c.id}}','mark2-{{c.id}}','unmark2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-eye-evil text-danger mr-2"></i>Mark 18+</button>
+							<button type="button" id="mark2-{{c.id}}" class="{% if c.over_18 %}d-none{% endif %} list-group-item text-danger" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/toggle_comment_nsfw/{{c.id}}','mark2-{{c.id}}','unmark2-{{c.id}}','d-none')" dismiss_modal><i class="fas fa-eye-evil text-danger mr-2"></i>Mark 18+</button>
 
-							<button type="button" id="unmark2-{{c.id}}" class="{% if not c.over_18 %}d-none{% endif %} list-group-item text-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/toggle_comment_nsfw/{{c.id}}','mark2-{{c.id}}','unmark2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-eye-evil text-success mr-2"></i>Unmark 18+</button>
+							<button type="button" id="unmark2-{{c.id}}" class="{% if not c.over_18 %}d-none{% endif %} list-group-item text-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/toggle_comment_nsfw/{{c.id}}','mark2-{{c.id}}','unmark2-{{c.id}}','d-none')" dismiss_modal><i class="fas fa-eye-evil text-success mr-2"></i>Unmark 18+</button>
 						{% endif %}
 
 						{% if v.admin_level < PERMS['POST_COMMENT_MODERATION'] %}
 							{% if c.parent_post and v.id == c.post.author_id %}
-								<button type="button" id="pin2-{{c.id}}" class="list-group-item {% if c.stickied %}d-none{% endif %} text-info" data-bs-target="#actionsModal-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/pin_comment/{{c.id}}','pin2-{{c.id}}','unpin2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-thumbtack fa-rotate--45 text-info mr-2"></i>Pin</button>
-								<button type="button" id="unpin2-{{c.id}}" class="list-group-item {% if not c.stickied %}d-none{% endif %} text-info" data-bs-target="#actionsModal-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unpin_comment/{{c.id}}','pin2-{{c.id}}','unpin2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-thumbtack fa-rotate--45 text-info mr-2"></i>Unpin</button>
+								<a id="pin2-{{c.id}}" class="list-group-item {% if c.stickied %}d-none{% endif %} text-info" href="#m-actionsModal-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/pin_comment/{{c.id}}','pin2-{{c.id}}','unpin2-{{c.id}}','d-none')" dismiss_modal><i class="fas fa-thumbtack fa-rotate--45 text-info mr-2"></i>Pin</a>
+								<a id="unpin2-{{c.id}}" class="list-group-item {% if not c.stickied %}d-none{% endif %} text-info" href="#m-actionsModal-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unpin_comment/{{c.id}}','pin2-{{c.id}}','unpin2-{{c.id}}','d-none')" dismiss_modal><i class="fas fa-thumbtack fa-rotate--45 text-info mr-2"></i>Unpin</a>
 							{% elif c.post.sub and v.mods(c.post.sub) %}
-								<button type="button" id="pin2-{{c.id}}" class="list-group-item {% if c.stickied %}d-none{% endif %} text-info" data-bs-target="#actionsModal-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/pin_comment_mod/{{c.id}}','pin2-{{c.id}}','unpin2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-thumbtack fa-rotate--45 text-info mr-2"></i>Pin</button>
-								<button type="button" id="unpin2-{{c.id}}" class="list-group-item {% if not c.stickied %}d-none{% endif %} text-info" data-bs-target="#actionsModal-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unpin_comment_mod/{{c.id}}','pin2-{{c.id}}','unpin2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-thumbtack fa-rotate--45 text-info mr-2"></i>Unpin</button>
+								<a id="pin2-{{c.id}}" class="list-group-item {% if c.stickied %}d-none{% endif %} text-info" href="#m-actionsModal-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/pin_comment_mod/{{c.id}}','pin2-{{c.id}}','unpin2-{{c.id}}','d-none')" dismiss_modal><i class="fas fa-thumbtack fa-rotate--45 text-info mr-2"></i>Pin</a>
+								<a id="unpin2-{{c.id}}" class="list-group-item {% if not c.stickied %}d-none{% endif %} text-info" href="#m-actionsModal-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unpin_comment_mod/{{c.id}}','pin2-{{c.id}}','unpin2-{{c.id}}','d-none')" dismiss_modal><i class="fas fa-thumbtack fa-rotate--45 text-info mr-2"></i>Unpin</a>
 							{% endif %}
 						{% endif %}
 
 						{% if c.parent_post %}
 							{% set sub = c.post.sub %}
 							{% if sub and v.mods(sub) and not c.author.mods(sub) %}
-								<button type="button" data-bs-dismiss="modal" id="exile2-{{c.id}}" class="{% if c.author.exiler_username(sub) %}d-none{% endif %} list-group-item text-danger" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/exile/comment/{{c.id}}','exile2-{{c.id}}','unexile2-{{c.id}}','d-none')"><i class="fas fa-campfire text-danger mr-2"></i>Exile user</button>
-								<button type="button" data-bs-dismiss="modal" id="unexile2-{{c.id}}" class="{% if not c.author.exiler_username(sub) %}d-none{% endif %} list-group-item text-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/h/{{sub}}/unexile/{{c.author_id}}','exile2-{{c.id}}','unexile2-{{c.id}}','d-none')"><i class="fas fa-campfire text-success mr-2"></i>Unexile user</button>
+								<button type="button" dismiss_modal id="exile2-{{c.id}}" class="{% if c.author.exiler_username(sub) %}d-none{% endif %} list-group-item text-danger" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/exile/comment/{{c.id}}','exile2-{{c.id}}','unexile2-{{c.id}}','d-none')"><i class="fas fa-campfire text-danger mr-2"></i>Exile user</button>
+								<button type="button" dismiss_modal id="unexile2-{{c.id}}" class="{% if not c.author.exiler_username(sub) %}d-none{% endif %} list-group-item text-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/h/{{sub}}/unexile/{{c.author_id}}','exile2-{{c.id}}','unexile2-{{c.id}}','d-none')"><i class="fas fa-campfire text-success mr-2"></i>Unexile user</button>
 							{% endif %}
 						{% endif %}
 					{% endif %}
@@ -660,12 +660,12 @@
 
 
 {% if v and v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
-	<div class="modal fade d-md-none" id="adminModal-{{c.id}}" tabindex="-1">
+	<div class="modal d-md-none" id="adminModal-{{c.id}}" tabindex="-1">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h6 class="modal-title">Admin options</h6>
-					<button type="button" class="close" data-bs-dismiss="modal">
+					<button type="button" class="close" dismiss_modal>
 						<span><i class="fas fa-times"></i></span>
 					</button>
 				</div>
@@ -677,43 +677,43 @@
 							{% endif %}
 
 							{% if v.admin_level >= PERMS['POST_COMMENT_EDITING'] %}
-								<button type="button" class="list-group-item text-muted" data-nonce="{{g.nonce}}" data-onclick="toggleEdit('{{c.id}}')" data-bs-dismiss="modal">
+								<button type="button" class="list-group-item text-muted" data-nonce="{{g.nonce}}" data-onclick="toggleEdit('{{c.id}}')" dismiss_modal>
 									<i class="fas fa-edit text-muted mr-2"></i>Edit
 								</button>
 							{% endif %}
 
 							{% if v.admin_level >= PERMS['POST_COMMENT_DISTINGUISH'] %}
-								<button type="button" id="distinguish2-{{c.id}}" class="list-group-item {% if c.distinguish_level %}d-none{% endif %} text-info" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/distinguish_comment/{{c.id}}','distinguish2-{{c.id}}','undistinguish2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-id-badge text-info mr-2"></i>Distinguish</button>
-								<button type="button" id="undistinguish2-{{c.id}}" class="list-group-item {% if not c.distinguish_level %}d-none{% endif %} text-info" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/distinguish_comment/{{c.id}}','distinguish2-{{c.id}}','undistinguish2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-id-badge text-info mr-2"></i>Undistinguish</button>
+								<button type="button" id="distinguish2-{{c.id}}" class="list-group-item {% if c.distinguish_level %}d-none{% endif %} text-info" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/distinguish_comment/{{c.id}}','distinguish2-{{c.id}}','undistinguish2-{{c.id}}','d-none')" dismiss_modal><i class="fas fa-id-badge text-info mr-2"></i>Distinguish</button>
+								<button type="button" id="undistinguish2-{{c.id}}" class="list-group-item {% if not c.distinguish_level %}d-none{% endif %} text-info" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/distinguish_comment/{{c.id}}','distinguish2-{{c.id}}','undistinguish2-{{c.id}}','d-none')" dismiss_modal><i class="fas fa-id-badge text-info mr-2"></i>Undistinguish</button>
 							{% endif %}
 
-							<button type="button" id="pin2-{{c.id}}" class="list-group-item {% if c.stickied %}d-none{% endif %} text-info" data-bs-target="#adminModal-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/sticky_comment/{{c.id}}','pin2-{{c.id}}','unpin2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-thumbtack fa-rotate--45 text-info mr-2"></i>Pin</button>
-							<button type="button" id="unpin2-{{c.id}}" class="list-group-item {% if not c.stickied %}d-none{% endif %} text-info" data-bs-target="#adminModal-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unsticky_comment/{{c.id}}','pin2-{{c.id}}','unpin2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-thumbtack fa-rotate--45 text-info mr-2"></i>Unpin</button>
+							<a id="pin2-{{c.id}}" class="list-group-item {% if c.stickied %}d-none{% endif %} text-info" href="#m-adminModal-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/sticky_comment/{{c.id}}','pin2-{{c.id}}','unpin2-{{c.id}}','d-none')" dismiss_modal><i class="fas fa-thumbtack fa-rotate--45 text-info mr-2"></i>Pin</a>
+							<a id="unpin2-{{c.id}}" class="list-group-item {% if not c.stickied %}d-none{% endif %} text-info" href="#m-adminModal-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unsticky_comment/{{c.id}}','pin2-{{c.id}}','unpin2-{{c.id}}','d-none')" dismiss_modal><i class="fas fa-thumbtack fa-rotate--45 text-info mr-2"></i>Unpin</a>
 
 							{% if FEATURES['NSFW_MARKING'] %}
-								<button type="button" id="mark2-{{c.id}}" class="{% if c.over_18 %}d-none{% endif %} list-group-item text-danger" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/toggle_comment_nsfw/{{c.id}}','mark2-{{c.id}}','unmark2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-eye-evil text-danger mr-2"></i>Mark 18+</button>
-								<button type="button" id="unmark2-{{c.id}}" class="{% if not c.over_18 %}d-none{% endif %} list-group-item text-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/toggle_comment_nsfw/{{c.id}}','mark2-{{c.id}}','unmark2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-eye-evil text-success mr-2"></i>Unmark 18+</button>
+								<button type="button" id="mark2-{{c.id}}" class="{% if c.over_18 %}d-none{% endif %} list-group-item text-danger" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/toggle_comment_nsfw/{{c.id}}','mark2-{{c.id}}','unmark2-{{c.id}}','d-none')" dismiss_modal><i class="fas fa-eye-evil text-danger mr-2"></i>Mark 18+</button>
+								<button type="button" id="unmark2-{{c.id}}" class="{% if not c.over_18 %}d-none{% endif %} list-group-item text-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/toggle_comment_nsfw/{{c.id}}','mark2-{{c.id}}','unmark2-{{c.id}}','d-none')" dismiss_modal><i class="fas fa-eye-evil text-success mr-2"></i>Unmark 18+</button>
 							{% endif %}
 						{% endif %}
 
 						{% if v.admin_level >= PERMS['PROGSTACK'] %}
-							<button type="button" id="progstack2-{{c.id}}" class="{% if c.is_approved == PROGSTACK_ID %}d-none{% endif %} list-group-item text-danger" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/admin/progstack/comment/{{c.id}}','progstack2-{{c.id}}','unprogstack2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-bullhorn text-danger fa-fw mr-2"></i>Apply Progressive Stack</button>
-							<button type="button" id="unprogstack2-{{c.id}}" class="{% if c.is_approved != PROGSTACK_ID %}d-none{% endif %} list-group-item text-danger" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/admin/unprogstack/comment/{{c.id}}','progstack2-{{c.id}}','unprogstack2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-bullhorn text-danger fa-fw mr-2"></i>Remove Progressive Stack</button>
+							<button type="button" id="progstack2-{{c.id}}" class="{% if c.is_approved == PROGSTACK_ID %}d-none{% endif %} list-group-item text-danger" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/admin/progstack/comment/{{c.id}}','progstack2-{{c.id}}','unprogstack2-{{c.id}}','d-none')" dismiss_modal><i class="fas fa-bullhorn text-danger fa-fw mr-2"></i>Apply Progressive Stack</button>
+							<button type="button" id="unprogstack2-{{c.id}}" class="{% if c.is_approved != PROGSTACK_ID %}d-none{% endif %} list-group-item text-danger" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/admin/unprogstack/comment/{{c.id}}','progstack2-{{c.id}}','unprogstack2-{{c.id}}','d-none')" dismiss_modal><i class="fas fa-bullhorn text-danger fa-fw mr-2"></i>Remove Progressive Stack</button>
 						{% endif %}
 
 						{% if v.id != c.author_id and v.admin_level >= PERMS['USER_BAN'] %}
-							<button type="button" class="list-group-item text-danger {% if c.author.is_permabanned %}d-none{% endif %}" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#banModal" data-nonce="{{g.nonce}}" data-onclick="punishModal(this, 'ban', '/comment/{{c.id}}', '{{c.author_name}}', '{{c.fullname}}')"><i class="fas fa-user-slash text-danger fa-fw mr-2"></i>Ban user</button>
-							<button type="button" id="unban2-{{c.fullname}}" class="{% if not c.author.is_suspended %}d-none{% endif %} list-group-item text-success" data-nonce="{{g.nonce}}" data-onclick="unchud_or_unban(this,'/unban_user/{{c.fullname}}')" data-bs-dismiss="modal"><i class="fas fa-user-minus fa-fw text-success mr-2"></i>Unban user</button>
+							<a class="list-group-item text-danger {% if c.author.is_permabanned %}d-none{% endif %}" href="#m-ban" data-nonce="{{g.nonce}}" data-onclick="punishModal(this, 'ban', '/comment/{{c.id}}', '{{c.author_name}}', '{{c.fullname}}')"><i class="fas fa-user-slash text-danger fa-fw mr-2"></i>Ban user</a>
+							<button type="button" id="unban2-{{c.fullname}}" class="{% if not c.author.is_suspended %}d-none{% endif %} list-group-item text-success" data-nonce="{{g.nonce}}" data-onclick="unchud_or_unban(this,'/unban_user/{{c.fullname}}')" dismiss_modal><i class="fas fa-user-minus fa-fw text-success mr-2"></i>Unban user</button>
 						{% endif %}
 
 						{% if v.id != c.author_id and v.admin_level >= PERMS['USER_CHUD'] %}
-							<button type="button" class="list-group-item text-danger {% if c.author.chud == 1 %}d-none{% endif %}" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#chudModal" data-nonce="{{g.nonce}}" data-onclick="punishModal(this, 'chud', '/comment/{{c.id}}', '{{c.author_name}}', '{{c.fullname}}')"><i class="fas fa-face-sleeping text-danger fa-fw mr-2"></i>Chud user</button>
-							<button type="button" id="unchud2-{{c.fullname}}" class="{% if not c.author.chud %}d-none{% endif %} list-group-item text-success" data-nonce="{{g.nonce}}" data-onclick="unchud_or_unban(this,'/unchud_user/{{c.fullname}}')" data-bs-dismiss="modal"><i class="fas fa-face-sleeping fa-fw text-success mr-2"></i>Unchud user</button>
+							<a class="list-group-item text-danger {% if c.author.chud == 1 %}d-none{% endif %}" href="#m-chud" data-nonce="{{g.nonce}}" data-onclick="punishModal(this, 'chud', '/comment/{{c.id}}', '{{c.author_name}}', '{{c.fullname}}')"><i class="fas fa-face-sleeping text-danger fa-fw mr-2"></i>Chud user</a>
+							<button type="button" id="unchud2-{{c.fullname}}" class="{% if not c.author.chud %}d-none{% endif %} list-group-item text-success" data-nonce="{{g.nonce}}" data-onclick="unchud_or_unban(this,'/unchud_user/{{c.fullname}}')" dismiss_modal><i class="fas fa-face-sleeping fa-fw text-success mr-2"></i>Unchud user</button>
 						{% endif %}
 
 						{% if v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
-							<button type="button" id="remove2-{{c.id}}" class="{% if c.is_banned %}d-none{% endif %} list-group-item text-danger" data-nonce="{{g.nonce}}" data-onclick="removeComment(this,'{{c.id}}','approve2-{{c.id}}','remove2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-ban text-danger mr-2"></i>Remove</button>
-							<button type="button" id="approve2-{{c.id}}" class="{% if not c.is_banned and request.path != '/admin/reported/comments' %}d-none{% endif %} list-group-item text-success" data-nonce="{{g.nonce}}" data-onclick="approveComment(this,'{{c.id}}','approve2-{{c.id}}','remove2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-check text-success mr-2"></i>Approve</button>
+							<button type="button" id="remove2-{{c.id}}" class="{% if c.is_banned %}d-none{% endif %} list-group-item text-danger" data-nonce="{{g.nonce}}" data-onclick="removeComment(this,'{{c.id}}','approve2-{{c.id}}','remove2-{{c.id}}','d-none')" dismiss_modal><i class="fas fa-ban text-danger mr-2"></i>Remove</button>
+							<button type="button" id="approve2-{{c.id}}" class="{% if not c.is_banned and request.path != '/admin/reported/comments' %}d-none{% endif %} list-group-item text-success" data-nonce="{{g.nonce}}" data-onclick="approveComment(this,'{{c.id}}','approve2-{{c.id}}','remove2-{{c.id}}','d-none')" dismiss_modal><i class="fas fa-check text-success mr-2"></i>Approve</button>
 						{% endif %}
 					</ul>
 				</div>
@@ -740,12 +740,12 @@
 			{% include "modals/punish.html" %}
 		{% endif %}
 
-<div class="modal fade" id="deleteCommentModal" tabindex="-1">
+<div class="modal" id="m-deleteComment" tabindex="-1">
 	<div class="modal-dialog modal-dialog-centered">
 		<div class="modal-content">
 			<div class="modal-header d-none d-md-flex">
 				<h5 class="modal-title">Delete comment?</h5>
-				<button type="button" class="close" data-bs-dismiss="modal">
+				<button type="button" class="close" dismiss_modal>
 					<span><i class="fas fa-times"></i></span>
 				</button>
 			</div>
@@ -761,20 +761,20 @@
 
 				<p class="text-muted d-md-none">Your comment will be deleted everywhere on {{SITE_NAME}}.</p>
 
-				<button type="button" id="deleteCommentButton" class="btn btn-danger btn-block mt-5" data-bs-dismiss="modal">Delete comment</button>
+				<button type="button" id="deleteCommentButton" class="btn btn-danger btn-block mt-5" dismiss_modal>Delete comment</button>
 
-				<button type="button" class="btn btn-secondary btn-block" data-bs-dismiss="modal">Cancel</button>
+				<button type="button" class="btn btn-secondary btn-block" dismiss_modal>Cancel</button>
 			</div>
 		</div>
 	</div>
 </div>
 
-		<div class="modal fade" id="reportCommentModal" tabindex="-1">
+		<div class="modal" id="m-reportComment" tabindex="-1">
 			<div class="modal-dialog modal-dialog-centered">
 				<div class="modal-content">
 					<div class="modal-header">
 						<h5 class="modal-title">Report <span id="comment-author"></span>'s comment</h5>
-						<button type="button" class="close" data-bs-dismiss="modal">
+						<button type="button" class="close" dismiss_modal>
 							<span><i class="fas fa-times"></i></span>
 						</button>
 					</div>
@@ -784,8 +784,8 @@
 						<input autocomplete="off" maxlength="100" id="reason_comment" class="allow-emojis form-control">
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-link text-muted" data-bs-dismiss="modal">Cancel</button>
-						<button type="button" id="reportCommentButton" class="btn btn-primary btn-danger" data-bs-dismiss="modal">Report comment</button>
+						<button type="button" class="btn btn-link text-muted" dismiss_modal>Cancel</button>
+						<button type="button" id="reportCommentButton" class="btn btn-primary btn-danger" dismiss_modal>Report comment</button>
 					</div>
 				</div>
 			</div>

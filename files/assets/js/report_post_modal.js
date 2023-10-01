@@ -8,7 +8,6 @@ reason_post.addEventListener('keydown', (e) => {
 	if (!(targetDOM instanceof HTMLInputElement)) return;
 
 	reportPostButton.click()
-	bootstrap.Modal.getOrCreateInstance(document.getElementById('reportPostModal')).hide()
 });
 
 function report_postModal(id) {

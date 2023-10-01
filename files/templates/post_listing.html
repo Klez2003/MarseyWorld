@@ -127,7 +127,7 @@
 				</a>
 
 				{% if v and v.admin_level >= PERMS['ADMIN_HOME_VISIBLE'] %}
-					<button type="button" class="ml-2" data-bs-toggle="modal" data-bs-target="#adminModal-{{p.id}}">
+					<button type="button" class="ml-2" href="#m-adminModal-{{p.id}}">
 						<i class="fas fa-broom"></i>
 					</button>
 				{% endif %}
@@ -140,7 +140,7 @@
 
 			{% if v %}
 				<li class="list-inline-item">
-					<button type="button" data-bs-toggle="modal" data-bs-target="#actionsModal-{{p.id}}">
+					<button type="button" href="#m-actionsModal-{{p.id}}">
 						<i class="fas fa-ellipsis-h"></i>
 					</button>
 				</li>
@@ -182,12 +182,12 @@
 </div>
 
 {% if v %}
-	<div class="modal fade d-md-none" id="actionsModal-{{p.id}}" tabindex="-1">
+	<div class="modal d-md-none" id="actionsModal-{{p.id}}" tabindex="-1">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header p-3">
 					<h6 class="col modal-title text-center">More options</h6>
-					<button type="button" class="close position-absolute py-3" style="right: 1rem" data-bs-dismiss="modal">
+					<button type="button" class="close position-absolute py-3" style="right: 1rem" dismiss_modal>
 						<span><i class="fas fa-times-circle text-gray-500"></i></span>
 					</button>
 				</div>

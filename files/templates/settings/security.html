@@ -125,7 +125,7 @@
 </div>
 </div>
 
-<div class="modal fade" id="2faModal" tabindex="-1">
+<div class="modal" id="m-2fa" tabindex="-1">
 	<div class="modal-dialog modal-dialog-centered">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -138,7 +138,7 @@
 						Disable two-step login
 					{% endif %}
 				</h5>
-				<button type="button" class="close" data-bs-dismiss="modal">
+				<button type="button" class="close" dismiss_modal>
 					<span><i class="fas fa-times"></i></span>
 				</button>
 			</div>
@@ -174,7 +174,7 @@
 					{% endif %}
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-link text-muted" data-bs-dismiss="modal">Cancel</button>
+					<button type="button" class="btn btn-link text-muted" dismiss_modal>Cancel</button>
 					<input autocomplete="off" id="toggle2faButton" class="btn btn-primary" type="submit" value="{{action}} two-factor authentication" disabled>
 				</div>
 			</form>

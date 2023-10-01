@@ -154,16 +154,16 @@
 
 			{% if not (v and v.patron) and not (v and v.admin_level) %}
 				{% if v %}
-					<a href="/donate" type="button" class="mobile-nav-icon d-md-none donate-link" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Donate">
+					<a href="/donate" class="mobile-nav-icon d-md-none donate-link" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Donate">
 						<i class="fas fa-dollar-sign align-middle text-gray-500 black"></i>
 					</a>
 				{% else %}
-					<a href="/donate" type="button" class="btn btn-primary mobile-nav-icon d-md-none donate-link mr-3" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Donate">Donate</a>
+					<a href="/donate" class="btn btn-primary mobile-nav-icon d-md-none donate-link mr-3" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Donate">Donate</a>
 				{% endif %}
 			{% endif %}
 
 			{% if g.browser == 'webview' %}
-				<a href="" type="button" class="mobile-nav-icon d-md-none" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Refresh">
+				<a href="" class="mobile-nav-icon d-md-none" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Refresh">
 					<i class="fas fa-arrow-rotate-right align-middle text-gray-500 black"></i>
 				</a>
 			{% endif %}
@@ -210,7 +210,7 @@
 				</a>
 			{% endif %}
 
-			<button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarResponsive">
+			<button type="button" class="navbar-toggler" data-bs-toggle="collapse" href="#m-navbarResponsive">
 			<span class="navbar-toggler-icon {% if v and v.notifications_count %}position-relative{% endif %}"><i class="fas fa-bars align-middle text-gray-500 black"></i>
 			</span>
 		</button>
