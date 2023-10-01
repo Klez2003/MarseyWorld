@@ -1,7 +1,7 @@
-function togglePostEdit(id){
-	body = document.getElementById("post-body");
-	title = document.getElementById("post-title");
-	form = document.getElementById("edit-post-body-"+id);
+function togglePostEdit(id) {
+	const body = document.getElementById("post-body");
+	const title = document.getElementById("post-title");
+	const form = document.getElementById("edit-post-body-"+id);
 
 	body.classList.toggle("d-none");
 	title.classList.toggle("d-none");
