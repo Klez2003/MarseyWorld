@@ -253,17 +253,17 @@
 						<span class="text-info d-none {{p.id}}-new-comments"></span>
 					</a>
 					{% if v and v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
-						<button type="button" class="ml-2" href="#m-adminModal-{{p.id}}">
+						<a class="ml-2" href="#m-admin-{{p.id}}">
 							<i class="fas fa-broom"></i>
-						</button>
+						</a>
 					{% endif %}
 				</li>
 
 				{% if v %}
 				<li class="list-inline-item">
-					<button type="button" href="#m-actions">
+					<a href="#m-actions">
 						<i class="fas fa-ellipsis-h"></i>
-					</button>
+					</a>
 				</li>
 				{% endif %}
 				<li id="voting-{{p.id}}-mobile" class="voting list-inline-item d-md-none{% if voted==1 %} upvoted{% elif voted==-1 %} downvoted{% endif %}">

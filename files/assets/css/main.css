@@ -5859,7 +5859,7 @@ html {
 	padding: 12px;
 	padding-bottom: 4px;
 }
-[id^="m-"]:target {
+.modal:target {
 	display: block !important;
 	background: rgba(33,38,45,.8) !important;
 }

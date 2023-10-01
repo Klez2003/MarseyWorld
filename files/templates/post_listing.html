@@ -127,9 +127,9 @@
 				</a>
 
 				{% if v and v.admin_level >= PERMS['ADMIN_HOME_VISIBLE'] %}
-					<button type="button" class="ml-2" href="#m-adminModal-{{p.id}}">
+					<a class="ml-2" href="#m-admin-{{p.id}}">
 						<i class="fas fa-broom"></i>
-					</button>
+					</a>
 				{% endif %}
 
 			</li>
@@ -140,9 +140,9 @@
 
 			{% if v %}
 				<li class="list-inline-item">
-					<button type="button" href="#m-actionsModal-{{p.id}}">
+					<a href="#m-actions-{{p.id}}">
 						<i class="fas fa-ellipsis-h"></i>
-					</button>
+					</a>
 				</li>
 			{% endif %}
 			{% if v and request.path.startswith('/@') and v.admin_level < PERMS['VIEW_VOTE_BUTTONS_ON_USER_PAGE'] %}
@@ -182,7 +182,7 @@
 </div>
 
 {% if v %}
-	<div class="modal d-md-none" id="actionsModal-{{p.id}}" tabindex="-1">
+	<div class="modal d-md-none" id="m-actions-{{p.id}}" tabindex="-1">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header p-3">
