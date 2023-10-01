@@ -513,7 +513,7 @@ class User(Base):
 		elif self.patron == 8: after_discount = 0.60
 		else: after_discount = 1
 
-		after_discount -= 0.02 * self.admin_level
+		after_discount -= 0.05 * self.admin_level
 
 		owned_badges = [x.badge_id for x in self.badges]
 
