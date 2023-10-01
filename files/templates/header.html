@@ -210,11 +210,12 @@
 				</a>
 			{% endif %}
 
-			<a class="navbar-toggler" data-bs-toggle="collapse" href="#m-navbarResponsive">
-				<span class="navbar-toggler-icon {% if v and v.notifications_count %}position-relative{% endif %}"><i class="fas fa-bars align-middle text-gray-500 black"></i>
+			<button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarResponsive">
+				<span class="navbar-toggler-icon {% if v and v.notifications_count %}position-relative{% endif %}">
+					<i class="fas fa-bars align-middle text-gray-500 black"></i>
 				</span>
-			</a>
-
+			</button>
+	
 		<div class="collapse navbar-collapse" id="navbarResponsive">
 			<ul class="navbar-nav ml-auto d-none d-md-flex mr-3">
 
