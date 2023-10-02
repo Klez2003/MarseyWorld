@@ -453,11 +453,19 @@ function insertText(input, text) {
 
 let oldfiles = {};
 
-const MAX_IMAGE_AUDIO_SIZE_MB = parseInt(document.getElementById("MAX_IMAGE_AUDIO_SIZE_MB").value)
-const MAX_IMAGE_AUDIO_SIZE_MB_PATRON = parseInt(document.getElementById("MAX_IMAGE_AUDIO_SIZE_MB_PATRON").value)
-const MAX_VIDEO_SIZE_MB = parseInt(document.getElementById("MAX_VIDEO_SIZE_MB").value)
-const MAX_VIDEO_SIZE_MB_PATRON = parseInt(document.getElementById("MAX_VIDEO_SIZE_MB_PATRON").value)
-const vpatron = parseInt(document.getElementById("vpatron").value)
+let MAX_IMAGE_AUDIO_SIZE_MB
+let MAX_IMAGE_AUDIO_SIZE_MB_PATRON
+let MAX_VIDEO_SIZE_MB
+let MAX_VIDEO_SIZE_MB_PATRON
+let vpatron
+
+if (document.getElementById("MAX_IMAGE_AUDIO_SIZE_MB")) {
+	MAX_IMAGE_AUDIO_SIZE_MB = parseInt(document.getElementById("MAX_IMAGE_AUDIO_SIZE_MB").value)
+	MAX_IMAGE_AUDIO_SIZE_MB_PATRON = parseInt(document.getElementById("MAX_IMAGE_AUDIO_SIZE_MB_PATRON").value)
+	MAX_VIDEO_SIZE_MB = parseInt(document.getElementById("MAX_VIDEO_SIZE_MB").value)
+	MAX_VIDEO_SIZE_MB_PATRON = parseInt(document.getElementById("MAX_VIDEO_SIZE_MB_PATRON").value)
+	vpatron = parseInt(document.getElementById("vpatron").value)
+}
 
 let patron
 if (location.host == 'rdrama.net') patron = 'paypig'
