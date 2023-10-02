@@ -293,6 +293,9 @@ def award_thing(v, thing_type, id):
 		if not FEATURES['PINS']: abort(403)
 		if thing.is_banned: abort(403)
 
+		if thing.stickied and not thing.stickied_utc:
+			abort(400, f"This {thing_type} is already pinned permanently!")
+
 		if thing_type == 'comment': add = 3600*6
 		else: add = 3600
 
