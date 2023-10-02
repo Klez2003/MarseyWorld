@@ -221,8 +221,8 @@ function fetchEmojis() {
 				let classSelectorDOM = document.createElement("li");
 				classSelectorDOM.classList.add("nav-item");
 
-				let classSelectorLinkDOM = document.createElement("button");
-				classSelectorLinkDOM.type = "button";
+				let classSelectorLinkDOM = document.createElement("a");
+				classSelectorLinkDOM.href = "#";
 				classSelectorLinkDOM.classList.add("nav-link", "emojitab");
 				classSelectorLinkDOM.dataset.bsToggle = "tab";
 				classSelectorLinkDOM.dataset.className = className;
@@ -256,7 +256,7 @@ function switchEmojiTab(e)
 	const className = e.currentTarget.dataset.className;
 
 	emojiSearchBarDOM.value = "";
-	emojiSearchBarDOM.focus();
+	focusSearchBar(emojiSearchBarDOM);
 	emojiNotFoundDOM.hidden = true;
 
 	// Special case: favorites
@@ -559,8 +559,12 @@ function loadEmojis(inputTargetIDName)
 	}
 }
 
-addEventListener('hashchange', function () {
-	if (location.hash == "#m-emoji") {
+document.getElementById('emojiModal').addEventListener('shown.bs.modal', function () {
+	focusSearchBar(emojiSearchBarDOM);
+	setTimeout(() => {
 		focusSearchBar(emojiSearchBarDOM);
-	}
+	}, 200);
+	setTimeout(() => {
+		focusSearchBar(emojiSearchBarDOM);
+	}, 1000);
 });

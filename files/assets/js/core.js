@@ -129,10 +129,11 @@ if (!location.pathname.endsWith('/submit'))
 		}
 
 		const submitButtonDOMs = formDOM.querySelectorAll('input[type=submit], .btn-primary');
-		if (submitButtonDOMs) {
-			const btn = submitButtonDOMs[0]
-			btn.click();
-		}
+		if (submitButtonDOMs.length === 0)
+			throw new TypeError("I am unable to find the submit button :(. Contact the head custodian immediately.")
+
+		const btn = submitButtonDOMs[0]
+		btn.click();
 	});
 }
 
@@ -181,24 +182,26 @@ function formkey() {
 	else return null;
 }
 
+const expandImageModal = document.getElementById('expandImageModal')
+
 function expandImage(url) {
 	const e = this.event
 	if (e.ctrlKey || e.metaKey || e.shiftKey || e.altKey)
 		return;
 	e.preventDefault();
 
-	document.getElementById("expanded-image").src = '';
-	document.getElementById("expanded-image-wrap-link").href = '';
+	document.getElementById("desktop-expanded-image").src = '';
+	document.getElementById("desktop-expanded-image-wrap-link").href = '';
 
 	if (!url)
 	{
 		url = e.target.dataset.src
 		if (!url) url = e.target.src
 	}
-	document.getElementById("expanded-image").src = url.replace("200w.webp", "giphy.webp");
-	document.getElementById("expanded-image-wrap-link").href = url.replace("200w.webp", "giphy.webp");
+	document.getElementById("desktop-expanded-image").src = url.replace("200w.webp", "giphy.webp");
+	document.getElementById("desktop-expanded-image-wrap-link").href = url.replace("200w.webp", "giphy.webp");
 
-	location.hash = 'm-expandImage'
+	bootstrap.Modal.getOrCreateInstance(expandImageModal).show();
 };
 
 function bs_trigger(e) {
@@ -402,12 +405,6 @@ function focusSearchBar(element)
 {
 	if (screen_width >= 768) {
 		element.focus();
-		setTimeout(() => {
-			element.focus();
-		}, 200);
-		setTimeout(() => {
-			element.focus();
-		}, 1000);
 	}
 }
 
@@ -637,6 +634,35 @@ function handleUploadProgress(e, upload_prog) {
 	}
 }
 
+
+if (screen_width <= 768) {
+	let object
+	if (gbrowser == 'iphone' && expandImageModal)
+		object = expandImageModal
+	if (gbrowser != 'iphone')
+		object = document
+
+	if (object) {
+		object.addEventListener('shown.bs.modal', function (e) {
+			const new_href = `${location.href.split('#')[0]}#m-${e.target.id}`
+			history.pushState({}, '', new_href)
+		});
+
+		object.addEventListener('hide.bs.modal', function (e) {
+			if (location.hash == `#m-${e.target.id}`) {
+				history.back();
+			}
+		});
+
+		addEventListener('hashchange', function () {
+			if (!location.hash.startsWith("#m-")) {
+				const curr_modal = bootstrap.Modal.getInstance(document.getElementsByClassName('show')[0])
+				if (curr_modal) curr_modal.hide()
+			}
+		});
+	}
+}
+
 document.querySelectorAll('form').forEach(form => {
 	form.addEventListener('submit', (e) => {
 		if (form.classList.contains('is-submitting')) {
@@ -692,24 +718,4 @@ function enablePushNotifications() {
 		window.alert("Please give the site access to notifications!")
 		console.error(e)
 	})
-}
-
-addEventListener('wheel', function (e) {
-	if (location.hash.startsWith("#m-")) {
-		e.preventDefault();
-		e.stopPropagation();
-		return false;
-	}
-}, {passive: false});
-
-addEventListener('touchmove', function (e) {
-	if (location.hash.startsWith("#m-")) {
-		e.preventDefault();
-		e.stopPropagation();
-		return false;
-	}
-}, {passive: false});
-
-if (location.hash.startsWith("#m-")) {
-	history.replaceState({}, '', location.href.split('#')[0])
 }

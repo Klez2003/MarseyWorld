@@ -29,7 +29,7 @@
 												</div>
 												<label class='mt-4' for="title">Post Title</label>
 												<textarea autocomplete="off" class="form-control allow-emojis" id="post-title" type="text" name="title" placeholder="Required" value="{{title}}" minlength="1" maxlength="500" required data-nonce="{{g.nonce}}" data-oninput="checkForRequired();savetext()"></textarea>
-												<a data-nonce="{{g.nonce}}" data-onclick="loadEmojis('post-title')" class="btn btn-secondary format d-inline-block m-0" id="emoji-reply-btn-2" href="#m-emoji" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"><i class="fas fa-smile-beam"></i></a>
+												<button type="button" data-nonce="{{g.nonce}}" data-onclick="loadEmojis('post-title')" class="btn btn-secondary format d-inline-block m-0" id="emoji-reply-btn-2" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"><i class="fas fa-smile-beam"></i></button>
 												<div id="urlblock">
 													<label for="URL" class="mt-3">URL</label>
 													<input autocomplete="off" class="form-control" id="post-url" name="url" type="url" placeholder="Optional if you have text." value="{{request.values.get('url','')}}" required data-nonce="{{g.nonce}}" data-oninput="checkForRequired();savetext();checkRepost();autoSuggestTitle()">

@@ -101,7 +101,7 @@ pre {
 	color: #bbb !important;
 }
 
-:not(.modal):target {
+*:target {
 	background: rgba(var(--primary_rgb), 0.2) !important;
 }
 

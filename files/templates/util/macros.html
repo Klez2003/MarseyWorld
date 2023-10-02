@@ -105,9 +105,9 @@
 
 {% macro file_input(input_id, textarea_id, disabled) %}
 	<div class="comment-format">
-		<a class="btn btn-secondary format m-0 font-weight-bolder text-uppercase" data-nonce="{{g.nonce}}" data-onclick="getGifs('{{textarea_id}}')" href="#m-gif" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add GIF">GIF</a>
+		<button type="button" class="btn btn-secondary format m-0 font-weight-bolder text-uppercase" data-nonce="{{g.nonce}}" data-onclick="getGifs('{{textarea_id}}')" data-bs-toggle="modal" data-bs-target="#gifModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add GIF">GIF</button>
 
-		<a class="btn btn-secondary format m-0 ml-2" data-nonce="{{g.nonce}}" data-onclick="loadEmojis('{{textarea_id}}')" href="#m-emoji" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"><i class="fas fa-smile-beam"></i></a>
+		<button type="button" class="btn btn-secondary format m-0 ml-2" data-nonce="{{g.nonce}}" data-onclick="loadEmojis('{{textarea_id}}')" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"><i class="fas fa-smile-beam"></i></button>
 
 		<label class="btn btn-secondary format m-0 ml-2" for="{{input_id}}" {% if g.is_tor or disabled %}disabled{% endif %}>
 			<i class="fas fa-{% if image_only %}image{% else %}file{% endif %}"></i>
@@ -326,7 +326,7 @@
 			<span id="loading-indicator" class="d-none"></span>
 		</div>
 		<span class="my-auto">
-			<a class="btn btn-secondary fas fa-smile-beam" style="font-size:1.3rem!important" data-nonce="{{g.nonce}}" data-onclick="loadEmojis('input-text-chat')" href="#m-emoji"></a>
+			<i class="btn btn-secondary fas fa-smile-beam" style="font-size:1.3rem!important" data-nonce="{{g.nonce}}" data-onclick="loadEmojis('input-text-chat')" data-bs-toggle="modal" data-bs-target="#emojiModal"></i>
 		</span>
 
 		<span class="my-auto ml-1">

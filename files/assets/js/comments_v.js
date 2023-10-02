@@ -8,6 +8,7 @@ reason_comment.addEventListener('keydown', (e) => {
 	if (!(targetDOM instanceof HTMLInputElement)) return;
 
 	reportCommentButton.click()
+	bootstrap.Modal.getOrCreateInstance(document.getElementById('reportCommentModal')).hide()
 });
 
 

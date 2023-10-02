@@ -1,16 +1,16 @@
 <div id="form" class="d-none"></div>
-<div class="modal" id="m-emoji" tabindex="-1">
+<div class="modal fade" id="emojiModal" tabindex="-1">
 	<div id="emojiModalInternalDivIDK" class="modal-dialog modal-dialog-scrollable modal-dialog-centered emoji-modal">
 		<div class="modal-content" id="emojiTabs">
 			<div class="modal-header">
 				<div id="emoji-modal-tabs-container">
 					<ul class="nav nav-pills py-2" id="emoji-modal-tabs">
 						<li class="nav-item">
-							<button type="button" class="nav-link active emojitab" data-class-name="favorite" data-bs-toggle="tab">⭐ Favorite ⭐</button>
+							<a class="nav-link active emojitab" data-class-name="favorite" data-bs-toggle="tab" href="#">⭐ Favorite ⭐</a>
 						</li>
 					</ul>
 				</div>
-				<button type="button" class="close" dismiss_modal>
+				<button type="button" class="close" data-bs-dismiss="modal">
 					<i class="fas fa-times text-muted"></i>
 				</button>
 			</div>

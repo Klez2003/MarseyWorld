@@ -41,21 +41,21 @@
 {% block actionsModal %}
 
 {% if v %}
-	<div class="modal d-md-none" id="m-actions" tabindex="-1">
+	<div class="modal fade d-md-none" id="actionsModal" tabindex="-1">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header p-3">
 					<h6 class="col modal-title text-center">More options</h6>
-					<button type="button" class="close position-absolute py-3" style="right: 1rem" dismiss_modal>
+					<button type="button" class="close position-absolute py-3" style="right: 1rem" data-bs-dismiss="modal">
 						<span><i class="fas fa-times-circle text-gray-500"></i></span>
 					</button>
 				</div>
 				<div class="modal-body">
 					<ul class="list-group post-actions">
 						{% if v.id==p.author_id %}
-							<button type="button" class="nobackground btn btn-link btn-block btn-lg text-left text-muted" dismiss_modal data-nonce="{{g.nonce}}" data-onclick="togglePostEdit('{{p.id}}')"><i class="fas fa-edit text-center text-muted mr-2"></i>Edit</button>
+							<button type="button" class="nobackground btn btn-link btn-block btn-lg text-left text-muted" data-bs-dismiss="modal" data-nonce="{{g.nonce}}" data-onclick="togglePostEdit('{{p.id}}')"><i class="fas fa-edit text-center text-muted mr-2"></i>Edit</button>
 						{% elif p.body and v.admin_level < PERMS['POST_COMMENT_EDITING'] %}
-							<button type="button" class="nobackground btn btn-link btn-block btn-lg text-left text-muted" dismiss_modal data-nonce="{{g.nonce}}" data-onclick="expandMarkdown('{{p.fullname}}')"><i class="fas text-expand-icon-{{p.fullname}} fa-expand-alt text-center mr-2"></i><span class="expand-text-{{p.fullname}}">View source</span></button>
+							<button type="button" class="nobackground btn btn-link btn-block btn-lg text-left text-muted" data-bs-dismiss="modal" data-nonce="{{g.nonce}}" data-onclick="expandMarkdown('{{p.fullname}}')"><i class="fas text-expand-icon-{{p.fullname}} fa-expand-alt text-center mr-2"></i><span class="expand-text-{{p.fullname}}">View source</span></button>
 						{% endif %}
 
 						{% include "post_actions_mobile.html" %}
@@ -253,17 +253,17 @@
 						<span class="text-info d-none {{p.id}}-new-comments"></span>
 					</a>
 					{% if v and v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
-						<a class="ml-2" href="#m-admin-{{p.id}}">
+						<button type="button" class="ml-2" data-bs-toggle="modal" data-bs-target="#adminModal-{{p.id}}">
 							<i class="fas fa-broom"></i>
-						</a>
+						</button>
 					{% endif %}
 				</li>
 
 				{% if v %}
 				<li class="list-inline-item">
-					<a href="#m-actions">
+					<button type="button" data-bs-toggle="modal" data-bs-target="#actionsModal">
 						<i class="fas fa-ellipsis-h"></i>
-					</a>
+					</button>
 				</li>
 				{% endif %}
 				<li id="voting-{{p.id}}-mobile" class="voting list-inline-item d-md-none{% if voted==1 %} upvoted{% elif voted==-1 %} downvoted{% endif %}">

@@ -127,9 +127,9 @@
 				</a>
 
 				{% if v and v.admin_level >= PERMS['ADMIN_HOME_VISIBLE'] %}
-					<a class="ml-2" href="#m-admin-{{p.id}}">
+					<button type="button" class="ml-2" data-bs-toggle="modal" data-bs-target="#adminModal-{{p.id}}">
 						<i class="fas fa-broom"></i>
-					</a>
+					</button>
 				{% endif %}
 
 			</li>
@@ -140,9 +140,9 @@
 
 			{% if v %}
 				<li class="list-inline-item">
-					<a href="#m-actions-{{p.id}}">
+					<button type="button" data-bs-toggle="modal" data-bs-target="#actionsModal-{{p.id}}">
 						<i class="fas fa-ellipsis-h"></i>
-					</a>
+					</button>
 				</li>
 			{% endif %}
 			{% if v and request.path.startswith('/@') and v.admin_level < PERMS['VIEW_VOTE_BUTTONS_ON_USER_PAGE'] %}
@@ -182,12 +182,12 @@
 </div>
 
 {% if v %}
-	<div class="modal d-md-none" id="m-actions-{{p.id}}" tabindex="-1">
+	<div class="modal fade d-md-none" id="actionsModal-{{p.id}}" tabindex="-1">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header p-3">
 					<h6 class="col modal-title text-center">More options</h6>
-					<button type="button" class="close position-absolute py-3" style="right: 1rem" dismiss_modal>
+					<button type="button" class="close position-absolute py-3" style="right: 1rem" data-bs-dismiss="modal">
 						<span><i class="fas fa-times-circle text-gray-500"></i></span>
 					</button>
 				</div>

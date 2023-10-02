@@ -116,24 +116,6 @@ for (const element of TH) {
 	element.addEventListener('click', () => {sort_table(element)});
 }
 
-const dismiss_modal = document.querySelectorAll("[dismiss_modal]");
-for (const element of dismiss_modal) {
-	element.addEventListener('click', (e) => {
-		if (location.hash.startsWith("#m-")) {
-			history.back();
-		}
-	});
-}
-
-const modals = document.getElementsByClassName("modal");
-for (const element of modals) {
-	element.addEventListener('click', (e) => {
-		if (location.hash.startsWith("#m-") && e.target == element) {
-			history.back();
-		}
-	});
-}
-
 function register_new_elements(e) {
 	const oninput = e.querySelectorAll('[data-oninput]');
 	for (const element of oninput) {

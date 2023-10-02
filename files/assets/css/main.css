@@ -1804,6 +1804,13 @@ button.close {
 .toast-body {
 	padding: 0.75rem;
 }
+.modal-open {
+	overflow: hidden !important;
+}
+.modal-open .modal {
+	overflow-x: hidden;
+	overflow-y: auto;
+}
 .modal {
 	position: fixed;
 	top: 0;
@@ -1812,8 +1819,7 @@ button.close {
 	display: none;
 	width: 100%;
 	height: 100%;
-	overflow-x: hidden;
-	overflow-y: auto;
+	overflow: hidden;
 	outline: 0;
 	padding-right: 0 !important; /* fix Safari zoom issue */
 }
@@ -5840,20 +5846,16 @@ html {
 	padding: 12px;
 	padding-bottom: 4px;
 }
-:not(.modal):target {
+*:target {
 	background: rgba(var(--primary_rgb), 0.15) !important;
 	padding: 12px;
 	padding-bottom: 4px;
-}
-.modal:target {
-	display: block !important;
-	background: rgba(33,38,45,.8) !important;
 }
 
 .mod {
 	padding: 2px 5px 3px 5px;
 	border-radius: 5px;
-	color:white !important;
+	color:white!important;
 	background: -moz-linear-gradient(180deg, red, orange, yellow, green, blue, indigo, violet);
 	background: -webkit-linear-gradient(left, red, orange, yellow, green, blue, indigo, violet );
 	text-shadow:-1px -1px 0 black,1px -1px 0 black,-1px 1px 0 black,1px 1px 0 black;
@@ -6893,7 +6895,7 @@ div.markdown {
 	margin-bottom: 10px !important;
 }
 
-#m-expandImage > .modal-dialog {
+#expandImageModal > .modal-dialog {
 	max-width: 100% !important;
 	max-height: 100%;
 	height: 100%;
@@ -6901,13 +6903,13 @@ div.markdown {
 	margin-bottom: 0 !important;
 }
 
-#expanded-image {
+#desktop-expanded-image {
 	max-width: 90%;
 	max-height: 100vh;
 	border: 5px white solid;
 }
 @media (max-width: 768px) {
-	#expanded-image {
+	#desktop-expanded-image {
 		max-width: 100%;
 		max-height: 65vh;
 	}
@@ -7547,7 +7549,7 @@ th.disable-sort-click[disabled] {
 	box-shadow: inset 0 -4px 0 white;
 }
 
-#m-expandImage a {
+#expandImageModal a {
 	pointer-events: auto;
 }
 
@@ -7670,11 +7672,17 @@ ul {
 	display: none;
 }
 
-:not(.modal):target {
+*:target {
 	scroll-margin-top: 100px;
 }
 
 @media (min-width: 768px) {
+	.modal-open {
+		padding-right: 10px;
+	}
+	.modal-open nav {
+		padding-right: 10px;
+	}
 	::-webkit-scrollbar {
 		width: 10px;
 	}
