@@ -42,10 +42,15 @@ def reddit_post(subreddit, v, path):
 	return redirect(f'https://{reddit}/{post_id}')
 
 
-@cache.cached(make_cache_key=lambda kind:f"emoji_list_{kind}")
-def get_emoji_list(kind):
+@cache.cached(make_cache_key=lambda kind, over_18:f"emoji_list_{kind}_{over_18}")
+def get_emoji_list(kind, over_18):
+	li = g.db.query(Emoji, User).join(User, Emoji.author_id == User.id).filter(Emoji.submitter_id == None, Emoji.kind == kind)
+	if not over_18:
+		li = li.filter(Emoji.over_18 == False)
+	li = li.order_by(Emoji.count.desc())
+
 	emojis = []
-	for emoji, author in g.db.query(Emoji, User).join(User, Emoji.author_id == User.id).filter(Emoji.submitter_id == None, Emoji.kind == kind, Emoji.over_18 == False).order_by(Emoji.count.desc()):
+	for emoji, author in li:
 		emoji.author = author.username if FEATURES['ASSET_SUBMISSIONS'] else None
 		emojis.append(emoji)
 	return emojis
@@ -60,7 +65,7 @@ def marseys_redirect():
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def emoji_list(v, kind):
-	emojis = get_emoji_list(kind)
+	emojis = get_emoji_list(kind, v.over_18)
 	authors = get_accounts_dict([e.author_id for e in emojis], v=v, graceful=True)
 
 	if FEATURES['ASSET_SUBMISSIONS']:
@@ -81,9 +86,13 @@ def emoji_list(v, kind):
 
 
 
-@cache.cached(make_cache_key=lambda:"emojis")
-def get_emojis():
-	emojis = g.db.query(Emoji, User).join(User, Emoji.author_id == User.id).filter(Emoji.submitter_id == None, Emoji.over_18 == False)
+@cache.cached(make_cache_key=lambda over_18:f"emojis_{over_18}")
+def get_emojis(over_18):
+	emojis = g.db.query(Emoji, User).join(User, Emoji.author_id == User.id).filter(Emoji.submitter_id == None)
+
+	if not over_18:
+		emojis = emojis.filter(Emoji.over_18 == False)
+
 	emojis1 = emojis.filter(Emoji.kind != 'Marsey Alphabet').order_by(Emoji.count.desc()).all()
 	emojis2 = emojis.filter(Emoji.kind == 'Marsey Alphabet').order_by(func.length(Emoji.name), Emoji.name).all()
 	emojis = emojis1 + emojis2
@@ -102,7 +111,7 @@ def get_emojis():
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def emojis(v):
-	return get_emojis()
+	return get_emojis(v.over_18)
 
 
 

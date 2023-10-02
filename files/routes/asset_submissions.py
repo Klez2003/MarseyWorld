@@ -188,9 +188,8 @@ def approve_emoji(v, name):
 			badge_grant(badge_id=113, user=author)
 		badge_grant(badge_id=112, user=author)
 
-	if not Emoji.over_18:
-		cache.delete("emojis")
-		cache.delete(f"emoji_list_{emoji.kind}")
+	cache.delete(f"emojis_{emoji.over_18}")
+	cache.delete(f"emoji_list_{emoji.kind}_{emoji.over_18}")
 
 	purge_files_in_cloudflare_cache(f"{SITE_FULL_IMAGES}/e/{emoji.name}/webp")
 
@@ -513,9 +512,8 @@ def update_emoji(v):
 	)
 	g.db.add(ma)
 
-	if not Emoji.over_18:
-		cache.delete("emojis")
-		cache.delete(f"emoji_list_{existing.kind}")
+	cache.delete(f"emojis_{existing.over_18}")
+	cache.delete(f"emoji_list_{existing.kind}_{existing.over_18}")
 
 	return {"message": f"'{name}' updated successfully!"}
 

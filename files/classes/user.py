@@ -283,7 +283,7 @@ class User(Base):
 	@property
 	@lazy
 	def over_18(self):
-		return session.get('over_18', False)
+		return bool(session.get('over_18'))
 
 	@property
 	@lazy
