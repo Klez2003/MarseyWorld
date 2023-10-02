@@ -1,3 +1,7 @@
+if (location.hash.startsWith("#m-")) {
+	history.replaceState({}, '', location.href.split('#')[0])
+}
+
 const SITE_FULL_IMAGES = document.getElementById('SITE_FULL_IMAGES').value
 
 function getMessageFromJsonData(success, json) {
@@ -694,14 +698,18 @@ function enablePushNotifications() {
 	})
 }
 
-const body = document.getElementsByTagName('body')[0]
-addEventListener('hashchange', () => {
-	if (location.hash.startsWith("#m-"))
-		body.classList.add('modal-open')
-	else
-		body.classList.remove('modal-open')
-})
+addEventListener('wheel', function (e) {
+	if (location.hash.startsWith("#m-")) {
+		e.preventDefault();
+		e.stopPropagation();
+		return false;
+	}
+}, {passive: false});
 
-if (location.hash.startsWith("#m-")) {
-	history.replaceState({}, '', location.href.split('#')[0])
-}
+addEventListener('touchmove', function (e) {
+	if (location.hash.startsWith("#m-")) {
+		e.preventDefault();
+		e.stopPropagation();
+		return false;
+	}
+}, {passive: false});
