@@ -191,16 +191,16 @@ function expandImage(url) {
 		return;
 	e.preventDefault();
 
-	document.getElementById("desktop-expanded-image").src = '';
-	document.getElementById("desktop-expanded-image-wrap-link").href = '';
+	document.getElementById("expanded-image").src = '';
+	document.getElementById("expanded-image-wrap-link").href = '';
 
 	if (!url)
 	{
 		url = e.target.dataset.src
 		if (!url) url = e.target.src
 	}
-	document.getElementById("desktop-expanded-image").src = url.replace("200w.webp", "giphy.webp");
-	document.getElementById("desktop-expanded-image-wrap-link").href = url.replace("200w.webp", "giphy.webp");
+	document.getElementById("expanded-image").src = url.replace("200w.webp", "giphy.webp");
+	document.getElementById("expanded-image-wrap-link").href = url.replace("200w.webp", "giphy.webp");
 
 	location.hash = 'm-expandImage'
 };

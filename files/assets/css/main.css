@@ -6901,13 +6901,13 @@ div.markdown {
 	margin-bottom: 0 !important;
 }
 
-#desktop-expanded-image {
+#expanded-image {
 	max-width: 90%;
 	max-height: 100vh;
 	border: 5px white solid;
 }
 @media (max-width: 768px) {
-	#desktop-expanded-image {
+	#expanded-image {
 		max-width: 100%;
 		max-height: 65vh;
 	}
