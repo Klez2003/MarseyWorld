@@ -6861,7 +6861,7 @@ div.markdown {
 }
 
 .popover-badges-div {
-	max-height: 10vh !important;
+	max-height: 119px;
 	overflow: auto;
 }
 
