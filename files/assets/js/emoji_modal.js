@@ -221,8 +221,8 @@ function fetchEmojis() {
 				let classSelectorDOM = document.createElement("li");
 				classSelectorDOM.classList.add("nav-item");
 
-				let classSelectorLinkDOM = document.createElement("a");
-				classSelectorLinkDOM.href = "#";
+				let classSelectorLinkDOM = document.createElement("button");
+				classSelectorLinkDOM.type = "button";
 				classSelectorLinkDOM.classList.add("nav-link", "emojitab");
 				classSelectorLinkDOM.dataset.bsToggle = "tab";
 				classSelectorLinkDOM.dataset.className = className;
