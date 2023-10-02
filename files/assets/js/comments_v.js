@@ -328,44 +328,6 @@ function post_comment(fullname, hide){
 	xhr.send(form)
 }
 
-function handle_action(type, cid, thing) {
-	const btns = document.getElementsByClassName(`action-${cid}`)
-	for (const btn of btns)
-	{
-		btn.disabled = true;
-		btn.classList.add('disabled');
-	}
-
-	const form = new FormData();
-	form.append('formkey', formkey());
-	form.append('comment_id', cid);
-	form.append('thing', thing);
-
-	const xhr = new XMLHttpRequest();
-	xhr.open("post", `/${type}/${cid}`);
-	xhr.setRequestHeader('xhr', 'xhr');
-
-
-
-	xhr.onload=function(){
-		let data
-		try {data = JSON.parse(xhr.response)}
-		catch(e) {console.error(e)}
-		if (data && data["response"]) {
-			const element = document.getElementById(`${type}-${cid}`);
-			element.innerHTML = data["response"].replace(/data-nonce=".*?"/g, `data-nonce="${nonce}"`)
-			register_new_elements(element)
-		} else {
-			showToast(false, getMessageFromJsonData(false, data));
-		}
-		for (const btn of btns)
-		{
-			btn.disabled = false;
-			btn.classList.remove('disabled');
-		}
-	}
-	xhr.send(form)
-}
 
 function restore_reply_buttons(fullname) {
 	const reply_buttons = [document.getElementById(`toggle-reply-${fullname}`)]
