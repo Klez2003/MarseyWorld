@@ -870,7 +870,7 @@ def hole_log(v, sub):
 		if mod_id:
 			actions = actions.filter_by(user_id=mod_id)
 			kinds = set([x.kind for x in actions])
-			if kind: kinds |= kind
+			if kind: kinds.add(kind)
 			types2 = {}
 			for k,val in types.items():
 				if k in kinds: types2[k] = val
