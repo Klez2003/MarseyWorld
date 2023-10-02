@@ -1807,14 +1807,6 @@ button.close {
 .modal-open {
 	overflow: hidden !important;
 }
-@media (min-width: 768px) {
-	.modal-open {
-		padding-right: 1.3vw;
-	}
-	.modal-open nav {
-		padding-right: 1.3vw;
-	}
-}
 .modal-open .modal {
 	overflow-x: hidden;
 	overflow-y: auto;
@@ -7686,4 +7678,22 @@ ul {
 
 :not(.modal):target {
 	scroll-margin-top: 100px;
+}
+
+@media (min-width: 768px) {
+	.modal-open {
+		padding-right: 10px;
+	}
+	.modal-open nav {
+		padding-right: 10px;
+	}
+	::-webkit-scrollbar {
+		width: 10px;
+	}
+	::-webkit-scrollbar-thumb {
+		background: #555;
+	}
+	::-webkit-scrollbar-thumb:hover {
+		background: #3d3d3d;
+	}
 }
