@@ -1941,7 +1941,8 @@ def admin_reset_password(user_id, v):
 @app.get("/admin/orgy")
 @admin_level_required(PERMS['ORGIES'])
 def orgy_control(v):
-	return render_template("admin/orgy_control.html", v=v, orgy=get_orgy(v))
+	orgy = g.db.query(Orgy).one_or_none()
+	return render_template("admin/orgy_control.html", v=v, orgy=orgy)
 
 @app.post("/admin/start_orgy")
 @admin_level_required(PERMS['ORGIES'])

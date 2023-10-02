@@ -1,7 +1,7 @@
 import time
 from flask import g, abort
 
-from sqlalchemy import Column
+from sqlalchemy import Column, or_
 from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
@@ -15,6 +15,7 @@ class Orgy(Base):
 	data = Column(String)
 	title = Column(String)
 	created_utc = Column(Integer)
+	end_utc = Column(Integer)
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
@@ -33,4 +34,10 @@ class Orgy(Base):
 
 def get_orgy(v):
 	if not (v and v.allowed_in_chat): return None
-	return g.db.query(Orgy).one_or_none()
+	t = int(time.time())
+	return g.db.query(Orgy).filter(
+			or_(
+				Orgy.end_utc == None,
+				Orgy.end_utc > t,
+			)
+		).one_or_none()

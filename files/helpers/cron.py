@@ -185,10 +185,15 @@ def _create_post(title, body, pin_hours):
 	cache.delete_memoized(frontlist)
 
 def _create_and_delete_orgy():
+	video_info = ffmpeg.probe(f'/orgies/{get_file()}')
+	seconds = int(video_info['streams'][0]['duration'])
+	end_utc = int(time.time() + seconds)
+	
 	orgy = Orgy(
 		title=get_name(),
 		type='file',
-		data=f'https://videos.watchpeopledie.tv/orgies/{get_file()}'
+		data=f'https://videos.watchpeopledie.tv/orgies/{get_file()}',
+		end_utc = end_utc,
 	)
 	g.db.add(orgy)
 	g.db.commit()
@@ -198,15 +203,6 @@ def _create_and_delete_orgy():
 
 	requests.post('http://localhost:5001/refresh_chat', headers={"Host": SITE})
 
-	video_info = ffmpeg.probe(f'/orgies/{get_file()}')
-	seconds = int(video_info['streams'][0]['duration'])
-	time.sleep(seconds)
-
-	orgy = g.db.query(Orgy).one_or_none()
-	if orgy:
-		g.db.delete(orgy)
-		g.db.commit()
-		requests.post('http://localhost:5001/refresh_chat', headers={"Host": SITE})
 
 def _delete_all_posts():
 	posts = g.db.query(Post).filter_by(author_id=AUTOJANNY_ID, deleted_utc=0).all()

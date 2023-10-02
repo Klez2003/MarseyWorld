@@ -38,3 +38,7 @@ orgy_file.addEventListener("timeupdate", function(){
 		}, 300000);
 	}
 });
+
+orgy_file.addEventListener("ended", function(){
+	location.reload()
+});
