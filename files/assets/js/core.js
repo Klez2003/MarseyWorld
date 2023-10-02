@@ -1,7 +1,3 @@
-if (location.hash.startsWith("#m-")) {
-	history.replaceState({}, '', location.href.split('#')[0])
-}
-
 const SITE_FULL_IMAGES = document.getElementById('SITE_FULL_IMAGES').value
 
 function getMessageFromJsonData(success, json) {
@@ -713,3 +709,7 @@ addEventListener('touchmove', function (e) {
 		return false;
 	}
 }, {passive: false});
+
+if (location.hash.startsWith("#m-")) {
+	history.replaceState({}, '', location.href.split('#')[0])
+}
