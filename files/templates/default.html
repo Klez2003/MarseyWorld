@@ -26,7 +26,7 @@
 				{% set src = macros.random_image("assets/images/" ~ SITE_NAME ~ "/orgy_banners") %}
 				{% set href = "/chat" %}
 				{% set expand = false %}
-			{% elif IS_EVENT() %}
+			{% elif IS_DKD() or IS_BIRTHGAY() or IS_BIRTHDEAD() %}
 				{% set src = macros.random_image("assets/events/" ~ IS_EVENT() ~ "/images/banners") %}
 			{% elif SITE_NAME == "rDrama" %}
 				{% set href = "https://donate.transequality.org/a/ncte" %}
