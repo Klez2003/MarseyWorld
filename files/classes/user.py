@@ -396,7 +396,7 @@ class User(Base):
 			return False
 		if self.id in IMMUNE_TO_AWARDS:
 			return True
-		if self.new_user:
+		if self.new_user and not self.alts:
 			return True
 		return False
 
