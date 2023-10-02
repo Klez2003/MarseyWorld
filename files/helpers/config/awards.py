@@ -396,7 +396,7 @@ AWARDS = {
 		"cosmetic": False,
 		"ghost": False,
 		"enabled": True,
-		"positive": True,
+		"positive": False,
 	},
 	"rainbow": {
 		"kind": "rainbow",
