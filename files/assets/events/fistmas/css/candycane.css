@@ -1,6 +1,6 @@
 #post-title, #post-content p {
-	--color2: #cc4145;
 	--color1: rgb(12, 128, 101);
+	--color2: #cc4145;
 	font-family: "Open Sans", sans-serif;
 	background: repeating-linear-gradient(
 		45deg, var(--color2), var(--color2) 10px,
@@ -9,7 +9,7 @@
 	background-clip: text;
 	color: transparent;
 	-webkit-background-clip: text;
-	animation: 45s linear 0s infinite candy-corn-move;
+	animation: 45s linear 0s infinite move-colors;
 }
 
 #post-title a {
@@ -18,9 +18,4 @@
 
 #post-title:hover, #post-content p:hover {
 	animation-duration: 10s;
-}
-
-@keyframes candy-corn-move {
-	from {background-position: 0px;}
-	to {background-position: 1000px;}
 }

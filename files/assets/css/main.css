@@ -6668,11 +6668,21 @@ g {
 }
 
 .rainbow-text:not(a) {
-	background-image: repeating-linear-gradient(135deg, violet, rgb(178, 94, 238), lightblue, green, yellow, orange, #ff7f7f 50%) !important;
+	background: repeating-linear-gradient(
+		45deg,
+		violet,
+		rgb(178, 94, 238) 20px,
+		lightblue 40px,
+		green 60px,
+		yellow 80px,
+		orange 100px,
+		#ff7f7f 120px
+	);
 	color: transparent !important;
 	font-weight: 700 !important;
 	background-clip: text !important;
 	-webkit-background-clip: text !important;
+	animation: 60s linear 0s infinite move-colors;
 }
 
 .queen:not(a):not(.ectoplasm) {
@@ -7683,4 +7693,9 @@ ul {
 	::-webkit-scrollbar-thumb:hover {
 		background: #3d3d3d;
 	}
+}
+
+@keyframes move-colors {
+	from {background-position: 0px;}
+	to {background-position: 1000px;}
 }

@@ -501,7 +501,7 @@ body::after {
 	background-clip: text;
 	color: transparent !important;
 	-webkit-background-clip: text;
-	animation: 32s linear 0s infinite candy-corn-move;
+	animation: 32s linear 0s infinite move-colors;
 }
 
 .candy-corn:not(a) > p {
@@ -514,15 +514,6 @@ body::after {
 
 .candy-corn:hover {
 	animation-duration: 10s;
-}
-
-@keyframes candy-corn-move {
-	from {
-		background-position: 0px;
-	}
-	to {
-		background-position: 1000px;
-	}
 }
 
 /* Ectoplasm */
