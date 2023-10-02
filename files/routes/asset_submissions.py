@@ -48,7 +48,7 @@ def submit_emoji(v):
 	tags = request.values.get('tags', '').lower().strip()
 	username = request.values.get('author', '').lower().strip()
 	kind = request.values.get('kind', '').strip()
-	over_18 = request.values.get("over_18", False, bool)
+	over_18 = bool(request.values.get("over_18"))
 
 	for modifier in emoji_modifiers:
 		if name.endswith(modifier):
@@ -148,7 +148,7 @@ def approve_emoji(v, name):
 	if new_kind not in EMOJI_KINDS:
 		abort(400, "Invalid kind!")
 
-	over_18 = request.values.get("over_18", False, bool)
+	over_18 = request.values.get("over_18") == 'true'
 
 	emoji.name = new_name
 	emoji.kind = new_kind

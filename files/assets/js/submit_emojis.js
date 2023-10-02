@@ -4,7 +4,7 @@ function approve_emoji(t, name) {
 			"tags": document.getElementById(`${name}-tags`).value,
 			"name": document.getElementById(`${name}-name`).value,
 			"kind": document.getElementById(`${name}-kind`).value,
-			"over_18": document.getElementById(`${name}-over-18`).value,
+			"over_18": document.getElementById(`${name}-over-18`).checked,
 		},
 		() => {
 			document.getElementById(`${name}-emoji`).remove()
