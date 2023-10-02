@@ -261,6 +261,7 @@
 	{% if v.admin_level >= PERMS['USER_BAN'] %}
 		{% include "modals/punish.html" %}
 	{% endif %}
+	{% include "modals/emoji.html" %}
 {% endif %}
 
 <script defer src="{{'js/vendor/clipboard.js' | asset}}"></script>
