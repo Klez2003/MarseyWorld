@@ -156,7 +156,7 @@ function post_reply(id) {
 		catch(e) {console.error(e)}
 		if (data && data["comment"]) {
 			const comments = document.getElementById('replies-of-c_' + id);
-			const comment = data["comment"].replace(/data-src/g, 'src').replace(/data-cfsrc/g, 'src').replace(/style="display:none;visibility:hidden;"/g, '').replace(/data-nonce=".*?"/g, `data-nonce="${nonce}"`);
+			const comment = data["comment"].replace(/data-src/g, 'src').replace(/data-cfsrc/g, 'src').replace(/style="display:none;visibility:hidden;"/g, '').replace(/data-nonce=".*?"/g, `data-nonce="${nonce}"`).replace(/ loading="lazy"/g, '');
 
 			comments.insertAdjacentHTML('beforeend', comment);
 
@@ -214,7 +214,8 @@ function comment_edit(id){
 		catch(e) {console.error(e)}
 		if (data && data["comment"]) {
 			commentForm=document.getElementById('comment-text-'+id);
-			commentForm.innerHTML = data["comment"].replace(/data-src/g, 'src').replace(/data-cfsrc/g, 'src').replace(/style="display:none;visibility:hidden;"/g, '').replace(/data-nonce=".*?"/g, `data-nonce="${nonce}"`)
+			commentForm.innerHTML = data["comment"].replace(/data-src/g, 'src').replace(/data-cfsrc/g, 'src').replace(/style="display:none;visibility:hidden;"/g, '').replace(/data-nonce=".*?"/g, `data-nonce="${nonce}"`).replace(/ loading="lazy"/g, '');
+
 			document.getElementById('cancel-edit-'+id).click()
 
 			register_new_elements(commentForm);
@@ -291,7 +292,7 @@ function post_comment(fullname, hide){
 			commentForm = document.getElementById(name);
 
 			let comments = document.getElementById('replies-of-' + fullname);
-			let comment = data["comment"].replace(/data-src/g, 'src').replace(/data-cfsrc/g, 'src').replace(/style="display:none;visibility:hidden;"/g, '').replace(/data-nonce=".*?"/g, `data-nonce="${nonce}"`);
+			let comment = data["comment"].replace(/data-src/g, 'src').replace(/data-cfsrc/g, 'src').replace(/style="display:none;visibility:hidden;"/g, '').replace(/data-nonce=".*?"/g, `data-nonce="${nonce}"`).replace(/ loading="lazy"/g, '');
 
 			comments.insertAdjacentHTML('afterbegin', comment);
 
