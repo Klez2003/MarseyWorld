@@ -18,6 +18,7 @@ AWARDS = {
 		"cosmetic": False,
 		"ghost": False,
 		"enabled": False,
+		"positive": True,
 	},
 
 	### Deprecated
@@ -32,6 +33,7 @@ AWARDS = {
 		"cosmetic": False,
 		"ghost": False,
 		"enabled": False,
+		"positive": True,
 	},
 	"nword": {
 		"kind": "nword",
@@ -44,6 +46,7 @@ AWARDS = {
 		"cosmetic": False,
 		"ghost": False,
 		"enabled": False,
+		"positive": True,
 	},
 	"fish": {
 		"kind": "fish",
@@ -56,6 +59,7 @@ AWARDS = {
 		"cosmetic": False,
 		"ghost": False,
 		"enabled": False,
+		"positive": True,
 	},
 
 
@@ -71,6 +75,7 @@ AWARDS = {
 		"cosmetic": False,
 		"ghost": False,
 		"enabled": IS_FISTMAS() or IS_HOMOWEEN(),
+		"positive": True,
 	},
 
 	### Fistmas
@@ -85,6 +90,7 @@ AWARDS = {
 		"cosmetic": True,
 		"ghost": True,
 		"enabled": IS_FISTMAS(),
+		"positive": True,
 	},
 	"snow": {
 		"kind": "snow",
@@ -97,6 +103,7 @@ AWARDS = {
 		"cosmetic": True,
 		"ghost": True,
 		"enabled": IS_FISTMAS(),
+		"positive": True,
 	},
 	"gingerbread": {
 		"kind": "gingerbread",
@@ -109,6 +116,7 @@ AWARDS = {
 		"cosmetic": True,
 		"ghost": True,
 		"enabled": IS_FISTMAS(),
+		"positive": True,
 	},
 	"lights": {
 		"kind": "lights",
@@ -121,6 +129,7 @@ AWARDS = {
 		"cosmetic": True,
 		"ghost": True,
 		"enabled": IS_FISTMAS(),
+		"positive": True,
 	},
 	"frostbite": {
 		"kind": "frostbite",
@@ -133,6 +142,7 @@ AWARDS = {
 		"cosmetic": True,
 		"ghost": True,
 		"enabled": IS_FISTMAS(),
+		"positive": True,
 	},
 	"candycane": {
 		"kind": "candycane",
@@ -145,6 +155,7 @@ AWARDS = {
 		"cosmetic": True,
 		"ghost": True,
 		"enabled": IS_FISTMAS(),
+		"positive": True,
 	},
 	"grinch": {
 		"kind": "grinch",
@@ -157,6 +168,7 @@ AWARDS = {
 		"cosmetic": False,
 		"ghost": False,
 		"enabled": IS_FISTMAS(),
+		"positive": True,
 	},
 
 	### Homoween
@@ -171,6 +183,7 @@ AWARDS = {
 		"cosmetic": True,
 		"ghost": True,
 		"enabled": IS_HOMOWEEN(),
+		"positive": True,
 	},
 	"fog": {
 		"kind": "fog",
@@ -183,6 +196,7 @@ AWARDS = {
 		"cosmetic": True,
 		"ghost": True,
 		"enabled": IS_HOMOWEEN(),
+		"positive": True,
 	},
 	"bones": {
 		"kind": "bones",
@@ -195,6 +209,7 @@ AWARDS = {
 		"cosmetic": True,
 		"ghost": True,
 		"enabled": IS_HOMOWEEN(),
+		"positive": True,
 	},
 	"pumpkin": {
 		"kind": "pumpkin",
@@ -207,6 +222,7 @@ AWARDS = {
 		"cosmetic": True,
 		"ghost": True,
 		"enabled": IS_HOMOWEEN(),
+		"positive": True,
 	},
 	"candy-corn": {
 		"kind": "candy-corn",
@@ -219,6 +235,7 @@ AWARDS = {
 		"cosmetic": True,
 		"ghost": True,
 		"enabled": IS_HOMOWEEN(),
+		"positive": True,
 	},
 	"ectoplasm": {
 		"kind": "ectoplasm",
@@ -231,6 +248,7 @@ AWARDS = {
 		"cosmetic": True,
 		"ghost": True,
 		"enabled": IS_HOMOWEEN(),
+		"positive": True,
 	},
 	"stab": {
 		"kind": "stab",
@@ -243,6 +261,7 @@ AWARDS = {
 		"cosmetic": True,
 		"ghost": True,
 		"enabled": IS_HOMOWEEN(),
+		"positive": True,
 	},
 	"upsidedown": {
 		"kind": "upsidedown",
@@ -255,6 +274,7 @@ AWARDS = {
 		"cosmetic": True,
 		"ghost": True,
 		"enabled": IS_HOMOWEEN(),
+		"positive": True,
 	},
 	"flashlight": {
 		"kind": "flashlight",
@@ -267,6 +287,7 @@ AWARDS = {
 		"cosmetic": True,
 		"ghost": True,
 		"enabled": IS_HOMOWEEN(),
+		"positive": True,
 	},
 	"haunt": {
 		"kind": "haunt",
@@ -279,6 +300,7 @@ AWARDS = {
 		"cosmetic": True,
 		"ghost": True,
 		"enabled": IS_HOMOWEEN(),
+		"positive": True,
 	},
 
 	"jumpscare": {
@@ -292,6 +314,7 @@ AWARDS = {
 		"cosmetic": False,
 		"ghost": False,
 		"enabled": IS_HOMOWEEN(),
+		"positive": True,
 	},
 	"bite": {
 		"kind": "bite",
@@ -304,6 +327,7 @@ AWARDS = {
 		"cosmetic": False,
 		"ghost": False,
 		"enabled": IS_HOMOWEEN(),
+		"positive": True,
 	},
 	"vax": {
 		"kind": "vax",
@@ -316,6 +340,7 @@ AWARDS = {
 		"cosmetic": False,
 		"ghost": False,
 		"enabled": IS_HOMOWEEN(),
+		"positive": True,
 	},
 	"hw-grinch": {
 		"kind": "hw-grinch",
@@ -328,6 +353,7 @@ AWARDS = {
 		"cosmetic": False,
 		"ghost": False,
 		"enabled": IS_HOMOWEEN(),
+		"positive": True,
 	},
 
 	### Birthgay/Birthdead
@@ -342,6 +368,7 @@ AWARDS = {
 		"cosmetic": True,
 		"ghost": True,
 		"enabled": IS_BIRTHGAY() or IS_BIRTHDEAD(),
+		"positive": True,
 	},
 
 	### Standard
@@ -356,6 +383,7 @@ AWARDS = {
 		"cosmetic": False,
 		"ghost": False,
 		"enabled": True,
+		"positive": True,
 	},
 	"marsify": {
 		"kind": "marsify",
@@ -368,6 +396,7 @@ AWARDS = {
 		"cosmetic": False,
 		"ghost": False,
 		"enabled": True,
+		"positive": True,
 	},
 	"rainbow": {
 		"kind": "rainbow",
@@ -380,6 +409,7 @@ AWARDS = {
 		"cosmetic": False,
 		"ghost": False,
 		"enabled": not FEATURES['HOUSES'],
+		"positive": False,
 	},
 	"sharpen": {
 		"kind": "sharpen",
@@ -392,6 +422,7 @@ AWARDS = {
 		"cosmetic": False,
 		"ghost": False,
 		"enabled": not FEATURES['HOUSES'],
+		"positive": False,
 	},
 	"shit": {
 		"kind": "shit",
@@ -404,6 +435,7 @@ AWARDS = {
 		"cosmetic": True,
 		"ghost": True,
 		"enabled": True,
+		"positive": True,
 	},
 	"fireflies": {
 		"kind": "fireflies",
@@ -416,6 +448,7 @@ AWARDS = {
 		"cosmetic": True,
 		"ghost": True,
 		"enabled": True,
+		"positive": True,
 	},
 	"train": {
 		"kind": "train",
@@ -428,6 +461,7 @@ AWARDS = {
 		"cosmetic": True,
 		"ghost": True,
 		"enabled": True,
+		"positive": True,
 	},
 	"scooter": {
 		"kind": "scooter",
@@ -440,6 +474,7 @@ AWARDS = {
 		"cosmetic": True,
 		"ghost": True,
 		"enabled": True,
+		"positive": True,
 	},
 	"wholesome": {
 		"kind": "wholesome",
@@ -452,6 +487,7 @@ AWARDS = {
 		"cosmetic": True,
 		"ghost": True,
 		"enabled": True,
+		"positive": True,
 	},
 	"firework": {
 		"kind": "firework",
@@ -464,6 +500,7 @@ AWARDS = {
 		"cosmetic": True,
 		"ghost": True,
 		"enabled": True,
+		"positive": True,
 	},
 	"ricardo": {
 		"kind": "ricardo",
@@ -476,6 +513,7 @@ AWARDS = {
 		"cosmetic": True,
 		"ghost": True,
 		"enabled": True,
+		"positive": True,
 	},
 	"tilt": {
 		"kind": "tilt",
@@ -488,6 +526,7 @@ AWARDS = {
 		"cosmetic": True,
 		"ghost": True,
 		"enabled": True,
+		"positive": False,
 	},
 	"glowie": {
 		"kind": "glowie",
@@ -500,6 +539,7 @@ AWARDS = {
 		"cosmetic": True,
 		"ghost": True,
 		"enabled": True,
+		"positive": False,
 	},
 	"spider": {
 		"kind": "spider",
@@ -512,6 +552,7 @@ AWARDS = {
 		"cosmetic": False,
 		"ghost": False,
 		"enabled": True,
+		"positive": False,
 	},
 	"owoify": {
 		"kind": "owoify",
@@ -524,6 +565,7 @@ AWARDS = {
 		"cosmetic": False,
 		"ghost": False,
 		"enabled": not FEATURES['HOUSES'],
+		"positive": False,
 	},
 	"flairlock": {
 		"kind": "flairlock",
@@ -536,6 +578,7 @@ AWARDS = {
 		"cosmetic": False,
 		"ghost": False,
 		"enabled": True,
+		"positive": False,
 	},
 	"rehab": {
 		"kind": "rehab",
@@ -548,6 +591,7 @@ AWARDS = {
 		"cosmetic": False,
 		"ghost": False,
 		"enabled": True,
+		"positive": False,
 	},
 	"namelock": {
 		"kind": "namelock",
@@ -560,6 +604,7 @@ AWARDS = {
 		"cosmetic": False,
 		"ghost": False,
 		"enabled": True,
+		"positive": False,
 	},
 	"queen": {
 		"kind": "queen",
@@ -572,6 +617,7 @@ AWARDS = {
 		"cosmetic": False,
 		"ghost": False,
 		"enabled": True,
+		"positive": False,
 	},
 	"offsitementions": {
 		"kind": "offsitementions",
@@ -584,6 +630,7 @@ AWARDS = {
 		"cosmetic": False,
 		"ghost": False,
 		"enabled": True,
+		"positive": True,
 	},
 	"unpin": {
 		"kind": "unpin",
@@ -596,6 +643,7 @@ AWARDS = {
 		"cosmetic": False,
 		"ghost": True,
 		"enabled": True,
+		"positive": False,
 	},
 	"chud": {
 		"kind": "chud",
@@ -608,6 +656,7 @@ AWARDS = {
 		"cosmetic": False,
 		"ghost": False,
 		"enabled": True,
+		"positive": False,
 	},
 	"pin": {
 		"kind": "pin",
@@ -620,6 +669,7 @@ AWARDS = {
 		"cosmetic": False,
 		"ghost": True,
 		"enabled": True,
+		"positive": True,
 	},
 	"progressivestack": {
 		"kind": "progressivestack",
@@ -632,6 +682,7 @@ AWARDS = {
 		"cosmetic": False,
 		"ghost": False,
 		"enabled": True,
+		"positive": True,
 	},
 	"pizzashill": {
 		"kind": "pizzashill",
@@ -644,6 +695,7 @@ AWARDS = {
 		"cosmetic": False,
 		"ghost": False,
 		"enabled": True,
+		"positive": False,
 	},
 	"bird": {
 		"kind": "bird",
@@ -656,6 +708,7 @@ AWARDS = {
 		"cosmetic": False,
 		"ghost": False,
 		"enabled": True,
+		"positive": False,
 	},
 	"marsey": {
 		"kind": "marsey",
@@ -668,6 +721,7 @@ AWARDS = {
 		"cosmetic": False,
 		"ghost": False,
 		"enabled": True,
+		"positive": False,
 	},
 	"ban": {
 		"kind": "ban",
@@ -680,6 +734,7 @@ AWARDS = {
 		"cosmetic": False,
 		"ghost": False,
 		"enabled": True,
+		"positive": False,
 	},
 	"unban": {
 		"kind": "unban",
@@ -692,6 +747,7 @@ AWARDS = {
 		"cosmetic": False,
 		"ghost": False,
 		"enabled": True,
+		"positive": True,
 	},
 	"deflector": {
 		"kind": "deflector",
@@ -704,6 +760,7 @@ AWARDS = {
 		"cosmetic": False,
 		"ghost": False,
 		"enabled": True,
+		"positive": True,
 	},
 	"benefactor": {
 		"kind": "benefactor",
@@ -716,6 +773,7 @@ AWARDS = {
 		"cosmetic": False,
 		"ghost": False,
 		"enabled": FEATURES['MARSEYBUX'],
+		"positive": True,
 	},
 	"eye": {
 		"kind": "eye",
@@ -728,6 +786,7 @@ AWARDS = {
 		"cosmetic": False,
 		"ghost": False,
 		"enabled": True,
+		"positive": True,
 	},
 	"grass": {
 		"kind": "grass",
@@ -740,6 +799,7 @@ AWARDS = {
 		"cosmetic": False,
 		"ghost": False,
 		"enabled": True,
+		"positive": False,
 	},
 	"unblockable": {
 		"kind": "unblockable",
@@ -752,6 +812,7 @@ AWARDS = {
 		"cosmetic": False,
 		"ghost": False,
 		"enabled": True,
+		"positive": True,
 	},
 	"pause": {
 		"kind": "pause",
@@ -764,6 +825,7 @@ AWARDS = {
 		"cosmetic": False,
 		"ghost": False,
 		"enabled": True,
+		"positive": True,
 	},
 	"unpausable": {
 		"kind": "unpausable",
@@ -776,6 +838,7 @@ AWARDS = {
 		"cosmetic": False,
 		"ghost": False,
 		"enabled": True,
+		"positive": True,
 	},
 	"alt": {
 		"kind": "alt",
@@ -788,6 +851,7 @@ AWARDS = {
 		"cosmetic": False,
 		"ghost": False,
 		"enabled": True,
+		"positive": True,
 	},
 	"checkmark": {
 		"kind": "checkmark",
@@ -800,6 +864,7 @@ AWARDS = {
 		"cosmetic": False,
 		"ghost": False,
 		"enabled": True,
+		"positive": True,
 	},
 }
 
@@ -821,6 +886,7 @@ HOUSE_AWARDS = {
 		"deflectable": True,
 		"cosmetic": False,
 		"ghost": False,
+		"positive": False,
 	},
 	"Femboy": {
 		"kind": "Femboy",
@@ -832,6 +898,7 @@ HOUSE_AWARDS = {
 		"deflectable": True,
 		"cosmetic": False,
 		"ghost": False,
+		"positive": False,
 	},
 	"Vampire": {
 		"kind": "Vampire",
@@ -843,6 +910,7 @@ HOUSE_AWARDS = {
 		"deflectable": True,
 		"cosmetic": False,
 		"ghost": False,
+		"positive": False,
 	},
 	"Racist": {
 		"kind": "Racist",
@@ -854,6 +922,7 @@ HOUSE_AWARDS = {
 		"deflectable": True,
 		"cosmetic": False,
 		"ghost": False,
+		"positive": False,
 	},
 	"Edgy": {
 		"kind": "Edgy",
@@ -865,6 +934,7 @@ HOUSE_AWARDS = {
 		"deflectable": True,
 		"cosmetic": False,
 		"ghost": False,
+		"positive": False,
 	},
 }
 

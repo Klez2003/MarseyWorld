@@ -163,6 +163,8 @@ register_new_elements(document);
 bs_trigger(document);
 
 
+const negative_awards = document.querySelectorAll("[data-positive=False]")
+
 document.addEventListener("click", function (e) {
 	let element = e.target
 	if (element.tagName == "I")
@@ -196,6 +198,17 @@ document.addEventListener("click", function (e) {
 		}
 		else {
 			effect_author_tab.classList.remove('disabled')
+		}
+
+		if (element.dataset.immune == 'True') {
+			for (const award of negative_awards) {
+				award.classList.add('disabled')
+			}
+		}
+		else {
+			for (const award of negative_awards) {
+				award.classList.remove('disabled')
+			}
 		}
 	}
 

@@ -386,7 +386,7 @@
 							<button type="button" class="btn caction py-0 nobackground px-1 text-muted" data-bs-toggle="modal" data-bs-target="#reportCommentModal" data-nonce="{{g.nonce}}" data-onclick="report_commentModal('{{c.id}}','{{c.author_name}}',)"><i class="fas fa-flag fa-fw"></i>Report</button>
 
 							{% if FEATURES['AWARDS'] -%}
-							<button type="button" class="btn caction py-0 nobackground px-1 text-muted" data-bs-toggle="modal" data-bs-target="#awardModal" data-url="/award/comment/{{c.id}}" data-ghost="{{c.ghost}}" data-nonce="{{g.nonce}}" {% if c.author.immune_to_awards(v) %}disabled{% endif %}><i class="fas fa-gift"></i>Give Award</button>
+							<button type="button" class="btn caction py-0 nobackground px-1 text-muted" data-bs-toggle="modal" data-bs-target="#awardModal" data-url="/award/comment/{{c.id}}" data-immune="{{c.author.immune_to_negative_awards(v)}}" data-ghost="{{c.ghost}}" data-nonce="{{g.nonce}}"><i class="fas fa-gift"></i>Give Award</button>
 							{%- endif %}
 
 							<button type="button" id="save-{{c.id}}" class="btn caction py-0 nobackground px-1 {% if c.id not in v.saved_comment_idlist %}d-md-inline-block{% endif %} text-muted d-none" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/save_comment/{{c.id}}','save-{{c.id}}','unsave-{{c.id}}','d-md-inline-block')"><i class="fas fa-save"></i>Save {% if c.num_savers %}<span data-bs-toggle="tooltip" data-bs-placement="bottom" title="Number of users who saved this comment">[{{c.num_savers}}]</span>{% endif %}</button>
@@ -595,7 +595,7 @@
 						<button type="button" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#reportCommentModal" data-nonce="{{g.nonce}}" data-onclick="report_commentModal('{{c.id}}','{{c.author_name}}')" class="list-group-item"><i class="fas fa-flag mr-2"></i>Report</button>
 
 						{% if FEATURES['AWARDS'] -%}
-						<button type="button" class="list-group-item" data-bs-toggle="modal" data-bs-target="#awardModal" data-url="/award/comment/{{c.id}}" data-ghost="{{c.ghost}}" data-nonce="{{g.nonce}}" {% if c.author.immune_to_awards(v) %}disabled{% endif %}><i class="fas fa-gift mr-2"></i>Give Award</button>
+						<button type="button" class="list-group-item" data-bs-toggle="modal" data-bs-target="#awardModal" data-url="/award/comment/{{c.id}}" data-immune="{{c.author.immune_to_negative_awards(v)}}" data-ghost="{{c.ghost}}" data-nonce="{{g.nonce}}"><i class="fas fa-gift mr-2"></i>Give Award</button>
 						{%- endif %}
 
 						<button type="button" id="save2-{{c.id}}" class="list-group-item {% if c.id in v.saved_comment_idlist %}d-none{% endif %}" data-bs-dismiss="modal" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/save_comment/{{c.id}}','save2-{{c.id}}','unsave2-{{c.id}}','d-none')"><i class="fas fa-save mr-2"></i>Save {% if c.num_savers %}<span data-bs-toggle="tooltip" data-bs-placement="bottom" title="Number of users who saved this comment">[{{c.num_savers}}]</span>{% endif %}</button>

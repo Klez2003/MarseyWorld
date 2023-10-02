@@ -381,20 +381,18 @@ class User(Base):
 
 
 	@lazy
-	def immune_to_awards(self, v):
+	def immune_to_negative_awards(self, v):
 		if SITE_NAME != 'rDrama':
-			return False
-		if IS_EVENT():
 			return False
 		if v.id == self.id:
 			return False
-		if v.id in IMMUNE_TO_AWARDS:
+		if v.id in IMMUNE_TO_NEGATIVE_AWARDS:
 			return False
 		if v.admin_level >= PERMS['IGNORE_AWARD_IMMUNITY']:
 			return False
 		if self.alts:
 			return False
-		if self.id in IMMUNE_TO_AWARDS:
+		if self.id in IMMUNE_TO_NEGATIVE_AWARDS:
 			return True
 		if self.new_user and not self.alts:
 			return True

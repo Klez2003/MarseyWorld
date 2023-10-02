@@ -181,8 +181,8 @@ def award_thing(v, thing_type, id):
 
 	safe_username = f"@{thing.author_name} is"
 
-	if author.immune_to_awards(v):
-		abort(403, f"{safe_username} immune to awards!")
+	if author.immune_to_negative_awards(v):
+		abort(403, f"{safe_username} immune to negative awards!")
 
 	if kind == "benefactor" and author.id == v.id:
 		abort(403, "You can't use this award on yourself!")
