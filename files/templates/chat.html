@@ -9,12 +9,34 @@
 	{% include "modals/emoji.html" %}
 	{% include "util/macros.html" %}
 	{% set vlink = '<a href="/id/' ~ v.id ~ '"' %}
-	<div class="container pb-4 pb-md-2">
-		<div class="row justify-content-around" id="main-content-row">
-			<div class="col h-100 {% block customPadding %}custom-gutters{% endblock %}" id="main-content-col">
+	<div class="top-container">
+		{% set orgy = get_orgy(v) %}
 
-			{{macros.chat_users_online()}}
+		{% if orgy %}
+			<div id="orgy-col" class="col text-left px-md-2">
+				<h3 id="orgy-title" class="mt-0 mb-2">{{orgy.title}}</h1>
+				<div>
+					<p id="orgy-file-container" class="resizable">
+						{% if orgy.type == 'youtube' %}
+							<iframe style="border: none" sandbox="allow-scripts allow-same-origin allow-popups allow-presentation allow-popups-to-escape-sandbox" title="Play" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen src="https://www.youtube-nocookie.com/embed/{{orgy.data}}?autoplay=1&modestbranding=1&autoplay=1"></iframe>
+						{% elif orgy.type == 'rumble' %}
+							<iframe src="{{orgy.data}}" frameborder="0" allowfullscreen></iframe>
+						{% elif orgy.type == 'twitch' %}
+							<iframe src="https://player.twitch.tv/?channel={{orgy.data}}&parent={{SITE}}" frameborder="0" allowfullscreen></iframe>
+						{% elif orgy.type == 'file' %}
+							<meta name="referrer" content="strict-origin-when-cross-origin">
+							<video id="orgy-file" data-created_utc="{{orgy.real_created_utc}}" controls preload="none" src="{{orgy.data}}">
+								<track label="English" kind="subtitles" srclang="en" src="/assets/subtitles.vtt?x={{subtitles_hash()}}" default>
+							</video>
+							<video id="break-file" class="d-none" controls preload="none" src="/assets/break.mp4" data-run="0"></video>
+							<script defer src="{{'js/orgy_file.js' | asset}}"></script>
+						{% endif %}
+					</p>
+				</div>
+			</div>
+		{% endif %}
 
+		<div class="chat-window-item pl-1 pr-2">
 			<div id="chat-group-template" class="d-none">
 				{{macros.chat_group_template()}}
 				</div>
@@ -24,6 +46,7 @@
 				{{macros.chat_line_template()}}
 			</div>
 
+			{{macros.chat_users_online()}}
 			{{macros.chat_window(vlink)}}
 		</div>
 

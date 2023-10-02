@@ -1,7 +1,6 @@
 import atexit
 import time
 import uuid
-from hashlib import md5
 
 from flask_socketio import SocketIO, emit, join_room, leave_room
 from flask import request
@@ -86,16 +85,6 @@ def chat(v):
 		abort(403, CHAT_ERROR_MESSAGE)
 
 	displayed_messages = {k: val for k, val in messages[f"{SITE_FULL}/chat"].items() if val["user_id"] not in v.userblocks}
-
-	orgy = get_orgy(v)
-	if orgy:
-		m = md5()
-		with open('files/assets/subtitles.vtt', "rb") as f:
-			data = f.read()
-		m.update(data)
-		subtitles_hash = m.hexdigest()
-
-		return render_template("orgy.html", v=v, messages=displayed_messages, orgy=orgy, subtitles_hash=subtitles_hash)
 
 	return render_template("chat.html", v=v, messages=displayed_messages)
 
