@@ -206,10 +206,20 @@ def approve_emoji(v, name):
 
 	if v.id != author.id:
 		msg = f"@{v.username} (a site admin) has approved an emoji you made: :{emoji.name}:\n\nYou have received 250 coins as a reward!"
+
+		comment = request.values.get("comment")
+		if comment:
+			msg += f"\nComment: `{comment}`"
+
 		send_repeatable_notification(author.id, msg)
 
 	if v.id != emoji.submitter_id and author.id != emoji.submitter_id:
 		msg = f"@{v.username} (a site admin) has approved an emoji you submitted: :{emoji.name}:"
+		
+		comment = request.values.get("comment")
+		if comment:
+			msg += f"\nComment: `{comment}`"
+
 		send_repeatable_notification(emoji.submitter_id, msg)
 
 	emoji.submitter_id = None
@@ -245,10 +255,12 @@ def remove_asset(cls, type_name, v, name):
 	name = asset.name
 
 	if v.id != asset.submitter_id:
-		reason = request.values.get("reason")
 		msg = f"@{v.username} has rejected a {type_name} you submitted: `'{name}'`"
-		if reason:
-			msg += f"\nReason: `{reason}`"
+
+		comment = request.values.get("comment")
+		if comment:
+			msg += f"\nComment: `{comment}`"
+
 		send_repeatable_notification(asset.submitter_id, msg)
 
 		ma = ModAction(
@@ -383,10 +395,20 @@ def approve_hat(v, name):
 
 	if v.id != author.id:
 		msg = f"@{v.username} (a site admin) has approved a hat you made: '{hat.name}'"
+
+		comment = request.values.get("comment")
+		if comment:
+			msg += f"\nComment: `{comment}`"
+
 		send_repeatable_notification(author.id, msg)
 
 	if v.id != hat.submitter_id and author.id != hat.submitter_id:
 		msg = f"@{v.username} (a site admin) has approved a hat you submitted: '{hat.name}'"
+
+		comment = request.values.get("comment")
+		if comment:
+			msg += f"\nComment: `{comment}`"
+
 		send_repeatable_notification(hat.submitter_id, msg)
 
 	hat.submitter_id = None

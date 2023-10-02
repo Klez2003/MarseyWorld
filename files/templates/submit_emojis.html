@@ -109,7 +109,7 @@
 						</div>
 						{% if v.admin_level >= PERMS['MODERATE_PENDING_SUBMITTED_ASSETS'] or v.id == emoji.submitter_id %}
 							<div class="d-flex my-4 mx-3">
-								<input autocomplete="off" type="text" id="{{emoji.name}}-reason" class="form-control mr-4" name="reason" placeholder="Rejection reason..." maxlength="500" {% if v.admin_level < PERMS['MODERATE_PENDING_SUBMITTED_ASSETS'] %}hidden{% endif %}>
+								<input autocomplete="off" type="text" id="{{emoji.name}}-comment" class="form-control mr-4" name="comment" placeholder="Comment..." maxlength="500" {% if v.admin_level < PERMS['MODERATE_PENDING_SUBMITTED_ASSETS'] %}hidden{% endif %}>
 
 								<button type="button" class="btn btn-danger ml-auto" data-nonce="{{g.nonce}}" data-onclick="remove_emoji(this, '{{emoji.name}}')">Remove</button>
 								{% if v.admin_level >= PERMS['MODERATE_PENDING_SUBMITTED_ASSETS'] %}
