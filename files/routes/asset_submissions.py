@@ -394,7 +394,7 @@ def approve_hat(v, name):
 
 
 	if v.id != author.id:
-		msg = f"@{v.username} (a site admin) has approved a hat you made: '{hat.name}'"
+		msg = f"@{v.username} (a site admin) has approved a hat you made: `'{hat.name}'`"
 
 		comment = request.values.get("comment")
 		if comment:
@@ -403,7 +403,7 @@ def approve_hat(v, name):
 		send_repeatable_notification(author.id, msg)
 
 	if v.id != hat.submitter_id and author.id != hat.submitter_id:
-		msg = f"@{v.username} (a site admin) has approved a hat you submitted: '{hat.name}'"
+		msg = f"@{v.username} (a site admin) has approved a hat you submitted: `'{hat.name}'`"
 
 		comment = request.values.get("comment")
 		if comment:
