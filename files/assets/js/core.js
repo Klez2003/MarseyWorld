@@ -452,17 +452,12 @@ function insertText(input, text) {
 
 
 let oldfiles = {};
-let MAX_IMAGE_AUDIO_SIZE_MB
-let MAX_IMAGE_AUDIO_SIZE_MB_PATRON
-let MAX_VIDEO_SIZE_MB
-let MAX_VIDEO_SIZE_MB_PATRON
 
-if (document.getElementById("MAX_IMAGE_AUDIO_SIZE_MB")) {
-	MAX_IMAGE_AUDIO_SIZE_MB = parseInt(document.getElementById("MAX_IMAGE_AUDIO_SIZE_MB").value)
-	MAX_IMAGE_AUDIO_SIZE_MB_PATRON = parseInt(document.getElementById("MAX_IMAGE_AUDIO_SIZE_MB_PATRON").value)
-	MAX_VIDEO_SIZE_MB = parseInt(document.getElementById("MAX_VIDEO_SIZE_MB").value)
-	MAX_VIDEO_SIZE_MB_PATRON = parseInt(document.getElementById("MAX_VIDEO_SIZE_MB_PATRON").value)
-}
+const MAX_IMAGE_AUDIO_SIZE_MB = parseInt(document.getElementById("MAX_IMAGE_AUDIO_SIZE_MB").value)
+const MAX_IMAGE_AUDIO_SIZE_MB_PATRON = parseInt(document.getElementById("MAX_IMAGE_AUDIO_SIZE_MB_PATRON").value)
+const MAX_VIDEO_SIZE_MB = parseInt(document.getElementById("MAX_VIDEO_SIZE_MB").value)
+const MAX_VIDEO_SIZE_MB_PATRON = parseInt(document.getElementById("MAX_VIDEO_SIZE_MB_PATRON").value)
+const vpatron = parseInt(document.getElementById("vpatron").value)
 
 let patron
 if (location.host == 'rdrama.net') patron = 'paypig'
@@ -490,7 +485,7 @@ function handle_files(input, newfiles) {
 			type = 'image/audio'
 		}
 
-		if (file.size > max_size * 1024 * 1024) {
+		if (file.size > max_size_patron * 1024 * 1024 || (!vpatron && file.size > max_size * 1024 * 1024)) {
 			const msg = `Max ${type} size is ${max_size} MB (${max_size_patron} MB for ${patron}s)`
 			showToast(false, msg);
 			input.value = null;
