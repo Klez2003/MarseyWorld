@@ -80,7 +80,7 @@ blockquote {
 	color: var(--gray-400) !important
 }
 
-#frontpage div#expandImageModal.modal.desktop-expanded-image-modal {
+#frontpage div#expandImageModal.modal.expanded-image-modal {
 	background-color: transparent !important;
 }
 
