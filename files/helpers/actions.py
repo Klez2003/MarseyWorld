@@ -72,7 +72,7 @@ def execute_snappy(post, v):
 		post.downvotes += 1
 	elif v.id == CARP_ID:
 		if random.random() < 0.08:
-			body = random.choice(("i love you carp", "https://i.rdrama.net/images/16614707883108485.webp", "https://i.rdrama.net/images/1636916964YyM.webp", "https://youtube.com/watch?v=zRbQHTdsjuY"))
+			body = random.choice(("i love you carp", "https://i.rdrama.net/images/16614707883108485.webp", "https://i.rdrama.net/images/1636916964YyM.webp", "https://youtube.com/watch?v=zRbQHTdsjuY", "https://i.rdrama.net/images/1696250281381682.webp"))
 		elif IS_DKD():
 			body = ":#donkeykongfuckoffcarp:"
 		elif IS_HOMOWEEN():
