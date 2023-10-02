@@ -15,7 +15,7 @@ from files.helpers.lazy import lazy
 from files.helpers.regex import *
 from files.helpers.sorting_and_time import make_age_string
 
-from .comment import normalize_urls_runtime, add_options
+from .comment import normalize_urls_runtime, add_options, get_award_classes
 from .polls import *
 from .sub import *
 from .subscriptions import *
@@ -373,3 +373,7 @@ class Post(Base):
 	@lazy
 	def num_savers(self):
 		return g.db.query(SaveRelationship).filter_by(post_id=self.id).count()
+
+	@lazy
+	def get_award_classes(self, v, title=False):
+		return get_award_classes(self, v, title)

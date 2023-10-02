@@ -186,7 +186,7 @@ body::after {
 	position: relative;
 }
 
-.blood .comment-text {
+.blood {
 	color: #dc3545 !important;
 	font-family: 'DoubleFeature';
 }
@@ -528,33 +528,26 @@ body::after {
 /* Ectoplasm */
 .ectoplasm {
 	text-shadow: 0 0 20px #3AE63A;
-}
-
-.ectoplasm .comment-text > p, .ectoplasm .post-body, h1.ectoplasm {
 	font-family: 'Creepster';
-	color: #90ee90;
+	color: #90ee90 !important;
 	letter-spacing: 0.15em;
 }
 
-.ectoplasm .candy-corn {
+.ectoplasm.candy-corn {
 	--color3: rgb(140, 255, 0);
 	--color2: rgb(0, 111, 0);
 	--color1: rgb(131, 255, 131);
 	text-shadow: none;
 }
 
-.ectoplasm.blood .comment-text > p {
+.ectoplasm.blood {
 	font-family: 'DoubleFeature';
 	letter-spacing: initial;
 }
 
-.ectoplasm .rainbow-text > p {
+.ectoplasm.rainbow-text {
 	color: #90ee90 !important;
 	font-weight: initial;
-}
-
-.ectoplasm .comment-text, .ectoplasm .post-body, h1.ectoplasm {
-	overflow:visible !important;
 }
 
 /* Upsidedown */

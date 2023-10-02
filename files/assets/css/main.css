@@ -5717,20 +5717,11 @@ span > img[src$="/i/hand.webp"]+img[party]:not([data-src]) {
 	pat-pfp-anim .3s infinite;
 }
 
-.glow .post-title, .glow a, .glow .post-meta *, .glow .user-info *, .glow .comment-text, .glow .comment-actions *, .glow  {
+.glow, .glow * {
 	color:lightgreen !important;
-	text-shadow:1px 1px 1px darkgreen, 0 0 5px green;
+	text-shadow: 1px 1px 1px darkgreen, 0 0 5px green;
 }
-.glow .score-up, .glow .active.arrow-up::before, .glow .arrow-up::after, .glow .arrow-up:hover::before {
-	color: lime !important;
-}
-.glow .score-down, .glow .active.arrow-down::before, .glow .arrow-down::after, .glow .arrow-down:hover::before {
-	color: lime !important;
-}
-.glow .arrow-up::before, .glow .arrow-down::before, .glow .score {
-	color: lightgreen;
-}
-.glow .post-body a, .glow .comment-text a {
+.glow a {
 	text-decoration: underline;
 }
 
@@ -6685,7 +6676,7 @@ g {
 }
 
 .queen:not(a):not(.ectoplasm) {
-	color: hotpink;
+	color: hotpink !important;
 	font-weight: 700 !important;
 	text-transform: lowercase !important;
 }

@@ -19,6 +19,32 @@ from files.helpers.sorting_and_time import *
 
 from .saves import CommentSaveRelationship
 
+def get_award_classes(obj, v, title=False):
+	classes = []
+
+	if obj.award_count('glowie', v):
+		classes.append("glow")
+	if obj.rainbowed:
+		classes.append("rainbow-text")
+	if obj.queened:
+		classes.append("queen")
+	if obj.chudded:
+		classes.append("text-uppercase")
+		if not title: classes.append(f"chud-img chud-{obj.id_last_num}")
+	if obj.sharpened:
+		classes.append(f"sharpen")
+		if not title: classes.append(f"chud-img sharpen-{obj.id_last_num}")
+
+	if IS_HOMOWEEN():
+		if obj.award_count('ectoplasm', v):
+			classes.append("ectoplasm")
+		if obj.award_count('candy-corn', v):
+			classes.append("candy-corn")
+		if obj.award_count('stab', v) and isinstance(obj, Comment):
+			classes.append("blood")
+
+	return ' '.join(classes)
+
 def normalize_urls_runtime(body, v):
 	if v and v.reddit != 'old.reddit.com':
 		body = reddit_to_vreddit_regex.sub(rf'\1https://{v.reddit}/\2/', body)
@@ -461,3 +487,7 @@ class Comment(Base):
 	@lazy
 	def num_savers(self):
 		return g.db.query(CommentSaveRelationship).filter_by(comment_id=self.id).count()
+
+	@lazy
+	def get_award_classes(self, v):
+		return get_award_classes(self, v)
