@@ -176,7 +176,9 @@ CREATE TABLE public.users (
     queen integer,
     sharpen integer,
     lifetimedonated integer NOT NULL,
-    lifetimedonated_visible boolean NOT NULL
+    lifetimedonated_visible boolean NOT NULL,
+    jumpscare integer DEFAULT 0 NOT NULL,
+    zombie integer DEFAULT 0 NOT NULL
 );
 
 
@@ -500,7 +502,8 @@ CREATE TABLE public.emojis (
     count integer DEFAULT 0 NOT NULL,
     submitter_id integer,
     created_utc integer,
-    kind character varying(15) NOT NULL
+    kind character varying(15) NOT NULL,
+    over_18 boolean NOT NULL
 );
 
 
@@ -747,7 +750,8 @@ CREATE TABLE public.orgies (
     type character varying(8) NOT NULL,
     data character varying(200) NOT NULL,
     title character varying(1000) NOT NULL,
-    created_utc integer NOT NULL
+    created_utc integer NOT NULL,
+    end_utc integer
 );
 
 
@@ -3040,3 +3044,4 @@ ALTER TABLE ONLY public.comments
 --
 -- PostgreSQL database dump complete
 --
+
