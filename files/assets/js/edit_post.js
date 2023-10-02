@@ -7,11 +7,15 @@ function togglePostEdit(id) {
 	title.classList.toggle("d-none");
 	form.classList.toggle("d-none");
 
-	box = document.getElementById("post-edit-box-"+id);
-	autoExpand(box);
-	markdown(box);
-	box = document.getElementById("post-edit-title");
-	autoExpand(box);
+	if (body.classList.contains('d-none')) {
+		let box = document.getElementById("post-edit-box-"+id);
+		autoExpand(box);
+		markdown(box);
+		charLimit(box.id, 'charcount-post-edit')
+
+		box = document.getElementById("post-edit-title");
+		autoExpand(box);
+	}
 
 	close_inline_speed_emoji_modal();
 };

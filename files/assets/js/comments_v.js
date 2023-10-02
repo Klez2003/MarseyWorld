@@ -82,16 +82,20 @@ function toggleReplyBox(t, id) {
 }
 
 function toggleEdit(id){
-	comment = document.getElementById("comment-text-"+id);
-	form = document.getElementById("comment-edit-"+id);
-	box = document.getElementById('comment-edit-body-'+id);
-	actions = document.getElementById('comment-' + id +'-actions');
+	const comment = document.getElementById("comment-text-"+id);
+	const form = document.getElementById("comment-edit-"+id);
+	const box = document.getElementById('comment-edit-body-'+id);
+	const actions = document.getElementById('comment-' + id +'-actions');
 
 	comment.classList.toggle("d-none");
 	form.classList.toggle("d-none");
 	actions.classList.toggle("d-none");
-	autoExpand(box);
-	markdown(box);
+
+	if (comment.classList.contains('d-none')) {
+		autoExpand(box);
+		markdown(box);
+		charLimit(box.id, 'charcount-edit-' + id)
+	}
 
 	close_inline_speed_emoji_modal();
 };
