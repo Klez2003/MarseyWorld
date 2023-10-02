@@ -271,20 +271,16 @@
 				<div class="settings-section rounded" id="site-settings-filters">
 					{% set ns = namespace(slurtext='Enable if you would like to automatically replace slurs.', profanitytext='Enable if you would like to automatically replace profanities.') %}
 					{% if FEATURES['USERS_PERMANENT_WORD_FILTERS'] %}
-						{% if v.slurreplacer == 0 %}
-							{% set slurtext = 'Enable if you would like to automatically replace slurs. <button type="button" hidden id="slurreplacer-perma-link" class="text-primary" data-bs-toggle="modal" data-bs-target="#modal-slurreplacer">Make filter permanent for a badge!</button>' %}
-						{% elif v.slurreplacer == 1 %}
-							{% set slurtext = 'Enable if you would like to automatically replace slurs. <button type="button" id="slurreplacer-perma-link" class="text-primary" data-bs-toggle="modal" data-bs-target="#modal-slurreplacer">Make filter permanent for a badge!</button>' %}
-						{% else %}
+						{% if v.slurreplacer > 1 %}
 							{% set slurtext = "You've enabled the slur replacer permanently! ✊🏿" %}
+						{% else %}
+							{% set slurtext = 'Enable if you would like to automatically replace slurs. <button type="button" {% if v.slurreplacer == 0 %}hidden{% endif %} id="slurreplacer-perma-link" class="text-primary" data-bs-toggle="modal" data-bs-target="#modal-slurreplacer">Make filter permanent for a badge!</button>' %}
 						{% endif %}
 
-						{% if v.profanityreplacer == 0 %}
-							{% set profanitytext = 'Enable if you would like to automatically replace profanities. <button type="button" hidden id="profanityreplacer-perma-link" class="text-primary" data-bs-toggle="modal" data-bs-target="#modal-profanityreplacer">Make filter permanent for a badge!</button>' %}
-										{% elif v.profanityreplacer == 1 %}
-							{% set profanitytext = 'Enable if you would like to automatically replace profanities. <button type="button" id="profanityreplacer-perma-link" class="text-primary" data-bs-toggle="modal" data-bs-target="#modal-profanityreplacer">Make filter permanent for a badge!</button>' %}
-						{% else %}
+						{% if v.profanityreplacer > 1 %}
 							{% set profanitytext = "You've enabled the profanity replacer permanently! 😇" %}
+						{% else %}
+							{% set profanitytext = 'Enable if you would like to automatically replace profanities. <button type="button" {% if v.profanityreplacer == 0 %}hidden{% endif %} id="profanityreplacer-perma-link" class="text-primary" data-bs-toggle="modal" data-bs-target="#modal-profanityreplacer">Make filter permanent for a badge!</button>' %}
 						{% endif %}
 					{% endif %}
 					{{common.toggle_section("Slur Replacer", "slurreplacerswitch", 'slurreplacer', v.slurreplacer, slurtext, FEATURES['USERS_PERMANENT_WORD_FILTERS'] and v.slurreplacer > 1)}}
