@@ -2,7 +2,6 @@ import time
 import math
 
 from os import environ, listdir, path
-from hashlib import md5
 
 from flask import g, session, has_request_context, request
 from jinja2 import pass_context
@@ -118,13 +117,6 @@ def bar_position():
 
 	return [int((vaxxed * 100) / total), int((zombie * 100) / total), vaxxed, zombie]
 
-def subtitles_hash():
-	m = md5()
-	with open('files/assets/subtitles.vtt', "rb") as f:
-		data = f.read()
-	m.update(data)
-	return m.hexdigest()
-
 @app.context_processor
 def inject_constants():
 	return {"environ":environ, "SITE":SITE, "SITE_NAME":SITE_NAME, "SITE_FULL":SITE_FULL,
@@ -154,5 +146,5 @@ def inject_constants():
 			"CHUD_PHRASES":CHUD_PHRASES, "hasattr":hasattr, "calc_users":calc_users, "HOLE_INACTIVITY_DELETION":HOLE_INACTIVITY_DELETION, "LIGHT_THEMES":LIGHT_THEMES,
 			"MAX_IMAGE_AUDIO_SIZE_MB":MAX_IMAGE_AUDIO_SIZE_MB, "MAX_IMAGE_AUDIO_SIZE_MB_PATRON":MAX_IMAGE_AUDIO_SIZE_MB_PATRON,
 			"MAX_VIDEO_SIZE_MB":MAX_VIDEO_SIZE_MB, "MAX_VIDEO_SIZE_MB_PATRON":MAX_VIDEO_SIZE_MB_PATRON,
-			"CURSORMARSEY_DEFAULT":CURSORMARSEY_DEFAULT, "SNAPPY_ID":SNAPPY_ID, "get_orgy":get_orgy, "TRUESCORE_CC_CHAT_MINIMUM":TRUESCORE_CC_CHAT_MINIMUM, "bar_position":bar_position, "subtitles_hash":subtitles_hash,
+			"CURSORMARSEY_DEFAULT":CURSORMARSEY_DEFAULT, "SNAPPY_ID":SNAPPY_ID, "get_orgy":get_orgy, "TRUESCORE_CC_CHAT_MINIMUM":TRUESCORE_CC_CHAT_MINIMUM, "bar_position":bar_position,
 		}
