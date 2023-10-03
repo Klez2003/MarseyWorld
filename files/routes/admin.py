@@ -1,6 +1,7 @@
 import time
 from math import floor
 import os
+import ffmpeg
 
 from sqlalchemy.orm import load_only
 
@@ -1960,6 +1961,7 @@ def start_orgy(v):
 		abort(400, "An orgy is already in progress")
 
 	normalized_link = normalize_url(link)
+	end_utc = None
 
 	if bare_youtube_regex.match(normalized_link):
 		orgy_type = 'youtube'
@@ -1973,13 +1975,18 @@ def start_orgy(v):
 	elif any((normalized_link.lower().endswith(f'.{x}') for x in VIDEO_FORMATS)):
 		orgy_type = 'file'
 		data = normalized_link
+		#not deduped, cuz cron checks local file, it can't check the url cuz of referrer restriction
+		video_info = ffmpeg.probe(data)
+		seconds = float(video_info['streams'][0]['duration'])
+		end_utc = int(time.time() + seconds)
 	else:
 		abort(400)
 
 	orgy = Orgy(
 			title=title,
 			type=orgy_type,
-			data=data
+			data=data,
+			end_utc=end_utc,
 		)
 	g.db.add(orgy)
 
