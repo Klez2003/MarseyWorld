@@ -76,6 +76,7 @@ BOOSTED_SITES = {
 	'defense.pk',
 	'smogon.com',
 	'leftypol.org',
+	'redscare.cafe',
 
 	#nested-comments
 	#'all sites with .win TLD',
