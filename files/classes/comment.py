@@ -489,5 +489,5 @@ class Comment(Base):
 		return g.db.query(CommentSaveRelationship).filter_by(comment_id=self.id).count()
 
 	@lazy
-	def get_award_classes(self, v):
+	def award_classes(self, v):
 		return get_award_classes(self, v)

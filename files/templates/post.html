@@ -95,7 +95,7 @@
 
 					{{macros.reports(p, 'post')}}
 
-					<h1 id="post-title" class="{{p.get_award_classes(v, True)}} card-title post-title text-left mb-md-3">
+					<h1 id="post-title" class="{{p.award_classes(v, True)}} card-title post-title text-left mb-md-3">
 						{% if p.realurl(v) and not v_forbid_deleted %}
 							<a class="no-visited" {% if not v or v.newtabexternal %}target="_blank"{% endif %} rel="nofollow noopener" href="{{p.realurl(v)}}">
 								{% if p.flair %}<span class="patron font-weight-bolder mr-1" style="background-color:var(--primary); font-size:12px; line-height:2">{{p.flair | safe}}</span>{% endif %}
@@ -143,7 +143,7 @@
 								{% endif %}
 							{% endif %}
 
-							<div id="post-text" class="{{p.get_award_classes(v)}}">
+							<div id="post-text" class="{{p.award_classes(v)}}">
 								{% if p.is_image %}
 									<div class="row no-gutters mb-4">
 										<div class="col">

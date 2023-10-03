@@ -375,5 +375,5 @@ class Post(Base):
 		return g.db.query(SaveRelationship).filter_by(post_id=self.id).count()
 
 	@lazy
-	def get_award_classes(self, v, title=False):
+	def award_classes(self, v, title=False):
 		return get_award_classes(self, v, title)
