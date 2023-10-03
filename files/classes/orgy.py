@@ -36,10 +36,9 @@ def get_orgy(v):
 	if not (v and v.allowed_in_chat): return None
 
 	orgy = g.db.query(Orgy).one_or_none()
-	if not orgy: return False
 
-	if orgy.end_utc and orgy.end_utc < time.time():
+	if orgy and orgy.end_utc and orgy.end_utc < time.time():
 		g.db.delete(orgy)
-		return False
+		return None
 
-	return True
+	return orgy
