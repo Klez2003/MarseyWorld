@@ -484,7 +484,7 @@ body::after {
 }
 
 /* Candy Corn */
-.candy-corn {
+.candy-corn, h1.candy-corn.post-title a {
 	--color3: #FBED21;
 	--color2: #F66A3C;
 	--color1: #FDFBDA;
@@ -504,22 +504,14 @@ body::after {
 	animation: 32s linear 0s infinite move-colors;
 }
 
-.candy-corn:not(a) > p {
-	color: transparent !important;
-}
-
-#post-title > a.candy-corn {
-	color: transparent;
-}
-
-.candy-corn:hover {
+.candy-corn:hover, h1.candy-corn.post-title a:hover {
 	animation-duration: 10s;
 }
 
 /* Ectoplasm */
-.ectoplasm {
+.ectoplasm, h1.ectoplasm.post-title a {
 	text-shadow: 0 0 20px #3AE63A;
-	font-family: 'Creepster';
+	font-family: 'Creepster' !important;
 	color: #90ee90 !important;
 	letter-spacing: 0.15em;
 }

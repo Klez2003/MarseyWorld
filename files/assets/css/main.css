@@ -5721,7 +5721,7 @@ span > img[src$="/i/hand.webp"]+img[party]:not([data-src]) {
 	color:lightgreen !important;
 	text-shadow: 1px 1px 1px darkgreen, 0 0 5px green;
 }
-.glow a {
+.glow a:not(h1.post-title > a) {
 	text-decoration: underline;
 }
 
@@ -6667,7 +6667,7 @@ g {
 	margin-right: 10px;
 }
 
-.rainbow-text:not(a) {
+.rainbow-text:not(a), h1.rainbow-text.post-title a {
 	background: repeating-linear-gradient(
 		45deg,
 		violet,
@@ -6685,13 +6685,13 @@ g {
 	animation: 60s linear 0s infinite move-colors;
 }
 
-.queen:not(a):not(.ectoplasm) {
+.queen:not(a):not(.ectoplasm), h1.queen.post-title a {
 	color: hotpink !important;
 	font-weight: 700 !important;
 	text-transform: lowercase !important;
 }
 
-.sharpen:not(a) {
+.sharpen:not(a), h1.sharpen.post-title a {
 	color: red !important;
 	font-weight: bold !important;
 	font-style: italic !important;
