@@ -59,6 +59,7 @@ if SITE_NAME == 'rDrama':
 		"its almost like": "I'm an r-slur but",
 		"my brother in christ": "my brother in Allah (ﷻ)",
 		"(?<!\w)cool (?!(it|down|off))": "fetch ",
+		"(?<!\w)cool(?![\w ])": "fetch",
 		"krayon(?! \()": "krayon (sister toucher)",
 		"discord": "groomercord",
 		"allah(?! \()": "Allah (ﷻ)",
