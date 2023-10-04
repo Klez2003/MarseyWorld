@@ -118,8 +118,8 @@ def get_logged_in_user():
 
 	g.is_tor = (request.headers.get("cf-ipcountry") == "T1" and not (v and v.truescore >= 1000))
 
-	if v and session.get("event_music") and not IS_EVENT():
-		session.pop("event_music")
+	if v and not IS_EVENT():
+		session.pop("event_music", None)
 
 	g.show_over_18 = SITE_NAME == 'WPD' or (v and v.over_18) or session.get('over_18_cookies', 0) >= int(time.time())
 
