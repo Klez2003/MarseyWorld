@@ -390,7 +390,7 @@ def create_sub2(v):
 	for admin in admins:
 		send_repeatable_notification(admin, f":!marseyparty: /h/{sub} has been created by @{v.username} :marseyparty:")
 
-	return {"message": f"/h/{sub} created successfully!"}
+	return redirect(f"/h/{sub}")
 
 @app.post("/kick/<int:pid>")
 @limiter.limit('1/second', scope=rpath)
