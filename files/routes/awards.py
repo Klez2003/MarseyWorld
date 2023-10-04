@@ -314,7 +314,7 @@ def award_thing(v, thing_type, id):
 		cache.delete_memoized(frontlist)
 	elif kind == "unpin":
 		if not thing.stickied_utc: abort(400)
-		if not thing.author.deflector:
+		if not thing.author.deflector or v == thing.author:
 			if thing.author_id == LAWLZ_ID and SITE_NAME == 'rDrama': abort(403, "You can't unpin lawlzposts!")
 
 			if thing_type == 'comment':
@@ -363,7 +363,7 @@ def award_thing(v, thing_type, id):
 
 		badge_grant(user=author, badge_id=285)
 
-		if thing_type == 'comment' and not thing.author.deflector:
+		if thing_type == 'comment' and (not thing.author.deflector or v == thing.author):
 			thing.queened = True
 			g.db.add(thing)
 
@@ -399,7 +399,7 @@ def award_thing(v, thing_type, id):
 
 		badge_grant(user=author, badge_id=58)
 
-		if thing_type == 'comment' and not thing.author.deflector:
+		if thing_type == 'comment' and (not thing.author.deflector or v == thing.author):
 			thing.chudded = True
 	elif kind == "flairlock":
 		new_name = note[:100]
@@ -497,7 +497,7 @@ def award_thing(v, thing_type, id):
 			else: author.marsify = int(time.time()) + 86400
 		badge_grant(user=author, badge_id=170)
 
-		if thing_type == 'comment' and not thing.author.deflector:
+		if thing_type == 'comment' and (not thing.author.deflector or v == thing.author):
 			body = thing.body
 			if author.owoify: body = owoify(body)
 			body = marsify(body)
@@ -526,7 +526,7 @@ def award_thing(v, thing_type, id):
 		else: author.owoify = int(time.time()) + 21600
 		badge_grant(user=author, badge_id=167)
 
-		if thing_type == 'comment' and not thing.author.deflector:
+		if thing_type == 'comment' and (not thing.author.deflector or v == thing.author):
 			body = thing.body
 			body = owoify(body)
 			if author.marsify and not author.chud:
@@ -541,7 +541,7 @@ def award_thing(v, thing_type, id):
 		else: author.sharpen = int(time.time()) + 86400
 		badge_grant(user=author, badge_id=289)
 
-		if thing_type == 'comment' and not thing.author.deflector:
+		if thing_type == 'comment' and (not thing.author.deflector or v == thing.author):
 			body = thing.body
 			body = sharpen(body)
 			thing.body_html = sanitize(body, limit_pings=5, showmore=True)
@@ -551,7 +551,7 @@ def award_thing(v, thing_type, id):
 		if author.rainbow: author.rainbow += 86400
 		else: author.rainbow = int(time.time()) + 86400
 		badge_grant(user=author, badge_id=171)
-		if thing_type == 'comment' and not thing.author.deflector:
+		if thing_type == 'comment' and (not thing.author.deflector or v == thing.author):
 			thing.rainbowed = True
 			g.db.add(thing)
 	elif kind == "spider":
