@@ -29,8 +29,10 @@ def create_comment(text_html):
 	return new_comment.id
 
 def send_repeatable_notification(uid, text):
-
 	if uid in BOT_IDs: return
+
+	if not (hasattr(g, 'v') and g.v and v.shadowbanned) or g.db.query(User.admin_level).filter_by(id=uid).one()[0] >= PERMS['USER_SHADOWBAN']:
+		return
 
 	text_html = sanitize(text, blackjack="notification")
 
@@ -53,8 +55,11 @@ def send_repeatable_notification(uid, text):
 
 
 def send_notification(uid, text):
-
 	if uid in BOT_IDs: return
+
+	if not (hasattr(g, 'v') and g.v and v.shadowbanned) or g.db.query(User.admin_level).filter_by(id=uid).one()[0] >= PERMS['USER_SHADOWBAN']:
+		return
+
 	cid = notif_comment(text)
 	add_notif(cid, uid, text)
 
@@ -161,7 +166,7 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None, followers_pi
 			if oldtext and i.group(1) in oldtext:
 				continue
 
-			if i.group(1) == 'everyone' and not v.shadowbanned:
+			if i.group(1) == 'everyone':
 				cost = g.db.query(User).count() * 5
 				if cost > v.coins + v.marseybux:
 					abort(403, f"You need {cost} currency to mention these ping groups!")
@@ -219,7 +224,9 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None, followers_pi
 
 def push_notif(uids, title, body, url_or_comment):
 	if hasattr(g, 'v') and g.v and g.v.shadowbanned:
-		return
+		uids = g.db.query(User.id).filter(User.id.in_(uids), User.admin_level >= PERMS['USER_SHADOWBAN']).all()
+		if not uids:
+			return
 
 	if VAPID_PUBLIC_KEY == DEFAULT_CONFIG_VALUE:
 		return

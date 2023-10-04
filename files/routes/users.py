@@ -139,16 +139,15 @@ def transfer_currency(v, username, currency_name, apply_tax):
 	if not v.charge_account(currency_name, amount)[0]:
 		abort(400, f"You don't have enough {currency_name}")
 
-	if not v.shadowbanned:
-		if currency_name == 'marseybux':
-			receiver.pay_account('marseybux', amount - tax)
-		elif currency_name == 'coins':
-			receiver.pay_account('coins', amount - tax)
-		else:
-			raise ValueError(f"Invalid currency '{currency_name}' got when transferring {amount} from {v.id} to {receiver.id}")
-		if GIFT_NOTIF_ID: send_repeatable_notification(GIFT_NOTIF_ID, log_message)
-		send_repeatable_notification(receiver.id, notif_text)
-	g.db.add(v)
+	if currency_name == 'marseybux':
+		receiver.pay_account('marseybux', amount - tax)
+	elif currency_name == 'coins':
+		receiver.pay_account('coins', amount - tax)
+	else:
+		raise ValueError(f"Invalid currency '{currency_name}' got when transferring {amount} from {v.id} to {receiver.id}")
+	if GIFT_NOTIF_ID: send_repeatable_notification(GIFT_NOTIF_ID, log_message)
+	send_repeatable_notification(receiver.id, notif_text)
+
 	return {"message": f"{amount - tax} {currency_name} have been transferred to @{receiver.username}"}
 
 def upvoters_downvoters(v, username, username2, cls, vote_cls, vote_dir, template, standalone):
@@ -449,8 +448,7 @@ def downvoting(v, username):
 def suicide(v, username):
 	user = get_user(username)
 	suicide = f"Hi there,\n\nA [concerned user](/id/{v.id}) reached out to us about you.\n\nWhen you're in the middle of something painful, it may feel like you don't have a lot of options. But whatever you're going through, you deserve help and there are people who are here for you.\n\nThere are resources available in your area that are free, confidential, and available 24/7:\n\n- Call, Text, or Chat with Canada's [Crisis Services Canada](https://www.crisisservicescanada.ca/en/)\n\n- Call, Email, or Visit the UK's [Samaritans](https://www.samaritans.org/)\n\n- Text CHAT to America's [Crisis Text Line](https://www.crisistextline.org/) at 741741.\n\nIf you don't see a resource in your area above, the moderators keep a comprehensive list of resources and hotlines for people organized by location. Find Someone Now\n\nIf you think you may be depressed or struggling in another way, don't ignore it or brush it aside. Take yourself and your feelings seriously, and reach out to someone.\n\nIt may not feel like it, but you have options. There are people available to listen to you, and ways to move forward.\n\nYour fellow users care about you and there are people who want to help."
-	if not v.shadowbanned:
-		send_notification(user.id, suicide)
+	send_notification(user.id, suicide)
 	return {"message": f"Help message sent to @{user.username}"}
 
 
@@ -1145,8 +1143,7 @@ def follow_user(username, v):
 	target.stored_subscriber_count += 1
 	g.db.add(target)
 
-	if not v.shadowbanned:
-		send_notification(target.id, f"@{v.username} has followed you!")
+	send_notification(target.id, f"@{v.username} has followed you!")
 
 
 	return {"message": f"@{target.username} has been followed!"}
@@ -1169,8 +1166,7 @@ def unfollow_user(username, v):
 		target.stored_subscriber_count -= 1
 		g.db.add(target)
 
-		if not v.shadowbanned:
-			send_notification(target.id, f"@{v.username} has unfollowed you!")
+		send_notification(target.id, f"@{v.username} has unfollowed you!")
 
 	else:
 		abort(400, f"You're not even following @{target.username} to begin with!")

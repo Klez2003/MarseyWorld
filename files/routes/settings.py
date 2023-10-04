@@ -667,9 +667,8 @@ def settings_block_user(v):
 	user = get_user(request.values.get("username"))
 
 	if user.unblockable:
-		if not v.shadowbanned:
-			send_notification(user.id, f"@{v.username} has tried to block you and failed because of your unblockable status!")
-			g.db.commit()
+		send_notification(user.id, f"@{v.username} has tried to block you and failed because of your unblockable status!")
+		g.db.commit()
 		abort(403, f"@{user.username} is unblockable!")
 
 	if user.id == v.id: abort(400, "You can't block yourself")
