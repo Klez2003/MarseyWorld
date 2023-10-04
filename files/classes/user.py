@@ -38,7 +38,7 @@ from .subscriptions import *
 from .userblock import *
 from .usermute import *
 
-if SITE == 'devrama.net':
+if SITE == 'devrama.net' and False:
 	DEFAULT_ADMIN_LEVEL = 3
 	DEFAULT_COINS = 100000000
 	DEFAULT_MARSEYBUX = 100000000
