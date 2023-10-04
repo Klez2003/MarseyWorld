@@ -879,7 +879,9 @@ def torture_queen(string, key):
 	if string[-5:] == ', and':
 		string = string[:-5]
 
-	random.seed(key)
+	if SITE == 'devrama.net':
+		random.seed(key)
+
 	if random.random() < PHRASE_CHANCE:
 		girl_phrase = random.choice(GIRL_PHRASES)
 		string = girl_phrase.replace("$", string)
