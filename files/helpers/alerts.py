@@ -31,7 +31,7 @@ def create_comment(text_html):
 def send_repeatable_notification(uid, text):
 	if uid in BOT_IDs: return
 
-	if not (hasattr(g, 'v') and g.v and v.shadowbanned) or g.db.query(User.admin_level).filter_by(id=uid).one()[0] >= PERMS['USER_SHADOWBAN']:
+	if not (hasattr(g, 'v') and g.v and g.v.shadowbanned) or g.db.query(User.admin_level).filter_by(id=uid).one()[0] >= PERMS['USER_SHADOWBAN']:
 		return
 
 	text_html = sanitize(text, blackjack="notification")
@@ -57,7 +57,7 @@ def send_repeatable_notification(uid, text):
 def send_notification(uid, text):
 	if uid in BOT_IDs: return
 
-	if not (hasattr(g, 'v') and g.v and v.shadowbanned) or g.db.query(User.admin_level).filter_by(id=uid).one()[0] >= PERMS['USER_SHADOWBAN']:
+	if not (hasattr(g, 'v') and g.v and g.v.shadowbanned) or g.db.query(User.admin_level).filter_by(id=uid).one()[0] >= PERMS['USER_SHADOWBAN']:
 		return
 
 	cid = notif_comment(text)
