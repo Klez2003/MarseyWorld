@@ -485,9 +485,9 @@ body::after {
 
 /* Candy Corn */
 .candy-corn, h1.candy-corn.post-title a {
-	--color3: #FBED21;
-	--color2: #F66A3C;
 	--color1: #FDFBDA;
+	--color2: #F66A3C;
+	--color3: #FBED21;
 	font-family: "Open Sans", sans-serif !important;
 	background: repeating-linear-gradient(
 		45deg,
@@ -517,9 +517,9 @@ body::after {
 }
 
 .ectoplasm.candy-corn {
-	--color3: rgb(140, 255, 0);
-	--color2: rgb(0, 111, 0);
 	--color1: rgb(131, 255, 131);
+	--color2: rgb(0, 111, 0);
+	--color3: rgb(140, 255, 0);
 	text-shadow: none;
 }
 
