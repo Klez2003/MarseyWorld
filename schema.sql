@@ -220,7 +220,8 @@ CREATE TABLE public.award_relationships (
     kind character varying(20) NOT NULL,
     awarded_utc integer,
     created_utc integer,
-    price_paid integer DEFAULT 0 NOT NULL
+    price_paid integer DEFAULT 0 NOT NULL,
+    note character varying(200)
 );
 
 

@@ -74,6 +74,7 @@ INSERT INTO public.badge_defs VALUES (18, 'Artisan', 'Contributed to site artwor
 INSERT INTO public.badge_defs VALUES (181, 'INFECTED', 'This user is a mindless zombie.', 1666073382);
 INSERT INTO public.badge_defs VALUES (182, 'VAXXMAXXED', 'This user is a mindless zombie.', 1666074754);
 INSERT INTO public.badge_defs VALUES (301, '2023 Spooooooky Marsey Artist', 'Contributed a VERY SCARY Marsey for Halloween 2023!', 1695911099);
+INSERT INTO public.badge_defs VALUES (302, 'King 👑', 'This user is a KING', 1696433404);
 INSERT INTO public.badge_defs VALUES (85, 'Sigma User', '', NULL);
 INSERT INTO public.badge_defs VALUES (10, 'Bronze Recruiter', 'Recruited 1 friend to join the site', NULL);
 INSERT INTO public.badge_defs VALUES (145, 'Amphetamine Aficionado', 'Totally not addicted™', NULL);
@@ -265,7 +266,7 @@ INSERT INTO public.badge_defs VALUES (295, 'August''s August August', 'This user
 -- Name: badge_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.badge_defs_id_seq', 301, true);
+SELECT pg_catalog.setval('public.badge_defs_id_seq', 302, true);
 
 
 --
