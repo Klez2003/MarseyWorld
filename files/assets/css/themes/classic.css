@@ -184,8 +184,7 @@ blockquote a {
 	background: rgba(var(--primary_rgb), 0.2) !important;
 }
 
-/*userpage*/
-.jumbotron {
+.jumbotron, button.close {
 	color: var(--gray);
 }
 
