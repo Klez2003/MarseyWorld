@@ -204,10 +204,6 @@ def award_thing(v, thing_type, id):
 			return {"message": f"{AWARDS[kind]['title']} award given to {thing_type} successfully!"}
 
 		if author.deflector and AWARDS[kind]['deflectable']:
-			msg = f"@{v.username} has tried to give your [{thing_type}]({thing.shortlink}) the {AWARDS[kind]['title']} Award but it was deflected and applied to them :marseytroll:"
-			send_repeatable_notification(author.id, msg)
-			msg = f"{safe_username} under the effect of a deflector award; your {AWARDS[kind]['title']} Award has been deflected back to you :marseytroll:"
-			send_repeatable_notification(v.id, msg)
 			author = v
 			safe_username = f"Your award has been deflected but failed since you're"
 
@@ -231,21 +227,6 @@ def award_thing(v, thing_type, id):
 				link_text_in_notif = "your comment"
 			else:
 				link_text_in_notif = thing.title
-
-			msg = f"@{v.username} has given [{link_text_in_notif}]({thing.shortlink}) the {AWARDS[kind]['title']} Award"
-
-			if kind == 'shit':
-				msg += f" and has stolen from you {awarded_coins} coins as a result"
-			elif awarded_coins:
-				msg += f" and you have received {awarded_coins} coins as a result"
-
-			msg += "!"
-			if note:
-				note = '\n\n> '.join(note.splitlines())
-				if kind == "chud":
-					msg += f"\n\n**You now have to say this phrase in all posts and comments you make for 24 hours:**"
-				msg += f"\n\n> {note}"
-			send_repeatable_notification(author.id, msg)
 
 	if kind == 'marsify' and author.marsify == 1:
 		abort(409, f"{safe_username} already permanently marsified!")
@@ -615,6 +596,29 @@ def award_thing(v, thing_type, id):
 				badge_grant(user=author, badge_id=182)
 		elif kind == "jumpscare":
 			author.jumpscare += 1
+
+
+	if v.id != author.id:
+		if author.deflector and AWARDS[kind]['deflectable']:
+			msg = f"@{v.username} has tried to give your [{thing_type}]({thing.shortlink}) the {AWARDS[kind]['title']} Award but it was deflected and applied to them :marseytroll:"
+			send_repeatable_notification(author.id, msg)
+			msg = f"{safe_username} under the effect of a deflector award; your {AWARDS[kind]['title']} Award has been deflected back to you :marseytroll:"
+			send_repeatable_notification(v.id, msg)
+		elif kind != 'spider':
+			msg = f"@{v.username} has given [{link_text_in_notif}]({thing.shortlink}) the {AWARDS[kind]['title']} Award"
+
+			if kind == 'shit':
+				msg += f" and has stolen from you {awarded_coins} coins as a result"
+			elif awarded_coins:
+				msg += f" and you have received {awarded_coins} coins as a result"
+
+			msg += "!"
+			if note:
+				note = '\n\n> '.join(note.splitlines())
+				if kind == "chud":
+					msg += f"\n\n**You now have to say this phrase in all posts and comments you make for 24 hours:**"
+				msg += f"\n\n> {note}"
+			send_repeatable_notification(author.id, msg)
 
 
 	if author.received_award_count: author.received_award_count += 1
