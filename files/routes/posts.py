@@ -800,9 +800,9 @@ def mark_post_nsfw(pid, v):
 					target_post_id = p.id,
 				)
 			g.db.add(ma)
-		send_repeatable_notification(p.author_id, f"@{v.username} (a site admin) has marked [{p.title}](/post/{p.id}) as 18+")
+		send_repeatable_notification(p.author_id, f"@{v.username} (a site admin) has marked [{p.title}](/post/{p.id}) as NSFW")
 
-	return {"message": "Post has been marked as 18+!"}
+	return {"message": "Post has been marked as NSFW!"}
 
 @app.post("/unmark_post_nsfw/<int:pid>")
 @feature_required('NSFW_MARKING')
@@ -839,9 +839,9 @@ def unmark_post_nsfw(pid, v):
 					target_post_id = p.id,
 				)
 			g.db.add(ma)
-		send_repeatable_notification(p.author_id, f"@{v.username} (a site admin) has unmarked [{p.title}](/post/{p.id}) as 18+")
+		send_repeatable_notification(p.author_id, f"@{v.username} (a site admin) has unmarked [{p.title}](/post/{p.id}) as NSFW")
 
-	return {"message": "Post has been unmarked as 18+!"}
+	return {"message": "Post has been unmarked as NSFW!"}
 
 @app.post("/save_post/<int:pid>")
 @limiter.limit('1/second', scope=rpath)

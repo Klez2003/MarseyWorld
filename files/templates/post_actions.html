@@ -75,8 +75,8 @@
 			{% endif %}
 		{% endif %}
 		{% if FEATURES['NSFW_MARKING'] and (v.id==p.author_id or v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or (p.sub and v.mods(p.sub))) %}
-			<button type="button" id="mark-{{p.id}}" class="dropdown-item {% if p.over_18 %}d-none{% endif %} list-inline-item text-danger" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/mark_post_nsfw/{{p.id}}','mark-{{p.id}}','unmark-{{p.id}}','d-none')"><i class="fas fa-eye-evil"></i>Mark 18+</button>
-			<button type="button" id="unmark-{{p.id}}" class="dropdown-item {% if not p.over_18 %}d-none{% endif %} list-inline-item text-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unmark_post_nsfw/{{p.id}}','mark-{{p.id}}','unmark-{{p.id}}','d-none')"><i class="fas fa-eye-evil"></i>Unmark 18+</button>
+			<button type="button" id="mark-{{p.id}}" class="dropdown-item {% if p.over_18 %}d-none{% endif %} list-inline-item text-danger" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/mark_post_nsfw/{{p.id}}','mark-{{p.id}}','unmark-{{p.id}}','d-none')"><i class="fas fa-eye-evil"></i>Mark NSFW</button>
+			<button type="button" id="unmark-{{p.id}}" class="dropdown-item {% if not p.over_18 %}d-none{% endif %} list-inline-item text-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unmark_post_nsfw/{{p.id}}','mark-{{p.id}}','unmark-{{p.id}}','d-none')"><i class="fas fa-eye-evil"></i>Unmark NSFW</button>
 		{% endif %}
 		{% if v.admin_level >= PERMS['PROGSTACK'] %}
 			<button type="button" id="progstack-{{p.id}}" class="dropdown-item {% if p.is_approved == PROGSTACK_ID %}d-none{% endif %} list-inline-item text-danger" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/admin/progstack/post/{{p.id}}','progstack-{{p.id}}','unprogstack-{{p.id}}','d-none')"><i class="fas fa-bullhorn"></i>Apply Progressive Stack</button>
