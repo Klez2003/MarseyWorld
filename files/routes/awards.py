@@ -560,6 +560,8 @@ def award_thing(v, thing_type, id):
 		emoji = g.db.query(Emoji).filter_by(name=award.note).one_or_none()
 		if not emoji:
 			abort(404, f'an Emoji with the name "{award.note}" was not found!')
+		if emoji.over_18:
+			abort(404, "You can't use 18+ emojis for this award!")
 	elif IS_HOMOWEEN():
 		if kind == "spider":
 			if author.spider: author.spider += 86400
