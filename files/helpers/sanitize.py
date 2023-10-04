@@ -688,6 +688,9 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 		if sanitized.count("blur(") + sanitized.count("drop-shadow(") > 5:
 			error("Too many filters!")
 
+	if sanitized.count("bounce") + sanitized.count("cide") > 5:
+		error("Too many 'bounce' and 'cide'!")
+
 	return sanitized.strip()
 
 def allowed_attributes_emojis(tag, name, value):
