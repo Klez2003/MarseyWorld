@@ -1,21 +1,24 @@
 <div id="awards-container" class="w-100 h-100">
 	{% macro stackable_award(award, src, alt) %}
 		<div class="stackable-container">
-		{% for i in range(p.award_count(award, v)) %}
-			<div class="{{award}}">
-				<img loading="lazy" alt="{{alt}}" src="{{src}}">
-			</div>
-		{% endfor %}
+			{% for i in range(p.award_count(award, v)) %}
+				<div class="{{award}}">
+					<img loading="lazy" alt="{{alt}}" src="{{src}}">
+				</div>
+			{% endfor %}
 		</div>
 	{% endmacro %}
 
-	{% if p.award_count("wholesome", v) %}
-		{% if IS_HOMOWEEN() %}
-			{% set wholesome = '/e/marseypumpkin.webp' %}
-		{% else %}
-			{% set wholesome = '/e/marseywholesome.webp' %}
-		{% endif %}
-		{{stackable_award('wholesome', wholesome, ':#marseywholesome:')}}
+	{% if p.award_count("emoji", v) %}
+		<div class="stackable-container">
+			{% for emoji in p.emoji_award_emojis %}
+				{% set src = '/e/' + emoji + '.webp' %}
+				{% set alt = ':#' + emoji + ':' %}
+				<div class="emoji-award">
+					<img loading="lazy" alt="{{alt}}" src="{{src}}">
+				</div>
+			{% endfor %}
+		</div>
 	{% endif %}
 
 	{% if p.award_count("train", v) %}

@@ -316,6 +316,11 @@ class Comment(Base):
 
 	@property
 	@lazy
+	def emoji_award_emojis(self):
+		return [x.note for x in self.awards if x.kind == "emoji"]
+
+	@property
+	@lazy
 	def json(self):
 		if self.is_banned:
 			data = {'is_banned': True,

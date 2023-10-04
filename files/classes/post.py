@@ -262,6 +262,11 @@ class Post(Base):
 			return 4
 		return num
 
+	@property
+	@lazy
+	def emoji_award_emojis(self):
+		return [x.note for x in self.awards if x.kind == "emoji"]
+
 	@lazy
 	def realurl(self, v):
 		url = self.url

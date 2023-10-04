@@ -20,6 +20,7 @@ class AwardRelationship(Base):
 	awarded_utc = Column(Integer)
 	created_utc = Column(Integer)
 	price_paid = Column(Integer, default = 0, nullable=False)
+	note = Column(String)
 
 	user = relationship("User", primaryjoin="AwardRelationship.user_id==User.id", back_populates="awards")
 	post = relationship("Post", primaryjoin="AwardRelationship.post_id==Post.id", back_populates="awards")

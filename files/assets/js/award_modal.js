@@ -137,6 +137,11 @@ function pick(kind, price, coins, marseybux) {
 		document.getElementById('note').placeholder = "Insert new username here, or leave empty to add 1 day to the duration of the current username.";
 		document.getElementById('note').maxLength = 25;
 	}
+	else if (kind == "emoji") {
+		document.getElementById('notelabel').innerHTML = "Emoji name:";
+		document.getElementById('note').placeholder = "Insert one site emoji here.";
+		document.getElementById('note').maxLength = 33;
+	}
 	else {
 		document.getElementById('notelabel').innerHTML = "Note (optional):";
 		document.getElementById('note').placeholder = "Note to include in award notification";
