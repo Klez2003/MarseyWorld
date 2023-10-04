@@ -552,7 +552,8 @@ if (file_upload) {
 		if (file_upload.files)
 		{
 			const file = file_upload.files[0]
-			file_upload.previousElementSibling.textContent = file.name.substr(0, 50);
+			const char_limit = screen_width >= 768 ? 50 : 10;
+			file_upload.previousElementSibling.textContent = file.name.substr(0, char_limit);
 			if (file.type.startsWith('image/')) {
 				const fileReader = new FileReader();
 				fileReader.readAsDataURL(file_upload.files[0]);
