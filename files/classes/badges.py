@@ -69,6 +69,7 @@ class Badge(Base):
 		if self.badge_id == 281: return self.user.namechanged
 		if self.badge_id == 285: return self.user.queen
 		if self.badge_id == 289: return self.user.sharpen
+		if self.badge_id == 302: return self.user.king
 
 		return None
 

@@ -195,6 +195,28 @@
 	animation: 60s linear 0s infinite move-colors;
 }
 
+.gold-text:not(a), h1.gold-text.post-title a {
+    --color3: #FBED21;
+    --color2: #edcd1a;
+    --color1: #e3c414;
+    font-family: open sans,sans-serif !important;
+    background: repeating-linear-gradient(
+		45deg,
+		var(--color1),
+		var(--color1) 10px,
+		var(--color2) 20px,
+		var(--color2) 20px,
+		var(--color3) 60px,
+		var(--color3) 60px
+	);
+	color: transparent !important;
+	font-weight: 700 !important;
+	background-clip: text !important;
+	-webkit-background-clip: text !important;
+	animation: 60s linear 0s infinite move-colors;
+}
+
+
 .queen:not(a):not(.ectoplasm), h1.queen.post-title a {
 	color: hotpink !important;
 	font-weight: 700 !important;
@@ -238,11 +260,11 @@
 	background: url("/i/sharpen/9.webp?x=6");
 }
 
-.rainbow-text:not(a) > p {
+.rainbow-text:not(a) > p, .gold-text:not(a) > p {
 	color: transparent !important;
 }
 
-.rainbow-text del {
+.rainbow-text del, .gold-text del {
 	color: var(--black);
 	font-weight: 400;
 }

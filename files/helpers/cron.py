@@ -174,6 +174,7 @@ def _create_post(title, body, pin_hours):
 		ghost=False,
 		chudded=False,
 		rainbowed=False,
+		golden=False,
 		queened=False,
 		sharpened=False,
 		stickied_utc=stickied_utc,
@@ -404,6 +405,7 @@ def _award_timers_task():
 	_process_timer(User.marsify, [170], "The marsify award you received has expired!")
 	_process_timer(User.rainbow, [171], "The rainbow award you received has expired!")
 	_process_timer(User.queen, [285], "The queen award you received has expired!")
+	_process_timer(User.king, [302], "The king award you received has expired!")
 	_process_timer(User.spider, [179], "The spider award you received has expired!")
 	_process_timer(User.namechanged, [281], "The namelock award you received has expired. You're now back to your old username!", {
 		User.username: User.prelock_username,
