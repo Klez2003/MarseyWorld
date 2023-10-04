@@ -147,8 +147,8 @@ blockquote a {
 	color: #949494 !important;
 }
 
-.comment-actions > * {
-	color: var(--gray-500);
+.comment-actions > *, .post-actions > * {
+	color: var(--gray-500) !important;
 }
 
 .spoiler, spoiler {
