@@ -843,7 +843,7 @@ class User(Base):
 	@property
 	@lazy
 	def reddit_notifications_count(self):
-		if not self.can_view_offsitementions:
+		if not self.can_view_offsitementions or (SITE == "watchpeopledie.tv" and self.id == AEVANN_ID):
 			return 0
 		return g.db.query(Comment).filter(
 			Comment.created_utc > self.last_viewed_reddit_notifs,
