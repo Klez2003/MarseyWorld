@@ -1,5 +1,6 @@
 import re
 from .config.const import *
+from .regex import NOT_IN_CODE_OR_LINKS
 
 tranny = f'<img loading="lazy" data-bs-toggle="tooltip" alt=":marseytrain:" title=":marseytrain:" src="{SITE_FULL_IMAGES}/e/marseytrain.webp">'
 trannie = f'<img loading="lazy" data-bs-toggle="tooltip" alt=":!marseytrain:" title=":!marseytrain:" src="{SITE_FULL_IMAGES}/e/marseytrain.webp">'
@@ -106,8 +107,9 @@ PROFANITIES = {
 
 slur_single_words = "|".join([slur.lower() for slur in SLURS.keys()])
 profanity_single_words = "|".join([profanity.lower() for profanity in PROFANITIES.keys()])
-slur_regex = re.compile(f"<[^>]*>|{slur_single_words}", flags=re.I|re.A)
-profanity_regex = re.compile(f"<[^>]*>|{profanity_single_words}", flags=re.I|re.A)
+
+slur_regex = re.compile(f"(<[^>]*>|{slur_single_words})" + NOT_IN_CODE_OR_LINKS, flags=re.I|re.A)
+profanity_regex = re.compile(f"(<[^>]*>|{profanity_single_words})" + NOT_IN_CODE_OR_LINKS, flags=re.I|re.A)
 
 SLURS_FOR_REPLACING = {}
 for k, val in SLURS.items():
@@ -149,9 +151,6 @@ def sub_matcher_profanities(match):
 
 def censor_slurs_profanities(body, logged_user, is_plain=False):
 	if not body: return ""
-
-	if '<pre>' in body or '<code>' in body:
-			return body
 
 	if not logged_user or logged_user == 'chat' or logged_user.slurreplacer:
 		body = slur_regex.sub(sub_matcher_slurs, body)
