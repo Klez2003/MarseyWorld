@@ -11,7 +11,7 @@
 
 	{% if p.award_count("emoji", v) %}
 		<div class="stackable-container">
-			{% for emoji in p.emoji_award_emojis %}
+			{% for emoji in p.emoji_award_emojis(v, OVER_18_EMOJIS) %}
 				{% set src = '/e/' + emoji + '.webp' %}
 				{% set alt = ':#' + emoji + ':' %}
 				<div class="emoji-award">

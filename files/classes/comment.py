@@ -314,10 +314,11 @@ class Comment(Base):
 	def award_count(self, kind, v):
 		return len([x for x in self.awards if x.kind == kind])
 
-	@property
 	@lazy
-	def emoji_award_emojis(self):
-		return [x.note for x in self.awards if x.kind == "emoji"]
+	def emoji_award_emojis(self, v, OVER_18_EMOJIS):
+		if v and v.over_18:
+			return [x.note for x in self.awards if x.kind == "emoji"]
+		return [x.note for x in self.awards if x.kind == "emoji" and x.note not in OVER_18_EMOJIS]
 
 	@property
 	@lazy
