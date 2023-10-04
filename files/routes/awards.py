@@ -275,6 +275,9 @@ def award_thing(v, thing_type, id):
 		if not author.is_suspended or not author.unban_utc:
 			abort(403)
 
+		if not author.ban_reason.startswith('1-Day ban award'):
+			abort(400, "You can only use unban awards to undo the effect of ban awards!")
+
 		if author.unban_utc - time.time() > 86400:
 			author.unban_utc -= 86400
 			send_repeatable_notification(author.id, "Your ban duration has been reduced by 1 day!")
