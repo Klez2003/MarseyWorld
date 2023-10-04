@@ -3,7 +3,7 @@
 	--muted: #666;
 	--black: #444;
 	--primary: #b40457 !important;
-	--grey: #888;
+	--gray: #888;
 	--upvote: #ff8b60;
 	--downvote: #9393ff;
 	--sticky: #228822;
@@ -98,7 +98,7 @@ a {
 }
 
 .spoiler, spoiler {
-	background-color: var(--grey) !important;
+	background-color: var(--gray) !important;
 }
 
 .spoiler:hover, spoiler:hover {
@@ -141,7 +141,7 @@ a.btn-block[href~="/submit"] {
 }
 
 .card {
-	border-color: var(--grey) !important;
+	border-color: var(--gray) !important;
 }
 
 .modal-content {
@@ -169,7 +169,7 @@ a.btn-block[href~="/submit"] {
 }
 
 blockquote {
-	background-color: var(--grey);
+	background-color: var(--gray);
 	color: white;
 }
 
@@ -186,7 +186,7 @@ blockquote a {
 
 /*userpage*/
 .jumbotron {
-	color: var(--grey);
+	color: var(--gray);
 }
 
 /*casino*/
