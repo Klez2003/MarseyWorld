@@ -749,7 +749,10 @@ def settings_name_change(v):
 		abort(400, f"Username `{new_name}` is already in use.")
 
 	v.username = new_name
-	v.name_changed_utc = int(time.time())
+
+	if new_name.lower() == v.original_username.lower():
+		v.original_username = new_name
+
 	g.db.add(v)
 
 	return {"message": "Name successfully changed!"}
