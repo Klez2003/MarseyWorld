@@ -265,8 +265,8 @@ class Post(Base):
 	@lazy
 	def emoji_award_emojis(self, v, OVER_18_EMOJIS):
 		if g.show_over_18:
-			return [x.note for x in self.awards if x.kind == "emoji"][-4:]
-		return [x.note for x in self.awards if x.kind == "emoji" and x.note not in OVER_18_EMOJIS][-4:]
+			return [x.note for x in self.awards if x.kind == "emoji"][:4]
+		return [x.note for x in self.awards if x.kind == "emoji" and x.note not in OVER_18_EMOJIS][:4]
 
 	@lazy
 	def realurl(self, v):
