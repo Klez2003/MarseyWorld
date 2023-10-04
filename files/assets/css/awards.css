@@ -176,3 +176,73 @@
 .tilt-comment-4 {
 	transform: rotate(4deg);
 }
+
+.rainbow-text:not(a), h1.rainbow-text.post-title a {
+	background: repeating-linear-gradient(
+		135deg,
+		violet,
+		rgb(178, 94, 238) 20px,
+		lightblue 40px,
+		green 60px,
+		yellow 80px,
+		orange 100px,
+		#ff7f7f 120px
+	);
+	color: transparent !important;
+	font-weight: 700 !important;
+	background-clip: text !important;
+	-webkit-background-clip: text !important;
+	animation: 60s linear 0s infinite move-colors;
+}
+
+.queen:not(a):not(.ectoplasm), h1.queen.post-title a {
+	color: hotpink !important;
+	font-weight: 700 !important;
+	text-transform: lowercase !important;
+}
+
+.sharpen:not(a), h1.sharpen.post-title a {
+	color: red !important;
+	font-weight: bold !important;
+	font-style: italic !important;
+}
+
+.sharpen-0:after {
+	background: url("/i/sharpen/0.webp?x=6");
+}
+.sharpen-1:after {
+	background: url("/i/sharpen/1.webp?x=6");
+}
+.sharpen-2:after {
+	background: url("/i/sharpen/2.webp?x=6");
+}
+.sharpen-3:after {
+	background: url("/i/sharpen/3.webp?x=6");
+}
+.sharpen-4:after {
+	background: url("/i/sharpen/4.webp?x=6");
+}
+.sharpen-5:after {
+	background: url("/i/sharpen/5.webp?x=6");
+}
+.sharpen-6:after {
+	background: url("/i/sharpen/6.webp?x=6");
+}
+.sharpen-7:after {
+	background: url("/i/sharpen/7.webp?x=6");
+}
+.sharpen-8:after {
+	background: url("/i/sharpen/8.webp?x=6");
+}
+.sharpen-9:after {
+	background: url("/i/sharpen/9.webp?x=6");
+}
+
+.rainbow-text:not(a) > p {
+	color: transparent !important;
+}
+
+.rainbow-text del {
+	color: var(--black);
+	font-weight: 400;
+}
