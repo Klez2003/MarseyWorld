@@ -891,13 +891,13 @@ def process_settings_plaintext(value, current, length, default_value):
 	return value
 
 
-@app.post("/settings/title_change")
+@app.post("/settings/change_flair")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def settings_title_change(v):
+def settings_change_flair(v):
 	if v.flairchanged: abort(403)
 
 	customtitleplain = process_settings_plaintext("title", v.customtitleplain, 100, None)

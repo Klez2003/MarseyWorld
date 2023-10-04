@@ -202,7 +202,7 @@
 						{{common.line_text_section('pronouns', '/settings/pronouns_change', 'pronouns', 'Pronouns', v.pronouns, 'Limit of 15 characters', 'Enter pronouns here', 'Change Pronouns', false, 3, 15, '([a-zA-Z]{1,7})/[a-zA-Z]{1,7}(/[a-zA-Z]{1,7})?', false)}}
 					{% endif %}
 
-					{{common.line_text_section('flair', '/settings/title_change', 'title', 'Flair', v.customtitleplain, 'Limit of 100 characters', 'Enter a flair here', 'Change Flair', true, 0, 100, '.*', v.flairchanged)}}
+					{{common.line_text_section('flair', '/settings/change_flair', 'title', 'Flair', v.customtitleplain, 'Limit of 100 characters', 'Enter a flair here', 'Change Flair', true, 0, 100, '.*', v.flairchanged)}}
 
 					{{common.color_section('flaircolor', '/settings/titlecolor', 'titlecolor', 'Flair Color', v.titlecolor)}}
 

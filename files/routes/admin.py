@@ -897,24 +897,24 @@ def unshadowban(user_id, v):
 	return {"message": f"@{user.username} has been unshadowbanned!"}
 
 
-@app.post("/admin/title_change/<int:user_id>")
+@app.post("/admin/change_flair/<int:user_id>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
-@admin_level_required(PERMS['USER_TITLE_CHANGE'])
-def admin_title_change(user_id, v):
+@admin_level_required(PERMS['USER_CHANGE_FLAIR'])
+def admin_change_flair(user_id, v):
 
 	user = get_account(user_id)
 
-	new_name = request.values.get("title")[:256].strip()
+	new_flair = request.values.get("title")[:256].strip()
 
-	user.customtitleplain = new_name
-	new_name = filter_emojis_only(new_name)
-	new_name = censor_slurs_profanities(new_name, None)
+	user.customtitleplain = new_flair
+	new_flair = filter_emojis_only(new_flair)
+	new_flair = censor_slurs_profanities(new_flair, None)
 
 	user = get_account(user.id)
-	user.customtitle=new_name
+	user.customtitle = new_flair
 	if request.values.get("locked"):
 		user.flairchanged = int(time.time()) + 2629746
 		badge_grant(user=user, badge_id=96)
@@ -932,7 +932,7 @@ def admin_title_change(user_id, v):
 		kind=kind,
 		user_id=v.id,
 		target_user_id=user.id,
-		_note=f'"{new_name}"'
+		_note=f'"{new_flair}"'
 		)
 	g.db.add(ma)
 

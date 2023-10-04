@@ -33,10 +33,10 @@
 {% macro userAdminTools(deviceType) %}
 	{% if v and v.id != u.id and v.admin_level >= PERMS['USER_MODERATION_TOOLS_VISIBLE'] %}
 		<div class="admintools-user-lower-{{deviceType}}">
-			{% if v.admin_level >= PERMS['USER_TITLE_CHANGE'] %}
+			{% if v.admin_level >= PERMS['USER_CHANGE_FLAIR'] %}
 				<div class="body d-lg-flex border-bottom mt-4 mb-2">
 					<div class="w-lg-100">
-						<form action="/admin/title_change/{{u.id}}" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHR(this)">
+						<form action="/admin/change_flair/{{u.id}}" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHR(this)">
 							<input hidden name="formkey" value="{{v|formkey}}">
 							<input maxlength=100 autocomplete="off" id="customtitlebody-{{deviceType}}" type="text" name="title" class="form-control" placeholder='Enter a flair here' value="{% if u.customtitleplain %}{{u.customtitleplain}}{% endif %}">
 							<div class="d-flex">
