@@ -316,7 +316,7 @@ class Comment(Base):
 
 	@lazy
 	def emoji_award_emojis(self, v, OVER_18_EMOJIS):
-		if v and v.over_18:
+		if g.show_over_18:
 			return [x.note for x in self.awards if x.kind == "emoji"]
 		return [x.note for x in self.awards if x.kind == "emoji" and x.note not in OVER_18_EMOJIS]
 
@@ -429,7 +429,8 @@ class Comment(Base):
 
 		if comment_info: return False
 
-		if self.over_18 and not (v and v.over_18) and not (any(path.startswith(x) for x in ('/post/','/comment/','/h/')) and self.post.over_18): return True
+		if self.over_18 and not (any(path.startswith(x) for x in ('/post/','/comment/','/h/')) and self.post.over_18) and not g.show_over_18:
+			return True
 
 		if self.is_banned: return True
 

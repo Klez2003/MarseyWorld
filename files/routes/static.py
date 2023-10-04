@@ -65,7 +65,7 @@ def marseys_redirect():
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def emoji_list(v, kind):
-	emojis = get_emoji_list(kind, v.over_18)
+	emojis = get_emoji_list(kind, g.show_over_18)
 	authors = get_accounts_dict([e.author_id for e in emojis], v=v, graceful=True)
 
 	if FEATURES['ASSET_SUBMISSIONS']:
@@ -111,7 +111,7 @@ def get_emojis(over_18):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def emojis(v):
-	return get_emojis(v.over_18)
+	return get_emojis(g.show_over_18)
 
 
 

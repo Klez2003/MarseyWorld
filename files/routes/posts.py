@@ -101,7 +101,7 @@ def post_id(pid, v, anything=None, sub=None):
 	p = get_post(pid, v=v)
 	if not User.can_see(v, p): abort(403)
 
-	if not g.is_api_or_xhr and p.over_18 and not (v and v.over_18) and session.get('over_18_cookies', 0) < int(time.time()):
+	if not g.is_api_or_xhr and p.over_18  and not g.show_over_18:
 		return render_template("errors/nsfw.html", v=v)
 
 	gevent.spawn(_add_post_view, pid)

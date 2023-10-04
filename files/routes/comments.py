@@ -62,7 +62,7 @@ def post_pid_comment_cid(cid, v, pid=None, anything=None, sub=None):
 
 	post = get_post(post, v=v)
 
-	if not (v and v.client) and post.over_18 and not (v and v.over_18) and not session.get('over_18_cookies', 0) >= int(time.time()):
+	if not (v and v.client) and post.over_18 and not g.show_over_18:
 		return render_template("errors/nsfw.html", v=v), 403
 
 	try: context = min(int(request.values.get("context", 8)), 8)
