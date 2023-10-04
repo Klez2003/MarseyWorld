@@ -857,3 +857,8 @@ body::after {
 #cursormarsey {
 	background-image: url('/assets/events/homoween/images/cursormarsey.webp?x=6') !important;
 }
+
+.spider .body .eye::after {
+	width: 16px;
+	height: 16px;
+}
