@@ -185,3 +185,7 @@ blockquote {
 .modal-content {
 	background-color: var(--gray-500);
 }
+
+button.close i {
+	color: var(--light) !important;
+}
