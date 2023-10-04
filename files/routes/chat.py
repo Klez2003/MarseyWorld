@@ -202,6 +202,8 @@ def remove_from_online(v):
 		for entry in li:
 			if entry[0] == v.id:
 				li.remove(entry)
+	if v.username in typing[g.referrer]:
+		typing[g.referrer].remove(v.username)
 
 @socketio.on('connect')
 @auth_required_socketio
