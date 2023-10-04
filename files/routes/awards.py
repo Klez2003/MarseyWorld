@@ -209,6 +209,11 @@ def award_thing(v, thing_type, id):
 			send_repeatable_notification(v.id, msg)
 			author = v
 			safe_username = f"Your award has been deflected but failed since you're"
+
+			if kind == 'shit':
+				awarded_coins = int(AWARDS[kind]['price'] * COSMETIC_AWARD_COIN_AWARD_PCT)
+				v.charge_account('coins', awarded_coins, should_check_balance=False)
+				thing.author.pay_account('coins', awarded_coins)
 		elif kind != 'spider':
 			if AWARDS[kind]['cosmetic']:
 				awarded_coins = int(AWARDS[kind]['price'] * COSMETIC_AWARD_COIN_AWARD_PCT)
@@ -309,19 +314,20 @@ def award_thing(v, thing_type, id):
 		cache.delete_memoized(frontlist)
 	elif kind == "unpin":
 		if not thing.stickied_utc: abort(400)
-		if thing.author_id == LAWLZ_ID and SITE_NAME == 'rDrama': abort(403, "You can't unpin lawlzposts!")
+		if not thing.author.deflector:
+			if thing.author_id == LAWLZ_ID and SITE_NAME == 'rDrama': abort(403, "You can't unpin lawlzposts!")
 
-		if thing_type == 'comment':
-			t = thing.stickied_utc - 3600*6
-		else:
-			t = thing.stickied_utc - 3600
+			if thing_type == 'comment':
+				t = thing.stickied_utc - 3600*6
+			else:
+				t = thing.stickied_utc - 3600
 
-		if time.time() > t:
-			thing.stickied = None
-			thing.stickied_utc = None
-			cache.delete_memoized(frontlist)
-		else: thing.stickied_utc = t
-		g.db.add(thing)
+			if time.time() > t:
+				thing.stickied = None
+				thing.stickied_utc = None
+				cache.delete_memoized(frontlist)
+			else: thing.stickied_utc = t
+			g.db.add(thing)
 	elif kind == "queen":
 		if author.chud:
 			abort(409, f"{safe_username} under the effect of a conflicting award: Chud award!")

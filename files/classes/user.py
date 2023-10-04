@@ -562,12 +562,12 @@ class User(Base):
 	@property
 	@lazy
 	def awards_content_effect(self):
-		return [x for x in self.user_awards if not x['deflectable'] and x['kind'] != 'benefactor']
+		return [x for x in self.user_awards if x['cosmetic'] or x['kind'] in {"pin", "unpin"}]
 
 	@property
 	@lazy
 	def awards_author_effect(self):
-		return [x for x in self.user_awards if x not in self.awards_content_effect]
+		return [x for x in self.user_awards if not x['cosmetic'] and x['kind'] not in {"pin", "unpin"}]
 
 	@property
 	@lazy
