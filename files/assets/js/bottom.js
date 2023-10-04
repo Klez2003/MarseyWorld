@@ -97,7 +97,7 @@ for (const element of setting_selects) {
 	}
 	element.addEventListener('change', () => {
 		if (element.id == "changing-house") {
-			if (confirm('Are you sure you want to change houses?')) {
+			if (confirm(`Are you sure you want to change houses?\nIt will cost you ${element.dataset.cost} coins or marseybux!`)) {
 				postToastReload(element,`/settings/personal?${element.name}=${element.value}`);
 			}
 		}
