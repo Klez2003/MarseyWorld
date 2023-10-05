@@ -284,8 +284,8 @@ class User(Base):
 
 	@property
 	@lazy
-	def over_18(self):
-		return bool(session.get('over_18'))
+	def nsfw(self):
+		return bool(session.get('nsfw'))
 
 	@property
 	@lazy

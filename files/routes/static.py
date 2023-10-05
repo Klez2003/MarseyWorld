@@ -42,11 +42,11 @@ def reddit_post(subreddit, v, path):
 	return redirect(f'https://{reddit}/{post_id}')
 
 
-@cache.cached(make_cache_key=lambda kind, over_18:f"emoji_list_{kind}_{over_18}")
-def get_emoji_list(kind, over_18):
+@cache.cached(make_cache_key=lambda kind, nsfw:f"emoji_list_{kind}_{nsfw}")
+def get_emoji_list(kind, nsfw):
 	li = g.db.query(Emoji, User).join(User, Emoji.author_id == User.id).filter(Emoji.submitter_id == None, Emoji.kind == kind)
-	if not over_18:
-		li = li.filter(Emoji.over_18 == False)
+	if not nsfw:
+		li = li.filter(Emoji.nsfw == False)
 	li = li.order_by(Emoji.count.desc())
 
 	emojis = []
@@ -65,7 +65,7 @@ def marseys_redirect():
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def emoji_list(v, kind):
-	emojis = get_emoji_list(kind, g.show_over_18)
+	emojis = get_emoji_list(kind, g.show_nsfw)
 	authors = get_accounts_dict([e.author_id for e in emojis], v=v, graceful=True)
 
 	if FEATURES['ASSET_SUBMISSIONS']:
@@ -86,12 +86,12 @@ def emoji_list(v, kind):
 
 
 
-@cache.cached(make_cache_key=lambda over_18:f"emojis_{over_18}")
-def get_emojis(over_18):
+@cache.cached(make_cache_key=lambda nsfw:f"emojis_{nsfw}")
+def get_emojis(nsfw):
 	emojis = g.db.query(Emoji, User).join(User, Emoji.author_id == User.id).filter(Emoji.submitter_id == None)
 
-	if not over_18:
-		emojis = emojis.filter(Emoji.over_18 == False)
+	if not nsfw:
+		emojis = emojis.filter(Emoji.nsfw == False)
 
 	emojis1 = emojis.filter(Emoji.kind != 'Marsey Alphabet').order_by(Emoji.count.desc()).all()
 	emojis2 = emojis.filter(Emoji.kind == 'Marsey Alphabet').order_by(func.length(Emoji.name), Emoji.name).all()
@@ -111,7 +111,7 @@ def get_emojis(over_18):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def emojis(v):
-	return get_emojis(g.show_over_18)
+	return get_emojis(g.show_nsfw)
 
 
 

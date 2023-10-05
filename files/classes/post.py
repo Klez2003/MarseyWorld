@@ -45,7 +45,7 @@ class Post(Base):
 	private = Column(Boolean, default=False)
 	comment_count = Column(Integer, default=0)
 	is_approved = Column(Integer, ForeignKey("users.id"))
-	over_18 = Column(Boolean, default=False)
+	nsfw = Column(Boolean, default=False)
 	is_bot = Column(Boolean, default=False)
 	upvotes = Column(Integer, default=1)
 	downvotes = Column(Integer, default=0)
@@ -168,7 +168,7 @@ class Post(Base):
 	@property
 	@lazy
 	def thumb_url(self):
-		if self.over_18:
+		if self.nsfw:
 			return f"{SITE_FULL_IMAGES}/i/nsfw.webp?x=6"
 		elif not self.url:
 			return f"{SITE_FULL_IMAGES}/i/{SITE_NAME}/default_text.webp?x=6"
@@ -225,7 +225,7 @@ class Post(Base):
 				'created_utc': self.created_utc,
 				'id': self.id,
 				'title': self.title,
-				'is_nsfw': self.over_18,
+				'is_nsfw': self.nsfw,
 				'is_bot': self.is_bot,
 				'thumb_url': self.thumb_url,
 				'domain': self.domain,
@@ -265,7 +265,7 @@ class Post(Base):
 
 	@lazy
 	def emoji_award_emojis(self, v, OVER_18_EMOJIS):
-		if g.show_over_18:
+		if g.show_nsfw:
 			return [x.note for x in self.awards if x.kind == "emoji"][:4]
 		return [x.note for x in self.awards if x.kind == "emoji" and x.note not in OVER_18_EMOJIS][:4]
 

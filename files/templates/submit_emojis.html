@@ -45,7 +45,7 @@
 
 							{% if FEATURES['NSFW_MARKING'] %}
 								<div class="custom-control custom-checkbox mt-4">
-									<input autocomplete="off" type="checkbox" class="custom-control-input" id="emoji-nsfw" name="over_18">
+									<input autocomplete="off" type="checkbox" class="custom-control-input" id="emoji-nsfw" name="nsfw">
 									<label class="custom-control-label" for="emoji-nsfw">NSFW</label>
 								</div>
 							{% endif %}
@@ -101,7 +101,7 @@
 
 								{% if FEATURES['NSFW_MARKING'] %}
 									<div class="custom-control custom-checkbox mt-4">
-										<input autocomplete="off" type="checkbox" class="custom-control-input" id="{{emoji.name}}-nsfw" name="over_18" {% if v.admin_level < PERMS['MODERATE_PENDING_SUBMITTED_ASSETS'] %}readonly{% endif %} {% if emoji.over_18 %}checked{% endif %}>
+										<input autocomplete="off" type="checkbox" class="custom-control-input" id="{{emoji.name}}-nsfw" name="nsfw" {% if v.admin_level < PERMS['MODERATE_PENDING_SUBMITTED_ASSETS'] %}readonly{% endif %} {% if emoji.nsfw %}checked{% endif %}>
 										<label class="custom-control-label" for="{{emoji.name}}-nsfw">NSFW</label>
 									</div>
 								{% endif %}

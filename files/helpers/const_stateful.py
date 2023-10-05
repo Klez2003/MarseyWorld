@@ -19,9 +19,9 @@ def const_initialize():
 
 	db = db_session()
 
-	MARSEYS_CONST = [x[0] for x in db.query(Emoji.name).filter(Emoji.kind == "Marsey", Emoji.submitter_id == None, Emoji.name != 'chudsey', Emoji.over_18 == False)]
+	MARSEYS_CONST = [x[0] for x in db.query(Emoji.name).filter(Emoji.kind == "Marsey", Emoji.submitter_id == None, Emoji.name != 'chudsey', Emoji.nsfw == False)]
 	MARSEYS_CONST2 = MARSEYS_CONST + ['chudsey','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','0','1','2','3','4','5','6','7','8','9','exclamationpoint','period','questionmark']
-	marseys = db.query(Emoji).filter(Emoji.kind=="Marsey", Emoji.submitter_id == None, Emoji.over_18 == False).all()
+	marseys = db.query(Emoji).filter(Emoji.kind=="Marsey", Emoji.submitter_id == None, Emoji.nsfw == False).all()
 	for marsey in marseys:
 		for tag in marsey.tags.split():
 			if tag in MARSEY_MAPPINGS:
@@ -29,12 +29,12 @@ def const_initialize():
 			else:
 				MARSEY_MAPPINGS[tag] = [marsey.name]
 
-	SNAPPY_KONGS = db.query(Emoji.name).filter(Emoji.kind=="Donkey Kong", Emoji.submitter_id==None, Emoji.over_18 == False).all()
+	SNAPPY_KONGS = db.query(Emoji.name).filter(Emoji.kind=="Donkey Kong", Emoji.submitter_id==None, Emoji.nsfw == False).all()
 	SNAPPY_KONGS = [f':#{x[0]}:' for x in SNAPPY_KONGS]
 
 	STEALTH_HOLES = [x[0] for x in db.query(Sub.name).filter_by(stealth=True)]
 
-	OVER_18_EMOJIS = [x[0] for x in db.query(Emoji.name).filter_by(over_18=True)]
+	OVER_18_EMOJIS = [x[0] for x in db.query(Emoji.name).filter_by(nsfw=True)]
 
 	db.commit()
 	db.close()

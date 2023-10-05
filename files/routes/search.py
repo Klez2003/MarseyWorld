@@ -112,7 +112,7 @@ def searchposts(v):
 					) for x in criteria['q']]
 		posts = posts.filter(*words)
 
-	if 'nsfw' in criteria: posts = posts.filter(Post.over_18==True)
+	if 'nsfw' in criteria: posts = posts.filter(Post.nsfw==True)
 
 	if 'domain' in criteria:
 		domain = criteria['domain']
@@ -236,7 +236,7 @@ def searchcomments(v):
 			' & '.join(tokens),
 			postgresql_regconfig='english'))
 
-	if 'nsfw' in criteria: comments = comments.filter(Comment.over_18 == True)
+	if 'nsfw' in criteria: comments = comments.filter(Comment.nsfw == True)
 
 	if search_operator_hole in criteria:
 		comments = comments.filter(Post.sub == criteria[search_operator_hole])

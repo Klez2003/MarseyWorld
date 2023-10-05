@@ -48,7 +48,7 @@ def submit_emoji(v):
 	tags = request.values.get('tags', '').lower().strip()
 	username = request.values.get('author', '').lower().strip()
 	kind = request.values.get('kind', '').strip()
-	over_18 = bool(request.values.get("over_18"))
+	nsfw = bool(request.values.get("nsfw"))
 
 	for modifier in emoji_modifiers:
 		if name.endswith(modifier):
@@ -99,7 +99,7 @@ def submit_emoji(v):
 				tags=tags,
 				count=0,
 				submitter_id=v.id,
-				over_18=over_18,
+				nsfw=nsfw,
 			)
 	g.db.add(emoji)
 
@@ -148,12 +148,12 @@ def approve_emoji(v, name):
 	if new_kind not in EMOJI_KINDS:
 		abort(400, "Invalid kind!")
 
-	over_18 = request.values.get("over_18") == 'true'
+	nsfw = request.values.get("nsfw") == 'true'
 
 	emoji.name = new_name
 	emoji.kind = new_kind
 	emoji.tags = tags
-	emoji.over_18 = over_18
+	emoji.nsfw = nsfw
 	g.db.add(emoji)
 
 	author = get_account(emoji.author_id)
@@ -188,8 +188,8 @@ def approve_emoji(v, name):
 			badge_grant(badge_id=113, user=author)
 		badge_grant(badge_id=112, user=author)
 
-	cache.delete(f"emojis_{emoji.over_18}")
-	cache.delete(f"emoji_list_{emoji.kind}_{emoji.over_18}")
+	cache.delete(f"emojis_{emoji.nsfw}")
+	cache.delete(f"emoji_list_{emoji.kind}_{emoji.nsfw}")
 
 	purge_files_in_cloudflare_cache(f"{SITE_FULL_IMAGES}/e/{emoji.name}/webp")
 
@@ -230,7 +230,7 @@ def approve_emoji(v, name):
 	)
 	g.db.add(ma)
 
-	if emoji.over_18:
+	if emoji.nsfw:
 		OVER_18_EMOJIS.append(emoji.name)
 
 	return {"message": f"'{emoji.name}' approved!"}
@@ -512,8 +512,8 @@ def update_emoji(v):
 	)
 	g.db.add(ma)
 
-	cache.delete(f"emojis_{existing.over_18}")
-	cache.delete(f"emoji_list_{existing.kind}_{existing.over_18}")
+	cache.delete(f"emojis_{existing.nsfw}")
+	cache.delete(f"emoji_list_{existing.kind}_{existing.nsfw}")
 
 	return {"message": f"'{name}' updated successfully!"}
 

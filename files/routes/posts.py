@@ -102,7 +102,7 @@ def post_id(pid, v, anything=None, sub=None):
 	p = get_post(pid, v=v)
 	if not can_see(v, p): abort(403)
 
-	if not g.is_api_or_xhr and p.over_18  and not g.show_over_18:
+	if not g.is_api_or_xhr and p.nsfw  and not g.show_nsfw:
 		return render_template("errors/nsfw.html", v=v)
 
 	gevent.spawn(_add_post_view, pid)
@@ -539,7 +539,7 @@ def submit_post(v, sub=None):
 
 	flag_notify = (request.values.get("notify", "on") == "on")
 	flag_new = request.values.get("new", False, bool) or 'megathread' in title.lower()
-	flag_over_18 = FEATURES['NSFW_MARKING'] and request.values.get("over_18", False, bool)
+	flag_nsfw = FEATURES['NSFW_MARKING'] and request.values.get("nsfw", False, bool)
 	flag_private = request.values.get("private", False, bool)
 	flag_ghost = request.values.get("ghost", False, bool) and v.can_post_in_ghost_threads
 
@@ -559,7 +559,7 @@ def submit_post(v, sub=None):
 		private=flag_private,
 		notify=flag_notify,
 		author_id=v.id,
-		over_18=flag_over_18,
+		nsfw=flag_nsfw,
 		new=flag_new,
 		app_id=v.client.application.id if v.client else None,
 		is_bot=(v.client is not None),
@@ -661,7 +661,7 @@ def submit_post(v, sub=None):
 		c_jannied = Comment(author_id=AUTOJANNY_ID,
 			parent_post=p.id,
 			level=1,
-			over_18=False,
+			nsfw=False,
 			is_bot=True,
 			app_id=None,
 			distinguish_level=6,
@@ -780,10 +780,10 @@ def mark_post_nsfw(pid, v):
 	if p.author_id != v.id and v.admin_level < PERMS['POST_COMMENT_MODERATION'] and not (p.sub and v.mods(p.sub)):
 		abort(403)
 
-	if p.over_18 and v.is_permabanned:
+	if p.nsfw and v.is_permabanned:
 		abort(403)
 
-	p.over_18 = True
+	p.nsfw = True
 	g.db.add(p)
 
 	if p.author_id != v.id:
@@ -819,10 +819,10 @@ def unmark_post_nsfw(pid, v):
 	if p.author_id != v.id and v.admin_level < PERMS['POST_COMMENT_MODERATION'] and not (p.sub and v.mods(p.sub)):
 		abort(403)
 
-	if p.over_18 and v.is_permabanned:
+	if p.nsfw and v.is_permabanned:
 		abort(403)
 
-	p.over_18 = False
+	p.nsfw = False
 	g.db.add(p)
 
 	if p.author_id != v.id:

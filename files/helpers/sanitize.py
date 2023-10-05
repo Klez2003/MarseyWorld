@@ -267,7 +267,7 @@ def find_all_emote_endings(emoji):
 		elif kind == 'Marseyalphabet': kind = 'Marsey Alphabet'
 
 		if kind in EMOJI_KINDS:
-			emoji = g.db.query(Emoji.name).filter_by(kind=kind, over_18=False).order_by(func.random()).first()[0]
+			emoji = g.db.query(Emoji.name).filter_by(kind=kind, nsfw=False).order_by(func.random()).first()[0]
 
 	return endings, emoji
 
@@ -566,7 +566,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 	if obj:
 		for emoji in emojis_used:
 			if emoji in OVER_18_EMOJIS:
-				obj.over_18 = True
+				obj.nsfw = True
 				break
 
 	sanitized = sanitized.replace('<p></p>', '')
@@ -731,7 +731,7 @@ def filter_emojis_only(title, golden=True, count_emojis=False, obj=None):
 	if obj:
 		for emoji in emojis_used:
 			if emoji in OVER_18_EMOJIS:
-				obj.over_18 = True
+				obj.nsfw = True
 				break
 
 	title = strikethrough_regex.sub(r'\1<del>\2</del>', title)

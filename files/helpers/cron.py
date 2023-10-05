@@ -160,7 +160,7 @@ def _create_post(title, body, pin_hours):
 		private=False,
 		notify=True,
 		author_id=AUTOJANNY_ID,
-		over_18=False,
+		nsfw=False,
 		new=False,
 		app_id=None,
 		is_bot=False,

@@ -214,7 +214,7 @@ def execute_snappy(post, v):
 			distinguish_level=6,
 			parent_post=post.id,
 			level=1,
-			over_18=False,
+			nsfw=False,
 			is_bot=True,
 			app_id=None,
 			body=body,

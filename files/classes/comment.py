@@ -174,7 +174,7 @@ class Comment(Base):
 	level = Column(Integer, default=1)
 	parent_comment_id = Column(Integer, ForeignKey("comments.id"))
 	top_comment_id = Column(Integer)
-	over_18 = Column(Boolean, default=False)
+	nsfw = Column(Boolean, default=False)
 	is_bot = Column(Boolean, default=False)
 	stickied = Column(String)
 	stickied_utc = Column(Integer)
@@ -322,7 +322,7 @@ class Comment(Base):
 
 	@lazy
 	def emoji_award_emojis(self, v, OVER_18_EMOJIS):
-		if g.show_over_18:
+		if g.show_nsfw:
 			return [x.note for x in self.awards if x.kind == "emoji"][:4]
 		return [x.note for x in self.awards if x.kind == "emoji" and x.note not in OVER_18_EMOJIS][:4]
 
@@ -361,7 +361,7 @@ class Comment(Base):
 				'edited_utc': self.edited_utc or 0,
 				'is_banned': bool(self.is_banned),
 				'deleted_utc': self.deleted_utc,
-				'is_nsfw': self.over_18,
+				'is_nsfw': self.nsfw,
 				'permalink': f'/comment/{self.id}#context',
 				'stickied': self.stickied,
 				'distinguish_level': self.distinguish_level,
@@ -435,7 +435,7 @@ class Comment(Base):
 
 		if comment_info: return False
 
-		if self.over_18 and not (any(path.startswith(x) for x in ('/post/','/comment/','/h/')) and self.post.over_18) and not g.show_over_18:
+		if self.nsfw and not (any(path.startswith(x) for x in ('/post/','/comment/','/h/')) and self.post.nsfw) and not g.show_nsfw:
 			return True
 
 		if self.is_banned: return True

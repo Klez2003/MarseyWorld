@@ -178,9 +178,9 @@ def settings_personal_post(v):
 		updated = True
 		session["cursormarsey"] = int(request.values.get("cursormarsey") == 'true')
 
-	elif not updated and request.values.get("over_18", v.over_18) != v.over_18:
+	elif not updated and request.values.get("nsfw", v.nsfw) != v.nsfw:
 		updated = True
-		session["over_18"] = int(request.values.get("over_18") == 'true')
+		session["nsfw"] = int(request.values.get("nsfw") == 'true')
 
 	elif not updated and IS_EVENT() and v.can_toggle_event_music and request.values.get("event_music", v.event_music) != v.event_music:
 		updated = True

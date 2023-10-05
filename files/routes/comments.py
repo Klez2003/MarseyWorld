@@ -63,7 +63,7 @@ def post_pid_comment_cid(cid, v, pid=None, anything=None, sub=None):
 
 	post = get_post(post, v=v)
 
-	if not (v and v.client) and post.over_18 and not g.show_over_18:
+	if not (v and v.client) and post.nsfw and not g.show_nsfw:
 		return render_template("errors/nsfw.html", v=v), 403
 
 	try: context = min(int(request.values.get("context", 8)), 8)
@@ -270,7 +270,7 @@ def comment(v):
 				wall_user_id=post_target.id if not posting_to_post else None,
 				parent_comment_id=parent_comment_id,
 				level=level,
-				over_18=post_target.over_18 if posting_to_post else False,
+				nsfw=post_target.nsfw if posting_to_post else False,
 				is_bot=is_bot,
 				app_id=v.client.application.id if v.client else None,
 				body=body,
@@ -618,16 +618,16 @@ def toggle_comment_nsfw(cid, v):
 	if comment.author_id != v.id and v.admin_level < PERMS['POST_COMMENT_MODERATION'] and not (comment.post.sub and v.mods(comment.post.sub)):
 		abort(403)
 
-	if comment.over_18 and v.is_permabanned:
+	if comment.nsfw and v.is_permabanned:
 		abort(403)
 
-	comment.over_18 = not comment.over_18
+	comment.nsfw = not comment.nsfw
 	g.db.add(comment)
 
 	if comment.author_id != v.id:
 		if v.admin_level >= PERMS['POST_COMMENT_MODERATION']:
 			ma = ModAction(
-					kind = "set_nsfw_comment" if comment.over_18 else "unset_nsfw_comment",
+					kind = "set_nsfw_comment" if comment.nsfw else "unset_nsfw_comment",
 					user_id = v.id,
 					target_comment_id = comment.id,
 				)
@@ -635,13 +635,13 @@ def toggle_comment_nsfw(cid, v):
 		else:
 			ma = SubAction(
 					sub = comment.post.sub,
-					kind = "set_nsfw_comment" if comment.over_18 else "unset_nsfw_comment",
+					kind = "set_nsfw_comment" if comment.nsfw else "unset_nsfw_comment",
 					user_id = v.id,
 					target_comment_id = comment.id,
 				)
 			g.db.add(ma)
 
-	if comment.over_18: return {"message": "Comment has been marked as NSFW!"}
+	if comment.nsfw: return {"message": "Comment has been marked as NSFW!"}
 	else: return {"message": "Comment has been unmarked as NSFW!"}
 
 @app.post("/edit_comment/<int:cid>")

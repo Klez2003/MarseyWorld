@@ -121,7 +121,7 @@ def get_logged_in_user():
 	if v and not IS_EVENT():
 		session.pop("event_music", None)
 
-	g.show_over_18 = SITE_NAME == 'WPD' or (v and v.over_18) or session.get('over_18_cookies', 0) >= int(time.time())
+	g.show_nsfw = SITE_NAME == 'WPD' or (v and v.nsfw) or session.get('nsfw_cookies', 0) >= int(time.time())
 
 	return v
 

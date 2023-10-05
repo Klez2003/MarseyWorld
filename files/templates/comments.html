@@ -30,7 +30,7 @@
 			<div id="comment-{{c.id}}-only" class="comment-{{c.id}}-only">
 				<div class="user-info">
 					<span class="comment-collapse-icon" data-nonce="{{g.nonce}}" data-onclick="collapse_comment('{{c.id}}')"></span>
-					{% if standalone and c.over_18 %}<span class="badge badge-danger">NSFW</span> {% endif %}
+					{% if standalone and c.nsfw %}<span class="badge badge-danger">NSFW</span> {% endif %}
 					{% if c.is_banned %}Removed by @{{c.ban_reason}} (Site Admin){% elif c.deleted_utc %}Deleted by author{% endif %}
 				</div>
 			</div>
@@ -63,7 +63,7 @@
 
 {% if standalone and level==1 %}
 <div id="post-info-{{c.id}}" class="text-break post-info mb-1 mr-2 {% if request.path.startswith('/notifications') %}mt-5{% elif request.path == '/search/messages' %}mt-6{% else %}mt-3{% endif %}">
-	{% if c.parent_post and c.post.over_18 %}
+	{% if c.parent_post and c.post.nsfw %}
 		<span class="badge badge-danger text-small-extra mr-1">NSFW</span>
 	{% endif %}
 	<span class="align-top">
@@ -139,7 +139,7 @@
 				{% endif %}
 
 				{% if c.active_reports(v) %}<button type="button" class="btn btn-primary mr-1" style="padding:1px 5px; font-size:10px" data-toggleelement="#reports-{{c.id}}" data-toggleattr="d-none">{{c.active_reports(v)}} Report{{macros.plural(c.active_reports(v))}}</button>{% endif %}
-				{% if c.over_18 %}<span class="badge badge-danger text-small-extra mr-1">NSFW</span>{% endif %}
+				{% if c.nsfw %}<span class="badge badge-danger text-small-extra mr-1">NSFW</span>{% endif %}
 				{% if v and v.can_see_shadowbanned and c.author.shadowbanned %}<i class="fas fa-user-times text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title='Shadowbanned by @{{c.author.shadowbanner}} for "{{c.author.ban_reason}}"' data-bs-html="true"></i>{% endif %}
 				{% if c.stickied %}
 					<i id='pinned-{{c.id}}'class="fas fa-thumbtack fa-rotate--45 pr-1 text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Pinned by @{{c.stickied}}" {% if c.stickied_utc %}data-onmouseover="pinned_timestamp('pinned-{{c.id}}')" data-timestamp={{c.stickied_utc}} data-nonce="{{g.nonce}}"{% endif %}></i>
@@ -475,8 +475,8 @@
 								{% endif %}
 
 								{% if FEATURES['NSFW_MARKING'] and (c.parent_post or c.wall_user_id) and (c.author_id==v.id or v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or (c.post.sub and v.mods(c.post.sub))) %}
-									<button type="button" id="mark-{{c.id}}" class="dropdown-item list-inline-item d-none {% if not c.over_18 %}d-md-block{% endif %} text-danger" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/toggle_comment_nsfw/{{c.id}}','mark-{{c.id}}','unmark-{{c.id}}','d-md-block')"><i class="fas fa-eye-evil text-danger fa-fw"></i>Mark NSFW</button>
-									<button type="button" id="unmark-{{c.id}}" class="dropdown-item list-inline-item d-none {% if c.over_18 %}d-md-block{% endif %} text-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/toggle_comment_nsfw/{{c.id}}','mark-{{c.id}}','unmark-{{c.id}}','d-md-block')"><i class="fas fa-eye-evil text-success fa-fw"></i>Unmark NSFW</button>
+									<button type="button" id="mark-{{c.id}}" class="dropdown-item list-inline-item d-none {% if not c.nsfw %}d-md-block{% endif %} text-danger" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/toggle_comment_nsfw/{{c.id}}','mark-{{c.id}}','unmark-{{c.id}}','d-md-block')"><i class="fas fa-eye-evil text-danger fa-fw"></i>Mark NSFW</button>
+									<button type="button" id="unmark-{{c.id}}" class="dropdown-item list-inline-item d-none {% if c.nsfw %}d-md-block{% endif %} text-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/toggle_comment_nsfw/{{c.id}}','mark-{{c.id}}','unmark-{{c.id}}','d-md-block')"><i class="fas fa-eye-evil text-success fa-fw"></i>Unmark NSFW</button>
 								{% endif %}
 
 								{% if v.admin_level >= PERMS['USER_BAN'] and v.id != c.author_id %}
@@ -629,9 +629,9 @@
 						{% endif %}
 
 						{% if FEATURES['NSFW_MARKING'] and (c.author_id == v.id or (c.post.sub and v.mods(c.post.sub))) %}
-							<button type="button" id="mark2-{{c.id}}" class="{% if c.over_18 %}d-none{% endif %} list-group-item text-danger" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/toggle_comment_nsfw/{{c.id}}','mark2-{{c.id}}','unmark2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-eye-evil text-danger mr-2"></i>Mark NSFW</button>
+							<button type="button" id="mark2-{{c.id}}" class="{% if c.nsfw %}d-none{% endif %} list-group-item text-danger" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/toggle_comment_nsfw/{{c.id}}','mark2-{{c.id}}','unmark2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-eye-evil text-danger mr-2"></i>Mark NSFW</button>
 
-							<button type="button" id="unmark2-{{c.id}}" class="{% if not c.over_18 %}d-none{% endif %} list-group-item text-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/toggle_comment_nsfw/{{c.id}}','mark2-{{c.id}}','unmark2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-eye-evil text-success mr-2"></i>Unmark NSFW</button>
+							<button type="button" id="unmark2-{{c.id}}" class="{% if not c.nsfw %}d-none{% endif %} list-group-item text-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/toggle_comment_nsfw/{{c.id}}','mark2-{{c.id}}','unmark2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-eye-evil text-success mr-2"></i>Unmark NSFW</button>
 						{% endif %}
 
 						{% if v.admin_level < PERMS['POST_COMMENT_MODERATION'] %}
@@ -695,8 +695,8 @@
 							<button type="button" id="unpin2-{{c.id}}" class="list-group-item {% if not c.stickied %}d-none{% endif %} text-info" data-bs-target="#adminModal-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unsticky_comment/{{c.id}}','pin2-{{c.id}}','unpin2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-thumbtack fa-rotate--45 text-info mr-2"></i>Unpin</button>
 
 							{% if FEATURES['NSFW_MARKING'] %}
-								<button type="button" id="mark2-{{c.id}}" class="{% if c.over_18 %}d-none{% endif %} list-group-item text-danger" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/toggle_comment_nsfw/{{c.id}}','mark2-{{c.id}}','unmark2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-eye-evil text-danger mr-2"></i>Mark NSFW</button>
-								<button type="button" id="unmark2-{{c.id}}" class="{% if not c.over_18 %}d-none{% endif %} list-group-item text-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/toggle_comment_nsfw/{{c.id}}','mark2-{{c.id}}','unmark2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-eye-evil text-success mr-2"></i>Unmark NSFW</button>
+								<button type="button" id="mark2-{{c.id}}" class="{% if c.nsfw %}d-none{% endif %} list-group-item text-danger" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/toggle_comment_nsfw/{{c.id}}','mark2-{{c.id}}','unmark2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-eye-evil text-danger mr-2"></i>Mark NSFW</button>
+								<button type="button" id="unmark2-{{c.id}}" class="{% if not c.nsfw %}d-none{% endif %} list-group-item text-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/toggle_comment_nsfw/{{c.id}}','mark2-{{c.id}}','unmark2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-eye-evil text-success mr-2"></i>Unmark NSFW</button>
 							{% endif %}
 						{% endif %}
 

@@ -69,7 +69,7 @@
 												</div>
 												{% if FEATURES['NSFW_MARKING'] %}
 													<div class="custom-control custom-checkbox">
-														<input autocomplete="off" type="checkbox" class="custom-control-input" id="post-nsfw" name="over_18" data-nonce="{{g.nonce}}" data-onchange="savetext()">
+														<input autocomplete="off" type="checkbox" class="custom-control-input" id="post-nsfw" name="nsfw" data-nonce="{{g.nonce}}" data-onchange="savetext()">
 														<label class="custom-control-label" for="post-nsfw">NSFW</label>
 													</div>
 												{% endif %}
