@@ -149,8 +149,10 @@ function send() {
 		document.getElementById('quotes_id').value = null;
 		oldfiles[ta.id] = new DataTransfer();
 		input.value = null;
-		input.previousElementSibling.innerHTML = '<i class="fas fa-image" style="font-size:1.3rem!important"></i>'
 
+		input.previousElementSibling.className  = "fas fa-image";
+		input.previousElementSibling.textContent = "";
+	
 		box.scrollTo(0, box.scrollHeight);
 		setTimeout(function () {
 			box.scrollTo(0, box.scrollHeight)
@@ -301,6 +303,7 @@ const input = document.getElementById('file')
 function handle_files() {
 	if (!input.files.length) return
 	const char_limit = screen_width >= 768 ? 50 : 5;
+	input.previousElementSibling.className  = "";
 	input.previousElementSibling.textContent = input.files[0].name.substr(0, char_limit);
 }
 

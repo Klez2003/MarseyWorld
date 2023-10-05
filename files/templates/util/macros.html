@@ -120,7 +120,7 @@
 
 {% macro file_btn(input_id, disabled, image_only) %}
 	<label class="btn btn-secondary format m-0" for="{{input_id}}" {% if g.is_tor or disabled %}disabled{% endif %}>
-		<i class="fas fa-{% if image_only %}image{% else %}file{% endif %}"></i>
+		<span class="fas fa-{% if image_only %}image{% else %}file{% endif %}"></span>
 		<input autocomplete="off" id="{{input_id}}" accept="image/*{% if not image_only %}, video/*, audio/*{% endif %}" type="file" multiple="multiple" name="file" {% if g.is_tor or disabled %}disabled{% endif %} hidden>
 	</label>
 {% endmacro %}
