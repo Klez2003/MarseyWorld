@@ -665,7 +665,7 @@ def message2(v, username=None, id=None):
 	execute_under_siege(v, c, c.body_html, 'message')
 	c.top_comment_id = c.id
 
-	if user.id not in BOT_IDs:
+	if user.id not in BOT_IDs and User.can_see(user, v):
 		g.db.flush()
 		notif = g.db.query(Notification).filter_by(comment_id=c.id, user_id=user.id).one_or_none()
 		if not notif:
