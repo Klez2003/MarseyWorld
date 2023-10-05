@@ -1393,6 +1393,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseybearchad','Marsey',2,'grizzly'),
 ('marseybearmerchant','Marsey',2,'jew animal zog kike yid brian laundrie gabby petito'),
 ('marseybearrentfree','Marsey',2,'cry seethe cope dilate grizzly'),
+('marseybearsick','Marsey',2,'ill sick grizzly bottom scarf'),
 ('marseybeaver','Marsey',2,'canada canuck canadian'),
 ('marseybedsick','Marsey',2,'illness plague fever pillow'),
 ('marseybee','Marsey',2,'bee honey honeybee insect fly honeypot pollinate pollen animated'),
