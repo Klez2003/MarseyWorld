@@ -173,6 +173,9 @@ video_link_regex = re.compile(f"https://(videos\.)?{SITE}\/(videos\/)?[0-9a-zA-Z
 
 asset_image_link_regex = re.compile(f"https:\/\/(i\.)?{SITE}\/assets\/images\/[\w\/]+.webp(\?x=\d+)?", flags=re.A)
 
+search_regex_1 = re.compile(r'[\0():|&*!<>]', flags=re.A)
+search_regex_2 = re.compile(r"'", flags=re.A)
+search_regex_3 = re.compile(r'\s+', flags=re.A)
 
 
 ###REDDIT

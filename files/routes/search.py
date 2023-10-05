@@ -227,11 +227,11 @@ def searchcomments(v):
 		else: comments = comments.filter(Comment.author_id == author.id)
 
 	if 'q' in criteria:
-		tokens = map(lambda x: re.sub(r'[\0():|&*!<>]', '', x), criteria['q'])
+		tokens = map(lambda x: search_regex_1.sub('', x), criteria['q'])
 		tokens = filter(lambda x: len(x) > 0, tokens)
-		tokens = map(lambda x: re.sub(r"'", "\\'", x), tokens)
+		tokens = map(lambda x: search_regex_2.sub("\\'", x), tokens)
 		tokens = map(lambda x: x.strip(), tokens)
-		tokens = map(lambda x: re.sub(r'\s+', ' <-> ', x), tokens)
+		tokens = map(lambda x: search_regex_3.sub(' <-> ', x), tokens)
 		comments = comments.filter(Comment.body_ts.match(
 			' & '.join(tokens),
 			postgresql_regconfig='english'))
@@ -328,11 +328,11 @@ def searchmessages(v):
 		else: comments = comments.filter(Comment.author_id == author.id)
 
 	if 'q' in criteria:
-		tokens = map(lambda x: re.sub(r'[\0():|&*!<>]', '', x), criteria['q'])
+		tokens = map(lambda x: search_regex_1.sub('', x), criteria['q'])
 		tokens = filter(lambda x: len(x) > 0, tokens)
-		tokens = map(lambda x: re.sub(r"'", "\\'", x), tokens)
+		tokens = map(lambda x: search_regex_2.sub("\\'", x), tokens)
 		tokens = map(lambda x: x.strip(), tokens)
-		tokens = map(lambda x: re.sub(r'\s+', ' <-> ', x), tokens)
+		tokens = map(lambda x: search_regex_3.sub(' <-> ', x), tokens)
 		comments = comments.filter(Comment.body_ts.match(
 			' & '.join(tokens),
 			postgresql_regconfig='english'))
