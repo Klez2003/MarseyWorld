@@ -14,6 +14,7 @@ from files.helpers.regex import *
 from files.helpers.media import *
 from files.helpers.sanitize import *
 from files.helpers.alerts import push_notif
+from files.helpers.can_see import *
 from files.routes.wrappers import *
 from files.classes.orgy import *
 
@@ -353,7 +354,7 @@ def messagereply(v):
 	execute_under_siege(v, c, c.body_html, 'message')
 
 	if user_id and user_id not in {v.id, MODMAIL_ID} | BOT_IDs:
-		if User.can_see(user, v):
+		if can_see(user, v):
 			notif = g.db.query(Notification).filter_by(comment_id=c.id, user_id=user_id).one_or_none()
 			if not notif:
 				notif = Notification(comment_id=c.id, user_id=user_id)

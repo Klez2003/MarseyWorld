@@ -25,6 +25,7 @@ from files.helpers.sanitize import *
 from files.helpers.settings import get_setting
 from files.helpers.slots import *
 from files.helpers.sorting_and_time import *
+from files.helpers.can_see import *
 from files.routes.routehelpers import execute_shadowban_viewers_and_voters
 from files.routes.wrappers import *
 
@@ -99,7 +100,7 @@ def submit_get(v, sub=None):
 @auth_desired_with_logingate
 def post_id(pid, v, anything=None, sub=None):
 	p = get_post(pid, v=v)
-	if not User.can_see(v, p): abort(403)
+	if not can_see(v, p): abort(403)
 
 	if not g.is_api_or_xhr and p.over_18  and not g.show_over_18:
 		return render_template("errors/nsfw.html", v=v)
@@ -468,7 +469,7 @@ def submit_post(v, sub=None):
 		sub = g.db.query(Sub).options(load_only(Sub.name)).filter_by(name=sub_name).one_or_none()
 		if not sub: abort(400, f"/h/{sub_name} not found!")
 
-		if not User.can_see(v, sub):
+		if not can_see(v, sub):
 			if sub.name == 'highrollerclub':
 				abort(403, f"Only {patron}s can post in /h/{sub}")
 			abort(403, f"You're not allowed to post in /h/{sub}")

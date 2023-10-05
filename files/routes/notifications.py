@@ -8,6 +8,7 @@ from files.classes.sub_logs import SubAction
 from files.helpers.config.const import *
 from files.helpers.config.modaction_types import *
 from files.helpers.get import *
+from files.helpers.can_see import *
 from files.routes.wrappers import *
 from files.routes.comments import _mark_comment_as_read
 from files.__main__ import app
@@ -435,7 +436,7 @@ def notifications(v):
 def notification(v, cid):
 	comment = get_comment(cid, v=v)
 
-	if not User.can_see(v, comment): abort(403)
+	if not can_see(v, comment): abort(403)
 
 	comment.unread = True
 

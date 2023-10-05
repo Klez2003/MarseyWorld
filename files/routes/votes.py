@@ -3,6 +3,7 @@ from files.helpers.config.const import *
 from files.helpers.config.boosted_sites import *
 from files.helpers.get import *
 from files.helpers.alerts import *
+from files.helpers.can_see import *
 from files.routes.wrappers import *
 from files.__main__ import app, limiter
 from files.routes.routehelpers import get_alt_graph
@@ -29,7 +30,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 	else:
 		abort(404)
 
-	if not User.can_see(v, target): abort(403)
+	if not can_see(v, target): abort(403)
 
 	coin_delta = 1
 	if v.id == target.author.id:

@@ -8,6 +8,7 @@ from files.helpers.config.const import *
 from files.helpers.get import *
 from files.helpers.sorting_and_time import *
 from files.helpers.useractions import *
+from files.helpers.can_see import *
 from files.routes.wrappers import *
 from files.__main__ import app, cache, limiter, redis_instance
 
@@ -18,7 +19,7 @@ from files.__main__ import app, cache, limiter, redis_instance
 def front_all(v, sub=None):
 	if sub:
 		sub = get_sub_by_name(sub, graceful=True)
-		if sub and not User.can_see(v, sub):
+		if sub and not can_see(v, sub):
 			abort(403)
 
 	if request.path.startswith('/h/') and not sub:

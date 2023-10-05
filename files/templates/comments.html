@@ -13,7 +13,7 @@
 
 {% macro single_comment(c, level=1, collapse=False) %}
 
-{% if user_can_see(v, c) %}
+{% if can_see(v, c) %}
 
 {% set ups=c.upvotes %}
 {% set downs=c.downvotes %}

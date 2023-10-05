@@ -19,6 +19,7 @@ from files.helpers.sharpen import sharpen
 from files.helpers.regex import *
 from files.helpers.slots import *
 from files.helpers.treasure import *
+from files.helpers.can_see import *
 from files.routes.front import comment_idlist
 from files.routes.routehelpers import execute_shadowban_viewers_and_voters
 from files.routes.wrappers import *
@@ -48,7 +49,7 @@ def post_pid_comment_cid(cid, v, pid=None, anything=None, sub=None):
 
 	comment = get_comment(cid, v=v)
 
-	if not User.can_see(v, comment): abort(403)
+	if not can_see(v, comment): abort(403)
 
 	if comment.parent_post:
 		post = comment.parent_post
@@ -145,7 +146,7 @@ def comment(v):
 	parent_user = parent if isinstance(parent, User) else parent.author
 	posting_to_post = isinstance(post_target, Post)
 
-	if posting_to_post and not User.can_see(v, parent):
+	if posting_to_post and not can_see(v, parent):
 		abort(403)
 
 	if posting_to_post:
@@ -374,7 +375,7 @@ def comment(v):
 			notify_users.add(parent_user.id)
 
 		if v.shadowbanned:
-			notify_users = [x[0] for x in g.db.query(User.id).filter(User.id.in_(notify_users), User.can_see_shadowbanned).all()]
+			notify_users = [x[0] for x in g.db.query(User.id).filter(User.id.in_(notify_users), can_see_shadowbanned).all()]
 
 		for x in notify_users-BOT_IDs:
 			n = Notification(comment_id=c.id, user_id=x)
@@ -727,7 +728,7 @@ def edit_comment(cid, v):
 			alert_everyone(c.id)
 		else:
 			if v.shadowbanned:
-				notify_users = [x[0] for x in g.db.query(User.id).filter(User.id.in_(notify_users), User.can_see_shadowbanned).all()]
+				notify_users = [x[0] for x in g.db.query(User.id).filter(User.id.in_(notify_users), can_see_shadowbanned).all()]
 
 			for x in notify_users-BOT_IDs:
 				notif = g.db.query(Notification).filter_by(comment_id=c.id, user_id=x).one_or_none()

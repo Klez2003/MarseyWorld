@@ -20,6 +20,7 @@ from files.helpers.mail import *
 from files.helpers.sanitize import *
 from files.helpers.sorting_and_time import *
 from files.helpers.useractions import badge_grant
+from files.helpers.can_see import *
 from files.routes.routehelpers import check_for_alts, add_alt
 from files.routes.wrappers import *
 from files.routes.comments import _mark_comment_as_read
@@ -665,7 +666,7 @@ def message(v, username=None, id=None):
 	execute_under_siege(v, c, c.body_html, 'message')
 	c.top_comment_id = c.id
 
-	if user.id not in BOT_IDs and User.can_see(user, v):
+	if user.id not in BOT_IDs and can_see(user, v):
 		g.db.flush()
 		notif = g.db.query(Notification).filter_by(comment_id=c.id, user_id=user.id).one_or_none()
 		if not notif:
@@ -927,7 +928,7 @@ def u_username_wall(v, username):
 def u_username_wall_comment(v, username, cid):
 	comment = get_comment(cid, v=v)
 	if not comment.wall_user_id: abort(400)
-	if not User.can_see(v, comment): abort(403)
+	if not can_see(v, comment): abort(403)
 
 	u = comment.wall_user
 

@@ -17,6 +17,7 @@ from files.helpers.regex import *
 from files.helpers.settings import *
 from files.helpers.cloudflare import *
 from files.helpers.sorting_and_time import make_age_string
+from files.helpers.can_see import *
 from files.routes.routehelpers import get_alt_graph, get_formkey
 from files.routes.wrappers import calc_users
 from files.__main__ import app, cache
@@ -132,7 +133,7 @@ def inject_constants():
 			"SIDEBAR_THREAD":SIDEBAR_THREAD, "BANNER_THREAD":BANNER_THREAD, "BUG_THREAD":BUG_THREAD,
 			"BADGE_THREAD":BADGE_THREAD, "SNAPPY_THREAD":SNAPPY_THREAD, "CHANGELOG_THREAD":CHANGELOG_THREAD,
 			"approved_embed_hosts":approved_embed_hosts, "POST_BODY_LENGTH_LIMIT":POST_BODY_LENGTH_LIMIT,
-			"SITE_SETTINGS":get_settings(), "EMAIL":EMAIL, "max": max, "min": min, "user_can_see":User.can_see,
+			"SITE_SETTINGS":get_settings(), "EMAIL":EMAIL, "max": max, "min": min, "can_see":can_see,
 			"TELEGRAM_ID":TELEGRAM_ID, "TRUESCORE_DONATE_MINIMUM":TRUESCORE_DONATE_MINIMUM, "PROGSTACK_ID":PROGSTACK_ID,
 			"DONATE_LINK":DONATE_LINK, "DONATE_SERVICE":DONATE_SERVICE,
 			"HOUSE_JOIN_COST":HOUSE_JOIN_COST, "HOUSE_SWITCH_COST":HOUSE_SWITCH_COST, "IMAGE_FORMATS":','.join(IMAGE_FORMATS),

@@ -53,7 +53,7 @@
 				{{0 if u.shadowbanned else u.real_comment_count(v)}}
 					Comments
 			{%- endif -%}
-			{% if u.bio and u.can_see_my_shit %}
+			{% if u.bio and can_see(v, u) %}
 				- {{u.bio}}
 			{% endif %}
 		{% endset %}
