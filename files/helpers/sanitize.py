@@ -790,6 +790,7 @@ def normalize_url(url):
 			 .replace('/amp/', '/') \
 			 .replace('https://letmegooglethat.com/?q=', 'https://google.com/search?q=') \
 			 .replace('https://lmgtfy.app/?q=', 'https://google.com/search?q=') \
+			 .replace(DONATE_LINK, f'{SITE_FULL}/donate') \
 
 	if url.endswith('.amp'):
 		url = url.split('.amp')[0]
