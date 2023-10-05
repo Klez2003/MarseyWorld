@@ -298,7 +298,7 @@
 							<div class="input-group">
 								<input autocomplete="off" type="text" readonly class="form-control copy-link" id="referral_code" value="{{SITE_FULL}}/signup?ref={{v.id}}" data-clipboard-text="{{SITE_FULL}}/signup?ref={{v.id}}">
 								<span class="input-group-append" data-bs-toggle="tooltip" data-bs-placement="top" title="You have referred {{v.referral_count}} user{{'s' if v.referral_count != 1 else ''}} so far. {% if v.referral_count==0 %}¯\_(ツ)_/¯{% elif v.referral_count>10 %}Wow!{% endif %}">
-									<span class="input-group-text text-primary border-0"><i class="fas fa-user mr-1"></i>{{v.referral_count}}</span>
+									<span class="input-group-text border-0 font-weight-bold"><i class="fas fa-user mr-1"></i>{{v.referral_count}}</span>
 								</span>
 							</div>
 							<div class="text-small text-muted mt-3">Share this link with a friend. {% if v.referral_count==0 %} When they sign up, you'll get the bronze recruitment badge. <a href="/badges">Learn more.</a>{% elif v.referral_count<10 %} When you refer 10 friends, you'll receive the silver recruitment badge. <a href="/badges">Learn more.</a>{% elif v.referral_count<100 %} When you refer 100 friends, you'll receive the gold recruitment badge. <a href="/badges">Learn more</a>.{% endif %}</div>
