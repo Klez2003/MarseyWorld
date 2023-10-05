@@ -61,9 +61,7 @@
 				<input minlength={{minlength}} maxlength={{maxlength}} pattern="{{pattern}}" autocomplete="off" id="{{id}}-body" type="text" name="{{form_name}}" class="form-control" placeholder='{{placeholder_text}}' value="{% if contents %}{{contents}}{% endif %}" {% if disabled %}disabled{% endif %}>
 				<div class="d-flex mt-2">
 					{% if show_emojis %}
-						<div class="format-btns">
-							{{macros.emoji_btn(id ~ '-body')}}
-						</div>
+						{{macros.emoji_btn(id ~ '-body')}}
 					{% endif %}
 					<small class="ml-1">{{below_text}}</small>
 					<input autocomplete="off" class="btn btn-primary ml-auto" id="{{id}}-save" type="submit" value="{{button_text}}" {% if disabled %}disabled{% endif %}>

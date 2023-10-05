@@ -339,10 +339,8 @@
 			<span id="loading-indicator" class="d-none"></span>
 		</div>
 
-		<div class="format-btns">
-			{{emoji_btn('input-text-chat')}}
-			{{file_btn('file', False, True)}}
-		</div>
+		{{emoji_btn('input-text-chat')}}
+		{{file_btn('file', False, True)}}
 
 		<textarea id="input-text-chat" minlength="1" maxlength="{% if SITE == 'rdrama.net' %}200{% else %}1000{% endif %}" {% if g.browser in ("iphone","mac") %}style="font-size:16px!important"{% endif %} class="file-ta form-control ml-2" placeholder="Message" autocomplete="off" autofocus rows="1"></textarea>
 
