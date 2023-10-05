@@ -1990,6 +1990,13 @@ def start_orgy(v):
 		)
 	g.db.add(orgy)
 
+	ma = ModAction(
+		kind="start_orgy",
+		user_id=v.id,
+		_note=data,
+	)
+	g.db.add(ma)
+
 	g.db.commit()
 	requests.post('http://localhost:5001/refresh_chat', headers={"Host": SITE})
 
@@ -1998,6 +2005,20 @@ def start_orgy(v):
 @app.post("/admin/stop_orgy")
 @admin_level_required(PERMS['ORGIES'])
 def stop_orgy(v):
-	g.db.query(Orgy).delete()
+	orgy = g.db.query(Orgy).one_or_none()
+
+	if not orgy:
+		abort(400, "There is no orgy in progress right now!")
+
+	ma = ModAction(
+		kind="stop_orgy",
+		user_id=v.id,
+		_note=orgy.data,
+	)
+	g.db.add(ma)
+
+	g.db.delete(orgy)
+
 	requests.post('http://localhost:5001/refresh_chat', headers={"Host": SITE})
+
 	return {"message": "Orgy stopped successfully!"}

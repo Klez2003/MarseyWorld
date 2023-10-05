@@ -306,6 +306,16 @@ MODACTION_TYPES = {
 		"icon": 'fa-eye-slash',
 		"color": 'bg-danger'
 	},
+	'start_orgy': {
+		"str": 'started orgy',
+		"icon": 'fa-tv',
+		"color": 'bg-success'
+	},
+	'stop_orgy': {
+		"str": 'stopped orgy',
+		"icon": 'fa-tv',
+		"color": 'bg-danger'
+	},	
 	'unchud': {
 		"str": 'unchudded {self.target_link}',
 		"icon": 'fa-snooze',
