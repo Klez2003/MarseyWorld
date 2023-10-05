@@ -1,3 +1,4 @@
+from .config.const import *
 from files.classes.post import Post
 from files.classes.comment import Comment
 from files.classes.sub import Sub
