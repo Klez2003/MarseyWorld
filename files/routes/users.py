@@ -615,7 +615,7 @@ def unsubscribe(v, post_id):
 @limiter.limit("10/minute;20/hour;50/day", deduct_when=lambda response: response.status_code < 400)
 @limiter.limit("10/minute;20/hour;50/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def message2(v, username=None, id=None):
+def message(v, username=None, id=None):
 	if id:
 		user = get_account(id, v=v, include_blocks=True)
 	else:
