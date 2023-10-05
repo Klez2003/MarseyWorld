@@ -48,7 +48,7 @@ def post_pid_comment_cid(cid, v, pid=None, anything=None, sub=None):
 
 	comment = get_comment(cid, v=v)
 
-	if not v.can_see(comment): abort(403)
+	if not User.can_see(v, comment): abort(403)
 
 	if comment.parent_post:
 		post = comment.parent_post
@@ -145,7 +145,7 @@ def comment(v):
 	parent_user = parent if isinstance(parent, User) else parent.author
 	posting_to_post = isinstance(post_target, Post)
 
-	if posting_to_post and not v.can_see(parent):
+	if posting_to_post and not User.can_see(v, parent):
 		abort(403)
 
 	if posting_to_post:

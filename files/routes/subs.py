@@ -125,7 +125,7 @@ def block_sub(v, sub):
 @auth_required
 def unblock_sub(v, sub):
 	sub = get_sub_by_name(sub)
-	if not v.can_see(sub):
+	if not User.can_see(v, sub):
 		abort(403)
 
 	block = g.db.query(SubBlock).filter_by(user_id=v.id, sub=sub.name).one_or_none()
@@ -173,7 +173,7 @@ def unsubscribe_sub(v, sub):
 @auth_required
 def follow_sub(v, sub):
 	sub = get_sub_by_name(sub)
-	if not v.can_see(sub):
+	if not User.can_see(v, sub):
 		abort(403)
 	existing = g.db.query(SubSubscription).filter_by(user_id=v.id, sub=sub.name).one_or_none()
 	if not existing:
@@ -202,7 +202,7 @@ def unfollow_sub(v, sub):
 @auth_required
 def mods(v, sub):
 	sub = get_sub_by_name(sub)
-	if not v.can_see(sub):
+	if not User.can_see(v, sub):
 		abort(403)
 	users = g.db.query(User, Mod).join(Mod).filter_by(sub=sub.name).order_by(Mod.created_utc).all()
 
@@ -215,7 +215,7 @@ def mods(v, sub):
 @auth_required
 def sub_exilees(v, sub):
 	sub = get_sub_by_name(sub)
-	if not v.can_see(sub):
+	if not User.can_see(v, sub):
 		abort(403)
 	users = g.db.query(User, Exile).join(Exile, Exile.user_id==User.id) \
 				.filter_by(sub=sub.name) \
@@ -230,7 +230,7 @@ def sub_exilees(v, sub):
 @auth_required
 def sub_blockers(v, sub):
 	sub = get_sub_by_name(sub)
-	if not v.can_see(sub):
+	if not User.can_see(v, sub):
 		abort(403)
 	users = g.db.query(User, SubBlock).join(SubBlock) \
 				.filter_by(sub=sub.name) \
@@ -246,7 +246,7 @@ def sub_blockers(v, sub):
 @auth_required
 def sub_followers(v, sub):
 	sub = get_sub_by_name(sub)
-	if not v.can_see(sub):
+	if not User.can_see(v, sub):
 		abort(403)
 	users = g.db.query(User, SubSubscription).join(SubSubscription) \
 			.filter_by(sub=sub.name) \
@@ -841,7 +841,7 @@ def unpin_comment_mod(cid, v):
 @auth_required
 def hole_log(v, sub):
 	sub = get_sub_by_name(sub)
-	if not v.can_see(sub):
+	if not User.can_see(v, sub):
 		abort(403)
 	page = get_page()
 
@@ -883,7 +883,7 @@ def hole_log(v, sub):
 @auth_required
 def hole_log_item(id, v, sub):
 	sub = get_sub_by_name(sub)
-	if not v.can_see(sub):
+	if not User.can_see(v, sub):
 		abort(403)
 
 	action = g.db.get(SubAction, id)

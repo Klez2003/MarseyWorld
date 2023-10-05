@@ -923,7 +923,7 @@ class User(Base):
 	@property
 	@lazy
 	def banner_url(self):
-		if FEATURES['USERS_PROFILE_BANNER'] and self.bannerurl and g.v.can_see(self):
+		if FEATURES['USERS_PROFILE_BANNER'] and self.bannerurl and self.can_see_my_shit:
 			return self.bannerurl
 		return f"{SITE_FULL_IMAGES}/i/{SITE_NAME}/site_preview.webp?x=6"
 
@@ -942,7 +942,7 @@ class User(Base):
 			number_of_girl_pfps = 25
 			pic_num = (self.id % number_of_girl_pfps) + 1
 			return f"{SITE_FULL}/i/pfps/girls/{pic_num}.webp"
-		if self.profileurl and g.v.can_see(self):
+		if self.profileurl and self.can_see_my_shit:
 			if self.profileurl.startswith('/'): return SITE_FULL + self.profileurl
 			return self.profileurl
 		return f"{SITE_FULL_IMAGES}/i/default-profile-pic.webp?x=6"
@@ -959,12 +959,14 @@ class User(Base):
 
 	@lazy
 	def real_post_count(self, v):
-		if v.can_see(self): return self.post_count
+		if not self.shadowbanned: return self.post_count
+		if v and (v.id == self.id or v.can_see_shadowbanned): return self.post_count
 		return 0
 
 	@lazy
 	def real_comment_count(self, v):
-		if v.can_see(self): return self.comment_count
+		if not self.shadowbanned: return self.comment_count
+		if v and (v.id == self.id or v.can_see_shadowbanned): return self.comment_count
 		return 0
 
 	@property
@@ -1150,13 +1152,34 @@ class User(Base):
 		tier_money = TIER_TO_MONEY[self.patron]
 		return f'{tier_name} - Donates ${tier_money}/month'
 
-	@lazy
-	def can_see(self, other):
+	@classmethod
+	def can_see_content(cls, user, other):
+		'''
+		Whether a user can see this item (be it a post or comment)'s content.
+		If False, they won't be able to view its content.
+		'''
+		if not cls.can_see(user, other): return False
+		if user and user.admin_level >= PERMS["POST_COMMENT_MODERATION"]: return True
 		if isinstance(other, (Post, Comment)):
-			if not self.can_see(other.author): return False
-			if self and self.id == other.author_id: return True
+			if user and user.id == other.author_id: return True
+			if other.is_banned: return False
+			if other.deleted_utc: return False
+			if other.author.shadowbanned and not (user and user.can_see_shadowbanned): return False
+			if isinstance(other, Comment):
+				if other.parent_post and not cls.can_see(user, other.post): return False
+		return True
+
+	@classmethod
+	def can_see(cls, user, other):
+		'''
+		Whether a user can strictly see this item. can_see_content is used where
+		content of a thing can be hidden from view
+		'''
+		if isinstance(other, (Post, Comment)):
+			if not cls.can_see(user, other.author): return False
+			if user and user.id == other.author_id: return True
 			if isinstance(other, Post):
-				if other.sub and not self.can_see(other.subr):
+				if other.sub and not cls.can_see(user, other.subr):
 					return False
 				if request.headers.get("Cf-Ipcountry") == 'NZ':
 					if 'christchurch' in other.title.lower():
@@ -1167,22 +1190,22 @@ class User(Base):
 				if hasattr(other, 'is_blocking') and other.is_blocking and not request.path.endswith(f'/{other.id}'):
 					return False
 				if other.parent_post:
-					return self.can_see(other.post)
+					return cls.can_see(user, other.post)
 				else:
-					if not self and not other.wall_user_id: return False
+					if not user and not other.wall_user_id: return False
 
 					if other.sentto:
 						if other.sentto == MODMAIL_ID:
-							if other.top_comment.author_id == self.id: return True
-							return self.admin_level >= PERMS['VIEW_MODMAIL']
-						if other.sentto != self.id:
-							return self.admin_level >= PERMS['BLACKJACK_NOTIFICATIONS']
+							if other.top_comment.author_id == user.id: return True
+							return user.admin_level >= PERMS['VIEW_MODMAIL']
+						if other.sentto != user.id:
+							return user.admin_level >= PERMS['BLACKJACK_NOTIFICATIONS']
 		elif isinstance(other, Sub):
-			if other.name == 'chudrama': return bool(user) and self.can_see_chudrama
-			if other.name == 'countryclub': return bool(user) and self.can_see_countryclub
-			if other.name == 'highrollerclub': return bool(user) and self.can_see_highrollerclub
+			if other.name == 'chudrama': return bool(user) and user.can_see_chudrama
+			if other.name == 'countryclub': return bool(user) and user.can_see_countryclub
+			if other.name == 'highrollerclub': return bool(user) and user.can_see_highrollerclub
 		elif isinstance(other, User):
-			return (self and self.id == other.id) or (self and self.can_see_shadowbanned) or not other.shadowbanned
+			return (user and user.id == other.id) or (user and user.can_see_shadowbanned) or not other.shadowbanned
 		return True
 
 	@property
@@ -1345,6 +1368,12 @@ class User(Base):
 			output.append(user)
 
 		return output
+
+	@property
+	@lazy
+	def can_see_my_shit(self):
+		v = g.v
+		return not self.shadowbanned or (v and (v.id == self.id or v.can_see_shadowbanned))
 
 	@property
 	@lazy

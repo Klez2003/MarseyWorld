@@ -435,7 +435,7 @@ def notifications(v):
 def notification(v, cid):
 	comment = get_comment(cid, v=v)
 
-	if not v.can_see(comment): abort(403)
+	if not User.can_see(v, comment): abort(403)
 
 	comment.unread = True
 
