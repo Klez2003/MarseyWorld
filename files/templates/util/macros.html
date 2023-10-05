@@ -109,7 +109,9 @@
 
 
 {% macro emoji_btn(textarea_id) %}
-	<button type="button" class="btn btn-secondary format m-0 mr-1" data-nonce="{{g.nonce}}" data-onclick="loadEmojis('{{textarea_id}}')" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"><i class="fas fa-smile-beam"></i></button>
+	<button type="button" class="btn btn-secondary format m-0 mr-1" data-nonce="{{g.nonce}}" data-onclick="loadEmojis('{{textarea_id}}')" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji">
+		<i class="fas fa-smile-beam"></i>
+	</button>
 {% endmacro %}
 
 {% macro gif_btn(textarea_id) %}
