@@ -25,7 +25,7 @@ document.getElementById('gifModal').addEventListener('shown.bs.modal', function 
 	}, 1000);
 });
 
-async function getGifs(form) {
+async function show_gif_categories(form) {
 	commentFormID = form;
 
 	gifSearchBar.value = null;
@@ -111,7 +111,7 @@ async function getGifs(form) {
 	}
 }
 
-document.getElementById('gifs-back-btn').addEventListener('click', getGifs);
+document.getElementById('gifs-back-btn').addEventListener('click', show_gif_categories);
 
 async function searchGifs(searchTerm) {
 
