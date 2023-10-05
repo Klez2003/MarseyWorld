@@ -1,10 +1,8 @@
-from .lazy import lazy
 from files.classes.post import Post
 from files.classes.comment import Comment
 from files.classes.sub import Sub
 from flask import request
 
-@lazy
 def can_see(user, other):
 	if isinstance(other, (Post, Comment)):
 		if not can_see(user, other.author): return False
