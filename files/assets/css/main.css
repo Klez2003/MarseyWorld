@@ -5679,7 +5679,7 @@ lite-youtube.lyt-activated > .lty-playbtn {
 	from {filter: sepia(1) saturate(2)}
 	to {filter: sepia(1) saturate(3) drop-shadow(-1px 1px 3px gold)}
 }
-img.golden, img[g]:not([data-src]), .gold-text img {
+img.golden, img[g]:not([data-src]) {
 	animation: golden 1s infinite alternate linear;
 }
 
