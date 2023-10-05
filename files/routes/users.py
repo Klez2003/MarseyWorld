@@ -891,7 +891,7 @@ def u_username_wall(v, username):
 
 	is_following = v and u.has_follower(v)
 
-	if v and v.id != u.id and v.admin_level < PERMS['USER_SHADOWBAN'] and not session.get("GLOBAL"):
+	if v and v.id != u.id and not v.can_see_shadowbanned and not session.get("GLOBAL"):
 		gevent.spawn(_add_profile_view, v.id, u.id)
 
 	page = get_page()
@@ -938,7 +938,7 @@ def u_username_wall_comment(v, username, cid):
 
 	is_following = v and u.has_follower(v)
 
-	if v and v.id != u.id and v.admin_level < PERMS['USER_SHADOWBAN'] and not session.get("GLOBAL"):
+	if v and v.id != u.id and not v.can_see_shadowbanned and not session.get("GLOBAL"):
 		gevent.spawn(_add_profile_view, v.id, u.id)
 
 	if v and request.values.get("read"):
@@ -983,7 +983,7 @@ def u_username(v, username):
 			abort(403, f"@{u.username}'s userpage is private")
 		return render_template("userpage/private.html", u=u, v=v, is_following=is_following), 403
 
-	if v and v.id != u.id and v.admin_level < PERMS['USER_SHADOWBAN'] and not session.get("GLOBAL"):
+	if v and v.id != u.id and not v.can_see_shadowbanned and not session.get("GLOBAL"):
 		gevent.spawn(_add_profile_view, v.id, u.id)
 
 	sort = request.values.get("sort", "new")
@@ -1050,7 +1050,7 @@ def u_username_comments(username, v):
 			abort(403, f"@{u.username}'s userpage is private")
 		return render_template("userpage/private.html", u=u, v=v, is_following=is_following), 403
 
-	if v and v.id != u.id and v.admin_level < PERMS['USER_SHADOWBAN'] and not session.get("GLOBAL"):
+	if v and v.id != u.id and not v.can_see_shadowbanned and not session.get("GLOBAL"):
 		gevent.spawn(_add_profile_view, v.id, u.id)
 
 	page = get_page()

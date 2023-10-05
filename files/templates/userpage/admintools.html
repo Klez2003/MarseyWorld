@@ -21,7 +21,7 @@
 			{% endif %}
 		</h5>
 	{% endif %}
-	{% if v and v.admin_level >= PERMS['USER_SHADOWBAN'] and u.shadowbanned %}
+	{% if v and v.can_see_shadowbanned and u.shadowbanned %}
 		<h5 class="text-primary" id="profile-{{deviceType}}--shadowbanned">SHADOWBANNED USER:
 			{{u.ban_reason | safe}}
 
@@ -65,7 +65,7 @@
 
 				<button type="button" id="unban-{{deviceType}}" class="mt-1 {% if not u.is_suspended %}d-none{% endif %} btn btn-success" data-nonce="{{g.nonce}}" data-onclick="unchud_or_unban(this,'/unban_user/{{u.id}}')">Unban user</button>
 			{% endif %}
-			{% if v.admin_level >= PERMS['USER_SHADOWBAN'] %}
+			{% if v.can_see_shadowbanned %}
 				<form id="shadowban-{{deviceType}}" class="my-3 {% if u.shadowbanned %}d-none{% endif %}" action="/shadowban/{{u.id}}" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHRSwitch(this)">
 					<input hidden name="formkey" value="{{v|formkey}}">
 					<input autocomplete="off" style="font-size:11px" type="text" class="form-control" maxlength="256" name="reason" placeholder="Shadowban Reason" data-nonce="{{g.nonce}}" data-undisable_element="user-shadowban-submit-{{deviceType}}" required>

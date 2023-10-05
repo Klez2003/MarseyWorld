@@ -184,7 +184,7 @@ def log(v):
 
 	kind = request.values.get("kind")
 
-	if v.admin_level >= PERMS['USER_SHADOWBAN']:
+	if v.can_see_shadowbanned:
 		if v.admin_level >= PERMS['PROGSTACK']:
 			types = MODACTION_TYPES
 		else:
@@ -197,7 +197,7 @@ def log(v):
 		total = 0
 	else:
 		actions = g.db.query(ModAction)
-		if v.admin_level < PERMS['USER_SHADOWBAN']:
+		if not v.can_see_shadowbanned:
 			actions = actions.filter(ModAction.kind.notin_(MODACTION_PRIVILEGED_TYPES))
 		if v.admin_level < PERMS['PROGSTACK']:
 			actions = actions.filter(ModAction.kind.notin_(MODACTION_PRIVILEGED__TYPES))
@@ -226,12 +226,12 @@ def log_item(id, v):
 
 	if not action: abort(404)
 
-	if action.kind in MODACTION_PRIVILEGED_TYPES and v.admin_level < PERMS['USER_SHADOWBAN']:
+	if action.kind in MODACTION_PRIVILEGED_TYPES and not v.can_see_shadowbanned:
 		abort(404)
 
 	admins = [x[0] for x in g.db.query(User.username).filter(User.admin_level >= PERMS['ADMIN_MOP_VISIBLE'])]
 
-	if v.admin_level >= PERMS['USER_SHADOWBAN']:
+	if v.can_see_shadowbanned:
 		if v.admin_level >= PERMS['PROGSTACK']:
 			types = MODACTION_TYPES
 		else:

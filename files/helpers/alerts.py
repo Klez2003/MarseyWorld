@@ -227,7 +227,7 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None, followers_pi
 
 def push_notif(uids, title, body, url_or_comment):
 	if hasattr(g, 'v') and g.v and g.v.shadowbanned:
-		uids = [x[0] for x in g.db.query(User.id).filter(User.id.in_(uids), User.admin_level >= PERMS['USER_SHADOWBAN']).all()]
+		uids = [x[0] for x in g.db.query(User.id).filter(User.id.in_(uids), User.can_see_shadowbanned).all()]
 		if not uids:
 			return
 

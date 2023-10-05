@@ -300,7 +300,7 @@ def notifications_reddit(v):
 def notifications(v):
 	page = get_page()
 
-	if not session.get("GLOBAL") and v.admin_level < PERMS['USER_SHADOWBAN'] and not request.values.get('nr'):
+	if not session.get("GLOBAL") and not v.can_see_shadowbanned and not request.values.get('nr'):
 		unread_and_inaccessible = g.db.query(Notification).join(Notification.comment).join(Comment.author).filter(
 			Notification.user_id == v.id,
 			Notification.read == False,
@@ -324,7 +324,7 @@ def notifications(v):
 			not_(and_(Comment.sentto != None, Comment.sentto == MODMAIL_ID, User.is_muted))
 		)
 
-	if v.admin_level < PERMS['USER_SHADOWBAN']:
+	if not v.can_see_shadowbanned:
 		comments = comments.filter(
 			Comment.is_banned == False,
 			Comment.deleted_utc == 0,

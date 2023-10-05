@@ -57,7 +57,7 @@
 
 <h4>Users</h4>
 <ul>
-	{% if v.admin_level >= PERMS['USER_SHADOWBAN'] %}
+	{% if v.can_see_shadowbanned %}
 		<li><a href="/admin/shadowbanned">Shadowbanned Users</a></li>
 	{% endif %}
 	<li><a href="/banned">Banned Users</a></li>
