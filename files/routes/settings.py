@@ -161,7 +161,7 @@ def settings_personal_post(v):
 	updated = updated or update_flag("nitter", "nitter")
 	updated = updated or update_flag("imginn", "imginn")
 	updated = updated or update_flag("controversial", "controversial")
-	updated = updated or update_flag("sigs_disabled", "sigs_disabled")
+	updated = updated or update_flag("show_sigs", "show_sigs")
 	updated = updated or update_flag("is_private", "private")
 	updated = updated or update_flag("lifetimedonated_visible", "lifetimedonated_visible")
 
