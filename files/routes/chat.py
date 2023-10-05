@@ -51,6 +51,8 @@ def auth_required_socketio(f):
 		if v.is_permabanned: return '', 403
 		if request.referrer:
 			g.referrer = request.referrer.split('?')[0]
+			if g.referrer not in ALLOWED_REFERRERS:
+				g.referrer = None
 		else:
 			g.referrer = None
 		return make_response(f(*args, v=v, **kwargs))
@@ -64,6 +66,8 @@ def is_not_banned_socketio(f):
 		if v.is_suspended: return '', 403
 		if request.referrer:
 			g.referrer = request.referrer.split('?')[0]
+			if g.referrer not in ALLOWED_REFERRERS:
+				g.referrer = None
 		else:
 			g.referrer = None
 		return make_response(f(*args, v=v, **kwargs))
@@ -102,7 +106,7 @@ def chat(v):
 @socketio.on('speak')
 @is_not_banned_socketio
 def speak(data, v):
-	if g.referrer not in ALLOWED_REFERRERS:
+	if not g.referrer:
 		return '', 400
 
 	image = None
@@ -208,7 +212,7 @@ def remove_from_online(v):
 @socketio.on('connect')
 @auth_required_socketio
 def connect(v):
-	if g.referrer not in ALLOWED_REFERRERS:
+	if not g.referrer:
 		return '', 400
 
 	if g.referrer == f'{SITE_FULL}/notifications/messages':
@@ -232,7 +236,7 @@ def disconnect(v):
 	if g.referrer != f'{SITE_FULL}/notifications/messages':
 		remove_from_online(v)
 
-	if g.referrer not in ALLOWED_REFERRERS:
+	if not g.referrer:
 		return '', 400
 	elif g.referrer == f'{SITE_FULL}/notifications/messages':
 		leave_room(v.id)
@@ -245,7 +249,7 @@ def disconnect(v):
 @socketio.on('typing')
 @is_not_banned_socketio
 def typing_indicator(data, v):
-	if g.referrer not in ALLOWED_REFERRERS:
+	if not g.referrer:
 		return '', 400
 
 	if data and v.username not in typing[g.referrer]:
@@ -260,7 +264,7 @@ def typing_indicator(data, v):
 @socketio.on('delete')
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def delete(id, v):
-	if g.referrer not in ALLOWED_REFERRERS:
+	if not g.referrer:
 		return '', 400
 
 	for k, val in messages[g.referrer].items():
