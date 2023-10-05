@@ -130,7 +130,7 @@
 				<div class="settings-section rounded">
 					{{common.toggle_section('Disable Signatures', 'sigs_disabled', 'sigs_disabled', v.sigs_disabled, 'Hide user signatures.', false)}}
 					{% if FEATURES['NSFW_MARKING'] %}
-						{{common.toggle_section('Disable NSFW Warnings', 'nsfw', 'nsfw', v.nsfw, "Disable the warning that appears when viewing NSFW posts and stop collapsing NSFW comments.", false)}}
+						{{common.toggle_section('NSFW Warnings', 'nsfw_warnings', 'nsfw_warnings', v.nsfw_warnings, "Show a warning when viewing NSFW posts and collapse NSFW comments.", false)}}
 					{% endif %}
 					{% if SITE_NAME != 'rDrama' %}
 						{{common.toggle_section('Hide Posts Voted On', 'hidevotedon', 'hidevotedon', v.hidevotedon, 'Enable if you would like to automatically hide posts you have voted on from your frontpage.', false)}}

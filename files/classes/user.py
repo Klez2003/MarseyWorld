@@ -284,8 +284,8 @@ class User(Base):
 
 	@property
 	@lazy
-	def nsfw(self):
-		return bool(session.get('nsfw'))
+	def nsfw_warnings(self):
+		return bool(session.get('nsfw_warnings', True))
 
 	@property
 	@lazy
