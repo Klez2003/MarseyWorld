@@ -429,7 +429,7 @@ function populate_speed_emoji_modal(results, textbox)
 			close_inline_speed_emoji_modal()
 			textbox.value = textbox.value.replace(new RegExp(current_word+"(?=\\s|$)", "gi"), `:${name}: `)
 			textbox.focus()
-			if (typeof markdown === "function") {
+			if (typeof markdown === "function" && textbox.dataset.preview) {
 				markdown(textbox)
 			}
 		});
