@@ -27,7 +27,7 @@
 						<div id="profilestuff" class="ml-3 w-100">
 							{{userpage_admintools.userBanBlock('desktop')}}
 							<div class="d-flex align-items-center mt-1 mb-2">
-								<h3 class="font-weight-bolder my-0 mr-2" id="profile--name" style="color: #{{u.name_color}}"><span {% if u.patron %}class="patron" style="background-color:#{{u.name_color}}"{% endif %}>{{u.user_name}}</span></h3>
+								<h3 class="font-weight-bolder my-0 mr-2" id="profile--name" style="color: #{{u.name_color}}"><span {% if u.patron %}class="patron" style="background-color:#{{u.name_color}}"{% endif %} {% if u.pride_username(v) %}pride_username{% endif %}>{{u.user_name}}</span></h3>
 
 								{% if can_see(v, u) and u.username != u.original_username %}
 									{% set ns.og_usernames = 'Original Usernames:<br>@' ~ u.original_username %}
@@ -317,7 +317,7 @@
 			</div>
 			<div class="mt-n3 py-3">
 				{{userpage_admintools.userBanBlock('mobile')}}
-				<h5 class=" d-inline-block" id="profile-mobile--name" style="color: #{{u.name_color}}"><span {% if u.patron %}class="patron" style="background-color:#{{u.name_color}}"{% endif %}>{{u.user_name}}</span></h5>
+				<h5 class=" d-inline-block" id="profile-mobile--name" style="color: #{{u.name_color}}"><span {% if u.patron %}class="patron" style="background-color:#{{u.name_color}}"{% endif %} {% if u.pride_username(v) %}pride_username{% endif %}>{{u.user_name}}</span></h5>
 
 				{% if can_see(v, u) and u.username != u.original_username %}
 					<span id="profile-mobile--origname">

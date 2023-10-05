@@ -1265,6 +1265,10 @@ class User(Base):
 	def offsitementions(self):
 		return self.has_badge(140)
 
+	@lazy
+	def pride_username(self, v):
+		return not (v and v.poor) and self.has_badge(303)
+
 	@property
 	@lazy
 	def shadowbanner(self):

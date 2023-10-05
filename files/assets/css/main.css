@@ -214,6 +214,7 @@
 .fa-ankh:before{content:"\f644"}
 .fa-quotes:before{content:"\e234"}
 .fa-tv:before{content:"\f26c"}
+.fa-heart:before{content:"\f004"}
 
 /* do not remove - fixes hand, talking, marsey-love components
 	from breaking out of the comment box
@@ -7629,4 +7630,59 @@ ul {
 @keyframes move-colors {
 	from {background-position: 0px;}
 	to {background-position: 1000px;}
+}
+
+
+@-webkit-keyframes lgbt {
+	0% {
+		color: violet;
+	}
+	20% {
+		color: red;
+	}
+	40% {
+		color: orange;
+	}
+	60% {
+		color: yellow;
+	}
+	80% {
+		color: blue;
+	}
+	100% {
+		color: violet;
+	}
+}
+
+
+@-webkit-keyframes lgbt-patron {
+	0% {
+		background-color: violet;
+	}
+	20% {
+		background-color: red;
+	}
+	40% {
+		background-color: orange;
+	}
+	60% {
+		background-color: yellow;
+	}
+	80% {
+		background-color: blue;
+	}
+	100% {
+		background-color: violet;
+	}
+}
+
+
+[pride_username] {
+	-webkit-animation: 3s ease-in-out 0s normal none infinite lgbt;
+	animation: 3s ease-in-out 0s normal none infinite lgbt;
+}
+
+[pride_username].patron {
+	-webkit-animation: 3s ease-in-out 0s normal none infinite lgbt-patron;
+	animation: 3s ease-in-out 0s normal none infinite lgbt-patron;
 }

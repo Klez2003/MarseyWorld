@@ -473,6 +473,8 @@ def award_thing(v, thing_type, id):
 	elif kind == "checkmark":
 		author.verified = "Verified"
 		badge_grant(user=author, badge_id=150)
+	elif kind == "pride":
+		badge_grant(user=author, badge_id=303)
 	elif kind == 'marsify':
 		if author.chud:
 			abort(409, f"{safe_username} under the effect of a conflicting award: Chud award!")
