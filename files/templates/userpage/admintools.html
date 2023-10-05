@@ -40,7 +40,8 @@
 							<input hidden name="formkey" value="{{v|formkey}}">
 							<input maxlength=100 autocomplete="off" id="flair_htmlbody-{{deviceType}}" type="text" name="title" class="form-control" placeholder='Enter a flair here' value="{% if u.flair %}{{u.flair}}{% endif %}">
 							<div class="d-flex">
-								<div class="format pl-0"><i class="btn btn-secondary format d-inline-block m-0 fas fa-smile-beam" data-nonce="{{g.nonce}}" data-onclick="loadEmojis('flair_htmlbody-{{deviceType}}')" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"></i></div>
+								{{macros.emoji_btn('flair_htmlbody-' ~ deviceType)}}
+
 								<div class="custom-control custom-checkbox ml-2 mt-1">
 									<input autocomplete="off" type="checkbox" class="custom-control-input" id="locked-{{deviceType}}" name="locked" {% if u.flairchanged %}checked{% endif %}>
 									<label class="custom-control-label" for="locked-{{deviceType}}">locked</label>
