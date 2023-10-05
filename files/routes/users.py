@@ -1337,6 +1337,7 @@ if KOFI_TOKEN:
 	def kofi():
 		data = json.loads(request.values['data'])
 		verification_token = data['verification_token']
+		print(verification_token, flush=True)
 		if verification_token not in {KOFI_TOKEN, KOFI_TOKEN2}: abort(400)
 
 		print(request.headers.get('CF-Connecting-IP'), flush=True)
