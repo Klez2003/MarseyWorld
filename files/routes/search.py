@@ -15,7 +15,7 @@ search_operator_hole = HOLE_NAME
 valid_params = [
 	'author',
 	'domain',
-	'over18',
+	'nsfw',
 	'post',
 	'before',
 	'after',
@@ -112,7 +112,7 @@ def searchposts(v):
 					) for x in criteria['q']]
 		posts = posts.filter(*words)
 
-	if 'over18' in criteria: posts = posts.filter(Post.over_18==True)
+	if 'nsfw' in criteria: posts = posts.filter(Post.over_18==True)
 
 	if 'domain' in criteria:
 		domain = criteria['domain']
@@ -236,7 +236,7 @@ def searchcomments(v):
 			' & '.join(tokens),
 			postgresql_regconfig='english'))
 
-	if 'over18' in criteria: comments = comments.filter(Comment.over_18 == True)
+	if 'nsfw' in criteria: comments = comments.filter(Comment.over_18 == True)
 
 	if search_operator_hole in criteria:
 		comments = comments.filter(Post.sub == criteria[search_operator_hole])

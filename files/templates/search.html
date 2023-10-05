@@ -85,7 +85,7 @@
 								{% if FEATURES['NSFW_MARKING'] %}
 									<div>
 										<div style="display: inline-block; width: 150px; text-align: center">NSFW Only:</div>
-										<button type="button" data-nonce="{{g.nonce}}" data-onclick="addParam(this, 'bool')" class="searchparam mb-1">over18:true</button>
+										<button type="button" data-nonce="{{g.nonce}}" data-onclick="addParam(this, 'bool')" class="searchparam mb-1">nsfw:true</button>
 									</div>
 								{% endif %}
 							{% endif %}
