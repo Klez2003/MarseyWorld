@@ -153,7 +153,6 @@ def award_thing(v, thing_type, id):
 		thing = get_comment(id)
 		if not thing.parent_post and not thing.wall_user_id: abort(404) # don't let users award messages
 
-	if v.shadowbanned: abort(500)
 	author = thing.author
 
 	AWARDS = deepcopy(AWARDS_ENABLED)
