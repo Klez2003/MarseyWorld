@@ -111,6 +111,9 @@ def notif_comment2(p):
 def add_notif(cid, uid, text, pushnotif_url=''):
 	if uid in BOT_IDs: return
 
+	if hasattr(g, 'v') and g.v and g.v.shadowbanned and g.db.query(User.admin_level).filter_by(id=uid).one()[0] < PERMS['USER_SHADOWBAN']:
+		return
+
 	existing = g.db.query(Notification.user_id).filter_by(comment_id=cid, user_id=uid).one_or_none()
 	if not existing:
 		notif = Notification(comment_id=cid, user_id=uid)
