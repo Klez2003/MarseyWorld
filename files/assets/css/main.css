@@ -6890,7 +6890,6 @@ div.markdown {
 .modlog-action {
 	display: flex;
 	flex-wrap: wrap;
-	background: var(--gray-600) !important;
 	position: relative;
 	align-items: center;
 	justify-content: space-between;
