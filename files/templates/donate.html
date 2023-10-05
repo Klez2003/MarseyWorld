@@ -5,7 +5,7 @@
 	<div class="overflow-x-auto">
 		<table class="table table-striped mb-5">
 			<tbody>
-				{% if v and v.truescore >= TRUESCORE_DONATE_MINIMUM %}
+				{% if v and v.truescore >= TRUESCORE_MINIMUM %}
 					{% if DONATE_SERVICE != DEFAULT_CONFIG_VALUE %}
 						<tr>
 							<td>{{DONATE_SERVICE}}</td>
@@ -27,7 +27,7 @@
 				</tr>
 			</tbody>
 		</table>
-		{% if v and v.truescore >= TRUESCORE_DONATE_MINIMUM and DONATE_SERVICE != DEFAULT_CONFIG_VALUE %}
+		{% if v and v.truescore >= TRUESCORE_MINIMUM and DONATE_SERVICE != DEFAULT_CONFIG_VALUE %}
 			<li class="pl-2 pb-4">
 				If you donate via {{DONATE_SERVICE}}, please first <a href="/settings/security#site-settings-email-section">verify your email on the site</a>, and then use that same email on {{DONATE_SERVICE}} to get your <a rel="nofollow noopener" href="{{DONATE_LINK}}">{{patron}} rewards</a> automatically!
 			</li>

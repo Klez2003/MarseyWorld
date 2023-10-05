@@ -292,7 +292,7 @@ class User(Base):
 	def allowed_in_chat(self):
 		if self.admin_level >= PERMS['BYPASS_CHAT_TRUESCORE_REQUIREMENT']:
 			return True
-		if self.truescore >= TRUESCORE_CC_CHAT_MINIMUM:
+		if self.truescore >= TRUESCORE_MINIMUM:
 			return True
 		if self.patron:
 			return True
@@ -1173,7 +1173,7 @@ class User(Base):
 		if self.can_see_restricted_holes != None:
 			return self.can_see_restricted_holes
 
-		if self.truescore >= TRUESCORE_CHUDRAMA_MINIMUM: return True
+		if self.truescore >= TRUESCORE_MINIMUM: return True
 		if self.chud: return True
 		if self.patron: return True
 		if SITE == 'rdrama.net' and self.id == 5237: return True
@@ -1186,7 +1186,7 @@ class User(Base):
 		if self.can_see_restricted_holes != None:
 			return self.can_see_restricted_holes
 
-		if self.truescore >= TRUESCORE_CC_CHAT_MINIMUM: return True
+		if self.truescore >= TRUESCORE_MINIMUM: return True
 
 		if SITE == 'rdrama.net' and self.id == 5237: return True
 
@@ -1206,9 +1206,9 @@ class User(Base):
 	@lazy
 	def can_post_in_ghost_threads(self):
 		if SITE_NAME == 'WPD': return False
-		if not TRUESCORE_GHOST_MINIMUM: return True
+		if not TRUESCORE_MINIMUM: return True
 		if self.admin_level >= PERMS['POST_IN_GHOST_THREADS']: return True
-		if self.truescore >= TRUESCORE_GHOST_MINIMUM: return True
+		if self.truescore >= TRUESCORE_MINIMUM: return True
 		if self.patron: return True
 		return False
 

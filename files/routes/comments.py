@@ -138,7 +138,7 @@ def comment(v):
 		parent_comment_id = parent.id
 		if parent.author_id == v.id: rts = True
 		if not v.can_post_in_ghost_threads and isinstance(post_target, Post) and post_target.ghost:
-			abort(403, f"You need {TRUESCORE_GHOST_MINIMUM} truescore to post in ghost threads")
+			abort(403, f"You need {TRUESCORE_MINIMUM} truescore to post in ghost threads")
 		ghost = parent.ghost
 	else: abort(404)
 
