@@ -315,6 +315,8 @@ class Comment(Base):
 
 	@lazy
 	def award_count(self, kind, v):
+		if v and v.poor and kind not in FISTMAS_AWARDS + HOMOWEEN_AWARDS:
+			return 0
 		return len([x for x in self.awards if x.kind == kind])
 
 	@lazy
