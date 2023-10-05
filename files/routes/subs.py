@@ -14,7 +14,6 @@ from files.__main__ import app, cache, limiter
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def exile_post(v, pid):
-	if v.shadowbanned: abort(500)
 	p = get_post(pid)
 	sub = p.sub
 	if not sub: abort(400)
@@ -49,7 +48,6 @@ def exile_post(v, pid):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def exile_comment(v, cid):
-	if v.shadowbanned: abort(500)
 	c = get_comment(cid)
 	sub = c.post.sub
 	if not sub: abort(400)
@@ -87,7 +85,6 @@ def unexile(v, sub, uid):
 	u = get_account(uid)
 
 	if not v.mods(sub): abort(403)
-	if v.shadowbanned: abort(403)
 
 	if u.exiler_username(sub):
 		exile = g.db.query(Exile).filter_by(user_id=u.id, sub=sub).one_or_none()
@@ -269,7 +266,6 @@ def add_mod(v, sub):
 	if SITE_NAME == 'WPD': abort(403)
 	sub = get_sub_by_name(sub).name
 	if not v.mods(sub): abort(403)
-	if v.shadowbanned: abort(400)
 
 	user = request.values.get('user')
 
@@ -309,7 +305,6 @@ def remove_mod(v, sub):
 	sub = get_sub_by_name(sub).name
 
 	if not v.mods(sub): abort(403)
-	if v.shadowbanned: abort(500)
 
 	uid = request.values.get('uid')
 
@@ -403,7 +398,6 @@ def kick(v, pid):
 
 	if not post.sub: abort(403)
 	if not v.mods(post.sub): abort(403)
-	if v.shadowbanned: abort(500)
 
 	old = post.sub
 	post.sub = None
@@ -520,7 +514,7 @@ def upload_sub_banner(v, sub):
 
 	sub = get_sub_by_name(sub)
 	if not v.mods(sub.name): abort(403)
-	if v.shadowbanned: return redirect(f'/h/{sub}/settings')
+	if v.shadowbanned: abort(500)
 
 	file = request.files["banner"]
 
@@ -548,7 +542,6 @@ def upload_sub_banner(v, sub):
 def delete_sub_banner(v, sub, index):
 	sub = get_sub_by_name(sub)
 	if not v.mods(sub.name): abort(403)
-	if v.shadowbanned: return redirect(f'/h/{sub}/settings')
 
 	if not sub.bannerurls:
 		abort(404, f"Banner not found (/h/{sub.name} has no banners)")
@@ -579,7 +572,7 @@ def delete_sub_banner(v, sub, index):
 def delete_all_sub_banners(v, sub):
 	sub = get_sub_by_name(sub)
 	if not v.mods(sub.name): abort(403)
-	if v.shadowbanned: return redirect(f'/h/{sub}/settings')
+
 	for banner in sub.banner_urls:
 		try:
 			remove_media_using_link(banner)
@@ -609,7 +602,7 @@ def sub_sidebar(v, sub):
 
 	sub = get_sub_by_name(sub)
 	if not v.mods(sub.name): abort(403)
-	if v.shadowbanned: return redirect(f'/h/{sub}/settings')
+	if v.shadowbanned: abort(500)
 
 	file = request.files["sidebar"]
 	name = f'/images/{time.time()}'.replace('.','') + '.webp'
@@ -642,7 +635,7 @@ def sub_marsey(v, sub):
 
 	sub = get_sub_by_name(sub)
 	if not v.mods(sub.name): abort(403)
-	if v.shadowbanned: return redirect(f'/h/{sub}/settings')
+	if v.shadowbanned: abort(500)
 
 	file = request.files["marsey"]
 	name = f'/images/{time.time()}'.replace('.','') + '.webp'
