@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 15.3 (Ubuntu 15.3-1.pgdg22.04+1)
--- Dumped by pg_dump version 15.3 (Ubuntu 15.3-1.pgdg22.04+1)
+-- Dumped from database version 15.4 (Ubuntu 15.4-2.pgdg22.04+1)
+-- Dumped by pg_dump version 15.4 (Ubuntu 15.4-2.pgdg22.04+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -94,7 +94,7 @@ CREATE TABLE public.users (
     custom_filter_list character varying(1000) DEFAULT ''::character varying,
     stored_subscriber_count integer DEFAULT 0 NOT NULL,
     original_username character varying(30),
-    customtitle character varying(1000),
+    flair_html character varying(1000),
     defaultsorting character varying(15) NOT NULL,
     defaulttime character varying(5) NOT NULL,
     namecolor character varying(6) NOT NULL,
@@ -109,7 +109,7 @@ CREATE TABLE public.users (
     slurreplacer integer DEFAULT 1 NOT NULL,
     shadowbanned integer,
     newtabexternal boolean DEFAULT true NOT NULL,
-    customtitleplain character varying(100),
+    flair character varying(100),
     themecolor character varying(6) NOT NULL,
     css character varying(10000),
     profilecss character varying(10000),
@@ -134,7 +134,7 @@ CREATE TABLE public.users (
     sig_html character varying(1000),
     friends character varying(5000),
     friends_html character varying(20000),
-    sigs_disabled boolean,
+    show_sigs boolean NOT NULL,
     enemies character varying(5000),
     enemies_html character varying(20000),
     fp character varying(21),
@@ -178,7 +178,8 @@ CREATE TABLE public.users (
     lifetimedonated integer NOT NULL,
     lifetimedonated_visible boolean NOT NULL,
     jumpscare integer DEFAULT 0 NOT NULL,
-    zombie integer DEFAULT 0 NOT NULL
+    zombie integer DEFAULT 0 NOT NULL,
+    king integer
 );
 
 
@@ -427,7 +428,7 @@ CREATE TABLE public.comments (
     is_approved integer,
     level integer DEFAULT 0 NOT NULL,
     parent_comment_id integer,
-    over_18 boolean DEFAULT false NOT NULL,
+    nsfw boolean DEFAULT false NOT NULL,
     upvotes integer DEFAULT 1 NOT NULL,
     downvotes integer DEFAULT 0 NOT NULL,
     is_bot boolean DEFAULT false NOT NULL,
@@ -454,7 +455,8 @@ CREATE TABLE public.comments (
     ping_cost integer NOT NULL,
     rainbowed boolean NOT NULL,
     queened boolean NOT NULL,
-    sharpened boolean NOT NULL
+    sharpened boolean NOT NULL,
+    golden boolean NOT NULL
 );
 
 
@@ -504,7 +506,7 @@ CREATE TABLE public.emojis (
     submitter_id integer,
     created_utc integer,
     kind character varying(15) NOT NULL,
-    over_18 boolean NOT NULL
+    nsfw boolean NOT NULL
 );
 
 
@@ -765,7 +767,7 @@ CREATE TABLE public.posts (
     author_id integer NOT NULL,
     created_utc integer NOT NULL,
     is_banned boolean DEFAULT false NOT NULL,
-    over_18 boolean DEFAULT false NOT NULL,
+    nsfw boolean DEFAULT false NOT NULL,
     distinguish_level integer DEFAULT 0 NOT NULL,
     deleted_utc integer DEFAULT 0 NOT NULL,
     is_approved integer,
@@ -803,7 +805,8 @@ CREATE TABLE public.posts (
     bump_utc integer NOT NULL,
     rainbowed boolean NOT NULL,
     queened boolean NOT NULL,
-    sharpened boolean NOT NULL
+    sharpened boolean NOT NULL,
+    golden boolean NOT NULL
 );
 
 
@@ -1670,7 +1673,7 @@ CREATE INDEX casino_games_winnings_idx ON public.casino_games USING btree (winni
 -- Name: comment_new_sort_idx; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX comment_new_sort_idx ON public.comments USING btree (is_banned, deleted_utc, created_utc DESC, over_18);
+CREATE INDEX comment_new_sort_idx ON public.comments USING btree (is_banned, deleted_utc, created_utc DESC, nsfw);
 
 
 --
@@ -2083,14 +2086,14 @@ CREATE INDEX post_is_pinned_idx ON public.posts USING btree (is_pinned);
 -- Name: post_new_sort_idx; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX post_new_sort_idx ON public.posts USING btree (is_banned, deleted_utc, created_utc DESC, over_18);
+CREATE INDEX post_new_sort_idx ON public.posts USING btree (is_banned, deleted_utc, created_utc DESC, nsfw);
 
 
 --
 -- Name: post_over_18_idx; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX post_over_18_idx ON public.posts USING btree (over_18);
+CREATE INDEX post_over_18_idx ON public.posts USING btree (nsfw);
 
 
 --
@@ -2125,7 +2128,7 @@ CREATE INDEX report_user_idx ON public.reports USING btree (user_id);
 -- Name: subimssion_binary_group_idx; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX subimssion_binary_group_idx ON public.posts USING btree (is_banned, deleted_utc, over_18);
+CREATE INDEX subimssion_binary_group_idx ON public.posts USING btree (is_banned, deleted_utc, nsfw);
 
 
 --

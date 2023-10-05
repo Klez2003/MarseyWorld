@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 15.3 (Ubuntu 15.3-1.pgdg22.04+1)
--- Dumped by pg_dump version 15.3 (Ubuntu 15.3-1.pgdg22.04+1)
+-- Dumped from database version 15.4 (Ubuntu 15.4-2.pgdg22.04+1)
+-- Dumped by pg_dump version 15.4 (Ubuntu 15.4-2.pgdg22.04+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -1116,13 +1116,14 @@ INSERT INTO public.hat_defs VALUES (1348, 'Brains', 'BRAAAAINS', 2, 1000, NULL, 
 INSERT INTO public.hat_defs VALUES (1347, 'Rainbow Lightning', 'Color me shocked', 2, 1000, NULL, 1696399418);
 INSERT INTO public.hat_defs VALUES (1345, 'The Chef', 'Mmm bussy!', 2, 1000, NULL, 1696396948);
 INSERT INTO public.hat_defs VALUES (1344, 'Fighter', 'Cash me outside', 2, 1000, NULL, 1696392781);
+INSERT INTO public.hat_defs VALUES (1351, 'Vietnamese Pith Helmet', 'A good hat to wear while fighting the French, the Americans, the Cambodians, or the Chinese', 2, 500, NULL, 1696462997);
 
 
 --
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1350, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1351, true);
 
 
 --
