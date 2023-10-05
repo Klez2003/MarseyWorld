@@ -374,10 +374,12 @@ def comment(v):
 		if parent_user.id != v.id and notify_op:
 			notify_users.add(parent_user.id)
 
+		notify_users -= BOT_IDs
+
 		if v.shadowbanned:
 			notify_users = [x[0] for x in g.db.query(User.id).filter(User.id.in_(notify_users), User.admin_level >= PERMS['USER_SHADOWBAN']).all()]
 
-		for x in notify_users-BOT_IDs:
+		for x in notify_users:
 			n = Notification(comment_id=c.id, user_id=x)
 			g.db.add(n)
 
@@ -727,10 +729,12 @@ def edit_comment(cid, v):
 		if notify_users == 'everyone':
 			alert_everyone(c.id)
 		else:
+			notify_users -= BOT_IDs
+
 			if v.shadowbanned:
 				notify_users = [x[0] for x in g.db.query(User.id).filter(User.id.in_(notify_users), User.admin_level >= PERMS['USER_SHADOWBAN']).all()]
 
-			for x in notify_users-BOT_IDs:
+			for x in notify_users:
 				notif = g.db.query(Notification).filter_by(comment_id=c.id, user_id=x).one_or_none()
 				if not notif:
 					n = Notification(comment_id=c.id, user_id=x)
