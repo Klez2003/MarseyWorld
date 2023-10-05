@@ -1264,7 +1264,7 @@ class User(Base):
 	@property
 	@lazy
 	def can_see_shadowbanned(self):
-		return (self.can_see_shadowbanned)
+		return (self.admin_level >= PERMS['USER_SHADOWBAN'])
 
 	@property
 	@lazy
