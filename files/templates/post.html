@@ -193,7 +193,9 @@
 
 								<div class="text-small font-weight-bold mt-1" id="charcount-post-edit" style="right: 1rem; bottom: 0.5rem; z-index: 3"></div>
 
-								{{macros.file_input('file-upload-edit-' ~ p.id, 'post-edit-box-' ~ p.id)}}
+								{{macros.emoji_btn('post-edit-box-' ~ p.id)}}
+								{{macros.gif_btn('post-edit-box-' ~ p.id)}}
+								{{macros.file_btn('file-upload-edit-' ~ p.id)}}
 
 								<a class="text-small mt-3 d-inline-block" href="/formatting" {% if v and v.newtab %}data-target="t" target="_blank"{% endif %}>Formatting help</a>
 								<button type="submit" form="post-edit-form-{{p.id}}" class="btn btn-primary ml-2 fl-r" data-nonce="{{g.nonce}}" data-onclick="remove_dialog()">Save Edit</button>

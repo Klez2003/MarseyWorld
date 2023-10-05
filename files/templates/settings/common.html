@@ -80,7 +80,9 @@
 			<textarea autocomplete="off" id="{{id}}-text" class="file-ta form-control rounded" placeholder="{{placeholder_text}}" rows="3" name="{{form_name}}" form="{{id}}-form" maxlength="{{maxlength}}">{% if contents %}{{contents}}{% endif %}</textarea>
 
 			{% if show_extras %}
-				{{macros.file_input('file-upload-common-' ~ id, id ~'-text')}}
+				{{macros.emoji_btn(id ~ '-text')}}
+				{{macros.gif_btn(id ~ '-text')}}								
+				{{macros.file_btn('file-upload-common-' ~ id)}}
 			{% endif %}
 
 			<div class="d-flex mt-1">

@@ -259,7 +259,9 @@
 
 						<div class="text-small font-weight-bold mt-1" id="charcount-edit-{{c.id}}" style="right: 1rem; bottom: 0.5rem; z-index: 3"></div>
 
-						{{macros.file_input('file-edit-reply-' ~ c.id, 'comment-edit-body-' ~ c.id)}}
+						{{macros.emoji_btn('comment-edit-reply-' ~ c.id)}}
+						{{macros.gif_btn('comment-edit-reply-' ~ c.id)}}
+						{{macros.file_btn('file-edit-reply-' ~ c.id)}}
 
 						<a class="text-small mt-3 d-inline-block" href="/formatting" {% if v and v.newtab %}data-target="t" target="_blank"{% endif %}>Formatting help</a>
 
@@ -552,7 +554,9 @@
 						<input hidden name="formkey" value="{{v|formkey}}">
 						<textarea data-fullname="{{c.fullname}}" required autocomplete="off" minlength="1" maxlength="10000" name="body" form="reply-to-c_{{c.id}}" data-id="{{c.id}}" class="file-ta comment-box form-control rounded" id="reply-form-body-{{c.id}}" rows="3" data-preview="message-reply-{{c.id}}" data-nonce="{{g.nonce}}" data-oninput="markdown(this);handle_disabled(this)"></textarea>
 
-						{{macros.file_input('file-upload-reply-' ~ c.fullname, 'reply-form-body-' ~ c.id, not get_setting('dm_media'))}}
+						{{macros.emoji_btn('reply-form-body-' ~ c.id)}}
+						{{macros.gif_btn('reply-form-body-' ~ c.id)}}
+						{{macros.file_btn('file-upload-reply-' ~ c.fullname, not get_setting('dm_media'))}}
 
 						<div class="ml-auto">
 							<span id="upload-prog-{{c.fullname}}" class="d-none mt-1 mr-2">

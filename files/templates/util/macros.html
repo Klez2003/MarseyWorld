@@ -107,17 +107,20 @@
 {% endmacro %}
 
 
-{% macro file_input(input_id, textarea_id, disabled) %}
-	<div class="comment-format">
-		<button type="button" class="btn btn-secondary format m-0 font-weight-bolder text-uppercase" data-nonce="{{g.nonce}}" data-onclick="getGifs('{{textarea_id}}')" data-bs-toggle="modal" data-bs-target="#gifModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add GIF">GIF</button>
 
-		<button type="button" class="btn btn-secondary format m-0 ml-2" data-nonce="{{g.nonce}}" data-onclick="loadEmojis('{{textarea_id}}')" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"><i class="fas fa-smile-beam"></i></button>
+{% macro emoji_btn(textarea_id) %}
+	<button type="button" class="btn btn-secondary format m-0 mr-1" data-nonce="{{g.nonce}}" data-onclick="loadEmojis('{{textarea_id}}')" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"><i class="fas fa-smile-beam"></i></button>
+{% endmacro %}
 
-		<label class="btn btn-secondary format m-0 ml-2" for="{{input_id}}" {% if g.is_tor or disabled %}disabled{% endif %}>
-			<i class="fas fa-{% if image_only %}image{% else %}file{% endif %}"></i>
-			<input autocomplete="off" id="{{input_id}}" accept="image/*{% if not image_only %}, video/*, audio/*{% endif %}" type="file" multiple="multiple" name="file" {% if g.is_tor or disabled %}disabled{% endif %} hidden>
-		</label>
-	</div>
+{% macro gif_btn(textarea_id) %}
+	<button type="button" class="btn btn-secondary format m-0 mr-1 font-weight-bolder text-uppercase" data-nonce="{{g.nonce}}" data-onclick="getGifs('{{textarea_id}}')" data-bs-toggle="modal" data-bs-target="#gifModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add GIF">GIF</button>
+{% endmacro %}
+
+{% macro file_btn(input_id, disabled) %}
+	<label class="btn btn-secondary format m-0" for="{{input_id}}" {% if g.is_tor or disabled %}disabled{% endif %}>
+		<i class="fas fa-{% if image_only %}image{% else %}file{% endif %}"></i>
+		<input autocomplete="off" id="{{input_id}}" accept="image/*{% if not image_only %}, video/*, audio/*{% endif %}" type="file" multiple="multiple" name="file" {% if g.is_tor or disabled %}disabled{% endif %} hidden>
+	</label>
 {% endmacro %}
 
 {% macro comment_reply_box(target_fullname, html_id, wrapper_css_classes="", subwrapper_css_classes="", hide="", enable_cancel_button=true) %}
@@ -130,7 +133,9 @@
 
 			<div class="text-small font-weight-bold mt-1" id="charcount-{{target_fullname}}" style="right: 1rem; bottom: 0.5rem; z-index: 3"></div>
 
-			{{file_input('file-upload-reply-' ~ target_fullname, 'reply-form-body-' ~ target_fullname, False)}}
+			{{emoji_btn('reply-form-body-' ~ target_fullname)}}
+			{{gif_btn('reply-form-body-' ~ target_fullname)}}
+			{{file_btn('file-upload-reply-' ~ target_fullname)}}
 
 			<button type="button" id="save-reply-to-{{target_fullname}}" form="reply-to-{{target_fullname}}" class="btn btn-primary text-whitebtn ml-auto fl-r handle_disabled disabled" disabled data-nonce="{{g.nonce}}" data-onclick="post_comment('{{target_fullname}}', '{{hide}}')">Comment</button>
 
