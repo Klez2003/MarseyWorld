@@ -6,7 +6,7 @@
 {% endif %}
 
 {% set ns = namespace() %}
-{% set pfp = u.highres if (u.highres and u.can_see_my_shit) else u.profile_url %}
+{% set pfp = u.highres if (u.highres and v.can_see(u)) else u.profile_url %}
 
 {% block desktopUserBanner %}
 <div class="row d-mob-none">
@@ -29,7 +29,7 @@
 							<div class="d-flex align-items-center mt-1 mb-2">
 								<h3 class="font-weight-bolder my-0 mr-2" id="profile--name" style="color: #{{u.name_color}}"><span {% if u.patron %}class="patron" style="background-color:#{{u.name_color}}"{% endif %}>{{u.user_name}}</span></h3>
 
-								{% if u.can_see_my_shit and u.username != u.original_username %}
+								{% if v.can_see(u) and u.username != u.original_username %}
 									{% set ns.og_usernames = 'Original Usernames:<br>@' ~ u.original_username %}
 
 									{% if u.prelock_username and u.prelock_username != u.original_username %}
@@ -63,11 +63,11 @@
 								{% endif %}
 				</div>
 
-				{% if FEATURES['PRONOUNS'] and u.can_see_my_shit %}
+				{% if FEATURES['PRONOUNS'] and v.can_see(u) %}
 					<p class="font-weight-bolder" id="profile--pronouns" style="color: #{{u.titlecolor}}">{{u.pronouns_display}}</p>
 				{% endif %}
 
-				{% if u.customtitle and u.can_see_my_shit %}
+				{% if u.customtitle and v.can_see(u) %}
 					<p class="font-weight-bolder" id="profile--flair" style="color: #{{u.titlecolor}}">{{u.customtitle | safe}}</p>
 				{% endif %}
 
@@ -111,18 +111,18 @@
 			</div>
 
 				{% if FEATURES['USERS_PROFILE_BODYTEXT'] -%}
-					{% if u.bio_html and u.can_see_my_shit %}
+					{% if u.bio_html and v.can_see(u) %}
 						<div class="text-muted font-weight-bolder mt-1" id="profile--bio">{{u.bio_html | safe}}</div>
 					{% else %}
 						<p class="text-muted" id="profile--bio">No bio...</p>
 					{% endif %}
 
-					{% if u.friends_html and u.can_see_my_shit %}
+					{% if u.friends_html and v.can_see(u) %}
 						<p class="text-muted font-weight-bold">Friends:</p>
 						<div id="profile--friends">{{u.friends_html | safe}}</div>
 					{% endif %}
 
-					{% if u.enemies_html and u.can_see_my_shit %}
+					{% if u.enemies_html and v.can_see(u) %}
 						<p class="text-muted font-weight-bold">Enemies:</p>
 						<div id="profile--enemies">{{u.enemies_html | safe}}</div>
 					{% endif %}
@@ -259,7 +259,7 @@
 								<span id="profile--alts">{{alts|length}} Alt{{macros.plural(alts|length)}}:</span>
 							{% endif %}
 							<ul id="profile--alts-list">
-								{% if u.can_see_my_shit %}
+								{% if v.can_see(u) %}
 									{% for account in alts %}
 										<li><a href="{{account.url}}">@{{account.username}}</a>{% if account._is_manual %} [m]{% endif %}</li>
 									{% endfor %}
@@ -315,7 +315,7 @@
 				{{userpage_admintools.userBanBlock('mobile')}}
 				<h5 class=" d-inline-block" id="profile-mobile--name" style="color: #{{u.name_color}}"><span {% if u.patron %}class="patron" style="background-color:#{{u.name_color}}"{% endif %}>{{u.user_name}}</span></h5>
 
-				{% if u.can_see_my_shit and u.username != u.original_username %}
+				{% if v.can_see(u) and u.username != u.original_username %}
 					<span id="profile-mobile--origname">
 						<i class="fas fa-user-tag text-info align-middle ml-2" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true" title="{{ns.og_usernames}}"></i>
 					</span>
@@ -342,11 +342,11 @@
 					<span class="followsyou badge badge-secondary text-small align-middle mx-1" id="profile-mobile--follows-you">Follows you</span>
 				{% endif %}
 
-				{% if FEATURES['PRONOUNS'] and u.can_see_my_shit %}
+				{% if FEATURES['PRONOUNS'] and v.can_see(u) %}
 					<p style="color: #{{u.titlecolor}}" id="profile-mobile--pronouns">{{u.pronouns_display}}</p>
 				{% endif %}
 
-				{% if u.customtitle and u.can_see_my_shit %}
+				{% if u.customtitle and v.can_see(u) %}
 					<p style="color: #{{u.titlecolor}}" id="profile-mobile--flair">{{u.customtitle | safe}}</p>
 				{% endif %}
 
@@ -394,16 +394,16 @@
 				</div>
 
 				{% if FEATURES['USERS_PROFILE_BODYTEXT'] -%}
-					{% if u.bio_html and u.can_see_my_shit %}
+					{% if u.bio_html and v.can_see(u) %}
 						<div class="text-muted text-break mt-1" id="profile-mobile--bio">{{u.bio_html | safe}}</div>
 					{% endif %}
 
-					{% if u.friends_html and u.can_see_my_shit %}
+					{% if u.friends_html and v.can_see(u) %}
 						<p class="text-muted font-weight-bold mt-3">Friends:</p>
 						<div id="profile-mobile--friends">{{u.friends_html | safe}}</div>
 					{% endif %}
 
-					{% if u.enemies_html and u.can_see_my_shit %}
+					{% if u.enemies_html and v.can_see(u) %}
 						<p class="text-muted font-weight-bold mt-3">Enemies:</p>
 						<div id="profile-mobile--enemies">{{u.enemies_html | safe}}</div>
 					{% endif %}
@@ -547,7 +547,7 @@
 							<span id="profile-mobile--alts">{{alts|length}} Alt{{macros.plural(alts|length)}}:</span>
 						{% endif %}
 						<ul id="profile-mobile--alts-list">
-							{% if u.can_see_my_shit %}
+							{% if v.can_see(u) %}
 								{% for account in alts %}
 									<li><a href="{{account.url}}">@{{account.username}}</a>{% if account._is_manual %} [m]{% endif %}</li>
 								{% endfor %}

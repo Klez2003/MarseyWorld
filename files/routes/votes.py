@@ -29,7 +29,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 	else:
 		abort(404)
 
-	if not User.can_see(v, target): abort(403)
+	if not v.can_see(target): abort(403)
 
 	coin_delta = 1
 	if v.id == target.author.id:

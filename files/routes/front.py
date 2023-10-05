@@ -18,7 +18,7 @@ from files.__main__ import app, cache, limiter, redis_instance
 def front_all(v, sub=None):
 	if sub:
 		sub = get_sub_by_name(sub, graceful=True)
-		if sub and not User.can_see(v, sub):
+		if sub and not v.can_see(sub):
 			abort(403)
 
 	if request.path.startswith('/h/') and not sub:
