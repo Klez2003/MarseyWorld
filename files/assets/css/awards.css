@@ -196,9 +196,9 @@
 }
 
 .gold-text:not(a), h1.gold-text.post-title a {
-	--color1: gold;
-	--color2: #e1c317;
-	--color3: #d6b80f;
+    --color1: gold;
+    --color2: #debd00;
+    --color3: #cdae00;
 	font-family: open sans,sans-serif !important;
 	background: repeating-linear-gradient(
 		45deg,
