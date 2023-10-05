@@ -426,8 +426,6 @@ def transfers(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @auth_desired
 def donate(v):
-	if v and (v.shadowbanned or v.chud == 1 or v.is_permabanned):
-		abort(404)
 	return render_template(f'donate.html', v=v)
 
 

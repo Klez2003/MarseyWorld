@@ -5,13 +5,11 @@
 	<div class="overflow-x-auto">
 		<table class="table table-striped mb-5">
 			<tbody>
-				{% if v and v.truescore >= TRUESCORE_MINIMUM %}
-					{% if DONATE_SERVICE != DEFAULT_CONFIG_VALUE %}
-						<tr>
-							<td>{{DONATE_SERVICE}}</td>
-							<td><a rel="nofollow noopener" href="{{DONATE_LINK}}">{{DONATE_LINK}}</a></td>
-						</tr>
-					{% endif %}
+				{% if DONATE_SERVICE != DEFAULT_CONFIG_VALUE and v and v.truescore >= TRUESCORE_MINIMUM and not v.shadowbanned and not v.is_permabanned and v.chud != 1 %}
+					<tr>
+						<td>{{DONATE_SERVICE}}</td>
+						<td><a rel="nofollow noopener" href="{{DONATE_LINK}}">{{DONATE_LINK}}</a></td>
+					</tr>
 				{% endif %}
 				<tr>
 					<td>Ethereum/Brave Attention Token</td>
