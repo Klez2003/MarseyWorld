@@ -135,9 +135,11 @@
 
 			<div class="text-small font-weight-bold mt-1" id="charcount-{{target_fullname}}" style="right: 1rem; bottom: 0.5rem; z-index: 3"></div>
 
-			{{emoji_btn('reply-form-body-' ~ target_fullname)}}
-			{{gif_btn('reply-form-body-' ~ target_fullname)}}
-			{{file_btn('file-upload-reply-' ~ target_fullname)}}
+			<div class="format-btns">
+				{{emoji_btn('reply-form-body-' ~ target_fullname)}}
+				{{gif_btn('reply-form-body-' ~ target_fullname)}}
+				{{file_btn('file-upload-reply-' ~ target_fullname)}}
+			</div>
 
 			<button type="button" id="save-reply-to-{{target_fullname}}" form="reply-to-{{target_fullname}}" class="btn btn-primary text-whitebtn ml-auto fl-r handle_disabled disabled" disabled data-nonce="{{g.nonce}}" data-onclick="post_comment('{{target_fullname}}', '{{hide}}')">Comment</button>
 
@@ -337,8 +339,10 @@
 			<span id="loading-indicator" class="d-none"></span>
 		</div>
 
-		{{emoji_btn('input-text-chat')}}
-		{{file_btn('file', False, True)}}
+		<div class="format-btns">
+			{{emoji_btn('input-text-chat')}}
+			{{file_btn('file', False, True)}}
+		</div>
 
 		<textarea id="input-text-chat" minlength="1" maxlength="{% if SITE == 'rdrama.net' %}200{% else %}1000{% endif %}" {% if g.browser in ("iphone","mac") %}style="font-size:16px!important"{% endif %} class="file-ta form-control ml-2" placeholder="Message" autocomplete="off" autofocus rows="1"></textarea>
 

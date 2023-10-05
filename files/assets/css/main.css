@@ -4557,7 +4557,7 @@ ul.comment-section {
 	padding: 0.5rem 0.75rem;
 	min-height: 84px;
 }
-.comment-format, .ghostdiv {
+.format-btns, .ghostdiv {
 	display: flex;
 	align-items: center;
 	bottom: 0;

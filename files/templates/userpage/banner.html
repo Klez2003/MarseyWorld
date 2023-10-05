@@ -193,9 +193,11 @@
 							<input hidden name="formkey" value="{{v|formkey}}">
 							<textarea autocomplete="off" id="input-message" form="message" name="message" rows="3" minlength="1" maxlength="10000" class="file-ta form-control b2 mt-1" data-preview="message-preview" data-nonce="{{g.nonce}}" data-oninput="markdown(this);handle_disabled(this)"></textarea>
 
-							{{macros.emoji_btn('input-message')}}
-							{{macros.gif_btn('input-message')}}			
-							{{macros.file_btn('file-upload-macro', not get_setting('dm_media'))}}
+							<div class="format-btns">
+								{{macros.emoji_btn('input-message')}}
+								{{macros.gif_btn('input-message')}}			
+								{{macros.file_btn('file-upload-macro', not get_setting('dm_media'))}}
+							</div>
 
 							<div class="d-flex">
 								<input type="submit" data-nonce="{{g.nonce}}" data-onclick="remove_dialog()" value="Submit" class="btn btn-primary ml-auto handle_disabled disabled" disabled>
@@ -496,9 +498,11 @@
 						<input class="mt-1" hidden name="formkey" value="{{v|formkey}}">
 						<textarea autocomplete="off" id="input-message-mobile" form="message-mobile" name="message" rows="3" minlength="1" maxlength="10000" class="file-ta form-control" data-preview="message-preview-mobile" data-nonce="{{g.nonce}}" data-oninput="markdown(this);handle_disabled(this)" required></textarea>
 
-						{{macros.emoji_btn('input-message-mobile')}}
-						{{macros.gif_btn('input-message-mobile')}}		
-						{{macros.file_btn('file-upload-mobile')}}
+						<div class="format-btns">
+							{{macros.emoji_btn('input-message-mobile')}}
+							{{macros.gif_btn('input-message-mobile')}}		
+							{{macros.file_btn('file-upload-mobile')}}
+						</div>
 
 						<div class="d-flex">
 							<input type="submit" data-nonce="{{g.nonce}}" data-onclick="remove_dialog()" value="Submit" class="btn btn-primary ml-auto handle_disabled disabled" disabled>
