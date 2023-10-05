@@ -14,8 +14,9 @@
 			{% for emoji in p.emoji_award_emojis(v, OVER_18_EMOJIS) %}
 				{% set src = '/e/' + emoji + '.webp' %}
 				{% set alt = ':#' + emoji + ':' %}
-				<div class="emoji-award">
-					<img loading="lazy" alt="{{alt}}" src="{{src}}">
+				{% set delay = 'animation-delay-' ~ (loop.index-1) %}
+				<div class="emoji-award {{delay}}">
+					<img class="{{delay}}" loading="lazy" alt="{{alt}}" src="{{src}}">
 				</div>
 			{% endfor %}
 		</div>

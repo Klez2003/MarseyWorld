@@ -323,8 +323,8 @@ class Comment(Base):
 	@lazy
 	def emoji_award_emojis(self, v, OVER_18_EMOJIS):
 		if g.show_nsfw:
-			return [x.note for x in self.awards if x.kind == "emoji"][:4]
-		return [x.note for x in self.awards if x.kind == "emoji" and x.note not in OVER_18_EMOJIS][:4]
+			return [x.note for x in self.awards if x.kind == "emoji"][:10]
+		return [x.note for x in self.awards if x.kind == "emoji" and x.note not in OVER_18_EMOJIS][:10]
 
 	@property
 	@lazy
