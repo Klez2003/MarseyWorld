@@ -109,7 +109,7 @@ def get_logged_in_user():
 
 	g.v = v
 	if v:
-		g.vid = v.username
+		g.username = v.username
 
 	if not v and SITE == 'rdrama.net' and request.headers.get("Cf-Ipcountry") == 'EG':
 		abort(404)

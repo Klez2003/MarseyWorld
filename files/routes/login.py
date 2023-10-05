@@ -115,7 +115,7 @@ def on_login(account, redir=None):
 	session.permanent = True
 	session["lo_user"] = account.id
 	g.v = account
-	g.vid = account.username
+	g.username = account.username
 	session["login_nonce"] = account.login_nonce
 	check_for_alts(account, include_current_session=True)
 
@@ -342,7 +342,7 @@ def sign_up_post(v):
 	session.permanent = True
 	session["lo_user"] = new_user.id
 	g.v = new_user
-	g.vid = new_user.username
+	g.username = new_user.username
 
 	check_for_alts(new_user, include_current_session=True)
 	send_notification(new_user.id, WELCOME_MSG)
