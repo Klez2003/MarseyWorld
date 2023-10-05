@@ -116,6 +116,7 @@ document.getElementById('gifs-back-btn').addEventListener('click', show_gif_cate
 async function searchGifs(searchTerm) {
 
 	gifSearchBar.value = searchTerm;
+	noGIFs.classList.add("d-none");
 
 	container.innerHTML = '';
 
