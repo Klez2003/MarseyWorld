@@ -390,11 +390,11 @@ def award_thing(v, thing_type, id):
 		if not new_name and author.flairchanged:
 			author.flairchanged += 86400
 		else:
-			author.customtitleplain = new_name
+			author.flair = new_name
 			new_name = filter_emojis_only(new_name)
 			new_name = censor_slurs_profanities(new_name, None)
 			if len(new_name) > 1000: abort(403)
-			author.customtitle = new_name
+			author.flair_html = new_name
 			author.flairchanged = int(time.time()) + 86400
 			badge_grant(user=author, badge_id=96)
 	elif kind == "namelock":

@@ -909,12 +909,12 @@ def admin_change_flair(user_id, v):
 
 	new_flair = request.values.get("title")[:256].strip()
 
-	user.customtitleplain = new_flair
+	user.flair = new_flair
 	new_flair = filter_emojis_only(new_flair)
 	new_flair = censor_slurs_profanities(new_flair, None)
 
 	user = get_account(user.id)
-	user.customtitle = new_flair
+	user.flair_html = new_flair
 	if request.values.get("locked"):
 		user.flairchanged = int(time.time()) + 2629746
 		badge_grant(user=user, badge_id=96)
@@ -937,9 +937,9 @@ def admin_change_flair(user_id, v):
 	g.db.add(ma)
 
 	if user.flairchanged:
-		message = f"@{v.username} (a site admin) has locked your flair to `{user.customtitleplain}`."
+		message = f"@{v.username} (a site admin) has locked your flair to `{user.flair}`."
 	else:
-		message = f"@{v.username} (a site admin) has changed your flair to `{user.customtitleplain}`. You can change it back in the settings."
+		message = f"@{v.username} (a site admin) has changed your flair to `{user.flair}`. You can change it back in the settings."
 
 	send_repeatable_notification(user.id, message)
 

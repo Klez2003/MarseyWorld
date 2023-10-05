@@ -176,8 +176,8 @@
 					{% if FEATURES['PRONOUNS'] %}
 						<span class="pronouns" style="color:#{{c.author.titlecolor}};border-color:#{{c.author.titlecolor}}">{{c.author.pronouns_display}}</span>
 					{% endif %}
-					{% if c.author.customtitle %}
-						&nbsp;<bdi class="text-break" style="color: #{{c.author.titlecolor}}">&nbsp;{{c.author.customtitle | safe}}</bdi>
+					{% if c.author.flair_html %}
+						&nbsp;<bdi class="text-break" style="color: #{{c.author.titlecolor}}">&nbsp;{{c.author.flair_html | safe}}</bdi>
 					{% endif %}
 				{% endif %}
 

@@ -56,8 +56,8 @@ class User(Base):
 	namecolor = Column(String, default=DEFAULT_COLOR)
 	background = Column(String)
 	profile_background = Column(String)
-	customtitle = Column(String)
-	customtitleplain = deferred(Column(String))
+	flair = deferred(Column(String))
+	flair_html = Column(String)
 	titlecolor = Column(String, default=DEFAULT_COLOR)
 	theme = Column(String, default=DEFAULT_THEME)
 	themecolor = Column(String, default=DEFAULT_COLOR)
@@ -412,7 +412,7 @@ class User(Base):
 		if self.patron: return True
 		if self.is_permabanned or self.shadowbanned: return False
 		if self.chud: return False
-		if self.profile_url.startswith('/e/') and not self.customtitle and self.namecolor == DEFAULT_COLOR: return False
+		if self.profile_url.startswith('/e/') and not self.flair_html and self.namecolor == DEFAULT_COLOR: return False
 		return True
 
 	@lazy
@@ -1026,7 +1026,8 @@ class User(Base):
 				'bannerurl': self.banner_url,
 				'bio': self.bio,
 				'bio_html': self.bio_html_eager,
-				'flair': self.customtitle,
+				'flair': self.flair,
+				'flair_html': self.flair_html,
 				'badges': [x.json for x in self.ordered_badges],
 				'coins': self.coins,
 				'post_count': self.real_post_count(g.v),

@@ -899,19 +899,19 @@ def process_settings_plaintext(value, current, length, default_value):
 def settings_change_flair(v):
 	if v.flairchanged: abort(403)
 
-	customtitleplain = process_settings_plaintext("title", v.customtitleplain, 100, None)
+	flair = process_settings_plaintext("title", v.flair, 100, None)
 
-	if customtitleplain:
-		customtitle = filter_emojis_only(customtitleplain)
-		customtitle = censor_slurs_profanities(customtitle, None)
+	if flair:
+		flair_html = filter_emojis_only(flair)
+		flair_html = censor_slurs_profanities(flair_html, None)
 
-		if len(customtitle) > 1000:
+		if len(flair_html) > 1000:
 			abort(400, "Flair too long!")
 	else:
-		customtitle = None
+		flair_html = None
 
-	v.customtitleplain = customtitleplain
-	v.customtitle = customtitle
+	v.flair = flair
+	v.flair_html = flair_html
 	g.db.add(v)
 
 	return {"message": "Flair successfully updated!"}
