@@ -4570,8 +4570,8 @@ ul.comment-section {
 	padding: 0.3rem 0.4rem;
 	font-size: 1rem;
 	color: var(--gray-200);
-    margin-top: auto !important;
-    margin-bottom: auto !important;
+	margin-top: auto !important;
+	margin-bottom: auto !important;
 }
 .format:hover {
 	color: var(--black);
