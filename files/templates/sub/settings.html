@@ -6,7 +6,7 @@
 <div class="title mt-5">
 	<label class="text-lg" for="stealth">Stealth Mode</label>
 </div>
-<div class="d-inline-block w-lg-100">
+<div class="d-inline-block w-lg-100 pt-1 pt-lg-3">
 	<div class="custom-control custom-switch">
 		<input autocomplete="off" type="checkbox" class="custom-control-input" id="stealth" name="stealth" {% if sub.stealth %}checked{% endif %} data-nonce="{{g.nonce}}" data-onchange="postToastSwitch(this,'/h/{{sub}}/stealth')">
 		<label class="custom-control-label" for="stealth"></label>

@@ -3256,6 +3256,9 @@ a.bg-light:hover, a.bg-light:focus, button.bg-light:hover, button.bg-light:focus
 }
 
 @media (min-width: 992px) {
+	.pt-lg-3 {
+		padding-top: 1rem !important;
+	}
 	.mx-lg-5 {
 		margin-right: 3rem !important;
 	}
@@ -7642,4 +7645,10 @@ ul {
 [pride_username].patron {
 	-webkit-animation: lgbt-patron 8s linear infinite;
 	animation: lgbt-patron 8s linear infinite;
+}
+
+@media (max-width: 768px) or (min-width: 992px) {
+	#sidebar-btn {
+		display: None !important;
+	}
 }
