@@ -294,12 +294,12 @@ def surl_and_thumbnail_thread(post_url, post_body, post_body_html, pid, generate
 	#s_url
 	dirty = False
 
-	if post_url and reddit_s_url_sub_regex.fullmatch(post_url):
+	if post_url and reddit_s_url_regex.fullmatch(post_url):
 		post_url = reddit_s_url_cleaner(post_url)
 		dirty = True
 
 	if post_body:
-		for i in reddit_s_url_sub_regex.finditer(post_body):
+		for i in reddit_s_url_regex.finditer(post_body):
 			old = i.group(0)
 			new = reddit_s_url_cleaner(old)
 			post_body = post_body.replace(old, new)
