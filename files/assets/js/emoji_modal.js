@@ -540,11 +540,18 @@ function insertGhostDivs(element) {
 
 const emojiModal = document.getElementById('emojiModal')
 
+function loadEmojis(t, inputTargetIDName)
 {
 	selecting = false;
 	speed_carot_modal.style.display = "none";
 
 	emojiInputTargetDOM = document.getElementById(inputTargetIDName);
+
+	if (t.dataset.previousModal) {
+		emojiModal.addEventListener('hide.bs.modal', () => {
+			bootstrap.Modal.getOrCreateInstance(document.getElementById(t.dataset.previousModal)).show()
+		}, {once : true});	
+	}
 
 	emojiModal.addEventListener('hide.bs.modal', () => {
 		setTimeout(() => {

@@ -56,6 +56,7 @@
 				<div id="note_section">
 					<label id="notelabel" for="note" class="pt-4">Note (optional):</label>
 					<textarea autocomplete="off" id="note" maxlength="200" class="form-control" placeholder="Note to include in award notification..."></textarea>
+					{{macros.emoji_btn('note', 'awardModal')}}
 				</div>
 
 				<input autocomplete="off" id="giveaward" class="awardbtn btn btn-primary mt-3 fl-r" type="submit" data-nonce="{{g.nonce}}" data-onclick="giveaward(this)" value="Give Award" data-bs-dismiss="modal" disabled>
