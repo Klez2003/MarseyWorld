@@ -143,7 +143,9 @@ def process_video(file, v):
 
 	new = f'{old}.mp4'
 
-	if file.content_type != 'video/mp4':
+	codec = ffmpeg.probe(old)['streams'][0]['codec_name']
+
+	if codec != 'h264':
 		copyfile(old, new)
 		gevent.spawn(convert_to_mp4, old, new)
 	else:
