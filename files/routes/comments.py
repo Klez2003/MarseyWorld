@@ -277,7 +277,6 @@ def comment(v):
 				ghost=ghost,
 				chudded=chudded,
 				rainbowed=bool(v.rainbow),
-				golden=bool(v.king),
 				queened=bool(v.queen),
 				sharpened=bool(v.sharpen),
 			)

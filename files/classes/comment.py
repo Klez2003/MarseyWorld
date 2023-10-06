@@ -26,10 +26,10 @@ def get_award_classes(obj, v, title=False):
 	if not (v and v.poor):
 		if obj.award_count('glowie', v):
 			classes.append("glow")
+		if obj.award_count('gold', v):
+			classes.append("gold-text")
 		if obj.rainbowed:
 			classes.append("rainbow-text")
-		# if obj.golden:
-		# 	classes.append("gold-text")
 		if obj.queened:
 			classes.append("queen")
 		if obj.sharpened:
@@ -197,7 +197,6 @@ class Comment(Base):
 	casino_game_id = Column(Integer, ForeignKey("casino_games.id"))
 	chudded = Column(Boolean, default=False)
 	rainbowed = Column(Boolean, default=False)
-	golden = Column(Boolean, default=False)
 	queened = Column(Boolean, default=False)
 	sharpened = Column(Boolean, default=False)
 

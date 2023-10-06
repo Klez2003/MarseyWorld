@@ -571,7 +571,6 @@ def submit_post(v, sub=None):
 		ghost=flag_ghost,
 		chudded=flag_chudded,
 		rainbowed=bool(v.rainbow),
-		golden=bool(v.king),
 		queened=bool(v.queen),
 		sharpened=bool(v.sharpen),
 	)
