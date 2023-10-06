@@ -199,10 +199,6 @@
 	background-color: var(--gray-300);
 }
 
-.comment-actions .score {
-	color: var(--white);
-}
-
 .transparent {
 	background: None !important;
 }
