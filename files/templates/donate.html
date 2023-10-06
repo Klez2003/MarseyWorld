@@ -5,7 +5,7 @@
 	<div class="overflow-x-auto">
 		<table class="table table-striped mb-5">
 			<tbody>
-				{% if DONATE_SERVICE != DEFAULT_CONFIG_VALUE and v and v.truescore >= TRUESCORE_MINIMUM and not v.shadowbanned and not v.is_permabanned and v.chud != 1 %}
+				{% if DONATE_SERVICE != DEFAULT_CONFIG_VALUE and v and v.can_see_countryclub and v.chud != 1 %}
 					<tr>
 						<td>{{DONATE_SERVICE}}</td>
 						<td><a rel="nofollow noopener" href="{{DONATE_LINK}}">{{DONATE_LINK}}</a></td>
