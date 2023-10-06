@@ -193,7 +193,7 @@
 	background: repeating-linear-gradient(
 		135deg,
 		violet,
-		rgb(178, 94, 238) 20px,
+		#b25eee 20px,
 		lightblue 40px,
 		green 60px,
 		yellow 80px,
@@ -208,18 +208,12 @@
 }
 
 .gold-text:not(a), h1.gold-text.post-title a {
-    --color1: gold;
-    --color2: #debd00;
-    --color3: #cdae00;
 	font-family: open sans,sans-serif !important;
 	background: repeating-linear-gradient(
 		45deg,
-		var(--color1),
-		var(--color1) 10px,
-		var(--color2) 20px,
-		var(--color2) 20px,
-		var(--color3) 60px,
-		var(--color3) 60px
+		gold,
+		#debd00 20px,
+		#cdae00 60px
 	);
 	color: transparent !important;
 	font-weight: 700 !important;

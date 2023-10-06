@@ -491,12 +491,9 @@ body::after {
 	font-family: "Open Sans", sans-serif !important;
 	background: repeating-linear-gradient(
 		45deg,
-		var(--color1),
-		var(--color1) 10px,
-		var(--color2) 20px,
-		var(--color2) 20px,
-		var(--color3) 60px,
-		var(--color3) 60px
+		#fdfbda,
+		#f66a3c 20px,
+		#fbed21 60px
 	);
 	background-clip: text;
 	color: transparent !important;

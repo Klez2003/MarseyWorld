@@ -1,10 +1,11 @@
 #post-title, #post-content p {
 	--color1: rgb(12, 128, 101);
-	--color2: #cc4145;
+	--color2: ;
 	font-family: "Open Sans", sans-serif;
 	background: repeating-linear-gradient(
-		45deg, var(--color2), var(--color2) 10px,
-		var(--color1) 11px, var(--color1) 30px
+		45deg,
+		#cc4145,
+		#0c8065 11px
 	);
 	background-clip: text;
 	color: transparent;
