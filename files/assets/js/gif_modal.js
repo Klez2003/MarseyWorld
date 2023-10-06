@@ -15,7 +15,9 @@ function insertGIF(url) {
 	if (typeof checkForRequired === "function") checkForRequired();
 }
 
-document.getElementById('gifModal').addEventListener('shown.bs.modal', function () {
+const gifModal = document.getElementById('gifModal')
+
+gifModal.addEventListener('shown.bs.modal', function () {
 	focusSearchBar(gifSearchBar);
 	setTimeout(() => {
 		focusSearchBar(gifSearchBar);
@@ -109,6 +111,12 @@ async function show_gif_categories(form) {
 	for (const element of overlays) {
 		element.addEventListener('click', () => {searchGifs(element.firstElementChild.innerHTML)});
 	}
+
+	gifModal.addEventListener('hide.bs.modal', () => {
+		setTimeout(() => {
+			document.getElementById(commentFormID).focus();
+		}, 200);
+	}, {once : true});
 }
 
 document.getElementById('gifs-back-btn').addEventListener('click', show_gif_categories);
