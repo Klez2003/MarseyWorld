@@ -7243,9 +7243,10 @@ input[type=number] {
 	min-height: 100px;
 }
 
-#note {
+#note, #coin-transfer-reason, #bux-transfer-reason, #coin-transfer-reason-mobile, #bux-transfer-reason-mobile  {
 	min-height: 60px;
 }
+
 #notelabel {
 	font-size: 16px;
 }

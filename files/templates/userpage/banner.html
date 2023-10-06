@@ -208,15 +208,25 @@
 
 						<div class="d-none mt-3 toggleable" id="coin-transfer">
 							<input autocomplete="off" id="coin-transfer-amount" class="form-control" name="amount" type="number" data-nonce="{{g.nonce}}" data-oninput="updateTax()">
-							<input autocomplete="off" id="coin-transfer-reason" maxlength=200 type="text" class="form-control" name="reason" placeholder="Gift message! (optional)">
-							<div>{{u.username}} will receive <span id="coins-transfer-taxed">0</span> coins</div>
+							<textarea autocomplete="off" id="coin-transfer-reason" maxlength=200 type="text" class="form-control" name="reason" placeholder="Gift message! (optional)"></textarea>
+							<div class="d-flex">
+								{{macros.emoji_btn('coin-transfer-reason')}}
+							</div>
+							<div class="mt-1">
+								{{u.username}} will receive <span id="coins-transfer-taxed">0</span> coins
+							</div>
 							<button type="button" class="btn btn-primary mt-2 mb-3" data-nonce="{{g.nonce}}" data-onclick="transferCoins(this)">Gift</button>
 						</div>
 
 						<div class="d-none mt-3 toggleable" id="bux-transfer">
 							<input autocomplete="off" id="bux-transfer-amount" class="form-control" name="amount" type="number" data-nonce="{{g.nonce}}" data-oninput="updateBux()">
-							<input autocomplete="off" id="bux-transfer-reason" type="text" class="form-control" name="reason" placeholder="Gift message! (optional)">
-							<div>{{u.username}} will receive <span id="bux-transfer-taxed">0</span> marseybux</div>
+							<textarea autocomplete="off" id="bux-transfer-reason" type="text" class="form-control" name="reason" placeholder="Gift message! (optional)"></textarea>
+							<div class="d-flex">
+								{{macros.emoji_btn('bux-transfer-reason')}}
+							</div>
+							<div class="mt-1">
+								{{u.username}} will receive <span id="bux-transfer-taxed">0</span> marseybux
+							</div>
 							<button type="button" class="btn btn-primary mt-2 mb-3" data-nonce="{{g.nonce}}" data-onclick="transferBux(this)">Gift</button>
 						</div>
 
@@ -513,15 +523,25 @@
 
 					<div class="d-none mt-3 toggleable" id="coin-transfer-mobile">
 						<input autocomplete="off" id="coin-transfer-amount-mobile" class="form-control" name="amount" type="number" data-nonce="{{g.nonce}}" data-oninput="updateTax(true)">
-						<input autocomplete="off" id="coin-transfer-reason-mobile" maxlength=200 type="text" class="form-control" name="reason" placeholder="Gift message! (optional)">
-						<div>{{u.username}} will receive <span id="coins-transfer-taxed-mobile">0</span> coins</div>
+						<textarea autocomplete="off" id="coin-transfer-reason-mobile" maxlength=200 type="text" class="form-control" name="reason" placeholder="Gift message! (optional)"></textarea>
+						<div class="d-flex">
+							{{macros.emoji_btn('coin-transfer-reason-mobile')}}
+						</div>
+						<div>
+							{{u.username}} will receive <span id="coins-transfer-taxed-mobile">0</span> coins
+						</div>
 						<button type="button" class="btn btn-primary mt-2 mb-3" data-nonce="{{g.nonce}}" data-onclick="transferCoins(this, true)">Gift</button>
 					</div>
 
 					<div class="d-none mt-3 toggleable" id="bux-transfer-mobile">
 						<input autocomplete="off" id="bux-transfer-amount-mobile" class="form-control" name="amount" type="number" data-nonce="{{g.nonce}}" data-oninput="updateBux(true)">
-						<input autocomplete="off" id="bux-transfer-reason-mobile" type="text" class="form-control" name="reason" placeholder="Gift message! (optional)">
-						<div>{{u.username}} will receive <span id="bux-transfer-taxed-mobile">0</span> marseybux</div>
+						<textarea autocomplete="off" id="bux-transfer-reason-mobile" type="text" class="form-control" name="reason" placeholder="Gift message! (optional)"></textarea>
+						<div class="d-flex">
+							{{macros.emoji_btn('bux-transfer-reason-mobile')}}
+						</div>
+						<div>
+							{{u.username}} will receive <span id="bux-transfer-taxed-mobile">0</span> marseybux
+						</div>
 						<button type="button" class="btn btn-primary mt-2 mb-3" data-nonce="{{g.nonce}}" data-onclick="transferBux(this, true)">Gift</button>
 					</div>
 					{{userpage_admintools.userAdminTools('mobile')}}
