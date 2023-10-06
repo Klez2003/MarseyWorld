@@ -7624,12 +7624,12 @@ ul {
 
 .zozbot, :not(td) > a[href="/h/countryclub"], [pride_username] {
 	color: red;
-	animation: lgbt 1.5s linear infinite;
+	animation: lgbt 3s linear infinite;
 }
 
 [pride_username].patron {
 	background-color: red;
-	animation: lgbt 1.5s linear infinite;
+	animation: lgbt 2s linear infinite;
 }
 
 @media (max-width: 768px) or (min-width: 992px) {
