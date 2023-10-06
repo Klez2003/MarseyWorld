@@ -776,6 +776,9 @@ def commenters(v, pid, time):
 def postprocess_comment(comment_body, comment_body_html, cid):
 	with app.app_context():
 		li = list(reddit_s_url_regex.finditer(comment_body)) + list(tiktok_t_url_regex.finditer(comment_body))
+
+		if not li: return
+
 		for i in li:
 			old = i.group(0)
 			new = normalize_url_gevent(old)
