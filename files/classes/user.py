@@ -370,14 +370,14 @@ class User(Base):
 			if self.is_cakeday:
 				return ('/i/hats/Cakeday.webp', "I've spent another year rotting my brain with dramaposting, please ridicule me 🤓")
 
-			if self.new_user:
-				return ('/i/new-user.webp', "Hi, I'm new here! Please be gentle :)")
-
 			if self.forced_hat:
 				return (f'{SITE_FULL_IMAGES}/i/hats/{self.forced_hat[0]}.webp', self.forced_hat[1])
 
 			if self.equipped_hat:
 				return (f'{SITE_FULL_IMAGES}/i/hats/{self.equipped_hat.name}.webp', self.equipped_hat.name + ' - ' + self.equipped_hat.censored_description(v))
+
+			if self.new_user:
+				return ('/i/new-user.webp', "Hi, I'm new here! Please be gentle :)")
 
 		return ('', '')
 
