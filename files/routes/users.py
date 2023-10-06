@@ -1368,11 +1368,12 @@ if KOFI_TOKEN:
 @app.post("/bm")
 @limiter.exempt
 def bm():
+	print('fuck', flush=True)
+	print(request.headers.get('CF-Connecting-IP'), flush=True)
 	print([x for x in request.form.items()], flush=True)
 	data = json.loads(request.values['data'])
 	print(data, flush=True)
 
-	print(request.headers.get('CF-Connecting-IP'), flush=True)
 	# id = data['kofi_transaction_id']
 	# created_utc = int(time.mktime(time.strptime(data['timestamp'].split('.')[0], "%Y-%m-%dT%H:%M:%SZ")))
 	# type = data['type']
