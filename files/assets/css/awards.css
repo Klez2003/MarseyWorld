@@ -228,10 +228,6 @@
 	animation: 60s linear 0s infinite move-colors;
 }
 
-.gold-text img {
-	filter: sepia(1) saturate(2)
-}
-
 .queen:not(a):not(.ectoplasm), h1.queen.post-title a {
 	color: hotpink !important;
 	font-weight: 700 !important;
