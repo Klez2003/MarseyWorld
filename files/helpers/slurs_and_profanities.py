@@ -32,6 +32,7 @@ SLURS = {
 if SITE_NAME == 'rDrama':
 	SLURS |= {
 		"retarded": "r-slurred",
+		"a retard": "an r-slur",
 		"retard": "r-slur",
 		"pedophile": "p-dophile",
 		"kill youself": "keep yourself safe",
