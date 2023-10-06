@@ -7639,13 +7639,11 @@ ul {
 }
 
 .zozbot, :not(td) > a[href="/h/countryclub"], [pride_username] {
-	-webkit-animation: lgbt 8s linear infinite;
-	animation: lgbt 8s linear infinite;
+	animation: lgbt 8s steps(20, jump-end) infinite;
 }
 
 [pride_username].patron {
-	-webkit-animation: lgbt-patron 8s linear infinite;
-	animation: lgbt-patron 8s linear infinite;
+	animation: lgbt-patron 8s steps(20, jump-end) infinite;
 }
 
 @media (max-width: 768px) or (min-width: 992px) {
