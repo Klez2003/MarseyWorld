@@ -127,7 +127,9 @@
 		<link rel="stylesheet" href="{{('css/themes/'~DEFAULT_THEME~'.css') | asset}}">
 	{% endif %}
 
-	<link rel="stylesheet" href="{{'css/awards.css' | asset}}">
+	{% if not (v and v.poor) %}
+		<link rel="stylesheet" href="{{'css/awards.css' | asset}}">
+	{% endif %}
 
 	{% if IS_HOMOWEEN() %}
 		<link rel="stylesheet" href="{{'events/homoween/css/main_homoween.css' | asset}}">
