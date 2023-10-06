@@ -114,8 +114,8 @@
 	</button>
 {% endmacro %}
 
-{% macro gif_btn(textarea_id) %}
-	<button type="button" class="btn btn-secondary format m-0 mr-1 font-weight-bolder text-uppercase" data-nonce="{{g.nonce}}" data-onclick="show_gif_categories('{{textarea_id}}')" data-bs-toggle="modal" data-bs-target="#gifModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add GIF">GIF</button>
+{% macro gif_btn(textarea_id, previous_modal) %}
+	<button type="button" class="btn btn-secondary format m-0 mr-1 font-weight-bolder text-uppercase" data-nonce="{{g.nonce}}" data-onclick="show_gif_categories(this, '{{textarea_id}}')" data-bs-toggle="modal" data-bs-target="#gifModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add GIF" {% if previous_modal %}data-previous-modal="{{previous_modal}}"{% endif %}>GIF</button>
 {% endmacro %}
 
 {% macro file_btn(input_id, disabled, image_only) %}
