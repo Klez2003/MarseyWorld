@@ -538,12 +538,19 @@ function insertGhostDivs(element) {
 	});
 }
 
-function loadEmojis(inputTargetIDName)
+const emojiModal = document.getElementById('emojiModal')
+
 {
 	selecting = false;
 	speed_carot_modal.style.display = "none";
 
-	if (inputTargetIDName) emojiInputTargetDOM = document.getElementById(inputTargetIDName);
+	emojiInputTargetDOM = document.getElementById(inputTargetIDName);
+
+	emojiModal.addEventListener('hide.bs.modal', () => {
+		setTimeout(() => {
+			emojiInputTargetDOM.focus();
+		}, 200);
+	}, {once : true});	
 
 	switch (emojiEngineState) {
 		case "inactive":
