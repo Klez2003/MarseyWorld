@@ -178,8 +178,7 @@ CREATE TABLE public.users (
     lifetimedonated integer NOT NULL,
     lifetimedonated_visible boolean NOT NULL,
     jumpscare integer DEFAULT 0 NOT NULL,
-    zombie integer DEFAULT 0 NOT NULL,
-    king integer
+    zombie integer DEFAULT 0 NOT NULL
 );
 
 
@@ -455,8 +454,7 @@ CREATE TABLE public.comments (
     ping_cost integer NOT NULL,
     rainbowed boolean NOT NULL,
     queened boolean NOT NULL,
-    sharpened boolean NOT NULL,
-    golden boolean NOT NULL
+    sharpened boolean NOT NULL
 );
 
 
@@ -805,8 +803,7 @@ CREATE TABLE public.posts (
     bump_utc integer NOT NULL,
     rainbowed boolean NOT NULL,
     queened boolean NOT NULL,
-    sharpened boolean NOT NULL,
-    golden boolean NOT NULL
+    sharpened boolean NOT NULL
 );
 
 
