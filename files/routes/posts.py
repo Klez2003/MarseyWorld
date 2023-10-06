@@ -287,118 +287,119 @@ def expand_url(post_url, fragment_url):
 		return f"{post_url}/{fragment_url}"
 
 
-def reddit_s_url_cleaner(url):
-	return normalize_url(requests.get(url, headers=HEADERS, timeout=2, proxies=proxies).url)
+def cancer_url_cleaner(url):
+	try: url = requests.get(url, headers=HEADERS, timeout=2, proxies=proxies).url
+	except: return url
+	return normalize_url(url)
 
-def surl_and_thumbnail_thread(post_url, post_body, post_body_html, pid, generate_thumb):
-	#s_url
-	dirty = False
+def postprocess_post(post_url, post_body, post_body_html, pid, generate_thumb, edit):
+	with app.app_context():
+		if post_url and (reddit_s_url_regex.fullmatch(post_url) or tiktok_t_url_regex.fullmatch(post_url)):
+			post_url = cancer_url_cleaner(post_url)
 
-	if post_url and reddit_s_url_regex.fullmatch(post_url):
-		post_url = reddit_s_url_cleaner(post_url)
-		dirty = True
+		if post_body:
+			li = list(reddit_s_url_regex.finditer(post_body)) + list(tiktok_t_url_regex.finditer(post_body))
+			for i in li:
+				old = i.group(0)
+				new = cancer_url_cleaner(old)
+				post_body = post_body.replace(old, new)
+				post_body_html = post_body_html.replace(old, new)
 
-	if post_body:
-		for i in reddit_s_url_regex.finditer(post_body):
-			old = i.group(0)
-			new = reddit_s_url_cleaner(old)
-			post_body = post_body.replace(old, new)
-			post_body_html = post_body_html.replace(old, new)
-			dirty = True
+		g.db = db_session()
 
-	if dirty:
-		db = db_session()
-
-		p = db.query(Post).filter_by(id=pid).options(load_only(Post.id)).one_or_none()
+		p = g.db.query(Post).filter_by(id=pid).options(load_only(Post.id)).one_or_none()
 		p.url = post_url
 		p.body = post_body
 		p.body_html = post_body_html
+		g.db.add(p)
 
-		db.add(p)
-		db.commit()
-		db.close()
+		if not p.private and not edit:
+			execute_snappy(p, p.author)
 
-	stdout.flush()
+		g.db.commit()
+		g.db.close()
+
+		stdout.flush()
 
 
-	#thumbnail
-	if not generate_thumb: return
+		#thumbnail
+		if not generate_thumb: return
 
-	if post_url.startswith('/') and '\\' not in post_url:
-		post_url = f"{SITE_FULL}{post_url}"
+		if post_url.startswith('/') and '\\' not in post_url:
+			post_url = f"{SITE_FULL}{post_url}"
 
-	try:
-		x = requests.get(post_url, headers=HEADERS, timeout=5, proxies=proxies)
-	except:
-		return
+		try:
+			x = requests.get(post_url, headers=HEADERS, timeout=5, proxies=proxies)
+		except:
+			return
 
-	if x.status_code != 200:
-		return
+		if x.status_code != 200:
+			return
 
-	if x.headers.get("Content-Type","").startswith("text/html"):
-		soup = BeautifulSoup(x.content, 'lxml')
+		if x.headers.get("Content-Type","").startswith("text/html"):
+			soup = BeautifulSoup(x.content, 'lxml')
 
-		thumb_candidate_urls = []
+			thumb_candidate_urls = []
 
-		for tag_name in ("twitter:image", "og:image", "thumbnail"):
-			tag = soup.find('meta', attrs={"name": tag_name, "content": True})
-			if not tag:
-				tag = soup.find('meta', attrs={"property": tag_name, "content": True})
-			if tag:
-				thumb_candidate_urls.append(expand_url(post_url, tag['content']))
+			for tag_name in ("twitter:image", "og:image", "thumbnail"):
+				tag = soup.find('meta', attrs={"name": tag_name, "content": True})
+				if not tag:
+					tag = soup.find('meta', attrs={"property": tag_name, "content": True})
+				if tag:
+					thumb_candidate_urls.append(expand_url(post_url, tag['content']))
 
-		for tag in soup.find_all("img", attrs={'src': True}):
-			thumb_candidate_urls.append(expand_url(post_url, tag['src']))
+			for tag in soup.find_all("img", attrs={'src': True}):
+				thumb_candidate_urls.append(expand_url(post_url, tag['src']))
 
-		for url in thumb_candidate_urls:
-			try:
-				image_req = requests.get(url, headers=HEADERS, timeout=5, proxies=proxies)
-			except:
-				continue
-
-			if image_req.status_code >= 400:
-				continue
-
-			if not image_req.headers.get("Content-Type","").startswith("image/"):
-				continue
-
-			if image_req.headers.get("Content-Type","").startswith("image/svg"):
-				continue
-
-			with Image.open(BytesIO(image_req.content)) as i:
-				if i.width < 30 or i.height < 30:
+			for url in thumb_candidate_urls:
+				try:
+					image_req = requests.get(url, headers=HEADERS, timeout=5, proxies=proxies)
+				except:
 					continue
-			break
+
+				if image_req.status_code >= 400:
+					continue
+
+				if not image_req.headers.get("Content-Type","").startswith("image/"):
+					continue
+
+				if image_req.headers.get("Content-Type","").startswith("image/svg"):
+					continue
+
+				with Image.open(BytesIO(image_req.content)) as i:
+					if i.width < 30 or i.height < 30:
+						continue
+				break
+			else:
+				return
+		elif x.headers.get("Content-Type","").startswith("image/"):
+			image_req = x
+			with Image.open(BytesIO(x.content)) as i:
+				size = len(i.fp.read())
+				if size > 8 * 1024 * 1024:
+					return
 		else:
 			return
-	elif x.headers.get("Content-Type","").startswith("image/"):
-		image_req = x
-		with Image.open(BytesIO(x.content)) as i:
-			size = len(i.fp.read())
-			if size > 8 * 1024 * 1024:
-				return
-	else:
-		return
 
-	name = f'/images/{time.time()}'.replace('.','') + '.webp'
+		name = f'/images/{time.time()}'.replace('.','') + '.webp'
 
-	with open(name, "wb") as file:
-		for chunk in image_req.iter_content(1024):
-			file.write(chunk)
+		with open(name, "wb") as file:
+			for chunk in image_req.iter_content(1024):
+				file.write(chunk)
 
-	db = db_session()
+		g.db = db_session()
 
-	p = db.query(Post).filter_by(id=pid).options(load_only(Post.author_id)).one_or_none()
+		p = g.db.query(Post).filter_by(id=pid).options(load_only(Post.author_id)).one_or_none()
 
-	thumburl = process_image(name, None, resize=99, uploader_id=p.author_id, db=db)
+		thumburl = process_image(name, None, resize=99, uploader_id=p.author_id)
 
-	if thumburl:
-		p.thumburl = thumburl
-		db.add(p)
+		if thumburl:
+			p.thumburl = thumburl
+			g.db.add(p)
 
-	db.commit()
-	db.close()
-	stdout.flush()
+		g.db.commit()
+		g.db.close()
+		stdout.flush()
 
 
 @app.post("/is_repost")
@@ -698,13 +699,10 @@ def submit_post(v, sub=None):
 	cache.delete_memoized(frontlist)
 	cache.delete_memoized(userpagelisting)
 
-	if not p.private:
-		execute_snappy(p, v)
-
 	g.db.flush() #Necessary, do NOT remove
 
 	generate_thumb = (not p.thumburl and p.url and p.domain != SITE)
-	gevent.spawn(surl_and_thumbnail_thread, p.url, p.body, p.body_html, p.id, generate_thumb)
+	gevent.spawn(postprocess_post, p.url, p.body, p.body_html, p.id, generate_thumb, False)
 
 	if v.client: return p.json
 	else:
@@ -1054,7 +1052,7 @@ def edit_post(pid, v):
 
 		process_poll_options(v, p)
 
-		gevent.spawn(surl_and_thumbnail_thread, p.url, p.body, p.body_html, p.id, False)
+		gevent.spawn(postprocess_post, p.url, p.body, p.body_html, p.id, False, True)
 
 
 	if not complies_with_chud(p):

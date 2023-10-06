@@ -172,7 +172,7 @@ def process_video(file, v):
 	else:
 		return f"{SITE_FULL}{new}"
 
-def process_image(filename, v, resize=0, trim=False, uploader_id=None, db=None):
+def process_image(filename, v, resize=0, trim=False, uploader_id=None):
 	# thumbnails are processed in a thread and not in the request context
 	# if an image is too large or webp conversion fails, it'll crash
 	# to avoid this, we'll simply return None instead
@@ -248,10 +248,8 @@ def process_image(filename, v, resize=0, trim=False, uploader_id=None, db=None):
 					os.remove(filename)
 					return None
 
-	db = db or g.db
-
-	media = db.query(Media).filter_by(filename=filename, kind='image').one_or_none()
-	if media: db.delete(media)
+	media = g.db.query(Media).filter_by(filename=filename, kind='image').one_or_none()
+	if media: g.db.delete(media)
 
 	media = Media(
 		kind='image',
@@ -259,7 +257,7 @@ def process_image(filename, v, resize=0, trim=False, uploader_id=None, db=None):
 		user_id=uploader_id or v.id,
 		size=os.stat(filename).st_size
 	)
-	db.add(media)
+	g.db.add(media)
 
 	if SITE == 'watchpeopledie.tv' and v and "dylan" in v.username.lower() and "hewitt" in v.username.lower():
 		gevent.spawn(delete_file, filename)

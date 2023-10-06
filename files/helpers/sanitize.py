@@ -423,7 +423,9 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 
 	if not sanitized: return ''
 
-	if blackjack and execute_blackjack(g.v, None, sanitized, blackjack):
+	v = getattr(g, 'v', None)
+
+	if blackjack and execute_blackjack(v, None, sanitized, blackjack):
 		sanitized = 'g'
 
 	if '```' not in sanitized and '<pre>' not in sanitized:
@@ -449,8 +451,6 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 
 	sanitized = reddit_mention_regex.sub(r'<a href="https://old.reddit.com/\1" rel="nofollow noopener" target="_blank">/\1</a>', sanitized)
 	sanitized = hole_mention_regex.sub(r'<a href="/\1">/\1</a>', sanitized)
-
-	v = getattr(g, 'v', None)
 
 	names = set(m.group(1) for m in mention_regex.finditer(sanitized))
 
@@ -485,7 +485,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 			elif name == 'commenters' and commenters_ping_post_id:
 				return f'<a href="/!commenters/{commenters_ping_post_id}/{int(time.time())}">!{name}</a>'
 			elif name == 'followers':
-				return f'<a href="/id/{g.v.id}/followers">!{name}</a>'
+				return f'<a href="/id/{v.id}/followers">!{name}</a>'
 			elif g.db.get(Group, name):
 				return f'<a href="/!{name}">!{name}</a>'
 			else:
@@ -572,7 +572,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 	sanitized = sanitized.replace('<p></p>', '')
 
 	allowed_css_properties = allowed_styles.copy()
-	if g.v and g.v.chud:
+	if v and v.chud:
 		allowed_css_properties.remove('filter')
 
 	css_sanitizer = CSSSanitizer(allowed_css_properties=allowed_css_properties)
@@ -591,7 +591,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 
 	links = soup.find_all("a")
 
-	if g.v and g.v.admin_level >= PERMS["IGNORE_DOMAIN_BAN"]:
+	if v and v.admin_level >= PERMS["IGNORE_DOMAIN_BAN"]:
 		banned_domains = []
 	else:
 		banned_domains = [x.domain for x in g.db.query(BannedDomain.domain)]
