@@ -218,7 +218,7 @@ def execute_blackjack(v, target, body, kind):
 			send_repeatable_notification_duplicated(id, f"Blackjack by @{v.username}: {extra_info}")
 	return True
 
-def find_all_emote_endings(emoji):
+def find_all_emoji_endings(emoji):
 	endings = []
 
 	if path.isfile(f'files/assets/images/emojis/{emoji}.webp'):
@@ -295,7 +295,7 @@ def render_emoji(html, regexp, golden, emojis_used, b=False, is_title=False):
 		emoji_partial = '<img alt=":{0}:" data-bs-toggle="tooltip" loading="lazy" src="{1}" title=":{0}:"{2}>'
 		emoji_html = None
 
-		ending_modifiers, emoji = find_all_emote_endings(emoji)
+		ending_modifiers, emoji = find_all_emoji_endings(emoji)
 
 		is_talking = 'talking' in ending_modifiers
 		is_patted = 'pat' in ending_modifiers
