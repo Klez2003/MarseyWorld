@@ -28,8 +28,8 @@ def get_award_classes(obj, v, title=False):
 			classes.append("glow")
 		if obj.rainbowed:
 			classes.append("rainbow-text")
-		if obj.golden:
-			classes.append("gold-text")
+		# if obj.golden:
+		# 	classes.append("gold-text")
 		if obj.queened:
 			classes.append("queen")
 		if obj.sharpened:
