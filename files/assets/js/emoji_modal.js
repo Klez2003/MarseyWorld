@@ -473,7 +473,7 @@ function update_speed_emoji_modal(event)
 		* kept it unless someone wants to provide an option to toggle it for performance */
 	if (curr_word_is_emoji() && current_word != ":")
 	{
-		loadEmojis().then( () => {
+		loadEmojis(null, null).then( () => {
 			let modal_pos = event.target.getBoundingClientRect();
 			modal_pos.x += window.scrollX;
 			modal_pos.y += window.scrollY;
@@ -545,19 +545,20 @@ function loadEmojis(t, inputTargetIDName)
 	selecting = false;
 	speed_carot_modal.style.display = "none";
 
-	emojiInputTargetDOM = document.getElementById(inputTargetIDName);
+	if (inputTargetIDName) {
+		emojiInputTargetDOM = document.getElementById(inputTargetIDName);
+		emojiModal.addEventListener('hide.bs.modal', () => {
+			setTimeout(() => {
+				emojiInputTargetDOM.focus();
+			}, 200);
+		}, {once : true});	
+	}
 
-	if (t.dataset.previousModal) {
+	if (t && t.dataset.previousModal) {
 		emojiModal.addEventListener('hide.bs.modal', () => {
 			bootstrap.Modal.getOrCreateInstance(document.getElementById(t.dataset.previousModal)).show()
 		}, {once : true});	
 	}
-
-	emojiModal.addEventListener('hide.bs.modal', () => {
-		setTimeout(() => {
-			emojiInputTargetDOM.focus();
-		}, 200);
-	}, {once : true});	
 
 	switch (emojiEngineState) {
 		case "inactive":
