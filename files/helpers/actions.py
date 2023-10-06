@@ -267,11 +267,13 @@ def execute_snappy(post, v):
 def execute_zozbot(c, level, post, v):
 	if SITE_NAME != 'rDrama': return
 
-	if post.sub and g.db.query(Exile.user_id).filter_by(user_id=ZOZBOT_ID, sub=post.sub).one_or_none():
-		return
+	if random.random() >= 0.001: return
 
 	posting_to_post = isinstance(post, Post)
-	if random.random() >= 0.001: return
+
+	if posting_to_post and post.sub and g.db.query(Exile.user_id).filter_by(user_id=ZOZBOT_ID, sub=post.sub).one_or_none():
+		return
+
 	c2 = Comment(author_id=ZOZBOT_ID,
 		parent_post=post.id if posting_to_post else None,
 		wall_user_id=post.id if not posting_to_post else None,
@@ -336,12 +338,15 @@ def execute_zozbot(c, level, post, v):
 def execute_longpostbot(c, level, body, body_html, post, v):
 	if SITE_NAME != 'rDrama': return
 
-	if post.sub and g.db.query(Exile.user_id).filter_by(user_id=LONGPOSTBOT_ID, sub=post.sub).one_or_none():
-		return
+	if not len(c.body.split()) >= 200: return
+
+	if "</blockquote>" in body_html: return
 
 	posting_to_post = isinstance(post, Post)
-	if not len(c.body.split()) >= 200: return
-	if "</blockquote>" in body_html: return
+
+	if posting_to_post and post.sub and g.db.query(Exile.user_id).filter_by(user_id=LONGPOSTBOT_ID, sub=post.sub).one_or_none():
+		return
+
 	body = random.choice(LONGPOSTBOT_REPLIES)
 	if body.startswith('▼'):
 		body = body[1:]
