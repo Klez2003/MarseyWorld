@@ -6,6 +6,7 @@ from functools import partial
 from os import path, listdir
 from urllib.parse import parse_qs, urlparse, unquote, ParseResult, urlencode, urlunparse
 import time
+import requests
 
 from sqlalchemy.sql import func
 
@@ -832,6 +833,10 @@ def normalize_url(url):
 	url = imgur_regex.sub(r'\1_d.webp?maxwidth=9999&fidelity=grand', url)
 
 	return url
+
+def normalize_url_gevent(url):
+	url = requests.get(url, headers=HEADERS, timeout=2, proxies=proxies).url
+	return normalize_url(url)
 
 def validate_css(css):
 	if '@import' in css:

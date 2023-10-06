@@ -287,21 +287,16 @@ def expand_url(post_url, fragment_url):
 		return f"{post_url}/{fragment_url}"
 
 
-def cancer_url_cleaner(url):
-	try: url = requests.get(url, headers=HEADERS, timeout=2, proxies=proxies).url
-	except: return url
-	return normalize_url(url)
-
 def postprocess_post(post_url, post_body, post_body_html, pid, generate_thumb, edit):
 	with app.app_context():
 		if post_url and (reddit_s_url_regex.fullmatch(post_url) or tiktok_t_url_regex.fullmatch(post_url)):
-			post_url = cancer_url_cleaner(post_url)
+			post_url = normalize_url_gevent(post_url)
 
 		if post_body:
 			li = list(reddit_s_url_regex.finditer(post_body)) + list(tiktok_t_url_regex.finditer(post_body))
 			for i in li:
 				old = i.group(0)
-				new = cancer_url_cleaner(old)
+				new = normalize_url_gevent(old)
 				post_body = post_body.replace(old, new)
 				post_body_html = post_body_html.replace(old, new)
 
@@ -399,7 +394,8 @@ def postprocess_post(post_url, post_body, post_body_html, pid, generate_thumb, e
 
 		g.db.commit()
 		g.db.close()
-		stdout.flush()
+
+	stdout.flush()
 
 
 @app.post("/is_repost")

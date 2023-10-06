@@ -431,6 +431,8 @@ def comment(v):
 		for sort in COMMENT_SORTS.keys():
 			cache.delete(f'post_{c.parent_post}_{sort}')
 
+	gevent.spawn(postprocess_comment, c.body, c.body_html, c.id)
+
 	if v.client: return c.json
 	return {"comment": render_template("comments.html", v=v, comments=[c])}
 
@@ -740,8 +742,11 @@ def edit_comment(cid, v):
 					g.db.add(n)
 					push_notif({x}, f'New mention of you by @{c.author_name}', c.body, c)
 
+		g.db.flush()
 
-	g.db.flush()
+		gevent.spawn(postprocess_comment, c.body, c.body_html, c.id)
+
+
 	return {
 			"body": c.body,
 			"comment": c.realbody(v),
@@ -765,3 +770,26 @@ def commenters(v, pid, time):
 	users = sorted(users, key=lambda x: x[1])
 
 	return render_template('commenters.html', v=v, users=users)
+
+
+
+def postprocess_comment(comment_body, comment_body_html, cid):
+	with app.app_context():
+		li = list(reddit_s_url_regex.finditer(comment_body)) + list(tiktok_t_url_regex.finditer(comment_body))
+		for i in li:
+			old = i.group(0)
+			new = normalize_url_gevent(old)
+			comment_body = comment_body.replace(old, new)
+			comment_body_html = comment_body_html.replace(old, new)
+
+		g.db = db_session()
+
+		c = g.db.query(Comment).filter_by(id=cid).options(load_only(Comment.id)).one_or_none()
+		c.body = comment_body
+		c.body_html = comment_body_html
+		g.db.add(c)
+
+		g.db.commit()
+		g.db.close()
+
+	stdout.flush()
