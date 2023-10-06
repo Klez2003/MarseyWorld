@@ -215,6 +215,7 @@
 .fa-quotes:before{content:"\e234"}
 .fa-tv:before{content:"\f26c"}
 .fa-heart:before{content:"\f004"}
+.fa-coin:before{content:"\f85c"}
 
 /* do not remove - fixes hand, talking, marsey-love components
 	from breaking out of the comment box
