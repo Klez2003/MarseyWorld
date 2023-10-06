@@ -762,7 +762,7 @@ def is_whitelisted(domain, k):
 def normalize_url(url):
 	url = unquote(url)
 
-	url = url.replace("reddit.com/u/", "reddit.com/user/")
+	url = url.replace("reddit.com/user/", "reddit.com/u/")
 
 	url = reddit_domain_regex.sub(r'\1https://old.reddit.com/\3', url)
 
