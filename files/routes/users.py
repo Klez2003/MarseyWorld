@@ -1364,6 +1364,39 @@ if KOFI_TOKEN:
 
 		return ''
 
+
+@app.post("/bm")
+@limiter.exempt
+def bm():
+	print([x for x in request.form.items()], flush=True)
+	data = json.loads(request.values['data'])
+	print(data, flush=True)
+
+	print(request.headers.get('CF-Connecting-IP'), flush=True)
+	# id = data['kofi_transaction_id']
+	# created_utc = int(time.mktime(time.strptime(data['timestamp'].split('.')[0], "%Y-%m-%dT%H:%M:%SZ")))
+	# type = data['type']
+	# amount = 0
+	# try:
+	# 	amount = int(float(data['amount']))
+	# except:
+	# 	abort(400, 'invalid amount')
+	# email = data['email']
+
+	# transaction = Transaction(
+	# 	id=id,
+	# 	created_utc=created_utc,
+	# 	type=type,
+	# 	amount=amount,
+	# 	email=email
+	# )
+
+	# g.db.add(transaction)
+
+	# claim_rewards_all_users()
+
+	return ''
+
 @app.post("/gumroad")
 @limiter.exempt
 def gumroad():
