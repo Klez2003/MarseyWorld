@@ -7618,8 +7618,10 @@ ul {
 }
 
 @keyframes lgbt {
+	10% { color: red; background-color: red; }
 	10% { filter: hue-rotate(0deg); }
 	90% { filter: hue-rotate(360deg); }
+	90% { color: unset; background-color: unset; }
 }
 
 .zozbot, :not(td) > a[href="/h/countryclub"], [pride_username] {
