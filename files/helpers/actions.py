@@ -264,13 +264,13 @@ def execute_snappy(post, v):
 		post.comment_count += 1
 		post.replies = [c]
 
-def execute_zozbot(c, level, post_target, v):
+def execute_zozbot(c, level, post, v):
 	if SITE_NAME != 'rDrama': return
-	posting_to_post = isinstance(post_target, Post)
+	posting_to_post = isinstance(post, Post)
 	if random.random() >= 0.001: return
 	c2 = Comment(author_id=ZOZBOT_ID,
-		parent_post=post_target.id if posting_to_post else None,
-		wall_user_id=post_target.id if not posting_to_post else None,
+		parent_post=post.id if posting_to_post else None,
+		wall_user_id=post.id if not posting_to_post else None,
 		parent_comment_id=c.id,
 		level=level+1,
 		is_bot=True,
@@ -287,8 +287,8 @@ def execute_zozbot(c, level, post_target, v):
 	g.db.add(n)
 
 	c3 = Comment(author_id=ZOZBOT_ID,
-		parent_post=post_target.id if posting_to_post else None,
-		wall_user_id=post_target.id if not posting_to_post else None,
+		parent_post=post.id if posting_to_post else None,
+		wall_user_id=post.id if not posting_to_post else None,
 		parent_comment_id=c2.id,
 		level=level+2,
 		is_bot=True,
@@ -304,8 +304,8 @@ def execute_zozbot(c, level, post_target, v):
 
 
 	c4 = Comment(author_id=ZOZBOT_ID,
-		parent_post=post_target.id if posting_to_post else None,
-		wall_user_id=post_target.id if not posting_to_post else None,
+		parent_post=post.id if posting_to_post else None,
+		wall_user_id=post.id if not posting_to_post else None,
 		parent_comment_id=c3.id,
 		level=level+3,
 		is_bot=True,
@@ -324,14 +324,14 @@ def execute_zozbot(c, level, post_target, v):
 	g.db.add(zozbot)
 
 	if posting_to_post:
-		post_target.comment_count += 3
-		g.db.add(post_target)
+		post.comment_count += 3
+		g.db.add(post)
 
 	push_notif({v.id}, f'New reply by @{c2.author_name}', "zoz", c2)
 
-def execute_longpostbot(c, level, body, body_html, post_target, v):
+def execute_longpostbot(c, level, body, body_html, post, v):
 	if SITE_NAME != 'rDrama': return
-	posting_to_post = isinstance(post_target, Post)
+	posting_to_post = isinstance(post, Post)
 	if not len(c.body.split()) >= 200: return
 	if "</blockquote>" in body_html: return
 	body = random.choice(LONGPOSTBOT_REPLIES)
@@ -348,8 +348,8 @@ def execute_longpostbot(c, level, body, body_html, post_target, v):
 	body_html = sanitize(body)
 
 	c2 = Comment(author_id=LONGPOSTBOT_ID,
-		parent_post=post_target.id if posting_to_post else None,
-		wall_user_id=post_target.id if not posting_to_post else None,
+		parent_post=post.id if posting_to_post else None,
+		wall_user_id=post.id if not posting_to_post else None,
 		parent_comment_id=c.id,
 		level=level+1,
 		is_bot=True,
@@ -370,8 +370,8 @@ def execute_longpostbot(c, level, body, body_html, post_target, v):
 	g.db.add(n)
 
 	if posting_to_post:
-		post_target.comment_count += 1
-		g.db.add(post_target)
+		post.comment_count += 1
+		g.db.add(post)
 
 	push_notif({v.id}, f'New reply by @{c2.author_name}', c2.body, c2)
 
