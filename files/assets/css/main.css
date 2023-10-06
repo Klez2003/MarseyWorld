@@ -5728,22 +5728,6 @@ span > img[src$="/i/hand.webp"]+img[party]:not([data-src]) {
 	text-decoration: underline;
 }
 
-@keyframes rb {
-	10% { color: red; }
-	20% { color: orange; }
-	30% { color: yellow; }
-	40% { color: green; }
-	50% { color: cyan; }
-	70% { color: blue; }
-	80% { color: indigo; }
-	90% { color: violet; }
-}
-
-.zozbot {
-	font-weight: bold;
-	animation: rb 8s linear infinite;
-}
-
 .text-black {
 	color: var(--black);
 }
@@ -7321,10 +7305,6 @@ button, .btn {
 	color: var(--black) !important;
 }
 
-:not(td) > a[href="/h/countryclub"] {
-	animation: rb 8s linear infinite;
-}
-
 .chud-img:after {
 	content: "";
 	display: inline-block;
@@ -7632,57 +7612,34 @@ ul {
 	to {background-position: 1000px;}
 }
 
-
-@-webkit-keyframes lgbt {
-	0% {
-		color: violet;
-	}
-	20% {
-		color: red;
-	}
-	40% {
-		color: orange;
-	}
-	60% {
-		color: yellow;
-	}
-	80% {
-		color: blue;
-	}
-	100% {
-		color: violet;
-	}
+@keyframes lgbt {
+	10% { color: red; }
+	20% { color: orange; }
+	30% { color: yellow; }
+	40% { color: green; }
+	50% { color: cyan; }
+	70% { color: blue; }
+	80% { color: indigo; }
+	90% { color: violet; }
 }
 
-
-@-webkit-keyframes lgbt-patron {
-	0% {
-		background-color: violet;
-	}
-	20% {
-		background-color: red;
-	}
-	40% {
-		background-color: orange;
-	}
-	60% {
-		background-color: yellow;
-	}
-	80% {
-		background-color: blue;
-	}
-	100% {
-		background-color: violet;
-	}
+@keyframes lgbt-patron {
+	10% { background-color: red; }
+	20% { background-color: orange; }
+	30% { background-color: yellow; }
+	40% { background-color: green; }
+	50% { background-color: cyan; }
+	70% { background-color: blue; }
+	80% { background-color: indigo; }
+	90% { background-color: violet; }
 }
 
-
-[pride_username] {
-	-webkit-animation: 3s ease-in-out 0s normal none infinite lgbt;
-	animation: 3s ease-in-out 0s normal none infinite lgbt;
+.zozbot, :not(td) > a[href="/h/countryclub"], [pride_username] {
+	-webkit-animation: lgbt 8s linear infinite;
+	animation: lgbt 8s linear infinite;
 }
 
 [pride_username].patron {
-	-webkit-animation: 3s ease-in-out 0s normal none infinite lgbt-patron;
-	animation: 3s ease-in-out 0s normal none infinite lgbt-patron;
+	-webkit-animation: lgbt-patron 8s linear infinite;
+	animation: lgbt-patron 8s linear infinite;
 }
