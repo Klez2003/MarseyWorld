@@ -238,3 +238,7 @@
 lite-youtube, iframe {
 	color-scheme: light !important;
 }
+
+.sidebar-wpd--flairs a {
+	font-size: 0.85rem;
+}
