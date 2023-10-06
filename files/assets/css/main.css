@@ -7618,33 +7618,18 @@ ul {
 }
 
 @keyframes lgbt {
-	10% { color: red; }
-	20% { color: orange; }
-	30% { color: yellow; }
-	40% { color: green; }
-	50% { color: cyan; }
-	70% { color: blue; }
-	80% { color: indigo; }
-	90% { color: violet; }
-}
-
-@keyframes lgbt-patron {
-	10% { background-color: red; }
-	20% { background-color: orange; }
-	30% { background-color: yellow; }
-	40% { background-color: green; }
-	50% { background-color: cyan; }
-	70% { background-color: blue; }
-	80% { background-color: indigo; }
-	90% { background-color: violet; }
+	0% { filter: hue-rotate(0deg); }
+	100% { filter: hue-rotate(360deg); }
 }
 
 .zozbot, :not(td) > a[href="/h/countryclub"], [pride_username] {
-	animation: lgbt 8s linear infinite;
+	color: red;
+	animation: lgbt 1.5s linear infinite;
 }
 
 [pride_username].patron {
-	animation: lgbt-patron 8s linear infinite;
+	background-color: red;
+	animation: lgbt 1.5s linear infinite;
 }
 
 @media (max-width: 768px) or (min-width: 992px) {
