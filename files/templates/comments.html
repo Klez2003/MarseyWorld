@@ -752,34 +752,34 @@
 			{% include "modals/punish.html" %}
 		{% endif %}
 
-<div class="modal fade" id="deleteCommentModal" tabindex="-1">
-	<div class="modal-dialog modal-dialog-centered">
-		<div class="modal-content">
-			<div class="modal-header d-none d-md-flex">
-				<h5 class="modal-title">Delete comment?</h5>
-				<button type="button" class="close" data-bs-dismiss="modal">
-					<span><i class="fas fa-times"></i></span>
-				</button>
-			</div>
-			<div class="modal-body text-center">
+		<div class="modal fade" id="deleteCommentModal" tabindex="-1">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header d-none d-md-flex">
+						<h5 class="modal-title">Delete comment?</h5>
+						<button type="button" class="close" data-bs-dismiss="modal">
+							<span><i class="fas fa-times"></i></span>
+						</button>
+					</div>
+					<div class="modal-body text-center">
 
-				<div class="py-4">
-					<i class="fas fa-trash-alt text-muted d-mob-none" style="font-size: 3.5rem"></i>
+						<div class="py-4">
+							<i class="fas fa-trash-alt text-muted d-mob-none" style="font-size: 3.5rem"></i>
+						</div>
+
+						<h4 class="d-md-none">Delete comment?</h4>
+
+						<p class="d-mob-none">Your comment will be deleted everywhere on {{SITE_NAME}}.</p>
+
+						<p class="text-muted d-md-none">Your comment will be deleted everywhere on {{SITE_NAME}}.</p>
+
+						<button type="button" id="deleteCommentButton" class="btn btn-danger btn-block mt-5" data-bs-dismiss="modal">Delete comment</button>
+
+						<button type="button" class="btn btn-secondary btn-block" data-bs-dismiss="modal">Cancel</button>
+					</div>
 				</div>
-
-				<h4 class="d-md-none">Delete comment?</h4>
-
-				<p class="d-mob-none">Your comment will be deleted everywhere on {{SITE_NAME}}.</p>
-
-				<p class="text-muted d-md-none">Your comment will be deleted everywhere on {{SITE_NAME}}.</p>
-
-				<button type="button" id="deleteCommentButton" class="btn btn-danger btn-block mt-5" data-bs-dismiss="modal">Delete comment</button>
-
-				<button type="button" class="btn btn-secondary btn-block" data-bs-dismiss="modal">Cancel</button>
 			</div>
 		</div>
-	</div>
-</div>
 
 		<div class="modal fade" id="reportCommentModal" tabindex="-1">
 			<div class="modal-dialog modal-dialog-centered">
