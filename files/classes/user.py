@@ -173,7 +173,6 @@ class User(Base):
 	owned_hats = relationship("Hat", back_populates="owners")
 	hats_equipped = relationship("Hat", lazy="raise", viewonly=True)
 	sub_mods = relationship("Mod", primaryjoin="User.id == Mod.user_id", lazy="raise")
-	sub_exiles = relationship("Exile", primaryjoin="User.id == Exile.user_id", lazy="raise")
 
 	def __init__(self, **kwargs):
 
