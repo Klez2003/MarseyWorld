@@ -11,9 +11,9 @@
 {% macro post_meta(p) %}
 	{% if p.sub %}
 		{% if not HOLE_STYLE_FLAIR -%}
-			<a class="mr-2" href='/h/{{p.sub}}'>/h/{{p.sub}}</a>
+			<a class="mr-2 font-weight-bold" href='/h/{{p.sub}}'>/h/{{p.sub}}</a>
 		{%- else -%}
-			<a href='/h/{{p.sub}}' class="sub-flair">{{p.sub|capitalize}}</a>
+			<a href='/h/{{p.sub}}' class="sub-flair font-weight-bold">{{p.sub|capitalize}}</a>
 		{%- endif %}
 	{% endif %}
 
