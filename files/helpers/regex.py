@@ -187,7 +187,7 @@ reddit_comment_link_regex = re.compile("https:\/\/old.reddit.com\/r\/\w{2,25}\/c
 
 #gevent
 reddit_s_url_regex = re.compile("https:\/\/reddit.com\/[ru]\/\w{2,25}\/s\/\w{10}", flags=re.A)
-tiktok_t_url_regex = re.compile("https:\/\/tiktok.com\/t\/\w{9}", flags=re.A)
+tiktok_t_url_regex = re.compile("https:\/\/(vm.)?tiktok.com(\/t)?\/\w{9}", flags=re.A)
 
 #run-time
 reddit_to_vreddit_regex = re.compile('(^|>|")https:\/\/old.reddit.com\/([ru])\/', flags=re.A)
