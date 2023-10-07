@@ -366,7 +366,7 @@ def award_thing(v, thing_type, id):
 			abort(409, f"{safe_username} under the effect of a conflicting award: OwOify award!")
 
 		if author.sharpen:
-			abort(409, f"{safe_username} under the effect of a conflicting award: Sharpen!")
+			abort(409, f"{safe_username} under the effect of a conflicting award: Sharpen award!")
 
 		if author.chud == 1:
 			abort(409, f"{safe_username} already chudded permanently!")
