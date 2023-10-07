@@ -200,11 +200,11 @@ def speak(data, v):
 
 def refresh_online():
 	for li in online.values():
-		for entry in li.values():
-			if time.time() > entry[0]:
-				del li[entry]
-				if entry[1] in typing[g.referrer]:
-					typing[g.referrer].remove(entry[1])
+		for k, val in li.items():
+			if time.time() > val[0]:
+				del li[k]
+				if val[1] in typing[g.referrer]:
+					typing[g.referrer].remove(val[1])
 
 	emit("online", [online[g.referrer], muted], room=g.referrer, broadcast=True)
 	cache.set('loggedin_chat', len(online[f'{SITE_FULL}/chat']), timeout=0)
@@ -234,7 +234,7 @@ def disconnect(v):
 		for dictionary in online.values():
 			dictionary.pop(v.id, None)
 
-		if v.username in typing[g.referrer]:
+		if g.referrer and v.username in typing[g.referrer]:
 			typing[g.referrer].remove(v.username)
 
 	if not g.referrer:
