@@ -427,7 +427,7 @@ AWARDS = {
 	"sharpen": {
 		"kind": "sharpen",
 		"title": "Sharpen",
-		"description": "Adds a badass edge to all the user's comments for 24 hours.",
+		"description": "Adds a badass edge to all the recipient's comments for 24 hours.",
 		"icon": "fas fa-fire",
 		"color": "text-danger",
 		"price": 200,
@@ -622,7 +622,7 @@ AWARDS = {
 	"namelock": {
 		"kind": "namelock",
 		"title": "1-Day Namelock",
-		"description": "Changes the user's username to something of your choosing for 24 hours.",
+		"description": "Changes the recipient's username to something of your choosing for 24 hours.",
 		"icon": "fas fa-at",
 		"color": "text-pink",
 		"price": 1000,
@@ -966,7 +966,7 @@ HOUSE_AWARDS = {
 	"Edgy": {
 		"kind": "Edgy",
 		"title": "Sharpen",
-		"description": "Adds a badass edge to all the user's comments for 24 hours.",
+		"description": "Adds a badass edge to all the recipient's comments for 24 hours.",
 		"icon": "fas fa-fire",
 		"color": "text-danger",
 		"price": 200,
