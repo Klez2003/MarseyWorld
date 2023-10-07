@@ -230,11 +230,12 @@ def connect(v):
 @socketio.on('disconnect')
 @auth_required_socketio
 def disconnect(v):
-	for dictionary in online.values():
-		dictionary.pop(v.id, None)
+	if g.referrer != f'{SITE_FULL}/notifications/messages':
+		for dictionary in online.values():
+			dictionary.pop(v.id, None)
 
-	if v.username in typing[g.referrer]:
-		typing[g.referrer].remove(v.username)
+		if v.username in typing[g.referrer]:
+			typing[g.referrer].remove(v.username)
 
 	if not g.referrer:
 		return '', 400
