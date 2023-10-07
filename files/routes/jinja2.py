@@ -126,7 +126,7 @@ def inject_constants():
 			"listdir":listdir, "os_path":path,
 			"PIZZASHILL_ID":PIZZASHILL_ID, "DEFAULT_COLOR":DEFAULT_COLOR,
 			"COLORS":COLORS, "time":time, "PERMS":PERMS, "FEATURES":FEATURES,
-			"HOLE_NAME":HOLE_NAME, "HOLE_STYLE_FLAIR":HOLE_STYLE_FLAIR, "HOLE_REQUIRED":HOLE_REQUIRED,
+			"HOLE_REQUIRED":HOLE_REQUIRED,
 			"DEFAULT_THEME":DEFAULT_THEME, "DESCRIPTION":DESCRIPTION,
 			"has_sidebar":has_sidebar, "has_logo":has_logo,
 			"FP":FP, "patron":patron, "get_setting": get_setting,

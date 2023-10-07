@@ -10,8 +10,6 @@ from files.helpers.get import *
 from files.routes.wrappers import *
 from files.__main__ import app
 
-search_operator_hole = HOLE_NAME
-
 valid_params = [
 	'author',
 	'domain',
@@ -22,7 +20,7 @@ valid_params = [
 	'exact',
 	'title',
 	'sentto',
-	search_operator_hole,
+	'hole',
 	'subreddit',
 ]
 
@@ -139,8 +137,8 @@ def searchposts(v):
 		posts = posts.filter(Post.url.ilike(f"https://old.reddit.com/r/{subreddit}/%"))
 
 
-	if search_operator_hole in criteria:
-		posts = posts.filter(Post.hole == criteria[search_operator_hole])
+	if 'hole' in criteria:
+		posts = posts.filter(Post.hole == criteria['hole'])
 
 	if 'after' in criteria:
 		after = criteria['after']
@@ -238,8 +236,8 @@ def searchcomments(v):
 
 	if 'nsfw' in criteria: comments = comments.filter(Comment.nsfw == True)
 
-	if search_operator_hole in criteria:
-		comments = comments.filter(Post.hole == criteria[search_operator_hole])
+	if 'hole' in criteria:
+		comments = comments.filter(Post.hole == criteria['hole'])
 
 	comments = apply_time_filter(t, comments, Comment)
 

@@ -39,7 +39,7 @@
 {% block desktopBanner %}
 {%- set search_placeholder = "Search" -%}
 {%- if hole -%}
-	{%- set search_placeholder = "Search (try '" ~ HOLE_NAME ~ ":" ~ hole.name ~ "')" -%}
+	{%- set search_placeholder = "Search (try 'hole:" ~ hole.name ~ "')" -%}
 {%- endif -%}
 <div class="row" style="overflow: visible;padding-top:5px">
 	<div class="col">

@@ -175,7 +175,7 @@ def move_post(post, v, reason):
 	if hole_from == hole_to: abort(409, f"Post is already in {hole_to_in_notif}")
 
 	if post.author.exiler_username(hole_to):
-		abort(403, f"User is exiled from this {HOLE_NAME}!")
+		abort(403, f"User is exiled from this hole!")
 
 	if hole_to == 'changelog':
 		abort(403, "/h/changelog is archived!")

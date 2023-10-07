@@ -10,11 +10,7 @@
 
 {% macro post_meta(p) %}
 	{% if p.hole %}
-		{% if not HOLE_STYLE_FLAIR -%}
-			<a class="mr-2 font-weight-bold" href='/h/{{p.hole}}'>/h/{{p.hole}}</a>
-		{%- else -%}
-			<a href='/h/{{p.hole}}' class="hole-flair font-weight-bold">{{p.hole|capitalize}}</a>
-		{%- endif %}
+		<a class="mr-2 font-weight-bold" href='/h/{{p.hole}}'>/h/{{p.hole}}</a>
 	{% endif %}
 
 	{% if p.hole and p.author.exiler_username(p.hole) %}

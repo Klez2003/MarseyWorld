@@ -475,7 +475,7 @@ def submit_post(v, hole=None):
 	else: hole = None
 
 	if not hole and HOLE_REQUIRED:
-		abort(400, f"You must choose a {HOLE_NAME} for your post!")
+		abort(400, f"You must choose a hole for your post!")
 
 	if v.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
 		abort(400, "You have to type more than 280 characters!")
