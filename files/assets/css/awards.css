@@ -177,16 +177,16 @@
 
 
 .tilt-comment-1 {
-	transform: rotate(1deg);
-}
-.tilt-comment-2 {
 	transform: rotate(2deg);
 }
+.tilt-comment-2 {
+	transform: rotate(4deg);
+}
 .tilt-comment-3 {
-	transform: rotate(3deg);
+	transform: rotate(6deg);
 }
 .tilt-comment-4 {
-	transform: rotate(4deg);
+	transform: rotate(8deg);
 }
 
 .rainbow-text:not(a), h1.rainbow-text.post-title a {
