@@ -45,17 +45,20 @@ online = {
 
 cache.set('loggedin_chat', len(online[f'{SITE_FULL}/chat']), timeout=0)
 
+def set_g_referrer():
+	if request.referrer:
+		g.referrer = request.referrer.split('?')[0]
+		if g.referrer not in ALLOWED_REFERRERS:
+			g.referrer = None
+	else:
+		g.referrer = None
+
 def auth_required_socketio(f):
 	def wrapper(*args, **kwargs):
 		v = get_logged_in_user()
 		if not v: return '', 401
 		if v.is_permabanned: return '', 403
-		if request.referrer:
-			g.referrer = request.referrer.split('?')[0]
-			if g.referrer not in ALLOWED_REFERRERS:
-				g.referrer = None
-		else:
-			g.referrer = None
+		set_g_referrer()
 		return make_response(f(*args, v=v, **kwargs))
 	wrapper.__name__ = f.__name__
 	return wrapper
@@ -65,12 +68,7 @@ def is_not_banned_socketio(f):
 		v = get_logged_in_user()
 		if not v: return '', 401
 		if v.is_suspended: return '', 403
-		if request.referrer:
-			g.referrer = request.referrer.split('?')[0]
-			if g.referrer not in ALLOWED_REFERRERS:
-				g.referrer = None
-		else:
-			g.referrer = None
+		set_g_referrer()
 		return make_response(f(*args, v=v, **kwargs))
 	wrapper.__name__ = f.__name__
 	return wrapper
@@ -275,6 +273,8 @@ def typing_indicator(data, v):
 @socketio.on('delete')
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def delete(id, v):
+	set_g_referrer()
+
 	if not g.referrer:
 		return '', 400
 
