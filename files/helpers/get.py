@@ -333,7 +333,7 @@ def get_hole(hole, v=None, graceful=False):
 	if not hole:
 		if graceful: return None
 		else: abort(404)
-	return sub
+	return hole
 
 @cache.memoize(timeout=3600)
 def get_profile_picture(identifier):
