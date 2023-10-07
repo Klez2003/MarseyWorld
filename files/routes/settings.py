@@ -361,7 +361,7 @@ def settings_personal_post(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def filters(v):
-	filters = request.values.get("filters")[:1000].strip()
+	filters = request.values.get("filters", "")[:1000].strip()
 
 	if filters == v.custom_filter_list:
 		abort(400, "You didn't change anything!")
