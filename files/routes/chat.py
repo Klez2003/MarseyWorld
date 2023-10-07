@@ -40,7 +40,7 @@ typing = {
 	f'{SITE_FULL}/chat': [],
 }
 online = {
-	f'{SITE_FULL}/chat': [],
+	f'{SITE_FULL}/chat': {},
 }
 
 cache.set('loggedin_chat', len(online[f'{SITE_FULL}/chat']), timeout=0)
@@ -199,16 +199,15 @@ def speak(data, v):
 	return '', 204
 
 def refresh_online():
+	for li in online.values():
+		for entry in li.values():
+			if time.time() > entry[0]:
+				del li[entry]
+				if entry[1] in typing[g.referrer]:
+					typing[g.referrer].remove(entry[1])
+
 	emit("online", [online[g.referrer], muted], room=g.referrer, broadcast=True)
 	cache.set('loggedin_chat', len(online[f'{SITE_FULL}/chat']), timeout=0)
-
-def remove_from_online(v):
-	for li in online.values():
-		for entry in li:
-			if entry[0] == v.id:
-				li.remove(entry)
-	if g.referrer and v.username in typing[g.referrer]:
-		typing[g.referrer].remove(v.username)
 
 @socketio.on('connect')
 @auth_required_socketio
@@ -222,11 +221,8 @@ def connect(v):
 
 	join_room(g.referrer)
 
-	remove_from_online(v)
-
-	online[g.referrer].append([v.id, v.username, v.name_color, v.patron])
-
-	refresh_online()
+	if v.username in typing[g.referrer]:
+		typing[g.referrer].remove(v.username)
 
 	emit('typing', typing[g.referrer], room=g.referrer)
 	return '', 204
@@ -234,8 +230,11 @@ def connect(v):
 @socketio.on('disconnect')
 @auth_required_socketio
 def disconnect(v):
-	if g.referrer != f'{SITE_FULL}/notifications/messages':
-		remove_from_online(v)
+	for dictionary in online.values():
+		dictionary.pop(v.id, None)
+
+	if v.username in typing[g.referrer]:
+		typing[g.referrer].remove(v.username)
 
 	if not g.referrer:
 		return '', 400
@@ -245,6 +244,16 @@ def disconnect(v):
 		leave_room(g.referrer)
 		refresh_online()
 
+	return '', 204
+
+@socketio.on('heartbeat')
+@auth_required_socketio
+def heartbeat(v):
+	if g.referrer not in ALLOWED_REFERRERS:
+		return '', 400
+	expire_utc = int(time.time()) + 3610
+	online[g.referrer][v.id] = (expire_utc, v.username, v.name_color, v.patron)
+	refresh_online()
 	return '', 204
 
 @socketio.on('typing')
