@@ -16,23 +16,23 @@ from files.__main__ import app, cache, limiter
 @auth_required
 def exile_post(v, pid):
 	p = get_post(pid)
-	sub = p.sub
-	if not sub: abort(400)
+	hole = p.hole
+	if not hole: abort(400)
 
-	if not v.mods(sub): abort(403)
+	if not v.mods(hole): abort(403)
 
 	u = p.author
 
-	if u.mods(sub): abort(403)
+	if u.mods(hole): abort(403)
 
-	if not u.exiler_username(sub):
-		exile = Exile(user_id=u.id, sub=sub, exiler_id=v.id)
+	if not u.exiler_username(hole):
+		exile = Exile(user_id=u.id, hole=hole, exiler_id=v.id)
 		g.db.add(exile)
 
-		send_notification(u.id, f"@{v.username} has exiled you from /h/{sub} for [{p.title}]({p.shortlink})")
+		send_notification(u.id, f"@{v.username} has exiled you from /h/{hole} for [{p.title}]({p.shortlink})")
 
-		ma = SubAction(
-			sub=sub,
+		ma = HoleAction(
+			hole=hole,
 			kind='exile_user',
 			user_id=v.id,
 			target_user_id=u.id,
@@ -40,7 +40,7 @@ def exile_post(v, pid):
 		)
 		g.db.add(ma)
 
-	return {"message": f"@{u.username} has been exiled from /h/{sub} successfully!"}
+	return {"message": f"@{u.username} has been exiled from /h/{hole} successfully!"}
 
 @app.post("/exile/comment/<int:cid>")
 @limiter.limit('1/second', scope=rpath)
@@ -50,23 +50,23 @@ def exile_post(v, pid):
 @auth_required
 def exile_comment(v, cid):
 	c = get_comment(cid)
-	sub = c.post.sub
-	if not sub: abort(400)
+	hole = c.post.hole
+	if not hole: abort(400)
 
-	if not v.mods(sub): abort(403)
+	if not v.mods(hole): abort(403)
 
 	u = c.author
 
-	if u.mods(sub): abort(403)
+	if u.mods(hole): abort(403)
 
-	if not u.exiler_username(sub):
-		exile = Exile(user_id=u.id, sub=sub, exiler_id=v.id)
+	if not u.exiler_username(hole):
+		exile = Exile(user_id=u.id, hole=hole, exiler_id=v.id)
 		g.db.add(exile)
 
-		send_notification(u.id, f"@{v.username} has exiled you from /h/{sub} for [{c.permalink}]({c.shortlink})")
+		send_notification(u.id, f"@{v.username} has exiled you from /h/{hole} for [{c.permalink}]({c.shortlink})")
 
-		ma = SubAction(
-			sub=sub,
+		ma = HoleAction(
+			hole=hole,
 			kind='exile_user',
 			user_id=v.id,
 			target_user_id=u.id,
@@ -74,199 +74,199 @@ def exile_comment(v, cid):
 		)
 		g.db.add(ma)
 
-	return {"message": f"@{u.username} has been exiled from /h/{sub} successfully!"}
+	return {"message": f"@{u.username} has been exiled from /h/{hole} successfully!"}
 
-@app.post("/h/<sub>/unexile/<int:uid>")
+@app.post("/h/<hole>/unexile/<int:uid>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def unexile(v, sub, uid):
+def unexile(v, hole, uid):
 	u = get_account(uid)
 
-	if not v.mods(sub): abort(403)
+	if not v.mods(hole): abort(403)
 
-	if u.exiler_username(sub):
-		exile = g.db.query(Exile).filter_by(user_id=u.id, sub=sub).one_or_none()
+	if u.exiler_username(hole):
+		exile = g.db.query(Exile).filter_by(user_id=u.id, hole=hole).one_or_none()
 		g.db.delete(exile)
 
-		send_notification(u.id, f"@{v.username} has revoked your exile from /h/{sub}")
+		send_notification(u.id, f"@{v.username} has revoked your exile from /h/{hole}")
 
-		ma = SubAction(
-			sub=sub,
+		ma = HoleAction(
+			hole=hole,
 			kind='unexile_user',
 			user_id=v.id,
 			target_user_id=u.id
 		)
 		g.db.add(ma)
 
-	return {"message": f"@{u.username} has been unexiled from /h/{sub} successfully!"}
+	return {"message": f"@{u.username} has been unexiled from /h/{hole} successfully!"}
 
-@app.post("/h/<sub>/block")
+@app.post("/h/<hole>/block")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def block_sub(v, sub):
-	sub = get_sub_by_name(sub).name
-	existing = g.db.query(SubBlock).filter_by(user_id=v.id, sub=sub).one_or_none()
+def block_sub(v, hole):
+	hole = get_hole(hole).name
+	existing = g.db.query(HoleBlock).filter_by(user_id=v.id, hole=hole).one_or_none()
 	if not existing:
-		block = SubBlock(user_id=v.id, sub=sub)
+		block = HoleBlock(user_id=v.id, hole=hole)
 		g.db.add(block)
 		cache.delete_memoized(frontlist)
-	return {"message": f"/h/{sub} blocked successfully!"}
+	return {"message": f"/h/{hole} blocked successfully!"}
 
-@app.post("/h/<sub>/unblock")
+@app.post("/h/<hole>/unblock")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def unblock_sub(v, sub):
-	sub = get_sub_by_name(sub)
-	if not can_see(v, sub):
+def unblock_sub(v, hole):
+	hole = get_hole(hole)
+	if not can_see(v, hole):
 		abort(403)
 
-	block = g.db.query(SubBlock).filter_by(user_id=v.id, sub=sub.name).one_or_none()
+	block = g.db.query(HoleBlock).filter_by(user_id=v.id, hole=hole.name).one_or_none()
 
 	if block:
 		g.db.delete(block)
 		cache.delete_memoized(frontlist)
 
-	return {"message": f"/h/{sub.name} unblocked successfully!"}
+	return {"message": f"/h/{hole.name} unblocked successfully!"}
 
-@app.post("/h/<sub>/subscribe")
+@app.post("/h/<hole>/subscribe")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def subscribe_sub(v, sub):
-	sub = get_sub_by_name(sub).name
-	existing = g.db.query(SubJoin).filter_by(user_id=v.id, sub=sub).one_or_none()
+def subscribe_sub(v, hole):
+	hole = get_hole(hole).name
+	existing = g.db.query(StealthHoleUnblock).filter_by(user_id=v.id, hole=hole).one_or_none()
 	if not existing:
-		subscribe = SubJoin(user_id=v.id, sub=sub)
+		subscribe = StealthHoleUnblock(user_id=v.id, hole=hole)
 		g.db.add(subscribe)
 		cache.delete_memoized(frontlist)
-	return {"message": f"/h/{sub} unblocked successfully!"}
+	return {"message": f"/h/{hole} unblocked successfully!"}
 
-@app.post("/h/<sub>/unsubscribe")
+@app.post("/h/<hole>/unsubscribe")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def unsubscribe_sub(v, sub):
-	sub = get_sub_by_name(sub).name
-	subscribe = g.db.query(SubJoin).filter_by(user_id=v.id, sub=sub).one_or_none()
+def unsubscribe_sub(v, hole):
+	hole = get_hole(hole).name
+	subscribe = g.db.query(StealthHoleUnblock).filter_by(user_id=v.id, hole=hole).one_or_none()
 	if subscribe:
 		g.db.delete(subscribe)
 		cache.delete_memoized(frontlist)
-	return {"message": f"/h/{sub} blocked successfully!"}
+	return {"message": f"/h/{hole} blocked successfully!"}
 
-@app.post("/h/<sub>/follow")
+@app.post("/h/<hole>/follow")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def follow_sub(v, sub):
-	sub = get_sub_by_name(sub)
-	if not can_see(v, sub):
+def follow_sub(v, hole):
+	hole = get_hole(hole)
+	if not can_see(v, hole):
 		abort(403)
-	existing = g.db.query(SubSubscription).filter_by(user_id=v.id, sub=sub.name).one_or_none()
+	existing = g.db.query(HoleFollow).filter_by(user_id=v.id, hole=hole.name).one_or_none()
 	if not existing:
-		subscription = SubSubscription(user_id=v.id, sub=sub.name)
+		subscription = HoleFollow(user_id=v.id, hole=hole.name)
 		g.db.add(subscription)
 
-	return {"message": f"/h/{sub} followed successfully!"}
+	return {"message": f"/h/{hole} followed successfully!"}
 
-@app.post("/h/<sub>/unfollow")
+@app.post("/h/<hole>/unfollow")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def unfollow_sub(v, sub):
-	sub = get_sub_by_name(sub)
-	subscription = g.db.query(SubSubscription).filter_by(user_id=v.id, sub=sub.name).one_or_none()
+def unfollow_sub(v, hole):
+	hole = get_hole(hole)
+	subscription = g.db.query(HoleFollow).filter_by(user_id=v.id, hole=hole.name).one_or_none()
 	if subscription:
 		g.db.delete(subscription)
 
-	return {"message": f"/h/{sub} unfollowed successfully!"}
+	return {"message": f"/h/{hole} unfollowed successfully!"}
 
-@app.get("/h/<sub>/mods")
+@app.get("/h/<hole>/mods")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def mods(v, sub):
-	sub = get_sub_by_name(sub)
-	if not can_see(v, sub):
+def mods(v, hole):
+	hole = get_hole(hole)
+	if not can_see(v, hole):
 		abort(403)
-	users = g.db.query(User, Mod).join(Mod).filter_by(sub=sub.name).order_by(Mod.created_utc).all()
+	users = g.db.query(User, Mod).join(Mod).filter_by(hole=hole.name).order_by(Mod.created_utc).all()
 
-	return render_template("sub/mods.html", v=v, sub=sub, users=users)
+	return render_template("hole/mods.html", v=v, hole=hole, users=users)
 
 
-@app.get("/h/<sub>/exilees")
+@app.get("/h/<hole>/exilees")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def sub_exilees(v, sub):
-	sub = get_sub_by_name(sub)
-	if not can_see(v, sub):
+def hole_exilees(v, hole):
+	hole = get_hole(hole)
+	if not can_see(v, hole):
 		abort(403)
 	users = g.db.query(User, Exile).join(Exile, Exile.user_id==User.id) \
-				.filter_by(sub=sub.name) \
+				.filter_by(hole=hole.name) \
 				.order_by(Exile.created_utc.desc(), User.username).all()
 
-	return render_template("sub/exilees.html", v=v, sub=sub, users=users)
+	return render_template("hole/exilees.html", v=v, hole=hole, users=users)
 
 
-@app.get("/h/<sub>/blockers")
+@app.get("/h/<hole>/blockers")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def sub_blockers(v, sub):
-	sub = get_sub_by_name(sub)
-	if not can_see(v, sub):
+def hole_blockers(v, hole):
+	hole = get_hole(hole)
+	if not can_see(v, hole):
 		abort(403)
-	users = g.db.query(User, SubBlock).join(SubBlock) \
-				.filter_by(sub=sub.name) \
-				.order_by(SubBlock.created_utc.desc(), User.username).all()
+	users = g.db.query(User, HoleBlock).join(HoleBlock) \
+				.filter_by(hole=hole.name) \
+				.order_by(HoleBlock.created_utc.desc(), User.username).all()
 
-	return render_template("sub/blockers.html",
-		v=v, sub=sub, users=users, verb="blocking")
+	return render_template("hole/blockers.html",
+		v=v, hole=hole, users=users, verb="blocking")
 
 
-@app.get("/h/<sub>/followers")
+@app.get("/h/<hole>/followers")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def sub_followers(v, sub):
-	sub = get_sub_by_name(sub)
-	if not can_see(v, sub):
+def hole_followers(v, hole):
+	hole = get_hole(hole)
+	if not can_see(v, hole):
 		abort(403)
-	users = g.db.query(User, SubSubscription).join(SubSubscription) \
-			.filter_by(sub=sub.name) \
-			.order_by(SubSubscription.created_utc.desc(), User.username).all()
+	users = g.db.query(User, HoleFollow).join(HoleFollow) \
+			.filter_by(hole=hole.name) \
+			.order_by(HoleFollow.created_utc.desc(), User.username).all()
 
-	return render_template("sub/blockers.html",
-		v=v, sub=sub, users=users, verb="following")
+	return render_template("hole/blockers.html",
+		v=v, hole=hole, users=users, verb="following")
 
 
-@app.post("/h/<sub>/add_mod")
+@app.post("/h/<hole>/add_mod")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit("30/day", deduct_when=lambda response: response.status_code < 400)
 @limiter.limit("30/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def add_mod(v, sub):
+def add_mod(v, hole):
 	if SITE_NAME == 'WPD': abort(403)
-	sub = get_sub_by_name(sub).name
-	if not v.mods(sub): abort(403)
+	hole = get_hole(hole).name
+	if not v.mods(hole): abort(403)
 
 	user = request.values.get('user')
 
@@ -274,20 +274,20 @@ def add_mod(v, sub):
 
 	user = get_user(user, v=v)
 
-	if sub in {'furry','vampire','racist','femboy','edgy'} and not v.client and not user.house.lower().startswith(sub):
-		abort(403, f"@{user.username} needs to be a member of House {sub.capitalize()} to be added as a mod there!")
+	if hole in {'furry','vampire','racist','femboy','edgy'} and not v.client and not user.house.lower().startswith(hole):
+		abort(403, f"@{user.username} needs to be a member of House {hole.capitalize()} to be added as a mod there!")
 
-	existing = g.db.query(Mod).filter_by(user_id=user.id, sub=sub).one_or_none()
+	existing = g.db.query(Mod).filter_by(user_id=user.id, hole=hole).one_or_none()
 
 	if not existing:
-		mod = Mod(user_id=user.id, sub=sub)
+		mod = Mod(user_id=user.id, hole=hole)
 		g.db.add(mod)
 
 		if v.id != user.id:
-			send_repeatable_notification(user.id, f"@{v.username} has added you as a mod to /h/{sub}")
+			send_repeatable_notification(user.id, f"@{v.username} has added you as a mod to /h/{hole}")
 
-		ma = SubAction(
-			sub=sub,
+		ma = HoleAction(
+			hole=hole,
 			kind='make_mod',
 			user_id=v.id,
 			target_user_id=user.id
@@ -296,16 +296,16 @@ def add_mod(v, sub):
 
 	return {"message": "Mod added successfully!"}
 
-@app.post("/h/<sub>/remove_mod")
+@app.post("/h/<hole>/remove_mod")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def remove_mod(v, sub):
-	sub = get_sub_by_name(sub).name
+def remove_mod(v, hole):
+	hole = get_hole(hole).name
 
-	if not v.mods(sub): abort(403)
+	if not v.mods(hole): abort(403)
 
 	uid = request.values.get('uid')
 
@@ -318,18 +318,18 @@ def remove_mod(v, sub):
 
 	if not user: abort(404)
 
-	mod = g.db.query(Mod).filter_by(user_id=user.id, sub=sub).one_or_none()
+	mod = g.db.query(Mod).filter_by(user_id=user.id, hole=hole).one_or_none()
 	if not mod: abort(400)
 
-	if not (v.id == user.id or v.mod_date(sub) and v.mod_date(sub) < mod.created_utc): abort(403)
+	if not (v.id == user.id or v.mod_date(hole) and v.mod_date(hole) < mod.created_utc): abort(403)
 
 	g.db.delete(mod)
 
 	if v.id != user.id:
-		send_repeatable_notification(user.id, f"@{v.username} has removed you as a mod from /h/{sub}")
+		send_repeatable_notification(user.id, f"@{v.username} has removed you as a mod from /h/{hole}")
 
-	ma = SubAction(
-		sub=sub,
+	ma = HoleAction(
+		hole=hole,
 		kind='remove_mod',
 		user_id=v.id,
 		target_user_id=user.id
@@ -346,7 +346,7 @@ def create_sub(v):
 	if not v.can_create_hole:
 		abort(403)
 
-	return render_template("sub/create_hole.html", v=v, cost=HOLE_COST)
+	return render_template("hole/create_hole.html", v=v, cost=HOLE_COST)
 
 @app.post("/create_hole")
 @limiter.limit('1/second', scope=rpath)
@@ -368,25 +368,25 @@ def create_sub2(v):
 	if not v.charge_account('combined', HOLE_COST)[0]:
 		abort(400, "You don't have enough coins or marseybux!")
 
-	sub = get_sub_by_name(name, graceful=True)
+	hole = get_hole(name, graceful=True)
 
-	if sub:
-		abort(400, f"/h/{sub} already exists!")
+	if hole:
+		abort(400, f"/h/{hole} already exists!")
 
 	g.db.add(v)
 	if v.shadowbanned: abort(500)
 
-	sub = Sub(name=name)
-	g.db.add(sub)
+	hole = Hole(name=name)
+	g.db.add(hole)
 	g.db.flush() #Necessary, following statement errors out otherwise
-	mod = Mod(user_id=v.id, sub=sub.name)
+	mod = Mod(user_id=v.id, hole=hole.name)
 	g.db.add(mod)
 
 	admins = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_HOLE_CREATION'], User.id != v.id)]
 	for admin in admins:
-		send_repeatable_notification(admin, f":!marseyparty: /h/{sub} has been created by @{v.username} :marseyparty:")
+		send_repeatable_notification(admin, f":!marseyparty: /h/{hole} has been created by @{v.username} :marseyparty:")
 
-	return redirect(f"/h/{sub}")
+	return redirect(f"/h/{hole}")
 
 @app.post("/kick/<int:pid>")
 @limiter.limit('1/second', scope=rpath)
@@ -397,15 +397,15 @@ def create_sub2(v):
 def kick(v, pid):
 	post = get_post(pid)
 
-	if not post.sub: abort(403)
-	if not v.mods(post.sub): abort(403)
+	if not post.hole: abort(403)
+	if not v.mods(post.hole): abort(403)
 
-	old = post.sub
-	post.sub = None
+	old = post.hole
+	post.hole = None
 	post.hole_pinned = None
 
-	ma = SubAction(
-		sub=old,
+	ma = HoleAction(
+		hole=old,
 		kind='kick_post',
 		user_id=v.id,
 		target_post_id=post.id
@@ -422,38 +422,38 @@ def kick(v, pid):
 
 	return {"message": f"Post kicked from /h/{old} successfully!"}
 
-@app.get('/h/<sub>/settings')
+@app.get('/h/<hole>/settings')
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def sub_settings(v, sub):
-	sub = get_sub_by_name(sub)
-	if not v.mods(sub.name): abort(403)
-	return render_template('sub/settings.html', v=v, sidebar=sub.sidebar, sub=sub, css=sub.css)
+def hole_settings(v, hole):
+	hole = get_hole(hole)
+	if not v.mods(hole.name): abort(403)
+	return render_template('hole/settings.html', v=v, sidebar=hole.sidebar, hole=hole, css=hole.css)
 
 
-@app.post('/h/<sub>/sidebar')
+@app.post('/h/<hole>/sidebar')
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def post_sub_sidebar(v, sub):
-	sub = get_sub_by_name(sub)
-	if not v.mods(sub.name): abort(403)
+def post_hole_sidebar(v, hole):
+	hole = get_hole(hole)
+	if not v.mods(hole.name): abort(403)
 	if v.shadowbanned: abort(400)
 
-	sub.sidebar = request.values.get('sidebar', '')[:10000].strip()
-	sidebar_html = sanitize(sub.sidebar, blackjack=f"/h/{sub} sidebar")
+	hole.sidebar = request.values.get('sidebar', '')[:10000].strip()
+	sidebar_html = sanitize(hole.sidebar, blackjack=f"/h/{hole} sidebar")
 
 	if len(sidebar_html) > 20000:
 		abort(400, "Sidebar is too big! (max 20000 characters)")
 
-	sub.sidebar_html = sidebar_html
-	g.db.add(sub)
+	hole.sidebar_html = sidebar_html
+	g.db.add(hole)
 
-	ma = SubAction(
-		sub=sub.name,
+	ma = HoleAction(
+		hole=hole.name,
 		kind='edit_sidebar',
 		user_id=v.id
 	)
@@ -462,18 +462,18 @@ def post_sub_sidebar(v, sub):
 	return {"message": "Sidebar changed successfully!"}
 
 
-@app.post('/h/<sub>/css')
+@app.post('/h/<hole>/css')
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def post_sub_css(v, sub):
-	sub = get_sub_by_name(sub)
+def post_hole_css(v, hole):
+	hole = get_hole(hole)
 	css = request.values.get('css', '').strip()
 
-	if not sub: abort(404)
-	if not v.mods(sub.name): abort(403)
+	if not hole: abort(404)
+	if not v.mods(hole.name): abort(403)
 	if v.shadowbanned: abort(400)
 
 	if len(css) > 6000:
@@ -483,11 +483,11 @@ def post_sub_css(v, sub):
 	if not valid:
 		abort(400, error)
 
-	sub.css = css
-	g.db.add(sub)
+	hole.css = css
+	g.db.add(hole)
 
-	ma = SubAction(
-		sub=sub.name,
+	ma = HoleAction(
+		hole=hole.name,
 		kind='edit_css',
 		user_id=v.id
 	)
@@ -495,26 +495,26 @@ def post_sub_css(v, sub):
 
 	return {"message": "CSS changed successfully!"}
 
-@app.get("/h/<sub>/css")
+@app.get("/h/<hole>/css")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-def get_sub_css(sub):
-	sub = g.db.query(Sub.css).filter_by(name=sub.strip().lower()).one_or_none()
-	if not sub: abort(404)
-	resp = make_response(sub.css or "")
+def get_hole_css(hole):
+	hole = g.db.query(Hole.css).filter_by(name=hole.strip().lower()).one_or_none()
+	if not hole: abort(404)
+	resp = make_response(hole.css or "")
 	resp.headers.add("Content-Type", "text/css")
 	return resp
 
-@app.post("/h/<sub>/settings/banners/")
+@app.post("/h/<hole>/settings/banners/")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit("50/day", deduct_when=lambda response: response.status_code < 400)
 @limiter.limit("50/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def upload_sub_banner(v, sub):
+def upload_hole_banner(v, hole):
 	if g.is_tor: abort(403, "Image uploads are not allowed through Tor")
 
-	sub = get_sub_by_name(sub)
-	if not v.mods(sub.name): abort(403)
+	hole = get_hole(hole)
+	if not v.mods(hole.name): abort(403)
 	if v.shadowbanned: abort(500)
 
 	file = request.files["banner"]
@@ -523,86 +523,86 @@ def upload_sub_banner(v, sub):
 	file.save(name)
 	bannerurl = process_image(name, v, resize=1200)
 
-	sub.bannerurls.append(bannerurl)
+	hole.bannerurls.append(bannerurl)
 
-	g.db.add(sub)
+	g.db.add(hole)
 
-	ma = SubAction(
-		sub=sub.name,
+	ma = HoleAction(
+		hole=hole.name,
 		kind='upload_banner',
 		user_id=v.id
 	)
 	g.db.add(ma)
 
-	return redirect(f'/h/{sub}/settings')
+	return redirect(f'/h/{hole}/settings')
 
-@app.post("/h/<sub>/settings/banners/delete/<int:index>")
+@app.post("/h/<hole>/settings/banners/delete/<int:index>")
 @limiter.limit("1/second;30/day", deduct_when=lambda response: response.status_code < 400)
 @limiter.limit("1/second;30/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def delete_sub_banner(v, sub, index):
-	sub = get_sub_by_name(sub)
-	if not v.mods(sub.name): abort(403)
+def delete_hole_banner(v, hole, index):
+	hole = get_hole(hole)
+	if not v.mods(hole.name): abort(403)
 
-	if not sub.bannerurls:
-		abort(404, f"Banner not found (/h/{sub.name} has no banners)")
-	if index < 0 or index >= len(sub.bannerurls):
-		abort(404, f'Banner not found (banner index {index} is not between 0 and {len(sub.bannerurls)})')
-	banner = sub.bannerurls[index]
+	if not hole.bannerurls:
+		abort(404, f"Banner not found (/h/{hole.name} has no banners)")
+	if index < 0 or index >= len(hole.bannerurls):
+		abort(404, f'Banner not found (banner index {index} is not between 0 and {len(hole.bannerurls)})')
+	banner = hole.bannerurls[index]
 	try:
 		remove_media_using_link(banner)
 	except FileNotFoundError:
 		pass
-	del sub.bannerurls[index]
-	g.db.add(sub)
+	del hole.bannerurls[index]
+	g.db.add(hole)
 
-	ma = SubAction(
-		sub=sub.name,
+	ma = HoleAction(
+		hole=hole.name,
 		kind='delete_banner',
 		_note=index,
 		user_id=v.id
 	)
 	g.db.add(ma)
 
-	return {"message": f"Deleted banner {index} from /h/{sub} successfully"}
+	return {"message": f"Deleted banner {index} from /h/{hole} successfully"}
 
-@app.post("/h/<sub>/settings/banners/delete_all")
+@app.post("/h/<hole>/settings/banners/delete_all")
 @limiter.limit("1/10 second;30/day", deduct_when=lambda response: response.status_code < 400)
 @limiter.limit("1/10 second;30/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def delete_all_sub_banners(v, sub):
-	sub = get_sub_by_name(sub)
-	if not v.mods(sub.name): abort(403)
+def delete_all_hole_banners(v, hole):
+	hole = get_hole(hole)
+	if not v.mods(hole.name): abort(403)
 
-	for banner in sub.banner_urls:
+	for banner in hole.banner_urls:
 		try:
 			remove_media_using_link(banner)
 		except FileNotFoundError:
 			pass
-	sub.bannerurls = []
-	g.db.add(sub)
+	hole.bannerurls = []
+	g.db.add(hole)
 
-	ma = SubAction(
-		sub=sub.name,
+	ma = HoleAction(
+		hole=hole.name,
 		kind='delete_banner',
 		_note='all',
 		user_id=v.id
 	)
 	g.db.add(ma)
 
-	return {"message": f"Deleted all banners from /h/{sub} successfully"}
+	return {"message": f"Deleted all banners from /h/{hole} successfully"}
 
-@app.post("/h/<sub>/sidebar_image")
+@app.post("/h/<hole>/sidebar_image")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit("10/day", deduct_when=lambda response: response.status_code < 400)
 @limiter.limit("10/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def sub_sidebar(v, sub):
+def hole_sidebar(v, hole):
 	if g.is_tor: abort(403, "Image uploads are not allowed through TOR!")
 
-	sub = get_sub_by_name(sub)
-	if not v.mods(sub.name): abort(403)
+	hole = get_hole(hole)
+	if not v.mods(hole.name): abort(403)
 	if v.shadowbanned: abort(500)
 
 	file = request.files["sidebar"]
@@ -611,31 +611,31 @@ def sub_sidebar(v, sub):
 	sidebarurl = process_image(name, v, resize=400)
 
 	if sidebarurl:
-		if sub.sidebarurl:
-			remove_media_using_link(sub.sidebarurl)
-		sub.sidebarurl = sidebarurl
-		g.db.add(sub)
+		if hole.sidebarurl:
+			remove_media_using_link(hole.sidebarurl)
+		hole.sidebarurl = sidebarurl
+		g.db.add(hole)
 
-	ma = SubAction(
-		sub=sub.name,
+	ma = HoleAction(
+		hole=hole.name,
 		kind='change_sidebar_image',
 		user_id=v.id
 	)
 	g.db.add(ma)
 
-	return redirect(f'/h/{sub}/settings')
+	return redirect(f'/h/{hole}/settings')
 
-@app.post("/h/<sub>/marsey_image")
+@app.post("/h/<hole>/marsey_image")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit("10/day", deduct_when=lambda response: response.status_code < 400)
 @limiter.limit("10/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def sub_marsey(v, sub):
+def hole_marsey(v, hole):
 	if g.is_tor: abort(403, "Image uploads are not allowed through TOR!")
 
-	sub = get_sub_by_name(sub)
-	if not v.mods(sub.name): abort(403)
+	hole = get_hole(hole)
+	if not v.mods(hole.name): abort(403)
 	if v.shadowbanned: abort(500)
 
 	file = request.files["marsey"]
@@ -644,19 +644,19 @@ def sub_marsey(v, sub):
 	marseyurl = process_image(name, v, resize=200)
 
 	if marseyurl:
-		if sub.marseyurl:
-			remove_media_using_link(sub.marseyurl)
-		sub.marseyurl = marseyurl
-		g.db.add(sub)
+		if hole.marseyurl:
+			remove_media_using_link(hole.marseyurl)
+		hole.marseyurl = marseyurl
+		g.db.add(hole)
 
-	ma = SubAction(
-		sub=sub.name,
+	ma = HoleAction(
+		hole=hole.name,
 		kind='change_marsey',
 		user_id=v.id
 	)
 	g.db.add(ma)
 
-	return redirect(f'/h/{sub}/settings')
+	return redirect(f'/h/{hole}/settings')
 
 @app.get("/flairs")
 @app.get("/holes")
@@ -664,9 +664,9 @@ def sub_marsey(v, sub):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def subs(v):
-	subs = g.db.query(Sub, func.count(Post.sub)).outerjoin(Post, Sub.name == Post.sub).group_by(Sub.name).order_by(func.count(Post.sub).desc()).all()
+	subs = g.db.query(Hole, func.count(Post.hole)).outerjoin(Post, Hole.name == Post.hole).group_by(Hole.name).order_by(func.count(Post.hole).desc()).all()
 	total_users = g.db.query(User).count()
-	return render_template('sub/subs.html', v=v, subs=subs, total_users=total_users)
+	return render_template('hole/holes.html', v=v, subs=subs, total_users=total_users)
 
 @app.post("/hole_pin/<int:pid>")
 @limiter.limit('1/second', scope=rpath)
@@ -677,23 +677,23 @@ def subs(v):
 def hole_pin(v, pid):
 	p = get_post(pid)
 
-	if not p.sub: abort(403)
+	if not p.hole: abort(403)
 
-	if not v.mods(p.sub): abort(403)
+	if not v.mods(p.hole): abort(403)
 
-	num = g.db.query(Post).filter(Post.sub == p.sub, Post.hole_pinned != None).count()
+	num = g.db.query(Post).filter(Post.hole == p.hole, Post.hole_pinned != None).count()
 	if num >= 2:
-		abort(403, f"You can only pin 2 posts to /h/{p.sub}")
+		abort(403, f"You can only pin 2 posts to /h/{p.hole}")
 
 	p.hole_pinned = v.username
 	g.db.add(p)
 
 	if v.id != p.author_id:
-		message = f"@{v.username} (a /h/{p.sub} mod) has pinned [{p.title}]({p.shortlink}) in /h/{p.sub}"
+		message = f"@{v.username} (a /h/{p.hole} mod) has pinned [{p.title}]({p.shortlink}) in /h/{p.hole}"
 		send_repeatable_notification(p.author_id, message)
 
-	ma = SubAction(
-		sub=p.sub,
+	ma = HoleAction(
+		hole=p.hole,
 		kind='pin_post',
 		user_id=v.id,
 		target_post_id=p.id
@@ -702,7 +702,7 @@ def hole_pin(v, pid):
 
 	cache.delete_memoized(frontlist)
 
-	return {"message": f"Post pinned to /h/{p.sub} successfully!"}
+	return {"message": f"Post pinned to /h/{p.hole} successfully!"}
 
 @app.post("/hole_unpin/<int:pid>")
 @limiter.limit('1/second', scope=rpath)
@@ -713,19 +713,19 @@ def hole_pin(v, pid):
 def hole_unpin(v, pid):
 	p = get_post(pid)
 
-	if not p.sub: abort(403)
+	if not p.hole: abort(403)
 
-	if not v.mods(p.sub): abort(403)
+	if not v.mods(p.hole): abort(403)
 
 	p.hole_pinned = None
 	g.db.add(p)
 
 	if v.id != p.author_id:
-		message = f"@{v.username} (a /h/{p.sub} mod) has unpinned [{p.title}]({p.shortlink}) in /h/{p.sub}"
+		message = f"@{v.username} (a /h/{p.hole} mod) has unpinned [{p.title}]({p.shortlink}) in /h/{p.hole}"
 		send_repeatable_notification(p.author_id, message)
 
-	ma = SubAction(
-		sub=p.sub,
+	ma = HoleAction(
+		hole=p.hole,
 		kind='unpin_post',
 		user_id=v.id,
 		target_post_id=p.id
@@ -734,42 +734,42 @@ def hole_unpin(v, pid):
 
 	cache.delete_memoized(frontlist)
 
-	return {"message": f"Post unpinned from /h/{p.sub} successfully!"}
+	return {"message": f"Post unpinned from /h/{p.hole} successfully!"}
 
 
-@app.post('/h/<sub>/stealth')
+@app.post('/h/<hole>/stealth')
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def sub_stealth(v, sub):
-	sub = get_sub_by_name(sub)
-	if sub.name in {'braincels','smuggies','mnn'} and v.admin_level < PERMS["MODS_EVERY_HOLE"]:
+def hole_stealth(v, hole):
+	hole = get_hole(hole)
+	if hole.name in {'braincels','smuggies','mnn'} and v.admin_level < PERMS["MODS_EVERY_HOLE"]:
 		abort(403)
-	if not v.mods(sub.name): abort(403)
+	if not v.mods(hole.name): abort(403)
 
-	sub.stealth = not sub.stealth
-	g.db.add(sub)
+	hole.stealth = not hole.stealth
+	g.db.add(hole)
 
 	cache.delete_memoized(frontlist)
 
-	if sub.stealth:
-		ma = SubAction(
-			sub=sub.name,
+	if hole.stealth:
+		ma = HoleAction(
+			hole=hole.name,
 			kind='enable_stealth',
 			user_id=v.id
 		)
 		g.db.add(ma)
-		return {"message": f"Stealth mode has been enabled for /h/{sub} successfully!"}
+		return {"message": f"Stealth mode has been enabled for /h/{hole} successfully!"}
 	else:
-		ma = SubAction(
-			sub=sub.name,
+		ma = HoleAction(
+			hole=hole.name,
 			kind='disable_stealth',
 			user_id=v.id
 		)
 		g.db.add(ma)
-		return {"message": f"Stealth mode has been disabled for /h/{sub} successfully!"}
+		return {"message": f"Stealth mode has been disabled for /h/{hole} successfully!"}
 
 
 @app.post("/pin_comment_mod/<int:cid>")
@@ -784,14 +784,14 @@ def pin_comment_mod(cid, v):
 	comment = get_comment(cid, v=v)
 
 	if not comment.stickied:
-		if not (comment.post.sub and v.mods(comment.post.sub)): abort(403)
+		if not (comment.post.hole and v.mods(comment.post.hole)): abort(403)
 
 		comment.stickied = v.username + " (Mod)"
 
 		g.db.add(comment)
 
-		ma = SubAction(
-			sub=comment.post.sub,
+		ma = HoleAction(
+			hole=comment.post.hole,
 			kind="pin_comment",
 			user_id=v.id,
 			target_comment_id=comment.id
@@ -799,7 +799,7 @@ def pin_comment_mod(cid, v):
 		g.db.add(ma)
 
 		if v.id != comment.author_id:
-			message = f"@{v.username} (a /h/{comment.post.sub} mod) has pinned your [comment]({comment.shortlink})"
+			message = f"@{v.username} (a /h/{comment.post.hole} mod) has pinned your [comment]({comment.shortlink})"
 			send_repeatable_notification(comment.author_id, message)
 
 	return {"message": "Comment pinned!"}
@@ -815,14 +815,14 @@ def unpin_comment_mod(cid, v):
 	comment = get_comment(cid, v=v)
 
 	if comment.stickied:
-		if not (comment.post.sub and v.mods(comment.post.sub)): abort(403)
+		if not (comment.post.hole and v.mods(comment.post.hole)): abort(403)
 
 		comment.stickied = None
 		comment.stickied_utc = None
 		g.db.add(comment)
 
-		ma = SubAction(
-			sub=comment.post.sub,
+		ma = HoleAction(
+			hole=comment.post.hole,
 			kind="unpin_comment",
 			user_id=v.id,
 			target_comment_id=comment.id
@@ -830,19 +830,19 @@ def unpin_comment_mod(cid, v):
 		g.db.add(ma)
 
 		if v.id != comment.author_id:
-			message = f"@{v.username} (a /h/{comment.post.sub} mod) has unpinned your [comment]({comment.shortlink})"
+			message = f"@{v.username} (a /h/{comment.post.hole} mod) has unpinned your [comment]({comment.shortlink})"
 			send_repeatable_notification(comment.author_id, message)
 	return {"message": "Comment unpinned!"}
 
 
-@app.get("/h/<sub>/log")
-@app.get("/h/<sub>/modlog")
+@app.get("/h/<hole>/log")
+@app.get("/h/<hole>/modlog")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def hole_log(v, sub):
-	sub = get_sub_by_name(sub)
-	if not can_see(v, sub):
+def hole_log(v, hole):
+	hole = get_hole(hole)
+	if not can_see(v, hole):
 		abort(403)
 	page = get_page()
 
@@ -852,14 +852,14 @@ def hole_log(v, sub):
 
 	kind = request.values.get("kind")
 
-	types = SUBACTION_TYPES
+	types = HOLEACTION_TYPES
 
 	if kind and kind not in types:
 		kind = None
 		actions = []
 		total=0
 	else:
-		actions = g.db.query(SubAction).filter_by(sub=sub.name)
+		actions = g.db.query(HoleAction).filter_by(hole=hole.name)
 
 		if mod_id:
 			actions = actions.filter_by(user_id=mod_id)
@@ -871,29 +871,29 @@ def hole_log(v, sub):
 			types = types2
 		if kind: actions = actions.filter_by(kind=kind)
 		total = actions.count()
-		actions = actions.order_by(SubAction.id.desc()).offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE).all()
+		actions = actions.order_by(HoleAction.id.desc()).offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE).all()
 
-	mods = [x[0] for x in g.db.query(Mod.user_id).filter_by(sub=sub.name)]
+	mods = [x[0] for x in g.db.query(Mod.user_id).filter_by(hole=hole.name)]
 	mods = [x[0] for x in g.db.query(User.username).filter(User.id.in_(mods)).order_by(User.username)]
 
-	return render_template("log.html", v=v, admins=mods, types=types, admin=mod, type=kind, actions=actions, total=total, page=page, sub=sub, single_user_url='mod')
+	return render_template("log.html", v=v, admins=mods, types=types, admin=mod, type=kind, actions=actions, total=total, page=page, hole=hole, single_user_url='mod')
 
-@app.get("/h/<sub>/log/<int:id>")
+@app.get("/h/<hole>/log/<int:id>")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def hole_log_item(id, v, sub):
-	sub = get_sub_by_name(sub)
-	if not can_see(v, sub):
+def hole_log_item(id, v, hole):
+	hole = get_hole(hole)
+	if not can_see(v, hole):
 		abort(403)
 
-	action = g.db.get(SubAction, id)
+	action = g.db.get(HoleAction, id)
 
 	if not action: abort(404)
 
-	mods = [x[0] for x in g.db.query(Mod.user_id).filter_by(sub=sub.name)]
+	mods = [x[0] for x in g.db.query(Mod.user_id).filter_by(hole=hole.name)]
 	mods = [x[0] for x in g.db.query(User.username).filter(User.id.in_(mods)).order_by(User.username)]
 
-	types = SUBACTION_TYPES
+	types = HOLEACTION_TYPES
 
-	return render_template("log.html", v=v, actions=[action], total=1, page=1, action=action, admins=mods, types=types, sub=sub, single_user_url='mod')
+	return render_template("log.html", v=v, actions=[action], total=1, page=1, action=action, admins=mods, types=types, hole=hole, single_user_url='mod')

@@ -1,7 +1,7 @@
 {% extends "default.html" %}
 {% block title %}
-	{% if sub %}
-		<title>/h/{{sub.name}}</title>
+	{% if hole %}
+		<title>/h/{{hole.name}}</title>
 	{% elif request.path == '/' %}
 		{% if IS_DKD() %}
 			<title>Kongrama</title>
@@ -12,13 +12,13 @@
 		{{super()}}
 	{% endif %}
 {% endblock %}
-{% block pagetitle %}{{SITE_NAME if not sub else '/h/' ~ sub.name}}{% endblock %}
+{% block pagetitle %}{{SITE_NAME if not hole else '/h/' ~ hole.name}}{% endblock %}
 
 {% block head_final %}
-{% set preview = sub.siderbarurl if sub and sub.sidebarurl else sub.bannerurl %}
-{% if sub %}
+{% set preview = hole.siderbarurl if hole and hole.sidebarurl else hole.bannerurl %}
+{% if hole %}
 <meta property="og:type" content="article">
-<meta property="og:title" content="/h/{{sub}}">
+<meta property="og:title" content="/h/{{hole}}">
 <meta property="og:site_name" content="{{SITE}}">
 <meta property="og:image" content="{{preview}}">
 <meta property="og:url" content="{{request.full_path}}">
@@ -26,20 +26,20 @@
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="{{SITE_FULL}}">
-<meta name="twitter:title" content="/h/{{sub.name}}">
+<meta name="twitter:title" content="/h/{{hole.name}}">
 <meta name="twitter:creator" content="{{SITE_FULL}}">
 <meta name="twitter:image" content="{{preview}}">
 <meta name="twitter:url" content="{{request.full_path}}">
 {% endif %}
-{% if sub.sidebar %}
-	<meta property="og:description" name="description" content="{{sub.sidebar}}">
-	<meta name="twitter:description" content="{{sub.sidebar}}">
+{% if hole.sidebar %}
+	<meta property="og:description" name="description" content="{{hole.sidebar}}">
+	<meta name="twitter:description" content="{{hole.sidebar}}">
 {% endif %}
 {% endblock %}
 {% block desktopBanner %}
 {%- set search_placeholder = "Search" -%}
-{%- if sub -%}
-	{%- set search_placeholder = "Search (try '" ~ HOLE_NAME ~ ":" ~ sub.name ~ "')" -%}
+{%- if hole -%}
+	{%- set search_placeholder = "Search (try '" ~ HOLE_NAME ~ ":" ~ hole.name ~ "')" -%}
 {%- endif -%}
 <div class="row" style="overflow: visible;padding-top:5px">
 	<div class="col">
@@ -52,23 +52,23 @@
 			</span>
 		</form>
 
-		<a class="btn btn-primary btn-block mt-3" href="{% if sub %}/h/{{sub}}{% endif %}/submit"><i class="fas fa-feather-alt mr-2"></i>Create Post {% if sub %}in /h/{{sub}}{% endif %}</a>
+		<a class="btn btn-primary btn-block mt-3" href="{% if hole %}/h/{{hole}}{% endif %}/submit"><i class="fas fa-feather-alt mr-2"></i>Create Post {% if hole %}in /h/{{hole}}{% endif %}</a>
 
-		{% if sub %}
+		{% if hole %}
 			{% if v %}
-				{% if sub.stealth %}
-					<button type="button" id="unsubscribe-sub" class="btn btn-primary btn-block {% if not v.subscribes(sub.name) %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/h/{{sub.name}}/unsubscribe','subscribe-sub','unsubscribe-sub','d-none')"><i class="fas fa-eye-slash mr-2"></i>Block /h/{{sub.name}}</button>
-					<button type="button" id="subscribe-sub" class="btn btn-primary btn-block {% if v.subscribes(sub.name) %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/h/{{sub.name}}/subscribe','subscribe-sub','unsubscribe-sub','d-none')"><i class="fas fa-eye mr-2"></i>Unblock /h/{{sub.name}}</button>
+				{% if hole.stealth %}
+					<button type="button" id="unsubscribe-sub" class="btn btn-primary btn-block {% if not v.subscribes(hole.name) %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/h/{{hole.name}}/unsubscribe','subscribe-sub','unsubscribe-sub','d-none')"><i class="fas fa-eye-slash mr-2"></i>Block /h/{{hole.name}}</button>
+					<button type="button" id="subscribe-sub" class="btn btn-primary btn-block {% if v.subscribes(hole.name) %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/h/{{hole.name}}/subscribe','subscribe-sub','unsubscribe-sub','d-none')"><i class="fas fa-eye mr-2"></i>Unblock /h/{{hole.name}}</button>
 				{% else %}
-					<button type="button" id="block-sub" class="btn btn-primary btn-block mt-3 {% if v.blocks(sub.name) %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/h/{{sub.name}}/block','block-sub','unblock-sub','d-none')"><i class="fas fa-eye-slash mr-2"></i>Block /h/{{sub.name}}</button>
-					<button type="button" id="unblock-sub" class="btn btn-primary btn-block mt-3 {% if not v.blocks(sub.name) %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/h/{{sub.name}}/unblock','block-sub','unblock-sub','d-none')"><i class="fas fa-eye mr-2"></i>Unblock /h/{{sub.name}}</button>
+					<button type="button" id="block-sub" class="btn btn-primary btn-block mt-3 {% if v.blocks(hole.name) %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/h/{{hole.name}}/block','block-sub','unblock-sub','d-none')"><i class="fas fa-eye-slash mr-2"></i>Block /h/{{hole.name}}</button>
+					<button type="button" id="unblock-sub" class="btn btn-primary btn-block mt-3 {% if not v.blocks(hole.name) %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/h/{{hole.name}}/unblock','block-sub','unblock-sub','d-none')"><i class="fas fa-eye mr-2"></i>Unblock /h/{{hole.name}}</button>
 				{% endif %}
 
-				<button type="button" id="follow-sub" class="btn btn-primary btn-follow {% if v.follows(sub.name) %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/h/{{sub.name}}/follow','follow-sub','unfollow-sub','d-none')"><i class="fas fa-bell mr-2"></i>Follow /h/{{sub.name}}</button>
-				<button type="button" id="unfollow-sub" class="btn btn-primary btn-follow {% if not v.follows(sub.name) %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/h/{{sub.name}}/unfollow','follow-sub','unfollow-sub','d-none')"><i class="fas fa-bell-slash mr-2"></i>Unfollow /h/{{sub.name}}</button>
+				<button type="button" id="follow-sub" class="btn btn-primary btn-follow {% if v.follows(hole.name) %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/h/{{hole.name}}/follow','follow-sub','unfollow-sub','d-none')"><i class="fas fa-bell mr-2"></i>Follow /h/{{hole.name}}</button>
+				<button type="button" id="unfollow-sub" class="btn btn-primary btn-follow {% if not v.follows(hole.name) %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/h/{{hole.name}}/unfollow','follow-sub','unfollow-sub','d-none')"><i class="fas fa-bell-slash mr-2"></i>Unfollow /h/{{hole.name}}</button>
 			{% else %}
-				<a class="btn btn-primary btn-block" href="/login?redirect={{request.full_path | urlencode}}"><i class="fas fa-eye-slash mr-2"></i>Block /h/{{sub.name}}</a>
-				<a class="btn btn-primary btn-block" href="/login?redirect={{request.full_path | urlencode}}"><i class="fas fa-bell mr-2"></i>Follow /h/{{sub.name}}</a>
+				<a class="btn btn-primary btn-block" href="/login?redirect={{request.full_path | urlencode}}"><i class="fas fa-eye-slash mr-2"></i>Block /h/{{hole.name}}</a>
+				<a class="btn btn-primary btn-block" href="/login?redirect={{request.full_path | urlencode}}"><i class="fas fa-bell mr-2"></i>Follow /h/{{hole.name}}</a>
 			{% endif %}
 		{% endif %}
 
@@ -77,7 +77,7 @@
 			{% block navbar %}
 			<div class="d-flex align-items-center">
 				{% set pcolor = "primary" if pins else "secondary" %}
-				<form action="/toggle_pins/{{sub}}/{{sort}}" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHRReload(this)">
+				<form action="/toggle_pins/{{hole}}/{{sort}}" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHRReload(this)">
 					<button type="submit" class="btn btn-{{pcolor}} text-{{pcolor}} mx-2"><i type="submit" class="fas fas fa-thumbtack fa-rotate--45 mr-2"></i>Pins</button>
 				</form>
 

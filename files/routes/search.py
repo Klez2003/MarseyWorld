@@ -140,7 +140,7 @@ def searchposts(v):
 
 
 	if search_operator_hole in criteria:
-		posts = posts.filter(Post.sub == criteria[search_operator_hole])
+		posts = posts.filter(Post.hole == criteria[search_operator_hole])
 
 	if 'after' in criteria:
 		after = criteria['after']
@@ -239,7 +239,7 @@ def searchcomments(v):
 	if 'nsfw' in criteria: comments = comments.filter(Comment.nsfw == True)
 
 	if search_operator_hole in criteria:
-		comments = comments.filter(Post.sub == criteria[search_operator_hole])
+		comments = comments.filter(Post.hole == criteria[search_operator_hole])
 
 	comments = apply_time_filter(t, comments, Comment)
 

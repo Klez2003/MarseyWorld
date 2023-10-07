@@ -11,23 +11,23 @@ from files.classes import Base
 from files.helpers.lazy import lazy
 from files.helpers.config.const import *
 
-from .sub_relationship import *
+from .hole_relationship import *
 
-class Sub(Base):
-	__tablename__ = "subs"
-	name = Column(VARCHAR(SUB_NAME_COLUMN_LENGTH), primary_key=True)
-	sidebar = Column(VARCHAR(SUB_SIDEBAR_COLUMN_LENGTH))
-	sidebar_html = Column(VARCHAR(SUB_SIDEBAR_HTML_COLUMN_LENGTH))
-	sidebarurl = Column(VARCHAR(SUB_SIDEBAR_URL_COLUMN_LENGTH))
-	bannerurls = Column(MutableList.as_mutable(ARRAY(VARCHAR(SUB_BANNER_URL_COLUMN_LENGTH))), default=MutableList([]), nullable=False)
-	marseyurl = Column(VARCHAR(SUB_MARSEY_URL_LENGTH))
-	css = Column(VARCHAR(SUB_CSS_COLUMN_LENGTH))
+class Hole(Base):
+	__tablename__ = "holes"
+	name = Column(VARCHAR(HOLE_NAME_COLUMN_LENGTH), primary_key=True)
+	sidebar = Column(VARCHAR(HOLE_SIDEBAR_COLUMN_LENGTH))
+	sidebar_html = Column(VARCHAR(HOLE_SIDEBAR_HTML_COLUMN_LENGTH))
+	sidebarurl = Column(VARCHAR(HOLE_SIDEBAR_URL_COLUMN_LENGTH))
+	bannerurls = Column(MutableList.as_mutable(ARRAY(VARCHAR(HOLE_BANNER_URL_COLUMN_LENGTH))), default=MutableList([]), nullable=False)
+	marseyurl = Column(VARCHAR(HOLE_MARSEY_URL_LENGTH))
+	css = Column(VARCHAR(HOLE_CSS_COLUMN_LENGTH))
 	stealth = Column(Boolean)
 	created_utc = Column(Integer)
 
-	blocks = relationship("SubBlock", primaryjoin="SubBlock.sub==Sub.name")
-	followers = relationship("SubSubscription", primaryjoin="SubSubscription.sub==Sub.name")
-	joins = relationship("SubJoin", lazy="dynamic", primaryjoin="SubJoin.sub==Sub.name")
+	blocks = relationship("HoleBlock", primaryjoin="HoleBlock.hole==Hole.name")
+	followers = relationship("HoleFollow", primaryjoin="HoleFollow.hole==Hole.name")
+	joins = relationship("StealthHoleUnblock", lazy="dynamic", primaryjoin="StealthHoleUnblock.hole==Hole.name")
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())

@@ -74,8 +74,8 @@
 			<span class="font-weight-bold"><a {% if v and v.newtab %}data-target="t" target="_blank"{% endif %} href="{{c.post.permalink}}">{{c.post.realtitle(v) | safe}}</a></span>
 		{% endif %}
 
-		{% if c.post.sub %}
-			<span class="ml-1"> in <a href="/h/{{c.post.sub}}" {% if v and v.newtab %}data-target="t" target="_blank"{% endif %}>/h/{{c.post.sub}}</a></span>
+		{% if c.post.hole %}
+			<span class="ml-1"> in <a href="/h/{{c.post.hole}}" {% if v and v.newtab %}data-target="t" target="_blank"{% endif %}>/h/{{c.post.hole}}</a></span>
 		{% endif %}
 	{% elif c.author_id==AUTOJANNY_ID %}
 		<span class="font-weight-bold">Notification</span>
@@ -124,17 +124,17 @@
 				{% endfor %}
 
 				{% if c.parent_post %}
-					{% set sub = c.post.sub %}
-					{% if sub and c.author.exiler_username(sub) %}
-						<a><i class="fas fa-campfire text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="User has been exiled from /h/{{sub}} by @{{c.author.exiler_username(sub)}}"></i></a>
+					{% set hole = c.post.hole %}
+					{% if hole and c.author.exiler_username(hole) %}
+						<a><i class="fas fa-campfire text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="User has been exiled from /h/{{hole}} by @{{c.author.exiler_username(hole)}}"></i></a>
 					{% endif %}
 				{% endif %}
 
-				{% if c.bannedfor and not (c.parent_post and c.post.sub == 'chudrama') %}
+				{% if c.bannedfor and not (c.parent_post and c.post.hole == 'chudrama') %}
 					<i class="fas fa-hammer-crash text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="User was banned for this comment {{c.bannedfor}}"></i>
 				{% endif %}
 
-				{% if c.chuddedfor and not (c.parent_post and c.post.sub == 'chudrama') %}
+				{% if c.chuddedfor and not (c.parent_post and c.post.hole == 'chudrama') %}
 					<i class="fas fa-face-sleeping text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="User was chudded for this comment {{c.chuddedfor}}"></i>
 				{% endif %}
 
@@ -436,7 +436,7 @@
 										{% set url = "sticky_comment" %}
 									{% elif v.id == c.post.author_id %}
 										{% set url = "pin_comment" %}
-									{% elif c.post.sub and v.mods(c.post.sub) %}
+									{% elif c.post.hole and v.mods(c.post.hole) %}
 										{% set url = "pin_comment_mod" %}
 									{% endif %}
 
@@ -466,10 +466,10 @@
 								{% endif %}
 
 								{% if c.parent_post %}
-									{% set sub = c.post.sub %}
-									{% if sub and v.mods(sub) and not c.author.mods(sub) %}
-										<button type="button" id="exile-{{c.id}}" class="d-none {% if not c.author.exiler_username(sub) %}d-md-block{% endif %} dropdown-item list-inline-item text-danger" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/exile/comment/{{c.id}}','exile-{{c.id}}','unexile-{{c.id}}','d-none')"><i class="fas fa-campfire text-danger fa-fw"></i>Exile user</button>
-										<button type="button" id="unexile-{{c.id}}" class="d-none {% if c.author.exiler_username(sub) %}d-md-block{% endif %} dropdown-item list-inline-item text-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/h/{{sub}}/unexile/{{c.author_id}}','exile-{{c.id}}','unexile-{{c.id}}','d-none')"><i class="fas fa-campfire text-success fa-fw"></i>Unexile user</button>
+									{% set hole = c.post.hole %}
+									{% if hole and v.mods(hole) and not c.author.mods(hole) %}
+										<button type="button" id="exile-{{c.id}}" class="d-none {% if not c.author.exiler_username(hole) %}d-md-block{% endif %} dropdown-item list-inline-item text-danger" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/exile/comment/{{c.id}}','exile-{{c.id}}','unexile-{{c.id}}','d-none')"><i class="fas fa-campfire text-danger fa-fw"></i>Exile user</button>
+										<button type="button" id="unexile-{{c.id}}" class="d-none {% if c.author.exiler_username(hole) %}d-md-block{% endif %} dropdown-item list-inline-item text-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/h/{{hole}}/unexile/{{c.author_id}}','exile-{{c.id}}','unexile-{{c.id}}','d-none')"><i class="fas fa-campfire text-success fa-fw"></i>Unexile user</button>
 									{% endif %}
 								{% endif %}
 
@@ -478,7 +478,7 @@
 									<button type="button" id="unprogstack-{{c.id}}" class="dropdown-item list-inline-item d-none {% if c.is_approved == PROGSTACK_ID %}d-md-block{% endif %} text-danger" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/admin/unprogstack/comment/{{c.id}}','progstack-{{c.id}}','unprogstack-{{c.id}}','d-md-block')"><i class="fas fa-bullhorn text-danger fa-fw"></i>Remove Progressive Stack</button>
 								{% endif %}
 
-								{% if FEATURES['NSFW_MARKING'] and (c.parent_post or c.wall_user_id) and (c.author_id==v.id or v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or (c.post.sub and v.mods(c.post.sub))) %}
+								{% if FEATURES['NSFW_MARKING'] and (c.parent_post or c.wall_user_id) and (c.author_id==v.id or v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or (c.post.hole and v.mods(c.post.hole))) %}
 									<button type="button" id="mark-{{c.id}}" class="dropdown-item list-inline-item d-none {% if not c.nsfw %}d-md-block{% endif %} text-danger" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/toggle_comment_nsfw/{{c.id}}','mark-{{c.id}}','unmark-{{c.id}}','d-md-block')"><i class="fas fa-eye-evil text-danger fa-fw"></i>Mark NSFW</button>
 									<button type="button" id="unmark-{{c.id}}" class="dropdown-item list-inline-item d-none {% if c.nsfw %}d-md-block{% endif %} text-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/toggle_comment_nsfw/{{c.id}}','mark-{{c.id}}','unmark-{{c.id}}','d-md-block')"><i class="fas fa-eye-evil text-success fa-fw"></i>Unmark NSFW</button>
 								{% endif %}
@@ -636,7 +636,7 @@
 							{% endif %}
 						{% endif %}
 
-						{% if FEATURES['NSFW_MARKING'] and (c.author_id == v.id or (c.post.sub and v.mods(c.post.sub))) %}
+						{% if FEATURES['NSFW_MARKING'] and (c.author_id == v.id or (c.post.hole and v.mods(c.post.hole))) %}
 							<button type="button" id="mark2-{{c.id}}" class="{% if c.nsfw %}d-none{% endif %} list-group-item text-danger" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/toggle_comment_nsfw/{{c.id}}','mark2-{{c.id}}','unmark2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-eye-evil text-danger mr-2"></i>Mark NSFW</button>
 
 							<button type="button" id="unmark2-{{c.id}}" class="{% if not c.nsfw %}d-none{% endif %} list-group-item text-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/toggle_comment_nsfw/{{c.id}}','mark2-{{c.id}}','unmark2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-eye-evil text-success mr-2"></i>Unmark NSFW</button>
@@ -646,17 +646,17 @@
 							{% if c.parent_post and v.id == c.post.author_id %}
 								<button type="button" id="pin2-{{c.id}}" class="list-group-item {% if c.stickied %}d-none{% endif %} text-info" data-bs-target="#actionsModal-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/pin_comment/{{c.id}}','pin2-{{c.id}}','unpin2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-thumbtack fa-rotate--45 text-info mr-2"></i>Pin</button>
 								<button type="button" id="unpin2-{{c.id}}" class="list-group-item {% if not c.stickied %}d-none{% endif %} text-info" data-bs-target="#actionsModal-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unpin_comment/{{c.id}}','pin2-{{c.id}}','unpin2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-thumbtack fa-rotate--45 text-info mr-2"></i>Unpin</button>
-							{% elif c.post.sub and v.mods(c.post.sub) %}
+							{% elif c.post.hole and v.mods(c.post.hole) %}
 								<button type="button" id="pin2-{{c.id}}" class="list-group-item {% if c.stickied %}d-none{% endif %} text-info" data-bs-target="#actionsModal-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/pin_comment_mod/{{c.id}}','pin2-{{c.id}}','unpin2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-thumbtack fa-rotate--45 text-info mr-2"></i>Pin</button>
 								<button type="button" id="unpin2-{{c.id}}" class="list-group-item {% if not c.stickied %}d-none{% endif %} text-info" data-bs-target="#actionsModal-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unpin_comment_mod/{{c.id}}','pin2-{{c.id}}','unpin2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-thumbtack fa-rotate--45 text-info mr-2"></i>Unpin</button>
 							{% endif %}
 						{% endif %}
 
 						{% if c.parent_post %}
-							{% set sub = c.post.sub %}
-							{% if sub and v.mods(sub) and not c.author.mods(sub) %}
-								<button type="button" data-bs-dismiss="modal" id="exile2-{{c.id}}" class="{% if c.author.exiler_username(sub) %}d-none{% endif %} list-group-item text-danger" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/exile/comment/{{c.id}}','exile2-{{c.id}}','unexile2-{{c.id}}','d-none')"><i class="fas fa-campfire text-danger mr-2"></i>Exile user</button>
-								<button type="button" data-bs-dismiss="modal" id="unexile2-{{c.id}}" class="{% if not c.author.exiler_username(sub) %}d-none{% endif %} list-group-item text-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/h/{{sub}}/unexile/{{c.author_id}}','exile2-{{c.id}}','unexile2-{{c.id}}','d-none')"><i class="fas fa-campfire text-success mr-2"></i>Unexile user</button>
+							{% set hole = c.post.hole %}
+							{% if hole and v.mods(hole) and not c.author.mods(hole) %}
+								<button type="button" data-bs-dismiss="modal" id="exile2-{{c.id}}" class="{% if c.author.exiler_username(hole) %}d-none{% endif %} list-group-item text-danger" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/exile/comment/{{c.id}}','exile2-{{c.id}}','unexile2-{{c.id}}','d-none')"><i class="fas fa-campfire text-danger mr-2"></i>Exile user</button>
+								<button type="button" data-bs-dismiss="modal" id="unexile2-{{c.id}}" class="{% if not c.author.exiler_username(hole) %}d-none{% endif %} list-group-item text-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/h/{{hole}}/unexile/{{c.author_id}}','exile2-{{c.id}}','unexile2-{{c.id}}','d-none')"><i class="fas fa-campfire text-success mr-2"></i>Unexile user</button>
 							{% endif %}
 						{% endif %}
 					{% endif %}

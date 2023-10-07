@@ -9,7 +9,7 @@ from files.helpers.lazy import *
 class Mod(Base):
 	__tablename__ = "mods"
 	user_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
-	sub = Column(String, ForeignKey("subs.name"), primary_key=True)
+	hole = Column(String, ForeignKey("holes.name"), primary_key=True)
 	created_utc = Column(Integer)
 
 	def __init__(self, *args, **kwargs):
@@ -17,4 +17,4 @@ class Mod(Base):
 		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
-		return f"<{self.__class__.__name__}(user_id={self.user_id}, sub={self.sub})>"
+		return f"<{self.__class__.__name__}(user_id={self.user_id}, hole={self.hole})>"

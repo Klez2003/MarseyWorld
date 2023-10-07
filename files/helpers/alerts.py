@@ -103,7 +103,7 @@ def notif_comment2(p):
 
 	if existing: return existing[0], text
 	else:
-		if p.sub: text += f" in <a href='/h/{p.sub}'>/h/{p.sub}"
+		if p.hole: text += f" in <a href='/h/{p.hole}'>/h/{p.hole}"
 		text_html = sanitize(text, blackjack="notification", post_mention_notif=True)
 		return create_comment(text_html), text
 

@@ -1029,7 +1029,7 @@ def ban_user(fullname, v):
 			except: abort(400)
 			actual_reason = reason.split(str(post_id))[1].strip()
 			post = get_post(post_id)
-			if post.sub != 'chudrama':
+			if post.hole != 'chudrama':
 				post.bannedfor = f'{duration} by @{v.username}'
 				if actual_reason:
 					post.bannedfor += f' for "{actual_reason}"'
@@ -1134,7 +1134,7 @@ def chud(fullname, v):
 			try: post = int(reason.split("/post/")[1].split(None, 1)[0])
 			except: abort(400)
 			post = get_post(post)
-			if post.sub == 'chudrama':
+			if post.hole == 'chudrama':
 				abort(403, "You can't chud people in /h/chudrama")
 			post.chuddedfor = f'{duration} by @{v.username}'
 			g.db.add(post)
@@ -1142,7 +1142,7 @@ def chud(fullname, v):
 			try: comment = int(reason.split("/comment/")[1].split(None, 1)[0])
 			except: abort(400)
 			comment = get_comment(comment)
-			if comment.post.sub == 'chudrama':
+			if comment.post.hole == 'chudrama':
 				abort(403, "You can't chud people in /h/chudrama")
 			comment.chuddedfor = f'{duration} by @{v.username}'
 			g.db.add(comment)

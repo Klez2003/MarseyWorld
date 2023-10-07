@@ -1,6 +1,6 @@
 from os import path
 
-from files.classes import Emoji, Sub
+from files.classes import Emoji, Hole
 from files.helpers.config.const import *
 
 SNAPPY_KONGS = []
@@ -32,7 +32,7 @@ def const_initialize():
 	SNAPPY_KONGS = db.query(Emoji.name).filter(Emoji.kind=="Donkey Kong", Emoji.submitter_id==None, Emoji.nsfw == False).all()
 	SNAPPY_KONGS = [f':#{x[0]}:' for x in SNAPPY_KONGS]
 
-	STEALTH_HOLES = [x[0] for x in db.query(Sub.name).filter_by(stealth=True)]
+	STEALTH_HOLES = [x[0] for x in db.query(Hole.name).filter_by(stealth=True)]
 
 	OVER_18_EMOJIS = [x[0] for x in db.query(Emoji.name).filter_by(nsfw=True)]
 

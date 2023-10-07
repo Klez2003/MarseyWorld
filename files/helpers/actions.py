@@ -50,7 +50,7 @@ def snappy_report(post, reason):
 	send_repeatable_notification(post.author_id, message)
 
 def execute_snappy(post, v):
-	if post.sub and g.db.query(Exile.user_id).filter_by(user_id=SNAPPY_ID, sub=post.sub).one_or_none():
+	if post.hole and g.db.query(Exile.user_id).filter_by(user_id=SNAPPY_ID, hole=post.hole).one_or_none():
 		return
 
 	ghost = post.ghost
@@ -271,7 +271,7 @@ def execute_zozbot(c, level, post, v):
 
 	posting_to_post = isinstance(post, Post)
 
-	if posting_to_post and post.sub and g.db.query(Exile.user_id).filter_by(user_id=ZOZBOT_ID, sub=post.sub).one_or_none():
+	if posting_to_post and post.hole and g.db.query(Exile.user_id).filter_by(user_id=ZOZBOT_ID, hole=post.hole).one_or_none():
 		return
 
 	c2 = Comment(author_id=ZOZBOT_ID,
@@ -344,7 +344,7 @@ def execute_longpostbot(c, level, body, body_html, post, v):
 
 	posting_to_post = isinstance(post, Post)
 
-	if posting_to_post and post.sub and g.db.query(Exile.user_id).filter_by(user_id=LONGPOSTBOT_ID, sub=post.sub).one_or_none():
+	if posting_to_post and post.hole and g.db.query(Exile.user_id).filter_by(user_id=LONGPOSTBOT_ID, hole=post.hole).one_or_none():
 		return
 
 	body = random.choice(LONGPOSTBOT_REPLIES)

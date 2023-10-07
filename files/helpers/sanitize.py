@@ -836,10 +836,10 @@ def complies_with_chud(obj):
 
 	if isinstance(obj, Post):
 		if obj.id in ADMIGGER_THREADS: return True
-		if obj.sub == "chudrama": return True
+		if obj.hole == "chudrama": return True
 	elif obj.parent_post:
 		if obj.parent_post in ADMIGGER_THREADS: return True
-		if obj.post.sub == "chudrama": return True
+		if obj.post.hole == "chudrama": return True
 
 	#perserve old body_html to be used in checking for chud phrase
 	old_body_html = obj.body_html

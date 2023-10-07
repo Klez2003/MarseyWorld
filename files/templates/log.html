@@ -5,7 +5,7 @@
 	<div class="col h-100">
 		<div class="justify-content-between">
 			<div>
-				<h5 class="font-weight-bolder text-center pt-2 pb-3">{% if sub %}<a href="/h/{{sub.name}}">/h/{{sub.name}}</a> {% endif %}<span>Moderation Log</span></h5>
+				<h5 class="font-weight-bolder text-center pt-2 pb-3">{% if hole %}<a href="/h/{{hole.name}}">/h/{{hole.name}}</a> {% endif %}<span>Moderation Log</span></h5>
 			</div>
 		</div>
 
@@ -22,9 +22,9 @@
 							</button>
 							<div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 31px, 0px); max-height: 50vh;
 							overflow: auto">
-								<a class="dropdown-item" href="{% if sub %}/h/{{sub}}{% endif %}/log{% if type %}?kind={{type}}{% endif %}"><img loading="lazy" src="{{SITE_FULL_IMAGES}}/e/marseyjanny.webp" alt="avatar" class="profile-pic-20 mr-2">All</a>
+								<a class="dropdown-item" href="{% if hole %}/h/{{hole}}{% endif %}/log{% if type %}?kind={{type}}{% endif %}"><img loading="lazy" src="{{SITE_FULL_IMAGES}}/e/marseyjanny.webp" alt="avatar" class="profile-pic-20 mr-2">All</a>
 								{% for a in admins %}
-									<a class="dropdown-item" href="{% if sub %}/h/{{sub}}{% endif %}/log?{{single_user_url}}={{a}}{% if type %}&kind={{type}}{% endif %}"><img loading="lazy" src="/@{{a}}/pic" alt="avatar" class="profile-pic-20 mr-2">{{a}}</a>
+									<a class="dropdown-item" href="{% if hole %}/h/{{hole}}{% endif %}/log?{{single_user_url}}={{a}}{% if type %}&kind={{type}}{% endif %}"><img loading="lazy" src="/@{{a}}/pic" alt="avatar" class="profile-pic-20 mr-2">{{a}}</a>
 								{% endfor %}
 							</div>
 						</div>
@@ -35,9 +35,9 @@
 							</button>
 							<div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 31px, 0px); max-height: 50vh;
 							overflow: auto">
-								<a class="dropdown-item" href="{% if sub %}/h/{{sub}}{% endif %}/log{% if admin %}?{{single_user_url}}={{admin}}{% endif %}"><i class="fas fa-broom mr-2"></i>All</a>
+								<a class="dropdown-item" href="{% if hole %}/h/{{hole}}{% endif %}/log{% if admin %}?{{single_user_url}}={{admin}}{% endif %}"><i class="fas fa-broom mr-2"></i>All</a>
 								{% for t, v in types.items() %}
-									<a class="dropdown-item" href="{% if sub %}/h/{{sub}}{% endif %}/log?{% if admin %}{{single_user_url}}={{admin}}&{% endif %}kind={{t}}"><i class="fas {{v['icon']}} mr-2"></i>{{t}}</a>
+									<a class="dropdown-item" href="{% if hole %}/h/{{hole}}{% endif %}/log?{% if admin %}{{single_user_url}}={{admin}}&{% endif %}kind={{t}}"><i class="fas {{v['icon']}} mr-2"></i>{{t}}</a>
 								{% endfor %}
 							</div>
 						</div>

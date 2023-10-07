@@ -1,7 +1,7 @@
 from .config.const import *
 from files.classes.post import Post
 from files.classes.comment import Comment
-from files.classes.sub import Sub
+from files.classes.hole import Hole
 from flask import request
 
 def can_see(user, other):
@@ -9,7 +9,7 @@ def can_see(user, other):
 		if not can_see(user, other.author): return False
 		if user and user.id == other.author_id: return True
 		if isinstance(other, Post):
-			if other.sub and not can_see(user, other.subr):
+			if other.hole and not can_see(user, other.hole_obj):
 				return False
 			if request.headers.get("Cf-Ipcountry") == 'NZ':
 				if 'christchurch' in other.title.lower():
@@ -30,7 +30,7 @@ def can_see(user, other):
 						return user.admin_level >= PERMS['VIEW_MODMAIL']
 					if other.sentto != user.id:
 						return user.admin_level >= PERMS['BLACKJACK_NOTIFICATIONS']
-	elif isinstance(other, Sub):
+	elif isinstance(other, Hole):
 		if other.name == 'chudrama': return bool(user) and user.can_see_chudrama
 		if other.name == 'countryclub': return bool(user) and user.can_see_countryclub
 		if other.name == 'highrollerclub': return bool(user) and user.can_see_highrollerclub

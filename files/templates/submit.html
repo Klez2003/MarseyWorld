@@ -10,7 +10,7 @@
 {% block content %}
 		{% block form %}
 		<div class="submit-grid-view">
-			<form id="submitform" action="{% if SITE == 'watchpeopledie.tv' %}https://videos.watchpeopledie.tv{% elif sub %}/h/{{sub}}{% endif %}/submit" method="post" enctype="multipart/form-data" style="grid-column: 2" data-nonce="{{g.nonce}}" data-onsubmit="submit(this)">
+			<form id="submitform" action="{% if SITE == 'watchpeopledie.tv' %}https://videos.watchpeopledie.tv{% elif hole %}/h/{{hole}}{% endif %}/submit" method="post" enctype="multipart/form-data" style="grid-column: 2" data-nonce="{{g.nonce}}" data-onsubmit="submit(this)">
 				<div class="container pb-0">
 						<div class="row justify-content-center">
 								<div class="col px-3 py-0">
@@ -20,9 +20,9 @@
 												<label class='mt-4' for="title">{{HOLE_NAME|capitalize}}</label>
 												<div class="input-group">
 													{%- set hole_placeholder = 'Required' if HOLE_REQUIRED else 'Optional' -%}
-													<input list="subs" autocomplete="off" id='sub' class="form-control" form="submitform" name="sub" data-nonce="{{g.nonce}}" data-oninput="savetext()" {% if sub %}value="{{sub}}"{% endif %} placeholder="{{hole_placeholder}}" {% if HOLE_REQUIRED %}required{% endif %}>
-													<datalist id="subs">
-														{% for s in SUBS %}
+													<input list="holes" autocomplete="off" id="hole" class="form-control" form="submitform" name="hole" data-nonce="{{g.nonce}}" data-oninput="savetext()" {% if hole %}value="{{hole}}"{% endif %} placeholder="{{hole_placeholder}}" {% if HOLE_REQUIRED %}required{% endif %}>
+													<datalist id="holes">
+														{% for s in HOLES %}
 															<option value="{{s}}"></option>
 														{% endfor %}
 													</datalist>

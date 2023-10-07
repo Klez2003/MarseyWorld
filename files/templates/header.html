@@ -1,6 +1,6 @@
 {%- set search_placeholder = "Search" -%}
-{%- if sub -%}
-	{%- set search_placeholder = "Search (try '" ~ HOLE_NAME ~ ":" ~ sub.name ~ "')" -%}
+{%- if hole -%}
+	{%- set search_placeholder = "Search (try '" ~ HOLE_NAME ~ ":" ~ hole.name ~ "')" -%}
 {%- endif -%}
 
 <nav class="shadow-md fixed-top">
@@ -84,7 +84,7 @@
 
 		<div class="navbar navbar-expand-md navbar-light" id="navbar">
 			<div class="container-fluid" style="padding:0">
-			<a href="/" class="navbar-brand mr-auto {% if not has_logo and not sub %}flex-grow-1{% endif %}">
+			<a href="/" class="navbar-brand mr-auto {% if not has_logo and not hole %}flex-grow-1{% endif %}">
 				{% if IS_DKD() %}
 					{% set icon_url = macros.random_image('assets/events/DKD/images/icon') %}
 				{% elif IS_FISTMAS() %}
@@ -112,8 +112,8 @@
 					{% endif %}
 				{% endif %}
 				<img loading="lazy" id="header--icon" alt="header icon"
-					{%- if sub and sub.marseyurl -%}
-						src="{{sub.marseyurl}}"
+					{%- if hole and hole.marseyurl -%}
+						src="{{hole.marseyurl}}"
 					{%- else -%}
 						src="{{icon_url}}"
 						{%- if width -%}
@@ -123,8 +123,8 @@
 				>
 			</a>
 
-			{% if sub %}
-				<a id="sub-name" href="/h/{{sub}}" class="font-weight-bold flex-grow-1 ml-2 mt-1" {% if sub.name|length >= 17 %}style="font-size:max(10px,1.2vw)"{% endif %}>{% if not HOLE_STYLE_FLAIR %}/h/{% endif %}{{sub}}</a>
+			{% if hole %}
+				<a id="hole-name" href="/h/{{hole}}" class="font-weight-bold flex-grow-1 ml-2 mt-1" {% if hole.name|length >= 17 %}style="font-size:max(10px,1.2vw)"{% endif %}>{% if not HOLE_STYLE_FLAIR %}/h/{% endif %}{{hole}}</a>
 			{% elif has_logo %}
 				<div id="logo-container" class="flex-grow-1 logo-container">
 					<a href="/">

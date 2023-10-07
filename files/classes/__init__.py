@@ -18,7 +18,7 @@ from .domains import *
 from .subscriptions import *
 from .mod_logs import *
 from .award import *
-from .sub_relationship import *
+from .hole_relationship import *
 from .saves import *
 from .views import *
 from .notifications import *
@@ -28,7 +28,7 @@ from .casino_game import *
 from .hats import *
 from .emoji import *
 from .transactions import *
-from .sub_logs import *
+from .hole_logs import *
 from .media import *
 from .push_subscriptions import *
 from .group import *

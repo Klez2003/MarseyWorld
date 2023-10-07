@@ -4,7 +4,7 @@ from sqlalchemy.sql.expression import not_, and_, or_
 from sqlalchemy.orm import load_only
 
 from files.classes.mod_logs import ModAction
-from files.classes.sub_logs import SubAction
+from files.classes.hole_logs import HoleAction
 from files.helpers.config.const import *
 from files.helpers.config.modaction_types import *
 from files.helpers.get import *
@@ -167,7 +167,7 @@ def notifications_posts(v):
 
 	listing = g.db.query(Post).filter(
 		or_(
-			Post.sub.in_(v.followed_subs),
+			Post.hole.in_(v.followed_holes),
 			and_(
 				Post.author_id.in_(v.followed_users),
 				Post.notify == True,
@@ -179,7 +179,7 @@ def notifications_posts(v):
 		Post.private == False,
 		Post.author_id != v.id,
 		Post.author_id.notin_(v.userblocks),
-		or_(Post.sub == None, Post.sub.notin_(v.sub_blocks)),
+		or_(Post.hole == None, Post.hole.notin_(v.hole_blocks)),
 	).options(load_only(Post.id))
 
 	total = listing.count()
@@ -217,8 +217,8 @@ def notifications_modactions(v):
 
 	if v.admin_level >= PERMS['NOTIFICATIONS_MODERATOR_ACTIONS']:
 		cls = ModAction
-	elif v.moderated_subs:
-		cls = SubAction
+	elif v.moderated_holes:
+		cls = HoleAction
 	else:
 		abort(403)
 
@@ -230,8 +230,8 @@ def notifications_modactions(v):
 	if v.admin_level < PERMS['PROGSTACK']:
 		listing = listing.filter(cls.kind.notin_(MODACTION_PRIVILEGED__TYPES))
 
-	if cls == SubAction:
-		listing = listing.filter(cls.sub.in_(v.moderated_subs))
+	if cls == HoleAction:
+		listing = listing.filter(cls.hole.in_(v.moderated_holes))
 
 	total = listing.count()
 	listing = listing.order_by(cls.id.desc())

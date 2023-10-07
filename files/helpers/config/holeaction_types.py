@@ -1,4 +1,4 @@
-SUBACTION_TYPES = {
+HOLEACTION_TYPES = {
 	'exile_user': {
 		"str": 'exiled user {self.target_link}',
 		"icon": 'fa-user-slash',
@@ -116,4 +116,4 @@ SUBACTION_TYPES = {
 	},
 }
 
-SUBACTION_TYPES = dict(sorted(SUBACTION_TYPES.items()))
+HOLEACTION_TYPES = dict(sorted(HOLEACTION_TYPES.items()))

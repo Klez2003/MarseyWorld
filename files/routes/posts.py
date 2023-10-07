@@ -79,25 +79,25 @@ def publish(pid, v):
 	return {"message": "Post has been published successfully!"}
 
 @app.get("/submit")
-@app.get("/h/<sub>/submit")
+@app.get("/h/<hole>/submit")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def submit_get(v, sub=None):
-	sub = get_sub_by_name(sub, graceful=True)
-	if request.path.startswith('/h/') and not sub: abort(404)
+def submit_get(v, hole=None):
+	hole = get_hole(hole, graceful=True)
+	if request.path.startswith('/h/') and not hole: abort(404)
 
-	SUBS = [x[0] for x in g.db.query(Sub.name).order_by(Sub.name)]
+	HOLES = [x[0] for x in g.db.query(Hole.name).order_by(Hole.name)]
 
-	return render_template("submit.html", SUBS=SUBS, v=v, sub=sub)
+	return render_template("submit.html", HOLES=HOLES, v=v, hole=hole)
 
 @app.get("/post/<int:pid>")
 @app.get("/post/<int:pid>/<anything>")
-@app.get("/h/<sub>/post/<int:pid>")
-@app.get("/h/<sub>/post/<int:pid>/<anything>")
+@app.get("/h/<hole>/post/<int:pid>")
+@app.get("/h/<hole>/post/<int:pid>/<anything>")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @auth_desired_with_logingate
-def post_id(pid, v, anything=None, sub=None):
+def post_id(pid, v, anything=None, hole=None):
 	p = get_post(pid, v=v)
 	if not can_see(v, p): abort(403)
 
@@ -192,7 +192,7 @@ def post_id(pid, v, anything=None, sub=None):
 		template = "post_banned.html"
 
 	result = render_template(template, v=v, p=p, ids=list(ids),
-		sort=sort, render_replies=True, offset=offset, sub=p.subr,
+		sort=sort, render_replies=True, offset=offset, hole=p.hole_obj,
 		fart=get_setting('fart_mode'))
 
 	if not v:
@@ -426,13 +426,13 @@ def is_repost(v):
 	else: return not_a_repost
 
 @app.post("/submit")
-@app.post("/h/<sub>/submit")
+@app.post("/h/<hole>/submit")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit('20/day', deduct_when=lambda response: response.status_code < 400)
 @limiter.limit('20/day', deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_banned
-def submit_post(v, sub=None):
+def submit_post(v, hole=None):
 	url = request.values.get("url", "").strip()
 
 	if '\\' in url: abort(400)
@@ -446,35 +446,35 @@ def submit_post(v, sub=None):
 	if not title:
 		abort(400, "Please enter a better title!")
 
-	sub = request.values.get("sub", "").lower().replace('/h/','').strip()
+	hole = request.values.get("hole", "").lower().replace('/h/','').strip()
 
 	if SITE == 'rdrama.net' and (v.chud == 1 or v.id == 253):
-		sub = 'chudrama'
+		hole = 'chudrama'
 
 	if SITE == 'rdrama.net' and v.id == 10947:
-		sub = 'mnn'
+		hole = 'mnn'
 
-	if sub == 'changelog':
+	if hole == 'changelog':
 		abort(400, "/h/changelog is archived")
 
-	if sub in {'furry','vampire','racist','femboy','edgy'} and not v.client and not v.house.lower().startswith(sub):
-		abort(400, f"You need to be a member of House {sub.capitalize()} to post in /h/{sub}")
+	if hole in {'furry','vampire','racist','femboy','edgy'} and not v.client and not v.house.lower().startswith(hole):
+		abort(400, f"You need to be a member of House {hole.capitalize()} to post in /h/{hole}")
 
-	if sub and sub != 'none':
-		sub_name = sub.strip().lower()
-		sub = g.db.query(Sub).options(load_only(Sub.name)).filter_by(name=sub_name).one_or_none()
-		if not sub: abort(400, f"/h/{sub_name} not found!")
+	if hole and hole != 'none':
+		hole_name = hole.strip().lower()
+		hole = g.db.query(Hole).options(load_only(Hole.name)).filter_by(name=hole_name).one_or_none()
+		if not hole: abort(400, f"/h/{hole_name} not found!")
 
-		if not can_see(v, sub):
-			if sub.name == 'highrollerclub':
-				abort(403, f"Only {patron}s can post in /h/{sub}")
-			abort(403, f"You're not allowed to post in /h/{sub}")
+		if not can_see(v, hole):
+			if hole.name == 'highrollerclub':
+				abort(403, f"Only {patron}s can post in /h/{hole}")
+			abort(403, f"You're not allowed to post in /h/{hole}")
 
-		sub = sub.name
-		if v.exiler_username(sub): abort(400, f"You're exiled from /h/{sub}")
-	else: sub = None
+		hole = hole.name
+		if v.exiler_username(hole): abort(400, f"You're exiled from /h/{hole}")
+	else: hole = None
 
-	if not sub and HOLE_REQUIRED:
+	if not hole and HOLE_REQUIRED:
 		abort(400, f"You must choose a {HOLE_NAME} for your post!")
 
 	if v.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
@@ -536,7 +536,7 @@ def submit_post(v, sub=None):
 	flag_private = request.values.get("private", False, bool)
 	flag_ghost = request.values.get("ghost", False, bool) and v.can_post_in_ghost_threads
 
-	if flag_ghost: sub = None
+	if flag_ghost: hole = None
 
 	if embed and len(embed) > 1500: embed = None
 	if embed: embed = embed.strip()
@@ -546,7 +546,7 @@ def submit_post(v, sub=None):
 
 	if url == '': url = None
 
-	flag_chudded = v.chud and sub != 'chudrama'
+	flag_chudded = v.chud and hole != 'chudrama'
 
 	p = Post(
 		private=flag_private,
@@ -560,7 +560,7 @@ def submit_post(v, sub=None):
 		body=body,
 		embed=embed,
 		title=title,
-		sub=sub,
+		hole=hole,
 		ghost=flag_ghost,
 		chudded=flag_chudded,
 		rainbowed=bool(v.rainbow),
@@ -684,7 +684,7 @@ def submit_post(v, sub=None):
 
 	if (SITE == 'rdrama.net'
 			and v.id in {2008, 3336}
-			and not (p.sub and p.subr.stealth)) and p.sub != 'slavshit' and not p.ghost:
+			and not (p.hole and p.hole_obj.stealth)) and p.hole != 'slavshit' and not p.ghost:
 		p.stickied_utc = int(time.time()) + 28800
 		p.stickied = "AutoJanny"
 
@@ -766,7 +766,7 @@ def undelete_post_pid(pid, v):
 def mark_post_nsfw(pid, v):
 	p = get_post(pid)
 
-	if p.author_id != v.id and v.admin_level < PERMS['POST_COMMENT_MODERATION'] and not (p.sub and v.mods(p.sub)):
+	if p.author_id != v.id and v.admin_level < PERMS['POST_COMMENT_MODERATION'] and not (p.hole and v.mods(p.hole)):
 		abort(403)
 
 	if p.nsfw and v.is_permabanned:
@@ -784,8 +784,8 @@ def mark_post_nsfw(pid, v):
 				)
 			g.db.add(ma)
 		else:
-			ma = SubAction(
-					sub = p.sub,
+			ma = HoleAction(
+					hole = p.hole,
 					kind = "set_nsfw",
 					user_id = v.id,
 					target_post_id = p.id,
@@ -805,7 +805,7 @@ def mark_post_nsfw(pid, v):
 def unmark_post_nsfw(pid, v):
 	p = get_post(pid)
 
-	if p.author_id != v.id and v.admin_level < PERMS['POST_COMMENT_MODERATION'] and not (p.sub and v.mods(p.sub)):
+	if p.author_id != v.id and v.admin_level < PERMS['POST_COMMENT_MODERATION'] and not (p.hole and v.mods(p.hole)):
 		abort(403)
 
 	if p.nsfw and v.is_permabanned:
@@ -823,8 +823,8 @@ def unmark_post_nsfw(pid, v):
 				)
 			g.db.add(ma)
 		else:
-			ma = SubAction(
-					sub = p.sub,
+			ma = HoleAction(
+					hole = p.hole,
 					kind = "unset_nsfw",
 					user_id = v.id,
 					target_post_id = p.id,

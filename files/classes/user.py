@@ -13,7 +13,7 @@ from flask import g, session, request
 from files.classes import Base
 from files.classes.casino_game import CasinoGame
 from files.classes.group import GroupMembership
-from files.classes.sub import Sub
+from files.classes.hole import Hole
 from files.helpers.config.const import *
 from files.helpers.config.modaction_types import *
 from files.helpers.config.awards import AWARDS_ENABLED, HOUSE_AWARDS
@@ -33,8 +33,8 @@ from .mod import *
 from .mod_logs import *
 from .notifications import Notification
 from .saves import *
-from .sub_relationship import *
-from .sub_logs import *
+from .hole_relationship import *
+from .hole_logs import *
 from .subscriptions import *
 from .userblock import *
 from .usermute import *
@@ -171,7 +171,7 @@ class User(Base):
 	designed_hats = relationship("HatDef", primaryjoin="User.id==HatDef.author_id", back_populates="author")
 	owned_hats = relationship("Hat", back_populates="owners")
 	hats_equipped = relationship("Hat", lazy="raise", viewonly=True)
-	sub_mods = relationship("Mod", primaryjoin="User.id == Mod.user_id", lazy="raise")
+	hole_mods = relationship("Mod", primaryjoin="User.id == Mod.user_id", lazy="raise")
 
 	def __init__(self, **kwargs):
 
@@ -414,13 +414,13 @@ class User(Base):
 		return True
 
 	@lazy
-	def mods(self, sub):
+	def mods(self, hole):
 		if self.is_permabanned or self.shadowbanned: return False
 		if self.admin_level >= PERMS['MODS_EVERY_HOLE']: return True
 		try:
-			return any(map(lambda x: x.sub == sub, self.sub_mods))
+			return any(map(lambda x: x.hole == hole, self.hole_mods))
 		except:
-			return bool(g.db.query(Mod.user_id).filter_by(user_id=self.id, sub=sub).one_or_none())
+			return bool(g.db.query(Mod.user_id).filter_by(user_id=self.id, hole=hole).one_or_none())
 
 	@lazy
 	def mods_group(self, group):
@@ -430,8 +430,8 @@ class User(Base):
 		return bool(g.db.query(GroupMembership.user_id).filter_by(user_id=self.id, group_name=group.name, is_mod=True).one_or_none())
 
 	@lazy
-	def exiler_username(self, sub):
-		exile = g.db.query(Exile).options(load_only(Exile.exiler_id)).filter_by(user_id=self.id, sub=sub).one_or_none()
+	def exiler_username(self, hole):
+		exile = g.db.query(Exile).options(load_only(Exile.exiler_id)).filter_by(user_id=self.id, hole=hole).one_or_none()
 		if exile:
 			return exile.exiler.username
 		else:
@@ -439,35 +439,35 @@ class User(Base):
 
 	@property
 	@lazy
-	def sub_blocks(self):
-		stealth = set([x[0] for x in g.db.query(Sub.name).filter_by(stealth=True)])
-		stealth = stealth - set([x[0] for x in g.db.query(SubJoin.sub).filter_by(user_id=self.id)])
+	def hole_blocks(self):
+		stealth = set([x[0] for x in g.db.query(Hole.name).filter_by(stealth=True)])
+		stealth = stealth - set([x[0] for x in g.db.query(StealthHoleUnblock.hole).filter_by(user_id=self.id)])
 		if self.chud == 1: stealth = stealth - {'chudrama'}
 
-		return list(stealth) + [x[0] for x in g.db.query(SubBlock.sub).filter_by(user_id=self.id)]
+		return list(stealth) + [x[0] for x in g.db.query(HoleBlock.hole).filter_by(user_id=self.id)]
 
 	@lazy
-	def blocks(self, sub):
-		return g.db.query(SubBlock).filter_by(user_id=self.id, sub=sub).one_or_none()
+	def blocks(self, hole):
+		return g.db.query(HoleBlock).filter_by(user_id=self.id, hole=hole).one_or_none()
 
 	@lazy
-	def subscribes(self, sub):
-		return g.db.query(SubJoin).filter_by(user_id=self.id, sub=sub).one_or_none()
+	def subscribes(self, hole):
+		return g.db.query(StealthHoleUnblock).filter_by(user_id=self.id, hole=hole).one_or_none()
 
 	@property
 	@lazy
 	def all_follows(self):
-		return [x[0] for x in g.db.query(SubSubscription.sub).filter_by(user_id=self.id)]
+		return [x[0] for x in g.db.query(HoleFollow.hole).filter_by(user_id=self.id)]
 
 	@lazy
-	def follows(self, sub):
-		return g.db.query(SubSubscription).filter_by(user_id=self.id, sub=sub).one_or_none()
+	def follows(self, hole):
+		return g.db.query(HoleFollow).filter_by(user_id=self.id, hole=hole).one_or_none()
 
 	@lazy
-	def mod_date(self, sub):
+	def mod_date(self, hole):
 		if self.admin_level >= PERMS['MODS_EVERY_HOLE']: return 1
 
-		mod_ts = g.db.query(Mod.created_utc).filter_by(user_id=self.id, sub=sub).one_or_none()
+		mod_ts = g.db.query(Mod.created_utc).filter_by(user_id=self.id, hole=hole).one_or_none()
 		if mod_ts is None:
 			return None
 		return mod_ts[0]
@@ -737,8 +737,8 @@ class User(Base):
 
 	@property
 	@lazy
-	def followed_subs(self):
-		return [x[0] for x in g.db.query(SubSubscription.sub).filter_by(user_id=self.id)]
+	def followed_holes(self):
+		return [x[0] for x in g.db.query(HoleFollow.hole).filter_by(user_id=self.id)]
 
 	@property
 	@lazy
@@ -796,7 +796,7 @@ class User(Base):
 		return g.db.query(Post).filter(
 			Post.created_utc > self.last_viewed_post_notifs,
 			or_(
-				Post.sub.in_(self.followed_subs),
+				Post.hole.in_(self.followed_holes),
 				and_(
 					Post.author_id.in_(self.followed_users),
 					Post.notify == True,
@@ -808,7 +808,7 @@ class User(Base):
 			Post.private == False,
 			Post.author_id != self.id,
 			Post.author_id.notin_(self.userblocks),
-			or_(Post.sub == None, Post.sub.notin_(self.sub_blocks)),
+			or_(Post.hole == None, Post.hole.notin_(self.hole_blocks)),
 		).count()
 
 	@property
@@ -830,11 +830,11 @@ class User(Base):
 
 			return q.count()
 
-		if self.moderated_subs:
-			return g.db.query(SubAction).filter(
-				SubAction.created_utc > self.last_viewed_log_notifs,
-				SubAction.user_id != self.id,
-				SubAction.sub.in_(self.moderated_subs),
+		if self.moderated_holes:
+			return g.db.query(HoleAction).filter(
+				HoleAction.created_utc > self.last_viewed_log_notifs,
+				HoleAction.user_id != self.id,
+				HoleAction.hole.in_(self.moderated_holes),
 			).count()
 
 		return 0
@@ -896,8 +896,8 @@ class User(Base):
 
 	@property
 	@lazy
-	def moderated_subs(self):
-		return [x[0] for x in g.db.query(Mod.sub).filter_by(user_id=self.id).order_by(Mod.sub)]
+	def moderated_holes(self):
+		return [x[0] for x in g.db.query(Mod.hole).filter_by(user_id=self.id).order_by(Mod.hole)]
 
 	@property
 	@lazy

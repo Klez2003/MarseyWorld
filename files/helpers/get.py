@@ -3,7 +3,7 @@ from flask import *
 from sqlalchemy import and_, any_, or_
 from sqlalchemy.orm import joinedload, Query, load_only
 
-from files.classes import Comment, CommentVote, Hat, Sub, Post, User, UserBlock, Vote
+from files.classes import Comment, CommentVote, Hat, Hole, Post, User, UserBlock, Vote
 from files.helpers.config.const import *
 from files.__main__ import cache
 
@@ -321,16 +321,16 @@ def get_comments_v_properties(v, should_keep_func=None, *criterion):
 		else: dump.append(comment)
 	return (comments, output)
 
-def get_sub_by_name(sub, v=None, graceful=False):
-	if not sub:
+def get_hole(hole, v=None, graceful=False):
+	if not hole:
 		if graceful: return None
 		else: abort(404)
-	sub = sub.replace('/h/', '').replace('h/', '').strip().lower()
-	if not sub:
+	hole = hole.replace('/h/', '').replace('h/', '').strip().lower()
+	if not hole:
 		if graceful: return None
 		else: abort(404)
-	sub = g.db.get(Sub, sub)
-	if not sub:
+	hole = g.db.get(Hole, hole)
+	if not hole:
 		if graceful: return None
 		else: abort(404)
 	return sub

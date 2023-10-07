@@ -126,13 +126,13 @@ def add_options(self, body, v):
 
 			if v:
 				if kind == 'post':
-					sub = self.sub
+					hole = self.hole
 				elif self.parent_post:
-					sub = self.post.sub
+					hole = self.post.hole
 				else:
-					sub = None
+					hole = None
 
-				if sub in {'furry','vampire','racist','femboy','edgy'} and not v.house.lower().startswith(sub):
+				if hole in {'furry','vampire','racist','femboy','edgy'} and not v.house.lower().startswith(hole):
 					disabled = True
 					option_body += ' disabled '
 
@@ -407,7 +407,7 @@ class Comment(Base):
 		body = add_options(self, body, v)
 
 		if body:
-			if not (self.parent_post and self.post.sub == 'chudrama'):
+			if not (self.parent_post and self.post.hole == 'chudrama'):
 				body = censor_slurs_profanities(body, v)
 
 			body = normalize_urls_runtime(body, v)
@@ -423,7 +423,7 @@ class Comment(Base):
 
 		if not body: return ""
 
-		if not (self.parent_post and self.post.sub == 'chudrama'):
+		if not (self.parent_post and self.post.hole == 'chudrama'):
 			body = censor_slurs_profanities(body, v, True)
 
 		return body

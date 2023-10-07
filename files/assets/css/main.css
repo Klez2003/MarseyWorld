@@ -4203,7 +4203,7 @@ small, .small {
 	min-height: 30px;
 }
 
-.sub-flair {
+.hole-flair {
 	padding: 3px 5px 2px 5px;
 	border-radius: 5px;
 	color: white;
@@ -4211,7 +4211,7 @@ small, .small {
 	margin-right: 3px;
 	font-weight: bold;
 }
-.sub-flair:hover {
+.hole-flair:hover {
 	color: var(--white);
 	text-decoration: none;
 }
@@ -6919,7 +6919,7 @@ div.markdown {
 	}
 }
 
-.sub-banner-update-section .sub-settings-subsection {
+.hole-banner-update-section .hole-settings-subsection {
 	margin-bottom: 1em;
 }
 
@@ -7568,12 +7568,12 @@ p { /* DO NOT REMOVE */
 	overflow: hidden !important;
 }
 
-#sub-name {
+#hole-name {
 	font-size: max(14px, 1.2vw);
 }
 
 @media (min-width: 768px) {
-	#sub-name {
+	#hole-name {
 		font-size: 1.5vw;
 	}
 }

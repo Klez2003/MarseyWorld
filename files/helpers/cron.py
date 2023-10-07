@@ -70,7 +70,7 @@ def cron_fn(every_5m, every_1d, every_fri_12, every_fri_23, every_sat_00, every_
 				_leaderboard_task()
 				g.db.commit()
 
-				_sub_inactive_purge_task()
+				_hole_inactive_purge_task()
 				g.db.commit()
 
 				stats.generate_charts_task(SITE)
@@ -170,7 +170,7 @@ def _create_post(title, body, pin_hours):
 		embed=None,
 		title=title,
 		title_html=title_html,
-		sub='countryclub',
+		hole='countryclub',
 		ghost=False,
 		chudded=False,
 		rainbowed=False,
@@ -248,29 +248,29 @@ def _grant_two_year_badges():
 	from users where created_utc < {two_years_ago} and id not in (select user_id from badges where badge_id=237);""")
 	g.db.execute(_badge_query)
 
-def _sub_inactive_purge_task():
+def _hole_inactive_purge_task():
 	if not HOLE_INACTIVITY_DELETION:
 		return False
 
 	one_week_ago = time.time() - 604800
-	active_holes = [x[0] for x in g.db.query(Post.sub).distinct() \
-		.filter(Post.sub != None, Post.created_utc > one_week_ago,
+	active_holes = [x[0] for x in g.db.query(Post.hole).distinct() \
+		.filter(Post.hole != None, Post.created_utc > one_week_ago,
 			Post.private == False, Post.is_banned == False,
 			Post.deleted_utc == 0)]
 	active_holes.extend(['changelog','countryclub','museumofrdrama','highrollerclub']) # holes immune from deletion
 
-	dead_holes = g.db.query(Sub).filter(Sub.name.notin_(active_holes)).all()
+	dead_holes = g.db.query(Hole).filter(Hole.name.notin_(active_holes)).all()
 	names = [x.name for x in dead_holes]
 
 	admins = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_HOLE_INACTIVITY_DELETION'])]
 
-	mods = g.db.query(Mod).filter(Mod.sub.in_(names)).all()
+	mods = g.db.query(Mod).filter(Mod.hole.in_(names)).all()
 	for x in mods:
 		if x.user_id in admins: continue
-		send_repeatable_notification(x.user_id, f":marseyrave: /h/{x.sub} has been deleted for inactivity after one week without new posts. All posts in it have been moved to the main feed :marseyrave:")
+		send_repeatable_notification(x.user_id, f":marseyrave: /h/{x.hole} has been deleted for inactivity after one week without new posts. All posts in it have been moved to the main feed :marseyrave:")
 
 	for name in names:
-		first_mod_id = g.db.query(Mod.user_id).filter_by(sub=name).order_by(Mod.created_utc).first()
+		first_mod_id = g.db.query(Mod.user_id).filter_by(hole=name).order_by(Mod.created_utc).first()
 		if first_mod_id:
 			first_mod = get_account(first_mod_id[0])
 			badge_grant(
@@ -282,22 +282,22 @@ def _sub_inactive_purge_task():
 		for admin in admins:
 			send_repeatable_notification(admin, f":marseyrave: /h/{name} has been deleted for inactivity after one week without new posts. All posts in it have been moved to the main feed :marseyrave:")
 
-	posts = g.db.query(Post).filter(Post.sub.in_(names)).all()
+	posts = g.db.query(Post).filter(Post.hole.in_(names)).all()
 	for post in posts:
-		if post.sub == 'programming':
-			post.sub = 'slackernews'
+		if post.hole == 'programming':
+			post.hole = 'slackernews'
 		else:
-			post.sub = None
+			post.hole = None
 
 		post.hole_pinned = None
 		g.db.add(post)
 
 	to_delete = mods \
-		+ g.db.query(Exile).filter(Exile.sub.in_(names)).all() \
-		+ g.db.query(SubBlock).filter(SubBlock.sub.in_(names)).all() \
-		+ g.db.query(SubJoin).filter(SubJoin.sub.in_(names)).all() \
-		+ g.db.query(SubSubscription).filter(SubSubscription.sub.in_(names)).all() \
-		+ g.db.query(SubAction).filter(SubAction.sub.in_(names)).all()
+		+ g.db.query(Exile).filter(Exile.hole.in_(names)).all() \
+		+ g.db.query(HoleBlock).filter(HoleBlock.hole.in_(names)).all() \
+		+ g.db.query(StealthHoleUnblock).filter(StealthHoleUnblock.hole.in_(names)).all() \
+		+ g.db.query(HoleFollow).filter(HoleFollow.hole.in_(names)).all() \
+		+ g.db.query(HoleAction).filter(HoleAction.hole.in_(names)).all()
 
 	for x in to_delete:
 		g.db.delete(x)

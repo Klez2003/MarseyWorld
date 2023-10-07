@@ -17,7 +17,7 @@ from files.helpers.sorting_and_time import make_age_string
 
 from .comment import normalize_urls_runtime, add_options, get_award_classes
 from .polls import *
-from .sub import *
+from .hole import *
 from .subscriptions import *
 from .saves import SaveRelationship
 
@@ -40,7 +40,7 @@ class Post(Base):
 	stickied = Column(String)
 	stickied_utc = Column(Integer)
 	hole_pinned = Column(String)
-	sub = Column(String, ForeignKey("subs.name"))
+	hole = Column(String, ForeignKey("holes.name"))
 	is_pinned = Column(Boolean, default=False)
 	private = Column(Boolean, default=False)
 	comment_count = Column(Integer, default=0)
@@ -74,7 +74,7 @@ class Post(Base):
 	awards = relationship("AwardRelationship", order_by="AwardRelationship.awarded_utc.desc()", back_populates="post")
 	reports = relationship("Report", order_by="Report.created_utc")
 	comments = relationship("Comment", primaryjoin="Comment.parent_post==Post.id", back_populates="post")
-	subr = relationship("Sub", primaryjoin="foreign(Post.sub)==remote(Sub.name)")
+	hole_obj = relationship("Hole", primaryjoin="foreign(Post.hole)==remote(Hole.name)")
 	options = relationship("PostOption", order_by="PostOption.id")
 
 	def __init__(self, *args, **kwargs):
@@ -126,9 +126,9 @@ class Post(Base):
 	@lazy
 	def shortlink(self):
 		link = f"/post/{self.id}"
-		if self.sub: link = f"/h/{self.sub}{link}"
+		if self.hole: link = f"/h/{self.hole}{link}"
 
-		if self.sub and self.sub in {'chudrama', 'countryclub', 'highrollerclub'}:
+		if self.hole and self.hole in {'chudrama', 'countryclub', 'highrollerclub'}:
 			output = '-'
 		else:
 			title = self.plaintitle(None).lower()
@@ -228,7 +228,7 @@ class Post(Base):
 				'is_bot': self.is_bot,
 				'thumb_url': self.thumb_url,
 				'domain': self.domain,
-				'sub': self.sub,
+				'hole': self.hole,
 				'url': self.realurl(None),
 				'body': self.body,
 				'body_html': self.body_html,
@@ -307,7 +307,7 @@ class Post(Base):
 
 		body = add_options(self, body, v)
 
-		if self.sub != 'chudrama':
+		if self.hole != 'chudrama':
 			body = censor_slurs_profanities(body, v)
 
 		body = normalize_urls_runtime(body, v)
@@ -322,7 +322,7 @@ class Post(Base):
 		body = self.body
 		if not body: return ""
 
-		if self.sub != 'chudrama':
+		if self.hole != 'chudrama':
 			body = censor_slurs_profanities(body, v, True)
 
 		body = normalize_urls_runtime(body, v)
@@ -333,7 +333,7 @@ class Post(Base):
 	def realtitle(self, v):
 		title = self.title_html
 
-		if self.sub != 'chudrama':
+		if self.hole != 'chudrama':
 			title = censor_slurs_profanities(title, v)
 
 		return title
@@ -342,7 +342,7 @@ class Post(Base):
 	def plaintitle(self, v):
 		title = self.title
 
-		if self.sub != 'chudrama':
+		if self.hole != 'chudrama':
 			title = censor_slurs_profanities(title, v, True)
 
 		return title

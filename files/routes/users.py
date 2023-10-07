@@ -1300,14 +1300,14 @@ def fp(v, fp):
 	g.db.add(v)
 	return '', 204
 
-@app.post("/toggle_pins/<sub>/<sort>")
+@app.post("/toggle_pins/<hole>/<sort>")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-def toggle_pins(sub, sort):
+def toggle_pins(hole, sort):
 	if sort == 'hot': default = True
 	else: default = False
 
-	pins = session.get(f'{sub}_{sort}', default)
-	session[f'{sub}_{sort}'] = not pins
+	pins = session.get(f'{hole}_{sort}', default)
+	session[f'{hole}_{sort}'] = not pins
 
 	return {"message": "Pins toggled successfully!"}
 

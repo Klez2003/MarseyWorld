@@ -2,7 +2,7 @@ from flask import g
 
 from files.classes.reports import Report, CommentReport
 from files.classes.mod_logs import ModAction
-from files.classes.sub_logs import SubAction
+from files.classes.hole_logs import HoleAction
 from files.helpers.actions import *
 from files.helpers.alerts import *
 from files.helpers.get import *
@@ -28,7 +28,7 @@ def report_post(pid, v):
 	if len(reason_html) > 350:
 		abort(400, "Report reason too long!")
 
-	if reason.startswith('!') and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or post.sub and v.mods(post.sub)):
+	if reason.startswith('!') and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or post.hole and v.mods(post.hole)):
 		post.flair = reason_html[1:]
 		g.db.add(post)
 		if v.admin_level >= PERMS['POST_COMMENT_MODERATION']:
@@ -41,15 +41,15 @@ def report_post(pid, v):
 			g.db.add(ma)
 			position = 'a site admin'
 		else:
-			ma = SubAction(
-				sub=post.sub,
+			ma = HoleAction(
+				hole=post.hole,
 				kind="flair_post",
 				user_id=v.id,
 				target_post_id=post.id,
 				_note=f'"{post.flair}"'
 			)
 			g.db.add(ma)
-			position = f'a /h/{post.sub} mod'
+			position = f'a /h/{post.hole} mod'
 
 		if v.id != post.author_id:
 			message = f'@{v.username} ({position}) has flaired [{post.title}]({post.shortlink}) with the flair: `"{og_flair}"`'
@@ -156,75 +156,75 @@ def move_post(post, v, reason):
 	if not reason.startswith('/h/') and not reason.startswith('h/'):
 		return False
 
-	sub_from = post.sub
-	sub_to = get_sub_by_name(reason, graceful=True)
-	sub_to = sub_to.name if sub_to else None
+	hole_from = post.hole
+	hole_to = get_hole(reason, graceful=True)
+	hole_to = hole_to.name if hole_to else None
 
-	can_move_post = v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or (post.sub and v.mods(sub_from))
-	if sub_from != 'chudrama': # posts can only be moved out of /h/chudrama by admins
+	can_move_post = v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or (post.hole and v.mods(hole_from))
+	if hole_from != 'chudrama': # posts can only be moved out of /h/chudrama by admins
 		can_move_post = can_move_post or post.author_id == v.id
 	if not can_move_post: return False
 
-	if sub_to == None:
+	if hole_to == None:
 		if HOLE_REQUIRED:
 			abort(403, "All posts are required to be flaired!")
-		sub_to_in_notif = 'the main feed'
+		hole_to_in_notif = 'the main feed'
 	else:
-		sub_to_in_notif = f'/h/{sub_to}'
+		hole_to_in_notif = f'/h/{hole_to}'
 
-	if sub_from == sub_to: abort(409, f"Post is already in {sub_to_in_notif}")
+	if hole_from == hole_to: abort(409, f"Post is already in {hole_to_in_notif}")
 
-	if post.author.exiler_username(sub_to):
+	if post.author.exiler_username(hole_to):
 		abort(403, f"User is exiled from this {HOLE_NAME}!")
 
-	if sub_to == 'changelog':
+	if hole_to == 'changelog':
 		abort(403, "/h/changelog is archived!")
 
-	if sub_to in {'furry','vampire','racist','femboy','edgy'} and not v.client and not post.author.house.lower().startswith(sub_to):
+	if hole_to in {'furry','vampire','racist','femboy','edgy'} and not v.client and not post.author.house.lower().startswith(hole_to):
 		if v.id == post.author_id:
-			abort(403, f"You need to be a member of House {sub_to.capitalize()} to post in /h/{sub_to}")
+			abort(403, f"You need to be a member of House {hole_to.capitalize()} to post in /h/{hole_to}")
 		else:
-			abort(403, f"@{post.author_name} needs to be a member of House {sub_to.capitalize()} for their post to be moved to /h/{sub_to}")
+			abort(403, f"@{post.author_name} needs to be a member of House {hole_to.capitalize()} for their post to be moved to /h/{hole_to}")
 
-	post.sub = sub_to
+	post.hole = hole_to
 	post.hole_pinned = None
 	g.db.add(post)
 
 	if v.id != post.author_id:
-		sub_from_str = 'main feed' if sub_from is None else \
-			f'<a href="/h/{sub_from}">/h/{sub_from}</a>'
-		sub_to_str = 'main feed' if sub_to is None else \
-			f'<a href="/h/{sub_to}">/h/{sub_to}</a>'
+		hole_from_str = 'main feed' if hole_from is None else \
+			f'<a href="/h/{hole_from}">/h/{hole_from}</a>'
+		hole_to_str = 'main feed' if hole_to is None else \
+			f'<a href="/h/{hole_to}">/h/{hole_to}</a>'
 
 		if v.admin_level >= PERMS['POST_COMMENT_MODERATION']:
 			ma = ModAction(
 				kind='move_hole',
 				user_id=v.id,
 				target_post_id=post.id,
-				_note=f'{sub_from_str} → {sub_to_str}',
+				_note=f'{hole_from_str} → {hole_to_str}',
 			)
 			g.db.add(ma)
 		else:
-			ma = SubAction(
-				sub=sub_from,
+			ma = HoleAction(
+				hole=hole_from,
 				kind='move_hole',
 				user_id=v.id,
 				target_post_id=post.id,
-				_note=f'{sub_from_str} → {sub_to_str}',
+				_note=f'{hole_from_str} → {hole_to_str}',
 			)
 			g.db.add(ma)
 
 		if v.admin_level >= PERMS['POST_COMMENT_MODERATION']: position = 'a site admin'
-		else: position = f'a /h/{sub_from} mod'
+		else: position = f'a /h/{hole_from} mod'
 
-		if sub_from == None:
-			sub_from_in_notif = 'the main feed'
+		if hole_from == None:
+			hole_from_in_notif = 'the main feed'
 		else:
-			sub_from_in_notif = f'/h/{sub_from}'
+			hole_from_in_notif = f'/h/{hole_from}'
 
-		message = f"@{v.username} ({position}) has moved [{post.title}]({post.shortlink}) from {sub_from_in_notif} to {sub_to_in_notif}"
+		message = f"@{v.username} ({position}) has moved [{post.title}]({post.shortlink}) from {hole_from_in_notif} to {hole_to_in_notif}"
 		send_repeatable_notification(post.author_id, message)
 
 	cache.delete_memoized(frontlist)
 
-	return f"Post moved to {sub_to_in_notif} successfully!"
+	return f"Post moved to {hole_to_in_notif} successfully!"

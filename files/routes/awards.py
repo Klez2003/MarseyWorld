@@ -351,8 +351,8 @@ def award_thing(v, thing_type, id):
 				thing.title_html = filter_emojis_only(thing.title, golden=False, obj=thing, author=author)
 
 	elif kind == "chud":
-		if thing_type == 'post' and thing.sub == 'chudrama' \
-			or thing_type == 'comment' and thing.post and thing.post.sub == 'chudrama':
+		if thing_type == 'post' and thing.hole == 'chudrama' \
+			or thing_type == 'comment' and thing.post and thing.post.hole == 'chudrama':
 			abort(403, "You can't give the chud award in /h/chudrama")
 
 		if author.queen:

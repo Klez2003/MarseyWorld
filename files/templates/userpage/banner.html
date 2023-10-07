@@ -140,10 +140,10 @@
 				</div>
 				{% endif %}
 
-				{% if u.moderated_subs %}
+				{% if u.moderated_holes %}
 					<div class="text-white rounded p-2 mb-3" id="profile--holes" style="background-color: rgba(50, 50, 50, 0.6); width: 30%">
 						<p class="text-uppercase my-0 pb-1" style="font-weight: bold; font-size: 12px">Moderator of</p>
-						{% for i in u.moderated_subs %}
+						{% for i in u.moderated_holes %}
 							<span class="d-inline-block mx-1">
 								<a href="/h/{{i}}">/h/{{i}}</a>
 							</span>
@@ -437,10 +437,10 @@
 				</div>
 				{% endif %}
 
-				{% if u.moderated_subs %}
+				{% if u.moderated_holes %}
 					<div class="text-white rounded p-2 mb-3" id="profile-mobile--holes" style="background-color: rgba(50, 50, 50, 0.6)">
 						<p class="text-uppercase my-0 pb-1" style="font-weight: bold; font-size: 12px">Moderator of</p>
-						{% for i in u.moderated_subs %}
+						{% for i in u.moderated_holes %}
 							<span class="d-inline-block mx-1">
 								<a href="/h/{{i}}">/h/{{i}}</a>
 							</span>

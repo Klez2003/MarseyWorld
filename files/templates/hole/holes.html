@@ -18,15 +18,15 @@
 		{% for sub, count in subs %}
 			<tr>
 				<td>{{loop.index}}</td>
-				<td><a href="/h/{{sub}}">{{sub}} {% if sub.name in v.sub_blocks %}<span class="text-danger">[blocked, visit it to unblock it]</span>{% endif %}</a></td>
-				<td><a href="/h/{{sub}}">{{count}}</a></td>
-				<td><a href="/h/{{sub}}/followers">{{sub.follow_num}}</a></td>
-				{% if sub.stealth %}
-					<td>{{total_users - sub.join_num}}</td>
+				<td><a href="/h/{{hole}}">{{hole}} {% if hole.name in v.hole_blocks %}<span class="text-danger">[blocked, visit it to unblock it]</span>{% endif %}</a></td>
+				<td><a href="/h/{{hole}}">{{count}}</a></td>
+				<td><a href="/h/{{hole}}/followers">{{hole.follow_num}}</a></td>
+				{% if hole.stealth %}
+					<td>{{total_users - hole.join_num}}</td>
 				{% else %}
-					<td><a href="/h/{{sub}}/blockers">{{sub.block_num}}</a></td>
+					<td><a href="/h/{{hole}}/blockers">{{hole.block_num}}</a></td>
 				{% endif %}
-				<td data-time="{{sub.created_utc}}"></td>
+				<td data-time="{{hole.created_utc}}"></td>
 			</tr>
 		{% endfor %}
 	</table>

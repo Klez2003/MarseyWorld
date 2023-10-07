@@ -10,10 +10,10 @@ from files.helpers.lazy import lazy
 from files.helpers.slurs_and_profanities import censor_slurs_profanities
 from files.helpers.sorting_and_time import make_age_string
 
-class SubAction(Base):
-	__tablename__ = "subactions"
+class HoleAction(Base):
+	__tablename__ = "hole_actions"
 	id = Column(Integer, primary_key=True)
-	sub = Column(String, ForeignKey("subs.name"))
+	hole = Column(String, ForeignKey("holes.name"))
 	user_id = Column(Integer, ForeignKey("users.id"))
 	kind = Column(String)
 	target_user_id = Column(Integer, ForeignKey("users.id"))
@@ -22,8 +22,8 @@ class SubAction(Base):
 	_note = Column(String)
 	created_utc = Column(Integer)
 
-	user = relationship("User", primaryjoin="User.id==SubAction.user_id")
-	target_user = relationship("User", primaryjoin="User.id==SubAction.target_user_id")
+	user = relationship("User", primaryjoin="User.id==HoleAction.user_id")
+	target_user = relationship("User", primaryjoin="User.id==HoleAction.target_user_id")
 	target_post = relationship("Post")
 	target_comment = relationship("Comment")
 
@@ -42,7 +42,7 @@ class SubAction(Base):
 	@property
 	@lazy
 	def string(self):
-		output = SUBACTION_TYPES[self.kind]["str"].format(self=self)
+		output = HOLEACTION_TYPES[self.kind]["str"].format(self=self)
 		if self._note: output += f" <i>({self._note})</i>"
 		return output
 
@@ -59,16 +59,16 @@ class SubAction(Base):
 	@property
 	@lazy
 	def icon(self):
-		return SUBACTION_TYPES[self.kind]['icon']
+		return HOLEACTION_TYPES[self.kind]['icon']
 
 	@property
 	@lazy
 	def color(self):
-		return SUBACTION_TYPES[self.kind]['color']
+		return HOLEACTION_TYPES[self.kind]['color']
 
 	@property
 	@lazy
 	def permalink(self):
-		return f"{SITE_FULL}/h/{self.sub}/log/{self.id}"
+		return f"{SITE_FULL}/h/{self.hole}/log/{self.id}"
 
-from files.helpers.config.subaction_types import SUBACTION_TYPES
+from files.helpers.config.holeaction_types import HOLEACTION_TYPES

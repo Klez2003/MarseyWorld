@@ -38,11 +38,11 @@ def _mark_comment_as_read(cid, vid):
 
 @app.get("/comment/<int:cid>")
 @app.get("/post/<int:pid>/<anything>/<int:cid>")
-@app.get("/h/<sub>/comment/<int:cid>")
-@app.get("/h/<sub>/post/<int:pid>/<anything>/<int:cid>")
+@app.get("/h/<hole>/comment/<int:cid>")
+@app.get("/h/<hole>/post/<int:pid>/<anything>/<int:cid>")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @auth_desired_with_logingate
-def post_pid_comment_cid(cid, v, pid=None, anything=None, sub=None):
+def post_pid_comment_cid(cid, v, pid=None, anything=None, hole=None):
 
 	comment = get_comment(cid, v=v)
 
@@ -95,7 +95,7 @@ def post_pid_comment_cid(cid, v, pid=None, anything=None, sub=None):
 	else:
 		if post.is_banned and not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or post.author_id == v.id)): template = "post_banned.html"
 		else: template = "post.html"
-		return render_template(template, v=v, p=post, sort=sort, comment_info=comment_info, render_replies=True, sub=post.subr)
+		return render_template(template, v=v, p=post, sort=sort, comment_info=comment_info, render_replies=True, hole=post.hole_obj)
 
 @app.post("/comment")
 @limiter.limit('1/second', scope=rpath)
@@ -158,10 +158,10 @@ def comment(v):
 			abort(403, "You can't reply to deleted comments!")
 
 	if posting_to_post:
-		sub = post_target.sub
-		if sub and v.exiler_username(sub): abort(403, f"You're exiled from /h/{sub}")
-		if sub in {'furry','vampire','racist','femboy','edgy'} and not v.client and not v.house.lower().startswith(sub):
-			abort(403, f"You need to be a member of House {sub.capitalize()} to comment in /h/{sub}")
+		hole = post_target.hole
+		if hole and v.exiler_username(hole): abort(403, f"You're exiled from /h/{hole}")
+		if hole in {'furry','vampire','racist','femboy','edgy'} and not v.client and not v.house.lower().startswith(hole):
+			abort(403, f"You need to be a member of House {hole.capitalize()} to comment in /h/{hole}")
 
 	if level > COMMENT_MAX_DEPTH: abort(400, f"Max comment level is {COMMENT_MAX_DEPTH}")
 
@@ -255,7 +255,7 @@ def comment(v):
 
 	is_bot = v.client is not None and v.id not in BOT_SYMBOL_HIDDEN
 
-	chudded = v.chud and not (posting_to_post and post_target.sub == 'chudrama')
+	chudded = v.chud and not (posting_to_post and post_target.hole == 'chudrama')
 
 	c = Comment(author_id=v.id,
 				parent_post=post_target.id if posting_to_post else None,
@@ -610,7 +610,7 @@ def diff_words(answer, guess):
 def toggle_comment_nsfw(cid, v):
 	comment = get_comment(cid)
 
-	if comment.author_id != v.id and v.admin_level < PERMS['POST_COMMENT_MODERATION'] and not (comment.post.sub and v.mods(comment.post.sub)):
+	if comment.author_id != v.id and v.admin_level < PERMS['POST_COMMENT_MODERATION'] and not (comment.post.hole and v.mods(comment.post.hole)):
 		abort(403)
 
 	if comment.nsfw and v.is_permabanned:
@@ -628,8 +628,8 @@ def toggle_comment_nsfw(cid, v):
 				)
 			g.db.add(ma)
 		else:
-			ma = SubAction(
-					sub = comment.post.sub,
+			ma = HoleAction(
+					hole = comment.post.hole,
 					kind = "set_nsfw_comment" if comment.nsfw else "unset_nsfw_comment",
 					user_id = v.id,
 					target_comment_id = comment.id,

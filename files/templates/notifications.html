@@ -25,7 +25,7 @@
 		Posts {% if v.post_notifications_count %}<span class="font-weight-bold" style="color:#0000ff">({{v.post_notifications_count}})</span>{% endif %}
 		</a>
 	</li>
-	{% if v.admin_level >= PERMS['NOTIFICATIONS_MODERATOR_ACTIONS'] or v.moderated_subs %}
+	{% if v.admin_level >= PERMS['NOTIFICATIONS_MODERATOR_ACTIONS'] or v.moderated_holes %}
 		<li class="nav-item">
 			<a class="nav-link py-3{% if request.path == '/notifications/modactions' %} active{% endif %}" href="/notifications/modactions">
 			Modactions {% if v.modaction_notifications_count %}<span class="font-weight-bold" style="color:#1ad80d">({{v.modaction_notifications_count}})</span>{% endif %}
@@ -83,8 +83,8 @@
 						</span>
 						<div class="text-muted pl-3">
 							<div>
-								{% if ma.sub %}
-									<a href="/h/{{ma.sub}}">/h/{{ma.sub}}</a>
+								{% if ma.hole %}
+									<a href="/h/{{ma.hole}}">/h/{{ma.hole}}</a>
 									 -
 								{% endif %}
 								<a href="{{ma.user.url}}" class="font-weight-bold text-black" target="_self">@{{ma.user.username}}</a>

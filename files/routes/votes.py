@@ -153,11 +153,11 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 		or 'forum' in target.domain or 'chan' in target.domain or 'lemmy' in target.domain or 'mastodon' in target.domain
 		or (target.domain in BOOSTED_SITES and not target.url.startswith('/'))):
 			mul = 2
-		elif target.sub in STEALTH_HOLES or target.sub in {'countryclub', 'highrollerclub'}:
+		elif target.hole in STEALTH_HOLES or target.hole in {'countryclub', 'highrollerclub'}:
 			mul = 2
 		elif 6 <= datetime.fromtimestamp(target.created_utc).hour <= 10:
 			mul = 2
-		elif target.sub in BOOSTED_HOLES:
+		elif target.hole in BOOSTED_HOLES:
 			mul = 1.25
 
 		if target.body_html and target.author.id != 8768:

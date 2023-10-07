@@ -9,23 +9,23 @@
 {%- endmacro -%}
 
 {% macro post_meta(p) %}
-	{% if p.sub %}
+	{% if p.hole %}
 		{% if not HOLE_STYLE_FLAIR -%}
-			<a class="mr-2 font-weight-bold" href='/h/{{p.sub}}'>/h/{{p.sub}}</a>
+			<a class="mr-2 font-weight-bold" href='/h/{{p.hole}}'>/h/{{p.hole}}</a>
 		{%- else -%}
-			<a href='/h/{{p.sub}}' class="sub-flair font-weight-bold">{{p.sub|capitalize}}</a>
+			<a href='/h/{{p.hole}}' class="hole-flair font-weight-bold">{{p.hole|capitalize}}</a>
 		{%- endif %}
 	{% endif %}
 
-	{% if p.sub and p.author.exiler_username(p.sub) %}
-		<a><i class="fas fa-campfire text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="User has been exiled from /h/{{p.sub}} by @{{p.author.exiler_username(p.sub)}}"></i></a>
+	{% if p.hole and p.author.exiler_username(p.hole) %}
+		<a><i class="fas fa-campfire text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="User has been exiled from /h/{{p.hole}} by @{{p.author.exiler_username(p.hole)}}"></i></a>
 	{% endif %}
 
-	{% if p.bannedfor and p.sub != 'chudrama' %}
+	{% if p.bannedfor and p.hole != 'chudrama' %}
 		<i class="fas fa-hammer-crash text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="User was banned for this post {{p.bannedfor}}"></i>
 	{% endif %}
 
-	{% if p.chuddedfor and p.sub != 'chudrama' %}
+	{% if p.chuddedfor and p.hole != 'chudrama' %}
 		<i class="fas fa-face-sleeping text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="User was chudded for this post {{p.chuddedfor}}"></i>
 	{% endif %}
 
@@ -46,7 +46,7 @@
 	{% endif %}
 
 	{% if p.hole_pinned %}
-		<i id='hole-pinned-{{p.id}}' class="fas fa-thumbtack fa-rotate--45 pr-1 ml-1 mt-3 text-blue" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Pinned to /h/{{p.sub}} by @{{p.hole_pinned}}"></i>
+		<i id='hole-pinned-{{p.id}}' class="fas fa-thumbtack fa-rotate--45 pr-1 ml-1 mt-3 text-blue" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Pinned to /h/{{p.hole}} by @{{p.hole_pinned}}"></i>
 	{% endif %}
 
 	{% if p.distinguish_level %}<i class="fas fa-broom text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{SITE_NAME}} Admin, speaking officially"></i>{% endif %}

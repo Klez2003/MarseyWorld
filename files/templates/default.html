@@ -9,17 +9,17 @@
 {% block banner %}
 	{% include "modals/expanded_image.html" %}
 	{% if err or '@' not in request.path %}
-		{% if IS_FISTMAS() and not sub %}
+		{% if IS_FISTMAS() and not hole %}
 			{% include 'events/fistmas/banner.html' %}
-		{% elif IS_HOMOWEEN() and not sub %}
+		{% elif IS_HOMOWEEN() and not hole %}
 			{% include 'events/homoween/banner.html' %}
 		{% else %}
 			{% set path = "files/assets/images/" ~ SITE_NAME %}
 
 			{% if err and SITE_NAME == 'rDrama' %}
 				{% set src = "banner_error.webp" | asset_siteimg %}
-			{% elif sub and sub.has_banners %}
-				{% set src = sub.random_banner() %}
+			{% elif hole and hole.has_banners %}
+				{% set src = hole.random_banner() %}
 				{% set alt = ['/h/', sub, 'banner']|join %}
 				{% set class = 'site-banner-hole' %}
 			{% elif get_orgy(v) and os_path.exists(path ~ "/orgy_banners") %}
@@ -34,8 +34,8 @@
 			{% endif %}
 
 			{% if SITE_NAME == "WPD" %}
-				{% if sub %}
-					{% set href = "/h/" ~ sub %}
+				{% if hole %}
+					{% set href = "/h/" ~ hole %}
 					{% set expand = false %}
 				{% else %}
 					{% set href = "/" %}
@@ -62,7 +62,7 @@
 					<img data-nonce="{{g.nonce}}" data-onclick="{{expand|default('expandImage()')}}" class="{{class|default('site-banner')}}" alt="{{alt|default('site banner')}}" src="{{banner_url}}">
 				{% endmacro %}
 
-				{% if sub and sub.has_banners %}
+				{% if hole and hole.has_banners %}
 					{{img_element()}}
 				{% else %}
 					<div class="banner-wrapper">

@@ -57,9 +57,9 @@
 				- {{u.bio}}
 			{% endif %}
 		{% endset %}
-	{% elif sub %}
+	{% elif hole %}
 		{% set title, description =
-		'/h/'+sub.name, sub.sidebar if sub.sidebar %}
+		'/h/'+hole.name, hole.sidebar if hole.sidebar %}
 	{% endif %}
 
 	<link rel="icon" type="image/webp" href="/icon.webp?x=6">
@@ -135,8 +135,8 @@
 		<link rel="stylesheet" href="{{'events/homoween/css/main_homoween.css' | asset}}">
 	{% endif %}
 
-	{% if sub and sub.css and not request.path.endswith('settings') and not request.values.get('nocss') %}
-		<link rel="stylesheet" href="/h/{{sub}}/css">
+	{% if hole and hole.css and not request.path.endswith('settings') and not request.values.get('nocss') %}
+		<link rel="stylesheet" href="/h/{{hole}}/css">
 	{% endif %}
 
 	{% if IS_FISTMAS() %}

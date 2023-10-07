@@ -292,13 +292,13 @@ POST_SORTS = COMMENT_SORTS | {
 ### COLUMN INFO
 ################################################################################
 
-SUB_NAME_COLUMN_LENGTH = 25
-SUB_SIDEBAR_COLUMN_LENGTH = 10000
-SUB_SIDEBAR_HTML_COLUMN_LENGTH = 20000
-SUB_SIDEBAR_URL_COLUMN_LENGTH = 60
-SUB_BANNER_URL_COLUMN_LENGTH = 60
-SUB_CSS_COLUMN_LENGTH = 6000
-SUB_MARSEY_URL_LENGTH = 60
+HOLE_NAME_COLUMN_LENGTH = 25
+HOLE_SIDEBAR_COLUMN_LENGTH = 10000
+HOLE_SIDEBAR_HTML_COLUMN_LENGTH = 20000
+HOLE_SIDEBAR_URL_COLUMN_LENGTH = 60
+HOLE_BANNER_URL_COLUMN_LENGTH = 60
+HOLE_CSS_COLUMN_LENGTH = 6000
+HOLE_MARSEY_URL_LENGTH = 60
 
 ################################################################################
 ### SITE SPECIFIC CONSTANTS
@@ -487,7 +487,7 @@ COMMENT_MAX_DEPTH = 200
 TRANSFER_MESSAGE_LENGTH_LIMIT = 200 # do not make larger than 10000 characters (comment limit) without altering the table
 MIN_REPOST_CHECK_URL_LENGTH = 9 # also change the constant in checkRepost() of submit.js
 CHAT_LENGTH_LIMIT = 1000
-SUB_BANNER_LIMIT = 10
+HOLE_BANNER_LIMIT = 10
 
 BIO_FRIENDS_ENEMIES_LENGTH_LIMIT = 5000 # do not make larger than 5000 characters without altering the table
 BIO_FRIENDS_ENEMIES_HTML_LENGTH_LIMIT = 20000 # do not make larger than 20000 characters without altering the table
@@ -706,7 +706,7 @@ elif SITE == 'watchpeopledie.tv':
 	PERMS['MODS_EVERY_HOLE'] = 3
 	PERMS['IS_PERMA_PROGSTACKED'] = 4
 
-	SUB_BANNER_LIMIT = 69420
+	HOLE_BANNER_LIMIT = 69420
 
 	ERROR_TITLES.update({
 		400: "Bad Request",
@@ -800,7 +800,7 @@ else: # localhost or testing environment implied
 	FEATURES['PRONOUNS'] = True
 	FEATURES['HOUSES'] = True
 	FEATURES['USERS_PERMANENT_WORD_FILTERS'] = True
-	SUB_BANNER_LIMIT = 69420
+	HOLE_BANNER_LIMIT = 69420
 
 HOUSES = ("None","Furry","Femboy","Vampire","Racist","Edgy") if FEATURES['HOUSES'] else ("None")
 

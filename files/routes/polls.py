@@ -18,10 +18,10 @@ def vote_option(option_id, v):
 		abort(404)
 	option = g.db.get(PostOption, option_id)
 	if not option: abort(404)
-	sub = option.parent.sub
+	hole = option.parent.hole
 
-	if sub in {'furry','vampire','racist','femboy','edgy'} and not v.house.lower().startswith(sub):
-		abort(403, f"You need to be a member of House {sub.capitalize()} to vote on polls in /h/{sub}")
+	if hole in {'furry','vampire','racist','femboy','edgy'} and not v.house.lower().startswith(hole):
+		abort(403, f"You need to be a member of House {hole.capitalize()} to vote on polls in /h/{hole}")
 
 	if option.exclusive == 2:
 		if option.parent.total_bet_voted(v):
@@ -72,12 +72,12 @@ def vote_option_comment(option_id, v):
 	if not option: abort(404)
 
 	if option.parent.parent_post:
-		sub = option.parent.post.sub
+		hole = option.parent.post.hole
 	else:
-		sub = None
+		hole = None
 
-	if sub in {'furry','vampire','racist','femboy','edgy'} and not v.house.lower().startswith(sub):
-		abort(403, f"You need to be a member of House {sub.capitalize()} to vote on polls in /h/{sub}")
+	if hole in {'furry','vampire','racist','femboy','edgy'} and not v.house.lower().startswith(hole):
+		abort(403, f"You need to be a member of House {hole.capitalize()} to vote on polls in /h/{hole}")
 
 	if option.exclusive == 2:
 		if option.parent.total_bet_voted(v):
