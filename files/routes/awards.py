@@ -293,7 +293,6 @@ def award_thing(v, thing_type, id):
 			thing.stickied_utc = int(time.time()) + add
 
 		thing.stickied = f'{v.username}{PIN_AWARD_TEXT}'
-		g.db.add(thing)
 		cache.delete_memoized(frontlist)
 	elif kind == "unpin":
 		if not thing.stickied_utc: abort(400)
@@ -310,7 +309,6 @@ def award_thing(v, thing_type, id):
 				thing.stickied_utc = None
 				cache.delete_memoized(frontlist)
 			else: thing.stickied_utc = t
-			g.db.add(thing)
 	elif kind == "queen":
 		if author.chud:
 			abort(409, f"{safe_username} under the effect of a conflicting award: Chud award!")
@@ -351,7 +349,6 @@ def award_thing(v, thing_type, id):
 			thing.body_html = sanitize(thing.body, limit_pings=5, showmore=True, obj=thing, author=author)
 			if isinstance(thing, Post):
 				thing.title_html = filter_emojis_only(thing.title, golden=False, obj=thing, author=author)
-			g.db.add(thing)
 
 	elif kind == "chud":
 		if thing_type == 'post' and thing.sub == 'chudrama' \
@@ -490,7 +487,6 @@ def award_thing(v, thing_type, id):
 			thing.body_html = sanitize(thing.body, limit_pings=5, showmore=True, obj=thing, author=author)
 			if isinstance(thing, Post):
 				thing.title_html = filter_emojis_only(thing.title, golden=False, obj=thing, author=author)
-			g.db.add(thing)
 	elif "Vampire" in kind and kind == v.house:
 		if author.bite: author.bite += 172800
 		else:
@@ -518,7 +514,6 @@ def award_thing(v, thing_type, id):
 			thing.body_html = sanitize(thing.body, limit_pings=5, showmore=True, obj=thing, author=author)
 			if isinstance(thing, Post):
 				thing.title_html = filter_emojis_only(thing.title, golden=False, obj=thing, author=author)
-			g.db.add(thing)
 	elif ("Edgy" in kind and kind == v.house) or kind == 'sharpen':
 		if author.chud:
 			abort(409, f"{safe_username} under the effect of a conflicting award: Chud award!")
@@ -532,13 +527,11 @@ def award_thing(v, thing_type, id):
 			thing.body_html = sanitize(thing.body, limit_pings=5, showmore=True, obj=thing, author=author)
 			if isinstance(thing, Post):
 				thing.title_html = filter_emojis_only(thing.title, golden=False, obj=thing, author=author)
-			g.db.add(thing)
 	elif ("Femboy" in kind and kind == v.house) or kind == 'rainbow':
 		if author.rainbow: author.rainbow += 86400
 		else: author.rainbow = int(time.time()) + 86400
 		badge_grant(user=author, badge_id=171)
 		thing.rainbowed = True
-		g.db.add(thing)
 	elif kind == "emoji":
 		award.note = award.note.strip(":").lower()
 		emoji = g.db.query(Emoji).filter_by(name=award.note).one_or_none()
@@ -617,6 +610,8 @@ def award_thing(v, thing_type, id):
 	if author.received_award_count: author.received_award_count += 1
 	else: author.received_award_count = 1
 	g.db.add(author)
+
+	g.db.add(thing)
 
 	return {"message": f"{AWARDS[kind]['title']} award given to {thing_type} successfully!"}
 
