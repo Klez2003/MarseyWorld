@@ -15,7 +15,7 @@
 			</tr>
 		</thead>
 
-		{% for sub, count in subs %}
+		{% for hole, count in subs %}
 			<tr>
 				<td>{{loop.index}}</td>
 				<td><a href="/h/{{hole}}">{{hole}} {% if hole.name in v.hole_blocks %}<span class="text-danger">[blocked, visit it to unblock it]</span>{% endif %}</a></td>
