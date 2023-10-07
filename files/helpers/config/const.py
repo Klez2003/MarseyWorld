@@ -712,7 +712,7 @@ elif SITE == 'watchpeopledie.tv':
 	ERROR_TITLES.update({
 		400: "Bad Request",
 		401: "Unauthorized",
-		403: "Not Found",
+		403: "Forbidden",
 		404: "Not Found",
 		405: "Method Not Allowed",
 		409: "Mortal Conflict",
@@ -725,7 +725,7 @@ elif SITE == 'watchpeopledie.tv':
 	ERROR_MSGS = {
 		400: "That request is invalid.",
 		401: "You need to login or sign up to do that.",
-		403: "That wasn't found",
+		403: "You're not allowed to do that",
 		404: "That wasn't found.",
 		405: "You can't use this method here... if you keep getting this error tell us it's prolly something borked.",
 		409: "There's a conflict between what you're trying to do and what you or someone else has done and because of that you can't do what you're trying to do.",
