@@ -372,7 +372,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 	v = getattr(g, 'v', None)
 
 	if blackjack and execute_blackjack(v, None, sanitized, blackjack):
-		sanitized = 'g'
+		return '<p>g</p>'
 
 	if '```' not in sanitized and '<pre>' not in sanitized:
 		sanitized = linefeeds_regex.sub(r'\1\n\n\2', sanitized)
