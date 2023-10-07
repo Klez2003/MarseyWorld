@@ -457,7 +457,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 	soup = BeautifulSoup(sanitized, 'lxml')
 
 	if len(soup.select('[bounce], [cide]')) > 5:
-		error("Max 5 'bounce' and 'cide'!")
+		error("Max 5 usages of 'bounce' and 'cide'!")
 
 	for tag in soup.find_all("img"):
 		if tag.get("src") and not tag["src"].startswith('/pp/') and not (snappy and tag["src"].startswith(f'{SITE_FULL_IMAGES}/e/')):
@@ -649,7 +649,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 
 	if "style" in sanitized and "filter" in sanitized:
 		if sanitized.count("blur(") + sanitized.count("drop-shadow(") > 5:
-			error("Too many filters!")
+			error("Max 5 usages of 'blur' and 'drop-shadow'!")
 
 	return sanitized.strip()
 
