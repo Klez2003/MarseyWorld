@@ -22,6 +22,19 @@ AWARDS = {
 	},
 
 	### Deprecated
+	"king": {
+		"kind": "king",
+		"title": "King",
+		"description": "Gives the recipient golden text for 24 hours.",
+		"icon": "fas fa-crown",
+		"color": "text-gold",
+		"price": 1000,
+		"deflectable": True,
+		"cosmetic": False,
+		"ghost": False,
+		"enabled": True,
+		"positive": True,
+   },
 	"ghost": {
 		"kind": "ghost",
 		"title": "Ghost",
