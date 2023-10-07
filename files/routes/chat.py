@@ -252,8 +252,10 @@ def heartbeat(v):
 	if g.referrer not in ALLOWED_REFERRERS:
 		return '', 400
 	expire_utc = int(time.time()) + 3610
+	already_there = online[g.referrer].get(v.id)
 	online[g.referrer][v.id] = (expire_utc, v.username, v.name_color, v.patron, v.id)
-	refresh_online()
+	if not already_there:
+		refresh_online()
 	return '', 204
 
 @socketio.on('typing')
