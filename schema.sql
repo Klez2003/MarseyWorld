@@ -514,7 +514,7 @@ CREATE TABLE public.emojis (
 
 CREATE TABLE public.exiles (
     user_id integer NOT NULL,
-    sub character varying(25) NOT NULL,
+    hole character varying(25) NOT NULL,
     exiler_id integer NOT NULL,
     created_utc integer
 );
@@ -597,6 +597,62 @@ CREATE TABLE public.hats (
     hat_id integer NOT NULL,
     user_id integer NOT NULL,
     equipped boolean,
+    created_utc integer
+);
+
+
+--
+-- Name: hole_actions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.hole_actions (
+    id integer NOT NULL,
+    hole character varying(25) NOT NULL,
+    user_id integer,
+    target_user_id integer,
+    target_post_id integer,
+    target_comment_id integer,
+    created_utc integer NOT NULL,
+    kind character varying(32) DEFAULT NULL::character varying,
+    _note character varying(2019) DEFAULT NULL::character varying
+);
+
+
+--
+-- Name: hole_blocks; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.hole_blocks (
+    user_id integer NOT NULL,
+    hole character varying(25) NOT NULL,
+    created_utc integer
+);
+
+
+--
+-- Name: hole_follows; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.hole_follows (
+    user_id integer NOT NULL,
+    hole character varying(25) NOT NULL,
+    created_utc integer
+);
+
+
+--
+-- Name: holes; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.holes (
+    name character varying(25) NOT NULL,
+    sidebar character varying(10000),
+    sidebar_html character varying(20000),
+    sidebarurl character varying(60),
+    bannerurls character varying(60)[] DEFAULT '{}'::character varying[] NOT NULL,
+    css character varying(6000),
+    stealth boolean,
+    marseyurl character varying(60),
     created_utc integer
 );
 
@@ -691,7 +747,7 @@ ALTER SEQUENCE public.modactions_id_seq OWNED BY public.modactions.id;
 
 CREATE TABLE public.mods (
     user_id integer NOT NULL,
-    sub character varying(25) NOT NULL,
+    hole character varying(25) NOT NULL,
     created_utc integer NOT NULL
 );
 
@@ -792,7 +848,7 @@ CREATE TABLE public.posts (
     flair character varying(350),
     stickied_utc integer,
     ghost boolean DEFAULT false NOT NULL,
-    sub character varying(25),
+    hole character varying(25),
     new boolean,
     hole_pinned character varying(30),
     notify boolean NOT NULL,
@@ -900,52 +956,13 @@ CREATE TABLE public.save_relationship (
 
 
 --
--- Name: sub_blocks; Type: TABLE; Schema: public; Owner: -
+-- Name: stealth_hole_unblocks; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE public.sub_blocks (
+CREATE TABLE public.stealth_hole_unblocks (
     user_id integer NOT NULL,
-    sub character varying(25) NOT NULL,
+    hole character varying(25) NOT NULL,
     created_utc integer
-);
-
-
---
--- Name: sub_joins; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.sub_joins (
-    user_id integer NOT NULL,
-    sub character varying(25) NOT NULL,
-    created_utc integer
-);
-
-
---
--- Name: sub_subscriptions; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.sub_subscriptions (
-    user_id integer NOT NULL,
-    sub character varying(25) NOT NULL,
-    created_utc integer
-);
-
-
---
--- Name: subactions; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.subactions (
-    id integer NOT NULL,
-    sub character varying(25) NOT NULL,
-    user_id integer,
-    target_user_id integer,
-    target_post_id integer,
-    target_comment_id integer,
-    created_utc integer NOT NULL,
-    kind character varying(32) DEFAULT NULL::character varying,
-    _note character varying(2019) DEFAULT NULL::character varying
 );
 
 
@@ -966,24 +983,7 @@ CREATE SEQUENCE public.subactions_id_seq
 -- Name: subactions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE public.subactions_id_seq OWNED BY public.subactions.id;
-
-
---
--- Name: subs; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.subs (
-    name character varying(25) NOT NULL,
-    sidebar character varying(10000),
-    sidebar_html character varying(20000),
-    sidebarurl character varying(60),
-    bannerurls character varying(60)[] DEFAULT '{}'::character varying[] NOT NULL,
-    css character varying(6000),
-    stealth boolean,
-    marseyurl character varying(60),
-    created_utc integer
-);
+ALTER SEQUENCE public.subactions_id_seq OWNED BY public.hole_actions.id;
 
 
 --
@@ -1115,6 +1115,13 @@ ALTER TABLE ONLY public.hat_defs ALTER COLUMN id SET DEFAULT nextval('public.hat
 
 
 --
+-- Name: hole_actions id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.hole_actions ALTER COLUMN id SET DEFAULT nextval('public.subactions_id_seq'::regclass);
+
+
+--
 -- Name: lotteries id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1140,13 +1147,6 @@ ALTER TABLE ONLY public.oauth_apps ALTER COLUMN id SET DEFAULT nextval('public.o
 --
 
 ALTER TABLE ONLY public.posts ALTER COLUMN id SET DEFAULT nextval('public.post_id_seq'::regclass);
-
-
---
--- Name: subactions id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.subactions ALTER COLUMN id SET DEFAULT nextval('public.subactions_id_seq'::regclass);
 
 
 --
@@ -1289,7 +1289,7 @@ ALTER TABLE ONLY public.emojis
 --
 
 ALTER TABLE ONLY public.exiles
-    ADD CONSTRAINT exiles_pkey PRIMARY KEY (user_id, sub);
+    ADD CONSTRAINT exiles_pkey PRIMARY KEY (user_id, hole);
 
 
 --
@@ -1369,7 +1369,7 @@ ALTER TABLE ONLY public.modactions
 --
 
 ALTER TABLE ONLY public.mods
-    ADD CONSTRAINT mods_pkey PRIMARY KEY (user_id, sub);
+    ADD CONSTRAINT mods_pkey PRIMARY KEY (user_id, hole);
 
 
 --
@@ -1453,42 +1453,42 @@ ALTER TABLE ONLY public.save_relationship
 
 
 --
--- Name: sub_blocks sub_blocks_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: hole_blocks sub_blocks_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.sub_blocks
-    ADD CONSTRAINT sub_blocks_pkey PRIMARY KEY (user_id, sub);
-
-
---
--- Name: sub_joins sub_joins_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.sub_joins
-    ADD CONSTRAINT sub_joins_pkey PRIMARY KEY (user_id, sub);
+ALTER TABLE ONLY public.hole_blocks
+    ADD CONSTRAINT sub_blocks_pkey PRIMARY KEY (user_id, hole);
 
 
 --
--- Name: sub_subscriptions sub_subscriptions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: stealth_hole_unblocks sub_joins_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.sub_subscriptions
-    ADD CONSTRAINT sub_subscriptions_pkey PRIMARY KEY (user_id, sub);
+ALTER TABLE ONLY public.stealth_hole_unblocks
+    ADD CONSTRAINT sub_joins_pkey PRIMARY KEY (user_id, hole);
 
 
 --
--- Name: subactions subactions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: hole_follows sub_subscriptions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.subactions
+ALTER TABLE ONLY public.hole_follows
+    ADD CONSTRAINT sub_subscriptions_pkey PRIMARY KEY (user_id, hole);
+
+
+--
+-- Name: hole_actions subactions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.hole_actions
     ADD CONSTRAINT subactions_pkey PRIMARY KEY (id);
 
 
 --
--- Name: subs subs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: holes subs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.subs
+ALTER TABLE ONLY public.holes
     ADD CONSTRAINT subs_pkey PRIMARY KEY (name);
 
 
@@ -1831,14 +1831,14 @@ CREATE INDEX fki_exile_exiler_fkey ON public.exiles USING btree (exiler_id);
 -- Name: fki_exile_sub_fkey; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX fki_exile_sub_fkey ON public.exiles USING btree (sub);
+CREATE INDEX fki_exile_sub_fkey ON public.exiles USING btree (hole);
 
 
 --
 -- Name: fki_mod_sub_fkey; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX fki_mod_sub_fkey ON public.mods USING btree (sub);
+CREATE INDEX fki_mod_sub_fkey ON public.mods USING btree (hole);
 
 
 --
@@ -1859,7 +1859,7 @@ CREATE INDEX fki_post_approver_fkey ON public.posts USING btree (is_approved);
 -- Name: fki_post_sub_fkey; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX fki_post_sub_fkey ON public.posts USING btree (sub);
+CREATE INDEX fki_post_sub_fkey ON public.posts USING btree (hole);
 
 
 --
@@ -1873,28 +1873,28 @@ CREATE INDEX fki_save_relationship_post_fkey ON public.save_relationship USING b
 -- Name: fki_sub_blocks_sub_fkey; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX fki_sub_blocks_sub_fkey ON public.sub_blocks USING btree (sub);
+CREATE INDEX fki_sub_blocks_sub_fkey ON public.hole_blocks USING btree (hole);
 
 
 --
 -- Name: fki_sub_joins_sub_fkey; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX fki_sub_joins_sub_fkey ON public.sub_joins USING btree (sub);
+CREATE INDEX fki_sub_joins_sub_fkey ON public.stealth_hole_unblocks USING btree (hole);
 
 
 --
 -- Name: fki_sub_subscriptions_sub_fkey; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX fki_sub_subscriptions_sub_fkey ON public.sub_subscriptions USING btree (sub);
+CREATE INDEX fki_sub_subscriptions_sub_fkey ON public.hole_follows USING btree (hole);
 
 
 --
 -- Name: fki_subactions_user_fkey; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX fki_subactions_user_fkey ON public.subactions USING btree (target_user_id);
+CREATE INDEX fki_subactions_user_fkey ON public.hole_actions USING btree (target_user_id);
 
 
 --
@@ -2559,7 +2559,7 @@ ALTER TABLE ONLY public.exiles
 --
 
 ALTER TABLE ONLY public.exiles
-    ADD CONSTRAINT exile_sub_fkey FOREIGN KEY (sub) REFERENCES public.subs(name);
+    ADD CONSTRAINT exile_sub_fkey FOREIGN KEY (hole) REFERENCES public.holes(name);
 
 
 --
@@ -2655,7 +2655,7 @@ ALTER TABLE ONLY public.media
 --
 
 ALTER TABLE ONLY public.mods
-    ADD CONSTRAINT mod_sub_fkey FOREIGN KEY (sub) REFERENCES public.subs(name);
+    ADD CONSTRAINT mod_sub_fkey FOREIGN KEY (hole) REFERENCES public.holes(name);
 
 
 --
@@ -2803,18 +2803,18 @@ ALTER TABLE ONLY public.comments
 
 
 --
--- Name: sub_blocks sub_blocks_sub_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: hole_blocks sub_blocks_sub_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.sub_blocks
-    ADD CONSTRAINT sub_blocks_sub_fkey FOREIGN KEY (sub) REFERENCES public.subs(name) MATCH FULL;
+ALTER TABLE ONLY public.hole_blocks
+    ADD CONSTRAINT sub_blocks_sub_fkey FOREIGN KEY (hole) REFERENCES public.holes(name) MATCH FULL;
 
 
 --
--- Name: sub_blocks sub_blocks_user_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: hole_blocks sub_blocks_user_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.sub_blocks
+ALTER TABLE ONLY public.hole_blocks
     ADD CONSTRAINT sub_blocks_user_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) MATCH FULL;
 
 
@@ -2823,70 +2823,70 @@ ALTER TABLE ONLY public.sub_blocks
 --
 
 ALTER TABLE ONLY public.posts
-    ADD CONSTRAINT sub_fkey FOREIGN KEY (sub) REFERENCES public.subs(name);
+    ADD CONSTRAINT sub_fkey FOREIGN KEY (hole) REFERENCES public.holes(name);
 
 
 --
--- Name: sub_joins sub_joins_sub_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: stealth_hole_unblocks sub_joins_sub_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.sub_joins
-    ADD CONSTRAINT sub_joins_sub_fkey FOREIGN KEY (sub) REFERENCES public.subs(name) MATCH FULL;
+ALTER TABLE ONLY public.stealth_hole_unblocks
+    ADD CONSTRAINT sub_joins_sub_fkey FOREIGN KEY (hole) REFERENCES public.holes(name) MATCH FULL;
 
 
 --
--- Name: sub_joins sub_joins_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: stealth_hole_unblocks sub_joins_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.sub_joins
+ALTER TABLE ONLY public.stealth_hole_unblocks
     ADD CONSTRAINT sub_joins_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) MATCH FULL;
 
 
 --
--- Name: sub_subscriptions sub_subscriptions_sub_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: hole_follows sub_subscriptions_sub_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.sub_subscriptions
-    ADD CONSTRAINT sub_subscriptions_sub_fkey FOREIGN KEY (sub) REFERENCES public.subs(name) MATCH FULL;
+ALTER TABLE ONLY public.hole_follows
+    ADD CONSTRAINT sub_subscriptions_sub_fkey FOREIGN KEY (hole) REFERENCES public.holes(name) MATCH FULL;
 
 
 --
--- Name: sub_subscriptions sub_subscriptions_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: hole_follows sub_subscriptions_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.sub_subscriptions
+ALTER TABLE ONLY public.hole_follows
     ADD CONSTRAINT sub_subscriptions_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) MATCH FULL;
 
 
 --
--- Name: subactions subactions_comment_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: hole_actions subactions_comment_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.subactions
+ALTER TABLE ONLY public.hole_actions
     ADD CONSTRAINT subactions_comment_fkey FOREIGN KEY (target_comment_id) REFERENCES public.comments(id);
 
 
 --
--- Name: subactions subactions_post_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: hole_actions subactions_post_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.subactions
+ALTER TABLE ONLY public.hole_actions
     ADD CONSTRAINT subactions_post_fkey FOREIGN KEY (target_post_id) REFERENCES public.posts(id);
 
 
 --
--- Name: subactions subactions_sub_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: hole_actions subactions_sub_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.subactions
-    ADD CONSTRAINT subactions_sub_fkey FOREIGN KEY (sub) REFERENCES public.subs(name);
+ALTER TABLE ONLY public.hole_actions
+    ADD CONSTRAINT subactions_sub_fkey FOREIGN KEY (hole) REFERENCES public.holes(name);
 
 
 --
--- Name: subactions subactions_user_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: hole_actions subactions_user_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.subactions
+ALTER TABLE ONLY public.hole_actions
     ADD CONSTRAINT subactions_user_fkey FOREIGN KEY (target_user_id) REFERENCES public.users(id);
 
 
