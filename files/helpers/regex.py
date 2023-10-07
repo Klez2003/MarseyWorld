@@ -177,6 +177,59 @@ search_regex_1 = re.compile(r'[\0():|&*!<>]', flags=re.A)
 search_regex_2 = re.compile(r"'", flags=re.A)
 search_regex_3 = re.compile(r'\s+', flags=re.A)
 
+###OWOIFY
+
+owo_word_regex = re.compile(r'[^\s]+', flags=re.A)
+owo_space_regex = re.compile(r'\s+', flags=re.A)
+owo_ignore_links_images_regex = re.compile(r'\]\(', flags=re.A)
+owo_ignore_emojis_regex = re.compile(r':[!#@a-z0-9_\-]+:', flags=re.I|re.A)
+owo_ignore_the_Regex = re.compile(r'\bthe\b', flags=re.I|re.A)
+
+
+###LinkifyFilter
+
+tlds = ( # Original gTLDs and ccTLDs
+	'ac','ad','ae','aero','af','ag','ai','al','am','an','ao','aq','ar','arpa','as','asia','at',
+	'au','aw','ax','az','ba','bb','bd','be','bf','bg','bh','bi','biz','bj','bm','bn','bo','br',
+	'bs','bt','bv','bw','by','bz','ca','cafe','cat','cc','cd','cf','cg','ch','ci','ck','cl',
+	'cm','cn','co','com','coop','cr','cu','cv','cx','cy','cz','de','dj','dk','dm','do','dz','ec',
+	'edu','ee','eg','er','es','et','eu','fi','fj','fk','fm','fo','fr','ga','gb','gd','ge','gf',
+	'gg','gh','gi','gl','gm','gn','gov','gp','gq','gr','gs','gt','gu','gw','gy','hk','hm','hn',
+	'hr','ht','hu','id','ie','il','im','in','info','int','io','iq','ir','is','it','je','jm','jo',
+	'jobs','jp','ke','kg','kh','ki','km','kn','kp','kr','kw','ky','kz','la','lb','lc','li','lk',
+	'lr','ls','lt','lu','lv','ly','ma','mc','md','me','mg','mh','mil','mk','ml','mm','mn','mo',
+	'mobi','mp','mq','mr','ms','mt','mu','museum','mv','mw','mx','my','mz','na','name',
+	'nc','ne','net','nf','ng','ni','nl','no','np','nr','nu','nz','om','org','pa','pe','pf','pg',
+	'ph','pk','pl','pm','pn','post','pr','pro','ps','pt','pw','py','qa','re','ro','rs','ru','rw',
+	'sa','sb','sc','sd','se','sg','sh','si','sj','sk','sl','sm','sn','so','social','sr','ss','st',
+	'su','sv','sx','sy','sz','tc','td','tel','tf','tg','th','tj','tk','tl','tm','tn','to','tp',
+	'tr','travel','tt','tv','tw','tz','ua','ug','uk','us','uy','uz','va','vc','ve','vg','vi','vn',
+	'vu','wf','ws','xn','xxx','ye','yt','yu','za','zm','zw',
+	# New gTLDs
+	'app','cleaning','club','dev','farm','florist','fun','gay','lgbt','life','lol',
+	'moe','mom','monster','new','news','online','pics','press','pub','site','blog',
+	'vip','win','world','wtf','xyz','video','host','art','media','wiki','tech',
+	'cooking','network','party','goog','markets','today','beauty','camp','top',
+	'red','city','quest','works','soy',
+	)
+
+protocols = ('http', 'https')
+
+sanitize_url_regex = re.compile(
+		r"""\(*# Match any opening parentheses.
+		\b(?<![@.])(?:(?:{0}):/{{0,3}}(?:(?:\w+:)?\w+@)?)?# http://
+		([\w-]+\.)+(?:{1})(?:\:[0-9]+)?(?!\.\w)\b# xx.yy.tld(:##)?
+		(?:[/?][^#\s\{{\}}\|\\\^\[\]`<>"]*)?
+			# /path/zz (excluding "unsafe" chars from RFC 1738,
+			# except for ~, which happens in practice)
+		(?:\#[^#\s\|\\\^\[\]`<>"]*)?
+			# #hash (excluding "unsafe" chars from RFC 1738,
+			# except for ~, which happens in practice)
+		""".format(
+			"|".join(sorted(protocols)), "|".join(sorted(tlds))
+		),
+		re.X | re.U,
+	)
 
 ###REDDIT
 

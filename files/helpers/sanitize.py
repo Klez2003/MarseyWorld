@@ -27,30 +27,6 @@ from files.helpers.const_stateful import *
 from files.helpers.regex import *
 from files.helpers.get import *
 
-TLDS = ( # Original gTLDs and ccTLDs
-	'ac','ad','ae','aero','af','ag','ai','al','am','an','ao','aq','ar','arpa','as','asia','at',
-	'au','aw','ax','az','ba','bb','bd','be','bf','bg','bh','bi','biz','bj','bm','bn','bo','br',
-	'bs','bt','bv','bw','by','bz','ca','cafe','cat','cc','cd','cf','cg','ch','ci','ck','cl',
-	'cm','cn','co','com','coop','cr','cu','cv','cx','cy','cz','de','dj','dk','dm','do','dz','ec',
-	'edu','ee','eg','er','es','et','eu','fi','fj','fk','fm','fo','fr','ga','gb','gd','ge','gf',
-	'gg','gh','gi','gl','gm','gn','gov','gp','gq','gr','gs','gt','gu','gw','gy','hk','hm','hn',
-	'hr','ht','hu','id','ie','il','im','in','info','int','io','iq','ir','is','it','je','jm','jo',
-	'jobs','jp','ke','kg','kh','ki','km','kn','kp','kr','kw','ky','kz','la','lb','lc','li','lk',
-	'lr','ls','lt','lu','lv','ly','ma','mc','md','me','mg','mh','mil','mk','ml','mm','mn','mo',
-	'mobi','mp','mq','mr','ms','mt','mu','museum','mv','mw','mx','my','mz','na','name',
-	'nc','ne','net','nf','ng','ni','nl','no','np','nr','nu','nz','om','org','pa','pe','pf','pg',
-	'ph','pk','pl','pm','pn','post','pr','pro','ps','pt','pw','py','qa','re','ro','rs','ru','rw',
-	'sa','sb','sc','sd','se','sg','sh','si','sj','sk','sl','sm','sn','so','social','sr','ss','st',
-	'su','sv','sx','sy','sz','tc','td','tel','tf','tg','th','tj','tk','tl','tm','tn','to','tp',
-	'tr','travel','tt','tv','tw','tz','ua','ug','uk','us','uy','uz','va','vc','ve','vg','vi','vn',
-	'vu','wf','ws','xn','xxx','ye','yt','yu','za','zm','zw',
-	# New gTLDs
-	'app','cleaning','club','dev','farm','florist','fun','gay','lgbt','life','lol',
-	'moe','mom','monster','new','news','online','pics','press','pub','site','blog',
-	'vip','win','world','wtf','xyz','video','host','art','media','wiki','tech',
-	'cooking','network','party','goog','markets','today','beauty','camp','top',
-	'red','city','quest','works','soy',
-	)
 
 allowed_tags = ('a','audio','b','big','blockquote','br','center','code','del','details','em','g','h1','h2','h3','h4','h5','h6','hr','i','img','li','lite-youtube','marquee','ol','p','pre','rp','rt','ruby','small','span','spoiler','strike','strong','sub','summary','sup','table','tbody','td','th','thead','tr','u','ul','video')
 
@@ -111,37 +87,6 @@ def allowed_attributes(tag, name, value):
 		if name == 'class' and value == 'table': return True
 
 	return False
-
-def build_url_re(tlds, protocols):
-	"""Builds the url regex used by linkifier
-
-	If you want a different set of tlds or allowed protocols, pass those in
-	and stomp on the existing ``url_re``::
-
-		from bleach import linkifier
-
-		my_url_re = linkifier.build_url_re(my_tlds_list, my_protocols)
-
-		linker = LinkifyFilter(url_re=my_url_re)
-
-	"""
-	return re.compile(
-		r"""\(*# Match any opening parentheses.
-		\b(?<![@.])(?:(?:{0}):/{{0,3}}(?:(?:\w+:)?\w+@)?)?# http://
-		([\w-]+\.)+(?:{1})(?:\:[0-9]+)?(?!\.\w)\b# xx.yy.tld(:##)?
-		(?:[/?][^#\s\{{\}}\|\\\^\[\]`<>"]*)?
-			# /path/zz (excluding "unsafe" chars from RFC 1738,
-			# except for ~, which happens in practice)
-		(?:\#[^#\s\|\\\^\[\]`<>"]*)?
-			# #hash (excluding "unsafe" chars from RFC 1738,
-			# except for ~, which happens in practice)
-		""".format(
-			"|".join(sorted(protocols)), "|".join(sorted(tlds))
-		),
-		re.VERBOSE | re.UNICODE,
-	)
-
-url_re = build_url_re(tlds=TLDS, protocols=['http', 'https'])
 
 def create_comment_duplicated(text_html):
 	new_comment = Comment(author_id=AUTOJANNY_ID,
@@ -582,7 +527,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 								protocols=['http', 'https'],
 								css_sanitizer=css_sanitizer,
 								filters=[partial(LinkifyFilter, skip_tags=["pre"],
-									parse_email=False, url_re=url_re)]
+									parse_email=False, url_re=sanitize_url_regex)]
 								).clean(sanitized)
 
 	#doing this here cuz of the linkifyfilter right above it (therefore unifying all link processing logic)
