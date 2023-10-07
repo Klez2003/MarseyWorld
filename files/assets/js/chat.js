@@ -188,7 +188,7 @@ ta.addEventListener("keydown", function(e) {
 })
 
 socket.on('online', function(data){
-	const online_li =  Object.entries(data[0])
+	const online_li =  data[0]
 	const muted_li = Object.keys(data[1])
 
 	document.getElementsByClassName('board-chat-count')[0].innerHTML = online_li.length
@@ -196,17 +196,17 @@ socket.on('online', function(data){
 	const admin_level = parseInt(document.getElementById('admin_level').value)
 	let online = ''
 	let online2 = '<b>Users Online</b>'
-	for (const [k, val] of online_li)
+	for (const u of online_li)
 	{
 		let patron = ''
-		if (val[3])
-			patron = ` class="patron" style="background-color:#${val[2]}"`
+		if (u[3])
+			patron = ` class="patron" style="background-color:#${u[2]}"`
 
 		online += `<li>`
-		if (admin_level && muted_li.includes(val[1].toLowerCase()))
+		if (admin_level && muted_li.includes(u[1].toLowerCase()))
 			online += '<b class="text-danger muted" data-bs-toggle="tooltip" title="Muted">X</b> '
-		online += `<a class="font-weight-bold" target="_blank" href="/@${val[1]}" style="color:#${val[2]}"><img loading="lazy" class="mr-1" src="/pp/${k}"><span${patron}>${val[1]}</span></a></li>`
-		online2 += `<br>@${val[1]}`
+		online += `<a class="font-weight-bold" target="_blank" href="/@${u[1]}" style="color:#${u[2]}"><img loading="lazy" class="mr-1" src="/pp/${u[4]}"><span${patron}>${u[1]}</span></a></li>`
+		online2 += `<br>@${u[1]}`
 	}
 
 	const online_el = document.getElementById('online')

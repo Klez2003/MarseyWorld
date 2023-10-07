@@ -139,14 +139,14 @@ def speak(data, v):
 			self_only = True
 		else:
 			del muted[vname]
-			emit("online", [online[g.referrer], muted], room=g.referrer, broadcast=True)
+			refresh_online()
 
 	if SITE == 'rdrama.net' and v.admin_level < PERMS['BYPASS_ANTISPAM_CHECKS']:
 		def shut_up():
 			self_only = True
 			muted_until = int(time.time() + 600)
 			muted[vname] = muted_until
-			emit("online", [online[g.referrer], muted], room=g.referrer, broadcast=True)
+			refresh_online()
 
 		if not self_only:
 			identical = [x for x in list(messages[g.referrer].values())[-5:] if v.id == x['user_id'] and text == x['text']]
@@ -182,7 +182,7 @@ def speak(data, v):
 			username = i.group(1).lower()
 			muted_until = int(int(i.group(2)) * 60 + time.time())
 			muted[username] = muted_until
-			emit("online", [online[g.referrer], muted], room=g.referrer, broadcast=True)
+			refresh_online()
 			self_only = True
 
 	if self_only or v.shadowbanned or execute_blackjack(v, None, text, "chat"):
@@ -204,7 +204,8 @@ def refresh_online():
 				if val[1] in typing[g.referrer]:
 					typing[g.referrer].remove(val[1])
 
-	emit("online", [online[g.referrer], muted], room=g.referrer, broadcast=True)
+	data = [list(online[g.referrer].values()), muted]
+	emit("online", data, room=g.referrer, broadcast=True)
 	cache.set('loggedin_chat', len(online[f'{SITE_FULL}/chat']), timeout=0)
 
 @socketio.on('connect')
@@ -251,7 +252,7 @@ def heartbeat(v):
 	if g.referrer not in ALLOWED_REFERRERS:
 		return '', 400
 	expire_utc = int(time.time()) + 3610
-	online[g.referrer][v.id] = (expire_utc, v.username, v.name_color, v.patron)
+	online[g.referrer][v.id] = (expire_utc, v.username, v.name_color, v.patron, v.id)
 	refresh_online()
 	return '', 204
 
