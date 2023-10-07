@@ -186,7 +186,7 @@ def _create_post(title, body, pin_hours):
 
 def _create_and_delete_orgy():
 	video_info = ffmpeg.probe(f'/orgies/{get_file()}')
-	seconds = int(video_info['streams'][0]['duration'])
+	seconds = float(video_info['streams'][0]['duration'])
 	end_utc = int(time.time() + seconds)
 	
 	orgy = Orgy(
