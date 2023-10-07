@@ -321,7 +321,7 @@ function send_hearbeat() {
 	socket.emit('heartbeat')
 }
 send_hearbeat()
-setInterval(send_hearbeat, 5000);
+setInterval(send_hearbeat, 10000);
 
 box.scrollTo(0, box.scrollHeight)
 setTimeout(function () {
