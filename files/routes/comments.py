@@ -12,10 +12,7 @@ from files.helpers.alerts import *
 from files.helpers.cloudflare import purge_files_in_cloudflare_cache
 from files.helpers.config.const import *
 from files.helpers.get import *
-from files.helpers.marsify import marsify
 from files.helpers.media import *
-from files.helpers.owoify import owoify
-from files.helpers.sharpen import sharpen
 from files.helpers.regex import *
 from files.helpers.slots import *
 from files.helpers.treasure import *
@@ -256,11 +253,6 @@ def comment(v):
 			f.write('{[para]}\n' + body + '\n')
 			SNAPPY_QUOTES.append(body)
 
-	body_for_sanitize = body
-	if v.owoify: body_for_sanitize = owoify(body_for_sanitize)
-	if v.marsify and not v.chud: body_for_sanitize = marsify(body_for_sanitize)
-	if v.sharpen: body_for_sanitize = sharpen(body_for_sanitize)
-
 	is_bot = v.client is not None and v.id not in BOT_SYMBOL_HIDDEN
 
 	chudded = v.chud and not (posting_to_post and post_target.sub == 'chudrama')
@@ -283,7 +275,7 @@ def comment(v):
 
 	c.upvotes = 1
 
-	body_html = sanitize(body_for_sanitize, limit_pings=5, showmore=(not v.marseyawarded), count_emojis=not v.marsify, commenters_ping_post_id=commenters_ping_post_id, obj=c)
+	body_html = sanitize(body, limit_pings=5, showmore=(not v.marseyawarded), count_emojis=not v.marsify, commenters_ping_post_id=commenters_ping_post_id, obj=c, author=v)
 
 	if post_target.id not in ADMIGGER_THREADS and not (v.chud and v.chud_phrase in body.lower()):
 		existing = g.db.query(Comment.id).filter(
@@ -683,16 +675,7 @@ def edit_comment(cid, v):
 		body = process_files(request.files, v, body)
 		body = body[:COMMENT_BODY_LENGTH_LIMIT].strip() # process_files potentially adds characters to the post
 
-		body_for_sanitize = body
-
-		if c.author.owoify:
-			body_for_sanitize = owoify(body_for_sanitize)
-		if c.author.marsify and not c.author.chud:
-			body_for_sanitize = marsify(body_for_sanitize)
-		if c.sharpened:
-			body_for_sanitize = sharpen(body_for_sanitize)
-
-		body_html = sanitize(body_for_sanitize, golden=False, limit_pings=5, showmore=(not v.marseyawarded), commenters_ping_post_id=c.parent_post, obj=c)
+		body_html = sanitize(body, golden=False, limit_pings=5, showmore=(not v.marseyawarded), commenters_ping_post_id=c.parent_post, obj=c, author=c.author)
 
 		if len(body_html) > COMMENT_BODY_HTML_LENGTH_LIMIT: abort(400)
 

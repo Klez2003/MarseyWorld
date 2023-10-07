@@ -26,6 +26,10 @@ from files.helpers.config.const import *
 from files.helpers.const_stateful import *
 from files.helpers.regex import *
 from files.helpers.get import *
+from files.helpers.marsify import *
+from files.helpers.owoify import *
+from files.helpers.sharpen import *
+from files.helpers.queenify import *
 
 
 allowed_tags = ('a','audio','b','big','blockquote','br','center','code','del','details','em','g','h1','h2','h3','h4','h5','h6','hr','i','img','li','lite-youtube','marquee','ol','p','pre','rp','rt','ruby','small','span','spoiler','strike','strong','sub','summary','sup','table','tbody','td','th','thead','tr','u','ul','video')
@@ -357,7 +361,7 @@ def handle_youtube_links(url):
 	return html
 
 @with_sigalrm_timeout(10)
-def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis=False, snappy=False, chat=False, blackjack=None, post_mention_notif=False, commenters_ping_post_id=None, obj=None):
+def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis=False, snappy=False, chat=False, blackjack=None, post_mention_notif=False, commenters_ping_post_id=None, obj=None, author=None):
 	def error(error):
 		if chat:
 			return error, 403
@@ -373,6 +377,16 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 
 	if blackjack and execute_blackjack(v, None, sanitized, blackjack):
 		return '<p>g</p>'
+
+	if obj and not (isinstance(obj, Post) and len(obj.body) > 1000):
+		if author.owoify:
+			sanitized = owoify(sanitized)
+		if author.marsify and not author.chud:
+			sanitized = marsify(sanitized)
+		if obj.sharpened:
+			sanitized = sharpen(sanitized)
+		if obj.queened:
+			sanitized = queenify(sanitized)
 
 	if '```' not in sanitized and '<pre>' not in sanitized:
 		sanitized = linefeeds_regex.sub(r'\1\n\n\2', sanitized)
@@ -659,11 +673,19 @@ def allowed_attributes_emojis(tag, name, value):
 
 
 @with_sigalrm_timeout(2)
-def filter_emojis_only(title, golden=True, count_emojis=False, obj=None):
+def filter_emojis_only(title, golden=True, count_emojis=False, obj=None, author=None):
 
 	title = title.replace("\n", "").replace("\r", "").replace("\t", "").replace('<','&lt;').replace('>','&gt;')
 
 	title = remove_cuniform(title)
+
+	if obj and not (isinstance(obj, Post) and len(obj.body) > 1000):
+		if author.owoify:
+			title = owoify(title)
+		if author.marsify and not author.chud:
+			title = marsify(title)
+		if obj.sharpened:
+			title = sharpen(title)
 
 	emojis_used = set()
 
@@ -807,60 +829,9 @@ def torture_chud(string, username):
 	string = torture_regex3.sub(rf"\1@{username}'s\3", string)
 	return string
 
-def torture_queen(string, key):
-	if not string: return string
-	result = initial_part_regex.search(string)
-	initial = result.group(1) if result else ""
-	string = string.lower()
-	string = initial_part_regex.sub("", string)
-	string = sentence_ending_regex.sub(", and", string)
-	string = superlative_regex.sub(r"literally \g<1>", string)
-	string = totally_regex.sub(r"totally \g<1>", string)
-	string = single_repeatable_punctuation.sub(r"\g<1>\g<1>\g<1>", string)
-	string = greeting_regex.sub(r"hiiiiiiiiii", string)
-	string = like_after_regex.sub(r"\g<1> like", string)
-	string = like_before_regex.sub(r"like \g<1>", string)
-	string = redpilled_regex.sub(r"goodpill\g<2>", string)
-	string = based_and_x_pilled_regex.sub(r"comfy \g<2> vibes", string)
-	string = based_regex.sub(r"comfy", string)
-	string = x_pilled_regex.sub(r"\g<2> vibes", string)
-	string = xmax_regex.sub(r"normalize good \g<2>s", string)
-	string = xmaxing_regex.sub(r"normalizing good \g<2>s", string)
-	string = xmaxed_regex.sub(r"normalized good \g<2>s", string)
-
-	string = normal_punctuation_regex.sub("", string)
-	string = more_than_one_comma_regex.sub(",", string)
-	if string[-5:] == ', and':
-		string = string[:-5]
-
-	if SITE == 'devrama.net':
-		random.seed(key)
-
-	if random.random() < PHRASE_CHANCE:
-		girl_phrase = random.choice(GIRL_PHRASES)
-		string = girl_phrase.replace("$", string)
-	string = initial + string
-	return string
-
-def torture_object(obj, torture_method):
-	#torture body_html
-	if obj.body_html and '<p>&amp;&amp;' not in obj.body_html and '<p>$$' not in obj.body_html and '<p>##' not in obj.body_html:
-		soup = BeautifulSoup(obj.body_html, 'lxml')
-		tags = soup.html.body.find_all(lambda tag: tag.name not in {'blockquote','codeblock','pre'} and tag.string, recursive=False)
-		i = 0
-		for tag in tags:
-			i+=1
-			key = obj.id+i
-			tag.string.replace_with(torture_method(tag.string, key))
-		obj.body_html = str(soup).replace('<html><body>','').replace('</body></html>','')
-
-	#torture title_html and check for chud_phrase in plain title and leave if it's there
-	if isinstance(obj, Post):
-		obj.title_html = obj.title_html
-
 def complies_with_chud(obj):
 	#check for cases where u should leave
-	if not (obj.chudded or obj.queened): return True
+	if not obj.chudded: return True
 	if obj.author.marseyawarded: return True
 
 	if isinstance(obj, Post):
@@ -870,35 +841,31 @@ def complies_with_chud(obj):
 		if obj.parent_post in ADMIGGER_THREADS: return True
 		if obj.post.sub == "chudrama": return True
 
-	if obj.chudded:
-		#perserve old body_html to be used in checking for chud phrase
-		old_body_html = obj.body_html
+	#perserve old body_html to be used in checking for chud phrase
+	old_body_html = obj.body_html
 
-		#torture body_html
-		if obj.body_html and '<p>&amp;&amp;' not in obj.body_html and '<p>$$' not in obj.body_html and '<p>##' not in obj.body_html:
-			soup = BeautifulSoup(obj.body_html, 'lxml')
-			tags = soup.html.body.find_all(lambda tag: tag.name not in {'blockquote','codeblock','pre'} and tag.string, recursive=False)
-			for tag in tags:
-				tag.string.replace_with(torture_chud(tag.string, obj.author.username))
-			obj.body_html = str(soup).replace('<html><body>','').replace('</body></html>','')
+	#torture body_html
+	if obj.body_html and '<p>&amp;&amp;' not in obj.body_html and '<p>$$' not in obj.body_html and '<p>##' not in obj.body_html:
+		soup = BeautifulSoup(obj.body_html, 'lxml')
+		tags = soup.html.body.find_all(lambda tag: tag.name not in {'blockquote','codeblock','pre'} and tag.string, recursive=False)
+		for tag in tags:
+			tag.string.replace_with(torture_chud(tag.string, obj.author.username))
+		obj.body_html = str(soup).replace('<html><body>','').replace('</body></html>','')
 
-		#torture title_html and check for chud_phrase in plain title and leave if it's there
-		if isinstance(obj, Post):
-			obj.title_html = torture_chud(obj.title_html, obj.author.username)
-			if not obj.author.chud or obj.author.chud_phrase in obj.title.lower():
-				return True
+	#torture title_html and check for chud_phrase in plain title and leave if it's there
+	if isinstance(obj, Post):
+		obj.title_html = torture_chud(obj.title_html, obj.author.username)
+		if not obj.author.chud or obj.author.chud_phrase in obj.title.lower():
+			return True
 
-		#check for chud_phrase in body_html
-		if old_body_html:
-			excluded_tags = {'del','sub','sup','marquee','spoiler','lite-youtube','video','audio'}
-			soup = BeautifulSoup(old_body_html, 'lxml')
-			tags = soup.html.body.find_all(lambda tag: tag.name not in excluded_tags and not tag.attrs, recursive=False)
-			for tag in tags:
-				for text in tag.find_all(text=True, recursive=False):
-					if not obj.author.chud or obj.author.chud_phrase in text.lower():
-						return True
+	#check for chud_phrase in body_html
+	if old_body_html:
+		excluded_tags = {'del','sub','sup','marquee','spoiler','lite-youtube','video','audio'}
+		soup = BeautifulSoup(old_body_html, 'lxml')
+		tags = soup.html.body.find_all(lambda tag: tag.name not in excluded_tags and not tag.attrs, recursive=False)
+		for tag in tags:
+			for text in tag.find_all(text=True, recursive=False):
+				if not obj.author.chud or obj.author.chud_phrase in text.lower():
+					return True
 
-		return False
-	elif obj.queened:
-		torture_object(obj, torture_queen)
-		return True
+	return False

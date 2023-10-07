@@ -19,7 +19,6 @@ from files.helpers.actions import *
 from files.helpers.alerts import *
 from files.helpers.config.const import *
 from files.helpers.get import *
-from files.helpers.sharpen import *
 from files.helpers.regex import *
 from files.helpers.sanitize import *
 from files.helpers.settings import get_setting
@@ -531,9 +530,6 @@ def submit_post(v, sub=None):
 	body = process_files(request.files, v, body)
 	body = body[:POST_BODY_LENGTH_LIMIT(v)].strip() # process_files() adds content to the body, so we need to re-strip
 
-	body_for_sanitize = body
-	if v.sharpen: body_for_sanitize = sharpen(body_for_sanitize)
-
 	flag_notify = (request.values.get("notify", "on") == "on")
 	flag_new = request.values.get("new", False, bool) or 'megathread' in title.lower()
 	flag_nsfw = FEATURES['NSFW_MARKING'] and request.values.get("nsfw", False, bool)
@@ -572,14 +568,14 @@ def submit_post(v, sub=None):
 		sharpened=bool(v.sharpen),
 	)
 
-	title_html = filter_emojis_only(title, count_emojis=True, obj=p)
+	title_html = filter_emojis_only(title, count_emojis=True, obj=p, author=v)
 
 	if v.marseyawarded and not marseyaward_title_regex.fullmatch(title_html):
 		abort(400, "You can only type marseys!")
 
 	p.title_html = title_html
 
-	body_html = sanitize(body_for_sanitize, count_emojis=True, limit_pings=100, obj=p)
+	body_html = sanitize(body, count_emojis=True, limit_pings=100, obj=p, author=v)
 
 	if v.marseyawarded and marseyaward_body_regex.search(body_html):
 		abort(400, "You can only type marseys!")
@@ -1012,7 +1008,7 @@ def edit_post(pid, v):
 
 
 	if title != p.title:
-		title_html = filter_emojis_only(title, golden=False, obj=p)
+		title_html = filter_emojis_only(title, golden=False, obj=p, author=p.author)
 
 		if p.author.marseyawarded and not marseyaward_title_regex.fullmatch(title_html):
 			abort(403, "You can only type marseys!")
@@ -1027,10 +1023,7 @@ def edit_post(pid, v):
 	body = body[:POST_BODY_LENGTH_LIMIT(v)].strip() # process_files() may be adding stuff to the body
 
 	if body != p.body:
-		body_for_sanitize = body
-		if p.sharpened: body_for_sanitize = sharpen(body_for_sanitize)
-
-		body_html = sanitize(body_for_sanitize, golden=False, limit_pings=100, obj=p)
+		body_html = sanitize(body, golden=False, limit_pings=100, obj=p, author=p.author)
 
 		if p.author.marseyawarded and marseyaward_body_regex.search(body_html):
 			abort(403, "You can only type marseys!")

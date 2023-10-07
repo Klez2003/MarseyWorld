@@ -12,11 +12,8 @@ from files.helpers.config.const import *
 from files.helpers.slurs_and_profanities import censor_slurs_profanities
 from files.helpers.config.awards import *
 from files.helpers.get import *
-from files.helpers.marsify import marsify
-from files.helpers.owoify import owoify
-from files.helpers.sharpen import sharpen
 from files.helpers.regex import *
-from files.helpers.sanitize import filter_emojis_only
+from files.helpers.sanitize import *
 from files.helpers.useractions import *
 from files.routes.wrappers import *
 from files.__main__ import app, cache, limiter
@@ -235,6 +232,8 @@ def award_thing(v, thing_type, id):
 
 	link = f"[this {thing_type}]({thing.shortlink})"
 
+	alter_body = not (isinstance(thing, Post) and len(thing.body) > 1000) and (not thing.author.deflector or v == thing.author)
+
 	if kind == "ban":
 		link = f"/{thing_type}/{thing.id}"
 		if thing_type == 'comment':
@@ -347,8 +346,11 @@ def award_thing(v, thing_type, id):
 
 		badge_grant(user=author, badge_id=285)
 
-		if thing_type == 'comment' and (not thing.author.deflector or v == thing.author):
+		if alter_body:
 			thing.queened = True
+			thing.body_html = sanitize(thing.body, limit_pings=5, showmore=True, obj=thing, author=author)
+			if isinstance(thing, Post):
+				thing.title_html = filter_emojis_only(thing.title, golden=False, obj=thing, author=author)
 			g.db.add(thing)
 
 	elif kind == "chud":
@@ -383,8 +385,9 @@ def award_thing(v, thing_type, id):
 
 		badge_grant(user=author, badge_id=58)
 
-		if thing_type == 'comment' and (not thing.author.deflector or v == thing.author):
+		if alter_body:
 			thing.chudded = True
+			complies_with_chud(thing)
 	elif kind == "flairlock":
 		new_name = note[:100]
 		if not new_name and author.flairchanged:
@@ -483,11 +486,10 @@ def award_thing(v, thing_type, id):
 			else: author.marsify = int(time.time()) + 86400
 		badge_grant(user=author, badge_id=170)
 
-		if thing_type == 'comment' and (not thing.author.deflector or v == thing.author):
-			body = thing.body
-			if author.owoify: body = owoify(body)
-			body = marsify(body)
-			thing.body_html = sanitize(body, limit_pings=5, showmore=True)
+		if alter_body:
+			thing.body_html = sanitize(thing.body, limit_pings=5, showmore=True, obj=thing, author=author)
+			if isinstance(thing, Post):
+				thing.title_html = filter_emojis_only(thing.title, golden=False, obj=thing, author=author)
 			g.db.add(thing)
 	elif "Vampire" in kind and kind == v.house:
 		if author.bite: author.bite += 172800
@@ -512,12 +514,10 @@ def award_thing(v, thing_type, id):
 		else: author.owoify = int(time.time()) + 21600
 		badge_grant(user=author, badge_id=167)
 
-		if thing_type == 'comment' and (not thing.author.deflector or v == thing.author):
-			body = thing.body
-			body = owoify(body)
-			if author.marsify and not author.chud:
-				body = marsify(body)
-			thing.body_html = sanitize(body, limit_pings=5, showmore=True)
+		if alter_body:
+			thing.body_html = sanitize(thing.body, limit_pings=5, showmore=True, obj=thing, author=author)
+			if isinstance(thing, Post):
+				thing.title_html = filter_emojis_only(thing.title, golden=False, obj=thing, author=author)
 			g.db.add(thing)
 	elif ("Edgy" in kind and kind == v.house) or kind == 'sharpen':
 		if author.chud:
@@ -527,11 +527,11 @@ def award_thing(v, thing_type, id):
 		else: author.sharpen = int(time.time()) + 86400
 		badge_grant(user=author, badge_id=289)
 
-		if thing_type == 'comment' and (not thing.author.deflector or v == thing.author):
-			body = thing.body
-			body = sharpen(body)
-			thing.body_html = sanitize(body, limit_pings=5, showmore=True)
+		if alter_body:
 			thing.sharpened = True
+			thing.body_html = sanitize(thing.body, limit_pings=5, showmore=True, obj=thing, author=author)
+			if isinstance(thing, Post):
+				thing.title_html = filter_emojis_only(thing.title, golden=False, obj=thing, author=author)
 			g.db.add(thing)
 	elif ("Femboy" in kind and kind == v.house) or kind == 'rainbow':
 		if author.rainbow: author.rainbow += 86400

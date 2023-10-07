@@ -401,7 +401,7 @@ AWARDS = {
 	"marsify": {
 		"kind": "marsify",
 		"title": "Marsify",
-		"description": "Marsifies the recipient's comments for 24 hours.",
+		"description": "Marsifies the recipient's posts and comments for 24 hours.",
 		"icon": "fas fa-cat",
 		"color": "text-white",
 		"price": 100,
@@ -427,7 +427,7 @@ AWARDS = {
 	"sharpen": {
 		"kind": "sharpen",
 		"title": "Sharpen",
-		"description": "Adds a badass edge to all the recipient's comments for 24 hours.",
+		"description": "Adds a badass edge to all the recipient's posts and comments for 24 hours.",
 		"icon": "fas fa-fire",
 		"color": "text-danger",
 		"price": 200,
@@ -583,7 +583,7 @@ AWARDS = {
 	"owoify": {
 		"kind": "owoify",
 		"title": "OwOify",
-		"description": "OwOifies the recipient's comments for 6 hours.",
+		"description": "OwOifies the recipient's posts and comments for 6 hours.",
 		"icon": "fas fa-paw-simple",
 		"color": "text-purple",
 		"price": 500,
@@ -918,7 +918,7 @@ HOUSE_AWARDS = {
 	"Furry": {
 		"kind": "Furry",
 		"title": "OwOify",
-		"description": "OwOifies the recipient's comments for 6 hours.",
+		"description": "OwOifies the recipient's posts and comments for 6 hours.",
 		"icon": "fas fa-paw-simple",
 		"color": "text-purple",
 		"price": 500,
@@ -966,7 +966,7 @@ HOUSE_AWARDS = {
 	"Edgy": {
 		"kind": "Edgy",
 		"title": "Sharpen",
-		"description": "Adds a badass edge to all the recipient's comments for 24 hours.",
+		"description": "Adds a badass edge to all the recipient's posts and comments for 24 hours.",
 		"icon": "fas fa-fire",
 		"color": "text-danger",
 		"price": 200,
