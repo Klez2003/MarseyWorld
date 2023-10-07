@@ -200,7 +200,7 @@ def speak(data, v):
 
 def refresh_online():
 	for li in online.values():
-		for k, val in li.items():
+		for k, val in list(li.items()):
 			if time.time() > val[0]:
 				del li[k]
 				if val[1] in typing[g.referrer]:
