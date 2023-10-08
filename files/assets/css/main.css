@@ -7637,3 +7637,17 @@ ul {
 		display: None !important;
 	}
 }
+
+:not(td) > a[href="/h/highrollerclub"].hole-flair {
+	font-family: open sans,sans-serif !important;
+	background: repeating-linear-gradient(
+		45deg,
+		gold,
+		#debd00 20px,
+		#cdae00 60px
+	);
+	font-weight: 700 !important;
+	background-clip: text !important;
+	-webkit-background-clip: text !important;
+	animation: 60s linear 0s infinite move-colors;
+}
