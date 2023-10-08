@@ -6,8 +6,6 @@
 	max-width: 470px;
 	overflow: auto;
 	box-shadow: 1px 1px 5px 1px rgba(60, 60, 60, 0.81) inset;
-	-webkit-box-shadow: 1px 1px 5px 1px rgba(60, 60, 60, 0.81) inset;
-	-moz-box-shadow: 1px 1px 5px 1px rgba(60, 60, 60, 0.81) inset;
 }
 
 .blackjack-cardset__PLAYING {
