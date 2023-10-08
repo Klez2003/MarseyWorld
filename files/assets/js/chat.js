@@ -181,7 +181,7 @@ function quote(t) {
 }
 
 ta.addEventListener("keydown", function(e) {
-	if (e.key === 'Enter' && !current_word) {
+	if (e.key === 'Enter' && !e.shiftKey && !current_word) {
 		e.preventDefault();
 		send();
 	}
