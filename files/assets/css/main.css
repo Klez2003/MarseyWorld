@@ -699,10 +699,6 @@ pre code {
 	border: 1px solid var(--gray-400);
 	border-radius: 0.35rem;
 }
-.form-control::-ms-expand {
-	background-color: transparent;
-	border: 0;
-}
 .form-control:-moz-focusring {
 	color: transparent;
 	text-shadow: 0 0 0 #495057;
@@ -721,10 +717,6 @@ pre code {
 .form-control:disabled, [readonly] {
 	background-color: #e9ecef;
 	opacity: 1;
-}
-select.form-control:focus::-ms-value {
-	color: #495057;
-	background-color: #fff;
 }
 .form-control-sm {
 	height: calc(1.5em + 0.5rem + 2px);
@@ -3780,19 +3772,7 @@ label.color-radio span {
 .form-inline.search .form-control::placeholder {
 	color: var(--black);
 }
-.form-inline.search .form-control::-ms-input-placeholder {
-	color: var(--black);
-}
-.form-inline.search .form-control::-ms-input-placeholder {
-	color: var(--black);
-}
 .form-inline.search .form-control:active::placeholder, .form-inline.search .form-control:focus::placeholder {
-	color: var(--black);
-}
-.form-inline.search .form-control:active::-ms-input-placeholder, .form-inline.search .form-control:focus::-ms-input-placeholder {
-	color: var(--black);
-}
-.form-inline.search .form-control:active::-ms-input-placeholder, .form-inline.search .form-control:focus::-ms-input-placeholder {
 	color: var(--black);
 }
 .form-control {
@@ -3819,12 +3799,6 @@ label.color-radio span {
 	box-shadow: none;
 }
 .form-control::placeholder {
-	color: var(--black);
-}
-.form-control::-ms-input-placeholder {
-	color: var(--black);
-}
-.form-control::-ms-input-placeholder {
 	color: var(--black);
 }
 label {
@@ -7384,7 +7358,6 @@ button, .btn {
 }
 
 .order-first {
-	-ms-flex-order: -1;
 	order: -1;
 }
 
@@ -7563,7 +7536,6 @@ ul {
 }
 
 .hide-scrollbar {
-	-ms-overflow-style: none;
 	scrollbar-width: none;
 }
 .hide-scrollbar::-webkit-scrollbar {

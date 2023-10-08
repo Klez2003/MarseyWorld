@@ -21,7 +21,6 @@
 }
 
 #chat-window {
-	-ms-overflow-style: none;
 	scrollbar-width: none;
 }
 
@@ -151,7 +150,6 @@ img[alt^="![]("], .img {
 }
 
 * {
-	-ms-overflow-style: none;
 	scrollbar-width: none;
 }
 
