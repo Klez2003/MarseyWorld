@@ -8050,7 +8050,7 @@ body {
 	}
 }
 
-.marseyfx-modifier-snipe-target {
+.marseyfx-modifier-scope-target {
 	transform: scale(0.8);
 }
 
@@ -8101,28 +8101,28 @@ body {
 	}
 }
 
-.marseyfx-modifier-transcendent-self:not(.marseyfx-modifier-transcendent-clone) {
+.marseyfx-modifier-echo-self:not(.marseyfx-modifier-echo-clone) {
 	transform: scale(0.5);
 	z-index: 6;
 }
 
-.marseyfx-modifier-transcendent-clone {
-	animation: marseyfx-modifier-transcendent 1.8s infinite linear, marseyfx-modifier-transcendent-opacity 1.8s infinite linear; 
+.marseyfx-modifier-echo-clone {
+	animation: marseyfx-modifier-echo 1.8s infinite linear, marseyfx-modifier-echo-opacity 1.8s infinite linear; 
 }
 
-.marseyfx-modifier-transcendent-clone-1 {
+.marseyfx-modifier-echo-clone-1 {
 	animation-delay: -0s;
 }
 
-.marseyfx-modifier-transcendent-clone-2 {
+.marseyfx-modifier-echo-clone-2 {
 	animation-delay: -0.6s;
 }
 
-.marseyfx-modifier-transcendent-clone-3 {
+.marseyfx-modifier-echo-clone-3 {
 	animation-delay: -1.2s;
 }
 
-@keyframes marseyfx-modifier-transcendent {
+@keyframes marseyfx-modifier-echo {
 	0% {
 		transform: scale(0.5);
 		z-index: 5
@@ -8134,7 +8134,7 @@ body {
 	}
 }
 
-@keyframes marseyfx-modifier-transcendent-opacity {
+@keyframes marseyfx-modifier-echo-opacity {
 	10%, 80% {
 		opacity: 0.4
 	}

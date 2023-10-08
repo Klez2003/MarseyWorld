@@ -316,9 +316,9 @@ class Modified:
         self.overlay(self.image('prohibition.svg'))
 
     @modifier
-    def snipe(self):
+    def scope(self):
         self.overlay(self.image('scope.svg'))
-        self.add_child_class('marseyfx-modifier-snipe-target')
+        self.add_child_class('marseyfx-modifier-scope-target')
 
     @modifier
     def fucks(self, other: GroupToken):
@@ -332,11 +332,11 @@ class Modified:
 
     @heavy
     @modifier
-    def transcendent(self):
+    def echo(self):
         for i in range(1, 4):
             tag = copy.copy(self.child)
             tag.attrs['class'] = tag.attrs['class'].copy()
-            tag.attrs['class'].append(f'marseyfx-modifier-transcendent-clone marseyfx-modifier-transcendent-clone-{i}')
+            tag.attrs['class'].append(f'marseyfx-modifier-echo-clone marseyfx-modifier-echo-clone-{i}')
             self.container.append(tag)
 
     @modifier
