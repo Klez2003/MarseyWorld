@@ -34,8 +34,6 @@ TURNSTILE_SECRET = environ.get("TURNSTILE_SECRET").strip()
 YOUTUBE_KEY = environ.get("YOUTUBE_KEY").strip()
 VAPID_PUBLIC_KEY = environ.get("VAPID_PUBLIC_KEY").strip()
 VAPID_PRIVATE_KEY = environ.get("VAPID_PRIVATE_KEY").strip()
-DONATE_SERVICE = environ.get("DONATE_SERVICE").strip()
-DONATE_LINK = environ.get("DONATE_LINK").strip()
 CF_KEY = environ.get("CF_KEY").strip()
 CF_ZONE = environ.get("CF_ZONE").strip()
 blackjack = environ.get("BLACKJACK", "").strip()
@@ -43,6 +41,13 @@ FP = environ.get("FP", "").strip()
 PROGSTACK_MUL = float(environ.get("PROGSTACK_MUL", 2.0))
 ENCOURAGED = environ.get("ENCOURAGED", "").strip().split()
 ENCOURAGED2 = environ.get("ENCOURAGED2", "").strip().split()
+
+DONATE_LINK = environ.get("DONATE_LINK").strip()
+
+if DONATE_LINK == DEFAULT_CONFIG_VALUE:
+	DONATE_SERVICE = DONATE_LINK
+else:
+	DONATE_SERVICE = tldextract.extract(DONATE_LINK).domain.capitalize()
 
 class Service(Enum):
 	RDRAMA = auto()
