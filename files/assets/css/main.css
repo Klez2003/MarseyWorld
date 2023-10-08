@@ -6219,20 +6219,20 @@ audio, video {
 	font-size: 0.95rem;
 }
 
-.sidebar-wpd--flairs {
+.sidebar-wpd--holes {
 	display: grid;
 	align-items: center;
 	grid-gap: 1px;
 }
 
-.sidebar-wpd--flairs--3 {
+.sidebar-wpd--holes--3 {
 	grid-template-columns: repeat(3, 1fr);
 }
-.sidebar-wpd--flairs--2 {
+.sidebar-wpd--holes--2 {
 	grid-template-columns: repeat(2, 1fr);
 }
 
-.sidebar-wpd--flairs a {
+.sidebar-wpd--holes a {
 	padding: 5px 5px 4px 5px;
 	text-align: center;
 	color: var(--muted);
@@ -6240,7 +6240,7 @@ audio, video {
 	box-shadow: 0 0 0 1px var(--primary);
 }
 
-.sidebar-wpd--flairs a:hover {
+.sidebar-wpd--holes a:hover {
 	color: #fff;
 	text-decoration: none;
 }
