@@ -602,8 +602,6 @@ body::after {
 	top: -20%;
 	z-index: 999;
 	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
 	user-select: none;
 	cursor: default;
 	animation-name: fall-pumpkins-fall, fall-pumpkins-shake;
