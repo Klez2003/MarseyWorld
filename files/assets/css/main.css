@@ -5824,8 +5824,7 @@ html {
 	padding: 2px 5px 3px 5px;
 	border-radius: 5px;
 	color:white!important;
-	background: -moz-linear-gradient(180deg, red, orange, yellow, green, blue, indigo, violet);
-	background: -webkit-linear-gradient(left, red, orange, yellow, green, blue, indigo, violet );
+	background: linear-gradient(left, red, orange, yellow, green, blue, indigo, violet );
 	text-shadow:-1px -1px 0 black,1px -1px 0 black,-1px 1px 0 black,1px 1px 0 black;
 }
 
@@ -6576,8 +6575,7 @@ g {
 	margin: 5px 1px;
 	border-radius: 5px;
 	color:white!important;
-	background: -moz-linear-gradient(180deg, red, orange, yellow, green, blue, indigo, violet);
-	background: -webkit-linear-gradient(left, red, orange, yellow, green, blue, indigo, violet );
+	background: linear-gradient(left, red, orange, yellow, green, blue, indigo, violet );
 	text-shadow:-1px -1px 0 black,1px -1px 0 black,-1px 1px 0 black,1px 1px 0 black;
 	font-weight: 600;
 	border: 2px solid var(--primary);
@@ -6646,8 +6644,7 @@ g {
 
 .btn-rainbow {
 	color:white !important;
-	background: -moz-linear-gradient(180deg, red, orange, yellow, green, blue, indigo, violet) !important;
-	background: -webkit-linear-gradient(left, red, orange, yellow, green, blue, indigo, violet ) !important;
+	background: linear-gradient(left, red, orange, yellow, green, blue, indigo, violet ) !important;
 	text-shadow:-1px -1px 0 black,1px -1px 0 black,-1px 1px 0 black,1px 1px 0 black !important;
 }
 
