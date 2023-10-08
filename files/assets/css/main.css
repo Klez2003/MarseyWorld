@@ -7634,7 +7634,7 @@ ul {
 
 @media (max-width: 768px) or (min-width: 992px) {
 	#sidebar-btn {
-		display: None !important;
+		display: none !important;
 	}
 }
 
