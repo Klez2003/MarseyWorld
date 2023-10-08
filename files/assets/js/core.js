@@ -108,7 +108,7 @@ function postToastSwitch(t, url, button1, button2, cls, extraActionsOnSuccess) {
 		});
 }
 
-if (!location.pathname.endsWith('/submit'))
+if (!location.pathname.endsWith('/submit') && !location.pathname.endsWith('/chat'))
 {
 	document.addEventListener('keydown', (e) => {
 		if (!((e.ctrlKey || e.metaKey) && e.key === "Enter")) return;
