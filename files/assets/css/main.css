@@ -3417,7 +3417,6 @@ body {
 	color: var(--black);
 	background-color: rgb(var(--background));
 	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
 }
 p {
 	font-size: 14px;
@@ -6470,7 +6469,6 @@ g {
 	opacity:var(--fa-secondary-opacity,.4);
 }
 .fa,.fab,.fad,.fal,.far,.fas{
-	-moz-osx-font-smoothing:grayscale;
 	-webkit-font-smoothing:antialiased;
 	display:var(--fa-display,inline-block);
 	font-style:normal;
