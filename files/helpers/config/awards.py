@@ -32,7 +32,7 @@ AWARDS = {
 		"deflectable": True,
 		"cosmetic": False,
 		"ghost": False,
-		"enabled": True,
+		"enabled": False,
 		"positive": True,
    },
 	"ghost": {
