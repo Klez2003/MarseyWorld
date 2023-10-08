@@ -695,10 +695,6 @@ pre code {
 	border: 1px solid var(--gray-400);
 	border-radius: 0.35rem;
 }
-.form-control:-moz-focusring {
-	color: transparent;
-	text-shadow: 0 0 0 #495057;
-}
 .form-control:focus {
 	color: #495057;
 	background-color: #fff;
