@@ -2650,6 +2650,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags) VALUES
 ('marseyjannyitsoverwereback','Marsey',2,'mod do free mop sweep clean virgin incel jobless unemployed'),
 ('marseyjannymini','Marsey',2,'janny minigun gun clean gatling jannie animated'),
 ('marseyjannyrentfree','Marsey',2,'soycry mop admin moderator jannie'),
+('marseyjannysuspicious','Marsey',2,'janitor mod moderator suspicious curious anti fun carp antifun'),
 ('marseyjannywereback','Marsey',2,'moderator sweep clean volunteer'),
 ('marseyjapanese','Marsey',2,'nippon rising sun weeb japan animated'),
 ('marseyjar','Marsey',2,'marsey jar wpd glass container squished gore blush cute'),
