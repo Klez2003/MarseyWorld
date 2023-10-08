@@ -89,8 +89,9 @@ def submit_get(v, hole=None):
 
 	HOLES = [x[0] for x in g.db.query(Hole.name).order_by(Hole.name)]
 
-	if SITE_NAME == "WPD":
-		HOLES = HOLES - ["other"] + ["other"]
+	if "other" in HOLES:
+		HOLES.remove("other")
+		HOLES.append("other")
 
 	return render_template("submit.html", HOLES=HOLES, v=v, hole=hole)
 
