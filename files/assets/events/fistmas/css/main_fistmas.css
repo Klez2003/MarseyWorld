@@ -263,27 +263,6 @@ body {
   pointer-events: none;
 }
 
-@-webkit-keyframes fall-snowflakes-fall {
-	0% {
-		top: -20%
-	}
-	100% {
-		top: 100%
-	}
-}
-
-@-webkit-keyframes fall-snowflakes-shake {
-	0% {
-		transform: translateX(0px)
-	}
-	50% {
-		transform: translateX(80px)
-	}
-	100% {
-		transform: translateX(0px) rotate(360deg);
-	}
-}
-
 @keyframes fall-snowflakes-fall {
 	0% {
 		top: -20%
