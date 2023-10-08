@@ -149,7 +149,7 @@ if SITE_NAME == 'rDrama':
 		"largest aztec heritage forum",
 		"official George Soros fanclub",
 		"CCP's official newspaper",
-		"nintendo gamers only",
+		"Nintendo gamers only",
 		"donkey kong country",
 		"banned from Reddit, Github & Bing!",
 		"as seen in WI v. Brooks 2022",
