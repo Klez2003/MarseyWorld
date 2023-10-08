@@ -162,11 +162,9 @@ if SITE_NAME == 'rDrama':
 		"socialist discourse & dating",
 		"DIY estrogen recipes",
 		"#1 guide to transitioning in Texas",
-		"Nintendo Switch ROMs",
 		"erectile dysfunction treatments",
 		"managing incontinence",
 		"Quran study group",
-		"watch Family Guy online",
 	)
 
 	BOOSTED_HOLES = {
