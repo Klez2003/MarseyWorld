@@ -207,7 +207,7 @@
 	animation: 60s linear 0s infinite move-colors;
 }
 
-.gold-text:not(a), h1.gold-text.post-title a {
+.gold-text:not(a), h1.gold-text.post-title a, :not(td) > a[href="/h/highrollerclub"]:not(.hole-flair) {
 	font-family: open sans,sans-serif !important;
 	background: repeating-linear-gradient(
 		45deg,
