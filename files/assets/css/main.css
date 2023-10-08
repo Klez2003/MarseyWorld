@@ -3874,10 +3874,6 @@ small, .small {
 	font-size: 12px;
 }
 .fa-rotate--45 {
-	-webkit-transform: rotate(-45deg);
-	-moz-transform: rotate(-45deg);
-	-ms-transform: rotate(-45deg);
-	-o-transform: rotate(-45deg);
 	transform: rotate(-45deg);
 }
 .icon::before {
@@ -4843,7 +4839,6 @@ ul.comment-section {
 }
 .custom-switch .custom-control-input:checked ~ .custom-control-label::after {
 	background-color: var(--white);
-	-webkit-transform: translateX(1.25rem);
 	transform: translateX(1.25rem);
 }
 pre code {
@@ -5369,42 +5364,34 @@ textarea {
 }
 .mirrored {
 	transform: scaleX(-1);
-	-webkit-transform: scaleX(-1);
 }
 
 span[alt^=":"][alt*="!"] {
 	transform: scaleX(-1);
-	-webkit-transform: scaleX(-1);
 }
 
 span[alt^=":"][alt*="!!"] {
 	transform: scaleX(1);
-	-webkit-transform: scaleX(1);
 }
 
 span[alt^=":"][alt*="!!"][alt*="pat"] {
 	transform: scaleX(-1);
-	-webkit-transform: scaleX(-1);
 }
 
 img[alt^=":"][alt*="!!"] {
 	transform: scaleX(-1);
-	-webkit-transform: scaleX(-1);
 }
 
 img[alt^=":"][alt*="!"] {
 	transform: scaleX(-1);
-	-webkit-transform: scaleX(-1);
 }
 
 span[alt^=":"][alt*="!"] > img[alt^=":"][alt*="!"] {
 	transform: scaleX(1);
-	-webkit-transform: scaleX(1);
 }
 
 span[alt^=":"][alt*="!!"] > img[alt^=":"][alt*="!"] {
 	transform: scaleX(-1);
-	-webkit-transform: scaleX(-1);
 }
 
 @media (max-width: 768px) {
@@ -5525,7 +5512,6 @@ span > img[src$="/i/love-foreground.webp"]+img[src$="/i/love-background.webp"]+i
 	bottom: -2%;
 	left: 33%;
 	transform: scaleX(-1) rotate(-10deg);
-	-webkit-transform: scaleX(-1) rotate(-10deg);
 }
 
 span > img[src$="/i/love-foreground.webp"] {
@@ -6536,7 +6522,7 @@ g {
 .fa-sm{font-size:.875em;line-height:.07143em;vertical-align:.05357em}
 .fa-lg{font-size:1.25em;line-height:.05em;vertical-align:-.075em}
 .fa-fw{text-align:center;width:1.25em}
-.fa-flip-horizontal{-webkit-transform:scaleX(-1);transform:scaleX(-1)}
+.fa-flip-horizontal{transform:scaleX(-1)}
 .fa-stack{
 	display:inline-block;
 	height:2em;
