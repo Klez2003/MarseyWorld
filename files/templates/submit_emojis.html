@@ -44,7 +44,7 @@
 							<input autocomplete="off" type="text" id="tags" class="form-control" name="tags" maxlength="200" pattern='[a-zA-Z0-9: ]{1,200}' placeholder="Required" value="{{tags}}" required>
 
 							{% if FEATURES['NSFW_MARKING'] %}
-								<div class="custom-control custom-checkbox mt-4">
+								<div class="custom-control custom-checkbox mt-4 pt-1 ml-1">
 									<input autocomplete="off" type="checkbox" class="custom-control-input" id="emoji-nsfw" name="nsfw">
 									<label class="custom-control-label" for="emoji-nsfw">NSFW</label>
 								</div>
@@ -100,7 +100,7 @@
 								<input autocomplete="off" type="text" id="{{emoji.name}}-tags" class="form-control" name="tags" maxlength="200" value="{{emoji.tags}}" pattern='[a-z0-9: ]{1,200}' placeholder="Required" required {% if v.admin_level < PERMS['MODERATE_PENDING_SUBMITTED_ASSETS'] %}readonly{% endif %}>
 
 								{% if FEATURES['NSFW_MARKING'] %}
-									<div class="custom-control custom-checkbox mt-4">
+									<div class="custom-control custom-checkbox mt-4 pt-1 ml-1">
 										<input autocomplete="off" type="checkbox" class="custom-control-input" id="{{emoji.name}}-nsfw" name="nsfw" {% if v.admin_level < PERMS['MODERATE_PENDING_SUBMITTED_ASSETS'] %}readonly{% endif %} {% if emoji.nsfw %}checked{% endif %}>
 										<label class="custom-control-label" for="{{emoji.name}}-nsfw">NSFW</label>
 									</div>
