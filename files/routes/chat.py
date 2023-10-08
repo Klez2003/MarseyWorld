@@ -183,7 +183,6 @@ def speak(data, v):
 			muted_until = int(int(i.group(2)) * 60 + time.time())
 			muted[username] = muted_until
 			refresh_online()
-			self_only = True
 
 	if self_only or v.shadowbanned or execute_blackjack(v, None, text, "chat"):
 		emit('speak', data)
