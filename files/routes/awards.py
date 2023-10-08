@@ -158,6 +158,8 @@ def award_thing(v, thing_type, id):
 
 	if kind not in AWARDS: abort(404, "This award doesn't exist")
 
+	award_title = AWARDS[kind]['title']
+
 	award = g.db.query(AwardRelationship).filter(
 		AwardRelationship.kind == kind,
 		AwardRelationship.user_id == v.id,
@@ -189,15 +191,15 @@ def award_thing(v, thing_type, id):
 
 	if v.id != author.id:
 		if author.deflector and v.deflector and AWARDS[kind]['deflectable']:
-			msg = f"@{v.username} has tried to give your [{thing_type}]({thing.shortlink}) the {AWARDS[kind]['title']} Award but it was deflected on them, they also had a deflector up, so it bounced back and forth until it vaporized!"
+			msg = f"@{v.username} has tried to give your [{thing_type}]({thing.shortlink}) the {award_title} Award but it was deflected on them, they also had a deflector up, so it bounced back and forth until it vaporized!"
 			send_repeatable_notification(author.id, msg)
 
-			msg = f"{safe_username} under the effect of a deflector award; your {AWARDS[kind]['title']} Award has been deflected back to you but your deflector protected you, the award bounced back and forth until it vaporized!"
+			msg = f"{safe_username} under the effect of a deflector award; your {award_title} Award has been deflected back to you but your deflector protected you, the award bounced back and forth until it vaporized!"
 			send_repeatable_notification(v.id, msg)
 
 			g.db.delete(award)
 
-			return {"message": f"{AWARDS[kind]['title']} award given to {thing_type} successfully!"}
+			return {"message": f"{award_title} award given to {thing_type} successfully!"}
 
 		if author.deflector and AWARDS[kind]['deflectable']:
 			author = v
@@ -586,12 +588,12 @@ def award_thing(v, thing_type, id):
 
 	if v.id != author.id:
 		if author.deflector and AWARDS[kind]['deflectable']:
-			msg = f"@{v.username} has tried to give your [{thing_type}]({thing.shortlink}) the {AWARDS[kind]['title']} Award but it was deflected and applied to them :marseytroll:"
+			msg = f"@{v.username} has tried to give your [{thing_type}]({thing.shortlink}) the {award_title} Award but it was deflected and applied to them :marseytroll:"
 			send_repeatable_notification(author.id, msg)
-			msg = f"{safe_username} under the effect of a deflector award; your {AWARDS[kind]['title']} Award has been deflected back to you :marseytroll:"
+			msg = f"{safe_username} under the effect of a deflector award; your {award_title} Award has been deflected back to you :marseytroll:"
 			send_repeatable_notification(v.id, msg)
 		elif kind != 'spider':
-			msg = f"@{v.username} has given [{link_text_in_notif}]({thing.shortlink}) the {AWARDS[kind]['title']} Award"
+			msg = f"@{v.username} has given [{link_text_in_notif}]({thing.shortlink}) the {award_title} Award"
 
 			if kind == 'shit':
 				msg += f" and has stolen from you {awarded_coins} coins as a result"
@@ -613,7 +615,12 @@ def award_thing(v, thing_type, id):
 
 	g.db.add(thing)
 
-	return {"message": f"{AWARDS[kind]['title']} award given to {thing_type} successfully!"}
+	if award.kind == "emoji":
+		emoji_behavior = request.values.get("emoji_behavior").strip()
+		if emoji_behavior == "horizontal":
+			award.kind = "emoji-hz"
+
+	return {"message": f"{award_title} award given to {thing_type} successfully!"}
 
 @app.post("/trick-or-treat")
 @limiter.limit("1/hour", key_func=lambda:f'{SITE}-{session.get("lo_user")}')

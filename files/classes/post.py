@@ -15,7 +15,7 @@ from files.helpers.lazy import lazy
 from files.helpers.regex import *
 from files.helpers.sorting_and_time import make_age_string
 
-from .comment import normalize_urls_runtime, add_options, get_award_classes
+from .comment import *
 from .polls import *
 from .hole import *
 from .subscriptions import *
@@ -263,12 +263,6 @@ class Post(Base):
 		return num
 
 	@lazy
-	def emoji_award_emojis(self, v, OVER_18_EMOJIS):
-		if g.show_nsfw:
-			return [x.note for x in self.awards if x.kind == "emoji"][:10]
-		return [x.note for x in self.awards if x.kind == "emoji" and x.note not in OVER_18_EMOJIS][:10]
-
-	@lazy
 	def realurl(self, v):
 		url = self.url
 
@@ -383,3 +377,7 @@ class Post(Base):
 	@lazy
 	def award_classes(self, v, title=False):
 		return get_award_classes(self, v, title)
+
+	@lazy
+	def emoji_awards_emojis(self, v, kind, OVER_18_EMOJIS):
+		return get_emoji_awards_emojis(self, v, kind, OVER_18_EMOJIS)

@@ -7187,12 +7187,12 @@ input::-webkit-inner-spin-button {
 	min-height: 60px;
 }
 
-#notelabel {
+#notelabel, #emoji_behavior_label {
 	font-size: 16px;
 }
 
 @media (max-width: 768px) {
-	#note, #notelabel {
+	#note, #notelabel, #emoji_behavior_label {
 		font-size: 14px !important;
 	}
 }
