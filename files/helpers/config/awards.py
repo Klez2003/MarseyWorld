@@ -895,7 +895,7 @@ AWARDS = {
 	"pride": {
 		"kind": "pride",
 		"title": "Pride",
-		"description": "Glams up the recipient's name, showing lifelong support for the LGBTQIA+ community.",
+		"description": "Permanently glams up the recipient's name, showing lifelong support for the LGBTQIA+ community.",
 		"icon": "fas fa-heart",
 		"color": "text-purple",
 		"price": 200000,
