@@ -22,8 +22,8 @@
 													{%- set hole_placeholder = 'Required' if HOLE_REQUIRED else 'Optional' -%}
 													<input list="holes" autocomplete="off" id="hole" class="form-control" form="submitform" name="hole" data-nonce="{{g.nonce}}" data-oninput="savetext()" {% if hole %}value="{{hole}}"{% endif %} placeholder="{{hole_placeholder}}" {% if HOLE_REQUIRED %}required{% endif %}>
 													<datalist id="holes">
-														{% for s in HOLES %}
-															<option value="{{s}}"></option>
+														{% for h in HOLES %}
+															<option value="{{h}}"></option>
 														{% endfor %}
 													</datalist>
 												</div>
