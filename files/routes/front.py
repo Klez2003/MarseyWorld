@@ -87,9 +87,9 @@ def front_all(v, hole=None):
 	return result
 
 
-LIMITED_WPD_HOLES = ('aftermath', 'fights', 'gore', 'medical', 'request', 'selfharm',
+LIMITED_WPD_HOLES = {'aftermath', 'fights', 'gore', 'medical', 'request', 'selfharm',
 					 'discussion', 'meta', 'music', 'pets', 'social',
-					 'countryclub', 'highrollerclub')
+					 'countryclub', 'highrollerclub'}
 
 @cache.memoize()
 def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='', gt=0, lt=0, hole=None, pins=True):
@@ -143,11 +143,7 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 
 	if SITE_NAME == 'WPD' and sort == "hot" and hole == None:
 		posts = posts.limit(200).all()
-
-		to_remove = []
-		for h in LIMITED_WPD_HOLES:
-			to_remove += [x.id for x in posts if x.hole == h][1:]
-
+		to_remove = [x.id for x in posts if x.hole in LIMITED_WPD_HOLES][1:]
 		posts = [x for x in posts if x.id not in to_remove][:size]
 	elif SITE_NAME == 'WPD' and not v and hole == None:
 		posts = posts.limit(200).all()
