@@ -7622,12 +7622,12 @@ ul {
 	100% { filter: hue-rotate(360deg); }
 }
 
-.zozbot, :not(td) > a[href="/h/countryclub"], [pride_username] {
+.zozbot, :not(td) > a[href="/h/countryclub"]:not(.hole-flair), [pride_username] {
 	color: red;
 	animation: lgbt 3s linear infinite;
 }
 
-[pride_username].patron {
+:not(td) > a[href="/h/countryclub"].hole-flair, [pride_username].patron {
 	background-color: red;
 	animation: lgbt 2s linear infinite;
 }
