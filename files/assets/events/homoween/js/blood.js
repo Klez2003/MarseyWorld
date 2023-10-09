@@ -11,7 +11,7 @@ const stabs = document.getElementById('stabs').value
 
 let blood = Sketch.create({autoclear: false, autopause: false}),
 	drops = [],
-	dropCount = stabs*2,
+	dropCount = stabs*4,
 	maxDrops = dropCount+1,
 	Drop = function() {
 		this.x = random(0,blood.width);
