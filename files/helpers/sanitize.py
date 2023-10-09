@@ -1,9 +1,11 @@
+import copy
 import functools
 import random
 import re
 import signal
 from functools import partial
 from os import path, listdir
+from typing import Union
 from typing_extensions import deprecated
 from urllib.parse import parse_qs, urlparse, unquote, ParseResult, urlencode, urlunparse
 import time
@@ -28,6 +30,8 @@ from files.helpers.config.const import *
 from files.helpers.const_stateful import *
 from files.helpers.regex import *
 from files.helpers.get import *
+
+from bs4 import Tag
 
 TLDS = ( # Original gTLDs and ccTLDs
 	'ac','ad','ae','aero','af','ag','ai','al','am','an','ao','aq','ar','arpa','as','asia','at',
@@ -272,7 +276,7 @@ def find_all_emote_endings(word):
 class RenderEmojisResult:
 	emojis_used: set[str]
 	heavy_count = 0
-	tags: list[str]
+	tags: list[Union[str, Tag]]
 
 	def __init__(self):
 		self.emojis_used = set()
@@ -283,11 +287,33 @@ class RenderEmojisResult:
 		self.heavy_count += other.heavy_count
 		self.tags.extend(other.tags)
 
-def render_emojis(markup: str, **kwargs):
+	def db_update_count(self):
+		for emoji in g.db.query(Emoji).filter(Emoji.submitter_id==None, Emoji.name.in_(self.emojis_used)):
+			emoji.count += 1
+			g.db.add(emoji)
+
+def render_emojis_tag(tag: Tag, **kwargs):
+	result = RenderEmojisResult()
+	tag = copy.copy(tag)
+
+	for text_el in tag.find_all(text=True):
+		if not text_el.parent or text_el.parent.name in {'code', 'pre'}:
+			continue
+		res = render_emojis(text_el.text)
+		text_el.replace_with(*res.tags)
+		result.update(res)
+
+	result.tags = [tag]
+
+	return result
+
+def render_emojis(markup: Union[str, Tag], **kwargs):
+	if isinstance(markup, Tag):
+		return render_emojis_tag(markup, **kwargs)
 	result = RenderEmojisResult()
 	last_match_end = 0
 
-	golden = kwargs.get('golden', True)
+	permit_golden = kwargs.get('permit_golden', True)
 	permit_big = kwargs.get('permit_big', True)
 
 	for emoji_match in marseyfx_emoji_regex.finditer(markup):
@@ -306,8 +332,12 @@ def render_emojis(markup: str, **kwargs):
 			if not permit_big:
 				emoji.is_big = False
 
-			emoji_html = emoji.create_el(tokenizer)
+			if not permit_golden:
+				emoji.is_golden = False
+
+			emoji_html, heavy_count = emoji.create_el(tokenizer)
 			result.tags.append(emoji_html)
+			result.heavy_count += heavy_count
 		
 		if len(tokenizer.errors) > 0:
 			soup = BeautifulSoup()
@@ -595,19 +625,14 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 	soup = BeautifulSoup(sanitized, 'lxml')
 
 	# -- EMOJI RENDERING --
-	emojis_used = set()
+	emoji_render = render_emojis(soup)
+	soup = emoji_render.tags[0]
 
-	for text_el in soup.find_all(text=True):
-		if not text_el.parent or text_el.parent.name in {'code', 'pre'}:
-			continue
-		res = render_emojis(text_el.text)
-		text_el.replace_with(*res.tags)
-		emojis_used.update(res.emojis_used)
+	if emoji_render.heavy_count > 5:
+		error("Too many heavy emojis! (Max 5)")
 
 	if count_emojis:
-		for emoji in g.db.query(Emoji).filter(Emoji.submitter_id==None, Emoji.name.in_(emojis_used)):
-			emoji.count += 1
-			g.db.add(emoji)
+		emoji_render.db_update_count()
 
 	# -- @ MENTIONS --
 	ping_count = 0
@@ -770,31 +795,31 @@ def allowed_attributes_emojis(tag, name, value):
 		if name == 'cide' and not value: return True
 	return False
 
-
 @with_sigalrm_timeout(2)
 def filter_emojis_only(title, golden=True, count_emojis=False):
-
+	# XSS warning: do not allow any html tags, otherwise someone could do something like this:
+	# `<img src=":marsey: evilShit">` because when :marsey: is rendered, it will include quotes that
+	# will end the attribute and allow someone to inject an evil attribute like onerror
 	title = title.replace("\n", "").replace("\r", "").replace("\t", "").replace('<','&lt;').replace('>','&gt;')
-
 	title = remove_cuniform(title)
 
-	res = render_emojis(title) #old_render_emoji(title, emoji_regex2, golden, emojis_used, is_title=True)
+	title = strikethrough_regex.sub(r'\1<del>\2</del>', title)
+	title = bleach.clean(title, tags=['img','del','span'], attributes=allowed_attributes_emojis, protocols=['http','https']).replace('\n','')
+
+	res = render_emojis(title, permit_big=False) #old_render_emoji(title, emoji_regex2, golden, emojis_used, is_title=True)
+
+	if res.heavy_count > 0:
+		abort(400, "You can't have heavy/filter emojis in the title!")
 
 	title = ''.join(map(str, res.tags))
 
 	if count_emojis:
-		for emoji in g.db.query(Emoji).filter(Emoji.submitter_id==None, Emoji.name.in_(emojis_used)):
-			emoji.count += 1
-			g.db.add(emoji)
+		res.db_update_count()
 
-	title = strikethrough_regex.sub(r'\1<del>\2</del>', title)
-
-	title = bleach.clean(title, tags=['img','del','span'], attributes=allowed_attributes_emojis, protocols=['http','https']).replace('\n','')
+	title = title.strip()
 
 	if len(title) > POST_TITLE_HTML_LENGTH_LIMIT:
 		abort(400, "Rendered title is too big!")
-
-	title = title.strip()
 
 	return title
 
