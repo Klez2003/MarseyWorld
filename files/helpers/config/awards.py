@@ -286,7 +286,7 @@ AWARDS = {
 		"deflectable": False,
 		"cosmetic": True,
 		"ghost": True,
-		"enabled": IS_HOMOWEEN() and False,
+		"enabled": IS_HOMOWEEN() and SITE == 'devrama.net',
 		"positive": True,
 	},
 	"flashlight": {
