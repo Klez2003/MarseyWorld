@@ -1,2 +1,4 @@
 nano /var/log/rdrama/cron.log
 rm /var/log/rdrama/cron.log
+touch /var/log/rdrama/cron.log
+chown rdrama:rdrama /var/log/rdrama/cron.log
