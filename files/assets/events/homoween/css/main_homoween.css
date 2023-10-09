@@ -805,3 +805,7 @@ body::after {
 	width: 16px;
 	height: 16px;
 }
+
+.post-flair {
+	padding-top: 5px;
+}

@@ -97,7 +97,7 @@
 			</div>
 			<h5 class="card-title post-title text-left w-lg-95 pb-0 pb-md-1">
 				<a id="{{p.id}}-title" {% if v and v.newtab %}data-target="t" target="_blank"{% endif %} href="{{p.permalink}}" class="{% if p.hole %}sub{% endif %} stretched-link {% if p.chudded %}text-uppercase{% endif %}">
-				{% if p.flair %}<span class="patron font-weight-bolder mr-1" style="background-color:var(--primary); font-size:12px; line-height:2">{{p.flair | safe}}</span>{% endif %}
+				{% if p.flair %}<span class="post-flair font-weight-bolder mr-1">{{p.flair | safe}}</span>{% endif %}
 				{{p.realtitle(v) | safe}}
 			</a></h5>
 	</div>

@@ -5178,10 +5178,15 @@ span.green {
 .text-info {
 	color: var(--primary) !important;
 }
-.patron {
+.patron, .post-flair {
 	padding: 2px 5px 3px 5px !important;
 	border-radius: 5px !important;
 	color: white !important;
+}
+.post-flair {
+	background-color: var(--primary);
+	font-size: 12px;
+	line-height: 2;
 }
 .patron[style*="background-color:#ffffff"] {
 	color: black !important;
