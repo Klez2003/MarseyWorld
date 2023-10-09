@@ -301,14 +301,12 @@ body::after {
 
 .spider {
 	z-index: 10;
-	position: fixed;
+	position: absolute;
 	display: inline-block;
 	top: 0;
 	left: 10%;
-
 	animation: swing 2s infinite;
 	transform-origin: top;
-
 	transition: 0.8s ease-in-out;
 	pointer-events: none;
 }
