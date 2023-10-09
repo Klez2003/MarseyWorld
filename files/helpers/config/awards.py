@@ -3,7 +3,7 @@ from copy import deepcopy
 from files.helpers.config.const import *
 
 FISTMAS_AWARDS = ("fireplace", "snow", "gingerbread", "lights", "frostbite", "candycane")
-HOMOWEEN_AWARDS = ("spiders", "fog", "bones", "pumpkin", "candy-corn", "ectoplasm", "stab", "upsidedown", "flashlight", "haunt", "jumpscare", "bite", "vax")
+HOMOWEEN_AWARDS = ("spiders", "fog", "bones", "pumpkin", "candy-corn", "ectoplasm", "stab", "flashlight", "haunt", "jumpscare", "bite", "vax")
 
 #Personal awards are disabled on ghost posts and comments bc they can be used to figure out the identity of the author through https://rdrama.net/badges
 AWARDS = {
