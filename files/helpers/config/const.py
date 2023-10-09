@@ -982,7 +982,7 @@ fistmas_end = datetime.datetime.strptime(f'26/12/{t.year}', '%d/%m/%Y')
 def IS_FISTMAS():
 	return fistmas_begin < datetime.datetime.now() < fistmas_end
 
-homoween_begin = datetime.datetime.strptime(f'10/10/{t.year}', '%d/%m/%Y')
+homoween_begin = datetime.datetime.strptime(f'9/10/{t.year}', '%d/%m/%Y')
 homoween_end = datetime.datetime.strptime(f'1/11/{t.year}', '%d/%m/%Y')
 def IS_HOMOWEEN():
 	return SITE == 'devrama.net' or homoween_begin < datetime.datetime.now() < homoween_end
