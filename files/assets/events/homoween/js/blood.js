@@ -11,11 +11,11 @@ const stabs = document.getElementById('stabs').value
 
 let blood = Sketch.create({autoclear: false, autopause: false}),
 	drops = [],
-	dropCount = stabs*10,
+	dropCount = stabs*2,
 	maxDrops = dropCount+1,
 	Drop = function() {
 		this.x = random(0,blood.width);
-		this.radius = random(10,20);
+		this.radius = random(5,10);
 		this.y = -this.radius - random(50,100);
 		this.vy = this.radius/6;
 		this.r = ~~random(240,255);
