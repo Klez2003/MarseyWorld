@@ -218,7 +218,7 @@ def award_thing(v, thing_type, id):
 			if kind == 'shit':
 				author.charge_account('coins', awarded_coins, should_check_balance=False)
 				v.pay_account('coins', awarded_coins)
-			elif AWARDS[kind]['cosmetic']:
+			elif AWARDS[kind]['cosmetic'] and kind not in FISTMAS_AWARDS + HOMOWEEN_AWARDS :
 				author.pay_account('coins', awarded_coins)
 
 			if thing_type == 'comment':
