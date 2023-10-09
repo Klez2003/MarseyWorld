@@ -592,7 +592,7 @@ def award_thing(v, thing_type, id):
 			send_repeatable_notification(author.id, msg)
 			msg = f"{safe_username} under the effect of a deflector award; your {award_title} Award has been deflected back to you :marseytroll:"
 			send_repeatable_notification(v.id, msg)
-		elif kind != 'spider':
+		elif kind not in {'spider', 'jumpscare'}:
 			msg = f"@{v.username} has given [{link_text_in_notif}]({thing.shortlink}) the {award_title} Award"
 
 			if kind == 'shit':
