@@ -1,6 +1,5 @@
 import random
 from operator import *
-import re
 
 import pyotp
 from sqlalchemy import Column, ForeignKey, FetchedValue
@@ -14,13 +13,14 @@ from flask import g, session, request
 from files.classes import Base
 from files.classes.casino_game import CasinoGame
 from files.classes.group import GroupMembership
-from files.classes.sub import Sub
+from files.classes.hole import Hole
 from files.helpers.config.const import *
 from files.helpers.config.modaction_types import *
 from files.helpers.config.awards import AWARDS_ENABLED, HOUSE_AWARDS
 from files.helpers.media import *
 from files.helpers.security import *
 from files.helpers.sorting_and_time import *
+from files.helpers.can_see import *
 
 from .alts import Alt
 from .award import AwardRelationship
@@ -33,8 +33,8 @@ from .mod import *
 from .mod_logs import *
 from .notifications import Notification
 from .saves import *
-from .sub_relationship import *
-from .sub_logs import *
+from .hole_relationship import *
+from .hole_logs import *
 from .subscriptions import *
 from .userblock import *
 from .usermute import *
@@ -48,15 +48,6 @@ else:
 	DEFAULT_COINS = 0
 	DEFAULT_MARSEYBUX = 0
 
-if IS_FISTMAS():
-	if SITE_NAME == 'rDrama':
-		default_event_music = True
-		default_darkmode = False
-	else:
-		default_event_music = False
-		default_darkmode = True
-
-
 class User(Base):
 	__tablename__ = "users"
 
@@ -65,8 +56,8 @@ class User(Base):
 	namecolor = Column(String, default=DEFAULT_COLOR)
 	background = Column(String)
 	profile_background = Column(String)
-	customtitle = Column(String)
-	customtitleplain = deferred(Column(String))
+	flair = deferred(Column(String))
+	flair_html = Column(String)
 	titlecolor = Column(String, default=DEFAULT_COLOR)
 	theme = Column(String, default=DEFAULT_THEME)
 	themecolor = Column(String, default=DEFAULT_COLOR)
@@ -120,7 +111,7 @@ class User(Base):
 	sig = deferred(Column(String))
 	sig_html = Column(String)
 	fp = Column(String)
-	sigs_disabled = Column(Boolean)
+	show_sigs = Column(Boolean, default=True)
 	progressivestack = Column(Integer, default=0)
 	deflector = Column(Integer, default=0)
 	friends = deferred(Column(String))
@@ -163,9 +154,9 @@ class User(Base):
 	lifetimedonated_visible = Column(Boolean, default=False)
 	blacklisted_by = Column(Integer, ForeignKey("users.id"))
 
-	if IS_FISTMAS():
-		#TODO: make event_music a cookie toggle instead
-		event_music = Column(Boolean, default=default_event_music, nullable=False)
+	if IS_HOMOWEEN():
+		zombie = Column(Integer, default=0, nullable=False) # > 0 vaxxed; < 0 zombie
+		jumpscare = Column(Integer, default=0)
 
 	badges = relationship("Badge", order_by="Badge.created_utc", back_populates="user")
 	subscriptions = relationship("Subscription", back_populates="user")
@@ -180,8 +171,7 @@ class User(Base):
 	designed_hats = relationship("HatDef", primaryjoin="User.id==HatDef.author_id", back_populates="author")
 	owned_hats = relationship("Hat", back_populates="owners")
 	hats_equipped = relationship("Hat", lazy="raise", viewonly=True)
-	sub_mods = relationship("Mod", primaryjoin="User.id == Mod.user_id", lazy="raise")
-	sub_exiles = relationship("Exile", primaryjoin="User.id == Exile.user_id", lazy="raise")
+	hole_mods = relationship("Mod", primaryjoin="User.id == Mod.user_id", lazy="raise")
 
 	def __init__(self, **kwargs):
 
@@ -262,6 +252,24 @@ class User(Base):
 
 		return (succeeded, charged_coins)
 
+
+	if IS_FISTMAS():
+		@property
+		@lazy
+		def can_toggle_event_music(self):
+			return SITE_NAME != 'rDrama' or self.has_badge(91)
+	elif IS_HOMOWEEN():
+		@property
+		@lazy
+		def can_toggle_event_music(self):
+			return SITE_NAME != 'rDrama' or self.has_badge(185)
+
+	if IS_EVENT():
+		@property
+		@lazy
+		def event_music(self):
+			return session.get('event_music', SITE_NAME == 'rDrama')
+
 	@property
 	@lazy
 	def poor(self):
@@ -274,15 +282,15 @@ class User(Base):
 
 	@property
 	@lazy
-	def over_18(self):
-		return session.get('over_18', False)
+	def nsfw_warnings(self):
+		return bool(session.get('nsfw_warnings', True))
 
 	@property
 	@lazy
 	def allowed_in_chat(self):
 		if self.admin_level >= PERMS['BYPASS_CHAT_TRUESCORE_REQUIREMENT']:
 			return True
-		if self.truescore >= TRUESCORE_CC_CHAT_MINIMUM:
+		if self.truescore >= TRUESCORE_MINIMUM:
 			return True
 		if self.patron:
 			return True
@@ -335,7 +343,7 @@ class User(Base):
 		user_forced_hats = []
 		for k, val in forced_hats.items():
 			if getattr(self, k) and getattr(self, k) > 1:
-				if k == 'chud':
+				if isinstance(val[0], tuple):
 					user_forced_hats.append(random.choice(val))
 				else:
 					user_forced_hats.append(val)
@@ -360,33 +368,33 @@ class User(Base):
 			if self.is_cakeday:
 				return ('/i/hats/Cakeday.webp', "I've spent another year rotting my brain with dramaposting, please ridicule me 🤓")
 
-			if self.new_user:
-				return ('/i/new-user.webp', "Hi, I'm new here! Please be gentle :)")
-
 			if self.forced_hat:
 				return (f'{SITE_FULL_IMAGES}/i/hats/{self.forced_hat[0]}.webp', self.forced_hat[1])
 
 			if self.equipped_hat:
 				return (f'{SITE_FULL_IMAGES}/i/hats/{self.equipped_hat.name}.webp', self.equipped_hat.name + ' - ' + self.equipped_hat.censored_description(v))
 
+			if self.new_user:
+				return ('/i/new-user.webp', "Hi, I'm new here! Please be gentle :)")
+
 		return ('', '')
 
 
 	@lazy
-	def immune_to_awards(self, v):
+	def immune_to_negative_awards(self, v):
 		if SITE_NAME != 'rDrama':
 			return False
 		if v.id == self.id:
 			return False
-		if v.id in IMMUNE_TO_AWARDS:
+		if v.id in IMMUNE_TO_NEGATIVE_AWARDS:
 			return False
 		if v.admin_level >= PERMS['IGNORE_AWARD_IMMUNITY']:
 			return False
 		if self.alts:
 			return False
-		if self.id in IMMUNE_TO_AWARDS:
+		if self.id in IMMUNE_TO_NEGATIVE_AWARDS:
 			return True
-		if self.new_user:
+		if self.new_user and not self.alts:
 			return True
 		return False
 
@@ -402,17 +410,17 @@ class User(Base):
 		if self.patron: return True
 		if self.is_permabanned or self.shadowbanned: return False
 		if self.chud: return False
-		if self.profile_url.startswith('/e/') and not self.customtitle and self.namecolor == DEFAULT_COLOR: return False
+		if self.profile_url.startswith('/e/') and not self.flair_html and self.namecolor == DEFAULT_COLOR: return False
 		return True
 
 	@lazy
-	def mods(self, sub):
+	def mods(self, hole):
 		if self.is_permabanned or self.shadowbanned: return False
 		if self.admin_level >= PERMS['MODS_EVERY_HOLE']: return True
 		try:
-			return any(map(lambda x: x.sub == sub, self.sub_mods))
+			return any(map(lambda x: x.hole == hole, self.hole_mods))
 		except:
-			return bool(g.db.query(Mod.user_id).filter_by(user_id=self.id, sub=sub).one_or_none())
+			return bool(g.db.query(Mod.user_id).filter_by(user_id=self.id, hole=hole).one_or_none())
 
 	@lazy
 	def mods_group(self, group):
@@ -422,8 +430,8 @@ class User(Base):
 		return bool(g.db.query(GroupMembership.user_id).filter_by(user_id=self.id, group_name=group.name, is_mod=True).one_or_none())
 
 	@lazy
-	def exiler_username(self, sub):
-		exile = g.db.query(Exile).options(load_only(Exile.exiler_id)).filter_by(user_id=self.id, sub=sub).one_or_none()
+	def exiler_username(self, hole):
+		exile = g.db.query(Exile).options(load_only(Exile.exiler_id)).filter_by(user_id=self.id, hole=hole).one_or_none()
 		if exile:
 			return exile.exiler.username
 		else:
@@ -431,35 +439,35 @@ class User(Base):
 
 	@property
 	@lazy
-	def sub_blocks(self):
-		stealth = set([x[0] for x in g.db.query(Sub.name).filter_by(stealth=True)])
-		stealth = stealth - set([x[0] for x in g.db.query(SubJoin.sub).filter_by(user_id=self.id)])
+	def hole_blocks(self):
+		stealth = set([x[0] for x in g.db.query(Hole.name).filter_by(stealth=True)])
+		stealth = stealth - set([x[0] for x in g.db.query(StealthHoleUnblock.hole).filter_by(user_id=self.id)])
 		if self.chud == 1: stealth = stealth - {'chudrama'}
 
-		return list(stealth) + [x[0] for x in g.db.query(SubBlock.sub).filter_by(user_id=self.id)]
+		return list(stealth) + [x[0] for x in g.db.query(HoleBlock.hole).filter_by(user_id=self.id)]
 
 	@lazy
-	def blocks(self, sub):
-		return g.db.query(SubBlock).filter_by(user_id=self.id, sub=sub).one_or_none()
+	def blocks(self, hole):
+		return g.db.query(HoleBlock).filter_by(user_id=self.id, hole=hole).one_or_none()
 
 	@lazy
-	def subscribes(self, sub):
-		return g.db.query(SubJoin).filter_by(user_id=self.id, sub=sub).one_or_none()
+	def subscribes(self, hole):
+		return g.db.query(StealthHoleUnblock).filter_by(user_id=self.id, hole=hole).one_or_none()
 
 	@property
 	@lazy
 	def all_follows(self):
-		return [x[0] for x in g.db.query(SubSubscription.sub).filter_by(user_id=self.id)]
+		return [x[0] for x in g.db.query(HoleFollow.hole).filter_by(user_id=self.id)]
 
 	@lazy
-	def follows(self, sub):
-		return g.db.query(SubSubscription).filter_by(user_id=self.id, sub=sub).one_or_none()
+	def follows(self, hole):
+		return g.db.query(HoleFollow).filter_by(user_id=self.id, hole=hole).one_or_none()
 
 	@lazy
-	def mod_date(self, sub):
+	def mod_date(self, hole):
 		if self.admin_level >= PERMS['MODS_EVERY_HOLE']: return 1
 
-		mod_ts = g.db.query(Mod.created_utc).filter_by(user_id=self.id, sub=sub).one_or_none()
+		mod_ts = g.db.query(Mod.created_utc).filter_by(user_id=self.id, hole=hole).one_or_none()
 		if mod_ts is None:
 			return None
 		return mod_ts[0]
@@ -493,7 +501,7 @@ class User(Base):
 
 	@property
 	@lazy
-	def discount(self):
+	def award_discount(self):
 		if self.patron in {1,2}: after_discount = 0.90
 		elif self.patron == 3: after_discount = 0.85
 		elif self.patron == 4: after_discount = 0.80
@@ -503,17 +511,19 @@ class User(Base):
 		elif self.patron == 8: after_discount = 0.60
 		else: after_discount = 1
 
+		after_discount -= 0.05 * self.admin_level
+
 		owned_badges = [x.badge_id for x in self.badges]
 
 		for badge in discounts:
 			if badge in owned_badges: after_discount -= discounts[badge]
 
-		return after_discount
+		return max(after_discount, 0.55)
 
 	@property
 	@lazy
-	def formatted_discount(self):
-		discount = 100 - int(self.discount * 100)
+	def formatted_award_discount(self):
+		discount = 100 - int(self.award_discount * 100)
 		return f'{discount}%'
 
 	@property
@@ -552,12 +562,12 @@ class User(Base):
 	@property
 	@lazy
 	def awards_content_effect(self):
-		return [x for x in self.user_awards if not x['deflectable'] and x['kind'] != 'benefactor']
+		return [x for x in self.user_awards if x['cosmetic'] or x['kind'] in {"pin", "unpin"}]
 
 	@property
 	@lazy
 	def awards_author_effect(self):
-		return [x for x in self.user_awards if x not in self.awards_content_effect]
+		return [x for x in self.user_awards if not x['cosmetic'] and x['kind'] not in {"pin", "unpin"}]
 
 	@property
 	@lazy
@@ -727,8 +737,8 @@ class User(Base):
 
 	@property
 	@lazy
-	def followed_subs(self):
-		return [x[0] for x in g.db.query(SubSubscription.sub).filter_by(user_id=self.id)]
+	def followed_holes(self):
+		return [x[0] for x in g.db.query(HoleFollow.hole).filter_by(user_id=self.id)]
 
 	@property
 	@lazy
@@ -786,7 +796,7 @@ class User(Base):
 		return g.db.query(Post).filter(
 			Post.created_utc > self.last_viewed_post_notifs,
 			or_(
-				Post.sub.in_(self.followed_subs),
+				Post.hole.in_(self.followed_holes),
 				and_(
 					Post.author_id.in_(self.followed_users),
 					Post.notify == True,
@@ -798,7 +808,7 @@ class User(Base):
 			Post.private == False,
 			Post.author_id != self.id,
 			Post.author_id.notin_(self.userblocks),
-			or_(Post.sub == None, Post.sub.notin_(self.sub_blocks)),
+			or_(Post.hole == None, Post.hole.notin_(self.hole_blocks)),
 		).count()
 
 	@property
@@ -820,11 +830,11 @@ class User(Base):
 
 			return q.count()
 
-		if self.moderated_subs:
-			return g.db.query(SubAction).filter(
-				SubAction.created_utc > self.last_viewed_log_notifs,
-				SubAction.user_id != self.id,
-				SubAction.sub.in_(self.moderated_subs),
+		if self.moderated_holes:
+			return g.db.query(HoleAction).filter(
+				HoleAction.created_utc > self.last_viewed_log_notifs,
+				HoleAction.user_id != self.id,
+				HoleAction.hole.in_(self.moderated_holes),
 			).count()
 
 		return 0
@@ -833,7 +843,7 @@ class User(Base):
 	@property
 	@lazy
 	def reddit_notifications_count(self):
-		if not self.can_view_offsitementions:
+		if not self.can_view_offsitementions or (SITE == "watchpeopledie.tv" and self.id == AEVANN_ID):
 			return 0
 		return g.db.query(Comment).filter(
 			Comment.created_utc > self.last_viewed_reddit_notifs,
@@ -886,8 +896,8 @@ class User(Base):
 
 	@property
 	@lazy
-	def moderated_subs(self):
-		return [x[0] for x in g.db.query(Mod.sub).filter_by(user_id=self.id).order_by(Mod.sub)]
+	def moderated_holes(self):
+		return [x[0] for x in g.db.query(Mod.hole).filter_by(user_id=self.id).order_by(Mod.hole)]
 
 	@property
 	@lazy
@@ -912,14 +922,18 @@ class User(Base):
 	@property
 	@lazy
 	def banner_url(self):
-		if FEATURES['USERS_PROFILE_BANNER'] and self.bannerurl and self.can_see_my_shit:
+		if FEATURES['USERS_PROFILE_BANNER'] and self.bannerurl and can_see(g.v, self):
 			return self.bannerurl
 		return f"{SITE_FULL_IMAGES}/i/{SITE_NAME}/site_preview.webp?x=6"
 
 	@property
 	@lazy
 	def profile_url(self):
+		if IS_HOMOWEEN() and self.zombie < 0:
+			return f"{SITE_FULL_IMAGES}/assets/events/homoween/images/zombies/{random.randint(1, 10)}.webp?x=1"
 		if self.chud:
+			if IS_HOMOWEEN():
+				return f"{SITE_FULL}/assets/events/homoween/images/chud/{random.randint(1, 19)}.webp?x=1"
 			return f"{SITE_FULL}/e/chudsey.webp"
 		if self.rainbow:
 			return f"{SITE_FULL}/e/marseysalutepride.webp"
@@ -927,10 +941,20 @@ class User(Base):
 			number_of_girl_pfps = 25
 			pic_num = (self.id % number_of_girl_pfps) + 1
 			return f"{SITE_FULL}/i/pfps/girls/{pic_num}.webp"
-		if self.profileurl and self.can_see_my_shit:
+		if self.profileurl and can_see(g.v, self):
 			if self.profileurl.startswith('/'): return SITE_FULL + self.profileurl
 			return self.profileurl
 		return f"{SITE_FULL_IMAGES}/i/default-profile-pic.webp?x=6"
+
+	@property
+	@lazy
+	def pronouns_display(self):
+		if IS_HOMOWEEN():
+			if self.zombie > 2:
+				return 'VAX/MAXXED'
+			elif self.zombie > 0:
+				return 'giga/boosted'
+		return self.pronouns
 
 	@lazy
 	def real_post_count(self, v):
@@ -1000,7 +1024,8 @@ class User(Base):
 				'bannerurl': self.banner_url,
 				'bio': self.bio,
 				'bio_html': self.bio_html_eager,
-				'flair': self.customtitle,
+				'flair': self.flair,
+				'flair_html': self.flair_html,
 				'badges': [x.json for x in self.ordered_badges],
 				'coins': self.coins,
 				'post_count': self.real_post_count(g.v),
@@ -1053,7 +1078,6 @@ class User(Base):
 
 
 	def get_relationship_count(self, relationship_cls):
-		# TODO: deduplicate (see routes/users.py)
 		if relationship_cls in {SaveRelationship, Subscription}:
 			query = relationship_cls.post_id
 			join = relationship_cls.post
@@ -1128,62 +1152,6 @@ class User(Base):
 		tier_money = TIER_TO_MONEY[self.patron]
 		return f'{tier_name} - Donates ${tier_money}/month'
 
-	@classmethod
-	def can_see_content(cls, user, other):
-		'''
-		Whether a user can see this item (be it a post or comment)'s content.
-		If False, they won't be able to view its content.
-		'''
-		if not cls.can_see(user, other): return False
-		if user and user.admin_level >= PERMS["POST_COMMENT_MODERATION"]: return True
-		if isinstance(other, (Post, Comment)):
-			if user and user.id == other.author_id: return True
-			if other.is_banned: return False
-			if other.deleted_utc: return False
-			if other.author.shadowbanned and not (user and user.can_see_shadowbanned): return False
-			if isinstance(other, Comment):
-				if other.parent_post and not cls.can_see(user, other.post): return False
-		return True
-
-	@classmethod
-	def can_see(cls, user, other):
-		'''
-		Whether a user can strictly see this item. can_see_content is used where
-		content of a thing can be hidden from view
-		'''
-		if isinstance(other, (Post, Comment)):
-			if not cls.can_see(user, other.author): return False
-			if user and user.id == other.author_id: return True
-			if isinstance(other, Post):
-				if other.sub and not cls.can_see(user, other.subr):
-					return False
-				if request.headers.get("Cf-Ipcountry") == 'NZ':
-					if 'christchurch' in other.title.lower():
-						return False
-					if SITE == 'watchpeopledie.tv' and other.id in {5, 17212, 22653, 23814}:
-						return False
-			else:
-				if hasattr(other, 'is_blocking') and other.is_blocking and not request.path.endswith(f'/{other.id}'):
-					return False
-				if other.parent_post:
-					return cls.can_see(user, other.post)
-				else:
-					if not user and not other.wall_user_id: return False
-
-					if other.sentto:
-						if other.sentto == MODMAIL_ID:
-							if other.top_comment.author_id == user.id: return True
-							return user.admin_level >= PERMS['VIEW_MODMAIL']
-						if other.sentto != user.id:
-							return user.admin_level >= PERMS['BLACKJACK_NOTIFICATIONS']
-		elif isinstance(other, Sub):
-			if other.name == 'chudrama': return bool(user) and user.can_see_chudrama
-			if other.name == 'countryclub': return bool(user) and user.can_see_countryclub
-			if other.name == 'highrollerclub': return bool(user) and user.can_see_highrollerclub
-		elif isinstance(other, User):
-			return (user and user.id == other.id) or (user and user.can_see_shadowbanned) or not other.shadowbanned
-		return True
-
 	@property
 	@lazy
 	def can_see_restricted_holes(self):
@@ -1203,7 +1171,7 @@ class User(Base):
 		if self.can_see_restricted_holes != None:
 			return self.can_see_restricted_holes
 
-		if self.truescore >= TRUESCORE_CHUDRAMA_MINIMUM: return True
+		if self.truescore >= TRUESCORE_MINIMUM: return True
 		if self.chud: return True
 		if self.patron: return True
 		if SITE == 'rdrama.net' and self.id == 5237: return True
@@ -1213,12 +1181,10 @@ class User(Base):
 	@property
 	@lazy
 	def can_see_countryclub(self):
-		if self.chud == 1: return False
-
 		if self.can_see_restricted_holes != None:
 			return self.can_see_restricted_holes
 
-		if self.truescore >= TRUESCORE_CC_CHAT_MINIMUM: return True
+		if self.truescore >= TRUESCORE_MINIMUM: return True
 
 		if SITE == 'rdrama.net' and self.id == 5237: return True
 
@@ -1238,9 +1204,9 @@ class User(Base):
 	@lazy
 	def can_post_in_ghost_threads(self):
 		if SITE_NAME == 'WPD': return False
-		if not TRUESCORE_GHOST_MINIMUM: return True
+		if not TRUESCORE_MINIMUM: return True
 		if self.admin_level >= PERMS['POST_IN_GHOST_THREADS']: return True
-		if self.truescore >= TRUESCORE_GHOST_MINIMUM: return True
+		if self.truescore >= TRUESCORE_MINIMUM: return True
 		if self.patron: return True
 		return False
 
@@ -1297,6 +1263,10 @@ class User(Base):
 	def offsitementions(self):
 		return self.has_badge(140)
 
+	@lazy
+	def pride_username(self, v):
+		return not (v and v.poor) and self.has_badge(303)
+
 	@property
 	@lazy
 	def shadowbanner(self):
@@ -1347,12 +1317,6 @@ class User(Base):
 
 		return output
 
-	if IS_FISTMAS():
-		@property
-		@lazy
-		def can_toggle_event_music(self):
-			return SITE_NAME != 'rDrama' or self.has_badge(91)
-
 	@property
 	@lazy
 	def can_see_my_shit(self):
@@ -1369,33 +1333,33 @@ class User(Base):
 		if not self.sig_html or not self.patron:
 			return ''
 
-		if v and (v.sigs_disabled or v.poor):
+		if v and (not v.show_sigs or v.poor):
 			return ''
 
 		return f'<div id="signature-{self.id}" class="user-signature"><hr>{self.sig_html}</div>'
 
 
 badge_ordering_tuple = (
-		22, 23, 24, 25, 26, 27, 28, #paypig
-		257, 258, 259, 260, 261, #lifetime donation
-		134, 237, #1 year and 2 year
-		10, 11, 12, #referred users
-		69, 70, 71, 72, 73, #coins spent
-		76, 77, 78, #lootboxes bought
-		17, 16, 143, #marsey making
-		110, 111, #zwolf making
-		112, 113, #platy making
-		114, 115, #capy making
-		287, 288, #carp making
-		152, 153, 154, #hats bought
-		160, 161, 162, #casino win
-		157, 158, 159, #casino loss
-		163, 164, 165, 166, #hat making
-		243, 244, 245, 247, #kong
-		118, 119, 120, 121, 122, 123, #denazifying r/stupidpol
-		190, 192, #word filter
-		251, 250, 249, #marsey madness
-	)
+	22, 23, 24, 25, 26, 27, 28, #paypig
+	257, 258, 259, 260, 261, #lifetime donation
+	134, 237, #1 year and 2 year
+	10, 11, 12, #referred users
+	69, 70, 71, 72, 73, #coins spent
+	76, 77, 78, #lootboxes bought
+	17, 16, 143, #marsey making
+	110, 111, #zwolf making
+	112, 113, #platy making
+	114, 115, #capy making
+	287, 288, #carp making
+	152, 153, 154, #hats bought
+	160, 161, 162, #casino win
+	157, 158, 159, #casino loss
+	163, 164, 165, 166, #hat making
+	243, 244, 245, 247, #kong
+	118, 119, 120, 121, 122, 123, #denazifying r/stupidpol
+	190, 192, #word filter
+	251, 250, 249, #marsey madness
+)
 
 def badge_ordering_func(b):
 	if b.badge_id in badge_ordering_tuple:

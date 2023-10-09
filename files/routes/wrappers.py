@@ -31,13 +31,11 @@ def calc_users():
 	g.loggedin_counter = 0
 	g.loggedout_counter = 0
 	g.loggedin_chat = 0
-	g.loggedin_orgy = 0
 	v = getattr(g, 'v', None) if g else None
 	if has_request_context and g and g.desires_auth and not g.is_api_or_xhr:
 		loggedin = cache.get(LOGGED_IN_CACHE_KEY) or {}
 		loggedout = cache.get(LOGGED_OUT_CACHE_KEY) or {}
 		g.loggedin_chat = cache.get('loggedin_chat') or 0
-		g.loggedin_orgy = cache.get('loggedin_orgy') or 0
 
 		timestamp = int(time.time())
 
@@ -63,9 +61,14 @@ def calc_users():
 		else:
 			ddos_threshold = 1000
 
-		if g.loggedout_counter > ddos_threshold and not get_setting('under_attack'):
-			toggle_setting('under_attack')
-			set_security_level('under_attack')
+		if g.loggedout_counter > ddos_threshold:
+			if not get_setting('under_attack'):
+				toggle_setting('under_attack')
+				set_security_level('under_attack')
+		else:
+			if get_setting('under_attack'):
+				toggle_setting('under_attack')
+				set_security_level('high')
 	return ''
 
 def get_logged_in_user():
@@ -106,7 +109,7 @@ def get_logged_in_user():
 
 	g.v = v
 	if v:
-		g.vid = v.username
+		g.username = v.username
 
 	if not v and SITE == 'rdrama.net' and request.headers.get("Cf-Ipcountry") == 'EG':
 		abort(404)
@@ -114,6 +117,11 @@ def get_logged_in_user():
 	g.is_api_or_xhr = bool((v and v.client) or request.headers.get("xhr"))
 
 	g.is_tor = (request.headers.get("cf-ipcountry") == "T1" and not (v and v.truescore >= 1000))
+
+	if v and not IS_EVENT():
+		session.pop("event_music", None)
+
+	g.show_nsfw = SITE_NAME == 'WPD' or (v and not v.nsfw_warnings) or session.get('nsfw_cookies', 0) >= int(time.time())
 
 	return v
 

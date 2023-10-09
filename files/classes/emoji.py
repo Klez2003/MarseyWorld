@@ -15,6 +15,7 @@ class Emoji(Base):
 	count = Column(Integer, default=0)
 	submitter_id = Column(Integer, ForeignKey("users.id"))
 	created_utc = Column(Integer)
+	nsfw = Column(Boolean, default=False)
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())

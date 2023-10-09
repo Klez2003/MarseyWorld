@@ -1,4 +1,3 @@
-// TODO: Refactor this ugly shit who wrote this lmao
 function vote(type, id, dir) {
 	const upvotes = document.getElementsByClassName(type + '-' + id + '-up');
 	const downvotes = document.getElementsByClassName(type + '-' + id + '-down');
@@ -93,6 +92,9 @@ function vote(type, id, dir) {
 
 let global_price;
 
+const note_section = document.getElementById('note_section')
+const gif_button = note_section.querySelector('[title="Add GIF"]')
+
 function pick(kind, price, coins, marseybux) {
 	global_price = price;
 
@@ -121,11 +123,22 @@ function pick(kind, price, coins, marseybux) {
 
 	if (kind == "chud") {
 		document.getElementById('phrase_section').classList.remove("d-none")
-		document.getElementById('note_section').classList.add("d-none")
+		note_section.classList.add("d-none")
 	}
 	else {
 		document.getElementById('phrase_section').classList.add("d-none")
-		document.getElementById('note_section').classList.remove("d-none")
+		note_section.classList.remove("d-none")
+	}
+
+	if (kind == "emoji") {
+		document.getElementById('emoji_behavior_section').classList.remove("d-none")
+		document.getElementById('note').setAttribute("style", "min-height:35px;max-height:35px;height:35px;min-width:min(300px,80vw)")
+		gif_button.classList.add('d-none')
+	}
+	else {
+		document.getElementById('emoji_behavior_section').classList.add("d-none")
+		document.getElementById('note').removeAttribute("style")
+		gif_button.classList.remove('d-none')
 	}
 
 	if (kind == "flairlock") {
@@ -137,6 +150,11 @@ function pick(kind, price, coins, marseybux) {
 		document.getElementById('notelabel').innerHTML = "New username:";
 		document.getElementById('note').placeholder = "Insert new username here, or leave empty to add 1 day to the duration of the current username.";
 		document.getElementById('note').maxLength = 25;
+	}
+	else if (kind == "emoji") {
+		document.getElementById('notelabel').innerHTML = "Emoji name:";
+		document.getElementById('note').placeholder = "Insert one site emoji here.";
+		document.getElementById('note').maxLength = 33;
 	}
 	else {
 		document.getElementById('notelabel').innerHTML = "Note (optional):";
@@ -181,7 +199,8 @@ function giveaward(t) {
 	postToast(t, t.dataset.action,
 		{
 			"kind": kind,
-			"note": document.getElementById(note_id).value
+			"note": document.getElementById(note_id).value,
+			"emoji_behavior": document.getElementById("emoji_behavior").value
 		},
 		() => {
 			let owned = document.getElementById(`${kind}-owned`)

@@ -76,7 +76,7 @@ const MODIFIERS = {
 	LOVE: 8,
 };
 
-const findAllEmoteEndings = (word) => {
+const findAllEmojiEndings = (word) => {
 	let hasReachedNonModifer = false;
 	let currWord = word;
 	const currEndings = [];
@@ -176,7 +176,7 @@ function markdown(t) {
 				modifiers.add(MODIFIERS.LARGE);
 			}
 			let endingModifiers;
-			[endingModifiers, emoji] = findAllEmoteEndings(emoji);
+			[endingModifiers, emoji] = findAllEmojiEndings(emoji);
 			const isTalkingFirst = endingModifiers.indexOf(MODIFIERS.PAT) > endingModifiers.indexOf(MODIFIERS.TALKING);
 
 			endingModifiers.forEach(modifiers.add, modifiers)
@@ -199,7 +199,7 @@ function markdown(t) {
 			const emojiClass = modifiers.has(MODIFIERS.LARGE) ? 'emoji-lg' : 'emoji';
 			const patClass = modifiers.has(MODIFIERS.PAT) ? 'pat-preview' : '';
 
-			// patted emotes cannot be flipped back easily so they don't support double flipping
+			// patted emojis cannot be flipped back easily so they don't support double flipping
 			const spanClass = modifiers.has(MODIFIERS.REVERSED) && (modifiers.has(MODIFIERS.PAT) || !modifiers.has(MODIFIERS.REVERSED_MODIFIER)) ? mirroredClass : '';
 			const imgClass = modifiers.has(MODIFIERS.REVERSED) && modifiers.has(MODIFIERS.REVERSED_MODIFIER) ? mirroredClass : ''
 			const lovedClass = modifiers.has(MODIFIERS.LOVE) ? 'love-preview' : '';

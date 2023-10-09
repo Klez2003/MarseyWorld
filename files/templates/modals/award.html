@@ -9,7 +9,7 @@
 					<span><i class="fas fa-times"></i></span>
 				</button>
 			</div>
-			<div id="awardModalBody" class="modal-body pt-2 mb-3">
+			<div id="awardModalBody" class="modal-body pt-2 mb-3" style="overflow-x: hidden">
 				<div id="award-tabs" class="row pt-1 pb-4" style="justify-content: center">
 					<button id="effect-content-tab" class="btn btn-primary btn-block m-0 shop-tab award-tab active" data-nonce="{{g.nonce}}" data-onclick="switchAwardTab()">
 						<span class="mr-auto ml-auto"><i class="fas fa-gift mr-2"></i>EFFECT ON CONTENT</span>
@@ -21,8 +21,8 @@
 				<div class="awards-wrapper" style="text-align:center">
 					{% macro iterate_awards(awards) %}
 						{% for award in awards %}
-							{% set price = (award.price*v.discount)|int %}
-							<div data-bs-toggle="tooltip" data-bs-placement="bottom" title="Price: {{price}} coins/marseybux - {{award.description}}" id="{{award.kind}}" data-nonce="{{g.nonce}}" data-onclick="pick('{{award.kind}}', {{price}}, {{v.coins}}, {{v.marseybux}})">
+							{% set price = (award.price*v.award_discount)|int %}
+							<div data-bs-toggle="tooltip" data-bs-placement="bottom" title="Price: {{price}} coins/marseybux - {{award.description}}" id="{{award.kind}}" data-positive="{{award.positive}}" data-nonce="{{g.nonce}}" data-onclick="pick('{{award.kind}}', {{price}}, {{v.coins}}, {{v.marseybux}})">
 								<i class="{{award.icon}} {{award.color}}"></i>
 								<div class="pt-1 award-name">{{award.title}}</div>
 								<div class="text-muted award-owned"><span id="{{award.kind}}-owned">{{award.owned}}</span> owned</div>
@@ -53,16 +53,35 @@
 					</div>
 				</div>
 
-				<div id="note_section">
-					<label id="notelabel" for="note" class="pt-4">Note (optional):</label>
-					<textarea autocomplete="off" id="note" maxlength="200" class="form-control" placeholder="Note to include in award notification..."></textarea>
+				<div class="row pt-4">
+					<div id="note_section" class="col mb-3">
+						<label id="notelabel" for="note">Note (optional):</label>
+						<textarea autocomplete="off" id="note" maxlength="200" class="form-control" placeholder="Note to include in award notification..."></textarea>
+						{{macros.emoji_btn('note', 'awardModal')}}
+						{{macros.gif_btn('note', 'awardModal')}}
+					</div>
+
+					<div id="emoji_behavior_section" class="col d-none mb-3 pb-3">
+						<label id="emoji_behavior_label" for="behavior">Emoji behavior:</label>
+
+						<div class="input-group">
+							<select autocomplete="off" id='emoji_behavior' class="form-control pr-2" style="min-height:35px;min-width:min(300px,80vw)">
+								<option value="bouncing">
+									bouncing
+								</option>
+								<option value="horizontal">
+									horizontal
+								</option>
+							</select>
+						</div>
+					</div>
 				</div>
 
-				<input autocomplete="off" id="giveaward" class="awardbtn btn btn-primary mt-3 fl-r" type="submit" data-nonce="{{g.nonce}}" data-onclick="giveaward(this)" value="Give Award" data-bs-dismiss="modal" disabled>
+				<input autocomplete="off" id="giveaward" class="awardbtn btn btn-primary fl-r" type="submit" data-nonce="{{g.nonce}}" data-onclick="giveaward(this)" value="Give Award" data-bs-dismiss="modal" disabled>
 
-				<button type="button" id="buy" class="awardbtn btn btn-primary mt-3 mr-3 fl-r" disabled data-areyousure="buy()" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)">Buy</button>
+				<button type="button" id="buy" class="awardbtn btn btn-primary mr-3 fl-r" disabled data-areyousure="buy()" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)">Buy</button>
 
-				<div id="award_price_block" class="fl-r mt-4 mr-3 d-none text-small-sm">
+				<div id="award_price_block" class="fl-r mt-2 mr-3 d-none text-small-sm">
 					Price: <span id="award_price"></span> coins/marseybux
 				</div>
 			</div>

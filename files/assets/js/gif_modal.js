@@ -15,7 +15,9 @@ function insertGIF(url) {
 	if (typeof checkForRequired === "function") checkForRequired();
 }
 
-document.getElementById('gifModal').addEventListener('shown.bs.modal', function () {
+const gifModal = document.getElementById('gifModal')
+
+gifModal.addEventListener('shown.bs.modal', function () {
 	focusSearchBar(gifSearchBar);
 	setTimeout(() => {
 		focusSearchBar(gifSearchBar);
@@ -25,8 +27,8 @@ document.getElementById('gifModal').addEventListener('shown.bs.modal', function 
 	}, 1000);
 });
 
-async function getGifs(form) {
-	commentFormID = form;
+async function show_gif_categories(t, form) {
+	if (form) commentFormID = form;
 
 	gifSearchBar.value = null;
 	noGIFs.classList.add("d-none");
@@ -109,13 +111,28 @@ async function getGifs(form) {
 	for (const element of overlays) {
 		element.addEventListener('click', () => {searchGifs(element.firstElementChild.innerHTML)});
 	}
+
+	if (t) {
+		if (t.dataset.previousModal) {
+			gifModal.addEventListener('hide.bs.modal', () => {
+				bootstrap.Modal.getOrCreateInstance(document.getElementById(t.dataset.previousModal)).show()
+			}, {once : true});	
+		}
+
+		gifModal.addEventListener('hide.bs.modal', () => {
+			setTimeout(() => {
+				document.getElementById(commentFormID).focus();
+			}, 200);
+		}, {once : true});
+	}
 }
 
-document.getElementById('gifs-back-btn').addEventListener('click', getGifs);
+document.getElementById('gifs-back-btn').addEventListener('click', () => show_gif_categories(null, null));
 
 async function searchGifs(searchTerm) {
 
 	gifSearchBar.value = searchTerm;
+	noGIFs.classList.add("d-none");
 
 	container.innerHTML = '';
 

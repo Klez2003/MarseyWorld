@@ -1,0 +1,17 @@
+<link rel="stylesheet" href="{{'events/homoween/css/awards_poor.css' | asset}}">
+
+{% if p.award_count("fog", v) %}
+	<div id="fog-effect-poor" class="poor"></div>
+{% endif %}
+
+{% if p.award_count("stab", v) %}
+	<div id="stab-effect-poor" class="poor"></div>
+{% endif %}
+
+{% if p.award_count("haunt", v) %}
+	<link rel="stylesheet" href="{{'events/homoween/css/haunt_poor.css' | asset}}">
+{% endif %}
+
+{% if p.award_count("flashlight", v) %}
+	<div id="flashlight-effect-poor" class="poor"></div>
+{% endif %}

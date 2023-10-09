@@ -40,7 +40,7 @@ def login_post(v):
 	username = request.values.get("username")
 
 	if not username: abort(400)
-	username = username.lstrip('@').replace('\\', '').replace('_', '\_').replace('%', '').strip()
+	username = sanitize_username(username)
 
 	if not username: abort(400)
 	if username.startswith('@'): username = username[1:]
@@ -115,7 +115,7 @@ def on_login(account, redir=None):
 	session.permanent = True
 	session["lo_user"] = account.id
 	g.v = account
-	g.vid = account.username
+	g.username = account.username
 	session["login_nonce"] = account.login_nonce
 	check_for_alts(account, include_current_session=True)
 
@@ -151,13 +151,10 @@ def sign_up_get(v):
 		abort(403, "New account registration is currently closed. Please come back later!")
 
 	if v: return redirect(SITE_FULL)
+
 	ref = request.values.get("ref")
 
-	if ref:
-		ref = ref.replace('\\', '').replace('_', '\_').replace('%', '').strip()
-		ref_user = g.db.query(User).filter(User.username.ilike(ref)).one_or_none()
-	else:
-		ref_user = None
+	ref_user = get_account(ref, graceful=True)
 
 	if ref_user and (ref_user.id in session.get("history", [])):
 		return render_template("login/sign_up_failed_ref.html"), 403
@@ -306,7 +303,7 @@ def sign_up_post(v):
 
 	profileurl = None
 	if PFP_DEFAULT_MARSEY:
-		profileurl = '/e/' + random.choice(marseys_const) + '.webp'
+		profileurl = '/e/' + random.choice(MARSEYS_CONST) + '.webp'
 
 	new_user = User(
 		username=username,
@@ -329,6 +326,8 @@ def sign_up_post(v):
 		ref_user = get_account(ref_id)
 
 		if ref_user:
+			send_notification(ref_user.id, f"A new user - @{new_user.username} - has signed up via your referral link!")
+
 			badge_grant(user=ref_user, badge_id=10)
 			# off-by-one: newly referred user isn't counted
 			if ref_user.referral_count >= 9:
@@ -343,7 +342,7 @@ def sign_up_post(v):
 	session.permanent = True
 	session["lo_user"] = new_user.id
 	g.v = new_user
-	g.vid = new_user.username
+	g.username = new_user.username
 
 	check_for_alts(new_user, include_current_session=True)
 	send_notification(new_user.id, WELCOME_MSG)
@@ -381,15 +380,11 @@ def post_forgot():
 	if not email_regex.fullmatch(email):
 		return render_template("login/forgot_password.html", error="Invalid email!"), 400
 
+	user = get_user(username, graceful=True)
 
-	username = username.lstrip('@').replace('\\', '').replace('_', '\_').replace('%', '').strip()
-	email = email.replace('\\', '').replace('_', '\_').replace('%', '').strip()
+	email = escape_for_search(email)
 
-	user = g.db.query(User).filter(
-		User.username.ilike(username),
-		User.email.ilike(email)).one_or_none()
-
-	if user:
+	if user and user.email and user.email.lower() == email.lower():
 		now = int(time.time())
 		token = generate_hash(f"{user.id}+{now}+forgot+{user.login_nonce}")
 		url = f"{SITE_FULL}/reset?id={user.id}&time={now}&token={token}"

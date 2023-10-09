@@ -1,0 +1,57 @@
+{% if p.award_count("haunt", v) %}
+	<link rel="stylesheet" href="{{'events/homoween/css/haunted.css' | asset}}">
+	<script defer src="{{'events/homoween/js/haunted.js' | asset}}" defer></script>
+	<div id="haunted-effect" class="fixed-top"></div>
+{% endif %}
+
+{% set stabs = p.award_count("stab", v) %}
+{% if stabs %}
+	<input hidden id="stabs" value="{{stabs}}">
+	<link rel="stylesheet" href="{{'events/homoween/css/stab.css' | asset}}">
+	<script defer src="{{'events/homoween/js/sketch.js' | asset}}" defer></script>
+	<script defer src="{{'events/homoween/js/blood.js' | asset}}" defer></script>
+{% endif %}
+
+{% if p.award_count("spiders", v) %}
+	{% set spiders = p.award_count("spiders", v) %}
+
+	{% for i in range(spiders) %}
+		{% include "events/homoween/spider.html" %}
+	{% endfor %}
+{% endif %}
+
+{% if p.award_count("fog", v) %}
+	<canvas id="fog-effect" class="fog-effect"></canvas>
+	<script defer src="{{'events/homoween/js/fog.js' | asset}}" defer></script>
+{% endif %}
+
+{% if p.award_count("flashlight", v) %}
+	<link rel="stylesheet" href="{{'events/homoween/css/flashlight.css' | asset}}">
+	<div id="flashlight-effect" class="fixed-top"></div>
+	<script defer src="{{'events/homoween/js/flashlight.js' | asset}}"></script>
+{% endif %}
+
+{% if p.award_count("ectoplasm", v) %}
+	<link rel="stylesheet" href="{{'events/homoween/css/ectoplasm.css' | asset}}">
+{% endif %}
+
+{% if p.award_count("bones", v) %}
+	<div id="animate" data-bones="{{p.award_count('bones', v)}}"></div>
+	<script defer src="{{'events/homoween/js/bones.js' | asset}}"></script>
+{% endif %}
+
+{% if p.award_count("pumpkin", v) %}
+	{% set count = p.award_count("pumpkin", v) * 2 if p.award_count("pumpkin", v) <= 10 else 20 %}
+	<div class="fall-pumpkins">
+		{% for i in range(count) %}
+		<div class="fall-pumpkin">
+			<img src="/e/marseypumpking.webp" class="animate-spin" style="width: 40px; height: 40px" alt="animate marsey pumpkin icon">
+		</div>
+		{% endfor %}
+	</div>
+{% endif %}
+
+{% if p.award_count("upsidedown", v) %}
+	<link rel="stylesheet" href="{{'events/homoween/css/upsidedown.css' | asset}}">
+	<script defer src="{{'events/homoween/js/upsidedown.js' | asset}}"></script>
+{% endif %}

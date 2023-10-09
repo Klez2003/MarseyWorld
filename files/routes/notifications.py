@@ -4,10 +4,11 @@ from sqlalchemy.sql.expression import not_, and_, or_
 from sqlalchemy.orm import load_only
 
 from files.classes.mod_logs import ModAction
-from files.classes.sub_logs import SubAction
+from files.classes.hole_logs import HoleAction
 from files.helpers.config.const import *
 from files.helpers.config.modaction_types import *
 from files.helpers.get import *
+from files.helpers.can_see import *
 from files.routes.wrappers import *
 from files.routes.comments import _mark_comment_as_read
 from files.__main__ import app
@@ -166,7 +167,7 @@ def notifications_posts(v):
 
 	listing = g.db.query(Post).filter(
 		or_(
-			Post.sub.in_(v.followed_subs),
+			Post.hole.in_(v.followed_holes),
 			and_(
 				Post.author_id.in_(v.followed_users),
 				Post.notify == True,
@@ -178,7 +179,7 @@ def notifications_posts(v):
 		Post.private == False,
 		Post.author_id != v.id,
 		Post.author_id.notin_(v.userblocks),
-		or_(Post.sub == None, Post.sub.notin_(v.sub_blocks)),
+		or_(Post.hole == None, Post.hole.notin_(v.hole_blocks)),
 	).options(load_only(Post.id))
 
 	total = listing.count()
@@ -216,8 +217,8 @@ def notifications_modactions(v):
 
 	if v.admin_level >= PERMS['NOTIFICATIONS_MODERATOR_ACTIONS']:
 		cls = ModAction
-	elif v.moderated_subs:
-		cls = SubAction
+	elif v.moderated_holes:
+		cls = HoleAction
 	else:
 		abort(403)
 
@@ -229,8 +230,8 @@ def notifications_modactions(v):
 	if v.admin_level < PERMS['PROGSTACK']:
 		listing = listing.filter(cls.kind.notin_(MODACTION_PRIVILEGED__TYPES))
 
-	if cls == SubAction:
-		listing = listing.filter(cls.sub.in_(v.moderated_subs))
+	if cls == HoleAction:
+		listing = listing.filter(cls.hole.in_(v.moderated_holes))
 
 	total = listing.count()
 	listing = listing.order_by(cls.id.desc())
@@ -300,7 +301,7 @@ def notifications_reddit(v):
 def notifications(v):
 	page = get_page()
 
-	if not session.get("GLOBAL") and v.admin_level < PERMS['USER_SHADOWBAN'] and not request.values.get('nr'):
+	if not session.get("GLOBAL") and not v.can_see_shadowbanned and not request.values.get('nr'):
 		unread_and_inaccessible = g.db.query(Notification).join(Notification.comment).join(Comment.author).filter(
 			Notification.user_id == v.id,
 			Notification.read == False,
@@ -324,7 +325,7 @@ def notifications(v):
 			not_(and_(Comment.sentto != None, Comment.sentto == MODMAIL_ID, User.is_muted))
 		)
 
-	if v.admin_level < PERMS['USER_SHADOWBAN']:
+	if not v.can_see_shadowbanned:
 		comments = comments.filter(
 			Comment.is_banned == False,
 			Comment.deleted_utc == 0,
@@ -435,7 +436,7 @@ def notifications(v):
 def notification(v, cid):
 	comment = get_comment(cid, v=v)
 
-	if not User.can_see(v, comment): abort(403)
+	if not can_see(v, comment): abort(403)
 
 	comment.unread = True
 

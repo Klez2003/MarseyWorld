@@ -7,10 +7,26 @@
 {%- endif -%}
 {% endblock %}
 {% block pagetype %}thread{% endblock %}
+
+{% if IS_HOMOWEEN() and p.award_count("haunt", v) %}
+	{% block hauntBg %}
+		<div id="haunt-bg"></div>
+	{% endblock %}
+{% endif %}
+
 {% block head_final %}
 	{% include "awards.html" %}
-	{% include "events/fistmas/awards.html" %}
+	{% if IS_FISTMAS() %}
+		{% include "events/fistmas/awards.html" %}
+	{% elif IS_HOMOWEEN() %}
+		{% if not (v and v.poor) %}
+			{% include "events/homoween/awards.html" %}
+		{% else %}
+			{% include "events/homoween/awards_poor.html" %}
+		{% endif %}
+	{% endif %}
 {% endblock %}
+
 {% set ups=p.upvotes %}
 {% set downs=p.downvotes %}
 {% set score=ups-downs %}
@@ -63,7 +79,7 @@
 	<div id="post-root" class="col-12">
 
 		<div class="card border-0 mt-3 {% if p.stickied %}stickied{% endif %} {% if voted==1 %}upvoted{% elif voted==-1 %} downvoted{% endif %}">
-			<div id="post-{{p.id}}" class="actual-post {% if p.ghost %}ghost-post{% endif %} {% if p.is_banned %}banned{% endif %} {% if p.deleted_utc %}deleted {% endif %} {% if p.award_count('glowie', v) %}glow{% endif %} d-flex flex-row-reverse flex-nowrap justify-content-end">
+			<div id="post-{{p.id}}" class="actual-post {% if p.ghost %}ghost-post{% endif %} {% if p.is_banned %}banned{% endif %} {% if p.deleted_utc %}deleted {% endif %} d-flex flex-row-reverse flex-nowrap justify-content-end">
 
 				{% if p.thumb_url and not p.deleted_utc and not p.is_image and not p.is_video and not p.is_audio and not p.embed %}
 					<div class="card-header bg-transparent border-0 d-none d-md-flex flex-row flex-nowrap pl-3 p-0">
@@ -79,7 +95,7 @@
 
 					{{macros.reports(p, 'post')}}
 
-					<h1 id="post-title" class="card-title post-title text-left mb-md-3 {% if p.chudded %}text-uppercase{% endif %} {% if p.rainbowed %}rainbow-text{% endif %} {% if p.queened %}queen{% endif %} {% if p.sharpened %}sharpen{% endif %}">
+					<h1 id="post-title" class="{{p.award_classes(v, True)}} card-title post-title text-left mb-md-3">
 						{% if p.realurl(v) and not v_forbid_deleted %}
 							<a class="no-visited" {% if not v or v.newtabexternal %}target="_blank"{% endif %} rel="nofollow noopener" href="{{p.realurl(v)}}">
 								{% if p.flair %}<span class="patron font-weight-bolder mr-1" style="background-color:var(--primary); font-size:12px; line-height:2">{{p.flair | safe}}</span>{% endif %}
@@ -92,69 +108,79 @@
 					</h1>
 
 					{% if not v_forbid_deleted %}
-					<div id="post-body" class="post-body mt-3 {% if p.award_count('tilt', v) %}tilt-post{% endif %}">
-						{% if p.realurl(v) and not p.is_image and not p.is_video and not p.is_audio %}
-							<a rel="nofollow noopener" href="{{p.realurl(v)}}" {% if not v or v.newtabexternal %}target="_blank"{% endif %}>
-								<div class="d-flex justify-content-between align-items-center border rounded p-2 mb-3">
-									<span>{{p.realurl(v)}}</span>
-									<i class="fas fa-external-link-alt text-small"></i>
-								</div>
-							</a>
-						{% endif %}
-						{% if p.embed %}
-							{% if p.domain == "twitter.com" %}
-								{{p.embed | safe}}
-								{% if v and v.theme in LIGHT_THEMES %}
-									<script defer src="{{'js/vendor/twitterlight.js' | asset}}"></script>
-								{% else %}
-									<script defer src="{{'js/vendor/twitter.js' | asset}}"></script>
-								{% endif %}
-							{% elif p.domain in ['youtu.be','youtube.com'] and p.embed and p.embed.startswith('<lite-youtube') %}
-								<p class="resizable yt" style="width:100%">
+						<div id="post-body" class="post-body mt-3 {% if p.award_count('tilt', v) %}tilt-post{% endif %}">
+							{% if p.realurl(v) and not p.is_image and not p.is_video and not p.is_audio %}
+								<a rel="nofollow noopener" href="{{p.realurl(v)}}" {% if not v or v.newtabexternal %}target="_blank"{% endif %}>
+									<div class="d-flex justify-content-between align-items-center border rounded p-2 mb-3">
+										<span>{{p.realurl(v)}}</span>
+										<i class="fas fa-external-link-alt text-small"></i>
+									</div>
+								</a>
+							{% endif %}
+
+							{% if p.embed %}
+								{% if p.domain == "twitter.com" %}
 									{{p.embed | safe}}
-								</p>
+									{% if v and v.theme in LIGHT_THEMES %}
+										<script defer src="{{'js/vendor/twitterlight.js' | asset}}"></script>
+									{% else %}
+										<script defer src="{{'js/vendor/twitter.js' | asset}}"></script>
+									{% endif %}
+								{% elif p.domain in ['youtu.be','youtube.com'] and p.embed and p.embed.startswith('<lite-youtube') %}
+									<p class="resizable yt" style="width:100%">
+										{{p.embed | safe}}
+									</p>
+								{% else %}
+									<div id="crosspost-embed" class="mb-3">
+										<div class="row no-gutters">
+											<div id="frontpage" class="col-12 pt-0">
+												<div class="posts">
+													{{p.embed | post_embed(v) | safe}}
+												</div>
+											</div>
+										</div>
+									</div>
+								{% endif %}
 							{% endif %}
-						{% endif %}
 
+							<div id="post-text" class="{{p.award_classes(v)}}">
+								{% if p.is_image %}
+									<div class="row no-gutters mb-4">
+										<div class="col">
+											<a {% if not v or v.newtabexternal %}target="_blank"{% endif %} rel="nofollow noopener" href="{{p.realurl(v)}}">
+												<img loading="lazy" data-nonce="{{g.nonce}}" data-onclick="expandImage()" src="{{p.realurl(v)}}" class="post-linked-img" alt="Unable to load image">
+											</a>
+										</div>
+									</div>
+								{% elif p.is_video %}
+									<div class="row no-gutters mb-4">
+										<div class="col">
+											<p class="resizable">
+												<video {% if p.poster_url %}poster="{{p.poster_url}}"{% endif %} controls preload="none" src="{{p.realurl(v)}}"></video>
+											</p>
+										</div>
+									</div>
+								{% elif p.is_audio %}
+									<div class="row no-gutters mb-4">
+										<div class="col">
+											<audio controls preload="none" src="{{p.realurl(v)}}"></audio>
+										</div>
+									</div>
+								{% endif %}
+								{{p.realbody(v) | safe}}
 
-						<div id="post-text" class="{% if p.chudded %}text-uppercase chud-img chud-{{p.id_last_num}}{% endif %} {% if p.rainbowed %}rainbow-text{% endif %} {% if p.queened %}queen{% endif %} {% if p.sharpened %}sharpen chud-img sharpen-{{p.id_last_num}}{% endif %}">
-							{% if p.is_image %}
-								<div class="row no-gutters mb-4">
-									<div class="col">
-										<a {% if not v or v.newtabexternal %}target="_blank"{% endif %} rel="nofollow noopener" href="{{p.realurl(v)}}">
-											<img loading="lazy" data-nonce="{{g.nonce}}" data-onclick="expandImage()" src="{{p.realurl(v)}}" class="post-linked-img" alt="Unable to load image">
-										</a>
-									</div>
-								</div>
-							{% elif p.is_video %}
-								<div class="row no-gutters mb-4">
-									<div class="col">
-										<p class="resizable">
-											<video {% if p.poster_url %}poster="{{p.poster_url}}"{% endif %} controls preload="none" src="{{p.realurl(v)}}"></video>
-										</p>
-									</div>
-								</div>
-							{% elif p.is_audio %}
-								<div class="row no-gutters mb-4">
-									<div class="col">
-										<audio controls preload="none" src="{{p.realurl(v)}}"></audio>
-									</div>
-								</div>
-							{% endif %}
-							{{p.realbody(v) | safe}}
-
-							{% if p.is_banned %}
-								<div class="text-removed mb-0">Removed by @{{p.ban_reason}} (Site Admin)</div>
+								{% if p.is_banned %}
+									<div class="text-removed mb-0">Removed by @{{p.ban_reason}} (Site Admin)</div>
+								{% endif %}
+							</div>
+							{% if not p.ghost %}
+								{{p.author.rendered_sig(v) | safe}}
 							{% endif %}
 						</div>
-						{% if not p.ghost %}
-							{{p.author.rendered_sig(v) | safe}}
-						{% endif %}
-					</div>
 					{% else %}
-					<div id="post-body" class="post-body mt-3">
-						<div id="post-text"><code>[Deleted by author.]</code></div>
-					</div>
+						<div id="post-body" class="post-body mt-3">
+							<div id="post-text"><code>[Deleted by author.]</code></div>
+						</div>
 					{% endif %}
 
 					{% if v and v.can_edit(p) and not v.is_suspended %}
@@ -167,7 +193,11 @@
 
 								<div class="text-small font-weight-bold mt-1" id="charcount-post-edit" style="right: 1rem; bottom: 0.5rem; z-index: 3"></div>
 
-								{{macros.file_input('file-upload-edit-' ~ p.id, 'post-edit-box-' ~ p.id)}}
+								<div class="format-btns">
+									{{macros.emoji_btn('post-edit-box-' ~ p.id)}}
+									{{macros.gif_btn('post-edit-box-' ~ p.id)}}
+									{{macros.file_btn('file-upload-edit-' ~ p.id)}}
+								</div>
 
 								<a class="text-small mt-3 d-inline-block" href="/formatting" {% if v and v.newtab %}data-target="t" target="_blank"{% endif %}>Formatting help</a>
 								<button type="submit" form="post-edit-form-{{p.id}}" class="btn btn-primary ml-2 fl-r" data-nonce="{{g.nonce}}" data-onclick="remove_dialog()">Save Edit</button>
@@ -176,58 +206,46 @@
 							<div id="post-edit-{{p.id}}" class="preview mb-3 mt-5"></div>
 						</div>
 					{% endif %}
-							{% if p.embed and "http" not in p.embed and "<" not in p.embed %}
-								<div id="crosspost-embed" class="mb-3">
-									<div class="row no-gutters">
-										<div id="frontpage" class="col-12 pt-0">
-											<div class="posts">
-												{{p.embed | post_embed(v) | safe}}
-											</div>
-										</div>
-									</div>
-								</div>
-							{% endif %}
-							<div class="d-none d-md-flex justify-content-between align-items-center mt-2">
-								<div class="post-actions mt-2">
-				<ul class="list-inline text-right d-flex">
-						<a class="list-inline-item" {% if v and v.newtab %}data-target="t" target="_blank"{% endif %} href="{{p.permalink}}">
-							<i class="fas fa-comment-dots mr-2"></i>{{p.comment_count}}
-							<span class="text-info d-none {{p.id}}-new-comments"></span>
-						</a>
+					<div class="d-none d-md-flex justify-content-between align-items-center mt-2">
+						<div class="post-actions mt-2">
+							<ul class="list-inline text-right d-flex">
+								<a class="list-inline-item" {% if v and v.newtab %}data-target="t" target="_blank"{% endif %} href="{{p.permalink}}">
+									<i class="fas fa-comment-dots mr-2"></i>{{p.comment_count}}
+									<span class="text-info d-none {{p.id}}-new-comments"></span>
+								</a>
 
-						{% if v and v.can_edit(p) %}
-							<button type="button" class="list-inline-item" data-nonce="{{g.nonce}}" data-onclick="togglePostEdit('{{p.id}}')"><i class="fas fa-edit"></i>Edit</button>
-						{% elif v and v.id != p.author_id and p.body and not v_forbid_deleted %}
-							<button type="button" class="list-inline-item" data-nonce="{{g.nonce}}" data-onclick="expandMarkdown('{{p.fullname}}')"><i class="fas text-expand-icon-{{p.fullname}} fa-expand-alt"></i><span class="expand-text-{{p.fullname}}">View source</span></button>
-						{% endif %}
+								{% if v and v.can_edit(p) %}
+									<button type="button" class="list-inline-item" data-nonce="{{g.nonce}}" data-onclick="togglePostEdit('{{p.id}}')"><i class="fas fa-edit"></i>Edit</button>
+								{% elif v and v.id != p.author_id and p.body and not v_forbid_deleted %}
+									<button type="button" class="list-inline-item" data-nonce="{{g.nonce}}" data-onclick="expandMarkdown('{{p.fullname}}')"><i class="fas text-expand-icon-{{p.fullname}} fa-expand-alt"></i><span class="expand-text-{{p.fullname}}">View source</span></button>
+								{% endif %}
 
-						{% include 'post_actions.html' %}
-					</ul>
+								{% include 'post_actions.html' %}
+							</ul>
 						</div>
-						</div>
-
 					</div>
-					{% if v %}
-					<div id="voting" class="voting d-mob-none mb-auto mt-1">
-						<div tabindex="0" data-nonce="{{g.nonce}}" data-onclick="vote('post', '{{p.id}}', '1')" class="post-{{p.id}}-up mx-auto arrow-up upvote-button post-{{p.id}}-up {% if voted==1 %}active{% endif %}"></div>
-
-						<span class="post-score-{{p.id}} score post-score-{{p.id}} {% if voted==1 %}score-up{% elif voted==-1 %}score-down{% endif %}{% if p.controversial %} controversial{% endif %}" data-bs-toggle="tooltip" data-bs-placement="right" title="+{{ups}} | -{{downs}}" style="cursor: default">{{score}}</span>
-						<div {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" data-nonce="{{g.nonce}}" data-onclick="vote('post', '{{p.id}}', '-1')" class="post-{{p.id}}-down text-muted mx-auto arrow-down downvote-button post-{{p.id}}-down {% if voted==-1 %}active{% endif %}"></div>
-					</div>
-
-					{% else %}
-
-					<div id="voting" class="voting d-mob-none mb-auto mt-1">
-						<a tabindex="0" class="post-{{p.id}}-up arrow-up mx-auto" href="/login?redirect={{request.full_path | urlencode}}">
-						</a>
-						<span class="post-{{p.id}}-score-none score text-muted{% if p.controversial %} controversial{% endif %}"{% if not p.is_banned %} data-bs-toggle="tooltip" data-bs-placement="right" title="+{{ups}} | -{{downs}}"{% endif %}style="cursor: default">{{score}}</span>
-						<a {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" data-nonce="{{g.nonce}}" data-onclick="vote('post', '{{p.id}}', '-1')" class="post-{{p.id}}-down arrow-down mx-auto" href="/login?redirect={{request.full_path | urlencode}}"></a>
-					</div>
-					{% endif %}
 				</div>
+				{% if v %}
+				<div id="voting" class="voting d-mob-none mb-auto mt-1">
+					<div tabindex="0" data-nonce="{{g.nonce}}" data-onclick="vote('post', '{{p.id}}', '1')" class="post-{{p.id}}-up mx-auto arrow-up upvote-button post-{{p.id}}-up {% if voted==1 %}active{% endif %}"></div>
+
+					<span class="post-score-{{p.id}} score post-score-{{p.id}} {% if voted==1 %}score-up{% elif voted==-1 %}score-down{% endif %}{% if p.controversial %} controversial{% endif %}" data-bs-toggle="tooltip" data-bs-placement="right" title="+{{ups}} | -{{downs}}" style="cursor: default">{{score}}</span>
+					<div {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" data-nonce="{{g.nonce}}" data-onclick="vote('post', '{{p.id}}', '-1')" class="post-{{p.id}}-down text-muted mx-auto arrow-down downvote-button post-{{p.id}}-down {% if voted==-1 %}active{% endif %}"></div>
+				</div>
+
+				{% else %}
+
+				<div id="voting" class="voting d-mob-none mb-auto mt-1">
+					<a tabindex="0" class="post-{{p.id}}-up arrow-up mx-auto" href="/login?redirect={{request.full_path | urlencode}}">
+					</a>
+					<span class="post-{{p.id}}-score-none score text-muted{% if p.controversial %} controversial{% endif %}"{% if not p.is_banned %} data-bs-toggle="tooltip" data-bs-placement="right" title="+{{ups}} | -{{downs}}"{% endif %}style="cursor: default">{{score}}</span>
+					<a {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" data-nonce="{{g.nonce}}" data-onclick="vote('post', '{{p.id}}', '-1')" class="post-{{p.id}}-down arrow-down mx-auto" href="/login?redirect={{request.full_path | urlencode}}"></a>
+				</div>
+				{% endif %}
 			</div>
 		</div>
 	</div>
+</div>
 
  <div class="row mb-3 d-md-none">
 	<div class="col-12">
@@ -285,7 +303,7 @@
 	<div class="col border-top">
 		<div class="comments-count py-3">
 			{%- import 'util/macros.html' as macros with context -%}
-			{{- macros.sorting_buttons(COMMENT_SORTS) -}}
+			{{- macros.sorting_buttons(COMMENT_SORTS, True) -}}
 		</div>
 
 	{{macros.comment_reply_box(p.fullname, 'comment-reply-' + p.fullname, subwrapper_css_classes='mb-3', enable_cancel_button=false)}}

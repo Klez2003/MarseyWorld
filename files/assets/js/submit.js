@@ -1,4 +1,4 @@
-const save_value = ['post-title', 'post-text', 'post-url', 'sub']
+const save_value = ['post-title', 'post-text', 'post-url', 'hole']
 for (const id of save_value) {
 	const value =  localStorage.getItem(id)
 	if (value)
@@ -106,15 +106,15 @@ function autoSuggestTitle()	{
 
 function ghost_toggle(t) {
 	const followers = document.getElementById("post-notify")
-	const sub = document.getElementById("sub")
+	const hole = document.getElementById("hole")
 	if (t.checked == true) {
 		followers.checked = false;
 		followers.disabled = true;
-		sub.value = '';
-		sub.disabled = true;
+		hole.value = '';
+		hole.disabled = true;
 	} else {
 		followers.disabled = false;
-		sub.disabled = false;
+		hole.disabled = false;
 	}
 }
 
@@ -167,7 +167,7 @@ function submit(form) {
 	const xhr = new XMLHttpRequest();
 
 	//needed for uploading to videos.watchpeopledie.tv
-	xhr.withCredentials=true;
+	xhr.withCredentials = true;
 
 	formData = new FormData(form);
 

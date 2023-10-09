@@ -43,7 +43,7 @@ def get_mentions(cache, queries, reddit_notifs_users=False):
 				continue
 
 			if thing.get('subreddit_subscribers') and thing['subreddit_subscribers'] < 2: continue
-			if thing['subreddit_type'] == 'user': continue
+			if thing.get('subreddit_type') == 'user': continue
 			if thing['subreddit'] in {'IAmA', 'PokemonGoRaids', 'SubSimulatorGPT2', 'SubSimGPT2Interactive'}: continue
 			if 'bot' in thing['author'].lower(): continue
 			if 'AutoModerator' == thing['author']: continue
@@ -75,7 +75,7 @@ def notify_mentions(mentions, send_to=None, mention_str='site mention'):
 		permalink = m['permalink']
 		text = sanitize(m['text'], blackjack="reddit mention", golden=False)
 		notif_text = (
-			f'<p>New {mention_str} by <a href="https://old.reddit.com/u/{author}" '
+			f'<p>New {mention_str} by <a href="https://old.reddit.com/user/{author}" '
 				f'rel="nofollow noopener" target="_blank">/u/{author}</a></p>'
 			f'<p><a href="https://old.reddit.com{permalink}?context=89" '
 				'rel="nofollow noopener" target="_blank">'
@@ -84,11 +84,16 @@ def notify_mentions(mentions, send_to=None, mention_str='site mention'):
 		)
 
 		g.db.flush()
-		existing_comment = g.db.query(Comment.id).filter_by(
-			author_id=const.AUTOJANNY_ID,
-			parent_post=None,
-			body_html=notif_text).one_or_none()
-		if existing_comment: break
+		try:
+			existing_comment = g.db.query(Comment.id).filter_by(
+				author_id=const.AUTOJANNY_ID,
+				parent_post=None,
+				body_html=notif_text).one_or_none()
+			if existing_comment: break
+		# todo: handle this exception by removing one of the existing
+		# means that multiple rows were found, happens on new install for some reason
+		except:
+			pass
 
 		new_comment = Comment(
 							author_id=const.AUTOJANNY_ID,

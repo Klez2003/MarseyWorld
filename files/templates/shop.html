@@ -29,12 +29,19 @@
 			{% if FEATURES['MARSEYBUX'] %}
 				<li>Your current marseybux: {{"{:,}".format(v.marseybux)}}</li>
 			{% endif %}
-			<li>Your total award discount: {{v.formatted_discount}}</li>
+			<li>Your total award discount: {{v.formatted_award_discount}}</li>
 		</ul>
 	</header>
 {% endblock %}
 
 {% block content %}
+	{% if IS_HOMOWEEN() %}
+		<script defer src="{{'events/homoween/js/trickortreat.js' | asset}}"></script>
+		<div class ="mb-2" style="text-align:center">
+			<a id="trick-or-treat" class="btn btn-success triggerClass" role="button" data-nonce="{{g.nonce}}" data-onclick="postToastTrickOrTreat(this, '/trick-or-treat')"> twink or treat</a>
+		</div>
+	{% endif %}
+
 	<div class="overflow-x-auto mt-3 mb-5"><table class="table table-striped shop">
 		<thead class="bg-primary text-white">
 				<tr>

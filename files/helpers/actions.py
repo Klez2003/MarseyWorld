@@ -27,10 +27,10 @@ from files.routes.routehelpers import check_for_alts
 
 def _archiveorg(url):
 	try:
-		requests.get(f'https://web.archive.org/save/{url}', headers=HEADERS, timeout=10, proxies=proxies)
+		requests.post('https://ghostarchive.org/archive2', data={"archive": url}, headers=HEADERS, timeout=10, proxies=proxies)
 	except: pass
 	try:
-		requests.post('https://ghostarchive.org/archive2', data={"archive": url}, headers=HEADERS, timeout=10, proxies=proxies)
+		requests.get(f'https://web.archive.org/save/{url}', headers=HEADERS, timeout=10, proxies=proxies)
 	except: pass
 
 
@@ -50,7 +50,7 @@ def snappy_report(post, reason):
 	send_repeatable_notification(post.author_id, message)
 
 def execute_snappy(post, v):
-	if post.sub and g.db.query(Exile.user_id).filter_by(user_id=SNAPPY_ID, sub=post.sub).one_or_none():
+	if post.hole and g.db.query(Exile.user_id).filter_by(user_id=SNAPPY_ID, hole=post.hole).one_or_none():
 		return
 
 	ghost = post.ghost
@@ -72,21 +72,29 @@ def execute_snappy(post, v):
 		post.downvotes += 1
 	elif v.id == CARP_ID:
 		if random.random() < 0.08:
-			body = random.choice(("i love you carp", "https://i.rdrama.net/images/16614707883108485.webp", "https://i.rdrama.net/images/1636916964YyM.webp", "https://youtube.com/watch?v=zRbQHTdsjuY"))
+			body = random.choice(("i love you carp", "https://i.rdrama.net/images/16614707883108485.webp", "https://i.rdrama.net/images/1636916964YyM.webp", "https://youtube.com/watch?v=zRbQHTdsjuY", "https://i.rdrama.net/images/1696250281381682.webp"))
 		elif IS_DKD():
 			body = ":#donkeykongfuckoffcarp:"
+		elif IS_HOMOWEEN():
+			body = "F̵̽̉U̷̓̕C̵̟̍K̴̾̍ ̵́̒O̶͐̇F̷͗̐F̴͛̄ ̸̆͠CARP"
 		else:
 			body = ":#marseyfuckoffcarp:"
 	elif v.id == AEVANN_ID:
-		body="https://i.rdrama.net/images/16909380805064178.webp"
+		body = "https://i.rdrama.net/images/16909380805064178.webp"
 	elif v.id == LAWLZ_ID:
 		if random.random() < 0.5: body = "wow, this lawlzpost sucks!"
 		else: body = "wow, a good lawlzpost for once!"
+	elif v.id == 253:
+		body = "https://i.rdrama.net/images/16961715452780113.webp"
 	else:
 		if IS_DKD():
 			SNAPPY_CHOICES = SNAPPY_KONGS
+		elif IS_FISTMAS():
+			SNAPPY_CHOICES = SNAPPY_QUOTES_FISTMAS
+		elif IS_HOMOWEEN():
+			SNAPPY_CHOICES = SNAPPY_QUOTES_HOMOWEEN
 		elif SNAPPY_MARSEYS and SNAPPY_QUOTES:
-			if IS_FISTMAS() or random.random() > 0.5:
+			if random.random() > 0.5:
 				SNAPPY_CHOICES = SNAPPY_QUOTES
 			else:
 				SNAPPY_CHOICES = SNAPPY_MARSEYS
@@ -158,9 +166,12 @@ def execute_snappy(post, v):
 		if post.url.startswith('https://old.reddit.com/r/'):
 			rev = post.url.replace('https://old.reddit.com/', '')
 			rev = f"* [undelete.pullpush.io](https://undelete.pullpush.io/{rev})\n\n"
+		elif post.url.startswith("https://old.reddit.com/user/"):
+			rev = post.url.replace('https://old.reddit.com/user/', '')
+			rev = f"* [search-new.pullpush.io](https://search-new.pullpush.io/?author={rev}&type=submission)\n\n"
 		else: rev = ''
 
-		body += f"Snapshots:\n\n{rev}* [archive.org](https://web.archive.org/{post.url})\n\n* [ghostarchive.org](https://ghostarchive.org/search?term={quote(post.url)})\n\n* [archive.ph](https://archive.ph/?url={quote(post.url)}&run=1) (click to archive)\n\n"
+		body += f"Snapshots:\n\n{rev}* [ghostarchive.org](https://ghostarchive.org/search?term={quote(post.url)})\n\n* [archive.org](https://web.archive.org/{post.url})\n\n* [archive.ph](https://archive.ph/?url={quote(post.url)}&run=1) (click to archive)\n\n"
 		archive_url(post.url)
 
 	captured = []
@@ -182,8 +193,11 @@ def execute_snappy(post, v):
 			if href.startswith('https://old.reddit.com/r/'):
 				rev = href.replace('https://old.reddit.com/', '')
 				addition += f'* [undelete.pullpush.io](https://undelete.pullpush.io/{rev})\n\n'
-			addition += f'* [archive.org](https://web.archive.org/{href})\n\n'
+			elif href.startswith('https://old.reddit.com/user/'):
+				rev = href.replace('https://old.reddit.com/user/', '')
+				addition += f"* [search-new.pullpush.io](https://search-new.pullpush.io/?author={rev}&type=submission)\n\n"
 			addition += f'* [ghostarchive.org](https://ghostarchive.org/search?term={quote(href)})\n\n'
+			addition += f'* [archive.org](https://web.archive.org/{href})\n\n'
 			addition += f'* [archive.ph](https://archive.ph/?url={quote(href)}&run=1) (click to archive)\n\n'
 			if len(f'{body}{addition}') > COMMENT_BODY_LENGTH_LIMIT: break
 			body += addition
@@ -200,7 +214,7 @@ def execute_snappy(post, v):
 			distinguish_level=6,
 			parent_post=post.id,
 			level=1,
-			over_18=False,
+			nsfw=False,
 			is_bot=True,
 			app_id=None,
 			body=body,
@@ -250,13 +264,19 @@ def execute_snappy(post, v):
 		post.comment_count += 1
 		post.replies = [c]
 
-def execute_zozbot(c, level, post_target, v):
+def execute_zozbot(c, level, post, v):
 	if SITE_NAME != 'rDrama': return
-	posting_to_post = isinstance(post_target, Post)
+
 	if random.random() >= 0.001: return
+
+	posting_to_post = isinstance(post, Post)
+
+	if posting_to_post and post.hole and g.db.query(Exile.user_id).filter_by(user_id=ZOZBOT_ID, hole=post.hole).one_or_none():
+		return
+
 	c2 = Comment(author_id=ZOZBOT_ID,
-		parent_post=post_target.id if posting_to_post else None,
-		wall_user_id=post_target.id if not posting_to_post else None,
+		parent_post=post.id if posting_to_post else None,
+		wall_user_id=post.id if not posting_to_post else None,
 		parent_comment_id=c.id,
 		level=level+1,
 		is_bot=True,
@@ -273,8 +293,8 @@ def execute_zozbot(c, level, post_target, v):
 	g.db.add(n)
 
 	c3 = Comment(author_id=ZOZBOT_ID,
-		parent_post=post_target.id if posting_to_post else None,
-		wall_user_id=post_target.id if not posting_to_post else None,
+		parent_post=post.id if posting_to_post else None,
+		wall_user_id=post.id if not posting_to_post else None,
 		parent_comment_id=c2.id,
 		level=level+2,
 		is_bot=True,
@@ -290,8 +310,8 @@ def execute_zozbot(c, level, post_target, v):
 
 
 	c4 = Comment(author_id=ZOZBOT_ID,
-		parent_post=post_target.id if posting_to_post else None,
-		wall_user_id=post_target.id if not posting_to_post else None,
+		parent_post=post.id if posting_to_post else None,
+		wall_user_id=post.id if not posting_to_post else None,
 		parent_comment_id=c3.id,
 		level=level+3,
 		is_bot=True,
@@ -310,16 +330,23 @@ def execute_zozbot(c, level, post_target, v):
 	g.db.add(zozbot)
 
 	if posting_to_post:
-		post_target.comment_count += 3
-		g.db.add(post_target)
+		post.comment_count += 3
+		g.db.add(post)
 
 	push_notif({v.id}, f'New reply by @{c2.author_name}', "zoz", c2)
 
-def execute_longpostbot(c, level, body, body_html, post_target, v):
+def execute_longpostbot(c, level, body, body_html, post, v):
 	if SITE_NAME != 'rDrama': return
-	posting_to_post = isinstance(post_target, Post)
+
 	if not len(c.body.split()) >= 200: return
+
 	if "</blockquote>" in body_html: return
+
+	posting_to_post = isinstance(post, Post)
+
+	if posting_to_post and post.hole and g.db.query(Exile.user_id).filter_by(user_id=LONGPOSTBOT_ID, hole=post.hole).one_or_none():
+		return
+
 	body = random.choice(LONGPOSTBOT_REPLIES)
 	if body.startswith('▼'):
 		body = body[1:]
@@ -334,8 +361,8 @@ def execute_longpostbot(c, level, body, body_html, post_target, v):
 	body_html = sanitize(body)
 
 	c2 = Comment(author_id=LONGPOSTBOT_ID,
-		parent_post=post_target.id if posting_to_post else None,
-		wall_user_id=post_target.id if not posting_to_post else None,
+		parent_post=post.id if posting_to_post else None,
+		wall_user_id=post.id if not posting_to_post else None,
 		parent_comment_id=c.id,
 		level=level+1,
 		is_bot=True,
@@ -356,8 +383,8 @@ def execute_longpostbot(c, level, body, body_html, post_target, v):
 	g.db.add(n)
 
 	if posting_to_post:
-		post_target.comment_count += 1
-		g.db.add(post_target)
+		post.comment_count += 1
+		g.db.add(post)
 
 	push_notif({v.id}, f'New reply by @{c2.author_name}', c2.body, c2)
 

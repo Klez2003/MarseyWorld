@@ -202,7 +202,7 @@ function fetchEmojis() {
 				emojiDOM.hidden = true;
 
 				const emojiIMGDOM = emojiDOM.children[0];
-				emojiIMGDOM.src = "/e/" + emoji.name + ".webp";
+				emojiIMGDOM.src = `${SITE_FULL_IMAGES}/e/${emoji.name}.webp`
 				emojiIMGDOM.alt = emoji.name;
 				/** Disableing lazy loading seems to reduce cpu usage somehow (?)
 				 * idk it is difficult to benchmark */
@@ -221,8 +221,8 @@ function fetchEmojis() {
 				let classSelectorDOM = document.createElement("li");
 				classSelectorDOM.classList.add("nav-item");
 
-				let classSelectorLinkDOM = document.createElement("a");
-				classSelectorLinkDOM.href = "#";
+				let classSelectorLinkDOM = document.createElement("button");
+				classSelectorLinkDOM.type = "button";
 				classSelectorLinkDOM.classList.add("nav-link", "emojitab");
 				classSelectorLinkDOM.dataset.bsToggle = "tab";
 				classSelectorLinkDOM.dataset.className = className;
@@ -332,7 +332,13 @@ let emoji_typing_state = false;
 
 function update_ghost_div_textarea(text)
 {
-	let ghostdiv = text.parentNode.querySelector(".ghostdiv");
+	let ghostdiv
+
+	if (location.pathname == '/chat') 
+		ghostdiv = document.getElementById("ghostdiv-chat");
+	else
+		ghostdiv = text.parentNode.getElementsByClassName("ghostdiv")[0];
+
 	if (!ghostdiv) return;
 
 	ghostdiv.textContent = text.value.substring(0, text.selectionStart);
@@ -387,6 +393,7 @@ function populate_speed_emoji_modal(results, textbox)
 	}
 
 	emoji_index = 0;
+	speed_carot_modal.scrollTop = 0;
 	speed_carot_modal.innerHTML = "";
 	const MAXXX = 50;
 	// Not sure why the results is a Set... but oh well
@@ -402,7 +409,7 @@ function populate_speed_emoji_modal(results, textbox)
 		let emoji_option_img = document.createElement("img");
 		emoji_option_img.className = "speed-modal-image emoji-option-image";
 		// This is a bit
-		emoji_option_img.src = `/e/${name}.webp`;
+		emoji_option_img.src = `${SITE_FULL_IMAGES}/e/${name}.webp`
 		let emoji_option_text = document.createElement("span");
 
 		emoji_option_text.title = name;
@@ -422,7 +429,7 @@ function populate_speed_emoji_modal(results, textbox)
 			close_inline_speed_emoji_modal()
 			textbox.value = textbox.value.replace(new RegExp(current_word+"(?=\\s|$)", "gi"), `:${name}: `)
 			textbox.focus()
-			if (!['/chat','/orgy'].includes(location.pathname)) {
+			if (typeof markdown === "function" && textbox.dataset.preview) {
 				markdown(textbox)
 			}
 		});
@@ -466,7 +473,7 @@ function update_speed_emoji_modal(event)
 		* kept it unless someone wants to provide an option to toggle it for performance */
 	if (curr_word_is_emoji() && current_word != ":")
 	{
-		loadEmojis().then( () => {
+		loadEmojis(null, null).then( () => {
 			let modal_pos = event.target.getBoundingClientRect();
 			modal_pos.x += window.scrollX;
 			modal_pos.y += window.scrollY;
@@ -516,21 +523,42 @@ function speed_carot_navigate(event)
 function insertGhostDivs(element) {
 	let forms = element.querySelectorAll("textarea, .allow-emojis");
 	forms.forEach(i => {
-		let pseudo_div = document.createElement("div");
-		pseudo_div.className = "ghostdiv";
-		pseudo_div.style.display = "none";
-		i.after(pseudo_div);
+		let ghostdiv
+		if (i.id == 'input-text-chat') {
+			ghostdiv = document.getElementsByClassName("ghostdiv")[0];
+		}
+		else {
+			ghostdiv = document.createElement("div");
+			ghostdiv.className = "ghostdiv";
+			ghostdiv.style.display = "none";
+			i.after(ghostdiv);
+		}
 		i.addEventListener('input', update_speed_emoji_modal, false);
 		i.addEventListener('keydown', speed_carot_navigate, false);
 	});
 }
 
-function loadEmojis(inputTargetIDName)
+const emojiModal = document.getElementById('emojiModal')
+
+function loadEmojis(t, inputTargetIDName)
 {
 	selecting = false;
 	speed_carot_modal.style.display = "none";
 
-	if (inputTargetIDName) emojiInputTargetDOM = document.getElementById(inputTargetIDName);
+	if (inputTargetIDName) {
+		emojiInputTargetDOM = document.getElementById(inputTargetIDName);
+		emojiModal.addEventListener('hide.bs.modal', () => {
+			setTimeout(() => {
+				emojiInputTargetDOM.focus();
+			}, 200);
+		}, {once : true});	
+	}
+
+	if (t && t.dataset.previousModal) {
+		emojiModal.addEventListener('hide.bs.modal', () => {
+			bootstrap.Modal.getOrCreateInstance(document.getElementById(t.dataset.previousModal)).show()
+		}, {once : true});	
+	}
 
 	switch (emojiEngineState) {
 		case "inactive":

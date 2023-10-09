@@ -9,31 +9,35 @@
 {%- endmacro -%}
 
 {% macro post_meta(p) %}
-	{% if p.sub %}
-		{% if not HOLE_STYLE_FLAIR -%}
-			<a class="mr-2" href='/h/{{p.sub}}'>/h/{{p.sub}}</a>
+	{% if p.hole %}
+		{% if SITE_NAME == 'WPD' -%}
+			<a href='/h/{{p.hole}}' class="hole-flair font-weight-bold">{{p.hole|capitalize}}</a>
 		{%- else -%}
-			<a href='/h/{{p.sub}}' class="sub-flair">{{p.sub|capitalize}}</a>
+			<a class="mr-2 font-weight-bold" href='/h/{{p.hole}}'>/h/{{p.hole}}</a>
 		{%- endif %}
 	{% endif %}
 
-	{% if p.sub and p.author.exiler_username(p.sub) %}
-		<a><i class="fas fa-campfire text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="User has been exiled from /h/{{p.sub}} by @{{p.author.exiler_username(p.sub)}}"></i></a>
+	{% if p.hole and p.author.exiler_username(p.hole) %}
+		<a><i class="fas fa-campfire text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="User has been exiled from /h/{{p.hole}} by @{{p.author.exiler_username(p.hole)}}"></i></a>
 	{% endif %}
 
-	{% if p.bannedfor and p.sub != 'chudrama' %}
+	{% if p.bannedfor and p.hole != 'chudrama' %}
 		<i class="fas fa-hammer-crash text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="User was banned for this post {{p.bannedfor}}"></i>
 	{% endif %}
 
-	{% if p.chuddedfor and p.sub != 'chudrama' %}
+	{% if p.chuddedfor and p.hole != 'chudrama' %}
 		<i class="fas fa-face-sleeping text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="User was chudded for this post {{p.chuddedfor}}"></i>
 	{% endif %}
 
 	{% for a in p.awards %}
-		<i class="{{a.class_list}} px-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{a.title}} Award given by @{{a.user.username}}"></i>
+		{% if a.kind in ["emoji","emoji-hz"] %}
+			<img alt='{{a.title}} Award given by @{{a.user.username}}: "{{a.note}}"' data-bs-toggle="tooltip" loading="lazy" src="{{SITE_FULL_IMAGES}}/e/{{a.note}}.webp" data-bs-toggle="tooltip" data-bs-placement="bottom" title='{{a.title}} Award given by @{{a.user.username}}: "{{a.note}}"' width="20px">
+		{% else %}
+			<i class="{{a.class_list}} px-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title='{{a.title}} Award given by @{{a.user.username}}{% if a.kind in ["chud","namelock","flairlock"] %}: "{{a.note}}"{% endif %}'></i>
+		{% endif %}
 	{% endfor %}
 
-	{% if v and v.admin_level >= PERMS['USER_SHADOWBAN'] and p.author.shadowbanned %}
+	{% if v and v.can_see_shadowbanned and p.author.shadowbanned %}
 		<i class="fas fa-user-times text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title='Shadowbanned by @{{p.author.shadowbanner}} for "{{p.author.ban_reason}}"' data-bs-html="true"></i>
 	{% endif %}
 
@@ -42,19 +46,22 @@
 	{% endif %}
 
 	{% if p.hole_pinned %}
-		<i id='hole-pinned-{{p.id}}' class="fas fa-thumbtack fa-rotate--45 pr-1 ml-1 mt-3 text-blue" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Pinned to /h/{{p.sub}} by @{{p.hole_pinned}}"></i>
+		<i id='hole-pinned-{{p.id}}' class="fas fa-thumbtack fa-rotate--45 pr-1 ml-1 mt-3 text-blue" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Pinned to /h/{{p.hole}} by @{{p.hole_pinned}}"></i>
 	{% endif %}
 
 	{% if p.distinguish_level %}<i class="fas fa-broom text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{SITE_NAME}} Admin, speaking officially"></i>{% endif %}
 	{% if p.is_pinned and request.path != '/' %}
 		<i class="fas fa-thumbtack fa-rotate--45 pr-1 ml-1 mt-3 text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Pinned to profile"></i>
 	{% endif %}
-	{% if p.over_18 %}<span class="badge badge-danger text-small-extra mr-1">+18</span>{% endif %}
+	{% if p.nsfw %}<span class="badge badge-danger text-small-extra mr-1">NSFW</span>{% endif %}
 	{% if p.is_bot %} <i class="fas fa-robot text-info" data-bs-toggle="tooltip" data-bs-placement="bottom"	title="Bot"></i>{% endif %}
 	{% if p.is_blocking and not p.ghost %}<i class="fas fa-user-minus text-warning" data-bs-toggle="tooltip" data-bs-placement="bottom" title="You're blocking this user."></i>{% endif %}
 	{% if p.is_blocked and not p.ghost %}<i class="fas fa-user-minus text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="This user is blocking you."></i>{% endif %}
 	{% if p.private %}<span class="mr-2 badge border-warning border-1 text-small-extra">Draft</span>{% endif %}
-	{% if p.active_reports(v) %}<button type="button" class="btn btn-primary mr-1" style="padding:1px 5px; font-size:10px" data-nonce="{{g.nonce}}" data-toggleelement="#reports-{{p.id}}" data-toggleattr="d-none">{{p.active_reports(v)}} Report{{plural(p.active_reports(v))}}</button>{% endif %}
+
+	{% if p.active_reports(v) %}
+		<button type="button" class="btn btn-primary mr-1 ml-2" style="padding:1px 5px; font-size:10px" data-nonce="{{g.nonce}}" data-toggleelement="#reports-{{p.id}}" data-toggleattr="d-none">{{p.active_reports(v)}} Report{{plural(p.active_reports(v))}}</button>
+	{% endif %}
 
 	{% if p.ghost %}
 		<span {% if p.distinguish_level %}class="mod {% if SITE_NAME == 'rDrama' %}mod-rdrama{% endif %}"{% endif %}>👻</span>
@@ -76,13 +83,13 @@
 					<img class="profile-pic-30-hat hat" loading="lazy" src="{{p.author.hat_active(v)[0]}}?x=6" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{p.author.hat_active(v)[1]}}" alt="@{{p.author.username}}'s hat">
 				{%- endif %}
 			</div>
-			<span {% if p.author.patron and not p.distinguish_level %}class="patron" style="background-color:#{{p.author.name_color}}"{% elif p.distinguish_level %}class="mod {% if SITE_NAME == 'rDrama' %}mod-rdrama{% endif %}"{% endif %}>{{p.author_name}}</span>
+			<span {% if p.author.patron and not p.distinguish_level %}class="patron" style="background-color:#{{p.author.name_color}}"{% elif p.distinguish_level %}class="mod {% if SITE_NAME == 'rDrama' %}mod-rdrama{% endif %}"{% endif %} {% if p.author.pride_username(v) %}pride_username{% endif %}>{{p.author_name}}</span>
 		</a>
 		{% if FEATURES['PRONOUNS'] %}
-			<span class="pronouns" style="color:#{{p.author.titlecolor}};border-color:#{{p.author.titlecolor}}">{{p.author.pronouns}}</span>
+			<span class="pronouns" style="color:#{{p.author.titlecolor}};border-color:#{{p.author.titlecolor}}">{{p.author.pronouns_display}}</span>
 		{% endif %}
-		{% if p.author.customtitle %}
-			<bdi class="text-break ml-2" style="color: #{{p.author.titlecolor}}">{{p.author.customtitle | safe}}</bdi>
+		{% if p.author.flair_html %}
+			<bdi class="text-break ml-2" style="color: #{{p.author.titlecolor}}">{{p.author.flair_html | safe}}</bdi>
 		{% endif %}
 	{% endif %}
 	<span class="ml-2 d-inline-block" data-bs-toggle="tooltip" data-bs-placement="bottom" data-nonce="{{g.nonce}}" data-onmouseover="timestamp(this, '{{p.created_utc}}')" id="timestamp-{{p.id}}">&nbsp;{{p.age_string}}</span>
@@ -103,17 +110,22 @@
 {% endmacro %}
 
 
-{% macro file_input(input_id, textarea_id, disabled) %}
-	<div class="comment-format">
-		<button type="button" class="btn btn-secondary format m-0 font-weight-bolder text-uppercase" data-nonce="{{g.nonce}}" data-onclick="getGifs('{{textarea_id}}')" data-bs-toggle="modal" data-bs-target="#gifModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add GIF">GIF</button>
 
-		<button type="button" class="btn btn-secondary format m-0 ml-2" data-nonce="{{g.nonce}}" data-onclick="loadEmojis('{{textarea_id}}')" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"><i class="fas fa-smile-beam"></i></button>
+{% macro emoji_btn(textarea_id, previous_modal) %}
+	<button type="button" class="btn btn-secondary format m-0 mr-1" data-nonce="{{g.nonce}}" data-onclick="loadEmojis(this, '{{textarea_id}}')" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji" {% if previous_modal %}data-previous-modal="{{previous_modal}}"{% endif %}>
+		<i class="fas fa-smile-beam"></i>
+	</button>
+{% endmacro %}
 
-		<label class="btn btn-secondary format m-0 ml-2" for="{{input_id}}" {% if g.is_tor or disabled %}disabled{% endif %}>
-			<i class="fas fa-{% if image_only %}image{% else %}file{% endif %}"></i>
-			<input autocomplete="off" id="{{input_id}}" accept="image/*{% if not image_only %}, video/*, audio/*{% endif %}" type="file" multiple="multiple" name="file" {% if g.is_tor or disabled %}disabled{% endif %} hidden>
-		</label>
-	</div>
+{% macro gif_btn(textarea_id, previous_modal) %}
+	<button type="button" class="btn btn-secondary format m-0 mr-1 font-weight-bolder text-uppercase" data-nonce="{{g.nonce}}" data-onclick="show_gif_categories(this, '{{textarea_id}}')" data-bs-toggle="modal" data-bs-target="#gifModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add GIF" {% if previous_modal %}data-previous-modal="{{previous_modal}}"{% endif %}>GIF</button>
+{% endmacro %}
+
+{% macro file_btn(input_id, disabled, image_only) %}
+	<label class="btn btn-secondary format m-0" for="{{input_id}}" {% if g.is_tor or disabled %}disabled{% endif %}>
+		<span class="fas fa-{% if image_only %}image{% else %}file{% endif %}"></span>
+		<input autocomplete="off" id="{{input_id}}" accept="image/*{% if not image_only %}, video/*, audio/*{% endif %}" type="file" multiple="multiple" name="file" {% if g.is_tor or disabled %}disabled{% endif %} hidden>
+	</label>
 {% endmacro %}
 
 {% macro comment_reply_box(target_fullname, html_id, wrapper_css_classes="", subwrapper_css_classes="", hide="", enable_cancel_button=true) %}
@@ -126,7 +138,11 @@
 
 			<div class="text-small font-weight-bold mt-1" id="charcount-{{target_fullname}}" style="right: 1rem; bottom: 0.5rem; z-index: 3"></div>
 
-			{{file_input('file-upload-reply-' ~ target_fullname, 'reply-form-body-' ~ target_fullname, False)}}
+			<div class="format-btns">
+				{{emoji_btn('reply-form-body-' ~ target_fullname)}}
+				{{gif_btn('reply-form-body-' ~ target_fullname)}}
+				{{file_btn('file-upload-reply-' ~ target_fullname)}}
+			</div>
 
 			<button type="button" id="save-reply-to-{{target_fullname}}" form="reply-to-{{target_fullname}}" class="btn btn-primary text-whitebtn ml-auto fl-r handle_disabled disabled" disabled data-nonce="{{g.nonce}}" data-onclick="post_comment('{{target_fullname}}', '{{hide}}')">Comment</button>
 
@@ -162,27 +178,26 @@
 {% endmacro %}
 
 {% macro ghost_box(text1, text2, mode, extra_css) %}
-{# TODO: use in saved (search for "fa-ghost" in source) #}
-{% if mode == 1 %}
-<div id="ghost-town-box" class="text-center p-6"{% if extra_css %} style="{{extra_css}}"{% endif %}>
-	<span class="fa-stack fa-2x text-muted mb-4">
-		<i class="fas fa-square text-gray-500 opacity-25 fa-stack-2x"></i>
-		<i class="fas text-gray-500 fa-ghost fa-stack-1x text-lg"></i>
-	</span>
-	{% if text1 %}
-	<h5>{{text1|safe}}</h5>
-	<p></p>
+	{% if mode == 1 %}
+		<div id="ghost-town-box" class="text-center p-6"{% if extra_css %} style="{{extra_css}}"{% endif %}>
+			<span class="fa-stack fa-2x text-muted mb-4">
+				<i class="fas fa-square text-gray-500 opacity-25 fa-stack-2x"></i>
+				<i class="fas text-gray-500 fa-ghost fa-stack-1x text-lg"></i>
+			</span>
+			{% if text1 %}
+				<h5>{{text1|safe}}</h5>
+				<p></p>
+			{% endif %}
+			{% if text2 %}
+				<p class="text-muted">{{text2|safe}}</p>
+			{% endif %}
+		</div>
+	{% elif mode == 2 %}
+		<div id="ghost-town-box" class="text-center border-md rounded p-6"{% if extra_css %} style="{{extra_css}}"{% endif %}>
+			<i class="fas fa-ghost text-gray-500 mb-3" style="font-size: 3.5rem"></i>
+			<p class="font-weight-bold text-gray-500 mb-0">{{text1|safe}}</p>
+		</div>
 	{% endif %}
-	{% if text2 %}
-	<p class="text-muted">{{text2|safe}}</p>
-	{% endif %}
-</div>
-{% elif mode == 2 %}
-<div id="ghost-town-box" class="text-center border-md rounded p-6"{% if extra_css %} style="{{extra_css}}"{% endif %}>
-	<i class="fas fa-ghost text-gray-500 mb-3" style="font-size: 3.5rem"></i>
-	<p class="font-weight-bold text-gray-500 mb-0">{{text1|safe}}</p>
-</div>
-{% endif %}
 {% endmacro %}
 
 {% macro alert(msg, error=false) %}
@@ -202,7 +217,7 @@
 	<ul class="mt-1 mb-0" style="padding-left:20px;word-wrap:break-word">
 		{% for r in i.filtered_reports(v) %}
 			<li>
-				{% if v and v.admin_level >= PERMS['USER_SHADOWBAN'] and r.user.shadowbanned %}
+				{% if v and v.can_see_shadowbanned and r.user.shadowbanned %}
 					<i class="fas fa-user-times text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title='Shadowbanned by @{{r.user.shadowbanner}} for "{{r.user.ban_reason}}"' data-bs-html="true"></i>
 				{% endif %}
 				<a style="font-weight:bold" href="{{r.user.url}}">{{r.user.username}}</a>
@@ -326,21 +341,16 @@
 			<span id="typing-indicator"></span>
 			<span id="loading-indicator" class="d-none"></span>
 		</div>
-		<span class="my-auto">
-			<i class="btn btn-secondary fas fa-smile-beam" style="font-size:1.3rem!important" data-nonce="{{g.nonce}}" data-onclick="loadEmojis('input-text')" data-bs-toggle="modal" data-bs-target="#emojiModal"></i>
-		</span>
 
-		<span class="my-auto ml-1">
-			<label class="btn btn-secondary format mb-0">
-				<div class="mr-3" style="font-size:12px"><i class="fas fa-image" style="font-size:1.3rem!important"></i></div>
-				<input autocomplete="off" id="file" accept="image/*" type="file" name="file" {% if g.is_tor %}disabled{% endif %} hidden>
-			</label>
-		</span>
+		{{emoji_btn('input-text-chat')}}
+		{{gif_btn('input-text-chat')}}
+		{{file_btn('file', False, True)}}
 
-		<textarea id="input-text" minlength="1" maxlength="{% if SITE == 'rdrama.net' %}200{% else %}1000{% endif %}" {% if g.browser in ("iphone","mac") %}style="font-size:16px!important"{% endif %} class="file-ta form-control" placeholder="Message" autocomplete="off" autofocus rows="1"></textarea>
+		<textarea id="input-text-chat" minlength="1" maxlength="{% if SITE == 'rdrama.net' %}200{% else %}1000{% endif %}" {% if g.browser in ("iphone","mac") %}style="font-size:16px!important"{% endif %} class="file-ta form-control ml-2" placeholder="Message" autocomplete="off" autofocus rows="1"></textarea>
 
-		<i id="chatsend" data-nonce="{{g.nonce}}" data-onclick="send()" class="btn btn-secondary fas fa-reply ml-3 my-auto" style="transform:rotateY(180deg);font-size:1.3rem!important"></i>
+		<i id="chatsend" data-nonce="{{g.nonce}}" data-onclick="send()" class="btn btn-secondary fas fa-reply ml-1 my-auto" style="transform:rotateY(180deg)"></i>
 	</div>
+	<div id="ghostdiv-chat" class="ghostdiv" style="display: none"><span></span></div>
 </div>
 {% endmacro %}
 
@@ -370,14 +380,19 @@
 	</div>
 {% endmacro %}
 
-{% macro sorting_buttons(sorts) %}
+{% macro sorting_buttons(sorts, hot_allowed) %}
 	<div class="dropdown dropdown-actions">
 		<button type="button" class="btn btn-secondary dropdown-toggle" id="dropdownMenuButton2" data-bs-toggle="dropdown">
 			<i class="fas fa-{{sorts[sort]}} mr-1"></i>
 			{{sort | capitalize}}
 		</button>
 		<div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px">
-			{% for new_sort, icon in sorts.items() %}
+			{% set sorts = sorts.items()|list %}
+			{% if not hot_allowed %}
+				{% set sorts = sorts[1:] %}
+			{% endif %}
+
+			{% for new_sort, icon in sorts %}
 				{% if sort != new_sort %}
 					<a class="dropdown-item" href="{{'sort'|change_arg(new_sort, request.full_path)|safe}}">
 						<i class="fas fa-{{icon}} mr-2"></i>

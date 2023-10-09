@@ -43,28 +43,20 @@ title_regex = re.compile("[^\w ]", flags=re.A)
 controversial_regex = re.compile('https:\/\/old\.reddit\.com/r/\w{2,20}\/comments\/[\w\-.#&/=\?@%+]{5,250}', flags=re.A)
 
 spoiler_regex = re.compile('\|\|(.+?)\|\|' + NOT_IN_CODE_OR_LINKS, flags=re.A)
-sub_regex = re.compile('(?<![\w/])\/?([hH]\/\w{3,25})' + NOT_IN_CODE_OR_LINKS, flags=re.A)
+hole_mention_regex = re.compile('(?<![\w/])\/?([hH]\/\w{3,25})' + NOT_IN_CODE_OR_LINKS, flags=re.A)
 
 strikethrough_regex = re.compile('(^|\s|>|")~{1,2}([^~]+)~{1,2}' + NOT_IN_CODE_OR_LINKS, flags=re.A)
 
 mute_regex = re.compile("\/mute @?([\w-]{1,30}) ([0-9]+)", flags=re.A|re.I)
 
 emoji_regex = re.compile(f"<p>\s*(:[!#@\w\-]{{1,72}}:\s*)+<\/p>", flags=re.A)
-emoji_regex2 = re.compile(f'(?<!"):([!#@\w\-]{{1,72}}?):(?!([^<]*<\/(code|pre)>|[^`]*`))', flags=re.A)
+emoji_regex2 = re.compile(f'(?<!"):([!#@\w\-]{{1,72}}?):(?![^<]*<\/(code|pre)>)', flags=re.A)
 
 marseyfx_emoji_regex = re.compile(':[\w#!].{0,98}?[^\\\\]:', flags=re.A)
 
 snappy_url_regex = re.compile('<a href="(https?:\/\/.+?)".*?>(.+?)<\/a>', flags=re.A)
 
 email_regex = re.compile('[A-Za-z0-9._%+-]{1,64}@[A-Za-z0-9.-]{2,63}\.[A-Za-z]{2,63}', flags=re.A)
-
-slur_regex = re.compile(f"<[^>]*>|{slur_single_words}", flags=re.I|re.A)
-slur_regex_title = re.compile(f"<[^>]*>|{slur_single_words.title()}", flags=re.A)
-slur_regex_upper = re.compile(f"<[^>]*>|{slur_single_words.upper()}", flags=re.A)
-
-profanity_regex = re.compile(f"<[^>]*>|{profanity_single_words}", flags=re.I|re.A)
-profanity_regex_title = re.compile(f"<[^>]*>|{profanity_single_words.title()}", flags=re.A)
-profanity_regex_upper = re.compile(f"<[^>]*>|{profanity_single_words.upper()}", flags=re.A)
 
 torture_regex = re.compile('(^|\s)(i|me)($|\s)', flags=re.I|re.A)
 torture_regex2 = re.compile("(^|\s)(i'm)($|\s)", flags=re.I|re.A)
@@ -152,65 +144,6 @@ pronouns_regex = re.compile("([a-z]{1,7})\/[a-z]{1,7}(\/[a-z]{1,7})?", flags=re.
 
 html_title_regex = re.compile("<title>(.{1,200})</title>", flags=re.I)
 
-def sub_matcher(match, upper=False, title=False, replace_with=SLURS_FOR_REPLACING):
-	group_num = 0
-	match_str = match.group(group_num)
-	if match_str.startswith('<'):
-		return match_str
-	else:
-		repl = replace_with[match_str.lower()]
-		if (not upper and not title) or "<img" in repl:
-			return repl
-		elif title:
-			return repl.title()
-		else:
-			return repl.upper()
-
-def sub_matcher_upper(match, replace_with=SLURS_FOR_REPLACING):
-	return sub_matcher(match, upper=True, replace_with=replace_with)
-
-
-# TODO: make censoring a bit better
-def sub_matcher_slurs(match, upper=False, title=False):
-	return sub_matcher(match, upper, title, replace_with=SLURS_FOR_REPLACING)
-
-def sub_matcher_slurs_title(match):
-	return sub_matcher_slurs(match, title=True)
-
-def sub_matcher_slurs_upper(match):
-	return sub_matcher_slurs(match, upper=True)
-
-
-def sub_matcher_profanities(match, upper=False, title=False):
-	return sub_matcher(match, upper, title, replace_with=PROFANITIES_FOR_REPLACING)
-
-def sub_matcher_profanities_title(match):
-	return sub_matcher_profanities(match, title=True)
-
-def sub_matcher_profanities_upper(match):
-	return sub_matcher_profanities(match, upper=True)
-
-
-def replace_re(body, regex, regex_title, regex_upper, sub_func, sub_func_title, sub_func_upper):
-	body = regex_upper.sub(sub_func_upper, body)
-	body = regex_title.sub(sub_func_title, body)
-	return regex.sub(sub_func, body)
-
-def censor_slurs(body, logged_user):
-	if not body: return ""
-
-	if '<pre>' in body or '<code>' in body:
-			return body
-
-	if not logged_user or logged_user == 'chat' or logged_user.slurreplacer:
-		body = replace_re(body, slur_regex, slur_regex_title, slur_regex_upper, sub_matcher_slurs, sub_matcher_slurs_title, sub_matcher_slurs_upper)
-
-	if SITE_NAME == 'rDrama':
-		if not logged_user or logged_user == 'chat' or logged_user.profanityreplacer:
-			body = replace_re(body, profanity_regex, profanity_regex_title, profanity_regex_upper, sub_matcher_profanities, sub_matcher_profanities_title, sub_matcher_profanities_upper)
-
-	return body
-
 commands = {
 	"fortune": FORTUNE_REPLIES,
 	"factcheck": FACTCHECK_REPLIES,
@@ -234,7 +167,7 @@ def command_regex_matcher(match, upper=False):
 reason_regex_post = re.compile('(/post/[0-9]+)', flags=re.A)
 reason_regex_comment = re.compile('(/comment/[0-9]+)', flags=re.A)
 
-numbered_list_regex = re.compile('((\s|^)[0-9]+)\. ', flags=re.A)
+numbered_list_regex = re.compile('((\s|^)[0-9]+)[\.)] ', flags=re.A)
 
 image_link_regex = re.compile(f"https:\/\/(i\.)?{SITE}\/(chat_)?images\/[0-9]{{11,17}}r?\.webp", flags=re.A)
 
@@ -242,27 +175,86 @@ video_link_regex = re.compile(f"https://(videos\.)?{SITE}\/(videos\/)?[0-9a-zA-Z
 
 asset_image_link_regex = re.compile(f"https:\/\/(i\.)?{SITE}\/assets\/images\/[\w\/]+.webp(\?x=\d+)?", flags=re.A)
 
+search_regex_1 = re.compile(r'[\0():|&*!<>]', flags=re.A)
+search_regex_2 = re.compile(r"'", flags=re.A)
+search_regex_3 = re.compile(r'\s+', flags=re.A)
 
+###OWOIFY
+
+owo_word_regex = re.compile(r'[^\s]+', flags=re.A)
+owo_space_regex = re.compile(r'\s+', flags=re.A)
+owo_ignore_links_images_regex = re.compile(r'\]\(', flags=re.A)
+owo_ignore_emojis_regex = re.compile(r':[!#@a-z0-9_\-]+:', flags=re.I|re.A)
+owo_ignore_the_Regex = re.compile(r'\bthe\b', flags=re.I|re.A)
+
+
+###LinkifyFilter
+
+tlds = ( # Original gTLDs and ccTLDs
+	'ac','ad','ae','aero','af','ag','ai','al','am','an','ao','aq','ar','arpa','as','asia','at',
+	'au','aw','ax','az','ba','bb','bd','be','bf','bg','bh','bi','biz','bj','bm','bn','bo','br',
+	'bs','bt','bv','bw','by','bz','ca','cafe','cat','cc','cd','cf','cg','ch','ci','ck','cl',
+	'cm','cn','co','com','coop','cr','cu','cv','cx','cy','cz','de','dj','dk','dm','do','dz','ec',
+	'edu','ee','eg','er','es','et','eu','fi','fj','fk','fm','fo','fr','ga','gb','gd','ge','gf',
+	'gg','gh','gi','gl','gm','gn','gov','gp','gq','gr','gs','gt','gu','gw','gy','hk','hm','hn',
+	'hr','ht','hu','id','ie','il','im','in','info','int','io','iq','ir','is','it','je','jm','jo',
+	'jobs','jp','ke','kg','kh','ki','km','kn','kp','kr','kw','ky','kz','la','lb','lc','li','lk',
+	'lr','ls','lt','lu','lv','ly','ma','mc','md','me','mg','mh','mil','mk','ml','mm','mn','mo',
+	'mobi','mp','mq','mr','ms','mt','mu','museum','mv','mw','mx','my','mz','na','name',
+	'nc','ne','net','nf','ng','ni','nl','no','np','nr','nu','nz','om','org','pa','pe','pf','pg',
+	'ph','pk','pl','pm','pn','post','pr','pro','ps','pt','pw','py','qa','re','ro','rs','ru','rw',
+	'sa','sb','sc','sd','se','sg','sh','si','sj','sk','sl','sm','sn','so','social','sr','ss','st',
+	'su','sv','sx','sy','sz','tc','td','tel','tf','tg','th','tj','tk','tl','tm','tn','to','tp',
+	'tr','travel','tt','tv','tw','tz','ua','ug','uk','us','uy','uz','va','vc','ve','vg','vi','vn',
+	'vu','wf','ws','xn','xxx','ye','yt','yu','za','zm','zw',
+	# New gTLDs
+	'app','cleaning','club','dev','farm','florist','fun','gay','lgbt','life','lol',
+	'moe','mom','monster','new','news','online','pics','press','pub','site','blog',
+	'vip','win','world','wtf','xyz','video','host','art','media','wiki','tech',
+	'cooking','network','party','goog','markets','today','beauty','camp','top',
+	'red','city','quest','works','soy',
+	)
+
+protocols = ('http', 'https')
+
+sanitize_url_regex = re.compile(
+		r"""\(*# Match any opening parentheses.
+		\b(?<![@.])(?:(?:{0}):/{{0,3}}(?:(?:\w+:)?\w+@)?)?# http://
+		([\w-]+\.)+(?:{1})(?:\:[0-9]+)?(?!\.\w)\b# xx.yy.tld(:##)?
+		(?:[/?][^#\s\{{\}}\|\\\^\[\]`<>"]*)?
+			# /path/zz (excluding "unsafe" chars from RFC 1738,
+			# except for ~, which happens in practice)
+		(?:\#[^#\s\|\\\^\[\]`<>"]*)?
+			# #hash (excluding "unsafe" chars from RFC 1738,
+			# except for ~, which happens in practice)
+		""".format(
+			"|".join(sorted(protocols)), "|".join(sorted(tlds))
+		),
+		re.X | re.U,
+	)
 
 ###REDDIT
 
 #sanitizing
 reddit_mention_regex = re.compile('(?<![\w/])\/?(([ruRU])\/[\w-]{2,25})' + NOT_IN_CODE_OR_LINKS, flags=re.A)
-reddit_domain_regex = re.compile("(^|\s|\()https?:\/\/(reddit\.com|(?:(?:[A-z]{2})(?:-[A-z]{2})" "?|www|new)\.reddit\.com|libredd\.it|reddit\.lol)\/(u\/|user\/|(r\/\w{2,25}\/)?comments\/|r\/\w{2,25}\/?$)", flags=re.A)
+reddit_domain_regex = re.compile("(^|\s|\()https?:\/\/(reddit\.com|(?:(?:[A-z]{2})(?:-[A-z]{2})" "?|www|new)\.reddit\.com|libredd\.it|reddit\.lol)\/(u\/|(r\/\w{2,25}\/)?comments\/|r\/\w{2,25}\/?$)", flags=re.A)
 reddit_comment_link_regex = re.compile("https:\/\/old.reddit.com\/r\/\w{2,25}\/comments(\/\w+){3}\/?", flags=re.A)
 
 #gevent
 reddit_s_url_regex = re.compile("https:\/\/reddit.com\/[ru]\/\w{2,25}\/s\/\w{10}", flags=re.A)
+tiktok_t_url_regex = re.compile("https:\/\/(vm.)?tiktok.com(\/t)?\/\w{9}", flags=re.A)
 
 #run-time
-reddit_to_vreddit_regex = re.compile('(^|>|")https:\/\/old.reddit.com\/(r|u|user)\/', flags=re.A)
+reddit_to_vreddit_regex = re.compile('(^|>|")https:\/\/old.reddit.com\/([ru])\/', flags=re.A)
 
+#post search
+subreddit_name_regex = re.compile('\w{2,25}', flags=re.A)
 
 
 ###YOUTUBE
 
 #sanitize
-youtube_regex = re.compile('<a href="(https:\/\/youtube\.com\/watch\?v=[\w-]{11}[\w&;=]*)" rel="nofollow noopener" target="_blank">https:\/\/youtube\.com\/watch\?v=[\w-]{11}[\w&;=]*<\/a>' + NOT_IN_CODE_OR_LINKS, flags=re.I|re.A)
+youtube_regex = re.compile('<a href="(https:\/\/youtube\.com\/watch\?v=[\w-]{11}[\w&;=]*)" rel="nofollow noopener" target="_blank">(https:\/\/)?youtube\.com\/watch\?v=[\w-]{11}[\w&;=]*<\/a>' + NOT_IN_CODE_OR_LINKS, flags=re.I|re.A)
 
 #sanitize and song
 yt_id_regex = re.compile('[\w-]{11}', flags=re.A)

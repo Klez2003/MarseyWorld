@@ -7,7 +7,7 @@ from flask import g
 
 from files.classes import Base
 from files.helpers.lazy import lazy
-from files.helpers.regex import censor_slurs
+from files.helpers.slurs_and_profanities import censor_slurs_profanities
 
 class HatDef(Base):
 	__tablename__ = "hat_defs"
@@ -37,7 +37,7 @@ class HatDef(Base):
 
 	@lazy
 	def censored_description(self, v):
-		return censor_slurs(self.description, v)
+		return censor_slurs_profanities(self.description, v, True)
 
 	@property
 	@lazy

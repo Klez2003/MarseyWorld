@@ -1,61 +1,23 @@
 function formatDate(d) {
-	const hour = ("0" + d.getHours()).slice(-2);
-	const minute = ("0" + d.getMinutes()).slice(-2);
-	const second = ("0" + d.getSeconds()).slice(-2);
-	return hour + ":" + minute + ":" + second;
+	return d.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
 }
 
 for (const e of timestamps) {
 	e.innerHTML = formatDate(new Date(e.dataset.time*1000));
 };
 
-const ua=window.navigator.userAgent
-let socket
+const ua = window.navigator.userAgent
 
-socket=io()
+const socket = io()
 
 const chatline = document.getElementsByClassName('chat-line')[0]
 const box = document.getElementById('chat-window')
-const ta = document.getElementById('input-text')
-const icon = document.querySelector("link[rel~='icon']")
+const ta = document.getElementById('input-text-chat')
 
 const vid = document.getElementById('vid').value
-const site_name = document.getElementById('site_name').value
 const slurreplacer = document.getElementById('slurreplacer').value
 
-let notifs = 0;
-let focused = true;
 let is_typing = false;
-let alert=true;
-
-const page_title = document.getElementsByTagName('title')[0].innerHTML;
-
-function flash(){
-	let title = document.getElementsByTagName('title')[0]
-	if (notifs >= 1 && !focused){
-		title.innerHTML = `[+${notifs}] ${page_title}`;
-		if (alert) {
-			icon.href = `/i/${site_name}/alert.ico?v=3009`
-			alert=false;
-		}
-		else {
-			icon.href = `/i/${site_name}/icon.webp?x=6`
-			alert=true;
-		}
-		setTimeout(flash, 500)
-	}
-	else {
-		icon.href = `/i/${site_name}/icon.webp?x=6`
-		notifs = 0
-		title.innerHTML = page_title;
-	}
-
-	if (is_typing) {
-		is_typing = false
-		socket.emit('typing', false);
-	}
-}
-
 
 const blocked_user_ids = document.getElementById('blocked_user_ids').value.split(', ')
 
@@ -83,12 +45,12 @@ socket.on('speak', function(json) {
 
 	notifs = notifs + 1;
 	if (notifs == 1) {
-		setTimeout(flash, 500);
+		flash();
 	}
 
 	const users = document.getElementsByClassName('user_id');
 	const last_user = users[users.length-1].value;
-	const scrolled_down = (box.scrollHeight - box.scrollTop <= window.innerHeight)
+	const scrolled_down = (box.scrollHeight - box.scrollTop <= innerHeight)
 
 	if (last_user != json.user_id) {
 		document.getElementsByClassName('avatar-pic')[0].src = '/pp/' + json.user_id
@@ -133,7 +95,7 @@ socket.on('speak', function(json) {
 			}
 			document.getElementsByClassName('quotes')[0].classList.remove("d-none")
 			document.getElementsByClassName('QuotedMessageLink')[0].href = '#' + json.quotes
-			document.getElementsByClassName('QuotedUser')[0].innerHTML = quoted.parentElement.querySelector('.userlink').textContent
+			document.getElementsByClassName('QuotedUser')[0].innerHTML = quoted.parentElement.querySelector('.userlink').textContent.trim()
 			document.getElementsByClassName('QuotedMessage')[0].innerHTML = quoted.querySelector('.text').innerHTML
 		}
 	}
@@ -187,8 +149,10 @@ function send() {
 		document.getElementById('quotes_id').value = null;
 		oldfiles[ta.id] = new DataTransfer();
 		input.value = null;
-		input.previousElementSibling.innerHTML = '<i class="fas fa-image" style="font-size:1.3rem!important"></i>'
 
+		input.previousElementSibling.className  = "fas fa-image";
+		input.previousElementSibling.textContent = "";
+	
 		box.scrollTo(0, box.scrollHeight);
 		setTimeout(function () {
 			box.scrollTo(0, box.scrollHeight)
@@ -207,7 +171,7 @@ function quote(t) {
 	document.getElementById('QuotedMessage').innerHTML = text
 
 	const username = t.parentElement.parentElement.parentElement.parentElement.parentElement.getElementsByClassName('userlink')[0].textContent
-	document.getElementById('QuotedUser').innerHTML = username
+	document.getElementById('QuotedUser').innerHTML = username.trim()
 
 	const id = t.parentElement.parentElement.parentElement.parentElement.id
 	document.getElementById('quotes_id').value = id
@@ -217,29 +181,32 @@ function quote(t) {
 }
 
 ta.addEventListener("keydown", function(e) {
-	if (e.key === 'Enter' && !current_word) {
+	if (e.key === 'Enter' && !e.shiftKey && !current_word) {
 		e.preventDefault();
 		send();
 	}
 })
 
 socket.on('online', function(data){
-	document.getElementsByClassName('board-chat-count')[0].innerHTML = data[0].length
-	document.getElementById('chat-count-header-bar').innerHTML = data[0].length
+	const online_li =  data[0]
+	const muted_li = Object.keys(data[1])
+
+	document.getElementsByClassName('board-chat-count')[0].innerHTML = online_li.length
+	document.getElementById('chat-count-header-bar').innerHTML = online_li.length
 	const admin_level = parseInt(document.getElementById('admin_level').value)
 	let online = ''
 	let online2 = '<b>Users Online</b>'
-	for (const u of data[0])
+	for (const u of online_li)
 	{
 		let patron = ''
 		if (u[3])
 			patron = ` class="patron" style="background-color:#${u[2]}"`
 
 		online += `<li>`
-		if (admin_level && Object.keys(data[1]).includes(u[0].toLowerCase()))
+		if (admin_level && muted_li.includes(u[1].toLowerCase()))
 			online += '<b class="text-danger muted" data-bs-toggle="tooltip" title="Muted">X</b> '
-		online += `<a class="font-weight-bold" target="_blank" href="/@${u[0]}" style="color:#${u[2]}"><img loading="lazy" class="mr-1" src="/pp/${u[1]}"><span${patron}>${u[0]}</span></a></li>`
-		online2 += `<br>@${u[0]}`
+		online += `<a class="font-weight-bold" target="_blank" href="/@${u[1]}" style="color:#${u[2]}"><img loading="lazy" class="mr-1" src="/pp/${u[4]}"><span${patron}>${u[1]}</span></a></li>`
+		online2 += `<br>@${u[1]}`
 	}
 
 	const online_el = document.getElementById('online')
@@ -253,12 +220,6 @@ socket.on('online', function(data){
 	bs_trigger(document.getElementById('online3'))
 })
 
-addEventListener('blur', function(){
-	focused = false
-})
-addEventListener('focus', function(){
-	focused = true
-})
 
 let timer_id;
 function remove_typing() {
@@ -318,6 +279,10 @@ socket.on('delete', function(text) {
 	}
 })
 
+socket.on('refresh_chat', () => {
+	location.reload()
+})
+
 document.addEventListener('click', function (e) {
 	if (e.target.classList.contains('delconfirm')) {
 		e.target.nextElementSibling.classList.remove('d-none');
@@ -341,6 +306,7 @@ const input = document.getElementById('file')
 function handle_files() {
 	if (!input.files.length) return
 	const char_limit = screen_width >= 768 ? 50 : 5;
+	input.previousElementSibling.className  = "";
 	input.previousElementSibling.textContent = input.files[0].name.substr(0, char_limit);
 }
 
@@ -350,6 +316,12 @@ document.onpaste = function(event) {
 	input.files = structuredClone(event.clipboardData.files);
 	handle_files()
 }
+
+function send_hearbeat() {
+	socket.emit('heartbeat')
+}
+send_hearbeat()
+setInterval(send_hearbeat, 20000);
 
 box.scrollTo(0, box.scrollHeight)
 setTimeout(function () {

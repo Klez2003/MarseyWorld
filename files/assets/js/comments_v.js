@@ -83,16 +83,20 @@ function toggleReplyBox(t, id) {
 }
 
 function toggleEdit(id){
-	comment = document.getElementById("comment-text-"+id);
-	form = document.getElementById("comment-edit-"+id);
-	box = document.getElementById('comment-edit-body-'+id);
-	actions = document.getElementById('comment-' + id +'-actions');
+	const comment = document.getElementById("comment-text-"+id);
+	const form = document.getElementById("comment-edit-"+id);
+	const box = document.getElementById('comment-edit-body-'+id);
+	const actions = document.getElementById('comment-' + id +'-actions');
 
 	comment.classList.toggle("d-none");
 	form.classList.toggle("d-none");
 	actions.classList.toggle("d-none");
-	autoExpand(box);
-	markdown(box);
+
+	if (comment.classList.contains('d-none')) {
+		autoExpand(box);
+		markdown(box);
+		charLimit(box.id, 'charcount-edit-' + id)
+	}
 
 	close_inline_speed_emoji_modal();
 };
@@ -157,7 +161,7 @@ function post_reply(id) {
 		catch(e) {console.error(e)}
 		if (data && data["comment"]) {
 			const comments = document.getElementById('replies-of-c_' + id);
-			const comment = data["comment"].replace(/data-src/g, 'src').replace(/data-cfsrc/g, 'src').replace(/style="display:none;visibility:hidden;"/g, '').replace(/data-nonce=".*?"/g, `data-nonce="${nonce}"`);
+			const comment = data["comment"].replace(/data-src/g, 'src').replace(/data-cfsrc/g, 'src').replace(/style="display:none;visibility:hidden;"/g, '').replace(/data-nonce=".*?"/g, `data-nonce="${nonce}"`).replace(/ loading="lazy"/g, '');
 
 			comments.insertAdjacentHTML('beforeend', comment);
 
@@ -215,7 +219,8 @@ function comment_edit(id){
 		catch(e) {console.error(e)}
 		if (data && data["comment"]) {
 			commentForm=document.getElementById('comment-text-'+id);
-			commentForm.innerHTML = data["comment"].replace(/data-src/g, 'src').replace(/data-cfsrc/g, 'src').replace(/style="display:none;visibility:hidden;"/g, '').replace(/data-nonce=".*?"/g, `data-nonce="${nonce}"`)
+			commentForm.innerHTML = data["comment"].replace(/data-src/g, 'src').replace(/data-cfsrc/g, 'src').replace(/style="display:none;visibility:hidden;"/g, '').replace(/data-nonce=".*?"/g, `data-nonce="${nonce}"`).replace(/ loading="lazy"/g, '');
+
 			document.getElementById('cancel-edit-'+id).click()
 
 			register_new_elements(commentForm);
@@ -292,7 +297,7 @@ function post_comment(fullname, hide){
 			commentForm = document.getElementById(name);
 
 			let comments = document.getElementById('replies-of-' + fullname);
-			let comment = data["comment"].replace(/data-src/g, 'src').replace(/data-cfsrc/g, 'src').replace(/style="display:none;visibility:hidden;"/g, '').replace(/data-nonce=".*?"/g, `data-nonce="${nonce}"`);
+			let comment = data["comment"].replace(/data-src/g, 'src').replace(/data-cfsrc/g, 'src').replace(/style="display:none;visibility:hidden;"/g, '').replace(/data-nonce=".*?"/g, `data-nonce="${nonce}"`).replace(/ loading="lazy"/g, '');
 
 			comments.insertAdjacentHTML('afterbegin', comment);
 
@@ -329,44 +334,6 @@ function post_comment(fullname, hide){
 	xhr.send(form)
 }
 
-function handle_action(type, cid, thing) {
-	const btns = document.getElementsByClassName(`action-${cid}`)
-	for (const btn of btns)
-	{
-		btn.disabled = true;
-		btn.classList.add('disabled');
-	}
-
-	const form = new FormData();
-	form.append('formkey', formkey());
-	form.append('comment_id', cid);
-	form.append('thing', thing);
-
-	const xhr = new XMLHttpRequest();
-	xhr.open("post", `/${type}/${cid}`);
-	xhr.setRequestHeader('xhr', 'xhr');
-
-
-
-	xhr.onload=function(){
-		let data
-		try {data = JSON.parse(xhr.response)}
-		catch(e) {console.error(e)}
-		if (data && data["response"]) {
-			const element = document.getElementById(`${type}-${cid}`);
-			element.innerHTML = data["response"].replace(/data-nonce=".*?"/g, `data-nonce="${nonce}"`)
-			register_new_elements(element)
-		} else {
-			showToast(false, getMessageFromJsonData(false, data));
-		}
-		for (const btn of btns)
-		{
-			btn.disabled = false;
-			btn.classList.remove('disabled');
-		}
-	}
-	xhr.send(form)
-}
 
 function restore_reply_buttons(fullname) {
 	const reply_buttons = [document.getElementById(`toggle-reply-${fullname}`)]

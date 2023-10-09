@@ -53,13 +53,13 @@
 				{{0 if u.shadowbanned else u.real_comment_count(v)}}
 					Comments
 			{%- endif -%}
-			{% if u.bio and u.can_see_my_shit %}
+			{% if u.bio and can_see(v, u) %}
 				- {{u.bio}}
 			{% endif %}
 		{% endset %}
-	{% elif sub %}
+	{% elif hole %}
 		{% set title, description =
-		'/h/'+sub.name, sub.sidebar if sub.sidebar %}
+		'/h/'+hole.name, hole.sidebar if hole.sidebar %}
 	{% endif %}
 
 	<link rel="icon" type="image/webp" href="/icon.webp?x=6">
@@ -105,9 +105,15 @@
 		{% endif %}
 		{% if include_user_css and not IS_FISTMAS() %}
 			{% if v.theme == 'classic_dark' %}
-				<link rel="stylesheet" href="{{('css/classic.css') | asset}}">
+				<link rel="stylesheet" href="{{('css/themes/classic.css') | asset}}">
 			{% endif %}
-			<link rel="stylesheet" href="{{('css/'~v.theme~'.css') | asset}}">
+
+			{% if IS_HOMOWEEN() %}
+				<link rel="stylesheet" href="{{('css/themes/midnight.css') | asset}}">
+			{% else %}
+				<link rel="stylesheet" href="{{('css/themes/'~v.theme~'.css') | asset}}">
+			{% endif %}
+
 			{% if (v.css or v.background) and not request.path.startswith('/settings') %}
 				<link rel="stylesheet" href="/@{{v.username}}/css">
 			{% endif %}
@@ -115,20 +121,26 @@
 				<link rel="stylesheet" href="{{('css/30409f.css') | asset}}">
 			{% endif %}
 		{% else %}
-			<link rel="stylesheet" href="{{('css/'~DEFAULT_THEME~'.css') | asset}}">
+			<link rel="stylesheet" href="{{('css/themes/'~DEFAULT_THEME~'.css') | asset}}">
 		{% endif %}
 	{% else %}
-		<link rel="stylesheet" href="{{('css/'~DEFAULT_THEME~'.css') | asset}}">
+		<link rel="stylesheet" href="{{('css/themes/'~DEFAULT_THEME~'.css') | asset}}">
 	{% endif %}
 
-	<link rel="stylesheet" href="{{'css/awards.css' | asset}}">
+	{% if not (v and v.poor) %}
+		<link rel="stylesheet" href="{{'css/awards.css' | asset}}">
+	{% endif %}
 
-	{% if sub and sub.css and not request.path.endswith('settings') and not request.values.get('nocss') %}
-		<link rel="stylesheet" href="/h/{{sub}}/css">
+	{% if IS_HOMOWEEN() %}
+		<link rel="stylesheet" href="{{'events/homoween/css/main_homoween.css' | asset}}">
+	{% endif %}
+
+	{% if hole and hole.css and not request.path.endswith('settings') and not request.values.get('nocss') %}
+		<link rel="stylesheet" href="/h/{{hole}}/css">
 	{% endif %}
 
 	{% if IS_FISTMAS() %}
-		<link rel="stylesheet" href="{{'events/fistmas/css/fistmas.css' | asset}}">
+		<link rel="stylesheet" href="{{'events/fistmas/css/main_fistmas.css' | asset}}">
 
 		{% if v and v.theme in LIGHT_THEMES %}
 			<link rel="stylesheet" href="{{'events/fistmas/css/themes/light.css'| asset}}">
@@ -140,13 +152,7 @@
 
 {% macro stylesheets_lower() %}
 	{% if not (request.path.startswith('/@') and u) %}
-		{% if SITE_NAME == 'rDrama' and v and v.chud %}
-			{% set background = '/i/backgrounds/anime/1.webp?x=6' %}
-		{% elif v and v.background %}
-			{% set background = v.background %}
-		{% endif %}
-
-		{% if background %}
+		{% if (v and v.background) or (SITE_NAME == 'rDrama' and v and v.chud) %}
 			<link rel="stylesheet" href="{{('css/transparent.css') | asset}}">
 		{% endif %}
 	{% endif %}

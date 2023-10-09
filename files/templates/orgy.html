@@ -1,5 +1,5 @@
 {%- extends 'root.html' -%}
-{% block pagetitle -%}Orgy{%- endblock %}
+{% block pagetitle -%}Chat{%- endblock %}
 {% block pagetype %}chat{% endblock %}
 {% block body_attributes %}class="has_header"{% endblock %}
 {% block body %}
@@ -8,15 +8,16 @@
 	{% include "header.html" %}
 	{% include "modals/expanded_image.html" %}
 	{% include "modals/emoji.html" %}
+	{% include "modals/gif.html" %}
 	{% include "util/macros.html" %}
 	{% set vlink = '<a href="/id/' ~ v.id ~ '"' %}
 	<div class="orgy-top-container">
-		<div id="orgy-col" class="col text-left pt-md-3">
-			<h2 id="orgy-title">{{orgy.title}}</h1>
+		<div id="orgy-col" class="col text-left px-md-2">
+			<h3 id="orgy-title" class="mt-2 mb-3">{{orgy.title}}</h1>
 			<div>
 				<p id="orgy-file-container" class="resizable">
 					{% if orgy.type == 'youtube' %}
-						<lite-youtube videoid="{{orgy.data}}" params="autoplay=1&modestbranding=1"/>
+						<iframe style="border: none" sandbox="allow-scripts allow-same-origin allow-popups allow-presentation allow-popups-to-escape-sandbox" title="Play" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen src="https://www.youtube.com/embed/{{orgy.data}}?autoplay=1&modestbranding=1&autoplay=1"></iframe>
 					{% elif orgy.type == 'rumble' %}
 						<iframe src="{{orgy.data}}" frameborder="0" allowfullscreen></iframe>
 					{% elif orgy.type == 'twitch' %}
@@ -24,7 +25,7 @@
 					{% elif orgy.type == 'file' %}
 						<meta name="referrer" content="strict-origin-when-cross-origin">
 						<video id="orgy-file" data-created_utc="{{orgy.real_created_utc}}" controls preload="none" src="{{orgy.data}}">
-							<track label="English" kind="subtitles" srclang="en" src="/assets/subtitles.vtt?v={{subtitles_hash}}" default>
+							<track label="English" kind="subtitles" srclang="en" src="/assets/subtitles.vtt?x={{subtitles_hash}}" default>
 						</video>
 						<video id="break-file" class="d-none" controls preload="none" src="/assets/break.mp4" data-run="0"></video>
 						<script defer src="{{'js/orgy_file.js' | asset}}"></script>
@@ -48,12 +49,12 @@
 	</div>
 
 	<input id="vid" hidden value="{{v.id}}">
-	<input id="site_name" hidden value="{{SITE_NAME}}">
 	<input id="slurreplacer" hidden value="{{v.slurreplacer}}">
 	<input id="admin_level" hidden value="{{v.admin_level}}">
 	<input id="blocked_user_ids" hidden value="{{(v.userblocks|string)[1:-1]}}">
 	<script defer src="{{'js/vendor/socketio.js' | asset}}"></script>
-	<script defer src="{{'js/chat.js' | asset}}"></script>
+	<script defer src="{{'js/flash.js' | asset}}"></script>
 	<script defer src="{{'js/vendor/lozad.js' | asset}}"></script>
 	<script defer src="{{'js/vendor/lite-youtube.js' | asset}}"></script>
+	<script defer src="{{'js/chat.js' | asset}}"></script>
 {% endblock %}

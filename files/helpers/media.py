@@ -4,6 +4,7 @@ import time
 import requests
 from shutil import copyfile
 
+import ffmpeg
 import gevent
 import imagehash
 from flask import abort, g, has_request_context, request
@@ -17,9 +18,6 @@ from files.helpers.cloudflare import purge_files_in_cloudflare_cache
 from files.helpers.settings import get_setting
 
 from .config.const import *
-
-def subprocess_run(params):
-	subprocess.run(params, check=True, timeout=30)
 
 def remove_media_using_link(path):
 	if SITE in path:
@@ -74,7 +72,7 @@ def process_files(files, v, body, is_dm=False, dm_user=None):
 	return body.replace('\n ', '\n')
 
 
-def process_audio(file, v, old):
+def process_audio(file, v, old=None):
 	if not old:
 		old = f'/audio/{time.time()}'.replace('.','')
 
@@ -92,7 +90,7 @@ def process_audio(file, v, old):
 	new = old + extension
 
 	try:
-		subprocess_run(["ffmpeg", "-loglevel", "quiet", "-y", "-i", old, "-map_metadata", "-1", "-c:a", "copy", new])
+		ffmpeg.input(old).output(new, loglevel="quiet", map_metadata=-1, acodec="copy").run()
 	except:
 		os.remove(old)
 		if os.path.isfile(new):
@@ -115,7 +113,7 @@ def process_audio(file, v, old):
 def convert_to_mp4(old, new):
 	tmp = new.replace('.mp4', '-t.mp4')
 	try:
-		subprocess_run(["ffmpeg", "-loglevel", "quiet", "-y", "-threads:v", "1", "-i", old, "-map_metadata", "-1", tmp])
+		ffmpeg.input(old).output(tmp, loglevel="quiet", map_metadata=-1).run()
 	except:
 		os.remove(old)
 		if os.path.isfile(tmp):
@@ -143,19 +141,16 @@ def process_video(file, v):
 		os.remove(old)
 		abort(413, f"Max video size is {MAX_VIDEO_SIZE_MB} MB ({MAX_VIDEO_SIZE_MB_PATRON} MB for {patron}s)")
 
-	extension = guess_extension(file.content_type)
-	if not extension:
-		os.remove(old)
-		abort(400)
-	new = old + extension
+	new = f'{old}.mp4'
 
-	if extension != '.mp4':
-		new = new.replace(extension, '.mp4')
+	codec = ffmpeg.probe(old)['streams'][0]['codec_name']
+
+	if codec != 'h264':
 		copyfile(old, new)
 		gevent.spawn(convert_to_mp4, old, new)
 	else:
 		try:
-			subprocess_run(["ffmpeg", "-loglevel", "quiet", "-y", "-i", old, "-map_metadata", "-1", "-c:v", "copy", "-c:a", "copy", new])
+			ffmpeg.input(old).output(new, loglevel="quiet", map_metadata=-1, acodec="copy", vcodec="copy").run()
 		except:
 			os.remove(old)
 			if os.path.isfile(new):
@@ -177,7 +172,7 @@ def process_video(file, v):
 	else:
 		return f"{SITE_FULL}{new}"
 
-def process_image(filename, v, resize=0, trim=False, uploader_id=None, db=None):
+def process_image(filename, v, resize=0, trim=False, uploader_id=None):
 	# thumbnails are processed in a thread and not in the request context
 	# if an image is too large or webp conversion fails, it'll crash
 	# to avoid this, we'll simply return None instead
@@ -212,7 +207,7 @@ def process_image(filename, v, resize=0, trim=False, uploader_id=None, db=None):
 
 	params.append(filename)
 	try:
-		subprocess_run(params)
+		subprocess.run(params, check=True, timeout=30)
 	except:
 		os.remove(filename)
 		if has_request:
@@ -253,10 +248,8 @@ def process_image(filename, v, resize=0, trim=False, uploader_id=None, db=None):
 					os.remove(filename)
 					return None
 
-	db = db or g.db
-
-	media = db.query(Media).filter_by(filename=filename, kind='image').one_or_none()
-	if media: db.delete(media)
+	media = g.db.query(Media).filter_by(filename=filename, kind='image').one_or_none()
+	if media: g.db.delete(media)
 
 	media = Media(
 		kind='image',
@@ -264,7 +257,7 @@ def process_image(filename, v, resize=0, trim=False, uploader_id=None, db=None):
 		user_id=uploader_id or v.id,
 		size=os.stat(filename).st_size
 	)
-	db.add(media)
+	g.db.add(media)
 
 	if SITE == 'watchpeopledie.tv' and v and "dylan" in v.username.lower() and "hewitt" in v.username.lower():
 		gevent.spawn(delete_file, filename)

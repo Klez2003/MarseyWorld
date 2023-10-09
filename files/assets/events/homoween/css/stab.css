@@ -1,0 +1,3 @@
+canvas.sketch {
+	opacity: calc(0.1*{{ stab }});
+}

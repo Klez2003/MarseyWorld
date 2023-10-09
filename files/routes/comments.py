@@ -2,6 +2,7 @@ import os
 from collections import Counter
 from json import loads
 from shutil import copyfile
+import random
 
 import gevent
 
@@ -11,13 +12,11 @@ from files.helpers.alerts import *
 from files.helpers.cloudflare import purge_files_in_cloudflare_cache
 from files.helpers.config.const import *
 from files.helpers.get import *
-from files.helpers.marsify import marsify
 from files.helpers.media import *
-from files.helpers.owoify import owoify
-from files.helpers.sharpen import sharpen
 from files.helpers.regex import *
 from files.helpers.slots import *
 from files.helpers.treasure import *
+from files.helpers.can_see import *
 from files.routes.front import comment_idlist
 from files.routes.routehelpers import execute_shadowban_viewers_and_voters
 from files.routes.wrappers import *
@@ -39,15 +38,15 @@ def _mark_comment_as_read(cid, vid):
 
 @app.get("/comment/<int:cid>")
 @app.get("/post/<int:pid>/<anything>/<int:cid>")
-@app.get("/h/<sub>/comment/<int:cid>")
-@app.get("/h/<sub>/post/<int:pid>/<anything>/<int:cid>")
+@app.get("/h/<hole>/comment/<int:cid>")
+@app.get("/h/<hole>/post/<int:pid>/<anything>/<int:cid>")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @auth_desired_with_logingate
-def post_pid_comment_cid(cid, v, pid=None, anything=None, sub=None):
+def post_pid_comment_cid(cid, v, pid=None, anything=None, hole=None):
 
 	comment = get_comment(cid, v=v)
 
-	if not User.can_see(v, comment): abort(403)
+	if not can_see(v, comment): abort(403)
 
 	if comment.parent_post:
 		post = comment.parent_post
@@ -61,7 +60,7 @@ def post_pid_comment_cid(cid, v, pid=None, anything=None, sub=None):
 
 	post = get_post(post, v=v)
 
-	if not (v and v.client) and post.over_18 and not (v and v.over_18) and not session.get('over_18_cookies', 0) >= int(time.time()):
+	if not (v and v.client) and post.nsfw and not g.show_nsfw:
 		return render_template("errors/nsfw.html", v=v), 403
 
 	try: context = min(int(request.values.get("context", 8)), 8)
@@ -96,7 +95,7 @@ def post_pid_comment_cid(cid, v, pid=None, anything=None, sub=None):
 	else:
 		if post.is_banned and not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or post.author_id == v.id)): template = "post_banned.html"
 		else: template = "post.html"
-		return render_template(template, v=v, p=post, sort=sort, comment_info=comment_info, render_replies=True, sub=post.subr)
+		return render_template(template, v=v, p=post, sort=sort, comment_info=comment_info, render_replies=True, hole=post.hole_obj)
 
 @app.post("/comment")
 @limiter.limit('1/second', scope=rpath)
@@ -136,7 +135,7 @@ def comment(v):
 		parent_comment_id = parent.id
 		if parent.author_id == v.id: rts = True
 		if not v.can_post_in_ghost_threads and isinstance(post_target, Post) and post_target.ghost:
-			abort(403, f"You need {TRUESCORE_GHOST_MINIMUM} truescore to post in ghost threads")
+			abort(403, f"You need {TRUESCORE_MINIMUM} truescore to post in ghost threads")
 		ghost = parent.ghost
 	else: abort(404)
 
@@ -144,7 +143,7 @@ def comment(v):
 	parent_user = parent if isinstance(parent, User) else parent.author
 	posting_to_post = isinstance(post_target, Post)
 
-	if posting_to_post and not User.can_see(v, parent):
+	if posting_to_post and not can_see(v, parent):
 		abort(403)
 
 	if posting_to_post:
@@ -159,10 +158,10 @@ def comment(v):
 			abort(403, "You can't reply to deleted comments!")
 
 	if posting_to_post:
-		sub = post_target.sub
-		if sub and v.exiler_username(sub): abort(403, f"You're exiled from /h/{sub}")
-		if sub in {'furry','vampire','racist','femboy','edgy'} and not v.client and not v.house.lower().startswith(sub):
-			abort(403, f"You need to be a member of House {sub.capitalize()} to comment in /h/{sub}")
+		hole = post_target.hole
+		if hole and v.exiler_username(hole): abort(403, f"You're exiled from /h/{hole}")
+		if hole in {'furry','vampire','racist','femboy','edgy'} and not v.client and not v.house.lower().startswith(hole):
+			abort(403, f"You need to be a member of House {hole.capitalize()} to comment in /h/{hole}")
 
 	if level > COMMENT_MAX_DEPTH: abort(400, f"Max comment level is {COMMENT_MAX_DEPTH}")
 
@@ -252,13 +251,31 @@ def comment(v):
 			if body_for_checking in f.read().lower():
 				abort(400, "Snappy quote already exists!")
 			f.write('{[para]}\n' + body + '\n')
+			SNAPPY_QUOTES.append(body)
 
-	body_for_sanitize = body
-	if v.owoify: body_for_sanitize = owoify(body_for_sanitize)
-	if v.marsify and not v.chud: body_for_sanitize = marsify(body_for_sanitize)
-	if v.sharpen: body_for_sanitize = sharpen(body_for_sanitize)
+	is_bot = v.client is not None and v.id not in BOT_SYMBOL_HIDDEN
 
-	body_html = sanitize(body_for_sanitize, limit_pings=5, showmore=(not v.marseyawarded), count_emojis=not v.marsify, commenters_ping_post_id=commenters_ping_post_id)
+	chudded = v.chud and not (posting_to_post and post_target.hole == 'chudrama')
+
+	c = Comment(author_id=v.id,
+				parent_post=post_target.id if posting_to_post else None,
+				wall_user_id=post_target.id if not posting_to_post else None,
+				parent_comment_id=parent_comment_id,
+				level=level,
+				nsfw=post_target.nsfw if posting_to_post else False,
+				is_bot=is_bot,
+				app_id=v.client.application.id if v.client else None,
+				body=body,
+				ghost=ghost,
+				chudded=chudded,
+				rainbowed=bool(v.rainbow),
+				queened=bool(v.queen),
+				sharpened=bool(v.sharpen),
+			)
+
+	c.upvotes = 1
+
+	body_html = sanitize(body, limit_pings=5, showmore=(not v.marseyawarded), count_emojis=not v.marsify, commenters_ping_post_id=commenters_ping_post_id, obj=c, author=v)
 
 	if post_target.id not in ADMIGGER_THREADS and not (v.chud and v.chud_phrase in body.lower()):
 		existing = g.db.query(Comment.id).filter(
@@ -280,28 +297,8 @@ def comment(v):
 	if len(body_html) > COMMENT_BODY_HTML_LENGTH_LIMIT:
 		abort(400, "Comment too long!")
 
-	is_bot = v.client is not None and v.id not in BOT_SYMBOL_HIDDEN
+	c.body_html = body_html
 
-	chudded = v.chud and not (posting_to_post and post_target.sub == 'chudrama')
-
-	c = Comment(author_id=v.id,
-				parent_post=post_target.id if posting_to_post else None,
-				wall_user_id=post_target.id if not posting_to_post else None,
-				parent_comment_id=parent_comment_id,
-				level=level,
-				over_18=post_target.over_18 if posting_to_post else False,
-				is_bot=is_bot,
-				app_id=v.client.application.id if v.client else None,
-				body_html=body_html,
-				body=body,
-				ghost=ghost,
-				chudded=chudded,
-				rainbowed=bool(v.rainbow),
-				queened=bool(v.queen),
-				sharpened=bool(v.sharpen),
-			)
-
-	c.upvotes = 1
 	g.db.add(c)
 	g.db.flush()
 
@@ -318,7 +315,7 @@ def comment(v):
 		c.ban_reason = "AutoJanny"
 		g.db.add(c)
 
-		body = CHUD_MSG.format(username=v.username, type='comment', CHUD_PHRASE=v.chud_phrase)
+		body = random.choice(CHUD_MSGS).format(username=v.username, type='comment', CHUD_PHRASE=v.chud_phrase)
 		body_jannied_html = sanitize(body)
 
 		c_jannied = Comment(author_id=AUTOJANNY_ID,
@@ -351,38 +348,42 @@ def comment(v):
 	execute_longpostbot(c, level, body, body_html, post_target, v)
 	execute_zozbot(c, level, post_target, v)
 
-	if not v.shadowbanned:
-		notify_users = NOTIFY_USERS(body, v, ghost=c.ghost, log_cost=c, commenters_ping_post_id=commenters_ping_post_id)
+	notify_users = NOTIFY_USERS(body, v, ghost=c.ghost, log_cost=c, commenters_ping_post_id=commenters_ping_post_id)
 
-		if notify_users == 'everyone':
-			alert_everyone(c.id)
-		else:
-			push_notif(notify_users, f'New mention of you by @{c.author_name}', c.body, c)
+	if notify_users == 'everyone':
+		alert_everyone(c.id)
+	else:
+		push_notif(notify_users, f'New mention of you by @{c.author_name}', c.body, c)
 
-			if c.level == 1 and posting_to_post:
-				subscriber_ids = [x[0] for x in g.db.query(Subscription.user_id).filter(Subscription.post_id == post_target.id, Subscription.user_id != v.id)]
+		if c.level == 1 and posting_to_post:
+			subscriber_ids = [x[0] for x in g.db.query(Subscription.user_id).filter(Subscription.post_id == post_target.id, Subscription.user_id != v.id)]
 
-				notify_users.update(subscriber_ids)
+			notify_users.update(subscriber_ids)
 
-				push_notif(subscriber_ids, f'New comment in subscribed thread by @{c.author_name}', c.body, c)
+			push_notif(subscriber_ids, f'New comment in subscribed thread by @{c.author_name}', c.body, c)
 
-			if parent_user.id != v.id and notify_op:
-				notify_users.add(parent_user.id)
+		if parent_user.id != v.id and notify_op:
+			notify_users.add(parent_user.id)
 
-			for x in notify_users-BOT_IDs:
-				n = Notification(comment_id=c.id, user_id=x)
-				g.db.add(n)
+		notify_users -= BOT_IDs
 
-			if parent_user.id != v.id and notify_op:
-				if isinstance(parent, User):
-					title = f"New comment on your wall by @{c.author_name}"
-				else:
-					title = f'New reply by @{c.author_name}'
+		if v.shadowbanned:
+			notify_users = [x[0] for x in g.db.query(User.id).filter(User.id.in_(notify_users), User.admin_level >= PERMS['USER_SHADOWBAN']).all()]
 
-				if len(c.body) > PUSH_NOTIF_LIMIT: notifbody = c.body[:PUSH_NOTIF_LIMIT] + '...'
-				else: notifbody = c.body
+		for x in notify_users:
+			n = Notification(comment_id=c.id, user_id=x)
+			g.db.add(n)
 
-				push_notif({parent_user.id}, title, notifbody, c)
+		if parent_user.id != v.id and notify_op:
+			if isinstance(parent, User):
+				title = f"New comment on your wall by @{c.author_name}"
+			else:
+				title = f'New reply by @{c.author_name}'
+
+			if len(c.body) > PUSH_NOTIF_LIMIT: notifbody = c.body[:PUSH_NOTIF_LIMIT] + '...'
+			else: notifbody = c.body
+
+			push_notif({parent_user.id}, title, notifbody, c)
 
 	vote = CommentVote(user_id=v.id,
 						 comment_id=c.id,
@@ -422,6 +423,8 @@ def comment(v):
 		for sort in COMMENT_SORTS.keys():
 			cache.delete(f'post_{c.parent_post}_{sort}')
 
+	gevent.spawn(postprocess_comment, c.body, c.body_html, c.id)
+
 	if v.client: return c.json
 	return {"comment": render_template("comments.html", v=v, comments=[c])}
 
@@ -438,7 +441,10 @@ def delete_comment(cid, v):
 	c = get_comment(cid, v=v)
 	if not c.deleted_utc:
 		if c.author_id != v.id: abort(403)
+
 		c.deleted_utc = int(time.time())
+		c.stickied = None
+		c.stickied_utc = None
 		g.db.add(c)
 
 		if not (c.parent_post in ADMIGGER_THREADS and c.level == 1):
@@ -451,15 +457,11 @@ def delete_comment(cid, v):
 			for sort in COMMENT_SORTS.keys():
 				cache.delete(f'post_{c.parent_post}_{sort}')
 
-		if v.admin_level >= PERMS['USE_ADMIGGER_THREADS'] and c.parent_post == SNAPPY_THREAD and c.level == 1:
-			body = '\n{[para]}\n' + c.body + '\n'
-			with open(f"snappy_{SITE_NAME}.txt", "r") as f:
-				old_text = f.read()
-
-			if old_text.endswith(body):
-				new_text = old_text.split(body)[0] + '\n'
-				with open(f"snappy_{SITE_NAME}.txt", "w") as f:
-					f.write(new_text)
+		if v.admin_level >= PERMS['USE_ADMIGGER_THREADS'] and c.parent_post == SNAPPY_THREAD and c.level == 1 and c.body in SNAPPY_QUOTES:
+			SNAPPY_QUOTES.remove(c.body)
+			new_text = "\n{[para]}\n".join(SNAPPY_QUOTES)
+			with open(f"snappy_{SITE_NAME}.txt", "w") as f:
+				f.write(new_text + "\n")
 
 	return {"message": "Comment deleted!"}
 
@@ -532,6 +534,7 @@ def unpin_comment(cid, v):
 			abort(403, "You can only unpin comments you have pinned!")
 
 		comment.stickied = None
+		comment.stickied_utc = None
 		g.db.add(comment)
 
 		if v.id != comment.author_id:
@@ -607,34 +610,34 @@ def diff_words(answer, guess):
 def toggle_comment_nsfw(cid, v):
 	comment = get_comment(cid)
 
-	if comment.author_id != v.id and v.admin_level < PERMS['POST_COMMENT_MODERATION'] and not (comment.post.sub and v.mods(comment.post.sub)):
+	if comment.author_id != v.id and v.admin_level < PERMS['POST_COMMENT_MODERATION'] and not (comment.post.hole and v.mods(comment.post.hole)):
 		abort(403)
 
-	if comment.over_18 and v.is_permabanned:
+	if comment.nsfw and v.is_permabanned:
 		abort(403)
 
-	comment.over_18 = not comment.over_18
+	comment.nsfw = not comment.nsfw
 	g.db.add(comment)
 
 	if comment.author_id != v.id:
 		if v.admin_level >= PERMS['POST_COMMENT_MODERATION']:
 			ma = ModAction(
-					kind = "set_nsfw_comment" if comment.over_18 else "unset_nsfw_comment",
+					kind = "set_nsfw_comment" if comment.nsfw else "unset_nsfw_comment",
 					user_id = v.id,
 					target_comment_id = comment.id,
 				)
 			g.db.add(ma)
 		else:
-			ma = SubAction(
-					sub = comment.post.sub,
-					kind = "set_nsfw_comment" if comment.over_18 else "unset_nsfw_comment",
+			ma = HoleAction(
+					hole = comment.post.hole,
+					kind = "set_nsfw_comment" if comment.nsfw else "unset_nsfw_comment",
 					user_id = v.id,
 					target_comment_id = comment.id,
 				)
 			g.db.add(ma)
 
-	if comment.over_18: return {"message": "Comment has been marked as +18!"}
-	else: return {"message": "Comment has been unmarked as +18!"}
+	if comment.nsfw: return {"message": "Comment has been marked as NSFW!"}
+	else: return {"message": "Comment has been unmarked as NSFW!"}
 
 @app.post("/edit_comment/<int:cid>")
 @limiter.limit('1/second', scope=rpath)
@@ -662,34 +665,21 @@ def edit_comment(cid, v):
 		abort(400, "You have to actually type something!")
 
 	if body != c.body or request.files.get("file") and not g.is_tor:
-
-		if v.id == c.author_id:
-			if v.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
-				abort(403, "You have to type more than 280 characters!")
-			elif v.bird and len(body) > 140:
-				abort(403, "You have to type less than 140 characters!")
+		if c.author.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
+			abort(403, "You have to type more than 280 characters!")
+		elif c.author.bird and len(body) > 140:
+			abort(403, "You have to type less than 140 characters!")
 
 		execute_antispam_comment_check(body, v)
 
 		body = process_files(request.files, v, body)
 		body = body[:COMMENT_BODY_LENGTH_LIMIT].strip() # process_files potentially adds characters to the post
 
-		body_for_sanitize = body
-
-		if v.id == c.author_id:
-			if v.owoify:
-				body_for_sanitize = owoify(body_for_sanitize)
-			if v.marsify and not v.chud:
-				body_for_sanitize = marsify(body_for_sanitize)
-
-		if c.sharpened:
-			body_for_sanitize = sharpen(body_for_sanitize)
-
-		body_html = sanitize(body_for_sanitize, golden=False, limit_pings=5, showmore=(not v.marseyawarded), commenters_ping_post_id=c.parent_post)
+		body_html = sanitize(body, golden=False, limit_pings=5, showmore=(not v.marseyawarded), commenters_ping_post_id=c.parent_post, obj=c, author=c.author)
 
 		if len(body_html) > COMMENT_BODY_HTML_LENGTH_LIMIT: abort(400)
 
-		if v.id == c.author_id and v.marseyawarded and marseyaward_body_regex.search(body_html):
+		if c.author.marseyawarded and marseyaward_body_regex.search(body_html):
 			abort(403, "You can only type marseys!")
 
 		oldtext = c.body
@@ -701,7 +691,7 @@ def edit_comment(cid, v):
 		execute_blackjack(v, c, c.body, "comment")
 
 		if not complies_with_chud(c):
-			abort(403, f'You have to include "{v.chud_phrase}" in your comment!')
+			abort(403, f'You have to include "{c.author.chud_phrase}" in your comment!')
 
 		process_poll_options(v, c)
 
@@ -723,15 +713,23 @@ def edit_comment(cid, v):
 		if notify_users == 'everyone':
 			alert_everyone(c.id)
 		else:
-			for x in notify_users-BOT_IDs:
+			notify_users -= BOT_IDs
+
+			if v.shadowbanned:
+				notify_users = [x[0] for x in g.db.query(User.id).filter(User.id.in_(notify_users), User.admin_level >= PERMS['USER_SHADOWBAN']).all()]
+
+			for x in notify_users:
 				notif = g.db.query(Notification).filter_by(comment_id=c.id, user_id=x).one_or_none()
 				if not notif:
 					n = Notification(comment_id=c.id, user_id=x)
 					g.db.add(n)
 					push_notif({x}, f'New mention of you by @{c.author_name}', c.body, c)
 
+		g.db.flush()
 
-	g.db.flush()
+		gevent.spawn(postprocess_comment, c.body, c.body_html, c.id)
+
+
 	return {
 			"body": c.body,
 			"comment": c.realbody(v),
@@ -755,3 +753,29 @@ def commenters(v, pid, time):
 	users = sorted(users, key=lambda x: x[1])
 
 	return render_template('commenters.html', v=v, users=users)
+
+
+
+def postprocess_comment(comment_body, comment_body_html, cid):
+	with app.app_context():
+		li = list(reddit_s_url_regex.finditer(comment_body)) + list(tiktok_t_url_regex.finditer(comment_body))
+
+		if not li: return
+
+		for i in li:
+			old = i.group(0)
+			new = normalize_url_gevent(old)
+			comment_body = comment_body.replace(old, new)
+			comment_body_html = comment_body_html.replace(old, new)
+
+		g.db = db_session()
+
+		c = g.db.query(Comment).filter_by(id=cid).options(load_only(Comment.id)).one_or_none()
+		c.body = comment_body
+		c.body_html = comment_body_html
+		g.db.add(c)
+
+		g.db.commit()
+		g.db.close()
+
+	stdout.flush()

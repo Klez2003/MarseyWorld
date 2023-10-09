@@ -12,11 +12,50 @@ from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
 from files.helpers.config.const import *
+from files.helpers.config.awards import *
+from files.helpers.slurs_and_profanities import *
 from files.helpers.lazy import lazy
 from files.helpers.regex import *
 from files.helpers.sorting_and_time import *
 
 from .saves import CommentSaveRelationship
+
+def get_emoji_awards_emojis(obj, v, kind, OVER_18_EMOJIS):
+	if g.show_nsfw:
+		emojis = [x.note for x in obj.awards if x.kind == kind]
+	else:
+		emojis = [x.note for x in obj.awards if x.kind == kind and x.note not in OVER_18_EMOJIS]
+	return reversed(emojis[:20])
+
+def get_award_classes(obj, v, title=False):
+	classes = []
+
+	if not (v and v.poor):
+		if obj.award_count('glowie', v):
+			classes.append("glow")
+		if obj.award_count('gold', v):
+			classes.append("gold-text")
+		if obj.rainbowed:
+			classes.append("rainbow-text")
+		if obj.queened:
+			classes.append("queen")
+		if obj.sharpened:
+			classes.append(f"sharpen")
+			if not title: classes.append(f"chud-img sharpen-{obj.id_last_num}")
+
+	if obj.chudded:
+		classes.append("text-uppercase")
+		if not title: classes.append(f"chud-img chud-{obj.id_last_num}")
+
+	if IS_HOMOWEEN():
+		if obj.award_count('ectoplasm', v):
+			classes.append("ectoplasm")
+		if obj.award_count('candy-corn', v):
+			classes.append("candy-corn")
+		if obj.award_count('stab', v) and isinstance(obj, Comment):
+			classes.append("blood")
+
+	return ' '.join(classes)
 
 def normalize_urls_runtime(body, v):
 	if v and v.reddit != 'old.reddit.com':
@@ -94,13 +133,13 @@ def add_options(self, body, v):
 
 			if v:
 				if kind == 'post':
-					sub = self.sub
+					hole = self.hole
 				elif self.parent_post:
-					sub = self.post.sub
+					hole = self.post.hole
 				else:
-					sub = None
+					hole = None
 
-				if sub in {'furry','vampire','racist','femboy','edgy'} and not v.house.lower().startswith(sub):
+				if hole in {'furry','vampire','racist','femboy','edgy'} and not v.house.lower().startswith(hole):
 					disabled = True
 					option_body += ' disabled '
 
@@ -144,7 +183,7 @@ class Comment(Base):
 	level = Column(Integer, default=1)
 	parent_comment_id = Column(Integer, ForeignKey("comments.id"))
 	top_comment_id = Column(Integer)
-	over_18 = Column(Boolean, default=False)
+	nsfw = Column(Boolean, default=False)
 	is_bot = Column(Boolean, default=False)
 	stickied = Column(String)
 	stickied_utc = Column(Integer)
@@ -285,6 +324,8 @@ class Comment(Base):
 
 	@lazy
 	def award_count(self, kind, v):
+		if v and v.poor and kind not in FISTMAS_AWARDS + HOMOWEEN_AWARDS:
+			return 0
 		return len([x for x in self.awards if x.kind == kind])
 
 	@property
@@ -322,7 +363,7 @@ class Comment(Base):
 				'edited_utc': self.edited_utc or 0,
 				'is_banned': bool(self.is_banned),
 				'deleted_utc': self.deleted_utc,
-				'is_nsfw': self.over_18,
+				'is_nsfw': self.nsfw,
 				'permalink': f'/comment/{self.id}#context',
 				'stickied': self.stickied,
 				'distinguish_level': self.distinguish_level,
@@ -351,6 +392,8 @@ class Comment(Base):
 	@lazy
 	def total_poll_voted(self, v):
 		if v:
+			if v.id == self.author_id:
+				return True
 			for o in self.options:
 				if o.voted(v): return True
 		return False
@@ -365,8 +408,8 @@ class Comment(Base):
 		body = add_options(self, body, v)
 
 		if body:
-			if not (self.parent_post and self.post.sub == 'chudrama'):
-				body = censor_slurs(body, v)
+			if not (self.parent_post and self.post.hole == 'chudrama'):
+				body = censor_slurs_profanities(body, v)
 
 			body = normalize_urls_runtime(body, v)
 
@@ -381,9 +424,8 @@ class Comment(Base):
 
 		if not body: return ""
 
-		if not (self.parent_post and self.post.sub == 'chudrama'):
-			body = censor_slurs(body, v)
-			body = replace_train_html(body)
+		if not (self.parent_post and self.post.hole == 'chudrama'):
+			body = censor_slurs_profanities(body, v, True)
 
 		return body
 
@@ -395,7 +437,8 @@ class Comment(Base):
 
 		if comment_info: return False
 
-		if self.over_18 and not (v and v.over_18) and not (any(path.startswith(x) for x in ('/post/','/comment/','/h/')) and self.post.over_18): return True
+		if self.nsfw and not (any(path.startswith(x) for x in ('/post/','/comment/','/h/')) and self.post.nsfw) and not g.show_nsfw:
+			return True
 
 		if self.is_banned: return True
 
@@ -459,3 +502,11 @@ class Comment(Base):
 	@lazy
 	def num_savers(self):
 		return g.db.query(CommentSaveRelationship).filter_by(comment_id=self.id).count()
+
+	@lazy
+	def award_classes(self, v):
+		return get_award_classes(self, v)
+
+	@lazy
+	def emoji_awards_emojis(self, v, kind, OVER_18_EMOJIS):
+		return get_emoji_awards_emojis(self, v, kind, OVER_18_EMOJIS)

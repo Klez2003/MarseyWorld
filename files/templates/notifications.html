@@ -7,7 +7,7 @@
 {% endblock %}
 {% block content %}
 
-<div class="row border-bottom bg-white w-200 pr-0" style="overflow: visible">
+<div class="row border-bottom w-200 pr-0" style="overflow: visible">
 	<div class="col p-0 w-100">
 	<ul class="nav settings-nav" style="padding:0 0 0 20px" id="notifications--nav-list">
 	<li class="nav-item">
@@ -25,7 +25,7 @@
 		Posts {% if v.post_notifications_count %}<span class="font-weight-bold" style="color:#0000ff">({{v.post_notifications_count}})</span>{% endif %}
 		</a>
 	</li>
-	{% if v.admin_level >= PERMS['NOTIFICATIONS_MODERATOR_ACTIONS'] or v.moderated_subs %}
+	{% if v.admin_level >= PERMS['NOTIFICATIONS_MODERATOR_ACTIONS'] or v.moderated_holes %}
 		<li class="nav-item">
 			<a class="nav-link py-3{% if request.path == '/notifications/modactions' %} active{% endif %}" href="/notifications/modactions">
 			Modactions {% if v.modaction_notifications_count %}<span class="font-weight-bold" style="color:#1ad80d">({{v.modaction_notifications_count}})</span>{% endif %}
@@ -65,10 +65,10 @@
 			</div>
 		{% endwith %}
 	{% elif request.path == '/notifications/modactions' %}
-		<div class="rounded border bg-white mx-auto mt-4">
+		<div class="rounded border mx-auto mt-4">
 			{% for ma in notifications %}
 
-				<div id="action-{{ma.id}}" class="{% if ma.unread %}unread{% endif %} position-relative d-flex justify-content-between flex-wrap align-items-center h-min-16 px-3 py-3 bg-white{% if loop.index > 1 %} border-top{% endif %}">
+				<div id="action-{{ma.id}}" class="{% if ma.unread %}unread{% endif %} position-relative d-flex justify-content-between flex-wrap align-items-center h-min-16 px-3 py-3 {% if loop.index > 1 %} border-top{% endif %}">
 
 				<div class="d-flex flex-grow-1 align-items-center">
 					<div class="d-flex align-items-center justify-content-center {{ma.color}} mr-3 rounded-lg flex-shrink-0" style="width: 32px;height: 32px"><i class="far text-center {{ma.icon}} text-lg text-white fa-fw"></i></div>
@@ -83,8 +83,8 @@
 						</span>
 						<div class="text-muted pl-3">
 							<div>
-								{% if ma.sub %}
-									<a href="/h/{{ma.sub}}">/h/{{ma.sub}}</a>
+								{% if ma.hole %}
+									<a href="/h/{{ma.hole}}">/h/{{ma.hole}}</a>
 									 -
 								{% endif %}
 								<a href="{{ma.user.url}}" class="font-weight-bold text-black" target="_self">@{{ma.user.username}}</a>
@@ -139,6 +139,12 @@
 {% endif %}
 
 <link rel="stylesheet" href="{{('css/notifications.css') | asset}}">
+
+{% if request.path == '/notifications/messages' %}
+	<script defer src="{{'js/vendor/socketio.js' | asset}}"></script>
+	<script defer src="{{'js/flash.js' | asset}}"></script>
+	<script defer src="{{'js/messages.js' | asset}}"></script>
+{% endif %}
 
 {% endblock %}
 

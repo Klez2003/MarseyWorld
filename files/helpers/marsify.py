@@ -1,6 +1,6 @@
 from random import choice
 
-from .const_stateful import marsey_mappings
+from .const_stateful import MARSEY_MAPPINGS
 
 def marsify(text):
 	if '`' in text or '<pre>' in text or '<code>' in text:
@@ -10,7 +10,7 @@ def marsify(text):
 	for x in text.split(' '):
 		new_text += f'{x} '
 		x = x.lower()
-		if len(x) >= 5 and x in marsey_mappings:
-			marsey = choice(marsey_mappings[x])
+		if len(x) >= 5 and x in MARSEY_MAPPINGS:
+			marsey = choice(MARSEY_MAPPINGS[x])
 			new_text += f':{marsey}: '
 	return new_text

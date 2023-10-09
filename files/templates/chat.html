@@ -7,6 +7,7 @@
 	{% include "header.html" %}
 	{% include "modals/expanded_image.html" %}
 	{% include "modals/emoji.html" %}
+	{% include "modals/gif.html" %}
 	{% include "util/macros.html" %}
 	{% set vlink = '<a href="/id/' ~ v.id ~ '"' %}
 	<div class="container pb-4 pb-md-2">
@@ -31,12 +32,12 @@
 	</div>
 
 	<input id="vid" hidden value="{{v.id}}">
-	<input id="site_name" hidden value="{{SITE_NAME}}">
 	<input id="slurreplacer" hidden value="{{v.slurreplacer}}">
 	<input id="admin_level" hidden value="{{v.admin_level}}">
 	<input id="blocked_user_ids" hidden value="{{(v.userblocks|string)[1:-1]}}">
 	<script defer src="{{'js/vendor/socketio.js' | asset}}"></script>
-	<script defer src="{{'js/chat.js' | asset}}"></script>
+	<script defer src="{{'js/flash.js' | asset}}"></script>
 	<script defer src="{{'js/vendor/lozad.js' | asset}}"></script>
 	<script defer src="{{'js/vendor/lite-youtube.js' | asset}}"></script>
+	<script defer src="{{'js/chat.js' | asset}}"></script>
 {% endblock %}

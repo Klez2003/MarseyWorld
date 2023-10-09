@@ -20,6 +20,7 @@ from files.helpers.mail import *
 from files.helpers.sanitize import *
 from files.helpers.sorting_and_time import *
 from files.helpers.useractions import badge_grant
+from files.helpers.can_see import *
 from files.routes.routehelpers import check_for_alts, add_alt
 from files.routes.wrappers import *
 from files.routes.comments import _mark_comment_as_read
@@ -139,16 +140,15 @@ def transfer_currency(v, username, currency_name, apply_tax):
 	if not v.charge_account(currency_name, amount)[0]:
 		abort(400, f"You don't have enough {currency_name}")
 
-	if not v.shadowbanned:
-		if currency_name == 'marseybux':
-			receiver.pay_account('marseybux', amount - tax)
-		elif currency_name == 'coins':
-			receiver.pay_account('coins', amount - tax)
-		else:
-			raise ValueError(f"Invalid currency '{currency_name}' got when transferring {amount} from {v.id} to {receiver.id}")
-		if GIFT_NOTIF_ID: send_repeatable_notification(GIFT_NOTIF_ID, log_message)
-		send_repeatable_notification(receiver.id, notif_text)
-	g.db.add(v)
+	if currency_name == 'marseybux':
+		receiver.pay_account('marseybux', amount - tax)
+	elif currency_name == 'coins':
+		receiver.pay_account('coins', amount - tax)
+	else:
+		raise ValueError(f"Invalid currency '{currency_name}' got when transferring {amount} from {v.id} to {receiver.id}")
+	if GIFT_NOTIF_ID: send_repeatable_notification(GIFT_NOTIF_ID, log_message)
+	send_repeatable_notification(receiver.id, notif_text)
+
 	return {"message": f"{amount - tax} {currency_name} have been transferred to @{receiver.username}"}
 
 def upvoters_downvoters(v, username, username2, cls, vote_cls, vote_dir, template, standalone):
@@ -449,8 +449,7 @@ def downvoting(v, username):
 def suicide(v, username):
 	user = get_user(username)
 	suicide = f"Hi there,\n\nA [concerned user](/id/{v.id}) reached out to us about you.\n\nWhen you're in the middle of something painful, it may feel like you don't have a lot of options. But whatever you're going through, you deserve help and there are people who are here for you.\n\nThere are resources available in your area that are free, confidential, and available 24/7:\n\n- Call, Text, or Chat with Canada's [Crisis Services Canada](https://www.crisisservicescanada.ca/en/)\n\n- Call, Email, or Visit the UK's [Samaritans](https://www.samaritans.org/)\n\n- Text CHAT to America's [Crisis Text Line](https://www.crisistextline.org/) at 741741.\n\nIf you don't see a resource in your area above, the moderators keep a comprehensive list of resources and hotlines for people organized by location. Find Someone Now\n\nIf you think you may be depressed or struggling in another way, don't ignore it or brush it aside. Take yourself and your feelings seriously, and reach out to someone.\n\nIt may not feel like it, but you have options. There are people available to listen to you, and ways to move forward.\n\nYour fellow users care about you and there are people who want to help."
-	if not v.shadowbanned:
-		send_notification(user.id, suicide)
+	send_notification(user.id, suicide)
 	return {"message": f"Help message sent to @{user.username}"}
 
 
@@ -617,7 +616,7 @@ def unsubscribe(v, post_id):
 @limiter.limit("10/minute;20/hour;50/day", deduct_when=lambda response: response.status_code < 400)
 @limiter.limit("10/minute;20/hour;50/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def message2(v, username=None, id=None):
+def message(v, username=None, id=None):
 	if id:
 		user = get_account(id, v=v, include_blocks=True)
 	else:
@@ -667,7 +666,7 @@ def message2(v, username=None, id=None):
 	execute_under_siege(v, c, c.body_html, 'message')
 	c.top_comment_id = c.id
 
-	if user.id not in BOT_IDs:
+	if user.id not in BOT_IDs and can_see(user, v):
 		g.db.flush()
 		notif = g.db.query(Notification).filter_by(comment_id=c.id, user_id=user.id).one_or_none()
 		if not notif:
@@ -683,113 +682,6 @@ def message2(v, username=None, id=None):
 
 	return {"message": "Message sent!"}
 
-
-@app.post("/reply")
-@limiter.limit('1/second', scope=rpath)
-@limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit("6/minute;50/hour;200/day", deduct_when=lambda response: response.status_code < 400)
-@limiter.limit("6/minute;50/hour;200/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
-@auth_required
-def messagereply(v):
-	body = request.values.get("body", "")
-	body = body[:COMMENT_BODY_LENGTH_LIMIT].strip()
-
-	id = request.values.get("parent_id")
-	parent = get_comment(id, v=v)
-
-	if parent.parent_post or parent.wall_user_id:
-		abort(403, "You can only reply to messages!")
-
-	user_id = parent.author.id
-
-	if v.is_permabanned and parent.sentto != MODMAIL_ID:
-		abort(403, "You are permabanned and may not reply to messages!")
-	elif v.is_muted and parent.sentto == MODMAIL_ID:
-		abort(403, "You are forbidden from replying to modmail!")
-
-	if parent.sentto == MODMAIL_ID: user_id = None
-	elif v.id == user_id: user_id = parent.sentto
-
-	user = None
-
-	if user_id:
-		user = get_account(user_id, v=v, include_blocks=True)
-		if hasattr(user, 'is_blocking') and user.is_blocking:
-			abort(403, f"You're blocking @{user.username}")
-		elif (v.admin_level <= PERMS['MESSAGE_BLOCKED_USERS']
-				and hasattr(user, 'is_blocked') and user.is_blocked):
-			abort(403, f"You're blocked by @{user.username}")
-
-		if user.has_muted(v):
-			abort(403, f"@{user.username} is muting notifications from you, so messaging them is pointless!")
-
-	if not g.is_tor and get_setting("dm_media"):
-		body = process_files(request.files, v, body, is_dm=True, dm_user=user)
-		body = body[:COMMENT_BODY_LENGTH_LIMIT].strip() #process_files potentially adds characters to the post
-
-	if not body: abort(400, "Message is empty!")
-
-	body_html = sanitize(body)
-
-	if len(body_html) > COMMENT_BODY_HTML_LENGTH_LIMIT:
-		abort(400, "Message too long!")
-
-	if parent.sentto == MODMAIL_ID:
-		sentto = MODMAIL_ID
-	else:
-		sentto = user_id
-
-	c = Comment(author_id=v.id,
-							parent_post=None,
-							parent_comment_id=id,
-							top_comment_id=parent.top_comment_id,
-							level=parent.level + 1,
-							sentto=sentto,
-							body=body,
-							body_html=body_html,
-							)
-	g.db.add(c)
-	g.db.flush()
-	execute_blackjack(v, c, c.body_html, 'message')
-	execute_under_siege(v, c, c.body_html, 'message')
-
-	if user_id and user_id not in {v.id, MODMAIL_ID} | BOT_IDs:
-		notif = g.db.query(Notification).filter_by(comment_id=c.id, user_id=user_id).one_or_none()
-		if not notif:
-			notif = Notification(comment_id=c.id, user_id=user_id)
-			g.db.add(notif)
-
-		title = f'New message from @{c.author_name}'
-
-		url = f'{SITE_FULL}/notifications/messages'
-
-		push_notif({user_id}, title, body, url)
-
-	top_comment = c.top_comment
-
-	if top_comment.sentto == MODMAIL_ID:
-		admin_ids = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_MODMAIL'], User.id != v.id)]
-
-		if SITE == 'watchpeopledie.tv':
-			if AEVANN_ID in admin_ids:
-				admin_ids.remove(AEVANN_ID)
-			if 'delete' in top_comment.body.lower() and 'account' in top_comment.body.lower():
-				admin_ids.remove(15447)
-
-		if parent.author.id not in admin_ids + [v.id]:
-			admin_ids.append(parent.author.id)
-
-		#Don't delete unread notifications, so the replies don't get collapsed and they get highlighted
-		ids = [top_comment.id] + [x.id for x in top_comment.replies(sort="old")]
-		notifications = g.db.query(Notification).filter(Notification.read == True, Notification.comment_id.in_(ids), Notification.user_id.in_(admin_ids))
-		for n in notifications:
-			g.db.delete(n)
-
-		for admin in admin_ids:
-			notif = Notification(comment_id=c.id, user_id=admin)
-			g.db.add(notif)
-
-	return {"comment": render_template("comments.html", v=v, comments=[c])}
 
 @app.get("/2faqr/<secret>")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
@@ -817,20 +709,12 @@ def is_available(name):
 
 	name = name.strip()
 
-	if len(name)<3 or len(name)>25:
-		return {name:False}
+	if len(name) < 3 or len(name) > 25:
+		return {name: False}
 
-	name2 = name.replace('\\', '').replace('_','\_').replace('%','')
+	existing = get_user(name, graceful=True)
 
-	x = g.db.query(User).filter(
-		or_(
-			User.username.ilike(name2),
-			User.original_username.ilike(name2),
-			User.prelock_username.ilike(name2),
-			)
-		).one_or_none()
-
-	if x:
+	if existing:
 		return {name: False}
 	else:
 		return {name: True}
@@ -1008,7 +892,7 @@ def u_username_wall(v, username):
 
 	is_following = v and u.has_follower(v)
 
-	if v and v.id != u.id and v.admin_level < PERMS['USER_SHADOWBAN'] and not session.get("GLOBAL"):
+	if v and v.id != u.id and not v.can_see_shadowbanned and not session.get("GLOBAL"):
 		gevent.spawn(_add_profile_view, v.id, u.id)
 
 	page = get_page()
@@ -1044,7 +928,7 @@ def u_username_wall(v, username):
 def u_username_wall_comment(v, username, cid):
 	comment = get_comment(cid, v=v)
 	if not comment.wall_user_id: abort(400)
-	if not User.can_see(v, comment): abort(403)
+	if not can_see(v, comment): abort(403)
 
 	u = comment.wall_user
 
@@ -1055,7 +939,7 @@ def u_username_wall_comment(v, username, cid):
 
 	is_following = v and u.has_follower(v)
 
-	if v and v.id != u.id and v.admin_level < PERMS['USER_SHADOWBAN'] and not session.get("GLOBAL"):
+	if v and v.id != u.id and not v.can_see_shadowbanned and not session.get("GLOBAL"):
 		gevent.spawn(_add_profile_view, v.id, u.id)
 
 	if v and request.values.get("read"):
@@ -1086,7 +970,7 @@ def u_username_wall_comment(v, username, cid):
 def u_username(v, username):
 	u = get_user(username, v=v, include_blocks=True)
 	if username != u.username:
-		return redirect(SITE_FULL + request.full_path.replace(username, u.username))
+		return redirect(SITE_FULL + request.full_path.replace(f'/@{username}/posts', f'/@{u.username}/posts'))
 
 	if v and hasattr(u, 'is_blocking') and u.is_blocking:
 		if g.is_api_or_xhr:
@@ -1100,7 +984,7 @@ def u_username(v, username):
 			abort(403, f"@{u.username}'s userpage is private")
 		return render_template("userpage/private.html", u=u, v=v, is_following=is_following), 403
 
-	if v and v.id != u.id and v.admin_level < PERMS['USER_SHADOWBAN'] and not session.get("GLOBAL"):
+	if v and v.id != u.id and not v.can_see_shadowbanned and not session.get("GLOBAL"):
 		gevent.spawn(_add_profile_view, v.id, u.id)
 
 	sort = request.values.get("sort", "new")
@@ -1167,7 +1051,7 @@ def u_username_comments(username, v):
 			abort(403, f"@{u.username}'s userpage is private")
 		return render_template("userpage/private.html", u=u, v=v, is_following=is_following), 403
 
-	if v and v.id != u.id and v.admin_level < PERMS['USER_SHADOWBAN'] and not session.get("GLOBAL"):
+	if v and v.id != u.id and not v.can_see_shadowbanned and not session.get("GLOBAL"):
 		gevent.spawn(_add_profile_view, v.id, u.id)
 
 	page = get_page()
@@ -1260,8 +1144,7 @@ def follow_user(username, v):
 	target.stored_subscriber_count += 1
 	g.db.add(target)
 
-	if not v.shadowbanned:
-		send_notification(target.id, f"@{v.username} has followed you!")
+	send_notification(target.id, f"@{v.username} has followed you!")
 
 
 	return {"message": f"@{target.username} has been followed!"}
@@ -1284,8 +1167,7 @@ def unfollow_user(username, v):
 		target.stored_subscriber_count -= 1
 		g.db.add(target)
 
-		if not v.shadowbanned:
-			send_notification(target.id, f"@{v.username} has unfollowed you!")
+		send_notification(target.id, f"@{v.username} has unfollowed you!")
 
 	else:
 		abort(400, f"You're not even following @{target.username} to begin with!")
@@ -1418,14 +1300,14 @@ def fp(v, fp):
 	g.db.add(v)
 	return '', 204
 
-@app.post("/toggle_pins/<sub>/<sort>")
+@app.post("/toggle_pins/<hole>/<sort>")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-def toggle_pins(sub, sort):
+def toggle_pins(hole, sort):
 	if sort == 'hot': default = True
 	else: default = False
 
-	pins = session.get(f'{sub}_{sort}', default)
-	session[f'{sub}_{sort}'] = not pins
+	pins = session.get(f'{hole}_{sort}', default)
+	session[f'{hole}_{sort}'] = not pins
 
 	return {"message": "Pins toggled successfully!"}
 
@@ -1448,13 +1330,14 @@ def bid_list(v, bid):
 
 
 KOFI_TOKEN = environ.get("KOFI_TOKEN", "").strip()
+KOFI_TOKEN2 = environ.get("KOFI_TOKEN2", "").strip()
 if KOFI_TOKEN:
 	@app.post("/kofi")
 	@limiter.exempt
 	def kofi():
 		data = json.loads(request.values['data'])
 		verification_token = data['verification_token']
-		if verification_token != KOFI_TOKEN: abort(400)
+		if verification_token not in {KOFI_TOKEN, KOFI_TOKEN2}: abort(400)
 
 		print(request.headers.get('CF-Connecting-IP'), flush=True)
 		id = data['kofi_transaction_id']
@@ -1480,6 +1363,41 @@ if KOFI_TOKEN:
 		claim_rewards_all_users()
 
 		return ''
+
+
+@app.post("/bm")
+@limiter.exempt
+def bm():
+	print(1, 'fuck', flush=True)
+	print(2, request.headers.get('CF-Connecting-IP'), flush=True)
+	print(3, [x for x in request.form.items()], flush=True)
+	print(4, request.values['data'], flush=True)
+	data = json.loads(request.values['data'])
+	print(5, data, flush=True)
+
+	# id = data['kofi_transaction_id']
+	# created_utc = int(time.mktime(time.strptime(data['timestamp'].split('.')[0], "%Y-%m-%dT%H:%M:%SZ")))
+	# type = data['type']
+	# amount = 0
+	# try:
+	# 	amount = int(float(data['amount']))
+	# except:
+	# 	abort(400, 'invalid amount')
+	# email = data['email']
+
+	# transaction = Transaction(
+	# 	id=id,
+	# 	created_utc=created_utc,
+	# 	type=type,
+	# 	amount=amount,
+	# 	email=email
+	# )
+
+	# g.db.add(transaction)
+
+	# claim_rewards_all_users()
+
+	return ''
 
 @app.post("/gumroad")
 @limiter.exempt

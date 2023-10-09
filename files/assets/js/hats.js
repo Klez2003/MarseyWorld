@@ -2,7 +2,7 @@ function equip_hat(t, hat_id, hat_name) {
 	const profile_pic_hat = document.getElementById("profile-pic-35-hat");
 	function extra_actions(xhr) {
 		if (xhr.status == 200) {
-			profile_pic_hat.src = `/i/hats/${hat_name}.webp?x=6`
+			profile_pic_hat.src = `${SITE_FULL_IMAGES}/i/hats/${hat_name}.webp?x=6`
 			profile_pic_hat.classList.remove('d-none')
 		}
 	}

@@ -10,26 +10,28 @@
 {% block content %}
 		{% block form %}
 		<div class="submit-grid-view">
-			<form id="submitform" action="{% if SITE == 'watchpeopledie.tv' %}https://videos.watchpeopledie.tv{% elif sub %}/h/{{sub}}{% endif %}/submit" method="post" enctype="multipart/form-data" style="grid-column: 2" data-nonce="{{g.nonce}}" data-onsubmit="submit(this)">
+			<form id="submitform" action="{% if SITE == 'watchpeopledie.tv' %}https://videos.watchpeopledie.tv{% elif hole %}/h/{{hole}}{% endif %}/submit" method="post" enctype="multipart/form-data" style="grid-column: 2" data-nonce="{{g.nonce}}" data-onsubmit="submit(this)">
 				<div class="container pb-0">
 						<div class="row justify-content-center">
 								<div class="col px-3 py-0">
 										<h2 class="mt-3">Create a post</h2>
 										<div class="body">
 												<input hidden name="formkey" value="{{v|formkey}}">
-												<label class='mt-4' for="title">{{HOLE_NAME|capitalize}}</label>
+												<label class='mt-4' for="title">Hole</label>
 												<div class="input-group">
 													{%- set hole_placeholder = 'Required' if HOLE_REQUIRED else 'Optional' -%}
-													<input list="subs" autocomplete="off" id='sub' class="form-control" form="submitform" name="sub" data-nonce="{{g.nonce}}" data-oninput="savetext()" {% if sub %}value="{{sub}}"{% endif %} placeholder="{{hole_placeholder}}" {% if HOLE_REQUIRED %}required{% endif %}>
-													<datalist id="subs">
-														{% for s in SUBS %}
-															<option value="{{s}}"></option>
+													<input list="holes" autocomplete="off" id="hole" class="form-control" form="submitform" name="hole" data-nonce="{{g.nonce}}" data-oninput="savetext()" {% if hole %}value="{{hole}}"{% endif %} placeholder="{{hole_placeholder}}" {% if HOLE_REQUIRED %}required{% endif %}>
+													<datalist id="holes">
+														{% for h in HOLES %}
+															<option value="{{h}}"></option>
 														{% endfor %}
 													</datalist>
 												</div>
 												<label class='mt-4' for="title">Post Title</label>
-												<textarea autocomplete="off" class="form-control allow-emojis" id="post-title" type="text" name="title" placeholder="Required" value="{{title}}" minlength="1" maxlength="500" required data-nonce="{{g.nonce}}" data-oninput="checkForRequired();savetext()"></textarea>
-												<button type="button" data-nonce="{{g.nonce}}" data-onclick="loadEmojis('post-title')" class="btn btn-secondary format d-inline-block m-0" id="emoji-reply-btn-2" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"><i class="fas fa-smile-beam"></i></button>
+												<textarea autocomplete="off" class="form-control" id="post-title" type="text" name="title" placeholder="Required" value="{{title}}" minlength="1" maxlength="500" required data-nonce="{{g.nonce}}" data-oninput="checkForRequired();savetext()"></textarea>
+
+												{{macros.emoji_btn('post-title')}}
+								
 												<div id="urlblock">
 													<label for="URL" class="mt-3">URL</label>
 													<input autocomplete="off" class="form-control" id="post-url" name="url" type="url" placeholder="Optional if you have text." value="{{request.values.get('url','')}}" required data-nonce="{{g.nonce}}" data-oninput="checkForRequired();savetext();checkRepost();autoSuggestTitle()">
@@ -54,7 +56,11 @@
 												<div class="ghostdiv" style="display:none"></div>
 												<div class="text-small font-weight-bold mt-1" id="character-count-submit-text-form" style="right: 1rem; bottom: 0.5rem; z-index: 3"></div>
 
-												{{macros.file_input('file-upload-submit', 'post-text')}}
+												<div class="format-btns">
+													{{macros.emoji_btn('post-text')}}
+													{{macros.gif_btn('post-text')}}								
+													{{macros.file_btn('file-upload-submit')}}
+												</div>
 
 												<div id="preview" class="preview my-3"></div>
 												<div class="form-text text-small mt-1 mb-3"><a href="/formatting" {% if v and v.newtab %}data-target="t" target="_blank"{% endif %}>Formatting help</a></div>
@@ -69,8 +75,8 @@
 												</div>
 												{% if FEATURES['NSFW_MARKING'] %}
 													<div class="custom-control custom-checkbox">
-														<input autocomplete="off" type="checkbox" class="custom-control-input" id="post-nsfw" name="over_18" data-nonce="{{g.nonce}}" data-onchange="savetext()">
-														<label class="custom-control-label" for="post-nsfw">+18</label>
+														<input autocomplete="off" type="checkbox" class="custom-control-input" id="post-nsfw" name="nsfw" data-nonce="{{g.nonce}}" data-onchange="savetext()">
+														<label class="custom-control-label" for="post-nsfw">NSFW</label>
 													</div>
 												{% endif %}
 												<div class="custom-control custom-checkbox">

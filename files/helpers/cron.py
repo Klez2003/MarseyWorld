@@ -10,7 +10,7 @@ from sqlalchemy.sql import text
 
 import click
 import requests
-import traceback
+import ffmpeg
 
 import files.helpers.offsitementions as offsitementions
 import files.helpers.stats as stats
@@ -29,7 +29,7 @@ from files.cli import app, db_session, g
 
 CRON_CACHE_TIMEOUT = 172800
 
-def cron_fn(every_5m, every_1d, every_fri_12, every_fri_23, every_sat_00, every_sat_03):
+def cron_fn(every_5m, every_1d, every_fri_12, every_fri_23, every_sat_00, every_sat_03, every_sun_07, every_sun_19, every_sun_20, every_sun_23, every_1mo):
 	with app.app_context():
 		g.db = db_session()
 		g.v = None
@@ -55,8 +55,9 @@ def cron_fn(every_5m, every_1d, every_fri_12, every_fri_23, every_sat_00, every_
 				_grant_two_year_badges()
 				g.db.commit()
 
-				offsitementions.offsite_mentions_task(cache)
-				g.db.commit()
+				if not IS_LOCALHOST:
+					offsitementions.offsite_mentions_task(cache)
+					g.db.commit()
 
 			if every_1d or (not cache.get('stats') and not IS_LOCALHOST):
 				_generate_emojis_zip()
@@ -69,7 +70,7 @@ def cron_fn(every_5m, every_1d, every_fri_12, every_fri_23, every_sat_00, every_
 				_leaderboard_task()
 				g.db.commit()
 
-				_sub_inactive_purge_task()
+				_hole_inactive_purge_task()
 				g.db.commit()
 
 				stats.generate_charts_task(SITE)
@@ -78,25 +79,44 @@ def cron_fn(every_5m, every_1d, every_fri_12, every_fri_23, every_sat_00, every_
 				cache.set('stats', stats.stats(), timeout=CRON_CACHE_TIMEOUT)
 				g.db.commit()
 
+				if IS_HOMOWEEN():
+					g.db.execute(text(
+						"INSERT INTO award_relationships (user_id, kind, created_utc) "
+						f"SELECT id, 'bite', {int(time.time())} FROM users "
+						"WHERE users.zombie < 0"))
+					g.db.commit()
+
+
 			if every_fri_12:
-				_create_1st_post()
+				_create_post(f'Movie Night', f'''Our Movie Night today will show `{get_name()}`.\nThe movies will start at 8 PM EST. [Here is a timezone converter for whoever needs it.](https://dateful.com/time-zone-converter?t=8pm&tz1=EST-EDT-Eastern-Time). You can also check this [countdown timer](https://www.tickcounter.com/countdown/4435809/movie-night) instead.\nThey will be shown [here](/chat).\nThere will be a 5-minute bathroom break at the 50:00 mark.\nRerun will be Sunday 4 PM EST.''', 11)
 				g.db.commit()
 
 			if every_fri_23:
-				_create_2nd_post()
+				_create_post(f'Movie Night in 60 minutes', 'It will be shown [here](/chat).\nThere will be a 5-minute bathroom break at the 50:00 mark.\nRerun will be Sunday 4 PM EST.', 1)
 				g.db.commit()
 
-			if every_sat_00:
-				_create_orgy()
+			if every_sun_07:
+				_create_post(f'Movie Night Rerun', f'''Our Movie Night Rerun today will show `{get_name()}`.\nThe movies will start at 4 PM EST. [Here is a timezone converter for whoever needs it.](https://dateful.com/time-zone-converter?t=4pm&tz1=EST-EDT-Eastern-Time). You can also check this [countdown timer](https://www.tickcounter.com/countdown/4465675/movie-night-rerun) instead.\nThey will be shown [here](/chat).\nThere will be a 5-minute bathroom break at the 50:00 mark.''', 1)
 				g.db.commit()
 
-			if every_sat_03:
-				_delete_all()
+			if every_sun_19:
+				_create_post(f'Movie Night Rerun in 60 minutes', 'It will be shown [here](/chat).\nThere will be a 5-minute bathroom break at the 50:00 mark.', 1)
+				g.db.commit()
+
+			if every_sat_00 or every_sun_20:
+				_create_and_delete_orgy()
+
+			if every_sat_03 or every_sun_23:
+				_delete_all_posts()
+				g.db.commit()
+
+			if every_1mo:
+				_give_marseybux_salary()
 				g.db.commit()
 
 		except:
-			print(traceback.format_exc(), flush=True)
 			g.db.rollback()
+			raise
 
 		g.db.close()
 		del g.db
@@ -112,8 +132,13 @@ def cron_fn(every_5m, every_1d, every_fri_12, every_fri_23, every_sat_00, every_
 @click.option('--every-fri-23', is_flag=True, help='Call every Friday.')
 @click.option('--every-sat-00', is_flag=True, help='Call every Saturday.')
 @click.option('--every-sat-03', is_flag=True, help='Call every Saturday.')
-def cron(every_5m, every_1d, every_fri_12, every_fri_23, every_sat_00, every_sat_03):
-	cron_fn(every_5m, every_1d, every_fri_12, every_fri_23, every_sat_00, every_sat_03)
+@click.option('--every-sun-07', is_flag=True, help='Call every Sunday.')
+@click.option('--every-sun-19', is_flag=True, help='Call every Sunday.')
+@click.option('--every-sun-20', is_flag=True, help='Call every Sunday.')
+@click.option('--every-sun-23', is_flag=True, help='Call every Sunday.')
+@click.option('--every-1mo', is_flag=True, help='Call every 1 month.')
+def cron(**kwargs):
+	cron_fn(**kwargs)
 
 def get_file():
 	return max(glob.glob('/orgies/*'), key=os.path.getctime).split('/orgies/')[1]
@@ -122,29 +147,30 @@ def get_name():
 	return get_file().split('.')[0]
 
 def _create_post(title, body, pin_hours):
+	_delete_all_posts()
+
 	title += f': {get_name()}'
-	body += f'''It will be shown [here](/orgy).\nRerun will be Sunday 4 PM EST.\nThere will be a 5-minute bathroom break at the 50:00 mark.'''
 
 	title_html = filter_emojis_only(title)
 	body_html = sanitize(body)
 
 	stickied_utc = int(time.time()) + (3600 * pin_hours)
-	
+
 	p = Post(
 		private=False,
 		notify=True,
 		author_id=AUTOJANNY_ID,
-		over_18=False,
+		nsfw=False,
 		new=False,
 		app_id=None,
 		is_bot=False,
-		url='/orgy',
+		url='/chat',
 		body=body,
 		body_html=body_html,
 		embed=None,
 		title=title,
 		title_html=title_html,
-		sub='countryclub',
+		hole='countryclub',
 		ghost=False,
 		chudded=False,
 		rainbowed=False,
@@ -158,35 +184,33 @@ def _create_post(title, body, pin_hours):
 
 	cache.delete_memoized(frontlist)
 
-
-def _create_1st_post():
-	title = f'Movie Night'
-	body = f'''Our Movie Night this week will show `{get_name()}`.\nThe movie will start at 8 PM EST. [Here is a timezone converter for whoever needs it.](https://dateful.com/time-zone-converter?t=8pm&tz1=EST-EDT-Eastern-Time). You can also check this [countdown timer](https://www.tickcounter.com/countdown/4435809/movie-night) instead.\n'''
-	_create_post(title, body, 11)
-
-def _create_2nd_post():
-	title = f'Movie Night in 60 minutes'
-	body = ''
-	_create_post(title, body, 1)
-
-def _create_orgy():
+def _create_and_delete_orgy():
+	video_info = ffmpeg.probe(f'/orgies/{get_file()}')
+	seconds = float(video_info['streams'][0]['duration'])
+	end_utc = int(time.time() + seconds)
+	
 	orgy = Orgy(
 		title=get_name(),
 		type='file',
-		data=f'https://videos.watchpeopledie.tv/orgies/{get_file()}'
+		data=f'https://videos.watchpeopledie.tv/orgies/{get_file()}',
+		end_utc = end_utc,
 	)
 	g.db.add(orgy)
+	g.db.commit()
+	g.db.close()
+	del g.db
+	stdout.flush()
 
-def _delete_all():
-	orgy = g.db.query(Orgy).one_or_none()
-	if orgy:
-		g.db.delete(orgy)
-	
+	requests.post('http://localhost:5001/refresh_chat', headers={"Host": SITE})
+
+
+def _delete_all_posts():
 	posts = g.db.query(Post).filter_by(author_id=AUTOJANNY_ID, deleted_utc=0).all()
 	for p in posts:
 		p.deleted_utc = int(time.time())
 		p.is_pinned = False
 		p.stickied = None
+		p.stickied_utc = None
 		g.db.add(p)
 
 		cache.delete_memoized(frontlist)
@@ -224,29 +248,29 @@ def _grant_two_year_badges():
 	from users where created_utc < {two_years_ago} and id not in (select user_id from badges where badge_id=237);""")
 	g.db.execute(_badge_query)
 
-def _sub_inactive_purge_task():
+def _hole_inactive_purge_task():
 	if not HOLE_INACTIVITY_DELETION:
 		return False
 
 	one_week_ago = time.time() - 604800
-	active_holes = [x[0] for x in g.db.query(Post.sub).distinct() \
-		.filter(Post.sub != None, Post.created_utc > one_week_ago,
+	active_holes = [x[0] for x in g.db.query(Post.hole).distinct() \
+		.filter(Post.hole != None, Post.created_utc > one_week_ago,
 			Post.private == False, Post.is_banned == False,
 			Post.deleted_utc == 0)]
 	active_holes.extend(['changelog','countryclub','museumofrdrama','highrollerclub']) # holes immune from deletion
 
-	dead_holes = g.db.query(Sub).filter(Sub.name.notin_(active_holes)).all()
+	dead_holes = g.db.query(Hole).filter(Hole.name.notin_(active_holes)).all()
 	names = [x.name for x in dead_holes]
 
 	admins = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_HOLE_INACTIVITY_DELETION'])]
 
-	mods = g.db.query(Mod).filter(Mod.sub.in_(names)).all()
+	mods = g.db.query(Mod).filter(Mod.hole.in_(names)).all()
 	for x in mods:
 		if x.user_id in admins: continue
-		send_repeatable_notification(x.user_id, f":marseyrave: /h/{x.sub} has been deleted for inactivity after one week without new posts. All posts in it have been moved to the main feed :marseyrave:")
+		send_repeatable_notification(x.user_id, f":marseyrave: /h/{x.hole} has been deleted for inactivity after one week without new posts. All posts in it have been moved to the main feed :marseyrave:")
 
 	for name in names:
-		first_mod_id = g.db.query(Mod.user_id).filter_by(sub=name).order_by(Mod.created_utc).first()
+		first_mod_id = g.db.query(Mod.user_id).filter_by(hole=name).order_by(Mod.created_utc).first()
 		if first_mod_id:
 			first_mod = get_account(first_mod_id[0])
 			badge_grant(
@@ -258,22 +282,22 @@ def _sub_inactive_purge_task():
 		for admin in admins:
 			send_repeatable_notification(admin, f":marseyrave: /h/{name} has been deleted for inactivity after one week without new posts. All posts in it have been moved to the main feed :marseyrave:")
 
-	posts = g.db.query(Post).filter(Post.sub.in_(names)).all()
+	posts = g.db.query(Post).filter(Post.hole.in_(names)).all()
 	for post in posts:
-		if post.sub == 'programming':
-			post.sub = 'slackernews'
+		if post.hole == 'programming':
+			post.hole = 'slackernews'
 		else:
-			post.sub = None
+			post.hole = None
 
 		post.hole_pinned = None
 		g.db.add(post)
 
 	to_delete = mods \
-		+ g.db.query(Exile).filter(Exile.sub.in_(names)).all() \
-		+ g.db.query(SubBlock).filter(SubBlock.sub.in_(names)).all() \
-		+ g.db.query(SubJoin).filter(SubJoin.sub.in_(names)).all() \
-		+ g.db.query(SubSubscription).filter(SubSubscription.sub.in_(names)).all() \
-		+ g.db.query(SubAction).filter(SubAction.sub.in_(names)).all()
+		+ g.db.query(Exile).filter(Exile.hole.in_(names)).all() \
+		+ g.db.query(HoleBlock).filter(HoleBlock.hole.in_(names)).all() \
+		+ g.db.query(StealthHoleUnblock).filter(StealthHoleUnblock.hole.in_(names)).all() \
+		+ g.db.query(HoleFollow).filter(HoleFollow.hole.in_(names)).all() \
+		+ g.db.query(HoleAction).filter(HoleAction.hole.in_(names)).all()
 
 	for x in to_delete:
 		g.db.delete(x)
@@ -415,3 +439,9 @@ def _unpin_expired():
 
 	if pins:
 		cache.delete_memoized(frontlist)
+
+def _give_marseybux_salary():
+	for u in g.db.query(User).filter(User.admin_level > 0).all():
+		marseybux_salary = u.admin_level * 10000
+		u.pay_account('marseybux', marseybux_salary)
+		send_repeatable_notification(u.id, f"You have received your monthly janny salary of {marseybux_salary} Marseybux!")

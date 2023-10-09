@@ -8,34 +8,35 @@ from files.helpers.config.const import *
 from files.helpers.get import *
 from files.helpers.sorting_and_time import *
 from files.helpers.useractions import *
+from files.helpers.can_see import *
 from files.routes.wrappers import *
 from files.__main__ import app, cache, limiter, redis_instance
 
 @app.get("/")
-@app.get("/h/<sub>")
+@app.get("/h/<hole>")
 @limiter.limit("30/minute;5000/hour;10000/day", deduct_when=lambda response: response.status_code < 400)
 @auth_desired_with_logingate
-def front_all(v, sub=None):
-	if sub:
-		sub = get_sub_by_name(sub, graceful=True)
-		if sub and not User.can_see(v, sub):
+def front_all(v, hole=None):
+	if hole:
+		hole = get_hole(hole, graceful=True)
+		if hole and not can_see(v, hole):
 			abort(403)
 
-	if request.path.startswith('/h/') and not sub:
+	if request.path.startswith('/h/') and not hole:
 		abort(404)
 
 	page = get_page()
 
 	if v:
 		defaultsorting = v.defaultsorting
-		if sub or SITE_NAME != 'rDrama': defaulttime = 'all'
+		if hole or SITE_NAME != 'rDrama': defaulttime = 'all'
 		else: defaulttime = v.defaulttime
 	else:
 		defaultsorting = "hot"
-		if sub or SITE_NAME != 'rDrama': defaulttime = 'all'
+		if hole or SITE_NAME != 'rDrama': defaulttime = 'all'
 		else: defaulttime = DEFAULT_TIME_FILTER
 
-	if sub: defaultsorting = "new"
+	if hole: defaultsorting = "new"
 
 	sort = request.values.get("sort", defaultsorting)
 	t = request.values.get('t', defaulttime)
@@ -52,10 +53,10 @@ def front_all(v, sub=None):
 	if sort == 'hot': default = True
 	else: default = False
 
-	pins = session.get(f'{sub}_{sort}', default)
+	pins = session.get(f'{hole}_{sort}', default)
 
 	if not v:
-		result = cache.get(f'frontpage_{sort}_{t}_{page}_{sub}_{pins}')
+		result = cache.get(f'frontpage_{sort}_{t}_{page}_{hole}_{pins}')
 		if result:
 			calc_users()
 			return result
@@ -67,7 +68,7 @@ def front_all(v, sub=None):
 					filter_words=v.filter_words if v else [],
 					gt=gt,
 					lt=lt,
-					sub=sub,
+					hole=hole,
 					pins=pins,
 					)
 
@@ -78,20 +79,20 @@ def front_all(v, sub=None):
 
 	if v and v.client: return {"data": [x.json for x in posts], "total": total}
 
-	result = render_template("home.html", v=v, listing=posts, total=total, sort=sort, t=t, page=page, sub=sub, home=True, pins=pins, size=size)
+	result = render_template("home.html", v=v, listing=posts, total=total, sort=sort, t=t, page=page, hole=hole, home=True, pins=pins, size=size)
 
 	if not v:
-		cache.set(f'frontpage_{sort}_{t}_{page}_{sub}_{pins}', result, timeout=900)
+		cache.set(f'frontpage_{sort}_{t}_{page}_{hole}_{pins}', result, timeout=900)
 
 	return result
 
 
-LIMITED_WPD_HOLES = ('aftermath', 'fights', 'gore', 'medical', 'request', 'selfharm',
+LIMITED_WPD_HOLES = {'aftermath', 'fights', 'gore', 'medical', 'request', 'selfharm',
 					 'discussion', 'meta', 'music', 'pets', 'social',
-					 'countryclub', 'highrollerclub')
+					 'countryclub', 'highrollerclub'}
 
 @cache.memoize()
-def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='', gt=0, lt=0, sub=None, pins=True):
+def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='', gt=0, lt=0, hole=None, pins=True):
 	posts = g.db.query(Post)
 
 	if v and v.hidevotedon:
@@ -99,13 +100,13 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 					and_(Vote.post_id == Post.id, Vote.user_id == v.id)
 				).filter(Vote.post_id == None)
 
-	if sub:
-		posts = posts.filter(Post.sub == sub.name)
+	if hole:
+		posts = posts.filter(Post.hole == hole.name)
 	elif v:
-		posts = posts.filter(or_(Post.sub == None, Post.sub.notin_(v.sub_blocks)))
+		posts = posts.filter(or_(Post.hole == None, Post.hole.notin_(v.hole_blocks)))
 	else:
-		stealth = [x[0] for x in g.db.query(Sub.name).filter_by(stealth=True)]
-		posts = posts.filter(or_(Post.sub == None, Post.sub.notin_(stealth)))
+		stealth = [x[0] for x in g.db.query(Hole.name).filter_by(stealth=True)]
+		posts = posts.filter(or_(Post.hole == None, Post.hole.notin_(stealth)))
 
 	if gt: posts = posts.filter(Post.created_utc > gt)
 	if lt: posts = posts.filter(Post.created_utc < lt)
@@ -120,7 +121,7 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 	)
 
 	if pins and not gt and not lt:
-		if sub: posts = posts.filter(Post.hole_pinned == None)
+		if hole: posts = posts.filter(Post.hole_pinned == None)
 		else: posts = posts.filter(Post.stickied == None)
 
 	if v:
@@ -128,8 +129,8 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 
 	if v and filter_words:
 		for word in filter_words:
-			word = word.replace('\\', '').replace('_', '\_').replace('%', '\%').strip()
-			posts=posts.filter(not_(Post.title.ilike(f'%{word}%')))
+			word = escape_for_search(word)
+			posts = posts.filter(not_(Post.title.ilike(f'%{word}%')))
 
 	total = posts.count()
 
@@ -140,28 +141,24 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 
 	posts = posts.options(load_only(Post.id)).offset(size * (page - 1))
 
-	if SITE_NAME == 'WPD' and sort == "hot" and sub == None:
+	if SITE_NAME == 'WPD' and sort == "hot" and hole == None:
 		posts = posts.limit(200).all()
-
-		to_remove = []
-		for h in LIMITED_WPD_HOLES:
-			to_remove += [x.id for x in posts if x.sub == h][1:]
-
+		to_remove = [x.id for x in posts if x.hole in LIMITED_WPD_HOLES][1:]
 		posts = [x for x in posts if x.id not in to_remove][:size]
-	elif SITE_NAME == 'WPD' and not v and sub == None:
+	elif SITE_NAME == 'WPD' and not v and hole == None:
 		posts = posts.limit(200).all()
-		posts = [x for x in posts if x.sub not in {'pets','selfharm'}][:size]
+		posts = [x for x in posts if x.hole not in {'pets','selfharm'}][:size]
 	else:
 		posts = posts.limit(size).all()
 
 	if pins and page == 1 and not gt and not lt:
-		if sub:
-			pins = g.db.query(Post).options(load_only(Post.id)).filter(Post.sub == sub.name, Post.hole_pinned != None)
+		if hole:
+			pins = g.db.query(Post).options(load_only(Post.id)).filter(Post.hole == hole.name, Post.hole_pinned != None)
 		else:
 			pins = g.db.query(Post).options(load_only(Post.id)).filter(Post.stickied != None, Post.is_banned == False)
 
 			if v:
-				pins = pins.filter(or_(Post.sub == None, Post.sub.notin_(v.sub_blocks)))
+				pins = pins.filter(or_(Post.hole == None, Post.hole.notin_(v.hole_blocks)))
 
 
 		if v: pins = pins.filter(Post.author_id.notin_(v.userblocks))
@@ -184,7 +181,7 @@ def random_post(v):
 			Post.deleted_utc == 0,
 			Post.is_banned == False,
 			Post.private == False,
-			or_(Post.sub == None, Post.sub.notin_(v.sub_blocks)),
+			or_(Post.hole == None, Post.hole.notin_(v.hole_blocks)),
 		).order_by(func.random()).first()
 
 	if p: p = p[0]

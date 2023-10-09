@@ -25,6 +25,9 @@ class BlackjackAction(str, Enum):
 	STAY = "STAY"
 	DOUBLE_DOWN = "DOUBLE_DOWN"
 	BUY_INSURANCE = "BUY_INSURANCE"
+	SPLIT = 'SPLIT'
+	HIT_SPLIT = 'HIT_SPLIT'
+	STAY_SPLIT = 'STAY_SPLIT'
 
 
 ranks = ("2", "3", "4", "5", "6", "7", "8", "9", "X", "J", "Q", "K", "A")
@@ -37,18 +40,22 @@ minimum_bet = 5
 def get_initial_state():
 	return {
 		"player": [],
+		"player_split": [],
+		"player_split_value": 0,
 		"player_value": 0,
 		"dealer": [],
 		"dealer_value": 0,
+		"has_player_split": False,
 		"player_bought_insurance": False,
 		"player_doubled_down": False,
 		"status": BlackjackStatus.PLAYING,
+		"status_split": BlackjackStatus.PLAYING,
 		"actions": [],
 		"wager": {
 			"amount": 0,
 			"currency": "coins"
 		},
-		"payout": 0
+		"payout": 0,
 	}
 
 
@@ -119,7 +126,7 @@ def create_new_game(gambler, wager, currency):
 		raise Exception(f"Gambler cannot afford to bet {wager} {currency}.")
 
 
-def handle_blackjack_deal(state):
+def handle_blackjack_deal(state, split):
 	deck = build_deck(state)
 	first = deck.pop()
 	second = deck.pop()
@@ -131,21 +138,28 @@ def handle_blackjack_deal(state):
 	return state
 
 
-def handle_blackjack_hit(state):
+def handle_blackjack_hit(state, split = False):
 	deck = build_deck(state)
-	next_card = deck.pop()
-	state['player'].append(next_card)
+	if(split and state['has_player_split'] and state['status_split'] != BlackjackStatus.LOST):
+		next_card = deck.pop()
+		state['player_split'].append(next_card)
+	elif(state['status'] != BlackjackStatus.LOST):
+		next_card = deck.pop()
+		state['player'].append(next_card)
 
 	return state
 
 
-def handle_blackjack_stay(state):
-	state['status'] = BlackjackStatus.STAYED
+def handle_blackjack_stay(state, split = False):
+	if(split and state['has_player_split'] and state['status_split'] != BlackjackStatus.LOST):
+		state['status_split'] = BlackjackStatus.STAYED
+	elif(state['status'] != BlackjackStatus.LOST):
+		state['status'] = BlackjackStatus.STAYED
 
 	return state
 
 
-def handle_blackjack_double_down(state):
+def handle_blackjack_double_down(state, split):
 	state['player_doubled_down'] = True
 	state = handle_blackjack_hit(state)
 	state = handle_blackjack_stay(state)
@@ -153,16 +167,27 @@ def handle_blackjack_double_down(state):
 	return state
 
 
-def handle_blackjack_buy_insurance(state):
+def handle_blackjack_buy_insurance(state, split):
 	state['player_bought_insurance'] = True
+
+	return state
+
+def handle_split(state, split):
+	state['has_player_split'] = True
+	state['player_split'] = [state['player'].pop()]
+
+	state = handle_blackjack_hit(state)
+	state = handle_blackjack_hit(state, True)
 
 	return state
 
 
 def check_for_completion(state):
+	has_split = state['has_player_split']
 	after_initial_deal = len(
-		state['player']) == 2 and len(state['dealer']) == 2
+		state['player']) == 2 and len(state['dealer']) == 2 and not has_split
 	player_hand_value = get_value_of_hand(state['player'])
+	player_split_hand_value = get_value_of_hand(state['player_split'])
 	dealer_hand_value = get_value_of_hand(state['dealer'])
 
 	# Both player and dealer were initially dealt 21: Push.
@@ -176,12 +201,22 @@ def check_for_completion(state):
 		return True, state
 
 	# Player went bust: Lost.
-	if player_hand_value == -1:
+	if player_hand_value == -1 and state['status'] != BlackjackStatus.LOST:
 		state['status'] = BlackjackStatus.LOST
-		return True, state
+		if(not has_split or state['status_split'] == BlackjackStatus.LOST):
+			return True, state
+
+	# Player went bust: Lost.
+	if player_split_hand_value == -1 and state['status_split'] != BlackjackStatus.LOST:
+		state['status_split'] = BlackjackStatus.LOST
+		if state['status'] == BlackjackStatus.LOST:
+			return True, state
+
+	hand_terminal_status = state['status'] in [BlackjackStatus.LOST, BlackjackStatus.STAYED]
+	hand_split_terminal_status = not has_split or state['status_split'] in [BlackjackStatus.LOST, BlackjackStatus.STAYED]
 
 	# Player chose to stay: Deal rest for dealer then determine winner.
-	if state['status'] == BlackjackStatus.STAYED:
+	if hand_split_terminal_status and hand_terminal_status:
 		deck = build_deck(state)
 
 		while dealer_hand_value < 17 and dealer_hand_value != -1:
@@ -189,15 +224,26 @@ def check_for_completion(state):
 			state['dealer'].append(next_card)
 			dealer_hand_value = get_value_of_hand(state['dealer'])
 
-		if player_hand_value > dealer_hand_value or dealer_hand_value == -1:
-			state['status'] = BlackjackStatus.WON
-		elif dealer_hand_value > player_hand_value:
-			state['status'] = BlackjackStatus.LOST
-		else:
-			state['status'] = BlackjackStatus.PUSHED
+		if((not has_split) or state['status'] != BlackjackStatus.LOST):
+			if player_hand_value > dealer_hand_value or dealer_hand_value == -1:
+				state['status'] = BlackjackStatus.WON
+			elif dealer_hand_value > player_hand_value:
+				state['status'] = BlackjackStatus.LOST
+			else:
+				state['status'] = BlackjackStatus.PUSHED
 
 		state['player_value'] = get_value_of_hand(state['player'])
 		state['dealer_value'] = get_value_of_hand(state['dealer'])
+
+		if has_split and state['status_split'] != BlackjackStatus.LOST:
+			if player_split_hand_value > dealer_hand_value or dealer_hand_value == -1:
+				state['status_split'] = BlackjackStatus.WON
+			elif dealer_hand_value > player_split_hand_value:
+				state['status_split'] = BlackjackStatus.LOST
+			else:
+				state['status_split'] = BlackjackStatus.PUSHED
+
+		state['player_split_value'] = get_value_of_hand(state['player_split'])
 
 		return True, state
 
@@ -209,25 +255,33 @@ def does_insurance_apply(state):
 	dealer_hand_value = get_value_of_hand(dealer)
 	dealer_first_card_ace = dealer[0][0] == 'A'
 	dealer_never_hit = len(dealer) == 2
-	return dealer_hand_value == 21 and dealer_first_card_ace and dealer_never_hit
+	return not state['has_player_split'] and dealer_hand_value == 21 and dealer_first_card_ace and dealer_never_hit
 
 
 def can_purchase_insurance(state):
 	dealer = state['dealer']
 	dealer_first_card_ace = dealer[0][0] == 'A'
 	dealer_never_hit = len(dealer) == 2
-	return dealer_first_card_ace and dealer_never_hit and not state['player_bought_insurance']
+	return not state['has_player_split'] and dealer_first_card_ace and dealer_never_hit and not state['player_bought_insurance']
 
 
 def can_double_down(state):
 	player = state['player']
 	player_hand_value = get_value_of_hand(player)
 	player_never_hit = len(player) == 2
-	return player_hand_value in (10, 11) and player_never_hit
+	return not state['has_player_split'] and player_hand_value in (9, 10, 11) and player_never_hit
+
+def can_split(state):
+	player = state['player']
+	player_never_hit = len(player) == 2
+	hand_can_split = get_value_of_card(player[0]) == get_value_of_card(player[1])
+	player_has_split = state['has_player_split']
+	return hand_can_split and player_never_hit and not player_has_split
 
 
 def handle_payout(gambler, state, game):
 	status = state['status']
+	split_status = state['status_split']
 	payout = 0
 
 	if status == BlackjackStatus.BLACKJACK:
@@ -255,11 +309,20 @@ def handle_payout(gambler, state, game):
 	else:
 		raise Exception("Attempted to payout a game that has not finished.")
 
+	if split_status == BlackjackStatus.WON:
+		game.winnings += game.wager
+		payout += game.wager * 2
+	elif split_status == BlackjackStatus.LOST:
+		game.winnings += -game.wager
+	elif split_status == BlackjackStatus.PUSHED:
+		payout += game.wager
+
+
 	gambler.pay_account(game.currency, payout)
 
-	if status in {BlackjackStatus.BLACKJACK, BlackjackStatus.WON}:
+	if status in {BlackjackStatus.BLACKJACK, BlackjackStatus.WON} or split_status in {BlackjackStatus.WON}:
 		distribute_wager_badges(gambler, game.wager, won=True)
-	elif status == BlackjackStatus.LOST:
+	elif status == BlackjackStatus.LOST or split_status == BlackjackStatus.LOST:
 		distribute_wager_badges(gambler, game.wager, won=False)
 
 	game.active = False
@@ -284,10 +347,11 @@ action_handlers = {
 	BlackjackAction.STAY: handle_blackjack_stay,
 	BlackjackAction.DOUBLE_DOWN: handle_blackjack_double_down,
 	BlackjackAction.BUY_INSURANCE: handle_blackjack_buy_insurance,
+	BlackjackAction.SPLIT: handle_split,
 }
 
 
-def dispatch_action(gambler, action):
+def dispatch_action(gambler, action, is_split = False):
 	game = get_active_twentyone_game(gambler)
 	handler = action_handlers[action]
 
@@ -312,15 +376,23 @@ def dispatch_action(gambler, action):
 		charge_gambler(gambler, game.wager, game.currency)
 		game.wager *= 2
 
-	new_state = handler(state)
+	if action == BlackjackAction.SPLIT:
+		if not can_split(state):
+			raise Exception("Cannot split")
+
+		charge_gambler(gambler, game.wager, game.currency)
+
+	new_state = handler(state, is_split)
 	new_state['player_value'] = get_value_of_hand(new_state['player'])
 	new_state['dealer_value'] = get_value_of_hand(new_state['dealer'])
-	new_state['actions'] = get_available_actions(new_state)
+	new_state['player_split_value'] = get_value_of_hand(new_state['player_split'])
 
-	game.game_state = json.dumps(new_state)
-	g.db.add(game)
 
 	game_over, final_state = check_for_completion(new_state)
+
+	new_state['actions'] = get_available_actions(new_state)
+	game.game_state = json.dumps(new_state)
+	g.db.add(game)
 
 	if game_over:
 		payout = handle_payout(gambler, final_state, game)
@@ -344,6 +416,7 @@ def build_deck(state):
 		card_counts[card] = deck_count
 
 	cards_already_dealt = state['player'].copy()
+	cards_already_dealt.extend(state['player_split'].copy())
 	cards_already_dealt.extend(state['dealer'].copy())
 
 	for card in cards_already_dealt:
@@ -384,10 +457,17 @@ def get_available_actions(state):
 		actions.append(BlackjackAction.HIT)
 		actions.append(BlackjackAction.STAY)
 
+	if state['has_player_split'] and state['status_split'] == BlackjackStatus.PLAYING:
+		actions.append(BlackjackAction.HIT_SPLIT)
+		actions.append(BlackjackAction.STAY_SPLIT)
+
 	if can_double_down(state):
 		actions.append(BlackjackAction.DOUBLE_DOWN)
 
 	if can_purchase_insurance(state):
 		actions.append(BlackjackAction.BUY_INSURANCE)
+
+	if can_split(state):
+		actions.append(BlackjackAction.SPLIT)
 
 	return actions

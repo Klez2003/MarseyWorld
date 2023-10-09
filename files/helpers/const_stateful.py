@@ -1,49 +1,52 @@
 from os import path
 
-from files.classes import Emoji, Sub
+from files.classes import Emoji, Hole
 from files.helpers.config.const import *
 
 SNAPPY_KONGS = []
-marseys_const = []
-marseys_const2 = []
-marsey_mappings = {}
+MARSEYS_CONST = []
+MARSEYS_CONST2 = []
+MARSEY_MAPPINGS = {}
 SNAPPY_MARSEYS = []
 SNAPPY_QUOTES = []
+SNAPPY_QUOTES_FISTMAS = []
+SNAPPY_QUOTES_HOMOWEEN = []
 STEALTH_HOLES = []
+OVER_18_EMOJIS = []
 
 def const_initialize():
-	global marseys_const, marseys_const2, marsey_mappings, SNAPPY_KONGS, SNAPPY_MARSEYS, SNAPPY_QUOTES, STEALTH_HOLES
+	global MARSEYS_CONST, MARSEYS_CONST2, MARSEY_MAPPINGS, SNAPPY_KONGS, SNAPPY_MARSEYS, SNAPPY_QUOTES, SNAPPY_QUOTES_FISTMAS, SNAPPY_QUOTES_HOMOWEEN, STEALTH_HOLES, OVER_18_EMOJIS
 
 	db = db_session()
 
-	marseys_const = [x[0] for x in db.query(Emoji.name).filter(Emoji.kind=="Marsey", Emoji.submitter_id==None, Emoji.name!='chudsey')]
-	marseys_const2 = marseys_const + ['chudsey','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','0','1','2','3','4','5','6','7','8','9','exclamationpoint','period','questionmark']
-	marseys = db.query(Emoji).filter(Emoji.kind=="Marsey", Emoji.submitter_id==None).all()
+	MARSEYS_CONST = [x[0] for x in db.query(Emoji.name).filter(Emoji.kind == "Marsey", Emoji.submitter_id == None, Emoji.name != 'chudsey', Emoji.nsfw == False)]
+	MARSEYS_CONST2 = MARSEYS_CONST + ['chudsey','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','0','1','2','3','4','5','6','7','8','9','exclamationpoint','period','questionmark']
+	marseys = db.query(Emoji).filter(Emoji.kind=="Marsey", Emoji.submitter_id == None, Emoji.nsfw == False).all()
 	for marsey in marseys:
 		for tag in marsey.tags.split():
-			if tag in marsey_mappings:
-				marsey_mappings[tag].append(marsey.name)
+			if tag in MARSEY_MAPPINGS:
+				MARSEY_MAPPINGS[tag].append(marsey.name)
 			else:
-				marsey_mappings[tag] = [marsey.name]
+				MARSEY_MAPPINGS[tag] = [marsey.name]
 
-	if IS_DKD():
-		SNAPPY_KONGS = db.query(Emoji.name).filter(Emoji.kind=="Donkey Kong", Emoji.submitter_id==None).all()
-		SNAPPY_KONGS = [f':#{x[0]}:' for x in SNAPPY_KONGS]
+	SNAPPY_KONGS = db.query(Emoji.name).filter(Emoji.kind=="Donkey Kong", Emoji.submitter_id==None, Emoji.nsfw == False).all()
+	SNAPPY_KONGS = [f':#{x[0]}:' for x in SNAPPY_KONGS]
 
-	STEALTH_HOLES = [x[0] for x in db.query(Sub.name).filter_by(stealth=True)]
+	STEALTH_HOLES = [x[0] for x in db.query(Hole.name).filter_by(stealth=True)]
+
+	OVER_18_EMOJIS = [x[0] for x in db.query(Emoji.name).filter_by(nsfw=True)]
 
 	db.commit()
 	db.close()
 
-	SNAPPY_MARSEYS = [f':#{x}:' for x in marseys_const2]
-
-	if IS_FISTMAS():
-		filename = f"snappy_fistmas_{SITE_NAME}.txt"
-	else:
-		filename = f"snappy_{SITE_NAME}.txt"
+	SNAPPY_MARSEYS = [f':#{x}:' for x in MARSEYS_CONST2]
 
 	try:
-		with open(filename, "r") as f:
-			SNAPPY_QUOTES = f.read().split("\n{[para]}\n")
+		with open(f"snappy_{SITE_NAME}.txt", "r") as f:
+			SNAPPY_QUOTES = f.read().strip().split("\n{[para]}\n")
+		with open(f"snappy_fistmas_{SITE_NAME}.txt", "r") as f:
+			SNAPPY_QUOTES_FISTMAS = f.read().strip().split("\n{[para]}\n")
+		with open("snappy_homoween.txt", "r") as f:
+			SNAPPY_QUOTES_HOMOWEEN = f.read().strip().split("\n{[para]}\n")
 	except FileNotFoundError:
 		pass

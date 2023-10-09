@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 15.3 (Ubuntu 15.3-1.pgdg22.04+1)
--- Dumped by pg_dump version 15.3 (Ubuntu 15.3-1.pgdg22.04+1)
+-- Dumped from database version 15.4 (Ubuntu 15.4-2.pgdg22.04+1)
+-- Dumped by pg_dump version 15.4 (Ubuntu 15.4-2.pgdg22.04+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -1019,8 +1019,6 @@ INSERT INTO public.hat_defs VALUES (1238, 'Gemmed', 'Who gave you glue?', 2, 500
 INSERT INTO public.hat_defs VALUES (1220, 'Chained Border', '?????', 2, 500, NULL, 1686289778);
 INSERT INTO public.hat_defs VALUES (1237, 'Carnival Hat', 'The glasses... are on the hat.', 2, 500, NULL, 1687286069);
 INSERT INTO public.hat_defs VALUES (1213, 'Secret Crack', 'Oh hi… AH', 2, 1000, NULL, 1686288898);
-
-
 INSERT INTO public.hat_defs VALUES (1236, 'Trust me I am a doctor', 'A doctorate in math!', 2, 500, NULL, 1687285606);
 INSERT INTO public.hat_defs VALUES (1235, 'Brush Teeth', 'Brush your damn teeth. Your breath stinks.', 2, 1000, NULL, 1687285476);
 INSERT INTO public.hat_defs VALUES (1233, 'The Beheaded', 'Be one with the rogue-like and die many, many, many times!', 2, 500, NULL, 1687285192);
@@ -1064,7 +1062,15 @@ INSERT INTO public.hat_defs VALUES (1332, 'Mugshot Solid', 'Trump mugshot emblem
 INSERT INTO public.hat_defs VALUES (1327, 'beard', 'Showing off my MANLINESS.', 2, 500, NULL, 1692294921);
 INSERT INTO public.hat_defs VALUES (1325, 'Sutton Hoo helmet', 'A symbol of its owner''s power and prestige!', 2, 500, NULL, 1692294300);
 INSERT INTO public.hat_defs VALUES (1323, 'love hands', 'No matter what this user will always love you!', 2, 1000, NULL, 1692291028);
-
+INSERT INTO public.hat_defs VALUES (1338, 'The Pilot', 'It''s over the clouds, where the freedom is endless', 2, 500, NULL, 1694582662);
+INSERT INTO public.hat_defs VALUES (1335, 'DoubleAntichrist', 'United United Nations Nations', 2, 500, NULL, 1694404303);
+INSERT INTO public.hat_defs VALUES (1334, 'Quindarious Gooch', 'Rent''s due', 2, 500, NULL, 1693542770);
+INSERT INTO public.hat_defs VALUES (1241, 'Floyette Originals (blue)', 'Is that really to keep the sun out of your eyes, or are you just extra?', 2, 500, NULL, 1687287039);
+INSERT INTO public.hat_defs VALUES (1240, 'Floyette Originals (purple)', 'Looking very stylish with your fancy cowboy hat.', 2, 500, NULL, 1687286967);
+INSERT INTO public.hat_defs VALUES (1339, 'The Wiggler', 'Gonna catch that dot!', 2, 1000, NULL, 1695952069);
+INSERT INTO public.hat_defs VALUES (1342, 'The Destoryer Carbine', 'I love getting my Carbine Destroyed so much!!', 2, 500, NULL, 1696248773);
+INSERT INTO public.hat_defs VALUES (1346, 'Electrified', 'I''m from the future', 2, 1000, NULL, 1696398524);
+INSERT INTO public.hat_defs VALUES (1343, 'Maximum Overgay', 'Over 9000', 2, 1000, NULL, 1696392323);
 INSERT INTO public.hat_defs VALUES (1322, 'Butthead', '"Eh, this website sucks, ehuhuh ehuhuh."', 2, 500, NULL, 1692085079);
 INSERT INTO public.hat_defs VALUES (1321, 'Beavis', '"GIVE ME TP FOR MY BUNGHOLE!"', 2, 500, NULL, 1692085009);
 INSERT INTO public.hat_defs VALUES (1320, 'The Master', '"So what shall it be? Do you join the Unity, or do you die here? Join! Die! Join! Die!"', 2, 500, NULL, 1691983112);
@@ -1102,13 +1108,22 @@ INSERT INTO public.hat_defs VALUES (1277, 'Fuck off', 'FUCK OFFFFFF', 2, 1000, N
 INSERT INTO public.hat_defs VALUES (1271, 'Fire Aura', 'RELEASE YOUR INNER RAGE!', 2, 500, NULL, 1687832669);
 INSERT INTO public.hat_defs VALUES (1270, 'Dark Aura', 'Let your inner troll OUT!', 2, 500, NULL, 1687832646);
 INSERT INTO public.hat_defs VALUES (1269, 'Rainbowfriends Hat', 'This user is special needs. No ands ifs or buts about it.', 2, 500, NULL, 1687832169);
+INSERT INTO public.hat_defs VALUES (1336, 'TripleAntichrist', 'There once was a man feeling blue, who stacked helmets: not one but two. He added a third, which seemed quite absurd. His cat said "This headache''s for you!"', 2, 500, NULL, 1694405435);
+INSERT INTO public.hat_defs VALUES (1341, 'Notification', 'Groomercord and it''s consequences, have been a disaster for the human race.', 2, 500, NULL, 1696247923);
+INSERT INTO public.hat_defs VALUES (1350, 'Krazy Krown', 'WWKKD? 👑👑👑', 2, 1000, NULL, 1696404292);
+INSERT INTO public.hat_defs VALUES (1349, 'Spongehat', '~ Nobody🌈Cares ~', 2, 1000, NULL, 1696403986);
+INSERT INTO public.hat_defs VALUES (1348, 'Brains', 'BRAAAAINS', 2, 1000, NULL, 1696402943);
+INSERT INTO public.hat_defs VALUES (1347, 'Rainbow Lightning', 'Color me shocked', 2, 1000, NULL, 1696399418);
+INSERT INTO public.hat_defs VALUES (1345, 'The Chef', 'Mmm bussy!', 2, 1000, NULL, 1696396948);
+INSERT INTO public.hat_defs VALUES (1344, 'Fighter', 'Cash me outside', 2, 1000, NULL, 1696392781);
+INSERT INTO public.hat_defs VALUES (1351, 'Vietnamese Pith Helmet', 'A good hat to wear while fighting the French, the Americans, the Cambodians, or the Chinese', 2, 500, NULL, 1696462997);
 
 
 --
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1334, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1351, true);
 
 
 --

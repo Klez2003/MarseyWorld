@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 15.3 (Ubuntu 15.3-1.pgdg22.04+1)
--- Dumped by pg_dump version 15.3 (Ubuntu 15.3-1.pgdg22.04+1)
+-- Dumped from database version 15.4 (Ubuntu 15.4-2.pgdg22.04+1)
+-- Dumped by pg_dump version 15.4 (Ubuntu 15.4-2.pgdg22.04+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -42,10 +42,12 @@ INSERT INTO public.badge_defs VALUES (151, 'Responsible Citizen', 'This user uph
 INSERT INTO public.badge_defs VALUES (152, 'Amateur Hathead', 'Collected 25 unique hats', NULL);
 INSERT INTO public.badge_defs VALUES (155, 'Ride Or Die Dramalo/Dramalette', 'When I die show no pity / Send my soul to the juggalo city / Dig my grave six feet deep / And put two matches by my feet / Put two hatchets on my chest / And tell my homies I did my best / WHOOP WHOOP', NULL);
 INSERT INTO public.badge_defs VALUES (296, 'SEX!', 'This user verifiably had sex with another dramatard.', 1692195588);
+INSERT INTO public.badge_defs VALUES (297, 'Weather Balloon', 'This user was shot down over the territory of /r/UFOs.', 1694716945);
 INSERT INTO public.badge_defs VALUES (163, 'Marsey Jacobs', 'Designed 10 hats!', NULL);
 INSERT INTO public.badge_defs VALUES (166, 'Giorgio Armarsey', 'Designed 250 hats 😲', NULL);
 INSERT INTO public.badge_defs VALUES (164, 'Marsey de Givenchy', 'Designed 50 hats, holy cap.', NULL);
 INSERT INTO public.badge_defs VALUES (180, 'Marsey Consoomer', 'Conned rDrama out of sick merch in exchange for a donation to Redbubble.', 1664417205);
+INSERT INTO public.badge_defs VALUES (12, 'Gold Recruiter', 'Recruited 100 friends to join the site', NULL);
 INSERT INTO public.badge_defs VALUES (183, '2022 Spooooooky Marsey Artist', 'Contributed a VERY SCARY Marsey for Halloween 2022!', 1666225718);
 INSERT INTO public.badge_defs VALUES (168, 'BITTEN!', 'This user has been forcibly recruited to House Vampire', NULL);
 INSERT INTO public.badge_defs VALUES (170, 'Marsified', 'This user''s comments get Marsified automatically', NULL);
@@ -65,16 +67,15 @@ INSERT INTO public.badge_defs VALUES (3, 'Code Contributor', 'Contributed to the
 INSERT INTO public.badge_defs VALUES (185, 'Hallowgrinch', 'TP this Halloween-hating loser''s house.', 1666226224);
 INSERT INTO public.badge_defs VALUES (6, 'Beta User', 'Joined during open beta', NULL);
 INSERT INTO public.badge_defs VALUES (7, 'Bug Chaser', 'Found a bug', NULL);
-INSERT INTO public.badge_defs VALUES (10, 'Bronze Recruiter', 'Recruited 1 friend to join the site', NULL);
-INSERT INTO public.badge_defs VALUES (11, 'Silver Recruiter', 'Recruited 10 friends to join the site', NULL);
-INSERT INTO public.badge_defs VALUES (12, 'Gold Recruiter', 'Recruited 100 friends to join the site', NULL);
 INSERT INTO public.badge_defs VALUES (15, 'Idea Maker', 'Had a good idea for the site which was implemented by the developers', NULL);
 INSERT INTO public.badge_defs VALUES (16, 'Marsey Master', 'Contributed 10 (or more!!!!) Marsey emojis ✨', NULL);
 INSERT INTO public.badge_defs VALUES (17, 'Marsey Artisan', 'Contributed a Marsey emoji ✨', NULL);
 INSERT INTO public.badge_defs VALUES (18, 'Artisan', 'Contributed to site artwork', NULL);
 INSERT INTO public.badge_defs VALUES (181, 'INFECTED', 'This user is a mindless zombie.', 1666073382);
 INSERT INTO public.badge_defs VALUES (182, 'VAXXMAXXED', 'This user is a mindless zombie.', 1666074754);
+INSERT INTO public.badge_defs VALUES (301, '2023 Spooooooky Marsey Artist', 'Contributed a VERY SCARY Marsey for Halloween 2023!', 1695911099);
 INSERT INTO public.badge_defs VALUES (85, 'Sigma User', '', NULL);
+INSERT INTO public.badge_defs VALUES (10, 'Bronze Recruiter', 'Recruited 1 friend to join the site', NULL);
 INSERT INTO public.badge_defs VALUES (145, 'Amphetamine Aficionado', 'Totally not addicted™', NULL);
 INSERT INTO public.badge_defs VALUES (146, 'Coffee Consoomer', 'Don''t talk to me until I''ve had my soy latte.', NULL);
 INSERT INTO public.badge_defs VALUES (60, 'Unironically Retarded', 'Demonstrated a wholesale inability to read the room', NULL);
@@ -94,8 +95,10 @@ INSERT INTO public.badge_defs VALUES (73, 'Le Rich Gentlesir', 'Spent a fucking 
 INSERT INTO public.badge_defs VALUES (74, 'Grass Toucher', 'Awarded for molesting plant life', NULL);
 INSERT INTO public.badge_defs VALUES (189, 'Super Spreader', 'Zombified 100 people during Homoween 2022.', 1667275100);
 INSERT INTO public.badge_defs VALUES (76, 'Low Roller', 'Bought 10 lootboxes', NULL);
+INSERT INTO public.badge_defs VALUES (11, 'Silver Recruiter', 'Recruited 10 friends to join the site', NULL);
+INSERT INTO public.badge_defs VALUES (303, 'LGBTQIA+ Drip', 'This user has sworn lifelong allegiance to the most marginalized community 🥰', 1696534759);
 INSERT INTO public.badge_defs VALUES (194, 'Master Baiter 2021', 'The cunning mastermind behind the ruse which was voted best rDrama bait of 2021.', 1670627103);
-INSERT INTO public.badge_defs VALUES (197, 'Best Marsey 2021', 'The creator of the best Marsey emote of 2021, as voted by rDrama users.', 1670627291);
+INSERT INTO public.badge_defs VALUES (197, 'Best Marsey 2021', 'The creator of the best Marsey emoji of 2021, as voted by rDrama users.', 1670627291);
 INSERT INTO public.badge_defs VALUES (199, 'Dramatard of the Year 2021', 'Voted as the best rDrama user of 2021. Congratulations!', 1670627437);
 INSERT INTO public.badge_defs VALUES (77, 'Middle Roller', 'Bought 50 lootboxes', NULL);
 INSERT INTO public.badge_defs VALUES (78, 'High Roller', 'Bought 150 lootboxes', NULL);
@@ -111,8 +114,10 @@ INSERT INTO public.badge_defs VALUES (89, 'Dinner', 'Yes, it is edible', NULL);
 INSERT INTO public.badge_defs VALUES (91, 'Grinch', 'This user is a joyless grinch who pays money to avoid having fun', NULL);
 INSERT INTO public.badge_defs VALUES (92, 'NFT Artist', 'Drew a marsey that was used as an NFT', NULL);
 INSERT INTO public.badge_defs VALUES (93, 'NFT Owner', 'Bought a marsey NFT', NULL);
+INSERT INTO public.badge_defs VALUES (298, 'Gray Alien', 'This user probed /r/UFOs and left the next morning.', 1694717005);
 INSERT INTO public.badge_defs VALUES (95, 'Bird Site Award', 'This user is limited to 140 characters', NULL);
 INSERT INTO public.badge_defs VALUES (97, 'Pizzashill Award', 'This user has to make their posts and comments more than 280 characters', NULL);
+INSERT INTO public.badge_defs VALUES (213, 'Best Marsey 2022', 'The creator of the best Marsey emoji of 2022, as voted by rDrama users.', 1670719193);
 INSERT INTO public.badge_defs VALUES (99, 'Sidebar Artist', 'Contributed artwork featured on the sidebar', NULL);
 INSERT INTO public.badge_defs VALUES (100, 'True Believer', 'This user sees through communist lies', NULL);
 INSERT INTO public.badge_defs VALUES (101, 'Banner Artist', 'Contributed a banner image to the site', NULL);
@@ -171,7 +176,6 @@ INSERT INTO public.badge_defs VALUES (230, 'Itty Bitty Clitty', 'This user submi
 INSERT INTO public.badge_defs VALUES (96, 'Flairlock', 'This user''s flair has been locked by someone else', NULL);
 INSERT INTO public.badge_defs VALUES (159, 'It''s Over', 'Lost a 100,000 bet. It''s fucking over.', NULL);
 INSERT INTO public.badge_defs VALUES (212, 'Dramatard of the Year 2022', 'Voted as the best rDrama user of 2022. Congratulations!', 1670719153);
-INSERT INTO public.badge_defs VALUES (213, 'Best Marsey 2022', 'The creator of the best Marsey emote of 2022, as voted by rDrama users.', 1670719193);
 INSERT INTO public.badge_defs VALUES (90, 'Fish', 'This user used to be impossible to unfollow', NULL);
 INSERT INTO public.badge_defs VALUES (98, 'Hieroglyphs Award', 'This user is limited to posting emojis', NULL);
 INSERT INTO public.badge_defs VALUES (216, 'Human Rights Abuse Profiteer', 'I hope those 6500 deaths were worth the coin.', 1671150403);
@@ -231,6 +235,7 @@ INSERT INTO public.badge_defs VALUES (281, 'Namelock', 'This user has been forci
 INSERT INTO public.badge_defs VALUES (245, 'Kongmaxxer: N', 'Contributed a KONGMAXXED Marsey or emoji during Donkey Kong December', 1679419208);
 INSERT INTO public.badge_defs VALUES (282, 'Rehab Counselor', 'Awarded for participating in the Marsey''s Methlab Event', 1685121792);
 INSERT INTO public.badge_defs VALUES (283, 'Summer Fun', 'Awarded for contributing to the Marsey''s Summer Fun event', 1685121838);
+INSERT INTO public.badge_defs VALUES (299, 'Ashtar Sheran, Galactic Federation', 'This user shared galactic knowledge with the users of /r/UFOs.', 1694717076);
 INSERT INTO public.badge_defs VALUES (285, 'Queen', 'This user SLAYS 💅👠💄', 1687282987);
 INSERT INTO public.badge_defs VALUES (287, 'Carp Artisan', 'Contributed a Carp emoji ✨', 1687530510);
 INSERT INTO public.badge_defs VALUES (288, 'Carp Master', 'Contributed 10 (or more!!!!) Carp emojis ✨', 1687530535);
@@ -250,6 +255,7 @@ INSERT INTO public.badge_defs VALUES (292, 'George ''Hard R'' Marsey', 'This use
 INSERT INTO public.badge_defs VALUES (293, 'Gloriously Girthy', 'This user consumes the FDA recommended amount of sustenance', 1690470720);
 INSERT INTO public.badge_defs VALUES (203, 'Best rDrama OC 2022', 'The creator or commissioner of the best rDrama original content of 2022, as voted by rDrama users.', 1670627675);
 INSERT INTO public.badge_defs VALUES (214, 'Master Baiter 2022', 'The cunning mastermind behind the ruse which was voted best rDrama bait of 2022.', 1670719221);
+INSERT INTO public.badge_defs VALUES (300, 'Gorloj, Galactic High Council', 'This user cloaked /r/UFOs in their heavenly wisdom.', 1694717119);
 INSERT INTO public.badge_defs VALUES (198, 'Best rDrama Post 2021', 'The author of the best rDrama post of 2021, as voted by rDrama users.', 1670627332);
 INSERT INTO public.badge_defs VALUES (208, 'Best rDrama Post 2022', 'The author of the best rDrama post of 2022, as voted by rDrama users.', 1670628577);
 INSERT INTO public.badge_defs VALUES (294, 'Highest Roller', 'One of rDrama''s Top 10 Sugar Leather Daddies 🤤', 1690858016);
@@ -260,7 +266,7 @@ INSERT INTO public.badge_defs VALUES (295, 'August''s August August', 'This user
 -- Name: badge_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.badge_defs_id_seq', 296, true);
+SELECT pg_catalog.setval('public.badge_defs_id_seq', 303, true);
 
 
 --

@@ -9,6 +9,7 @@ from typing import Union
 from typing_extensions import deprecated
 from urllib.parse import parse_qs, urlparse, unquote, ParseResult, urlencode, urlunparse
 import time
+import requests
 from files.helpers.marseyfx.parser import parse_emoji
 from files.helpers.marseyfx.tokenizer import Tokenizer
 
@@ -30,45 +31,20 @@ from files.helpers.config.const import *
 from files.helpers.const_stateful import *
 from files.helpers.regex import *
 from files.helpers.get import *
+from files.helpers.marsify import *
+from files.helpers.owoify import *
+from files.helpers.sharpen import *
+from files.helpers.queenify import *
 
-from bs4 import Tag
-
-TLDS = ( # Original gTLDs and ccTLDs
-	'ac','ad','ae','aero','af','ag','ai','al','am','an','ao','aq','ar','arpa','as','asia','at',
-	'au','aw','ax','az','ba','bb','bd','be','bf','bg','bh','bi','biz','bj','bm','bn','bo','br',
-	'bs','bt','bv','bw','by','bz','ca','cafe','cat','cc','cd','cf','cg','ch','ci','ck','cl',
-	'cm','cn','co','com','coop','cr','cu','cv','cx','cy','cz','de','dj','dk','dm','do','dz','ec',
-	'edu','ee','eg','er','es','et','eu','fi','fj','fk','fm','fo','fr','ga','gb','gd','ge','gf',
-	'gg','gh','gi','gl','gm','gn','gov','gp','gq','gr','gs','gt','gu','gw','gy','hk','hm','hn',
-	'hr','ht','hu','id','ie','il','im','in','info','int','io','iq','ir','is','it','je','jm','jo',
-	'jobs','jp','ke','kg','kh','ki','km','kn','kp','kr','kw','ky','kz','la','lb','lc','li','lk',
-	'lr','ls','lt','lu','lv','ly','ma','mc','md','me','mg','mh','mil','mk','ml','mm','mn','mo',
-	'mobi','mp','mq','mr','ms','mt','mu','museum','mv','mw','mx','my','mz','na','name',
-	'nc','ne','net','nf','ng','ni','nl','no','np','nr','nu','nz','om','org','pa','pe','pf','pg',
-	'ph','pk','pl','pm','pn','post','pr','pro','ps','pt','pw','py','qa','re','ro','rs','ru','rw',
-	'sa','sb','sc','sd','se','sg','sh','si','sj','sk','sl','sm','sn','so','social','sr','ss','st',
-	'su','sv','sx','sy','sz','tc','td','tel','tf','tg','th','tj','tk','tl','tm','tn','to','tp',
-	'tr','travel','tt','tv','tw','tz','ua','ug','uk','us','uy','uz','va','vc','ve','vg','vi','vn',
-	'vu','wf','ws','xn','xxx','ye','yt','yu','za','zm','zw',
-	# New gTLDs
-	'app','cleaning','club','dev','farm','florist','fun','gay','lgbt','life','lol',
-	'moe','mom','monster','new','news','online','pics','press','pub','site','blog',
-	'vip','win','world','wtf','xyz','video','host','art','media','wiki','tech',
-	'cooking','network','party','goog','markets','today','beauty','camp','top',
-	'red','city','quest','works','soy',
-	)
 
 allowed_tags = ('a','audio','b','big','blockquote','br','center','code','del','details','em','g','h1','h2','h3','h4','h5','h6','hr','i','img','li','lite-youtube','marquee','ol','p','pre','rp','rt','ruby','small','span','spoiler','strike','strong','sub','summary','sup','table','tbody','td','th','thead','tr','u','ul','video')
 
-allowed_global_styles = ['background-color', 'color', 'filter', 'font-weight', 'text-align']
-
-additional_img_styles = ['transform']
-
-allowed_styles = allowed_global_styles + additional_img_styles
+allowed_styles = ['background-color', 'color', 'filter', 'font-weight', 'text-align', 'transform']
 
 def allowed_attributes(tag, name, value):
 
-	if name == 'style': return True
+	if name == 'style':
+		return True
 
 	if tag == 'marquee':
 		if name in {'direction', 'behavior', 'scrollamount'}: return True
@@ -121,37 +97,6 @@ def allowed_attributes(tag, name, value):
 		if name == 'class' and value == 'table': return True
 
 	return False
-
-def build_url_re(tlds, protocols):
-	"""Builds the url regex used by linkifier
-
-	If you want a different set of tlds or allowed protocols, pass those in
-	and stomp on the existing ``url_re``::
-
-		from bleach import linkifier
-
-		my_url_re = linkifier.build_url_re(my_tlds_list, my_protocols)
-
-		linker = LinkifyFilter(url_re=my_url_re)
-
-	"""
-	return re.compile(
-		r"""\(*# Match any opening parentheses.
-		\b(?<![@.#:])(?:(?:{0}):/{{0,3}}(?:(?:\w+:)?\w+@)?)?# http://
-		([\w-]+\.)+(?:{1})(?:\:[0-9]+)?(?!\.\w)\b# xx.yy.tld(:##)?
-		(?:[/?][^#\s\{{\}}\|\\\^\[\]`<>"]*)?
-			# /path/zz (excluding "unsafe" chars from RFC 1738,
-			# except for ~, which happens in practice)
-		(?:\#[^#\s\|\\\^\[\]`<>"]*)?
-			# #hash (excluding "unsafe" chars from RFC 1738,
-			# except for ~, which happens in practice)
-		""".format(
-			"|".join(sorted(protocols)), "|".join(sorted(tlds))
-		),
-		re.VERBOSE | re.UNICODE,
-	)
-
-url_re = build_url_re(tlds=TLDS, protocols=['http', 'https'])
 
 def create_comment_duplicated(text_html):
 	new_comment = Comment(author_id=AUTOJANNY_ID,
@@ -229,49 +174,58 @@ def execute_blackjack(v, target, body, kind):
 			send_repeatable_notification_duplicated(id, f"Blackjack by @{v.username}: {extra_info}")
 	return True
 
-def find_all_emote_endings(word):
+def find_all_emoji_endings(emoji):
 	endings = []
 
-	if path.isfile(f'files/assets/images/emojis/{word}.webp'):
-		return endings, word
+	if path.isfile(f'files/assets/images/emojis/{emoji}.webp'):
+		return endings, emoji
 
 	is_non_ending_found = False
 	while not is_non_ending_found:
-		if word.endswith('pat'):
+		if emoji.endswith('pat'):
 			if 'pat' in endings:
 				is_non_ending_found = True
 				continue
 			endings.append('pat')
-			word = word[:-3]
+			emoji = emoji[:-3]
 			continue
 
-		if word.endswith('talking'):
+		if emoji.endswith('talking'):
 			if 'talking' in endings:
 				is_non_ending_found = True
 				continue
 			endings.append('talking')
-			word = word[:-7]
+			emoji = emoji[:-7]
 			continue
 
-		if word.endswith('genocide'):
+		if emoji.endswith('genocide'):
 			if 'genocide' in endings:
 				is_non_ending_found = True
 				continue
 			endings.append('genocide')
-			word = word[:-8]
+			emoji = emoji[:-8]
 			continue
 
-		if word.endswith('love'):
+		if emoji.endswith('love'):
 			if 'love' in endings:
 				is_non_ending_found = True
 				continue
 			endings.append('love')
-			word = word[:-4]
+			emoji = emoji[:-4]
 			continue
 
 		is_non_ending_found = True
 
-	return endings, word
+	if emoji.endswith('random'):
+		kind = emoji.split('random')[0].title()
+		if kind == 'Donkeykong': kind = 'Donkey Kong'
+		elif kind == 'Marseyflag': kind = 'Marsey Flags'
+		elif kind == 'Marseyalphabet': kind = 'Marsey Alphabet'
+
+		if kind in EMOJI_KINDS:
+			emoji = g.db.query(Emoji.name).filter_by(kind=kind, nsfw=False).order_by(func.random()).first()[0]
+
+	return endings, emoji
 
 class RenderEmojisResult:
 	emojis_used: set[str]
@@ -363,28 +317,18 @@ def old_render_emoji(html, regexp, golden, emojis_used, b=False, is_title=False)
 		attrs = ''
 		if b: attrs += ' b'
 		if is_title: emoji = emoji.replace('#','')
-		if golden and len(emojis) <= 20 and ('marsey' in emoji or emoji in marseys_const2):
+		if golden and len(emojis) <= 20 and ('marsey' in emoji or emoji in MARSEYS_CONST2):
 			if random.random() < 0.005:
 				attrs += ' ' + random.choice(('g', 'glow', 'party'))
 
 		old = emoji
 		emoji = emoji.replace('!','').replace('#','')
 
-		if emoji.endswith('random'):
-			kind = emoji.split('random')[0].title()
-			if kind == 'Donkeykong': kind = 'Donkey Kong'
-			elif kind == 'Marseyflag': kind = 'Marsey Flags'
-			elif kind == 'Marseyalphabet': kind = 'Marsey Alphabet'
-
-			if kind in EMOJI_KINDS:
-				emoji = g.db.query(Emoji.name).filter_by(kind=kind).order_by(func.random()).first()[0]
-
-
 		emoji_partial_pat = '<img alt=":{0}:" loading="lazy" src="{1}"{2}>'
 		emoji_partial = '<img alt=":{0}:" data-bs-toggle="tooltip" loading="lazy" src="{1}" title=":{0}:"{2}>'
 		emoji_html = None
 
-		ending_modifiers, emoji = find_all_emote_endings(emoji)
+		ending_modifiers, emoji = find_all_emoji_endings(emoji)
 
 		is_talking = 'talking' in ending_modifiers
 		is_patted = 'pat' in ending_modifiers
@@ -504,7 +448,7 @@ def handle_youtube_links(url):
 	return html
 
 @with_sigalrm_timeout(10)
-def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis=False, snappy=False, chat=False, blackjack=None, post_mention_notif=False, commenters_ping_post_id=None):
+def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis=False, snappy=False, chat=False, blackjack=None, post_mention_notif=False, commenters_ping_post_id=None, obj=None, author=None):
 	def error(error):
 		if chat:
 			return error, 403
@@ -516,8 +460,20 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 
 	if not sanitized: return ''
 
-	if blackjack and execute_blackjack(g.v, None, sanitized, blackjack):
-		sanitized = 'g'
+	v = getattr(g, 'v', None)
+
+	if blackjack and execute_blackjack(v, None, sanitized, blackjack):
+		return '<p>g</p>'
+
+	if obj and not (isinstance(obj, Post) and len(obj.body) > 1000):
+		if author.owoify:
+			sanitized = owoify(sanitized)
+		if author.marsify and not author.chud:
+			sanitized = marsify(sanitized)
+		if obj.sharpened:
+			sanitized = sharpen(sanitized)
+		if obj.queened:
+			sanitized = queenify(sanitized)
 
 	if '```' not in sanitized and '<pre>' not in sanitized:
 		sanitized = linefeeds_regex.sub(r'\1\n\n\2', sanitized)
@@ -541,9 +497,29 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 	sanitized = sanitized.replace('<a href="/%21', '<a href="/!')
 
 	sanitized = reddit_mention_regex.sub(r'<a href="https://old.reddit.com/\1" rel="nofollow noopener" target="_blank">/\1</a>', sanitized)
-	sanitized = sub_regex.sub(r'<a href="/\1">/\1</a>', sanitized)
+	sanitized = hole_mention_regex.sub(r'<a href="/\1">/\1</a>', sanitized)
 
-	v = getattr(g, 'v', None)
+	names = set(m.group(1) for m in mention_regex.finditer(sanitized))
+
+	if limit_pings and len(names) > limit_pings and v.admin_level < PERMS['POST_COMMENT_INFINITE_PINGS']:
+		error("Max ping limit is 5 for comments and 50 for posts!")
+
+	users_list = get_users(names, graceful=True)
+	users_dict = {}
+	for u in users_list:
+		users_dict[u.username.lower()] = u
+		if u.original_username:
+			users_dict[u.original_username.lower()] = u
+		if u.prelock_username:
+			users_dict[u.prelock_username.lower()] = u
+
+	def replacer(m):
+		u = users_dict.get(m.group(1).lower())
+		if not u or (v and u.id in v.all_twoway_blocks) or (v and u.has_muted(v)):
+			return m.group(0)
+		return f'<a href="/id/{u.id}"><img loading="lazy" src="/pp/{u.id}">@{u.username}</a>'
+
+	sanitized = mention_regex.sub(replacer, sanitized)
 
 	if FEATURES['PING_GROUPS']:
 		def group_replacer(m):
@@ -556,7 +532,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 			elif name == 'commenters' and commenters_ping_post_id:
 				return f'<a href="/!commenters/{commenters_ping_post_id}/{int(time.time())}">!{name}</a>'
 			elif name == 'followers':
-				return f'<a href="/id/{g.v.id}/followers">!{name}</a>'
+				return f'<a href="/id/{v.id}/followers">!{name}</a>'
 			elif g.db.get(Group, name):
 				return f'<a href="/!{name}">!{name}</a>'
 			else:
@@ -566,6 +542,9 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 
 
 	soup = BeautifulSoup(sanitized, 'lxml')
+
+	if len(soup.select('[bounce], [cide]')) > 5:
+		error("Max 5 usages of 'bounce' and 'cide'!")
 
 	for tag in soup.find_all("img"):
 		if tag.get("src") and not tag["src"].startswith('/pp/') and not (snappy and tag["src"].startswith(f'{SITE_FULL_IMAGES}/e/')):
@@ -605,10 +584,21 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 	sanitized = video_sub_regex.sub(r'<p class="resizable"><video controls preload="none" src="\1"></video></p>', sanitized)
 	sanitized = audio_sub_regex.sub(r'<audio controls preload="none" src="\1"></audio>', sanitized)
 
+	if count_emojis:
+		for emoji in g.db.query(Emoji).filter(Emoji.submitter_id==None, Emoji.name.in_(emojis_used)):
+			emoji.count += 1
+			g.db.add(emoji)
+
+	if obj:
+		for emoji in emojis_used:
+			if emoji in OVER_18_EMOJIS:
+				obj.nsfw = True
+				break
+
 	sanitized = sanitized.replace('<p></p>', '')
 
 	allowed_css_properties = allowed_styles.copy()
-	if g.v and g.v.chud:
+	if v and v.chud:
 		allowed_css_properties.remove('filter')
 
 	css_sanitizer = CSSSanitizer(allowed_css_properties=allowed_css_properties)
@@ -617,12 +607,14 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 								protocols=['http', 'https'],
 								css_sanitizer=css_sanitizer,
 								filters=[partial(LinkifyFilter, skip_tags=["pre"],
-									parse_email=False, url_re=url_re)]
+									parse_email=False, url_re=sanitize_url_regex)]
 								).clean(sanitized)
 
 
 	#doing this here cuz of the linkifyfilter right above it (therefore unifying all link processing logic) <-- i have no clue what this means lol
 	soup = BeautifulSoup(sanitized, 'lxml')
+
+	has_transform = bool(soup.select('[style*=transform i]'))
 
 	# -- EMOJI RENDERING --
 	emoji_render = render_emojis(soup)
@@ -684,7 +676,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 
 	links = soup.find_all("a")
 
-	if g.v and g.v.admin_level >= PERMS["IGNORE_DOMAIN_BAN"]:
+	if v and v.admin_level >= PERMS["IGNORE_DOMAIN_BAN"]:
 		banned_domains = []
 	else:
 		banned_domains = [x.domain for x in g.db.query(BannedDomain.domain)]
@@ -745,6 +737,9 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 			link["target"] = "_blank"
 			link["rel"] = "nofollow noopener"
 
+		if has_transform:
+			del link["href"]
+
 	sanitized = str(soup).replace('<html><body>','').replace('</body></html>','').replace('/>','>')
 
 	captured = []
@@ -773,7 +768,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 
 	if "style" in sanitized and "filter" in sanitized:
 		if sanitized.count("blur(") + sanitized.count("drop-shadow(") > 5:
-			error("Too many filters!")
+			error("Max 5 usages of 'blur' and 'drop-shadow'!")
 
 	return sanitized.strip()
 
@@ -796,15 +791,51 @@ def allowed_attributes_emojis(tag, name, value):
 	return False
 
 @with_sigalrm_timeout(2)
-def filter_emojis_only(title, golden=True, count_emojis=False):
+def filter_emojis_only(title, golden=True, count_emojis=False, obj=None, author=None):
 	# XSS warning: do not allow any html tags, otherwise someone could do something like this:
 	# `<img src=":marsey: evilShit">` because when :marsey: is rendered, it will include quotes that
 	# will end the attribute and allow someone to inject an evil attribute like onerror
 	title = title.replace("\n", "").replace("\r", "").replace("\t", "").replace('<','&lt;').replace('>','&gt;')
 	title = remove_cuniform(title)
 
+	if obj and not (isinstance(obj, Post) and len(obj.body) > 1000):
+		if author.owoify:
+			title = owoify(title)
+		if author.marsify and not author.chud:
+			title = marsify(title)
+		if obj.sharpened:
+			title = sharpen(title)
+
+	emojis_used = set()
+
+	title = render_emoji(title, emoji_regex2, golden, emojis_used, is_title=True)
+
+	if count_emojis:
+		for emoji in g.db.query(Emoji).filter(Emoji.submitter_id==None, Emoji.name.in_(emojis_used)):
+			emoji.count += 1
+			g.db.add(emoji)
+
+	if obj:
+		for emoji in emojis_used:
+			if emoji in OVER_18_EMOJIS:
+				obj.nsfw = True
+				break
+
 	title = strikethrough_regex.sub(r'\1<del>\2</del>', title)
+
 	title = bleach.clean(title, tags=['img','del','span'], attributes=allowed_attributes_emojis, protocols=['http','https']).replace('\n','')
+
+	res = render_emojis(title, permit_big=False) #old_render_emoji(title, emoji_regex2, golden, emojis_used, is_title=True)
+
+	if res.heavy_count > 0:
+		abort(400, "You can't have heavy/filter emojis in the title!")
+
+	title = ''.join(map(str, res.tags))
+
+	if count_emojis:
+		res.db_update_count()
+
+	title = title.strip()
 
 	res = render_emojis(title, permit_big=False) #old_render_emoji(title, emoji_regex2, golden, emojis_used, is_title=True)
 
@@ -840,12 +871,15 @@ def is_whitelisted(domain, k):
 def normalize_url(url):
 	url = unquote(url)
 
+	url = url.replace("reddit.com/user/", "reddit.com/u/")
+
 	url = reddit_domain_regex.sub(r'\1https://old.reddit.com/\3', url)
 
 	url = url.replace("https://music.youtube.com/watch?v=", "https://youtube.com/watch?v=") \
 			 .replace("https://www.youtube.com", "https://youtube.com") \
 			 .replace("https://m.youtube.com", "https://youtube.com") \
 			 .replace("https://youtube.com/shorts/", "https://youtube.com/watch?v=") \
+			 .replace("https://youtube.com/live/", "https://youtube.com/watch?v=") \
 			 .replace("https://youtube.com/v/", "https://youtube.com/watch?v=") \
 			 .replace("https://mobile.twitter.com", "https://twitter.com") \
 			 .replace("https://x.com", "https://twitter.com") \
@@ -865,6 +899,7 @@ def normalize_url(url):
 			 .replace('/amp/', '/') \
 			 .replace('https://letmegooglethat.com/?q=', 'https://google.com/search?q=') \
 			 .replace('https://lmgtfy.app/?q=', 'https://google.com/search?q=') \
+			 .replace(DONATE_LINK, f'{SITE_FULL}/donate') \
 
 	if url.endswith('.amp'):
 		url = url.split('.amp')[0]
@@ -907,6 +942,11 @@ def normalize_url(url):
 
 	return url
 
+def normalize_url_gevent(url):
+	try: url = requests.get(url, headers=HEADERS, timeout=2, proxies=proxies).url
+	except: return url
+	return normalize_url(url)
+
 def validate_css(css):
 	if '@import' in css:
 		return False, "CSS @import statements are not allowed!"
@@ -931,97 +971,43 @@ def torture_chud(string, username):
 	string = torture_regex3.sub(rf"\1@{username}'s\3", string)
 	return string
 
-def torture_queen(string, key):
-	if not string: return string
-	result = initial_part_regex.search(string)
-	initial = result.group(1) if result else ""
-	string = string.lower()
-	string = initial_part_regex.sub("", string)
-	string = sentence_ending_regex.sub(", and", string)
-	string = superlative_regex.sub(r"literally \g<1>", string)
-	string = totally_regex.sub(r"totally \g<1>", string)
-	string = single_repeatable_punctuation.sub(r"\g<1>\g<1>\g<1>", string)
-	string = greeting_regex.sub(r"hiiiiiiiiii", string)
-	string = like_after_regex.sub(r"\g<1> like", string)
-	string = like_before_regex.sub(r"like \g<1>", string)
-	string = redpilled_regex.sub(r"goodpill\g<2>", string)
-	string = based_and_x_pilled_regex.sub(r"comfy \g<2> vibes", string)
-	string = based_regex.sub(r"comfy", string)
-	string = x_pilled_regex.sub(r"\g<2> vibes", string)
-	string = xmax_regex.sub(r"normalize good \g<2>s", string)
-	string = xmaxing_regex.sub(r"normalizing good \g<2>s", string)
-	string = xmaxed_regex.sub(r"normalized good \g<2>s", string)
-
-	string = normal_punctuation_regex.sub("", string)
-	string = more_than_one_comma_regex.sub(",", string)
-	if string[-5:] == ', and':
-		string = string[:-5]
-
-	random.seed(key)
-	if random.random() < PHRASE_CHANCE:
-		girl_phrase = random.choice(GIRL_PHRASES)
-		string = girl_phrase.replace("$", string)
-	string = initial + string
-	return string
-
-def torture_object(obj, torture_method):
-	#torture body_html
-	if obj.body_html and '<p>&amp;&amp;' not in obj.body_html and '<p>$$' not in obj.body_html and '<p>##' not in obj.body_html:
-		soup = BeautifulSoup(obj.body_html, 'lxml')
-		tags = soup.html.body.find_all(lambda tag: tag.name not in {'blockquote','codeblock','pre'} and tag.string, recursive=False)
-		i = 0
-		for tag in tags:
-			i+=1
-			key = obj.id+i
-			tag.string.replace_with(torture_method(tag.string, key))
-		obj.body_html = str(soup).replace('<html><body>','').replace('</body></html>','')
-
-	#torture title_html and check for chud_phrase in plain title and leave if it's there
-	if isinstance(obj, Post):
-		obj.title_html = obj.title_html
-
 def complies_with_chud(obj):
 	#check for cases where u should leave
-	if not (obj.chudded or obj.queened): return True
+	if not obj.chudded: return True
 	if obj.author.marseyawarded: return True
 
 	if isinstance(obj, Post):
 		if obj.id in ADMIGGER_THREADS: return True
-		if obj.sub == "chudrama": return True
+		if obj.hole == "chudrama": return True
 	elif obj.parent_post:
 		if obj.parent_post in ADMIGGER_THREADS: return True
-		if obj.post.sub == "chudrama": return True
+		if obj.post.hole == "chudrama": return True
 
-	if obj.chudded:
-		#perserve old body_html to be used in checking for chud phrase
-		old_body_html = obj.body_html
+	#perserve old body_html to be used in checking for chud phrase
+	old_body_html = obj.body_html
 
-		# TODO: Replace this code to make it more generic
-		#torture body_html
-		if obj.body_html and '<p>&amp;&amp;' not in obj.body_html and '<p>$$' not in obj.body_html and '<p>##' not in obj.body_html:
-			soup = BeautifulSoup(obj.body_html, 'lxml')
-			tags = soup.html.body.find_all(lambda tag: tag.name not in {'blockquote','codeblock','pre'} and tag.string, recursive=False)
-			for tag in tags:
-				tag.string.replace_with(torture_chud(tag.string, obj.author.username))
-			obj.body_html = str(soup).replace('<html><body>','').replace('</body></html>','')
+	#torture body_html
+	if obj.body_html and '<p>&amp;&amp;' not in obj.body_html and '<p>$$' not in obj.body_html and '<p>##' not in obj.body_html:
+		soup = BeautifulSoup(obj.body_html, 'lxml')
+		tags = soup.html.body.find_all(lambda tag: tag.name not in {'blockquote','codeblock','pre'} and tag.string, recursive=False)
+		for tag in tags:
+			tag.string.replace_with(torture_chud(tag.string, obj.author.username))
+		obj.body_html = str(soup).replace('<html><body>','').replace('</body></html>','')
 
-		#torture title_html and check for chud_phrase in plain title and leave if it's there
-		if isinstance(obj, Post):
-			obj.title_html = torture_chud(obj.title_html, obj.author.username)
-			if not obj.author.chud or obj.author.chud_phrase in obj.title.lower():
-				return True
+	#torture title_html and check for chud_phrase in plain title and leave if it's there
+	if isinstance(obj, Post):
+		obj.title_html = torture_chud(obj.title_html, obj.author.username)
+		if not obj.author.chud or obj.author.chud_phrase in obj.title.lower():
+			return True
 
-		#check for chud_phrase in body_html
-		if old_body_html:
-			excluded_tags = {'del','sub','sup','marquee','spoiler','lite-youtube','video','audio'}
-			soup = BeautifulSoup(old_body_html, 'lxml')
-			tags = soup.html.body.find_all(lambda tag: tag.name not in excluded_tags and not tag.attrs, recursive=False)
-			for tag in tags:
-				for text in tag.find_all(text=True, recursive=False):
-					if not obj.author.chud or obj.author.chud_phrase in text.lower():
-						return True
+	#check for chud_phrase in body_html
+	if old_body_html:
+		excluded_tags = {'del','sub','sup','marquee','spoiler','lite-youtube','video','audio'}
+		soup = BeautifulSoup(old_body_html, 'lxml')
+		tags = soup.html.body.find_all(lambda tag: tag.name not in excluded_tags and not tag.attrs, recursive=False)
+		for tag in tags:
+			for text in tag.find_all(text=True, recursive=False):
+				if not obj.author.chud or obj.author.chud_phrase in text.lower():
+					return True
 
-		return False
-	elif obj.queened:
-		torture_object(obj, torture_queen)
-		return True
+	return False

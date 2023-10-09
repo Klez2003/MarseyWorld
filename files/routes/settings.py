@@ -12,6 +12,7 @@ from sqlalchemy.orm import load_only
 from files.helpers.actions import *
 from files.helpers.alerts import *
 from files.helpers.config.const import *
+from files.helpers.slurs_and_profanities import censor_slurs_profanities
 from files.helpers.get import *
 from files.helpers.mail import *
 from files.helpers.media import *
@@ -160,7 +161,7 @@ def settings_personal_post(v):
 	updated = updated or update_flag("nitter", "nitter")
 	updated = updated or update_flag("imginn", "imginn")
 	updated = updated or update_flag("controversial", "controversial")
-	updated = updated or update_flag("sigs_disabled", "sigs_disabled")
+	updated = updated or update_flag("show_sigs", "show_sigs")
 	updated = updated or update_flag("is_private", "private")
 	updated = updated or update_flag("lifetimedonated_visible", "lifetimedonated_visible")
 
@@ -177,9 +178,13 @@ def settings_personal_post(v):
 		updated = True
 		session["cursormarsey"] = int(request.values.get("cursormarsey") == 'true')
 
-	elif not updated and request.values.get("over_18", v.over_18) != v.over_18:
+	elif not updated and request.values.get("nsfw_warnings", v.nsfw_warnings) != v.nsfw_warnings:
 		updated = True
-		session["over_18"] = int(request.values.get("over_18") == 'true')
+		session["nsfw_warnings"] = int(request.values.get("nsfw_warnings") == 'true')
+
+	elif not updated and IS_EVENT() and v.can_toggle_event_music and request.values.get("event_music", v.event_music) != v.event_music:
+		updated = True
+		session['event_music'] = request.values.get("event_music", v.event_music) == 'true'
 
 	elif not updated and request.values.get("marsify", v.marsify) != v.marsify and v.marsify <= 1:
 		if not v.patron:
@@ -190,10 +195,6 @@ def settings_personal_post(v):
 		else:
 			badge = v.has_badge(170)
 			if badge: g.db.delete(badge)
-
-	elif IS_FISTMAS() and not updated and request.values.get("event_music", v.event_music) != v.event_music and v.can_toggle_event_music:
-		updated = True
-		v.event_music = not v.event_music
 
 	elif not updated and request.values.get("bio") == "" and not request.files.get('file'):
 		v.bio = None
@@ -360,7 +361,7 @@ def settings_personal_post(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def filters(v):
-	filters = request.values.get("filters")[:1000].strip()
+	filters = request.values.get("filters", "")[:1000].strip()
 
 	if filters == v.custom_filter_list:
 		abort(400, "You didn't change anything!")
@@ -666,9 +667,8 @@ def settings_block_user(v):
 	user = get_user(request.values.get("username"))
 
 	if user.unblockable:
-		if not v.shadowbanned:
-			send_notification(user.id, f"@{v.username} has tried to block you and failed because of your unblockable status!")
-			g.db.commit()
+		send_notification(user.id, f"@{v.username} has tried to block you and failed because of your unblockable status!")
+		g.db.commit()
 		abort(403, f"@{user.username} is unblockable!")
 
 	if user.id == v.id: abort(400, "You can't block yourself")
@@ -731,7 +731,7 @@ def settings_name_change(v):
 
 	new_name = request.values.get("name").strip()
 
-	if new_name==v.username:
+	if new_name == v.username:
 		abort(400, "You didn't change anything")
 
 	if v.patron:
@@ -742,21 +742,16 @@ def settings_name_change(v):
 	if not used_regex.fullmatch(new_name):
 		abort(400, "This isn't a valid username.")
 
-	search_name = new_name.replace('\\', '').replace('_','\_').replace('%','')
+	existing = get_user(new_name, graceful=True)
 
-	x = g.db.query(User).filter(
-		or_(
-			User.username.ilike(search_name),
-			User.original_username.ilike(search_name),
-			User.prelock_username.ilike(search_name),
-			)
-		).one_or_none()
-
-	if x and x.id != v.id:
+	if existing and existing.id != v.id:
 		abort(400, f"Username `{new_name}` is already in use.")
 
 	v.username = new_name
-	v.name_changed_utc = int(time.time())
+
+	if new_name.lower() == v.original_username.lower():
+		v.original_username = new_name
+
 	g.db.add(v)
 
 	return {"message": "Name successfully changed!"}
@@ -895,28 +890,28 @@ def process_settings_plaintext(value, current, length, default_value):
 	return value
 
 
-@app.post("/settings/title_change")
+@app.post("/settings/change_flair")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def settings_title_change(v):
+def settings_change_flair(v):
 	if v.flairchanged: abort(403)
 
-	customtitleplain = process_settings_plaintext("title", v.customtitleplain, 100, None)
+	flair = process_settings_plaintext("title", v.flair, 100, None)
 
-	if customtitleplain:
-		customtitle = filter_emojis_only(customtitleplain)
-		customtitle = censor_slurs(customtitle, None)
+	if flair:
+		flair_html = filter_emojis_only(flair)
+		flair_html = censor_slurs_profanities(flair_html, None)
 
-		if len(customtitle) > 1000:
+		if len(flair_html) > 1000:
 			abort(400, "Flair too long!")
 	else:
-		customtitle = None
+		flair_html = None
 
-	v.customtitleplain = customtitleplain
-	v.customtitle = customtitle
+	v.flair = flair
+	v.flair_html = flair_html
 	g.db.add(v)
 
 	return {"message": "Flair successfully updated!"}

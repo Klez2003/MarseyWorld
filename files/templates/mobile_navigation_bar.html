@@ -47,25 +47,21 @@
 </button>
 {% if v %}
 	{%- if FEATURES['CHAT'] -%}
-		{%- if v and v.allowed_in_chat and get_orgy() -%}
-			<button type="button" class="nobackground border-0 col px-0 btn btn-dead m-0 pt-0" style="margin-right:-10px!important">
-				<a href="/orgy" class="text-decoration-none">
-					<div class="text-center {% if request|selected_tab=='orgy' %}text-primary{% else %}text-muted{% endif %}">
-						<b class="text-lg {% if g.loggedin_orgy > 40 %}text-danger{% elif g.loggedin_orgy > 20 %}text-yellow{% endif %}" style="padding-top:10px" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Users in Orgy right now">{{g.loggedin_orgy}}</b>
-						<div class="text-small-extra">Orgy</div>
-					</div>
-				</a>
-			</button>
-		{%- else -%}
-			<button type="button" class="nobackground border-0 col px-0 btn btn-dead m-0 pt-0" style="margin-right:-10px!important">
-				<a href="/chat" class="text-decoration-none">
-					<div class="text-center {% if request|selected_tab=='chat' %}text-primary{% else %}text-muted{% endif %}">
-						<b class="text-lg {% if g.loggedin_chat > 40 %}text-danger{% elif g.loggedin_chat > 20 %}text-yellow{% endif %}" style="padding-top:10px" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Users in chat right now">{{g.loggedin_chat}}</b>
+		<button type="button" class="nobackground border-0 col px-0 btn btn-dead m-0 {% if not get_orgy(v) %}pt-0{% endif %}">
+			<a href="/chat" class="text-decoration-none">
+				<div class="text-center {% if request|selected_tab=='chat' %}text-primary{% else %}text-muted{% endif %}">
+					{%- if get_orgy(v) -%}
+						<img src="{{SITE_FULL_IMAGES}}/i/orgy.webp" width="30">
+						<div class="text-small-extra text-danger">Chat ({{g.loggedin_chat}})</div>
+					{%- else -%}
+						<b class="text-lg {% if g.loggedin_chat > 40 %}text-danger{% elif g.loggedin_chat > 20 %}text-yellow{% endif %}" style="padding-top:10px" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Users in chat right now">
+							{{g.loggedin_chat}}
+						</b>
 						<div class="text-small-extra">Chat</div>
-					</div>
-				</a>
-			</button>
-		{%- endif -%}
+					{%- endif -%}
+				</div>
+			</a>
+		</button>
 	{%- endif -%}
 
 	{%- if FEATURES['AWARDS'] -%}

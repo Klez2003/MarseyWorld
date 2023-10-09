@@ -15,13 +15,16 @@
 	{%- endif -%}
 
 	{% if request.path != '/sidebar' %}
-		<a href="{{image}}">
-			<img class="mb-4 sidebar-img" alt="sidebar image" data-nonce="{{g.nonce}}" data-onclick="expandImage()" loading="lazy" src="{{image}}">
-		</a>
+		{% if IS_FISTMAS() or IS_HOMOWEEN() %}
+			{% include "events/shared/eye_tracking.html" %}
+		{% else %}
+			<a href="{{image}}">
+				<img class="mb-4 sidebar-img" alt="sidebar image" data-nonce="{{g.nonce}}" data-onclick="expandImage()" loading="lazy" src="{{image}}">
+			</a>
+		{% endif %}
 	{% endif %}
 
 	<p class="text-center text-md mb-4">
-		<a class="sidebar-link" href="/emojis/Marsey" data-bs-toggle="tooltip" data-bs-placement="top" title="Emojis"><i class="fas fa-cat"></i></a>
 		<a class="sidebar-link" href="/badges" data-bs-toggle="tooltip" data-bs-placement="top" title="Badges"><i class="fas fa-hexagon"></i></a>
 		<a class="sidebar-link" href="/admins" data-bs-toggle="tooltip" data-bs-placement="top" title="Admins"><i class="fas fa-crown"></i></a>
 		<a class="sidebar-link" href="/log" data-bs-toggle="tooltip" data-bs-placement="top" title="Moderation Log"><i class="fas fa-scroll-old"></i></a>
@@ -29,7 +32,18 @@
 		<a class="sidebar-link" href="/random_post" data-bs-toggle="tooltip" data-bs-placement="top" title="Random Post"><i class="fas fa-random"></i></a>
 	</p>
 
-	<div class="sidebar-wpd--flairs sidebar-wpd--flairs--3">
+	{% if IS_HOMOWEEN() %}
+		<div class="progress">
+			<div style="--width:{{bar_position()[0]}}%" class="bar-left"></div>
+			<div style="--width:{{bar_position()[1]}}%" class="bar-right"></div>
+			<div class="legend">
+				<span title="{{bar_position()[2]}}">{{bar_position()[0]}}% Vaxxed</span>
+				<span title="{{bar_position()[3]}}">{{bar_position()[1]}}% Infected</span>
+			</div>
+		</div>
+	{% endif %}
+
+	<div class="sidebar-wpd--holes sidebar-wpd--holes--3">
 		<a href="/h/accident">Accident</a>
 		<a href="/h/animal">Animal</a>
 		<a href="/h/beating">Beating</a>
@@ -48,14 +62,14 @@
 		<a href="/h/industrial">Industrial</a>
 		<a href="/h/isis">ISIS</a>
 		<a href="/h/maiming">Maiming</a>
-		<a href="/h/other">Other</a>
 		<a href="/h/police">Police</a>
 		<a href="/h/shooting">Shooting</a>
 		<a href="/h/suicide">Suicide</a>
 		<a href="/h/vehicle">Vehicle</a>
+		<a href="/h/other">Other</a>
 	</div>
 
-	<div class="sidebar-wpd--flairs sidebar-wpd--flairs--3 mt-4">
+	<div class="sidebar-wpd--holes sidebar-wpd--holes--3 mt-4">
 		<a href="/h/aftermath">Aftermath</a>
 		<a href="/h/fights">Fights</a>
 		<a href="/h/gore">Gore</a>
@@ -64,7 +78,7 @@
 		<a href="/h/selfharm">Self-Harm</a>
 	</div>
 
-	<div class="sidebar-wpd--flairs sidebar-wpd--flairs--3 mt-4 mb-3">
+	<div class="sidebar-wpd--holes sidebar-wpd--holes--3 mt-4 mb-3">
 		<a href="/h/discussion">Discussion</a>
 		<a href="/h/meta">Meta</a>
 		<a href="/h/music">Music</a>

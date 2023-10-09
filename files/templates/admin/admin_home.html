@@ -57,7 +57,7 @@
 
 <h4>Users</h4>
 <ul>
-	{% if v.admin_level >= PERMS['USER_SHADOWBAN'] %}
+	{% if v.can_see_shadowbanned %}
 		<li><a href="/admin/shadowbanned">Shadowbanned Users</a></li>
 	{% endif %}
 	<li><a href="/banned">Banned Users</a></li>
@@ -117,8 +117,8 @@
 	{% if v.admin_level >= PERMS['EDIT_RULES'] %}
 		<li><a href="/admin/edit_rules">Edit the Rules</a></li>
 	{%- endif %}
-	{% if v.admin_level >= PERMS['HOLE_CREATE'] %}
-		<li><a href="/create_hole">Create {{HOLE_NAME | capitalize}}</a></li>
+	{% if PERMS['HOLE_CREATE'] and v.admin_level >= PERMS['HOLE_CREATE'] %}
+		<li><a href="/create_hole">Create Hole</a></li>
 	{% endif %}
 	{% if v.admin_level >= PERMS['APPS_MODERATION'] %}
 		<li><a href="/admin/apps">Apps</a></li>

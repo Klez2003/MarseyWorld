@@ -42,10 +42,15 @@ def reddit_post(subreddit, v, path):
 	return redirect(f'https://{reddit}/{post_id}')
 
 
-@cache.cached(make_cache_key=lambda kind:f"emoji_list_{kind}")
-def get_emoji_list(kind):
+@cache.cached(make_cache_key=lambda kind, nsfw:f"emoji_list_{kind}_{nsfw}")
+def get_emoji_list(kind, nsfw):
+	li = g.db.query(Emoji, User).join(User, Emoji.author_id == User.id).filter(Emoji.submitter_id == None, Emoji.kind == kind)
+	if not nsfw:
+		li = li.filter(Emoji.nsfw == False)
+	li = li.order_by(Emoji.count.desc())
+
 	emojis = []
-	for emoji, author in g.db.query(Emoji, User).join(User, Emoji.author_id == User.id).filter(Emoji.submitter_id == None, Emoji.kind == kind).order_by(Emoji.count.desc()):
+	for emoji, author in li:
 		emoji.author = author.username if FEATURES['ASSET_SUBMISSIONS'] else None
 		emojis.append(emoji)
 	return emojis
@@ -60,7 +65,7 @@ def marseys_redirect():
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def emoji_list(v, kind):
-	emojis = get_emoji_list(kind)
+	emojis = get_emoji_list(kind, g.show_nsfw)
 	authors = get_accounts_dict([e.author_id for e in emojis], v=v, graceful=True)
 
 	if FEATURES['ASSET_SUBMISSIONS']:
@@ -81,9 +86,13 @@ def emoji_list(v, kind):
 
 
 
-@cache.cached(make_cache_key=lambda:"emojis")
-def get_emojis():
+@cache.cached(make_cache_key=lambda nsfw:f"emojis_{nsfw}")
+def get_emojis(nsfw):
 	emojis = g.db.query(Emoji, User).join(User, Emoji.author_id == User.id).filter(Emoji.submitter_id == None)
+
+	if not nsfw:
+		emojis = emojis.filter(Emoji.nsfw == False)
+
 	emojis1 = emojis.filter(Emoji.kind != 'Marsey Alphabet').order_by(Emoji.count.desc()).all()
 	emojis2 = emojis.filter(Emoji.kind == 'Marsey Alphabet').order_by(func.length(Emoji.name), Emoji.name).all()
 	emojis = emojis1 + emojis2
@@ -102,7 +111,7 @@ def get_emojis():
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def emojis(v):
-	return get_emojis()
+	return get_emojis(g.show_nsfw)
 
 
 
@@ -175,7 +184,7 @@ def log(v):
 
 	kind = request.values.get("kind")
 
-	if v.admin_level >= PERMS['USER_SHADOWBAN']:
+	if v.can_see_shadowbanned:
 		if v.admin_level >= PERMS['PROGSTACK']:
 			types = MODACTION_TYPES
 		else:
@@ -188,7 +197,7 @@ def log(v):
 		total = 0
 	else:
 		actions = g.db.query(ModAction)
-		if v.admin_level < PERMS['USER_SHADOWBAN']:
+		if not v.can_see_shadowbanned:
 			actions = actions.filter(ModAction.kind.notin_(MODACTION_PRIVILEGED_TYPES))
 		if v.admin_level < PERMS['PROGSTACK']:
 			actions = actions.filter(ModAction.kind.notin_(MODACTION_PRIVILEGED__TYPES))
@@ -217,12 +226,12 @@ def log_item(id, v):
 
 	if not action: abort(404)
 
-	if action.kind in MODACTION_PRIVILEGED_TYPES and v.admin_level < PERMS['USER_SHADOWBAN']:
+	if action.kind in MODACTION_PRIVILEGED_TYPES and not v.can_see_shadowbanned:
 		abort(404)
 
 	admins = [x[0] for x in g.db.query(User.username).filter(User.admin_level >= PERMS['ADMIN_MOP_VISIBLE'])]
 
-	if v.admin_level >= PERMS['USER_SHADOWBAN']:
+	if v.can_see_shadowbanned:
 		if v.admin_level >= PERMS['PROGSTACK']:
 			types = MODACTION_TYPES
 		else:
@@ -417,6 +426,12 @@ def transfers(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @auth_desired
 def donate(v):
-	if v and (v.shadowbanned or v.chud == 1 or v.is_permabanned):
-		abort(404)
 	return render_template(f'donate.html', v=v)
+
+
+@app.get("/orgy")
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@auth_required
+def orgy(v):
+	return redirect("/chat")

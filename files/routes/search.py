@@ -6,22 +6,22 @@ from sqlalchemy.orm import load_only
 
 from files.helpers.regex import *
 from files.helpers.sorting_and_time import *
+from files.helpers.get import *
 from files.routes.wrappers import *
 from files.__main__ import app
-
-search_operator_hole = HOLE_NAME
 
 valid_params = [
 	'author',
 	'domain',
-	'over18',
+	'nsfw',
 	'post',
 	'before',
 	'after',
 	'exact',
 	'title',
 	'sentto',
-	search_operator_hole,
+	'hole',
+	'subreddit',
 ]
 
 def searchparse(text):
@@ -39,8 +39,7 @@ def searchparse(text):
 		for m in search_token_regex.finditer(text):
 			token = m[1] if m[1] else m[2]
 			if not token: token = ''
-			# Escape SQL pattern matching special characters
-			token = token.replace('\\', '').replace('_', '\_').replace('%', '\%')
+			token = escape_for_search(token)
 			criteria['q'].append(token)
 
 	return criteria
@@ -111,32 +110,35 @@ def searchposts(v):
 					) for x in criteria['q']]
 		posts = posts.filter(*words)
 
-	if 'over18' in criteria: posts = posts.filter(Post.over_18==True)
+	if 'nsfw' in criteria: posts = posts.filter(Post.nsfw==True)
 
 	if 'domain' in criteria:
-		domain=criteria['domain']
+		domain = criteria['domain']
 
-		domain = domain.replace('\\', '').replace('_', '\_').replace('%', '').strip()
+		domain = escape_for_search(domain)
 
-		posts=posts.filter(
+		posts = posts.filter(
 			or_(
 				Post.url.ilike("https://"+domain+'/%'),
-				Post.url.ilike("https://"+domain+'/%'),
-				Post.url.ilike("https://"+domain),
 				Post.url.ilike("https://"+domain),
 				Post.url.ilike("https://www."+domain+'/%'),
-				Post.url.ilike("https://www."+domain+'/%'),
-				Post.url.ilike("https://www."+domain),
 				Post.url.ilike("https://www."+domain),
 				Post.url.ilike("https://old." + domain + '/%'),
-				Post.url.ilike("https://old." + domain + '/%'),
-				Post.url.ilike("https://old." + domain),
 				Post.url.ilike("https://old." + domain)
 				)
 			)
 
-	if search_operator_hole in criteria:
-		posts = posts.filter(Post.sub == criteria[search_operator_hole])
+	if 'subreddit' in criteria:
+		subreddit = criteria['subreddit']
+
+		if not subreddit_name_regex.fullmatch(subreddit):
+			abort(400, "Invalid subreddit name.")
+
+		posts = posts.filter(Post.url.ilike(f"https://old.reddit.com/r/{subreddit}/%"))
+
+
+	if 'hole' in criteria:
+		posts = posts.filter(Post.hole == criteria['hole'])
 
 	if 'after' in criteria:
 		after = criteria['after']
@@ -172,13 +174,13 @@ def searchposts(v):
 	if v.client: return {"total":total, "data":[x.json for x in posts]}
 
 	return render_template("search.html",
-						v=v,
-						query=query,
-						page=page,
-						listing=posts,
-						sort=sort,
-						t=t,
-						total=total
+							v=v,
+							query=query,
+							page=page,
+							listing=posts,
+							sort=sort,
+							t=t,
+							total=total
 						)
 
 @app.get("/search/comments")
@@ -223,19 +225,19 @@ def searchcomments(v):
 		else: comments = comments.filter(Comment.author_id == author.id)
 
 	if 'q' in criteria:
-		tokens = map(lambda x: re.sub(r'[\0():|&*!<>]', '', x), criteria['q'])
+		tokens = map(lambda x: search_regex_1.sub('', x), criteria['q'])
 		tokens = filter(lambda x: len(x) > 0, tokens)
-		tokens = map(lambda x: re.sub(r"'", "\\'", x), tokens)
+		tokens = map(lambda x: search_regex_2.sub("\\'", x), tokens)
 		tokens = map(lambda x: x.strip(), tokens)
-		tokens = map(lambda x: re.sub(r'\s+', ' <-> ', x), tokens)
+		tokens = map(lambda x: search_regex_3.sub(' <-> ', x), tokens)
 		comments = comments.filter(Comment.body_ts.match(
 			' & '.join(tokens),
 			postgresql_regconfig='english'))
 
-	if 'over18' in criteria: comments = comments.filter(Comment.over_18 == True)
+	if 'nsfw' in criteria: comments = comments.filter(Comment.nsfw == True)
 
-	if search_operator_hole in criteria:
-		comments = comments.filter(Post.sub == criteria[search_operator_hole])
+	if 'hole' in criteria:
+		comments = comments.filter(Post.hole == criteria['hole'])
 
 	comments = apply_time_filter(t, comments, Comment)
 
@@ -324,11 +326,11 @@ def searchmessages(v):
 		else: comments = comments.filter(Comment.author_id == author.id)
 
 	if 'q' in criteria:
-		tokens = map(lambda x: re.sub(r'[\0():|&*!<>]', '', x), criteria['q'])
+		tokens = map(lambda x: search_regex_1.sub('', x), criteria['q'])
 		tokens = filter(lambda x: len(x) > 0, tokens)
-		tokens = map(lambda x: re.sub(r"'", "\\'", x), tokens)
+		tokens = map(lambda x: search_regex_2.sub("\\'", x), tokens)
 		tokens = map(lambda x: x.strip(), tokens)
-		tokens = map(lambda x: re.sub(r'\s+', ' <-> ', x), tokens)
+		tokens = map(lambda x: search_regex_3.sub(' <-> ', x), tokens)
 		comments = comments.filter(Comment.body_ts.match(
 			' & '.join(tokens),
 			postgresql_regconfig='english'))
@@ -409,8 +411,8 @@ def searchusers(v):
 
 	if 'q' in criteria:
 		term = criteria['q'][0]
-		term = term.lstrip('@')
-		term = term.replace('\\','').replace('_','\_').replace('%','')
+
+		term = sanitize_username(term)
 
 		users = users.filter(
 			or_(

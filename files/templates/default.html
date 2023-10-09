@@ -9,16 +9,24 @@
 {% block banner %}
 	{% include "modals/expanded_image.html" %}
 	{% if err or '@' not in request.path %}
-		{% if IS_FISTMAS() and not sub %}
+		{% if IS_FISTMAS() and not hole %}
 			{% include 'events/fistmas/banner.html' %}
+		{% elif IS_HOMOWEEN() and not hole %}
+			{% include 'events/homoween/banner.html' %}
 		{% else %}
+			{% set path = "files/assets/images/" ~ SITE_NAME %}
+
 			{% if err and SITE_NAME == 'rDrama' %}
 				{% set src = "banner_error.webp" | asset_siteimg %}
-			{% elif sub and sub.has_banners %}
-				{% set src = sub.random_banner() %}
-				{% set alt = ['/h/', sub, 'banner']|join %}
+			{% elif hole and hole.has_banners %}
+				{% set src = hole.random_banner() %}
+				{% set alt = ['/h/', hole, 'banner']|join %}
 				{% set class = 'site-banner-hole' %}
-			{% elif IS_EVENT() %}
+			{% elif get_orgy(v) and os_path.exists(path ~ "/orgy_banners") %}
+				{% set src = macros.random_image("assets/images/" ~ SITE_NAME ~ "/orgy_banners") %}
+				{% set href = "/chat" %}
+				{% set expand = false %}
+			{% elif IS_DKD() or IS_BIRTHGAY() or IS_BIRTHDEAD() %}
 				{% set src = macros.random_image("assets/events/" ~ IS_EVENT() ~ "/images/banners") %}
 			{% elif SITE_NAME == "rDrama" %}
 				{% set href = "https://donate.transequality.org/a/ncte" %}
@@ -26,8 +34,8 @@
 			{% endif %}
 
 			{% if SITE_NAME == "WPD" %}
-				{% if sub %}
-					{% set href = "/h/" ~ sub %}
+				{% if hole %}
+					{% set href = "/h/" ~ hole %}
 					{% set expand = false %}
 				{% else %}
 					{% set href = "/" %}
@@ -39,22 +47,22 @@
 				{% if src %}
 					{% set banner_url = src %}
 				{% else %}
-					{% set path = "files/assets/images/" ~ SITE_NAME %}
-
 					{%- if not v and os_path.exists(path ~ "/cached.webp") -%}
 						{% set banner_url = 'cached.webp' | asset_siteimg %}
-					{% elif os_path.exists(path ~ "/banners") -%}
+					{%- elif SITE_NAME == 'rDrama' and v and v.chud %}
+						{% set banner_url = '/banners/18.webp' | asset_siteimg %}
+					{%- elif os_path.exists(path ~ "/banners") -%}
 						{% set banner_url = macros.random_image("assets/images/" ~ SITE_NAME ~ "/banners") %}
-					{% else -%}
+					{%- else -%}
 						{% set banner_url = 'banner.webp' | asset_siteimg %}
-					{% endif %}
+					{%- endif -%}
 				{% endif %}
 
 				{% macro img_element() %}
 					<img data-nonce="{{g.nonce}}" data-onclick="{{expand|default('expandImage()')}}" class="{{class|default('site-banner')}}" alt="{{alt|default('site banner')}}" src="{{banner_url}}">
 				{% endmacro %}
 
-				{% if sub and sub.has_banners %}
+				{% if hole and hole.has_banners %}
 					{{img_element()}}
 				{% else %}
 					<div class="banner-wrapper">
@@ -71,7 +79,15 @@
 {% endblock %}
 
 {% include "header.html" %}
-{% block mobileUserBanner %}{% endblock %}
+
+{% block mobileUserBanner %}
+{% endblock %}
+
+{% if IS_HOMOWEEN() %}
+	{% block hauntBg %}
+	{% endblock %}
+{% endif %}
+
 <div class="container">
 	<div class="row justify-content-around" id="main-content-row">
 		<div class="order-first col h-100 {% block customPadding %}{% if request.path.startswith('/@') %}user-gutters{% else %}custom-gutters{% endif %}{% endblock %}" id="main-content-col">
@@ -85,7 +101,9 @@
 		{% block sidebar %}
 			{% if has_sidebar and (home or p) %}
 				{% set sidebar = "sidebar_" ~ SITE_NAME ~ ".html" %}
-				{% include sidebar %}
+				<div id="desktop-sidebar">
+					{% include sidebar %}
+				</div>
 			{% endif %}
 		{% endblock %}
 	</div>
@@ -121,10 +139,8 @@
 	{% endif %}
 {% endif %}
 
-{% if IS_DKD() %}
-	{% include "events/DKD/music.html" %}
-{% elif IS_FISTMAS() %}
-	{% include "events/fistmas/music.html" %}
+{% if IS_EVENT() %}
+	{% include "events/shared/music.html" %}
 {% endif %}
 
 {% endblock %}

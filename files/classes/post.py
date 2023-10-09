@@ -9,13 +9,15 @@ from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
 from files.helpers.config.const import *
+from files.helpers.config.awards import *
+from files.helpers.slurs_and_profanities import *
 from files.helpers.lazy import lazy
 from files.helpers.regex import *
 from files.helpers.sorting_and_time import make_age_string
 
-from .comment import normalize_urls_runtime, add_options
+from .comment import *
 from .polls import *
-from .sub import *
+from .hole import *
 from .subscriptions import *
 from .saves import SaveRelationship
 
@@ -38,12 +40,12 @@ class Post(Base):
 	stickied = Column(String)
 	stickied_utc = Column(Integer)
 	hole_pinned = Column(String)
-	sub = Column(String, ForeignKey("subs.name"))
+	hole = Column(String, ForeignKey("holes.name"))
 	is_pinned = Column(Boolean, default=False)
 	private = Column(Boolean, default=False)
 	comment_count = Column(Integer, default=0)
 	is_approved = Column(Integer, ForeignKey("users.id"))
-	over_18 = Column(Boolean, default=False)
+	nsfw = Column(Boolean, default=False)
 	is_bot = Column(Boolean, default=False)
 	upvotes = Column(Integer, default=1)
 	downvotes = Column(Integer, default=0)
@@ -72,7 +74,7 @@ class Post(Base):
 	awards = relationship("AwardRelationship", order_by="AwardRelationship.awarded_utc.desc()", back_populates="post")
 	reports = relationship("Report", order_by="Report.created_utc")
 	comments = relationship("Comment", primaryjoin="Comment.parent_post==Post.id", back_populates="post")
-	subr = relationship("Sub", primaryjoin="foreign(Post.sub)==remote(Sub.name)")
+	hole_obj = relationship("Hole", primaryjoin="foreign(Post.hole)==remote(Hole.name)")
 	options = relationship("PostOption", order_by="PostOption.id")
 
 	def __init__(self, *args, **kwargs):
@@ -124,9 +126,9 @@ class Post(Base):
 	@lazy
 	def shortlink(self):
 		link = f"/post/{self.id}"
-		if self.sub: link = f"/h/{self.sub}{link}"
+		if self.hole: link = f"/h/{self.hole}{link}"
 
-		if self.sub and self.sub in {'chudrama', 'countryclub', 'highrollerclub'}:
+		if self.hole and self.hole in {'chudrama', 'countryclub', 'highrollerclub'}:
 			output = '-'
 		else:
 			title = self.plaintitle(None).lower()
@@ -165,7 +167,7 @@ class Post(Base):
 	@property
 	@lazy
 	def thumb_url(self):
-		if self.over_18:
+		if self.nsfw:
 			return f"{SITE_FULL_IMAGES}/i/nsfw.webp?x=6"
 		elif not self.url:
 			return f"{SITE_FULL_IMAGES}/i/{SITE_NAME}/default_text.webp?x=6"
@@ -222,11 +224,11 @@ class Post(Base):
 				'created_utc': self.created_utc,
 				'id': self.id,
 				'title': self.title,
-				'is_nsfw': self.over_18,
+				'is_nsfw': self.nsfw,
 				'is_bot': self.is_bot,
 				'thumb_url': self.thumb_url,
 				'domain': self.domain,
-				'sub': self.sub,
+				'hole': self.hole,
 				'url': self.realurl(None),
 				'body': self.body,
 				'body_html': self.body_html,
@@ -249,14 +251,14 @@ class Post(Base):
 
 	@lazy
 	def award_count(self, kind, v):
-		if v and v.poor:
+		if v and v.poor and kind not in FISTMAS_AWARDS + HOMOWEEN_AWARDS:
 			return 0
 
 		if self.distinguish_level and SITE_NAME == 'WPD':
 			return 0
 
 		num = len([x for x in self.awards if x.kind == kind])
-		if num > 4 and kind not in {"shit", "fireflies", "gingerbread"}:
+		if num > 4 and kind not in {"shit", "fireflies", "gingerbread", "pumpkin"}:
 			return 4
 		return num
 
@@ -284,6 +286,8 @@ class Post(Base):
 	@lazy
 	def total_poll_voted(self, v):
 		if v:
+			if v.id == self.author_id:
+				return True
 			for o in self.options:
 				if o.voted(v): return True
 		return False
@@ -297,8 +301,8 @@ class Post(Base):
 
 		body = add_options(self, body, v)
 
-		if self.sub != 'chudrama':
-			body = censor_slurs(body, v)
+		if self.hole != 'chudrama':
+			body = censor_slurs_profanities(body, v)
 
 		body = normalize_urls_runtime(body, v)
 
@@ -312,9 +316,8 @@ class Post(Base):
 		body = self.body
 		if not body: return ""
 
-		if self.sub != 'chudrama':
-			body = censor_slurs(body, v)
-			body = replace_train_html(body)
+		if self.hole != 'chudrama':
+			body = censor_slurs_profanities(body, v, True)
 
 		body = normalize_urls_runtime(body, v)
 
@@ -324,8 +327,8 @@ class Post(Base):
 	def realtitle(self, v):
 		title = self.title_html
 
-		if self.sub != 'chudrama':
-			title = censor_slurs(title, v)
+		if self.hole != 'chudrama':
+			title = censor_slurs_profanities(title, v)
 
 		return title
 
@@ -333,9 +336,8 @@ class Post(Base):
 	def plaintitle(self, v):
 		title = self.title
 
-		if self.sub != 'chudrama':
-			title = censor_slurs(title, v)
-			title = replace_train_html(title)
+		if self.hole != 'chudrama':
+			title = censor_slurs_profanities(title, v, True)
 
 		return title
 
@@ -371,3 +373,11 @@ class Post(Base):
 	@lazy
 	def num_savers(self):
 		return g.db.query(SaveRelationship).filter_by(post_id=self.id).count()
+
+	@lazy
+	def award_classes(self, v, title=False):
+		return get_award_classes(self, v, title)
+
+	@lazy
+	def emoji_awards_emojis(self, v, kind, OVER_18_EMOJIS):
+		return get_emoji_awards_emojis(self, v, kind, OVER_18_EMOJIS)

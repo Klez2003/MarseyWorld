@@ -56,8 +56,8 @@
 								</div>
 							{% elif request.path.startswith('/search/posts') or request.path.startswith('/search/comments') %}
 								<div>
-									<div style="display: inline-block; width: 150px; text-align: center">{{HOLE_NAME | capitalize}}:</div>
-									<button type="button" data-nonce="{{g.nonce}}" data-onclick="addParam(this)" class="searchparam mb-1">{{HOLE_NAME}}:music</button>
+									<div style="display: inline-block; width: 150px; text-align: center">Hole:</div>
+									<button type="button" data-nonce="{{g.nonce}}" data-onclick="addParam(this)" class="searchparam mb-1">hole:music</button>
 								</div>
 								{% if request.path.startswith('/search/comments') %}
 									<div>
@@ -77,11 +77,15 @@
 										<div style="display: inline-block; width: 150px; text-align: center">Exact Match Only:</div>
 										<button type="button" data-nonce="{{g.nonce}}" data-onclick="addParam(this, 'bool')" class="searchparam mb-1">exact:true</button>
 									</div>
+									<div>
+										<div style="display: inline-block; width: 150px; text-align: center">Subreddit:</div>
+										<button type="button" data-nonce="{{g.nonce}}" data-onclick="addParam(this)" class="searchparam mb-1">subreddit:menslib</button>
+									</div>
 								{% endif %}
 								{% if FEATURES['NSFW_MARKING'] %}
 									<div>
 										<div style="display: inline-block; width: 150px; text-align: center">NSFW Only:</div>
-										<button type="button" data-nonce="{{g.nonce}}" data-onclick="addParam(this, 'bool')" class="searchparam mb-1">over18:true</button>
+										<button type="button" data-nonce="{{g.nonce}}" data-onclick="addParam(this, 'bool')" class="searchparam mb-1">nsfw:true</button>
 									</div>
 								{% endif %}
 							{% endif %}

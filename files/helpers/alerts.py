@@ -13,6 +13,7 @@ from files.classes import Comment, Notification, PushSubscription, Group
 from .config.const import *
 from .regex import *
 from .sanitize import *
+from .slurs_and_profanities import censor_slurs_profanities
 
 def create_comment(text_html):
 	new_comment = Comment(author_id=AUTOJANNY_ID,
@@ -28,8 +29,10 @@ def create_comment(text_html):
 	return new_comment.id
 
 def send_repeatable_notification(uid, text):
-
 	if uid in BOT_IDs: return
+
+	if hasattr(g, 'v') and g.v and g.v.shadowbanned and g.db.query(User.admin_level).filter_by(id=uid).one()[0] < PERMS['USER_SHADOWBAN']:
+		return
 
 	text_html = sanitize(text, blackjack="notification")
 
@@ -52,8 +55,11 @@ def send_repeatable_notification(uid, text):
 
 
 def send_notification(uid, text):
-
 	if uid in BOT_IDs: return
+
+	if hasattr(g, 'v') and g.v and g.v.shadowbanned and g.db.query(User.admin_level).filter_by(id=uid).one()[0] < PERMS['USER_SHADOWBAN']:
+		return
+
 	cid = notif_comment(text)
 	add_notif(cid, uid, text)
 
@@ -97,13 +103,16 @@ def notif_comment2(p):
 
 	if existing: return existing[0], text
 	else:
-		if p.sub: text += f" in <a href='/h/{p.sub}'>/h/{p.sub}"
+		if p.hole: text += f" in <a href='/h/{p.hole}'>/h/{p.hole}"
 		text_html = sanitize(text, blackjack="notification", post_mention_notif=True)
 		return create_comment(text_html), text
 
 
 def add_notif(cid, uid, text, pushnotif_url=''):
 	if uid in BOT_IDs: return
+
+	if hasattr(g, 'v') and g.v and g.v.shadowbanned and g.db.query(User.admin_level).filter_by(id=uid).one()[0] < PERMS['USER_SHADOWBAN']:
+		return
 
 	existing = g.db.query(Notification.user_id).filter_by(comment_id=cid, user_id=uid).one_or_none()
 	if not existing:
@@ -160,7 +169,7 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None, followers_pi
 			if oldtext and i.group(1) in oldtext:
 				continue
 
-			if i.group(1) == 'everyone' and not v.shadowbanned:
+			if i.group(1) == 'everyone':
 				cost = g.db.query(User).count() * 5
 				if cost > v.coins + v.marseybux:
 					abort(403, f"You need {cost} currency to mention these ping groups!")
@@ -218,7 +227,9 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None, followers_pi
 
 def push_notif(uids, title, body, url_or_comment):
 	if hasattr(g, 'v') and g.v and g.v.shadowbanned:
-		return
+		uids = [x[0] for x in g.db.query(User.id).filter(User.id.in_(uids), User.admin_level >= PERMS['USER_SHADOWBAN']).all()]
+		if not uids:
+			return
 
 	if VAPID_PUBLIC_KEY == DEFAULT_CONFIG_VALUE:
 		return
@@ -237,7 +248,7 @@ def push_notif(uids, title, body, url_or_comment):
 	if len(body) > PUSH_NOTIF_LIMIT:
 		body = body[:PUSH_NOTIF_LIMIT] + "..."
 
-	body = censor_slurs(body, None)
+	body = censor_slurs_profanities(body, None, True)
 
 	subscriptions = g.db.query(PushSubscription.subscription_json).filter(PushSubscription.user_id.in_(uids)).all()
 	subscriptions = [x[0] for x in subscriptions]

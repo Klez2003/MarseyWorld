@@ -21,7 +21,7 @@
 			{% endif %}
 		</h5>
 	{% endif %}
-	{% if v and v.admin_level >= PERMS['USER_SHADOWBAN'] and u.shadowbanned %}
+	{% if v and v.can_see_shadowbanned and u.shadowbanned %}
 		<h5 class="text-primary" id="profile-{{deviceType}}--shadowbanned">SHADOWBANNED USER:
 			{{u.ban_reason | safe}}
 
@@ -33,14 +33,15 @@
 {% macro userAdminTools(deviceType) %}
 	{% if v and v.id != u.id and v.admin_level >= PERMS['USER_MODERATION_TOOLS_VISIBLE'] %}
 		<div class="admintools-user-lower-{{deviceType}}">
-			{% if v.admin_level >= PERMS['USER_TITLE_CHANGE'] %}
+			{% if v.admin_level >= PERMS['USER_CHANGE_FLAIR'] %}
 				<div class="body d-lg-flex border-bottom mt-4 mb-2">
 					<div class="w-lg-100">
-						<form action="/admin/title_change/{{u.id}}" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHR(this)">
+						<form action="/admin/change_flair/{{u.id}}" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHR(this)">
 							<input hidden name="formkey" value="{{v|formkey}}">
-							<input maxlength=100 autocomplete="off" id="customtitlebody-{{deviceType}}" type="text" name="title" class="form-control" placeholder='Enter a flair here' value="{% if u.customtitleplain %}{{u.customtitleplain}}{% endif %}">
+							<input maxlength=100 autocomplete="off" id="flair_htmlbody-{{deviceType}}" type="text" name="title" class="form-control" placeholder='Enter a flair here' value="{% if u.flair %}{{u.flair}}{% endif %}">
 							<div class="d-flex">
-								<div class="format pl-0"><i class="btn btn-secondary format d-inline-block m-0 fas fa-smile-beam" data-nonce="{{g.nonce}}" data-onclick="loadEmojis('customtitlebody-{{deviceType}}')" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji"></i></div>
+								{{macros.emoji_btn('flair_htmlbody-' ~ deviceType)}}
+
 								<div class="custom-control custom-checkbox ml-2 mt-1">
 									<input autocomplete="off" type="checkbox" class="custom-control-input" id="locked-{{deviceType}}" name="locked" {% if u.flairchanged %}checked{% endif %}>
 									<label class="custom-control-label" for="locked-{{deviceType}}">locked</label>
@@ -65,7 +66,7 @@
 
 				<button type="button" id="unban-{{deviceType}}" class="mt-1 {% if not u.is_suspended %}d-none{% endif %} btn btn-success" data-nonce="{{g.nonce}}" data-onclick="unchud_or_unban(this,'/unban_user/{{u.id}}')">Unban user</button>
 			{% endif %}
-			{% if v.admin_level >= PERMS['USER_SHADOWBAN'] %}
+			{% if v.can_see_shadowbanned %}
 				<form id="shadowban-{{deviceType}}" class="my-3 {% if u.shadowbanned %}d-none{% endif %}" action="/shadowban/{{u.id}}" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHRSwitch(this)">
 					<input hidden name="formkey" value="{{v|formkey}}">
 					<input autocomplete="off" style="font-size:11px" type="text" class="form-control" maxlength="256" name="reason" placeholder="Shadowban Reason" data-nonce="{{g.nonce}}" data-undisable_element="user-shadowban-submit-{{deviceType}}" required>

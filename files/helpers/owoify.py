@@ -1,38 +1,33 @@
-import re
-
 from owoify.structures.word import Word
 from owoify.utility.interleave_arrays import interleave_arrays
 from owoify.utility.presets import *
 
-import files.helpers.regex as help_re
-import files.helpers.sanitize as sanitize
+from files.helpers.regex import *
 
 # Includes, excerpts, and modifies some functions from:
 # https://github.com/deadshot465/owoify-py @ owoify/owoify.py
 
-OWO_WORD_REGEX = re.compile(r'[^\s]+')
-OWO_SPACE_REGEX = re.compile(r'\s+')
 
 OWO_EXCLUDE_PATTERNS = [
-	re.compile(r'\]\('), # links []() and images ![]()
+	owo_ignore_links_images_regex, # links []() and images ![]()
 		# NB: May not be effective when URL part contains literal spaces vs %20
 		# Also relies on owoify replacements currently not affecting symbols.
-	sanitize.url_re, # bare links
-	re.compile(r':[!#@a-z0-9_\-]+:', flags=re.I|re.A), # emoji
-	help_re.mention_regex, # mentions
-	help_re.group_mention_regex, #ping group mentions
-	help_re.poll_regex, # polls
-	help_re.choice_regex,
-	help_re.command_regex, # markup commands
-	re.compile(r'\bthe\b', flags=re.I|re.A), # exclude: 'the' ↦ 'teh'
+	owo_ignore_emojis_regex, #emojis
+	owo_ignore_the_Regex, # exclude: 'the' ↦ 'teh'
+	sanitize_url_regex, # bare links
+	mention_regex, # mentions
+	group_mention_regex, #ping group mentions
+	poll_regex, # polls
+	choice_regex,
+	command_regex, # markup commands
 ]
 
 def owoify(source):
 	if '`' in source or '<pre>' in source or '<code>' in source:
 		return source
 
-	word_matches = OWO_WORD_REGEX.findall(source)
-	space_matches = OWO_SPACE_REGEX.findall(source)
+	word_matches = owo_word_regex.findall(source)
+	space_matches = owo_space_regex.findall(source)
 
 	words = [Word(s) for s in word_matches]
 	spaces = [Word(s) for s in space_matches]

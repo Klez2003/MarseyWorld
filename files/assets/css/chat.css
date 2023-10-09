@@ -21,7 +21,6 @@
 }
 
 #chat-window {
-	-ms-overflow-style: none;
 	scrollbar-width: none;
 }
 
@@ -80,7 +79,6 @@ p {
 }
 
 .chat-line {
-	overflow: hidden;
 	padding: 0 0 0 10px;
 	margin: 0 0 0 15px;
 }
@@ -152,7 +150,6 @@ img[alt^="![]("], .img {
 }
 
 * {
-	-ms-overflow-style: none;
 	scrollbar-width: none;
 }
 
@@ -172,4 +169,26 @@ img[alt^="![]("], .img {
 	.patron {
 		padding-top: 1px !important;
 	}
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 0.3rem;
+    margin-bottom: 0.3rem;
+}
+
+@media (max-width: 768px) {
+	h1, h2, h3, h4, h5, h6 {
+		margin-top: 0.5rem;
+		margin-bottom: 0.3rem;
+	}
+}
+
+@media (min-width: 768px) {
+	#chatsend, #shrink .format .fas {
+		font-size: 1.3rem !important;
+	}
+}
+
+#message * {
+    vertical-align: middle;
 }

@@ -3,6 +3,7 @@ from files.helpers.config.const import *
 from files.helpers.config.boosted_sites import *
 from files.helpers.get import *
 from files.helpers.alerts import *
+from files.helpers.can_see import *
 from files.routes.wrappers import *
 from files.__main__ import app, limiter
 from files.routes.routehelpers import get_alt_graph
@@ -29,7 +30,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 	else:
 		abort(404)
 
-	if not User.can_see(v, target): abort(403)
+	if not can_see(v, target): abort(403)
 
 	coin_delta = 1
 	if v.id == target.author.id:
@@ -57,6 +58,9 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 
 	if IS_EVENT():
 		coin_mult *= 2
+
+	if IS_HOMOWEEN() and target.author.zombie > 0:
+		coin_mult += 1
 
 	coin_value = coin_delta * coin_mult
 
@@ -142,18 +146,18 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 		send_notification(AEVANN_ID, target.permalink)
 	elif SITE == 'rdrama.net' and target.author_id == 29:
 		mul = 3
-	elif target.author.progressivestack or target.author.admin_level >= PERMS['IS_PERMA_PROGSTACKED']:
+	elif target.author.progressivestack or (IS_HOMOWEEN() and target.author.zombie < 0) or target.author.admin_level >= PERMS['IS_PERMA_PROGSTACKED']:
 		mul = 2
 	elif SITE == 'rdrama.net' and cls == Post:
 		if (target.domain.endswith('.win')
 		or 'forum' in target.domain or 'chan' in target.domain or 'lemmy' in target.domain or 'mastodon' in target.domain
 		or (target.domain in BOOSTED_SITES and not target.url.startswith('/'))):
 			mul = 2
-		elif target.sub in STEALTH_HOLES or target.sub in {'countryclub', 'highrollerclub'}:
+		elif target.hole in STEALTH_HOLES or target.hole in {'countryclub', 'highrollerclub'}:
 			mul = 2
 		elif 6 <= datetime.fromtimestamp(target.created_utc).hour <= 10:
 			mul = 2
-		elif target.sub in BOOSTED_HOLES:
+		elif target.hole in BOOSTED_HOLES:
 			mul = 1.25
 
 		if target.body_html and target.author.id != 8768:
@@ -194,7 +198,7 @@ def vote_info_get(v, link):
 	if thing.ghost and v.admin_level < PERMS['SEE_GHOST_VOTES']:
 		abort(403)
 
-	if thing.author.shadowbanned and not (v and v.admin_level >= PERMS['USER_SHADOWBAN']):
+	if thing.author.shadowbanned and not (v and v.can_see_shadowbanned):
 		abort(500)
 
 	if isinstance(thing, Post):

@@ -39,11 +39,6 @@ orgy_file.addEventListener("timeupdate", function(){
 	}
 });
 
-const now = new Date();
-const now_utc = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
-
-let millis = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 0, 0, 10) - now;
-if (millis < 0)
-	millis += 86400000;
-
-setTimeout(() => location.reload(), millis);
+orgy_file.addEventListener("ended", function(){
+	location.reload()
+});

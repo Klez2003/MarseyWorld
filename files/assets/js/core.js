@@ -108,7 +108,7 @@ function postToastSwitch(t, url, button1, button2, cls, extraActionsOnSuccess) {
 		});
 }
 
-if (!location.pathname.endsWith('/submit'))
+if (!location.pathname.endsWith('/submit') && !location.pathname.endsWith('/chat'))
 {
 	document.addEventListener('keydown', (e) => {
 		if (!((e.ctrlKey || e.metaKey) && e.key === "Enter")) return;
@@ -190,16 +190,16 @@ function expandImage(url) {
 		return;
 	e.preventDefault();
 
-	document.getElementById("desktop-expanded-image").src = '';
-	document.getElementById("desktop-expanded-image-wrap-link").href = '';
+	document.getElementById("expanded-image").src = '';
+	document.getElementById("expanded-image-wrap-link").href = '';
 
 	if (!url)
 	{
 		url = e.target.dataset.src
 		if (!url) url = e.target.src
 	}
-	document.getElementById("desktop-expanded-image").src = url.replace("200w.webp", "giphy.webp");
-	document.getElementById("desktop-expanded-image-wrap-link").href = url.replace("200w.webp", "giphy.webp");
+	document.getElementById("expanded-image").src = url.replace("200w.webp", "giphy.webp");
+	document.getElementById("expanded-image-wrap-link").href = url.replace("200w.webp", "giphy.webp");
 
 	bootstrap.Modal.getOrCreateInstance(expandImageModal).show();
 };
@@ -231,14 +231,8 @@ function showmore(t) {
 }
 
 function formatDate(d) {
-	const year = d.getFullYear();
-	const monthAbbr = d.toLocaleDateString('en-us', {month: 'short'});
-	const day = d.getDate();
-	const hour = ("0" + d.getHours()).slice(-2);
-	const minute = ("0" + d.getMinutes()).slice(-2);
-	const second = ("0" + d.getSeconds()).slice(-2);
-	const tzAbbr = d.toLocaleTimeString('en-us', {timeZoneName: 'short'}).split(' ')[2];
-	return day + " " + monthAbbr + " " + year + " " + hour + ":" + minute + ":" + second + " " + tzAbbr;
+	const options = {year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', timeZoneName: 'short'};
+	return d.toLocaleTimeString([], options)
 }
 
 const timestamps = document.querySelectorAll('[data-time]');
@@ -325,7 +319,7 @@ function sendFormXHR(form, extraActionsOnSuccess) {
 function sendFormXHRSwitch(form) {
 	sendFormXHR(form,
 		() => {
-			form.previousElementSibling.classList.remove('d-none');
+			form.nextElementSibling.classList.remove('d-none');
 			const days = form.querySelector("input[name=days]")
 			if (!days || !days.value)
 				form.classList.add('d-none');
@@ -388,7 +382,7 @@ if (is_pwa) {
 }
 
 const gbrowser = document.getElementById('gbrowser').value
-if (gbrowser == 'iphone' || gbrowser == 'mac') {
+if (location.pathname != '/chat' && (gbrowser == 'iphone' || gbrowser == 'mac')) {
 	const videos = document.querySelectorAll('video')
 
 	for (const video of videos) {
@@ -406,7 +400,7 @@ if (gbrowser == 'iphone' || gbrowser == 'mac') {
 	}
 }
 
-const screen_width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
+const screen_width = (innerWidth > 0) ? innerWidth : screen.width;
 function focusSearchBar(element)
 {
 	if (screen_width >= 768) {
@@ -458,16 +452,19 @@ function insertText(input, text) {
 
 
 let oldfiles = {};
+
 let MAX_IMAGE_AUDIO_SIZE_MB
 let MAX_IMAGE_AUDIO_SIZE_MB_PATRON
 let MAX_VIDEO_SIZE_MB
 let MAX_VIDEO_SIZE_MB_PATRON
+let vpatron
 
 if (document.getElementById("MAX_IMAGE_AUDIO_SIZE_MB")) {
 	MAX_IMAGE_AUDIO_SIZE_MB = parseInt(document.getElementById("MAX_IMAGE_AUDIO_SIZE_MB").value)
 	MAX_IMAGE_AUDIO_SIZE_MB_PATRON = parseInt(document.getElementById("MAX_IMAGE_AUDIO_SIZE_MB_PATRON").value)
 	MAX_VIDEO_SIZE_MB = parseInt(document.getElementById("MAX_VIDEO_SIZE_MB").value)
 	MAX_VIDEO_SIZE_MB_PATRON = parseInt(document.getElementById("MAX_VIDEO_SIZE_MB_PATRON").value)
+	vpatron = parseInt(document.getElementById("vpatron").value)
 }
 
 let patron
@@ -496,7 +493,7 @@ function handle_files(input, newfiles) {
 			type = 'image/audio'
 		}
 
-		if (file.size > max_size * 1024 * 1024) {
+		if (file.size > max_size_patron * 1024 * 1024 || (!vpatron && file.size > max_size * 1024 * 1024)) {
 			const msg = `Max ${type} size is ${max_size} MB (${max_size_patron} MB for ${patron}s)`
 			showToast(false, msg);
 			input.value = null;
@@ -555,7 +552,8 @@ if (file_upload) {
 		if (file_upload.files)
 		{
 			const file = file_upload.files[0]
-			file_upload.previousElementSibling.textContent = file.name.substr(0, 50);
+			const char_limit = screen_width >= 768 ? 50 : 10;
+			file_upload.previousElementSibling.textContent = file.name.substr(0, char_limit);
 			if (file.type.startsWith('image/')) {
 				const fileReader = new FileReader();
 				fileReader.readAsDataURL(file_upload.files[0]);
@@ -650,7 +648,8 @@ if (screen_width <= 768) {
 
 	if (object) {
 		object.addEventListener('shown.bs.modal', function (e) {
-			location.hash = `m-${e.target.id}`;
+			const new_href = `${location.href.split('#')[0]}#m-${e.target.id}`
+			history.pushState({}, '', new_href)
 		});
 
 		object.addEventListener('hide.bs.modal', function (e) {

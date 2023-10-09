@@ -6,8 +6,8 @@
 		</h5>
 	</a>
 
-	{% if sub %}
-		{% set image = sub.sidebar_url %}
+	{% if hole %}
+		{% set image = hole.sidebar_url %}
 	{% elif IS_EVENT() %}
 		{% set image = macros.random_image("assets/events/" ~ IS_EVENT() ~ "/images/sidebar") %}
 	{% else %}
@@ -15,11 +15,13 @@
 	{% endif %}
 
 	{% if request.path != '/sidebar' %}
-		{% if v and (v.is_banned or v.chud) %}
+		{% if not hole and (IS_FISTMAS() or IS_HOMOWEEN()) %}
+			{% include "events/shared/eye_tracking.html" %}
+		{% elif v and (v.is_banned or v.chud) %}
 			<a href="{{SITE_FULL_IMAGES}}/i/{{SITE_NAME}}/sidebar2.webp">
 				<img class="mb-4 sidebar-img" alt="sidebar image" data-nonce="{{g.nonce}}" data-onclick="expandImage()" loading="lazy" src="{{SITE_FULL_IMAGES}}/i/{{SITE_NAME}}/sidebar2.webp">
 			</a>
-		{% elif not (sub and sub.name == 'chudrama' and v and not v.can_see_chudrama) %}
+		{% elif not (hole and hole.name == 'chudrama' and v and not v.can_see_chudrama) %}
 			<a href="{{image}}">
 				<img class="mb-4 sidebar-img" alt="sidebar image" data-nonce="{{g.nonce}}" data-onclick="expandImage()" loading="lazy" src="{{image}}">
 			</a>
@@ -27,7 +29,6 @@
 	{% endif %}
 
 	<p class="text-center text-md mb-4">
-		<a class="sidebar-link" href="/emojis/Marsey" data-bs-toggle="tooltip" data-bs-placement="top" title="Emojis"><i class="fas fa-cat"></i></a>
 		<a class="sidebar-link" href="/badges" data-bs-toggle="tooltip" data-bs-placement="top" title="Badges"><i class="fas fa-hexagon"></i></a>
 		<a class="sidebar-link" href="/admins" data-bs-toggle="tooltip" data-bs-placement="top" title="Admins"><i class="fas fa-crown"></i></a>
 		<a class="sidebar-link" href="/log" data-bs-toggle="tooltip" data-bs-placement="top" title="Moderation Log"><i class="fas fa-scroll-old"></i></a>
@@ -35,8 +36,19 @@
 		<a class="sidebar-link" href="/random_post" data-bs-toggle="tooltip" data-bs-placement="top" title="Random Post"><i class="fas fa-random"></i></a>
 	</p>
 
-	{% if sub and sub.sidebar_html %}
-		<div class="mb-4">{{sub.sidebar_html|safe}}</div>
+	{% if IS_HOMOWEEN() %}
+		<div class="progress">
+			<div style="--width:{{bar_position()[0]}}%" class="bar-left"></div>
+			<div style="--width:{{bar_position()[1]}}%" class="bar-right"></div>
+			<div class="legend">
+				<span title="{{bar_position()[2]}}">{{bar_position()[0]}}% Vaxxed</span>
+				<span title="{{bar_position()[3]}}">{{bar_position()[1]}}% Infected</span>
+			</div>
+		</div>
+	{% endif %}
+
+	{% if hole and hole.sidebar_html %}
+		<div class="mb-4">{{hole.sidebar_html|safe}}</div>
 	{% endif %}
 
 	<a class="btn btn-primary btn-block mb-3" href="/post/151246/rdrama-featureset">SITE GUIDE</a>
@@ -45,20 +57,20 @@
 		<span id="sidebar--directory--head">DIRECTORY</span>
 		<span id="sidebar--directory--subhead">Submit Marseys & Art | Info Megathreads</span>
 	</a>
-	<a class="btn btn-primary btn-block mb-3" href="/holes">BROWSE {{HOLE_NAME|upper}}S</a>
-	<a class="btn btn-primary btn-block mb-3" href="/create_hole">CREATE {{HOLE_NAME|upper}}</a>
+	<a class="btn btn-primary btn-block mb-3" href="/holes">BROWSE HOLES</a>
+	<a class="btn btn-primary btn-block mb-3" href="/create_hole">CREATE HOLE</a>
 
-	{% if sub %}
+	{% if hole %}
 		<br>
-		{% if v and v.mods(sub.name) %}
-			<a class="btn btn-primary btn-block mb-3 text-uppercase" style="font-size: 0.87rem" href="/h/{{sub}}/settings">/h/{{sub}} SETTINGS</a>
+		{% if v and v.mods(hole.name) %}
+			<a class="btn btn-primary btn-block mb-3 text-uppercase" style="font-size: 0.87rem" href="/h/{{hole}}/settings">/h/{{hole}} SETTINGS</a>
 		{% endif %}
 
-		<a class="btn btn-primary btn-block mb-3 text-uppercase" style="font-size: 0.87rem" href="/h/{{sub}}/log">/h/{{sub}} LOG</a>
-		<a class="btn btn-primary btn-block mb-3 text-uppercase" style="font-size: 0.87rem" href="/h/{{sub}}/mods">/h/{{sub}} MODS</a>
-		<a class="btn btn-primary btn-block mb-3 text-uppercase" style="font-size: 0.87rem" href="/h/{{sub}}/exilees">/h/{{sub}} EXILEES</a>
-		<a class="btn btn-primary btn-block mb-3 text-uppercase" style="font-size: 0.87rem" href="/h/{{sub}}/followers">/h/{{sub}} FOLLOWERS</a>
-		<a class="btn btn-primary btn-block mb-3 text-uppercase" style="font-size: 0.87rem" href="/h/{{sub}}/blockers">/h/{{sub}} BLOCKERS</a>
+		<a class="btn btn-primary btn-block mb-3 text-uppercase" style="font-size: 0.87rem" href="/h/{{hole}}/log">/h/{{hole}} LOG</a>
+		<a class="btn btn-primary btn-block mb-3 text-uppercase" style="font-size: 0.87rem" href="/h/{{hole}}/mods">/h/{{hole}} MODS</a>
+		<a class="btn btn-primary btn-block mb-3 text-uppercase" style="font-size: 0.87rem" href="/h/{{hole}}/exilees">/h/{{hole}} EXILEES</a>
+		<a class="btn btn-primary btn-block mb-3 text-uppercase" style="font-size: 0.87rem" href="/h/{{hole}}/followers">/h/{{hole}} FOLLOWERS</a>
+		<a class="btn btn-primary btn-block mb-3 text-uppercase" style="font-size: 0.87rem" href="/h/{{hole}}/blockers">/h/{{hole}} BLOCKERS</a>
 	{% else %}
 		<div class="sidebar--rules sidebar--rules--rdrama pt-2">
 			{% set rules = "rules_" ~ SITE_NAME ~ ".html" %}

@@ -115,6 +115,11 @@ def check_for_alts(current, include_current_session=False):
 			u.unban_utc = 0
 			g.db.add(u)
 
+		if current.ban_reason == "Under Siege" and u.ban_reason and u.ban_reason != "Under Siege":
+			current.ban_reason = u.ban_reason
+		elif u.ban_reason == "Under Siege" and current.ban_reason and current.ban_reason != "Under Siege":
+			u.ban_reason = current.ban_reason
+
 		if u.is_muted and not current.is_muted:
 			current.is_muted = u.is_muted
 			g.db.add(current)

@@ -5,14 +5,14 @@
 	<div class="col col-lg-8">
 		<div class="settings">
 			{# toggle_section(title, id, name, flag, below_text) #}
-			<section id="site-settings-poorcel-mode-section" class="settings-section-section"> {# note: not using the thing from common just because of how much stuff there is in here #}
+			<section id="site-settings-poor-mode-section" class="settings-section-section"> {# note: not using the thing from common just because of how much stuff there is in here #}
 				<h5>Poor Mode</h5>
 				<div class="settings-section rounded">
 					<div class="d-lg-flex border-bottom">
 						<div class="title w-lg-25">
 							<label for="poor">Poor Mode</label>
 						</div>
-						<div class="body w-lg-100">
+						<div class="body w-lg-100 pt-1 pt-lg-3">
 							<div class="custom-control custom-switch">
 								<input autocomplete="off" type="checkbox" class="custom-control-input setting_switch" data-nonce="{{g.nonce}}" id="poor" name="poor"{% if v.poor %} checked{% endif %}>
 								<label class="custom-control-label" for="poor"></label>
@@ -22,9 +22,6 @@
 								<li><small>Disables the effects of cosmetic awards.</small></li>
 								<li><small>Hides signatures.</small></li>
 								<li><small>Makes emoji search only start when you press Enter.</small></li>
-								{% if SITE_NAME == 'rDrama' %}
-									<li><small>Disables event music.</small></li>
-								{% endif %}
 							</ul>
 						</div>
 					</div>
@@ -128,9 +125,9 @@
 			<section id="site-settings-content-filters" class="settings-section-section">
 				<h5>Content Filters</h5>
 				<div class="settings-section rounded">
-					{{common.toggle_section('Disable Signatures', 'sigs_disabled', 'sigs_disabled', v.sigs_disabled, 'Hide user signatures.', false)}}
+					{{common.toggle_section('User Signatures', 'show_sigs', 'show_sigs', v.show_sigs, 'Show user signatures.', false)}}
 					{% if FEATURES['NSFW_MARKING'] %}
-						{{common.toggle_section('Disable +18 Warnings', 'over_18', 'over_18', v.over_18, "Disable the warning that appears when viewing +18 posts and stop collapsing +18 comments.", false)}}
+						{{common.toggle_section('NSFW Warnings', 'nsfw_warnings', 'nsfw_warnings', v.nsfw_warnings, "Show a warning when viewing NSFW posts and collapse NSFW comments.", false)}}
 					{% endif %}
 					{% if SITE_NAME != 'rDrama' %}
 						{{common.toggle_section('Hide Posts Voted On', 'hidevotedon', 'hidevotedon', v.hidevotedon, 'Enable if you would like to automatically hide posts you have voted on from your frontpage.', false)}}

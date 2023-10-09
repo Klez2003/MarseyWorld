@@ -1,8 +1,0 @@
-{% if not (v and v.poor) and not (sub and sub.name == 'music') %}
-	{% if not song %}
-		{% set path = "assets/events/DKD/music" %}
-		{% set song = "/" ~ path ~ "/" ~ listdir('files/' ~ path)|random() ~ '?x=6' %}
-		<input hidden id="DKD-song" value="{{song}}">
-	{% endif %}
-	<script defer src="{{'events/DKD/js/music.js' | asset}}"></script>
-{% endif %}

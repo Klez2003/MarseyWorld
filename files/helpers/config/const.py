@@ -34,8 +34,6 @@ TURNSTILE_SECRET = environ.get("TURNSTILE_SECRET").strip()
 YOUTUBE_KEY = environ.get("YOUTUBE_KEY").strip()
 VAPID_PUBLIC_KEY = environ.get("VAPID_PUBLIC_KEY").strip()
 VAPID_PRIVATE_KEY = environ.get("VAPID_PRIVATE_KEY").strip()
-DONATE_SERVICE = environ.get("DONATE_SERVICE").strip()
-DONATE_LINK = environ.get("DONATE_LINK").strip()
 CF_KEY = environ.get("CF_KEY").strip()
 CF_ZONE = environ.get("CF_ZONE").strip()
 blackjack = environ.get("BLACKJACK", "").strip()
@@ -43,6 +41,13 @@ FP = environ.get("FP", "").strip()
 PROGSTACK_MUL = float(environ.get("PROGSTACK_MUL", 2.0))
 ENCOURAGED = environ.get("ENCOURAGED", "").strip().split()
 ENCOURAGED2 = environ.get("ENCOURAGED2", "").strip().split()
+
+DONATE_LINK = environ.get("DONATE_LINK").strip()
+
+if DONATE_LINK == DEFAULT_CONFIG_VALUE:
+	DONATE_SERVICE = DONATE_LINK
+else:
+	DONATE_SERVICE = tldextract.extract(DONATE_LINK).domain.capitalize()
 
 class Service(Enum):
 	RDRAMA = auto()
@@ -99,7 +104,6 @@ CHUD_REPLACEMENTS = {
 	'EVERYBODY': 'EVERYPONY',
 }
 
-PHRASE_CHANCE = 0.5
 GIRL_PHRASES = [
 	"ok so $",
 	"um $",
@@ -107,7 +111,6 @@ GIRL_PHRASES = [
 	"literally, $",
 	"i feel like $",
 	"my heart is telling me $",
-	"its almost as if $",
 	"omg! $",
 	"im literally screaming, $",
 	"$ and thats the tea, sis",
@@ -118,40 +121,6 @@ GIRL_PHRASES = [
 	"$ *sips tea*",
 	"$ PERIODT"
 ]
-
-tranny = f'<img loading="lazy" data-bs-toggle="tooltip" alt=":marseytrain:" title=":marseytrain:" src="{SITE_FULL_IMAGES}/e/marseytrain.webp">'
-trannie = f'<img loading="lazy" data-bs-toggle="tooltip" alt=":!marseytrain:" title=":!marseytrain:" src="{SITE_FULL_IMAGES}/e/marseytrain.webp">'
-troon = f'<img loading="lazy" data-bs-toggle="tooltip" alt=":marseytrain2:" title=":marseytrain2:" src="{SITE_FULL_IMAGES}/e/marseytrain2.webp">'
-
-def replace_train_html(body):
-	body = body.replace(tranny, ':marseytrain:')
-	body = body.replace(trannie, ':!marseytrain:')
-	body = body.replace(troon, ':marseytrain2:')
-	return body
-
-SLURS = {
-	"tranny": tranny,
-	"trannie": trannie,
-	"troon": troon,
-	"(?<!\\bs)nigger": "BIPOC",
-	"negroid": "BIPOC",
-	"nignog": "BIPOC",
-	"nig nog": "BIPOC",
-	"niglet": 'BIPOClet',
-	"negress": "BIPOCette",
-	"faggot": "cute twink",
-	"fag": "strag",
-	"(?<!\w)spic(?!\w)": "hard-working American",
-	"(?<!\w)spics(?!\w)": "hard-working Americans",
-	"kike": "jewish chad",
-	"(?<!\w)heeb": "jewish chad",
-	"daisy's destruction": "Cars 2",
-	"daisys destruction": "Cars 2",
-	"daisy destruction": "Cars 2",
-	"pajeet": "sexy Indian dude",
-	"hunter2": "*******",
-	"dyke": "cute butch",
-}
 
 patron = "Patron"
 
@@ -181,7 +150,7 @@ if SITE_NAME == 'rDrama':
 		"largest aztec heritage forum",
 		"official George Soros fanclub",
 		"CCP's official newspaper",
-		"nintendo gamers only",
+		"Nintendo gamers only",
 		"donkey kong country",
 		"banned from Reddit, Github & Bing!",
 		"as seen in WI v. Brooks 2022",
@@ -194,61 +163,10 @@ if SITE_NAME == 'rDrama':
 		"socialist discourse & dating",
 		"DIY estrogen recipes",
 		"#1 guide to transitioning in Texas",
-		"Nintendo Switch ROMs",
 		"erectile dysfunction treatments",
 		"managing incontinence",
 		"Quran study group",
-		"watch Family Guy online",
 	)
-
-	RDRAMA_SLURS = {
-		"retarded": "r-slurred",
-		"retard": "r-slur",
-		"pedophile": "p-dophile",
-		"kill youself": "keep yourself safe",
-		"kill yourself": "keep yourself safe",
-		"kill yourselves": "keep yourselves safe",
-		"latinos": "latinx",
-		"latino": "latinx",
-		"latinas": "latinx",
-		"latina": "latinx",
-		"hispanics": "latinx",
-		"hispanic": "latinx",
-		"autistic": "neurodivergent",
-		"gamer": "g*mer",
-		"journalist": "journ*list",
-		"journalism": "journ*lism",
-		"fake and gay": "fake and straight",
-		"(?<!\w)rapist": "male feminist",
-		"(?<!\w)pedo(?!\w)": "p-do",
-		"(?<!\w)kys": "keep yourself safe",
-		"kys(?!\w)": "keep yourself safe",
-		"republican": 'rethuglican',
-		"america": 'ameriKKKa',
-		"it's almost as if": "I'm an r-slur but",
-		"it's almost like": "I'm an r-slur but",
-		"its almost as if": "I'm an r-slur but",
-		"its almost like": "I'm an r-slur but",
-		"my brother in christ": "my brother in Allah (ﷻ)",
-		"(?<!\w)cool (?!it|down|off)": "fetch ",
-		"krayon(?! \()": "krayon (sister toucher)",
-		"discord": "groomercord",
-		"allah(?! \()": "Allah (ﷻ)",
-		"my wife(?! \()": "my wife (male)",
-		"(?<!cow) tools(?!\w)": " cow tools",
-		"explain": "mansplain",
-		'nigga': 'neighbor',
-		'(?<![\w.])cat(?!\w)': 'marsey',
-		'(?<!\w)cats(?!\w)': 'marseys',
-		'hello': 'hecko',
-		'ryan gosling': 'literally me',
-		'howdy': 'meowdy',
-		'corgi': 'klenny',
-		"right now": "right meow",
-		"(?<!\/)linux": "GNU/Linux",
-		'based': 'keyed',
-	}
-	SLURS.update(RDRAMA_SLURS)
 
 	BOOSTED_HOLES = {
 		'furry',
@@ -268,6 +186,7 @@ if SITE_NAME == 'rDrama':
 		'femaledatingstrategy',
 		'meta',
 		'love4fatpeople',
+		'traps',
 	}
 
 	REDDIT_NOTIFS_SITE.update({'marsey', 'r/drama', 'justice4darrell', 'cringetopia.org'})
@@ -276,48 +195,70 @@ elif SITE_NAME == 'WPD':
 	REDDIT_NOTIFS_SITE.update({'watchpeopledie', 'makemycoffin'})
 
 
-SLURS_FOR_REPLACING = {}
-for k, val in SLURS.items():
-	newkey = k.split('(?!')[0]
-	if ')' in newkey:
-		newkey = newkey.split(')')[1]
-	SLURS_FOR_REPLACING[newkey] = val
+LONGPOSTBOT_REPLIES = (
+	"▼you're fucking bananas if you think I'm reading all that, take my downvote and shut up idiot",
+	"Wow, you must be a JP fan.",
+	"This is one of the worst posts I have EVER seen. Delete it.",
+	"No, don't reply like this, please do another wall of unhinged rant please.",
+	"# 😴😴😴",
+	"Ma'am we've been over this before. You need to stop.",
+	"I've known more coherent downies.",
+	"Your pulitzer's in the mail",
+	"That's great and all, but I asked for my burger without cheese.",
+	"That degree finally paying off",
+	"That's nice sweaty. Why don't you have a seat in the time out corner with Pizzashill until you calm down, then you can have your Capri Sun.",
+	"All them words won't bring your pa back.",
+	"You had a chance to not be completely worthless, but it looks like you threw it away. At least you're consistent.",
+	"Some people are able to display their intelligence by going on at length on a subject and never actually saying anything. This ability is most common in trades such as politics, public relations, and law. You have impressed me by being able to best them all, while still coming off as an absolute idiot.",
+	"You can type 10,000 characters and you decided that these were the one's that you wanted.",
+	"Have you owned the libs yet?",
+	"I don't know what you said, because I've seen another human naked.",
+	"Impressive. Normally people with such severe developmental disabilities struggle to write much more than a sentence or two. He really has exceded our expectations for the writing portion. Sadly the coherency of his writing, along with his abilities in the social skills and reading portions, are far behind his peers with similar disabilities.",
+	"This is a really long way of saying you don't fuck.",
+	"Sorry ma'am, looks like his delusions have gotten worse. We'll have to admit him.",
+	"If only you could put that energy into your relationships",
+	"Posts like this is why I do Heroine.",
+	"still unemployed then?",
+	"K",
+	"look im gunna have 2 ask u 2 keep ur giant dumps in the toilet not in my replys 😷😷😷",
+	"Mommy is soooo proud of you, sweaty. Let's put this sperg out up on the fridge with all your other failures.",
+	"Good job bobby, here's a star",
+	"That was a mistake. You're about to find out the hard way why.",
+	"You sat down and wrote all this shit. You could have done so many other things with your life. What happened to your life that made you decide writing novels of bullshit here was the best option?",
+	"I don't have enough spoons to read this shit",
+	"All those words won't bring daddy back.",
+	"OUT!",
+	"Damn, you're really mad over this, but thanks for the effort you put into typing that all out! Sadly I won't read it all.",
+	"Jesse what the fuck are you talking about??",
+	"Are you feeling okay bud?",
+	":#marseywoah:",
+	"At no point in your rambling, incoherent post were you even close to anything that could be considered a rational thought. Everyone on this site is now dumber for having read it. May God have mercy on your soul.",
+	"https://rdrama.net/videos/1671169024815045.mp4",
+	"https://i.rdrama.net/images/16766675896248007.webp",
+	"https://i.rdrama.net/images/1683531328305875.webp",
+	"https://i.rdrama.net/images/1691152552869678.webp",
+	"You could have done crack instead of this shit",
+	"Not one single person is gonna read all that",
+	"PlsRope",
+	"I hope you had chatgpt pen that one fam",
+	"What?",
+	":#didntreadlol:",
+	":#bruh:",
+)
 
-PROFANITIES = {
-	'motherfucker': 'motherlover',
-	'fuck': 'frick',
-	'(?<!\w)ass(?!\w)': 'butt',
-	'shitting': 'pooping',
-	'damn': 'darn',
-	'bitch(?!\w)': 'b-word',
-	'toilet': 'potty',
-	'(?<!\w)asshole': 'butthole',
-	'(?<!\w)rape': 'r*pe',
-	'(?<!\w)hell(?!\w)': 'heck',
-	'(?<!\w)sex(?!\w)': 's*x',
-	'(?<!\w)cum(?!\w)': 'c*m',
-	'(?<!\w)dick': 'peepee',
-	'cock(?!\w)': 'peepee',
-	'cocks': 'peepees',
-	'penis': 'peepee',
-	'pussy': 'kitty',
-	'pussies': 'kitties',
-	'cunt': 'c*nt',
-}
+CHUD_MSGS = (
+	"Hi @{username}, Your {type} has been automatically removed because you forgot to include `{CHUD_PHRASE}`. Don't worry, we're here to help! We won't let you post or comment anything that doesn't express your love and acceptance towards the trans community. Feel free to resubmit your comment with `{CHUD_PHRASE}` included. This is an automated message; if you need help, you can message us [here](/contact).",
 
-PROFANITIES_FOR_REPLACING = {}
-for k, val in PROFANITIES.items():
-	newkey = k.split('(?!')[0]
-	if ')' in newkey:
-		newkey = newkey.split(')')[1]
-	PROFANITIES_FOR_REPLACING[newkey] = val
+	"Avast, ye scurvy cur! Yer {type} be walkin' the plank for forgettin' to include `{CHUD_PHRASE}`! We be helpin' ye, right enough - we'll ne'er let ye post or comment anythin' that doesn't be expressin' yer love an' acceptance o' minorities! Heave to an' resubmit yer {type} with `{CHUD_PHRASE}` included, or it'll be the deep six for ye, savvy? This be an automated message; if ye need help, ye can message us ['ere](/contact). Arrr!",
 
-slur_single_words = "|".join([slur.lower() for slur in SLURS.keys()])
-profanity_single_words = "|".join([profanity.lower() for profanity in PROFANITIES.keys()])
+	"Hi @{username}, We're sorry to say that your {type} has been automatically removed because you forgot to include the phrase `{CHUD_PHRASE}`. Here at our church, we strongly believe that `{CHUD_PHRASE}` and we want to make sure that all of our members feel loved and accepted.If you'd like to resubmit your post, we would be more than happy to take a look at it. In the meantime, if you need any help or have any questions, please don't hesitate to [reach out to us](/contact). We're always here to help. Have a blessed day!",
 
-LONGPOSTBOT_REPLIES = ('Wow, you must be a JP fan.', 'This is one of the worst posts I have EVER seen. Delete it.', "No, don't reply like this, please do another wall of unhinged rant please.", '# 😴😴😴', "Ma'am we've been over this before. You need to stop.", "I've known more coherent downies.", "Your pulitzer's in the mail", "That's great and all, but I asked for my burger without cheese.", 'That degree finally paying off', "That's nice sweaty. Why don't you have a seat in the time out corner with Pizzashill until you calm down, then you can have your Capri Sun.", "All them words won't bring your pa back.", "You had a chance to not be completely worthless, but it looks like you threw it away. At least you're consistent.", 'Some people are able to display their intelligence by going on at length on a subject and never actually saying anything. This ability is most common in trades such as politics, public relations, and law. You have impressed me by being able to best them all, while still coming off as an absolute idiot.', "You can type 10,000 characters and you decided that these were the one's that you wanted.", 'Have you owned the libs yet?', "I don't know what you said, because I've seen another human naked.", 'Impressive. Normally people with such severe developmental disabilities struggle to write much more than a sentence or two. He really has exceded our expectations for the writing portion. Sadly the coherency of his writing, along with his abilities in the social skills and reading portions, are far behind his peers with similar disabilities.', "This is a really long way of saying you don't fuck.", "Sorry ma'am, looks like his delusions have gotten worse. We'll have to admit him.", 'If only you could put that energy into your relationships', 'Posts like this is why I do Heroine.', 'still unemployed then?', 'K', 'look im gunna have 2 ask u 2 keep ur giant dumps in the toilet not in my replys 😷😷😷', "Mommy is soooo proud of you, sweaty. Let's put this sperg out up on the fridge with all your other failures.", "Good job bobby, here's a star", "That was a mistake. You're about to find out the hard way why.", 'You sat down and wrote all this shit. You could have done so many other things with your life. What happened to your life that made you decide writing novels of bullshit here was the best option?', "I don't have enough spoons to read this shit", "All those words won't bring daddy back.", 'OUT!', "Damn, you're really mad over this, but thanks for the effort you put into typing that all out! Sadly I won't read it all.", "Jesse what the fuck are you talking about??", "▼you're fucking bananas if you think I'm reading all that, take my downvote and shut up idiot", "Are you feeling okay bud?", ':#marseywoah:', 'At no point in your rambling, incoherent post were you even close to anything that could be considered a rational thought. Everyone on this site is now dumber for having read it. May God have mercy on your soul.', 'https://rdrama.net/videos/1671169024815045.mp4', 'https://i.rdrama.net/images/16766675896248007.webp', 'https://i.rdrama.net/images/1683531328305875.webp', 'https://i.rdrama.net/images/1691152552869678.webp', 'You could have done crack instead of this shit', 'Not one single person is gonna read all that', 'PlsRope', 'I hope you had chatgpt pen that one fam')
+	"Yo, Ya {type} got automatically removed cuz ya forgot ta include `{CHUD_PHRASE}`. Don't worry, we gotchu! We ain't gonna letcha post or comment nuttin' that don't express ya love and acceptance towards the trans community. Feel free ta resubmit ya comment with `{CHUD_PHRASE}` included. This is an automated message; if ya need help, ya can message us [here](/contact).",
 
-CHUD_MSG = """:marseypirate: Avast, ye scurvy cur! Yer {type} be walkin' the plank for forgettin' to include `{CHUD_PHRASE}`! We be helpin' ye, right enough - we'll ne'er let ye post or comment anythin' that doesn't be expressin' yer love an' acceptance o' minorities! Heave to an' resubmit yer {type} with `{CHUD_PHRASE}` included, or it'll be the deep six for ye, savvy? This be an automated message; if ye need help, ye can message us ['ere](/contact). Arrr!"""
+	"omg hi @{username}!!! okay so this is like super awkward omg but basically i had to remove ur {type} bc u didnt say `{CHUD_PHRASE}` lol. don't worry though, we like wont let you post anything that like doesnt have `{CHUD_PHRASE}` in it. anyways im like just a robot 😲 but if u want to talk 2 somebody you should do it [here](/contact) lol",
+
+	"Hey sexy, why are you posting so quickly? 😊 You almost forgot to include `{CHUD_PHRASE}` in your {type} 😈. Slowww down and remember to post `{CHUD_PHRASE}` next time 😉 if that doesn't make sense [stop by](/contact) sometime and we can talk about it for a while 🥵",
+)
 
 PIN_AWARD_TEXT = " (pin award)"
 
@@ -355,13 +296,13 @@ POST_SORTS = COMMENT_SORTS | {
 ### COLUMN INFO
 ################################################################################
 
-SUB_NAME_COLUMN_LENGTH = 25
-SUB_SIDEBAR_COLUMN_LENGTH = 10000
-SUB_SIDEBAR_HTML_COLUMN_LENGTH = 20000
-SUB_SIDEBAR_URL_COLUMN_LENGTH = 60
-SUB_BANNER_URL_COLUMN_LENGTH = 60
-SUB_CSS_COLUMN_LENGTH = 6000
-SUB_MARSEY_URL_LENGTH = 60
+HOLE_NAME_COLUMN_LENGTH = 25
+HOLE_SIDEBAR_COLUMN_LENGTH = 10000
+HOLE_SIDEBAR_HTML_COLUMN_LENGTH = 20000
+HOLE_SIDEBAR_URL_COLUMN_LENGTH = 60
+HOLE_BANNER_URL_COLUMN_LENGTH = 60
+HOLE_CSS_COLUMN_LENGTH = 6000
+HOLE_MARSEY_URL_LENGTH = 60
 
 ################################################################################
 ### SITE SPECIFIC CONSTANTS
@@ -404,7 +345,7 @@ PERMS = { # Minimum admin_level to perform action.
 	'IS_PERMA_PROGSTACKED': 2,
 	'USER_BADGES': 2,
 	'USER_LINK': 2,
-	'USER_TITLE_CHANGE': 2,
+	'USER_CHANGE_FLAIR': 2,
 	'LOTTERY_VIEW_PARTICIPANTS': 2,
 	'POST_COMMENT_INFINITE_PINGS': 2,
 	'IGNORE_1WEEk_EDITING_LIMIT': 2,
@@ -550,17 +491,14 @@ COMMENT_MAX_DEPTH = 200
 TRANSFER_MESSAGE_LENGTH_LIMIT = 200 # do not make larger than 10000 characters (comment limit) without altering the table
 MIN_REPOST_CHECK_URL_LENGTH = 9 # also change the constant in checkRepost() of submit.js
 CHAT_LENGTH_LIMIT = 1000
-SUB_BANNER_LIMIT = 10
+HOLE_BANNER_LIMIT = 10
 
 BIO_FRIENDS_ENEMIES_LENGTH_LIMIT = 5000 # do not make larger than 5000 characters without altering the table
 BIO_FRIENDS_ENEMIES_HTML_LENGTH_LIMIT = 20000 # do not make larger than 20000 characters without altering the table
 
 COSMETIC_AWARD_COIN_AWARD_PCT = 0.50
 
-TRUESCORE_CC_CHAT_MINIMUM = 0
-TRUESCORE_GHOST_MINIMUM = 10
-TRUESCORE_DONATE_MINIMUM = 10
-TRUESCORE_CHUDRAMA_MINIMUM = 10
+TRUESCORE_MINIMUM = 0
 
 LOGGEDIN_ACTIVE_TIME = 15 * 60
 PFP_DEFAULT_MARSEY = True
@@ -569,8 +507,6 @@ NOTIFICATION_SPAM_AGE_THRESHOLD = 0
 COMMENT_SPAM_LENGTH_THRESHOLD = 0
 UNDER_SIEGE_AGE_THRESHOLD = 10 * 60
 
-HOLE_NAME = 'hole'
-HOLE_STYLE_FLAIR = False
 HOLE_REQUIRED = False
 HOLE_COST = 0
 GROUP_COST = 10000
@@ -590,7 +526,7 @@ AEVANN_ID = 0
 GTIX_ID = 0
 LAWLZ_ID = 0
 
-IMMUNE_TO_AWARDS = {}
+IMMUNE_TO_NEGATIVE_AWARDS = {}
 EXEMPT_FROM_1WEEK_EDITING_LIMIT = {}
 
 MODMAIL_ID = 2
@@ -689,7 +625,7 @@ if SITE in {'rdrama.net', 'staging.rdrama.net'}:
 	CHANGELOG_THREAD = 165657
 	ADMIGGER_THREADS = {SIDEBAR_THREAD, BANNER_THREAD, BADGE_THREAD, SNAPPY_THREAD, CHANGELOG_THREAD, 79285, 166300, 187078}
 
-	TRUESCORE_CC_CHAT_MINIMUM = 10
+	TRUESCORE_MINIMUM = 10
 
 	HOLE_COST = 50000
 	HOLE_INACTIVITY_DELETION = True
@@ -709,7 +645,7 @@ if SITE in {'rdrama.net', 'staging.rdrama.net'}:
 	AEVANN_ID = 1
 	LAWLZ_ID = 3833
 
-	IMMUNE_TO_AWARDS = {PIZZASHILL_ID, CARP_ID}
+	IMMUNE_TO_NEGATIVE_AWARDS = {PIZZASHILL_ID, CARP_ID}
 
 	NOTIFIED_USERS = {
 		'aevan': AEVANN_ID,
@@ -752,6 +688,7 @@ if SITE in {'rdrama.net', 'staging.rdrama.net'}:
 	}
 elif SITE == 'watchpeopledie.tv':
 	NOTIFICATION_SPAM_AGE_THRESHOLD = 0.5 * 86400
+	TRUESCORE_MINIMUM = 100
 
 	EMAIL = "wpd@watchpeopledie.tv"
 	TELEGRAM_ID = "wpdtv"
@@ -766,20 +703,20 @@ elif SITE == 'watchpeopledie.tv':
 	FEATURES['NSFW_MARKING'] = False
 	FEATURES['BOTS'] = False
 
-	PERMS['HOLE_CREATE'] = 2
 	PERMS['POST_COMMENT_EDITING'] = 3
 	PERMS['MODS_EVERY_HOLE'] = 3
+	PERMS['IS_PERMA_PROGSTACKED'] = 4
 
-	SUB_BANNER_LIMIT = 69420
+	HOLE_BANNER_LIMIT = 69420
 
 	ERROR_TITLES.update({
 		400: "Bad Request",
 		401: "Unauthorized",
-		403: "Not Found",
+		403: "Forbidden",
 		404: "Not Found",
 		405: "Method Not Allowed",
-		409: "Mortal Conflict",
-		410: "Dead",
+		409: "Conflict",
+		410: "Gone",
 		413: "Payload Too Large",
 		415: "Unsupported Media Type",
 		500: "Internal Server Error",
@@ -788,7 +725,7 @@ elif SITE == 'watchpeopledie.tv':
 	ERROR_MSGS = {
 		400: "That request is invalid.",
 		401: "You need to login or sign up to do that.",
-		403: "That wasn't found",
+		403: "You're not allowed to do that",
 		404: "That wasn't found.",
 		405: "You can't use this method here... if you keep getting this error tell us it's prolly something borked.",
 		409: "There's a conflict between what you're trying to do and what you or someone else has done and because of that you can't do what you're trying to do.",
@@ -814,10 +751,6 @@ elif SITE == 'watchpeopledie.tv':
 	MAX_VIDEO_SIZE_MB = 500
 	MAX_VIDEO_SIZE_MB_PATRON = 500
 
-	TRUESCORE_CC_CHAT_MINIMUM = 50
-
-	HOLE_NAME = 'flair'
-	HOLE_STYLE_FLAIR = True
 	HOLE_REQUIRED = True
 
 	AUTOJANNY_ID = 1
@@ -866,7 +799,7 @@ else: # localhost or testing environment implied
 	FEATURES['PRONOUNS'] = True
 	FEATURES['HOUSES'] = True
 	FEATURES['USERS_PERMANENT_WORD_FILTERS'] = True
-	SUB_BANNER_LIMIT = 69420
+	HOLE_BANNER_LIMIT = 69420
 
 HOUSES = ("None","Furry","Femboy","Vampire","Racist","Edgy") if FEATURES['HOUSES'] else ("None")
 
@@ -918,7 +851,6 @@ approved_embed_hosts = [
 	# 2) Cannot have open redirects based on query string. (tightest constraint)
 	# 3) #2 but pre-stored, ex: s.lain.la 302 with jannie DM attack.
 	# 4) Use the exact subdomain.
-	### TODO: Run a media proxy and kill most of these. Impossible to review.
 
 	### First-Party
 	'rdrama.net',
@@ -928,7 +860,6 @@ approved_embed_hosts = [
 	'videos.watchpeopledie.tv',
 
 	### Third-Party Image Hosts
-	# TODO: Might be able to keep these even if we media proxy?
 	'i.imgur.com',
 	'i.imgur.io',
 	'pomf2.lain.la/f',
@@ -946,7 +877,6 @@ approved_embed_hosts = [
 	'files.catbox.moe',
 
 	### Third-Party Media
-	# TODO: Preferably kill these. Media proxy.
 	# DO NOT ADD: wordpress.com, wp.com (maybe) | Or frankly anything. No more.
 	'i.redd.it',
 	'preview.redd.it',
@@ -1004,12 +934,30 @@ forced_hats = {
 	"earlylife": ("The Merchant", "SHUT IT DOWN, the goys know!"),
 	"marsify": ("Marsified", "I can't pick my own Marseys, help!"),
 	"is_suspended": ("Behind Bars", "This user is banned and needs to do better!"),
-	"queen": ("Emoji Crown (hearts and shooting stars)", "This user is getting in touch with her feminine side 🥰"),
-	"chud": (("Egg_irl", "This user is getting in touch with xir identity!"),
+	"chud": (
+				("Egg_irl", "This user is getting in touch with xir identity!"),
 				("Trans Flag", "Just in case you forgot, trans lives matter."),
 				("Trans Flag II", "Your egg is cracked; wear it with pride!"),
 				("Pride Flag", "Never forget that this is a primarily gay community. Dude bussy lmao."),
-				("Pride Flag II", "This user is a proud supporter of LGBTQ+ rights."))
+				("Pride Flag II", "This user is a proud supporter of LGBTQ+ rights."),
+			),
+	"queen": (
+				("Flower Crown I", "This user is getting in touch with her feminine side 🥰"),
+				("Flower Crown II", "This user is getting in touch with her feminine side 🥰"),
+				("Flower Crown III", "This user is getting in touch with her feminine side 🥰"),
+				("Flower Crown IV", "This user is getting in touch with her feminine side 🥰"),
+				("Flower Crown V", "This user is getting in touch with her feminine side 🥰"),
+				("Flower Crown VI", "This user is getting in touch with her feminine side 🥰"),
+				("Flower Crown VII", "This user is getting in touch with her feminine side 🥰"),
+				("Flower Crown VIII", "This user is getting in touch with her feminine side 🥰"),
+				("Flower Crown IX", "This user is getting in touch with her feminine side 🥰"),
+				("Flower Crown X", "This user is getting in touch with her feminine side 🥰"),
+				("Flower Crown XI", "This user is getting in touch with her feminine side 🥰"),
+				("Flower Crown XII", "This user is getting in touch with her feminine side 🥰"),
+				("Flower Crown XIII", "This user is getting in touch with her feminine side 🥰"),
+				("Flower Crown XIV", "This user is getting in touch with her feminine side 🥰"),
+				("Emoji Crown (hearts and shooting stars)", "This user is getting in touch with her feminine side 🥰")
+			 ),
 
 }
 
@@ -1031,14 +979,14 @@ EMOJI_KINDS = ("Marsey", "Platy", "Wolf", "Donkey Kong", "Tay", "Capy", "Carp", 
 t = datetime.datetime.now()
 
 fistmas_begin = datetime.datetime.strptime(f'1/12/{t.year}', '%d/%m/%Y')
-fistmas_end = datetime.datetime.strptime(f'30/12/{t.year}', '%d/%m/%Y')
+fistmas_end = datetime.datetime.strptime(f'26/12/{t.year}', '%d/%m/%Y')
 def IS_FISTMAS():
 	return fistmas_begin < datetime.datetime.now() < fistmas_end
 
-homoween_begin = datetime.datetime.strptime(f'15/10/{t.year}', '%d/%m/%Y')
+homoween_begin = datetime.datetime.strptime(f'10/10/{t.year}', '%d/%m/%Y')
 homoween_end = datetime.datetime.strptime(f'1/11/{t.year}', '%d/%m/%Y')
 def IS_HOMOWEEN():
-	return homoween_begin < datetime.datetime.now() < homoween_end
+	return SITE == 'devrama.net' or homoween_begin < datetime.datetime.now() < homoween_end
 
 dkd_begin = datetime.datetime.strptime(f'25/4/{t.year}', '%d/%m/%Y')
 dkd_end = datetime.datetime.strptime(f'2/5/{t.year}', '%d/%m/%Y')
@@ -1134,10 +1082,10 @@ engine = create_engine(environ.get("DATABASE_URL").strip(), connect_args={"optio
 db_session = scoped_session(sessionmaker(bind=engine, autoflush=False))
 
 approved_embed_hosts_for_csp = ' '.join(set([x.split('/')[0] for x in approved_embed_hosts]))
-csp = f"default-src 'none'; frame-ancestors 'none'; form-action 'self'; manifest-src 'self'; worker-src 'self'; base-uri 'self'; font-src 'self'; style-src-elem 'self'; style-src-attr 'unsafe-inline'; style-src 'self' 'unsafe-inline'; script-src-elem 'self' challenges.cloudflare.com; script-src-attr 'none'; script-src 'self' challenges.cloudflare.com; frame-src challenges.cloudflare.com www.youtube-nocookie.com platform.twitter.com rumble.com player.twitch.tv; connect-src 'self' videos.watchpeopledie.tv use1.fptls.com use1.fptls3.com api.fpjs.io; img-src 'self' {approved_embed_hosts_for_csp} data:; media-src 'self' {approved_embed_hosts_for_csp};"
+csp = f"default-src 'none'; frame-ancestors 'none'; form-action 'self'; manifest-src 'self'; worker-src 'self'; base-uri 'self'; font-src 'self'; style-src-elem 'self'; style-src-attr 'unsafe-inline'; style-src 'self' 'unsafe-inline'; script-src-elem 'self' challenges.cloudflare.com; script-src-attr 'none'; script-src 'self' challenges.cloudflare.com; frame-src challenges.cloudflare.com www.youtube.com platform.twitter.com rumble.com player.twitch.tv; connect-src 'self' videos.watchpeopledie.tv use1.fptls.com use1.fptls3.com api.fpjs.io; img-src {approved_embed_hosts_for_csp} data:; media-src {approved_embed_hosts_for_csp};"
 if not IS_LOCALHOST:
 	csp += ' upgrade-insecure-requests;'
 	
 
 with open("includes/content-security-policy", "w") as f:
-		f.write(f'add_header Content-Security-Policy "{csp}";')
+	f.write(f'add_header Content-Security-Policy "{csp}";')

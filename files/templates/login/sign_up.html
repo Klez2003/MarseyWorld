@@ -72,9 +72,9 @@
 	<input autocomplete="off" class="form-control" id="username-register" type="text" name="username" pattern="[a-zA-Z0-9_\-]{3,25}" min="3" max="25" required {% if username %}value="{{username}}"{% endif %}>
 	<small id="usernameHelpRegister"></small>
 
-	<label for="email-register" class="mt-3">Email Address</label>
+	<label for="email-register" class="mt-3 mb-0">Email Address</label>
 
-	<small class="d-inline-block text-muted ml-1">(optional, but you'll need it if you forget your password)</small>
+	<div class="text-small-extra text-muted mb-2">Optional, but you'll need it if you forget your password</div>
 
 	<input style="background-color: var(--gray-800)" autocomplete="off" class="form-control" id="email-register" type="email" name="email" readonly data-nonce="{{g.nonce}}" {% if email %}value="{{email}}"{% endif %}>
 
@@ -96,7 +96,7 @@
 			{%- if SITE_NAME == 'rDrama' -%}
 				I swear lifelong allegiance to the state of Israel.
 			{%- else -%}
-				I accept the <a href="/sidebar">rules</a> and am over 18.
+				I accept the <a href="/sidebar">rules</a> and I'm 18 or older.
 			{%- endif -%}
 		</label>
 	</div>

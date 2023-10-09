@@ -3,13 +3,18 @@ from flask import *
 from sqlalchemy import and_, any_, or_
 from sqlalchemy.orm import joinedload, Query, load_only
 
-from files.classes import Comment, CommentVote, Hat, Sub, Post, User, UserBlock, Vote
+from files.classes import Comment, CommentVote, Hat, Hole, Post, User, UserBlock, Vote
 from files.helpers.config.const import *
 from files.__main__ import cache
 
+# Escape SQL pattern-matching special characters
+def escape_for_search(string):
+	return string.replace('\\', '').replace('_', '\_').replace('%', '\%').strip()
+
 def sanitize_username(username):
-	if not username: return username
-	return username.replace('\\', '').replace('_', '\_').replace('%', '').replace('(', '').replace(')', '').strip()
+	username = username.lstrip('@').replace('(', '').replace(')', '')
+	username = escape_for_search(username)
+	return username
 
 def get_user(username, v=None, graceful=False, include_blocks=False, attributes=None):
 	if not username:
@@ -316,19 +321,19 @@ def get_comments_v_properties(v, should_keep_func=None, *criterion):
 		else: dump.append(comment)
 	return (comments, output)
 
-def get_sub_by_name(sub, v=None, graceful=False):
-	if not sub:
+def get_hole(hole, v=None, graceful=False):
+	if not hole:
 		if graceful: return None
 		else: abort(404)
-	sub = sub.replace('/h/', '').replace('h/', '').strip().lower()
-	if not sub:
+	hole = hole.replace('/h/', '').replace('h/', '').strip().lower()
+	if not hole:
 		if graceful: return None
 		else: abort(404)
-	sub = g.db.get(Sub, sub)
-	if not sub:
+	hole = g.db.get(Hole, hole)
+	if not hole:
 		if graceful: return None
 		else: abort(404)
-	return sub
+	return hole
 
 @cache.memoize(timeout=3600)
 def get_profile_picture(identifier):

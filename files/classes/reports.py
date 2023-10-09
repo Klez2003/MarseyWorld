@@ -6,7 +6,7 @@ from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
 from files.helpers.lazy import lazy
-from files.helpers.regex import censor_slurs
+from files.helpers.slurs_and_profanities import censor_slurs_profanities
 
 class Report(Base):
 	__tablename__ = "reports"
@@ -27,7 +27,7 @@ class Report(Base):
 
 	@lazy
 	def realreason(self, v):
-		return censor_slurs(self.reason, v)
+		return censor_slurs_profanities(self.reason, v)
 
 	#lazy hack to avoid having to rename the comment_id column and causing potential new bugs
 	@property
@@ -55,7 +55,7 @@ class CommentReport(Base):
 
 	@lazy
 	def realreason(self, v):
-		return censor_slurs(self.reason, v)
+		return censor_slurs_profanities(self.reason, v)
 
 	#lazy hack to avoid having to rename the comment_id column and causing potential new bugs
 	@property

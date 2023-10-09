@@ -1,3 +1,5 @@
+/*generic*/
+
 #awards-container {
 	position: absolute;
 	overflow: hidden;
@@ -9,62 +11,107 @@
 	position: absolute;
 }
 
-.stackable-container div,
-.stackable-container img, .ricardo {
+.stackable-container div, .stackable-container img, .ricardo {
 	animation-iteration-count: infinite !important;
 	animation-timing-function: linear !important;
 }
 
-.scooter img {
-	width: min(7vw, 50px) !important;
+
+/*emoji*/
+
+.emoji-award img, .emoji-hz-award img {
+	width: min(10vw, 60px) !important;
 }
 
-.wholesome img {
-	width: min(8vw, 60px) !important;
+.emoji-award:nth-child(even) {
+	animation-direction: alternate-reverse;
 }
 
-.train img {
-	width: min(10vw, 80px) !important;
+.emoji-award:nth-child(2) img, .emoji-award:nth-child(3) img, .emoji-award:nth-child(6) img, .emoji-award:nth-child(7) img, .emoji-award:nth-child(10) img, .emoji-award:nth-child(11) img, .emoji-award:nth-child(14) img, .emoji-award:nth-child(15) img, .emoji-award:nth-child(18) img, .emoji-award:nth-child(19) img {
+	animation-direction: alternate-reverse;
 }
 
-
-
-
-.wholesome:nth-child(even),
-.wholesome:nth-child(n+2):nth-child(n+3) img
-{animation-direction: alternate-reverse}
-
-@keyframes sealX {
-	100% {transform: translateX(98vw)}
+@keyframes emojiX {
+	100% {
+		transform: translateX(98vw);
+	}
 }
-@keyframes sealY {
-	100% {transform: translateY(80vh)}
+@keyframes emojiY {
+	100% {
+		transform: translateY(80vh);
+	}
 }
 
-.train:nth-child(1), .scooter:nth-child(1) {top:2%}
-.train:nth-child(2), .scooter:nth-child(2) {top:27%}
-.train:nth-child(3), .scooter:nth-child(3) {top:52%}
-.train:nth-child(4), .scooter:nth-child(4) {top:77%}
-
-.train:nth-child(odd) {animation-direction: reverse;}
-.train:nth-child(odd) img {transform: scaleX(-1);}
-
-@keyframes train {
-	from {transform: translateX(-10vw)}
-	to {transform: translateX(110vw)}
+.emoji-award {
+	animation: emojiX 8s alternate;
 }
-
-.scooter:nth-child(even) {animation-direction: reverse;}
-.scooter:nth-child(even) img {transform: scaleX(-1);}
-
-.wholesome {animation: sealX 8s alternate}
-.wholesome img {animation: sealY 9s alternate}
-.train, .scooter {animation: train 12s;}
+.emoji-award img {
+	animation: emojiY 9s alternate;
+}
 
 @media (max-width: 768px) {
-	.wholesome {animation: sealX 6s alternate}
-	.wholesome img {animation: sealY 7s alternate}
-	.train, .scooter {animation: train 6s;}
+	.emoji-award {
+		animation: emojiX 6s alternate;
+	}
+	.emoji-award img {
+		animation: emojiY 7s alternate;
+	}
+}
+
+.emoji-hz-award:nth-child(odd) {
+	animation-direction: reverse;
+}
+.emoji-hz-award:nth-child(odd) img {
+	transform: scaleX(-1);
+}
+.emoji-hz-award:nth-child(1), .emoji-hz-award:nth-child(5), .emoji-hz-award:nth-child(9), .emoji-hz-award:nth-child(13), .emoji-hz-award:nth-child(17) {
+	top: 2%;
+}
+.emoji-hz-award:nth-child(2), .emoji-hz-award:nth-child(6), .emoji-hz-award:nth-child(10), .emoji-hz-award:nth-child(14), .emoji-hz-award:nth-child(18) {
+	top: 27%;
+}
+.emoji-hz-award:nth-child(3), .emoji-hz-award:nth-child(7), .emoji-hz-award:nth-child(11), .emoji-hz-award:nth-child(15), .emoji-hz-award:nth-child(19) {
+	top: 52%;
+}
+.emoji-hz-award:nth-child(4), .emoji-hz-award:nth-child(8), .emoji-hz-award:nth-child(12), .emoji-hz-award:nth-child(16), .emoji-hz-award:nth-child(20) {
+	top: 77%;
+}
+
+
+@keyframes emoji-hz {
+	0% {
+		transform: translateX(-10vw);
+	}
+	100% {
+		transform: translateX(110vw);
+	}
+}
+
+.emoji-hz-award {
+	animation: emoji-hz 12s;
+}
+
+@media (max-width: 768px) {
+	.emoji-hz-award {
+		animation: emoji-hz 6s;
+	}
+}
+
+.animation-delay-1 {
+	animation-delay: 1s !important;
+}
+.animation-delay-2 {
+	animation-delay: 2s !important;
+}
+.animation-delay-3 {
+	animation-delay: 3s !important;
+}
+.animation-delay-4 {
+	animation-delay: 4s !important;
+}
+
+.emoji-award, .emoji-hz-award {
+	transform: translateX(-10vw);
 }
 
 /*confetti*/
@@ -155,14 +202,132 @@
 
 
 .tilt-comment-1 {
-	transform: rotate(1deg);
-}
-.tilt-comment-2 {
 	transform: rotate(2deg);
 }
+.tilt-comment-2 {
+	transform: rotate(4deg);
+}
 .tilt-comment-3 {
-	transform: rotate(3deg);
+	transform: rotate(6deg);
 }
 .tilt-comment-4 {
-	transform: rotate(4deg);
+	transform: rotate(8deg);
+}
+
+.rainbow-text:not(a), h1.rainbow-text.post-title a {
+	background: repeating-linear-gradient(
+		135deg,
+		violet,
+		#b25eee 20px,
+		lightblue 40px,
+		green 60px,
+		yellow 80px,
+		orange 100px,
+		#ff7f7f 120px
+	);
+	color: transparent !important;
+	font-weight: 700 !important;
+	background-clip: text !important;
+	-webkit-background-clip: text !important;
+	animation: 60s linear 0s infinite move-colors;
+}
+
+.gold-text:not(a), h1.gold-text.post-title a, :not(td) > a[href="/h/highrollerclub"]:not(.hole-flair) {
+	font-family: open sans,sans-serif !important;
+	background: repeating-linear-gradient(
+		45deg,
+		gold,
+		#debd00 20px,
+		#cdae00 60px
+	);
+	color: transparent !important;
+	font-weight: 700 !important;
+	background-clip: text !important;
+	-webkit-background-clip: text !important;
+	animation: 60s linear 0s infinite move-colors;
+}
+
+.queen:not(a) img, .emoji-award:not(.ectoplasm), h1.queen.post-title a {
+	color: hotpink !important;
+	font-weight: 700 !important;
+	text-transform: lowercase !important;
+}
+
+.sharpen:not(a), h1.sharpen.post-title a {
+	color: red !important;
+	font-weight: bold !important;
+	font-style: italic !important;
+}
+
+.sharpen-0:after {
+	background: url("/i/sharpen/0.webp?x=6");
+}
+.sharpen-1:after {
+	background: url("/i/sharpen/1.webp?x=6");
+}
+.sharpen-2:after {
+	background: url("/i/sharpen/2.webp?x=6");
+}
+.sharpen-3:after {
+	background: url("/i/sharpen/3.webp?x=6");
+}
+.sharpen-4:after {
+	background: url("/i/sharpen/4.webp?x=6");
+}
+.sharpen-5:after {
+	background: url("/i/sharpen/5.webp?x=6");
+}
+.sharpen-6:after {
+	background: url("/i/sharpen/6.webp?x=6");
+}
+.sharpen-7:after {
+	background: url("/i/sharpen/7.webp?x=6");
+}
+.sharpen-8:after {
+	background: url("/i/sharpen/8.webp?x=6");
+}
+.sharpen-9:after {
+	background: url("/i/sharpen/9.webp?x=6");
+}
+
+.rainbow-text:not(a) > p, .gold-text:not(a) > p {
+	color: transparent !important;
+}
+
+.rainbow-text del, .gold-text del {
+	color: var(--black);
+	font-weight: 400;
+}
+
+@keyframes move-colors {
+	from {background-position: 0px;}
+	to {background-position: 1000px;}
+}
+
+@keyframes lgbt {
+	0% { filter: hue-rotate(0deg); }
+	100% { filter: hue-rotate(360deg); }
+}
+
+.zozbot, [pride_username], :not(td) > a[href="/h/countryclub"]:not(.hole-flair) {
+	color: red;
+	animation: lgbt 3s linear infinite;
+}
+
+[pride_username].patron, :not(td) > a[href="/h/countryclub"].hole-flair {
+	background-color: red;
+	animation: lgbt 2s linear infinite;
+}
+
+:not(td) > a[href="/h/highrollerclub"].hole-flair {
+	font-family: open sans,sans-serif !important;
+	background: repeating-linear-gradient(
+		45deg,
+		gold,
+		#debd00 20px,
+		#cdae00 60px
+	);
+	font-weight: 700 !important;
+	background-clip: text !important;
+	animation: 60s linear 0s infinite move-colors;
 }

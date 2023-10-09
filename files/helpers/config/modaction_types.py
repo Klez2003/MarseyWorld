@@ -292,12 +292,12 @@ MODACTION_TYPES = {
 		"color": 'bg-primary'
 	},
 	'set_nsfw': {
-		"str": 'set {self.target_link} as +18',
+		"str": 'set {self.target_link} as NSFW',
 		"icon": 'fa-eye-evil',
 		"color": 'bg-danger'
 	},
 	'set_nsfw_comment': {
-		"str": 'set {self.target_link} as +18',
+		"str": 'set {self.target_link} as NSFW',
 		"icon": 'fa-eye-evil',
 		"color": 'bg-danger'
 	},
@@ -306,6 +306,16 @@ MODACTION_TYPES = {
 		"icon": 'fa-eye-slash',
 		"color": 'bg-danger'
 	},
+	'start_orgy': {
+		"str": 'started orgy',
+		"icon": 'fa-tv',
+		"color": 'bg-success'
+	},
+	'stop_orgy': {
+		"str": 'stopped orgy',
+		"icon": 'fa-tv',
+		"color": 'bg-danger'
+	},	
 	'unchud': {
 		"str": 'unchudded {self.target_link}',
 		"icon": 'fa-snooze',
@@ -362,12 +372,12 @@ MODACTION_TYPES = {
 		"color": 'bg-muted'
 	},
 	'unset_nsfw': {
-		"str": 'unset {self.target_link} as +18',
+		"str": 'unset {self.target_link} as NSFW',
 		"icon": 'fa-eye-evil',
 		"color": 'bg-success'
 	},
 	'unset_nsfw_comment': {
-		"str": 'unset {self.target_link} as +18',
+		"str": 'unset {self.target_link} as NSFW',
 		"icon": 'fa-eye-evil',
 		"color": 'bg-success'
 	},

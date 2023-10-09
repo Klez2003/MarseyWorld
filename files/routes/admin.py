@@ -1,6 +1,7 @@
 import time
 from math import floor
 import os
+import ffmpeg
 
 from sqlalchemy.orm import load_only
 
@@ -11,6 +12,7 @@ from files.helpers.actions import *
 from files.helpers.alerts import *
 from files.helpers.cloudflare import *
 from files.helpers.config.const import *
+from files.helpers.slurs_and_profanities import censor_slurs_profanities
 from files.helpers.get import *
 from files.helpers.media import *
 from files.helpers.sanitize import *
@@ -895,24 +897,24 @@ def unshadowban(user_id, v):
 	return {"message": f"@{user.username} has been unshadowbanned!"}
 
 
-@app.post("/admin/title_change/<int:user_id>")
+@app.post("/admin/change_flair/<int:user_id>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
-@admin_level_required(PERMS['USER_TITLE_CHANGE'])
-def admin_title_change(user_id, v):
+@admin_level_required(PERMS['USER_CHANGE_FLAIR'])
+def admin_change_flair(user_id, v):
 
 	user = get_account(user_id)
 
-	new_name = request.values.get("title")[:256].strip()
+	new_flair = request.values.get("title")[:256].strip()
 
-	user.customtitleplain = new_name
-	new_name = filter_emojis_only(new_name)
-	new_name = censor_slurs(new_name, None)
+	user.flair = new_flair
+	new_flair = filter_emojis_only(new_flair)
+	new_flair = censor_slurs_profanities(new_flair, None)
 
 	user = get_account(user.id)
-	user.customtitle=new_name
+	user.flair_html = new_flair
 	if request.values.get("locked"):
 		user.flairchanged = int(time.time()) + 2629746
 		badge_grant(user=user, badge_id=96)
@@ -930,14 +932,14 @@ def admin_title_change(user_id, v):
 		kind=kind,
 		user_id=v.id,
 		target_user_id=user.id,
-		_note=f'"{new_name}"'
+		_note=f'"{new_flair}"'
 		)
 	g.db.add(ma)
 
 	if user.flairchanged:
-		message = f"@{v.username} (a site admin) has locked your flair to `{user.customtitleplain}`."
+		message = f"@{v.username} (a site admin) has locked your flair to `{user.flair}`."
 	else:
-		message = f"@{v.username} (a site admin) has changed your flair to `{user.customtitleplain}`. You can change it back in the settings."
+		message = f"@{v.username} (a site admin) has changed your flair to `{user.flair}`. You can change it back in the settings."
 
 	send_repeatable_notification(user.id, message)
 
@@ -1027,7 +1029,7 @@ def ban_user(fullname, v):
 			except: abort(400)
 			actual_reason = reason.split(str(post_id))[1].strip()
 			post = get_post(post_id)
-			if post.sub != 'chudrama':
+			if post.hole != 'chudrama':
 				post.bannedfor = f'{duration} by @{v.username}'
 				if actual_reason:
 					post.bannedfor += f' for "{actual_reason}"'
@@ -1132,7 +1134,7 @@ def chud(fullname, v):
 			try: post = int(reason.split("/post/")[1].split(None, 1)[0])
 			except: abort(400)
 			post = get_post(post)
-			if post.sub == 'chudrama':
+			if post.hole == 'chudrama':
 				abort(403, "You can't chud people in /h/chudrama")
 			post.chuddedfor = f'{duration} by @{v.username}'
 			g.db.add(post)
@@ -1140,7 +1142,7 @@ def chud(fullname, v):
 			try: comment = int(reason.split("/comment/")[1].split(None, 1)[0])
 			except: abort(400)
 			comment = get_comment(comment)
-			if comment.post.sub == 'chudrama':
+			if comment.post.hole == 'chudrama':
 				abort(403, "You can't chud people in /h/chudrama")
 			comment.chuddedfor = f'{duration} by @{v.username}'
 			g.db.add(comment)
@@ -1344,8 +1346,11 @@ def remove_post(post_id, v):
 	post = get_post(post_id)
 	post.is_banned = True
 	post.is_approved = None
+
 	if not FEATURES['AWARDS'] or not post.stickied or not post.stickied.endswith(PIN_AWARD_TEXT):
 		post.stickied = None
+		post.stickied_utc = None
+
 	post.is_pinned = False
 	post.ban_reason = v.username
 	g.db.add(post)
@@ -1568,6 +1573,7 @@ def unsticky_comment(cid, v):
 			abort(403, "Can't unpin award pins!")
 
 		comment.stickied = None
+		comment.stickied_utc = None
 		g.db.add(comment)
 
 		ma=ModAction(
@@ -1936,7 +1942,8 @@ def admin_reset_password(user_id, v):
 @app.get("/admin/orgy")
 @admin_level_required(PERMS['ORGIES'])
 def orgy_control(v):
-	return render_template("admin/orgy_control.html", v=v, orgy=get_orgy())
+	orgy = g.db.query(Orgy).one_or_none()
+	return render_template("admin/orgy_control.html", v=v, orgy=orgy)
 
 @app.post("/admin/start_orgy")
 @admin_level_required(PERMS['ORGIES'])
@@ -1950,37 +1957,68 @@ def start_orgy(v):
 	if not title:
 		abort(400, "A title is required!")
 
-	if get_orgy():
+	if get_orgy(v):
 		abort(400, "An orgy is already in progress")
 
 	normalized_link = normalize_url(link)
+	end_utc = None
 
-	if re.match(bare_youtube_regex, normalized_link):
+	if bare_youtube_regex.match(normalized_link):
 		orgy_type = 'youtube'
 		data, _ = get_youtube_id_and_t(normalized_link)
-	elif re.match(rumble_regex, normalized_link):
+	elif rumble_regex.match(normalized_link):
 		orgy_type = 'rumble'
 		data = normalized_link
-	elif re.match(twitch_regex, normalized_link):
+	elif twitch_regex.match(normalized_link):
 		orgy_type = 'twitch'
-		data = re.search(twitch_regex, normalized_link).group(3)
+		data = twitch_regex.search(normalized_link).group(3)
 	elif any((normalized_link.lower().endswith(f'.{x}') for x in VIDEO_FORMATS)):
 		orgy_type = 'file'
 		data = normalized_link
+		#not deduped, cuz cron checks local file, it can't check the url cuz of referrer restriction
+		video_info = ffmpeg.probe(data)
+		seconds = float(video_info['streams'][0]['duration'])
+		end_utc = int(time.time() + seconds)
 	else:
 		abort(400)
 
 	orgy = Orgy(
 			title=title,
 			type=orgy_type,
-			data=data
+			data=data,
+			end_utc=end_utc,
 		)
 	g.db.add(orgy)
 
-	return redirect('/orgy')
+	ma = ModAction(
+		kind="start_orgy",
+		user_id=v.id,
+		_note=data,
+	)
+	g.db.add(ma)
+
+	g.db.commit()
+	requests.post('http://localhost:5001/refresh_chat', headers={"Host": SITE})
+
+	return redirect('/chat')
 
 @app.post("/admin/stop_orgy")
 @admin_level_required(PERMS['ORGIES'])
 def stop_orgy(v):
-	g.db.query(Orgy).delete()
+	orgy = g.db.query(Orgy).one_or_none()
+
+	if not orgy:
+		abort(400, "There is no orgy in progress right now!")
+
+	ma = ModAction(
+		kind="stop_orgy",
+		user_id=v.id,
+		_note=orgy.data,
+	)
+	g.db.add(ma)
+
+	g.db.delete(orgy)
+
+	requests.post('http://localhost:5001/refresh_chat', headers={"Host": SITE})
+
 	return {"message": "Orgy stopped successfully!"}

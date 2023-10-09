@@ -7,7 +7,7 @@
 			<section id="site-settings-experience-section" class="settings-section-section">
 				<h5>Site Experience</h5>
 				<div class="settings-section rounded" id="site-settings-experience">
-					{% if v.can_toggle_event_music %}
+					{% if IS_EVENT() and v.can_toggle_event_music %}
 						{{common.toggle_section('Event Music', 'event_music_switch', 'event_music', v.event_music, 'Toggle event music.', false)}}
 					{% endif %}
 					<div class="d-lg-flex border-bottom">
@@ -16,7 +16,7 @@
 						</div>
 						<div class="body w-lg-100">
 							<p>You're a {{TIER_TO_NAME[v.patron] if v.patron else "freeloader"}}!</p>{% if v.patron %} Thanks ily! &lt;3{% endif %}
-							{% if not v.patron and v.truescore >= TRUESCORE_DONATE_MINIMUM and DONATE_SERVICE != DEFAULT_CONFIG_VALUE %}
+							{% if not v.patron and v.truescore >= TRUESCORE_MINIMUM and DONATE_LINK != DEFAULT_CONFIG_VALUE %}
 								<p class="font-italic">To stop freeloading, first <a href="/settings/security#site-settings-email-section">verify your email</a>, support us on <a href="{{DONATE_LINK}}">{{DONATE_SERVICE}}</a> with the same email, and click "Claim {{patron}} Rewards"</p>
 							{% elif not v.patron %}
 								<p class="font-italic">To stop freeloading, you can <a href="/donate">donate via crypto</a>. Please let us know first beforehand by <a href="/contact">sending us a modmail.</a> Thanks!</p>
@@ -100,9 +100,9 @@
 									<p>Join a house (cost: {{cost}} coins or marseybux).</p>
 								{% endif %}
 								<div class="input-group">
-									<select id="changing-house"{% if cost > v.coins + v.marseybux or v.bite %}disabled{% endif %} autocomplete="off" id='house' class="form-control setting_select" form="profile-settings" name="house" data-nonce="{{g.nonce}}" data-reload="1">
+									<select data-cost="{{cost}}" id="changing-house"{% if cost > v.coins + v.marseybux or v.bite %}disabled{% endif %} autocomplete="off" id='house' class="form-control setting_select" form="profile-settings" name="house" data-nonce="{{g.nonce}}">
 										{% for entry in HOUSES %}
-											<option value="{{entry}}" {% if v.house.startswith(entry) %} selected {% endif %}>
+											<option value="{{entry}}" {% if v.house.startswith(entry) %}selected{% endif %}>
 												{{entry}}
 											</option>
 										{% endfor %}
@@ -124,7 +124,7 @@
 									<form action="/settings/images/profile" method="post" enctype="multipart/form-data">
 										<input hidden name="formkey" value="{{v|formkey}}">
 										<label class="btn btn-secondary text-capitalize mr-2 mb-0">
-											Update<input autocomplete="off" type="file" accept="image/*" {% if g.is_tor %}disabled{% endif %} hidden name="profile" data-nonce="{{g.nonce}}" onchange_submit>
+											Upload<input autocomplete="off" type="file" accept="image/*" {% if g.is_tor %}disabled{% endif %} hidden name="profile" data-nonce="{{g.nonce}}" onchange_submit>
 										</label>
 									</form>
 								</div>
@@ -146,7 +146,7 @@
 										<form action="/settings/images/banner" method="post" enctype="multipart/form-data">
 											<input hidden name="formkey" value="{{v|formkey}}">
 											<label class="btn btn-secondary text-capitalize mr-2 mb-0">
-												Update<input autocomplete="off" type="file" {% if g.is_tor %}disabled{% endif %} accept="image/*" hidden name="banner" data-nonce="{{g.nonce}}" onchange_submit>
+												Upload<input autocomplete="off" type="file" {% if g.is_tor %}disabled{% endif %} accept="image/*" hidden name="banner" data-nonce="{{g.nonce}}" onchange_submit>
 											</label>
 										</form>
 									</div>
@@ -171,7 +171,7 @@
 									<form action="/settings/images/profile_background" method="post" enctype="multipart/form-data">
 										<input hidden name="formkey" value="{{v|formkey}}">
 										<label class="btn btn-secondary text-capitalize mr-2 mb-0">
-											Update<input autocomplete="off" type="file" {% if g.is_tor %}disabled{% endif %} accept="image/*" hidden name="profile_background" data-nonce="{{g.nonce}}" onchange_submit>
+											Upload<input autocomplete="off" type="file" {% if g.is_tor %}disabled{% endif %} accept="image/*" hidden name="profile_background" data-nonce="{{g.nonce}}" onchange_submit>
 										</label>
 									</form>
 								</div>
@@ -202,7 +202,7 @@
 						{{common.line_text_section('pronouns', '/settings/pronouns_change', 'pronouns', 'Pronouns', v.pronouns, 'Limit of 15 characters', 'Enter pronouns here', 'Change Pronouns', false, 3, 15, '([a-zA-Z]{1,7})/[a-zA-Z]{1,7}(/[a-zA-Z]{1,7})?', false)}}
 					{% endif %}
 
-					{{common.line_text_section('flair', '/settings/title_change', 'title', 'Flair', v.customtitleplain, 'Limit of 100 characters', 'Enter a flair here', 'Change Flair', true, 0, 100, '.*', v.flairchanged)}}
+					{{common.line_text_section('flair', '/settings/change_flair', 'title', 'Flair', v.flair, 'Limit of 100 characters', 'Enter a flair here', 'Change Flair', true, 0, 100, '.*', v.flairchanged)}}
 
 					{{common.color_section('flaircolor', '/settings/titlecolor', 'titlecolor', 'Flair Color', v.titlecolor)}}
 
@@ -271,24 +271,20 @@
 				<div class="settings-section rounded" id="site-settings-filters">
 					{% set ns = namespace(slurtext='Enable if you would like to automatically replace slurs.', profanitytext='Enable if you would like to automatically replace profanities.') %}
 					{% if FEATURES['USERS_PERMANENT_WORD_FILTERS'] %}
-						{% if v.slurreplacer == 0 %}
-							{% set ns.slurtext = 'Enable if you would like to automatically replace slurs. <a hidden id="slurreplacer-perma-link" href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#modal-slurreplacer">Make filter permanent for a badge!</a>' %}
-						{% elif v.slurreplacer == 1 %}
-							{% set ns.slurtext = 'Enable if you would like to automatically replace slurs. <a id="slurreplacer-perma-link" href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#modal-slurreplacer">Make filter permanent for a badge!</a>' %}
+						{% if v.slurreplacer > 1 %}
+							{% set slurtext = "You've enabled the slur replacer permanently! ✊🏿" %}
 						{% else %}
-							{% set ns.slurtext = "You've enabled the slur replacer permanently! ✊🏿" %}
+							{% set slurtext = 'Enable if you would like to automatically replace slurs. <button type="button" {% if v.slurreplacer == 0 %}hidden{% endif %} id="slurreplacer-perma-link" class="text-primary" data-bs-toggle="modal" data-bs-target="#modal-slurreplacer">Make filter permanent for a badge!</button>' %}
 						{% endif %}
 
-						{% if v.profanityreplacer == 0 %}
-							{% set ns.profanitytext = 'Enable if you would like to automatically replace profanities. <a hidden id="profanityreplacer-perma-link" href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#modal-profanityreplacer">Make filter permanent for a badge!</a>' %}
-										{% elif v.profanityreplacer == 1 %}
-							{% set ns.profanitytext = 'Enable if you would like to automatically replace profanities. <a id="profanityreplacer-perma-link" href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#modal-profanityreplacer">Make filter permanent for a badge!</a>' %}
+						{% if v.profanityreplacer > 1 %}
+							{% set profanitytext = "You've enabled the profanity replacer permanently! 😇" %}
 						{% else %}
-							{% set ns.profanitytext = "You've enabled the profanity replacer permanently! 😇" %}
+							{% set profanitytext = 'Enable if you would like to automatically replace profanities. <button type="button" {% if v.profanityreplacer == 0 %}hidden{% endif %} id="profanityreplacer-perma-link" class="text-primary" data-bs-toggle="modal" data-bs-target="#modal-profanityreplacer">Make filter permanent for a badge!</button>' %}
 						{% endif %}
 					{% endif %}
-					{{common.toggle_section("Slur Replacer", "slurreplacerswitch", 'slurreplacer', v.slurreplacer, ns.slurtext, FEATURES['USERS_PERMANENT_WORD_FILTERS'] and v.slurreplacer > 1)}}
-					{{common.toggle_section("Profanity Replacer", "profanityreplacerswitch", 'profanityreplacer', v .profanityreplacer, ns.profanitytext, FEATURES['USERS_PERMANENT_WORD_FILTERS'] and v.profanityreplacer > 1)}}
+					{{common.toggle_section("Slur Replacer", "slurreplacerswitch", 'slurreplacer', v.slurreplacer, slurtext, FEATURES['USERS_PERMANENT_WORD_FILTERS'] and v.slurreplacer > 1)}}
+					{{common.toggle_section("Profanity Replacer", "profanityreplacerswitch", 'profanityreplacer', v .profanityreplacer, profanitytext, FEATURES['USERS_PERMANENT_WORD_FILTERS'] and v.profanityreplacer > 1)}}
 				</div>
 			</section>
 			<section id="site-settings-referral-section" class="settings-section-section">
@@ -300,9 +296,9 @@
 						</div>
 						<div class="body w-lg-100">
 							<div class="input-group">
-								<input autocomplete="off" type="text" readonly class="form-control copy-link" id="referral_code" value="{{SITE_FULL}}/signup?ref={{v.username}}" data-clipboard-text="{{SITE_FULL}}/signup?ref={{v.username}}">
+								<input autocomplete="off" type="text" readonly class="form-control copy-link" id="referral_code" value="{{SITE_FULL}}/signup?ref={{v.id}}" data-clipboard-text="{{SITE_FULL}}/signup?ref={{v.id}}">
 								<span class="input-group-append" data-bs-toggle="tooltip" data-bs-placement="top" title="You have referred {{v.referral_count}} user{{'s' if v.referral_count != 1 else ''}} so far. {% if v.referral_count==0 %}¯\_(ツ)_/¯{% elif v.referral_count>10 %}Wow!{% endif %}">
-									<span class="input-group-text text-primary border-0"><i class="fas fa-user mr-1"></i>{{v.referral_count}}</span>
+									<span class="input-group-text border-0 font-weight-bold"><i class="fas fa-user mr-1"></i>{{v.referral_count}}</span>
 								</span>
 							</div>
 							<div class="text-small text-muted mt-3">Share this link with a friend. {% if v.referral_count==0 %} When they sign up, you'll get the bronze recruitment badge. <a href="/badges">Learn more.</a>{% elif v.referral_count<10 %} When you refer 10 friends, you'll receive the silver recruitment badge. <a href="/badges">Learn more.</a>{% elif v.referral_count<100 %} When you refer 100 friends, you'll receive the gold recruitment badge. <a href="/badges">Learn more</a>.{% endif %}</div>

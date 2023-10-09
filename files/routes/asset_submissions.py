@@ -48,6 +48,7 @@ def submit_emoji(v):
 	tags = request.values.get('tags', '').lower().strip()
 	username = request.values.get('author', '').lower().strip()
 	kind = request.values.get('kind', '').strip()
+	nsfw = bool(request.values.get("nsfw"))
 
 	for modifier in emoji_modifiers:
 		if name.endswith(modifier):
@@ -89,9 +90,17 @@ def submit_emoji(v):
 
 	filename = f'/asset_submissions/emojis/{name}.webp'
 	copyfile(highquality, filename)
-	process_image(filename, v, resize=200, trim=True)
+	process_image(filename, v, resize=300, trim=True)
 
-	emoji = Emoji(name=name, kind=kind, author_id=author.id, tags=tags, count=0, submitter_id=v.id)
+	emoji = Emoji(
+				name=name,
+				kind=kind,
+				author_id=author.id,
+				tags=tags,
+				count=0,
+				submitter_id=v.id,
+				nsfw=nsfw,
+			)
 	g.db.add(emoji)
 
 	return {"message": f"'{name}' submitted successfully!"}
@@ -139,10 +148,12 @@ def approve_emoji(v, name):
 	if new_kind not in EMOJI_KINDS:
 		abort(400, "Invalid kind!")
 
+	nsfw = request.values.get("nsfw") == 'true'
 
 	emoji.name = new_name
 	emoji.kind = new_kind
 	emoji.tags = tags
+	emoji.nsfw = nsfw
 	g.db.add(emoji)
 
 	author = get_account(emoji.author_id)
@@ -177,9 +188,8 @@ def approve_emoji(v, name):
 			badge_grant(badge_id=113, user=author)
 		badge_grant(badge_id=112, user=author)
 
-
-	cache.delete("emojis")
-	cache.delete(f"emoji_list_{emoji.kind}")
+	cache.delete(f"emojis_{emoji.nsfw}")
+	cache.delete(f"emoji_list_{emoji.kind}_{emoji.nsfw}")
 
 	purge_files_in_cloudflare_cache(f"{SITE_FULL_IMAGES}/e/{emoji.name}/webp")
 
@@ -195,10 +205,20 @@ def approve_emoji(v, name):
 
 	if v.id != author.id:
 		msg = f"@{v.username} (a site admin) has approved an emoji you made: :{emoji.name}:\n\nYou have received 250 coins as a reward!"
+
+		comment = request.values.get("comment")
+		if comment:
+			msg += f"\nComment: `{comment}`"
+
 		send_repeatable_notification(author.id, msg)
 
 	if v.id != emoji.submitter_id and author.id != emoji.submitter_id:
 		msg = f"@{v.username} (a site admin) has approved an emoji you submitted: :{emoji.name}:"
+		
+		comment = request.values.get("comment")
+		if comment:
+			msg += f"\nComment: `{comment}`"
+
 		send_repeatable_notification(emoji.submitter_id, msg)
 
 	emoji.submitter_id = None
@@ -209,6 +229,9 @@ def approve_emoji(v, name):
 		_note=f'<img loading="lazy" data-bs-toggle="tooltip" alt=":{name}:" title=":{name}:" src="{SITE_FULL_IMAGES}/e/{name}.webp">'
 	)
 	g.db.add(ma)
+
+	if emoji.nsfw:
+		OVER_18_EMOJIS.append(emoji.name)
 
 	return {"message": f"'{emoji.name}' approved!"}
 
@@ -232,6 +255,11 @@ def remove_asset(cls, type_name, v, name):
 
 	if v.id != asset.submitter_id:
 		msg = f"@{v.username} has rejected a {type_name} you submitted: `'{name}'`"
+
+		comment = request.values.get("comment")
+		if comment:
+			msg += f"\nComment: `{comment}`"
+
 		send_repeatable_notification(asset.submitter_id, msg)
 
 		ma = ModAction(
@@ -365,11 +393,21 @@ def approve_hat(v, name):
 
 
 	if v.id != author.id:
-		msg = f"@{v.username} (a site admin) has approved a hat you made: '{hat.name}'"
+		msg = f"@{v.username} (a site admin) has approved a hat you made: `'{hat.name}'`"
+
+		comment = request.values.get("comment")
+		if comment:
+			msg += f"\nComment: `{comment}`"
+
 		send_repeatable_notification(author.id, msg)
 
 	if v.id != hat.submitter_id and author.id != hat.submitter_id:
-		msg = f"@{v.username} (a site admin) has approved a hat you submitted: '{hat.name}'"
+		msg = f"@{v.username} (a site admin) has approved a hat you submitted: `'{hat.name}'`"
+
+		comment = request.values.get("comment")
+		if comment:
+			msg += f"\nComment: `{comment}`"
+
 		send_repeatable_notification(hat.submitter_id, msg)
 
 	hat.submitter_id = None
@@ -445,7 +483,7 @@ def update_emoji(v):
 
 		filename = f"files/assets/images/emojis/{name}.webp"
 		copyfile(new_path, filename)
-		process_image(filename, v, resize=200, trim=True)
+		process_image(filename, v, resize=300, trim=True)
 		purge_files_in_cloudflare_cache([f"{SITE_FULL_IMAGES}/e/{name}.webp", f"{SITE_FULL_IMAGES}/asset_submissions/emojis/original/{name}.{format}"])
 		updated = True
 
@@ -474,8 +512,8 @@ def update_emoji(v):
 	)
 	g.db.add(ma)
 
-	cache.delete("emojis")
-	cache.delete(f"emoji_list_{existing.kind}")
+	cache.delete(f"emojis_{existing.nsfw}")
+	cache.delete(f"emoji_list_{existing.kind}_{existing.nsfw}")
 
 	return {"message": f"'{name}' updated successfully!"}
 

@@ -6,6 +6,8 @@ from os import path
 from shutil import copyfile
 from sys import stdout
 from urllib.parse import urlparse
+import random
+import subprocess
 
 import gevent
 import requests
@@ -17,13 +19,12 @@ from files.helpers.actions import *
 from files.helpers.alerts import *
 from files.helpers.config.const import *
 from files.helpers.get import *
-from files.helpers.sharpen import *
 from files.helpers.regex import *
 from files.helpers.sanitize import *
 from files.helpers.settings import get_setting
 from files.helpers.slots import *
 from files.helpers.sorting_and_time import *
-from files.helpers.media import subprocess_run
+from files.helpers.can_see import *
 from files.routes.routehelpers import execute_shadowban_viewers_and_voters
 from files.routes.wrappers import *
 
@@ -78,29 +79,33 @@ def publish(pid, v):
 	return {"message": "Post has been published successfully!"}
 
 @app.get("/submit")
-@app.get("/h/<sub>/submit")
+@app.get("/h/<hole>/submit")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def submit_get(v, sub=None):
-	sub = get_sub_by_name(sub, graceful=True)
-	if request.path.startswith('/h/') and not sub: abort(404)
+def submit_get(v, hole=None):
+	hole = get_hole(hole, graceful=True)
+	if request.path.startswith('/h/') and not hole: abort(404)
 
-	SUBS = [x[0] for x in g.db.query(Sub.name).order_by(Sub.name)]
+	HOLES = [x[0] for x in g.db.query(Hole.name).order_by(Hole.name)]
 
-	return render_template("submit.html", SUBS=SUBS, v=v, sub=sub)
+	if "other" in HOLES:
+		HOLES.remove("other")
+		HOLES.append("other")
+
+	return render_template("submit.html", HOLES=HOLES, v=v, hole=hole)
 
 @app.get("/post/<int:pid>")
 @app.get("/post/<int:pid>/<anything>")
-@app.get("/h/<sub>/post/<int:pid>")
-@app.get("/h/<sub>/post/<int:pid>/<anything>")
+@app.get("/h/<hole>/post/<int:pid>")
+@app.get("/h/<hole>/post/<int:pid>/<anything>")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @auth_desired_with_logingate
-def post_id(pid, v, anything=None, sub=None):
+def post_id(pid, v, anything=None, hole=None):
 	p = get_post(pid, v=v)
-	if not User.can_see(v, p): abort(403)
+	if not can_see(v, p): abort(403)
 
-	if not g.is_api_or_xhr and p.over_18 and not (v and v.over_18) and session.get('over_18_cookies', 0) < int(time.time()):
+	if not g.is_api_or_xhr and p.nsfw  and not g.show_nsfw:
 		return render_template("errors/nsfw.html", v=v)
 
 	gevent.spawn(_add_post_view, pid)
@@ -151,7 +156,7 @@ def post_id(pid, v, anything=None, sub=None):
 	if p.comment_count > threshold+25 and not (v and v.client):
 		comments2 = []
 		count = 0
-		if p.created_utc > 1638672040: # TODO: migrate old comments to use top_comment_id
+		if p.created_utc > 1638672040:
 			for comment in comments:
 				comments2.append(comment)
 				ids.add(comment.id)
@@ -191,7 +196,7 @@ def post_id(pid, v, anything=None, sub=None):
 		template = "post_banned.html"
 
 	result = render_template(template, v=v, p=p, ids=list(ids),
-		sort=sort, render_replies=True, offset=offset, sub=p.subr,
+		sort=sort, render_replies=True, offset=offset, hole=p.hole_obj,
 		fart=get_setting('fart_mode'))
 
 	if not v:
@@ -230,7 +235,7 @@ def view_more(v, pid, sort, offset):
 
 	comments2 = []
 	count = 0
-	if p.created_utc > 1638672040: # TODO: migrate old comments to use top_comment_id
+	if p.created_utc > 1638672040:
 		for comment in comments:
 			comments2.append(comment)
 			ids.add(comment.id)
@@ -285,117 +290,114 @@ def expand_url(post_url, fragment_url):
 		return f"{post_url}/{fragment_url}"
 
 
-def reddit_s_url_cleaner(url):
-	return normalize_url(requests.get(url, headers=HEADERS, timeout=2, proxies=proxies).url)
+def postprocess_post(post_url, post_body, post_body_html, pid, generate_thumb, edit):
+	with app.app_context():
+		if post_url and (reddit_s_url_regex.fullmatch(post_url) or tiktok_t_url_regex.fullmatch(post_url)):
+			post_url = normalize_url_gevent(post_url)
 
-def surl_and_thumbnail_thread(post_url, post_body, post_body_html, pid, generate_thumb):
-	#s_url
-	dirty = False
+		if post_body:
+			li = list(reddit_s_url_regex.finditer(post_body)) + list(tiktok_t_url_regex.finditer(post_body))
+			for i in li:
+				old = i.group(0)
+				new = normalize_url_gevent(old)
+				post_body = post_body.replace(old, new)
+				post_body_html = post_body_html.replace(old, new)
 
-	if post_url and reddit_s_url_regex.fullmatch(post_url):
-		post_url = reddit_s_url_cleaner(post_url)
-		dirty = True
+		g.db = db_session()
 
-	if post_body:
-		for i in reddit_s_url_regex.finditer(post_body):
-			old = i.group(0)
-			new = reddit_s_url_cleaner(old)
-			post_body = post_body.replace(old, new)
-			post_body_html = post_body_html.replace(old, new)
-			dirty = True
-
-	if dirty:
-		db = db_session()
-
-		p = db.query(Post).filter_by(id=pid).options(load_only(Post.id)).one_or_none()
+		p = g.db.query(Post).filter_by(id=pid).options(load_only(Post.id)).one_or_none()
 		p.url = post_url
 		p.body = post_body
 		p.body_html = post_body_html
+		g.db.add(p)
 
-		db.add(p)
-		db.commit()
-		db.close()
+		if not p.private and not edit:
+			execute_snappy(p, p.author)
 
-	stdout.flush()
+		g.db.commit()
+		g.db.close()
+
+		stdout.flush()
 
 
-	#thumbnail
-	if not generate_thumb: return
+		#thumbnail
+		if not generate_thumb: return
 
-	if post_url.startswith('/') and '\\' not in post_url:
-		post_url = f"{SITE_FULL}{post_url}"
+		if post_url.startswith('/') and '\\' not in post_url:
+			post_url = f"{SITE_FULL}{post_url}"
 
-	try:
-		x = requests.get(post_url, headers=HEADERS, timeout=5, proxies=proxies)
-	except:
-		return
+		try:
+			x = requests.get(post_url, headers=HEADERS, timeout=5, proxies=proxies)
+		except:
+			return
 
-	if x.status_code != 200:
-		return
+		if x.status_code != 200:
+			return
 
-	if x.headers.get("Content-Type","").startswith("text/html"):
-		soup = BeautifulSoup(x.content, 'lxml')
+		if x.headers.get("Content-Type","").startswith("text/html"):
+			soup = BeautifulSoup(x.content, 'lxml')
 
-		thumb_candidate_urls = []
+			thumb_candidate_urls = []
 
-		for tag_name in ("twitter:image", "og:image", "thumbnail"):
-			tag = soup.find('meta', attrs={"name": tag_name, "content": True})
-			if not tag:
-				tag = soup.find('meta', attrs={"property": tag_name, "content": True})
-			if tag:
-				thumb_candidate_urls.append(expand_url(post_url, tag['content']))
+			for tag_name in ("twitter:image", "og:image", "thumbnail"):
+				tag = soup.find('meta', attrs={"name": tag_name, "content": True})
+				if not tag:
+					tag = soup.find('meta', attrs={"property": tag_name, "content": True})
+				if tag:
+					thumb_candidate_urls.append(expand_url(post_url, tag['content']))
 
-		for tag in soup.find_all("img", attrs={'src': True}):
-			thumb_candidate_urls.append(expand_url(post_url, tag['src']))
+			for tag in soup.find_all("img", attrs={'src': True}):
+				thumb_candidate_urls.append(expand_url(post_url, tag['src']))
 
-		for url in thumb_candidate_urls:
-			try:
-				image_req = requests.get(url, headers=HEADERS, timeout=5, proxies=proxies)
-			except:
-				continue
-
-			if image_req.status_code >= 400:
-				continue
-
-			if not image_req.headers.get("Content-Type","").startswith("image/"):
-				continue
-
-			if image_req.headers.get("Content-Type","").startswith("image/svg"):
-				continue
-
-			with Image.open(BytesIO(image_req.content)) as i:
-				if i.width < 30 or i.height < 30:
+			for url in thumb_candidate_urls:
+				try:
+					image_req = requests.get(url, headers=HEADERS, timeout=5, proxies=proxies)
+				except:
 					continue
-			break
+
+				if image_req.status_code >= 400:
+					continue
+
+				if not image_req.headers.get("Content-Type","").startswith("image/"):
+					continue
+
+				if image_req.headers.get("Content-Type","").startswith("image/svg"):
+					continue
+
+				with Image.open(BytesIO(image_req.content)) as i:
+					if i.width < 30 or i.height < 30:
+						continue
+				break
+			else:
+				return
+		elif x.headers.get("Content-Type","").startswith("image/"):
+			image_req = x
+			with Image.open(BytesIO(x.content)) as i:
+				size = len(i.fp.read())
+				if size > 8 * 1024 * 1024:
+					return
 		else:
 			return
-	elif x.headers.get("Content-Type","").startswith("image/"):
-		image_req = x
-		with Image.open(BytesIO(x.content)) as i:
-			size = len(i.fp.read())
-			if size > 8 * 1024 * 1024:
-				return
-	else:
-		return
 
-	name = f'/images/{time.time()}'.replace('.','') + '.webp'
+		name = f'/images/{time.time()}'.replace('.','') + '.webp'
 
-	with open(name, "wb") as file:
-		for chunk in image_req.iter_content(1024):
-			file.write(chunk)
+		with open(name, "wb") as file:
+			for chunk in image_req.iter_content(1024):
+				file.write(chunk)
 
-	db = db_session()
+		g.db = db_session()
 
-	p = db.query(Post).filter_by(id=pid).options(load_only(Post.author_id)).one_or_none()
+		p = g.db.query(Post).filter_by(id=pid).options(load_only(Post.author_id)).one_or_none()
 
-	thumburl = process_image(name, None, resize=99, uploader_id=p.author_id, db=db)
+		thumburl = process_image(name, None, resize=99, uploader_id=p.author_id)
 
-	if thumburl:
-		p.thumburl = thumburl
-		db.add(p)
+		if thumburl:
+			p.thumburl = thumburl
+			g.db.add(p)
 
-	db.commit()
-	db.close()
+		g.db.commit()
+		g.db.close()
+
 	stdout.flush()
 
 
@@ -416,23 +418,25 @@ def is_repost(v):
 
 	url = normalize_url(url)
 
-	search_url = url.replace('%', '').replace('\\', '').replace('_', '\_').strip()
+	url = escape_for_search(url)
+
 	repost = g.db.query(Post).filter(
-		Post.url.ilike(search_url),
+		Post.url.ilike(url),
 		Post.deleted_utc == 0,
 		Post.is_banned == False
 	).first()
+
 	if repost: return {'permalink': repost.permalink}
 	else: return not_a_repost
 
 @app.post("/submit")
-@app.post("/h/<sub>/submit")
+@app.post("/h/<hole>/submit")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit('20/day', deduct_when=lambda response: response.status_code < 400)
 @limiter.limit('20/day', deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @is_not_banned
-def submit_post(v, sub=None):
+def submit_post(v, hole=None):
 	url = request.values.get("url", "").strip()
 
 	if '\\' in url: abort(400)
@@ -446,41 +450,36 @@ def submit_post(v, sub=None):
 	if not title:
 		abort(400, "Please enter a better title!")
 
-	sub = request.values.get("sub", "").lower().replace('/h/','').strip()
+	hole = request.values.get("hole", "").lower().replace('/h/','').strip()
 
 	if SITE == 'rdrama.net' and (v.chud == 1 or v.id == 253):
-		sub = 'chudrama'
+		hole = 'chudrama'
 
 	if SITE == 'rdrama.net' and v.id == 10947:
-		sub = 'mnn'
+		hole = 'mnn'
 
-	title_html = filter_emojis_only(title, count_emojis=True)
-
-	if v.marseyawarded and not marseyaward_title_regex.fullmatch(title_html):
-		abort(400, "You can only type marseys!")
-
-	if sub == 'changelog':
+	if hole == 'changelog':
 		abort(400, "/h/changelog is archived")
 
-	if sub in {'furry','vampire','racist','femboy','edgy'} and not v.client and not v.house.lower().startswith(sub):
-		abort(400, f"You need to be a member of House {sub.capitalize()} to post in /h/{sub}")
+	if hole in {'furry','vampire','racist','femboy','edgy'} and not v.client and not v.house.lower().startswith(hole):
+		abort(400, f"You need to be a member of House {hole.capitalize()} to post in /h/{hole}")
 
-	if sub and sub != 'none':
-		sub_name = sub.strip().lower()
-		sub = g.db.query(Sub).options(load_only(Sub.name)).filter_by(name=sub_name).one_or_none()
-		if not sub: abort(400, f"/h/{sub_name} not found!")
+	if hole and hole != 'none':
+		hole_name = hole.strip().lower()
+		hole = g.db.query(Hole).options(load_only(Hole.name)).filter_by(name=hole_name).one_or_none()
+		if not hole: abort(400, f"/h/{hole_name} not found!")
 
-		if not User.can_see(v, sub):
-			if sub.name == 'highrollerclub':
-				abort(403, f"Only {patron}s can post in /h/{sub}")
-			abort(403, f"You're not allowed to post in /h/{sub}")
+		if not can_see(v, hole):
+			if hole.name == 'highrollerclub':
+				abort(403, f"Only {patron}s can post in /h/{hole}")
+			abort(403, f"You're not allowed to post in /h/{hole}")
 
-		sub = sub.name
-		if v.exiler_username(sub): abort(400, f"You're exiled from /h/{sub}")
-	else: sub = None
+		hole = hole.name
+		if v.exiler_username(hole): abort(400, f"You're exiled from /h/{hole}")
+	else: hole = None
 
-	if not sub and HOLE_REQUIRED:
-		abort(400, f"You must choose a {HOLE_NAME} for your post!")
+	if not hole and HOLE_REQUIRED:
+		abort(400, f"You must choose a hole for your post!")
 
 	if v.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
 		abort(400, "You have to type more than 280 characters!")
@@ -535,24 +534,13 @@ def submit_post(v, sub=None):
 	body = process_files(request.files, v, body)
 	body = body[:POST_BODY_LENGTH_LIMIT(v)].strip() # process_files() adds content to the body, so we need to re-strip
 
-	body_for_sanitize = body
-	if v.sharpen: body_for_sanitize = sharpen(body_for_sanitize)
-
-	body_html = sanitize(body_for_sanitize, count_emojis=True, limit_pings=100)
-
-	if v.marseyawarded and marseyaward_body_regex.search(body_html):
-		abort(400, "You can only type marseys!")
-
-	if len(body_html) > POST_BODY_HTML_LENGTH_LIMIT:
-		abort(400, "Post body_html too long!")
-
 	flag_notify = (request.values.get("notify", "on") == "on")
 	flag_new = request.values.get("new", False, bool) or 'megathread' in title.lower()
-	flag_over_18 = FEATURES['NSFW_MARKING'] and request.values.get("over_18", False, bool)
+	flag_nsfw = FEATURES['NSFW_MARKING'] and request.values.get("nsfw", False, bool)
 	flag_private = request.values.get("private", False, bool)
 	flag_ghost = request.values.get("ghost", False, bool) and v.can_post_in_ghost_threads
 
-	if flag_ghost: sub = None
+	if flag_ghost: hole = None
 
 	if embed and len(embed) > 1500: embed = None
 	if embed: embed = embed.strip()
@@ -562,29 +550,44 @@ def submit_post(v, sub=None):
 
 	if url == '': url = None
 
-	flag_chudded = v.chud and sub != 'chudrama'
+	flag_chudded = v.chud and hole != 'chudrama'
 
 	p = Post(
 		private=flag_private,
 		notify=flag_notify,
 		author_id=v.id,
-		over_18=flag_over_18,
+		nsfw=flag_nsfw,
 		new=flag_new,
 		app_id=v.client.application.id if v.client else None,
 		is_bot=(v.client is not None),
 		url=url,
 		body=body,
-		body_html=body_html,
 		embed=embed,
 		title=title,
-		title_html=title_html,
-		sub=sub,
+		hole=hole,
 		ghost=flag_ghost,
 		chudded=flag_chudded,
 		rainbowed=bool(v.rainbow),
 		queened=bool(v.queen),
 		sharpened=bool(v.sharpen),
 	)
+
+	title_html = filter_emojis_only(title, count_emojis=True, obj=p, author=v)
+
+	if v.marseyawarded and not marseyaward_title_regex.fullmatch(title_html):
+		abort(400, "You can only type marseys!")
+
+	p.title_html = title_html
+
+	body_html = sanitize(body, count_emojis=True, limit_pings=100, obj=p, author=v)
+
+	if v.marseyawarded and marseyaward_body_regex.search(body_html):
+		abort(400, "You can only type marseys!")
+
+	if len(body_html) > POST_BODY_HTML_LENGTH_LIMIT:
+		abort(400, "Post body_html too long!")
+
+	p.body_html = body_html
 
 	g.db.add(p)
 	g.db.flush()
@@ -618,7 +621,7 @@ def submit_post(v, sub=None):
 			p.url = process_video(file, v)
 			name = f'/images/{time.time()}'.replace('.','') + '.webp'
 			try:
-				subprocess_run(["ffmpeg", "-loglevel", "quiet", "-y", "-i", p.url, "-vf", "scale='iw':-2", "-q:v", "3", "-frames:v", "1", name])
+				subprocess.run(["ffmpeg", "-loglevel", "quiet", "-y", "-i", p.url, "-vf", "scale='iw':-2", "-q:v", "3", "-frames:v", "1", name], check=True, timeout=30)
 			except:
 				if os.path.isfile(name):
 					os.remove(name)
@@ -647,14 +650,14 @@ def submit_post(v, sub=None):
 		p.is_banned = True
 		p.ban_reason = "AutoJanny"
 
-		body = CHUD_MSG.format(username=v.username, type='post', CHUD_PHRASE=v.chud_phrase)
+		body = random.choice(CHUD_MSGS).format(username=v.username, type='post', CHUD_PHRASE=v.chud_phrase)
 		body_jannied_html = sanitize(body)
 
 
 		c_jannied = Comment(author_id=AUTOJANNY_ID,
 			parent_post=p.id,
 			level=1,
-			over_18=False,
+			nsfw=False,
 			is_bot=True,
 			app_id=None,
 			distinguish_level=6,
@@ -685,24 +688,17 @@ def submit_post(v, sub=None):
 
 	if (SITE == 'rdrama.net'
 			and v.id in {2008, 3336}
-			and not (p.sub and p.subr.stealth)) and p.sub != 'slavshit' and not p.ghost:
-		p.stickied_utc = int(time.time()) + 28800
-		p.stickied = "AutoJanny"
-
-	if SITE == 'rdrama.net' and v.id == 7465 and p.title.lower().startswith("women's world cup betting: "):
+			and not (p.hole and p.hole_obj.stealth)) and p.hole != 'slavshit' and not p.ghost:
 		p.stickied_utc = int(time.time()) + 28800
 		p.stickied = "AutoJanny"
 
 	cache.delete_memoized(frontlist)
 	cache.delete_memoized(userpagelisting)
 
-	if not p.private:
-		execute_snappy(p, v)
-
 	g.db.flush() #Necessary, do NOT remove
 
 	generate_thumb = (not p.thumburl and p.url and p.domain != SITE)
-	gevent.spawn(surl_and_thumbnail_thread, p.url, p.body, p.body_html, p.id, generate_thumb)
+	gevent.spawn(postprocess_post, p.url, p.body, p.body_html, p.id, generate_thumb, False)
 
 	if v.client: return p.json
 	else:
@@ -723,6 +719,7 @@ def delete_post_pid(pid, v):
 		p.deleted_utc = int(time.time())
 		p.is_pinned = False
 		p.stickied = None
+		p.stickied_utc = None
 
 		g.db.add(p)
 
@@ -773,13 +770,13 @@ def undelete_post_pid(pid, v):
 def mark_post_nsfw(pid, v):
 	p = get_post(pid)
 
-	if p.author_id != v.id and v.admin_level < PERMS['POST_COMMENT_MODERATION'] and not (p.sub and v.mods(p.sub)):
+	if p.author_id != v.id and v.admin_level < PERMS['POST_COMMENT_MODERATION'] and not (p.hole and v.mods(p.hole)):
 		abort(403)
 
-	if p.over_18 and v.is_permabanned:
+	if p.nsfw and v.is_permabanned:
 		abort(403)
 
-	p.over_18 = True
+	p.nsfw = True
 	g.db.add(p)
 
 	if p.author_id != v.id:
@@ -791,16 +788,16 @@ def mark_post_nsfw(pid, v):
 				)
 			g.db.add(ma)
 		else:
-			ma = SubAction(
-					sub = p.sub,
+			ma = HoleAction(
+					hole = p.hole,
 					kind = "set_nsfw",
 					user_id = v.id,
 					target_post_id = p.id,
 				)
 			g.db.add(ma)
-		send_repeatable_notification(p.author_id, f"@{v.username} (a site admin) has marked [{p.title}](/post/{p.id}) as +18")
+		send_repeatable_notification(p.author_id, f"@{v.username} (a site admin) has marked [{p.title}](/post/{p.id}) as NSFW")
 
-	return {"message": "Post has been marked as +18!"}
+	return {"message": "Post has been marked as NSFW!"}
 
 @app.post("/unmark_post_nsfw/<int:pid>")
 @feature_required('NSFW_MARKING')
@@ -812,13 +809,13 @@ def mark_post_nsfw(pid, v):
 def unmark_post_nsfw(pid, v):
 	p = get_post(pid)
 
-	if p.author_id != v.id and v.admin_level < PERMS['POST_COMMENT_MODERATION'] and not (p.sub and v.mods(p.sub)):
+	if p.author_id != v.id and v.admin_level < PERMS['POST_COMMENT_MODERATION'] and not (p.hole and v.mods(p.hole)):
 		abort(403)
 
-	if p.over_18 and v.is_permabanned:
+	if p.nsfw and v.is_permabanned:
 		abort(403)
 
-	p.over_18 = False
+	p.nsfw = False
 	g.db.add(p)
 
 	if p.author_id != v.id:
@@ -830,16 +827,16 @@ def unmark_post_nsfw(pid, v):
 				)
 			g.db.add(ma)
 		else:
-			ma = SubAction(
-					sub = p.sub,
+			ma = HoleAction(
+					hole = p.hole,
 					kind = "unset_nsfw",
 					user_id = v.id,
 					target_post_id = p.id,
 				)
 			g.db.add(ma)
-		send_repeatable_notification(p.author_id, f"@{v.username} (a site admin) has unmarked [{p.title}](/post/{p.id}) as +18")
+		send_repeatable_notification(p.author_id, f"@{v.username} (a site admin) has unmarked [{p.title}](/post/{p.id}) as NSFW")
 
-	return {"message": "Post has been unmarked as +18!"}
+	return {"message": "Post has been unmarked as NSFW!"}
 
 @app.post("/save_post/<int:pid>")
 @limiter.limit('1/second', scope=rpath)
@@ -994,11 +991,10 @@ def edit_post(pid, v):
 	body = request.values.get("body", "")
 	body = body[:POST_BODY_LENGTH_LIMIT(g.v)].strip()
 
-	if v.id == p.author_id:
-		if v.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
-			abort(403, "You have to type more than 280 characters!")
-		elif v.bird and len(body) > 140:
-			abort(403, "You have to type less than 140 characters!")
+	if p.author.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
+		abort(403, "You have to type more than 280 characters!")
+	elif p.author.bird and len(body) > 140:
+		abort(403, "You have to type less than 140 characters!")
 
 	if not title:
 		abort(400, "Please enter a better title!")
@@ -1016,9 +1012,9 @@ def edit_post(pid, v):
 
 
 	if title != p.title:
-		title_html = filter_emojis_only(title, golden=False)
+		title_html = filter_emojis_only(title, golden=False, obj=p, author=p.author)
 
-		if v.id == p.author_id and v.marseyawarded and not marseyaward_title_regex.fullmatch(title_html):
+		if p.author.marseyawarded and not marseyaward_title_regex.fullmatch(title_html):
 			abort(403, "You can only type marseys!")
 
 		if 'megathread' in title.lower() and 'megathread' not in p.title.lower():
@@ -1031,12 +1027,9 @@ def edit_post(pid, v):
 	body = body[:POST_BODY_LENGTH_LIMIT(v)].strip() # process_files() may be adding stuff to the body
 
 	if body != p.body:
-		body_for_sanitize = body
-		if p.sharpened: body_for_sanitize = sharpen(body_for_sanitize)
+		body_html = sanitize(body, golden=False, limit_pings=100, obj=p, author=p.author)
 
-		body_html = sanitize(body_for_sanitize, golden=False, limit_pings=100)
-
-		if v.id == p.author_id and v.marseyawarded and marseyaward_body_regex.search(body_html):
+		if p.author.marseyawarded and marseyaward_body_regex.search(body_html):
 			abort(403, "You can only type marseys!")
 
 
@@ -1052,11 +1045,11 @@ def edit_post(pid, v):
 
 		process_poll_options(v, p)
 
-		gevent.spawn(surl_and_thumbnail_thread, p.url, p.body, p.body_html, p.id, False)
+		gevent.spawn(postprocess_post, p.url, p.body, p.body_html, p.id, False, True)
 
 
 	if not complies_with_chud(p):
-		abort(403, f'You have to include "{v.chud_phrase}" in your post!')
+		abort(403, f'You have to include "{p.author.chud_phrase}" in your post!')
 
 
 	if v.id == p.author_id:
