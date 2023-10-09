@@ -575,7 +575,7 @@ body::after {
 }
 
 .fall-pumpkin {
-	position: fixed;
+	position: absolute;
 	top: -20%;
 	z-index: 999;
 	-webkit-user-select: none;
