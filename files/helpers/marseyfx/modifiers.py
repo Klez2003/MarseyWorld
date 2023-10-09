@@ -36,6 +36,9 @@ def heavy(fn):
 		slf = args[0]
 		slf.heavy_count += 1
 		return fn(*args, **kwargs)
+	
+	wrapper.heavy_count = 1
+
 	return wrapper
 
 class ModifierContextFrame:
@@ -213,7 +216,6 @@ class Modified:
 		
 		self.add_style(f'transform: {transformstyle.value};')
 	
-	@heavy
 	@modifier
 	def enraged(self):
 		self.underlay(self.soup.new_tag(
@@ -306,10 +308,12 @@ class Modified:
 
 		self.container.append(other)
 
+	""" Coming Soon (TM)
 	@heavy
 	@modifier
 	def bulge(self, strength: NumberLiteralToken = None):
 		self.child = self.child.wrap(self.soup.new_tag('svg', attrs={'class': 'marseyfx-modifier-bulge-container'}))
+	"""
 
 	@modifier
 	def prohibition(self):

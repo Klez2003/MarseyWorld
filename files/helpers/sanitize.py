@@ -18,7 +18,7 @@ from sqlalchemy.sql import func
 import bleach
 from bleach.css_sanitizer import CSSSanitizer
 from bleach.linkifier import LinkifyFilter
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, Tag
 from mistletoe import markdown
 
 from files.classes.domains import BannedDomain
@@ -246,6 +246,12 @@ class RenderEmojisResult:
 			emoji.count += 1
 			g.db.add(emoji)
 
+	def is_nsfw(self):
+		for emoji in self.emojis_used:
+			if emoji in OVER_18_EMOJIS:
+				return True
+		return False
+
 def render_emojis_tag(tag: Tag, **kwargs):
 	result = RenderEmojisResult()
 	tag = copy.copy(tag)
@@ -289,9 +295,9 @@ def render_emojis(markup: Union[str, Tag], **kwargs):
 			if not permit_golden:
 				emoji.is_golden = False
 
-			emoji_html, heavy_count = emoji.create_el(tokenizer)
+			emoji_html = emoji.create_el(tokenizer)
 			result.tags.append(emoji_html)
-			result.heavy_count += heavy_count
+			result.heavy_count += emoji.heavy_count()
 		
 		if len(tokenizer.errors) > 0:
 			soup = BeautifulSoup()
@@ -584,17 +590,6 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 	sanitized = video_sub_regex.sub(r'<p class="resizable"><video controls preload="none" src="\1"></video></p>', sanitized)
 	sanitized = audio_sub_regex.sub(r'<audio controls preload="none" src="\1"></audio>', sanitized)
 
-	if count_emojis:
-		for emoji in g.db.query(Emoji).filter(Emoji.submitter_id==None, Emoji.name.in_(emojis_used)):
-			emoji.count += 1
-			g.db.add(emoji)
-
-	if obj:
-		for emoji in emojis_used:
-			if emoji in OVER_18_EMOJIS:
-				obj.nsfw = True
-				break
-
 	sanitized = sanitized.replace('<p></p>', '')
 
 	allowed_css_properties = allowed_styles.copy()
@@ -625,6 +620,9 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 
 	if count_emojis:
 		emoji_render.db_update_count()
+
+	if obj and emoji_render.is_nsfw():
+		obj.nsfw = True
 
 	# -- @ MENTIONS --
 	ping_count = 0
@@ -806,20 +804,10 @@ def filter_emojis_only(title, golden=True, count_emojis=False, obj=None, author=
 		if obj.sharpened:
 			title = sharpen(title)
 
-	emojis_used = set()
+	result = render_emojis(title, permit_golden=golden, permit_big=False)
 
-	title = render_emoji(title, emoji_regex2, golden, emojis_used, is_title=True)
-
-	if count_emojis:
-		for emoji in g.db.query(Emoji).filter(Emoji.submitter_id==None, Emoji.name.in_(emojis_used)):
-			emoji.count += 1
-			g.db.add(emoji)
-
-	if obj:
-		for emoji in emojis_used:
-			if emoji in OVER_18_EMOJIS:
-				obj.nsfw = True
-				break
+	if obj and result.is_nsfw():
+		obj.nsfw = True
 
 	title = strikethrough_regex.sub(r'\1<del>\2</del>', title)
 

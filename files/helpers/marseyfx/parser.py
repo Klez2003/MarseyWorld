@@ -1,3 +1,4 @@
+import numbers
 import random
 from tokenize import Token
 
@@ -46,6 +47,16 @@ class Emoji:
 		self.is_primary = args.get('is_primary', True)
 		if random.random() < 0.004:
 			self.is_golden = True
+
+	def heavy_count(self):
+		count = 0
+		for modifier in self.modifiers:
+			if hasattr(Modified, modifier.name):
+				fn = getattr(Modified, modifier.name)
+				if hasattr(fn, 'heavy_count') and isinstance(fn.heavy_count, numbers.Number) :
+					count += fn.heavy_count
+
+		return count
 
 	def create_el(self, tokenizer: Tokenizer):
 		soup = BeautifulSoup()
@@ -106,7 +117,7 @@ class Emoji:
 		if (self.is_flipped):
 			container['class'].append(' marseyfx-flipped')
 
-		return mod.container.wrap(container), mod.heavy_count
+		return mod.container.wrap(container)
 
 def parse_emoji(tokenizer: Tokenizer):
 	token = tokenizer.parse_next_tokens()
