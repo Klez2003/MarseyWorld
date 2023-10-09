@@ -9,9 +9,9 @@
 {% block banner %}
 	{% include "modals/expanded_image.html" %}
 	{% if err or '@' not in request.path %}
-		{% if IS_FISTMAS() and not hole %}
+		{% if IS_FISTMAS() and not (hole and hole.has_banners) %}
 			{% include 'events/fistmas/banner.html' %}
-		{% elif IS_HOMOWEEN() and not hole %}
+		{% elif IS_HOMOWEEN() and not (hole and hole.has_banners) %}
 			{% include 'events/homoween/banner.html' %}
 		{% else %}
 			{% set path = "files/assets/images/" ~ SITE_NAME %}
