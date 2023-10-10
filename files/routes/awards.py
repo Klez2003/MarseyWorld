@@ -593,7 +593,7 @@ def award_thing(v, thing_type, id):
 		elif kind == "jumpscare":
 			author.jumpscare += 1
 
-
+	author = thing.author
 	if v.id != author.id:
 		if author.deflector and AWARDS[kind]['deflectable']:
 			msg = f"@{v.username} has tried to give your [{thing_type}]({thing.shortlink}) the {award_title} Award but it was deflected and applied to them :marseytroll:"
