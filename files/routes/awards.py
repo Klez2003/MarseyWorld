@@ -609,7 +609,9 @@ def award_thing(v, thing_type, id):
 				msg += f" and you have received {awarded_coins} coins as a result"
 
 			msg += "!"
-			if note:
+			if kind == 'emoji':
+				msg += f"\n\n> :{award.note}:"
+			elif note:
 				note = '\n\n> '.join(note.splitlines())
 				if kind == "chud":
 					msg += f"\n\n**You now have to say this phrase in all posts and comments you make for 24 hours:**"
