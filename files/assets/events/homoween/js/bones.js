@@ -1,7 +1,7 @@
 let bones_container = document.getElementById('bones-container');
-let number = parseInt(bones_container.dataset.bones)*2
+let number = parseInt(bones_container.dataset.bones)
 const sources = ['skeleton1.webp','skeleton2.webp','skeleton3.webp','skeleton4.webp','skeleton5.webp','skeleton6.webp'];
-number = Math.min(number, sources.length)
+number = Math.min(number, sources.length) * 2
 
 const pw = screen.availWidth / 3
 
