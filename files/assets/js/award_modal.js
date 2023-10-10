@@ -178,7 +178,12 @@ function giveaward(t) {
 			let owned = document.getElementById(`${kind}-owned`)
 			let ownednum = Number(owned.textContent);
 			if (ownednum) {
-				owned.textContent = ownednum - 1
+				ownednum -= 1
+				owned.textContent = ownednum
+				if (ownednum)
+					document.getElementById('award_price').textContent = `${ownednum} owned`;
+				else
+					document.getElementById('award_price').textContent = `Price: ${global_price} coins/marseybux`;
 			}
 		}
 	);
