@@ -417,7 +417,7 @@ AWARDS = {
 		"description": "Summons a moving emoji on the post.",
 		"icon": "fas fa-smile-beam",
 		"color": "text-yellow",
-		"price": 200,
+		"price": 100,
 		"deflectable": False,
 		"cosmetic": True,
 		"ghost": True,

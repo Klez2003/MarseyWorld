@@ -14,7 +14,7 @@
 			<div class="stackable-container">
 				{% for emoji in p.emoji_awards_emojis(v, kind, OVER_18_EMOJIS) %}
 					{% set src = '/e/' + emoji + '.webp' %}
-					{% set alt = ':#' + emoji + ':' %}
+					{% set alt = 'emoji-award-' + emoji %}
 					{% set delay = 'animation-delay-' ~ ((loop.index-1)/4)|int %}
 					<div class="{{kind}}-award {{delay}}">
 						<img class="{{delay}}" loading="lazy" alt="{{alt}}" src="{{src}}">

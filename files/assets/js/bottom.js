@@ -231,6 +231,9 @@ document.addEventListener("click", function (e) {
 
 	if (!element.classList.contains("areyousure")) {
 		document.querySelectorAll(".areyousure").forEach(i => {
+			if (element.dataset.bsTarget == "#awardModal" && i.classList.contains('awardbtn'))
+				return
+
 			i.classList.remove("areyousure")
 
 			if (i.dataset.oldvalue)
