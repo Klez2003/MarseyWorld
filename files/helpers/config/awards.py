@@ -180,7 +180,7 @@ AWARDS = {
 		"deflectable": True,
 		"cosmetic": False,
 		"ghost": False,
-		"enabled": IS_FISTMAS(),
+		"enabled": IS_FISTMAS() and SITE_NAME != "WPD",
 		"positive": True,
 	},
 
@@ -365,7 +365,7 @@ AWARDS = {
 		"deflectable": True,
 		"cosmetic": False,
 		"ghost": False,
-		"enabled": IS_HOMOWEEN(),
+		"enabled": IS_HOMOWEEN() and SITE_NAME != "WPD",
 		"positive": True,
 	},
 
