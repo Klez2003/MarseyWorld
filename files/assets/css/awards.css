@@ -253,7 +253,7 @@
 	text-transform: lowercase !important;
 }
 
-.sharpen:not(a), h1.sharpen.post-title a {
+.sharpen:not(a):not(.blood), h1.sharpen.post-title a {
 	color: red !important;
 	font-weight: bold !important;
 	font-style: italic !important;
