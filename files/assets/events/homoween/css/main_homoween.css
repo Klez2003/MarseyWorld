@@ -806,3 +806,13 @@ body::after {
 .post-flair {
     padding-top: 5px !important;
 }
+
+.has_header {
+	padding-top: 79.54px !important
+}
+
+@media (max-width: 768px) {
+	.has_header {
+		padding-top: calc(var(--safe-area-inset-top) + 65.8px) !important
+	}
+}
