@@ -28,37 +28,17 @@ socketio = SocketIO(
 
 muted = cache.get(f'muted') or {}
 
-ALLOWED_REFERRERS = {
-	f'{SITE_FULL}/chat',
-	f'{SITE_FULL}/notifications/messages',
-}
+messages = cache.get(f'messages') or {}
+online = {}
+typing = []
 
-messages = cache.get(f'messages') or {
-	f'{SITE_FULL}/chat': {},
-}
-typing = {
-	f'{SITE_FULL}/chat': [],
-}
-online = {
-	f'{SITE_FULL}/chat': {},
-}
-
-cache.set('loggedin_chat', len(online[f'{SITE_FULL}/chat']), timeout=0)
-
-def set_g_referrer():
-	if request.referrer:
-		g.referrer = request.referrer.split('?')[0]
-		if g.referrer not in ALLOWED_REFERRERS:
-			g.referrer = None
-	else:
-		g.referrer = None
+cache.set('loggedin_chat', len(online), timeout=0)
 
 def auth_required_socketio(f):
 	def wrapper(*args, **kwargs):
 		v = get_logged_in_user()
 		if not v: return '', 401
 		if v.is_permabanned: return '', 403
-		set_g_referrer()
 		return make_response(f(*args, v=v, **kwargs))
 	wrapper.__name__ = f.__name__
 	return wrapper
@@ -68,7 +48,6 @@ def is_not_banned_socketio(f):
 		v = get_logged_in_user()
 		if not v: return '', 401
 		if v.is_suspended: return '', 403
-		set_g_referrer()
 		return make_response(f(*args, v=v, **kwargs))
 	wrapper.__name__ = f.__name__
 	return wrapper
@@ -77,7 +56,7 @@ CHAT_ERROR_MESSAGE = f"To prevent spam, you'll need {TRUESCORE_MINIMUM} truescor
 
 @app.post('/refresh_chat')
 def refresh_chat():
-	emit('refresh_chat', namespace='/', to=f'{SITE_FULL}/chat')
+	emit('refresh_chat', namespace='/', to="chat")
 	return ''
 
 @app.get("/chat")
@@ -88,7 +67,7 @@ def chat(v):
 	if not v.allowed_in_chat:
 		abort(403, CHAT_ERROR_MESSAGE)
 
-	displayed_messages = {k: val for k, val in messages[f"{SITE_FULL}/chat"].items() if val["user_id"] not in v.userblocks}
+	displayed_messages = {k: val for k, val in messages.items() if val["user_id"] not in v.userblocks}
 
 	orgy = get_orgy(v)
 	if orgy:
@@ -105,9 +84,6 @@ def chat(v):
 @socketio.on('speak')
 @is_not_banned_socketio
 def speak(data, v):
-	if not g.referrer:
-		return '', 400
-
 	image = None
 	if data['file']:
 		name = f'/chat_images/{time.time()}'.replace('.','') + '.webp'
@@ -149,20 +125,20 @@ def speak(data, v):
 			refresh_online()
 
 		if not self_only:
-			identical = [x for x in list(messages[g.referrer].values())[-5:] if v.id == x['user_id'] and text == x['text']]
+			identical = [x for x in list(messages.values())[-5:] if v.id == x['user_id'] and text == x['text']]
 			if len(identical) >= 3: shut_up()
 
 		if not self_only:
-			count = len([x for x in list(messages[g.referrer].values())[-12:] if v.id == x['user_id']])
+			count = len([x for x in list(messages.values())[-12:] if v.id == x['user_id']])
 			if count >= 10: shut_up()
 
 		if not self_only:
-			count = len([x for x in list(messages[g.referrer].values())[-25:] if v.id == x['user_id']])
+			count = len([x for x in list(messages.values())[-25:] if v.id == x['user_id']])
 			if count >= 20: shut_up()
 
 	data = {
 		"id": id,
-		"quotes": quotes if messages[g.referrer].get(quotes) else '',
+		"quotes": quotes if messages.get(quotes) else '',
 		"hat": v.hat_active(v)[0],
 		"user_id": v.id,
 		"username": v.username,
@@ -187,89 +163,77 @@ def speak(data, v):
 	if self_only or v.shadowbanned or execute_blackjack(v, None, text, "chat"):
 		emit('speak', data)
 	else:
-		emit('speak', data, room=g.referrer, broadcast=True)
-		messages[g.referrer][id] = data
-		messages[g.referrer] = dict(list(messages[g.referrer].items())[-250:])
+		emit('speak', data, room="chat", broadcast=True)
+		messages[id] = data
+		messages = dict(list(messages.items())[-250:])
 
 	typing = []
 
-	return '', 204
+	return ''
 
 def refresh_online():
-	for li in online.values():
-		for k, val in list(li.items()):
-			if time.time() > val[0]:
-				del li[k]
-				if val[1] in typing[g.referrer]:
-					typing[g.referrer].remove(val[1])
+	for k, val in list(online.items()):
+		if time.time() > val[0]:
+			del online[k]
+			if val[1] in typing:
+				typing.remove(val[1])
 
-	data = [list(online[g.referrer].values()), muted]
-	emit("online", data, room=g.referrer, broadcast=True)
-	cache.set('loggedin_chat', len(online[f'{SITE_FULL}/chat']), timeout=0)
+	data = [list(online.values()), muted]
+	emit("online", data, room="chat", broadcast=True)
+	cache.set('loggedin_chat', len(online), timeout=0)
 
 @socketio.on('connect')
 @auth_required_socketio
 def connect(v):
-	if not g.referrer:
-		return '', 400
-
-	if g.referrer == f'{SITE_FULL}/notifications/messages':
+	if request.referrer == f'{SITE_FULL}/notifications/messages':
 		join_room(v.id)
 		return ''
 
-	join_room(g.referrer)
+	join_room("chat")
 
-	if v.username in typing[g.referrer]:
-		typing[g.referrer].remove(v.username)
+	if v.username in typing:
+		typing.remove(v.username)
 
-	emit('typing', typing[g.referrer], room=g.referrer)
-	return '', 204
+	emit('typing', typing, room="chat")
+	return ''
 
 @socketio.on('disconnect')
 @auth_required_socketio
 def disconnect(v):
-	if g.referrer != f'{SITE_FULL}/notifications/messages':
-		for dictionary in online.values():
-			dictionary.pop(v.id, None)
-
-		if g.referrer and v.username in typing[g.referrer]:
-			typing[g.referrer].remove(v.username)
-
-	if not g.referrer:
-		return '', 400
-	elif g.referrer == f'{SITE_FULL}/notifications/messages':
+	if request.referrer == f'{SITE_FULL}/notifications/messages':
 		leave_room(v.id)
-	else:
-		leave_room(g.referrer)
-		refresh_online()
+		return ''
 
-	return '', 204
+	online.pop(v.id, None)
+
+	if v.username in typing:
+		typing.remove(v.username)
+
+	leave_room("chat")
+	refresh_online()
+
+	return ''
 
 @socketio.on('heartbeat')
 @auth_required_socketio
 def heartbeat(v):
-	if g.referrer not in ALLOWED_REFERRERS:
-		return '', 400
 	expire_utc = int(time.time()) + 3610
-	already_there = online[g.referrer].get(v.id)
-	online[g.referrer][v.id] = (expire_utc, v.username, v.name_color, v.patron, v.id)
+	already_there = online.get(v.id)
+	online[v.id] = (expire_utc, v.username, v.name_color, v.patron, v.id)
 	if not already_there:
 		refresh_online()
-	return '', 204
+	return ''
 
 @socketio.on('typing')
 @is_not_banned_socketio
 def typing_indicator(data, v):
-	if not g.referrer:
-		return '', 400
+	if data and v.username not in typing:
+		typing.append(v.username)
+	elif not data and v.username in typing:
+		typing.remove(v.username)
 
-	if data and v.username not in typing[g.referrer]:
-		typing[g.referrer].append(v.username)
-	elif not data and v.username in typing[g.referrer]:
-		typing[g.referrer].remove(v.username)
-
-	emit('typing', typing[g.referrer], room=g.referrer, broadcast=True)
-	return '', 204
+	emit('typing', typing, room="chat", broadcast=True)
+	return ''
 
 
 @socketio.on('delete')
@@ -277,17 +241,11 @@ def typing_indicator(data, v):
 def delete(id, v):
 	set_g_referrer()
 
-	if not g.referrer:
-		return '', 400
+	messages.pop(id, None)
 
-	for k, val in messages[g.referrer].items():
-		if k == id:
-			del messages[g.referrer][k]
-			break
+	emit('delete', id, room="chat", broadcast=True)
 
-	emit('delete', id, room=g.referrer, broadcast=True)
-
-	return '', 204
+	return ''
 
 
 def close_running_threads():
