@@ -191,6 +191,14 @@ document.addEventListener("click", function (e) {
 		document.getElementById('giveaward').dataset.action = element.dataset.url
 		document.getElementById('buyandgiveaward').dataset.action = element.dataset.url
 
+		const currently_picked = document.getElementById("awardModal").getElementsByClassName('picked')[0]
+		if (currently_picked && currently_picked.id == 'emoji') {
+			if (element.dataset.url.startsWith('/award/post/'))
+				document.getElementById('emoji_behavior_section').classList.remove("d-none")
+			else
+				document.getElementById('emoji_behavior_section').classList.add("d-none")
+		}
+
 		const effect_author_tab = document.getElementById('effect-author-tab')
 		const effect_content_tab = document.getElementById('effect-content-tab')
 		const effect_author_section = document.getElementById('effect-author-section')

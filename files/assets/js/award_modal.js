@@ -94,6 +94,7 @@ let global_price;
 
 const note_section = document.getElementById('note_section')
 const gif_button = note_section.querySelector('[title="Add GIF"]')
+const giveaward_button = document.getElementById('giveaward')
 
 function pick(kind, price, coins, marseybux) {
 	global_price = price;
@@ -118,7 +119,8 @@ function pick(kind, price, coins, marseybux) {
 	}
 
 	if (kind == "emoji") {
-		document.getElementById('emoji_behavior_section').classList.remove("d-none")
+		if (giveaward_button.dataset.action.startsWith('/award/post/'))
+			document.getElementById('emoji_behavior_section').classList.remove("d-none")
 		document.getElementById('note').setAttribute("style", "min-height:35px;max-height:35px;height:35px;min-width:min(300px,80vw)")
 		gif_button.classList.add('d-none')
 	}
@@ -153,12 +155,12 @@ function pick(kind, price, coins, marseybux) {
 
 	if (ownednum) {
 		document.getElementById('award_price').textContent = `${ownednum} owned`;
-		document.getElementById('giveaward').classList.remove('d-none');
+		giveaward_button.classList.remove('d-none');
 		document.getElementById('buyandgiveaward').classList.add('d-none');
 	}
 	else {
 		document.getElementById('award_price').textContent = `Price: ${price} coins/marseybux`;
-		document.getElementById('giveaward').classList.add('d-none');
+		giveaward_button.classList.add('d-none');
 		document.getElementById('buyandgiveaward').classList.remove('d-none');
 	}
 }
