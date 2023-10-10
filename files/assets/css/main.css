@@ -5508,6 +5508,10 @@ span > img[src$="/i/love-background.webp"] {
 	animation-timing-function: linear;
 }
 
+[cide] [cide], [bounce] [bounce] {
+	animation: none;
+}
+
 /* Fix for <ol> being populated with <li><p></p></li> in many contexts. */
 .post-body li > p:first-child,
 .comment-text li > p:first-child,
