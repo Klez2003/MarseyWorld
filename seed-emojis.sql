@@ -3541,7 +3541,6 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw) VALUES
 ('marseysalitsnowhere','Marsey',2,'its over sal shark watch this go nowhere in 2 weeks mogeko wadanohara',false),
 ('marseysalitssomewhere','Marsey',2,'sal shark its somewhere over watch this go nowhere in 2 weeks two',false),
 ('marseysalmaid','Marsey',2,'sal wadanohara maid femboy apron headband smug going nowhere in two weeks game shark',false),
-('marseysalmuhammad','Marsey',2,'muslim sal muhammad twoweeks',false),
 ('marseysaltlicking','Marsey',2,'salt lick rock',false),
 ('marseysalty','Marsey',2,'sodium saltshaker seethe salt shaker nacl animated',false),
 ('marseysalutearmy','Marsey',2,'saluting o7 military soldier',false),
