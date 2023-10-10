@@ -539,15 +539,20 @@ def award_thing(v, thing_type, id):
 		emoji = g.db.query(Emoji).filter_by(name=award.note).one_or_none()
 		if not emoji:
 			abort(404, f'an Emoji with the name "{award.note}" was not found!')
+	elif IS_FISTMAS():
+		if kind == "grinch":
+			badge_grant(badge_id=91, user=author)
+			if v.id == author.id:
+				session['event_music'] = False
 	elif IS_HOMOWEEN():
-		if kind == "spider":
+		if kind == "hw-grinch":
+			badge_grant(badge_id=185, user=author)
+			if v.id == author.id:
+				session['event_music'] = False
+		elif kind == "spider":
 			if author.spider: author.spider += 86400
 			else: author.spider = int(time.time()) + 86400
 			badge_grant(user=author, badge_id=179, notify=False)
-		elif kind == "grinch":
-			badge_grant(badge_id=91, user=author)
-		elif kind == "hw-grinch":
-			badge_grant(badge_id=185, user=author)
 		elif kind == "bite":
 			if author.zombie < 0:
 				author = v
