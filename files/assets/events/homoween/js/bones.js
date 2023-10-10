@@ -1,20 +1,13 @@
-let bones_container = document.getElementById('animate');
-const number = bones_container.dataset.bones
-
-// Stackable
-// With each award, append a new image to array
+let bones_container = document.getElementById('bones-container');
+let number = parseInt(bones_container.dataset.bones)*2
 const sources = ['skeleton1.webp','skeleton2.webp','skeleton3.webp','skeleton4.webp','skeleton5.webp','skeleton6.webp'];
+number = Math.min(number, sources.length)
 
-if(number > sources.length){
-	number = sources.length
-}
-
-const n = sources.length - number
 const pw = screen.availWidth/6
 
 let circles = [];
 
-for (let i = 0; i < 3; i++) {
+for (let i = 0; i < number; i++) {
 	addCircle(i * 150, [10 + 0, pw]);
 	addCircle(i * 150, [10 + 0, -pw]);
 	addCircle(i * 150, [10 - (0.5*pw), -pw]);
@@ -27,8 +20,8 @@ for (let i = 0; i < 3; i++) {
 function addCircle(delay, range) {
 	setTimeout(function() {
 		let c = new Circle(range[0] + Math.random() * range[1], 80 + Math.random() * 4, {
-			x: -0.15 + Math.random() * 0.3,
-			y: 1 + Math.random() * 1
+			x: Math.random(),
+			y: 1 + Math.random()
 		}, range);
 		circles.push(c);
 	}, delay);
@@ -60,7 +53,6 @@ function Circle(x, y, v, range) {
 		_this.x += _this.v.x;
 		this.element.style.opacity = 1;
 		this.element.style.transform = 'translate3d(' + _this.x + 'px, ' + _this.y + 'px, 0px)';
-		this.element.style.webkitTransform = 'translate3d(' + _this.x + 'px, ' + _this.y + 'px, 0px)';
 		this.element.style.mozTransform = 'translate3d(' + _this.x + 'px, ' + _this.y + 'px, 0px)';
 	};
 }

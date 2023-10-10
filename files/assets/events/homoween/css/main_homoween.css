@@ -535,8 +535,7 @@ body::after {
 }
 
 /* Bones */
-#animate{
-	margin-left: 45%;
+#bones-container {
 	margin-top: -5%;
 	position: absolute;
 	z-index: 999;

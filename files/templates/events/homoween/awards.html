@@ -36,7 +36,7 @@
 {% endif %}
 
 {% if p.award_count("bones", v) %}
-	<div id="animate" data-bones="{{p.award_count('bones', v)}}"></div>
+	<div id="bones-container" data-bones="{{p.award_count('bones', v)}}"></div>
 	<script defer src="{{'events/homoween/js/bones.js' | asset}}"></script>
 {% endif %}
 
