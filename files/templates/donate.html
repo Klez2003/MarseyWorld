@@ -11,10 +11,12 @@
 						<td><a rel="nofollow noopener" href="{{DONATE_LINK}}">{{DONATE_LINK}}</a></td>
 					</tr>
 				{% endif %}
-				<tr>
-					<td>Buymeacoffee</td>
-					<td><a rel="nofollow noopener" href="https://buymeacoffee.com/rdrama.net/membership">https://buymeacoffee.com/rdrama.net/membership</a></td>
-				</tr>
+				{% if SITE == 'rdrama.net' %}
+					<tr>
+						<td>Buymeacoffee</td>
+						<td><a rel="nofollow noopener" href="https://buymeacoffee.com/rdrama.net/membership">https://buymeacoffee.com/rdrama.net/membership</a></td>
+					</tr>
+				{% endif %}
 				<tr>
 					<td>Ethereum/Brave Attention Token</td>
 					<td>0xBBf1043A60C6894Db17b3118CA960FFDF84c9eea</td>
