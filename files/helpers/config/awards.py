@@ -355,8 +355,8 @@ AWARDS = {
 		"enabled": IS_HOMOWEEN(),
 		"positive": True,
 	},
-	"hw-grinch": {
-		"kind": "hw-grinch",
+	"hallowgrinch": {
+		"kind": "hallowgrinch",
 		"title": "Hallowgrinch",
 		"description": "???",
 		"icon": "fas fa-angry",

@@ -548,7 +548,7 @@ def award_thing(v, thing_type, id):
 			if v.id == author.id:
 				session['event_music'] = False
 	elif IS_HOMOWEEN():
-		if kind == "hw-grinch":
+		if kind == "hallowgrinch":
 			badge_grant(badge_id=185, user=author)
 			if v.id == author.id:
 				session['event_music'] = False
