@@ -239,12 +239,8 @@ def typing_indicator(data, v):
 @socketio.on('delete')
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def delete(id, v):
-	set_g_referrer()
-
 	messages.pop(id, None)
-
 	emit('delete', id, room="chat", broadcast=True)
-
 	return ''
 
 
