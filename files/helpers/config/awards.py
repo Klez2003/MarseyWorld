@@ -10,7 +10,7 @@ AWARDS = {
 	"fallback": {
 		"kind": "fallback",
 		"title": "Unknown",
-		"description": "",
+		"description": "???",
 		"icon": "fas fa-block-question",
 		"color": "text-white",
 		"price": 0,
@@ -38,7 +38,7 @@ AWARDS = {
 	"ghost": {
 		"kind": "ghost",
 		"title": "Ghost",
-		"description": "",
+		"description": "???",
 		"icon": "fas fa-ghost",
 		"color": "text-white",
 		"price": 3000,
@@ -51,7 +51,7 @@ AWARDS = {
 	"nword": {
 		"kind": "nword",
 		"title": "Nword Pass",
-		"description": "",
+		"description": "???",
 		"icon": "fas fa-edit",
 		"color": "text-success",
 		"price": 10000,
@@ -64,7 +64,7 @@ AWARDS = {
 	"fish": {
 		"kind": "fish",
 		"title": "Fish",
-		"description": "",
+		"description": "???",
 		"icon": "fas fa-fish",
 		"color": "text-gold",
 		"price": 20000,
@@ -80,7 +80,7 @@ AWARDS = {
 	"lootbox": {
 		"kind": "lootbox",
 		"title": "Lootbox",
-		"description": "",
+		"description": "???",
 		"icon": "fas fa-box-open",
 		"color": "text-blue",
 		"price": 1000,
@@ -95,7 +95,7 @@ AWARDS = {
 	"fireplace": {
 		"kind": "fireplace",
 		"title": "Fireplace",
-		"description": "",
+		"description": "???",
 		"icon": "fas fa-fireplace",
 		"color": "text-orange",
 		"price": 100,
@@ -108,7 +108,7 @@ AWARDS = {
 	"snow": {
 		"kind": "snow",
 		"title": "Snow",
-		"description": "",
+		"description": "???",
 		"icon": "fas fa-snowflake",
 		"color": "text-lightblue",
 		"price": 300,
@@ -121,7 +121,7 @@ AWARDS = {
 	"gingerbread": {
 		"kind": "gingerbread",
 		"title": "Gingerbread",
-		"description": "",
+		"description": "???",
 		"icon": "fas fa-gingerbread-man",
 		"color": "text-brown",
 		"price": 300,
@@ -134,7 +134,7 @@ AWARDS = {
 	"lights": {
 		"kind": "lights",
 		"title": "Lights",
-		"description": "",
+		"description": "???",
 		"icon": "fas fa-lights-holiday",
 		"color": "text-success",
 		"price": 300,
@@ -147,7 +147,7 @@ AWARDS = {
 	"frostbite": {
 		"kind": "frostbite",
 		"title": "Frostbite",
-		"description": "",
+		"description": "???",
 		"icon": "fas fa-temperature-snow",
 		"color": "text-blue",
 		"price": 300,
@@ -160,7 +160,7 @@ AWARDS = {
 	"candycane": {
 		"kind": "candycane",
 		"title": "Candy Cane",
-		"description": "",
+		"description": "???",
 		"icon": "fas fa-candy-cane",
 		"color": "text-danger",
 		"price": 300,
@@ -173,7 +173,7 @@ AWARDS = {
 	"grinch": {
 		"kind": "grinch",
 		"title": "Grinch",
-		"description": "",
+		"description": "???",
 		"icon": "fas fa-angry",
 		"color": "text-green-500",
 		"price": 1000,
@@ -188,7 +188,7 @@ AWARDS = {
 	"spiders": {
 		"kind": "spiders",
 		"title": "Spiders",
-		"description": "",
+		"description": "???",
 		"icon": "fas fa-spider",
 		"color": "text-black",
 		"price": 200,
@@ -201,7 +201,7 @@ AWARDS = {
 	"fog": {
 		"kind": "fog",
 		"title": "Fog",
-		"description": "",
+		"description": "???",
 		"icon": "fas fa-smoke",
 		"color": "text-gray",
 		"price": 200,
@@ -214,7 +214,7 @@ AWARDS = {
 	"bones": {
 		"kind": "bones",
 		"title": "Bones",
-		"description": "",
+		"description": "???",
 		"icon": "fas fa-bone",
 		"color": "text-white",
 		"price": 200,
@@ -227,7 +227,7 @@ AWARDS = {
 	"pumpkin": {
 		"kind": "pumpkin",
 		"title": "Pumpkin",
-		"description": "",
+		"description": "???",
 		"icon": "fas fa-jack-o-lantern",
 		"color": "text-orange",
 		"price": 200,
@@ -240,7 +240,7 @@ AWARDS = {
 	"candy-corn": {
 		"kind": "candy-corn",
 		"title": "Candy Corn",
-		"description": "",
+		"description": "???",
 		"icon": "fas fa-candy-corn",
 		"color": "text-orange",
 		"price": 400,
@@ -253,7 +253,7 @@ AWARDS = {
 	"ectoplasm": {
 		"kind": "ectoplasm",
 		"title": "Ectoplasm",
-		"description": "",
+		"description": "???",
 		"icon": "fas fa-ghost",
 		"color": "text-success",
 		"price": 400,
@@ -266,7 +266,7 @@ AWARDS = {
 	"stab": {
 		"kind": "stab",
 		"title": "Stab",
-		"description": "",
+		"description": "???",
 		"icon": "fas fa-knife-kitchen",
 		"color": "text-danger",
 		"price": 400,
@@ -279,7 +279,7 @@ AWARDS = {
 	"upsidedown": {
 		"kind": "upsidedown",
 		"title": "Upside Down",
-		"description": "",
+		"description": "???",
 		"icon": "fas fa-trees",
 		"color": "",
 		"price": 400,
@@ -292,7 +292,7 @@ AWARDS = {
 	"flashlight": {
 		"kind": "flashlight",
 		"title": "Flashlight",
-		"description": "",
+		"description": "???",
 		"icon": "fas fa-flashlight",
 		"color": "text-black",
 		"price": 400,
@@ -305,7 +305,7 @@ AWARDS = {
 	"haunt": {
 		"kind": "haunt",
 		"title": "Haunt",
-		"description": "",
+		"description": "???",
 		"icon": "fas fa-book-dead",
 		"color": "text-warning",
 		"price": 400,
@@ -319,7 +319,7 @@ AWARDS = {
 	"jumpscare": {
 		"kind": "jumpscare",
 		"title": "Jumpscare",
-		"description": "",
+		"description": "???",
 		"icon": "fas fa-coffin-cross",
 		"color": "text-purple",
 		"price": 500,
@@ -332,7 +332,7 @@ AWARDS = {
 	"vax": {
 		"kind": "vax",
 		"title": "Vaxxmaxx",
-		"description": "",
+		"description": "???",
 		"icon": "fas fa-syringe",
 		"color": "text-blue",
 		"price": 200,
@@ -345,7 +345,7 @@ AWARDS = {
 	"bite": {
 		"kind": "bite",
 		"title": "Zombie Bite",
-		"description": "",
+		"description": "???",
 		"icon": "fas fa-biohazard",
 		"color": "text-danger",
 		"price": 500,
@@ -358,7 +358,7 @@ AWARDS = {
 	"hw-grinch": {
 		"kind": "hw-grinch",
 		"title": "Hallowgrinch",
-		"description": "",
+		"description": "???",
 		"icon": "fas fa-angry",
 		"color": "text-orange",
 		"price": 1000,
