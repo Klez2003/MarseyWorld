@@ -310,10 +310,11 @@ function sendFormXHR(form, extraActionsOnSuccess) {
 			t.classList.remove("disabled");
 		}
 
-		if (xhr.status != 204) {
+		try {
 			const data = JSON.parse(xhr.response);
 			showToast(success, getMessageFromJsonData(success, data));
 		}
+		catch {}
 		if (success && extraActionsOnSuccess) extraActionsOnSuccess(xhr);
 	};
 

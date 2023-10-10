@@ -66,7 +66,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 
 	imlazy = 0
 
-	if existing and existing.vote_type == new: return "", 204
+	if existing and existing.vote_type == new: return ""
 	if existing:
 		if existing.vote_type == 0 and new != 0:
 			imlazy = 1
@@ -182,7 +182,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 		target.author.pay_account('coins', coin_value)
 		target.author.truescore += coin_delta
 
-	return "", 204
+	return ""
 
 @app.get("/votes/<link>")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)

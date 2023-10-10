@@ -389,7 +389,7 @@ def mobile_app(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 def dismiss_mobile_tip():
 	session["tooltip_dismissed"] = int(time.time())
-	return "", 204
+	return ""
 
 @app.get("/transfers/<int:id>")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
