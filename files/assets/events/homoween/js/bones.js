@@ -1,9 +1,9 @@
 let bones_container = document.getElementById('bones-container');
-let number = parseInt(bones_container.dataset.bones)*2
+let number = parseInt(bones_container.dataset.bones)
 const sources = ['skeleton1.webp','skeleton2.webp','skeleton3.webp','skeleton4.webp','skeleton5.webp','skeleton6.webp'];
 number = Math.min(number, sources.length)
 
-const pw = screen.availWidth/6
+const pw = screen.availWidth / 3
 
 let circles = [];
 
@@ -20,8 +20,8 @@ for (let i = 0; i < number; i++) {
 function addCircle(delay, range) {
 	setTimeout(function() {
 		let c = new Circle(range[0] + Math.random() * range[1], 80 + Math.random() * 4, {
-			x: Math.random(),
-			y: 1 + Math.random()
+			x: -0.15 + Math.random() * 0.3,
+			y: 1 + Math.random() * 1
 		}, range);
 		circles.push(c);
 	}, delay);
