@@ -1330,14 +1330,13 @@ def bid_list(v, bid):
 
 
 KOFI_TOKEN = environ.get("KOFI_TOKEN", "").strip()
-KOFI_TOKEN2 = environ.get("KOFI_TOKEN2", "").strip()
 if KOFI_TOKEN:
 	@app.post("/kofi")
 	@limiter.exempt
 	def kofi():
 		data = json.loads(request.values['data'])
 		verification_token = data['verification_token']
-		if verification_token not in {KOFI_TOKEN, KOFI_TOKEN2}: abort(400)
+		if verification_token != KOFI_TOKEN: abort(400)
 
 		print(request.headers.get('CF-Connecting-IP'), flush=True)
 		id = data['kofi_transaction_id']
