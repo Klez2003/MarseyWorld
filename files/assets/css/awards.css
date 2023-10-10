@@ -20,7 +20,7 @@
 /*emoji*/
 
 .emoji-award img, .emoji-hz-award img {
-	width: min(60px, 15vw) !important;
+	width: min(60px, 13vw) !important;
 }
 
 .emoji-award:nth-child(even) {
