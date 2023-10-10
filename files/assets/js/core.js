@@ -119,7 +119,7 @@ if (!location.pathname.endsWith('/submit') && !location.pathname.endsWith('/chat
 		const formDOM = targetDOM.parentElement;
 
 		if (formDOM.id == 'note_section') {
-			document.getElementById('giveaward').click();
+			document.querySelector('.awardbtn:not(.d-none)').click();
 			return
 		}
 

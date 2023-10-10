@@ -52,31 +52,13 @@ def shop(v):
 	return render_template("shop.html", awards=list(AWARDS.values()), v=v, sales=sales)
 
 
-@app.post("/buy/<award>")
-@limiter.limit('1/second', scope=rpath)
-@limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit("100/minute;200/hour;1000/day", deduct_when=lambda response: response.status_code < 400)
-@limiter.limit("100/minute;200/hour;1000/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
-@auth_required
-def buy(v, award):
-	if award == 'ghost':
-		abort(403, "You can't buy this award!")
-
-	AWARDS = deepcopy(AWARDS_ENABLED)
-
-	if v.house:
-		AWARDS[v.house] = HOUSE_AWARDS[v.house]
-
-	if award not in AWARDS: abort(400)
-	og_price = AWARDS[award]["price"]
-
-	award_title = AWARDS[award]['title']
+def buy_award(v, kind):
+	og_price = AWARDS[kind]["price"]
 	price = int(og_price * v.award_discount)
 
-
-	if award == "grass":
+	if kind == "grass":
 		currency = 'coins'
-	elif award == "benefactor":
+	elif kind == "benefactor":
 		currency = 'marseybux'
 	else:
 		currency = 'combined'
@@ -98,8 +80,7 @@ def buy(v, award):
 		badge_grant(badge_id=69, user=v)
 	g.db.add(v)
 
-
-	if award == "lootbox":
+	if kind == "lootbox":
 		lootbox_items = []
 		for _ in range(LOOTBOX_ITEM_COUNT): # five items per lootbox
 			if IS_FISTMAS():
@@ -124,7 +105,7 @@ def buy(v, award):
 
 		return {"message": lootbox_msg}
 	else:
-		award_object = AwardRelationship(user_id=v.id, kind=award, price_paid=price)
+		award_object = AwardRelationship(user_id=v.id, kind=kind, price_paid=price)
 		g.db.add(award_object)
 
 	g.db.add(v)
@@ -132,6 +113,26 @@ def buy(v, award):
 	if CARP_ID and v.id != CARP_ID and og_price >= 5000:
 		send_repeatable_notification(CARP_ID, f"@{v.username} has bought a `{award_title}` award!")
 
+	return award_object
+
+
+@app.post("/buy/<kind>")
+@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
+@limiter.limit("100/minute;200/hour;1000/day", deduct_when=lambda response: response.status_code < 400)
+@limiter.limit("100/minute;200/hour;1000/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@auth_required
+def buy(v, kind):
+	AWARDS = deepcopy(AWARDS_ENABLED)
+
+	if v.house:
+		AWARDS[v.house] = HOUSE_AWARDS[v.house]
+
+	if kind not in AWARDS: abort(400)
+
+	award_title = AWARDS[kind]['title']
+
+	buy_award(v, kind)
 
 	return {"message": f"{award_title} award bought!"}
 
@@ -167,7 +168,8 @@ def award_thing(v, thing_type, id):
 		AwardRelationship.comment_id == None
 	).first()
 
-	if not award: abort(404, "You don't have that award")
+	if not award: 
+		award = buy_award(v, kind)
 
 	if thing_type == 'post': award.post_id = thing.id
 	else: award.comment_id = thing.id

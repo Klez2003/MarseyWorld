@@ -189,6 +189,7 @@ document.addEventListener("click", function (e) {
 			return
 		}
 		document.getElementById('giveaward').dataset.action = element.dataset.url
+		document.getElementById('buyandgiveaward').dataset.action = element.dataset.url
 
 		const effect_author_tab = document.getElementById('effect-author-tab')
 		const effect_content_tab = document.getElementById('effect-content-tab')

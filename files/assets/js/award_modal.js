@@ -102,19 +102,6 @@ function pick(kind, price, coins, marseybux) {
 	coins = parseInt(coins)
 	marseybux = parseInt(marseybux)
 
-	const buy = document.getElementById('buy')
-
-	if (kind == "grass" && coins < price)
-		buy.disabled = true;
-	else if (kind == "benefactor" && marseybux < price)
-		buy.disabled = true;
-	else if (coins+marseybux < price)
-		buy.disabled = true;
-	else
-		buy.disabled = false;
-
-	let ownednum = Number(document.getElementById(`${kind}-owned`).textContent);
-	document.getElementById('giveaward').disabled = (ownednum == 0);
 	document.getElementById('kind').value=kind;
 	if (document.getElementsByClassName('picked').length > 0) {
 		document.getElementsByClassName('picked')[0].classList.toggle('picked');
@@ -162,33 +149,18 @@ function pick(kind, price, coins, marseybux) {
 		document.getElementById('note').maxLength = 200;
 	}
 
-	document.getElementById('award_price_block').classList.remove('d-none');
-	document.getElementById('award_price').textContent = price;
-}
+	const ownednum = Number(document.getElementById(`${kind}-owned`).textContent);
 
-function buy() {
-	const kind = document.getElementById('kind').value;
-	url = `/buy/${kind}`
-	const xhr = createXhrWithFormKey(url);
-	xhr[0].onload = function() {
-		let data
-		try {data = JSON.parse(xhr[0].response)}
-		catch(e) {console.error(e)}
-		success = xhr[0].status >= 200 && xhr[0].status < 300;
-		showToast(success, getMessageFromJsonData(success, data));
-		if (success) {
-			if (kind != "lootbox")
-			{
-				document.getElementById('giveaward').disabled=false;
-				let owned = document.getElementById(`${kind}-owned`)
-				let ownednum = Number(owned.textContent) + 1;
-				owned.textContent = ownednum
-			}
-		}
-	};
-
-	xhr[0].send(xhr[1]);
-
+	if (ownednum) {
+		document.getElementById('award_price').textContent = `${ownednum} owned`;
+		document.getElementById('giveaward').classList.remove('d-none');
+		document.getElementById('buyandgiveaward').classList.add('d-none');
+	}
+	else {
+		document.getElementById('award_price').textContent = `Price: ${price} coins/marseybux`;
+		document.getElementById('giveaward').classList.add('d-none');
+		document.getElementById('buyandgiveaward').classList.remove('d-none');
+	}
 }
 
 function giveaward(t) {
@@ -204,10 +176,10 @@ function giveaward(t) {
 		},
 		() => {
 			let owned = document.getElementById(`${kind}-owned`)
-			let ownednum = Number(owned.textContent) - 1;
-			owned.textContent = ownednum
-			if (ownednum == 0)
-				document.getElementById('giveaward').disabled=true;
+			let ownednum = Number(owned.textContent);
+			if (ownednum) {
+				owned.textContent = ownednum - 1
+			}
 		}
 	);
 }
