@@ -729,7 +729,7 @@ def normalize_url(url):
 
 	url = url.replace("reddit.com/user/", "reddit.com/u/")
 
-	url = reddit_domain_regex.sub(r'\1https://old.reddit.com/\3', url)
+	url = reddit_domain_regex.sub(r'\1https://old.reddit.com/\5', url)
 
 	url = url.replace("https://music.youtube.com/watch?v=", "https://youtube.com/watch?v=") \
 			 .replace("https://www.youtube.com", "https://youtube.com") \
