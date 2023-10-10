@@ -33,8 +33,12 @@ function createXhrWithFormKey(url, form=new FormData(), method='POST') {
 }
 
 function postToast(t, url, data, extraActionsOnSuccess, extraActionsOnFailure) {
-	t.disabled = true;
-	t.classList.add("disabled");
+	const is_shop = t.id && t.id.startsWith('buy-')
+
+	if (!is_shop) {
+		t.disabled = true;
+		t.classList.add("disabled");
+	}
 
 	let form = new FormData();
 	if (typeof data === 'object' && data !== null) {
@@ -46,7 +50,7 @@ function postToast(t, url, data, extraActionsOnSuccess, extraActionsOnFailure) {
 	xhr[0].onload = function() {
 		const success = xhr[0].status >= 200 && xhr[0].status < 300;
 
-		if (!(extraActionsOnSuccess == reload && success)) {
+		if (!(extraActionsOnSuccess == reload && success && !is_shop)) {
 			t.disabled = false;
 			t.classList.remove("disabled");
 		}
