@@ -725,6 +725,7 @@ body::after {
 
 /* progressbar */
 .progress {
+	position: relative;
 	background-color: #1d9bf0;
 	background-image: linear-gradient(0deg, #1d9bf0 0%, #59b1ec 100%);
 	max-width: 95vw;
