@@ -254,14 +254,6 @@ body {
 /* awards */
 
 /* gingerbread */
-.fall-gingerbread {
-	color: #fff;
-	font-size: 1em;
-	font-family: Serif;
-	text-shadow: 0 0 1px #000;
-	pointer-events: none;
-}
-
 @keyframes fall-gingerbreads-fall {
 	0% {
 		top: -20%
@@ -284,6 +276,11 @@ body {
 }
 
 .fall-gingerbread {
+	color: #fff;
+	font-size: 1em;
+	font-family: Serif;
+	text-shadow: 0 0 1px #000;
+	pointer-events: none;
 	position: fixed;
 	top: -20%;
 	z-index: 9999;
@@ -295,6 +292,10 @@ body {
 	animation-timing-function: linear, ease-in-out;
 	animation-iteration-count: infinite, infinite;
 	animation-play-state: running, running
+}
+
+.fall-gingerbread img {
+	width: min(60px, 13vw) !important;
 }
 
 .fall-gingerbread:nth-of-type(0) {
