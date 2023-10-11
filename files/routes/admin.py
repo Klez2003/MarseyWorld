@@ -1976,9 +1976,13 @@ def start_orgy(v):
 		orgy_type = 'file'
 		data = normalized_link
 		#not deduped, cuz cron checks local file, it can't check the url cuz of referrer restriction
-		video_info = ffmpeg.probe(data)
-		seconds = float(video_info['streams'][0]['duration'])
-		end_utc = int(time.time() + seconds)
+		try:
+			video_info = ffmpeg.probe(data)
+		except:
+			pass
+		else:
+			seconds = float(video_info['streams'][0]['duration'])
+			end_utc = int(time.time() + seconds)
 	else:
 		abort(400)
 
