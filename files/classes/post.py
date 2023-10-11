@@ -258,7 +258,7 @@ class Post(Base):
 			return 0
 
 		num = len([x for x in self.awards if x.kind == kind])
-		if num > 4 and kind not in {"shit", "fireflies", "gingerbread", "pumpkin"}:
+		if num > 4 and kind not in {"shit", "fireflies", "gingerbread", "pumpkin", "stalker"}:
 			return 4
 		return num
 
