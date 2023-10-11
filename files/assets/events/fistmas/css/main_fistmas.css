@@ -212,44 +212,44 @@ body {
 	background-blend-mode: soft-light;
 }
 
-  .color {
-   width: 20%;
-   height: 100%;
-   float: left
-  }
+.color {
+	width: 20%;
+	height: 100%;
+	float: left
+}
 
-  .color p {
+.color p {
 	position: relative;
 	z-index: 1231231;
 	text-align: center;
 	line-height: 90vh;
-  }
+}
 
-  .color:nth-child(1){
+.color:nth-child(1){
 	background-color: #F5624D;
-  }
+}
 
-  .color:nth-child(2){
+.color:nth-child(2){
 	background-color: #CC231E;
-  }
+}
 
-  .color:nth-child(3){
+.color:nth-child(3){
 	background-color: #34A65F;
-  }
+}
 
-  .color:nth-child(4){
+.color:nth-child(4){
 	background-color: #0F8A5F;
-  }
+}
 
-  .color:nth-child(5){
+.color:nth-child(5){
 	background-color: #235E6F;
-  }
+}
 
-  #snow:not([data-nonce]) {
+#snow:not([data-nonce]) {
 	height: 100%;
 	color: #FFF;
 	display: block;
-  }
+}
 
 /* awards */
 
@@ -383,16 +383,16 @@ body {
 }
 
 .animate-spin {
-  animation: spin 5600ms linear infinite;
+	animation: spin 5600ms linear infinite;
 }
 
 @keyframes spin {
-  from {
-	transform: rotate(0deg);
-  }
-  to {
-	transform: rotate(360deg);
-  }
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
 }
 
 /* vvv kill yourself vscodelet  vvv */

@@ -630,16 +630,16 @@ body::after {
 }
 
 .animate-spin {
-  animation: spin 5600ms linear infinite;
+	animation: spin 5600ms linear infinite;
 }
 
 @keyframes spin {
-  from {
-	transform: rotate(0deg);
-  }
-  to {
-	transform: rotate(360deg);
-  }
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
 }
 
 /* Trick or Treat */
