@@ -298,10 +298,6 @@ body {
 	width: min(60px, 13vw) !important;
 }
 
-.fall-gingerbread:nth-of-type(0) {
-	left: 1%;
-	animation-delay: 0s, 0s
-}
 .fall-gingerbread:nth-of-type(1) {
 	left: 10%;
 	animation-delay: 1s, 1s
