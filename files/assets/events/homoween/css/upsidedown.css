@@ -8,7 +8,7 @@ body {
 	overflow-x: hidden;
 }
 
-#post-root, .comment, .modal, .comment-box-wrapper, .comments-count, #desktop-sidebar {
+#post-root, .comment, .modal, .comment-box-wrapper, .comments-count, #desktop-sidebar, nav, #banner-homoween-svg {
 	filter: sepia(100%) hue-rotate(180deg) saturate(300%);
 }
 
