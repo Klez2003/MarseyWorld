@@ -5,4 +5,5 @@ img.cursor-stalker {
 	background-repeat: no-repeat;
 	background-size: 100% auto;
 	z-index: 1000000000;
+	pointer-events: none;
 }
