@@ -265,6 +265,9 @@ class Post(Base):
 		if kind in {"gingerbread", "pumpkin"}:
 			return min(num, 10)
 
+		if kind in {"emoji", "emoji-hz"}:
+			return min(num, 20)
+
 		if kind == "stalker":
 			return min(num, 25)
 
