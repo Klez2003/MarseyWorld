@@ -259,7 +259,7 @@ body {
 	font-size: 1em;
 	font-family: Serif;
 	text-shadow: 0 0 1px #000;
-  pointer-events: none;
+	pointer-events: none;
 }
 
 @keyframes fall-snowflakes-fall {
