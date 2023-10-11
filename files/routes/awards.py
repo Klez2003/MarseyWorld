@@ -52,7 +52,7 @@ def shop(v):
 	return render_template("shop.html", awards=list(AWARDS.values()), v=v, sales=sales)
 
 
-def buy_award(v, kind):
+def buy_award(v, kind, AWARDS):
 	og_price = AWARDS[kind]["price"]
 	price = int(og_price * v.award_discount)
 
@@ -132,7 +132,7 @@ def buy(v, kind):
 
 	award_title = AWARDS[kind]['title']
 
-	buy_award(v, kind)
+	buy_award(v, kind, AWARDS)
 
 	return {"message": f"{award_title} award bought!"}
 
@@ -169,7 +169,7 @@ def award_thing(v, thing_type, id):
 	).first()
 
 	if not award: 
-		award = buy_award(v, kind)
+		award = buy_award(v, kind, AWARDS)
 
 	if thing_type == 'post': award.post_id = thing.id
 	else: award.comment_id = thing.id
