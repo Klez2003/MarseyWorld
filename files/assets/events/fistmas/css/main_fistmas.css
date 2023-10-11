@@ -323,64 +323,24 @@ body {
 	animation-delay: 8s, 3s
 }
 .fall-gingerbread:nth-of-type(6) {
-	left: 60%;
-	animation-delay: 6s, 2s
-}
-.fall-gingerbread:nth-of-type(7) {
-	left: 70%;
-	animation-delay: 2.5s, 1s
-}
-.fall-gingerbread:nth-of-type(8) {
-	left: 80%;
-	animation-delay: 1s, 0s
-}
-.fall-gingerbread:nth-of-type(9) {
-	left: 90%;
-	animation-delay: 3s, 1.5s
-}
-.fall-gingerbread:nth-of-type(10) {
-	left: 100%;
-	animation-delay: 3s, 2s
-}
-.fall-gingerbread:nth-of-type(11) {
 	left: 5%;
 	animation-delay: 1s, 4s
 }
-.fall-gingerbread:nth-of-type(12) {
+.fall-gingerbread:nth-of-type(7) {
 	left: 15%;
 	animation-delay: 1s, 1.5s
 }
-.fall-gingerbread:nth-of-type(13) {
+.fall-gingerbread:nth-of-type(8) {
 	left: 25%;
 	animation-delay: 6s, 2.5s
 }
-.fall-gingerbread:nth-of-type(14) {
+.fall-gingerbread:nth-of-type(9) {
 	left: 35%;
 	animation-delay: 4s, 1s
 }
-.fall-gingerbread:nth-of-type(15) {
+.fall-gingerbread:nth-of-type(10) {
 	left: 45%;
 	animation-delay: 2s, 4s
-}
-.fall-gingerbread:nth-of-type(16) {
-	left: 55%;
-	animation-delay: 8s, 3s
-}
-.fall-gingerbread:nth-of-type(17) {
-	left: 65%;
-	animation-delay: 6s, 3s
-}
-.fall-gingerbread:nth-of-type(18) {
-	left: 75%;
-	animation-delay: 2.5s, 4s
-}
-.fall-gingerbread:nth-of-type(19) {
-	left: 85%;
-	animation-delay: 2s, 0s
-}
-.fall-gingerbread:nth-of-type(20) {
-	left: 95%;
-	animation-delay: 3s, 1.5s
 }
 
 .animate-spin {
