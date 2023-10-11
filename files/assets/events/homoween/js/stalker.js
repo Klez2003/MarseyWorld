@@ -85,13 +85,6 @@ addEventListener("mousemove", function (e) {
 	mouse.y = e.pageY;
 });
 
-addEventListener("touchstart", function (e) {
-	event.preventDefault(); // we don't want to scroll
-	let touch = event.touches[0];
-	mouse.x = touch.clientX;
-	mouse.y = touch.clientY;
-});
-
 function getRandom(min, max) {
 	return Math.floor(Math.random() * (max - min + 1) + min);
 }
