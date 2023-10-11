@@ -255,7 +255,6 @@ class Modified:
 	def triumphs(self, other: GroupToken):
 		other = other.wrap()
 		other_emoji = parser.parse_from_token(self.tokenizer, other)
-		print(f'Other emoji: {other_emoji} / Token: {other}')
 
 		if other_emoji is None:
 			return
