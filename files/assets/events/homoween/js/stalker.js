@@ -26,7 +26,9 @@ const assets = [
 	"marseynotesbardfinn"
 ];
 
-const count = document.getElementById('stalker-count').value,
+const stalker_container = document.getElementById("stalkers-container")
+
+const count = parseInt(stalker_container.dataset.stalkersCount),
 	size = 25,
 	spacing = 4 - 0.05 * count,
 	diameter = 20 + 0.5 * count,
@@ -54,9 +56,9 @@ function ghost(i) {
 	this.Y = 0;
 	this.img = document.createElement("img");
 	this.img.id = "ghost-" + i;
-	this.img.className = "cursor-ghost";
+	this.img.className = "cursor-stalker";
 	this.img.src = `${SITE_FULL_IMAGES}/e/${assets[i]}.webp`;
-	document.body.appendChild(this.img);
+	stalker_container.appendChild(this.img);
 }
 
 function placeghost(ghost, x, y) {

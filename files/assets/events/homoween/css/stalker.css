@@ -1,13 +1,8 @@
-body {
-	background: #000;
-	height: 100vh;
-	width: 100vw;
-}
-
-img.cursor-ghost {
+img.cursor-stalker {
 	position: absolute;
 	height: 28px;
 	width: 28px;
 	background-repeat: no-repeat;
 	background-size: 100% auto;
+	z-index: 1000000000;
 }
