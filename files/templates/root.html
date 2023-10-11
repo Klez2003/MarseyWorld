@@ -6,16 +6,21 @@
 {%- import 'util/macros.html' as macros with context -%}
 {%- import 'util/html_head.html' as html_head with context -%}
 
+{%- if IS_HOMOWEEN() -%}
+	{% set primary="f66a3c" %}
+{%- elif IS_FISTMAS() -%}
+	{% set primary="cc4145" %}
+{%- elif IS_DKD() -%}
+	{% set primary="2aaa8a" %}
+{%- elif v -%}
+	{% set primary=v.themecolor %}
+{%- else -%}
+	{% set primary=DEFAULT_COLOR %}
+{%- endif -%}
+{% set primary_rgb = primary|rgb %}
+
 <!DOCTYPE html>
-<html lang="en"
-	{%- if IS_DKD() and not (v and v.theme == 'light') -%}
-		style="--primary:#2AAA8A"
-	{%- elif not IS_FISTMAS() -%}
-		{% set primary = v.themecolor if v else DEFAULT_COLOR %}
-		{% set primary_rgb = primary|rgb %}
-		style="--primary:#{{primary}};--primary_rgb:{{primary_rgb}}"
-	{%- endif -%}
->
+<html lang="en" style="--primary:#{{primary}};--primary_rgb:{{primary_rgb}}">
 	<head>
 	{% block head %}
 		<meta charset="utf-8">
