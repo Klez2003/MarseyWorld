@@ -4,9 +4,17 @@ body {
 	background-size: cover;
 	background-attachment: fixed;
 	background-color: #000;
-	filter: sepia(100%) hue-rotate(180deg) saturate(300%);
 	box-shadow: 0 0 900px rgba(0, 0, 0, 0.9) inset;
 	overflow-x: hidden;
+}
+
+#post-root, .comment, .modal, .comment-box-wrapper, .comments-count, #desktop-sidebar {
+	filter: sepia(100%) hue-rotate(180deg) saturate(300%);
+}
+
+#canvas {
+	position: absolute;
+	pointer-events: none;
 }
 
 canvas.particles {

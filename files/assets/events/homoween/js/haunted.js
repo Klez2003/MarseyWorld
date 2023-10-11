@@ -1,6 +1,5 @@
 const thunder1 = new Audio(`/assets/events/homoween/audio/haunted/thunder1.mp3`)
 const thunder2 = new Audio(`/assets/events/homoween/audio/haunted/thunder2.mp3`)
-const is_upsidedown = localStorage.getItem('setting_upsidedown')
 const div = document.getElementById("haunted-effect")
 
 const stylesheet_haunted = document.createElement("link")
@@ -23,11 +22,7 @@ setInterval(function(){
 },14000)
 
 function lightningStrike(strike) {
-	if(is_upsidedown == 'true'){
-		div.style.animation = "haunted-upsidedown 20s"
-	} else {
-		div.style.animation = "haunted 20s"
-	}
+	div.style.animation = "haunted 20s"
 
 	if(strike == "haunted"){
 		stylesheet_haunted.disabled = false

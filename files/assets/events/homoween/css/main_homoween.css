@@ -224,30 +224,6 @@ body::after {
 	}
 }
 
-@keyframes haunted-upsidedown {
-	0% {
-		backdrop-filter: brightness(20%) sepia(1) saturate(3) hue-rotate(180deg);
-	}
-	1% {
-		backdrop-filter: brightness(20%) sepia(1) saturate(3) hue-rotate(180deg);
-	}
-	2% {
-		backdrop-filter: sepia(1) contrast(1.5) brightness(200%) saturate(3)  hue-rotate(180deg);
-	}
-	3% {
-		backdrop-filter: sepia(1) contrast(1.5) brightness(20%) saturate(3)  hue-rotate(180deg);
-	}
-	4% {
-		backdrop-filter: brightness(300%) sepia(1) saturate(3) hue-rotate(180deg);
-	}
-	7% {
-		backdrop-filter: brightness(1) sepia(1) saturate(3) hue-rotate(180deg);
-	}
-	100% {
-		backdrop-filter: brightness(1) sepia(1) saturate(3) hue-rotate(180deg);
-	}
-}
-
 /* Spiders */
 .spider:nth-child(odd) {
 	animation-name: swingFast;
@@ -522,12 +498,6 @@ body::after {
 .ectoplasm.rainbow-text {
 	color: #90ee90 !important;
 	font-weight: initial;
-}
-
-/* Upsidedown */
-#canvas {
-	position: absolute;
-	pointer-events: none;
 }
 
 /* Bones */
