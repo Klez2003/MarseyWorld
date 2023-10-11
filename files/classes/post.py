@@ -265,6 +265,9 @@ class Post(Base):
 		if kind in {"gingerbread", "pumpkin"}:
 			return min(num, 10)
 
+		if kind == "stalker":
+			return min(num, 25)
+
 		return min(num, 4)
 
 	@lazy
