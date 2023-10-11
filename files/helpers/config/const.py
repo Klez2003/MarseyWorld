@@ -59,14 +59,13 @@ DELETE_EDIT_RATELIMIT = "10/minute;50/day"
 
 PUSH_NOTIF_LIMIT = 1000
 
-IS_LOCALHOST = SITE.startswith("localhost") or SITE.startswith("127.0.0.1") or SITE.startswith("192.168.") or SITE.endswith(".local")
+IS_LOCALHOST = SITE.startswith("localhost:") or SITE.startswith("127.0.0.1") or SITE.startswith("192.168.") or SITE.endswith(".local")
 print(f"IS_LOCALHOST: {IS_LOCALHOST}")
 
 if IS_LOCALHOST:
 	SITE_FULL = 'http://' + SITE
 	SITE_IMAGES = SITE
 	SITE_FULL_IMAGES = f'http://{SITE_IMAGES}'
-	print("here")
 else:
 	SITE_FULL = 'https://' + SITE
 	SITE_IMAGES = 'i.' + SITE
@@ -1090,5 +1089,3 @@ if not IS_LOCALHOST:
 
 with open("includes/content-security-policy", "w") as f:
 	f.write(f'add_header Content-Security-Policy "{csp}";')
-
-print(f"SITE_FULL_IMAGES: {SITE_FULL_IMAGES}")

@@ -34,7 +34,7 @@ services:
     postgres:
         container_name: "postgres"
         image: postgres
-        command: ["postgres"] #, "-c", "log_statement=all"]
+        command: ["postgres", "-c", "log_statement=all"]
         volumes:
             - "./schema.sql:/docker-entrypoint-initdb.d/00-schema.sql"
             - "./seed-users.sql:/docker-entrypoint-initdb.d/01-seed-users.sql"
