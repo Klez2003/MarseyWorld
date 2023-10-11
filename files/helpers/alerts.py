@@ -53,6 +53,8 @@ def send_repeatable_notification(uid, text):
 
 	push_notif({uid}, 'New notification', text, f'{SITE_FULL}/notification/{cid}')
 
+	return notif
+
 
 def send_notification(uid, text):
 	if uid in BOT_IDs: return
