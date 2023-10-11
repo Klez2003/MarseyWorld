@@ -550,7 +550,7 @@ def submit_post(v, hole=None):
 
 	if url == '': url = None
 
-	flag_chudded = v.chud and hole != 'chudrama'
+	flag_chudded = v.chud and hole != 'chudrama' and not (len(body) > 1000 and not v.chudded_by)
 
 	p = Post(
 		private=flag_private,
