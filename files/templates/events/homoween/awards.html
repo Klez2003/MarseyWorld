@@ -56,3 +56,9 @@
 	<link rel="stylesheet" href="{{'events/homoween/css/upsidedown.css' | asset}}">
 	<script defer src="{{'events/homoween/js/upsidedown.js' | asset}}"></script>
 {% endif %}
+
+{% if p.award_count("stalker", v) %}
+	<link rel="stylesheet" href="{{'events/homoween/css/stalker.css' | asset}}">
+	<input hidden id="stalker-count" value="{{p.award_count('stalker', v)}}"></div>
+	<script defer src="{{'events/homoween/js/stalker.js' | asset}}"></script>
+{% endif %}
