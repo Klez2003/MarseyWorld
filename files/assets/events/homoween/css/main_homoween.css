@@ -540,14 +540,6 @@ body::after {
 }
 
 /* Pumpkin */
-.fall-pumpkin {
-	color: #fff;
-	font-size: 1em;
-	font-family: Serif;
-	text-shadow: 0 0 1px #000;
-	pointer-events: none;
-}
-
 @keyframes fall-pumpkins-fall {
 	0% {
 		top: -20%
@@ -570,6 +562,11 @@ body::after {
 }
 
 .fall-pumpkin {
+	color: #fff;
+	font-size: 1em;
+	font-family: Serif;
+	text-shadow: 0 0 1px #000;
+	pointer-events: none;
 	position: absolute;
 	top: -20%;
 	z-index: 999;
@@ -581,6 +578,10 @@ body::after {
 	animation-timing-function: linear, ease-in-out;
 	animation-iteration-count: infinite, infinite;
 	animation-play-state: running, running
+}
+
+.fall-pumpkin img {
+	width: min(60px, 13vw) !important;
 }
 
 .fall-pumpkin:nth-of-type(0) {
