@@ -335,7 +335,7 @@ body {
 }
 .fall-snowflake:nth-of-type(9) {
 	left: 90%;
-	animation delay: 3s, 1.5s
+	animation-delay: 3s, 1.5s
 }
 .fall-snowflake:nth-of-type(10) {
 	left: 100%;
@@ -379,7 +379,7 @@ body {
 }
 .fall-snowflake:nth-of-type(20) {
 	left: 95%;
-	animation delay: 3s, 1.5s
+	animation-delay: 3s, 1.5s
 }
 
 .animate-spin {
