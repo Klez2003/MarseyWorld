@@ -97,6 +97,7 @@ def stats():
 	stats = {
 			"time": int(time.time()),
 			"marseys": "{:,}".format(g.db.query(Emoji).filter(Emoji.kind=="Marsey", Emoji.submitter_id==None).count()),
+			"total emojis": "{:,}".format(g.db.query(Emoji).filter(Emoji.submitter_id==None).count()),
 			"users": "{:,}".format(g.db.query(User).count()),
 			"private users": "{:,}".format(g.db.query(User).filter_by(is_private=True).count()),
 			"banned users": "{:,}".format(g.db.query(User).filter(User.is_banned != None).count()),
