@@ -185,6 +185,9 @@ def award_thing(v, thing_type, id):
 	if not AWARDS[kind]['positive'] and author.immune_to_negative_awards(v):
 		abort(403, f"{safe_username} immune to negative awards!")
 
+	if thing_type == 'post' and thing.id == 210983:
+		abort(403, "You can't award this post!")
+
 	if kind == "benefactor" and author.id == v.id:
 		abort(403, "You can't use this award on yourself!")
 
