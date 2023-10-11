@@ -258,9 +258,14 @@ class Post(Base):
 			return 0
 
 		num = len([x for x in self.awards if x.kind == kind])
-		if num > 4 and kind not in {"shit", "fireflies", "gingerbread", "pumpkin", "stalker"}:
-			return 4
-		return num
+
+		if kind in {"shit", "fireflies", "stalker"}:
+			return num
+
+		if kind in {"gingerbread", "pumpkin"}:
+			return min(num, 10)
+
+		return min(num, 4)
 
 	@lazy
 	def realurl(self, v):

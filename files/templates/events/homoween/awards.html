@@ -41,12 +41,11 @@
 {% endif %}
 
 {% if p.award_count("pumpkin", v) %}
-	{% set count = p.award_count("pumpkin", v) * 2 if p.award_count("pumpkin", v) <= 10 else 20 %}
 	<div class="fall-pumpkins">
-		{% for i in range(count) %}
-		<div class="fall-pumpkin">
-			<img src="/e/marseypumpking.webp" class="animate-spin" alt="animate marsey pumpkin icon">
-		</div>
+		{% for i in range(p.award_count("pumpkin", v)) %}
+			<div class="fall-pumpkin">
+				<img src="/e/marseypumpking.webp" class="animate-spin" alt="animate marsey pumpkin icon">
+			</div>
 		{% endfor %}
 	</div>
 {% endif %}
