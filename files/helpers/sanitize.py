@@ -383,10 +383,11 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 			sanitized = owoify(sanitized)
 		if author.marsify and not author.chud:
 			sanitized = marsify(sanitized)
-		if obj.sharpened:
-			sanitized = sharpen(sanitized)
-		if obj.queened:
-			sanitized = queenify(sanitized)
+
+	if obj.sharpened:
+		sanitized = sharpen(sanitized)
+	if obj.queened:
+		sanitized = queenify(sanitized)
 
 	if '```' not in sanitized and '<pre>' not in sanitized:
 		sanitized = linefeeds_regex.sub(r'\1\n\n\2', sanitized)
@@ -681,8 +682,9 @@ def filter_emojis_only(title, golden=True, count_emojis=False, obj=None, author=
 			title = owoify(title)
 		if author.marsify and not author.chud:
 			title = marsify(title)
-		if obj.sharpened:
-			title = sharpen(title)
+
+	if obj.sharpened:
+		title = sharpen(title)
 
 	emojis_used = set()
 
