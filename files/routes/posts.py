@@ -551,8 +551,8 @@ def submit_post(v, hole=None):
 	if url == '': url = None
 
 	flag_chudded = v.chud and hole != 'chudrama' and not (len(body) > 1000 and not v.chudded_by)
-	flag_queened = v.queened and len(body) <= 1000
-	flag_sharpened = v.sharpened and len(body) <= 1000
+	flag_queened = v.queen and len(body) <= 1000
+	flag_sharpened = v.sharpen and len(body) <= 1000
 
 	p = Post(
 		private=flag_private,
