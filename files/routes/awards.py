@@ -111,6 +111,7 @@ def buy_award(v, kind, AWARDS):
 	g.db.add(v)
 
 	if CARP_ID and v.id != CARP_ID and og_price >= 5000:
+		award_title = AWARDS[kind]['title']
 		send_repeatable_notification(CARP_ID, f"@{v.username} has bought a `{award_title}` award!")
 
 	return award_object
