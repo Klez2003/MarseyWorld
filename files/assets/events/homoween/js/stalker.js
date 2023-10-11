@@ -36,7 +36,7 @@ const count = parseInt(stalker_container.dataset.stalkersCount),
 	speed = 0.03 + 0.002 * count,
 	offset = 10;
 
-let ghosts = [],
+let stalkers = [],
 	a = Math.round(size * diameter * 0.2),
 	current = offset,
 	mouse = {
@@ -44,39 +44,39 @@ let ghosts = [],
 		y: a + offset
 	};
 
-// populate ghosts
+// populate stalkers
 for (let i = 0; i < count; i++) {
-	ghosts[i] = new ghost(i);
+	stalkers[i] = new stalker(i);
 }
 
-function ghost(i) {
+function stalker(i) {
 	this.x = 0;
 	this.y = 0;
 	this.X = 0;
 	this.Y = 0;
 	this.img = document.createElement("img");
-	this.img.id = "ghost-" + i;
+	this.img.id = "stalker-" + i;
 	this.img.className = "cursor-stalker";
 	this.img.src = `${SITE_FULL_IMAGES}/e/${assets[i]}.webp`;
 	stalker_container.appendChild(this.img);
 }
 
-function placeghost(ghost, x, y) {
-	ghost.x = x;
-	ghost.y = y;
-	ghost.img.style.left = ghost.x + "px";
-	ghost.img.style.top = ghost.y + "px";
+function placestalker(stalker, x, y) {
+	stalker.x = x;
+	stalker.y = y;
+	stalker.img.style.left = stalker.x + "px";
+	stalker.img.style.top = stalker.y + "px";
 }
 
 function makeCircle() {
-	let ghost;
+	let stalker;
 	current -= rotation;
 	for (let i = count - 1; i > -1; --i) {
-		ghost = ghosts[i];
-		ghost.img.style.top =
-		Math.round(ghost.y + a * Math.sin((current + i) / spacing) - 15) + "px";
-		ghost.img.style.left =
-		Math.round(ghost.x + a * Math.cos((current + i) / spacing)) + "px";
+		stalker = stalkers[i];
+		stalker.img.style.top =
+		Math.round(stalker.y + a * Math.sin((current + i) / spacing) - 15) + "px";
+		stalker.img.style.left =
+		Math.round(stalker.x + a * Math.cos((current + i) / spacing)) + "px";
 	}
 }
 
@@ -90,18 +90,18 @@ function getRandom(min, max) {
 }
 
 function draw() {
-	let ghost = ghosts[0];
-	let prevghost = ghosts[0];
-	ghost.x = ghost.X += (mouse.x - ghost.X) * speed;
+	let stalker = stalkers[0];
+	let prevstalker = stalkers[0];
+	stalker.x = stalker.X += (mouse.x - stalker.X) * speed;
 	if (screen_width < 768) {
-		ghost.x = Math.min(ghost.x, screen_width * 0.55);
+		stalker.x = Math.min(stalker.x, screen_width * 0.55);
 	}
-	ghost.y = ghost.Y += (mouse.y - ghost.Y) * speed;
+	stalker.y = stalker.Y += (mouse.y - stalker.Y) * speed;
 	for (let i = count - 1; i > 0; --i) {
-		ghost = ghosts[i];
-		prevghost = ghosts[i - 1];
-		ghost.x = ghost.X += (prevghost.x - ghost.X) * speed;
-		ghost.y = ghost.Y += (prevghost.y - ghost.Y) * speed;
+		stalker = stalkers[i];
+		prevstalker = stalkers[i - 1];
+		stalker.x = stalker.X += (prevstalker.x - stalker.X) * speed;
+		stalker.y = stalker.Y += (prevstalker.y - stalker.Y) * speed;
 	}
 	makeCircle();
 	requestAnimationFrame(draw);
