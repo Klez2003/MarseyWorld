@@ -254,7 +254,7 @@ body {
 /* awards */
 
 /* gingerbread */
-.fall-snowflake {
+.fall-gingerbread {
 	color: #fff;
 	font-size: 1em;
 	font-family: Serif;
@@ -262,7 +262,7 @@ body {
 	pointer-events: none;
 }
 
-@keyframes fall-snowflakes-fall {
+@keyframes fall-gingerbreads-fall {
 	0% {
 		top: -20%
 	}
@@ -271,7 +271,7 @@ body {
 	}
 }
 
-@keyframes fall-snowflakes-shake {
+@keyframes fall-gingerbreads-shake {
 	0% {
 		transform: translateX(0px)
 	}
@@ -283,101 +283,101 @@ body {
 	}
 }
 
-.fall-snowflake {
+.fall-gingerbread {
 	position: fixed;
 	top: -20%;
 	z-index: 9999;
 	-webkit-user-select: none;
 	user-select: none;
 	cursor: default;
-	animation-name: fall-snowflakes-fall, fall-snowflakes-shake;
+	animation-name: fall-gingerbreads-fall, fall-gingerbreads-shake;
 	animation-duration: 10s, 4s;
 	animation-timing-function: linear, ease-in-out;
 	animation-iteration-count: infinite, infinite;
 	animation-play-state: running, running
 }
 
-.fall-snowflake:nth-of-type(0) {
+.fall-gingerbread:nth-of-type(0) {
 	left: 1%;
 	animation-delay: 0s, 0s
 }
-.fall-snowflake:nth-of-type(1) {
+.fall-gingerbread:nth-of-type(1) {
 	left: 10%;
 	animation-delay: 1s, 1s
 }
-.fall-snowflake:nth-of-type(2) {
+.fall-gingerbread:nth-of-type(2) {
 	left: 20%;
 	animation-delay: 6s, .5s
 }
-.fall-snowflake:nth-of-type(3) {
+.fall-gingerbread:nth-of-type(3) {
 	left: 30%;
 	animation-delay: 4s, 2s
 }
-.fall-snowflake:nth-of-type(4) {
+.fall-gingerbread:nth-of-type(4) {
 	left: 40%;
 	animation-delay: 2s, 2s
 }
-.fall-snowflake:nth-of-type(5) {
+.fall-gingerbread:nth-of-type(5) {
 	left: 50%;
 	animation-delay: 8s, 3s
 }
-.fall-snowflake:nth-of-type(6) {
+.fall-gingerbread:nth-of-type(6) {
 	left: 60%;
 	animation-delay: 6s, 2s
 }
-.fall-snowflake:nth-of-type(7) {
+.fall-gingerbread:nth-of-type(7) {
 	left: 70%;
 	animation-delay: 2.5s, 1s
 }
-.fall-snowflake:nth-of-type(8) {
+.fall-gingerbread:nth-of-type(8) {
 	left: 80%;
 	animation-delay: 1s, 0s
 }
-.fall-snowflake:nth-of-type(9) {
+.fall-gingerbread:nth-of-type(9) {
 	left: 90%;
 	animation-delay: 3s, 1.5s
 }
-.fall-snowflake:nth-of-type(10) {
+.fall-gingerbread:nth-of-type(10) {
 	left: 100%;
 	animation-delay: 3s, 2s
 }
-.fall-snowflake:nth-of-type(11) {
+.fall-gingerbread:nth-of-type(11) {
 	left: 5%;
 	animation-delay: 1s, 4s
 }
-.fall-snowflake:nth-of-type(12) {
+.fall-gingerbread:nth-of-type(12) {
 	left: 15%;
 	animation-delay: 1s, 1.5s
 }
-.fall-snowflake:nth-of-type(13) {
+.fall-gingerbread:nth-of-type(13) {
 	left: 25%;
 	animation-delay: 6s, 2.5s
 }
-.fall-snowflake:nth-of-type(14) {
+.fall-gingerbread:nth-of-type(14) {
 	left: 35%;
 	animation-delay: 4s, 1s
 }
-.fall-snowflake:nth-of-type(15) {
+.fall-gingerbread:nth-of-type(15) {
 	left: 45%;
 	animation-delay: 2s, 4s
 }
-.fall-snowflake:nth-of-type(16) {
+.fall-gingerbread:nth-of-type(16) {
 	left: 55%;
 	animation-delay: 8s, 3s
 }
-.fall-snowflake:nth-of-type(17) {
+.fall-gingerbread:nth-of-type(17) {
 	left: 65%;
 	animation-delay: 6s, 3s
 }
-.fall-snowflake:nth-of-type(18) {
+.fall-gingerbread:nth-of-type(18) {
 	left: 75%;
 	animation-delay: 2.5s, 4s
 }
-.fall-snowflake:nth-of-type(19) {
+.fall-gingerbread:nth-of-type(19) {
 	left: 85%;
 	animation-delay: 2s, 0s
 }
-.fall-snowflake:nth-of-type(20) {
+.fall-gingerbread:nth-of-type(20) {
 	left: 95%;
 	animation-delay: 3s, 1.5s
 }
