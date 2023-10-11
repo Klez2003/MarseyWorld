@@ -94,7 +94,7 @@ function draw() {
 	let prevghost = ghosts[0];
 	ghost.x = ghost.X += (mouse.x - ghost.X) * speed;
 	if (screen_width < 768) {
-		ghost.x = Math.min(ghost.x, screen_width * 0.7);
+		ghost.x = Math.min(ghost.x, screen_width * 0.6);
 	}
 	ghost.y = ghost.Y += (mouse.y - ghost.Y) * speed;
 	for (let i = count - 1; i > 0; --i) {
