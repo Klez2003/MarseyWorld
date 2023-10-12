@@ -2,9 +2,6 @@ from copy import deepcopy
 
 from files.helpers.config.const import *
 
-FISTMAS_AWARDS = ("fireplace", "snow", "gingerbread", "lights", "frostbite", "candycane")
-HOMOWEEN_AWARDS = ("spiders", "fog", "bones", "pumpkin", "stalker", "candy-corn", "ectoplasm", "stab", "upsidedown", "flashlight", "haunt", "jumpscare", "bite", "vax")
-
 #Personal awards are disabled on ghost posts and comments bc they can be used to figure out the identity of the author through https://rdrama.net/badges
 AWARDS = {
 	"fallback": {
@@ -19,6 +16,7 @@ AWARDS = {
 		"ghost": False,
 		"enabled": False,
 		"positive": True,
+		"included_in_lootbox": False,
 	},
 
 	### Deprecated
@@ -34,6 +32,7 @@ AWARDS = {
 		"ghost": False,
 		"enabled": False,
 		"positive": True,
+		"included_in_lootbox": False,
    },
 	"ghost": {
 		"kind": "ghost",
@@ -47,6 +46,7 @@ AWARDS = {
 		"ghost": False,
 		"enabled": False,
 		"positive": True,
+		"included_in_lootbox": False,
 	},
 	"nword": {
 		"kind": "nword",
@@ -60,6 +60,7 @@ AWARDS = {
 		"ghost": False,
 		"enabled": False,
 		"positive": True,
+		"included_in_lootbox": False,
 	},
 	"fish": {
 		"kind": "fish",
@@ -73,6 +74,7 @@ AWARDS = {
 		"ghost": False,
 		"enabled": False,
 		"positive": True,
+		"included_in_lootbox": False,
 	},
 
 
@@ -89,6 +91,7 @@ AWARDS = {
 		"ghost": False,
 		"enabled": IS_FISTMAS() or IS_HOMOWEEN(),
 		"positive": True,
+		"included_in_lootbox": False,
 	},
 
 	### Fistmas
@@ -104,6 +107,7 @@ AWARDS = {
 		"ghost": True,
 		"enabled": IS_FISTMAS(),
 		"positive": True,
+		"included_in_lootbox": True,
 	},
 	"snow": {
 		"kind": "snow",
@@ -117,6 +121,7 @@ AWARDS = {
 		"ghost": True,
 		"enabled": IS_FISTMAS(),
 		"positive": True,
+		"included_in_lootbox": True,
 	},
 	"gingerbread": {
 		"kind": "gingerbread",
@@ -130,6 +135,7 @@ AWARDS = {
 		"ghost": True,
 		"enabled": IS_FISTMAS(),
 		"positive": True,
+		"included_in_lootbox": True,
 	},
 	"lights": {
 		"kind": "lights",
@@ -143,6 +149,7 @@ AWARDS = {
 		"ghost": True,
 		"enabled": IS_FISTMAS(),
 		"positive": True,
+		"included_in_lootbox": True,
 	},
 	"frostbite": {
 		"kind": "frostbite",
@@ -156,6 +163,7 @@ AWARDS = {
 		"ghost": True,
 		"enabled": IS_FISTMAS(),
 		"positive": True,
+		"included_in_lootbox": True,
 	},
 	"candycane": {
 		"kind": "candycane",
@@ -169,6 +177,7 @@ AWARDS = {
 		"ghost": True,
 		"enabled": IS_FISTMAS(),
 		"positive": True,
+		"included_in_lootbox": True,
 	},
 	"grinch": {
 		"kind": "grinch",
@@ -182,6 +191,7 @@ AWARDS = {
 		"ghost": False,
 		"enabled": IS_FISTMAS() and SITE_NAME != "WPD",
 		"positive": True,
+		"included_in_lootbox": False,
 	},
 
 	### Homoween
@@ -197,6 +207,7 @@ AWARDS = {
 		"ghost": True,
 		"enabled": IS_HOMOWEEN(),
 		"positive": True,
+		"included_in_lootbox": True,
 	},
 	"fog": {
 		"kind": "fog",
@@ -210,6 +221,7 @@ AWARDS = {
 		"ghost": True,
 		"enabled": IS_HOMOWEEN(),
 		"positive": True,
+		"included_in_lootbox": True,
 	},
 	"bones": {
 		"kind": "bones",
@@ -223,6 +235,7 @@ AWARDS = {
 		"ghost": True,
 		"enabled": IS_HOMOWEEN(),
 		"positive": True,
+		"included_in_lootbox": True,
 	},
 	"pumpkin": {
 		"kind": "pumpkin",
@@ -236,6 +249,7 @@ AWARDS = {
 		"ghost": True,
 		"enabled": IS_HOMOWEEN(),
 		"positive": True,
+		"included_in_lootbox": True,
 	},
 	"stalker": {
 		"kind": "stalker",
@@ -249,6 +263,7 @@ AWARDS = {
 		"ghost": True,
 		"enabled": IS_HOMOWEEN(),
 		"positive": True,
+		"included_in_lootbox": True,
 	},
 	"candy-corn": {
 		"kind": "candy-corn",
@@ -262,6 +277,7 @@ AWARDS = {
 		"ghost": True,
 		"enabled": IS_HOMOWEEN(),
 		"positive": True,
+		"included_in_lootbox": True,
 	},
 	"ectoplasm": {
 		"kind": "ectoplasm",
@@ -275,6 +291,7 @@ AWARDS = {
 		"ghost": True,
 		"enabled": IS_HOMOWEEN(),
 		"positive": True,
+		"included_in_lootbox": True,
 	},
 	"stab": {
 		"kind": "stab",
@@ -288,6 +305,7 @@ AWARDS = {
 		"ghost": True,
 		"enabled": IS_HOMOWEEN(),
 		"positive": True,
+		"included_in_lootbox": True,
 	},
 	"upsidedown": {
 		"kind": "upsidedown",
@@ -301,6 +319,7 @@ AWARDS = {
 		"ghost": True,
 		"enabled": IS_HOMOWEEN() and False,
 		"positive": True,
+		"included_in_lootbox": True,
 	},
 	"flashlight": {
 		"kind": "flashlight",
@@ -314,6 +333,7 @@ AWARDS = {
 		"ghost": True,
 		"enabled": IS_HOMOWEEN(),
 		"positive": True,
+		"included_in_lootbox": True,
 	},
 	"haunt": {
 		"kind": "haunt",
@@ -327,20 +347,7 @@ AWARDS = {
 		"ghost": True,
 		"enabled": IS_HOMOWEEN(),
 		"positive": True,
-	},
-
-	"jumpscare": {
-		"kind": "jumpscare",
-		"title": "Jumpscare",
-		"description": "???",
-		"icon": "fas fa-coffin-cross",
-		"color": "text-purple",
-		"price": 500,
-		"deflectable": True,
-		"cosmetic": False,
-		"ghost": False,
-		"enabled": IS_HOMOWEEN(),
-		"positive": True,
+		"included_in_lootbox": True,
 	},
 	"vax": {
 		"kind": "vax",
@@ -354,6 +361,7 @@ AWARDS = {
 		"ghost": False,
 		"enabled": IS_HOMOWEEN(),
 		"positive": True,
+		"included_in_lootbox": False,
 	},
 	"bite": {
 		"kind": "bite",
@@ -367,6 +375,21 @@ AWARDS = {
 		"ghost": False,
 		"enabled": IS_HOMOWEEN(),
 		"positive": True,
+		"included_in_lootbox": False,
+	},
+	"jumpscare": {
+		"kind": "jumpscare",
+		"title": "Jumpscare",
+		"description": "???",
+		"icon": "fas fa-coffin-cross",
+		"color": "text-purple",
+		"price": 500,
+		"deflectable": True,
+		"cosmetic": False,
+		"ghost": False,
+		"enabled": IS_HOMOWEEN(),
+		"positive": True,
+		"included_in_lootbox": True,
 	},
 	"hallowgrinch": {
 		"kind": "hallowgrinch",
@@ -380,6 +403,7 @@ AWARDS = {
 		"ghost": False,
 		"enabled": IS_HOMOWEEN() and SITE_NAME != "WPD",
 		"positive": True,
+		"included_in_lootbox": False,
 	},
 
 	### Birthgay/Birthdead
@@ -395,6 +419,7 @@ AWARDS = {
 		"ghost": True,
 		"enabled": IS_BIRTHGAY() or IS_BIRTHDEAD(),
 		"positive": True,
+		"included_in_lootbox": False,
 	},
 
 	### Standard
@@ -410,6 +435,7 @@ AWARDS = {
 		"ghost": False,
 		"enabled": True,
 		"positive": True,
+		"included_in_lootbox": False,
 	},
 	"marsify": {
 		"kind": "marsify",
@@ -423,6 +449,7 @@ AWARDS = {
 		"ghost": False,
 		"enabled": True,
 		"positive": False,
+		"included_in_lootbox": False,
 	},
 	"emoji": {
 		"kind": "emoji",
@@ -436,6 +463,7 @@ AWARDS = {
 		"ghost": True,
 		"enabled": True,
 		"positive": True,
+		"included_in_lootbox": False,
 	},
 	"emoji-hz": {
 		"kind": "emoji-hz",
@@ -449,6 +477,7 @@ AWARDS = {
 		"ghost": True,
 		"enabled": False,
 		"positive": True,
+		"included_in_lootbox": False,
 	},
 	"rainbow": {
 		"kind": "rainbow",
@@ -462,6 +491,7 @@ AWARDS = {
 		"ghost": False,
 		"enabled": not FEATURES['HOUSES'],
 		"positive": False,
+		"included_in_lootbox": False,
 	},
 	"sharpen": {
 		"kind": "sharpen",
@@ -475,6 +505,7 @@ AWARDS = {
 		"ghost": False,
 		"enabled": not FEATURES['HOUSES'],
 		"positive": False,
+		"included_in_lootbox": False,
 	},
 	"shit": {
 		"kind": "shit",
@@ -488,6 +519,7 @@ AWARDS = {
 		"ghost": True,
 		"enabled": True,
 		"positive": True,
+		"included_in_lootbox": False,
 	},
 	"fireflies": {
 		"kind": "fireflies",
@@ -501,6 +533,7 @@ AWARDS = {
 		"ghost": True,
 		"enabled": True,
 		"positive": True,
+		"included_in_lootbox": False,
 	},
 	"firework": {
 		"kind": "firework",
@@ -514,6 +547,7 @@ AWARDS = {
 		"ghost": True,
 		"enabled": True,
 		"positive": True,
+		"included_in_lootbox": False,
 	},
 	"ricardo": {
 		"kind": "ricardo",
@@ -527,6 +561,7 @@ AWARDS = {
 		"ghost": True,
 		"enabled": True,
 		"positive": True,
+		"included_in_lootbox": False,
 	},
 	"tilt": {
 		"kind": "tilt",
@@ -540,6 +575,7 @@ AWARDS = {
 		"ghost": True,
 		"enabled": True,
 		"positive": False,
+		"included_in_lootbox": False,
 	},
 	"glowie": {
 		"kind": "glowie",
@@ -553,6 +589,7 @@ AWARDS = {
 		"ghost": True,
 		"enabled": True,
 		"positive": False,
+		"included_in_lootbox": False,
 	},
 	"gold": {
 		"kind": "gold",
@@ -566,6 +603,7 @@ AWARDS = {
 		"ghost": True,
 		"enabled": True,
 		"positive": True,
+		"included_in_lootbox": False,
    },
 	"spider": {
 		"kind": "spider",
@@ -579,6 +617,7 @@ AWARDS = {
 		"ghost": False,
 		"enabled": True,
 		"positive": False,
+		"included_in_lootbox": False,
 	},
 	"owoify": {
 		"kind": "owoify",
@@ -592,6 +631,7 @@ AWARDS = {
 		"ghost": False,
 		"enabled": not FEATURES['HOUSES'],
 		"positive": False,
+		"included_in_lootbox": False,
 	},
 	"flairlock": {
 		"kind": "flairlock",
@@ -605,6 +645,7 @@ AWARDS = {
 		"ghost": False,
 		"enabled": True,
 		"positive": False,
+		"included_in_lootbox": False,
 	},
 	"rehab": {
 		"kind": "rehab",
@@ -618,6 +659,7 @@ AWARDS = {
 		"ghost": False,
 		"enabled": True,
 		"positive": False,
+		"included_in_lootbox": False,
 	},
 	"namelock": {
 		"kind": "namelock",
@@ -631,6 +673,7 @@ AWARDS = {
 		"ghost": False,
 		"enabled": True,
 		"positive": False,
+		"included_in_lootbox": False,
 	},
 	"queen": {
 		"kind": "queen",
@@ -644,6 +687,7 @@ AWARDS = {
 		"ghost": False,
 		"enabled": True,
 		"positive": False,
+		"included_in_lootbox": False,
 	},
 	"offsitementions": {
 		"kind": "offsitementions",
@@ -657,6 +701,7 @@ AWARDS = {
 		"ghost": False,
 		"enabled": True,
 		"positive": True,
+		"included_in_lootbox": False,
 	},
 	"unpin": {
 		"kind": "unpin",
@@ -670,6 +715,7 @@ AWARDS = {
 		"ghost": True,
 		"enabled": True,
 		"positive": False,
+		"included_in_lootbox": False,
 	},
 	"chud": {
 		"kind": "chud",
@@ -683,6 +729,7 @@ AWARDS = {
 		"ghost": False,
 		"enabled": True,
 		"positive": False,
+		"included_in_lootbox": False,
 	},
 	"pin": {
 		"kind": "pin",
@@ -696,6 +743,7 @@ AWARDS = {
 		"ghost": True,
 		"enabled": True,
 		"positive": True,
+		"included_in_lootbox": False,
 	},
 	"progressivestack": {
 		"kind": "progressivestack",
@@ -709,6 +757,7 @@ AWARDS = {
 		"ghost": False,
 		"enabled": True,
 		"positive": True,
+		"included_in_lootbox": False,
 	},
 	"pizzashill": {
 		"kind": "pizzashill",
@@ -722,6 +771,7 @@ AWARDS = {
 		"ghost": False,
 		"enabled": True,
 		"positive": False,
+		"included_in_lootbox": False,
 	},
 	"bird": {
 		"kind": "bird",
@@ -735,6 +785,7 @@ AWARDS = {
 		"ghost": False,
 		"enabled": True,
 		"positive": False,
+		"included_in_lootbox": False,
 	},
 	"marsey": {
 		"kind": "marsey",
@@ -748,6 +799,7 @@ AWARDS = {
 		"ghost": False,
 		"enabled": True,
 		"positive": False,
+		"included_in_lootbox": False,
 	},
 	"ban": {
 		"kind": "ban",
@@ -761,6 +813,7 @@ AWARDS = {
 		"ghost": False,
 		"enabled": True,
 		"positive": False,
+		"included_in_lootbox": False,
 	},
 	"unban": {
 		"kind": "unban",
@@ -774,6 +827,7 @@ AWARDS = {
 		"ghost": False,
 		"enabled": True,
 		"positive": True,
+		"included_in_lootbox": False,
 	},
 	"deflector": {
 		"kind": "deflector",
@@ -787,6 +841,7 @@ AWARDS = {
 		"ghost": False,
 		"enabled": True,
 		"positive": True,
+		"included_in_lootbox": False,
 	},
 	"benefactor": {
 		"kind": "benefactor",
@@ -800,6 +855,7 @@ AWARDS = {
 		"ghost": False,
 		"enabled": FEATURES['MARSEYBUX'],
 		"positive": True,
+		"included_in_lootbox": False,
 	},
 	"eye": {
 		"kind": "eye",
@@ -813,6 +869,7 @@ AWARDS = {
 		"ghost": False,
 		"enabled": True,
 		"positive": True,
+		"included_in_lootbox": False,
 	},
 	"grass": {
 		"kind": "grass",
@@ -826,6 +883,7 @@ AWARDS = {
 		"ghost": False,
 		"enabled": True,
 		"positive": False,
+		"included_in_lootbox": False,
 	},
 	"unblockable": {
 		"kind": "unblockable",
@@ -839,6 +897,7 @@ AWARDS = {
 		"ghost": False,
 		"enabled": True,
 		"positive": True,
+		"included_in_lootbox": False,
 	},
 	"pause": {
 		"kind": "pause",
@@ -852,6 +911,7 @@ AWARDS = {
 		"ghost": False,
 		"enabled": True,
 		"positive": True,
+		"included_in_lootbox": False,
 	},
 	"unpausable": {
 		"kind": "unpausable",
@@ -865,6 +925,7 @@ AWARDS = {
 		"ghost": False,
 		"enabled": True,
 		"positive": True,
+		"included_in_lootbox": False,
 	},
 	"alt": {
 		"kind": "alt",
@@ -878,6 +939,7 @@ AWARDS = {
 		"ghost": False,
 		"enabled": True,
 		"positive": True,
+		"included_in_lootbox": False,
 	},
 	"checkmark": {
 		"kind": "checkmark",
@@ -891,6 +953,7 @@ AWARDS = {
 		"ghost": False,
 		"enabled": True,
 		"positive": True,
+		"included_in_lootbox": False,
 	},
 	"pride": {
 		"kind": "pride",
@@ -904,6 +967,7 @@ AWARDS = {
 		"ghost": False,
 		"enabled": True,
 		"positive": True,
+		"included_in_lootbox": False,
 	},
 }
 
@@ -926,6 +990,7 @@ HOUSE_AWARDS = {
 		"cosmetic": False,
 		"ghost": False,
 		"positive": False,
+		"included_in_lootbox": False,
 	},
 	"Femboy": {
 		"kind": "Femboy",
@@ -938,6 +1003,7 @@ HOUSE_AWARDS = {
 		"cosmetic": False,
 		"ghost": False,
 		"positive": False,
+		"included_in_lootbox": False,
 	},
 	"Vampire": {
 		"kind": "Vampire",
@@ -950,6 +1016,7 @@ HOUSE_AWARDS = {
 		"cosmetic": False,
 		"ghost": False,
 		"positive": False,
+		"included_in_lootbox": False,
 	},
 	"Racist": {
 		"kind": "Racist",
@@ -962,6 +1029,7 @@ HOUSE_AWARDS = {
 		"cosmetic": False,
 		"ghost": False,
 		"positive": False,
+		"included_in_lootbox": False,
 	},
 	"Edgy": {
 		"kind": "Edgy",
@@ -974,6 +1042,7 @@ HOUSE_AWARDS = {
 		"cosmetic": False,
 		"ghost": False,
 		"positive": False,
+		"included_in_lootbox": False,
 	},
 }
 

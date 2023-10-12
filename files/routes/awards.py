@@ -83,10 +83,7 @@ def buy_award(v, kind, AWARDS):
 	if kind == "lootbox":
 		lootbox_items = []
 		for _ in range(LOOTBOX_ITEM_COUNT): # five items per lootbox
-			if IS_FISTMAS():
-				LOOTBOX_CONTENTS = FISTMAS_AWARDS
-			elif IS_HOMOWEEN():
-				LOOTBOX_CONTENTS = HOMOWEEN_AWARDS
+			LOOTBOX_CONTENTS = [x["kind"] for x in AWARDS_ENABLED.values() if x["included_in_lootbox"]]
 			lb_award = random.choice(LOOTBOX_CONTENTS)
 			lootbox_items.append(AWARDS[lb_award]['title'])
 			lb_award = AwardRelationship(user_id=v.id, kind=lb_award, price_paid=price // LOOTBOX_ITEM_COUNT)
@@ -221,7 +218,7 @@ def award_thing(v, thing_type, id):
 				v.charge_account('coins', awarded_coins, should_check_balance=False)
 				thing.author.pay_account('coins', awarded_coins)
 		elif kind != 'spider':
-			if AWARDS[kind]['cosmetic'] and kind not in FISTMAS_AWARDS + HOMOWEEN_AWARDS:
+			if AWARDS[kind]['cosmetic'] and not AWARDS[kind]['included_in_lootbox']:
 				awarded_coins = int(AWARDS[kind]['price'] * COSMETIC_AWARD_COIN_AWARD_PCT)
 			else:
 				awarded_coins = 0
@@ -648,14 +645,18 @@ def award_thing(v, thing_type, id):
 @limiter.limit("1/hour", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
 def trick_or_treat(v):
-	if v.client: abort(403, "Not allowed from the API")
+	if v.client:
+		abort(403, "Not allowed from the API")
+	if not IS_HOMOWEEN():
+		abort(403)
 
 	result = random.choice([0,1])
 
 	if result == 0:
 		message = "Trick!"
 	else:
-		award = random.choice(HOMOWEEN_AWARDS)
+		choices = [x["kind"] for x in AWARDS_ENABLED.values() if x["included_in_lootbox"]]
+		award = random.choice(choices)
 		award_object = AwardRelationship(user_id=v.id, kind=award)
 		g.db.add(award_object)
 
@@ -668,7 +669,11 @@ def trick_or_treat(v):
 @app.post("/jumpscare")
 @auth_required
 def execute_jumpscare(v):
-	if v.client: abort(403, "Not allowed from the API")
+	if v.client:
+		abort(403, "Not allowed from the API")
+	if not IS_HOMOWEEN():
+		abort(403)
+
 	if v.jumpscare > 0:
 		v.jumpscare -= 1
 		g.db.add(v)
