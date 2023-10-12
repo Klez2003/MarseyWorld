@@ -347,9 +347,10 @@ def handle_youtube_links(url):
 		if isinstance(t, str):
 			t = t.replace('s','').replace('S','')
 			split = t.split('m')
-			if len(split) == 2 and split[1]:
+			if len(split) == 2:
 				minutes = int(split[0])
-				seconds = int(split[1])
+				if split[1]: seconds = int(split[1])
+				else: seconds = 0
 				t = minutes*60 + seconds
 		html = f'<lite-youtube videoid="{id}" params="autoplay=1&modestbranding=1'
 		if t:
