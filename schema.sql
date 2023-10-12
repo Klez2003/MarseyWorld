@@ -154,7 +154,7 @@ CREATE TABLE public.users (
     last_viewed_post_notifs integer NOT NULL,
     pronouns character varying(15) NOT NULL,
     last_viewed_log_notifs integer NOT NULL,
-    imginn boolean,
+    imgsed boolean,
     earlylife integer,
     bite integer,
     old_house character varying(16),
@@ -3045,4 +3045,3 @@ ALTER TABLE ONLY public.comments
 --
 -- PostgreSQL database dump complete
 --
-
