@@ -66,8 +66,6 @@ function placestalker(stalker, x, y) {
 	stalker.y = y;
 	const left = stalker.x + "px";
 	const top =  stalker.y + "px";
-	stalker.img.style.top = `0`;
-	stalker.img.style.left = `0`;
 	stalker.img.style.transform = `translate(${left}, ${top})`
 }
 
