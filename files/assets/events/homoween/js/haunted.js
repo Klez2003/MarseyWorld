@@ -21,7 +21,7 @@ setInterval(function(){
 	} else {
 		lightningStrike("normal")
 	}
-},14000)
+}, 14000)
 
 function lightningStrike(strike) {
 	div.style.animation = "haunted 20s"
