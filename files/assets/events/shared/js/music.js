@@ -1,6 +1,4 @@
-const song = document.getElementById('event-song').value;
-const audio = new Audio(song);
-audio.loop = true;
+const audio = document.getElementById('event-song');
 
 audio.play();
 document.addEventListener('click', () => {

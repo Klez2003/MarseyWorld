@@ -271,6 +271,7 @@ function areyousure(t) {
 function prepare_to_pause(audio) {
 	for (const e of document.querySelectorAll('video,audio'))
 	{
+		if (e == audio) continue
 		e.addEventListener('play', () => {
 			if (!audio.paused) audio.pause();
 		});
