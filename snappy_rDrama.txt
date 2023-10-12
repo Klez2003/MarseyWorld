@@ -4662,3 +4662,5 @@ The mathematics is clear, using [Bayes theorem](https://en.wikipedia.org/wiki/Ba
 Even if we very charitably assume that the sensitivity and specificity of "we can always tell" in detecting a trans person is  both 98% then they are still *wrong* 50% of the time and accuse a cis person of being trans. 
 
 This is because there are vastly more cisgender than transgender people.
+{[para]}
+https://i.rdrama.net/images/1697105439046449.webp
