@@ -1,6 +1,6 @@
 // Jump scare function
 function scare() {
-	const image = document.getElementById("jump-scare-img");
+	const image = document.getElementById("jumpscare-img");
 	image.style.display = "block";
 
 	const jumpscare_audio = document.getElementById('jumpscare-audio')

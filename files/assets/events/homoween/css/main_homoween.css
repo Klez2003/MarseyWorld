@@ -634,7 +634,7 @@ body::after {
 	display:inline-block;
 }
 
-#jump-scare-img {
+#jumpscare-img {
 	position: fixed;
 	left: 0;
 	top: 0;
