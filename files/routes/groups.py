@@ -52,6 +52,8 @@ def create_group(v):
 		)
 	g.db.add(group_membership)
 
+	g.db.flush() #Necessary, to make linkfying the ping group in the notification work
+
 	admins = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_HOLE_CREATION'], User.id != v.id)]
 	for admin in admins:
 		send_repeatable_notification(admin, f":!marseyparty: !{group} has been created by @{v.username} :marseyparty:")
