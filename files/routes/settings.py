@@ -142,6 +142,7 @@ def settings_personal_post(v):
 		session['poor'] = request.values.get("poor", v.poor) == 'true'
 		if session['poor']:
 			v.show_sigs = False
+			v.frontsize = 25
 
 	slur_filter_updated = updated or update_potentially_permanent_flag("slurreplacer", "slurreplacer", "slur replacer", 192)
 	if isinstance(slur_filter_updated, bool):
