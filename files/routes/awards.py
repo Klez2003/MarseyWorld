@@ -601,9 +601,12 @@ def award_thing(v, thing_type, id):
 	if v.id != author.id:
 		if author.deflector and AWARDS[kind]['deflectable']:
 			msg = f"@{v.username} has tried to give your [{thing_type}]({thing.shortlink}) the {award_title} Award but it was deflected and applied to them :marseytroll:"
-			send_repeatable_notification(author.id, msg).created_utc -= 1
+			n = send_repeatable_notification(author.id, msg)
+			if n: n.created_utc -= 1
+
 			msg = f"{safe_username} under the effect of a deflector award; your {award_title} Award has been deflected back to you :marseytroll:"
-			send_repeatable_notification(v.id, msg).created_utc -= 1
+			n = send_repeatable_notification(v.id, msg)
+			if n: n.created_utc -= 1
 		elif kind not in {'spider', 'jumpscare'}:
 			msg = f"@{v.username} has given [{link_text_in_notif}]({thing.shortlink}) the {award_title} Award"
 
@@ -620,8 +623,8 @@ def award_thing(v, thing_type, id):
 				if kind == "chud":
 					msg += f"\n\n**You now have to say this phrase in all posts and comments you make for 24 hours:**"
 				msg += f"\n\n> {note}"
-			send_repeatable_notification(author.id, msg).created_utc -= 1
-
+			n = send_repeatable_notification(author.id, msg)
+			if n: n.created_utc -= 1
 
 	if author.received_award_count: author.received_award_count += 1
 	else: author.received_award_count = 1
