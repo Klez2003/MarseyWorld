@@ -1,5 +1,6 @@
-const thunder1 = new Audio(`/assets/events/homoween/audio/haunted/thunder1.mp3`)
-const thunder2 = new Audio(`/assets/events/homoween/audio/haunted/thunder2.mp3`)
+const thunder1 = document.getElementById("thunder1")
+const thunder2 = document.getElementById("thunder2")
+
 const div = document.getElementById("haunted-effect")
 
 const stylesheet_haunted = document.createElement("link")
@@ -9,7 +10,8 @@ stylesheet_haunted.disabled = true
 document.head.appendChild(stylesheet_haunted)
 
 window.onload = function(){
-	thunder2.volume = 0.5
+	if (thunder1)
+		thunder2.volume = 0.5
 	lightningStrike("normal")
 }
 
@@ -26,14 +28,16 @@ function lightningStrike(strike) {
 
 	if(strike == "haunted"){
 		stylesheet_haunted.disabled = false
-		thunder2.play()
+		if (thunder1)
+			thunder2.play()
 		setTimeout(function(){
 			stylesheet_haunted.disabled = true
-		},700)
+		}, 700)
 	}
 
-	thunder1.play()
+	if (thunder1)
+		thunder1.play()
 	setTimeout(function(){
 		div.style.animation = "none"
-	},1000)
+	}, 1000)
 }
