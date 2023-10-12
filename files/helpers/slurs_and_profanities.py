@@ -26,7 +26,8 @@ SLURS = {
 	"daisy destruction": "Cars 2",
 	"pajeet": "sexy Indian dude",
 	"hunter2": "*******",
-	"dyke": "cute butch",
+	"dyke(?!\w)": "cute butch",
+	"dykes": "cute butches",
 }
 
 if SITE_NAME == 'rDrama':
