@@ -26,6 +26,7 @@
 						<meta name="referrer" content="strict-origin-when-cross-origin">
 						<video id="orgy-file" data-created_utc="{{orgy.real_start_utc}}" controls preload="none" src="{{orgy.data}}">
 							{% set subtitles_path = 'assets/' ~ orgy.data.split('/')[-1].split('.')[0] ~ '.vtt' %}
+							{{subtitles_path}}
 							{% if os_path.exists(subtitles_path) %}
 								<track label="English" kind="subtitles" srclang="en" src="{{subtitles_path}}" default>
 							{% endif %}
