@@ -2026,9 +2026,8 @@ def stop_orgy(v):
 	)
 	g.db.add(ma)
 
-	orgy.end_utc = int(time.time())
-	g.db.add(orgy)
-
-	get_orgy(v) #don't remove this, it's necessary (trust)
+	g.db.delete(orgy)
+	g.db.commit()
+	requests.post('http://localhost:5001/refresh_chat', headers={"Host": SITE})
 
 	return {"message": "Orgy stopped successfully!"}
