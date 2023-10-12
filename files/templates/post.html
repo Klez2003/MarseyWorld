@@ -15,14 +15,12 @@
 {% endif %}
 
 {% block head_final %}
-	{% include "awards.html" %}
-	{% if IS_FISTMAS() %}
-		{% include "events/fistmas/awards.html" %}
-	{% elif IS_HOMOWEEN() %}
-		{% if not (v and v.poor) %}
+	{% if not (v and v.poor) %}
+		{% include "awards.html" %}
+		{% if IS_FISTMAS() %}
+			{% include "events/fistmas/awards.html" %}
+		{% elif IS_HOMOWEEN() %}
 			{% include "events/homoween/awards.html" %}
-		{% else %}
-			{% include "events/homoween/awards_poor.html" %}
 		{% endif %}
 	{% endif %}
 {% endblock %}
