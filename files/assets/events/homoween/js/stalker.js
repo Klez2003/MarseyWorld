@@ -64,8 +64,11 @@ function stalker(i) {
 function placestalker(stalker, x, y) {
 	stalker.x = x;
 	stalker.y = y;
-	stalker.img.style.left = stalker.x + "px";
-	stalker.img.style.top = stalker.y + "px";
+	const left = stalker.x + "px";
+	const top =  stalker.y + "px";
+	stalker.img.style.top = `0`;
+	stalker.img.style.left = `0`;
+	stalker.img.style.transform = `translate(${left}, ${top})`
 }
 
 function makeCircle() {
@@ -73,10 +76,9 @@ function makeCircle() {
 	current -= rotation;
 	for (let i = count - 1; i > -1; --i) {
 		stalker = stalkers[i];
-		stalker.img.style.top =
-		Math.round(stalker.y + a * Math.sin((current + i) / spacing) - 15) + "px";
-		stalker.img.style.left =
-		Math.round(stalker.x + a * Math.cos((current + i) / spacing)) + "px";
+		const top = Math.round(stalker.y + a * Math.sin((current + i) / spacing) - 15) + "px";
+		const left = Math.round(stalker.x + a * Math.cos((current + i) / spacing)) + "px";
+		stalker.img.style.transform = `translate(${left}, ${top})`
 	}
 }
 
