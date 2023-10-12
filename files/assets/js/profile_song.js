@@ -1,5 +1,6 @@
 let u_username = document.getElementById('u_username')
 
+const audio = document.getElementById('profile-song')
 const anthem_button = document.getElementById('toggle-anthem')
 const anthem_button_mobile = document.getElementById('toggle-anthem-mobile')
 
@@ -22,9 +23,6 @@ function pause_audio(audio) {
 if (u_username)
 {
 	u_username = u_username.innerHTML
-
-	let audio = new Audio(`/@${u_username}/song`);
-	audio.loop = true;
 
 	function toggle() {
 		if (audio.paused) {
@@ -52,9 +50,6 @@ else
 		v_username = v_username.innerHTML
 
 		const paused = localStorage.getItem("paused")
-
-		let audio = new Audio(`/@${v_username}/song`);
-		audio.loop = true;
 
 		function toggle() {
 			if (audio.paused)

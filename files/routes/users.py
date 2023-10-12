@@ -570,18 +570,6 @@ def get_profilecss(username):
 	resp.headers["Content-Type"] = "text/css"
 	return resp
 
-@app.get("/@<username>/song")
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-def usersong(username):
-	user = get_user(username)
-	if not user.song:
-		abort(404)
-
-	resp = make_response(redirect(f"/songs/{user.song}.mp3"))
-	resp.headers["Cache-Control"] = "no-store"
-	return resp
-
-
 @app.post("/subscribe/<int:post_id>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)

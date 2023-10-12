@@ -28,6 +28,7 @@
 {% endif %}
 <script defer src="{{'js/userpage.js' | asset}}"></script>
 {% if can_see(v, u) and u.song %}
+	<audio id="profile-song" hidden preload="none" src="/songs/{{u.song}}.mp3" loop></audio>
 	<script defer src="{{'js/profile_song.js' | asset}}"></script>
 {% endif %}
 {% endblock %}
