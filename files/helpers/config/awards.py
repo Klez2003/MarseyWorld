@@ -299,7 +299,7 @@ AWARDS = {
 		"deflectable": False,
 		"cosmetic": True,
 		"ghost": True,
-		"enabled": IS_HOMOWEEN(),
+		"enabled": IS_HOMOWEEN() and False,
 		"positive": True,
 	},
 	"flashlight": {
