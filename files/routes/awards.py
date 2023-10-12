@@ -133,7 +133,10 @@ def buy(v, kind):
 
 	award_title = AWARDS[kind]['title']
 
-	buy_award(v, kind, AWARDS)
+	award = buy_award(v, kind, AWARDS)
+
+	if isinstance(award, dict):
+		return award
 
 	return {"message": f"{award_title} award bought!"}
 
@@ -171,6 +174,8 @@ def award_thing(v, thing_type, id):
 
 	if not award: 
 		award = buy_award(v, kind, AWARDS)
+		if isinstance(award, dict):
+			return award
 
 	if thing_type == 'post': award.post_id = thing.id
 	else: award.comment_id = thing.id
