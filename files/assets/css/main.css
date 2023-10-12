@@ -7478,7 +7478,7 @@ bdi {
 	color: rgb(var(--background)) !important;
 }
 
-body, .container, .container-fluid {
+body {
 	overflow-x: hidden;
 }
 
