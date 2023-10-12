@@ -1333,7 +1333,7 @@ class User(Base):
 		if not self.sig_html or not self.patron:
 			return ''
 
-		if v and (not v.show_sigs or v.poor):
+		if v and not v.show_sigs:
 			return ''
 
 		return f'<div id="signature-{self.id}" class="user-signature"><hr>{self.sig_html}</div>'
