@@ -88,7 +88,7 @@ def cron_fn(every_5m, every_1d, every_fri_12, every_fri_23, every_sat_00, every_
 
 
 			if every_fri_12:
-				_create_post(f'Movie Night', f'''Our Movie Night today will show `{get_name()}`.\nThe movies will start at 8 PM EST. [Here is a timezone converter for whoever needs it.](https://dateful.com/time-zone-converter?t=8pm&tz1=EST-EDT-Eastern-Time). You can also check this [countdown timer](https://www.tickcounter.com/countdown/4435809/movie-night) instead.\nThey will be shown [here](/chat).\nThere will be a 5-minute bathroom break at the 50:00 mark.\nRerun will be Sunday 4 PM EST.''', 11)
+				_create_post(f'Movie Night', f'''Our Movie Night today will show `{get_names()}`.\nThe movies will start at 8 PM EST. [Here is a timezone converter for whoever needs it.](https://dateful.com/time-zone-converter?t=8pm&tz1=EST-EDT-Eastern-Time). You can also check this [countdown timer](https://www.tickcounter.com/countdown/4435809/movie-night) instead.\nThey will be shown [here](/chat).\nThere will be a 5-minute bathroom break at the 50:00 mark.\nRerun will be Sunday 4 PM EST.''', 11)
 				g.db.commit()
 
 			if every_fri_23:
@@ -96,15 +96,12 @@ def cron_fn(every_5m, every_1d, every_fri_12, every_fri_23, every_sat_00, every_
 				g.db.commit()
 
 			if every_sun_07:
-				_create_post(f'Movie Night Rerun', f'''Our Movie Night Rerun today will show `{get_name()}`.\nThe movies will start at 4 PM EST. [Here is a timezone converter for whoever needs it.](https://dateful.com/time-zone-converter?t=4pm&tz1=EST-EDT-Eastern-Time). You can also check this [countdown timer](https://www.tickcounter.com/countdown/4465675/movie-night-rerun) instead.\nThey will be shown [here](/chat).\nThere will be a 5-minute bathroom break at the 50:00 mark.''', 1)
+				_create_post(f'Movie Night Rerun', f'''Our Movie Night Rerun today will show `{get_names()}`.\nThe movies will start at 4 PM EST. [Here is a timezone converter for whoever needs it.](https://dateful.com/time-zone-converter?t=4pm&tz1=EST-EDT-Eastern-Time). You can also check this [countdown timer](https://www.tickcounter.com/countdown/4465675/movie-night-rerun) instead.\nThey will be shown [here](/chat).\nThere will be a 5-minute bathroom break at the 50:00 mark.''', 1)
 				g.db.commit()
 
 			if every_sun_19:
 				_create_post(f'Movie Night Rerun in 60 minutes', 'It will be shown [here](/chat).\nThere will be a 5-minute bathroom break at the 50:00 mark.', 1)
 				g.db.commit()
-
-			if every_sat_00 or every_sun_20:
-				_create_and_delete_orgy()
 
 			if every_sat_03 or every_sun_23:
 				_delete_all_posts()
@@ -140,16 +137,13 @@ def cron_fn(every_5m, every_1d, every_fri_12, every_fri_23, every_sat_00, every_
 def cron(**kwargs):
 	cron_fn(**kwargs)
 
-def get_file():
-	return max(glob.glob('/orgies/*'), key=os.path.getctime).split('/orgies/')[1]
-
-def get_name():
-	return get_file().split('.')[0]
+def get_names():
+	return ' and '.join([x[0] for x in g.db.query(Orgy.title).filter_by(type='file').order_by(Orgy.start_utc)])
 
 def _create_post(title, body, pin_hours):
 	_delete_all_posts()
 
-	title += f': {get_name()}'
+	title += f': {get_names()}'
 
 	title_html = filter_emojis_only(title)
 	body_html = sanitize(body)
@@ -183,26 +177,6 @@ def _create_post(title, body, pin_hours):
 	g.db.add(p)
 
 	cache.delete_memoized(frontlist)
-
-def _create_and_delete_orgy():
-	video_info = ffmpeg.probe(f'/orgies/{get_file()}')
-	seconds = float(video_info['streams'][0]['duration'])
-	end_utc = int(time.time() + seconds)
-	
-	orgy = Orgy(
-		title=get_name(),
-		type='file',
-		data=f'https://videos.watchpeopledie.tv/orgies/{get_file()}',
-		end_utc = end_utc,
-	)
-	g.db.add(orgy)
-	g.db.commit()
-	g.db.close()
-	del g.db
-	stdout.flush()
-
-	requests.post('http://localhost:5001/refresh_chat', headers={"Host": SITE})
-
 
 def _delete_all_posts():
 	posts = g.db.query(Post).filter_by(author_id=AUTOJANNY_ID, deleted_utc=0).all()

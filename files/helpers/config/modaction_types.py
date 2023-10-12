@@ -306,7 +306,7 @@ MODACTION_TYPES = {
 		"icon": 'fa-eye-slash',
 		"color": 'bg-danger'
 	},
-	'start_orgy': {
+	'schedule_orgy': {
 		"str": 'started orgy',
 		"icon": 'fa-tv',
 		"color": 'bg-success'

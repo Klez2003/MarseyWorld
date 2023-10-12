@@ -71,13 +71,7 @@ def chat(v):
 
 	orgy = get_orgy(v)
 	if orgy:
-		m = md5()
-		with open('files/assets/subtitles.vtt', "rb") as f:
-			data = f.read()
-		m.update(data)
-		subtitles_hash = m.hexdigest()
-
-		return render_template("orgy.html", v=v, messages=displayed_messages, orgy=orgy, subtitles_hash=subtitles_hash)
+		return render_template("orgy.html", v=v, messages=displayed_messages, orgy=orgy)
 
 	return render_template("chat.html", v=v, messages=displayed_messages)
 

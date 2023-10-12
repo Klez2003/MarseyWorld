@@ -1942,14 +1942,14 @@ def admin_reset_password(user_id, v):
 @app.get("/admin/orgy")
 @admin_level_required(PERMS['ORGIES'])
 def orgy_control(v):
-	orgy = g.db.query(Orgy).one_or_none()
-	return render_template("admin/orgy_control.html", v=v, orgy=orgy)
+	return render_template("admin/orgy_control.html", v=v, orgy=get_orgy(v))
 
-@app.post("/admin/start_orgy")
+@app.post("/admin/schedule_orgy")
 @admin_level_required(PERMS['ORGIES'])
-def start_orgy(v):
+def schedule_orgy(v):
 	link = request.values.get("link", "").strip()
 	title = request.values.get("title", "").strip()
+	start_utc = request.values.get("start_utc", "").strip()
 
 	if not link:
 		abort(400, "A link is required!")
@@ -1961,6 +1961,12 @@ def start_orgy(v):
 		abort(400, "An orgy is already in progress")
 
 	normalized_link = normalize_url(link)
+
+	if start_utc:
+		start_utc = int(start_utc)
+	else:
+		start_utc = int(time.time())
+
 	end_utc = None
 
 	if bare_youtube_regex.match(normalized_link):
@@ -1982,7 +1988,8 @@ def start_orgy(v):
 			pass
 		else:
 			seconds = float(video_info['streams'][0]['duration'])
-			end_utc = int(time.time() + seconds)
+			if seconds > 2.0:
+				end_utc = int(start_utc + seconds)
 	else:
 		abort(400)
 
@@ -1990,19 +1997,17 @@ def start_orgy(v):
 			title=title,
 			type=orgy_type,
 			data=data,
+			start_utc=start_utc,
 			end_utc=end_utc,
 		)
 	g.db.add(orgy)
 
 	ma = ModAction(
-		kind="start_orgy",
+		kind="schedule_orgy",
 		user_id=v.id,
 		_note=data,
 	)
 	g.db.add(ma)
-
-	g.db.commit()
-	requests.post('http://localhost:5001/refresh_chat', headers={"Host": SITE})
 
 	return redirect('/chat')
 
@@ -2021,8 +2026,9 @@ def stop_orgy(v):
 	)
 	g.db.add(ma)
 
-	g.db.delete(orgy)
+	orgy.end_utc = int(time.time())
+	g.db.add(orgy)
 
-	requests.post('http://localhost:5001/refresh_chat', headers={"Host": SITE})
+	get_orgy(v) #don't remove this, it's necessary (trust)
 
 	return {"message": "Orgy stopped successfully!"}
