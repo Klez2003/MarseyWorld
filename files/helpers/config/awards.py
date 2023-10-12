@@ -317,7 +317,7 @@ AWARDS = {
 		"deflectable": False,
 		"cosmetic": True,
 		"ghost": True,
-		"enabled": IS_HOMOWEEN() and False,
+		"enabled": IS_HOMOWEEN(),
 		"positive": True,
 		"included_in_lootbox": True,
 	},
