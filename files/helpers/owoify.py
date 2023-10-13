@@ -22,7 +22,7 @@ OWO_EXCLUDE_PATTERNS = [
 	command_regex, # markup commands
 ]
 
-def owoify(source):
+def owoify(source, chud_phrase):
 	if '`' in source or '<pre>' in source or '<code>' in source:
 		return source
 
@@ -32,13 +32,18 @@ def owoify(source):
 	words = [Word(s) for s in word_matches]
 	spaces = [Word(s) for s in space_matches]
 
-	words = list(map(lambda w: owoify_map_token_custom(w), words))
+	chud_words = chud_phrase.split() if chud_phrase else []
+
+	words = list(map(lambda w: owoify_map_token_custom(w, chud_words), words))
 
 	result = interleave_arrays(words, spaces)
 	result_strings = list(map(lambda w: str(w), result))
 	return ''.join(result_strings)
 
-def owoify_map_token_custom(token):
+def owoify_map_token_custom(token, chud_words):
+	if token.word in chud_words:
+		return token
+
 	for pattern in OWO_EXCLUDE_PATTERNS:
 		# if pattern appears anywhere in token, do not owoify.
 		if pattern.search(token.word):

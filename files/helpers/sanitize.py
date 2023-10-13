@@ -378,7 +378,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 
 	if obj and not (isinstance(obj, Post) and len(obj.body) > 1000):
 		if author.owoify:
-			sanitized = owoify(sanitized)
+			sanitized = owoify(sanitized, author.chud_phrase)
 		if author.marsify:
 			sanitized = marsify(sanitized, author.chud_phrase)
 
@@ -678,7 +678,7 @@ def filter_emojis_only(title, golden=True, count_emojis=False, obj=None, author=
 
 	if obj and not (isinstance(obj, Post) and len(obj.body) > 1000):
 		if author.owoify:
-			title = owoify(title)
+			title = owoify(title, author.chud_phrase)
 		if author.marsify:
 			title = marsify(title, author.chud_phrase)
 
