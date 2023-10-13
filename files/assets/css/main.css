@@ -967,7 +967,7 @@ input[type=submit].btn-follow, input[type=reset].btn-follow, input[type=button].
 }
 @media (min-width: 768px) {
 	.dropup, .dropdown {
-		z-index: 99999999999999999999999999999999999999999999999 !important;
+		z-index: 1000000000;
 	}	
 }
 .dropdown-toggle {
