@@ -438,16 +438,22 @@ def award_thing(v, thing_type, id):
 		badge_grant(user=author, badge_id=98)
 	elif kind == "pizzashill":
 		if author.bird:
-			abort(409, f"{safe_username} under the effect of a conflicting award: Bird Site award!")
-		if author.longpost: author.longpost += 86400
-		else: author.longpost = int(time.time()) + 86400
-		badge_grant(user=author, badge_id=97)
+			author.bird = 0
+			badge = author.has_badge(95)
+			if badge: g.db.delete(badge)
+		else:
+			if author.longpost: author.longpost += 86400
+			else: author.longpost = int(time.time()) + 86400
+			badge_grant(user=author, badge_id=97)
 	elif kind == "bird":
 		if author.longpost:
-			abort(409, f"{safe_username} under the effect of a conflicting award: Pizzashill award!")
-		if author.bird: author.bird += 86400
-		else: author.bird = int(time.time()) + 86400
-		badge_grant(user=author, badge_id=95)
+			author.longpost = 0
+			badge = author.has_badge(97)
+			if badge: g.db.delete(badge)
+		else:
+			if author.bird: author.bird += 86400
+			else: author.bird = int(time.time()) + 86400
+			badge_grant(user=author, badge_id=95)
 	elif kind == "eye":
 		badge_grant(badge_id=83, user=author)
 	elif kind == "offsitementions":
