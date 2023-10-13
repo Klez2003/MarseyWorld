@@ -1939,10 +1939,11 @@ def admin_reset_password(user_id, v):
 
 	return {"message": f"@{user.username}'s password has been reset! The new password has been messaged to them!"}
 
-@app.get("/admin/orgy")
+@app.get("/admin/orgies")
 @admin_level_required(PERMS['ORGIES'])
 def orgy_control(v):
-	return render_template("admin/orgy_control.html", v=v, orgy=get_orgy(v))
+	orgies = g.db.query(Orgy).order_by(Orgy.start_utc).all()
+	return render_template("admin/orgy_control.html", v=v, orgies=orgies)
 
 @app.post("/admin/schedule_orgy")
 @admin_level_required(PERMS['ORGIES'])
@@ -1958,14 +1959,11 @@ def schedule_orgy(v):
 	if not title:
 		abort(400, "A title is required!")
 
-	if get_orgy(v):
-		abort(400, "An orgy is already in progress")
-
 	normalized_link = normalize_url(link)
 
 	if start_utc:
 		start_utc = int(start_utc)
-		redir = '/admin/orgy'
+		redir = '/admin/orgies'
 	else:
 		start_utc = int(time.time())
 		redir = '/chat'
@@ -2009,23 +2007,22 @@ def schedule_orgy(v):
 
 	return redirect(redir)
 
-@app.post("/admin/stop_orgy")
+@app.post("/admin/remove_orgy/<int:created_utc>")
 @admin_level_required(PERMS['ORGIES'])
-def stop_orgy(v):
-	orgy = g.db.query(Orgy).one_or_none()
-
-	if not orgy:
-		abort(400, "There is no orgy in progress right now!")
+def remove_orgy(v, created_utc):
+	orgy = g.db.query(Orgy).filter_by(created_utc=created_utc).one()
 
 	ma = ModAction(
-		kind="stop_orgy",
+		kind="remove_orgy",
 		user_id=v.id,
 		_note=orgy.data,
 	)
 	g.db.add(ma)
 
+	started = orgy.started
 	g.db.delete(orgy)
 	g.db.commit()
-	requests.post('http://localhost:5001/refresh_chat', headers={"Host": SITE})
+	if started:
+		requests.post('http://localhost:5001/refresh_chat', headers={"Host": SITE})
 
 	return {"message": "Orgy stopped successfully!"}

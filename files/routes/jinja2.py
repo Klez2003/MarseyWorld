@@ -9,7 +9,7 @@ from PIL import ImageColor
 from sqlalchemy import text
 
 from files.classes.user import User
-from files.classes.orgy import get_orgy
+from files.classes.orgy import get_running_orgy
 from files.helpers.assetcache import assetcache_path
 from files.helpers.config.const import *
 from files.helpers.const_stateful import OVER_18_EMOJIS
@@ -150,5 +150,5 @@ def inject_constants():
 			"CHUD_PHRASES":CHUD_PHRASES, "hasattr":hasattr, "calc_users":calc_users, "HOLE_INACTIVITY_DELETION":HOLE_INACTIVITY_DELETION, "LIGHT_THEMES":LIGHT_THEMES, "OVER_18_EMOJIS":OVER_18_EMOJIS,
 			"MAX_IMAGE_AUDIO_SIZE_MB":MAX_IMAGE_AUDIO_SIZE_MB, "MAX_IMAGE_AUDIO_SIZE_MB_PATRON":MAX_IMAGE_AUDIO_SIZE_MB_PATRON,
 			"MAX_VIDEO_SIZE_MB":MAX_VIDEO_SIZE_MB, "MAX_VIDEO_SIZE_MB_PATRON":MAX_VIDEO_SIZE_MB_PATRON,
-			"CURSORMARSEY_DEFAULT":CURSORMARSEY_DEFAULT, "SNAPPY_ID":SNAPPY_ID, "get_orgy":get_orgy, "TRUESCORE_MINIMUM":TRUESCORE_MINIMUM, "bar_position":bar_position,
+			"CURSORMARSEY_DEFAULT":CURSORMARSEY_DEFAULT, "SNAPPY_ID":SNAPPY_ID, "get_running_orgy":get_running_orgy, "TRUESCORE_MINIMUM":TRUESCORE_MINIMUM, "bar_position":bar_position,
 		}

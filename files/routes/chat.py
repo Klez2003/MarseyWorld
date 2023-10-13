@@ -69,7 +69,7 @@ def chat(v):
 
 	displayed_messages = {k: val for k, val in messages.items() if val["user_id"] not in v.userblocks}
 
-	orgy = get_orgy(v)
+	orgy = get_running_orgy(v)
 	if orgy:
 		x = secrets.token_urlsafe(8)
 		return render_template("orgy.html", v=v, messages=displayed_messages, orgy=orgy, x=x)

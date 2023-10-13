@@ -13,10 +13,10 @@ from files.helpers.config.const import *
 class Orgy(Base):
 	__tablename__ = "orgies"
 
-	type = Column(String, primary_key=True)
+	created_utc = Column(Integer, primary_key=True)
+	type = Column(String)
 	data = Column(String)
 	title = Column(String)
-	created_utc = Column(Integer)
 	start_utc = Column(Integer)
 	end_utc = Column(Integer)
 	started = Column(Boolean, default=False)
@@ -36,20 +36,24 @@ class Orgy(Base):
 			t += 303
 		return t
 
-def get_orgy(v):
+def get_running_orgy(v):
 	if not (v and v.allowed_in_chat): return None
 
-	expired_orgies = g.db.query(Orgy).filter(Orgy.end_utc != None, Orgy.end_utc < time.time()).all()
-	for x in expired_orgies:
-		g.db.delete(x)
+	refresh = False
 
-	if expired_orgies:
-		requests.post('http://localhost:5001/refresh_chat', headers={"Host": SITE})
+	expired_orgies = g.db.query(Orgy).filter(Orgy.end_utc != None, Orgy.end_utc < time.time()).all()
+	for orgy in expired_orgies:
+		if orgy.started:
+			refresh = True
+		g.db.delete(orgy)
 
 	orgy = g.db.query(Orgy).filter(Orgy.start_utc < time.time()).order_by(Orgy.start_utc).first()
 	if orgy and not orgy.started:
 		orgy.started = True
 		g.db.add(orgy)
+		refresh = True
+
+	if refresh:
 		requests.post('http://localhost:5001/refresh_chat', headers={"Host": SITE})
 
 	return orgy

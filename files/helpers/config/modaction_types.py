@@ -311,7 +311,7 @@ MODACTION_TYPES = {
 		"icon": 'fa-tv',
 		"color": 'bg-success'
 	},
-	'stop_orgy': {
+	'remove_orgy': {
 		"str": 'stopped orgy',
 		"icon": 'fa-tv',
 		"color": 'bg-danger'
@@ -435,6 +435,7 @@ MODACTION_PRIVILEGED_TYPES = {
 								'link_accounts', 'delink_accounts',
 								'enable_login_required',
 								'reset_password',
+								'schedule_orgy', 'remove_orgy',
 							}
 MODACTION_PRIVILEGED__TYPES = {'progstack_post', 'progstack_comment',
 							'unprogstack_post', 'unprogstack_comment'}
