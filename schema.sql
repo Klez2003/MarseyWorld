@@ -2222,10 +2222,10 @@ CREATE INDEX users_longpost_idx ON public.users USING btree (longpost);
 
 
 --
--- Name: users_hieroglyphs_idx; Type: INDEX; Schema: public; Owner: -
+-- Name: users_marseyawarded_idx; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX users_hieroglyphs_idx ON public.users USING btree (hieroglyphs);
+CREATE INDEX users_marseyawarded_idx ON public.users USING btree (hieroglyphs);
 
 
 --
@@ -3047,3 +3047,4 @@ ALTER TABLE ONLY public.comments
 --
 -- PostgreSQL database dump complete
 --
+
