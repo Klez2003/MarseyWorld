@@ -61,7 +61,7 @@ def claim_rewards_all_users():
 				tier = t
 				if transaction.amount <= money: break
 
-			marseybux += TIER_TO_MBUX[tier]
+			marseybux += transaction.amount * 500
 			if tier > highest_tier:
 				highest_tier = tier
 			transaction.claimed = True
