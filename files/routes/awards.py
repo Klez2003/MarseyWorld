@@ -363,9 +363,6 @@ def award_thing(v, thing_type, id):
 			or thing_type == 'comment' and thing.post and thing.post.hole == 'chudrama':
 			abort(403, "You can't give the chud award in /h/chudrama")
 
-		if author.marseyawarded:
-			abort(409, f"{safe_username} under the effect of a conflicting award: Marsey award!")
-
 		if author.chud == 1:
 			abort(409, f"{safe_username} already chudded permanently!")
 
@@ -418,9 +415,6 @@ def award_thing(v, thing_type, id):
 	elif kind == "unpausable":
 		badge_grant(badge_id=67, user=author)
 	elif kind == "marsey":
-		if author.chud:
-			abort(409, f"{safe_username} under the effect of a conflicting award: Chud award!")
-
 		if author.marseyawarded: author.marseyawarded += 86400
 		else: author.marseyawarded = int(time.time()) + 86400
 		badge_grant(user=author, badge_id=98)
