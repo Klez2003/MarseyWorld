@@ -1,16 +1,13 @@
 from random import choice
 
 from .const_stateful import MARSEY_MAPPINGS
-from .config.const import *
 
-chud_words = set()
 
-for phrase in CHUD_PHRASES:
-	chud_words.update(phrase.lower().split())
-
-def marsify(text):
+def marsify(text, chud_phrase):
 	if '`' in text or '<pre>' in text or '<code>' in text:
 		return text
+
+	chud_words = chud_phrase.split() if chud_phrase else []
 
 	new_text = ''
 	for x in text.split(' '):
