@@ -4,7 +4,7 @@
 		<div class="flex-row box-shadow-bottom d-flex justify-content-center justify-content-md-between align-items-center">
 			<ul class="nav settings-nav" id="content">
 				<li class="nav-item mr-1">
-					<a class="nav-link{% if path == '' or path.startswith('/@' ~ u.username ~ '/wall/comment/') %} active{% endif %}" href="/@{{u.username}}">Wall</a>
+					<a class="nav-link{% if path == '' or path.startswith('/wall/comment/') %} active{% endif %}" href="/@{{u.username}}">Wall</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link{% if path == '/posts' %} active{% endif %}" href="/@{{u.username}}/posts">Posts <span class="count">({{u.real_post_count(v)}})</span></a>
