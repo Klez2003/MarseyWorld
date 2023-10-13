@@ -366,9 +366,6 @@ def award_thing(v, thing_type, id):
 		if author.marseyawarded:
 			abort(409, f"{safe_username} under the effect of a conflicting award: Marsey award!")
 
-		if author.sharpen:
-			abort(409, f"{safe_username} under the effect of a conflicting award: Sharpen award!")
-
 		if author.chud == 1:
 			abort(409, f"{safe_username} already chudded permanently!")
 
@@ -518,9 +515,6 @@ def award_thing(v, thing_type, id):
 			if isinstance(thing, Post):
 				thing.title_html = filter_emojis_only(thing.title, golden=False, obj=thing, author=author)
 	elif ("Edgy" in kind and kind == v.house) or kind == 'sharpen':
-		if author.chud:
-			abort(409, f"{safe_username} under the effect of a conflicting award: Chud award!")
-
 		if author.sharpen: author.sharpen += 86400
 		else: author.sharpen = int(time.time()) + 86400
 		badge_grant(user=author, badge_id=289)
