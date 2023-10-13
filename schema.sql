@@ -1403,7 +1403,7 @@ ALTER TABLE ONLY public.users
 --
 
 ALTER TABLE ONLY public.orgies
-    ADD CONSTRAINT orgies_pkey PRIMARY KEY (type);
+    ADD CONSTRAINT orgies_pkey PRIMARY KEY (created_utc);
 
 
 --
