@@ -41,8 +41,8 @@ def get_running_orgy(v):
 
 	refresh = False
 
-	expired_orgies = g.db.query(Orgy).filter(Orgy.end_utc != None, Orgy.end_utc < time.time()).all()
-	for orgy in expired_orgies:
+	ended_orgies = g.db.query(Orgy).filter(Orgy.end_utc != None, Orgy.end_utc < time.time()).all()
+	for orgy in ended_orgies:
 		if orgy.started:
 			refresh = True
 		g.db.delete(orgy)
