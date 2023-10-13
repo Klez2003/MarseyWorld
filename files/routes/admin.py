@@ -505,9 +505,9 @@ def badge_grant_post(v):
 		if v.id != user.id:
 			text = f"@{v.username} (a site admin) has given you the following profile badge:\n\n{new_badge.path}\n\n**{new_badge.name}**\n\n{new_badge.badge.description}"
 			if new_badge.description:
-				text += f'\n\n{new_badge.description}'
+				text += f'\n\n> {new_badge.description}'
 			if new_badge.url:
-				text += f'\n\n{new_badge.url}'
+				text += f'\n\n> {new_badge.url}'
 			send_repeatable_notification(user.id, text)
 
 		note = new_badge.name
