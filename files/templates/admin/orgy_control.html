@@ -32,18 +32,18 @@
 							</div>
 							<div class="d-lg-flex border-bottom mt-3">
 								<div class="title w-lg-25">
-									<label for="link">Start time (as an <a rel="nofollow noopener" href="https://epochconverter.com">epoch timestamp</a>)</label>
+									<label for="start_utc">Start time (as an <a rel="nofollow noopener" href="https://epochconverter.com">epoch timestamp</a>)</label>
 								</div>
 								<div class="body w-lg-100">
-									<input autocomplete="off" type="number" step="any" name="start_utc" max="2147483647" class="form-control" placeholder="Leave blank to start orgy now">
+									<input id="start_utc" autocomplete="off" type="number" step="any" name="start_utc" max="2147483647" class="form-control" placeholder="Leave blank to start orgy now">
 								</div>
 							</div>
 							<div class="d-lg-flex border-bottom mt-3">
 								<div class="title w-lg-25">
-									<label for="link">Duration (in seconds)</label>
+									<label for="duration">Duration (in seconds)</label>
 								</div>
 								<div class="body w-lg-100">
-									<input autocomplete="off" type="number" step="any" name="duration" max="2147483647" class="form-control" placeholder="Optional">
+									<input id="duration" autocomplete="off" type="number" step="any" name="duration" max="2147483647" class="form-control" placeholder="Optional">
 								</div>
 							</div>
 							<input hidden name="formkey" value="{{v|formkey}}">
