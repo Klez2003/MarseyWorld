@@ -291,13 +291,14 @@ def sign_up_post(v):
 				"sitekey": TURNSTILE_SITEKEY}
 		url = "https://challenges.cloudflare.com/turnstile/v0/siteverify"
 
-		x = requests.post(url, data=data, timeout=5)
-
-		try:
-			if not x.json().get("success"):
+		try: x = requests.post(url, data=data, timeout=5)
+		except: pass
+		else:
+			try:
+				if not x.json().get("success"):
+					return signup_error("Unable to verify captcha [2].")
+			except:
 				return signup_error("Unable to verify captcha [2].")
-		except:
-			return signup_error("Unable to verify captcha [2].")
 
 	session.pop("signup_token")
 
