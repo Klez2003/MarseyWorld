@@ -4246,6 +4246,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw) VALUES
 ('marseyxoxo','Marsey',2,'hearts wave flirt loving love animated kiss',false),
 ('marseyyakub','Marsey',2,'black bipoc ni supremacist ye kanye big brain gold chain hood gang',false),
 ('marseyyaranaika','Marsey',2,'gay sex weeb',false),
+('marseyyaranaikamoan','Marsey',2,'orgasm face',false),
 ('marseyyarn','Marsey',2,'code program socks npm yarn build make string animated',false),
 ('marseyyass','Marsey',2,'queen reaction fds slay girlboss kween',false),
 ('marseyyawn','Marsey',2,'zzz boring tired sleepy bored',false),

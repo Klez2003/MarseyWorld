@@ -808,7 +808,9 @@ CREATE TABLE public.orgies (
     data character varying(200) NOT NULL,
     title character varying(1000) NOT NULL,
     created_utc integer NOT NULL,
-    end_utc integer
+    end_utc integer,
+    start_utc integer NOT NULL,
+    started boolean NOT NULL
 );
 
 
