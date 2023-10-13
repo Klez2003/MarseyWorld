@@ -506,11 +506,17 @@ def badge_grant_post(v):
 			text = f"@{v.username} (a site admin) has given you the following profile badge:\n\n{new_badge.path}\n\n**{new_badge.name}**\n\n{new_badge.badge.description}"
 			send_repeatable_notification(user.id, text)
 
+		note = new_badge.name
+		if new_badge.url:
+			note += f' - {new_badge.url}'
+		if new_badge.description:
+			note += f' - {new_badge.description}'
+
 		ma = ModAction(
 			kind="badge_grant",
 			user_id=v.id,
 			target_user_id=user.id,
-			_note=new_badge.name
+			_note=note,
 		)
 		g.db.add(ma)
 
