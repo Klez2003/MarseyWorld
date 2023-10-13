@@ -247,7 +247,7 @@
 	animation: 60s linear 0s infinite move-colors;
 }
 
-.queen:not(a) img, .emoji-award:not(.ectoplasm), h1.queen.post-title a {
+.queen:not(a) img, .queen:not(.ectoplasm), h1.queen.post-title a {
 	color: hotpink !important;
 	font-weight: 700 !important;
 	text-transform: lowercase !important;
