@@ -1950,6 +1950,7 @@ def schedule_orgy(v):
 	link = request.values.get("link", "").strip()
 	title = request.values.get("title", "").strip()
 	start_utc = request.values.get("start_utc", "").strip()
+	duration = request.values.get("duration", "").strip()
 
 	if not link:
 		abort(400, "A link is required!")
@@ -1967,8 +1968,6 @@ def schedule_orgy(v):
 	else:
 		start_utc = int(time.time())
 
-	end_utc = None
-
 	if bare_youtube_regex.match(normalized_link):
 		orgy_type = 'youtube'
 		data, _ = get_youtube_id_and_t(normalized_link)
@@ -1981,17 +1980,14 @@ def schedule_orgy(v):
 	elif any((normalized_link.lower().endswith(f'.{x}') for x in VIDEO_FORMATS)):
 		orgy_type = 'file'
 		data = normalized_link
-		#not deduped, cuz cron checks local file, it can't check the url cuz of referrer restriction
-		try:
-			video_info = ffmpeg.probe(data)
-		except:
-			pass
-		else:
-			seconds = float(video_info['streams'][0]['duration'])
-			if seconds == 2.0: raise
-			end_utc = int(start_utc + seconds)
 	else:
 		abort(400)
+
+	if duration:
+		duration = int(duration)
+		end_utc = int(start_utc + duration)
+	else:
+		end_utc = None
 
 	orgy = Orgy(
 			title=title,
