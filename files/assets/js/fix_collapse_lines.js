@@ -15,7 +15,7 @@ function toRGBArray(rgbStr) {
 
 const background_color = toRGBArray(getComputedStyle(document.documentElement).getPropertyValue('--background'));
 
-for (const line of document.getElementsByClassName('comment-collapse-desktop')) {
+for (const line of document.getElementsByClassName('comment-collapse-line')) {
 	if (line.style.borderColor == 'var(--primary)')
 		continue
 	const line_color = toRGBArray(line.style.borderColor)

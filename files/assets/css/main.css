@@ -5105,10 +5105,10 @@ span.green {
 		padding-left: 0 !important;
 }
 }
-.comment .comment-collapse-desktop:hover {
+.comment .comment-collapse-line:hover {
 	border-left-color: var(--white) !important;
 }
-.comment.collapsed .comment-collapse-desktop:hover {
+.comment.collapsed .comment-collapse-line:hover {
 	color: var(--white) !important;
 }
 @media (max-width: 768px) {
@@ -7224,12 +7224,12 @@ input::-webkit-inner-spin-button {
 	display: inline-block;
 }
 
-.comment .comment-collapse-desktop {
+.comment .comment-collapse-line {
 	padding-right: 20px;
 	cursor: pointer;
 }
 @media (max-width: 768px) {
-	.comment .comment-collapse-desktop {
+	.comment .comment-collapse-line {
 		padding-right: 10px;
 	}
 	blockquote {
@@ -7470,7 +7470,7 @@ bdi {
 	font-size: 16px;
 }
 
-.comment-collapse-desktop {
+.comment-collapse-line {
 	border-left: 2px solid;
 }
 
