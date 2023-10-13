@@ -414,9 +414,9 @@ def award_thing(v, thing_type, id):
 		badge_grant(badge_id=68, user=author)
 	elif kind == "unpausable":
 		badge_grant(badge_id=67, user=author)
-	elif kind == "marsey":
-		if author.marseyawarded: author.marseyawarded += 86400
-		else: author.marseyawarded = int(time.time()) + 86400
+	elif kind == "hieroglyphs":
+		if author.hieroglyphs: author.hieroglyphs += 86400
+		else: author.hieroglyphs = int(time.time()) + 86400
 		badge_grant(user=author, badge_id=98)
 	elif kind == "pizzashill":
 		if author.bird:

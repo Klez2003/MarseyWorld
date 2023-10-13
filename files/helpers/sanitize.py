@@ -831,7 +831,7 @@ def torture_chud(string, username):
 def complies_with_chud(obj):
 	#check for cases where u should leave
 	if not obj.chudded: return True
-	if obj.author.marseyawarded: return True
+	if obj.author.hieroglyphs: return True
 
 	if isinstance(obj, Post):
 		if obj.id in ADMIGGER_THREADS: return True

@@ -71,7 +71,7 @@ class User(Base):
 	patron_utc = Column(Integer, default=0)
 	verified = Column(String)
 	verifiedcolor = Column(String)
-	marseyawarded = Column(Integer, default=0)
+	hieroglyphs = Column(Integer, default=0)
 	rehab = Column(Integer, default=0)
 	longpost = Column(Integer, default=0)
 	bird = Column(Integer, default=0)

@@ -129,7 +129,7 @@ CREATE TABLE public.users (
     coins_spent integer DEFAULT 0 NOT NULL,
     marseybux integer DEFAULT 0 NOT NULL,
     verifiedcolor character varying(6),
-    marseyawarded integer,
+    hieroglyphs integer,
     sig character varying(200),
     sig_html character varying(1000),
     friends character varying(5000),
@@ -2222,10 +2222,10 @@ CREATE INDEX users_longpost_idx ON public.users USING btree (longpost);
 
 
 --
--- Name: users_marseyawarded_idx; Type: INDEX; Schema: public; Owner: -
+-- Name: users_hieroglyphs_idx; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX users_marseyawarded_idx ON public.users USING btree (marseyawarded);
+CREATE INDEX users_hieroglyphs_idx ON public.users USING btree (hieroglyphs);
 
 
 --
@@ -3047,4 +3047,3 @@ ALTER TABLE ONLY public.comments
 --
 -- PostgreSQL database dump complete
 --
-

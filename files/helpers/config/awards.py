@@ -787,8 +787,8 @@ AWARDS = {
 		"positive": False,
 		"included_in_lootbox": False,
 	},
-	"marsey": {
-		"kind": "marsey",
+	"hieroglyphs": {
+		"kind": "hieroglyphs",
 		"title": "Hieroglyphs",
 		"description": "Makes the recipient unable to post/comment anything but emojis for 24 hours.",
 		"icon": "fas fa-ankh",

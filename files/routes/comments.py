@@ -275,7 +275,7 @@ def comment(v):
 
 	c.upvotes = 1
 
-	body_html = sanitize(body, limit_pings=5, showmore=(not v.marseyawarded), count_emojis=not v.marsify, commenters_ping_post_id=commenters_ping_post_id, obj=c, author=v)
+	body_html = sanitize(body, limit_pings=5, showmore=(not v.hieroglyphs), count_emojis=not v.marsify, commenters_ping_post_id=commenters_ping_post_id, obj=c, author=v)
 
 	if post_target.id not in ADMIGGER_THREADS and not (v.chud and v.chud_phrase in body.lower()):
 		existing = g.db.query(Comment.id).filter(
@@ -291,7 +291,7 @@ def comment(v):
 	execute_antispam_comment_check(body, v)
 	execute_antispam_duplicate_comment_check(v, body_html)
 
-	if v.marseyawarded and marseyaward_body_regex.search(body_html) and not (posting_to_post and post_target.id in ADMIGGER_THREADS):
+	if v.hieroglyphs and marseyaward_body_regex.search(body_html) and not (posting_to_post and post_target.id in ADMIGGER_THREADS):
 		abort(403, "You can only type marseys!")
 
 	if len(body_html) > COMMENT_BODY_HTML_LENGTH_LIMIT:
@@ -675,11 +675,11 @@ def edit_comment(cid, v):
 		body = process_files(request.files, v, body)
 		body = body[:COMMENT_BODY_LENGTH_LIMIT].strip() # process_files potentially adds characters to the post
 
-		body_html = sanitize(body, golden=False, limit_pings=5, showmore=(not v.marseyawarded), commenters_ping_post_id=c.parent_post, obj=c, author=c.author)
+		body_html = sanitize(body, golden=False, limit_pings=5, showmore=(not v.hieroglyphs), commenters_ping_post_id=c.parent_post, obj=c, author=c.author)
 
 		if len(body_html) > COMMENT_BODY_HTML_LENGTH_LIMIT: abort(400)
 
-		if c.author.marseyawarded and marseyaward_body_regex.search(body_html):
+		if c.author.hieroglyphs and marseyaward_body_regex.search(body_html):
 			abort(403, "You can only type marseys!")
 
 		oldtext = c.body

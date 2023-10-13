@@ -915,7 +915,7 @@ forced_hats = {
 	"progressivestack": ("Attention Whore", "I won the oppression olympics!"),
 	"longpost": ("The Pizzashill", "We need to get rid of the character limit!"),
 	"bird": ("Bluecheck", "Three sentences is too much for me..."),
-	"marseyawarded": ("Three Lil Marseys", ":marseynotes: :marseynotes: :I prefer to speak in cats:"),
+	"hieroglyphs": ("Three Lil Marseys", ":marseynotes: :marseynotes: :I prefer to speak in cats:"),
 	"bite": ("Vampire Mask", "When other little girls wanted to be ballet dancers I kind of wanted to be a vampire."),
 	"rainbow": ("Globohomo", "Homosexuality is no longer optional!"),
 	"owoify": ("Cat Ears (wiggly)", "Nuzzles, pounces on you, UwU, you're so warm!.."),
