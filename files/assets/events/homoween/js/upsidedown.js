@@ -1,4 +1,4 @@
-let st = init("canvas"), // stranger things var
+let st = init("canvas"),
 w = (canvas.width = innerWidth),
 h = (canvas.height = innerHeight);
 
