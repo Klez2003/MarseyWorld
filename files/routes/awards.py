@@ -493,8 +493,6 @@ def award_thing(v, thing_type, id):
 	elif kind == "pride":
 		badge_grant(user=author, badge_id=303)
 	elif kind == 'marsify':
-		if author.chud:
-			abort(409, f"{safe_username} under the effect of a conflicting award: Chud award!")
 		if not author.marsify or author.marsify != 1:
 			if author.marsify: author.marsify += 86400
 			else: author.marsify = int(time.time()) + 86400
