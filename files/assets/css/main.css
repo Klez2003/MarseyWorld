@@ -964,6 +964,7 @@ input[type=submit].btn-follow, input[type=reset].btn-follow, input[type=button].
 }
 .dropup, .dropdown {
 	position: relative;
+	z-index: 99999999999999999999999999999999999999999999999 !important;
 }
 .dropdown-toggle {
 	white-space: nowrap;
