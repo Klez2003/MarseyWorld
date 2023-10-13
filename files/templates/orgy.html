@@ -24,10 +24,10 @@
 						<iframe src="https://player.twitch.tv/?channel={{orgy.data}}&parent={{SITE}}" frameborder="0" allowfullscreen></iframe>
 					{% elif orgy.type == 'file' %}
 						<meta name="referrer" content="strict-origin-when-cross-origin">
-						<video id="orgy-file" data-created_utc="{{orgy.real_start_utc}}" controls preload="none" src="{{orgy.data}}">
+						<video id="orgy-file" data-created_utc="{{orgy.real_start_utc}}" controls preload="none" src="{{orgy.data}}?x={{x}}">
 							{% set subtitles_url = '/assets/' ~ orgy.data.split('/')[-1].split('.')[0] ~ '.vtt' %}
 							{% if os_path.exists('files' ~ subtitles_url) %}
-								<track label="English" kind="subtitles" srclang="en" src="{{subtitles_url}}" default>
+								<track label="English" kind="subtitles" srclang="en" src="{{subtitles_url}}?x={{x}}" default>
 							{% endif %}
 						</video>
 						<video id="break-file" class="d-none" controls preload="none" src="/assets/break.mp4" data-run="0"></video>
