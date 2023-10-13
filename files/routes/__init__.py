@@ -56,4 +56,4 @@ if IS_LOCALHOST:
 	if "cron" not in argv and "load_chat" not in argv:
 		from files.helpers.cron import cron_fn
 		print('Starting cron tasks!', flush=True)
-		gevent.spawn(cron_fn, True, False, False, False, False, False, False, False, False, False, False)
+		gevent.spawn(cron_fn, True, False, False, False, False, False, False, False, False)
