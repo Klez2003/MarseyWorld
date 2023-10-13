@@ -1965,8 +1965,10 @@ def schedule_orgy(v):
 
 	if start_utc:
 		start_utc = int(start_utc)
+		redir = '/admin/orgy'
 	else:
 		start_utc = int(time.time())
+		redir = '/chat'
 
 	if bare_youtube_regex.match(normalized_link):
 		orgy_type = 'youtube'
@@ -2005,7 +2007,7 @@ def schedule_orgy(v):
 	)
 	g.db.add(ma)
 
-	return redirect('/chat')
+	return redirect(redir)
 
 @app.post("/admin/stop_orgy")
 @admin_level_required(PERMS['ORGIES'])
