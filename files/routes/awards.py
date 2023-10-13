@@ -148,9 +148,11 @@ def award_thing(v, thing_type, id):
 
 	if thing_type == 'post':
 		thing = get_post(id)
-	else:
+	elif thing_type == 'comment':
 		thing = get_comment(id)
 		if not thing.parent_post and not thing.wall_user_id: abort(404) # don't let users award messages
+	else:
+		abort(400)
 
 	author = thing.author
 
