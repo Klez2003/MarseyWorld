@@ -1988,8 +1988,8 @@ def schedule_orgy(v):
 			pass
 		else:
 			seconds = float(video_info['streams'][0]['duration'])
-			if seconds > 2.0:
-				end_utc = int(start_utc + seconds)
+			if seconds == 2.0: raise
+			end_utc = int(start_utc + seconds)
 	else:
 		abort(400)
 
