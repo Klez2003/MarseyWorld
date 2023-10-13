@@ -321,9 +321,6 @@ def award_thing(v, thing_type, id):
 				cache.delete_memoized(frontlist)
 			else: thing.stickied_utc = t
 	elif kind == "queen":
-		if author.chud:
-			abort(409, f"{safe_username} under the effect of a conflicting award: Chud award!")
-
 		if not author.queen:
 			characters = list(filter(str.isalpha, author.username))
 			if characters:
@@ -365,9 +362,6 @@ def award_thing(v, thing_type, id):
 		if thing_type == 'post' and thing.hole == 'chudrama' \
 			or thing_type == 'comment' and thing.post and thing.post.hole == 'chudrama':
 			abort(403, "You can't give the chud award in /h/chudrama")
-
-		if author.queen:
-			abort(409, f"{safe_username} under the effect of a conflicting award: Queen award!")
 
 		if author.marseyawarded:
 			abort(409, f"{safe_username} under the effect of a conflicting award: Marsey award!")
