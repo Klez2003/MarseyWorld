@@ -77,7 +77,7 @@
 										<div style="display: inline-block; width: 150px; text-align: center">Exact Match Only:</div>
 										<button type="button" data-nonce="{{g.nonce}}" data-onclick="addParam(this, 'bool')" class="searchparam mb-1">exact:true</button>
 									</div>
-									{% if SITE_NAME == 'rDrama' %}
+									{% if SITE_NAME != 'WPD' %}
 										<div>
 											<div style="display: inline-block; width: 150px; text-align: center">Subreddit:</div>
 											<button type="button" data-nonce="{{g.nonce}}" data-onclick="addParam(this)" class="searchparam mb-1">subreddit:menslib</button>
