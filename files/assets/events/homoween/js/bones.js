@@ -1,6 +1,9 @@
 let bones_container = document.getElementById('bones-container');
-let number = parseInt(bones_container.dataset.bones)
 const sources = ['skeleton1.webp','skeleton2.webp','skeleton3.webp','skeleton4.webp','skeleton5.webp','skeleton6.webp'];
+
+let number = parseInt(bones_container.dataset.bones)
+if (screen_width >= 768)
+	number *= 2
 
 const pw = screen_width / 3.5
 
