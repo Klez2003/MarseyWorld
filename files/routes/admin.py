@@ -1995,6 +1995,8 @@ def schedule_orgy(v):
 
 	if duration:
 		duration = int(duration)
+		if duration > 3000:
+			duration += 300 #account for break
 		end_utc = int(start_utc + duration)
 	else:
 		end_utc = None
