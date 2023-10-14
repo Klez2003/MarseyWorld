@@ -107,7 +107,7 @@ def max_days():
 
 @cache.memoize(timeout=60)
 def bar_position():
-	t = int(time.time()) - (86400*3)
+	t = int(time.time()) - 86400
 
 	db = db_session()
 	vaxxed = db.execute(text("SELECT COUNT(*) FROM users WHERE zombie > 0")).one()[0]
