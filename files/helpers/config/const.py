@@ -1079,7 +1079,7 @@ engine = create_engine(environ.get("DATABASE_URL").strip(), connect_args={"optio
 db_session = scoped_session(sessionmaker(bind=engine, autoflush=False))
 
 approved_embed_hosts_for_csp = ' '.join(set([x.split('/')[0] for x in approved_embed_hosts]))
-csp = f"default-src 'none'; frame-ancestors 'none'; form-action 'self'; manifest-src 'self'; worker-src 'self'; base-uri 'self'; font-src 'self'; style-src-elem 'self'; style-src-attr 'unsafe-inline'; style-src 'self' 'unsafe-inline'; script-src-elem 'self' challenges.cloudflare.com; script-src-attr 'none'; script-src 'self' challenges.cloudflare.com; frame-src challenges.cloudflare.com www.youtube.com platform.twitter.com rumble.com player.twitch.tv; connect-src 'self' videos.watchpeopledie.tv use1.fptls.com use1.fptls3.com api.fpjs.io; img-src {approved_embed_hosts_for_csp} data:; media-src {approved_embed_hosts_for_csp};"
+csp = f"default-src 'none'; frame-ancestors 'none'; form-action 'self'; manifest-src 'self'; worker-src 'self'; base-uri 'self'; font-src 'self'; style-src-elem 'self'; style-src-attr 'unsafe-inline'; style-src 'self' 'unsafe-inline'; script-src-elem 'self' challenges.cloudflare.com; script-src-attr 'none'; script-src 'self' challenges.cloudflare.com; frame-src challenges.cloudflare.com cdpn.io platform.twitter.com rumble.com player.twitch.tv; connect-src 'self' videos.watchpeopledie.tv use1.fptls.com use1.fptls3.com api.fpjs.io; img-src {approved_embed_hosts_for_csp} data:; media-src {approved_embed_hosts_for_csp};"
 if not IS_LOCALHOST:
 	csp += ' upgrade-insecure-requests;'
 
