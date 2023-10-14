@@ -8,7 +8,7 @@ body {
 	overflow-x: hidden;
 }
 
-.post-meta, #post-title, #post-body, .card-header, .comment-box-wrapper, .comments-count, #desktop-sidebar, nav, #banner-homoween-svg, .user-info, .comment-text, .modal.show, .dropdown-menu.show, .comment-collapse-line {
+html {
 	filter: sepia(100%) hue-rotate(180deg) saturate(300%);
 }
 
