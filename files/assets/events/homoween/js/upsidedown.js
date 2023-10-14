@@ -56,30 +56,10 @@ function init(elemid) {
 	return st;
 }
 
-window.requestAnimFrame = function () {
-	return (
-		window.requestAnimationFrame ||
-		window.webkitRequestAnimationFrame ||
-		window.mozRequestAnimationFrame ||
-		window.oRequestAnimationFrame ||
-		window.msRequestAnimationFrame ||
-		function (callback) {
-			window.setTimeout(callback);
-		}
-	);
-};
-
 function loop() {
-	window.requestAnimFrame(loop);
 	st.clearRect(0, 0, w, h);
 	draw();
 }
-
-addEventListener("resize", function () {
-	(w = canvas.width = innerWidth),
-		(h = canvas.height = innerHeight);
-	loop();
-});
 
 loop();
 setInterval(loop, 1000 / 60);
