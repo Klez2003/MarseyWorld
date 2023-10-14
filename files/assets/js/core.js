@@ -645,7 +645,7 @@ function handleUploadProgress(e, upload_prog) {
 }
 
 
-if (screen_width <= 768) {
+if (screen_width < 768) {
 	let object
 	if (gbrowser == 'iphone' && expandImageModal)
 		object = expandImageModal
