@@ -25,8 +25,13 @@ class firefly {
 
 let f = [];
 
+let num_fireflies = 10
+if (screen_width >= 768) {
+	num_fireflies = 50
+}
+
 function draw() {
-	if (f.length < 100) {
+	if (f.length < num_fireflies) {
 		for (let j = 0; j < 10; j++) {
 			f.push(new firefly());
 		}
