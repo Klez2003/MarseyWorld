@@ -2,7 +2,7 @@ let bones_container = document.getElementById('bones-container');
 let number = parseInt(bones_container.dataset.bones)
 const sources = ['skeleton1.webp','skeleton2.webp','skeleton3.webp','skeleton4.webp','skeleton5.webp','skeleton6.webp'];
 
-const pw = screen.availWidth / 3.5
+const pw = screen_width / 3.5
 
 let circles = [];
 
