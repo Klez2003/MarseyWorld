@@ -54,7 +54,7 @@
 	</div>
 {% endif %}
 
-{% if p.award_count("upsidedown", v) and g.browser != 'iphone' %}
+{% if p.award_count("upsidedown", v) %}
 	<link rel="stylesheet" href="{{'events/homoween/css/upsidedown.css' | asset}}">
 	<canvas id="canvas"></canvas>
 	<script defer src="{{'events/homoween/js/upsidedown.js' | asset}}"></script>
