@@ -550,10 +550,6 @@ def submit_post(v, hole=None):
 
 	if url == '': url = None
 
-	flag_chudded = v.chud and hole != 'chudrama' and not (len(body) > 1000 and not v.chudded_by)
-	flag_queened = v.queen and len(body) <= 1000
-	flag_sharpened = v.sharpen and len(body) <= 1000
-
 	p = Post(
 		private=flag_private,
 		notify=flag_notify,
@@ -568,11 +564,12 @@ def submit_post(v, hole=None):
 		title=title,
 		hole=hole,
 		ghost=flag_ghost,
-		chudded=flag_chudded,
 		rainbowed=bool(v.rainbow),
-		queened=flag_queened,
-		sharpened=flag_sharpened,
 	)
+
+	p.chudded = v.chud and hole != 'chudrama' and not (p.is_effortpost and not v.chudded_by)
+	p.queened = v.queen and not p.is_effortpost
+	p.sharpened = v.sharpen and not p.is_effortpost
 
 	title_html = filter_emojis_only(title, count_emojis=True, obj=p, author=v)
 

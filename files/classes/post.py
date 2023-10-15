@@ -392,3 +392,8 @@ class Post(Base):
 	@lazy
 	def emoji_awards_emojis(self, v, kind, OVER_18_EMOJIS):
 		return get_emoji_awards_emojis(self, v, kind, OVER_18_EMOJIS)
+
+	@property
+	@lazy
+	def is_effortpost(self):
+		return len(self.body) >= 3000

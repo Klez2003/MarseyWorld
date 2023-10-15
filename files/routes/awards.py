@@ -250,7 +250,7 @@ def award_thing(v, thing_type, id):
 
 	link = f"[this {thing_type}]({thing.shortlink})"
 
-	can_alter_body = not (isinstance(thing, Post) and len(thing.body) > 1000) and (not thing.author.deflector or v == thing.author)
+	can_alter_body = not thing.is_effortpost and (not thing.author.deflector or v == thing.author)
 
 	if kind == "ban":
 		link = f"/{thing_type}/{thing.id}"
