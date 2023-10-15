@@ -537,6 +537,9 @@ def award_thing(v, thing_type, id):
 			badge_grant(badge_id=185, user=author)
 			if v.id == author.id:
 				session['event_music'] = False
+		elif kind == "ectoplasm":
+			if thing.is_effortpost:
+				abort(404, 'Effortposts are protected from the Ectoplasm award!')
 		elif kind == "spider":
 			if author.spider: author.spider += 86400
 			else: author.spider = int(time.time()) + 86400
