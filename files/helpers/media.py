@@ -143,7 +143,11 @@ def process_video(file, v):
 
 	new = f'{old}.mp4'
 
-	codec = ffmpeg.probe(old)['streams'][0]['codec_name']
+	try:
+		codec = ffmpeg.probe(old)['streams'][0]['codec_name']
+	except:
+		os.remove(old)
+		abort(400, "Something went wrong processing your video and it might be on our end. Please try uploading it to https://pomf2.lain.la and post the link instead.")
 
 	if codec != 'h264':
 		copyfile(old, new)
