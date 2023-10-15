@@ -872,6 +872,8 @@ approved_embed_hosts = [
 	'external-preview.redd.it',
 	'pbs.twimg.com/media',
 	'i.pinimg.com',
+	'kiwifarms.net/attachments',
+	'uploads.kiwifarms.net/data/attachments',
 	'kiwifarms.st/attachments',
 	'uploads.kiwifarms.st/data/attachments',
 	'upload.wikimedia.org/wikipedia',
