@@ -436,7 +436,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 
 	if FEATURES['PING_GROUPS']:
 		def group_replacer(m):
-			name = m.group(1).lower()
+			name = m.group(1)
 
 			if name == 'everyone':
 				return f'<a href="/users">!{name}</a>'
@@ -446,8 +446,8 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 				return f'<a href="/!commenters/{commenters_ping_post_id}/{int(time.time())}">!{name}</a>'
 			elif name == 'followers':
 				return f'<a href="/id/{v.id}/followers">!{name}</a>'
-			elif g.db.get(Group, name):
-				return f'<a href="/!{name}">!{name}</a>'
+			elif g.db.get(Group, name.lower()):
+				return f'<a href="/!{name.lower()}">!{name}</a>'
 			else:
 				return m.group(0)
 
