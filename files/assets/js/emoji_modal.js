@@ -1,585 +1,444 @@
-/*
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Affero General Public License as
-published by the Free Software Foundation, either version 3 of the
-License, or (at your option) any later version.
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU Affero General Public License for more details.
-You should have received a copy of the GNU Affero General Public License
-along with this program. If not, see <https://www.gnu.org/licenses/>.
+// This code isn't for feeble minds, you might not understand it, Dr. Transmisia.
+// Lappland, you are an absolute idiot and an embarrassment to the Rhodesian people.
+// I have done the very thing that you decried impractical.
+// The dainty hands of a trans goddess wrote this code. Watch the way her fingers
+// dance across the keyboard and learn.
 
-Copyright (C) 2022 Dr Steven Transmisia, anti-evil engineer,
-				2022 Nekobit, king autist
-*/
+// MIT License. Written by @transbitch
 
-// Status
 /**
- * inactive - user has not tried using an emoji
- * loading - user has tried to use an emoji, and the engine is initializing itself
- * ready - engine can handle all emoji usage
- * @type {"inactive"|"loading"|"ready"}
+ * currently unused, the type of each emoji that https://rdrama.net/emojis.json returns.
+ * @typedef {object} EmojiDef
+ * @property {number} author_id
+ * @property {string} author_original_username
+ * @property {string} author_username
+ * @property {number} count
+ * @property {number} created_utc
+ * @property {string} kind
+ * @property {string} name
+ * @property {number | null} submitter_id
+ * @property {string[]} tags
  */
-let emojiEngineState = "inactive";
-
-// DOM stuff
-const classesSelectorDOM = document.getElementById("emoji-modal-tabs");
-const emojiButtonTemplateDOM = document.getElementById("emoji-button-template");
-const emojiResultsDOM = document.getElementById("tab-content");
-
-const emojiSelectSuffixDOMs = document.getElementsByClassName("emoji-suffix");
-const emojiSelectPostfixDOMs= document.getElementsByClassName("emoji-postfix");
-
-const emojiNotFoundDOM = document.getElementById("no-emojis-found");
-const emojiWorkingDOM = document.getElementById("emojis-work");
-
-const emojiSearchBarDOM = document.getElementById('emoji_search');
-
-let emojiInputTargetDOM = undefined;
-
-// Emojis usage stats. I don't really like this format but I'll keep it for backward comp.
-const favorite_emojis = JSON.parse(localStorage.getItem("favorite_emojis")) || {};
-
-/** Associative array of all the emojis' DOM */
-let emojiDOMs = {};
-
-let globalEmojis;
-
-const EMOIJ_SEARCH_ENGINE_MIN_INTERVAL = 350;
-let emojiSearcher = {
-	working: false,
-	queries: [],
-
-	addQuery: function(query)
-	{
-		this.queries.push(query);
-		if (!this.working)
-			this.work();
-	},
-
-	work: async function work() {
-		this.working = true;
-
-		while(this.queries.length > 0)
-		{
-			const startTime = Date.now();
-
-			// Get last input
-			const query = this.queries[this.queries.length - 1].toLowerCase();
-			this.queries = [];
-
-			// To improve perf we avoid showing all emojis at the same time.
-			if (query === "")
-			{
-				await classesSelectorDOM.children[0].children[0].click();
-				classesSelectorDOM.children[0].children[0].classList.add("active");
-				continue;
-			}
-
-			// Search
-			const resultSet = emojisSearchDictionary.completeSearch(query);
-
-			// update stuff
-			for(const [emojiName, emojiDOM] of Object.entries(emojiDOMs))
-				emojiDOM.hidden = !resultSet.has(emojiName);
-
-			emojiNotFoundDOM.hidden = resultSet.size !== 0;
-
-			let sleepTime = EMOIJ_SEARCH_ENGINE_MIN_INTERVAL - (Date.now() - startTime);
-			if (sleepTime > 0)
-				await new Promise(r => setTimeout(r, sleepTime));
-		}
-
-		this.working = false;
-	}
-};
-
-// tags dictionary. KEEP IT SORT
-class EmoijsDictNode
-{
-	constructor(tag, name) {
-		this.tag = tag;
-		this.emojiNames = [name];
-	}
-}
-const emojisSearchDictionary = {
-	dict: [],
-
-	updateTag: function(tag, emojiName) {
-		if (tag === undefined || emojiName === undefined)
-			return;
-
-		let low = 0;
-		let high = this.dict.length;
-
-		while (low < high) {
-			let mid = (low + high) >>> 1;
-			if (this.dict[mid].tag < tag)
-				low = mid + 1;
-			else
-				high = mid;
-		}
-
-		let target = low;
-		if (this.dict[target] !== undefined && this.dict[target].tag === tag)
-			this.dict[target].emojiNames.push(emojiName);
-		else
-			this.dict.splice(target ,0,new EmoijsDictNode(tag, emojiName));
-	},
-
-	/**
-	 * We also check for substrings! (sigh)
-	 * @param {String} tag
-	 * @returns {Set}
-	 */
-	completeSearch: function(query) {
-		query = query.toLowerCase()
-		const result = new Set();
-
-		for(let i = 0; i < this.dict.length; i++)
-			if (this.dict[i].tag.startsWith('@'))
-			{
-				if (this.dict[i].tag == query)
-					for(let j = 0; j < this.dict[i].emojiNames.length; j++)
-						result.add(this.dict[i].emojiNames[j])
-			}
-			else if(this.dict[i].tag.includes(query))
-				for(let j = 0; j < this.dict[i].emojiNames.length; j++)
-					result.add(this.dict[i].emojiNames[j])
-
-		return result;
-	}
-};
-
-// get public emojis list
-function fetchEmojis() {
-	const headers = new Headers({xhr: "xhr"})
-	return fetch("/emojis_json", {
-		headers,
-	})
-		.then(res => res.json())
-		.then(emojis => {
-			if (! (emojis instanceof Array ))
-				throw new TypeError("[EMOJI DIALOG] rDrama's server should have sent a JSON-coded Array!");
-
-			globalEmojis = emojis.map(({name, author, count}) => ({name, author, count}));
-
-			let classes = ["Marsey", "Platy", "Wolf", "Donkey Kong", "Tay", "Capy", "Carp", "Marsey Flags", "Marsey Alphabet", "Classic", "Rage", "Wojak", "Misc"]
-
-			const bussyDOM = document.createElement("div");
-
-			for(let i = 0; i < emojis.length; i++)
-			{
-				const emoji = emojis[i];
-
-				emojisSearchDictionary.updateTag(emoji.name, emoji.name);
-
-				if (emoji.author_username !== undefined && emoji.author_username !== null)
-					emojisSearchDictionary.updateTag(`@${emoji.author_username.toLowerCase()}`, emoji.name);
-
-				if (emoji.author_original_username !== undefined && emoji.author_original_username !== null)
-					emojisSearchDictionary.updateTag(`@${emoji.author_original_username.toLowerCase()}`, emoji.name);
-
-				if (emoji.author_prelock_username !== undefined && emoji.author_prelock_username !== null)
-					emojisSearchDictionary.updateTag(`@${emoji.author_prelock_username.toLowerCase()}`, emoji.name);
-
-				if (emoji.tags instanceof Array)
-					for(let i = 0; i < emoji.tags.length; i++)
-						emojisSearchDictionary.updateTag(emoji.tags[i], emoji.name);
-
-				// Create emoji DOM
-				const emojiDOM = document.importNode(emojiButtonTemplateDOM.content, true).children[0];
-
-				emojiDOM.title = emoji.name
-				if (emoji.author_username !== undefined && emoji.author_username !== null)
-					emojiDOM.title += "\nauthor\t" + emoji.author_username
-				if (emoji.count !== undefined)
-					emojiDOM.title += "\nused\t" + emoji.count;
-				emojiDOM.dataset.className = emoji.kind;
-				emojiDOM.dataset.emojiName = emoji.name;
-				emojiDOM.onclick = emojiAddToInput;
-				emojiDOM.hidden = true;
-
-				const emojiIMGDOM = emojiDOM.children[0];
-				emojiIMGDOM.src = `${SITE_FULL_IMAGES}/e/${emoji.name}.webp`
-				emojiIMGDOM.alt = emoji.name;
-				/** Disableing lazy loading seems to reduce cpu usage somehow (?)
-				 * idk it is difficult to benchmark */
-				emojiIMGDOM.loading = "lazy";
-
-				// Save reference
-				emojiDOMs[emoji.name] = emojiDOM;
-
-				// Add to the document!
-				bussyDOM.appendChild(emojiDOM);
-			}
-
-			// Create header
-			for(let className of classes)
-			{
-				let classSelectorDOM = document.createElement("li");
-				classSelectorDOM.classList.add("nav-item");
-
-				let classSelectorLinkDOM = document.createElement("button");
-				classSelectorLinkDOM.type = "button";
-				classSelectorLinkDOM.classList.add("nav-link", "emojitab");
-				classSelectorLinkDOM.dataset.bsToggle = "tab";
-				classSelectorLinkDOM.dataset.className = className;
-				classSelectorLinkDOM.textContent = className;
-				classSelectorLinkDOM.addEventListener('click', switchEmojiTab);
-
-				classSelectorDOM.appendChild(classSelectorLinkDOM);
-				classesSelectorDOM.appendChild(classSelectorDOM);
-			}
-
-			// Show favorite for start.
-			classesSelectorDOM.children[0].children[0].click();
-
-			// Send it to the render machine!
-			emojiResultsDOM.appendChild(bussyDOM);
-
-			emojiResultsDOM.hidden = false;
-			emojiWorkingDOM.hidden = true;
-			emojiSearchBarDOM.disabled = false;
-
-			emojiEngineState = "ready";
-		})
-}
 
 /**
-*
-* @param {Event} e
-*/
-function switchEmojiTab(e)
+ * @typedef {{[index: string]: [string, number][]}} EmojiTags
+ * @typedef {{[kind: string]: [string, number][]}} EmojiKinds
+ */
+
+class EmojiEngine {
+    _res;
+    /** @type {Promise<void>} */
+    loaded = new Promise(res => this._res = res);
+    hasLoaded = false;
+
+    /** @type {EmojiTags} */
+    tags = {};
+
+    /** @type {EmojiKinds} */
+    kinds = {};
+
+    // Memoize this value so we don't have to recompute it.
+    _tag_entries;
+
+    /** @type {{[index: string]: HTMLDivElement}} */
+    emojiDom = {};
+
+    /** @type {{[index: string]: number}} */
+    emojiNameCount = {};
+
+    /** @type {(name: string) => void} */
+    onInsert;
+
+    init = async () => {
+        if (this.hasLoaded) {
+            return;
+        }
+
+        await Promise.all([
+            this.loadTags(),
+            this.loadKinds(),
+        ]);
+
+        this._tag_entries = Object.entries(this.tags);
+
+        this._res();
+        this.hasLoaded = true;
+    }
+
+    loadTags = async () => {
+        this.tags = await (await fetch('/emoji_tags.json')).json();
+    }
+
+    loadKinds = async () => {
+        this.kinds = await (await fetch('/emoji_kinds.json')).json();
+    }
+
+    search = async (query, maxLength = Infinity) => {
+        await this.loaded;
+
+        const resultsSet = new Set();
+        const results = [];
+        for (const [tag, entries] of this._tag_entries) {
+            if (!tag.includes(query)) {
+                continue;
+            }
+
+            for (const [name, count] of entries) {
+                if (resultsSet.has(name)) {
+                    continue;
+                } else if (count < results[maxLength - 1]?.[1]) {
+                    // All the other emojis in this tag have less uses. We can stop here.
+                    break;
+                }
+
+                resultsSet.add(name);
+                // Insert into the array sorted.
+                let i = results.length;
+                while (i > 0 && count > results[i - 1][1]) {
+                    i--;
+                }
+                results.splice(i, 0, [name, count]);
+                if (results.length >= maxLength) {
+                    const [name] = results.pop();
+                    resultsSet.delete(name);
+                }
+            }
+        }
+
+        return results.map(([name]) => name);
+    }
+
+    /**
+     * Get a dom element for a list of emojis in quick dropdown.
+     * @param {string[]} emojiNames 
+     */
+    getQuickDoms = (emojiNames) => {
+        return emojiNames.map(this.getQuickDom);
+    }
+
+    /**
+     * 
+     * @param {*} emojiName 
+     * @returns DOM element for an emoji quick dropdown.
+     */
+    getQuickDom = (emojiName) => {
+        if (this.emojiDom[emojiName]) {
+            return this.emojiDom[emojiName];
+        }
+
+        const emojiEl = document.createElement('button');
+        emojiEl.classList.add('quick-emoji-option', 'emoji-option');
+        emojiEl.addEventListener('click', (e) => {
+            this.onInsert(emojiName);
+        });
+
+        const emojiImgEl = document.createElement('img');
+        emojiImgEl.classList.add('quick-emoji-image', 'emoji-option-image');
+        emojiImgEl.src = emojiEngine.src(emojiName);
+        emojiEl.appendChild(emojiImgEl);
+
+        const emojiNameEl = document.createElement('span');
+        emojiNameEl.textContent = emojiName;
+        emojiEl.appendChild(emojiNameEl);
+
+        this.emojiDom[emojiName] = emojiEl;
+        return emojiEl;
+    }
+
+    src = (name) => {
+        return `${SITE_FULL_IMAGES}/e/${name}.webp`
+    }
+}
+
+const emojiEngine = new EmojiEngine();
+
+// Quick emoji dropdown & emoji insertion
 {
-	const className = e.currentTarget.dataset.className;
+    const emojiDropdownEl = document.createElement('div');
+    emojiDropdownEl.classList.add('quick-emoji-dropdown');
+    /** @type {null | HTMLTextAreaElement} */
+    let inputEl = null;
+    let visible = false;
+    let typingEmojiCanceled = false;
+    let firstDomEl = null;
+    let firstEmojiName = null;
+    let caretPos = 0;
 
-	emojiSearchBarDOM.value = "";
-	focusSearchBar(emojiSearchBarDOM);
-	emojiNotFoundDOM.hidden = true;
+    // Used by onclick attrib of the smile button
+    window.openEmojiModal = (id) => {
+        inputEl = document.getElementById(id);
+        initEmojiModal();
+    }
 
-	// Special case: favorites
-	if (className === "favorite")
-	{
-		for(const emojiDOM of Object.values(emojiDOMs))
-			emojiDOM.hidden = true;
+    emojiEngine.onInsert = (name) => {
+        if (!inputEl) {
+            return;
+        }
+        const match = matchTypingEmoji();
+        if (match) {
+            // We are inserting an emoji which we are typing.
+            inputEl.value = `${inputEl.value.slice(0, match.index)}:${name}:${inputEl.value.slice(match.index + name.length)} `;
+            // Draw the focus back to this element.
+            inputEl.focus();
+        } else {
+            // We are inserting a new emoji.
+            const start = inputEl.value.slice(0, caretPos);
+            const end = inputEl.value.slice(caretPos);
+            const insert = `:${name}:${end.length === 0 ? ' ' : ''}`;
+            inputEl.value = `${start}${insert}${end}`;
+            caretPos += insert.length;
+            inputEl.setSelectionRange(caretPos, caretPos);
+        }
 
-		const favs = Object.keys(Object.fromEntries(
-			Object.entries(favorite_emojis).sort(([,a],[,b]) => b-a)
-		)).slice(0, 25);
+        typingEmojiCanceled = false;
+        update();
 
-		for (const emoji of favs)
-			if (emojiDOMs[emoji] instanceof HTMLElement)
-				emojiDOMs[emoji].hidden = false;
+        // This updates the preview.
+        inputEl.dispatchEvent(new Event('input', { bubbles: true }));
 
-		return;
-	}
+        // Update the favorite count.
+        if (name in favoriteEmojis) {
+            favoriteEmojis[name]++;
+        } else {
+            favoriteEmojis[name] = 1;
+        }
+        localStorage.setItem("favorite_emojis", JSON.stringify(favoriteEmojis));
+    }
 
-	for(const emojiDOM of Object.values(emojiDOMs))
-		emojiDOM.hidden = emojiDOM.dataset.className !== className;
+    const inputCanTakeEmojis = (el = inputEl) => {
+        return el?.dataset && 'emojis' in el.dataset;
+    }
 
-	document.getElementById('emoji-container').scrollTop = 0;
+    const matchTypingEmoji = () => {
+        return inputEl?.value.substring(0, inputEl.selectionEnd).match(/:([\w!#]+)$/);
+    }
+
+    const getTypingEmoji = () => {
+        return matchTypingEmoji()?.[1] ?? null;
+    }
+
+    const isTypingEmoji = () => {
+        return inputCanTakeEmojis() && getTypingEmoji();
+    }
+
+    const endTypingEmoji = () => {
+        typingEmojiCanceled = false;
+    }
+
+    const update = async () => {
+        const typing = isTypingEmoji();
+        visible = typing && !typingEmojiCanceled;
+        if (!visible) {
+            emojiDropdownEl.parentElement?.removeChild(emojiDropdownEl);
+            return;
+        }
+        const oldFirst = firstDomEl;
+        document.body.appendChild(emojiDropdownEl);
+        const search = await emojiEngine.search(getTypingEmoji(), 15);
+        firstEmojiName = search[0];
+        const domEls = emojiEngine.getQuickDoms(search);
+        firstDomEl = domEls[0];
+        if (oldFirst !== firstDomEl) {
+            oldFirst?.classList.remove('selected');
+            firstDomEl.classList.add('selected');
+        }
+        emojiDropdownEl.replaceChildren(...domEls);
+        const { left, bottom } = getCaretPos(inputEl);
+        // Using transform instead of top/left is faster.
+        emojiDropdownEl.style.transform = `translate(${left}px, ${bottom}px)`;
+    }
+
+    // Add a listener when we start typing.
+    /**
+     * @param {FocusEvent} e 
+     */
+    const onKeyStart = (e) => {
+        if (inputCanTakeEmojis(e.target)) {
+            inputEl = e.target;
+            emojiEngine.init();
+            window.removeEventListener('keydown', onKeyStart);
+        }
+    }
+
+    window.addEventListener('keydown', onKeyStart);
+    window.addEventListener('keydown', (e) => {
+        if (!visible) {
+            return;
+        }
+        const isFocused = document.activeElement === inputEl
+        if (e.key === 'Escape') {
+            typingEmojiCanceled = true;
+            update();
+        } else if (e.key === 'Enter' && isFocused) {
+            emojiEngine.onInsert(firstEmojiName);
+            e.preventDefault();
+        } else if (e.key === 'Tab' && isFocused) {
+            firstDomEl.focus();
+            firstDomEl.classList.remove("selected");
+            e.preventDefault();
+        }
+    });
+
+    ['input', 'click', 'focus'].forEach((event) => {
+        window.addEventListener(event, (e) => {
+            if (inputCanTakeEmojis(e.target)) {
+                inputEl = e.target;
+                caretPos = inputEl.selectionEnd;
+            }
+            update();
+            if (!isTypingEmoji()) {
+                endTypingEmoji();
+            }
+        });
+    });
 }
 
-for (const emojitab of document.getElementsByClassName('emojitab')) {
-	emojitab.addEventListener('click', (e)=>{switchEmojiTab(e)})
-}
+/** @type {{ [name: string]: number }} */
+const favoriteEmojis = JSON.parse(localStorage.getItem("favorite_emojis")) || {};
 
-async function start_search() {
-	emojiSearcher.addQuery(emojiSearchBarDOM.value.trim());
+const initEmojiModal = (() => {
+    let hasInit = false;
+    
+    return async () => {
+        if (hasInit) {
+            return;
+        }
+        hasInit = true;
 
-	// Remove any selected tab, now it is meaningless
-	for(let i = 0; i < classesSelectorDOM.children.length; i++)
-		classesSelectorDOM.children[i].children[0].classList.remove("active");
-}
+        await emojiEngine.init();
 
-/**
-* Add the selected emoji to the targeted text area
-* @param {Event} event
-*/
-function emojiAddToInput(event)
-{
-	// This should not happen if used properly but whatever
-	if (!(emojiInputTargetDOM instanceof HTMLTextAreaElement) && !(emojiInputTargetDOM instanceof HTMLInputElement))
-		return;
+        document.getElementById('emojis-work').style.display = 'none';
 
-	let strToInsert = event.currentTarget.dataset.emojiName;
+        /** @type {{ [tabName: string]: HTMLDivElement }} */
+        const tabContentEls = {}
 
-	for(let i = 0; i < emojiSelectPostfixDOMs.length; i++)
-		if (emojiSelectPostfixDOMs[i].checked)
-			strToInsert = strToInsert + emojiSelectPostfixDOMs[i].value;
+        /** @type {(kind: string, el: HTMLButtonElement) => void} */
+        const addTabClickListener = (kind, el) => {
+            el.addEventListener('click', (e) => {
+                setTab(kind);
+            });
+        }
 
-	for(let i = 0; i < emojiSelectSuffixDOMs.length; i++)
-		if (emojiSelectSuffixDOMs[i].checked)
-			strToInsert = emojiSelectSuffixDOMs[i].value + strToInsert;
+        const favorites = Object.entries(favoriteEmojis).sort((a, b) => b[1] - a[1]);
+        /** @type {{ [name: string]: HTMLButtonElement }} */
+        const favoriteClones = {};
 
-	strToInsert = ":" + strToInsert + ":"
-	insertText(emojiInputTargetDOM, strToInsert)
+        const favoriteContentEl = (() => {
+            const content = document.createElement('div');
+            tabContentEls['favorite'] = content;
+            return content;
+        })();
 
-	// kick-start the preview
-	emojiInputTargetDOM.dispatchEvent(new Event('input'));
+        let currentTab = 'favorite';
+        const setTab = (kind) => {
+            currentTab = kind;
+            tabContent.replaceChildren(tabContentEls[kind]);
+        }
 
-	// Update favs. from old code
-	if (favorite_emojis[event.currentTarget.dataset.emojiName])
-		favorite_emojis[event.currentTarget.dataset.emojiName] += 1;
-	else
-		favorite_emojis[event.currentTarget.dataset.emojiName] = 1;
-	localStorage.setItem("favorite_emojis", JSON.stringify(favorite_emojis));
-}
+        const emojiModal = document.getElementById('emojiModal');
+        const emojiTabsEl = document.getElementById('emoji-modal-tabs');
+        const tabContent = document.getElementById('emoji-tab-content');
+        /** @type {HTMLInputElement} */
+        const searchInputEl = document.getElementById('emoji_search');
+        searchInputEl.disabled = false;
+        const searchResultsContainerEl = document.createElement('div');
+        let isSearching = false;
+        /** @type {{ [index: string ]: HTMLButtonElement }} */
+        const searchResultsEl = {};
+        const favoriteTabEl = document.getElementById('emoji-modal-tabs-favorite');
+        addTabClickListener('favorite', favoriteTabEl);
 
-let emoji_typing_state = false;
+        window.emojiSearch = async () => {
+            if (searchInputEl.value.length === 0 && isSearching) {
+                isSearching = false;
+                setTab(currentTab);
+            } else if (searchInputEl.value.length > 0 && !isSearching) {
+                isSearching = true;
+                tabContent.replaceChildren(searchResultsContainerEl);
+            }
 
-function update_ghost_div_textarea(text)
-{
-	let ghostdiv
+            if (isSearching) {
+                const query = searchInputEl.value;
+                requestIdleCallback(() => {
+                    emojiEngine.search(query).then((results) => {
+                        requestIdleCallback(() => {
+                            searchResultsContainerEl.replaceChildren(...results.map((name) => searchResultsEl[name]));
+                        }, { timeout: 100 });
+                    });
+                }, { timeout: 100 });
+            }
+        }
 
-	if (location.pathname == '/chat') 
-		ghostdiv = document.getElementById("ghostdiv-chat");
-	else
-		ghostdiv = text.parentNode.getElementsByClassName("ghostdiv")[0];
+        const promises = Object.entries(emojiEngine.kinds).map(([kind, emojis]) => new Promise((res) => {
+            const tabEl = (() => {
+                const tab = document.createElement('li');
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.classList.add('nav-link', 'emojitab');
+                button.dataset.bsToggle = 'tab';
+                button.textContent = kind;
+                tab.appendChild(button);
+                emojiTabsEl.appendChild(tab);
+                addTabClickListener(kind, tab);
+                return tab;
+            })();
 
-	if (!ghostdiv) return;
+            const tabContentEl = (() => {
+                const tabContent = document.createElement('div');
+                return tabContent;
+            })();
 
-	ghostdiv.textContent = text.value.substring(0, text.selectionStart);
+            tabContentEls[kind] = tabContentEl;
 
-	ghostdiv.insertAdjacentHTML('beforeend', "<span></span>");
+            const tick = () => {
+                for (const [name, count] of emojis) {
+                    const buttonEl = document.createElement('button');
+                    buttonEl.type = 'button';
+                    buttonEl.classList.add('btn', 'm-1', 'px-0', 'emoji2');
+                    buttonEl.title = `${name} (${count})`;
 
-	// Now lets get coordinates
+                    const imgEl = document.createElement('img');
+                    imgEl.loading = 'lazy';
+                    imgEl.src = emojiEngine.src(name);
+                    imgEl.alt = name;
+                    buttonEl.appendChild(imgEl);
 
-	ghostdiv.style.display = "block";
-	let end = ghostdiv.querySelector("span");
-	const carot_coords = end.getBoundingClientRect();
-	const ghostdiv_coords = ghostdiv.getBoundingClientRect();
-	ghostdiv.style.display = "none";
-	return { pos: text.selectionStart, x: carot_coords.x, y: carot_coords.y - ghostdiv_coords.y };
-}
+                    const searchClone = buttonEl.cloneNode(true);
+                    const els = [buttonEl, searchClone];
 
-// Used for anything where a user is typing, specifically for the emoji modal
-// Just leave it global, I don't care
-let speed_carot_modal = document.createElement("div");
-speed_carot_modal.id = "speed-carot-modal";
-speed_carot_modal.style.position = "absolute";
-speed_carot_modal.style.left = "0px";
-speed_carot_modal.style.top = "0px";
-speed_carot_modal.style.display = "none";
-document.body.appendChild(speed_carot_modal);
+                    if (name in favoriteEmojis) {
+                        const favoriteClone = buttonEl.cloneNode(true);
+                        favoriteClone.title = `${name} (${favoriteEmojis[name]})`;
+                        els.push(favoriteClone);
+                        favoriteClones[name] = favoriteClone;
+                    }
+                    
+                    els.forEach((el) => {
+                        el.addEventListener('click', (e) => {
+                            emojiEngine.onInsert(name);
+                        });
+                    });
 
-let e
+                    tabContentEl.appendChild(buttonEl);
+                    searchResultsEl[name] = searchClone;
+                }
 
-let current_word = "";
-let selecting;
-let emoji_index = 0;
+                res();
 
-function curr_word_is_emoji()
-{
-	return current_word && current_word.charAt(0) == ":" &&
-		current_word.charAt(current_word.length-1) != ":";
-}
+            }
+            requestIdleCallback(tick, { timeout: 250 });
+        }));
 
-function close_inline_speed_emoji_modal() {
-	selecting = false;
-	speed_carot_modal.style.display = "none";
-}
+        Promise.all(promises).then(() => {
+            for (const [name] of favorites) {
+                if (!(name in favoriteClones)) {
+                    continue;
+                }
+    
+                favoriteContentEl.appendChild(favoriteClones[name]);
+            }
+        });
 
-function populate_speed_emoji_modal(results, textbox)
-{
-	selecting = true;
-
-	if (!results || results.size === 0)
-	{
-		speed_carot_modal.style.display = "none";
-		return -1;
-	}
-
-	emoji_index = 0;
-	speed_carot_modal.scrollTop = 0;
-	speed_carot_modal.innerHTML = "";
-	const MAXXX = 50;
-	// Not sure why the results is a Set... but oh well
-	let i = 0;
-	for (let emoji of results)
-	{
-		let name = emoji.name
-
-		if (i++ > MAXXX) return i;
-		let emoji_option = document.createElement("div");
-		emoji_option.className = "speed-modal-option emoji-option " + (i === 1 ? "selected" : "");
-		emoji_option.tabIndex = 0;
-		let emoji_option_img = document.createElement("img");
-		emoji_option_img.className = "speed-modal-image emoji-option-image";
-		// This is a bit
-		emoji_option_img.src = `${SITE_FULL_IMAGES}/e/${name}.webp`
-		let emoji_option_text = document.createElement("span");
-
-		emoji_option_text.title = name;
-
-		if (emoji.author_username !== undefined && emoji.author_username !== null)
-			emoji_option_text.title += "\nauthor\t" + emoji.author_username
-
-		if (emoji.count !== undefined)
-			emoji_option_text.title += "\nused\t" + emoji.count;
-
-		emoji_option_text.textContent = name;
-
-		if (current_word.includes("#")) name = `#${name}`
-		if (current_word.includes("!")) name = `!${name}`
-
-		emoji_option.addEventListener('click', () => {
-			close_inline_speed_emoji_modal()
-			textbox.value = textbox.value.replace(new RegExp(current_word+"(?=\\s|$)", "gi"), `:${name}: `)
-			textbox.focus()
-			if (typeof markdown === "function" && textbox.dataset.preview) {
-				markdown(textbox)
-			}
-		});
-		// Pack
-		emoji_option.appendChild(emoji_option_img);
-		emoji_option.appendChild(emoji_option_text);
-		speed_carot_modal.appendChild(emoji_option);
-	}
-	if (i === 0) speed_carot_modal.style.display = "none";
-	else speed_carot_modal.style.display = "initial";
-	return i;
-}
-
-function update_speed_emoji_modal(event)
-{
-	const box_coords = update_ghost_div_textarea(event.target);
-
-	box_coords.x = Math.min(box_coords.x, screen_width - 150)
-
-	let text = event.target.value;
-
-	// Unused, but left incase anyone wants to use this more efficient method for emojos
-	switch (event.data)
-	{
-		case ':':
-		emoji_typing_state = true;
-		break;
-		case ' ':
-		emoji_typing_state = false;
-		break;
-		default:
-		break;
-	}
-
-	// Get current word at string, such as ":marse" or "word"
-	let coords = text.indexOf(' ',box_coords.pos);
-	current_word = /:[!#a-zA-Z0-9_]+(?=\n|$)/.exec(text.slice(0, coords === -1 ? text.length : coords));
-	if (current_word) current_word = current_word[0].toLowerCase();
-
-	/* We could also check emoji_typing_state here, which is less accurate but more efficient. I've
-		* kept it unless someone wants to provide an option to toggle it for performance */
-	if (curr_word_is_emoji() && current_word != ":")
-	{
-		loadEmojis(null, null).then( () => {
-			let modal_pos = event.target.getBoundingClientRect();
-			modal_pos.x += window.scrollX;
-			modal_pos.y += window.scrollY;
-
-			speed_carot_modal.style.display = "initial";
-			speed_carot_modal.style.left = box_coords.x - 30 + "px";
-			speed_carot_modal.style.top = modal_pos.y + box_coords.y + 14 + "px";
-
-			// Do the search (and do something with it)
-			const resultSet = emojisSearchDictionary.completeSearch(current_word.substring(1).replace(/[#!]/g, ""));
-
-			const found = globalEmojis.filter(i => resultSet.has(i.name));
-
-			populate_speed_emoji_modal(found, event.target);
-		});
-	}
-	else {
-		speed_carot_modal.style.display = "none";
-	}
-}
-
-function speed_carot_navigate(event)
-{
-	if (!selecting) return;
-
-	let select_items = speed_carot_modal.querySelectorAll(".speed-modal-option");
-	if (!select_items || !curr_word_is_emoji()) return;
-
-	const modal_keybinds = {
-		// go up one, wrapping around to the bottom if pressed at the top
-		ArrowUp: () => emoji_index = ((emoji_index - 1) + select_items.length) % select_items.length,
-		// go down one, wrapping around to the top if pressed at the bottom
-		ArrowDown: () => emoji_index = ((emoji_index + 1) + select_items.length) % select_items.length,
-		// select the emoji
-		Enter: () => select_items[emoji_index].click(),
-	}
-	if (event.key in modal_keybinds)
-	{
-		select_items[emoji_index].classList.remove("selected");
-		modal_keybinds[event.key]();
-		select_items[emoji_index].classList.add("selected");
-		select_items[emoji_index].scrollIntoView({inline: "end", block: "nearest"});
-		event.preventDefault();
-	}
-}
-
-function insertGhostDivs(element) {
-	let forms = element.querySelectorAll("textarea, .allow-emojis");
-	forms.forEach(i => {
-		let ghostdiv
-		if (i.id == 'input-text-chat') {
-			ghostdiv = document.getElementsByClassName("ghostdiv")[0];
-		}
-		else {
-			ghostdiv = document.createElement("div");
-			ghostdiv.className = "ghostdiv";
-			ghostdiv.style.display = "none";
-			i.after(ghostdiv);
-		}
-		i.addEventListener('input', update_speed_emoji_modal, false);
-		i.addEventListener('keydown', speed_carot_navigate, false);
-	});
-}
-
-const emojiModal = document.getElementById('emojiModal')
-
-function loadEmojis(t, inputTargetIDName)
-{
-	selecting = false;
-	speed_carot_modal.style.display = "none";
-
-	if (inputTargetIDName) {
-		emojiInputTargetDOM = document.getElementById(inputTargetIDName);
-		emojiModal.addEventListener('hide.bs.modal', () => {
-			setTimeout(() => {
-				emojiInputTargetDOM.focus();
-			}, 200);
-		}, {once : true});	
-	}
-
-	if (t && t.dataset.previousModal) {
-		emojiModal.addEventListener('hide.bs.modal', () => {
-			bootstrap.Modal.getOrCreateInstance(document.getElementById(t.dataset.previousModal)).show()
-		}, {once : true});	
-	}
-
-	switch (emojiEngineState) {
-		case "inactive":
-			emojiEngineState = "loading"
-			return fetchEmojis();
-		case "loading":
-			// this works because once the fetch completes, the first keystroke callback will fire and use the current value
-			return Promise.reject();
-		case "ready":
-			return Promise.resolve();
-		default:
-			throw Error("Unknown emoji engine state");
-	}
-}
-
-document.getElementById('emojiModal').addEventListener('shown.bs.modal', function () {
-	focusSearchBar(emojiSearchBarDOM);
-	setTimeout(() => {
-		focusSearchBar(emojiSearchBarDOM);
-	}, 200);
-	setTimeout(() => {
-		focusSearchBar(emojiSearchBarDOM);
-	}, 1000);
-});
+        setTab(currentTab);
+    }
+})();

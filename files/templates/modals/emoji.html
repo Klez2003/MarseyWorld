@@ -6,7 +6,7 @@
 				<div id="emoji-modal-tabs-container">
 					<ul class="nav nav-pills py-2" id="emoji-modal-tabs">
 						<li class="nav-item">
-							<button type="button" class="nav-link active emojitab" data-class-name="favorite" data-bs-toggle="tab">⭐ Favorite ⭐</button>
+							<button type="button" id="emoji-modal-tabs-favorite" class="nav-link active emojitab" data-class-name="favorite" data-bs-toggle="tab">⭐ Favorite ⭐</button>
 						</li>
 					</ul>
 				</div>
@@ -16,7 +16,7 @@
 			</div>
 
 			<div class="px-3">
-				<input disabled autocomplete="off" class="form-control px-2" type="text" id="emoji_search" placeholder="Search.." data-nonce="{{g.nonce}}" data-onchange="start_search()" {% if not (v and v.poor) %}data-oninput="start_search()"{% endif %}>
+				<input disabled autocomplete="off" class="form-control px-2" type="text" id="emoji_search" placeholder="Search.." data-nonce="{{g.nonce}}" data-onchange="emojiSearch()" {% if not (v and v.poor) %}data-oninput="emojiSearch()"{% endif %}>
 			</div>
 			<div class="px-3 d-flex flex-row">
 				<fieldset class="pt-2 pr-2 pl-1">
@@ -57,13 +57,7 @@
 					<div id="emojis-work" class="tab-content py-3 pl-4">
 						I am working as hard as I can, sweaty... 🚴
 					</div>
-					<div id="tab-content" class="tab-content d-flex flex-wrap" hidden style="text-align:center">
-						<template id="emoji-button-template">
-							<button type="button" class="btn m-1 px-0 emoji2" data-bs-toggle="tooltip">
-								<img loading="lazy">
-							</button>
-						</template>
-					</div>
+					<div id="emoji-tab-content" class="tab-content d-flex flex-wrap" hidden style="text-align:center"></div>
 				</div>
 			</div>
 		</div>

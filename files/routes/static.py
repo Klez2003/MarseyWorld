@@ -87,7 +87,10 @@ def emoji_list(v, kind):
 
 
 @cache.cached(make_cache_key=lambda nsfw:f"emojis_{nsfw}")
-def get_emojis(nsfw):
+def get_emojis(nsfw = None):
+	if nsfw is None:
+		nsfw = g.show_nsfw
+
 	emojis = g.db.query(Emoji, User).join(User, Emoji.author_id == User.id).filter(Emoji.submitter_id == None)
 
 	if not nsfw:
@@ -106,14 +109,79 @@ def get_emojis(nsfw):
 		collected.append(emoji.json())
 	return collected
 
-@app.get("/emojis_json")
+@app.get("/emojis.json")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def emojis(v):
-	return get_emojis(g.show_nsfw)
+	return get_emojis()
+
+@cache.cached(make_cache_key=lambda nsfw:f"emoji_tags_{nsfw}")
+@app.get("/emoji_tags.json")
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@auth_required
+def emoji_tags(v):
+	emojis = get_emojis()
+
+	tags = {}
+
+	def add_to_tag(tag: str, emoji: Emoji):
+		#Do not add empty tags.
+		if not tag:
+			return
+		
+		if tag not in tags:
+			tags[tag] = []
+
+		tags[tag].append([emoji['name'], emoji['count']])
+
+	for emoji in emojis:
+		add_to_tag(emoji['name'], emoji)
+		add_to_tag(emoji['name'][len(emoji['kind'].replace(' ', '')):], emoji)
+
+		for tag in emoji['tags']:
+			add_to_tag(tag, emoji)
+
+	return tags
+
+@cache.cached(make_cache_key=lambda nsfw:f"emoji_tags_{nsfw}")
+@app.get("/emoji_names_count.json")
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@auth_required
+def emoji_names_count(v):
+	emojis = get_emojis()
+
+	names = {}
+
+	for emoji in emojis:
+		names[emoji['name']] = emoji['count']
+
+	return names
 
 
+@cache.cached(make_cache_key=lambda nsfw:f"emoji_tags_{nsfw}")
+@app.get("/emoji_kinds.json")
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@auth_required
+def emoji_kinds(v):
+	order = ["Marsey", "Platy", "Wolf", "Donkey Kong", "Tay", "Capy", "Carp", "Marsey Flags", "Marsey Alphabet", "Classic", "Rage", "Wojak", "Misc"]
+	emoji_kinds = {}
+
+	for kind in order:
+		emoji_kinds[kind] = []
+
+	for emoji in get_emojis():
+		kind = emoji['kind']
+		if kind not in emoji_kinds:
+			emoji_kinds[kind] = []
+
+		emoji_kinds[kind].append([emoji['name'], emoji['count']])
+
+	# Flask will sort the keys alphabetically, so we need to jsonify this manually.
+	return json.dumps(emoji_kinds)
 
 @app.get('/sidebar')
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)

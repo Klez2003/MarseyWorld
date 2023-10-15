@@ -82,7 +82,7 @@
 				<div class="w-lg-100">
 					<form id="sidebar" action="/h/{{hole}}/sidebar" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHR(this)">
 						<input hidden name="formkey" value="{{v|formkey}}">
-						<textarea autocomplete="off" maxlength="10000" class="form-control rounded" id="bio-text" placeholder="Enter sidebar here..." rows="10" name="sidebar" form="sidebar">{% if hole.sidebar %}{{hole.sidebar}}{% endif %}</textarea>
+						<textarea data-emojis autocomplete="off" maxlength="10000" class="form-control rounded" id="bio-text" placeholder="Enter sidebar here..." rows="10" name="sidebar" form="sidebar">{% if hole.sidebar %}{{hole.sidebar}}{% endif %}</textarea>
 						<div class="d-flex mt-2">
 							<input autocomplete="off" class="btn btn-primary ml-auto" type="submit" value="Save">
 						</div>

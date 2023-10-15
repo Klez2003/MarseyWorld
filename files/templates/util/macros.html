@@ -112,7 +112,7 @@
 
 
 {% macro emoji_btn(textarea_id, previous_modal) %}
-	<button type="button" class="btn btn-secondary format m-0 mr-1" data-nonce="{{g.nonce}}" data-onclick="loadEmojis(this, '{{textarea_id}}')" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji" {% if previous_modal %}data-previous-modal="{{previous_modal}}"{% endif %}>
+	<button type="button" class="btn btn-secondary format m-0 mr-1" data-nonce="{{g.nonce}}" data-onclick="openEmojiModal('{{textarea_id}}')" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji" {% if previous_modal %}data-previous-modal="{{previous_modal}}"{% endif %}>
 		<i class="fas fa-smile-beam"></i>
 	</button>
 {% endmacro %}
@@ -134,7 +134,7 @@
 		<div id="comment-form-space-{{target_fullname}}" class="comment-write {{subwrapper_css_classes}}">
 			<input hidden name="formkey" value="{{v|formkey}}">
 			<input hidden name="parent_fullname" value="{target_fullname}}">
-			<textarea required autocomplete="off" {% if not (p and p.id in ADMIGGER_THREADS) %}{% if v.longpost %}minlength="280"{% elif v.bird %}maxlength="140"{% endif %}{% endif %} minlength="1" maxlength="10000" data-preview="form-preview-{{target_fullname}}" data-nonce="{{g.nonce}}" data-oninput="markdown(this);charLimit('reply-form-body-{{target_fullname}}','charcount-{{target_fullname}}');handle_disabled(this)" id="reply-form-body-{{target_fullname}}" data-fullname="{{target_fullname}}" class="file-ta comment-box form-control rounded" name="body" form="reply-to-{{target_fullname}}" placeholder="Add your comment..." rows="3"></textarea>
+			<textarea data-emojis required autocomplete="off" {% if not (p and p.id in ADMIGGER_THREADS) %}{% if v.longpost %}minlength="280"{% elif v.bird %}maxlength="140"{% endif %}{% endif %} minlength="1" maxlength="10000" data-preview="form-preview-{{target_fullname}}" data-nonce="{{g.nonce}}" data-oninput="markdown(this);charLimit('reply-form-body-{{target_fullname}}','charcount-{{target_fullname}}');handle_disabled(this)" id="reply-form-body-{{target_fullname}}" data-fullname="{{target_fullname}}" class="file-ta comment-box form-control rounded" name="body" form="reply-to-{{target_fullname}}" placeholder="Add your comment..." rows="3"></textarea>
 
 			<div class="text-small font-weight-bold mt-1" id="charcount-{{target_fullname}}" style="right: 1rem; bottom: 0.5rem; z-index: 3"></div>
 
@@ -160,7 +160,7 @@
 		</div>
 	{% else %}
 		<div class="comment-write mt-4 mb-3 mx-3">
-			<textarea autocomplete="off" maxlength="10000" class="comment-box form-control rounded" name="body" placeholder="Add your comment..." rows="3" data-href="/login?redirect={{request.full_path | urlencode}}"></textarea>
+			<textarea data-emojis autocomplete="off" maxlength="10000" class="comment-box form-control rounded" name="body" placeholder="Add your comment..." rows="3" data-href="/login?redirect={{request.full_path | urlencode}}"></textarea>
 		</div>
 
 		<div class="card border-0 mt-4">
@@ -346,7 +346,7 @@
 		{{gif_btn('input-text-chat')}}
 		{{file_btn('file', False, True)}}
 
-		<textarea id="input-text-chat" minlength="1" maxlength="{% if SITE == 'rdrama.net' %}200{% else %}1000{% endif %}" {% if g.browser in ("iphone","mac") %}style="font-size:16px!important"{% endif %} class="file-ta form-control ml-2" placeholder="Message" autocomplete="off" autofocus rows="1"></textarea>
+		<textarea data-emojis id="input-text-chat" minlength="1" maxlength="{% if SITE == 'rdrama.net' %}200{% else %}1000{% endif %}" {% if g.browser in ("iphone","mac") %}style="font-size:16px!important"{% endif %} class="file-ta form-control ml-2" placeholder="Message" autocomplete="off" autofocus rows="1"></textarea>
 
 		<i id="chatsend" data-nonce="{{g.nonce}}" data-onclick="send()" class="btn btn-secondary fas fa-reply ml-1 my-auto" style="transform:rotateY(180deg)"></i>
 	</div>

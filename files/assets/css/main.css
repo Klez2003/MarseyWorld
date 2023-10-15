@@ -6559,8 +6559,11 @@ g {
 	padding-left: 10px;
 }
 
-#speed-carot-modal
+.quick-emoji-dropdown
 {
+	position: absolute;	
+	left: 0;
+	top: 0;
 	background-color: var(--gray-700);
 	max-height: 500px;
 	overflow-y: auto;
@@ -6569,31 +6572,34 @@ g {
 	border: 1px solid rgba(255, 255, 255, 0.3);
 	box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
 	z-index: 1000000001;
+	display: flex;
+	flex-direction: column;
 }
 
-#speed-carot-modal .speed-modal-option
+.quick-emoji-dropdown .quick-emoji-option
 {
+	text-align: left;
 	border-bottom: 1px solid #606060;
 	padding: 4px;
 	cursor: pointer;
 }
 
-#speed-carot-modal .speed-modal-option:hover,
-#speed-carot-modal .speed-modal-option:focus,
-#speed-carot-modal .speed-modal-option.selected
+.quick-emoji-dropdown .quick-emoji-option:hover,
+.quick-emoji-dropdown .quick-emoji-option:focus,
+.quick-emoji-dropdown .quick-emoji-option.selected
 {
 	background-color: rgba(255, 255, 255, 0.2);
 }
 
 
-#speed-carot-modal .speed-modal-image
+.quick-emoji-dropdown .quick-emoji-image
 {
 	object-fit: contain;
 	width: 30px;
 	height: 30px;
 }
 
-#speed-carot-modal .speed-modal-option span
+.quick-emoji-dropdown .quick-emoji-option span
 {
 	overflow: hidden;
 	display: inline-block;
@@ -6706,7 +6712,7 @@ div.markdown {
 }
 
 @media (min-width: 768px) {
-	#speed-carot-modal .speed-modal-image
+	.quick-emoji-dropdown .quick-emoji-image
 	{
 		width: 50px;
 		height: 50px;

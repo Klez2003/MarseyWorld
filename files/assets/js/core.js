@@ -12,7 +12,7 @@ function getMessageFromJsonData(success, json) {
 }
 
 function showToast(success, message) {
-	const oldToast = bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-' + (success ? 'error': 'success'))); // intentionally reversed here: this is the old toast
+	const oldToast = bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-' + (success ? 'error' : 'success'))); // intentionally reversed here: this is the old toast
 	oldToast.hide();
 	let element = success ? "toast-post-success" : "toast-post-error";
 	let textElement = element + "-text";
@@ -23,7 +23,7 @@ function showToast(success, message) {
 	bootstrap.Toast.getOrCreateInstance(document.getElementById(element)).show();
 }
 
-function createXhrWithFormKey(url, form=new FormData(), method='POST') {
+function createXhrWithFormKey(url, form = new FormData(), method = 'POST') {
 	const xhr = new XMLHttpRequest();
 	xhr.open(method, url);
 	xhr.setRequestHeader('xhr', 'xhr');
@@ -38,12 +38,12 @@ function postToast(t, url, data, extraActionsOnSuccess, extraActionsOnFailure) {
 
 	let form = new FormData();
 	if (typeof data === 'object' && data !== null) {
-		for(let k of Object.keys(data)) {
+		for (let k of Object.keys(data)) {
 			form.append(k, data[k]);
 		}
 	}
 	const xhr = createXhrWithFormKey(url, form);
-	xhr[0].onload = function() {
+	xhr[0].onload = function () {
 		const success = xhr[0].status >= 200 && xhr[0].status < 300;
 
 		if (!(extraActionsOnSuccess == reload && success)) {
@@ -88,19 +88,18 @@ function postToastSwitch(t, url, button1, button2, cls, extraActionsOnSuccess) {
 		{
 		},
 		(xhr) => {
-			if (button1)
-			{
+			if (button1) {
 				if (typeof button1 == 'boolean') {
 					location.reload()
 				} else {
 					try {
 						document.getElementById(button1).classList.toggle(cls);
 					}
-					catch (e) {}
+					catch (e) { }
 					try {
 						document.getElementById(button2).classList.toggle(cls);
 					}
-					catch (e) {}
+					catch (e) { }
 				}
 			}
 			if (typeof extraActionsOnSuccess == 'function')
@@ -108,8 +107,7 @@ function postToastSwitch(t, url, button1, button2, cls, extraActionsOnSuccess) {
 		});
 }
 
-if (!location.pathname.endsWith('/submit') && !location.pathname.endsWith('/chat'))
-{
+if (!location.pathname.endsWith('/submit') && !location.pathname.endsWith('/chat')) {
 	document.addEventListener('keydown', (e) => {
 		if (!((e.ctrlKey || e.metaKey) && e.key === "Enter")) return;
 
@@ -147,18 +145,17 @@ function autoExpand(field) {
 	let computed = window.getComputedStyle(field);
 
 	let height = parseInt(computed.getPropertyValue('border-top-width'), 10)
-	+ parseInt(computed.getPropertyValue('padding-top'), 10)
-	+ field.scrollHeight
-	+ parseInt(computed.getPropertyValue('padding-bottom'), 10)
-	+ parseInt(computed.getPropertyValue('border-bottom-width'), 10);
+		+ parseInt(computed.getPropertyValue('padding-top'), 10)
+		+ field.scrollHeight
+		+ parseInt(computed.getPropertyValue('padding-bottom'), 10)
+		+ parseInt(computed.getPropertyValue('border-bottom-width'), 10);
 
 	field.style.height = height + 'px';
 	if (Math.abs(window.scrollX - xpos) < 1 && Math.abs(window.scrollY - ypos) < 1) return;
-	window.scrollTo(xpos,ypos);
+	window.scrollTo(xpos, ypos);
 };
 
-function smoothScrollTop()
-{
+function smoothScrollTop() {
 	window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -193,8 +190,7 @@ function expandImage(url) {
 	document.getElementById("expanded-image").src = '';
 	document.getElementById("expanded-image-wrap-link").href = '';
 
-	if (!url)
-	{
+	if (!url) {
 		url = e.target.dataset.src
 		if (!url) url = e.target.src
 	}
@@ -206,7 +202,7 @@ function expandImage(url) {
 
 function bs_trigger(e) {
 	let tooltipTriggerList = [].slice.call(e.querySelectorAll('[data-bs-toggle="tooltip"]'));
-	tooltipTriggerList.map(function(element){
+	tooltipTriggerList.map(function (element) {
 		return bootstrap.Tooltip.getOrCreateInstance(element);
 	});
 
@@ -231,18 +227,18 @@ function showmore(t) {
 }
 
 function formatDate(d) {
-	const options = {year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', timeZoneName: 'short'};
+	const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', timeZoneName: 'short' };
 	return d.toLocaleTimeString([], options)
 }
 
 const timestamps = document.querySelectorAll('[data-time]');
 
 for (const e of timestamps) {
-	e.innerHTML = formatDate(new Date(e.dataset.time*1000));
+	e.innerHTML = formatDate(new Date(e.dataset.time * 1000));
 };
 
 function timestamp(t, ti) {
-	const date = formatDate(new Date(ti*1000));
+	const date = formatDate(new Date(ti * 1000));
 	t.setAttribute("data-bs-original-title", date);
 };
 
@@ -265,8 +261,7 @@ function areyousure(t) {
 }
 
 function prepare_to_pause(audio) {
-	for (const e of document.querySelectorAll('video,audio'))
-	{
+	for (const e of document.querySelectorAll('video,audio')) {
 		e.addEventListener('play', () => {
 			if (!audio.paused) audio.pause();
 		});
@@ -298,7 +293,7 @@ function sendFormXHR(form, extraActionsOnSuccess) {
 	xhr.open("POST", actionPath);
 	xhr.setRequestHeader('xhr', 'xhr');
 
-	xhr.onload = function() {
+	xhr.onload = function () {
 		const success = xhr.status >= 200 && xhr.status < 300;
 
 		if (!(extraActionsOnSuccess == reload && success)) {
@@ -358,7 +353,7 @@ function sort_table(t) {
 				attr = parseInt(attr.replace(/,/g, ''))
 			}
 		}
-		items.push({ele, attr});
+		items.push({ ele, attr });
 	}
 	if (sortAscending[n]) {
 		items.sort((a, b) => a.attr > b.attr ? 1 : -1);
@@ -401,8 +396,7 @@ if (location.pathname != '/chat' && (gbrowser == 'iphone' || gbrowser == 'mac'))
 }
 
 const screen_width = (innerWidth > 0) ? innerWidth : screen.width;
-function focusSearchBar(element)
-{
+function focusSearchBar(element) {
 	if (screen_width >= 768) {
 		element.focus();
 	}
@@ -428,13 +422,13 @@ function insertText(input, text) {
 	input.setRangeText(text);
 
 	if (window.chrome !== undefined)
-		setTimeout(function(){
+		setTimeout(function () {
 			input.focus();
-			for(let i = 0; i < 2; i++)
+			for (let i = 0; i < 2; i++)
 				input.setSelectionRange(newPos, newPos);
 
 			input.focus();
-			for(let i = 0; i < 2; i++)
+			for (let i = 0; i < 2; i++)
 				input.setSelectionRange(newPos, newPos);
 		}, 1);
 	else
@@ -445,6 +439,167 @@ function insertText(input, text) {
 	handle_disabled(input)
 }
 
+/** Returns a promise which can be used to await when the event loop is idle. */
+const idle = () => {
+    return new Promise(resolve => {
+        requestIdleCallback(resolve);
+    });
+}
+
+/**
+ * Shamelessly copied from https://github.com/component/textarea-caret-position/blob/master/index.js
+ * This code makes the assumption that the style of the textarea/input won't change.
+ * @returns {{top: number, left: number, height: number, bottom: number, right: number, x: number, y: number }}
+ */
+const getCaretPos = (() => {
+	// We'll copy the properties below into the mirror div.
+	// Note that some browsers, such as Firefox, do not concatenate properties
+	// into their shorthand (e.g. padding-top, padding-bottom etc. -> padding),
+	// so we have to list every single property explicitly.
+	const properties = [
+		'direction',  // RTL support
+		'boxSizing',
+		'width',  // on Chrome and IE, exclude the scrollbar, so the mirror div wraps exactly as the textarea does
+		'height',
+		'overflowX',
+		'overflowY',  // copy the scrollbar for IE
+
+		'borderTopWidth',
+		'borderRightWidth',
+		'borderBottomWidth',
+		'borderLeftWidth',
+		'borderStyle',
+
+		'paddingTop',
+		'paddingRight',
+		'paddingBottom',
+		'paddingLeft',
+
+		// https://developer.mozilla.org/en-US/docs/Web/CSS/font
+		'fontStyle',
+		'fontVariant',
+		'fontWeight',
+		'fontStretch',
+		'fontSize',
+		'fontSizeAdjust',
+		'lineHeight',
+		'fontFamily',
+
+		'textAlign',
+		'textTransform',
+		'textIndent',
+		'textDecoration',  // might not make a difference, but better be safe
+
+		'letterSpacing',
+		'wordSpacing',
+
+		'tabSize',
+		'MozTabSize'
+
+	];
+
+	const cache = new Map();
+
+	const isFirefox = window.mozInnerScreenX != null;
+
+	/** @param {HTMLTextAreaElement} element */
+	return (element) => {
+		const position = element.selectionEnd;
+		const computed = window.getComputedStyle ? window.getComputedStyle(element) : element.currentStyle;  // currentStyle for IE < 9
+		const isInput = element.nodeName === 'INPUT';
+
+		let div, style;
+		if (cache.has(element)) {
+			div = cache.get(element);
+			style = div.style;
+		} else {
+			// The mirror div will replicate the textarea's style
+			div = document.createElement('div');
+			cache.set(element, div);
+			div.id = 'input-textarea-caret-position-mirror-div';
+			document.body.appendChild(div);
+
+			style = div.style;
+
+			// Default textarea styles
+			style.whiteSpace = 'pre-wrap';
+			if (!isInput) {
+				style.overflowWrap = 'break-word';  // only for textarea-s
+			}
+
+			// Position off-screen
+			style.position = 'absolute';  // required to return coordinates properly
+			style.visibility = 'hidden';  // not 'display: none' because we want rendering
+
+			// Transfer the element's properties to the div
+			properties.forEach(function (prop) {
+				if (isInput && prop === 'lineHeight') {
+					// Special case for <input>s because text is rendered centered and line height may be != height
+					if (computed.boxSizing === "border-box") {
+						var height = parseInt(computed.height);
+						var outerHeight =
+							parseInt(computed.paddingTop) +
+							parseInt(computed.paddingBottom) +
+							parseInt(computed.borderTopWidth) +
+							parseInt(computed.borderBottomWidth);
+						var targetHeight = outerHeight + parseInt(computed.lineHeight);
+						if (height > targetHeight) {
+							style.lineHeight = height - outerHeight + "px";
+						} else if (height === targetHeight) {
+							style.lineHeight = computed.lineHeight;
+						} else {
+							style.lineHeight = 0;
+						}
+					} else {
+						style.lineHeight = computed.height;
+					}
+				} else {
+					style[prop] = computed[prop];
+				}
+			});
+		}
+
+		if (isFirefox) {
+			// Firefox lies about the overflow property for textareas: https://bugzilla.mozilla.org/show_bug.cgi?id=984275
+			if (element.scrollHeight > parseInt(computed.height))
+				style.overflowY = 'scroll';
+		} else {
+			style.overflow = 'hidden';  // for Chrome to not render a scrollbar; IE keeps overflowY = 'scroll'
+		}
+
+		div.textContent = element.value.substring(0, position);
+		// The second special handling for input type="text" vs textarea:
+		// spaces need to be replaced with non-breaking spaces - http://stackoverflow.com/a/13402035/1269037
+		if (isInput) {
+			div.textContent = div.textContent.replace(/\s/g, '\u00a0');
+		}
+
+		const span = document.createElement('span');
+		// Wrapping must be replicated *exactly*, including when a long word gets
+		// onto the next line, with whitespace at the end of the line before (#7).
+		// The  *only* reliable way to do that is to copy the *entire* rest of the
+		// textarea's content into the <span> created at the caret position.
+		// For inputs, just '.' would be enough, but no need to bother.
+		span.textContent = element.value.substring(position) || '.';  // || because a completely empty faux span doesn't render at all
+		div.appendChild(span);
+
+		const rect = element.getClientRects()[0];
+		const top = rect.top + window.scrollY + span.offsetTop;
+		const left = rect.left + window.scrollX + span.offsetLeft;
+		const height = parseInt(computed['lineHeight']);
+		const coordinates = {
+			x: left,
+			y: top,
+			top,
+			bottom: top + height,
+			left,
+			right: left + 1,
+			height, 
+		};
+
+		return coordinates;
+	}
+})();
 
 
 //FILE SHIT
@@ -510,8 +665,8 @@ function handle_files(input, newfiles) {
 	for (let file of newfiles) {
 		if (file.name == 'image.png') {
 			const blob = file.slice(0, file.size, 'image/png');
-			const new_name = Math.random().toString(32).substring(2,10) + '.png'
-			file = new File([blob], new_name, {type: 'image/png'});
+			const new_name = Math.random().toString(32).substring(2, 10) + '.png'
+			file = new File([blob], new_name, { type: 'image/png' });
 		}
 		oldfiles[ta.id].items.add(file);
 		insertText(ta, `[${file.name}]`);
@@ -519,8 +674,7 @@ function handle_files(input, newfiles) {
 
 	input.files = oldfiles[ta.id].files;
 
-	if (input.files.length > 20)
-	{
+	if (input.files.length > 20) {
 		window.alert("You can't upload more than 20 files at one time!")
 		input.value = null
 		oldfiles[ta.id] = new DataTransfer();
@@ -549,8 +703,7 @@ file_upload = document.getElementById('file-upload');
 
 if (file_upload) {
 	function display_url_image() {
-		if (file_upload.files)
-		{
+		if (file_upload.files) {
 			const file = file_upload.files[0]
 			const char_limit = screen_width >= 768 ? 50 : 10;
 			file_upload.previousElementSibling.textContent = file.name.substr(0, char_limit);
@@ -591,7 +744,7 @@ if (file_upload) {
 
 }
 
-document.onpaste = function(event) {
+document.onpaste = function (event) {
 	const files = structuredClone(event.clipboardData.files);
 	if (!files.length) return
 
