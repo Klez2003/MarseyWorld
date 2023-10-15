@@ -520,7 +520,8 @@ def award_thing(v, thing_type, id):
 		if author.rainbow: author.rainbow += 86400
 		else: author.rainbow = int(time.time()) + 86400
 		badge_grant(user=author, badge_id=171)
-		thing.rainbowed = True
+		if can_alter_body:
+			thing.rainbowed = True
 	elif kind == "emoji":
 		award.note = award.note.strip(":").lower()
 		emoji = g.db.query(Emoji).filter_by(name=award.note).one_or_none()
