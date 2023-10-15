@@ -101,9 +101,7 @@ def notif_comment2(p):
 	else:
 		author_link = f'<a href="/id/{p.author_id}" rel="nofollow"><img loading="lazy" src="/pp/{p.author_id}">@{p.author_name}</a>'
 
-	sanitized_title = filter_emojis_only(p.title)
-
-	text = f'{author_link} has mentioned you: <a href="/post/{p.id}">{sanitized_title}</a>'
+	text = f'{author_link} has mentioned you: <a href="/post/{p.id}">{p.title_html}</a>'
 
 	search_html = f'%</a> has mentioned you: <a href="/post/{p.id}"%'
 
