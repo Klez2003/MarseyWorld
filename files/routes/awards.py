@@ -137,6 +137,11 @@ def buy(v, kind):
 
 	return {"message": f"{award_title} award bought!"}
 
+def alter_body(thing):
+	thing.body_html = sanitize(thing.body, limit_pings=5, showmore=True, obj=thing, author=author)
+	if isinstance(thing, Post):
+		thing.title_html = filter_emojis_only(thing.title, golden=False, obj=thing, author=author)
+
 @app.post("/award/<thing_type>/<int:id>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
@@ -245,7 +250,7 @@ def award_thing(v, thing_type, id):
 
 	link = f"[this {thing_type}]({thing.shortlink})"
 
-	alter_body = not (isinstance(thing, Post) and len(thing.body) > 1000) and (not thing.author.deflector or v == thing.author)
+	can_alter_body = not (isinstance(thing, Post) and len(thing.body) > 1000) and (not thing.author.deflector or v == thing.author)
 
 	if kind == "ban":
 		link = f"/{thing_type}/{thing.id}"
@@ -354,12 +359,9 @@ def award_thing(v, thing_type, id):
 
 		badge_grant(user=author, badge_id=285)
 
-		if alter_body:
+		if can_alter_body:
 			thing.queened = True
-			thing.body_html = sanitize(thing.body, limit_pings=5, showmore=True, obj=thing, author=author)
-			if isinstance(thing, Post):
-				thing.title_html = filter_emojis_only(thing.title, golden=False, obj=thing, author=author)
-
+			alter_body(thing)
 	elif kind == "chud":
 		if thing_type == 'post' and thing.hole == 'chudrama' \
 			or thing_type == 'comment' and thing.post and thing.post.hole == 'chudrama':
@@ -380,7 +382,7 @@ def award_thing(v, thing_type, id):
 
 		badge_grant(user=author, badge_id=58)
 
-		if alter_body:
+		if can_alter_body:
 			thing.chudded = True
 			complies_with_chud(thing)
 	elif kind == "flairlock":
@@ -482,10 +484,8 @@ def award_thing(v, thing_type, id):
 			else: author.marsify = int(time.time()) + 86400
 		badge_grant(user=author, badge_id=170)
 
-		if alter_body:
-			thing.body_html = sanitize(thing.body, limit_pings=5, showmore=True, obj=thing, author=author)
-			if isinstance(thing, Post):
-				thing.title_html = filter_emojis_only(thing.title, golden=False, obj=thing, author=author)
+		if can_alter_body:
+			alter_body(thing)
 	elif "Vampire" in kind and kind == v.house:
 		if author.bite: author.bite += 172800
 		else:
@@ -506,20 +506,16 @@ def award_thing(v, thing_type, id):
 		else: author.owoify = int(time.time()) + 21600
 		badge_grant(user=author, badge_id=167)
 
-		if alter_body:
-			thing.body_html = sanitize(thing.body, limit_pings=5, showmore=True, obj=thing, author=author)
-			if isinstance(thing, Post):
-				thing.title_html = filter_emojis_only(thing.title, golden=False, obj=thing, author=author)
+		if can_alter_body:
+			alter_body(thing)
 	elif ("Edgy" in kind and kind == v.house) or kind == 'sharpen':
 		if author.sharpen: author.sharpen += 86400
 		else: author.sharpen = int(time.time()) + 86400
 		badge_grant(user=author, badge_id=289)
 
-		if alter_body:
+		if can_alter_body:
 			thing.sharpened = True
-			thing.body_html = sanitize(thing.body, limit_pings=5, showmore=True, obj=thing, author=author)
-			if isinstance(thing, Post):
-				thing.title_html = filter_emojis_only(thing.title, golden=False, obj=thing, author=author)
+			alter_body(thing)
 	elif ("Femboy" in kind and kind == v.house) or kind == 'rainbow':
 		if author.rainbow: author.rainbow += 86400
 		else: author.rainbow = int(time.time()) + 86400
