@@ -215,8 +215,7 @@ def process_image(filename, v, resize=0, trim=False, uploader_id=None):
 	except:
 		os.remove(filename)
 		if has_request:
-			abort(400, ("An uploaded image couldn't be converted to WEBP. "
-						"Please convert it to WEBP elsewhere then upload it again."))
+			abort(400, "An uploaded image couldn't be converted to WEBP. Please convert it to WEBP elsewhere then upload it again.")
 		return None
 
 	size_after_conversion = os.stat(filename).st_size
