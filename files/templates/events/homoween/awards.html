@@ -1,6 +1,6 @@
 {% if p.award_count("haunt", v) %}
-	<link rel="stylesheet" href="{{'events/homoween/css/haunted.css' | asset}}">
-	<script defer src="{{'events/homoween/js/haunted.js' | asset}}" defer></script>
+	<link rel="stylesheet" href="{{'events/homoween/css/haunt.css' | asset}}">
+	<script defer src="{{'events/homoween/js/haunt.js' | asset}}" defer></script>
 	<div id="haunted-effect" class="fixed-top"></div>
 	{% if (not v or v.event_music) and not (hole and hole.name == 'music') and not (p.embed and p.domain == 'twitter.com') %}
 		<audio id="thunder1" hidden preload="none" src="/assets/events/homoween/audio/haunted/thunder1.mp3"></audio>
@@ -12,8 +12,7 @@
 {% if stabs %}
 	<input hidden id="stabs" value="{{stabs}}">
 	<link rel="stylesheet" href="{{'events/homoween/css/stab.css' | asset}}">
-	<script defer src="{{'events/homoween/js/sketch.js' | asset}}" defer></script>
-	<script defer src="{{'events/homoween/js/blood.js' | asset}}" defer></script>
+	<script defer src="{{'events/homoween/js/stab.js' | asset}}" defer></script>
 {% endif %}
 
 {% if p.award_count("spiders", v) %}

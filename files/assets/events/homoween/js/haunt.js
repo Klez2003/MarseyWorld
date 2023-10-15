@@ -5,7 +5,7 @@ const div = document.getElementById("haunted-effect")
 
 const stylesheet_haunted = document.createElement("link")
 stylesheet_haunted.setAttribute("rel", "stylesheet")
-stylesheet_haunted.setAttribute("href", "/assets/events/homoween/css/haunted2.css?x=1")
+stylesheet_haunted.setAttribute("href", "/assets/events/homoween/css/haunt2.css?x=1")
 stylesheet_haunted.disabled = true
 document.head.appendChild(stylesheet_haunted)
 
