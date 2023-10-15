@@ -30,11 +30,13 @@
 	{% endif %}
 
 	{% for a in p.awards %}
-		{% if a.kind in ["emoji","emoji-hz"] %}
-			<img alt='{{a.title}} Award given by @{{a.user.username}}: "{{a.note}}"' data-bs-toggle="tooltip" loading="lazy" src="{{SITE_FULL_IMAGES}}/e/{{a.note}}.webp" data-bs-toggle="tooltip" data-bs-placement="bottom" title='{{a.title}} Award given by @{{a.user.username}}: "{{a.note}}"' width="20px">
-		{% else %}
-			<i class="{{a.class_list}} px-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title='{{a.title}} Award given by @{{a.user.username}}{% if a.kind in ["chud","namelock","flairlock"] %}: "{{a.note}}"{% endif %}'></i>
-		{% endif %}
+		<span class="mr-1">
+			{% if a.kind in ["emoji","emoji-hz"] %}
+				<img alt='{{a.title}} Award given by @{{a.user.username}}: "{{a.note}}"' data-bs-toggle="tooltip" loading="lazy" src="{{SITE_FULL_IMAGES}}/e/{{a.note}}.webp" data-bs-toggle="tooltip" data-bs-placement="bottom" title='{{a.title}} Award given by @{{a.user.username}}: "{{a.note}}"' width="20px">
+			{% else %}
+				<i class="{{a.class_list}} px-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title='{{a.title}} Award given by @{{a.user.username}}{% if a.kind in ["chud","namelock","flairlock"] %}: "{{a.note}}"{% endif %}'></i>
+			{% endif %}
+		</span>
 	{% endfor %}
 
 	{% if v and v.can_see_shadowbanned and p.author.shadowbanned %}
@@ -60,7 +62,7 @@
 	{% if p.private %}<span class="mr-2 badge border-warning border-1 text-small-extra">Draft</span>{% endif %}
 
 	{% if p.active_reports(v) %}
-		<button type="button" class="btn btn-primary mr-1 ml-2" style="padding:1px 5px; font-size:10px" data-nonce="{{g.nonce}}" data-toggleelement="#reports-{{p.id}}" data-toggleattr="d-none">{{p.active_reports(v)}} Report{{plural(p.active_reports(v))}}</button>
+		<button type="button" class="btn btn-primary mr-1" style="padding:1px 5px; font-size:10px" data-nonce="{{g.nonce}}" data-toggleelement="#reports-{{p.id}}" data-toggleattr="d-none">{{p.active_reports(v)}} Report{{plural(p.active_reports(v))}}</button>
 	{% endif %}
 
 	{% if p.ghost %}
