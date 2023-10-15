@@ -426,7 +426,7 @@ def comment(v):
 	gevent.spawn(postprocess_comment, c.body, c.body_html, c.id)
 
 	if v.client: return c.json
-	return {"comment": render_template("comments.html", v=v, comments=[c])}
+	return {"id": c.id, "comment": render_template("comments.html", v=v, comments=[c])}
 
 @app.post("/delete/comment/<int:cid>")
 @limiter.limit('1/second', scope=rpath)

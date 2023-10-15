@@ -324,6 +324,12 @@ function post_comment(fullname, hide){
 			remove_dialog();
 			if (fullname.startsWith('c_'))
 				restore_reply_buttons(fullname)
+
+			if (fullname.startsWith('p_')) {
+				const viewbtn = document.getElementById('viewbtn')
+				if (viewbtn)
+					viewbtn.dataset.ids = viewbtn.dataset.ids.slice(0, -1) + `, ${data['id']}]`
+			}
 		}
 		else {
 			showToast(false, getMessageFromJsonData(false, data));
