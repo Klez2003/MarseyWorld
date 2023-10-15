@@ -61,7 +61,9 @@ def execute_snappy(post, v):
 
 	post_ping_group_count = len(list(group_mention_regex.finditer(post.body)))
 
-	if post_ping_group_count > 3:
+	if SITE_NAME == 'WPD' and ('killing myself' in post.title.lower() or (post.hole != 'suicide' and 'suicide' in post.title.lower())):
+		body = "https://i.watchpeopledie.tv/images/1697382435294321.webp"
+	elif post_ping_group_count > 3:
 		body = "Unnecessary and uncalled for ping :marseydownvotemad: two more strikes and you're getting blocked + megadownvoted buddy, don't test your luck"
 		vote = Vote(user_id=SNAPPY_ID,
 					vote_type=-1,
