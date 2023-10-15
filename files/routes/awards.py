@@ -138,9 +138,9 @@ def buy(v, kind):
 	return {"message": f"{award_title} award bought!"}
 
 def alter_body(thing):
-	thing.body_html = sanitize(thing.body, limit_pings=5, showmore=True, obj=thing, author=author)
+	thing.body_html = sanitize(thing.body, limit_pings=5, showmore=True, obj=thing, author=thing.author)
 	if isinstance(thing, Post):
-		thing.title_html = filter_emojis_only(thing.title, golden=False, obj=thing, author=author)
+		thing.title_html = filter_emojis_only(thing.title, golden=False, obj=thing, author=thing.author)
 
 @app.post("/award/<thing_type>/<int:id>")
 @limiter.limit('1/second', scope=rpath)
