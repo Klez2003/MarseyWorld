@@ -44,7 +44,6 @@
 {% endif %}
 
 {% if v and v.id != u.id and request.path.endswith('/posts') %}
-	{% include "modals/emoji.html" %}
 	{% include "modals/gif.html" %}
 {% endif %}
 {% endblock %}
