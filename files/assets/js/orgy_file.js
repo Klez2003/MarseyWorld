@@ -14,7 +14,7 @@ function add_playing_listener() {
 		const created_utc = orgy_file.dataset.created_utc
 		orgy_file.currentTime = now - created_utc
 		if (screen_width < 768) {
-			const chat_window_height = innerHeight - orgy_file.offsetHeight - 211
+			const chat_window_height = innerHeight - orgy_file.offsetHeight - 186
 			document.getElementById('chat-window').setAttribute('style', `max-height: ${chat_window_height}px !important`)
 		}
 	}, {once : true});
