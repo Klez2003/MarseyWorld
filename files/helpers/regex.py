@@ -108,7 +108,7 @@ image_regex_extensions = '|'.join(IMAGE_FORMATS)
 image_sub_regex = re.compile(f'(?<!")(https:\/\/[\w\-.#&/=\?@%;+,:]{{5,250}}(\.|\?format=)({image_regex_extensions})((\?|&)[\w\-.#&/=\?@%;+,:]*)?)(?=$|\s)' + NOT_IN_CODE_OR_LINKS, flags=re.I|re.A)
 
 image_regex_extensions_no_gif = image_regex_extensions.replace('|gif', '')
-imgur_regex = re.compile(f'(https:\/\/i\.imgur\.com\/[a-z0-9]+)\.({image_regex_extensions_no_gif})', flags=re.I|re.A)
+imgur_regex = re.compile(f'^(https:\/\/i\.imgur\.com\/[a-z0-9]+)\.({image_regex_extensions_no_gif})', flags=re.I|re.A)
 
 giphy_regex = re.compile('(https:\/\/media\.giphy\.com\/media\/[a-z0-9]+\/giphy)\.gif', flags=re.I|re.A)
 
