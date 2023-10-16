@@ -21,8 +21,8 @@ def get_user(username, v=None, graceful=False, include_blocks=False, attributes=
 		if graceful: return None
 		abort(400, "Empty username.")
 
-	username = sanitize_username(username)
-	if not username:
+	search_name = sanitize_username(username)
+	if not search_name:
 		if graceful: return None
 		abort(400, "Empty username.")
 
@@ -30,9 +30,9 @@ def get_user(username, v=None, graceful=False, include_blocks=False, attributes=
 		User
 		).filter(
 		or_(
-			User.username.ilike(username),
-			User.original_username.ilike(username),
-			User.prelock_username.ilike(username),
+			User.username.ilike(search_name),
+			User.original_username.ilike(search_name),
+			User.prelock_username.ilike(search_name),
 			)
 		)
 
