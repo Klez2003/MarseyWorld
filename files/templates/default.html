@@ -20,7 +20,7 @@
 				{% set src = "banner_error.webp" | asset_siteimg %}
 			{% elif hole and hole.has_banners %}
 				{% set src = hole.random_banner() %}
-				{% set alt = ['/h/', hole, 'banner']|join %}
+				{% set alt = ['/h/', hole, ' banner']|join %}
 				{% set class = 'site-banner-hole' %}
 			{% elif get_running_orgy(v) and os_path.exists(path ~ "/orgy_banners") %}
 				{% set src = macros.random_image("assets/images/" ~ SITE_NAME ~ "/orgy_banners") %}
