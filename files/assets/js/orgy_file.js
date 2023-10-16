@@ -18,6 +18,7 @@ function add_playing_listener() {
 			const chat_window_height = innerHeight - orgy_file.offsetHeight - 186
 			document.getElementById('chat-window').setAttribute('style', `max-height: ${chat_window_height}px !important`)
 		}
+		setTimeout(add_waiting_listener, 5000);
 	}, {once : true});
 }
 
@@ -47,3 +48,7 @@ orgy_file.addEventListener("timeupdate", function(){
 orgy_file.addEventListener("ended", function(){
 	location.reload()
 });
+
+function add_waiting_listener() {
+	orgy_file.addEventListener('waiting', add_playing_listener, {once : true});
+}
