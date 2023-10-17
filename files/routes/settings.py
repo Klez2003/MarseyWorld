@@ -863,7 +863,7 @@ def settings_song_change(v):
 		except:
 			return redirect("/settings/personal?error=Anthem change failed, please try another video!")
 
-		if duration == 'P0D':
+		if "D" in duration:
 			return redirect("/settings/personal?error=Can't use a live youtube video!")
 
 		if "H" in duration:
