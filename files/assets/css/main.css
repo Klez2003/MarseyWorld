@@ -5978,7 +5978,7 @@ li > .sidebar {
 		text-align: center;
 	}
 }
-th, td {
+th:not(#formatting-table th), td:not(#formatting-table td) {
 	font-weight: 700;
 }
 
