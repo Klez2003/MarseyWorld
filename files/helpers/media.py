@@ -171,6 +171,9 @@ def process_video(file, v):
 	)
 	g.db.add(media)
 
+	if SITE == 'watchpeopledie.tv' and v and v.username.lower().startswith("icosaka"):
+		gevent.spawn(delete_file, new, f'https://videos.{SITE}' + new.split('/videos')[1])
+
 	if SITE == 'watchpeopledie.tv':
 		return f'https://videos.{SITE}' + new.split('/videos')[1]
 	else:
@@ -263,11 +266,11 @@ def process_image(filename, v, resize=0, trim=False, uploader_id=None):
 	g.db.add(media)
 
 	if SITE == 'watchpeopledie.tv' and v and "dylan" in v.username.lower() and "hewitt" in v.username.lower():
-		gevent.spawn(delete_file, filename)
+		gevent.spawn(delete_file, filename, f'{SITE_FULL_IMAGES}{filename}')
 
 	return f'{SITE_FULL_IMAGES}{filename}'
 
-def delete_file(filename):
+def delete_file(filename, url):
 	time.sleep(60)
 	os.remove(filename)
-	purge_files_in_cloudflare_cache(f'{SITE_FULL_IMAGES}{filename}')
+	purge_files_in_cloudflare_cache(url)
