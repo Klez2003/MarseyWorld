@@ -1968,7 +1968,6 @@ def schedule_orgy(v):
 	link = request.values.get("link", "").strip()
 	title = request.values.get("title", "").strip()
 	start_utc = request.values.get("start_utc", "").strip()
-	duration = request.values.get("duration", "").strip()
 
 	if not link:
 		abort(400, "A link is required!")
@@ -1985,6 +1984,8 @@ def schedule_orgy(v):
 		start_utc = int(time.time())
 		redir = '/chat'
 
+	end_utc = None
+
 	if bare_youtube_regex.match(normalized_link):
 		orgy_type = 'youtube'
 		data, _ = get_youtube_id_and_t(normalized_link)
@@ -1997,17 +1998,14 @@ def schedule_orgy(v):
 	elif any((normalized_link.lower().endswith(f'.{x}') for x in VIDEO_FORMATS)):
 		orgy_type = 'file'
 		data = normalized_link
-		print(ffmpeg.probe(data, headers=f'referer:https://{SITE}/chat'), flush=True)
-	else:
-		abort(400)
-
-	if duration:
-		duration = int(duration)
+		video_info = ffmpeg.probe(data, headers=f'referer:https://{SITE}/chat')
+		duration = float(video_info['streams'][0]['duration'])
+		if duration == 2.0: raise
 		if duration > 3000:
 			duration += 300 #account for break
 		end_utc = int(start_utc + duration)
 	else:
-		end_utc = None
+		abort(400)
 
 	orgy = Orgy(
 			title=title,
