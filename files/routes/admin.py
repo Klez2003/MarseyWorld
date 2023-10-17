@@ -1914,6 +1914,11 @@ def delete_media_post(v):
 
 	os.remove(path)
 
+	to_delete = g.db.query(Post.thumburl, Post.posterurl).filter_by(url=url).all()
+	for x in to_delete:
+		remove_media_using_link(x[0])
+		remove_media_using_link(x[1])
+
 	ma = ModAction(
 		kind="delete_media",
 		user_id=v.id,
