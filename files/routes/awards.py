@@ -532,14 +532,17 @@ def award_thing(v, thing_type, id):
 			badge_grant(badge_id=91, user=author)
 			if v.id == author.id:
 				session['event_music'] = False
+		elif kind == "candycane":
+			if thing.is_effortpost:
+				abort(403, f'Effortposts are protected from the {award_title} award!')
 	elif IS_HOMOWEEN():
 		if kind == "hallowgrinch":
 			badge_grant(badge_id=185, user=author)
 			if v.id == author.id:
 				session['event_music'] = False
-		elif kind == "ectoplasm":
+		elif kind in {"ectoplasm", "candy-corn"}:
 			if thing.is_effortpost:
-				abort(404, 'Effortposts are protected from the Ectoplasm award!')
+				abort(403, f'Effortposts are protected from the {award_title} award!')
 		elif kind == "spider":
 			if author.spider: author.spider += 86400
 			else: author.spider = int(time.time()) + 86400
