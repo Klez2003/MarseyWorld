@@ -79,6 +79,8 @@ def execute_snappy(post, v):
 			body = ":#donkeykongfuckoffcarp:"
 		elif IS_HOMOWEEN():
 			body = "F̵̽̉U̷̓̕C̵̟̍K̴̾̍ ̵́̒O̶͐̇F̷͗̐F̴͛̄ ̸̆͠CARP"
+		elif IS_FISTMAS():
+			body = "Merry Christmas Carp :marseychristmasgift2:"
 		else:
 			body = ":#marseyfuckoffcarp:"
 	elif v.id == AEVANN_ID:
