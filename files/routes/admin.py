@@ -1997,6 +1997,7 @@ def schedule_orgy(v):
 	elif any((normalized_link.lower().endswith(f'.{x}') for x in VIDEO_FORMATS)):
 		orgy_type = 'file'
 		data = normalized_link
+		print(ffmpeg.probe(data), flush=True)
 	else:
 		abort(400)
 
