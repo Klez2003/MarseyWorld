@@ -118,6 +118,10 @@
 	transform: scaleX(-1);
 }
 
+.emoji-hz-award:nth-child(odd) img[src="/e/marseywalking.webp"] {
+    transform: scaleX(1);
+}
+
 /*confetti*/
 .confetti {
 	background-image: url(/i/confetti2.webp);
