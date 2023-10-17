@@ -114,11 +114,11 @@
 	transform: translateX(-10vw);
 }
 
-.emoji-hz-award img[src="/e/marseywalking.webp"] {
+.emoji-hz-award img.reversed {
 	transform: scaleX(-1);
 }
 
-.emoji-hz-award:nth-child(odd) img[src="/e/marseywalking.webp"] {
+.emoji-hz-award:nth-child(odd) img.reversed {
     transform: scaleX(1);
 }
 
