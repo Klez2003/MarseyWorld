@@ -195,20 +195,6 @@ AWARDS = {
 	},
 
 	### Homoween
-	"vax": {
-		"kind": "vax",
-		"title": "Vaxxmaxx",
-		"description": "???",
-		"icon": "fas fa-syringe",
-		"color": "text-blue",
-		"price": 100,
-		"deflectable": True,
-		"cosmetic": False,
-		"ghost": False,
-		"enabled": IS_HOMOWEEN(),
-		"negative": False,
-		"included_in_lootbox": False,
-	},
 	"bite": {
 		"kind": "bite",
 		"title": "Zombie Bite",
@@ -292,6 +278,20 @@ AWARDS = {
 		"enabled": IS_HOMOWEEN(),
 		"negative": False,
 		"included_in_lootbox": True,
+	},
+	"vax": {
+		"kind": "vax",
+		"title": "Vaxxmaxx",
+		"description": "???",
+		"icon": "fas fa-syringe",
+		"color": "text-blue",
+		"price": 400,
+		"deflectable": True,
+		"cosmetic": False,
+		"ghost": False,
+		"enabled": IS_HOMOWEEN(),
+		"negative": False,
+		"included_in_lootbox": False,
 	},
 	"candy-corn": {
 		"kind": "candy-corn",
