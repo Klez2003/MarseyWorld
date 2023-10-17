@@ -5283,7 +5283,7 @@ textarea {
 		margin: 1.75rem auto !important;
 }
 }
-.in-comment-image, .img, img[alt^="![]("],
+.img, img[alt^="![]("],
 .preview img:not(img[src^="/uid/"], img[src^="/pp/"], img[src$="/pic"], img[src$="/i/hand.webp"], img[src$="/i/talking.webp"], img[src*="/e/"]) {
 	max-height: 150px !important;
 	max-width: 100% !important;
