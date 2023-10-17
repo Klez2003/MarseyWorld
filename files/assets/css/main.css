@@ -7559,3 +7559,16 @@ ul {
 		display: none !important;
 	}
 }
+
+.section-title {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-transform: uppercase;
+	opacity: 0.6;
+}
+
+.section-title hr {
+	flex: 1;
+	margin-left: 0.5rem;
+}

@@ -452,10 +452,13 @@ def update_emojis(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @admin_level_required(PERMS['UPDATE_ASSETS'])
 def update_emoji(v):
-	file = request.files["image"]
 	name = request.values.get('name', '').lower().strip()
-	tags = request.values.get('tags', '').lower().strip()
+
+	file = request.files["image"]
 	kind = request.values.get('kind', '').strip()
+	new_name = request.values.get('new_name', '').strip()
+	tags = request.values.get('tags', '').lower().strip()
+	nsfw = request.values.get('nsfw', '').strip()		
 
 	existing = g.db.get(Emoji, name)
 	if not existing:
@@ -487,18 +490,32 @@ def update_emoji(v):
 		purge_files_in_cloudflare_cache([f"{SITE_FULL_IMAGES}/e/{name}.webp", f"{SITE_FULL_IMAGES}/asset_submissions/emojis/original/{name}.{format}"])
 		updated = True
 
+	if kind and existing.kind != kind:
+		if kind not in EMOJI_KINDS:
+			abort(400, "Invalid kind!")
+		existing.kind = kind
+		updated = True
 
-	if tags and existing.tags != tags and tags != "none":
+	if new_name and existing.name != new_name:
+		if not emoji_name_regex.fullmatch(new_name):
+			abort(400, "Invalid new name!")
+		old_path = f"files/assets/images/emojis/{existing.name}.webp"
+		new_path = f"files/assets/images/emojis/{new_name}.webp"
+		copyfile(old_path, new_path)
+		existing.name = new_name
+		updated = True
+
+	if tags and existing.tags != tags:
 		if not tags_regex.fullmatch(tags):
 			abort(400, "Invalid tags!")
 		existing.tags += f" {tags}"
 		updated = True
 
-	if kind and existing.kind != kind and kind != "none":
-		if kind not in EMOJI_KINDS:
-			abort(400, "Invalid kind!")
-		existing.kind = kind
-		updated = True
+	if nsfw:
+		nsfw = (nsfw == 'NSFW')
+		if existing.nsfw != nsfw:
+			existing.nsfw = nsfw
+			updated = True
 
 	if not updated:
 		abort(400, "You need to actually update something!")
