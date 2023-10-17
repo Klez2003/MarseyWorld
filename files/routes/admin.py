@@ -1917,8 +1917,9 @@ def delete_media_post(v):
 	to_delete = g.db.query(Post.thumburl, Post.posterurl).filter_by(url=url).all()
 	for tup in to_delete:
 		for url in tup:
-			remove_media_using_link(url)
-			purge_files_in_cloudflare_cache(url)
+			if url:
+				remove_media_using_link(url)
+				purge_files_in_cloudflare_cache(url)
 
 	ma = ModAction(
 		kind="delete_media",
