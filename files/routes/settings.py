@@ -79,6 +79,13 @@ def upload_custom_background(v):
 
 	return redirect('/settings/personal')
 
+def notify_removed_users(removed_users, kind):
+	if removed_users and removed_users != 'everyone':
+		text = f"@{g.v.username} has removed you from their {kind} list!"
+		cid = notif_comment(text)
+		for x in removed_users:
+			add_notif(cid, x, text, pushnotif_url=f'{SITE_FULL}{g.v.url}')
+
 @app.post("/settings/personal")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
@@ -213,12 +220,16 @@ def settings_personal_post(v):
 		return {"message": "Your sig has been updated."}
 
 	elif not updated and request.values.get("friends") == "":
+		removed_users = NOTIFY_USERS(v.friends, v)
+		notify_removed_users(removed_users, 'friends')
 		v.friends = None
 		v.friends_html = None
 		g.db.add(v)
 		return {"message": "Your friends list has been updated."}
 
 	elif not updated and request.values.get("enemies") == "":
+		removed_users = NOTIFY_USERS(v.enemies, v)
+		notify_removed_users(removed_users, 'enemies')
 		v.enemies = None
 		v.enemies_html = None
 		g.db.add(v)
@@ -262,6 +273,10 @@ def settings_personal_post(v):
 				for x in notify_users:
 					add_notif(cid, x, text, pushnotif_url=f'{SITE_FULL}{v.url}')
 
+		if v.friends:
+			removed_users = NOTIFY_USERS(v.friends, v) - notify_users
+			notify_removed_users(removed_users, 'friends')
+
 		v.friends = friends
 		v.friends_html=friends_html
 		g.db.add(v)
@@ -287,6 +302,10 @@ def settings_personal_post(v):
 			else:
 				for x in notify_users:
 					add_notif(cid, x, text, pushnotif_url=f'{SITE_FULL}{v.url}')
+
+		if v.enemies:
+			removed_users = NOTIFY_USERS(v.enemies, v) - notify_users
+			notify_removed_users(removed_users, 'enemies')
 
 		v.enemies = enemies
 		v.enemies_html=enemies_html
