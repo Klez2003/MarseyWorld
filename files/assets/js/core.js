@@ -289,6 +289,7 @@ function reload() {
 }
 
 function sendFormXHR(form, extraActionsOnSuccess) {
+	close_inline_speed_emoji_modal();
 	const t = form.querySelector('[type="submit"]')
 	t.disabled = true;
 	t.classList.add("disabled");
@@ -672,6 +673,10 @@ if (screen_width < 768) {
 		});
 	}
 }
+
+document.addEventListener('hide.bs.modal', function (e) {
+	close_inline_speed_emoji_modal();
+});
 
 document.querySelectorAll('form').forEach(form => {
 	form.addEventListener('submit', (e) => {

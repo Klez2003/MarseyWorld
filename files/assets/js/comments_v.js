@@ -359,4 +359,5 @@ function cancel(fullname) {
 	document.getElementById(`reply-to-${fullname}`).classList.add('d-none')
 	remove_dialog();
 	restore_reply_buttons(fullname)
+	close_inline_speed_emoji_modal();
 }
