@@ -610,10 +610,7 @@ def diff_words(answer, guess):
 def toggle_comment_nsfw(cid, v):
 	comment = get_comment(cid)
 
-	if comment.author_id != v.id and v.admin_level < PERMS['POST_COMMENT_MODERATION'] and not (comment.post.hole and v.mods(comment.post.hole)):
-		abort(403)
-
-	if comment.nsfw and v.is_permabanned:
+	if comment.author_id != v.id and v.admin_level < PERMS['POST_COMMENT_MODERATION'] and not (comment.post and comment.post.hole and v.mods(comment.post.hole)) and comment.wall_user_id != v.id:
 		abort(403)
 
 	comment.nsfw = not comment.nsfw
@@ -627,7 +624,7 @@ def toggle_comment_nsfw(cid, v):
 					target_comment_id = comment.id,
 				)
 			g.db.add(ma)
-		else:
+		elif comment.post and comment.post.hole and v.mods(comment.post.hole):
 			ma = HoleAction(
 					hole = comment.post.hole,
 					kind = "set_nsfw_comment" if comment.nsfw else "unset_nsfw_comment",
