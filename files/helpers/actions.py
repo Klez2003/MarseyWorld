@@ -605,7 +605,7 @@ def execute_lawlz_actions(v, p):
 	g.db.add(ma_3)
 
 
-def process_poll_options(v, target):
+def process_options(v, target):
 
 	patterns = [(poll_regex, 0), (choice_regex, 1)]
 

@@ -302,7 +302,7 @@ def comment(v):
 	g.db.add(c)
 	g.db.flush()
 
-	process_poll_options(v, c)
+	process_options(v, c)
 
 	execute_blackjack(v, c, c.body, "comment")
 	execute_under_siege(v, c, c.body, "comment")
@@ -693,7 +693,7 @@ def edit_comment(cid, v):
 		if not complies_with_chud(c):
 			abort(403, f'You have to include "{c.author.chud_phrase}" in your comment!')
 
-		process_poll_options(v, c)
+		process_options(v, c)
 
 		if v.id == c.author_id:
 			if int(time.time()) - c.created_utc > 60 * 3:

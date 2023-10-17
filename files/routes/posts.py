@@ -593,7 +593,7 @@ def submit_post(v, hole=None):
 
 	execute_under_siege(v, p, p.body, 'post')
 
-	process_poll_options(v, p)
+	process_options(v, p)
 
 	for text in {p.body, p.title, p.url}:
 		if execute_blackjack(v, p, text, 'post'): break
@@ -1042,7 +1042,7 @@ def edit_post(pid, v):
 
 		p.body_html = body_html
 
-		process_poll_options(v, p)
+		process_options(v, p)
 
 		gevent.spawn(postprocess_post, p.url, p.body, p.body_html, p.id, False, True)
 
