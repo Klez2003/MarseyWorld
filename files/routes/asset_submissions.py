@@ -466,6 +466,16 @@ def update_emoji(v):
 
 	updated = False
 
+	if new_name and existing.name != new_name:
+		if not emoji_name_regex.fullmatch(new_name):
+			abort(400, "Invalid new name!")
+		old_path = f"files/assets/images/emojis/{existing.name}.webp"
+		new_path = f"files/assets/images/emojis/{new_name}.webp"
+		copyfile(old_path, new_path)
+		existing.name = new_name
+		updated = True
+		name = existing.name
+
 	if file:
 		if g.is_tor:
 			abort(400, "Image uploads are not allowed through TOR!")
@@ -494,15 +504,6 @@ def update_emoji(v):
 		if kind not in EMOJI_KINDS:
 			abort(400, "Invalid kind!")
 		existing.kind = kind
-		updated = True
-
-	if new_name and existing.name != new_name:
-		if not emoji_name_regex.fullmatch(new_name):
-			abort(400, "Invalid new name!")
-		old_path = f"files/assets/images/emojis/{existing.name}.webp"
-		new_path = f"files/assets/images/emojis/{new_name}.webp"
-		copyfile(old_path, new_path)
-		existing.name = new_name
 		updated = True
 
 	if tags and existing.tags != tags:
