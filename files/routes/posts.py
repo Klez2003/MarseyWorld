@@ -625,7 +625,7 @@ def submit_post(v, hole=None):
 				if os.path.isfile(name):
 					os.remove(name)
 			else:
-				p.posterurl = name
+				p.posterurl = SITE_FULL_IMAGES + name
 				name2 = name.replace('.webp', 'r.webp')
 				copyfile(name, name2)
 				p.thumburl = process_image(name2, v, resize=99)
