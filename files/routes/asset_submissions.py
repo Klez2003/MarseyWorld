@@ -469,9 +469,17 @@ def update_emoji(v):
 	if new_name and existing.name != new_name:
 		if not emoji_name_regex.fullmatch(new_name):
 			abort(400, "Invalid new name!")
+
 		old_path = f"files/assets/images/emojis/{existing.name}.webp"
 		new_path = f"files/assets/images/emojis/{new_name}.webp"
 		copyfile(old_path, new_path)
+
+		for x in IMAGE_FORMATS:
+			original_old_path = f'/asset_submissions/emojis/original/{existing.name}.{x}'
+			original_new_path = f'/asset_submissions/emojis/original/{new_name}.{x}'
+			if path.isfile(original_old_path):
+				rename(original_old_path, original_new_path)
+
 		existing.name = new_name
 		updated = True
 		name = existing.name
