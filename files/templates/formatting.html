@@ -178,51 +178,6 @@ Text 2</pre>
 					</span>
 				</td>
 			</tr>
-			{% if FEATURES['MARKUP_COMMANDS'] -%}
-			<tr>
-				<td>Play slots using coins<br>
-					<span style="font-style: italic; font-weight: normal">
-						* Minimum 100 coins.
-					</span>
-				</td>
-				<td>!slots 100</td>
-				<td>???</td>
-			</tr>
-			<tr>
-				<td>Play slots using marseybux<br>
-					<span style="font-style: italic; font-weight: normal">
-						* Minimum 100 marseybux.
-					</span>
-				</td>
-				<td>!slotsmb 100</td>
-				<td>???</td>
-			</tr>
-			<tr>
-				<td>Random Fortune</td>
-				<td>#fortune</td>
-				<td>???</td>
-			</tr>
-			<tr>
-				<td>Random 8-Ball Answer</td>
-				<td>#8ball</td>
-				<td>???</td>
-			</tr>
-			<tr>
-				<td>Random Factcheck</td>
-				<td>#factcheck</td>
-				<td>???</td>
-			</tr>
-			<tr>
-				<td>Roll</td>
-				<td>#roll</td>
-				<td>A number 1&ndash;9999.</td>
-			</tr>
-			<tr>
-				<td>Coinflip</td>
-				<td>#coinflip</td>
-				<td>Heads, Tails, or Edge.</td>
-			</tr>
-			{%- endif %}
 			<tr>
 				<td>
 					Poll — Pick Multiple<br>
@@ -261,18 +216,16 @@ Text 2</pre>
 				<td><h1>Header 1</h1><h2>Header 2</h2><h3>Header 3</h3><h4>Header 4</h4><h5>Header 5</h5><h6>Header 6</h6></td>
 			</tr>
 			<tr>
-				<td>Unordered list</td>
+				<td>List</td>
 				<td>* First thing<br>* Second thing</td>
 				<td><ul><li>First thing</li><li>Second thing</li></ul></td>
 			</tr>
 			<tr>
 				<td>Code Block</td>
-				<td>```<br>Use three backticks above and below.<br>Or, indent the lines with four spaces.<br>```</td>
+				<td>```<br>Use three backticks above and below.<br>```</td>
 				<td>
-					<pre>
-					Use three backticks above and below.
-					Or, indent the lines with four spaces.
-					</pre>
+					<pre class="mb-0"><code>Use three backticks above and below.
+					</code></pre>
 				</td>
 			</tr>
 			<tr>
@@ -303,6 +256,11 @@ Text 2</pre>
 				</td>
 				<td>!biofoids</td>
 				<td><a href="/!biofoids" rel="nofollow">!biofoids</a></td>
+			</tr>
+			<tr>
+				<td>Random Marsey Emoji</td>
+				<td>:marseyrandom:</td>
+				<td>???</td>
 			</tr>
 			<tr>
 				<td>Random Platy Emoji</td>
@@ -359,6 +317,51 @@ Text 2</pre>
 				<td>:miscrandom:</td>
 				<td>???</td>
 			</tr>
+			{% if FEATURES['MARKUP_COMMANDS'] -%}
+				<tr>
+					<td>Play slots using coins<br>
+						<span style="font-style: italic; font-weight: normal">
+							* Minimum 100 coins.
+						</span>
+					</td>
+					<td>!slots 100</td>
+					<td>???</td>
+				</tr>
+				<tr>
+					<td>Play slots using marseybux<br>
+						<span style="font-style: italic; font-weight: normal">
+							* Minimum 100 marseybux.
+						</span>
+					</td>
+					<td>!slotsmb 100</td>
+					<td>???</td>
+				</tr>
+				<tr>
+					<td>Random Fortune</td>
+					<td>#fortune</td>
+					<td>???</td>
+				</tr>
+				<tr>
+					<td>Random 8-Ball Answer</td>
+					<td>#8ball</td>
+					<td>???</td>
+				</tr>
+				<tr>
+					<td>Random Factcheck</td>
+					<td>#factcheck</td>
+					<td>???</td>
+				</tr>
+				<tr>
+					<td>Roll</td>
+					<td>#roll</td>
+					<td>A number 1&ndash;9999.</td>
+				</tr>
+				<tr>
+					<td>Coinflip</td>
+					<td>#coinflip</td>
+					<td>Heads, Tails, or Edge.</td>
+				</tr>
+			{%- endif %}
 		</tbody>
 	</table>
 </div>
