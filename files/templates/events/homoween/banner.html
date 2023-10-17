@@ -1,3 +1,7 @@
+{% if range(1, 100)|random() == 1 %}
+	<img id="effigy" src="{{SITE_FULL_IMAGES}}/assets/events/homoween/images/effigy.webp">
+{% endif %}
+
 <a rel="nofollow noopener noreferrer" href="https://youtu.be/3l7X94GLqSQ?t=16" style="text-decoration: none !important">
 	{% set banner_day = datetime.datetime.today().day %}
 	<link rel="stylesheet" href="{{'events/homoween/css/banner.css' | asset}}">

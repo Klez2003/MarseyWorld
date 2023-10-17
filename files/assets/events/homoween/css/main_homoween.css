@@ -742,3 +742,18 @@ body::after {
 		padding-top: calc(var(--safe-area-inset-top) + 65.8px) !important
 	}
 }
+
+#effigy {
+	position: absolute;
+	z-index: 1;
+	pointer-events: none;
+	width: 120px;
+	top: 230px;
+}
+
+@media (max-width: 768px) {
+	#effigy {
+		width: 80px;
+		top: 110px;
+	}	
+}
