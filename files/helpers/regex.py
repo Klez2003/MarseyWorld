@@ -23,7 +23,7 @@ marseyaward_title_regex = re.compile("( *<img[^>]+>)+", flags=re.A)
 
 emoji_name_regex = re.compile("[a-z0-9]{1,30}", flags=re.A)
 tags_regex = re.compile("[a-z0-9: ]{1,200}", flags=re.A)
-hat_regex = re.compile("[\w\-() ,]{1,50}", flags=re.A)
+hat_name_regex = re.compile("[\w\-() ,]{1,50}", flags=re.A)
 description_regex = re.compile("[^<>&\n\t]{1,300}", flags=re.A)
 
 badge_name_regex = re.compile(r"[^\/.]+", flags=re.A)

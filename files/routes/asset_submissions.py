@@ -313,7 +313,7 @@ def submit_hat(v):
 	if not file or not file.content_type.startswith('image/'):
 		abort(400, "You need to submit an image!")
 
-	if not hat_regex.fullmatch(name):
+	if not hat_name_regex.fullmatch(name):
 		abort(400, "Invalid name!")
 
 	existing = g.db.query(HatDef.name).filter_by(name=name).one_or_none()
@@ -360,7 +360,7 @@ def approve_hat(v, name):
 
 	new_name = request.values.get('name').strip()
 	if not new_name: abort(400, "You need to include a name!")
-	if not hat_regex.fullmatch(new_name): abort(400, "Invalid name!")
+	if not hat_name_regex.fullmatch(new_name): abort(400, "Invalid name!")
 	if not description_regex.fullmatch(description): abort(400, "Invalid description!")
 
 	try:
@@ -558,48 +558,76 @@ def update_hats(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @admin_level_required(PERMS['UPDATE_ASSETS'])
 def update_hat(v):
-	file = request.files["image"]
 	name = request.values.get('name', '').strip()
 
-	if g.is_tor:
-		abort(400, "Image uploads are not allowed through TOR!")
+	file = request.files["image"]
+	new_name = request.values.get('new_name', '').strip()
 
-	if not file or not file.content_type.startswith('image/'):
-		abort(400, "You need to submit an image!")
-
-	if not hat_regex.fullmatch(name):
-		abort(400, "Invalid name!")
-
-	existing = g.db.query(HatDef.name).filter_by(name=name).one_or_none()
+	existing = g.db.query(HatDef).filter_by(name=name).one_or_none()
 	if not existing:
 		abort(400, "A hat with this name doesn't exist!")
 
-	highquality = f"/asset_submissions/hats/{name}"
-	file.save(highquality)
-	process_image(highquality, v) #to ensure not malware
+	updated = False
 
-	with Image.open(highquality) as i:
-		if i.width > 100 or i.height > 130:
-			os.remove(highquality)
-			abort(400, "Images must be 100x130")
+	if new_name and existing.name != new_name:
+		if not hat_name_regex.fullmatch(new_name):
+			abort(400, "Invalid new name!")
 
-		format = i.format.lower()
-	new_path = f'/asset_submissions/hats/original/{name}.{format}'
+		old_path = f"files/assets/images/hats/{existing.name}.webp"
+		new_path = f"files/assets/images/hats/{new_name}.webp"
+		rename(old_path, new_path)
 
-	for x in IMAGE_FORMATS:
-		if path.isfile(f'/asset_submissions/hats/original/{name}.{x}'):
-			os.remove(f'/asset_submissions/hats/original/{name}.{x}')
+		for x in IMAGE_FORMATS:
+			original_old_path = f'/asset_submissions/hats/original/{existing.name}.{x}'
+			original_new_path = f'/asset_submissions/hats/original/{new_name}.{x}'
+			if path.isfile(original_old_path):
+				rename(original_old_path, original_new_path)
 
-	rename(highquality, new_path)
+		existing.name = new_name
+		updated = True
+		name = existing.name
+	
+	if file:
+		if g.is_tor:
+			abort(400, "Image uploads are not allowed through TOR!")
+		if not file.content_type.startswith('image/'):
+			abort(400, "You need to submit an image!")
 
-	filename = f"files/assets/images/hats/{name}.webp"
-	copyfile(new_path, filename)
-	process_image(filename, v, resize=100)
-	purge_files_in_cloudflare_cache([f"{SITE_FULL_IMAGES}/i/hats/{name}.webp", f"{SITE_FULL_IMAGES}/asset_submissions/hats/original/{name}.{format}"])
+		highquality = f"/asset_submissions/hats/{name}"
+		file.save(highquality)
+		process_image(highquality, v) #to ensure not malware
+
+		with Image.open(highquality) as i:
+			if i.width > 100 or i.height > 130:
+				os.remove(highquality)
+				abort(400, "Images must be 100x130")
+			format = i.format.lower()
+
+		new_path = f'/asset_submissions/hats/original/{name}.{format}'
+
+		for x in IMAGE_FORMATS:
+			if path.isfile(f'/asset_submissions/hats/original/{name}.{x}'):
+				os.remove(f'/asset_submissions/hats/original/{name}.{x}')
+
+		rename(highquality, new_path)
+
+		filename = f"files/assets/images/hats/{name}.webp"
+		copyfile(new_path, filename)
+		process_image(filename, v, resize=100)
+		purge_files_in_cloudflare_cache([f"{SITE_FULL_IMAGES}/i/hats/{name}.webp", f"{SITE_FULL_IMAGES}/asset_submissions/hats/original/{name}.{format}"])
+		updated = True
+
+
+	if not updated:
+		abort(400, "You need to actually update something!")
+
+	g.db.add(existing)
+
 	ma = ModAction(
 		kind="update_hat",
 		user_id=v.id,
 		_note=f'<a href="{SITE_FULL_IMAGES}/i/hats/{name}.webp">{name}</a>'
 	)
 	g.db.add(ma)
+
 	return {"message": f"'{name}' updated successfully!"}
