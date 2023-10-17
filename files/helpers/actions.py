@@ -512,13 +512,13 @@ def execute_by_username(v):
 	username = v.username.lower()
 	if username.startswith("icosaka") or ("dylan" in username and "hewitt" in username):
 		v.shadowbanned = AUTOJANNY_ID
-		v.ban_reason = username
+		v.ban_reason = "Banned username"
 		g.db.add(v)
 		ma = ModAction(
 			kind="shadowban",
 			user_id=AUTOJANNY_ID,
 			target_user_id=v.id,
-			_note=f'reason: "{username} ({v.age} seconds)"'
+			_note=f'reason: "Banned username ({v.age} seconds)"'
 		)
 		g.db.add(ma)
 
