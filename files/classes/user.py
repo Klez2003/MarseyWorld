@@ -58,7 +58,7 @@ class User(Base):
 	profile_background = Column(String)
 	flair = deferred(Column(String))
 	flair_html = Column(String)
-	titlecolor = Column(String, default=DEFAULT_COLOR)
+	flaircolor = Column(String, default=DEFAULT_COLOR)
 	theme = Column(String, default=DEFAULT_THEME)
 	themecolor = Column(String, default=DEFAULT_COLOR)
 	song = Column(String)

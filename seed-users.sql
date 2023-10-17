@@ -1,6 +1,6 @@
 INSERT INTO public.users (
 	username, passhash, created_utc, admin_level, email_verified,
-	original_username, defaultsorting, defaultsortingcomments, defaulttime, namecolor, titlecolor, theme, themecolor,
+	original_username, defaultsorting, defaultsortingcomments, defaulttime, namecolor, flaircolor, theme, themecolor,
 	reddit, pronouns, verified, profileurl, highres,
 	marsify, last_viewed_post_notifs, last_viewed_log_notifs, last_viewed_reddit_notifs, lifetimedonated, lifetimedonated_visible, show_sigs
 ) VALUES

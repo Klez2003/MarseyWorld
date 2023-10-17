@@ -426,14 +426,14 @@ def namecolor(v):
 def themecolor(v):
 	return set_color(v, "themecolor")
 
-@app.post("/settings/titlecolor")
+@app.post("/settings/flaircolor")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def titlecolor(v):
-	return set_color(v, "titlecolor")
+def flaircolor(v):
+	return set_color(v, "flaircolor")
 
 @app.post("/settings/verifiedcolor")
 @limiter.limit('1/second', scope=rpath)

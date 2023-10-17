@@ -88,10 +88,10 @@
 			<span {% if p.author.patron and not p.distinguish_level %}class="patron" style="background-color:#{{p.author.name_color}}"{% elif p.distinguish_level %}class="mod {% if SITE_NAME == 'rDrama' %}mod-rdrama{% endif %}"{% endif %} {% if p.author.pride_username(v) %}pride_username{% endif %}>{{p.author_name}}</span>
 		</a>
 		{% if FEATURES['PRONOUNS'] %}
-			<span class="pronouns" style="color:#{{p.author.titlecolor}} !important;border-color:#{{p.author.titlecolor}} !important">{{p.author.pronouns_display}}</span>
+			<span class="pronouns" style="color:#{{p.author.flaircolor}} !important;border-color:#{{p.author.flaircolor}} !important">{{p.author.pronouns_display}}</span>
 		{% endif %}
 		{% if p.author.flair_html %}
-			<bdi class="text-break ml-2" style="color: #{{p.author.titlecolor}}">{{p.author.flair_html | safe}}</bdi>
+			<bdi class="text-break ml-2" style="color: #{{p.author.flaircolor}}">{{p.author.flair_html | safe}}</bdi>
 		{% endif %}
 	{% endif %}
 	<span class="ml-2 d-inline-block" data-bs-toggle="tooltip" data-bs-placement="bottom" data-nonce="{{g.nonce}}" data-onmouseover="timestamp(this, '{{p.created_utc}}')" id="timestamp-{{p.id}}">&nbsp;{{p.age_string}}</span>

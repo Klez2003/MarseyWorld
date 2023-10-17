@@ -176,10 +176,10 @@
 						<span {% if c.author.patron and not c.distinguish_level %}class="patron" style="background-color:#{{c.author.name_color}}"{% elif c.distinguish_level %}class="mod {% if SITE_NAME == 'rDrama' %}mod-rdrama{% endif %}"{% endif %} {% if c.author.pride_username(v) %}pride_username{% endif %}>{{c.author_name}}</span>
 					</a>
 					{% if FEATURES['PRONOUNS'] %}
-						<span class="pronouns" style="color:#{{c.author.titlecolor}} !important;border-color:#{{c.author.titlecolor}} !important">{{c.author.pronouns_display}}</span>
+						<span class="pronouns" style="color:#{{c.author.flaircolor}} !important;border-color:#{{c.author.flaircolor}} !important">{{c.author.pronouns_display}}</span>
 					{% endif %}
 					{% if c.author.flair_html %}
-						&nbsp;<bdi class="text-break" style="color: #{{c.author.titlecolor}}">&nbsp;{{c.author.flair_html | safe}}</bdi>
+						&nbsp;<bdi class="text-break" style="color: #{{c.author.flaircolor}}">&nbsp;{{c.author.flair_html | safe}}</bdi>
 					{% endif %}
 				{% endif %}
 
