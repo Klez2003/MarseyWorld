@@ -922,7 +922,7 @@ def process_settings_plaintext(value, current, length, default_value):
 def settings_change_flair(v):
 	if v.flairchanged: abort(403)
 
-	flair = process_settings_plaintext("title", v.flair, 100, None)
+	flair = process_settings_plaintext("flair", v.flair, 100, None)
 
 	if flair:
 		flair_html = filter_emojis_only(flair)

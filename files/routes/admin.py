@@ -917,7 +917,7 @@ def admin_change_flair(user_id, v):
 
 	user = get_account(user_id)
 
-	new_flair = request.values.get("title")[:256].strip()
+	new_flair = request.values.get("flair")[:256].strip()
 
 	user.flair = new_flair
 	new_flair = filter_emojis_only(new_flair)
