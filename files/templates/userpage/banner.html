@@ -11,7 +11,7 @@
 {% block desktopUserBanner %}
 <div class="row d-mob-none">
 	<div class="col px-0">
-		<div class="jumbotron jumbotron-fluid jumbotron-guild d-mob-none" {% if FEATURES['USERS_PROFILE_BANNER'] %}style="background-image: url({{u.banner_url}})"{% endif %}>
+		<div id="desktopUserBanner" class="jumbotron jumbotron-fluid jumbotron-guild d-mob-none" {% if FEATURES['USERS_PROFILE_BANNER'] %}data-style="background-image: url({{u.banner_url}})"{% endif %}>
 			<div class="jumbotron-overlay"></div>
 			<div class="w-100 my-3">
 				<div class="container-fluid nobackground">

@@ -4,3 +4,9 @@ function badge_timestamp(t) {
 	t.setAttribute("data-bs-original-title", `${text} ${date.toString()}`);
 	t.removeAttribute("data-onmouseover")
 }
+
+addEventListener("load", () => {
+	const el = document.getElementById("desktopUserBanner")
+	const style = el.getAttribute("data-style")
+	el.setAttribute("style", style)
+});
