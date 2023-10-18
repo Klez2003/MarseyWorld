@@ -38,9 +38,7 @@
 								<label class="mt-3" for="kind">New Kind</label>
 								<div class="input-group">
 									<select autocomplete="off" id='kind' class="form-control" name="kind">
-										{% if not kind %}
-											<option hidden disabled selected value>-- select an option -- (optional)</option>
-										{% endif %}
+										<option hidden disabled selected value>-- select an option -- (optional)</option>
 										{% for entry in EMOJI_KINDS %}
 											<option value="{{entry}}">
 												{{entry}}
