@@ -383,6 +383,7 @@ PERMS = { # Minimum admin_level to perform action.
 	'USER_RESET_PASSWORD': 4,
 	'CLAIM_REWARDS_ALL_USERS': 4,
 	'IGNORE_AWARD_IMMUNITY': 4,
+	'INSERT_TRANSACTION': 4,
 }
 
 FEATURES = {

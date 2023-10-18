@@ -2044,3 +2044,61 @@ def remove_orgy(v, created_utc):
 		requests.post('http://localhost:5001/refresh_chat', headers={"Host": SITE})
 
 	return {"message": "Orgy stopped successfully!"}
+
+@app.get("/admin/insert_transaction")
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@admin_level_required(PERMS['INSERT_TRANSACTION'])
+def insert_transaction(v):
+	return render_template("admin/insert_transaction.html", v=v)
+
+@app.post("/admin/insert_transaction")
+@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@admin_level_required(PERMS['INSERT_TRANSACTION'])
+def insert_transaction_post(v):
+	type = request.values.get("type", "").strip()
+	id = request.values.get("id", "").strip()
+	amount = request.values.get("amount", "").strip()
+	username = request.values.get("username", "").strip()
+
+	if type not in {'BTC', 'ETH'}:
+		abort(400, "Invalid transaction currency!")
+
+	if not id:
+		abort(400, "A transaction ID is required!")
+
+	if not amount:
+		abort(400, "A transaction amount is required!")
+
+	if not username:
+		abort(400, "A username is required!")
+
+	amount = int(amount)
+
+	user = get_user(username)
+
+	if not user.email:
+		abort(400, f"@{user.username} doesn't have an email tied to their account!")
+
+	transaction = Transaction(
+		id=id,
+		created_utc=time.time(),
+		type=type,
+		amount=amount,
+		email=user.email,
+	)
+	g.db.add(transaction)
+
+	ma = ModAction(
+		kind="insert_transaction",
+		user_id=v.id,
+		target_user_id=user.id,
+		_note=f'Transaction ID: {id}',
+	)
+	g.db.add(ma)
+
+	claim_rewards_all_users()
+	return {"message": "Transaction inserted successfully!"}

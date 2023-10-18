@@ -181,6 +181,11 @@ MODACTION_TYPES = {
 		"icon": 'fa-tag',
 		"color": 'bg-primary'
 	},
+	'insert_transaction': {
+		"str": 'Inserted transaction made by {self.target_link}',
+		"icon": 'fa-dollar-sign',
+		"color": 'bg-success'
+	},
 	'link_accounts': {
 		"str": 'linked {self.target_link}',
 		"icon": 'fa-link',
@@ -436,6 +441,7 @@ MODACTION_PRIVILEGED_TYPES = {
 								'enable_login_required',
 								'reset_password',
 								'schedule_orgy', 'remove_orgy',
+								'insert_transaction',
 							}
 MODACTION_PRIVILEGED__TYPES = {'progstack_post', 'progstack_comment',
 							'unprogstack_post', 'unprogstack_comment'}

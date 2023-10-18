@@ -47,6 +47,7 @@ def _add_profile_view(vid, uid):
 	stdout.flush()
 
 def claim_rewards_all_users():
+	g.db.flush()
 	emails = [x[0] for x in g.db.query(Transaction.email).filter_by(claimed=None)]
 	users = g.db.query(User).filter(User.email.in_(emails)).order_by(User.truescore.desc()).all()
 	for user in users:
@@ -58,8 +59,8 @@ def claim_rewards_all_users():
 
 		for transaction in transactions:
 			for t, money in TIER_TO_MONEY.items():
+				if transaction.amount < money: break
 				tier = t
-				if transaction.amount <= money: break
 
 			marseybux += transaction.amount * 500
 			if tier > highest_tier:

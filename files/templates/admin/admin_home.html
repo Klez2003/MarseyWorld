@@ -4,6 +4,13 @@
 {% block content %}
 <h3 class="py-2">Admin Tools</h3>
 
+{% if v.admin_level >= PERMS['INSERT_TRANSACTION'] %}
+	<h4>Transactions</h4>
+	<ul>
+		<li><a href="/admin/insert_transaction">Insert Transaction</a></li>
+	</ul>
+{%- endif %}
+
 {% if v.admin_level >= PERMS['ORGIES'] %}
 	<h4>Orgies</h4>
 	<ul>
