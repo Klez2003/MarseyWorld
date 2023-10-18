@@ -1998,7 +1998,7 @@ def schedule_orgy(v):
 	elif any((normalized_link.lower().endswith(f'.{x}') for x in VIDEO_FORMATS)):
 		orgy_type = 'file'
 		data = normalized_link
-		video_info = ffmpeg.probe(data, headers=f'referer:https://{SITE}/chat')
+		video_info = ffmpeg.probe(data, headers=f'referer:{SITE_FULL}/chat')
 		duration = float(video_info['streams'][0]['duration'])
 		if duration == 2.0: raise
 		if duration > 3000:
