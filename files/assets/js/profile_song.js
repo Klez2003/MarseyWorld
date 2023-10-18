@@ -6,6 +6,10 @@ audio.addEventListener('play', () => {
 	localStorage.setItem("music_playing", true);
 })
 
+audio.addEventListener('pause', () => {
+	localStorage.setItem("music_playing", false);
+})
+
 window.addEventListener('beforeunload', () => {
 	localStorage.setItem("music_playing", false);
 })
@@ -42,14 +46,16 @@ if (u_username)
 	}
 
 	if (!music_playing) {
-		play_audio(audio);
-		document.addEventListener('click', (e) => {
-			if (e.target.id.startsWith("toggle-anthem"))
-				return
-			if (audio.paused) play_audio(audio);
-		}, {once : true});
+		addEventListener("load", () => {
+			play_audio(audio);
+			document.addEventListener('click', (e) => {
+				if (e.target.id.startsWith("toggle-anthem"))
+					return
+				if (audio.paused) play_audio(audio);
+			}, {once : true});
 
-		prepare_to_pause(audio)
+			prepare_to_pause(audio)
+		})
 	}
 }
 else
@@ -76,14 +82,16 @@ else
 
 		if (!paused && !music_playing)
 		{
-			play_audio(audio);
-			document.addEventListener('click', (e) => {
-				if (e.target.id.startsWith("toggle-anthem"))
-					return
-				if (audio.paused) play_audio(audio);
-			}, {once : true});
+			addEventListener("load", () => {
+				play_audio(audio);
+				document.addEventListener('click', (e) => {
+					if (e.target.id.startsWith("toggle-anthem"))
+						return
+					if (audio.paused) play_audio(audio);
+				}, {once : true});
 
-			prepare_to_pause(audio)
+				prepare_to_pause(audio)
+			})
 		}
 	}
 }
