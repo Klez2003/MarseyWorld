@@ -315,7 +315,7 @@ def settings_personal_post(v):
 
 	elif not updated and FEATURES['USERS_PROFILE_BODYTEXT'] and \
 			(request.values.get("bio") or request.files.get('file')):
-		bio = request.values.get("bio")[:BIO_FRIENDS_ENEMIES_LENGTH_LIMIT]
+		bio = request.values.get("bio", "")[:BIO_FRIENDS_ENEMIES_LENGTH_LIMIT]
 		bio = process_files(request.files, v, bio)
 		bio = bio.strip()
 		bio_html = sanitize(bio, blackjack="bio")
