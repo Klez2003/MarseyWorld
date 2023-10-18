@@ -2078,6 +2078,10 @@ def insert_transaction_post(v):
 
 	amount = int(amount)
 
+	existing = g.db.get(Transaction, id)
+	if existing:
+		abort(400, "This transaction is already registered!")
+
 	user = get_user(username)
 
 	if not user.email:
