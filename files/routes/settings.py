@@ -274,7 +274,7 @@ def settings_personal_post(v):
 					add_notif(cid, x, text, pushnotif_url=f'{SITE_FULL}{v.url}')
 
 		if v.friends:
-			removed_users = NOTIFY_USERS(v.friends, v) - notify_users
+			removed_users = NOTIFY_USERS(v.friends, v) - NOTIFY_USERS(friends, v)
 			notify_removed_users(removed_users, 'friends')
 
 		v.friends = friends
@@ -304,7 +304,7 @@ def settings_personal_post(v):
 					add_notif(cid, x, text, pushnotif_url=f'{SITE_FULL}{v.url}')
 
 		if v.enemies:
-			removed_users = NOTIFY_USERS(v.enemies, v) - notify_users
+			removed_users = NOTIFY_USERS(v.enemies, v) - NOTIFY_USERS(enemies, v)
 			notify_removed_users(removed_users, 'enemies')
 
 		v.enemies = enemies
