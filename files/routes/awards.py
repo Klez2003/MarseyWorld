@@ -16,6 +16,7 @@ from files.helpers.regex import *
 from files.helpers.sanitize import *
 from files.helpers.useractions import *
 from files.routes.wrappers import *
+from files.routes.routehelpers import get_alt_graph_ids
 from files.__main__ import app, cache, limiter
 
 from .front import frontlist
@@ -198,8 +199,11 @@ def award_thing(v, thing_type, id):
 	if thing_type == 'post' and thing.id == 210983:
 		abort(403, "You can't award this post!")
 
-	if kind == "benefactor" and author.id == v.id:
-		abort(403, "You can't use this award on yourself!")
+	if kind == "benefactor":
+		if author.id == v.id:
+			abort(403, "You can't use this award on yourself!")
+		if author.id in get_alt_graph_ids(v.id):
+			abort(403, "You can't use this award on your alts!")
 
 	if thing.ghost and not AWARDS[kind]['ghost']:
 		abort(403, "This kind of award can't be used on ghost posts!")
