@@ -11,7 +11,11 @@ CLOUDFLARE_AVAILABLE = CF_ZONE and CF_ZONE != DEFAULT_CONFIG_VALUE
 
 def _request_from_cloudflare(url, method, post_data_str):
 	if not CLOUDFLARE_AVAILABLE: return False
-	res = str(requests.request(method, f"{CLOUDFLARE_API_URL}/zones/{CF_ZONE}/{url}", headers=CF_HEADERS, data=post_data_str, timeout=CLOUDFLARE_REQUEST_TIMEOUT_SECS))
+	try:
+		res = str(requests.request(method, f"{CLOUDFLARE_API_URL}/zones/{CF_ZONE}/{url}", headers=CF_HEADERS, data=post_data_str, timeout=CLOUDFLARE_REQUEST_TIMEOUT_SECS))
+	except Exception as e:
+		print(e, flush=True)
+		return False
 	return res == "<Response [200]>"
 
 def set_security_level(under_attack="high"):
