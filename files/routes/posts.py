@@ -452,7 +452,7 @@ def submit_post(v, hole=None):
 
 	hole = request.values.get("hole", "").lower().replace('/h/','').strip()
 
-	if SITE == 'rdrama.net' and (v.chud == 1 or v.id == 253):
+	if SITE == 'rdrama.net' and v.chud == 1:
 		hole = 'chudrama'
 
 	if SITE == 'rdrama.net' and v.id == 10947:
