@@ -1319,12 +1319,6 @@ class User(Base):
 
 	@property
 	@lazy
-	def can_see_my_shit(self):
-		v = g.v
-		return not self.shadowbanned or (v and (v.id == self.id or v.can_see_shadowbanned))
-
-	@property
-	@lazy
 	def ordered_badges(self):
 		return sorted(self.badges, key=badge_ordering_func)
 
