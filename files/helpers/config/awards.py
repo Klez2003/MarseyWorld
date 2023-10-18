@@ -849,7 +849,7 @@ AWARDS = {
 		"description": f"Grants one month of {patron} status and 2000 marseybux to the recipient. Cannot be used on yourself.",
 		"icon": "fas fa-gift",
 		"color": "text-blue",
-		"price": 4000,
+		"price": 2500,
 		"deflectable": False,
 		"cosmetic": False,
 		"ghost": False,
