@@ -256,6 +256,7 @@ INSERT INTO public.badge_defs VALUES (293, 'Gloriously Girthy', 'This user consu
 INSERT INTO public.badge_defs VALUES (203, 'Best rDrama OC 2022', 'The creator or commissioner of the best rDrama original content of 2022, as voted by rDrama users.', 1670627675);
 INSERT INTO public.badge_defs VALUES (214, 'Master Baiter 2022', 'The cunning mastermind behind the ruse which was voted best rDrama bait of 2022.', 1670719221);
 INSERT INTO public.badge_defs VALUES (300, 'Gorloj, Galactic High Council', 'This user cloaked /r/UFOs in their heavenly wisdom.', 1694717119);
+INSERT INTO public.badge_defs VALUES (304, 'Man in Black', 'The truth is out there. This user prevented /r/UFOs from finding it.', 1697728753);
 INSERT INTO public.badge_defs VALUES (198, 'Best rDrama Post 2021', 'The author of the best rDrama post of 2021, as voted by rDrama users.', 1670627332);
 INSERT INTO public.badge_defs VALUES (208, 'Best rDrama Post 2022', 'The author of the best rDrama post of 2022, as voted by rDrama users.', 1670628577);
 INSERT INTO public.badge_defs VALUES (294, 'Highest Roller', 'One of rDrama''s Top 10 Sugar Leather Daddies 🤤', 1690858016);
@@ -266,7 +267,7 @@ INSERT INTO public.badge_defs VALUES (295, 'August''s August August', 'This user
 -- Name: badge_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.badge_defs_id_seq', 303, true);
+SELECT pg_catalog.setval('public.badge_defs_id_seq', 304, true);
 
 
 --
