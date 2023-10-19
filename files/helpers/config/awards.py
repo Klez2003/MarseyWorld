@@ -836,7 +836,7 @@ AWARDS = {
 		"icon": "fas fa-shield",
 		"color": "text-pink",
 		"price": 2500,
-		"deflectable": True,
+		"deflectable": False,
 		"cosmetic": False,
 		"ghost": False,
 		"enabled": True,
