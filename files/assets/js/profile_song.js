@@ -23,6 +23,8 @@ function pause_audio(audio) {
 }
 
 function play_profile_song() {
+	if (playing_music()) return
+
 	addEventListener("load", () => {
 		play_audio(audio);
 		document.addEventListener('click', (e) => {
