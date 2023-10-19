@@ -287,7 +287,7 @@ function prepare_to_pause(audio) {
 function handle_playing_music(audio) {
 	audio.addEventListener('play', () => {
 		localStorage.setItem("playing_music", Date.now());
-		window.addEventListener('beforeunload', () => {
+		addEventListener('beforeunload', () => {
 			localStorage.setItem("playing_music", 0);
 		})	
 	})
