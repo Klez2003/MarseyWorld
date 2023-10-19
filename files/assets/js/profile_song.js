@@ -1,18 +1,6 @@
-const music_playing = localStorage.getItem("music_playing") == 'true'
-
 const audio = document.getElementById('profile-song')
 
-audio.addEventListener('play', () => {
-	localStorage.setItem("music_playing", true);
-})
-
-audio.addEventListener('pause', () => {
-	localStorage.setItem("music_playing", false);
-})
-
-window.addEventListener('beforeunload', () => {
-	localStorage.setItem("music_playing", false);
-})
+handle_playing_music(audio)
 
 let u_username = document.getElementById('u_username')
 const anthem_button = document.getElementById('toggle-anthem')
@@ -45,7 +33,7 @@ if (u_username)
 		}
 	}
 
-	if (!music_playing) {
+	if (!playing_music()) {
 		addEventListener("load", () => {
 			play_audio(audio);
 			document.addEventListener('click', (e) => {
@@ -80,7 +68,7 @@ else
 			}
 		}
 
-		if (!paused && !music_playing)
+		if (!paused && !playing_music())
 		{
 			addEventListener("load", () => {
 				play_audio(audio);

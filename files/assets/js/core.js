@@ -284,6 +284,22 @@ function prepare_to_pause(audio) {
 	});
 }
 
+function handle_playing_music(audio) {
+	audio.addEventListener('play', () => {
+		localStorage.setItem("playing_music", Date.now());
+		window.addEventListener('beforeunload', () => {
+			localStorage.setItem("playing_music", 0);
+		})	
+	})
+	audio.addEventListener('pause', () => {
+		localStorage.setItem("playing_music", 0);
+	})	
+}
+
+function playing_music() {
+	return (Date.now() - localStorage.getItem("playing_music", 0) < 300000)
+}
+
 function reload() {
 	location.reload();
 }

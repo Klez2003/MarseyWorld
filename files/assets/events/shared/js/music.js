@@ -1,14 +1,8 @@
-if (localStorage.getItem("music_playing") != 'true') {
+if (!playing_music()) {
 	addEventListener("load", () => {
 		const audio = document.getElementById('event-song');
 
-		audio.addEventListener('play', () => {
-			localStorage.setItem("music_playing", true);
-		})
-
-		window.addEventListener('beforeunload', () => {
-			localStorage.setItem("music_playing", false);
-		})
+		handle_playing_music(audio)
 
 		audio.play();
 		document.addEventListener('click', () => {
