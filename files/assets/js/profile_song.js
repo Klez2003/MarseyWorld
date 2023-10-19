@@ -22,6 +22,19 @@ function pause_audio(audio) {
 	}
 }
 
+function play_profile_song() {
+	addEventListener("load", () => {
+		play_audio(audio);
+		document.addEventListener('click', (e) => {
+			if (e.target.id.startsWith("toggle-anthem"))
+				return
+			if (audio.paused) play_audio(audio);
+		}, {once : true});
+
+		prepare_to_pause(audio)
+	})
+}
+
 if (u_username)
 {
 	function toggle() {
@@ -33,18 +46,7 @@ if (u_username)
 		}
 	}
 
-	if (!playing_music()) {
-		addEventListener("load", () => {
-			play_audio(audio);
-			document.addEventListener('click', (e) => {
-				if (e.target.id.startsWith("toggle-anthem"))
-					return
-				if (audio.paused) play_audio(audio);
-			}, {once : true});
-
-			prepare_to_pause(audio)
-		})
-	}
+	play_profile_song()
 }
 else
 {
@@ -68,18 +70,7 @@ else
 			}
 		}
 
-		if (!paused && !playing_music())
-		{
-			addEventListener("load", () => {
-				play_audio(audio);
-				document.addEventListener('click', (e) => {
-					if (e.target.id.startsWith("toggle-anthem"))
-						return
-					if (audio.paused) play_audio(audio);
-				}, {once : true});
-
-				prepare_to_pause(audio)
-			})
-		}
+		if (!paused)
+			play_profile_song()
 	}
 }
