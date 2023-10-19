@@ -219,7 +219,7 @@ def settings_personal_post(v):
 		g.db.add(v)
 		return {"message": "Your sig has been updated."}
 
-	elif not updated and request.values.get("friends") == "":
+	elif not updated and request.values.get("friends") == "" and v.friends:
 		removed_users = NOTIFY_USERS(v.friends, v)
 		notify_removed_users(removed_users, 'friends')
 		v.friends = None
@@ -227,7 +227,7 @@ def settings_personal_post(v):
 		g.db.add(v)
 		return {"message": "Your friends list has been updated."}
 
-	elif not updated and request.values.get("enemies") == "":
+	elif not updated and request.values.get("enemies") == "" and v.enemies:
 		removed_users = NOTIFY_USERS(v.enemies, v)
 		notify_removed_users(removed_users, 'enemies')
 		v.enemies = None
