@@ -1119,11 +1119,12 @@ INSERT INTO public.hat_defs VALUES (1351, 'Vietnamese Pith Helmet', 'A good hat 
 INSERT INTO public.hat_defs VALUES (573, 'CENSORED', '💔 literally 1984 💔', 2, 500, NULL, 1662167687);
 
 
+
 --
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1351, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1352, true);
 
 
 --
