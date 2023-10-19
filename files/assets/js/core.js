@@ -297,7 +297,7 @@ function handle_playing_music(audio) {
 }
 
 function playing_music() {
-	return (Date.now() - localStorage.getItem("playing_music", 0) < 60000)
+	return (Date.now() - localStorage.getItem("playing_music", 0) < 300000)
 }
 
 function reload() {
