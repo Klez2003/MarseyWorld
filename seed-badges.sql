@@ -173,6 +173,7 @@ INSERT INTO public.badge_defs VALUES (28, 'Rich Bich', 'Donates at least $500/mo
 INSERT INTO public.badge_defs VALUES (227, 'Saved Christmas with Teh Codez', 'Got the highest score and completed all 50 stars during Advent of Code 2022.', 1672289744);
 INSERT INTO public.badge_defs VALUES (229, 'Certified MONSTER Cock', 'This user submitted a photo of their dick and it was confirmed to be HUGE', 1674147916);
 INSERT INTO public.badge_defs VALUES (230, 'Itty Bitty Clitty', 'This user submitted a photo of their dick and it was determined to be more similar to a sad, undersized clit', 1674147964);
+INSERT INTO public.badge_defs VALUES (305, 'Boulder Badge', 'From the Pewter City Gym. Allows the HM Flash to be used outside of battle.', 1697740804);
 INSERT INTO public.badge_defs VALUES (96, 'Flairlock', 'This user''s flair has been locked by someone else', NULL);
 INSERT INTO public.badge_defs VALUES (159, 'It''s Over', 'Lost a 100,000 bet. It''s fucking over.', NULL);
 INSERT INTO public.badge_defs VALUES (212, 'Dramatard of the Year 2022', 'Voted as the best rDrama user of 2022. Congratulations!', 1670719153);
@@ -261,13 +262,20 @@ INSERT INTO public.badge_defs VALUES (198, 'Best rDrama Post 2021', 'The author 
 INSERT INTO public.badge_defs VALUES (208, 'Best rDrama Post 2022', 'The author of the best rDrama post of 2022, as voted by rDrama users.', 1670628577);
 INSERT INTO public.badge_defs VALUES (294, 'Highest Roller', 'One of rDrama''s Top 10 Sugar Leather Daddies 🤤', 1690858016);
 INSERT INTO public.badge_defs VALUES (295, 'August''s August August', 'This user had a very good time in August', 1690914173);
+INSERT INTO public.badge_defs VALUES (306, 'Cascade Badge', 'From the Cerulean City Gym. Allows the HM Cut to be used outside of battle, and makes Pokemon up to level 30 obey.', 1697740811);
+INSERT INTO public.badge_defs VALUES (307, 'Thunder Badge', 'From the Vermillion City Gym. Allows the HM Fly to be used outside of battle.', 1697740819);
+INSERT INTO public.badge_defs VALUES (308, 'Rainbow Badge', 'From the Celadon City Gym. Allows the HM Strength to be used outside of battle, and makes Pokemon up to level 50 obey.', 1697740829);
+INSERT INTO public.badge_defs VALUES (309, 'Soul Badge', 'From the Fuschia City Gym. Allows the HM Surf to be used outside of battle.', 1697740839);
+INSERT INTO public.badge_defs VALUES (310, 'Marsh Badge', 'From the Saffron City Gym. Allows the HM Rock Smash to be used outside of battle, and makes Pokemon up to level 70 obey.', 1697740847);
+INSERT INTO public.badge_defs VALUES (311, 'Volcano Badge', 'From the Cinnabar Island Gym. Allows the HM Waterfall to be used outside of battle.', 1697740854);
+INSERT INTO public.badge_defs VALUES (312, 'Earth Badge', 'From the Viridian City Gym. Makes all Pokemon obey and allows the bearer to challenge the Kanto Elite Four.', 1697740864);
 
 
 --
 -- Name: badge_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.badge_defs_id_seq', 304, true);
+SELECT pg_catalog.setval('public.badge_defs_id_seq', 312, true);
 
 
 --

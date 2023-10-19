@@ -178,6 +178,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw) VALUES
 ('bruhmad','Misc',2,'mandm angry',false),
 ('bs','Classic',2,'bs emoticon animated bull shit bullshit disbelief flag',false),
 ('bubbles','Misc',2,'tpb bubs',false),
+('buckchecker','Misc',2,'tariqnasheed factchecked',false),
 ('buenpost','Classic',2,'spanish good approving great',false),
 ('burgermario','Misc',2,'vidya nintendo fat',false),
 ('bussyboy','Misc',2,'bussy bussyboy boy boypussy dudebussylmao rdrama dramanaut dramatard dramautist dramacel dude lmao femboy',false),
