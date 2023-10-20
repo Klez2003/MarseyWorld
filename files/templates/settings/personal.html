@@ -19,7 +19,7 @@
 							{% if not v.patron and v.truescore >= TRUESCORE_MINIMUM and DONATE_LINK != DEFAULT_CONFIG_VALUE %}
 								<p class="font-italic">To stop freeloading, first <a href="/settings/security#site-settings-email-section">verify your email</a>, support us on <a href="{{DONATE_LINK}}">{{DONATE_SERVICE}}</a> with the same email, and click "Claim {{patron}} Rewards"</p>
 							{% elif not v.patron %}
-								<p class="font-italic">To stop freeloading, you can <a href="/donate">donate via crypto</a>. Please let us know first beforehand by <a href="/contact">sending us a modmail.</a> Thanks!</p>
+								<p class="font-italic">To stop freeloading, you can <a href="/donate">donate by crypto</a>. If you do that, please let us know by <a href="/contact">sending us the transaction id via modmail</a> so we can give you your {{patron}} rewards manually!</p>
 							{% endif %}
 						</div>
 					</div>
