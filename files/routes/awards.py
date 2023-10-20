@@ -410,7 +410,7 @@ def award_thing(v, thing_type, id):
 			author.namechanged += 86400
 		else:
 			if not valid_username_regex.fullmatch(new_name):
-				abort(400, "Invalid username")
+				abort(400, "You need to enter a valid username to change the recipient to.")
 
 			existing = get_user(new_name, graceful=True)
 			if existing and existing.id != author.id:
