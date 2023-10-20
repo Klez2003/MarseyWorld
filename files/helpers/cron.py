@@ -60,15 +60,19 @@ def cron_fn(every_5m, every_1d, every_fri_12, every_fri_23, every_sat_03, every_
 					g.db.commit()
 
 			if every_1d or (not cache.get('stats') and not IS_LOCALHOST):
+				if IS_HOMOWEEN():
+					g.db.execute(text(
+						"INSERT INTO award_relationships (user_id, kind, created_utc) "
+						f"SELECT id, 'bite', {int(time.time())} FROM users "
+						"WHERE users.zombie < 0"))
+					g.db.commit()
+
 				_generate_emojis_zip()
 				g.db.commit()
 
 				if FEATURES['ASSET_SUBMISSIONS']:
 					_generate_emojis_original_zip()
 					g.db.commit()
-
-				_leaderboard_task()
-				g.db.commit()
 
 				_hole_inactive_purge_task()
 				g.db.commit()
@@ -79,13 +83,8 @@ def cron_fn(every_5m, every_1d, every_fri_12, every_fri_23, every_sat_03, every_
 				cache.set('stats', stats.stats(), timeout=CRON_CACHE_TIMEOUT)
 				g.db.commit()
 
-				if IS_HOMOWEEN():
-					g.db.execute(text(
-						"INSERT INTO award_relationships (user_id, kind, created_utc) "
-						f"SELECT id, 'bite', {int(time.time())} FROM users "
-						"WHERE users.zombie < 0"))
-					g.db.commit()
-
+				_leaderboard_task()
+				g.db.commit()
 
 			if every_fri_12:
 				_create_post(f'Movie Night', f'''Our Movie Night today will show `{get_names()}`.\nThe movies will start at 8 PM EST. [Here is a timezone converter for whoever needs it.](https://dateful.com/time-zone-converter?t=8pm&tz1=EST-EDT-Eastern-Time). You can also check this [countdown timer](https://www.tickcounter.com/countdown/4435809/movie-night) instead.\nThey will be shown [here](/chat).\nThere will be a 5-minute bathroom break at the 50:00 mark of each movie.\nRerun will be Sunday 4 PM EST.''', 11)
