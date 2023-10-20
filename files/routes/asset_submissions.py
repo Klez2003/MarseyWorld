@@ -231,8 +231,11 @@ def approve_emoji(v, name):
 	if emoji.nsfw:
 		OVER_18_EMOJIS.append(emoji.name)
 
-	cache.delete(f"emojis_{emoji.nsfw}")
-	cache.delete(f"emoji_list_{emoji.kind}_{emoji.nsfw}")
+	cache.delete("emojis_True")
+	cache.delete(f"emoji_list_{emoji.kind}_True")
+	if not emoji.nsfw:
+		cache.delete("emojis_False")
+		cache.delete(f"emoji_list_{emoji.kind}_False")
 
 	purge_files_in_cloudflare_cache(f"{SITE_FULL_IMAGES}/e/{emoji.name}/webp")
 
@@ -541,8 +544,11 @@ def update_emoji(v):
 	)
 	g.db.add(ma)
 
-	cache.delete(f"emojis_{existing.nsfw}")
-	cache.delete(f"emoji_list_{existing.kind}_{existing.nsfw}")
+	cache.delete("emojis_True")
+	cache.delete(f"emoji_list_{existing.kind}_True")
+	if not existing.nsfw:
+		cache.delete("emojis_False")
+		cache.delete(f"emoji_list_{existing.kind}_False")
 
 	return {"message": f"'{name}' updated successfully!"}
 
