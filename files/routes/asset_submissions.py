@@ -188,11 +188,6 @@ def approve_emoji(v, name):
 			badge_grant(badge_id=113, user=author)
 		badge_grant(badge_id=112, user=author)
 
-	cache.delete(f"emojis_{emoji.nsfw}")
-	cache.delete(f"emoji_list_{emoji.kind}_{emoji.nsfw}")
-
-	purge_files_in_cloudflare_cache(f"{SITE_FULL_IMAGES}/e/{emoji.name}/webp")
-
 	move(f"/asset_submissions/emojis/{name}.webp", f"files/assets/images/emojis/{emoji.name}.webp")
 
 	highquality = f"/asset_submissions/emojis/{name}"
@@ -235,6 +230,11 @@ def approve_emoji(v, name):
 
 	if emoji.nsfw:
 		OVER_18_EMOJIS.append(emoji.name)
+
+	cache.delete(f"emojis_{emoji.nsfw}")
+	cache.delete(f"emoji_list_{emoji.kind}_{emoji.nsfw}")
+
+	purge_files_in_cloudflare_cache(f"{SITE_FULL_IMAGES}/e/{emoji.name}/webp")
 
 	return {"message": f"'{emoji.name}' approved!"}
 
