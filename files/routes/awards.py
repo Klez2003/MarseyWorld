@@ -199,6 +199,9 @@ def award_thing(v, thing_type, id):
 	if thing_type == 'post' and thing.id == 210983:
 		abort(403, "You can't award this post!")
 
+	if thing_type == 'post' and thing.distinguish_level and AWARDS[kind]['cosmetic']:
+		abort(403, "Distinguished posts are immune to cosmetic awards!")
+
 	if kind == "benefactor":
 		if author.id == v.id:
 			abort(403, "You can't use this award on yourself!")
