@@ -801,7 +801,9 @@ def normalize_url(url):
 
 def normalize_url_gevent(url):
 	try: url = requests.get(url, headers=HEADERS, timeout=2, proxies=proxies).url
-	except: return url
+	except Exception as e:
+		print(f"{url}: {e}", flush=True)
+		return url
 	return normalize_url(url)
 
 def validate_css(css):
