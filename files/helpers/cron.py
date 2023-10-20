@@ -136,7 +136,7 @@ def cron(**kwargs):
 	cron_fn(**kwargs)
 
 def get_names():
-	return ' and '.join([x[0] for x in g.db.query(Orgy.title).filter_by(type='file').order_by(Orgy.start_utc)])
+	return ' and '.join([x[0] for x in g.db.query(Orgy.title).filter_by(type='file').order_by(Orgy.start_utc).limit(2)])
 
 def _create_post(title, body, pin_hours):
 	_delete_all_posts()
