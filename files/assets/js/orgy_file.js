@@ -29,8 +29,8 @@ orgy_file.addEventListener('pause', () => {
 })
 
 orgy_file.addEventListener("timeupdate", function(){
-	if (break_file.dataset.run == "0" && parseInt(orgy_file.currentTime) == 3000) {
-		break_file.dataset.run = "1"
+	if (break_file.dataset.run == "False" && parseInt(orgy_file.currentTime) == 3000) {
+		break_file.dataset.run = "True"
 		orgy_file.pause();
 		orgy_file.classList.add('d-none');
 		break_file.classList.remove('d-none');

@@ -30,7 +30,7 @@
 								<track label="English" kind="subtitles" srclang="en" src="{{subtitles_url}}?x={{x}}" default>
 							{% endif %}
 						</video>
-						<video id="break-file" class="d-none" controls preload="none" src="/assets/break.mp4" data-run="0"></video>
+						<video id="break-file" class="d-none" controls preload="none" src="/assets/break.mp4" data-run="{{orgy.start_utc != orgy.real_start_utc}}"></video>
 						<script defer src="{{'js/orgy_file.js' | asset}}"></script>
 					{% endif %}
 				</p>
