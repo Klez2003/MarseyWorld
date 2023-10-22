@@ -17,7 +17,7 @@
 					{% set alt = 'emoji-award-' + emoji %}
 					{% set delay = 'animation-delay-' ~ ((loop.index-1)/4)|int %}
 					<div class="{{kind}}-award {{delay}}">
-						<img class="{{delay}} {% if emoji in ['marseywalking', 'capywalking', 'capycarp', 'marseyskinnedwalk', 'reindeer', 'marseyzombiewolftrample', 'taywalking', 'parrotmoonwalking', 'donkeykongwalk', 'dixiekongwalk', 'boosterwalking', 'marseydance', 'hamtarotreadmill',] %}reversed{% endif %}" loading="lazy" alt="{{alt}}" src="{{src}}">
+						<img class="{{delay}} {% if emoji in ['marseywalking', 'capywalking', 'capycarp', 'marseyskinnedwalk', 'reindeer', 'marseyzombiewolftrample', 'taywalking', 'parrotmoonwalking', 'donkeykongwalk', 'dixiekongwalk', 'boosterwalking', 'marseydance', 'hamtarotreadmill', 'marseykatamarireddit'] %}reversed{% endif %}" loading="lazy" alt="{{alt}}" src="{{src}}">
 					</div>
 				{% endfor %}
 			</div>
