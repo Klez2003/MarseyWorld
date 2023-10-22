@@ -889,12 +889,6 @@ approved_embed_hosts = [
 	'i.ytimg.com/vi',
 ]
 
-approved_embed_hosts_domains = []
-for h in approved_embed_hosts:
-	domain = tldextract.extract(h).registered_domain
-	if domain not in approved_embed_hosts_domains:
-		approved_embed_hosts_domains.append(domain)
-
 if SITE_IMAGES not in approved_embed_hosts:
 	approved_embed_hosts = [SITE_IMAGES] + approved_embed_hosts
 

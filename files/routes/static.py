@@ -376,7 +376,7 @@ def mutes(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def formatting(v):
-	return render_template("formatting.html", v=v, allowed_tags=allowed_tags, allowed_styles=allowed_styles, approved_embed_hosts_domains=approved_embed_hosts_domains)
+	return render_template("formatting.html", v=v, allowed_tags=allowed_tags, allowed_styles=allowed_styles)
 
 @app.get("/app")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
