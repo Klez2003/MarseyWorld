@@ -188,11 +188,11 @@ def approve_emoji(v, name):
 			badge_grant(badge_id=113, user=author)
 		badge_grant(badge_id=112, user=author)
 
-	move(f"/asset_submissions/emojis/{name}.webp", f"files/assets/images/emojis/{emoji.name}.webp")
+	move(f"/asset_submissions/emojis/{emoji.name}.webp", f"files/assets/images/emojis/{emoji.name}.webp")
 
-	highquality = f"/asset_submissions/emojis/{name}"
+	highquality = f"/asset_submissions/emojis/{emoji.name}"
 	with Image.open(highquality) as i:
-		new_path = f'/asset_submissions/emojis/original/{name}.{i.format.lower()}'
+		new_path = f'/asset_submissions/emojis/original/{emoji.name}.{i.format.lower()}'
 	rename(highquality, new_path)
 
 	if 'pkmn' in emoji.tags: amount = 500
@@ -224,7 +224,7 @@ def approve_emoji(v, name):
 	ma = ModAction(
 		kind="approve_emoji",
 		user_id=v.id,
-		_note=f'<img loading="lazy" data-bs-toggle="tooltip" alt=":{name}:" title=":{name}:" src="{SITE_FULL_IMAGES}/e/{name}.webp">'
+		_note=f'<img loading="lazy" data-bs-toggle="tooltip" alt=":{emoji.name}:" title=":{emoji.name}:" src="{SITE_FULL_IMAGES}/e/{emoji.name}.webp">'
 	)
 	g.db.add(ma)
 
@@ -418,17 +418,17 @@ def approve_hat(v, name):
 
 	hat.submitter_id = None
 
-	move(f"/asset_submissions/hats/{name}.webp", f"files/assets/images/hats/{hat.name}.webp")
+	move(f"/asset_submissions/hats/{hat.name}.webp", f"files/assets/images/hats/{hat.name}.webp")
 
-	highquality = f"/asset_submissions/hats/{name}"
+	highquality = f"/asset_submissions/hats/{hat.name}"
 	with Image.open(highquality) as i:
-		new_path = f'/asset_submissions/hats/original/{name}.{i.format.lower()}'
+		new_path = f'/asset_submissions/hats/original/{hat.name}.{i.format.lower()}'
 	rename(highquality, new_path)
 
 	ma = ModAction(
 		kind="approve_hat",
 		user_id=v.id,
-		_note=f'<a href="{SITE_FULL_IMAGES}/i/hats/{name}.webp">{name}</a>'
+		_note=f'<a href="{SITE_FULL_IMAGES}/i/hats/{hat.name}.webp">{hat.name}</a>'
 	)
 	g.db.add(ma)
 
