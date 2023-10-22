@@ -173,6 +173,11 @@ def _create_post(title, body, pin_hours):
 	)
 	g.db.add(p)
 
+	if AEVANN_ID:
+		g.db.flush()
+		new_sub = Subscription(user_id=AEVANN_ID, post_id=p.id)
+		g.db.add(new_sub)
+
 	cache.delete_memoized(frontlist)
 
 def _delete_all_posts():
