@@ -1117,7 +1117,7 @@ INSERT INTO public.hat_defs VALUES (1345, 'The Chef', 'Mmm bussy!', 2, 1000, NUL
 INSERT INTO public.hat_defs VALUES (1344, 'Fighter', 'Cash me outside', 2, 1000, NULL, 1696392781);
 INSERT INTO public.hat_defs VALUES (1351, 'Vietnamese Pith Helmet', 'A good hat to wear while fighting the French, the Americans, the Cambodians, or the Chinese', 2, 500, NULL, 1696462997);
 INSERT INTO public.hat_defs VALUES (573, 'CENSORED', '💔 literally 1984 💔', 2, 500, NULL, 1662167687);
-
+INSERT INTO public.hat_defs VALUES (1352, 'Phantom Mask', 'In sleep he sang to me, in dreams came.', 2, 500, NULL, 1697683427);
 
 
 --
