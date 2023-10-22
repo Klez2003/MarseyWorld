@@ -406,7 +406,7 @@ def award_thing(v, thing_type, id):
 			badge_grant(user=author, badge_id=96)
 	elif kind == "namelock":
 		new_name = note.strip().lstrip('@')
-		if (not new_name or new_name == author.username) and author.namechanged:
+		if author.namechanged and (not new_name or new_name == author.username):
 			author.namechanged += 86400
 		else:
 			if not valid_username_regex.fullmatch(new_name):
