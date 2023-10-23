@@ -1407,7 +1407,7 @@ def bm():
 
 	if data['type'] == 'membership.updated':
 		print(data, flush=True)
-		abort(400)
+		return ''
 
 	created_utc = data['created']
 
