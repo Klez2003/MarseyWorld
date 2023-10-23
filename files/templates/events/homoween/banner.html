@@ -1,4 +1,4 @@
-{% if range(1, 100)|random() == 1 %}
+{% if range(1, 100)|random() == 1 or SITE == 'devrama.net' %}
 	<img id="effigy" src="{{SITE_FULL_IMAGES}}/assets/events/homoween/images/effigy.webp">
 {% endif %}
 
