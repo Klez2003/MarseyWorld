@@ -1353,40 +1353,6 @@ if KOFI_TOKEN:
 		return ''
 
 
-@app.post("/bm")
-@limiter.exempt
-def bm():
-	print(1, 'fuck', flush=True)
-	print(2, request.headers.get('CF-Connecting-IP'), flush=True)
-	print(3, [x for x in request.form.items()], flush=True)
-	print(4, request.values['data'], flush=True)
-	data = json.loads(request.values['data'])
-	print(5, data, flush=True)
-
-	# id = data['kofi_transaction_id']
-	# created_utc = int(time.mktime(time.strptime(data['timestamp'].split('.')[0], "%Y-%m-%dT%H:%M:%SZ")))
-	# type = data['type']
-	# amount = 0
-	# try:
-	# 	amount = int(float(data['amount']))
-	# except:
-	# 	abort(400, 'invalid amount')
-	# email = data['email']
-
-	# transaction = Transaction(
-	# 	id=id,
-	# 	created_utc=created_utc,
-	# 	type=type,
-	# 	amount=amount,
-	# 	email=email
-	# )
-
-	# g.db.add(transaction)
-
-	# claim_rewards_all_users()
-
-	return ''
-
 @app.post("/gumroad")
 @limiter.exempt
 def gumroad():
@@ -1428,6 +1394,51 @@ def gumroad():
 	return ''
 
 
+@app.post("/bm")
+@limiter.exempt
+def bm():
+	data = json.loads(request.data)
+	ip = request.headers.get('CF-Connecting-IP')
+	if ip != '3.23.31.237':
+		print(STARS, flush=True)
+		print(f'/bm fail: {ip}')
+		print(STARS, flush=True)
+		abort(400)
+
+	if data['type'] == 'membership.updated':
+		print(data, flush=True)
+		abort(400)
+
+	created_utc = data['created']
+
+	data = data['data']
+
+	id = str(data['id'])
+
+	existing = g.db.get(Transaction, id)
+	if existing: return ''
+
+	if data['object'] == 'membership':
+		type = "monthly"
+	else:
+		type = "one-time"
+
+	amount = int(data['amount'])
+	email = data['supporter_email']
+
+	transaction = Transaction(
+		id=id,
+		created_utc=created_utc,
+		type=type,
+		amount=amount,
+		email=email
+	)
+
+	g.db.add(transaction)
+
+	claim_rewards_all_users()
+
+	return ''
 
 
 @app.post("/settings/claim_rewards")
