@@ -1863,6 +1863,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw) VALUES
 ('marseyconstellation','Marsey',2,'starsey galaxy space sky',false),
 ('marseycontemplate','Marsey',2,'reaction consternation thinking hmm',false),
 ('marseycontemplatesuicide','Marsey',2,'gunshot mirror contemplate contemplating reflection pistol handgun death kms kys suicidal die death',false),
+('marseycookie','Marsey',2,'cookie',false),
 ('marseycookiemonster','Marsey',2,'sesame street muppet cute fluffy blue greedy',false),
 ('marseycool','Marsey',2,'finger gun shades sunglasses reaction judgment',false),
 ('marseycool2','Marsey',2,'cigarette hip shades sunglasses jacket smoking smoke',false),

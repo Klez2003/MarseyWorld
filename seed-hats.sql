@@ -1120,11 +1120,16 @@ INSERT INTO public.hat_defs VALUES (573, 'CENSORED', '💔 literally 1984 💔',
 INSERT INTO public.hat_defs VALUES (1352, 'Phantom Mask', 'In sleep he sang to me, in dreams came.', 2, 500, NULL, 1697683427);
 
 
+
+
+
+
+
 --
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1352, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1358, true);
 
 
 --
