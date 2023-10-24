@@ -1118,11 +1118,11 @@ INSERT INTO public.hat_defs VALUES (1344, 'Fighter', 'Cash me outside', 2, 1000,
 INSERT INTO public.hat_defs VALUES (1351, 'Vietnamese Pith Helmet', 'A good hat to wear while fighting the French, the Americans, the Cambodians, or the Chinese', 2, 500, NULL, 1696462997);
 INSERT INTO public.hat_defs VALUES (573, 'CENSORED', '💔 literally 1984 💔', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (1352, 'Phantom Mask', 'In sleep he sang to me, in dreams came.', 2, 500, NULL, 1697683427);
-
-
-
-
-
+INSERT INTO public.hat_defs VALUES (1358, 'Swirly Fall Red Leaves', 'Red Autumn leaves!', 2, 1000, NULL, 1698018329);
+INSERT INTO public.hat_defs VALUES (1357, 'Spooky Candles (in Grey)', 'Spooky candles (now in grey!)', 2, 1000, NULL, 1698013297);
+INSERT INTO public.hat_defs VALUES (1356, 'Spooky Candles (Orange Version)', 'Spooky Candles (now in orange!)', 2, 1000, NULL, 1698013175);
+INSERT INTO public.hat_defs VALUES (1355, 'Pink Glitter Accent', 'Sparkly pink bling accent!', 2, 1000, NULL, 1698012207);
+INSERT INTO public.hat_defs VALUES (1354, 'White Sparkle', 'Blingy white accent sparkles!', 2, 1000, NULL, 1698012140);
 
 
 --
