@@ -375,7 +375,7 @@ def award_thing(v, thing_type, id):
 			abort(403, "You can't give the chud award in /h/chudrama")
 
 		if author.chud == 1:
-			abort(409, f"{safe_username} already chudded permanently!")
+			abort(409, f"{safe_username} already permanently chudded!")
 
 		if author.chud and time.time() < author.chud: author.chud += 86400
 		else: author.chud = int(time.time()) + 86400
