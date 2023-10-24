@@ -44,7 +44,7 @@ from .polls import *
 from .notifications import *
 if FEATURES['HATS']:
 	from .hats import *
-if FEATURES['ASSET_SUBMISSIONS']:
+if FEATURES['EMOJI_SUBMISSIONS'] or FEATURES['HAT_SUBMISSIONS']:
 	from .asset_submissions import *
 from .special import *
 from .push_notifs import *

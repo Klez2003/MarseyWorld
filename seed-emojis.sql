@@ -309,7 +309,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw) VALUES
 ('carpchud','Carp',2,'smug carpathianflorist poljak fish glasses soyjak',false),
 ('carpclapping','Carp',2,'applaud',false),
 ('carpclapping2','Carp',2,'applause applaud yay cheering goodjob',false),
-('carpcleffa','Carp',2,'pokemon pkmn cleffa baby 0173',false),
+('carpcleffa','Carp',2,'pokemon pkmn cleffa baby 173',false),
 ('carpclueless','Carp',2,'oblivious stupid',false),
 ('carpcoingold','Carp',2,'money currency',false),
 ('carpcoinsilver','Carp',2,'money currency',false),

@@ -70,7 +70,7 @@ def cron_fn(every_5m, every_1d, every_fri_12, every_fri_23, every_sat_03, every_
 				_generate_emojis_zip()
 				g.db.commit()
 
-				if FEATURES['ASSET_SUBMISSIONS']:
+				if FEATURES['EMOJI_SUBMISSIONS']:
 					_generate_emojis_original_zip()
 					g.db.commit()
 

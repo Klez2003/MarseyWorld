@@ -36,13 +36,19 @@
 			{% endif %}
 		{% endif %}
 
-		{% if SITE_NAME == 'rDrama' %}
-			{% if v.admin_level >= PERMS['MODERATE_PENDING_SUBMITTED_ASSETS'] %}
+		{% if v.admin_level >= PERMS['MODERATE_PENDING_SUBMITTED_ASSETS'] %}
+			{% if FEATURES['EMOJI_SUBMISSIONS'] -%}
 				<li><a href="/submit/emojis">Approve or Reject Emojis</a></li>
+			{% endif %}
+			{% if FEATURES['HAT_SUBMISSIONS'] -%}
 				<li><a href="/submit/hats">Approve or Reject Hats</a></li>
 			{% endif %}
-			{% if v.admin_level >= PERMS['UPDATE_ASSETS'] %}
+		{% endif %}
+		{% if v.admin_level >= PERMS['UPDATE_ASSETS'] %}
+			{% if FEATURES['EMOJI_SUBMISSIONS'] -%}
 				<li><a href="/admin/update/emojis">Update Emojis</a></li>
+			{% endif %}
+			{% if FEATURES['HAT_SUBMISSIONS'] -%}	
 				<li><a href="/admin/update/hats">Update Hats</a></li>
 			{% endif %}
 		{% endif %}

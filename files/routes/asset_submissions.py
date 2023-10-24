@@ -15,10 +15,12 @@ from files.__main__ import app, cache, limiter
 ASSET_TYPES = (Emoji, HatDef)
 
 @app.get("/submit/marseys")
+@feature_required('EMOJI_SUBMISSIONS')
 def submit_marseys_redirect():
 	return redirect("/submit/emojis")
 
 @app.get("/submit/emojis")
+@feature_required('EMOJI_SUBMISSIONS')
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
@@ -37,6 +39,7 @@ def submit_emojis(v):
 emoji_modifiers = ('pat', 'talking', 'genocide', 'love')
 
 @app.post("/submit/emojis")
+@feature_required('EMOJI_SUBMISSIONS')
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
@@ -120,6 +123,7 @@ def verify_permissions_and_get_asset(cls, asset_type, v, name, make_lower=False)
 	return asset
 
 @app.post("/admin/approve/emoji/<name>")
+@feature_required('EMOJI_SUBMISSIONS')
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
@@ -283,6 +287,7 @@ def remove_asset(cls, type_name, v, name):
 	return {"message": f"'{name}' removed!"}
 
 @app.post("/remove/emoji/<name>")
+@feature_required('EMOJI_SUBMISSIONS')
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
@@ -292,6 +297,7 @@ def remove_emoji(v, name):
 	return remove_asset(Emoji, "emoji", v, name)
 
 @app.get("/submit/hats")
+@feature_required('HAT_SUBMISSIONS')
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
@@ -302,6 +308,7 @@ def submit_hats(v):
 
 
 @app.post("/submit/hats")
+@feature_required('HAT_SUBMISSIONS')
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
@@ -354,6 +361,7 @@ def submit_hat(v):
 
 
 @app.post("/admin/approve/hat/<name>")
+@feature_required('HAT_SUBMISSIONS')
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit("120/minute;200/hour;1000/day", deduct_when=lambda response: response.status_code < 400)
@@ -435,6 +443,7 @@ def approve_hat(v, name):
 	return {"message": f"'{hat.name}' approved!"}
 
 @app.post("/remove/hat/<name>")
+@feature_required('HAT_SUBMISSIONS')
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
@@ -444,6 +453,7 @@ def remove_hat(v, name):
 	return remove_asset(HatDef, 'hat', v, name)
 
 @app.get("/admin/update/emojis")
+@feature_required('EMOJI_SUBMISSIONS')
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @admin_level_required(PERMS['UPDATE_ASSETS'])
@@ -452,6 +462,7 @@ def update_emojis(v):
 
 
 @app.post("/admin/update/emojis")
+@feature_required('EMOJI_SUBMISSIONS')
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
@@ -553,6 +564,7 @@ def update_emoji(v):
 	return {"message": f"'{name}' updated successfully!"}
 
 @app.get("/admin/update/hats")
+@feature_required('HAT_SUBMISSIONS')
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @admin_level_required(PERMS['UPDATE_ASSETS'])
@@ -561,6 +573,7 @@ def update_hats(v):
 
 
 @app.post("/admin/update/hats")
+@feature_required('HAT_SUBMISSIONS')
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)

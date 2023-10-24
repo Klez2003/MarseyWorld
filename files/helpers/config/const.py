@@ -404,7 +404,8 @@ FEATURES = {
 	'MARKUP_COMMANDS': True,
 	'REPOST_DETECTION': True,
 	'PATRON_ICONS': False,
-	'ASSET_SUBMISSIONS': False,
+	'EMOJI_SUBMISSIONS': True,
+	'HAT_SUBMISSIONS': True,
 	'NSFW_MARKING': True,
 	'PING_GROUPS': True,
 	'BOTS': True,
@@ -604,7 +605,6 @@ if SITE in {'rdrama.net', 'staging.rdrama.net'}:
 	FEATURES['PRONOUNS'] = True
 	FEATURES['HOUSES'] = True
 	FEATURES['USERS_PERMANENT_WORD_FILTERS'] = True
-	FEATURES['ASSET_SUBMISSIONS'] = True
 
 	BUG_THREAD = 18459
 
@@ -692,6 +692,7 @@ elif SITE == 'watchpeopledie.tv':
 	FEATURES['PATRON_ICONS'] = True
 	FEATURES['NSFW_MARKING'] = False
 	FEATURES['BOTS'] = False
+	FEATURES['HAT_SUBMISSIONS'] = False
 
 	PERMS['POST_COMMENT_EDITING'] = 3
 	PERMS['MODS_EVERY_HOLE'] = 3
@@ -778,14 +779,12 @@ elif SITE == 'watchpeopledie.tv':
 
 elif SITE == 'devrama.net':
 	AEVANN_ID = 7
-	FEATURES['ASSET_SUBMISSIONS'] = True
 	FEATURES['PRONOUNS'] = True
 	FEATURES['HOUSES'] = True
 	FEATURES['USERS_PERMANENT_WORD_FILTERS'] = True
 	PERMS["SITE_SETTINGS"] = 4
 	PERMS["ORGIES"] = 4
 else: # localhost or testing environment implied
-	FEATURES['ASSET_SUBMISSIONS'] = True
 	FEATURES['PRONOUNS'] = True
 	FEATURES['HOUSES'] = True
 	FEATURES['USERS_PERMANENT_WORD_FILTERS'] = True

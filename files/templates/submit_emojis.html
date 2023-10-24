@@ -99,12 +99,10 @@
 								<label class="mt-3" for="{{emoji.name}}-tags">Tags</label>
 								<input autocomplete="off" type="text" id="{{emoji.name}}-tags" class="form-control" name="tags" maxlength="200" value="{{emoji.tags}}" pattern='[a-z0-9: ]{1,200}' placeholder="Required" required {% if v.admin_level < PERMS['MODERATE_PENDING_SUBMITTED_ASSETS'] %}readonly{% endif %}>
 
-								{% if FEATURES['NSFW_MARKING'] %}
-									<div class="custom-control custom-checkbox mt-4 pt-1 ml-1">
-										<input autocomplete="off" type="checkbox" class="custom-control-input" id="{{emoji.name}}-nsfw" name="nsfw" {% if v.admin_level < PERMS['MODERATE_PENDING_SUBMITTED_ASSETS'] %}readonly{% endif %} {% if emoji.nsfw %}checked{% endif %}>
-										<label class="custom-control-label" for="{{emoji.name}}-nsfw">NSFW</label>
-									</div>
-								{% endif %}
+								<div class="custom-control custom-checkbox mt-4 pt-1 ml-1">
+									<input autocomplete="off" type="checkbox" class="custom-control-input" id="{{emoji.name}}-nsfw" name="nsfw" {% if v.admin_level < PERMS['MODERATE_PENDING_SUBMITTED_ASSETS'] %}readonly{% endif %} {% if emoji.nsfw %}checked{% endif %}>
+									<label class="custom-control-label" for="{{emoji.name}}-nsfw">NSFW</label>
+								</div>
 							</div>
 						</div>
 						{% if v.admin_level >= PERMS['MODERATE_PENDING_SUBMITTED_ASSETS'] or v.id == emoji.submitter_id %}
