@@ -598,7 +598,7 @@ def award_thing(v, thing_type, id):
 			n = send_repeatable_notification(author.id, msg)
 			if n: n.created_utc -= 1
 
-			msg = f"{safe_username} under the effect of a deflector award; your {award_title} Award has been deflected back to you :marseytroll:"
+			msg = f"@{thing.author_name} is under the effect of a deflector award; your {award_title} Award has been deflected back to you :marseytroll:"
 			n = send_repeatable_notification(v.id, msg)
 			if n: n.created_utc -= 1
 		elif kind not in {'spider', 'jumpscare'}:
