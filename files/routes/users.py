@@ -1336,7 +1336,7 @@ if KOFI_TOKEN:
 			amount = int(float(data['amount']))
 		except:
 			abort(400, 'invalid amount')
-		email = data['email']
+		email = data['email'].strip().lower()
 
 		transaction = Transaction(
 			id=id,
@@ -1377,7 +1377,7 @@ def gumroad():
 		type = "one-time"
 
 	amount = int(data['price']) / 100
-	email = data['email']
+	email = data['email'].strip().lower()
 
 	transaction = Transaction(
 		id=id,
@@ -1424,7 +1424,7 @@ def bm():
 		type = "one-time"
 
 	amount = int(data['amount'])
-	email = data['supporter_email']
+	email = data['supporter_email'].strip().lower()
 
 	transaction = Transaction(
 		id=id,
