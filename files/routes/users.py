@@ -1405,10 +1405,6 @@ def bm():
 		print(STARS, flush=True)
 		abort(400)
 
-	if data['type'] == 'membership.updated':
-		print(data, flush=True)
-		return ''
-
 	created_utc = data['created']
 
 	data = data['data']
