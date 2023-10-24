@@ -1085,6 +1085,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('inlove2','Classic',2,'romance hearts',false,1679282069),
 ('integral','Marsey Alphabet',2,'∫',false,NULL),
 ('intenslyhappygaysounds','Misc',2,'ferris felix trans gay gaysounds eggirl',false,1679154385),
+('interrobang','Marsey Alphabet',2,'questionmark exclaimationpoint',false,1698174628),
 ('interuptedreading','Rage',2,'',false,NULL),
 ('iota','Marsey Alphabet',2,'ι',false,NULL),
 ('iseewhatyoudidthere','Rage',2,'see notice',false,NULL),
