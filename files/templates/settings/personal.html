@@ -17,7 +17,7 @@
 						<div class="body w-lg-100">
 							<p>You're a {{TIER_TO_NAME[v.patron] if v.patron else "freeloader"}}!</p>{% if v.patron %} Thanks ily! &lt;3{% endif %}
 							{% if not v.patron and v.truescore >= TRUESCORE_MINIMUM and DONATE_LINK != DEFAULT_CONFIG_VALUE %}
-								<p class="font-italic">To stop freeloading, first <a href="/settings/security#site-settings-email-section">verify your email</a>, support us on <a href="{{DONATE_LINK}}">{{DONATE_SERVICE}}</a> with the same email, and click "Claim {{patron}} Rewards"</p>
+								<p class="font-italic">To stop freeloading, first <a href="/settings/security#site-settings-email-section">verify your email</a>, then support us on <a href="{{DONATE_LINK}}">{{DONATE_SERVICE}}</a> with the same email, and then click "Claim {{patron}} Rewards" <a href="/settings/security#site-settings-email-section">here</a></p>
 							{% elif not v.patron %}
 								<p class="font-italic">To stop freeloading, you can <a href="/donate">donate by crypto</a>. If you do that, please let us know by <a href="/contact">sending us the transaction id via modmail</a> so we can give you your {{patron}} rewards manually!</p>
 							{% endif %}
