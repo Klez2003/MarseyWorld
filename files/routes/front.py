@@ -195,7 +195,10 @@ def random_post(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def random_user(v):
-	u = g.db.query(User.username).filter(User.song != None).order_by(func.random()).first()
+	u = g.db.query(User.username).filter(
+		User.song != None,
+		User.shadowbanned == None,
+	).order_by(func.random()).first()
 
 	if u: u = u[0]
 	else: abort(404, "No users have set a profile anthem so far!")

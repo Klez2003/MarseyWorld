@@ -10,37 +10,63 @@
 						<form action="{{request.path}}" method="post" enctype="multipart/form-data" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHR(this)">
 							<input hidden name="formkey" value="{{v|formkey}}">
 
-							<label class="mt-3" for="name">{{type}} Name (Required)</label>
-							<input autocomplete="off" type="text" id="name" class="form-control" name="name" maxlength="30" placeholder="Required" {% if name %}value="{{name}}"{% endif %} required>
+							<div class="section-title mt-3">
+								<hr>
+								<h5>Name of {{type}} you wanna alter</h5>
+								<hr>
+							</div>
 
+							<input autocomplete="off" type="text" id="name" class="form-control" name="name" maxlength="30" required>
+
+							<div class="section-title mt-4">
+								<hr>
+								<h5>Change at least one of these values</h5>
+								<hr>
+							</div>
 
 							<div id="image-upload-block">
-								<div><label class="mt-3">New Image {% if type == "Emoji" %}(Optional){% else %}(Required){% endif %}</label></div>
+								<div><label>New Image</label></div>
 
 								<img loading="lazy" id="image-preview" class="d-none" style="max-width:50%;border:5px white solid">
 								<label class="btn btn-secondary m-0" for="file-upload">
-									<div>Select Image</div>
+									<div>Select Image<br>(optional)</div>
 									<input autocomplete="off" id="file-upload" accept="image/*" type="file" name="image" {% if g.is_tor %}disabled{% endif %} hidden>
 								</label>
 							</div>
 
 							{% if type == "Emoji" %}
-								<label class="mt-3" for="kind">New Kind (Optional)</label>
+								<label class="mt-3" for="kind">New Kind</label>
 								<div class="input-group">
 									<select autocomplete="off" id='kind' class="form-control" name="kind">
-										{% if not kind %}
-											<option hidden disabled selected value>-- select an option --</option>
-										{% endif %}
+										<option hidden disabled selected value>-- select an option -- (optional)</option>
 										{% for entry in EMOJI_KINDS %}
-											<option value="{{entry}}" {% if entry == kind %}selected{% endif %}>
+											<option value="{{entry}}">
 												{{entry}}
 											</option>
 										{% endfor %}
 									</select>
 								</div>
+							{% endif %}
 
-								<label class="mt-3" for="tags">Additional Tags (Optional)</label>
-								<input autocomplete="off" type="text" id="name" class="form-control" name="tags" maxlength="200" placeholder="Enter additional tags" {% if tags %}value="{{tags}}"{% endif %}>
+								<label class="mt-3" for="new_name">New Name</label>
+								<input autocomplete="off" type="text" id="new_name" class="form-control" name="new_name" maxlength="30" placeholder="Optional">
+
+							{% if type == "Emoji" %}
+								<label class="mt-3" for="tags">Additional Tags</label>
+								<input autocomplete="off" type="text" id="name" class="form-control" name="tags" maxlength="200"  placeholder="Optional">
+
+								<label class="mt-3" for="nsfw">New NSFW Value</label>
+								<div class="input-group">
+									<select autocomplete="off" id='nsfw' class="form-control" name="nsfw">
+										<option hidden disabled selected value>-- select an option -- (optional)</option>
+										<option value="NSFW">
+											NSFW
+										</option>
+										<option value="not_NSFW">
+											Not NSFW
+										</option>
+									</select>
+								</div>
 							{% endif %}
 
 							<div class="footer mt-4">

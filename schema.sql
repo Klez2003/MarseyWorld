@@ -98,7 +98,7 @@ CREATE TABLE public.users (
     defaultsorting character varying(15) NOT NULL,
     defaulttime character varying(5) NOT NULL,
     namecolor character varying(6) NOT NULL,
-    titlecolor character varying(6) NOT NULL,
+    flaircolor character varying(6) NOT NULL,
     profileurl character varying(65),
     bannerurl character varying(65),
     newtab boolean DEFAULT false NOT NULL,
@@ -129,7 +129,7 @@ CREATE TABLE public.users (
     coins_spent integer DEFAULT 0 NOT NULL,
     marseybux integer DEFAULT 0 NOT NULL,
     verifiedcolor character varying(6),
-    marseyawarded integer,
+    hieroglyphs integer,
     sig character varying(200),
     sig_html character varying(1000),
     friends character varying(5000),
@@ -154,7 +154,7 @@ CREATE TABLE public.users (
     last_viewed_post_notifs integer NOT NULL,
     pronouns character varying(15) NOT NULL,
     last_viewed_log_notifs integer NOT NULL,
-    imginn boolean,
+    imgsed boolean,
     earlylife integer,
     bite integer,
     old_house character varying(16),
@@ -808,7 +808,9 @@ CREATE TABLE public.orgies (
     data character varying(200) NOT NULL,
     title character varying(1000) NOT NULL,
     created_utc integer NOT NULL,
-    end_utc integer
+    end_utc integer,
+    start_utc integer NOT NULL,
+    started boolean NOT NULL
 );
 
 
@@ -1401,7 +1403,7 @@ ALTER TABLE ONLY public.users
 --
 
 ALTER TABLE ONLY public.orgies
-    ADD CONSTRAINT orgies_pkey PRIMARY KEY (type);
+    ADD CONSTRAINT orgies_pkey PRIMARY KEY (created_utc);
 
 
 --
@@ -2223,7 +2225,7 @@ CREATE INDEX users_longpost_idx ON public.users USING btree (longpost);
 -- Name: users_marseyawarded_idx; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX users_marseyawarded_idx ON public.users USING btree (marseyawarded);
+CREATE INDEX users_marseyawarded_idx ON public.users USING btree (hieroglyphs);
 
 
 --

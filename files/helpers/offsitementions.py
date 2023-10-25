@@ -34,7 +34,7 @@ def get_mentions(cache, queries, reddit_notifs_users=False):
 	for kind in ('submission', 'comment'):
 		q = " or ".join(queries)
 		url = f'https://api.pullpush.io/reddit/search/{kind}?q={q}'
-		try: req = requests.get(url, headers=HEADERS, timeout=5, proxies=proxies)
+		try: req = requests.get(url, headers=HEADERS, timeout=5)
 		except: return []
 		data = req.json()['data']
 

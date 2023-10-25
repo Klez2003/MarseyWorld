@@ -47,6 +47,7 @@ def _add_profile_view(vid, uid):
 	stdout.flush()
 
 def claim_rewards_all_users():
+	g.db.flush()
 	emails = [x[0] for x in g.db.query(Transaction.email).filter_by(claimed=None)]
 	users = g.db.query(User).filter(User.email.in_(emails)).order_by(User.truescore.desc()).all()
 	for user in users:
@@ -58,10 +59,10 @@ def claim_rewards_all_users():
 
 		for transaction in transactions:
 			for t, money in TIER_TO_MONEY.items():
+				if transaction.amount < money: break
 				tier = t
-				if transaction.amount <= money: break
 
-			marseybux += TIER_TO_MBUX[tier]
+			marseybux += transaction.amount * 500
 			if tier > highest_tier:
 				highest_tier = tier
 			transaction.claimed = True
@@ -569,18 +570,6 @@ def get_profilecss(username):
 	resp = make_response(css)
 	resp.headers["Content-Type"] = "text/css"
 	return resp
-
-@app.get("/@<username>/song")
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-def usersong(username):
-	user = get_user(username)
-	if not user.song:
-		abort(404)
-
-	resp = make_response(redirect(f"/songs/{user.song}.mp3"))
-	resp.headers["Cache-Control"] = "no-store"
-	return resp
-
 
 @app.post("/subscribe/<int:post_id>")
 @limiter.limit('1/second', scope=rpath)
@@ -1281,7 +1270,7 @@ def subscribed_posts(v, username):
 @auth_required
 def fp(v, fp):
 	if session.get("GLOBAL"):
-		return '', 204
+		return ''
 
 	v.fp = fp
 	users = g.db.query(User).filter(User.fp == fp, User.id != v.id).all()
@@ -1298,7 +1287,7 @@ def fp(v, fp):
 
 	check_for_alts(v, include_current_session=True)
 	g.db.add(v)
-	return '', 204
+	return ''
 
 @app.post("/toggle_pins/<hole>/<sort>")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
@@ -1330,14 +1319,13 @@ def bid_list(v, bid):
 
 
 KOFI_TOKEN = environ.get("KOFI_TOKEN", "").strip()
-KOFI_TOKEN2 = environ.get("KOFI_TOKEN2", "").strip()
 if KOFI_TOKEN:
 	@app.post("/kofi")
 	@limiter.exempt
 	def kofi():
 		data = json.loads(request.values['data'])
 		verification_token = data['verification_token']
-		if verification_token not in {KOFI_TOKEN, KOFI_TOKEN2}: abort(400)
+		if verification_token != KOFI_TOKEN: abort(400)
 
 		print(request.headers.get('CF-Connecting-IP'), flush=True)
 		id = data['kofi_transaction_id']
@@ -1348,7 +1336,7 @@ if KOFI_TOKEN:
 			amount = int(float(data['amount']))
 		except:
 			abort(400, 'invalid amount')
-		email = data['email']
+		email = data['email'].strip().lower()
 
 		transaction = Transaction(
 			id=id,
@@ -1364,40 +1352,6 @@ if KOFI_TOKEN:
 
 		return ''
 
-
-@app.post("/bm")
-@limiter.exempt
-def bm():
-	print(1, 'fuck', flush=True)
-	print(2, request.headers.get('CF-Connecting-IP'), flush=True)
-	print(3, [x for x in request.form.items()], flush=True)
-	print(4, request.values['data'], flush=True)
-	data = json.loads(request.values['data'])
-	print(5, data, flush=True)
-
-	# id = data['kofi_transaction_id']
-	# created_utc = int(time.mktime(time.strptime(data['timestamp'].split('.')[0], "%Y-%m-%dT%H:%M:%SZ")))
-	# type = data['type']
-	# amount = 0
-	# try:
-	# 	amount = int(float(data['amount']))
-	# except:
-	# 	abort(400, 'invalid amount')
-	# email = data['email']
-
-	# transaction = Transaction(
-	# 	id=id,
-	# 	created_utc=created_utc,
-	# 	type=type,
-	# 	amount=amount,
-	# 	email=email
-	# )
-
-	# g.db.add(transaction)
-
-	# claim_rewards_all_users()
-
-	return ''
 
 @app.post("/gumroad")
 @limiter.exempt
@@ -1423,7 +1377,7 @@ def gumroad():
 		type = "one-time"
 
 	amount = int(data['price']) / 100
-	email = data['email']
+	email = data['email'].strip().lower()
 
 	transaction = Transaction(
 		id=id,
@@ -1440,6 +1394,47 @@ def gumroad():
 	return ''
 
 
+@app.post("/bm")
+@limiter.exempt
+def bm():
+	data = json.loads(request.data)
+	ip = request.headers.get('CF-Connecting-IP')
+	if ip != '3.23.31.237':
+		print(STARS, flush=True)
+		print(f'/bm fail: {ip}')
+		print(STARS, flush=True)
+		abort(400)
+
+	created_utc = data['created']
+
+	data = data['data']
+
+	id = str(data['id'])
+
+	existing = g.db.get(Transaction, id)
+	if existing: return ''
+
+	if data['object'] == 'membership':
+		type = "monthly"
+	else:
+		type = "one-time"
+
+	amount = int(data['amount'])
+	email = data['supporter_email'].strip().lower()
+
+	transaction = Transaction(
+		id=id,
+		created_utc=created_utc,
+		type=type,
+		amount=amount,
+		email=email
+	)
+
+	g.db.add(transaction)
+
+	claim_rewards_all_users()
+
+	return ''
 
 
 @app.post("/settings/claim_rewards")

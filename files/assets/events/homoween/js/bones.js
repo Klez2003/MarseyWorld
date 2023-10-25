@@ -1,20 +1,15 @@
-let bones_container = document.getElementById('animate');
-const number = bones_container.dataset.bones
-
-// Stackable
-// With each award, append a new image to array
+let bones_container = document.getElementById('bones-container');
 const sources = ['skeleton1.webp','skeleton2.webp','skeleton3.webp','skeleton4.webp','skeleton5.webp','skeleton6.webp'];
 
-if(number > sources.length){
-	number = sources.length
-}
+let number = parseInt(bones_container.dataset.bones)
+if (screen_width >= 768)
+	number *= 2
 
-const n = sources.length - number
-const pw = screen.availWidth/6
+const pw = screen_width / 3.5
 
 let circles = [];
 
-for (let i = 0; i < 3; i++) {
+for (let i = 0; i < number; i++) {
 	addCircle(i * 150, [10 + 0, pw]);
 	addCircle(i * 150, [10 + 0, -pw]);
 	addCircle(i * 150, [10 - (0.5*pw), -pw]);
@@ -60,7 +55,6 @@ function Circle(x, y, v, range) {
 		_this.x += _this.v.x;
 		this.element.style.opacity = 1;
 		this.element.style.transform = 'translate3d(' + _this.x + 'px, ' + _this.y + 'px, 0px)';
-		this.element.style.webkitTransform = 'translate3d(' + _this.x + 'px, ' + _this.y + 'px, 0px)';
 		this.element.style.mozTransform = 'translate3d(' + _this.x + 'px, ' + _this.y + 'px, 0px)';
 	};
 }

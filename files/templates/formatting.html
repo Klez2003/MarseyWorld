@@ -5,363 +5,427 @@
 
 <div class="ml-2">You can use Markdown formatting:</div>
 
-<div class="overflow-x-auto mt-3"><table class="table table-striped generate-copy-buttons">
-	<thead class="bg-primary text-white">
-		<tr>
-			<th>Name</th>
-			<th class="disable-sort-click">What you type</th>
-			<th class="disable-sort-click">What gets displayed</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td>Italics</td>
-			<td>*text*</td>
-			<td><i>text</i></td>
-		</tr>
-		<tr>
-			<td>Bold</td>
-			<td>**text**</td>
-			<td><b>text</b></td>
-		</tr>
-		<tr>
-			<td>Code</td>
-			<td>`text`</td>
-			<td><code>text</code></td>
-		</tr>
-		<tr>
-			<td>Strikethrough</td>
-			<td>~~text~~</td>
-			<td><del>text</del></td>
-		</tr>
-		<tr>
-			<td>Horizontal Rule</td>
-			<td>
-				<pre>
-Text 1
+<div class="overflow-x-auto mt-3">
+	<table id="formatting-table" class="table table-striped generate-copy-buttons">
+		<thead class="bg-primary text-white">
+			<tr>
+				<th>Name</th>
+				<th class="disable-sort-click">What you type</th>
+				<th class="disable-sort-click">What gets displayed</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>Italics</td>
+				<td>*text*</td>
+				<td><i>text</i></td>
+			</tr>
+			<tr>
+				<td>Bold</td>
+				<td>**text**</td>
+				<td><b>text</b></td>
+			</tr>
+			<tr>
+				<td>Code</td>
+				<td>`text`</td>
+				<td><code>text</code></td>
+			</tr>
+			<tr>
+				<td>Strikethrough</td>
+				<td>~~text~~</td>
+				<td><del>text</del></td>
+			</tr>
+			<tr>
+				<td>Horizontal Rule</td>
+				<td>
+					<pre>Text 1
 ---
-Text 2
-				</pre>
-			</td>
-			<td>
-				Text 1
-				<hr>
-				Text 2
-			</td>
-		</tr>
-		<tr>
-			<td>Links</td>
-			<td>[{{SITE_NAME}}]({{SITE_FULL}}/)</td>
-			<td><a href="/">{{SITE_NAME}}</a></td>
-		</tr>
-		<tr>
-			<td>Images<br>
-				<span style="font-style: italic; font-weight: normal">
-					* will embed automatically if from <a href="#approved">approved hosts</a>.
-				</span>
-			</td>
-			<td>https://i.imgur.com/SwVuagI_d.webp</td>
-			<td><img loading="lazy" alt="example image" src="https://i.imgur.com/SwVuagI_d.webp"></td>
-		</tr>
-		<tr>
-			<td>Youtube Videos</td>
-			<td>https://youtube.com/watch?v=3Hecr51ByE4</td>
-			<td><lite-youtube videoid="3Hecr51ByE4" params="autoplay=1&modestbranding=1"></lite-youtube></td>
-		</tr>
-		<tr>
-			<td>Video Files</td>
-			<td>https://files.catbox.moe/v4om92.mp4</td>
-			<td>
-				<p class="resizable">
-					<video controls preload="none" src="https://files.catbox.moe/v4om92.mp4"></video>
-				</p>
-			</td>
-		</tr>
-		<tr>
-			<td>Emojis</td>
-			<td>:marseygasp:</td>
-			<td>
-				<img loading="lazy" data-bs-toggle="tooltip" b class="emoji" alt=":marseygasp:" title=":marseygasp:" height="30" src="{{SITE_FULL_IMAGES}}/e/marseygasp.webp">
-			</td>
-		</tr>
-		<tr>
-			<td>Mirrored Emojis</td>
-			<td>:!marseygasp:</td>
-			<td>
-				<img loading="lazy" data-bs-toggle="tooltip" b class="emoji mirrored" alt=":!marseygasp:" title=":!marseygasp:" height="30" src="{{SITE_FULL_IMAGES}}/e/marseygasp.webp">
-			</td>
-		</tr>
-		<tr>
-			<td>Large Emojis</td>
-			<td>:#marseygasp:</td>
-			<td>
-				<img loading="lazy" data-bs-toggle="tooltip" b alt=":#marseygasp:" title=":#marseygasp:" src="{{SITE_FULL_IMAGES}}/e/marseygasp.webp">
-			</td>
-		</tr>
-		<tr>
-			<td>Large Mirrored Emojis</td>
-			<td>:#!marseygasp:</td>
-			<td>
-				<img loading="lazy" data-bs-toggle="tooltip" b alt=":#!marseygasp:" title=":#!marseygasp:" src="{{SITE_FULL_IMAGES}}/e/marseygasp.webp">
-			</td>
-		</tr>
-		<tr>
-			<td>Pat Emojis</td>
-			<td>:marseygasppat:</td>
-			<td>
-				<span alt=":marseygasppat:" data-bs-toggle="tooltip" title=":marseygasppat:"><img loading="lazy" src="{{SITE_FULL_IMAGES}}/i/hand.webp">
-					<img alt=":marseygasppat:" b loading="lazy" pat src="{{SITE_FULL_IMAGES}}/e/marseygasp.webp">
-				</span>
-			</td>
-		</tr>
-		<tr>
-			<td>Talking Emojis</td>
-			<td>:marseygasptalking:</td>
-			<td>
-				<span alt=":marseygasppat:" data-bs-toggle="tooltip" title=":marseygasptalking:"><img loading="lazy" src="{{SITE_FULL_IMAGES}}/i/talking.webp">
-					<img alt=":marseygasptalking:" b loading="lazy" pat src="{{SITE_FULL_IMAGES}}/e/marseygasp.webp">
-				</span>
-			</td>
-		</tr>
-		<tr>
-			<td>Genocide Emojis</td>
-			<td>:marseygaspgenocide:</td>
-			<td>
-				<span alt=":marseygaspgenocide:" cide data-bs-toggle="tooltip" title=":marseygaspgenocide:">
-					<img alt=":marseygaspgenocide:" b src="{{SITE_FULL_IMAGES}}/e/marseygasp.webp">
-				</span>
-			</td>
-		</tr>
-		<tr>
-			<td>Love Emojis</td>
-			<td>:marseygasplove:</td>
-			<td>
-				<span alt=":marseygasplove:" data-bs-toggle="tooltip" title=":marseygasplove:"><img alt=":marseygasplove:" b loading="lazy" src="{{SITE_FULL_IMAGES}}/i/love-foreground.webp">
-					<img alt=":marseygasplove:" b loading="lazy" src="{{SITE_FULL_IMAGES}}/i/love-background.webp">
-					<img alt=":marseygasplove:" b loading="lazy" src="{{SITE_FULL_IMAGES}}/e/marseygasp.webp">
-				</span>
-			</td>
-		</tr>
-		<tr>
-			<td>Pat User</td>
-			<td>:@snappypat:</td>
-			<td>
-				<span alt=":@snappypat:" data-bs-toggle="tooltip" title=":@snappypat:"><img loading="lazy" src="{{SITE_FULL_IMAGES}}/i/hand.webp">
-					<img alt=":@snappypat:" b loading="lazy" pat src="/pp/{{SNAPPY_ID}}">
-				</span>
-			</td>
-		</tr>
-		<tr>
-			<td>Talking User</td>
-			<td>:@snappytalking:</td>
-			<td>
-				<span alt=":@snappypat:" data-bs-toggle="tooltip" title=":@snappytalking:"><img loading="lazy" src="{{SITE_FULL_IMAGES}}/i/talking.webp">
-					<img alt=":@snappytalking:" b loading="lazy" pat src="/pp/{{SNAPPY_ID}}">
-				</span>
-			</td>
-		</tr>
-		<tr>
-			<td>Genocide User</td>
-			<td>:@snappygenocide:</td>
-			<td>
-				<span alt=":@snappygenocide:" cide data-bs-toggle="tooltip" title=":@snappygenocide:">
-					<img alt=":@snappygenocide:" b src="/pp/2">
-				</span>
-			</td>
-		</tr>
-		<tr>
-			<td>Love User</td>
-			<td>:@snappylove:</td>
-			<td>
-				<span alt=":@snappylove:" data-bs-toggle="tooltip" title=":@snappylove:"><img alt=":@snappylove:" b loading="lazy" src="{{SITE_FULL_IMAGES}}/i/love-foreground.webp">
-					<img alt=":@snappylove:" b loading="lazy" src="{{SITE_FULL_IMAGES}}/i/love-background.webp">
-					<img alt=":@snappylove:" b loading="lazy" src="/pp/{{SNAPPY_ID}}">
-				</span>
-			</td>
-		</tr>
-		{% if FEATURES['MARKUP_COMMANDS'] -%}
-		<tr>
-			<td>Play slots using coins<br>
-				<span style="font-style: italic; font-weight: normal">
-					* Minimum 100 coins.
-				</span>
-			</td>
-			<td>!slots 100</td>
-			<td>??? coins</td>
-		</tr>
-		<tr>
-			<td>Play slots using marseybux<br>
-				<span style="font-style: italic; font-weight: normal">
-					* Minimum 100 marseybux.
-				</span>
-			</td>
-			<td>!slotsmb 100</td>
-			<td>??? marseybux</td>
-		</tr>
-		<tr>
-			<td>Random Fortune</td>
-			<td>#fortune</td>
-			<td>???</td>
-		</tr>
-		<tr>
-			<td>Random 8-Ball Answer</td>
-			<td>#8ball</td>
-			<td>??? (but less fun than #fortune)</td>
-		</tr>
-		<tr>
-			<td>Random Factcheck</td>
-			<td>#factcheck</td>
-			<td>???</td>
-		</tr>
-		<tr>
-			<td>Roll</td>
-			<td>#roll</td>
-			<td>A number 1&ndash;9999.</td>
-		</tr>
-		<tr>
-			<td>Coinflip</td>
-			<td>#coinflip</td>
-			<td>Heads, Tails, or Edge.</td>
-		</tr>
-		{%- endif %}
-		<tr>
-			<td>
-				Poll — Pick Multiple<br>
-			</td>
-			<td>$$bussy$$<br>$$gussy$$</td>
-			<td>
-				<div class="custom-control">
-					<input autocomplete="off" type="checkbox" class="custom-control-input" id="422741">
-					<label class="custom-control-label" for="422741">bussy - <a href="/votes/t3_422741"><span id="option-422741">0</span> votes</a></label>
-				</div>
-				<div class="custom-control">
-					<input autocomplete="off" type="checkbox" class="custom-control-input" id="422742">
-					<label class="custom-control-label" for="422742">gussy - <a href="/votes/t3_422742"><span id="option-422742">0</span> votes</a></label>
-				</div>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				Poll — Pick One<br>
-			</td>
-			<td>&&bussy&&<br>&&gussy&&</td>
-			<td>
-				<div class="custom-control">
-					<input name="choice" autocomplete="off" type="radio" class="custom-control-input" id="1338113">
-					<label class="custom-control-label" for="1338113">bussy - <a href="/votes/t3_1338113"><span id="option-1338113">0</span> votes</a></label>
-				</div>
-				<div class="custom-control">
-					<input name="choice" autocomplete="off" type="radio" class="custom-control-input" id="1338114">
-					<label class="custom-control-label" for="1338114">gussy - <a href="/votes/t3_1338114"><span id="option-1338114">0</span> votes</a></label>
-				</div>
-			</td>
-		</tr>
-		<tr>
-			<td>Headers 1-6</td>
-			<td># Header 1<br>## Header 2<br>### Header 3<br>#### Header 4<br>##### Header 5<br>###### Header 6</td>
-			<td><h1>Header 1</h1><h2>Header 2</h2><h3>Header 3</h3><h4>Header 4</h4><h5>Header 5</h5><h6>Header 6</h6></td>
-		</tr>
-		<tr>
-			<td>Unordered list</td>
-			<td>* First thing<br>* Second thing</td>
-			<td><ul><li>First thing</li><li>Second thing</li></ul></td>
-		</tr>
-		<tr>
-			<td>Code Block</td>
-			<td>```<br>Use three backticks above and below.<br>Or, indent the lines with four spaces.<br>```</td>
-			<td>
-				<pre>
-				Use three backticks above and below.
-				Or, indent the lines with four spaces.
-				</pre>
-			</td>
-		</tr>
-		<tr>
-			<td>Spoilers</td>
-			<td>||bussy > gussy||</td>
-			<td><p><spoiler>bussy &gt; gussy</spoiler></p></td>
-		</tr>
-		<tr>
-			<td>Username Mention</td>
-			<td>@Snappy</td>
-			<td><a class="d-inline-block" href="/@Snappy"><img alt="@Snappy profile picture" loading="lazy" src="/pp/{{SNAPPY_ID}}">@Snappy</a></td>
-		</tr>
-		<tr>
-			<td>Subreddit Mention</td>
-			<td>r/drama</td>
-			<td><a class="d-inline-block" rel="nofollow noopener" href="https://old.reddit.com/r/drama">r/drama</a></td>
-		</tr>
-		<tr>
-			<td>Redditor Mention</td>
-			<td>u/Bardfinn</td>
-			<td><a class="d-inline-block" rel="nofollow noopener" href="https://old.reddit.com/user/Bardfinn">u/Bardfinn</a></td>
-		</tr>
-		<tr>
-			<td>Ping Group Mention<br>
-				<span style="font-style: italic; font-weight: normal">
-					* Mentions all members of the group.
-				</span>
-			</td>
-			<td>!biofoids</td>
-			<td><a href="/!biofoids" rel="nofollow">!biofoids</a></td>
-		</tr>
-		<tr>
-			<td>Random Platy Emoji</td>
-			<td>:platyrandom:</td>
-			<td>???</td>
-		</tr>
-		<tr>
-			<td>Random Wolf Emoji</td>
-			<td>:wolfrandom:</td>
-			<td>???</td>
-		</tr>
-		<tr>
-			<td>Random Donkey Kong Emoji</td>
-			<td>:donkeykongrandom:</td>
-			<td>???</td>
-		</tr>
-		<tr>
-			<td>Random Tay Emoji</td>
-			<td>:tayrandom:</td>
-			<td>???</td>
-		</tr>
-		<tr>
-			<td>Random Capy Emoji</td>
-			<td>:capyrandom:</td>
-			<td>???</td>
-		</tr>
-		<tr>
-			<td>Random Carp Emoji</td>
-			<td>:carprandom:</td>
-			<td>???</td>
-		</tr>
-		<tr>
-			<td>Random Marsey Flag Emoji</td>
-			<td>:marseyflagrandom:</td>
-			<td>???</td>
-		</tr>
-		<tr>
-			<td>Random Marsey Alphabet Emoji</td>
-			<td>:marseyalphabetrandom:</td>
-			<td>???</td>
-		</tr>
-		<tr>
-			<td>Random Rage Emoji</td>
-			<td>:ragerandom:</td>
-			<td>???</td>
-		</tr>
-		<tr>
-			<td>Random Wojak Emoji</td>
-			<td>:wojakrandom:</td>
-			<td>???</td>
-		</tr>
-		<tr>
-			<td>Random Misc Emoji</td>
-			<td>:miscrandom:</td>
-			<td>???</td>
-		</tr>
-	</tbody>
-</table></div>
+Text 2</pre>
+				</td>
+				<td>
+					Text 1
+					<hr>
+					Text 2
+				</td>
+			</tr>
+			<tr>
+				<td>Links</td>
+				<td>[{{SITE_NAME}}]({{SITE_FULL}}/)</td>
+				<td><a href="/">{{SITE_NAME}}</a></td>
+			</tr>
+			<tr>
+				<td>
+					Images
+					<br>
+					<span style="font-style: italic; font-weight: normal">
+						* will embed automatically if from <a href="#approved">approved hosts</a>.
+					</span>
+				</td>
+				<td>https://i.imgur.com/SwVuagI.png</td>
+				<td>
+					<a href="https://i.imgur.com/SwVuagI_d.webp?maxwidth=9999&fidelity=grand" rel="nofollow noopener" target="_blank">
+						<img alt="https://i.imgur.com/SwVuagI.png" class="img" src="https://i.imgur.com/SwVuagI.png" data-user-submitted>
+					</a>
+				</td>
+			</tr>
+			<tr>
+				<td>Youtube Videos</td>
+				<td>https://youtube.com/watch?v=3Hecr51ByE4</td>
+				<td><lite-youtube videoid="3Hecr51ByE4" params="autoplay=1&modestbranding=1"></lite-youtube></td>
+			</tr>
+			<tr>
+				<td>
+					Video Files
+					<br>
+					<span style="font-style: italic; font-weight: normal">
+						* will embed automatically if from <a href="#approved">approved hosts</a>.
+					</span>
+				</td>
+				<td>https://files.catbox.moe/v4om92.mp4</td>
+				<td>
+					<p class="resizable">
+						<video controls preload="none" src="https://files.catbox.moe/v4om92.mp4"></video>
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Audio Files
+					<br>
+					<span style="font-style: italic; font-weight: normal">
+						* will embed automatically if from <a href="#approved">approved hosts</a>.
+					</span>
+				</td>
+				<td>https://pomf2.lain.la/f/zlnppx4.mp3</td>
+				<td>
+					<audio controls="" preload="none" src="https://pomf2.lain.la/f/zlnppx4.mp3"></audio>
+				</td>
+			</tr>
+			<tr>
+				<td>Emojis</td>
+				<td>:marseygasp:</td>
+				<td>
+					<img loading="lazy" data-bs-toggle="tooltip" b class="emoji" alt=":marseygasp:" title=":marseygasp:" height="30" src="{{SITE_FULL_IMAGES}}/e/marseygasp.webp">
+				</td>
+			</tr>
+			<tr>
+				<td>Mirrored Emojis</td>
+				<td>:!marseygasp:</td>
+				<td>
+					<img loading="lazy" data-bs-toggle="tooltip" b class="emoji mirrored" alt=":!marseygasp:" title=":!marseygasp:" height="30" src="{{SITE_FULL_IMAGES}}/e/marseygasp.webp">
+				</td>
+			</tr>
+			<tr>
+				<td>Large Emojis</td>
+				<td>:#marseygasp:</td>
+				<td>
+					<img loading="lazy" data-bs-toggle="tooltip" b alt=":#marseygasp:" title=":#marseygasp:" src="{{SITE_FULL_IMAGES}}/e/marseygasp.webp">
+				</td>
+			</tr>
+			<tr>
+				<td>Large Mirrored Emojis</td>
+				<td>:#!marseygasp:</td>
+				<td>
+					<img loading="lazy" data-bs-toggle="tooltip" b alt=":#!marseygasp:" title=":#!marseygasp:" src="{{SITE_FULL_IMAGES}}/e/marseygasp.webp">
+				</td>
+			</tr>
+			<tr>
+				<td>Pat Emojis</td>
+				<td>:marseygasppat:</td>
+				<td>
+					<span alt=":marseygasppat:" data-bs-toggle="tooltip" title=":marseygasppat:"><img loading="lazy" src="{{SITE_FULL_IMAGES}}/i/hand.webp">
+						<img alt=":marseygasppat:" b loading="lazy" pat src="{{SITE_FULL_IMAGES}}/e/marseygasp.webp">
+					</span>
+				</td>
+			</tr>
+			<tr>
+				<td>Talking Emojis</td>
+				<td>:marseygasptalking:</td>
+				<td>
+					<span alt=":marseygasppat:" data-bs-toggle="tooltip" title=":marseygasptalking:"><img loading="lazy" src="{{SITE_FULL_IMAGES}}/i/talking.webp">
+						<img alt=":marseygasptalking:" b loading="lazy" pat src="{{SITE_FULL_IMAGES}}/e/marseygasp.webp">
+					</span>
+				</td>
+			</tr>
+			<tr>
+				<td>Genocide Emojis</td>
+				<td>:marseygaspgenocide:</td>
+				<td>
+					<span alt=":marseygaspgenocide:" cide data-bs-toggle="tooltip" title=":marseygaspgenocide:">
+						<img alt=":marseygaspgenocide:" b src="{{SITE_FULL_IMAGES}}/e/marseygasp.webp">
+					</span>
+				</td>
+			</tr>
+			<tr>
+				<td>Love Emojis</td>
+				<td>:marseygasplove:</td>
+				<td>
+					<span alt=":marseygasplove:" data-bs-toggle="tooltip" title=":marseygasplove:"><img alt=":marseygasplove:" b loading="lazy" src="{{SITE_FULL_IMAGES}}/i/love-foreground.webp">
+						<img alt=":marseygasplove:" b loading="lazy" src="{{SITE_FULL_IMAGES}}/i/love-background.webp">
+						<img alt=":marseygasplove:" b loading="lazy" src="{{SITE_FULL_IMAGES}}/e/marseygasp.webp">
+					</span>
+				</td>
+			</tr>
+			<tr>
+				<td>Pat User</td>
+				<td>:@snappypat:</td>
+				<td>
+					<span alt=":@snappypat:" data-bs-toggle="tooltip" title=":@snappypat:"><img loading="lazy" src="{{SITE_FULL_IMAGES}}/i/hand.webp">
+						<img alt=":@snappypat:" b loading="lazy" pat src="/pp/{{SNAPPY_ID}}">
+					</span>
+				</td>
+			</tr>
+			<tr>
+				<td>Talking User</td>
+				<td>:@snappytalking:</td>
+				<td>
+					<span alt=":@snappypat:" data-bs-toggle="tooltip" title=":@snappytalking:"><img loading="lazy" src="{{SITE_FULL_IMAGES}}/i/talking.webp">
+						<img alt=":@snappytalking:" b loading="lazy" pat src="/pp/{{SNAPPY_ID}}">
+					</span>
+				</td>
+			</tr>
+			<tr>
+				<td>Genocide User</td>
+				<td>:@snappygenocide:</td>
+				<td>
+					<span alt=":@snappygenocide:" cide data-bs-toggle="tooltip" title=":@snappygenocide:">
+						<img alt=":@snappygenocide:" b src="/pp/2">
+					</span>
+				</td>
+			</tr>
+			<tr>
+				<td>Love User</td>
+				<td>:@snappylove:</td>
+				<td>
+					<span alt=":@snappylove:" data-bs-toggle="tooltip" title=":@snappylove:"><img alt=":@snappylove:" b loading="lazy" src="{{SITE_FULL_IMAGES}}/i/love-foreground.webp">
+						<img alt=":@snappylove:" b loading="lazy" src="{{SITE_FULL_IMAGES}}/i/love-background.webp">
+						<img alt=":@snappylove:" b loading="lazy" src="/pp/{{SNAPPY_ID}}">
+					</span>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Poll — Pick Multiple<br>
+				</td>
+				<td>$$bussy$$<br>$$gussy$$</td>
+				<td>
+					<div class="custom-control">
+						<input autocomplete="off" type="checkbox" class="custom-control-input" id="422741">
+						<label class="custom-control-label" for="422741">bussy - <a href="/votes/t3_422741"><span id="option-422741">0</span> votes</a></label>
+					</div>
+					<div class="custom-control">
+						<input autocomplete="off" type="checkbox" class="custom-control-input" id="422742">
+						<label class="custom-control-label" for="422742">gussy - <a href="/votes/t3_422742"><span id="option-422742">0</span> votes</a></label>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Poll — Pick One<br>
+				</td>
+				<td>&&bussy&&<br>&&gussy&&</td>
+				<td>
+					<div class="custom-control">
+						<input name="choice" autocomplete="off" type="radio" class="custom-control-input" id="1338113">
+						<label class="custom-control-label" for="1338113">bussy - <a href="/votes/t3_1338113"><span id="option-1338113">0</span> votes</a></label>
+					</div>
+					<div class="custom-control">
+						<input name="choice" autocomplete="off" type="radio" class="custom-control-input" id="1338114">
+						<label class="custom-control-label" for="1338114">gussy - <a href="/votes/t3_1338114"><span id="option-1338114">0</span> votes</a></label>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td>Headers 1-6</td>
+				<td># Header 1<br>## Header 2<br>### Header 3<br>#### Header 4<br>##### Header 5<br>###### Header 6</td>
+				<td><h1>Header 1</h1><h2>Header 2</h2><h3>Header 3</h3><h4>Header 4</h4><h5>Header 5</h5><h6>Header 6</h6></td>
+			</tr>
+			<tr>
+				<td>List</td>
+				<td>* First thing<br>* Second thing</td>
+				<td><ul><li>First thing</li><li>Second thing</li></ul></td>
+			</tr>
+			<tr>
+				<td>Code Block</td>
+				<td>```<br>Use three backticks above and below.<br>```</td>
+				<td>
+					<pre class="mb-0"><code>Use three backticks above and below.
+					</code></pre>
+				</td>
+			</tr>
+			<tr>
+				<td>Spoilers</td>
+				<td>||bussy > gussy||</td>
+				<td><p><spoiler>bussy &gt; gussy</spoiler></p></td>
+			</tr>
+			<tr>
+				<td>Username Mention</td>
+				<td>@Snappy</td>
+				<td><a class="d-inline-block" href="/@Snappy"><img alt="@Snappy profile picture" loading="lazy" src="/pp/{{SNAPPY_ID}}">@Snappy</a></td>
+			</tr>
+			<tr>
+				<td>Subreddit Mention</td>
+				<td>r/drama</td>
+				<td><a class="d-inline-block" rel="nofollow noopener" href="https://old.reddit.com/r/drama">r/drama</a></td>
+			</tr>
+			<tr>
+				<td>Redditor Mention</td>
+				<td>u/Bardfinn</td>
+				<td><a class="d-inline-block" rel="nofollow noopener" href="https://old.reddit.com/user/Bardfinn">u/Bardfinn</a></td>
+			</tr>
+			<tr>
+				<td>Ping Group Mention<br>
+					<span style="font-style: italic; font-weight: normal">
+						* Mentions all members of the group.
+					</span>
+				</td>
+				<td>!biofoids</td>
+				<td><a href="/!biofoids" rel="nofollow">!biofoids</a></td>
+			</tr>
+			<tr>
+				<td>Followers Mention<br>
+					<span style="font-style: italic; font-weight: normal">
+						* Mentions all your followers.
+					</span>
+				</td>
+				<td>!followers</td>
+				<td><a href="/id/{{v.id}}/followers" rel="nofollow">!followers</a></td>
+			</tr>
+			<tr>
+				<td>Commenters Mention<br>
+					<span style="font-style: italic; font-weight: normal">
+						* Mentions everyone who has commented in the thread it's used in.
+					</span>
+				</td>
+				<td>!commenters</td>
+				<td><a href="/!commenters/1/1" rel="nofollow">!commenters</a></td>
+			</tr>
+			<tr>
+				<td>Admins Mention<br>
+					<span style="font-style: italic; font-weight: normal">
+						* Mentions all site admins.
+					</span>
+				</td>
+				<td>!jannies</td>
+				<td><a href="/admins" rel="nofollow">!jannies</a></td>
+			</tr>
+			<tr>
+				<td>Everyone Mention<br>
+					<span style="font-style: italic; font-weight: normal">
+						* Mentions everyone.
+					</span>
+				</td>
+				<td>!everyone</td>
+				<td><a href="/users" rel="nofollow">!everyone</a></td>
+			</tr>
+			<tr>
+				<td>Random Marsey Emoji</td>
+				<td>:marseyrandom:</td>
+				<td>???</td>
+			</tr>
+			<tr>
+				<td>Random Platy Emoji</td>
+				<td>:platyrandom:</td>
+				<td>???</td>
+			</tr>
+			<tr>
+				<td>Random Wolf Emoji</td>
+				<td>:wolfrandom:</td>
+				<td>???</td>
+			</tr>
+			<tr>
+				<td>Random Donkey Kong Emoji</td>
+				<td>:donkeykongrandom:</td>
+				<td>???</td>
+			</tr>
+			<tr>
+				<td>Random Tay Emoji</td>
+				<td>:tayrandom:</td>
+				<td>???</td>
+			</tr>
+			<tr>
+				<td>Random Capy Emoji</td>
+				<td>:capyrandom:</td>
+				<td>???</td>
+			</tr>
+			<tr>
+				<td>Random Carp Emoji</td>
+				<td>:carprandom:</td>
+				<td>???</td>
+			</tr>
+			<tr>
+				<td>Random Marsey Flag Emoji</td>
+				<td>:marseyflagrandom:</td>
+				<td>???</td>
+			</tr>
+			<tr>
+				<td>Random Marsey Alphabet Emoji</td>
+				<td>:marseyalphabetrandom:</td>
+				<td>???</td>
+			</tr>
+			<tr>
+				<td>Random Rage Emoji</td>
+				<td>:ragerandom:</td>
+				<td>???</td>
+			</tr>
+			<tr>
+				<td>Random Wojak Emoji</td>
+				<td>:wojakrandom:</td>
+				<td>???</td>
+			</tr>
+			<tr>
+				<td>Random Misc Emoji</td>
+				<td>:miscrandom:</td>
+				<td>???</td>
+			</tr>
+			{% if FEATURES['MARKUP_COMMANDS'] -%}
+				<tr>
+					<td>Play slots using coins<br>
+						<span style="font-style: italic; font-weight: normal">
+							* Minimum 100 coins.
+						</span>
+					</td>
+					<td>!slots 100</td>
+					<td>???</td>
+				</tr>
+				<tr>
+					<td>Play slots using marseybux<br>
+						<span style="font-style: italic; font-weight: normal">
+							* Minimum 100 marseybux.
+						</span>
+					</td>
+					<td>!slotsmb 100</td>
+					<td>???</td>
+				</tr>
+				<tr>
+					<td>Random Fortune</td>
+					<td>#fortune</td>
+					<td>???</td>
+				</tr>
+				<tr>
+					<td>Random 8-Ball Answer</td>
+					<td>#8ball</td>
+					<td>???</td>
+				</tr>
+				<tr>
+					<td>Random Factcheck</td>
+					<td>#factcheck</td>
+					<td>???</td>
+				</tr>
+				<tr>
+					<td>Roll</td>
+					<td>#roll</td>
+					<td>A number 1&ndash;9999.</td>
+				</tr>
+				<tr>
+					<td>Coinflip</td>
+					<td>#coinflip</td>
+					<td>Heads, Tails, or Edge.</td>
+				</tr>
+			{%- endif %}
+		</tbody>
+	</table>
+</div>
 
 <hr class="my-6">
 

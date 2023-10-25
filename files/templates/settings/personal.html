@@ -17,9 +17,9 @@
 						<div class="body w-lg-100">
 							<p>You're a {{TIER_TO_NAME[v.patron] if v.patron else "freeloader"}}!</p>{% if v.patron %} Thanks ily! &lt;3{% endif %}
 							{% if not v.patron and v.truescore >= TRUESCORE_MINIMUM and DONATE_LINK != DEFAULT_CONFIG_VALUE %}
-								<p class="font-italic">To stop freeloading, first <a href="/settings/security#site-settings-email-section">verify your email</a>, support us on <a href="{{DONATE_LINK}}">{{DONATE_SERVICE}}</a> with the same email, and click "Claim {{patron}} Rewards"</p>
+								<p class="font-italic">To stop freeloading, first <a href="/settings/security#site-settings-email-section">verify your email</a>, then support us on <a href="{{DONATE_LINK}}">{{DONATE_SERVICE}}</a> with the same email, and then click "Claim {{patron}} Rewards" <a href="/settings/security#site-settings-email-section">here</a></p>
 							{% elif not v.patron %}
-								<p class="font-italic">To stop freeloading, you can <a href="/donate">donate via crypto</a>. Please let us know first beforehand by <a href="/contact">sending us a modmail.</a> Thanks!</p>
+								<p class="font-italic">To stop freeloading, you can <a href="/donate">donate by crypto</a>. If you do that, please let us know by <a href="/contact">sending us the transaction id via modmail</a> so we can give you your {{patron}} rewards manually!</p>
 							{% endif %}
 						</div>
 					</div>
@@ -188,8 +188,13 @@
 							<p>Your original username will always stay reserved for you: <code>{{v.original_username}}</code></p>
 							<form action="/settings/name_change" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHR(this)">
 								<input hidden name="formkey" value="{{v|formkey}}">
-								<input id="name-body" autocomplete="off" type="text" name="name" class="form-control" value="{{v.username}}"  {% if v.namechanged %}disabled{% endif %}>
-								<small>{% if v.patron %}1{% else %}3{% endif %}-25 characters, including letters, numbers, _ , and -</small>
+								{% if v.patron %}
+									{% set minlength = 1 %}
+								{% else %}
+									{% set minlength = 3 %}
+								{% endif %}
+								<input id="name-body" autocomplete="off" type="text" name="name" class="form-control" value="{{v.username}}" minlength="{{minlength}}" maxlength="25" {% if v.namechanged %}disabled{% endif %}>
+								<small>{{minlength}}-25 characters, including letters, numbers, _ , and -</small>
 								<div class="d-flex mt-2">
 									<input autocomplete="off" class="btn btn-primary ml-auto" type="submit" value="Change Display Name" {% if v.namechanged %}disabled{% endif %}>
 								</div>
@@ -202,9 +207,9 @@
 						{{common.line_text_section('pronouns', '/settings/pronouns_change', 'pronouns', 'Pronouns', v.pronouns, 'Limit of 15 characters', 'Enter pronouns here', 'Change Pronouns', false, 3, 15, '([a-zA-Z]{1,7})/[a-zA-Z]{1,7}(/[a-zA-Z]{1,7})?', false)}}
 					{% endif %}
 
-					{{common.line_text_section('flair', '/settings/change_flair', 'title', 'Flair', v.flair, 'Limit of 100 characters', 'Enter a flair here', 'Change Flair', true, 0, 100, '.*', v.flairchanged)}}
+					{{common.line_text_section('flair', '/settings/change_flair', 'flair', 'Flair', v.flair, 'Limit of 100 characters', 'Enter a flair here', 'Change Flair', true, 0, 100, '.*', v.flairchanged)}}
 
-					{{common.color_section('flaircolor', '/settings/titlecolor', 'titlecolor', 'Flair Color', v.titlecolor)}}
+					{{common.color_section('flaircolor', '/settings/flaircolor', 'flaircolor', 'Flair Color', v.flaircolor)}}
 
 					{% if FEATURES['USERS_PROFILE_SONG'] -%}
 						<div class="d-lg-flex border-bottom">
@@ -246,7 +251,7 @@
 
 					{{common.text_area_section('profile-signature', '/settings/personal', 'sig', 'Signature', v.sig, 'Limit of 200 characters', 'Enter a signature...', true, 200)}}
 
-					{{common.toggle_section('Private Mode', 'privateswitch', 'private', v.is_private, 'This will hide your profile page from others.', false)}}
+					{{common.toggle_section('Private Mode', 'privateswitch', 'private', v.is_private, 'This will hide your profile page from other users.', false)}}
 					{{common.toggle_section('Lifetime Donated Visiblity', 'lifetimedonated_visibleswitch', 'lifetimedonated_visible', v.lifetimedonated_visible, 'Make the "lifetime donated" field in your profile visible to everyone instead of just you.', false)}}
 
 					{{common.toggle_section('Cursor Marsey', 'cursormarseyswitch', 'cursormarsey', v.cursormarsey, 'Have a cute

@@ -2,62 +2,72 @@
 {% block pagetitle %}Emojis{% endblock %}
 {% block pagetype %}emojis{% endblock %}
 {% block content %}
+	<a class="btn btn-primary btn-block mt-3" href="/assets/emojis.zip?x={{emojis_hash}}"><i class="fas fa-down mr-2"></i>Download All Emojis</a>
 
-<a class="btn btn-primary btn-block mt-3" href="/assets/emojis.zip?x={{emojis_hash}}"><i class="fas fa-down mr-2"></i>Download All Emojis</a>
+	<a class="btn btn-primary btn-block mt-3" href="/assets/emojis_original.zip?x={{emojis_hash}}"><i class="fas fa-down mr-2"></i>Download All Original Files</a>
 
-<a class="btn btn-primary btn-block mt-3" href="https://rdrama.net/assets/emojis_original.zip?x={{emojis_hash}}"><i class="fas fa-down mr-2"></i>Download All Original Files</a>
-
-<div class="d-flex align-items-center my-4">
-	<div class="dropdown dropdown-actions mx-auto">
-		<button type="button" class="btn btn-secondary dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown" data-bs-display="static" style="width:min(95vw, 900px)">
-			<img loading="lazy" src="{{SITE_FULL_IMAGES}}/e/{{kind.lower()}}.webp" alt=":{{kind.lower()}}:" class="mr-2">{{kind}}
-		</button>
-		<div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 31px, 0px); max-height: 50vh;overflow: auto;width:min(95vw, 900px)">
-			{% for kind in EMOJI_KINDS %}
-				<a class="dropdown-item" href="/emojis/{{kind}}"><img loading="lazy" src="{{SITE_FULL_IMAGES}}/e/{{kind.lower()}}.webp" alt=":{{kind.lower()}}:" class="mr-2">{{kind}}</a>
-			{% endfor %}
+	<div class="d-flex align-items-center my-4">
+		<div class="dropdown dropdown-actions mx-auto">
+			<button type="button" class="btn btn-secondary dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown" data-bs-display="static" style="width:min(95vw, 900px)">
+				<img loading="lazy" src="{{SITE_FULL_IMAGES}}/e/{{kind.lower()}}.webp" alt=":{{kind.lower()}}:" class="mr-2">{{kind}}
+			</button>
+			<div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 31px, 0px); max-height: 50vh;overflow: auto;width:min(95vw, 900px)">
+				{% for kind in EMOJI_KINDS %}
+					<a class="dropdown-item" href="/emojis/{{kind}}"><img loading="lazy" src="{{SITE_FULL_IMAGES}}/e/{{kind.lower()}}.webp" alt=":{{kind.lower()}}:" class="mr-2">{{kind}}</a>
+				{% endfor %}
+			</div>
 		</div>
 	</div>
-</div>
 
-<div class="overflow-x-auto mt-3"><table class="table table-striped mb-5">
-<thead class="bg-primary text-white">
-	<tr>
-		<th>#</th>
-		<th>Name</th>
-		<th>Emoji</th>
-		<th>Usage</th>
-		{% if FEATURES['ASSET_SUBMISSIONS'] %}
-			<th>Author</th>
-		{% endif %}
-		<th>Added on</th>
-		{% if FEATURES['ASSET_SUBMISSIONS'] %}
-			<th class="disable-sort-click">Original File</th>
-		{% endif %}
-	</tr>
-</thead>
-<tbody id="emojis-table">
-{% for emoji in emojis %}
-<tr>
-	<td>{{loop.index}}</td>
-	<td>{{emoji.name}}</td>
-	<td><img class="emoji" loading="lazy" data-bs-toggle="tooltip" alt=":#{{emoji.name}}:" title=":{{emoji.name}}:" src="{{SITE_FULL_IMAGES}}/e/{{emoji.name}}.webp"></td>
-	<td>{{emoji.count}}</td>
-	{% if FEATURES['ASSET_SUBMISSIONS'] %}
-	{% set user = emoji.user %}
-	<td>{% include "user_in_table.html" %}</td>
-	{% endif %}
-	<td data-sort-key="{{emoji.created_utc or 0}}" {% if emoji.created_utc != None %}data-time="{{emoji.created_utc}}"{% endif %}></td>
-	{% if FEATURES['ASSET_SUBMISSIONS'] %}
-	<td>
-		{% if emoji.og %}
-			<a href="{{SITE_FULL_IMAGES}}/asset_submissions/emojis/original/{{emoji.og}}">{{emoji.og}}</a>
-		{% endif %}
-	</td>
-	{% endif %}
-</tr>
-{% endfor %}
-</tbody>
-</table>
-
+	<div class="overflow-x-auto mt-3">
+		<table class="table table-striped mb-5">
+			<thead class="bg-primary text-white">
+				<tr>
+					<th>#</th>
+					<th>Name</th>
+					<th>Emoji</th>
+					<th>Usage</th>
+					{% if FEATURES['EMOJI_SUBMISSIONS'] %}
+						<th>Author</th>
+					{% endif %}
+					<th>Added on</th>
+					{% if FEATURES['EMOJI_SUBMISSIONS'] %}
+						<th class="disable-sort-click">Original File</th>
+					{% endif %}
+				</tr>
+			</thead>
+			<tbody id="emojis-table">
+			{% for emoji in emojis %}
+			<tr>
+				<td>{{loop.index}}</td>
+				<td>{{emoji.name}}</td>
+				<td><img class="emoji" loading="lazy" data-bs-toggle="tooltip" alt=":#{{emoji.name}}:" title=":{{emoji.name}}:" src="{{SITE_FULL_IMAGES}}/e/{{emoji.name}}.webp"></td>
+				<td>{{emoji.count}}</td>
+				{% if FEATURES['EMOJI_SUBMISSIONS'] %}
+					<td>
+						{% if emoji.author_id == 2 %}
+							{% if SITE_NAME == 'WPD' %}
+								an rDrama user
+							{% else %}
+								a WPD user
+							{% endif %}
+						{% else %}
+							{% set user = emoji.user %}
+							{% include "user_in_table.html" %}
+						{% endif %}
+					</td>
+				{% endif %}
+				<td data-sort-key="{{emoji.created_utc or 0}}" {% if emoji.created_utc != None %}data-time="{{emoji.created_utc}}"{% endif %}></td>
+				{% if FEATURES['EMOJI_SUBMISSIONS'] %}
+					<td>
+						{% if emoji.og %}
+							<a href="{{SITE_FULL_IMAGES}}/asset_submissions/emojis/original/{{emoji.og}}">{{emoji.og}}</a>
+						{% endif %}
+					</td>
+				{% endif %}
+			</tr>
+			{% endfor %}
+			</tbody>
+		</table>
+	</div>
 {% endblock %}

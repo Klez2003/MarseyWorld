@@ -612,7 +612,6 @@ INSERT INTO public.hat_defs VALUES (563, 'The Dundee', 'That''s not a hat. THIS 
 INSERT INTO public.hat_defs VALUES (566, 'Heart Crown (rainbow)', '❤🧡💛💚💙💜', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (565, 'Sparkles Crown', '✨✨✨', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (572, 'Heart Crown (sparkles)', '💕💛💔💗♥🖤✨💙 or something idk', 2, 500, NULL, 1662167687);
-INSERT INTO public.hat_defs VALUES (573, 'CENSORED', '💔literally 1984 💔', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (574, 'Heart Crown (Rainbow II)', 'More gay than the other rainbow heart crown 👍', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (575, 'Heart Crown (superstraight)', '🖤🧡🖤🧡🖤🧡', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (567, 'Heart Crown (blue and purple)', '💙💜', 2, 500, NULL, 1662167687);
@@ -1117,13 +1116,20 @@ INSERT INTO public.hat_defs VALUES (1347, 'Rainbow Lightning', 'Color me shocked
 INSERT INTO public.hat_defs VALUES (1345, 'The Chef', 'Mmm bussy!', 2, 1000, NULL, 1696396948);
 INSERT INTO public.hat_defs VALUES (1344, 'Fighter', 'Cash me outside', 2, 1000, NULL, 1696392781);
 INSERT INTO public.hat_defs VALUES (1351, 'Vietnamese Pith Helmet', 'A good hat to wear while fighting the French, the Americans, the Cambodians, or the Chinese', 2, 500, NULL, 1696462997);
+INSERT INTO public.hat_defs VALUES (573, 'CENSORED', '💔 literally 1984 💔', 2, 500, NULL, 1662167687);
+INSERT INTO public.hat_defs VALUES (1352, 'Phantom Mask', 'In sleep he sang to me, in dreams came.', 2, 500, NULL, 1697683427);
+INSERT INTO public.hat_defs VALUES (1358, 'Swirly Fall Red Leaves', 'Red Autumn leaves!', 2, 1000, NULL, 1698018329);
+INSERT INTO public.hat_defs VALUES (1357, 'Spooky Candles (in Grey)', 'Spooky candles (now in grey!)', 2, 1000, NULL, 1698013297);
+INSERT INTO public.hat_defs VALUES (1356, 'Spooky Candles (Orange Version)', 'Spooky Candles (now in orange!)', 2, 1000, NULL, 1698013175);
+INSERT INTO public.hat_defs VALUES (1355, 'Pink Glitter Accent', 'Sparkly pink bling accent!', 2, 1000, NULL, 1698012207);
+INSERT INTO public.hat_defs VALUES (1354, 'White Sparkle', 'Blingy white accent sparkles!', 2, 1000, NULL, 1698012140);
 
 
 --
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1351, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1358, true);
 
 
 --

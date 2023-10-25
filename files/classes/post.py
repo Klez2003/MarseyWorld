@@ -15,7 +15,7 @@ from files.helpers.lazy import lazy
 from files.helpers.regex import *
 from files.helpers.sorting_and_time import make_age_string
 
-from .comment import normalize_urls_runtime, add_options, get_award_classes
+from .comment import *
 from .polls import *
 from .hole import *
 from .subscriptions import *
@@ -251,22 +251,27 @@ class Post(Base):
 
 	@lazy
 	def award_count(self, kind, v):
-		if v and v.poor and kind not in FISTMAS_AWARDS + HOMOWEEN_AWARDS:
+		if v and v.poor:
 			return 0
 
 		if self.distinguish_level and SITE_NAME == 'WPD':
 			return 0
 
 		num = len([x for x in self.awards if x.kind == kind])
-		if num > 4 and kind not in {"shit", "fireflies", "gingerbread", "pumpkin"}:
-			return 4
-		return num
 
-	@lazy
-	def emoji_award_emojis(self, v, OVER_18_EMOJIS):
-		if g.show_nsfw:
-			return [x.note for x in self.awards if x.kind == "emoji"][:10]
-		return [x.note for x in self.awards if x.kind == "emoji" and x.note not in OVER_18_EMOJIS][:10]
+		if kind in {"shit", "fireflies"}:
+			return num
+
+		if kind == "stalker":
+			return min(num, 25)
+
+		if kind in {"emoji", "emoji-hz"}:
+			return min(num, 20)
+
+		if kind in {"gingerbread", "pumpkin"}:
+			return min(num, 10)
+
+		return min(num, 4)
 
 	@lazy
 	def realurl(self, v):
@@ -383,3 +388,12 @@ class Post(Base):
 	@lazy
 	def award_classes(self, v, title=False):
 		return get_award_classes(self, v, title)
+
+	@lazy
+	def emoji_awards_emojis(self, v, kind, OVER_18_EMOJIS):
+		return get_emoji_awards_emojis(self, v, kind, OVER_18_EMOJIS)
+
+	@property
+	@lazy
+	def is_effortpost(self):
+		return len(self.body) >= 1500

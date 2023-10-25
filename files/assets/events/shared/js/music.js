@@ -1,9 +1,13 @@
-const song = document.getElementById('event-song').value;
-const audio = new Audio(song);
-audio.loop = true;
+if (!playing_music()) {
+	addEventListener("load", () => {
+		const audio = document.getElementById('event-song');
 
-audio.play();
-document.addEventListener('click', () => {
-	if (audio.paused) audio.play();
-}, {once : true});
-prepare_to_pause(audio)
+		handle_playing_music(audio)
+
+		audio.play();
+		document.addEventListener('click', () => {
+			if (audio.paused) audio.play();
+		}, {once : true});
+		prepare_to_pause(audio)
+	})
+}

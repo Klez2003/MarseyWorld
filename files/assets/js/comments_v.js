@@ -324,6 +324,12 @@ function post_comment(fullname, hide){
 			remove_dialog();
 			if (fullname.startsWith('c_'))
 				restore_reply_buttons(fullname)
+
+			if (fullname.startsWith('p_')) {
+				const viewbtn = document.getElementById('viewbtn')
+				if (viewbtn)
+					viewbtn.dataset.ids = viewbtn.dataset.ids.slice(0, -1) + `, ${data['id']}]`
+			}
 		}
 		else {
 			showToast(false, getMessageFromJsonData(false, data));
@@ -353,4 +359,5 @@ function cancel(fullname) {
 	document.getElementById(`reply-to-${fullname}`).classList.add('d-none')
 	remove_dialog();
 	restore_reply_buttons(fullname)
+	close_inline_speed_emoji_modal();
 }

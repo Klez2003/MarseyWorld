@@ -275,7 +275,7 @@ def comment(v):
 
 	c.upvotes = 1
 
-	body_html = sanitize(body, limit_pings=5, showmore=(not v.marseyawarded), count_emojis=not v.marsify, commenters_ping_post_id=commenters_ping_post_id, obj=c, author=v)
+	body_html = sanitize(body, limit_pings=5, showmore=(not v.hieroglyphs), count_emojis=not v.marsify, commenters_ping_post_id=commenters_ping_post_id, obj=c, author=v)
 
 	if post_target.id not in ADMIGGER_THREADS and not (v.chud and v.chud_phrase in body.lower()):
 		existing = g.db.query(Comment.id).filter(
@@ -291,7 +291,7 @@ def comment(v):
 	execute_antispam_comment_check(body, v)
 	execute_antispam_duplicate_comment_check(v, body_html)
 
-	if v.marseyawarded and marseyaward_body_regex.search(body_html) and not (posting_to_post and post_target.id in ADMIGGER_THREADS):
+	if v.hieroglyphs and marseyaward_body_regex.search(body_html) and not (posting_to_post and post_target.id in ADMIGGER_THREADS):
 		abort(403, "You can only type marseys!")
 
 	if len(body_html) > COMMENT_BODY_HTML_LENGTH_LIMIT:
@@ -302,7 +302,7 @@ def comment(v):
 	g.db.add(c)
 	g.db.flush()
 
-	process_poll_options(v, c)
+	process_options(v, c)
 
 	execute_blackjack(v, c, c.body, "comment")
 	execute_under_siege(v, c, c.body, "comment")
@@ -426,7 +426,7 @@ def comment(v):
 	gevent.spawn(postprocess_comment, c.body, c.body_html, c.id)
 
 	if v.client: return c.json
-	return {"comment": render_template("comments.html", v=v, comments=[c])}
+	return {"id": c.id, "comment": render_template("comments.html", v=v, comments=[c])}
 
 @app.post("/delete/comment/<int:cid>")
 @limiter.limit('1/second', scope=rpath)
@@ -610,10 +610,7 @@ def diff_words(answer, guess):
 def toggle_comment_nsfw(cid, v):
 	comment = get_comment(cid)
 
-	if comment.author_id != v.id and v.admin_level < PERMS['POST_COMMENT_MODERATION'] and not (comment.post.hole and v.mods(comment.post.hole)):
-		abort(403)
-
-	if comment.nsfw and v.is_permabanned:
+	if comment.author_id != v.id and v.admin_level < PERMS['POST_COMMENT_MODERATION'] and not (comment.post and comment.post.hole and v.mods(comment.post.hole)) and comment.wall_user_id != v.id:
 		abort(403)
 
 	comment.nsfw = not comment.nsfw
@@ -627,7 +624,7 @@ def toggle_comment_nsfw(cid, v):
 					target_comment_id = comment.id,
 				)
 			g.db.add(ma)
-		else:
+		elif comment.post and comment.post.hole and v.mods(comment.post.hole):
 			ma = HoleAction(
 					hole = comment.post.hole,
 					kind = "set_nsfw_comment" if comment.nsfw else "unset_nsfw_comment",
@@ -675,11 +672,11 @@ def edit_comment(cid, v):
 		body = process_files(request.files, v, body)
 		body = body[:COMMENT_BODY_LENGTH_LIMIT].strip() # process_files potentially adds characters to the post
 
-		body_html = sanitize(body, golden=False, limit_pings=5, showmore=(not v.marseyawarded), commenters_ping_post_id=c.parent_post, obj=c, author=c.author)
+		body_html = sanitize(body, golden=False, limit_pings=5, showmore=(not v.hieroglyphs), commenters_ping_post_id=c.parent_post, obj=c, author=c.author)
 
 		if len(body_html) > COMMENT_BODY_HTML_LENGTH_LIMIT: abort(400)
 
-		if c.author.marseyawarded and marseyaward_body_regex.search(body_html):
+		if c.author.hieroglyphs and marseyaward_body_regex.search(body_html):
 			abort(403, "You can only type marseys!")
 
 		oldtext = c.body
@@ -693,7 +690,7 @@ def edit_comment(cid, v):
 		if not complies_with_chud(c):
 			abort(403, f'You have to include "{c.author.chud_phrase}" in your comment!')
 
-		process_poll_options(v, c)
+		process_options(v, c)
 
 		if v.id == c.author_id:
 			if int(time.time()) - c.created_utc > 60 * 3:

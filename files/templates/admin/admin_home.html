@@ -4,10 +4,17 @@
 {% block content %}
 <h3 class="py-2">Admin Tools</h3>
 
+{% if v.admin_level >= PERMS['INSERT_TRANSACTION'] %}
+	<h4>Transactions</h4>
+	<ul>
+		<li><a href="/admin/insert_transaction">Insert Transaction</a></li>
+	</ul>
+{%- endif %}
+
 {% if v.admin_level >= PERMS['ORGIES'] %}
 	<h4>Orgies</h4>
 	<ul>
-		<li><a href="/admin/orgy">Start/Stop Orgy</a></li>
+		<li><a href="/admin/orgies">Schedule/Stop Orgy</a></li>
 	</ul>
 {%- endif %}
 
@@ -29,13 +36,19 @@
 			{% endif %}
 		{% endif %}
 
-		{% if SITE_NAME == 'rDrama' %}
-			{% if v.admin_level >= PERMS['MODERATE_PENDING_SUBMITTED_ASSETS'] %}
+		{% if v.admin_level >= PERMS['MODERATE_PENDING_SUBMITTED_ASSETS'] %}
+			{% if FEATURES['EMOJI_SUBMISSIONS'] -%}
 				<li><a href="/submit/emojis">Approve or Reject Emojis</a></li>
+			{% endif %}
+			{% if FEATURES['HAT_SUBMISSIONS'] -%}
 				<li><a href="/submit/hats">Approve or Reject Hats</a></li>
 			{% endif %}
-			{% if v.admin_level >= PERMS['UPDATE_ASSETS'] %}
+		{% endif %}
+		{% if v.admin_level >= PERMS['UPDATE_ASSETS'] %}
+			{% if FEATURES['EMOJI_SUBMISSIONS'] -%}
 				<li><a href="/admin/update/emojis">Update Emojis</a></li>
+			{% endif %}
+			{% if FEATURES['HAT_SUBMISSIONS'] -%}	
 				<li><a href="/admin/update/hats">Update Hats</a></li>
 			{% endif %}
 		{% endif %}
@@ -129,7 +142,7 @@
 	{% for setting in SITE_SETTINGS.keys() %}
 		{% if not (setting == "offline_mode" and v.admin_level < PERMS["SITE_OFFLINE_MODE"]) %}
 			<div class="custom-control custom-switch{% if loop.index > 1 %} mt-1{% endif %}" id="settings-{{setting}}-container">
-				<input autocomplete="off" type="checkbox" class="custom-control-input" id="settings-{{setting}}-checkbox" {% if SITE_SETTINGS[setting] %}checked{% endif %} data-nonce="{{g.nonce}}" data-onchange="postToastSwitch(this, '/admin/site_settings/{{setting}}')">
+				<input autocomplete="off" type="checkbox" class="custom-control-input" id="settings-{{setting}}-checkbox" {% if SITE_SETTINGS[setting] %}checked{% endif %} data-nonce="{{g.nonce}}" data-onchange="postToastSwitch(this, '/admin/site_settings/{{setting}}')" {% if setting == "under_attack" %}disabled{% endif %}>
 				<label class="custom-control-label" for="settings-{{setting}}-checkbox">{{setting.replace('_', ' ').title()}}</label>
 			</div>
 		{% endif %}

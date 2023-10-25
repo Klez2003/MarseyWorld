@@ -58,7 +58,7 @@ class User(Base):
 	profile_background = Column(String)
 	flair = deferred(Column(String))
 	flair_html = Column(String)
-	titlecolor = Column(String, default=DEFAULT_COLOR)
+	flaircolor = Column(String, default=DEFAULT_COLOR)
 	theme = Column(String, default=DEFAULT_THEME)
 	themecolor = Column(String, default=DEFAULT_COLOR)
 	song = Column(String)
@@ -71,7 +71,7 @@ class User(Base):
 	patron_utc = Column(Integer, default=0)
 	verified = Column(String)
 	verifiedcolor = Column(String)
-	marseyawarded = Column(Integer, default=0)
+	hieroglyphs = Column(Integer, default=0)
 	rehab = Column(Integer, default=0)
 	longpost = Column(Integer, default=0)
 	bird = Column(Integer, default=0)
@@ -103,7 +103,7 @@ class User(Base):
 	newtabexternal = Column(Boolean, default=True)
 	reddit = Column(String, default='old.reddit.com')
 	nitter = Column(Boolean)
-	imginn = Column(Boolean)
+	imgsed = Column(Boolean)
 	frontsize = Column(Integer, default=25)
 	controversial = Column(Boolean, default=False)
 	bio = deferred(Column(String))
@@ -1319,12 +1319,6 @@ class User(Base):
 
 	@property
 	@lazy
-	def can_see_my_shit(self):
-		v = g.v
-		return not self.shadowbanned or (v and (v.id == self.id or v.can_see_shadowbanned))
-
-	@property
-	@lazy
 	def ordered_badges(self):
 		return sorted(self.badges, key=badge_ordering_func)
 
@@ -1333,7 +1327,7 @@ class User(Base):
 		if not self.sig_html or not self.patron:
 			return ''
 
-		if v and (not v.show_sigs or v.poor):
+		if v and not v.show_sigs:
 			return ''
 
 		return f'<div id="signature-{self.id}" class="user-signature"><hr>{self.sig_html}</div>'

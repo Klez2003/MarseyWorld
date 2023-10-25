@@ -177,7 +177,7 @@ document.addEventListener("click", function (e) {
 
 	if (!element) return
 
-	if (element instanceof HTMLImageElement && (element.alt.startsWith('![](') || element.classList.contains('in-comment-image') || element.classList.contains('img'))) {
+	if (element instanceof HTMLImageElement && (element.alt.startsWith('![](') || element.classList.contains('img'))) {
 		expandImage()
 	}
 	else if (element.classList.contains('showmore')) {
@@ -189,6 +189,15 @@ document.addEventListener("click", function (e) {
 			return
 		}
 		document.getElementById('giveaward').dataset.action = element.dataset.url
+		document.getElementById('buyandgiveaward').dataset.action = element.dataset.url
+
+		const currently_picked = document.getElementById("awardModal").getElementsByClassName('picked')[0]
+		if (currently_picked && currently_picked.id == 'emoji') {
+			if (element.dataset.url.startsWith('/award/post/'))
+				document.getElementById('emoji_behavior_section').classList.remove("d-none")
+			else
+				document.getElementById('emoji_behavior_section').classList.add("d-none")
+		}
 
 		const effect_author_tab = document.getElementById('effect-author-tab')
 		const effect_content_tab = document.getElementById('effect-content-tab')
@@ -230,6 +239,9 @@ document.addEventListener("click", function (e) {
 
 	if (!element.classList.contains("areyousure")) {
 		document.querySelectorAll(".areyousure").forEach(i => {
+			if (element.dataset.bsTarget == "#awardModal" && i.classList.contains('awardbtn'))
+				return
+
 			i.classList.remove("areyousure")
 
 			if (i.dataset.oldvalue)

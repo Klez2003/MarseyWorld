@@ -291,13 +291,14 @@ def sign_up_post(v):
 				"sitekey": TURNSTILE_SITEKEY}
 		url = "https://challenges.cloudflare.com/turnstile/v0/siteverify"
 
-		x = requests.post(url, data=data, timeout=5)
-
-		try:
-			if not x.json().get("success"):
+		try: x = requests.post(url, data=data, timeout=5)
+		except: pass
+		else:
+			try:
+				if not x.json().get("success"):
+					return signup_error("Unable to verify captcha [2].")
+			except:
 				return signup_error("Unable to verify captcha [2].")
-		except:
-			return signup_error("Unable to verify captcha [2].")
 
 	session.pop("signup_token")
 
@@ -460,6 +461,13 @@ def post_reset(v):
 							token=token,
 							time=timestamp,
 							error="Passwords didn't match."), 400
+
+	if not valid_password_regex.fullmatch(password):
+		return render_template("login/reset_password.html",
+							v=user,
+							token=token,
+							time=timestamp,
+							error="Password must be between 8 and 100 characters."), 400
 
 	user.passhash = hash_password(password)
 	g.db.add(user)

@@ -1,4 +1,4 @@
-let st = init("canvas"), // stranger things var
+let st = init("canvas"),
 w = (canvas.width = innerWidth),
 h = (canvas.height = innerHeight);
 
@@ -25,8 +25,13 @@ class firefly {
 
 let f = [];
 
+let num_fireflies = 10
+if (screen_width >= 768) {
+	num_fireflies = 50
+}
+
 function draw() {
-	if (f.length < 100) {
+	if (f.length < num_fireflies) {
 		for (let j = 0; j < 10; j++) {
 			f.push(new firefly());
 		}
@@ -51,30 +56,10 @@ function init(elemid) {
 	return st;
 }
 
-window.requestAnimFrame = function () {
-	return (
-		window.requestAnimationFrame ||
-		window.webkitRequestAnimationFrame ||
-		window.mozRequestAnimationFrame ||
-		window.oRequestAnimationFrame ||
-		window.msRequestAnimationFrame ||
-		function (callback) {
-			window.setTimeout(callback);
-		}
-	);
-};
-
 function loop() {
-	window.requestAnimFrame(loop);
 	st.clearRect(0, 0, w, h);
 	draw();
 }
-
-addEventListener("resize", function () {
-	(w = canvas.width = innerWidth),
-		(h = canvas.height = innerHeight);
-	loop();
-});
 
 loop();
 setInterval(loop, 1000 / 60);

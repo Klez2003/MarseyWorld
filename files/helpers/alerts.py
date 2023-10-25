@@ -53,6 +53,8 @@ def send_repeatable_notification(uid, text):
 
 	push_notif({uid}, 'New notification', text, f'{SITE_FULL}/notification/{cid}')
 
+	return notif
+
 
 def send_notification(uid, text):
 	if uid in BOT_IDs: return
@@ -94,8 +96,12 @@ def notif_comment(text):
 
 
 def notif_comment2(p):
+	if p.ghost:
+		author_link = '@👻'
+	else:
+		author_link = f'<a href="/id/{p.author_id}" rel="nofollow"><img loading="lazy" src="/pp/{p.author_id}">@{p.author_name}</a>'
 
-	text = f"@{p.author_name} has mentioned you: [{p.title}](/post/{p.id})"
+	text = f'{author_link} has mentioned you: <a href="/post/{p.id}">{p.title_html}</a>'
 
 	search_html = f'%</a> has mentioned you: <a href="/post/{p.id}"%'
 
@@ -104,8 +110,7 @@ def notif_comment2(p):
 	if existing: return existing[0], text
 	else:
 		if p.hole: text += f" in <a href='/h/{p.hole}'>/h/{p.hole}"
-		text_html = sanitize(text, blackjack="notification", post_mention_notif=True)
-		return create_comment(text_html), text
+		return create_comment(text), text
 
 
 def add_notif(cid, uid, text, pushnotif_url=''):

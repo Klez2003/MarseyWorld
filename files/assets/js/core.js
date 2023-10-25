@@ -33,8 +33,12 @@ function createXhrWithFormKey(url, form=new FormData(), method='POST') {
 }
 
 function postToast(t, url, data, extraActionsOnSuccess, extraActionsOnFailure) {
-	t.disabled = true;
-	t.classList.add("disabled");
+	const is_shop = t.id && t.id.startsWith('buy-')
+
+	if (!is_shop) {
+		t.disabled = true;
+		t.classList.add("disabled");
+	}
 
 	let form = new FormData();
 	if (typeof data === 'object' && data !== null) {
@@ -46,7 +50,7 @@ function postToast(t, url, data, extraActionsOnSuccess, extraActionsOnFailure) {
 	xhr[0].onload = function() {
 		const success = xhr[0].status >= 200 && xhr[0].status < 300;
 
-		if (!(extraActionsOnSuccess == reload && success)) {
+		if (!(extraActionsOnSuccess == reload && success && !is_shop)) {
 			t.disabled = false;
 			t.classList.remove("disabled");
 		}
@@ -118,11 +122,11 @@ if (!location.pathname.endsWith('/submit') && !location.pathname.endsWith('/chat
 		const formDOM = targetDOM.parentElement;
 
 		if (formDOM.id == 'note_section') {
-			document.getElementById('giveaward').click();
+			document.querySelector('.awardbtn:not(.d-none)').click();
 			return
 		}
 
-		if (location.pathname == '/admin/orgy') {
+		if (location.pathname == '/admin/orgies') {
 			document.getElementById('start-orgy').click();
 			return
 		}
@@ -262,7 +266,9 @@ function areyousure(t) {
 }
 
 function prepare_to_pause(audio) {
-	for (const e of document.querySelectorAll('video,audio')) {
+	for (const e of document.querySelectorAll('video,audio'))
+	{
+		if (e == audio) continue
 		e.addEventListener('play', () => {
 			if (!audio.paused) audio.pause();
 		});
@@ -275,11 +281,31 @@ function prepare_to_pause(audio) {
 	});
 }
 
+function handle_playing_music(audio) {
+	audio.addEventListener('play', () => {
+		localStorage.setItem("playing_music", Date.now());
+		addEventListener('beforeunload', () => {
+			localStorage.setItem("playing_music", 0);
+		})	
+	})
+	audio.addEventListener('pause', () => {
+		localStorage.setItem("playing_music", 0);
+	})	
+}
+
+function playing_music() {
+	return (Date.now() - localStorage.getItem("playing_music", 0) < 300000)
+}
+
 function reload() {
 	location.reload();
 }
 
 function sendFormXHR(form, extraActionsOnSuccess) {
+	if (typeof close_inline_speed_emoji_modal === "function") {
+		close_inline_speed_emoji_modal();
+	}
+
 	const t = form.querySelector('[type="submit"]')
 	t.disabled = true;
 	t.classList.add("disabled");
@@ -302,10 +328,11 @@ function sendFormXHR(form, extraActionsOnSuccess) {
 			t.classList.remove("disabled");
 		}
 
-		if (xhr.status != 204) {
+		try {
 			const data = JSON.parse(xhr.response);
 			showToast(success, getMessageFromJsonData(success, data));
 		}
+		catch {}
 		if (success && extraActionsOnSuccess) extraActionsOnSuccess(xhr);
 	};
 
@@ -793,7 +820,7 @@ function handleUploadProgress(e, upload_prog) {
 }
 
 
-if (screen_width <= 768) {
+if (screen_width < 768) {
 	let object
 	if (gbrowser == 'iphone' && expandImageModal)
 		object = expandImageModal
@@ -820,6 +847,12 @@ if (screen_width <= 768) {
 		});
 	}
 }
+
+document.addEventListener('hide.bs.modal', () => {
+	if (typeof close_inline_speed_emoji_modal === "function") {
+		close_inline_speed_emoji_modal();
+	}
+});
 
 document.querySelectorAll('form').forEach(form => {
 	form.addEventListener('submit', (e) => {

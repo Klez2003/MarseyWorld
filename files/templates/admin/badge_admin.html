@@ -38,7 +38,7 @@
 </tr>
 {% endfor %}
 </table>
-<label for="input-usernames">Usernames</label>
+<label for="input-usernames">Usernames (separated with a space)</label>
 {% set usernames = request.values.get('usernames') %}
 <input autocomplete="off" id="input-usernames" class="form-control" type="text" name="usernames" placeholder="Required (separated by space)" {% if usernames %}value="{{usernames}}"{% endif %} required>
 

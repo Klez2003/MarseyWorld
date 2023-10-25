@@ -26,7 +26,6 @@ RUN mkdir /dm_media
 RUN mkdir /songs
 RUN mkdir /temp_songs
 RUN mkdir /videos
-RUN mkdir /orgies
 RUN mkdir /audio
 RUN mkdir /asset_submissions
 RUN mkdir /asset_submissions/emojis

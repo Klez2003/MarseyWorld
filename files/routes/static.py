@@ -51,7 +51,7 @@ def get_emoji_list(kind, nsfw):
 
 	emojis = []
 	for emoji, author in li:
-		emoji.author = author.username if FEATURES['ASSET_SUBMISSIONS'] else None
+		emoji.author = author.username if FEATURES['EMOJI_SUBMISSIONS'] else None
 		emojis.append(emoji)
 	return emojis
 
@@ -68,7 +68,7 @@ def emoji_list(v, kind):
 	emojis = get_emoji_list(kind, g.show_nsfw)
 	authors = get_accounts_dict([e.author_id for e in emojis], v=v, graceful=True)
 
-	if FEATURES['ASSET_SUBMISSIONS']:
+	if FEATURES['EMOJI_SUBMISSIONS']:
 		original = os.listdir("/asset_submissions/emojis/original")
 		for emoji in emojis:
 			emoji.user = authors.get(emoji.author_id)
@@ -102,7 +102,7 @@ def get_emojis(nsfw = None):
 
 	collected = []
 	for emoji, author in emojis:
-		if FEATURES['ASSET_SUBMISSIONS']:
+		if FEATURES['EMOJI_SUBMISSIONS']:
 			emoji.author_username = author.username
 			emoji.author_original_username = author.original_username
 			emoji.author_prelock_username = author.prelock_username
@@ -457,7 +457,7 @@ def mobile_app(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 def dismiss_mobile_tip():
 	session["tooltip_dismissed"] = int(time.time())
-	return "", 204
+	return ""
 
 @app.get("/transfers/<int:id>")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)

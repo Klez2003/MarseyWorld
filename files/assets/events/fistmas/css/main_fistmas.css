@@ -9,7 +9,6 @@
 }
 
 :root {
-	--primary: #cc4145;
 	--secondary: #c7c7c7;
 	--dark: #c7c7c7;
 	--muted: #131512;
@@ -213,57 +212,49 @@ body {
 	background-blend-mode: soft-light;
 }
 
-  .color {
-   width: 20%;
-   height: 100%;
-   float: left
-  }
+.color {
+	width: 20%;
+	height: 100%;
+	float: left
+}
 
-  .color p {
+.color p {
 	position: relative;
 	z-index: 1231231;
 	text-align: center;
 	line-height: 90vh;
-  }
+}
 
-  .color:nth-child(1){
+.color:nth-child(1){
 	background-color: #F5624D;
-  }
+}
 
-  .color:nth-child(2){
+.color:nth-child(2){
 	background-color: #CC231E;
-  }
+}
 
-  .color:nth-child(3){
+.color:nth-child(3){
 	background-color: #34A65F;
-  }
+}
 
-  .color:nth-child(4){
+.color:nth-child(4){
 	background-color: #0F8A5F;
-  }
+}
 
-  .color:nth-child(5){
+.color:nth-child(5){
 	background-color: #235E6F;
-  }
+}
 
-  #snow:not([data-nonce]) {
+#snow:not([data-nonce]) {
 	height: 100%;
 	color: #FFF;
 	display: block;
-  }
+}
 
 /* awards */
 
 /* gingerbread */
-.fall-snowflake {
-	color: #fff;
-	font-size: 1em;
-	font-family: Serif;
-	text-shadow: 0 0 1px #000;
-  pointer-events: none;
-}
-
-@keyframes fall-snowflakes-fall {
+@keyframes fall-gingerbreads-fall {
 	0% {
 		top: -20%
 	}
@@ -272,7 +263,7 @@ body {
 	}
 }
 
-@keyframes fall-snowflakes-shake {
+@keyframes fall-gingerbreads-shake {
 	0% {
 		transform: translateX(0px)
 	}
@@ -284,116 +275,81 @@ body {
 	}
 }
 
-.fall-snowflake {
+.fall-gingerbread {
+	color: #fff;
+	font-size: 1em;
+	font-family: Serif;
+	text-shadow: 0 0 1px #000;
+	pointer-events: none;
 	position: fixed;
 	top: -20%;
 	z-index: 9999;
 	-webkit-user-select: none;
 	user-select: none;
 	cursor: default;
-	animation-name: fall-snowflakes-fall, fall-snowflakes-shake;
+	animation-name: fall-gingerbreads-fall, fall-gingerbreads-shake;
 	animation-duration: 10s, 4s;
 	animation-timing-function: linear, ease-in-out;
 	animation-iteration-count: infinite, infinite;
 	animation-play-state: running, running
 }
 
-.fall-snowflake:nth-of-type(0) {
-	left: 1%;
-	animation-delay: 0s, 0s
+.fall-gingerbread img {
+	width: min(60px, 13vw) !important;
 }
-.fall-snowflake:nth-of-type(1) {
+
+.fall-gingerbread:nth-of-type(1) {
 	left: 10%;
 	animation-delay: 1s, 1s
 }
-.fall-snowflake:nth-of-type(2) {
+.fall-gingerbread:nth-of-type(2) {
 	left: 20%;
 	animation-delay: 6s, .5s
 }
-.fall-snowflake:nth-of-type(3) {
+.fall-gingerbread:nth-of-type(3) {
 	left: 30%;
 	animation-delay: 4s, 2s
 }
-.fall-snowflake:nth-of-type(4) {
+.fall-gingerbread:nth-of-type(4) {
 	left: 40%;
 	animation-delay: 2s, 2s
 }
-.fall-snowflake:nth-of-type(5) {
+.fall-gingerbread:nth-of-type(5) {
 	left: 50%;
 	animation-delay: 8s, 3s
 }
-.fall-snowflake:nth-of-type(6) {
-	left: 60%;
-	animation-delay: 6s, 2s
-}
-.fall-snowflake:nth-of-type(7) {
-	left: 70%;
-	animation-delay: 2.5s, 1s
-}
-.fall-snowflake:nth-of-type(8) {
-	left: 80%;
-	animation-delay: 1s, 0s
-}
-.fall-snowflake:nth-of-type(9) {
-	left: 90%;
-	animation delay: 3s, 1.5s
-}
-.fall-snowflake:nth-of-type(10) {
-	left: 100%;
-	animation-delay: 3s, 2s
-}
-.fall-snowflake:nth-of-type(11) {
+.fall-gingerbread:nth-of-type(6) {
 	left: 5%;
 	animation-delay: 1s, 4s
 }
-.fall-snowflake:nth-of-type(12) {
+.fall-gingerbread:nth-of-type(7) {
 	left: 15%;
 	animation-delay: 1s, 1.5s
 }
-.fall-snowflake:nth-of-type(13) {
+.fall-gingerbread:nth-of-type(8) {
 	left: 25%;
 	animation-delay: 6s, 2.5s
 }
-.fall-snowflake:nth-of-type(14) {
+.fall-gingerbread:nth-of-type(9) {
 	left: 35%;
 	animation-delay: 4s, 1s
 }
-.fall-snowflake:nth-of-type(15) {
+.fall-gingerbread:nth-of-type(10) {
 	left: 45%;
 	animation-delay: 2s, 4s
 }
-.fall-snowflake:nth-of-type(16) {
-	left: 55%;
-	animation-delay: 8s, 3s
-}
-.fall-snowflake:nth-of-type(17) {
-	left: 65%;
-	animation-delay: 6s, 3s
-}
-.fall-snowflake:nth-of-type(18) {
-	left: 75%;
-	animation-delay: 2.5s, 4s
-}
-.fall-snowflake:nth-of-type(19) {
-	left: 85%;
-	animation-delay: 2s, 0s
-}
-.fall-snowflake:nth-of-type(20) {
-	left: 95%;
-	animation delay: 3s, 1.5s
-}
 
 .animate-spin {
-  animation: spin 5600ms linear infinite;
+	animation: spin 5600ms linear infinite;
 }
 
 @keyframes spin {
-  from {
-	transform: rotate(0deg);
-  }
-  to {
-	transform: rotate(360deg);
-  }
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
 }
 
 /* vvv kill yourself vscodelet  vvv */

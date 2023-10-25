@@ -32,7 +32,6 @@
 
 /* Homoween Theming */
 :root {
-  --primary: #F66A3C !important;
   --dark: #140224;
   --secondary: #820263;
   --white: #E1E1E1;
@@ -49,7 +48,7 @@
   --gray-700: var(--dark);
   --gray-800: var(--dark);
   --gray-900: var(--dark);
-  --background: var(--dark);
+  --background: 20, 2, 36;
 }
 
 body {
@@ -184,10 +183,7 @@ body::after {
 
 .blood {
 	position: relative;
-}
-
-.blood {
-	color: #dc3545 !important;
+	color: red !important;
 	font-family: 'DoubleFeature';
 }
 
@@ -228,30 +224,6 @@ body::after {
 	}
 }
 
-@keyframes haunted-upsidedown {
-	0% {
-		backdrop-filter: brightness(20%) sepia(1) saturate(3) hue-rotate(180deg);
-	}
-	1% {
-		backdrop-filter: brightness(20%) sepia(1) saturate(3) hue-rotate(180deg);
-	}
-	2% {
-		backdrop-filter: sepia(1) contrast(1.5) brightness(200%) saturate(3)  hue-rotate(180deg);
-	}
-	3% {
-		backdrop-filter: sepia(1) contrast(1.5) brightness(20%) saturate(3)  hue-rotate(180deg);
-	}
-	4% {
-		backdrop-filter: brightness(300%) sepia(1) saturate(3) hue-rotate(180deg);
-	}
-	7% {
-		backdrop-filter: brightness(1) sepia(1) saturate(3) hue-rotate(180deg);
-	}
-	100% {
-		backdrop-filter: brightness(1) sepia(1) saturate(3) hue-rotate(180deg);
-	}
-}
-
 /* Spiders */
 .spider:nth-child(odd) {
 	animation-name: swingFast;
@@ -260,57 +232,55 @@ body::after {
 .spider:nth-child(2) {
 	animation-delay: 250ms;
 	animation-duration: 2100ms;
-	left: 20%;
+	left: 30%;
 }
 
 .spider:nth-child(3) {
 	animation-delay: 300ms;
 	animation-duration: 1600ms;
-	left: 30%;
+	left: 50%;
 }
 
 .spider:nth-child(4) {
 	animation-delay: 400ms;
-	animation-duration: 1800ms;
-	left: 40%;
-}
-
-.spider:nth-child(5) {
-	animation-delay: 240ms;
-	animation-duration: 1900ms;
-	left: 50%;
-}
-
-.spider:nth-child(6) {
-	animation-delay: 250ms;
-	animation-duration: 2300ms;
-	left: 60%;
-}
-
-.spider:nth-child(7) {
-	animation-delay: 400ms;
-	animation-duration: 2100ms;
-	left: 70%;
-}
-
-.spider:nth-child(8) {
-	animation-delay: 4000ms;
 	animation-duration: 200ms;
-	left: 80%;
+	left: 70%;
 }
 
 .spider {
 	z-index: 10;
-	position: fixed;
+	position: absolute;
 	display: inline-block;
 	top: 0;
 	left: 10%;
-
 	animation: swing 2s infinite;
 	transform-origin: top;
-
 	transition: 0.8s ease-in-out;
 	pointer-events: none;
+}
+
+
+@media (max-width: 768px) {
+	.spider {
+		zoom: 0.5;
+	}
+}
+
+@media (max-width: 768px) {
+	@supports (-moz-appearance:none) {
+		.spider {
+			left: 5%;
+		}
+		.spider:nth-child(2) {
+			left: 20%;
+		}
+		.spider:nth-child(3) {
+			left: 35%;
+		}
+		.spider:nth-child(4) {
+			left: 50%;
+		}
+	}
 }
 
 .spider:hover .body {
@@ -357,19 +327,18 @@ body::after {
 
 .spider .body .eye:after {
 	background: #222;
-	width: 7px;
-	height: 7px;
+	width: 16px;
+	height: 16px;
 	content: "";
 	display: block;
 	margin: 55%;
 	border-radius: 50%;
-
 	animation: look 4s infinite;
 }
 
-.spider:nth-child(8) .body .eye {
-  background-color: #FF0000;
-  background: radial-gradient(#FF9B9B, #FF0000);
+.spider:nth-child(4) .body .eye {
+	background-color: #FF0000;
+	background: radial-gradient(#FF9B9B, #FF0000);
 }
 
 .spider:nth-child(odd) .body .eye:after {
@@ -468,10 +437,10 @@ body::after {
 
 #fog-effect {
 	pointer-events: none;
-	position:fixed;
+	position: fixed;
 	bottom:0;
 	left: 0;
-	width:100%;
+	width: 100%;
 	height: 100%;
 	z-index: 1031;
 }
@@ -530,31 +499,16 @@ body::after {
 	font-weight: initial;
 }
 
-/* Upsidedown */
-#canvas {
-	position:absolute;
-	pointer-events:none;
-}
-
 /* Bones */
-#animate{
-	margin-left:45%;
-	margin-top:-5%;
-	position: fixed;
-	z-index:999;
+#bones-container {
+	margin-top: -5%;
+	position: absolute;
+	z-index: 999;
 	pointer-events: none;
-	opacity:0.9;
+	opacity: 0.9;
 }
 
 /* Pumpkin */
-.fall-pumpkin {
-	color: #fff;
-	font-size: 1em;
-	font-family: Serif;
-	text-shadow: 0 0 1px #000;
-  pointer-events: none;
-}
-
 @keyframes fall-pumpkins-fall {
 	0% {
 		top: -20%
@@ -577,7 +531,12 @@ body::after {
 }
 
 .fall-pumpkin {
-	position: fixed;
+	color: #fff;
+	font-size: 1em;
+	font-family: Serif;
+	text-shadow: 0 0 1px #000;
+	pointer-events: none;
+	position: absolute;
 	top: -20%;
 	z-index: 999;
 	-webkit-user-select: none;
@@ -590,10 +549,10 @@ body::after {
 	animation-play-state: running, running
 }
 
-.fall-pumpkin:nth-of-type(0) {
-	left: 1%;
-	animation-delay: 0s, 0s
+.fall-pumpkin img {
+	width: min(60px, 13vw) !important;
 }
+
 .fall-pumpkin:nth-of-type(1) {
 	left: 10%;
 	animation-delay: 1s, 1s
@@ -615,77 +574,37 @@ body::after {
 	animation-delay: 8s, 3s
 }
 .fall-pumpkin:nth-of-type(6) {
-	left: 60%;
-	animation-delay: 6s, 2s
-}
-.fall-pumpkin:nth-of-type(7) {
-	left: 70%;
-	animation-delay: 2.5s, 1s
-}
-.fall-pumpkin:nth-of-type(8) {
-	left: 80%;
-	animation-delay: 1s, 0s
-}
-.fall-pumpkin:nth-of-type(9) {
-	left: 90%;
-	animation delay: 3s, 1.5s
-}
-.fall-pumpkin:nth-of-type(10) {
-	left: 100%;
-	animation-delay: 3s, 2s
-}
-.fall-pumpkin:nth-of-type(11) {
 	left: 5%;
 	animation-delay: 1s, 4s
 }
-.fall-pumpkin:nth-of-type(12) {
+.fall-pumpkin:nth-of-type(7) {
 	left: 15%;
 	animation-delay: 1s, 1.5s
 }
-.fall-pumpkin:nth-of-type(13) {
+.fall-pumpkin:nth-of-type(8) {
 	left: 25%;
 	animation-delay: 6s, 2.5s
 }
-.fall-pumpkin:nth-of-type(14) {
+.fall-pumpkin:nth-of-type(9) {
 	left: 35%;
 	animation-delay: 4s, 1s
 }
-.fall-pumpkin:nth-of-type(15) {
+.fall-pumpkin:nth-of-type(10) {
 	left: 45%;
 	animation-delay: 2s, 4s
 }
-.fall-pumpkin:nth-of-type(16) {
-	left: 55%;
-	animation-delay: 8s, 3s
-}
-.fall-pumpkin:nth-of-type(17) {
-	left: 65%;
-	animation-delay: 6s, 3s
-}
-.fall-pumpkin:nth-of-type(18) {
-	left: 75%;
-	animation-delay: 2.5s, 4s
-}
-.fall-pumpkin:nth-of-type(19) {
-	left: 85%;
-	animation-delay: 2s, 0s
-}
-.fall-pumpkin:nth-of-type(20) {
-	left: 95%;
-	animation delay: 3s, 1.5s
-}
 
 .animate-spin {
-  animation: spin 5600ms linear infinite;
+	animation: spin 5600ms linear infinite;
 }
 
 @keyframes spin {
-  from {
-	transform: rotate(0deg);
-  }
-  to {
-	transform: rotate(360deg);
-  }
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
 }
 
 /* Trick or Treat */
@@ -714,7 +633,7 @@ body::after {
 	display:inline-block;
 }
 
-#jump-scare-img {
+#jumpscare-img {
 	position: fixed;
 	left: 0;
 	top: 0;
@@ -727,9 +646,10 @@ body::after {
 
 /* progressbar */
 .progress {
+	position: relative;
 	background-color: #1d9bf0;
 	background-image: linear-gradient(0deg, #1d9bf0 0%, #59b1ec 100%);
-	width: 270px;
+	max-width: 95vw;
 	height: 24px;
 	border-radius: 4px;
 	box-shadow: inset 0px 12px 2px #ffffff10;
@@ -803,7 +723,31 @@ body::after {
 	background-image: url('/assets/events/homoween/images/cursormarsey.webp?x=6') !important;
 }
 
-.spider .body .eye::after {
-	width: 16px;
-	height: 16px;
+.post-flair {
+    padding-top: 5px !important;
+}
+
+.has_header {
+	padding-top: 79.54px !important
+}
+
+@media (max-width: 768px) {
+	.has_header {
+		padding-top: calc(var(--safe-area-inset-top) + 65.8px) !important
+	}
+}
+
+#effigy {
+	position: absolute;
+	z-index: 1;
+	pointer-events: none;
+	width: 120px;
+	top: 230px;
+}
+
+@media (max-width: 768px) {
+	#effigy {
+		width: 80px;
+		top: 110px;
+	}	
 }

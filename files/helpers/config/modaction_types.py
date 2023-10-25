@@ -181,6 +181,11 @@ MODACTION_TYPES = {
 		"icon": 'fa-tag',
 		"color": 'bg-primary'
 	},
+	'insert_transaction': {
+		"str": 'Inserted transaction made by {self.target_link}',
+		"icon": 'fa-dollar-sign',
+		"color": 'bg-success'
+	},
 	'link_accounts': {
 		"str": 'linked {self.target_link}',
 		"icon": 'fa-link',
@@ -306,12 +311,12 @@ MODACTION_TYPES = {
 		"icon": 'fa-eye-slash',
 		"color": 'bg-danger'
 	},
-	'start_orgy': {
+	'schedule_orgy': {
 		"str": 'started orgy',
 		"icon": 'fa-tv',
 		"color": 'bg-success'
 	},
-	'stop_orgy': {
+	'remove_orgy': {
 		"str": 'stopped orgy',
 		"icon": 'fa-tv',
 		"color": 'bg-danger'
@@ -435,6 +440,8 @@ MODACTION_PRIVILEGED_TYPES = {
 								'link_accounts', 'delink_accounts',
 								'enable_login_required',
 								'reset_password',
+								'schedule_orgy', 'remove_orgy',
+								'insert_transaction',
 							}
 MODACTION_PRIVILEGED__TYPES = {'progstack_post', 'progstack_comment',
 							'unprogstack_post', 'unprogstack_comment'}

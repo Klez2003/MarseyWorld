@@ -54,7 +54,7 @@ def sort_objects(sort, objects, cls):
 	elif sort == "controversial" and cls.__name__ == "Post":
 		return objects.order_by((cls.upvotes+1)/(cls.downvotes+1) + (cls.downvotes+1)/(cls.upvotes+1) - cls.comment_count/500, cls.downvotes.desc(), cls.created_utc.desc())
 	elif sort == "controversial":
-		return objects.order_by((cls.upvotes+1)/(cls.downvotes+1) + (cls.downvotes+1)/(cls.upvotes+1), cls.downvotes.desc(), cls.created_utc.desc())
+		return objects.order_by((cls.upvotes+1)/(cls.downvotes+1) + (cls.downvotes+1)/(cls.upvotes+1) - cls.downvotes/10, cls.downvotes.desc(), cls.created_utc.desc())
 	elif sort == "bottom":
 		return objects.order_by(cls.upvotes - cls.downvotes, cls.created_utc.desc())
 	elif sort == "random":

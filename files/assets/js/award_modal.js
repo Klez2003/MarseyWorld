@@ -92,6 +92,10 @@ function vote(type, id, dir) {
 
 let global_price;
 
+const note_section = document.getElementById('note_section')
+const gif_button = note_section.querySelector('[title="Add GIF"]')
+const giveaward_button = document.getElementById('giveaward')
+
 function pick(kind, price, coins, marseybux) {
 	global_price = price;
 
@@ -99,19 +103,6 @@ function pick(kind, price, coins, marseybux) {
 	coins = parseInt(coins)
 	marseybux = parseInt(marseybux)
 
-	const buy = document.getElementById('buy')
-
-	if (kind == "grass" && coins < price)
-		buy.disabled = true;
-	else if (kind == "benefactor" && marseybux < price)
-		buy.disabled = true;
-	else if (coins+marseybux < price)
-		buy.disabled = true;
-	else
-		buy.disabled = false;
-
-	let ownednum = Number(document.getElementById(`${kind}-owned`).textContent);
-	document.getElementById('giveaward').disabled = (ownednum == 0);
 	document.getElementById('kind').value=kind;
 	if (document.getElementsByClassName('picked').length > 0) {
 		document.getElementsByClassName('picked')[0].classList.toggle('picked');
@@ -120,11 +111,23 @@ function pick(kind, price, coins, marseybux) {
 
 	if (kind == "chud") {
 		document.getElementById('phrase_section').classList.remove("d-none")
-		document.getElementById('note_section').classList.add("d-none")
+		note_section.classList.add("d-none")
 	}
 	else {
 		document.getElementById('phrase_section').classList.add("d-none")
-		document.getElementById('note_section').classList.remove("d-none")
+		note_section.classList.remove("d-none")
+	}
+
+	if (kind == "emoji") {
+		if (giveaward_button.dataset.action.startsWith('/award/post/'))
+			document.getElementById('emoji_behavior_section').classList.remove("d-none")
+		document.getElementById('note').setAttribute("style", "min-height:35px;max-height:35px;height:35px;min-width:min(300px,80vw)")
+		gif_button.classList.add('d-none')
+	}
+	else {
+		document.getElementById('emoji_behavior_section').classList.add("d-none")
+		document.getElementById('note').removeAttribute("style")
+		gif_button.classList.remove('d-none')
 	}
 
 	if (kind == "flairlock") {
@@ -148,33 +151,18 @@ function pick(kind, price, coins, marseybux) {
 		document.getElementById('note').maxLength = 200;
 	}
 
-	document.getElementById('award_price_block').classList.remove('d-none');
-	document.getElementById('award_price').textContent = price;
-}
+	const ownednum = Number(document.getElementById(`${kind}-owned`).textContent);
 
-function buy() {
-	const kind = document.getElementById('kind').value;
-	url = `/buy/${kind}`
-	const xhr = createXhrWithFormKey(url);
-	xhr[0].onload = function() {
-		let data
-		try {data = JSON.parse(xhr[0].response)}
-		catch(e) {console.error(e)}
-		success = xhr[0].status >= 200 && xhr[0].status < 300;
-		showToast(success, getMessageFromJsonData(success, data));
-		if (success) {
-			if (kind != "lootbox")
-			{
-				document.getElementById('giveaward').disabled=false;
-				let owned = document.getElementById(`${kind}-owned`)
-				let ownednum = Number(owned.textContent) + 1;
-				owned.textContent = ownednum
-			}
-		}
-	};
-
-	xhr[0].send(xhr[1]);
-
+	if (ownednum) {
+		document.getElementById('award_price').textContent = `${ownednum} owned`;
+		giveaward_button.classList.remove('d-none');
+		document.getElementById('buyandgiveaward').classList.add('d-none');
+	}
+	else {
+		document.getElementById('award_price').textContent = `Price: ${price} coins/marseybux`;
+		giveaward_button.classList.add('d-none');
+		document.getElementById('buyandgiveaward').classList.remove('d-none');
+	}
 }
 
 function giveaward(t) {
@@ -185,14 +173,20 @@ function giveaward(t) {
 	postToast(t, t.dataset.action,
 		{
 			"kind": kind,
-			"note": document.getElementById(note_id).value
+			"note": document.getElementById(note_id).value,
+			"emoji_behavior": document.getElementById("emoji_behavior").value
 		},
 		() => {
 			let owned = document.getElementById(`${kind}-owned`)
-			let ownednum = Number(owned.textContent) - 1;
-			owned.textContent = ownednum
-			if (ownednum == 0)
-				document.getElementById('giveaward').disabled=true;
+			let ownednum = Number(owned.textContent);
+			if (ownednum) {
+				ownednum -= 1
+				owned.textContent = ownednum
+				if (ownednum)
+					document.getElementById('award_price').textContent = `${ownednum} owned`;
+				else
+					document.getElementById('award_price').textContent = `Price: ${global_price} coins/marseybux`;
+			}
 		}
 	);
 }

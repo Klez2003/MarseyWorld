@@ -1,5 +1,8 @@
-let u_username = document.getElementById('u_username')
+const audio = document.getElementById('profile-song')
 
+handle_playing_music(audio)
+
+let u_username = document.getElementById('u_username')
 const anthem_button = document.getElementById('toggle-anthem')
 const anthem_button_mobile = document.getElementById('toggle-anthem-mobile')
 
@@ -19,13 +22,23 @@ function pause_audio(audio) {
 	}
 }
 
+function play_profile_song() {
+	if (playing_music()) return
+
+	addEventListener("load", () => {
+		play_audio(audio);
+		document.addEventListener('click', (e) => {
+			if (e.target.id.startsWith("toggle-anthem"))
+				return
+			if (audio.paused) play_audio(audio);
+		}, {once : true});
+
+		prepare_to_pause(audio)
+	})
+}
+
 if (u_username)
 {
-	u_username = u_username.innerHTML
-
-	let audio = new Audio(`/@${u_username}/song`);
-	audio.loop = true;
-
 	function toggle() {
 		if (audio.paused) {
 			play_audio(audio);
@@ -35,14 +48,7 @@ if (u_username)
 		}
 	}
 
-	play_audio(audio);
-	document.addEventListener('click', (e) => {
-		if (e.target.id.startsWith("toggle-anthem"))
-			return
-		if (audio.paused) play_audio(audio);
-	}, {once : true});
-
-	prepare_to_pause(audio)
+	play_profile_song()
 }
 else
 {
@@ -52,9 +58,6 @@ else
 		v_username = v_username.innerHTML
 
 		const paused = localStorage.getItem("paused")
-
-		let audio = new Audio(`/@${v_username}/song`);
-		audio.loop = true;
 
 		function toggle() {
 			if (audio.paused)
@@ -70,15 +73,6 @@ else
 		}
 
 		if (!paused)
-		{
-			play_audio(audio);
-			document.addEventListener('click', (e) => {
-				if (e.target.id.startsWith("toggle-anthem"))
-					return
-				if (audio.paused) play_audio(audio);
-			}, {once : true});
-		}
-
-		prepare_to_pause(audio)
+			play_profile_song()
 	}
 }

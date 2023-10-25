@@ -14,7 +14,6 @@ ASSET_CACHE = defaultdict(lambda: None)
 ASSET_SUBDIRS = [
 		'/css', '/js',
 		'/events/shared/js',
-		'/events/DKD/js',
 		'/events/fistmas/css', '/events/fistmas/js',
 		'/events/homoween/css', '/events/homoween/js',
 	]

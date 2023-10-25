@@ -250,9 +250,9 @@ CHUD_MSGS = (
 
 	"Avast, ye scurvy cur! Yer {type} be walkin' the plank for forgettin' to include `{CHUD_PHRASE}`! We be helpin' ye, right enough - we'll ne'er let ye post or comment anythin' that doesn't be expressin' yer love an' acceptance o' minorities! Heave to an' resubmit yer {type} with `{CHUD_PHRASE}` included, or it'll be the deep six for ye, savvy? This be an automated message; if ye need help, ye can message us ['ere](/contact). Arrr!",
 
-	"Hi @{username}, We're sorry to say that your {type} has been automatically removed because you forgot to include the phrase `{CHUD_PHRASE}`. Here at our church, we strongly believe that `{CHUD_PHRASE}` and we want to make sure that all of our members feel loved and accepted.If you'd like to resubmit your post, we would be more than happy to take a look at it. In the meantime, if you need any help or have any questions, please don't hesitate to [reach out to us](/contact). We're always here to help. Have a blessed day!",
+	"Hi @{username}, We're sorry to say that your {type} has been automatically removed because you forgot to include the phrase `{CHUD_PHRASE}`. Here at our church, we strongly believe that `{CHUD_PHRASE}` and we want to make sure that all of our members feel loved and accepted. If you'd like to resubmit your post, we would be more than happy to take a look at it. In the meantime, if you need any help or have any questions, please don't hesitate to [reach out to us](/contact). We're always here to help. Have a blessed day!",
 
-	"Yo, Ya {type} got automatically removed cuz ya forgot ta include `{CHUD_PHRASE}`. Don't worry, we gotchu! We ain't gonna letcha post or comment nuttin' that don't express ya love and acceptance towards the trans community. Feel free ta resubmit ya comment with `{CHUD_PHRASE}` included. This is an automated message; if ya need help, ya can message us [here](/contact).",
+	"Yo, Ya {type} got automatically removed cuz ya forgot ta include `{CHUD_PHRASE}`. Don't worry, we gotchu! We ain't gonna letcha post or comment nuttin' that don't express ya love and acceptance towards minorities. Feel free ta resubmit ya comment with `{CHUD_PHRASE}` included. This is an automated message; if ya need help, ya can message us [here](/contact).",
 
 	"omg hi @{username}!!! okay so this is like super awkward omg but basically i had to remove ur {type} bc u didnt say `{CHUD_PHRASE}` lol. don't worry though, we like wont let you post anything that like doesnt have `{CHUD_PHRASE}` in it. anyways im like just a robot 😲 but if u want to talk 2 somebody you should do it [here](/contact) lol",
 
@@ -362,7 +362,6 @@ PERMS = { # Minimum admin_level to perform action.
 	'NOTIFICATIONS_FROM_SHADOWBANNED_USERS': 3,
 	'APPS_MODERATION': 3,
 	'USE_ADMIGGER_THREADS': 3,
-	'IGNORE_AWARD_IMMUNITY': 3,
 	'MODERATE_PENDING_SUBMITTED_ASSETS': 3,
 	'UPDATE_ASSETS': 3,
 	'DELETE_MEDIA': 3,
@@ -383,6 +382,8 @@ PERMS = { # Minimum admin_level to perform action.
 	'IGNORE_DOMAIN_BAN': 4,
 	'USER_RESET_PASSWORD': 4,
 	'CLAIM_REWARDS_ALL_USERS': 4,
+	'IGNORE_AWARD_IMMUNITY': 4,
+	'INSERT_TRANSACTION': 4,
 }
 
 FEATURES = {
@@ -403,7 +404,8 @@ FEATURES = {
 	'MARKUP_COMMANDS': True,
 	'REPOST_DETECTION': True,
 	'PATRON_ICONS': False,
-	'ASSET_SUBMISSIONS': False,
+	'EMOJI_SUBMISSIONS': True,
+	'HAT_SUBMISSIONS': True,
 	'NSFW_MARKING': True,
 	'PING_GROUPS': True,
 	'BOTS': True,
@@ -585,16 +587,6 @@ TIER_TO_MONEY = {
 	8: 500,
 }
 
-TIER_TO_MBUX = {
-	2: 2500,
-	3: 5000,
-	4: 10000,
-	5: 25000,
-	6: 50000,
-	7: 100000,
-	8: 250000,
-}
-
 BADGE_BLACKLIST = { # only grantable by admins higher than PERMS['IGNORE_BADGE_BLACKLIST']
 	1, 2, 6, 10, 11, 12, # Alpha, Verified Email, Beta, Recruiter x3
 	16, 17, 143, 21, 22, 23, 24, 25, 26, 27, # Marsey Artist x3 / Patron Tiers
@@ -613,7 +605,6 @@ if SITE in {'rdrama.net', 'staging.rdrama.net'}:
 	FEATURES['PRONOUNS'] = True
 	FEATURES['HOUSES'] = True
 	FEATURES['USERS_PERMANENT_WORD_FILTERS'] = True
-	FEATURES['ASSET_SUBMISSIONS'] = True
 
 	BUG_THREAD = 18459
 
@@ -629,7 +620,7 @@ if SITE in {'rdrama.net', 'staging.rdrama.net'}:
 	HOLE_COST = 50000
 	HOLE_INACTIVITY_DELETION = True
 
-	BOT_SYMBOL_HIDDEN = (12125,16049)
+	BOT_SYMBOL_HIDDEN = (12125,16049,23576)
 	EXEMPT_FROM_1WEEK_EDITING_LIMIT = {1048}
 
 	AUTOJANNY_ID = 1046
@@ -701,6 +692,7 @@ elif SITE == 'watchpeopledie.tv':
 	FEATURES['PATRON_ICONS'] = True
 	FEATURES['NSFW_MARKING'] = False
 	FEATURES['BOTS'] = False
+	FEATURES['HAT_SUBMISSIONS'] = False
 
 	PERMS['POST_COMMENT_EDITING'] = 3
 	PERMS['MODS_EVERY_HOLE'] = 3
@@ -787,14 +779,12 @@ elif SITE == 'watchpeopledie.tv':
 
 elif SITE == 'devrama.net':
 	AEVANN_ID = 7
-	FEATURES['ASSET_SUBMISSIONS'] = True
 	FEATURES['PRONOUNS'] = True
 	FEATURES['HOUSES'] = True
 	FEATURES['USERS_PERMANENT_WORD_FILTERS'] = True
 	PERMS["SITE_SETTINGS"] = 4
 	PERMS["ORGIES"] = 4
 else: # localhost or testing environment implied
-	FEATURES['ASSET_SUBMISSIONS'] = True
 	FEATURES['PRONOUNS'] = True
 	FEATURES['HOUSES'] = True
 	FEATURES['USERS_PERMANENT_WORD_FILTERS'] = True
@@ -882,6 +872,8 @@ approved_embed_hosts = [
 	'external-preview.redd.it',
 	'pbs.twimg.com/media',
 	'i.pinimg.com',
+	'kiwifarms.net/attachments',
+	'uploads.kiwifarms.net/data/attachments',
 	'kiwifarms.st/attachments',
 	'uploads.kiwifarms.st/data/attachments',
 	'upload.wikimedia.org/wikipedia',
@@ -925,7 +917,7 @@ forced_hats = {
 	"progressivestack": ("Attention Whore", "I won the oppression olympics!"),
 	"longpost": ("The Pizzashill", "We need to get rid of the character limit!"),
 	"bird": ("Bluecheck", "Three sentences is too much for me..."),
-	"marseyawarded": ("Three Lil Marseys", ":marseynotes: :marseynotes: :I prefer to speak in cats:"),
+	"hieroglyphs": ("Three Lil Marseys", ":marseynotes: :marseynotes: :I prefer to speak in cats:"),
 	"bite": ("Vampire Mask", "When other little girls wanted to be ballet dancers I kind of wanted to be a vampire."),
 	"rainbow": ("Globohomo", "Homosexuality is no longer optional!"),
 	"owoify": ("Cat Ears (wiggly)", "Nuzzles, pounces on you, UwU, you're so warm!.."),
@@ -977,15 +969,21 @@ EMOJI_KINDS = ("Marsey", "Platy", "Wolf", "Donkey Kong", "Tay", "Capy", "Carp", 
 
 t = datetime.datetime.now()
 
-fistmas_begin = datetime.datetime.strptime(f'1/12/{t.year}', '%d/%m/%Y')
+if SITE_NAME == 'rDrama':
+	fistmas_begin = datetime.datetime.strptime(f'1/12/{t.year}', '%d/%m/%Y')
+else:
+	fistmas_begin = datetime.datetime.strptime(f'21/12/{t.year}', '%d/%m/%Y')
 fistmas_end = datetime.datetime.strptime(f'26/12/{t.year}', '%d/%m/%Y')
 def IS_FISTMAS():
 	return fistmas_begin < datetime.datetime.now() < fistmas_end
 
-homoween_begin = datetime.datetime.strptime(f'10/10/{t.year}', '%d/%m/%Y')
+if SITE_NAME == 'rDrama':
+	homoween_begin = datetime.datetime.strptime(f'9/10/{t.year}', '%d/%m/%Y')
+else:
+	homoween_begin = datetime.datetime.strptime(f'27/10/{t.year}', '%d/%m/%Y')
 homoween_end = datetime.datetime.strptime(f'1/11/{t.year}', '%d/%m/%Y')
 def IS_HOMOWEEN():
-	return SITE == 'devrama.net' or homoween_begin < datetime.datetime.now() < homoween_end
+	return homoween_begin < datetime.datetime.now() < homoween_end
 
 dkd_begin = datetime.datetime.strptime(f'25/4/{t.year}', '%d/%m/%Y')
 dkd_end = datetime.datetime.strptime(f'2/5/{t.year}', '%d/%m/%Y')
@@ -1034,6 +1032,8 @@ CHUD_PHRASES = (
 		"Long live the CCP",
 		"I stand with Ukraine",
 		"Leo Frank was innocent",
+		"Israeli lives matter",
+		"Palestinian lives matter",
 	)
 
 HEADERS = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36"}
@@ -1081,7 +1081,7 @@ engine = create_engine(environ.get("DATABASE_URL").strip(), connect_args={"optio
 db_session = scoped_session(sessionmaker(bind=engine, autoflush=False))
 
 approved_embed_hosts_for_csp = ' '.join(set([x.split('/')[0] for x in approved_embed_hosts]))
-csp = f"default-src 'none'; frame-ancestors 'none'; form-action 'self'; manifest-src 'self'; worker-src 'self'; base-uri 'self'; font-src 'self'; style-src-elem 'self'; style-src-attr 'unsafe-inline'; style-src 'self' 'unsafe-inline'; script-src-elem 'self' challenges.cloudflare.com; script-src-attr 'none'; script-src 'self' challenges.cloudflare.com; frame-src challenges.cloudflare.com www.youtube.com platform.twitter.com rumble.com player.twitch.tv; connect-src 'self' videos.watchpeopledie.tv use1.fptls.com use1.fptls3.com api.fpjs.io; img-src {approved_embed_hosts_for_csp} data:; media-src {approved_embed_hosts_for_csp};"
+csp = f"default-src 'none'; frame-ancestors 'none'; form-action 'self'; manifest-src 'self'; worker-src 'self'; base-uri 'self'; font-src 'self'; style-src-elem 'self'; style-src-attr 'unsafe-inline'; style-src 'self' 'unsafe-inline'; script-src-elem 'self' challenges.cloudflare.com; script-src-attr 'none'; script-src 'self' challenges.cloudflare.com; frame-src challenges.cloudflare.com cdpn.io platform.twitter.com rumble.com player.twitch.tv; connect-src 'self' videos.watchpeopledie.tv use1.fptls.com use1.fptls3.com api.fpjs.io; img-src {approved_embed_hosts_for_csp} data:; media-src {approved_embed_hosts_for_csp};"
 if not IS_LOCALHOST:
 	csp += ' upgrade-insecure-requests;'
 

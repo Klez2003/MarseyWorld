@@ -143,7 +143,11 @@ def process_video(file, v):
 
 	new = f'{old}.mp4'
 
-	codec = ffmpeg.probe(old)['streams'][0]['codec_name']
+	try:
+		codec = ffmpeg.probe(old)['streams'][0]['codec_name']
+	except:
+		os.remove(old)
+		abort(400, "Something went wrong processing your video and it might be on our end. Please try uploading it to https://pomf2.lain.la and post the link instead.")
 
 	if codec != 'h264':
 		copyfile(old, new)
@@ -166,6 +170,9 @@ def process_video(file, v):
 		size=os.stat(new).st_size
 	)
 	g.db.add(media)
+
+	if SITE == 'watchpeopledie.tv' and v and v.username.lower().startswith("icosaka"):
+		gevent.spawn(delete_file, new, f'https://videos.{SITE}' + new.split('/videos')[1])
 
 	if SITE == 'watchpeopledie.tv':
 		return f'https://videos.{SITE}' + new.split('/videos')[1]
@@ -211,8 +218,7 @@ def process_image(filename, v, resize=0, trim=False, uploader_id=None):
 	except:
 		os.remove(filename)
 		if has_request:
-			abort(400, ("An uploaded image couldn't be converted to WEBP. "
-						"Please convert it to WEBP elsewhere then upload it again."))
+			abort(400, "An uploaded image couldn't be converted to WEBP. Please convert it to WEBP elsewhere then upload it again.")
 		return None
 
 	size_after_conversion = os.stat(filename).st_size
@@ -260,11 +266,11 @@ def process_image(filename, v, resize=0, trim=False, uploader_id=None):
 	g.db.add(media)
 
 	if SITE == 'watchpeopledie.tv' and v and "dylan" in v.username.lower() and "hewitt" in v.username.lower():
-		gevent.spawn(delete_file, filename)
+		gevent.spawn(delete_file, filename, f'{SITE_FULL_IMAGES}{filename}')
 
 	return f'{SITE_FULL_IMAGES}{filename}'
 
-def delete_file(filename):
+def delete_file(filename, url):
 	time.sleep(60)
 	os.remove(filename)
-	purge_files_in_cloudflare_cache(f'{SITE_FULL_IMAGES}{filename}')
+	purge_files_in_cloudflare_cache(url)

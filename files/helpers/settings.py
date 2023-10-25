@@ -31,6 +31,10 @@ def toggle_setting(setting):
 	_save_settings()
 	return val
 
+def set_setting(setting, val):
+	_SETTINGS[setting] = val
+	_save_settings()
+
 def reload_settings():
 	global _SETTINGS
 	if not os.path.isfile(SETTINGS_FILENAME):

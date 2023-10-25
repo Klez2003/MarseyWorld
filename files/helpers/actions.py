@@ -27,10 +27,10 @@ from files.routes.routehelpers import check_for_alts
 
 def _archiveorg(url):
 	try:
-		requests.post('https://ghostarchive.org/archive2', data={"archive": url}, headers=HEADERS, timeout=10, proxies=proxies)
+		requests.post('https://ghostarchive.org/archive2', data={"archive": url}, headers=HEADERS, timeout=10)
 	except: pass
 	try:
-		requests.get(f'https://web.archive.org/save/{url}', headers=HEADERS, timeout=10, proxies=proxies)
+		requests.get(f'https://web.archive.org/save/{url}', headers=HEADERS, timeout=10)
 	except: pass
 
 
@@ -61,7 +61,9 @@ def execute_snappy(post, v):
 
 	post_ping_group_count = len(list(group_mention_regex.finditer(post.body)))
 
-	if post_ping_group_count > 3:
+	if SITE_NAME == 'WPD' and ('killing myself' in post.title.lower() or (post.hole != 'suicide' and 'suicide' in post.title.lower())):
+		body = "https://i.watchpeopledie.tv/images/1697382435294321.webp"
+	elif post_ping_group_count > 3:
 		body = "Unnecessary and uncalled for ping :marseydownvotemad: two more strikes and you're getting blocked + megadownvoted buddy, don't test your luck"
 		vote = Vote(user_id=SNAPPY_ID,
 					vote_type=-1,
@@ -72,11 +74,13 @@ def execute_snappy(post, v):
 		post.downvotes += 1
 	elif v.id == CARP_ID:
 		if random.random() < 0.08:
-			body = random.choice(("i love you carp", "https://i.rdrama.net/images/16614707883108485.webp", "https://i.rdrama.net/images/1636916964YyM.webp", "https://youtube.com/watch?v=zRbQHTdsjuY", "https://i.rdrama.net/images/1696250281381682.webp"))
+			body = random.choice(("i love you carp", "https://i.rdrama.net/images/16614707883108485.webp", "https://i.rdrama.net/images/1636916964YyM.webp", "https://youtube.com/watch?v=zRbQHTdsjuY", "https://i.rdrama.net/images/1696250281381682.webp", "https://i.rdrama.net/images/16975678508317988.webp"))
 		elif IS_DKD():
 			body = ":#donkeykongfuckoffcarp:"
 		elif IS_HOMOWEEN():
 			body = "F̵̽̉U̷̓̕C̵̟̍K̴̾̍ ̵́̒O̶͐̇F̷͗̐F̴͛̄ ̸̆͠CARP"
+		elif IS_FISTMAS():
+			body = "Merry Christmas Carp :marseychristmasgift2:"
 		else:
 			body = ":#marseyfuckoffcarp:"
 	elif v.id == AEVANN_ID:
@@ -506,16 +510,17 @@ def execute_antispam_comment_check(body, v):
 	g.db.commit()
 	abort(403, "Too much spam!")
 
-def execute_dylan(v):
-	if "dylan" in v.username.lower() and "hewitt" in v.username.lower():
+def execute_by_username(v):
+	username = v.username.lower()
+	if username.startswith("icosaka") or ("dylan" in username and "hewitt" in username):
 		v.shadowbanned = AUTOJANNY_ID
-		v.ban_reason = "Dylan"
+		v.ban_reason = "Banned username"
 		g.db.add(v)
 		ma = ModAction(
 			kind="shadowban",
 			user_id=AUTOJANNY_ID,
 			target_user_id=v.id,
-			_note=f'reason: "Dylan ({v.age} seconds)"'
+			_note=f'reason: "Banned username ({v.age} seconds)"'
 		)
 		g.db.add(ma)
 
@@ -523,7 +528,7 @@ def execute_under_siege(v, target, body, kind):
 	if v.shadowbanned: return
 
 	if SITE == 'watchpeopledie.tv':
-		execute_dylan(v)
+		execute_by_username(v)
 		if v.shadowbanned: return
 		if kind != 'post': return
 
@@ -603,7 +608,7 @@ def execute_lawlz_actions(v, p):
 	g.db.add(ma_3)
 
 
-def process_poll_options(v, target):
+def process_options(v, target):
 
 	patterns = [(poll_regex, 0), (choice_regex, 1)]
 

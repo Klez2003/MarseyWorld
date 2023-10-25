@@ -216,6 +216,7 @@
 .fa-tv:before{content:"\f26c"}
 .fa-heart:before{content:"\f004"}
 .fa-coin:before{content:"\f85c"}
+.fa-scarecrow:before{content:"\f70d"}
 
 /* do not remove - fixes hand, talking, marsey-love components
 	from breaking out of the comment box
@@ -4161,18 +4162,6 @@ small, .small {
 	min-height: 30px;
 }
 
-.hole-flair {
-	padding: 3px 5px 2px 5px;
-	border-radius: 5px;
-	color: white;
-	background-color: var(--primary);
-	margin-right: 3px;
-	font-weight: bold;
-}
-.hole-flair:hover {
-	color: var(--white);
-	text-decoration: none;
-}
 .post-meta-domain {
 	/* fixes very long domains overflowing post_listing */
 	display: inline-block;
@@ -5111,10 +5100,10 @@ span.green {
 		padding-left: 0 !important;
 }
 }
-.comment .comment-collapse-desktop:hover {
+.comment .comment-collapse-line:hover {
 	border-left-color: var(--white) !important;
 }
-.comment.collapsed .comment-collapse-desktop:hover {
+.comment.collapsed .comment-collapse-line:hover {
 	color: var(--white) !important;
 }
 @media (max-width: 768px) {
@@ -5178,14 +5167,50 @@ span.green {
 .text-info {
 	color: var(--primary) !important;
 }
-.patron {
-	padding: 2px 5px 3px 5px !important;
+
+
+.patron, .pronouns, .post-flair, .hole-flair, .mod {
+	padding: 1.5px 5px 3px 5px !important;
 	border-radius: 5px !important;
 	color: white !important;
+}
+@media (max-width: 768px) {
+	.patron, .pronouns, .post-flair, .hole-flair, .mod {
+		padding: 2px 5px !important;
+	}
 }
 .patron[style*="background-color:#ffffff"] {
 	color: black !important;
 }
+.pronouns {
+	font-size: 9px;
+	margin-left: 0.25rem;
+	font-weight: 700;
+	border: 2px solid transparent;
+}
+.post-flair {
+	background-color: var(--primary);
+	font-size: 12px;
+	line-height: 2;
+}
+.hole-flair {
+	background-color: var(--primary);
+	margin-right: 3px;
+	font-weight: bold;
+}
+.hole-flair:hover {
+	color: var(--white);
+	text-decoration: none;
+}
+.mod {
+	padding: 2px 5px 3px 5px;
+	border-radius: 5px;
+	color:white!important;
+	background: linear-gradient(270deg, red, orange, yellow, green, blue, indigo, violet );
+	text-shadow:-1px -1px 0 black,1px -1px 0 black,-1px 1px 0 black,1px 1px 0 black;
+}
+
+
 .container, .container-fluid {
 	background-color: rgb(var(--background)) !important;
 }
@@ -5258,7 +5283,7 @@ textarea {
 		margin: 1.75rem auto !important;
 }
 }
-.in-comment-image, .img, img[alt^="![]("],
+.img, img[alt^="![]("],
 .preview img:not(img[src^="/uid/"], img[src^="/pp/"], img[src$="/pic"], img[src$="/i/hand.webp"], img[src$="/i/talking.webp"], img[src*="/e/"]) {
 	max-height: 150px !important;
 	max-width: 100% !important;
@@ -5501,6 +5526,10 @@ span > img[src$="/i/love-background.webp"] {
 	display: inline-block;
 	animation: cide-anim 2s infinite;
 	animation-timing-function: linear;
+}
+
+[cide] [cide], [bounce] [bounce] {
+	animation: none;
 }
 
 /* Fix for <ol> being populated with <li><p></p></li> in many contexts. */
@@ -5781,14 +5810,6 @@ html {
 	padding-bottom: 4px;
 }
 
-.mod {
-	padding: 2px 5px 3px 5px;
-	border-radius: 5px;
-	color:white!important;
-	background: linear-gradient(270deg, red, orange, yellow, green, blue, indigo, violet );
-	text-shadow:-1px -1px 0 black,1px -1px 0 black,-1px 1px 0 black,1px 1px 0 black;
-}
-
 .popover {
 	max-width: min(50%, 500px);
 	box-shadow: 0 1rem 3rem rgba(0, 0, 0, .175);
@@ -5957,7 +5978,7 @@ li > .sidebar {
 		text-align: center;
 	}
 }
-th, td {
+th:not(#formatting-table th), td:not(#formatting-table td) {
 	font-weight: 700;
 }
 
@@ -6499,22 +6520,6 @@ g {
 }
 .fa-stack-1x{line-height:inherit}
 .fa-stack-2x{font-size:2em}
-
-.pronouns {
-	font-size: 9px;
-	margin-left: 0.25rem;
-	font-weight: 700;
-	padding: 2px 5px 3px 5px;
-	border-radius: 5px;
-	color: white;
-	border: 2px solid transparent;
-}
-
-@media (max-width: 768px) {
-	.pronouns, .patron, .mod {
-		padding: 2px 5px !important;
-	}
-}
 
 .post-preview {
 	padding: 14px 14px 0 14px !important;
@@ -7193,12 +7198,12 @@ input::-webkit-inner-spin-button {
 	min-height: 60px;
 }
 
-#notelabel {
+#notelabel, #emoji_behavior_label {
 	font-size: 16px;
 }
 
 @media (max-width: 768px) {
-	#note, #notelabel {
+	#note, #notelabel, #emoji_behavior_label {
 		font-size: 14px !important;
 	}
 }
@@ -7220,12 +7225,12 @@ input::-webkit-inner-spin-button {
 	display: inline-block;
 }
 
-.comment .comment-collapse-desktop {
+.comment .comment-collapse-line {
 	padding-right: 20px;
 	cursor: pointer;
 }
 @media (max-width: 768px) {
-	.comment .comment-collapse-desktop {
+	.comment .comment-collapse-line {
 		padding-right: 10px;
 	}
 	blockquote {
@@ -7466,7 +7471,7 @@ bdi {
 	font-size: 16px;
 }
 
-.comment-collapse-desktop {
+.comment-collapse-line {
 	border-left: 2px solid;
 }
 
@@ -7559,4 +7564,17 @@ ul {
 	#sidebar-btn {
 		display: none !important;
 	}
+}
+
+.section-title {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-transform: uppercase;
+	opacity: 0.6;
+}
+
+.section-title hr {
+	flex: 1;
+	margin-left: 0.5rem;
 }

@@ -30,7 +30,7 @@ p, blockquote {
 	color: var(--gray-200)
 }
 
-.comment-collapse-desktop {
+.comment-collapse-line {
 	border-color: var(--gray-400) !important
 }
 

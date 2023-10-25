@@ -23,7 +23,7 @@ marseyaward_title_regex = re.compile("( *<img[^>]+>)+", flags=re.A)
 
 emoji_name_regex = re.compile("[a-z0-9]{1,30}", flags=re.A)
 tags_regex = re.compile("[a-z0-9: ]{1,200}", flags=re.A)
-hat_regex = re.compile("[\w\-() ,]{1,50}", flags=re.A)
+hat_name_regex = re.compile("[\w\-() ,]{1,50}", flags=re.A)
 description_regex = re.compile("[^<>&\n\t]{1,300}", flags=re.A)
 
 badge_name_regex = re.compile(r"[^\/.]+", flags=re.A)
@@ -32,9 +32,9 @@ hole_group_name_regex = re.compile("^[\w-]{3,25}$", flags=re.A)
 
 query_regex = re.compile("(\w+):(\S+)", flags=re.A)
 
-poll_regex = re.compile("(^|\n|>)\$\$([^\$\n]+)\$\$\s*?" + NOT_IN_CODE_OR_LINKS, flags=re.A)
-bet_regex = re.compile("(^|\n|>)##([^#\n]+)##\s*?" + NOT_IN_CODE_OR_LINKS, flags=re.A)
-choice_regex = re.compile("(^|\n|>)&&([^&\n]+)&&\s*?" + NOT_IN_CODE_OR_LINKS, flags=re.A)
+poll_regex = re.compile("(^|\n|>)\$\$([^\n]+?)\$\$\s*?" + NOT_IN_CODE_OR_LINKS, flags=re.A)
+bet_regex = re.compile("(^|\n|>)##([^\n]+?)##\s*?" + NOT_IN_CODE_OR_LINKS, flags=re.A)
+choice_regex = re.compile("(^|\n|>)&&([^\n]+?)&&\s*?" + NOT_IN_CODE_OR_LINKS, flags=re.A)
 
 html_comment_regex = re.compile("<!--.*-->", flags=re.A)
 
@@ -108,7 +108,7 @@ image_regex_extensions = '|'.join(IMAGE_FORMATS)
 image_sub_regex = re.compile(f'(?<!")(https:\/\/[\w\-.#&/=\?@%;+,:]{{5,250}}(\.|\?format=)({image_regex_extensions})((\?|&)[\w\-.#&/=\?@%;+,:]*)?)(?=$|\s)' + NOT_IN_CODE_OR_LINKS, flags=re.I|re.A)
 
 image_regex_extensions_no_gif = image_regex_extensions.replace('|gif', '')
-imgur_regex = re.compile(f'(https:\/\/i\.imgur\.com\/[a-z0-9]+)\.({image_regex_extensions_no_gif})', flags=re.I|re.A)
+imgur_regex = re.compile(f'^(https:\/\/i\.imgur\.com\/[a-z0-9]+)\.({image_regex_extensions_no_gif})', flags=re.I|re.A)
 
 giphy_regex = re.compile('(https:\/\/media\.giphy\.com\/media\/[a-z0-9]+\/giphy)\.gif', flags=re.I|re.A)
 
@@ -235,12 +235,12 @@ sanitize_url_regex = re.compile(
 
 #sanitizing
 reddit_mention_regex = re.compile('(?<![\w/])\/?(([ruRU])\/[\w-]{2,25})' + NOT_IN_CODE_OR_LINKS, flags=re.A)
-reddit_domain_regex = re.compile("(^|\s|\()https?:\/\/(reddit\.com|(?:(?:[A-z]{2})(?:-[A-z]{2})" "?|www|new)\.reddit\.com|libredd\.it|reddit\.lol)\/(u\/|(r\/\w{2,25}\/)?comments\/|r\/\w{2,25}\/?$)", flags=re.A)
+reddit_domain_regex = re.compile("(^|\s|\()https?:\/\/(redd.it\/|((www\.|new\.)?reddit\.com|teddit\.net|libreddit\.hu|redd\.it)\/(u\/|(r\/\w{2,25}\/)?comments\/|r\/\w{2,25}\/?$))", flags=re.A)
 reddit_comment_link_regex = re.compile("https:\/\/old.reddit.com\/r\/\w{2,25}\/comments(\/\w+){3}\/?", flags=re.A)
 
 #gevent
-reddit_s_url_regex = re.compile("https:\/\/reddit.com\/[ru]\/\w{2,25}\/s\/\w{10}", flags=re.A)
-tiktok_t_url_regex = re.compile("https:\/\/(vm.)?tiktok.com(\/t)?\/\w{9}", flags=re.A)
+reddit_s_url_regex = re.compile("https:\/\/(www\.)?reddit.com\/[ru]\/\w{2,25}\/s\/\w{10}", flags=re.A)
+tiktok_t_url_regex = re.compile("https:\/\/(www\.|vm\.)?tiktok.com(\/t)?\/\w{9}", flags=re.A)
 
 #run-time
 reddit_to_vreddit_regex = re.compile('(^|>|")https:\/\/old.reddit.com\/([ru])\/', flags=re.A)

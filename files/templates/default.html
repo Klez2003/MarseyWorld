@@ -9,9 +9,9 @@
 {% block banner %}
 	{% include "modals/expanded_image.html" %}
 	{% if err or '@' not in request.path %}
-		{% if IS_FISTMAS() and not hole %}
+		{% if IS_FISTMAS() and not (hole and hole.has_banners) %}
 			{% include 'events/fistmas/banner.html' %}
-		{% elif IS_HOMOWEEN() and not hole %}
+		{% elif IS_HOMOWEEN() and not (hole and hole.has_banners) %}
 			{% include 'events/homoween/banner.html' %}
 		{% else %}
 			{% set path = "files/assets/images/" ~ SITE_NAME %}
@@ -20,9 +20,9 @@
 				{% set src = "banner_error.webp" | asset_siteimg %}
 			{% elif hole and hole.has_banners %}
 				{% set src = hole.random_banner() %}
-				{% set alt = ['/h/', hole, 'banner']|join %}
+				{% set alt = ['/h/', hole, ' banner']|join %}
 				{% set class = 'site-banner-hole' %}
-			{% elif get_orgy(v) and os_path.exists(path ~ "/orgy_banners") %}
+			{% elif get_running_orgy(v) and os_path.exists(path ~ "/orgy_banners") %}
 				{% set src = macros.random_image("assets/images/" ~ SITE_NAME ~ "/orgy_banners") %}
 				{% set href = "/chat" %}
 				{% set expand = false %}

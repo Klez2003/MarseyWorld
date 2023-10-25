@@ -15,10 +15,12 @@ from files.__main__ import app, cache, limiter
 ASSET_TYPES = (Emoji, HatDef)
 
 @app.get("/submit/marseys")
+@feature_required('EMOJI_SUBMISSIONS')
 def submit_marseys_redirect():
 	return redirect("/submit/emojis")
 
 @app.get("/submit/emojis")
+@feature_required('EMOJI_SUBMISSIONS')
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
@@ -37,6 +39,7 @@ def submit_emojis(v):
 emoji_modifiers = ('pat', 'talking', 'genocide', 'love')
 
 @app.post("/submit/emojis")
+@feature_required('EMOJI_SUBMISSIONS')
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
@@ -120,6 +123,7 @@ def verify_permissions_and_get_asset(cls, asset_type, v, name, make_lower=False)
 	return asset
 
 @app.post("/admin/approve/emoji/<name>")
+@feature_required('EMOJI_SUBMISSIONS')
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
@@ -188,23 +192,21 @@ def approve_emoji(v, name):
 			badge_grant(badge_id=113, user=author)
 		badge_grant(badge_id=112, user=author)
 
-	cache.delete(f"emojis_{emoji.nsfw}")
-	cache.delete(f"emoji_list_{emoji.kind}_{emoji.nsfw}")
+	move(f"/asset_submissions/emojis/{emoji.name}.webp", f"files/assets/images/emojis/{emoji.name}.webp")
 
-	purge_files_in_cloudflare_cache(f"{SITE_FULL_IMAGES}/e/{emoji.name}/webp")
-
-	move(f"/asset_submissions/emojis/{name}.webp", f"files/assets/images/emojis/{emoji.name}.webp")
-
-	highquality = f"/asset_submissions/emojis/{name}"
+	highquality = f"/asset_submissions/emojis/{emoji.name}"
 	with Image.open(highquality) as i:
-		new_path = f'/asset_submissions/emojis/original/{name}.{i.format.lower()}'
+		new_path = f'/asset_submissions/emojis/original/{emoji.name}.{i.format.lower()}'
 	rename(highquality, new_path)
 
-	author.pay_account('coins', 250)
+	if 'pkmn' in emoji.tags: amount = 500
+	else: amount = 250
+
+	author.pay_account('coins', amount)
 	g.db.add(author)
 
 	if v.id != author.id:
-		msg = f"@{v.username} (a site admin) has approved an emoji you made: :{emoji.name}:\n\nYou have received 250 coins as a reward!"
+		msg = f"@{v.username} (a site admin) has approved an emoji you made: :{emoji.name}:\n\nYou have received {amount} coins as a reward!"
 
 		comment = request.values.get("comment")
 		if comment:
@@ -226,12 +228,20 @@ def approve_emoji(v, name):
 	ma = ModAction(
 		kind="approve_emoji",
 		user_id=v.id,
-		_note=f'<img loading="lazy" data-bs-toggle="tooltip" alt=":{name}:" title=":{name}:" src="{SITE_FULL_IMAGES}/e/{name}.webp">'
+		_note=f'<img loading="lazy" data-bs-toggle="tooltip" alt=":{emoji.name}:" title=":{emoji.name}:" src="{SITE_FULL_IMAGES}/e/{emoji.name}.webp">'
 	)
 	g.db.add(ma)
 
 	if emoji.nsfw:
 		OVER_18_EMOJIS.append(emoji.name)
+
+	cache.delete("emojis_True")
+	cache.delete(f"emoji_list_{emoji.kind}_True")
+	if not emoji.nsfw:
+		cache.delete("emojis_False")
+		cache.delete(f"emoji_list_{emoji.kind}_False")
+
+	purge_files_in_cloudflare_cache(f"{SITE_FULL_IMAGES}/e/{emoji.name}/webp")
 
 	return {"message": f"'{emoji.name}' approved!"}
 
@@ -277,6 +287,7 @@ def remove_asset(cls, type_name, v, name):
 	return {"message": f"'{name}' removed!"}
 
 @app.post("/remove/emoji/<name>")
+@feature_required('EMOJI_SUBMISSIONS')
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
@@ -286,6 +297,7 @@ def remove_emoji(v, name):
 	return remove_asset(Emoji, "emoji", v, name)
 
 @app.get("/submit/hats")
+@feature_required('HAT_SUBMISSIONS')
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
@@ -296,6 +308,7 @@ def submit_hats(v):
 
 
 @app.post("/submit/hats")
+@feature_required('HAT_SUBMISSIONS')
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
@@ -313,7 +326,7 @@ def submit_hat(v):
 	if not file or not file.content_type.startswith('image/'):
 		abort(400, "You need to submit an image!")
 
-	if not hat_regex.fullmatch(name):
+	if not hat_name_regex.fullmatch(name):
 		abort(400, "Invalid name!")
 
 	existing = g.db.query(HatDef.name).filter_by(name=name).one_or_none()
@@ -348,6 +361,7 @@ def submit_hat(v):
 
 
 @app.post("/admin/approve/hat/<name>")
+@feature_required('HAT_SUBMISSIONS')
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit("120/minute;200/hour;1000/day", deduct_when=lambda response: response.status_code < 400)
@@ -360,7 +374,7 @@ def approve_hat(v, name):
 
 	new_name = request.values.get('name').strip()
 	if not new_name: abort(400, "You need to include a name!")
-	if not hat_regex.fullmatch(new_name): abort(400, "Invalid name!")
+	if not hat_name_regex.fullmatch(new_name): abort(400, "Invalid name!")
 	if not description_regex.fullmatch(description): abort(400, "Invalid description!")
 
 	try:
@@ -412,23 +426,24 @@ def approve_hat(v, name):
 
 	hat.submitter_id = None
 
-	move(f"/asset_submissions/hats/{name}.webp", f"files/assets/images/hats/{hat.name}.webp")
+	move(f"/asset_submissions/hats/{hat.name}.webp", f"files/assets/images/hats/{hat.name}.webp")
 
-	highquality = f"/asset_submissions/hats/{name}"
+	highquality = f"/asset_submissions/hats/{hat.name}"
 	with Image.open(highquality) as i:
-		new_path = f'/asset_submissions/hats/original/{name}.{i.format.lower()}'
+		new_path = f'/asset_submissions/hats/original/{hat.name}.{i.format.lower()}'
 	rename(highquality, new_path)
 
 	ma = ModAction(
 		kind="approve_hat",
 		user_id=v.id,
-		_note=f'<a href="{SITE_FULL_IMAGES}/i/hats/{name}.webp">{name}</a>'
+		_note=f'<a href="{SITE_FULL_IMAGES}/i/hats/{hat.name}.webp">{hat.name}</a>'
 	)
 	g.db.add(ma)
 
 	return {"message": f"'{hat.name}' approved!"}
 
 @app.post("/remove/hat/<name>")
+@feature_required('HAT_SUBMISSIONS')
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
@@ -438,6 +453,7 @@ def remove_hat(v, name):
 	return remove_asset(HatDef, 'hat', v, name)
 
 @app.get("/admin/update/emojis")
+@feature_required('EMOJI_SUBMISSIONS')
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @admin_level_required(PERMS['UPDATE_ASSETS'])
@@ -446,22 +462,44 @@ def update_emojis(v):
 
 
 @app.post("/admin/update/emojis")
+@feature_required('EMOJI_SUBMISSIONS')
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @admin_level_required(PERMS['UPDATE_ASSETS'])
 def update_emoji(v):
-	file = request.files["image"]
 	name = request.values.get('name', '').lower().strip()
-	tags = request.values.get('tags', '').lower().strip()
+
+	file = request.files["image"]
 	kind = request.values.get('kind', '').strip()
+	new_name = request.values.get('new_name', '').strip()
+	tags = request.values.get('tags', '').lower().strip()
+	nsfw = request.values.get('nsfw', '').strip()		
 
 	existing = g.db.get(Emoji, name)
 	if not existing:
 		abort(400, "An emoji with this name doesn't exist!")
 
 	updated = False
+
+	if new_name and existing.name != new_name:
+		if not emoji_name_regex.fullmatch(new_name):
+			abort(400, "Invalid new name!")
+
+		old_path = f"files/assets/images/emojis/{existing.name}.webp"
+		new_path = f"files/assets/images/emojis/{new_name}.webp"
+		copyfile(old_path, new_path)
+
+		for x in IMAGE_FORMATS:
+			original_old_path = f'/asset_submissions/emojis/original/{existing.name}.{x}'
+			original_new_path = f'/asset_submissions/emojis/original/{new_name}.{x}'
+			if path.isfile(original_old_path):
+				rename(original_old_path, original_new_path)
+
+		existing.name = new_name
+		updated = True
+		name = existing.name
 
 	if file:
 		if g.is_tor:
@@ -487,18 +525,23 @@ def update_emoji(v):
 		purge_files_in_cloudflare_cache([f"{SITE_FULL_IMAGES}/e/{name}.webp", f"{SITE_FULL_IMAGES}/asset_submissions/emojis/original/{name}.{format}"])
 		updated = True
 
+	if kind and existing.kind != kind:
+		if kind not in EMOJI_KINDS:
+			abort(400, "Invalid kind!")
+		existing.kind = kind
+		updated = True
 
-	if tags and existing.tags != tags and tags != "none":
+	if tags and existing.tags != tags:
 		if not tags_regex.fullmatch(tags):
 			abort(400, "Invalid tags!")
 		existing.tags += f" {tags}"
 		updated = True
 
-	if kind and existing.kind != kind and kind != "none":
-		if kind not in EMOJI_KINDS:
-			abort(400, "Invalid kind!")
-		existing.kind = kind
-		updated = True
+	if nsfw:
+		nsfw = (nsfw == 'NSFW')
+		if existing.nsfw != nsfw:
+			existing.nsfw = nsfw
+			updated = True
 
 	if not updated:
 		abort(400, "You need to actually update something!")
@@ -512,12 +555,16 @@ def update_emoji(v):
 	)
 	g.db.add(ma)
 
-	cache.delete(f"emojis_{existing.nsfw}")
-	cache.delete(f"emoji_list_{existing.kind}_{existing.nsfw}")
+	cache.delete("emojis_True")
+	cache.delete(f"emoji_list_{existing.kind}_True")
+	if not existing.nsfw:
+		cache.delete("emojis_False")
+		cache.delete(f"emoji_list_{existing.kind}_False")
 
 	return {"message": f"'{name}' updated successfully!"}
 
 @app.get("/admin/update/hats")
+@feature_required('HAT_SUBMISSIONS')
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @admin_level_required(PERMS['UPDATE_ASSETS'])
@@ -526,54 +573,83 @@ def update_hats(v):
 
 
 @app.post("/admin/update/hats")
+@feature_required('HAT_SUBMISSIONS')
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @admin_level_required(PERMS['UPDATE_ASSETS'])
 def update_hat(v):
-	file = request.files["image"]
 	name = request.values.get('name', '').strip()
 
-	if g.is_tor:
-		abort(400, "Image uploads are not allowed through TOR!")
+	file = request.files["image"]
+	new_name = request.values.get('new_name', '').strip()
 
-	if not file or not file.content_type.startswith('image/'):
-		abort(400, "You need to submit an image!")
-
-	if not hat_regex.fullmatch(name):
-		abort(400, "Invalid name!")
-
-	existing = g.db.query(HatDef.name).filter_by(name=name).one_or_none()
+	existing = g.db.query(HatDef).filter_by(name=name).one_or_none()
 	if not existing:
 		abort(400, "A hat with this name doesn't exist!")
 
-	highquality = f"/asset_submissions/hats/{name}"
-	file.save(highquality)
-	process_image(highquality, v) #to ensure not malware
+	updated = False
 
-	with Image.open(highquality) as i:
-		if i.width > 100 or i.height > 130:
-			os.remove(highquality)
-			abort(400, "Images must be 100x130")
+	if new_name and existing.name != new_name:
+		if not hat_name_regex.fullmatch(new_name):
+			abort(400, "Invalid new name!")
 
-		format = i.format.lower()
-	new_path = f'/asset_submissions/hats/original/{name}.{format}'
+		old_path = f"files/assets/images/hats/{existing.name}.webp"
+		new_path = f"files/assets/images/hats/{new_name}.webp"
+		rename(old_path, new_path)
 
-	for x in IMAGE_FORMATS:
-		if path.isfile(f'/asset_submissions/hats/original/{name}.{x}'):
-			os.remove(f'/asset_submissions/hats/original/{name}.{x}')
+		for x in IMAGE_FORMATS:
+			original_old_path = f'/asset_submissions/hats/original/{existing.name}.{x}'
+			original_new_path = f'/asset_submissions/hats/original/{new_name}.{x}'
+			if path.isfile(original_old_path):
+				rename(original_old_path, original_new_path)
 
-	rename(highquality, new_path)
+		existing.name = new_name
+		updated = True
+		name = existing.name
+	
+	if file:
+		if g.is_tor:
+			abort(400, "Image uploads are not allowed through TOR!")
+		if not file.content_type.startswith('image/'):
+			abort(400, "You need to submit an image!")
 
-	filename = f"files/assets/images/hats/{name}.webp"
-	copyfile(new_path, filename)
-	process_image(filename, v, resize=100)
-	purge_files_in_cloudflare_cache([f"{SITE_FULL_IMAGES}/i/hats/{name}.webp", f"{SITE_FULL_IMAGES}/asset_submissions/hats/original/{name}.{format}"])
+		highquality = f"/asset_submissions/hats/{name}"
+		file.save(highquality)
+		process_image(highquality, v) #to ensure not malware
+
+		with Image.open(highquality) as i:
+			if i.width > 100 or i.height > 130:
+				os.remove(highquality)
+				abort(400, "Images must be 100x130")
+			format = i.format.lower()
+
+		new_path = f'/asset_submissions/hats/original/{name}.{format}'
+
+		for x in IMAGE_FORMATS:
+			if path.isfile(f'/asset_submissions/hats/original/{name}.{x}'):
+				os.remove(f'/asset_submissions/hats/original/{name}.{x}')
+
+		rename(highquality, new_path)
+
+		filename = f"files/assets/images/hats/{name}.webp"
+		copyfile(new_path, filename)
+		process_image(filename, v, resize=100)
+		purge_files_in_cloudflare_cache([f"{SITE_FULL_IMAGES}/i/hats/{name}.webp", f"{SITE_FULL_IMAGES}/asset_submissions/hats/original/{name}.{format}"])
+		updated = True
+
+
+	if not updated:
+		abort(400, "You need to actually update something!")
+
+	g.db.add(existing)
+
 	ma = ModAction(
 		kind="update_hat",
 		user_id=v.id,
 		_note=f'<a href="{SITE_FULL_IMAGES}/i/hats/{name}.webp">{name}</a>'
 	)
 	g.db.add(ma)
+
 	return {"message": f"'{name}' updated successfully!"}

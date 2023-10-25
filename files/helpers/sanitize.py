@@ -171,9 +171,6 @@ def execute_blackjack(v, target, body, kind):
 def find_all_emoji_endings(emoji):
 	endings = []
 
-	if path.isfile(f'files/assets/images/emojis/{emoji}.webp'):
-		return endings, emoji
-
 	is_non_ending_found = False
 	while not is_non_ending_found:
 		if emoji.endswith('pat'):
@@ -352,7 +349,8 @@ def handle_youtube_links(url):
 			split = t.split('m')
 			if len(split) == 2:
 				minutes = int(split[0])
-				seconds = int(split[1])
+				if split[1]: seconds = int(split[1])
+				else: seconds = 0
 				t = minutes*60 + seconds
 		html = f'<lite-youtube videoid="{id}" params="autoplay=1&modestbranding=1'
 		if t:
@@ -361,7 +359,7 @@ def handle_youtube_links(url):
 	return html
 
 @with_sigalrm_timeout(10)
-def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis=False, snappy=False, chat=False, blackjack=None, post_mention_notif=False, commenters_ping_post_id=None, obj=None, author=None):
+def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis=False, snappy=False, chat=False, blackjack=None, commenters_ping_post_id=None, obj=None, author=None):
 	def error(error):
 		if chat:
 			return error, 403
@@ -378,15 +376,17 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 	if blackjack and execute_blackjack(v, None, sanitized, blackjack):
 		return '<p>g</p>'
 
-	if obj and not (isinstance(obj, Post) and len(obj.body) > 1000):
+	if obj and not obj.is_effortpost:
 		if author.owoify:
-			sanitized = owoify(sanitized)
-		if author.marsify and not author.chud:
-			sanitized = marsify(sanitized)
-		if obj.sharpened:
-			sanitized = sharpen(sanitized)
-		if obj.queened:
-			sanitized = queenify(sanitized)
+			sanitized = owoify(sanitized, author.chud_phrase)
+		if author.marsify:
+			sanitized = marsify(sanitized, author.chud_phrase)
+
+	if obj and obj.sharpened:
+		sanitized = sharpen(sanitized)
+
+	if obj and obj.queened:
+		sanitized = queenify(sanitized)
 
 	if '```' not in sanitized and '<pre>' not in sanitized:
 		sanitized = linefeeds_regex.sub(r'\1\n\n\2', sanitized)
@@ -436,7 +436,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 
 	if FEATURES['PING_GROUPS']:
 		def group_replacer(m):
-			name = m.group(1).lower()
+			name = m.group(1)
 
 			if name == 'everyone':
 				return f'<a href="/users">!{name}</a>'
@@ -446,8 +446,8 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 				return f'<a href="/!commenters/{commenters_ping_post_id}/{int(time.time())}">!{name}</a>'
 			elif name == 'followers':
 				return f'<a href="/id/{v.id}/followers">!{name}</a>'
-			elif g.db.get(Group, name):
-				return f'<a href="/!{name}">!{name}</a>'
+			elif g.db.get(Group, name.lower()):
+				return f'<a href="/!{name.lower()}">!{name}</a>'
 			else:
 				return m.group(0)
 
@@ -455,9 +455,6 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 
 
 	soup = BeautifulSoup(sanitized, 'lxml')
-
-	if len(soup.select('[bounce], [cide]')) > 5:
-		error("Max 5 usages of 'bounce' and 'cide'!")
 
 	for tag in soup.find_all("img"):
 		if tag.get("src") and not tag["src"].startswith('/pp/') and not (snappy and tag["src"].startswith(f'{SITE_FULL_IMAGES}/e/')):
@@ -605,7 +602,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 			continue
 
 		#don't allow something like this [https://rԁrama.net/leaderboard](https://iplogger.org/1fRKk7)
-		if not snappy and not post_mention_notif:
+		if not snappy:
 			string_domain = tldextract.extract(str(link.string)).registered_domain
 			if string_domain and string_domain != tldextract.extract(href).registered_domain:
 				link.string = href
@@ -679,13 +676,14 @@ def filter_emojis_only(title, golden=True, count_emojis=False, obj=None, author=
 
 	title = remove_cuniform(title)
 
-	if obj and not (isinstance(obj, Post) and len(obj.body) > 1000):
+	if obj and not obj.is_effortpost:
 		if author.owoify:
-			title = owoify(title)
-		if author.marsify and not author.chud:
-			title = marsify(title)
-		if obj.sharpened:
-			title = sharpen(title)
+			title = owoify(title, author.chud_phrase)
+		if author.marsify:
+			title = marsify(title, author.chud_phrase)
+
+	if obj and obj.sharpened:
+		title = sharpen(title)
 
 	emojis_used = set()
 
@@ -718,7 +716,7 @@ def is_whitelisted(domain, k):
 		return True
 	if 'sort' in k.lower() or 'query' in k.lower():
 		return True
-	if k in {'_x_tr_hl','_x_tr_pto','_x_tr_sl','_x_tr_tl','abstract_id','after','article','bill_id','c','clip','comments','context','count','f','fbid','format','forum_id','i','ID','id','lb','list','oldid','p','page','post_id','postid','q','run','scrollToComments','search','sl','sp','story_fbid','tab','term','text','thread_id','threadid','ticket_form_id','time_continue','title','title_no','tl','token','topic','type','tz1','tz2','u','udca','url','v','vid','viewkey'}:
+	if k in {'_x_tr_hl','_x_tr_pto','_x_tr_sl','_x_tr_tl','abstract_id','after','article','bill_id','c','clip','commentID','comments','context','count','f','fbid','format','forum_id','i','ID','id','lb','list','oldid','p','page','post_id','postid','q','run','scrollToComments','search','sl','sp','story_fbid','tab','term','text','thread_id','threadid','ticket_form_id','time_continue','title','title_no','tl','token','topic','type','tz1','tz2','u','udca','url','v','vid','viewkey'}:
 		return True
 	if k == 't' and domain != 'twitter.com':
 		return True
@@ -732,7 +730,7 @@ def normalize_url(url):
 
 	url = url.replace("reddit.com/user/", "reddit.com/u/")
 
-	url = reddit_domain_regex.sub(r'\1https://old.reddit.com/\3', url)
+	url = reddit_domain_regex.sub(r'\1https://old.reddit.com/\5', url)
 
 	url = url.replace("https://music.youtube.com/watch?v=", "https://youtube.com/watch?v=") \
 			 .replace("https://www.youtube.com", "https://youtube.com") \
@@ -802,8 +800,7 @@ def normalize_url(url):
 	return url
 
 def normalize_url_gevent(url):
-	try: url = requests.get(url, headers=HEADERS, timeout=2, proxies=proxies).url
-	except: return url
+	url = requests.get(url, headers=HEADERS, timeout=2).url
 	return normalize_url(url)
 
 def validate_css(css):
@@ -833,7 +830,7 @@ def torture_chud(string, username):
 def complies_with_chud(obj):
 	#check for cases where u should leave
 	if not obj.chudded: return True
-	if obj.author.marseyawarded: return True
+	if obj.author.hieroglyphs: return True
 
 	if isinstance(obj, Post):
 		if obj.id in ADMIGGER_THREADS: return True

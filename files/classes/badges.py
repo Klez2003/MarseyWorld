@@ -60,7 +60,7 @@ class Badge(Base):
 		if self.badge_id == 95: return self.user.bird
 		if self.badge_id == 96: return self.user.flairchanged
 		if self.badge_id == 97: return self.user.longpost
-		if self.badge_id == 98: return self.user.marseyawarded
+		if self.badge_id == 98: return self.user.hieroglyphs
 		if self.badge_id == 109: return self.user.rehab
 		if self.badge_id == 167: return self.user.owoify
 		if self.badge_id == 168: return self.user.bite

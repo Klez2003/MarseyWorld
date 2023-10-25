@@ -20,6 +20,13 @@ from files.helpers.sorting_and_time import *
 
 from .saves import CommentSaveRelationship
 
+def get_emoji_awards_emojis(obj, v, kind, OVER_18_EMOJIS):
+	if g.show_nsfw:
+		emojis = [x.note for x in obj.awards if x.kind == kind]
+	else:
+		emojis = [x.note for x in obj.awards if x.kind == kind and x.note not in OVER_18_EMOJIS]
+	return reversed(emojis[:20])
+
 def get_award_classes(obj, v, title=False):
 	classes = []
 
@@ -57,8 +64,8 @@ def normalize_urls_runtime(body, v):
 	if v and v.nitter:
 		body = twitter_to_nitter_regex.sub(r'\1https://nitter.net/', body)
 
-	if v and v.imginn:
-		body = body.replace('https://instagram.com/', 'https://imginn.com/')
+	if v and v.imgsed:
+		body = body.replace('https://instagram.com/', 'https://imgsed.com/')
 
 	if not v or v.controversial:
 		captured = []
@@ -317,15 +324,9 @@ class Comment(Base):
 
 	@lazy
 	def award_count(self, kind, v):
-		if v and v.poor and kind not in FISTMAS_AWARDS + HOMOWEEN_AWARDS:
+		if v and v.poor:
 			return 0
 		return len([x for x in self.awards if x.kind == kind])
-
-	@lazy
-	def emoji_award_emojis(self, v, OVER_18_EMOJIS):
-		if g.show_nsfw:
-			return [x.note for x in self.awards if x.kind == "emoji"][:10]
-		return [x.note for x in self.awards if x.kind == "emoji" and x.note not in OVER_18_EMOJIS][:10]
 
 	@property
 	@lazy
@@ -505,3 +506,12 @@ class Comment(Base):
 	@lazy
 	def award_classes(self, v):
 		return get_award_classes(self, v)
+
+	@lazy
+	def emoji_awards_emojis(self, v, kind, OVER_18_EMOJIS):
+		return get_emoji_awards_emojis(self, v, kind, OVER_18_EMOJIS)
+
+	@property
+	@lazy
+	def is_effortpost(self):
+		return False

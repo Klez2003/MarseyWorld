@@ -30,11 +30,13 @@
 	{% endif %}
 
 	{% for a in p.awards %}
-		{% if a.kind == "emoji" %}
-			<img alt='{{a.title}} Award given by @{{a.user.username}}: "{{a.note}}"' data-bs-toggle="tooltip" loading="lazy" src="{{SITE_FULL_IMAGES}}/e/{{a.note}}.webp" data-bs-toggle="tooltip" data-bs-placement="bottom" title='{{a.title}} Award given by @{{a.user.username}}: "{{a.note}}"' width="20px">
-		{% else %}
-			<i class="{{a.class_list}} px-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title='{{a.title}} Award given by @{{a.user.username}}{% if a.kind in ["chud","namelock","flairlock"] %}: "{{a.note}}"{% endif %}'></i>
-		{% endif %}
+		<span class="mr-1">
+			{% if a.kind in ["emoji","emoji-hz"] %}
+				<img alt='{{a.title}} Award given by @{{a.user.username}}: "{{a.note}}"' data-bs-toggle="tooltip" loading="lazy" src="{{SITE_FULL_IMAGES}}/e/{{a.note}}.webp" data-bs-toggle="tooltip" data-bs-placement="bottom" title='{{a.title}} Award given by @{{a.user.username}}: "{{a.note}}"' width="20px">
+			{% else %}
+				<i class="{{a.class_list}} px-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title='{{a.title}} Award given by @{{a.user.username}}{% if a.kind in ["chud","namelock","flairlock"] %}: "{{a.note}}"{% endif %}'></i>
+			{% endif %}
+		</span>
 	{% endfor %}
 
 	{% if v and v.can_see_shadowbanned and p.author.shadowbanned %}
@@ -60,7 +62,7 @@
 	{% if p.private %}<span class="mr-2 badge border-warning border-1 text-small-extra">Draft</span>{% endif %}
 
 	{% if p.active_reports(v) %}
-		<button type="button" class="btn btn-primary mr-1 ml-2" style="padding:1px 5px; font-size:10px" data-nonce="{{g.nonce}}" data-toggleelement="#reports-{{p.id}}" data-toggleattr="d-none">{{p.active_reports(v)}} Report{{plural(p.active_reports(v))}}</button>
+		<button type="button" class="btn btn-primary mr-1" style="padding:1px 5px; font-size:10px" data-nonce="{{g.nonce}}" data-toggleelement="#reports-{{p.id}}" data-toggleattr="d-none">{{p.active_reports(v)}} Report{{plural(p.active_reports(v))}}</button>
 	{% endif %}
 
 	{% if p.ghost %}
@@ -76,7 +78,7 @@
 
 		{% if p.author.verified %}<i class="fas fa-badge-check align-middle ml-1 {% if p.author.verified=='Glowiefied' %}glow{% endif %}" style="color:{% if p.author.verifiedcolor %}#{{p.author.verifiedcolor}}{% else %}#1DA1F2{% endif %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{p.author.verified}}"></i>
 		{% endif %}
-		<a class="user-name text-decoration-none" href="{{p.author.url}}" data-pop-info='{{p.author.json_popover(v) | tojson}}' data-bs-placement="bottom" data-bs-toggle="popover" data-bs-trigger="manual" data-content-id="popover" tabindex="0" style="color: #{{p.author.name_color}}; font-weight: bold">
+		<a class="user-name text-decoration-none unbreakable" href="{{p.author.url}}" data-pop-info='{{p.author.json_popover(v) | tojson}}' data-bs-placement="bottom" data-bs-toggle="popover" data-bs-trigger="manual" data-content-id="popover" tabindex="0" style="color: #{{p.author.name_color}}; font-weight: bold">
 			<div class="profile-pic-30-wrapper" style="margin-top:9px">
 				<img loading="lazy" alt="@{{p.author.username}}'s profile picture" src="{{p.author.profile_url}}" class="profile-pic-30 mr-2">
 				{% if p.author.hat_active(v)[0] -%}
@@ -86,10 +88,10 @@
 			<span {% if p.author.patron and not p.distinguish_level %}class="patron" style="background-color:#{{p.author.name_color}}"{% elif p.distinguish_level %}class="mod {% if SITE_NAME == 'rDrama' %}mod-rdrama{% endif %}"{% endif %} {% if p.author.pride_username(v) %}pride_username{% endif %}>{{p.author_name}}</span>
 		</a>
 		{% if FEATURES['PRONOUNS'] %}
-			<span class="pronouns" style="color:#{{p.author.titlecolor}};border-color:#{{p.author.titlecolor}}">{{p.author.pronouns_display}}</span>
+			<span class="pronouns" style="color:#{{p.author.flaircolor}} !important;border-color:#{{p.author.flaircolor}} !important">{{p.author.pronouns_display}}</span>
 		{% endif %}
 		{% if p.author.flair_html %}
-			<bdi class="text-break ml-2" style="color: #{{p.author.titlecolor}}">{{p.author.flair_html | safe}}</bdi>
+			<bdi class="text-break ml-2" style="color: #{{p.author.flaircolor}}">{{p.author.flair_html | safe}}</bdi>
 		{% endif %}
 	{% endif %}
 	<span class="ml-2 d-inline-block" data-bs-toggle="tooltip" data-bs-placement="bottom" data-nonce="{{g.nonce}}" data-onmouseover="timestamp(this, '{{p.created_utc}}')" id="timestamp-{{p.id}}">&nbsp;{{p.age_string}}</span>
@@ -331,15 +333,14 @@
 	<div id="quotes" class="mt-3 ml-3 mb-2 d-none" style="font-size:12px">
 		<a id="QuotedMessageLink">
 			<i class="fas fa-reply"></i> <span class="text-primary">@<span id="QuotedUser"></span></span>: <em id="QuotedMessage"></em>
-			<button type="button" id="cancel" class="btn btn-secondary">Cancel</button>
-			<input hidden id="quotes_id">
 		</a>
+		<button type="button" id="cancel" class="btn btn-secondary">Cancel</button>
+		<input hidden id="quotes_id">
 	</div>
 
 	<div id='message' class="position-relative form-group d-flex">
 		<div class="position-absolute text-muted text-small ml-1" style="bottom: -1.5rem; line-height: 1">
 			<span id="typing-indicator"></span>
-			<span id="loading-indicator" class="d-none"></span>
 		</div>
 
 		{{emoji_btn('input-text-chat')}}

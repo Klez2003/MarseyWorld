@@ -24,6 +24,7 @@ function updateBux(mobile=false) {
 }
 
 function transferCoins(t, mobile=false) {
+	close_inline_speed_emoji_modal();
 
 	for(let el of document.getElementsByClassName('toggleable')) {
 		el.classList.add('d-none');
@@ -47,6 +48,8 @@ function transferCoins(t, mobile=false) {
 }
 
 function transferBux(t, mobile=false) {
+	close_inline_speed_emoji_modal();
+
 	for(let el of document.getElementsByClassName('toggleable')) {
 		el.classList.add('d-none');
 	}

@@ -185,8 +185,8 @@ function updateCardsetBackgrounds(state, complete = false) {
 	}
 	if(complete){
 		const wager = state.has_player_split ? state?.wager?.amount * 2 : state?.wager?.amount;
-		let dealerShows = state.payout > wager ? 'WON': 'LOST';
-		if(state.payout === wager) dealerShows = 'PUSHED'
+		let dealerShows = state.payout < wager ? 'WON': 'LOST';
+		if(state.payout === wager || (state.player_doubled_down && state.status === 'PUSHED')) dealerShows = 'PUSHED'
 		cardsets[0]?.classList.add(`blackjack-cardset__${dealerShows}`)
 	}
 	else {

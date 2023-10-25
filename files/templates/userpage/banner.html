@@ -11,7 +11,7 @@
 {% block desktopUserBanner %}
 <div class="row d-mob-none">
 	<div class="col px-0">
-		<div class="jumbotron jumbotron-fluid jumbotron-guild d-mob-none" {% if FEATURES['USERS_PROFILE_BANNER'] %}style="background-image: url({{u.banner_url}})"{% endif %}>
+		<div id="desktopUserBanner" class="jumbotron jumbotron-fluid jumbotron-guild d-mob-none" {% if FEATURES['USERS_PROFILE_BANNER'] %}data-style="background-image: url({{u.banner_url}})"{% endif %}>
 			<div class="jumbotron-overlay"></div>
 			<div class="w-100 my-3">
 				<div class="container-fluid nobackground">
@@ -64,11 +64,11 @@
 				</div>
 
 				{% if FEATURES['PRONOUNS'] and can_see(v, u) %}
-					<p class="font-weight-bolder" id="profile--pronouns" style="color: #{{u.titlecolor}}">{{u.pronouns_display}}</p>
+					<p class="font-weight-bolder" id="profile--pronouns" style="color: #{{u.flaircolor}}">{{u.pronouns_display}}</p>
 				{% endif %}
 
 				{% if u.flair_html and can_see(v, u) %}
-					<p class="font-weight-bolder" id="profile--flair" style="color: #{{u.titlecolor}}">{{u.flair_html | safe}}</p>
+					<p class="font-weight-bolder" id="profile--flair" style="color: #{{u.flaircolor}}">{{u.flair_html | safe}}</p>
 				{% endif %}
 
 				<div class="font-weight-bolder mb-2" id="profile--simphate">
@@ -359,11 +359,11 @@
 				{% endif %}
 
 				{% if FEATURES['PRONOUNS'] and can_see(v, u) %}
-					<p style="color: #{{u.titlecolor}}" id="profile-mobile--pronouns">{{u.pronouns_display}}</p>
+					<p style="color: #{{u.flaircolor}}" id="profile-mobile--pronouns">{{u.pronouns_display}}</p>
 				{% endif %}
 
 				{% if u.flair_html and can_see(v, u) %}
-					<p style="color: #{{u.titlecolor}}" id="profile-mobile--flair">{{u.flair_html | safe}}</p>
+					<p style="color: #{{u.flaircolor}}" id="profile-mobile--flair">{{u.flair_html | safe}}</p>
 				{% endif %}
 
 				<div class="font-weight-bolder mb-2" id="profile-mobile--simphate">

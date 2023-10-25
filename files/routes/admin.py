@@ -504,13 +504,23 @@ def badge_grant_post(v):
 
 		if v.id != user.id:
 			text = f"@{v.username} (a site admin) has given you the following profile badge:\n\n{new_badge.path}\n\n**{new_badge.name}**\n\n{new_badge.badge.description}"
+			if new_badge.description:
+				text += f'\n\n> {new_badge.description}'
+			if new_badge.url:
+				text += f'\n\n> {new_badge.url}'
 			send_repeatable_notification(user.id, text)
+
+		note = new_badge.name
+		if new_badge.description:
+			note += f' - {new_badge.description}'
+		if new_badge.url:
+			note += f' - {new_badge.url}'
 
 		ma = ModAction(
 			kind="badge_grant",
 			user_id=v.id,
 			target_user_id=user.id,
-			_note=new_badge.name
+			_note=note,
 		)
 		g.db.add(ma)
 
@@ -808,7 +818,7 @@ def unchud(fullname, v):
 		user = get_account(fullname)
 
 	if not user.chudded_by:
-		abort(403, "Jannies can't undo chud awards anymore!")
+		abort(403, "Jannies can't undo chud awards!")
 
 	user.chud = 0
 	user.chud_phrase = None
@@ -907,7 +917,7 @@ def admin_change_flair(user_id, v):
 
 	user = get_account(user_id)
 
-	new_flair = request.values.get("title")[:256].strip()
+	new_flair = request.values.get("flair")[:256].strip()
 
 	user.flair = new_flair
 	new_flair = filter_emojis_only(new_flair)
@@ -1904,6 +1914,13 @@ def delete_media_post(v):
 
 	os.remove(path)
 
+	to_delete = g.db.query(Post.thumburl, Post.posterurl).filter_by(url=url).all()
+	for tup in to_delete:
+		for url in tup:
+			if url:
+				remove_media_using_link(url)
+				purge_files_in_cloudflare_cache(url)
+
 	ma = ModAction(
 		kind="delete_media",
 		user_id=v.id,
@@ -1939,17 +1956,18 @@ def admin_reset_password(user_id, v):
 
 	return {"message": f"@{user.username}'s password has been reset! The new password has been messaged to them!"}
 
-@app.get("/admin/orgy")
+@app.get("/admin/orgies")
 @admin_level_required(PERMS['ORGIES'])
 def orgy_control(v):
-	orgy = g.db.query(Orgy).one_or_none()
-	return render_template("admin/orgy_control.html", v=v, orgy=orgy)
+	orgies = g.db.query(Orgy).order_by(Orgy.start_utc).all()
+	return render_template("admin/orgy_control.html", v=v, orgies=orgies)
 
-@app.post("/admin/start_orgy")
+@app.post("/admin/schedule_orgy")
 @admin_level_required(PERMS['ORGIES'])
-def start_orgy(v):
+def schedule_orgy(v):
 	link = request.values.get("link", "").strip()
 	title = request.values.get("title", "").strip()
+	start_utc = request.values.get("start_utc", "").strip()
 
 	if not link:
 		abort(400, "A link is required!")
@@ -1957,10 +1975,15 @@ def start_orgy(v):
 	if not title:
 		abort(400, "A title is required!")
 
-	if get_orgy(v):
-		abort(400, "An orgy is already in progress")
-
 	normalized_link = normalize_url(link)
+
+	if start_utc:
+		start_utc = int(start_utc)
+		redir = '/admin/orgies'
+	else:
+		start_utc = int(time.time())
+		redir = '/chat'
+
 	end_utc = None
 
 	if bare_youtube_regex.match(normalized_link):
@@ -1975,10 +1998,12 @@ def start_orgy(v):
 	elif any((normalized_link.lower().endswith(f'.{x}') for x in VIDEO_FORMATS)):
 		orgy_type = 'file'
 		data = normalized_link
-		#not deduped, cuz cron checks local file, it can't check the url cuz of referrer restriction
-		video_info = ffmpeg.probe(data)
-		seconds = float(video_info['streams'][0]['duration'])
-		end_utc = int(time.time() + seconds)
+		video_info = ffmpeg.probe(data, headers=f'referer:{SITE_FULL}/chat')
+		duration = float(video_info['streams'][0]['duration'])
+		if duration == 2.0: raise
+		if duration > 3000:
+			duration += 300 #account for break
+		end_utc = int(start_utc + duration)
 	else:
 		abort(400)
 
@@ -1986,39 +2011,98 @@ def start_orgy(v):
 			title=title,
 			type=orgy_type,
 			data=data,
+			start_utc=start_utc,
 			end_utc=end_utc,
 		)
 	g.db.add(orgy)
 
 	ma = ModAction(
-		kind="start_orgy",
+		kind="schedule_orgy",
 		user_id=v.id,
 		_note=data,
 	)
 	g.db.add(ma)
 
-	g.db.commit()
-	requests.post('http://localhost:5001/refresh_chat', headers={"Host": SITE})
+	return redirect(redir)
 
-	return redirect('/chat')
-
-@app.post("/admin/stop_orgy")
+@app.post("/admin/remove_orgy/<int:created_utc>")
 @admin_level_required(PERMS['ORGIES'])
-def stop_orgy(v):
-	orgy = g.db.query(Orgy).one_or_none()
-
-	if not orgy:
-		abort(400, "There is no orgy in progress right now!")
+def remove_orgy(v, created_utc):
+	orgy = g.db.query(Orgy).filter_by(created_utc=created_utc).one()
 
 	ma = ModAction(
-		kind="stop_orgy",
+		kind="remove_orgy",
 		user_id=v.id,
 		_note=orgy.data,
 	)
 	g.db.add(ma)
 
+	started = orgy.started
 	g.db.delete(orgy)
-
-	requests.post('http://localhost:5001/refresh_chat', headers={"Host": SITE})
+	g.db.commit()
+	if started:
+		requests.post('http://localhost:5001/refresh_chat', headers={"Host": SITE})
 
 	return {"message": "Orgy stopped successfully!"}
+
+@app.get("/admin/insert_transaction")
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@admin_level_required(PERMS['INSERT_TRANSACTION'])
+def insert_transaction(v):
+	return render_template("admin/insert_transaction.html", v=v)
+
+@app.post("/admin/insert_transaction")
+@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@admin_level_required(PERMS['INSERT_TRANSACTION'])
+def insert_transaction_post(v):
+	type = request.values.get("type", "").strip()
+	id = request.values.get("id", "").strip()
+	amount = request.values.get("amount", "").strip()
+	username = request.values.get("username", "").strip()
+
+	if type not in {'BTC', 'ETH'}:
+		abort(400, "Invalid transaction currency!")
+
+	if not id:
+		abort(400, "A transaction ID is required!")
+
+	if not amount:
+		abort(400, "A transaction amount is required!")
+
+	if not username:
+		abort(400, "A username is required!")
+
+	amount = int(amount)
+
+	existing = g.db.get(Transaction, id)
+	if existing:
+		abort(400, "This transaction is already registered!")
+
+	user = get_user(username)
+
+	if not user.email:
+		abort(400, f"@{user.username} doesn't have an email tied to their account!")
+
+	transaction = Transaction(
+		id=id,
+		created_utc=time.time(),
+		type=type,
+		amount=amount,
+		email=user.email,
+	)
+	g.db.add(transaction)
+
+	ma = ModAction(
+		kind="insert_transaction",
+		user_id=v.id,
+		target_user_id=user.id,
+		_note=f'Transaction ID: {id}',
+	)
+	g.db.add(ma)
+
+	claim_rewards_all_users()
+	return {"message": "Transaction inserted successfully!"}

@@ -9,25 +9,19 @@
 		</div>
 	{% endmacro %}
 
-	{% if p.award_count("emoji", v) %}
-		<div class="stackable-container">
-			{% for emoji in p.emoji_award_emojis(v, OVER_18_EMOJIS) %}
-				{% set src = '/e/' + emoji + '.webp' %}
-				{% set alt = ':#' + emoji + ':' %}
-				{% set delay = 'animation-delay-' ~ (loop.index-1) %}
-				<div class="emoji-award {{delay}}">
-					<img class="{{delay}}" loading="lazy" alt="{{alt}}" src="{{src}}">
-				</div>
-			{% endfor %}
-		</div>
-	{% endif %}
-
-	{% if p.award_count("train", v) %}
-		{{stackable_award('train', '/e/marseytrain.webp', ':#marseytrain:')}}
-	{% endif %}
-
-	{% if p.award_count("scooter", v) %}
-		{{stackable_award('scooter', '/e/marseyscooter.webp', ':#marseyscooter:')}}
+	{% if p.award_count("emoji", v) or p.award_count("emoji-hz", v) %}
+		{% for kind in ["emoji", "emoji-hz"] %}
+			<div class="stackable-container">
+				{% for emoji in p.emoji_awards_emojis(v, kind, OVER_18_EMOJIS) %}
+					{% set src = '/e/' + emoji + '.webp' %}
+					{% set alt = 'emoji-award-' + emoji %}
+					{% set delay = 'animation-delay-' ~ ((loop.index-1)/4)|int %}
+					<div class="{{kind}}-award {{delay}}">
+						<img class="{{delay}} {% if emoji in ['marseywalking', 'capywalking', 'capycarp', 'marseyskinnedwalk', 'reindeer', 'marseyzombiewolftrample', 'taywalking', 'parrotmoonwalking', 'donkeykongwalk', 'dixiekongwalk', 'boosterwalking', 'marseydance', 'hamtarotreadmill', 'marseykatamarireddit'] %}reversed{% endif %}" loading="lazy" alt="{{alt}}" src="{{src}}">
+					</div>
+				{% endfor %}
+			</div>
+		{% endfor %}
 	{% endif %}
 
 	{% if p.award_count("firework", v) %}

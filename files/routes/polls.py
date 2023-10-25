@@ -135,10 +135,15 @@ def option_votes(option_id, v):
 	total_ts = g.db.query(func.sum(User.truescore)).filter(User.id.in_(user_ids)).scalar()
 	total_ts = format(total_ts, ",") if total_ts else '0'
 
-	if v.admin_level >= 3:
-		total_patrons = g.db.query(User).filter(User.id.in_(user_ids), User.patron > 1).count()
+	if v.admin_level >= PERMS['VIEW_PATRONS']:
+		patrons = [x[0] for x in g.db.query(User.patron).filter(User.id.in_(user_ids), User.patron > 1)]
+		total_patrons = len(patrons)
+		total_money = 0
+		for tier in patrons:
+			total_money += TIER_TO_MONEY[tier]
 	else:
 		total_patrons = None
+		total_money = 0
 
 	return render_template("poll_votes.html",
 						v=v,
@@ -146,6 +151,7 @@ def option_votes(option_id, v):
 						ups=ups,
 						total_ts=total_ts,
 						total_patrons=total_patrons,
+						total_money=total_money,
 						)
 
 
@@ -171,10 +177,15 @@ def option_votes_comment(option_id, v):
 	total_ts = g.db.query(func.sum(User.truescore)).filter(User.id.in_(user_ids)).scalar()
 	total_ts = format(total_ts, ",") if total_ts else '0'
 
-	if v.admin_level >= 3:
-		total_patrons = g.db.query(User).filter(User.id.in_(user_ids), User.patron > 1).count()
+	if v.admin_level >= PERMS['VIEW_PATRONS']:
+		patrons = [x[0] for x in g.db.query(User.patron).filter(User.id.in_(user_ids), User.patron > 1)]
+		total_patrons = len(patrons)
+		total_money = 0
+		for tier in patrons:
+			total_money += TIER_TO_MONEY[tier]
 	else:
 		total_patrons = None
+		total_money = 0
 
 	return render_template("poll_votes.html",
 						v=v,
@@ -182,4 +193,5 @@ def option_votes_comment(option_id, v):
 						ups=ups,
 						total_ts=total_ts,
 						total_patrons=total_patrons,
+						total_money=total_money,
 						)

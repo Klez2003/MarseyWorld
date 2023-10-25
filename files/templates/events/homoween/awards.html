@@ -1,23 +1,43 @@
 {% if p.award_count("haunt", v) %}
-	<link rel="stylesheet" href="{{'events/homoween/css/haunted.css' | asset}}">
-	<script defer src="{{'events/homoween/js/haunted.js' | asset}}" defer></script>
+	<link rel="stylesheet" href="{{'events/homoween/css/haunt.css' | asset}}">
+	<script defer src="{{'events/homoween/js/haunt.js' | asset}}" defer></script>
 	<div id="haunted-effect" class="fixed-top"></div>
+	{% if (not v or v.event_music) and not (hole and hole.name == 'music') and not (p.embed and p.domain == 'twitter.com') %}
+		<audio id="thunder1" hidden preload="none" src="/assets/events/homoween/audio/haunted/thunder1.mp3"></audio>
+		<audio id="thunder2" hidden preload="none" src="/assets/events/homoween/audio/haunted/thunder1.mp3"></audio>
+	{% endif %}
 {% endif %}
 
 {% set stabs = p.award_count("stab", v) %}
 {% if stabs %}
 	<input hidden id="stabs" value="{{stabs}}">
 	<link rel="stylesheet" href="{{'events/homoween/css/stab.css' | asset}}">
-	<script defer src="{{'events/homoween/js/sketch.js' | asset}}" defer></script>
-	<script defer src="{{'events/homoween/js/blood.js' | asset}}" defer></script>
+	<script defer src="{{'events/homoween/js/stab.js' | asset}}" defer></script>
 {% endif %}
 
 {% if p.award_count("spiders", v) %}
-	{% set spiders = p.award_count("spiders", v) %}
-
-	{% for i in range(spiders) %}
-		{% include "events/homoween/spider.html" %}
-	{% endfor %}
+	<div>
+		{% set spiders = p.award_count("spiders", v) %}
+		{% for i in range(spiders) %}
+			<div class="spider">
+				<div class="spiderweb"></div>
+				<div class="body">
+					<div class="eye left"></div>
+					<div class="eye right"></div>
+				</div>
+				<div class="legs left">
+					<div class="leg"></div>
+					<div class="leg"></div>
+					<div class="leg"></div>
+				</div>
+				<div class="legs right">
+					<div class="leg"></div>
+					<div class="leg"></div>
+					<div class="leg"></div>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
 {% endif %}
 
 {% if p.award_count("fog", v) %}
@@ -36,22 +56,28 @@
 {% endif %}
 
 {% if p.award_count("bones", v) %}
-	<div id="animate" data-bones="{{p.award_count('bones', v)}}"></div>
+	<div id="bones-container" data-bones="{{p.award_count('bones', v)}}"></div>
 	<script defer src="{{'events/homoween/js/bones.js' | asset}}"></script>
 {% endif %}
 
 {% if p.award_count("pumpkin", v) %}
-	{% set count = p.award_count("pumpkin", v) * 2 if p.award_count("pumpkin", v) <= 10 else 20 %}
 	<div class="fall-pumpkins">
-		{% for i in range(count) %}
-		<div class="fall-pumpkin">
-			<img src="/e/marseypumpking.webp" class="animate-spin" style="width: 40px; height: 40px" alt="animate marsey pumpkin icon">
-		</div>
+		{% for i in range(p.award_count("pumpkin", v)) %}
+			<div class="fall-pumpkin">
+				<img src="/e/marseypumpking.webp" class="animate-spin" alt="animate marsey pumpkin icon">
+			</div>
 		{% endfor %}
 	</div>
 {% endif %}
 
 {% if p.award_count("upsidedown", v) %}
 	<link rel="stylesheet" href="{{'events/homoween/css/upsidedown.css' | asset}}">
+	<canvas id="canvas"></canvas>
 	<script defer src="{{'events/homoween/js/upsidedown.js' | asset}}"></script>
+{% endif %}
+
+{% if p.award_count("stalker", v) %}
+	<link rel="stylesheet" href="{{'events/homoween/css/stalker.css' | asset}}">
+	<div id="stalkers-container" data-stalkers-count="{{p.award_count('stalker', v)}}"></div>
+	<script defer src="{{'events/homoween/js/stalker.js' | asset}}"></script>
 {% endif %}

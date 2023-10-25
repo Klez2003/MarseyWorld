@@ -16,6 +16,7 @@ from files.helpers.regex import *
 from files.helpers.sanitize import *
 from files.helpers.useractions import *
 from files.routes.wrappers import *
+from files.routes.routehelpers import get_alt_graph_ids
 from files.__main__ import app, cache, limiter
 
 from .front import frontlist
@@ -52,31 +53,13 @@ def shop(v):
 	return render_template("shop.html", awards=list(AWARDS.values()), v=v, sales=sales)
 
 
-@app.post("/buy/<award>")
-@limiter.limit('1/second', scope=rpath)
-@limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit("100/minute;200/hour;1000/day", deduct_when=lambda response: response.status_code < 400)
-@limiter.limit("100/minute;200/hour;1000/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
-@auth_required
-def buy(v, award):
-	if award == 'ghost':
-		abort(403, "You can't buy this award!")
-
-	AWARDS = deepcopy(AWARDS_ENABLED)
-
-	if v.house:
-		AWARDS[v.house] = HOUSE_AWARDS[v.house]
-
-	if award not in AWARDS: abort(400)
-	og_price = AWARDS[award]["price"]
-
-	award_title = AWARDS[award]['title']
+def buy_award(v, kind, AWARDS):
+	og_price = AWARDS[kind]["price"]
 	price = int(og_price * v.award_discount)
 
-
-	if award == "grass":
+	if kind == "grass":
 		currency = 'coins'
-	elif award == "benefactor":
+	elif kind == "benefactor":
 		currency = 'marseybux'
 	else:
 		currency = 'combined'
@@ -98,14 +81,10 @@ def buy(v, award):
 		badge_grant(badge_id=69, user=v)
 	g.db.add(v)
 
-
-	if award == "lootbox":
+	if kind == "lootbox":
 		lootbox_items = []
 		for _ in range(LOOTBOX_ITEM_COUNT): # five items per lootbox
-			if IS_FISTMAS():
-				LOOTBOX_CONTENTS = FISTMAS_AWARDS
-			elif IS_HOMOWEEN():
-				LOOTBOX_CONTENTS = HOMOWEEN_AWARDS
+			LOOTBOX_CONTENTS = [x["kind"] for x in AWARDS_ENABLED.values() if x["included_in_lootbox"]]
 			lb_award = random.choice(LOOTBOX_CONTENTS)
 			lootbox_items.append(AWARDS[lb_award]['title'])
 			lb_award = AwardRelationship(user_id=v.id, kind=lb_award, price_paid=price // LOOTBOX_ITEM_COUNT)
@@ -124,16 +103,45 @@ def buy(v, award):
 
 		return {"message": lootbox_msg}
 	else:
-		award_object = AwardRelationship(user_id=v.id, kind=award, price_paid=price)
+		award_object = AwardRelationship(user_id=v.id, kind=kind, price_paid=price)
 		g.db.add(award_object)
 
 	g.db.add(v)
 
 	if CARP_ID and v.id != CARP_ID and og_price >= 5000:
+		award_title = AWARDS[kind]['title']
 		send_repeatable_notification(CARP_ID, f"@{v.username} has bought a `{award_title}` award!")
 
+	return award_object
+
+
+@app.post("/buy/<kind>")
+@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
+@limiter.limit("100/minute;200/hour;1000/day", deduct_when=lambda response: response.status_code < 400)
+@limiter.limit("100/minute;200/hour;1000/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@auth_required
+def buy(v, kind):
+	AWARDS = deepcopy(AWARDS_ENABLED)
+
+	if v.house:
+		AWARDS[v.house] = HOUSE_AWARDS[v.house]
+
+	if kind not in AWARDS: abort(400)
+
+	award_title = AWARDS[kind]['title']
+
+	award = buy_award(v, kind, AWARDS)
+
+	if isinstance(award, dict):
+		return award
 
 	return {"message": f"{award_title} award bought!"}
+
+def alter_body(thing):
+	thing.body_html = sanitize(thing.body, limit_pings=5, showmore=True, obj=thing, author=thing.author)
+	if isinstance(thing, Post):
+		thing.title_html = filter_emojis_only(thing.title, golden=False, obj=thing, author=thing.author)
 
 @app.post("/award/<thing_type>/<int:id>")
 @limiter.limit('1/second', scope=rpath)
@@ -146,9 +154,11 @@ def award_thing(v, thing_type, id):
 
 	if thing_type == 'post':
 		thing = get_post(id)
-	else:
+	elif thing_type == 'comment':
 		thing = get_comment(id)
 		if not thing.parent_post and not thing.wall_user_id: abort(404) # don't let users award messages
+	else:
+		abort(400)
 
 	author = thing.author
 
@@ -158,6 +168,8 @@ def award_thing(v, thing_type, id):
 
 	if kind not in AWARDS: abort(404, "This award doesn't exist")
 
+	award_title = AWARDS[kind]['title']
+
 	award = g.db.query(AwardRelationship).filter(
 		AwardRelationship.kind == kind,
 		AwardRelationship.user_id == v.id,
@@ -165,7 +177,10 @@ def award_thing(v, thing_type, id):
 		AwardRelationship.comment_id == None
 	).first()
 
-	if not award: abort(404, "You don't have that award")
+	if not award: 
+		award = buy_award(v, kind, AWARDS)
+		if isinstance(award, dict):
+			return award
 
 	if thing_type == 'post': award.post_id = thing.id
 	else: award.comment_id = thing.id
@@ -178,26 +193,35 @@ def award_thing(v, thing_type, id):
 
 	safe_username = f"@{thing.author_name} is"
 
-	if not AWARDS[kind]['positive'] and author.immune_to_negative_awards(v):
+	if AWARDS[kind]['negative'] and author.immune_to_negative_awards(v):
 		abort(403, f"{safe_username} immune to negative awards!")
 
-	if kind == "benefactor" and author.id == v.id:
-		abort(403, "You can't use this award on yourself!")
+	if thing_type == 'post' and thing.id == 210983:
+		abort(403, "You can't award this post!")
+
+	if thing_type == 'post' and thing.distinguish_level and AWARDS[kind]['cosmetic']:
+		abort(403, "Distinguished posts are immune to cosmetic awards!")
+
+	if kind == "benefactor":
+		if author.id == v.id:
+			abort(403, "You can't use this award on yourself!")
+		if author.id in get_alt_graph_ids(v.id):
+			abort(403, "You can't use this award on your alts!")
 
 	if thing.ghost and not AWARDS[kind]['ghost']:
 		abort(403, "This kind of award can't be used on ghost posts!")
 
 	if v.id != author.id:
 		if author.deflector and v.deflector and AWARDS[kind]['deflectable']:
-			msg = f"@{v.username} has tried to give your [{thing_type}]({thing.shortlink}) the {AWARDS[kind]['title']} Award but it was deflected on them, they also had a deflector up, so it bounced back and forth until it vaporized!"
+			msg = f"@{v.username} has tried to give your [{thing_type}]({thing.shortlink}) the {award_title} Award but it was deflected on them, they also had a deflector up, so it bounced back and forth until it vaporized!"
 			send_repeatable_notification(author.id, msg)
 
-			msg = f"{safe_username} under the effect of a deflector award; your {AWARDS[kind]['title']} Award has been deflected back to you but your deflector protected you, the award bounced back and forth until it vaporized!"
+			msg = f"{safe_username} under the effect of a deflector award; your {award_title} Award has been deflected back to you but your deflector protected you, the award bounced back and forth until it vaporized!"
 			send_repeatable_notification(v.id, msg)
 
 			g.db.delete(award)
 
-			return {"message": f"{AWARDS[kind]['title']} award given to {thing_type} successfully!"}
+			return {"message": f"{award_title} award given to {thing_type} successfully!"}
 
 		if author.deflector and AWARDS[kind]['deflectable']:
 			author = v
@@ -208,16 +232,17 @@ def award_thing(v, thing_type, id):
 				v.charge_account('coins', awarded_coins, should_check_balance=False)
 				thing.author.pay_account('coins', awarded_coins)
 		elif kind != 'spider':
-			if AWARDS[kind]['cosmetic']:
+			if AWARDS[kind]['cosmetic'] and not AWARDS[kind]['included_in_lootbox']:
 				awarded_coins = int(AWARDS[kind]['price'] * COSMETIC_AWARD_COIN_AWARD_PCT)
 			else:
 				awarded_coins = 0
 
-			if kind == 'shit':
-				author.charge_account('coins', awarded_coins, should_check_balance=False)
-				v.pay_account('coins', awarded_coins)
-			elif AWARDS[kind]['cosmetic']:
-				author.pay_account('coins', awarded_coins)
+			if awarded_coins:
+				if kind == 'shit':
+					author.charge_account('coins', awarded_coins, should_check_balance=False)
+					v.pay_account('coins', awarded_coins)
+				else:
+					author.pay_account('coins', awarded_coins)
 
 			if thing_type == 'comment':
 				link_text_in_notif = "your comment"
@@ -232,7 +257,7 @@ def award_thing(v, thing_type, id):
 
 	link = f"[this {thing_type}]({thing.shortlink})"
 
-	alter_body = not (isinstance(thing, Post) and len(thing.body) > 1000) and (not thing.author.deflector or v == thing.author)
+	can_alter_body = not thing.is_effortpost and (not thing.author.deflector or v == thing.author)
 
 	if kind == "ban":
 		link = f"/{thing_type}/{thing.id}"
@@ -310,9 +335,6 @@ def award_thing(v, thing_type, id):
 				cache.delete_memoized(frontlist)
 			else: thing.stickied_utc = t
 	elif kind == "queen":
-		if author.chud:
-			abort(409, f"{safe_username} under the effect of a conflicting award: Chud award!")
-
 		if not author.queen:
 			characters = list(filter(str.isalpha, author.username))
 			if characters:
@@ -344,31 +366,16 @@ def award_thing(v, thing_type, id):
 
 		badge_grant(user=author, badge_id=285)
 
-		if alter_body:
+		if can_alter_body:
 			thing.queened = True
-			thing.body_html = sanitize(thing.body, limit_pings=5, showmore=True, obj=thing, author=author)
-			if isinstance(thing, Post):
-				thing.title_html = filter_emojis_only(thing.title, golden=False, obj=thing, author=author)
-
+			alter_body(thing)
 	elif kind == "chud":
 		if thing_type == 'post' and thing.hole == 'chudrama' \
 			or thing_type == 'comment' and thing.post and thing.post.hole == 'chudrama':
 			abort(403, "You can't give the chud award in /h/chudrama")
 
-		if author.queen:
-			abort(409, f"{safe_username} under the effect of a conflicting award: Queen award!")
-
-		if author.marseyawarded:
-			abort(409, f"{safe_username} under the effect of a conflicting award: Marsey award!")
-
-		if author.owoify:
-			abort(409, f"{safe_username} under the effect of a conflicting award: OwOify award!")
-
-		if author.sharpen:
-			abort(409, f"{safe_username} under the effect of a conflicting award: Sharpen award!")
-
 		if author.chud == 1:
-			abort(409, f"{safe_username} already chudded permanently!")
+			abort(409, f"{safe_username} already permanently chudded!")
 
 		if author.chud and time.time() < author.chud: author.chud += 86400
 		else: author.chud = int(time.time()) + 86400
@@ -382,7 +389,7 @@ def award_thing(v, thing_type, id):
 
 		badge_grant(user=author, badge_id=58)
 
-		if alter_body:
+		if can_alter_body:
 			thing.chudded = True
 			complies_with_chud(thing)
 	elif kind == "flairlock":
@@ -399,11 +406,11 @@ def award_thing(v, thing_type, id):
 			badge_grant(user=author, badge_id=96)
 	elif kind == "namelock":
 		new_name = note.strip().lstrip('@')
-		if not new_name and author.namechanged:
+		if author.namechanged and (not new_name or new_name == author.username):
 			author.namechanged += 86400
 		else:
 			if not valid_username_regex.fullmatch(new_name):
-				abort(400, "Invalid username")
+				abort(400, "You need to enter a valid username to change the recipient to.")
 
 			existing = get_user(new_name, graceful=True)
 			if existing and existing.id != author.id:
@@ -418,25 +425,28 @@ def award_thing(v, thing_type, id):
 		badge_grant(badge_id=68, user=author)
 	elif kind == "unpausable":
 		badge_grant(badge_id=67, user=author)
-	elif kind == "marsey":
-		if author.chud:
-			abort(409, f"{safe_username} under the effect of a conflicting award: Chud award!")
-
-		if author.marseyawarded: author.marseyawarded += 86400
-		else: author.marseyawarded = int(time.time()) + 86400
+	elif kind == "hieroglyphs":
+		if author.hieroglyphs: author.hieroglyphs += 86400
+		else: author.hieroglyphs = int(time.time()) + 86400
 		badge_grant(user=author, badge_id=98)
 	elif kind == "pizzashill":
 		if author.bird:
-			abort(409, f"{safe_username} under the effect of a conflicting award: Bird Site award!")
-		if author.longpost: author.longpost += 86400
-		else: author.longpost = int(time.time()) + 86400
-		badge_grant(user=author, badge_id=97)
+			author.bird = 0
+			badge = author.has_badge(95)
+			if badge: g.db.delete(badge)
+		else:
+			if author.longpost: author.longpost += 86400
+			else: author.longpost = int(time.time()) + 86400
+			badge_grant(user=author, badge_id=97)
 	elif kind == "bird":
 		if author.longpost:
-			abort(409, f"{safe_username} under the effect of a conflicting award: Pizzashill award!")
-		if author.bird: author.bird += 86400
-		else: author.bird = int(time.time()) + 86400
-		badge_grant(user=author, badge_id=95)
+			author.longpost = 0
+			badge = author.has_badge(97)
+			if badge: g.db.delete(badge)
+		else:
+			if author.bird: author.bird += 86400
+			else: author.bird = int(time.time()) + 86400
+			badge_grant(user=author, badge_id=95)
 	elif kind == "eye":
 		badge_grant(badge_id=83, user=author)
 	elif kind == "offsitementions":
@@ -459,7 +469,7 @@ def award_thing(v, thing_type, id):
 			author.patron = 1
 		if author.patron_utc: author.patron_utc += 2629746
 		else: author.patron_utc = int(time.time()) + 2629746
-		author.pay_account('marseybux', 2000)
+		author.pay_account('marseybux', 1250)
 		badge_grant(user=v, badge_id=103)
 	elif kind == "rehab":
 		if author.rehab: author.rehab += 86400
@@ -476,17 +486,13 @@ def award_thing(v, thing_type, id):
 	elif kind == "pride":
 		badge_grant(user=author, badge_id=303)
 	elif kind == 'marsify':
-		if author.chud:
-			abort(409, f"{safe_username} under the effect of a conflicting award: Chud award!")
 		if not author.marsify or author.marsify != 1:
 			if author.marsify: author.marsify += 86400
 			else: author.marsify = int(time.time()) + 86400
 		badge_grant(user=author, badge_id=170)
 
-		if alter_body:
-			thing.body_html = sanitize(thing.body, limit_pings=5, showmore=True, obj=thing, author=author)
-			if isinstance(thing, Post):
-				thing.title_html = filter_emojis_only(thing.title, golden=False, obj=thing, author=author)
+		if can_alter_body:
+			alter_body(thing)
 	elif "Vampire" in kind and kind == v.house:
 		if author.bite: author.bite += 172800
 		else:
@@ -503,49 +509,51 @@ def award_thing(v, thing_type, id):
 		else: author.earlylife = int(time.time()) + 86400
 		badge_grant(user=author, badge_id=169)
 	elif ("Furry" in kind and kind == v.house) or kind == 'owoify':
-		if author.chud:
-			abort(409, f"{safe_username} under the effect of a conflicting award: Chud award!")
-
 		if author.owoify: author.owoify += 21600
 		else: author.owoify = int(time.time()) + 21600
 		badge_grant(user=author, badge_id=167)
 
-		if alter_body:
-			thing.body_html = sanitize(thing.body, limit_pings=5, showmore=True, obj=thing, author=author)
-			if isinstance(thing, Post):
-				thing.title_html = filter_emojis_only(thing.title, golden=False, obj=thing, author=author)
+		if can_alter_body:
+			alter_body(thing)
 	elif ("Edgy" in kind and kind == v.house) or kind == 'sharpen':
-		if author.chud:
-			abort(409, f"{safe_username} under the effect of a conflicting award: Chud award!")
-
 		if author.sharpen: author.sharpen += 86400
 		else: author.sharpen = int(time.time()) + 86400
 		badge_grant(user=author, badge_id=289)
 
-		if alter_body:
+		if can_alter_body:
 			thing.sharpened = True
-			thing.body_html = sanitize(thing.body, limit_pings=5, showmore=True, obj=thing, author=author)
-			if isinstance(thing, Post):
-				thing.title_html = filter_emojis_only(thing.title, golden=False, obj=thing, author=author)
+			alter_body(thing)
 	elif ("Femboy" in kind and kind == v.house) or kind == 'rainbow':
 		if author.rainbow: author.rainbow += 86400
 		else: author.rainbow = int(time.time()) + 86400
 		badge_grant(user=author, badge_id=171)
-		thing.rainbowed = True
+		if can_alter_body:
+			thing.rainbowed = True
 	elif kind == "emoji":
 		award.note = award.note.strip(":").lower()
 		emoji = g.db.query(Emoji).filter_by(name=award.note).one_or_none()
 		if not emoji:
 			abort(404, f'an Emoji with the name "{award.note}" was not found!')
+	elif IS_FISTMAS():
+		if kind == "grinch":
+			badge_grant(badge_id=91, user=author)
+			if v.id == author.id:
+				session['event_music'] = False
+		elif kind == "candycane":
+			if thing.is_effortpost:
+				abort(403, f'Effortposts are protected from the {award_title} award!')
 	elif IS_HOMOWEEN():
-		if kind == "spider":
+		if kind == "hallowgrinch":
+			badge_grant(badge_id=185, user=author)
+			if v.id == author.id:
+				session['event_music'] = False
+		elif kind in {"ectoplasm", "candy-corn"}:
+			if thing.is_effortpost:
+				abort(403, f'Effortposts are protected from the {award_title} award!')
+		elif kind == "spider":
 			if author.spider: author.spider += 86400
 			else: author.spider = int(time.time()) + 86400
 			badge_grant(user=author, badge_id=179, notify=False)
-		elif kind == "grinch":
-			badge_grant(badge_id=91, user=author)
-		elif kind == "hw-grinch":
-			badge_grant(badge_id=185, user=author)
 		elif kind == "bite":
 			if author.zombie < 0:
 				author = v
@@ -583,15 +591,18 @@ def award_thing(v, thing_type, id):
 		elif kind == "jumpscare":
 			author.jumpscare += 1
 
-
+	author = thing.author
 	if v.id != author.id:
 		if author.deflector and AWARDS[kind]['deflectable']:
-			msg = f"@{v.username} has tried to give your [{thing_type}]({thing.shortlink}) the {AWARDS[kind]['title']} Award but it was deflected and applied to them :marseytroll:"
-			send_repeatable_notification(author.id, msg)
-			msg = f"{safe_username} under the effect of a deflector award; your {AWARDS[kind]['title']} Award has been deflected back to you :marseytroll:"
-			send_repeatable_notification(v.id, msg)
-		elif kind != 'spider':
-			msg = f"@{v.username} has given [{link_text_in_notif}]({thing.shortlink}) the {AWARDS[kind]['title']} Award"
+			msg = f"@{v.username} has tried to give your [{thing_type}]({thing.shortlink}) the {award_title} Award but it was deflected and applied to them :marseytroll:"
+			n = send_repeatable_notification(author.id, msg)
+			if n: n.created_utc -= 1
+
+			msg = f"@{thing.author_name} is under the effect of a deflector award; your {award_title} Award has been deflected back to you :marseytroll:"
+			n = send_repeatable_notification(v.id, msg)
+			if n: n.created_utc -= 1
+		elif kind not in {'spider', 'jumpscare'}:
+			msg = f"@{v.username} has given [{link_text_in_notif}]({thing.shortlink}) the {award_title} Award"
 
 			if kind == 'shit':
 				msg += f" and has stolen from you {awarded_coins} coins as a result"
@@ -599,13 +610,15 @@ def award_thing(v, thing_type, id):
 				msg += f" and you have received {awarded_coins} coins as a result"
 
 			msg += "!"
-			if note:
+			if kind == 'emoji':
+				msg += f"\n\n> :{award.note}:"
+			elif note:
 				note = '\n\n> '.join(note.splitlines())
 				if kind == "chud":
 					msg += f"\n\n**You now have to say this phrase in all posts and comments you make for 24 hours:**"
 				msg += f"\n\n> {note}"
-			send_repeatable_notification(author.id, msg)
-
+			n = send_repeatable_notification(author.id, msg)
+			if n: n.created_utc -= 1
 
 	if author.received_award_count: author.received_award_count += 1
 	else: author.received_award_count = 1
@@ -613,20 +626,29 @@ def award_thing(v, thing_type, id):
 
 	g.db.add(thing)
 
-	return {"message": f"{AWARDS[kind]['title']} award given to {thing_type} successfully!"}
+	if award.kind == "emoji":
+		emoji_behavior = request.values.get("emoji_behavior").strip()
+		if emoji_behavior == "horizontal":
+			award.kind = "emoji-hz"
+
+	return {"message": f"{award_title} award given to {thing_type} successfully!"}
 
 @app.post("/trick-or-treat")
 @limiter.limit("1/hour", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
 def trick_or_treat(v):
-	if v.client: abort(403, "Not allowed from the API")
+	if v.client:
+		abort(403, "Not allowed from the API")
+	if not IS_HOMOWEEN():
+		abort(403)
 
 	result = random.choice([0,1])
 
 	if result == 0:
 		message = "Trick!"
 	else:
-		award = random.choice(HOMOWEEN_AWARDS)
+		choices = [x["kind"] for x in AWARDS_ENABLED.values() if x["included_in_lootbox"]]
+		award = random.choice(choices)
 		award_object = AwardRelationship(user_id=v.id, kind=award)
 		g.db.add(award_object)
 
@@ -639,7 +661,11 @@ def trick_or_treat(v):
 @app.post("/jumpscare")
 @auth_required
 def execute_jumpscare(v):
-	if v.client: abort(403, "Not allowed from the API")
+	if v.client:
+		abort(403, "Not allowed from the API")
+	if not IS_HOMOWEEN():
+		abort(403)
+
 	if v.jumpscare > 0:
 		v.jumpscare -= 1
 		g.db.add(v)

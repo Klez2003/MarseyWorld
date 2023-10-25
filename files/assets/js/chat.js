@@ -124,6 +124,9 @@ socket.on('speak', function(json) {
 		setTimeout(function () {
 			box.scrollTo(0, box.scrollHeight)
 		}, 500);
+		setTimeout(function () {
+			box.scrollTo(0, box.scrollHeight)
+		}, 1000);		
 	}
 })
 
@@ -160,6 +163,9 @@ function send() {
 		setTimeout(function () {
 			box.scrollTo(0, box.scrollHeight)
 		}, 500);
+		setTimeout(function () {
+			box.scrollTo(0, box.scrollHeight)
+		}, 1000);		
 	}
 }
 
@@ -246,19 +252,15 @@ ta.addEventListener("input", function() {
 socket.on('typing', function (users){
 	if (users.length==0){
 		document.getElementById('typing-indicator').innerHTML = '';
-		document.getElementById('loading-indicator').classList.add('d-none');
 	}
 	else if (users.length==1){
 		document.getElementById('typing-indicator').innerHTML = '<b>'+users[0]+"</b> is typing...";
-		document.getElementById('loading-indicator').classList.remove('d-none');
 	}
 	else if (users.length==2){
 		document.getElementById('typing-indicator').innerHTML = '<b>'+users[0]+"</b> and <b>"+users[1]+"</b> are typing...";
-		document.getElementById('loading-indicator').classList.remove('d-none');
 	}
 	else {
 		document.getElementById('typing-indicator').innerHTML = '<b>'+users[0]+"</b>, <b>"+users[1]+"</b>, and <b>"+users[2]+"</b> are typing...";
-		document.getElementById('loading-indicator').classList.remove('d-none');
 	}
 })
 

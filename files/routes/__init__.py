@@ -44,7 +44,7 @@ from .polls import *
 from .notifications import *
 if FEATURES['HATS']:
 	from .hats import *
-if FEATURES['ASSET_SUBMISSIONS']:
+if FEATURES['EMOJI_SUBMISSIONS'] or FEATURES['HAT_SUBMISSIONS']:
 	from .asset_submissions import *
 from .special import *
 from .push_notifs import *
@@ -56,4 +56,4 @@ if IS_LOCALHOST:
 	if "cron" not in argv and "load_chat" not in argv:
 		from files.helpers.cron import cron_fn
 		print('Starting cron tasks!', flush=True)
-		gevent.spawn(cron_fn, True, False, False, False, False, False, False, False, False, False, False)
+		gevent.spawn(cron_fn, True, False, False, False, False, False, False, False, False)

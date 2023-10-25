@@ -10,8 +10,8 @@
 <p><b>Author Created At:</b> <span data-time="{{thing.parent.author.created_utc}}"></span></p>
 <p><b>Author Truescore:</b> {{"{:,}".format(thing.parent.author.truescore)}}</p>
 <p><b>Total voter truescore: </b>{{total_ts}}</p>
-{% if total_patrons %}
-	<p><b>Total patrons: </b>{{total_patrons}}</p>
+{% if total_patrons != None %}
+	<p><b>Total {{patron}}s: </b>{{total_patrons}} | ${{total_money}}</p>
 {% endif %}
 
 <div class="overflow-x-auto mt-5">

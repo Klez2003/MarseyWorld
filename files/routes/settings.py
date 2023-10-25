@@ -79,6 +79,13 @@ def upload_custom_background(v):
 
 	return redirect('/settings/personal')
 
+def notify_removed_users(removed_users, kind):
+	if removed_users and removed_users != 'everyone':
+		text = f"@{g.v.username} has removed you from their {kind} list!"
+		cid = notif_comment(text)
+		for x in removed_users:
+			add_notif(cid, x, text, pushnotif_url=f'{SITE_FULL}{g.v.url}')
+
 @app.post("/settings/personal")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
@@ -134,12 +141,16 @@ def settings_personal_post(v):
 		updated = True
 	elif request.values.get("reddit", v.reddit) != v.reddit:
 		reddit = request.values.get("reddit")
-		if reddit in {'old.reddit.com', 'reddit.com', 'reddit.lol', 'libreddit.hu', 'undelete.pullpush.io'}:
+		if reddit in {'old.reddit.com', 'reddit.com', 'teddit.net', 'libreddit.hu', 'undelete.pullpush.io'}:
 			updated = True
 			v.reddit = reddit
 	elif request.values.get("poor", v.poor) != v.poor:
 		updated = True
 		session['poor'] = request.values.get("poor", v.poor) == 'true'
+		if session['poor']:
+			v.show_sigs = False
+			if v.frontsize > 25:
+				v.frontsize = 25
 
 	slur_filter_updated = updated or update_potentially_permanent_flag("slurreplacer", "slurreplacer", "slur replacer", 192)
 	if isinstance(slur_filter_updated, bool):
@@ -159,7 +170,7 @@ def settings_personal_post(v):
 	updated = updated or update_flag("newtab", "newtab")
 	updated = updated or update_flag("newtabexternal", "newtabexternal")
 	updated = updated or update_flag("nitter", "nitter")
-	updated = updated or update_flag("imginn", "imginn")
+	updated = updated or update_flag("imgsed", "imgsed")
 	updated = updated or update_flag("controversial", "controversial")
 	updated = updated or update_flag("show_sigs", "show_sigs")
 	updated = updated or update_flag("is_private", "private")
@@ -208,13 +219,17 @@ def settings_personal_post(v):
 		g.db.add(v)
 		return {"message": "Your sig has been updated."}
 
-	elif not updated and request.values.get("friends") == "":
+	elif not updated and request.values.get("friends") == "" and v.friends:
+		removed_users = NOTIFY_USERS(v.friends, v)
+		notify_removed_users(removed_users, 'friends')
 		v.friends = None
 		v.friends_html = None
 		g.db.add(v)
 		return {"message": "Your friends list has been updated."}
 
-	elif not updated and request.values.get("enemies") == "":
+	elif not updated and request.values.get("enemies") == "" and v.enemies:
+		removed_users = NOTIFY_USERS(v.enemies, v)
+		notify_removed_users(removed_users, 'enemies')
 		v.enemies = None
 		v.enemies_html = None
 		g.db.add(v)
@@ -258,6 +273,10 @@ def settings_personal_post(v):
 				for x in notify_users:
 					add_notif(cid, x, text, pushnotif_url=f'{SITE_FULL}{v.url}')
 
+		if v.friends:
+			removed_users = NOTIFY_USERS(v.friends, v) - NOTIFY_USERS(friends, v)
+			notify_removed_users(removed_users, 'friends')
+
 		v.friends = friends
 		v.friends_html=friends_html
 		g.db.add(v)
@@ -284,6 +303,10 @@ def settings_personal_post(v):
 				for x in notify_users:
 					add_notif(cid, x, text, pushnotif_url=f'{SITE_FULL}{v.url}')
 
+		if v.enemies:
+			removed_users = NOTIFY_USERS(v.enemies, v) - NOTIFY_USERS(enemies, v)
+			notify_removed_users(removed_users, 'enemies')
+
 		v.enemies = enemies
 		v.enemies_html=enemies_html
 		g.db.add(v)
@@ -292,7 +315,7 @@ def settings_personal_post(v):
 
 	elif not updated and FEATURES['USERS_PROFILE_BODYTEXT'] and \
 			(request.values.get("bio") or request.files.get('file')):
-		bio = request.values.get("bio")[:BIO_FRIENDS_ENEMIES_LENGTH_LIMIT]
+		bio = request.values.get("bio", "")[:BIO_FRIENDS_ENEMIES_LENGTH_LIMIT]
 		bio = process_files(request.files, v, bio)
 		bio = bio.strip()
 		bio_html = sanitize(bio, blackjack="bio")
@@ -403,14 +426,14 @@ def namecolor(v):
 def themecolor(v):
 	return set_color(v, "themecolor")
 
-@app.post("/settings/titlecolor")
+@app.post("/settings/flaircolor")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def titlecolor(v):
-	return set_color(v, "titlecolor")
+def flaircolor(v):
+	return set_color(v, "flaircolor")
 
 @app.post("/settings/verifiedcolor")
 @limiter.limit('1/second', scope=rpath)
@@ -716,8 +739,8 @@ def settings_advanced_get(v):
 	return render_template("settings/advanced.html", v=v)
 
 @app.post("/settings/name_change")
-@limiter.limit('1/second', scope=rpath)
-@limiter.limit('1/second', scope=rpath, key_func=get_ID)
+@limiter.limit('1/second;5/day', scope=rpath)
+@limiter.limit('1/second;5/day', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
@@ -859,7 +882,7 @@ def settings_song_change(v):
 		except:
 			return redirect("/settings/personal?error=Anthem change failed, please try another video!")
 
-		if duration == 'P0D':
+		if "D" in duration:
 			return redirect("/settings/personal?error=Can't use a live youtube video!")
 
 		if "H" in duration:
@@ -899,7 +922,7 @@ def process_settings_plaintext(value, current, length, default_value):
 def settings_change_flair(v):
 	if v.flairchanged: abort(403)
 
-	flair = process_settings_plaintext("title", v.flair, 100, None)
+	flair = process_settings_plaintext("flair", v.flair, 100, None)
 
 	if flair:
 		flair_html = filter_emojis_only(flair)

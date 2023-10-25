@@ -87,11 +87,6 @@ INSERT INTO public.badge_defs VALUES (65, '2021 Spooooooky Marsey Artist', 'Cont
 INSERT INTO public.badge_defs VALUES (66, 'Sk8r Boi', 'Certifies that this user is NOT a poser', NULL);
 INSERT INTO public.badge_defs VALUES (67, 'Unpausable', 'Spent 40,000 coins on an unpausable profile anthem', NULL);
 INSERT INTO public.badge_defs VALUES (68, 'Pause Button', 'Spent 20,000 coins on a profile anthem pause button', NULL);
-INSERT INTO public.badge_defs VALUES (69, 'Little Big Spender', 'Dropped 10,000 coins at the shop', NULL);
-INSERT INTO public.badge_defs VALUES (70, 'Big Spender', 'Dropped 100,000 coins at the shop', NULL);
-INSERT INTO public.badge_defs VALUES (71, 'Big Big Spender', 'Dropped 250,000 coins at the shop', NULL);
-INSERT INTO public.badge_defs VALUES (72, 'Big Big Big Spender', 'Dropped 500,000 coins at the shop', NULL);
-INSERT INTO public.badge_defs VALUES (73, 'Le Rich Gentlesir', 'Spent a fucking million coins at the shop', NULL);
 INSERT INTO public.badge_defs VALUES (74, 'Grass Toucher', 'Awarded for molesting plant life', NULL);
 INSERT INTO public.badge_defs VALUES (189, 'Super Spreader', 'Zombified 100 people during Homoween 2022.', 1667275100);
 INSERT INTO public.badge_defs VALUES (76, 'Low Roller', 'Bought 10 lootboxes', NULL);
@@ -100,6 +95,8 @@ INSERT INTO public.badge_defs VALUES (303, 'LGBTQIA+ Drip', 'This user has sworn
 INSERT INTO public.badge_defs VALUES (194, 'Master Baiter 2021', 'The cunning mastermind behind the ruse which was voted best rDrama bait of 2021.', 1670627103);
 INSERT INTO public.badge_defs VALUES (197, 'Best Marsey 2021', 'The creator of the best Marsey emoji of 2021, as voted by rDrama users.', 1670627291);
 INSERT INTO public.badge_defs VALUES (199, 'Dramatard of the Year 2021', 'Voted as the best rDrama user of 2021. Congratulations!', 1670627437);
+INSERT INTO public.badge_defs VALUES (69, 'Little Big Spender', 'Dropped 10,000 coins at the award shop', NULL);
+INSERT INTO public.badge_defs VALUES (70, 'Big Spender', 'Dropped 100,000 coins at the award shop', NULL);
 INSERT INTO public.badge_defs VALUES (77, 'Middle Roller', 'Bought 50 lootboxes', NULL);
 INSERT INTO public.badge_defs VALUES (78, 'High Roller', 'Bought 150 lootboxes', NULL);
 INSERT INTO public.badge_defs VALUES (79, 'Merchant', 'Contributed a new line of product to Marsey''s Coin Emporium', NULL);
@@ -116,6 +113,7 @@ INSERT INTO public.badge_defs VALUES (92, 'NFT Artist', 'Drew a marsey that was 
 INSERT INTO public.badge_defs VALUES (93, 'NFT Owner', 'Bought a marsey NFT', NULL);
 INSERT INTO public.badge_defs VALUES (298, 'Gray Alien', 'This user probed /r/UFOs and left the next morning.', 1694717005);
 INSERT INTO public.badge_defs VALUES (95, 'Bird Site Award', 'This user is limited to 140 characters', NULL);
+INSERT INTO public.badge_defs VALUES (71, 'Big Big Spender', 'Dropped 250,000 coins at the award shop', NULL);
 INSERT INTO public.badge_defs VALUES (97, 'Pizzashill Award', 'This user has to make their posts and comments more than 280 characters', NULL);
 INSERT INTO public.badge_defs VALUES (213, 'Best Marsey 2022', 'The creator of the best Marsey emoji of 2022, as voted by rDrama users.', 1670719193);
 INSERT INTO public.badge_defs VALUES (99, 'Sidebar Artist', 'Contributed artwork featured on the sidebar', NULL);
@@ -159,6 +157,8 @@ INSERT INTO public.badge_defs VALUES (131, '21st Century Hitlerite (TEMPORAL FLU
 INSERT INTO public.badge_defs VALUES (132, 'Duterte''s Most Wanted (TEMPORAL FLUX EDITION)', 'dude weed lmao what year is it', NULL);
 INSERT INTO public.badge_defs VALUES (133, 'Rockstar', 'This user submitted an original piece to the song contest', NULL);
 INSERT INTO public.badge_defs VALUES (134, '1 Year Old 🥰', 'This user has wasted an ENTIRE YEAR of their life here! Happy birthday!', NULL);
+INSERT INTO public.badge_defs VALUES (72, 'Big Big Big Spender', 'Dropped 500,000 coins at the award shop', NULL);
+INSERT INTO public.badge_defs VALUES (73, 'Le Rich Gentlesir', 'Spent a fucking million coins at the award shop', NULL);
 INSERT INTO public.badge_defs VALUES (215, 'Own Goal', 'Don''t take this user''s advice on sportsball betting.', 1671150354);
 INSERT INTO public.badge_defs VALUES (217, 'Ghost of Qatar', 'Finished in the top 10 of the World Cup 2022 betting leaderboard.', 1671150449);
 INSERT INTO public.badge_defs VALUES (221, 'Perfect Pundit', 'Finished #1 on the FIFA World Cup betting leaderboard. Congrats!', 1671151427);
@@ -173,6 +173,7 @@ INSERT INTO public.badge_defs VALUES (28, 'Rich Bich', 'Donates at least $500/mo
 INSERT INTO public.badge_defs VALUES (227, 'Saved Christmas with Teh Codez', 'Got the highest score and completed all 50 stars during Advent of Code 2022.', 1672289744);
 INSERT INTO public.badge_defs VALUES (229, 'Certified MONSTER Cock', 'This user submitted a photo of their dick and it was confirmed to be HUGE', 1674147916);
 INSERT INTO public.badge_defs VALUES (230, 'Itty Bitty Clitty', 'This user submitted a photo of their dick and it was determined to be more similar to a sad, undersized clit', 1674147964);
+INSERT INTO public.badge_defs VALUES (305, 'Boulder Badge', 'From the Pewter City Gym. Allows the HM Flash to be used outside of battle.', 1697740804);
 INSERT INTO public.badge_defs VALUES (96, 'Flairlock', 'This user''s flair has been locked by someone else', NULL);
 INSERT INTO public.badge_defs VALUES (159, 'It''s Over', 'Lost a 100,000 bet. It''s fucking over.', NULL);
 INSERT INTO public.badge_defs VALUES (212, 'Dramatard of the Year 2022', 'Voted as the best rDrama user of 2022. Congratulations!', 1670719153);
@@ -256,17 +257,25 @@ INSERT INTO public.badge_defs VALUES (293, 'Gloriously Girthy', 'This user consu
 INSERT INTO public.badge_defs VALUES (203, 'Best rDrama OC 2022', 'The creator or commissioner of the best rDrama original content of 2022, as voted by rDrama users.', 1670627675);
 INSERT INTO public.badge_defs VALUES (214, 'Master Baiter 2022', 'The cunning mastermind behind the ruse which was voted best rDrama bait of 2022.', 1670719221);
 INSERT INTO public.badge_defs VALUES (300, 'Gorloj, Galactic High Council', 'This user cloaked /r/UFOs in their heavenly wisdom.', 1694717119);
+INSERT INTO public.badge_defs VALUES (304, 'Man in Black', 'The truth is out there. This user prevented /r/UFOs from finding it.', 1697728753);
 INSERT INTO public.badge_defs VALUES (198, 'Best rDrama Post 2021', 'The author of the best rDrama post of 2021, as voted by rDrama users.', 1670627332);
 INSERT INTO public.badge_defs VALUES (208, 'Best rDrama Post 2022', 'The author of the best rDrama post of 2022, as voted by rDrama users.', 1670628577);
 INSERT INTO public.badge_defs VALUES (294, 'Highest Roller', 'One of rDrama''s Top 10 Sugar Leather Daddies 🤤', 1690858016);
 INSERT INTO public.badge_defs VALUES (295, 'August''s August August', 'This user had a very good time in August', 1690914173);
+INSERT INTO public.badge_defs VALUES (306, 'Cascade Badge', 'From the Cerulean City Gym. Allows the HM Cut to be used outside of battle, and makes Pokemon up to level 30 obey.', 1697740811);
+INSERT INTO public.badge_defs VALUES (307, 'Thunder Badge', 'From the Vermillion City Gym. Allows the HM Fly to be used outside of battle.', 1697740819);
+INSERT INTO public.badge_defs VALUES (308, 'Rainbow Badge', 'From the Celadon City Gym. Allows the HM Strength to be used outside of battle, and makes Pokemon up to level 50 obey.', 1697740829);
+INSERT INTO public.badge_defs VALUES (309, 'Soul Badge', 'From the Fuschia City Gym. Allows the HM Surf to be used outside of battle.', 1697740839);
+INSERT INTO public.badge_defs VALUES (310, 'Marsh Badge', 'From the Saffron City Gym. Allows the HM Rock Smash to be used outside of battle, and makes Pokemon up to level 70 obey.', 1697740847);
+INSERT INTO public.badge_defs VALUES (311, 'Volcano Badge', 'From the Cinnabar Island Gym. Allows the HM Waterfall to be used outside of battle.', 1697740854);
+INSERT INTO public.badge_defs VALUES (312, 'Earth Badge', 'From the Viridian City Gym. Makes all Pokemon obey and allows the bearer to challenge the Kanto Elite Four.', 1697740864);
 
 
 --
 -- Name: badge_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.badge_defs_id_seq', 303, true);
+SELECT pg_catalog.setval('public.badge_defs_id_seq', 312, true);
 
 
 --
