@@ -383,7 +383,7 @@ AWARDS = {
 		"description": "???",
 		"icon": "fas fa-trees",
 		"color": "",
-		"price": 800,
+		"price": 1000,
 		"deflectable": False,
 		"cosmetic": True,
 		"ghost": True,
