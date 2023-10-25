@@ -6559,7 +6559,7 @@ g {
 	padding-left: 10px;
 }
 
-.quick-emoji-dropdown
+.speed-carot-modal
 {
 	position: absolute;	
 	left: 0;
@@ -6576,7 +6576,7 @@ g {
 	flex-direction: column;
 }
 
-.quick-emoji-dropdown .quick-emoji-option
+.speed-carot-modal .speed-modal-option
 {
 	text-align: left;
 	border-bottom: 1px solid #606060;
@@ -6584,22 +6584,22 @@ g {
 	cursor: pointer;
 }
 
-.quick-emoji-dropdown .quick-emoji-option:hover,
-.quick-emoji-dropdown .quick-emoji-option:focus,
-.quick-emoji-dropdown .quick-emoji-option.selected
+.speed-carot-modal .speed-modal-option:hover,
+.speed-carot-modal .speed-modal-option:focus,
+.speed-carot-modal .speed-modal-option.selected
 {
 	background-color: rgba(255, 255, 255, 0.2);
 }
 
 
-.quick-emoji-dropdown .quick-emoji-image
+.speed-carot-modal .speed-modal-image
 {
 	object-fit: contain;
 	width: 30px;
 	height: 30px;
 }
 
-.quick-emoji-dropdown .quick-emoji-option span
+.speed-carot-modal .speed-modal-option span
 {
 	overflow: hidden;
 	display: inline-block;
@@ -6712,7 +6712,7 @@ div.markdown {
 }
 
 @media (min-width: 768px) {
-	.quick-emoji-dropdown .quick-emoji-image
+	.speed-carot-modal .speed-modal-image
 	{
 		width: 50px;
 		height: 50px;

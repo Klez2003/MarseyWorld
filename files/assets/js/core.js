@@ -12,7 +12,7 @@ function getMessageFromJsonData(success, json) {
 }
 
 function showToast(success, message) {
-	const oldToast = bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-' + (success ? 'error' : 'success'))); // intentionally reversed here: this is the old toast
+	const oldToast = bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-' + (success ? 'error': 'success'))); // intentionally reversed here: this is the old toast
 	oldToast.hide();
 	let element = success ? "toast-post-success" : "toast-post-error";
 	let textElement = element + "-text";
@@ -23,7 +23,7 @@ function showToast(success, message) {
 	bootstrap.Toast.getOrCreateInstance(document.getElementById(element)).show();
 }
 
-function createXhrWithFormKey(url, form = new FormData(), method = 'POST') {
+function createXhrWithFormKey(url, form=new FormData(), method='POST') {
 	const xhr = new XMLHttpRequest();
 	xhr.open(method, url);
 	xhr.setRequestHeader('xhr', 'xhr');
@@ -38,12 +38,12 @@ function postToast(t, url, data, extraActionsOnSuccess, extraActionsOnFailure) {
 
 	let form = new FormData();
 	if (typeof data === 'object' && data !== null) {
-		for (let k of Object.keys(data)) {
+		for(let k of Object.keys(data)) {
 			form.append(k, data[k]);
 		}
 	}
 	const xhr = createXhrWithFormKey(url, form);
-	xhr[0].onload = function () {
+	xhr[0].onload = function() {
 		const success = xhr[0].status >= 200 && xhr[0].status < 300;
 
 		if (!(extraActionsOnSuccess == reload && success)) {
@@ -88,18 +88,19 @@ function postToastSwitch(t, url, button1, button2, cls, extraActionsOnSuccess) {
 		{
 		},
 		(xhr) => {
-			if (button1) {
+			if (button1)
+			{
 				if (typeof button1 == 'boolean') {
 					location.reload()
 				} else {
 					try {
 						document.getElementById(button1).classList.toggle(cls);
 					}
-					catch (e) { }
+					catch (e) {}
 					try {
 						document.getElementById(button2).classList.toggle(cls);
 					}
-					catch (e) { }
+					catch (e) {}
 				}
 			}
 			if (typeof extraActionsOnSuccess == 'function')

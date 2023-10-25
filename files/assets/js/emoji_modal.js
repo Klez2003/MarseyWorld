@@ -127,13 +127,13 @@ class EmojiEngine {
         }
 
         const emojiEl = document.createElement('button');
-        emojiEl.classList.add('quick-emoji-option', 'emoji-option');
+        emojiEl.classList.add('speed-modal-option', 'emoji-option');
         emojiEl.addEventListener('click', (e) => {
             this.onInsert(emojiName);
         });
 
         const emojiImgEl = document.createElement('img');
-        emojiImgEl.classList.add('quick-emoji-image', 'emoji-option-image');
+        emojiImgEl.classList.add('speed-modal-image', 'emoji-option-image');
         emojiImgEl.src = emojiEngine.src(emojiName);
         emojiEl.appendChild(emojiImgEl);
 
@@ -155,7 +155,7 @@ const emojiEngine = new EmojiEngine();
 // Quick emoji dropdown & emoji insertion
 {
     const emojiDropdownEl = document.createElement('div');
-    emojiDropdownEl.classList.add('quick-emoji-dropdown');
+    emojiDropdownEl.classList.add('speed-carot-modal');
     /** @type {null | HTMLTextAreaElement} */
     let inputEl = null;
     let visible = false;
