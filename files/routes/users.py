@@ -1327,7 +1327,13 @@ if KOFI_TOKEN:
 		verification_token = data['verification_token']
 		if verification_token != KOFI_TOKEN: abort(400)
 
-		print(request.headers.get('CF-Connecting-IP'), flush=True)
+		ip = request.headers.get('CF-Connecting-IP')
+		if ip not in {'104.45.229.18', '137.117.16.235'}:
+			print(STARS, flush=True)
+			print(f'/kofi fail: {ip}')
+			print(STARS, flush=True)
+			abort(400)
+
 		id = data['kofi_transaction_id']
 		created_utc = int(time.mktime(time.strptime(data['timestamp'].split('.')[0], "%Y-%m-%dT%H:%M:%SZ")))
 		type = data['type']
