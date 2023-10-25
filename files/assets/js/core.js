@@ -112,7 +112,8 @@ function postToastSwitch(t, url, button1, button2, cls, extraActionsOnSuccess) {
 		});
 }
 
-if (!location.pathname.endsWith('/submit') && !location.pathname.endsWith('/chat')) {
+if (!location.pathname.endsWith('/submit') && !location.pathname.endsWith('/chat'))
+{
 	document.addEventListener('keydown', (e) => {
 		if (!((e.ctrlKey || e.metaKey) && e.key === "Enter")) return;
 
@@ -157,10 +158,11 @@ function autoExpand(field) {
 
 	field.style.height = height + 'px';
 	if (Math.abs(window.scrollX - xpos) < 1 && Math.abs(window.scrollY - ypos) < 1) return;
-	window.scrollTo(xpos, ypos);
+	window.scrollTo(xpos,ypos);
 };
 
-function smoothScrollTop() {
+function smoothScrollTop()
+{
 	window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -195,7 +197,8 @@ function expandImage(url) {
 	document.getElementById("expanded-image").src = '';
 	document.getElementById("expanded-image-wrap-link").href = '';
 
-	if (!url) {
+	if (!url)
+	{
 		url = e.target.dataset.src
 		if (!url) url = e.target.src
 	}
@@ -207,7 +210,7 @@ function expandImage(url) {
 
 function bs_trigger(e) {
 	let tooltipTriggerList = [].slice.call(e.querySelectorAll('[data-bs-toggle="tooltip"]'));
-	tooltipTriggerList.map(function (element) {
+	tooltipTriggerList.map(function(element){
 		return bootstrap.Tooltip.getOrCreateInstance(element);
 	});
 
@@ -232,18 +235,18 @@ function showmore(t) {
 }
 
 function formatDate(d) {
-	const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', timeZoneName: 'short' };
+	const options = {year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', timeZoneName: 'short'};
 	return d.toLocaleTimeString([], options)
 }
 
 const timestamps = document.querySelectorAll('[data-time]');
 
 for (const e of timestamps) {
-	e.innerHTML = formatDate(new Date(e.dataset.time * 1000));
+	e.innerHTML = formatDate(new Date(e.dataset.time*1000));
 };
 
 function timestamp(t, ti) {
-	const date = formatDate(new Date(ti * 1000));
+	const date = formatDate(new Date(ti*1000));
 	t.setAttribute("data-bs-original-title", date);
 };
 
@@ -320,7 +323,7 @@ function sendFormXHR(form, extraActionsOnSuccess) {
 	xhr.open("POST", actionPath);
 	xhr.setRequestHeader('xhr', 'xhr');
 
-	xhr.onload = function () {
+	xhr.onload = function() {
 		const success = xhr.status >= 200 && xhr.status < 300;
 
 		if (!(extraActionsOnSuccess == reload && success)) {
@@ -381,7 +384,7 @@ function sort_table(t) {
 				attr = parseInt(attr.replace(/,/g, ''))
 			}
 		}
-		items.push({ ele, attr });
+		items.push({ele, attr});
 	}
 	if (sortAscending[n]) {
 		items.sort((a, b) => a.attr > b.attr ? 1 : -1);
@@ -424,7 +427,8 @@ if (location.pathname != '/chat' && (gbrowser == 'iphone' || gbrowser == 'mac'))
 }
 
 const screen_width = (innerWidth > 0) ? innerWidth : screen.width;
-function focusSearchBar(element) {
+function focusSearchBar(element)
+{
 	if (screen_width >= 768) {
 		element.focus();
 	}
@@ -450,13 +454,13 @@ function insertText(input, text) {
 	input.setRangeText(text);
 
 	if (window.chrome !== undefined)
-		setTimeout(function () {
+		setTimeout(function(){
 			input.focus();
-			for (let i = 0; i < 2; i++)
+			for(let i = 0; i < 2; i++)
 				input.setSelectionRange(newPos, newPos);
 
 			input.focus();
-			for (let i = 0; i < 2; i++)
+			for(let i = 0; i < 2; i++)
 				input.setSelectionRange(newPos, newPos);
 		}, 1);
 	else
@@ -465,13 +469,6 @@ function insertText(input, text) {
 	input.selectionStart = newPos;
 
 	handle_disabled(input)
-}
-
-/** Returns a promise which can be used to await when the event loop is idle. */
-const idle = () => {
-    return new Promise(resolve => {
-        requestIdleCallback(resolve);
-    });
 }
 
 /**
@@ -693,8 +690,8 @@ function handle_files(input, newfiles) {
 	for (let file of newfiles) {
 		if (file.name == 'image.png') {
 			const blob = file.slice(0, file.size, 'image/png');
-			const new_name = Math.random().toString(32).substring(2, 10) + '.png'
-			file = new File([blob], new_name, { type: 'image/png' });
+			const new_name = Math.random().toString(32).substring(2,10) + '.png'
+			file = new File([blob], new_name, {type: 'image/png'});
 		}
 		oldfiles[ta.id].items.add(file);
 		insertText(ta, `[${file.name}]`);
@@ -702,7 +699,8 @@ function handle_files(input, newfiles) {
 
 	input.files = oldfiles[ta.id].files;
 
-	if (input.files.length > 20) {
+	if (input.files.length > 20)
+	{
 		window.alert("You can't upload more than 20 files at one time!")
 		input.value = null
 		oldfiles[ta.id] = new DataTransfer();
@@ -731,7 +729,8 @@ file_upload = document.getElementById('file-upload');
 
 if (file_upload) {
 	function display_url_image() {
-		if (file_upload.files) {
+		if (file_upload.files)
+		{
 			const file = file_upload.files[0]
 			const char_limit = screen_width >= 768 ? 50 : 10;
 			file_upload.previousElementSibling.textContent = file.name.substr(0, char_limit);
@@ -772,7 +771,7 @@ if (file_upload) {
 
 }
 
-document.onpaste = function (event) {
+document.onpaste = function(event) {
 	const files = structuredClone(event.clipboardData.files);
 	if (!files.length) return
 
