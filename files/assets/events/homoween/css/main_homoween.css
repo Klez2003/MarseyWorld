@@ -75,12 +75,12 @@ a:hover.user-name {
 
 .form-control {
 	background: transparent;
-	border-color: var(--primary) !important;
+	border-color: var(--primary);
 }
 
 .btn {
 	background: transparent;
-	border-color: var(--primary) !important;
+	border-color: var(--primary);
 	border-width: 2px;
 }
 
