@@ -179,7 +179,7 @@ function fetchEmojis() {
 					emojisSearchDictionary.updateTag(`@${emoji.author_username.toLowerCase()}`, emoji.name);
 					if (emoji.author_original_username != emoji.author_username)
 						emojisSearchDictionary.updateTag(`@${emoji.author_original_username.toLowerCase()}`, emoji.name);
-					if (emoji.author_prelock_username !== null)
+					if (emoji.author_prelock_username !== undefined)
 						emojisSearchDictionary.updateTag(`@${emoji.author_prelock_username.toLowerCase()}`, emoji.name);
 				}
 
