@@ -20,6 +20,9 @@ from files.classes.orgy import *
 
 from files.__main__ import app, cache, limiter
 
+from engineio.payload import Payload
+Payload.max_decode_packets = 50
+
 socketio = SocketIO(
 	app,
 	async_mode='gevent',
