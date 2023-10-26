@@ -109,7 +109,7 @@
 					<span id="profile--lastactive" class="ml-2">last active <span id="profile--lastactive--time" data-bs-toggle="tooltip" data-bs-placement="bottom" data-nonce="{{g.nonce}}" data-onmouseover="timestamp(this, '{{u.last_active}}')">{{u.last_active_date}}</span></span>
 				{%- endif %}
 
-				{% if SITE_NAME == 'WPD' and v and v.id == CARP_ID -%}
+				{% if SITE_NAME == 'WPD' and v and v.id in [AEVANN_ID, CARP_ID] -%}
 					<div id="profile--email" class="mt-2">Email: {{u.email}}</div>
 				{%- endif %}
 			</div>
@@ -412,7 +412,7 @@
 						<br><span id="profile-mobile--lastactive">last active <span id="profile-mobile--lastactive--time" data-bs-toggle="tooltip" data-bs-placement="bottom" data-nonce="{{g.nonce}}" data-onmouseover="timestamp(this, '{{u.last_active}}')" class="font-weight-bold">{{u.last_active_date}}</span></span>
 					{%- endif %}
 
-					{% if SITE_NAME == 'WPD' and v and v.id == CARP_ID -%}
+					{% if SITE_NAME == 'WPD' and v and v.id in [AEVANN_ID, CARP_ID] -%}
 						<div id="profile-mobile--email">Email: {{u.email}}</div>
 					{%- endif %}
 				</div>
