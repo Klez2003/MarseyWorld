@@ -980,7 +980,7 @@ def IS_FISTMAS():
 if SITE_NAME == 'rDrama':
 	homoween_begin = datetime.datetime.strptime(f'9/10/{t.year}', '%d/%m/%Y')
 else:
-	homoween_begin = datetime.datetime.strptime(f'27/10/{t.year}', '%d/%m/%Y')
+	homoween_begin = datetime.datetime.strptime(f'26/10/{t.year}', '%d/%m/%Y')
 homoween_end = datetime.datetime.strptime(f'1/11/{t.year}', '%d/%m/%Y')
 def IS_HOMOWEEN():
 	return homoween_begin < datetime.datetime.now() < homoween_end
