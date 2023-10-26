@@ -384,6 +384,8 @@ PERMS = { # Minimum admin_level to perform action.
 	'CLAIM_REWARDS_ALL_USERS': 4,
 	'IGNORE_AWARD_IMMUNITY': 4,
 	'INSERT_TRANSACTION': 4,
+
+	'VIEW_EMAILS': 5,
 }
 
 FEATURES = {

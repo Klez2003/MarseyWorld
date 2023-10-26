@@ -320,7 +320,7 @@ def sign_up_post(v):
 	g.db.flush()
 
 	if new_user.id == 5:
-		new_user.admin_level = 4
+		new_user.admin_level = 5
 		new_user.coins = 100000000
 		new_user.marseybux = 100000000
 		session["history"] = []
