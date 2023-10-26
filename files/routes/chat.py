@@ -142,6 +142,7 @@ def speak(data, v):
 		"username": v.username,
 		"namecolor": v.name_color,
 		"patron": v.patron,
+		"pride_username": bool(v.has_badge(303)),
 		"text": text,
 		"text_censored": censor_slurs_profanities(text, 'chat', True),
 		"text_html": text_html,
@@ -217,7 +218,7 @@ def disconnect(v):
 def heartbeat(v):
 	expire_utc = int(time.time()) + 3610
 	already_there = online.get(v.id)
-	online[v.id] = (expire_utc, v.username, v.name_color, v.patron, v.id)
+	online[v.id] = (expire_utc, v.username, v.name_color, v.patron, v.id, bool(v.has_badge(303)))
 	if not already_there:
 		refresh_online()
 	return ''

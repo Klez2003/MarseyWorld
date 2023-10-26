@@ -76,6 +76,11 @@ socket.on('speak', function(json) {
 			username.style.backgroundColor = null
 		}
 
+		if (json.pride_username)
+			username.setAttribute("pride_username", "")
+		else
+			username.removeAttribute("pride_username")
+
 		document.getElementsByClassName('user_id')[0].value = json.user_id
 
 		document.getElementsByClassName('time')[0].innerHTML = formatDate(new Date(json.time*1000))
@@ -206,7 +211,9 @@ socket.on('online', function(data){
 	{
 		let patron = ''
 		if (u[3])
-			patron = ` class="patron" style="background-color:#${u[2]}"`
+			patron += ` class="patron" style="background-color:#${u[2]}"`
+		if (u[5])
+			patron += " pride_username"
 
 		online += `<li>`
 		if (admin_level && muted_li.includes(u[1].toLowerCase()))

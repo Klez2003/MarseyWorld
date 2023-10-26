@@ -250,7 +250,7 @@
 				<img loading="lazy" class="avatar-pic pp20 mr-1" {% if m %}src="/pp/{{m.user_id}}"{% endif %}>
 				<img class="avatar-hat profile-pic-20-hat hat" loading="lazy" {% if m %}src="{{m.hat}}"{% endif %}>
 			</div>
-			<span {% if m and m.patron %}class="username patron" style="background-color:#{{m.namecolor}}"{% else %}class="username"{% endif %}>{% if m %}{{m.username}}{% endif %}</span>
+			<span {% if m and m.patron %}class="username patron" style="background-color:#{{m.namecolor}}"{% else %}class="username"{% endif %} {% if m and m.pride_username %}pride_username{% endif %}>{% if m %}{{m.username}}{% endif %}</span>
 		</a>
 		<span class="text-black time ml-1 mb-3 text-center" {% if m %}data-time="{{m.time}}"{% endif %}></span>
 		<input hidden class="user_id" {% if m %}value="{{m.user_id}}"{% endif %}>
