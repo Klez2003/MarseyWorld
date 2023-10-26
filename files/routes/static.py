@@ -99,7 +99,12 @@ def get_emojis(nsfw):
 
 	collected = []
 	for emoji, author in emojis:
-		if FEATURES['EMOJI_SUBMISSIONS']:
+		if author.id == 2:
+			if SITE == 'rdrama.net':
+				emoji.author_username = 'a WPD user'
+			else:
+				emoji.author_username = 'an rDrama user'
+		else:
 			emoji.author_username = author.username
 			emoji.author_original_username = author.original_username
 			emoji.author_prelock_username = author.prelock_username

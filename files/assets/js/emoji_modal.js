@@ -163,7 +163,7 @@ function fetchEmojis() {
 			if (! (emojis instanceof Array ))
 				throw new TypeError("[EMOJI DIALOG] rDrama's server should have sent a JSON-coded Array!");
 
-			globalEmojis = emojis.map(({name, author, count}) => ({name, author, count}));
+			globalEmojis = emojis.map(({name, author_username, count}) => ({name, author_username, count}));
 
 			let classes = ["Marsey", "Platy", "Wolf", "Donkey Kong", "Tay", "Capy", "Carp", "Marsey Flags", "Marsey Alphabet", "Classic", "Rage", "Wojak", "Misc"]
 
@@ -175,14 +175,11 @@ function fetchEmojis() {
 
 				emojisSearchDictionary.updateTag(emoji.name, emoji.name);
 
-				if (emoji.author_username !== undefined && emoji.author_username !== null)
+				if (!emoji.author_username.endsWith(' user')) {
 					emojisSearchDictionary.updateTag(`@${emoji.author_username.toLowerCase()}`, emoji.name);
-
-				if (emoji.author_original_username !== undefined && emoji.author_original_username !== null)
 					emojisSearchDictionary.updateTag(`@${emoji.author_original_username.toLowerCase()}`, emoji.name);
-
-				if (emoji.author_prelock_username !== undefined && emoji.author_prelock_username !== null)
 					emojisSearchDictionary.updateTag(`@${emoji.author_prelock_username.toLowerCase()}`, emoji.name);
+				}
 
 				if (emoji.tags instanceof Array)
 					for(let i = 0; i < emoji.tags.length; i++)
@@ -192,8 +189,7 @@ function fetchEmojis() {
 				const emojiDOM = document.importNode(emojiButtonTemplateDOM.content, true).children[0];
 
 				emojiDOM.title = emoji.name
-				if (emoji.author_username !== undefined && emoji.author_username !== null)
-					emojiDOM.title += "\nauthor\t" + emoji.author_username
+				emojiDOM.title += "\nauthor\t" + emoji.author_username
 				if (emoji.count !== undefined)
 					emojiDOM.title += "\nused\t" + emoji.count;
 				emojiDOM.dataset.className = emoji.kind;
@@ -414,8 +410,7 @@ function populate_speed_emoji_modal(results, textbox)
 
 		emoji_option_text.title = name;
 
-		if (emoji.author_username !== undefined && emoji.author_username !== null)
-			emoji_option_text.title += "\nauthor\t" + emoji.author_username
+		emoji_option_text.title += "\nauthor\t" + emoji.author_username
 
 		if (emoji.count !== undefined)
 			emoji_option_text.title += "\nused\t" + emoji.count;

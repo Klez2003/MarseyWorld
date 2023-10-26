@@ -46,10 +46,10 @@
 				{% if FEATURES['EMOJI_SUBMISSIONS'] %}
 					<td>
 						{% if emoji.author_id == 2 %}
-							{% if SITE_NAME == 'WPD' %}
-								an rDrama user
-							{% else %}
+							{% if SITE == 'rdrama.net' %}
 								a WPD user
+							{% else %}
+								an rDrama user
 							{% endif %}
 						{% else %}
 							{% set user = emoji.user %}
