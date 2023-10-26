@@ -153,7 +153,7 @@ function pick(kind, price, coins, marseybux) {
 
 	const ownednum = Number(document.getElementById(`${kind}-owned`).textContent);
 
-	if (ownednum) {
+	if (ownednum > 0) {
 		document.getElementById('award_price').textContent = `${ownednum} owned`;
 		giveaward_button.classList.remove('d-none');
 		document.getElementById('buyandgiveaward').classList.add('d-none');
@@ -182,7 +182,7 @@ function giveaward(t) {
 			owned.textContent = ownednum
 
 			let ownedblock = document.getElementById(`${kind}-owned-block`)
-			if (ownednum) {
+			if (ownednum > 0) {
 				ownedblock.innerHTML = `<span>${ownednum} owned</span>`;
 				document.getElementById('award_price').textContent = `${ownednum} owned`;
 			}
