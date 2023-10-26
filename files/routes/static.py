@@ -88,7 +88,12 @@ def emoji_list(v, kind):
 
 @cache.cached(make_cache_key=lambda nsfw:f"emojis_{nsfw}")
 def get_emojis(nsfw):
-	emojis = g.db.query(Emoji, User).join(User, Emoji.author_id == User.id).filter(Emoji.submitter_id == None)
+	emojis = g.db.query(Emoji, User).join(User, Emoji.author_id == User.id).options(load_only(
+		User.id,
+		User.username,
+		User.original_username,
+		User.prelock_username,
+	)).filter(Emoji.submitter_id == None)
 
 	if not nsfw:
 		emojis = emojis.filter(Emoji.nsfw == False)
