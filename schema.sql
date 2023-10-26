@@ -502,7 +502,7 @@ CREATE TABLE public.emojis (
     tags character varying(200) NOT NULL,
     count integer DEFAULT 0 NOT NULL,
     submitter_id integer,
-    created_utc integer,
+    created_utc integer NOT NULL,
     kind character varying(15) NOT NULL,
     nsfw boolean NOT NULL
 );

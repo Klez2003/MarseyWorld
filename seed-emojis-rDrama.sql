@@ -4526,6 +4526,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseyvaxmaxx', 'Marsey', 2, 'mask coronavirus covid gigavax corona vaccine vaccination hazmat', false, 0),
 ('marseyvaxxtroll', 'Marsey', 2, 'halloween alive healthy glow zombie vaccine vaccinated vaccination', false, 1666460515),
 ('marseyvee', 'Marsey', 2, 'pkmn pokemon eevee marseevee 133', false, 1697772971),
+('marseyvee2', 'Marsey', 2, 'pkmn pokemon eevee marseevee 133 prancing', false, 1698342059),
 ('marseyvelociraptor', 'Marsey', 2, 'dinosaur velocimarsey extinct predator claws', false, 0),
 ('marseyvengeance', 'Marsey', 2, 'gore undead shotgun horror halloween revenge monster bloody head wound holiday', false, 0),
 ('marseyvenn1', 'Marsey', 2, 'venn diagram some overlap', false, 1687126845),
