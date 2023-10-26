@@ -177,9 +177,10 @@ function fetchEmojis() {
 
 				if (!emoji.author_username.endsWith(' user')) {
 					emojisSearchDictionary.updateTag(`@${emoji.author_username.toLowerCase()}`, emoji.name);
-					emojisSearchDictionary.updateTag(`@${emoji.author_original_username.toLowerCase()}`, emoji.name);
-					try {emojisSearchDictionary.updateTag(`@${emoji.author_prelock_username.toLowerCase()}`, emoji.name);}
-					catch (e) {console.log(emoji.author_username)}
+					if (emoji.author_original_username != emoji.author_username)
+						emojisSearchDictionary.updateTag(`@${emoji.author_original_username.toLowerCase()}`, emoji.name);
+					if (emoji.author_prelock_username !== null)
+						emojisSearchDictionary.updateTag(`@${emoji.author_prelock_username.toLowerCase()}`, emoji.name);
 				}
 
 				if (emoji.tags instanceof Array)
