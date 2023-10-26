@@ -11,6 +11,8 @@
 	{% include "popover.html" %}
 {% endif %}
 
+{% set disable_votes = (request.path.startswith('/@') and not wall) and v and v.admin_level < PERMS['ENABLE_VOTE_BUTTONS_ON_USER_PAGE'] %}
+
 {% macro single_comment(c, level=1, collapse=False) %}
 
 {% if can_see(v, c) %}
@@ -308,27 +310,14 @@
 									</button>
 								</li>
 
-								{% if v and (request.path.startswith('/@') and not wall) and v.admin_level < PERMS['VIEW_VOTE_BUTTONS_ON_USER_PAGE'] %}
+								{% if v %}
 									<li id="voting-{{c.id}}-mobile" class="voting list-inline-item d-md-none">
-										{% if voted == 1 %}
-											<span class="mr-2 arrow-up comment-{{c.id}}-up active"></span>
-										{% endif %}
+
+										<span tabindex="0" data-nonce="{{g.nonce}}" data-onclick="vote('comment-mobile', '{{c.id}}', '1')" class="comment-mobile-{{c.id}}-up mx-0 pr-1 arrow-up upvote-button comment-{{c.id}}-up {% if voted==1 %}active{% endif %} {% if disable_votes and voted != 1 %}disabled {% endif %}"></span>
 
 										<span class="comment-mobile-score-{{c.id}} score comment-score-{{c.id}} {% if voted==1 %}score-up{% elif voted==-1 %}score-down{% endif %}{% if c.controversial %} controversial{% endif %}"{% if not c.is_banned %} data-bs-toggle="tooltip" data-bs-placement="top" title="+{{ups}} | -{{downs}}"{% endif %} style="cursor: default">{{score}}</span>
 
-										{% if voted == -1 %}
-											<span class="ml-2 my-0 arrow-down comment-{{c.id}}-down active"></span>
-										{% endif %}
-									</li>
-								{% elif v %}
-									<li id="voting-{{c.id}}-mobile" class="voting list-inline-item d-md-none">
-
-										<span tabindex="0" data-nonce="{{g.nonce}}" data-onclick="vote('comment-mobile', '{{c.id}}', '1')" class="comment-mobile-{{c.id}}-up mx-0 pr-1 arrow-up upvote-button comment-{{c.id}}-up {% if voted==1 %}active{% endif %}">
-										</span>
-
-										<span class="comment-mobile-score-{{c.id}} score comment-score-{{c.id}} {% if voted==1 %}score-up{% elif voted==-1 %}score-down{% endif %}{% if c.controversial %} controversial{% endif %}"{% if not c.is_banned %} data-bs-toggle="tooltip" data-bs-placement="top" title="+{{ups}} | -{{downs}}"{% endif %} style="cursor: default">{{score}}</span>
-
-										<span {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" data-nonce="{{g.nonce}}" data-onclick="vote('comment-mobile', '{{c.id}}', '-1')" class="comment-mobile-{{c.id}}-down mx-0 pl-1 my-0 arrow-down downvote-button comment-{{c.id}}-down {% if voted==-1 %}active{% endif %}">
+										<span {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" data-nonce="{{g.nonce}}" data-onclick="vote('comment-mobile', '{{c.id}}', '-1')" class="comment-mobile-{{c.id}}-down mx-0 pl-1 my-0 arrow-down downvote-button comment-{{c.id}}-down {% if voted==-1 %}active{% endif %} {% if disable_votes and voted != -1 %}disabled {% endif %}">
 										</span>
 
 									</li>
@@ -350,13 +339,8 @@
 						</div>
 
 					<ul class="d-none d-md-flex list-inline text-right text-md-left"><li>
-						{% if v and (request.path.startswith('/@') and not wall) and v.admin_level < PERMS['VIEW_VOTE_BUTTONS_ON_USER_PAGE'] %}
-							{% if voted == 1 %}
-								<button type="button" class="btn caction py-0 m-0 px-3 nobackground arrow-up mx-0 comment-{{c.id}}-up active"></button>
-							{% endif %}
-						{% elif v %}
-
-							<button type="button" tabindex="0" data-nonce="{{g.nonce}}" data-onclick="vote('comment', '{{c.id}}', '1')" class="comment-{{c.id}}-up btn caction py-0 m-0 px-3 nobackground arrow-up upvote-button mx-0 comment-{{c.id}}-up {% if voted==1 %}active{% endif %}"></button>
+						{% if v %}
+							<button type="button" tabindex="0" data-nonce="{{g.nonce}}" data-onclick="vote('comment', '{{c.id}}', '1')" class="comment-{{c.id}}-up btn caction py-0 m-0 px-3 nobackground arrow-up upvote-button mx-0 comment-{{c.id}}-up {% if voted==1 %}active{% endif %} {% if disable_votes and voted != 1 %}disabled {% endif %}"></button>
 						{% else %}
 							<a type="button" tabindex="0" class="comment-{{c.id}}-up btn caction nobackground py-0 m-0 px-3 arrow-up" href="/login?redirect={{request.full_path | urlencode}}"></a>
 						{% endif %}
@@ -365,12 +349,8 @@
 							<span data-bs-toggle="tooltip" data-bs-placement="top" title="+{{ups}} | -{{downs}}" class="comment-score-{{c.id}} score comment-score-{{c.id}} {% if voted==1 %}score-up{% elif voted==-1 %}score-down{% endif %} {% if c.controversial %}controversial{% endif %}">{{score}}</span>
 						</span>
 
-						{% if v and (request.path.startswith('/@') and not wall) and v.admin_level < PERMS['VIEW_VOTE_BUTTONS_ON_USER_PAGE'] %}
-							{% if voted == -1 %}
-								<li class=" arrow-down py-0 m-0 px-3 comment-{{c.id}}-down active"></li>
-							{% endif %}
-						{% elif v %}
-							<button type="button" {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" data-nonce="{{g.nonce}}" data-onclick="vote('comment', '{{c.id}}', '-1')" class="comment-{{c.id}}-down btn caction py-0 m-0 px-3 nobackground arrow-down downvote-button comment-{{c.id}}-down {% if voted==-1 %}active{% endif %}"></button>
+						{% if v %}
+							<button type="button" {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" data-nonce="{{g.nonce}}" data-onclick="vote('comment', '{{c.id}}', '-1')" class="comment-{{c.id}}-down btn caction py-0 m-0 px-3 nobackground arrow-down downvote-button comment-{{c.id}}-down {% if voted==-1 %}active{% endif %} {% if disable_votes and voted != -1 %}disabled {% endif %}"></button>
 						{% else %}
 							<a type="button" {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" class="comment-{{c.id}}-down btn caction py-0 m-0 px-3 nobackground arrow-down" href="/login?redirect={{request.full_path | urlencode}}"></a>
 						{% endif %}

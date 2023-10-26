@@ -97,7 +97,7 @@ pre {
 	color: #7a7a7a !important;
 }
 
-[disabled], .disabled, button[disabled], .btn[disabled], button.disabled, .btn.disabled {
+[disabled], .disabled, button[disabled], .btn[disabled], button.disabled, .btn.disabled, .disabled:before {
 	color: #bbb !important;
 }
 

@@ -7246,7 +7246,7 @@ button, .btn {
 	}
 }
 
-[disabled], .disabled, button[disabled], .btn[disabled], button.disabled, .btn.disabled {
+[disabled], .disabled, button[disabled], .btn[disabled], button.disabled, .btn.disabled, .disabled:before {
 	color: #6c757d !important;
 	pointer-events: none !important;
 	cursor: default !important;

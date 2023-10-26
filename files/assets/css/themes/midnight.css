@@ -64,7 +64,7 @@ body, .navbar-light, .navbar-dark, .card, .modal-content, .comment-write textare
 	border: 1px var(--gray-500) solid;
 }
 
-[disabled], .disabled, button[disabled], .btn[disabled], button.disabled, .btn.disabled {
+[disabled], .disabled, button[disabled], .btn[disabled], button.disabled, .btn.disabled, .disabled:before {
 	color: #858b91 !important;
 }
 
