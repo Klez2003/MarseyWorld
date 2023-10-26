@@ -44,13 +44,10 @@
 				<li><a href="/submit/hats">Approve or Reject Hats</a></li>
 			{% endif %}
 		{% endif %}
+
 		{% if v.admin_level >= PERMS['UPDATE_ASSETS'] %}
-			{% if FEATURES['EMOJI_SUBMISSIONS'] -%}
-				<li><a href="/admin/update/emojis">Update Emojis</a></li>
-			{% endif %}
-			{% if FEATURES['HAT_SUBMISSIONS'] -%}	
-				<li><a href="/admin/update/hats">Update Hats</a></li>
-			{% endif %}
+			<li><a href="/admin/update/emojis">Update Emojis</a></li>
+			<li><a href="/admin/update/hats">Update Hats</a></li>
 		{% endif %}
 	</ul>
 {% endif %}
