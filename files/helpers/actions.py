@@ -511,27 +511,11 @@ def execute_antispam_comment_check(body, v):
 	g.db.commit()
 	abort(403, "Too much spam!")
 
-def execute_by_username(v):
-	username = v.username.lower()
-	if username.startswith("icosaka") or ("dylan" in username and "hewitt" in username):
-		v.shadowbanned = AUTOJANNY_ID
-		v.ban_reason = "Banned username"
-		g.db.add(v)
-		ma = ModAction(
-			kind="shadowban",
-			user_id=AUTOJANNY_ID,
-			target_user_id=v.id,
-			_note=f'reason: "Banned username ({v.age} seconds)"'
-		)
-		g.db.add(ma)
-
 def execute_under_siege(v, target, body, kind):
 	if v.shadowbanned: return
 
-	if SITE == 'watchpeopledie.tv':
-		execute_by_username(v)
-		if v.shadowbanned: return
-		if kind != 'post': return
+	if SITE == 'watchpeopledie.tv' and kind != 'post':
+		return
 
 	if not get_setting("under_siege"): return
 	if v.admin_level >= PERMS['BYPASS_UNDER_SIEGE_MODE']: return

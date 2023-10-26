@@ -777,6 +777,8 @@ def settings_name_change(v):
 
 	g.db.add(v)
 
+	execute_blackjack(v, None, v.username, 'username')
+
 	return {"message": "Name successfully changed!"}
 
 @app.post("/settings/song_change_mp3")

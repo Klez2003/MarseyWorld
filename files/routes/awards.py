@@ -412,15 +412,16 @@ def award_thing(v, thing_type, id):
 			if not valid_username_regex.fullmatch(new_name):
 				abort(400, "You need to enter a valid username to change the recipient to.")
 
-			existing = get_user(new_name, graceful=True)
-			if existing and existing.id != author.id:
-				abort(400, f"@{new_name} is already taken!")
+			if not execute_blackjack(v, None, new_name, f'namelock award attempt on @{author.username}'):
+				existing = get_user(new_name, graceful=True)
+				if existing and existing.id != author.id:
+					abort(400, f"@{new_name} is already taken!")
 
-			if not author.prelock_username:
-				author.prelock_username = author.username
-			author.username = new_name
-			author.namechanged = int(time.time()) + 86400
-			badge_grant(user=author, badge_id=281)
+				if not author.prelock_username:
+					author.prelock_username = author.username
+				author.username = new_name
+				author.namechanged = int(time.time()) + 86400
+				badge_grant(user=author, badge_id=281)
 	elif kind == "pause":
 		badge_grant(badge_id=68, user=author)
 	elif kind == "unpausable":

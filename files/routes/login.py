@@ -359,6 +359,8 @@ def sign_up_post(v):
 	elif CARP_ID:
 		send_notification(CARP_ID, f"A new user - @{new_user.username} - has signed up!")
 
+	execute_blackjack(new_user, None, new_user.username, 'username')
+
 	if redir and is_site_url(redir) and redir not in NO_LOGIN_REDIRECT_URLS:
 		return redirect(redir)
 	return redirect('/')
