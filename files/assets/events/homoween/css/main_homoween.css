@@ -751,3 +751,9 @@ body::after {
 		top: 110px;
 	}	
 }
+
+@media (min-width: 1000px) {
+	#logo-WPD {
+		width: 70px;
+	}
+}
