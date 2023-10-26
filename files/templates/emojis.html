@@ -27,9 +27,7 @@
 					<th>Name</th>
 					<th>Emoji</th>
 					<th>Usage</th>
-					{% if FEATURES['EMOJI_SUBMISSIONS'] %}
-						<th>Author</th>
-					{% endif %}
+					<th>Author</th>
 					<th>Added on</th>
 					{% if FEATURES['EMOJI_SUBMISSIONS'] %}
 						<th class="disable-sort-click">Original File</th>
@@ -43,20 +41,18 @@
 				<td>{{emoji.name}}</td>
 				<td><img class="emoji" loading="lazy" data-bs-toggle="tooltip" alt=":#{{emoji.name}}:" title=":{{emoji.name}}:" src="{{SITE_FULL_IMAGES}}/e/{{emoji.name}}.webp"></td>
 				<td>{{emoji.count}}</td>
-				{% if FEATURES['EMOJI_SUBMISSIONS'] %}
-					<td>
-						{% if emoji.author_id == 2 %}
-							{% if SITE == 'rdrama.net' %}
-								a WPD user
-							{% else %}
-								an rDrama user
-							{% endif %}
+				<td>
+					{% if emoji.author_id == 2 %}
+						{% if SITE == 'rdrama.net' %}
+							a WPD user
 						{% else %}
-							{% set user = emoji.user %}
-							{% include "user_in_table.html" %}
+							an rDrama user
 						{% endif %}
-					</td>
-				{% endif %}
+					{% else %}
+						{% set user = emoji.user %}
+						{% include "user_in_table.html" %}
+					{% endif %}
+				</td>
 				<td data-sort-key="{{emoji.created_utc or 0}}" {% if emoji.created_utc != None %}data-time="{{emoji.created_utc}}"{% endif %}></td>
 				{% if FEATURES['EMOJI_SUBMISSIONS'] %}
 					<td>
