@@ -187,7 +187,7 @@ function giveaward(t) {
 				document.getElementById('award_price').textContent = `${ownednum} owned`;
 			}
 			else {
-				ownedblock.innerHTML = `${global_price} <img loading="lazy" alt="coins" class="mr-1 ml-1 award-currency" data-bs-toggle="tooltip" data-bs-placement="bottom" src="${SITE_FULL_IMAGES}/i/rDrama/coins.webp?x=6" title="Coins">/<img loading="lazy" alt="marseybux" class="mr-1 ml-1 award-currency" data-bs-toggle="tooltip" data-bs-placement="bottom" src="${SITE_FULL_IMAGES}/i/marseybux.webp?x=6" title="Marseybux">`
+				ownedblock.innerHTML = `${global_price} <img loading="lazy" alt="coins" class="mr-1 ml-1 award-currency" src="${SITE_FULL_IMAGES}/i/rDrama/coins.webp?x=6">/<img loading="lazy" alt="marseybux" class="mr-1 ml-1 award-currency" src="${SITE_FULL_IMAGES}/i/marseybux.webp?x=6">`
 				document.getElementById('award_price').textContent = `Price: ${global_price} coins/marseybux`;
 			}
 		}
