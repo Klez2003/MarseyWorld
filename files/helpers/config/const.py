@@ -844,8 +844,6 @@ approved_embed_hosts = [
 	### First-Party
 	'rdrama.net',
 	'i.rdrama.net',
-	'watchpeopledie.tv',
-	'i.watchpeopledie.tv',
 	'videos.watchpeopledie.tv',
 
 	### Third-Party Image Hosts
