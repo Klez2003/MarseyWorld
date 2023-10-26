@@ -42,6 +42,11 @@ def reddit_post(subreddit, v, path):
 	return redirect(f'https://{reddit}/{post_id}')
 
 
+@app.get("/marseys")
+@app.get("/emojis")
+def marseys_redirect():
+	return redirect("/emojis/Marsey")
+
 @cache.cached(make_cache_key=lambda kind, nsfw:f"emoji_list_{kind}_{nsfw}")
 def get_emoji_list(kind, nsfw):
 	li = g.db.query(Emoji, User).join(User, Emoji.author_id == User.id).filter(Emoji.submitter_id == None, Emoji.kind == kind)
@@ -54,11 +59,6 @@ def get_emoji_list(kind, nsfw):
 		emoji.author = author.username if FEATURES['EMOJI_SUBMISSIONS'] else None
 		emojis.append(emoji)
 	return emojis
-
-@app.get("/marseys")
-@app.get("/emojis")
-def marseys_redirect():
-	return redirect("/emojis/Marsey")
 
 @app.get("/emojis/<kind>")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
