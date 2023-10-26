@@ -11,7 +11,7 @@
 }
 
 .fixed-bottom, .popover, .modal-content, .dropdown-menu, .navbar, body, .form-control, #speed-carot-modal {
-	background-color: rgb(var(--background));
+	background-color: rgb(var(--background)) !important;
 }
 
 .App-side, .reports, .comment-section {
