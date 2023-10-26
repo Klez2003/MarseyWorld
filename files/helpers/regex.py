@@ -248,8 +248,6 @@ reddit_to_vreddit_regex = re.compile('(^|>|")https:\/\/old.reddit.com\/([ru])\/'
 #post search
 subreddit_name_regex = re.compile('\w{2,25}', flags=re.A)
 
-#undelete.pullpush.io
-reddit_post_permalink_regex = re.compile('https:\/\/old.reddit.com\/r\/\w{2,25}\/comments\/.*', flags=re.A)
 
 ###YOUTUBE
 
