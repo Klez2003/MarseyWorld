@@ -154,6 +154,8 @@ def approve_emoji(v, name):
 
 	nsfw = request.values.get("nsfw") == 'true'
 
+	old_name = emoji.name
+
 	emoji.name = new_name
 	emoji.kind = new_kind
 	emoji.tags = tags
@@ -192,9 +194,9 @@ def approve_emoji(v, name):
 			badge_grant(badge_id=113, user=author)
 		badge_grant(badge_id=112, user=author)
 
-	move(f"/asset_submissions/emojis/{emoji.name}.webp", f"files/assets/images/emojis/{emoji.name}.webp")
+	move(f"/asset_submissions/emojis/{old_name}.webp", f"files/assets/images/emojis/{emoji.name}.webp")
 
-	highquality = f"/asset_submissions/emojis/{emoji.name}"
+	highquality = f"/asset_submissions/emojis/{old_name}"
 	with Image.open(highquality) as i:
 		new_path = f'/asset_submissions/emojis/original/{emoji.name}.{i.format.lower()}'
 	rename(highquality, new_path)
