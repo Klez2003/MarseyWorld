@@ -502,10 +502,11 @@ def leaderboard_cached(v):
 
 	leaderboards = [coins, marseybux, coins_spent, truescore, subscribers, posts, comments, received_awards, badges, blocks, owned_hats]
 
-	if SITE == 'rdrama.net':
+	if FEATURES["HAT_SUBMISSIONS"]:
 		leaderboards.append(Leaderboard("Designed hats", "designed hats", "designed-hats", "Designed Hats", None, Leaderboard.get_hat_lb, User.designed_hats, v, None, None))
 
-	leaderboards.append(Leaderboard("Emojis made", "emojis made", "emojis-made", "Emojis Made", None, Leaderboard.get_badge_emoji_lb, Emoji.author_id, v, None, None))
+	if FEATURES["EMOJI_SUBMISSIONS"]:
+		leaderboards.append(Leaderboard("Emojis made", "emojis made", "emojis-made", "Emojis Made", None, Leaderboard.get_badge_emoji_lb, Emoji.author_id, v, None, None))
 
 	leaderboards.append(Leaderboard("Upvotes given", "upvotes given", "upvotes-given", "Upvotes Given", "upvoting", Leaderboard.get_upvotes_lb, None, v, None, None))
 
