@@ -1453,8 +1453,11 @@ def settings_claim_rewards(v):
 	if not (v.email and v.email_verified):
 		abort(400, f"You must have a verified email to verify {patron} status and claim your rewards!")
 
-	transactions = g.db.query(Transaction).filter_by(email=v.email, claimed=None).all()
+	transactions = g.db.query(Transaction).filter_by(email=v.email).all()
+	if not transactions:
+		abort(400, f"No matching email found. Please ensure you’re using the same email here that you used on {DONATE_SERVICE}.")
 
+	transactions = g.db.query(Transaction).filter_by(email=v.email, claimed=None).all()
 	if not transactions:
 		abort(400, f"{patron} rewards already claimed!")
 
