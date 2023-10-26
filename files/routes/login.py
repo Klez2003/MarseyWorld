@@ -321,6 +321,8 @@ def sign_up_post(v):
 
 	if new_user.id == 5:
 		new_user.admin_level = 4
+		new_user.coins = 100000000
+		new_user.marseybux = 100000000
 		session["history"] = []
 
 	if ref_id and ref_id not in session.get("history", []):
