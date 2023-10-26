@@ -191,6 +191,7 @@ def execute_snappy(post, v):
 
 
 	for href, title in captured:
+		if href == post.url: continue
 		if href.startswith(f'{SITE_FULL}/') or href.startswith(SITE_FULL_IMAGES): continue
 		if "Snapshots:\n\n" not in body: body += "Snapshots:\n\n"
 		if f'**[{title}]({href})**:\n\n' not in body:
