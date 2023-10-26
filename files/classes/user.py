@@ -715,7 +715,7 @@ class User(Base):
 		total_awards = post_awards + comment_awards
 
 		for a in total_awards:
-			kind = a.kind.replace(' Founder', '')
+			kind = a.kind.replace(' Founder', '').replace('emoji-hz', 'emoji')
 			if kind in awards:
 				awards[kind]['count'] += 1
 			else:
