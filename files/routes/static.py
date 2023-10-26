@@ -111,7 +111,7 @@ def get_emojis(nsfw):
 		collected.append(emoji.json())
 	return collected
 
-@app.get("/emojis_json")
+@app.get("/emojis.json")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
