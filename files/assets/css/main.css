@@ -7419,12 +7419,6 @@ th.disable-sort-click[disabled] {
 	pointer-events: auto;
 }
 
-@media (max-width: 768px) {
-	#award_price_block {
-		margin-bottom: 50px;
-	}
-}
-
 @supports(padding: env(safe-area-inset-bottom)) {
 	#mobile-bottom-navigation-bar {
 		--safe-area-inset-left: env(safe-area-inset-left);
