@@ -66,7 +66,6 @@ INSERT INTO public.badge_defs VALUES (2, 'Verified Email', 'Verified Email', NUL
 INSERT INTO public.badge_defs VALUES (3, 'Code Contributor', 'Contributed to the site''s source code', NULL);
 INSERT INTO public.badge_defs VALUES (185, 'Hallowgrinch', 'TP this Halloween-hating loser''s house.', 1666226224);
 INSERT INTO public.badge_defs VALUES (6, 'Beta User', 'Joined during open beta', NULL);
-INSERT INTO public.badge_defs VALUES (7, 'Bug Chaser', 'Found a bug', NULL);
 INSERT INTO public.badge_defs VALUES (15, 'Idea Maker', 'Had a good idea for the site which was implemented by the developers', NULL);
 INSERT INTO public.badge_defs VALUES (16, 'Marsey Master', 'Contributed 10 (or more!!!!) Marsey emojis ✨', NULL);
 INSERT INTO public.badge_defs VALUES (17, 'Marsey Artisan', 'Contributed a Marsey emoji ✨', NULL);
@@ -97,6 +96,7 @@ INSERT INTO public.badge_defs VALUES (197, 'Best Marsey 2021', 'The creator of t
 INSERT INTO public.badge_defs VALUES (199, 'Dramatard of the Year 2021', 'Voted as the best rDrama user of 2021. Congratulations!', 1670627437);
 INSERT INTO public.badge_defs VALUES (69, 'Little Big Spender', 'Dropped 10,000 coins at the award shop', NULL);
 INSERT INTO public.badge_defs VALUES (70, 'Big Spender', 'Dropped 100,000 coins at the award shop', NULL);
+INSERT INTO public.badge_defs VALUES (7, 'Bug Chaser', 'Found and reported a bug', NULL);
 INSERT INTO public.badge_defs VALUES (77, 'Middle Roller', 'Bought 50 lootboxes', NULL);
 INSERT INTO public.badge_defs VALUES (78, 'High Roller', 'Bought 150 lootboxes', NULL);
 INSERT INTO public.badge_defs VALUES (79, 'Merchant', 'Contributed a new line of product to Marsey''s Coin Emporium', NULL);
