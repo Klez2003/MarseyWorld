@@ -178,14 +178,17 @@ function giveaward(t) {
 		},
 		() => {
 			let owned = document.getElementById(`${kind}-owned`)
-			let ownednum = Number(owned.textContent);
+			let ownednum = Number(owned.textContent) - 1;
+			owned.textContent = ownednum
+
+			let ownedblock = document.getElementById(`${kind}-owned-block`)
 			if (ownednum) {
-				ownednum -= 1
-				owned.textContent = ownednum
-				if (ownednum)
-					document.getElementById('award_price').textContent = `${ownednum} owned`;
-				else
-					document.getElementById('award_price').textContent = `Price: ${global_price} coins/marseybux`;
+				ownedblock.innerHTML = `<span>${ownednum} owned</span>`;
+				document.getElementById('award_price').textContent = `${ownednum} owned`;
+			}
+			else {
+				ownedblock.innerHTML = `${global_price} <img loading="lazy" alt="coins" class="mr-1 ml-1 award-currency" data-bs-toggle="tooltip" data-bs-placement="bottom" src="${SITE_FULL_IMAGES}/i/rDrama/coins.webp?x=6" title="Coins">/<img loading="lazy" alt="marseybux" class="mr-1 ml-1 award-currency" data-bs-toggle="tooltip" data-bs-placement="bottom" src="${SITE_FULL_IMAGES}/i/marseybux.webp?x=6" title="Marseybux">`
+				document.getElementById('award_price').textContent = `Price: ${global_price} coins/marseybux`;
 			}
 		}
 	);

@@ -6182,7 +6182,7 @@ audio, video {
 	display: inline-block;
 }
 
-.header--currency img {
+.header--currency img, .award-currency {
 	max-height: 13px;
 }
 
@@ -6865,6 +6865,10 @@ div.markdown {
 	.download-video {
 		font-size: 10px;
 	}
+}
+
+.award-owned * {
+	vertical-align: middle;
 }
 
 .hole-banner-update-section .hole-settings-subsection {

@@ -25,8 +25,13 @@
 							<div data-bs-toggle="tooltip" data-bs-placement="bottom" title="Price: {{price}} coins/marseybux - {{award.description}}" id="{{award.kind}}" data-positive="{{award.positive}}" data-nonce="{{g.nonce}}" data-onclick="pick('{{award.kind}}', {{price}}, {{v.coins}}, {{v.marseybux}})">
 								<i class="{{award.icon}} {{award.color}}"></i>
 								<div class="pt-1 award-name">{{award.title}}</div>
-								<div class="text-muted award-owned">
-									<span id="{{award.kind}}-owned">{{award.owned}}</span> owned
+								<span id="{{award.kind}}-owned" class="d-none">{{award.owned}}</span>
+								<div id="{{award.kind}}-owned-block" class="text-muted award-owned">
+									{% if award.owned %}
+										<span>{{award.owned}} owned</span>
+									{% else %}
+										<span>{{price}}</span> <img loading="lazy" alt="coins" class="mr-1 ml-1 award-currency" data-bs-toggle="tooltip" data-bs-placement="bottom" src="{{SITE_FULL_IMAGES}}/i/rDrama/coins.webp?x=6" title="Coins">/<img loading="lazy" alt="marseybux" class="mr-1 ml-1 award-currency" data-bs-toggle="tooltip" data-bs-placement="bottom" src="{{SITE_FULL_IMAGES}}/i/marseybux.webp?x=6" title="Marseybux">
+									{% endif %}
 								</div>
 							</div>
 						{% endfor %}
