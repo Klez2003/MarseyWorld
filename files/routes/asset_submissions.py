@@ -51,7 +51,7 @@ def submit_emoji(v):
 
 	file = request.files["image"]
 	name = request.values.get('name', '').lower().strip()
-	tags = request.values.get('tags', '').lower().strip()
+	tags = request.values.get('tags', '').lower().strip().replace('  ', ' ')
 	username = request.values.get('author', '').lower().strip()
 	kind = request.values.get('kind', '').strip()
 	nsfw = bool(request.values.get("nsfw"))
@@ -134,7 +134,7 @@ def verify_permissions_and_get_asset(cls, asset_type, v, name, make_lower=False)
 @admin_level_required(PERMS['MODERATE_PENDING_SUBMITTED_ASSETS'])
 def approve_emoji(v, name):
 	emoji = verify_permissions_and_get_asset(Emoji, "emoji", v, name, True)
-	tags = request.values.get('tags').lower().strip()
+	tags = request.values.get('tags').lower().strip().replace('  ', ' ')
 	if not tags:
 		abort(400, "You need to include tags!")
 
@@ -482,7 +482,7 @@ def update_emoji(v):
 	file = request.files["image"]
 	kind = request.values.get('kind', '').strip()
 	new_name = request.values.get('new_name', '').strip()
-	tags = request.values.get('tags', '').lower().strip()
+	tags = request.values.get('tags', '').lower().strip().replace('  ', ' ')
 	nsfw = request.values.get('nsfw', '').strip()		
 
 	existing = g.db.get(Emoji, name)
