@@ -168,7 +168,7 @@ def execute_snappy(post, v):
 	body += "\n\n"
 
 	if post.url and not post.url.startswith('/') and not post.url.startswith(f'{SITE_FULL}/') and not post.url.startswith(SITE_FULL_IMAGES):
-		if post.url.startswith('https://old.reddit.com/r/'):
+		if reddit_post_permalink_regex.fullmatch(post.url):
 			rev = post.url.replace('https://old.reddit.com/', '')
 			rev = f"* [undelete.pullpush.io](https://undelete.pullpush.io/{rev})\n\n"
 		elif post.url.startswith("https://old.reddit.com/user/"):
@@ -195,7 +195,7 @@ def execute_snappy(post, v):
 		if "Snapshots:\n\n" not in body: body += "Snapshots:\n\n"
 		if f'**[{title}]({href})**:\n\n' not in body:
 			addition = f'**[{title}]({href})**:\n\n'
-			if href.startswith('https://old.reddit.com/r/'):
+			if reddit_post_permalink_regex.fullmatch(href):
 				rev = href.replace('https://old.reddit.com/', '')
 				addition += f'* [undelete.pullpush.io](https://undelete.pullpush.io/{rev})\n\n'
 			elif href.startswith('https://old.reddit.com/user/'):
