@@ -133,15 +133,15 @@
 				{%- endif %}
 
 				{% if u.received_awards and FEATURES['AWARDS'] %}
-				<div class="text-white rounded p-2 mb-3" id="profile--awards" style="background-color: rgba(50, 50, 50, 0.6); width: 30%">
-					<p class="text-uppercase my-0" style="font-weight: bold; font-size: 12px">Awards received</p>
-					{% for a in u.received_awards %}
-					<span class="d-inline-block mx-1 profile--awards--award">
-						<i class="{{a['icon']}} {{a['color']}} fa-fw" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{a['title']}} Awards received"></i>
-						x{{a['count']}}
-					</span>
-					{% endfor %}
-				</div>
+					<div class="text-white rounded p-2 mb-3" id="profile--awards" style="background-color: rgba(50, 50, 50, 0.6); width: 30%">
+						<p class="text-uppercase my-0" style="font-weight: bold; font-size: 12px">Awards received</p>
+						{% for a in u.received_awards %}
+							<span class="d-inline-block mx-1 profile--awards--award">
+								<i class="{{a['icon']}} {{a['color']}} fa-fw" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{a['title']}} Awards received"></i>
+								x{{a['count']}}
+							</span>
+						{% endfor %}
+					</div>
 				{% endif %}
 
 				{% if u.moderated_holes %}
@@ -434,15 +434,15 @@
 				{%- endif %}
 
 				{% if u.received_awards and FEATURES['AWARDS'] %}
-				<div class="text-white rounded p-2 my-3 text-center" id="profile-mobile--awards" style="background-color: rgba(50, 50, 50, 0.6)">
-					<p class="text-uppercase my-0" style="font-weight: bold; font-size: 12px">Awards received</p>
-					{% for a in u.received_awards %}
-					<span class="d-inline-block mx-1 profile-mobile--awards--award">
-						<i class="{{a['icon']}} {{a['color']}} fa-fw" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{a['title']}} Awards received"></i>
-						x{{a['count']}}
-					</span>
-					{% endfor %}
-				</div>
+					<div class="text-white rounded p-2 my-3 text-center" id="profile-mobile--awards" style="background-color: rgba(50, 50, 50, 0.6)">
+						<p class="text-uppercase my-0" style="font-weight: bold; font-size: 12px">Awards received</p>
+							{% for a in u.received_awards %}
+							<span class="d-inline-block mx-1 profile-mobile--awards--award">
+								<i class="{{a['icon']}} {{a['color']}} fa-fw" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{a['title']}} Awards received"></i>
+								x{{a['count']}}
+							</span>
+						{% endfor %}
+					</div>
 				{% endif %}
 
 				{% if u.moderated_holes %}
