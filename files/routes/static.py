@@ -54,7 +54,7 @@ def get_emoji_list(kind, nsfw):
 	if not nsfw:
 		emojis = emojis.filter(Emoji.nsfw == False)
 
-	emojis = emojis.order_by(Emoji.count.desc())
+	emojis = emojis.order_by(Emoji.count.desc()).all()
 
 	return emojis
 
