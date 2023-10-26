@@ -384,6 +384,9 @@ def approve_hat(v, name):
 		if hat.price < 0: raise ValueError("Invalid hat price")
 	except:
 		abort(400, "Invalid hat price")
+
+	old_name = hat.name
+
 	hat.name = new_name
 	hat.description = description
 	g.db.add(hat)
@@ -428,9 +431,9 @@ def approve_hat(v, name):
 
 	hat.submitter_id = None
 
-	move(f"/asset_submissions/hats/{hat.name}.webp", f"files/assets/images/hats/{hat.name}.webp")
+	move(f"/asset_submissions/hats/{old_name}.webp", f"files/assets/images/hats/{hat.name}.webp")
 
-	highquality = f"/asset_submissions/hats/{hat.name}"
+	highquality = f"/asset_submissions/hats/{old_name}"
 	with Image.open(highquality) as i:
 		new_path = f'/asset_submissions/hats/original/{hat.name}.{i.format.lower()}'
 	rename(highquality, new_path)
