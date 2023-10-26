@@ -827,6 +827,9 @@ discounts = {
 	259: 0.02,
 	260: 0.02,
 	261: 0.02,
+	#Account age badges
+	134: 0.01,
+	237: 0.01,
 }
 
 CF_HEADERS = {"Authorization": f"Bearer {CF_KEY}", "Content-Type": "application/json"}
