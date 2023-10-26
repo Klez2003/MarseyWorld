@@ -110,6 +110,7 @@ def execute_snappy(post, v):
 			SNAPPY_CHOICES = [""]
 
 		body = random.choice(SNAPPY_CHOICES).strip()
+		body = body.replace('%OP%', f'@{post.author_name}')
 		if body.startswith('▼') or body.startswith(':#marseydownvote'):
 			if body.startswith('▼'): body = body[1:]
 			vote = Vote(user_id=SNAPPY_ID,

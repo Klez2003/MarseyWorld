@@ -46,7 +46,7 @@ def const_initialize():
 			SNAPPY_QUOTES = f.read().strip().split("\n{[para]}\n")
 		with open(f"snappy_fistmas_{SITE_NAME}.txt", "r") as f:
 			SNAPPY_QUOTES_FISTMAS = f.read().strip().split("\n{[para]}\n")
-		with open("snappy_homoween.txt", "r") as f:
+		with open(f"snappy_homoween_{SITE_NAME}.txt", "r") as f:
 			SNAPPY_QUOTES_HOMOWEEN = f.read().strip().split("\n{[para]}\n")
 	except FileNotFoundError:
 		pass
