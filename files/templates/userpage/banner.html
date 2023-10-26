@@ -6,7 +6,7 @@
 {% endif %}
 
 {% set ns = namespace() %}
-{% set pfp = u.highres if (u.highres and can_see(v, u)) else u.profile_url %}
+{% set pfp = u.highres if (u.highres and can_see(v, u) and u.profileurl == u.profile_url) else u.profile_url %}
 
 {% block desktopUserBanner %}
 <div class="row d-mob-none">
