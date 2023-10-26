@@ -49,15 +49,13 @@ def marseys_redirect():
 
 @cache.cached(make_cache_key=lambda kind, nsfw:f"emoji_list_{kind}_{nsfw}")
 def get_emoji_list(kind, nsfw):
-	li = g.db.query(Emoji, User).join(User, Emoji.author_id == User.id).filter(Emoji.submitter_id == None, Emoji.kind == kind)
-	if not nsfw:
-		li = li.filter(Emoji.nsfw == False)
-	li = li.order_by(Emoji.count.desc())
+	emojis = g.db.query(Emoji).filter(Emoji.submitter_id == None, Emoji.kind == kind)
 
-	emojis = []
-	for emoji, author in li:
-		emoji.author = author.username if FEATURES['EMOJI_SUBMISSIONS'] else None
-		emojis.append(emoji)
+	if not nsfw:
+		emojis = emojis.filter(Emoji.nsfw == False)
+
+	emojis = emojis.order_by(Emoji.count.desc())
+
 	return emojis
 
 @app.get("/emojis/<kind>")
