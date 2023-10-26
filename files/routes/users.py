@@ -504,7 +504,8 @@ def leaderboard_cached(v):
 
 	if SITE == 'rdrama.net':
 		leaderboards.append(Leaderboard("Designed hats", "designed hats", "designed-hats", "Designed Hats", None, Leaderboard.get_hat_lb, User.designed_hats, v, None, None))
-		leaderboards.append(Leaderboard("Emojis made", "emojis made", "emojis-made", "Emojis Made", None, Leaderboard.get_badge_emoji_lb, Emoji.author_id, v, None, None))
+
+	leaderboards.append(Leaderboard("Emojis made", "emojis made", "emojis-made", "Emojis Made", None, Leaderboard.get_badge_emoji_lb, Emoji.author_id, v, None, None))
 
 	leaderboards.append(Leaderboard("Upvotes given", "upvotes given", "upvotes-given", "Upvotes Given", "upvoting", Leaderboard.get_upvotes_lb, None, v, None, None))
 
