@@ -385,9 +385,6 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 	if obj and obj.sharpened:
 		sanitized = sharpen(sanitized)
 
-	if obj and obj.queened:
-		sanitized = queenify(sanitized)
-
 	if '```' not in sanitized and '<pre>' not in sanitized:
 		sanitized = linefeeds_regex.sub(r'\1\n\n\2', sanitized)
 
@@ -406,6 +403,9 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 	sanitized = sanitized.replace('_', '▔')
 	sanitized = markdown(sanitized)
 	sanitized = sanitized.replace('▔', '_').replace('%E2%96%94', '_')
+
+	if obj and obj.queened:
+		sanitized = queenify_html(sanitized)
 
 	sanitized = sanitized.replace('<a href="/%21', '<a href="/!')
 

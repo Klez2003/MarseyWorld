@@ -35,7 +35,7 @@ def queenify_tag_string(string):
 	
 	return initial + string
 
-def queenify(html):
+def queenify_html(html):
 	if '<p>&amp;&amp;' in html or '<p>$$' in html or '<p>##' in html:
 		return html
 
