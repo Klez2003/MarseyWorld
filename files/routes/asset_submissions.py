@@ -46,6 +46,9 @@ emoji_modifiers = ('pat', 'talking', 'genocide', 'love')
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def submit_emoji(v):
+	if SITE_NAME == 'WPD' and v.blacklisted_by:
+		abort(403)
+
 	file = request.files["image"]
 	name = request.values.get('name', '').lower().strip()
 	tags = request.values.get('tags', '').lower().strip()
