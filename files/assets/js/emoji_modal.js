@@ -463,8 +463,6 @@ function populate_speed_emoji_modal(results, textbox)
 
 function update_speed_emoji_modal(event)
 {
-	const t = Date.now() / 1000
-
 	const box_coords = update_ghost_div_textarea(event.target);
 
 	box_coords.x = Math.min(box_coords.x, screen_width - 150)
@@ -508,8 +506,6 @@ function update_speed_emoji_modal(event)
 			const found = globalEmojis.filter(i => resultSet.has(i.name));
 
 			populate_speed_emoji_modal(found, event.target);
-
-			console.log(Date.now() / 1000 - t)
 		});
 	}
 	else {
