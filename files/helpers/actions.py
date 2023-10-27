@@ -133,7 +133,7 @@ def execute_snappy(post, v):
 						)
 			g.db.add(vote)
 			post.upvotes += 1
-		elif body.startswith(':#marseyghost'):
+		elif ':#marseyghost' in body:
 			ghost = True
 		elif body == '!slots':
 			body = f'!slots{snappy.coins}'
