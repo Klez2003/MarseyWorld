@@ -126,13 +126,13 @@ function update_speed_emoji_modal(event)
 	switch (event.data)
 	{
 		case ':':
-		emoji_typing_state = true;
-		break;
+			emoji_typing_state = true;
+			break;
 		case ' ':
-		emoji_typing_state = false;
-		break;
+			emoji_typing_state = false;
+			break;
 		default:
-		break;
+			break;
 	}
 
 	// Get current word at string, such as ":marse" or "word"
