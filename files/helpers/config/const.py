@@ -475,7 +475,7 @@ ERROR_MARSEYS = {
 	500: "marseycarp3",
 }
 
-EMOJI_SRCS = ['files/assets/emojis.json']
+EMOJI_SRCS = ['files/assets/emojis.csv']
 
 PIN_LIMIT = 3
 POST_TITLE_LENGTH_LIMIT = 500 # do not make larger than 500 without altering the table

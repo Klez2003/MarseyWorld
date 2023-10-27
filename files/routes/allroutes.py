@@ -54,6 +54,9 @@ def before_request():
 
 @app.after_request
 def after_request(response):
+	if request.path == '/emojis.csv':
+		response.cache_control.max_age = 2678400
+
 	user_id = None
 
 	if response.status_code < 400:

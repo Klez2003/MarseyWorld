@@ -156,7 +156,8 @@ const emojisSearchDictionary = {
 function makeEmojisSearchDictionary() {
 	// get public emojis list
 	const headers = new Headers({xhr: "xhr"})
-	return fetch("/emojis.json", {
+	const emoji_num = document.getElementById('emoji_num').value
+	return fetch(`/emojis.csv?x=${emoji_num}`, {
 		headers,
 	})
 		.then(res => res.json())
@@ -190,7 +191,8 @@ function makeEmojisSearchDictionary() {
 // get public emojis list
 function fetchEmojis() {
 	const headers = new Headers({xhr: "xhr"})
-	return fetch("/emojis.json", {
+	const emoji_num = document.getElementById('emoji_num').value
+	return fetch(`/emojis.csv?x=${emoji_num}`, {
 		headers,
 	})
 		.then(res => res.json())

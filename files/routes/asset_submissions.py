@@ -246,6 +246,8 @@ def approve_emoji(v, name):
 		cache.delete("emojis_False")
 		cache.delete(f"emoji_list_{emoji.kind}_False")
 
+	cache.set("emojis_num", g.db.query(Emojis).count())
+
 	purge_files_in_cloudflare_cache(f"{SITE_FULL_IMAGES}/e/{emoji.name}/webp")
 
 	return {"message": f"'{emoji.name}' approved!"}
@@ -568,6 +570,8 @@ def update_emoji(v):
 	if not existing.nsfw:
 		cache.delete("emojis_False")
 		cache.delete(f"emoji_list_{existing.kind}_False")
+
+	cache.set("emojis_num", g.db.query(Emojis).count())
 
 	return {"message": f"'{name}' updated successfully!"}
 
