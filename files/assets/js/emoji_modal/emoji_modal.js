@@ -253,7 +253,8 @@ function openEmojiModal(t, inputTargetIDName)
 	switch (emojiEngineState) {
 		case "inactive":
 			emojiEngineState = "loading"
-			makeEmojisSearchDictionary();
+			if (searchDictionaryState == "inactive")
+				makeEmojisSearchDictionary();
 			return fetchEmojis();
 		case "loading":
 			// this works because once the fetch completes, the first keystroke callback will fire and use the current value

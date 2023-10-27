@@ -1,4 +1,5 @@
-// tags dictionary. KEEP IT SORT
+let searchDictionaryState = "inactive";
+
 class EmoijsDictNode
 {
 	constructor(tag, name) {
@@ -6,6 +7,7 @@ class EmoijsDictNode
 		this.emojiNames = [name];
 	}
 }
+
 const emojisSearchDictionary = {
 	dict: [],
 
@@ -85,6 +87,6 @@ function makeEmojisSearchDictionary() {
 						emojisSearchDictionary.updateTag(emoji.tags[i], emoji.name);
 			}
 
-			emojiSpeedEngineState = "ready";
+			searchDictionaryState = "ready";
 		})
 }

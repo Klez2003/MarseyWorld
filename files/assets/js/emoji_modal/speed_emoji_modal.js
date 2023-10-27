@@ -1,4 +1,3 @@
-let emojiSpeedEngineState = "inactive";
 let emoji_typing_state = false;
 let globalEmojis;
 
@@ -211,9 +210,9 @@ function insertGhostDivs(element) {
 
 function openSpeedModal()
 {
-	switch (emojiSpeedEngineState) {
+	switch (searchDictionaryState) {
 		case "inactive":
-			emojiSpeedEngineState = "loading"
+			searchDictionaryState = "loading"
 			return makeEmojisSearchDictionary();
 		case "loading":
 			// this works because once the fetch completes, the first keystroke callback will fire and use the current value
