@@ -7566,3 +7566,7 @@ ul {
 	flex: 1;
 	margin-left: 0.5rem;
 }
+
+tr:has(hideme) {
+	display: none
+}
