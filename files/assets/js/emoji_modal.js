@@ -160,7 +160,6 @@ function fetchEmojis() {
 	})
 		.then(res => res.json())
 		.then(emojis => {
-			const t = Date.now() / 1000
 			if (! (emojis instanceof Array ))
 				throw new TypeError("[EMOJI DIALOG] rDrama's server should have sent a JSON-coded Array!");
 
@@ -169,8 +168,6 @@ function fetchEmojis() {
 			let classes = ["Marsey", "Platy", "Wolf", "Donkey Kong", "Tay", "Capy", "Carp", "Marsey Flags", "Marsey Alphabet", "Classic", "Rage", "Wojak", "Misc"]
 
 			const bussyDOM = document.createElement("div");
-
-			console.log(Date.now() / 1000 - t)
 
 			for(let i = 0; i < emojis.length; i++)
 			{
@@ -245,8 +242,6 @@ function fetchEmojis() {
 			emojiSearchBarDOM.disabled = false;
 
 			emojiEngineState = "ready";
-
-			console.log(Date.now() / 1000 - t)
 		})
 }
 
@@ -447,6 +442,8 @@ function populate_speed_emoji_modal(results, textbox)
 
 function update_speed_emoji_modal(event)
 {
+	const t = Date.now() / 1000
+
 	const box_coords = update_ghost_div_textarea(event.target);
 
 	box_coords.x = Math.min(box_coords.x, screen_width - 150)
@@ -490,6 +487,8 @@ function update_speed_emoji_modal(event)
 			const found = globalEmojis.filter(i => resultSet.has(i.name));
 
 			populate_speed_emoji_modal(found, event.target);
+
+			console.log(Date.now() / 1000 - t)
 		});
 	}
 	else {
