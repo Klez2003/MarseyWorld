@@ -28,9 +28,9 @@
 								<span id="{{award.kind}}-owned" class="d-none">{{award.owned}}</span>
 								<div id="{{award.kind}}-owned-block" class="text-muted award-owned">
 									{% if award.owned %}
-										<span>{{award.owned}} owned</span>
+										{{award.owned}} owned
 									{% else %}
-										<span>{{price}}</span> <img loading="lazy" alt="coins" class="mr-1 ml-1 award-currency" src="{{SITE_FULL_IMAGES}}/i/rDrama/coins.webp?x=6">/<img loading="lazy" alt="marseybux" class="mr-1 ml-1 award-currency" src="{{SITE_FULL_IMAGES}}/i/marseybux.webp?x=6">
+										Price: {{price}}
 									{% endif %}
 								</div>
 							</div>

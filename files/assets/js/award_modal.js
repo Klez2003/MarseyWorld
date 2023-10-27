@@ -183,11 +183,11 @@ function giveaward(t) {
 
 			let ownedblock = document.getElementById(`${kind}-owned-block`)
 			if (ownednum > 0) {
-				ownedblock.innerHTML = `<span>${ownednum} owned</span>`;
+				ownedblock.textContent = `${ownednum} owned`;
 				document.getElementById('award_price').textContent = `${ownednum} owned`;
 			}
 			else {
-				ownedblock.innerHTML = `${global_price} <img loading="lazy" alt="coins" class="mr-1 ml-1 award-currency" src="${SITE_FULL_IMAGES}/i/rDrama/coins.webp?x=6">/<img loading="lazy" alt="marseybux" class="mr-1 ml-1 award-currency" src="${SITE_FULL_IMAGES}/i/marseybux.webp?x=6">`
+				ownedblock.textContent = `Price: ${global_price}`
 				document.getElementById('award_price').textContent = `Price: ${global_price} coins/marseybux`;
 			}
 		}
