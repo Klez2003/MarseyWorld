@@ -139,7 +139,7 @@
 				{% endif %}
 
 				{% if c.chuddedfor and not (c.parent_post and c.post.hole == 'chudrama') %}
-					<i class="fas fa-face-sleeping text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="User was chudded for this comment {{c.chuddedfor}}"></i>
+					<i class="fas fa-face-sleeping text-danger mr-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="User was chudded for this comment {{c.chuddedfor}}"></i>
 				{% endif %}
 
 				{% if c.active_reports(v) %}<button type="button" class="btn btn-primary mr-1 ml-2" style="padding:1px 5px; font-size:10px" data-toggleelement="#reports-{{c.id}}" data-toggleattr="d-none">{{c.active_reports(v)}} Report{{macros.plural(c.active_reports(v))}}</button>{% endif %}
