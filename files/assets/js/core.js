@@ -693,6 +693,12 @@ if (screen_width < 768) {
 	}
 }
 
+document.addEventListener('show.bs.modal', () => {
+	if (typeof close_inline_speed_emoji_modal === "function") {
+		close_inline_speed_emoji_modal();
+	}
+});
+
 document.addEventListener('hide.bs.modal', () => {
 	if (typeof close_inline_speed_emoji_modal === "function") {
 		close_inline_speed_emoji_modal();
