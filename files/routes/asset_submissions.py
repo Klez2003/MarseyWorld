@@ -571,8 +571,6 @@ def update_emoji(v):
 		cache.delete("emojis_False")
 		cache.delete(f"emoji_list_{existing.kind}_False")
 
-	cache.set("emojis_num", g.db.query(Emoji).count())
-
 	return {"message": f"'{name}' updated successfully!"}
 
 @app.get("/admin/update/hats")
