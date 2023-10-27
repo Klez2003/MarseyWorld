@@ -4,94 +4,92 @@
 
 <a href="{{image}}" style="text-decoration:none">
 	<img class="mb-4" alt="sidebar image" data-nonce="{{g.nonce}}" data-onclick="expandImage()" loading="lazy" src="{{image}}" width="100%">
-	{% if not hole %}
-		{% set coordsLookup = ({
-			"1.webp":({
-				"left":({
-					"x":"72px",
-					"y":"-205px"
-				}),
-				"right":({
-					"x":"112px",
-					"y":"-209px"
-				})
+	{% set coordsLookup = ({
+		"1.webp":({
+			"left":({
+				"x":"72px",
+				"y":"-205px"
 			}),
-			"2.webp":({
-				"left":({
-					"x":"35px",
-					"y":"-335px"
-				}),
-				"right":({
-					"x":"60px",
-					"y":"-337px"
-				})
+			"right":({
+				"x":"112px",
+				"y":"-209px"
+			})
+		}),
+		"2.webp":({
+			"left":({
+				"x":"35px",
+				"y":"-335px"
 			}),
-			"3.webp":({
-				"left":({
-					"x":"88px",
-					"y":"-272px"
-				}),
-				"right":({
-					"x":"112px",
-					"y":"-276px"
-				})
+			"right":({
+				"x":"60px",
+				"y":"-337px"
+			})
+		}),
+		"3.webp":({
+			"left":({
+				"x":"88px",
+				"y":"-272px"
 			}),
-			"4.webp":({
-				"left":({
-					"x":"28px",
-					"y":"-152px"
-				}),
-				"right":({
-					"x":"32px",
-					"y":"-152px"
-				})
+			"right":({
+				"x":"112px",
+				"y":"-276px"
+			})
+		}),
+		"4.webp":({
+			"left":({
+				"x":"28px",
+				"y":"-152px"
 			}),
-			"5.webp":({
-				"left":({
-					"x":"58px",
-					"y":"-155px"
-				}),
-				"right":({
-					"x":"82px",
-					"y":"-160px"
-				})
+			"right":({
+				"x":"32px",
+				"y":"-152px"
+			})
+		}),
+		"5.webp":({
+			"left":({
+				"x":"58px",
+				"y":"-155px"
 			}),
-			"6.webp":({
-				"left":({
-					"x":"125px",
-					"y":"-219px"
-				}),
-				"right":({
-					"x":"153px",
-					"y":"-219px"
-				})
+			"right":({
+				"x":"82px",
+				"y":"-160px"
+			})
+		}),
+		"6.webp":({
+			"left":({
+				"x":"125px",
+				"y":"-219px"
 			}),
-			"7.webp":({
-				"left":({
-					"x":"102px",
-					"y":"-205px"
-				}),
-				"right":({
-					"x":"107px",
-					"y":"-205px"
-				})
+			"right":({
+				"x":"153px",
+				"y":"-219px"
+			})
+		}),
+		"7.webp":({
+			"left":({
+				"x":"102px",
+				"y":"-205px"
 			}),
-			"8.webp":({
-				"left":({
-					"x":"116px",
-					"y":"-203px"
-				}),
-				"right":({
-					"x":"125px",
-					"y":"-203px"
-				})
+			"right":({
+				"x":"107px",
+				"y":"-205px"
+			})
+		}),
+		"8.webp":({
+			"left":({
+				"x":"116px",
+				"y":"-203px"
 			}),
-		}) %}
-		<div class="d-none d-lg-block" style="position:absolute; pointer-events: none">
-			<img class="eye" src="{{SITE_FULL_IMAGES}}/assets/events/shared/images/eye.webp" loading="lazy" style="left:{{[coordsLookup][0][selected_image]['left']['x']}};top:{{[coordsLookup][0][selected_image]['left']['y']}}">
-			<img class="eye" src="{{SITE_FULL_IMAGES}}/assets/events/shared/images/eye.webp" loading="lazy" style="left:{{[coordsLookup][0][selected_image]['right']['x']}};top:{{[coordsLookup][0][selected_image]['right']['y']}}">
-		</div>
-	{% endif %}
+			"right":({
+				"x":"125px",
+				"y":"-203px"
+			})
+		}),
+	}) %}
+	<div class="d-none d-lg-block" style="position:absolute; pointer-events: none">
+		<img class="eye" src="{{SITE_FULL_IMAGES}}/assets/events/shared/images/eye.webp" loading="lazy" style="left:{{[coordsLookup][0][selected_image]['left']['x']}};top:{{[coordsLookup][0][selected_image]['left']['y']}}">
+		<img class="eye" src="{{SITE_FULL_IMAGES}}/assets/events/shared/images/eye.webp" loading="lazy" style="left:{{[coordsLookup][0][selected_image]['right']['x']}};top:{{[coordsLookup][0][selected_image]['right']['y']}}">
+	</div>
 </a>
 
 <script defer src="{{'events/shared/js/eye_tracking.js' | asset}}" ></script>
