@@ -207,7 +207,7 @@ def comment(v):
 					if post_target.id == SIDEBAR_THREAD:
 						process_sidebar_or_banner('sidebar', 400)
 					elif post_target.id == BANNER_THREAD:
-						banner_width = 1200
+						banner_width = 1600
 						process_sidebar_or_banner('banners', banner_width)
 					elif post_target.id == BADGE_THREAD:
 						try:

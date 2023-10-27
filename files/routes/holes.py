@@ -521,7 +521,7 @@ def upload_hole_banner(v, hole):
 
 	name = f'/images/{time.time()}'.replace('.','') + '.webp'
 	file.save(name)
-	bannerurl = process_image(name, v, resize=1200)
+	bannerurl = process_image(name, v, resize=1600)
 
 	hole.bannerurls.append(bannerurl)
 
