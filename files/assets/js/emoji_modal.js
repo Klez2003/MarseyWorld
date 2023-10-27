@@ -22,6 +22,7 @@ Copyright (C) 2022 Dr Steven Transmisia, anti-evil engineer,
  * @type {"inactive"|"loading"|"ready"}
  */
 let emojiEngineState = "inactive";
+let emojiSpeedEngineState = "inactive";
 
 // DOM stuff
 const classesSelectorDOM = document.getElementById("emoji-modal-tabs");
@@ -180,6 +181,8 @@ function makeEmojisSearchDictionary() {
 					for(let i = 0; i < emoji.tags.length; i++)
 						emojisSearchDictionary.updateTag(emoji.tags[i], emoji.name);
 			}
+
+			emojiSpeedEngineState = "ready";
 		})
 }
 
@@ -488,7 +491,7 @@ function update_speed_emoji_modal(event)
 		* kept it unless someone wants to provide an option to toggle it for performance */
 	if (current_word && curr_word_is_emoji() && current_word != ":")
 	{
-		makeEmojisSearchDictionary().then( () => {
+		openSpeedModal().then( () => {
 			let modal_pos = event.target.getBoundingClientRect();
 			modal_pos.x += window.scrollX;
 			modal_pos.y += window.scrollY;
@@ -582,6 +585,22 @@ function openEmojiModal(t, inputTargetIDName)
 			emojiEngineState = "loading"
 			makeEmojisSearchDictionary();
 			return fetchEmojis();
+		case "loading":
+			// this works because once the fetch completes, the first keystroke callback will fire and use the current value
+			return Promise.reject();
+		case "ready":
+			return Promise.resolve();
+		default:
+			throw Error("Unknown emoji engine state");
+	}
+}
+
+function openSpeedModal()
+{
+	switch (emojiSpeedEngineState) {
+		case "inactive":
+			emojiSpeedEngineState = "loading"
+			return makeEmojisSearchDictionary();
 		case "loading":
 			// this works because once the fetch completes, the first keystroke callback will fire and use the current value
 			return Promise.reject();
