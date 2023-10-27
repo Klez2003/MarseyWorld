@@ -152,24 +152,17 @@ const emojisSearchDictionary = {
 	}
 };
 
-// get public emojis list
-function fetchEmojis() {
+function makeEmojisSearchDictionary() {
+	// get public emojis list
 	const headers = new Headers({xhr: "xhr"})
 	return fetch("/emojis.json", {
 		headers,
 	})
 		.then(res => res.json())
 		.then(emojis => {
-			if (! (emojis instanceof Array ))
-				throw new TypeError("[EMOJI DIALOG] rDrama's server should have sent a JSON-coded Array!");
-
 			globalEmojis = emojis.map(({name, author_username, count}) => ({name, author_username, count}));
 
-			let classes = ["Marsey", "Platy", "Wolf", "Donkey Kong", "Tay", "Capy", "Carp", "Marsey Flags", "Marsey Alphabet", "Classic", "Rage", "Wojak", "Misc"]
-
-			const bussyDOM = document.createElement("div");
-
-			for(let i = 0; i < emojis.length; i++)
+			for (let i = 0; i < emojis.length; i++)
 			{
 				const emoji = emojis[i];
 
@@ -186,6 +179,29 @@ function fetchEmojis() {
 				if (emoji.tags instanceof Array)
 					for(let i = 0; i < emoji.tags.length; i++)
 						emojisSearchDictionary.updateTag(emoji.tags[i], emoji.name);
+			}
+		})
+}
+
+
+// get public emojis list
+function fetchEmojis() {
+	const headers = new Headers({xhr: "xhr"})
+	return fetch("/emojis.json", {
+		headers,
+	})
+		.then(res => res.json())
+		.then(emojis => {
+			if (!(emojis instanceof Array ))
+				throw new TypeError("[EMOJI DIALOG] rDrama's server should have sent a JSON-coded Array!");
+
+			let classes = ["Marsey", "Platy", "Wolf", "Donkey Kong", "Tay", "Capy", "Carp", "Marsey Flags", "Marsey Alphabet", "Classic", "Rage", "Wojak", "Misc"]
+
+			const bussyDOM = document.createElement("div");
+
+			for(let i = 0; i < emojis.length; i++)
+			{
+				const emoji = emojis[i];
 
 				// Create emoji DOM
 				const emojiDOM = document.importNode(emojiButtonTemplateDOM.content, true).children[0];
@@ -470,9 +486,9 @@ function update_speed_emoji_modal(event)
 
 	/* We could also check emoji_typing_state here, which is less accurate but more efficient. I've
 		* kept it unless someone wants to provide an option to toggle it for performance */
-	if (curr_word_is_emoji() && current_word != ":")
+	if (current_word && curr_word_is_emoji() && current_word != ":")
 	{
-		loadEmojis(null, null).then( () => {
+		makeEmojisSearchDictionary().then( () => {
 			let modal_pos = event.target.getBoundingClientRect();
 			modal_pos.x += window.scrollX;
 			modal_pos.y += window.scrollY;
@@ -541,7 +557,7 @@ function insertGhostDivs(element) {
 
 const emojiModal = document.getElementById('emojiModal')
 
-function loadEmojis(t, inputTargetIDName)
+function openEmojiModal(t, inputTargetIDName)
 {
 	selecting = false;
 	speed_carot_modal.style.display = "none";
@@ -564,6 +580,7 @@ function loadEmojis(t, inputTargetIDName)
 	switch (emojiEngineState) {
 		case "inactive":
 			emojiEngineState = "loading"
+			makeEmojisSearchDictionary();
 			return fetchEmojis();
 		case "loading":
 			// this works because once the fetch completes, the first keystroke callback will fire and use the current value

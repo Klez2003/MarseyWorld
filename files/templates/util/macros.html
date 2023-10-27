@@ -114,7 +114,7 @@
 
 
 {% macro emoji_btn(textarea_id, previous_modal) %}
-	<button type="button" class="btn btn-secondary format m-0 mr-1" data-nonce="{{g.nonce}}" data-onclick="loadEmojis(this, '{{textarea_id}}')" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji" {% if previous_modal %}data-previous-modal="{{previous_modal}}"{% endif %}>
+	<button type="button" class="btn btn-secondary format m-0 mr-1" data-nonce="{{g.nonce}}" data-onclick="openEmojiModal(this, '{{textarea_id}}')" data-bs-toggle="modal" data-bs-target="#emojiModal" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Add Emoji" {% if previous_modal %}data-previous-modal="{{previous_modal}}"{% endif %}>
 		<i class="fas fa-smile-beam"></i>
 	</button>
 {% endmacro %}
