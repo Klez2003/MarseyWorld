@@ -668,7 +668,6 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('conflictedgaysounds', 'Misc', 2, 'ferris felix trans gay gaysounds eggirl', false, 1679154435),
 ('confused', 'Classic', 2, 'confused animated emoticon perplexed', false, 0),
 ('confused2', 'Classic', 2, 'confusion', false, 1679281686),
-('congrats', 'Misc', 2, 'faggot fag gays twink cutetwink homo homos homosexual homosexuality internet drama rdrama homosex lgbt lgbtq lgb congrats win winner congratsurafaggot congratulation congratulations celebration', false, 0),
 ('contentiouscereal', 'Rage', 2, 'argue disagree', false, 0),
 ('cool', 'Classic', 2, 'sunglasses shades', false, 1679281702),
 ('coom', 'Misc', 2, 'jack off masturbate wank', false, 1682727424),
