@@ -70,8 +70,7 @@
 	</div>
 </div>
 
-{% set emoji_num = cache.get("emojis_num") or 0 %}
-<input hidden id="emoji_params" value="?n={{emoji_num}}&show_nsfw={{g.show_nsfw}}">
+<input hidden id="emoji_params" value="?n={{emoji_count()}}&show_nsfw={{g.show_nsfw}}">
 <script defer src="{{'js/emoji_modal/search_dictionary.js' | asset}}"></script>
 <script defer src="{{'js/emoji_modal/speed_emoji_modal.js' | asset}}"></script>
 <script defer src="{{'js/emoji_modal/emoji_modal.js' | asset}}"></script>

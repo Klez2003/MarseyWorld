@@ -11,6 +11,7 @@ from sqlalchemy import text
 
 from files.classes.user import User
 from files.classes.orgy import get_running_orgy
+from files.classes.emoji import Emoji
 from files.helpers.assetcache import assetcache_path
 from files.helpers.config.const import *
 from files.helpers.const_stateful import OVER_18_EMOJIS
@@ -122,6 +123,10 @@ def bar_position():
 
 	return [int((vaxxed * 100) / total), int((zombie * 100) / total), vaxxed, zombie]
 
+@cache.cached(make_cache_key=lambda:"emoji_count")
+def emoji_count():
+	return g.db.query(Emoji).filter_by(submitter_id=None).count()
+
 @app.context_processor
 def inject_constants():
 	return {"environ":environ, "SITE":SITE, "SITE_NAME":SITE_NAME, "SITE_FULL":SITE_FULL,
@@ -151,5 +156,5 @@ def inject_constants():
 			"CHUD_PHRASES":CHUD_PHRASES, "hasattr":hasattr, "calc_users":calc_users, "HOLE_INACTIVITY_DELETION":HOLE_INACTIVITY_DELETION, "LIGHT_THEMES":LIGHT_THEMES, "OVER_18_EMOJIS":OVER_18_EMOJIS,
 			"MAX_IMAGE_AUDIO_SIZE_MB":MAX_IMAGE_AUDIO_SIZE_MB, "MAX_IMAGE_AUDIO_SIZE_MB_PATRON":MAX_IMAGE_AUDIO_SIZE_MB_PATRON,
 			"MAX_VIDEO_SIZE_MB":MAX_VIDEO_SIZE_MB, "MAX_VIDEO_SIZE_MB_PATRON":MAX_VIDEO_SIZE_MB_PATRON,
-			"CURSORMARSEY_DEFAULT":CURSORMARSEY_DEFAULT, "SNAPPY_ID":SNAPPY_ID, "get_running_orgy":get_running_orgy, "TRUESCORE_MINIMUM":TRUESCORE_MINIMUM, "bar_position":bar_position, "datetime":datetime, "CSS_LENGTH_LIMIT":CSS_LENGTH_LIMIT, "cache":cache,
+			"CURSORMARSEY_DEFAULT":CURSORMARSEY_DEFAULT, "SNAPPY_ID":SNAPPY_ID, "get_running_orgy":get_running_orgy, "TRUESCORE_MINIMUM":TRUESCORE_MINIMUM, "bar_position":bar_position, "datetime":datetime, "CSS_LENGTH_LIMIT":CSS_LENGTH_LIMIT, "cache":cache, "emoji_count":emoji_count,
 		}

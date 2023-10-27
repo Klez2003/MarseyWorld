@@ -240,13 +240,16 @@ def approve_emoji(v, name):
 	if emoji.nsfw:
 		OVER_18_EMOJIS.append(emoji.name)
 
+	g.db.commit()
+
 	cache.delete("emojis_True")
 	cache.delete(f"emoji_list_{emoji.kind}_True")
 	if not emoji.nsfw:
 		cache.delete("emojis_False")
 		cache.delete(f"emoji_list_{emoji.kind}_False")
 
-	cache.set("emojis_num", g.db.query(Emoji).filter_by(submitter_id=None).count())
+
+	cache.delete("emoji_count")
 
 	purge_files_in_cloudflare_cache(f"{SITE_FULL_IMAGES}/e/{emoji.name}/webp")
 
@@ -564,6 +567,8 @@ def update_emoji(v):
 		_note=f'<img loading="lazy" data-bs-toggle="tooltip" alt=":{name}:" title=":{name}:" src="{SITE_FULL_IMAGES}/e/{name}.webp">'
 	)
 	g.db.add(ma)
+
+	g.db.commit()
 
 	cache.delete("emojis_True")
 	cache.delete(f"emoji_list_{existing.kind}_True")
