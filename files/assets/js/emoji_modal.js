@@ -154,6 +154,7 @@ const emojisSearchDictionary = {
 
 // get public emojis list
 function fetchEmojis() {
+	const t = Date.now() / 1000
 	const headers = new Headers({xhr: "xhr"})
 	return fetch("/emojis.json", {
 		headers,
@@ -242,6 +243,8 @@ function fetchEmojis() {
 			emojiSearchBarDOM.disabled = false;
 
 			emojiEngineState = "ready";
+
+			console.log(Date.now() / 1000 - t)
 		})
 }
 
