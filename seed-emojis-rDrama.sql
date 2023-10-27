@@ -5508,7 +5508,6 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('wine', 'Classic', 2, 'goblet glass alcoholic', false, 1679283418),
 ('wingcucks', 'Misc', 2, 'horseshoe theory wingcuck wingcucks wingcuckery left right farleft farright leftwing rightwing wing leftoid rightoid rightard leftard horse shoe hitler sjw foid nazi nazis nazism fascist fascism', false, 1689715260),
 ('wink', 'Classic', 2, 'wink emoticon winking secret', false, 0),
-('wishthatwereme', 'Misc', 2, 'god', false, 1693876145),
 ('witch', 'Classic', 2, 'witch animated magic broom fly monster', false, 0),
 ('witheredricefarmer', 'Wojak', 2, 'rice farmer tired old decrepit', false, 0),
 ('wizard', 'Classic', 2, 'wizard animated magic staff gandalf', false, 0),
