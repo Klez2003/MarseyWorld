@@ -15,7 +15,7 @@
 	{% endif %}
 
 	{% if request.path != '/sidebar' %}
-		{% if not hole and (IS_FISTMAS() or IS_HOMOWEEN()) %}
+		{% if not (hole and hole.sidebarurl) and (IS_FISTMAS() or IS_HOMOWEEN()) %}
 			{% include "events/shared/eye_tracking.html" %}
 		{% elif v and (v.is_banned or v.chud) %}
 			<a href="{{SITE_FULL_IMAGES}}/i/{{SITE_NAME}}/sidebar2.webp">
