@@ -1,1 +1,3 @@
-{% if v and v.can_see_shadowbanned and user.shadowbanned %}<i class="fas fa-user-times text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title='Shadowbanned by @{{user.shadowbanner}} for "{{user.ban_reason}}"' data-bs-html="true"></i>{% endif %}
+{% if user.shadowbanned and v and v.can_see_shadowbanned %}
+	<i class="fas fa-user-times text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title='Shadowbanned by @{{user.shadowbanner}} for "{{user.ban_reason}}"' data-bs-html="true"></i>
+{% endif %}
