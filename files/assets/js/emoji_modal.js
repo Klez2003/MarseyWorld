@@ -154,13 +154,13 @@ const emojisSearchDictionary = {
 
 // get public emojis list
 function fetchEmojis() {
-	const t = Date.now() / 1000
 	const headers = new Headers({xhr: "xhr"})
 	return fetch("/emojis.json", {
 		headers,
 	})
 		.then(res => res.json())
 		.then(emojis => {
+			const t = Date.now() / 1000
 			if (! (emojis instanceof Array ))
 				throw new TypeError("[EMOJI DIALOG] rDrama's server should have sent a JSON-coded Array!");
 
@@ -169,6 +169,8 @@ function fetchEmojis() {
 			let classes = ["Marsey", "Platy", "Wolf", "Donkey Kong", "Tay", "Capy", "Carp", "Marsey Flags", "Marsey Alphabet", "Classic", "Rage", "Wojak", "Misc"]
 
 			const bussyDOM = document.createElement("div");
+
+			console.log(Date.now() / 1000 - t)
 
 			for(let i = 0; i < emojis.length; i++)
 			{
