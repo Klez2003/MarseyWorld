@@ -466,7 +466,7 @@ function update_speed_emoji_modal(event)
 
 	let text = event.target.value;
 
-	// Unused, but left incase anyone wants to use this more efficient method for emojos
+	// Unused, but left incase anyone wants to use this more efficient method for emojis
 	switch (event.data)
 	{
 		case ':':
