@@ -119,8 +119,8 @@ def get_emojis(nsfw):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def emojis(v):
-	return get_emojis(g.show_nsfw)
-
+	show_nsfw = request.values.get('show_nsfw') == 'True'
+	return get_emojis(show_nsfw)
 
 
 @app.get('/sidebar')

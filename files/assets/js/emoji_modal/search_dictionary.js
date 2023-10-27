@@ -60,8 +60,8 @@ const emojisSearchDictionary = {
 function makeEmojisSearchDictionary() {
 	// get public emojis list
 	const headers = new Headers({xhr: "xhr"})
-	const emoji_num = document.getElementById('emoji_num').value
-	return fetch(`/emojis.csv?x=${emoji_num}`, {
+	const emoji_params = document.getElementById('emoji_params').value
+	return fetch(`/emojis.csv${emoji_params}`, {
 		headers,
 	})
 		.then(res => res.json())
