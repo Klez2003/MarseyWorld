@@ -1025,7 +1025,7 @@ def edit_post(pid, v):
 	body = process_files(request.files, v, body)
 	body = body[:POST_BODY_LENGTH_LIMIT(v)].strip() # process_files() may be adding stuff to the body
 
-	if body != p.body:
+	if body != p.body or p.chudded:
 		body_html = sanitize(body, golden=False, limit_pings=100, obj=p, author=p.author)
 
 		if p.author.hieroglyphs and marseyaward_body_regex.search(body_html):
