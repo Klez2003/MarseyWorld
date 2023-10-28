@@ -1125,11 +1125,12 @@ INSERT INTO public.hat_defs VALUES (1355, 'Pink Glitter Accent', 'Sparkly pink b
 INSERT INTO public.hat_defs VALUES (1354, 'White Sparkle', 'Blingy white accent sparkles!', 2, 1000, NULL, 1698012140);
 
 
+
 --
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1358, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1360, true);
 
 
 --
