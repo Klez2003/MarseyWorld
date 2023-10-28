@@ -548,7 +548,7 @@ def award_thing(v, thing_type, id):
 			badge_grant(badge_id=185, user=author)
 			if v.id == author.id:
 				session['event_music'] = False
-		elif kind in {"ectoplasm", "candy-corn"}:
+		elif kind in {"ectoplasm", "candy-corn", "stab"}:
 			if thing.is_effortpost:
 				abort(403, f'Effortposts are protected from the {award_title} award!')
 		elif kind == "spider":
