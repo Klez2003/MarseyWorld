@@ -212,14 +212,13 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None, followers_pi
 				if cost > v.coins + v.marseybux:
 					abort(403, f"You need {cost} currency to mention these ping groups!")
 
-				if log_cost:
-					log_cost.ping_cost += cost
-
 				if i.group(1) in {'biofoids','neofoids','jannies'}:
 					coin_receivers.update(member_ids)
 
 		if cost:
 			v.charge_account('combined', cost)
+			if log_cost:
+				log_cost.ping_cost += cost
 
 		if coin_receivers:
 			g.db.query(User).options(load_only(User.id)).filter(User.id.in_(coin_receivers)).update({ User.coins: User.coins + 10 })
