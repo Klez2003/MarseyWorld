@@ -37,7 +37,7 @@ BOOSTED_SITES = {
 	'shitpost.cloud',
 
 	#forums
-	#'all sites with the word "forum" in the domain',
+	#'all sites with the word "forum" or "community" in the domain',
 	'kiwifarms.net',
 	'kiwifarms.st',
 	'onionfarms.com',
@@ -47,7 +47,6 @@ BOOSTED_SITES = {
 	'thecoli.com',
 	'nairaland.com',
 	'resetera.com',
-	'steamcommunity.com',
 	'lipstickalley.com',
 	'tigerdroppings.com',
 	'groups.google.com',
@@ -62,7 +61,6 @@ BOOSTED_SITES = {
 	'neogaf.com',
 	'thebore.com',
 	'itjustbugsme.com',
-	'community.myfitnesspal.com',
 	'mumsnet.com',
 	'voy.com',
 	'texags.com',

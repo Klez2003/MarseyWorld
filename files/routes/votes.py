@@ -149,9 +149,9 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 	elif target.author.progressivestack or (IS_HOMOWEEN() and target.author.zombie < 0) or target.author.admin_level >= PERMS['IS_PERMA_PROGSTACKED']:
 		mul = 2
 	elif SITE == 'rdrama.net' and cls == Post:
-		if (target.domain.endswith('.win')
-		or 'forum' in target.domain or 'chan' in target.domain or 'lemmy' in target.domain or 'mastodon' in target.domain
-		or (target.domain in BOOSTED_SITES and not target.url.startswith('/'))):
+		if target.domain.endswith('.win') \
+		or any(i in target.domain for i in ('forum','community','chan','lemmy','mastodon')) \
+		or (target.domain in BOOSTED_SITES and not target.url.startswith('/')):
 			mul = 2
 		elif target.hole in STEALTH_HOLES or target.hole in {'countryclub', 'highrollerclub'}:
 			mul = 2
