@@ -7506,12 +7506,12 @@ p { /* DO NOT REMOVE */
 }
 
 #hole-name {
-	font-size: max(14px, 1.2vw);
+	font-size: 1.5vw;
 }
 
-@media (min-width: 768px) {
+@media (max-width: 768px) {
 	#hole-name {
-		font-size: 1.5vw;
+		font-size: max(14px, 1.2vw);
 		max-width: 25vw;
 	}
 }
