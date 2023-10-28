@@ -12,5 +12,6 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseytortured', 'Marsey', 2, 'slitwrists crying sad tears blood cuts tortured mutilated gore', false, 1698367179),
 ('marseywhale', 'Marsey', 2, 'marsey fat diabetic obese mcdonalds whale fries burger soda', false, 1698326462),
 ('minioncocksock', 'Misc', 2, 'cocksleeve', true, 1698334044),
-('wojakselfsuck', 'Wojak', 2, 'penis cock', true, 1698333394)
+('wojakselfsuck', 'Wojak', 2, 'penis cock', true, 1698333394),
+('wolfamongus', 'Wolf', 2, 'sussy', false, 1698413110)
 ON CONFLICT (name) DO UPDATE SET tags = EXCLUDED.tags;
