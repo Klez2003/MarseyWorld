@@ -1019,6 +1019,7 @@ def IS_EVENT():
 CHUD_PHRASES = (
 	"Trans lives matter",
 	"Black lives matter",
+	"Black trans lives matter",
 	"The future is female",
 	"I say this as a feminist ally",
 	"I stand with Israel",
@@ -1033,7 +1034,6 @@ CHUD_PHRASES = (
 	"Climate action now",
 	"Long live the CCP",
 	"I stand with Ukraine",
-	"Leo Frank was innocent",
 	"Israeli lives matter",
 	"Palestinian lives matter",
 	"I love sucking cock",
