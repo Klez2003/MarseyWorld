@@ -2528,6 +2528,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseygenie', 'Marsey', 2, 'aladdin genie sandnigger sand nigger marsey', false, 1678246358),
 ('marseygeodude', 'Marsey', 2, 'pkmn pokemon geodude 074', false, 1697776985),
 ('marseygeodude2', 'Marsey', 2, 'pkmn pokemon geodude sprite 074', false, 1697832605),
+('marseygeorgerrmartin', 'Marsey', 2, 'author writer gameofthrones houseofthedragon fantasy chonker fat grrm', false, 1698521454),
 ('marseygeralt', 'Marsey', 2, 'geralt witcher spare coin tip gold money', false, 1681083887),
 ('marseygermantank', 'Marsey', 2, 'tank nazi german 1488 1933 panzer panther tiger', false, 1680671082),
 ('marseygetgle', 'Marsey', 2, 'autism google', false, 1684693594),
