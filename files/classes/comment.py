@@ -514,4 +514,4 @@ class Comment(Base):
 	@property
 	@lazy
 	def is_effortpost(self):
-		return False
+		return len(self.body) >= 1000
