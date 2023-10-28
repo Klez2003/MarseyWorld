@@ -485,6 +485,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('carpsurejan', 'Carp', 2, 'doubt', false, 1688989059),
 ('carpsurftheweb', 'Carp', 2, 'computer internet mouse screen mod janny', false, 1688988647),
 ('carpsurskit', 'Carp', 2, 'pkmn pokemon surskit 283', false, 1698038178),
+('carpsweating', 'Carp', 2, 'nervous caught lie towel', false, 1698526452),
 ('carpthinkorino', 'Carp', 2, 'marseythinkorino contemplate consider', false, 1689881225),
 ('carpthong', 'Carp', 2, 'bussy butt ass sexy sad', false, 1687446903),
 ('carpthumbsup', 'Carp', 2, 'fish carpathianflorist goodjob approval', false, 1687987858),
