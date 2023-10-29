@@ -664,6 +664,7 @@ if SITE in {'rdrama.net', 'staging.rdrama.net'}:
 		'marco': 152,
 		'klen': 2050,
 		'gaslight': 18121,
+		'kaam': 1048,
 	}
 
 	ANTISPAM_BYPASS_IDS = {1703, 13427, 15014}
