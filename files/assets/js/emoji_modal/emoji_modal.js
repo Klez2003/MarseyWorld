@@ -217,6 +217,7 @@ function emojiAddToInput(event)
 
 	strToInsert = ":" + strToInsert + ":"
 	insertText(emojiInputTargetDOM, strToInsert)
+	insertedAnEmoji = true
 
 	// kick-start the preview
 	emojiInputTargetDOM.dispatchEvent(new Event('input'));
@@ -230,17 +231,21 @@ function emojiAddToInput(event)
 }
 
 const emojiModal = document.getElementById('emojiModal')
+let insertedAnEmoji
 
 function openEmojiModal(t, inputTargetIDName)
 {
 	selecting = false;
+	insertedAnEmoji = false;
 
 	if (inputTargetIDName) {
 		emojiInputTargetDOM = document.getElementById(inputTargetIDName);
 		emojiModal.addEventListener('hide.bs.modal', () => {
-			setTimeout(() => {
-				emojiInputTargetDOM.focus();
-			}, 200);
+			if (insertedAnEmoji) {
+				setTimeout(() => {
+					emojiInputTargetDOM.focus();
+				}, 50);
+			}
 		}, {once : true});	
 	}
 

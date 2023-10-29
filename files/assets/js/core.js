@@ -469,6 +469,12 @@ function insertText(input, text) {
 	input.selectionStart = newPos;
 
 	handle_disabled(input)
+
+	if (typeof checkForRequired === "function") checkForRequired();
+
+	setTimeout(() => {
+		input.focus();
+	}, 50);
 }
 
 

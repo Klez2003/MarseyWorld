@@ -7,12 +7,12 @@ let commentFormID;
 function insertGIF(url) {
 	const commentBox = document.getElementById(commentFormID);
 	const old = commentBox.value;
+	let text
 
-	if (old) commentBox.value = `${old}\n${url}`;
-	else commentBox.value = url
+	if (old) text = `${old}\n${url}`;
+	else text = url
 
-	handle_disabled(commentBox)
-	if (typeof checkForRequired === "function") checkForRequired();
+	insertText(commentBox, text)
 }
 
 const gifModal = document.getElementById('gifModal')
@@ -118,12 +118,6 @@ async function show_gif_categories(t, form) {
 				bootstrap.Modal.getOrCreateInstance(document.getElementById(t.dataset.previousModal)).show()
 			}, {once : true});	
 		}
-
-		gifModal.addEventListener('hide.bs.modal', () => {
-			setTimeout(() => {
-				document.getElementById(commentFormID).focus();
-			}, 200);
-		}, {once : true});
 	}
 }
 
