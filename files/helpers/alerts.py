@@ -224,7 +224,7 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, obj=None, followers_ping=Tr
 		abort(403, "You can only notify a maximum of 400 users.")
 
 	if v.shadowbanned or obj.is_banned:
-		notify_users = [x[0] for x in g.db.query(User.id).filter(User.id.in_(notify_users), User.admin_level >= PERMS['USER_SHADOWBAN']).all()]
+		notify_users = set(x[0] for x in g.db.query(User.id).filter(User.id.in_(notify_users), User.admin_level >= PERMS['USER_SHADOWBAN']).all())
 
 	return notify_users - BOT_IDs - {v.id, 0} - v.all_twoway_blocks - v.muters
 
