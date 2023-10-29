@@ -442,8 +442,8 @@ class User(Base):
 	@property
 	@lazy
 	def hole_blocks(self):
-		stealth = set([x[0] for x in g.db.query(Hole.name).filter_by(stealth=True)])
-		stealth = stealth - set([x[0] for x in g.db.query(StealthHoleUnblock.hole).filter_by(user_id=self.id)])
+		stealth = set(x[0] for x in g.db.query(Hole.name).filter_by(stealth=True))
+		stealth = stealth - set(x[0] for x in g.db.query(StealthHoleUnblock.hole).filter_by(user_id=self.id))
 		if self.chud == 1: stealth = stealth - {'chudrama'}
 
 		return list(stealth) + [x[0] for x in g.db.query(HoleBlock.hole).filter_by(user_id=self.id)]
@@ -1076,7 +1076,7 @@ class User(Base):
 	@property
 	@lazy
 	def muters(self):
-		return set([x[0] for x in g.db.query(UserMute.user_id).filter_by(target_id=self.id)])
+		return set(x[0] for x in g.db.query(UserMute.user_id).filter_by(target_id=self.id))
 
 
 	def get_relationship_count(self, relationship_cls):

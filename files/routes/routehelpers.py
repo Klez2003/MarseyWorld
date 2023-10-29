@@ -44,7 +44,7 @@ def get_alt_graph_ids(uid):
 	)
 
 	alt_graph_cte = alt_graph_cte.union(alt_graph_cte_inner)
-	return set([x[0] for x in g.db.query(User.id).filter(User.id == alt_graph_cte.c.user_id, User.id != uid)])
+	return set(x[0] for x in g.db.query(User.id).filter(User.id == alt_graph_cte.c.user_id, User.id != uid))
 
 def get_alt_graph(uid):
 	alt_ids = get_alt_graph_ids(uid)

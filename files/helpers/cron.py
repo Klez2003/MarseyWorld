@@ -331,7 +331,7 @@ def _leaderboard_task():
 def _process_timer(attr, badge_ids, text, extra_attrs={}):
 	now = time.time()
 	users = g.db.query(User).options(load_only(User.id)).filter(1 < attr, attr < now)
-	uids = set([x.id for x in users])
+	uids = set(x.id for x in users)
 
 	#set user attributes
 	attr = str(attr).split('.')[1]

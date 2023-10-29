@@ -98,7 +98,7 @@ def get_account(id, v=None, graceful=False, include_blocks=False):
 def get_accounts_dict(ids, v=None, graceful=False):
 	if not ids: return {}
 	try:
-		ids = set([int(id) for id in ids])
+		ids = set(int(id) for id in ids)
 	except:
 		if graceful: return None
 		abort(400, "User IDs need to be an integer.")

@@ -182,17 +182,17 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, obj=None, followers_ping=Tr
 				return 'everyone'
 			elif i.group(1) == 'jannies':
 				group = None
-				member_ids = set([x[0] for x in g.db.query(User.id).filter(User.admin_level > 0, User.id != AEVANN_ID)])
+				member_ids = set(x[0] for x in g.db.query(User.id).filter(User.admin_level > 0, User.id != AEVANN_ID))
 			elif i.group(1) == 'followers':
 				if not followers_ping:
 					abort(403, f"You can't use !followers in posts!")
 				group = None
-				member_ids = set([x[0] for x in g.db.query(Follow.user_id).filter_by(target_id=v.id)])
+				member_ids = set(x[0] for x in g.db.query(Follow.user_id).filter_by(target_id=v.id))
 			elif i.group(1) == 'commenters':
 				if not commenters_ping_post_id:
 					abort(403, "You can only use !commenters in comments made under posts!")
 				group = None
-				member_ids = set([x[0] for x in g.db.query(User.id).join(Comment, Comment.author_id == User.id).filter(Comment.parent_post == commenters_ping_post_id)]) - {v.id}
+				member_ids = set(x[0] for x in g.db.query(User.id).join(Comment, Comment.author_id == User.id).filter(Comment.parent_post == commenters_ping_post_id)) - {v.id}
 			else:
 				group = g.db.get(Group, i.group(1))
 				if not group: continue
