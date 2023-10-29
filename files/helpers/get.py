@@ -130,7 +130,7 @@ def get_post(i, v=None, graceful=False):
 			blocking.c.target_id,
 		)
 
-		post=post.filter(Post.id == i
+		post = post.filter(Post.id == i
 		).outerjoin(
 			vt,
 			vt.c.post_id == Post.id,
@@ -139,7 +139,7 @@ def get_post(i, v=None, graceful=False):
 			blocking.c.target_id == Post.author_id,
 		)
 
-		post=post.one_or_none()
+		post = post.one_or_none()
 
 		if not post:
 			if graceful: return None
