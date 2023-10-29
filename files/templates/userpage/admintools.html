@@ -1,12 +1,12 @@
 {% macro userBanBlock(deviceType) %}
 	{% if u.chud %}
-	<h5 class="text-primary" id="profile-{{deviceType}}--chudded">CHUDDED USER:
-		(by {{u.chudder | safe}})
+		<h5 class="text-primary" id="profile-{{deviceType}}--chudded">CHUDDED USER:
+			(by {{u.chudder | safe}})
 
-		{% if u.chud > 1 %}
-			- {{u.unchud_string}}
-		{% endif %}
-	</h5>
+			{% if u.chud > 1 %}
+				- {{u.unchud_string}}
+			{% endif %}
+		</h5>
 	{% endif %}
 	{% if u.is_suspended %}
 		<h5 class="text-primary" id="profile-{{deviceType}}--banned">BANNED USER:

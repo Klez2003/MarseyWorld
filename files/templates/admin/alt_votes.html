@@ -52,11 +52,10 @@
 	{% if u2 in get_alt_graph(u1.id) %}
 		<p>Accounts are <a href="/@{{u1.username}}/alts">known alts</a> of each other.</p>
 	{% else %}
+		<p>Two accounts controlled by different people should have most uniqueness percentages at or above 70-80%</p>
+		<p>A sockpuppet account will have its uniqueness percentages significantly lower.</p>
 
-	<p>Two accounts controlled by different people should have most uniqueness percentages at or above 70-80%</p>
-	<p>A sockpuppet account will have its uniqueness percentages significantly lower.</p>
-
-	<button class="btn btn-danger" data-areyousure="postToastReload(this,'/@{{u1.username}}/alts/?other_username={{u2.username}}')" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)">Link {{u1.username}} and {{u2.username}}</button>
+		<button class="btn btn-danger" data-areyousure="postToastReload(this,'/@{{u1.username}}/alts/?other_username={{u2.username}}')" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)">Link {{u1.username}} and {{u2.username}}</button>
 	{% endif %}
 {% endif %}
 {% endif %}

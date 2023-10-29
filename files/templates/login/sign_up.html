@@ -29,36 +29,36 @@
 {% block content %}
 <div id="register-form">
 	{% if not ref_user and SITE_NAME == 'rDrama' and login_required %}
-	<img loading="lazy" id="logo" alt="logo" src="{{'logo.webp' | asset_siteimg}}" width=70>
-	<hr>
-	<p class="text-muted text-justify mb-3" style="line-height: 1.2em">
-		Hiiiiii it's your favorite user Carp! We're currently on <span style="font-variant-caps: small-caps">Login Required</span> mode for one of a few reasons:
-	</p>
-	<ol style="padding-left: 1.5em">
-		<li>The site is running really slowly and we think it might be miscreants up to no good, or</li>
-		<li>It's our monthly 24 hours of login-required-mode to encourage lovely lurkers to become lovely new friends of ours, or</li>
-		<li>Someone clicked the toggle by mistake lol oops sorry!</li>
-	</ol>
-	<p class="text-muted text-justify mb-1" style="line-height: 1.2em">
-		But that's all fine. Signing up is easy. It takes literally like 4 seconds if you're slow. You don't even need an email! Just pick a username, make up some neat new password where you replace all the e's with 3s or whatever and bam, done, you're in.<br>
-		Remember to click “Follow” on my profile!
-	</p>
-	<p class="text-muted mb-md-2">
-		I love you.<br>
-		<em>xoxo carp</em> 💋
-	</p>
-	<hr>
+		<img loading="lazy" id="logo" alt="logo" src="{{'logo.webp' | asset_siteimg}}" width=70>
+		<hr>
+		<p class="text-muted text-justify mb-3" style="line-height: 1.2em">
+			Hiiiiii it's your favorite user Carp! We're currently on <span style="font-variant-caps: small-caps">Login Required</span> mode for one of a few reasons:
+		</p>
+		<ol style="padding-left: 1.5em">
+			<li>The site is running really slowly and we think it might be miscreants up to no good, or</li>
+			<li>It's our monthly 24 hours of login-required-mode to encourage lovely lurkers to become lovely new friends of ours, or</li>
+			<li>Someone clicked the toggle by mistake lol oops sorry!</li>
+		</ol>
+		<p class="text-muted text-justify mb-1" style="line-height: 1.2em">
+			But that's all fine. Signing up is easy. It takes literally like 4 seconds if you're slow. You don't even need an email! Just pick a username, make up some neat new password where you replace all the e's with 3s or whatever and bam, done, you're in.<br>
+			Remember to click “Follow” on my profile!
+		</p>
+		<p class="text-muted mb-md-2">
+			I love you.<br>
+			<em>xoxo carp</em> 💋
+		</p>
+		<hr>
 	{% elif not ref_user and SITE_NAME == 'WPD' and login_required %}
-	<img loading="lazy" id="logo" alt="logo" src="{{'logo.webp' | asset_siteimg}}" width=70>
-	<hr>
-	<p class="text-muted text-justify mb-1" style="line-height: 1.2em">
-		<strong>Hi you!</strong> &mdash; <span style="font-variant-caps: small-caps">watchpeopledie.tv</span> is currently doing our monthly 24(ish) hours* of "everyone needs to have an account" &mdash; sorry about that! But making an account is actually super easy. <strong>You don't even need an email address!</strong> Literally just pick a username, set a password, and that's that. Bam, done, like 8 seconds, tops.<br>
-	</p>
-	<p class="text-muted mb-md-2">
-		We WANT you with us &#128150;<br>
-		Please join!
-	</p>
-	<hr>
+		<img loading="lazy" id="logo" alt="logo" src="{{'logo.webp' | asset_siteimg}}" width=70>
+		<hr>
+		<p class="text-muted text-justify mb-1" style="line-height: 1.2em">
+			<strong>Hi you!</strong> &mdash; <span style="font-variant-caps: small-caps">watchpeopledie.tv</span> is currently doing our monthly 24(ish) hours* of "everyone needs to have an account" &mdash; sorry about that! But making an account is actually super easy. <strong>You don't even need an email address!</strong> Literally just pick a username, set a password, and that's that. Bam, done, like 8 seconds, tops.<br>
+		</p>
+		<p class="text-muted mb-md-2">
+			We WANT you with us &#128150;<br>
+			Please join!
+		</p>
+		<hr>
 	{% endif %}
 	<form action="/signup" method="post" class="mt-md-3" id="signup">
 
@@ -110,9 +110,9 @@
 	</div>
 	</form>
 	{% if not ref_user and SITE_NAME == 'WPD' and login_required %}
-	<p class="text-muted text-justify mb-6" style="line-height: 1.2em; font-size: 10px">
-		* okay so it's actually whenever I feel like hitting that Login Required button. I'm really sorry, but you have to understand: WE WANT TO BE YOUR FRIEND. And we can't do that unless you join. There's really no reason not to. Like I said, 8 seconds <em>at most</em> to register. What are you worried about? Your email being sold? I don't even know what that means and you don't either. Go ahead, tell me what you'd do if someone said like, "alright bud, go sell your email address to someone." WHAT DOES THAT MEAN? And, again, you really don't even need an email. Just a username and some stupid password. That's <strong>all</strong>. Come on. Peer pressure.
-	</p>
+		<p class="text-muted text-justify mb-6" style="line-height: 1.2em; font-size: 10px">
+			* okay so it's actually whenever I feel like hitting that Login Required button. I'm really sorry, but you have to understand: WE WANT TO BE YOUR FRIEND. And we can't do that unless you join. There's really no reason not to. Like I said, 8 seconds <em>at most</em> to register. What are you worried about? Your email being sold? I don't even know what that means and you don't either. Go ahead, tell me what you'd do if someone said like, "alright bud, go sell your email address to someone." WHAT DOES THAT MEAN? And, again, you really don't even need an email. Just a username and some stupid password. That's <strong>all</strong>. Come on. Peer pressure.
+		</p>
 	{% endif %}
 </div>
 {% endblock %}

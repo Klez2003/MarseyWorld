@@ -53,34 +53,34 @@
 		<div class="card-header bg-transparent border-0 d-flex flex-row flex-nowrap pl-2 pl-md-0 p-0 mr-md-2">
 
 			{% if not v_forbid_deleted %}
-			<div class="card-thumbnail mt-3">
-				{% if not p.url %}
-					<a {% if v and v.newtab %}data-target="t" target="_blank"{% endif %} href="{{p.permalink}}">
-						<img alt="post thumbnail" loading="lazy" src="{{p.thumb_url}}" class="post-img">
-					</a>
-				{% elif p.is_image %}
-					<a href="{{p.realurl(v)}}" rel="nofollow noopener">
-						<img data-nonce="{{g.nonce}}" data-onclick="expandImage('{{p.realurl(v)}}')" alt="post thumbnail" loading="lazy" src="{{p.thumb_url}}" class="post-img">
-					</a>
-				{% elif p.is_video or p.is_audio %}
-					<a href="{{p.realurl(v)}}" rel="nofollow noopener">
-						<img data-nonce="{{g.nonce}}" data-onclick="togglevideo('{{p.id}}')" alt="post thumbnail" loading="lazy" src="{{p.thumb_url}}" class="post-img">
-						{% if p.is_video %}
+				<div class="card-thumbnail mt-3">
+					{% if not p.url %}
+						<a {% if v and v.newtab %}data-target="t" target="_blank"{% endif %} href="{{p.permalink}}">
+							<img alt="post thumbnail" loading="lazy" src="{{p.thumb_url}}" class="post-img">
+						</a>
+					{% elif p.is_image %}
+						<a href="{{p.realurl(v)}}" rel="nofollow noopener">
+							<img data-nonce="{{g.nonce}}" data-onclick="expandImage('{{p.realurl(v)}}')" alt="post thumbnail" loading="lazy" src="{{p.thumb_url}}" class="post-img">
+						</a>
+					{% elif p.is_video or p.is_audio %}
+						<a href="{{p.realurl(v)}}" rel="nofollow noopener">
+							<img data-nonce="{{g.nonce}}" data-onclick="togglevideo('{{p.id}}')" alt="post thumbnail" loading="lazy" src="{{p.thumb_url}}" class="post-img">
+							{% if p.is_video %}
+								<i class="video-play fas fa-play"></i>
+							{% endif %}
+						</a>
+					{% elif p.is_youtube %}
+						<a href="{{p.realurl(v)}}" rel="nofollow noopener">
+							<img data-nonce="{{g.nonce}}" data-onclick="toggleyoutube('{{p.id}}')" alt="post thumbnail" loading="lazy" src="{{p.thumb_url}}" class="post-img">
 							<i class="video-play fas fa-play"></i>
-						{% endif %}
-					</a>
-				{% elif p.is_youtube %}
-					<a href="{{p.realurl(v)}}" rel="nofollow noopener">
-						<img data-nonce="{{g.nonce}}" data-onclick="toggleyoutube('{{p.id}}')" alt="post thumbnail" loading="lazy" src="{{p.thumb_url}}" class="post-img">
-						<i class="video-play fas fa-play"></i>
-					</a>
-				{% else %}
-					<a {% if not v or v.newtabexternal %}target="_blank"{% endif %} rel="nofollow noopener" href="{{p.realurl(v)}}">
-						<img alt="post thumbnail" loading="lazy" src="{{p.thumb_url}}" class="post-img">
-						<i class="ext-link fas fa-external-link"></i>
-					</a>
-				{% endif %}
-			</div>
+						</a>
+					{% else %}
+						<a {% if not v or v.newtabexternal %}target="_blank"{% endif %} rel="nofollow noopener" href="{{p.realurl(v)}}">
+							<img alt="post thumbnail" loading="lazy" src="{{p.thumb_url}}" class="post-img">
+							<i class="ext-link fas fa-external-link"></i>
+						</a>
+					{% endif %}
+				</div>
 			{% endif %}
 		</div>
 		<div class="card-block text-left x-scroll-parent w-100">

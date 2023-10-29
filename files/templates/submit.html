@@ -9,103 +9,103 @@
 {% block mobilenavbar %}{% endblock %}
 {% block content %}
 		{% block form %}
-		<div class="submit-grid-view">
-			<form id="submitform" action="{% if SITE == 'watchpeopledie.tv' %}https://videos.watchpeopledie.tv{% elif hole %}/h/{{hole}}{% endif %}/submit" method="post" enctype="multipart/form-data" style="grid-column: 2" data-nonce="{{g.nonce}}" data-onsubmit="submit(this)">
-				<div class="container pb-0">
-						<div class="row justify-content-center">
-								<div class="col px-3 py-0">
-										<h2 class="mt-3">Create a post</h2>
-										<div class="body">
-												<input hidden name="formkey" value="{{v|formkey}}">
-												<label class='mt-4' for="title">Hole</label>
-												<div class="input-group">
-													{%- set hole_placeholder = 'Required' if HOLE_REQUIRED else 'Optional' -%}
-													<input list="holes" autocomplete="off" id="hole" class="form-control" form="submitform" name="hole" data-nonce="{{g.nonce}}" data-oninput="savetext()" {% if hole %}value="{{hole}}"{% endif %} placeholder="{{hole_placeholder}}" {% if HOLE_REQUIRED %}required{% endif %}>
-													<datalist id="holes">
-														{% for h in HOLES %}
-															<option value="{{h}}"></option>
-														{% endfor %}
-													</datalist>
-												</div>
-												<label class='mt-4' for="title">Post Title</label>
-												<textarea autocomplete="off" class="form-control" id="post-title" type="text" name="title" placeholder="Required" value="{{title}}" minlength="1" maxlength="500" required data-nonce="{{g.nonce}}" data-oninput="checkForRequired();savetext()"></textarea>
-
-												{{macros.emoji_btn('post-title')}}
-								
-												<div id="urlblock">
-													<label for="URL" class="mt-3">URL</label>
-													<input autocomplete="off" class="form-control" id="post-url" name="url" type="url" placeholder="Optional if you have text." value="{{request.values.get('url','')}}" required data-nonce="{{g.nonce}}" data-oninput="checkForRequired();savetext();checkRepost();autoSuggestTitle()">
-													<h5 id="system" class="mt-2 form-text font-weight-bold text-danger"></h5>
-												</div>
-												<div id="image-upload-block">
-													<div><label class="mt-3">Attachment Upload</label></div>
-													<div style="display:flex;align-items:center">
-														<img loading="lazy" id="image-preview" style="max-width:50%">
-														<label class="btn btn-secondary m-0 ml-2 mr-1" for="file-upload">
-															<div>Select File</div>
-															<input autocomplete="off" id="file-upload" accept="image/*, video/*, audio/*" type="file" name="file-url" {% if g.is_tor %}disabled{% endif %} hidden>
-														</label>
-														<button id="remove-attachment" type="button" style="font-size:25px" class="text-danger font-weight-bold ml-2 d-none" data-bs-toggle="tooltip" title="Remove Attachment" data-nonce="{{g.nonce}}" data-onclick="remove_attachment()">X</button>
+			<div class="submit-grid-view">
+				<form id="submitform" action="{% if SITE == 'watchpeopledie.tv' %}https://videos.watchpeopledie.tv{% elif hole %}/h/{{hole}}{% endif %}/submit" method="post" enctype="multipart/form-data" style="grid-column: 2" data-nonce="{{g.nonce}}" data-onsubmit="submit(this)">
+					<div class="container pb-0">
+							<div class="row justify-content-center">
+									<div class="col px-3 py-0">
+											<h2 class="mt-3">Create a post</h2>
+											<div class="body">
+													<input hidden name="formkey" value="{{v|formkey}}">
+													<label class='mt-4' for="title">Hole</label>
+													<div class="input-group">
+														{%- set hole_placeholder = 'Required' if HOLE_REQUIRED else 'Optional' -%}
+														<input list="holes" autocomplete="off" id="hole" class="form-control" form="submitform" name="hole" data-nonce="{{g.nonce}}" data-oninput="savetext()" {% if hole %}value="{{hole}}"{% endif %} placeholder="{{hole_placeholder}}" {% if HOLE_REQUIRED %}required{% endif %}>
+														<datalist id="holes">
+															{% for h in HOLES %}
+																<option value="{{h}}"></option>
+															{% endfor %}
+														</datalist>
 													</div>
-													<small class="form-text text-muted">Optional if you have text.</small>
-													<small class="form-text text-muted">You can upload images, videos, or audio.</small>
-												</div>
-												</div>
-												<label class="mt-3">Text<i class="fas fa-info-circle text-gray-400 ml-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Uses markdown. Limited to {{POST_BODY_LENGTH_LIMIT(v)}} characters."></i></label>
-												<textarea form="submitform" id="post-text" class="file-ta form-control rounded" placeholder="Optional if you have a link or an image." rows="7" name="body" data-preview="preview" data-nonce="{{g.nonce}}" data-oninput="markdown(this);charLimit('post-text','character-count-submit-text-form');checkForRequired();savetext()" {% if v.longpost %}minlength="280"{% endif %} maxlength="{% if v.bird %}140{% else %}{{POST_BODY_LENGTH_LIMIT(v)}}{% endif %}" required></textarea>
-												<div class="ghostdiv" style="display:none"></div>
-												<div class="text-small font-weight-bold mt-1" id="character-count-submit-text-form" style="right: 1rem; bottom: 0.5rem; z-index: 3"></div>
+													<label class='mt-4' for="title">Post Title</label>
+													<textarea autocomplete="off" class="form-control" id="post-title" type="text" name="title" placeholder="Required" value="{{title}}" minlength="1" maxlength="500" required data-nonce="{{g.nonce}}" data-oninput="checkForRequired();savetext()"></textarea>
 
-												<div class="format-btns">
-													{{macros.emoji_btn('post-text')}}
-													{{macros.gif_btn('post-text')}}								
-													{{macros.file_btn('file-upload-submit')}}
-												</div>
+													{{macros.emoji_btn('post-title')}}
+									
+													<div id="urlblock">
+														<label for="URL" class="mt-3">URL</label>
+														<input autocomplete="off" class="form-control" id="post-url" name="url" type="url" placeholder="Optional if you have text." value="{{request.values.get('url','')}}" required data-nonce="{{g.nonce}}" data-oninput="checkForRequired();savetext();checkRepost();autoSuggestTitle()">
+														<h5 id="system" class="mt-2 form-text font-weight-bold text-danger"></h5>
+													</div>
+													<div id="image-upload-block">
+														<div><label class="mt-3">Attachment Upload</label></div>
+														<div style="display:flex;align-items:center">
+															<img loading="lazy" id="image-preview" style="max-width:50%">
+															<label class="btn btn-secondary m-0 ml-2 mr-1" for="file-upload">
+																<div>Select File</div>
+																<input autocomplete="off" id="file-upload" accept="image/*, video/*, audio/*" type="file" name="file-url" {% if g.is_tor %}disabled{% endif %} hidden>
+															</label>
+															<button id="remove-attachment" type="button" style="font-size:25px" class="text-danger font-weight-bold ml-2 d-none" data-bs-toggle="tooltip" title="Remove Attachment" data-nonce="{{g.nonce}}" data-onclick="remove_attachment()">X</button>
+														</div>
+														<small class="form-text text-muted">Optional if you have text.</small>
+														<small class="form-text text-muted">You can upload images, videos, or audio.</small>
+													</div>
+													</div>
+													<label class="mt-3">Text<i class="fas fa-info-circle text-gray-400 ml-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Uses markdown. Limited to {{POST_BODY_LENGTH_LIMIT(v)}} characters."></i></label>
+													<textarea form="submitform" id="post-text" class="file-ta form-control rounded" placeholder="Optional if you have a link or an image." rows="7" name="body" data-preview="preview" data-nonce="{{g.nonce}}" data-oninput="markdown(this);charLimit('post-text','character-count-submit-text-form');checkForRequired();savetext()" {% if v.longpost %}minlength="280"{% endif %} maxlength="{% if v.bird %}140{% else %}{{POST_BODY_LENGTH_LIMIT(v)}}{% endif %}" required></textarea>
+													<div class="ghostdiv" style="display:none"></div>
+													<div class="text-small font-weight-bold mt-1" id="character-count-submit-text-form" style="right: 1rem; bottom: 0.5rem; z-index: 3"></div>
 
-												<div id="preview" class="preview my-3"></div>
-												<div class="form-text text-small mt-1 mb-3"><a href="/formatting" {% if v and v.newtab %}data-target="t" target="_blank"{% endif %}>Formatting help</a></div>
-												<div class="custom-control custom-checkbox">
-													<input autocomplete="off" type="checkbox" class="custom-control-input" id="post-notify" name="notify" data-nonce="{{g.nonce}}" data-onchange="savetext()" checked>
-													<input hidden name="notify" value="off">
-													<label class="custom-control-label" for="post-notify">Notify followers</label>
-												</div>
-												<div class="custom-control custom-checkbox">
-													<input autocomplete="off" type="checkbox" class="custom-control-input" id="post-new" name="new" data-nonce="{{g.nonce}}" data-onchange="savetext()">
-													<label class="custom-control-label" for="post-new">Make the default comment sorting "new"</label>
-												</div>
-												{% if FEATURES['NSFW_MARKING'] %}
+													<div class="format-btns">
+														{{macros.emoji_btn('post-text')}}
+														{{macros.gif_btn('post-text')}}								
+														{{macros.file_btn('file-upload-submit')}}
+													</div>
+
+													<div id="preview" class="preview my-3"></div>
+													<div class="form-text text-small mt-1 mb-3"><a href="/formatting" {% if v and v.newtab %}data-target="t" target="_blank"{% endif %}>Formatting help</a></div>
 													<div class="custom-control custom-checkbox">
-														<input autocomplete="off" type="checkbox" class="custom-control-input" id="post-nsfw" name="nsfw" data-nonce="{{g.nonce}}" data-onchange="savetext()">
-														<label class="custom-control-label" for="post-nsfw">NSFW</label>
+														<input autocomplete="off" type="checkbox" class="custom-control-input" id="post-notify" name="notify" data-nonce="{{g.nonce}}" data-onchange="savetext()" checked>
+														<input hidden name="notify" value="off">
+														<label class="custom-control-label" for="post-notify">Notify followers</label>
 													</div>
-												{% endif %}
-												<div class="custom-control custom-checkbox">
-													<input autocomplete="off" type="checkbox" class="custom-control-input" id="post-private" name="private" data-nonce="{{g.nonce}}" data-onchange="savetext()">
-													<label class="custom-control-label" for="post-private">Draft</label>
-												</div>
-												<div class="custom-control custom-checkbox {% if not v.can_post_in_ghost_threads %}d-none{% endif %}">
-													<input data-nonce="{{g.nonce}}" data-onchange='ghost_toggle(this)' autocomplete="off" type="checkbox" class="custom-control-input" id="post-ghost" name="ghost">
-													<label class="custom-control-label" for="post-ghost">Ghost thread</label>
-												</div>
-										</div>
-								</div>
-						</div>
-				<div class="container">
-					<div class="row fixed-bottom bg-white border-top p-3" style="z-index: 100; bottom: 0px; transition: bottom 220ms cubic-bezier(0, 0, 0.2, 1) 0s">
-						<div class="col">
-							<a href="/" class="btn btn-secondary">Cancel</a>
-						</div>
-						<div class="col text-right unbreakable">
-							<span id="upload-prog" class="d-none mr-2">
-								<progress max="100"></progress>
-								<span></span>
-							</span>
-							<button type="submit" class="btn btn-primary donotdisable" id="submit-btn" type="submit">Post</button>
+													<div class="custom-control custom-checkbox">
+														<input autocomplete="off" type="checkbox" class="custom-control-input" id="post-new" name="new" data-nonce="{{g.nonce}}" data-onchange="savetext()">
+														<label class="custom-control-label" for="post-new">Make the default comment sorting "new"</label>
+													</div>
+													{% if FEATURES['NSFW_MARKING'] %}
+														<div class="custom-control custom-checkbox">
+															<input autocomplete="off" type="checkbox" class="custom-control-input" id="post-nsfw" name="nsfw" data-nonce="{{g.nonce}}" data-onchange="savetext()">
+															<label class="custom-control-label" for="post-nsfw">NSFW</label>
+														</div>
+													{% endif %}
+													<div class="custom-control custom-checkbox">
+														<input autocomplete="off" type="checkbox" class="custom-control-input" id="post-private" name="private" data-nonce="{{g.nonce}}" data-onchange="savetext()">
+														<label class="custom-control-label" for="post-private">Draft</label>
+													</div>
+													<div class="custom-control custom-checkbox {% if not v.can_post_in_ghost_threads %}d-none{% endif %}">
+														<input data-nonce="{{g.nonce}}" data-onchange='ghost_toggle(this)' autocomplete="off" type="checkbox" class="custom-control-input" id="post-ghost" name="ghost">
+														<label class="custom-control-label" for="post-ghost">Ghost thread</label>
+													</div>
+											</div>
+									</div>
+							</div>
+					<div class="container">
+						<div class="row fixed-bottom bg-white border-top p-3" style="z-index: 100; bottom: 0px; transition: bottom 220ms cubic-bezier(0, 0, 0.2, 1) 0s">
+							<div class="col">
+								<a href="/" class="btn btn-secondary">Cancel</a>
+							</div>
+							<div class="col text-right unbreakable">
+								<span id="upload-prog" class="d-none mr-2">
+									<progress max="100"></progress>
+									<span></span>
+								</span>
+								<button type="submit" class="btn btn-primary donotdisable" id="submit-btn" type="submit">Post</button>
+							</div>
 						</div>
 					</div>
-				</div>
-			</form>
-		</div>
+				</form>
+			</div>
 		{% endblock %}
 		<script defer src="{{'js/vendor/marked.js' | asset}}"></script>
 		<script defer src="{{'js/markdown.js' | asset}}"></script>

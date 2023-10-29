@@ -75,16 +75,16 @@
 		<div class="d-flex justify-content-between align-items-center pt-3 pb-2 sorting fl-r">
 
 			{% block navbar %}
-			<div class="d-flex align-items-center">
-				{% set pcolor = "primary" if pins else "secondary" %}
-				<form action="/toggle_pins/{{hole}}/{{sort}}" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHRReload(this)">
-					<button type="submit" class="btn btn-{{pcolor}} text-{{pcolor}} mx-2"><i type="submit" class="fas fas fa-thumbtack fa-rotate--45 mr-2"></i>Pins</button>
-				</form>
+				<div class="d-flex align-items-center">
+					{% set pcolor = "primary" if pins else "secondary" %}
+					<form action="/toggle_pins/{{hole}}/{{sort}}" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHRReload(this)">
+						<button type="submit" class="btn btn-{{pcolor}} text-{{pcolor}} mx-2"><i type="submit" class="fas fas fa-thumbtack fa-rotate--45 mr-2"></i>Pins</button>
+					</form>
 
-				{%- import 'util/macros.html' as macros with context -%}
-				{{- macros.time_filter_buttons() -}}
-				{{- macros.sorting_buttons(POST_SORTS, True) -}}
-			</div>
+					{%- import 'util/macros.html' as macros with context -%}
+					{{- macros.time_filter_buttons() -}}
+					{{- macros.sorting_buttons(POST_SORTS, True) -}}
+				</div>
 			{% endblock %}
 		</div>
 	</div>

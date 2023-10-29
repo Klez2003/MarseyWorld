@@ -57,18 +57,18 @@
 		</section>
 	{% endfor %}
 	{% if not g.is_tor %}
-	<section id="hole-banner-upload-new" class="mt-5 hole-settings-subsection">
-		<form class="d-inline-block" action="/h/{{hole.name}}/settings/banners/" method="post" enctype="multipart/form-data">
-			<input hidden name="formkey" value="{{v|formkey}}">
-			<label class="btn btn-secondary text-capitalize mr-2 mb-0">
-				Upload New Banner<input autocomplete="off" type="file" accept="image/*" hidden name="banner" data-nonce="{{g.nonce}}" onchange_submit>
-			</label>
-		</form>
-		<button type="button" class="btn btn-danger hole-banner-delete-button" id="hole-banner-delete-all" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)" data-areyousure="postToastReload(this, '/h/{{hole.name}}/settings/banners/delete_all')">Delete All Banners</button>
-		<div class="text-small text-muted mt-3">
-			All image files are supported. Max file size is {% if v and v.patron %}16{% else %}8{% endif %} MB.
-		</div>
-	</section>
+		<section id="hole-banner-upload-new" class="mt-5 hole-settings-subsection">
+			<form class="d-inline-block" action="/h/{{hole.name}}/settings/banners/" method="post" enctype="multipart/form-data">
+				<input hidden name="formkey" value="{{v|formkey}}">
+				<label class="btn btn-secondary text-capitalize mr-2 mb-0">
+					Upload New Banner<input autocomplete="off" type="file" accept="image/*" hidden name="banner" data-nonce="{{g.nonce}}" onchange_submit>
+				</label>
+			</form>
+			<button type="button" class="btn btn-danger hole-banner-delete-button" id="hole-banner-delete-all" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)" data-areyousure="postToastReload(this, '/h/{{hole.name}}/settings/banners/delete_all')">Delete All Banners</button>
+			<div class="text-small text-muted mt-3">
+				All image files are supported. Max file size is {% if v and v.patron %}16{% else %}8{% endif %} MB.
+			</div>
+		</section>
 	{% endif %}
 </div>
 
