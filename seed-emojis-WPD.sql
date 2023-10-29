@@ -6,6 +6,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseyaward2', 'Marsey', 2, 'chair obama', false, 1698326564),
 ('marseybeingnerd', 'Marsey', 2, 'dork dweeb glasses', false, 1698330357),
 ('marseyconstipation', 'Marsey', 2, 'shit poop diarrhea litter constipated', false, 1698329319),
+('marseydomokun', 'Marsey', 2, 'weebshit', false, 1698550172),
 ('marseyeyeball', 'Marsey', 2, 'gore bloody', false, 1698332084),
 ('marseyinpixels', 'Marsey', 2, 'sprite 8bit', false, 1698343460),
 ('marseyjoyus', 'Marsey', 2, 'happy grin bucktooth yippie', false, 1698344674),
