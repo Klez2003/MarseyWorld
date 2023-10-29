@@ -1,63 +1,63 @@
 {% extends "default.html" %}
 {% block pagetitle %}DM Media{% endblock %}
 {% block content %}
-<h2>DM Media</h2>
-<div class="overflow-x-auto">
-	<table class="table table-striped mb-5">
-		<thead class="bg-primary text-white">
-			<tr>
-				<th>Image</th>
-				<th>Sender</th>
-				<th>Sent To</th>
-				<th>At</th>
-			</tr>
-		</thead>
+	<h2>DM Media</h2>
+	<div class="overflow-x-auto">
+		<table class="table table-striped mb-5">
+			<thead class="bg-primary text-white">
+				<tr>
+					<th>Image</th>
+					<th>Sender</th>
+					<th>Sent To</th>
+					<th>At</th>
+				</tr>
+			</thead>
 
-		{% for item in items %}
-			<tr>
-				<td>
-					{% set url=item[0] %}
-					{% if url.endswith('.webp') %}
-						<img alt="{{url}}" src="{{url}}" loading="lazy" class="dm_img" data-nonce="{{g.nonce}}" data-onclick="expandImage()">
-					{% elif url.endswith('.mp4') %}
-						<p class="resizable">
-							<video controls preload="none" src="{{url}}"></video>
-						</p>
-					{% elif url.endswith('.mp3') %}
-						<audio controls preload="none" src="{{url}}"></audio>
-					{% else %}
-						<a href="{{url}}">
-							{{url}}
-						</a>
-					{% endif %}
-				</td>
-				<td>
-					{% if item[1] != "Unknown" %}
-						<a href="/id/{{item[2]}}">
-							<img loading="lazy" src="/pp/{{item[2]}}">
-							@{{item[1]}}
-						</a>
-					{% endif %}
-				</td>
-				<td>
-					{% if item[1] != "Unknown" %}
-						{% if item[3] == "Modmail" %}
-							Modmail
+			{% for item in items %}
+				<tr>
+					<td>
+						{% set url=item[0] %}
+						{% if url.endswith('.webp') %}
+							<img alt="{{url}}" src="{{url}}" loading="lazy" class="dm_img" data-nonce="{{g.nonce}}" data-onclick="expandImage()">
+						{% elif url.endswith('.mp4') %}
+							<p class="resizable">
+								<video controls preload="none" src="{{url}}"></video>
+							</p>
+						{% elif url.endswith('.mp3') %}
+							<audio controls preload="none" src="{{url}}"></audio>
 						{% else %}
-							<a href="/id/{{item[4]}}">
-								<img loading="lazy" src="/pp/{{item[4]}}">
-								@{{item[3]}}
+							<a href="{{url}}">
+								{{url}}
 							</a>
 						{% endif %}
-					{% endif %}
-				</td>
-				<td {% if item[5] %}data-time="{{item[5]}}"{% endif %}></td>
-			</tr>
-		{% endfor %}
-	</table>
-</div>
+					</td>
+					<td>
+						{% if item[1] != "Unknown" %}
+							<a href="/id/{{item[2]}}">
+								<img loading="lazy" src="/pp/{{item[2]}}">
+								@{{item[1]}}
+							</a>
+						{% endif %}
+					</td>
+					<td>
+						{% if item[1] != "Unknown" %}
+							{% if item[3] == "Modmail" %}
+								Modmail
+							{% else %}
+								<a href="/id/{{item[4]}}">
+									<img loading="lazy" src="/pp/{{item[4]}}">
+									@{{item[3]}}
+								</a>
+							{% endif %}
+						{% endif %}
+					</td>
+					<td {% if item[5] %}data-time="{{item[5]}}"{% endif %}></td>
+				</tr>
+			{% endfor %}
+		</table>
+	</div>
 {% endblock %}
 
 {% block pagenav %}
-{% include "pagination.html" %}
+	{% include "pagination.html" %}
 {% endblock %}

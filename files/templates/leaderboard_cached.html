@@ -24,30 +24,30 @@
 {% endmacro %}
 
 {% macro leaderboard_table(lb) %}
-<h5 class="font-weight-bolder text-center pt-2 pb-3"><span id="leaderboard-{{lb.html_id}}">{% if lb.desc %}Top{% else %}Bottom{% endif %} {{lb.limit}} {% if lb.table_header_name != 'most blocked' %}by{% endif %} {{lb.table_header_name}}</span></h5>
-<div class="overflow-x-auto">
-<table class="table table-striped mb-5">
-	<thead class="bg-primary text-white">
-		<tr>
-			<th>#</th>
-			<th>Name</th>
-			<th>{{lb.table_column_name}}</th>
-		</tr>
-	</thead>
-	<tbody>
-	{% for user in lb.all_users %}
-		{% set user2 = lb.user_func(user) %}
-		{% if v.id == user2.id %}
-			{% set style="class=\"self\"" %}
+	<h5 class="font-weight-bolder text-center pt-2 pb-3"><span id="leaderboard-{{lb.html_id}}">{% if lb.desc %}Top{% else %}Bottom{% endif %} {{lb.limit}} {% if lb.table_header_name != 'most blocked' %}by{% endif %} {{lb.table_header_name}}</span></h5>
+	<div class="overflow-x-auto">
+	<table class="table table-striped mb-5">
+		<thead class="bg-primary text-white">
+			<tr>
+				<th>#</th>
+				<th>Name</th>
+				<th>{{lb.table_column_name}}</th>
+			</tr>
+		</thead>
+		<tbody>
+		{% for user in lb.all_users %}
+			{% set user2 = lb.user_func(user) %}
+			{% if v.id == user2.id %}
+				{% set style="class=\"self\"" %}
+			{% endif %}
+			{{format_user_in_table(user2, style, loop.index, lb.value_func(user), lb.user_relative_url)}}
+		{% endfor %}
+		{% if lb.v_position and not lb.v_appears_in_ranking %}
+			{{format_user_in_table(v, "style=\"border-top:2px solid var(--primary)\"", lb.v_position, lb.v_value, lb.user_relative_url)}}
 		{% endif %}
-		{{format_user_in_table(user2, style, loop.index, lb.value_func(user), lb.user_relative_url)}}
-	{% endfor %}
-	{% if lb.v_position and not lb.v_appears_in_ranking %}
-		{{format_user_in_table(v, "style=\"border-top:2px solid var(--primary)\"", lb.v_position, lb.v_value, lb.user_relative_url)}}
-	{% endif %}
-	</tbody>
-</table>
-</div>
+		</tbody>
+	</table>
+	</div>
 {% endmacro %}
 
 {% for lb in leaderboards %}

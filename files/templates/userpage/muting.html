@@ -1,38 +1,39 @@
 {% extends "default.html" %}
 {% block pagetitle %}Users whose notifications are muted by @{{u.username}}{% endblock %}
 {% block content %}
-<h5 class="my-3">Users whose notifications are muted by @{{u.username}} ({{total}} user{{macros.plural(total)}})</h5>
-<div class="overflow-x-auto mt-1"><table class="table table-striped mb-5">
-<thead class="bg-primary text-white">
-	<tr>
-		<th>Name</th>
-		<th class="disable-sort-click">Muting notifications since</th>
-		{% if v.id == u.id %}
-			<th class="disable-sort-click"></th>
-		{% endif %}
-	</tr>
-</thead>
-<tbody id="muters-table">
-{% for mute, user in users %}
-	<tr>
-		<td>{% include "user_in_table.html" %}</td>
-		<td data-time="{{mute.created_utc}}"></td>
-		{% if v.id == u.id %}
-			<td>
-				<button type="button" class="btn btn-primary" data-nonce="{{g.nonce}}" data-onclick="unmute_notifs(this, '/unmute_notifs/{{user.id}}')">Unmute</button>
-			</td>
-		{% endif %}
-	</tr>
-{% endfor %}
-</tbody>
-</table>
+	<h5 class="my-3">Users whose notifications are muted by @{{u.username}} ({{total}} user{{macros.plural(total)}})</h5>
+	<div class="overflow-x-auto mt-1">
+		<table class="table table-striped mb-5">
+			<thead class="bg-primary text-white">
+				<tr>
+					<th>Name</th>
+					<th class="disable-sort-click">Muting notifications since</th>
+					{% if v.id == u.id %}
+						<th class="disable-sort-click"></th>
+					{% endif %}
+				</tr>
+			</thead>
+			<tbody id="muters-table">
+			{% for mute, user in users %}
+				<tr>
+					<td>{% include "user_in_table.html" %}</td>
+					<td data-time="{{mute.created_utc}}"></td>
+					{% if v.id == u.id %}
+						<td>
+							<button type="button" class="btn btn-primary" data-nonce="{{g.nonce}}" data-onclick="unmute_notifs(this, '/unmute_notifs/{{user.id}}')">Unmute</button>
+						</td>
+					{% endif %}
+				</tr>
+			{% endfor %}
+			</tbody>
+		</table>
+	</div>
 
-{% if v.id == u.id %}
-	<script defer src="{{'js/userpage_muting.js' | asset}}"></script>
-{% endif %}
-
+	{% if v.id == u.id %}
+		<script defer src="{{'js/userpage_muting.js' | asset}}"></script>
+	{% endif %}
 {% endblock %}
 
 {% block pagenav %}
-{% include "pagination.html" %}
+	{% include "pagination.html" %}
 {% endblock %}

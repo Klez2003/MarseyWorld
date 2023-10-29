@@ -13,204 +13,201 @@
 {% set disable_votes = request.path.startswith('/@') and v and v.admin_level < PERMS['ENABLE_VOTE_BUTTONS_ON_USER_PAGE'] %}
 
 {% for p in listing if can_see(v, p) %}
+	<input hidden class="twoattrs" value="{{p.id}},{{p.comment_count}}">
 
-<input hidden class="twoattrs" value="{{p.id}},{{p.comment_count}}">
+	{% set ups=p.upvotes %}
+	{% set downs=p.downvotes %}
+	{% set score=ups-downs %}
 
-{% set ups=p.upvotes %}
-{% set downs=p.downvotes %}
-{% set score=ups-downs %}
+	{% if v %}
+		{% set voted= p.voted %}
+	{% else %}
+		{% set voted=-2 %}
+	{% endif %}
 
-{% if v %}
-	{% set voted= p.voted %}
-{% else %}
-	{% set voted=-2 %}
-{% endif %}
+	{% set v_forbid_deleted = (p.deleted_utc != 0 or p.is_banned) and not (v and v.admin_level >= PERMS['POST_COMMENT_MODERATION']) and not (v and v.id == p.author_id) %}
 
-{% set v_forbid_deleted = (p.deleted_utc != 0 or p.is_banned) and not (v and v.admin_level >= PERMS['POST_COMMENT_MODERATION']) and not (v and v.id == p.author_id) %}
+	{{macros.reports(p, 'post')}}
 
-{{macros.reports(p, 'post')}}
+	<div id="post-{{p.id}}" class="actual-post card {% if p.ghost %}ghost-post{% endif %} {% if p.unread %}unread{% endif %} {% if p.is_banned %} banned{% endif %}{% if p.deleted_utc %} deleted{% endif %}{% if p.stickied %} stickied{% endif %}{% if voted==1 %} upvoted{% elif voted==-1 %} downvoted{% endif %}{% if p.nsfw %} nsfw{% endif %}">
+		<div class="d-flex flex-row-reverse flex-md-row flex-nowrap" style="align-items:flex-start">
+			<div class="voting my-2 d-none d-md-flex pr-2">
+				{% if v %}
+					<div tabindex="0" data-nonce="{{g.nonce}}" data-onclick="vote('post', '{{p.id}}', '1')" class="post-{{p.id}}-up mx-auto arrow-up upvote-button post-{{p.id}}-up {% if voted==1 %}active{% endif %} {% if disable_votes and voted != 1 %}disabled {% endif %}"></div>
 
-<div id="post-{{p.id}}" class="actual-post card {% if p.ghost %}ghost-post{% endif %} {% if p.unread %}unread{% endif %} {% if p.is_banned %} banned{% endif %}{% if p.deleted_utc %} deleted{% endif %}{% if p.stickied %} stickied{% endif %}{% if voted==1 %} upvoted{% elif voted==-1 %} downvoted{% endif %}{% if p.nsfw %} nsfw{% endif %}">
+					<span class="post-score-{{p.id}} score post-score-{{p.id}} {% if voted==1 %}score-up{% elif voted==-1 %}score-down{% endif %}{% if p.controversial %} controversial{% endif %}"{% if not p.is_banned %} data-bs-toggle="tooltip" data-bs-placement="right" title="+{{ups}} | -{{downs}}"{% endif %}style="cursor: default">{{score}}</span>
 
-	<div class="d-flex flex-row-reverse flex-md-row flex-nowrap" style="align-items:flex-start">
-		<div class="voting my-2 d-none d-md-flex pr-2">
-			{% if v %}
-				<div tabindex="0" data-nonce="{{g.nonce}}" data-onclick="vote('post', '{{p.id}}', '1')" class="post-{{p.id}}-up mx-auto arrow-up upvote-button post-{{p.id}}-up {% if voted==1 %}active{% endif %} {% if disable_votes and voted != 1 %}disabled {% endif %}"></div>
+					<div {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" data-nonce="{{g.nonce}}" data-onclick="vote('post', '{{p.id}}', '-1')" class="post-{{p.id}}-down text-muted mx-auto arrow-down downvote-button post-{{p.id}}-down {% if voted==-1 %}active{% endif %} {% if disable_votes and voted != -1 %}disabled {% endif %}"></div>
+				{% else %}
+					<a tabindex="0" data-nonce="{{g.nonce}}" class="post-{{p.id}}-up mx-auto arrow-up" href="/login?redirect={{request.full_path | urlencode}}"></a>
 
-				<span class="post-score-{{p.id}} score post-score-{{p.id}} {% if voted==1 %}score-up{% elif voted==-1 %}score-down{% endif %}{% if p.controversial %} controversial{% endif %}"{% if not p.is_banned %} data-bs-toggle="tooltip" data-bs-placement="right" title="+{{ups}} | -{{downs}}"{% endif %}style="cursor: default">{{score}}</span>
+					<span class="post-{{p.id}}-score-none score{% if p.controversial %} controversial{% endif %}"{% if not p.is_banned %} data-bs-toggle="tooltip" data-bs-placement="right" title="+{{ups}} | -{{downs}}"{% endif %}style="cursor: default">{{score}}</span>
 
-				<div {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" data-nonce="{{g.nonce}}" data-onclick="vote('post', '{{p.id}}', '-1')" class="post-{{p.id}}-down text-muted mx-auto arrow-down downvote-button post-{{p.id}}-down {% if voted==-1 %}active{% endif %} {% if disable_votes and voted != -1 %}disabled {% endif %}"></div>
-			{% else %}
-				<a tabindex="0" data-nonce="{{g.nonce}}" class="post-{{p.id}}-up mx-auto arrow-up" href="/login?redirect={{request.full_path | urlencode}}"></a>
-
-				<span class="post-{{p.id}}-score-none score{% if p.controversial %} controversial{% endif %}"{% if not p.is_banned %} data-bs-toggle="tooltip" data-bs-placement="right" title="+{{ups}} | -{{downs}}"{% endif %}style="cursor: default">{{score}}</span>
-
-				<a {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" data-nonce="{{g.nonce}}" data-onclick="vote('post', '{{p.id}}', '-1')" class="post-{{p.id}}-down text-muted mx-auto arrow-down" href="/login?redirect={{request.full_path | urlencode}}"></a>
-			{% endif %}
-
-		</div>
-
-		<div class="card-header bg-transparent border-0 d-flex flex-row flex-nowrap pl-2 pl-md-0 p-0 mr-md-2">
-
-			{% if not v_forbid_deleted %}
-				<div class="card-thumbnail mt-3">
-					{% if not p.url %}
-						<a {% if v and v.newtab %}data-target="t" target="_blank"{% endif %} href="{{p.permalink}}">
-							<img alt="post thumbnail" loading="lazy" src="{{p.thumb_url}}" class="post-img">
-						</a>
-					{% elif p.is_image %}
-						<a href="{{p.realurl(v)}}" rel="nofollow noopener">
-							<img data-nonce="{{g.nonce}}" data-onclick="expandImage('{{p.realurl(v)}}')" alt="post thumbnail" loading="lazy" src="{{p.thumb_url}}" class="post-img">
-						</a>
-					{% elif p.is_video or p.is_audio %}
-						<a href="{{p.realurl(v)}}" rel="nofollow noopener">
-							<img data-nonce="{{g.nonce}}" data-onclick="togglevideo('{{p.id}}')" alt="post thumbnail" loading="lazy" src="{{p.thumb_url}}" class="post-img">
-							{% if p.is_video %}
-								<i class="video-play fas fa-play"></i>
-							{% endif %}
-						</a>
-					{% elif p.is_youtube %}
-						<a href="{{p.realurl(v)}}" rel="nofollow noopener">
-							<img data-nonce="{{g.nonce}}" data-onclick="toggleyoutube('{{p.id}}')" alt="post thumbnail" loading="lazy" src="{{p.thumb_url}}" class="post-img">
-							<i class="video-play fas fa-play"></i>
-						</a>
-					{% else %}
-						<a {% if not v or v.newtabexternal %}target="_blank"{% endif %} rel="nofollow noopener" href="{{p.realurl(v)}}">
-							<img alt="post thumbnail" loading="lazy" src="{{p.thumb_url}}" class="post-img">
-							<i class="ext-link fas fa-external-link"></i>
-						</a>
-					{% endif %}
-				</div>
-			{% endif %}
-		</div>
-		<div class="card-block text-left x-scroll-parent w-100">
-			<div class="post-meta text-left x-scroll hide-scrollbar mb-md-2">
-				{{macros.post_meta(p)}}
-			</div>
-			<h5 class="card-title post-title text-left w-lg-95 pb-0 pb-md-1">
-				<a id="{{p.id}}-title" {% if v and v.newtab %}data-target="t" target="_blank"{% endif %} href="{{p.permalink}}" class="{% if p.hole %}sub{% endif %} stretched-link {% if p.chudded %}text-uppercase{% endif %}">
-				{% if p.flair %}<span class="post-flair font-weight-bolder mr-1">{{p.flair | safe}}</span>{% endif %}
-				{{p.realtitle(v) | safe}}
-			</a></h5>
-	</div>
-</div>
-
-<div class="post-actions d-mob-none">
-	<div class="d-flex" style="flex-basis:146px"></div>
-	<ul class="list-inline text-right d-flex">
-		{% if p.realbody(v) %}
-			<button type="button" class="list-inline-item ml-2" data-nonce="{{g.nonce}}" data-onclick="expandText('{{p.id}}')"><i class="fas fa-expand-alt mx-0 text-expand-icon-{{p.fullname}}"></i></button>
-		{% endif %}
-		<a class="list-inline-item" {% if v and v.newtab %}data-target="t" target="_blank"{% endif %} href="{{p.permalink}}">
-			<i class="fas fa-comment-dots mr-2"></i>{{p.comment_count}}
-			<span class="text-info d-none {{p.id}}-new-comments"></span>
-		</a>
-		{% include 'post_actions.html' %}
-	</ul>
-</div>
-
-<div class="d-md-none mt-2">
-	<div class="post-actions">
-		<ul class="list-inline text-right d-flex">
-			<li class="list-inline-item mr-auto">
-				<a {% if v and v.newtab %}data-target="t" target="_blank"{% endif %} href="{{p.permalink}}">
-					<i class="fas fa-comment-dots ml-0 mr-2"></i>{{p.comment_count}}
-					<span class="text-info d-none {{p.id}}-new-comments"></span>
-				</a>
-
-				{% if v and v.admin_level >= PERMS['ADMIN_HOME_VISIBLE'] %}
-					<button type="button" class="ml-2" data-bs-toggle="modal" data-bs-target="#adminModal-{{p.id}}">
-						<i class="fas fa-broom"></i>
-					</button>
+					<a {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" data-nonce="{{g.nonce}}" data-onclick="vote('post', '{{p.id}}', '-1')" class="post-{{p.id}}-down text-muted mx-auto arrow-down" href="/login?redirect={{request.full_path | urlencode}}"></a>
 				{% endif %}
 
-			</li>
+			</div>
 
-			{% if p.realbody(v) %}
-				<button type="button" class="list-inline-item ml-2" data-nonce="{{g.nonce}}" data-onclick="expandText('{{p.id}}')"><i class="fas fa-expand-alt mx-0 text-expand-icon-{{p.fullname}}"></i></button>
-			{% endif %}
+			<div class="card-header bg-transparent border-0 d-flex flex-row flex-nowrap pl-2 pl-md-0 p-0 mr-md-2">
 
-			{% if v %}
-				<li class="list-inline-item">
-					<button type="button" data-bs-toggle="modal" data-bs-target="#actionsModal-{{p.id}}">
-						<i class="fas fa-ellipsis-h"></i>
-					</button>
-				</li>
-			{% endif %}
-			{% if v %}
-				<li id="voting-{{p.id}}-mobile" class="voting list-inline-item d-md-none">
-					<span tabindex="0" data-nonce="{{g.nonce}}" data-onclick="vote('post-mobile', '{{p.id}}', '1')" class="post-mobile-{{p.id}}-up mx-0 pr-1 arrow-up upvote-button post-{{p.id}}-up {% if voted==1 %}active{% endif %} {% if disable_votes and voted != 1 %}disabled {% endif %}"></span>
-
-					<span class="post-mobile-score-{{p.id}} score post-score-{{p.id}} {% if voted==1 %}score-up{% elif voted==-1 %}score-down{% endif %}{% if p.controversial %} controversial{% endif %}"{% if not p.is_banned %} data-bs-toggle="tooltip" data-bs-placement="top" title="+{{ups}} | -{{downs}}"{% endif %}style="cursor: default">{{score}}</span>
-
-					<span {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" data-nonce="{{g.nonce}}" data-onclick="vote('post-mobile', '{{p.id}}', '-1')" class="post-mobile-{{p.id}}-down mx-0 pl-1 my-0 arrow-down downvote-button post-{{p.id}}-down {% if voted==-1 %}active{% endif %} {% if disable_votes and voted != -1 %}disabled {% endif %}"></span>
-				</li>
-			{% else %}
-				<li id="voting-{{p.id}}-mobile" class="voting list-inline-item d-md-none">
-					<a tabindex="0" class="arrow-{{p.id}}-mobile-up mx-0 pr-1 arrow-mobile-up" href="/login?redirect={{request.full_path | urlencode}}">
-						<i class="fas fa-arrow-alt-up mx-0"></i>
-					</a>
-
-					<span class="post-mobile-score-{{p.id}} score{% if p.controversial %} controversial{% endif %}"{% if not p.is_banned %} data-bs-toggle="tooltip" data-bs-placement="top" title="+{{ups}} | -{{downs}}"{% endif %}style="cursor: default">{{score}}</span>
-
-					<a tabindex="0" class="arrow-{{p.id}}-mobile-down arrow-mobile-down mx-0 pl-1 my-0" href="/login?redirect={{request.full_path | urlencode}}">
-						<i class="fas fa-arrow-alt-down mx-0"></i>
-					</a>
-				</li>
-			{% endif %}
-		</ul>
-	</div>
-</div>
-
-{% if v %}
-	<div class="modal fade d-md-none" id="actionsModal-{{p.id}}" tabindex="-1">
-		<div class="modal-dialog modal-dialog-centered">
-			<div class="modal-content">
-				<div class="modal-header p-3">
-					<h6 class="col modal-title text-center">More options</h6>
-					<button type="button" class="close position-absolute py-3" style="right: 1rem" data-bs-dismiss="modal">
-						<span><i class="fas fa-times-circle text-gray-500"></i></span>
-					</button>
+				{% if not v_forbid_deleted %}
+					<div class="card-thumbnail mt-3">
+						{% if not p.url %}
+							<a {% if v and v.newtab %}data-target="t" target="_blank"{% endif %} href="{{p.permalink}}">
+								<img alt="post thumbnail" loading="lazy" src="{{p.thumb_url}}" class="post-img">
+							</a>
+						{% elif p.is_image %}
+							<a href="{{p.realurl(v)}}" rel="nofollow noopener">
+								<img data-nonce="{{g.nonce}}" data-onclick="expandImage('{{p.realurl(v)}}')" alt="post thumbnail" loading="lazy" src="{{p.thumb_url}}" class="post-img">
+							</a>
+						{% elif p.is_video or p.is_audio %}
+							<a href="{{p.realurl(v)}}" rel="nofollow noopener">
+								<img data-nonce="{{g.nonce}}" data-onclick="togglevideo('{{p.id}}')" alt="post thumbnail" loading="lazy" src="{{p.thumb_url}}" class="post-img">
+								{% if p.is_video %}
+									<i class="video-play fas fa-play"></i>
+								{% endif %}
+							</a>
+						{% elif p.is_youtube %}
+							<a href="{{p.realurl(v)}}" rel="nofollow noopener">
+								<img data-nonce="{{g.nonce}}" data-onclick="toggleyoutube('{{p.id}}')" alt="post thumbnail" loading="lazy" src="{{p.thumb_url}}" class="post-img">
+								<i class="video-play fas fa-play"></i>
+							</a>
+						{% else %}
+							<a {% if not v or v.newtabexternal %}target="_blank"{% endif %} rel="nofollow noopener" href="{{p.realurl(v)}}">
+								<img alt="post thumbnail" loading="lazy" src="{{p.thumb_url}}" class="post-img">
+								<i class="ext-link fas fa-external-link"></i>
+							</a>
+						{% endif %}
+					</div>
+				{% endif %}
+			</div>
+			<div class="card-block text-left x-scroll-parent w-100">
+				<div class="post-meta text-left x-scroll hide-scrollbar mb-md-2">
+					{{macros.post_meta(p)}}
 				</div>
-				<div class="modal-body">
-					<ul class="list-group post-actions">
-						{% include "post_actions_mobile.html" %}
-					</ul>
-				</div>
+				<h5 class="card-title post-title text-left w-lg-95 pb-0 pb-md-1">
+					<a id="{{p.id}}-title" {% if v and v.newtab %}data-target="t" target="_blank"{% endif %} href="{{p.permalink}}" class="{% if p.hole %}sub{% endif %} stretched-link {% if p.chudded %}text-uppercase{% endif %}">
+					{% if p.flair %}<span class="post-flair font-weight-bolder mr-1">{{p.flair | safe}}</span>{% endif %}
+					{{p.realtitle(v) | safe}}
+				</a></h5>
 			</div>
 		</div>
+
+		<div class="post-actions d-mob-none">
+			<div class="d-flex" style="flex-basis:146px"></div>
+			<ul class="list-inline text-right d-flex">
+				{% if p.realbody(v) %}
+					<button type="button" class="list-inline-item ml-2" data-nonce="{{g.nonce}}" data-onclick="expandText('{{p.id}}')"><i class="fas fa-expand-alt mx-0 text-expand-icon-{{p.fullname}}"></i></button>
+				{% endif %}
+				<a class="list-inline-item" {% if v and v.newtab %}data-target="t" target="_blank"{% endif %} href="{{p.permalink}}">
+					<i class="fas fa-comment-dots mr-2"></i>{{p.comment_count}}
+					<span class="text-info d-none {{p.id}}-new-comments"></span>
+				</a>
+				{% include 'post_actions.html' %}
+			</ul>
+		</div>
+
+		<div class="d-md-none mt-2">
+			<div class="post-actions">
+				<ul class="list-inline text-right d-flex">
+					<li class="list-inline-item mr-auto">
+						<a {% if v and v.newtab %}data-target="t" target="_blank"{% endif %} href="{{p.permalink}}">
+							<i class="fas fa-comment-dots ml-0 mr-2"></i>{{p.comment_count}}
+							<span class="text-info d-none {{p.id}}-new-comments"></span>
+						</a>
+
+						{% if v and v.admin_level >= PERMS['ADMIN_HOME_VISIBLE'] %}
+							<button type="button" class="ml-2" data-bs-toggle="modal" data-bs-target="#adminModal-{{p.id}}">
+								<i class="fas fa-broom"></i>
+							</button>
+						{% endif %}
+
+					</li>
+
+					{% if p.realbody(v) %}
+						<button type="button" class="list-inline-item ml-2" data-nonce="{{g.nonce}}" data-onclick="expandText('{{p.id}}')"><i class="fas fa-expand-alt mx-0 text-expand-icon-{{p.fullname}}"></i></button>
+					{% endif %}
+
+					{% if v %}
+						<li class="list-inline-item">
+							<button type="button" data-bs-toggle="modal" data-bs-target="#actionsModal-{{p.id}}">
+								<i class="fas fa-ellipsis-h"></i>
+							</button>
+						</li>
+					{% endif %}
+					{% if v %}
+						<li id="voting-{{p.id}}-mobile" class="voting list-inline-item d-md-none">
+							<span tabindex="0" data-nonce="{{g.nonce}}" data-onclick="vote('post-mobile', '{{p.id}}', '1')" class="post-mobile-{{p.id}}-up mx-0 pr-1 arrow-up upvote-button post-{{p.id}}-up {% if voted==1 %}active{% endif %} {% if disable_votes and voted != 1 %}disabled {% endif %}"></span>
+
+							<span class="post-mobile-score-{{p.id}} score post-score-{{p.id}} {% if voted==1 %}score-up{% elif voted==-1 %}score-down{% endif %}{% if p.controversial %} controversial{% endif %}"{% if not p.is_banned %} data-bs-toggle="tooltip" data-bs-placement="top" title="+{{ups}} | -{{downs}}"{% endif %}style="cursor: default">{{score}}</span>
+
+							<span {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" data-nonce="{{g.nonce}}" data-onclick="vote('post-mobile', '{{p.id}}', '-1')" class="post-mobile-{{p.id}}-down mx-0 pl-1 my-0 arrow-down downvote-button post-{{p.id}}-down {% if voted==-1 %}active{% endif %} {% if disable_votes and voted != -1 %}disabled {% endif %}"></span>
+						</li>
+					{% else %}
+						<li id="voting-{{p.id}}-mobile" class="voting list-inline-item d-md-none">
+							<a tabindex="0" class="arrow-{{p.id}}-mobile-up mx-0 pr-1 arrow-mobile-up" href="/login?redirect={{request.full_path | urlencode}}">
+								<i class="fas fa-arrow-alt-up mx-0"></i>
+							</a>
+
+							<span class="post-mobile-score-{{p.id}} score{% if p.controversial %} controversial{% endif %}"{% if not p.is_banned %} data-bs-toggle="tooltip" data-bs-placement="top" title="+{{ups}} | -{{downs}}"{% endif %}style="cursor: default">{{score}}</span>
+
+							<a tabindex="0" class="arrow-{{p.id}}-mobile-down arrow-mobile-down mx-0 pl-1 my-0" href="/login?redirect={{request.full_path | urlencode}}">
+								<i class="fas fa-arrow-alt-down mx-0"></i>
+							</a>
+						</li>
+					{% endif %}
+				</ul>
+			</div>
+		</div>
+
+		{% if v %}
+			<div class="modal fade d-md-none" id="actionsModal-{{p.id}}" tabindex="-1">
+				<div class="modal-dialog modal-dialog-centered">
+					<div class="modal-content">
+						<div class="modal-header p-3">
+							<h6 class="col modal-title text-center">More options</h6>
+							<button type="button" class="close position-absolute py-3" style="right: 1rem" data-bs-dismiss="modal">
+								<span><i class="fas fa-times-circle text-gray-500"></i></span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<ul class="list-group post-actions">
+								{% include "post_actions_mobile.html" %}
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		{% endif %}
+
+		{% if v and v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
+			{% include "post_admin_actions_mobile.html" %}
+		{% endif %}
+
+		{% if not v_forbid_deleted %}
+			{% if p.realbody(v) %}
+				<div class="{% if p.chudded %}text-uppercase chud-img chud-{{p.id_last_num}}{% endif %} d-none card rounded border post-preview" id="post-text-{{p.id}}">
+					{{p.realbody(v) | safe}}
+				</div>
+			{% endif %}
+
+			{% if p.is_video %}
+				<div id="video-{{p.id}}" class="d-none ml-md-5 mt-md-4 mt-2 mx-sm-auto">
+					<p class="resizable">
+						<video {% if p.poster_url %}poster="{{p.poster_url}}"{% endif %} id="video2-{{p.id}}" controls preload="none" src="{{p.realurl(v)}}"></video>
+					</p>
+				</div>
+			{% elif p.is_audio %}
+				<div id="video-{{p.id}}" class="d-none ml-md-5 mt-md-4 mt-2 mx-sm-auto">
+					<audio id="video2-{{p.id}}" controls preload="none" src="{{p.realurl(v)}}"></audio>
+				</div>
+			{% elif p.is_youtube %}
+				<div id="video-{{p.id}}" class="d-none ml-md-5 mt-md-4 mt-2 resizable">
+					{{p.embed | safe}}
+				</div>
+			{% endif %}
+		{% endif %}
 	</div>
-{% endif %}
-
-{% if v and v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
-	{% include "post_admin_actions_mobile.html" %}
-{% endif %}
-
-
-{% if not v_forbid_deleted %}
-	{% if p.realbody(v) %}
-		<div class="{% if p.chudded %}text-uppercase chud-img chud-{{p.id_last_num}}{% endif %} d-none card rounded border post-preview" id="post-text-{{p.id}}">
-			{{p.realbody(v) | safe}}
-		</div>
-	{% endif %}
-
-	{% if p.is_video %}
-		<div id="video-{{p.id}}" class="d-none ml-md-5 mt-md-4 mt-2 mx-sm-auto">
-			<p class="resizable">
-				<video {% if p.poster_url %}poster="{{p.poster_url}}"{% endif %} id="video2-{{p.id}}" controls preload="none" src="{{p.realurl(v)}}"></video>
-			</p>
-		</div>
-	{% elif p.is_audio %}
-		<div id="video-{{p.id}}" class="d-none ml-md-5 mt-md-4 mt-2 mx-sm-auto">
-			<audio id="video2-{{p.id}}" controls preload="none" src="{{p.realurl(v)}}"></audio>
-		</div>
-	{% elif p.is_youtube %}
-		<div id="video-{{p.id}}" class="d-none ml-md-5 mt-md-4 mt-2 resizable">
-			{{p.embed | safe}}
-		</div>
-	{% endif %}
-{% endif %}
-</div>
 {% else %}
 	<div class="row no-gutters">
 		<div class="col">

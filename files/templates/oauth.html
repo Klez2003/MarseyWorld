@@ -1,7 +1,7 @@
 {% extends "login.html" %}
 {% block pagetitle %}Application Request for Access{% endblock %}
 {% block content %}
-<div id="auth-form">
+	<div id="auth-form">
 		<h2>{{application.app_name}}</h2>
 		<p class="mb-md-5">wants to access your @{{v.username}} account.</p>
 		<p class="mb-md-5">It will not be able to see your password, or change your account settings.</p>
@@ -15,5 +15,5 @@
 			<input type="submit" class="btn btn-primary" id="auth_button" value="Authorize {{application.app_name}}">
 			<a href="/" class="btn btn-secondary">No, back to {{SITE_NAME}}</a>
 		</form>
-</div>
+	</div>
 {% endblock %}

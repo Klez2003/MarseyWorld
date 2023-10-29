@@ -5,17 +5,17 @@
 {% block mobileUserBanner %}{% endblock %}
 {% block pagetitle %}Image feed{% endblock %}
 {% block content %}
-<div class="row no-gutters">
-	<div class="col">
-	{% block listing %}
-		<div class="posts">
-			{% include "post_listing.html" %}
+	<div class="row no-gutters">
+		<div class="col">
+		{% block listing %}
+			<div class="posts">
+				{% include "post_listing.html" %}
+			</div>
+		{% endblock %}
 		</div>
-	{% endblock %}
 	</div>
-</div>
 {% endblock %}
 
 {% block pagenav %}
-{% include "pagination.html" %}
+	{% include "pagination.html" %}
 {% endblock %}

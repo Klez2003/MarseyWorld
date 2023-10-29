@@ -1,23 +1,23 @@
 {% extends "default.html" %}
 {% block pagetitle %}!commenters{% endblock %}
 {% block content %}
-<h5 class="my-3">!commenters</h5>
-<div class="overflow-x-auto">
-<table class="table table-striped mb-5">
-<thead class="bg-primary text-white">
-	<tr>
-		<th>#</th>
-		<th>Name</th>
-		<th>First commented on</th>
-	</tr>
-</thead>
-{% for user, comment_id, comment_created_utc in users %}
-	<tr>
-		<td>{{loop.index}}</td>
-		<td>{% include "user_in_table.html" %}</td>
-		<td><a href="/comment/{{comment_id}}" data-time="{{comment_created_utc}}"></td>
-	</tr>
-{% endfor %}
-</table>
-
+	<h5 class="my-3">!commenters</h5>
+	<div class="overflow-x-auto">
+		<table class="table table-striped mb-5">
+			<thead class="bg-primary text-white">
+				<tr>
+					<th>#</th>
+					<th>Name</th>
+					<th>First commented on</th>
+				</tr>
+			</thead>
+			{% for user, comment_id, comment_created_utc in users %}
+				<tr>
+					<td>{{loop.index}}</td>
+					<td>{% include "user_in_table.html" %}</td>
+					<td><a href="/comment/{{comment_id}}" data-time="{{comment_created_utc}}"></td>
+				</tr>
+			{% endfor %}
+		</table>
+	</div>
 {% endblock %}

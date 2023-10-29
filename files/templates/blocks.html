@@ -1,29 +1,31 @@
 {% extends "settings2.html" %}
 {% block pagetitle %}Blocks{% endblock %}
 {% block content %}
-<h5 class="font-weight-bolder text-center pt-2 pb-3"><span>Blocks</span></h5>
-<div class="overflow-x-auto mt-3"><table class="table table-striped mb-5">
-<thead class="bg-primary text-white">
-	<tr>
-		<th>User</th>
-		<th>Target</th>
-		<th>Blocked on</th>
-	</tr>
-</thead>
-{% for block in blocks %}
-	<tr>
-		<td>
-			{% with user = block.user %}
-				{% include "user_in_table.html" %}
-			{% endwith %}
-		</td>
-		<td>
-			{% with user = block.target %}
-				{% include "user_in_table.html" %}
-			{% endwith %}
-		</td>
-		<td data-time="{{block.created_utc}}"></td>
-	</tr>
-{% endfor %}
-</table>
+	<h5 class="font-weight-bolder text-center pt-2 pb-3"><span>Blocks</span></h5>
+	<div class="overflow-x-auto mt-3">
+		<table class="table table-striped mb-5">
+			<thead class="bg-primary text-white">
+				<tr>
+					<th>User</th>
+					<th>Target</th>
+					<th>Blocked on</th>
+				</tr>
+			</thead>
+			{% for block in blocks %}
+				<tr>
+					<td>
+						{% with user = block.user %}
+							{% include "user_in_table.html" %}
+						{% endwith %}
+					</td>
+					<td>
+						{% with user = block.target %}
+							{% include "user_in_table.html" %}
+						{% endwith %}
+					</td>
+					<td data-time="{{block.created_utc}}"></td>
+				</tr>
+			{% endfor %}
+		</table>
+	</div>
 {% endblock %}

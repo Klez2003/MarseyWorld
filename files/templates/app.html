@@ -1,29 +1,28 @@
 {% extends "default.html" %}
 {% block pagetitle %}App{% endblock %}
 {% block content %}
-<div class="ml-3 mt-4">
-	<h5>How to install {{SITE_NAME}}'s mobile app</h5>
+	<div class="ml-3 mt-4">
+		<h5>How to install {{SITE_NAME}}'s mobile app</h5>
 
-	{% if not v and g.browser == 'chromium' %}
-		{% set type = 'chromium-lo' %}
-	{% elif g.browser in ('iphone','mac') %}
-		{% set type = 'apple' %}
-	{% else %}
-		{% set type = g.browser %}
-	{% endif %}
+		{% if not v and g.browser == 'chromium' %}
+			{% set type = 'chromium-lo' %}
+		{% elif g.browser in ('iphone','mac') %}
+			{% set type = 'apple' %}
+		{% else %}
+			{% set type = g.browser %}
+		{% endif %}
 
-	<div class="font-weight-bold mt-4 mb-2">Step 1:</div>
-	<img loading="lazy" data-nonce="{{g.nonce}}" data-onclick="expandImage()" alt="Step 1" style="height:30vh" src="{{SITE_FULL_IMAGES}}/i/{{SITE_NAME}}/app-{{type}}-1.webp">
-
-	<div class="font-weight-bold mt-4 mb-2">Step 2:</div>
-	<img loading="lazy" data-nonce="{{g.nonce}}" data-onclick="expandImage()" alt="Step 2" style="height:30vh" src="{{SITE_FULL_IMAGES}}/i/{{SITE_NAME}}/app-{{type}}-2.webp">
-
-	{% if g.browser == 'iphone' %}
-		<hr class="mt-5 mb-5">
-		<h5>How to enable push notifications inside the app:</h5>
 		<div class="font-weight-bold mt-4 mb-2">Step 1:</div>
-		<img loading="lazy" data-nonce="{{g.nonce}}" data-onclick="expandImage()" alt="Step 1" style="height:30vh" src="{{SITE_FULL_IMAGES}}/i/{{SITE_NAME}}/enable-push-notifs.webp">
-	{% endif %}
+		<img loading="lazy" data-nonce="{{g.nonce}}" data-onclick="expandImage()" alt="Step 1" style="height:30vh" src="{{SITE_FULL_IMAGES}}/i/{{SITE_NAME}}/app-{{type}}-1.webp">
 
-</div>
+		<div class="font-weight-bold mt-4 mb-2">Step 2:</div>
+		<img loading="lazy" data-nonce="{{g.nonce}}" data-onclick="expandImage()" alt="Step 2" style="height:30vh" src="{{SITE_FULL_IMAGES}}/i/{{SITE_NAME}}/app-{{type}}-2.webp">
+
+		{% if g.browser == 'iphone' %}
+			<hr class="mt-5 mb-5">
+			<h5>How to enable push notifications inside the app:</h5>
+			<div class="font-weight-bold mt-4 mb-2">Step 1:</div>
+			<img loading="lazy" data-nonce="{{g.nonce}}" data-onclick="expandImage()" alt="Step 1" style="height:30vh" src="{{SITE_FULL_IMAGES}}/i/{{SITE_NAME}}/enable-push-notifs.webp">
+		{% endif %}
+	</div>
 {% endblock %}

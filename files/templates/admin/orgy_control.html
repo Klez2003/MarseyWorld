@@ -3,82 +3,82 @@
 {% block pagetitle %}Orgy Control Panel{% endblock %}
 
 {% block content %}
-<div class="row my-5">
-	<div class="col">
-		<div class="settings mx-3">
-			<div id="description">
-				<h2>Orgy Control Panel</h2>
-				<span class="text-lg">Guide <a rel="nofollow noopener" href="https://rdrama.net/@HeyMoonster/wall/comment/5163373#context">here</a></span>
-			</div>
-			<div class="body d-lg-flex">
-				<div class="w-lg-100">
-					<form id="orgy" action="/admin/schedule_orgy" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHRReload(this)">
-						<div class="d-lg-flex border-bottom mt-5">
-							<div class="title w-lg-25">
-								<label for="title">Title</label>
+	<div class="row my-5">
+		<div class="col">
+			<div class="settings mx-3">
+				<div id="description">
+					<h2>Orgy Control Panel</h2>
+					<span class="text-lg">Guide <a rel="nofollow noopener" href="https://rdrama.net/@HeyMoonster/wall/comment/5163373#context">here</a></span>
+				</div>
+				<div class="body d-lg-flex">
+					<div class="w-lg-100">
+						<form id="orgy" action="/admin/schedule_orgy" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHRReload(this)">
+							<div class="d-lg-flex border-bottom mt-5">
+								<div class="title w-lg-25">
+									<label for="title">Title</label>
+								</div>
+								<div class="body w-lg-100">
+									<input id="title" autocomplete="off" type="text" name="title" class="form-control" placeholder="Required">
+								</div>
 							</div>
-							<div class="body w-lg-100">
-								<input id="title" autocomplete="off" type="text" name="title" class="form-control" placeholder="Required">
+							<div class="d-lg-flex border-bottom mt-3">
+								<div class="title w-lg-25">
+									<label for="link">Link (youtube, twitch, rumble, mp4 file)</label>
+								</div>
+								<div class="body w-lg-100">
+									<input id="link" autocomplete="off" type="text" name="link" class="form-control" placeholder="Required">
+								</div>
 							</div>
-						</div>
-						<div class="d-lg-flex border-bottom mt-3">
-							<div class="title w-lg-25">
-								<label for="link">Link (youtube, twitch, rumble, mp4 file)</label>
+							<div class="d-lg-flex border-bottom mt-3">
+								<div class="title w-lg-25">
+									<label for="start_utc">Start time (as an <a rel="nofollow noopener" href="https://epochconverter.com">epoch timestamp</a>)</label>
+								</div>
+								<div class="body w-lg-100">
+									<input id="start_utc" autocomplete="off" type="number" step="any" name="start_utc" max="2147483647" class="form-control" placeholder="Optional. Leave blank to start orgy now.">
+								</div>
 							</div>
-							<div class="body w-lg-100">
-								<input id="link" autocomplete="off" type="text" name="link" class="form-control" placeholder="Required">
+							<input hidden name="formkey" value="{{v|formkey}}">
+							<div class="d-flex mt-3">
+								<input id="start-orgy" autocomplete="off" class="btn btn-primary ml-auto" type="submit" value="Schedule Orgy">
 							</div>
-						</div>
-						<div class="d-lg-flex border-bottom mt-3">
-							<div class="title w-lg-25">
-								<label for="start_utc">Start time (as an <a rel="nofollow noopener" href="https://epochconverter.com">epoch timestamp</a>)</label>
-							</div>
-							<div class="body w-lg-100">
-								<input id="start_utc" autocomplete="off" type="number" step="any" name="start_utc" max="2147483647" class="form-control" placeholder="Optional. Leave blank to start orgy now.">
-							</div>
-						</div>
-						<input hidden name="formkey" value="{{v|formkey}}">
-						<div class="d-flex mt-3">
-							<input id="start-orgy" autocomplete="off" class="btn btn-primary ml-auto" type="submit" value="Schedule Orgy">
-						</div>
-					</form>
+						</form>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
 
-<div class="overflow-x-auto mt-3">
-	<table class="table table-striped mb-5">
-		<thead class="bg-primary text-white">
-			<tr>
-				<th>Type</th>
-				<th>Title</th>
-				<th>Link</th>
-				<th>Starts on</th>
-				<th>Ends on</th>
-				<th class="disable-sort-click"></th>
-			</tr>
-		</thead>
+	<div class="overflow-x-auto mt-3">
+		<table class="table table-striped mb-5">
+			<thead class="bg-primary text-white">
+				<tr>
+					<th>Type</th>
+					<th>Title</th>
+					<th>Link</th>
+					<th>Starts on</th>
+					<th>Ends on</th>
+					<th class="disable-sort-click"></th>
+				</tr>
+			</thead>
 
-		{% for orgy in orgies %}
-			<tr>
-				<td>{{orgy.type}}</td>
-				<td>{{orgy.title}}</td>
-				<td>{{orgy.data}}</td>
-				{% if orgy.started %}
-					<td>Started</td>
-				{% else %}
-					<td data-time="{{orgy.start_utc}}"></td>
-				{% endif %}
-				<td {% if orgy.end_utc %}data-time="{{orgy.end_utc}}"{% endif %}></td>
-				<td>
-					<button type="button" class="btn btn-danger btn-block" data-nonce="{{g.nonce}}" data-areyousure="remove_orgy(this, {{orgy.created_utc}})" data-onclick="areyousure(this)">Remove</button>
-				</td>				
-			</tr>
-		{% endfor %}
-	</table>
-</div>
+			{% for orgy in orgies %}
+				<tr>
+					<td>{{orgy.type}}</td>
+					<td>{{orgy.title}}</td>
+					<td>{{orgy.data}}</td>
+					{% if orgy.started %}
+						<td>Started</td>
+					{% else %}
+						<td data-time="{{orgy.start_utc}}"></td>
+					{% endif %}
+					<td {% if orgy.end_utc %}data-time="{{orgy.end_utc}}"{% endif %}></td>
+					<td>
+						<button type="button" class="btn btn-danger btn-block" data-nonce="{{g.nonce}}" data-areyousure="remove_orgy(this, {{orgy.created_utc}})" data-onclick="areyousure(this)">Remove</button>
+					</td>				
+				</tr>
+			{% endfor %}
+		</table>
+	</div>
 
-<script defer src="{{'js/admin/orgies.js' | asset}}"></script>
+	<script defer src="{{'js/admin/orgies.js' | asset}}"></script>
 {% endblock %}

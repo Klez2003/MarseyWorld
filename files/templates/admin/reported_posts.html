@@ -5,30 +5,30 @@
 {% block mobileUserBanner %}{% endblock %}
 {% block pagetitle %}Reported Posts{% endblock %}
 {% block content %}
-<ul class="nav post-nav py-2">
-	<li class="nav-item">
-		<a class="nav-link {% if request.path=="/admin/reported/posts" %} active{% endif %}" href="/admin/reported/posts">
-			<div>Posts</div>
-		</a>
-	</li>
-	<li class="nav-item">
-		<a class="nav-link {% if request.path=="/admin/reported/comments" %} active{% endif %}" href="/admin/reported/comments">
-			<div>Comments</div>
-		</a>
-	</li>
-</ul>
+	<ul class="nav post-nav py-2">
+		<li class="nav-item">
+			<a class="nav-link {% if request.path=="/admin/reported/posts" %} active{% endif %}" href="/admin/reported/posts">
+				<div>Posts</div>
+			</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link {% if request.path=="/admin/reported/comments" %} active{% endif %}" href="/admin/reported/comments">
+				<div>Comments</div>
+			</a>
+		</li>
+	</ul>
 
-<div class="row no-gutters">
-	<div class="col">
-	{% block listing %}
-		<div class="posts">
-			{% include "post_listing.html" %}
+	<div class="row no-gutters">
+		<div class="col">
+		{% block listing %}
+			<div class="posts">
+				{% include "post_listing.html" %}
+			</div>
+		{% endblock %}
 		</div>
-	{% endblock %}
 	</div>
-</div>
 {% endblock %}
 
 {% block pagenav %}
-{% include "pagination.html" %}
+	{% include "pagination.html" %}
 {% endblock %}

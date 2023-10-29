@@ -1,60 +1,60 @@
 {% extends "settings2.html" %}
 {% block pagetitle %}Alts{% if u %} for @{{u.username}}{% endif %}{% endblock %}
 {% block content %}
-{% if u %}
-	<h5 class="mt-3">Alts for <a href="/@{{u.username}}">@{{u.username}}</a></h5>
-{% else %}
-	<h5 class="mt-3">Alts</h5>
-{% endif %}
-<section class="username-input-section mb-3">
-	<form action="/admin/alts" method="get">
-		<label for="link-input">Username</label>
-		<input autocomplete="off" id="link-input" type="text" class="form-control mb-2" name="username" value="{{u.username if u else ''}}" placeholder="Username">
-		<input type="submit" value="Submit" class="btn btn-primary">
-	</form>
-</section>
-{% if u %}
-{% set count=alts|length %}
-<section class="userinfo-section">
-	<p><a href="/@{{u.username}}">@{{u.username}}</a> created their account {{u.created_utc|timestamp}} and has {{count}} known alt{{macros.plural(count)}}.<br>
-	They are {% if not u.is_permabanned %}not {% endif %}permanently banned{% if v.can_see_shadowbanned %} and they are {% if not u.shadowbanned %}not {% endif %}shadowbanned{% endif %}.</p>
-</section>
-<div class="overflow-x-auto">
-	<table class="table table-striped mb-5">
-	<thead class="bg-primary text-white">
-		<tr>
-			<th>#</th>
-			<th>Name</th>
-			<th class="disable-sort-click">Account Created</th>
-			<th>Manual</th>
-			<th class="disable-sort-click">Actions</th>
-		</tr>
-	</thead>
-	{% for user in alts %}
-		<tr>
-			<td>{{loop.index}}</td>
-			<td>{% include "user_in_table.html" %}</td>
-			<td>{{user.created_utc|timestamp}}</td>
-			<td>{{user._is_manual}}</td>
-			<td>
-				<button type="button" id="delink-alt-{{u.id}}-{{user.id}}" class="btn btn-danger" data-nonce="{{g.nonce}}" data-onclick="delink(this,'/@{{u.username}}/alts/{{user.id}}/deleted')">Delink</button>
-				<a class="btn btn-secondary" href="/@{{user.username}}/alts">Alts</a>
-				{% if v.admin_level >= PERMS['VIEW_ALT_VOTES'] %}
-					<a class="btn btn-secondary" href="/admin/alt_votes/?u1={{u.username}}&u2={{user.username}}">Alt Votes</a>
-				{% endif %}
-			</td>
-		</tr>
-	{% endfor %}
-	</table>
-</div>
-<section id="add-alt" class="rounded rounded-section p-3">
-	<h5>Add Alt</h5>
-	<p>This tool allows you to link an alt.</p>
-	<label for="link-input-other">Other Username</label>
-	<input autocomplete="off" id="link-input-other" type="text" class="form-control mb-2" name="other_username" placeholder="Other Username">
-	<button id="add-alt-form-link" class="btn btn-danger mr-3" data-areyousure="submitAddAlt(this, '{{u.username}}')" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)">Add Alt</button>
-</section>
-{% endif %}
+	{% if u %}
+		<h5 class="mt-3">Alts for <a href="/@{{u.username}}">@{{u.username}}</a></h5>
+	{% else %}
+		<h5 class="mt-3">Alts</h5>
+	{% endif %}
+	<section class="username-input-section mb-3">
+		<form action="/admin/alts" method="get">
+			<label for="link-input">Username</label>
+			<input autocomplete="off" id="link-input" type="text" class="form-control mb-2" name="username" value="{{u.username if u else ''}}" placeholder="Username">
+			<input type="submit" value="Submit" class="btn btn-primary">
+		</form>
+	</section>
+	{% if u %}
+		{% set count=alts|length %}
+		<section class="userinfo-section">
+			<p><a href="/@{{u.username}}">@{{u.username}}</a> created their account {{u.created_utc|timestamp}} and has {{count}} known alt{{macros.plural(count)}}.<br>
+			They are {% if not u.is_permabanned %}not {% endif %}permanently banned{% if v.can_see_shadowbanned %} and they are {% if not u.shadowbanned %}not {% endif %}shadowbanned{% endif %}.</p>
+		</section>
+		<div class="overflow-x-auto">
+			<table class="table table-striped mb-5">
+			<thead class="bg-primary text-white">
+				<tr>
+					<th>#</th>
+					<th>Name</th>
+					<th class="disable-sort-click">Account Created</th>
+					<th>Manual</th>
+					<th class="disable-sort-click">Actions</th>
+				</tr>
+			</thead>
+			{% for user in alts %}
+				<tr>
+					<td>{{loop.index}}</td>
+					<td>{% include "user_in_table.html" %}</td>
+					<td>{{user.created_utc|timestamp}}</td>
+					<td>{{user._is_manual}}</td>
+					<td>
+						<button type="button" id="delink-alt-{{u.id}}-{{user.id}}" class="btn btn-danger" data-nonce="{{g.nonce}}" data-onclick="delink(this,'/@{{u.username}}/alts/{{user.id}}/deleted')">Delink</button>
+						<a class="btn btn-secondary" href="/@{{user.username}}/alts">Alts</a>
+						{% if v.admin_level >= PERMS['VIEW_ALT_VOTES'] %}
+							<a class="btn btn-secondary" href="/admin/alt_votes/?u1={{u.username}}&u2={{user.username}}">Alt Votes</a>
+						{% endif %}
+					</td>
+				</tr>
+			{% endfor %}
+			</table>
+		</div>
+		<section id="add-alt" class="rounded rounded-section p-3">
+			<h5>Add Alt</h5>
+			<p>This tool allows you to link an alt.</p>
+			<label for="link-input-other">Other Username</label>
+			<input autocomplete="off" id="link-input-other" type="text" class="form-control mb-2" name="other_username" placeholder="Other Username">
+			<button id="add-alt-form-link" class="btn btn-danger mr-3" data-areyousure="submitAddAlt(this, '{{u.username}}')" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)">Add Alt</button>
+		</section>
+	{% endif %}
 
-<script defer src="{{'js/admin/alts.js' | asset}}"></script>
+	<script defer src="{{'js/admin/alts.js' | asset}}"></script>
 {% endblock %}

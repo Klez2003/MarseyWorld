@@ -1,44 +1,43 @@
 {% extends "default.html" %}
 {% block pagetitle %}Poll Votes{% endblock %}
+
 {% block content %}
-{% if option %}
+	{% if option %}
+		<h3 class="mt-5">{{option.body_html | safe}} - {{ups | length}} {% if option.exclusive == 2 %}bets{% else %}votes{% endif %}</h3>
 
-<h3 class="mt-5">{{option.body_html | safe}} - {{ups | length}} {% if option.exclusive == 2 %}bets{% else %}votes{% endif %}</h3>
+		<p><b>Link:</b> <a href="{{option.parent.permalink}}">{{option.parent.permalink}}</a></p>
+		<p><b>Author:</b> <a href="{{option.parent.author.url}}">@{{option.parent.author_name}}</a></p>
+		<p><b>Author Created At:</b> <span data-time="{{option.parent.author.created_utc}}"></span></p>
+		<p><b>Author Truescore:</b> {{"{:,}".format(option.parent.author.truescore)}}</p>
+		<p><b>Total voter truescore: </b>{{total_ts}}</p>
+		{% if total_patrons != None %}
+			<p><b>Total {{patron}}s: </b>{{total_patrons}} | ${{total_money}}</p>
+		{% endif %}
 
-<p><b>Link:</b> <a href="{{option.parent.permalink}}">{{option.parent.permalink}}</a></p>
-<p><b>Author:</b> <a href="{{option.parent.author.url}}">@{{option.parent.author_name}}</a></p>
-<p><b>Author Created At:</b> <span data-time="{{option.parent.author.created_utc}}"></span></p>
-<p><b>Author Truescore:</b> {{"{:,}".format(option.parent.author.truescore)}}</p>
-<p><b>Total voter truescore: </b>{{total_ts}}</p>
-{% if total_patrons != None %}
-	<p><b>Total {{patron}}s: </b>{{total_patrons}} | ${{total_money}}</p>
-{% endif %}
+		<div class="overflow-x-auto mt-5">
+			<table class="table table-striped mb-5">
+				<thead class="bg-primary text-white">
+					<tr>
+						<th>#</th>
+						<th>User</th>
+						<th>User Truescore</th>
+						<th>Vote Time</th>
+					</tr>
+				</thead>
 
-<div class="overflow-x-auto mt-5">
-	<table class="table table-striped mb-5">
-		<thead class="bg-primary text-white">
-			<tr>
-				<th>#</th>
-				<th>User</th>
-				<th>User Truescore</th>
-				<th>Vote Time</th>
-			</tr>
-		</thead>
-
-		{% for vote in ups %}
-			<tr>
-				<td>{{loop.index}}</td>
-				<td>
-					{% with user=vote.user %}
-						{% include "user_in_table.html" %}
-					{% endwith %}
-				</td>
-				<td>{{"{:,}".format(vote.user.truescore)}}</td>
-				<td data-time="{{vote.created_utc}}"></td>
-			</tr>
-		{% endfor %}
-	</table>
-</div>
-
-{% endif %}
+				{% for vote in ups %}
+					<tr>
+						<td>{{loop.index}}</td>
+						<td>
+							{% with user=vote.user %}
+								{% include "user_in_table.html" %}
+							{% endwith %}
+						</td>
+						<td>{{"{:,}".format(vote.user.truescore)}}</td>
+						<td data-time="{{vote.created_utc}}"></td>
+					</tr>
+				{% endfor %}
+			</table>
+		</div>
+	{% endif %}
 {% endblock %}

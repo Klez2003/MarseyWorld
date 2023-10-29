@@ -1,146 +1,143 @@
 {%- extends 'root.html' -%}
 {% block body_attributes %}id="{% if request.path != '/comments' %}{% block pagetype %}frontpage{% endblock %}{% endif %}" class="has_header"{% endblock %}
 {% block body %}
-{% block pulltorefresh %}
-<div id="pulltorefresh">
-	<img id="pulltorefresh-img" src="{{SITE_FULL_IMAGES}}/e/marseyunamused.webp">
-</div>
-{% endblock %}
-{% block banner %}
-	{% include "modals/expanded_image.html" %}
-	{% if err or '@' not in request.path %}
-		{% if IS_FISTMAS() and not (hole and hole.has_banners) %}
-			{% include 'events/fistmas/banner.html' %}
-		{% elif IS_HOMOWEEN() and not (hole and hole.has_banners) %}
-			{% include 'events/homoween/banner.html' %}
-		{% else %}
-			{% set path = "files/assets/images/" ~ SITE_NAME %}
+	{% block pulltorefresh %}
+		<div id="pulltorefresh">
+			<img id="pulltorefresh-img" src="{{SITE_FULL_IMAGES}}/e/marseyunamused.webp">
+		</div>
+	{% endblock %}
+	{% block banner %}
+		{% include "modals/expanded_image.html" %}
+		{% if err or '@' not in request.path %}
+			{% if IS_FISTMAS() and not (hole and hole.has_banners) %}
+				{% include 'events/fistmas/banner.html' %}
+			{% elif IS_HOMOWEEN() and not (hole and hole.has_banners) %}
+				{% include 'events/homoween/banner.html' %}
+			{% else %}
+				{% set path = "files/assets/images/" ~ SITE_NAME %}
 
-			{% if err and SITE_NAME == 'rDrama' %}
-				{% set src = "banner_error.webp" | asset_siteimg %}
-			{% elif hole and hole.has_banners %}
-				{% set src = hole.random_banner() %}
-				{% set alt = ['/h/', hole, ' banner']|join %}
-				{% set class = 'site-banner-hole' %}
-			{% elif get_running_orgy(v) and os_path.exists(path ~ "/orgy_banners") %}
-				{% set src = macros.random_image("assets/images/" ~ SITE_NAME ~ "/orgy_banners") %}
-				{% set href = "/chat" %}
-				{% set expand = false %}
-			{% elif IS_DKD() or IS_BIRTHGAY() or IS_BIRTHDEAD() %}
-				{% set src = macros.random_image("assets/events/" ~ IS_EVENT() ~ "/images/banners") %}
-			{% elif SITE_NAME == "rDrama" %}
-				{% set href = "https://donate.transequality.org/a/ncte" %}
-				{% set expand = false %}
-			{% endif %}
-
-			{% if SITE_NAME == "WPD" %}
-				{% if hole %}
-					{% set href = "/h/" ~ hole %}
+				{% if err and SITE_NAME == 'rDrama' %}
+					{% set src = "banner_error.webp" | asset_siteimg %}
+				{% elif hole and hole.has_banners %}
+					{% set src = hole.random_banner() %}
+					{% set alt = ['/h/', hole, ' banner']|join %}
+					{% set class = 'site-banner-hole' %}
+				{% elif get_running_orgy(v) and os_path.exists(path ~ "/orgy_banners") %}
+					{% set src = macros.random_image("assets/images/" ~ SITE_NAME ~ "/orgy_banners") %}
+					{% set href = "/chat" %}
 					{% set expand = false %}
-				{% else %}
-					{% set href = "/" %}
+				{% elif IS_DKD() or IS_BIRTHGAY() or IS_BIRTHDEAD() %}
+					{% set src = macros.random_image("assets/events/" ~ IS_EVENT() ~ "/images/banners") %}
+				{% elif SITE_NAME == "rDrama" %}
+					{% set href = "https://donate.transequality.org/a/ncte" %}
 					{% set expand = false %}
 				{% endif %}
-			{% endif %}
 
-			<a id="banner-link" href="{{href|default(src)}}" rel="nofollow noopener">
-				{% if src %}
-					{% set banner_url = src %}
-				{% else %}
-					{%- if not v and os_path.exists(path ~ "/cached.webp") -%}
-						{% set banner_url = 'cached.webp' | asset_siteimg %}
-					{%- elif SITE_NAME == 'rDrama' and v and v.chud %}
-						{% set banner_url = '/banners/18.webp' | asset_siteimg %}
-					{%- elif os_path.exists(path ~ "/banners") -%}
-						{% set banner_url = macros.random_image("assets/images/" ~ SITE_NAME ~ "/banners") %}
-					{%- else -%}
-						{% set banner_url = 'banner.webp' | asset_siteimg %}
-					{%- endif -%}
+				{% if SITE_NAME == "WPD" %}
+					{% if hole %}
+						{% set href = "/h/" ~ hole %}
+						{% set expand = false %}
+					{% else %}
+						{% set href = "/" %}
+						{% set expand = false %}
+					{% endif %}
 				{% endif %}
 
-				{% macro img_element() %}
-					<img data-nonce="{{g.nonce}}" data-onclick="{{expand|default('expandImage()')}}" class="{{class|default('site-banner')}}" alt="{{alt|default('site banner')}}" src="{{banner_url}}">
-				{% endmacro %}
+				<a id="banner-link" href="{{href|default(src)}}" rel="nofollow noopener">
+					{% if src %}
+						{% set banner_url = src %}
+					{% else %}
+						{%- if not v and os_path.exists(path ~ "/cached.webp") -%}
+							{% set banner_url = 'cached.webp' | asset_siteimg %}
+						{%- elif SITE_NAME == 'rDrama' and v and v.chud %}
+							{% set banner_url = '/banners/18.webp' | asset_siteimg %}
+						{%- elif os_path.exists(path ~ "/banners") -%}
+							{% set banner_url = macros.random_image("assets/images/" ~ SITE_NAME ~ "/banners") %}
+						{%- else -%}
+							{% set banner_url = 'banner.webp' | asset_siteimg %}
+						{%- endif -%}
+					{% endif %}
 
-				{% if hole and hole.has_banners %}
-					{{img_element()}}
-				{% else %}
-					<div class="banner-wrapper">
-						<div style="padding: 0 0 12.2%">
-							<div>
-								{{img_element()}}
+					{% macro img_element() %}
+						<img data-nonce="{{g.nonce}}" data-onclick="{{expand|default('expandImage()')}}" class="{{class|default('site-banner')}}" alt="{{alt|default('site banner')}}" src="{{banner_url}}">
+					{% endmacro %}
+
+					{% if hole and hole.has_banners %}
+						{{img_element()}}
+					{% else %}
+						<div class="banner-wrapper">
+							<div style="padding: 0 0 12.2%">
+								<div>
+									{{img_element()}}
+								</div>
 							</div>
 						</div>
+					{% endif %}
+				</a>
+			{% endif %}
+		{% endif %}
+	{% endblock %}
+
+	{% include "header.html" %}
+
+	{% block mobileUserBanner %}{% endblock %}
+
+	{% if IS_HOMOWEEN() %}
+		{% block hauntBg %}{% endblock %}
+	{% endif %}
+
+	<div class="container">
+		<div class="row justify-content-around" id="main-content-row">
+			<div class="order-first col h-100 {% block customPadding %}{% if request.path.startswith('/@') %}user-gutters{% else %}custom-gutters{% endif %}{% endblock %}" id="main-content-col">
+				{% block desktopUserBanner %}{% endblock %}
+				{% block desktopBanner %}{% endblock %}
+				{% block PseudoSubmitForm %}{% endblock %}
+				{% block searchText %}{% endblock %}
+				{% block content %}{% endblock %}
+				{% block pagenav %}{% endblock %}
+			</div>
+			{% block sidebar %}
+				{% if has_sidebar and (home or p) %}
+					{% set sidebar = "sidebar_" ~ SITE_NAME ~ ".html" %}
+					<div id="desktop-sidebar">
+						{% include sidebar %}
 					</div>
 				{% endif %}
-			</a>
+			{% endblock %}
+		</div>
+	</div>
+	{% block mobilenavbar %}{% include "mobile_navigation_bar.html" %}{% endblock %}
+	{% block actionsModal %}{% endblock %}
+	{% block reportCommentModal %}{% endblock %}
+	{% block GIFtoast %}{% endblock %}
+	{% block GIFpicker %}{% endblock %}
+	<div class="toast clipboard" id="toast-success" data-bs-animation="true" data-bs-autohide="true" data-bs-delay="5000">
+		<div class="toast-body text-center">
+			<i class="fas fa-check-circle text-success mr-2"></i>Link copied to clipboard
+		</div>
+	</div>
+	<script defer src="{{'js/vendor/lozad.js' | asset}}"></script>
+	<script defer src="{{'js/vendor/lite-youtube.js' | asset}}"></script>
+
+	{% if (v and v.spider) or (p and p.award_count("shit", v)) or (p and p.award_count("fireflies", v)) %}
+		<script defer src="{{'js/vendor/critters.js' | asset}}"></script>
+
+		{% if v and v.spider %}
+			<script defer src="{{'js/spider.js' | asset}}"></script>
+		{% endif %}
+
+		{% if p and p.award_count("shit", v) %}
+			<input hidden id="shit_num" value="{{p.award_count('shit', v)}}">
+			<script defer src="{{'js/bugs.js' | asset}}"></script>
+		{% endif %}
+
+		{% if p and p.award_count("fireflies", v) %}
+			<input hidden id="fireflies_num" value="{{p.award_count('fireflies', v)}}">
+			<script defer src="{{'js/fireflies.js' | asset}}"></script>
 		{% endif %}
 	{% endif %}
-{% endblock %}
 
-{% include "header.html" %}
-
-{% block mobileUserBanner %}
-{% endblock %}
-
-{% if IS_HOMOWEEN() %}
-	{% block hauntBg %}
-	{% endblock %}
-{% endif %}
-
-<div class="container">
-	<div class="row justify-content-around" id="main-content-row">
-		<div class="order-first col h-100 {% block customPadding %}{% if request.path.startswith('/@') %}user-gutters{% else %}custom-gutters{% endif %}{% endblock %}" id="main-content-col">
-			{% block desktopUserBanner %}{% endblock %}
-			{% block desktopBanner %}{% endblock %}
-			{% block PseudoSubmitForm %}{% endblock %}
-			{% block searchText %}{% endblock %}
-			{% block content %}{% endblock %}
-			{% block pagenav %}{% endblock %}
-		</div>
-		{% block sidebar %}
-			{% if has_sidebar and (home or p) %}
-				{% set sidebar = "sidebar_" ~ SITE_NAME ~ ".html" %}
-				<div id="desktop-sidebar">
-					{% include sidebar %}
-				</div>
-			{% endif %}
-		{% endblock %}
-	</div>
-</div>
-{% block mobilenavbar %}{% include "mobile_navigation_bar.html" %}{% endblock %}
-{% block actionsModal %}{% endblock %}
-{% block reportCommentModal %}{% endblock %}
-{% block GIFtoast %}{% endblock %}
-{% block GIFpicker %}{% endblock %}
-<div class="toast clipboard" id="toast-success" data-bs-animation="true" data-bs-autohide="true" data-bs-delay="5000">
-	<div class="toast-body text-center">
-		<i class="fas fa-check-circle text-success mr-2"></i>Link copied to clipboard
-	</div>
-</div>
-<script defer src="{{'js/vendor/lozad.js' | asset}}"></script>
-<script defer src="{{'js/vendor/lite-youtube.js' | asset}}"></script>
-
-{% if (v and v.spider) or (p and p.award_count("shit", v)) or (p and p.award_count("fireflies", v)) %}
-	<script defer src="{{'js/vendor/critters.js' | asset}}"></script>
-
-	{% if v and v.spider %}
-		<script defer src="{{'js/spider.js' | asset}}"></script>
+	{% if IS_EVENT() %}
+		{% include "events/shared/music.html" %}
 	{% endif %}
-
-	{% if p and p.award_count("shit", v) %}
-		<input hidden id="shit_num" value="{{p.award_count('shit', v)}}">
-		<script defer src="{{'js/bugs.js' | asset}}"></script>
-	{% endif %}
-
-	{% if p and p.award_count("fireflies", v) %}
-		<input hidden id="fireflies_num" value="{{p.award_count('fireflies', v)}}">
-		<script defer src="{{'js/fireflies.js' | asset}}"></script>
-	{% endif %}
-{% endif %}
-
-{% if IS_EVENT() %}
-	{% include "events/shared/music.html" %}
-{% endif %}
-
 {% endblock %}

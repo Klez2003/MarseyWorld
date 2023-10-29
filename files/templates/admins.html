@@ -3,32 +3,28 @@
 {% block pagetitle %}Admins{% endblock %}
 
 {% block content %}
+	<h5 class="font-weight-bolder text-center pt-2 pb-3"><span>Admins</span></h5>
+	<div class="overflow-x-auto mt-1">
+		<table class="table table-striped mb-5">
+			<thead class="bg-primary text-white">
+				<tr>
+					<th>#</th>
+					<th>Name</th>
+					<th>Admin Level</th>
+					<th>Truescore</th>
+					<th>Mod actions</th>
+				</tr>
+			</thead>
 
-<h5 class="font-weight-bolder text-center pt-2 pb-3"><span>Admins</span></h5>
-<div class="overflow-x-auto mt-1">
-	<table class="table table-striped mb-5">
-		<thead class="bg-primary text-white">
-			<tr>
-				<th>#</th>
-				<th>Name</th>
-				<th>Admin Level</th>
-				<th>Truescore</th>
-				<th>Mod actions</th>
-			</tr>
-		</thead>
-
-		{% for user in admins %}
-			<tr>
-				<td>{{loop.index}}</td>
-				<td>{% include "user_in_table.html" %}</td>
-				<td>{{user.admin_level}}</td>
-				<td>{{"{:,}".format(user.truescore)}}</td>
-				<td><a href="/log?admin={{user.username}}">{{"{:,}".format(user.modaction_num)}}</a></td>
-			</tr>
-		{% endfor %}
-	</table>
-</div>
-
-
-
+			{% for user in admins %}
+				<tr>
+					<td>{{loop.index}}</td>
+					<td>{% include "user_in_table.html" %}</td>
+					<td>{{user.admin_level}}</td>
+					<td>{{"{:,}".format(user.truescore)}}</td>
+					<td><a href="/log?admin={{user.username}}">{{"{:,}".format(user.modaction_num)}}</a></td>
+				</tr>
+			{% endfor %}
+		</table>
+	</div>
 {% endblock %}

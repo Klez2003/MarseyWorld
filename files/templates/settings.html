@@ -43,12 +43,11 @@
 </div>
 </div>
 {% block clipboard %}
-<div class="toast clipboard" id="toast-success" data-bs-animation="true" data-bs-autohide="true" data-bs-delay="5000">
-	<div class="toast-body text-center">
-		<i class="fas fa-check-circle text-success mr-2"></i>Link copied to clipboard
+	<div class="toast clipboard" id="toast-success" data-bs-animation="true" data-bs-autohide="true" data-bs-delay="5000">
+		<div class="toast-body text-center">
+			<i class="fas fa-check-circle text-success mr-2"></i>Link copied to clipboard
+		</div>
 	</div>
-</div>
 {% endblock %}
-{% block onload %}{% endblock %}
 <script defer src="{{'js/vendor/clipboard.js' | asset}}"></script>
 {% endblock %}

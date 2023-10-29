@@ -1,55 +1,55 @@
 {%- import 'util/macros.html' as macros with context -%}
 
 {% macro toggle_section(title, id, name, flag, below_text, disabled) %}
-<div id="{{id}}_toggle" class="d-lg-flex border-bottom">
-	<div class="title w-lg-25">
-		<label for="{{id}}">{{title}}</label>
-	</div>
-	<div class="body w-lg-100 pt-1 pt-lg-3">
-		<div class="custom-control custom-switch">
-			<input autocomplete="off" type="checkbox" class="custom-control-input setting_switch" data-nonce="{{g.nonce}}" id="{{id}}" name="{{name}}"{% if flag %} checked{% endif %} {% if disabled %}disabled{% endif %}>
-			<label class="custom-control-label" for="{{id}}"></label>
+	<div id="{{id}}_toggle" class="d-lg-flex border-bottom">
+		<div class="title w-lg-25">
+			<label for="{{id}}">{{title}}</label>
 		</div>
-		{% if below_text %}
-			<span class="text-small text-muted">{{below_text|safe}}</span>
-		{% endif %}
+		<div class="body w-lg-100 pt-1 pt-lg-3">
+			<div class="custom-control custom-switch">
+				<input autocomplete="off" type="checkbox" class="custom-control-input setting_switch" data-nonce="{{g.nonce}}" id="{{id}}" name="{{name}}"{% if flag %} checked{% endif %} {% if disabled %}disabled{% endif %}>
+				<label class="custom-control-label" for="{{id}}"></label>
+			</div>
+			{% if below_text %}
+				<span class="text-small text-muted">{{below_text|safe}}</span>
+			{% endif %}
+		</div>
 	</div>
-</div>
 {% endmacro %}
 
 {% macro color_section(id, form_action, form_name, section_title, current_color) %}
-<div class="d-lg-flex border-bottom">
-	<div class="title w-lg-25">
-		<label for="{{id}}">{{section_title}}</label>
-	</div>
-	<div class="body w-lg-100 d-lg-flex">
-		<div class="d-flex">
-			<form action="{{form_action}}" id="{{id}}-form" method="post" class="color-picker" style="line-height: 0">
-				<input hidden name="formkey" value="{{v|formkey}}">
-				{% for themecolor in COLORS %}
-				<input autocomplete="off" type="radio" name="{{form_name}}" id="{{id}}-{{themecolor}}" value="{{themecolor}}" {% if current_color == themecolor %}checked{% endif %} data-nonce="{{g.nonce}}" onclick_submit>
-				<label class="color-radio" for="{{id}}-{{themecolor}}">
-					<span style="background-color: #{{themecolor}}">
-					{% if current_color and current_color.lower() == themecolor %}
-						<i class="fas fa-check text-white"></i>
-					{% else %}
-						&nbsp;
-					{% endif %}
-					</span>
-				</label>
-				{% endfor %}
-			</form>
+	<div class="d-lg-flex border-bottom">
+		<div class="title w-lg-25">
+			<label for="{{id}}">{{section_title}}</label>
 		</div>
-		<p class="text-small mb-2">Or type a color hex code:</p>
-		<div class="d-flex">
-			<form action="{{form_action}}" id="{{id}}-color-code-form" method="post">
-				<input hidden name="formkey" value="{{v|formkey}}">
-				<input autocomplete="off" class="form-control" type="text" name="{{form_name}}" id="{{id}}-color-code" minlength="6" maxlength="6" value="{% if current_color %}{{current_color}}{% endif %}">
-				<label class="btn btn-secondary text-capitalize mr-2 mt-2 mb-0">Update<input type="submit" for="{{id}}-color-code" hidden></label>
-			</form>
+		<div class="body w-lg-100 d-lg-flex">
+			<div class="d-flex">
+				<form action="{{form_action}}" id="{{id}}-form" method="post" class="color-picker" style="line-height: 0">
+					<input hidden name="formkey" value="{{v|formkey}}">
+					{% for themecolor in COLORS %}
+						<input autocomplete="off" type="radio" name="{{form_name}}" id="{{id}}-{{themecolor}}" value="{{themecolor}}" {% if current_color == themecolor %}checked{% endif %} data-nonce="{{g.nonce}}" onclick_submit>
+						<label class="color-radio" for="{{id}}-{{themecolor}}">
+							<span style="background-color: #{{themecolor}}">
+							{% if current_color and current_color.lower() == themecolor %}
+								<i class="fas fa-check text-white"></i>
+							{% else %}
+								&nbsp;
+							{% endif %}
+							</span>
+						</label>
+					{% endfor %}
+				</form>
+			</div>
+			<p class="text-small mb-2">Or type a color hex code:</p>
+			<div class="d-flex">
+				<form action="{{form_action}}" id="{{id}}-color-code-form" method="post">
+					<input hidden name="formkey" value="{{v|formkey}}">
+					<input autocomplete="off" class="form-control" type="text" name="{{form_name}}" id="{{id}}-color-code" minlength="6" maxlength="6" value="{% if current_color %}{{current_color}}{% endif %}">
+					<label class="btn btn-secondary text-capitalize mr-2 mt-2 mb-0">Update<input type="submit" for="{{id}}-color-code" hidden></label>
+				</form>
+			</div>
 		</div>
 	</div>
-</div>
 {% endmacro %}
 
 {% macro line_text_section(id, form_action, form_name, section_title, contents, below_text, placeholder_text, button_text, show_emojis, minlength, maxlength, pattern, disabled) %}
@@ -72,26 +72,26 @@
 {% endmacro %}
 
 {% macro text_area_section(id, form_action, form_name, section_title, contents, below_text, placeholder_text, show_extras, maxlength) %}
-<div class="body d-lg-flex border-bottom">
-	<label class="text-black w-lg-25">{{section_title}}</label>
-	<div class="w-lg-100">
-		<form id="{{id}}-form" action="{{form_action}}" method="post" enctype="multipart/form-data" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHR(this)">
-			<input hidden name="formkey" value="{{v|formkey}}">
-			<textarea autocomplete="off" id="{{id}}-text" class="file-ta form-control rounded" placeholder="{{placeholder_text}}" rows="3" name="{{form_name}}" form="{{id}}-form" maxlength="{{maxlength}}">{% if contents %}{{contents}}{% endif %}</textarea>
+	<div class="body d-lg-flex border-bottom">
+		<label class="text-black w-lg-25">{{section_title}}</label>
+		<div class="w-lg-100">
+			<form id="{{id}}-form" action="{{form_action}}" method="post" enctype="multipart/form-data" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHR(this)">
+				<input hidden name="formkey" value="{{v|formkey}}">
+				<textarea autocomplete="off" id="{{id}}-text" class="file-ta form-control rounded" placeholder="{{placeholder_text}}" rows="3" name="{{form_name}}" form="{{id}}-form" maxlength="{{maxlength}}">{% if contents %}{{contents}}{% endif %}</textarea>
 
-			{% if show_extras %}
-				<div class="format-btns">
-					{{macros.emoji_btn(id ~ '-text')}}
-					{{macros.gif_btn(id ~ '-text')}}								
-					{{macros.file_btn('file-upload-common-' ~ id)}}
+				{% if show_extras %}
+					<div class="format-btns">
+						{{macros.emoji_btn(id ~ '-text')}}
+						{{macros.gif_btn(id ~ '-text')}}								
+						{{macros.file_btn('file-upload-common-' ~ id)}}
+					</div>
+				{% endif %}
+
+				<div class="d-flex mt-1">
+					<small>{{below_text}}</small>
+					<input autocomplete="off" class="btn btn-primary ml-auto" id="{{id}}-save" type="submit" value="Save Changes">
 				</div>
-			{% endif %}
-
-			<div class="d-flex mt-1">
-				<small>{{below_text}}</small>
-				<input autocomplete="off" class="btn btn-primary ml-auto" id="{{id}}-save" type="submit" value="Save Changes">
-			</div>
-		</form>
+			</form>
+		</div>
 	</div>
-</div>
 {% endmacro %}

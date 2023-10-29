@@ -5,29 +5,29 @@
 {% block mobileUserBanner %}{% endblock %}
 {% block pagetitle %}Posts{% endblock %}
 {% block content %}
-<ul class="nav post-nav py-2">
-	<li class="nav-item">
-		<a class="nav-link {% if request.path.endswith('/posts') %}active" href="{{request.path}}"{% else %}" href="{{request.path.replace('/comments','/posts')}}"{% endif %}>
-			Posts
-		</a>
-	</li>
-	<li class="nav-item">
-		<a class="nav-link {% if request.path.endswith('/comments') %}active" href="{{request.path}}"{% else %}" href="{{request.path.replace('/posts','/comments')}}"{% endif %}>
-			Comments
-		</a>
-	</li>
-</ul>
-<div class="row no-gutters">
-	<div class="col">
-	{% block listing %}
-		<div class="posts">
-			{% include "post_listing.html" %}
+	<ul class="nav post-nav py-2">
+		<li class="nav-item">
+			<a class="nav-link {% if request.path.endswith('/posts') %}active" href="{{request.path}}"{% else %}" href="{{request.path.replace('/comments','/posts')}}"{% endif %}>
+				Posts
+			</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link {% if request.path.endswith('/comments') %}active" href="{{request.path}}"{% else %}" href="{{request.path.replace('/posts','/comments')}}"{% endif %}>
+				Comments
+			</a>
+		</li>
+	</ul>
+	<div class="row no-gutters">
+		<div class="col">
+		{% block listing %}
+			<div class="posts">
+				{% include "post_listing.html" %}
+			</div>
+		{% endblock %}
 		</div>
-	{% endblock %}
 	</div>
-</div>
 {% endblock %}
 
 {% block pagenav %}
-{% include "pagination.html" %}
+	{% include "pagination.html" %}
 {% endblock %}

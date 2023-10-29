@@ -95,15 +95,15 @@
 {%- endif -%}
 
 {% block content %}
-<div id="directory--wrapper">
-{% for thread in DIRECTORY %}
-<a class="directory--link" href="{{thread[4]}}">
-	<div class="directory--link-content">
-		<i class="directory--link--icon fas {{thread[2]}}" style="color:{{thread[3]}}"></i>
-		<div class="directory--link--title">{{thread[0]|safe}}</div>
-		<div class="directory--link--description">{{thread[1]|safe}}</div>
+	<div id="directory--wrapper">
+		{% for thread in DIRECTORY %}
+			<a class="directory--link" href="{{thread[4]}}">
+				<div class="directory--link-content">
+					<i class="directory--link--icon fas {{thread[2]}}" style="color:{{thread[3]}}"></i>
+					<div class="directory--link--title">{{thread[0]|safe}}</div>
+					<div class="directory--link--description">{{thread[1]|safe}}</div>
+				</div>
+			</a>
+		{% endfor %}
 	</div>
-</a>
-{% endfor %}
-</div>
 {% endblock %}

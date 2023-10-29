@@ -1,77 +1,72 @@
 {% extends "post.html" %}
 
 {% set score=p.score %}
+
 {% if v %}
-{% set voted=p.voted %}
-{% set adjust=voted %}
+	{% set voted=p.voted %}
+	{% set adjust=voted %}
 {% else %}
-{% set voted=-2 %}
-{% set adjust=0 %}
+	{% set voted=-2 %}
+	{% set adjust=0 %}
 {% endif %}
 
 {% block title %}
-<title>{{p.plaintitle(v)}}</title>
-{% if p.is_banned %}
-
-{% else %}
-
-{% endif %}
+	<title>{{p.plaintitle(v)}}</title>
 {% endblock %}
 
 {% block content %}
-<div class="mb-2 p-3">
-	<div class="col-12">
-		<div id="post-{{p.id}}" class="banned {% if p.award_count('glowie', v) %}glow{% endif %} card d-flex flex-row-reverse flex-nowrap justify-content-end border-0 p-0 {% if voted==1 %} upvoted{% elif voted==-1 %} downvoted{% endif %}">
-			<div class="card-block my-md-auto">
-				<div class="post-meta text-left d-md-none mb-1">{% if p.nsfw %}<span class="badge badge-danger">NSFW</span> {% endif %}{% if p.is_banned %}Removed by @{{p.ban_reason}} (Site Admin){% else %}[Deleted by user]{% endif %}</div>
-				<h5 class="card-title post-title text-left mb-0 mb-md-1">{{p.plaintitle(v)}}</h5>
-				<div class="post-meta text-left d-mob-none">{% if p.nsfw %}<span class="badge badge-danger">NSFW</span> {% endif %}{% if p.is_banned %}Removed by @{{p.ban_reason}} (Site Admin){% else %}[Deleted by user]{% endif %}</div>
-			</div>
-			<div id="voting" class="d-md-block my-auto mr-3 text-center">
-				<div class="post-{{p.id}}-up arrow-up mx-auto">
+	<div class="mb-2 p-3">
+		<div class="col-12">
+			<div id="post-{{p.id}}" class="banned {% if p.award_count('glowie', v) %}glow{% endif %} card d-flex flex-row-reverse flex-nowrap justify-content-end border-0 p-0 {% if voted==1 %} upvoted{% elif voted==-1 %} downvoted{% endif %}">
+				<div class="card-block my-md-auto">
+					<div class="post-meta text-left d-md-none mb-1">{% if p.nsfw %}<span class="badge badge-danger">NSFW</span> {% endif %}{% if p.is_banned %}Removed by @{{p.ban_reason}} (Site Admin){% else %}[Deleted by user]{% endif %}</div>
+					<h5 class="card-title post-title text-left mb-0 mb-md-1">{{p.plaintitle(v)}}</h5>
+					<div class="post-meta text-left d-mob-none">{% if p.nsfw %}<span class="badge badge-danger">NSFW</span> {% endif %}{% if p.is_banned %}Removed by @{{p.ban_reason}} (Site Admin){% else %}[Deleted by user]{% endif %}</div>
 				</div>
-				<span class="post-{{p.id}}-score-up score-up text-muted{% if voted!=1 %} d-none{% endif %}">✖</span>
-				<span class="post-{{p.id}}-score-none score text-muted{% if voted!=0 and voted!=-2 %} d-none{% endif %}">✖</span>
-				<span class="post-{{p.id}}-score-down score-down text-muted{% if voted!=-1 %} d-none{% endif %}">✖</span>
-				<div class="post-{{p.id}}-down arrow-down mx-auto">
+				<div id="voting" class="d-md-block my-auto mr-3 text-center">
+					<div class="post-{{p.id}}-up arrow-up mx-auto">
+					</div>
+					<span class="post-{{p.id}}-score-up score-up text-muted{% if voted!=1 %} d-none{% endif %}">✖</span>
+					<span class="post-{{p.id}}-score-none score text-muted{% if voted!=0 and voted!=-2 %} d-none{% endif %}">✖</span>
+					<span class="post-{{p.id}}-score-down score-down text-muted{% if voted!=-1 %} d-none{% endif %}">✖</span>
+					<div class="post-{{p.id}}-down arrow-down mx-auto">
+					</div>
 				</div>
 			</div>
-		</div>
-		{% if v and v.admin_level >= PERMS['POST_COMMENT_MODERATION'] and p.body_html %}
-			<div class="post-body mt-4 mb-2">
-				{{p.body_html | safe}}
-			</div>
-		{% endif %}
-	</div>
-</div>
-
-<div class="row mb-2 p-3">
-	<div class="col-12">
-		<div class="post-actions d-mob-none">
-			<ul class="list-inline text-left mb-2">
-				<li class="list-inline-item"><a href="{{p.permalink}}">
-					<i class="fas fa-comment-dots mr-2"></i><span class="comm-count">{{p.comment_count}}</span> Comment{{'s' if p.comment_count != 1 else ''}}</a>
-				</li>
-			</ul>
+			{% if v and v.admin_level >= PERMS['POST_COMMENT_MODERATION'] and p.body_html %}
+				<div class="post-body mt-4 mb-2">
+					{{p.body_html | safe}}
+				</div>
+			{% endif %}
 		</div>
 	</div>
-</div>
 
-<div class="comments-count py-3">
-	{%- import 'util/macros.html' as macros with context -%}
-	{{- macros.sorting_buttons(COMMENT_SORTS, True) -}}
-</div>
+	<div class="row mb-2 p-3">
+		<div class="col-12">
+			<div class="post-actions d-mob-none">
+				<ul class="list-inline text-left mb-2">
+					<li class="list-inline-item"><a href="{{p.permalink}}">
+						<i class="fas fa-comment-dots mr-2"></i><span class="comm-count">{{p.comment_count}}</span> Comment{{'s' if p.comment_count != 1 else ''}}</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
 
-<div class="comment-section">
-	{% with comments=p.replies %}
-		{% include "comments.html" %}
-	{% endwith %}
-</div>
+	<div class="comments-count py-3">
+		{%- import 'util/macros.html' as macros with context -%}
+		{{- macros.sorting_buttons(COMMENT_SORTS, True) -}}
+	</div>
 
-{% if offset %}
-	<script defer src="{{'js/view_more.js' | asset}}"></script>
-{% endif %}
+	<div class="comment-section">
+		{% with comments=p.replies %}
+			{% include "comments.html" %}
+		{% endwith %}
+	</div>
 
+	{% if offset %}
+		<script defer src="{{'js/view_more.js' | asset}}"></script>
+	{% endif %}
 {% endblock %}
 
 {% block mobileactions %}

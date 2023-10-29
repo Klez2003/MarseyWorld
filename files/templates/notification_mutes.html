@@ -1,29 +1,33 @@
 {% extends "default.html" %}
 {% block pagetitle %}Notification Mutes{% endblock %}
 {% block content %}
-<h5 class="font-weight-bolder text-center pt-2 pb-3"><span>Notification Mutes</span></h5>
-<div class="overflow-x-auto mt-3"><table class="table table-striped mb-5">
-<thead class="bg-primary text-white">
-	<tr>
-		<th>User</th>
-		<th>Target</th>
-		<th>Muted on</th>
-	</tr>
-</thead>
-{% for mute in mutes %}
-	<tr>
-		<td>
-			{% with user = mute.user %}
-				{% include "user_in_table.html" %}
-			{% endwith %}
-		</td>
-		<td>
-			{% with user = mute.target %}
-				{% include "user_in_table.html" %}
-			{% endwith %}
-		</td>
-		<td data-time="{{mute.created_utc}}"></td>
-	</tr>
-{% endfor %}
-</table>
+	<h5 class="font-weight-bolder text-center pt-2 pb-3">
+		<span>Notification Mutes</span>
+	</h5>
+	<div class="overflow-x-auto mt-3">
+		<table class="table table-striped mb-5">
+			<thead class="bg-primary text-white">
+				<tr>
+					<th>User</th>
+					<th>Target</th>
+					<th>Muted on</th>
+				</tr>
+			</thead>
+			{% for mute in mutes %}
+				<tr>
+					<td>
+						{% with user = mute.user %}
+							{% include "user_in_table.html" %}
+						{% endwith %}
+					</td>
+					<td>
+						{% with user = mute.target %}
+							{% include "user_in_table.html" %}
+						{% endwith %}
+					</td>
+					<td data-time="{{mute.created_utc}}"></td>
+				</tr>
+			{% endfor %}
+		</table>
+	</div>
 {% endblock %}
