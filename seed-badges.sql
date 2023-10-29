@@ -250,6 +250,7 @@ INSERT INTO public.badge_defs VALUES (160, 'Lil Goombler', 'Won a 1,000 bet. Nic
 INSERT INTO public.badge_defs VALUES (162, 'King Goombler', 'Won a 100,000 bet. Wipe your sweaty palms off and bet it all again, you''re on a roll!', NULL);
 INSERT INTO public.badge_defs VALUES (286, 'Pilgrimage', 'This user went on a quest to an rDrama holy site', 1687363815);
 INSERT INTO public.badge_defs VALUES (241, 'SNITCH', 'This nigga snitched on a fellow rDrama user AND GOT PAID 🤑💰💸', 1679066554);
+INSERT INTO public.badge_defs VALUES (313, 'Zombiechad II', 'Zombified 10 people during Homoween 2023.', 1698600949);
 INSERT INTO public.badge_defs VALUES (161, 'Pro Goombler', 'Won a 10,000 bet. Some would say to quit while you''re ahead, but they didn''t just win 10k - keep at it!', NULL);
 INSERT INTO public.badge_defs VALUES (284, 'In Memoriam Theodora', 'When God calls one of His most blessed angels home, the heavens rejoice while we are left behind to weep with the rain.', 1686502188);
 INSERT INTO public.badge_defs VALUES (292, 'George ''Hard R'' Marsey', 'This user is an rDrama Times Best-Selling Author', 1690462861);
@@ -269,13 +270,17 @@ INSERT INTO public.badge_defs VALUES (309, 'Soul Badge', 'From the Fuschia City 
 INSERT INTO public.badge_defs VALUES (310, 'Marsh Badge', 'From the Saffron City Gym. Allows the HM Rock Smash to be used outside of battle, and makes Pokemon up to level 70 obey.', 1697740847);
 INSERT INTO public.badge_defs VALUES (311, 'Volcano Badge', 'From the Cinnabar Island Gym. Allows the HM Waterfall to be used outside of battle.', 1697740854);
 INSERT INTO public.badge_defs VALUES (312, 'Earth Badge', 'From the Viridian City Gym. Makes all Pokemon obey and allows the bearer to challenge the Kanto Elite Four.', 1697740864);
+INSERT INTO public.badge_defs VALUES (314, 'Superspreader II', 'Zombified 100 people during Homoween 2023.', 1698600973);
+INSERT INTO public.badge_defs VALUES (315, 'Gigavaxxer II', 'Vaccinated 10 people during Homoween 2023.', 1698601009);
+INSERT INTO public.badge_defs VALUES (316, 'CDC Goon II', 'Vaccinated 100 people during Homoween 2023.', 1698601029);
+INSERT INTO public.badge_defs VALUES (317, 'Homoween 2023 Survivor', 'Awarded for surviving Homoween 2023', 1698601068);
 
 
 --
 -- Name: badge_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.badge_defs_id_seq', 312, true);
+SELECT pg_catalog.setval('public.badge_defs_id_seq', 317, true);
 
 
 --
