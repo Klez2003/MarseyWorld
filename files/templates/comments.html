@@ -23,7 +23,7 @@
 			{% set replies=c.replies(sort=sort) %}
 		{% endif %}
 
-		{% if (c.is_banned or c.deleted_utc) and not (v and v.admin_level >= PERMS['POST_COMMENT_MODERATION']) and not (v and v.id==c.author_id) %}
+		{% if (c.is_banned or c.deleted_utc) and not (v and v.admin_level >= PERMS['POST_COMMENT_MODERATION']) and not (v and v.id == c.author_id) %}
 			<div id="comment-{{c.id}}" class="comment {% if not (v and v.id == author_id) and not (v and v.admin_level) and not comment_info %}collapsed{% endif %}">
 				<span class="comment-collapse-line" style="border-color: #{{c.author.name_color}}" data-nonce="{{g.nonce}}" data-onclick="collapse_comment('{{c.id}}')"></span>
 				<div class="comment-body">
@@ -60,7 +60,7 @@
 				{% set voted=-2 %}
 			{% endif %}
 
-			{% if standalone and level==1 %}
+			{% if standalone and level == 1 %}
 				<div id="post-info-{{c.id}}" class="text-break post-info mb-1 mr-2 {% if request.path.startswith('/notifications') %}mt-5{% elif request.path == '/search/messages' %}mt-6{% else %}mt-3{% endif %}">
 					{% if c.parent_post and c.post.nsfw %}
 						<span class="badge badge-danger text-small-extra mr-1">NSFW</span>
@@ -76,7 +76,7 @@
 							{% if c.post.hole %}
 								<span class="ml-1"> in <a href="/h/{{c.post.hole}}" {% if v and v.newtab %}data-target="t" target="_blank"{% endif %}>/h/{{c.post.hole}}</a></span>
 							{% endif %}
-						{% elif c.author_id==AUTOJANNY_ID %}
+						{% elif c.author_id == AUTOJANNY_ID %}
 							<span class="font-weight-bold">Notification</span>
 						{% elif c.wall_user_id %}
 							{% if not wall %}
@@ -103,7 +103,7 @@
 				{% set isreply = False %}
 			{% endif %}
 
-			<div id="comment-{{c.id}}" class="anchor comment {% if wall and level == 1 and not (comment_info and c == comment_info) %}mt-5{% elif wall %}mt-4{% elif standalone and level==1 %}mt-0{% endif %} {% if collapse or c.collapse_for_user(v, comment_info, request.full_path) %}collapsed{% endif %}" style="{% if isreply %}padding-left:0!important{% endif %}">
+			<div id="comment-{{c.id}}" class="anchor comment {% if wall and level == 1 and not (comment_info and c == comment_info) %}mt-5{% elif wall %}mt-4{% elif standalone and level == 1 %}mt-0{% endif %} {% if collapse or c.collapse_for_user(v, comment_info, request.full_path) %}collapsed{% endif %}" style="{% if isreply %}padding-left:0!important{% endif %}">
 				{% if not isreply %}
 					<span class="comment-collapse-line" style="border-color: {% if c.ghost %}var(--primary){% else %}#{{c.author.name_color}}{% endif %}" data-nonce="{{g.nonce}}" data-onclick="collapse_comment('{{c.id}}')"></span>
 				{% endif %}
@@ -283,7 +283,7 @@
 								{{c.author.rendered_sig(v) | safe}}
 							{% endif %}
 
-							<div id="comment-{{c.id}}-actions" class="comment-actions{% if voted==1 %} upvoted{% elif voted==-1 %} downvoted{% endif %}">
+							<div id="comment-{{c.id}}-actions" class="comment-actions{% if voted == 1 %} upvoted{% elif voted==-1 %} downvoted{% endif %}">
 								<div class="d-md-none mt-1">
 									<div class="post-actions">
 										<ul class="list-inline text-right d-flex">
@@ -308,9 +308,9 @@
 											{% if v %}
 												<li id="voting-{{c.id}}-mobile" class="voting list-inline-item d-md-none">
 
-													<span tabindex="0" data-nonce="{{g.nonce}}" data-onclick="vote('comment-mobile', '{{c.id}}', '1')" class="comment-mobile-{{c.id}}-up mx-0 pr-1 arrow-up upvote-button comment-{{c.id}}-up {% if voted==1 %}active{% endif %} {% if disable_votes and voted != 1 %}disabled {% endif %}"></span>
+													<span tabindex="0" data-nonce="{{g.nonce}}" data-onclick="vote('comment-mobile', '{{c.id}}', '1')" class="comment-mobile-{{c.id}}-up mx-0 pr-1 arrow-up upvote-button comment-{{c.id}}-up {% if voted == 1 %}active{% endif %} {% if disable_votes and voted != 1 %}disabled {% endif %}"></span>
 
-													<span class="comment-mobile-score-{{c.id}} score comment-score-{{c.id}} {% if voted==1 %}score-up{% elif voted==-1 %}score-down{% endif %}{% if c.controversial %} controversial{% endif %}"{% if not c.is_banned %} data-bs-toggle="tooltip" data-bs-placement="top" title="+{{ups}} | -{{downs}}"{% endif %} style="cursor: default">{{score}}</span>
+													<span class="comment-mobile-score-{{c.id}} score comment-score-{{c.id}} {% if voted == 1 %}score-up{% elif voted==-1 %}score-down{% endif %}{% if c.controversial %} controversial{% endif %}"{% if not c.is_banned %} data-bs-toggle="tooltip" data-bs-placement="top" title="+{{ups}} | -{{downs}}"{% endif %} style="cursor: default">{{score}}</span>
 
 													<span {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" data-nonce="{{g.nonce}}" data-onclick="vote('comment-mobile', '{{c.id}}', '-1')" class="comment-mobile-{{c.id}}-down mx-0 pl-1 my-0 arrow-down downvote-button comment-{{c.id}}-down {% if voted==-1 %}active{% endif %} {% if disable_votes and voted != -1 %}disabled {% endif %}">
 													</span>
@@ -335,13 +335,13 @@
 
 								<ul class="d-none d-md-flex list-inline text-right text-md-left"><li>
 									{% if v %}
-										<button type="button" tabindex="0" data-nonce="{{g.nonce}}" data-onclick="vote('comment', '{{c.id}}', '1')" class="comment-{{c.id}}-up btn caction py-0 m-0 px-3 nobackground arrow-up upvote-button mx-0 comment-{{c.id}}-up {% if voted==1 %}active{% endif %} {% if disable_votes and voted != 1 %}disabled {% endif %}"></button>
+										<button type="button" tabindex="0" data-nonce="{{g.nonce}}" data-onclick="vote('comment', '{{c.id}}', '1')" class="comment-{{c.id}}-up btn caction py-0 m-0 px-3 nobackground arrow-up upvote-button mx-0 comment-{{c.id}}-up {% if voted == 1 %}active{% endif %} {% if disable_votes and voted != 1 %}disabled {% endif %}"></button>
 									{% else %}
 										<a type="button" tabindex="0" class="comment-{{c.id}}-up btn caction nobackground py-0 m-0 px-3 arrow-up" href="/login?redirect={{request.full_path | urlencode}}"></a>
 									{% endif %}
 
 									<span class="btn caction nobackground p-0 m-0" style="cursor: default">
-										<span data-bs-toggle="tooltip" data-bs-placement="top" title="+{{ups}} | -{{downs}}" class="comment-score-{{c.id}} score comment-score-{{c.id}} {% if voted==1 %}score-up{% elif voted==-1 %}score-down{% endif %} {% if c.controversial %}controversial{% endif %}">{{score}}</span>
+										<span data-bs-toggle="tooltip" data-bs-placement="top" title="+{{ups}} | -{{downs}}" class="comment-score-{{c.id}} score comment-score-{{c.id}} {% if voted == 1 %}score-up{% elif voted==-1 %}score-down{% endif %} {% if c.controversial %}controversial{% endif %}">{{score}}</span>
 									</span>
 
 									{% if v %}
@@ -450,7 +450,7 @@
 												<button type="button" id="unprogstack-{{c.id}}" class="dropdown-item list-inline-item d-none {% if c.is_approved == PROGSTACK_ID %}d-md-block{% endif %} text-danger" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/admin/unprogstack/comment/{{c.id}}','progstack-{{c.id}}','unprogstack-{{c.id}}','d-md-block')"><i class="fas fa-bullhorn text-danger fa-fw"></i>Remove Progressive Stack</button>
 											{% endif %}
 
-											{% if FEATURES['NSFW_MARKING'] and (c.parent_post or c.wall_user_id) and (c.author_id==v.id or v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or (c.post.hole and v.mods(c.post.hole))) or c.wall_user_id == v.id %}
+											{% if FEATURES['NSFW_MARKING'] and (c.parent_post or c.wall_user_id) and (c.author_id == v.id or v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or (c.post.hole and v.mods(c.post.hole))) or c.wall_user_id == v.id %}
 												<button type="button" id="mark-{{c.id}}" class="dropdown-item list-inline-item d-none {% if not c.nsfw %}d-md-block{% endif %} text-danger" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/toggle_comment_nsfw/{{c.id}}','mark-{{c.id}}','unmark-{{c.id}}','d-md-block')"><i class="fas fa-eye-evil text-danger fa-fw"></i>Mark NSFW</button>
 												<button type="button" id="unmark-{{c.id}}" class="dropdown-item list-inline-item d-none {% if c.nsfw %}d-md-block{% endif %} text-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/toggle_comment_nsfw/{{c.id}}','mark-{{c.id}}','unmark-{{c.id}}','d-md-block')"><i class="fas fa-eye-evil text-success fa-fw"></i>Unmark NSFW</button>
 											{% endif %}

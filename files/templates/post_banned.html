@@ -17,7 +17,7 @@
 {% block content %}
 	<div class="mb-2 p-3">
 		<div class="col-12">
-			<div id="post-{{p.id}}" class="banned {% if p.award_count('glowie', v) %}glow{% endif %} card d-flex flex-row-reverse flex-nowrap justify-content-end border-0 p-0 {% if voted==1 %} upvoted{% elif voted==-1 %} downvoted{% endif %}">
+			<div id="post-{{p.id}}" class="banned {% if p.award_count('glowie', v) %}glow{% endif %} card d-flex flex-row-reverse flex-nowrap justify-content-end border-0 p-0 {% if voted == 1 %} upvoted{% elif voted==-1 %} downvoted{% endif %}">
 				<div class="card-block my-md-auto">
 					<div class="post-meta text-left d-md-none mb-1">{% if p.nsfw %}<span class="badge badge-danger">NSFW</span> {% endif %}{% if p.is_banned %}Removed by @{{p.ban_reason}} (Site Admin){% else %}[Deleted by user]{% endif %}</div>
 					<h5 class="card-title post-title text-left mb-0 mb-md-1">{{p.plaintitle(v)}}</h5>
@@ -74,7 +74,7 @@
 		<div class="col text-center">
 			<div class="post-actions mx-auto">
 				<ul class="list-inline">
-					<li id="voting-mobile" class="voting list-inline-item{% if voted==1 %} upvoted{% elif voted==-1 %} downvoted{% endif %}">
+					<li id="voting-mobile" class="voting list-inline-item{% if voted == 1 %} upvoted{% elif voted==-1 %} downvoted{% endif %}">
 						<span class="arrow-mobile-up mr-2 arrow-mobile-up">
 							<i class="fas fa-arrow-alt-up mx-0"></i>
 						</span>

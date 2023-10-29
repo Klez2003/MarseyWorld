@@ -50,7 +50,7 @@
 					</div>
 					<div class="modal-body">
 						<ul class="list-group post-actions">
-							{% if v.id==p.author_id %}
+							{% if v.id == p.author_id %}
 								<button type="button" class="nobackground btn btn-link btn-block btn-lg text-left text-muted" data-bs-dismiss="modal" data-nonce="{{g.nonce}}" data-onclick="togglePostEdit('{{p.id}}')"><i class="fas fa-edit text-center text-muted mr-2"></i>Edit</button>
 							{% elif p.body and v.admin_level < PERMS['POST_COMMENT_EDITING'] %}
 								<button type="button" class="nobackground btn btn-link btn-block btn-lg text-left text-muted" data-bs-dismiss="modal" data-nonce="{{g.nonce}}" data-onclick="expandMarkdown('{{p.fullname}}')"><i class="fas text-expand-icon-{{p.fullname}} fa-expand-alt text-center mr-2"></i><span class="expand-text-{{p.fullname}}">View source</span></button>
@@ -74,7 +74,7 @@
 
 		<div id="post-root" class="col-12">
 
-			<div class="card border-0 mt-3 {% if p.stickied %}stickied{% endif %} {% if voted==1 %}upvoted{% elif voted==-1 %} downvoted{% endif %}">
+			<div class="card border-0 mt-3 {% if p.stickied %}stickied{% endif %} {% if voted == 1 %}upvoted{% elif voted==-1 %} downvoted{% endif %}">
 				<div id="post-{{p.id}}" class="actual-post {% if p.ghost %}ghost-post{% endif %} {% if p.is_banned %}banned{% endif %} {% if p.deleted_utc %}deleted {% endif %} d-flex flex-row-reverse flex-nowrap justify-content-end">
 
 					{% if p.thumb_url and not p.deleted_utc and not p.is_image and not p.is_video and not p.is_audio and not p.embed %}
@@ -223,9 +223,9 @@
 					</div>
 					{% if v %}
 						<div id="voting" class="voting d-mob-none mb-auto mt-1">
-							<div tabindex="0" data-nonce="{{g.nonce}}" data-onclick="vote('post', '{{p.id}}', '1')" class="post-{{p.id}}-up mx-auto arrow-up upvote-button post-{{p.id}}-up {% if voted==1 %}active{% endif %}"></div>
+							<div tabindex="0" data-nonce="{{g.nonce}}" data-onclick="vote('post', '{{p.id}}', '1')" class="post-{{p.id}}-up mx-auto arrow-up upvote-button post-{{p.id}}-up {% if voted == 1 %}active{% endif %}"></div>
 
-							<span class="post-score-{{p.id}} score post-score-{{p.id}} {% if voted==1 %}score-up{% elif voted==-1 %}score-down{% endif %}{% if p.controversial %} controversial{% endif %}" data-bs-toggle="tooltip" data-bs-placement="right" title="+{{ups}} | -{{downs}}" style="cursor: default">{{score}}</span>
+							<span class="post-score-{{p.id}} score post-score-{{p.id}} {% if voted == 1 %}score-up{% elif voted==-1 %}score-down{% endif %}{% if p.controversial %} controversial{% endif %}" data-bs-toggle="tooltip" data-bs-placement="right" title="+{{ups}} | -{{downs}}" style="cursor: default">{{score}}</span>
 							<div {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" data-nonce="{{g.nonce}}" data-onclick="vote('post', '{{p.id}}', '-1')" class="post-{{p.id}}-down text-muted mx-auto arrow-down downvote-button post-{{p.id}}-down {% if voted==-1 %}active{% endif %}"></div>
 						</div>
 					{% else %}
@@ -264,9 +264,9 @@
 							</button>
 						</li>
 					{% endif %}
-					<li id="voting-{{p.id}}-mobile" class="voting list-inline-item d-md-none{% if voted==1 %} upvoted{% elif voted==-1 %} downvoted{% endif %}">
+					<li id="voting-{{p.id}}-mobile" class="voting list-inline-item d-md-none{% if voted == 1 %} upvoted{% elif voted==-1 %} downvoted{% endif %}">
 						{% if v %}
-							<span tabindex="0" data-nonce="{{g.nonce}}" data-onclick="vote('post-mobile', '{{p.id}}', '1')" class="post-mobile-{{p.id}}-up mx-0 pr-1 arrow-up upvote-button post-{{p.id}}-up {% if voted==1 %}active{% endif %}">
+							<span tabindex="0" data-nonce="{{g.nonce}}" data-onclick="vote('post-mobile', '{{p.id}}', '1')" class="post-mobile-{{p.id}}-up mx-0 pr-1 arrow-up upvote-button post-{{p.id}}-up {% if voted == 1 %}active{% endif %}">
 							</span>
 						{% else %}
 							<a tabindex="0" class="arrow-{{p.id}}-mobile-up mx-0 pr-1 arrow-mobile-up" href="/login?redirect={{request.full_path | urlencode}}">
@@ -274,7 +274,7 @@
 							</a>
 						{% endif %}
 
-						<span class="post-mobile-score-{{p.id}} score post-score-{{p.id}} {% if voted==1 %}score-up{% elif voted==-1 %}score-down{% endif %}{% if p.controversial %} controversial{% endif %}" data-bs-toggle="tooltip" data-bs-placement="top" title="+{{ups}} | -{{downs}}" style="cursor: default">{{score}}</span>
+						<span class="post-mobile-score-{{p.id}} score post-score-{{p.id}} {% if voted == 1 %}score-up{% elif voted==-1 %}score-down{% endif %}{% if p.controversial %} controversial{% endif %}" data-bs-toggle="tooltip" data-bs-placement="top" title="+{{ups}} | -{{downs}}" style="cursor: default">{{score}}</span>
 
 						{% if v %}
 							<span {% if DISABLE_DOWNVOTES %}style="display:None!important"{% endif %} tabindex="0" data-nonce="{{g.nonce}}" data-onclick="vote('post-mobile', '{{p.id}}', '-1')" class="post-mobile-{{p.id}}-down mx-0 pl-1 my-0 arrow-down downvote-button post-{{p.id}}-down {% if voted==-1 %}active{% endif %}"></span>

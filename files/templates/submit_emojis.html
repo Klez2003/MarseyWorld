@@ -80,7 +80,7 @@
 								<div class="input-group">
 									<select autocomplete="off" id='{{emoji.name}}-kind' class="form-control" name="kind" required {% if v.admin_level < PERMS['MODERATE_PENDING_SUBMITTED_ASSETS'] %}disabled readonly{% endif %}>
 										{% for entry in EMOJI_KINDS %}
-											<option value="{{entry}}" {% if emoji.kind==entry %}selected{% endif %}>
+											<option value="{{entry}}" {% if emoji.kind == entry %}selected{% endif %}>
 												{{entry}}
 											</option>
 										{% endfor %}
