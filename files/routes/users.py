@@ -580,6 +580,10 @@ def get_profilecss(username):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def subscribe(v, post_id):
+	p = get_post(post_id)
+	if v.id == p.author_id:
+		abort(403, "You can't subscribe to your own posts!")
+
 	existing = g.db.query(Subscription).filter_by(user_id=v.id, post_id=post_id).one_or_none()
 	if not existing:
 		new_sub = Subscription(user_id=v.id, post_id=post_id)
