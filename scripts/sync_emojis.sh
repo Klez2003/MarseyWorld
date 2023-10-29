@@ -8,7 +8,7 @@ EXPORT_EMOJIS=$(psql --csv --tuples-only -P "null=NULL" -c \
 EXPORT_EMOJIS=$(sed 's/.*/\(&\),/' <<< "$EXPORT_EMOJIS")
 echo "INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUES" > "/d/seed-emojis-$SITE_NAME.sql"
 echo "${EXPORT_EMOJIS%?}" >> "/d/seed-emojis-$SITE_NAME.sql"
-echo "ON CONFLICT (name) DO UPDATE SET tags = EXCLUDED.tags;" >> "/d/seed-emojis-$SITE_NAME.sql"
+echo "ON CONFLICT (name) DO UPDATE SET tags = EXCLUDED.tags, kind = EXCLUDED.kind, nsfw = EXCLUDED.nsfw;" >> "/d/seed-emojis-$SITE_NAME.sql"
 
 #pull and push
 /d/scripts/g
