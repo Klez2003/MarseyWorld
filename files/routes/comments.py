@@ -348,7 +348,7 @@ def comment(v):
 	execute_longpostbot(c, level, body, body_html, post_target, v)
 	execute_zozbot(c, level, post_target, v)
 
-	notify_users = NOTIFY_USERS(body, v, ghost=c.ghost, log_cost=c, commenters_ping_post_id=commenters_ping_post_id)
+	notify_users = NOTIFY_USERS(body, v, ghost=c.ghost, obj=c, commenters_ping_post_id=commenters_ping_post_id)
 
 	if notify_users == 'everyone':
 		alert_everyone(c.id)
@@ -367,7 +367,7 @@ def comment(v):
 
 		notify_users -= BOT_IDs
 
-		if v.shadowbanned:
+		if v.shadowbanned or c.is_banned:
 			notify_users = [x[0] for x in g.db.query(User.id).filter(User.id.in_(notify_users), User.admin_level >= PERMS['USER_SHADOWBAN']).all()]
 
 		for x in notify_users:
@@ -705,15 +705,12 @@ def edit_comment(cid, v):
 
 		g.db.add(c)
 
-		notify_users = NOTIFY_USERS(body, v, oldtext=oldtext, ghost=c.ghost, log_cost=c, commenters_ping_post_id=c.parent_post)
+		notify_users = NOTIFY_USERS(body, v, oldtext=oldtext, ghost=c.ghost, obj=c, commenters_ping_post_id=c.parent_post)
 
 		if notify_users == 'everyone':
 			alert_everyone(c.id)
 		else:
 			notify_users -= BOT_IDs
-
-			if v.shadowbanned:
-				notify_users = [x[0] for x in g.db.query(User.id).filter(User.id.in_(notify_users), User.admin_level >= PERMS['USER_SHADOWBAN']).all()]
 
 			for x in notify_users:
 				notif = g.db.query(Notification).filter_by(comment_id=c.id, user_id=x).one_or_none()

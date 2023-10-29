@@ -134,7 +134,7 @@ def add_notif(cid, uid, text, pushnotif_url=''):
 			push_notif({uid}, 'New notification', text, pushnotif_url)
 
 
-def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None, followers_ping=True, commenters_ping_post_id=None):
+def NOTIFY_USERS(text, v, oldtext=None, ghost=False, obj=None, followers_ping=True, commenters_ping_post_id=None):
 	# Restrict young accounts from generating notifications
 	if v.age < NOTIFICATION_SPAM_AGE_THRESHOLD:
 		return set()
@@ -163,9 +163,6 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None, followers_pi
 		admin_ids = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_SPECIFIC_WPD_COMMENTS'])]
 		notify_users.update(admin_ids)
 
-
-
-
 	if FEATURES['PING_GROUPS']:
 		cost = 0
 		coin_receivers = set()
@@ -180,8 +177,8 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None, followers_pi
 					abort(403, f"You need {cost} currency to mention these ping groups!")
 
 				v.charge_account('combined', cost)
-				if log_cost:
-					log_cost.ping_cost += cost
+				if obj:
+					obj.ping_cost += cost
 				return 'everyone'
 			elif i.group(1) == 'jannies':
 				group = None
@@ -217,14 +214,17 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, log_cost=None, followers_pi
 
 		if cost:
 			v.charge_account('combined', cost)
-			if log_cost:
-				log_cost.ping_cost += cost
+			if obj:
+				obj.ping_cost += cost
 
 		if coin_receivers:
 			g.db.query(User).options(load_only(User.id)).filter(User.id.in_(coin_receivers)).update({ User.coins: User.coins + 10 })
 
 	if len(notify_users) > 400 and v.admin_level < PERMS['POST_COMMENT_INFINITE_PINGS']:
 		abort(403, "You can only notify a maximum of 400 users.")
+
+	if v.shadowbanned or obj.is_banned:
+		notify_users = [x[0] for x in g.db.query(User.id).filter(User.id.in_(notify_users), User.admin_level >= PERMS['USER_SHADOWBAN']).all()]
 
 	return notify_users - BOT_IDs - {v.id, 0} - v.all_twoway_blocks - v.muters
 

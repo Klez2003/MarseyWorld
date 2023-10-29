@@ -60,7 +60,7 @@ def publish(pid, v):
 	p.created_utc = int(time.time())
 	g.db.add(p)
 
-	notify_users = NOTIFY_USERS(f'{p.title} {p.body}', v, ghost=p.ghost, log_cost=p, followers_ping=False)
+	notify_users = NOTIFY_USERS(f'{p.title} {p.body}', v, ghost=p.ghost, obj=p, followers_ping=False)
 
 	if notify_users:
 		cid, text = notif_comment2(p)
@@ -634,17 +634,6 @@ def submit_post(v, hole=None):
 		else:
 			abort(415)
 
-	if not p.private:
-		notify_users = NOTIFY_USERS(f'{title} {body}', v, ghost=p.ghost, log_cost=p, followers_ping=False)
-
-		if notify_users:
-			cid, text = notif_comment2(p)
-			if notify_users == 'everyone':
-				alert_everyone(cid)
-			else:
-				for x in notify_users:
-					add_notif(cid, x, text, pushnotif_url=p.permalink)
-
 	if not complies_with_chud(p):
 		p.is_banned = True
 		p.ban_reason = "AutoJanny"
@@ -679,6 +668,17 @@ def submit_post(v, hole=None):
 		autojanny = g.db.get(User, AUTOJANNY_ID)
 		autojanny.comment_count += 1
 		g.db.add(autojanny)
+
+	if not p.private:
+		notify_users = NOTIFY_USERS(f'{title} {body}', v, ghost=p.ghost, obj=p, followers_ping=False)
+
+		if notify_users:
+			cid, text = notif_comment2(p)
+			if notify_users == 'everyone':
+				alert_everyone(cid)
+			else:
+				for x in notify_users:
+					add_notif(cid, x, text, pushnotif_url=p.permalink)
 
 	v.post_count += 1
 	g.db.add(v)
@@ -1000,7 +1000,7 @@ def edit_post(pid, v):
 
 
 	if not p.private:
-		notify_users = NOTIFY_USERS(f'{title} {body}', v, oldtext=f'{p.title} {p.body}', ghost=p.ghost, log_cost=p, followers_ping=False)
+		notify_users = NOTIFY_USERS(f'{title} {body}', v, oldtext=f'{p.title} {p.body}', ghost=p.ghost, obj=p, followers_ping=False)
 		if notify_users:
 			cid, text = notif_comment2(p)
 			if notify_users == 'everyone':
