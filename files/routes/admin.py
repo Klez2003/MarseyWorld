@@ -1392,6 +1392,9 @@ def remove_post(post_id, v):
 def approve_post(post_id, v):
 	post = get_post(post_id)
 
+	if post.chudded:
+		abort(400, "You can't bypass the chud award!")
+
 	if post.is_banned:
 		ma=ModAction(
 			kind="unban_post",
@@ -1637,6 +1640,9 @@ def remove_comment(c_id, v):
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def approve_comment(c_id, v):
 	comment = get_comment(c_id)
+
+	if comment.chudded:
+		abort(400, "You can't bypass the chud award!")
 
 	if comment.is_banned:
 		ma=ModAction(
