@@ -5148,6 +5148,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('taylorlorenzcrying', 'Misc', 2, 'sobbing woman foid journoid journalist', false, 1679827826),
 ('taylorrage', 'Tay', 2, 'red chair throw', false, 1689738247),
 ('taymindblown', 'Tay', 2, 'mindblown', false, 0),
+('tayngelaswift', 'Tay', 2, 'pkmn pokemon tangela 114', false, 1698548217),
 ('tayno', 'Tay', 2, 'no', false, 0),
 ('taynod', 'Tay', 2, 'nod', false, 0),
 ('taypeace', 'Tay', 2, 'peace', false, 0),
