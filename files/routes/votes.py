@@ -190,28 +190,28 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 @auth_required
 def vote_info_get(v, link):
 	try:
-		if "p_" in link: thing = get_post(int(link.split("p_")[1]), v=v)
-		elif "c_" in link: thing = get_comment(int(link.split("c_")[1]), v=v)
+		if "p_" in link: obj = get_post(int(link.split("p_")[1]), v=v)
+		elif "c_" in link: obj = get_comment(int(link.split("c_")[1]), v=v)
 		else: abort(400)
 	except: abort(400)
 
-	if thing.ghost and v.admin_level < PERMS['SEE_GHOST_VOTES']:
+	if obj.ghost and v.admin_level < PERMS['SEE_GHOST_VOTES']:
 		abort(403)
 
-	if thing.author.shadowbanned and not (v and v.can_see_shadowbanned):
+	if obj.author.shadowbanned and not (v and v.can_see_shadowbanned):
 		abort(500)
 
-	if isinstance(thing, Post):
+	if isinstance(obj, Post):
 		query = g.db.query(Vote).join(Vote.user).filter(
-			Vote.post_id == thing.id,
+			Vote.post_id == obj.id,
 		).order_by(Vote.created_utc)
 
 		ups = query.filter(Vote.vote_type == 1).all()
 		downs = query.filter(Vote.vote_type == -1).all()
 
-	elif isinstance(thing, Comment):
+	elif isinstance(obj, Comment):
 		query = g.db.query(CommentVote).join(CommentVote.user).filter(
-			CommentVote.comment_id == thing.id,
+			CommentVote.comment_id == obj.id,
 		).order_by(CommentVote.created_utc)
 
 		ups = query.filter(CommentVote.vote_type == 1).all()
@@ -221,7 +221,7 @@ def vote_info_get(v, link):
 
 	return render_template("votes.html",
 						v=v,
-						thing=thing,
+						obj=obj,
 						ups=ups,
 						downs=downs)
 
