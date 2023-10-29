@@ -417,6 +417,7 @@ class User(Base):
 	@lazy
 	def mods(self, hole):
 		if self.is_permabanned or self.shadowbanned: return False
+		if hole == 'test': return True
 		if self.admin_level >= PERMS['MODS_EVERY_HOLE']: return True
 		try:
 			return any(map(lambda x: x.hole == hole, self.hole_mods))

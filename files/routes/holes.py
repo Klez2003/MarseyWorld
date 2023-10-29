@@ -202,6 +202,9 @@ def unfollow_sub(v, hole):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def mods(v, hole):
+	if hole == 'test':
+		return redirect('/users')
+
 	hole = get_hole(hole)
 	if not can_see(v, hole):
 		abort(403)
@@ -265,6 +268,10 @@ def hole_followers(v, hole):
 @auth_required
 def add_mod(v, hole):
 	if SITE_NAME == 'WPD': abort(403)
+
+	if hole == 'test':
+		abort(403, "Everyone is already a mod of this hole!")
+
 	hole = get_hole(hole).name
 	if not v.mods(hole): abort(403)
 
