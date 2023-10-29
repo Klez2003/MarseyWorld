@@ -17,4 +17,4 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('minioncocksock', 'Misc', 2, 'cocksleeve', true, 1698334044),
 ('wojakselfsuck', 'Wojak', 2, 'penis cock', true, 1698333394),
 ('wolfamongus', 'Wolf', 2, 'sussy', false, 1698413110)
-ON CONFLICT (name) DO UPDATE SET tags = EXCLUDED.tags;
+ON CONFLICT (name) DO UPDATE SET tags = EXCLUDED.tags, kind = EXCLUDED.kind, nsfw = EXCLUDED.nsfw;
