@@ -83,7 +83,7 @@
 		</div>
 
 		<div class="navbar navbar-expand-md navbar-light" id="navbar">
-			<div class="container-fluid" style="padding:0">
+			<div class="container-fluid" style="padding:0;flex-wrap: nowrap">
 			<a href="/" class="navbar-brand mr-auto {% if not has_logo and not hole %}flex-grow-1{% endif %}">
 				{% if IS_DKD() %}
 					{% set icon_url = macros.random_image('assets/events/DKD/images/icon') %}
@@ -177,7 +177,7 @@
 						</span>
 					</a>
 				{% else %}
-					<a class="mobile-nav-icon d-md-none" href="/notifications" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Notifications">
+					<a class="mobile-nav-icon unbreakable d-md-none" href="/notifications" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Notifications">
 						<i class="fas fa-bell align-middle text-gray-500 black"></i>
 					</a>
 				{% endif %}
