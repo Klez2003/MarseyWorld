@@ -12,40 +12,42 @@
 
 	{% if u1 and u2 %}
 		<h2>Analysis</h2>
-		<div class="overflow-x-auto"><table class="table table-striped mb-5">
-			<thead class="bg-primary text-white">
+		<div class="overflow-x-auto">
+			<table class="table table-striped mb-5">
+				<thead class="bg-primary text-white">
+					<tr>
+						<th class="disable-sort-click"></th>
+						<th class="disable-sort-click">@{{u1.username}} only (% unique)</th>
+						<th class="disable-sort-click">Both</th>
+						<th class="disable-sort-click">@{{u2.username}} only (% unique)</th>
+					</tr>
+				</thead>
 				<tr>
-					<th class="disable-sort-click"></th>
-					<th class="disable-sort-click">@{{u1.username}} only (% unique)</th>
-					<th class="disable-sort-click">Both</th>
-					<th class="disable-sort-click">@{{u2.username}} only (% unique)</th>
+					<td><b>Post Upvotes</b></td>
+					<td>{{data['u1_only_post_ups']}} ({{data['u1_post_ups_unique']}}%)</td>
+					<td>{{data['both_post_ups']}}</td>
+					<td>{{data['u2_only_post_ups']}} ({{data['u2_post_ups_unique']}}%)</td>
 				</tr>
-			</thead>
-			<tr>
-				<td><b>Post Upvotes</b></td>
-				<td>{{data['u1_only_post_ups']}} ({{data['u1_post_ups_unique']}}%)</td>
-				<td>{{data['both_post_ups']}}</td>
-				<td>{{data['u2_only_post_ups']}} ({{data['u2_post_ups_unique']}}%)</td>
-			</tr>
-			<tr>
-				<td><b>Post Downvotes</b></td>
-				<td>{{data['u1_only_post_downs']}} ({{data['u1_post_downs_unique']}}%)</td>
-				<td>{{data['both_post_downs']}}</td>
-				<td>{{data['u2_only_post_downs']}} ({{data['u2_post_downs_unique']}}%)</td>
-			</tr>
-			<tr>
-				<td><b>Comment Upvotes</b></td>
-				<td>{{data['u1_only_comment_ups']}} ({{data['u1_comment_ups_unique']}}%)</td>
-				<td>{{data['both_comment_ups']}}</td>
-				<td>{{data['u2_only_comment_ups']}} ({{data['u2_comment_ups_unique']}}%)</td>
-			</tr>
-			<tr>
-				<td><b>Comment Downvotes</b></td>
-				<td>{{data['u1_only_comment_downs']}} ({{data['u1_comment_downs_unique']}}%)</td>
-				<td>{{data['both_comment_downs']}}</td>
-				<td>{{data['u2_only_comment_downs']}} ({{data['u2_comment_downs_unique']}}%)</td>
-			</tr>
-		</table>
+				<tr>
+					<td><b>Post Downvotes</b></td>
+					<td>{{data['u1_only_post_downs']}} ({{data['u1_post_downs_unique']}}%)</td>
+					<td>{{data['both_post_downs']}}</td>
+					<td>{{data['u2_only_post_downs']}} ({{data['u2_post_downs_unique']}}%)</td>
+				</tr>
+				<tr>
+					<td><b>Comment Upvotes</b></td>
+					<td>{{data['u1_only_comment_ups']}} ({{data['u1_comment_ups_unique']}}%)</td>
+					<td>{{data['both_comment_ups']}}</td>
+					<td>{{data['u2_only_comment_ups']}} ({{data['u2_comment_ups_unique']}}%)</td>
+				</tr>
+				<tr>
+					<td><b>Comment Downvotes</b></td>
+					<td>{{data['u1_only_comment_downs']}} ({{data['u1_comment_downs_unique']}}%)</td>
+					<td>{{data['both_comment_downs']}}</td>
+					<td>{{data['u2_only_comment_downs']}} ({{data['u2_comment_downs_unique']}}%)</td>
+				</tr>
+			</table>
+		</div>
 		{% if v.admin_level >= PERMS['USER_LINK'] %}
 			<h2>Link Accounts</h2>
 

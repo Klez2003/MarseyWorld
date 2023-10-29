@@ -45,39 +45,39 @@
 		</div>
 	{% endif %}
 
-	<div class="overflow-x-auto mt-3 mb-5"><table class="table table-striped shop">
-		<thead class="bg-primary text-white">
+	<div class="overflow-x-auto mt-3 mb-5">
+		<table class="table table-striped shop">
+			<thead class="bg-primary text-white">
+					<tr>
+						<th class="disable-sort-click">Icon</th>
+						<th>Title</th>
+						<th>Price</th>
+						<th>Owned</th>
+						<th class="disable-sort-click">Buy</th>
+						<th>Description</th>
+					</tr>
+				</thead>
+				<tbody>
+			{% for a in awards %}
+				{% set kind = a['kind'] %}
+				{% set price = a['price'] %}
 				<tr>
-					<th class="disable-sort-click">Icon</th>
-					<th>Title</th>
-					<th>Price</th>
-					<th>Owned</th>
-					<th class="disable-sort-click">Buy</th>
-					<th>Description</th>
-				</tr>
-			</thead>
-			<tbody>
-		{% for a in awards %}
-			{% set kind = a['kind'] %}
-			{% set price = a['price'] %}
-			<tr>
-				<td class="shop-table-icon"><i class="{{a['icon']}} {{a['color']}}" style="font-size: 30px"></i></td>
-				<td class="shop-table-title">{{a['title']}}</td>
-				{% if a['baseprice'] != price %}
-					<td  data-sort-key="{{price}}" class="shop-table-price">
-						<span class="discounted-price">{{a['baseprice']}}</span> <em class="text-success">{{price}}</em>
+					<td class="shop-table-icon"><i class="{{a['icon']}} {{a['color']}}" style="font-size: 30px"></i></td>
+					<td class="shop-table-title">{{a['title']}}</td>
+					{% if a['baseprice'] != price %}
+						<td  data-sort-key="{{price}}" class="shop-table-price">
+							<span class="discounted-price">{{a['baseprice']}}</span> <em class="text-success">{{price}}</em>
+						</td>
+					{% else %}
+						<td class="shop-table-price">{{price}}</td>
+					{% endif %}
+					<td class="shop-table-owned">{{a['owned']}}</td>
+					<td class="shop-table-actions">
+						<button type="button" id="buy-{{loop.index}}" class="btn btn-success {% if v.coins+v.marseybux < price or (kind == 'grass' and v.coins < price) or (kind == 'benefactor' and v.marseybux < price) %}disabled{% endif %}" data-areyousure="postToastSwitch(this,'/buy/{{kind}}')" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)">Buy</button>
 					</td>
-				{% else %}
-					<td class="shop-table-price">{{price}}</td>
-				{% endif %}
-				<td class="shop-table-owned">{{a['owned']}}</td>
-				<td class="shop-table-actions">
-					<button type="button" id="buy-{{loop.index}}" class="btn btn-success {% if v.coins+v.marseybux < price or (kind == 'grass' and v.coins < price) or (kind == 'benefactor' and v.marseybux < price) %}disabled{% endif %}" data-areyousure="postToastSwitch(this,'/buy/{{kind}}')" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)">Buy</button>
-				</td>
-				<td class="shop-table-description">{{a['description']}}</td>
-			</tr>
-		{% endfor %}
-	</table>
-</div>
-
+					<td class="shop-table-description">{{a['description']}}</td>
+				</tr>
+			{% endfor %}
+		</table>
+	</div>
 {% endblock %}

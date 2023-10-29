@@ -2,30 +2,33 @@
 {% block pagetitle %}Users blocked by @{{u.username}}{% endblock %}
 {% block content %}
 	<h5 class="my-3">Users blocked by @{{u.username}} ({{total}} user{{macros.plural(total)}})</h5>
-	<div class="overflow-x-auto mt-1"><table class="table table-striped mb-5">
-	<thead class="bg-primary text-white">
-		<tr>
-			<th>Name</th>
-			<th class="disable-sort-click">Blocking since</th>
-			{% if v.id == u.id %}
-				<th class="disable-sort-click"></th>
-			{% endif %}
-		</tr>
-	</thead>
-	<tbody id="blockers-table">
-	{% for block, user in users %}
-		<tr>
-			<td>{% include "user_in_table.html" %}</td>
-			<td {% if block.created_utc > 1599343262 %}data-time="{{block.created_utc}}"{% endif %}></td>
-			{% if v.id == u.id %}
-				<td>
-					<button type="button" class="btn btn-primary" data-nonce="{{g.nonce}}" data-onclick="unblock_user(this, '/unblock_user?username={{user.username}}&formkey={{v|formkey}}')">Unblock</button>
-				</td>
-			{% endif %}
-		</tr>
-	{% endfor %}
-	</tbody>
-	</table>
+
+	<div class="overflow-x-auto mt-1">
+		<table class="table table-striped mb-5">
+			<thead class="bg-primary text-white">
+				<tr>
+					<th>Name</th>
+					<th class="disable-sort-click">Blocking since</th>
+					{% if v.id == u.id %}
+						<th class="disable-sort-click"></th>
+					{% endif %}
+				</tr>
+			</thead>
+			<tbody id="blockers-table">
+			{% for block, user in users %}
+				<tr>
+					<td>{% include "user_in_table.html" %}</td>
+					<td {% if block.created_utc > 1599343262 %}data-time="{{block.created_utc}}"{% endif %}></td>
+					{% if v.id == u.id %}
+						<td>
+							<button type="button" class="btn btn-primary" data-nonce="{{g.nonce}}" data-onclick="unblock_user(this, '/unblock_user?username={{user.username}}&formkey={{v|formkey}}')">Unblock</button>
+						</td>
+					{% endif %}
+				</tr>
+			{% endfor %}
+			</tbody>
+		</table>
+	</div>
 
 	{% if v.id == u.id %}
 		<script defer src="{{'js/userpage_blocking.js' | asset}}"></script>
