@@ -473,7 +473,8 @@ function insertText(input, text) {
 	if (typeof checkForRequired === "function") checkForRequired();
 
 	setTimeout(() => {
-		input.focus();
+		if (document.activeElement !== input)
+			input.focus();
 	}, 200);
 }
 
