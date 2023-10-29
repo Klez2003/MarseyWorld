@@ -5409,4 +5409,4 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('zoroarkpout', 'Misc', 2, 'pout furry', false, 0),
 ('zoroarksleepy', 'Misc', 2, 'sleepy furry', false, 0),
 ('zzz', 'Classic', 2, 'zzz animated emoticon sleep asleep tired sleepy sleeping', false, 0)
-ON CONFLICT (name) DO UPDATE SET tags = EXCLUDED.tags;
+ON CONFLICT (name) DO UPDATE SET tags = EXCLUDED.tags, kind = EXCLUDED.kind, nsfw = EXCLUDED.nsfw;
