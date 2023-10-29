@@ -182,7 +182,7 @@ def award_thing(v, thing_type, id):
 		if isinstance(award, dict):
 			return award
 
-	if thing_type == 'post': award.post_id = obj.id
+	if isinstance(obj, Post): award.post_id = obj.id
 	else: award.comment_id = obj.id
 	award.awarded_utc = int(time.time())
 
@@ -196,10 +196,10 @@ def award_thing(v, thing_type, id):
 	if AWARDS[kind]['negative'] and author.immune_to_negative_awards(v):
 		abort(403, f"{safe_username} immune to negative awards!")
 
-	if thing_type == 'post' and obj.id == 210983:
+	if isinstance(obj, Post) and obj.id == 210983:
 		abort(403, "You can't award this post!")
 
-	if thing_type == 'post' and obj.distinguish_level and AWARDS[kind]['cosmetic']:
+	if isinstance(obj, Post) and obj.distinguish_level and AWARDS[kind]['cosmetic']:
 		abort(403, "Distinguished posts are immune to cosmetic awards!")
 
 	if kind == "benefactor":
@@ -244,7 +244,7 @@ def award_thing(v, thing_type, id):
 				else:
 					author.pay_account('coins', awarded_coins)
 
-			if thing_type == 'comment':
+			if isinstance(obj, Comment):
 				link_text_in_notif = "your comment"
 			else:
 				link_text_in_notif = obj.title
@@ -261,7 +261,7 @@ def award_thing(v, thing_type, id):
 
 	if kind == "ban":
 		link = f"/{thing_type}/{obj.id}"
-		if thing_type == 'comment':
+		if isinstance(obj, Comment):
 			link += '#context'
 			link_text_in_notif = link
 		else:
@@ -293,7 +293,7 @@ def award_thing(v, thing_type, id):
 			send_repeatable_notification(author.id, "You have been unbanned!")
 	elif kind == "grass":
 		link3 = f"/{thing_type}/{obj.id}"
-		if thing_type == 'comment':
+		if isinstance(obj, Comment):
 			link3 = f'<a href="{link3}#context">{link3}</a>'
 		else:
 			link3 = f'<a href="{link3}">{link3}</a>'
@@ -309,7 +309,7 @@ def award_thing(v, thing_type, id):
 		if obj.stickied and not obj.stickied_utc:
 			abort(400, f"This {thing_type} is already pinned permanently!")
 
-		if thing_type == 'comment': add = 3600*6
+		if isinstance(obj, Comment): add = 3600*6
 		else: add = 3600
 
 		if obj.stickied_utc:
@@ -324,7 +324,7 @@ def award_thing(v, thing_type, id):
 		if not obj.author.deflector or v == obj.author:
 			if obj.author_id == LAWLZ_ID and SITE_NAME == 'rDrama': abort(403, "You can't unpin lawlzposts!")
 
-			if thing_type == 'comment':
+			if isinstance(obj, Comment):
 				t = obj.stickied_utc - 3600*6
 			else:
 				t = obj.stickied_utc - 3600
@@ -370,8 +370,8 @@ def award_thing(v, thing_type, id):
 			obj.queened = True
 			alter_body(obj)
 	elif kind == "chud":
-		if thing_type == 'post' and obj.hole == 'chudrama' \
-			or thing_type == 'comment' and obj.post and obj.post.hole == 'chudrama':
+		if isinstance(obj, Post) and obj.hole == 'chudrama' \
+			or isinstance(obj, Comment) and obj.post and obj.post.hole == 'chudrama':
 			abort(403, "You can't give the chud award in /h/chudrama")
 
 		if author.chud == 1:
