@@ -523,7 +523,6 @@ LONGPOSTBOT_ID = 3
 ZOZBOT_ID = 4
 
 PIZZASHILL_ID = 0
-IMPASSIONATA_ID = 0
 CARP_ID = 0
 AEVANN_ID = 0
 GTIX_ID = 0
@@ -631,7 +630,6 @@ if SITE in {'rdrama.net', 'staging.rdrama.net'}:
 	ZOZBOT_ID = 1833
 
 	PIZZASHILL_ID = 2424
-	IMPASSIONATA_ID = 5800
 	PROGSTACK_ID = 15531
 	CARP_ID = 995
 	AEVANN_ID = 1
@@ -647,24 +645,24 @@ if SITE in {'rdrama.net', 'staging.rdrama.net'}:
 		'the rodent': AEVANN_ID,
 		'carp': CARP_ID,
 		'clit': CARP_ID,
-		'impassionata': IMPASSIONATA_ID,
 		'pizzashill': PIZZASHILL_ID,
-		'schizo': 8494,
 
 		'joan': 28,
 		'pewkie': 28,
 		'homocracy': 147,
+		'marco': 152,
 		'donger': 541,
+		'kaam': 1048,
+		'august': 1830,
+		'klen': 2050,
 		'soren': 2546,
 		'marseyismywaifu': 3377,
 		'mimw': 3377,
 		'heymoon': 3635,
 		'chiobu': 5214,
-		'august': 1830,
-		'marco': 152,
-		'klen': 2050,
+		'impassionata': 5800,
+		'schizo': 8494,
 		'gaslight': 18121,
-		'kaam': 1048,
 	}
 
 	ANTISPAM_BYPASS_IDS = {1703, 13427, 15014}
