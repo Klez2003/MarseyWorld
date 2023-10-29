@@ -147,7 +147,7 @@ def option_votes(option_id, v):
 
 	return render_template("poll_votes.html",
 						v=v,
-						thing=option,
+						option=option,
 						ups=ups,
 						total_ts=total_ts,
 						total_patrons=total_patrons,
@@ -189,7 +189,7 @@ def option_votes_comment(option_id, v):
 
 	return render_template("poll_votes.html",
 						v=v,
-						thing=option,
+						option=option,
 						ups=ups,
 						total_ts=total_ts,
 						total_patrons=total_patrons,

@@ -1,14 +1,14 @@
 {% extends "default.html" %}
 {% block pagetitle %}Poll Votes{% endblock %}
 {% block content %}
-{% if thing %}
+{% if option %}
 
-<h3 class="mt-5">{{thing.body_html | safe}} - {{ups | length}} {% if thing.exclusive == 2 %}bets{% else %}votes{% endif %}</h3>
+<h3 class="mt-5">{{option.body_html | safe}} - {{ups | length}} {% if option.exclusive == 2 %}bets{% else %}votes{% endif %}</h3>
 
-<p><b>Link:</b> <a href="{{thing.parent.permalink}}">{{thing.parent.permalink}}</a></p>
-<p><b>Author:</b> <a href="{{thing.parent.author.url}}">@{{thing.parent.author_name}}</a></p>
-<p><b>Author Created At:</b> <span data-time="{{thing.parent.author.created_utc}}"></span></p>
-<p><b>Author Truescore:</b> {{"{:,}".format(thing.parent.author.truescore)}}</p>
+<p><b>Link:</b> <a href="{{option.parent.permalink}}">{{option.parent.permalink}}</a></p>
+<p><b>Author:</b> <a href="{{option.parent.author.url}}">@{{option.parent.author_name}}</a></p>
+<p><b>Author Created At:</b> <span data-time="{{option.parent.author.created_utc}}"></span></p>
+<p><b>Author Truescore:</b> {{"{:,}".format(option.parent.author.truescore)}}</p>
 <p><b>Total voter truescore: </b>{{total_ts}}</p>
 {% if total_patrons != None %}
 	<p><b>Total {{patron}}s: </b>{{total_patrons}} | ${{total_money}}</p>
