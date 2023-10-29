@@ -244,7 +244,7 @@ function openEmojiModal(t, inputTargetIDName)
 			if (insertedAnEmoji) {
 				setTimeout(() => {
 					emojiInputTargetDOM.focus();
-				}, 50);
+				}, 200);
 			}
 		}, {once : true});	
 	}

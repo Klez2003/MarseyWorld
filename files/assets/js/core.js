@@ -474,7 +474,7 @@ function insertText(input, text) {
 
 	setTimeout(() => {
 		input.focus();
-	}, 50);
+	}, 200);
 }
 
 
