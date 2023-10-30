@@ -102,7 +102,7 @@
 	--moon-fill-day28: #e4e4e4;
 	--moon-fill-day29: #e4e4e4;
 	--moon-fill-day30: #e4e4e4;
-	--moon-fill-day31: #e4e4e4;
+	--moon-fill-day31: #ff4c48;
 
 	--moon-shadow-day10: drop-shadow(0px 0px 20px yellow);
 	--moon-shadow-day11: drop-shadow(0px 0px 20px yellow);
@@ -125,7 +125,7 @@
 	--moon-shadow-day28: drop-shadow(0px 0px 10px #deddcf);
 	--moon-shadow-day29: drop-shadow(0px 0px 10px #deddcf);
 	--moon-shadow-day30: drop-shadow(0px 0px 10px #deddcf);
-	--moon-shadow-day31: drop-shadow(0px 0px 10px #deddcf);
+	--moon-shadow-day31: drop-shadow(0px 0px 10px #ff4c48);
 
 	--moon-position-day10: 303px;
 	--moon-position-day11: 303px;
