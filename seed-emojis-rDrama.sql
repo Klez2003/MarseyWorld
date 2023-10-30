@@ -505,6 +505,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('carpvenonat', 'Carp', 2, 'pokemon pkmn venonat 048', false, 1697851079),
 ('carpveryworried', 'Carp', 2, 'scared afraid sweat animated', false, 1688201974),
 ('carpvivillon', 'Carp', 2, 'pkmn pokemon vivillon 666', false, 1697814632),
+('carpvoldemort', 'Carp', 2, 'harry potter evil wizard wand magic snake', false, 1698679547),
 ('carpvulpix', 'Carp', 2, 'pkmn pokemon vulpix 037', false, 1698181121),
 ('carpwave', 'Carp', 2, 'waving fish moderator administrator jannie fish hi bye animated carpathianflorist', false, 1681838074),
 ('carpweepinbell', 'Carp', 2, 'pokemon pkmn weepinbell carpinbell 070', false, 1697848383),
