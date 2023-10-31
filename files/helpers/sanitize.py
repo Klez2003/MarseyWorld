@@ -141,11 +141,11 @@ def execute_blackjack(v, target, body, kind):
 		kind="shadowban",
 		user_id=AUTOJANNY_ID,
 		target_user_id=v.id,
-		_note='reason: "Blackjack"'
+		_note=f'reason: "Blackjack: {kind}"'
 	)
 	g.db.add(ma)
 
-	v.ban_reason = "Blackjack"
+	v.ban_reason = f"Blackjack: {kind}"
 	g.db.add(v)
 
 	notified_ids = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['BLACKJACK_NOTIFICATIONS'])]
