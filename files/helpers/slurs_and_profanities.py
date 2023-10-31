@@ -66,7 +66,7 @@ if SITE_NAME == 'rDrama':
 		"discord": "groomercord",
 		"allah(?! \()": "Allah (ﷻ)",
 		"my wife(?! \()": "my wife (male)",
-		"(?<!cow )tools(?!\w)": "cow tools",
+		"(?<!cow)tools(?!\w)": "cowtools",
 		"explain": "mansplain",
 		'nigga': 'neighbor',
 		'(?<![\w.])cat(?!\w)': 'marsey',
