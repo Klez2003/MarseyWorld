@@ -978,7 +978,7 @@ if SITE_NAME == 'rDrama':
 	fistmas_begin = datetime.datetime.strptime(f'1/12/{t.year}', '%d/%m/%Y')
 else:
 	fistmas_begin = datetime.datetime.strptime(f'21/12/{t.year}', '%d/%m/%Y')
-fistmas_end = datetime.datetime.strptime(f'26/12/{t.year}', '%d/%m/%Y') + datetime.timedelta(hours=12)
+fistmas_end = datetime.datetime.strptime(f'26/12/{t.year}', '%d/%m/%Y') + datetime.timedelta(hours=16)
 def IS_FISTMAS():
 	return fistmas_begin < datetime.datetime.now() < fistmas_end
 
@@ -986,7 +986,7 @@ if SITE_NAME == 'rDrama':
 	homoween_begin = datetime.datetime.strptime(f'9/10/{t.year}', '%d/%m/%Y')
 else:
 	homoween_begin = datetime.datetime.strptime(f'26/10/{t.year}', '%d/%m/%Y')
-homoween_end = datetime.datetime.strptime(f'1/11/{t.year}', '%d/%m/%Y') + datetime.timedelta(hours=12)
+homoween_end = datetime.datetime.strptime(f'1/11/{t.year}', '%d/%m/%Y') + datetime.timedelta(hours=16)
 def IS_HOMOWEEN():
 	return homoween_begin < datetime.datetime.now() < homoween_end
 
