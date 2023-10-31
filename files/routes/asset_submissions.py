@@ -585,7 +585,7 @@ def update_emoji(v):
 @admin_level_required(PERMS['UPDATE_ASSETS'])
 def update_hats(v):
 	if SITE == 'watchpeopledie.tv':
-		return redirect('https://rdrama.net/admin/update/hats')
+		abort(403, "You can only update hats on rdrama.net (the changes will propagate to WPD automatically)")
 	return render_template("admin/update_assets.html", v=v, type="Hat")
 
 
