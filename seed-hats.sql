@@ -1123,26 +1123,25 @@ INSERT INTO public.hat_defs VALUES (1357, 'Spooky Candles (in Grey)', 'Spooky ca
 INSERT INTO public.hat_defs VALUES (1356, 'Spooky Candles (Orange Version)', 'Spooky Candles (now in orange!)', 2, 1000, NULL, 1698013175);
 INSERT INTO public.hat_defs VALUES (1355, 'Pink Glitter Accent', 'Sparkly pink bling accent!', 2, 1000, NULL, 1698012207);
 INSERT INTO public.hat_defs VALUES (1354, 'White Sparkle', 'Blingy white accent sparkles!', 2, 1000, NULL, 1698012140);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+INSERT INTO public.hat_defs VALUES (1378, 'pkmn0201_F', 'frick', 2, 500, NULL, 1698658980);
+INSERT INTO public.hat_defs VALUES (1369, 'pickleman', 'Look at me. I''m the rat, now.', 2, 500, NULL, 1698656858);
+INSERT INTO public.hat_defs VALUES (1368, 'pkmn0007', 'Squirtle, the Tiny Turtle Pokémon. During battle, Squirtle hides in its shell that sprays water at its opponent whenever it can.', 2, 500, NULL, 1698656651);
+INSERT INTO public.hat_defs VALUES (1367, 'pkmn0004', 'Charmander, the Lizard Pokémon. Charmander''s health can be gauged by the fire on the tip of its tail, which burns intensely when it''s in good health.', 2, 1000, NULL, 1698656418);
+INSERT INTO public.hat_defs VALUES (1365, 'pkmn0051', 'Dugtrio, the Mole Pokémon. A Ground type, and the evolved form of Diglett. These three make an excellent team. When Dugtrio moves through soil, the soil becomes extremely aerated, which is excellent for farming. It has been reported to be quite useful for agriculture.', 2, 1000, NULL, 1698655789);
+INSERT INTO public.hat_defs VALUES (1363, 'pkmn0129', 'Magikarp, the Fish Pokémon. A Water type. With neither strength nor speed, Magikarp is thought to be the weakest Pokémon of all.', 2, 500, NULL, 1698654862);
+INSERT INTO public.hat_defs VALUES (1360, 'Fire', 'Nothing quite like burning alive', 2, 500, NULL, 1698440365);
+INSERT INTO public.hat_defs VALUES (1361, 'Jackpot', 'You’re gonna win big next round', 2, 500, NULL, 1698478525);
+INSERT INTO public.hat_defs VALUES (1364, 'Magikarps_Revenge', 'In case it wasn''t clear, what''s going on here is that this blasted carp tried to consume my flesh, and ended up killing himself in the process. Now the wretched thing''s corpse is stuck on my head.', 2, 500, NULL, 1698655386);
+INSERT INTO public.hat_defs VALUES (1375, 'pkmn0110', 'Weezing loves the gases given off by rotted kitchen garbage. This Pokémon will find a dirty, unkempt house and make it its home. At night, when the people in the house are asleep, it will go through the trash.', 2, 500, NULL, 1698658478);
+INSERT INTO public.hat_defs VALUES (1372, 'pkmn0151', 'Mew. So rare that it is still said to be a mirage by many experts. Only a few people have seen it worldwide.', 2, 500, NULL, 1698657875);
+INSERT INTO public.hat_defs VALUES (1371, 'pkmn0054', 'Psyduck, the Platy Pokémon. A Water type. Psyduck is constantly bothered by headaches. The more its head hurts, the stronger its Psychic power.', 2, 500, NULL, 1698657676);
+INSERT INTO public.hat_defs VALUES (1377, 'pkmn0094', 'Gengar, the Shadow Pokémon. A Ghost and Poison type. Gengar can pass through dimensions and appear almost anywhere. Since Gengar absorbs any warmth around it, the temperature suddenly drops wherever it appears.', 2, 500, NULL, 1698658745);
+INSERT INTO public.hat_defs VALUES (1376, 'pkmn0039', 'Jigglypuff, a Balloon Pokémon. It has large friendly eyes and it sings a pleasant song.', 2, 500, NULL, 1698658603);
+INSERT INTO public.hat_defs VALUES (1374, 'pkmn0143', 'Snorlax, the Sleeping Pokémon. Snorlax becomes much too lazy to lift even a finger when it has a full belly.', 2, 500, NULL, 1698658340);
+INSERT INTO public.hat_defs VALUES (1373, 'SlowCrown', 'Slowking, the Royal Pokémon. A Water and Psychic type. If a Shellder bites a Slowpoke''s tail, Slowpoke evolves into Slowbro. But if a Shellder bites a Slowpoke''s head, the Slowpoke evolves into Slowking with the intelligence of a genius.', 2, 500, NULL, 1698658076);
+INSERT INTO public.hat_defs VALUES (1381, 'Griffith Helmet', 'The Falcon has fallen. Billions must die.', 2, 500, NULL, 1698690002);
+INSERT INTO public.hat_defs VALUES (1370, 'pkmn0133', 'Eevee, the Evolution Pokémon. Eevee is rarely seen, and can adapt to severe habitats by evolving, changing its capabilities and form.', 2, 1000, NULL, 1698657507);
+INSERT INTO public.hat_defs VALUES (1366, 'pkmn0001', 'Bulbasaur. It bears the seed of a plant on its back from birth. The seed slowly develops. Researchers are unsure whether to classify Bulbasaur as a plant or animal. Bulbasaur are extremely tough and very difficult to capture in the wild.', 2, 500, NULL, 1698656032);
 
 
 --
