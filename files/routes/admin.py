@@ -1392,7 +1392,7 @@ def remove_post(post_id, v):
 def approve_post(post_id, v):
 	post = get_post(post_id)
 
-	if post.chudded:
+	if post.chudded and post.ban_reason == 'AutoJanny':
 		abort(400, "You can't bypass the chud award!")
 
 	if post.is_banned:
@@ -1641,7 +1641,7 @@ def remove_comment(c_id, v):
 def approve_comment(c_id, v):
 	comment = get_comment(c_id)
 
-	if comment.chudded:
+	if comment.chudded and comment.ban_reason == 'AutoJanny':
 		abort(400, "You can't bypass the chud award!")
 
 	if comment.is_banned:
