@@ -584,6 +584,8 @@ def update_emoji(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @admin_level_required(PERMS['UPDATE_ASSETS'])
 def update_hats(v):
+	if SITE == 'watchpeopledie.tv':
+		return redirect('https://rdrama.net/admin/update/hats')
 	return render_template("admin/update_assets.html", v=v, type="Hat")
 
 
