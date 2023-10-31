@@ -494,6 +494,9 @@ def update_emoji(v):
 	if not existing:
 		abort(400, "An emoji with this name doesn't exist!")
 
+	if SITE in {'rdrama.net', 'watchpeopledie.tv'} and existing.author_id == 2:
+		abort(403, f"This emoji was submitted through {OTHER_SITE_NAME}, so you can only update it there!")  
+
 	updated = False
 
 	if new_name and existing.name != new_name:

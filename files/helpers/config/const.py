@@ -74,6 +74,11 @@ if SITE == 'staging.rdrama.net':
 	SITE_IMAGES = 'i.rdrama.net'
 	SITE_FULL_IMAGES = f'https://{SITE_IMAGES}'
 
+if SITE == 'rdrama.net':
+	OTHER_SITE_NAME = 'WPD'
+else:
+	OTHER_SITE_NAME = 'rDrama'
+
 LOGGED_IN_CACHE_KEY = "loggedin"
 LOGGED_OUT_CACHE_KEY = "loggedout"
 
@@ -699,7 +704,6 @@ elif SITE == 'watchpeopledie.tv':
 	PERMS['POST_COMMENT_EDITING'] = 3
 	PERMS['MODS_EVERY_HOLE'] = 3
 	PERMS['IS_PERMA_PROGSTACKED'] = 4
-	PERMS['UPDATE_ASSETS'] = 99
 
 	HOLE_BANNER_LIMIT = 69420
 
