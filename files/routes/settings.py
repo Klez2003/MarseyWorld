@@ -932,6 +932,8 @@ def settings_change_flair(v):
 
 		if len(flair_html) > 1000:
 			abort(400, "Flair too long!")
+
+		execute_blackjack(v, None, flair, "flair")
 	else:
 		flair_html = None
 
