@@ -187,7 +187,7 @@ function giveaward(t) {
 				document.getElementById('award_price').textContent = `${ownednum} owned`;
 			}
 			else {
-				ownedblock.textContent = `${global_price} coins/mbux`
+				ownedblock.textContent = `Price: ${global_price}`
 				document.getElementById('award_price').textContent = `Price: ${global_price} coins/marseybux`;
 			}
 		}
