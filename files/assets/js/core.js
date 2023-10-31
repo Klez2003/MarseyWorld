@@ -450,6 +450,7 @@ else {
 }
 
 function insertText(input, text) {
+	if (input.value) text = ` ${text}`
 	const newPos = input.selectionStart + text.length;
 	input.setRangeText(text);
 

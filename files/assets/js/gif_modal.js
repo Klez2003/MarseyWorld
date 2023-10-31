@@ -6,13 +6,7 @@ let commentFormID;
 
 function insertGIF(url) {
 	const commentBox = document.getElementById(commentFormID);
-	const old = commentBox.value;
-	let text
-
-	if (old) text = `${old}\n${url}`;
-	else text = url
-
-	insertText(commentBox, text)
+	insertText(commentBox, url)
 }
 
 const gifModal = document.getElementById('gifModal')
