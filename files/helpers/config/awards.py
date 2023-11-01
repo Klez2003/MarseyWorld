@@ -971,10 +971,8 @@ AWARDS = {
 	},
 }
 
-AWARDS_ENABLED = {}
-for k, val in AWARDS.items():
-	if val["enabled"]:
-		AWARDS_ENABLED[k] = val
+def AWARDS_ENABLED():
+	return {k: v for k, v in AWARDS.items() if v["enabled"]}
 
 LOOTBOX_ITEM_COUNT = 5
 

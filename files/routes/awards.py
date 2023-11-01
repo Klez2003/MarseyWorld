@@ -33,7 +33,7 @@ def shop_awards(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def shop(v):
-	AWARDS = deepcopy(AWARDS_ENABLED)
+	AWARDS = deepcopy(AWARDS_ENABLED())
 
 	if v.house:
 		AWARDS[v.house] = deepcopy(HOUSE_AWARDS[v.house])
@@ -84,7 +84,7 @@ def buy_award(v, kind, AWARDS):
 	if kind == "lootbox":
 		lootbox_items = []
 		for _ in range(LOOTBOX_ITEM_COUNT): # five items per lootbox
-			LOOTBOX_CONTENTS = [x["kind"] for x in AWARDS_ENABLED.values() if x["included_in_lootbox"]]
+			LOOTBOX_CONTENTS = [x["kind"] for x in AWARDS_ENABLED().values() if x["included_in_lootbox"]]
 			lb_award = random.choice(LOOTBOX_CONTENTS)
 			lootbox_items.append(AWARDS[lb_award]['title'])
 			lb_award = AwardRelationship(user_id=v.id, kind=lb_award, price_paid=price // LOOTBOX_ITEM_COUNT)
@@ -122,7 +122,7 @@ def buy_award(v, kind, AWARDS):
 @limiter.limit("100/minute;200/hour;1000/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def buy(v, kind):
-	AWARDS = deepcopy(AWARDS_ENABLED)
+	AWARDS = deepcopy(AWARDS_ENABLED())
 
 	if v.house:
 		AWARDS[v.house] = HOUSE_AWARDS[v.house]
@@ -162,7 +162,7 @@ def award_thing(v, thing_type, id):
 
 	author = obj.author
 
-	AWARDS = deepcopy(AWARDS_ENABLED)
+	AWARDS = deepcopy(AWARDS_ENABLED())
 	if v.house:
 		AWARDS[v.house] = HOUSE_AWARDS[v.house]
 
@@ -648,12 +648,12 @@ def trick_or_treat(v):
 	if result == 0:
 		message = "Trick!"
 	else:
-		choices = [x["kind"] for x in AWARDS_ENABLED.values() if x["included_in_lootbox"]]
+		choices = [x["kind"] for x in AWARDS_ENABLED().values() if x["included_in_lootbox"]]
 		award = random.choice(choices)
 		award_object = AwardRelationship(user_id=v.id, kind=award)
 		g.db.add(award_object)
 
-		award_title = AWARDS_ENABLED[award]['title']
+		award_title = AWARDS_ENABLED()[award]['title']
 		message = f"Treat! You got a {award_title} award!"
 
 	return {"message": f"{message}", "result": f"{result}"}

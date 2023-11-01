@@ -543,7 +543,7 @@ class User(Base):
 	@property
 	@lazy
 	def user_awards(self):
-		return_value = list(AWARDS_ENABLED.values())
+		return_value = list(AWARDS_ENABLED().values())
 
 		if self.house:
 			return_value.append(HOUSE_AWARDS[self.house])
