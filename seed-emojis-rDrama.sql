@@ -4842,6 +4842,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('platydomzombiewolf', 'Platy', 2, 'sadism ownership sex', false, 1685903394),
 ('platydown', 'Platy', 2, 'platypus depressed giveup sad gloomy unhappy', false, 0),
 ('platydreamingcarpocide', 'Platy', 2, 'death capy kill sleep snooze comfy edgy', false, 1687906210),
+('platydunsparce', 'Platy', 2, 'pkmn pokemon dunsparce 206', false, 1698937888),
 ('platyduosion', 'Platy', 2, 'pkmn pokemon duosion', false, 1697771886),
 ('platyeyes', 'Platy', 2, 'platypus serious squint closeup doubt', false, 0),
 ('platyfear', 'Platy', 2, 'platypus scared scary frightened horrified coward terror', false, 0),
