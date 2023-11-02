@@ -10,6 +10,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseydittoo', 'Marsey', 2, 'pkmn pokemon ditto 132', false, 1698868477),
 ('marseydomokun', 'Marsey', 2, 'weebshit', false, 1698550172),
 ('marseydoodle', 'Marsey', 2, 'orangecat', false, 1698586179),
+('marseyeternatus', 'Marsey', 2, 'pokemon eternatus pkmn 890', false, 1698890146),
 ('marseyeyeball', 'Marsey', 2, 'gore bloody', false, 1698332084),
 ('marseygengar8', 'Marsey', 2, 'pkmn pokemon gengar 094', false, 1698887169),
 ('marseygir', 'Marsey', 2, 'hottopic invaderzim', false, 1698706445),
