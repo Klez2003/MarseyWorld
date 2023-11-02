@@ -1421,6 +1421,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseyawardretard2', 'Marsey', 2, 'award retard medal', false, 1678659535),
 ('marseyaware', 'Marsey', 2, 'aware clueless surely animated', false, 1663638979),
 ('marseyawesomeface', 'Marsey', 2, 'epic troll joyous laugh', false, 1665535565),
+('marseyaxe', 'Marsey', 2, 'weapon horror smug smirking winking blood', false, 1698905653),
 ('marseyaxolotl', 'Marsey', 2, 'axolotl salamander sea fish ocean gills amphibian', false, 0),
 ('marseyaynrand', 'Marsey', 2, 'ayn rand objectivist objectivism libertarian girlboss capitalist capitalism author randsey', false, 0),
 ('marseyaynrand2', 'Marsey', 2, 'ayn rand objectivist objectivism libertarian girlboss capitalist capitalism book atlas shrugged', false, 0),
