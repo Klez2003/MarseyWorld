@@ -7568,9 +7568,6 @@ ul {
 	margin-left: 0.5rem;
 }
 
-tr:has(hideme) {
-	display: none
-}
 @keyframes blink {
 	0% {
 		opacity: 1;
