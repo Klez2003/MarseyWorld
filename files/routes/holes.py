@@ -752,7 +752,7 @@ def hole_unpin(v, pid):
 @auth_required
 def hole_stealth(v, hole):
 	hole = get_hole(hole)
-	if hole.name in {'braincels','smuggies','mnn'} and v.admin_level < PERMS["MODS_EVERY_HOLE"]:
+	if hole.name in {'braincels','smuggies','mnn','glory'} and v.admin_level < PERMS["MODS_EVERY_HOLE"]:
 		abort(403)
 	if not v.mods(hole.name): abort(403)
 
