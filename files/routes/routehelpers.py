@@ -79,7 +79,7 @@ def check_for_alts(current, include_current_session=False):
 			User.email_verified == True,
 			User.id != current.id,
 		).all()]
-		past_accs.extend(more_ids)
+		past_accs.update(more_ids)
 
 	for past_id in list(past_accs):
 		if past_id == current.id: continue
