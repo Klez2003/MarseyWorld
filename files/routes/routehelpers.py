@@ -71,27 +71,21 @@ def check_for_alts(current, include_current_session=False):
 	if session.get("GLOBAL"):
 		return
 
-	current_id = current.id
-	ids = [x[0] for x in g.db.query(User.id)]
 	past_accs = set(session.get("history", [])) if include_current_session else set()
 
 	for past_id in list(past_accs):
-		if past_id not in ids:
-			past_accs.remove(past_id)
-			continue
+		if past_id == current.id: continue
 
-		if past_id == current_id: continue
-
-		li = [past_id, current_id]
-		add_alt(past_id, current_id)
+		li = [past_id, current.id]
+		add_alt(past_id, current.id)
 		other_alts = g.db.query(Alt).filter(Alt.user1.in_(li), Alt.user2.in_(li)).all()
 		for a in other_alts:
 			if a.user1 != past_id: add_alt(a.user1, past_id)
-			if a.user1 != current_id: add_alt(a.user1, current_id)
+			if a.user1 != current.id: add_alt(a.user1, current.id)
 			if a.user2 != past_id: add_alt(a.user2, past_id)
-			if a.user2 != current_id: add_alt(a.user2, current_id)
+			if a.user2 != current.id: add_alt(a.user2, current.id)
 
-	past_accs.add(current_id)
+	past_accs.add(current.id)
 	if include_current_session:
 		session["history"] = list(past_accs)
 	g.db.flush()
