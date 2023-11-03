@@ -191,6 +191,9 @@ class User(Base):
 		return f"<{self.__class__.__name__}(id={self.id}, username={self.username})>"
 
 	def pay_account(self, currency, amount):
+		if self.id in {AUTOJANNY_ID, LONGPOSTBOT_ID, ZOZBOT_ID}:
+			return
+
 		if SITE == 'watchpeopledie.tv' and self.id == 5222:
 			return
 
