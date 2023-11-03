@@ -32,6 +32,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseymagmarsey', 'Marsey', 2, 'pokemon pkmn magmar 126', false, 1698870319),
 ('marseymango', 'Marsey', 2, 'mango marsey fruit', false, 1698874611),
 ('marseymikuuu', 'Marsey', 2, 'weeb vocaloid sega', false, 1698638433),
+('marseymilk', 'Marsey', 2, 'milkcarton dairy', false, 1698968781),
 ('marseymimikyu', 'Marsey', 2, 'pkmm pokemon mimikyu 778', false, 1698954421),
 ('marseynerdy', 'Marsey', 2, 'nerd loser reading book', false, 1698342535),
 ('marseyocelot', 'Marsey', 2, 'minecraft', false, 1698946895),
