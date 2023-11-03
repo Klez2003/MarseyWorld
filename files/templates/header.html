@@ -334,6 +334,10 @@
 								<a rel="nofollow noopener" class="dropdown-item" href="https://t.me/s/{{TELEGRAM_ID}}"><i class="fab fa-telegram fa-fw mr-3"></i>Telegram Channel</a>
 							{% endif %}
 
+							{% if TWITTER_ID %}
+								<a rel="nofollow noopener" class="dropdown-item" href="https://twitter.com/{{TWITTER_ID}}"><i class="fab fa-twitter fa-fw mr-3"></i>Twitter Account</a>
+							{% endif %}
+
 							{% if SITE_NAME == 'rDrama' %}
 								<a class="dropdown-item" href="/archives"><i class="fas fa-book fa-fw mr-3"></i>Archives</a>
 							{% endif %}
@@ -395,6 +399,10 @@
 
 				{% if TELEGRAM_ID %}
 					<a rel="nofollow noopener" class="nav-item nav-link" href="https://t.me/s/{{TELEGRAM_ID}}"><i class="fab fa-telegram fa-fw mr-3"></i>Telegram Channel</a>
+				{% endif %}
+
+				{% if TWITTER_ID %}
+					<a rel="nofollow noopener" class="nav-item nav-link" href="https://twitter.com/{{TWITTER_ID}}"><i class="fab fa-twitter fa-fw mr-3"></i>Twitter Account</a>
 				{% endif %}
 
 				{% if SITE_NAME == 'rDrama' %}

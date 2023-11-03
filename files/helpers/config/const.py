@@ -20,6 +20,7 @@ DISABLE_DOWNVOTES = False
 DESCRIPTION = "rdrama.net caters to drama in all forms such as: Real life, videos, photos, gossip, rumors, news sites, Reddit, and Beyond™. There isn't drama we won't touch, and we want it all!"
 EMAIL = "rdrama@rdrama.net"
 TELEGRAM_ID = ""
+TWITTER_ID = ""
 
 DEFAULT_CONFIG_VALUE = "blahblahblah"
 SITE = environ.get("SITE").strip()
@@ -606,6 +607,7 @@ if SITE in {'rdrama.net', 'staging.rdrama.net'}:
 	NOTIFICATION_SPAM_AGE_THRESHOLD = 0.5 * 86400
 
 	TELEGRAM_ID = "rdramanet"
+	TWITTER_ID = "rdramanet"
 	DEFAULT_TIME_FILTER = "day"
 
 	FEATURES['PRONOUNS'] = True
@@ -689,6 +691,7 @@ elif SITE == 'watchpeopledie.tv':
 
 	EMAIL = "wpd@watchpeopledie.tv"
 	TELEGRAM_ID = "wpdtv"
+	TWITTER_ID = "wpd__tv"
 	DEFAULT_TIME_FILTER = "day"
 
 	DESCRIPTION = "People die and this is the place to see it. You only have one life, don't make the mistakes seen here."
