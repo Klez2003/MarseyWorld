@@ -73,6 +73,14 @@ def check_for_alts(current, include_current_session=False):
 
 	past_accs = set(session.get("history", [])) if include_current_session else set()
 
+	if current.email and current.email_verified:
+		more_ids = [x[0] for x in g.db.query(User.id).filter(
+			User.email == current.email,
+			User.email_verified == True,
+			User.id != current.id,
+		).all()]
+		past_accs.extend(more_ids)
+
 	for past_id in list(past_accs):
 		if past_id == current.id: continue
 

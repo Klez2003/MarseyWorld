@@ -1280,10 +1280,6 @@ def fp(v, fp):
 
 	v.fp = fp
 	users = g.db.query(User).filter(User.fp == fp, User.id != v.id).all()
-	if v.email and v.email_verified:
-		alts = g.db.query(User).filter(User.email == v.email, User.email_verified, User.id != v.id).all()
-		if alts:
-			users += alts
 	for u in users:
 		li = [v.id, u.id]
 		g.db.flush()
