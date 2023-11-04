@@ -18,7 +18,7 @@ class Hole(Base):
 	name = Column(VARCHAR(HOLE_NAME_COLUMN_LENGTH), primary_key=True)
 	sidebar = Column(VARCHAR(HOLE_SIDEBAR_COLUMN_LENGTH))
 	sidebar_html = Column(VARCHAR(HOLE_SIDEBAR_HTML_COLUMN_LENGTH))
-	sidebarurl = Column(VARCHAR(HOLE_SIDEBAR_URL_COLUMN_LENGTH))
+	sidebarurls = Column(MutableList.as_mutable(ARRAY(VARCHAR(HOLE_BANNER_URL_COLUMN_LENGTH))), default=MutableList([]), nullable=False)
 	bannerurls = Column(MutableList.as_mutable(ARRAY(VARCHAR(HOLE_BANNER_URL_COLUMN_LENGTH))), default=MutableList([]), nullable=False)
 	marseyurl = Column(VARCHAR(HOLE_MARSEY_URL_LENGTH))
 	css = Column(VARCHAR(HOLE_CSS_COLUMN_LENGTH))
@@ -38,9 +38,9 @@ class Hole(Base):
 
 	@property
 	@lazy
-	def sidebar_url(self):
-		if self.sidebarurl: return self.sidebarurl
-		return f'{SITE_FULL_IMAGES}/i/{SITE_NAME}/sidebar.webp?x=6'
+	def random_sidebar(self):
+		if not self.sidebarurls: return None
+		return random.choice(self.sidebarurls)
 
 	@property
 	@lazy

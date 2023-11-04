@@ -511,6 +511,94 @@ def get_hole_css(hole):
 	resp.headers.add("Content-Type", "text/css")
 	return resp
 
+@app.post("/h/<hole>/settings/sidebars/")
+@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
+@limiter.limit("50/day", deduct_when=lambda response: response.status_code < 400)
+@limiter.limit("50/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@auth_required
+def upload_hole_sidebar(v, hole):
+	if g.is_tor: abort(403, "Image uploads are not allowed through Tor")
+
+	hole = get_hole(hole)
+	if not v.mods(hole.name): abort(403)
+	if v.shadowbanned: abort(500)
+
+	file = request.files["sidebar"]
+
+	name = f'/images/{time.time()}'.replace('.','') + '.webp'
+	file.save(name)
+	sidebarurl = process_image(name, v, resize=1600)
+
+	hole.sidebarurls.append(sidebarurl)
+
+	g.db.add(hole)
+
+	ma = HoleAction(
+		hole=hole.name,
+		kind='upload_sidebar',
+		user_id=v.id
+	)
+	g.db.add(ma)
+
+	return redirect(f'/h/{hole}/settings')
+
+@app.post("/h/<hole>/settings/sidebars/delete/<int:index>")
+@limiter.limit("1/second;30/day", deduct_when=lambda response: response.status_code < 400)
+@limiter.limit("1/second;30/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@auth_required
+def delete_hole_sidebar(v, hole, index):
+	hole = get_hole(hole)
+	if not v.mods(hole.name): abort(403)
+
+	if not hole.sidebarurls:
+		abort(404, f"Sidebar image not found (/h/{hole.name} has no sidebar images)")
+	if index < 0 or index >= len(hole.sidebarurls):
+		abort(404, f'Sidebar image not found (sidebar index {index} is not between 0 and {len(hole.sidebarurls)})')
+	sidebar = hole.sidebarurls[index]
+	try:
+		remove_media_using_link(sidebar)
+	except FileNotFoundError:
+		pass
+	del hole.sidebarurls[index]
+	g.db.add(hole)
+
+	ma = HoleAction(
+		hole=hole.name,
+		kind='delete_sidebar',
+		_note=index,
+		user_id=v.id
+	)
+	g.db.add(ma)
+
+	return {"message": f"Deleted sidebar {index} from /h/{hole} successfully"}
+
+@app.post("/h/<hole>/settings/sidebars/delete_all")
+@limiter.limit("1/10 second;30/day", deduct_when=lambda response: response.status_code < 400)
+@limiter.limit("1/10 second;30/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@auth_required
+def delete_all_hole_sidebars(v, hole):
+	hole = get_hole(hole)
+	if not v.mods(hole.name): abort(403)
+
+	for sidebar in hole.sidebarurls:
+		try:
+			remove_media_using_link(sidebar)
+		except FileNotFoundError:
+			pass
+	hole.sidebarurls = []
+	g.db.add(hole)
+
+	ma = HoleAction(
+		hole=hole.name,
+		kind='delete_sidebar',
+		_note='all',
+		user_id=v.id
+	)
+	g.db.add(ma)
+
+	return {"message": f"Deleted all sidebar images from /h/{hole} successfully"}
+
 @app.post("/h/<hole>/settings/banners/")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
@@ -598,39 +686,6 @@ def delete_all_hole_banners(v, hole):
 	g.db.add(ma)
 
 	return {"message": f"Deleted all banners from /h/{hole} successfully"}
-
-@app.post("/h/<hole>/sidebar_image")
-@limiter.limit('1/second', scope=rpath)
-@limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit("10/day", deduct_when=lambda response: response.status_code < 400)
-@limiter.limit("10/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
-@auth_required
-def hole_sidebar(v, hole):
-	if g.is_tor: abort(403, "Image uploads are not allowed through TOR!")
-
-	hole = get_hole(hole)
-	if not v.mods(hole.name): abort(403)
-	if v.shadowbanned: abort(500)
-
-	file = request.files["sidebar"]
-	name = f'/images/{time.time()}'.replace('.','') + '.webp'
-	file.save(name)
-	sidebarurl = process_image(name, v, resize=400)
-
-	if sidebarurl:
-		if hole.sidebarurl:
-			remove_media_using_link(hole.sidebarurl)
-		hole.sidebarurl = sidebarurl
-		g.db.add(hole)
-
-	ma = HoleAction(
-		hole=hole.name,
-		kind='change_sidebar_image',
-		user_id=v.id
-	)
-	g.db.add(ma)
-
-	return redirect(f'/h/{hole}/settings')
 
 @app.post("/h/<hole>/marsey_image")
 @limiter.limit('1/second', scope=rpath)

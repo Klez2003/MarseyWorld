@@ -15,7 +15,7 @@
 		</span>
 	</div>
 
-	<h5 class="mt-5">Marsey</h5>
+	<h5 class="mt-5 pt-5">Marsey</h5>
 	<div class="settings-section rounded">
 		<img loading="lazy" alt="sub marsey picture" src="{{hole.marsey_url}}" style="max-width:100px">
 		<form class="d-inline-block" action="/h/{{hole}}/marsey_image" method="post" enctype="multipart/form-data">
@@ -29,21 +29,35 @@
 		</div>
 	</div>
 
-	<h5 class=" mt-5">Sidebar Picture</h5>
-	<div class="settings-section rounded">
-		<img class="mr-3" loading="lazy" alt="sub sidebar picture" src="{{hole.sidebar_url}}" style="max-width:min(300px,100%)">
-		<form class="d-inline-block mt-2" action="/h/{{hole}}/sidebar_image" method="post" enctype="multipart/form-data">
-			<input hidden name="formkey" value="{{v|formkey}}">
-			<label class="btn btn-secondary text-capitalize mr-2 mb-0">
-				Upload<input autocomplete="off" type="file" accept="image/*" {% if g.is_tor %}disabled{% endif %} hidden name="sidebar" data-nonce="{{g.nonce}}" onchange_submit>
-			</label>
-		</form>
-		<div class="text-small text-muted mt-3">
-			All image files are supported. Max file size is {% if v and v.patron %}16{% else %}8{% endif %} MB.
-		</div>
+	<h5 class="mt-5 pt-5">Sidebar Images</h5>
+	<div class="settings-section rounded hole-sidebar-update-section">
+		{% for sidebar in hole.sidebarurls %}
+			<section id="hole-sidebar-update-{{loop.index - 1}}" class="mt-5 d-block hole-settings-subsection" style="max-width:min(300px,100%)">
+				<img class="mr-3" loading="lazy" alt="/h/{{hole.name}} sidebar" src="{{sidebar}}" style="max-height:300px;max-width:100%">
+				<button class="btn btn-danger hole-sidebar-delete-button mt-2" id="hole-sidebar-delete-{{loop.index}}" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)" data-areyousure="postToastReload(this, '/h/{{hole.name}}/settings/sidebars/delete/{{loop.index - 1}}')">Delete</button>
+			</section>
+		{% else %}
+			<section id="hole-sidebar-no-sidebars" class="d-block hole-settings-subsection" style="max-width:min(300px,100%)">
+				{{macros.ghost_box("No sidebar images uploaded", "", 2, "flex:1")}}
+			</section>
+		{% endfor %}
+		{% if not g.is_tor %}
+			<section id="hole-sidebar-upload-new" class="mt-5 hole-settings-subsection">
+				<form class="d-inline-block" action="/h/{{hole.name}}/settings/sidebars/" method="post" enctype="multipart/form-data">
+					<input hidden name="formkey" value="{{v|formkey}}">
+					<label class="btn btn-secondary text-capitalize mr-2 mb-0">
+						Upload New Sidebar Image<input autocomplete="off" type="file" accept="image/*" hidden name="sidebar" data-nonce="{{g.nonce}}" onchange_submit>
+					</label>
+				</form>
+				<button type="button" class="btn btn-danger hole-sidebar-delete-button" id="hole-sidebar-delete-all" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)" data-areyousure="postToastReload(this, '/h/{{hole.name}}/settings/sidebars/delete_all')">Delete All Sidebar Images</button>
+				<div class="text-small text-muted mt-3">
+					All image files are supported. Max file size is {% if v and v.patron %}16{% else %}8{% endif %} MB.
+				</div>
+			</section>
+		{% endif %}
 	</div>
 
-	<h5 class="mt-5">Banners</h5>
+	<h5 class="mt-5 pt-5">Banners</h5>
 	<div class="settings-section rounded hole-banner-update-section">
 		{% for banner in hole.bannerurls %}
 			<section id="hole-banner-update-{{loop.index - 1}}" class="mt-5 d-block hole-settings-subsection">

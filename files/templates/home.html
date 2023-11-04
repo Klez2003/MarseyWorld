@@ -17,7 +17,7 @@
 {% block pagetitle %}{{SITE_NAME if not hole else '/h/' ~ hole.name}}{% endblock %}
 
 {% block head_final %}
-	{% set preview = hole.siderbarurl if hole and hole.sidebarurl else hole.bannerurl %}
+	{% set preview = hole.random_sidebar if hole and hole.sidebarurls else hole.bannerurl %}
 
 	{% if hole %}
 		<meta property="og:type" content="article">
