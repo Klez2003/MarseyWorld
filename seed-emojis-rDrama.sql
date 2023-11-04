@@ -2045,6 +2045,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseyderp', 'Marsey', 2, 'hehe teehee troll animated durr giggle', false, 0),
 ('marseyderpthumbsup', 'Marsey', 2, 'thumb thumbs up derp derpy', false, 1686250706),
 ('marseydespair', 'Marsey', 2, 'doomer reaction depression horrified suicidal depressed judgment', false, 0),
+('marseydestoryercarbine', 'Marsey', 2, 'poweruser gun', false, 1699114584),
 ('marseydestoryercarbine2', 'Marsey', 2, 'power user zoomer gun', false, 1699049229),
 ('marseydetective', 'Marsey', 2, 'holmes sherlock magnifying glass bowtie investigate search find', false, 0),
 ('marseydetermined', 'Marsey', 2, 'masey determined', false, 1664900786),
