@@ -9,17 +9,17 @@
 	{% block banner %}
 		{% include "modals/expanded_image.html" %}
 		{% if err or '@' not in request.path %}
-			{% if IS_FISTMAS() and not (hole and hole.has_banners) %}
+			{% if IS_FISTMAS() and not (hole and hole.bannerurls) %}
 				{% include 'events/fistmas/banner.html' %}
-			{% elif IS_HOMOWEEN() and not (hole and hole.has_banners) %}
+			{% elif IS_HOMOWEEN() and not (hole and hole.bannerurls) %}
 				{% include 'events/homoween/banner.html' %}
 			{% else %}
 				{% set path = "files/assets/images/" ~ SITE_NAME %}
 
 				{% if err and SITE_NAME == 'rDrama' %}
 					{% set src = "banner_error.webp" | asset_siteimg %}
-				{% elif hole and hole.has_banners %}
-					{% set src = hole.random_banner() %}
+				{% elif hole and hole.bannerurls %}
+					{% set src = hole.random_banner %}
 					{% set alt = ['/h/', hole, ' banner']|join %}
 					{% set class = 'site-banner-hole' %}
 				{% elif get_running_orgy(v) and os_path.exists(path ~ "/orgy_banners") %}
@@ -62,7 +62,7 @@
 						<img data-nonce="{{g.nonce}}" data-onclick="{{expand|default('expandImage()')}}" class="{{class|default('site-banner')}}" alt="{{alt|default('site banner')}}" src="{{banner_url}}">
 					{% endmacro %}
 
-					{% if hole and hole.has_banners %}
+					{% if hole and hole.bannerurls %}
 						{{img_element()}}
 					{% else %}
 						<div class="banner-wrapper">

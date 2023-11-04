@@ -44,18 +44,9 @@ class Hole(Base):
 
 	@property
 	@lazy
-	def banner_urls(self):
-		return self.bannerurls
-
-	@lazy
 	def random_banner(self):
-		if not self.banner_urls: return None
-		return random.choice(self.banner_urls)
-
-	@property
-	@lazy
-	def has_banners(self):
-		return bool(self.bannerurls)
+		if not self.bannerurls: return None
+		return random.choice(self.bannerurls)
 
 	@property
 	@lazy

@@ -581,7 +581,7 @@ def delete_all_hole_banners(v, hole):
 	hole = get_hole(hole)
 	if not v.mods(hole.name): abort(403)
 
-	for banner in hole.banner_urls:
+	for banner in hole.bannerurls:
 		try:
 			remove_media_using_link(banner)
 		except FileNotFoundError:
