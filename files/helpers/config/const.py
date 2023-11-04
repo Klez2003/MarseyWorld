@@ -392,6 +392,7 @@ PERMS = { # Minimum admin_level to perform action.
 	'INSERT_TRANSACTION': 4,
 
 	'VIEW_EMAILS': 5,
+	'INFINITE_CURRENCY': 5,
 }
 
 FEATURES = {

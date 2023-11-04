@@ -213,7 +213,7 @@ class User(Base):
 			user_query.update({ User.marseybux: User.marseybux + amount })
 
 	def charge_account(self, currency, amount, **kwargs):
-		if self.id == AEVANN_ID:
+		if self.admin_level >= PERMS['INFINITE_CURRENCY']:
 			return (True, amount)
 
 		succeeded = False
