@@ -714,6 +714,8 @@ def filter_emojis_only(title, golden=True, count_emojis=False, obj=None, author=
 def is_whitelisted(domain, k):
 	if domain.endswith('pullpush.io'):
 		return True
+	if domain == 'c-span.org':
+		return True
 	if 'sort' in k.lower() or 'query' in k.lower():
 		return True
 	if k in {'_x_tr_hl','_x_tr_pto','_x_tr_sl','_x_tr_tl','abstract_id','after','article','bill_id','c','clip','commentID','comments','context','count','f','fbid','format','forum_id','i','ID','id','lb','list','oldid','p','page','post_id','postid','q','run','scrollToComments','search','sl','sp','story_fbid','tab','term','text','thread_id','threadid','ticket_form_id','time_continue','title','title_no','tl','token','topic','type','tz1','tz2','u','udca','url','v','vid','viewkey'}:
