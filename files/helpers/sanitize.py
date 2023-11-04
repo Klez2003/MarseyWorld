@@ -714,7 +714,7 @@ def filter_emojis_only(title, golden=True, count_emojis=False, obj=None, author=
 def is_whitelisted(domain, k):
 	if domain.endswith('pullpush.io'):
 		return True
-	if domain == 'c-span.org':
+	if domain == 'www.c-span.org':
 		return True
 	if 'sort' in k.lower() or 'query' in k.lower():
 		return True
