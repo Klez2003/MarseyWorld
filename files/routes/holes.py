@@ -536,7 +536,7 @@ def upload_hole_sidebar(v, hole):
 
 	ma = HoleAction(
 		hole=hole.name,
-		kind='upload_sidebar',
+		kind='upload_sidebar_image',
 		user_id=v.id
 	)
 	g.db.add(ma)
@@ -565,7 +565,7 @@ def delete_hole_sidebar(v, hole, index):
 
 	ma = HoleAction(
 		hole=hole.name,
-		kind='delete_sidebar',
+		kind='delete_sidebar_image',
 		_note=index,
 		user_id=v.id
 	)
@@ -591,7 +591,7 @@ def delete_all_hole_sidebars(v, hole):
 
 	ma = HoleAction(
 		hole=hole.name,
-		kind='delete_sidebar',
+		kind='delete_sidebar_image',
 		_note='all',
 		user_id=v.id
 	)

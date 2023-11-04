@@ -54,10 +54,15 @@ HOLEACTION_TYPES = {
 		"icon": 'fa-image-slash',
 		"color": 'bg-danger',
 	},
-	'change_sidebar_image': {
-		"str": 'changed the sidebar image',
+	'upload_sidebar_image': {
+		"str": 'uploaded a sidebar image',
 		"icon": 'fa-image',
 		"color": 'bg-primary'
+	},
+	'delete_sidebar_image': {
+		"str": 'deleted a sidebar image',
+		"icon": 'fa-image-slash',
+		"color": 'bg-danger',
 	},
 	'change_marsey': {
 		"str": 'changed the hole marsey',
