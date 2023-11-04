@@ -137,7 +137,7 @@
 								<i class="fas fa-face-sleeping text-danger mr-1" data-bs-toggle="tooltip" data-bs-placement="bottom" title="User was chudded for this comment {{c.chuddedfor}}"></i>
 							{% endif %}
 
-							{% if c.active_reports(v) %}<button type="button" class="btn btn-primary mr-1" style="padding:1px 5px; font-size:10px" data-toggleelement="#reports-{{c.id}}" data-toggleattr="d-none">{{c.active_reports(v)}} Report{{macros.plural(c.active_reports(v))}}</button>{% endif %}
+							{% if c.active_reports(v) %}<button type="button" class="btn btn-primary mx-1" style="padding:1px 5px; font-size:10px" data-toggleelement="#reports-{{c.id}}" data-toggleattr="d-none">{{c.active_reports(v)}} Report{{macros.plural(c.active_reports(v))}}</button>{% endif %}
 							{% if c.nsfw %}<span class="badge badge-danger text-small-extra mr-1">NSFW</span>{% endif %}
 							{% if v and v.can_see_shadowbanned and c.author.shadowbanned %}<i class="fas fa-user-times text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title='Shadowbanned by @{{c.author.shadowbanner}} for "{{c.author.ban_reason}}"' data-bs-html="true"></i>{% endif %}
 							{% if c.stickied %}
