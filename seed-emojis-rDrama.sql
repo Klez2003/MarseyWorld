@@ -1971,6 +1971,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseycrystalmaiden', 'Marsey', 2, 'gamer video game gaymer getogeto rpg character rpgcharacter dota2', false, 0),
 ('marseycthulhu', 'Marsey', 2, 'horror halloween lovecraftian holiday eldritch evil scary monster', false, 0),
 ('marseycuck', 'Marsey', 2, 'soyboy funko redditor neckbeard loser', false, 0),
+('marseycuckfiction', 'Marsey', 2, 'hdhdjejjwjsjs', false, 1699122621),
 ('marseycumplosion', 'Marsey', 2, 'tom cum meme', false, 1687047274),
 ('marseycupcake', 'Marsey', 2, 'cupcake birthgay birthday cake frosting celebrate party dessert sweet', false, 0),
 ('marseycupid', 'Marsey', 2, 'cupid love heart valentines holiday marry wedding couple kiss wink sex arrow bow shoot animated', false, 0),
