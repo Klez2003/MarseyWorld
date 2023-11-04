@@ -150,11 +150,14 @@ def remove_report_comment(v, cid, uid):
 	return {"message": "Report removed successfully!"}
 
 def move_post(post, v, reason):
-	if post.ghost:
-		return False
-
 	if not reason.startswith('/h/') and not reason.startswith('h/'):
 		return False
+
+	if post.ghost:
+		abort(403, "You can't move ghost posts into holes!")
+
+	if 'movie night' in post.title.lower() or 'movie night' in post.body.lower():
+		abort(403, "You can't move this post out of /h/countryclub")
 
 	hole_from = post.hole
 	hole_to = get_hole(reason, graceful=True)

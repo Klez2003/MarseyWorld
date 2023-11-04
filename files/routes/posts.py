@@ -566,6 +566,9 @@ def submit_post(v, hole=None):
 		ghost=flag_ghost,
 	)
 
+	if 'movie night' in p.title.lower() or 'movie night' in p.body.lower():
+		p.hole = 'countryclub'
+
 	p.chudded = v.chud and hole != 'chudrama' and not (p.is_effortpost and not v.chudded_by)
 	p.queened = v.queen and not p.is_effortpost
 	p.sharpened = v.sharpen and not p.is_effortpost
@@ -1061,5 +1064,8 @@ def edit_post(pid, v):
 			target_post_id=p.id
 		)
 		g.db.add(ma)
+
+	if 'movie night' in p.title.lower() or 'movie night' in p.body.lower():
+		p.hole = 'countryclub'
 
 	return {"message": "Post edited successfully!"}
