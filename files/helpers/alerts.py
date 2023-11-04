@@ -8,7 +8,7 @@ import time
 from sqlalchemy.sql import text
 from sqlalchemy.orm import load_only
 
-from files.classes import Comment, Notification, PushSubscription, Group
+from files.classes import Comment, Notification, PushSubscription, Group, Mod
 
 from .config.const import *
 from .regex import *
@@ -183,6 +183,11 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, obj=None, followers_ping=Tr
 			elif i.group(1) == 'jannies':
 				group = None
 				member_ids = set(x[0] for x in g.db.query(User.id).filter(User.admin_level > 0, User.id != AEVANN_ID))
+			elif i.group(1) == 'holejannies':
+				if not get_obj_hole(obj):
+					abort(403, "!holejannies can only be used inside holes!")
+				group = None
+				member_ids = set(x[0] for x in g.db.query(Mod.user_id).filter_by(hole=obj.hole))
 			elif i.group(1) == 'followers':
 				if not followers_ping:
 					abort(403, f"You can't use !followers in posts!")

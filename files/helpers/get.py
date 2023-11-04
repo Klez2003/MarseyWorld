@@ -359,3 +359,11 @@ def get_error():
 def get_page():
 	try: return max(int(request.values.get("page", 1)), 1)
 	except: return 1
+
+def get_obj_hole(obj):
+	if isinstance(obj, Comment):
+		if obj.parent_post:
+			obj.hole = g.db.query(Post.hole).filter_by(id=obj.parent_post).one()[0]
+		else:
+			obj.hole = None
+	return obj.hole

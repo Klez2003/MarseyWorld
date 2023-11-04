@@ -442,6 +442,8 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 				return f'<a href="/users">!{name}</a>'
 			elif name == 'jannies':
 				return f'<a href="/admins">!{name}</a>'
+			elif name == 'holejannies' and get_obj_hole(obj):
+				return f'<a href="/h/{obj.hole}/mods">!{name}</a>'
 			elif name == 'commenters' and commenters_ping_post_id:
 				return f'<a href="/!commenters/{commenters_ping_post_id}/{int(time.time())}">!{name}</a>'
 			elif name == 'followers':

@@ -32,7 +32,7 @@ def create_group(v):
 	if not hole_group_name_regex.fullmatch(name):
 		abort(400, "Name does not match the required format!")
 
-	if name in {'everyone', 'jannies', 'followers', 'commenters'} or g.db.get(Group, name):
+	if name in {'everyone', 'jannies', 'holejannies', 'followers', 'commenters'} or g.db.get(Group, name):
 		abort(400, "This group already exists!")
 
 	if not v.charge_account('combined', GROUP_COST)[0]:
