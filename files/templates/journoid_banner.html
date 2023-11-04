@@ -39,7 +39,7 @@ set JOURNOID_BANNERS = [
 -%}
 {% set journoid = JOURNOID_BANNERS|random %}
 
-<a rel="nofollow noopener" id="srd-link" href="{{journoid[1]}}">{{journoid[0]}}</a>
+<a rel="noopener" id="srd-link" href="{{journoid[1]}}">{{journoid[0]}}</a>
 
 {% if journoid[2] %}
 	<span id="srd-separator">&mdash;</span>

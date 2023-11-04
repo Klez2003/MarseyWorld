@@ -57,23 +57,23 @@
 								<img alt="post thumbnail" loading="lazy" src="{{p.thumb_url}}" class="post-img">
 							</a>
 						{% elif p.is_image %}
-							<a href="{{p.realurl(v)}}" rel="nofollow noopener">
+							<a href="{{p.realurl(v)}}" rel="noopener">
 								<img data-nonce="{{g.nonce}}" data-onclick="expandImage('{{p.realurl(v)}}')" alt="post thumbnail" loading="lazy" src="{{p.thumb_url}}" class="post-img">
 							</a>
 						{% elif p.is_video or p.is_audio %}
-							<a href="{{p.realurl(v)}}" rel="nofollow noopener">
+							<a href="{{p.realurl(v)}}" rel="noopener">
 								<img data-nonce="{{g.nonce}}" data-onclick="togglevideo('{{p.id}}')" alt="post thumbnail" loading="lazy" src="{{p.thumb_url}}" class="post-img">
 								{% if p.is_video %}
 									<i class="video-play fas fa-play"></i>
 								{% endif %}
 							</a>
 						{% elif p.is_youtube %}
-							<a href="{{p.realurl(v)}}" rel="nofollow noopener">
+							<a href="{{p.realurl(v)}}" rel="noopener">
 								<img data-nonce="{{g.nonce}}" data-onclick="toggleyoutube('{{p.id}}')" alt="post thumbnail" loading="lazy" src="{{p.thumb_url}}" class="post-img">
 								<i class="video-play fas fa-play"></i>
 							</a>
 						{% else %}
-							<a {% if not v or v.newtabexternal %}target="_blank"{% endif %} rel="nofollow noopener" href="{{p.realurl(v)}}">
+							<a {% if not v or v.newtabexternal %}target="_blank"{% endif %} rel="noopener" href="{{p.realurl(v)}}">
 								<img alt="post thumbnail" loading="lazy" src="{{p.thumb_url}}" class="post-img">
 								<i class="ext-link fas fa-external-link"></i>
 							</a>

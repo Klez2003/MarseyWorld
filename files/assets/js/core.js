@@ -414,7 +414,7 @@ if (location.pathname != '/chat' && (gbrowser == 'iphone' || gbrowser == 'mac'))
 	for (const video of videos) {
 		const link = video.src
 		const htmlString = `
-			<a rel="nofollow noopener" href="${link}" target="_blank">
+			<a rel="noopener" href="${link}" target="_blank">
 				<div class="d-flex justify-content-between align-items-center border rounded p-2 mb-3 download-video">
 					<span>${link}</span>
 					<i class="fas fa-external-link-alt text-small"></i>

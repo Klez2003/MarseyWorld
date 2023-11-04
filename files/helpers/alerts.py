@@ -99,7 +99,7 @@ def notif_comment2(p):
 	if p.ghost:
 		author_link = '@👻'
 	else:
-		author_link = f'<a href="/id/{p.author_id}" rel="nofollow"><img loading="lazy" src="/pp/{p.author_id}">@{p.author_name}</a>'
+		author_link = f'<a href="/id/{p.author_id}"><img loading="lazy" src="/pp/{p.author_id}">@{p.author_name}</a>'
 
 	text = f'{author_link} has mentioned you: <a href="/post/{p.id}">{p.title_html}</a>'
 
