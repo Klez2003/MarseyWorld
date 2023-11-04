@@ -1,7 +1,7 @@
 {% extends "default.html" %}
-{% block pagetitle %}{{kind}} Owners{% endblock %}
+{% block pagetitle %}{{name}} {{kind}} Owners{% endblock %}
 {% block content %}
-	<h5 class="my-3">{{kind}} Owners</h5>
+	<h5 class="my-3"><a href="{{href}}">{{name}}</a> {{kind}} Owners</h5>
 	<div class="overflow-x-auto mt-1">
 		<table class="table table-striped mb-5">
 			<thead class="bg-primary text-white">

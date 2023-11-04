@@ -148,6 +148,10 @@ def unequip_hat(v, hat_id):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def hat_owners(v, hat_id):
+	name = g.db.query(HatDef.name).filter_by(id=hat_id).one()[0]
+
+	href = f'{SITE_FULL_IMAGES}/i/hats/{name}.webp?x=6'
+
 	page = get_page()
 
 	users = g.db.query(User, Hat.created_utc).join(Hat.owners).filter(Hat.hat_id == hat_id)
@@ -156,4 +160,4 @@ def hat_owners(v, hat_id):
 
 	users = users.order_by(Hat.created_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
 
-	return render_template("owners.html", v=v, users=users, page=page, total=total, kind="Hat")
+	return render_template("owners.html", v=v, users=users, page=page, total=total, kind="Hat", name=name, href=href)

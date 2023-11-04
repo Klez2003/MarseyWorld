@@ -1308,6 +1308,9 @@ def toggle_pins(hole, sort):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def bid_list(v, bid):
+	name = g.db.query(BadgeDef.name).filter_by(id=bid).one()[0]
+
+	href = f'{SITE_FULL_IMAGES}/i/{SITE_NAME}/badges/{bid}.webp?b=11'
 
 	page = get_page()
 
@@ -1317,7 +1320,7 @@ def bid_list(v, bid):
 
 	users = users.order_by(Badge.created_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
 
-	return render_template("owners.html", v=v, users=users, page=page, total=total, kind="Badge")
+	return render_template("owners.html", v=v, users=users, page=page, total=total, kind="Badge", name=name, href=href)
 
 
 KOFI_TOKEN = environ.get("KOFI_TOKEN", "").strip()
