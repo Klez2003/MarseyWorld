@@ -253,7 +253,7 @@ CREATE TABLE public.badge_defs (
     id integer NOT NULL,
     name character varying(50) NOT NULL,
     description character varying(200),
-    created_utc integer
+    created_utc integer NOT NULL
 );
 
 
