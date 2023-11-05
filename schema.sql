@@ -648,12 +648,12 @@ CREATE TABLE public.holes (
     name character varying(25) NOT NULL,
     sidebar character varying(10000),
     sidebar_html character varying(20000),
-    sidebarurl character varying(60),
     bannerurls character varying(60)[] DEFAULT '{}'::character varying[] NOT NULL,
     css character varying(6000),
     stealth boolean,
     marseyurl character varying(60),
-    created_utc integer
+    created_utc integer,
+    sidebarurls character varying(60)[] DEFAULT '{}'::character varying[] NOT NULL
 );
 
 
