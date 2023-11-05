@@ -481,7 +481,7 @@ def transfer_coins(v, username):
 def transfer_bux(v, username):
 	return transfer_currency(v, username, 'marseybux', False)
 
-@cache.memoize()
+# @cache.memoize()
 def leaderboard_cached(v):
 	users = g.db.query(User)
 
