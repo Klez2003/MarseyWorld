@@ -750,8 +750,6 @@ def settings_name_change(v):
 
 	if v.namechanged: abort(403)
 
-	if v.shadowbanned: abort(500)
-
 	new_name = request.values.get("name").strip()
 
 	if new_name == v.username:
