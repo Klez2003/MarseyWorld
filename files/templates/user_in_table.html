@@ -1,7 +1,7 @@
 {% if user %}
 	{% if can_see(v, user) %}
 		{%- include 'admin/shadowbanned_tooltip.html' -%}
-		<a class="unbreakable" data-sort-key="{{user.username.lower()}}" style="color:#{{user.name_color}};font-weight:bold" href="/@{{user.username}}">
+		<a class="unbreakable" data-sort-key="{{user.username.lower()}}" style="color:#{{user.name_color}};font-weight:bold" href="/id/{{user.id}}">
 			<div class="profile-pic-20-wrapper mb-2">
 				<img loading="lazy" src="{{user.profile_url}}" class="pp20">
 				{% if user.hat_active(v)[0] -%}
