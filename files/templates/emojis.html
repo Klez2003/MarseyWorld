@@ -43,7 +43,7 @@
 					<td>{{emoji.count}}</td>
 					<td>
 						{% if emoji.author_id == 2 %}
-							an {{OTHER_SITE_NAME}} user
+							a{% if OTHER_SITE_NAME == 'rDrama' %}n{% endif %} {{OTHER_SITE_NAME}} user
 						{% else %}
 							{% set user = emoji.user %}
 							{% include "user_in_table.html" %}
