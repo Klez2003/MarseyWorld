@@ -1280,6 +1280,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('mariosleeping', 'Misc', 2, 'game nintendo boredom tired snooze nap slouched', false, 1691869707),
 ('mariospin', 'Misc', 2, 'game nintendo rotate', false, 1691869408),
 ('mariothinking', 'Misc', 2, 'game nintendo noticer hmm', false, 1685828531),
+('marsey', 'Marsey', 2, 'orangecat', false, 1698586179),
 ('marsey173', 'Marsey', 2, 'horror spooky halloween scp spc holiday', false, 0),
 ('marsey180p', 'Marsey', 2, '180p lowquality lowdef', false, 1670905221),
 ('marsey1984', 'Marsey', 2, 'orwell book ingsoc big brother fascist', false, 0),
