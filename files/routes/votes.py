@@ -36,6 +36,9 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 	if v.id == target.author.id:
 		coin_delta = 0
 
+	if v.truescore < 10:
+		coin_delta = 0
+
 	alt = False
 	if target.author.id in [x.id for x in get_alt_graph(v.id)]:
 		coin_delta = -1
