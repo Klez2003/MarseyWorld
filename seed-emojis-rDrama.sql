@@ -717,6 +717,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('dagger', 'Marsey Alphabet', 2, '† dagger conjugate transpose footnote', false, 0),
 ('dance', 'Classic', 2, 'dancing dancer girl', false, 1679152158),
 ('dance2', 'Classic', 2, 'dancing happy', false, 1679228830),
+('darkbidenblast', 'Misc', 2, 'shutupnigga brandon stfu', false, 1699458571),
 ('darkwhy', 'Misc', 2, 'why wtf emoji glove dark scared whatthefuck what the fuck huh', false, 1692211646),
 ('dash', 'Marsey Alphabet', 2, '- hyphen minus', false, 0),
 ('dasha', 'Misc', 2, 'dasha redscare', false, 1692061769),
