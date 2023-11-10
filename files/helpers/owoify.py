@@ -41,7 +41,7 @@ def owoify(source, chud_phrase):
 	return ''.join(result_strings)
 
 def owoify_map_token_custom(token, chud_words):
-	if token.word in chud_words:
+	if token.word.lower() in chud_words:
 		return token
 
 	for pattern in OWO_EXCLUDE_PATTERNS:
