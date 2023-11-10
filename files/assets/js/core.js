@@ -1,7 +1,7 @@
 const SITE_FULL_IMAGES = document.getElementById('SITE_FULL_IMAGES').value
 
 function getMessageFromJsonData(success, json) {
-	let message = success ? "Success!" : "Error, please try again later";
+	let message = success ? "Success!" : "Error, please refresh the page and try again";
 	let key = success ? "message" : "error";
 	if (!json || !json[key]) return message;
 	message = json[key];
@@ -17,7 +17,7 @@ function showToast(success, message) {
 	let element = success ? "toast-post-success" : "toast-post-error";
 	let textElement = element + "-text";
 	if (!message) {
-		message = success ? "Action successful!" : "Error, please try again later";
+		message = success ? "Action successful!" : "Error, please refresh the page and try again";
 	}
 	document.getElementById(textElement).textContent = message;
 	bootstrap.Toast.getOrCreateInstance(document.getElementById(element)).show();
