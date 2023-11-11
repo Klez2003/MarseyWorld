@@ -56,7 +56,7 @@ class Service(Enum):
 
 DEFAULT_RATELIMIT = "30/minute;200/hour;1000/day"
 CASINO_RATELIMIT = "100/minute;5000/hour;20000/day"
-DELETE_EDIT_RATELIMIT = "10/minute;50/day"
+DELETE_RATELIMIT = "10/minute;50/day"
 
 PUSH_NOTIF_LIMIT = 1000
 
