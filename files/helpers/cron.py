@@ -87,15 +87,15 @@ def cron_fn(every_5m, every_1d, every_fri_12, every_fri_23, every_sat_03, every_
 				g.db.commit()
 
 			if every_fri_12:
-				_create_post(f'Movie Night', f'''Our Movie Night today will show `{get_names()}`.\nThe movies will start at 8 PM EST. [Here is a timezone converter for whoever needs it.](https://dateful.com/time-zone-converter?t=8pm&tz1=EST-EDT-Eastern-Time). You can also check this [countdown timer](https://www.tickcounter.com/countdown/4435809/movie-night) instead.\nThey will be shown [here](/chat).\nThere will be a 5-minute bathroom break at the 50:00 mark of each movie.\nRerun will be Sunday 4 PM EST.''', 11)
+				_create_post(f'Movie Night', f'''Our Movie Night today will show `{get_names()}`.\nThe movies will start at 12:00 AM UTC. [Here is a timezone converter for whoever needs it.](https://dateful.com/convert/utc?t=12am). You can also check this [countdown timer](https://www.tickcounter.com/countdown/4596164/movie-night) instead.\nThey will be shown [here](/chat).\nThere will be a 5-minute bathroom break at the 50:00 mark of each movie.\nRerun will be Sunday 8 PM UTC.''', 11)
 				g.db.commit()
 
 			if every_fri_23:
-				_create_post(f'Movie Night in 60 minutes', 'It will be shown [here](/chat).\nThere will be a 5-minute bathroom break at the 50:00 mark of each movie.\nRerun will be Sunday 4 PM EST.', 1)
+				_create_post(f'Movie Night in 60 minutes', 'It will be shown [here](/chat).\nThere will be a 5-minute bathroom break at the 50:00 mark of each movie.\nRerun will be Sunday 8 PM UTC.', 1)
 				g.db.commit()
 
 			if every_sun_07:
-				_create_post(f'Movie Night Rerun', f'''Our Movie Night Rerun today will show `{get_names()}`.\nThe movies will start at 4 PM EST. [Here is a timezone converter for whoever needs it.](https://dateful.com/time-zone-converter?t=4pm&tz1=EST-EDT-Eastern-Time). You can also check this [countdown timer](https://www.tickcounter.com/countdown/4465675/movie-night-rerun) instead.\nThey will be shown [here](/chat).\nThere will be a 5-minute bathroom break at the 50:00 mark of each movie.''', 11)
+				_create_post(f'Movie Night Rerun', f'''Our Movie Night Rerun today will show `{get_names()}`.\nThe movies will start at 8 PM UTC. [Here is a timezone converter for whoever needs it.](https://dateful.com/convert/utc?t=8pm). You can also check this [countdown timer](https://www.tickcounter.com/countdown/4596177/movie-night-rerun) instead.\nThey will be shown [here](/chat).\nThere will be a 5-minute bathroom break at the 50:00 mark of each movie.''', 11)
 				g.db.commit()
 
 			if every_sun_19:
