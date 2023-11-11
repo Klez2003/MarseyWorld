@@ -4335,6 +4335,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseytroll', 'Marsey', 2, 'dio diogenesjr diogenesjunior trollface reaction', false, 0),
 ('marseytroll2', 'Marsey', 2, 'ogre horror halloween holiday monster', false, 0),
 ('marseytroll3', 'Marsey', 2, 'trollface jebaited', false, 1698523768),
+('marseytrollclown', 'Marsey', 2, 'trolllaugh crazy jester', false, 1699585036),
 ('marseytrollcrazy', 'Marsey', 2, 'i hate killher psycho rage kill her gun', false, 0),
 ('marseytrollgun', 'Marsey', 2, 'kill her psycho', false, 0),
 ('marseytrollolol', 'Marsey', 2, 'rage trolled rageface', false, 0),
