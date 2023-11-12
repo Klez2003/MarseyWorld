@@ -156,9 +156,6 @@ def move_post(post, v, reason):
 	if post.ghost:
 		abort(403, "You can't move ghost posts into holes!")
 
-	if 'movie night' in post.title.lower() or 'movie night' in post.body.lower():
-		abort(403, "You can't move this post out of /h/countryclub")
-
 	hole_from = post.hole
 	hole_to = get_hole(reason, graceful=True)
 	hole_to = hole_to.name if hole_to else None

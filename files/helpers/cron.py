@@ -29,7 +29,7 @@ from files.cli import app, db_session, g
 
 CRON_CACHE_TIMEOUT = 172800
 
-def cron_fn(every_5m, every_1d, every_fri_12, every_fri_23, every_sat_03, every_sun_07, every_sun_19, every_sun_23, every_1mo):
+def cron_fn(every_5m, every_1d, every_1mo):
 	with app.app_context():
 		g.db = db_session()
 		g.v = None
@@ -86,26 +86,6 @@ def cron_fn(every_5m, every_1d, every_fri_12, every_fri_23, every_sat_03, every_
 				_leaderboard_task()
 				g.db.commit()
 
-			if every_fri_12:
-				_create_post(f'Movie Night', f'''Our Movie Night today will show `{get_names()}`.\nThe movies will start at 12:00 AM UTC. [Here is a timezone converter for whoever needs it.](https://dateful.com/convert/utc?t=12am). You can also check this [countdown timer](https://www.tickcounter.com/countdown/4596164/movie-night) instead.\nThey will be shown [here](/chat).\nThere will be a 5-minute bathroom break at the 50:00 mark of each movie.\nRerun will be Sunday 8 PM UTC.''', 11)
-				g.db.commit()
-
-			if every_fri_23:
-				_create_post(f'Movie Night in 60 minutes', 'It will be shown [here](/chat).\nThere will be a 5-minute bathroom break at the 50:00 mark of each movie.\nRerun will be Sunday 8 PM UTC.', 1)
-				g.db.commit()
-
-			if every_sun_07:
-				_create_post(f'Movie Night Rerun', f'''Our Movie Night Rerun today will show `{get_names()}`.\nThe movies will start at 8 PM UTC. [Here is a timezone converter for whoever needs it.](https://dateful.com/convert/utc?t=8pm). You can also check this [countdown timer](https://www.tickcounter.com/countdown/4596177/movie-night-rerun) instead.\nThey will be shown [here](/chat).\nThere will be a 5-minute bathroom break at the 50:00 mark of each movie.''', 11)
-				g.db.commit()
-
-			if every_sun_19:
-				_create_post(f'Movie Night Rerun in 60 minutes', 'It will be shown [here](/chat).\nThere will be a 5-minute bathroom break at the 50:00 mark of each movie.', 1)
-				g.db.commit()
-
-			if every_sat_03 or every_sun_23:
-				_delete_all_posts()
-				g.db.commit()
-
 			if every_1mo:
 				_give_marseybux_salary()
 				g.db.commit()
@@ -124,78 +104,9 @@ def cron_fn(every_5m, every_1d, every_fri_12, every_fri_23, every_sat_03, every_
 @app.cli.command('cron', help='Run scheduled tasks.')
 @click.option('--every-5m', is_flag=True, help='Call every 5 minutes.')
 @click.option('--every-1d', is_flag=True, help='Call every 1 day.')
-@click.option('--every-fri-12', is_flag=True, help='Call every Friday.')
-@click.option('--every-fri-23', is_flag=True, help='Call every Friday.')
-@click.option('--every-sat-03', is_flag=True, help='Call every Saturday.')
-@click.option('--every-sun-07', is_flag=True, help='Call every Sunday.')
-@click.option('--every-sun-19', is_flag=True, help='Call every Sunday.')
-@click.option('--every-sun-23', is_flag=True, help='Call every Sunday.')
 @click.option('--every-1mo', is_flag=True, help='Call every 1 month.')
 def cron(**kwargs):
 	cron_fn(**kwargs)
-
-def get_names():
-	return ' and '.join([x[0] for x in g.db.query(Orgy.title).filter_by(type='file').order_by(Orgy.start_utc).limit(2)])
-
-def _create_post(title, body, pin_hours):
-	if not g.db.query(Orgy).filter_by(type='file').first():
-		return
-
-	_delete_all_posts()
-
-	title += f': {get_names()}'
-
-	title_html = filter_emojis_only(title)
-	body_html = sanitize(body)
-
-	stickied_utc = int(time.time()) + (3600 * pin_hours)
-
-	p = Post(
-		private=False,
-		notify=True,
-		author_id=AUTOJANNY_ID,
-		nsfw=False,
-		new=False,
-		app_id=None,
-		is_bot=False,
-		url='/chat',
-		body=body,
-		body_html=body_html,
-		embed=None,
-		title=title,
-		title_html=title_html,
-		hole='countryclub',
-		ghost=False,
-		chudded=False,
-		rainbowed=False,
-		queened=False,
-		sharpened=False,
-		stickied_utc=stickied_utc,
-		stickied="AutoJanny",
-		distinguish_level=6,
-	)
-	g.db.add(p)
-
-	if AEVANN_ID:
-		g.db.flush()
-		new_sub = Subscription(user_id=AEVANN_ID, post_id=p.id)
-		g.db.add(new_sub)
-
-	cache.delete_memoized(frontlist)
-
-def _delete_all_posts():
-	posts = g.db.query(Post).filter_by(author_id=AUTOJANNY_ID, deleted_utc=0).all()
-	for p in posts:
-		p.deleted_utc = int(time.time())
-		p.is_pinned = False
-		p.stickied = None
-		p.stickied_utc = None
-		g.db.add(p)
-
-		cache.delete_memoized(frontlist)
-
-		for sort in COMMENT_SORTS.keys():
-			cache.delete(f'post_{p.id}_{sort}')
 
 def _grant_one_year_badges():
 	one_year_ago = int(time.time()) - 364 * 86400
