@@ -2129,7 +2129,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseydrawing1', 'Marsey', 2, 'drawing artist canvas painting recursion recursive', false, 1664490986),
 ('marseydream', 'Marsey', 2, 'spirals trippy swirls rainbow', false, 0),
 ('marseydrifbloon', 'Marsey', 2, 'pkmn pokemon drifbloon 425', false, 1697773002),
-('marseydrifloon', 'Marsey', 2, 'pokemon pkmn drifloon 425', false, 1699573760),
+('marseydrifloon', 'Marsey', 2, 'pkmn pokemon drifloon 425', false, 1699573760),
 ('marseydrinkwater', 'Marsey', 2, 'water drink cute', false, 1690309754),
 ('marseydrone', 'Marsey', 2, 'obama rotors', false, 0),
 ('marseydrowned', 'Marsey', 2, 'drowned dead marsey', false, 1664998341),
