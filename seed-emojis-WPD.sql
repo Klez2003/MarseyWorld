@@ -44,7 +44,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseydittoo', 'Marsey', 2, 'pkmn pokemon ditto 132', false, 1698868477),
 ('marseydomokun', 'Marsey', 2, 'weebshit', false, 1698550172),
 ('marseydoodle', 'Marsey', 2, 'orangecat', false, 1698586179),
-('marseydrifloon', 'Marsey', 2, 'pkmn pokemon drifloon 425', false, 1699668581),
+('marseydrifloon2', 'Marsey', 2, 'pokemon pkmn drifloon 425', false, 1699668581),
 ('marseydrowzee', 'Marsey', 2, 'pkmn pokemon drowzee 096', false, 1698907206),
 ('marseydrylady', 'Marsey', 2, 'marsey dry what spongebob old', false, 1699226925),
 ('marseyeevee2', 'Marsey', 2, 'marsey pokemon pkmn', false, 1699804583),
