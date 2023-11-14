@@ -782,7 +782,7 @@ def normalize_url(url):
 			netloc = 'youtube.com'
 			path = '/watch'
 
-		filtered |= {k: val for k, val in qd.items() if not val or is_whitelisted(netloc, k)}
+		filtered |= {k: val for k, val in qd.items() if not val[0] or is_whitelisted(netloc, k)}
 
 		if netloc == 'old.reddit.com' and reddit_comment_link_regex.fullmatch(url):
 			filtered['context'] = 8
