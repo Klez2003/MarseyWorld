@@ -744,6 +744,7 @@ def normalize_url(url):
 			 .replace("https://mobile.twitter.com", "https://twitter.com") \
 			 .replace("https://x.com", "https://twitter.com") \
 			 .replace("https://www.twitter.com", "https://twitter.com") \
+			 .replace("https://fxtwitter.com", "https://twitter.com") \
 			 .replace("https://nitter.net/", "https://twitter.com/") \
 			 .replace("https://nitter.42l.fr/", "https://twitter.com/") \
 			 .replace("https://nitter.net/", "https://twitter.com/") \
