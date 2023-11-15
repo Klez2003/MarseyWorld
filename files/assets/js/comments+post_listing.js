@@ -35,8 +35,10 @@ function option_vote_1(oid, parentid, kind) {
 	if (curr && curr.value)
 	{
 		const scoretext = document.getElementById('score-' + curr.value);
-		const score = Number(scoretext.textContent);
-		scoretext.textContent = score - 1;
+		if (scoretext) {
+			const score = Number(scoretext.textContent);
+			scoretext.textContent = score - 1;
+		}
 	}
 
 	const scoretext = document.getElementById('score-' + full_oid);
