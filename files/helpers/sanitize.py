@@ -737,6 +737,7 @@ def normalize_url(url):
 	url = url.replace("https://music.youtube.com/watch?v=", "https://youtube.com/watch?v=") \
 			 .replace("https://www.youtube.com", "https://youtube.com") \
 			 .replace("https://m.youtube.com", "https://youtube.com") \
+			 .replace("https://youtu.be/", "https://youtube.com/watch?v=") \
 			 .replace("https://youtube.com/shorts/", "https://youtube.com/watch?v=") \
 			 .replace("https://youtube.com/live/", "https://youtube.com/watch?v=") \
 			 .replace("https://youtube.com/v/", "https://youtube.com/watch?v=") \
@@ -760,6 +761,9 @@ def normalize_url(url):
 			 .replace('https://lmgtfy.app/?q=', 'https://google.com/search?q=') \
 			 .replace(DONATE_LINK, f'{SITE_FULL}/donate') \
 
+	if url.startswith('https://youtube.com/watch?v='):
+		url = url.split('?si=')[0]
+
 	if url.endswith('.amp'):
 		url = url.split('.amp')[0]
 
@@ -775,14 +779,7 @@ def normalize_url(url):
 		path = parsed_url.path.rstrip('/')
 		qd = parse_qs(parsed_url.query, keep_blank_values=True)
 
-		filtered = {}
-
-		if netloc == 'youtu.be':
-			filtered['v'] = path.lstrip('/')
-			netloc = 'youtube.com'
-			path = '/watch'
-
-		filtered |= {k: val for k, val in qd.items() if not val[0] or is_whitelisted(netloc, k)}
+		filtered = {k: val for k, val in qd.items() if not val[0] or is_whitelisted(netloc, k)}
 
 		if netloc == 'old.reddit.com' and reddit_comment_link_regex.fullmatch(url):
 			filtered['context'] = 8
