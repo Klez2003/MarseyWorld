@@ -45,7 +45,7 @@ def send_repeatable_notification(uid, text):
 			g.db.add(notif)
 
 			push_notif({uid}, 'New notification', text, f'{SITE_FULL}/notification/{c.id}')
-			return
+			return notif
 
 	cid = create_comment(text_html)
 	notif = Notification(comment_id=cid, user_id=uid)
