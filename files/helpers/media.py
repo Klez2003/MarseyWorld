@@ -32,7 +32,7 @@ def media_ratelimit(v):
 	limit = 300 if v.patron else 100
 	if count > limit and v.admin_level < PERMS['USE_ADMIGGER_THREADS']:
 		print(STARS, flush=True)
-		print(f'@{v.username} hit the 100 file daily limit!')
+		print(f'@{v.username} hit the {limit} file daily limit!')
 		print(STARS, flush=True)
 		abort(500)
 
