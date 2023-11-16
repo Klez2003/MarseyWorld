@@ -25,8 +25,6 @@ def badge_grant(user, badge_id, description=None, url=None, notify=True):
 	g.db.flush()
 
 	if notify:
-		notif = send_repeatable_notification(user.id,
+		send_repeatable_notification(user.id,
 			"@AutoJanny has given you the following profile badge:\n\n" +
 			f"{badge.path}\n\n**{badge.name}**\n\n{badge.badge.description}")
-		if notif:
-			notif.created_utc -= 1
