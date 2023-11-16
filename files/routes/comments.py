@@ -736,6 +736,11 @@ def edit_comment(cid, v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def commenters(v, pid, time):
+	p = get_post(pid)
+
+	if p.ghost:
+		abort(403, "You can't see commenters on ghost threads!")
+
 	users = g.db.query(User, Comment.id, Comment.created_utc).distinct(User.id).join(
 		Comment, Comment.author_id == User.id
 	).filter(
