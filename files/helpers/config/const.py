@@ -66,10 +66,14 @@ if IS_LOCALHOST:
 	SITE_FULL = 'http://' + SITE
 	SITE_IMAGES = SITE
 	SITE_FULL_IMAGES = f'http://{SITE_IMAGES}'
-else:
+elif SITE in {'rdrama.net', 'watchpeopledie.tv'}:
 	SITE_FULL = 'https://' + SITE
 	SITE_IMAGES = 'i.' + SITE
 	SITE_FULL_IMAGES = f'https://{SITE_IMAGES}'
+else:
+	SITE_FULL = 'https://' + SITE
+	SITE_IMAGES = SITE
+	SITE_FULL_IMAGES = SITE_FULL
 
 if SITE == 'staging.rdrama.net':
 	SITE_IMAGES = 'i.rdrama.net'
