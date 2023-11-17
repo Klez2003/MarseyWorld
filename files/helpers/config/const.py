@@ -198,7 +198,7 @@ if SITE_NAME == 'rDrama':
 	REDDIT_NOTIFS_SITE.update({'marsey', 'r/drama', 'justice4darrell', 'cringetopia.org'})
 
 elif SITE_NAME == 'WPD':
-	REDDIT_NOTIFS_SITE.update({'watchpeopledie', 'makemycoffin'})
+	REDDIT_NOTIFS_SITE.update({'marsey', 'watchpeopledie', 'makemycoffin'})
 
 
 LONGPOSTBOT_REPLIES = (
