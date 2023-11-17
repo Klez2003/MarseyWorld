@@ -525,6 +525,8 @@ def leaderboard_cached(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def leaderboard(v):
+	if SITE == 'watchpeopledie.tv':
+		abort(403, "Leaderboard is temporarily disabled!")
 	return render_template("leaderboard.html", v=v, leaderboard_cached=leaderboard_cached(v))
 
 @app.get("/@<username>/css")
