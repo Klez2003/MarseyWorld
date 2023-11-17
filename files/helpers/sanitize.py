@@ -718,7 +718,7 @@ def is_whitelisted(domain, k):
 		return True
 	if 'sort' in k.lower() or 'query' in k.lower():
 		return True
-	if k in {'_x_tr_hl','_x_tr_pto','_x_tr_sl','_x_tr_tl','abstract_id','after','article','bill_id','c','clip','commentID','comments','context','count','f','fbid','format','forum_id','i','ID','id','lb','list','oldid','p','page','post_id','postid','q','route','run','scrollToComments','search','sl','sp','story_fbid','tab','term','text','thread_id','threadid','ticket_form_id','time_continue','title','title_no','tl','token','topic','type','tz1','tz2','u','udca','url','v','vid','viewkey'}:
+	if k in {'_x_tr_hl','_x_tr_pto','_x_tr_sl','_x_tr_tl','abstract_id','after','article','bill_id','c','clip','commentID','comments','context','count','diff','f','fbid','format','forum_id','i','ID','id','lb','list','oldid','p','page','post_id','postid','q','route','run','scrollToComments','search','sl','sp','story_fbid','tab','term','text','thread_id','threadid','ticket_form_id','time_continue','title','title_no','tl','token','topic','type','tz1','tz2','u','udca','url','v','vid','viewkey'}:
 		return True
 	if k == 't' and domain != 'twitter.com':
 		return True
