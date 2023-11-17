@@ -64,7 +64,7 @@ if SITE_NAME == 'rDrama':
 		"(?<!\w)cool(?![\w ])": "fetch",
 		"krayon(?! \()": "krayon (sister toucher)",
 		"discord": "groomercord",
-		"allah(?! \()": "Allah (ﷻ)",
+		"(?<!\w)allah(?! \()": "Allah (ﷻ)",
 		"my wife(?! \()": "my wife (male)",
 		"(?<!cow)tools(?!\w)": "cowtools",
 		"explain": "mansplain",
