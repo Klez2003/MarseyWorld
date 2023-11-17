@@ -2951,6 +2951,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseyjustice', 'Marsey', 2, 'justice blind equal scale weights sword marsey', false, 1682841088),
 ('marseyjustright', 'Marsey', 2, 'reaction snob no way', false, 0),
 ('marseykaiser', 'Marsey', 2, 'prussian history wwi rifle reich wilhelm germany soldier', false, 0),
+('marseykakuna', 'Marsey', 2, 'pkmn pokemon kakuna 014', false, 1700178600),
 ('marseykamikaze', 'Marsey', 2, 'kamikaze japanese nip pilot ww2 wwii world war', false, 0),
 ('marseykanaya', 'Marsey', 2, 'kanaya maryam troll homestuck', false, 1688217402),
 ('marseykangaskhan', 'Marsey', 2, 'pkmn pokemon kangaskhan 115 carpkangaskhan', false, 1697932663),
