@@ -86,7 +86,6 @@ def after_request(response):
 			response.set_cookie(cookie_name, 'test', max_age=0, domain=f".{SITE}")
 			response.set_cookie(cookie_name, 'test', max_age=0)
 			session.clear()
-			print(f"{STARS}Cleared {user_id}'s cookies successfully!{STARS}", flush=True)
 
 	return response
 
