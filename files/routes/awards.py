@@ -634,7 +634,7 @@ def award_thing(v, thing_type, id):
 
 	return {"message": f"{award_title} award given to {thing_type} successfully!"}
 
-@app.post("/trick-or-treat")
+@app.post("/trick_or_treat")
 @limiter.limit("1/hour", key_func=lambda:f'{SITE}-{session.get("lo_user")}')
 @auth_required
 def trick_or_treat(v):

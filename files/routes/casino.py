@@ -173,7 +173,7 @@ def blackjack_player_stay(v):
 		abort(400, "Unable to stay!")
 
 
-@app.post("/casino/twentyone/double-down")
+@app.post("/casino/twentyone/double_down")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(CASINO_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
@@ -191,7 +191,7 @@ def blackjack_player_doubled_down(v):
 		abort(400, "Unable to double down!")
 
 
-@app.post("/casino/twentyone/buy-insurance")
+@app.post("/casino/twentyone/buy_insurance")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(CASINO_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
@@ -239,7 +239,7 @@ def roulette_get_bets(v):
 	return {"success": True, "bets": bets, "gambler": {"coins": v.coins, "marseybux": v.marseybux}}
 
 
-@app.post("/casino/roulette/place-bet")
+@app.post("/casino/roulette/place_bet")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(CASINO_RATELIMIT, deduct_when=lambda response: response.status_code < 400)

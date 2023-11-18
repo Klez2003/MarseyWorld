@@ -317,7 +317,7 @@ function placeChip(bet, which) {
 
 	if (confirmed) {
 		const xhr = new XMLHttpRequest();
-		xhr.open("post", "/casino/roulette/place-bet");
+		xhr.open("post", "/casino/roulette/place_bet");
 		xhr.setRequestHeader('xhr', 'xhr');
 		xhr.onload = handleRouletteResponse.bind(null, xhr);
 

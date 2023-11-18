@@ -36,8 +36,8 @@ function handleBlackjackResponse(xhr) {
 			deal: "Unable to deal a new hand. Is one in progress?",
 			hit: "Unable to hit.",
 			stay: "Unable to stay.",
-			"double-down": "Unable to double down.",
-			"buy-insurance": "Unable to buy insurance.",
+			"double_down": "Unable to double down.",
+			"buy_insurance": "Unable to buy insurance.",
 			"split": "Unable to split"
 		};
 		result = results[xhr.blackjackAction];
@@ -237,7 +237,7 @@ function staySplit() {
 }
 
 function doubleDown() {
-	const request = makeBlackjackRequest('double-down');
+	const request = makeBlackjackRequest('double_down');
 	const form = new FormData();
 	form.append("formkey", formkey());
 	request.send(form);
@@ -246,7 +246,7 @@ function doubleDown() {
 }
 
 function buyInsurance() {
-	const request = makeBlackjackRequest('buy-insurance');
+	const request = makeBlackjackRequest('buy_insurance');
 	const form = new FormData();
 	form.append("formkey", formkey());
 	request.send(form);
