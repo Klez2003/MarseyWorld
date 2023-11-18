@@ -12,7 +12,7 @@ from flask import g, session, request
 
 from files.classes import Base
 from files.classes.casino_game import CasinoGame
-from files.classes.group import GroupMembership
+from files.classes.group import *
 from files.classes.hole import Hole
 from files.helpers.config.const import *
 from files.helpers.config.modaction_types import *
@@ -907,10 +907,10 @@ class User(Base):
 	@property
 	@lazy
 	def group_memberships(self):
-		return [x[0] for x in g.db.query(GroupMembership.group_name).filter(
+		return g.db.query(GroupMembership.group_name, Group).join(Group).filter(
 				GroupMembership.user_id == self.id,
 				GroupMembership.approved_utc != None,
-			).order_by(GroupMembership.group_name)]
+			).order_by(GroupMembership.group_name).all()
 
 	@lazy
 	def has_follower(self, user):
