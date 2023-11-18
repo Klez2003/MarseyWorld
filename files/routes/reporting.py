@@ -67,7 +67,7 @@ def report_post(pid, v):
 	report = Report(post_id=post.id, user_id=v.id, reason=reason_html)
 	g.db.add(report)
 
-	if v.id != post.author_id and not post.author.has_blocked(v):
+	if v.id != post.author_id and not post.author.has_blocked(v) and not post.author.has_muted(v):
 		message = f'@{v.username} reported [{post.title}]({post.shortlink})\n\n> {reason}'
 		send_repeatable_notification(post.author_id, message)
 
@@ -99,7 +99,7 @@ def report_comment(cid, v):
 	report = CommentReport(comment_id=comment.id, user_id=v.id, reason=reason_html)
 	g.db.add(report)
 
-	if v.id != comment.author_id and not comment.author.has_blocked(v):
+	if v.id != comment.author_id and not comment.author.has_blocked(v) and not comment.author.has_muted(v):
 		message = f'@{v.username} reported your [comment]({comment.shortlink})\n\n> {reason}'
 		send_repeatable_notification(comment.author_id, message)
 
