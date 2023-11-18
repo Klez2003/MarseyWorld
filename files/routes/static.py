@@ -325,15 +325,13 @@ def submit_contact(v):
 
 	return {"message": "Your message has been sent to the admins!"}
 
-patron_badges = (22,23,24,25,26,27,28,257,258,259,260,261)
-
 @cache.memoize(timeout=3600)
 def badge_list(site, can_view_patron_badges):
 
 	badges = g.db.query(BadgeDef)
 
 	if not can_view_patron_badges:
-		badges = badges.filter(BadgeDef.id.notin_(patron_badges))
+		badges = badges.filter(BadgeDef.id.notin_(PATRON_BADGES))
 
 	badges = badges.order_by(BadgeDef.id).all()
 

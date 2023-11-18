@@ -1310,6 +1310,9 @@ def toggle_pins(hole, sort):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def bid_list(v, bid):
+	if bid in PATRON_BADGES and v.admin_level < PERMS['VIEW_PATRONS']:
+		abort(404)
+
 	name = g.db.query(BadgeDef.name).filter_by(id=bid).one()[0]
 
 	href = f'{SITE_FULL_IMAGES}/i/{SITE_NAME}/badges/{bid}.webp?b=11'
