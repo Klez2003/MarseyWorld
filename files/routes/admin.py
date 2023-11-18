@@ -158,9 +158,6 @@ def remove_admin(v, username):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @admin_level_required(PERMS['POST_BETS_DISTRIBUTE'])
 def distribute(v, kind, option_id):
-	autojanny = get_account(AUTOJANNY_ID)
-	if autojanny.coins == 0: abort(400, "@AutoJanny has 0 coins")
-
 	if kind == 'post': cls = PostOption
 	else: cls = CommentOption
 
@@ -177,10 +174,6 @@ def distribute(v, kind, option_id):
 	for o in parent.options:
 		if o.exclusive >= 2: pool += o.upvotes
 	pool *= POLL_BET_COINS
-
-	autojanny.charge_account('coins', pool)
-	if autojanny.coins < 0: autojanny.coins = 0
-	g.db.add(autojanny)
 
 	votes = option.votes
 

@@ -29,9 +29,6 @@ def vote_option(option_id, v):
 		if not v.charge_account('combined', POLL_BET_COINS)[0]:
 			abort(400, f"You don't have {POLL_BET_COINS} coins or marseybux!")
 		g.db.add(v)
-		autojanny = get_account(AUTOJANNY_ID)
-		autojanny.pay_account('coins', POLL_BET_COINS)
-		g.db.add(autojanny)
 
 	if option.exclusive:
 		vote = g.db.query(PostOptionVote).join(PostOption).filter(
@@ -85,9 +82,6 @@ def vote_option_comment(option_id, v):
 		if not v.charge_account('combined', POLL_BET_COINS)[0]:
 			abort(400, f"You don't have {POLL_BET_COINS} coins or marseybux!")
 		g.db.add(v)
-		autojanny = get_account(AUTOJANNY_ID)
-		autojanny.pay_account('coins', POLL_BET_COINS)
-		g.db.add(autojanny)
 
 	if option.exclusive:
 		vote = g.db.query(CommentOptionVote).join(CommentOption).filter(
