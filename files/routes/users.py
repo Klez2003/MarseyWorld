@@ -10,7 +10,6 @@ from sqlalchemy.orm import aliased, load_only
 from sqlalchemy.exc import IntegrityError
 
 from files.classes import *
-from files.classes.leaderboard import Leaderboard
 from files.classes.transactions import *
 from files.classes.views import *
 from files.helpers.actions import execute_under_siege
@@ -480,54 +479,6 @@ def transfer_coins(v, username):
 @auth_required
 def transfer_bux(v, username):
 	return transfer_currency(v, username, 'marseybux', False)
-
-@cache.memoize()
-def leaderboard_cached(v):
-	users = g.db.query(User)
-
-	coins = Leaderboard("Coins", "coins", "coins", "Coins", None, Leaderboard.get_simple_lb, User.coins, v, lambda u:u.coins, users)
-	marseybux = Leaderboard("Marseybux", "marseybux", "marseybux", "Marseybux", None, Leaderboard.get_simple_lb, User.marseybux, v, lambda u:u.marseybux, users)
-	subscribers = Leaderboard("Followers", "followers", "followers", "Followers", "followers", Leaderboard.get_simple_lb, User.stored_subscriber_count, v, lambda u:u.stored_subscriber_count, users)
-	posts = Leaderboard("Posts", "post count", "posts", "Posts", "posts", Leaderboard.get_simple_lb, User.post_count, v, lambda u:u.post_count, users)
-	comments = Leaderboard("Comments", "comment count", "comments", "Comments", "comments", Leaderboard.get_simple_lb, User.comment_count, v, lambda u:u.comment_count, users)
-	received_awards = Leaderboard("Received awards", "received awards", "received-awards", "Received Awards", None, Leaderboard.get_simple_lb, User.received_award_count, v, lambda u:u.received_award_count, users)
-	coins_spent = Leaderboard("Coins spent on awards", "coins spent on awards", "spent", "Coins", None, Leaderboard.get_simple_lb, User.coins_spent, v, lambda u:u.coins_spent, users)
-	truescore = Leaderboard("Truescore", "truescore", "truescore", "Truescore", None, Leaderboard.get_simple_lb, User.truescore, v, lambda u:u.truescore, users)
-
-	badges = Leaderboard("Badges", "badges", "badges", "Badges", None, Leaderboard.get_badge_emoji_lb, Badge.user_id, v, None, None)
-
-	blocks = Leaderboard("Most blocked", "most blocked", "most-blocked", "Blocked By", "blockers", Leaderboard.get_blockers_lb, UserBlock.target_id, v, None, None)
-
-	owned_hats = Leaderboard("Owned hats", "owned hats", "owned-hats", "Owned Hats", None, Leaderboard.get_hat_lb, User.owned_hats, v, None, None)
-
-	leaderboards = [coins, marseybux, coins_spent, truescore, subscribers, posts, comments, received_awards, badges, blocks, owned_hats]
-
-	if FEATURES["HAT_SUBMISSIONS"]:
-		leaderboards.append(Leaderboard("Designed hats", "designed hats", "designed-hats", "Designed Hats", None, Leaderboard.get_hat_lb, User.designed_hats, v, None, None))
-
-	if FEATURES["EMOJI_SUBMISSIONS"]:
-		leaderboards.append(Leaderboard("Emojis made", "emojis made", "emojis-made", "Emojis Made", None, Leaderboard.get_badge_emoji_lb, Emoji.author_id, v, None, None))
-
-	leaderboards.append(Leaderboard("Upvotes given", "upvotes given", "upvotes-given", "Upvotes Given", "upvoting", Leaderboard.get_upvotes_lb, None, v, None, None))
-
-	leaderboards.append(Leaderboard("Downvotes received", "downvotes received", "downvotes-received", "Downvotes Received", "downvoters", Leaderboard.get_downvotes_lb, None, v, None, None))
-
-	leaderboards.append(Leaderboard("Casino winnings (top)", "casino winnings", "casino-winnings-top", "Casino Winnings", None, Leaderboard.get_winnings_lb, CasinoGame.winnings, v, None, None))
-	leaderboards.append(Leaderboard("Casino winnings (bottom)", "casino winnings", "casino-winnings-bottom", "Casino Winnings", None, Leaderboard.get_winnings_lb, CasinoGame.winnings, v, None, None, 25, False))
-
-	leaderboards.append(Leaderboard("Average upvotes per post", "average upvotes per post", "average-upvotes-per-post", "Average Upvotes per Post", "posts", Leaderboard.get_avg_upvotes_lb, Post, v, None, None))
-	leaderboards.append(Leaderboard("Average upvotes per comment", "average upvotes per comment", "average-upvotes-per-comment", "Average Upvotes per Comment", "comments", Leaderboard.get_avg_upvotes_lb, Comment, v, None, None))
-
-	return render_template("leaderboard_cached.html", v=v, leaderboards=leaderboards)
-
-@app.get("/leaderboard")
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
-@auth_required
-def leaderboard(v):
-	if SITE == 'watchpeopledie.tv':
-		abort(403, "Leaderboard is temporarily disabled!")
-	return render_template("leaderboard.html", v=v, leaderboard_cached=leaderboard_cached(v))
 
 @app.get("/@<username>/css")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)

@@ -1,5 +1,76 @@
 {% extends "settings2.html" %}
 {% block pagetitle %}Leaderboard{% endblock %}
 {% block content %}
-	{{leaderboard_cached | safe}}
+	<header id="leaderboard-header" class="container text-center pb-3">
+		<img loading="lazy" id="leaderboard-banner" alt="leaderboard banner" src="{{SITE_FULL_IMAGES}}/i/leaderboard.webp">
+	</header>
+
+	<div class="mt-2" id="leaderboard-contents" style="text-align: center; margin-bottom: 1.5rem; font-size: 1.2rem">
+		<a {% if request.path in ["/leaderboard", "/leaderboard/coins"] %}class="font-weight-bolder"{% endif %} href="/leaderboard/coins">Coins</a> •
+		<a {% if request.path == "/leaderboard/marseybux" %}class="font-weight-bolder"{% endif %} href="/leaderboard/marseybux">Marseybux</a> •
+		<a {% if request.path == "/leaderboard/spent" %}class="font-weight-bolder"{% endif %} href="/leaderboard/spent">Coins spent on awards</a> •
+		<a {% if request.path == "/leaderboard/truescore" %}class="font-weight-bolder"{% endif %} href="/leaderboard/truescore">Truescore</a> •
+		<a {% if request.path == "/leaderboard/followers" %}class="font-weight-bolder"{% endif %} href="/leaderboard/followers">Followers</a> •
+		<a {% if request.path == "/leaderboard/posts" %}class="font-weight-bolder"{% endif %} href="/leaderboard/posts">Posts</a> •
+		<a {% if request.path == "/leaderboard/comments" %}class="font-weight-bolder"{% endif %} href="/leaderboard/comments">Comments</a> •
+		<a {% if request.path == "/leaderboard/received_awards" %}class="font-weight-bolder"{% endif %} href="/leaderboard/received_awards">Received awards</a> •
+		<a {% if request.path == "/leaderboard/badges" %}class="font-weight-bolder"{% endif %} href="/leaderboard/badges">Badges</a> •
+		<a {% if request.path == "/leaderboard/most_blocked" %}class="font-weight-bolder"{% endif %} href="/leaderboard/most_blocked">Most blocked</a> •
+		<a {% if request.path == "/leaderboard/owned_hats" %}class="font-weight-bolder"{% endif %} href="/leaderboard/owned_hats">Owned hats</a> •
+		{% if FEATURES["HAT_SUBMISSIONS"] %}
+			<a {% if request.path == "/leaderboard/designed_hats" %}class="font-weight-bolder"{% endif %} href="/leaderboard/designed_hats">Designed hats</a> •
+		{% endif %}
+		{% if FEATURES["EMOJI_SUBMISSIONS"] %}
+			<a {% if request.path == "/leaderboard/emojis_made" %}class="font-weight-bolder"{% endif %} href="/leaderboard/emojis_made">Emojis made</a> •
+		{% endif %}
+		<a {% if request.path == "/leaderboard/upvotes_given" %}class="font-weight-bolder"{% endif %} href="/leaderboard/upvotes_given">Upvotes given</a> •
+		<a {% if request.path == "/leaderboard/downvotes_received" %}class="font-weight-bolder"{% endif %} href="/leaderboard/downvotes_received">Downvotes received</a> •
+		<a {% if request.path == "/leaderboard/casino_winnings_top" %}class="font-weight-bolder"{% endif %} href="/leaderboard/casino_winnings_top">Casino winnings (top)</a> •
+		<a {% if request.path == "/leaderboard/casino_winnings_bottom" %}class="font-weight-bolder"{% endif %} href="/leaderboard/casino_winnings_bottom">Casino winnings (bottom)</a> •
+		<a {% if request.path == "/leaderboard/average_upvotes_per_post" %}class="font-weight-bolder"{% endif %} href="/leaderboard/average_upvotes_per_post">Average upvotes per post</a> •
+		<a {% if request.path == "/leaderboard/average_upvotes_per_comment" %}class="font-weight-bolder"{% endif %} href="/leaderboard/average_upvotes_per_comment">Average upvotes per comment</a>
+	</div>
+
+	{% macro format_user_in_table(user, style, position_no, value, user_relative_url) %}
+		{% set value = value | int %}
+		<tr {{style | safe}}>
+			<td>{{position_no}}</td>
+			<td>{% include "user_in_table.html" %}</td>
+			{% if user_relative_url is not none %}
+				<td><a href="/id/{{user.id}}">{{"{:,}".format(value)}}</a></td>
+			{% else %}
+				<td>{{"{:,}".format(value)}}</td>
+			{% endif %}
+		</tr>
+	{% endmacro %}
+
+	<h5 class="font-weight-bolder text-center pt-2 pb-3"><span id="leaderboard-{{leaderboard.html_id}}">{% if leaderboard.desc %}Top{% else %}Bottom{% endif %} {{leaderboard.limit}} {% if leaderboard.table_header_name != 'most blocked' %}by{% endif %} {{leaderboard.table_header_name}}</span></h5>
+	<div class="overflow-x-auto">
+		<table class="table table-striped mb-5">
+			<thead class="bg-primary text-white">
+				<tr>
+					<th>#</th>
+					<th>Name</th>
+					<th>{{leaderboard.table_column_name}}</th>
+				</tr>
+			</thead>
+			<tbody>
+			{% for user in leaderboard.all_users %}
+				{% set user2 = leaderboard.user_func(user) %}
+				{% if v.id == user2.id %}
+					{% set style="class=\"self\"" %}
+				{% endif %}
+				{{format_user_in_table(user2, style, loop.index, leaderboard.value_func(user), leaderboard.user_relative_url)}}
+			{% endfor %}
+			{% if leaderboard.v_position and not leaderboard.v_appears_in_ranking %}
+				{{format_user_in_table(v, "style=\"border-top:2px solid var(--primary)\"", leaderboard.v_position, leaderboard.v_value, leaderboard.user_relative_url)}}
+			{% endif %}
+			</tbody>
+		</table>
+	</div>
+
+	<a id="leader--top-btn" href="/leaderboard/contents"
+			style="position: fixed; bottom: 5rem; right: 2rem; font-size: 3rem">
+		<i class="fas fa-arrow-alt-circle-up"></i>
+	</a>
 {% endblock %}
