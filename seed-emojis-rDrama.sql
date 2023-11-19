@@ -1278,6 +1278,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marcusrcaconnecting', 'Marsey', 2, 'cable male wire', false, 1689252800),
 ('marcusrcaconnectingfast', 'Marsey', 2, 'cable male wire', false, 1689252802),
 ('marcussatisfied', 'Marsey', 2, 'black bipoc satisfying happy smile delightful grateful glad wholesome', false, 1662998420),
+('marekisser', 'Misc', 2, 'mlp youlikekissing rottie hardbody mlp equestria pony ponies', false, 1700430483),
 ('marioclapping', 'Misc', 2, 'game nintendo congratulatory', false, 1684273348),
 ('mariodance', 'Misc', 2, 'game nintendo groovy party celebrate', false, 1685827526),
 ('marioface', 'Misc', 2, 'game nintendo 64 3d head', false, 1691869629),
