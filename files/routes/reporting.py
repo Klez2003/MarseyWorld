@@ -188,6 +188,15 @@ def move_post(post, v, reason):
 
 	post.hole = hole_to
 	post.hole_pinned = None
+
+	if hole_to == 'chudrama':
+		post.bannedfor = None
+		post.chuddedfor = None
+		for c in post.comments:
+			c.bannedfor = None
+			c.chuddedfor = None
+			g.db.add(c)
+
 	g.db.add(post)
 
 	if v.id != post.author_id:
