@@ -831,7 +831,7 @@ def userpagelisting(user, v=None, page=1, sort="new", t="all"):
 def u_username_wall(v, username):
 	u = get_user(username, v=v, include_blocks=True)
 	if username != u.username:
-		return redirect(f"/@{u.username}")
+		return redirect(f"/@{u.username}" + request.full_path.split(request.path)[1])
 
 	if v and hasattr(u, 'is_blocking') and u.is_blocking:
 		if g.is_api_or_xhr:
