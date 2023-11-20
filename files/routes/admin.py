@@ -1145,7 +1145,7 @@ def chud(fullname, v):
 			try: comment = int(reason.split("/comment/")[1].split(None, 1)[0])
 			except: abort(400)
 			comment = get_comment(comment)
-			if comment.post.hole == 'chudrama':
+			if comment.parent_post and comment.post.hole == 'chudrama':
 				abort(403, "You can't chud people in /h/chudrama")
 			comment.chuddedfor = f'{duration} by @{v.username}'
 			g.db.add(comment)
