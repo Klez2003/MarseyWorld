@@ -161,7 +161,7 @@ def group_approve(v, group_name, user_id):
 	if not application:
 		abort(404, "There is no application to approve!")
 
-	if not application.approved_utc:
+	if not application.approved_utc and v.id != application.user_id:
 		application.approved_utc = time.time()
 		g.db.add(application)
 		send_repeatable_notification(application.user_id, f"@{v.username} (!{group}'s owner) has approved your application!")
