@@ -85,7 +85,9 @@
 		<div class="navbar navbar-expand-md navbar-light" id="navbar">
 			<div class="container-fluid" style="padding:0">
 			<a href="/" class="navbar-brand mr-auto {% if not has_logo and not hole %}flex-grow-1{% endif %}">
-				{% if IS_DKD() %}
+				{% if IS_THXGIVING %}
+					{% set icon_url = SITE_FULL_IMAGES + '/e/marseyturkey.webp' %}
+				{% elif IS_DKD() %}
 					{% set icon_url = macros.random_image('assets/events/DKD/images/icon') %}
 				{% elif IS_FISTMAS() %}
 					{% set icon_url = macros.random_image('assets/events/fistmas/images/icon/' ~ SITE_NAME) %}
