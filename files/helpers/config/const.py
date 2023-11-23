@@ -1033,8 +1033,6 @@ def IS_EVENT():
 		return "birthdead"
 	return None
 
-IS_THXGIVING = True
-
 CHUD_PHRASES = (
 	"Trans lives matter",
 	"Black lives matter",
