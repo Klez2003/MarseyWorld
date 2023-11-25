@@ -88,11 +88,6 @@ def stats():
 	now = time.time()
 	day = int(now) - 86400
 	week = int(now) - 604800
-	posters = g.db.query(Post.author_id).distinct(Post.author_id).filter(Post.created_utc > week).all()
-	commenters = g.db.query(Comment.author_id).distinct(Comment.author_id).filter(Comment.created_utc > week).all()
-	voters = g.db.query(Vote.user_id).distinct(Vote.user_id).filter(Vote.created_utc > week).all()
-	commentvoters = g.db.query(CommentVote.user_id).distinct(CommentVote.user_id).filter(CommentVote.created_utc > week).all()
-	active_users = set(posters) | set(commenters) | set(voters) | set(commentvoters)
 
 	stats = {
 			"time": int(time.time()),
@@ -122,8 +117,7 @@ def stats():
 			"total downvotes": "{:,}".format(g.db.query(Vote).filter_by(vote_type=-1).count() + g.db.query(CommentVote).filter_by(vote_type=-1).count()),
 			"total awards": "{:,}".format(g.db.query(AwardRelationship).count()),
 			"awards given": "{:,}".format(g.db.query(AwardRelationship).filter(or_(AwardRelationship.post_id != None, AwardRelationship.comment_id != None)).count()),
-			"users who posted, commented, or voted in the past 7 days": "{:,}".format(len(active_users)),
-			"users online in the past 7 days": "{:,}".format(g.db.query(User).filter(User.last_active > week).count()),
+			"users who posted, commented, or voted in the past 7 days": "{:,}".format(g.db.query(User).filter(User.last_active > week).count()),
 			}
 
 	if SITE_NAME == 'rDrama' or FEATURES['HOUSES']:
