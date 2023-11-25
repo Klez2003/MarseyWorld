@@ -137,7 +137,7 @@ def sidebar(v):
 def participation_stats(v):
 	stats = cache.get('stats') or {}
 	if v.client: return stats
-	return render_template("stats.html", v=v, title="Content Statistics", data=stats)
+	return render_template("stats.html", v=v, title="Statistics", data=stats)
 
 @app.get("/chart")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
