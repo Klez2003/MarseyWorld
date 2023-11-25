@@ -544,8 +544,8 @@ def upload_hole_sidebar(v, hole):
 	return redirect(f'/h/{hole}/settings')
 
 @app.post("/h/<hole>/settings/sidebars/delete/<int:index>")
-@limiter.limit("1/second;30/day", deduct_when=lambda response: response.status_code < 400)
-@limiter.limit("1/second;30/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@limiter.limit("1/second", deduct_when=lambda response: response.status_code < 400)
+@limiter.limit("1/second", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def delete_hole_sidebar(v, hole, index):
 	hole = get_hole(hole)
@@ -632,8 +632,8 @@ def upload_hole_banner(v, hole):
 	return redirect(f'/h/{hole}/settings')
 
 @app.post("/h/<hole>/settings/banners/delete/<int:index>")
-@limiter.limit("1/second;30/day", deduct_when=lambda response: response.status_code < 400)
-@limiter.limit("1/second;30/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@limiter.limit("1/second", deduct_when=lambda response: response.status_code < 400)
+@limiter.limit("1/second", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def delete_hole_banner(v, hole, index):
 	hole = get_hole(hole)

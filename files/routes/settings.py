@@ -740,8 +740,8 @@ def settings_advanced_get(v):
 	return render_template("settings/advanced.html", v=v)
 
 @app.post("/settings/name_change")
-@limiter.limit('1/second;5/day', scope=rpath)
-@limiter.limit('1/second;5/day', scope=rpath, key_func=get_ID)
+@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
