@@ -86,11 +86,36 @@
 			<div class="container-fluid" style="padding:0">
 			<a href="/" class="navbar-brand mr-auto {% if not has_logo and not hole %}flex-grow-1{% endif %}">
 				{% if False %}
-					{% set icon_url = SITE_FULL_IMAGES + '/e/marseyturkey.webp' %}
+					{%- set icons = [
+						'marseyturkey',
+						'marseyturkeyhappy',
+						'marseyflagturkey',
+						'marseypilgrim',
+						'carppilgrim',
+					] -%}
 				{% elif IS_DKD() %}
-					{% set icon_url = macros.random_image('assets/events/DKD/images/icon') %}
+					{%- set icons = [
+						'diddykongstand',
+						'donkeykongbass',
+						'dixiekongguitar',
+						'donkeykongbooba',
+						'diddykongboombox',
+						'dixiekonggum',
+						'donkeykongchestbeat',
+						'diddykongjuggle',
+						'dixiekongrambi',
+						'donkeykongfalling',
+						'diddykongscared',
+						'donkeydong',
+						'donkeykonghanging',
+					] -%}
 				{% elif IS_FISTMAS() %}
-					{% set icon_url = macros.random_image('assets/events/fistmas/images/icon/' ~ SITE_NAME) %}
+					{%- set icons = [
+						'marseychristmaself2',
+						'marseypartyxmas',
+						'marseysanta3',
+						'marseysnowman',
+					] -%}
 				{% elif IS_HOMOWEEN() %}
 					{%- set icons = [
 						'marseyscalped',
@@ -104,19 +129,21 @@
 						'marseywitch3',
 						'marseyhannibal'
 					] -%}
-					{% set icon_url = "/e/" ~icons|random~ ".webp" %}
 				{% else %}
 					{% set icon_url = 'headericon.webp' | asset_siteimg %}
 					{% if SITE_NAME == 'rDrama' %}
-						{% set width="40" %}
+						{% set width = 40 %}
 					{% elif SITE_NAME == 'WPD' %}
-						{% set width="45" %}
+						{% set width = 45 %}
 					{% endif %}
 				{% endif %}
 				<img loading="lazy" id="header--icon" alt="header icon"
 					{%- if hole and hole.marseyurl -%}
 						src="{{hole.marseyurl}}"
 					{%- else -%}
+						{% if icons %}
+							{% set icon_url = "/e/" ~icons|random~ ".webp" %}
+						{% endif %}
 						src="{{icon_url}}"
 						{%- if width -%}
 							width="{{width}}"
