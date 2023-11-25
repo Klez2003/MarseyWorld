@@ -118,7 +118,7 @@ def stats():
 			"total awards": "{:,}".format(g.db.query(AwardRelationship).count()),
 			"awards given": "{:,}".format(g.db.query(AwardRelationship).filter(or_(AwardRelationship.post_id != None, AwardRelationship.comment_id != None)).count()),
 			"users who posted, commented, or voted in the past 7 days": "{:,}".format(g.db.query(User).filter(User.last_active > week).count()),
-			}
+		}
 
 	if SITE_NAME == 'rDrama' or FEATURES['HOUSES']:
 		stats2 = {
