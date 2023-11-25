@@ -33,6 +33,10 @@
 									{% if can_see(v, u) and u.username != u.original_username %}
 										{% set ns.og_usernames = 'Original Usernames:<br>@' ~ u.original_username %}
 
+										{% if u.extra_username and u.extra_username != u.original_username %}
+											{% set ns.og_usernames = ns.og_usernames + '<br>@' ~ u.extra_username %}
+										{% endif %}
+
 										{% if u.prelock_username and u.prelock_username != u.original_username %}
 											{% set ns.og_usernames = ns.og_usernames + '<br>@' ~ u.prelock_username %}
 										{% endif %}

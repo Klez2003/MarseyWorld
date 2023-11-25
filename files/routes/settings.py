@@ -574,6 +574,7 @@ def settings_images_profile(v):
 	cache.delete_memoized(get_profile_picture, v.id)
 	cache.delete_memoized(get_profile_picture, v.username)
 	cache.delete_memoized(get_profile_picture, v.original_username)
+	cache.delete_memoized(get_profile_picture, v.extra_username)
 	cache.delete_memoized(get_profile_picture, v.prelock_username)
 
 	return redirect("/settings/personal?msg=Profile picture successfully updated!")
@@ -767,6 +768,9 @@ def settings_name_change(v):
 
 	if existing and existing.id != v.id:
 		abort(400, f"Username `{new_name}` is already in use.")
+
+	if v.patron:
+		v.extra_username = v.username
 
 	v.username = new_name
 

@@ -134,6 +134,7 @@ class User(Base):
 	defaulttime = Column(String, default=DEFAULT_TIME_FILTER)
 	custom_filter_list = Column(String)
 	original_username = Column(String)
+	extra_username = Column(String)
 	prelock_username = Column(String)
 	referred_by = Column(Integer, ForeignKey("users.id"))
 	currently_held_lottery_tickets = Column(Integer, default=0)
@@ -979,6 +980,8 @@ class User(Base):
 		if self.username == self.original_username:
 			return ''
 		names = {self.original_username}
+		if self.extra_username:
+			names.add(self.extra_username)
 		if self.prelock_username:
 			names.add(self.prelock_username)
 		return 'Original Usernames: @' + ', @'.join(names)

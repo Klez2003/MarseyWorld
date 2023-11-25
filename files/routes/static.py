@@ -90,6 +90,7 @@ def get_emojis(nsfw):
 		User.id,
 		User.username,
 		User.original_username,
+		User.extra_username,
 		User.prelock_username,
 	)).filter(Emoji.submitter_id == None)
 
@@ -110,6 +111,7 @@ def get_emojis(nsfw):
 		else:
 			emoji.author_username = author.username
 			emoji.author_original_username = author.original_username
+			emoji.author_extra_username = author.extra_username
 			emoji.author_prelock_username = author.prelock_username
 		collected.append(emoji.json())
 	return collected

@@ -41,6 +41,8 @@ class Emoji(Base):
 			data["author_username"] = self.author_username
 		if "author_original_username" in self.__dict__ and self.author_original_username:
 			data["author_original_username"] = self.author_original_username
+		if "author_extra_username" in self.__dict__ and self.author_extra_username:
+			data["author_extra_username"] = self.author_extra_username
 		if "author_prelock_username" in self.__dict__ and self.author_prelock_username:
 			data["author_prelock_username"] = self.author_prelock_username
 		return data

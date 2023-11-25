@@ -32,6 +32,7 @@ def get_user(username, v=None, graceful=False, include_blocks=False, attributes=
 		or_(
 			User.username.ilike(search_name),
 			User.original_username.ilike(search_name),
+			User.extra_username.ilike(search_name),
 			User.prelock_username.ilike(search_name),
 			)
 		)
@@ -65,8 +66,9 @@ def get_users(usernames, ids_only=False, graceful=False):
 		or_(
 			User.username.ilike(any_(usernames)),
 			User.original_username.ilike(any_(usernames)),
+			User.extra_username.ilike(any_(usernames)),
 			User.prelock_username.ilike(any_(usernames)),
-			)
+		)
 		).all()
 
 	if len(users) != len(usernames) and not graceful:
