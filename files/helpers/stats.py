@@ -120,7 +120,7 @@ def stats():
 			"users who posted, commented, or voted in the past 7 days": "{:,}".format(g.db.query(User).filter(User.last_active > week).count()),
 		}
 
-	if SITE_NAME == 'rDrama' or FEATURES['HOUSES']:
+	if FEATURES['HOUSES']:
 		stats2 = {
 			"House Furry members": "{:,}".format(g.db.query(User).filter(User.house.like('Furry%')).count()),
 			"House Femboy members": "{:,}".format(g.db.query(User).filter(User.house.like('Femboy%')).count()),
