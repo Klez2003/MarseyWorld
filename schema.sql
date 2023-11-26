@@ -178,7 +178,8 @@ CREATE TABLE public.users (
     lifetimedonated integer NOT NULL,
     lifetimedonated_visible boolean NOT NULL,
     jumpscare integer DEFAULT 0 NOT NULL,
-    zombie integer DEFAULT 0 NOT NULL
+    zombie integer DEFAULT 0 NOT NULL,
+    extra_username character varying(30)
 );
 
 
@@ -1551,6 +1552,14 @@ ALTER TABLE ONLY public.usermutes
 
 
 --
+-- Name: users users_extra_username_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_extra_username_key UNIQUE (extra_username);
+
+
+--
 -- Name: users users_original_username_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1956,6 +1965,13 @@ CREATE INDEX hat_defs_submitter_id_idx ON public.hat_defs USING btree (submitter
 
 
 --
+-- Name: lowercase_extra_username; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX lowercase_extra_username ON public.users USING btree (lower((extra_username)::text));
+
+
+--
 -- Name: lowercase_original_username; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2205,6 +2221,13 @@ CREATE INDEX users_earlylife_idx ON public.users USING btree (earlylife);
 --
 
 CREATE INDEX users_edgified_idx ON public.users USING btree (sharpen);
+
+
+--
+-- Name: users_extra_username_trgm_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX users_extra_username_trgm_idx ON public.users USING gin (extra_username public.gin_trgm_ops);
 
 
 --
