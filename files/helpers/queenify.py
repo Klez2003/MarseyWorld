@@ -7,7 +7,6 @@ def queenify_tag_string(string):
 
 	result = initial_part_regex.search(string)
 	initial = result.group(1) if result else ""
-	string = string.lower()
 	string = initial_part_regex.sub("", string)
 	string = sentence_ending_regex.sub(", and", string)
 	string = superlative_regex.sub(r"literally \g<1>", string)
