@@ -119,7 +119,6 @@ def purchase_lottery_tickets(v, quantity=1):
 	most_recent_lottery.prize += net_ticket_value
 	most_recent_lottery.tickets_sold += quantity
 
-
 	if quantity == 1: return True, f'Successfully purchased {quantity} lottershe ticket!'
 	return True, f'Successfully purchased {quantity} lottershe tickets!'
 
