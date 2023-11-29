@@ -1093,6 +1093,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('hehecat', 'Misc', 2, 'cat laugh hehe emoji', false, 1689143514),
 ('help', 'Wojak', 2, 'spinning', false, 1682878827),
 ('hewillnever', 'Rage', 2, 'cereal cereal guy disbelief', false, 0),
+('hide', 'Misc', 2, 'hiding mouse mushroomhouse', false, 1701273942),
 ('highfive', 'Classic', 2, 'high-five animated emoticon up top', false, 0),
 ('hijabwojak', 'Wojak', 2, 'woman hijab muslim', false, 0),
 ('hitler', 'Misc', 2, 'nazi adolf staring displeased reich', false, 1679156971),
