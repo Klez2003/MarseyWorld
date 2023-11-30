@@ -989,18 +989,14 @@ EMOJI_KINDS = ("Marsey", "Platy", "Wolf", "Donkey Kong", "Tay", "Capy", "Carp", 
 
 t = datetime.datetime.now()
 
-if SITE_NAME == 'rDrama':
-	fistmas_begin = datetime.datetime.strptime(f'30/11/{t.year}', '%d/%m/%Y')
-else:
-	fistmas_begin = datetime.datetime.strptime(f'21/12/{t.year}', '%d/%m/%Y')
+fistmas_begin_day = 1 if SITE_NAME == 'rDrama' else 21
+fistmas_begin = datetime.datetime.strptime(f'{fistmas_begin_day}/12/{t.year}', '%d/%m/%Y')
 fistmas_end = datetime.datetime.strptime(f'26/12/{t.year}', '%d/%m/%Y') + datetime.timedelta(hours=16)
 def IS_FISTMAS():
 	return fistmas_begin < datetime.datetime.now() < fistmas_end
 
-if SITE_NAME == 'rDrama':
-	homoween_begin = datetime.datetime.strptime(f'9/10/{t.year}', '%d/%m/%Y')
-else:
-	homoween_begin = datetime.datetime.strptime(f'26/10/{t.year}', '%d/%m/%Y')
+homoween_begin_day = 18 if SITE_NAME == 'rDrama' else 26
+homoween_begin = datetime.datetime.strptime(f'{homoween_begin_day}/10/{t.year}', '%d/%m/%Y')
 homoween_end = datetime.datetime.strptime(f'1/11/{t.year}', '%d/%m/%Y') + datetime.timedelta(hours=16)
 def IS_HOMOWEEN():
 	return homoween_begin < datetime.datetime.now() < homoween_end
