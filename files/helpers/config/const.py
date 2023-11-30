@@ -990,7 +990,7 @@ EMOJI_KINDS = ("Marsey", "Platy", "Wolf", "Donkey Kong", "Tay", "Capy", "Carp", 
 t = datetime.datetime.now()
 
 if SITE_NAME == 'rDrama':
-	fistmas_begin = datetime.datetime.strptime(f'1/12/{t.year}', '%d/%m/%Y')
+	fistmas_begin = datetime.datetime.strptime(f'30/11/{t.year}', '%d/%m/%Y')
 else:
 	fistmas_begin = datetime.datetime.strptime(f'21/12/{t.year}', '%d/%m/%Y')
 fistmas_end = datetime.datetime.strptime(f'26/12/{t.year}', '%d/%m/%Y') + datetime.timedelta(hours=16)
