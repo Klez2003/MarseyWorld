@@ -1143,9 +1143,9 @@ INSERT INTO public.hat_defs VALUES (1381, 'Griffith Helmet', 'The Falcon has fal
 INSERT INTO public.hat_defs VALUES (1370, 'pkmn0133', 'Eevee, the Evolution Pokémon. Eevee is rarely seen, and can adapt to severe habitats by evolving, changing its capabilities and form.', 2, 1000, NULL, 1698657507);
 INSERT INTO public.hat_defs VALUES (1366, 'pkmn0001', 'Bulbasaur. It bears the seed of a plant on its back from birth. The seed slowly develops. Researchers are unsure whether to classify Bulbasaur as a plant or animal. Bulbasaur are extremely tough and very difficult to capture in the wild.', 2, 500, NULL, 1698656032);
 
-
-
-
+INSERT INTO public.hat_defs VALUES (1385, 'Christmas String Lights', 'Have a Merry Christmas!', 2, 1000, NULL, 1700491518);
+INSERT INTO public.hat_defs VALUES (1384, 'Slow Snowfall', 'Slower snowfall (for dramatic effect)!', 2, 1000, NULL, 1700491458);
+INSERT INTO public.hat_defs VALUES (1383, 'Patel Petals', 'Pretty pastel petals go zooming by!', 2, 1000, NULL, 1700491275);
 
 
 --
