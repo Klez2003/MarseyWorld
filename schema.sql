@@ -179,7 +179,8 @@ CREATE TABLE public.users (
     lifetimedonated_visible boolean NOT NULL,
     jumpscare integer DEFAULT 0 NOT NULL,
     zombie integer DEFAULT 0 NOT NULL,
-    extra_username character varying(30)
+    extra_username character varying(30),
+    grinch boolean NOT NULL
 );
 
 
