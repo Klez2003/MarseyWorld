@@ -10,7 +10,7 @@
 	background-clip: text;
 	color: transparent;
 	-webkit-background-clip: text;
-	animation: 45s linear 0s infinite move-colors;
+	animation: 120s linear 0s infinite move-colors;
 }
 
 #post-title a {
@@ -18,5 +18,5 @@
 }
 
 #post-title:hover, #post-content p:hover {
-	animation-duration: 10s;
+	animation-duration: 30s;
 }
