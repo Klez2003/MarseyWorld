@@ -95,6 +95,20 @@ AWARDS = {
 	},
 
 	### Fistmas
+	"grinch": {
+		"kind": "grinch",
+		"title": "Grinch",
+		"description": "???",
+		"icon": "fas fa-angry",
+		"color": "text-green-500",
+		"price": 100,
+		"deflectable": True,
+		"cosmetic": False,
+		"ghost": False,
+		"enabled": IS_FISTMAS() and SITE_NAME != "WPD",
+		"negative": False,
+		"included_in_lootbox": False,
+	},
 	"fireplace": {
 		"kind": "fireplace",
 		"title": "Fireplace",
@@ -179,22 +193,22 @@ AWARDS = {
 		"negative": False,
 		"included_in_lootbox": True,
 	},
-	"grinch": {
-		"kind": "grinch",
-		"title": "Grinch",
+
+	### Homoween
+	"hallowgrinch": {
+		"kind": "hallowgrinch",
+		"title": "Hallowgrinch",
 		"description": "???",
 		"icon": "fas fa-angry",
-		"color": "text-green-500",
-		"price": 1000,
+		"color": "text-orange",
+		"price": 100,
 		"deflectable": True,
 		"cosmetic": False,
 		"ghost": False,
-		"enabled": IS_FISTMAS() and SITE_NAME != "WPD",
+		"enabled": IS_HOMOWEEN() and SITE_NAME != "WPD",
 		"negative": False,
 		"included_in_lootbox": False,
 	},
-
-	### Homoween
 	"stalker": {
 		"kind": "stalker",
 		"title": "Stalker",
@@ -388,20 +402,6 @@ AWARDS = {
 		"cosmetic": True,
 		"ghost": True,
 		"enabled": IS_HOMOWEEN(),
-		"negative": False,
-		"included_in_lootbox": False,
-	},
-	"hallowgrinch": {
-		"kind": "hallowgrinch",
-		"title": "Hallowgrinch",
-		"description": "???",
-		"icon": "fas fa-angry",
-		"color": "text-orange",
-		"price": 1000,
-		"deflectable": True,
-		"cosmetic": False,
-		"ghost": False,
-		"enabled": IS_HOMOWEEN() and SITE_NAME != "WPD",
 		"negative": False,
 		"included_in_lootbox": False,
 	},
