@@ -400,3 +400,7 @@ blockquote {
 .toast-body {
     padding: 1rem 0.75rem 0.75rem 0.75rem;
 }
+
+.alert {
+    padding: 0.75rem 3rem 0.5rem 1rem;
+}
