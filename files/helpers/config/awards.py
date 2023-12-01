@@ -84,7 +84,7 @@ AWARDS = {
 		"title": "Grinch",
 		"description": "???",
 		"icon": "fas fa-angry",
-		"color": "text-green-500",
+		"color": "text-orange",
 		"price": 100,
 		"deflectable": True,
 		"cosmetic": False,
