@@ -188,8 +188,8 @@ document.addEventListener("click", function (e) {
 			console.log("Nonce check failed!")
 			return
 		}
-		document.getElementById('giveaward').dataset.action = element.dataset.url
-		document.getElementById('buyandgiveaward').dataset.action = element.dataset.url
+		document.getElementById('giveaward').dataset.url = element.dataset.url
+		document.getElementById('buyandgiveaward').dataset.url = element.dataset.url
 
 		const currently_picked = document.getElementById("awardModal").getElementsByClassName('picked')[0]
 		if (currently_picked && currently_picked.id == 'emoji') {

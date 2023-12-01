@@ -119,7 +119,7 @@ function pick(kind, price, coins, marseybux) {
 	}
 
 	if (kind == "emoji") {
-		if (giveaward_button.dataset.action.startsWith('/award/post/'))
+		if (giveaward_button.dataset.url.startsWith('/award/post/'))
 			document.getElementById('emoji_behavior_section').classList.remove("d-none")
 		document.getElementById('note').setAttribute("style", "min-height:35px;max-height:35px;height:35px;min-width:min(300px,80vw)")
 		gif_button.classList.add('d-none')
@@ -170,7 +170,7 @@ function giveaward(t) {
 
 	const note_id = (kind == "chud" ? "chud_phrase" : "note")
 
-	postToast(t, t.dataset.action,
+	postToast(t, t.dataset.url,
 		{
 			"kind": kind,
 			"note": document.getElementById(note_id).value,
