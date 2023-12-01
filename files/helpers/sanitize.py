@@ -732,6 +732,9 @@ def is_whitelisted(domain, k):
 
 
 def normalize_url(url):
+	if 'wikipedia.org/wiki/' not in url:
+		url = unquote(url)
+
 	url = url.replace("reddit.com/user/", "reddit.com/u/")
 
 	url = reddit_domain_regex.sub(r'\1https://old.reddit.com/\5', url)
@@ -799,9 +802,10 @@ def normalize_url(url):
 
 	url = imgur_regex.sub(r'\1_d.webp?maxwidth=9999&fidelity=grand', url)
 
-	url = url.rstrip('=')
+	if 'wikipedia.org/wiki/' not in url:
+		url = unquote(url)
 
-	return url
+	return url.rstrip('=')
 
 def normalize_url_gevent(url):
 	url = requests.get(url, headers=HEADERS, timeout=2).url
