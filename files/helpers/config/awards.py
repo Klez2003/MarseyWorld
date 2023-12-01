@@ -78,7 +78,21 @@ AWARDS = {
 	},
 
 
-	### Fistmas and Homoween
+	### Shared
+	"grinch": {
+		"kind": "grinch",
+		"title": "Grinch",
+		"description": "???",
+		"icon": "fas fa-angry",
+		"color": "text-green-500",
+		"price": 100,
+		"deflectable": True,
+		"cosmetic": False,
+		"ghost": False,
+		"enabled": IS_EVENT() and SITE_NAME == "rDrama",
+		"negative": False,
+		"included_in_lootbox": False,
+	},
 	"lootbox": {
 		"kind": "lootbox",
 		"title": "Lootbox",
@@ -95,20 +109,6 @@ AWARDS = {
 	},
 
 	### Fistmas
-	"grinch": {
-		"kind": "grinch",
-		"title": "Grinch",
-		"description": "???",
-		"icon": "fas fa-angry",
-		"color": "text-green-500",
-		"price": 100,
-		"deflectable": True,
-		"cosmetic": False,
-		"ghost": False,
-		"enabled": IS_FISTMAS() and SITE_NAME != "WPD",
-		"negative": False,
-		"included_in_lootbox": False,
-	},
 	"fireplace": {
 		"kind": "fireplace",
 		"title": "Fireplace",
@@ -195,20 +195,6 @@ AWARDS = {
 	},
 
 	### Homoween
-	"hallowgrinch": {
-		"kind": "hallowgrinch",
-		"title": "Hallowgrinch",
-		"description": "???",
-		"icon": "fas fa-angry",
-		"color": "text-orange",
-		"price": 100,
-		"deflectable": True,
-		"cosmetic": False,
-		"ghost": False,
-		"enabled": IS_HOMOWEEN() and SITE_NAME != "WPD",
-		"negative": False,
-		"included_in_lootbox": False,
-	},
 	"stalker": {
 		"kind": "stalker",
 		"title": "Stalker",

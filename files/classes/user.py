@@ -155,6 +155,9 @@ class User(Base):
 	lifetimedonated_visible = Column(Boolean, default=False)
 	blacklisted_by = Column(Integer, ForeignKey("users.id"))
 
+	if IS_EVENT():
+		grinch = Column(Boolean, default=SITE_NAME != 'rDrama')
+
 	if IS_HOMOWEEN():
 		zombie = Column(Integer, default=0, nullable=False) # > 0 vaxxed; < 0 zombie
 		jumpscare = Column(Integer, default=0)
@@ -258,18 +261,6 @@ class User(Base):
 			g.db.add(self)
 
 		return (succeeded, charged_coins)
-
-
-	if IS_FISTMAS():
-		@property
-		@lazy
-		def can_toggle_event_music(self):
-			return SITE_NAME != 'rDrama' or self.has_badge(91)
-	elif IS_HOMOWEEN():
-		@property
-		@lazy
-		def can_toggle_event_music(self):
-			return SITE_NAME != 'rDrama' or self.has_badge(185)
 
 	if IS_EVENT():
 		@property

@@ -535,60 +535,56 @@ def award_thing(v, thing_type, id):
 		emoji = g.db.query(Emoji).filter_by(name=award.note).one_or_none()
 		if not emoji:
 			abort(404, f'an Emoji with the name "{award.note}" was not found!')
-	elif IS_FISTMAS():
-		if kind == "grinch":
-			if v.id == author.id:
-				session['event_music'] = False
-		elif kind == "candycane":
-			if obj.is_effortpost:
-				abort(403, f'Effortposts are protected from the {award_title} award!')
-	elif IS_HOMOWEEN():
-		if kind == "hallowgrinch":
-			if v.id == author.id:
-				session['event_music'] = False
-		elif kind in {"ectoplasm", "candy-corn", "stab"}:
-			if obj.is_effortpost:
-				abort(403, f'Effortposts are protected from the {award_title} award!')
-		elif kind == "spider":
-			if author.spider: author.spider += 86400
-			else: author.spider = int(time.time()) + 86400
-			badge_grant(user=author, badge_id=179, notify=False)
-		elif kind == "bite":
-			if author.zombie < 0:
-				author = v
+	elif kind == "grinch":
+		author.grinch = True
+		if v.id == author.id:
+			session['event_music'] = False
+	elif kind == "candycane":
+		if obj.is_effortpost:
+			abort(403, f'Effortposts are protected from the {award_title} award!')
+	elif kind in {"ectoplasm", "candy-corn", "stab"}:
+		if obj.is_effortpost:
+			abort(403, f'Effortposts are protected from the {award_title} award!')
+	elif kind == "spider":
+		if author.spider: author.spider += 86400
+		else: author.spider = int(time.time()) + 86400
+		badge_grant(user=author, badge_id=179, notify=False)
+	elif kind == "bite":
+		if author.zombie < 0:
+			author = v
 
+		if author.zombie == 0:
+			author.zombie = -1
+			badge_grant(user=author, badge_id=181)
+
+			award_object = AwardRelationship(user_id=author.id, kind='bite')
+			g.db.add(award_object)
+			send_repeatable_notification(author.id,
+				"As the zombie virus washes over your mind, you feel the urge "
+				"to… BITE YUMMY BRAINS :marseyzombie:<br>"
+				"You receive a free **Zombie Bite** award: pass it on!")
+
+		elif author.zombie > 0:
+			author.zombie -= 1
 			if author.zombie == 0:
-				author.zombie = -1
-				badge_grant(user=author, badge_id=181)
+				send_repeatable_notification(author.id, "You are no longer **VAXXMAXXED**! Time for another booster!")
 
-				award_object = AwardRelationship(user_id=author.id, kind='bite')
-				g.db.add(award_object)
-				send_repeatable_notification(author.id,
-					"As the zombie virus washes over your mind, you feel the urge "
-					"to… BITE YUMMY BRAINS :marseyzombie:<br>"
-					"You receive a free **Zombie Bite** award: pass it on!")
-
-			elif author.zombie > 0:
-				author.zombie -= 1
-				if author.zombie == 0:
-					send_repeatable_notification(author.id, "You are no longer **VAXXMAXXED**! Time for another booster!")
-
-					badge = author.has_badge(182)
-					if badge: g.db.delete(badge)
-		elif kind == "vax":
-			if author.zombie < 0:
-				author.zombie = 0
-				send_repeatable_notification(author.id, "You are no longer **INFECTED**! Praise Fauci!")
-
-				badge = author.has_badge(181)
+				badge = author.has_badge(182)
 				if badge: g.db.delete(badge)
-			elif author.zombie >= 0:
-				author.zombie += 2
-				author.zombie = min(author.zombie, 10)
+	elif kind == "vax":
+		if author.zombie < 0:
+			author.zombie = 0
+			send_repeatable_notification(author.id, "You are no longer **INFECTED**! Praise Fauci!")
 
-				badge_grant(user=author, badge_id=182)
-		elif kind == "jumpscare":
-			author.jumpscare += 1
+			badge = author.has_badge(181)
+			if badge: g.db.delete(badge)
+		elif author.zombie >= 0:
+			author.zombie += 2
+			author.zombie = min(author.zombie, 10)
+
+			badge_grant(user=author, badge_id=182)
+	elif kind == "jumpscare":
+		author.jumpscare += 1
 
 	author = obj.author
 	if v.id != author.id:
