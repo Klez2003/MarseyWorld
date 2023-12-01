@@ -5218,7 +5218,7 @@ span.green {
 	background-color: rgb(var(--background)) !important;
 }
 .nobackground {
-	background: None !important;
+	background: none !important;
 }
 textarea {
 	resize: both !important;
@@ -5884,7 +5884,7 @@ a.emojitab {
 }
 
 .emoji2 {
-	background: None!important;
+	background: none!important;
 	width:60px;
 	overflow: hidden;
 	border: none;
@@ -6673,7 +6673,7 @@ div.markdown {
 }
 @media (max-width: 768px) or (min-width: 992px) {
 	#sidebar-btn {
-		display: None !important;
+		display: none !important;
 	}
 }
 .table th, .table td {
@@ -7050,7 +7050,7 @@ body > .container {
 }
 
 #mobile-prompt + .bs-tooltip-bottom {
-	transform: None !important;
+	transform: none !important;
 	inset: 0px 0px auto auto !important;
 }
 
