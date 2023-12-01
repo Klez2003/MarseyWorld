@@ -84,9 +84,9 @@
 					</div>
 				</div>
 
-				<input autocomplete="off" id="giveaward" class="awardbtn btn btn-primary fl-r" type="submit" data-nonce="{{g.nonce}}" data-onclick="giveaward(this)" value="Give Award" data-bs-dismiss="modal">
+				<button type="button" id="giveaward" class="awardbtn btn btn-primary fl-r" data-nonce="{{g.nonce}}" data-onclick="giveaward(this)" data-bs-dismiss="modal">Give Award</button>
 
-				<input autocomplete="off" id="buyandgiveaward" class="awardbtn btn btn-primary fl-r d-none" type="submit" data-nonce="{{g.nonce}}" data-areyousure="giveaward(this)" data-onclick="areyousure(this)" value="Give Award" data-dismiss="modal">
+				<button type="button" id="buyandgiveaward" class="awardbtn btn btn-primary fl-r d-none" data-nonce="{{g.nonce}}" data-areyousure="giveaward(this)" data-onclick="areyousure(this)" data-dismiss="modal">Give Award</button>
 
 				<span id="award_price" class="fl-r mt-2 mr-3 text-small-sm"></span>
 			</div>
