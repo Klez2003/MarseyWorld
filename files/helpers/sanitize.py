@@ -495,22 +495,24 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 
 	emojis_used = set()
 
-	emojis = list(emoji_regex.finditer(sanitized))
-	if len(emojis) > 20: golden = False
+	if not (author and author.hieroglyphs):
+		emojis = list(emoji_regex.finditer(sanitized))
+		if len(emojis) > 20: golden = False
 
-	captured = []
-	for i in emojis:
-		if i.group(0) in captured: continue
-		captured.append(i.group(0))
+		captured = []
+		for i in emojis:
+			if i.group(0) in captured: continue
+			captured.append(i.group(0))
 
-		old = i.group(0)
-		if 'marseylong1' in old or 'marseylong2' in old or 'marseylongcockandballs' in old or 'marseyllama1' in old or 'marseyllama2' in old:
-			new = old.lower().replace(">", " class='mb-0'>")
-		else: new = old.lower()
+			old = i.group(0)
+			if 'marseylong1' in old or 'marseylong2' in old or 'marseylongcockandballs' in old or 'marseyllama1' in old or 'marseyllama2' in old:
+				new = old.lower().replace(">", " class='mb-0'>")
+			else: new = old.lower()
 
-		new = render_emoji(new, emoji_regex2, golden, emojis_used, True)
+			new = render_emoji(new, emoji_regex2, golden, emojis_used, True)
 
-		sanitized = sanitized.replace(old, new)
+			sanitized = sanitized.replace(old, new)
+
 
 	emojis = list(emoji_regex2.finditer(sanitized))
 	if len(emojis) > 20: golden = False
