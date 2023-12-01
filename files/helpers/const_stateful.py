@@ -21,6 +21,7 @@ def const_initialize():
 
 	MARSEYS_CONST = [x[0] for x in db.query(Emoji.name).filter(Emoji.kind == "Marsey", Emoji.submitter_id == None, Emoji.name != 'chudsey', Emoji.nsfw == False)]
 	MARSEYS_CONST2 = MARSEYS_CONST + ['chudsey','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','0','1','2','3','4','5','6','7','8','9','exclamationpoint','period','questionmark']
+
 	marseys = db.query(Emoji).filter(Emoji.kind=="Marsey", Emoji.submitter_id == None, Emoji.nsfw == False).all()
 	for marsey in marseys:
 		for tag in marsey.tags.split():
