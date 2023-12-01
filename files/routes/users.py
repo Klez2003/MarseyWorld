@@ -1491,3 +1491,18 @@ def unmute_notifs(v, uid):
 	send_notification(user.id, f"@{v.username} has unmuted notifications from you!")
 
 	return {"message": f"You have unmuted notifications from @{user.username} successfully!"}
+
+@app.get("/@<username>/song")
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+def usersong(username):
+	user = get_user(username)
+
+	if not user.song:
+		abort(404, f"@{user.username} hasn't set a profile anthem!")
+
+	if len(user.song) == 11:
+		return redirect(f'https://youtube.com/watch?v={user.song}')
+
+	resp = make_response(redirect(f"/songs/{user.song}.mp3"))
+	resp.headers["Cache-Control"] = "no-store"
+	return resp
