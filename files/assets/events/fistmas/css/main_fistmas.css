@@ -396,3 +396,7 @@ blockquote {
 .notif-count {
     padding: 5px 5px 2px 5px;
 }
+
+.toast-body {
+    padding: 1rem 0.75rem 0.75rem 0.75rem;
+}
