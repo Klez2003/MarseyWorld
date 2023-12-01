@@ -122,10 +122,6 @@ pre {
 	color: var(--gray-200) !important;
 }
 
-.comment-actions .fas {
-	color: var(--gray-200) !important;
-}
-
 .comment-actions .btn::after{
 	background: none !important;
 }
