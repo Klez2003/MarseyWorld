@@ -36,19 +36,15 @@
 	10% {
 		opacity: 0;
 	}
-	,
 	30% {
 		opacity: 0.4;
 	}
-	,
 	60% {
 		opacity: 0.2;
 	}
-	,
 	85% {
 		opacity: 0.5;
 	}
-	,
 	100% {
 		opacity: 0.9;
 	}
