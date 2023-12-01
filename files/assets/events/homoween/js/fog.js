@@ -67,8 +67,8 @@ function draw(startT, totalT)
 	let stillAlive = false;
 
 	//Grab and clear the canvas
-	let c=document.getElementById("fog-effect");
-	let ctx=c.getContext("2d");
+	let c = document.getElementById("fog-effect");
+	let ctx = c.getContext("2d");
 	ctx.clearRect(0, 0, c.width, c.height);
 	c.width = c.width;
 
