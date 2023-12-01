@@ -537,7 +537,6 @@ def award_thing(v, thing_type, id):
 			abort(404, f'an Emoji with the name "{award.note}" was not found!')
 	elif IS_FISTMAS():
 		if kind == "grinch":
-			badge_grant(badge_id=91, user=author)
 			if v.id == author.id:
 				session['event_music'] = False
 		elif kind == "candycane":
@@ -545,7 +544,6 @@ def award_thing(v, thing_type, id):
 				abort(403, f'Effortposts are protected from the {award_title} award!')
 	elif IS_HOMOWEEN():
 		if kind == "hallowgrinch":
-			badge_grant(badge_id=185, user=author)
 			if v.id == author.id:
 				session['event_music'] = False
 		elif kind in {"ectoplasm", "candy-corn", "stab"}:
