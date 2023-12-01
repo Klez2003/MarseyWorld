@@ -440,15 +440,15 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 		def group_replacer(m):
 			name = m.group(1)
 
-			if name == 'everyone':
+			if name.lower() == 'everyone':
 				return f'<a href="/users">!{name}</a>'
-			elif name == 'jannies':
+			elif name.lower() == 'jannies':
 				return f'<a href="/admins">!{name}</a>'
-			elif name == 'holejannies' and get_obj_hole(obj):
+			elif name.lower() == 'holejannies' and get_obj_hole(obj):
 				return f'<a href="/h/{obj.hole}/mods">!{name}</a>'
-			elif name == 'commenters' and commenters_ping_post_id:
+			elif name.lower() == 'commenters' and commenters_ping_post_id:
 				return f'<a href="/!commenters/{commenters_ping_post_id}/{int(time.time())}">!{name}</a>'
-			elif name == 'followers':
+			elif name.lower() == 'followers':
 				return f'<a href="/id/{v.id}/followers">!{name}</a>'
 			elif g.db.get(Group, name.lower()):
 				return f'<a href="/!{name.lower()}">!{name}</a>'
