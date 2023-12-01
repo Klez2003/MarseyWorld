@@ -404,3 +404,7 @@ blockquote {
 .alert {
     padding: 0.75rem 3rem 0.5rem 1rem;
 }
+
+.pagination-sm .page-link {
+	padding: 0.5rem min(20px,3vw) 0.25rem min(20px,3vw);
+}
