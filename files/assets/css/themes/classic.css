@@ -43,7 +43,7 @@
 
 .btn-primary:not(.shop-tab) {
 	background-color: var(--primary) !important;
-	color:white;
+	color: white;
 }
 
 .dropdown-menu {
@@ -102,7 +102,7 @@ a {
 }
 
 .spoiler:hover, spoiler:hover {
-	color:white !important;
+	color: white !important;
 }
 
 /*front page*/
@@ -120,20 +120,20 @@ a.btn-block[href~="/submit"] {
 	background-position: center;
 	background-repeat: repeat;
 	margin-top: -12px;
-	margin-bottom:-15px;
+	margin-bottom: -15px;
 }
 
 .sorting .btn {
 	color: white;
 	text-shadow: -1px -1px 0 black,1px -1px 0 black,-1px 1px 0 black,1px 1px 0 black;
-	border:none;
+	border: none;
 	background-color: transparent !important;
 }
 
 #frontpage .sorting .text-primary {
 	color: yellow !important;
 	text-decoration: underline;
-	background-color:transparent !important;
+	background-color: transparent !important;
 }
 
 #frontpage #dropdownMenuButton, #frontpage #dropdownMenuButton2, .sorting .dropdown i {
@@ -159,7 +159,7 @@ a.btn-block[href~="/submit"] {
 /*posts*/
 @media (min-width: 992px){
 	#thread #main-content-col {
-		padding-left:3rem;
+		padding-left: 3rem;
 		padding-right: 3rem;
 	}
 }

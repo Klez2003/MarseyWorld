@@ -11,13 +11,13 @@
 @media (max-width: 767.98px) {
 	#banner-homoween-title {
 		transform: scale(1.4) translate(-90px, -120px);
-		animation:none !important;
+		animation: none !important;
 	}
 	#banner-homoween-presenting {
 		transform: scale(1.4) translate(-90px, -120px);
 	}
 	#banner-homoween-bats {
-		display:none;
+		display: none;
 	}
 }
 

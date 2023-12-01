@@ -154,15 +154,15 @@
 }
 
 @keyframes ricardo1Xb {
-	0%{left:unset}
+	0%{left: unset}
 	49% {left: unset}
 	50% {left: -200px}
-	75% {left:200px}
+	75% {left: 200px}
 	100% {left: -200px}
 }
 
 @keyframes ricardo1Y {
-	0% {bottom:20vh}
+	0% {bottom: 20vh}
 	24% {bottom: 20vh}
 	25% {bottom: 60vh}
 	49% {bottom: 60vh}

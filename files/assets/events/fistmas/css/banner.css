@@ -13,7 +13,7 @@
 /* stars */
 .star {
 	animation: linear infinite snow;
-	animation-delay:-4s;
+	animation-delay: -4s;
 }
 
 .star1 {animation-duration: 5s;}

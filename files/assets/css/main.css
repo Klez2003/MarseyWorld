@@ -5205,9 +5205,9 @@ span.green {
 .mod {
 	padding: 2px 5px 3px 5px;
 	border-radius: 5px;
-	color:white!important;
+	color: white!important;
 	background: linear-gradient(270deg, red, orange, yellow, green, blue, indigo, violet );
-	text-shadow:-1px -1px 0 black,1px -1px 0 black,-1px 1px 0 black,1px 1px 0 black;
+	text-shadow: -1px -1px 0 black,1px -1px 0 black,-1px 1px 0 black,1px 1px 0 black;
 }
 
 
@@ -5687,8 +5687,8 @@ span > img[src$="/i/hand.webp"]+img[glow]:not([data-src]) {
 }
 
 @keyframes party {
-	from{filter:sepia(100%) saturate(500%) hue-rotate(270deg)}
-	to{filter:sepia(100%) saturate(600%) hue-rotate(1500deg)}
+	from{filter: sepia(100%) saturate(500%) hue-rotate(270deg)}
+	to{filter: sepia(100%) saturate(600%) hue-rotate(1500deg)}
 }
 
 img[party]:not([data-src]) {
@@ -5701,7 +5701,7 @@ span > img[src$="/i/hand.webp"]+img[party]:not([data-src]) {
 }
 
 .glow, .glow * {
-	color:lightgreen !important;
+	color: lightgreen !important;
 	text-shadow: 1px 1px 1px darkgreen, 0 0 5px green;
 }
 .glow a:not(h1.post-title > a) {
@@ -5779,9 +5779,9 @@ toast {
 
 @media (max-width: 426px) {
 	.awardbtn {
-		display:block;
-		margin-right:0 !important;
-		clear:both !important;
+		display: block;
+		margin-right: 0 !important;
+		clear: both !important;
 	}
 }
 
@@ -5885,7 +5885,7 @@ a.emojitab {
 
 .emoji2 {
 	background: none!important;
-	width:60px;
+	width: 60px;
 	overflow: hidden;
 	border: none;
 }
@@ -5925,8 +5925,8 @@ li > .sidebar {
 }
 
 .self {
-	border-top:2px solid var(--primary);
-	border-bottom:2px solid var(--primary);
+	border-top: 2px solid var(--primary);
+	border-bottom: 2px solid var(--primary);
 }
 
 .marsey {
@@ -5974,7 +5974,7 @@ li > .sidebar {
 
 @media (max-width: 500px) {
 	.count {
-		display:block;
+		display: block;
 		text-align: center;
 	}
 }
@@ -6321,105 +6321,105 @@ g {
 }
 
 .ext-link {
-	position:absolute;
+	position: absolute;
 	bottom: 0;
 	right: 0;
-	font-size:14px;
-	color:white;
-	background-color:var(--primary);
-	padding:3px;
-	border-radius:.35rem;
+	font-size: 14px;
+	color: white;
+	background-color: var(--primary);
+	padding: 3px;
+	border-radius: .35rem;
 }
 
 .video-play {
-	position:absolute;
-	bottom:33%;
-	right:38%;
-	font-size:14px;
-	color:white;
-	background-color:var(--primary);
+	position: absolute;
+	bottom: 33%;
+	right: 38%;
+	font-size: 14px;
+	color: white;
+	background-color: var(--primary);
 	padding: 5px 6px 4px 7px;
-	border-radius:.35rem;
+	border-radius: .35rem;
 	pointer-events: none;
 }
 
 @media (max-width: 768px) {
 	.video-play {
-		bottom:31%;
-		right:36%;
+		bottom: 31%;
+		right: 36%;
 	}
 }
 
 /* ------- Font Awesome ------- */
 @font-face{
-	font-family:"Font Awesome 6 Pro";
-	font-style:normal;
-	font-weight:400;
-	font-display:block;
-	src:url(/assets/fonts/fa-regular-400.woff2) format("woff2"),
+	font-family: "Font Awesome 6 Pro";
+	font-style: normal;
+	font-weight: 400;
+	font-display: block;
+	src: url(/assets/fonts/fa-regular-400.woff2) format("woff2"),
 		url(/assets/fonts/fa-regular-400.ttf) format("truetype")
 }
 @font-face{
-	font-family:"Font Awesome 6 Pro";
-	font-style:normal;
-	font-weight:900;
-	font-display:block;
-	src:url(/assets/fonts/fa-solid-900.woff2) format("woff2"),
+	font-family: "Font Awesome 6 Pro";
+	font-style: normal;
+	font-weight: 900;
+	font-display: block;
+	src: url(/assets/fonts/fa-solid-900.woff2) format("woff2"),
 		url(/assets/fonts/fa-solid-900.ttf) format("truetype")
 }
 @font-face{
-	font-family:"Font Awesome 5 Brands";
-	font-display:block;
-	font-weight:400;
-	src:url(/assets/fonts/fa-brands-400.woff2) format("woff2"),
+	font-family: "Font Awesome 5 Brands";
+	font-display: block;
+	font-weight: 400;
+	src: url(/assets/fonts/fa-brands-400.woff2) format("woff2"),
 		url(/assets/fonts/fa-brands-400.ttf) format("truetype")
 }
 @font-face{
-	font-family:"Font Awesome 5 Pro";
-	font-display:block;
-	font-weight:900;
-	src:url(/assets/fonts/fa-solid-900.woff2) format("woff2"),
+	font-family: "Font Awesome 5 Pro";
+	font-display: block;
+	font-weight: 900;
+	src: url(/assets/fonts/fa-solid-900.woff2) format("woff2"),
 		url(/assets/fonts/fa-solid-900.ttf) format("truetype")
 }
 @font-face{
-	font-family:"Font Awesome 5 Pro";
-	font-display:block;
-	font-weight:400;
-	src:url(/assets/fonts/fa-regular-400.woff2) format("woff2"),
+	font-family: "Font Awesome 5 Pro";
+	font-display: block;
+	font-weight: 400;
+	src: url(/assets/fonts/fa-regular-400.woff2) format("woff2"),
 		url(/assets/fonts/fa-regular-400.ttf) format("truetype")
 }
 @font-face{
-	font-family:"Font Awesome 5 Pro";
-	font-display:block;
-	font-weight:300;
-	src:url(/assets/fonts/fa-light-300.woff2) format("woff2"),
+	font-family: "Font Awesome 5 Pro";
+	font-display: block;
+	font-weight: 300;
+	src: url(/assets/fonts/fa-light-300.woff2) format("woff2"),
 		url(/assets/fonts/fa-light-300.ttf) format("truetype")
 }
 @font-face{
-	font-family:"Font Awesome 5 Duotone";
-	font-display:block;
-	font-weight:900;
-	src:url(/assets/fonts/fa-duotone-900.woff2) format("woff2"),
+	font-family: "Font Awesome 5 Duotone";
+	font-display: block;
+	font-weight: 900;
+	src: url(/assets/fonts/fa-duotone-900.woff2) format("woff2"),
 		url(/assets/fonts/fa-duotone-900.ttf) format("truetype")
 }
 @font-face{
-	font-family:"FontAwesome";
-	font-display:block;
-	src:url(/assets/fonts/fa-solid-900.woff2) format("woff2"),
+	font-family: "FontAwesome";
+	font-display: block;
+	src: url(/assets/fonts/fa-solid-900.woff2) format("woff2"),
 		url(/assets/fonts/fa-solid-900.ttf) format("truetype")
 }
 @font-face{
-	font-family:"FontAwesome";
-	font-display:block;
-	src:url(/assets/fonts/fa-brands-400.woff2) format("woff2"),
+	font-family: "FontAwesome";
+	font-display: block;
+	src: url(/assets/fonts/fa-brands-400.woff2) format("woff2"),
 		url(/assets/fonts/fa-brands-400.ttf) format("truetype")
 }
 @font-face{
-	font-family:"FontAwesome";
-	font-display:block;
-	src:url(/assets/fonts/fa-regular-400.woff2) format("woff2"),
+	font-family: "FontAwesome";
+	font-display: block;
+	src: url(/assets/fonts/fa-regular-400.woff2) format("woff2"),
 		url(/assets/fonts/fa-regular-400.ttf) format("truetype");
-	unicode-range:u+f003,u+f006,u+f014,u+f016-f017,u+f01a-f01b,u+f01d,u+f022,u+f03e,u+f044,
+	unicode-range: u+f003,u+f006,u+f014,u+f016-f017,u+f01a-f01b,u+f01d,u+f022,u+f03e,u+f044,
 		u+f046,u+f05c-f05d,u+f06e,u+f070,u+f087-f088,u+f08a,u+f094,u+f096-f097,u+f09d,u+f0a0,
 		u+f0a2,u+f0a4-f0a7,u+f0c5,u+f0c7,u+f0e5-f0e6,u+f0eb,u+f0f6-f0f8,u+f10c,u+f114-f115,
 		u+f118-f11a,u+f11c-f11d,u+f133,u+f147,u+f14e,u+f150-f152,u+f185-f186,u+f18e,u+f190-f192,
@@ -6428,44 +6428,44 @@ g {
 		u+f2ba,u+f2bc,u+f2be,u+f2c0-f2c1,u+f2c3,u+f2d0,u+f2d2,u+f2d4,u+f2dc;
 }
 @font-face{
-	font-family:"FontAwesome";
-	font-display:block;
-	src:url(/assets/fonts/fa-v4compatibility.woff2) format("woff2"),
+	font-family: "FontAwesome";
+	font-display: block;
+	src: url(/assets/fonts/fa-v4compatibility.woff2) format("woff2"),
 		url(/assets/fonts/fa-v4compatibility.ttf) format("truetype");
-	unicode-range:u+f041,u+f047,u+f065-f066,u+f07d-f07e,u+f080,u+f08b,u+f08e,u+f090,u+f09a,u+f0ac,
+	unicode-range: u+f041,u+f047,u+f065-f066,u+f07d-f07e,u+f080,u+f08b,u+f08e,u+f090,u+f09a,u+f0ac,
 		u+f0ae,u+f0b2,u+f0d0,u+f0d6,u+f0e4,u+f0ec,u+f10a-f10b,u+f123,u+f13e,u+f148-f149,u+f14c,
 		u+f156,u+f15e,u+f160-f161,u+f163,u+f175-f178,u+f195,u+f1f8,u+f219,u+f250,u+f252,u+f27a;
 }
 @font-face{
-	font-family:"Font Awesome 6 Pro";
-	font-style:normal;
-	font-weight:300;
-	font-display:block;
-	src:url(/assets/fonts/fa-light-300.woff2) format("woff2"),
+	font-family: "Font Awesome 6 Pro";
+	font-style: normal;
+	font-weight: 300;
+	font-display: block;
+	src: url(/assets/fonts/fa-light-300.woff2) format("woff2"),
 		url(/assets/fonts/fa-light-300.ttf) format("truetype");
 }
 @font-face{
-	font-family:"Font Awesome 6 Brands";
-	font-style:normal;font-weight:400;
-	font-display:block;
-	src:url(/assets/fonts/fa-brands-400.woff2) format("woff2"),
+	font-family: "Font Awesome 6 Brands";
+	font-style: normal;font-weight:400;
+	font-display: block;
+	src: url(/assets/fonts/fa-brands-400.woff2) format("woff2"),
 	url(/assets/fonts/fa-brands-400.ttf) format("truetype");
 }
 @font-face{
-	font-family:"Font Awesome 6 Duotone";
-	font-style:normal;font-weight:900;
-	font-display:block;
-	src:url(/assets/fonts/fa-duotone-900.woff2) format("woff2"),
+	font-family: "Font Awesome 6 Duotone";
+	font-style: normal;font-weight:900;
+	font-display: block;
+	src: url(/assets/fonts/fa-duotone-900.woff2) format("woff2"),
 	url(/assets/fonts/fa-duotone-900.ttf) format("truetype");
 }
 
 :root{
-	--fa-font-solid:normal 900 1em/1 "Font Awesome 6 Pro";
-	--fa-font-regular:normal 400 1em/1 "Font Awesome 6 Pro";
-	--fa-font-light:normal 300 1em/1 "Font Awesome 6 Pro";
-	--fa-font-thin:normal 100 1em/1 "Font Awesome 6 Pro";
-	--fa-font-brands:normal 400 1em/1 "Font Awesome 6 Brands";
-	--fa-font-duotone:normal 900 1em/1 "Font Awesome 6 Duotone";
+	--fa-font-solid: normal 900 1em/1 "Font Awesome 6 Pro";
+	--fa-font-regular: normal 400 1em/1 "Font Awesome 6 Pro";
+	--fa-font-light: normal 300 1em/1 "Font Awesome 6 Pro";
+	--fa-font-thin: normal 100 1em/1 "Font Awesome 6 Pro";
+	--fa-font-brands: normal 400 1em/1 "Font Awesome 6 Brands";
+	--fa-font-duotone: normal 900 1em/1 "Font Awesome 6 Duotone";
 }
 .fa{font-family:var(--fa-style-family,"Font Awesome 6 Pro");font-weight:var(--fa-style,900)}
 .fas{font-family:"Font Awesome 6 Pro";font-weight:900}
@@ -6473,29 +6473,29 @@ g {
 .fal{font-family:"Font Awesome 6 Pro";font-weight:300}
 .fab{font-family:"Font Awesome 6 Brands";font-weight:400}
 .fad{
-	position:relative;
-	font-family:"Font Awesome 6 Duotone";
-	font-weight:900;
-	letter-spacing:normal;
+	position: relative;
+	font-family: "Font Awesome 6 Duotone";
+	font-weight: 900;
+	letter-spacing: normal;
 }
 .fad:before{
-	position:absolute;
-	color:var(--fa-primary-color,inherit);
-	opacity:var(--fa-primary-opacity,1);
+	position: absolute;
+	color: var(--fa-primary-color,inherit);
+	opacity: var(--fa-primary-opacity,1);
 }
 .fad:after{
-	color:var(--fa-secondary-color,inherit);
+	color: var(--fa-secondary-color,inherit);
 }
 .fad:after{
-	opacity:var(--fa-secondary-opacity,.4);
+	opacity: var(--fa-secondary-opacity,.4);
 }
 .fa,.fab,.fad,.fal,.far,.fas{
-	-webkit-font-smoothing:antialiased;
-	display:var(--fa-display,inline-block);
-	font-style:normal;
-	font-variant:normal;
-	line-height:1;
-	text-rendering:auto;
+	-webkit-font-smoothing: antialiased;
+	display: var(--fa-display,inline-block);
+	font-style: normal;
+	font-variant: normal;
+	line-height: 1;
+	text-rendering: auto;
 }
 
 .fa-2x{font-size:2em}
@@ -6504,19 +6504,19 @@ g {
 .fa-fw{text-align:center;width:1.25em}
 .fa-flip-horizontal{transform:scaleX(-1)}
 .fa-stack{
-	display:inline-block;
-	height:2em;
-	line-height:2em;
-	position:relative;
-	vertical-align:middle;
-	width:2.5em;
+	display: inline-block;
+	height: 2em;
+	line-height: 2em;
+	position: relative;
+	vertical-align: middle;
+	width: 2.5em;
 }
 .fa-stack-1x,.fa-stack-2x{
-	left:0;
-	position:absolute;
-	text-align:center;
-	width:100%;
-	z-index:var(--fa-stack-z-index,auto);
+	left: 0;
+	position: absolute;
+	text-align: center;
+	width: 100%;
+	z-index: var(--fa-stack-z-index,auto);
 }
 .fa-stack-1x{line-height:inherit}
 .fa-stack-2x{font-size:2em}
@@ -6539,9 +6539,9 @@ g {
 	padding: 5px;
 	margin: 5px 1px;
 	border-radius: 5px;
-	color:white!important;
+	color: white!important;
 	background: linear-gradient(270deg, red, orange, yellow, green, blue, indigo, violet );
-	text-shadow:-1px -1px 0 black,1px -1px 0 black,-1px 1px 0 black,1px 1px 0 black;
+	text-shadow: -1px -1px 0 black,1px -1px 0 black,-1px 1px 0 black,1px 1px 0 black;
 	font-weight: 600;
 	border: 2px solid var(--primary);
 	font-size: 20px;
@@ -6608,9 +6608,9 @@ g {
 }
 
 .btn-rainbow {
-	color:white !important;
+	color: white !important;
 	background: linear-gradient(270deg, red, orange, yellow, green, blue, indigo, violet ) !important;
-	text-shadow:-1px -1px 0 black,1px -1px 0 black,-1px 1px 0 black,1px 1px 0 black !important;
+	text-shadow: -1px -1px 0 black,1px -1px 0 black,-1px 1px 0 black,1px 1px 0 black !important;
 }
 
 div.custom-control:last-of-type {
@@ -6698,7 +6698,7 @@ div.markdown {
 }
 
 .distribute {
-	font-size:10px;
+	font-size: 10px;
 	padding: 2px 0.5rem !important;
 	margin: 0 0.5rem !important;
 }
@@ -6848,7 +6848,7 @@ div.markdown {
 
 .award-name {
 	font-weight: bold;
-	color:#E1E1E1;
+	color: #E1E1E1;
 }
 
 .award-name, .award-owned {
@@ -7021,7 +7021,7 @@ body > .container {
 }
 
 .emoji2 {
-	width:60px;
+	width: 60px;
 	height: 85px;
 	border: none
 }
