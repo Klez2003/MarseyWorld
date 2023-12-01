@@ -193,7 +193,9 @@ def settings_personal_post(v):
 		updated = True
 		session["nsfw_warnings"] = int(request.values.get("nsfw_warnings") == 'true')
 
-	elif not updated and IS_EVENT() and v.can_toggle_event_music and request.values.get("event_music", v.event_music) != v.event_music:
+	elif not updated and IS_EVENT() and request.values.get("event_music", v.event_music) != v.event_music:
+		if not v.can_toggle_event_music:
+			abort(403, "You need to award yourself the grinch award to be able to disable event music!")
 		updated = True
 		session['event_music'] = request.values.get("event_music", v.event_music) == 'true'
 
