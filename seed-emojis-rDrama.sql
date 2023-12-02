@@ -4925,6 +4925,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('pepetrip', 'Misc', 2, 'drugs psychedelic', false, 1682879985),
 ('pepeyikes', 'Misc', 2, 'cringe', false, 1682813410),
 ('pepezoomerhair', 'Misc', 2, 'pepe zoomer hair bird nest broccoli', false, 1684160569),
+('pepoboner', 'Misc', 2, 'erection horny', false, 1701540720),
 ('percent', 'Marsey Alphabet', 2, '%', false, 0),
 ('period', 'Marsey Alphabet', 2, '. dot', false, 0),
 ('pervertedspiderman', 'Rage', 2, 'spiderman pervert movie', false, 0),
