@@ -484,7 +484,7 @@ def update_emoji(v):
 
 	file = request.files["image"]
 	kind = request.values.get('kind', '').strip()
-	new_name = request.values.get('new_name', '').strip()
+	new_name = request.values.get('new_name', '').lower().strip()
 	tags = request.values.get('tags', '').lower().strip().replace('  ', ' ')
 	nsfw = request.values.get('nsfw', '').strip()		
 
