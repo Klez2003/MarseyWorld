@@ -68,6 +68,7 @@ def claim_rewards_all_users():
 			g.db.add(transaction)
 
 		if marseybux:
+			marseybux = int(marseybux)
 			user.pay_account('marseybux', marseybux)
 
 			send_repeatable_notification(user.id, f"You have received {marseybux} Marseybux! You can use them to buy awards or hats in the [shop](/shop/awards) or gamble them in the [casino](/casino).")
