@@ -108,6 +108,7 @@ BOOSTED_SITES = {
 	'stacker.news',
 	'voat.xyz',
 	'talk.lol',
+	'upgoat.net',
 	'coracle.social',
 	'satellite.earth',
 	'comsta.net',
