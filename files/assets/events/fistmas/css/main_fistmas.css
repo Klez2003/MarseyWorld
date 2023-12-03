@@ -408,3 +408,7 @@ blockquote {
 .pagination-sm .page-link {
 	padding: 0.5rem min(20px,3vw) 0.25rem min(20px,3vw);
 }
+
+.badge {
+	padding: 0.4em 0.4em 0.25em 0.4em;
+}
