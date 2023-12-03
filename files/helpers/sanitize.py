@@ -739,13 +739,9 @@ def normalize_url(url):
 
 	url = reddit_domain_regex.sub(r'\1https://old.reddit.com/\5', url)
 
-	url = url.replace("https://music.youtube.com/watch?v=", "https://youtube.com/watch?v=") \
+	url = url.replace("https://music.youtube.com", "https://youtube.com") \
 			 .replace("https://www.youtube.com", "https://youtube.com") \
 			 .replace("https://m.youtube.com", "https://youtube.com") \
-			 .replace("https://youtu.be/", "https://youtube.com/watch?v=") \
-			 .replace("https://youtube.com/shorts/", "https://youtube.com/watch?v=") \
-			 .replace("https://youtube.com/live/", "https://youtube.com/watch?v=") \
-			 .replace("https://youtube.com/v/", "https://youtube.com/watch?v=") \
 			 .replace("https://mobile.twitter.com", "https://twitter.com") \
 			 .replace("https://x.com", "https://twitter.com") \
 			 .replace("https://www.twitter.com", "https://twitter.com") \
@@ -767,9 +763,6 @@ def normalize_url(url):
 			 .replace('https://lmgtfy.app/?q=', 'https://google.com/search?q=') \
 			 .replace(DONATE_LINK, f'{SITE_FULL}/donate') \
 
-	if url.startswith('https://youtube.com/watch?v='):
-		url = url.split('?si=')[0]
-
 	if url.endswith('.amp'):
 		url = url.split('.amp')[0]
 
@@ -785,7 +778,14 @@ def normalize_url(url):
 		path = parsed_url.path.rstrip('/')
 		qd = parse_qs(parsed_url.query, keep_blank_values=True)
 
-		filtered = {k: val for k, val in qd.items() if not val[0] or is_whitelisted(netloc, k)}
+		filtered = {}
+
+		if netloc == 'youtu.be' or (netloc == 'youtube.com' and any(path.startswith(x) for x in {'/shorts/', '/live/', '/v/'})):
+			netloc = 'youtube.com'
+			filtered['v'] = path.split('/')[-1]
+			path = '/watch'
+
+		filtered |= {k: val for k, val in qd.items() if not val[0] or is_whitelisted(netloc, k)}
 
 		if netloc == 'old.reddit.com' and reddit_comment_link_regex.fullmatch(url):
 			filtered['context'] = 8
