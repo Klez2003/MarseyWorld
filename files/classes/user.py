@@ -154,7 +154,7 @@ class User(Base):
 	lifetimedonated = Column(Integer, default=0)
 	lifetimedonated_visible = Column(Boolean, default=False)
 	blacklisted_by = Column(Integer, ForeignKey("users.id"))
-	grinch = Column(Boolean, default=SITE_NAME != 'rDrama')
+	grinch = Column(Boolean, default=SITE_NAME != 'rDrama') #don't put in an if condition, it will cause an error bc it has a not-null constraint
 
 	if IS_HOMOWEEN():
 		zombie = Column(Integer, default=0, nullable=False) # > 0 vaxxed; < 0 zombie
