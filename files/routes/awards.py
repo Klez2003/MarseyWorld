@@ -318,7 +318,9 @@ def award_thing(v, thing_type, id):
 			obj.stickied_utc = int(time.time()) + add
 
 		obj.stickied = f'{v.username}{PIN_AWARD_TEXT}'
-		cache.delete_memoized(frontlist)
+
+		if isinstance(obj. Post):
+			cache.delete_memoized(frontlist)
 	elif kind == "unpin":
 		if not obj.stickied_utc: abort(400)
 		if not obj.author.deflector or v == obj.author:
