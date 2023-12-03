@@ -23,6 +23,9 @@
 									<div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 31px, 0px); max-height: 50vh;
 									overflow: auto">
 										<a class="dropdown-item" href="{% if hole %}/h/{{hole}}{% endif %}/log{% if type %}?kind={{type}}{% endif %}"><img loading="lazy" src="{{SITE_FULL_IMAGES}}/e/marseyjanny.webp" alt="avatar" class="profile-pic-20 mr-2">All</a>
+										{% if not hole %}
+											<a class="dropdown-item" href="/log?{{single_user_url}}=AutoJanny{% if type %}&kind={{type}}{% endif %}"><img loading="lazy" src="/@AutoJanny/pic" alt="avatar" class="profile-pic-20 mr-2">AutoJanny</a>
+										{% endif %}
 										{% for a in admins %}
 											<a class="dropdown-item" href="{% if hole %}/h/{{hole}}{% endif %}/log?{{single_user_url}}={{a}}{% if type %}&kind={{type}}{% endif %}"><img loading="lazy" src="/@{{a}}/pic" alt="avatar" class="profile-pic-20 mr-2">{{a}}</a>
 										{% endfor %}
