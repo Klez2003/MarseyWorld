@@ -1367,10 +1367,8 @@ def bm():
 	data = json.loads(request.data)
 	ip = request.headers.get('CF-Connecting-IP')
 	if ip != '3.23.31.237':
-		print(STARS, flush=True)
-		print(f'/bm fail: {ip}')
-		print(STARS, flush=True)
-		abort(400)
+		print(data, flush=True)
+		return
 
 	created_utc = data['created']
 
