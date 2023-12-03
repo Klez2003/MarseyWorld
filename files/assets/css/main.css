@@ -7516,7 +7516,7 @@ p { /* DO NOT REMOVE */
 	}
 }
 
-ul {
+ul, ol {
 	padding-inline-start: 20px;
 }
 
