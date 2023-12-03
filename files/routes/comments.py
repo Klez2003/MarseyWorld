@@ -443,9 +443,12 @@ def delete_comment(cid, v):
 		if c.author_id != v.id: abort(403)
 
 		c.deleted_utc = int(time.time())
-		c.stickied = None
-		c.stickied_utc = None
 		g.db.add(c)
+
+		if c.stickied:
+			c.stickied = None
+			c.stickied_utc = None
+			c.unpin_parents()
 
 		if not (c.parent_post in ADMIGGER_THREADS and c.level == 1):
 			v.comment_count -= 1
@@ -509,6 +512,8 @@ def pin_comment(cid, v):
 
 		g.db.add(comment)
 
+		comment.pin_parents()
+
 		if v.id != comment.author_id:
 			if comment.post.ghost: message = f"OP has pinned your [comment]({comment.shortlink})"
 			else: message = f"@{v.username} (OP) has pinned your [comment]({comment.shortlink})"
@@ -536,6 +541,8 @@ def unpin_comment(cid, v):
 		comment.stickied = None
 		comment.stickied_utc = None
 		g.db.add(comment)
+
+		comment.unpin_parents()
 
 		if v.id != comment.author_id:
 			message = f"@{v.username} (OP) has unpinned your [comment]({comment.shortlink})"

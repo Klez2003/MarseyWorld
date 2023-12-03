@@ -515,3 +515,16 @@ class Comment(Base):
 	@lazy
 	def is_effortpost(self):
 		return len(self.body) >= 1000
+
+	def pin_parents(self):
+		c = self
+		while c.level > 2:
+			c = c.parent_comment
+			c.stickied_child_id = self.id
+			g.db.add(c)
+
+	def unpin_parents(self):
+		cleanup = g.db.query(Comment).filter_by(stickied_child_id=self.id).all()
+		for c in cleanup:
+			c.stickied_child_id = None
+			g.db.add(c)

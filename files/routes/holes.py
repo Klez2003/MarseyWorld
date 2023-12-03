@@ -852,6 +852,8 @@ def pin_comment_mod(cid, v):
 
 		g.db.add(comment)
 
+		comment.pin_parents()
+
 		ma = HoleAction(
 			hole=comment.post.hole,
 			kind="pin_comment",
@@ -882,6 +884,8 @@ def unpin_comment_mod(cid, v):
 		comment.stickied = None
 		comment.stickied_utc = None
 		g.db.add(comment)
+
+		comment.unpin_parents()
 
 		ma = HoleAction(
 			hole=comment.post.hole,

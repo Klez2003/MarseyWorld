@@ -316,10 +316,12 @@ def award_thing(v, thing_type, id):
 			obj.stickied_utc += add
 		else:
 			obj.stickied_utc = int(time.time()) + add
+			if isinstance(obj, Comment):
+				obj.pin_parents()
 
 		obj.stickied = f'{v.username}{PIN_AWARD_TEXT}'
 
-		if isinstance(obj. Post):
+		if isinstance(obj, Post):
 			cache.delete_memoized(frontlist)
 	elif kind == "unpin":
 		if not obj.stickied_utc: abort(400)
@@ -334,7 +336,10 @@ def award_thing(v, thing_type, id):
 			if time.time() > t:
 				obj.stickied = None
 				obj.stickied_utc = None
-				cache.delete_memoized(frontlist)
+				if isinstance(obj, Post):
+					cache.delete_memoized(frontlist)
+				else:
+					obj.unpin_parents()	
 			else: obj.stickied_utc = t
 	elif kind == "queen":
 		if not author.queen:
