@@ -141,7 +141,6 @@ BOOSTED_SITES = {
 	'feddit.de',
 	'programming.dev',
 	'discuss.tchncs.de',
-	'exploding-heads.com',
 
 	#misc
 	'cinchnews.com',
