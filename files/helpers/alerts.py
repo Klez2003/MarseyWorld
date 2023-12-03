@@ -223,7 +223,7 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, obj=None, followers_ping=Tr
 				obj.ping_cost += cost
 
 		if coin_receivers:
-			g.db.query(User).options(load_only(User.id)).filter(User.id.in_(coin_receivers)).update({ User.coins: User.coins + 10 })
+			g.db.query(User).options(load_only(User.id)).filter(User.id.in_(coin_receivers)).update({ User.coins: User.coins + 5 })
 
 	if len(notify_users) > 400 and v.admin_level < PERMS['POST_COMMENT_INFINITE_PINGS']:
 		abort(403, "You can only notify a maximum of 400 users.")
