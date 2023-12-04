@@ -277,7 +277,7 @@ body {
 	font-family: Serif;
 	text-shadow: 0 0 1px #000;
 	pointer-events: none;
-	position: fixed;
+	position: absolute;
 	top: -20%;
 	z-index: 9999;
 	-webkit-user-select: none;
