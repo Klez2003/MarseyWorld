@@ -6,7 +6,7 @@ from flask import redirect, render_template, request, session, g
 from files.helpers.config.const import *
 from files.helpers.settings import get_setting
 
-from files.routes.wrappers import rpath, get_logged_in_user
+from files.routes.wrappers import rpath
 
 from files.__main__ import app, limiter
 
@@ -38,8 +38,7 @@ def error(e):
 	if request.headers.get("Authorization") or request.headers.get("xhr"):
 		return {"error": title, "code": e.code, "description": msg, "details": details}, e.code
 	img = ERROR_MARSEYS.get(e.code, 'marseyl')
-	v = get_logged_in_user()
-	return render_template('errors/error.html', title=title, msg=msg, details=details, img=img, v=v), e.code
+	return render_template('errors/error.html', err=True, title=title, msg=msg, details=details, img=img), e.code
 
 @app.errorhandler(401)
 def error_401(e):

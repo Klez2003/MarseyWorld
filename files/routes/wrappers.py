@@ -45,7 +45,6 @@ def calc_users():
 			if session["session_id"] in loggedout: del loggedout[session["session_id"]]
 			loggedin[v.id] = timestamp
 		else:
-			g.agent = request.headers.get("User-Agent", "")
 			ua = str(user_agents.parse(g.agent))
 			if 'spider' not in ua.lower() and 'bot' not in ua.lower():
 				loggedout[session["session_id"]] = (timestamp, ua)
