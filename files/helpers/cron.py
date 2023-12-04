@@ -328,6 +328,8 @@ def _unpin_expired():
 		pin.stickied = None
 		pin.stickied_utc = None
 		g.db.add(pin)
+		if isinstance(pin, Comment):
+			pin.unpin_parents()	
 
 	if pins:
 		cache.delete_memoized(frontlist)
