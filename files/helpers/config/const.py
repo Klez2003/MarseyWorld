@@ -198,6 +198,7 @@ if SITE_NAME == 'rDrama':
 		'traps',
 		'transgender',
 		'chinchilla',
+		'sports',
 	}
 
 	REDDIT_NOTIFS_SITE.update({'marsey', 'r/drama', 'justice4darrell', 'cringetopia.org'})
