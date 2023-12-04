@@ -450,13 +450,13 @@ CREATE TABLE public.comments (
     body_ts tsvector GENERATED ALWAYS AS (to_tsvector('english'::regconfig, (body)::text)) STORED,
     casino_game_id integer,
     chuddedfor character varying(50),
-    stickied_child_id integer,
     wall_user_id integer,
     chudded boolean NOT NULL,
     ping_cost integer NOT NULL,
     rainbowed boolean NOT NULL,
     queened boolean NOT NULL,
-    sharpened boolean NOT NULL
+    sharpened boolean NOT NULL,
+    num_of_pinned_children integer NOT NULL
 );
 
 
@@ -2818,14 +2818,6 @@ ALTER TABLE ONLY public.save_relationship
 
 ALTER TABLE ONLY public.save_relationship
     ADD CONSTRAINT save_relationship_user_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) MATCH FULL;
-
-
---
--- Name: comments stickied_child_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.comments
-    ADD CONSTRAINT stickied_child_fkey FOREIGN KEY (stickied_child_id) REFERENCES public.comments(id);
 
 
 --
