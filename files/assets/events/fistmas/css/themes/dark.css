@@ -15,7 +15,6 @@
 	--gray-800: #101819;
 	--gray-900: #101819;
 }
-
-.comment-text, .post-body {
-	--primary: #15de59 !important;
+blockquote a {
+	color: #15de59;
 }
