@@ -66,9 +66,11 @@
 										</div>
 									{% endif %}
 
-									<div id="kick-{{membership.user_id}}" {% if name == 'applications' %}class="d-none"{% endif %}>
-										<button type="button" class="btn btn-danger btn-block" data-nonce="{{g.nonce}}" data-onclick="reject_membership(this,'{{group}}','{{membership.user_id}}')">{% if v.id == membership.user_id %}Leave{% else %}Kick{% endif %}</button>
-									</div>
+									{% if v.id == membership.user_id or v.id == group.owner.id or not membership.user.mods_group(group) %}
+										<div id="kick-{{membership.user_id}}" {% if name == 'applications' %}class="d-none"{% endif %}>
+											<button type="button" class="btn btn-danger btn-block" data-nonce="{{g.nonce}}" data-onclick="reject_membership(this,'{{group}}','{{membership.user_id}}')">{% if v.id == membership.user_id %}Leave{% else %}Kick{% endif %}</button>
+										</div>
+									{% endif %}
 
 									<div {% if name == 'members' %}class="d-none"{% endif %}>
 										<button type="button" class="btn btn-success btn-block" data-nonce="{{g.nonce}}" data-onclick="approve_membership(this,'{{group}}','{{membership.user_id}}')">Approve</button>

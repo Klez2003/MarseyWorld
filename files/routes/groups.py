@@ -187,8 +187,12 @@ def group_reject(v, group_name, user_id):
 	if not membership:
 		abort(404, "There is no membership to reject!")
 
-	if v.id != group.owner.id and membership.is_mod:
-		abort(403, "Only the group owner can kick mods!")
+	if v.id != membership.user_id: #implies kicking and not leaving
+		if membership.user_id == group.owner.id:
+			abort(403, "You can't kick the group owner!")
+
+		if v.id != group.owner.id and membership.is_mod:
+			abort(403, "Only the group owner can kick mods!")
 
 	if v.id == membership.user_id:
 		msg = f"You have left !{group} successfully!"
