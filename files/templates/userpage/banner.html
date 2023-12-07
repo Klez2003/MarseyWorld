@@ -165,7 +165,7 @@
 							<p class="text-uppercase my-0 pb-1" style="font-weight: bold; font-size: 12px">Member of</p>
 							{% for i in u.group_memberships %}
 								<span class="d-inline-block mx-1 {% if u.id == i[1].owner.id %}font-weight-bolder{% endif %}">
-									<a href="/!{{i[0]}}">!{{i[0]}}</a>
+									<a href="/!{{i[0]}}" {% if u.id == i[1].owner.id %}style="color: #bbb !important"{% endif %}>!{{i[0]}}</a>
 								</span>
 							{% endfor %}
 						</div>
