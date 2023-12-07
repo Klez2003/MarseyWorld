@@ -81,6 +81,7 @@ if SITE_NAME == 'rDrama':
 		'(?<!-)based': 'keyed',
 		'(?<!\w)needful': 'sneedful',
 		'think tank': 'twink tank',
+		"ya'll": "y'all",
 	}
 
 PROFANITIES = {
