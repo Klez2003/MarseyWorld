@@ -4343,6 +4343,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseysting', 'Marsey', 2, 'drum badumtiss ba dum tiss bad dum tiss baddumtiss comedy humor punchline animated standup joke', false, 0),
 ('marseystinky', 'Marsey', 2, 'smelly homeless stank poor ew yuck', false, 0),
 ('marseystitch', 'Marsey', 2, 'stitch yarn pixel sew sewing thread', false, 1694544051),
+('marseystitchgamer', 'Marsey', 2, 'liloandstitch videogames disney', false, 1702490419),
 ('marseystocksdown', 'Marsey', 2, 'market bonds options poor', false, 1663640588),
 ('marseystocksup', 'Marsey', 2, 'market bonds options rich', false, 1663640568),
 ('marseystonetoss', 'Marsey', 2, 'amogus pebblethrow nazi reaction boulderpummel', false, 0),
