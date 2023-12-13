@@ -32,6 +32,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('carphippo', 'Carp', 2, 'catfish hippopotamus costume', false, 1700654972),
 ('carpreal', 'Carp', 2, 'carp real life realistic fishing buy and sell', false, 1699396723),
 ('carpscary', 'Carp', 2, 'scary carp blood attack face cripy lazer', false, 1699922269),
+('carpseanmurraynomanssky', 'Carp', 2, 'seanmurray nms hellogames lnf lightnofire nomanssky', false, 1702030595),
 ('carpshuckle', 'Carp', 2, 'pkmn pokemon shuckle 213', false, 1698996305),
 ('carpslugma2', 'Carp', 2, 'pkmn pokemon slugma 218', false, 1699258321),
 ('carptroublemakerpenisshadow', 'Carp', 2, 'dickshadow cock', false, 1699810610),
