@@ -5344,6 +5344,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('sneed2', 'Misc', 2, 'game nintendo mario snifit seed twerk', false, 1691860752),
 ('sneedbuddy', 'Misc', 2, 'cat sneed irl kitty', false, 0),
 ('sneedcat', 'Misc', 2, 'sneed cat dancing whip gif', false, 0),
+('sneedcat2', 'Misc', 2, 'nazicat chudcat', false, 1702513987),
 ('sniler', 'Misc', 2, 'cat smiler', false, 1692828518),
 ('sniper', 'Classic', 2, 'rifle gun kill shoot', false, 1679282271),
 ('snipsnip', 'Misc', 2, 'castration scissors eggplant killallmen moidmoment', false, 1679156907),
