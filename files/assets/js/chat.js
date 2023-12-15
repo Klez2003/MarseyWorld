@@ -211,7 +211,7 @@ socket.on('online', function(data){
 	{
 		let patron = ''
 		if (u[3])
-			patron += ` class="patron" style="background-color:#${u[2]}"`
+			patron += ` class="patron chat-patron" style="background-color:#${u[2]}"`
 		if (u[5])
 			patron += " pride_username"
 

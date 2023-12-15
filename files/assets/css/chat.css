@@ -166,7 +166,7 @@ img[alt^="![]("], .img {
 }
 
 @media (min-width: 768px) {
-	.patron {
+	.chat-patron {
 		padding-top: 1px !important;
 	}
 }
