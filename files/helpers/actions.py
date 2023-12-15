@@ -88,8 +88,10 @@ def execute_snappy(post, v):
 	elif v.id == LAWLZ_ID:
 		if random.random() < 0.5: body = "wow, this lawlzpost sucks!"
 		else: body = "wow, a good lawlzpost for once!"
-	elif v.id == 253:
+	elif SITE == 'rdrama.net' and v.id == 253:
 		body = "https://i.rdrama.net/images/16961715452780113.webp"
+	elif SITE == 'rdrama.net' and v.id == 8094:
+		body = "https://i.rdrama.net/images/17025988883967621.webp"
 	else:
 		if IS_DKD():
 			SNAPPY_CHOICES = SNAPPY_KONGS
