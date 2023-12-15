@@ -408,3 +408,7 @@ blockquote {
 .badge {
 	padding: 0.4em 0.4em 0.25em 0.4em;
 }
+
+#cursormarsey {
+	background-image: url('/assets/events/fistmas/images/cursormarsey.webp?x=6') !important;
+}
