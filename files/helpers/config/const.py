@@ -883,6 +883,7 @@ approved_embed_hosts = [
 	'media3.giphy.com/media',
 	'media4.giphy.com/media',
 	'media.tenor.com',
+	'media1.tenor.com',
 	'c.tenor.com',
 	'thumbs.gfycat.com',
 	'i.postimg.cc', # WPD chat seems to like it
