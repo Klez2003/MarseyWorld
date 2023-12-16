@@ -929,13 +929,13 @@ class User(Base):
 		if self.chud:
 			if IS_HOMOWEEN():
 				return f"{SITE_FULL}/assets/events/homoween/images/chud/{random.randint(1, 19)}.webp?x=1"
-			return f"{SITE_FULL}/e/chudsey.webp"
+			return f"{SITE_FULL_IMAGES}/e/chudsey.webp"
 		if self.rainbow:
-			return f"{SITE_FULL}/e/marseysalutepride.webp"
+			return f"{SITE_FULL_IMAGES}/e/marseysalutepride.webp"
 		if self.queen:
 			number_of_girl_pfps = 25
 			pic_num = (self.id % number_of_girl_pfps) + 1
-			return f"{SITE_FULL}/i/pfps/girls/{pic_num}.webp"
+			return f"{SITE_FULL_IMAGES}/i/pfps/girls/{pic_num}.webp"
 		if self.profileurl and can_see(g.v, self):
 			if self.profileurl.startswith('/'): return SITE_FULL + self.profileurl
 			return self.profileurl
