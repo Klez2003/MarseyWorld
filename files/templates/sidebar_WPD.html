@@ -15,8 +15,8 @@
 	{%- endif -%}
 
 	{% if request.path != '/sidebar' %}
-		{% if IS_FISTMAS() or IS_HOMOWEEN() %}
-			{% include "events/shared/eye_tracking.html" %}
+		{% if IS_HOMOWEEN() %}
+			{% include "events/homoween/eye_tracking.html" %}
 		{% else %}
 			<a href="{{image}}">
 				<img class="mb-4 sidebar-img" alt="sidebar image" data-nonce="{{g.nonce}}" data-onclick="expandImage()" loading="lazy" src="{{image}}">
