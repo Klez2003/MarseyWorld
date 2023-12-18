@@ -808,9 +808,10 @@ def normalize_url(url):
 	return url.rstrip('=')
 
 def normalize_url_gevent(url):
-	url = requests.get(url, headers=HEADERS, timeout=2).url
-	print(url, flush=True)
-	return normalize_url(url)
+	x = requests.get(url, headers=HEADERS, timeout=2)
+	print(x, flush=True)
+	print(x.url, flush=True)
+	return normalize_url(x.url)
 
 def validate_css(css):
 	if '@import' in css:
