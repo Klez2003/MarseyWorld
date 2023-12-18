@@ -168,7 +168,7 @@ if SITE_NAME == 'rDrama':
 		"AgainstHateSubreddits offsite",
 		"exotic pets for sale",
 		"cheap airfare and hotels",
-		"the backpage of the internet",
+		"the back page of the internet",
 		"socialist discourse & dating",
 		"DIY estrogen recipes",
 		"#1 guide to transitioning in Texas",
