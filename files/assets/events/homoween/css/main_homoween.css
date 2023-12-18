@@ -453,10 +453,7 @@ body::after {
 }
 
 /* Candy Corn */
-.candy-corn, h1.candy-corn.post-title a {
-	--color1: #FDFBDA;
-	--color2: #F66A3C;
-	--color3: #FBED21;
+.candycorn, h1.candycorn.post-title a {
 	font-family: "Open Sans", sans-serif !important;
 	background: repeating-linear-gradient(
 		45deg,
@@ -470,7 +467,7 @@ body::after {
 	animation: 32s linear 0s infinite move-colors;
 }
 
-.candy-corn:hover, h1.candy-corn.post-title a:hover {
+.candycorn:hover, h1.candycorn.post-title a:hover {
 	animation-duration: 10s;
 }
 
@@ -482,10 +479,13 @@ body::after {
 	letter-spacing: 0.15em;
 }
 
-.ectoplasm.candy-corn {
-	--color1: rgb(131, 255, 131);
-	--color2: rgb(0, 111, 0);
-	--color3: rgb(140, 255, 0);
+.ectoplasm.candycorn {
+	background: repeating-linear-gradient(
+		45deg,
+		rgb(131, 255, 131),
+		rgb(0, 111, 0) 20px,
+		rgb(140, 255, 0) 60px
+	);
 	text-shadow: none;
 }
 

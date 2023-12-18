@@ -15,13 +15,12 @@
 	--gray-800: #101819;
 	--gray-900: #101819;
 }
+
 blockquote a {
 	color: #15de59;
 }
-#post-title, #post-content p:not(blockquote p) {
-	background: repeating-linear-gradient(
-		45deg,
-		#ff4e53,
-		#26ffcc 11px
-	);
+
+.candycane, h1.candycane.post-title a {
+	--color1: #ff4e53;
+	--color2: #1cc19a;
 }

@@ -293,8 +293,8 @@ AWARDS = {
 		"negative": False,
 		"included_in_lootbox": True,
 	},
-	"candy-corn": {
-		"kind": "candy-corn",
+	"candycorn": {
+		"kind": "candycorn",
 		"title": "Candy Corn",
 		"description": "???",
 		"icon": "fas fa-candy-corn",

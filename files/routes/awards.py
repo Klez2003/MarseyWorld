@@ -546,10 +546,7 @@ def award_thing(v, thing_type, id):
 		author.grinch = True
 		if v.id == author.id:
 			session['event_music'] = False
-	elif kind == "candycane":
-		if obj.is_effortpost:
-			abort(403, f'Effortposts are protected from the {award_title} award!')
-	elif kind in {"ectoplasm", "candy-corn", "stab"}:
+	elif kind in {"ectoplasm", "candycorn", "candycane", "stab"}:
 		if obj.is_effortpost:
 			abort(403, f'Effortposts are protected from the {award_title} award!')
 	elif kind == "spider":

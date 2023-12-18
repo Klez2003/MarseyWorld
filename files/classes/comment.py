@@ -50,10 +50,14 @@ def get_award_classes(obj, v, title=False):
 	if IS_HOMOWEEN():
 		if obj.award_count('ectoplasm', v):
 			classes.append("ectoplasm")
-		if obj.award_count('candy-corn', v):
-			classes.append("candy-corn")
+		if obj.award_count('candycorn', v):
+			classes.append("candycorn")
 		if obj.award_count('stab', v) and isinstance(obj, Comment):
 			classes.append("blood")
+
+	if IS_FISTMAS():
+		if obj.award_count('candycane', v):
+			classes.append("candycane")
 
 	return ' '.join(classes)
 

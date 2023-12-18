@@ -418,3 +418,22 @@ blockquote {
 		padding-top: 5px !important;
 	}
 }
+
+.candycane, h1.candycane.post-title a {
+	--color1: #f34d53;
+	--color2: #168b70;
+	font-family: "Open Sans", sans-serif !important;
+	background: repeating-linear-gradient(
+		45deg,
+		var(--color1),
+		var(--color2) 20px
+	);
+	background-clip: text;
+	color: transparent !important;
+	-webkit-background-clip: text;
+	animation: 80s linear 0s infinite move-colors;
+}
+
+.candycane:hover, h1.candycane.post-title a:hover {
+	animation-duration: 30s;
+}
