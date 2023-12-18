@@ -1,4 +1,4 @@
-#post-title, #post-content p {
+#post-title, #post-content p:not(blockquote p) {
 	--color1: rgb(12, 128, 101);
 	--color2: ;
 	font-family: "Open Sans", sans-serif;
