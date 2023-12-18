@@ -809,6 +809,7 @@ def normalize_url(url):
 
 def normalize_url_gevent(url):
 	url = requests.get(url, headers=HEADERS, timeout=2).url
+	print(url, flush=True)
 	return normalize_url(url)
 
 def validate_css(css):
