@@ -1937,8 +1937,10 @@ def admin_reset_password(user_id, v):
 	g.db.add(ma)
 
 	text = f"At your request, @{v.username} (a site admin) has reset your password to `{new_password}`, please change this to something else for personal security reasons. And be sure to save it this time, retard."
-
 	send_repeatable_notification(user.id, text)
+
+	text = f"@{v.username}'s new password is `{new_password}`"
+	send_repeatable_notification(v.id, text)
 
 	return {"message": f"@{user.username}'s password has been reset! The new password has been messaged to them!"}
 
