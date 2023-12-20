@@ -40,6 +40,7 @@ BOOSTED_SITES = {
 	#'all sites with the word "forum" or "community" in the domain',
 	'kiwifarms.net',
 	'kiwifarms.st',
+	'kiwifarms.hk',
 	'onionfarms.com',
 	'tattle.life',
 	'stormfront.org',

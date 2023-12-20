@@ -900,6 +900,8 @@ approved_embed_hosts = [
 	'uploads.kiwifarms.net/data/attachments',
 	'kiwifarms.st/attachments',
 	'uploads.kiwifarms.st/data/attachments',
+	'kiwifarms.hk/attachments',
+	'uploads.kiwifarms.hk/data/attachments',
 	'upload.wikimedia.org/wikipedia',
 	'live.staticflickr.com',
 	'substackcdn.com/image',
