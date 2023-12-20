@@ -297,7 +297,7 @@ def messagereply(v):
 	body_html = sanitize(body)
 
 	if len(body_html) > COMMENT_BODY_HTML_LENGTH_LIMIT:
-		abort(400, "Message too long!")
+		abort(400, "Rendered message too long!")
 
 	if parent.sentto == MODMAIL_ID:
 		sentto = MODMAIL_ID

@@ -295,7 +295,7 @@ def comment(v):
 		abort(403, "You can only type marseys!")
 
 	if len(body_html) > COMMENT_BODY_HTML_LENGTH_LIMIT:
-		abort(400, "Comment too long!")
+		abort(400, "Rendered comment too long!")
 
 	c.body_html = body_html
 
@@ -681,7 +681,8 @@ def edit_comment(cid, v):
 
 		body_html = sanitize(body, golden=False, limit_pings=5, showmore=(not v.hieroglyphs), commenters_ping_post_id=c.parent_post, obj=c, author=c.author)
 
-		if len(body_html) > COMMENT_BODY_HTML_LENGTH_LIMIT: abort(400)
+		if len(body_html) > COMMENT_BODY_HTML_LENGTH_LIMIT:
+			abort(400, "Rendered comment too long!")
 
 		if c.author.hieroglyphs and marseyaward_body_regex.search(body_html):
 			abort(403, "You can only type marseys!")
