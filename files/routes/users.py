@@ -594,6 +594,9 @@ def message(v, username=None, id=None):
 
 	body_html = sanitize(body)
 
+	if len(body_html) > COMMENT_BODY_HTML_LENGTH_LIMIT:
+		abort(400, "Rendered message too long!")
+
 	existing = g.db.query(Comment.id).filter(
 		Comment.author_id == v.id,
 		Comment.sentto == user.id,
