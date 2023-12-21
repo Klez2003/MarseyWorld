@@ -278,6 +278,11 @@ class User(Base):
 
 	@property
 	@lazy
+	def cw_warnings(self):
+		return bool(session.get('cw_warnings', True))
+	
+	@property
+	@lazy
 	def nsfw_warnings(self):
 		return bool(session.get('nsfw_warnings', True))
 
