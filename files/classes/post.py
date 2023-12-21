@@ -45,6 +45,7 @@ class Post(Base):
 	private = Column(Boolean, default=False)
 	comment_count = Column(Integer, default=0)
 	is_approved = Column(Integer, ForeignKey("users.id"))
+	cw = Column(Boolean, default=False)
 	nsfw = Column(Boolean, default=False)
 	is_bot = Column(Boolean, default=False)
 	upvotes = Column(Integer, default=1)
@@ -167,6 +168,8 @@ class Post(Base):
 	@property
 	@lazy
 	def thumb_url(self):
+		if self.cw:
+			return f"{SITE_FULL_IMAGES}/i/cw.webp?x=6"
 		if self.nsfw:
 			return f"{SITE_FULL_IMAGES}/i/nsfw.webp?x=6"
 		elif not self.url:
@@ -224,6 +227,7 @@ class Post(Base):
 				'created_utc': self.created_utc,
 				'id': self.id,
 				'title': self.title,
+				'is_cw': self.cw,
 				'is_nsfw': self.nsfw,
 				'is_bot': self.is_bot,
 				'thumb_url': self.thumb_url,
