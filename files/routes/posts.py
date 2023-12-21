@@ -105,6 +105,9 @@ def post_id(pid, v, anything=None, hole=None):
 	p = get_post(pid, v=v)
 	if not can_see(v, p): abort(403)
 
+	if not g.is_api_or_xhr and p.cw  and not g.show_cw:
+		return render_template("errors/cw.html", v=v)
+		
 	if not g.is_api_or_xhr and p.nsfw  and not g.show_nsfw:
 		return render_template("errors/nsfw.html", v=v)
 
@@ -534,11 +537,12 @@ def submit_post(v, hole=None):
 	body = process_files(request.files, v, body)
 	body = body[:POST_BODY_LENGTH_LIMIT(v)].strip() # process_files() adds content to the body, so we need to re-strip
 
-	flag_notify = (request.values.get("notify", "on") == "on")
+	flag_cw = FEATURES['CW_MARKING'] and request.values.get("cw", False, bool)
+	flag_ghost = request.values.get("ghost", False, bool) and v.can_post_in_ghost_threads
 	flag_new = request.values.get("new", False, bool) or 'megathread' in title.lower()
+	flag_notify = (request.values.get("notify", "on") == "on")
 	flag_nsfw = FEATURES['NSFW_MARKING'] and request.values.get("nsfw", False, bool)
 	flag_private = request.values.get("private", False, bool)
-	flag_ghost = request.values.get("ghost", False, bool) and v.can_post_in_ghost_threads
 
 	if flag_ghost: hole = None
 
@@ -554,6 +558,7 @@ def submit_post(v, hole=None):
 		private=flag_private,
 		notify=flag_notify,
 		author_id=v.id,
+		cw=flag_cw,
 		nsfw=flag_nsfw,
 		new=flag_new,
 		app_id=v.client.application.id if v.client else None,
@@ -646,6 +651,7 @@ def submit_post(v, hole=None):
 		c_jannied = Comment(author_id=AUTOJANNY_ID,
 			parent_post=p.id,
 			level=1,
+			cw=False,
 			nsfw=False,
 			is_bot=True,
 			app_id=None,
@@ -759,6 +765,84 @@ def undelete_post_pid(pid, v):
 
 	return {"message": "Post undeleted!"}
 
+
+@app.post("/mark_post_cw/<int:pid>")
+@feature_required('CW_MARKING')
+@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@auth_required
+def mark_post_cw(pid, v):
+	p = get_post(pid)
+
+	if p.author_id != v.id and v.admin_level < PERMS['POST_COMMENT_MODERATION'] and not (p.hole and v.mods(p.hole)):
+		abort(403)
+
+	if p.cw and v.is_permabanned:
+		abort(403)
+
+	p.cw = True
+	g.db.add(p)
+
+	if p.author_id != v.id:
+		if v.admin_level >= PERMS['POST_COMMENT_MODERATION']:
+			ma = ModAction(
+					kind = "set_cw",
+					user_id = v.id,
+					target_post_id = p.id,
+				)
+			g.db.add(ma)
+		else:
+			ma = HoleAction(
+					hole = p.hole,
+					kind = "set_cw",
+					user_id = v.id,
+					target_post_id = p.id,
+				)
+			g.db.add(ma)
+		send_repeatable_notification(p.author_id, f"@{v.username} (a site admin) has marked [{p.title}](/post/{p.id}) as Child Warning")
+
+	return {"message": "Post has been marked as Child Warning!"}
+
+@app.post("/unmark_post_cw/<int:pid>")
+@feature_required('CW_MARKING')
+@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@auth_required
+def unmark_post_cw(pid, v):
+	p = get_post(pid)
+
+	if p.author_id != v.id and v.admin_level < PERMS['POST_COMMENT_MODERATION'] and not (p.hole and v.mods(p.hole)):
+		abort(403)
+
+	if p.cw and v.is_permabanned:
+		abort(403)
+
+	p.cw = False
+	g.db.add(p)
+
+	if p.author_id != v.id:
+		if v.admin_level >= PERMS['POST_COMMENT_MODERATION']:
+			ma = ModAction(
+					kind = "unset_cw",
+					user_id = v.id,
+					target_post_id = p.id,
+				)
+			g.db.add(ma)
+		else:
+			ma = HoleAction(
+					hole = p.hole,
+					kind = "unset_cw",
+					user_id = v.id,
+					target_post_id = p.id,
+				)
+			g.db.add(ma)
+		send_repeatable_notification(p.author_id, f"@{v.username} (a site admin) has unmarked [{p.title}](/post/{p.id}) as Child Warning")
+
+	return {"message": "Post has been unmarked as Child Warning!"}
 
 @app.post("/mark_post_nsfw/<int:pid>")
 @feature_required('NSFW_MARKING')
