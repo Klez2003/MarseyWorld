@@ -189,6 +189,10 @@ def settings_personal_post(v):
 		updated = True
 		session["cursormarsey"] = int(request.values.get("cursormarsey") == 'true')
 
+	elif not updated and request.values.get("cw_warnings", v.cw_warnings) != v.cw_warnings:
+		updated = True
+		session["cw_warnings"] = int(request.values.get("cw_warnings") == 'true')
+		
 	elif not updated and request.values.get("nsfw_warnings", v.nsfw_warnings) != v.nsfw_warnings:
 		updated = True
 		session["nsfw_warnings"] = int(request.values.get("nsfw_warnings") == 'true')
