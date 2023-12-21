@@ -127,6 +127,9 @@
 					<h5>Content Filters</h5>
 					<div class="settings-section rounded">
 						{{common.toggle_section('User Signatures', 'show_sigs', 'show_sigs', v.show_sigs, 'Show user signatures.', false)}}
+						{% if FEATURES['CW_MARKING'] %}
+							{{common.toggle_section('Child Warnings', 'cw_warnings', 'cw_warnings', v.cw_warnings, "Show a warning when viewing posts containing children.", false)}}
+						{% endif %}
 						{% if FEATURES['NSFW_MARKING'] %}
 							{{common.toggle_section('NSFW Warnings', 'nsfw_warnings', 'nsfw_warnings', v.nsfw_warnings, "Show a warning when viewing NSFW posts and collapse NSFW comments.", false)}}
 						{% endif %}
