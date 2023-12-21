@@ -408,6 +408,7 @@ FEATURES = {
 	'MARSEYBUX': True,
 	'AWARDS': True,
 	'CHAT': True,
+	'CW_MARKING': False,
 	'PINS': True,
 	'PRONOUNS': False,
 	'BADGES': True,
@@ -710,10 +711,11 @@ elif SITE == 'watchpeopledie.tv':
 	PIN_LIMIT = 4
 	WELCOME_MSG = """Hi, you! Welcome to WatchPeopleDie.tv, this really cool site where you can go to watch people die. I'm @CLiTPEELER! If you have any questions about how things work here, or suggestions on how to make them work better than they already do, definitely slide on into my DMs (no fat chicks).\n\nThere's an enormously robust suite of fun features we have here and we're always looking for more to add. Way, way too many to go over in an automated welcome message. And you're probably here for the videos of people dying more than any sort of weird, paradoxical digital community aspect anyway, so I won't bore you with a tedious overview of them. Just head on over to [your settings page](/settings/profile) and have a look at some of the basic profile stuff, at least. You can change your profile picture, username, flair, colors, banners, bio, profile anthem (autoplaying song on your page, like it's MySpace or some shit, hell yeah), CSS, all sorts of things.\n\nOr you can just go back to the main feed and carry on with watching people die. That's what the site is for, after all. Have fun!\n\nAnyway, in closing, WPD is entirely open source. We don't really need new full-time coders or anything, but if you'd like to take a look at our repo - or even submit a PR to change, fix, or add some things - go right ahead! Our codebase lives at https://fsdfsd.net/rDrama/rDrama\n\nWell, that's all. Thanks again for signing up. It's an automated message and all, but I really do mean that. Thank you, specifically. I love you. Romantically. Deeply. Passionately.\n\nHave fun!"""
 
-	FEATURES['PATRON_ICONS'] = True
-	FEATURES['NSFW_MARKING'] = False
 	FEATURES['BOTS'] = False
+	FEATURES['CW_MARKING'] = True
 	FEATURES['HAT_SUBMISSIONS'] = False
+	FEATURES['NSFW_MARKING'] = False
+	FEATURES['PATRON_ICONS'] = True
 
 	PERMS['POST_COMMENT_EDITING'] = 3
 	PERMS['MODS_EVERY_HOLE'] = 3
