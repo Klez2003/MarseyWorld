@@ -11,17 +11,18 @@ from files.routes.wrappers import *
 from files.__main__ import app
 
 valid_params = [
+	'after',
 	'author',
+	'before',
+	'cw'
 	'domain',
+	'exact',
+	'hole',
 	'nsfw',
 	'post',
-	'before',
-	'after',
-	'exact',
-	'title',
 	'sentto',
-	'hole',
 	'subreddit',
+	'title',
 ]
 
 def searchparse(text):
@@ -110,6 +111,8 @@ def searchposts(v):
 					) for x in criteria['q']]
 		posts = posts.filter(*words)
 
+	if 'cw' in criteria: posts = posts.filter(Post.cw==True)
+	
 	if 'nsfw' in criteria: posts = posts.filter(Post.nsfw==True)
 
 	if 'domain' in criteria:
