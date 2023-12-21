@@ -825,6 +825,7 @@ CREATE TABLE public.posts (
     author_id integer NOT NULL,
     created_utc integer NOT NULL,
     is_banned boolean DEFAULT false NOT NULL,
+    cw boolean DEFAULT false NOT NULL,
     nsfw boolean DEFAULT false NOT NULL,
     distinguish_level integer DEFAULT 0 NOT NULL,
     deleted_utc integer DEFAULT 0 NOT NULL,
