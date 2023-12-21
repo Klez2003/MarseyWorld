@@ -276,6 +276,11 @@ MODACTION_TYPES = {
 		"icon": 'fa-robot',
 		"color": 'bg-muted'
 	},
+	'set_cw': {
+		"str": "set {self.target_link} as Child Warning",
+		"icon": 'fa-eye-evil',
+		"color": 'bg-danger'
+	},
 	'set_flair_locked': {
 		"str": "set {self.target_link}'s flair (locked)",
 		"icon": 'fa-award',
@@ -375,6 +380,11 @@ MODACTION_TYPES = {
 		"str": 'unpinned post {self.target_link}',
 		"icon": 'fa-thumbtack fa-rotate--45',
 		"color": 'bg-muted'
+	},
+	'unset_cw': {
+		"str": "unset {self.target_link} as Child Warning",
+		"icon": 'fa-eye-evil',
+		"color": 'bg-success'
 	},
 	'unset_nsfw': {
 		"str": 'unset {self.target_link} as NSFW',
