@@ -127,15 +127,15 @@ pre {
 }
 
 body {
-	cursor: url(/assets/events/fistmas/images/cursor.webp?x=6), auto !important;
+	cursor: url(/assets/events/fistmas/images/cursor.webp?x=7), auto !important;
 }
 
 textarea, input[type=textbox], input[type=search] {
-	cursor: url(/assets/events/fistmas/images/text.webp?x=6) 9 14, auto !important;
+	cursor: url(/assets/events/fistmas/images/text.webp?x=7) 9 14, auto !important;
 }
 
 .btn, input[type=button], button, a {
-	cursor: url(/assets/events/fistmas/images/pointer.webp?x=6), auto !important;
+	cursor: url(/assets/events/fistmas/images/pointer.webp?x=7), auto !important;
 }
 
 .fa-moon-over-sun:before{content:"\f74a"}
@@ -161,7 +161,7 @@ textarea, input[type=textbox], input[type=search] {
 	left: 0;
 	height: 57px;
 	width: 100%;
-	background: url('/assets/events/fistmas/images/lights.webp?x=6');
+	background: url('/assets/events/fistmas/images/lights.webp?x=7');
 	animation: lights 1s infinite steps(2);
 	pointer-events: none;
   }
@@ -186,7 +186,7 @@ textarea, input[type=textbox], input[type=search] {
 .btn::after, .snow-cap::after {
 	content: '';
 	pointer-events: none;
-	background: url("/assets/events/fistmas/images/snowcap.webp?x=6") repeat-x;
+	background: url("/assets/events/fistmas/images/snowcap.webp?x=7") repeat-x;
 	background-size: contain;
 	position: absolute;
 	bottom: -18px;
@@ -410,7 +410,7 @@ blockquote {
 }
 
 #cursormarsey {
-	background-image: url('/assets/events/fistmas/images/cursormarsey.webp?x=6') !important;
+	background-image: url('/assets/events/fistmas/images/cursormarsey.webp?x=7') !important;
 }
 
 @media (min-width: 768px) {
