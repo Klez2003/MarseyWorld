@@ -260,11 +260,10 @@ class User(Base):
 
 		return (succeeded, charged_coins)
 
-	if IS_EVENT():
-		@property
-		@lazy
-		def event_music(self):
-			return session.get('event_music', SITE_NAME == 'rDrama')
+	@property
+	@lazy
+	def event_music(self):
+		return session.get('event_music', SITE_NAME == 'rDrama')
 
 	@property
 	@lazy
