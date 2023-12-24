@@ -118,10 +118,6 @@
 				<link rel="stylesheet" href="{{('css/30409f.css') | asset}}">
 			{% endif %}
 		{% endif %}
-
-		{% if (v.css or v.background) and not request.path.startswith('/settings') %}
-			<link rel="stylesheet" href="/@{{v.username}}/css">
-		{% endif %}
 	{% else %}
 		<link rel="stylesheet" href="{{('css/themes/'~DEFAULT_THEME~'.css') | asset}}">
 	{% endif %}
@@ -141,10 +137,6 @@
 			<link rel="stylesheet" href="{{'events/fistmas/css/themes/dark.css'| asset}}">
 		{% endif %}
 	{% endif %}
-
-	{% if hole and hole.css and not request.path.endswith('settings') and not request.values.get('nocss') %}
-		<link rel="stylesheet" href="/h/{{hole}}/css">
-	{% endif %}
 {% endmacro %}
 
 {% macro stylesheets_lower() %}
@@ -152,6 +144,14 @@
 		{% if (v and v.background) or (SITE_NAME == 'rDrama' and v and v.chud) %}
 			<link rel="stylesheet" href="{{('css/transparent.css') | asset}}">
 		{% endif %}
+	{% endif %}
+
+	{% if hole and hole.css and not request.path.endswith('settings') and not request.values.get('nocss') %}
+		<link rel="stylesheet" href="/h/{{hole}}/css">
+	{% endif %}
+
+	{% if v and (v.css or v.background) and not request.path.startswith('/settings') %}
+		<link rel="stylesheet" href="/@{{v.username}}/css">
 	{% endif %}
 {% endmacro %}
 
