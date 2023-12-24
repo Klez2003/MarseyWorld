@@ -99,34 +99,9 @@
 
 {% macro stylesheets() %}
 	<link rel="stylesheet" href="{{'css/main.css' | asset}}">
-	{% if v %}
-		{% if v.chud %}
-			<link rel="stylesheet" href="{{('css/chud.css') | asset}}">
-		{% endif %}
-		{% if not IS_FISTMAS() %}
-			{% if v.theme == 'classic_dark' %}
-				<link rel="stylesheet" href="{{('css/themes/classic.css') | asset}}">
-			{% endif %}
-
-			{% if IS_HOMOWEEN() %}
-				<link rel="stylesheet" href="{{('css/themes/midnight.css') | asset}}">
-			{% else %}
-				<link rel="stylesheet" href="{{('css/themes/'~v.theme~'.css') | asset}}">
-			{% endif %}
-
-			{% if v.themecolor == '30409f' %}
-				<link rel="stylesheet" href="{{('css/30409f.css') | asset}}">
-			{% endif %}
-		{% endif %}
-	{% else %}
-		<link rel="stylesheet" href="{{('css/themes/'~DEFAULT_THEME~'.css') | asset}}">
-	{% endif %}
-
-	{% if not (v and v.poor) %}
-		<link rel="stylesheet" href="{{'css/awards.css' | asset}}">
-	{% endif %}
 
 	{% if IS_HOMOWEEN() %}
+		<link rel="stylesheet" href="{{('css/themes/midnight.css') | asset}}">
 		<link rel="stylesheet" href="{{'events/homoween/css/main_homoween.css' | asset}}">
 	{% elif IS_FISTMAS() %}
 		<link rel="stylesheet" href="{{'events/fistmas/css/main_fistmas.css' | asset}}">
@@ -136,6 +111,26 @@
 		{% else %}
 			<link rel="stylesheet" href="{{'events/fistmas/css/themes/dark.css'| asset}}">
 		{% endif %}
+	{% elif v %}
+		{% if v.theme == 'classic_dark' %}
+			<link rel="stylesheet" href="{{('css/themes/classic.css') | asset}}">
+		{% endif %}
+
+		<link rel="stylesheet" href="{{('css/themes/'~v.theme~'.css') | asset}}">
+
+		{% if v.themecolor == '30409f' %}
+			<link rel="stylesheet" href="{{('css/30409f.css') | asset}}">
+		{% endif %}
+	{% else %}
+		<link rel="stylesheet" href="{{('css/themes/'~DEFAULT_THEME~'.css') | asset}}">
+	{% endif %}
+
+	{% if v and v.chud %}
+		<link rel="stylesheet" href="{{('css/chud.css') | asset}}">
+	{% endif %}
+
+	{% if not (v and v.poor) %}
+		<link rel="stylesheet" href="{{'css/awards.css' | asset}}">
 	{% endif %}
 {% endmacro %}
 
