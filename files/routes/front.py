@@ -87,7 +87,7 @@ def front_all(v, hole=None):
 	return result
 
 
-LIMITED_WPD_HOLES = {'palestine', 'ukraine', 'aftermath', 'fights', 'gore', 'medical', 'request', 'selfharm',
+LIMITED_WPD_HOLES = {'sandshit', 'slavshit', 'aftermath', 'fights', 'gore', 'medical', 'request', 'selfharm',
 					 'discussion', 'meta', 'music', 'pets', 'social',
 					 'countryclub', 'highrollerclub'}
 
