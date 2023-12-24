@@ -483,8 +483,8 @@ def post_hole_css(v, hole):
 	if not v.mods(hole.name): abort(403)
 	if v.shadowbanned: abort(400)
 
-	if len(css) > 6000:
-		abort(400, "CSS is too long (max 6000 characters)")
+	if len(css) > CSS_LENGTH_LIMIT:
+		abort(400, f"Hole CSS is too long (max {CSS_LENGTH_LIMIT} characters)")
 
 	valid, error = validate_css(css)
 	if not valid:

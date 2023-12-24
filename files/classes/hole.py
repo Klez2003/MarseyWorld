@@ -3,7 +3,7 @@ import time
 
 from sqlalchemy import Column
 from sqlalchemy.ext.mutable import MutableList
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, deferred
 from sqlalchemy.types import VARCHAR, Boolean, Integer
 from sqlalchemy.dialects.postgresql import ARRAY
 
@@ -21,7 +21,7 @@ class Hole(Base):
 	sidebarurls = Column(MutableList.as_mutable(ARRAY(VARCHAR(HOLE_BANNER_URL_COLUMN_LENGTH))), default=MutableList([]), nullable=False)
 	bannerurls = Column(MutableList.as_mutable(ARRAY(VARCHAR(HOLE_BANNER_URL_COLUMN_LENGTH))), default=MutableList([]), nullable=False)
 	marseyurl = Column(VARCHAR(HOLE_MARSEY_URL_LENGTH))
-	css = Column(VARCHAR(HOLE_CSS_COLUMN_LENGTH))
+	css = deferred(Column(VARCHAR(CSS_LENGTH_LIMIT)))
 	stealth = Column(Boolean)
 	created_utc = Column(Integer)
 
