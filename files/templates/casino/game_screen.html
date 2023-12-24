@@ -8,7 +8,7 @@
 
 	<div id="casino-game-wrapper" data-game="{{game}}" class="container-fluid" style="max-width: 500px">
 		<div class="row row-cols-1">
-			<div class="col game_screen-title">
+			<div class="col hr-title">
 				<h3>{{game}}</h3>
 				<hr>
 			</div>
@@ -27,14 +27,14 @@
 			<div class="col">
 				<div class="row row-cols-2">
 					<div class="col game_screen-col">
-						<div class="game_screen-title">
+						<div class="hr-title">
 							<h5>Wager</h5>
 							<hr>
 						</div>
 						<input id="wagerAmount" type="number" min="5" step="1" value="5" class="form-control">
 					</div>
 					<div class="col">
-						<div class="game_screen-title">
+						<div class="hr-title">
 							<h5>Currency</h5>
 							<hr>
 						</div>
@@ -63,14 +63,14 @@
 				</div>
 			</div>
 			<div class="col">
-				<div class="game_screen-title">
+				<div class="hr-title">
 					<h5>{% block actiontext %}Actions{% endblock %}</h5>
 					<hr>
 				</div>
 				{% block actions %} {% endblock %}
 			</div>
 			<div id="casinoGameFeed" data-feed="{{feed}}" class="col">
-				<div class="game_screen-title">
+				<div class="hr-title">
 					<h5>Feed</h5>
 					<hr>
 				</div>
@@ -80,7 +80,7 @@
 				</button>
 			</div>
 			<div class="col">
-				<div class="game_screen-title">
+				<div class="hr-title">
 					<h5>Leaders</h5>
 					<hr>
 				</div>

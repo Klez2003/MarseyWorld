@@ -33,6 +33,15 @@
 	<button type="button" id="undelete2-{{p.id}}" class="{% if not p.deleted_utc %}d-none{% endif %} list-inline-item" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/undelete_post/{{p.id}}', 'delete2-{{p.id}}', 'undelete2-{{p.id}}','d-none')" data-toggleelement="#post-{{p.id}}" data-toggleattr="deleted"><i class="fas fa-trash-alt"></i>Undelete</button>
 {% endif %}
 
+{% if p.hole %}
+	{% if not v %}
+		<a id="block-hole-{{p.id}}" href="/login?redirect={{request.full_path | urlencode}}" class="list-inline-item text-danger"><i class="fas fa-eye-slash text-danger"></i>Block /h/{{p.hole}}</a>
+	{% elif v.id != p.author_id  %}
+		<button type="button" id="block-hole-{{p.id}}" class="list-inline-item text-danger {% if v.blocks(p.hole) %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/h/{{p.hole}}/block','block-hole-{{p.id}}','unblock-hole-{{p.id}}','d-none')"><i class="fas fa-eye-slash text-danger"></i>Block /h/{{p.hole}}</button>
+		<button type="button" id="unblock-hole-{{p.id}}" class="text-success list-inline-item {% if not v.blocks(p.hole) %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/h/{{p.hole}}/unblock','block-hole-{{p.id}}','unblock-hole-{{p.id}}','d-none')"><i class="fas fa-eye text-success"></i>Unblock /h/{{p.hole}}</button>
+	{% endif %}
+{% endif %}
+
 {% if v %}
 	<button type="button" class="list-inline-item" data-bs-toggle="dropdown"><i class="fas fa-ellipsis-h fa-fw"></i></button>
 	<ul class="dropdown-menu">
@@ -62,10 +71,6 @@
 		{% if v.id != p.author_id and not p.ghost %}
 			<button type="button" id="block-{{p.id}}" class="dropdown-item list-inline-item text-danger {% if p.is_blocking %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/block_user?username={{p.author_name}}','block-{{p.id}}','unblock-{{p.id}}','d-none')"><i class="fas fa-eye-slash text-danger"></i>Block user</button>
 			<button type="button" id="unblock-{{p.id}}" class="dropdown-item text-success list-inline-item {% if not p.is_blocking %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unblock_user?username={{p.author_name}}','block-{{p.id}}','unblock-{{p.id}}','d-none')"><i class="fas fa-eye text-success"></i>Unblock user</button>
-		{% endif %}
-		{% if v.id != p.author_id and p.hole %}
-			<button type="button" id="block-hole-{{p.id}}" class="dropdown-item list-inline-item text-danger {% if v.blocks(p.hole) %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/h/{{p.hole}}/block','block-hole-{{p.id}}','unblock-hole-{{p.id}}','d-none')"><i class="fas fa-eye-slash text-danger"></i>Block /h/{{p.hole}}</button>
-			<button type="button" id="unblock-hole-{{p.id}}" class="dropdown-item text-success list-inline-item {% if not v.blocks(p.hole) %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/h/{{p.hole}}/unblock','block-hole-{{p.id}}','unblock-hole-{{p.id}}','d-none')"><i class="fas fa-eye text-success"></i>Unblock /h/{{p.hole}}</button>
 		{% endif %}
 		{% if p.hole and v.mods(p.hole) %}
 			<button type="button" class="dropdown-item list-inline-item text-danger" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/kick/{{p.id}}')"><i class="fas fa-sign-out text-danger"></i>Kick</button>

@@ -138,6 +138,8 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 
 	if SITE_NAME == 'rDrama':
 		target.realupvotes = get_vote_count(0, True) # first arg is ignored here
+	elif target.hole in {'sandshit', 'slavshit'}:
+		target.realupvotes = target.upvotes + target.downvotes
 	else:
 		target.realupvotes = target.upvotes - target.downvotes
 

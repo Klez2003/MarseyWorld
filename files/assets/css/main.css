@@ -6249,8 +6249,8 @@ audio, video {
 .sidebar-wpd--holes--3 {
 	grid-template-columns: repeat(3, 1fr);
 }
-.sidebar-wpd--holes--2 {
-	grid-template-columns: repeat(2, 1fr);
+.sidebar-wpd--holes--1 {
+	grid-template-columns: repeat(1, 1fr);
 }
 
 .sidebar-wpd--holes a {
@@ -7578,4 +7578,17 @@ ul, ol {
 }
 blink {
 	animation: blink 1s infinite;
+}
+
+.hr-title {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-transform: uppercase;
+	opacity: 0.6;
+}
+
+.hr-title hr {
+	flex: 1;
+	margin-left: 0.5rem;
 }
