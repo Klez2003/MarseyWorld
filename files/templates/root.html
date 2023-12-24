@@ -1,6 +1,5 @@
 {% set root_scope = namespace() %}
 {% block template_config %}
-	{% set root_scope.include_user_css = true %}
 	{% set root_scope.include_cf_2fa_verify = false %}
 {% endblock %}
 {%- import 'util/macros.html' as macros with context -%}
@@ -30,7 +29,7 @@
 		{{html_head.seo()}}
 		{{html_head.page_meta(self.pagetitle() or none)}}
 		{{html_head.javascript()}}
-		{{html_head.stylesheets(root_scope.include_user_css)}}
+		{{html_head.stylesheets()}}
 		{{html_head.cf_2fa_verify() if root_scope.include_2fa_verify}}
 		{% block head_final %}{% endblock %}
 	{% endblock %}
