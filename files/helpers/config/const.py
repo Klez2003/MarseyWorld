@@ -505,7 +505,7 @@ POST_BODY_HTML_LENGTH_LIMIT = 200000 # do not make larger than 200000 without al
 
 COMMENT_BODY_LENGTH_LIMIT = 10000 # do not make larger than 10000 characters without altering the table
 COMMENT_BODY_HTML_LENGTH_LIMIT = 40000 # do not make larger than 20000 characters without altering the table
-CSS_LENGTH_LIMIT = 10000 # do not make larger than 20000 characters without altering the table
+CSS_LENGTH_LIMIT = 20000 # do not make larger than 20000 characters without altering the table
 COMMENT_MAX_DEPTH = 200
 TRANSFER_MESSAGE_LENGTH_LIMIT = 200 # do not make larger than 10000 characters (comment limit) without altering the table
 MIN_REPOST_CHECK_URL_LENGTH = 9 # also change the constant in checkRepost() of submit.js
