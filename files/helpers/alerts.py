@@ -171,6 +171,9 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, obj=None, followers_ping=Tr
 			if oldtext and i.group(1) in oldtext:
 				continue
 
+			if i.group(1) == 'focusgroup' and not v.admin_level:
+				abort(403, f"Only admins can mention !focusgroup")
+
 			if i.group(1) == 'everyone':
 				cost = g.db.query(User).count() * 5
 				if cost > v.coins + v.marseybux:
