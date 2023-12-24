@@ -883,6 +883,7 @@ def settings_song_change(v):
 
 	if not yt_id_regex.fullmatch(id):
 		return redirect("/settings/personal?error=Not a YouTube link!")
+
 	if path.isfile(f'/songs/{id}.mp3'):
 		v.song = id
 		g.db.add(v)
