@@ -32,7 +32,7 @@
 
 body {
 	font-family: 'Burbank Small Medium', sans-serif;
-	background-color: rgb(var(--background)) !important;
+	background-color: #101819 !important;
 	background-image: url('/assets/events/fistmas/images/pattern.webp') !important;
 	overflow-x: hidden;
 }
