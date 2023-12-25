@@ -2106,10 +2106,10 @@ CREATE INDEX post_new_sort_idx ON public.posts USING btree (is_banned, deleted_u
 
 
 --
--- Name: post_over_18_idx; Type: INDEX; Schema: public; Owner: -
+-- Name: post_nsfw_idx; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX post_over_18_idx ON public.posts USING btree (nsfw);
+CREATE INDEX post_nsfw_idx ON public.posts USING btree (nsfw);
 
 
 --
