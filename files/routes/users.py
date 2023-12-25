@@ -491,11 +491,7 @@ def get_css(username):
 
 	if bg:
 		if not css: css = ''
-		css += f'''
-			body {{
-				background: url("{bg}") center center fixed;
-			}}
-		'''
+		css += f'body {{background: url("{bg}") center center fixed;}}'
 		if 'anime/' not in bg and not bg.startswith('/images/'):
 			css += 'body {background-size: cover}'
 
@@ -515,12 +511,7 @@ def get_profilecss(username):
 
 	if bg:
 		if not css: css = ''
-		css += f'''
-			body {{
-				background: url("{bg}") center center fixed;
-				background-size: auto;
-			}}
-		'''
+		css += f'body {{background: url("{bg}") center center fixed;background-size: auto;}}'
 	if not css: abort(404)
 
 	resp = make_response(css)
