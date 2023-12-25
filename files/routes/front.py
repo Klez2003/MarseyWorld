@@ -144,7 +144,7 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 
 	if SITE_NAME == 'WPD' and sort == "hot" and hole == None:
 		posts = posts.limit(200).all()
-		to_remove = [x.id for x in posts if x.hole in LIMITED_WPD_HOLES][1:]
+		to_remove = [x.id for x in posts if x.hole in LIMITED_WPD_HOLES][3:]
 		posts = [x for x in posts if x.id not in to_remove][:size]
 	elif SITE_NAME == 'WPD' and not v and hole == None:
 		posts = posts.limit(200).all()
