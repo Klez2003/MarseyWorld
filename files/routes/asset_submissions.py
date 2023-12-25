@@ -238,7 +238,7 @@ def approve_emoji(v, name):
 	g.db.add(ma)
 
 	if emoji.nsfw:
-		OVER_18_EMOJIS.append(emoji.name)
+		NSFW_EMOJIS.append(emoji.name)
 
 	g.db.commit()
 

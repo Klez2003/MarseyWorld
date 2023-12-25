@@ -20,11 +20,11 @@ from files.helpers.sorting_and_time import *
 
 from .saves import CommentSaveRelationship
 
-def get_emoji_awards_emojis(obj, v, kind, OVER_18_EMOJIS):
+def get_emoji_awards_emojis(obj, v, kind, NSFW_EMOJIS):
 	if g.show_nsfw:
 		emojis = [x.note for x in obj.awards if x.kind == kind]
 	else:
-		emojis = [x.note for x in obj.awards if x.kind == kind and x.note not in OVER_18_EMOJIS]
+		emojis = [x.note for x in obj.awards if x.kind == kind and x.note not in NSFW_EMOJIS]
 	return reversed(emojis[:20])
 
 def get_award_classes(obj, v, title=False):
@@ -512,8 +512,8 @@ class Comment(Base):
 		return get_award_classes(self, v)
 
 	@lazy
-	def emoji_awards_emojis(self, v, kind, OVER_18_EMOJIS):
-		return get_emoji_awards_emojis(self, v, kind, OVER_18_EMOJIS)
+	def emoji_awards_emojis(self, v, kind, NSFW_EMOJIS):
+		return get_emoji_awards_emojis(self, v, kind, NSFW_EMOJIS)
 
 	@property
 	@lazy

@@ -390,8 +390,8 @@ class Post(Base):
 		return get_award_classes(self, v, title)
 
 	@lazy
-	def emoji_awards_emojis(self, v, kind, OVER_18_EMOJIS):
-		return get_emoji_awards_emojis(self, v, kind, OVER_18_EMOJIS)
+	def emoji_awards_emojis(self, v, kind, NSFW_EMOJIS):
+		return get_emoji_awards_emojis(self, v, kind, NSFW_EMOJIS)
 
 	@property
 	@lazy

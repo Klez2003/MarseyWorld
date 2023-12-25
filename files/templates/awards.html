@@ -12,7 +12,7 @@
 	{% if p.award_count("emoji", v) or p.award_count("emoji-hz", v) %}
 		{% for kind in ["emoji", "emoji-hz"] %}
 			<div class="stackable-container">
-				{% for emoji in p.emoji_awards_emojis(v, kind, OVER_18_EMOJIS) %}
+				{% for emoji in p.emoji_awards_emojis(v, kind, NSFW_EMOJIS) %}
 					{% set src = '/e/' + emoji + '.webp' %}
 					{% set alt = 'emoji-award-' + emoji %}
 					{% set delay = 'animation-delay-' ~ ((loop.index-1)/4)|int %}

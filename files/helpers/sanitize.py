@@ -531,7 +531,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 
 	if FEATURES['NSFW_MARKING'] and obj:
 		for emoji in emojis_used:
-			if emoji in OVER_18_EMOJIS:
+			if emoji in NSFW_EMOJIS:
 				obj.nsfw = True
 				break
 
@@ -702,7 +702,7 @@ def filter_emojis_only(title, golden=True, count_emojis=False, obj=None, author=
 
 	if FEATURES['NSFW_MARKING'] and obj:
 		for emoji in emojis_used:
-			if emoji in OVER_18_EMOJIS:
+			if emoji in NSFW_EMOJIS:
 				obj.nsfw = True
 				break
 

@@ -12,10 +12,10 @@ SNAPPY_QUOTES = []
 SNAPPY_QUOTES_FISTMAS = []
 SNAPPY_QUOTES_HOMOWEEN = []
 STEALTH_HOLES = []
-OVER_18_EMOJIS = []
+NSFW_EMOJIS = []
 
 def const_initialize():
-	global MARSEYS_CONST, MARSEYS_CONST2, MARSEY_MAPPINGS, SNAPPY_KONGS, SNAPPY_MARSEYS, SNAPPY_QUOTES, SNAPPY_QUOTES_FISTMAS, SNAPPY_QUOTES_HOMOWEEN, STEALTH_HOLES, OVER_18_EMOJIS
+	global MARSEYS_CONST, MARSEYS_CONST2, MARSEY_MAPPINGS, SNAPPY_KONGS, SNAPPY_MARSEYS, SNAPPY_QUOTES, SNAPPY_QUOTES_FISTMAS, SNAPPY_QUOTES_HOMOWEEN, STEALTH_HOLES, NSFW_EMOJIS
 
 	db = db_session()
 
@@ -35,7 +35,7 @@ def const_initialize():
 
 	STEALTH_HOLES = [x[0] for x in db.query(Hole.name).filter_by(stealth=True)]
 
-	OVER_18_EMOJIS = [x[0] for x in db.query(Emoji.name).filter_by(nsfw=True)]
+	NSFW_EMOJIS = [x[0] for x in db.query(Emoji.name).filter_by(nsfw=True)]
 
 	db.commit()
 	db.close()
