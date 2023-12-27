@@ -4419,6 +4419,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseysuper', 'Marsey', 2, 'superstraight lgbt', false, 0),
 ('marseysupermega', 'Marsey', 2, 'supermegaman supermegamarsey', false, 1676038409),
 ('marseysupersorensoarin', 'Marsey', 2, 'soren super hero superhero batman superman marsey41', false, 1668289194),
+('marseysurejack', 'Marsey', 2, 'surejan biden hips', false, 1703641307),
 ('marseysurejan', 'Marsey', 2, 'bradybunch smug smile happy indignant eyebrows ears squint smirk', false, 1681233249),
 ('marseysurfing', 'Marsey', 2, 'surfer surfing pikachu water wave meme', false, 0),
 ('marseysurftheweb', 'Marsey', 2, 'computer internet rdrama mouse screen', false, 1688982236),
