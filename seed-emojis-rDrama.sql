@@ -615,6 +615,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('carpupset', 'Carp', 2, 'carpathianflorist administrator jannie janitor fish crying tears', false, 1664262142),
 ('carpvampire', 'Carp', 2, 'dracula', false, 1687809855),
 ('carpvanillite', 'Carp', 2, 'pokemon pkmn vanillite 582', false, 1698716684),
+('carpvegeta', 'Carp', 2, 'dragonball saiyan dbz ssj ssj2 ssj3', false, 1703646205),
 ('carpvenonat', 'Carp', 2, 'pokemon pkmn venonat 048', false, 1697851079),
 ('carpveryworried', 'Carp', 2, 'scared afraid sweat animated', false, 1688201974),
 ('carpvivillon', 'Carp', 2, 'pkmn pokemon vivillon 666', false, 1697814632),
