@@ -132,9 +132,7 @@
 	{% if not (v and v.poor) %}
 		<link rel="stylesheet" href="{{'css/awards.css' | asset}}">
 	{% endif %}
-{% endmacro %}
 
-{% macro stylesheets_lower() %}
 	{% if not (request.path.startswith('/@') and u) %}
 		{% if (v and v.background) or (SITE_NAME == 'rDrama' and v and v.chud) %}
 			<link rel="stylesheet" href="{{('css/transparent.css') | asset}}">
