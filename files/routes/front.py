@@ -144,8 +144,13 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 
 	if SITE_NAME == 'WPD' and sort == "hot" and hole == None:
 		posts = posts.limit(200).all()
-		to_remove = [x.id for x in posts if x.hole in LIMITED_WPD_HOLES][3:]
-		posts = [x for x in posts if x.id not in to_remove][:size]
+		posts_in_limited_holes = [x for x in posts if x.hole in LIMITED_WPD_HOLES]
+		captured_holes = set()
+		for post in posts_in_limited_holes:
+			if len(captured_holes) < 3 and post.hole not in captured_holes:
+				captured_holes.add(post.hole)
+			else:
+				posts.remove(post)
 	elif SITE_NAME == 'WPD' and not v and hole == None:
 		posts = posts.limit(200).all()
 		posts = [x for x in posts if x.hole not in {'pets','selfharm'}][:size]
