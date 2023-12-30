@@ -718,15 +718,20 @@ def filter_emojis_only(title, golden=True, count_emojis=False, obj=None, author=
 	return title
 
 def is_whitelisted(domain, k):
-	if domain.endswith('pullpush.io'):
+	if domain not in {'youtube.com','reddit.com','twitter.com','msn.com','wsj.com','tiktok.com','forbes.com','dailymail.co.uk','facebook.com','spotify.com','nytimes.com','businessinsider.com','instagram.com','yahoo.com','thedailybeast.com','nypost.com','newsweek.com','bloomberg.com','quora.com','nbcnews.com','reuters.com','tmz.com','cnbc.com','marketwatch.com','thetimes.co.uk','sfchronicle.com','washingtonpost.com','cbsnews.com','foxnews.com','bbc.com','bbc.co.uk','ifunny.co','independent.co.uk'}:
 		return True
 	if 'sort' in k.lower() or 'query' in k.lower():
 		return True
-	if k in {'_x_tr_hl','_x_tr_pto','_x_tr_sl','_x_tr_tl','abstract_id','after','article','bill_id','c','clip','commentID','comments','context','count','diff','f','fbid','format','forum_id','i','ID','id','lb','list','oldid','p','page','post_id','postid','q','route','run','scrollToComments','search','sl','sp','story_fbid','tab','term','text','thread_id','threadid','ticket_form_id','time_continue','title','title_no','tl','token','topic','type','tz1','tz2','u','udca','url','v','vid','viewkey'}:
+	if k in {
+		'q', #generic
+		'after','context','page','token','url', #reddit.com
+		'f', #twitter.com
+		'fbid','story_fbid','u', #facebook.com
+		'id', #facebook.com, #msn.com
+		'v','lb','list','time_continue', #youtube.com
+	}:
 		return True
 	if k == 't' and domain != 'twitter.com':
-		return True
-	if k == 'oid' and domain != 'quora.com':
 		return True
 	return False
 
@@ -785,7 +790,8 @@ def normalize_url(url):
 			filtered['v'] = path.split('/')[-1]
 			path = '/watch'
 
-		filtered |= {k: val for k, val in qd.items() if not val[0] or is_whitelisted(netloc, k)}
+		domain = tldextract.extract(netloc).registered_domain
+		filtered |= {k: val for k, val in qd.items() if not val[0] or is_whitelisted(domain, k)}
 
 		if netloc == 'old.reddit.com' and reddit_comment_link_regex.fullmatch(url):
 			filtered['context'] = 8
