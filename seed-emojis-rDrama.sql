@@ -1192,7 +1192,6 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('holdhands', 'Classic', 2, 'hold hands animated emoticon love', false, 0),
 ('holdit', 'Misc', 2, 'hold ace attorney lawyer', false, 1686609267),
 ('holdupjak', 'Wojak', 2, 'wait weird freaked out hold up', false, 0),
-('homosign', 'Misc', 2, 'faggot closing flap wall', false, 1682722969),
 ('hoodieguyblackjak', 'Wojak', 2, 'black hoodie', false, 0),
 ('hookah', 'Classic', 2, 'smoking sunglasses hookah shisha waterpipe', false, 1679251857),
 ('horny', 'Classic', 2, 'lick owo sex hot animated emoticon pervert', false, 0),
