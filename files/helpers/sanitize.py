@@ -260,14 +260,14 @@ def render_emoji(html, regexp, golden, emojis_used, b=False, is_title=False):
 		genocide_attr = ' cide' if is_genocided else ''
 
 		modifier_html = ''
-		if (is_talking and is_patted):
+		if is_talking and is_patted:
 			modifier_html = f'{talking_html}{hand_html}' if is_talking_first else f'{hand_html}{talking_html}'
-		elif (is_patted):
+		elif is_patted:
 			modifier_html = hand_html
-		elif (is_talking):
+		elif is_talking:
 			modifier_html = talking_html
 
-		if(is_loved):
+		if is_loved:
 			modifier_html = f'{modifier_html}{loved_html}'
 
 		if (is_patted and emoji != 'marseyunpettable') or is_talking or is_genocided or is_loved:
