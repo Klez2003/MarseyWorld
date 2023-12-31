@@ -151,6 +151,7 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 				captured_holes.add(post.hole)
 			else:
 				posts.remove(post)
+		posts = posts[:size]
 	elif SITE_NAME == 'WPD' and not v and hole == None:
 		posts = posts.limit(200).all()
 		posts = [x for x in posts if x.hole not in {'pets','selfharm'}][:size]
