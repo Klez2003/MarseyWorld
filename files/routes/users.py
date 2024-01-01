@@ -1259,7 +1259,12 @@ def bid_list(v, bid):
 	if bid in PATRON_BADGES and v.admin_level < PERMS['VIEW_PATRONS']:
 		abort(404)
 
-	name = g.db.query(BadgeDef.name).filter_by(id=bid).one()[0]
+	name = g.db.query(BadgeDef.name).filter_by(id=bid).one_or_none()
+
+	if not name:
+		abort(404, "Badge not found")
+	
+	name = name[0]
 
 	href = f'{SITE_FULL_IMAGES}/i/{SITE_NAME}/badges/{bid}.webp?b=11'
 
