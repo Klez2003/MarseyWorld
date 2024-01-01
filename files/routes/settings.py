@@ -762,7 +762,7 @@ def settings_name_change(v):
 
 	if v.namechanged: abort(403)
 
-	new_name = request.values.get("name").strip()
+	new_name = request.values.get("name", "").strip()
 
 	if new_name == v.username:
 		abort(400, "You didn't change anything")
