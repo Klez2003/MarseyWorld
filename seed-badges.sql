@@ -27,6 +27,7 @@ INSERT INTO public.badge_defs VALUES (190, 'Soapy-Mouthed Angel', 'This user has
 INSERT INTO public.badge_defs VALUES (193, 'Web Design Is My Passion', 'This user is a very special boy who set his very own profile background 🤗', 1670213168);
 INSERT INTO public.badge_defs VALUES (192, 'Social Justice Berserker', 'This user has taken a solemn vow to Speak No Evil ⚔', 1667695138);
 INSERT INTO public.badge_defs VALUES (318, 'Fistmas Sidebar Artist', 'This user secured their place on Santa’s Good List by contributing a very jolly Fistmas Sidebar', 1702963246);
+INSERT INTO public.badge_defs VALUES (319, 'Fistmas 23 Survivor', 'Awarded for surviving Fistmas 2023', 1704136553);
 INSERT INTO public.badge_defs VALUES (296, 'SEX!', 'This user verifiably had sex with another dramatard.', 1692195588);
 INSERT INTO public.badge_defs VALUES (297, 'Weather Balloon', 'This user was shot down over the territory of /r/UFOs.', 1694716945);
 INSERT INTO public.badge_defs VALUES (180, 'Marsey Consoomer', 'Conned rDrama out of sick merch in exchange for a donation to Redbubble.', 1664417205);
@@ -281,7 +282,7 @@ INSERT INTO public.badge_defs VALUES (161, 'Pro Goombler', 'Won a 10,000 bet. So
 -- Name: badge_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.badge_defs_id_seq', 318, true);
+SELECT pg_catalog.setval('public.badge_defs_id_seq', 319, true);
 
 
 --
