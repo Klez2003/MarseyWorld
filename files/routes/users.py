@@ -1365,6 +1365,9 @@ def gumroad():
 @limiter.exempt
 def bm():
 	data = json.loads(request.data)
+
+	print(data, flush=True)
+
 	ip = request.headers.get('CF-Connecting-IP')
 
 	if ip not in {'54.187.174.169','54.187.205.235','54.187.216.72'}:
