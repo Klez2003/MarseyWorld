@@ -1942,7 +1942,7 @@ def admin_reset_password(user_id, v):
 	text = f"@{user.username}'s new password is `{new_password}`"
 	send_repeatable_notification(v.id, text)
 
-	return {"message": f"@{user.username}'s password has been reset! The new password has been messaged to them!"}
+	return {"message": f"@{user.username}'s password has been reset! The new password has been messaged to them and to you!"}
 
 @app.get("/admin/orgies")
 @admin_level_required(PERMS['ORGIES'])
