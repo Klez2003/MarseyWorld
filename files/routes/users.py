@@ -1366,25 +1366,29 @@ def gumroad():
 def bm():
 	data = json.loads(request.data)
 	ip = request.headers.get('CF-Connecting-IP')
-	if ip != '3.23.31.237':
+	print(ip, flush=True)
+
+	# if ip != '3.23.31.237':
+	# 	return ''
+
+	data = data['data']['object']
+
+	if data['calculated_statement_descriptor'] != 'MARSEY':
 		return ''
 
-	created_utc = data['created']
-
-	data = data['data']
-
-	id = str(data['id'])
+	id = data['id']
 
 	existing = g.db.get(Transaction, id)
 	if existing: return ''
 
-	if data['object'] == 'membership':
-		type = "monthly"
-	else:
-		type = "one-time"
+	amount = data['amount']/100
+	email = data['billing_details']['email'].strip().lower()
+	created_utc = data['created']
 
-	amount = int(data['amount'])
-	email = data['supporter_email'].strip().lower()
+	if data['description'] == 'One time support for rdrama.net':
+		type = "one-time"
+	else:
+		type = "monthly"
 
 	transaction = Transaction(
 		id=id,
