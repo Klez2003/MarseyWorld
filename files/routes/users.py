@@ -1366,10 +1366,12 @@ def gumroad():
 def bm():
 	data = json.loads(request.data)
 	ip = request.headers.get('CF-Connecting-IP')
-	print(ip, flush=True)
 
-	# if ip != '3.23.31.237':
-	# 	return ''
+	if ip not in {'54.187.174.169','54.187.205.235','54.187.216.72'}:
+		print(STARS, flush=True)
+		print(f'/bm fail: {ip}')
+		print(STARS, flush=True)
+		abort(400)
 
 	data = data['data']['object']
 
