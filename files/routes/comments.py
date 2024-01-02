@@ -380,10 +380,7 @@ def comment(v):
 			else:
 				title = f'New reply by @{c.author_name}'
 
-			if len(c.body) > PUSH_NOTIF_LIMIT: notifbody = c.body[:PUSH_NOTIF_LIMIT] + '...'
-			else: notifbody = c.body
-
-			push_notif({parent_user.id}, title, notifbody, c)
+			push_notif({parent_user.id}, title, c.body, c)
 
 	vote = CommentVote(user_id=v.id,
 						 comment_id=c.id,
