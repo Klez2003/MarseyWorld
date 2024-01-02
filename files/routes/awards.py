@@ -188,7 +188,11 @@ def award_thing(v, thing_type, id):
 
 	g.db.add(award)
 
-	note = request.values.get("note", "").strip()[:200]
+	note = request.values.get("note", "").strip()
+
+	if len(note) > 200:
+		abort(400, "Award note is too long (max 200 characters)")
+
 	award.note = note
 
 	safe_username = f"@{obj.author_name} is"
@@ -400,15 +404,19 @@ def award_thing(v, thing_type, id):
 			obj.chudded = True
 			complies_with_chud(obj)
 	elif kind == "flairlock":
-		new_name = note[:100]
-		if not new_name and author.flairchanged:
+		new_flair = note
+
+		if len(new_flair) > 100:
+			abort(400, "New flair is too long (max 100 characters)")
+
+		if not new_flair and author.flairchanged:
 			author.flairchanged += 86400
 		else:
-			author.flair = new_name
-			new_name = filter_emojis_only(new_name)
-			new_name = censor_slurs_profanities(new_name, None)
-			if len(new_name) > 1000: abort(403)
-			author.flair_html = new_name
+			author.flair = new_flair
+			new_flair = filter_emojis_only(new_flair)
+			new_flair = censor_slurs_profanities(new_flair, None)
+			if len(new_flair) > 1000: abort(403)
+			author.flair_html = new_flair
 			author.flairchanged = int(time.time()) + 86400
 			badge_grant(user=author, badge_id=96)
 	elif kind == "namelock":

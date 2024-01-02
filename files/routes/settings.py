@@ -241,17 +241,19 @@ def settings_personal_post(v):
 		if not v.patron:
 			abort(403, f"Signatures are only available to {patron}s!")
 
-		sig = request.values.get("sig")[:200].replace('\n','').replace('\r','')
-
+		sig = request.values.get("sig").replace('\n','').replace('\r','').strip()
 		sig = process_files(request.files, v, sig)
-		sig = sig[:200].strip() # process_files potentially adds characters to the post
+		sig = sig.strip() # process_files potentially adds characters to the post
+
+		if len(sig) > 200:
+			abort(400, "New signature is too long (max 200 characters)")
 
 		sig_html = sanitize(sig, blackjack="signature")
 		if len(sig_html) > 1000:
 			abort(400, "Your sig is too long")
 
 		v.sig = sig
-		v.sig_html=sig_html
+		v.sig_html = sig_html
 		g.db.add(v)
 		return {"message": "Your sig has been updated."}
 
@@ -386,10 +388,13 @@ def settings_personal_post(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def filters(v):
-	filters = request.values.get("filters", "")[:1000].strip()
+	filters = request.values.get("filters", "").strip()
 
 	if filters == v.custom_filter_list:
 		abort(400, "You didn't change anything!")
+
+	if len(filters) > 1000:
+		abort(400, "Filters are too long (max 1000 characters)")
 
 	v.custom_filter_list=filters
 	g.db.add(v)

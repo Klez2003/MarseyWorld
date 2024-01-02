@@ -845,10 +845,13 @@ def shadowban(user_id, v):
 	if user.admin_level > v.admin_level:
 		abort(403)
 	user.shadowbanned = v.id
-	reason = request.values.get("reason", "")[:256].strip()
+	reason = request.values.get("reason", "").strip()
 
 	if not reason:
 		abort(400, "You need to submit a reason for shadowbanning!")
+
+	if len(reason) > 256:
+		abort(400, "Shadowban reason is too long (max 256 characters)")
 
 	reason = filter_emojis_only(reason)
 
@@ -910,7 +913,10 @@ def admin_change_flair(user_id, v):
 
 	user = get_account(user_id)
 
-	new_flair = request.values.get("flair")[:256].strip()
+	new_flair = request.values.get("flair", "").strip()
+
+	if len(new_flair) > 256:
+		abort(400, "New flair is too long (max 256 characters)")
 
 	user.flair = new_flair
 	new_flair = filter_emojis_only(new_flair)
@@ -982,14 +988,18 @@ def ban_user(fullname, v):
 	if days < 0:
 		abort(400, "You can't bans people for negative days!")
 
-	reason = request.values.get("reason", "")[:256].strip()
+	reason = request.values.get("reason", "").strip()
 
 	if not reason:
 		abort(400, "You need to submit a reason for banning!")
 
-	reason = filter_emojis_only(reason)
 	if len(reason) > 256:
-		abort(400, "Ban reason too long!")
+		abort(400, "Ban reason is too long (max 256 characters)")
+
+	reason = filter_emojis_only(reason)
+
+	if len(reason) > 256:
+		abort(400, "Rendered ban reason is too long!")
 
 	reason = reason_regex_post.sub(r'<a href="\1">\1</a>', reason)
 	reason = reason_regex_comment.sub(r'<a href="\1#context">\1</a>', reason)

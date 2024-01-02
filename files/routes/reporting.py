@@ -22,7 +22,10 @@ def report_post(pid, v):
 	reason = request.values.get("reason", "").strip()
 	execute_under_siege(v, post, reason, 'report')
 	execute_blackjack(v, post, reason, 'report')
-	reason = reason[:100]
+
+	if len(reason) > 100:
+		abort(400, "Report reason is too long (max 100 characters)")
+
 	og_flair = reason[1:]
 	reason_html = filter_emojis_only(reason)
 	if len(reason_html) > 350:
@@ -91,7 +94,10 @@ def report_comment(cid, v):
 	reason = request.values.get("reason", "").strip()
 	execute_under_siege(v, comment, reason, 'report')
 	execute_blackjack(v, comment, reason, 'report')
-	reason = reason[:100]
+
+	if len(reason) > 100:
+		abort(400, "Report reason is too long (max 100 characters)")
+
 	reason_html = filter_emojis_only(reason)
 
 	if len(reason_html) > 350: abort(400, "Too long!")
