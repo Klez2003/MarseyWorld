@@ -16,10 +16,6 @@
 	--gray-900: #000000;
 }
 
-blockquote a {
-	color: #15de59;
-}
-
 .candycane, h1.candycane.post-title a {
 	--color1: #ff4e53;
 	--color2: #1cc19a;
