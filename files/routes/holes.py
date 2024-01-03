@@ -450,16 +450,17 @@ def post_hole_sidebar(v, hole):
 	if not v.mods(hole.name): abort(403)
 	if v.shadowbanned: abort(400)
 
-	hole.sidebar = request.values.get('sidebar', '').strip()
+	sidebar = request.values.get('sidebar', '').strip()
 
 	if len(sidebar) > 10000:
 		abort(400, "New sidebar is too long (max 10000 characters)")
 
-	sidebar_html = sanitize(hole.sidebar, blackjack=f"/h/{hole} sidebar")
+	sidebar_html = sanitize(sidebar, blackjack=f"/h/{hole} sidebar")
 
 	if len(sidebar_html) > 20000:
 		abort(400, "New rendered sidebar is too long!")
 
+	hole.sidebar = sidebar
 	hole.sidebar_html = sidebar_html
 	g.db.add(hole)
 
