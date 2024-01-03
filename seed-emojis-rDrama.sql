@@ -1947,6 +1947,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseychingchong', 'Marsey', 2, 'racist asian chinese chinx chink gook japanese vietnamese rice farmer nip racist paddy teeth hat china', false, 0),
 ('marseychingchongattentionseek', 'Marsey', 2, 'rice asian jap nip gook azn notice me annoying loud fake', false, 1687802953),
 ('marseychingchongitsover', 'Marsey', 2, 'asian sino chink chong sad dejected fail xi yellow nip gook wandanle pensive', false, 1674903169),
+('marseychingchongitstony', 'Marsey', 2, 'itsover wereback tony', false, 1704318446),
 ('marseychingchongmutt', 'Marsey', 2, 'asian mixed singapore american', false, 1699374511),
 ('marseychingchongnotes', 'Marsey', 2, 'pencil pad write asian azn rice gook nip slit slant squint', false, 1675422126),
 ('marseychingchongpearlclutch', 'Marsey', 2, 'asian chinese jap gook korean nip yikes scared chink rice', false, 1664035377),
