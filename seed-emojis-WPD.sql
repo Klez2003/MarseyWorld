@@ -69,6 +69,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseybeaversmascot', 'Marsey', 2, 'university ncaa sports', false, 1701040621),
 ('marseybeingnerd', 'Marsey', 2, 'dork dweeb glasses', false, 1698330357),
 ('marseybidoof', 'Marsey', 2, 'pkmn pokemon bidoof 399', false, 1698963569),
+('marseybittermoss', 'Marsey', 2, 'goth emo altgirl wpd', false, 1704254004),
 ('marseyblackknightsmascot', 'Marsey', 2, 'university ncaa football sports', false, 1701292702),
 ('marseyblink', 'Marsey', 2, 'animated eyes eldritchhorror', false, 1701130643),
 ('marseybluedevilsmascot', 'Marsey', 2, 'university ncaa sports', false, 1701206282),
