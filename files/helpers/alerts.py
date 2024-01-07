@@ -101,7 +101,7 @@ def notif_comment2(p):
 	else:
 		author_link = f'<a href="/id/{p.author_id}"><img loading="lazy" src="/pp/{p.author_id}">@{p.author_name}</a>'
 
-	text = f'{author_link} has mentioned you: <a href="/post/{p.id}">{p.title_html}</a>'
+	text = f'@{p.author_name} has mentioned you: {p.title}'
 
 	search_html = f'%</a> has mentioned you: <a href="/post/{p.id}"%'
 
@@ -109,8 +109,9 @@ def notif_comment2(p):
 
 	if existing: return existing[0], text
 	else:
-		if p.hole: text += f" in <a href='/h/{p.hole}'>/h/{p.hole}"
-		return create_comment(text), text
+		text_html = f'{author_link} has mentioned you: <a href="/post/{p.id}">{p.title_html}</a>'
+		if p.hole: text_html += f" in <a href='/h/{p.hole}'>/h/{p.hole}"
+		return create_comment(text_html), text
 
 
 def add_notif(cid, uid, text, pushnotif_url=''):
