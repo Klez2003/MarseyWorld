@@ -972,7 +972,7 @@ class User(Base):
 			names.add(self.extra_username)
 		if self.prelock_username:
 			names.add(self.prelock_username)
-		return 'Original Usernames: @' + ', @'.join(names)
+		return 'Reserved Usernames: @' + ', @'.join(names)
 
 	@lazy
 	def json_popover(self, v):
