@@ -743,8 +743,6 @@ def normalize_url(url):
 	if 'wikipedia.org/wiki/' not in url:
 		url = unquote(url)
 
-	url = url.replace("reddit.com/user/", "reddit.com/u/")
-
 	url = reddit_domain_regex.sub(r'\1https://old.reddit.com/\5', url)
 
 	url = url.replace("https://music.youtube.com", "https://youtube.com") \
