@@ -134,6 +134,13 @@ lite-youtube {
 	display: inline-block;
 }
 
+@media (min-width: 992px)
+{
+	.chat-message {
+		max-width: calc(100vw - 400px);
+	}
+}
+
 .quotes {
 	max-width: 80%;
 }
