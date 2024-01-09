@@ -161,7 +161,6 @@ if SITE_NAME == 'rDrama':
 		"CCP's official newspaper",
 		"Nintendo gamers only",
 		"donkey kong country",
-		"banned from Reddit, Github & Bing!",
 		"as seen in WI v. Brooks 2022",
 		"#1 used marsuit exchange",
 		"incel matchmaking services",
