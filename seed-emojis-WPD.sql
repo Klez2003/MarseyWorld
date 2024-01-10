@@ -296,6 +296,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseytrolled', 'Marsey', 2, 'jebaited mad', false, 1699714118),
 ('marseytropius', 'Marsey', 2, 'pkmn pokemon tropius 357', false, 1700343126),
 ('marseytrubbish', 'Marsey', 2, 'pkmn pokemon trubbish 568', false, 1699395533),
+('marseytufu', 'Marsey', 2, 'rape handbanana tufuiegoeris', false, 1704910851),
 ('marseyumbreonwtf', 'Marsey', 2, 'pokemon pkmn 197', false, 1700863650),
 ('marseyunsettled', 'Marsey', 2, 'tailsgetstrolled tom wtf', false, 1699786500),
 ('marseyusatan', 'Marsey', 2, 'usagi', false, 1698470278),
