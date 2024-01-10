@@ -1153,11 +1153,13 @@ INSERT INTO public.hat_defs VALUES (1383, 'Patel Petals', 'Pretty pastel petals 
 
 
 
+
+
 --
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1393, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1395, true);
 
 
 --
