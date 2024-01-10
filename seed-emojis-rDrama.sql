@@ -1613,7 +1613,6 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseybardgayangel', 'Marsey', 2, 'finn lgbt trans homo fag bardfinn', false, 1703542736),
 ('marseybardlaughsatyou', 'Marsey', 2, 'finn points finger tears bardfinn', false, 1703542680),
 ('marseybardlight', 'Marsey', 2, 'tranny mulvaney budlight beer budlite', false, 1682900102),
-('marseybardmerchant', 'Marsey', 2, 'finn jew rubs hands together bardfinn', false, 1703542619),
 ('marseybardpopcorn', 'Marsey', 2, 'finn wait watch bardfinn', false, 1703542543),
 ('marseybarrel', 'Marsey', 2, 'barrel container beer bar alcohol', false, 0),
 ('marseybarreldrunk', 'Marsey', 2, 'barrel container beer bar alcohol drunk', false, 0),
