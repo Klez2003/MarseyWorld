@@ -1142,17 +1142,15 @@ INSERT INTO public.hat_defs VALUES (1373, 'SlowCrown', 'Slowking, the Royal Pok√
 INSERT INTO public.hat_defs VALUES (1381, 'Griffith Helmet', 'The Falcon has fallen. Billions must die.', 2, 500, NULL, 1698690002);
 INSERT INTO public.hat_defs VALUES (1370, 'pkmn0133', 'Eevee, the Evolution Pok√©mon. Eevee is rarely seen, and can adapt to severe habitats by evolving, changing its capabilities and form.', 2, 1000, NULL, 1698657507);
 INSERT INTO public.hat_defs VALUES (1366, 'pkmn0001', 'Bulbasaur. It bears the seed of a plant on its back from birth. The seed slowly develops. Researchers are unsure whether to classify Bulbasaur as a plant or animal. Bulbasaur are extremely tough and very difficult to capture in the wild.', 2, 500, NULL, 1698656032);
-
 INSERT INTO public.hat_defs VALUES (1385, 'Christmas String Lights', 'Have a Merry Christmas!', 2, 1000, NULL, 1700491518);
 INSERT INTO public.hat_defs VALUES (1384, 'Slow Snowfall', 'Slower snowfall (for dramatic effect)!', 2, 1000, NULL, 1700491458);
 INSERT INTO public.hat_defs VALUES (1383, 'Patel Petals', 'Pretty pastel petals go zooming by!', 2, 1000, NULL, 1700491275);
-
-
-
-
-
-
-
+INSERT INTO public.hat_defs VALUES (1395, 'BulletKin', 'Fan of Enter the gungeon? Or a bullet hell enthusiast?', 2, 1000, NULL, 1704846857);
+INSERT INTO public.hat_defs VALUES (1392, 'Indecent Exposure', ':marseyhorsecock:', 2, 500, NULL, 1704729624);
+INSERT INTO public.hat_defs VALUES (1391, 'Hornshat', 'A black hat with horns', 2, 500, NULL, 1703237198);
+INSERT INTO public.hat_defs VALUES (1389, 'Catushanka', 'Ushanka with cat ears!', 2, 500, NULL, 1703206305);
+INSERT INTO public.hat_defs VALUES (1390, 'Catushankapink', 'Usanka with cat ears! (But pink)', 2, 500, NULL, 1703206340);
+INSERT INTO public.hat_defs VALUES (1387, 'Stupid Sexy Flanders', 'It''s like you''re wearing nothing at all. Nothing at all. Nothing at all.', 2, 1000, NULL, 1701104112);
 
 
 --
