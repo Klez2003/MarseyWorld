@@ -518,7 +518,7 @@ class Comment(Base):
 	@property
 	@lazy
 	def is_effortpost(self):
-		return len(self.body) >= 1000
+		return len(self.body) >= 2000
 
 	def pin_parents(self):
 		c = self
