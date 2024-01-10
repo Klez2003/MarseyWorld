@@ -246,7 +246,8 @@
 						{% endif %}
 
 						{% set realbody = c.realbody(v) %}
-						<div id="comment-text-{{c.id}}" class="{{c.award_classes(v)}} comment-text mb-0" {% if c.award_count('tilt', v) %}style="transform: rotate({{c.award_count('tilt', v)}}deg)"{% endif %}>
+						{% set tilt = c.award_count('tilt', v) %}
+						<div id="comment-text-{{c.id}}" class="{{c.award_classes(v)}} comment-text mb-0" {% if tilt %}style="transform: rotate({{tilt}}deg);padding-right: {{tilt*10}}px;padding-left: {{tilt*10}}px"{% endif %}>
 							{{realbody | safe}}
 						</div>
 
