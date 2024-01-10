@@ -199,29 +199,6 @@
 	100% {transform: translateX(-15vw) rotate(180deg); top: 0; bottom: unset;}
 }
 
-
-.tilt-post {
-	transform: rotate(0.3deg);
-}
-.tilt-post > * {
-	padding-left: 1rem !important;
-	padding-right: 1rem !important;
-}
-
-
-.tilt-comment-1 {
-	transform: rotate(2deg);
-}
-.tilt-comment-2 {
-	transform: rotate(4deg);
-}
-.tilt-comment-3 {
-	transform: rotate(6deg);
-}
-.tilt-comment-4 {
-	transform: rotate(8deg);
-}
-
 .rainbow-text:not(a), h1.rainbow-text.post-title a {
 	background: repeating-linear-gradient(
 		135deg,
