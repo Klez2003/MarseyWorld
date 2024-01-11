@@ -1535,6 +1535,8 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseyautismcap', 'Marsey', 2, 'retard sperg blue hat king dropped', false, 1675771506),
 ('marseyautismchonker', 'Marsey', 2, 'fat obese retarded hat autistic neurodivergent', false, 0),
 ('marseyautismdisconcerting', 'Marsey', 2, 'autist autistic creepy uncomfortable weird retard smile hat strange scary', false, 1691988757),
+('marseyautismwitch', 'Marsey', 2, 'magic wizard', false, 1704948988),
+('marseyautismwizard', 'Marsey', 2, 'magic jeff warlock', false, 1704949031),
 ('marseyautistattentionseeker', 'Marsey', 2, 'neurodivergent retard special brainlet annoying krayon sperg', false, 1670864965),
 ('marseyautumn', 'Marsey', 2, 'fall season leaf leaves pumpkin spice latte wind scarf animated', false, 1663109340),
 ('marseyautumn2', 'Marsey', 2, 'fall season leaf leaves pumpkin spice latte wind scarf', false, 1663109364),
