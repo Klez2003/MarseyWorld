@@ -560,7 +560,7 @@ def award_thing(v, thing_type, id):
 	elif kind == "gold":
 		if obj.award_count('glowie', v):
 			abort(409, f"This {thing_type} is under the effect of a conflicting award: Glowie award!")
-	elif kind == "glow":
+	elif kind == "glowie":
 		if obj.award_count('gold', v):
 			abort(409, f"This {thing_type} is under the effect of a conflicting award: Gold award!")
 	elif kind == "spider":
