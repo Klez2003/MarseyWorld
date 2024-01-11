@@ -259,7 +259,7 @@ class Post(Base):
 
 		num = len([x for x in self.awards if x.kind == kind])
 
-		if kind in {"shit", "fireflies"}:
+		if kind in {"shit", "fireflies", "tilt"}:
 			return num
 
 		if kind == "stalker":
