@@ -1153,11 +1153,16 @@ INSERT INTO public.hat_defs VALUES (1390, 'Catushankapink', 'Usanka with cat ear
 INSERT INTO public.hat_defs VALUES (1387, 'Stupid Sexy Flanders', 'It''s like you''re wearing nothing at all. Nothing at all. Nothing at all.', 2, 1000, NULL, 1701104112);
 
 
+
+
+
+
+
 --
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1395, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1401, true);
 
 
 --
