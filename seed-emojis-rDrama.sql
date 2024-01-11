@@ -301,6 +301,8 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('capytrans', 'Capy', 2, 'capy aevann egypt king trans code program', false, 0),
 ('capytranswitch', 'Capy', 2, 'homoween mtf programmersocks', false, 1696095913),
 ('capytyphlosion', 'Capy', 2, 'pkmn pokemon typhlosion 157', false, 1697873191),
+('capytyping', 'Capy', 2, 'keyboard computer working busy aevann coder coding', false, 1705006240),
+('capytypinglaugh', 'Capy', 2, 'keyboard computer lol working aevann coder coding', false, 1705006204),
 ('capytyranitar', 'Capy', 2, 'pkmn pokemon tyranitar 0248', false, 1701889654),
 ('capyvoltorb', 'Capy', 2, 'pkmn pokemon voltorb 100', false, 1701526368),
 ('capyvulpix', 'Capy', 2, 'pkmn pokemon vulpix 037', false, 1698181090),
