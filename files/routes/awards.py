@@ -557,6 +557,12 @@ def award_thing(v, thing_type, id):
 	elif kind in {"ectoplasm", "candycorn", "candycane", "stab", "tilt"}:
 		if obj.is_effortpost:
 			abort(403, f'Effortposts are protected from the {award_title} award!')
+	elif kind == "gold":
+		if obj.award_count('glowie', v):
+			abort(409, f"This {thing_type} is under the effect of a conflicting award: Glowie award!")
+	elif kind == "glow":
+		if obj.award_count('gold', v):
+			abort(409, f"This {thing_type} is under the effect of a conflicting award: Gold award!")
 	elif kind == "spider":
 		if author.spider: author.spider += 86400
 		else: author.spider = int(time.time()) + 86400
