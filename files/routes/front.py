@@ -134,6 +134,9 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 			word = escape_for_search(word)
 			posts = posts.filter(not_(Post.title.ilike(f'%{word}%')))
 
+	if not v.can_see_shadowbanned:
+		posts = posts.join(Post.author).filter(or_(User.id == v.id, User.shadowbanned == None))
+
 	total = posts.count()
 
 	posts = sort_objects(sort, posts, Post)
@@ -235,6 +238,9 @@ def comment_idlist(v=None, page=1, sort="new", t="day", gt=0, lt=0):
 
 	if not gt and not lt:
 		comments = apply_time_filter(t, comments, Comment)
+
+	if not v.can_see_shadowbanned:
+		comments = comments.join(Comment.author).filter(or_(User.id == v.id, User.shadowbanned == None))
 
 	total = comments.count()
 	comments = sort_objects(sort, comments, Comment)

@@ -853,6 +853,9 @@ def u_username_wall(v, username):
 			Comment.deleted_utc == 0
 		)
 
+	if not v.can_see_shadowbanned:
+		comments = comments.join(Comment.author).filter(or_(User.id == v.id, User.shadowbanned == None))
+
 	total = comments.count()
 	comments = comments.order_by(Comment.created_utc.desc()) \
 		.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
