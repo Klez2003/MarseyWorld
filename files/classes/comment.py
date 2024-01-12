@@ -69,7 +69,7 @@ def normalize_urls_runtime(body, v):
 		body = twitter_to_nitter_regex.sub(r'\1https://nitter.net/', body)
 
 	if v and v.imgsed:
-		body = body.replace('https://instagram.com/', 'https://imgsed.com/')
+		body = instagram_to_imgsed_regex.sub(r'\1https://imgsed.com/', body)
 
 	if not v or v.controversial:
 		captured = []

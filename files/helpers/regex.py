@@ -128,6 +128,8 @@ allowed_domain_regex = re.compile("[a-z0-9\-.]+", flags=re.I|re.A)
 
 twitter_to_nitter_regex = re.compile('(^|>|")https:\/\/twitter.com\/(?!i\/)', flags=re.A)
 
+instagram_to_imgsed_regex = re.compile('(^|>|")https:\/\/instagram.com\/(?!reel\/)', flags=re.A)
+
 color_regex = re.compile("[a-f0-9]{6}", flags=re.A)
 
 # lazy match on the .*?, only match if there is trailing stuff
