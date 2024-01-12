@@ -693,6 +693,7 @@ if SITE in {'rdrama.net', 'staging.rdrama.net'}:
 		'carpflo': CARP_ID,
 		'carpathianflorist': CARP_ID,
 		'carpathian florist': CARP_ID,
+		'clitpeeler': CARP_ID,
 		'the_homocracy': 147,
 	}
 elif SITE == 'watchpeopledie.tv':
