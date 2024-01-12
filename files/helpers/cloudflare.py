@@ -36,5 +36,5 @@ def purge_files_in_cloudflare_cache(files):
 		return False
 	return res == "<Response [200]>"
 
-x = requests.get(f"{CLOUDFLARE_API_URL}/zones/{CF_ZONE}/settings/security_level", headers=CF_HEADERS, timeout=CLOUDFLARE_REQUEST_TIMEOUT_SECS).json()
+x = requests.get(f"{CLOUDFLARE_API_URL}/zones/{CF_ZONE}/settings/security_level", headers=CF_HEADERS, timeout=CLOUDFLARE_REQUEST_TIMEOUT_SECS).json()['result']['value']
 print(x)
