@@ -45,8 +45,8 @@
 		<button type="button" id="unblock2-{{p.id}}" class="nobackground btn btn-link btn-block btn-lg text-success text-left {% if not p.is_blocking %}d-none{% endif %}" data-bs-dismiss="modal" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unblock_user?username={{p.author_name}}','block2-{{p.id}}','unblock2-{{p.id}}','d-none')"><i class="fas fa-eye mr-2 text-success"></i>Unblock user</button>
 	{% endif %}
 	{% if p.hole %}
-		<button type="button" id="block-sub2-{{p.id}}" class="nobackground btn btn-link btn-block btn-lg text-danger text-left {% if v.blocks(p.hole) %}d-none{% endif %}" data-bs-dismiss="modal" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/h/{{p.hole}}/block','block-sub2-{{p.id}}','unblock-sub2-{{p.id}}','d-none')"><i class="fas fa-eye mr-2 text-danger"></i>Block /h/{{p.hole}}</button>
-		<button type="button" id="unblock-sub2-{{p.id}}" class="nobackground btn btn-link btn-block btn-lg text-success text-left {% if not v.blocks(p.hole) %}d-none{% endif %}" data-bs-dismiss="modal" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/h/{{p.hole}}/unblock','block-sub2-{{p.id}}','unblock-sub2-{{p.id}}','d-none')"><i class="fas fa-eye mr-2 text-success"></i>Unblock /h/{{p.hole}}</button>
+		<button type="button" id="block-hole2-{{p.id}}" class="nobackground btn btn-link btn-block btn-lg text-danger text-left {% if v.blocks(p.hole) %}d-none{% endif %}" data-bs-dismiss="modal" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/h/{{p.hole}}/block','block-hole2-{{p.id}}','unblock-hole2-{{p.id}}','d-none')"><i class="fas fa-eye mr-2 text-danger"></i>Block /h/{{p.hole}}</button>
+		<button type="button" id="unblock-hole2-{{p.id}}" class="nobackground btn btn-link btn-block btn-lg text-success text-left {% if not v.blocks(p.hole) %}d-none{% endif %}" data-bs-dismiss="modal" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/h/{{p.hole}}/unblock','block-hole2-{{p.id}}','unblock-hole2-{{p.id}}','d-none')"><i class="fas fa-eye mr-2 text-success"></i>Unblock /h/{{p.hole}}</button>
 	{% endif %}
 {% endif %}
 
