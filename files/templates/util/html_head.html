@@ -48,9 +48,9 @@
 				{{u.stored_subscriber_count}} Followers -
 			{%- endif -%}
 			{%- if not u.is_private -%}
-				{{0 if u.shadowbanned else u.real_post_count(v)}}
+				{{u.real_post_count(v)}}
 					Posts -
-				{{0 if u.shadowbanned else u.real_comment_count(v)}}
+				{{u.real_comment_count(v)}}
 					Comments
 			{%- endif -%}
 			{% if u.bio and can_see(v, u) %}
