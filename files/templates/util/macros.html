@@ -39,9 +39,9 @@
 		</span>
 	{% endfor %}
 
-	{% if v and v.can_see_shadowbanned and p.author.shadowbanned %}
-		<i class="fas fa-user-times text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title='Shadowbanned by @{{p.author.shadowbanner}} for "{{p.author.ban_reason}}"' data-bs-html="true"></i>
-	{% endif %}
+	{% with user = p.author %}
+		{%- include 'admin/shadowbanned_tooltip.html' -%}
+	{% endwith %}
 
 	{% if p.stickied %}
 		<i id='pinned-{{p.id}}' class="fas fa-thumbtack fa-rotate--45 pr-1 ml-1 mt-3 text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Pinned by @{{p.stickied}}" {% if p.stickied_utc %}data-onmouseover="pinned_timestamp('pinned-{{p.id}}')" data-timestamp={{p.stickied_utc}} data-nonce="{{g.nonce}}"{% endif %}></i>
@@ -219,9 +219,9 @@
 			<ul class="mt-1 mb-0" style="padding-left:20px;word-wrap:break-word">
 				{% for r in i.filtered_reports(v) %}
 					<li>
-						{% if v and v.can_see_shadowbanned and r.user.shadowbanned %}
-							<i class="fas fa-user-times text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title='Shadowbanned by @{{r.user.shadowbanner}} for "{{r.user.ban_reason}}"' data-bs-html="true"></i>
-						{% endif %}
+						{% with user = r.user %}
+							{%- include 'admin/shadowbanned_tooltip.html' -%}
+						{% endwith %}
 						<a style="font-weight:bold" href="{{r.user.url}}">{{r.user.username}}</a>
 						{% if r.reason %}: {{r.realreason(v) | safe}}{% endif %}
 						{% if v and v.admin_level >= PERMS['REPORTS_REMOVE'] %}
