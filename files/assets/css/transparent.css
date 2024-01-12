@@ -10,7 +10,7 @@
 	background: rgba(var(--background), 0.9) !important;
 }
 
-.fixed-bottom, .popover, .modal-content, .dropdown-menu, .navbar, body, .form-control, #speed-carot-modal {
+.fixed-bottom, .popover, .modal-content, .dropdown-menu, .navbar, body, .form-control, #inline-carot-modal {
 	background-color: rgb(var(--background)) !important;
 }
 

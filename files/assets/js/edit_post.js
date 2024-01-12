@@ -17,7 +17,7 @@ function togglePostEdit(id) {
 		autoExpand(box);
 	}
 
-	close_inline_speed_emoji_modal();
+	close_inline_emoji_modal();
 };
 
 document.getElementById('post-edit-title').addEventListener('keydown', (e) => {

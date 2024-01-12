@@ -28,13 +28,13 @@ function update_ghost_div_textarea(text)
 
 // Used for anything where a user is typing, specifically for the emoji modal
 // Just leave it global, I don't care
-let speed_carot_modal = document.createElement("div");
-speed_carot_modal.id = "speed-carot-modal";
-speed_carot_modal.style.position = "absolute";
-speed_carot_modal.style.left = "0px";
-speed_carot_modal.style.top = "0px";
-speed_carot_modal.style.display = "none";
-document.body.appendChild(speed_carot_modal);
+let inline_carot_modal = document.createElement("div");
+inline_carot_modal.id = "inline-carot-modal";
+inline_carot_modal.style.position = "absolute";
+inline_carot_modal.style.left = "0px";
+inline_carot_modal.style.top = "0px";
+inline_carot_modal.style.display = "none";
+document.body.appendChild(inline_carot_modal);
 
 let e
 
@@ -48,24 +48,24 @@ function curr_word_is_emoji()
 		current_word.charAt(current_word.length-1) != ":";
 }
 
-function close_inline_speed_emoji_modal() {
+function close_inline_emoji_modal() {
 	selecting = false;
-	speed_carot_modal.style.display = "none";
+	inline_carot_modal.style.display = "none";
 }
 
-function populate_speed_emoji_modal(results, textbox)
+function populate_inline_emoji_modal(results, textbox)
 {
 	selecting = true;
 
 	if (!results || results.size === 0)
 	{
-		speed_carot_modal.style.display = "none";
+		inline_carot_modal.style.display = "none";
 		return -1;
 	}
 
 	emoji_index = 0;
-	speed_carot_modal.scrollTop = 0;
-	speed_carot_modal.innerHTML = "";
+	inline_carot_modal.scrollTop = 0;
+	inline_carot_modal.innerHTML = "";
 	const MAXXX = 50;
 	// Not sure why the results is a Set... but oh well
 	let i = 0;
@@ -75,10 +75,10 @@ function populate_speed_emoji_modal(results, textbox)
 
 		if (i++ > MAXXX) return i;
 		let emoji_option = document.createElement("div");
-		emoji_option.className = "speed-modal-option emoji-option " + (i === 1 ? "selected" : "");
+		emoji_option.className = "inline-modal-option emoji-option " + (i === 1 ? "selected" : "");
 		emoji_option.tabIndex = 0;
 		let emoji_option_img = document.createElement("img");
-		emoji_option_img.className = "speed-modal-image emoji-option-image";
+		emoji_option_img.className = "inline-modal-image emoji-option-image";
 		// This is a bit
 		emoji_option_img.src = `${SITE_FULL_IMAGES}/e/${name}.webp`
 		let emoji_option_text = document.createElement("span");
@@ -96,7 +96,7 @@ function populate_speed_emoji_modal(results, textbox)
 		if (current_word.includes("!")) name = `!${name}`
 
 		emoji_option.addEventListener('click', () => {
-			close_inline_speed_emoji_modal()
+			close_inline_emoji_modal()
 			textbox.value = textbox.value.replace(new RegExp(current_word+"(?=\\s|$)", "gi"), `:${name}: `)
 			textbox.focus()
 			if (typeof markdown === "function" && textbox.dataset.preview) {
@@ -106,14 +106,14 @@ function populate_speed_emoji_modal(results, textbox)
 		// Pack
 		emoji_option.appendChild(emoji_option_img);
 		emoji_option.appendChild(emoji_option_text);
-		speed_carot_modal.appendChild(emoji_option);
+		inline_carot_modal.appendChild(emoji_option);
 	}
-	if (i === 0) speed_carot_modal.style.display = "none";
-	else speed_carot_modal.style.display = "initial";
+	if (i === 0) inline_carot_modal.style.display = "none";
+	else inline_carot_modal.style.display = "initial";
 	return i;
 }
 
-function update_speed_emoji_modal(event)
+function update_inline_emoji_modal(event)
 {
 	const box_coords = update_ghost_div_textarea(event.target);
 
@@ -148,28 +148,28 @@ function update_speed_emoji_modal(event)
 			modal_pos.x += window.scrollX;
 			modal_pos.y += window.scrollY;
 
-			speed_carot_modal.style.display = "initial";
-			speed_carot_modal.style.left = box_coords.x - 30 + "px";
-			speed_carot_modal.style.top = modal_pos.y + box_coords.y + 14 + "px";
+			inline_carot_modal.style.display = "initial";
+			inline_carot_modal.style.left = box_coords.x - 30 + "px";
+			inline_carot_modal.style.top = modal_pos.y + box_coords.y + 14 + "px";
 
 			// Do the search (and do something with it)
 			const resultSet = emojisSearchDictionary.completeSearch(current_word.substring(1).replace(/[#!]/g, ""));
 
 			const found = globalEmojis.filter(i => resultSet.has(i.name));
 
-			populate_speed_emoji_modal(found, event.target);
+			populate_inline_emoji_modal(found, event.target);
 		});
 	}
 	else {
-		speed_carot_modal.style.display = "none";
+		inline_carot_modal.style.display = "none";
 	}
 }
 
-function speed_carot_navigate(event)
+function inline_carot_navigate(event)
 {
 	if (!selecting) return;
 
-	let select_items = speed_carot_modal.querySelectorAll(".speed-modal-option");
+	let select_items = inline_carot_modal.querySelectorAll(".inline-modal-option");
 	if (!select_items || !curr_word_is_emoji()) return;
 
 	const modal_keybinds = {
@@ -203,8 +203,8 @@ function insertGhostDivs(element) {
 			ghostdiv.style.display = "none";
 			i.after(ghostdiv);
 		}
-		i.addEventListener('input', update_speed_emoji_modal, false);
-		i.addEventListener('keydown', speed_carot_navigate, false);
+		i.addEventListener('input', update_inline_emoji_modal, false);
+		i.addEventListener('keydown', inline_carot_navigate, false);
 	});
 }
 

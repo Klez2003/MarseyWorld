@@ -98,7 +98,7 @@ function toggleEdit(id){
 		charLimit(box.id, 'charcount-edit-' + id)
 	}
 
-	close_inline_speed_emoji_modal();
+	close_inline_emoji_modal();
 };
 
 
@@ -131,7 +131,7 @@ deleteCommentButton.onclick = () => {
 };
 
 function post_reply(id) {
-	close_inline_speed_emoji_modal();
+	close_inline_emoji_modal();
 
 	const btn = document.getElementById(`save-reply-to-${id}`)
 	btn.disabled = true;
@@ -257,7 +257,7 @@ function comment_edit(id){
 }
 
 function post_comment(fullname, hide){
-	close_inline_speed_emoji_modal();
+	close_inline_emoji_modal();
 
 	const btn = document.getElementById('save-reply-to-'+fullname)
 	const ta = document.getElementById('reply-form-body-'+fullname)
@@ -359,5 +359,5 @@ function cancel(fullname) {
 	document.getElementById(`reply-to-${fullname}`).classList.add('d-none')
 	remove_dialog();
 	restore_reply_buttons(fullname)
-	close_inline_speed_emoji_modal();
+	close_inline_emoji_modal();
 }

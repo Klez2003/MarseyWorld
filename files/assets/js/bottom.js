@@ -229,7 +229,7 @@ document.addEventListener("click", function (e) {
 
 	if (element.dataset.toggleelement) {
 		if (element.dataset.toggleelement.startsWith('#reply-'))
-			close_inline_speed_emoji_modal();
+			close_inline_emoji_modal();
 
 		const toggling = document.querySelector(element.dataset.toggleelement)
 		const attr = element.dataset.toggleattr;

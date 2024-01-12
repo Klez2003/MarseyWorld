@@ -214,7 +214,7 @@ function bs_trigger(e) {
 		return bootstrap.Tooltip.getOrCreateInstance(element);
 	});
 
-	if (typeof update_speed_emoji_modal == 'function') {
+	if (typeof update_inline_emoji_modal == 'function') {
 		insertGhostDivs(e)
 	}
 }
@@ -305,8 +305,8 @@ function reload() {
 }
 
 function sendFormXHR(form, extraActionsOnSuccess) {
-	if (typeof close_inline_speed_emoji_modal === "function") {
-		close_inline_speed_emoji_modal();
+	if (typeof close_inline_emoji_modal === "function") {
+		close_inline_emoji_modal();
 	}
 
 	const t = form.querySelector('[type="submit"]')
@@ -702,14 +702,14 @@ if (screen_width < 768) {
 }
 
 document.addEventListener('show.bs.modal', () => {
-	if (typeof close_inline_speed_emoji_modal === "function") {
-		close_inline_speed_emoji_modal();
+	if (typeof close_inline_emoji_modal === "function") {
+		close_inline_emoji_modal();
 	}
 });
 
 document.addEventListener('hide.bs.modal', () => {
-	if (typeof close_inline_speed_emoji_modal === "function") {
-		close_inline_speed_emoji_modal();
+	if (typeof close_inline_emoji_modal === "function") {
+		close_inline_emoji_modal();
 	}
 });
 
