@@ -18,7 +18,7 @@ from files.helpers.get import *
 from files.helpers.media import *
 from files.helpers.sanitize import *
 from files.helpers.security import *
-from files.helpers.settings import get_settings, toggle_setting
+from files.helpers.settings import *
 from files.helpers.useractions import *
 from files.routes.routehelpers import check_for_alts
 from files.routes.wrappers import *
@@ -362,6 +362,8 @@ def reported_comments(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @admin_level_required(PERMS['ADMIN_HOME_VISIBLE'])
 def admin_home(v):
+	under_attack = (requests.get(f"{CLOUDFLARE_API_URL}/zones/{CF_ZONE}/settings/security_level", headers=CF_HEADERS, timeout=CLOUDFLARE_REQUEST_TIMEOUT_SECS).json()['result']['value'] == "under_attack")
+	set_setting('under_attack', under_attack)
 	return render_template("admin/admin_home.html", v=v)
 
 @app.post("/admin/site_settings/<setting>")
