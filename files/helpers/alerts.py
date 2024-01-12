@@ -180,7 +180,7 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, obj=None, followers_ping=Tr
 				if cost > v.coins + v.marseybux:
 					abort(403, f"You need {cost} currency to mention these ping groups!")
 
-				v.charge_account('combined', cost)
+				v.charge_account('coins/marseybux', cost)
 				if obj:
 					obj.ping_cost += cost
 				return 'everyone'
@@ -223,7 +223,7 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, obj=None, followers_ping=Tr
 					coin_receivers.update(member_ids)
 
 		if cost:
-			v.charge_account('combined', cost)
+			v.charge_account('coins/marseybux', cost)
 			if obj:
 				obj.ping_cost += cost
 

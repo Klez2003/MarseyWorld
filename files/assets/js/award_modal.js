@@ -91,6 +91,7 @@ function vote(type, id, dir) {
 }
 
 let global_price;
+let global_currency;
 
 const note_section = document.getElementById('note_section')
 const gif_button = note_section.querySelector('[title="Add GIF"]')
@@ -153,13 +154,20 @@ function pick(kind, price, coins, marseybux) {
 
 	const ownednum = Number(document.getElementById(`${kind}-owned`).textContent);
 
+	if (kind == 'grass')
+		global_currency = 'coins'
+	else if (kind == 'benefactor')
+		global_currency = 'marseybux'
+	else
+		global_currency = 'coins/marseybux'
+
 	if (ownednum > 0) {
 		document.getElementById('award_price').textContent = `${ownednum} owned`;
 		giveaward_button.classList.remove('d-none');
 		document.getElementById('buyandgiveaward').classList.add('d-none');
 	}
 	else {
-		document.getElementById('award_price').textContent = `Price: ${price} coins/marseybux`;
+		document.getElementById('award_price').textContent = `Price: ${price} ${global_currency}`;
 		giveaward_button.classList.add('d-none');
 		document.getElementById('buyandgiveaward').classList.remove('d-none');
 	}
@@ -188,7 +196,7 @@ function giveaward(t) {
 			}
 			else {
 				ownedblock.textContent = `Price: ${global_price}`
-				document.getElementById('award_price').textContent = `Price: ${global_price} coins/marseybux`;
+				document.getElementById('award_price').textContent = `Price: ${global_price} ${global_currency}`;
 			}
 		}
 	);

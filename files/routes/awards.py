@@ -62,11 +62,11 @@ def buy_award(v, kind, AWARDS):
 	elif kind == "benefactor":
 		currency = 'marseybux'
 	else:
-		currency = 'combined'
+		currency = 'coins/marseybux'
 
 	charged = v.charge_account(currency, price)
 	if not charged[0]:
-		abort(400, "Not enough coins/marseybux!")
+		abort(400, f"Not enough {currency}!")
 
 	v.coins_spent += charged[1]
 	if v.coins_spent >= 1000000:

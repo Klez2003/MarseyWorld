@@ -238,7 +238,7 @@ class User(Base):
 			if not should_check_balance or account_balance >= amount:
 				user_query.update({ User.marseybux: User.marseybux - amount })
 				succeeded = True
-		elif currency == 'combined':
+		elif currency == 'coins/marseybux':
 			if self.marseybux >= amount:
 				subtracted_mbux = amount
 				subtracted_coins = 0
