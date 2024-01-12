@@ -77,6 +77,7 @@ BOOSTED_SITES = {
 	'smogon.com',
 	'leftypol.org',
 	'redscare.cafe',
+	'chimpout.com',
 
 	#nested-comments
 	#'all sites with .win TLD',
