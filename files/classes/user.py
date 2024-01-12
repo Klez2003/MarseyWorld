@@ -750,7 +750,7 @@ class User(Base):
 				not_(and_(Comment.sentto != None, Comment.sentto == MODMAIL_ID, User.is_muted))
 			)
 
-		if not self.can_see_shadowbanned:
+		if not self.admin_level >= PERMS['USER_SHADOWBAN']:
 			notifs = notifs.filter(
 				User.shadowbanned == None,
 				Comment.is_banned == False,
@@ -779,7 +779,7 @@ class User(Base):
 					Comment.parent_post == None,
 				)
 
-		if not self.can_see_shadowbanned:
+		if not self.admin_level >= PERMS['USER_SHADOWBAN']:
 			notifs = notifs.join(Comment.author).filter(User.shadowbanned == None)
 
 		return notifs.count()
@@ -953,13 +953,13 @@ class User(Base):
 	@lazy
 	def real_post_count(self, v):
 		if not self.shadowbanned: return self.post_count
-		if v and (v.id == self.id or v.can_see_shadowbanned): return self.post_count
+		if v and (v.id == self.id or v.admin_level >= PERMS['USER_SHADOWBAN']): return self.post_count
 		return 0
 
 	@lazy
 	def real_comment_count(self, v):
 		if not self.shadowbanned: return self.comment_count
-		if v and (v.id == self.id or v.can_see_shadowbanned): return self.comment_count
+		if v and (v.id == self.id or v.admin_level >= PERMS['USER_SHADOWBAN']): return self.comment_count
 		return 0
 
 	@property
@@ -1223,11 +1223,6 @@ class User(Base):
 				return name
 			return f'((({self.username})))'
 		return self.username
-
-	@property
-	@lazy
-	def can_see_shadowbanned(self):
-		return (self.admin_level >= PERMS['USER_SHADOWBAN'])
 
 	@property
 	@lazy
