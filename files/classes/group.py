@@ -15,7 +15,7 @@ class Group(Base):
 	name = Column(String, primary_key=True)
 	created_utc = Column(Integer)
 
-	memberships = relationship("GroupMembership", primaryjoin="GroupMembership.group_name==Group.name", order_by="GroupMembership.created_utc")
+	memberships = relationship("GroupMembership", primaryjoin="GroupMembership.group_name==Group.name", order_by="GroupMembership.approved_utc")
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
