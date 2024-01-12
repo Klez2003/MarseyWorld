@@ -1385,7 +1385,11 @@ def bm():
 	if existing: return ''
 
 	amount = data['amount']/100
-	email = data['billing_details']['email'].strip().lower()
+
+	email = data['billing_details']['email']
+	if not email: return ''
+	email = email.strip().lower()
+
 	created_utc = data['created']
 
 	if data['description'] == 'One time support for rdrama.net':
