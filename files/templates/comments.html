@@ -289,7 +289,7 @@
 										{{macros.file_btn('file-edit-reply-' ~ c.id)}}
 									</div>
 
-									<a class="text-small mt-3 d-inline-block" href="/formatting" {% if v and v.newtab %}data-target="t" target="_blank"{% endif %}>Formatting help</a>
+									<a class="text-small mt-3 d-inline-block" href="/formatting" data-target="t" target="_blank">Formatting help</a>
 
 									<button type="button" id="edit-btn-{{c.id}}" form="comment-edit-form-{{c.id}}" class="btn btn-primary ml-2 fl-r commentmob handle_disabled" data-nonce="{{g.nonce}}" data-onclick="comment_edit('{{c.id}}')">Save Edit</button>
 
