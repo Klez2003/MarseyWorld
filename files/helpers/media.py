@@ -75,7 +75,7 @@ def process_files(files, v, body, is_dm=False, dm_user=None):
 				else:
 					f.write(f'{url}, {v.username}, {v.id}, Modmail, Modmail, {int(time.time())}\n')
 
-	return body.replace('\n ', '\n')
+	return body.replace('\n ', '\n').strip()
 
 
 def process_audio(file, v, old=None):
