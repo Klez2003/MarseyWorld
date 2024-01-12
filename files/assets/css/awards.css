@@ -313,6 +313,5 @@
 		#cdae00 60px
 	);
 	font-weight: 700 !important;
-	background-clip: text !important;
 	animation: 60s linear 0s infinite move-colors;
 }
