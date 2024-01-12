@@ -159,7 +159,7 @@ def searchposts(v):
 	posts = apply_time_filter(t, posts, Post)
 
 	if not v.can_see_shadowbanned:
-		posts = posts.join(Post.author).filter(User.shadowbanned == None)
+		posts = posts.join(Post.author).filter(or_(User.id == v.id, User.shadowbanned == None))
 
 	total = posts.count()
 
@@ -271,7 +271,7 @@ def searchcomments(v):
 		comments = comments.filter(Comment.created_utc < before)
 
 	if not v.can_see_shadowbanned:
-		comments = comments.join(Comment.author).filter(User.shadowbanned == None)
+		comments = comments.join(Comment.author).filter(or_(User.id == v.id, User.shadowbanned == None))
 
 	total = comments.count()
 
@@ -363,7 +363,7 @@ def searchmessages(v):
 		comments = comments.filter(Comment.sentto == sentto.id)
 
 	if not v.can_see_shadowbanned:
-		comments = comments.join(Comment.author).filter(User.shadowbanned == None)
+		comments = comments.join(Comment.author).filter(or_(User.id == v.id, User.shadowbanned == None))
 
 	total = comments.count()
 
