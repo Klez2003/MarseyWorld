@@ -5451,7 +5451,6 @@ span > img[src$="/i/hand.webp"] ~ img {
 	transform-origin: bottom center;
 	margin-top: 10%;
 	text-align: center;
-	object-fit: contain;
 }
 span > img[src$="/i/hand.webp"]+img[src$="/i/talking.webp"] {
 	padding-top: 20%;
