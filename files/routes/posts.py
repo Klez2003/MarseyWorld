@@ -126,7 +126,6 @@ def post_id(pid, v, anything=None, hole=None):
 
 	if v:
 		execute_shadowban_viewers_and_voters(v, p)
-		# shadowban check is done in sort_objects
 		# output is needed: see comments.py
 		comments, output = get_comments_v_properties(v, None, Comment.parent_post == p.id, Comment.level < 10)
 
@@ -214,7 +213,6 @@ def view_more(v, pid, sort, offset):
 	except: abort(400)
 
 	if v:
-		# shadowban check is done in sort_objects
 		# output is needed: see comments.py
 		comments, output = get_comments_v_properties(v, None, Comment.parent_post == pid, Comment.stickied == None, Comment.id.notin_(ids), Comment.level < 10)
 		comments = comments.filter(Comment.level == 1)
@@ -262,7 +260,6 @@ def more_comments(v, cid):
 	tcid = g.db.query(Comment.top_comment_id).filter_by(id=cid).one_or_none()[0]
 
 	if v:
-		# shadowban check is done in sort_objects i think
 		# output is needed: see comments.py
 		comments, output = get_comments_v_properties(v, None, Comment.top_comment_id == tcid, Comment.level > 9)
 		comments = comments.filter(Comment.parent_comment_id == cid)
