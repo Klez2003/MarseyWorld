@@ -19,11 +19,11 @@ def exile_post(v, pid):
 	hole = p.hole
 	if not hole: abort(400)
 
-	if not v.mods(hole): abort(403)
+	if not v.mods_hole(hole): abort(403)
 
 	u = p.author
 
-	if u.mods(hole): abort(403)
+	if u.mods_hole(hole): abort(403)
 
 	if not u.exiler_username(hole):
 		exile = Exile(user_id=u.id, hole=hole, exiler_id=v.id)
@@ -53,11 +53,11 @@ def exile_comment(v, cid):
 	hole = c.post.hole
 	if not hole: abort(400)
 
-	if not v.mods(hole): abort(403)
+	if not v.mods_hole(hole): abort(403)
 
 	u = c.author
 
-	if u.mods(hole): abort(403)
+	if u.mods_hole(hole): abort(403)
 
 	if not u.exiler_username(hole):
 		exile = Exile(user_id=u.id, hole=hole, exiler_id=v.id)
@@ -85,7 +85,7 @@ def exile_comment(v, cid):
 def unexile(v, hole, uid):
 	u = get_account(uid)
 
-	if not v.mods(hole): abort(403)
+	if not v.mods_hole(hole): abort(403)
 
 	if u.exiler_username(hole):
 		exile = g.db.query(Exile).filter_by(user_id=u.id, hole=hole).one_or_none()
@@ -201,7 +201,7 @@ def unfollow_sub(v, hole):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def mods(v, hole):
+def mods_hole(v, hole):
 	if hole == 'test':
 		return redirect('/users')
 
@@ -273,7 +273,7 @@ def add_mod(v, hole):
 		abort(403, "Everyone is already a mod of this hole!")
 
 	hole = get_hole(hole).name
-	if not v.mods(hole): abort(403)
+	if not v.mods_hole(hole): abort(403)
 
 	user = request.values.get('user')
 
@@ -312,7 +312,7 @@ def add_mod(v, hole):
 def remove_mod(v, hole):
 	hole = get_hole(hole).name
 
-	if not v.mods(hole): abort(403)
+	if not v.mods_hole(hole): abort(403)
 
 	uid = request.values.get('uid')
 
@@ -405,7 +405,7 @@ def kick(v, pid):
 	post = get_post(pid)
 
 	if not post.hole: abort(403)
-	if not v.mods(post.hole): abort(403)
+	if not v.mods_hole(post.hole): abort(403)
 
 	old = post.hole
 	post.hole = None
@@ -435,7 +435,7 @@ def kick(v, pid):
 @auth_required
 def hole_settings(v, hole):
 	hole = get_hole(hole)
-	if not v.mods(hole.name): abort(403)
+	if not v.mods_hole(hole.name): abort(403)
 	return render_template('hole/settings.html', v=v, sidebar=hole.sidebar, hole=hole, css=hole.css)
 
 
@@ -447,7 +447,7 @@ def hole_settings(v, hole):
 @auth_required
 def post_hole_sidebar(v, hole):
 	hole = get_hole(hole)
-	if not v.mods(hole.name): abort(403)
+	if not v.mods_hole(hole.name): abort(403)
 	if v.shadowbanned: abort(400)
 
 	sidebar = request.values.get('sidebar', '').strip()
@@ -485,7 +485,7 @@ def post_hole_css(v, hole):
 	css = request.values.get('css', '').strip()
 
 	if not hole: abort(404)
-	if not v.mods(hole.name): abort(403)
+	if not v.mods_hole(hole.name): abort(403)
 	if v.shadowbanned: abort(400)
 
 	if len(css) > CSS_LENGTH_LIMIT:
@@ -526,7 +526,7 @@ def upload_hole_sidebar(v, hole):
 	if g.is_tor: abort(403, "Image uploads are not allowed through Tor")
 
 	hole = get_hole(hole)
-	if not v.mods(hole.name): abort(403)
+	if not v.mods_hole(hole.name): abort(403)
 	if v.shadowbanned: abort(500)
 
 	file = request.files["sidebar"]
@@ -554,7 +554,7 @@ def upload_hole_sidebar(v, hole):
 @auth_required
 def delete_hole_sidebar(v, hole, index):
 	hole = get_hole(hole)
-	if not v.mods(hole.name): abort(403)
+	if not v.mods_hole(hole.name): abort(403)
 
 	if not hole.sidebarurls:
 		abort(404, f"Sidebar image not found (/h/{hole.name} has no sidebar images)")
@@ -584,7 +584,7 @@ def delete_hole_sidebar(v, hole, index):
 @auth_required
 def delete_all_hole_sidebars(v, hole):
 	hole = get_hole(hole)
-	if not v.mods(hole.name): abort(403)
+	if not v.mods_hole(hole.name): abort(403)
 
 	for sidebar in hole.sidebarurls:
 		try:
@@ -614,7 +614,7 @@ def upload_hole_banner(v, hole):
 	if g.is_tor: abort(403, "Image uploads are not allowed through Tor")
 
 	hole = get_hole(hole)
-	if not v.mods(hole.name): abort(403)
+	if not v.mods_hole(hole.name): abort(403)
 	if v.shadowbanned: abort(500)
 
 	file = request.files["banner"]
@@ -642,7 +642,7 @@ def upload_hole_banner(v, hole):
 @auth_required
 def delete_hole_banner(v, hole, index):
 	hole = get_hole(hole)
-	if not v.mods(hole.name): abort(403)
+	if not v.mods_hole(hole.name): abort(403)
 
 	if not hole.bannerurls:
 		abort(404, f"Banner not found (/h/{hole.name} has no banners)")
@@ -672,7 +672,7 @@ def delete_hole_banner(v, hole, index):
 @auth_required
 def delete_all_hole_banners(v, hole):
 	hole = get_hole(hole)
-	if not v.mods(hole.name): abort(403)
+	if not v.mods_hole(hole.name): abort(403)
 
 	for banner in hole.bannerurls:
 		try:
@@ -702,7 +702,7 @@ def hole_marsey(v, hole):
 	if g.is_tor: abort(403, "Image uploads are not allowed through TOR!")
 
 	hole = get_hole(hole)
-	if not v.mods(hole.name): abort(403)
+	if not v.mods_hole(hole.name): abort(403)
 	if v.shadowbanned: abort(500)
 
 	file = request.files["marsey"]
@@ -746,7 +746,7 @@ def hole_pin(v, pid):
 
 	if not p.hole: abort(403)
 
-	if not v.mods(p.hole): abort(403)
+	if not v.mods_hole(p.hole): abort(403)
 
 	num = g.db.query(Post).filter(Post.hole == p.hole, Post.hole_pinned != None).count()
 	if num >= 2:
@@ -782,7 +782,7 @@ def hole_unpin(v, pid):
 
 	if not p.hole: abort(403)
 
-	if not v.mods(p.hole): abort(403)
+	if not v.mods_hole(p.hole): abort(403)
 
 	p.hole_pinned = None
 	g.db.add(p)
@@ -814,7 +814,7 @@ def hole_stealth(v, hole):
 	hole = get_hole(hole)
 	if hole.name in {'braincels','smuggies','mnn','glory'} and v.admin_level < PERMS["MODS_EVERY_HOLE"]:
 		abort(403)
-	if not v.mods(hole.name): abort(403)
+	if not v.mods_hole(hole.name): abort(403)
 
 	hole.stealth = not hole.stealth
 	g.db.add(hole)
@@ -851,7 +851,7 @@ def pin_comment_mod(cid, v):
 	comment = get_comment(cid, v=v)
 
 	if not comment.stickied:
-		if not (comment.post.hole and v.mods(comment.post.hole)): abort(403)
+		if not (comment.post.hole and v.mods_hole(comment.post.hole)): abort(403)
 
 		comment.stickied = v.username + " (Mod)"
 
@@ -884,7 +884,7 @@ def unpin_comment_mod(cid, v):
 	comment = get_comment(cid, v=v)
 
 	if comment.stickied:
-		if not (comment.post.hole and v.mods(comment.post.hole)): abort(403)
+		if not (comment.post.hole and v.mods_hole(comment.post.hole)): abort(403)
 
 		comment.stickied = None
 		comment.stickied_utc = None

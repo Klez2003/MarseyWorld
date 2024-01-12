@@ -31,7 +31,7 @@ def report_post(pid, v):
 	if len(reason_html) > 350:
 		abort(400, "Report reason too long!")
 
-	if reason.startswith('!') and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or post.hole and v.mods(post.hole)):
+	if reason.startswith('!') and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or post.hole and v.mods_hole(post.hole)):
 		post.flair = reason_html[1:]
 		g.db.add(post)
 		if v.admin_level >= PERMS['POST_COMMENT_MODERATION']:
@@ -166,7 +166,7 @@ def move_post(post, v, reason):
 	hole_to = get_hole(reason, graceful=True)
 	hole_to = hole_to.name if hole_to else None
 
-	can_move_post = v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or (post.hole and v.mods(hole_from))
+	can_move_post = v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or (post.hole and v.mods_hole(hole_from))
 	if hole_from != 'chudrama': # posts can only be moved out of /h/chudrama by admins
 		can_move_post = can_move_post or post.author_id == v.id
 	if not can_move_post: return False

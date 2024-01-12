@@ -34,7 +34,7 @@
 		</table>
 	</div>
 
-	{% if v.mods(hole.name) %}
+	{% if v.mods_hole(hole.name) %}
 		<form action="/h/{{hole}}/add_mod" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHRReload(this)">
 			<input hidden name="formkey" value="{{v|formkey}}">
 			<input class="form-control" style="display:inline;width:250px" autocomplete="off" type="text" name="user" class="form-control" placeholder="Enter username..">
