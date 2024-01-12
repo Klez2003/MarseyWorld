@@ -134,7 +134,7 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 			word = escape_for_search(word)
 			posts = posts.filter(not_(Post.title.ilike(f'%{word}%')))
 
-	if v.admin_level < PERMS['USER_SHADOWBAN']:
+	if v and v.admin_level < PERMS['USER_SHADOWBAN']:
 		posts = posts.join(Post.author).filter(or_(User.id == v.id, User.shadowbanned == None))
 
 	total = posts.count()
