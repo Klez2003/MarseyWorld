@@ -211,7 +211,8 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, obj=None, followers_ping=Tr
 
 			notify_users.update(members)
 
-			if (ghost or v.id not in member_ids) and i.group(1) != 'followers':
+			realghost = ghost and i.group(1) != 'ghosts'
+			if (realghost or v.id not in member_ids) and i.group(1) != 'followers':
 				if group and group.name == 'verifiedrich':
 					abort(403, f"Only !verifiedrich members can mention it!")
 				cost += len(members) * 5
