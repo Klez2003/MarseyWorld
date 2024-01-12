@@ -150,6 +150,8 @@ if SITE_NAME == 'rDrama':
 
 	patron = "Paypig"
 
+	PERMS['NOTIFICATIONS_HOLE_CREATION'] = 0
+
 	TAGLINES = (
 		"largest online LGBTQ+ club",
 		"largest online furfest",
