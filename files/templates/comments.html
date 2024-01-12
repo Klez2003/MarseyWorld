@@ -247,7 +247,7 @@
 
 						{% set realbody = c.realbody(v) %}
 						{% set tilt = c.award_count('tilt', v) %}
-						<div id="comment-text-{{c.id}}" class="{{c.award_classes(v)}} comment-text mb-0" {% if tilt %}style="transform: rotate({{tilt}}deg);padding-right: {{tilt*10}}px;padding-left: {{tilt*10}}px"{% endif %}>
+						<div id="comment-text-{{c.id}}" class="{{c.award_classes(v)}} comment-text mb-0" {% if tilt %}style="transform: rotate({{tilt}}deg); padding: min(10vh,{{tilt*4}}px) min(10vw,{{tilt*10}}px)"{% endif %}>
 							{{realbody | safe}}
 						</div>
 
