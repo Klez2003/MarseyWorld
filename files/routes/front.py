@@ -36,7 +36,7 @@ def front_all(v, hole=None):
 		if hole or SITE_NAME != 'rDrama': defaulttime = 'all'
 		else: defaulttime = DEFAULT_TIME_FILTER
 
-	if hole and hole != 'thugsauces':
+	if hole and hole.name != 'thugsauces':
 		defaultsorting = "new"
 
 	sort = request.values.get("sort", defaultsorting)
