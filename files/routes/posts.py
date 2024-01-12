@@ -190,8 +190,7 @@ def post_id(pid, v, anything=None, hole=None):
 		return p.json
 
 	template = "post.html"
-	if (p.is_banned or p.author.shadowbanned) \
-			and not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or p.author_id == v.id)):
+	if p.is_banned and not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or p.author_id == v.id)):
 		template = "post_banned.html"
 
 	result = render_template(template, v=v, p=p, ids=list(ids),
