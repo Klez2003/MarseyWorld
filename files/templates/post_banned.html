@@ -24,13 +24,8 @@
 					<div class="post-meta text-left d-mob-none">{% if p.nsfw %}<span class="badge badge-danger">NSFW</span> {% endif %}{% if p.is_banned %}Removed by @{{p.ban_reason}} (Site Admin){% else %}[Deleted by user]{% endif %}</div>
 				</div>
 				<div id="voting" class="d-md-block my-auto mr-3 text-center">
-					<div class="post-{{p.id}}-up arrow-up mx-auto">
-					</div>
-					<span class="post-{{p.id}}-score-up score-up text-muted{% if voted!=1 %} d-none{% endif %}">✖</span>
-					<span class="post-{{p.id}}-score-none score text-muted{% if voted!=0 and voted!=-2 %} d-none{% endif %}">✖</span>
-					<span class="post-{{p.id}}-score-down score-down text-muted{% if voted!=-1 %} d-none{% endif %}">✖</span>
-					<div class="post-{{p.id}}-down arrow-down mx-auto">
-					</div>
+					<div class="post-{{p.id}}-up arrow-up mx-auto"></div>
+					<div class="post-{{p.id}}-down arrow-down mx-auto"></div>
 				</div>
 			</div>
 			{% if v and v.admin_level >= PERMS['POST_COMMENT_MODERATION'] and p.body_html %}
