@@ -264,6 +264,7 @@ LONGPOSTBOT_REPLIES = (
 	"https://i.rdrama.net/images/17025509830829637.webp",
 	"kys",
 	"Why?",
+	"https://i.rdrama.net/images/17051203593367493.webp",
 )
 
 CHUD_MSGS = (
