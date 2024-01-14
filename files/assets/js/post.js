@@ -56,7 +56,7 @@ if (screen_width < 768) {
 		const N = _C.children.length
 		const NF = 30
 
-		let i = 0, x0 = null, y0 = null, locked = false, w, ini, fin, rID = null, anf, n;
+		let i = 0, x0 = null, y0 = null, locked = false, w, ini, fin, anf, n;
 
 		function unify(e) {	return e.changedTouches ? e.changedTouches[0] : e };
 
@@ -113,7 +113,6 @@ if (screen_width < 768) {
 		};
 
 		size();
-		_C.style.setProperty('--n', N);
 
 		addEventListener('resize', size, false);
 
