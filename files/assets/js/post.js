@@ -33,7 +33,7 @@ if (fake_textarea) {
 	});
 }
 
-let post_ids = localStorage.getItem("post_ids");
+let post_ids = sessionStorage.getItem("post_ids");
 
 if (post_ids) {
 	post_ids = post_ids.split(', ')
