@@ -128,7 +128,4 @@
 	{% if FP and request.path == '/' and v and not v.fp %}
 		<script defer src="{{'js/fp.js' | asset}}"></script>
 	{% endif %}
-
-	<input hidden id="post_ids" value="{{post_ids}}">
-	<script defer src="{{'js/post_ids.js' | asset}}"></script>	
 {% endblock %}

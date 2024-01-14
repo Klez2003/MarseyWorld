@@ -7618,8 +7618,3 @@ blink {
 	font-weight: 700 !important;
 	animation: 60s linear 0s infinite move-colors;
 }
-
-#main-content-col {
-	--n: 1;
-	transform: translate(calc(var(--i, 0)/var(--n)*-100%));
-}
