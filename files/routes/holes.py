@@ -389,8 +389,8 @@ def create_sub2(v):
 	mod = Mod(user_id=v.id, hole=hole.name)
 	g.db.add(mod)
 
-
-	text_html = sanitize(f":!marseyparty: /h/{hole} has been created by @{v.username} :marseyparty:", blackjack="notification")
+	text = f":!marseyparty: /h/{hole} has been created by @{v.username} :marseyparty:"
+	text_html = sanitize(text, blackjack="notification")
 	cid = create_comment(text_html)
 
 	t = time.time() - 604800
