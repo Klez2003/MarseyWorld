@@ -12,18 +12,23 @@ window.onscroll = function () {
 
 	const bottomSafeAreaInset = parseInt(getComputedStyle(bottomBar).getPropertyValue("--safe-area-inset-bottom")) || 0;
 
+	const postNavigationBar = document.getElementById('post_navigation')
+
 	if (bottomBar != null) {
 		if (prevScrollpos > currentScrollPos && (innerHeight + currentScrollPos) < (document.body.offsetHeight - 65)) {
 			bottomBar.style.bottom = "0px";
+			if (postNavigationBar)
+				postNavigationBar.style.top = "0px";
 		}
 		else if (currentScrollPos <= 125 && (innerHeight + currentScrollPos) < (document.body.offsetHeight - 65)) {
 			bottomBar.style.bottom = "0px";
-		}
-		else if (prevScrollpos > currentScrollPos && (innerHeight + currentScrollPos) >= (document.body.offsetHeight - 65)) {
-			bottomBar.style.bottom = `-${50 + bottomSafeAreaInset}px`;
+			if (postNavigationBar)
+				postNavigationBar.style.top = "0px";
 		}
 		else {
 			bottomBar.style.bottom = `-${50 + bottomSafeAreaInset}px`;
+			if (postNavigationBar)
+				postNavigationBar.style.top = `-${40 + bottomSafeAreaInset}px`;
 		}
 	}
 
