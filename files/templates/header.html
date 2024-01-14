@@ -82,7 +82,7 @@
 		{% endif %}
 	</div>
 
-	<div class="navbar navbar-expand-md navbar-light" id="navbar" style="z-index: 1030">
+	<div class="navbar navbar-expand-md navbar-light" id="navbar">
 		<div class="container-fluid" style="padding:0">
 			<a href="/" class="navbar-brand mr-auto {% if not has_logo and not hole %}flex-grow-1{% endif %}">
 				{% if False %}
@@ -462,23 +462,6 @@
 			{% endif %}
 		</div>
 	</div>
-
-	{% if request.path.startswith('/post/') and p %}
-		<div id="post_navigation" style="top: 0px; transition: top cubic-bezier(0, 0, 0.2, 1) 220ms; position: relative; z-index: 1029">
-			<div id="post_navigation-tabs" class="row" style="justify-content: center">
-				<a id="post_before" class="disabled btn btn-primary btn-block m-0 shop-tab award-tab">
-					<span class="mr-auto ml-auto">
-						<i class="fas fa-arrow-left"></i> Previous Post
-					</span>
-				</a>
-				<a id="post_after" class="disabled btn btn-primary btn-block m-0 shop-tab award-tab">
-					<span class="mr-auto ml-auto">
-						<i class="fas fa-arrow-right"></i> Next Post
-					</span>
-				</a>
-			</div>
-		</div>
-	{% endif %}
 </nav>
 
 {% if v and not err %}

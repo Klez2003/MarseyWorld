@@ -32,22 +32,3 @@ if (fake_textarea) {
 		location.href = fake_textarea.dataset.href;
 	});
 }
-
-let post_ids = sessionStorage.getItem("post_ids");
-
-if (post_ids) {
-	post_ids = post_ids.split(', ')
-	const current_index = post_ids.indexOf(pid)
-	const id_before = post_ids[current_index-1]
-	const id_after = post_ids[current_index+1]
-
-	if (id_before) {
-		document.getElementById('post_before').classList.remove('disabled')
-		document.getElementById('post_before').href = `/post/${id_before}`
-	}
-
-	if (id_after) {
-		document.getElementById('post_after').classList.remove('disabled')
-		document.getElementById('post_after').href = `/post/${id_after}`
-	}
-}
