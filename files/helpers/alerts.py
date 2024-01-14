@@ -95,7 +95,7 @@ def notif_comment(text):
 		return create_comment(text_html)
 
 
-def notif_comment2(p):
+def notif_comment_mention(p):
 	if p.ghost:
 		author_link = '@👻'
 	else:

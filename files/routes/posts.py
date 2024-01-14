@@ -63,7 +63,7 @@ def publish(pid, v):
 	notify_users = NOTIFY_USERS(f'{p.title} {p.body}', v, ghost=p.ghost, obj=p, followers_ping=False)
 
 	if notify_users:
-		cid, text = notif_comment2(p)
+		cid, text = notif_comment_mention(p)
 		if notify_users == 'everyone':
 			alert_everyone(cid)
 		else:
@@ -670,7 +670,7 @@ def submit_post(v, hole=None):
 		notify_users = NOTIFY_USERS(f'{title} {body}', v, ghost=p.ghost, obj=p, followers_ping=False)
 
 		if notify_users:
-			cid, text = notif_comment2(p)
+			cid, text = notif_comment_mention(p)
 			if notify_users == 'everyone':
 				alert_everyone(cid)
 			else:
@@ -999,7 +999,7 @@ def edit_post(pid, v):
 	if not p.private:
 		notify_users = NOTIFY_USERS(f'{title} {body}', v, oldtext=f'{p.title} {p.body}', ghost=p.ghost, obj=p, followers_ping=False)
 		if notify_users:
-			cid, text = notif_comment2(p)
+			cid, text = notif_comment_mention(p)
 			if notify_users == 'everyone':
 				alert_everyone(cid)
 			else:
