@@ -47,8 +47,7 @@ if (fake_textarea) {
 
 if (screen_width < 768) {
 	const post_ids = localStorage.getItem("post_ids").split(', ');
-	const permalink = document.getElementById("permalink").value
-	const current_index = post_ids.indexOf(`'${permalink}'`)
+	const current_index = post_ids.indexOf(`'${location.href}'`)
 	if (current_index > -1) {
 		const id_after = post_ids[current_index+1]
 		const id_before = post_ids[current_index-1]

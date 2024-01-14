@@ -347,8 +347,6 @@
 
 	<input hidden class="twoattrs" value="{{p.id}},{{p.comment_count}}">
 	<script defer src="{{'js/new_comments.js' | asset}}"></script>
-
-	<input hidden id="permalink" value="{{p.permalink}}">
 	<script defer src="{{'js/post.js' | asset}}"></script>
 
 	{% if fart and not (v and v.has_badge(128)) %}
