@@ -74,10 +74,10 @@ function drag(e) {
 		let fy = +(dy/y).toFixed(2);
 
 		if (!getSelection().toString() && (f > 0.04 || f < -0.04) && (fy < 0.02 && fy > -0.02)) {
-			if (id_before && (f > 0.15 || (screen_width > 768 && f > 0.1))) {
+			if (id_before && (f > 0.2 || (screen_width > 768 && f > 0.1))) {
 				location.href = `/post/${id_before}`
 			}
-			if (id_after && (f < -0.15 || (screen_width > 768 && f < -0.1))) {
+			if (id_after && (f < -0.2 || (screen_width > 768 && f < -0.1))) {
 				location.href = `/post/${id_after}`
 			}
 		}
