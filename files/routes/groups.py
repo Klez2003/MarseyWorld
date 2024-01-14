@@ -54,10 +54,13 @@ def create_group(v):
 
 	g.db.flush() #Necessary, to make linkfying the ping group in the notification work
 
+	text = f":!marseyparty: !{group} has been created by @{v.username} :marseyparty:"
+	text_html = sanitize(text, blackjack="notification")
+	cid = create_comment(text_html)
 	t = time.time() - 604800
 	notified_users = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_HOLE_CREATION'], User.id != v.id, User.last_active > t)]
-	for user in notified_users:
-		send_repeatable_notification(user, f":!marseyparty: !{group} has been created by @{v.username} :marseyparty:")
+	for uid in notified_users:
+		add_notif(cid, uid, text, check_existing=False)
 
 	return {"message": f"!{group} created successfully!"}
 
