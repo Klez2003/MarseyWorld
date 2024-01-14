@@ -389,10 +389,17 @@ def create_sub2(v):
 	mod = Mod(user_id=v.id, hole=hole.name)
 	g.db.add(mod)
 
+
+	text_html = sanitize(f":!marseyparty: /h/{hole} has been created by @{v.username} :marseyparty:", blackjack="notification")
+	cid = create_comment(text_html)
+
 	t = time.time() - 604800
 	notified_users = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_HOLE_CREATION'], User.id != v.id, User.last_active > t)]
-	for user in notified_users:
-		send_repeatable_notification(user, f":!marseyparty: /h/{hole} has been created by @{v.username} :marseyparty:")
+
+	for uid in notified_users:
+		add_notif(cid, uid, text, check_existing=False)
+
+
 
 	return redirect(f"/h/{hole}")
 

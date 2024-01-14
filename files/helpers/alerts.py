@@ -114,25 +114,27 @@ def notif_comment_mention(p):
 		return create_comment(text_html), text
 
 
-def add_notif(cid, uid, text, pushnotif_url=''):
+def add_notif(cid, uid, text, pushnotif_url='', check_existing=True):
 	if uid in BOT_IDs: return
 
 	if hasattr(g, 'v') and g.v and g.v.shadowbanned and g.db.query(User.admin_level).filter_by(id=uid).one()[0] < PERMS['USER_SHADOWBAN']:
 		return
 
-	existing = g.db.query(Notification.user_id).filter_by(comment_id=cid, user_id=uid).one_or_none()
-	if not existing:
-		notif = Notification(comment_id=cid, user_id=uid)
-		g.db.add(notif)
+	if check_existing:
+		existing = g.db.query(Notification.user_id).filter_by(comment_id=cid, user_id=uid).one_or_none()
+		if existing: return
 
-		if not pushnotif_url:
-			pushnotif_url = f'{SITE_FULL}/notification/{cid}'
+	notif = Notification(comment_id=cid, user_id=uid)
+	g.db.add(notif)
 
-		if ' has mentioned you: [' in text:
-			text = text.split(':')[0] + '!'
+	if not pushnotif_url:
+		pushnotif_url = f'{SITE_FULL}/notification/{cid}'
 
-		if not request.path.startswith('/submit'):
-			push_notif({uid}, 'New notification', text, pushnotif_url)
+	if ' has mentioned you: [' in text:
+		text = text.split(':')[0] + '!'
+
+	if not request.path.startswith('/submit'):
+		push_notif({uid}, 'New notification', text, pushnotif_url)
 
 
 def NOTIFY_USERS(text, v, oldtext=None, ghost=False, obj=None, followers_ping=True, commenters_ping_post_id=None):
