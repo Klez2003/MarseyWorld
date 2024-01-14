@@ -75,7 +75,7 @@ if (screen_width < 768) {
 				let dy = unify(e).clientY - y0
 				let fy = +(dy/y).toFixed(2);
 
-				if (!getSelection().toString() && (f > 0.04 || f < -0.04) && (fy < 0.02 && fy > -0.02)) {
+				if (!getSelection().toString() && (f > 0.04 || f < -0.04) && (fy < 0.04 && fy > -0.04)) {
 					if (id_before && f > 0.2) {
 						location.href = id_before.slice(1, -1)
 					}
