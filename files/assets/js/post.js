@@ -52,11 +52,13 @@ if (current_index > -1) {
 	const id_before = post_ids[current_index-1]
 
 	document.addEventListener('keydown', (e) => {
-		if (id_before && e.key == 'ArrowLeft') {
-			location.href = id_before.slice(1, -1)
-		}
-		else if (id_after && e.key == 'ArrowRight') {
-			location.href = id_after.slice(1, -1)
+		if (document.activeElement.tagName != 'TEXTAREA') {
+			if (id_before && e.key == 'ArrowLeft') {
+				location.href = id_before.slice(1, -1)
+			}
+			else if (id_after && e.key == 'ArrowRight') {
+				location.href = id_after.slice(1, -1)
+			}
 		}
 	})
 
