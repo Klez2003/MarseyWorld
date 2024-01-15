@@ -556,7 +556,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 	#doing this here cuz of the linkifyfilter right above it (therefore unifying all link processing logic)
 	soup = BeautifulSoup(sanitized, 'lxml')
 
-	has_transform = bool(soup.select('[style*=transform i]'))
+	has_transform = bool(soup.select('[style*=transform i]')) and v.id != SNAPPY_ID
 
 	links = soup.find_all("a")
 
