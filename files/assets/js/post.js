@@ -52,7 +52,7 @@ if (current_index > -1) {
 	const id_before = post_ids[current_index-1]
 
 	document.addEventListener('keydown', (e) => {
-		if (document.activeElement.tagName != 'TEXTAREA') {
+		if (document.activeElement.tagName != 'TEXTAREA' && document.activeElement.tagName != 'INPUT') {
 			if (id_before && e.key == 'ArrowLeft') {
 				location.href = id_before.slice(1, -1)
 			}
