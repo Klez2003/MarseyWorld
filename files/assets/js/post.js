@@ -43,15 +43,24 @@ if (fake_textarea) {
 
 
 
-//SWIPING
+//SWIPING AND KEYBOARD ARROWS
 
-if (screen_width < 768) {
-	const post_ids = localStorage.getItem("post_ids").split(', ');
-	const current_index = post_ids.indexOf(`'${location.href}'`)
-	if (current_index > -1) {
-		const id_after = post_ids[current_index+1]
-		const id_before = post_ids[current_index-1]
+const post_ids = localStorage.getItem("post_ids").split(', ');
+const current_index = post_ids.indexOf(`'${location.href}'`)
+if (current_index > -1) {
+	const id_after = post_ids[current_index+1]
+	const id_before = post_ids[current_index-1]
 
+	document.addEventListener('keydown', (e) => {
+		if (id_before && e.key == 'ArrowLeft') {
+			location.href = id_before.slice(1, -1)
+		}
+		else if (id_after && e.key == 'ArrowRight') {
+			location.href = id_after.slice(1, -1)
+		}
+	})
+
+	if (screen_width < 768) {
 		const _C = document.querySelector('.container')
 		const N = _C.children.length
 		const NF = 30
