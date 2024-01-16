@@ -213,7 +213,11 @@ def view_more(v, pid, sort, offset):
 
 	if v:
 		# output is needed: see comments.py
-		comments, output = get_comments_v_properties(v, None, Comment.parent_post == pid, Comment.stickied == None, Comment.id.notin_(ids), Comment.level < 10)
+		comments, output = get_comments_v_properties(v, None, Comment.parent_post == pid, Comment.id.notin_(ids), Comment.level < 10)
+
+		if sort == "hot":
+			comments = comments.filter(Comment.stickied == None)
+
 		comments = comments.filter(Comment.level == 1)
 		comments = sort_objects(sort, comments, Comment)
 
@@ -222,9 +226,11 @@ def view_more(v, pid, sort, offset):
 		comments = g.db.query(Comment).filter(
 				Comment.parent_post == pid,
 				Comment.level == 1,
-				Comment.stickied == None,
 				Comment.id.notin_(ids)
 			)
+
+		if sort == "hot":
+			comments = comments.filter(Comment.stickied == None)
 
 		comments = sort_objects(sort, comments, Comment)
 
