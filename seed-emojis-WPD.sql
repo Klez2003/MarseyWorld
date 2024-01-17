@@ -330,6 +330,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('minioncocksock', 'Misc', 2, 'cocksleeve', true, 1698334044),
 ('molestia', 'Misc', 2, 'celestia molesting pony mlp mylittlepony princess intensify intensifies', false, 1700055732),
 ('monkey', 'Misc', 2, 'koder puppet stare shocked gasp', false, 1699133204),
+('pinkiepietroublemaker', 'Misc', 2, 'hardbody horse mylittlepony mlp', false, 1705517339),
 ('platyannoyedreal', 'Platy', 2, 'anger angry mad', false, 1699679070),
 ('platybear', 'Platy', 2, 'costume', false, 1700216904),
 ('platyblushpenisshadow', 'Platy', 2, 'cockshadow dickshadow', false, 1699811188),
