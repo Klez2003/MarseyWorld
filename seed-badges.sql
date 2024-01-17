@@ -28,6 +28,8 @@ INSERT INTO public.badge_defs VALUES (193, 'Web Design Is My Passion', 'This use
 INSERT INTO public.badge_defs VALUES (192, 'Social Justice Berserker', 'This user has taken a solemn vow to Speak No Evil ⚔', 1667695138);
 INSERT INTO public.badge_defs VALUES (318, 'Fistmas Sidebar Artist', 'This user secured their place on Santa’s Good List by contributing a very jolly Fistmas Sidebar', 1702963246);
 INSERT INTO public.badge_defs VALUES (319, 'Fistmas 23 Survivor', 'Awarded for surviving Fistmas 2023', 1704136553);
+INSERT INTO public.badge_defs VALUES (320, 'Best Marsey 2023', 'The creator of the best Marsey emote of 2023, as voted by rdrama users.', 1705457637);
+INSERT INTO public.badge_defs VALUES (325, 'Best rdrama activist 2023', 'Went out there and touched grass for the sake of drama, and was voted the best rdrama activist of 2023.', 1705459943);
 INSERT INTO public.badge_defs VALUES (296, 'SEX!', 'This user verifiably had sex with another dramatard.', 1692195588);
 INSERT INTO public.badge_defs VALUES (297, 'Weather Balloon', 'This user was shot down over the territory of /r/UFOs.', 1694716945);
 INSERT INTO public.badge_defs VALUES (180, 'Marsey Consoomer', 'Conned rDrama out of sick merch in exchange for a donation to Redbubble.', 1664417205);
@@ -50,6 +52,7 @@ INSERT INTO public.badge_defs VALUES (136, 'TRAIN 2022', 'Beware: Found to be on
 INSERT INTO public.badge_defs VALUES (137, 'Lottershe Winner', 'This user won the Lottershe grand prize.', 0);
 INSERT INTO public.badge_defs VALUES (140, 'Y''all Seein'' Eye', 'Gets notified when other sites talk about us', 0);
 INSERT INTO public.badge_defs VALUES (141, 'Marsey Typographer', 'For substantial and exceptional contributions to Marsey Alphabet.', 0);
+INSERT INTO public.badge_defs VALUES (321, 'Master Baiter 2023', 'The cunning mastermind behind the ruse which was voted best rdrama bait of 2023.', 1705457673);
 INSERT INTO public.badge_defs VALUES (298, 'Gray Alien', 'This user probed /r/UFOs and left the next morning.', 1694717005);
 INSERT INTO public.badge_defs VALUES (213, 'Best Marsey 2022', 'The creator of the best Marsey emoji of 2022, as voted by rDrama users.', 1670719193);
 INSERT INTO public.badge_defs VALUES (215, 'Own Goal', 'Don''t take this user''s advice on sportsball betting.', 1671150354);
@@ -85,6 +88,7 @@ INSERT INTO public.badge_defs VALUES (251, 'Marsey Madness BRONZE', 'Had the thi
 INSERT INTO public.badge_defs VALUES (252, 'Marsey Madness Participation Trophy!', 'This lil fella did his best in the Marsey Madness 2023 tournament', 1681309336);
 INSERT INTO public.badge_defs VALUES (253, 'Matchmaker', 'Awarded for contributing to the Matchmaker Marsey event', 1681321487);
 INSERT INTO public.badge_defs VALUES (254, 'Peacemaker', 'Awarded for contributing to the rDrama-Reddit Alliance event', 1681321561);
+INSERT INTO public.badge_defs VALUES (322, 'Best Drama Post 2023', 'The author of the best drama post of 2023, as voted by rdrama users.', 1705457711);
 INSERT INTO public.badge_defs VALUES (255, '2nd Birthgay Bash Survivor', 'Awarded for surviving rDrama''s second annual Birthgay Bash', 1683505877);
 INSERT INTO public.badge_defs VALUES (256, 'Birthgay Banner Artist', 'Contributed a beautiful banner to Marsey''s second birthgay celebration!', 1683506361);
 INSERT INTO public.badge_defs VALUES (257, 'Bronze-Tier Venture Capitalist', 'This king has contributed a lifetime total of at least $100 to keeping rDrama thriving', 1683678214);
@@ -125,6 +129,7 @@ INSERT INTO public.badge_defs VALUES (291, 'Griller', 'Enough about trans rights
 INSERT INTO public.badge_defs VALUES (286, 'Pilgrimage', 'This user went on a quest to an rDrama holy site', 1687363815);
 INSERT INTO public.badge_defs VALUES (241, 'SNITCH', 'This nigga snitched on a fellow rDrama user AND GOT PAID 🤑💰💸', 1679066554);
 INSERT INTO public.badge_defs VALUES (313, 'Zombiechad II', 'Zombified 10 people during Homoween 2023.', 1698600949);
+INSERT INTO public.badge_defs VALUES (323, 'Dramatard of the Year 2023', 'Voted as the best rdrama user of 2023. Congratulations!', 1705457749);
 INSERT INTO public.badge_defs VALUES (284, 'In Memoriam Theodora', 'When God calls one of His most blessed angels home, the heavens rejoice while we are left behind to weep with the rain.', 1686502188);
 INSERT INTO public.badge_defs VALUES (292, 'George ''Hard R'' Marsey', 'This user is an rDrama Times Best-Selling Author', 1690462861);
 INSERT INTO public.badge_defs VALUES (293, 'Gloriously Girthy', 'This user consumes the FDA recommended amount of sustenance', 1690470720);
@@ -276,13 +281,14 @@ INSERT INTO public.badge_defs VALUES (158, 'Just One More Hand', 'Lost a 10,000 
 INSERT INTO public.badge_defs VALUES (160, 'Lil Goombler', 'Won a 1,000 bet. Nice job!', 0);
 INSERT INTO public.badge_defs VALUES (162, 'King Goombler', 'Won a 100,000 bet. Wipe your sweaty palms off and bet it all again, you''re on a roll!', 0);
 INSERT INTO public.badge_defs VALUES (161, 'Pro Goombler', 'Won a 10,000 bet. Some would say to quit while you''re ahead, but they didn''t just win 10k - keep at it!', 0);
+INSERT INTO public.badge_defs VALUES (324, 'Best rdrama OC 2023', 'The creator or commissioner of the best rdrama original content of 2023, as voted by rdrama users.', 1705457812);
 
 
 --
 -- Name: badge_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.badge_defs_id_seq', 319, true);
+SELECT pg_catalog.setval('public.badge_defs_id_seq', 325, true);
 
 
 --
