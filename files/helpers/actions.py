@@ -82,7 +82,7 @@ def execute_snappy(post, v):
 		elif IS_FISTMAS():
 			body = "Merry Christmas Carp :marseychristmasgift2:"
 		else:
-			body = ":#marseyfuckoffcarp:"
+			body = ":#carpwavelove:"
 	elif v.id == AEVANN_ID:
 		body = "https://i.rdrama.net/images/16909380805064178.webp"
 	elif v.id == LAWLZ_ID:
