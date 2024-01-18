@@ -1158,12 +1158,11 @@ INSERT INTO public.hat_defs VALUES (1387, 'Stupid Sexy Flanders', 'It''s like yo
 
 
 
-
 --
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1402, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1403, true);
 
 
 --
