@@ -1132,6 +1132,7 @@ INSERT INTO public.hat_defs VALUES (1363, 'pkmn0129', 'Magikarp, the Fish Pokém
 INSERT INTO public.hat_defs VALUES (1360, 'Fire', 'Nothing quite like burning alive', 2, 500, NULL, 1698440365);
 INSERT INTO public.hat_defs VALUES (1361, 'Jackpot', 'You’re gonna win big next round', 2, 500, NULL, 1698478525);
 INSERT INTO public.hat_defs VALUES (1364, 'Magikarps_Revenge', 'In case it wasn''t clear, what''s going on here is that this blasted carp tried to consume my flesh, and ended up killing himself in the process. Now the wretched thing''s corpse is stuck on my head.', 2, 500, NULL, 1698655386);
+INSERT INTO public.hat_defs VALUES (1406, 'typing', 'typing', 2, 1000, NULL, 1705612539);
 INSERT INTO public.hat_defs VALUES (1375, 'pkmn0110', 'Weezing loves the gases given off by rotted kitchen garbage. This Pokémon will find a dirty, unkempt house and make it its home. At night, when the people in the house are asleep, it will go through the trash.', 2, 500, NULL, 1698658478);
 INSERT INTO public.hat_defs VALUES (1372, 'pkmn0151', 'Mew. So rare that it is still said to be a mirage by many experts. Only a few people have seen it worldwide.', 2, 500, NULL, 1698657875);
 INSERT INTO public.hat_defs VALUES (1371, 'pkmn0054', 'Psyduck, the Platy Pokémon. A Water type. Psyduck is constantly bothered by headaches. The more its head hurts, the stronger its Psychic power.', 2, 500, NULL, 1698657676);
@@ -1157,13 +1158,15 @@ INSERT INTO public.hat_defs VALUES (1387, 'Stupid Sexy Flanders', 'It''s like yo
 
 
 
+INSERT INTO public.hat_defs VALUES (1407, 'typingfast', 'typing but faster', 2, 1000, NULL, 1705612574);
+
 
 
 --
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1405, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1408, true);
 
 
 --
