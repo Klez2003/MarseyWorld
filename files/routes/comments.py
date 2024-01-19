@@ -305,7 +305,9 @@ def comment(v):
 	process_options(v, c)
 
 	execute_blackjack(v, c, c.body, "comment")
-	execute_under_siege(v, c, c.body, "comment")
+
+	kind = "normal_comment" if posting_to_post else "wall_comment"
+	execute_under_siege(v, c, c.body, kind)
 
 	if c.level == 1: c.top_comment_id = c.id
 	else: c.top_comment_id = parent.top_comment_id
