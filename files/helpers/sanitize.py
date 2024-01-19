@@ -418,7 +418,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 	names = set(m.group(1) for m in mention_regex.finditer(sanitized))
 
 	if limit_pings and len(names) > limit_pings and v.admin_level < PERMS['POST_COMMENT_INFINITE_PINGS']:
-		error("Max ping limit is 5 for comments and 50 for posts!")
+		return error("Max ping limit is 5 for comments and 50 for posts!")
 
 	users_list = get_users(names, graceful=True)
 	users_dict = {}
@@ -653,9 +653,10 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 		if pos >= 0:
 			sanitized = (sanitized[:pos] + showmore_regex.sub(r'\1<p><button class="showmore">SHOW MORE</button></p><d class="d-none">\2</d>', sanitized[pos:], count=1))
 
+	allowed_count = 0 if chat else 5
 	if "style" in sanitized and "filter" in sanitized:
-		if sanitized.count("blur(") + sanitized.count("drop-shadow(") > 5:
-			error("Max 5 usages of 'blur' and 'drop-shadow'!")
+		if sanitized.count("blur(") + sanitized.count("drop-shadow(") > allowed_count:
+			return error("Max 5 usages of 'blur' and 'drop-shadow'!")
 
 	return sanitized.strip()
 
