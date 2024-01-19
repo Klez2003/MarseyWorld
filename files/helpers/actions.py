@@ -519,9 +519,6 @@ def execute_antispam_comment_check(body, v):
 def execute_under_siege(v, target, body, kind):
 	if v.shadowbanned: return
 
-	if SITE == 'watchpeopledie.tv' and kind != 'post':
-		return
-
 	if not get_setting("under_siege"): return
 	if v.admin_level >= PERMS['BYPASS_UNDER_SIEGE_MODE']: return
 
