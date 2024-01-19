@@ -24,7 +24,7 @@
 		{% endif %}
 
 		{% if comment_info and not comment_info.is_banned and not comment_info.deleted_utc %}
-			{% set p, title = comment_info, ['@', comment_info.author_name, ' comments on ',
+			{% set p, title = comment_info, ['@', comment_info.author_name, "'s comment on ",
 			'"', title, '"'] | join %}
 		{% endif %}
 

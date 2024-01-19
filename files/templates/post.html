@@ -1,7 +1,7 @@
 {% extends "default.html" %}
 {% block pagetitle %}
 	{%- if comment_info -%}
-		@{{comment_info.author_name}} comments on '{{p.plaintitle(v)}}'
+		@{{comment_info.author_name}}'s comment on '{{p.plaintitle(v)}}'
 	{%- else -%}
 		{{p.plaintitle(v)}}
 	{%- endif -%}
