@@ -1162,11 +1162,12 @@ INSERT INTO public.hat_defs VALUES (1407, 'typingfast', 'typing but faster', 2, 
 
 
 
+
 --
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1408, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1409, true);
 
 
 --
