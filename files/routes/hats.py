@@ -26,9 +26,7 @@ def hats(v):
 	hats = hats.filter(HatDef.submitter_id == None)
 
 	if sort and sort != "owners":
-		if sort == "name":
-			key = HatDef.name
-		elif sort == "description":
+		if sort == "description":
 			key = HatDef.description
 		elif sort == "author":
 			key = User.username
@@ -36,6 +34,8 @@ def hats(v):
 			key = HatDef.price
 		elif sort == "added_on":
 			key = HatDef.created_utc.desc()
+		else:
+			key = HatDef.name
 
 		hats = hats.order_by(key).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
 	elif sort == "owners":
