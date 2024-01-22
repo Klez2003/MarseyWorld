@@ -2418,6 +2418,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseyfamily', 'Marsey', 2, 'family guy family man peter griffin griffin peter', false, 0),
 ('marseyfans', 'Marsey', 2, 'of thot taxpayer slut onlyfans whore', false, 0),
 ('marseyfart', 'Marsey', 2, 'brap gas flatulent flatulence farting braphog toot animated', false, 0),
+('marseyfart2', 'Marsey', 2, 'brap gas animated', false, 1705955144),
 ('marseyfashion', 'Marsey', 2, 'fashion suit', false, 1690158623),
 ('marseyfatherjoseph', 'Marsey', 2, 'christian christmas jesus immaculate god father joseph xmas pray', false, 0),
 ('marseyfattie', 'Marsey', 2, 'brap fatass chonker pig lorg', false, 0),
