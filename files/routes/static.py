@@ -137,7 +137,9 @@ def sidebar(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def participation_stats(v):
-	stats = cache.get('stats') or {}
+	stats = cache.get('stats')
+	if not stats:
+		cache.set('stats', stats.stats(), timeout=172800)
 	if v.client: return stats
 	return render_template("stats.html", v=v, title="Statistics", data=stats)
 
