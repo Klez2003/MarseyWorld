@@ -999,7 +999,7 @@ GLOBAL2 = environ.get("GLOBAL2", "").strip()
 
 STARS = '\n\n★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★\n\n'
 
-EMOJI_KINDS = ("Marsey", "Platy", "Wolf", "Donkey Kong", "Tay", "Capy", "Carp", "Marsey Flags", "Marsey Alphabet", "Classic", "Rage", "Wojak", "Misc")
+EMOJI_KINDS = ("Marsey", "Tay", "Platy", "Wolf", "Donkey Kong", "Capy", "Carp", "Marsey Flags", "Marsey Alphabet", "Classic", "Rage", "Wojak", "Misc")
 
 t = datetime.datetime.now()
 
@@ -1064,6 +1064,7 @@ CHUD_PHRASES = (
 	"Israeli lives matter",
 	"Palestinian lives matter",
 	"I love sucking cock",
+	"this post is on native land`
 )
 
 HEADERS = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36"}

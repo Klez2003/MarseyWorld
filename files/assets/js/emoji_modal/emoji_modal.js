@@ -82,7 +82,7 @@ function fetchEmojis() {
 			if (!(emojis instanceof Array ))
 				throw new TypeError("[EMOJI DIALOG] rDrama's server should have sent a JSON-coded Array!");
 
-			let classes = ["Marsey", "Platy", "Wolf", "Donkey Kong", "Tay", "Capy", "Carp", "Marsey Flags", "Marsey Alphabet", "Classic", "Rage", "Wojak", "Misc"]
+			let classes = ["Marsey", "Tay", "Platy", "Wolf", "Donkey Kong", "Capy", "Carp", "Marsey Flags", "Marsey Alphabet", "Classic", "Rage", "Wojak", "Misc"]
 
 			const bussyDOM = document.createElement("div");
 

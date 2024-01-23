@@ -77,7 +77,7 @@ def submit_emoji(v):
 	if kind not in EMOJI_KINDS:
 		abort(400, "Invalid emoji kind!")
 
-	if kind in {"Platy", "Wolf", "Tay", "Carp", "Capy"} and not name.startswith(kind.lower()):
+	if kind in {"Tay", "Platy", "Wolf", "Carp", "Capy"} and not name.startswith(kind.lower()):
 		abort(400, f'The name of this emoji should start with the word "{kind.lower()}"')
 
 	if kind == "Marsey" and not name.startswith("marsey") and not name.startswith("marcus"):
