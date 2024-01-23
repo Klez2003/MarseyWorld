@@ -139,7 +139,8 @@ def sidebar(v):
 def participation_stats(v):
 	stats = cache.get('stats')
 	if not stats:
-		cache.set('stats', stats.stats(), timeout=172800)
+		stats = statshelper.stats()
+		cache.set('stats', stats, timeout=172800)
 	if v.client: return stats
 	return render_template("stats.html", v=v, title="Statistics", data=stats)
 
