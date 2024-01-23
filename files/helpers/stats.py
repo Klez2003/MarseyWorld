@@ -103,7 +103,7 @@ def stats():
 			"Signups last 24h": "{:,}".format(g.db.query(User).filter(User.created_utc > day).count()),
 			"Total posts": "{:,}".format(g.db.query(Post).count()),
 			"Posting users": "{:,}".format(g.db.query(Post.author_id).distinct().count()),
-			"Listed posts": "{:,}".format(g.db.query(Post).filter_by(is_banned=False).filter(Post.deleted_utc == 0).count()),
+			"Listed posts": "{:,}".format(g.db.query(Post).filter_by(is_banned=False, deleted_utc=0).count()),
 			"Removed posts (by admins)": "{:,}".format(g.db.query(Post).filter_by(is_banned=True).count()),
 			"Deleted posts (by author)": "{:,}".format(g.db.query(Post).filter(Post.deleted_utc > 0).count()),
 			"Posts last 24h": "{:,}".format(g.db.query(Post).filter(Post.created_utc > day).count()),
