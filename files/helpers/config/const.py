@@ -1064,7 +1064,7 @@ CHUD_PHRASES = (
 	"Israeli lives matter",
 	"Palestinian lives matter",
 	"I love sucking cock",
-	"this post is on native land`
+	"This post exists on native land",
 )
 
 HEADERS = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36"}
