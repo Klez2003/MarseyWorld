@@ -146,14 +146,14 @@ def participation_stats(v):
 def chart():
 	return redirect('/weekly_chart')
 
-@app.get("/weekly_chart")
+@app.get("/weekly_chart.webp")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def weekly_chart(v):
 	return send_file(statshelper.chart_path(kind="weekly", site=SITE))
 
-@app.get("/daily_chart")
+@app.get("/daily_chart.webp")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
