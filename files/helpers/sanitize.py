@@ -412,7 +412,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 
 	sanitized = sanitized.replace('<a href="/%21', '<a href="/!')
 
-	sanitized = reddit_mention_regex.sub(r'<a href="https://old.reddit.com/\1" rel="nofollow noopener" target="_blank">/\1</a>', sanitized)
+	sanitized = reddit_mention_regex.sub(r'<a href="https://old.reddit.com/\2" rel="nofollow noopener" target="_blank">/\2</a>', sanitized)
 	sanitized = hole_mention_regex.sub(r'<a href="/\1">/\1</a>', sanitized)
 
 	names = set(m.group(1) for m in mention_regex.finditer(sanitized))
