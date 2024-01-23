@@ -58,7 +58,7 @@ def create_group(v):
 	text_html = sanitize(text, blackjack="notification")
 	cid = create_comment(text_html)
 	t = time.time() - 604800
-	excluded_ids = (v.id, 868, 6289, 21238)
+	excluded_ids = (v.id, 556, 868, 6289, 21238)
 	notified_users = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_HOLE_CREATION'], User.last_active > t, User.id.notin_(excluded_ids))]
 	for uid in notified_users:
 		add_notif(cid, uid, text, check_existing=False)
