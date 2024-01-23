@@ -19,10 +19,10 @@
 					<th class="disable-sort-click">Value</th>
 				</tr>
 			</thead>
-			{% for key, value in data.items() %}
+			{% for key, value in stats.items() %}
 				<tr>
 					<td>{{key}}</td>
-					{% if key == 'time' -%}
+					{% if key == 'Time these stats were collected' -%}
 						<td data-time="{{value}}"></td>
 					{% else -%}
 						<td>{{value}}</td>

@@ -142,7 +142,7 @@ def participation_stats(v):
 		stats = statshelper.stats()
 		cache.set('stats', stats, timeout=172800)
 	if v.client: return stats
-	return render_template("stats.html", v=v, title="Statistics", data=stats)
+	return render_template("stats.html", v=v, title="Statistics", stats=stats)
 
 @app.get("/chart")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
