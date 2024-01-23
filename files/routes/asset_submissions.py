@@ -14,9 +14,30 @@ from files.__main__ import app, cache, limiter
 
 ASSET_TYPES = (Emoji, HatDef)
 
+def delete_unnecessary_tags(tags, name):
+	new_tags = []
+
+	for tag in tags.split(' '):
+		if tag not in name:
+			new_tags.append(tag)
+
+	# if not new_tags: abort(400, "Invalid tags!")
+
+	return ' '.join(new_tags)
+
 @app.get("/submit/marseys")
 @feature_required('EMOJI_SUBMISSIONS')
 def submit_marseys_redirect():
+	emojis = g.db.query(Emoji).all()
+
+	for emoji in emojis:
+		new_tags = delete_unnecessary_tags(emoji.tags, emoji.name)
+		if new_tags and new_tags != emoji.tags:
+			print(f'{emoji.name} Before: {emoji.tags}', flush=True)
+			print(f'{emoji.name} After: {new_tags}', flush=True)
+			emoji.tags = new_tags
+			g.db.add(emoji)
+
 	return redirect("/submit/emojis")
 
 @app.get("/submit/emojis")
@@ -52,6 +73,9 @@ def submit_emoji(v):
 	file = request.files["image"]
 	name = request.values.get('name', '').lower().strip()
 	tags = request.values.get('tags', '').lower().strip().replace('  ', ' ')
+
+	tags = delete_unnecessary_tags(tags, name)
+
 	username = request.values.get('author', '').lower().strip()
 	kind = request.values.get('kind', '').strip()
 	nsfw = bool(request.values.get("nsfw"))
@@ -141,6 +165,8 @@ def approve_emoji(v, name):
 	new_name = request.values.get('name').lower().strip()
 	if not new_name:
 		abort(400, "You need to include name!")
+
+	tags = delete_unnecessary_tags(tags, new_name)
 
 	new_kind = request.values.get('kind').strip()
 	if not new_kind:
@@ -486,6 +512,9 @@ def update_emoji(v):
 	kind = request.values.get('kind', '').strip()
 	new_name = request.values.get('new_name', '').lower().strip()
 	tags = request.values.get('tags', '').lower().strip().replace('  ', ' ')
+
+	tags = delete_unnecessary_tags(tags, new_name)
+
 	nsfw = request.values.get('nsfw', '').strip()		
 
 	existing = g.db.get(Emoji, name)
