@@ -21,23 +21,13 @@ def delete_unnecessary_tags(tags, name):
 		if tag not in name:
 			new_tags.append(tag)
 
-	# if not new_tags: abort(400, "Invalid tags!")
+	if not new_tags: abort(400, "Invalid tags!")
 
 	return ' '.join(new_tags)
 
 @app.get("/submit/marseys")
 @feature_required('EMOJI_SUBMISSIONS')
 def submit_marseys_redirect():
-	emojis = g.db.query(Emoji).all()
-
-	for emoji in emojis:
-		new_tags = delete_unnecessary_tags(emoji.tags, emoji.name)
-		if new_tags and new_tags != emoji.tags:
-			print(f'{emoji.name} Before: {emoji.tags}', flush=True)
-			print(f'{emoji.name} After: {new_tags}', flush=True)
-			emoji.tags = new_tags
-			g.db.add(emoji)
-
 	return redirect("/submit/emojis")
 
 @app.get("/submit/emojis")
