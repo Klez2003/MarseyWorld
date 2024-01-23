@@ -1043,13 +1043,14 @@ def IS_EVENT():
 		return "birthdead"
 	return None
 
-CHUD_PHRASES = (
+CHUD_PHRASES = ( #if you add a phrase, remove one in turn
 	"Trans lives matter",
 	"Black lives matter",
 	"Black trans lives matter",
 	"The future is female",
 	"I say this as a feminist ally",
 	"I stand with Israel",
+	"Palestinian lives matter",
 	"Vaccines work",
 	"Trans women are women",
 	"Furry rights are human rights",
@@ -1061,8 +1062,6 @@ CHUD_PHRASES = (
 	"Climate action now",
 	"Long live the CCP",
 	"I stand with Ukraine",
-	"Israeli lives matter",
-	"Palestinian lives matter",
 	"I love sucking cock",
 	"This post exists on native land",
 )
