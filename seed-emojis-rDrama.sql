@@ -5116,7 +5116,6 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('pepeclownanime', 'Misc', 2, 'foid clownworld world', false, 1682727207),
 ('pepeclownball', 'Misc', 2, 'world honk', false, 1682721135),
 ('pepeclowndance', 'Misc', 2, 'world clownworld', false, 1682727141),
-('pepeclownn', 'Misc', 2, 'nig nigger', false, 1682727076),
 ('pepedance', 'Misc', 2, 'feels good', false, 1682722642),
 ('pepedance2', 'Misc', 2, 'feels good', false, 1682722583),
 ('pepedrool', 'Misc', 2, 'peepo retard stupid slobber', false, 1682880117),
