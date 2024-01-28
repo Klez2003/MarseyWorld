@@ -3533,6 +3533,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseymoplicker', 'Marsey', 2, 'janny moderator admin', false, 0),
 ('marseymoreyouknow', 'Marsey', 2, 'right learn educational learn informative neat cool reading effort studious books levar burton', false, 1686194305),
 ('marseymormon', 'Marsey', 2, 'backpack tie jesus god christian missionary', false, 0),
+('marseymorpeko', 'Marsey', 2, 'pkmn pokemon 877', false, 1706407465),
 ('marseymorph', 'Marsey', 2, 'skinwalker changeling', false, 0),
 ('marseymotherhugger', 'Marsey', 2, 'grandma hugging love', false, 1682981551),
 ('marseymothermary', 'Marsey', 2, 'christian christmas jesus immaculate god xmas pray', false, 0),
