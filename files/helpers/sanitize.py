@@ -210,6 +210,14 @@ def find_all_emoji_endings(emoji):
 			emoji = emoji[:-4]
 			continue
 
+		if emoji.endswith('typing'):
+			if 'typing' in endings:
+				is_non_ending_found = True
+				continue
+			endings.append('typing')
+			emoji = emoji[:-6]
+			continue
+
 		is_non_ending_found = True
 
 	if emoji.endswith('random'):
@@ -254,6 +262,7 @@ def render_emoji(html, regexp, golden, emojis_used, b=False, is_title=False):
 		is_talking_first = ending_modifiers.index('pat') > ending_modifiers.index('talking') if is_talking and is_patted else False
 		is_loved = 'love' in ending_modifiers
 		is_genocided = 'genocide' in ending_modifiers
+		is_typing = 'typing' in ending_modifiers
 		is_user = emoji.startswith('@')
 
 		end_modifier_length = 3 if is_patted else 0
@@ -261,6 +270,7 @@ def render_emoji(html, regexp, golden, emojis_used, b=False, is_title=False):
 
 		hand_html = f'<img loading="lazy" src="{SITE_FULL_IMAGES}/i/hand.webp">' if is_patted and emoji != 'marseyunpettable' else ''
 		talking_html = f'<img loading="lazy" src="{SITE_FULL_IMAGES}/i/talking.webp">' if is_talking else ''
+		typing_html = f'<img loading="lazy" src="{SITE_FULL_IMAGES}/i/typing-hands.webp">' if is_typing else ''
 		loved_html = f'<img loading="lazy" src="{SITE_FULL_IMAGES}/i/love-foreground.webp" alt=":{old}:" {attrs}><img loading="lazy" alt=":{old}:" src="{SITE_FULL_IMAGES}/i/love-background.webp" {attrs}>'
 		genocide_attr = ' cide' if is_genocided else ''
 
@@ -275,7 +285,10 @@ def render_emoji(html, regexp, golden, emojis_used, b=False, is_title=False):
 		if is_loved:
 			modifier_html = f'{modifier_html}{loved_html}'
 
-		if (is_patted and emoji != 'marseyunpettable') or is_talking or is_genocided or is_loved:
+		if is_typing:
+			modifier_html = f'{modifier_html}{typing_html}'
+
+		if (is_patted and emoji != 'marseyunpettable') or is_talking or is_genocided or is_loved or is_typing:
 			if path.isfile(f"files/assets/images/emojis/{emoji}.webp"):
 				emoji_html = f'<span alt=":{old}:" data-bs-toggle="tooltip" title=":{old}:"{genocide_attr}>{modifier_html}{emoji_partial_pat.format(old, f"{SITE_FULL_IMAGES}/e/{emoji}.webp", attrs)}</span>'
 			elif is_user:
