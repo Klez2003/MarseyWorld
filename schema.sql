@@ -1005,7 +1005,7 @@ CREATE TABLE public.subscriptions (
 --
 
 CREATE TABLE public.transactions (
-    id character varying(66) NOT NULL,
+    id character varying(67) NOT NULL,
     created_utc integer NOT NULL,
     type character varying(12) NOT NULL,
     amount integer NOT NULL,
