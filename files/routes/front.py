@@ -29,11 +29,11 @@ def front_all(v, hole=None):
 
 	if v:
 		defaultsorting = v.defaultsorting
-		if hole or SITE_NAME != 'rDrama': defaulttime = 'all'
+		if hole: defaulttime = 'all'
 		else: defaulttime = v.defaulttime
 	else:
 		defaultsorting = "hot"
-		if hole or SITE_NAME != 'rDrama': defaulttime = 'all'
+		if hole: defaulttime = 'all'
 		else: defaulttime = DEFAULT_TIME_FILTER
 
 	if hole and hole.name != 'thugsauces':
