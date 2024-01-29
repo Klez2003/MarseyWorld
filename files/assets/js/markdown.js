@@ -74,6 +74,7 @@ const MODIFIERS = {
 	REVERSED_MODIFIER: 6,
 	GENOCIDE: 7,
 	LOVE: 8,
+	TYPING: 9,
 };
 
 const findAllEmojiEndings = (word) => {
@@ -118,6 +119,16 @@ const findAllEmojiEndings = (word) => {
 			}
 			currWord = currWord.slice(0, -4);
 			currEndings.push(MODIFIERS.LOVE);
+			continue;
+		}
+
+		if(currWord.endsWith('typing')) {
+			if(currEndings.indexOf(MODIFIERS.TYPING) !== -1) {
+				hasReachedNonModifer = true;
+				continue;
+			}
+			currWord = currWord.slice(0, -6);
+			currEndings.push(MODIFIERS.TYPING);
 			continue;
 		}
 
@@ -204,12 +215,13 @@ function markdown(t) {
 			const imgClass = modifiers.has(MODIFIERS.REVERSED) && modifiers.has(MODIFIERS.REVERSED_MODIFIER) ? mirroredClass : ''
 			const lovedClass = modifiers.has(MODIFIERS.LOVE) ? 'love-preview' : '';
 
-			if ([MODIFIERS.TALKING, MODIFIERS.GENOCIDE, MODIFIERS.PAT, MODIFIERS.LOVE].some((modifer) =>  modifiers.has(modifer))) {
+			if ([MODIFIERS.TALKING, MODIFIERS.GENOCIDE, MODIFIERS.PAT, MODIFIERS.LOVE, MODIFIERS.TYPING].some((modifer) =>  modifiers.has(modifer))) {
+				const typingHtml = modifiers.has(MODIFIERS.TYPING) ? `<img loading="lazy" class="typing-hands-preview" src="${SITE_FULL_IMAGES}/i/typing-hands.webp">` : '';
 				const talkingHtml = modifiers.has(MODIFIERS.TALKING) ? `<img loading="lazy" src="${SITE_FULL_IMAGES}/i/talking.webp">` : '';
 				const patHtml = modifiers.has(MODIFIERS.PAT) ? `<img loading="lazy" src="${SITE_FULL_IMAGES}/i/hand.webp">` : '';
 				const loveHtml = modifiers.has(MODIFIERS.LOVE) ? `<img loading="lazy" class="${emojiClass}" src="${SITE_FULL_IMAGES}/i/love-foreground.webp"><img loading="lazy" class="${emojiClass}" src="${SITE_FULL_IMAGES}/i/love-background.webp">` : '';
 				const url = modifiers.has(MODIFIERS.USER) ? `/@${emoji}/pic` : `${SITE_FULL_IMAGES}/e/${emoji}.webp`;
-				const modifierHtml = isTalkingFirst ? `${talkingHtml}${patHtml}${loveHtml}` : `${patHtml}${talkingHtml}${loveHtml}`;
+				const modifierHtml = isTalkingFirst ? `${talkingHtml}${patHtml}${loveHtml}${typingHtml}` : `${patHtml}${talkingHtml}${loveHtml}${typingHtml}`;
 				input = input.replace(old, `<span class="${patClass} ${spanClass} ${genocideClass}" data-bs-toggle="tooltip">${modifierHtml}<img loading="lazy" class="${emojiClass} ${imgClass} ${lovedClass}" src="${url}"></span>`);
 			} else {
 				input = input.replace(old, `<img loading="lazy" class="${emojiClass} ${modifiers.has(MODIFIERS.REVERSED) ? mirroredClass : ''}" src="${SITE_FULL_IMAGES}/e/${emoji}.webp">`);

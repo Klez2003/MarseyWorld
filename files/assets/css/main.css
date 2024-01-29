@@ -5284,7 +5284,7 @@ textarea {
 }
 }
 .img, img[alt^="![]("],
-.preview img:not(img[src^="/uid/"], img[src^="/pp/"], img[src$="/pic"], img[src$="/i/hand.webp"], img[src$="/i/talking.webp"], img[src*="/e/"]) {
+.preview img:not(img[src^="/uid/"], img[src^="/pp/"], img[src$="/pic"], img[src$="/i/hand.webp"], img[src$="/i/talking.webp"], img[src$="/i/typing-hands.webp"], img[src*="/e/"]) {
 	max-height: 150px !important;
 	max-width: 100% !important;
 	border-radius: 0.2rem !important;
@@ -5446,6 +5446,12 @@ span > img[src$="/i/talking.webp"] {
 	position: absolute;
 	width: 70%;
 }
+span > img[src$="/i/typing-hands.webp"] {
+	position: absolute;
+	width: 100%;
+	bottom: 0;
+	z-index: 1;
+}
 span > img[src$="/i/hand.webp"] ~ img {
 	animation: pat-pfp-anim 0.3s infinite;
 	transform-origin: bottom center;
@@ -5489,7 +5495,31 @@ span > img[src$="/i/talking.webp"]+img[src$="/i/hand.webp"]+img  {
 	bottom: calc(2px + 2%) !important;
 }
 
+.typing-hands-preview {
+	bottom: calc(2px + 2%) !important;
+}
+
 span > img[src$="/i/love-foreground.webp"]+img[src$="/i/love-background.webp"]+img {
+	position: absolute;
+	z-index: 50;
+	height: 60%;
+	width: 60%;
+	bottom: -2%;
+	left: 33%;
+	transform: scaleX(-1) rotate(-10deg);
+}
+
+span > img[src$="/i/love-foreground.webp"]+img[src$="/i/love-background.webp"]+img[src$="/i/typing-hands.webp"] {
+	position: absolute;
+	z-index: 51;
+	height: unset;
+	width: 50%;
+	bottom: -2%;
+	left: 33%;
+	transform: rotate(10deg);
+}
+
+span > img[src$="/i/love-foreground.webp"]+img[src$="/i/love-background.webp"]+img+img {
 	position: absolute;
 	z-index: 50;
 	height: 60%;
