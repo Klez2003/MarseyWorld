@@ -12,8 +12,8 @@ function expandMarkdown(fullname) {
 	for (let i=0; i < items.length; i++)
 	{
 		const e = items[i]
-		if (e.innerHTML == 'View source') e.innerHTML = 'Hide source'
-		else e.innerHTML = 'View source'
+		if (e.innerHTML == 'View Source') e.innerHTML = 'Hide source'
+		else e.innerHTML = 'View Source'
 	}
 };
 

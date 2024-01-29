@@ -381,7 +381,7 @@
 
 									<a class="btn caction nobackground px-1 text-muted" href="{{c.permalink}}"><i class="fas fa-book-open"></i>Context</a>
 
-									<button type="button" class="btn caction py-0 nobackground px-1 text-muted copy-link" data-clipboard-text="{% if SITE == 'rdrama.net' %}{{SITE_FULL}}{{c.shortlink}}{% else %}{{c.permalink}}{% endif %}"><i class="fas fa-copy"></i>Copy link</button>
+									<button type="button" class="btn caction py-0 nobackground px-1 text-muted copy-link" data-clipboard-text="{% if SITE == 'rdrama.net' %}{{SITE_FULL}}{{c.shortlink}}{% else %}{{c.permalink}}{% endif %}"><i class="fas fa-copy"></i>Copy Link</button>
 
 									{% if v %}
 										{% if not c.deleted_utc %}
@@ -403,7 +403,7 @@
 										{% if c.author_id == v.id or v.admin_level >= PERMS['POST_COMMENT_EDITING'] %}
 											<button type="button" class="btn caction py-0 nobackground px-1 text-muted" data-nonce="{{g.nonce}}" data-onclick="toggleEdit('{{c.id}}')"><i class="fas fa-edit fa-fw"></i>Edit</button>
 										{% elif c.body %}
-											<button type="button" class="btn caction py-0 nobackground px-1 text-muted" data-nonce="{{g.nonce}}" data-onclick="expandMarkdown('{{c.fullname}}')"><i class="fas text-expand-icon-{{c.fullname}} fa-expand-alt"></i><span class="expand-text-{{c.fullname}}">View source</span></button>
+											<button type="button" class="btn caction py-0 nobackground px-1 text-muted" data-nonce="{{g.nonce}}" data-onclick="expandMarkdown('{{c.fullname}}')"><i class="fas text-expand-icon-{{c.fullname}} fa-expand-alt"></i><span class="expand-text-{{c.fullname}}">View Source</span></button>
 										{% endif %}
 
 										{% if c.author_id == v.id %}
@@ -598,7 +598,7 @@
 
 								<a class="list-group-item" href="{{c.permalink}}"><i class="fas fa-book-open mr-2"></i>Context</a>
 
-								<button type="button" class="list-group-item copy-link" data-bs-dismiss="modal" data-clipboard-text="{% if SITE == 'rdrama.net' %}{{SITE_FULL}}{{c.shortlink}}{% else %}{{c.permalink}}{% endif %}"><i class="fas fa-copy mr-2"></i>Copy link</button>
+								<button type="button" class="list-group-item copy-link" data-bs-dismiss="modal" data-clipboard-text="{% if SITE == 'rdrama.net' %}{{SITE_FULL}}{{c.shortlink}}{% else %}{{c.permalink}}{% endif %}"><i class="fas fa-copy mr-2"></i>Copy Link</button>
 
 								{% if v %}
 									<button type="button" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#reportCommentModal" data-nonce="{{g.nonce}}" data-onclick="report_commentModal('{{c.id}}','{{c.author_name}}')" class="list-group-item"><i class="fas fa-flag mr-2"></i>Report</button>
@@ -617,7 +617,7 @@
 										<button type="button" id="undelete2-{{c.id}}" class="{% if not c.deleted_utc %}d-none{% endif %} list-group-item text-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/undelete/comment/{{c.id}}', 'delete2-{{c.id}}', 'undelete2-{{c.id}}','d-none')" data-toggleelement=".comment-{{c.id}}-only" data-toggleattr="deleted" data-bs-dismiss="modal"><i class="fas fa-trash-alt text-success mr-2"></i>Undelete</button>
 									{% else %}
 										{% if c.body %}
-											<button type="button" data-bs-dismiss="modal" data-nonce="{{g.nonce}}" data-onclick="expandMarkdown('{{c.fullname}}')" class="list-group-item"><i class="fas text-expand-icon-{{c.fullname}} fa-expand-alt mr-2"></i><span class="expand-text-{{c.fullname}}">View source</span></button>
+											<button type="button" data-bs-dismiss="modal" data-nonce="{{g.nonce}}" data-onclick="expandMarkdown('{{c.fullname}}')" class="list-group-item"><i class="fas text-expand-icon-{{c.fullname}} fa-expand-alt mr-2"></i><span class="expand-text-{{c.fullname}}">View Source</span></button>
 										{% endif %}
 
 										{% if not c.ghost %}

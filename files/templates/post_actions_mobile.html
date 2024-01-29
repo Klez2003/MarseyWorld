@@ -11,7 +11,7 @@
 	</a>
 {% endif %}
 
-<button type="button" data-bs-dismiss="modal" class="copy-link nobackground btn btn-link btn-block btn-lg text-left text-muted" data-clipboard-text="{% if SITE == 'rdrama.net' %}{{SITE_FULL}}{{p.shortlink}}{% else %}{{p.permalink}}{% endif %}"><i class="fas fa-copy text-center text-muted mr-2"></i>Copy link</button>
+<button type="button" data-bs-dismiss="modal" class="copy-link nobackground btn btn-link btn-block btn-lg text-left text-muted" data-clipboard-text="{% if SITE == 'rdrama.net' %}{{SITE_FULL}}{{p.shortlink}}{% else %}{{p.permalink}}{% endif %}"><i class="fas fa-copy text-center text-muted mr-2"></i>Copy Link</button>
 
 <button type="button" class="nobackground btn btn-link btn-block btn-lg text-left text-muted" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#reportPostModal" data-nonce="{{g.nonce}}" data-onclick="report_postModal('{{p.id}}')"><i class="fas fa-flag text-center text-muted mr-2"></i>Report</button>
 
