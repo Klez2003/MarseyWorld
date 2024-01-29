@@ -102,7 +102,6 @@ class User(Base):
 	newtab = Column(Boolean, default=False)
 	newtabexternal = Column(Boolean, default=True)
 	reddit = Column(String, default='old.reddit.com')
-	nitter = Column(Boolean)
 	imgsed = Column(Boolean)
 	frontsize = Column(Integer, default=25)
 	controversial = Column(Boolean, default=False)
