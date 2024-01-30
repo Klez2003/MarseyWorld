@@ -80,7 +80,7 @@ def front_all(v, hole=None):
 
 	if v and v.client: return {"data": [x.json for x in posts], "total": total}
 
-	result = render_template("home.html", v=v, listing=posts, total=total, sort=sort, t=t, page=page, hole=hole, home=True, pins=pins, size=size, post_permalinks=[p.permalink for p in posts])
+	result = render_template("home.html", v=v, listing=posts, total=total, sort=sort, t=t, page=page, hole=hole, home=True, pins=pins, size=size)
 
 	if not v:
 		cache.set(f'frontpage_{sort}_{t}_{page}_{hole}_{pins}', result, timeout=900)

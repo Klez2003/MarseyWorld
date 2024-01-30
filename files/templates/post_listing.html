@@ -248,3 +248,10 @@
 {% if v and v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
 	<script defer src="{{'js/admin/post.js' | asset}}"></script>
 {% endif %}
+
+{% set post_permalinks = [] %}
+{% for p in listing  %}
+	{{post_permalinks.append(p.permalink)}}
+{% endfor %}
+<input hidden id="post_permalinks" value="{{post_permalinks}}">
+<script defer src="{{'js/post_permalinks.js' | asset}}"></script>		
