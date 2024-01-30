@@ -34,13 +34,27 @@ if (fake_textarea) {
 }
 
 
-//KEYBOARD ARROW NAVIGATION
+//POST NAVIGATION
 
 const post_ids = localStorage.getItem("post_ids").split(', ');
 const current_index = post_ids.indexOf(`'${location.href}'`)
 if (current_index > -1) {
 	const id_after = post_ids[current_index+1]
 	const id_before = post_ids[current_index-1]
+
+	if (id_before || id_after) {
+		document.getElementById('post_navigation').classList.remove('d-none')
+	}
+
+	if (id_before) {
+		document.getElementById('post_before').classList.remove('disabled')
+		document.getElementById('post_before').href = id_before.slice(1, -1)
+	}
+
+	if (id_after) {
+		document.getElementById('post_after').classList.remove('disabled')
+		document.getElementById('post_after').href = id_after.slice(1, -1)
+	}
 
 	document.addEventListener('keydown', (e) => {
 		if (document.activeElement.tagName != 'TEXTAREA' && document.activeElement.tagName != 'INPUT') {
