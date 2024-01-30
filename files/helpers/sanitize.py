@@ -787,8 +787,6 @@ def normalize_url(url):
 
 	url = giphy_regex.sub(r'\1.webp', url)
 
-	domain = tldextract.extract(url).registered_domain
-
 	if not url.startswith('/') and not url.startswith('https://rdrama.net') and not url.startswith('https://watchpeopledie.tv'):
 		try: parsed_url = urlparse(url)
 		except:
@@ -806,6 +804,7 @@ def normalize_url(url):
 			filtered['v'] = path.split('/')[-1]
 			path = '/watch'
 
+		domain = tldextract.extract(netloc).registered_domain
 		filtered |= {k: val for k, val in qd.items() if not val[0] or is_whitelisted(domain, k)}
 
 		if netloc == 'old.reddit.com' and reddit_comment_link_regex.fullmatch(url):
@@ -819,6 +818,7 @@ def normalize_url(url):
 							fragment=parsed_url.fragment)
 		url = urlunparse(new_url)
 
+	domain = tldextract.extract(url).registered_domain
 	if domain not in {'ar15.com','urlebird.com'}:
 		url = url.rstrip('/')
 
