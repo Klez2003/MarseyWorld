@@ -519,9 +519,12 @@ def execute_under_siege(v, target, body, kind):
 	if not get_setting("under_siege"): return
 	if v.admin_level >= PERMS['BYPASS_UNDER_SIEGE_MODE']: return
 
+	if SITE == 'watchpeopledie.tv' and kind == 'normal_comment':
+		return
+
 	if kind in {'message', 'report'} and SITE == 'rdrama.net':
 		threshold = 86400
-	elif kind != 'normal_comment' and SITE == 'watchpeopledie.tv':
+	elif kind != 'message' and SITE == 'watchpeopledie.tv':
 		threshold = 86400
 	else:
 		threshold = UNDER_SIEGE_AGE_THRESHOLD
