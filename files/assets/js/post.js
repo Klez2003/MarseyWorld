@@ -36,11 +36,11 @@ if (fake_textarea) {
 
 //POST NAVIGATION
 
-const post_ids = sessionStorage.getItem("post_ids").split(', ');
-const current_index = post_ids.indexOf(`'${location.href}'`)
+const post_permalinks = sessionStorage.getItem("post_permalinks").split(', ');
+const current_index = post_permalinks.indexOf(`'${location.href}'`)
 if (current_index > -1) {
-	const id_after = post_ids[current_index+1]
-	const id_before = post_ids[current_index-1]
+	const id_after = post_permalinks[current_index+1]
+	const id_before = post_permalinks[current_index-1]
 
 	if (id_before || id_after) {
 		document.getElementById('post_navigation').classList.remove('d-none')
