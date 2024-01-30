@@ -36,7 +36,7 @@ if (fake_textarea) {
 
 //POST NAVIGATION
 
-const post_ids = localStorage.getItem("post_ids").split(', ');
+const post_ids = sessionStorage.getItem("post_ids").split(', ');
 const current_index = post_ids.indexOf(`'${location.href}'`)
 if (current_index > -1) {
 	const id_after = post_ids[current_index+1]
