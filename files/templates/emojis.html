@@ -32,6 +32,7 @@
 					{% if FEATURES['EMOJI_SUBMISSIONS'] %}
 						<th class="disable-sort-click">Original File</th>
 					{% endif %}
+					<th>Tags</th>
 				</tr>
 			</thead>
 			<tbody id="emojis-table">
@@ -57,6 +58,7 @@
 							{% endif %}
 						</td>
 					{% endif %}
+					<td>{{emoji.tags}}</td>
 				</tr>
 			{% endfor %}
 			</tbody>
