@@ -2329,7 +2329,7 @@ a.bg-light:hover, a.bg-light:focus, button.bg-light:hover, button.bg-light:focus
 		position: sticky;
 		top: 0;
 		z-index: 1020;
-}
+	}
 }
 .w-100 {
 	width: 100% !important;
@@ -4705,32 +4705,33 @@ ul.comment-section {
 @media (min-width: 768px) {
 	.border-md {
 		border: 1px solid var(--gray-400) !important;
-}
+	}
 	.border-md-0 {
 		border: none !important;
-}
+	}
 	.rounded-md {
 		border-radius: 0.35rem;
-}
+	}
 }
 @media (min-width: 992px) {
 	.rounded-lg {
 		border-radius: 0.35rem;
+	}
 }
-}
+
 @media (min-width: 992px) {
 	.w-lg-25 {
 		width: 25% !important;
-}
+	}
 	.w-lg-75 {
 		width: 75% !important;
-}
+	}
 	.w-lg-95 {
 		width: 95% !important;
 	}
 	.w-lg-100 {
 		width: 100% !important;
-}
+	}
 }
 .post .body {
 	padding: 1rem;
