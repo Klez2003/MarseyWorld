@@ -369,7 +369,7 @@ def settings_personal_post(v):
 
 		if house == "None":
 			house = ''
-		elif SITE == 'watchpeopledie.tv' and time.time < 1707343158:
+		elif SITE == 'watchpeopledie.tv' and time.time() < 1707343158:
 			house += ' Founder'
 
 		v.house = house
