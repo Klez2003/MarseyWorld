@@ -362,8 +362,9 @@ def reported_comments(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @admin_level_required(PERMS['ADMIN_HOME_VISIBLE'])
 def admin_home(v):
-	under_attack = (requests.get(f"{CLOUDFLARE_API_URL}/zones/{CF_ZONE}/settings/security_level", headers=CF_HEADERS, timeout=CLOUDFLARE_REQUEST_TIMEOUT_SECS).json()['result']['value'] == "under_attack")
-	set_setting('under_attack', under_attack)
+	if CLOUDFLARE_AVAILABLE:
+		under_attack = (requests.get(f"{CLOUDFLARE_API_URL}/zones/{CF_ZONE}/settings/security_level", headers=CF_HEADERS, timeout=CLOUDFLARE_REQUEST_TIMEOUT_SECS).json()['result']['value'] == "under_attack")
+		set_setting('under_attack', under_attack)
 	return render_template("admin/admin_home.html", v=v)
 
 @app.post("/admin/site_settings/<setting>")
@@ -2107,3 +2108,27 @@ def insert_transaction_post(v):
 
 	claim_rewards_all_users()
 	return {"message": "Transaction inserted successfully!"}
+
+@app.get("/admin/under_siege")
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@admin_level_required(PERMS['CHANGE_UNDER_SIEGE'])
+def change_under_siege(v):
+	thresholds = cache.get("under_siege_thresholds")
+	if not thresholds:
+		thresholds = DEFAULT_UNDER_SIEGE_THRESHOLDS
+		cache.set("under_siege_thresholds", thresholds)
+
+	return render_template('admin/under_siege.html', v=v, thresholds=thresholds)
+
+@app.post("/admin/under_siege")
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@admin_level_required(PERMS['CHANGE_UNDER_SIEGE'])
+def change_under_siege_post(v):
+	thresholds = {}
+	for key in DEFAULT_UNDER_SIEGE_THRESHOLDS.keys():
+		thresholds[key] = int(request.values.get(key))
+
+	cache.set("under_siege_thresholds", thresholds)
+	return {"message": "Thresholds changed successfully!"}
