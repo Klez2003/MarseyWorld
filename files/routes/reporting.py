@@ -133,8 +133,8 @@ def remove_report_post(v, pid, uid):
 				user_id=v.id,
 				target_post_id=pid
 			)
+			g.db.add(ma)
 
-		g.db.add(ma)
 	return {"message": "Report removed successfully!"}
 
 
@@ -159,8 +159,8 @@ def remove_report_comment(v, cid, uid):
 				user_id=v.id,
 				target_comment_id=cid
 			)
+			g.db.add(ma)
 
-		g.db.add(ma)
 	return {"message": "Report removed successfully!"}
 
 def move_post(post, v, reason):
