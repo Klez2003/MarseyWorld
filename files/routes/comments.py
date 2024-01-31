@@ -703,7 +703,7 @@ def edit_comment(cid, v):
 			if int(time.time()) - c.created_utc > 60 * 3:
 				c.edited_utc = int(time.time())
 		else:
-			ma=ModAction(
+			ma = ModAction(
 				kind="edit_comment",
 				user_id=v.id,
 				target_comment_id=c.id

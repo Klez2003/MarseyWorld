@@ -1402,7 +1402,7 @@ def approve_post(post_id, v):
 		abort(400, "You can't bypass the chud award!")
 
 	if post.is_banned:
-		ma=ModAction(
+		ma = ModAction(
 			kind="unban_post",
 			user_id=v.id,
 			target_post_id=post.id,
@@ -1523,7 +1523,7 @@ def unsticky_post(post_id, v):
 		post.stickied_utc = None
 		g.db.add(post)
 
-		ma=ModAction(
+		ma = ModAction(
 			kind="unpin_post",
 			user_id=v.id,
 			target_post_id=post.id
@@ -1555,7 +1555,7 @@ def sticky_comment(cid, v):
 		comment.stickied = v.username
 		g.db.add(comment)
 
-		ma=ModAction(
+		ma = ModAction(
 			kind="pin_comment",
 			user_id=v.id,
 			target_comment_id=comment.id
@@ -1588,7 +1588,7 @@ def unsticky_comment(cid, v):
 		comment.stickied_utc = None
 		g.db.add(comment)
 
-		ma=ModAction(
+		ma = ModAction(
 			kind="unpin_comment",
 			user_id=v.id,
 			target_comment_id=comment.id
@@ -1644,7 +1644,7 @@ def approve_comment(c_id, v):
 		abort(400, "You can't bypass the chud award!")
 
 	if comment.is_banned:
-		ma=ModAction(
+		ma = ModAction(
 			kind="unban_comment",
 			user_id=v.id,
 			target_comment_id=comment.id,

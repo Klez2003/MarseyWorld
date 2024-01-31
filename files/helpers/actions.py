@@ -443,7 +443,7 @@ def execute_antispam_post_check(title, v, url):
 			post.is_pinned = False
 			post.ban_reason = "AutoJanny"
 			g.db.add(post)
-			ma=ModAction(
+			ma = ModAction(
 					user_id=AUTOJANNY_ID,
 					target_post_id=post.id,
 					kind="ban_post",
@@ -503,7 +503,7 @@ def execute_antispam_comment_check(body, v):
 		comment.is_banned = True
 		comment.ban_reason = "AutoJanny"
 		g.db.add(comment)
-		ma=ModAction(
+		ma = ModAction(
 			user_id=AUTOJANNY_ID,
 			target_comment_id=comment.id,
 			kind="ban_comment",

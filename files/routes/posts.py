@@ -1058,7 +1058,7 @@ def edit_post(pid, v):
 		if int(time.time()) - p.created_utc > 60 * 3:
 			p.edited_utc = int(time.time())
 	else:
-		ma=ModAction(
+		ma = ModAction(
 			kind="edit_post",
 			user_id=v.id,
 			target_post_id=p.id

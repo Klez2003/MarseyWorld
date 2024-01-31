@@ -35,7 +35,7 @@ def report_post(pid, v):
 		post.flair = reason_html[1:]
 		g.db.add(post)
 		if v.admin_level >= PERMS['POST_COMMENT_MODERATION']:
-			ma=ModAction(
+			ma = ModAction(
 				kind="flair_post",
 				user_id=v.id,
 				target_post_id=post.id,
@@ -128,7 +128,7 @@ def remove_report_post(v, pid, uid):
 		g.db.delete(report)
 
 		if v.id != report.user_id:
-			ma=ModAction(
+			ma = ModAction(
 				kind="delete_report",
 				user_id=v.id,
 				target_post_id=pid
@@ -154,7 +154,7 @@ def remove_report_comment(v, cid, uid):
 		g.db.delete(report)
 
 		if v.id != report.user_id:
-			ma=ModAction(
+			ma = ModAction(
 				kind="delete_report",
 				user_id=v.id,
 				target_comment_id=cid
