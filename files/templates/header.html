@@ -181,12 +181,6 @@
 				</div>
 			{% endif %}
 
-			{% if request.path.startswith('/post/') and p %}
-				<a class="post_navigation mobile-nav-icon d-md-none" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Next Post">
-					<i class="fas fa-arrow-right align-middle text-gray-500 black"></i>
-				</a>
-			{% endif %}
-
 			{% if not (v and v.patron) and not (v and v.admin_level) %}
 				{% if v %}
 					<a href="/donate" type="button" class="mobile-nav-icon d-md-none donate-link" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Donate">
@@ -195,6 +189,12 @@
 				{% else %}
 					<a href="/donate" type="button" class="btn btn-primary mobile-nav-icon d-md-none donate-link mr-3" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Donate">Donate</a>
 				{% endif %}
+			{% endif %}
+
+			{% if request.path.startswith('/post/') and p %}
+				<a class="post_navigation mobile-nav-icon d-md-none" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Next Post">
+					<i class="fas fa-arrow-right align-middle text-gray-500 black"></i>
+				</a>
 			{% endif %}
 
 			{% if g.browser == 'webview' %}
@@ -249,6 +249,12 @@
 				<div class="collapse navbar-collapse" id="navbarResponsive">
 					<ul class="navbar-nav ml-auto d-none d-md-flex mr-3">
 
+						{% if not (v and v.patron) %}
+							<li id="header--donate--item" class="nav-item d-flex align-items-center justify-content-center mx-1 mr-2">
+								<a class="btn btn-primary" href="/donate">Donate</a>
+							</li>
+						{% endif %}
+
 						{% if request.path.startswith('/post/') and p %}
 							<li class="d-none nav-item d-flex align-items-center text-center justify-content-center mx-1">
 								<a class="post_navigation nav-link" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Next Post">
@@ -256,12 +262,6 @@
 								</a>
 							</li>
 							<script src="{{'js/post_navigation.js' | asset}}"></script>
-						{% endif %}
-
-						{% if not (v and v.patron) %}
-							<li id="header--donate--item" class="nav-item d-flex align-items-center justify-content-center mx-1 mr-2">
-								<a class="btn btn-primary" href="/donate">Donate</a>
-							</li>
 						{% endif %}
 
 						{% if v %}
