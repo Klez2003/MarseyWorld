@@ -2331,6 +2331,12 @@ a.bg-light:hover, a.bg-light:focus, button.bg-light:hover, button.bg-light:focus
 		z-index: 1020;
 	}
 }
+.w-50 {
+	width: 50% !important;
+}
+.w-75 {
+	width: 75% !important;
+}
 .w-100 {
 	width: 100% !important;
 }
@@ -4711,6 +4717,12 @@ ul.comment-section {
 	}
 	.rounded-md {
 		border-radius: 0.35rem;
+	}
+	.w-md-25 {
+		width: 25% !important;
+	}
+	.w-md-100 {
+		width: 100% !important;
 	}
 }
 @media (min-width: 992px) {

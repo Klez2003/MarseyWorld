@@ -14,7 +14,6 @@ _SETTINGS = {
 	"fart_mode": False,
 	"read_only_mode": False,
 	"offline_mode": False,
-	"under_siege": False,
 	"dm_media": True,
 }
 

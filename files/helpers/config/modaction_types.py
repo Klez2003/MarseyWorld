@@ -46,6 +46,11 @@ MODACTION_TYPES = {
 		"icon": 'fa-lock',
 		"color": 'bg-danger'
 	},
+	'change_under_siege': {
+		"str": 'changed under siege thresholds',
+		"icon": 'fa-shield',
+		"color": 'bg-muted'
+	},
 	'delete_media': {
 		"str": 'deleted media',
 		"icon": 'fa-trash-alt',
@@ -88,11 +93,6 @@ MODACTION_TYPES = {
 	},
 	'disable_under_attack': {
 		"str": 'disabled under attack mode',
-		"icon": 'fa-shield',
-		"color": 'bg-muted'
-	},
-	'disable_under_siege': {
-		"str": 'disabled under siege mode',
 		"icon": 'fa-shield',
 		"color": 'bg-muted'
 	},
@@ -165,11 +165,6 @@ MODACTION_TYPES = {
 		"str": 'enabled under attack mode',
 		"icon": 'fa-shield',
 		"color": 'bg-success'
-	},
-	'enable_under_siege': {
-		"str": 'enabled under siege mode',
-		"icon": 'fa-shield',
-		"color": 'bg-success',
 	},
 	'enable_dm_media': {
 		"str": 'enabled DM media',
@@ -442,6 +437,7 @@ MODACTION_PRIVILEGED_TYPES = {
 								'reset_password',
 								'schedule_orgy', 'remove_orgy',
 								'insert_transaction',
+								'change_under_siege_thresholds',
 							}
 MODACTION_PRIVILEGED__TYPES = {'progstack_post', 'progstack_comment',
 							'unprogstack_post', 'unprogstack_comment'}

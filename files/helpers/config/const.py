@@ -203,6 +203,7 @@ PERMS = { # Minimum admin_level to perform action.
 	'MODERATE_PENDING_SUBMITTED_ASSETS': 3,
 	'UPDATE_ASSETS': 3,
 	'DELETE_MEDIA': 3,
+	'CHANGE_UNDER_SIEGE': 3,
 
 	'PROGSTACK': 4,
 	'UNDO_AWARD_PINS': 4,
@@ -533,7 +534,16 @@ PFP_DEFAULT_MARSEY = True
 NEW_USER_AGE = 7 * 86400
 NOTIFICATION_SPAM_AGE_THRESHOLD = 0
 COMMENT_SPAM_LENGTH_THRESHOLD = 0
-UNDER_SIEGE_AGE_THRESHOLD = 10 * 60
+
+DEFAULT_UNDER_SIEGE_THRESHOLDS = {
+	"chat": 0,
+	"normal comment": 0,
+	"wall comment": 0,
+	"post": 0,
+	"report": 0,
+	"modmail": 0,
+	"message": 0,
+}
 
 HOLE_REQUIRED = False
 HOLE_COST = 0

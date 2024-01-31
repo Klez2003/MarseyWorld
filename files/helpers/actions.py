@@ -516,20 +516,15 @@ def execute_antispam_comment_check(body, v):
 def execute_under_siege(v, target, body, kind):
 	if v.shadowbanned: return
 
-	if not get_setting("under_siege"): return
 	if v.admin_level >= PERMS['BYPASS_UNDER_SIEGE_MODE']: return
 
-	if SITE == 'watchpeopledie.tv' and kind == 'normal_comment':
+	thresholds = cache.get("under_siege_thresholds")
+	if not thresholds:
+		thresholds = DEFAULT_UNDER_SIEGE_THRESHOLDS
+		cache.set("under_siege_thresholds", thresholds)
+
+	if v.age > thresholds[kind] * 60:
 		return
-
-	if kind in {'message', 'report'} and SITE == 'rdrama.net':
-		threshold = 86400
-	elif kind != 'message' and SITE == 'watchpeopledie.tv':
-		threshold = 86400
-	else:
-		threshold = UNDER_SIEGE_AGE_THRESHOLD
-
-	if v.age > threshold: return
 
 	unshadowbannedcels = [x[0] for x in g.db.query(ModAction.target_user_id).filter_by(kind='unshadowban')]
 	if v.id in unshadowbannedcels: return

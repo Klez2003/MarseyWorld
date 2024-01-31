@@ -1,0 +1,26 @@
+{% extends "settings2.html" %}
+{% block pagetitle %}Under Siege Thresholds{% endblock %}
+	{% block content %}
+	<section class="settings-section-section">
+		<h5>Thresholds in Minutes</h5>
+		<div class="settings-section rounded mt-4">
+			<form action="/admin/under_siege" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHR(this)">
+				<div class="body">
+					{% for name, value in thresholds.items() %}
+						<div class="d-flex">
+							<label for="{{name}}" class="mb-0 w-50 w-md-25">{{name.title()}}</label>
+							<input autocomplete="off" class="form-control mb-2 w-75 w-md-100" type="number" min="0" step="1" id="{{name}}" name="{{name}}" value="{{value}}" required>
+						</div>
+					{% endfor %}
+				</div>
+				<div class="footer">
+					<input hidden="" name="formkey" value="cc3a07ff710ab8f23f180ec47a877f6c">
+					<input hidden="" name="now" value="1706742172">
+					<div class="d-flex">
+						<input autocomplete="off" class="btn btn-primary ml-auto" type="submit" value="Submit">
+					</div>
+				</div>
+			</form>
+		</div>
+	</section>
+{% endblock %}
