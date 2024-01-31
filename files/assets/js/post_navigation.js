@@ -4,7 +4,9 @@ if (current_index > -1) {
 	const id_after = post_permalinks[current_index+1]
 
 	if (id_after) {
-		document.getElementById('post_navigation').classList.remove('d-none')
-		document.getElementById('post_after').href = id_after.slice(1, -1)
+		for (const btn of document.getElementsByClassName('post_navigation')) {
+			btn.classList.remove('d-none')
+			btn.href = id_after.slice(1, -1)
+		}
 	}
 }

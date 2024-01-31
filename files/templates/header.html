@@ -181,6 +181,12 @@
 				</div>
 			{% endif %}
 
+			{% if request.path.startswith('/post/') and p %}
+				<a class="post_navigation mobile-nav-icon d-md-none" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Next Post">
+					<i class="fas fa-arrow-right align-middle text-gray-500 black"></i>
+				</a>
+			{% endif %}
+
 			{% if not (v and v.patron) and not (v and v.admin_level) %}
 				{% if v %}
 					<a href="/donate" type="button" class="mobile-nav-icon d-md-none donate-link" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Donate">
@@ -244,8 +250,8 @@
 					<ul class="navbar-nav ml-auto d-none d-md-flex mr-3">
 
 						{% if request.path.startswith('/post/') and p %}
-							<li id="post_navigation" class="d-none nav-item d-flex align-items-center text-center justify-content-center mx-1">
-								<a id="post_after" class="nav-link" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Next Post">
+							<li class="d-none nav-item d-flex align-items-center text-center justify-content-center mx-1">
+								<a class="post_navigation nav-link" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Next Post">
 									<i class="fas fa-arrow-right"></i>
 								</a>
 							</li>
