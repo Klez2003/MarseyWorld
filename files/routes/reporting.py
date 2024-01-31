@@ -117,11 +117,14 @@ def report_comment(cid, v):
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit("100/minute;300/hour;2000/day", deduct_when=lambda response: response.status_code < 400)
 @limiter.limit("100/minute;300/hour;2000/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
-@admin_level_required(PERMS['REPORTS_REMOVE'])
+@auth_required
 def remove_report_post(v, pid, uid):
 	report = g.db.query(Report).filter_by(post_id=pid, user_id=uid).one_or_none()
 
 	if report:
+		if v.id != report.user_id and v.admin_level < PERMS['REPORTS_REMOVE']:
+			abort(403, "You can't remove this report!")
+
 		g.db.delete(report)
 
 		ma=ModAction(
@@ -139,11 +142,14 @@ def remove_report_post(v, pid, uid):
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit("100/minute;300/hour;2000/day", deduct_when=lambda response: response.status_code < 400)
 @limiter.limit("100/minute;300/hour;2000/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
-@admin_level_required(PERMS['REPORTS_REMOVE'])
+@auth_required
 def remove_report_comment(v, cid, uid):
 	report = g.db.query(CommentReport).filter_by(comment_id=cid, user_id=uid).one_or_none()
 
 	if report:
+		if v.id != report.user_id and v.admin_level < PERMS['REPORTS_REMOVE']:
+			abort(403, "You can't remove this report!")
+
 		g.db.delete(report)
 
 		ma=ModAction(

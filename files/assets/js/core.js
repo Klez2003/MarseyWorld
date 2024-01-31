@@ -769,3 +769,13 @@ function enablePushNotifications() {
 		console.error(e)
 	})
 }
+
+function delReport(t, url) {
+	postToast(t, url,
+		{
+		},
+		() => {
+			t.parentElement.remove()
+		}
+	);
+}

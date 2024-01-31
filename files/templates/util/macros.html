@@ -224,7 +224,7 @@
 						{% endwith %}
 						<a style="font-weight:bold" href="{{r.user.url}}">{{r.user.username}}</a>
 						{% if r.reason %}: {{r.realreason(v) | safe}}{% endif %}
-						{% if v and v.admin_level >= PERMS['REPORTS_REMOVE'] %}
+						{% if v and (v.id == r.user_id or v.admin_level >= PERMS['REPORTS_REMOVE']) %}
 							<button type="button" data-nonce="{{g.nonce}}" data-onclick="delReport(this,'/del_report/{{kind}}/{{r.parent_id}}/{{r.user_id}}')">[remove]</button>
 						{% endif %}
 					</li>
