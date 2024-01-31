@@ -144,12 +144,12 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 	if v: size = v.frontsize or 0
 	else: size = PAGE_SIZE
 
+	if SITE_NAME == 'WPD' and sort == "hot" and page == 1:
+		posts = posts.filter(Post.hole != 'pets')
+
 	posts = posts.options(load_only(Post.id)).offset(size * (page - 1))
 
-	if SITE_NAME == 'WPD' and sort == "hot" and hole == None:
-		if page == 1:
-			posts = posts.filter(Post.hole != 'pets')
-	
+	if SITE_NAME == 'WPD' and sort == "hot" and hole == None:	
 		posts = posts.limit(200).all()
 		posts_in_limited_holes = [x for x in posts if x.hole in LIMITED_WPD_HOLES]
 		captured_holes = set()
