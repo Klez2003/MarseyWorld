@@ -356,7 +356,7 @@ def settings_personal_post(v):
 		else: abort(400, f"{theme} is not a valid theme")
 
 	house = request.values.get("house")
-	if not updated and house and house in HOUSES and FEATURES['HOUSES']:
+	if not updated and house and house in ["None"]+HOUSES and FEATURES['HOUSES']:
 		if v.bite: abort(403)
 		if v.house:
 			if v.house.replace(' Founder', '') == house: abort(409, f"You're already in House {house}")

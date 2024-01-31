@@ -420,7 +420,7 @@ FEATURES = {
 	'PRONOUNS': False,
 	'BADGES': True,
 	'HATS': True,
-	'HOUSES': False,
+	'HOUSES': True,
 	'GAMBLING': True,
 	'USERS_PROFILE_BANNER': True,
 	'USERS_PROFILE_BODYTEXT': True,
@@ -436,6 +436,7 @@ FEATURES = {
 	'PING_GROUPS': True,
 	'BOTS': True,
 }
+HOUSES = ["Furry","Femboy","Vampire","Racist","Edgy"]
 
 WERKZEUG_ERROR_DESCRIPTIONS = {
 	400: "The browser (or proxy) sent a request that this server could not understand.",
@@ -630,7 +631,6 @@ if SITE in {'rdrama.net', 'staging.rdrama.net'}:
 	DEFAULT_TIME_FILTER = "day"
 
 	FEATURES['PRONOUNS'] = True
-	FEATURES['HOUSES'] = True
 	FEATURES['USERS_PERMANENT_WORD_FILTERS'] = True
 
 	BUG_THREAD = 18459
@@ -723,6 +723,7 @@ elif SITE == 'watchpeopledie.tv':
 	FEATURES['NSFW_MARKING'] = False
 	FEATURES['BOTS'] = False
 	FEATURES['HAT_SUBMISSIONS'] = False
+	HOUSES = ["Furry","Femboy","Vampire","Edgy"]
 
 	PERMS['POST_COMMENT_EDITING'] = 3
 	PERMS['MODS_EVERY_HOLE'] = 3
@@ -811,17 +812,13 @@ elif SITE == 'watchpeopledie.tv':
 elif SITE == 'devrama.net':
 	AEVANN_ID = 7
 	FEATURES['PRONOUNS'] = True
-	FEATURES['HOUSES'] = True
 	FEATURES['USERS_PERMANENT_WORD_FILTERS'] = True
 	PERMS["SITE_SETTINGS"] = 4
 	PERMS["ORGIES"] = 4
 else: # localhost or testing environment implied
 	FEATURES['PRONOUNS'] = True
-	FEATURES['HOUSES'] = True
 	FEATURES['USERS_PERMANENT_WORD_FILTERS'] = True
 	HOLE_BANNER_LIMIT = 69420
-
-HOUSES = ("None","Furry","Femboy","Vampire","Racist","Edgy") if FEATURES['HOUSES'] else ("None")
 
 BOT_IDs = {AUTOJANNY_ID, SNAPPY_ID, LONGPOSTBOT_ID, ZOZBOT_ID}
 

@@ -122,18 +122,8 @@ def stats():
 		}
 
 	if FEATURES['HOUSES']:
-		stats2 = {
-			"House Furry members": "{:,}".format(g.db.query(User).filter(User.house.like('Furry%')).count()),
-			"House Femboy members": "{:,}".format(g.db.query(User).filter(User.house.like('Femboy%')).count()),
-			"House Vampire members": "{:,}".format(g.db.query(User).filter(User.house.like('Vampire%')).count()),
-			"House Racist members": "{:,}".format(g.db.query(User).filter(User.house.like('Racist%')).count()),
-			"House Edgy members": "{:,}".format(g.db.query(User).filter(User.house.like('Edgy%')).count()),
-			"House Furry total truescore": "{:,}".format(g.db.query(func.sum(User.truescore)).filter(User.house.like('Furry%')).scalar() or 0),
-			"House Femboy total truescore": "{:,}".format(g.db.query(func.sum(User.truescore)).filter(User.house.like('Femboy%')).scalar() or 0),
-			"House Vampire total truescore": "{:,}".format(g.db.query(func.sum(User.truescore)).filter(User.house.like('Vampire%')).scalar() or 0),
-			"House Racist total truescore": "{:,}".format(g.db.query(func.sum(User.truescore)).filter(User.house.like('Racist%')).scalar() or 0),
-			"House Edgy total truescore": "{:,}".format(g.db.query(func.sum(User.truescore)).filter(User.house.like('Edgy%')).scalar() or 0),
-			}
-		stats.update(stats2)
+		for house in HOUSES:
+			stats[f"House {house} members"] = "{:,}".format(g.db.query(User).filter(User.house.like(f'{house}%')).count())
+			stats[f"House {house} total truescore"] = "{:,}".format(g.db.query(func.sum(User.truescore)).filter(User.house.like(f'{house}%')).scalar() or 0)
 
 	return stats
