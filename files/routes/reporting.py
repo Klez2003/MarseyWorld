@@ -127,11 +127,12 @@ def remove_report_post(v, pid, uid):
 
 		g.db.delete(report)
 
-		ma=ModAction(
-			kind="delete_report",
-			user_id=v.id,
-			target_post_id=pid
-		)
+		if v.id != report.user_id:
+			ma=ModAction(
+				kind="delete_report",
+				user_id=v.id,
+				target_post_id=pid
+			)
 
 		g.db.add(ma)
 	return {"message": "Report removed successfully!"}
@@ -152,11 +153,12 @@ def remove_report_comment(v, cid, uid):
 
 		g.db.delete(report)
 
-		ma=ModAction(
-			kind="delete_report",
-			user_id=v.id,
-			target_comment_id=cid
-		)
+		if v.id != report.user_id:
+			ma=ModAction(
+				kind="delete_report",
+				user_id=v.id,
+				target_comment_id=cid
+			)
 
 		g.db.add(ma)
 	return {"message": "Report removed successfully!"}
