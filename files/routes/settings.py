@@ -367,7 +367,10 @@ def settings_personal_post(v):
 		success = v.charge_account('coins/marseybux', cost)[0]
 		if not success: abort(403)
 
-		if house == "None": house = ''
+		if house == "None":
+			house = ''
+		elif SITE == 'watchpeopledie.tv' and time.time < 1707343158:
+			house += ' Founder'
 
 		v.house = house
 
