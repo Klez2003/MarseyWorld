@@ -243,6 +243,15 @@
 				<div class="collapse navbar-collapse" id="navbarResponsive">
 					<ul class="navbar-nav ml-auto d-none d-md-flex mr-3">
 
+						{% if request.path.startswith('/post/') and p %}
+							<li id="post_navigation" class="d-none nav-item d-flex align-items-center text-center justify-content-center mx-1">
+								<a id="post_after" class="nav-link" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Next Post">
+									<i class="fas fa-arrow-right"></i>
+								</a>
+							</li>
+							<script src="{{'js/post_navigation.js' | asset}}"></script>
+						{% endif %}
+
 						{% if not (v and v.patron) %}
 							<li id="header--donate--item" class="nav-item d-flex align-items-center justify-content-center mx-1 mr-2">
 								<a class="btn btn-primary" href="/donate">Donate</a>
