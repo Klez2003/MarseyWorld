@@ -785,7 +785,7 @@ class User(Base):
 	def modmail_notifications_count(self):
 		if self.admin_level < PERMS['NOTIFICATIONS_MODMAIL']:
 			return 0
-		return g.db.query(Comment).filter(
+		return g.db.query(Comment).distinct(Comment.top_comment_id).filter(
 				Comment.author_id != self.id,
 				Comment.sentto == MODMAIL_ID,
 				Comment.created_utc > self.last_viewed_modmail_notifs,
