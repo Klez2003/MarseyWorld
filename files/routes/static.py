@@ -438,8 +438,9 @@ if SITE == 'watchpeopledie.tv':
 	@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 	@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 	def geoblock():
-		print('wtf', flush=True)
-		print(request.headers.get("Cf-Ipcountry"), flush=True)
-		if request.headers.get("Cf-Ipcountry") == 'AU':
-			abort(403)
+		ip = request.headers.get("X-Forwarded-For")
+		req = requests.get(f'http://ipinfo.io/{ip}/json')
+		country = json.loads(req.text)['country']
+		if country == 'AU':
+			abort(403, "This video is blocked in Australia")
 		return send_file('/videos/1706708037797343.mp4')
