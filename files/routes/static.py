@@ -439,6 +439,7 @@ if SITE == 'watchpeopledie.tv':
 	@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 	def geoblock():
 		ip = request.headers.get("X-Forwarded-For")
+		print(ip, flush=True)
 		req = requests.get(f'http://ipinfo.io/{ip}/json')
 		country = json.loads(req.text)
 		print(country, flush=True)
