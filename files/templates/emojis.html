@@ -20,7 +20,7 @@
 	</div>
 
 	<div class="overflow-x-auto mt-3">
-		<table class="table table-striped mb-5">
+		<table class="datatable table table-striped mb-5">
 			<thead class="bg-primary text-white">
 				<tr>
 					<th>#</th>
@@ -35,7 +35,7 @@
 					<th>Tags</th>
 				</tr>
 			</thead>
-			<tbody id="emojis-table">
+			<tbody>
 			{% for emoji in emojis %}
 				<tr>
 					<td>{{loop.index}}</td>
@@ -64,4 +64,8 @@
 			</tbody>
 		</table>
 	</div>
+
+	<link rel="stylesheet" href="{{('css/datatables.css') | asset}}">
+	<script defer src="{{'js/vendor/jquery.js' | asset}}"></script>
+	<script defer src="{{'js/vendor/datatables.js' | asset}}"></script>
 {% endblock %}
