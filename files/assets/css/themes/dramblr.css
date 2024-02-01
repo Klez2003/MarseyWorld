@@ -167,5 +167,5 @@ code {
 }
 
 .dataTables_wrapper .dataTables_length select {
-    background-color: black;
+    background-color: black !important;
 }
