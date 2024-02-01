@@ -179,7 +179,8 @@ CREATE TABLE public.users (
     jumpscare integer DEFAULT 0 NOT NULL,
     zombie integer DEFAULT 0 NOT NULL,
     extra_username character varying(30),
-    grinch boolean NOT NULL
+    grinch boolean NOT NULL,
+    last_viewed_modmail_notifs integer NOT NULL
 );
 
 
