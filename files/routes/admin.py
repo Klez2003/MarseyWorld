@@ -1381,9 +1381,6 @@ def remove_post(post_id, v):
 
 	cache.delete_memoized(frontlist)
 
-	v.pay_account('coins', 1)
-	g.db.add(v)
-
 	for sort in COMMENT_SORTS.keys():
 		cache.delete(f'post_{post.id}_{sort}')
 
@@ -1417,9 +1414,6 @@ def approve_post(post_id, v):
 	g.db.add(post)
 
 	cache.delete_memoized(frontlist)
-
-	v.charge_account('coins', 1)
-	g.db.add(v)
 
 	for sort in COMMENT_SORTS.keys():
 		cache.delete(f'post_{post.id}_{sort}')
