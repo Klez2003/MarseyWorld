@@ -441,10 +441,7 @@ if SITE == 'watchpeopledie.tv':
 		ip = request.headers.get("X-Forwarded-For")
 		print(ip, flush=True)
 		req = requests.get(f'http://ipinfo.io/{ip}/json')
-		country = json.loads(req.text)
-		print(country, flush=True)
-		# ['country']
-		# print(country, flush=True)
-		# if country == 'AU':
-		# 	abort(403, "This video is blocked in Australia.")
+		country = json.loads(req.text)['country']
+		if country == 'AU':
+			abort(403, "This video is blocked in Australia.")
 		return send_file('/videos/1706708037797343.mp4')
