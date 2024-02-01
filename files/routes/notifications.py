@@ -56,44 +56,6 @@ def unread(v):
 	return {"data":[x[1].json for x in listing]}
 
 
-@app.get("/notifications/modmail")
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
-@admin_level_required(PERMS['VIEW_MODMAIL'])
-def notifications_modmail(v):
-	page = get_page()
-
-	comments = g.db.query(Comment).filter_by(
-			sentto=MODMAIL_ID,
-			level=1,
-		)
-
-	total = comments.count()
-	listing = comments.order_by(Comment.id.desc()).offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE).all()
-
-	for c in listing:
-		c_and_children = [c] + c.replies('old')
-		for c in c_and_children:
-			if c.author_id == v.id: continue
-			c.unread = c.created_utc > v.last_viewed_modmail_notifs
-
-	if not session.get("GLOBAL") and not request.values.get('nr'):
-		v.last_viewed_modmail_notifs = int(time.time())
-		g.db.add(v)
-
-	if v.client: return {"data":[x.json for x in listing]}
-
-	return render_template("notifications.html",
-							v=v,
-							notifications=listing,
-							total=total,
-							page=page,
-							standalone=True,
-							render_replies=True,
-						)
-
-
-
 @app.get("/notifications/messages")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
@@ -156,6 +118,43 @@ def notifications_messages(v):
 	total = message_threads.count()
 	listing = message_threads.order_by(thread_order.c.created_utc.desc()) \
 					.offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE).all()
+
+	if v.client: return {"data":[x.json for x in listing]}
+
+	return render_template("notifications.html",
+							v=v,
+							notifications=listing,
+							total=total,
+							page=page,
+							standalone=True,
+							render_replies=True,
+						)
+
+
+@app.get("/notifications/modmail")
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@admin_level_required(PERMS['VIEW_MODMAIL'])
+def notifications_modmail(v):
+	page = get_page()
+
+	comments = g.db.query(Comment).filter_by(
+			sentto=MODMAIL_ID,
+			level=1,
+		)
+
+	total = comments.count()
+	listing = comments.order_by(Comment.id.desc()).offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE).all()
+
+	for c in listing:
+		c_and_children = [c] + c.replies('old')
+		for c in c_and_children:
+			if c.author_id == v.id: continue
+			c.unread = c.created_utc > v.last_viewed_modmail_notifs
+
+	if not session.get("GLOBAL") and not request.values.get('nr'):
+		v.last_viewed_modmail_notifs = int(time.time())
+		g.db.add(v)
 
 	if v.client: return {"data":[x.json for x in listing]}
 
