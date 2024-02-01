@@ -242,3 +242,7 @@ lite-youtube, iframe {
 code {
     color: #f679b2;
 }
+
+.dataTables_wrapper .dataTables_length select {
+    background-color: black;
+}
