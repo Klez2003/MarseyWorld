@@ -440,7 +440,10 @@ if SITE == 'watchpeopledie.tv':
 	def geoblock():
 		ip = request.headers.get("X-Forwarded-For")
 		req = requests.get(f'http://ipinfo.io/{ip}/json')
-		country = json.loads(req.text)['country']
-		if country == 'AU':
-			abort(403, "This video is blocked in Australia.")
+		try:
+			country = json.loads(req.text)['country']
+			if country == 'AU':
+				abort(403, "This video is blocked in Australia.")
+		except:
+			print(req.text, flush=True)
 		return send_file('/videos/1706708037797343.mp4')
