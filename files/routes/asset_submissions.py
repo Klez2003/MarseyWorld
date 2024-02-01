@@ -18,7 +18,7 @@ def delete_unnecessary_tags(tags, name):
 	new_tags = []
 
 	for tag in tags.split(' '):
-		if tag not in name:
+		if tag not in name and tag not in new_tags:
 			new_tags.append(tag)
 
 	if not new_tags: abort(400, "Invalid tags!")
