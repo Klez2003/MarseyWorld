@@ -4,6 +4,7 @@ from urllib.parse import quote
 from sqlalchemy.sql import func
 import gevent
 import requests
+import math
 from flask import g
 
 from files.classes.reports import Report
@@ -544,11 +545,16 @@ def execute_under_siege(v, target, body, kind):
 	else:
 		reason = kind
 
+	minutes = math.ceil(v.age / 60)
+	time_taken = f'{minutes} minute'
+	if minutes > 1:
+		time_taken += 's'
+
 	ma = ModAction(
 		kind="shadowban",
 		user_id=AUTOJANNY_ID,
 		target_user_id=v.id,
-		_note=f'reason: "Under Siege ({reason}, {v.age} seconds)"'
+		_note=f'reason: "Under Siege ({reason}, {time_taken})"'
 	)
 	g.db.add(ma)
 
