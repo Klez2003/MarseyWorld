@@ -138,10 +138,9 @@ def notifications_messages(v):
 def notifications_modmail(v):
 	page = get_page()
 
-	comments = g.db.query(Comment).filter_by(
-			sentto=MODMAIL_ID,
-			level=1,
-		)
+	sq = g.db.query(Comment.top_comment_id, Comment.created_utc).distinct(Comment.top_comment_id).filter_by(sentto=MODMAIL_ID, level=2).order_by(Comment.top_comment_id, Comment.created_utc.desc()).subquery()
+
+	comments = g.db.query(Comment).filter(Comment.id == sq.c.top_comment_id).order_by(sq.c.created_utc.desc())
 
 	total = comments.count()
 	listing = comments.order_by(Comment.id.desc()).offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE).all()
