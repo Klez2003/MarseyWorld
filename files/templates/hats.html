@@ -40,30 +40,24 @@
 	<script defer src="{{'js/hats.js' | asset}}"></script>
 
 	<div class="overflow-x-auto mt-3 mb-5">
-		<table class="table table-striped shop">
+		<table class="datatable table table-striped shop">
 		<thead class="bg-primary text-white">
 			<tr>
 				<th class="disable-sort-click">Hat</th>
-				<th class="disable-sort-click" {% if sort=="name" %}disabled{% endif %}><a href="?sort=name">Name</a></th>
-				<th class="disable-sort-click" {% if sort=="description" %}disabled{% endif %}><a href="?sort=description">Description</a></th>
+				<th>Name</th>
+				<th>Description</th>
 				{% if SITE == 'rdrama.net' %}
-					<th class="disable-sort-click" {% if sort=="author" %}disabled{% endif %}><a href="?sort=author">Author</a></th>
+					<th>Author</a></th>
 				{% endif %}
-				<th class="disable-sort-click" {% if sort=="owners" %}disabled{% endif %}><a href="?sort=owners">Owners</a></th>
-				<th class="disable-sort-click" {% if sort=="price" %}disabled{% endif %}><a href="?sort=price">Price</a></th>
+				<th>Owners</th>
+				<th>Price</th>
 				<th class="disable-sort-click">Actions</th>
-				<th class="disable-sort-click" {% if sort=="added_on" %}disabled{% endif %}><a href="?sort=added_on">Added on</a></th>
+				<th>Added on</th>
 			</tr>
 		</thead>
 
 		<tbody>
-			{% for item in hats %}
-				{% if SITE == 'rdrama.net' %}
-					{% set hat = item[0] %}
-					{% set user = item[1] %}
-				{% else %}
-					{% set hat = item %}
-				{% endif %}
+			{% for hat, user in hats %}
 				<tr>
 					<td>
 						<div class="profile-pic-75-wrapper mt-4">
@@ -98,8 +92,7 @@
 		</tbody>
 	</table>
 
-{% endblock %}
-
-{% block pagenav %}
-	{% include "pagination.html" %}
+	<link rel="stylesheet" href="{{('css/datatables.css') | asset}}">
+	<script defer src="{{'js/vendor/jquery.js' | asset}}"></script>
+	<script defer src="{{'js/vendor/datatables.js' | asset}}"></script>
 {% endblock %}

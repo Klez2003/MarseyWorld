@@ -14,62 +14,19 @@ from files.__main__ import app, limiter
 def hats(v):
 	owned_hat_ids = [x.hat_id for x in v.owned_hats]
 
-	sort = request.values.get("sort")
-
-	page = get_page()
-
-	if SITE == 'rdrama.net':
-		hats = g.db.query(HatDef, User).join(HatDef.author)
+	if v.equipped_hat_ids:
+		equipped = g.db.query(HatDef, User).join(HatDef.author).filter(HatDef.submitter_id == None, HatDef.id.in_(owned_hat_ids), HatDef.id.in_(v.equipped_hat_ids)).order_by(HatDef.price, HatDef.name).all()
+		not_equipped = g.db.query(HatDef, User).join(HatDef.author).filter(HatDef.submitter_id == None, HatDef.id.in_(owned_hat_ids), HatDef.id.notin_(v.equipped_hat_ids)).order_by(HatDef.price, HatDef.name).all()
+		owned = equipped + not_equipped
 	else:
-		hats = g.db.query(HatDef)
+		owned = g.db.query(HatDef, User).join(HatDef.author).filter(HatDef.submitter_id == None, HatDef.id.in_(owned_hat_ids)).order_by(HatDef.price, HatDef.name).all()
 
-	hats = hats.filter(HatDef.submitter_id == None)
-
-	if sort and sort != "owners":
-		if sort == "name":
-			key = HatDef.name
-		elif sort == "description":
-			key = HatDef.description
-		elif sort == "author":
-			key = User.username
-		elif sort == "price":
-			key = HatDef.price
-		elif sort == "added_on":
-			key = HatDef.created_utc.desc()
-		else:
-			abort(400, "Invalid sort")
-
-		hats = hats.order_by(key).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
-	elif sort == "owners":
-		hat_count = {x[0]:x[1] for x in g.db.query(Hat.hat_id, func.count(Hat.hat_id)).group_by(Hat.hat_id).all()}
-
-		if SITE == 'rdrama.net':
-			hats = sorted(hats.all(), key=lambda x: hat_count[x[0].id] if x[0].id in hat_count else 0, reverse=True)
-		else:
-			hats = sorted(hats.all(), key=lambda x: hat_count[x.id] if x.id in hat_count else 0, reverse=True)
-
-		firstrange = PAGE_SIZE * (page - 1)
-		secondrange = firstrange + PAGE_SIZE
-		hats = hats[firstrange:secondrange]
-	else:
-		if v.equipped_hat_ids:
-			equipped = hats.filter(HatDef.id.in_(owned_hat_ids), HatDef.id.in_(v.equipped_hat_ids)).order_by(HatDef.price, HatDef.name).all()
-			not_equipped = hats.filter(HatDef.id.in_(owned_hat_ids), HatDef.id.notin_(v.equipped_hat_ids)).order_by(HatDef.price, HatDef.name).all()
-			owned = equipped + not_equipped
-		else:
-			owned = hats.filter(HatDef.id.in_(owned_hat_ids)).order_by(HatDef.price, HatDef.name).all()
-
-		not_owned = hats.filter(HatDef.id.notin_(owned_hat_ids)).order_by(HatDef.price == 0, HatDef.price, HatDef.name).all()
-		hats = owned + not_owned
-
-		firstrange = PAGE_SIZE * (page - 1)
-		secondrange = firstrange + PAGE_SIZE
-		hats = hats[firstrange:secondrange]
+	not_owned = g.db.query(HatDef, User).join(HatDef.author).filter(HatDef.submitter_id == None, HatDef.id.notin_(owned_hat_ids)).order_by(HatDef.price == 0, HatDef.price, HatDef.name).all()
+	hats = owned + not_owned
 
 	sales = g.db.query(func.sum(User.coins_spent_on_hats)).scalar()
 	num_of_hats = g.db.query(HatDef).filter(HatDef.submitter_id == None).count()
-
-	return render_template("hats.html", owned_hat_ids=owned_hat_ids, hats=hats, v=v, sales=sales, num_of_hats=num_of_hats, total=num_of_hats, page=page, sort=sort)
+	return render_template("hats.html", owned_hat_ids=owned_hat_ids, hats=hats, v=v, sales=sales, num_of_hats=num_of_hats)
 
 @app.post("/buy_hat/<int:hat_id>")
 @limiter.limit('1/second', scope=rpath)
