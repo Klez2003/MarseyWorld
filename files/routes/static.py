@@ -442,5 +442,5 @@ if SITE == 'watchpeopledie.tv':
 		req = requests.get(f'http://ipinfo.io/{ip}/json')
 		country = json.loads(req.text)['country']
 		if country == 'AU':
-			abort(403, "This video is blocked in Australia")
+			abort(403, "This video is blocked in Australia.")
 		return send_file('/videos/1706708037797343.mp4')
