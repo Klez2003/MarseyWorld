@@ -108,3 +108,7 @@ pre {
 lite-youtube, iframe {
 	color-scheme: light !important;
 }
+
+code {
+    color: #f679b2;
+}

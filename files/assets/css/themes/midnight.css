@@ -76,3 +76,7 @@ body, .navbar-light, .navbar-dark, .card, .modal-content, .comment-write textare
 lite-youtube, iframe {
 	color-scheme: light !important;
 }
+
+code {
+    color: #f679b2;
+}

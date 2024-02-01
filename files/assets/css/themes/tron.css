@@ -238,3 +238,7 @@ lite-youtube, iframe {
 .sidebar-wpd--holes a {
 	font-size: 0.85rem;
 }
+
+code {
+    color: #f679b2;
+}

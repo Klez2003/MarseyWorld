@@ -161,3 +161,7 @@ color: var(--gray-700);
 lite-youtube, iframe {
 	color-scheme: light !important;
 }
+
+code {
+    color: #f679b2;
+}
