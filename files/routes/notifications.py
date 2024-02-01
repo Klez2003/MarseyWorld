@@ -74,6 +74,7 @@ def notifications_modmail(v):
 	for c in listing:
 		c_and_children = [c] + c.replies('old')
 		for c in c_and_children:
+			if c.author_id == v.id: continue
 			c.unread = c.created_utc > v.last_viewed_modmail_notifs
 
 	if not session.get("GLOBAL") and not request.values.get('nr'):
