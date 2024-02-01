@@ -437,7 +437,7 @@ if SITE == 'watchpeopledie.tv':
 	@app.get("/1706708037797343.mp4")
 	@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 	@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
-	def geoblock(v):
+	def geoblock():
 		print('wtf', flush=True)
 		print(request.headers.get("Cf-Ipcountry"), flush=True)
 		if request.headers.get("Cf-Ipcountry") == 'AU':
