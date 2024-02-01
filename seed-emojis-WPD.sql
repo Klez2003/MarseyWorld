@@ -298,7 +298,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseysoonerscapsizedmascot', 'Marsey', 2, 'university ncaa sports', false, 1701183395),
 ('marseysoonersmascot', 'Marsey', 2, 'university ncaa sports', false, 1701183311),
 ('marseyspartanmascot', 'Marsey', 2, 'university ncaa sports', false, 1700971352),
-('marseyspheal', 'Marsey', 2, 'pkmn pokemon 363 363', false, 1699048739),
+('marseyspheal', 'Marsey', 2, 'pkmn pokemon 363', false, 1699048739),
 ('marseyspinarak2', 'Marsey', 2, 'pkmn pokemon 167', false, 1699668492),
 ('marseysprigatito2', 'Marsey', 2, 'pkmn pokemon 906', false, 1698969823),
 ('marseysquirtle2', 'Marsey', 2, 'pkmn pokemon 007', false, 1699845405),
