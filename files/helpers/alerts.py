@@ -171,7 +171,7 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, obj=None, followers_ping=Tr
 		coin_receivers = set()
 
 		for i in group_mention_regex.finditer(text):
-			if oldtext and i.group(1) in oldtext:
+			if oldtext and re.search(f'(?<![:/\w])!{i.group(1)}($|\s)', oldtext):
 				continue
 
 			if i.group(1) == 'focusgroup' and not v.admin_level:
