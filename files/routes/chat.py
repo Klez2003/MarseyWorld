@@ -270,7 +270,7 @@ def messagereply(v):
 	if v.is_permabanned and parent.sentto != MODMAIL_ID:
 		abort(403, "You are permabanned and may not reply to messages!")
 	elif v.is_muted and parent.sentto == MODMAIL_ID:
-		abort(403, "You are forbidden from replying to modmail!")
+		abort(403, "You are muted!")
 
 	if parent.sentto == MODMAIL_ID: user_id = None
 	elif v.id == user_id: user_id = parent.sentto
@@ -332,25 +332,8 @@ def messagereply(v):
 	top_comment = c.top_comment
 
 	if top_comment.sentto == MODMAIL_ID:
-		admin_ids = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_MODMAIL'], User.id != v.id)]
-
-		if SITE == 'watchpeopledie.tv':
-			if AEVANN_ID in admin_ids:
-				admin_ids.remove(AEVANN_ID)
-			if 'delete' in top_comment.body.lower() and 'account' in top_comment.body.lower():
-				admin_ids.remove(15447)
-
-		if parent.author.id not in admin_ids + [v.id]:
-			admin_ids.append(parent.author.id)
-
-		#Don't delete unread notifications, so the replies don't get collapsed and they get highlighted
-		ids = [top_comment.id] + [x.id for x in top_comment.replies(sort="old")]
-		notifications = g.db.query(Notification).filter(Notification.read == True, Notification.comment_id.in_(ids), Notification.user_id.in_(admin_ids))
-		for n in notifications:
-			g.db.delete(n)
-
-		for admin in admin_ids:
-			notif = Notification(comment_id=c.id, user_id=admin)
+		if parent.author.id != v.id and parent.author.admin_level < PERMS['VIEW_MODMAIL']:
+			notif = Notification(comment_id=c.id, user_id=parent.author.id)
 			g.db.add(notif)
 	elif user_id and user_id not in {v.id, MODMAIL_ID} | BOT_IDs:
 		c.unread = True

@@ -293,7 +293,7 @@ def submit_contact(v):
 	if not body: abort(400)
 
 	if v.is_muted:
-		abort(403)
+		abort(403, "You are muted!")
 
 	body = process_files(request.files, v, body)
 	body = body.strip()
@@ -313,20 +313,6 @@ def submit_contact(v):
 	execute_blackjack(v, new_comment, new_comment.body_html, 'modmail')
 	execute_under_siege(v, new_comment, new_comment.body_html, 'modmail')
 	new_comment.top_comment_id = new_comment.id
-
-	admin_ids = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_MODMAIL'])]
-
-	if SITE == 'watchpeopledie.tv':
-		if AEVANN_ID in admin_ids:
-			admin_ids.remove(AEVANN_ID)
-		if 'delete' in new_comment.body.lower() and 'account' in new_comment.body.lower():
-			admin_ids.remove(15447)
-
-	for admin_id in admin_ids:
-		notif = Notification(comment_id=new_comment.id, user_id=admin_id)
-		g.db.add(notif)
-
-	push_notif(admin_ids, f'New modmail from @{new_comment.author_name}', new_comment.body, f'{SITE_FULL}/notifications/modmail')
 
 	return {"message": "Your message has been sent to the admins!"}
 

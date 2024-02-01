@@ -29,6 +29,7 @@ def clear(v):
 		n.read = True
 		g.db.add(n)
 
+	v.last_viewed_modmail_notifs = int(time.time())
 	v.last_viewed_post_notifs = int(time.time())
 	v.last_viewed_log_notifs = int(time.time())
 	v.last_viewed_reddit_notifs = int(time.time())
@@ -69,6 +70,15 @@ def notifications_modmail(v):
 
 	total = comments.count()
 	listing = comments.order_by(Comment.id.desc()).offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE).all()
+
+	for c in listing:
+		c_and_children = [c] + c.replies('old')
+		for c in c_and_children:
+			c.unread = c.created_utc > v.last_viewed_modmail_notifs
+
+	if not session.get("GLOBAL") and not request.values.get('nr'):
+		v.last_viewed_modmail_notifs = int(time.time())
+		g.db.add(v)
 
 	if v.client: return {"data":[x.json for x in listing]}
 
@@ -319,11 +329,6 @@ def notifications(v):
 		Notification.user_id == v.id,
 		or_(Comment.sentto == None, Comment.sentto != v.id),
 	)
-
-	if v.admin_level >= PERMS['VIEW_MODMAIL']:
-		comments = comments.join(Comment.author).filter(
-			not_(and_(Comment.sentto != None, Comment.sentto == MODMAIL_ID, User.is_muted))
-		)
 
 	if v.admin_level < PERMS['USER_SHADOWBAN']:
 		comments = comments.filter(

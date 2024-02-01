@@ -139,6 +139,7 @@ class User(Base):
 	currently_held_lottery_tickets = Column(Integer, default=0)
 	total_held_lottery_tickets = Column(Integer, default=0)
 	total_lottery_winnings = Column(Integer, default=0)
+	last_viewed_modmail_notifs = Column(Integer, default=0)
 	last_viewed_post_notifs = Column(Integer, default=0)
 	last_viewed_log_notifs = Column(Integer, default=0)
 	last_viewed_reddit_notifs = Column(Integer, default=0)
@@ -744,11 +745,6 @@ class User(Base):
 					Notification.user_id == self.id,
 				))
 
-		if self.admin_level >= PERMS['VIEW_MODMAIL']:
-			notifs = notifs.filter(
-				not_(and_(Comment.sentto != None, Comment.sentto == MODMAIL_ID, User.is_muted))
-			)
-
 		if not self.admin_level >= PERMS['USER_SHADOWBAN']:
 			notifs = notifs.filter(
 				User.shadowbanned == None,
@@ -756,13 +752,14 @@ class User(Base):
 				Comment.deleted_utc == 0,
 			)
 
-		return notifs.count() + self.post_notifications_count + self.modaction_notifications_count + self.reddit_notifications_count
+		return notifs.count() + self.modmail_notifications_count + self.post_notifications_count + self.modaction_notifications_count + self.reddit_notifications_count
 
 	@property
 	@lazy
 	def normal_notifications_count(self):
 		return self.notifications_count \
 			- self.message_notifications_count \
+			- self.modmail_notifications_count \
 			- self.post_notifications_count \
 			- self.modaction_notifications_count \
 			- self.reddit_notifications_count
@@ -782,6 +779,17 @@ class User(Base):
 			notifs = notifs.join(Comment.author).filter(User.shadowbanned == None)
 
 		return notifs.count()
+
+	@property
+	@lazy
+	def modmail_notifications_count(self):
+		if self.admin_level < PERMS['NOTIFICATIONS_MODMAIL']:
+			return 0
+		return g.db.query(Comment).filter(
+				Comment.author_id != self.id,
+				Comment.sentto == MODMAIL_ID,
+				Comment.created_utc > self.last_viewed_modmail_notifs,
+			).count()
 
 	@property
 	@lazy
@@ -852,6 +860,8 @@ class User(Base):
 			return ''
 		elif self.message_notifications_count > 0:
 			return 'messages'
+		elif self.modmail_notifications_count > 0:
+			return 'modmail'
 		elif self.post_notifications_count > 0:
 			return 'posts'
 		elif self.modaction_notifications_count > 0:
@@ -866,26 +876,13 @@ class User(Base):
 		colors = {
 			'': '#dc3545',
 			'messages': '#d8910d',
+			'modmail': '#f15387',
 			'posts': '#0000ff',
 			'modactions': '#1ad80d',
 			'reddit': '#805ad5',
 		}
 		return colors[self.notifications_do] if self.notifications_do \
 			else colors['']
-
-	@property
-	@lazy
-	def do_posts(self):
-		return self.post_notifications_count and \
-			self.post_notifications_count == (
-				self.notifications_count
-				- self.modaction_notifications_count
-				- self.reddit_notifications_count)
-
-	@property
-	@lazy
-	def do_reddit(self):
-		return self.notifications_count == self.reddit_notifications_count
 
 	@property
 	@lazy
