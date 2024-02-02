@@ -63,6 +63,7 @@ def get_emoji_list(kind, nsfw):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def emoji_list(v, kind):
+	kind = kind.title()
 	emojis = get_emoji_list(kind, g.show_nsfw)
 	authors = get_accounts_dict([e.author_id for e in emojis], v=v, graceful=True)
 
