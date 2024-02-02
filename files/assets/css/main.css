@@ -218,6 +218,7 @@
 .fa-heart:before{content:"\f004"}
 .fa-coin:before{content:"\f85c"}
 .fa-scarecrow:before{content:"\f70d"}
+.fa-chart-simple:before{content:"\e473"}
 
 /* do not remove - fixes hand, talking, marsey-love components
 	from breaking out of the comment box
