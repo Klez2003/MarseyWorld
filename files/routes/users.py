@@ -349,7 +349,7 @@ def banned(v):
 		key = User.is_banned
 	else:
 		sort = "unban_utc"
-		key = User.unban_utc
+		key = User.unban_utc.desc()
 
 	users = users.order_by(key).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE)
 
