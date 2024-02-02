@@ -183,8 +183,11 @@ class User(Base):
 
 		if "created_utc" not in kwargs:
 			kwargs["created_utc"] = int(time.time())
+			kwargs["last_active"] = kwargs["created_utc"]
+			kwargs["last_viewed_modmail_notifs"] = kwargs["created_utc"]
 			kwargs["last_viewed_post_notifs"] = kwargs["created_utc"]
 			kwargs["last_viewed_log_notifs"] = kwargs["created_utc"]
+			kwargs["last_viewed_reddit_notifs"] = kwargs["created_utc"]
 
 		super().__init__(**kwargs)
 
