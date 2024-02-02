@@ -81,7 +81,7 @@ if SITE_NAME == 'rDrama':
 		"right now": "right meow",
 		"(?<!\/)linux": "GNU/Linux",
 		'(?<!-)based': 'keyed',
-		'(?<!\w)needful': 'sneedful',
+		'the needful': 'the sneedful',
 		'think tank': 'twink tank',
 		"ya'll": "y'all",
 		'chiobu(?!\))': 'X (formerly Chiobu)',
