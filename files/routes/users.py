@@ -328,13 +328,32 @@ def user_voted_comments(v, username):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def banned(v):
+	sort = request.values.get("sort")
+
+	page = get_page()
+
 	users = g.db.query(User).filter(
 		User.is_banned != None,
 		or_(User.unban_utc == 0, User.unban_utc > time.time()),
-	).order_by(User.ban_reason)
+	)
 
-	users = users.all()
-	return render_template("banned.html", v=v, users=users)
+	total = users.count()
+
+	if sort == "name":
+		key = User.username
+	elif sort == "truescore":
+		key = User.truescore.desc()
+	elif sort == "ban_reason":
+		key = User.ban_reason
+	elif sort == "banned_by":
+		key = User.is_banned
+	else:
+		sort = "unban_utc"
+		key = User.unban_utc
+
+	users = users.order_by(key).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE)
+
+	return render_template("banned.html", v=v, users=users, sort=sort, total=total, page=page)
 
 @app.get("/grassed")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
