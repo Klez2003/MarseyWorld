@@ -1,3 +1,3 @@
 {% if user.shadowbanned and v and v.admin_level >= PERMS['USER_SHADOWBAN'] %}
-	<i class="fas fa-user-times text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title='Shadowbanned by @{{user.shadowbanner}} for "{{user.ban_reason}}"' data-bs-html="true"></i>
+	<i class="fas fa-user-times text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title='Shadowbanned by {{user.shadowbanned_by}} for "{{user.ban_reason}}"' data-bs-html="true"></i>
 {% endif %}

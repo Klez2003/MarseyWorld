@@ -25,7 +25,7 @@
 		<h5 class="text-primary" id="profile-{{deviceType}}--shadowbanned">SHADOWBANNED USER:
 			{{u.ban_reason | safe}}
 
-			(by <a href="/@{{u.shadowbanner}}">@{{u.shadowbanner}}</a>)
+			(by <a href="/{{u.shadowbanned_by}}">{{u.shadowbanned_by}}</a>)
 		</h5>
 	{% endif %}
 {% endmacro %}
