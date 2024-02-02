@@ -7,3 +7,7 @@
 .dataTables_wrapper .dataTables_paginate {
 	margin-bottom: 2em;
 }
+
+.paginate_button.current {
+    background-color: var(--primary) !important;
+}
