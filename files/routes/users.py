@@ -147,7 +147,9 @@ def transfer_currency(v, username, currency_name, apply_tax):
 		receiver.pay_account('coins', amount - tax)
 	else:
 		raise ValueError(f"Invalid currency '{currency_name}' got when transferring {amount} from {v.id} to {receiver.id}")
-	if GIFT_NOTIF_ID: send_repeatable_notification(GIFT_NOTIF_ID, log_message)
+
+	if CARP_ID: send_repeatable_notification(CARP_ID, log_message)
+
 	send_repeatable_notification(receiver.id, notif_text)
 
 	return {"message": f"{amount - tax} {currency_name} have been transferred to @{receiver.username}"}

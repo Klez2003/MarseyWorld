@@ -350,13 +350,7 @@ def sign_up_post(v):
 	check_for_alts(new_user, include_current_session=True)
 	send_notification(new_user.id, WELCOME_MSG)
 
-	if SIGNUP_FOLLOW_ID:
-		signup_autofollow = get_account(SIGNUP_FOLLOW_ID)
-		new_follow = Follow(user_id=new_user.id, target_id=signup_autofollow.id)
-		g.db.add(new_follow)
-		signup_autofollow.stored_subscriber_count += 1
-		g.db.add(signup_autofollow)
-	elif CARP_ID:
+	if CARP_ID:
 		send_notification(CARP_ID, f"A new user - @{new_user.username} - has signed up!")
 
 	execute_blackjack(new_user, None, new_user.username, 'username')
