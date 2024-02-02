@@ -9,3 +9,10 @@ const datatables = document.getElementsByClassName('datatable')
 for (const table of datatables) {
 	table.classList.remove('d-none')
 }
+
+$('.datatable').on('page.dt', function(e) {
+	setTimeout(function () {
+		register_new_elements(e.currentTarget);
+		bs_trigger(e.currentTarget);
+	}, 200);
+});
