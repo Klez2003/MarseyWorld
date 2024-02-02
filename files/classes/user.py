@@ -84,7 +84,7 @@ class User(Base):
 	received_award_count = Column(Integer, default=0)
 	created_utc = Column(Integer)
 	admin_level = Column(Integer, default=DEFAULT_ADMIN_LEVEL)
-	last_active = Column(Integer, default=0)
+	last_active = Column(Integer)
 	coins_spent = Column(Integer, default=0)
 	coins_spent_on_hats = Column(Integer, default=0)
 	lootboxes_bought = Column(Integer, default=0)
