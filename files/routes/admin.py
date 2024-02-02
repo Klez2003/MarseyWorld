@@ -295,7 +295,7 @@ def shadowbanned(v):
 		key = User.shadowbanned
 	else:
 		sort = "last_active"
-		key = User.last_active
+		key = User.last_active.desc()
 
 	users = users.order_by(key).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE)
 
