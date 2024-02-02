@@ -3,3 +3,7 @@
 .dataTables_paginate {
 	white-space: nowrap;
 }
+
+.dataTables_wrapper .dataTables_paginate {
+	margin-bottom: 2em;
+}
