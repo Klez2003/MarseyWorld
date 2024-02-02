@@ -6,9 +6,15 @@
 		<table class="table table-striped mb-5">
 			<thead class="bg-primary text-white">
 				<tr>
-					<th>User</th>
-					<th>Target</th>
-					<th>Blocked on</th>
+					<th class="disable-sort-click" {% if sort=="user" %}disabled{% endif %}>
+						<a href="?sort=user">User</a>
+					</th>
+					<th class="disable-sort-click" {% if sort=="target" %}disabled{% endif %}>
+						<a href="?sort=target">Target</a>
+					</th>
+					<th class="disable-sort-click" {% if sort=="time" %}disabled{% endif %}>
+						<a href="?sort=time">Blocked on</a>
+					</th>
 				</tr>
 			</thead>
 			{% for block in blocks %}
@@ -28,4 +34,8 @@
 			{% endfor %}
 		</table>
 	</div>
+{% endblock %}
+
+{% block pagenav %}
+	{% include "pagination.html" %}
 {% endblock %}

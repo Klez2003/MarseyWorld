@@ -1,7 +1,7 @@
 import os
 from shutil import copyfile
 
-from sqlalchemy import func
+from sqlalchemy import func, asc, text
 from files.helpers.media import *
 
 import files.helpers.stats as statshelper
@@ -349,12 +349,28 @@ def badges(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def blocks(v):
+	sort = request.values.get("sort")
+
+	page = get_page()
+
 	blocks = g.db.query(UserBlock).options(
 			joinedload(UserBlock.user),
 			joinedload(UserBlock.target),
-		).order_by(UserBlock.created_utc.desc())
+		)
 
-	return render_template("blocks.html", v=v, blocks=blocks)
+	total = blocks.count()
+
+	if sort == "user":
+		key = asc(text('users_1_username'))
+	elif sort == "target":
+		key = asc(text('users_2_username'))
+	else:
+		sort = "time"
+		key = UserBlock.created_utc.desc()
+
+	blocks = blocks.order_by(key).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE)
+
+	return render_template("blocks.html", v=v, blocks=blocks, sort=sort, total=total, page=page)
 
 @app.get("/notification_mutes")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
