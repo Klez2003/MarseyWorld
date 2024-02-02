@@ -84,6 +84,7 @@ if SITE_NAME == 'rDrama':
 		'(?<!\w)needful': 'sneedful',
 		'think tank': 'twink tank',
 		"ya'll": "y'all",
+		'chiobu(?!\))': 'X (formerly Chiobu)',
 	}
 
 PROFANITIES = {
