@@ -10,9 +10,14 @@ for (const table of datatables) {
 	table.classList.remove('d-none')
 }
 
-$('.datatable').on('page.dt', function(e) {
+function register_elements_datatables(e) {
 	setTimeout(function () {
 		register_new_elements(e.currentTarget);
 		bs_trigger(e.currentTarget);
 	}, 200);
-});
+}
+
+$('.datatable').on('length.dt', register_elements_datatables)
+$('.datatable').on('order.dt', register_elements_datatables)
+$('.datatable').on('page.dt', register_elements_datatables)
+$('.datatable').on('search.dt', register_elements_datatables)
