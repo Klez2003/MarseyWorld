@@ -85,6 +85,7 @@ if SITE_NAME == 'rDrama':
 		'think tank': 'twink tank',
 		"ya'll": "y'all",
 		'chiobu(?!\))': 'X (formerly Chiobu)',
+		'redditors(?! \()': 'redditors (derogatory)',
 	}
 
 PROFANITIES = {
