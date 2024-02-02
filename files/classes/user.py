@@ -84,7 +84,7 @@ class User(Base):
 	received_award_count = Column(Integer, default=0)
 	created_utc = Column(Integer)
 	admin_level = Column(Integer, default=DEFAULT_ADMIN_LEVEL)
-	last_active = Column(Integer, default=0, nullable=False)
+	last_active = Column(Integer, default=0)
 	coins_spent = Column(Integer, default=0)
 	coins_spent_on_hats = Column(Integer, default=0)
 	lootboxes_bought = Column(Integer, default=0)
@@ -120,7 +120,7 @@ class User(Base):
 	is_banned = Column(Integer, ForeignKey("users.id"))
 	unban_utc = Column(Integer)
 	ban_reason = deferred(Column(String))
-	is_muted = Column(Boolean, default=False, nullable=False)
+	is_muted = Column(Boolean, default=False)
 	login_nonce = Column(Integer, default=0)
 	coins = Column(Integer, default=DEFAULT_COINS)
 	truescore = Column(Integer, default=0)
@@ -157,7 +157,7 @@ class User(Base):
 	grinch = Column(Boolean, default=SITE_NAME != 'rDrama') #don't put in an if condition, it will cause an error bc it has a not-null constraint
 
 	if IS_HOMOWEEN():
-		zombie = Column(Integer, default=0, nullable=False) # > 0 vaxxed; < 0 zombie
+		zombie = Column(Integer, default=0) # > 0 vaxxed; < 0 zombie
 		jumpscare = Column(Integer, default=0)
 
 	badges = relationship("Badge", order_by="Badge.created_utc", back_populates="user")

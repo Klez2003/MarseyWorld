@@ -14,7 +14,7 @@ class Vote(Base):
 	user_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
 	vote_type = Column(Integer)
 	real = Column(Boolean, default=True)
-	coins = Column(Integer, default=1, nullable=False)
+	coins = Column(Integer, default=1)
 	created_utc = Column(Integer)
 
 	user = relationship("User")
@@ -44,7 +44,7 @@ class CommentVote(Base):
 	user_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
 	vote_type = Column(Integer)
 	real = Column(Boolean, default=True)
-	coins = Column(Integer, default=1, nullable=False)
+	coins = Column(Integer, default=1)
 	created_utc = Column(Integer)
 
 	user = relationship("User")

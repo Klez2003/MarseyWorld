@@ -16,10 +16,10 @@ class AwardRelationship(Base):
 	user_id = Column(Integer, ForeignKey("users.id"))
 	post_id = Column(Integer, ForeignKey("posts.id"))
 	comment_id = Column(Integer, ForeignKey("comments.id"))
-	kind = Column(String, nullable=False)
+	kind = Column(String)
 	awarded_utc = Column(Integer)
 	created_utc = Column(Integer)
-	price_paid = Column(Integer, default = 0, nullable=False)
+	price_paid = Column(Integer, default = 0)
 	note = Column(String)
 
 	user = relationship("User", primaryjoin="AwardRelationship.user_id==User.id", back_populates="awards")
