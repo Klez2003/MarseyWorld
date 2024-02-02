@@ -41,56 +41,57 @@
 
 	<div class="overflow-x-auto mt-3 mb-5">
 		<table class="datatable table table-striped shop">
-		<thead class="bg-primary text-white">
-			<tr>
-				<th class="disable-sort-click">Hat</th>
-				<th>Name</th>
-				<th>Description</th>
-				{% if SITE == 'rdrama.net' %}
-					<th>Author</a></th>
-				{% endif %}
-				<th>Owners</th>
-				<th>Price</th>
-				<th class="disable-sort-click">Actions</th>
-				<th>Added on</th>
-			</tr>
-		</thead>
-
-		<tbody>
-			{% for hat, user in hats %}
+			<thead class="bg-primary text-white">
 				<tr>
-					<td>
-						<div class="profile-pic-75-wrapper mt-4">
-							<img loading="lazy" alt="avatar" src="{{v.profile_url}}" class="profile-pic-75">
-							<img loading="lazy" alt="{{hat.name}}" class="profile-pic-75-hat" src="{{SITE_FULL_IMAGES}}/i/hats/{{hat.name}}.webp?x=7">
-						</div>
-					</td>
-					<td>{{hat.name}}</td>
-					<td>{{hat.censored_description(v)}}</td>
+					<th class="disable-sort-click">Hat</th>
+					<th>Name</th>
+					<th>Description</th>
 					{% if SITE == 'rdrama.net' %}
-						<td>{% include "user_in_table.html" %}</td>
+						<th>Author</a></th>
 					{% endif %}
-					<td><a href="/hat_owners/{{hat.id}}">{{hat.number_sold}}</a></td>
-					<td>{{hat.price}}</td>
-					<td class="shop-table-actions" style="width:unset">
-						{% if hat.id not in owned_hat_ids and hat.is_purchasable %}
-							<div id="if-not-owned-{{hat.id}}">
-								<button type="button" id="buy-{{hat.id}}" class="btn btn-success {% if v.coins+v.marseybux < hat.price %}disabled{% endif %}" data-areyousure="postToastSwitch(this, '/buy_hat/{{hat.id}}', 'if-not-owned-{{hat.id}}', 'if-owned-{{hat.id}}', 'd-none')" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)">Buy</button>
-							</div>
-						{% endif %}
-
-						<div id="if-owned-{{hat.id}}" {% if hat.id not in owned_hat_ids %}class="d-none"{% endif %}>
-							<button type="button" id="equip-{{hat.id}}" class="equip {% if hat.id in v.equipped_hat_ids %}d-none{% endif %} btn btn-success" data-nonce="{{g.nonce}}" data-onclick="equip_hat(this, '{{hat.id}}', '{{hat.name}}')">Equip</button>
-
-							<button type="button" id="unequip-{{hat.id}}" class="unequip {% if hat.id not in v.equipped_hat_ids %}d-none{% endif %} btn btn-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this, '/unequip_hat/{{hat.id}}', 'equip-{{hat.id}}', 'unequip-{{hat.id}}', 'd-none')">Unequip</button>
-						</div>
-					</td>
-
-					<td data-time="{{hat.created_utc}}"></td>
+					<th>Owners</th>
+					<th>Price</th>
+					<th class="disable-sort-click">Actions</th>
+					<th>Added on</th>
 				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
+			</thead>
+
+			<tbody>
+				{% for hat, user in hats %}
+					<tr>
+						<td>
+							<div class="profile-pic-75-wrapper mt-4">
+								<img loading="lazy" alt="avatar" src="{{v.profile_url}}" class="profile-pic-75">
+								<img loading="lazy" alt="{{hat.name}}" class="profile-pic-75-hat" src="{{SITE_FULL_IMAGES}}/i/hats/{{hat.name}}.webp?x=7">
+							</div>
+						</td>
+						<td>{{hat.name}}</td>
+						<td>{{hat.censored_description(v)}}</td>
+						{% if SITE == 'rdrama.net' %}
+							<td>{% include "user_in_table.html" %}</td>
+						{% endif %}
+						<td><a href="/hat_owners/{{hat.id}}">{{hat.number_sold}}</a></td>
+						<td>{{hat.price}}</td>
+						<td class="shop-table-actions" style="width:unset">
+							{% if hat.id not in owned_hat_ids and hat.is_purchasable %}
+								<div id="if-not-owned-{{hat.id}}">
+									<button type="button" id="buy-{{hat.id}}" class="btn btn-success {% if v.coins+v.marseybux < hat.price %}disabled{% endif %}" data-areyousure="postToastSwitch(this, '/buy_hat/{{hat.id}}', 'if-not-owned-{{hat.id}}', 'if-owned-{{hat.id}}', 'd-none')" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)">Buy</button>
+								</div>
+							{% endif %}
+
+							<div id="if-owned-{{hat.id}}" {% if hat.id not in owned_hat_ids %}class="d-none"{% endif %}>
+								<button type="button" id="equip-{{hat.id}}" class="equip {% if hat.id in v.equipped_hat_ids %}d-none{% endif %} btn btn-success" data-nonce="{{g.nonce}}" data-onclick="equip_hat(this, '{{hat.id}}', '{{hat.name}}')">Equip</button>
+
+								<button type="button" id="unequip-{{hat.id}}" class="unequip {% if hat.id not in v.equipped_hat_ids %}d-none{% endif %} btn btn-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this, '/unequip_hat/{{hat.id}}', 'equip-{{hat.id}}', 'unequip-{{hat.id}}', 'd-none')">Unequip</button>
+							</div>
+						</td>
+
+						<td data-time="{{hat.created_utc}}"></td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
 
 	<link rel="stylesheet" href="{{('css/datatables.css') | asset}}">
 	<script defer src="{{'js/vendor/jquery.js' | asset}}"></script>
