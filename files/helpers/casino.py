@@ -42,10 +42,10 @@ def get_game_leaderboard(game):
 		CasinoGame).join(User).order_by(CasinoGame.winnings.desc()).filter(CasinoGame.kind == game, CasinoGame.created_utc > timestamp_24h_ago).limit(1).one_or_none()
 
 	biggest_loss_all_time = g.db.query(CasinoGame.user_id, User.username, CasinoGame.currency, CasinoGame.winnings).select_from(
-		CasinoGame).join(User).order_by(CasinoGame.winnings.asc()).filter(CasinoGame.kind == game, CasinoGame.created_utc > timestamp_all_time).limit(1).one_or_none()
+		CasinoGame).join(User).order_by(CasinoGame.winnings).filter(CasinoGame.kind == game, CasinoGame.created_utc > timestamp_all_time).limit(1).one_or_none()
 
 	biggest_loss_last_24h = g.db.query(CasinoGame.user_id, User.username, CasinoGame.currency, CasinoGame.winnings).select_from(
-		CasinoGame).join(User).order_by(CasinoGame.winnings.asc()).filter(CasinoGame.kind == game, CasinoGame.created_utc > timestamp_24h_ago).limit(1).one_or_none()
+		CasinoGame).join(User).order_by(CasinoGame.winnings).filter(CasinoGame.kind == game, CasinoGame.created_utc > timestamp_24h_ago).limit(1).one_or_none()
 
 	if not biggest_win_all_time:
 		biggest_win_all_time = [None, None, None, 0]

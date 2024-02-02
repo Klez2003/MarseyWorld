@@ -81,7 +81,7 @@ class Leaderboard:
 
 	@classmethod
 	def rank_filtered_rank_label_by_asc_sum(cls, criteria):
-		return func.rank().over(order_by=func.sum(criteria).asc()).label("rank")
+		return func.rank().over(order_by=func.sum(criteria)).label("rank")
 
 	@classmethod
 	def rank_filtered_rank_label_by_desc_avg(cls, criteria1, criteria2):

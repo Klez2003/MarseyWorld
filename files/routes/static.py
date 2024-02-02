@@ -1,7 +1,7 @@
 import os
 from shutil import copyfile
 
-from sqlalchemy import func, asc, text
+from sqlalchemy import func, text
 from files.helpers.media import *
 
 import files.helpers.stats as statshelper
@@ -361,9 +361,9 @@ def blocks(v):
 	total = blocks.count()
 
 	if sort == "user":
-		key = asc(text('users_1_username'))
+		key = text('users_1_username')
 	elif sort == "target":
-		key = asc(text('users_2_username'))
+		key = text('users_2_username')
 	else:
 		sort = "time"
 		key = UserBlock.created_utc.desc()
