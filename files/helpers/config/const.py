@@ -839,6 +839,8 @@ EIGHTBALL_REPLIES = ('<b style="color:#7FEC11">The 8-Ball Says: It is certain.</
 ### END COMMENT NOTIFICATIONS ###
 
 discounts = {
+	#verified email badge
+	2: 0.02,
 	# Big Spender badges, 2pp additive discount each
 	69: 0.02,
 	70: 0.02,
