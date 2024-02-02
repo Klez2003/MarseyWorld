@@ -6,24 +6,36 @@
 		<table class="table table-striped mb-5">
 			<thead class="bg-primary text-white">
 				<tr>
-					<th>#</th>
-					<th>Name</th>
-					<th>Last Active</th>
-					<th>Truescore</th>
-					<th>Shadowbanned by</th>
-					<th>Shadowban reason</th>
+					<th class="disable-sort-click" {% if sort=="name" %}disabled{% endif %}>
+						<a href="?sort=name">Name</a>
+					</th>
+					<th class="disable-sort-click" {% if sort=="truescore" %}disabled{% endif %}>
+						<a href="?sort=truescore">Truescore</a>
+					</th>
+					<th class="disable-sort-click" {% if sort=="shadowban_reason" %}disabled{% endif %}>
+						<a href="?sort=shadowban_reason">Shadowban reason</a>
+					</th>
+					<th class="disable-sort-click" {% if sort=="shadowbanned_by" %}disabled{% endif %}>
+						<a href="?sort=shadowbanned_by">Shadowbanned by</a>
+					</th>
+					<th class="disable-sort-click" {% if sort=="last_active" %}disabled{% endif %}>
+						<a href="?sort=last_active">Last Active</a>
+					</th>
 				</tr>
 			</thead>
 			{% for user in users %}
 				<tr>
-					<td>{{loop.index}}</td>
 					<td data-sort-key="{{user.username.lower() if user else ''}}">{%- include 'user_in_table.html' -%}</td>
 					<td {% if user.last_active %}data-time="{{user.last_active}}"{% endif %}></td>
 					<td>{{user.truescore}}</td>
-					<td><a href="/@{{user.shadowbanner}}">{{user.shadowbanner}}</a></td>
+					<td><a href="/{{user.shadowbanned_by}}">{{user.shadowbanned_by}}</a></td>
 					<td>{{user.ban_reason | safe}}</td>
 				</tr>
 			{% endfor %}
 		</table>
 	</div>
+{% endblock %}
+
+{% block pagenav %}
+	{% include "pagination.html" %}
 {% endblock %}

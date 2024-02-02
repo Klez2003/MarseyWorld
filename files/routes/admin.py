@@ -277,9 +277,29 @@ def revert_actions(v, username):
 @limiter.limit(DEFAULT_RATELIMIT, key_func=get_ID)
 @admin_level_required(PERMS['USER_SHADOWBAN'])
 def shadowbanned(v):
-	users = g.db.query(User).filter(User.shadowbanned != None).order_by(User.ban_reason).all()
+	sort = request.values.get("sort")
 
-	return render_template("admin/shadowbanned.html", v=v, users=users)
+	page = get_page()
+
+	users = g.db.query(User).filter(User.shadowbanned != None)
+
+	total = users.count()
+
+	if sort == "name":
+		key = User.username
+	elif sort == "truescore":
+		key = User.truescore.desc()
+	elif sort == "shadowban_reason":
+		key = User.ban_reason
+	elif sort == "shadowbanned_by":
+		key = User.shadowbanned
+	else:
+		sort = "last_active"
+		key = User.last_active
+
+	users = users.order_by(key).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE)
+
+	return render_template("admin/shadowbanned.html", v=v, users=users, sort=sort, total=total, page=page)
 
 
 @app.get("/admin/image_posts")
