@@ -254,7 +254,7 @@ def revert_actions(v, username):
 
 	for user in users:
 		user.shadowbanned = None
-		user.unban_utc = 0
+		user.unban_utc = None
 		user.ban_reason = None
 		if user.is_banned:
 			user.is_banned = None
@@ -263,7 +263,7 @@ def revert_actions(v, username):
 
 		for u in get_alt_graph(user.id):
 			u.shadowbanned = None
-			u.unban_utc = 0
+			u.unban_utc = None
 			u.ban_reason = None
 			if u.is_banned:
 				u.is_banned = None
@@ -1193,7 +1193,7 @@ def unban_user(fullname, v):
 		abort(403, "You can't undo a ban award!")
 
 	user.is_banned = None
-	user.unban_utc = 0
+	user.unban_utc = None
 	if not user.shadowbanned:
 		user.ban_reason = None
 	send_repeatable_notification(user.id, f"@{v.username} (a site admin) has unbanned you!")
@@ -1202,7 +1202,7 @@ def unban_user(fullname, v):
 	for x in get_alt_graph(user.id):
 		if x.is_banned: send_repeatable_notification(x.id, f"@{v.username} (a site admin) has unbanned you!")
 		x.is_banned = None
-		x.unban_utc = 0
+		x.unban_utc = None
 		if not x.shadowbanned:
 			x.ban_reason = None
 		g.db.add(x)

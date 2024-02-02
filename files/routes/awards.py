@@ -290,7 +290,7 @@ def award_thing(v, thing_type, id):
 			author.unban_utc -= 86400
 			send_repeatable_notification(author.id, "Your ban duration has been reduced by 1 day!")
 		else:
-			author.unban_utc = 0
+			author.unban_utc = None
 			author.is_banned = None
 			if not author.shadowbanned:
 				author.ban_reason = None

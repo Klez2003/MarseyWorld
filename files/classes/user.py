@@ -118,7 +118,7 @@ class User(Base):
 	enemies = deferred(Column(String))
 	enemies_html = deferred(Column(String))
 	is_banned = Column(Integer, ForeignKey("users.id"))
-	unban_utc = Column(Integer, default=0)
+	unban_utc = Column(Integer)
 	ban_reason = deferred(Column(String))
 	is_muted = Column(Boolean, default=False, nullable=False)
 	login_nonce = Column(Integer, default=0)
@@ -654,7 +654,7 @@ class User(Base):
 	@property
 	@lazy
 	def unban_string(self):
-		if self.unban_utc == 0:
+		if not self.unban_utc:
 			return "permanently banned"
 
 		wait = self.unban_utc - int(time.time())
@@ -1035,7 +1035,7 @@ class User(Base):
 			else:
 				self.unban_utc = int(time.time()) + (days * 86400)
 		else:
-			self.unban_utc = 0
+			self.unban_utc = None
 
 		self.is_banned = admin.id if admin else AUTOJANNY_ID
 		if reason and len(reason) <= 256:
@@ -1046,12 +1046,12 @@ class User(Base):
 	@property
 	@lazy
 	def is_suspended(self):
-		return (self.is_banned and (self.unban_utc == 0 or self.unban_utc > time.time()))
+		return (self.is_banned and (not self.unban_utc or self.unban_utc > time.time()))
 
 	@property
 	@lazy
 	def is_permabanned(self):
-		return (self.is_banned and self.unban_utc == 0)
+		return (self.is_banned and not self.unban_utc)
 
 	@property
 	@lazy

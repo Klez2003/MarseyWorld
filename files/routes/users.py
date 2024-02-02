@@ -8,6 +8,7 @@ import gevent
 import qrcode
 from sqlalchemy.orm import aliased, load_only
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy import nullslast
 
 from files.classes import *
 from files.classes.transactions import *
@@ -334,7 +335,7 @@ def banned(v):
 
 	users = g.db.query(User).filter(
 		User.is_banned != None,
-		or_(User.unban_utc == 0, User.unban_utc > time.time()),
+		or_(User.unban_utc == None, User.unban_utc > time.time()),
 	)
 
 	total = users.count()
@@ -349,7 +350,7 @@ def banned(v):
 		key = User.is_banned
 	else:
 		sort = "unban_utc"
-		key = User.unban_utc.desc()
+		key = nullslast(User.unban_utc)
 
 	users = users.order_by(key).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE)
 
