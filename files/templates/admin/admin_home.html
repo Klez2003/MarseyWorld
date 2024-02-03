@@ -136,6 +136,13 @@
 		{% endif %}
 	</ul>
 
+	{% if POLL_THREAD and v.admin_level >= PERMS['USE_ADMIGGER_THREADS'] %}
+		<h4>Polls</h4>
+		<ul class="pb-3">
+			<li><a href="/post/{{POLL_THREAD}}">Hold Polls</a></li>
+		</ul>
+	{%- endif %}
+
 	{% if v.admin_level >= PERMS['SITE_SETTINGS'] %}
 		{% for setting in SITE_SETTINGS.keys() %}
 			{% if not (setting == "offline_mode" and v.admin_level < PERMS["SITE_OFFLINE_MODE"]) %}
