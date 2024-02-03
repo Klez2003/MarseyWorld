@@ -259,10 +259,6 @@ def log_item(id, v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def directory(v):
-	if SITE_NAME != 'rDrama':
-		abort(404)
-
-
 	return render_template("directory.html", v=v)
 
 @app.get("/api")

@@ -1,103 +1,104 @@
 {% extends "default.html" %}
 {% block pagetitle %}Directory{% endblock %}
 {% block pagetype %}directory{% endblock %}
-{# Title (~25char max), Description (~80char max),
-	Icon (fa-foo-bar), Color (#ff0000), URL (/submit/hats) #}
-{%- set DIRECTORY = [] -%}
+
+{%- set DIRECTORY = [
+		(
+			'Donate',
+			'',
+			'fa-dollar-sign', 'green',
+			'/donate',
+		),
+		(
+			'Bugs / Suggestions',
+			'Something broken? Improvements?',
+			'fa-bug', '#6b8e23',
+			'/post/' ~ BUG_THREAD,
+		),
+		(
+			'Changelog',
+			'Log of all site changes.',
+			'fa-clipboard', '#ffffff',
+			'/post/' ~ CHANGELOG_THREAD,
+		),
+		(
+			'Submit Emojis',
+			'Submit new emojis for the site.',
+			'fa-smile-beam', '#fec83c',
+			'/submit/emojis',
+		),
+		(
+			'Submit Sidebar Art',
+			'Original ' ~ SITE_NAME ~ '-themed works.',
+			'fa-sidebar', '#f5fffa',
+			'/post/' ~ SIDEBAR_REQUEST_THREAD,
+		),
+		(
+			'Submit Banner Art',
+			'Original ' ~ SITE_NAME ~ '-themed works.',
+			'fa-landscape', '#87cefa',
+			'/post/' ~ BANNER_REQUEST_THREAD,
+		),
+		(
+			'View All Emojis',
+			'',
+			'fa-smile-beam', '#fec83c',
+			'/emojis/marsey',
+		),
+		(
+			'View All Sidebar Pictures',
+			'',
+			'fa-sidebar', '#f5fffa',
+			'/post/' ~ SIDEBAR_THREAD,
+			),
+		(
+			'View All Banner Pictures',
+			'',
+			'fa-landscape', '#87cefa',
+			'/post/' ~ BANNER_THREAD,
+			),
+		(
+			'View All Snappy Quotes',
+			'',
+			'fa-robot', '#adff2f',
+			'/post/' ~ SNAPPY_THREAD,
+		),
+	] -%}
+
 
 {%- if SITE_NAME == 'rDrama' -%}
-{%- do DIRECTORY.extend([
-	(
-		'Bugs / Suggestions',
-		'Something broken? Improvements?',
-		'fa-bug', '#6b8e23',
-		'/post/' ~ BUG_THREAD,
-	),
-	(
-		'Changelog',
-		'Log of all site changes.',
-		'fa-clipboard', '#ffffff',
-		'/post/' ~ CHANGELOG_THREAD,
-	),
-	(
-		'Submit Emojis',
-		'Submit new emojis for the site.',
-		'fa-smile-beam', '#fec83c',
-		'/submit/emojis',
-	),
-	(
-		'Submit Hats',
-		'Submit a Hat to be added.',
-		'fa-hat-cowboy', '#7c603e',
-		'/submit/hats',
-	),
-	(
-		'Update Emojis or Hats',
-		'Ask for an emoji or a hat to be updated with a better version.',
-		'fa-smile-beam', '#fec83c',
-		'/post/103085',
-	),
-	(
-		'Submit Sidebar Art',
-		'Original rDrama-themed works.',
-		'fa-sidebar', '#f5fffa',
-		'/post/75878',
-	),
-	(
-		'Submit Banner Art',
-		'Original chud-repellant works.',
-		'fa-landscape', '#87cefa',
-		'/post/35835',
-	),
-	(
-		'Submit Snappy Quotes',
-		'Sentient.',
-		'fa-robot', '#adff2f',
-		'/post/33652',
-	),
-	(
-		'Emoji Commissions',
-		'Request an Emoji to be made.',
-		'fa-coins', '#ffd700',
-		'/post/37677',
-	),
-	(
-		'Reportmaxxxing Bounties',
-		'Request a redditor be banned.',
-		'fa-gavel', '#dc3545',
-		'/post/215970',
-	),
-	(
-		'View All Emojis',
-		'',
-		'fa-smile-beam', '#fec83c',
-		'/emojis/Marsey',
-	),
-	(
-		'View All Sidebar Pictures',
-		'',
-		'fa-sidebar', '#f5fffa',
-		'/post/37696',
-	),
-	(
-		'View All Banner Pictures',
-		'',
-		'fa-landscape', '#87cefa',
-		'/post/37697',
-	),
-	(
-		'View All Snappy Quotes',
-		'',
-		'fa-robot', '#adff2f',
-		'/post/37749',
-	),
-	(
-		'Donate',
-		'',
-		'fa-dollar-sign', 'green',
-		'/donate',
-	),
-])-%}
+	{%- do DIRECTORY.extend([
+		(
+			'Submit Hats',
+			'Submit a Hat to be added.',
+			'fa-hat-cowboy', '#7c603e',
+			'/submit/hats',
+		),
+		(
+			'Update Emojis or Hats',
+			'Ask for an emoji or a hat to be updated with a better version or for emoji tags to be changed.',
+			'fa-smile-beam', '#fec83c',
+			'/post/103085',
+		),
+		(
+			'Submit Snappy Quotes',
+			'Sentient.',
+			'fa-robot', '#adff2f',
+			'/post/33652',
+		),
+		(
+			'Emoji Commissions',
+			'Request an Emoji to be made.',
+			'fa-coins', '#ffd700',
+			'/post/37677',
+		),
+		(
+			'Reportmaxxxing Bounties',
+			'Request a redditor be banned.',
+			'fa-gavel', '#dc3545',
+			'/post/215970',
+		),
+	])-%}
 {%- endif -%}
 
 {% block content %}
