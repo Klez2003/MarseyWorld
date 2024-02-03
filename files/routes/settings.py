@@ -277,8 +277,12 @@ def settings_personal_post(v):
 					add_notif(cid, x, text, pushnotif_url=f'{SITE_FULL}{v.url}')
 
 		if v.friends:
-			removed_users = NOTIFY_USERS(v.friends, v) - NOTIFY_USERS(friends, v)
-			notify_removed_users(removed_users, 'friends')
+			try:
+				removed_users = NOTIFY_USERS(v.friends, v, charge=False) - NOTIFY_USERS(friends, v, charge=False)
+			except TypeError:
+				pass
+			else:
+				notify_removed_users(removed_users, 'friends')
 
 		v.friends = friends
 		v.friends_html=friends_html
@@ -307,8 +311,12 @@ def settings_personal_post(v):
 					add_notif(cid, x, text, pushnotif_url=f'{SITE_FULL}{v.url}')
 
 		if v.enemies:
-			removed_users = NOTIFY_USERS(v.enemies, v) - NOTIFY_USERS(enemies, v)
-			notify_removed_users(removed_users, 'enemies')
+			try:
+				removed_users = NOTIFY_USERS(v.enemies, v, charge=False) - NOTIFY_USERS(enemies, v, charge=False)
+			except TypeError:
+				pass
+			else:
+				notify_removed_users(removed_users, 'enemies')
 
 		v.enemies = enemies
 		v.enemies_html=enemies_html

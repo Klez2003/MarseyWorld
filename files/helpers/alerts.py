@@ -137,7 +137,7 @@ def add_notif(cid, uid, text, pushnotif_url='', check_existing=True):
 		push_notif({uid}, 'New notification', text, pushnotif_url)
 
 
-def NOTIFY_USERS(text, v, oldtext=None, ghost=False, obj=None, followers_ping=True, commenters_ping_post_id=None):
+def NOTIFY_USERS(text, v, oldtext=None, ghost=False, obj=None, followers_ping=True, commenters_ping_post_id=None, charge=True):
 	# Restrict young accounts from generating notifications
 	if v.age < NOTIFICATION_SPAM_AGE_THRESHOLD:
 		return set()
@@ -178,13 +178,14 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, obj=None, followers_ping=Tr
 				abort(403, f"Only admins can mention !focusgroup")
 
 			if i.group(1) == 'everyone':
-				cost = g.db.query(User).count() * 5
-				if cost > v.coins + v.marseybux:
-					abort(403, f"You need {cost} currency to mention these ping groups!")
+				if charge:
+					cost = g.db.query(User).count() * 5
+					if cost > v.coins + v.marseybux:
+						abort(403, f"You need {cost} currency to mention these ping groups!")
 
-				v.charge_account('coins/marseybux', cost)
-				if obj:
-					obj.ping_cost += cost
+					v.charge_account('coins/marseybux', cost)
+					if obj:
+						obj.ping_cost += cost
 				return 'everyone'
 			elif i.group(1) == 'jannies':
 				group = None
@@ -224,13 +225,14 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, obj=None, followers_ping=Tr
 				if i.group(1) in {'biofoids','neofoids','jannies'}:
 					coin_receivers.update(member_ids)
 
-		if cost:
-			v.charge_account('coins/marseybux', cost)
-			if obj:
-				obj.ping_cost += cost
+		if charge:
+			if cost:
+				v.charge_account('coins/marseybux', cost)
+				if obj:
+					obj.ping_cost += cost
 
-		if coin_receivers:
-			g.db.query(User).options(load_only(User.id)).filter(User.id.in_(coin_receivers)).update({ User.coins: User.coins + 5 })
+			if coin_receivers:
+				g.db.query(User).options(load_only(User.id)).filter(User.id.in_(coin_receivers)).update({ User.coins: User.coins + 5 })
 
 	if len(notify_users) > 400 and v.admin_level < PERMS['POST_COMMENT_INFINITE_PINGS']:
 		abort(403, "You can only notify a maximum of 400 users.")
