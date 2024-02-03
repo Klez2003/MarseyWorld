@@ -61,7 +61,7 @@
 			{% endif %}
 
 			{% if standalone and level == 1 %}
-				<div id="post-info-{{c.id}}" class="text-break post-info mb-1 mr-2 {% if request.path.startswith('/notifications') %}mt-5{% elif request.path == '/search/messages' %}mt-6{% else %}mt-3{% endif %}">
+				<div id="post-info-{{c.id}}" class="post-info mb-1 mr-2 {% if request.path.startswith('/notifications') %}mt-5{% elif request.path == '/search/messages' %}mt-6{% else %}mt-3{% endif %}">
 					{% if c.parent_post and c.post.nsfw %}
 						<span class="badge badge-danger text-small-extra mr-1">NSFW</span>
 					{% endif %}
@@ -200,7 +200,7 @@
 									<span class="pronouns" style="color:#{{c.author.flaircolor}} !important;border-color:#{{c.author.flaircolor}} !important">{{c.author.pronouns_display}}</span>
 								{% endif %}
 								{% if c.author.flair_html %}
-									&nbsp;<bdi class="text-break" style="color: #{{c.author.flaircolor}}">&nbsp;{{c.author.flair_html | safe}}</bdi>
+									&nbsp;<bdi style="color: #{{c.author.flaircolor}}">&nbsp;{{c.author.flair_html | safe}}</bdi>
 								{% endif %}
 							{% endif %}
 

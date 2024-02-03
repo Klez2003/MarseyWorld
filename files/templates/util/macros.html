@@ -91,7 +91,7 @@
 			<span class="pronouns" style="color:#{{p.author.flaircolor}} !important;border-color:#{{p.author.flaircolor}} !important">{{p.author.pronouns_display}}</span>
 		{% endif %}
 		{% if p.author.flair_html %}
-			<bdi class="text-break ml-2" style="color: #{{p.author.flaircolor}}">{{p.author.flair_html | safe}}</bdi>
+			<bdi class="ml-2" style="color: #{{p.author.flaircolor}}">{{p.author.flair_html | safe}}</bdi>
 		{% endif %}
 	{% endif %}
 	<span class="ml-2 d-inline-block" data-bs-toggle="tooltip" data-bs-placement="bottom" data-nonce="{{g.nonce}}" data-onmouseover="timestamp(this, '{{p.created_utc}}')" id="timestamp-{{p.id}}">&nbsp;{{p.age_string}}</span>
@@ -270,7 +270,7 @@
 								{{messages[m.quotes].username}}
 							{%- endif -%}
 						</span></span>:
-						<em class="QuotedMessage text-break">
+						<em class="QuotedMessage">
 							{%- if quote_exists -%}
 								{%- if v.slurreplacer -%}
 									{{messages[m.quotes].text_censored}}
@@ -283,7 +283,7 @@
 				</div>
 
 				<div class="d-flex">
-					<span class="chat-message text-black text-break">
+					<span class="chat-message text-black">
 						{% if m %}
 							{% if v.slurreplacer %}
 								{{m.text_html_censored | safe}}

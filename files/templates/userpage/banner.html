@@ -431,7 +431,7 @@
 
 					{% if FEATURES['USERS_PROFILE_BODYTEXT'] -%}
 						{% if u.bio_html and can_see(v, u) %}
-							<div class="text-muted text-break mt-1" id="profile-mobile--bio">{{u.bio_html | safe}}</div>
+							<div class="text-muted mt-1" id="profile-mobile--bio">{{u.bio_html | safe}}</div>
 						{% endif %}
 
 						{% if u.friends_html and can_see(v, u) %}
