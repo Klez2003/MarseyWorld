@@ -45,7 +45,7 @@ def reddit_post(subreddit, v, path):
 @app.get("/marseys")
 @app.get("/emojis")
 def marseys_redirect():
-	return redirect("/emojis/Marsey")
+	return redirect("/emojis/marsey")
 
 @cache.cached(make_cache_key=lambda kind, nsfw:f"emoji_list_{kind}_{nsfw}")
 def get_emoji_list(kind, nsfw):
