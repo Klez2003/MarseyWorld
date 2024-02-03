@@ -335,7 +335,7 @@ def image_posts_listing(v):
 def reported_posts(v):
 	page = get_page()
 
-	listing = g.db.query(Post).options(load_only(Post.id)).filter_by(
+	listing = g.db.query(Post).distinct(Post.id).options(load_only(Post.id)).filter_by(
 				is_approved=None,
 				is_banned=False,
 				deleted_utc=0
@@ -358,7 +358,7 @@ def reported_posts(v):
 def reported_comments(v):
 	page = get_page()
 
-	listing = g.db.query(Comment).options(load_only(Comment.id)).filter_by(
+	listing = g.db.query(Comment).distinct(Comment.id).options(load_only(Comment.id)).filter_by(
 				is_approved=None,
 				is_banned=False,
 				deleted_utc=0
