@@ -503,8 +503,6 @@ def update_emoji(v):
 	new_name = request.values.get('new_name', '').lower().strip()
 	tags = request.values.get('tags', '').lower().strip().replace('  ', ' ')
 
-	tags = delete_unnecessary_tags(tags, new_name)
-
 	nsfw = request.values.get('nsfw', '').strip()		
 
 	existing = g.db.get(Emoji, name)
@@ -565,6 +563,7 @@ def update_emoji(v):
 		updated = True
 
 	if tags and existing.tags != tags:
+		tags = delete_unnecessary_tags(tags, new_name)
 		if not tags_regex.fullmatch(tags):
 			abort(400, "Invalid tags!")
 		existing.tags += f" {tags}"
