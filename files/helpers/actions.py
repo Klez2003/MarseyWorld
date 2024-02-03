@@ -153,6 +153,7 @@ def execute_snappy(post, v):
 					user_id=snappy.id,
 					kind="glowie",
 					post_id=post.id,
+					awarded_utc=time.time(),
 				)
 			g.db.add(award_object)
 
