@@ -189,7 +189,7 @@ PERMS = { # Minimum admin_level to perform action.
 	'ORGIES': 2,
 	'POST_BETS': 2,
 	'POST_BETS_DISTRIBUTE': 2,
-	'DELETE_MEDIA': 3,
+	'DELETE_MEDIA': 2,
 
 	'ADMIN_REMOVE': 3,
 	'ADMIN_ACTIONS_REVERT': 3,
