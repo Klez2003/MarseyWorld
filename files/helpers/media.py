@@ -96,7 +96,7 @@ def process_audio(file, v, old=None):
 	new = old + extension
 
 	try:
-		ffmpeg.input(old).output(new, loglevel="quiet", map_metadata=-1, acodec="copy").run()
+		ffmpeg.input(old).output(new, loglevel="quiet", map_metadata=-1).run()
 	except:
 		os.remove(old)
 		if os.path.isfile(new):
