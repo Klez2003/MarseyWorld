@@ -116,7 +116,7 @@ def process_audio(file, v, old=None):
 	return new
 
 
-def convert_to_mp4(old, new):
+def reencode_video(old, new):
 	tmp = new.replace('.mp4', '-t.mp4')
 	try:
 		ffmpeg.input(old).output(tmp, loglevel="quiet", map_metadata=-1).run()
@@ -156,7 +156,7 @@ def process_video(file, v):
 		abort(400, "Something went wrong processing your video and it might be on our end. Please try uploading it to https://pomf2.lain.la and post the link instead.")
 
 	copyfile(old, new)
-	gevent.spawn(convert_to_mp4, old, new)
+	gevent.spawn(reencode_video, old, new)
 
 	media = Media(
 		kind='video',
