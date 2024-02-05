@@ -155,8 +155,19 @@ def process_video(file, v):
 		os.remove(old)
 		abort(400, "Something went wrong processing your video and it might be on our end. Please try uploading it to https://pomf2.lain.la and post the link instead.")
 
-	copyfile(old, new)
-	gevent.spawn(reencode_video, old, new)
+	if codec != 'h264':
+		copyfile(old, new)
+		gevent.spawn(reencode_video, old, new)
+	else:
+		try:
+			ffmpeg.input(old).output(new, loglevel="quiet", map_metadata=-1, acodec="copy", vcodec="copy").run()
+		except:
+			os.remove(old)
+			if os.path.isfile(new):
+				os.remove(new)
+			abort(400)
+
+		os.remove(old)
 
 	media = Media(
 		kind='video',
