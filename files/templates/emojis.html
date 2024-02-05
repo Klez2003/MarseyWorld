@@ -13,7 +13,7 @@
 			</button>
 			<div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 31px, 0px); max-height: 50vh;overflow: auto;width:min(95vw, 900px)">
 				{% for kind in EMOJI_KINDS %}
-					<a class="dropdown-item" href="/emojis/{{kind}}"><img loading="lazy" src="{{SITE_FULL_IMAGES}}/e/{{kind.lower()}}.webp" alt=":{{kind.lower()}}:" class="mr-2">{{kind}}</a>
+					<a class="dropdown-item" href="/emojis/{{kind.lower()}}"><img loading="lazy" src="{{SITE_FULL_IMAGES}}/e/{{kind.lower()}}.webp" alt=":{{kind.lower()}}:" class="mr-2">{{kind}}</a>
 				{% endfor %}
 			</div>
 		</div>
