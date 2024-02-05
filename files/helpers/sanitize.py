@@ -39,7 +39,7 @@ allowed_styles = ['background-color', 'color', 'filter', 'font-weight', 'text-al
 def allowed_attributes(tag, name, value):
 
 	if name == 'style':
-		if 'transform' in value.lower() and 'scale' in value.lower() and ('rotate' in value.lower() or 'skew'  in value.lower()):
+		if 'transform' in value.lower() and 'scale' in value.lower() and ('rotate' in value.lower() or 'skew' in value.lower()):
 			return False
 		return True
 
