@@ -159,7 +159,7 @@ def process_video(file, v):
 
 	print(codec)
 	print(bitrate, flush=True)
-	if codec != 'h264' or bitrate > 1000000:
+	if codec != 'h264' or bitrate > 3000000:
 		copyfile(old, new)
 		gevent.spawn(reencode_video, old, new)
 	else:
