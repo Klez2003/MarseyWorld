@@ -2148,4 +2148,11 @@ def change_under_siege_post(v):
 		thresholds[key] = int(request.values.get(key))
 
 	cache.set("under_siege_thresholds", thresholds)
+
+	ma = ModAction(
+		kind="change_under_siege",
+		user_id=v.id,
+	)
+	g.db.add(ma)
+
 	return {"message": "Thresholds changed successfully!"}
