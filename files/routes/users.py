@@ -834,8 +834,13 @@ def visitors(v, username):
 @cache.memoize()
 def userpagelisting(user, v=None, page=1, sort="new", t="all"):
 	posts = g.db.query(Post).filter_by(author_id=user.id, is_pinned=False).options(load_only(Post.id))
+
 	if not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or v.id == user.id)):
-		posts = posts.filter_by(is_banned=False, private=False, ghost=False, deleted_utc=0)
+		posts = posts.filter_by(is_banned=False, private=False, ghost=False)
+
+	if not (v and v.admin_level >= PERMS['POST_COMMENT_MODERATION']):
+		posts = posts.filter_by(deleted_utc=0)
+
 	posts = apply_time_filter(t, posts, Post)
 	total = posts.count()
 	posts = sort_objects(sort, posts, Post)
@@ -1040,6 +1045,10 @@ def u_username_comments(username, v):
 		comments = comments.filter(
 			Comment.is_banned == False,
 			Comment.ghost == False,
+		)
+
+	if not (v and v.admin_level >= PERMS['POST_COMMENT_MODERATION']):
+		comments = comments.filter(
 			Comment.deleted_utc == 0
 		)
 
