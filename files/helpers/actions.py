@@ -560,7 +560,10 @@ def execute_under_siege(v, target, body, kind):
 	g.db.add(ma)
 
 	if kind == 'message':
-		notified_ids = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['BLACKJACK_NOTIFICATIONS'])]
+		notified_ids = [x[0] for x in g.db.query(User.id).filter(
+			User.admin_level >= PERMS['BLACKJACK_NOTIFICATIONS'],
+			User.id != AEVANN_ID,
+		)]
 		for uid in notified_ids:
 			n = Notification(comment_id=target.id, user_id=uid)
 			g.db.add(n)
