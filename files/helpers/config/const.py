@@ -821,6 +821,15 @@ elif SITE == 'watchpeopledie.tv':
 		8: "P̵͇̕S̶̔̇Ȳ̴͙C̶͋͗H̵͒̉O̴̎̍ ",
 	}
 
+	DEFAULT_UNDER_SIEGE_THRESHOLDS = {
+		"chat": 1440,
+		"normal comment": 10,
+		"wall comment": 1440,
+		"post": 1440,
+		"report": 1440,
+		"modmail": 1440,
+		"message": 1440,
+	}
 elif SITE == 'devrama.net':
 	AEVANN_ID = 7
 	FEATURES['PRONOUNS'] = True
