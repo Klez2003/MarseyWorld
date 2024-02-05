@@ -329,7 +329,7 @@ def with_sigalrm_timeout(timeout):
 def remove_cuniform(sanitized):
 	if not sanitized: return ""
 	sanitized = sanitized.replace('\u200e','').replace('\u200b','').replace('\u202e','').replace("\ufeff", "").replace("\u033f","").replace("\u0589", ":")
-	sanitized = sanitized.replace("𒐪","").replace("𒐫","").replace("﷽","")
+	sanitized = sanitized.replace("𒐪","").replace("𒐫","").replace("﷽","").replace("⸻","")
 	sanitized = sanitized.replace("\r\n", "\n")
 	sanitized = sanitized.replace("’", "'")
 	return sanitized.strip()
