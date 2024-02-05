@@ -437,7 +437,7 @@ MODACTION_PRIVILEGED_TYPES = {
 								'reset_password',
 								'schedule_orgy', 'remove_orgy',
 								'insert_transaction',
-								'change_under_siege_thresholds',
+								'change_under_siege',
 							}
 MODACTION_PRIVILEGED__TYPES = {'progstack_post', 'progstack_comment',
 							'unprogstack_post', 'unprogstack_comment'}
