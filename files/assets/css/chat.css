@@ -143,6 +143,7 @@ lite-youtube {
 
 .quotes {
 	max-width: 80%;
+    overflow-y: hidden;
 }
 
 .resizable > video {
