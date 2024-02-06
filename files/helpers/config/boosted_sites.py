@@ -172,4 +172,5 @@ BOOSTED_SITES = {
 	'9gag.com',
 	'balkansirl.net',
 	'fark.com',
+	'deviantart.com',
 }
