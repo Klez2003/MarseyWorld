@@ -24,6 +24,7 @@ BOOSTED_SITES = {
 	'truthsocial.com',
 	'blacktwitterapp.com',
 	'trp.red',
+	'bsky.app',
 	##fediverse
 	#'all sites with the word "mastodon" in the domain',
 	'kiwifarms.cc',
