@@ -775,9 +775,6 @@ def mark_post_nsfw(pid, v):
 	if p.author_id != v.id and v.admin_level < PERMS['POST_COMMENT_MODERATION'] and not (p.hole and v.mods_hole(p.hole)):
 		abort(403)
 
-	if p.nsfw and v.is_permabanned:
-		abort(403)
-
 	p.nsfw = True
 	g.db.add(p)
 
