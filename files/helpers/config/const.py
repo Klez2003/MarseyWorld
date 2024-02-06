@@ -782,6 +782,7 @@ elif SITE == 'watchpeopledie.tv':
 	}
 
 	ERROR_MARSEYS[403] = "marseyconfused"
+	ERROR_MARSEYS[500] = "marseylaptopangry2"
 
 	BUG_THREAD = 61549
 
