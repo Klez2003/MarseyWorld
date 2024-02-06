@@ -116,7 +116,7 @@ def process_audio(file, v, old=None):
 	return new
 
 
-def reencode_video(old, new):
+def reencode_video(old, new, check_sizes=False):
 	tmp = new.replace('.mp4', '-t.mp4')
 	try:
 		ffmpeg.input(old).output(tmp, loglevel="quiet", map_metadata=-1).run()
@@ -125,6 +125,13 @@ def reencode_video(old, new):
 		if os.path.isfile(tmp):
 			os.remove(tmp)
 		return
+
+	if check_sizes:
+		old_size = os.stat(old).st_size
+		new_size = os.stat(tmp).st_size
+		if new_size > old_size:
+			os.remove(tmp)
+			return
 
 	os.replace(tmp, new)
 	os.remove(old)
@@ -157,9 +164,12 @@ def process_video(file, v):
 		os.remove(old)
 		abort(400, "Something went wrong processing your video and it might be on our end. Please try uploading it to https://pomf2.lain.la and post the link instead.")
 
-	if codec != 'h264' or bitrate > 3000000:
+	if codec != 'h264':
 		copyfile(old, new)
 		gevent.spawn(reencode_video, old, new)
+	elif bitrate > 3000000:
+		copyfile(old, new)
+		gevent.spawn(reencode_video, old, new, True)
 	else:
 		try:
 			ffmpeg.input(old).output(new, loglevel="quiet", map_metadata=-1, acodec="copy", vcodec="copy").run()
