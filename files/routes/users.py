@@ -149,7 +149,8 @@ def transfer_currency(v, username, currency_name, apply_tax):
 	else:
 		raise ValueError(f"Invalid currency '{currency_name}' got when transferring {amount} from {v.id} to {receiver.id}")
 
-	if CARP_ID: send_repeatable_notification(CARP_ID, log_message)
+	if CURRENCY_TRANSFER_ID:
+		send_repeatable_notification(CURRENCY_TRANSFER_ID, log_message)
 
 	send_repeatable_notification(receiver.id, notif_text)
 
