@@ -41,6 +41,7 @@ def front_all(v, hole=None):
 
 	sort = request.values.get("sort", defaultsorting)
 	t = request.values.get('t', defaulttime)
+	effortposts_only = request.values.get('effortposts_only', False)
 
 	if SITE == 'rdrama.net' and t == 'all' and sort == 'hot' and page > 1000:
 		sort = 'top'
@@ -57,7 +58,7 @@ def front_all(v, hole=None):
 	pins = session.get(f'{hole}_{sort}', default)
 
 	if not v:
-		result = cache.get(f'frontpage_{sort}_{t}_{page}_{hole}_{pins}')
+		result = cache.get(f'frontpage_{sort}_{t}_{page}_{hole}_{pins}_{effortposts_only}')
 		if result:
 			calc_users()
 			return result
@@ -71,6 +72,7 @@ def front_all(v, hole=None):
 					lt=lt,
 					hole=hole,
 					pins=pins,
+					effortposts_only=effortposts_only,
 					)
 
 	posts = get_posts(ids, v=v)
@@ -83,7 +85,7 @@ def front_all(v, hole=None):
 	result = render_template("home.html", v=v, listing=posts, total=total, sort=sort, t=t, page=page, hole=hole, home=True, pins=pins, size=size)
 
 	if not v:
-		cache.set(f'frontpage_{sort}_{t}_{page}_{hole}_{pins}', result, timeout=900)
+		cache.set(f'frontpage_{sort}_{t}_{page}_{hole}_{pins}_{effortposts_only}', result, timeout=900)
 
 	return result
 
@@ -94,7 +96,7 @@ LIMITED_WPD_HOLES = {'aftermath', 'fights', 'gore', 'medical', 'request', 'selfh
 					 'slavshit', 'sandshit'}
 
 @cache.memoize()
-def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='', gt=0, lt=0, hole=None, pins=True):
+def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='', gt=0, lt=0, hole=None, pins=True, effortposts_only=False):
 	posts = g.db.query(Post)
 
 	if v and v.hidevotedon:
@@ -112,6 +114,9 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 
 	if gt: posts = posts.filter(Post.created_utc > gt)
 	if lt: posts = posts.filter(Post.created_utc < lt)
+
+	if effortposts_only:
+		posts = posts.filter_by(effortpost=True)
 
 	if not gt and not lt:
 		posts = apply_time_filter(t, posts, Post)

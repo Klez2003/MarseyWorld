@@ -5197,6 +5197,8 @@ span.green {
 }
 .effortpost-flair {
 	padding: 5px 5px 4px 5px !important;
+	z-index: 2;
+    position: relative;
 }
 .patron[style*="background-color:#ffffff"] {
 	color: black !important;
