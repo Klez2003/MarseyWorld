@@ -2247,7 +2247,7 @@ def unmark_effortpost(pid, v):
 
 	return {"message": "Post has been unmarked as an effortpost!"}
 
-@app.post("/retrofix")
+@app.get("/retrofix")
 @limiter.limit('1/day')
 @limiter.limit('1/day', key_func=get_ID)
 @admin_level_required(5)
