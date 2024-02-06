@@ -849,6 +849,7 @@ elif SITE == 'devrama.net':
 	PERMS["SITE_SETTINGS"] = 4
 	PERMS["ORGIES"] = 4
 	PERMS["CHANGE_UNDER_SIEGE"] = 4
+	PERMS["SITE_CACHE_PURGE_CDN"] = 4
 else: # localhost or testing environment implied
 	FEATURES['PRONOUNS'] = True
 	FEATURES['USERS_PERMANENT_WORD_FILTERS'] = True
