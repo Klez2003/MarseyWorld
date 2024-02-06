@@ -55,10 +55,12 @@ def front_all(v, hole=None):
 	if sort == 'hot': default = True
 	else: default = False
 
+	pins = session.get(f'{hole}_{sort}', default)
+
 	if effortposts_only:
+		sort = 'new'
+		t = 'all'
 		pins = False
-	else:
-		pins = session.get(f'{hole}_{sort}', default)
 
 	if not v:
 		result = cache.get(f'frontpage_{sort}_{t}_{page}_{hole}_{pins}_{effortposts_only}')
