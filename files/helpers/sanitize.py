@@ -395,7 +395,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 	if blackjack and execute_blackjack(v, None, sanitized, blackjack):
 		return '<p>g</p>'
 
-	if obj and not obj.is_effortpost:
+	if obj and not obj.is_longpost:
 		if author.owoify:
 			sanitized = owoify(sanitized, author.chud_phrase)
 		if author.marsify:
@@ -702,7 +702,7 @@ def filter_emojis_only(title, golden=True, count_emojis=False, obj=None, author=
 
 	title = remove_cuniform(title)
 
-	if obj and not obj.is_effortpost:
+	if obj and not obj.is_longpost:
 		if author.owoify:
 			title = owoify(title, author.chud_phrase)
 		if author.marsify:

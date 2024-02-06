@@ -395,5 +395,5 @@ class Post(Base):
 
 	@property
 	@lazy
-	def is_effortpost(self):
+	def is_longpost(self):
 		return len(self.body) >= 2000

@@ -261,7 +261,7 @@ def award_thing(v, thing_type, id):
 
 	link = f"[this {thing_type}]({obj.shortlink})"
 
-	can_alter_body = not obj.is_effortpost and (not obj.author.deflector or v == obj.author)
+	can_alter_body = not obj.is_longpost and (not obj.author.deflector or v == obj.author)
 
 	if kind == "ban":
 		link = f"/{thing_type}/{obj.id}"
@@ -555,7 +555,7 @@ def award_thing(v, thing_type, id):
 		if v.id == author.id:
 			session['event_music'] = False
 	elif kind in {"ectoplasm", "candycorn", "candycane", "stab", "tilt"}:
-		if obj.is_effortpost:
+		if obj.is_longpost:
 			abort(403, f'Effortposts are protected from the {award_title} award!')
 	elif kind == "gold":
 		if obj.award_count('glowie', v):

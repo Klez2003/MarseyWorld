@@ -569,10 +569,10 @@ def submit_post(v, hole=None):
 	)
 
 
-	p.chudded = v.chud and hole != 'chudrama' and not (p.is_effortpost and not v.chudded_by)
-	p.queened = v.queen and not p.is_effortpost
-	p.sharpened = v.sharpen and not p.is_effortpost
-	p.rainbowed = v.rainbow and not p.is_effortpost
+	p.chudded = v.chud and hole != 'chudrama' and not (p.is_longpost and not v.chudded_by)
+	p.queened = v.queen and not p.is_longpost
+	p.sharpened = v.sharpen and not p.is_longpost
+	p.rainbowed = v.rainbow and not p.is_longpost
 
 	title_html = filter_emojis_only(title, count_emojis=True, obj=p, author=v)
 
