@@ -53,7 +53,7 @@
 		<span id="sidebar--directory--subhead">Submit Marseys & Art | Info Megathreads</span>
 	</a>
 
-	{% if v and v.mods_hole(hole.name) %}
+	{% if v and hole and v.mods_hole(hole.name) %}
 		<a class="btn btn-primary btn-block mb-3 text-uppercase" style="font-size: 0.87rem" href="/h/{{hole}}/settings">/h/{{hole}} SETTINGS</a>
 		<a class="btn btn-primary btn-block mb-3 text-uppercase" style="font-size: 0.87rem" href="/h/{{hole}}/log">/h/{{hole}} LOG</a>
 		<a class="btn btn-primary btn-block mb-3 text-uppercase" style="font-size: 0.87rem" href="/h/{{hole}}/followers">/h/{{hole}} FOLLOWERS</a>
