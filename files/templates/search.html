@@ -120,16 +120,16 @@
 			<div class="flex-row box-shadow-bottom d-flex justify-content-center justify-content-md-between align-items-center">
 				<ul class="nav settings-nav">
 					<li class="nav-item">
-						<a class="nav-link{% if '/posts' in request.path %} active{% endif %}" href="/search/posts/?sort={{sort}}&q={{query | urlencode}}&t={{t}}">Posts</a>
+						<a class="nav-link{% if '/posts' in request.path %} active{% endif %}" href="/search/posts/?q={{query | urlencode}}">Posts</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link{% if '/comments' in request.path %} active{% endif %}" href="/search/comments/?sort={{sort}}&q={{query | urlencode}}&t={{t}}">Comments</a>
+						<a class="nav-link{% if '/comments' in request.path %} active{% endif %}" href="/search/comments/?q={{query | urlencode}}">Comments</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link{% if '/users' in request.path %} active{% endif %}" href="/search/users/?sort={{sort}}&q={{query | urlencode}}&t={{t}}">Users</a>
+						<a class="nav-link{% if '/users' in request.path %} active{% endif %}" href="/search/users/?q={{query | urlencode}}">Users</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link{% if '/messages' in request.path %} active{% endif %}" href="/search/messages/?sort={{sort}}&q={{query | urlencode}}&t={{t}}">Messages</a>
+						<a class="nav-link{% if '/messages' in request.path %} active{% endif %}" href="/search/messages/?q={{query | urlencode}}">Messages</a>
 					</li>
 				</ul>
 			</div>
