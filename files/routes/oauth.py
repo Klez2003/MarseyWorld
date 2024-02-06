@@ -82,14 +82,6 @@ def request_api_keys(v):
 
 	new_comment.top_comment_id = new_comment.id
 
-	admin_ids = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['APPS_MODERATION'])]
-
-	for admin_id in admin_ids:
-		notif = Notification(comment_id=new_comment.id, user_id=admin_id)
-		g.db.add(notif)
-
-	push_notif(admin_ids, 'New notification', body, f'{SITE_FULL}/admin/apps')
-
 	return {"message": "API keys requested successfully!"}
 
 
