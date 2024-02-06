@@ -205,6 +205,7 @@ PERMS = { # Minimum admin_level to perform action.
 	'MODERATE_PENDING_SUBMITTED_ASSETS': 3,
 	'UPDATE_ASSETS': 3,
 	'CHANGE_UNDER_SIEGE': 3,
+	'VIEW_IPS': 3,
 
 	'PROGSTACK': 4,
 	'UNDO_AWARD_PINS': 4,

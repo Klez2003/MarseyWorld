@@ -2156,3 +2156,21 @@ def change_under_siege_post(v):
 	g.db.add(ma)
 
 	return {"message": "Thresholds changed successfully!"}
+
+if FEATURES['IP_LOGGING']:
+	@app.get("/@<username>/ips/")
+	@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+	@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+	@admin_level_required(PERMS['VIEW_IPS'])
+	def view_user_ips(v, username):
+		u = get_user(username, v=v)
+		ip_logs = g.db.query(IPLog).filter_by(user_id=u.id).order_by(IPLog.last_used.desc())
+		return render_template('admin/user_ips.html', v=v, u=u, ip_logs=ip_logs)
+
+	@app.get("/ip_users/<ip>")
+	@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+	@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+	@admin_level_required(PERMS['VIEW_IPS'])
+	def view_ip_users(v, ip):
+		ip_logs = g.db.query(IPLog).filter_by(ip=ip).order_by(IPLog.last_used.desc())
+		return render_template('admin/ip_users.html', v=v, ip=ip, ip_logs=ip_logs)

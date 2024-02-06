@@ -1,0 +1,24 @@
+{% extends "default.html" %}
+{% block pagetitle %}@{{u.username}}'s IPs{% endblock %}
+
+{% block content %}
+	<h5 class="pt-4 pl-2 pb-3">@{{u.username}}'s IPs</h5>
+	<div class="overflow-x-auto">
+		<table class="table table-striped mb-5">
+			<thead class="bg-primary text-white">
+				<tr>
+					<th>IP</th>
+					<th>First Used</th>
+					<th>Last Used</th>
+				</tr>
+			</thead>
+			{% for ip_log in ip_logs %}
+				<tr>
+					<td><a href="/ip_users/{{ip_log.ip}}">{{ip_log.ip}}</a></td>
+					<td data-time="{{ip_log.created_utc}}"></td>
+					<td data-time="{{ip_log.last_used}}"></td>
+				</tr>
+			{% endfor %}
+		</table>
+	</div>
+{% endblock %}

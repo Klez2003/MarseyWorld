@@ -1,6 +1,7 @@
 import time
 
 from sqlalchemy import Column, ForeignKey
+from sqlalchemy.orm import relationship
 from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
@@ -11,6 +12,8 @@ class IPLog(Base):
 	ip = Column(String, primary_key=True)
 	created_utc = Column(Integer)
 	last_used = Column(Integer)
+
+	user = relationship("User")
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs:
