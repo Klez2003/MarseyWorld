@@ -863,7 +863,8 @@ CREATE TABLE public.posts (
     bump_utc integer NOT NULL,
     rainbowed boolean NOT NULL,
     queened boolean NOT NULL,
-    sharpened boolean NOT NULL
+    sharpened boolean NOT NULL,
+    effortpost boolean DEFAULT false NOT NULL
 );
 
 
