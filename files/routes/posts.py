@@ -789,6 +789,7 @@ def mark_post_nsfw(pid, v):
 					target_post_id = p.id,
 				)
 			g.db.add(ma)
+			position = 'a site admin'
 		else:
 			ma = HoleAction(
 					hole = p.hole,
@@ -797,7 +798,9 @@ def mark_post_nsfw(pid, v):
 					target_post_id = p.id,
 				)
 			g.db.add(ma)
-		send_repeatable_notification(p.author_id, f"@{v.username} (a site admin) has marked [{p.title}](/post/{p.id}) as NSFW")
+			position = f'a /h/{post.hole} mod'
+
+		send_repeatable_notification(p.author_id, f"@{v.username} ({position}) has marked [{p.title}](/post/{p.id}) as NSFW")
 
 	return {"message": "Post has been marked as NSFW!"}
 
@@ -828,6 +831,7 @@ def unmark_post_nsfw(pid, v):
 					target_post_id = p.id,
 				)
 			g.db.add(ma)
+			position = 'a site admin'
 		else:
 			ma = HoleAction(
 					hole = p.hole,
@@ -836,7 +840,9 @@ def unmark_post_nsfw(pid, v):
 					target_post_id = p.id,
 				)
 			g.db.add(ma)
-		send_repeatable_notification(p.author_id, f"@{v.username} (a site admin) has unmarked [{p.title}](/post/{p.id}) as NSFW")
+			position = f'a /h/{post.hole} mod'
+
+		send_repeatable_notification(p.author_id, f"@{v.username} ({position}) has unmarked [{p.title}](/post/{p.id}) as NSFW")
 
 	return {"message": "Post has been unmarked as NSFW!"}
 
