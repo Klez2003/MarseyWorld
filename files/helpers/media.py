@@ -157,8 +157,6 @@ def process_video(file, v):
 		os.remove(old)
 		abort(400, "Something went wrong processing your video and it might be on our end. Please try uploading it to https://pomf2.lain.la and post the link instead.")
 
-	print(codec)
-	print(bitrate, flush=True)
 	if codec != 'h264' or bitrate > 3000000:
 		copyfile(old, new)
 		gevent.spawn(reencode_video, old, new)
