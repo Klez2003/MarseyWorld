@@ -53,15 +53,17 @@
 		<span id="sidebar--directory--subhead">Submit Marseys & Art | Info Megathreads</span>
 	</a>
 
-	{% if v and hole and v.mods_hole(hole.name) %}
-		<a class="btn btn-primary btn-block mb-3 text-uppercase" style="font-size: 0.87rem" href="/h/{{hole}}/settings">/h/{{hole}} SETTINGS</a>
-		<a class="btn btn-primary btn-block mb-3 text-uppercase" style="font-size: 0.87rem" href="/h/{{hole}}/log">/h/{{hole}} LOG</a>
-		<a class="btn btn-primary btn-block mb-3 text-uppercase" style="font-size: 0.87rem" href="/h/{{hole}}/followers">/h/{{hole}} FOLLOWERS</a>
-		<a class="btn btn-primary btn-block mb-3 text-uppercase" style="font-size: 0.87rem" href="/h/{{hole}}/blockers">/h/{{hole}} BLOCKERS</a>	
-	{% endif %}
+	{% if hole %}
+		{% if v and v.mods_hole(hole.name) %}
+			<a class="btn btn-primary btn-block mb-3 text-uppercase" style="font-size: 0.87rem" href="/h/{{hole}}/settings">/h/{{hole}} SETTINGS</a>
+			<a class="btn btn-primary btn-block mb-3 text-uppercase" style="font-size: 0.87rem" href="/h/{{hole}}/log">/h/{{hole}} LOG</a>
+			<a class="btn btn-primary btn-block mb-3 text-uppercase" style="font-size: 0.87rem" href="/h/{{hole}}/followers">/h/{{hole}} FOLLOWERS</a>
+			<a class="btn btn-primary btn-block mb-3 text-uppercase" style="font-size: 0.87rem" href="/h/{{hole}}/blockers">/h/{{hole}} BLOCKERS</a>	
+		{% endif %}
 
-	{% if hole and hole.sidebar_html %}
-		<div class="mt-5 mb-4">{{hole.sidebar_html|safe}}</div>
+		{% if hole.sidebar_html %}
+			<div class="mt-5 mb-4">{{hole.sidebar_html|safe}}</div>
+		{% endif %}
 	{% endif %}
 
 	<div class="hr-title">
