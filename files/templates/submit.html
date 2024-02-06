@@ -82,6 +82,10 @@
 														<input autocomplete="off" type="checkbox" class="custom-control-input" id="post-private" name="private" data-nonce="{{g.nonce}}" data-onchange="savetext()">
 														<label class="custom-control-label" for="post-private">Draft</label>
 													</div>
+													<div class="custom-control custom-checkbox">
+														<input autocomplete="off" type="checkbox" class="custom-control-input" id="post-effortpost" name="effortpost" data-nonce="{{g.nonce}}" data-onchange="savetext()">
+														<label class="custom-control-label" for="post-effortpost">Notify admins to mark your post as an effortpost</label>
+													</div>
 													<div class="custom-control custom-checkbox {% if not v.can_post_in_ghost_threads %}d-none{% endif %}">
 														<input data-nonce="{{g.nonce}}" data-onchange='ghost_toggle(this)' autocomplete="off" type="checkbox" class="custom-control-input" id="post-ghost" name="ghost">
 														<label class="custom-control-label" for="post-ghost">Ghost thread</label>

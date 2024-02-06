@@ -297,3 +297,19 @@ def alert_everyone(cid):
 	select id, {cid}, false, {t} from users
 	on conflict do nothing;""")
 	g.db.execute(_everyone_query)
+
+def alert_admins(body):
+	body_html = sanitize(body, blackjack="admin alert")
+
+	new_comment = Comment(author_id=AUTOJANNY_ID,
+						parent_post=None,
+						level=1,
+						body_html=body_html,
+						sentto=MODMAIL_ID,
+						distinguish_level=6,
+						is_bot=True
+						)
+	g.db.add(new_comment)
+	g.db.flush()
+
+	new_comment.top_comment_id = new_comment.id

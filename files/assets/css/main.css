@@ -219,6 +219,7 @@
 .fa-coin:before{content:"\f85c"}
 .fa-scarecrow:before{content:"\f70d"}
 .fa-chart-simple:before{content:"\e473"}
+.fa-memo:before{content:"\e1d8"}
 
 /* do not remove - fixes hand, talking, marsey-love components
 	from breaking out of the comment box
@@ -5194,6 +5195,9 @@ span.green {
 		padding: 2px 5px !important;
 	}
 }
+.effortpost-flair {
+	padding: 5px 5px 4px 5px !important;
+}
 .patron[style*="background-color:#ffffff"] {
 	color: black !important;
 }
@@ -7652,7 +7656,7 @@ blink {
 	animation: 60s linear 0s infinite move-colors;
 }
 
-:not(td) > a[href="/h/highrollerclub"].hole-flair {
+:not(td) > a[href="/h/highrollerclub"].hole-flair, .effortpost-flair {
 	font-family: open sans,sans-serif !important;
 	background: repeating-linear-gradient(
 		45deg,

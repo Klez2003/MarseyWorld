@@ -206,6 +206,16 @@ MODACTION_TYPES = {
 		"icon": 'fa-file-signature',
 		"color": 'bg-success'
 	},
+	'mark_effortpost': {
+		"str": 'marked {self.target_link} as an effortpost',
+		"icon": 'fa-memo',
+		"color": 'bg-success'
+	},
+	'unmark_effortpost': {
+		"str": 'unmarked {self.target_link} as an effortpost',
+		"icon": 'fa-memo',
+		"color": 'bg-danger'
+	},
 	'move_hole': {
 		"str": 'changed hole of {self.target_link}',
 		"icon": 'fa-manhole',

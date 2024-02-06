@@ -94,10 +94,12 @@
 						<h1 id="post-title" class="{{p.award_classes(v, True)}} card-title post-title text-left mb-md-3">
 							{% if p.realurl(v) and not v_forbid_deleted %}
 								<a class="no-visited" {% if not v or v.newtabexternal %}target="_blank"{% endif %} rel="noopener" href="{{p.realurl(v)}}">
+									{% if p.effortpost %}<span class="post-flair effortpost-flair font-weight-bolder mr-1">EFFORTPOST</span>{% endif %}
 									{% if p.flair %}<span class="post-flair font-weight-bolder mr-1">{{p.flair | safe}}</span>{% endif %}
 									{{p.realtitle(v) | safe}}
 								</a>
 							{% else %}
+								{% if p.effortpost %}<span class="post-flair effortpost-flair font-weight-bolder mr-1">EFFORTPOST</span>{% endif %}
 								{% if p.flair %}<span class="post-flair font-weight-bolder mr-1">{{p.flair | safe}}</span>{% endif %}
 								{{p.realtitle(v) | safe}}
 							{% endif %}

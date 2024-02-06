@@ -2174,3 +2174,71 @@ if FEATURES['IP_LOGGING']:
 	def view_ip_users(v, ip):
 		ip_logs = g.db.query(IPLog).filter_by(ip=ip).order_by(IPLog.last_used.desc())
 		return render_template('admin/ip_users.html', v=v, ip=ip, ip_logs=ip_logs)
+
+
+@app.post("/mark_effortpost/<int:pid>")
+@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@admin_level_required(PERMS['MARK_EFFORTPOST'])
+def mark_effortpost(pid, v):
+	p = get_post(pid)
+
+	if p.effortpost:
+		abort(400, "Post is already marked as an effortpost!")
+
+	p.effortpost = True
+	g.db.add(p)
+
+	ma = ModAction(
+		kind = "mark_effortpost",
+		user_id = v.id,
+		target_post_id = p.id,
+	)
+	g.db.add(ma)
+
+	if SITE_NAME == 'WPD':
+		mul = 8
+	else:
+		mul = 4
+
+	coins = (p.upvotes + p.downvotes) * mul
+
+	send_repeatable_notification(p.author_id, f":marseyclapping: @{v.username} (a site admin) has marked [{p.title}](/post/{p.id}) as an effortpost, it now gets x{mul} coins from votes. You have received {coins} coins retroactively, thanks! :!marseyclapping:")
+
+	return {"message": "Post has been marked as an effortpost!"}
+
+
+@app.post("/unmark_effortpost/<int:pid>")
+@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@admin_level_required(PERMS['MARK_EFFORTPOST'])
+def unmark_effortpost(pid, v):
+	p = get_post(pid)
+
+	if not p.effortpost:
+		abort(400, "Post is already not marked as an effortpost!")
+
+	p.effortpost = False
+	g.db.add(p)
+
+	ma = ModAction(
+		kind = "unmark_effortpost",
+		user_id = v.id,
+		target_post_id = p.id,
+	)
+	g.db.add(ma)
+
+	if SITE_NAME == 'WPD':
+		mul = 8
+	else:
+		mul = 4
+
+	coins = (p.upvotes + p.downvotes) * mul
+
+	send_repeatable_notification(p.author_id, f":marseyitsover: @{v.username} (a site admin) has unmarked [{p.title}](/post/{p.id}) as an effortpost. {coins} coins have been deducted from you. :!marseyitsover:")
+
+	return {"message": "Post has been unmarked as an effortpost!"}

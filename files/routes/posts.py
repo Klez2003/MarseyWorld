@@ -540,6 +540,7 @@ def submit_post(v, hole=None):
 	flag_new = request.values.get("new", False, bool) or 'megathread' in title.lower()
 	flag_nsfw = FEATURES['NSFW_MARKING'] and request.values.get("nsfw", False, bool)
 	flag_private = request.values.get("private", False, bool)
+	flag_effortpost = request.values.get("effortpost", False, bool)
 	flag_ghost = request.values.get("ghost", False, bool) and v.can_post_in_ghost_threads
 
 	if flag_ghost: hole = None
@@ -701,6 +702,10 @@ def submit_post(v, hole=None):
 
 	generate_thumb = (not p.thumburl and p.url and p.domain != SITE)
 	gevent.spawn(postprocess_post, p.url, p.body, p.body_html, p.id, generate_thumb, False)
+
+	if flag_effortpost:
+		body = f"@{v.username} has requested that [{p.title}](/post/{p.id}) be marked as an effortpost!"
+		alert_admins(body)
 
 	if v.client: return p.json
 	else:

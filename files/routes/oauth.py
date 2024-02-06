@@ -67,20 +67,7 @@ def request_api_keys(v):
 	g.db.add(new_app)
 
 	body = f"@{v.username} has requested API keys for `{request.values.get('name')}`. You can approve or deny the request [here](/admin/apps)."
-	body_html = sanitize(body, blackjack="app description")
-
-	new_comment = Comment(author_id=AUTOJANNY_ID,
-						parent_post=None,
-						level=1,
-						body_html=body_html,
-						sentto=MODMAIL_ID,
-						distinguish_level=6,
-						is_bot=True
-						)
-	g.db.add(new_comment)
-	g.db.flush()
-
-	new_comment.top_comment_id = new_comment.id
+	alert_admins(body)
 
 	return {"message": "API keys requested successfully!"}
 

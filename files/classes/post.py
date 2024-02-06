@@ -34,6 +34,7 @@ class Post(Base):
 	bannedfor = Column(String)
 	chuddedfor = Column(String)
 	ghost = Column(Boolean, default=False)
+	effortpost = Column(Boolean, default=False)
 	views = Column(Integer, default=0)
 	deleted_utc = Column(Integer, default=0)
 	distinguish_level = Column(Integer, default=0)

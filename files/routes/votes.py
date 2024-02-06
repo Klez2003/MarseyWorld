@@ -44,8 +44,6 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 		coin_delta = -1
 		alt = True
 
-	coin_mult = 1
-
 	g.db.flush()
 	existing = g.db.query(vote_cls).filter_by(user_id=v.id)
 	if vote_cls == Vote:
@@ -56,14 +54,24 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 		abort(400)
 	existing = existing.one_or_none()
 
-	if SITE_NAME == 'WPD':
-		coin_mult *= 4
 
-	if IS_EVENT():
-		coin_mult *= 2
+	if cls == Post and target.effortpost:
+		if SITE_NAME == 'WPD':
+			coin_mult = 8
+		else:
+			coin_mult = 4
+	else:
+		coin_mult = 1
 
-	if IS_HOMOWEEN() and target.author.zombie > 0:
-		coin_mult += 1
+		if SITE_NAME == 'WPD':
+			coin_mult *= 4
+
+		if IS_EVENT():
+			coin_mult *= 2
+
+		if IS_HOMOWEEN() and target.author.zombie > 0:
+			coin_mult += 1
+
 
 	coin_value = coin_delta * coin_mult
 
