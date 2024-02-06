@@ -72,29 +72,10 @@
 		<hr>
 	</div>
 	<div class="sidebar-wpd--holes sidebar-wpd--holes--3">
-		<a href="/h/accident">Accident</a>
-		<a href="/h/animal">Animal</a>
-		<a href="/h/beating">Beating</a>
-		<a href="/h/beheading">Beheading</a>
-		<a href="/h/bladed">Bladed</a>
-		<a href="/h/burning">Burning</a>
-		<a href="/h/cartel">Cartel</a>
-		<a href="/h/combat">Combat</a>
-		<a href="/h/compilation">Compilation</a>
-		<a href="/h/disaster">Disaster</a>
-		<a href="/h/drowning">Drowning</a>
-		<a href="/h/electricity">Electricity</a>
-		<a href="/h/execution">Execution</a>
-		<a href="/h/explosions">Explosions</a>
-		<a href="/h/falling">Falling</a>
-		<a href="/h/industrial">Industrial</a>
-		<a href="/h/isis">ISIS</a>
-		<a href="/h/maiming">Maiming</a>
-		<a href="/h/police">Police</a>
-		<a href="/h/shooting">Shooting</a>
-		<a href="/h/suicide">Suicide</a>
-		<a href="/h/vehicle">Vehicle</a>
-		<a href="/h/other">Other</a>
+		{% set holes = ['Accident','Animal','Beating','Beheading','Bladed','Burning','Cartel','Combat','Compilation','Disaster','Drowning','Electricity','Execution','Explosions','Falling','Industrial','ISIS','Maiming','Police','Shooting','Suicide','Vehicle','Other'] %}
+		{% for name in holes %}
+			<a href="/h/{{name.lower()}}" {% if hole and hole.name == name.lower() %}class="active-hole"{% endif %}>{{name}}</a>
+		{% endfor %}
 	</div>
 
 	<div class="hr-title mt-3">
@@ -103,12 +84,10 @@
 		<hr>
 	</div>
 	<div class="sidebar-wpd--holes sidebar-wpd--holes--3">
-		<a href="/h/aftermath">Aftermath</a>
-		<a href="/h/fights">Fights</a>
-		<a href="/h/gore">Gore</a>
-		<a href="/h/medical">Medical</a>
-		<a href="/h/request">Request</a>
-		<a href="/h/selfharm">Self-Harm</a>
+		{% set holes = ['Aftermath','Fights','Gore','Medical','Request','Self-Harm'] %}
+		{% for name in holes %}
+			<a href="/h/{{name.lower()}}" {% if hole and hole.name == name.lower() %}class="active-hole"{% endif %}>{{name}}</a>
+		{% endfor %}
 	</div>
 
 	<div class="hr-title mt-3">
@@ -117,11 +96,10 @@
 		<hr>
 	</div>
 	<div class="sidebar-wpd--holes sidebar-wpd--holes--3">
-		<a href="/h/discussion">Discussion</a>
-		<a href="/h/meta">Meta</a>
-		<a href="/h/music">Music</a>
-		<a href="/h/pets">Pets</a>
-		<a href="/h/social">Social</a>
+		{% set holes = ['Discussion','Meta','Music','Pets','Social'] %}
+		{% for name in holes %}
+			<a href="/h/{{name.lower()}}" {% if hole and hole.name == name.lower() %}class="active-hole"{% endif %}>{{name}}</a>
+		{% endfor %}
 	</div>
 
 	<div class="hr-title mt-3">
@@ -130,13 +108,13 @@
 		<hr>
 	</div>
 	<div class="sidebar-wpd--holes sidebar-wpd--holes--1 mb-3">
-		<a href="/h/slavshit">
+		<a href="/h/slavshit" {% if hole and hole.name == 'slavshit' %}class="active-hole"{% endif %}>
 			<img loading="lazy" class="emoji" src="{{SITE_FULL_IMAGES}}/e/marseyflagukraine.webp">
 			Slavshit
 			<img loading="lazy" class="emoji mirrored" src="{{SITE_FULL_IMAGES}}/e/marseyflagrussia.webp">
 		</a>
 
-		<a href="/h/sandshit">
+		<a href="/h/sandshit" {% if hole and hole.name == 'slavshit' %}class="active-hole"{% endif %}>
 			<img loading="lazy" class="emoji" src="{{SITE_FULL_IMAGES}}/e/marseyflagpalestine.webp">
 			Sandshit
 			<img loading="lazy" class="emoji mirrored" src="{{SITE_FULL_IMAGES}}/e/marseyisrael.webp">

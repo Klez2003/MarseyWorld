@@ -7663,3 +7663,7 @@ blink {
 	font-weight: 700 !important;
 	animation: 60s linear 0s infinite move-colors;
 }
+
+.active-hole {
+	background-color: var(--primary) !important;
+}
