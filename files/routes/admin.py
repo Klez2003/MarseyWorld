@@ -2255,6 +2255,6 @@ def retrofix(v):
 	posts = g.db.query(Post).filter_by(effortpost=True)
 	for p in posts:
 		print(p.title, flush=True)
-		coins = (p.upvotes + p.downvotes) * mul
+		coins = (p.upvotes + p.downvotes) * 4
 		p.author.pay_account('coins', coins)
 	return 'nig'
