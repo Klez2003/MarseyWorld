@@ -227,6 +227,7 @@ def move_post(post, v, reason):
 				_note=f'{hole_from_str} → {hole_to_str}',
 			)
 			g.db.add(ma)
+			position = 'a site admin'
 		else:
 			ma = HoleAction(
 				hole=hole_from,
@@ -236,9 +237,7 @@ def move_post(post, v, reason):
 				_note=f'{hole_from_str} → {hole_to_str}',
 			)
 			g.db.add(ma)
-
-		if v.admin_level >= PERMS['POST_COMMENT_MODERATION']: position = 'a site admin'
-		else: position = f'a /h/{hole_from} mod'
+			position = f'a /h/{hole_from} mod'
 
 		if hole_from == None:
 			hole_from_in_notif = 'the main feed'
