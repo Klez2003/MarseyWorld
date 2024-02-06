@@ -121,12 +121,10 @@
 		</a>
 	</div>
 
-	{% if not (hole and hole.sidebar_html) %}
-		<div class="sidebar--rules sidebar--rules--wpd pt-2">
-			{% set rules = "rules_" ~ SITE_NAME ~ ".html" %}
-			{% include rules %}
-		</div>
-	{% endif %}
+	<div class="sidebar--rules sidebar--rules--wpd pt-2">
+		{% set rules = "rules_" ~ SITE_NAME ~ ".html" %}
+		{% include rules %}
+	</div>
 
 	<hr>
 	<div class="mt-3">
