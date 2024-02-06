@@ -70,7 +70,7 @@ def after_request(response):
 					g.db.add(g.v)
 
 				if FEATURES['IP_LOGGING']:
-					if g.v.admin_level < PERMS['EXEMPT_FROM_IP_LOGGING'] and user_id != CARP_ID:
+					if g.v.admin_level < PERMS['EXEMPT_FROM_IP_LOGGING']:
 						ip = get_IP()
 						if ip:
 							existing = g.db.query(IPLog).filter_by(user_id=user_id, ip=ip).one_or_none()

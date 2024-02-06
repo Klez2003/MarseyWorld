@@ -57,7 +57,7 @@ def add_alt(user1, user2):
 	if session.get("GLOBAL"):
 		return
 
-	if AEVANN_ID in (user1, user2) or CARP_ID in (user1, user2):
+	if AEVANN_ID in (user1, user2):
 		return
 	li = [user1, user2]
 
