@@ -2,7 +2,7 @@ import secrets
 
 import requests
 
-from files.__main__ import app, cache, get_CF, limiter
+from files.__main__ import app, cache, get_IP, limiter
 from files.classes.follows import Follow
 from files.helpers.actions import *
 from files.helpers.config.const import *
@@ -106,7 +106,7 @@ def login_post(v):
 
 def log_failed_admin_login_attempt(account, type):
 	if not account or account.admin_level < PERMS['WARN_ON_FAILED_LOGIN']: return
-	ip = get_CF()
+	ip = get_IP()
 	print(f"A site admin from {ip} failed to login to account @{account.user_name} (invalid {type})")
 	t = time.strftime("%d/%B/%Y %H:%M:%S UTC", time.gmtime(time.time()))
 	log_file(f"{t}, {ip}, {account.username}, {type}", "admin_failed_logins.log")

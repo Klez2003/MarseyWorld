@@ -57,7 +57,7 @@ app.config["CACHE_SOURCE_CHECK"] = True
 if SITE == 'watchpeopledie.tv':
 	app.config["SESSION_COOKIE_DOMAIN"] = SITE
 
-def get_CF():
+def get_IP():
 	with app.app_context():
 		x = request.headers.get('CF-Connecting-IP')
 		if not x:
@@ -66,7 +66,7 @@ def get_CF():
 
 limiter = Limiter(
 	app=app,
-	key_func=get_CF,
+	key_func=get_IP,
 	default_limits=[DEFAULT_RATELIMIT],
 	application_limits=["10/second;200/minute;5000/hour;30000/day"],
 	storage_uri=app.config["CACHE_REDIS_URL"],

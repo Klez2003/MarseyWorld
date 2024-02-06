@@ -178,6 +178,7 @@ PERMS = { # Minimum admin_level to perform action.
 	'NOTIFICATIONS_HOLE_CREATION': 1,
 	'NOTIFICATIONS_GROUP_CREATION': 1,
 	'NOTIFICATIONS_MODERATOR_ACTIONS': 1,
+	'EXEMPT_FROM_IP_LOGGING': 1,
 
 	'IS_PERMA_PROGSTACKED': 2,
 	'USER_BADGES': 2,
@@ -436,6 +437,7 @@ FEATURES = {
 	'NSFW_MARKING': True,
 	'PING_GROUPS': True,
 	'BOTS': True,
+	'IP_LOGGING': False,
 }
 HOUSES = ["Furry","Femboy","Vampire","Racist","Edgy"]
 
@@ -737,6 +739,7 @@ elif SITE == 'watchpeopledie.tv':
 	FEATURES['NSFW_MARKING'] = False
 	FEATURES['BOTS'] = False
 	FEATURES['HAT_SUBMISSIONS'] = False
+	FEATURES['IP_LOGGING'] = True
 	HOUSES = ["Furry","Femboy","Vampire","Edgy"]
 
 	PERMS['POST_COMMENT_EDITING'] = 3
@@ -839,6 +842,7 @@ elif SITE == 'devrama.net':
 else: # localhost or testing environment implied
 	FEATURES['PRONOUNS'] = True
 	FEATURES['USERS_PERMANENT_WORD_FILTERS'] = True
+	FEATURES['IP_LOGGING'] = True
 	HOLE_BANNER_LIMIT = 69420
 
 BOT_IDs = {AUTOJANNY_ID, SNAPPY_ID, LONGPOSTBOT_ID, ZOZBOT_ID}

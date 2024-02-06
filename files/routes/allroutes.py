@@ -5,7 +5,10 @@ from files.helpers.config.const import *
 from files.helpers.settings import get_setting
 from files.helpers.cloudflare import CLOUDFLARE_AVAILABLE
 from files.routes.wrappers import *
-from files.__main__ import app, limiter, get_CF, redis_instance
+from files.__main__ import app, limiter, get_IP, redis_instance
+
+if FEATURES['IP_LOGGING']:
+	from files.classes.ip_logs import *
 
 @app.before_request
 def before_request():
@@ -66,10 +69,24 @@ def after_request(response):
 					g.v.last_active = timestamp
 					g.db.add(g.v)
 
+				if FEATURES['IP_LOGGING']:
+					if g.v.admin_level < PERMS['EXEMPT_FROM_IP_LOGGING'] and user_id != CARP_ID:
+						ip = get_IP()
+						existing = g.db.query(IPLog).filter_by(user_id=user_id, ip=ip).one_or_none()
+						if existing:
+							existing.last_used = time.time()
+							g.db.add(existing)
+						else:
+							ip_log = IPLog(
+								user_id=user_id,
+								ip=ip,
+								)
+							g.db.add(ip_log)
+
 		_commit_and_close_db()
 
 	if request.method == "POST":
-		redis_instance.delete(f'LIMITER/{get_CF()}/{request.endpoint}:{request.path}/1/1/second')
+		redis_instance.delete(f'LIMITER/{get_IP()}/{request.endpoint}:{request.path}/1/1/second')
 		if user_id:
 			redis_instance.delete(f'LIMITER/{SITE}-{user_id}/{request.endpoint}:{request.path}/1/1/second')
 

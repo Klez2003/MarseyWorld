@@ -34,3 +34,6 @@ from .push_subscriptions import *
 from .group import *
 from .group_membership import *
 from .orgy import *
+
+if FEATURES['IP_LOGGING']:
+	from .ip_logs import *
