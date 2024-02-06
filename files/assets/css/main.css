@@ -7656,9 +7656,9 @@ blink {
 	font-family: open sans,sans-serif !important;
 	background: repeating-linear-gradient(
 		45deg,
-		gold,
-		#debd00 20px,
-		#cdae00 60px
+		#9e8600,
+		#887400 20px,
+		#6d5d00 60px
 	);
 	font-weight: 700 !important;
 	animation: 60s linear 0s infinite move-colors;

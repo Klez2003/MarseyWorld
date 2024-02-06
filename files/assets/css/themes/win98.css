@@ -198,12 +198,3 @@ button.close i {
 		#6d5d00 60px
 	);
 }
-
-:not(td) > a[href="/h/highrollerclub"].hole-flair {
-	background: repeating-linear-gradient(
-		45deg,
-		#9e8600,
-		#887400 20px,
-		#6d5d00 60px
-	);
-}
