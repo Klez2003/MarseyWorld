@@ -1095,6 +1095,9 @@ def retrofix(v):
 
 	for c in comments:
 		print(c.id, flush=True)
-		edit_comment(c.id, body=c.body)
+		try: edit_comment(c.id, body=c.body)
+		except Exception as e:
+			print(e, flush=True)
+			continue
 
 	return 'nig'
