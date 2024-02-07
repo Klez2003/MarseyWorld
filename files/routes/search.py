@@ -51,8 +51,6 @@ def searchparse(text):
 @auth_required
 def searchposts(v):
 	query = request.values.get("q", '').strip()
-	if not query:
-		abort(403, "Empty searches aren't allowed!")
 
 	page = get_page()
 
@@ -196,8 +194,6 @@ def searchposts(v):
 @auth_required
 def searchcomments(v):
 	query = request.values.get("q", '').strip()
-	if not query:
-		abort(403, "Empty searches aren't allowed!")
 
 	page = get_page()
 
@@ -300,8 +296,6 @@ def searchcomments(v):
 @auth_required
 def searchmessages(v):
 	query = request.values.get("q", '').strip()
-	if not query:
-		abort(403, "Empty searches aren't allowed!")
 
 	page = get_page()
 
@@ -391,8 +385,6 @@ def searchmessages(v):
 @auth_required
 def searchusers(v):
 	query = request.values.get("q", '').strip()
-	if not query:
-		abort(403, "Empty searches aren't allowed!")
 
 	page = get_page()
 
