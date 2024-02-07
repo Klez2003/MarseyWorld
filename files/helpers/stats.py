@@ -124,6 +124,7 @@ def stats():
 	if FEATURES['HOUSES']:
 		for house in HOUSES:
 			stats[f"House {house} members"] = "{:,}".format(g.db.query(User).filter(User.house.like(f'{house}%')).count())
+		for house in HOUSES:
 			stats[f"House {house} total truescore"] = "{:,}".format(g.db.query(func.sum(User.truescore)).filter(User.house.like(f'{house}%')).scalar() or 0)
 
 	return stats
