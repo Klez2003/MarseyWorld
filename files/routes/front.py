@@ -155,7 +155,7 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 	if v: size = v.frontsize or 0
 	else: size = PAGE_SIZE
 
-	if SITE_NAME == 'WPD' and sort == "hot" and page == 1:
+	if SITE_NAME == 'WPD' and sort == "hot" and page == 1 and not hole:
 		posts = posts.filter(Post.hole != 'pets')
 
 	posts = posts.options(load_only(Post.id)).offset(size * (page - 1))
