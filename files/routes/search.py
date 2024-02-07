@@ -111,6 +111,7 @@ def searchposts(v):
 		posts = posts.filter(*words)
 
 	if 'nsfw' in criteria: posts = posts.filter(Post.nsfw==True)
+	if 'effortpost' in criteria: posts = posts.filter(Post.effortpost==True)
 
 	if 'domain' in criteria:
 		domain = criteria['domain']

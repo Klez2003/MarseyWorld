@@ -90,6 +90,12 @@
 											<button type="button" data-nonce="{{g.nonce}}" data-onclick="addParam(this, 'bool')" class="searchparam mb-1">nsfw:true</button>
 										</div>
 									{% endif %}
+									{% if request.path.startswith('/search/posts') %}
+										<div>
+											<div style="display: inline-block; width: 150px; text-align: center">Effortpost:</div>
+											<button type="button" data-nonce="{{g.nonce}}" data-onclick="addParam(this, 'bool')" class="searchparam mb-1">effortpost:true</button>
+										</div>
+									{% endif %}
 								{% endif %}
 							</div>
 						</div>
