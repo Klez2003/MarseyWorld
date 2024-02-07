@@ -92,6 +92,8 @@ def execute_snappy(post, v):
 		body = "https://i.rdrama.net/images/17025988883967621.webp"
 	elif SITE == 'rdrama.net' and v.id == 5214:
 		body = random.choice(("https://rdrama.net/audio/1704983217764354.mp3", "Dear Chiobu:\n\nWe are not accepting non-US residents because of difficulty of payment and difficulty of enforcing our Confidentiality Agreement internationally. Additionally, you seem to have opinions incompatible with ours, namely your opinions **Towards the Chinese** and **Towards Transgender Individuals**. We thank you for your interest."))
+	elif SITE == 'rdrama.net' and v.id == 9493:
+		body = "https://i.rdrama.net/images/16973719400351799.webp"
 	else:
 		if IS_DKD():
 			SNAPPY_CHOICES = SNAPPY_KONGS
