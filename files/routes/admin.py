@@ -2199,9 +2199,9 @@ def mark_effortpost(pid, v):
 	g.db.add(ma)
 
 	if SITE_NAME == 'WPD':
-		mul = 8
+		mul = 7
 	else:
-		mul = 4
+		mul = 3
 
 	coins = (p.upvotes + p.downvotes) * mul
 
@@ -2235,9 +2235,9 @@ def unmark_effortpost(pid, v):
 	g.db.add(ma)
 
 	if SITE_NAME == 'WPD':
-		mul = 8
+		mul = 7
 	else:
-		mul = 4
+		mul = 3
 
 	coins = (p.upvotes + p.downvotes) * mul
 
