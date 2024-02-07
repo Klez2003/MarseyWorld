@@ -22,6 +22,7 @@ valid_params = [
 	'sentto',
 	'hole',
 	'subreddit',
+	'effortpost',
 ]
 
 def searchparse(text):
