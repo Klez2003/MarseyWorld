@@ -510,8 +510,10 @@ class User(Base):
 
 		after_discount -= 0.05 * self.admin_level
 
-		owned_badges = [x.badge_id for x in self.badges]
+		if self.id < 1000:
+			after_discount -= 0.03
 
+		owned_badges = [x.badge_id for x in self.badges]
 		for badge in discounts:
 			if badge in owned_badges: after_discount -= discounts[badge]
 
