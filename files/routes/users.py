@@ -1549,3 +1549,10 @@ def usersong(username):
 	resp = make_response(redirect(f"/songs/{user.song}.mp3"))
 	resp.headers["Cache-Control"] = "no-store"
 	return resp
+
+@app.get("/@<username>/effortposts")
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@auth_required
+def user_effortposts(v, username):
+	return redirect(f'/search/posts?q=author:{username}+effortpost:true')

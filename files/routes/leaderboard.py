@@ -165,5 +165,5 @@ def leaderboard_average_upvotes_per_comment(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def leaderboard_effortposts(v):
-	leaderboard = Leaderboard("Effortposts", "effortposts", "effortposts", "Effortposts", None, Leaderboard.get_effortposts_lb, Post.author_id, v, None, None)
+	leaderboard = Leaderboard("Effortposts", "effortposts", "effortposts", "Effortposts", "effortposts", Leaderboard.get_effortposts_lb, Post.author_id, v, None, None)
 	return render_template("leaderboard.html", v=v, leaderboard=leaderboard)
