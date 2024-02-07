@@ -981,12 +981,12 @@ def get_post_title(v):
 	return {"url": url, "title": title}
 
 @app.post("/edit_post/<int:pid>")
-@limiter.limit('1/second', scope=rpath)
-@limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+# @limiter.limit('1/second', scope=rpath)
+# @limiter.limit('1/second', scope=rpath, key_func=get_ID)
+# @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+# @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def edit_post(pid, v):
+def edit_post(pid, v, title=None, body=None):
 	p = get_post(pid)
 	if not v.can_edit(p): abort(403)
 
@@ -995,10 +995,14 @@ def edit_post(pid, v):
 	and v.admin_level < PERMS["IGNORE_1MONTH_EDITING_LIMIT"] and v.id not in EXEMPT_FROM_1MONTH_EDITING_LIMIT:
 		abort(403, "You can't edit posts older than 1 month!")
 
-	title = request.values.get("title", "")
+	if not title:
+		title = request.values.get("title", "")
+
 	title = title[:POST_TITLE_LENGTH_LIMIT].strip()
 
-	body = request.values.get("body", "")
+	if not body:
+		body = request.values.get("body", "")
+
 	body = body[:POST_BODY_LENGTH_LIMIT(g.v)].strip()
 
 	if p.author.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
@@ -1036,7 +1040,7 @@ def edit_post(pid, v):
 	body = process_files(request.files, v, body)
 	body = body[:POST_BODY_LENGTH_LIMIT(v)].strip() # process_files() may be adding stuff to the body
 
-	if body != p.body or p.chudded:
+	if body != p.body or p.chudded or True:
 		body_html = sanitize(body, golden=False, limit_pings=100, obj=p, author=p.author)
 
 		if p.author.hieroglyphs and marseyaward_body_regex.search(body_html):
@@ -1074,3 +1078,23 @@ def edit_post(pid, v):
 		g.db.add(ma)
 
 	return {"message": "Post edited successfully!"}
+
+
+from .comments import edit_comment
+
+@app.get("/retrofix")
+@admin_level_required(5)
+def retrofix(v):
+	posts = g.db.query(Post).filter(Post.body_html.ilike('%<iframe%'), Post.body != None, Post.body != '').all()
+
+	for p in posts:
+		print(p.permalink, flush=True)
+		edit_post(p.id, title=p.title, body=p.body)
+
+	comments = g.db.query(Comment).filter(Comment.body_html.ilike('%<iframe%'), Comment.parent_post != None, Comment.body != None, Comment.body != '').all()
+
+	for c in comments:
+		print(c.id, flush=True)
+		edit_comment(c.id, body=c.body)
+
+	return 'nig'

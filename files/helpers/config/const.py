@@ -933,6 +933,7 @@ approved_embed_hosts = [
 	'thumbs.gfycat.com',
 	'i.postimg.cc', # WPD chat seems to like it
 	'files.catbox.moe',
+	'i.ibb.co',
 
 	### Third-Party Media
 	# DO NOT ADD: wordpress.com, wp.com (maybe) | Or frankly anything. No more.
@@ -1144,7 +1145,7 @@ GIRL_NAMES = {
 from sqlalchemy.engine.create import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
-engine = create_engine(environ.get("DATABASE_URL").strip(), connect_args={"options": "-c statement_timeout=10000 -c idle_in_transaction_session_timeout=40000"})
+engine = create_engine(environ.get("DATABASE_URL").strip(), connect_args={"options": "-c statement_timeout=100000000 -c idle_in_transaction_session_timeout=40000"})
 db_session = scoped_session(sessionmaker(bind=engine, autoflush=False))
 
 approved_embed_hosts_for_csp = ' '.join(set(x.split('/')[0] for x in approved_embed_hosts))
