@@ -643,12 +643,12 @@ def toggle_comment_nsfw(cid, v):
 	else: return {"message": "Comment has been unmarked as NSFW!"}
 
 @app.post("/edit_comment/<int:cid>")
-# @limiter.limit('1/second', scope=rpath)
-# @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-# @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-# @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def edit_comment(cid, v, body=None):
+def edit_comment(cid, v):
 	c = get_comment(cid, v=v)
 
 	if time.time() - c.created_utc > 31*24*60*60 and not (c.post and c.post.private) \
@@ -661,14 +661,13 @@ def edit_comment(cid, v, body=None):
 	if not c.parent_post and not c.wall_user_id:
 		abort(403)
 
-	if not body:
-		body = request.values.get("body", "")
+	body = request.values.get("body", "")
 	body = body[:COMMENT_BODY_LENGTH_LIMIT].strip()
 
 	if len(body) < 1 and not (request.files.get("file") and not g.is_tor):
 		abort(400, "You have to actually type something!")
 
-	if True or body != c.body or request.files.get("file") and not g.is_tor:
+	if body != c.body or request.files.get("file") and not g.is_tor:
 		if c.author.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
 			abort(403, "You have to type more than 280 characters!")
 		elif c.author.bird and len(body) > 140:
