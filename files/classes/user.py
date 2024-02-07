@@ -1326,6 +1326,11 @@ class User(Base):
 
 		return f'<div id="signature-{self.id}" class="user-signature"><hr>{self.sig_html}</div>'
 
+	@property
+	@lazy
+	def effortposts_made(self):
+		return g.db.query(Post).filter_by(author_id=self.id, effortpost=True).count()
+
 
 badge_ordering_tuple = (
 	22, 23, 24, 25, 26, 27, 28, #paypig

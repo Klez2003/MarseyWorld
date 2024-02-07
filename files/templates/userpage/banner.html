@@ -280,6 +280,10 @@
 								<p id="profile--info--discount">Total award discount: {{u.formatted_award_discount}} (shown to you only)</p>
 							{% endif %}
 
+							<p id="profile--info--effortposts">
+								Effortposts made: <a href='/search/posts?q=author:{{u.username}}+effortpost:true'>{{u.effortposts_made}}</a>
+							</p>
+
 							{% if u.is_private %}
 								<p id="profile--info--private">User has private mode enabled</p>
 							{% endif %}
@@ -588,6 +592,10 @@
 							<p id="profile-mobile--info--lifetime-donated">Lifetime donated: ${{u.lifetimedonated}} (shown to you only)</p>
 							<p id="profile-mobile--info--discount">Total award discount: {{u.formatted_award_discount}} (shown to you only)</p>
 						{% endif %}
+
+						<p id="profile-mobile--info--effortposts">
+							Effortposts made: <a href='/search/posts?q=author:{{u.username}}+effortpost:true'>{{u.effortposts_made}}</a>
+						</p>
 
 						{% if u.is_private %}
 							<p id="profile-mobile--info--private">User has private mode enabled</p>
