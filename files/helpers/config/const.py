@@ -287,6 +287,15 @@ if SITE_NAME == 'rDrama':
 		'transgender',
 		'chinchilla',
 		'sports',
+		'femme',
+		'atheism',
+		'therapy',
+		'communism',
+		'nerdshit',
+		'equestria',
+		'redscarepod',
+		'highrollerclub',
+		'countryclub',
 	}
 
 	REDDIT_NOTIFS_SITE.update({'marsey', 'r/drama', 'justice4darrell', 'cringetopia.org'})
