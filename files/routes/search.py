@@ -113,11 +113,11 @@ def searchposts(v):
 
 	if 'nsfw' in criteria:
 		nsfw = criteria['nsfw'].lower().strip() == 'true'
-		posts = posts.filter_by(nsfw=nsfw)
+		posts = posts.filter(Post.nsfw == nsfw)
 
 	if 'effortpost' in criteria:
 		effortpost = criteria['effortpost'].lower().strip() == 'true'
-		posts = posts.filter_by(effortpost=effortpost)
+		posts = posts.filter(Post.effortpost == effortpost)
 
 	if 'domain' in criteria:
 		domain = criteria['domain']
