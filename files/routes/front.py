@@ -27,7 +27,12 @@ def front_all(v, hole=None):
 
 	page = get_page()
 
-	if v:
+	effortposts_only = request.values.get('effortposts_only', False)
+
+	if effortposts_only:
+		defaultsorting = 'new'
+		defaulttime = 'all'
+	elif v:
 		defaultsorting = v.defaultsorting
 		if hole: defaulttime = 'all'
 		else: defaulttime = v.defaulttime
@@ -41,7 +46,6 @@ def front_all(v, hole=None):
 
 	sort = request.values.get("sort", defaultsorting)
 	t = request.values.get('t', defaulttime)
-	effortposts_only = request.values.get('effortposts_only', False)
 
 	if SITE == 'rdrama.net' and t == 'all' and sort == 'hot' and page > 1000:
 		sort = 'top'
@@ -52,15 +56,12 @@ def front_all(v, hole=None):
 	try: lt = int(request.values.get("before", 0))
 	except: lt = 0
 
-	if sort == 'hot': default = True
-	else: default = False
-
-	pins = session.get(f'{hole}_{sort}', default)
-
 	if effortposts_only:
-		sort = 'new'
-		t = 'all'
 		pins = False
+	else:
+		if sort == 'hot': default = True
+		else: default = False
+		pins = session.get(f'{hole}_{sort}', default)
 
 	if not v:
 		result = cache.get(f'frontpage_{sort}_{t}_{page}_{hole}_{pins}_{effortposts_only}')
