@@ -736,7 +736,7 @@ def hole_marsey(v, hole):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def subs(v):
-	holes = g.db.query(Hole, func.count(Post.hole)).outerjoin(Post, Hole.name == Post.hole).group_by(Hole.name).order_by(hole.created_utc).all()
+	holes = g.db.query(Hole, func.count(Post.hole)).outerjoin(Post, Hole.name == Post.hole).group_by(Hole.name).order_by(Hole.created_utc).all()
 	total_users = g.db.query(User).count()
 	return render_template('hole/holes.html', v=v, holes=holes, total_users=total_users)
 
