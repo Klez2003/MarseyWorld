@@ -864,7 +864,7 @@ CREATE TABLE public.posts (
     rainbowed boolean NOT NULL,
     queened boolean NOT NULL,
     sharpened boolean NOT NULL,
-    effortpost boolean DEFAULT false NOT NULL
+    effortpost boolean NOT NULL
 );
 
 
