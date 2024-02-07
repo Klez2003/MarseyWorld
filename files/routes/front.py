@@ -122,7 +122,7 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 	if lt: posts = posts.filter(Post.created_utc < lt)
 
 	if effortposts_only:
-		posts = posts.filter_by(effortpost=True)
+		posts = posts.filter(Post.effortpost == True)
 
 	if not gt and not lt:
 		posts = apply_time_filter(t, posts, Post)
