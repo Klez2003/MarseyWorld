@@ -281,7 +281,7 @@
 							{% endif %}
 
 							<p id="profile--info--effortposts">
-								Effortposts made: <a href='/search/posts?q=author:{{u.username}}+effortpost:true'>{{u.effortposts_made}}</a>
+								Effortposts made: <a href='/search/posts?q=author:{{u.username}}+effortpost:true'><b>{{u.effortposts_made}}</b></a>
 							</p>
 
 							{% if u.is_private %}
@@ -594,7 +594,7 @@
 						{% endif %}
 
 						<p id="profile-mobile--info--effortposts">
-							Effortposts made: <a href='/search/posts?q=author:{{u.username}}+effortpost:true'>{{u.effortposts_made}}</a>
+							Effortposts made: <a href='/search/posts?q=author:{{u.username}}+effortpost:true'><b>{{u.effortposts_made}}</b></a>
 						</p>
 
 						{% if u.is_private %}
