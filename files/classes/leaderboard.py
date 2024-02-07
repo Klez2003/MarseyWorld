@@ -200,3 +200,17 @@ class Leaderboard:
 		if not position: position = (leaderboard.count() + 1, 0)
 		leaderboard = leaderboard.limit(limit).all()
 		return (leaderboard, position[0], position[1])
+
+	@classmethod
+	def get_effortposts_lb(cls, lb_criteria, v, users, limit, desc):
+		sq = g.db.query(lb_criteria, cls.count_and_label(lb_criteria), cls.rank_filtered_rank_label_by_desc(lb_criteria))
+		sq = sq.filter(Post.effortpost == True)
+		sq = sq.group_by(lb_criteria).subquery()
+		sq_criteria = User.id == sq.c.author_id
+
+		leaderboard = g.db.query(User, sq.c.count).join(sq, sq_criteria).order_by(sq.c.count.desc())
+		position = g.db.query(User.id, sq.c.rank, sq.c.count).join(sq, sq_criteria).filter(User.id == v.id).one_or_none()
+		if position: position = (position[1], position[2])
+		else: position = (leaderboard.count() + 1, 0)
+		leaderboard = leaderboard.limit(limit).all()
+		return (leaderboard, position[0], position[1])

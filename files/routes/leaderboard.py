@@ -159,3 +159,11 @@ def leaderboard_average_upvotes_per_post(v):
 def leaderboard_average_upvotes_per_comment(v):
 	leaderboard = Leaderboard("Average upvotes per comment", "average upvotes per comment", "average-upvotes-per-comment", "Average Upvotes per Comment", "comments", Leaderboard.get_avg_upvotes_lb, Comment, v, None, None)
 	return render_template("leaderboard.html", v=v, leaderboard=leaderboard)
+
+@app.get("/leaderboard/effortposts")
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@auth_required
+def leaderboard_effortposts(v):
+	leaderboard = Leaderboard("Effortposts", "effortposts", "effortposts", "Effortposts", None, Leaderboard.get_effortposts_lb, Post.author_id, v, None, None)
+	return render_template("leaderboard.html", v=v, leaderboard=leaderboard)

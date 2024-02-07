@@ -28,7 +28,8 @@
 		<a {% if request.path == "/leaderboard/casino_winnings_top" %}class="font-weight-bolder"{% endif %} href="/leaderboard/casino_winnings_top">Casino winnings (top)</a> •
 		<a {% if request.path == "/leaderboard/casino_winnings_bottom" %}class="font-weight-bolder"{% endif %} href="/leaderboard/casino_winnings_bottom">Casino winnings (bottom)</a> •
 		<a {% if request.path == "/leaderboard/average_upvotes_per_post" %}class="font-weight-bolder"{% endif %} href="/leaderboard/average_upvotes_per_post">Average upvotes per post</a> •
-		<a {% if request.path == "/leaderboard/average_upvotes_per_comment" %}class="font-weight-bolder"{% endif %} href="/leaderboard/average_upvotes_per_comment">Average upvotes per comment</a>
+		<a {% if request.path == "/leaderboard/average_upvotes_per_comment" %}class="font-weight-bolder"{% endif %} href="/leaderboard/average_upvotes_per_comment">Average upvotes per comment</a> •
+		<a {% if request.path == "/leaderboard/effortposts" %}class="font-weight-bolder"{% endif %} href="/leaderboard/effortposts">Effortposts</a>
 	</div>
 
 	{% macro format_user_in_table(user, style, position_no, value, user_relative_url) %}
