@@ -123,7 +123,6 @@ CREATE TABLE public.users (
     background character varying(167),
     verified character varying(100),
     received_award_count integer DEFAULT 0 NOT NULL,
-    nitter boolean NOT NULL,
     truescore integer DEFAULT 0 NOT NULL,
     frontsize integer DEFAULT 25 NOT NULL,
     coins_spent integer DEFAULT 0 NOT NULL,
@@ -137,7 +136,6 @@ CREATE TABLE public.users (
     show_sigs boolean NOT NULL,
     enemies character varying(5000),
     enemies_html character varying(20000),
-    fp character varying(21),
     longpost integer,
     bird integer,
     lootboxes_bought integer DEFAULT 0 NOT NULL,
@@ -154,7 +152,7 @@ CREATE TABLE public.users (
     last_viewed_post_notifs integer NOT NULL,
     pronouns character varying(15) NOT NULL,
     last_viewed_log_notifs integer NOT NULL,
-    imgsed boolean,
+    imgsed boolean NOT NULL,
     earlylife integer,
     bite integer,
     old_house character varying(16),
@@ -169,7 +167,6 @@ CREATE TABLE public.users (
     profile_background character varying(167),
     chudded_by integer,
     blacklisted_by integer,
-    hidevotedon boolean DEFAULT false NOT NULL,
     chud_phrase character varying(35),
     prelock_username character varying(30),
     namechanged integer,
@@ -181,7 +178,10 @@ CREATE TABLE public.users (
     zombie integer DEFAULT 0 NOT NULL,
     extra_username character varying(30),
     grinch boolean NOT NULL,
-    last_viewed_modmail_notifs integer NOT NULL
+    last_viewed_modmail_notifs integer NOT NULL,
+    nitter boolean DEFAULT false NOT NULL,
+    hole_creation_notifs boolean NOT NULL,
+    group_creation_notifs boolean NOT NULL
 );
 
 
@@ -3065,3 +3065,4 @@ ALTER TABLE ONLY public.comments
 --
 -- PostgreSQL database dump complete
 --
+

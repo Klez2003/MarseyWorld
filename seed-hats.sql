@@ -1202,7 +1202,7 @@ INSERT INTO public.hat_defs VALUES (170, 'Kenny', 'User''s life insurance claim 
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1445, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1446, true);
 
 
 --
