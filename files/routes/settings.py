@@ -175,6 +175,8 @@ def settings_personal_post(v):
 	updated = updated or update_flag("show_sigs", "show_sigs")
 	updated = updated or update_flag("is_private", "private")
 	updated = updated or update_flag("lifetimedonated_visible", "lifetimedonated_visible")
+	updated = updated or update_flag("hole_creation_notifs", "hole_creation_notifs")
+	updated = updated or update_flag("group_creation_notifs", "group_creation_notifs")
 
 	if not updated and request.values.get("spider", v.spider) != v.spider and v.spider <= 1:
 		updated = True

@@ -313,3 +313,16 @@ def alert_admins(body):
 	g.db.flush()
 
 	new_comment.top_comment_id = new_comment.id
+
+def alert_active_users(body, v, extra_criteria):
+	body_html = sanitize(body, blackjack="notification")
+	cid = create_comment(body_html)
+	t = time.time() - 604800
+
+	notified_users = [x[0] for x in g.db.query(User.id).filter(
+			User.last_active > t,
+			User.id != v.id,
+			extra_criteria,
+		)]
+	for uid in notified_users:
+		add_notif(cid, uid, body, check_existing=False)

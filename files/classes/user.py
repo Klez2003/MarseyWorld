@@ -148,6 +148,7 @@ class User(Base):
 	lifetimedonated_visible = Column(Boolean, default=False)
 	blacklisted_by = Column(Integer, ForeignKey("users.id"))
 	grinch = Column(Boolean, default=SITE_NAME != 'rDrama') #don't put in an if condition, it will cause an error bc it has a not-null constraint
+	group_creation_notifs = Column(Boolean, default=False)
 
 	if SITE_NAME == 'WPD':
 		nitter = False
@@ -156,6 +157,7 @@ class User(Base):
 		reddit = 'old.reddit.com'
 		pronouns = 'they/them'
 		earlylife = 0
+		hole_creation_notifs = False
 		hidevotedon = Column(Boolean, default=False)
 	else:
 		nitter = Column(Boolean, default=False)
@@ -164,6 +166,7 @@ class User(Base):
 		reddit = Column(String, default='old.reddit.com')
 		pronouns = Column(String, default='they/them')
 		earlylife = Column(Integer, default=0)
+		hole_creation_notifs = Column(Boolean, default=True)
 		hidevotedon = False
 
 	if IS_HOMOWEEN():
