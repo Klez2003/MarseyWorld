@@ -94,18 +94,13 @@ class User(Base):
 	email_verified = Column(Boolean, default=False)
 	shadowbanned = Column(Integer, ForeignKey("users.id"))
 	chudded_by = Column(Integer, ForeignKey("users.id"))
-	hidevotedon = Column(Boolean, default=False)
 	slurreplacer = Column(Integer, default=1)
 	profanityreplacer = Column(Integer, default=1)
 	flairchanged = Column(Integer, default=0)
 	namechanged = Column(Integer, default=0)
 	newtab = Column(Boolean, default=False)
 	newtabexternal = Column(Boolean, default=True)
-	reddit = Column(String, default='old.reddit.com')
-	nitter = Column(Boolean, default=False)
-	imgsed = Column(Boolean, default=False)
 	frontsize = Column(Integer, default=25)
-	controversial = Column(Boolean, default=False)
 	bio = deferred(Column(String))
 	bio_html = Column(String)
 	sig = deferred(Column(String))
@@ -144,9 +139,7 @@ class User(Base):
 	last_viewed_post_notifs = Column(Integer, default=0)
 	last_viewed_log_notifs = Column(Integer, default=0)
 	last_viewed_reddit_notifs = Column(Integer, default=0)
-	pronouns = Column(String, default='they/them')
 	bite = Column(Integer, default=0)
-	earlylife = Column(Integer, default=0)
 	owoify = Column(Integer, default=0)
 	sharpen = Column(Integer, default=0)
 	marsify = Column(Integer, default=0)
@@ -156,6 +149,23 @@ class User(Base):
 	lifetimedonated_visible = Column(Boolean, default=False)
 	blacklisted_by = Column(Integer, ForeignKey("users.id"))
 	grinch = Column(Boolean, default=SITE_NAME != 'rDrama') #don't put in an if condition, it will cause an error bc it has a not-null constraint
+
+	if SITE_NAME == 'WPD':
+		nitter = False
+		imgsed = False
+		controversial = False
+		reddit = 'old.reddit.com'
+		pronouns = 'they/them'
+		earlylife = 0
+		hidevotedon = Column(Boolean, default=False)
+	else:
+		nitter = Column(Boolean, default=False)
+		imgsed = Column(Boolean, default=False)
+		controversial = Column(Boolean, default=False)
+		reddit = Column(String, default='old.reddit.com')
+		pronouns = Column(String, default='they/them')
+		earlylife = Column(Integer, default=0)
+		hidevotedon = False
 
 	if IS_HOMOWEEN():
 		zombie = Column(Integer, default=0) # > 0 vaxxed; < 0 zombie
