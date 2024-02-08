@@ -134,7 +134,7 @@
 						{% if FEATURES['NSFW_MARKING'] %}
 							{{common.toggle_section('NSFW Warnings', 'nsfw_warnings', 'nsfw_warnings', v.nsfw_warnings, "Show a warning when viewing NSFW posts and collapse NSFW comments.", false)}}
 						{% endif %}
-						{% if SITE_NAME != 'rDrama' %}
+						{% if SITE_NAME == 'WPD' %}
 							{{common.toggle_section('Hide Posts Voted On', 'hidevotedon', 'hidevotedon', v.hidevotedon, 'Enable if you would like to automatically hide posts you have voted on from your frontpage.', false)}}
 						{% endif %}
 						<div class="d-lg-flex border-bottom">
