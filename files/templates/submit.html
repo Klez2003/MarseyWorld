@@ -82,7 +82,7 @@
 														<input autocomplete="off" type="checkbox" class="custom-control-input" id="post-private" name="private" data-nonce="{{g.nonce}}" data-onchange="savetext()">
 														<label class="custom-control-label" for="post-private">Draft</label>
 													</div>
-													<div class="custom-control custom-checkbox">
+													<div class="custom-control custom-checkbox {% if SITE_NAME == 'WPD' and v.truescore < 500 %}d-none{% endif %}">
 														<input autocomplete="off" type="checkbox" class="custom-control-input" id="post-effortpost" name="effortpost" data-nonce="{{g.nonce}}" data-onchange="savetext()">
 														<label class="custom-control-label" for="post-effortpost">Notify admins to mark your post as an effortpost</label>
 													</div>
