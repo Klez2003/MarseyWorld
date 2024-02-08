@@ -2151,6 +2151,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseydarwin', 'Marsey', 2, 'history darwinian euphoric atheist charles', false, 0),
 ('marseydash', 'Marsey', 2, 'dash', false, 1692427237),
 ('marseydaswhite', 'Marsey', 2, 'screen yt overload mayo cringe light mode', false, 1699885111),
+('marseydawkins', 'Marsey', 2, 'richard atheism religion book', false, 1707376695),
 ('marseydawnbreaker', 'Marsey', 2, 'gamer video game warhammer dota', false, 0),
 ('marseydayan', 'Marsey', 2, 'moshe israel army military general soldier', false, 1676867374),
 ('marseydayofthedead', 'Marsey', 2, 'sugarskull skeleteon diadelosmuertos mexico latin', false, 1698801042),
