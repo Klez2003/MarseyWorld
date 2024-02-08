@@ -169,6 +169,7 @@ def settings_personal_post(v):
 	updated = updated or update_flag("hidevotedon", "hidevotedon")
 	updated = updated or update_flag("newtab", "newtab")
 	updated = updated or update_flag("newtabexternal", "newtabexternal")
+	updated = updated or update_flag("nitter", "nitter")
 	updated = updated or update_flag("imgsed", "imgsed")
 	updated = updated or update_flag("controversial", "controversial")
 	updated = updated or update_flag("show_sigs", "show_sigs")
