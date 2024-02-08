@@ -124,8 +124,4 @@
 
 		<script defer src="{{'js/mobile_prompt.js' | asset}}"></script>
 	{% endif %}
-
-	{% if FP and request.path == '/' and v and not v.fp %}
-		<script defer src="{{'js/fp.js' | asset}}"></script>
-	{% endif %}
 {% endblock %}

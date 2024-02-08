@@ -1251,29 +1251,6 @@ def subscribed_posts(v, username):
 
 	return get_saves_and_subscribes(v, "userpage/posts.html", Subscription, page, False)
 
-@app.post("/fp/<fp>")
-@limiter.limit('1/second', scope=rpath)
-@limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
-@auth_required
-def fp(v, fp):
-	if session.get("GLOBAL"):
-		return ''
-
-	v.fp = fp
-	users = g.db.query(User).filter(User.fp == fp, User.id != v.id).all()
-	for u in users:
-		li = [v.id, u.id]
-		g.db.flush()
-		existing = g.db.query(Alt).filter(Alt.user1.in_(li), Alt.user2.in_(li)).one_or_none()
-		if existing: continue
-		add_alt(user1=v.id, user2=u.id)
-
-	check_for_alts(v, include_current_session=True)
-	g.db.add(v)
-	return ''
-
 @app.post("/toggle_pins/<hole>/<sort>")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 def toggle_pins(hole, sort):

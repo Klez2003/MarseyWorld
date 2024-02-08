@@ -105,7 +105,6 @@ class User(Base):
 	bio_html = Column(String)
 	sig = deferred(Column(String))
 	sig_html = Column(String)
-	fp = Column(String)
 	show_sigs = Column(Boolean, default=True)
 	progressivestack = Column(Integer, default=0)
 	deflector = Column(Integer, default=0)
