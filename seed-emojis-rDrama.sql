@@ -1930,6 +1930,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseychingchongmutt', 'Marsey', 2, 'asian mixed singapore american', false, 1699374511),
 ('marseychingchongnotes', 'Marsey', 2, 'pencil pad write asian azn rice gook nip slit slant squint', false, 1675422126),
 ('marseychingchongpearlclutch', 'Marsey', 2, 'asian chinese jap gook korean nip yikes scared chink rice', false, 1664035377),
+('marseychingchongpirate', 'Marsey', 2, 'party parrot copyright asian rice straw hat buck teeth glasses', false, 1707338832),
 ('marseychingchongraging', 'Marsey', 2, 'mad angry triggered red shaking trembling rice gook nip asian', false, 1692807317),
 ('marseychingchongshooter', 'Marsey', 2, 'gun bang pistol rice asian gook nip mass kill chink animated', false, 1674418953),
 ('marseychingchongsupremacy', 'Marsey', 2, 'ccp china chinese ricefarmer hat glasses buckteeth bucktooth azn asian jinping xinping han masterrace communist communism maoist zedong', false, 1663298980),
