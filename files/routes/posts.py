@@ -703,7 +703,7 @@ def submit_post(v, hole=None):
 	generate_thumb = (not p.thumburl and p.url and p.domain != SITE)
 	gevent.spawn(postprocess_post, p.url, p.body, p.body_html, p.id, generate_thumb, False)
 
-	if flag_effortpost:
+	if flag_effortpost and not (SITE_NAME == 'WPD' and v.truescore < 500):
 		body = f"@{v.username} has requested that [{p.title}](/post/{p.id}) be marked as an effortpost!"
 		alert_admins(body)
 
