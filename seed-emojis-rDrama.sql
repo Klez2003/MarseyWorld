@@ -395,6 +395,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('carpdusclops', 'Carp', 2, 'pokemon ghost 356 pkmn', false, 1696001600),
 ('carpeffigy', 'Carp', 2, 'blairwitchproject voodoodoll', false, 1694386333),
 ('carpeggirl', 'Carp', 2, 'trans train crack', false, 1690582419),
+('carpeggirl2', 'Carp', 2, 'crack trans squee tranny', false, 1707444709),
 ('carpeldritch', 'Carp', 2, 'carpathianflorist fish cthulhu hplovecraft horror ghost', false, 1682113873),
 ('carpelectrode', 'Carp', 2, 'pkmn pokemon 101', false, 1701707033),
 ('carpelekid', 'Carp', 2, 'pkmn pokemon baby 239', false, 1697841878),
