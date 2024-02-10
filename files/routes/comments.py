@@ -205,7 +205,7 @@ def comment(v):
 						process_image(filename, v, resize=resize)
 
 					if post_target.id == SIDEBAR_THREAD:
-						process_sidebar_or_banner('sidebar', 400)
+						process_sidebar_or_banner('sidebar', 600)
 					elif post_target.id == BANNER_THREAD:
 						banner_width = 1600
 						process_sidebar_or_banner('banners', banner_width)

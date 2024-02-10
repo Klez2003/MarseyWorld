@@ -532,7 +532,7 @@ def upload_hole_sidebar(v, hole):
 
 	name = f'/images/{time.time()}'.replace('.','') + '.webp'
 	file.save(name)
-	sidebarurl = process_image(name, v, resize=400)
+	sidebarurl = process_image(name, v, resize=600)
 
 	hole.sidebarurls.append(sidebarurl)
 
