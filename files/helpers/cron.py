@@ -291,7 +291,10 @@ def _award_timers_task():
 		User.house: User.old_house,
 		User.old_house: '',
 	})
-	_process_timer(User.earlylife, [169], "The earlylife award you received has expired!")
+
+	if SITE_NAME != 'WPD':
+		_process_timer(User.earlylife, [169], "The earlylife award you received has expired!")
+
 	_process_timer(User.marsify, [170], "The marsify award you received has expired!")
 	_process_timer(User.rainbow, [171], "The rainbow award you received has expired!")
 	_process_timer(User.queen, [285], "The queen award you received has expired!")
