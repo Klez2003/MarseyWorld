@@ -19,6 +19,7 @@ OWO_EXCLUDE_PATTERNS = [
 	group_mention_regex, #ping group mentions
 	poll_regex, # polls
 	choice_regex,
+	bet_regex,
 	command_regex, # markup commands
 ]
 
