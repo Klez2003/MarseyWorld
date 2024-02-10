@@ -133,8 +133,7 @@ def add_notif(cid, uid, text, pushnotif_url='', check_existing=True):
 	if ' has mentioned you: [' in text:
 		text = text.split(':')[0] + '!'
 
-	if not request.path.startswith('/submit'):
-		push_notif({uid}, 'New notification', text, pushnotif_url)
+	push_notif({uid}, 'New notification', text, pushnotif_url)
 
 
 def NOTIFY_USERS(text, v, oldtext=None, ghost=False, obj=None, followers_ping=True, commenters_ping_post_id=None, charge=True):
@@ -314,14 +313,14 @@ def alert_admins(body):
 
 	new_comment.top_comment_id = new_comment.id
 
-def alert_active_users(body, v, extra_criteria):
+def alert_active_users(body, vid, extra_criteria):
 	body_html = sanitize(body, blackjack="notification")
 	cid = create_comment(body_html)
 	t = time.time() - 604800
 
 	notified_users = [x[0] for x in g.db.query(User.id).filter(
 			User.last_active > t,
-			User.id != v.id,
+			User.id != vid,
 			extra_criteria,
 		)]
 	for uid in notified_users:

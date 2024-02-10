@@ -7,6 +7,7 @@ from hashlib import md5
 from collections import Counter
 from sqlalchemy.orm import load_only, InstrumentedAttribute
 from sqlalchemy.sql import text
+from sqlalchemy import or_
 
 import click
 import requests
@@ -19,7 +20,7 @@ import files.routes.static as route_static
 from files.routes.front import frontlist
 from files.__main__ import cache
 from files.classes import *
-from files.helpers.alerts import send_repeatable_notification, notif_comment
+from files.helpers.alerts import *
 from files.helpers.config.const import *
 from files.helpers.get import *
 from files.helpers.lottery import check_if_end_lottery_task
@@ -153,13 +154,6 @@ def _hole_inactive_purge_task():
 	dead_holes = g.db.query(Hole).filter(Hole.name.notin_(active_holes)).all()
 	names = [x.name for x in dead_holes]
 
-	admins = [x[0] for x in g.db.query(User.id).filter(User.admin_level >= PERMS['NOTIFICATIONS_HOLE_INACTIVITY_DELETION'])]
-
-	mods = g.db.query(Mod).filter(Mod.hole.in_(names)).all()
-	for x in mods:
-		if x.user_id in admins: continue
-		send_repeatable_notification(x.user_id, f":marseyrave: /h/{x.hole} has been deleted for inactivity after one week without new posts. All posts in it have been moved to the main feed :marseyrave:")
-
 	for name in names:
 		first_mod_id = g.db.query(Mod.user_id).filter_by(hole=name).order_by(Mod.created_utc).first()
 		if first_mod_id:
@@ -170,8 +164,10 @@ def _hole_inactive_purge_task():
 				description=f'Let a hole they owned die (/h/{name})'
 			)
 
-		for admin in admins:
-			send_repeatable_notification(admin, f":marseyrave: /h/{name} has been deleted for inactivity after one week without new posts. All posts in it have been moved to the main feed :marseyrave:")
+		text = f":marseyrave: /h/{name} has been deleted for inactivity after one week without new posts. All posts in it have been moved to the main feed :marseyrave:"
+		mod_ids = (x[0] for x in g.db.query(Mod.user_id).filter_by(hole=name))
+		extra_criteria = or_(User.hole_creation_notifs == True, User.id.in_(mod_ids))
+		alert_active_users(text, None, extra_criteria)
 
 	posts = g.db.query(Post).filter(Post.hole.in_(names)).all()
 	for post in posts:
@@ -183,7 +179,7 @@ def _hole_inactive_purge_task():
 		post.hole_pinned = None
 		g.db.add(post)
 
-	to_delete = mods \
+	to_delete = g.db.query(Mod).filter(Mod.hole.in_(names)).all() \
 		+ g.db.query(Exile).filter(Exile.hole.in_(names)).all() \
 		+ g.db.query(HoleBlock).filter(HoleBlock.hole.in_(names)).all() \
 		+ g.db.query(StealthHoleUnblock).filter(StealthHoleUnblock.hole.in_(names)).all() \

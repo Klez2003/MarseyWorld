@@ -55,7 +55,7 @@ def create_group(v):
 	g.db.flush() #Necessary, to make linkfying the ping group in the notification work
 
 	text = f":!marseyparty: !{group} has been created by @{v.username} :marseyparty:"
-	alert_active_users(text, v, User.group_creation_notifs == True)
+	alert_active_users(text, v.id, User.group_creation_notifs == True)
 
 	return {"message": f"!{group} created successfully!"}
 

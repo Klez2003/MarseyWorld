@@ -390,7 +390,7 @@ def create_sub2(v):
 	g.db.add(mod)
 
 	text = f":!marseyparty: /h/{hole} has been created by @{v.username} :marseyparty:"
-	alert_active_users(text, v, User.hole_creation_notifs == True)
+	alert_active_users(text, v.id, User.hole_creation_notifs == True)
 
 	return redirect(f"/h/{hole}")
 

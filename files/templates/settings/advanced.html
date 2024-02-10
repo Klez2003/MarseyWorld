@@ -161,7 +161,7 @@
 					<h5>Notifications</h5>
 					<div class="settings-section rounded">
 						{% if SITE_NAME != 'WPD' %}
-							{{common.toggle_section('Hole Creation Notifications', 'hole_creation_notifs', 'hole_creation_notifs', v.hole_creation_notifs, 'Get a notification when a new hole is made.', false)}}
+							{{common.toggle_section('Hole Creation and Deletion Notifications', 'hole_creation_notifs', 'hole_creation_notifs', v.hole_creation_notifs, 'Get a notification when a hole is made or deleted.', false)}}
 						{% endif %}
 						{{common.toggle_section('Ping Group Creation Notifications', 'group_creation_notifs', 'group_creation_notifs', v.group_creation_notifs, 'Get a notification when a new ping group is made.', false)}}
 					</div>
