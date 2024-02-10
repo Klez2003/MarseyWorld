@@ -258,6 +258,7 @@ if SITE_NAME == 'rDrama':
 		"erectile dysfunction treatments",
 		"managing incontinence",
 		"Quran study group",
+		"Israeli Power Generator",
 	)
 
 	BOOSTED_HOLES = {
