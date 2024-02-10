@@ -61,7 +61,6 @@ def calc_users():
 		else:
 			ddos_threshold = 1000
 
-		print(g.loggedout_counter, flush=True)
 		if SITE == 'rdrama.net' or g.loggedin_counter + g.loggedout_counter > ddos_threshold:
 			if not get_setting('under_attack'):
 				set_setting('under_attack', True)
