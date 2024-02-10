@@ -187,8 +187,6 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 
 
 		if v: pins = pins.filter(Post.author_id.notin_(v.userblocks))
-		if SITE_NAME == 'rDrama':
-			pins = pins.order_by(Post.author_id != LAWLZ_ID)
 		pins = pins.order_by(Post.created_utc.desc()).all()
 		posts = pins + posts
 

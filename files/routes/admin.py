@@ -1531,9 +1531,6 @@ def unsticky_post(post_id, v):
 		if FEATURES['AWARDS'] and post.stickied.endswith(PIN_AWARD_TEXT) and v.admin_level < PERMS["UNDO_AWARD_PINS"]:
 			abort(403, "Can't unpin award pins!")
 
-		if post.author_id == LAWLZ_ID and post.stickied_utc and SITE_NAME == 'rDrama':
-			abort(403, "Can't unpin lawlzposts!")
-
 		post.stickied = None
 		post.stickied_utc = None
 		g.db.add(post)

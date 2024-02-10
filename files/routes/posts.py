@@ -687,8 +687,6 @@ def submit_post(v, hole=None):
 	v.post_count += 1
 	g.db.add(v)
 
-	execute_lawlz_actions(v, p)
-
 	if (SITE == 'rdrama.net'
 			and v.id in {2008, 3336}
 			and not (p.hole and p.hole_obj.stealth)) and p.hole != 'slavshit' and not p.ghost:

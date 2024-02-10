@@ -330,8 +330,6 @@ def award_thing(v, thing_type, id):
 	elif kind == "unpin":
 		if not obj.stickied_utc: abort(400)
 		if not obj.author.deflector or v == obj.author:
-			if obj.author_id == LAWLZ_ID and SITE_NAME == 'rDrama': abort(403, "You can't unpin lawlzposts!")
-
 			if isinstance(obj, Comment):
 				t = obj.stickied_utc - 3600*6
 			else:

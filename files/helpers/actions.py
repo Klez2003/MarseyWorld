@@ -86,9 +86,6 @@ def execute_snappy(post, v):
 			body = ":#carpwavelove:"
 	elif v.id == AEVANN_ID:
 		body = "https://i.rdrama.net/images/16909380805064178.webp"
-	elif v.id == LAWLZ_ID:
-		if random.random() < 0.5: body = "wow, this lawlzpost sucks!"
-		else: body = "wow, a good lawlzpost for once!"
 	elif SITE == 'rdrama.net' and v.id == 253:
 		body = "https://i.rdrama.net/images/16961715452780113.webp"
 	elif SITE == 'rdrama.net' and v.id == 8094:
@@ -572,38 +569,6 @@ def execute_under_siege(v, target, body, kind):
 		for uid in notified_ids:
 			n = Notification(comment_id=target.id, user_id=uid)
 			g.db.add(n)
-
-
-def execute_lawlz_actions(v, p):
-	if v.id != LAWLZ_ID: return
-	if SITE_NAME != 'rDrama': return
-	if not FEATURES['PINS']: return
-	p.stickied_utc = int(time.time()) + 86400
-	p.stickied = "AutoJanny"
-	p.distinguish_level = 6
-	p.flair = filter_emojis_only(":ben10: Required Reading")
-	ma_1 = ModAction(
-		kind="pin_post",
-		user_id=AUTOJANNY_ID,
-		target_post_id=p.id,
-		_note='for 1 day'
-	)
-	ma_2 = ModAction(
-		kind="distinguish_post",
-		user_id=AUTOJANNY_ID,
-		target_post_id=p.id
-	)
-	ma_3 = ModAction(
-		kind="flair_post",
-		user_id=AUTOJANNY_ID,
-		target_post_id=p.id,
-		_note=f'"{p.flair}"'
-	)
-	g.db.add(p)
-	g.db.add(ma_1)
-	g.db.add(ma_2)
-	g.db.add(ma_3)
-
 
 def process_options(v, target):
 
