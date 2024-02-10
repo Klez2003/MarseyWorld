@@ -13,6 +13,10 @@ from files.helpers.config.const import *
 from files.helpers.security import generate_hash, validate_hash
 from files.__main__ import cache
 
+if FEATURES['IP_LOGGING']:
+	from files.classes import IPLog
+	from files.__main__ import get_IP
+
 def check_session_id():
 	if not session.get("session_id"):
 		session.permanent = True
@@ -81,6 +85,15 @@ def check_for_alts(current, include_current_session=False):
 			User.email == current.email,
 			User.email_verified == True,
 			User.id != current.id,
+		).all()]
+		past_accs.update(more_ids)
+
+	if FEATURES['IP_LOGGING']:
+		one_day_ago = time.time() - 86400
+		more_ids = [x[0] for x in g.db.query(IPLog.user_id).filter(
+			IPLog.ip == get_IP(),
+			IPLog.user_id != current.id,
+			IPLog.last_used > one_day_ago,
 		).all()]
 		past_accs.update(more_ids)
 
