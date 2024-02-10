@@ -570,6 +570,7 @@ CURRENCY_TRANSFER_ID = 5
 
 IMMUNE_TO_NEGATIVE_AWARDS = {}
 EXEMPT_FROM_1MONTH_EDITING_LIMIT = {}
+PINNED_POSTS_IDS = {}
 
 MODMAIL_ID = 2
 PROGSTACK_ID = 4
@@ -685,6 +686,24 @@ if SITE in {'rdrama.net', 'staging.rdrama.net'}:
 	CURRENCY_TRANSFER_ID = CARP_ID
 
 	IMMUNE_TO_NEGATIVE_AWARDS = {PIZZASHILL_ID, CARP_ID, 23629}
+
+	PINNED_POSTS_IDS = {
+		2424: 1, #pizzashill
+		864: 1, #RitalinRx
+		1096: 1, #xa15428
+		1357: 1, #_______________
+		1378: 1, #ticktockgone
+		2008: 1, #transgirltradwife
+		4999: 1, #justcool393
+		8491: 1, #TrappySaruh
+		12451: 1, #rosemulet
+		13452: 1, #Sammael-Beliol
+		16012: 1, #realspez
+		18308: 1, #gee891
+		22408: 1, #transbitch
+		24456: 1, #PreyingMantits
+		3336: 24, #Snally
+	}
 
 	NOTIFIED_USERS = {
 		'aevan': AEVANN_ID,

@@ -687,10 +687,8 @@ def submit_post(v, hole=None):
 	v.post_count += 1
 	g.db.add(v)
 
-	if (SITE == 'rdrama.net'
-			and v.id in {2008, 3336}
-			and not (p.hole and p.hole_obj.stealth)) and p.hole != 'slavshit' and not p.ghost:
-		p.stickied_utc = int(time.time()) + 28800
+	if v.id in PINNED_POSTS_IDS and not p.ghost and not (p.hole and p.hole_obj.stealth):
+		p.stickied_utc = time.time() + PINNED_POSTS_IDS[v.id] * 3600
 		p.stickied = "AutoJanny"
 
 	cache.delete_memoized(frontlist)
