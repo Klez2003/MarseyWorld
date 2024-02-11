@@ -30,7 +30,7 @@
 							<th>Applied on</th>
 						{% endif %}
 
-						{% if v.mods_group(group) %}
+						{% if v.is_member_of_group(group) %}
 							<th class="disable-sort-click"></th>
 						{% endif %}
 					</tr>
@@ -39,12 +39,12 @@
 					{% for membership in memberships %}
 						<tr id="{{membership.user_id}}">
 							<td id="counter-{{membership.user_id}}">{{loop.index}}</td>
-							{% set owner = membership.user_id == group.owner_id %}
-							<td {% if owner %}class="unbreakable"{% endif %}>
+							{% set is_owner = membership.user_id == group.owner_id %}
+							<td {% if is_owner %}class="unbreakable"{% endif %}>
 								{% with user=membership.user %}
 									{% include "user_in_table.html" %}
 								{% endwith %}
-								{% if owner %}
+								{% if is_owner %}
 									<img class="mx-2 group-owner" data-bs-toggle="tooltip" alt="Owner" title="Owner" src="{{SITE_FULL_IMAGES}}/e/marseykingretard.webp">
 								{% elif membership.is_mod %}
 									<img class="mx-2 group-mod" data-bs-toggle="tooltip" alt="Mod" title="Mod" src="{{SITE_FULL_IMAGES}}/e/marseyjanny.webp">
@@ -57,8 +57,8 @@
 								<td id="time-{{membership.user_id}}" data-time="{{membership.created_utc}}"></td>
 							{% endif %}
 
-							{% if v.mods_group(group) %}
-								<td>
+							<td>
+								{% if v.mods_group(group) %}
 									{% if v.id == group.owner_id and v.id != membership.user_id %}
 										<div id="mod-{{membership.user_id}}" class="mb-2 {% if name == 'applications' %}d-none{% endif %}">
 											<button id="add-mod-{{membership.user_id}}" type="button" class="btn btn-success btn-block {% if membership.is_mod %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/!{{group.name}}/{{membership.user_id}}/add_mod','add-mod-{{membership.user_id}}','remove-mod-{{membership.user_id}}','d-none')">Add as Mod</button>
@@ -76,8 +76,12 @@
 										<button type="button" class="btn btn-success btn-block" data-nonce="{{g.nonce}}" data-onclick="approve_membership(this,'{{group}}','{{membership.user_id}}')">Approve</button>
 										<button type="button" class="btn btn-danger btn-block" data-nonce="{{g.nonce}}" data-onclick="reject_membership(this,'{{group}}','{{membership.user_id}}')">Reject</button>
 									</div>
-								</td>
-							{% endif %}
+								{% endif %}
+
+								{% if v.is_member_of_group(group) and is_owner and v.id != group.owner_id %}
+									<button type="button" class="btn btn-danger btn-block" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)" data-areyousure="postToastReload(this,'/!{{group}}/usurp')">Usurp</button>
+								{% endif %}
+							</td>
 						</tr>
 					{% endfor %}
 				</tbody>

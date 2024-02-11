@@ -266,3 +266,40 @@ def group_remove_mod(v, group_name, user_id):
 	send_repeatable_notification(membership.user_id, f"@{v.username} (!{group}'s owner) has removed you as a mod!")
 
 	return {"message": f'You have removed @{membership.user.username} as a mod successfully!'}
+
+
+@app.post("/!<group_name>/usurp")
+@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@auth_required
+def group_usurp(v, group_name):
+	group_name = group_name.strip().lower()
+
+	group = g.db.get(Group, group_name)
+	if not group: abort(404)
+
+	if not v.is_member_of_group(group):
+		abort(403, "Only members of groups can usurp them!")
+
+	search_html = f'''%src="/pp/{group.owner_id}">@%</a> (<a href="/!{group.name}" rel="nofollow">!{group.name}</a>'s owner) has % your application!</p>%'''
+
+	one_month_ago = time.time() - 2629800
+
+	is_active = g.db.query(Comment.id).filter(
+		Comment.author_id == AUTOJANNY_ID,
+		Comment.parent_post == None,
+		Comment.body_html.like(search_html),
+		Comment.created_utc > one_month_ago,
+	).first()
+
+	if is_active:
+		abort(403, f"@{group.owner.username} has reviewed a membership application in the past month, so you can't usurp them!")
+
+	send_repeatable_notification(group.owner_id, f"@{v.username} has usurped control of !{group.name} from you. This was possible because you spent more than a month not reviewing membership applications. Be active next time sweaty :!marseycheeky:")
+
+	group.owner_id = v.id
+	g.db.add(group)
+
+	return {"message": f'You have usurped control of !{group.name} successfully!'}

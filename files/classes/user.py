@@ -443,6 +443,10 @@ class User(Base):
 		return bool(g.db.query(GroupMembership.user_id).filter_by(user_id=self.id, group_name=group.name, is_mod=True).one_or_none())
 
 	@lazy
+	def is_member_of_group(self, group):
+		return bool(g.db.query(GroupMembership.user_id).filter_by(user_id=self.id, group_name=group.name).one_or_none())
+
+	@lazy
 	def exiler_username(self, hole):
 		exile = g.db.query(Exile).options(load_only(Exile.exiler_id)).filter_by(user_id=self.id, hole=hole).one_or_none()
 		if exile:
