@@ -103,11 +103,11 @@ def check_for_alts(current, include_current_session=False):
 	for u in get_alt_graph(current.id):
 		if u.shadowbanned and not current.shadowbanned:
 			current.shadowbanned = u.shadowbanned
-			current.ban_reason = u.ban_reason
+			current.shadowban_reason = u.shadowban_reason
 			g.db.add(current)
 		elif current.shadowbanned and not u.shadowbanned:
 			u.shadowbanned = current.shadowbanned
-			u.ban_reason = current.ban_reason
+			u.shadowban_reason = current.shadowban_reason
 			g.db.add(u)
 		elif u.is_permabanned and not current.is_permabanned:
 			current.is_banned = u.is_banned
@@ -119,11 +119,6 @@ def check_for_alts(current, include_current_session=False):
 			u.ban_reason = current.ban_reason
 			u.unban_utc = None
 			g.db.add(u)
-
-		if current.ban_reason == "Under Siege" and u.ban_reason and u.ban_reason != "Under Siege":
-			current.ban_reason = u.ban_reason
-		elif u.ban_reason == "Under Siege" and current.ban_reason and current.ban_reason != "Under Siege":
-			u.ban_reason = current.ban_reason
 
 		if u.is_muted and not current.is_muted:
 			current.is_muted = u.is_muted

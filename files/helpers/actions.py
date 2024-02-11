@@ -540,7 +540,7 @@ def execute_under_siege(v, target, body, kind):
 	if v.shadowbanned: return
 
 	v.shadowbanned = AUTOJANNY_ID
-	v.ban_reason = "Under Siege"
+	v.shadowban_reason = "Under Siege"
 	g.db.add(v)
 
 	if kind == "report":

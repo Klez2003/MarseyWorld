@@ -115,6 +115,7 @@ class User(Base):
 	is_banned = Column(Integer, ForeignKey("users.id"))
 	unban_utc = Column(Integer)
 	ban_reason = deferred(Column(String))
+	shadowban_reason = deferred(Column(String))
 	is_muted = Column(Boolean, default=False)
 	login_nonce = Column(Integer, default=0)
 	coins = Column(Integer, default=DEFAULT_COINS)

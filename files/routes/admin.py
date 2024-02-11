@@ -256,6 +256,7 @@ def revert_actions(v, username):
 		user.shadowbanned = None
 		user.unban_utc = None
 		user.ban_reason = None
+		user.shadowban_reason = None
 		if user.is_banned:
 			user.is_banned = None
 			send_repeatable_notification(user.id, f"@{v.username} (a site admin) has unbanned you!")
@@ -265,6 +266,7 @@ def revert_actions(v, username):
 			u.shadowbanned = None
 			u.unban_utc = None
 			u.ban_reason = None
+			u.shadowban_reason = None
 			if u.is_banned:
 				u.is_banned = None
 				send_repeatable_notification(u.id, f"@{v.username} (a site admin) has unbanned you!")
@@ -882,7 +884,7 @@ def shadowban(user_id, v):
 	if len(reason) > 256:
 		abort(400, "Ban reason too long!")
 
-	user.ban_reason = reason
+	user.shadowban_reason = reason
 	g.db.add(user)
 	check_for_alts(user)
 
@@ -907,12 +909,12 @@ def shadowban(user_id, v):
 def unshadowban(user_id, v):
 	user = get_account(user_id)
 	user.shadowbanned = None
-	if not user.is_banned: user.ban_reason = None
+	user.shadowban_reason = None
 	g.db.add(user)
 
 	for alt in get_alt_graph(user.id):
 		alt.shadowbanned = None
-		if not alt.is_banned: alt.ban_reason = None
+		alt.shadowban_reason = None
 		g.db.add(alt)
 
 	ma = ModAction(
@@ -1214,8 +1216,7 @@ def unban_user(fullname, v):
 
 	user.is_banned = None
 	user.unban_utc = None
-	if not user.shadowbanned:
-		user.ban_reason = None
+	user.ban_reason = None
 	send_repeatable_notification(user.id, f"@{v.username} (a site admin) has unbanned you!")
 	g.db.add(user)
 
@@ -1223,8 +1224,7 @@ def unban_user(fullname, v):
 		if x.is_banned: send_repeatable_notification(x.id, f"@{v.username} (a site admin) has unbanned you!")
 		x.is_banned = None
 		x.unban_utc = None
-		if not x.shadowbanned:
-			x.ban_reason = None
+		x.ban_reason = None
 		g.db.add(x)
 
 	ma = ModAction(
