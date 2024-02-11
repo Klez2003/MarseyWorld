@@ -1113,7 +1113,7 @@ CHUD_PHRASES = ( #if you add a phrase, remove one in turn
 	"Long live the CCP",
 	"I stand with Ukraine",
 	"I love sucking cock",
-	"This post exists on native land",
+	"This post rests on native land",
 	"Communism will win",
 )
 
