@@ -181,7 +181,9 @@ CREATE TABLE public.users (
     last_viewed_modmail_notifs integer NOT NULL,
     nitter boolean DEFAULT false NOT NULL,
     hole_creation_notifs boolean NOT NULL,
-    group_creation_notifs boolean NOT NULL
+    group_creation_notifs boolean NOT NULL,
+    effortpost_notifs boolean NOT NULL,
+    shadowban_reason character varying(256)
 );
 
 
