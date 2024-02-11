@@ -700,7 +700,6 @@ if SITE in {'rdrama.net', 'staging.rdrama.net'}:
 		13452: 1, #Sammael-Beliol
 		16012: 1, #realspez
 		18308: 1, #gee891
-		22408: 1, #transbitch
 		24456: 1, #PreyingMantits
 		3336: 24, #Snally
 	}
