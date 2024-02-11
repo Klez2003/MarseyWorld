@@ -7677,3 +7677,8 @@ blink {
 .vertical-align {
 	vertical-align: middle;
 }
+
+.pinned-to-profile + div + input + :not(.pinned-to-profile) {
+	border-top: 2px solid var(--primary) !important;
+	margin-top: 0.5rem;
+}
