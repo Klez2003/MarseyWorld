@@ -149,6 +149,7 @@ class User(Base):
 	blacklisted_by = Column(Integer, ForeignKey("users.id"))
 	grinch = Column(Boolean, default=SITE_NAME != 'rDrama') #don't put in an if condition, it will cause an error bc it has a not-null constraint
 	group_creation_notifs = Column(Boolean, default=False)
+	effortpost_notifs = Column(Boolean, default=False)
 
 	if SITE_NAME == 'WPD':
 		nitter = False
@@ -827,22 +828,26 @@ class User(Base):
 	@property
 	@lazy
 	def post_notifications_count(self):
+		or_criteria = [
+			Post.hole.in_(self.followed_holes),
+			and_(
+				Post.author_id.in_(self.followed_users),
+				Post.notify == True,
+				Post.ghost == False,
+			)]
+
+		if self.effortpost_notifs:
+			or_criteria.append(Post.effortpost == True)
+
 		return g.db.query(Post).filter(
 			Post.created_utc > self.last_viewed_post_notifs,
-			or_(
-				Post.hole.in_(self.followed_holes),
-				and_(
-					Post.author_id.in_(self.followed_users),
-					Post.notify == True,
-					Post.ghost == False,
-				),
-			),
 			Post.deleted_utc == 0,
 			Post.is_banned == False,
 			Post.private == False,
 			Post.author_id != self.id,
 			Post.author_id.notin_(self.userblocks),
 			or_(Post.hole == None, Post.hole.notin_(self.hole_blocks)),
+			or_(*or_criteria),
 		).count()
 
 	@property

@@ -160,6 +160,7 @@
 				<section id="site-settings-notifications" class="settings-section-section">
 					<h5>Notifications</h5>
 					<div class="settings-section rounded">
+						{{common.toggle_section('Effortpost Notifications', 'effortpost_notifs', 'effortpost_notifs', v.effortpost_notifs, 'Get a notification when a new effortpost is made.', false)}}
 						{% if SITE_NAME != 'WPD' %}
 							{{common.toggle_section('Hole Creation and Deletion Notifications', 'hole_creation_notifs', 'hole_creation_notifs', v.hole_creation_notifs, 'Get a notification when a hole is made or deleted.', false)}}
 						{% endif %}

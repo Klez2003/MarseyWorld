@@ -174,15 +174,18 @@ def notifications_modmail(v):
 def notifications_posts(v):
 	page = get_page()
 
+	or_criteria = [
+		Post.hole.in_(v.followed_holes),
+		and_(
+			Post.author_id.in_(v.followed_users),
+			Post.notify == True,
+			Post.ghost == False,
+		)]
+
+	if v.effortpost_notifs:
+		or_criteria.append(Post.effortpost == True)
+
 	listing = g.db.query(Post).filter(
-		or_(
-			Post.hole.in_(v.followed_holes),
-			and_(
-				Post.author_id.in_(v.followed_users),
-				Post.notify == True,
-				Post.ghost == False,
-			),
-		),
 		Post.deleted_utc == 0,
 		Post.is_banned == False,
 		Post.private == False,
