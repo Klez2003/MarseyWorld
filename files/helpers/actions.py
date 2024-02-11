@@ -548,6 +548,8 @@ def execute_under_siege(v, target, body, kind):
 			reason = f'report on <a href="{target.permalink}">post</a>'
 		else:
 			reason = f'report on <a href="{target.permalink}">comment</a>'
+	elif hasattr(target, 'permalink'):
+		reason = f'<a href="{target.permalink}">{kind}</a>'
 	else:
 		reason = kind
 
@@ -563,15 +565,6 @@ def execute_under_siege(v, target, body, kind):
 		_note=f'reason: "Under Siege ({reason}, {time_taken})"'
 	)
 	g.db.add(ma)
-
-	if kind == 'message':
-		notified_ids = [x[0] for x in g.db.query(User.id).filter(
-			User.admin_level >= PERMS['BLACKJACK_NOTIFICATIONS'],
-			User.id != AEVANN_ID,
-		)]
-		for uid in notified_ids:
-			n = Notification(comment_id=target.id, user_id=uid)
-			g.db.add(n)
 
 def process_options(v, target):
 

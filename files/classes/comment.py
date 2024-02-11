@@ -301,7 +301,9 @@ class Comment(Base):
 	def shortlink(self):
 		if self.wall_user_id:
 			return f"/@{self.wall_user.username}/wall/comment/{self.id}#context"
-		return f"{self.post.shortlink}/{self.id}#context"
+		if self.parent_post:
+			return f"{self.post.shortlink}/{self.id}#context"
+		return f"/notification/{self.id}"
 
 	@property
 	@lazy
