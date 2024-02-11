@@ -438,7 +438,7 @@ def kick(v, pid):
 def hole_settings(v, hole):
 	hole = get_hole(hole)
 	if not v.mods_hole(hole.name): abort(403)
-	return render_template('hole/settings.html', v=v, sidebar=hole.sidebar, hole=hole, css=hole.css)
+	return render_template('hole/settings.html', v=v, sidebar=hole.sidebar, hole=hole, css=hole.css, snappy_quotes=hole.snappy_quotes)
 
 
 @app.post('/h/<hole>/sidebar')
@@ -970,3 +970,32 @@ def hole_log_item(id, v, hole):
 	types = HOLEACTION_TYPES
 
 	return render_template("log.html", v=v, actions=[action], total=1, page=1, action=action, admins=mods, types=types, hole=hole, single_user_url='mod')
+
+@app.post('/h/<hole>/snappy_quotes')
+@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@auth_required
+def post_hole_snappy_quotes(v, hole):
+	hole = get_hole(hole)
+	snappy_quotes = request.values.get('snappy_quotes', '').strip()
+
+	if not hole: abort(404)
+	if not v.mods_hole(hole.name): abort(403)
+	if v.shadowbanned: abort(400)
+
+	if len(snappy_quotes) > HOLE_SNAPPY_QUOTES_LENGTH:
+		abort(400, f"Hole Snappy Quotes are too long (max {HOLE_SNAPPY_QUOTES_LENGTH} characters)")
+
+	hole.snappy_quotes = snappy_quotes
+	g.db.add(hole)
+
+	ma = HoleAction(
+		hole=hole.name,
+		kind='edit_snappy_quotes',
+		user_id=v.id
+	)
+	g.db.add(ma)
+
+	return {"message": "Snappy quotes edited successfully!"}

@@ -24,6 +24,10 @@ class Hole(Base):
 	css = deferred(Column(VARCHAR(CSS_LENGTH_LIMIT)))
 	stealth = Column(Boolean)
 	created_utc = Column(Integer)
+	if SITE_NAME == 'WPD':
+		snappy_quotes = None
+	else:
+		snappy_quotes = deferred(Column(VARCHAR(HOLE_SNAPPY_QUOTES_LENGTH)))
 
 	blocks = relationship("HoleBlock", primaryjoin="HoleBlock.hole==Hole.name")
 	followers = relationship("HoleFollow", primaryjoin="HoleFollow.hole==Hole.name")

@@ -39,6 +39,11 @@ HOLEACTION_TYPES = {
 		"icon": 'fa-columns',
 		"color": 'bg-primary'
 	},
+	'edit_snappy_quotes': {
+		"str": 'edited snappy quotes',
+		"icon": 'fa-robot',
+		"color": 'bg-primary'
+	},
 	'edit_css': {
 		"str": 'edited the css',
 		"icon": 'fa-css3-alt',
