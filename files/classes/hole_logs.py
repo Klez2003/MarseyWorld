@@ -3,6 +3,7 @@ import time
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql.sqltypes import *
+from flask import g
 
 from files.classes import Base
 from files.helpers.config.const import *
@@ -52,7 +53,7 @@ class HoleAction(Base):
 		if self.target_user_id:
 			return f'<a href="{self.target_user.url}">@{self.target_user.username}</a>'
 		elif self.target_post_id:
-			return censor_slurs_profanities(f'<a href="{self.target_post.permalink}">{self.target_post.title_html}</a>', None)
+			return censor_slurs_profanities(f'<a href="{self.target_post.permalink}">{self.target_post.title_html}</a>', g.v)
 		elif self.target_comment_id:
 			return f'<a href="{self.target_comment.permalink}">comment</a>'
 
