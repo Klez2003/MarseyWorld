@@ -105,7 +105,11 @@ def notif_comment_mention(p):
 
 	search_html = f'%</a> has mentioned you: <a href="/post/{p.id}"%'
 
-	existing = g.db.query(Comment.id).filter(Comment.author_id == AUTOJANNY_ID, Comment.parent_post == None, Comment.body_html.like(search_html)).first()
+	existing = g.db.query(Comment.id).filter(
+		Comment.author_id == AUTOJANNY_ID,
+		Comment.parent_post == None,
+		Comment.body_html.like(search_html),
+	).first()
 
 	if existing: return existing[0], text
 	else:

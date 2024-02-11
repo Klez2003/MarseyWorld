@@ -419,7 +419,11 @@ def transfers_id(id, v):
 @auth_required
 def transfers(v):
 
-	comments = g.db.query(Comment).filter(Comment.author_id == AUTOJANNY_ID, Comment.parent_post == None, Comment.body_html.like("%</a> has transferred %"))
+	comments = g.db.query(Comment).filter(
+		Comment.author_id == AUTOJANNY_ID,
+		Comment.parent_post == None,
+		Comment.body_html.like("%</a> has transferred %"),
+	)
 
 	page = get_page()
 
