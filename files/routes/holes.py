@@ -110,6 +110,9 @@ def unexile(v, hole, uid):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def block_sub(v, hole):
+	if hole == 'atheism':
+		abort(403, "/h/atheism is unblockable!")
+
 	hole = get_hole(hole).name
 	existing = g.db.query(HoleBlock).filter_by(user_id=v.id, hole=hole).one_or_none()
 	if not existing:
