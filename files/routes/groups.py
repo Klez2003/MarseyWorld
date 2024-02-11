@@ -135,7 +135,7 @@ def memberships(v, group_name):
 	members = g.db.query(GroupMembership).filter(
 			GroupMembership.group_name == group_name,
 			GroupMembership.approved_utc != None
-		).order_by(GroupMembership.approved_utc).all()
+		).order_by(GroupMembership.is_owner.desc(), GroupMembership.is_mod.desc(), GroupMembership.approved_utc).all()
 
 	applications = g.db.query(GroupMembership).filter(
 			GroupMembership.group_name == group_name,
