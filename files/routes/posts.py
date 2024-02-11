@@ -418,6 +418,9 @@ def is_repost(v):
 	if not url or len(url) < MIN_REPOST_CHECK_URL_LENGTH:
 		abort(400)
 
+	if reddit_s_url_regex.fullmatch(url) or tiktok_t_url_regex.fullmatch(url):
+		url = normalize_url_gevent(url)
+
 	url = normalize_url(url)
 
 	url = escape_for_search(url)
