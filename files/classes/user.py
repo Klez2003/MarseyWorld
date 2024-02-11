@@ -444,7 +444,11 @@ class User(Base):
 
 	@lazy
 	def is_member_of_group(self, group):
-		return bool(g.db.query(GroupMembership.user_id).filter_by(user_id=self.id, group_name=group.name).one_or_none())
+		return bool(g.db.query(GroupMembership.user_id).filter(
+			GroupMembership.user_id == self.id,
+			GroupMembership.group_name == group.name,
+			GroupMembership.approved_utc != None,
+		).one_or_none())
 
 	@lazy
 	def exiler_username(self, hole):
