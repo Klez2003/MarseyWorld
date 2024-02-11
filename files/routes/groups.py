@@ -132,10 +132,17 @@ def memberships(v, group_name):
 	group = g.db.get(Group, group_name)
 	if not group: abort(404)
 
-	members = g.db.query(GroupMembership).filter(
+	members = \
+		[g.db.query(GroupMembership).filter(
 			GroupMembership.group_name == group_name,
-			GroupMembership.approved_utc != None
-		).order_by(GroupMembership.is_owner.desc(), GroupMembership.is_mod.desc(), GroupMembership.approved_utc).all()
+			GroupMembership.approved_utc != None,
+			GroupMembership.user_id == group.owner_id,
+		).one()] + \
+		g.db.query(GroupMembership).filter(
+			GroupMembership.group_name == group_name,
+			GroupMembership.approved_utc != None,
+			GroupMembership.user_id != group.owner_id,
+		).order_by(GroupMembership.is_mod.desc(), GroupMembership.approved_utc).all()
 
 	applications = g.db.query(GroupMembership).filter(
 			GroupMembership.group_name == group_name,
