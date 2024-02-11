@@ -2243,3 +2243,15 @@ def unmark_effortpost(pid, v):
 	send_repeatable_notification(p.author_id, f":marseyitsover: @{v.username} (a site admin) has unmarked [{p.title}](/post/{p.id}) as an effortpost. {coins} coins have been deducted from you. :!marseyitsover:")
 
 	return {"message": "Post has been unmarked as an effortpost!"}
+
+@app.get("/retrofix")
+@limiter.limit('1/day')
+@limiter.limit('1/day', key_func=get_ID)
+@admin_level_required(5)
+def retrofix(v):
+	groups = g.db.query(Group)
+	for group in groups:
+		group.owner_id = group.memberships[0].user_id
+		g.db.add(group)
+
+	return 'nig'
