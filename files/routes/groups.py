@@ -41,7 +41,10 @@ def create_group(v):
 	g.db.add(v)
 	if v.shadowbanned: abort(500)
 
-	group = Group(name=name)
+	group = Group(
+			name=name,
+			owner_id=v.id,
+		)
 	g.db.add(group)
 
 	group_membership = GroupMembership(
