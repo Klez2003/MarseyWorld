@@ -192,6 +192,7 @@ def notifications_posts(v):
 		Post.author_id != v.id,
 		Post.author_id.notin_(v.userblocks),
 		or_(Post.hole == None, Post.hole.notin_(v.hole_blocks)),
+		or_(*or_criteria),
 	).options(load_only(Post.id))
 
 	total = listing.count()
