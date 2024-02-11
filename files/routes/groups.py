@@ -199,6 +199,18 @@ def group_reject(v, group_name, user_id):
 
 	if v.id == membership.user_id:
 		msg = f"You have left !{group} successfully!"
+
+		if v.id == group.owner_id:
+			new_owner_id = g.db.query(GroupMembership.user_id).filter(
+				GroupMembership.user_id != v.id,
+				GroupMembership.group_name == group.name,
+				GroupMembership.approved_utc != None,
+			).order_by(GroupMembership.is_mod.desc(), GroupMembership.approved_utc).first()[0]
+
+			if new_owner_id:
+				send_repeatable_notification(new_owner_id, f"@{v.username} (!{group}'s owner) has left the group, You're now the new owner!")
+				group.owner_id = new_owner_id
+				g.db.add(group)
 	else:
 		if membership.approved_utc:
 			text = f"@{v.username} (!{group}'s owner) has kicked you from the group!"
