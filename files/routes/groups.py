@@ -294,7 +294,7 @@ def group_usurp(v, group_name):
 		Comment.created_utc > one_month_ago,
 	).first()
 
-	month_old_applications = g.db.query(GroupMembership.user_id).filter_by(
+	month_old_applications = g.db.query(GroupMembership.user_id).filter(
 		GroupMembership.group_name == group.name,
 		GroupMembership.approved_utc == None,
 		GroupMembership.created_utc < one_month_ago,
