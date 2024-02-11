@@ -553,7 +553,8 @@ CREATE TABLE public.group_memberships (
 
 CREATE TABLE public.groups (
     name character varying(25) NOT NULL,
-    created_utc integer NOT NULL
+    created_utc integer NOT NULL,
+    owner_id integer
 );
 
 
@@ -656,7 +657,8 @@ CREATE TABLE public.holes (
     stealth boolean,
     marseyurl character varying(60),
     created_utc integer,
-    sidebarurls character varying(60)[] DEFAULT '{}'::character varying[] NOT NULL
+    sidebarurls character varying(60)[] DEFAULT '{}'::character varying[] NOT NULL,
+    snappy_quotes character varying(20000)
 );
 
 
@@ -2636,6 +2638,14 @@ ALTER TABLE ONLY public.group_memberships
 
 ALTER TABLE ONLY public.group_memberships
     ADD CONSTRAINT group_memberships_user_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: groups groups_user_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.groups
+    ADD CONSTRAINT groups_user_fkey FOREIGN KEY (owner_id) REFERENCES public.users(id);
 
 
 --
