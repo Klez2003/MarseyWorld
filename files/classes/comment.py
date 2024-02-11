@@ -326,6 +326,12 @@ class Comment(Base):
 		if self.ghost and not (hasattr(g, 'v') and g.v and self.id == g.v.id): return '👻'
 		return self.author.user_name
 
+	@property
+	@lazy
+	def author_name_punish_modal(self):
+		if self.ghost and not (hasattr(g, 'v') and g.v and self.id == g.v.id): return '👻'
+		return self.author.username
+
 	@lazy
 	def award_count(self, kind, v):
 		if v and v.poor:

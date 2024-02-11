@@ -162,6 +162,12 @@ class Post(Base):
 
 	@property
 	@lazy
+	def author_name_punish_modal(self):
+		if self.ghost and not (hasattr(g, 'v') and g.v and self.id == g.v.id): return '👻'
+		return self.author.username
+
+	@property
+	@lazy
 	def is_youtube(self):
 		return self.domain == "youtube.com" and self.embed and self.embed.startswith('<lite-youtube')
 
