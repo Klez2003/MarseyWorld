@@ -87,7 +87,7 @@ def join_group(v, group_name):
 	if not existing:
 		join = GroupMembership(user_id=v.id, group_name=group_name)
 		g.db.add(join)
-		send_notification(group.owner.id, f"@{v.username} has applied to join !{group}. You can approve or reject the application [here](/!{group}).")
+		send_notification(group.owner_id, f"@{v.username} has applied to join !{group}. You can approve or reject the application [here](/!{group}).")
 
 	return {"message": f"Application submitted to !{group}'s owner (@{group.owner.username}) successfully!"}
 
@@ -111,7 +111,7 @@ def leave_group(v, group_name):
 			text = f"@{v.username} has cancelled their application to !{group}"
 			msg = f"You have cancelled your application to !{group} successfully!"
 
-		send_notification(group.owner.id, text)
+		send_notification(group.owner_id, text)
 		g.db.delete(existing)
 
 		return {"message": msg}
@@ -188,10 +188,10 @@ def group_reject(v, group_name, user_id):
 		abort(404, "There is no membership to reject!")
 
 	if v.id != membership.user_id: #implies kicking and not leaving
-		if membership.user_id == group.owner.id:
+		if membership.user_id == group.owner_id:
 			abort(403, "You can't kick the group owner!")
 
-		if v.id != group.owner.id and membership.is_mod:
+		if v.id != group.owner_id and membership.is_mod:
 			abort(403, "Only the group owner can kick mods!")
 
 	if v.id == membership.user_id:
@@ -227,7 +227,7 @@ def group_add_mod(v, group_name, user_id):
 	group = g.db.get(Group, group_name)
 	if not group: abort(404)
 
-	if v.id != group.owner.id:
+	if v.id != group.owner_id:
 		abort(403, f"Only the group owner (@{group.owner.username}) can add mods!")
 
 	membership = g.db.query(GroupMembership).filter_by(user_id=user_id, group_name=group.name).one_or_none()
@@ -253,7 +253,7 @@ def group_remove_mod(v, group_name, user_id):
 	group = g.db.get(Group, group_name)
 	if not group: abort(404)
 
-	if v.id != group.owner.id:
+	if v.id != group.owner_id:
 		abort(403, f"Only the group owner (@{group.owner.username}) can remove mods!")
 
 	membership = g.db.query(GroupMembership).filter_by(user_id=user_id, group_name=group.name).one_or_none()

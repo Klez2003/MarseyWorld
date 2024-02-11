@@ -1,7 +1,7 @@
 {% extends "default.html" %}
 {% block pagetitle %}!{{group}}{% endblock %}
 {% block content %}
-	{% if v.id != group.owner.id %}
+	{% if v.id != group.owner_id %}
 		<button id="leave-{{group}}" type="button" class="mt-4 btn btn-danger btn-block {% if v.id not in group.membership_user_ids %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/!{{group}}/leave','leave-{{group}}','apply-{{group}}','d-none')">
 			{%- if v.id in group.member_ids or group.name == 'verifiedrich' -%}
 				Leave
@@ -39,7 +39,7 @@
 					{% for membership in memberships %}
 						<tr id="{{membership.user_id}}">
 							<td id="counter-{{membership.user_id}}">{{loop.index}}</td>
-							{% set owner = name == 'members' and loop.index == 1 %}
+							{% set owner = membership.user_id == group.owner_id %}
 							<td {% if owner %}class="unbreakable"{% endif %}>
 								{% with user=membership.user %}
 									{% include "user_in_table.html" %}
@@ -59,14 +59,14 @@
 
 							{% if v.mods_group(group) %}
 								<td>
-									{% if v.id == group.owner.id and v.id != membership.user_id %}
+									{% if v.id == group.owner_id and v.id != membership.user_id %}
 										<div id="mod-{{membership.user_id}}" class="mb-2 {% if name == 'applications' %}d-none{% endif %}">
 											<button id="add-mod-{{membership.user_id}}" type="button" class="btn btn-success btn-block {% if membership.is_mod %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/!{{group.name}}/{{membership.user_id}}/add_mod','add-mod-{{membership.user_id}}','remove-mod-{{membership.user_id}}','d-none')">Add as Mod</button>
 											<button id="remove-mod-{{membership.user_id}}" type="button" class="btn btn-danger btn-block {% if not membership.is_mod %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/!{{group.name}}/{{membership.user_id}}/remove_mod','add-mod-{{membership.user_id}}','remove-mod-{{membership.user_id}}','d-none')">Remove as Mod</button>
 										</div>
 									{% endif %}
 
-									{% if v.id == membership.user_id or v.id == group.owner.id or not membership.user.mods_group(group) %}
+									{% if v.id == membership.user_id or v.id == group.owner_id or not membership.user.mods_group(group) %}
 										<div id="kick-{{membership.user_id}}" {% if name == 'applications' %}class="d-none"{% endif %}>
 											<button type="button" class="btn btn-danger btn-block" data-nonce="{{g.nonce}}" data-onclick="reject_membership(this,'{{group}}','{{membership.user_id}}')">{% if v.id == membership.user_id %}Leave{% else %}Kick{% endif %}</button>
 										</div>

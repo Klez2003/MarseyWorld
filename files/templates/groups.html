@@ -43,7 +43,7 @@
 						<td>{{group.name}}</td>
 						<td class="unbreakable">
 							<a href="/!{{group}}">{{group.member_ids | length}}</a>
-							{% if v.id != group.owner.id %}
+							{% if v.id != group.owner_id %}
 								<button id="leave-{{group}}" type="button" class="ml-3 ml-md-5 btn btn-primary {% if v.id not in group.membership_user_ids %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/!{{group}}/leave','leave-{{group}}','apply-{{group}}','d-none')">
 									{%- if v.id in group.member_ids or group.name == 'verifiedrich' -%}
 										Leave

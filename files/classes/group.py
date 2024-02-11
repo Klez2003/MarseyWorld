@@ -14,8 +14,10 @@ class Group(Base):
 	__tablename__ = "groups"
 	name = Column(String, primary_key=True)
 	created_utc = Column(Integer)
+	owner_id = Column(Integer, ForeignKey("users.id"))
 
 	memberships = relationship("GroupMembership", primaryjoin="GroupMembership.group_name==Group.name", order_by="GroupMembership.approved_utc")
+	owner = relationship("User", primaryjoin="Group.owner_id==User.id")
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
@@ -23,11 +25,6 @@ class Group(Base):
 
 	def __repr__(self):
 		return self.name
-
-	@property
-	@lazy
-	def owner(self):
-		return self.memberships[0].user
 
 	@property
 	@lazy

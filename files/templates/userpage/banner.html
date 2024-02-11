@@ -170,8 +170,8 @@
 						<div class="text-white rounded p-2 mb-3" id="profile--groups" style="background-color: rgba(50, 50, 50, 0.6); width: 30%">
 							<p class="text-uppercase my-0 pb-1" style="font-weight: bold; font-size: 12px">Member of</p>
 							{% for i in u.group_memberships %}
-								{% set is_owner = (u.id == i[1].owner.id) %}
-								<span class="d-inline-block mx-1 {% if u.id == i[1].owner.id %}font-weight-bolder{% endif %}" {% if is_owner %}data-bs-toggle="tooltip" data-bs-placement="bottom" title="Owner"{% endif %}>
+								{% set is_owner = (u.id == i[1].owner_id) %}
+								<span class="d-inline-block mx-1 {% if u.id == i[1].owner_id %}font-weight-bolder{% endif %}" {% if is_owner %}data-bs-toggle="tooltip" data-bs-placement="bottom" title="Owner"{% endif %}>
 									<a href="/!{{i[0]}}" {% if is_owner %}style="color: #bbb !important"{% endif %}>!{{i[0]}}</a>
 								</span>
 							{% endfor %}
@@ -476,7 +476,7 @@
 						<div class="text-white rounded p-2 mt-3 mb-3" id="profile-mobile--groups" style="background-color: rgba(50, 50, 50, 0.6)">
 							<p class="text-uppercase my-0 pb-1" style="font-weight: bold; font-size: 12px">Member of</p>
 							{% for i in u.group_memberships %}
-								{% set is_owner = (u.id == i[1].owner.id) %}
+								{% set is_owner = (u.id == i[1].owner_id) %}
 								<span class="d-inline-block mx-1 {% if is_owner %}font-weight-bolder{% endif %}" {% if is_owner %}data-bs-toggle="tooltip" data-bs-placement="bottom" title="Owner"{% endif %}>
 									<a href="/!{{i[0]}}" {% if is_owner %}style="color: #bbb !important"{% endif %}>!{{i[0]}}</a>
 								</span>
