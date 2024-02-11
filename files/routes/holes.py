@@ -507,7 +507,7 @@ def post_hole_css(v, hole):
 	)
 	g.db.add(ma)
 
-	return {"message": "CSS changed successfully!"}
+	return {"message": "CSS edited successfully!"}
 
 @app.get("/h/<hole>/css")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
