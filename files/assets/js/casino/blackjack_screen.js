@@ -28,6 +28,7 @@ function handleBlackjackResponse(xhr) {
 			updateFeed(response.feed);
 			updatePlayerCurrencies(response.gambler);
 		} else {
+			enableWager();
 			console.error("Error: ", response.details);
 			throw new Error("Error")
 		}
