@@ -30,7 +30,7 @@
 							<th>Applied on</th>
 						{% endif %}
 
-						{% if v.is_member_of_group(group) %}
+						{% if v.is_member_of_group(group) or v.mods_group(group) %}
 							<th class="disable-sort-click"></th>
 						{% endif %}
 					</tr>
