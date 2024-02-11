@@ -247,10 +247,10 @@ def comment(v):
 
 	if v.admin_level >= PERMS['USE_ADMIGGER_THREADS'] and posting_to_post and post_target.id == SNAPPY_THREAD and level == 1:
 		with open(f"snappy_{SITE_NAME}.txt", "r+") as f:
-			body_for_checking = '\n{[para]}\n' + body.lower() + '\n{[para]}\n'
+			body_for_checking = '\n[para]\n' + body.lower() + '\n[para]\n'
 			if body_for_checking in f.read().lower():
 				abort(400, "Snappy quote already exists!")
-			f.write('{[para]}\n' + body + '\n')
+			f.write('[para]\n' + body + '\n')
 			SNAPPY_QUOTES.append(body)
 
 	is_bot = v.client is not None and v.id not in BOT_SYMBOL_HIDDEN
@@ -461,7 +461,7 @@ def delete_comment(cid, v):
 
 		if v.admin_level >= PERMS['USE_ADMIGGER_THREADS'] and c.parent_post == SNAPPY_THREAD and c.level == 1 and c.body in SNAPPY_QUOTES:
 			SNAPPY_QUOTES.remove(c.body)
-			new_text = "\n{[para]}\n".join(SNAPPY_QUOTES)
+			new_text = "\n[para]\n".join(SNAPPY_QUOTES)
 			with open(f"snappy_{SITE_NAME}.txt", "w") as f:
 				f.write(new_text + "\n")
 
