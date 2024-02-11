@@ -7673,3 +7673,7 @@ blink {
 .active-hole {
 	background-color: var(--primary) !important;
 }
+
+.vertical-align {
+	vertical-align: middle;
+}

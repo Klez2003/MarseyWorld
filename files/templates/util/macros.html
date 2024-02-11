@@ -104,7 +104,8 @@
 		<span class="ml-2 d-inline-block">Edited <span data-bs-toggle="tooltip" data-bs-placement="bottom" id="edited_timestamp-{{p.id}}" data-nonce="{{g.nonce}}" data-onmouseover="timestamp(this, '{{p.edited_utc}}')">{{p.edited_string}}</span></span>
 	{% endif %}
 	<span class="ml-2 d-inline-block">{{p.views}} thread views</span>
-	&nbsp;&nbsp;#{{p.id}}
+
+	<a class="vertical-align ml-2" href="{{p.permalink}}">#{{p.id}}</a>
 
 	{% if p.ping_cost %}
 		<em class="ml-2">spent {{p.ping_cost}} currency on pings</em>

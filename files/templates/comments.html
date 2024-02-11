@@ -222,7 +222,8 @@
 							{% elif c.created_utc %}
 								<span id="timestamp-{{c.id}}" data-nonce="{{g.nonce}}" data-onmouseover="timestamp(this, '{{c.created_utc}}')" data-bs-toggle="tooltip" data-bs-placement="bottom" class="time-stamp d-inline-block">&nbsp;{{c.age_string}}</span>
 							{% endif %}
-							&nbsp;&nbsp;#{{c.id}}
+
+							<a class="vertical-align ml-1" href="{{c.permalink}}">#{{c.id}}</a>
 
 							<span class="{% if not c.edited_utc %}d-none{% endif %} font-italic" data-nonce="{{g.nonce}}" data-bs-toggle="tooltip" data-bs-placement="bottom" data-onmouseover="timestamp(this, '{{c.edited_utc}}')">
 								&nbsp; Edited <span id="comment-edited_string-{{c.id}}">{{c.edited_string}}</span>
