@@ -599,7 +599,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 		if sanitized.count("blur(") + sanitized.count("drop-shadow(") > allowed_count:
 			return error("Max 5 usages of 'blur' and 'drop-shadow'!")
 
-	sanitized = bleach_body_html(sanitized)
+	sanitized = bleach_body_html(sanitized, runtime=True)
 
 	return sanitized.strip()
 
