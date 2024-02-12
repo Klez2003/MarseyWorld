@@ -412,7 +412,18 @@
 						</li>
 						{% if v %}
 							<li class="nav-item">
-								<a class="nav-link" href="{{v.url}}"><i class="fas fa-user-circle fa-fw mr-3"></i>@{{v.username}}</a>
+								<a class="nav-link" href="{{v.url}}"><i class="fas fa-user-circle fa-fw mr-3"></i>@{{v.username}}
+									<div class="header--currency ml-2">
+										<img loading="lazy" alt="coins" class="mr-1 ml-1" data-bs-toggle="tooltip" data-bs-placement="bottom" src="{{'coins.webp' | asset_siteimg}}" title="Coins">
+										<span id="user-coins-amount-mobile">{{v.coins}}</span>
+									</div>
+									{% if FEATURES['MARSEYBUX'] %}
+										<div class="header--currency">
+											<img loading="lazy" alt="marseybux" class="mr-1 ml-1" data-bs-toggle="tooltip" data-bs-placement="bottom" src="{{SITE_FULL_IMAGES}}/i/marseybux.webp?x=7" title="Marseybux">
+											<span id="user-bux-amount-mobile">{{v.marseybux}}</span>
+										</div>
+									{% endif %}	
+								</a>
 							</li>
 							<li class="nav-item">
 								<a class="nav-link" href="/settings/personal"><i class="fas fa-cog fa-fw mr-3"></i>Settings</a>

@@ -13,11 +13,13 @@ function initializeGame() {
 function updatePlayerCurrencies(updated) {
 	if (updated.coins) {
 		document.getElementById("user-coins-amount").textContent = updated.coins;
+		document.getElementById("user-coins-amount-mobile").textContent = updated.coins;
 		document.getElementById("user-coins-amount-casino").textContent = updated.coins;
 	}
 
 	if (updated.marseybux) {
 		document.getElementById("user-bux-amount").textContent = updated.marseybux;
+		document.getElementById("user-bux-amount-mobile").textContent = updated.marseybux;
 		document.getElementById("user-bux-amount-casino").textContent = updated.marseybux;
 	}
 }

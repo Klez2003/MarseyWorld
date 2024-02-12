@@ -40,7 +40,9 @@ function transferCoins(t, mobile=false) {
 		"reason": document.getElementById(mobile ? "coin-transfer-reason-mobile" : "coin-transfer-reason").value
 		},
 		() => {
-			document.getElementById("user-coins-amount").textContent = parseInt(document.getElementById("user-coins-amount").textContent) - amount;
+			const newcoins = parseInt(document.getElementById("user-coins-amount").textContent) - amount;
+			document.getElementById("user-coins-amount").textContent = newcoins;
+			document.getElementById("user-coins-amount-mobile").textContent = newcoins;
 			document.getElementById("profile-coins-amount-mobile").textContent = parseInt(document.getElementById("profile-coins-amount-mobile").textContent) + transferred;
 			document.getElementById("profile-coins-amount").textContent = parseInt(document.getElementById("profile-coins-amount").textContent) + transferred;
 		}
@@ -63,7 +65,9 @@ function transferBux(t, mobile=false) {
 		"reason": document.getElementById(mobile ? "bux-transfer-reason-mobile" : "bux-transfer-reason").value
 		},
 		() => {
-			document.getElementById("user-bux-amount").textContent = parseInt(document.getElementById("user-bux-amount").textContent) - amount;
+			const newbux = parseInt(document.getElementById("user-bux-amount").textContent) - amount;
+			document.getElementById("user-bux-amount").textContent = newbux;
+			document.getElementById("user-bux-amount-mobile").textContent = newbux;
 			document.getElementById("profile-bux-amount-mobile").textContent = parseInt(document.getElementById("profile-bux-amount-mobile").textContent) + amount;
 			document.getElementById("profile-bux-amount").textContent = parseInt(document.getElementById("profile-bux-amount").textContent) + amount;
 		}
