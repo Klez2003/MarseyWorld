@@ -7682,3 +7682,8 @@ blink {
 	border-top: 2px solid var(--primary) !important;
 	margin-top: 0.5rem;
 }
+
+details {
+    margin-bottom: 1rem;
+    cursor: pointer;
+}
