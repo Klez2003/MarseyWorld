@@ -26,7 +26,6 @@ SLURS = {
 	"daisys destruction": "Cars 2",
 	"daisy destruction": "Cars 2",
 	"pajeet": "sexy Indian dude",
-	"hunter2": "*******",
 	"dyke(?!\w)": "cute butch",
 	"dykes": "cute butches",
 }
