@@ -30,6 +30,7 @@ INSERT INTO public.badge_defs VALUES (318, 'Fistmas Sidebar Artist', 'This user 
 INSERT INTO public.badge_defs VALUES (319, 'Fistmas 23 Survivor', 'Awarded for surviving Fistmas 2023', 1704136553);
 INSERT INTO public.badge_defs VALUES (320, 'Best Marsey 2023', 'The creator of the best Marsey emote of 2023, as voted by rdrama users.', 1705457637);
 INSERT INTO public.badge_defs VALUES (325, 'Best rdrama activist 2023', 'Went out there and touched grass for the sake of drama, and was voted the best rdrama activist of 2023.', 1705459943);
+INSERT INTO public.badge_defs VALUES (326, 'Chud Hunter', 'Successfully reported wrongthink and got paid 🤑', 1707748016);
 INSERT INTO public.badge_defs VALUES (296, 'SEX!', 'This user verifiably had sex with another dramatard.', 1692195588);
 INSERT INTO public.badge_defs VALUES (297, 'Weather Balloon', 'This user was shot down over the territory of /r/UFOs.', 1694716945);
 INSERT INTO public.badge_defs VALUES (180, 'Marsey Consoomer', 'Conned rDrama out of sick merch in exchange for a donation to Redbubble.', 1664417205);
@@ -288,7 +289,7 @@ INSERT INTO public.badge_defs VALUES (324, 'Best rdrama OC 2023', 'The creator o
 -- Name: badge_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.badge_defs_id_seq', 325, true);
+SELECT pg_catalog.setval('public.badge_defs_id_seq', 326, true);
 
 
 --
