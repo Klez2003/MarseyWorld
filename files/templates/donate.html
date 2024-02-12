@@ -4,7 +4,7 @@
 	{% set can_see = DONATE_LINK != DEFAULT_CONFIG_VALUE and v and v.can_see_countryclub and v.chud != 1 %}
 	<h1 class="py-3">Donate and get {{patron}} rewards</h1>
 	<div class="overflow-x-auto">
-		<table class="table table-striped mb-5">
+		<table>
 			<tbody>
 				{% if can_see %}
 					<tr>

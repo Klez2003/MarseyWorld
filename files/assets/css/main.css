@@ -359,6 +359,7 @@ svg {
 }
 table {
 	border-collapse: collapse;
+	margin-bottom: 3rem !important;
 }
 caption {
 	padding-top: 0.75rem;
@@ -656,31 +657,31 @@ pre code {
 		max-width: 25%;
 }
 }
-.table {
+table {
 	width: 100%;
 	margin-bottom: 1rem;
 	color: #212529;
 }
-.table th, .table td {
+table th, table td {
 	padding: 0.75rem;
 	vertical-align: top;
 	border-top: 1px solid var(--gray-400);
 }
-.table thead th {
+table thead th {
 	vertical-align: bottom;
 	border-bottom: 2px solid var(--gray-400);
 }
-.table tbody + tbody {
+table tbody + tbody {
 	border-top: 2px solid var(--gray-400);
 }
-.table-striped tbody tr:nth-of-type(odd) {
+table tbody tr:nth-of-type(odd) {
 	background-color: rgba(0, 0, 0, 0.05);
 }
 .table-hover tbody tr:hover {
 	color: #212529;
 	background-color: rgba(0, 0, 0, 0.075);
 }
-.table .thead-dark th {
+table .thead-dark th {
 	color: #fff;
 	background-color: #343a40;
 	border-color: #454d55;
@@ -4595,7 +4596,7 @@ ul.comment-section {
 	background-position: bottom;
 	object-fit: cover;
 }
-.table .thead-dark th {
+table .thead-dark th {
 	color: var(--muted);
 	font-size: 12px;
 	text-transform: uppercase;
@@ -5136,7 +5137,7 @@ span.green {
 		padding: 0.75rem 0.4rem;
 	}
 }
-.table {
+table {
 	color: var(--white);
 }
 .comment-box {
@@ -6000,11 +6001,11 @@ li > .sidebar {
 }
 
 @media (max-width: 768px) {
-	.table th {
+	table th {
 		padding-left: 0.5rem;
 		padding-right: 0.5rem;
 	}
-	.table td {
+	table td {
 		padding-left: 0.5rem;
 		padding-right: 0.5rem;
 		font-size: 0.9rem;
@@ -6726,7 +6727,7 @@ div.markdown {
 		display: none !important;
 	}
 }
-.table th, .table td {
+table th, table td {
 	vertical-align: middle;
 }
 
@@ -7530,7 +7531,7 @@ body {
 	overflow-wrap: break-word !important;
 }
 
-.table *, .playing-card_large {
+table *, .playing-card_large {
 	word-break: keep-all !important;
 }
 
@@ -7686,4 +7687,9 @@ blink {
 details {
     margin-bottom: 1rem;
     cursor: pointer;
+}
+
+thead {
+	background-color: var(--primary) !important;
+	color: var(--white);
 }

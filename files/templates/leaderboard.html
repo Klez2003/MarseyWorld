@@ -47,8 +47,8 @@
 
 	<h5 class="font-weight-bolder text-center pt-2 pb-3"><span id="leaderboard-{{leaderboard.html_id}}">{% if leaderboard.desc %}Top{% else %}Bottom{% endif %} {{leaderboard.limit}} {% if leaderboard.table_header_name != 'most blocked' %}by{% endif %} {{leaderboard.table_header_name}}</span></h5>
 	<div class="overflow-x-auto">
-		<table class="table table-striped mb-5">
-			<thead class="bg-primary text-white">
+		<table>
+			<thead>
 				<tr>
 					<th>#</th>
 					<th>Name</th>
