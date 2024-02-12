@@ -1,6 +1,6 @@
 import random
 import re
-from random import choice, choices
+from random import choice, choices, randint
 
 from .config.const import *
 
@@ -148,20 +148,22 @@ commands = {
 	"fortune": FORTUNE_REPLIES,
 	"factcheck": FACTCHECK_REPLIES,
 	"8ball": EIGHTBALL_REPLIES,
-	"roll": range(1, 10000),
 	"coinflip": COINFLIP_HEADS_OR_TAILS,
 }
 
-command_regex = re.compile("(\s|^)#(fortune|factcheck|8ball|roll|coinflip)", flags=re.A|re.I)
+command_regex = re.compile("(\s|^)#(fortune|factcheck|8ball|roll([0-9]+)|coinflip)", flags=re.A|re.I)
 
 def command_regex_matcher(match, upper=False):
 	if match.group(2) == 'coinflip' and random.random() < 0.01:
 		result = COINFLIP_EDGE
 	else:
-		result = str(choice(commands[match.group(2).lower()]))
-		if match.group(2) == 'roll':
+		if match.group(2).startswith('roll'):
+			max_num = int(match.group(3))
+			result = randint(1, max_num)
 			color = tuple(choices(range(256), k=3))
-			result = f'<b style="color:rgb{color}">Your roll: {result}</b>'
+			result = f'<b style="color:rgb{color}">Your roll (1-{max_num}): {result}</b>'
+		else:
+			result = str(choice(commands[match.group(2).lower()]))
 	return match.group(1) + result
 
 reason_regex_post = re.compile('(/post/[0-9]+)', flags=re.A)
