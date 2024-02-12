@@ -1494,7 +1494,7 @@ def sticky_post(post_id, v):
 		pin_time = 'for 1 hour'
 		code = 200
 		if v.id != post.author_id:
-			send_repeatable_notification(post.author_id, f"@{v.username} (a site admin) has pinned [{post.title}](/post/{post_id})")
+			send_repeatable_notification(post.author_id, f"@{v.username} (a site admin) has pinned [{post.title}]({post.shortlink})")
 	else:
 		if pins >= PIN_LIMIT + 1:
 			abort(403, f"Can't exceed {PIN_LIMIT} pinned posts limit!")
@@ -1543,7 +1543,7 @@ def unsticky_post(post_id, v):
 		g.db.add(ma)
 
 		if v.id != post.author_id:
-			send_repeatable_notification(post.author_id, f"@{v.username} (a site admin) has unpinned [{post.title}](/post/{post_id})")
+			send_repeatable_notification(post.author_id, f"@{v.username} (a site admin) has unpinned [{post.title}]({post.shortlink})")
 
 		cache.delete_memoized(frontlist)
 	return {"message": "Post unpinned!"}

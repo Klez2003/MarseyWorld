@@ -166,7 +166,7 @@ def execute_snappy(post, v):
 			if AWARDS["glowie"]['cosmetic']:
 				post.author.pay_account('coins', awarded_coins)
 
-			msg = f"@Snappy has given your [post]({post.shortlink}) the {AWARDS['glowie']['title']} Award"
+			msg = f"@Snappy has given [{post.title}]({post.shortlink}) the {AWARDS['glowie']['title']} Award"
 			if awarded_coins > 0:
 				msg += f" and you have received {awarded_coins} coins as a result"
 			msg += "!"
