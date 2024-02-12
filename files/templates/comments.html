@@ -534,7 +534,7 @@
 						{% endif %}
 					</div>
 
-					{% if (request.path.startswith('/notifications') or request.path == '/search/messages') and c.level == 1 and c.sentto and not c.parent_post and c.author_id != AUTOJANNY_ID %}
+					{% if (request.path.startswith('/notification') or request.path == '/search/messages') and c.level == 1 and c.sentto and not c.parent_post and c.author_id != AUTOJANNY_ID %}
 						<button id="toggle-reply-{{c.fullname}}" type="button" class="btn btn-primary nobackground mt-2" data-nonce="{{g.nonce}}" data-onclick="toggleReplyBox(this, 'reply-to-{{c.fullname}}')">Reply</button>
 
 						{% if c.sentto == MODMAIL_ID and v and v.id != c.author_id and v.admin_level >= PERMS['USER_BAN'] %}
