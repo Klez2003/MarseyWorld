@@ -287,3 +287,7 @@ i.fas.fa-feather-alt i.fas.fa-bell i.fas.fa-music i.fas.fa-trophy i.fas.fa-comme
 .container {
 	background: #ffffee !important;
 }
+
+.active-hole {
+	background-color: #f7eae1 !important;
+}
