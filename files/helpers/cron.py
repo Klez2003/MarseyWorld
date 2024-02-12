@@ -88,8 +88,8 @@ def cron_fn(every_5m, every_1d, every_1mo):
 				_leaderboard_task()
 				g.db.commit()
 
-				if FEATURES['BLOCK_MUTE_EXPIRY']:
-					_expire_blocks_mutes()
+				if FEATURES['BLOCK_MUTE_EXILE_EXPIRY']:
+					_expire_blocks_mutes_exiles()
 					g.db.commit()
 
 			if every_1mo:
@@ -343,7 +343,7 @@ def _give_marseybux_salary():
 		u.pay_account('marseybux', marseybux_salary)
 		send_repeatable_notification(u.id, f"You have received your monthly janny salary of {marseybux_salary} Marseybux!")
 
-def _expire_blocks_mutes():
+def _expire_blocks_mutes_exiles():
 	one_month_ago = time.time() - 2629800
 
 	blocks = g.db.query(UserBlock).filter(UserBlock.created_utc < one_month_ago)
@@ -357,3 +357,8 @@ def _expire_blocks_mutes():
 		send_repeatable_notification(mute.user_id, f"Your mute of @{mute.target.username} has passed 1 month and expired!")
 		send_repeatable_notification(mute.target_id, f"@{mute.user.username}'s mute of you has passed 1 month and expired!")
 		g.db.delete(mute)
+
+	exiles = g.db.query(Exile).filter(Exile.created_utc < one_month_ago)
+	for exile in exiles:
+		send_repeatable_notification(exile.user_id, f"Your exile from /h/{exile.hole} has passed 1 month and expired!")
+		g.db.delete(exile)
