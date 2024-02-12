@@ -227,7 +227,36 @@ PERMS = { # Minimum admin_level to perform action.
 	'INFINITE_CURRENCY': 5,
 }
 
+FEATURES = {
+	'MARSEYBUX': True,
+	'AWARDS': True,
+	'CHAT': True,
+	'PINS': True,
+	'PRONOUNS': False,
+	'BADGES': True,
+	'HATS': True,
+	'HOUSES': True,
+	'GAMBLING': True,
+	'USERS_PROFILE_BANNER': True,
+	'USERS_PROFILE_BODYTEXT': True,
+	'USERS_PROFILE_SONG': True,
+	'USERS_PERMANENT_WORD_FILTERS': False,
+	'USERS_SUICIDE': True,
+	'MARKUP_COMMANDS': True,
+	'REPOST_DETECTION': True,
+	'PATRON_ICONS': False,
+	'EMOJI_SUBMISSIONS': True,
+	'HAT_SUBMISSIONS': True,
+	'NSFW_MARKING': True,
+	'PING_GROUPS': True,
+	'BOTS': True,
+	'IP_LOGGING': False,
+	'BLOCK_MUTE_EXPIRY': False,
+}
+
 if SITE_NAME == 'rDrama':
+	FEATURES['BLOCK_MUTE_EXPIRY'] = True
+
 	CURSORMARSEY_DEFAULT = True
 	DEFAULT_COLOR = "ff459a"
 
@@ -415,31 +444,6 @@ HOLE_MARSEY_URL_LENGTH = 60
 ### SITE SPECIFIC CONSTANTS
 ################################################################################
 
-FEATURES = {
-	'MARSEYBUX': True,
-	'AWARDS': True,
-	'CHAT': True,
-	'PINS': True,
-	'PRONOUNS': False,
-	'BADGES': True,
-	'HATS': True,
-	'HOUSES': True,
-	'GAMBLING': True,
-	'USERS_PROFILE_BANNER': True,
-	'USERS_PROFILE_BODYTEXT': True,
-	'USERS_PROFILE_SONG': True,
-	'USERS_PERMANENT_WORD_FILTERS': False,
-	'USERS_SUICIDE': True,
-	'MARKUP_COMMANDS': True,
-	'REPOST_DETECTION': True,
-	'PATRON_ICONS': False,
-	'EMOJI_SUBMISSIONS': True,
-	'HAT_SUBMISSIONS': True,
-	'NSFW_MARKING': True,
-	'PING_GROUPS': True,
-	'BOTS': True,
-	'IP_LOGGING': False,
-}
 HOUSES = ["Furry","Femboy","Vampire","Racist","Edgy"]
 
 WERKZEUG_ERROR_DESCRIPTIONS = {

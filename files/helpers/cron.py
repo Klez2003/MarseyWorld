@@ -88,6 +88,10 @@ def cron_fn(every_5m, every_1d, every_1mo):
 				_leaderboard_task()
 				g.db.commit()
 
+				if FEATURES['BLOCK_MUTE_EXPIRY']:
+					_expire_blocks_mutes()
+					g.db.commit()
+
 			if every_1mo:
 				_give_marseybux_salary()
 				g.db.commit()
@@ -338,3 +342,18 @@ def _give_marseybux_salary():
 		marseybux_salary = u.admin_level * 10000
 		u.pay_account('marseybux', marseybux_salary)
 		send_repeatable_notification(u.id, f"You have received your monthly janny salary of {marseybux_salary} Marseybux!")
+
+def _expire_blocks_mutes():
+	one_month_ago = time.time() - 2629800
+
+	blocks = g.db.query(UserBlock).filter(UserBlock.created_utc < one_month_ago)
+	for block in blocks:
+		send_repeatable_notification(block.user_id, f"Your block of @{block.target.username} has passed 1 month and expired!")
+		send_repeatable_notification(block.target_id, f"@{block.user.username}'s block of you has passed 1 month and expired!")
+		g.db.delete(block)
+
+	mutes = g.db.query(UserMute).filter(UserMute.created_utc < one_month_ago)
+	for mute in mutes:
+		send_repeatable_notification(mute.user_id, f"Your mute of @{mute.target.username} has passed 1 month and expired!")
+		send_repeatable_notification(mute.target_id, f"@{mute.user.username}'s mute of you has passed 1 month and expired!")
+		g.db.delete(mute)
