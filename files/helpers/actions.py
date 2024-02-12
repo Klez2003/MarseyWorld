@@ -23,6 +23,7 @@ from files.helpers.logging import log_file
 from files.helpers.sanitize import *
 from files.helpers.settings import get_setting
 from files.helpers.slots import check_slots_command
+from files.helpers.useractions import badge_grant
 
 from files.routes.routehelpers import check_for_alts
 
@@ -167,7 +168,26 @@ def execute_snappy(post, v):
 
 			msg = f"@Snappy has given [{post.title}]({post.shortlink}) the Glowie Award and you have received {awarded_coins} coins as a result!"
 			send_repeatable_notification(post.author.id, msg)
+		elif body.startswith("You're a chud, CHUD I tell you"):
+			award_object = AwardRelationship(
+					user_id=snappy.id,
+					kind="chud",
+					post_id=post.id,
+					awarded_utc=time.time(),
+					note="Trans lives matter",
+				)
+			g.db.add(award_object)
 
+			msg = f"@Snappy has given [{post.title}]({post.shortlink}) the Chud Award\n\n**You now have to say this phrase in all posts and comments you make for 24 hours:**\n\n> Trans lives matter"
+			send_repeatable_notification(post.author.id, msg)
+
+			if v.chud != 1:
+				if v.chud and time.time() < v.chud: v.chud += 86400
+				else: v.chud = int(time.time()) + 86400
+				v.chud_phrase = 'trans lives matter'
+				badge_grant(user=v, badge_id=58)
+				post.chudded = True
+				complies_with_chud(post)
 
 	body += "\n\n"
 
