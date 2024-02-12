@@ -238,7 +238,7 @@ document.addEventListener("click", function (e) {
 	}
 
 	if (!element.classList.contains("areyousure")) {
-		if (element.dataset.nonce != nonce) {
+		if (element.dataset.nonce != nonce) { //to stop the oldhtml attribute from being used as a vector for html injections
 			console.error("Nonce check failed!")
 			return
 		}

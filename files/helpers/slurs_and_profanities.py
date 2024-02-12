@@ -5,6 +5,7 @@ tranny = f'<img loading="lazy" data-bs-toggle="tooltip" alt=":marseytrain:" titl
 trannie = f'<img loading="lazy" data-bs-toggle="tooltip" alt=":!marseytrain:" title=":!marseytrain:" src="{SITE_FULL_IMAGES}/e/marseytrain.webp">'
 troon = f'<img loading="lazy" data-bs-toggle="tooltip" alt=":marseytrain2:" title=":marseytrain2:" src="{SITE_FULL_IMAGES}/e/marseytrain2.webp">'
 
+#DON'T ADD ANY FILTERS WITH ' OR ", VECTOR FOR HTML INJECTION
 SLURS = {
 	"tranny": tranny,
 	"trannie": trannie,
@@ -30,6 +31,7 @@ SLURS = {
 	"dykes": "cute butches",
 }
 
+#DON'T ADD ANY FILTERS WITH ' OR ", VECTOR FOR HTML INJECTION
 if SITE_NAME == 'rDrama':
 	SLURS |= {
 		"retarded": "r-slurred",

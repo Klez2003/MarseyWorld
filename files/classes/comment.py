@@ -426,7 +426,7 @@ class Comment(Base):
 
 			body = normalize_urls_runtime(body, v)
 
-			body = bleach_body_html(body, runtime=True)
+			body = bleach_body_html(body, runtime=True) #to stop slur filters and poll options being used as a vector for html/js injection
 
 		return body
 

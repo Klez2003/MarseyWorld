@@ -251,7 +251,7 @@ function timestamp(t, ti) {
 };
 
 function areyousure(t) {
-	if (t.dataset.nonce != nonce) {
+	if (t.dataset.nonce != nonce) { //to stop the oldhtml attribute from being used as a vector for html injections
 		console.error("Nonce check failed!")
 		return
 	}
