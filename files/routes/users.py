@@ -994,7 +994,7 @@ def userpagelisting(u, v=None, page=1, sort="new", t="all"):
 	if v.id != u.id and v.admin_level < PERMS['POST_COMMENT_MODERATION']:
 		posts = posts.filter_by(is_banned=False, private=False, ghost=False)
 
-	if v.admin_level < PERMS['POST_COMMENT_MODERATION']:
+	if v.admin_level < PERMS['POST_COMMENT_MODERATION'] and not (SITE_NAME == 'rDrama' and v.id == u.id):
 		posts = posts.filter_by(deleted_utc=0)
 
 	posts = apply_time_filter(t, posts, Post)
@@ -1046,7 +1046,7 @@ def u_username_comments(username, v):
 			Comment.ghost == False,
 		)
 
-	if v.admin_level < PERMS['POST_COMMENT_MODERATION']:
+	if v.admin_level < PERMS['POST_COMMENT_MODERATION'] and not (SITE_NAME == 'rDrama' and v.id == u.id):
 		comments = comments.filter(
 			Comment.deleted_utc == 0
 		)
