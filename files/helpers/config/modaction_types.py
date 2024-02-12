@@ -281,6 +281,16 @@ MODACTION_TYPES = {
 		"icon": 'fa-robot',
 		"color": 'bg-muted'
 	},
+	'set_cw': {
+		"str": 'added child warning to {self.target_link}',
+		"icon": 'fa-eye-evil',
+		"color": 'bg-danger'
+	},
+	'unset_cw': {
+		"str": 'removed child warning from {self.target_link}',
+		"icon": 'fa-eye-evil',
+		"color": 'bg-success'
+	},
 	'set_flair_locked': {
 		"str": "set {self.target_link}'s flair (locked)",
 		"icon": 'fa-award',

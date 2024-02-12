@@ -1075,3 +1075,56 @@ def edit_post(pid, v):
 		g.db.add(ma)
 
 	return {"message": "Post edited successfully!"}
+
+if SITE_NAME == 'WPD':
+	@app.post("/mark_post_cw/<int:pid>")
+	@limiter.limit('1/second', scope=rpath)
+	@limiter.limit('1/second', scope=rpath, key_func=get_ID)
+	@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+	@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+	@auth_required
+	def mark_post_cw(pid, v):
+		p = get_post(pid)
+
+		if p.author_id != v.id and v.admin_level < PERMS['POST_COMMENT_MODERATION']:
+			abort(403)
+
+		p.cw = True
+		g.db.add(p)
+
+		if p.author_id != v.id:
+			ma = ModAction(
+					kind = "set_cw",
+					user_id = v.id,
+					target_post_id = p.id,
+				)
+			g.db.add(ma)
+			send_repeatable_notification(p.author_id, f"@{v.username} (a site admin) has add a child warning to [{p.title}](/post/{p.id})")
+
+		return {"message": "A child warning has been added to the post!"}
+
+	@app.post("/unmark_post_cw/<int:pid>")
+	@limiter.limit('1/second', scope=rpath)
+	@limiter.limit('1/second', scope=rpath, key_func=get_ID)
+	@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+	@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+	@auth_required
+	def unmark_post_cw(pid, v):
+		p = get_post(pid)
+
+		if p.author_id != v.id and v.admin_level < PERMS['POST_COMMENT_MODERATION']:
+			abort(403)
+
+		p.cw = False
+		g.db.add(p)
+
+		if p.author_id != v.id:
+			ma = ModAction(
+					kind = "unset_cw",
+					user_id = v.id,
+					target_post_id = p.id,
+				)
+			g.db.add(ma)
+			send_repeatable_notification(p.author_id, f"@{v.username} (a site admin) has removed the child warning from [{p.title}](/post/{p.id})")
+
+		return {"message": "The child warning has been removed from the post!"}
