@@ -81,6 +81,14 @@
 															<label class="custom-control-label" for="post-nsfw">NSFW</label>
 														</div>
 													{% endif %}
+
+													{% if SITE_NAME == 'WPD' %}
+														<div class="custom-control custom-checkbox">
+															<input autocomplete="off" type="checkbox" class="custom-control-input" id="post-cw" name="cw" data-nonce="{{g.nonce}}" data-onchange="savetext()">
+															<label class="custom-control-label" for="post-cw">Child Warning</label>
+														</div>
+													{% endif %}
+
 													<div class="custom-control custom-checkbox">
 														<input autocomplete="off" type="checkbox" class="custom-control-input" id="post-private" name="private" data-nonce="{{g.nonce}}" data-onchange="savetext()">
 														<label class="custom-control-label" for="post-private">Draft</label>

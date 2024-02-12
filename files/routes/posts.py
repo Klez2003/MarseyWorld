@@ -572,6 +572,8 @@ def submit_post(v, hole=None):
 		ghost=flag_ghost,
 	)
 
+	if SITE_NAME == 'WPD':
+		p.cw = request.values.get("cw", False, bool)
 
 	p.chudded = v.chud and hole != 'chudrama' and not (p.is_longpost and not v.chudded_by)
 	p.queened = v.queen and not p.is_longpost

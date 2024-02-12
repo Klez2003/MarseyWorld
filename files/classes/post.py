@@ -74,6 +74,9 @@ class Post(Base):
 	else:
 		nsfw = False
 
+	if SITE_NAME == 'WPD':
+		cw = Column(Boolean, default=False)
+
 	author = relationship("User", primaryjoin="Post.author_id==User.id")
 	oauth_app = relationship("OauthApp")
 	approved_by = relationship("User", uselist=False, primaryjoin="Post.is_approved==User.id")
