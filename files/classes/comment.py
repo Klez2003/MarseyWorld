@@ -17,6 +17,7 @@ from files.helpers.slurs_and_profanities import *
 from files.helpers.lazy import lazy
 from files.helpers.regex import *
 from files.helpers.sorting_and_time import *
+from files.helpers.bleach_body import *
 
 from .saves import CommentSaveRelationship
 
@@ -154,7 +155,7 @@ def add_options(self, body, v):
 			option_body += f'''><label class="custom-control-label" for="option-{kind}-{o.id}">{o.body_html}<span class="presult-{self.id}'''
 			if not disabled and not self.total_poll_voted(v):
 				option_body += ' d-none'
-			option_body += f'"> - <a href="/votes/{kind}/option/{o.id}"><span id="score-option-{kind}-{o.id}">{o.upvotes}</span> votes</a></label></div>'''
+			option_body += f'"> - <a href="/votes/{kind}/option/{o.id}"><score id="score-option-{kind}-{o.id}">{o.upvotes}</score> votes</a></label></div>'''
 
 		if o.exclusive > 1: s = '##'
 		elif o.exclusive: s = '&amp;&amp;'
@@ -424,6 +425,8 @@ class Comment(Base):
 				body = censor_slurs_profanities(body, v)
 
 			body = normalize_urls_runtime(body, v)
+
+			body = bleach_body_html(body, runtime=True)
 
 		return body
 

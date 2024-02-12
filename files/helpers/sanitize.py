@@ -2,7 +2,6 @@ import functools
 import random
 import re
 import signal
-from functools import partial
 from os import path, listdir
 from urllib.parse import parse_qs, urlparse, unquote, ParseResult, urlencode, urlunparse
 import time
@@ -30,70 +29,7 @@ from files.helpers.marsify import *
 from files.helpers.owoify import *
 from files.helpers.sharpen import *
 from files.helpers.queenify import *
-
-
-allowed_tags = ('a','audio','b','big','blink','blockquote','br','center','code','del','details','em','g','gl','h1','h2','h3','h4','h5','h6','hr','i','img','li','lite-youtube','marquee','ol','p','pre','rp','rt','ruby','small','span','spoiler','strike','strong','sub','summary','sup','table','tbody','td','th','thead','tr','u','ul','video')
-
-allowed_styles = ['background-color', 'color', 'filter', 'font-weight', 'text-align', 'transform']
-
-def allowed_attributes(tag, name, value):
-
-	if name == 'style':
-		value = value.lower()
-		if 'transform' in value and 'scale' in value and ('rotate' in value or 'skew' in value):
-			return False
-		return True
-
-	if tag == 'marquee':
-		if name in {'direction', 'behavior', 'scrollamount'}: return True
-		if name in {'height', 'width'}:
-			try: value = int(value.replace('px', ''))
-			except: return False
-			if 0 < value <= 250: return True
-
-	if tag == 'a':
-		if name == 'href' and '\\' not in value and 'xn--' not in value:
-			return True
-		if name == 'rel' and value == 'nofollow noopener': return True
-		if name == 'target' and value == '_blank': return True
-
-	if tag == 'img':
-		if name in {'src','data-src'}: return is_safe_url(value)
-		if name == 'loading' and value == 'lazy': return True
-		if name == 'data-bs-toggle' and value == 'tooltip': return True
-		if name in {'g','b','glow','party'} and not value: return True
-		if name in {'alt','title'}: return True
-		if name == 'class' and value == 'img': return True
-		if name == 'data-user-submitted' and not value: return True
-
-	if tag == 'lite-youtube':
-		if name == 'params' and value.startswith('autoplay=1&modestbranding=1'): return True
-		if name == 'videoid': return True
-
-	if tag == 'video':
-		if name == 'controls' and value == '': return True
-		if name == 'preload' and value == 'none': return True
-		if name == 'src': return is_safe_url(value)
-
-	if tag == 'audio':
-		if name == 'src': return is_safe_url(value)
-		if name == 'controls' and value == '': return True
-		if name == 'preload' and value == 'none': return True
-
-	if tag == 'p':
-		if name == 'class' and value in {'mb-0','resizable','yt','text-center'}: return True
-
-	if tag == 'span':
-		if name == 'data-bs-toggle' and value == 'tooltip': return True
-		if name == 'title': return True
-		if name == 'alt': return True
-		if name == 'cide' and not value: return True
-		if name == 'bounce' and not value: return True
-
-	if tag == 'table':
-		if name == 'class' and value == 'table': return True
-
-	return False
+from files.helpers.bleach_body import *
 
 def create_comment_duplicated(text_html):
 	new_comment = Comment(author_id=AUTOJANNY_ID,
@@ -556,18 +492,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 
 	sanitized = sanitized.replace('<p></p>', '')
 
-	allowed_css_properties = allowed_styles.copy()
-	if v and v.chud:
-		allowed_css_properties.remove('filter')
-
-	css_sanitizer = CSSSanitizer(allowed_css_properties=allowed_css_properties)
-	sanitized = bleach.Cleaner(tags=allowed_tags,
-								attributes=allowed_attributes,
-								protocols=['http', 'https'],
-								css_sanitizer=css_sanitizer,
-								filters=[partial(LinkifyFilter, skip_tags=["pre"],
-									parse_email=False, url_re=sanitize_url_regex)]
-								).clean(sanitized)
+	sanitized = bleach_body_html(sanitized)
 
 	#doing this here cuz of the linkifyfilter right above it (therefore unifying all link processing logic)
 	soup = BeautifulSoup(sanitized, 'lxml')
@@ -673,6 +598,8 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 	if "style" in sanitized and "filter" in sanitized:
 		if sanitized.count("blur(") + sanitized.count("drop-shadow(") > allowed_count:
 			return error("Max 5 usages of 'blur' and 'drop-shadow'!")
+
+	sanitized = bleach_body_html(sanitized)
 
 	return sanitized.strip()
 

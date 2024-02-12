@@ -14,6 +14,7 @@ from files.helpers.slurs_and_profanities import *
 from files.helpers.lazy import lazy
 from files.helpers.regex import *
 from files.helpers.sorting_and_time import make_age_string
+from files.helpers.bleach_body import *
 
 from .comment import *
 from .polls import *
@@ -323,6 +324,8 @@ class Post(Base):
 			body = censor_slurs_profanities(body, v)
 
 		body = normalize_urls_runtime(body, v)
+
+		body = bleach_body_html(body, runtime=True)
 
 		return body
 
