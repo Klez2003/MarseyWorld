@@ -988,13 +988,13 @@ def u_username(v, username):
 									is_following=is_following)
 
 @cache.memoize()
-def userpagelisting(user, v=None, page=1, sort="new", t="all"):
-	posts = g.db.query(Post).filter_by(author_id=user.id, is_pinned=False).options(load_only(Post.id))
+def userpagelisting(u, v=None, page=1, sort="new", t="all"):
+	posts = g.db.query(Post).filter_by(author_id=u.id, is_pinned=False).options(load_only(Post.id))
 
-	if not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or v.id == user.id)):
+	if v.id != u.id and v.admin_level < PERMS['POST_COMMENT_MODERATION']:
 		posts = posts.filter_by(is_banned=False, private=False, ghost=False)
 
-	if not (v and v.admin_level >= PERMS['POST_COMMENT_MODERATION']):
+	if v.admin_level < PERMS['POST_COMMENT_MODERATION']:
 		posts = posts.filter_by(deleted_utc=0)
 
 	posts = apply_time_filter(t, posts, Post)
@@ -1040,13 +1040,13 @@ def u_username_comments(username, v):
 					or_(Comment.parent_post != None, Comment.wall_user_id != None),
 				)
 
-	if not v or (v.id != u.id and v.admin_level < PERMS['POST_COMMENT_MODERATION']):
+	if v.id != u.id and v.admin_level < PERMS['POST_COMMENT_MODERATION']:
 		comments = comments.filter(
 			Comment.is_banned == False,
 			Comment.ghost == False,
 		)
 
-	if not (v and v.admin_level >= PERMS['POST_COMMENT_MODERATION']):
+	if v.admin_level < PERMS['POST_COMMENT_MODERATION']:
 		comments = comments.filter(
 			Comment.deleted_utc == 0
 		)
