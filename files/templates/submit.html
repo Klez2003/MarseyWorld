@@ -63,15 +63,18 @@
 
 													<div id="preview" class="preview my-3"></div>
 													<div class="form-text text-small mt-1 mb-3"><a href="/formatting" data-target="t" target="_blank">Formatting help</a></div>
+
 													<div class="custom-control custom-checkbox">
 														<input autocomplete="off" type="checkbox" class="custom-control-input" id="post-notify" name="notify" data-nonce="{{g.nonce}}" data-onchange="savetext()" checked>
 														<input hidden name="notify" value="off">
 														<label class="custom-control-label" for="post-notify">Notify followers</label>
 													</div>
+
 													<div class="custom-control custom-checkbox">
 														<input autocomplete="off" type="checkbox" class="custom-control-input" id="post-new" name="new" data-nonce="{{g.nonce}}" data-onchange="savetext()">
 														<label class="custom-control-label" for="post-new">Make the default comment sorting "new"</label>
 													</div>
+
 													{% if FEATURES['NSFW_MARKING'] %}
 														<div class="custom-control custom-checkbox">
 															<input autocomplete="off" type="checkbox" class="custom-control-input" id="post-nsfw" name="nsfw" data-nonce="{{g.nonce}}" data-onchange="savetext()">
@@ -82,14 +85,20 @@
 														<input autocomplete="off" type="checkbox" class="custom-control-input" id="post-private" name="private" data-nonce="{{g.nonce}}" data-onchange="savetext()">
 														<label class="custom-control-label" for="post-private">Draft</label>
 													</div>
-													<div class="custom-control custom-checkbox {% if SITE_NAME == 'WPD' and v.truescore < 500 %}d-none{% endif %}">
-														<input autocomplete="off" type="checkbox" class="custom-control-input" id="post-effortpost" name="effortpost" data-nonce="{{g.nonce}}" data-onchange="savetext()">
-														<label class="custom-control-label" for="post-effortpost">Notify admins to mark your post as an effortpost</label>
-													</div>
-													<div class="custom-control custom-checkbox {% if not v.can_post_in_ghost_threads %}d-none{% endif %}">
-														<input data-nonce="{{g.nonce}}" data-onchange='ghost_toggle(this)' autocomplete="off" type="checkbox" class="custom-control-input" id="post-ghost" name="ghost">
-														<label class="custom-control-label" for="post-ghost">Ghost thread</label>
-													</div>
+
+													{% if not (SITE_NAME == 'WPD' and v.truescore < 500) %}
+														<div class="custom-control custom-checkbox">
+															<input autocomplete="off" type="checkbox" class="custom-control-input" id="post-effortpost" name="effortpost" data-nonce="{{g.nonce}}" data-onchange="savetext()">
+															<label class="custom-control-label" for="post-effortpost">Notify admins to mark your post as an effortpost</label>
+														</div>
+													{% endif %}
+
+													{% if v.can_post_in_ghost_threads %}
+														<div class="custom-control custom-checkbox">
+															<input data-nonce="{{g.nonce}}" data-onchange='ghost_toggle(this)' autocomplete="off" type="checkbox" class="custom-control-input" id="post-ghost" name="ghost">
+															<label class="custom-control-label" for="post-ghost">Ghost thread</label>
+														</div>
+													{% endif %}
 											</div>
 									</div>
 							</div>
