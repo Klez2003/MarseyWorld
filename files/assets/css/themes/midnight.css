@@ -47,7 +47,7 @@ body, .navbar-light, .navbar-dark, .card, .modal-content, .comment-write textare
 	border-top: none;
 }
 
-.table-striped tbody tr:nth-of-type(odd) {
+table tbody tr:nth-of-type(odd) {
 	background-color: rgba(0, 0, 0, 0.3);
 }
 
