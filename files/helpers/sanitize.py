@@ -110,9 +110,6 @@ def execute_blackjack(v, target, body, kind):
 def find_all_emoji_endings(emoji):
 	endings = []
 
-	if path.isfile(f'files/assets/images/emojis/{emoji}.webp'):
-		return endings, emoji
-
 	is_non_ending_found = False
 	while not is_non_ending_found:
 		if emoji.endswith('pat'):
@@ -139,7 +136,7 @@ def find_all_emoji_endings(emoji):
 			emoji = emoji[:-8]
 			continue
 
-		if emoji.endswith('love'):
+		if emoji.endswith('love') and emoji not in {'marseycornlove', 'marseycapylove'}:
 			if 'love' in endings:
 				is_non_ending_found = True
 				continue
