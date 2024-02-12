@@ -69,6 +69,8 @@ def front_all(v, hole=None):
 			calc_users()
 			return result
 
+	hide_cw = (SITE_NAME == 'WPD' and v and v.hide_cw)
+
 	ids, total, size = frontlist(sort=sort,
 					page=page,
 					t=t,
@@ -79,6 +81,7 @@ def front_all(v, hole=None):
 					hole=hole,
 					pins=pins,
 					effortposts_only=effortposts_only,
+					hide_cw=hide_cw,
 					)
 
 	posts = get_posts(ids, v=v)
@@ -102,7 +105,7 @@ LIMITED_WPD_HOLES = {'aftermath', 'fights', 'gore', 'medical', 'request', 'selfh
 					 'slavshit', 'sandshit'}
 
 @cache.memoize()
-def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='', gt=0, lt=0, hole=None, pins=True, effortposts_only=False):
+def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='', gt=0, lt=0, hole=None, pins=True, effortposts_only=False, hide_cw=False):
 	posts = g.db.query(Post)
 
 	if v and v.hidevotedon:
@@ -132,6 +135,14 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 		Post.private == False,
 		Post.deleted_utc == 0,
 	)
+
+	if hide_cw:
+		posts = posts.filter(
+			or_(
+				Post.cw == False,
+				Post.author_id == v.id,
+			)
+		)
 
 	if pins and not gt and not lt:
 		if hole: posts = posts.filter(Post.hole_pinned == None)

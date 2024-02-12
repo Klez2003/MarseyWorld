@@ -167,6 +167,7 @@ def settings_personal_post(v):
 		return profanity_filter_updated
 
 	updated = updated or update_flag("hidevotedon", "hidevotedon")
+	updated = updated or update_flag("hide_cw", "hide_cw")
 	updated = updated or update_flag("newtab", "newtab")
 	updated = updated or update_flag("newtabexternal", "newtabexternal")
 	updated = updated or update_flag("nitter", "nitter")

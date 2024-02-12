@@ -135,6 +135,7 @@
 						{% endif %}
 						{% if SITE_NAME == 'WPD' %}
 							{{common.toggle_section('Hide Posts Voted On', 'hidevotedon', 'hidevotedon', v.hidevotedon, 'Enable if you would like to automatically hide posts you have voted on from your frontpage.', false)}}
+							{{common.toggle_section('Hide Posts with Child Warning', 'hide_cw', 'hide_cw', v.hide_cw, 'Enable if you would like to automatically hide posts that have a child warning.', false)}}
 						{% endif %}
 						<div class="d-lg-flex border-bottom">
 							<div class="title w-lg-25">

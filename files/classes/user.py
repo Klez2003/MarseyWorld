@@ -161,6 +161,7 @@ class User(Base):
 		earlylife = 0
 		hole_creation_notifs = False
 		hidevotedon = Column(Boolean, default=False)
+		hide_cw = Column(Boolean, default=False)
 	else:
 		nitter = Column(Boolean, default=False)
 		imgsed = Column(Boolean, default=False)
@@ -170,6 +171,7 @@ class User(Base):
 		earlylife = Column(Integer, default=0)
 		hole_creation_notifs = Column(Boolean, default=True)
 		hidevotedon = False
+		hide_cw = False
 
 	if IS_HOMOWEEN():
 		zombie = Column(Integer, default=0) # > 0 vaxxed; < 0 zombie
