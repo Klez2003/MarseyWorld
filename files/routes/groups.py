@@ -90,7 +90,13 @@ def join_group(v, group_name):
 	if not existing:
 		join = GroupMembership(user_id=v.id, group_name=group_name)
 		g.db.add(join)
-		send_notification(group.owner_id, f"@{v.username} has applied to join !{group}. You can approve or reject the application [here](/!{group}).")
+
+		notified_ids = [group.owner_id]
+		notified_ids += [x[0] for x in g.db.query(GroupMembership.user_id).filter_by(group_name=group_name, is_mod=True).all()]
+		notified_ids = list(set(notified_ids))
+
+		for uid in notified_ids:
+			send_notification(uid, f"@{v.username} has applied to join !{group}. You can approve or reject the application [here](/!{group}).")
 
 	return {"message": f"Application submitted to !{group}'s owner (@{group.owner.username}) successfully!"}
 
