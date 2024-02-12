@@ -747,8 +747,6 @@ def normalize_url(url):
 		url = urlunparse(new_url)
 
 	domain = tldextract.extract(url).registered_domain
-	if domain not in {'ar15.com','urlebird.com'}:
-		url = url.rstrip('/')
 
 	url = imgur_regex.sub(r'\1_d.webp?maxwidth=9999&fidelity=grand', url)
 
