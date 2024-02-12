@@ -1030,14 +1030,6 @@ def ban_user(fullname, v):
 	reason = reason_regex_post.sub(r'<a href="\1">\1</a>', reason)
 	reason = reason_regex_comment.sub(r'<a href="\1#context">\1</a>', reason)
 
-	user.ban(admin=v, reason=reason, days=days)
-
-	if request.values.get("alts"):
-		for x in get_alt_graph(user.id):
-			if x.admin_level > v.admin_level:
-				continue
-			x.ban(admin=v, reason=reason, days=days)
-
 	duration = "permanently"
 	if days:
 		days_txt = str(days)
@@ -1050,7 +1042,16 @@ def ban_user(fullname, v):
 		if reason: text = f"@{v.username} (a site admin) has banned you permanently for the following reason:\n\n> {reason}"
 		else: text = f"@{v.username} (a site admin) has banned you permanently."
 
+
+	user.ban(admin=v, reason=reason, days=days)
 	send_repeatable_notification(user.id, text)
+
+	if request.values.get("alts"):
+		for x in get_alt_graph(user.id):
+			if x.admin_level > v.admin_level:
+				continue
+			x.ban(admin=v, reason=reason, days=days)
+			send_repeatable_notification(x.id, text)
 
 	note = f'duration: {duration}, reason: "{reason}"'
 	ma = ModAction(
