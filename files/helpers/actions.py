@@ -162,14 +162,10 @@ def execute_snappy(post, v):
 				)
 			g.db.add(award_object)
 
-			awarded_coins = int(AWARDS["glowie"]['price'] * COSMETIC_AWARD_COIN_AWARD_PCT) if AWARDS["glowie"]['cosmetic'] else 0
-			if AWARDS["glowie"]['cosmetic']:
-				post.author.pay_account('coins', awarded_coins)
+			awarded_coins = int(AWARDS["glowie"]['price'] * COSMETIC_AWARD_COIN_AWARD_PCT)
+			post.author.pay_account('coins', awarded_coins)
 
-			msg = f"@Snappy has given [{post.title}]({post.shortlink}) the {AWARDS['glowie']['title']} Award"
-			if awarded_coins > 0:
-				msg += f" and you have received {awarded_coins} coins as a result"
-			msg += "!"
+			msg = f"@Snappy has given [{post.title}]({post.shortlink}) the Glowie Award and you have received {awarded_coins} coins as a result!"
 			send_repeatable_notification(post.author.id, msg)
 
 
