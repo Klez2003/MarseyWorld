@@ -682,33 +682,39 @@ def is_whitelisted(domain, k):
 		return True
 	return False
 
+domain_replacements = {
+	"https://music.youtube.com": "https://youtube.com",
+	"https://www.youtube.com": "https://youtube.com",
+	"https://m.youtube.com": "https://youtube.com",
+	"https://mobile.twitter.com": "https://twitter.com",
+	"https://x.com": "https://twitter.com",
+	"https://www.twitter.com": "https://twitter.com",
+	"https://fxtwitter.com": "https://twitter.com",
+	"https://nitter.net/": "https://twitter.com/",
+	"https://nitter.42l.fr/": "https://twitter.com/",
+	"https://nitter.unixfox.eu/": "https://twitter.com/",
+	"https://m.facebook.com": "https://facebook.com",
+	"https://en.m.wikipedia.org": "https://en.wikipedia.org",
+	"https://www.instagram.com": "https://instagram.com",
+	"https://www.tiktok.com": "https://tiktok.com",
+	"https://imgur.com/": "https://i.imgur.com/",
+	'https://www.google.com/amp/s/': 'https://',
+	'https://amp.': 'https://',
+	'https://cnn.com/cnn/': 'https://edition.cnn.com/',
+	'https://letmegooglethat.com/?q=': 'https://google.com/search?q=',
+	'https://lmgtfy.app/?q=': 'https://google.com/search?q=',
+	DONATE_LINK: f'{SITE_FULL}/donate',
+}
 
 def normalize_url(url):
 	url = reddit_domain_regex.sub(r'\1https://old.reddit.com/\5', url)
 
-	url = url.replace("https://music.youtube.com", "https://youtube.com") \
-			 .replace("https://www.youtube.com", "https://youtube.com") \
-			 .replace("https://m.youtube.com", "https://youtube.com") \
-			 .replace("https://mobile.twitter.com", "https://twitter.com") \
-			 .replace("https://x.com", "https://twitter.com") \
-			 .replace("https://www.twitter.com", "https://twitter.com") \
-			 .replace("https://fxtwitter.com", "https://twitter.com") \
-			 .replace("https://nitter.net/", "https://twitter.com/") \
-			 .replace("https://nitter.42l.fr/", "https://twitter.com/") \
-			 .replace("https://nitter.unixfox.eu/", "https://twitter.com/") \
-			 .replace("https://m.facebook.com", "https://facebook.com") \
-			 .replace("https://en.m.wikipedia.org", "https://en.wikipedia.org") \
-			 .replace("https://www.instagram.com", "https://instagram.com") \
-			 .replace("https://www.tiktok.com", "https://tiktok.com") \
-			 .replace("https://imgur.com/", "https://i.imgur.com/") \
-			 .replace("/giphy.gif", "/giphy.webp") \
-			 .replace('https://www.google.com/amp/s/', 'https://') \
-			 .replace('https://amp.', 'https://') \
-			 .replace('https://cnn.com/cnn/', 'https://edition.cnn.com/') \
-			 .replace('/amp/', '/') \
-			 .replace('https://letmegooglethat.com/?q=', 'https://google.com/search?q=') \
-			 .replace('https://lmgtfy.app/?q=', 'https://google.com/search?q=') \
-			 .replace(DONATE_LINK, f'{SITE_FULL}/donate') \
+	for k, val in domain_replacements.items():
+		if url.startswith(k):
+			url = url.replace(k, val)
+
+	url = url.replace("/giphy.gif", "/giphy.webp")
+	url = url.replace('/amp/', '/')
 
 	if url.endswith('.amp'):
 		url = url.split('.amp')[0]
