@@ -251,6 +251,10 @@ function timestamp(t, ti) {
 };
 
 function areyousure(t) {
+	if (t.dataset.nonce != nonce) {
+		console.error("Nonce check failed!")
+		return
+	}
 	if (t.value) {
 		t.dataset.oldvalue = t.value
 		t.value = 'Are you sure?'

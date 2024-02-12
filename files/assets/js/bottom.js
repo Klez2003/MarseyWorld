@@ -238,6 +238,10 @@ document.addEventListener("click", function (e) {
 	}
 
 	if (!element.classList.contains("areyousure")) {
+		if (element.dataset.nonce != nonce) {
+			console.error("Nonce check failed!")
+			return
+		}
 		document.querySelectorAll(".areyousure").forEach(i => {
 			if (element.dataset.bsTarget == "#awardModal" && i.classList.contains('awardbtn'))
 				return
