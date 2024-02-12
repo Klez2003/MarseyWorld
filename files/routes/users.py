@@ -832,22 +832,6 @@ def visitors(v, username):
 
 	return render_template("userpage/views.html", v=v, u=u, views=views, total=total, page=page)
 
-@cache.memoize()
-def userpagelisting(user, v=None, page=1, sort="new", t="all"):
-	posts = g.db.query(Post).filter_by(author_id=user.id, is_pinned=False).options(load_only(Post.id))
-
-	if not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or v.id == user.id)):
-		posts = posts.filter_by(is_banned=False, private=False, ghost=False)
-
-	if not (v and v.admin_level >= PERMS['POST_COMMENT_MODERATION']):
-		posts = posts.filter_by(deleted_utc=0)
-
-	posts = apply_time_filter(t, posts, Post)
-	total = posts.count()
-	posts = sort_objects(sort, posts, Post)
-	posts = posts.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
-	return [x.id for x in posts], total
-
 @app.get("/@<username>")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @auth_required
@@ -937,7 +921,6 @@ def u_username_wall_comment(v, username, cid):
 
 	return render_template("userpage/wall.html", u=u, v=v, listing=[top_comment], page=1, is_following=is_following, standalone=True, render_replies=True, wall=True, comment_info=comment_info, total=1)
 
-
 @app.get("/@<username>/posts")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @auth_required
@@ -1004,6 +987,21 @@ def u_username(v, username):
 									total=total,
 									is_following=is_following)
 
+@cache.memoize()
+def userpagelisting(user, v=None, page=1, sort="new", t="all"):
+	posts = g.db.query(Post).filter_by(author_id=user.id, is_pinned=False).options(load_only(Post.id))
+
+	if not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or v.id == user.id)):
+		posts = posts.filter_by(is_banned=False, private=False, ghost=False)
+
+	if not (v and v.admin_level >= PERMS['POST_COMMENT_MODERATION']):
+		posts = posts.filter_by(deleted_utc=0)
+
+	posts = apply_time_filter(t, posts, Post)
+	total = posts.count()
+	posts = sort_objects(sort, posts, Post)
+	posts = posts.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
+	return [x.id for x in posts], total
 
 @app.get("/@<username>/comments")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
