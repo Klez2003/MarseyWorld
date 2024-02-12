@@ -21,6 +21,9 @@ def exile_post(v, pid):
 
 	if not v.mods_hole(hole): abort(403)
 
+	if hole in {'atheism', 'dioceseofrdrama', 'truth'}:
+		abort(403, f"/h/{hole} has the exiling feature disabled due to being unblockable.")
+
 	u = p.author
 
 	if u.mods_hole(hole): abort(403)
@@ -54,6 +57,9 @@ def exile_comment(v, cid):
 	if not hole: abort(400)
 
 	if not v.mods_hole(hole): abort(403)
+
+	if hole in {'atheism', 'dioceseofrdrama', 'truth'}:
+		abort(403, f"/h/{hole} has the exiling feature disabled due to being unblockable.")
 
 	u = c.author
 
