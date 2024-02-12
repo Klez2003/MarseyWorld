@@ -167,3 +167,123 @@ blockquote a {
 		#6d5d00 60px
 	);
 }
+
+#header--icon {
+	content: url(/i/4chan_icon.webp);
+	height: 40px;
+	-webkit-filter: drop-shadow(1px 1px 0 black)
+	drop-shadow(-1px -1px 0 black);
+	filter: drop-shadow(1px 1px 0 black) 
+	drop-shadow(-1px -1px 0 black);
+}
+
+#logo-WPD {
+	content: url(/i/4chan_logo_WPD.webp);
+	height: 50px;
+	width: auto;
+	float: left;
+}
+
+span.mod {
+	color: #fff !important;
+}
+
+.hole-flair {
+	background-color: maroon !important;
+}
+
+body {
+	font-family: arial,helvetica,sans-serif !important; 
+	font-size: 10pt !important;
+}
+
+span.patron {
+	color: #fff !important;
+}
+
+.btn {
+	color: maroon !important;
+	border-color: maroon !important;
+}
+
+hr {
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+	border: 0;
+	border-top: 1px solid maroon;
+}
+
+span {
+	color: maroon !important;
+}
+
+.post-title a {
+	color: #cc1c06 !important;
+}
+
+textarea {
+	color: #fff;
+}
+
+button {
+	color: maroon !important;
+}
+
+.sidebar-wpd--holes a {
+	padding: 5px 5px 4px;
+	text-align: center;
+	color: var(--muted);
+	background-color: rgb(var(--background));
+	box-shadow: 0 0 0 1px maroon !important;
+}
+
+.notif-count {
+	color: #fff !important;
+}
+
+.navbar-light, .navbar .container-fluid, #mobile-bottom-navigation-bar {
+	background: #ffe9cb url(/i/4chan_navbar.webp) !important;
+	background-size: contain;
+}
+
+.srd {
+	background-color: #ffe9cb !important;
+	color: maroon !important;
+}
+
+.navbar-light {
+	background-color: #ffe9cb !important;
+	box-shadow: 0 0px 0px #ffe9cb, 0 0 0px #ffe9cb !important;
+}
+
+a {
+	color: maroon !important;
+}
+
+.video-play {
+	background-color: maroon !important;
+}
+
+i.fas.fa-infinity.mr-2 {
+	color: maroon !important;
+}
+
+i.fas.fa-sparkles.mr-1 {
+	color: maroon !important;
+}
+
+i.fas.fa-feather-alt i.fas.fa-bell i.fas.fa-music i.fas.fa-trophy i.fas.fa-comment-dots i.fas.fa-cards i.fas.fa-store {
+	color: maroon !important ;
+}
+
+.navbar-light .navbar-nav .nav-link .fa, .navbar-light .navbar-nav .nav-link .fas, .navbar-light .navbar-nav .nav-link .far, .navbar-light .navbar-nav .nav-link .fab {
+	color: maroon !important;
+}
+
+.award-name {
+	color: maroon !important;
+}
+
+.container {
+	background: #ffffee !important;
+}
