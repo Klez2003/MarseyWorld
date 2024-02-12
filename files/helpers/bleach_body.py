@@ -11,7 +11,6 @@ allowed_tags_runstime = ('div', 'input', 'label', 'score', 'button')
 allowed_css_properties = ('background-color', 'color', 'filter', 'font-weight', 'text-align', 'transform')
 
 def allowed_attributes(tag, name, value):
-
 	if name == 'style':
 		value = value.lower()
 		if 'transform' in value and 'scale' in value and ('rotate' in value or 'skew' in value):
