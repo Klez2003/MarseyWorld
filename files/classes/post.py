@@ -47,7 +47,6 @@ class Post(Base):
 	private = Column(Boolean, default=False)
 	comment_count = Column(Integer, default=0)
 	is_approved = Column(Integer, ForeignKey("users.id"))
-	nsfw = Column(Boolean, default=False)
 	is_bot = Column(Boolean, default=False)
 	upvotes = Column(Integer, default=1)
 	downvotes = Column(Integer, default=0)
@@ -69,6 +68,11 @@ class Post(Base):
 	sharpened = Column(Boolean, default=False)
 	ping_cost = Column(Integer, default=0)
 	bump_utc = Column(Integer)
+
+	if FEATURES['NSFW_MARKING']:
+		nsfw = Column(Boolean, default=False)
+	else:
+		nsfw = False
 
 	author = relationship("User", primaryjoin="Post.author_id==User.id")
 	oauth_app = relationship("OauthApp")

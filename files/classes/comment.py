@@ -188,7 +188,6 @@ class Comment(Base):
 	level = Column(Integer, default=1)
 	parent_comment_id = Column(Integer, ForeignKey("comments.id"))
 	top_comment_id = Column(Integer)
-	nsfw = Column(Boolean, default=False)
 	is_bot = Column(Boolean, default=False)
 	stickied = Column(String)
 	stickied_utc = Column(Integer)
@@ -211,6 +210,11 @@ class Comment(Base):
 	rainbowed = Column(Boolean, default=False)
 	queened = Column(Boolean, default=False)
 	sharpened = Column(Boolean, default=False)
+
+	if FEATURES['NSFW_MARKING']:
+		nsfw = Column(Boolean, default=False)
+	else:
+		nsfw = False
 
 	oauth_app = relationship("OauthApp")
 	post = relationship("Post", back_populates="comments")
