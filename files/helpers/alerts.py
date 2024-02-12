@@ -28,7 +28,7 @@ def create_comment(text_html):
 
 	return new_comment.id
 
-def send_repeatable_notification(uid, text):
+def send_repeatable_notification(uid, text, only_repeatable_after_1week=False):
 	if uid in BOT_IDs: return
 
 	if hasattr(g, 'v') and g.v and g.v.shadowbanned and g.db.query(User.admin_level).filter_by(id=uid).one()[0] < PERMS['USER_SHADOWBAN']:
@@ -38,14 +38,19 @@ def send_repeatable_notification(uid, text):
 
 	existing_comments = g.db.query(Comment.id).filter_by(author_id=AUTOJANNY_ID, parent_post=None, body_html=text_html, is_bot=True).order_by(Comment.id).all()
 
+	existing_notif = None
 	for c in existing_comments:
-		existing_notif = g.db.query(Notification.user_id).filter_by(user_id=uid, comment_id=c.id).one_or_none()
+		existing_notif = g.db.query(Notification).filter_by(user_id=uid, comment_id=c.id).one_or_none()
 		if not existing_notif:
 			notif = Notification(comment_id=c.id, user_id=uid)
 			g.db.add(notif)
 
 			push_notif({uid}, 'New notification', text, f'{SITE_FULL}/notification/{c.id}')
 			return notif
+
+	one_week_ago = time.time() - 604800
+	if only_repeatable_after_1week and existing_notif and existing_notif.created_utc > one_week_ago:
+		return
 
 	cid = create_comment(text_html)
 	notif = Notification(comment_id=cid, user_id=uid)
@@ -57,14 +62,7 @@ def send_repeatable_notification(uid, text):
 
 
 def send_notification(uid, text):
-	if uid in BOT_IDs: return
-
-	if hasattr(g, 'v') and g.v and g.v.shadowbanned and g.db.query(User.admin_level).filter_by(id=uid).one()[0] < PERMS['USER_SHADOWBAN']:
-		return
-
-	cid = notif_comment(text)
-	add_notif(cid, uid, text)
-
+	send_repeatable_notification(uid, text, only_repeatable_after_1week=True)
 
 def notif_comment(text):
 
