@@ -174,7 +174,7 @@ let all_images
 let position
 let num_of_images
 
-const imagenav_btn = document.getElementById('image-navigation')
+const imagenav_btn = document.getElementById('imgnav')
 
 document.addEventListener('keydown', (e) => {
 	if (['ArrowRight', 'd'].includes(e.key)  && imagenav_btn && !imagenav_btn.classList.contains('d-none')) {
@@ -189,7 +189,7 @@ document.addEventListener("click", function (e) {
 
 	if (!element) return
 
-	if (element.id == 'image-navigation') {
+	if (element.id == 'imgnav') {
 		expandImage(element.href)
 		position += 1
 		if (position < num_of_images) {

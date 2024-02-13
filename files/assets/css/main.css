@@ -7689,7 +7689,7 @@ thead {
 	min-width: 300px
 }
 
-#image-navigation {
+#imgnav {
 	border: 4px solid transparent;
 	color: black;
 	font-size: 35px;
@@ -7700,6 +7700,6 @@ thead {
 	text-decoration: none;
 }
 
-#image-navigation:hover {
+#imgnav:hover {
 	border: 4px solid var(--primary);
 }
