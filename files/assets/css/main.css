@@ -357,10 +357,6 @@ svg {
 	overflow: hidden;
 	vertical-align: middle;
 }
-table {
-	border-collapse: collapse;
-	margin-bottom: 3rem !important;
-}
 caption {
 	padding-top: 0.75rem;
 	padding-bottom: 0.75rem;
@@ -658,9 +654,10 @@ pre code {
 }
 }
 table {
+	border-collapse: collapse;
 	width: 100%;
 	margin-bottom: 1rem;
-	color: #212529;
+	color: var(--white);
 }
 table th, table td {
 	padding: 0.75rem;
@@ -3405,9 +3402,6 @@ a.text-danger:hover, a.text-danger:focus, :not(td) > a[href="/h/chudrama"]:focus
 	.badge {
 		border: 1px solid #000;
 	}
-	table {
-		border-collapse: collapse !important;
-	}
 	table td, table th {
 		background-color: #fff !important;
 	}
@@ -5136,9 +5130,6 @@ span.green {
 	.settings-nav .nav-link {
 		padding: 0.75rem 0.4rem;
 	}
-}
-table {
-	color: var(--white);
 }
 .comment-box {
 	border: 2px solid #e9ecef;
