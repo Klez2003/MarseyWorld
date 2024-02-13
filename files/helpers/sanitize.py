@@ -296,9 +296,17 @@ def handle_youtube_links(url):
 	if yt_id_regex.fullmatch(id):
 		if not t:
 			t = params.get('t', params.get('start', [0]))[0]
-		html = f'<lite-youtube videoid="{id}" params="modestbranding=1'
+		if isinstance(t, str):
+			t = t.replace('s','').replace('S','')
+			split = t.split('m')
+			if len(split) == 2:
+				minutes = int(split[0])
+				if split[1]: seconds = int(split[1])
+				else: seconds = 0
+				t = minutes*60 + seconds
+		html = f'<lite-youtube videoid="{id}" params="&modestbranding=1'
 		if t:
-			html += f'&start={t}'
+			html += f'&start={int(t)}'
 		html += '"></lite-youtube>'
 	return html
 
