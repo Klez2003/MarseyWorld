@@ -186,7 +186,7 @@ document.addEventListener("click", function (e) {
 		position += 1
 		if (position < num_of_images) {
 			element.classList.remove('d-none')
-			element.href = all_images[position].src
+			element.href = all_images[position].dataset.src
 		}
 	}
 	else if (element instanceof HTMLImageElement && (element.alt.startsWith('![](') || element.classList.contains('img'))) {
@@ -198,7 +198,7 @@ document.addEventListener("click", function (e) {
 			imagenav_btn.classList.remove('d-none')
 			position = [].indexOf.call(all_images, element);
 			position += 1
-			imagenav_btn.href = all_images[position].src
+			imagenav_btn.href = all_images[position].dataset.src
 		}
 	}
 	else if (element.classList.contains('showmore')) {
