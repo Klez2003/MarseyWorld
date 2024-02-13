@@ -227,13 +227,15 @@ def searchcomments(v):
 
 		else: comments = comments.filter(Comment.author_id == author.id)
 
-	if 'exact' in criteria and 'full_text' in criteria:
-		regex_str = '[[:<:]]'+criteria['full_text']+'[[:>:]]' # https://docs.oracle.com/cd/E17952_01/mysql-5.5-en/regexp.html "word boundaries"
-		words = [Comment.body.regexp_match(regex_str)]
-		comments = comments.filter(*words)
-	elif 'q' in criteria:
-		words = [Comment.body.ilike('%'+x+'%') for x in criteria['q']]
-		comments = comments.filter(*words)
+	if 'q' in criteria:
+		tokens = map(lambda x: search_regex_1.sub('', x), criteria['q'])
+		tokens = filter(lambda x: len(x) > 0, tokens)
+		tokens = map(lambda x: search_regex_2.sub("\\'", x), tokens)
+		tokens = map(lambda x: x.strip(), tokens)
+		tokens = map(lambda x: search_regex_3.sub(' <-> ', x), tokens)
+		comments = comments.filter(Comment.body_ts.match(
+			' & '.join(tokens),
+			postgresql_regconfig='english'))
 
 	if 'nsfw' in criteria: comments = comments.filter(Comment.nsfw == True)
 
