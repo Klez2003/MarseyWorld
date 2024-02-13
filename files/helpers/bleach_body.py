@@ -40,7 +40,7 @@ def allowed_attributes(tag, name, value):
 		if name == 'data-user-submitted' and not value: return True
 
 	if tag == 'lite-youtube':
-		if name == 'params' and value.startswith('autoplay=1&modestbranding=1'): return True
+		if name == 'params': return True
 		if name == 'videoid': return True
 
 	if tag == 'video':

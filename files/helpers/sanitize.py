@@ -296,7 +296,7 @@ def handle_youtube_links(url):
 	if yt_id_regex.fullmatch(id):
 		if not t:
 			t = params.get('t', params.get('start', [0]))[0]
-		html = f'<lite-youtube videoid="{id}" params="autoplay=1&modestbranding=1'
+		html = f'<lite-youtube videoid="{id}" params="modestbranding=1'
 		if t:
 			html += f'&start={t}'
 		html += '"></lite-youtube>'
