@@ -325,9 +325,9 @@ def group_usurp(v, group_name):
 	).first()
 
 	if less_than_month_old_memberships or not month_old_applications:
-		abort(403, f"@{group.owner.username} has reviewed a membership application in the past month, so you can't usurp them!")
+		abort(403, "The current regime has reviewed a membership application in the past month, so you can't usurp them!")
 
-	send_repeatable_notification(group.owner_id, f"@{v.username} has usurped control of !{group.name} from you. This was possible because you spent more than a month not reviewing membership applications. Be active next time sweaty :!marseycheeky:")
+	send_repeatable_notification(group.owner_id, f"@{v.username} has usurped control of !{group.name} from you. This was possible because you (and your mods) have spent more than a month not reviewing membership applications. Be active next time sweaty :!marseycheeky:")
 
 	group.owner_id = v.id
 	g.db.add(group)
