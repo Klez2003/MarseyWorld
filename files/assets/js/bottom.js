@@ -174,11 +174,11 @@ let all_images
 let position
 let num_of_images
 
-const imagenav_btn = document.getElementById('imgnav')
+const imgnav_btn = document.getElementById('imgnav')
 
 document.addEventListener('keydown', (e) => {
-	if (['ArrowRight', 'd'].includes(e.key)  && imagenav_btn && !imagenav_btn.classList.contains('d-none')) {
-		imagenav_btn.click()
+	if (['ArrowRight', 'd'].includes(e.key)  && imgnav_btn && !imgnav_btn.classList.contains('d-none')) {
+		imgnav_btn.click()
 	}
 })
 
@@ -202,10 +202,10 @@ document.addEventListener("click", function (e) {
 		all_images = element.parentElement.parentElement.parentElement.getElementsByClassName('img')
 		if (all_images.length > 1) {
 			num_of_images = all_images.length
-			imagenav_btn.classList.remove('d-none')
+			imgnav_btn.classList.remove('d-none')
 			position = [].indexOf.call(all_images, element);
 			position += 1
-			imagenav_btn.href = all_images[position].dataset.src
+			imgnav_btn.href = all_images[position].dataset.src
 		}
 	}
 	else if (element.classList.contains('showmore')) {
