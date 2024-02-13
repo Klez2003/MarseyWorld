@@ -190,9 +190,9 @@ document.addEventListener("click", function (e) {
 		}
 	}
 	else if (element instanceof HTMLImageElement && (element.alt.startsWith('![](') || element.classList.contains('img'))) {
+		expandImage()
 		all_images = element.parentElement.parentElement.parentElement.getElementsByClassName('img')
 		if (all_images.length > 1) {
-			expandImage()
 			num_of_images = all_images.length
 			const imagenav_btn = document.getElementById('image-navigation')
 			imagenav_btn.classList.remove('d-none')
