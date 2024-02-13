@@ -174,6 +174,14 @@ let all_images
 let position
 let num_of_images
 
+const imagenav_btn = document.getElementById('image-navigation')
+
+document.addEventListener('keydown', (e) => {
+	if (['ArrowRight', 'd'].includes(e.key)  && imagenav_btn && !imagenav_btn.classList.contains('d-none')) {
+		imagenav_btn.click()
+	}
+})
+
 document.addEventListener("click", function (e) {
 	let element = e.target
 	if (element.tagName == "I")
@@ -194,7 +202,6 @@ document.addEventListener("click", function (e) {
 		all_images = element.parentElement.parentElement.parentElement.getElementsByClassName('img')
 		if (all_images.length > 1) {
 			num_of_images = all_images.length
-			const imagenav_btn = document.getElementById('image-navigation')
 			imagenav_btn.classList.remove('d-none')
 			position = [].indexOf.call(all_images, element);
 			position += 1
