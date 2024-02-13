@@ -7,7 +7,7 @@ from os import environ, listdir, path
 from flask import g, session, has_request_context, request
 from jinja2 import pass_context
 from PIL import ImageColor
-from sqlalchemy import text
+from sqlalchemy import text, func
 
 from files.classes.user import User
 from files.classes.orgy import get_running_orgy
@@ -129,6 +129,22 @@ def bar_position():
 def emoji_count():
 	return g.db.query(Emoji).filter_by(submitter_id=None).count()
 
+@cache.memoize(timeout=86400)
+def poster_of_the_day_id():
+	t = int(time.time()) - 86400
+
+	db = db_session()
+	uid = db.query(User.id, func.sum(Post.upvotes)).join(Post, Post.author_id == User.id).filter(Post.created_utc > t).group_by(User.id).order_by(func.sum(Post.upvotes).desc()).first()[0]
+	db.rollback()
+	db.close()
+
+	return uid
+
+def poster_of_the_day():
+	uid = poster_of_the_day_id()
+	user = g.db.query(User).filter_by(id=uid).one()
+	return user
+
 @app.context_processor
 def inject_constants():
 	return {
@@ -161,5 +177,5 @@ def inject_constants():
 			"MAX_VIDEO_SIZE_MB":MAX_VIDEO_SIZE_MB, "MAX_VIDEO_SIZE_MB_PATRON":MAX_VIDEO_SIZE_MB_PATRON,
 			"CURSORMARSEY_DEFAULT":CURSORMARSEY_DEFAULT, "SNAPPY_ID":SNAPPY_ID, "get_running_orgy":get_running_orgy,
 			"bar_position":bar_position, "datetime":datetime, "CSS_LENGTH_LIMIT":CSS_LENGTH_LIMIT, "cache":cache, "emoji_count":emoji_count, "HOLE_SIDEBAR_COLUMN_LENGTH":HOLE_SIDEBAR_COLUMN_LENGTH, "HOLE_SNAPPY_QUOTES_LENGTH":HOLE_SNAPPY_QUOTES_LENGTH,
-			"SIDEBAR_REQUEST_THREAD":SIDEBAR_REQUEST_THREAD, "BANNER_REQUEST_THREAD":BANNER_REQUEST_THREAD,
+			"SIDEBAR_REQUEST_THREAD":SIDEBAR_REQUEST_THREAD, "BANNER_REQUEST_THREAD":BANNER_REQUEST_THREAD, "poster_of_the_day":poster_of_the_day,
 		}
