@@ -33,6 +33,7 @@
 						<th>#</th>
 						<th>Name</th>
 						<th class="members">Members</th>
+						<th>Description</th>
 						<th>Created on</th>
 					</tr>
 				</thead>
@@ -54,6 +55,11 @@
 								</button>
 
 								<button id="apply-{{group}}" type="button" class="ml-3 ml-md-5 {% if v.id in group.membership_user_ids %}d-none{% endif %} btn btn-primary" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/!{{group}}/apply','leave-{{group}}','apply-{{group}}','d-none')">{% if group.name != 'verifiedrich' %}Apply to {% endif %}Join</button>
+							{% endif %}
+						</td>
+						<td>
+							{% if group.description %}
+								{{group.description}}
 							{% endif %}
 						</td>
 						<td data-time="{{group.created_utc}}"></td>

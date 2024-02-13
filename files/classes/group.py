@@ -15,6 +15,7 @@ class Group(Base):
 	name = Column(String, primary_key=True)
 	created_utc = Column(Integer)
 	owner_id = Column(Integer, ForeignKey("users.id"))
+	description = Column(String)
 
 	memberships = relationship("GroupMembership", primaryjoin="GroupMembership.group_name==Group.name", order_by="GroupMembership.approved_utc")
 	owner = relationship("User", primaryjoin="Group.owner_id==User.id")

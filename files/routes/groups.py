@@ -333,3 +333,30 @@ def group_usurp(v, group_name):
 	g.db.add(group)
 
 	return {"message": f'You have usurped control of !{group.name} successfully!'}
+
+@app.post("/!<group_name>/description")
+@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@auth_required
+def group_change_description(v, group_name):
+	group_name = group_name.strip().lower()
+
+	group = g.db.get(Group, group_name)
+	if not group: abort(404)
+
+	if v.id != group.owner_id:
+		abort(403, f"Only the group owner (@{group.owner.username}) can change the description!")
+
+	description = request.values.get('description')
+
+	if description:
+		description = description.strip()
+	else:
+		description = None
+
+	group.description = description
+	g.db.add(group)
+
+	return {"message": 'Description changed successfully!'}
