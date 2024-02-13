@@ -7708,7 +7708,7 @@ thead {
 
 
 @media (max-width: 768px) {
-	.imgnav {
+	#imgnav-next, #imgnav-prev {
 		position: absolute;
 		bottom: 0;
 	}
