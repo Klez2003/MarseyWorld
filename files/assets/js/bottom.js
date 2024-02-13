@@ -170,6 +170,10 @@ bs_trigger(document);
 
 const negative_awards = document.querySelectorAll("[data-positive=False]")
 
+let all_images
+let position
+let num_of_images
+
 document.addEventListener("click", function (e) {
 	let element = e.target
 	if (element.tagName == "I")
@@ -177,8 +181,25 @@ document.addEventListener("click", function (e) {
 
 	if (!element) return
 
-	if (element instanceof HTMLImageElement && (element.alt.startsWith('![](') || element.classList.contains('img'))) {
-		expandImage()
+	if (element.id == 'image-navigation') {
+		expandImage(element.href)
+		position += 1
+		if (position < num_of_images) {
+			element.classList.remove('d-none')
+			element.href = all_images[position].src
+		}
+	}
+	else if (element instanceof HTMLImageElement && (element.alt.startsWith('![](') || element.classList.contains('img'))) {
+		all_images = element.parentElement.parentElement.parentElement.getElementsByClassName('img')
+		if (all_images.length > 1) {
+			expandImage()
+			num_of_images = all_images.length
+			const imagenav_btn = document.getElementById('image-navigation')
+			imagenav_btn.classList.remove('d-none')
+			position = [].indexOf.call(all_images, element);
+			position += 1
+			imagenav_btn.href = all_images[position].src
+		}
 	}
 	else if (element.classList.contains('showmore')) {
 		showmore(element)
