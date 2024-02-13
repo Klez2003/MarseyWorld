@@ -1,43 +1,103 @@
 {% extends "default.html" %}
 {% block pagetitle %}Donate{% endblock %}
 {% block content %}
-	{% set can_see = DONATE_LINK != DEFAULT_CONFIG_VALUE and v and v.can_see_countryclub and v.chud != 1 %}
-	<h1 class="py-3">Donate and get {{patron}} rewards</h1>
-	<div class="overflow-x-auto">
-		<table>
-			<tbody>
-				{% if can_see %}
+	<div class="px-2">
+		{% set can_see = DONATE_LINK != DEFAULT_CONFIG_VALUE and v and v.can_see_countryclub and v.chud != 1 %}
+		<h3 class="mt-5 text-success">Donation Methods</h1>
+
+		<div class="overflow-x-auto">
+			<table>
+				<tbody>
+					{% if can_see %}
+						<tr>
+							<td>{{DONATE_SERVICE}}</td>
+							<td><a rel="noopener" href="{{DONATE_LINK}}">{{DONATE_LINK}}</a></td>
+						</tr>
+					{% elif SITE == 'rdrama.net' %}
+						<tr>
+							<td>Buymeacoffee</td>
+							<td><a rel="noopener" href="https://buymeacoffee.com/rdrama.net/membership">https://buymeacoffee.com/rdrama.net/membership</a></td>
+						</tr>
+					{% endif %}
 					<tr>
-						<td>{{DONATE_SERVICE}}</td>
-						<td><a rel="noopener" href="{{DONATE_LINK}}">{{DONATE_LINK}}</a></td>
+						<td>Bitcoin (BTC)</td>
+						<td>bc1q4cpgzld8m50tpmrf6akcp59la56u8sku4lqkgv</td>
 					</tr>
-				{% elif SITE == 'rdrama.net' %}
 					<tr>
-						<td>Buymeacoffee</td>
-						<td><a rel="noopener" href="https://buymeacoffee.com/rdrama.net/membership">https://buymeacoffee.com/rdrama.net/membership</a></td>
+						<td>Ethereum (ETH)</td>
+						<td>0xBBf1043A60C6894Db17b3118CA960FFDF84c9eea</td>
 					</tr>
-				{% endif %}
-				<tr>
-					<td>Bitcoin (BTC)</td>
-					<td>bc1q4cpgzld8m50tpmrf6akcp59la56u8sku4lqkgv</td>
-				</tr>
-				<tr>
-					<td>Ethereum (ETH)</td>
-					<td>0xBBf1043A60C6894Db17b3118CA960FFDF84c9eea</td>
-				</tr>
-				<tr>
-					<td>Monero (XMR)</td>
-					<td>44hdEpAYXkB2VwkWz6LR9zZhcaG8zrUzn21aPy1HSdcsjT51fPdpMV8hkf5QQdHKs9VsAs3so5Vq5easdBbzmcifGcqfxfw</td>
-				</tr>
-			</tbody>
-		</table>
+					<tr>
+						<td>Monero (XMR)</td>
+						<td>44hdEpAYXkB2VwkWz6LR9zZhcaG8zrUzn21aPy1HSdcsjT51fPdpMV8hkf5QQdHKs9VsAs3so5Vq5easdBbzmcifGcqfxfw</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
 		{% if can_see %}
-			<li class="pl-2 pb-4">
+			<li class="pl-2 pb-4 mt-3">
 				If you donate via {{DONATE_SERVICE}}, please first make sure your email on {{SITE}} and your email on {{DONATE_SERVICE}} are the same, then click "Claim {{patron}} Rewards" <a href="/settings/security#site-settings-email-section">here</a>
 			</li>
 		{% endif %}
-		<li class="pl-2">
+		<li class="pl-2 mt-3">
 			If you donate{% if can_see %} crypto{% endif %}, please let us know by <a href="/contact">sending us the transaction id via modmail</a> so we can give you your {{patron}} rewards manually!
 		</li>
+
+		<h3 class="mt-5 mt-md-6 text-success">Base patron rewards for all tiers</h1>
+
+		<table>
+			<tbody>
+				<tr><td>Username background</td><tr>
+				<tr><td>Exclusive badges</td><tr>
+				<tr><td>Ability to add a signature in the settings</td><tr>
+				<tr><td>Ability to upload a custom site background in the settings</td><tr>
+				<tr><td>Ability to change your username to a 1-letter or 2-letter username in the settings</td><tr>
+				<tr><td>Ability to perma-marsify yourself in the settings</td><tr>
+				<tr><td>Ability to have 2 previous usernames reserved for you instead of 1</td><tr>
+				<tr><td>Exclusive hole that only paypigs can see (<a href="/h/highrollerclub">/h/highrollerclub</a>)</td><tr>
+				<tr><td>Exclusive ping group that only paypigs can join or mention (<a href="!verifiedrich">!verifiedrich</a>)</td><tr>
+				<tr><td>Exemption from coin/marseybux gifting tax (3%)</td><tr>
+				<tr><td>Ability to upload more files</td><tr>
+				<tr><td>16MB image size limit (instead of 8MB)</td><tr>
+				<tr><td>16MB audio size limit (instead of 8MB)</td><tr>
+				{% if SITE_NAME != 'WPD' %}
+					<tr><td>100MB video size limit (instead of 32MB)</td><tr>
+				{% endif %}
+				<tr><td>100k character limit for posts (instead of 50k)</td><tr>
+			</tbody>
+		</table>
+
+		<h3 class="mt-5 mt-md-6 text-success">Tier-specific patron rewards</h1>
+
+		<div class="overflow-x-auto mt-4">
+			<table>
+				<thead>
+					<tr>
+						<th>Tier</th>
+						<th>Rewards</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for tier in range(2,9) %}
+						<tr>
+							<td>
+								{{TIER_TO_NAME[tier]}} - ${{TIER_TO_MONEY[tier]}}
+							</td>
+							<td>
+								<ul>
+									<li>
+										{{tier*5}}% discount when buying awards
+									</li>
+									<li>
+										{{TIER_TO_MONEY[tier]*500}} marseybux monthly (can be used in the shop, casino, and other places)
+									</li>
+								</ul>
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
 	</div>
 {% endblock %}
