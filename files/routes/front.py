@@ -67,7 +67,9 @@ def front_all(v, hole=None):
 		result = cache.get(f'frontpage_{sort}_{t}_{page}_{hole}_{pins}_{effortposts_only}')
 		if result:
 			calc_users()
-			return result
+			resp = make_response(result)
+			resp.headers["Cache-Control"] = "max-age=900"
+			return resp
 
 	hide_cw = (SITE_NAME == 'WPD' and v and v.hide_cw)
 
