@@ -189,7 +189,8 @@ function formkey() {
 const expandImageModal = document.getElementById('expandImageModal')
 
 function expandImage(url) {
-	document.getElementById('imgnav').classList.add('d-none')
+	document.getElementById('imgnav-next').classList.add('d-none')
+	document.getElementById('imgnav-prev').classList.add('d-none')
 
 	const e = this.event
 	if (e.ctrlKey || e.metaKey || e.shiftKey || e.altKey)

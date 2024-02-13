@@ -172,15 +172,31 @@ const negative_awards = document.querySelectorAll("[data-positive=False]")
 
 let all_images
 let position
-let num_of_images
+let last_img_index
 
-const imgnav_btn = document.getElementById('imgnav')
+const imgnav_next = document.getElementById('imgnav-next')
+const imgnav_prev = document.getElementById('imgnav-prev')
 
 document.addEventListener('keydown', (e) => {
-	if (['ArrowRight', 'd'].includes(e.key)  && imgnav_btn && !imgnav_btn.classList.contains('d-none')) {
-		imgnav_btn.click()
+	if (['ArrowRight', 'd'].includes(e.key)  && imgnav_next && !imgnav_next.classList.contains('d-none')) {
+		imgnav_next.click()
+	}
+	else if (['ArrowLeft', 'a'].includes(e.key)  && imgnav_prev && !imgnav_prev.classList.contains('d-none')) {
+		imgnav_prev.click()
 	}
 })
+
+function handle_navigation(delta) {
+	position += delta
+	if (position < last_img_index) {
+		imgnav_next.classList.remove('d-none')
+		imgnav_next.href = all_images[position+1].dataset.src
+	}
+	if (position > 0) {
+		imgnav_prev.classList.remove('d-none')
+		imgnav_prev.href = all_images[position-1].dataset.src
+	}
+}
 
 document.addEventListener("click", function (e) {
 	let element = e.target
@@ -189,23 +205,21 @@ document.addEventListener("click", function (e) {
 
 	if (!element) return
 
-	if (element.id == 'imgnav') {
+	if (element == imgnav_next) {
 		expandImage(element.href)
-		position += 1
-		if (position < num_of_images) {
-			element.classList.remove('d-none')
-			element.href = all_images[position].dataset.src
-		}
+		handle_navigation(1)
+	}
+	else if (element == imgnav_prev) {
+		expandImage(element.href)
+		handle_navigation(-1)
 	}
 	else if (element instanceof HTMLImageElement && (element.alt.startsWith('![](') || element.classList.contains('img'))) {
 		expandImage()
 		all_images = element.parentElement.parentElement.parentElement.getElementsByClassName('img')
-		if (all_images.length > 1) {
-			num_of_images = all_images.length
-			imgnav_btn.classList.remove('d-none')
+		if (all_images.length != 0) {
+			last_img_index = all_images.length - 1
 			position = [].indexOf.call(all_images, element);
-			position += 1
-			imgnav_btn.href = all_images[position].dataset.src
+			handle_navigation(0)
 		}
 	}
 	else if (element.classList.contains('showmore')) {
