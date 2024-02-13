@@ -7689,17 +7689,17 @@ thead {
 	min-width: 300px
 }
 
-.imgnav {
+#imgnav-next, #imgnav-prev {
 	border: 4px solid transparent;
 	color: black !important;
 	font-size: 35px;
-	background-color: #bbbbbb !important;
+	background-color: #939393 !important;
 	margin-left: -5px;
 	cursor: pointer;
 	text-decoration: none !important;
 }
 
-.imgnav:hover {
+#imgnav-next:hover, #imgnav-prev:hover {
 	border: 4px solid var(--primary);
 }
 
