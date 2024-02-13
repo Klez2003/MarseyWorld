@@ -259,14 +259,15 @@ document.addEventListener("click", function (e) {
 	}
 
 	if (!element.classList.contains("areyousure")) {
-		if (element.dataset.nonce != nonce) { //to stop the oldhtml attribute from being used as a vector for html injections
-			console.error("Nonce check failed!")
-			return
-		}
 		document.querySelectorAll(".areyousure").forEach(i => {
 			if (element.dataset.bsTarget == "#awardModal" && i.classList.contains('awardbtn'))
 				return
 
+			if (i.dataset.nonce != nonce) { //to stop the oldhtml attribute from being used as a vector for html injections
+				console.error("Nonce check failed!")
+				return
+			}
+		
 			i.classList.remove("areyousure")
 
 			if (i.dataset.oldvalue)
