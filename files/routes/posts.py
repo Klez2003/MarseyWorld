@@ -60,6 +60,17 @@ def publish(pid, v):
 	p.created_utc = int(time.time())
 	g.db.add(p)
 
+	p.chudded = v.chud and p.hole != 'chudrama' and not (p.is_longpost and not v.chudded_by)
+	p.queened = v.queen and not p.is_longpost
+	p.sharpened = v.sharpen and not p.is_longpost
+	p.rainbowed = v.rainbow and not p.is_longpost
+
+	p.title_html = filter_emojis_only(p.title, golden=False, obj=p, author=p.author)
+	p.body_html = sanitize(p.body, golden=False, limit_pings=100, obj=p, author=p.author)
+
+	if p.private or not complies_with_chud(p):
+		abort(403, f'You have to include "{p.author.chud_phrase}" in your post!')
+
 	notify_users = NOTIFY_USERS(f'{p.title} {p.body}', v, ghost=p.ghost, obj=p, followers_ping=False)
 
 	if notify_users:
@@ -578,10 +589,11 @@ def submit_post(v, hole=None):
 	if SITE_NAME == 'WPD':
 		p.cw = request.values.get("cw", False, bool)
 
-	p.chudded = v.chud and hole != 'chudrama' and not (p.is_longpost and not v.chudded_by)
-	p.queened = v.queen and not p.is_longpost
-	p.sharpened = v.sharpen and not p.is_longpost
-	p.rainbowed = v.rainbow and not p.is_longpost
+	if not p.private:
+		p.chudded = v.chud and hole != 'chudrama' and not (p.is_longpost and not v.chudded_by)
+		p.queened = v.queen and not p.is_longpost
+		p.sharpened = v.sharpen and not p.is_longpost
+		p.rainbowed = v.rainbow and not p.is_longpost
 
 	title_html = filter_emojis_only(title, count_emojis=True, obj=p, author=v)
 
@@ -646,7 +658,7 @@ def submit_post(v, hole=None):
 		else:
 			abort(415)
 
-	if not complies_with_chud(p):
+	if not p.private and not complies_with_chud(p):
 		p.is_banned = True
 		p.ban_reason = "AutoJanny"
 
@@ -1062,7 +1074,7 @@ def edit_post(pid, v):
 		gevent.spawn(postprocess_post, p.url, p.body, p.body_html, p.id, False, True)
 
 
-	if not complies_with_chud(p):
+	if not p.private and not complies_with_chud(p):
 		abort(403, f'You have to include "{p.author.chud_phrase}" in your post!')
 
 
