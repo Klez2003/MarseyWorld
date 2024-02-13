@@ -556,7 +556,8 @@ CREATE TABLE public.group_memberships (
 CREATE TABLE public.groups (
     name character varying(25) NOT NULL,
     created_utc integer NOT NULL,
-    owner_id integer
+    owner_id integer,
+    description character varying(100)
 );
 
 
