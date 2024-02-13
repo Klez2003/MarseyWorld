@@ -200,3 +200,7 @@ h1, h2, h3, h4, h5, h6 {
 #message *:not(#typing-indicator *) {
     vertical-align: middle;
 }
+
+.patron[style*="background-color:#ffffff"] {
+	color: black !important;
+}
