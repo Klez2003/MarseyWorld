@@ -61,14 +61,15 @@ def calc_users():
 		else:
 			ddos_threshold = 1000
 
-		if g.loggedin_counter + g.loggedout_counter > ddos_threshold:
-			if not get_setting('under_attack'):
-				set_setting('under_attack', True)
-				set_security_level('under_attack')
-		else:
-			if get_setting('under_attack'):
-				set_setting('under_attack', False)
-				set_security_level('high')
+		if SITE != 'rdrama.net':
+			if g.loggedin_counter + g.loggedout_counter > ddos_threshold:
+				if not get_setting('under_attack'):
+					set_setting('under_attack', True)
+					set_security_level('under_attack')
+			else:
+				if get_setting('under_attack'):
+					set_setting('under_attack', False)
+					set_security_level('high')
 	return ''
 
 def get_logged_in_user():
