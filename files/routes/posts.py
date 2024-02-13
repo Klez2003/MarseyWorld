@@ -440,8 +440,12 @@ def is_repost(v):
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit('20/day', deduct_when=lambda response: response.status_code < 400)
 @limiter.limit('20/day', deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
-@is_not_banned
+@auth_required
 def submit_post(v, hole=None):
+	flag_private = request.values.get("private", False, bool)
+	if v.is_permabanned or (v.is_banned and not flag_private):
+		abort(403, "You can't perform this action while banned!")
+
 	url = request.values.get("url", "").strip()
 
 	if '\\' in url: abort(400)
@@ -542,7 +546,6 @@ def submit_post(v, hole=None):
 	flag_notify = (request.values.get("notify", "on") == "on")
 	flag_new = request.values.get("new", False, bool) or 'megathread' in title.lower()
 	flag_nsfw = FEATURES['NSFW_MARKING'] and request.values.get("nsfw", False, bool)
-	flag_private = request.values.get("private", False, bool)
 	flag_effortpost = request.values.get("effortpost", False, bool)
 	flag_ghost = request.values.get("ghost", False, bool) and v.can_post_in_ghost_threads
 
