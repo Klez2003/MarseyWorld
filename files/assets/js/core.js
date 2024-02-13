@@ -545,6 +545,8 @@ function handle_files(input, newfiles) {
 		oldfiles[ta.id] = new DataTransfer();
 	}
 
+	const oldtext = ta.value;
+
 	for (let file of newfiles) {
 		if (file.name == 'image.png') {
 			const blob = file.slice(0, file.size, 'image/png');
@@ -561,6 +563,7 @@ function handle_files(input, newfiles) {
 	{
 		window.alert("You can't upload more than 20 files at one time!")
 		input.value = null
+		ta.value = oldtext
 		oldfiles[ta.id] = new DataTransfer();
 		return
 	}
