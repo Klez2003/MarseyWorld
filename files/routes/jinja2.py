@@ -137,7 +137,7 @@ def poster_of_the_day_id():
 
 	uid = db.query(User.id, func.sum(Post.upvotes)).join(Post, Post.author_id == User.id).filter(
 		Post.created_utc > t,
-		User.admin_level = 0,
+		User.admin_level == 0,
 	).group_by(User.id).order_by(func.sum(Post.upvotes).desc()).first()[0]
 
 	db.rollback()
