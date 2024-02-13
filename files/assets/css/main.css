@@ -7677,7 +7677,10 @@ blink {
 
 details {
     margin-bottom: 1rem;
-    cursor: pointer;
+}
+
+details:not([open]) {
+	cursor: pointer
 }
 
 thead {
