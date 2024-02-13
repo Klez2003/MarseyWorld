@@ -344,7 +344,7 @@ def _give_marseybux_salary():
 		send_repeatable_notification(u.id, f"You have received your monthly janny salary of {marseybux_salary} Marseybux!")
 
 def _expire_blocks_mutes_exiles():
-	one_month_ago = time.time() - 2629800
+	one_month_ago = time.time() - 2592000
 
 	blocks = g.db.query(UserBlock).filter(UserBlock.created_utc < one_month_ago)
 	for block in blocks:

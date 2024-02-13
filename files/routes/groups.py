@@ -311,7 +311,7 @@ def group_usurp(v, group_name):
 	if not v.is_member_of_group(group):
 		abort(403, "Only members of groups can usurp them!")
 
-	one_month_ago = time.time() - 2629800
+	one_month_ago = time.time() - 2592000
 
 	less_than_month_old_memberships = g.db.query(GroupMembership.user_id).filter(
 		GroupMembership.group_name == group.name,
