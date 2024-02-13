@@ -7684,3 +7684,7 @@ thead {
 	background-color: var(--primary) !important;
 	color: var(--white);
 }
+
+#formatting-table tbody td:nth-child(3) {
+	min-width: 300px
+}
