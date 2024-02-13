@@ -1,3 +1,4 @@
 cd /d
 . .env
+. /e
 /usr/local/bin/flask cron --every-1d
