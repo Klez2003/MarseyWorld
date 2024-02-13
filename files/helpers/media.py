@@ -159,7 +159,7 @@ def process_video(file, v):
 	try:
 		video_info = ffmpeg.probe(old)['streams'][0]
 		codec = video_info['codec_name']
-		bitrate = int(video_info['bit_rate'])
+		bitrate = int(video_info.get('bit_rate', 3000000))
 	except:
 		os.remove(old)
 		abort(400, "Something went wrong processing your video and it might be on our end. Please try uploading it to https://pomf2.lain.la and post the link instead.")
@@ -167,7 +167,7 @@ def process_video(file, v):
 	if codec != 'h264':
 		copyfile(old, new)
 		gevent.spawn(reencode_video, old, new)
-	elif bitrate > 3000000:
+	elif bitrate >= 3000000:
 		copyfile(old, new)
 		gevent.spawn(reencode_video, old, new, True)
 	else:
