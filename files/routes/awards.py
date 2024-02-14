@@ -198,6 +198,8 @@ def award_thing(v, thing_type, id):
 	safe_username = f"@{obj.author_name} is"
 
 	if AWARDS[kind]['negative'] and author.immune_to_negative_awards(v):
+		if author.new_user and not author.alts:
+			abort(403, "New users are immune to negative awards!")
 		abort(403, f"{safe_username} immune to negative awards!")
 
 	if isinstance(obj, Post) and obj.id == 210983:
