@@ -173,4 +173,5 @@ BOOSTED_SITES = {
 	'balkansirl.net',
 	'fark.com',
 	'deviantart.com',
+	'imdb.com',
 }
