@@ -59,7 +59,7 @@ def rescind(v, aid):
 def request_api_keys(v):
 	description = request.values.get("description", "").strip()
 	if len(description) > 256:
-		abort(400, 'App description is too long (max 256 characters)!')
+		abort(400, 'App description is too long (max 256 characters)')
 
 	new_app = OauthApp(
 		app_name=request.values.get('name').replace('<','').replace('>',''),
@@ -122,7 +122,7 @@ def edit_oauth_app(v, aid):
 
 	description = request.values.get("description", "").strip()
 	if len(description) > 256:
-		abort(400, 'App description is too long (max 256 characters)!')
+		abort(400, 'App description is too long (max 256 characters)')
 
 	app.description = description
 

@@ -992,7 +992,7 @@ def post_hole_snappy_quotes(v, hole):
 	if v.shadowbanned: abort(400)
 
 	if len(snappy_quotes) > HOLE_SNAPPY_QUOTES_LENGTH:
-		abort(400, f"Hole Snappy Quotes are too long (max {HOLE_SNAPPY_QUOTES_LENGTH} characters)")
+		abort(400, f"Quotes are too long (max {HOLE_SNAPPY_QUOTES_LENGTH} characters)")
 
 	hole.snappy_quotes = snappy_quotes
 	g.db.add(hole)

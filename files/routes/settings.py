@@ -254,7 +254,7 @@ def settings_personal_post(v):
 
 		sig_html = sanitize(sig, blackjack="signature")
 		if len(sig_html) > 1000:
-			abort(400, "Your sig is too long")
+			abort(400, "Your rendered sig is too long!")
 
 		v.sig = sig
 		v.sig_html = sig_html
@@ -264,11 +264,11 @@ def settings_personal_post(v):
 	elif not updated and FEATURES['USERS_PROFILE_BODYTEXT'] and request.values.get("friends"):
 		friends = request.values.get("friends", "").strip()
 		if len(friends) > BIO_FRIENDS_ENEMIES_LENGTH_LIMIT:
-			abort(400, f'Ypur friend list is too long (max {BIO_FRIENDS_ENEMIES_LENGTH_LIMIT} characters)!')
+			abort(400, f'Ypur friend list is too long (max {BIO_FRIENDS_ENEMIES_LENGTH_LIMIT} characters)')
 
 		friends_html = sanitize(friends, blackjack="friends")
 		if len(friends_html) > BIO_FRIENDS_ENEMIES_HTML_LENGTH_LIMIT:
-			abort(400, "Your friend list is too long")
+			abort(400, "Your rendered friend list is too long!")
 
 		notify_users = NOTIFY_USERS(friends, v, oldtext=v.friends)
 		if notify_users:
@@ -297,11 +297,11 @@ def settings_personal_post(v):
 	elif not updated and FEATURES['USERS_PROFILE_BODYTEXT'] and request.values.get("enemies"):
 		enemies = request.values.get("enemies", "").strip()
 		if len(enemies) > BIO_FRIENDS_ENEMIES_LENGTH_LIMIT:
-			abort(400, f'You enemy list is too long (max {BIO_FRIENDS_ENEMIES_LENGTH_LIMIT} characters)!')
+			abort(400, f'You enemy list is too long (max {BIO_FRIENDS_ENEMIES_LENGTH_LIMIT} characters)')
 
 		enemies_html = sanitize(enemies, blackjack="enemies")
 		if len(enemies_html) > BIO_FRIENDS_ENEMIES_HTML_LENGTH_LIMIT:
-			abort(400, "Your enemy list is too long")
+			abort(400, "Your rendered enemy list is too long!")
 
 		notify_users = NOTIFY_USERS(enemies, v, oldtext=v.enemies)
 		if notify_users:
@@ -331,11 +331,11 @@ def settings_personal_post(v):
 		bio = request.values.get("bio", "").strip()
 		bio = process_files(request.files, v, bio)
 		if len(bio) > BIO_FRIENDS_ENEMIES_LENGTH_LIMIT:
-			abort(400, f'Your bio is too long (max {BIO_FRIENDS_ENEMIES_LENGTH_LIMIT} characters)!')
+			abort(400, f'Your bio is too long (max {BIO_FRIENDS_ENEMIES_LENGTH_LIMIT} characters)')
 
 		bio_html = sanitize(bio, blackjack="bio")
 		if len(bio_html) > BIO_FRIENDS_ENEMIES_HTML_LENGTH_LIMIT:
-			abort(400, "Your bio is too long")
+			abort(400, "Your rendered bio is too long!")
 
 		v.bio_html=bio_html
 		g.db.add(v)
@@ -961,7 +961,7 @@ def settings_change_flair(v):
 		flair_html = censor_slurs_profanities(flair_html, None)
 
 		if len(flair_html) > 1000:
-			abort(400, "Flair too long!")
+			abort(400, "Your rendered flair is too long!")
 
 		execute_blackjack(v, None, flair, "flair")
 	else:

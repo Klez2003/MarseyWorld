@@ -604,7 +604,7 @@ def process_options(v, target):
 			body = i.group(2)
 
 			if len(body) > 500:
-				abort(400, f"Poll option body too long! (Max 500 characters)")
+				abort(400, f"Poll option body is too long (Max 500 characters)")
 
 			if isinstance(target, Post):
 				cls = PostOption

@@ -882,7 +882,7 @@ def shadowban(user_id, v):
 	reason = filter_emojis_only(reason)
 
 	if len(reason) > 256:
-		abort(400, "Ban reason too long!")
+		abort(400, "Ban reason is too long (max 256 characters)")
 
 	user.shadowban_reason = reason
 	g.db.add(user)
@@ -1730,10 +1730,7 @@ def ban_domain(v):
 	if not reason: abort(400, 'Reason is required!')
 
 	if len(reason) > 100:
-		abort(400, 'Reason is too long (max 100 characters)!')
-
-	if len(reason) > 100:
-		abort(400, 'Reason is too long!')
+		abort(400, 'Reason is too long (max 100 characters)')
 
 	existing = g.db.get(BannedDomain, domain)
 	if not existing:

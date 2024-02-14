@@ -463,11 +463,11 @@ def submit_post(v, hole=None):
 
 	title = request.values.get("title", "").strip()
 	if len(title) > POST_TITLE_LENGTH_LIMIT:
-		abort(400, f'Post title is too long (max {POST_TITLE_LENGTH_LIMIT} characters)!')
+		abort(400, f'Post title is too long (max {POST_TITLE_LENGTH_LIMIT} characters)')
 
 	body = request.values.get("body", "").strip()
 	if len(body) > POST_BODY_LENGTH_LIMIT(g.v):
-		abort(400, f'Post body is too long (max {POST_BODY_LENGTH_LIMIT(g.v)} characters)!')
+		abort(400, f'Post body is too long (max {POST_BODY_LENGTH_LIMIT(g.v)} characters)')
 
 	if not title:
 		abort(400, "Please enter a better title!")
@@ -555,7 +555,7 @@ def submit_post(v, hole=None):
 
 	body = process_files(request.files, v, body).strip()
 	if len(body) > POST_BODY_LENGTH_LIMIT(g.v):
-		abort(400, f'Post body is too long (max {POST_BODY_LENGTH_LIMIT(g.v)} characters)!')
+		abort(400, f'Post body is too long (max {POST_BODY_LENGTH_LIMIT(g.v)} characters)')
 
 	flag_notify = (request.values.get("notify", "on") == "on")
 	flag_new = request.values.get("new", False, bool) or 'megathread' in title.lower()
@@ -611,7 +611,7 @@ def submit_post(v, hole=None):
 		abort(400, "You can only type marseys!")
 
 	if len(body_html) > POST_BODY_HTML_LENGTH_LIMIT:
-		abort(400, "Post body_html too long!")
+		abort(400, "Rendered post body is too long!")
 
 	p.body_html = body_html
 
@@ -1016,11 +1016,11 @@ def edit_post(pid, v):
 
 	title = request.values.get("title", "").strip()
 	if len(title) > POST_TITLE_LENGTH_LIMIT:
-		abort(400, f'Post title is too long (max {POST_TITLE_LENGTH_LIMIT} characters)!')
+		abort(400, f'Post title is too long (max {POST_TITLE_LENGTH_LIMIT} characters)')
 
 	body = request.values.get("body", "").strip()
 	if len(body) > POST_BODY_LENGTH_LIMIT(g.v):
-		abort(400, f'Post body is too long (max {POST_BODY_LENGTH_LIMIT(g.v)} characters)!')
+		abort(400, f'Post body is too long (max {POST_BODY_LENGTH_LIMIT(g.v)} characters)')
 
 	if p.author.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
 		abort(403, "You have to type more than 280 characters!")
@@ -1056,7 +1056,7 @@ def edit_post(pid, v):
 
 	body = process_files(request.files, v, body).strip()
 	if len(body) > POST_BODY_LENGTH_LIMIT(g.v):
-		abort(400, f'Post body is too long (max {POST_BODY_LENGTH_LIMIT(g.v)} characters)!')
+		abort(400, f'Post body is too long (max {POST_BODY_LENGTH_LIMIT(g.v)} characters)')
 
 	if body != p.body or p.chudded:
 		body_html = sanitize(body, golden=False, limit_pings=100, obj=p, author=p.author)
@@ -1071,7 +1071,7 @@ def edit_post(pid, v):
 			if execute_blackjack(v, p, text, 'post'): break
 
 		if len(body_html) > POST_BODY_HTML_LENGTH_LIMIT:
-			abort(400, "Post body_html too long!")
+			abort(400, "Rendered post body is too long!")
 
 		p.body_html = body_html
 

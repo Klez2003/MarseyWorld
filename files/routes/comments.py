@@ -167,7 +167,7 @@ def comment(v):
 
 	body = request.values.get("body", "").strip()
 	if len(body) > COMMENT_BODY_LENGTH_LIMIT:
-		abort(400, f'Comment body is too long (max {COMMENT_BODY_LENGTH_LIMIT} characters)!')
+		abort(400, f'Comment body is too long (max {COMMENT_BODY_LENGTH_LIMIT} characters)')
 
 
 	if not posting_to_post or post_target.id not in ADMIGGER_THREADS:
@@ -218,7 +218,7 @@ def comment(v):
 							name = badge_def["name"]
 
 							if len(name) > 50:
-								abort(400, "Badge name is too long!")
+								abort(400, "Badge name is too long (max 50 characters)")
 
 							if not badge_name_regex.fullmatch(name):
 								abort(400, "Invalid badge name!")
@@ -246,7 +246,7 @@ def comment(v):
 
 	body = body.strip()
 	if len(body) > COMMENT_BODY_LENGTH_LIMIT:
-		abort(400, f'Comment body is too long (max {COMMENT_BODY_LENGTH_LIMIT} characters)!')
+		abort(400, f'Comment body is too long (max {COMMENT_BODY_LENGTH_LIMIT} characters)')
 
 	if v.admin_level >= PERMS['USE_ADMIGGER_THREADS'] and posting_to_post and post_target.id == SNAPPY_THREAD and level == 1:
 		with open(f"snappy_{SITE_NAME}.txt", "r+") as f:
@@ -298,7 +298,7 @@ def comment(v):
 		abort(403, "You can only type marseys!")
 
 	if len(body_html) > COMMENT_BODY_HTML_LENGTH_LIMIT:
-		abort(400, "Rendered comment too long!")
+		abort(400, "Rendered comment is too long!")
 
 	c.body_html = body_html
 
@@ -658,7 +658,7 @@ def edit_comment(cid, v):
 
 	body = request.values.get("body", "").strip()
 	if len(body) > COMMENT_BODY_LENGTH_LIMIT:
-		abort(400, f'Comment body is too long (max {COMMENT_BODY_LENGTH_LIMIT} characters)!')
+		abort(400, f'Comment body is too long (max {COMMENT_BODY_LENGTH_LIMIT} characters)')
 
 	if len(body) < 1 and not (request.files.get("file") and not g.is_tor):
 		abort(400, "You have to actually type something!")
@@ -673,12 +673,12 @@ def edit_comment(cid, v):
 
 		body = process_files(request.files, v, body)
 		if len(body) > COMMENT_BODY_LENGTH_LIMIT:
-			abort(400, f'Comment body is too long (max {COMMENT_BODY_LENGTH_LIMIT} characters)!')
+			abort(400, f'Comment body is too long (max {COMMENT_BODY_LENGTH_LIMIT} characters)')
 
 		body_html = sanitize(body, golden=False, limit_pings=5, showmore=(not v.hieroglyphs), commenters_ping_post_id=c.parent_post, obj=c, author=c.author)
 
 		if len(body_html) > COMMENT_BODY_HTML_LENGTH_LIMIT:
-			abort(400, "Rendered comment too long!")
+			abort(400, "Rendered comment is too long!")
 
 		if c.author.hieroglyphs and marseyaward_body_regex.search(body_html):
 			abort(403, "You can only type marseys!")

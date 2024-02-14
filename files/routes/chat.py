@@ -258,7 +258,7 @@ atexit.register(close_running_threads)
 def messagereply(v):
 	body = request.values.get("body", "").strip()
 	if len(body) > COMMENT_BODY_LENGTH_LIMIT:
-		abort(400, f'Message is too long (max {COMMENT_BODY_LENGTH_LIMIT} characters)!')
+		abort(400, f'Message is too long (max {COMMENT_BODY_LENGTH_LIMIT} characters)')
 
 	id = request.values.get("parent_id")
 	parent = get_comment(id, v=v)
@@ -292,14 +292,14 @@ def messagereply(v):
 	if not g.is_tor and get_setting("dm_media"):
 		body = process_files(request.files, v, body, is_dm=True, dm_user=user)
 		if len(body) > COMMENT_BODY_LENGTH_LIMIT:
-			abort(400, f'Message is too long (max {COMMENT_BODY_LENGTH_LIMIT} characters)!')
+			abort(400, f'Message is too long (max {COMMENT_BODY_LENGTH_LIMIT} characters)')
 
 	if not body: abort(400, "Message is empty!")
 
 	body_html = sanitize(body)
 
 	if len(body_html) > COMMENT_BODY_HTML_LENGTH_LIMIT:
-		abort(400, "Rendered message too long!")
+		abort(400, "Rendered message is too long!")
 
 	if parent.sentto == MODMAIL_ID:
 		sentto = MODMAIL_ID

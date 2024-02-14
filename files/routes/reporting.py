@@ -29,7 +29,7 @@ def report_post(pid, v):
 	og_flair = reason[1:]
 	reason_html = filter_emojis_only(reason)
 	if len(reason_html) > 350:
-		abort(400, "Report reason too long!")
+		abort(400, "Rendered report reason is too long!")
 
 	if reason.startswith('!') and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or post.hole and v.mods_hole(post.hole)):
 		post.flair = reason_html[1:]
@@ -99,8 +99,8 @@ def report_comment(cid, v):
 		abort(400, "Report reason is too long (max 100 characters)")
 
 	reason_html = filter_emojis_only(reason)
-
-	if len(reason_html) > 350: abort(400, "Too long!")
+	if len(reason_html) > 350:
+		abort(400, "Rendered report reason is too long!")
 
 	report = CommentReport(comment_id=comment.id, user_id=v.id, reason=reason_html)
 	g.db.add(report)
