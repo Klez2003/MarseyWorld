@@ -450,7 +450,6 @@ CREATE TABLE public.comments (
     slots_result character varying(36),
     blackjack_result character varying(860),
     treasure_amount character varying(10),
-    body_ts tsvector GENERATED ALWAYS AS (to_tsvector('english'::regconfig, (body)::text)) STORED,
     casino_game_id integer,
     chuddedfor character varying(50),
     wall_user_id integer,
@@ -459,7 +458,8 @@ CREATE TABLE public.comments (
     rainbowed boolean NOT NULL,
     queened boolean NOT NULL,
     sharpened boolean NOT NULL,
-    num_of_pinned_children integer NOT NULL
+    num_of_pinned_children integer NOT NULL,
+    body_ts tsvector GENERATED ALWAYS AS (to_tsvector('english'::regconfig, (body)::text)) STORED
 );
 
 
@@ -1739,13 +1739,6 @@ CREATE INDEX comments_body_ts_idx ON public.comments USING gin (body_ts);
 --
 
 CREATE INDEX comments_created_utc_asc_idx ON public.comments USING btree (created_utc NULLS FIRST);
-
-
---
--- Name: comments_created_utc_desc_idx; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX comments_created_utc_desc_idx ON public.comments USING btree (created_utc DESC);
 
 
 --
