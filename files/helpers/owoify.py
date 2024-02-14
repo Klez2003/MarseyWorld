@@ -17,9 +17,6 @@ OWO_EXCLUDE_PATTERNS = [
 	sanitize_url_regex, # bare links
 	mention_regex, # mentions
 	group_mention_regex, #ping group mentions
-	poll_regex, # polls
-	choice_regex,
-	bet_regex,
 	command_regex, # markup commands
 ]
 
@@ -33,16 +30,21 @@ def owoify(source, chud_phrase):
 	words = [Word(s) for s in word_matches]
 	spaces = [Word(s) for s in space_matches]
 
-	chud_words = chud_phrase.split() if chud_phrase else []
+	ignored_words = chud_phrase.split() if chud_phrase else []
 
-	words = list(map(lambda w: owoify_map_token_custom(w, chud_words), words))
+	for pattern in (poll_regex, choice_regex, bet_regex):
+		matches = [x.group(0) for x in pattern.finditer(source.lower())]
+		for match in matches:
+			ignored_words += match.split()
+
+	words = list(map(lambda w: owoify_map_token_custom(w, ignored_words), words))
 
 	result = interleave_arrays(words, spaces)
 	result_strings = list(map(lambda w: str(w), result))
 	return ''.join(result_strings)
 
-def owoify_map_token_custom(token, chud_words):
-	if token.word.lower() in chud_words:
+def owoify_map_token_custom(token, ignored_words):
+	if token.word.lower() in ignored_words:
 		return token
 
 	for pattern in OWO_EXCLUDE_PATTERNS:
