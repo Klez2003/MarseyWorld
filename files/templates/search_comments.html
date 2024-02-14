@@ -13,6 +13,12 @@
 				{{macros.ghost_box(error, '', 1)}}
 			</div>
 		</div>
+	{% elif not comments %}
+		<div class="row no-gutters">
+			<div class="col">
+				{{macros.ghost_box('No comments found!', '', 1)}}
+			</div>
+		</div>
 	{% endif %}
 {% endblock %}
 
