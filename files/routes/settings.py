@@ -247,7 +247,7 @@ def settings_personal_post(v):
 
 		sig = request.values.get("sig").replace('\n','').replace('\r','').strip()
 		sig = process_files(request.files, v, sig)
-		sig = sig.strip() # process_files potentially adds characters to the post
+		sig = sig.strip()
 
 		if len(sig) > 200:
 			abort(400, "New signature is too long (max 200 characters)")
@@ -262,14 +262,13 @@ def settings_personal_post(v):
 		return {"message": "Your sig has been updated."}
 
 	elif not updated and FEATURES['USERS_PROFILE_BODYTEXT'] and request.values.get("friends"):
-		friends = request.values.get("friends")[:BIO_FRIENDS_ENEMIES_LENGTH_LIMIT]
+		friends = request.values.get("friends", "").strip()
+		if len(friends) > BIO_FRIENDS_ENEMIES_LENGTH_LIMIT:
+			abort(400, f'Ypur friend list is too long (max {BIO_FRIENDS_ENEMIES_LENGTH_LIMIT} characters)!')
 
 		friends_html = sanitize(friends, blackjack="friends")
-
 		if len(friends_html) > BIO_FRIENDS_ENEMIES_HTML_LENGTH_LIMIT:
-			abort(400, "Your friends list is too long")
-
-		friends = friends[:BIO_FRIENDS_ENEMIES_LENGTH_LIMIT]
+			abort(400, "Your friend list is too long")
 
 		notify_users = NOTIFY_USERS(friends, v, oldtext=v.friends)
 		if notify_users:
@@ -296,14 +295,13 @@ def settings_personal_post(v):
 
 
 	elif not updated and FEATURES['USERS_PROFILE_BODYTEXT'] and request.values.get("enemies"):
-		enemies = request.values.get("enemies")[:BIO_FRIENDS_ENEMIES_LENGTH_LIMIT]
+		enemies = request.values.get("enemies", "").strip()
+		if len(enemies) > BIO_FRIENDS_ENEMIES_LENGTH_LIMIT:
+			abort(400, f'You enemy list is too long (max {BIO_FRIENDS_ENEMIES_LENGTH_LIMIT} characters)!')
 
 		enemies_html = sanitize(enemies, blackjack="enemies")
-
 		if len(enemies_html) > BIO_FRIENDS_ENEMIES_HTML_LENGTH_LIMIT:
-			abort(400, "Your enemies list is too long")
-
-		enemies = enemies[:BIO_FRIENDS_ENEMIES_LENGTH_LIMIT]
+			abort(400, "Your enemy list is too long")
 
 		notify_users = NOTIFY_USERS(enemies, v, oldtext=v.enemies)
 		if notify_users:
@@ -329,18 +327,16 @@ def settings_personal_post(v):
 		return {"message": "Your enemies list has been updated."}
 
 
-	elif not updated and FEATURES['USERS_PROFILE_BODYTEXT'] and \
-			(request.values.get("bio") or request.files.get('file')):
-		bio = request.values.get("bio", "")[:BIO_FRIENDS_ENEMIES_LENGTH_LIMIT]
+	elif not updated and FEATURES['USERS_PROFILE_BODYTEXT'] and (request.values.get("bio") or request.files.get('file')):
+		bio = request.values.get("bio", "").strip()
 		bio = process_files(request.files, v, bio)
-		bio = bio.strip()
-		bio_html = sanitize(bio, blackjack="bio")
+		if len(bio) > BIO_FRIENDS_ENEMIES_LENGTH_LIMIT:
+			abort(400, f'Your bio is too long (max {BIO_FRIENDS_ENEMIES_LENGTH_LIMIT} characters)!')
 
+		bio_html = sanitize(bio, blackjack="bio")
 		if len(bio_html) > BIO_FRIENDS_ENEMIES_HTML_LENGTH_LIMIT:
 			abort(400, "Your bio is too long")
 
-
-		v.bio = bio[:BIO_FRIENDS_ENEMIES_LENGTH_LIMIT]
 		v.bio_html=bio_html
 		g.db.add(v)
 		return {"message": "Your bio has been updated."}

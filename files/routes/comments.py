@@ -165,8 +165,10 @@ def comment(v):
 
 	if level > COMMENT_MAX_DEPTH: abort(400, f"Max comment level is {COMMENT_MAX_DEPTH}")
 
-	body = request.values.get("body", "")
-	body = body[:COMMENT_BODY_LENGTH_LIMIT].strip()
+	body = request.values.get("body", "").strip()
+	if len(body) > COMMENT_BODY_LENGTH_LIMIT:
+		abort(400, f'Comment body is too long (max {COMMENT_BODY_LENGTH_LIMIT} characters)!')
+
 
 	if not posting_to_post or post_target.id not in ADMIGGER_THREADS:
 		if v.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
@@ -242,8 +244,9 @@ def comment(v):
 			else:
 				abort(415)
 
-	body = body.replace('\n ', '\n').replace('\r', '')
-	body = body[:COMMENT_BODY_LENGTH_LIMIT].strip()
+	body = body.strip()
+	if len(body) > COMMENT_BODY_LENGTH_LIMIT:
+		abort(400, f'Comment body is too long (max {COMMENT_BODY_LENGTH_LIMIT} characters)!')
 
 	if v.admin_level >= PERMS['USE_ADMIGGER_THREADS'] and posting_to_post and post_target.id == SNAPPY_THREAD and level == 1:
 		with open(f"snappy_{SITE_NAME}.txt", "r+") as f:
@@ -653,8 +656,9 @@ def edit_comment(cid, v):
 	if not c.parent_post and not c.wall_user_id:
 		abort(403)
 
-	body = request.values.get("body", "")
-	body = body[:COMMENT_BODY_LENGTH_LIMIT].strip()
+	body = request.values.get("body", "").strip()
+	if len(body) > COMMENT_BODY_LENGTH_LIMIT:
+		abort(400, f'Comment body is too long (max {COMMENT_BODY_LENGTH_LIMIT} characters)!')
 
 	if len(body) < 1 and not (request.files.get("file") and not g.is_tor):
 		abort(400, "You have to actually type something!")
@@ -668,7 +672,8 @@ def edit_comment(cid, v):
 		execute_antispam_comment_check(body, v)
 
 		body = process_files(request.files, v, body)
-		body = body[:COMMENT_BODY_LENGTH_LIMIT].strip() # process_files potentially adds characters to the post
+		if len(body) > COMMENT_BODY_LENGTH_LIMIT:
+			abort(400, f'Comment body is too long (max {COMMENT_BODY_LENGTH_LIMIT} characters)!')
 
 		body_html = sanitize(body, golden=False, limit_pings=5, showmore=(not v.hieroglyphs), commenters_ping_post_id=c.parent_post, obj=c, author=c.author)
 

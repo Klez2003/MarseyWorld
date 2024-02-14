@@ -57,11 +57,15 @@ def rescind(v, aid):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def request_api_keys(v):
+	description = request.values.get("description", "").strip()
+	if len(description) > 256:
+		abort(400, 'App description is too long (max 256 characters)!')
+
 	new_app = OauthApp(
 		app_name=request.values.get('name').replace('<','').replace('>',''),
 		redirect_uri=request.values.get('redirect_uri'),
 		author_id=v.id,
-		description=request.values.get("description")[:256]
+		description=description,
 	)
 
 	g.db.add(new_app)
@@ -115,7 +119,12 @@ def edit_oauth_app(v, aid):
 
 	app.redirect_uri = request.values.get('redirect_uri')
 	app.app_name = request.values.get('name')
-	app.description = request.values.get("description")[:256]
+
+	description = request.values.get("description", "").strip()
+	if len(description) > 256:
+		abort(400, 'App description is too long (max 256 characters)!')
+
+	app.description = description
 
 	g.db.add(app)
 

@@ -256,8 +256,9 @@ atexit.register(close_running_threads)
 @limiter.limit("6/minute;50/hour;200/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def messagereply(v):
-	body = request.values.get("body", "")
-	body = body[:COMMENT_BODY_LENGTH_LIMIT].strip()
+	body = request.values.get("body", "").strip()
+	if len(body) > COMMENT_BODY_LENGTH_LIMIT:
+		abort(400, f'Message is too long (max {COMMENT_BODY_LENGTH_LIMIT} characters)!')
 
 	id = request.values.get("parent_id")
 	parent = get_comment(id, v=v)
@@ -290,7 +291,8 @@ def messagereply(v):
 
 	if not g.is_tor and get_setting("dm_media"):
 		body = process_files(request.files, v, body, is_dm=True, dm_user=user)
-		body = body[:COMMENT_BODY_LENGTH_LIMIT].strip() #process_files potentially adds characters to the post
+		if len(body) > COMMENT_BODY_LENGTH_LIMIT:
+			abort(400, f'Message is too long (max {COMMENT_BODY_LENGTH_LIMIT} characters)!')
 
 	if not body: abort(400, "Message is empty!")
 

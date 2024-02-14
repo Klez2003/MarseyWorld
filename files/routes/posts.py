@@ -461,11 +461,13 @@ def submit_post(v, hole=None):
 
 	if '\\' in url: abort(400)
 
-	title = request.values.get("title", "")
-	title = title[:POST_TITLE_LENGTH_LIMIT].strip()
+	title = request.values.get("title", "").strip()
+	if len(title) > POST_TITLE_LENGTH_LIMIT:
+		abort(400, f'Post title is too long (max {POST_TITLE_LENGTH_LIMIT} characters)!')
 
-	body = request.values.get("body", "")
-	body = body[:POST_BODY_LENGTH_LIMIT(g.v)].strip()
+	body = request.values.get("body", "").strip()
+	if len(body) > POST_BODY_LENGTH_LIMIT(g.v):
+		abort(400, f'Post body is too long (max {POST_BODY_LENGTH_LIMIT(g.v)} characters)!')
 
 	if not title:
 		abort(400, "Please enter a better title!")
@@ -551,8 +553,9 @@ def submit_post(v, hole=None):
 	if len(url) > 2048:
 		abort(400, "There's a 2048 character limit for URLs!")
 
-	body = process_files(request.files, v, body)
-	body = body[:POST_BODY_LENGTH_LIMIT(v)].strip() # process_files() adds content to the body, so we need to re-strip
+	body = process_files(request.files, v, body).strip()
+	if len(body) > POST_BODY_LENGTH_LIMIT(g.v):
+		abort(400, f'Post body is too long (max {POST_BODY_LENGTH_LIMIT(g.v)} characters)!')
 
 	flag_notify = (request.values.get("notify", "on") == "on")
 	flag_new = request.values.get("new", False, bool) or 'megathread' in title.lower()
@@ -1011,11 +1014,13 @@ def edit_post(pid, v):
 	and v.admin_level < PERMS["IGNORE_1MONTH_EDITING_LIMIT"] and v.id not in EXEMPT_FROM_1MONTH_EDITING_LIMIT:
 		abort(403, "You can't edit posts older than 1 month!")
 
-	title = request.values.get("title", "")
-	title = title[:POST_TITLE_LENGTH_LIMIT].strip()
+	title = request.values.get("title", "").strip()
+	if len(title) > POST_TITLE_LENGTH_LIMIT:
+		abort(400, f'Post title is too long (max {POST_TITLE_LENGTH_LIMIT} characters)!')
 
-	body = request.values.get("body", "")
-	body = body[:POST_BODY_LENGTH_LIMIT(g.v)].strip()
+	body = request.values.get("body", "").strip()
+	if len(body) > POST_BODY_LENGTH_LIMIT(g.v):
+		abort(400, f'Post body is too long (max {POST_BODY_LENGTH_LIMIT(g.v)} characters)!')
 
 	if p.author.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
 		abort(403, "You have to type more than 280 characters!")
@@ -1049,8 +1054,9 @@ def edit_post(pid, v):
 		p.title = title
 		p.title_html = title_html
 
-	body = process_files(request.files, v, body)
-	body = body[:POST_BODY_LENGTH_LIMIT(v)].strip() # process_files() may be adding stuff to the body
+	body = process_files(request.files, v, body).strip()
+	if len(body) > POST_BODY_LENGTH_LIMIT(g.v):
+		abort(400, f'Post body is too long (max {POST_BODY_LENGTH_LIMIT(g.v)} characters)!')
 
 	if body != p.body or p.chudded:
 		body_html = sanitize(body, golden=False, limit_pings=100, obj=p, author=p.author)

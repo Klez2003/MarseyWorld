@@ -597,12 +597,14 @@ def message(v, username=None, id=None):
 	if user.has_muted(v):
 			abort(403, f"@{user.username} is muting notifications from you, so messaging them is pointless!")
 
-	body = request.values.get("message", "")
-	body = body[:COMMENT_BODY_LENGTH_LIMIT].strip()
+	body = request.values.get("message", "").strip()
+	if len(body) > COMMENT_BODY_LENGTH_LIMIT:
+		abort(400, f'Message is too long (max {COMMENT_BODY_LENGTH_LIMIT} characters)!')
 
 	if not g.is_tor and get_setting("dm_media"):
 		body = process_files(request.files, v, body, is_dm=True, dm_user=user)
-		body = body[:COMMENT_BODY_LENGTH_LIMIT].strip() #process_files potentially adds characters to the post
+		if len(body) > COMMENT_BODY_LENGTH_LIMIT:
+			abort(400, f'Message is too long (max {COMMENT_BODY_LENGTH_LIMIT} characters)!')
 
 	if not body: abort(400, "Message is empty!")
 
