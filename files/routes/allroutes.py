@@ -69,20 +69,19 @@ def after_request(response):
 					g.v.last_active = timestamp
 					g.db.add(g.v)
 
-				if FEATURES['IP_LOGGING']:
-					if g.v.admin_level < PERMS['EXEMPT_FROM_IP_LOGGING']:
-						ip = get_IP()
-						if ip:
-							existing = g.db.query(IPLog).filter_by(user_id=user_id, ip=ip).one_or_none()
-							if existing:
-								existing.last_used = time.time()
-								g.db.add(existing)
-							else:
-								ip_log = IPLog(
-									user_id=user_id,
-									ip=ip,
-									)
-								g.db.add(ip_log)
+				if FEATURES['IP_LOGGING'] and not session.get("GLOBAL") and g.v.admin_level < PERMS['EXEMPT_FROM_IP_LOGGING']:
+					ip = get_IP()
+					if ip:
+						existing = g.db.query(IPLog).filter_by(user_id=user_id, ip=ip).one_or_none()
+						if existing:
+							existing.last_used = time.time()
+							g.db.add(existing)
+						else:
+							ip_log = IPLog(
+								user_id=user_id,
+								ip=ip,
+								)
+							g.db.add(ip_log)
 
 		_commit_and_close_db()
 
