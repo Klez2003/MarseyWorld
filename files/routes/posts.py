@@ -510,8 +510,10 @@ def submit_post(v, hole=None):
 		url = normalize_url(url)
 
 		if v.admin_level < PERMS["IGNORE_DOMAIN_BAN"]:
+			domain = tldextract.extract(url).registered_domain
+			combined = (domain + urlparse(url).path).lower()
 			for x in g.db.query(BannedDomain):
-				if url.startswith(x.domain):
+				if combined.startswith(x.domain):
 					abort(400, f'Remove the banned link "{x.domain}" and try again!\nReason for link ban: "{x.reason}"')
 
 		domain = tldextract.extract(url).registered_domain
