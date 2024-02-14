@@ -791,3 +791,7 @@ function delReport(t, url) {
 		}
 	);
 }
+
+for (const el of document.getElementsByClassName('autofocus')) {
+	el.focus()
+}
