@@ -216,7 +216,7 @@ MODACTION_TYPES = {
 		"icon": 'fa-memo',
 		"color": 'bg-danger'
 	},
-	'move_hole': {
+	'change_hole': {
 		"str": 'changed hole of {self.target_link}',
 		"icon": 'fa-manhole',
 		"color": 'bg-primary'

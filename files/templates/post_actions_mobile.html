@@ -15,6 +15,10 @@
 
 <button type="button" class="nobackground btn btn-link btn-block btn-lg text-left text-muted" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#reportPostModal" data-nonce="{{g.nonce}}" data-onclick="report_postModal('{{p.id}}')"><i class="fas fa-flag text-center text-muted mr-2"></i>Report</button>
 
+{% if p.hole_changable(v) %}
+	<button type="button" class="nobackground btn btn-link btn-block btn-lg text-left text-muted" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#changeHoleModal" data-nonce="{{g.nonce}}" data-onclick="change_holeModal('{{p.id}}')"><i class="fas fa-manhole text-center text-muted mr-2"></i>Change Hole</button>
+{% endif %}
+
 {% if FEATURES['AWARDS'] -%}
 	<button type="button" class="nobackground btn btn-link btn-block btn-lg text-left text-muted" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#awardModal" data-url='/award/post/{{p.id}}' data-immune="{{p.author.immune_to_negative_awards(v)}}" data-ghost="{{p.ghost}}" data-nonce="{{g.nonce}}"><i class="fas fa-gift text-center text-muted mr-2"></i>Give Award</button>
 {%- endif %}

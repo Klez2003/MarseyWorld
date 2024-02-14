@@ -1005,3 +1005,98 @@ def post_hole_snappy_quotes(v, hole):
 	g.db.add(ma)
 
 	return {"message": "Snappy quotes edited successfully!"}
+
+
+@app.post("/change_hole/<int:pid>")
+@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@auth_required
+def change_hole(pid, v):
+	post = get_post(pid)
+
+	if post.ghost:
+		abort(403, "You can't move ghost posts into holes!")
+
+	hole_from = post.hole
+
+	hole_to = request.values.get("hole_to", "").strip()
+	hole_to = get_hole(hole_to, graceful=True)
+	hole_to = hole_to.name if hole_to else None
+
+	if not post.hole_changable(v):
+		return False
+
+	if hole_to == None:
+		if HOLE_REQUIRED:
+			abort(403, "All posts are required to be in holes!")
+		hole_to_in_notif = 'the main feed'
+	else:
+		hole_to_in_notif = f'/h/{hole_to}'
+
+	if hole_from == hole_to:
+		abort(409, f"Post is already in {hole_to_in_notif}")
+
+	if post.author.exiler_username(hole_to):
+		abort(403, f"User is exiled from this hole!")
+
+	if hole_to == 'changelog':
+		abort(403, "/h/changelog is archived!")
+
+	if hole_to in {'furry','vampire','racist','femboy','edgy'} and not v.client and not post.author.house.lower().startswith(hole_to):
+		if v.id == post.author_id:
+			abort(403, f"You need to be a member of House {hole_to.capitalize()} to post in /h/{hole_to}")
+		else:
+			abort(403, f"@{post.author_name} needs to be a member of House {hole_to.capitalize()} for their post to be moved to /h/{hole_to}")
+
+	post.hole = hole_to
+	post.hole_pinned = None
+
+	if hole_to == 'chudrama':
+		post.bannedfor = None
+		post.chuddedfor = None
+		for c in post.comments:
+			c.bannedfor = None
+			c.chuddedfor = None
+			g.db.add(c)
+
+	g.db.add(post)
+
+	if v.id != post.author_id:
+		hole_from_str = 'main feed' if hole_from is None else \
+			f'<a href="/h/{hole_from}">/h/{hole_from}</a>'
+		hole_to_str = 'main feed' if hole_to is None else \
+			f'<a href="/h/{hole_to}">/h/{hole_to}</a>'
+
+		if v.admin_level >= PERMS['POST_COMMENT_MODERATION']:
+			ma = ModAction(
+				kind='change_hole',
+				user_id=v.id,
+				target_post_id=post.id,
+				_note=f'{hole_from_str} → {hole_to_str}',
+			)
+			g.db.add(ma)
+			position = 'a site admin'
+		else:
+			ma = HoleAction(
+				hole=hole_from,
+				kind='change_hole',
+				user_id=v.id,
+				target_post_id=post.id,
+				_note=f'{hole_from_str} → {hole_to_str}',
+			)
+			g.db.add(ma)
+			position = f'a /h/{hole_from} mod'
+
+		if hole_from == None:
+			hole_from_in_notif = 'the main feed'
+		else:
+			hole_from_in_notif = f'/h/{hole_from}'
+
+		message = f"@{v.username} ({position}) has moved [{post.title}]({post.shortlink}) from {hole_from_in_notif} to {hole_to_in_notif}"
+		send_repeatable_notification(post.author_id, message)
+
+	cache.delete_memoized(frontlist)
+
+	return {"message": f"Post moved to {hole_to_in_notif} successfully!"}

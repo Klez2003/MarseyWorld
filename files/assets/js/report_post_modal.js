@@ -24,7 +24,6 @@ function report_postModal(id) {
 };
 
 reportPostButton.onclick = function() {
-	this.innerHTML='Reporting post';
 	this.disabled = true;
 	this.classList.add('disabled');
 

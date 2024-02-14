@@ -250,6 +250,7 @@
 {% if v %}
 	{% include "modals/delete_post.html" %}
 	{% include "modals/report_post.html" %}
+	{% include "modals/change_hole.html" %}
 	{% if v.admin_level >= PERMS['USER_BAN'] %}
 		{% include "modals/punish.html" %}
 	{% endif %}

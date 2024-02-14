@@ -150,6 +150,15 @@ def poster_of_the_day():
 	user = g.db.query(User).filter_by(id=uid).one()
 	return user
 
+
+def HOLES():
+	HOLES = [x[0] for x in g.db.query(Hole.name).order_by(Hole.name)]
+	if "other" in HOLES:
+		HOLES.remove("other")
+		HOLES.append("other")
+	return HOLES
+	
+
 @app.context_processor
 def inject_constants():
 	return {
@@ -177,7 +186,7 @@ def inject_constants():
 			"SITE_FULL_IMAGES": SITE_FULL_IMAGES,
 			"IS_EVENT":IS_EVENT, "IS_FISTMAS":IS_FISTMAS, "IS_HOMOWEEN":IS_HOMOWEEN,
 			"IS_DKD":IS_DKD, "IS_BIRTHGAY":IS_BIRTHGAY, "IS_BIRTHDEAD":IS_BIRTHDEAD,
-			"CHUD_PHRASES":CHUD_PHRASES, "hasattr":hasattr, "calc_users":calc_users, "HOLE_INACTIVITY_DELETION":HOLE_INACTIVITY_DELETION, "LIGHT_THEMES":LIGHT_THEMES, "NSFW_EMOJIS":NSFW_EMOJIS,
+			"CHUD_PHRASES":CHUD_PHRASES, "hasattr":hasattr, "calc_users":calc_users, "HOLE_INACTIVITY_DELETION":HOLE_INACTIVITY_DELETION, "LIGHT_THEMES":LIGHT_THEMES, "NSFW_EMOJIS":NSFW_EMOJIS, "HOLES":HOLES,
 			"MAX_IMAGE_AUDIO_SIZE_MB":MAX_IMAGE_AUDIO_SIZE_MB, "MAX_IMAGE_AUDIO_SIZE_MB_PATRON":MAX_IMAGE_AUDIO_SIZE_MB_PATRON,
 			"MAX_VIDEO_SIZE_MB":MAX_VIDEO_SIZE_MB, "MAX_VIDEO_SIZE_MB_PATRON":MAX_VIDEO_SIZE_MB_PATRON,
 			"CURSORMARSEY_DEFAULT":CURSORMARSEY_DEFAULT, "SNAPPY_ID":SNAPPY_ID, "get_running_orgy":get_running_orgy,

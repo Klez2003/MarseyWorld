@@ -1,0 +1,31 @@
+<div class="modal fade" id="changeHoleModal" tabindex="-1">
+	<div class="modal-dialog modal-dialog-centered">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Change Hole</h5>
+				<button type="button" class="close" data-bs-dismiss="modal">
+					<span><i class="fas fa-times"></i></span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<label class='mt-2' for="title">Hole</label>
+				<div class="input-group">
+					{%- set hole_placeholder = 'Required' if HOLE_REQUIRED else 'Optional' -%}
+					<input list="holes" autocomplete="off" id="hole_to" class="form-control" placeholder="{{hole_placeholder}}" {% if HOLE_REQUIRED %}required{% endif %}>
+					<datalist id="holes">
+						{% for h in HOLES() %}
+							<option value="{{h}}"></option>
+						{% endfor %}
+					</datalist>
+				</div>
+			</div>
+
+			<div class="modal-footer">
+				<button type="button" class="btn btn-link text-muted" data-bs-dismiss="modal">Cancel</button>
+				<button type="button" id="changeHoleButton" class="btn btn-primary btn-danger" data-bs-dismiss="modal">Change Hole</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script defer src="{{'js/change_hole_modal.js' | asset}}"></script>

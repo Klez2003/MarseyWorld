@@ -96,15 +96,10 @@ def publish(pid, v):
 @auth_required
 def submit_get(v, hole=None):
 	hole = get_hole(hole, graceful=True)
+
 	if request.path.startswith('/h/') and not hole: abort(404)
 
-	HOLES = [x[0] for x in g.db.query(Hole.name).order_by(Hole.name)]
-
-	if "other" in HOLES:
-		HOLES.remove("other")
-		HOLES.append("other")
-
-	return render_template("submit.html", HOLES=HOLES, v=v, hole=hole)
+	return render_template("submit.html", v=v, hole=hole)
 
 @app.get("/post/<int:pid>")
 @app.get("/post/<int:pid>/<anything>")

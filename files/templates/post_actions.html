@@ -21,6 +21,10 @@
 	<button type="button" id="unsave-{{p.id}}" class="{% if not p.id in v.saved_idlist %}d-none{% endif %} list-inline-item" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unsave_post/{{p.id}}','save-{{p.id}}','unsave-{{p.id}}','d-none')"><i class="fas fa-save"></i>Unsave {% if p.num_savers %}<span data-bs-toggle="tooltip" data-bs-placement="bottom" title="Number of users who saved this post">[{{p.num_savers}}]</span>{% endif %}</button>
 
 	<button type="button" class="list-inline-item" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#reportPostModal" data-nonce="{{g.nonce}}" data-onclick="report_postModal('{{p.id}}')"><i class="fas fa-flag"></i>Report</button>
+
+	{% if p.hole_changable(v) %}
+		<button type="button" class="list-inline-item" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#changeHoleModal" data-nonce="{{g.nonce}}" data-onclick="change_holeModal('{{p.id}}')"><i class="fas fa-manhole"></i>Change Hole</button>
+	{% endif %}
 {% endif %}
 
 {% if v and v.id == p.author_id %}

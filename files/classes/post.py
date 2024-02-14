@@ -414,3 +414,10 @@ class Post(Base):
 	@lazy
 	def is_longpost(self):
 		return len(self.body) >= 2000
+
+	@lazy
+	def hole_changable(self, v):
+		if self.hole == 'chudrama':
+			return v.admin_level >= PERMS['POST_COMMENT_MODERATION']
+		else:
+			return v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or (self.hole and v.mods_hole(hole_from)) or self.author_id == v.id

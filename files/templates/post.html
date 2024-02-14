@@ -339,8 +339,15 @@
 	</div>
 
 	{% if v %}
-		{% if v.id == p.author_id %}{% include "modals/delete_post.html" %}{% endif %}
+		{% if v.id == p.author_id %}
+			{% include "modals/delete_post.html" %}
+		{% endif %}
 		{% include "modals/report_post.html" %}
+
+		{% if p.hole_changable(v) %}
+			{% include "modals/change_hole.html" %}
+		{% endif %}
+
 		{% if v.can_edit(p) %}
 			<script defer src="{{'js/edit_post.js' | asset}}"></script>
 		{% endif %}
