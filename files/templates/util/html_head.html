@@ -100,7 +100,9 @@
 {% macro stylesheets() %}
 	<link rel="stylesheet" href="{{'css/main.css' | asset}}">
 
-	{% if IS_HOMOWEEN() %}
+	{% if hole and hole.name == 'chudrama' %}
+		<link rel="stylesheet" href="{{('css/themes/4chan.css') | asset}}">
+	{% elif IS_HOMOWEEN() %}
 		<link rel="stylesheet" href="{{('css/themes/midnight.css') | asset}}">
 		<link rel="stylesheet" href="{{'events/homoween/css/main_homoween.css' | asset}}">
 	{% elif IS_FISTMAS() %}
