@@ -47,7 +47,7 @@ def submit_emojis(v):
 	return render_template("submit_emojis.html", v=v, emojis=emojis)
 
 
-emoji_modifiers = ('pat', 'talking', 'genocide', 'love')
+emoji_modifiers = ('pat', 'talking', 'genocide', 'love', 'typing')
 
 @app.post("/submit/emojis")
 @feature_required('EMOJI_SUBMISSIONS')
