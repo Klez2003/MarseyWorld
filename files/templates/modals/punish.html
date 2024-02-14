@@ -42,7 +42,19 @@
 			<div class="modal-body pt-0" id="chud-modal-body">
 				<input id="chud_reason" hidden id="chud_reason">
 
-				<label for="days">Days</label>
+				<label for="note">The phrase they will have to say:</label>
+
+				<div class="input-group">
+					<select id="chud_phrase_modal" autocomplete="off" class="form-control">
+						{% for entry in CHUD_PHRASES %}
+							<option value="{{entry}}">
+								{{entry}}
+							</option>
+						{% endfor %}
+					</select>
+				</div>
+
+				<label class="mt-3" for="days">Days</label>
 				<input autocomplete="off" type="number" step="any" max="{{max_days()}}" id="chud_days" class="form-control" placeholder="Leave blank for permanent">
 
 				<div class="modal-footer pr-0">

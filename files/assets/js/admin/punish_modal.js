@@ -14,7 +14,10 @@ function punishModal(t, kind, link, name, fullname) {
 			}
 
 		if (kind == "ban") {
-			values["alts"] = document.getElementById(`${kind}_alts`).value;
+			values["alts"] = document.getElementById('ban_alts').value;
+		}
+		else {
+			values["chud_phrase"] = document.getElementById('chud_phrase_modal').value;
 		}
 
 		postToast(t, `/${kind}_user/${fullname}`,
