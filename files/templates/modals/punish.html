@@ -11,13 +11,13 @@
 
 				<label for="ban_reason">Public ban reason (optional)</label>
 
-				<input autocomplete="off" name="reason" id="ban_reason" class="form-control" placeholder="Enter reason" maxlength="256">
+				<input autocomplete="off" id="ban_reason" class="form-control" placeholder="Enter reason" maxlength="256">
 
 				<label for="days" class="mt-3">Days</label>
-				<input autocomplete="off" type="number" step="any" name="days" max="{{max_days()}}" id="ban_days" class="form-control" placeholder="Leave blank for permanent">
+				<input autocomplete="off" type="number" step="any" max="{{max_days()}}" id="ban_days" class="form-control" placeholder="Leave blank for permanent">
 
 				<div class="custom-control custom-switch mt-3">
-					<input autocomplete="off" type="checkbox" class="custom-control-input" id="ban_alts" name="alts">
+					<input autocomplete="off" type="checkbox" class="custom-control-input" id="ban_alts">
 					<label class="custom-control-label" for="ban_alts">Ban known alts</label>
 				</div>
 
@@ -40,10 +40,10 @@
 				</button>
 			</div>
 			<div class="modal-body pt-0" id="chud-modal-body">
-				<input id="chud_reason" hidden name="reason" id="chud_reason">
+				<input id="chud_reason" hidden id="chud_reason">
 
 				<label for="days">Days</label>
-				<input autocomplete="off" type="number" step="any" name="days" max="{{max_days()}}" id="chud_days" class="form-control" placeholder="Leave blank for permanent">
+				<input autocomplete="off" type="number" step="any" max="{{max_days()}}" id="chud_days" class="form-control" placeholder="Leave blank for permanent">
 
 				<div class="modal-footer pr-0">
 					<button type="button" class="btn btn-link text-muted" data-bs-dismiss="modal">Cancel</button>
