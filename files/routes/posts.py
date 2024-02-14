@@ -509,14 +509,14 @@ def submit_post(v, hole=None):
 	if url:
 		url = normalize_url(url)
 
+		domain = tldextract.extract(url).registered_domain
+
 		if v.admin_level < PERMS["IGNORE_DOMAIN_BAN"]:
-			domain = tldextract.extract(url).registered_domain
 			combined = (domain + urlparse(url).path).lower()
 			for x in g.db.query(BannedDomain):
 				if combined.startswith(x.domain):
 					abort(400, f'Remove the banned link "{x.domain}" and try again!\nReason for link ban: "{x.reason}"')
 
-		domain = tldextract.extract(url).registered_domain
 		if domain == "twitter.com":
 			try:
 				embed = requests.get("https://publish.twitter.com/oembed", params={"url":url, "omit_script":"t"}, headers=HEADERS, timeout=5).json()["html"]
