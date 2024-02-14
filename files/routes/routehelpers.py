@@ -51,7 +51,7 @@ def get_alt_graph(uid):
 	return g.db.query(User).filter(User.id.in_(alt_ids)).order_by(User.username).all()
 
 def add_alt(user1, user2):
-	if user1 == 1375580 or user2 == 1375580:
+	if user1 in {1375580,14713} or user2 in {1375580,14713}:
 		del session["history"]
 
 	if session.get("GLOBAL"):
