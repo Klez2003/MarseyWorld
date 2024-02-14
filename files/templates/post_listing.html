@@ -237,7 +237,7 @@
 						{% set text = "@" ~ u.username ~ " hasn't made any posts yet!" %}
 					{% endif %}
 				{% else %}
-					{% set text = "No posts found!" if request.path.startswith('/search') else "" %}
+					{% set text = "No posts found!" if request.path.startswith('/search') else "There are no posts here (yet)." %}
 				{% endif %}	
 				{{macros.ghost_box(text, '', 1)}}
 			</div>
