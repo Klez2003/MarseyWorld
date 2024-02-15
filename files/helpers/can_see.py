@@ -4,9 +4,18 @@ from files.classes.comment import Comment
 from files.classes.hole import Hole
 from flask import request
 
+words_to_hide = ('israel', 'palestin', 'muslim', 'islam', 'hamas', 'jew', 'gaza', 'rafah', 'isis', 'terror', 'iraq')
+
 def can_see(user, other):
 	if isinstance(other, (Post, Comment)):
-		if not user and other.nsfw: return False
+		if not user:
+			if other.nsfw:
+				return False
+			if any((x in other.body.lower() for x in words_to_hide)):
+				return False
+			if isinstance(other, Post) and other.hole == 'sandshit':
+				return False
+
 		if not can_see(user, other.author): return False
 		if user and user.id == other.author_id: return True
 		if isinstance(other, Post):
