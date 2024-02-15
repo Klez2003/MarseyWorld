@@ -469,7 +469,9 @@ class User(Base):
 		stealth = stealth - set(x[0] for x in g.db.query(StealthHoleUnblock.hole).filter_by(user_id=self.id))
 		if self.chud == 1: stealth = stealth - {'chudrama'}
 
-		return list(stealth) + [x[0] for x in g.db.query(HoleBlock.hole).filter_by(user_id=self.id)]
+		public_use = [x[0] for x in g.db.query(Hole.name).filter_by(public_use=True)]
+
+		return list(stealth) + [x[0] for x in g.db.query(HoleBlock.hole).filter_by(user_id=self.id)] - public_use
 
 	@lazy
 	def blocks(self, hole):
