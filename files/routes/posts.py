@@ -63,7 +63,7 @@ def publish(pid, v):
 	g.db.add(p)
 
 	p.chudded = v.chud and p.hole != 'chudrama' and not (p.is_longpost and not v.chudded_by)
-	p.queened = bool(v.queen and not p.is_longpost)
+	p.queened = v.queen and not p.is_longpost
 	p.sharpened = v.sharpen and not p.is_longpost
 	p.rainbowed = v.rainbow and not p.is_longpost
 
