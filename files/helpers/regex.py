@@ -238,7 +238,7 @@ sanitize_url_regex = re.compile(
 ###REDDIT
 
 #sanitizing
-reddit_mention_regex = re.compile('(^|\s)\/?((r|u)\/[\w-]{2,25})' + NOT_IN_CODE_OR_LINKS, flags=re.I|re.A)
+reddit_mention_regex = re.compile('([>\s])\/?((r|u)\/[\w-]{2,25})' + NOT_IN_CODE_OR_LINKS, flags=re.I|re.A)
 reddit_domain_regex = re.compile("(^|\s|\()https?:\/\/(redd.it\/|((www\.|new\.)?reddit\.com|teddit\.net|libreddit\.hu|redd\.it)\/(u\/|user\/|(r\/\w{2,25}\/)?comments\/|r\/\w{2,25}\/?$))", flags=re.A)
 reddit_comment_link_regex = re.compile("https:\/\/old.reddit.com\/r\/\w{2,25}\/comments(\/\w+){3}\/?.*", flags=re.A)
 
