@@ -7719,3 +7719,9 @@ thead {
 		left: calc(50% - 122px);
 	}
 }
+
+@media (min-width: 768px) {
+	#group-warning {
+		max-width: 50%
+	}
+}
