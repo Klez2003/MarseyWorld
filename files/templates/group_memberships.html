@@ -1,125 +1,130 @@
 {% extends "default.html" %}
+{%- import 'util/macros.html' as macros with context -%}
 {% block pagetitle %}!{{group}}{% endblock %}
 {% block content %}
-	{% if v.id != group.owner_id %}
-		<button id="leave-{{group}}" type="button" class="mt-4 btn btn-danger btn-block {% if v.id not in group.membership_user_ids %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/!{{group}}/leave','leave-{{group}}','apply-{{group}}','d-none')">
-			{%- if v.id in group.member_ids or group.name == 'verifiedrich' -%}
-				Leave
-			{%- else -%}
-				Cancel Application
-			{%- endif -%}
-		</button>
+	<div class="mx-2">
+		{% if v.id != group.owner_id %}
+			<button id="leave-{{group}}" type="button" class="mt-4 btn btn-danger btn-block {% if v.id not in group.membership_user_ids %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/!{{group}}/leave','leave-{{group}}','apply-{{group}}','d-none')">
+				{%- if v.id in group.member_ids or group.name == 'verifiedrich' -%}
+					Leave
+				{%- else -%}
+					Cancel Application
+				{%- endif -%}
+			</button>
 
-		<button id="apply-{{group}}" type="button" class="mt-4 {% if v.id in group.membership_user_ids %}d-none{% endif %} btn btn-success btn-block" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/!{{group}}/apply','leave-{{group}}','apply-{{group}}','d-none')">{% if group.name != 'verifiedrich' %}Apply to {% endif %}Join</button>
-	{% endif %}
+			<button id="apply-{{group}}" type="button" class="mt-4 {% if v.id in group.membership_user_ids %}d-none{% endif %} btn btn-success btn-block" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/!{{group}}/apply','leave-{{group}}','apply-{{group}}','d-none')">{% if group.name != 'verifiedrich' %}Apply to {% endif %}Join</button>
+		{% endif %}
 
-	{% if v.id == group.owner_id %}
-		<h5 class="mt-5">!{{group}} Description</h3>
-		<form class="mt-3" action="/!{{group.name}}/description" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHR(this)">
-			<div class="container pb-0" style="background-color: transparent !important">
-				<div class="row">
-					<div class="col col-md-6 px-0 py-3 py-md-0">
-						<div class="body">
-							<input hidden name="formkey" value="{{v|formkey}}">
-							<input maxlength="100" class="form-control" type="text" name="description" {% if group.description %}value="{{group.description}}"{% endif %}>
-							<small>Limit of 100 characters</small>
-							<div class="footer">
-								<div class="d-flex">
-									<button type="submit" class="btn btn-primary ml-auto">Submit</button>
+		{% if v.id == group.owner_id %}
+			{% include "modals/emoji.html" %}
+			<h5 class="mt-5">!{{group}} Description</h3>
+			<form class="mt-3" action="/!{{group.name}}/description" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHR(this)">
+				<div class="container pb-0" style="background-color: transparent !important">
+					<div class="row">
+						<div class="col col-md-6 px-0 py-3 py-md-0">
+							<div class="body">
+								<input hidden name="formkey" value="{{v|formkey}}">
+								<input id="edit-group-description" maxlength="100" class="form-control allow-emojis" type="text" name="description" {% if group.description %}value="{{group.description}}"{% endif %}>
+								{{macros.emoji_btn('edit-group-description')}}
+								<div class="footer">
+									<div class="d-flex">
+										<small class="mt-2">Limit of 100 characters</small>
+										<button type="submit" class="btn btn-primary ml-auto">Submit</button>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-		</form>
-	{% elif group.description_html %}
-		<h5 class="mt-5">!{{group}} Description</h3>
-		<p class="mb-2">{{group.description_html | safe}}</p>
-	{% endif %}
+			</form>
+		{% elif group.description_html %}
+			<h5 class="mt-5">!{{group}} Description</h3>
+			<p class="mb-2">{{group.description_html | safe}}</p>
+		{% endif %}
 
-	<br>
-	{% macro process_memberships(memberships, name) %}
-		<h5 class="my-3">!{{group}} {{name}}</h5>
+		<br>
+		{% macro process_memberships(memberships, name) %}
+			<h5 class="my-3">!{{group}} {{name}}</h5>
 
-		<div class="overflow-x-auto mt-1">
-			<table class="ping-groups">
-				<thead>
-					<tr>
-						<th>#</th>
-						<th>Name</th>
-
-						{% if name == 'members' %}
-							<th>Approved on</th>
-						{% else %}
-							<th>Applied on</th>
-						{% endif %}
-
-						{% if v.is_member_of_group(group) or v.mods_group(group) %}
-							<th class="disable-sort-click"></th>
-						{% endif %}
-					</tr>
-				</thead>
-				<tbody id="{{name}}_tbody">
-					{% for membership in memberships %}
-						<tr id="{{membership.user_id}}">
-							<td id="counter-{{membership.user_id}}">{{loop.index}}</td>
-							{% set is_owner = membership.user_id == group.owner_id %}
-							<td {% if is_owner %}class="unbreakable"{% endif %}>
-								{% with user=membership.user %}
-									{% include "user_in_table.html" %}
-								{% endwith %}
-								{% if is_owner %}
-									<img class="mx-2 group-owner" data-bs-toggle="tooltip" alt="Owner" title="Owner" src="{{SITE_FULL_IMAGES}}/e/marseykingretard.webp">
-								{% elif membership.is_mod %}
-									<img class="mx-2 group-mod" data-bs-toggle="tooltip" alt="Mod" title="Mod" src="{{SITE_FULL_IMAGES}}/e/marseyjanny.webp">
-								{% endif %}
-							</td>
+			<div class="overflow-x-auto mt-1">
+				<table class="ping-groups">
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>Name</th>
 
 							{% if name == 'members' %}
-								<td id="time-{{membership.user_id}}" data-time="{{membership.approved_utc}}"></td>
+								<th>Approved on</th>
 							{% else %}
-								<td id="time-{{membership.user_id}}" data-time="{{membership.created_utc}}"></td>
+								<th>Applied on</th>
 							{% endif %}
 
-							<td>
-								{% if v.mods_group(group) %}
-									{% if v.id == group.owner_id and v.id != membership.user_id %}
-										<div id="mod-{{membership.user_id}}" class="mb-2 {% if name == 'applications' %}d-none{% endif %}">
-											<button id="add-mod-{{membership.user_id}}" type="button" class="btn btn-success btn-block {% if membership.is_mod %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/!{{group.name}}/{{membership.user_id}}/add_mod','add-mod-{{membership.user_id}}','remove-mod-{{membership.user_id}}','d-none')">Add as Mod</button>
-											<button id="remove-mod-{{membership.user_id}}" type="button" class="btn btn-danger btn-block {% if not membership.is_mod %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/!{{group.name}}/{{membership.user_id}}/remove_mod','add-mod-{{membership.user_id}}','remove-mod-{{membership.user_id}}','d-none')">Remove as Mod</button>
-										</div>
-									{% endif %}
-
-									{% if v.id == membership.user_id or v.id == group.owner_id or not membership.user.mods_group(group) %}
-										<div id="kick-{{membership.user_id}}" {% if name == 'applications' %}class="d-none"{% endif %}>
-											<button type="button" class="btn btn-danger btn-block" data-nonce="{{g.nonce}}" data-onclick="reject_membership(this,'{{group}}','{{membership.user_id}}')">{% if v.id == membership.user_id %}Leave{% else %}Kick{% endif %}</button>
-										</div>
-									{% endif %}
-
-									<div {% if name == 'members' %}class="d-none"{% endif %}>
-										<button type="button" class="btn btn-success btn-block" data-nonce="{{g.nonce}}" data-onclick="approve_membership(this,'{{group}}','{{membership.user_id}}')">Approve</button>
-										<button type="button" class="btn btn-danger btn-block" data-nonce="{{g.nonce}}" data-onclick="reject_membership(this,'{{group}}','{{membership.user_id}}')">Reject</button>
-									</div>
-								{% endif %}
-
-								{% if v.is_member_of_group(group) and is_owner and v.id != group.owner_id %}
-									<button type="button" class="btn btn-danger btn-block" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)" data-areyousure="postToastReload(this,'/!{{group}}/usurp')">Usurp</button>
-								{% endif %}
-							</td>
+							{% if v.is_member_of_group(group) or v.mods_group(group) %}
+								<th class="disable-sort-click"></th>
+							{% endif %}
 						</tr>
-					{% endfor %}
-				</tbody>
-			</table>
-		</div>
-	{% endmacro %}
+					</thead>
+					<tbody id="{{name}}_tbody">
+						{% for membership in memberships %}
+							<tr id="{{membership.user_id}}">
+								<td id="counter-{{membership.user_id}}">{{loop.index}}</td>
+								{% set is_owner = membership.user_id == group.owner_id %}
+								<td {% if is_owner %}class="unbreakable"{% endif %}>
+									{% with user=membership.user %}
+										{% include "user_in_table.html" %}
+									{% endwith %}
+									{% if is_owner %}
+										<img class="mx-2 group-owner" data-bs-toggle="tooltip" alt="Owner" title="Owner" src="{{SITE_FULL_IMAGES}}/e/marseykingretard.webp">
+									{% elif membership.is_mod %}
+										<img class="mx-2 group-mod" data-bs-toggle="tooltip" alt="Mod" title="Mod" src="{{SITE_FULL_IMAGES}}/e/marseyjanny.webp">
+									{% endif %}
+								</td>
 
-	{% if v.mods_group(group) %}
-		{{process_memberships(applications, 'applications')}}
-		{{process_memberships(members, 'members')}}
-		<script defer src="{{'js/group_members_owner.js' | asset}}"></script>
-	{% else %}
-		{{process_memberships(members, 'members')}}
-		{{process_memberships(applications, 'applications')}}
-	{% endif %}
+								{% if name == 'members' %}
+									<td id="time-{{membership.user_id}}" data-time="{{membership.approved_utc}}"></td>
+								{% else %}
+									<td id="time-{{membership.user_id}}" data-time="{{membership.created_utc}}"></td>
+								{% endif %}
+
+								<td>
+									{% if v.mods_group(group) %}
+										{% if v.id == group.owner_id and v.id != membership.user_id %}
+											<div id="mod-{{membership.user_id}}" class="mb-2 {% if name == 'applications' %}d-none{% endif %}">
+												<button id="add-mod-{{membership.user_id}}" type="button" class="btn btn-success btn-block {% if membership.is_mod %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/!{{group.name}}/{{membership.user_id}}/add_mod','add-mod-{{membership.user_id}}','remove-mod-{{membership.user_id}}','d-none')">Add as Mod</button>
+												<button id="remove-mod-{{membership.user_id}}" type="button" class="btn btn-danger btn-block {% if not membership.is_mod %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/!{{group.name}}/{{membership.user_id}}/remove_mod','add-mod-{{membership.user_id}}','remove-mod-{{membership.user_id}}','d-none')">Remove as Mod</button>
+											</div>
+										{% endif %}
+
+										{% if v.id == membership.user_id or v.id == group.owner_id or not membership.user.mods_group(group) %}
+											<div id="kick-{{membership.user_id}}" {% if name == 'applications' %}class="d-none"{% endif %}>
+												<button type="button" class="btn btn-danger btn-block" data-nonce="{{g.nonce}}" data-onclick="reject_membership(this,'{{group}}','{{membership.user_id}}')">{% if v.id == membership.user_id %}Leave{% else %}Kick{% endif %}</button>
+											</div>
+										{% endif %}
+
+										<div {% if name == 'members' %}class="d-none"{% endif %}>
+											<button type="button" class="btn btn-success btn-block" data-nonce="{{g.nonce}}" data-onclick="approve_membership(this,'{{group}}','{{membership.user_id}}')">Approve</button>
+											<button type="button" class="btn btn-danger btn-block" data-nonce="{{g.nonce}}" data-onclick="reject_membership(this,'{{group}}','{{membership.user_id}}')">Reject</button>
+										</div>
+									{% endif %}
+
+									{% if v.is_member_of_group(group) and is_owner and v.id != group.owner_id %}
+										<button type="button" class="btn btn-danger btn-block" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)" data-areyousure="postToastReload(this,'/!{{group}}/usurp')">Usurp</button>
+									{% endif %}
+								</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		{% endmacro %}
+
+		{% if v.mods_group(group) %}
+			{{process_memberships(applications, 'applications')}}
+			{{process_memberships(members, 'members')}}
+			<script defer src="{{'js/group_members_owner.js' | asset}}"></script>
+		{% else %}
+			{{process_memberships(members, 'members')}}
+			{{process_memberships(applications, 'applications')}}
+		{% endif %}
+	</div>
 {% endblock %}
