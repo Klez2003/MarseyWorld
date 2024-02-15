@@ -9,6 +9,7 @@ from sqlalchemy.sql.sqltypes import *
 from files.classes import Base
 from files.helpers.config.const import *
 from files.helpers.lazy import lazy
+from files.helpers.types import int_pk, user_id_fk, user_id_fk_pk
 
 from .comment import Comment
 from .post import Post
@@ -20,12 +21,12 @@ if TYPE_CHECKING:
 class OauthApp(Base):
 	__tablename__ = "oauth_apps"
 
-	id: Mapped[int] = mapped_column(primary_key=True)
+	id: Mapped[int_pk]
 	client_id: Mapped[Optional[Annotated[str, 64]]]
 	app_name: Mapped[str]
 	redirect_uri: Mapped[str]
 	description: Mapped[str]
-	author_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+	author_id: Mapped[user_id_fk]
 	created_utc: Mapped[Optional[int]]
 
 	author: Mapped["User"] = relationship(back_populates="apps")
@@ -56,7 +57,7 @@ class OauthApp(Base):
 
 class ClientAuth(Base):
 	__tablename__ = "client_auths"
-	user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), primary_key=True)
+	user_id: Mapped[user_id_fk_pk]
 	oauth_client: Mapped[int] = mapped_column(ForeignKey("oauth_apps.id"), primary_key=True)
 	access_token: Mapped[str]
 	created_utc: Mapped[Optional[int]]

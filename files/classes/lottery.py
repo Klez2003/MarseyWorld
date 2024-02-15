@@ -1,23 +1,23 @@
 import time
 from typing import Optional
 
-from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
 from files.helpers.config.const import *
 from files.helpers.lazy import lazy
+from files.helpers.types import int_pk, user_id_fk
 
 class Lottery(Base):
 	__tablename__ = "lotteries"
 
-	id: Mapped[int] = mapped_column(primary_key=True)
+	id: Mapped[int_pk]
 	is_active: Mapped[bool] = mapped_column(default=False)
 	ends_at: Mapped[int]
 	prize: Mapped[int] = mapped_column(default=0)
 	tickets_sold: Mapped[int] = mapped_column(default=0)
-	winner_id: Mapped[Optional[int]] = mapped_column(ForeignKey("users.id"))
+	winner_id: Mapped[Optional[user_id_fk]]
 	created_utc: Mapped[Optional[int]]
 
 	def __init__(self, *args, **kwargs):

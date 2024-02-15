@@ -8,6 +8,7 @@ from sqlalchemy.sql.sqltypes import *
 from files.classes import Base
 from files.helpers.config.const import *
 from files.helpers.lazy import lazy
+from files.helpers.types import int_pk, user_id_fk_pk
 
 if TYPE_CHECKING:
 	from files.classes import User
@@ -16,7 +17,7 @@ if TYPE_CHECKING:
 class BadgeDef(Base):
 	__tablename__ = "badge_defs"
 
-	id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+	id: Mapped[int_pk] = mapped_column(autoincrement=True)
 	name: Mapped[str]
 	description: Mapped[Optional[str]]
 	created_utc: Mapped[int]
@@ -37,7 +38,7 @@ class Badge(Base):
 
 	__tablename__ = "badges"
 
-	user_id: Mapped[int] = mapped_column(ForeignKey('users.id'), primary_key=True)
+	user_id: Mapped[user_id_fk_pk]
 	badge_id: Mapped[int] = mapped_column(ForeignKey('badge_defs.id'), primary_key=True)
 	description: Mapped[Optional[str]]
 	url: Mapped[Optional[str]]

@@ -1,13 +1,14 @@
 from typing import Optional
 
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped
 from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
+from files.helpers.types import str_pk
 
 class Transaction(Base):
 	__tablename__ = "transactions"
-	id: Mapped[str] = mapped_column(primary_key=True)
+	id: Mapped[str_pk]
 	created_utc: Mapped[int]
 	type: Mapped[str]
 	amount: Mapped[int]

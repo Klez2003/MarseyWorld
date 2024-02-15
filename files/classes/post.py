@@ -4,7 +4,7 @@ from typing import Optional, TYPE_CHECKING
 from urllib.parse import urlparse
 from flask import g
 
-from sqlalchemy import FetchedValue, ForeignKey
+from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql.sqltypes import *
 
@@ -15,6 +15,7 @@ from files.helpers.slurs_and_profanities import *
 from files.helpers.lazy import lazy
 from files.helpers.regex import *
 from files.helpers.sorting_and_time import make_age_string
+from files.helpers.types import int_pk, user_id_fk
 from files.helpers.bleach_body import *
 
 from .comment import *
@@ -30,8 +31,8 @@ if TYPE_CHECKING:
 class Post(Base):
 	__tablename__ = "posts"
 
-	id: Mapped[int] = mapped_column(primary_key=True)
-	author_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+	id: Mapped[int_pk]
+	author_id: Mapped[user_id_fk]
 	edited_utc: Mapped[int] = mapped_column(default=0)
 	created_utc: Mapped[int]
 	thumburl: Mapped[Optional[str]]
@@ -51,7 +52,7 @@ class Post(Base):
 	is_pinned: Mapped[bool] = mapped_column(default=False)
 	private: Mapped[bool] = mapped_column(default=False)
 	comment_count: Mapped[int] = mapped_column(default=0)
-	is_approved: Mapped[Optional[int]] = mapped_column(ForeignKey("users.id"))
+	is_approved: Mapped[Optional[user_id_fk]]
 	is_bot: Mapped[bool] = mapped_column(default=False)
 	upvotes: Mapped[int] = mapped_column(default=1)
 	downvotes: Mapped[int] = mapped_column(default=0)

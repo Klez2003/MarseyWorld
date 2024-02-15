@@ -11,6 +11,7 @@ from files.helpers.config.const import *
 from files.helpers.lazy import lazy
 from files.helpers.slurs_and_profanities import censor_slurs_profanities
 from files.helpers.sorting_and_time import make_age_string
+from files.helpers.types import comment_id_fk, int_pk, post_id_fk, user_id_fk
 
 if TYPE_CHECKING:
 	from files.classes import Comment, Post, User
@@ -18,13 +19,13 @@ if TYPE_CHECKING:
 
 class HoleAction(Base):
 	__tablename__ = "hole_actions"
-	id: Mapped[int] = mapped_column(primary_key=True)
+	id: Mapped[int_pk]
 	hole: Mapped[str] = mapped_column(ForeignKey("holes.name"))
-	user_id: Mapped[Optional[int]] = mapped_column(ForeignKey("users.id"))
+	user_id: Mapped[Optional[user_id_fk]]
 	kind: Mapped[Optional[str]]
-	target_user_id: Mapped[Optional[int]] = mapped_column(ForeignKey("users.id"))
-	target_post_id: Mapped[Optional[int]] = mapped_column(ForeignKey("posts.id"))
-	target_comment_id: Mapped[Optional[int]] = mapped_column(ForeignKey("comments.id"))
+	target_user_id: Mapped[Optional[user_id_fk]]
+	target_post_id: Mapped[Optional[post_id_fk]]
+	target_comment_id: Mapped[Optional[comment_id_fk]]
 	_note: Mapped[Optional[str]]
 	created_utc: Mapped[int]
 

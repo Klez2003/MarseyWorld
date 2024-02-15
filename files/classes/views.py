@@ -1,13 +1,13 @@
 import time
 from typing import Optional, TYPE_CHECKING
 
-from sqlalchemy import ForeignKey
-from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy.orm import Mapped, relationship
 from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
 from files.helpers.lazy import *
 from files.helpers.sorting_and_time import make_age_string
+from files.helpers.types import user_id_fk_pk
 
 if TYPE_CHECKING:
 	from files.classes import User
@@ -16,8 +16,8 @@ if TYPE_CHECKING:
 class ViewerRelationship(Base):
 	__tablename__ = "viewers"
 
-	user_id: Mapped[int] = mapped_column(ForeignKey('users.id'), primary_key=True)
-	viewer_id: Mapped[int] = mapped_column(ForeignKey('users.id'), primary_key=True)
+	user_id: Mapped[user_id_fk_pk]
+	viewer_id: Mapped[user_id_fk_pk]
 	last_view_utc: Mapped[int]
 	created_utc: Mapped[Optional[int]]
 

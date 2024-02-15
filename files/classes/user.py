@@ -3,8 +3,7 @@ from operator import *
 from typing import Optional
 
 import pyotp
-from sqlalchemy import ForeignKey, FetchedValue
-from sqlalchemy.orm import DynamicMapped, Mapped, Query, aliased, deferred, mapped_column
+from sqlalchemy.orm import DynamicMapped, Mapped, aliased, mapped_column
 from sqlalchemy.sql import case, func, literal
 from sqlalchemy.sql.expression import not_, and_, or_
 from sqlalchemy.sql.sqltypes import *
@@ -21,6 +20,7 @@ from files.helpers.config.awards import AWARDS_ENABLED, HOUSE_AWARDS
 from files.helpers.media import *
 from files.helpers.security import *
 from files.helpers.sorting_and_time import *
+from files.helpers.types import int_pk, user_id_fk
 from files.helpers.can_see import *
 
 from .alts import Alt
@@ -50,7 +50,7 @@ else:
 class User(Base):
 	__tablename__ = "users"
 
-	id: Mapped[int] = mapped_column(primary_key=True)
+	id: Mapped[int_pk]
 	username: Mapped[str]
 	namecolor: Mapped[str] = mapped_column(default=DEFAULT_COLOR)
 	background: Mapped[Optional[str]]
@@ -91,8 +91,8 @@ class User(Base):
 	queen: Mapped[Optional[int]] = mapped_column(default=0)
 	chud_phrase: Mapped[Optional[str]]
 	email_verified: Mapped[bool] = mapped_column(default=False)
-	shadowbanned: Mapped[Optional[int]] = mapped_column(ForeignKey("users.id"))
-	chudded_by: Mapped[Optional[int]] = mapped_column(ForeignKey("users.id"))
+	shadowbanned: Mapped[Optional[user_id_fk]]
+	chudded_by: Mapped[Optional[user_id_fk]]
 	slurreplacer: Mapped[int] = mapped_column(default=1)
 	profanityreplacer: Mapped[int] = mapped_column(default=1)
 	flairchanged: Mapped[Optional[int]] = mapped_column(default=0)
@@ -111,7 +111,7 @@ class User(Base):
 	friends_html: Mapped[Optional[str]] = mapped_column(deferred=True)
 	enemies: Mapped[Optional[str]] = mapped_column(deferred=True)
 	enemies_html: Mapped[Optional[str]] = mapped_column(deferred=True)
-	is_banned: Mapped[Optional[int]] = mapped_column(ForeignKey("users.id"))
+	is_banned: Mapped[Optional[user_id_fk]]
 	unban_utc: Mapped[Optional[int]]
 	ban_reason: Mapped[Optional[str]] = mapped_column(deferred=True)
 	shadowban_reason: Mapped[Optional[str]] = mapped_column(deferred=True)
@@ -130,7 +130,7 @@ class User(Base):
 	original_username: Mapped[Optional[str]]
 	extra_username: Mapped[Optional[str]]
 	prelock_username: Mapped[Optional[str]]
-	referred_by: Mapped[Optional[int]] = mapped_column(ForeignKey("users.id"))
+	referred_by: Mapped[Optional[user_id_fk]]
 	currently_held_lottery_tickets: Mapped[int] = mapped_column(default=0)
 	total_held_lottery_tickets: Mapped[int] = mapped_column(default=0)
 	total_lottery_winnings: Mapped[int] = mapped_column(default=0)
@@ -146,7 +146,7 @@ class User(Base):
 	spider: Mapped[Optional[int]] = mapped_column(default=0)
 	lifetimedonated: Mapped[int] = mapped_column(default=0)
 	lifetimedonated_visible: Mapped[bool] = mapped_column(default=False)
-	blacklisted_by: Mapped[Optional[int]] = mapped_column(ForeignKey("users.id"))
+	blacklisted_by: Mapped[Optional[user_id_fk]]
 	grinch: Mapped[bool] = mapped_column(default=SITE_NAME != 'rDrama') #don't put in an if condition, it will cause an error bc it has a not-null constraint
 	group_creation_notifs: Mapped[bool] = mapped_column(default=False)
 	effortpost_notifs: Mapped[bool] = mapped_column(default=False)

@@ -9,6 +9,7 @@ from flask import g
 from files.classes import Base
 from files.helpers.lazy import lazy
 from files.helpers.slurs_and_profanities import censor_slurs_profanities
+from files.helpers.types import int_pk, user_id_fk
 
 if TYPE_CHECKING:
 	from files.classes import User
@@ -17,12 +18,12 @@ if TYPE_CHECKING:
 class HatDef(Base):
 	__tablename__ = "hat_defs"
 
-	id: Mapped[int] = mapped_column(primary_key=True)
+	id: Mapped[int_pk]
 	name: Mapped[str]
 	description: Mapped[str]
 	author_id: Mapped[int] = mapped_column(ForeignKey('users.id'))
 	price: Mapped[int]
-	submitter_id: Mapped[Optional[int]] = mapped_column(ForeignKey("users.id"))
+	submitter_id: Mapped[Optional[user_id_fk]]
 	created_utc: Mapped[int]
 
 	author: Mapped["User"] = relationship(primaryjoin="HatDef.author_id == User.id", back_populates="designed_hats")

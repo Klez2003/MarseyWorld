@@ -1,11 +1,11 @@
 import time
 from typing import TYPE_CHECKING
 
-from sqlalchemy import ForeignKey
-from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy.orm import Mapped, relationship
 from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
+from files.helpers.types import str_pk, user_id_fk_pk
 
 if TYPE_CHECKING:
 	from files.classes import User
@@ -13,8 +13,8 @@ if TYPE_CHECKING:
 
 class IPLog(Base):
 	__tablename__ = "ip_logs"
-	user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), primary_key=True)
-	ip: Mapped[str] = mapped_column(primary_key=True)
+	user_id: Mapped[user_id_fk_pk]
+	ip: Mapped[str_pk]
 	created_utc: Mapped[int]
 	last_used: Mapped[int]
 

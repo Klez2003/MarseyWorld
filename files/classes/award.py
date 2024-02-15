@@ -1,13 +1,13 @@
 import time
 from typing import Optional, TYPE_CHECKING
 
-from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
 from files.helpers.config.awards import AWARDS, HOUSE_AWARDS
 from files.helpers.lazy import lazy
+from files.helpers.types import comment_id_fk, int_pk, post_id_fk, user_id_fk
 
 if TYPE_CHECKING:
 	from files.classes import Comment, Post, User
@@ -16,10 +16,10 @@ if TYPE_CHECKING:
 class AwardRelationship(Base):
 	__tablename__ = "award_relationships"
 
-	id: Mapped[int] = mapped_column(primary_key=True)
-	user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
-	post_id: Mapped[Optional[int]] = mapped_column(ForeignKey("posts.id"))
-	comment_id: Mapped[Optional[int]] = mapped_column(ForeignKey("comments.id"))
+	id: Mapped[int_pk]
+	user_id: Mapped[user_id_fk]
+	post_id: Mapped[Optional[post_id_fk]]
+	comment_id: Mapped[Optional[comment_id_fk]]
 	kind: Mapped[str]
 	awarded_utc: Mapped[Optional[int]]
 	created_utc: Mapped[Optional[int]]

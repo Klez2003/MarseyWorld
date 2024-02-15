@@ -1,13 +1,13 @@
 import time
 from typing import Optional, TYPE_CHECKING
 
-from sqlalchemy import ForeignKey
-from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy.orm import Mapped, relationship
 from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
 from files.helpers.lazy import lazy
 from files.helpers.slurs_and_profanities import censor_slurs_profanities
+from files.helpers.types import comment_id_fk_pk, post_id_fk_pk, user_id_fk_pk
 
 if TYPE_CHECKING:
 	from files.classes import User
@@ -16,8 +16,8 @@ if TYPE_CHECKING:
 class Report(Base):
 	__tablename__ = "reports"
 
-	post_id: Mapped[int] = mapped_column(ForeignKey("posts.id"), primary_key=True)
-	user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), primary_key=True)
+	post_id: Mapped[post_id_fk_pk]
+	user_id: Mapped[user_id_fk_pk]
 	reason: Mapped[Optional[str]]
 	created_utc: Mapped[int]
 
@@ -44,8 +44,8 @@ class Report(Base):
 class CommentReport(Base):
 	__tablename__ = "commentreports"
 
-	comment_id: Mapped[int] = mapped_column(ForeignKey("comments.id"), primary_key=True)
-	user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), primary_key=True)
+	comment_id: Mapped[comment_id_fk_pk]
+	user_id: Mapped[user_id_fk_pk]
 	reason: Mapped[Optional[str]]
 	created_utc: Mapped[int]
 

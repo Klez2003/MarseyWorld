@@ -1,12 +1,12 @@
 import time
 from typing import TYPE_CHECKING
 
-from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
 from files.helpers.lazy import lazy
+from files.helpers.types import comment_id_fk_pk, post_id_fk_pk, user_id_fk_pk
 
 if TYPE_CHECKING:
 	from files.classes import User
@@ -15,8 +15,8 @@ if TYPE_CHECKING:
 class Vote(Base):
 	__tablename__ = "votes"
 
-	post_id: Mapped[int] = mapped_column(ForeignKey("posts.id"), primary_key=True)
-	user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), primary_key=True)
+	post_id: Mapped[post_id_fk_pk]
+	user_id: Mapped[user_id_fk_pk]
 	vote_type: Mapped[int]
 	real: Mapped[bool] = mapped_column(default=True)
 	coins: Mapped[int] = mapped_column(default=1)
@@ -45,8 +45,8 @@ class CommentVote(Base):
 
 	__tablename__ = "commentvotes"
 
-	comment_id: Mapped[int] = mapped_column(ForeignKey("comments.id"), primary_key=True)
-	user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), primary_key=True)
+	comment_id: Mapped[comment_id_fk_pk]
+	user_id: Mapped[user_id_fk_pk]
 	vote_type: Mapped[int]
 	real: Mapped[bool] = mapped_column(default=True)
 	coins: Mapped[int] = mapped_column(default=1)

@@ -3,11 +3,11 @@ from flask import g, abort
 import requests
 from typing import Optional
 
-from sqlalchemy import or_
 from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
+from files.helpers.types import int_pk
 
 from files.helpers.lazy import lazy
 from files.helpers.config.const import *
@@ -15,7 +15,7 @@ from files.helpers.config.const import *
 class Orgy(Base):
 	__tablename__ = "orgies"
 
-	created_utc: Mapped[int] = mapped_column(primary_key=True)
+	created_utc: Mapped[int_pk]
 	type: Mapped[str]
 	data: Mapped[str]
 	title: Mapped[str]

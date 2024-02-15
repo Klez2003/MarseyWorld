@@ -18,6 +18,7 @@ from files.helpers.slurs_and_profanities import *
 from files.helpers.lazy import lazy
 from files.helpers.regex import *
 from files.helpers.sorting_and_time import *
+from files.helpers.types import comment_id_fk, int_pk, post_id_fk, user_id_fk
 from files.helpers.bleach_body import *
 
 from .saves import CommentSaveRelationship
@@ -176,10 +177,10 @@ def add_options(self, body, v):
 class Comment(Base):
 	__tablename__ = "comments"
 
-	id: Mapped[int] = mapped_column(primary_key=True)
-	author_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
-	parent_post: Mapped[Optional[int]] = mapped_column(ForeignKey("posts.id"))
-	wall_user_id: Mapped[Optional[int]] = mapped_column(ForeignKey("users.id"))
+	id: Mapped[int_pk]
+	author_id: Mapped[user_id_fk]
+	parent_post: Mapped[Optional[post_id_fk]]
+	wall_user_id: Mapped[Optional[user_id_fk]]
 	created_utc: Mapped[int]
 	edited_utc: Mapped[int] = mapped_column(default=0)
 	is_banned: Mapped[bool] = mapped_column(default=False)
@@ -188,15 +189,15 @@ class Comment(Base):
 	chuddedfor: Mapped[Optional[str]]
 	distinguished: Mapped[bool] = mapped_column(default=False)
 	deleted_utc: Mapped[int] = mapped_column(default=0)
-	is_approved: Mapped[Optional[int]] = mapped_column(ForeignKey("users.id"))
+	is_approved: Mapped[Optional[user_id_fk]]
 	level: Mapped[int] = mapped_column(default=1)
-	parent_comment_id: Mapped[Optional[int]] = mapped_column(ForeignKey("comments.id"))
+	parent_comment_id: Mapped[Optional[comment_id_fk]]
 	top_comment_id: Mapped[Optional[int]]
 	is_bot: Mapped[bool] = mapped_column(default=False)
 	stickied: Mapped[Optional[str]]
 	stickied_utc: Mapped[Optional[int]]
 	num_of_pinned_children: Mapped[int] = mapped_column(default=0)
-	sentto: Mapped[Optional[int]] = mapped_column(ForeignKey("users.id"))
+	sentto: Mapped[Optional[user_id_fk]]
 	app_id: Mapped[Optional[int]] = mapped_column(ForeignKey("oauth_apps.id"))
 	upvotes: Mapped[int] = mapped_column(default=1)
 	downvotes: Mapped[int] = mapped_column(default=0)

@@ -1,17 +1,17 @@
 import time
 from typing import Optional
 
-from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
+from files.helpers.types import user_id_fk_pk
 
 class Alt(Base):
 	__tablename__ = "alts"
 
-	user1: Mapped[int] = mapped_column(ForeignKey("users.id"), primary_key=True)
-	user2: Mapped[int] = mapped_column(ForeignKey("users.id"), primary_key=True)
+	user1: Mapped[user_id_fk_pk]
+	user2: Mapped[user_id_fk_pk]
 	is_manual: Mapped[bool] = mapped_column(default=False)
 	created_utc: Mapped[Optional[int]]
 

@@ -1,11 +1,11 @@
 import time
 from typing import Optional, TYPE_CHECKING
 
-from sqlalchemy import ForeignKey
-from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy.orm import Mapped, relationship
 from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
+from files.helpers.types import comment_id_fk_pk, post_id_fk_pk, user_id_fk_pk
 
 if TYPE_CHECKING:
 	from files.classes.comment import Comment
@@ -15,8 +15,8 @@ if TYPE_CHECKING:
 class SaveRelationship(Base):
 	__tablename__ = "save_relationship"
 
-	user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), primary_key=True)
-	post_id: Mapped[int] = mapped_column(ForeignKey("posts.id"), primary_key=True)
+	user_id: Mapped[user_id_fk_pk]
+	post_id: Mapped[post_id_fk_pk]
 	created_utc: Mapped[Optional[int]]
 
 	post: Mapped["Post"] = relationship(uselist=False)
@@ -33,8 +33,8 @@ class CommentSaveRelationship(Base):
 
 	__tablename__ = "comment_save_relationship"
 
-	user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), primary_key=True)
-	comment_id: Mapped[int] = mapped_column(ForeignKey("comments.id"), primary_key=True)
+	user_id: Mapped[user_id_fk_pk]
+	comment_id: Mapped[comment_id_fk_pk]
 	created_utc: Mapped[Optional[int]]
 
 	comment: Mapped["Comment"] = relationship(uselist=False)

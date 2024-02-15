@@ -1,12 +1,12 @@
 import time
 from typing import Optional, TYPE_CHECKING
 
-from sqlalchemy.orm import Mapped, mapped_column, relationship
-from sqlalchemy.types import Integer
+from sqlalchemy.orm import Mapped, relationship
 
 from files.classes import Base
 from files.helpers.lazy import lazy
 from files.helpers.config.const import *
+from files.helpers.types import str_pk, user_id_fk
 
 from .group_membership import *
 
@@ -16,9 +16,9 @@ if TYPE_CHECKING:
 
 class Group(Base):
 	__tablename__ = "groups"
-	name: Mapped[str] = mapped_column(primary_key=True)
+	name: Mapped[str_pk]
 	created_utc: Mapped[int]
-	owner_id: Mapped[Optional[int]] = mapped_column(ForeignKey("users.id"))
+	owner_id: Mapped[Optional[user_id_fk]]
 	description: Mapped[Optional[str]]
 	description_html: Mapped[Optional[str]]
 

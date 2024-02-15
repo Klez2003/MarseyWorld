@@ -1,11 +1,11 @@
 import time
 from typing import Optional, TYPE_CHECKING
 
-from sqlalchemy import ForeignKey
-from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy.orm import Mapped, relationship
 from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
+from files.helpers.types import user_id_fk_pk
 
 if TYPE_CHECKING:
 	from files.classes import User
@@ -13,8 +13,8 @@ if TYPE_CHECKING:
 
 class UserMute(Base):
 	__tablename__ = "usermutes"
-	user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), primary_key=True)
-	target_id: Mapped[int] = mapped_column(ForeignKey("users.id"), primary_key=True)
+	user_id: Mapped[user_id_fk_pk]
+	target_id: Mapped[user_id_fk_pk]
 	created_utc: Mapped[Optional[int]]
 
 	user: Mapped["User"] = relationship(primaryjoin="User.id==UserMute.user_id")

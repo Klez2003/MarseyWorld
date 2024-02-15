@@ -3,9 +3,9 @@ from typing import Optional, TYPE_CHECKING
 
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from sqlalchemy.types import Integer, String, Boolean
 
 from files.classes import Base
+from files.helpers.types import user_id_fk_pk
 
 if TYPE_CHECKING:
 	from files.classes.user import User
@@ -13,7 +13,7 @@ if TYPE_CHECKING:
 
 class GroupMembership(Base):
 	__tablename__ = "group_memberships"
-	user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), primary_key=True)
+	user_id: Mapped[user_id_fk_pk]
 	group_name: Mapped[str] = mapped_column(ForeignKey("groups.name"), primary_key=True)
 	created_utc: Mapped[int]
 	approved_utc: Mapped[Optional[int]]

@@ -2,12 +2,12 @@ import json
 import time
 from typing import TYPE_CHECKING
 
-from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
 from files.helpers.lazy import lazy
+from files.helpers.types import int_pk, user_id_fk
 
 if TYPE_CHECKING:
 	from files.classes import User
@@ -17,8 +17,8 @@ CASINO_GAME_KINDS = ['blackjack', 'slots', 'roulette']
 class CasinoGame(Base):
 	__tablename__ = "casino_games"
 
-	id: Mapped[int] = mapped_column(primary_key=True)
-	user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+	id: Mapped[int_pk]
+	user_id: Mapped[user_id_fk]
 	created_utc: Mapped[int]
 	active: Mapped[bool] = mapped_column(default=True)
 	currency: Mapped[str]

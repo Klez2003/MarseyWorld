@@ -5,10 +5,11 @@ from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
+from files.helpers.types import str_pk
 
 class BannedDomain(Base):
 	__tablename__ = "banneddomains"
-	domain: Mapped[str] = mapped_column(primary_key=True)
+	domain: Mapped[str_pk]
 	reason: Mapped[str]
 	created_utc: Mapped[Optional[int]]
 

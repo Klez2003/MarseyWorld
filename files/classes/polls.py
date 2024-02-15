@@ -7,6 +7,7 @@ from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
 from files.helpers.lazy import lazy
+from files.helpers.types import comment_id_fk, int_pk, post_id_fk, user_id_fk_pk
 
 if TYPE_CHECKING:
 	from files.classes import Comment, Post, User
@@ -15,8 +16,8 @@ if TYPE_CHECKING:
 class PostOption(Base):
 	__tablename__ = "post_options"
 
-	id: Mapped[int] = mapped_column(primary_key=True)
-	parent_id: Mapped[int] = mapped_column(ForeignKey("posts.id"))
+	id: Mapped[int_pk]
+	parent_id: Mapped[post_id_fk]
 	body_html: Mapped[str] = mapped_column(Text)
 	exclusive: Mapped[int]
 	created_utc: Mapped[Optional[int]]
@@ -46,9 +47,9 @@ class PostOptionVote(Base):
 	__tablename__ = "post_option_votes"
 
 	option_id: Mapped[int] = mapped_column(ForeignKey("post_options.id"), primary_key=True)
-	user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), primary_key=True)
+	user_id: Mapped[user_id_fk_pk]
 	created_utc: Mapped[int]
-	post_id: Mapped[Optional[int]] = mapped_column(ForeignKey("posts.id"))
+	post_id: Mapped[Optional[post_id_fk]]
 
 	user: Mapped["User"] = relationship()
 
@@ -64,8 +65,8 @@ class CommentOption(Base):
 
 	__tablename__ = "comment_options"
 
-	id: Mapped[int] = mapped_column(primary_key=True)
-	parent_id: Mapped[int] = mapped_column(ForeignKey("comments.id"))
+	id: Mapped[int_pk]
+	parent_id: Mapped[comment_id_fk]
 	body_html: Mapped[str] = mapped_column(Text)
 	exclusive: Mapped[int]
 	created_utc: Mapped[Optional[int]]
@@ -95,9 +96,9 @@ class CommentOptionVote(Base):
 	__tablename__ = "comment_option_votes"
 
 	option_id: Mapped[int] = mapped_column(ForeignKey("comment_options.id"), primary_key=True)
-	user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), primary_key=True)
+	user_id: Mapped[user_id_fk_pk]
 	created_utc: Mapped[int]
-	comment_id: Mapped[Optional[int]] = mapped_column(ForeignKey("comments.id"))
+	comment_id: Mapped[Optional[comment_id_fk]]
 
 	user: Mapped["User"] = relationship()
 
