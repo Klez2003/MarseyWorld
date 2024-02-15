@@ -64,8 +64,6 @@ def publish(pid, v):
 
 	p.chudded = v.chud and p.hole != 'chudrama' and not (p.is_longpost and not v.chudded_by)
 	p.queened = bool(v.queen and not p.is_longpost)
-	print('bool: ', bool(v.queen and not p.is_longpost), flush=True)
-	print(p.queened, flush=True)
 	p.sharpened = v.sharpen and not p.is_longpost
 	p.rainbowed = v.rainbow and not p.is_longpost
 
