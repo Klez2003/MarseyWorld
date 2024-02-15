@@ -557,7 +557,8 @@ CREATE TABLE public.groups (
     name character varying(25) NOT NULL,
     created_utc integer NOT NULL,
     owner_id integer,
-    description character varying(100)
+    description character varying(100),
+    description_html character varying(1000)
 );
 
 
