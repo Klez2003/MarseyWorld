@@ -22,7 +22,7 @@
 					<td><a href="/h/{{hole}}">{{count}}</a></td>
 					<td><a href="/h/{{hole}}/followers">{{hole.follow_num}}</a></td>
 					{% if hole.stealth %}
-						<td>{{total_users - hole.join_num}}</td>
+						<td>{{total_users - hole.stealth_hole_unblock_number}}</td>
 					{% else %}
 						<td><a href="/h/{{hole}}/blockers">{{hole.block_num}}</a></td>
 					{% endif %}
