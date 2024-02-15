@@ -882,7 +882,7 @@ def shadowban(user_id, v):
 	reason = filter_emojis_only(reason)
 
 	if len(reason) > 256:
-		abort(400, "Ban reason is too long (max 256 characters)")
+		abort(400, "Rendered shadowban reason is too long!")
 
 	user.shadowban_reason = reason
 	g.db.add(user)
