@@ -1,18 +1,18 @@
 import time
 
-from sqlalchemy import Column, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.types import Integer, String, Boolean
 
 from files.classes import Base
 
 class GroupMembership(Base):
 	__tablename__ = "group_memberships"
-	user_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
-	group_name = Column(String, ForeignKey("groups.name"), primary_key=True)
-	created_utc = Column(Integer)
-	approved_utc = Column(Integer)
-	is_mod = Column(Boolean, default=False)
+	user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), primary_key=True)
+	group_name: Mapped[str] = mapped_column(ForeignKey("groups.name"), primary_key=True)
+	created_utc: Mapped[int]
+	approved_utc: Mapped[int]
+	is_mod: Mapped[bool] = mapped_column(default=False)
 
 	user = relationship("User", uselist=False)
 

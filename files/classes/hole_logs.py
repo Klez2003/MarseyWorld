@@ -1,7 +1,7 @@
 import time
 
-from sqlalchemy import Column, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql.sqltypes import *
 from flask import g
 
@@ -13,15 +13,15 @@ from files.helpers.sorting_and_time import make_age_string
 
 class HoleAction(Base):
 	__tablename__ = "hole_actions"
-	id = Column(Integer, primary_key=True)
-	hole = Column(String, ForeignKey("holes.name"))
-	user_id = Column(Integer, ForeignKey("users.id"))
-	kind = Column(String)
-	target_user_id = Column(Integer, ForeignKey("users.id"))
-	target_post_id = Column(Integer, ForeignKey("posts.id"))
-	target_comment_id = Column(Integer, ForeignKey("comments.id"))
-	_note = Column(String)
-	created_utc = Column(Integer)
+	id: Mapped[int] = mapped_column(primary_key=True)
+	hole: Mapped[str] = mapped_column(ForeignKey("holes.name"))
+	user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+	kind: Mapped[str]
+	target_user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+	target_post_id: Mapped[int] = mapped_column(ForeignKey("posts.id"))
+	target_comment_id: Mapped[int] = mapped_column(ForeignKey("comments.id"))
+	_note: Mapped[str]
+	created_utc: Mapped[int]
 
 	user = relationship("User", primaryjoin="User.id==HoleAction.user_id")
 	target_user = relationship("User", primaryjoin="User.id==HoleAction.target_user_id")

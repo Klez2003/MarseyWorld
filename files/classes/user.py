@@ -2,8 +2,8 @@ import random
 from operator import *
 
 import pyotp
-from sqlalchemy import Column, ForeignKey, FetchedValue
-from sqlalchemy.orm import aliased, deferred, Query
+from sqlalchemy import ForeignKey, FetchedValue
+from sqlalchemy.orm import Mapped, Query, aliased, deferred, mapped_column
 from sqlalchemy.sql import case, func, literal
 from sqlalchemy.sql.expression import not_, and_, or_
 from sqlalchemy.sql.sqltypes import *
@@ -49,106 +49,106 @@ else:
 class User(Base):
 	__tablename__ = "users"
 
-	id = Column(Integer, primary_key=True)
-	username = Column(String)
-	namecolor = Column(String, default=DEFAULT_COLOR)
-	background = Column(String)
-	profile_background = Column(String)
-	flair = deferred(Column(String))
-	flair_html = Column(String)
-	flaircolor = Column(String, default=DEFAULT_COLOR)
-	theme = Column(String, default=DEFAULT_THEME)
-	themecolor = Column(String, default=DEFAULT_COLOR)
-	song = Column(String)
-	highres = Column(String)
-	profileurl = Column(String)
-	bannerurl = Column(String)
-	house = Column(String, default='')
-	old_house = Column(String, default='')
-	patron = Column(Integer, default=0)
-	patron_utc = Column(Integer, default=0)
-	verified = Column(String)
-	verifiedcolor = Column(String)
-	hieroglyphs = Column(Integer, default=0)
-	rehab = Column(Integer, default=0)
-	longpost = Column(Integer, default=0)
-	bird = Column(Integer, default=0)
-	email = deferred(Column(String))
-	css = Column(String)
-	profilecss = deferred(Column(String))
-	passhash = deferred(Column(String))
-	post_count = Column(Integer, default=0)
-	comment_count = Column(Integer, default=0)
-	received_award_count = Column(Integer, default=0)
-	created_utc = Column(Integer)
-	admin_level = Column(Integer, default=DEFAULT_ADMIN_LEVEL)
-	last_active = Column(Integer)
-	coins_spent = Column(Integer, default=0)
-	coins_spent_on_hats = Column(Integer, default=0)
-	lootboxes_bought = Column(Integer, default=0)
-	chud = Column(Integer, default=0)
-	queen = Column(Integer, default=0)
-	chud_phrase = Column(String)
-	email_verified = Column(Boolean, default=False)
-	shadowbanned = Column(Integer, ForeignKey("users.id"))
-	chudded_by = Column(Integer, ForeignKey("users.id"))
-	slurreplacer = Column(Integer, default=1)
-	profanityreplacer = Column(Integer, default=1)
-	flairchanged = Column(Integer, default=0)
-	namechanged = Column(Integer, default=0)
-	newtab = Column(Boolean, default=False)
-	newtabexternal = Column(Boolean, default=True)
-	frontsize = Column(Integer, default=25)
-	bio = deferred(Column(String))
-	bio_html = Column(String)
-	sig = deferred(Column(String))
-	sig_html = Column(String)
-	show_sigs = Column(Boolean, default=True)
-	progressivestack = Column(Integer, default=0)
-	deflector = Column(Integer, default=0)
-	friends = deferred(Column(String))
-	friends_html = deferred(Column(String))
-	enemies = deferred(Column(String))
-	enemies_html = deferred(Column(String))
-	is_banned = Column(Integer, ForeignKey("users.id"))
-	unban_utc = Column(Integer)
-	ban_reason = deferred(Column(String))
-	shadowban_reason = deferred(Column(String))
-	is_muted = Column(Boolean, default=False)
-	login_nonce = Column(Integer, default=0)
-	coins = Column(Integer, default=DEFAULT_COINS)
-	truescore = Column(Integer, default=0)
-	marseybux = Column(Integer, default=DEFAULT_MARSEYBUX)
-	mfa_secret = deferred(Column(String))
-	is_private = Column(Boolean, default=False)
-	stored_subscriber_count = Column(Integer, default=0)
-	defaultsortingcomments = Column(String, default="hot")
-	defaultsorting = Column(String, default="hot")
-	defaulttime = Column(String, default=DEFAULT_TIME_FILTER)
-	custom_filter_list = Column(String)
-	original_username = Column(String)
-	extra_username = Column(String)
-	prelock_username = Column(String)
-	referred_by = Column(Integer, ForeignKey("users.id"))
-	currently_held_lottery_tickets = Column(Integer, default=0)
-	total_held_lottery_tickets = Column(Integer, default=0)
-	total_lottery_winnings = Column(Integer, default=0)
-	last_viewed_modmail_notifs = Column(Integer, default=0)
-	last_viewed_post_notifs = Column(Integer, default=0)
-	last_viewed_log_notifs = Column(Integer, default=0)
-	last_viewed_offsite_notifs = Column(Integer, default=0)
-	bite = Column(Integer, default=0)
-	owoify = Column(Integer, default=0)
-	sharpen = Column(Integer, default=0)
-	marsify = Column(Integer, default=0)
-	rainbow = Column(Integer, default=0)
-	spider = Column(Integer, default=0)
-	lifetimedonated = Column(Integer, default=0)
-	lifetimedonated_visible = Column(Boolean, default=False)
-	blacklisted_by = Column(Integer, ForeignKey("users.id"))
-	grinch = Column(Boolean, default=SITE_NAME != 'rDrama') #don't put in an if condition, it will cause an error bc it has a not-null constraint
-	group_creation_notifs = Column(Boolean, default=False)
-	effortpost_notifs = Column(Boolean, default=False)
+	id: Mapped[int] = mapped_column(primary_key=True)
+	username: Mapped[str]
+	namecolor: Mapped[str] = mapped_column(default=DEFAULT_COLOR)
+	background: Mapped[str]
+	profile_background: Mapped[str]
+	flair: Mapped[str] = mapped_column(deferred=True)
+	flair_html: Mapped[str]
+	flaircolor: Mapped[str] = mapped_column(default=DEFAULT_COLOR)
+	theme: Mapped[str] = mapped_column(default=DEFAULT_THEME)
+	themecolor: Mapped[str] = mapped_column(default=DEFAULT_COLOR)
+	song: Mapped[str]
+	highres: Mapped[str]
+	profileurl: Mapped[str]
+	bannerurl: Mapped[str]
+	house: Mapped[str] = mapped_column(default='')
+	old_house: Mapped[str] = mapped_column(default='')
+	patron: Mapped[int] = mapped_column(default=0)
+	patron_utc: Mapped[int] = mapped_column(default=0)
+	verified: Mapped[str]
+	verifiedcolor: Mapped[str]
+	hieroglyphs: Mapped[int] = mapped_column(default=0)
+	rehab: Mapped[int] = mapped_column(default=0)
+	longpost: Mapped[int] = mapped_column(default=0)
+	bird: Mapped[int] = mapped_column(default=0)
+	email: Mapped[str] = mapped_column(deferred=True)
+	css: Mapped[str]
+	profilecss: Mapped[str] = mapped_column(deferred=True)
+	passhash: Mapped[str] = mapped_column(deferred=True)
+	post_count: Mapped[int] = mapped_column(default=0)
+	comment_count: Mapped[int] = mapped_column(default=0)
+	received_award_count: Mapped[int] = mapped_column(default=0)
+	created_utc: Mapped[int]
+	admin_level: Mapped[int] = mapped_column(default=DEFAULT_ADMIN_LEVEL)
+	last_active: Mapped[int]
+	coins_spent: Mapped[int] = mapped_column(default=0)
+	coins_spent_on_hats: Mapped[int] = mapped_column(default=0)
+	lootboxes_bought: Mapped[int] = mapped_column(default=0)
+	chud: Mapped[int] = mapped_column(default=0)
+	queen: Mapped[int] = mapped_column(default=0)
+	chud_phrase: Mapped[str]
+	email_verified: Mapped[bool] = mapped_column(default=False)
+	shadowbanned: Mapped[int] = mapped_column(ForeignKey("users.id"))
+	chudded_by: Mapped[int] = mapped_column(ForeignKey("users.id"))
+	slurreplacer: Mapped[int] = mapped_column(default=1)
+	profanityreplacer: Mapped[int] = mapped_column(default=1)
+	flairchanged: Mapped[int] = mapped_column(default=0)
+	namechanged: Mapped[int] = mapped_column(default=0)
+	newtab: Mapped[bool] = mapped_column(default=False)
+	newtabexternal: Mapped[bool] = mapped_column(default=True)
+	frontsize: Mapped[int] = mapped_column(default=25)
+	bio: Mapped[str] = mapped_column(deferred=True)
+	bio_html: Mapped[str]
+	sig: Mapped[str] = mapped_column(deferred=True)
+	sig_html: Mapped[str]
+	show_sigs: Mapped[bool] = mapped_column(default=True)
+	progressivestack: Mapped[int] = mapped_column(default=0)
+	deflector: Mapped[int] = mapped_column(default=0)
+	friends: Mapped[str] = mapped_column(deferred=True)
+	friends_html: Mapped[str] = mapped_column(deferred=True)
+	enemies: Mapped[str] = mapped_column(deferred=True)
+	enemies_html: Mapped[str] = mapped_column(deferred=True)
+	is_banned: Mapped[int] = mapped_column(ForeignKey("users.id"))
+	unban_utc: Mapped[int]
+	ban_reason: Mapped[str] = mapped_column(deferred=True)
+	shadowban_reason: Mapped[str] = mapped_column(deferred=True)
+	is_muted: Mapped[bool] = mapped_column(default=False)
+	login_nonce: Mapped[int] = mapped_column(default=0)
+	coins: Mapped[int] = mapped_column(default=DEFAULT_COINS)
+	truescore: Mapped[int] = mapped_column(default=0)
+	marseybux: Mapped[int] = mapped_column(default=DEFAULT_MARSEYBUX)
+	mfa_secret: Mapped[str] = mapped_column(deferred=True)
+	is_private: Mapped[bool] = mapped_column(default=False)
+	stored_subscriber_count: Mapped[int] = mapped_column(default=0)
+	defaultsortingcomments: Mapped[str] = mapped_column(default="hot")
+	defaultsorting: Mapped[str] = mapped_column(default="hot")
+	defaulttime: Mapped[str] = mapped_column(default=DEFAULT_TIME_FILTER)
+	custom_filter_list: Mapped[str]
+	original_username: Mapped[str]
+	extra_username: Mapped[str]
+	prelock_username: Mapped[str]
+	referred_by: Mapped[int] = mapped_column(ForeignKey("users.id"))
+	currently_held_lottery_tickets: Mapped[int] = mapped_column(default=0)
+	total_held_lottery_tickets: Mapped[int] = mapped_column(default=0)
+	total_lottery_winnings: Mapped[int] = mapped_column(default=0)
+	last_viewed_modmail_notifs: Mapped[int] = mapped_column(default=0)
+	last_viewed_post_notifs: Mapped[int] = mapped_column(default=0)
+	last_viewed_log_notifs: Mapped[int] = mapped_column(default=0)
+	last_viewed_offsite_notifs: Mapped[int] = mapped_column(default=0)
+	bite: Mapped[int] = mapped_column(default=0)
+	owoify: Mapped[int] = mapped_column(default=0)
+	sharpen: Mapped[int] = mapped_column(default=0)
+	marsify: Mapped[int] = mapped_column(default=0)
+	rainbow: Mapped[int] = mapped_column(default=0)
+	spider: Mapped[int] = mapped_column(default=0)
+	lifetimedonated: Mapped[int] = mapped_column(default=0)
+	lifetimedonated_visible: Mapped[bool] = mapped_column(default=False)
+	blacklisted_by: Mapped[int] = mapped_column(ForeignKey("users.id"))
+	grinch: Mapped[bool] = mapped_column(default=SITE_NAME != 'rDrama') #don't put in an if condition, it will cause an error bc it has a not-null constraint
+	group_creation_notifs: Mapped[bool] = mapped_column(default=False)
+	effortpost_notifs: Mapped[bool] = mapped_column(default=False)
 
 	if SITE_NAME == 'WPD':
 		nitter = False
@@ -158,22 +158,22 @@ class User(Base):
 		pronouns = 'they/them'
 		earlylife = 0
 		hole_creation_notifs = False
-		hidevotedon = Column(Boolean, default=False)
-		hide_cw = Column(Boolean, default=False)
+		hidevotedon: Mapped[bool] = mapped_column(default=False)
+		hide_cw: Mapped[bool] = mapped_column(default=False)
 	else:
-		nitter = Column(Boolean, default=False)
-		imgsed = Column(Boolean, default=False)
-		controversial = Column(Boolean, default=False)
-		reddit = Column(String, default='old.reddit.com')
-		pronouns = Column(String, default='they/them')
-		earlylife = Column(Integer, default=0)
-		hole_creation_notifs = Column(Boolean, default=True)
+		nitter: Mapped[bool] = mapped_column(default=False)
+		imgsed: Mapped[bool] = mapped_column(default=False)
+		controversial: Mapped[bool] = mapped_column(default=False)
+		reddit: Mapped[str] = mapped_column(default='old.reddit.com')
+		pronouns: Mapped[str] = mapped_column(default='they/them')
+		earlylife: Mapped[int] = mapped_column(default=0)
+		hole_creation_notifs: Mapped[bool] = mapped_column(default=True)
 		hidevotedon = False
 		hide_cw = False
 
 	if IS_HOMOWEEN():
-		zombie = Column(Integer, default=0) # > 0 vaxxed; < 0 zombie
-		jumpscare = Column(Integer, default=0)
+		zombie: Mapped[int] = mapped_column(default=0) # > 0 vaxxed; < 0 zombie
+		jumpscare: Mapped[int] = mapped_column(default=0)
 
 	badges = relationship("Badge", order_by="Badge.created_utc", back_populates="user")
 	subscriptions = relationship("Subscription", back_populates="user")

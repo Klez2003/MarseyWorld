@@ -4,9 +4,9 @@ from random import randint
 from urllib.parse import parse_qs, urlencode, urlparse
 from flask import g
 
-from sqlalchemy import Column, ForeignKey
+from sqlalchemy import ForeignKey
 from sqlalchemy.dialects.postgresql import TSVECTOR
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.schema import FetchedValue
 from sqlalchemy.sql.sqltypes import *
 
@@ -172,47 +172,47 @@ def add_options(self, body, v):
 class Comment(Base):
 	__tablename__ = "comments"
 
-	id = Column(Integer, primary_key=True)
-	author_id = Column(Integer, ForeignKey("users.id"))
-	parent_post = Column(Integer, ForeignKey("posts.id"))
-	wall_user_id = Column(Integer, ForeignKey("users.id"))
-	created_utc = Column(Integer)
-	edited_utc = Column(Integer, default=0)
-	is_banned = Column(Boolean, default=False)
-	ghost = Column(Boolean, default=False)
-	bannedfor = Column(String)
-	chuddedfor = Column(String)
-	distinguished = Column(Boolean, default=False)
-	deleted_utc = Column(Integer, default=0)
-	is_approved = Column(Integer, ForeignKey("users.id"))
-	level = Column(Integer, default=1)
-	parent_comment_id = Column(Integer, ForeignKey("comments.id"))
-	top_comment_id = Column(Integer)
-	is_bot = Column(Boolean, default=False)
-	stickied = Column(String)
-	stickied_utc = Column(Integer)
-	num_of_pinned_children = Column(Integer, default=0)
-	sentto = Column(Integer, ForeignKey("users.id"))
-	app_id = Column(Integer, ForeignKey("oauth_apps.id"))
-	upvotes = Column(Integer, default=1)
-	downvotes = Column(Integer, default=0)
-	realupvotes = Column(Integer, default=1)
-	body = Column(String)
-	body_html = Column(String)
-	body_ts = Column(TSVECTOR(), server_default=FetchedValue())
-	ban_reason = Column(String)
-	treasure_amount = Column(String)
-	slots_result = Column(String)
-	ping_cost = Column(Integer, default=0)
-	blackjack_result = Column(String)
-	casino_game_id = Column(Integer, ForeignKey("casino_games.id"))
-	chudded = Column(Boolean, default=False)
-	rainbowed = Column(Boolean, default=False)
-	queened = Column(Boolean, default=False)
-	sharpened = Column(Boolean, default=False)
+	id: Mapped[int] = mapped_column(primary_key=True)
+	author_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+	parent_post: Mapped[int] = mapped_column(ForeignKey("posts.id"))
+	wall_user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+	created_utc: Mapped[int]
+	edited_utc: Mapped[int] = mapped_column(default=0)
+	is_banned: Mapped[bool] = mapped_column(default=False)
+	ghost: Mapped[bool] = mapped_column(default=False)
+	bannedfor: Mapped[str]
+	chuddedfor: Mapped[str]
+	distinguished: Mapped[bool] = mapped_column(default=False)
+	deleted_utc: Mapped[int] = mapped_column(default=0)
+	is_approved: Mapped[int] = mapped_column(ForeignKey("users.id"))
+	level: Mapped[int] = mapped_column(default=1)
+	parent_comment_id: Mapped[int] = mapped_column(ForeignKey("comments.id"))
+	top_comment_id: Mapped[int]
+	is_bot: Mapped[bool] = mapped_column(default=False)
+	stickied: Mapped[str]
+	stickied_utc: Mapped[int]
+	num_of_pinned_children: Mapped[int] = mapped_column(default=0)
+	sentto: Mapped[int] = mapped_column(ForeignKey("users.id"))
+	app_id: Mapped[int] = mapped_column(ForeignKey("oauth_apps.id"))
+	upvotes: Mapped[int] = mapped_column(default=1)
+	downvotes: Mapped[int] = mapped_column(default=0)
+	realupvotes: Mapped[int] = mapped_column(default=1)
+	body: Mapped[str]
+	body_html: Mapped[str]
+	body_ts: Mapped[str] = mapped_column(TSVECTOR(), server_default=FetchedValue())
+	ban_reason: Mapped[str]
+	treasure_amount: Mapped[str]
+	slots_result: Mapped[str]
+	ping_cost: Mapped[int] = mapped_column(default=0)
+	blackjack_result: Mapped[str]
+	casino_game_id: Mapped[int] = mapped_column(ForeignKey("casino_games.id"))
+	chudded: Mapped[bool] = mapped_column(default=False)
+	rainbowed: Mapped[bool] = mapped_column(default=False)
+	queened: Mapped[bool] = mapped_column(default=False)
+	sharpened: Mapped[bool] = mapped_column(default=False)
 
 	if FEATURES['NSFW_MARKING']:
-		nsfw = Column(Boolean, default=False)
+		nsfw: Mapped[bool] = mapped_column(default=False)
 	else:
 		nsfw = False
 

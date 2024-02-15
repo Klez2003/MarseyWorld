@@ -1,6 +1,7 @@
 import time
 
-from sqlalchemy import Column, ForeignKey
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
@@ -10,13 +11,13 @@ from files.helpers.lazy import lazy
 class Lottery(Base):
 	__tablename__ = "lotteries"
 
-	id = Column(Integer, primary_key=True)
-	is_active = Column(Boolean, default=False)
-	ends_at = Column(Integer)
-	prize = Column(Integer, default=0)
-	tickets_sold = Column(Integer, default=0)
-	winner_id = Column(Integer, ForeignKey("users.id"))
-	created_utc = Column(Integer)
+	id: Mapped[int] = mapped_column(primary_key=True)
+	is_active: Mapped[bool] = mapped_column(default=False)
+	ends_at: Mapped[int]
+	prize: Mapped[int] = mapped_column(default=0)
+	tickets_sold: Mapped[int] = mapped_column(default=0)
+	winner_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+	created_utc: Mapped[int]
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())

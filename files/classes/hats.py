@@ -1,7 +1,7 @@
 import time
 
-from sqlalchemy import Column, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql.sqltypes import *
 from flask import g
 
@@ -12,13 +12,13 @@ from files.helpers.slurs_and_profanities import censor_slurs_profanities
 class HatDef(Base):
 	__tablename__ = "hat_defs"
 
-	id = Column(Integer, primary_key=True)
-	name = Column(String)
-	description = Column(String)
-	author_id = Column(Integer, ForeignKey('users.id'))
-	price = Column(Integer)
-	submitter_id = Column(Integer, ForeignKey("users.id"))
-	created_utc = Column(Integer)
+	id: Mapped[int] = mapped_column(primary_key=True)
+	name: Mapped[str]
+	description: Mapped[str]
+	author_id: Mapped[int] = mapped_column(ForeignKey('users.id'))
+	price: Mapped[int]
+	submitter_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+	created_utc: Mapped[int]
 
 	author = relationship("User", primaryjoin="HatDef.author_id == User.id", back_populates="designed_hats")
 	submitter = relationship("User", primaryjoin="HatDef.submitter_id == User.id")
@@ -48,10 +48,10 @@ class HatDef(Base):
 class Hat(Base):
 	__tablename__ = "hats"
 
-	user_id = Column(Integer, ForeignKey('users.id'), primary_key=True)
-	hat_id = Column(Integer, ForeignKey('hat_defs.id'), primary_key=True)
-	equipped = Column(Boolean, default=False)
-	created_utc = Column(Integer)
+	user_id: Mapped[int] = mapped_column(ForeignKey('users.id'), primary_key=True)
+	hat_id: Mapped[int] = mapped_column(ForeignKey('hat_defs.id'), primary_key=True)
+	equipped: Mapped[bool] = mapped_column(default=False)
+	created_utc: Mapped[int]
 
 	hat_def = relationship("HatDef")
 	owners = relationship("User", back_populates="owned_hats")

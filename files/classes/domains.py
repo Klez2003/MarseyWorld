@@ -1,15 +1,15 @@
 import time
 
-from sqlalchemy import Column
+from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
 
 class BannedDomain(Base):
 	__tablename__ = "banneddomains"
-	domain = Column(String, primary_key=True)
-	reason = Column(String)
-	created_utc = Column(Integer)
+	domain: Mapped[str] = mapped_column(primary_key=True)
+	reason: Mapped[str]
+	created_utc: Mapped[int]
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())

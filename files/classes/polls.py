@@ -1,7 +1,7 @@
 import time
 
-from sqlalchemy import Column, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
@@ -10,11 +10,11 @@ from files.helpers.lazy import lazy
 class PostOption(Base):
 	__tablename__ = "post_options"
 
-	id = Column(Integer, primary_key=True)
-	parent_id = Column(Integer, ForeignKey("posts.id"))
-	body_html = Column(Text)
-	exclusive = Column(Integer)
-	created_utc = Column(Integer)
+	id: Mapped[int] = mapped_column(primary_key=True)
+	parent_id: Mapped[int] = mapped_column(ForeignKey("posts.id"))
+	body_html: Mapped[str] = mapped_column(Text)
+	exclusive: Mapped[int]
+	created_utc: Mapped[int]
 
 	votes = relationship("PostOptionVote")
 	parent = relationship("Post", back_populates="options")
@@ -40,10 +40,10 @@ class PostOptionVote(Base):
 
 	__tablename__ = "post_option_votes"
 
-	option_id = Column(Integer, ForeignKey("post_options.id"), primary_key=True)
-	user_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
-	created_utc = Column(Integer)
-	post_id = Column(Integer, ForeignKey("posts.id"))
+	option_id: Mapped[int] = mapped_column(ForeignKey("post_options.id"), primary_key=True)
+	user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), primary_key=True)
+	created_utc: Mapped[int]
+	post_id: Mapped[int] = mapped_column(ForeignKey("posts.id"))
 
 	user = relationship("User")
 
@@ -59,11 +59,11 @@ class CommentOption(Base):
 
 	__tablename__ = "comment_options"
 
-	id = Column(Integer, primary_key=True)
-	parent_id = Column(Integer, ForeignKey("comments.id"))
-	body_html = Column(Text)
-	exclusive = Column(Integer)
-	created_utc = Column(Integer)
+	id: Mapped[int] = mapped_column(primary_key=True)
+	parent_id: Mapped[int] = mapped_column(ForeignKey("comments.id"))
+	body_html: Mapped[str] = mapped_column(Text)
+	exclusive: Mapped[int]
+	created_utc: Mapped[int]
 
 	votes = relationship("CommentOptionVote")
 	parent = relationship("Comment", back_populates="options")
@@ -89,10 +89,10 @@ class CommentOptionVote(Base):
 
 	__tablename__ = "comment_option_votes"
 
-	option_id = Column(Integer, ForeignKey("comment_options.id"), primary_key=True)
-	user_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
-	created_utc = Column(Integer)
-	comment_id = Column(Integer, ForeignKey("comments.id"))
+	option_id: Mapped[int] = mapped_column(ForeignKey("comment_options.id"), primary_key=True)
+	user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), primary_key=True)
+	created_utc: Mapped[int]
+	comment_id: Mapped[int] = mapped_column(ForeignKey("comments.id"))
 
 	user = relationship("User")
 

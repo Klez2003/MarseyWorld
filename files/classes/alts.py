@@ -1,6 +1,7 @@
 import time
 
-from sqlalchemy import Column, ForeignKey
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
@@ -8,10 +9,10 @@ from files.classes import Base
 class Alt(Base):
 	__tablename__ = "alts"
 
-	user1 = Column(Integer, ForeignKey("users.id"), primary_key=True)
-	user2 = Column(Integer, ForeignKey("users.id"), primary_key=True)
-	is_manual = Column(Boolean, default=False)
-	created_utc = Column(Integer)
+	user1: Mapped[int] = mapped_column(ForeignKey("users.id"), primary_key=True)
+	user2: Mapped[int] = mapped_column(ForeignKey("users.id"), primary_key=True)
+	is_manual: Mapped[bool] = mapped_column(default=False)
+	created_utc: Mapped[int]
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())

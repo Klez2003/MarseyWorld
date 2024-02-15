@@ -3,8 +3,8 @@ import time
 from urllib.parse import urlparse
 from flask import g
 
-from sqlalchemy import Column, FetchedValue, ForeignKey
-from sqlalchemy.orm import deferred, relationship
+from sqlalchemy import FetchedValue, ForeignKey
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
@@ -25,57 +25,57 @@ from .saves import SaveRelationship
 class Post(Base):
 	__tablename__ = "posts"
 
-	id = Column(Integer, primary_key=True)
-	author_id = Column(Integer, ForeignKey("users.id"))
-	edited_utc = Column(Integer, default=0)
-	created_utc = Column(Integer)
-	thumburl = Column(String)
-	posterurl = Column(String)
-	is_banned = Column(Boolean, default=False)
-	bannedfor = Column(String)
-	chuddedfor = Column(String)
-	ghost = Column(Boolean, default=False)
-	effortpost = Column(Boolean, default=False)
-	views = Column(Integer, default=0)
-	deleted_utc = Column(Integer, default=0)
-	distinguished = Column(Boolean, default=False)
-	stickied = Column(String)
-	stickied_utc = Column(Integer)
-	hole_pinned = Column(String)
-	hole = Column(String, ForeignKey("holes.name"))
-	is_pinned = Column(Boolean, default=False)
-	private = Column(Boolean, default=False)
-	comment_count = Column(Integer, default=0)
-	is_approved = Column(Integer, ForeignKey("users.id"))
-	is_bot = Column(Boolean, default=False)
-	upvotes = Column(Integer, default=1)
-	downvotes = Column(Integer, default=0)
-	realupvotes = Column(Integer, default=1)
-	app_id = Column(Integer, ForeignKey("oauth_apps.id"))
-	title = Column(String)
-	title_html = Column(String)
-	url = Column(String)
-	body = Column(String)
-	body_html = Column(String)
-	flair = Column(String)
-	ban_reason = Column(String)
-	embed = Column(String)
-	new = Column(Boolean)
-	notify = Column(Boolean)
-	chudded = Column(Boolean, default=False)
-	rainbowed = Column(Boolean, default=False)
-	queened = Column(Boolean, default=False)
-	sharpened = Column(Boolean, default=False)
-	ping_cost = Column(Integer, default=0)
-	bump_utc = Column(Integer)
+	id: Mapped[int] = mapped_column(primary_key=True)
+	author_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+	edited_utc: Mapped[int] = mapped_column(default=0)
+	created_utc: Mapped[int]
+	thumburl: Mapped[str]
+	posterurl: Mapped[str]
+	is_banned: Mapped[bool] = mapped_column(default=False)
+	bannedfor: Mapped[str]
+	chuddedfor: Mapped[str]
+	ghost: Mapped[bool] = mapped_column(default=False)
+	effortpost: Mapped[bool] = mapped_column(default=False)
+	views: Mapped[int] = mapped_column(default=0)
+	deleted_utc: Mapped[int] = mapped_column(default=0)
+	distinguished: Mapped[bool] = mapped_column(default=False)
+	stickied: Mapped[str]
+	stickied_utc: Mapped[int]
+	hole_pinned: Mapped[str]
+	hole: Mapped[str] = mapped_column(ForeignKey("holes.name"))
+	is_pinned: Mapped[bool] = mapped_column(default=False)
+	private: Mapped[bool] = mapped_column(default=False)
+	comment_count: Mapped[int] = mapped_column(default=0)
+	is_approved: Mapped[int] = mapped_column(ForeignKey("users.id"))
+	is_bot: Mapped[bool] = mapped_column(default=False)
+	upvotes: Mapped[int] = mapped_column(default=1)
+	downvotes: Mapped[int] = mapped_column(default=0)
+	realupvotes: Mapped[int] = mapped_column(default=1)
+	app_id: Mapped[int] = mapped_column(ForeignKey("oauth_apps.id"))
+	title: Mapped[str]
+	title_html: Mapped[str]
+	url: Mapped[str]
+	body: Mapped[str]
+	body_html: Mapped[str]
+	flair: Mapped[str]
+	ban_reason: Mapped[str]
+	embed: Mapped[str]
+	new: Mapped[bool]
+	notify: Mapped[bool]
+	chudded: Mapped[bool] = mapped_column(default=False)
+	rainbowed: Mapped[bool] = mapped_column(default=False)
+	queened: Mapped[bool] = mapped_column(default=False)
+	sharpened: Mapped[bool] = mapped_column(default=False)
+	ping_cost: Mapped[int] = mapped_column(default=0)
+	bump_utc: Mapped[int]
 
 	if FEATURES['NSFW_MARKING']:
-		nsfw = Column(Boolean, default=False)
+		nsfw: Mapped[bool] = mapped_column(default=False)
 	else:
 		nsfw = False
 
 	if SITE_NAME == 'WPD':
-		cw = Column(Boolean, default=False)
+		cw: Mapped[bool] = mapped_column(default=False)
 
 	author = relationship("User", primaryjoin="Post.author_id==User.id")
 	oauth_app = relationship("OauthApp")

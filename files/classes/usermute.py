@@ -1,16 +1,16 @@
 import time
 
-from sqlalchemy import Column, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
 
 class UserMute(Base):
 	__tablename__ = "usermutes"
-	user_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
-	target_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
-	created_utc = Column(Integer)
+	user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), primary_key=True)
+	target_id: Mapped[int] = mapped_column(ForeignKey("users.id"), primary_key=True)
+	created_utc: Mapped[int]
 
 	user = relationship("User", primaryjoin="User.id==UserMute.user_id")
 	target = relationship("User", primaryjoin="User.id==UserMute.target_id")

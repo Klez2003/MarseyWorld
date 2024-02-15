@@ -1,16 +1,16 @@
-from sqlalchemy import Column
+from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
 
 class Transaction(Base):
 	__tablename__ = "transactions"
-	id = Column(String, primary_key=True)
-	created_utc = Column(Integer)
-	type = Column(String)
-	amount = Column(Integer)
-	email = Column(String)
-	claimed = Column(Boolean)
+	id: Mapped[str] = mapped_column(primary_key=True)
+	created_utc: Mapped[int]
+	type: Mapped[str]
+	amount: Mapped[int]
+	email: Mapped[str]
+	claimed: Mapped[bool]
 
 	def __repr__(self):
 		return f"<{self.__class__.__name__}(id={self.id})>"

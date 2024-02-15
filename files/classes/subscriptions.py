@@ -1,16 +1,16 @@
 import time
 
-from sqlalchemy import Column, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
 
 class Subscription(Base):
 	__tablename__ = "subscriptions"
-	user_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
-	post_id = Column(Integer, ForeignKey("posts.id"), primary_key=True)
-	created_utc = Column(Integer)
+	user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), primary_key=True)
+	post_id: Mapped[int] = mapped_column(ForeignKey("posts.id"), primary_key=True)
+	created_utc: Mapped[int]
 
 	user = relationship("User", uselist=False)
 	post = relationship("Post", uselist=False)

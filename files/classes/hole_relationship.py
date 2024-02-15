@@ -1,7 +1,7 @@
 import time
 
-from sqlalchemy import Column, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import Mapped, relationship, mapped_column
 from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
@@ -10,9 +10,9 @@ class HoleRelationship(Base):
 	__tablename__ = NotImplemented
 	__abstract__ = True
 
-	user_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
-	hole = Column(String, ForeignKey("holes.name"), primary_key=True)
-	created_utc = Column(Integer)
+	user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), primary_key=True)
+	hole: Mapped[str] = mapped_column(ForeignKey("holes.name"), primary_key=True)
+	created_utc: Mapped[int]
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
@@ -35,5 +35,5 @@ class Mod(HoleRelationship):
 
 class Exile(HoleRelationship):
 	__tablename__ = "exiles"
-	exiler_id = Column(Integer, ForeignKey("users.id"))
+	exiler_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
 	exiler = relationship("User", primaryjoin="User.id==Exile.exiler_id")

@@ -2,7 +2,8 @@ import time
 from flask import g, abort
 import requests
 
-from sqlalchemy import Column, or_
+from sqlalchemy import or_
+from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
@@ -13,13 +14,13 @@ from files.helpers.config.const import *
 class Orgy(Base):
 	__tablename__ = "orgies"
 
-	created_utc = Column(Integer, primary_key=True)
-	type = Column(String)
-	data = Column(String)
-	title = Column(String)
-	start_utc = Column(Integer)
-	end_utc = Column(Integer)
-	started = Column(Boolean, default=False)
+	created_utc: Mapped[int] = mapped_column(primary_key=True)
+	type: Mapped[str]
+	data: Mapped[str]
+	title: Mapped[str]
+	start_utc: Mapped[int]
+	end_utc: Mapped[int]
+	started: Mapped[bool] = mapped_column(default=False)
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())

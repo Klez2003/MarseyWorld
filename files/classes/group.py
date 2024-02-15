@@ -1,7 +1,6 @@
 import time
 
-from sqlalchemy import Column
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.types import Integer
 
 from files.classes import Base
@@ -12,11 +11,11 @@ from .group_membership import *
 
 class Group(Base):
 	__tablename__ = "groups"
-	name = Column(String, primary_key=True)
-	created_utc = Column(Integer)
-	owner_id = Column(Integer, ForeignKey("users.id"))
-	description = Column(String)
-	description_html = Column(String)
+	name: Mapped[str] = mapped_column(primary_key=True)
+	created_utc: Mapped[int]
+	owner_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+	description: Mapped[str]
+	description_html: Mapped[str]
 
 	memberships = relationship("GroupMembership", primaryjoin="GroupMembership.group_name==Group.name", order_by="GroupMembership.approved_utc")
 	owner = relationship("User", primaryjoin="Group.owner_id==User.id")

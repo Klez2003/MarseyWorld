@@ -1,10 +1,9 @@
 import random
 import time
+from typing import Annotated
 
-from sqlalchemy import Column
 from sqlalchemy.ext.mutable import MutableList
-from sqlalchemy.orm import relationship, deferred
-from sqlalchemy.types import *
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.dialects.postgresql import ARRAY
 
 from files.classes import Base
@@ -15,20 +14,20 @@ from .hole_relationship import *
 
 class Hole(Base):
 	__tablename__ = "holes"
-	name = Column(String, primary_key=True)
-	sidebar = Column(String)
-	sidebar_html = Column(String)
-	sidebarurls = Column(MutableList.as_mutable(ARRAY(String)), default=MutableList([]))
-	bannerurls = Column(MutableList.as_mutable(ARRAY(String)), default=MutableList([]))
-	marseyurl = Column(String)
-	css = deferred(Column(String))
-	stealth = Column(Boolean, default=False)
-	public_use = Column(Boolean, default=False)
-	created_utc = Column(Integer)
+	name: Mapped[str] = mapped_column(primary_key=True)
+	sidebar: Mapped[str]
+	sidebar_html: Mapped[str]
+	sidebarurls: Mapped[list[str]] = mapped_column(MutableList.as_mutable(ARRAY(String)), default=MutableList([]))
+	bannerurls: Mapped[list[str]] = mapped_column(MutableList.as_mutable(ARRAY(String)), default=MutableList([]))
+	marseyurl: Mapped[str]
+	css: Mapped[str] = mapped_column(deferred=True)
+	stealth: Mapped[bool] = mapped_column(default=False)
+	public_use: Mapped[bool] = mapped_column(default=False)
+	created_utc: Mapped[int]
 	if SITE_NAME == 'WPD':
 		snappy_quotes = None
 	else:
-		snappy_quotes = deferred(Column(String))
+		snappy_quotes: Mapped[Annotated[str, HOLE_SNAPPY_QUOTES_LENGTH]] = mapped_column(deferred=True)
 
 	blocks = relationship("HoleBlock", primaryjoin="HoleBlock.hole==Hole.name")
 	followers = relationship("HoleFollow", primaryjoin="HoleFollow.hole==Hole.name")

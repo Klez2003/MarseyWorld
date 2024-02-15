@@ -1,8 +1,8 @@
 import json
 import time
 
-from sqlalchemy import Column, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
@@ -13,15 +13,15 @@ CASINO_GAME_KINDS = ['blackjack', 'slots', 'roulette']
 class CasinoGame(Base):
 	__tablename__ = "casino_games"
 
-	id = Column(Integer, primary_key=True)
-	user_id = Column(Integer, ForeignKey("users.id"))
-	created_utc = Column(Integer)
-	active = Column(Boolean, default=True)
-	currency = Column(String)
-	wager = Column(Integer)
-	winnings = Column(Integer)
-	kind = Column(String)
-	game_state = Column(JSON)
+	id: Mapped[int] = mapped_column(primary_key=True)
+	user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+	created_utc: Mapped[int]
+	active: Mapped[bool] = mapped_column(default=True)
+	currency: Mapped[str]
+	wager: Mapped[int]
+	winnings: Mapped[int]
+	kind: Mapped[str]
+	game_state: Mapped[str] = mapped_column(JSON)
 
 	user = relationship("User")
 

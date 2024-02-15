@@ -1,17 +1,17 @@
 import time
 
-from sqlalchemy import Column, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
 
 class IPLog(Base):
 	__tablename__ = "ip_logs"
-	user_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
-	ip = Column(String, primary_key=True)
-	created_utc = Column(Integer)
-	last_used = Column(Integer)
+	user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), primary_key=True)
+	ip: Mapped[str] = mapped_column(primary_key=True)
+	created_utc: Mapped[int]
+	last_used: Mapped[int]
 
 	user = relationship("User")
 

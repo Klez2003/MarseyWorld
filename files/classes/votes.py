@@ -1,7 +1,7 @@
 import time
 
-from sqlalchemy import Column, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
@@ -10,12 +10,12 @@ from files.helpers.lazy import lazy
 class Vote(Base):
 	__tablename__ = "votes"
 
-	post_id = Column(Integer, ForeignKey("posts.id"), primary_key=True)
-	user_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
-	vote_type = Column(Integer)
-	real = Column(Boolean, default=True)
-	coins = Column(Integer, default=1)
-	created_utc = Column(Integer)
+	post_id: Mapped[int] = mapped_column(ForeignKey("posts.id"), primary_key=True)
+	user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), primary_key=True)
+	vote_type: Mapped[int]
+	real: Mapped[bool] = mapped_column(default=True)
+	coins: Mapped[int] = mapped_column(default=1)
+	created_utc: Mapped[int]
 
 	user = relationship("User")
 
@@ -40,12 +40,12 @@ class CommentVote(Base):
 
 	__tablename__ = "commentvotes"
 
-	comment_id = Column(Integer, ForeignKey("comments.id"), primary_key=True)
-	user_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
-	vote_type = Column(Integer)
-	real = Column(Boolean, default=True)
-	coins = Column(Integer, default=1)
-	created_utc = Column(Integer)
+	comment_id: Mapped[int] = mapped_column(ForeignKey("comments.id"), primary_key=True)
+	user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), primary_key=True)
+	vote_type: Mapped[int]
+	real: Mapped[bool] = mapped_column(default=True)
+	coins: Mapped[int] = mapped_column(default=1)
+	created_utc: Mapped[int]
 
 	user = relationship("User")
 

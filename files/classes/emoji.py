@@ -1,6 +1,7 @@
 import time
 
-from sqlalchemy import Column, ForeignKey
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
@@ -8,14 +9,14 @@ from files.classes import Base
 class Emoji(Base):
 	__tablename__ = "emojis"
 
-	name = Column(String, primary_key=True)
-	kind = Column(String)
-	author_id = Column(Integer, ForeignKey("users.id"))
-	tags = Column(String)
-	count = Column(Integer, default=0)
-	submitter_id = Column(Integer, ForeignKey("users.id"))
-	created_utc = Column(Integer)
-	nsfw = Column(Boolean, default=False)
+	name: Mapped[str] = mapped_column(primary_key=True)
+	kind: Mapped[str]
+	author_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+	tags: Mapped[str]
+	count: Mapped[int] = mapped_column(default=0)
+	submitter_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+	created_utc: Mapped[int]
+	nsfw: Mapped[bool] = mapped_column(default=False)
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())

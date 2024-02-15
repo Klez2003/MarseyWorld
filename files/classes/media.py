@@ -1,16 +1,17 @@
 import time
 
-from sqlalchemy import Column, ForeignKey
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy.sql.sqltypes import *
 from files.classes import Base
 
 class Media(Base):
 	__tablename__ = "media"
-	kind = Column(String, primary_key=True)
-	filename = Column(String, primary_key=True)
-	user_id = Column(Integer, ForeignKey("users.id"))
-	created_utc = Column(Integer)
-	size = Column(Integer)
+	kind: Mapped[str] = mapped_column(primary_key=True)
+	filename: Mapped[str] = mapped_column(primary_key=True)
+	user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+	created_utc: Mapped[int]
+	size: Mapped[int]
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())

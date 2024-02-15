@@ -1,7 +1,7 @@
 import time
 
-from sqlalchemy import Column, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
@@ -11,10 +11,10 @@ from files.helpers.lazy import lazy
 class BadgeDef(Base):
 	__tablename__ = "badge_defs"
 
-	id = Column(Integer, primary_key=True, autoincrement=True)
-	name = Column(String)
-	description = Column(String)
-	created_utc = Column(Integer)
+	id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+	name: Mapped[str]
+	description: Mapped[str]
+	created_utc: Mapped[int]
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
@@ -32,11 +32,11 @@ class Badge(Base):
 
 	__tablename__ = "badges"
 
-	user_id = Column(Integer, ForeignKey('users.id'), primary_key=True)
-	badge_id = Column(Integer, ForeignKey('badge_defs.id'), primary_key=True)
-	description = Column(String)
-	url = Column(String)
-	created_utc = Column(Integer)
+	user_id: Mapped[int] = mapped_column(ForeignKey('users.id'), primary_key=True)
+	badge_id: Mapped[int] = mapped_column(ForeignKey('badge_defs.id'), primary_key=True)
+	description: Mapped[str]
+	url: Mapped[str]
+	created_utc: Mapped[int]
 
 	user = relationship("User", back_populates="badges")
 	badge = relationship("BadgeDef", primaryjoin="Badge.badge_id == BadgeDef.id", lazy="joined", innerjoin=True)

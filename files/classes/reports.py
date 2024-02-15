@@ -1,7 +1,7 @@
 import time
 
-from sqlalchemy import Column, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
@@ -11,10 +11,10 @@ from files.helpers.slurs_and_profanities import censor_slurs_profanities
 class Report(Base):
 	__tablename__ = "reports"
 
-	post_id = Column(Integer, ForeignKey("posts.id"), primary_key=True)
-	user_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
-	reason = Column(String)
-	created_utc = Column(Integer)
+	post_id: Mapped[int] = mapped_column(ForeignKey("posts.id"), primary_key=True)
+	user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), primary_key=True)
+	reason: Mapped[str]
+	created_utc: Mapped[int]
 
 	user = relationship("User", primaryjoin = "Report.user_id == User.id", uselist = False)
 
@@ -39,10 +39,10 @@ class Report(Base):
 class CommentReport(Base):
 	__tablename__ = "commentreports"
 
-	comment_id = Column(Integer, ForeignKey("comments.id"), primary_key=True)
-	user_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
-	reason = Column(String)
-	created_utc = Column(Integer)
+	comment_id: Mapped[int] = mapped_column(ForeignKey("comments.id"), primary_key=True)
+	user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), primary_key=True)
+	reason: Mapped[str]
+	created_utc: Mapped[int]
 
 	user = relationship("User", primaryjoin = "CommentReport.user_id == User.id", uselist = False)
 

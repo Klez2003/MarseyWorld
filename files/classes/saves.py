@@ -1,7 +1,7 @@
 import time
 
-from sqlalchemy import Column, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
@@ -9,9 +9,9 @@ from files.classes import Base
 class SaveRelationship(Base):
 	__tablename__ = "save_relationship"
 
-	user_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
-	post_id = Column(Integer, ForeignKey("posts.id"), primary_key=True)
-	created_utc = Column(Integer)
+	user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), primary_key=True)
+	post_id: Mapped[int] = mapped_column(ForeignKey("posts.id"), primary_key=True)
+	created_utc: Mapped[int]
 
 	post = relationship("Post", uselist=False)
 
@@ -27,9 +27,9 @@ class CommentSaveRelationship(Base):
 
 	__tablename__ = "comment_save_relationship"
 
-	user_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
-	comment_id = Column(Integer, ForeignKey("comments.id"), primary_key=True)
-	created_utc = Column(Integer)
+	user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), primary_key=True)
+	comment_id: Mapped[int] = mapped_column(ForeignKey("comments.id"), primary_key=True)
+	created_utc: Mapped[int]
 
 	comment = relationship("Comment", uselist=False)
 

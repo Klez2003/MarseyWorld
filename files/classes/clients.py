@@ -1,8 +1,8 @@
 import time
 
 from flask import g
-from sqlalchemy import Column, ForeignKey
-from sqlalchemy.orm import relationship, load_only
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import Mapped, load_only, mapped_column, relationship
 from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
@@ -15,13 +15,13 @@ from .post import Post
 class OauthApp(Base):
 	__tablename__ = "oauth_apps"
 
-	id = Column(Integer, primary_key=True)
-	client_id = Column(String)
-	app_name = Column(String)
-	redirect_uri = Column(String)
-	description = Column(String)
-	author_id = Column(Integer, ForeignKey("users.id"))
-	created_utc = Column(Integer)
+	id: Mapped[int] = mapped_column(primary_key=True)
+	client_id: Mapped[str]
+	app_name: Mapped[str]
+	redirect_uri: Mapped[str]
+	description: Mapped[str]
+	author_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+	created_utc: Mapped[int]
 
 	author = relationship("User", back_populates="apps")
 
@@ -51,10 +51,10 @@ class OauthApp(Base):
 
 class ClientAuth(Base):
 	__tablename__ = "client_auths"
-	user_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
-	oauth_client = Column(Integer, ForeignKey("oauth_apps.id"), primary_key=True)
-	access_token = Column(String)
-	created_utc = Column(Integer)
+	user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), primary_key=True)
+	oauth_client: Mapped[int] = mapped_column(ForeignKey("oauth_apps.id"), primary_key=True)
+	access_token: Mapped[str]
+	created_utc: Mapped[int]
 
 	user = relationship("User")
 	application = relationship("OauthApp")
