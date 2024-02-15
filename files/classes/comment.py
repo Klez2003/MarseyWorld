@@ -225,7 +225,7 @@ class Comment(Base):
 	post: Mapped["Post"] = relationship(back_populates="comments")
 	author: Mapped["User"] = relationship(primaryjoin="User.id==Comment.author_id")
 	senttouser: Mapped["User"] = relationship(primaryjoin="User.id==Comment.sentto")
-	parent_comment: Mapped["Comment"] = relationship(remote_side=[id])
+	parent_comment: Mapped["Comment"] = relationship(remote_side="Comment.id")
 	awards: Mapped[list["AwardRelationship"]] = relationship(order_by="AwardRelationship.awarded_utc.desc()", back_populates="comment")
 	reports: Mapped[list["CommentReport"]] = relationship(order_by="CommentReport.created_utc")
 	options: Mapped[list["CommentOption"]] = relationship(order_by="CommentOption.id")
