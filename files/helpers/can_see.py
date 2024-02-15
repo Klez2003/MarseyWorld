@@ -6,6 +6,7 @@ from flask import request
 
 def can_see(user, other):
 	if isinstance(other, (Post, Comment)):
+		if not user and other.nsfw: return False
 		if not can_see(user, other.author): return False
 		if user and user.id == other.author_id: return True
 		if isinstance(other, Post):
