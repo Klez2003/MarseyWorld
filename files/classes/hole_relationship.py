@@ -1,5 +1,5 @@
 import time
-from typing import TYPE_CHECKING
+from typing import Optional, TYPE_CHECKING
 
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, relationship, mapped_column
@@ -17,7 +17,7 @@ class HoleRelationship(Base):
 
 	user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), primary_key=True)
 	hole: Mapped[str] = mapped_column(ForeignKey("holes.name"), primary_key=True)
-	created_utc: Mapped[int]
+	created_utc: Mapped[Optional[int]]
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())

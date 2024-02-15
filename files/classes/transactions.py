@@ -1,3 +1,5 @@
+from typing import Optional
+
 from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy.sql.sqltypes import *
 
@@ -10,7 +12,7 @@ class Transaction(Base):
 	type: Mapped[str]
 	amount: Mapped[int]
 	email: Mapped[str]
-	claimed: Mapped[bool]
+	claimed: Mapped[Optional[bool]]
 
 	def __repr__(self):
 		return f"<{self.__class__.__name__}(id={self.id})>"

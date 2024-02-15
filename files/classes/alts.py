@@ -1,4 +1,5 @@
 import time
+from typing import Optional
 
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column
@@ -12,7 +13,7 @@ class Alt(Base):
 	user1: Mapped[int] = mapped_column(ForeignKey("users.id"), primary_key=True)
 	user2: Mapped[int] = mapped_column(ForeignKey("users.id"), primary_key=True)
 	is_manual: Mapped[bool] = mapped_column(default=False)
-	created_utc: Mapped[int]
+	created_utc: Mapped[Optional[int]]
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())

@@ -1,6 +1,6 @@
 import random
 import time
-from typing import TYPE_CHECKING
+from typing import Optional, TYPE_CHECKING
 from urllib.parse import urlparse
 from flask import g
 
@@ -34,38 +34,38 @@ class Post(Base):
 	author_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
 	edited_utc: Mapped[int] = mapped_column(default=0)
 	created_utc: Mapped[int]
-	thumburl: Mapped[str]
-	posterurl: Mapped[str]
+	thumburl: Mapped[Optional[str]]
+	posterurl: Mapped[Optional[str]]
 	is_banned: Mapped[bool] = mapped_column(default=False)
-	bannedfor: Mapped[str]
-	chuddedfor: Mapped[str]
+	bannedfor: Mapped[Optional[str]]
+	chuddedfor: Mapped[Optional[str]]
 	ghost: Mapped[bool] = mapped_column(default=False)
 	effortpost: Mapped[bool] = mapped_column(default=False)
 	views: Mapped[int] = mapped_column(default=0)
 	deleted_utc: Mapped[int] = mapped_column(default=0)
 	distinguished: Mapped[bool] = mapped_column(default=False)
-	stickied: Mapped[str]
-	stickied_utc: Mapped[int]
-	hole_pinned: Mapped[str]
-	hole: Mapped[str] = mapped_column(ForeignKey("holes.name"))
+	stickied: Mapped[Optional[str]]
+	stickied_utc: Mapped[Optional[int]]
+	hole_pinned: Mapped[Optional[str]]
+	hole: Mapped[Optional[str]] = mapped_column(ForeignKey("holes.name"))
 	is_pinned: Mapped[bool] = mapped_column(default=False)
 	private: Mapped[bool] = mapped_column(default=False)
 	comment_count: Mapped[int] = mapped_column(default=0)
-	is_approved: Mapped[int] = mapped_column(ForeignKey("users.id"))
+	is_approved: Mapped[Optional[int]] = mapped_column(ForeignKey("users.id"))
 	is_bot: Mapped[bool] = mapped_column(default=False)
 	upvotes: Mapped[int] = mapped_column(default=1)
 	downvotes: Mapped[int] = mapped_column(default=0)
-	realupvotes: Mapped[int] = mapped_column(default=1)
-	app_id: Mapped[int] = mapped_column(ForeignKey("oauth_apps.id"))
+	realupvotes: Mapped[Optional[int]] = mapped_column(default=1)
+	app_id: Mapped[Optional[int]] = mapped_column(ForeignKey("oauth_apps.id"))
 	title: Mapped[str]
 	title_html: Mapped[str]
-	url: Mapped[str]
-	body: Mapped[str]
-	body_html: Mapped[str]
-	flair: Mapped[str]
-	ban_reason: Mapped[str]
-	embed: Mapped[str]
-	new: Mapped[bool]
+	url: Mapped[Optional[str]]
+	body: Mapped[Optional[str]]
+	body_html: Mapped[Optional[str]]
+	flair: Mapped[Optional[str]]
+	ban_reason: Mapped[Optional[str]]
+	embed: Mapped[Optional[str]]
+	new: Mapped[Optional[bool]]
 	notify: Mapped[bool]
 	chudded: Mapped[bool] = mapped_column(default=False)
 	rainbowed: Mapped[bool] = mapped_column(default=False)

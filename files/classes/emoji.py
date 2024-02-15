@@ -1,4 +1,5 @@
 import time
+from typing import Optional
 
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column
@@ -14,7 +15,7 @@ class Emoji(Base):
 	author_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
 	tags: Mapped[str]
 	count: Mapped[int] = mapped_column(default=0)
-	submitter_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+	submitter_id: Mapped[Optional[int]] = mapped_column(ForeignKey("users.id"))
 	created_utc: Mapped[int]
 	nsfw: Mapped[bool] = mapped_column(default=False)
 

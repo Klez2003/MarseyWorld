@@ -1,4 +1,5 @@
 import time
+from typing import Optional
 
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column
@@ -16,8 +17,8 @@ class Lottery(Base):
 	ends_at: Mapped[int]
 	prize: Mapped[int] = mapped_column(default=0)
 	tickets_sold: Mapped[int] = mapped_column(default=0)
-	winner_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
-	created_utc: Mapped[int]
+	winner_id: Mapped[Optional[int]] = mapped_column(ForeignKey("users.id"))
+	created_utc: Mapped[Optional[int]]
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())

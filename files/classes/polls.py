@@ -1,5 +1,5 @@
 import time
-from typing import TYPE_CHECKING
+from typing import Optional, TYPE_CHECKING
 
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -19,7 +19,7 @@ class PostOption(Base):
 	parent_id: Mapped[int] = mapped_column(ForeignKey("posts.id"))
 	body_html: Mapped[str] = mapped_column(Text)
 	exclusive: Mapped[int]
-	created_utc: Mapped[int]
+	created_utc: Mapped[Optional[int]]
 
 	votes: Mapped[list["PostOptionVote"]] = relationship()
 	parent: Mapped["Post"] = relationship(back_populates="options")
@@ -48,7 +48,7 @@ class PostOptionVote(Base):
 	option_id: Mapped[int] = mapped_column(ForeignKey("post_options.id"), primary_key=True)
 	user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), primary_key=True)
 	created_utc: Mapped[int]
-	post_id: Mapped[int] = mapped_column(ForeignKey("posts.id"))
+	post_id: Mapped[Optional[int]] = mapped_column(ForeignKey("posts.id"))
 
 	user: Mapped["User"] = relationship()
 
@@ -68,7 +68,7 @@ class CommentOption(Base):
 	parent_id: Mapped[int] = mapped_column(ForeignKey("comments.id"))
 	body_html: Mapped[str] = mapped_column(Text)
 	exclusive: Mapped[int]
-	created_utc: Mapped[int]
+	created_utc: Mapped[Optional[int]]
 
 	votes: Mapped[list["CommentOptionVote"]] = relationship()
 	parent: Mapped["Comment"] = relationship(back_populates="options")
@@ -97,7 +97,7 @@ class CommentOptionVote(Base):
 	option_id: Mapped[int] = mapped_column(ForeignKey("comment_options.id"), primary_key=True)
 	user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), primary_key=True)
 	created_utc: Mapped[int]
-	comment_id: Mapped[int] = mapped_column(ForeignKey("comments.id"))
+	comment_id: Mapped[Optional[int]] = mapped_column(ForeignKey("comments.id"))
 
 	user: Mapped["User"] = relationship()
 

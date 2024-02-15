@@ -1,5 +1,5 @@
 import time
-from typing import TYPE_CHECKING
+from typing import Annotated, Optional, TYPE_CHECKING
 
 from flask import g
 from sqlalchemy import ForeignKey
@@ -21,12 +21,12 @@ class OauthApp(Base):
 	__tablename__ = "oauth_apps"
 
 	id: Mapped[int] = mapped_column(primary_key=True)
-	client_id: Mapped[str]
+	client_id: Mapped[Optional[Annotated[str, 64]]]
 	app_name: Mapped[str]
 	redirect_uri: Mapped[str]
 	description: Mapped[str]
 	author_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
-	created_utc: Mapped[int]
+	created_utc: Mapped[Optional[int]]
 
 	author: Mapped["User"] = relationship(back_populates="apps")
 
@@ -59,7 +59,7 @@ class ClientAuth(Base):
 	user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), primary_key=True)
 	oauth_client: Mapped[int] = mapped_column(ForeignKey("oauth_apps.id"), primary_key=True)
 	access_token: Mapped[str]
-	created_utc: Mapped[int]
+	created_utc: Mapped[Optional[int]]
 
 	user: Mapped["User"] = relationship()
 	application: Mapped["OauthApp"] = relationship()

@@ -1,6 +1,7 @@
 import time
 from flask import g, abort
 import requests
+from typing import Optional
 
 from sqlalchemy import or_
 from sqlalchemy.orm import Mapped, mapped_column
@@ -19,7 +20,7 @@ class Orgy(Base):
 	data: Mapped[str]
 	title: Mapped[str]
 	start_utc: Mapped[int]
-	end_utc: Mapped[int]
+	end_utc: Mapped[Optional[int]]
 	started: Mapped[bool] = mapped_column(default=False)
 
 	def __init__(self, *args, **kwargs):

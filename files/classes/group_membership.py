@@ -1,5 +1,5 @@
 import time
-from typing import TYPE_CHECKING
+from typing import Optional, TYPE_CHECKING
 
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -16,7 +16,7 @@ class GroupMembership(Base):
 	user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), primary_key=True)
 	group_name: Mapped[str] = mapped_column(ForeignKey("groups.name"), primary_key=True)
 	created_utc: Mapped[int]
-	approved_utc: Mapped[int]
+	approved_utc: Mapped[Optional[int]]
 	is_mod: Mapped[bool] = mapped_column(default=False)
 
 	user: Mapped["User"] = relationship(uselist=False)

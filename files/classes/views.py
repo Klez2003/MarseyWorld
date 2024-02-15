@@ -1,5 +1,5 @@
 import time
-from typing import TYPE_CHECKING
+from typing import Optional, TYPE_CHECKING
 
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -19,7 +19,7 @@ class ViewerRelationship(Base):
 	user_id: Mapped[int] = mapped_column(ForeignKey('users.id'), primary_key=True)
 	viewer_id: Mapped[int] = mapped_column(ForeignKey('users.id'), primary_key=True)
 	last_view_utc: Mapped[int]
-	created_utc: Mapped[int]
+	created_utc: Mapped[Optional[int]]
 
 	viewer: Mapped["User"] = relationship(primaryjoin="ViewerRelationship.viewer_id == User.id")
 

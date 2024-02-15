@@ -1,5 +1,5 @@
 import time
-from typing import TYPE_CHECKING
+from typing import Optional, TYPE_CHECKING
 
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -18,13 +18,13 @@ class AwardRelationship(Base):
 
 	id: Mapped[int] = mapped_column(primary_key=True)
 	user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
-	post_id: Mapped[int] = mapped_column(ForeignKey("posts.id"))
-	comment_id: Mapped[int] = mapped_column(ForeignKey("comments.id"))
+	post_id: Mapped[Optional[int]] = mapped_column(ForeignKey("posts.id"))
+	comment_id: Mapped[Optional[int]] = mapped_column(ForeignKey("comments.id"))
 	kind: Mapped[str]
-	awarded_utc: Mapped[int]
-	created_utc: Mapped[int]
+	awarded_utc: Mapped[Optional[int]]
+	created_utc: Mapped[Optional[int]]
 	price_paid: Mapped[int] = mapped_column(default = 0)
-	note: Mapped[str]
+	note: Mapped[Optional[str]]
 
 	user: Mapped["User"] = relationship(primaryjoin="AwardRelationship.user_id==User.id", back_populates="awards")
 	post: Mapped["Post"] = relationship(primaryjoin="AwardRelationship.post_id==Post.id", back_populates="awards")

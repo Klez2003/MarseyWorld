@@ -1,7 +1,7 @@
 import time
 from math import floor
 from random import randint
-from typing import TYPE_CHECKING
+from typing import Optional, TYPE_CHECKING
 from urllib.parse import parse_qs, urlencode, urlparse
 from flask import g
 
@@ -178,38 +178,38 @@ class Comment(Base):
 
 	id: Mapped[int] = mapped_column(primary_key=True)
 	author_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
-	parent_post: Mapped[int] = mapped_column(ForeignKey("posts.id"))
-	wall_user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+	parent_post: Mapped[Optional[int]] = mapped_column(ForeignKey("posts.id"))
+	wall_user_id: Mapped[Optional[int]] = mapped_column(ForeignKey("users.id"))
 	created_utc: Mapped[int]
 	edited_utc: Mapped[int] = mapped_column(default=0)
 	is_banned: Mapped[bool] = mapped_column(default=False)
 	ghost: Mapped[bool] = mapped_column(default=False)
-	bannedfor: Mapped[str]
-	chuddedfor: Mapped[str]
+	bannedfor: Mapped[Optional[str]]
+	chuddedfor: Mapped[Optional[str]]
 	distinguished: Mapped[bool] = mapped_column(default=False)
 	deleted_utc: Mapped[int] = mapped_column(default=0)
-	is_approved: Mapped[int] = mapped_column(ForeignKey("users.id"))
+	is_approved: Mapped[Optional[int]] = mapped_column(ForeignKey("users.id"))
 	level: Mapped[int] = mapped_column(default=1)
-	parent_comment_id: Mapped[int] = mapped_column(ForeignKey("comments.id"))
-	top_comment_id: Mapped[int]
+	parent_comment_id: Mapped[Optional[int]] = mapped_column(ForeignKey("comments.id"))
+	top_comment_id: Mapped[Optional[int]]
 	is_bot: Mapped[bool] = mapped_column(default=False)
-	stickied: Mapped[str]
-	stickied_utc: Mapped[int]
+	stickied: Mapped[Optional[str]]
+	stickied_utc: Mapped[Optional[int]]
 	num_of_pinned_children: Mapped[int] = mapped_column(default=0)
-	sentto: Mapped[int] = mapped_column(ForeignKey("users.id"))
-	app_id: Mapped[int] = mapped_column(ForeignKey("oauth_apps.id"))
+	sentto: Mapped[Optional[int]] = mapped_column(ForeignKey("users.id"))
+	app_id: Mapped[Optional[int]] = mapped_column(ForeignKey("oauth_apps.id"))
 	upvotes: Mapped[int] = mapped_column(default=1)
 	downvotes: Mapped[int] = mapped_column(default=0)
 	realupvotes: Mapped[int] = mapped_column(default=1)
-	body: Mapped[str]
-	body_html: Mapped[str]
+	body: Mapped[Optional[str]]
+	body_html: Mapped[Optional[str]]
 	body_ts: Mapped[str] = mapped_column(TSVECTOR(), server_default=FetchedValue())
-	ban_reason: Mapped[str]
-	treasure_amount: Mapped[str]
-	slots_result: Mapped[str]
+	ban_reason: Mapped[Optional[str]]
+	treasure_amount: Mapped[Optional[str]]
+	slots_result: Mapped[Optional[str]]
 	ping_cost: Mapped[int] = mapped_column(default=0)
-	blackjack_result: Mapped[str]
-	casino_game_id: Mapped[int] = mapped_column(ForeignKey("casino_games.id"))
+	blackjack_result: Mapped[Optional[str]]
+	casino_game_id: Mapped[Optional[int]] = mapped_column(ForeignKey("casino_games.id"))
 	chudded: Mapped[bool] = mapped_column(default=False)
 	rainbowed: Mapped[bool] = mapped_column(default=False)
 	queened: Mapped[bool] = mapped_column(default=False)

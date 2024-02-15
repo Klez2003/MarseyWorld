@@ -1,5 +1,6 @@
 import random
 from operator import *
+from typing import Optional
 
 import pyotp
 from sqlalchemy import ForeignKey, FetchedValue
@@ -52,30 +53,30 @@ class User(Base):
 	id: Mapped[int] = mapped_column(primary_key=True)
 	username: Mapped[str]
 	namecolor: Mapped[str] = mapped_column(default=DEFAULT_COLOR)
-	background: Mapped[str]
-	profile_background: Mapped[str]
-	flair: Mapped[str] = mapped_column(deferred=True)
-	flair_html: Mapped[str]
+	background: Mapped[Optional[str]]
+	profile_background: Mapped[Optional[str]]
+	flair: Mapped[Optional[str]] = mapped_column(deferred=True)
+	flair_html: Mapped[Optional[str]]
 	flaircolor: Mapped[str] = mapped_column(default=DEFAULT_COLOR)
 	theme: Mapped[str] = mapped_column(default=DEFAULT_THEME)
 	themecolor: Mapped[str] = mapped_column(default=DEFAULT_COLOR)
-	song: Mapped[str]
-	highres: Mapped[str]
-	profileurl: Mapped[str]
-	bannerurl: Mapped[str]
-	house: Mapped[str] = mapped_column(default='')
-	old_house: Mapped[str] = mapped_column(default='')
+	song: Mapped[Optional[str]]
+	highres: Mapped[Optional[str]]
+	profileurl: Mapped[Optional[str]]
+	bannerurl: Mapped[Optional[str]]
+	house: Mapped[Optional[str]] = mapped_column(default='')
+	old_house: Mapped[Optional[str]] = mapped_column(default='')
 	patron: Mapped[int] = mapped_column(default=0)
 	patron_utc: Mapped[int] = mapped_column(default=0)
-	verified: Mapped[str]
-	verifiedcolor: Mapped[str]
-	hieroglyphs: Mapped[int] = mapped_column(default=0)
-	rehab: Mapped[int] = mapped_column(default=0)
-	longpost: Mapped[int] = mapped_column(default=0)
-	bird: Mapped[int] = mapped_column(default=0)
-	email: Mapped[str] = mapped_column(deferred=True)
-	css: Mapped[str]
-	profilecss: Mapped[str] = mapped_column(deferred=True)
+	verified: Mapped[Optional[str]]
+	verifiedcolor: Mapped[Optional[str]]
+	hieroglyphs: Mapped[Optional[int]] = mapped_column(default=0)
+	rehab: Mapped[Optional[int]] = mapped_column(default=0)
+	longpost: Mapped[Optional[int]] = mapped_column(default=0)
+	bird: Mapped[Optional[int]] = mapped_column(default=0)
+	email: Mapped[Optional[str]] = mapped_column(deferred=True)
+	css: Mapped[Optional[str]]
+	profilecss: Mapped[Optional[str]] = mapped_column(deferred=True)
 	passhash: Mapped[str] = mapped_column(deferred=True)
 	post_count: Mapped[int] = mapped_column(default=0)
 	comment_count: Mapped[int] = mapped_column(default=0)
@@ -87,49 +88,49 @@ class User(Base):
 	coins_spent_on_hats: Mapped[int] = mapped_column(default=0)
 	lootboxes_bought: Mapped[int] = mapped_column(default=0)
 	chud: Mapped[int] = mapped_column(default=0)
-	queen: Mapped[int] = mapped_column(default=0)
-	chud_phrase: Mapped[str]
+	queen: Mapped[Optional[int]] = mapped_column(default=0)
+	chud_phrase: Mapped[Optional[str]]
 	email_verified: Mapped[bool] = mapped_column(default=False)
-	shadowbanned: Mapped[int] = mapped_column(ForeignKey("users.id"))
-	chudded_by: Mapped[int] = mapped_column(ForeignKey("users.id"))
+	shadowbanned: Mapped[Optional[int]] = mapped_column(ForeignKey("users.id"))
+	chudded_by: Mapped[Optional[int]] = mapped_column(ForeignKey("users.id"))
 	slurreplacer: Mapped[int] = mapped_column(default=1)
 	profanityreplacer: Mapped[int] = mapped_column(default=1)
-	flairchanged: Mapped[int] = mapped_column(default=0)
-	namechanged: Mapped[int] = mapped_column(default=0)
+	flairchanged: Mapped[Optional[int]] = mapped_column(default=0)
+	namechanged: Mapped[Optional[int]] = mapped_column(default=0)
 	newtab: Mapped[bool] = mapped_column(default=False)
 	newtabexternal: Mapped[bool] = mapped_column(default=True)
 	frontsize: Mapped[int] = mapped_column(default=25)
-	bio: Mapped[str] = mapped_column(deferred=True)
-	bio_html: Mapped[str]
-	sig: Mapped[str] = mapped_column(deferred=True)
-	sig_html: Mapped[str]
+	bio: Mapped[Optional[str]] = mapped_column(deferred=True)
+	bio_html: Mapped[Optional[str]]
+	sig: Mapped[Optional[str]] = mapped_column(deferred=True)
+	sig_html: Mapped[Optional[str]]
 	show_sigs: Mapped[bool] = mapped_column(default=True)
-	progressivestack: Mapped[int] = mapped_column(default=0)
-	deflector: Mapped[int] = mapped_column(default=0)
-	friends: Mapped[str] = mapped_column(deferred=True)
-	friends_html: Mapped[str] = mapped_column(deferred=True)
-	enemies: Mapped[str] = mapped_column(deferred=True)
-	enemies_html: Mapped[str] = mapped_column(deferred=True)
-	is_banned: Mapped[int] = mapped_column(ForeignKey("users.id"))
-	unban_utc: Mapped[int]
-	ban_reason: Mapped[str] = mapped_column(deferred=True)
-	shadowban_reason: Mapped[str] = mapped_column(deferred=True)
+	progressivestack: Mapped[Optional[int]] = mapped_column(default=0)
+	deflector: Mapped[Optional[int]] = mapped_column(default=0)
+	friends: Mapped[Optional[str]] = mapped_column(deferred=True)
+	friends_html: Mapped[Optional[str]] = mapped_column(deferred=True)
+	enemies: Mapped[Optional[str]] = mapped_column(deferred=True)
+	enemies_html: Mapped[Optional[str]] = mapped_column(deferred=True)
+	is_banned: Mapped[Optional[int]] = mapped_column(ForeignKey("users.id"))
+	unban_utc: Mapped[Optional[int]]
+	ban_reason: Mapped[Optional[str]] = mapped_column(deferred=True)
+	shadowban_reason: Mapped[Optional[str]] = mapped_column(deferred=True)
 	is_muted: Mapped[bool] = mapped_column(default=False)
 	login_nonce: Mapped[int] = mapped_column(default=0)
 	coins: Mapped[int] = mapped_column(default=DEFAULT_COINS)
 	truescore: Mapped[int] = mapped_column(default=0)
 	marseybux: Mapped[int] = mapped_column(default=DEFAULT_MARSEYBUX)
-	mfa_secret: Mapped[str] = mapped_column(deferred=True)
+	mfa_secret: Mapped[Optional[str]] = mapped_column(deferred=True)
 	is_private: Mapped[bool] = mapped_column(default=False)
 	stored_subscriber_count: Mapped[int] = mapped_column(default=0)
 	defaultsortingcomments: Mapped[str] = mapped_column(default="hot")
 	defaultsorting: Mapped[str] = mapped_column(default="hot")
 	defaulttime: Mapped[str] = mapped_column(default=DEFAULT_TIME_FILTER)
-	custom_filter_list: Mapped[str]
-	original_username: Mapped[str]
-	extra_username: Mapped[str]
-	prelock_username: Mapped[str]
-	referred_by: Mapped[int] = mapped_column(ForeignKey("users.id"))
+	custom_filter_list: Mapped[Optional[str]]
+	original_username: Mapped[Optional[str]]
+	extra_username: Mapped[Optional[str]]
+	prelock_username: Mapped[Optional[str]]
+	referred_by: Mapped[Optional[int]] = mapped_column(ForeignKey("users.id"))
 	currently_held_lottery_tickets: Mapped[int] = mapped_column(default=0)
 	total_held_lottery_tickets: Mapped[int] = mapped_column(default=0)
 	total_lottery_winnings: Mapped[int] = mapped_column(default=0)
@@ -137,15 +138,15 @@ class User(Base):
 	last_viewed_post_notifs: Mapped[int] = mapped_column(default=0)
 	last_viewed_log_notifs: Mapped[int] = mapped_column(default=0)
 	last_viewed_offsite_notifs: Mapped[int] = mapped_column(default=0)
-	bite: Mapped[int] = mapped_column(default=0)
-	owoify: Mapped[int] = mapped_column(default=0)
-	sharpen: Mapped[int] = mapped_column(default=0)
-	marsify: Mapped[int] = mapped_column(default=0)
-	rainbow: Mapped[int] = mapped_column(default=0)
-	spider: Mapped[int] = mapped_column(default=0)
+	bite: Mapped[Optional[int]] = mapped_column(default=0)
+	owoify: Mapped[Optional[int]] = mapped_column(default=0)
+	sharpen: Mapped[Optional[int]] = mapped_column(default=0)
+	marsify: Mapped[Optional[int]] = mapped_column(default=0)
+	rainbow: Mapped[Optional[int]] = mapped_column(default=0)
+	spider: Mapped[Optional[int]] = mapped_column(default=0)
 	lifetimedonated: Mapped[int] = mapped_column(default=0)
 	lifetimedonated_visible: Mapped[bool] = mapped_column(default=False)
-	blacklisted_by: Mapped[int] = mapped_column(ForeignKey("users.id"))
+	blacklisted_by: Mapped[Optional[int]] = mapped_column(ForeignKey("users.id"))
 	grinch: Mapped[bool] = mapped_column(default=SITE_NAME != 'rDrama') #don't put in an if condition, it will cause an error bc it has a not-null constraint
 	group_creation_notifs: Mapped[bool] = mapped_column(default=False)
 	effortpost_notifs: Mapped[bool] = mapped_column(default=False)
@@ -166,7 +167,7 @@ class User(Base):
 		controversial: Mapped[bool] = mapped_column(default=False)
 		reddit: Mapped[str] = mapped_column(default='old.reddit.com')
 		pronouns: Mapped[str] = mapped_column(default='they/them')
-		earlylife: Mapped[int] = mapped_column(default=0)
+		earlylife: Mapped[Optional[int]] = mapped_column(default=0)
 		hole_creation_notifs: Mapped[bool] = mapped_column(default=True)
 		hidevotedon = False
 		hide_cw = False

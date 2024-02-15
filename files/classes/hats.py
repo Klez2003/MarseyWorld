@@ -1,5 +1,5 @@
 import time
-from typing import TYPE_CHECKING
+from typing import Optional, TYPE_CHECKING
 
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -22,7 +22,7 @@ class HatDef(Base):
 	description: Mapped[str]
 	author_id: Mapped[int] = mapped_column(ForeignKey('users.id'))
 	price: Mapped[int]
-	submitter_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+	submitter_id: Mapped[Optional[int]] = mapped_column(ForeignKey("users.id"))
 	created_utc: Mapped[int]
 
 	author: Mapped["User"] = relationship(primaryjoin="HatDef.author_id == User.id", back_populates="designed_hats")
@@ -55,8 +55,8 @@ class Hat(Base):
 
 	user_id: Mapped[int] = mapped_column(ForeignKey('users.id'), primary_key=True)
 	hat_id: Mapped[int] = mapped_column(ForeignKey('hat_defs.id'), primary_key=True)
-	equipped: Mapped[bool] = mapped_column(default=False)
-	created_utc: Mapped[int]
+	equipped: Mapped[Optional[bool]] = mapped_column(default=False)
+	created_utc: Mapped[Optional[int]]
 
 	hat_def: Mapped["HatDef"] = relationship()
 	owners: Mapped[list["User"]] = relationship(back_populates="owned_hats")

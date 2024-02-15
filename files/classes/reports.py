@@ -1,5 +1,5 @@
 import time
-from typing import TYPE_CHECKING
+from typing import Optional, TYPE_CHECKING
 
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -18,7 +18,7 @@ class Report(Base):
 
 	post_id: Mapped[int] = mapped_column(ForeignKey("posts.id"), primary_key=True)
 	user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), primary_key=True)
-	reason: Mapped[str]
+	reason: Mapped[Optional[str]]
 	created_utc: Mapped[int]
 
 	user: Mapped["User"] = relationship(primaryjoin = "Report.user_id == User.id", uselist = False)
@@ -46,7 +46,7 @@ class CommentReport(Base):
 
 	comment_id: Mapped[int] = mapped_column(ForeignKey("comments.id"), primary_key=True)
 	user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), primary_key=True)
-	reason: Mapped[str]
+	reason: Mapped[Optional[str]]
 	created_utc: Mapped[int]
 
 	user: Mapped["User"] = relationship(primaryjoin = "CommentReport.user_id == User.id", uselist = False)

@@ -1,5 +1,5 @@
 import time
-from typing import TYPE_CHECKING
+from typing import Optional, TYPE_CHECKING
 
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -18,7 +18,7 @@ class BadgeDef(Base):
 
 	id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
 	name: Mapped[str]
-	description: Mapped[str]
+	description: Mapped[Optional[str]]
 	created_utc: Mapped[int]
 
 	def __init__(self, *args, **kwargs):
@@ -39,8 +39,8 @@ class Badge(Base):
 
 	user_id: Mapped[int] = mapped_column(ForeignKey('users.id'), primary_key=True)
 	badge_id: Mapped[int] = mapped_column(ForeignKey('badge_defs.id'), primary_key=True)
-	description: Mapped[str]
-	url: Mapped[str]
+	description: Mapped[Optional[str]]
+	url: Mapped[Optional[str]]
 	created_utc: Mapped[int]
 
 	user: Mapped["User"] = relationship(back_populates="badges")

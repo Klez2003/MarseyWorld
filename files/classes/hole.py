@@ -1,6 +1,6 @@
 import random
 import time
-from typing import Annotated
+from typing import Annotated, Optional
 
 from sqlalchemy.ext.mutable import MutableList
 from sqlalchemy.orm import DynamicMapped, Mapped, mapped_column, relationship
@@ -15,19 +15,19 @@ from .hole_relationship import *
 class Hole(Base):
 	__tablename__ = "holes"
 	name: Mapped[str] = mapped_column(primary_key=True)
-	sidebar: Mapped[str]
-	sidebar_html: Mapped[str]
+	sidebar: Mapped[Optional[str]]
+	sidebar_html: Mapped[Optional[str]]
 	sidebarurls: Mapped[list[str]] = mapped_column(MutableList.as_mutable(ARRAY(String)), default=MutableList([]))
 	bannerurls: Mapped[list[str]] = mapped_column(MutableList.as_mutable(ARRAY(String)), default=MutableList([]))
-	marseyurl: Mapped[str]
-	css: Mapped[str] = mapped_column(deferred=True)
-	stealth: Mapped[bool] = mapped_column(default=False)
+	marseyurl: Mapped[Optional[str]]
+	css: Mapped[Optional[str]] = mapped_column(deferred=True)
+	stealth: Mapped[Optional[bool]] = mapped_column(default=False)
 	public_use: Mapped[bool] = mapped_column(default=False)
-	created_utc: Mapped[int]
+	created_utc: Mapped[Optional[int]]
 	if SITE_NAME == 'WPD':
 		snappy_quotes = None
 	else:
-		snappy_quotes: Mapped[Annotated[str, HOLE_SNAPPY_QUOTES_LENGTH]] = mapped_column(deferred=True)
+		snappy_quotes: Mapped[Optional[Annotated[str, HOLE_SNAPPY_QUOTES_LENGTH]]] = mapped_column(deferred=True)
 
 	blocks: Mapped[list["HoleBlock"]] = relationship(primaryjoin="HoleBlock.hole==Hole.name")
 	followers: Mapped[list["HoleFollow"]] = relationship(primaryjoin="HoleFollow.hole==Hole.name")

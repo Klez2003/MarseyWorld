@@ -1,5 +1,5 @@
 import time
-from typing import TYPE_CHECKING
+from typing import Optional, TYPE_CHECKING
 
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -20,12 +20,12 @@ class HoleAction(Base):
 	__tablename__ = "hole_actions"
 	id: Mapped[int] = mapped_column(primary_key=True)
 	hole: Mapped[str] = mapped_column(ForeignKey("holes.name"))
-	user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
-	kind: Mapped[str]
-	target_user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
-	target_post_id: Mapped[int] = mapped_column(ForeignKey("posts.id"))
-	target_comment_id: Mapped[int] = mapped_column(ForeignKey("comments.id"))
-	_note: Mapped[str]
+	user_id: Mapped[Optional[int]] = mapped_column(ForeignKey("users.id"))
+	kind: Mapped[Optional[str]]
+	target_user_id: Mapped[Optional[int]] = mapped_column(ForeignKey("users.id"))
+	target_post_id: Mapped[Optional[int]] = mapped_column(ForeignKey("posts.id"))
+	target_comment_id: Mapped[Optional[int]] = mapped_column(ForeignKey("comments.id"))
+	_note: Mapped[Optional[str]]
 	created_utc: Mapped[int]
 
 	user: Mapped["User"] = relationship(primaryjoin="User.id==HoleAction.user_id")
