@@ -16,7 +16,7 @@
 	</a>
 
 	{% if not v %}
-		{% set image = "https://i.watchpeopledie.tv/assets/images/WPD/sidebar/1.webp?x=7" %}
+		{% set image = SITE_FULL_IMAGES + "/assets/images/WPD/sidebar/1.webp?x=7" %}
 	{% elif IS_FISTMAS() %}
 		{% set image = macros.random_image("assets/events/" ~ IS_EVENT() ~ "/images/sidebar/" ~ SITE_NAME ) %}
 	{% elif IS_EVENT() %}

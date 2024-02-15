@@ -16,7 +16,7 @@
 	</a>
 
 	{% if not v %}
-		{% set image = "https://i.rdrama.net/assets/images/rDrama/sidebar/63.webp?x=7" %}
+		{% set image = SITE_FULL_IMAGES + "/assets/images/rDrama/sidebar/63.webp?x=7" %}
 	{% elif hole and hole.sidebarurls %}
 		{% set image = hole.random_sidebar %}
 	{% elif IS_FISTMAS() %}
