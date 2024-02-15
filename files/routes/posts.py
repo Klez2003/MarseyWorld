@@ -216,7 +216,7 @@ def post_id(pid, v, anything=None, hole=None):
 def view_more(v, pid, sort, offset):
 	p = get_post(pid, v=v)
 
-	try: ids = {int(x) for x in request.values.get("ids").split(',')}
+	try: ids = set(int(x) for x in request.values.get("ids").split(','))
 	except: abort(400)
 
 	if v:

@@ -217,7 +217,7 @@ def log(v):
 			actions = actions.filter(ModAction.kind.notin_(MODACTION_PRIVILEGED__TYPES))
 		if admin_id:
 			actions = actions.filter_by(user_id=admin_id)
-			kinds = {x.kind for x in actions}
+			kinds = set(x.kind for x in actions)
 			kinds.add(kind)
 			types2 = {}
 			for k,val in types.items():

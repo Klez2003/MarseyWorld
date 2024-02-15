@@ -154,10 +154,10 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, obj=None, followers_ping=Tr
 		if word in text:
 			notify_users.add(id)
 
-	names = {m.group(1) for m in mention_regex.finditer(text)}
+	names = set(m.group(1) for m in mention_regex.finditer(text))
 
 	if oldtext:
-		oldnames = {m.group(1) for m in mention_regex.finditer(oldtext)}
+		oldnames = set(m.group(1) for m in mention_regex.finditer(oldtext))
 		names = names - oldnames
 
 	user_ids = get_users(names, ids_only=True, graceful=True)
@@ -193,22 +193,22 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, obj=None, followers_ping=Tr
 				return 'everyone'
 			elif i.group(1) == 'jannies':
 				group = None
-				member_ids = {[0] for x in g.db.query(User.id).filter(User.admin_level > 0, User.id != AEVANN_ID)}
+				member_ids = set(x[0] for x in g.db.query(User.id).filter(User.admin_level > 0, User.id != AEVANN_ID))
 			elif i.group(1) == 'holejannies':
 				if not get_obj_hole(obj):
 					abort(403, "!holejannies can only be used inside holes!")
 				group = None
-				member_ids = {[0] for x in g.db.query(Mod.user_id).filter_by(hole=obj.hole)}
+				member_ids = set(x[0] for x in g.db.query(Mod.user_id).filter_by(hole=obj.hole))
 			elif i.group(1) == 'followers':
 				if not followers_ping:
 					abort(403, f"You can't use !followers in posts!")
 				group = None
-				member_ids = {[0] for x in g.db.query(Follow.user_id).filter_by(target_id=v.id)}
+				member_ids = set(x[0] for x in g.db.query(Follow.user_id).filter_by(target_id=v.id))
 			elif i.group(1) == 'commenters':
 				if not commenters_ping_post_id:
 					abort(403, "You can only use !commenters in comments made under posts!")
 				group = None
-				member_ids = {[0] for x in g.db.query(User.id).join(Comment, Comment.author_id == User.id).filter(Comment.parent_post == commenters_ping_post_id)} - {v.id}
+				member_ids = set(x[0] for x in g.db.query(User.id).join(Comment, Comment.author_id == User.id).filter(Comment.parent_post == commenters_ping_post_id)) - {v.id}
 			else:
 				group = g.db.get(Group, i.group(1))
 				if not group: continue
@@ -242,7 +242,7 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, obj=None, followers_ping=Tr
 		abort(403, "You can only notify a maximum of 400 users.")
 
 	if v.shadowbanned or (obj and obj.is_banned):
-		notify_users = {x[0] for x in g.db.query(User.id).filter(User.id.in_(notify_users), User.admin_level >= PERMS['USER_SHADOWBAN']).all()}
+		notify_users = set(x[0] for x in g.db.query(User.id).filter(User.id.in_(notify_users), User.admin_level >= PERMS['USER_SHADOWBAN']).all())
 
 	return notify_users - BOT_IDs - {v.id, 0} - v.all_twoway_blocks - v.muters
 

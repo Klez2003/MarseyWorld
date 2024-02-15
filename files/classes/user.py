@@ -614,8 +614,8 @@ class User(Base):
 	@property
 	@lazy
 	def all_twoway_blocks(self):
-		return {x[0] for x in g.db.query(UserBlock.target_id).filter_by(user_id=self.id).all() + \
-			g.db.query(UserBlock.user_id).filter_by(target_id=self.id).all()}
+		return set([x[0] for x in g.db.query(UserBlock.target_id).filter_by(user_id=self.id).all() + \
+			g.db.query(UserBlock.user_id).filter_by(target_id=self.id).all()])
 
 
 	def validate_2fa(self, token):
@@ -1109,7 +1109,7 @@ class User(Base):
 	@property
 	@lazy
 	def muters(self):
-		return {[0] for x in g.db.query(UserMute.user_id).filter_by(target_id=self.id)}
+		return set(x[0] for x in g.db.query(UserMute.user_id).filter_by(target_id=self.id))
 
 
 	def get_relationship_count(self, relationship_cls):
