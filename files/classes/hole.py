@@ -32,7 +32,7 @@ class Hole(Base):
 
 	blocks = relationship("HoleBlock", primaryjoin="HoleBlock.hole==Hole.name")
 	followers = relationship("HoleFollow", primaryjoin="HoleFollow.hole==Hole.name")
-	stealth_hole_unblock = relationship("StealthHoleUnblock", lazy="dynamic", primaryjoin="StealthHoleUnblock.hole==Hole.name")
+	stealth_hole_unblocks = relationship("StealthHoleUnblock", lazy="dynamic", primaryjoin="StealthHoleUnblock.hole==Hole.name")
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
