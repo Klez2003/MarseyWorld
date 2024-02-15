@@ -715,6 +715,9 @@ def settings_blocks(v):
 @limiter.limit("20/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def settings_block_user(v):
+	if v.unblockable:
+		abort(403, "You're unblockable so you can't block others!")
+
 	user = get_user(request.values.get("username"))
 
 	if user.unblockable:

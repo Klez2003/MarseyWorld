@@ -470,7 +470,14 @@ def award_thing(v, thing_type, id):
 		badge_grant(badge_id=84, user=author)
 	elif kind == "unblockable":
 		badge_grant(badge_id=87, user=author)
-		for block in g.db.query(UserBlock).filter_by(target_id=author.id): g.db.delete(block)
+		blocks = g.db.query(UserBlock).filter(
+				or_(
+					UserBlock.user_id == author.id,
+					UserBlock.target_id == author.id,
+				)
+			)
+		for block in blocks:
+			g.db.delete(block)
 	elif kind == "progressivestack":
 		if not FEATURES['PINS']:
 			abort(403)
