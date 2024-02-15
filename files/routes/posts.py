@@ -53,9 +53,11 @@ def _add_post_view(pid):
 @is_not_banned
 def publish(pid, v):
 	p = get_post(pid)
+
 	if not p.private: return {"message": "Post published!"}
 
 	if p.author_id != v.id: abort(403)
+
 	p.private = False
 	p.created_utc = int(time.time())
 	g.db.add(p)
