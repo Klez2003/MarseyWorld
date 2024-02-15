@@ -652,7 +652,12 @@ def filter_emojis_only(title, golden=True, count_emojis=False, obj=None, author=
 
 	title = strikethrough_regex.sub(r'\1<del>\2</del>', title)
 
-	title = bleach.clean(title, tags=['img','del','span'], attributes=allowed_attributes_emojis, protocols=['http','https']).replace('\n','')
+	title = bleach.clean(
+			title, 
+			tags=['img','del','span'],
+			attributes=allowed_attributes_emojis,
+			protocols=['http','https']
+		).replace('\n','')
 
 	if len(title) > POST_TITLE_HTML_LENGTH_LIMIT:
 		abort(400, "Rendered title is too long!")

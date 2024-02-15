@@ -85,8 +85,14 @@ def bleach_body_html(body_html, runtime=False):
 		attributes=allowed_attributes,
 		protocols=['http', 'https'],
 		css_sanitizer=css_sanitizer,
-		filters=[partial(LinkifyFilter, skip_tags=["pre"],
-			parse_email=False, url_re=sanitize_url_regex)]
+		filters=[
+				partial(
+					LinkifyFilter,
+					skip_tags=["pre"],
+					parse_email=False, 
+					url_re=sanitize_url_regex
+				)
+			]
 	).clean(body_html)
 
 	return body_html
