@@ -22,7 +22,7 @@ class Hole(Base):
 	bannerurls = Column(MutableList.as_mutable(ARRAY(VARCHAR(HOLE_BANNER_URL_COLUMN_LENGTH))), default=MutableList([]))
 	marseyurl = Column(VARCHAR(HOLE_MARSEY_URL_LENGTH))
 	css = deferred(Column(VARCHAR(CSS_LENGTH_LIMIT)))
-	stealth = Column(Boolean)
+	stealth = Column(Boolean, default=False)
 	created_utc = Column(Integer)
 	if SITE_NAME == 'WPD':
 		snappy_quotes = None
