@@ -308,6 +308,9 @@ def group_usurp(v, group_name):
 	group = g.db.get(Group, group_name)
 	if not group: abort(404)
 
+	if v.mods_group(group):
+		abort(403, f"You're a mod of /h/{group.name} can't usurp it!")
+
 	if not v.is_member_of_group(group):
 		abort(403, "Only members of groups can usurp them!")
 
