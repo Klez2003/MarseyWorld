@@ -62,8 +62,8 @@
 							{% endif %}
 						</td>
 						<td>
-							{% if group.description %}
-								{{group.description}}
+							{% if group.description_html %}
+								{{group.description_html | safe}}
 							{% endif %}
 						</td>
 						<td data-time="{{group.created_utc}}"></td>

@@ -353,10 +353,18 @@ def group_change_description(v, group_name):
 
 	if description:
 		description = description.strip()
+		if len(description) > 100:
+			abort(400, "New description is too long (max 100 characters)")
+
+		description_html = filter_emojis_only(description)
+		if len(description_html) > 500:
+			abort(400, "Rendered description is too long!")
 	else:
 		description = None
+		description_html = None
 
 	group.description = description
+	group.description_html = description_html
 	g.db.add(group)
 
 	return {"message": 'Description changed successfully!'}

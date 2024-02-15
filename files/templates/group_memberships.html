@@ -33,9 +33,9 @@
 				</div>
 			</div>
 		</form>
-	{% elif group.description %}
+	{% elif group.description_html %}
 		<h5 class="mt-5">!{{group}} Description</h3>
-		<p class="mb-2">{{group.description}}</p>
+		<p class="mb-2">{{group.description_html | safe}}</p>
 	{% endif %}
 
 	<br>
