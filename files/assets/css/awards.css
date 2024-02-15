@@ -220,7 +220,7 @@
 .queen:not(a) img, .queen:not(.ectoplasm), h1.queen.post-title a {
 	color: hotpink !important;
 	font-weight: 700 !important;
-	text-transform: lowercase !important;
+	text-transform: lowercase;
 }
 
 .sharpen:not(a):not(.blood), h1.sharpen.post-title a {
