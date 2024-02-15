@@ -15,6 +15,19 @@
 		</span>
 	</div>
 
+	<div class="title mt-5">
+		<label class="text-lg" for="public_use">Public Use Mode</label>
+	</div>
+	<div class="d-inline-block w-lg-100 pt-1 pt-lg-3">
+		<div class="custom-control custom-switch">
+			<input autocomplete="off" type="checkbox" class="custom-control-input" id="public_use" name="public_use" {% if hole.public_use %}checked{% endif %} data-nonce="{{g.nonce}}" data-onchange="postToastSwitch(this,'/h/{{hole}}/public_use')">
+			<label class="custom-control-label" for="public_use"></label>
+		</div>
+		<span class="text-small text-muted">
+			Make this hole unblockable and can't be exiled from.
+		</span>
+	</div>
+
 	<h5 class="mt-5 pt-5">Marsey</h5>
 	<div class="settings-section rounded">
 		<img loading="lazy" alt="sub marsey picture" src="{{hole.marsey_url}}" style="max-width:100px">

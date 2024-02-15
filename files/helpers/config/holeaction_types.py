@@ -94,6 +94,16 @@ HOLEACTION_TYPES = {
 		"icon": 'fa-thumbtack fa-rotate--45',
 		"color": 'bg-muted'
 	},
+	'enable_public_use': {
+		"str": 'enabled public use mode',
+		"icon": 'fa-users',
+		"color": 'bg-primary'
+	},
+	'disable_public_use': {
+		"str": 'disabled public use mode',
+		"icon": 'fa-users',
+		"color": 'bg-muted'
+	},
 	'enable_stealth': {
 		"str": 'enabled stealth mode',
 		"icon": 'fa-user-ninja',

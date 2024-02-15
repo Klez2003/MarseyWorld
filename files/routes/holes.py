@@ -16,13 +16,15 @@ from files.__main__ import app, cache, limiter
 @auth_required
 def exile_post(v, pid):
 	p = get_post(pid)
-	hole = p.hole
+	hole = p.hole_obj
 	if not hole: abort(400)
 
-	if not v.mods_hole(hole): abort(403)
+	if hole.public_use:
+		abort(403, "You can't exile users while Public Use mode is enabled!")
 
-	if hole in {'atheism', 'dioceseofrdrama', 'truth'}:
-		abort(403, f"/h/{hole} has the exiling feature disabled due to being unblockable.")
+	hole = hole.name
+
+	if not v.mods_hole(hole): abort(403)
 
 	u = p.author
 
@@ -53,13 +55,15 @@ def exile_post(v, pid):
 @auth_required
 def exile_comment(v, cid):
 	c = get_comment(cid)
-	hole = c.post.hole
+	hole = c.post.hole_obj
 	if not hole: abort(400)
 
-	if not v.mods_hole(hole): abort(403)
+	if hole.public_use:
+		abort(403, "You can't exile users while Public Use mode is enabled!")
 
-	if hole in {'atheism', 'dioceseofrdrama', 'truth'}:
-		abort(403, f"/h/{hole} has the exiling feature disabled due to being unblockable.")
+	hole = hole.name
+
+	if not v.mods_hole(hole): abort(403)
 
 	u = c.author
 
@@ -116,10 +120,13 @@ def unexile(v, hole, uid):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def block_sub(v, hole):
-	if hole in {'atheism', 'dioceseofrdrama', 'truth'}:
-		abort(403, f"/h/{hole} is unblockable!")
+	hole = get_hole(hole)
 
-	hole = get_hole(hole).name
+	if hole.public_use:
+		abort(403, f"/h/{hole} has Public Use mode enabled and is unblockable!")
+
+	hole = hole.name
+
 	existing = g.db.query(HoleBlock).filter_by(user_id=v.id, hole=hole).one_or_none()
 	if not existing:
 		block = HoleBlock(user_id=v.id, hole=hole)
@@ -846,6 +853,41 @@ def hole_stealth(v, hole):
 		g.db.add(ma)
 		return {"message": f"Stealth mode has been disabled for /h/{hole} successfully!"}
 
+@app.post('/h/<hole>/public_use')
+@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@auth_required
+def hole_public_use(v, hole):
+	hole = get_hole(hole)
+
+	if not v.mods_hole(hole.name): abort(403)
+
+	hole.public_use = not hole.public_use
+	g.db.add(hole)
+
+	exiles = g.db.query(Exile).filter_by(hole=hole.name)
+	for exile in exiles:
+		send_repeatable_notification(exile.user_id, f"Your exile from /h/{exile.hole} has been revoked due to its jannies enabling Public Use mode!")
+		g.db.delete(exile)
+
+	if hole.public_use:
+		ma = HoleAction(
+			hole=hole.name,
+			kind='enable_public_use',
+			user_id=v.id
+		)
+		g.db.add(ma)
+		return {"message": f"Public Use mode has been enabled for /h/{hole} successfully!"}
+	else:
+		ma = HoleAction(
+			hole=hole.name,
+			kind='disable_public_use',
+			user_id=v.id
+		)
+		g.db.add(ma)
+		return {"message": f"Public Use mode has been disabled for /h/{hole} successfully!"}
 
 @app.post("/pin_comment_mod/<int:cid>")
 @feature_required('PINS')
