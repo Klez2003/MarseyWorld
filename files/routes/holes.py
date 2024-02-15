@@ -1033,6 +1033,9 @@ def post_hole_snappy_quotes(v, hole):
 	if not v.mods_hole(hole.name): abort(403)
 	if v.shadowbanned: abort(400)
 
+	if snappy_quotes.endswith('[para]'):
+		snappy_quotes = snappy_quotes[:-6].strip()
+
 	if len(snappy_quotes) > HOLE_SNAPPY_QUOTES_LENGTH:
 		abort(400, f"Quotes are too long (max {HOLE_SNAPPY_QUOTES_LENGTH} characters)")
 
