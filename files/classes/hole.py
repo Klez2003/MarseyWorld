@@ -61,7 +61,7 @@ class Hole(Base):
 
 	@property
 	@lazy
-	def stealth_hole_unblock_number(self):
+	def stealth_hole_unblock_num(self):
 		return self.stealth_hole_unblocks.count()
 
 	@property
