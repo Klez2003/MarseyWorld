@@ -10,7 +10,6 @@ import requests
 from sqlalchemy.sql import func
 
 import bleach
-from bleach.css_sanitizer import CSSSanitizer
 from bleach.linkifier import LinkifyFilter
 from bs4 import BeautifulSoup
 from mistletoe import markdown
