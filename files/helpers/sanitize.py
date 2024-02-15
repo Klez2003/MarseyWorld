@@ -363,7 +363,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 	sanitized = reddit_mention_regex.sub(r'\1<a href="https://old.reddit.com/\2" rel="nofollow noopener" target="_blank">/\2</a>', sanitized)
 	sanitized = hole_mention_regex.sub(r'<a href="/\1">/\1</a>', sanitized)
 
-	names = set(m.group(1) for m in mention_regex.finditer(sanitized))
+	names = {m.group(1) for m in mention_regex.finditer(sanitized)}
 
 	if limit_pings and len(names) > limit_pings and v.admin_level < PERMS['POST_COMMENT_INFINITE_PINGS']:
 		return error("Max ping limit is 5 for comments and 50 for posts!")

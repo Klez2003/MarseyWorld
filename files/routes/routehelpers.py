@@ -44,7 +44,7 @@ def get_alt_graph_ids(uid):
 	)
 
 	alt_graph_cte = alt_graph_cte.union(alt_graph_cte_inner)
-	return set(x[0] for x in g.db.query(User.id).filter(User.id == alt_graph_cte.c.user_id, User.id != uid))
+	return {x[0] for x in g.db.query(User.id).filter(User.id == alt_graph_cte.c.user_id, User.id != uid)}
 
 def get_alt_graph(uid):
 	alt_ids = get_alt_graph_ids(uid)
@@ -74,7 +74,7 @@ def check_for_alts(current, include_current_session=False):
 	if session.get("GLOBAL"):
 		return
 
-	past_accs = set(session.get("history", [])) if include_current_session else set()
+	past_accs = {session.get("history", [])} if include_current_session else set()
 
 	if current.email and current.email_verified:
 		more_ids = [x[0] for x in g.db.query(User.id).filter(

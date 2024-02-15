@@ -36,7 +36,7 @@ class Group(Base):
 	@property
 	@lazy
 	def member_ids(self):
-		return set(x.user_id for x in self.memberships if x.approved_utc)
+		return {x.user_id for x in self.memberships if x.approved_utc}
 
 	@property
 	@lazy
