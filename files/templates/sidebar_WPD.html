@@ -15,25 +15,25 @@
 		</h5>
 	</a>
 
-	{% if v %}
-		{% if IS_FISTMAS() %}
-			{% set image = macros.random_image("assets/events/" ~ IS_EVENT() ~ "/images/sidebar/" ~ SITE_NAME ) %}
-		{% elif IS_EVENT() %}
-			{% set image = macros.random_image("assets/events/" ~ IS_EVENT() ~ "/images/sidebar") %}
-		{%- elif v -%}
-			{%- set image = macros.random_image("assets/images/" ~ SITE_NAME ~ "/sidebar") -%}
-		{%- else -%}
-			{%- set image = SITE_FULL_IMAGES ~ '/i/' ~ SITE_NAME ~ '/sidebar.webp?x=7' -%}
-		{%- endif -%}
+	{% if not v %}
+		{% set image = "https://i.watchpeopledie.tv/assets/images/WPD/sidebar/1.webp?x=7" %}
+	{% elif IS_FISTMAS() %}
+		{% set image = macros.random_image("assets/events/" ~ IS_EVENT() ~ "/images/sidebar/" ~ SITE_NAME ) %}
+	{% elif IS_EVENT() %}
+		{% set image = macros.random_image("assets/events/" ~ IS_EVENT() ~ "/images/sidebar") %}
+	{%- elif v -%}
+		{%- set image = macros.random_image("assets/images/" ~ SITE_NAME ~ "/sidebar") -%}
+	{%- else -%}
+		{%- set image = SITE_FULL_IMAGES ~ '/i/' ~ SITE_NAME ~ '/sidebar.webp?x=7' -%}
+	{%- endif -%}
 
-		{% if request.path != '/sidebar' %}
-			{% if IS_HOMOWEEN() %}
-				{% include "events/homoween/eye_tracking.html" %}
-			{% else %}
-				<a href="{{image}}">
-					<img class="mb-4 sidebar-img" alt="sidebar image" data-nonce="{{g.nonce}}" data-onclick="expandImage()" loading="lazy" src="{{image}}">
-				</a>
-			{% endif %}
+	{% if request.path != '/sidebar' %}
+		{% if IS_HOMOWEEN() %}
+			{% include "events/homoween/eye_tracking.html" %}
+		{% else %}
+			<a href="{{image}}">
+				<img class="mb-4 sidebar-img" alt="sidebar image" data-nonce="{{g.nonce}}" data-onclick="expandImage()" loading="lazy" src="{{image}}">
+			</a>
 		{% endif %}
 	{% endif %}
 
