@@ -458,6 +458,7 @@ MODACTION_PRIVILEGED_TYPES = {
 								'schedule_orgy', 'remove_orgy',
 								'insert_transaction',
 								'change_under_siege',
+								'mark_effortpost', 'unmark_effortpost',
 							}
 MODACTION_PRIVILEGED__TYPES = {'progstack_post', 'progstack_comment',
 							'unprogstack_post', 'unprogstack_comment'}
