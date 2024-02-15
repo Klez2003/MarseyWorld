@@ -957,7 +957,7 @@ def settings_change_flair(v):
 	flair = process_settings_plaintext("flair", v.flair, 100, None)
 
 	if flair:
-		flair_html = filter_emojis_only(flair)
+		flair_html = filter_emojis_only(flair, link=True)
 		flair_html = censor_slurs_profanities(flair_html, None)
 
 		if len(flair_html) > 1000:

@@ -945,7 +945,7 @@ def admin_change_flair(user_id, v):
 		abort(400, "New flair is too long (max 256 characters)")
 
 	user.flair = new_flair
-	new_flair = filter_emojis_only(new_flair)
+	new_flair = filter_emojis_only(new_flair, link=True)
 	new_flair = censor_slurs_profanities(new_flair, None)
 
 	user = get_account(user.id)

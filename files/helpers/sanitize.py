@@ -619,7 +619,7 @@ def allowed_attributes_emojis(tag, name, value):
 
 
 @with_sigalrm_timeout(2)
-def filter_emojis_only(title, golden=True, count_emojis=False, obj=None, author=None):
+def filter_emojis_only(title, golden=True, count_emojis=False, obj=None, author=None, link=False):
 
 	title = title.replace("\n", "").replace("\r", "").replace("\t", "").replace('<','&lt;').replace('>','&gt;')
 
@@ -651,12 +651,29 @@ def filter_emojis_only(title, golden=True, count_emojis=False, obj=None, author=
 
 	title = strikethrough_regex.sub(r'\1<del>\2</del>', title)
 
-	title = bleach.clean(
-			title, 
+	if link:
+		title = bleach.Cleaner(
 			tags=['img','del','span'],
 			attributes=allowed_attributes_emojis,
-			protocols=['http','https']
-		).replace('\n','')
+			protocols=['http','https'],
+			filters=[
+					partial(
+						LinkifyFilter,
+						skip_tags=["pre"],
+						parse_email=False, 
+						url_re=sanitize_url_regex
+					)
+				]
+		).clean(title)
+	else:
+		title = bleach.clean(
+				title, 
+				tags=['img','del','span'],
+				attributes=allowed_attributes_emojis,
+				protocols=['http','https']
+			)
+			
+	title = title.replace('\n','')
 
 	if len(title) > POST_TITLE_HTML_LENGTH_LIMIT:
 		abort(400, "Rendered title is too long!")

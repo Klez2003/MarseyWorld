@@ -27,7 +27,7 @@ def report_post(pid, v):
 		abort(400, "Report reason is too long (max 100 characters)")
 
 	og_flair = reason[1:]
-	reason_html = filter_emojis_only(reason)
+	reason_html = filter_emojis_only(reason, link=True)
 	if len(reason_html) > 350:
 		abort(400, "Rendered report reason is too long!")
 
@@ -95,7 +95,7 @@ def report_comment(cid, v):
 	if len(reason) > 100:
 		abort(400, "Report reason is too long (max 100 characters)")
 
-	reason_html = filter_emojis_only(reason)
+	reason_html = filter_emojis_only(reason, link=True)
 	if len(reason_html) > 350:
 		abort(400, "Rendered report reason is too long!")
 

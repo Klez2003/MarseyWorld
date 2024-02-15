@@ -412,7 +412,7 @@ def award_thing(v, thing_type, id):
 			author.flairchanged += 86400
 		else:
 			author.flair = new_flair
-			new_flair = filter_emojis_only(new_flair)
+			new_flair = filter_emojis_only(new_flair, link=True)
 			new_flair = censor_slurs_profanities(new_flair, None)
 			if len(new_flair) > 1000: abort(403)
 			author.flair_html = new_flair
