@@ -465,13 +465,13 @@ class User(Base):
 	@property
 	@lazy
 	def hole_blocks(self):
-		stealth = set(x[0] for x in g.db.query(Hole.name).filter_by(stealth=True))
-		stealth = stealth - set(x[0] for x in g.db.query(StealthHoleUnblock.hole).filter_by(user_id=self.id))
+		stealth = {x[0] for x in g.db.query(Hole.name).filter_by(stealth=True)}
+		stealth = stealth - {x[0] for x in g.db.query(StealthHoleUnblock.hole).filter_by(user_id=self.id)}
 		if self.chud == 1: stealth = stealth - {'chudrama'}
 
-		public_use = set(x[0] for x in g.db.query(Hole.name).filter_by(public_use=True))
+		public_use = {x[0] for x in g.db.query(Hole.name).filter_by(public_use=True)}
 
-		return stealth + set(x[0] for x in g.db.query(HoleBlock.hole).filter_by(user_id=self.id)) - public_use
+		return stealth | {x[0] for x in g.db.query(HoleBlock.hole).filter_by(user_id=self.id)} - public_use
 
 	@lazy
 	def blocks(self, hole):
