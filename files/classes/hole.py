@@ -3,7 +3,7 @@ import time
 from typing import Annotated
 
 from sqlalchemy.ext.mutable import MutableList
-from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy.orm import DynamicMapped, Mapped, mapped_column, relationship
 from sqlalchemy.dialects.postgresql import ARRAY
 
 from files.classes import Base
@@ -29,9 +29,9 @@ class Hole(Base):
 	else:
 		snappy_quotes: Mapped[Annotated[str, HOLE_SNAPPY_QUOTES_LENGTH]] = mapped_column(deferred=True)
 
-	blocks = relationship("HoleBlock", primaryjoin="HoleBlock.hole==Hole.name")
-	followers = relationship("HoleFollow", primaryjoin="HoleFollow.hole==Hole.name")
-	stealth_hole_unblocks = relationship("StealthHoleUnblock", lazy="dynamic", primaryjoin="StealthHoleUnblock.hole==Hole.name")
+	blocks: Mapped[list["HoleBlock"]] = relationship(primaryjoin="HoleBlock.hole==Hole.name")
+	followers: Mapped[list["HoleFollow"]] = relationship(primaryjoin="HoleFollow.hole==Hole.name")
+	stealth_hole_unblocks: DynamicMapped["StealthHoleUnblock"] = relationship(primaryjoin="StealthHoleUnblock.hole==Hole.name")
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())

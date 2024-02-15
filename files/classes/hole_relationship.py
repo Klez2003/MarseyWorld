@@ -1,10 +1,15 @@
 import time
+from typing import TYPE_CHECKING
 
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, relationship, mapped_column
 from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
+
+if TYPE_CHECKING:
+	from files.classes import User
+
 
 class HoleRelationship(Base):
 	__tablename__ = NotImplemented
@@ -36,4 +41,4 @@ class Mod(HoleRelationship):
 class Exile(HoleRelationship):
 	__tablename__ = "exiles"
 	exiler_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
-	exiler = relationship("User", primaryjoin="User.id==Exile.exiler_id")
+	exiler: Mapped["User"] = relationship(primaryjoin="User.id==Exile.exiler_id")

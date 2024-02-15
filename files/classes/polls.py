@@ -1,4 +1,5 @@
 import time
+from typing import TYPE_CHECKING
 
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -6,6 +7,10 @@ from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
 from files.helpers.lazy import lazy
+
+if TYPE_CHECKING:
+	from files.classes import Comment, Post, User
+
 
 class PostOption(Base):
 	__tablename__ = "post_options"
@@ -16,8 +21,8 @@ class PostOption(Base):
 	exclusive: Mapped[int]
 	created_utc: Mapped[int]
 
-	votes = relationship("PostOptionVote")
-	parent = relationship("Post", back_populates="options")
+	votes: Mapped[list["PostOptionVote"]] = relationship()
+	parent: Mapped["Post"] = relationship(back_populates="options")
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
@@ -45,7 +50,7 @@ class PostOptionVote(Base):
 	created_utc: Mapped[int]
 	post_id: Mapped[int] = mapped_column(ForeignKey("posts.id"))
 
-	user = relationship("User")
+	user: Mapped["User"] = relationship()
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
@@ -65,8 +70,8 @@ class CommentOption(Base):
 	exclusive: Mapped[int]
 	created_utc: Mapped[int]
 
-	votes = relationship("CommentOptionVote")
-	parent = relationship("Comment", back_populates="options")
+	votes: Mapped[list["CommentOptionVote"]] = relationship()
+	parent: Mapped["Comment"] = relationship(back_populates="options")
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
@@ -94,7 +99,7 @@ class CommentOptionVote(Base):
 	created_utc: Mapped[int]
 	comment_id: Mapped[int] = mapped_column(ForeignKey("comments.id"))
 
-	user = relationship("User")
+	user: Mapped["User"] = relationship()
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())

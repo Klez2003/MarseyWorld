@@ -1,4 +1,5 @@
 import time
+from typing import TYPE_CHECKING
 
 from flask import g
 from sqlalchemy import ForeignKey
@@ -12,6 +13,10 @@ from files.helpers.lazy import lazy
 from .comment import Comment
 from .post import Post
 
+if TYPE_CHECKING:
+	from files.classes import User
+
+
 class OauthApp(Base):
 	__tablename__ = "oauth_apps"
 
@@ -23,7 +28,7 @@ class OauthApp(Base):
 	author_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
 	created_utc: Mapped[int]
 
-	author = relationship("User", back_populates="apps")
+	author: Mapped["User"] = relationship(back_populates="apps")
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
@@ -56,8 +61,8 @@ class ClientAuth(Base):
 	access_token: Mapped[str]
 	created_utc: Mapped[int]
 
-	user = relationship("User")
-	application = relationship("OauthApp")
+	user: Mapped["User"] = relationship()
+	application: Mapped["OauthApp"] = relationship()
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())

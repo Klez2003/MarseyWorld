@@ -1,4 +1,5 @@
 import time
+from typing import TYPE_CHECKING
 
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -8,6 +9,10 @@ from files.classes import Base
 from files.helpers.lazy import *
 from files.helpers.sorting_and_time import make_age_string
 
+if TYPE_CHECKING:
+	from files.classes import User
+
+
 class ViewerRelationship(Base):
 	__tablename__ = "viewers"
 
@@ -16,7 +21,7 @@ class ViewerRelationship(Base):
 	last_view_utc: Mapped[int]
 	created_utc: Mapped[int]
 
-	viewer = relationship("User", primaryjoin="ViewerRelationship.viewer_id == User.id")
+	viewer: Mapped["User"] = relationship(primaryjoin="ViewerRelationship.viewer_id == User.id")
 
 	def __init__(self, **kwargs):
 		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())

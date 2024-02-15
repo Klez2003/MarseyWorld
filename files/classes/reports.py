@@ -1,4 +1,5 @@
 import time
+from typing import TYPE_CHECKING
 
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -8,6 +9,10 @@ from files.classes import Base
 from files.helpers.lazy import lazy
 from files.helpers.slurs_and_profanities import censor_slurs_profanities
 
+if TYPE_CHECKING:
+	from files.classes import User
+
+
 class Report(Base):
 	__tablename__ = "reports"
 
@@ -16,7 +21,7 @@ class Report(Base):
 	reason: Mapped[str]
 	created_utc: Mapped[int]
 
-	user = relationship("User", primaryjoin = "Report.user_id == User.id", uselist = False)
+	user: Mapped["User"] = relationship(primaryjoin = "Report.user_id == User.id", uselist = False)
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
@@ -44,7 +49,7 @@ class CommentReport(Base):
 	reason: Mapped[str]
 	created_utc: Mapped[int]
 
-	user = relationship("User", primaryjoin = "CommentReport.user_id == User.id", uselist = False)
+	user: Mapped["User"] = relationship(primaryjoin = "CommentReport.user_id == User.id", uselist = False)
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())

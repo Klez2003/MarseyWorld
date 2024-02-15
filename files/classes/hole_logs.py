@@ -1,4 +1,5 @@
 import time
+from typing import TYPE_CHECKING
 
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -10,6 +11,10 @@ from files.helpers.config.const import *
 from files.helpers.lazy import lazy
 from files.helpers.slurs_and_profanities import censor_slurs_profanities
 from files.helpers.sorting_and_time import make_age_string
+
+if TYPE_CHECKING:
+	from files.classes import Comment, Post, User
+
 
 class HoleAction(Base):
 	__tablename__ = "hole_actions"
@@ -23,10 +28,10 @@ class HoleAction(Base):
 	_note: Mapped[str]
 	created_utc: Mapped[int]
 
-	user = relationship("User", primaryjoin="User.id==HoleAction.user_id")
-	target_user = relationship("User", primaryjoin="User.id==HoleAction.target_user_id")
-	target_post = relationship("Post")
-	target_comment = relationship("Comment")
+	user: Mapped["User"] = relationship(primaryjoin="User.id==HoleAction.user_id")
+	target_user: Mapped["User"] = relationship(primaryjoin="User.id==HoleAction.target_user_id")
+	target_post: Mapped["Post"] = relationship()
+	target_comment: Mapped["Comment"] = relationship()
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())

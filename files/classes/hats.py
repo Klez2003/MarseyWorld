@@ -1,4 +1,5 @@
 import time
+from typing import TYPE_CHECKING
 
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -8,6 +9,10 @@ from flask import g
 from files.classes import Base
 from files.helpers.lazy import lazy
 from files.helpers.slurs_and_profanities import censor_slurs_profanities
+
+if TYPE_CHECKING:
+	from files.classes import User
+
 
 class HatDef(Base):
 	__tablename__ = "hat_defs"
@@ -20,8 +25,8 @@ class HatDef(Base):
 	submitter_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
 	created_utc: Mapped[int]
 
-	author = relationship("User", primaryjoin="HatDef.author_id == User.id", back_populates="designed_hats")
-	submitter = relationship("User", primaryjoin="HatDef.submitter_id == User.id")
+	author: Mapped["User"] = relationship(primaryjoin="HatDef.author_id == User.id", back_populates="designed_hats")
+	submitter: Mapped["User"] = relationship(primaryjoin="HatDef.submitter_id == User.id")
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
@@ -53,8 +58,8 @@ class Hat(Base):
 	equipped: Mapped[bool] = mapped_column(default=False)
 	created_utc: Mapped[int]
 
-	hat_def = relationship("HatDef")
-	owners = relationship("User", back_populates="owned_hats")
+	hat_def: Mapped["HatDef"] = relationship()
+	owners: Mapped[list["User"]] = relationship(back_populates="owned_hats")
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())

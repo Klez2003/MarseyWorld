@@ -1,5 +1,6 @@
 import random
 import time
+from typing import TYPE_CHECKING
 from urllib.parse import urlparse
 from flask import g
 
@@ -21,6 +22,10 @@ from .polls import *
 from .hole import *
 from .subscriptions import *
 from .saves import SaveRelationship
+
+if TYPE_CHECKING:
+	from files.classes import OauthApp, Report
+
 
 class Post(Base):
 	__tablename__ = "posts"
@@ -77,14 +82,14 @@ class Post(Base):
 	if SITE_NAME == 'WPD':
 		cw: Mapped[bool] = mapped_column(default=False)
 
-	author = relationship("User", primaryjoin="Post.author_id==User.id")
-	oauth_app = relationship("OauthApp")
-	approved_by = relationship("User", uselist=False, primaryjoin="Post.is_approved==User.id")
-	awards = relationship("AwardRelationship", order_by="AwardRelationship.awarded_utc.desc()", back_populates="post")
-	reports = relationship("Report", order_by="Report.created_utc")
-	comments = relationship("Comment", primaryjoin="Comment.parent_post==Post.id", back_populates="post")
-	hole_obj = relationship("Hole", primaryjoin="foreign(Post.hole)==remote(Hole.name)")
-	options = relationship("PostOption", order_by="PostOption.id")
+	author: Mapped["User"] = relationship(primaryjoin="Post.author_id==User.id")
+	oauth_app: Mapped["OauthApp"] = relationship()
+	approved_by: Mapped["User"] = relationship(uselist=False, primaryjoin="Post.is_approved==User.id")
+	awards: Mapped[list["AwardRelationship"]] = relationship(order_by="AwardRelationship.awarded_utc.desc()", back_populates="post")
+	reports: Mapped[list["Report"]] = relationship(order_by="Report.created_utc")
+	comments: Mapped[list["Comment"]] = relationship(primaryjoin="Comment.parent_post==Post.id", back_populates="post")
+	hole_obj: Mapped["Hole"] = relationship(primaryjoin="foreign(Post.hole)==remote(Hole.name)")
+	options: Mapped[list["PostOption"]] = relationship(order_by="PostOption.id")
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs:

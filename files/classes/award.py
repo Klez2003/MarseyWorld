@@ -1,4 +1,5 @@
 import time
+from typing import TYPE_CHECKING
 
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -7,6 +8,9 @@ from sqlalchemy.sql.sqltypes import *
 from files.classes import Base
 from files.helpers.config.awards import AWARDS, HOUSE_AWARDS
 from files.helpers.lazy import lazy
+
+if TYPE_CHECKING:
+	from files.classes import Comment, Post, User
 
 
 class AwardRelationship(Base):
@@ -22,9 +26,9 @@ class AwardRelationship(Base):
 	price_paid: Mapped[int] = mapped_column(default = 0)
 	note: Mapped[str]
 
-	user = relationship("User", primaryjoin="AwardRelationship.user_id==User.id", back_populates="awards")
-	post = relationship("Post", primaryjoin="AwardRelationship.post_id==Post.id", back_populates="awards")
-	comment = relationship("Comment", primaryjoin="AwardRelationship.comment_id==Comment.id", back_populates="awards")
+	user: Mapped["User"] = relationship(primaryjoin="AwardRelationship.user_id==User.id", back_populates="awards")
+	post: Mapped["Post"] = relationship(primaryjoin="AwardRelationship.post_id==Post.id", back_populates="awards")
+	comment: Mapped["Comment"] = relationship(primaryjoin="AwardRelationship.comment_id==Comment.id", back_populates="awards")
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())

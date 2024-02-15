@@ -1,10 +1,15 @@
 import time
+from typing import TYPE_CHECKING
 
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
+
+if TYPE_CHECKING:
+	from files.classes import Comment, User
+
 
 class Notification(Base):
 	__tablename__ = "notifications"
@@ -14,8 +19,8 @@ class Notification(Base):
 	read: Mapped[bool] = mapped_column(default=False)
 	created_utc: Mapped[int]
 
-	comment = relationship("Comment")
-	user = relationship("User")
+	comment: Mapped["Comment"] = relationship()
+	user: Mapped["User"] = relationship()
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())

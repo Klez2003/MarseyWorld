@@ -1,10 +1,16 @@
 import time
+from typing import TYPE_CHECKING
 
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
+
+if TYPE_CHECKING:
+	from files.classes.comment import Comment
+	from files.classes.post import Post
+
 
 class SaveRelationship(Base):
 	__tablename__ = "save_relationship"
@@ -13,7 +19,7 @@ class SaveRelationship(Base):
 	post_id: Mapped[int] = mapped_column(ForeignKey("posts.id"), primary_key=True)
 	created_utc: Mapped[int]
 
-	post = relationship("Post", uselist=False)
+	post: Mapped["Post"] = relationship(uselist=False)
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
@@ -31,7 +37,7 @@ class CommentSaveRelationship(Base):
 	comment_id: Mapped[int] = mapped_column(ForeignKey("comments.id"), primary_key=True)
 	created_utc: Mapped[int]
 
-	comment = relationship("Comment", uselist=False)
+	comment: Mapped["Comment"] = relationship(uselist=False)
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())

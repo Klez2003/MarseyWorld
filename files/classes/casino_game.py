@@ -1,5 +1,6 @@
 import json
 import time
+from typing import TYPE_CHECKING
 
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -7,6 +8,9 @@ from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
 from files.helpers.lazy import lazy
+
+if TYPE_CHECKING:
+	from files.classes import User
 
 CASINO_GAME_KINDS = ['blackjack', 'slots', 'roulette']
 
@@ -23,7 +27,7 @@ class CasinoGame(Base):
 	kind: Mapped[str]
 	game_state: Mapped[str] = mapped_column(JSON)
 
-	user = relationship("User")
+	user: Mapped["User"] = relationship()
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs:

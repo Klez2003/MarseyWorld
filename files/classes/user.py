@@ -3,7 +3,7 @@ from operator import *
 
 import pyotp
 from sqlalchemy import ForeignKey, FetchedValue
-from sqlalchemy.orm import Mapped, Query, aliased, deferred, mapped_column
+from sqlalchemy.orm import DynamicMapped, Mapped, Query, aliased, deferred, mapped_column
 from sqlalchemy.sql import case, func, literal
 from sqlalchemy.sql.expression import not_, and_, or_
 from sqlalchemy.sql.sqltypes import *
@@ -175,20 +175,20 @@ class User(Base):
 		zombie: Mapped[int] = mapped_column(default=0) # > 0 vaxxed; < 0 zombie
 		jumpscare: Mapped[int] = mapped_column(default=0)
 
-	badges = relationship("Badge", order_by="Badge.created_utc", back_populates="user")
-	subscriptions = relationship("Subscription", back_populates="user")
-	following = relationship("Follow", primaryjoin="Follow.user_id==User.id", back_populates="user")
-	followers = relationship("Follow", primaryjoin="Follow.target_id==User.id", back_populates="target")
-	blocking = relationship("UserBlock", lazy="dynamic", primaryjoin="User.id==UserBlock.user_id", back_populates="user")
-	blocked = relationship("UserBlock", lazy="dynamic", primaryjoin="User.id==UserBlock.target_id", back_populates="target")
-	authorizations = relationship("ClientAuth", back_populates="user")
-	apps = relationship("OauthApp", back_populates="author")
-	awards = relationship("AwardRelationship", primaryjoin="User.id==AwardRelationship.user_id", back_populates="user")
-	referrals = relationship("User", primaryjoin="User.id==User.referred_by", order_by="User.created_utc")
-	designed_hats = relationship("HatDef", primaryjoin="User.id==HatDef.author_id", back_populates="author")
-	owned_hats = relationship("Hat", back_populates="owners")
-	hats_equipped = relationship("Hat", lazy="raise", viewonly=True)
-	hole_mods = relationship("Mod", primaryjoin="User.id == Mod.user_id", lazy="raise")
+	badges: Mapped[list["Badge"]] = relationship(order_by="Badge.created_utc", back_populates="user")
+	subscriptions: Mapped[list["Subscription"]] = relationship(back_populates="user")
+	following: Mapped[list["Follow"]] = relationship(primaryjoin="Follow.user_id==User.id", back_populates="user")
+	followers: Mapped[list["Follow"]] = relationship(primaryjoin="Follow.target_id==User.id", back_populates="target")
+	blocking: DynamicMapped["UserBlock"] = relationship(primaryjoin="User.id==UserBlock.user_id", back_populates="user")
+	blocked: DynamicMapped["UserBlock"] = relationship(primaryjoin="User.id==UserBlock.target_id", back_populates="target")
+	authorizations: Mapped[list["ClientAuth"]] = relationship(back_populates="user")
+	apps: Mapped[list["OauthApp"]] = relationship(back_populates="author")
+	awards: Mapped[list["AwardRelationship"]] = relationship(primaryjoin="User.id==AwardRelationship.user_id", back_populates="user")
+	referrals: Mapped[list["User"]] = relationship(primaryjoin="User.id==User.referred_by", order_by="User.created_utc")
+	designed_hats: Mapped[list["HatDef"]] = relationship(primaryjoin="User.id==HatDef.author_id", back_populates="author")
+	owned_hats: Mapped[list["Hat"]] = relationship(back_populates="owners")
+	hats_equipped: Mapped[list["Hat"]] = relationship(lazy="raise", viewonly=True)
+	hole_mods: Mapped[list["Mod"]] = relationship(primaryjoin="User.id == Mod.user_id", lazy="raise")
 
 	def __init__(self, **kwargs):
 

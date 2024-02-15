@@ -1,6 +1,7 @@
 import time
 from math import floor
 from random import randint
+from typing import TYPE_CHECKING
 from urllib.parse import parse_qs, urlencode, urlparse
 from flask import g
 
@@ -20,6 +21,9 @@ from files.helpers.sorting_and_time import *
 from files.helpers.bleach_body import *
 
 from .saves import CommentSaveRelationship
+
+if TYPE_CHECKING:
+	from files.classes import AwardRelationship, CasinoGame, CommentOption, CommentReport, OauthApp, Post, User
 
 def get_emoji_awards_emojis(obj, v, kind, NSFW_EMOJIS):
 	if g.show_nsfw:
@@ -216,16 +220,16 @@ class Comment(Base):
 	else:
 		nsfw = False
 
-	oauth_app = relationship("OauthApp")
-	post = relationship("Post", back_populates="comments")
-	author = relationship("User", primaryjoin="User.id==Comment.author_id")
-	senttouser = relationship("User", primaryjoin="User.id==Comment.sentto")
-	parent_comment = relationship("Comment", remote_side=[id])
-	awards = relationship("AwardRelationship", order_by="AwardRelationship.awarded_utc.desc()", back_populates="comment")
-	reports = relationship("CommentReport", order_by="CommentReport.created_utc")
-	options = relationship("CommentOption", order_by="CommentOption.id")
-	casino_game = relationship("CasinoGame")
-	wall_user = relationship("User", primaryjoin="User.id==Comment.wall_user_id")
+	oauth_app: Mapped["OauthApp"] = relationship()
+	post: Mapped["Post"] = relationship(back_populates="comments")
+	author: Mapped["User"] = relationship(primaryjoin="User.id==Comment.author_id")
+	senttouser: Mapped["User"] = relationship(primaryjoin="User.id==Comment.sentto")
+	parent_comment: Mapped["Comment"] = relationship(remote_side=[id])
+	awards: Mapped[list["AwardRelationship"]] = relationship(order_by="AwardRelationship.awarded_utc.desc()", back_populates="comment")
+	reports: Mapped[list["CommentReport"]] = relationship(order_by="CommentReport.created_utc")
+	options: Mapped[list["CommentOption"]] = relationship(order_by="CommentOption.id")
+	casino_game: Mapped["CasinoGame"] = relationship()
+	wall_user: Mapped["User"] = relationship(primaryjoin="User.id==Comment.wall_user_id")
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs:
