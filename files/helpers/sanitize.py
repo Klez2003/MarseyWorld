@@ -136,7 +136,7 @@ def find_all_emoji_endings(emoji):
 			emoji = emoji[:-8]
 			continue
 
-		if emoji.endswith('love') and emoji not in {'marseycornlove', 'marseycapylove'}:
+		if emoji.endswith('love') and emoji not in {'marseycornlove', 'capylove'}:
 			if 'love' in endings:
 				is_non_ending_found = True
 				continue
