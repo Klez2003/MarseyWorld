@@ -832,7 +832,7 @@ AWARDS = {
 	"unblockable": {
 		"kind": "unblockable",
 		"title": "Unblockable",
-		"description": "Makes the recipient unblockable and removes all blocks on them.",
+		"description": "Makes the recipient unblockable and removes all blocks on them at the cost of being unable to block others.",
 		"icon": "fas fa-laugh-squint",
 		"color": "text-lightgreen",
 		"price": 20000,
