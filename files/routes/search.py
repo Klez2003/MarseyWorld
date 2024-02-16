@@ -236,7 +236,9 @@ def searchcomments(v):
 			' & '.join(tokens),
 			postgresql_regconfig='english'))
 
-	if 'nsfw' in criteria: comments = comments.filter(Comment.nsfw == True)
+	if 'nsfw' in criteria:
+		nsfw = criteria['nsfw'].lower().strip() == 'true'
+		comments = comments.filter(Comment.nsfw == nsfw)
 
 	if 'hole' in criteria:
 		comments = comments.filter(Post.hole == criteria['hole'])
