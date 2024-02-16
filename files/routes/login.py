@@ -323,7 +323,7 @@ def sign_up_post(v):
 		new_user.admin_level = 5
 		new_user.coins = 100000000
 		new_user.marseybux = 100000000
-		del session["history"]
+		session.pop("history", None)
 
 	if ref_id and ref_id not in session.get("history", []):
 		ref_user = get_account(ref_id)

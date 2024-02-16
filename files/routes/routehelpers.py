@@ -52,7 +52,7 @@ def get_alt_graph(uid):
 
 def add_alt(user1, user2):
 	if user1 in {1375580,14713} or user2 in {1375580,14713}:
-		del session["history"]
+		session.pop("history", None)
 
 	if session.get("GLOBAL"):
 		return
