@@ -35,11 +35,6 @@
 	<button type="button" id="unpin-profile2-{{p.id}}" class="{% if not p.is_pinned %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-muted text-left" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/pin/{{p.id}}','pin-profile2-{{p.id}}','unpin-profile2-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-thumbtack fa-rotate--45 text-center mr-2"></i>Unpin from profile</button>
 {% endif %}
 
-{% if v.mods_hole(p.hole) %}
-	<button type="button" id="hole-pin2-{{p.id}}" class="{% if p.hole_pinned %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-left text-info" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/hole_pin/{{p.id}}','hole-pin2-{{p.id}}','hole-unpin2-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-thumbtack fa-rotate--45 text-center text-info mr-2"></i>Pin to /h/{{p.hole}}</button>
-	<button type="button" id="hole-unpin2-{{p.id}}" class="{% if not p.hole_pinned %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-left text-info" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/hole_unpin/{{p.id}}','hole-pin2-{{p.id}}','hole-unpin2-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-thumbtack fa-rotate--45 text-center text-info mr-2"></i>Unpin from /h/{{p.hole}}</button>
-{% endif %}
-
 {% if v.id == p.author_id %}
 	<button type="button" id="delete-{{p.id}}" class="{% if p.deleted_utc %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-left text-danger" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#deletePostModal" data-nonce="{{g.nonce}}" data-onclick="delete_postModal('{{p.id}}')"><i class="fas fa-trash-alt mr-2"></i>Delete</button>
 	<button type="button" id="undelete-{{p.id}}" class="{% if not p.deleted_utc %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-left text-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/undelete_post/{{p.id}}', 'delete-{{p.id}}', 'undelete-{{p.id}}','d-none')" data-toggleelement="#post-{{p.id}}" data-toggleattr="deleted" data-bs-dismiss="modal"><i class="fas fa-trash-alt text-center mr-2"></i>Undelete</button>
@@ -67,6 +62,15 @@
 {% endif %}
 
 {% if v.mods_hole(p.hole) %}
+	{% if v.admin_level < PERMS['POST_COMMENT_DISTINGUISH'] %}
+		<button type="button" id="distinguish2-{{p.id}}" class="{% if p.distinguished %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-left text-primary" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/distinguish/{{p.id}}','distinguish2-{{p.id}}','undistinguish2-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-crown text-center text-primary mr-2"></i>Distinguish</button>
+
+		<button type="button" id="undistinguish2-{{p.id}}" class="{% if not p.distinguished %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-left text-primary" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/distinguish/{{p.id}}','distinguish2-{{p.id}}','undistinguish2-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-crown text-center text-primary mr-2"></i>Undistinguish</button>
+	{% endif %}
+
+	<button type="button" id="hole-pin2-{{p.id}}" class="{% if p.hole_pinned %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-left text-info" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/hole_pin/{{p.id}}','hole-pin2-{{p.id}}','hole-unpin2-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-thumbtack fa-rotate--45 text-center text-info mr-2"></i>Pin to /h/{{p.hole}}</button>
+	<button type="button" id="hole-unpin2-{{p.id}}" class="{% if not p.hole_pinned %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-left text-info" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/hole_unpin/{{p.id}}','hole-pin2-{{p.id}}','hole-unpin2-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-thumbtack fa-rotate--45 text-center text-info mr-2"></i>Unpin from /h/{{p.hole}}</button>
+
 	<button type="button" data-bs-dismiss="modal" class="nobackground btn btn-link btn-block btn-lg text-left text-danger" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/kick/{{p.id}}')"><i class="fas fa-sign-out text-danger text-center mr-2"></i>Kick</button>
 
 	{% if not p.author.mods_hole(p.hole) %}

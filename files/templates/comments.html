@@ -646,6 +646,11 @@
 										<button type="button" id="unmark2-{{c.id}}" class="{% if not c.nsfw %}d-none{% endif %} list-group-item text-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/toggle_comment_nsfw/{{c.id}}','mark2-{{c.id}}','unmark2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-eye-evil text-success mr-2"></i>Unmark NSFW</button>
 									{% endif %}
 
+									{% if v.admin_level < PERMS['POST_COMMENT_DISTINGUISH'] and v.mods_hole(c.post.hole) %}
+										<button type="button" id="distinguish2-{{c.id}}" class="list-group-item {% if c.distinguished %}d-none{% endif %} text-info" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/distinguish_comment/{{c.id}}','distinguish2-{{c.id}}','undistinguish2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-id-badge text-info mr-2"></i>Distinguish</button>
+										<button type="button" id="undistinguish2-{{c.id}}" class="list-group-item {% if not c.distinguished %}d-none{% endif %} text-info" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/distinguish_comment/{{c.id}}','distinguish2-{{c.id}}','undistinguish2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-id-badge text-info mr-2"></i>Undistinguish</button>
+									{% endif %}
+
 									{% if v.admin_level < PERMS['POST_COMMENT_MODERATION'] %}
 										{% if c.parent_post and v.id == c.post.author_id %}
 											<button type="button" id="pin2-{{c.id}}" class="list-group-item {% if c.stickied %}d-none{% endif %} text-info" data-bs-target="#actionsModal-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/pin_comment/{{c.id}}','pin2-{{c.id}}','unpin2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-thumbtack fa-rotate--45 text-info mr-2"></i>Pin</button>
@@ -693,7 +698,7 @@
 											</button>
 										{% endif %}
 
-										{% if v.admin_level >= PERMS['POST_COMMENT_DISTINGUISH'] or (c.parent_post and v.mods_hole(c.post.hole)) %}
+										{% if v.admin_level >= PERMS['POST_COMMENT_DISTINGUISH'] %}
 											<button type="button" id="distinguish2-{{c.id}}" class="list-group-item {% if c.distinguished %}d-none{% endif %} text-info" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/distinguish_comment/{{c.id}}','distinguish2-{{c.id}}','undistinguish2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-id-badge text-info mr-2"></i>Distinguish</button>
 											<button type="button" id="undistinguish2-{{c.id}}" class="list-group-item {% if not c.distinguished %}d-none{% endif %} text-info" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/distinguish_comment/{{c.id}}','distinguish2-{{c.id}}','undistinguish2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-id-badge text-info mr-2"></i>Undistinguish</button>
 										{% endif %}
