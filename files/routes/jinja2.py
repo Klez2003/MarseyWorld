@@ -20,6 +20,7 @@ from files.helpers.settings import *
 from files.helpers.cloudflare import *
 from files.helpers.sorting_and_time import make_age_string
 from files.helpers.can_see import *
+from files.helpers.alerts import send_notification
 from files.routes.routehelpers import get_alt_graph, get_formkey
 from files.routes.wrappers import calc_users
 from files.__main__ import app, cache
@@ -140,7 +141,10 @@ def poster_of_the_day_id():
 		User.admin_level == 0,
 	).group_by(User.id).order_by(func.sum(Post.upvotes).desc()).first()[0]
 
-	db.rollback()
+	t = datetime.datetime.now()
+	send_notification(uid, f":marseyjam: You're the top poster of the day for the day of {t.year}-{t.month}-{t.day} :marseyjam:")
+
+	db.commit()
 	db.close()
 
 	return uid
