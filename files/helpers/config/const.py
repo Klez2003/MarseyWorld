@@ -694,6 +694,7 @@ if SITE in {'rdrama.net', 'staging.rdrama.net'}:
 
 	PINNED_POSTS_IDS = {
 		PIZZASHILL_ID: 1,
+		28: 1, #Joan_Wayne_Gacy
 		10953: 1, #autodrama
 		864: 1, #RitalinRx
 		1096: 1, #xa15428
