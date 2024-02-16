@@ -211,7 +211,7 @@ tlds = ( # Original gTLDs and ccTLDs
 	'vu','wf','ws','xn','xxx','ye','yt','yu','za','zm','zw',
 	# New gTLDs
 	'app','cleaning','club','dev','farm','florist','fun','gay','lgbt','life','lol',
-	'moe','mom','monster','new','news','online','pics','press','pub','site','blog',
+	'moe','mom','monster','new','news','one','online','pics','press','pub','site','blog',
 	'vip','win','world','wtf','xyz','video','host','art','media','wiki','tech',
 	'cooking','network','party','goog','markets','today','beauty','camp','top',
 	'red','city','quest','works','soy','zone',
