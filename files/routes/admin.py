@@ -135,7 +135,7 @@ def remove_admin(v, username):
 	user = get_user(username)
 
 	if user.admin_level > v.admin_level:
-		abort(403)
+		abort(403, "You can't remove an admin with higher level than you.")
 
 	if user.admin_level:
 		user.admin_level = 0
@@ -164,7 +164,8 @@ def distribute(v, kind, option_id):
 
 	option = g.db.get(cls, option_id)
 
-	if option.exclusive != 2: abort(403)
+	if option.exclusive != 2:
+		abort(400, "This is not a bet.")
 
 	option.exclusive = 3
 	g.db.add(option)
@@ -226,7 +227,7 @@ def revert_actions(v, username):
 	revertee = get_user(username)
 
 	if revertee.admin_level > v.admin_level:
-		abort(403)
+		abort(403, "You can't revert the actions of an admin with higher level that you.")
 
 	ma = ModAction(
 		kind="revert",
@@ -485,7 +486,7 @@ def badge_grant_post(v):
 		user = get_user(username)
 
 		try: badge_id = int(request.values.get("badge_id"))
-		except: abort(400)
+		except: abort(400, "Invalid badge id.")
 
 		if badge_id not in [b.id for b in badges]:
 			abort(403, "You can't grant this badge!")
@@ -497,7 +498,7 @@ def badge_grant_post(v):
 			abort(400, "This badge requires a url!")
 
 		if url:
-			if '\\' in url: abort(400)
+			if '\\' in url: abort(400, "Nice try nigger.")
 			if url.startswith(f'{SITE_FULL}/'):
 				url = url.split(SITE_FULL, 1)[1]
 		else:
@@ -563,10 +564,10 @@ def badge_remove_post(v):
 		user = get_user(username)
 
 		try: badge_id = int(request.values.get("badge_id"))
-		except: abort(400)
+		except: abort(400, "Invalid badge id.")
 
 		if badge_id not in [b.id for b in badges]:
-			abort(403)
+			abort(403, "You're not allowed to remove this badge.")
 
 		badge = user.has_badge(badge_id)
 		if not badge: continue
@@ -749,7 +750,7 @@ def admin_delink_relink_alt(v, username, other):
 	user2 = get_account(other)
 	ids = [user1.id, user2.id]
 	a = g.db.query(Alt).filter(Alt.user1.in_(ids), Alt.user2.in_(ids)).one_or_none()
-	if not a: abort(404)
+	if not a: abort(404, "Alt doesn't exist.")
 	g.db.delete(a)
 
 	cache.delete_memoized(get_alt_graph_ids, user1.id)
@@ -869,7 +870,7 @@ def unchud(fullname, v):
 def shadowban(user_id, v):
 	user = get_account(user_id)
 	if user.admin_level > v.admin_level:
-		abort(403)
+		abort(403, "You can't shadowban an admin with higher level than you.")
 	user.shadowbanned = v.id
 	reason = request.values.get("reason", "").strip()
 
@@ -1000,7 +1001,7 @@ def ban_user(fullname, v):
 		user = get_account(fullname)
 
 	if user.admin_level > v.admin_level:
-		abort(403)
+		abort(403, "You can't ban an admin with higher level than you.")
 
 	if user.is_permabanned:
 		abort(403, f"@{user.username} is already banned permanently!")

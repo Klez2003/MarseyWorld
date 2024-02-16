@@ -742,8 +742,7 @@ def normalize_url(url):
 	if not url.startswith('/') and not url.startswith('https://rdrama.net') and not url.startswith('https://watchpeopledie.tv'):
 		try: parsed_url = urlparse(url)
 		except:
-			print(url, flush=True)
-			abort(500)
+			abort(400, f"Something is wrong with the url you submitted ({url}) and it couldn't be parsed.")
 
 		netloc = parsed_url.netloc
 		path = parsed_url.path

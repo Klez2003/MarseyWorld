@@ -326,15 +326,15 @@ def get_comments_v_properties(v, should_keep_func=None, *criterion):
 def get_hole(hole, v=None, graceful=False):
 	if not hole:
 		if graceful: return None
-		else: abort(404)
+		else: abort(404, f"/h/{hole} was not found.")
 	hole = hole.replace('/h/', '').replace('h/', '').strip().lower()
 	if not hole:
 		if graceful: return None
-		else: abort(404)
+		else: abort(404, f"/h/{hole} was not found.")
 	hole = g.db.get(Hole, hole)
 	if not hole:
 		if graceful: return None
-		else: abort(404)
+		else: abort(404, f"/h/{hole} was not found.")
 	return hole
 
 @cache.memoize(timeout=3600)

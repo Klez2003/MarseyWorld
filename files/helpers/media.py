@@ -92,7 +92,7 @@ def process_audio(file, v, old=None):
 	extension = guess_extension(file.content_type)
 	if not extension:
 		os.remove(old)
-		abort(400)
+		abort(400, "Unsupported audio format.")
 	new = old + extension
 
 	try:
@@ -101,7 +101,7 @@ def process_audio(file, v, old=None):
 		os.remove(old)
 		if os.path.isfile(new):
 			os.remove(new)
-		abort(400)
+		abort(400, "Something went wrong processing your audio on our end. Please try uploading it to https://pomf2.lain.la and post the link instead.")
 
 	os.remove(old)
 
@@ -162,7 +162,7 @@ def process_video(file, v):
 		bitrate = int(video_info.get('bit_rate', 3000000))
 	except:
 		os.remove(old)
-		abort(400, "Something went wrong processing your video and it might be on our end. Please try uploading it to https://pomf2.lain.la and post the link instead.")
+		abort(400, "Something went wrong processing your video on our end. Please try uploading it to https://pomf2.lain.la and post the link instead.")
 
 	if codec != 'h264':
 		copyfile(old, new)
@@ -177,7 +177,7 @@ def process_video(file, v):
 			os.remove(old)
 			if os.path.isfile(new):
 				os.remove(new)
-			abort(400)
+			abort(400, "Something went wrong processing your video on our end. Please try uploading it to https://pomf2.lain.la and post the link instead.")
 
 		os.remove(old)
 
@@ -227,7 +227,7 @@ def process_image(filename, v, resize=0, trim=False, uploader_id=None):
 	except:
 		os.remove(filename)
 		if has_request and not filename.startswith('/chat_images/'):
-			abort(415)
+			abort(400, "Something went wrong processing your image on our end. Please try uploading it to https://pomf2.lain.la and post the link instead.")
 		return None
 
 	params.append(filename)
