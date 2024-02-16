@@ -365,7 +365,7 @@ def reported_comments(v):
 				is_approved=None,
 				is_banned=False,
 				deleted_utc=0
-			).join(Comment.reports).join(User, User.id == Report.user_id).filter(User.shadowbanned == None, User.is_muted == False)
+			).join(Comment.reports).join(User, User.id == CommentReport.user_id).filter(User.shadowbanned == None, User.is_muted == False)
 
 	total = listing.count()
 
