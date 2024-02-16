@@ -1,7 +1,7 @@
 import time
 
 from sqlalchemy import Column, ForeignKey
-from sqlalchemy.orm import declared_attr
+from sqlalchemy.orm import relationship
 from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
@@ -10,17 +10,9 @@ class HoleRelationship(Base):
 	__tablename__ = NotImplemented
 	__abstract__ = True
 
-	@declared_attr
-	def user_id(self):
-		return Column(Integer, ForeignKey("users.id"), primary_key=True)
-
-	@declared_attr
-	def hole(self):
-		return Column(String(20), ForeignKey("holes.name"), primary_key=True)
-
-	@declared_attr
-	def created_utc(self):
-		return Column(Integer)
+	user_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
+	hole = Column(String, ForeignKey("holes.name"), primary_key=True)
+	created_utc = Column(Integer)
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
@@ -37,3 +29,11 @@ class HoleBlock(HoleRelationship):
 
 class HoleFollow(HoleRelationship):
 	__tablename__ = "hole_follows"
+
+class Mod(HoleRelationship):
+	__tablename__ = "mods"
+
+class Exile(HoleRelationship):
+	__tablename__ = "exiles"
+	exiler_id = Column(Integer, ForeignKey("users.id"))
+	exiler = relationship("User", primaryjoin="User.id==Exile.exiler_id")

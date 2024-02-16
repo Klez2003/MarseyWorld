@@ -26,10 +26,8 @@ from .alts import Alt
 from .award import AwardRelationship
 from .badges import *
 from .clients import *
-from .exiles import *
 from .follows import *
 from .hats import *
-from .mod import *
 from .mod_logs import *
 from .notifications import Notification
 from .saves import *
