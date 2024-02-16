@@ -140,7 +140,7 @@ def poster_of_the_day_id():
 	user = db.query(User, func.sum(Post.upvotes)).join(Post, Post.author_id == User.id).filter(
 		Post.created_utc > t,
 		User.admin_level == 0,
-	).group_by(User.id).order_by(func.sum(Post.upvotes).desc()).first()[0]
+	).group_by(User).order_by(func.sum(Post.upvotes).desc()).first()[0]
 
 	t = datetime.datetime.now()
 	send_notification(user.id, f":marseyjam: You're the Top Poster of the Day for the day of {t.year}-{t.month}-{t.day} :marseyjam:")
