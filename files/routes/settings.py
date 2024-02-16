@@ -337,7 +337,8 @@ def settings_personal_post(v):
 		if len(bio_html) > BIO_FRIENDS_ENEMIES_HTML_LENGTH_LIMIT:
 			abort(400, "Your rendered bio is too long!")
 
-		v.bio_html=bio_html
+		v.bio = bio
+		v.bio_html = bio_html
 		g.db.add(v)
 		return {"message": "Your bio has been updated."}
 
