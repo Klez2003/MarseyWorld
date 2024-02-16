@@ -1451,11 +1451,11 @@ def approve_post(post_id, v):
 def distinguish_post(post_id, v):
 	post = get_post(post_id)
 
-	if post.distinguish_level:
-		post.distinguish_level = 0
+	if post.distinguished:
+		post.distinguished = False
 		kind = 'undistinguish_post'
 	else:
-		post.distinguish_level = v.admin_level
+		post.distinguished = True
 		kind = 'distinguish_post'
 
 	g.db.add(post)
@@ -1468,7 +1468,7 @@ def distinguish_post(post_id, v):
 	g.db.add(ma)
 
 
-	if post.distinguish_level: return {"message": "Post distinguished!"}
+	if post.distinguished: return {"message": "Post distinguished!"}
 	else: return {"message": "Post undistinguished!"}
 
 
@@ -1686,11 +1686,11 @@ def approve_comment(c_id, v):
 def admin_distinguish_comment(c_id, v):
 	comment = get_comment(c_id, v=v)
 
-	if comment.distinguish_level:
-		comment.distinguish_level = 0
+	if comment.distinguished:
+		comment.distinguished = False
 		kind = 'undistinguish_comment'
 	else:
-		comment.distinguish_level = v.admin_level
+		comment.distinguished = True
 		kind = 'distinguish_comment'
 
 	g.db.add(comment)
@@ -1703,7 +1703,7 @@ def admin_distinguish_comment(c_id, v):
 	g.db.add(ma)
 
 
-	if comment.distinguish_level: return {"message": "Comment distinguished!"}
+	if comment.distinguished: return {"message": "Comment distinguished!"}
 	else: return {"message": "Comment undistinguished!"}
 
 @app.get("/admin/banned_domains/")

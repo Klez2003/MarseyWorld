@@ -23,9 +23,9 @@
 					{% endif %}
 
 					{% if v.admin_level >= PERMS['POST_COMMENT_DISTINGUISH'] %}
-						<button type="button" id="distinguish2-{{p.id}}" class="{% if p.distinguish_level %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-left text-primary" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/distinguish/{{p.id}}','distinguish2-{{p.id}}','undistinguish2-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-crown text-center text-primary mr-2"></i>Distinguish</button>
+						<button type="button" id="distinguish2-{{p.id}}" class="{% if p.distinguished %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-left text-primary" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/distinguish/{{p.id}}','distinguish2-{{p.id}}','undistinguish2-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-crown text-center text-primary mr-2"></i>Distinguish</button>
 
-						<button type="button" id="undistinguish2-{{p.id}}" class="{% if not p.distinguish_level %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-left text-primary" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/distinguish/{{p.id}}','distinguish2-{{p.id}}','undistinguish2-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-crown text-center text-primary mr-2"></i>Undistinguish</button>
+						<button type="button" id="undistinguish2-{{p.id}}" class="{% if not p.distinguished %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-left text-primary" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/distinguish/{{p.id}}','distinguish2-{{p.id}}','undistinguish2-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-crown text-center text-primary mr-2"></i>Undistinguish</button>
 					{% endif %}
 
 					{% if v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}

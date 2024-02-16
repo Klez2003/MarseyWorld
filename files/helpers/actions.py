@@ -241,7 +241,7 @@ def execute_snappy(post, v):
 
 	if len(body_html) < COMMENT_BODY_HTML_LENGTH_LIMIT:
 		c = Comment(author_id=SNAPPY_ID,
-			distinguish_level=6,
+			distinguished=True,
 			parent_post=post.id,
 			level=1,
 			nsfw=False,
@@ -314,7 +314,7 @@ def execute_zozbot(c, level, post, v):
 		body_html='<p class="zozbot">zoz</p>',
 		top_comment_id=c.top_comment_id,
 		ghost=c.ghost,
-		distinguish_level=6
+		distinguished=True
 	)
 
 	g.db.add(c2)
@@ -332,7 +332,7 @@ def execute_zozbot(c, level, post, v):
 		body_html='<p class="zozbot">zle</p>',
 		top_comment_id=c.top_comment_id,
 		ghost=c.ghost,
-		distinguish_level=6
+		distinguished=True
 	)
 
 	g.db.add(c3)
@@ -349,7 +349,7 @@ def execute_zozbot(c, level, post, v):
 		body_html='<p class="zozbot">zozzle</p>',
 		top_comment_id=c.top_comment_id,
 		ghost=c.ghost,
-		distinguish_level=6
+		distinguished=True
 	)
 
 	g.db.add(c4)

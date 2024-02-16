@@ -153,7 +153,7 @@
 								<i id='pinned-{{c.id}}'class="fas fa-thumbtack fa-rotate--45 pr-1 text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Pinned by @{{c.stickied}}" {% if c.stickied_utc %}data-onmouseover="pinned_timestamp('pinned-{{c.id}}')" data-timestamp={{c.stickied_utc}} data-nonce="{{g.nonce}}"{% endif %}></i>
 							{% endif %}
 
-							{% if c.distinguish_level and not c.ghost %}
+							{% if c.distinguished and not c.ghost %}
 								<i class="fas fa-broom text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{SITE_NAME}} Admin, speaking officially"></i>
 							{% endif %}
 
@@ -174,7 +174,7 @@
 							{% endif %}
 
 							{% if c.ghost %}
-								<span {% if c.distinguish_level %}class="mod {% if SITE_NAME == 'rDrama' %}mod-rdrama{% endif %}"{% endif %}>👻</span>
+								<span {% if c.distinguished %}class="mod {% if SITE_NAME == 'rDrama' %}mod-rdrama{% endif %}"{% endif %}>👻</span>
 							{% else %}
 								{% if FEATURES['PATRON_ICONS'] and c.author.patron > 1 %}
 									<img loading="lazy" src="{{SITE_FULL_IMAGES}}/i/{{SITE_NAME}}/badges/2{{c.author.patron}}.webp?b=11" class="patron-img" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{c.author.patron_tooltip}}" alt="{{c.author.patron_tooltip}}">
@@ -194,7 +194,7 @@
 											<img class="profile-pic-30-hat hat" loading="lazy" src="{{c.author.hat_active(v)[0]}}?x=7" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{c.author.hat_active(v)[1]}}" alt="@{{c.author.username}}'s hat">
 										{%- endif %}
 									</div>
-									<span {% if c.author.patron and not c.distinguish_level %}class="patron" style="background-color:#{{c.author.name_color}}"{% elif c.distinguish_level %}class="mod {% if SITE_NAME == 'rDrama' %}mod-rdrama{% endif %}"{% endif %} {% if c.author.pride_username(v) %}pride_username{% endif %}>{{c.author_name}}</span>
+									<span {% if c.author.patron and not c.distinguished %}class="patron" style="background-color:#{{c.author.name_color}}"{% elif c.distinguished %}class="mod {% if SITE_NAME == 'rDrama' %}mod-rdrama{% endif %}"{% endif %} {% if c.author.pride_username(v) %}pride_username{% endif %}>{{c.author_name}}</span>
 								</a>
 								{% if FEATURES['PRONOUNS'] %}
 									<span class="pronouns" style="color:#{{c.author.flaircolor}} !important;border-color:#{{c.author.flaircolor}} !important">{{c.author.pronouns_display}}</span>
@@ -422,9 +422,9 @@
 											{% endif %}
 
 											{% if v.admin_level >= PERMS['POST_COMMENT_DISTINGUISH'] %}
-												<button type="button" id="distinguish-{{c.id}}" class="dropdown-item list-inline-item d-none {% if not c.distinguish_level %}d-md-block{% endif %} text-info" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/distinguish_comment/{{c.id}}','distinguish-{{c.id}}','undistinguish-{{c.id}}','d-md-block')"><i class="fas fa-id-badge text-info fa-fw"></i>Distinguish</button>
+												<button type="button" id="distinguish-{{c.id}}" class="dropdown-item list-inline-item d-none {% if not c.distinguished %}d-md-block{% endif %} text-info" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/distinguish_comment/{{c.id}}','distinguish-{{c.id}}','undistinguish-{{c.id}}','d-md-block')"><i class="fas fa-id-badge text-info fa-fw"></i>Distinguish</button>
 
-												<button type="button" id="undistinguish-{{c.id}}" class="dropdown-item list-inline-item d-none {% if c.distinguish_level %}d-md-block{% endif %} text-info" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/distinguish_comment/{{c.id}}','distinguish-{{c.id}}','undistinguish-{{c.id}}','d-md-block')"><i class="fas fa-id-badge text-info fa-fw"></i>Undistinguish</button>
+												<button type="button" id="undistinguish-{{c.id}}" class="dropdown-item list-inline-item d-none {% if c.distinguished %}d-md-block{% endif %} text-info" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/distinguish_comment/{{c.id}}','distinguish-{{c.id}}','undistinguish-{{c.id}}','d-md-block')"><i class="fas fa-id-badge text-info fa-fw"></i>Undistinguish</button>
 											{% endif %}
 
 											{% if c.parent_post %}
@@ -688,8 +688,8 @@
 										{% endif %}
 
 										{% if v.admin_level >= PERMS['POST_COMMENT_DISTINGUISH'] %}
-											<button type="button" id="distinguish2-{{c.id}}" class="list-group-item {% if c.distinguish_level %}d-none{% endif %} text-info" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/distinguish_comment/{{c.id}}','distinguish2-{{c.id}}','undistinguish2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-id-badge text-info mr-2"></i>Distinguish</button>
-											<button type="button" id="undistinguish2-{{c.id}}" class="list-group-item {% if not c.distinguish_level %}d-none{% endif %} text-info" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/distinguish_comment/{{c.id}}','distinguish2-{{c.id}}','undistinguish2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-id-badge text-info mr-2"></i>Undistinguish</button>
+											<button type="button" id="distinguish2-{{c.id}}" class="list-group-item {% if c.distinguished %}d-none{% endif %} text-info" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/distinguish_comment/{{c.id}}','distinguish2-{{c.id}}','undistinguish2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-id-badge text-info mr-2"></i>Distinguish</button>
+											<button type="button" id="undistinguish2-{{c.id}}" class="list-group-item {% if not c.distinguished %}d-none{% endif %} text-info" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/distinguish_comment/{{c.id}}','distinguish2-{{c.id}}','undistinguish2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-id-badge text-info mr-2"></i>Undistinguish</button>
 										{% endif %}
 
 										<button type="button" id="pin2-{{c.id}}" class="list-group-item {% if c.stickied %}d-none{% endif %} text-info" data-bs-target="#adminModal-{{c.id}}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/sticky_comment/{{c.id}}','pin2-{{c.id}}','unpin2-{{c.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-thumbtack fa-rotate--45 text-info mr-2"></i>Pin</button>

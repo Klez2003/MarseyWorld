@@ -326,7 +326,7 @@ def comment(v):
 		c_jannied = Comment(author_id=AUTOJANNY_ID,
 			parent_post=post_target.id if posting_to_post else None,
 			wall_user_id=post_target.id if not posting_to_post else None,
-			distinguish_level=6,
+			distinguished=True,
 			parent_comment_id=c.id,
 			level=level+1,
 			is_bot=True,

@@ -182,7 +182,7 @@ class Comment(Base):
 	ghost = Column(Boolean, default=False)
 	bannedfor = Column(String)
 	chuddedfor = Column(String)
-	distinguish_level = Column(Integer, default=0)
+	distinguished = Column(Boolean, default=False)
 	deleted_utc = Column(Integer, default=0)
 	is_approved = Column(Integer, ForeignKey("users.id"))
 	level = Column(Integer, default=1)
@@ -383,7 +383,7 @@ class Comment(Base):
 				'is_nsfw': self.nsfw,
 				'permalink': f'/comment/{self.id}#context',
 				'stickied': self.stickied,
-				'distinguish_level': self.distinguish_level,
+				'distinguished': self.distinguished,
 				'post_id': self.post.id if self.post else 0,
 				'score': self.score,
 				'upvotes': self.upvotes,

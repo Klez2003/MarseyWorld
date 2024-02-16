@@ -19,7 +19,7 @@ def create_comment(text_html):
 	new_comment = Comment(author_id=AUTOJANNY_ID,
 							parent_post=None,
 							body_html=text_html,
-							distinguish_level=6,
+							distinguished=True,
 							is_bot=True)
 	g.db.add(new_comment)
 	g.db.flush()
@@ -310,7 +310,7 @@ def alert_admins(body):
 						level=1,
 						body_html=body_html,
 						sentto=MODMAIL_ID,
-						distinguish_level=6,
+						distinguished=True,
 						is_bot=True
 						)
 	g.db.add(new_comment)

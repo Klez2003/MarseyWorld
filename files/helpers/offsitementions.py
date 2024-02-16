@@ -99,7 +99,7 @@ def notify_mentions(mentions, send_to=None, mention_str='site mention'):
 							author_id=const.AUTOJANNY_ID,
 							parent_post=None,
 							body_html=notif_text,
-							distinguish_level=6,
+							distinguished=True,
 							created_utc=int(m['created_utc']),
 						)
 		g.db.add(new_comment)

@@ -38,7 +38,7 @@ class Post(Base):
 	effortpost = Column(Boolean, default=False)
 	views = Column(Integer, default=0)
 	deleted_utc = Column(Integer, default=0)
-	distinguish_level = Column(Integer, default=0)
+	distinguished = Column(Boolean, default=False)
 	stickied = Column(String)
 	stickied_utc = Column(Integer)
 	hole_pinned = Column(String)
@@ -254,7 +254,7 @@ class Post(Base):
 				'downvotes': self.downvotes,
 				'stickied': self.stickied,
 				'private' : self.private,
-				'distinguish_level': self.distinguish_level,
+				'distinguished': self.distinguished,
 				'voted': self.voted if hasattr(self, 'voted') else 0,
 				'reports': reports,
 				}
@@ -269,7 +269,7 @@ class Post(Base):
 		if v and v.poor:
 			return 0
 
-		if self.distinguish_level and SITE_NAME == 'WPD':
+		if self.distinguished and SITE_NAME == 'WPD':
 			return 0
 
 		num = len([x for x in self.awards if x.kind == kind])

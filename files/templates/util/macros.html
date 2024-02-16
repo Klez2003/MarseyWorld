@@ -51,7 +51,7 @@
 		<i id='hole-pinned-{{p.id}}' class="fas fa-thumbtack fa-rotate--45 pr-1 ml-1 mt-3 text-blue" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Pinned to /h/{{p.hole}} by @{{p.hole_pinned}}"></i>
 	{% endif %}
 
-	{% if p.distinguish_level %}<i class="fas fa-broom text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{SITE_NAME}} Admin, speaking officially"></i>{% endif %}
+	{% if p.distinguished %}<i class="fas fa-broom text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{SITE_NAME}} Admin, speaking officially"></i>{% endif %}
 	{% if p.is_pinned and request.path != '/' %}
 		<i class="fas fa-thumbtack fa-rotate--45 pr-1 ml-1 mt-3 text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Pinned to profile"></i>
 	{% endif %}
@@ -66,7 +66,7 @@
 	{% endif %}
 
 	{% if p.ghost %}
-		<span {% if p.distinguish_level %}class="mod {% if SITE_NAME == 'rDrama' %}mod-rdrama{% endif %}"{% endif %}>👻</span>
+		<span {% if p.distinguished %}class="mod {% if SITE_NAME == 'rDrama' %}mod-rdrama{% endif %}"{% endif %}>👻</span>
 	{% else %}
 		{% if FEATURES['PATRON_ICONS'] and p.author.patron > 1 %}
 			<img loading="lazy" src="{{SITE_FULL_IMAGES}}/i/{{SITE_NAME}}/badges/2{{p.author.patron}}.webp?b=11" class="patron-img" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{p.author.patron_tooltip}}" alt="{{p.author.patron_tooltip}}">
@@ -85,7 +85,7 @@
 					<img class="profile-pic-30-hat hat" loading="lazy" src="{{p.author.hat_active(v)[0]}}?x=7" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{p.author.hat_active(v)[1]}}" alt="@{{p.author.username}}'s hat">
 				{%- endif %}
 			</div>
-			<span {% if p.author.patron and not p.distinguish_level %}class="patron" style="background-color:#{{p.author.name_color}}"{% elif p.distinguish_level %}class="mod {% if SITE_NAME == 'rDrama' %}mod-rdrama{% endif %}"{% endif %} {% if p.author.pride_username(v) %}pride_username{% endif %}>{{p.author_name}}</span>
+			<span {% if p.author.patron and not p.distinguished %}class="patron" style="background-color:#{{p.author.name_color}}"{% elif p.distinguished %}class="mod {% if SITE_NAME == 'rDrama' %}mod-rdrama{% endif %}"{% endif %} {% if p.author.pride_username(v) %}pride_username{% endif %}>{{p.author_name}}</span>
 		</a>
 		{% if FEATURES['PRONOUNS'] %}
 			<span class="pronouns" style="color:#{{p.author.flaircolor}} !important;border-color:#{{p.author.flaircolor}} !important">{{p.author.pronouns_display}}</span>

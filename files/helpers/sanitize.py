@@ -34,7 +34,7 @@ def create_comment_duplicated(text_html):
 	new_comment = Comment(author_id=AUTOJANNY_ID,
 							parent_post=None,
 							body_html=text_html,
-							distinguish_level=6,
+							distinguished=True,
 							is_bot=True)
 	g.db.add(new_comment)
 	g.db.flush()
