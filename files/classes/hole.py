@@ -4,7 +4,7 @@ import time
 from sqlalchemy import Column
 from sqlalchemy.ext.mutable import MutableList
 from sqlalchemy.orm import relationship, deferred
-from sqlalchemy.types import VARCHAR, Boolean, Integer
+from sqlalchemy.types import *
 from sqlalchemy.dialects.postgresql import ARRAY
 
 from files.classes import Base
@@ -15,20 +15,20 @@ from .hole_relationship import *
 
 class Hole(Base):
 	__tablename__ = "holes"
-	name = Column(VARCHAR(HOLE_NAME_COLUMN_LENGTH), primary_key=True)
-	sidebar = Column(VARCHAR(HOLE_SIDEBAR_COLUMN_LENGTH))
-	sidebar_html = Column(VARCHAR(HOLE_SIDEBAR_HTML_COLUMN_LENGTH))
-	sidebarurls = Column(MutableList.as_mutable(ARRAY(VARCHAR(HOLE_BANNER_URL_COLUMN_LENGTH))), default=MutableList([]))
-	bannerurls = Column(MutableList.as_mutable(ARRAY(VARCHAR(HOLE_BANNER_URL_COLUMN_LENGTH))), default=MutableList([]))
-	marseyurl = Column(VARCHAR(HOLE_MARSEY_URL_LENGTH))
-	css = deferred(Column(VARCHAR(CSS_LENGTH_LIMIT)))
+	name = Column(String, primary_key=True)
+	sidebar = Column(String)
+	sidebar_html = Column(String)
+	sidebarurls = Column(MutableList.as_mutable(ARRAY(String)), default=MutableList([]))
+	bannerurls = Column(MutableList.as_mutable(ARRAY(String)), default=MutableList([]))
+	marseyurl = Column(String)
+	css = deferred(Column(String))
 	stealth = Column(Boolean, default=False)
 	public_use = Column(Boolean, default=False)
 	created_utc = Column(Integer)
 	if SITE_NAME == 'WPD':
 		snappy_quotes = None
 	else:
-		snappy_quotes = deferred(Column(VARCHAR(HOLE_SNAPPY_QUOTES_LENGTH)))
+		snappy_quotes = deferred(Column(String))
 
 	blocks = relationship("HoleBlock", primaryjoin="HoleBlock.hole==Hole.name")
 	followers = relationship("HoleFollow", primaryjoin="HoleFollow.hole==Hole.name")
