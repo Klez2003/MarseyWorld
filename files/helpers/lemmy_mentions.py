@@ -28,6 +28,8 @@ def lemmy_mentions_task():
 						selftext = thing["body"][:5000]
 						text += f'<br><blockquote><p>{selftext}</p></blockquote>'
 
+				if 'erdrama' in text: continue
+
 				permalink = thing['ap_id']
 				text =  f'New site mention by {author_string}\n\n{permalink}\n\n{text}'
 				text = sanitize(text, blackjack="lemmy mention", golden=False)
