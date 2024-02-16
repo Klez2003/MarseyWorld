@@ -611,6 +611,7 @@ INSERT INTO public.hat_defs VALUES (563, 'The Dundee', 'That''s not a hat. THIS 
 INSERT INTO public.hat_defs VALUES (566, 'Heart Crown (rainbow)', '❤🧡💛💚💙💜', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (565, 'Sparkles Crown', '✨✨✨', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (572, 'Heart Crown (sparkles)', '💕💛💔💗♥🖤✨💙 or something idk', 2, 500, NULL, 1662167687);
+INSERT INTO public.hat_defs VALUES (1447, 'Pink bowtie', 'to show everyone your cute aesthetic!', 2, 500, NULL, 1708075863);
 INSERT INTO public.hat_defs VALUES (574, 'Heart Crown (Rainbow II)', 'More gay than the other rainbow heart crown 👍', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (575, 'Heart Crown (superstraight)', '🖤🧡🖤🧡🖤🧡', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (567, 'Heart Crown (blue and purple)', '💙💜', 2, 500, NULL, 1662167687);
@@ -1202,7 +1203,7 @@ INSERT INTO public.hat_defs VALUES (170, 'Kenny', 'User''s life insurance claim 
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1446, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1447, true);
 
 
 --
