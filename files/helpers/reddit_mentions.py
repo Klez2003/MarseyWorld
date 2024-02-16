@@ -13,7 +13,7 @@ def reddit_mentions_task():
 
 	if REDDIT_NOTIFS_USERS:
 		for query, send_user in REDDIT_NOTIFS_USERS.items():
-			user_mentions = get_mentions(cache, [query], reddit_notifs_users=True)
+			user_mentions = get_mentions([query], reddit_notifs_users=True)
 			if user_mentions:
 				notify_mentions(user_mentions, send_to=send_user, mention_str='mention of you')
 
