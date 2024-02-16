@@ -63,9 +63,9 @@ def notify_mentions(mentions, send_to=None, mention_str='site mention'):
 		text = (
 			f'<p>New {mention_str} by <a href="https://old.reddit.com/user/{author}" '
 				f'rel="nofollow noopener" target="_blank">/u/{author}</a></p>'
-			f'<p><a href="https://old.reddit.com{permalink}?context=89" '
+			f'<p><a href="https://old.reddit.com{permalink}?context=8" '
 				'rel="nofollow noopener" target="_blank">'
-				f'https://old.reddit.com{permalink}?context=89</a></p>'
+				f'https://old.reddit.com{permalink}?context=8</a></p>'
 			f'{m["text"]}'
 		)
 
