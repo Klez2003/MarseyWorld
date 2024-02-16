@@ -31,7 +31,7 @@ def report_post(pid, v):
 	if len(reason_html) > 350:
 		abort(400, "Rendered report reason is too long!")
 
-	if reason.startswith('!') and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or post.hole and v.mods_hole(post.hole)):
+	if reason.startswith('!') and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or v.mods_hole(post.hole)):
 		post.flair = reason_html[1:]
 		g.db.add(post)
 		if v.admin_level >= PERMS['POST_COMMENT_MODERATION']:

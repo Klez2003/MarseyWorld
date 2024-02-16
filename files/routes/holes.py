@@ -901,7 +901,7 @@ def pin_comment_mod(cid, v):
 	comment = get_comment(cid, v=v)
 
 	if not comment.stickied:
-		if not (comment.post.hole and v.mods_hole(comment.post.hole)): abort(403)
+		if not v.mods_hole(comment.post.hole): abort(403)
 
 		comment.stickied = v.username + " (Mod)"
 
@@ -934,7 +934,7 @@ def unpin_comment_mod(cid, v):
 	comment = get_comment(cid, v=v)
 
 	if comment.stickied:
-		if not (comment.post.hole and v.mods_hole(comment.post.hole)): abort(403)
+		if not v.mods_hole(comment.post.hole): abort(403)
 
 		comment.stickied = None
 		comment.stickied_utc = None

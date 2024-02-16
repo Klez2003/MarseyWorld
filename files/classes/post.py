@@ -420,4 +420,4 @@ class Post(Base):
 		if self.hole == 'chudrama':
 			return v.admin_level >= PERMS['POST_COMMENT_MODERATION']
 		else:
-			return v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or (self.hole and v.mods_hole(self.hole)) or self.author_id == v.id
+			return v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or (v.mods_hole(self.hole)) or self.author_id == v.id

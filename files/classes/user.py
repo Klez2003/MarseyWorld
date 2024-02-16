@@ -429,6 +429,7 @@ class User(Base):
 
 	@lazy
 	def mods_hole(self, hole):
+		if not hole: return False
 		if self.is_permabanned or self.shadowbanned: return False
 		if hole == 'test'and self.truescore >= TRUESCORE_MINIMUM: return True
 		if self.admin_level >= PERMS['MODS_EVERY_HOLE']: return True
