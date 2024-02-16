@@ -21,6 +21,7 @@ from files.helpers.cloudflare import *
 from files.helpers.sorting_and_time import make_age_string
 from files.helpers.can_see import *
 from files.helpers.alerts import send_notification
+from files.helpers.useractions import *
 from files.routes.routehelpers import get_alt_graph, get_formkey
 from files.routes.wrappers import calc_users
 from files.__main__ import app, cache
@@ -136,13 +137,15 @@ def poster_of_the_day_id():
 
 	db = db_session()
 
-	uid = db.query(User.id, func.sum(Post.upvotes)).join(Post, Post.author_id == User.id).filter(
+	user = db.query(User, func.sum(Post.upvotes)).join(Post, Post.author_id == User.id).filter(
 		Post.created_utc > t,
 		User.admin_level == 0,
 	).group_by(User.id).order_by(func.sum(Post.upvotes).desc()).first()[0]
 
 	t = datetime.datetime.now()
-	send_notification(uid, f":marseyjam: You're the top poster of the day for the day of {t.year}-{t.month}-{t.day} :marseyjam:")
+	send_notification(user.id, f":marseyjam: You're the top poster of the day for the day of {t.year}-{t.month}-{t.day} :marseyjam:")
+	badge_grant(badge_id=327, user=user)
+	uid = user.id
 
 	db.commit()
 	db.close()
