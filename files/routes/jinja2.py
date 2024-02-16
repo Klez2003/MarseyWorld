@@ -143,7 +143,7 @@ def poster_of_the_day_id():
 	).group_by(User.id).order_by(func.sum(Post.upvotes).desc()).first()[0]
 
 	t = datetime.datetime.now()
-	send_notification(user.id, f":marseyjam: You're the top poster of the day for the day of {t.year}-{t.month}-{t.day} :marseyjam:")
+	send_notification(user.id, f":marseyjam: You're the Top Poster of the Day for the day of {t.year}-{t.month}-{t.day} :marseyjam:")
 	badge_grant(badge_id=327, user=user)
 	uid = user.id
 
