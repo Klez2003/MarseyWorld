@@ -4,7 +4,7 @@ from files.classes.comment import Comment
 from files.classes.hole import Hole
 from flask import request
 
-words_to_hide = ('israel', 'palestin', 'muslim', 'islam', 'hamas', 'jew', 'gaza', 'rafah', 'isis', 'terror', 'iraq')
+words_to_hide = ('israel', 'isreal', 'palestin', 'muslim', 'islam', 'hamas', 'jew', 'zion', 'gaza', 'rafah', 'isis', 'terror', 'iraq', 'allah', 'mohammad', 'muhammad', 'mohammed', 'muhammed', 'mohamad', 'muhamad', 'mohamed', 'muhamed')
 
 def can_see(user, other):
 	if isinstance(other, (Post, Comment)):
