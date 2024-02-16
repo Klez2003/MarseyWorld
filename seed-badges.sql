@@ -210,7 +210,6 @@ INSERT INTO public.badge_defs VALUES (81, 'Patron of the Arts', 'Sponsored the c
 INSERT INTO public.badge_defs VALUES (83, 'All-Seeing Eye', 'Can view private profiles', 0);
 INSERT INTO public.badge_defs VALUES (84, 'Alt-Seeing Eye', 'Can see alts', 0);
 INSERT INTO public.badge_defs VALUES (86, 'Holly Jolly Marsey Artist', 'Contributed a VERY JOLLY Marsey for Christmas 2021!', 0);
-INSERT INTO public.badge_defs VALUES (87, 'Unblockable', 'This user is unblockable', 0);
 INSERT INTO public.badge_defs VALUES (88, 'Provider', 'This user provided a bountiful feast for Thanksgiving', 0);
 INSERT INTO public.badge_defs VALUES (89, 'Dinner', 'Yes, it is edible', 0);
 INSERT INTO public.badge_defs VALUES (91, 'Grinch', 'This user is a joyless grinch who pays money to avoid having fun', 0);
@@ -283,6 +282,7 @@ INSERT INTO public.badge_defs VALUES (160, 'Lil Goombler', 'Won a 1,000 bet. Nic
 INSERT INTO public.badge_defs VALUES (162, 'King Goombler', 'Won a 100,000 bet. Wipe your sweaty palms off and bet it all again, you''re on a roll!', 0);
 INSERT INTO public.badge_defs VALUES (161, 'Pro Goombler', 'Won a 10,000 bet. Some would say to quit while you''re ahead, but they didn''t just win 10k - keep at it!', 0);
 INSERT INTO public.badge_defs VALUES (324, 'Best rdrama OC 2023', 'The creator or commissioner of the best rdrama original content of 2023, as voted by rdrama users.', 1705457812);
+INSERT INTO public.badge_defs VALUES (87, 'Unblockable', 'This user is unblockable and can''t block others', 0);
 
 
 --
