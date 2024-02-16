@@ -782,3 +782,36 @@ def postprocess_comment(comment_body, comment_body_html, cid):
 		g.db.close()
 
 	stdout.flush()
+
+
+@app.post("/distinguish_comment/<int:c_id>")
+@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@auth_required
+def admin_distinguish_comment(c_id, v):
+	comment = get_comment(c_id, v=v)
+
+	if v.admin_level < PERMS['POST_COMMENT_DISTINGUISH'] and not (comment.parent_post and v.mods_hole(comment.post.hole)):
+		abort(403, "You can't distinguish this comment")
+
+	if comment.distinguished:
+		comment.distinguished = False
+		kind = 'undistinguish_comment'
+	else:
+		comment.distinguished = True
+		kind = 'distinguish_comment'
+
+	g.db.add(comment)
+
+	ma = ModAction(
+		kind=kind,
+		user_id=v.id,
+		target_comment_id=comment.id
+	)
+	g.db.add(ma)
+
+
+	if comment.distinguished: return {"message": "Comment distinguished!"}
+	else: return {"message": "Comment undistinguished!"}

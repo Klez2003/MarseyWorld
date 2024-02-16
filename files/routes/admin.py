@@ -1442,36 +1442,6 @@ def approve_post(post_id, v):
 	return {"message": "Post approved!"}
 
 
-@app.post("/distinguish/<int:post_id>")
-@limiter.limit('1/second', scope=rpath)
-@limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
-@admin_level_required(PERMS['POST_COMMENT_DISTINGUISH'])
-def distinguish_post(post_id, v):
-	post = get_post(post_id)
-
-	if post.distinguished:
-		post.distinguished = False
-		kind = 'undistinguish_post'
-	else:
-		post.distinguished = True
-		kind = 'distinguish_post'
-
-	g.db.add(post)
-
-	ma = ModAction(
-		kind=kind,
-		user_id=v.id,
-		target_post_id=post.id
-	)
-	g.db.add(ma)
-
-
-	if post.distinguished: return {"message": "Post distinguished!"}
-	else: return {"message": "Post undistinguished!"}
-
-
 @app.post("/sticky/<int:post_id>")
 @feature_required('PINS')
 @limiter.limit('1/second', scope=rpath)
@@ -1675,36 +1645,6 @@ def approve_comment(c_id, v):
 			cache.delete(f'post_{comment.parent_post}_{sort}')
 
 	return {"message": "Comment approved!"}
-
-
-@app.post("/distinguish_comment/<int:c_id>")
-@limiter.limit('1/second', scope=rpath)
-@limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
-@admin_level_required(PERMS['POST_COMMENT_DISTINGUISH'])
-def admin_distinguish_comment(c_id, v):
-	comment = get_comment(c_id, v=v)
-
-	if comment.distinguished:
-		comment.distinguished = False
-		kind = 'undistinguish_comment'
-	else:
-		comment.distinguished = True
-		kind = 'distinguish_comment'
-
-	g.db.add(comment)
-
-	ma = ModAction(
-		kind=kind,
-		user_id=v.id,
-		target_comment_id=comment.id
-	)
-	g.db.add(ma)
-
-
-	if comment.distinguished: return {"message": "Comment distinguished!"}
-	else: return {"message": "Comment undistinguished!"}
 
 @app.get("/admin/banned_domains/")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)

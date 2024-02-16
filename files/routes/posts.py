@@ -1148,3 +1148,36 @@ if SITE_NAME == 'WPD':
 			send_repeatable_notification(p.author_id, f"@{v.username} (a site admin) has removed the child warning from [{p.title}](/post/{p.id})")
 
 		return {"message": "The child warning has been removed from the post!"}
+
+
+@app.post("/distinguish/<int:post_id>")
+@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@auth_required
+def distinguish_post(post_id, v):
+	post = get_post(post_id)
+
+	if v.admin_level < PERMS['POST_COMMENT_DISTINGUISH'] and not v.mods_hole(post.hole):
+		abort(403, "You can't distinguish this post")
+
+	if post.distinguished:
+		post.distinguished = False
+		kind = 'undistinguish_post'
+	else:
+		post.distinguished = True
+		kind = 'distinguish_post'
+
+	g.db.add(post)
+
+	ma = ModAction(
+		kind=kind,
+		user_id=v.id,
+		target_post_id=post.id
+	)
+	g.db.add(ma)
+
+
+	if post.distinguished: return {"message": "Post distinguished!"}
+	else: return {"message": "Post undistinguished!"}
