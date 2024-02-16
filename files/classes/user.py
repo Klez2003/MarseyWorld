@@ -921,7 +921,7 @@ class User(Base):
 			'modmail': '#f15387',
 			'posts': '#0000ff',
 			'modactions': '#1ad80d',
-			'reddit': '#805ad5',
+			'offsite': '#805ad5',
 		}
 		return colors[self.notifications_do] if self.notifications_do \
 			else colors['']
