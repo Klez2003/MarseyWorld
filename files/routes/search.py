@@ -3,6 +3,7 @@ import time
 from calendar import timegm
 
 from sqlalchemy.orm import load_only
+from sqlalchemy import select
 
 from files.helpers.regex import *
 from files.helpers.sorting_and_time import *
@@ -227,14 +228,12 @@ def searchcomments(v):
 		else: comments = comments.filter(Comment.author_id == author.id)
 
 	if 'q' in criteria:
-		tokens = map(lambda x: search_regex_1.sub('', x), criteria['q'])
-		tokens = filter(lambda x: len(x) > 0, tokens)
-		tokens = map(lambda x: search_regex_2.sub("\\'", x), tokens)
-		tokens = map(lambda x: x.strip(), tokens)
-		tokens = map(lambda x: search_regex_3.sub(' <-> ', x), tokens)
-		comments = comments.filter(Comment.body_ts.match(
-			' & '.join(tokens),
-			postgresql_regconfig='english'))
+		text = criteria['full_text']
+		comments = comments.filter(
+			Comment.body_ts.bool_op("@@")(
+				func.websearch_to_tsquery("english", text)
+			)
+		)
 
 	if 'nsfw' in criteria:
 		nsfw = criteria['nsfw'].lower().strip() == 'true'
@@ -328,14 +327,12 @@ def searchmessages(v):
 		else: comments = comments.filter(Comment.author_id == author.id)
 
 	if 'q' in criteria:
-		tokens = map(lambda x: search_regex_1.sub('', x), criteria['q'])
-		tokens = filter(lambda x: len(x) > 0, tokens)
-		tokens = map(lambda x: search_regex_2.sub("\\'", x), tokens)
-		tokens = map(lambda x: x.strip(), tokens)
-		tokens = map(lambda x: search_regex_3.sub(' <-> ', x), tokens)
-		comments = comments.filter(Comment.body_ts.match(
-			' & '.join(tokens),
-			postgresql_regconfig='english'))
+		text = criteria['full_text']
+		comments = comments.filter(
+			Comment.body_ts.bool_op("@@")(
+				func.websearch_to_tsquery("english", text)
+			)
+		)
 
 	comments = apply_time_filter(t, comments, Comment)
 
