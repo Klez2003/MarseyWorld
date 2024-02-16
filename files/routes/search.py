@@ -17,7 +17,6 @@ valid_params = [
 	'post',
 	'before',
 	'after',
-	'exact',
 	'title',
 	'sentto',
 	'hole',
