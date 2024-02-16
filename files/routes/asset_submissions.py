@@ -173,15 +173,17 @@ def approve_emoji(v, name):
 
 	nsfw = request.values.get("nsfw") == 'true'
 
+	author = request.values.get('author').strip()
+	author = get_user(author)
+
 	old_name = emoji.name
 
 	emoji.name = new_name
 	emoji.kind = new_kind
 	emoji.tags = tags
 	emoji.nsfw = nsfw
+	emoji.author_id = author.id
 	g.db.add(emoji)
-
-	author = get_account(emoji.author_id)
 
 	if emoji.kind == "Marsey":
 		all_by_author = g.db.query(Emoji).filter_by(kind="Marsey", author_id=author.id).count()

@@ -5,6 +5,7 @@ function approve_emoji(t, name) {
 			"tags": document.getElementById(`${name}-tags`).value,
 			"name": document.getElementById(`${name}-name`).value,
 			"kind": document.getElementById(`${name}-kind`).value,
+			"author": document.getElementById(`${name}-author`).value,
 			"nsfw": document.getElementById(`${name}-nsfw`).checked,
 		},
 		() => {
