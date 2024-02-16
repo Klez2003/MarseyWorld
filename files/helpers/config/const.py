@@ -693,7 +693,8 @@ if SITE in {'rdrama.net', 'staging.rdrama.net'}:
 	IMMUNE_TO_NEGATIVE_AWARDS = {PIZZASHILL_ID, CARP_ID, 23629}
 
 	PINNED_POSTS_IDS = {
-		2424: 1, #pizzashill
+		PIZZASHILL_ID: 1,
+		10953: 1, #autodrama
 		864: 1, #RitalinRx
 		1096: 1, #xa15428
 		1357: 1, #_______________
