@@ -1,36 +1,23 @@
-import time
-import itertools
-
 import requests
-from flask_caching import Cache
 from flask import g
-from sqlalchemy import or_
 
-import files.helpers.config.const as const
-from files.classes.badges import Badge
+from files.helpers.config.const import *
 from files.classes.comment import Comment
-from files.classes.user import User
 from files.helpers.sanitize import *
 from files.helpers.alerts import push_notif
 from files.classes.notifications import Notification
 
-# Note: while https://api.pushshift.io/meta provides the key
-# server_ratelimit_per_minute, in practice Cloudflare puts stricter,
-# unofficially documented limits at around 60/minute. We get nowhere near this
-# with current keyword quantities. If this ever changes, consider reading the
-# value from /meta (or just guessing) and doing a random selection of keywords.
-
-def offsite_mentions_task(cache):
-	site_mentions = get_mentions(cache, const.REDDIT_NOTIFS_SITE)
+def reddit_mentions_task():
+	site_mentions = get_mentions(OFFSITE_NOTIF_QUERIES)
 	notify_mentions(site_mentions)
 
-	if const.REDDIT_NOTIFS_USERS:
-		for query, send_user in const.REDDIT_NOTIFS_USERS.items():
+	if REDDIT_NOTIFS_USERS:
+		for query, send_user in REDDIT_NOTIFS_USERS.items():
 			user_mentions = get_mentions(cache, [query], reddit_notifs_users=True)
 			if user_mentions:
 				notify_mentions(user_mentions, send_to=send_user, mention_str='mention of you')
 
-def get_mentions(cache, queries, reddit_notifs_users=False):
+def get_mentions(queries, reddit_notifs_users=False):
 	mentions = []
 	for kind in ('submission', 'comment'):
 		q = " or ".join(queries)
@@ -73,32 +60,31 @@ def notify_mentions(mentions, send_to=None, mention_str='site mention'):
 	for m in mentions:
 		author = m['author']
 		permalink = m['permalink']
-		text = sanitize(m['text'], blackjack="reddit mention", golden=False)
-		notif_text = (
+		text = (
 			f'<p>New {mention_str} by <a href="https://old.reddit.com/user/{author}" '
 				f'rel="nofollow noopener" target="_blank">/u/{author}</a></p>'
 			f'<p><a href="https://old.reddit.com{permalink}?context=89" '
 				'rel="nofollow noopener" target="_blank">'
 				f'https://old.reddit.com{permalink}?context=89</a></p>'
-			f'{text}'
+			f'{m["text"]}'
 		)
+
+		text = sanitize(text, blackjack="reddit mention", golden=False)
 
 		g.db.flush()
 		try:
 			existing_comment = g.db.query(Comment.id).filter_by(
-				author_id=const.AUTOJANNY_ID,
+				author_id=AUTOJANNY_ID,
 				parent_post=None,
-				body_html=notif_text).one_or_none()
+				body_html=text).one_or_none()
 			if existing_comment: break
-		# todo: handle this exception by removing one of the existing
-		# means that multiple rows were found, happens on new install for some reason
 		except:
 			pass
 
 		new_comment = Comment(
-							author_id=const.AUTOJANNY_ID,
+							author_id=AUTOJANNY_ID,
 							parent_post=None,
-							body_html=notif_text,
+							body_html=text,
 							distinguished=True,
 							created_utc=int(m['created_utc']),
 						)

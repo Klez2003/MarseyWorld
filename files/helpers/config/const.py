@@ -132,14 +132,14 @@ GIRL_PHRASES = [
 
 patron = "Patron"
 
-REDDIT_NOTIFS_SITE = set()
+OFFSITE_NOTIF_QUERIES = set()
 REDDIT_NOTIFS_USERS = {}
 
 if len(SITE_NAME) > 5:
-	REDDIT_NOTIFS_SITE.add(SITE_NAME.lower())
+	OFFSITE_NOTIF_QUERIES.add(SITE_NAME.lower())
 
 if not IS_LOCALHOST:
-	REDDIT_NOTIFS_SITE.add(SITE)
+	OFFSITE_NOTIF_QUERIES.add(SITE)
 
 TAGLINES = ()
 
@@ -154,7 +154,7 @@ PERMS = { # Minimum admin_level to perform action.
 	'BYPASS_CHAT_TRUESCORE_REQUIREMENT': 1,
 	'BYPASS_ANTISPAM_CHECKS': 1,
 	'WARN_ON_FAILED_LOGIN': 1,
-	'NOTIFICATIONS_REDDIT': 1,
+	'NOTIFICATIONS_OFFSITE': 1,
 	'NOTIFICATIONS_SPECIFIC_WPD_COMMENTS': 1,
 	'MESSAGE_BLOCKED_USERS': 1,
 	'ADMIN_MOP_VISIBLE': 1,
@@ -316,10 +316,10 @@ if SITE_NAME == 'rDrama':
 		'atheism',
 	}
 
-	REDDIT_NOTIFS_SITE.update({'marsey', 'r/drama', 'justice4darrell', 'cringetopia.org'})
+	OFFSITE_NOTIF_QUERIES.update({'marsey', 'r/drama', 'justice4darrell', 'cringetopia.org'})
 
 elif SITE_NAME == 'WPD':
-	REDDIT_NOTIFS_SITE.update({'marsey', 'watchpeopledie', 'makemycoffin'})
+	OFFSITE_NOTIF_QUERIES.update({'marsey', 'watchpeopledie', 'makemycoffin'})
 
 
 LONGPOSTBOT_REPLIES = (

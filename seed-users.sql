@@ -2,7 +2,7 @@ INSERT INTO public.users (
 	username, passhash, created_utc, admin_level, email_verified,
 	original_username, defaultsorting, defaultsortingcomments, defaulttime, namecolor, flaircolor, theme, themecolor,
 	reddit, pronouns, verified, profileurl, highres,
-	marsify, last_viewed_modmail_notifs, last_viewed_post_notifs, last_viewed_log_notifs, last_viewed_reddit_notifs, lifetimedonated, lifetimedonated_visible, show_sigs, grinch
+	marsify, last_viewed_modmail_notifs, last_viewed_post_notifs, last_viewed_log_notifs, last_viewed_offsite_notifs, lifetimedonated, lifetimedonated_visible, show_sigs, grinch
 ) VALUES
 ('AutoJanny', '', extract(epoch from now()), 0, true,
 	'AutoJanny', 'hot', 'top', 'day', 'ff459a', 'ff459a', 'dark', 'ff459a',

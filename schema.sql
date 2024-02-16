@@ -163,7 +163,7 @@ CREATE TABLE public.users (
     rainbow integer,
     spider integer,
     profanityreplacer integer DEFAULT 1 NOT NULL,
-    last_viewed_reddit_notifs integer NOT NULL,
+    last_viewed_offsite_notifs integer NOT NULL,
     profile_background character varying(167),
     chudded_by integer,
     blacklisted_by integer,
@@ -3073,4 +3073,3 @@ ALTER TABLE ONLY public.comments
 --
 -- PostgreSQL database dump complete
 --
-

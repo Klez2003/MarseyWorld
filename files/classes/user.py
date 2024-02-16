@@ -136,7 +136,7 @@ class User(Base):
 	last_viewed_modmail_notifs = Column(Integer, default=0)
 	last_viewed_post_notifs = Column(Integer, default=0)
 	last_viewed_log_notifs = Column(Integer, default=0)
-	last_viewed_reddit_notifs = Column(Integer, default=0)
+	last_viewed_offsite_notifs = Column(Integer, default=0)
 	bite = Column(Integer, default=0)
 	owoify = Column(Integer, default=0)
 	sharpen = Column(Integer, default=0)
@@ -202,7 +202,7 @@ class User(Base):
 			kwargs["last_viewed_modmail_notifs"] = kwargs["created_utc"]
 			kwargs["last_viewed_post_notifs"] = kwargs["created_utc"]
 			kwargs["last_viewed_log_notifs"] = kwargs["created_utc"]
-			kwargs["last_viewed_reddit_notifs"] = kwargs["created_utc"]
+			kwargs["last_viewed_offsite_notifs"] = kwargs["created_utc"]
 
 		super().__init__(**kwargs)
 
@@ -556,8 +556,8 @@ class User(Base):
 
 	@property
 	@lazy
-	def can_view_offsitementions(self):
-		return self.offsitementions or self.admin_level >= PERMS['NOTIFICATIONS_REDDIT']
+	def can_view_offsite_mentions(self):
+		return self.has_badge(140) or self.admin_level >= PERMS['NOTIFICATIONS_OFFSITE']
 
 	@lazy
 	def can_edit(self, target):
@@ -786,7 +786,7 @@ class User(Base):
 				Comment.deleted_utc == 0,
 			)
 
-		return notifs.count() + self.modmail_notifications_count + self.post_notifications_count + self.modaction_notifications_count + self.reddit_notifications_count
+		return notifs.count() + self.modmail_notifications_count + self.post_notifications_count + self.modaction_notifications_count + self.offsite_notifications_count
 
 	@property
 	@lazy
@@ -796,7 +796,7 @@ class User(Base):
 			- self.modmail_notifications_count \
 			- self.post_notifications_count \
 			- self.modaction_notifications_count \
-			- self.reddit_notifications_count
+			- self.offsite_notifications_count
 
 	@property
 	@lazy
@@ -885,13 +885,13 @@ class User(Base):
 
 	@property
 	@lazy
-	def reddit_notifications_count(self):
-		if not self.can_view_offsitementions or (SITE == "watchpeopledie.tv" and self.id == AEVANN_ID):
+	def offsite_notifications_count(self):
+		if not self.can_view_offsite_mentions or (SITE == "watchpeopledie.tv" and self.id == AEVANN_ID):
 			return 0
 		return g.db.query(Comment).filter(
-			Comment.created_utc > self.last_viewed_reddit_notifs,
+			Comment.created_utc > self.last_viewed_offsite_notifs,
 			Comment.is_banned == False, Comment.deleted_utc == 0,
-			Comment.body_html.like('%<p>New site mention%<a href="https://old.reddit.com/r/%'),
+			Comment.body_html.like('%<p>New site mention by <a href=%'),
 			Comment.parent_post == None, Comment.author_id == AUTOJANNY_ID).count()
 
 	@property
@@ -908,8 +908,8 @@ class User(Base):
 			return 'posts'
 		elif self.modaction_notifications_count > 0:
 			return 'modactions'
-		elif self.reddit_notifications_count > 0:
-			return 'reddit'
+		elif self.offsite_notifications_count > 0:
+			return 'offsite'
 		return ''
 
 	@property
@@ -1286,11 +1286,6 @@ class User(Base):
 	@lazy
 	def unblockable(self):
 		return self.has_badge(87)
-
-	@property
-	@lazy
-	def offsitementions(self):
-		return self.has_badge(140)
 
 	@lazy
 	def pride_username(self, v):

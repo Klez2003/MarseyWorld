@@ -14,7 +14,6 @@ import requests
 import ffmpeg
 
 
-import files.helpers.offsitementions as offsitementions
 import files.helpers.stats as stats
 import files.routes.static as route_static
 from files.routes.front import frontlist
@@ -27,6 +26,9 @@ from files.helpers.lottery import check_if_end_lottery_task
 from files.helpers.roulette import spin_roulette_wheel
 from files.helpers.sanitize import filter_emojis_only, sanitize
 from files.helpers.useractions import *
+from files.helpers.reddit_mentions import *
+from files.helpers.lemmy_mentions import *
+
 from files.cli import app, db_session, g
 
 CRON_CACHE_TIMEOUT = 172800
@@ -57,9 +59,11 @@ def cron_fn(every_5m, every_1d, every_1mo):
 				_grant_two_year_badges()
 				g.db.commit()
 
-				if not IS_LOCALHOST:
-					offsitementions.offsite_mentions_task(cache)
-					g.db.commit()
+				reddit_mentions_task()
+				g.db.commit()
+
+				lemmy_mentions_task()
+				g.db.commit()
 
 			if every_1d or (not cache.get('stats') and not IS_LOCALHOST):
 				if IS_HOMOWEEN():

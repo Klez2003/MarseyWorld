@@ -32,7 +32,7 @@ def clear(v):
 	v.last_viewed_modmail_notifs = int(time.time())
 	v.last_viewed_post_notifs = int(time.time())
 	v.last_viewed_log_notifs = int(time.time())
-	v.last_viewed_reddit_notifs = int(time.time())
+	v.last_viewed_offsite_notifs = int(time.time())
 	g.db.add(v)
 	return {"message": "Notifications marked as read!"}
 
@@ -268,17 +268,17 @@ def notifications_modactions(v):
 
 
 
-@app.get("/notifications/reddit")
+@app.get("/notifications/offsite")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def notifications_reddit(v):
+def notifications_offsite(v):
 	page = get_page()
 
-	if not v.can_view_offsitementions: abort(403)
+	if not v.can_view_offsite_mentions: abort(403)
 
 	listing = g.db.query(Comment).filter(
-		Comment.body_html.like('%<p>New site mention%<a href="https://old.reddit.com/r/%'),
+		Comment.body_html.like('%<p>New site mention by <a href=%'),
 		Comment.parent_post == None,
 		Comment.author_id == AUTOJANNY_ID
 	)
@@ -287,10 +287,10 @@ def notifications_reddit(v):
 	listing = listing.order_by(Comment.created_utc.desc()).offset(PAGE_SIZE*(page-1)).limit(PAGE_SIZE).all()
 
 	for ma in listing:
-		ma.unread = ma.created_utc > v.last_viewed_reddit_notifs
+		ma.unread = ma.created_utc > v.last_viewed_offsite_notifs
 
 	if not session.get("GLOBAL") and not request.values.get('nr'):
-		v.last_viewed_reddit_notifs = int(time.time())
+		v.last_viewed_offsite_notifs = int(time.time())
 		g.db.add(v)
 
 	if v.client: return {"data":[x.json for x in listing]}
