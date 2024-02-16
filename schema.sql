@@ -426,7 +426,6 @@ CREATE TABLE public.comments (
     created_utc integer NOT NULL,
     parent_post integer,
     is_banned boolean DEFAULT false NOT NULL,
-    distinguish_level integer DEFAULT 0 NOT NULL,
     edited_utc integer DEFAULT 0 NOT NULL,
     deleted_utc integer DEFAULT 0 NOT NULL,
     is_approved integer,
@@ -459,7 +458,8 @@ CREATE TABLE public.comments (
     queened boolean NOT NULL,
     sharpened boolean NOT NULL,
     num_of_pinned_children integer NOT NULL,
-    body_ts tsvector GENERATED ALWAYS AS (to_tsvector('english'::regconfig, (body)::text)) STORED
+    body_ts tsvector GENERATED ALWAYS AS (to_tsvector('english'::regconfig, (body)::text)) STORED,
+    distinguished boolean NOT NULL
 );
 
 
@@ -834,7 +834,6 @@ CREATE TABLE public.posts (
     created_utc integer NOT NULL,
     is_banned boolean DEFAULT false NOT NULL,
     nsfw boolean DEFAULT false NOT NULL,
-    distinguish_level integer DEFAULT 0 NOT NULL,
     deleted_utc integer DEFAULT 0 NOT NULL,
     is_approved integer,
     edited_utc integer DEFAULT 0 NOT NULL,
@@ -872,7 +871,8 @@ CREATE TABLE public.posts (
     rainbowed boolean NOT NULL,
     queened boolean NOT NULL,
     sharpened boolean NOT NULL,
-    effortpost boolean NOT NULL
+    effortpost boolean NOT NULL,
+    distinguished boolean NOT NULL
 );
 
 
