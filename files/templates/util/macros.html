@@ -51,7 +51,15 @@
 		<i id='hole-pinned-{{p.id}}' class="fas fa-thumbtack fa-rotate--45 pr-1 ml-1 mt-3 text-blue" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Pinned to /h/{{p.hole}} by @{{p.hole_pinned}}"></i>
 	{% endif %}
 
-	{% if p.distinguished %}<i class="fas fa-broom text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{SITE_NAME}} Admin, speaking officially"></i>{% endif %}
+	{% if p.distinguished %}
+		<i class="fas fa-broom text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title="
+		{%- if p.author.mods_hole(p.hole) -%}
+			/h/{{p.hole}} mod
+		{%- else -%}
+			{{SITE_NAME}} admin
+		{%- endif -%}
+		, speaking officially"></i>
+	{% endif %}
 	{% if p.is_pinned and request.path != '/' %}
 		<i class="fas fa-thumbtack fa-rotate--45 pr-1 ml-1 mt-3 text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Pinned to profile"></i>
 	{% endif %}

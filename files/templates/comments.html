@@ -154,7 +154,13 @@
 							{% endif %}
 
 							{% if c.distinguished and not c.ghost %}
-								<i class="fas fa-broom text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{SITE_NAME}} Admin, speaking officially"></i>
+								<i class="fas fa-broom text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title="
+									{%- if c.parent_post and c.author.mods_hole(c.post.hole) -%}
+										/h/{{c.post.hole}} mod
+									{%- else -%}
+										{{SITE_NAME}} admin
+									{%- endif -%}
+									, speaking officially"></i>
 							{% endif %}
 
 							{% if c.is_op %}
