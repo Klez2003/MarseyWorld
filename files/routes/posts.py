@@ -723,7 +723,7 @@ def submit_post(v, hole=None):
 
 	if flag_effortpost and not (SITE_NAME == 'WPD' and v.truescore < 500):
 		body = f"@{v.username} has requested that [{p.title}](/post/{p.id}) be marked as an effortpost!"
-		alert_admins(body)
+		send_repeatable_notification(AEVANN_ID, body)
 
 	if v.client: return p.json
 	else:
