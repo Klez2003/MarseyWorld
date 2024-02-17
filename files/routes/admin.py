@@ -2143,7 +2143,8 @@ def mark_effortpost(pid, v):
 
 	p.author.pay_account('coins', coins)
 
-	send_repeatable_notification(p.author_id, f":marseyclapping: @{v.username} (a site admin) has marked [{p.title}](/post/{p.id}) as an effortpost, it now gets x{mul} coins from votes. You have received {coins} coins retroactively, thanks! :!marseyclapping:")
+	if v.id != p.author_id:
+		send_repeatable_notification(p.author_id, f":marseyclapping: @{v.username} (a site admin) has marked [{p.title}](/post/{p.id}) as an effortpost, it now gets x{mul} coins from votes. You have received {coins} coins retroactively, thanks! :!marseyclapping:")
 
 	return {"message": "Post has been marked as an effortpost!"}
 
@@ -2179,6 +2180,7 @@ def unmark_effortpost(pid, v):
 
 	p.author.charge_account('coins', coins)
 
-	send_repeatable_notification(p.author_id, f":marseyitsover: @{v.username} (a site admin) has unmarked [{p.title}](/post/{p.id}) as an effortpost. {coins} coins have been deducted from you. :!marseyitsover:")
+	if v.id != p.author_id:
+		send_repeatable_notification(p.author_id, f":marseyitsover: @{v.username} (a site admin) has unmarked [{p.title}](/post/{p.id}) as an effortpost. {coins} coins have been deducted from you. :!marseyitsover:")
 
 	return {"message": "Post has been unmarked as an effortpost!"}
