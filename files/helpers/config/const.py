@@ -263,9 +263,9 @@ if SITE_NAME == 'rDrama':
 	patron = "Paypig"
 
 	TAGLINES = (
+		"largest cat pics site",
 		"largest online LGBTQ+ club",
 		"largest online furfest",
-		"largest cat pics site",
 		"largest basket-weaving forum",
 		"largest autism support group",
 		"largest aztec heritage forum",
