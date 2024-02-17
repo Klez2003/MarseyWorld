@@ -24,7 +24,7 @@ def lemmy_mentions_task():
 					title = thing["name"]
 					text = f'<blockquote><p>{title}</p></blockquote>'
 
-					if thing["body"]:
+					if thing.get("body"):
 						selftext = thing["body"][:5000]
 						text += f'<br><blockquote><p>{selftext}</p></blockquote>'
 
