@@ -723,7 +723,21 @@ def submit_post(v, hole=None):
 
 	if flag_effortpost and not (SITE_NAME == 'WPD' and v.truescore < 500):
 		body = f"@{v.username} has requested that [{p.title}](/post/{p.id}) be marked as an effortpost!"
-		send_repeatable_notification(AEVANN_ID, body)
+		if SITE == 'rdrama.net':
+			send_repeatable_notification(AEVANN_ID, body)
+		else:
+			body_html = sanitize(body, blackjack="admin alert")
+			new_comment = Comment(author_id=AUTOJANNY_ID,
+								parent_post=None,
+								level=1,
+								body_html=body_html,
+								sentto=MODMAIL_ID,
+								distinguished=True,
+								is_bot=True
+								)
+			g.db.add(new_comment)
+			g.db.flush()
+			new_comment.top_comment_id = new_comment.id
 
 	if v.client: return p.json
 	else:
