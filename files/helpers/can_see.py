@@ -9,6 +9,7 @@ words_to_hide = ('israel', 'isreal', 'palestin', 'muslim', 'islam', 'hamas', 'je
 
 def can_see(user, other):
 	if isinstance(other, (Post, Comment)):
+		#DELETE_ME_PLS
 		if not user:
 			if other.nsfw:
 				return False

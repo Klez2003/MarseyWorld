@@ -272,6 +272,7 @@ class Post(Base):
 		if self.distinguished and SITE_NAME == 'WPD':
 			return 0
 
+		#DELETE_ME_PLS
 		if not v and kind == "ricardo":
 			return 0
 
