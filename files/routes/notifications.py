@@ -462,4 +462,5 @@ def notification(v, cid):
 							page=1,
 							standalone=True,
 							render_replies=True,
+							focused_comment=comment,
 						)

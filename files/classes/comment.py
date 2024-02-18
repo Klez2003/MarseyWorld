@@ -308,7 +308,7 @@ class Comment(Base):
 			return f"/@{self.wall_user.username}/wall/comment/{self.id}#context"
 		if self.parent_post:
 			return f"{self.post.shortlink}/{self.id}#context"
-		return f"/notification/{self.id}"
+		return f"/notification/{self.id}#context"
 
 	@property
 	@lazy
