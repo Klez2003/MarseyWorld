@@ -404,10 +404,10 @@ def all_upvoters_downvoters(v, username, vote_dir, is_who_simps_hates):
 	votes = []
 	votes2 = []
 	if is_who_simps_hates:
-		votes = g.db.query(Post.author_id, func.count(Post.author_id)).join(Vote).filter(Post.ghost == False, Post.is_banned == False, Post.deleted_utc == 0, Vote.vote_type==vote_dir, Vote.user_id==id).group_by(Post.author_id).order_by(func.count(Post.author_id).desc()).all()
+		votes = g.db.query(Post.author_id, func.count(Post.author_id)).join(Vote).filter(Post.private == False, Post.ghost == False, Post.is_banned == False, Post.deleted_utc == 0, Vote.vote_type==vote_dir, Vote.user_id==id).group_by(Post.author_id).order_by(func.count(Post.author_id).desc()).all()
 		votes2 = g.db.query(Comment.author_id, func.count(Comment.author_id)).join(CommentVote).filter(Comment.ghost == False, Comment.is_banned == False, Comment.deleted_utc == 0, CommentVote.vote_type==vote_dir, CommentVote.user_id==id).group_by(Comment.author_id).order_by(func.count(Comment.author_id).desc()).all()
 	else:
-		votes = g.db.query(Vote.user_id, func.count(Vote.user_id)).join(Post).filter(Post.ghost == False, Post.is_banned == False, Post.deleted_utc == 0, Vote.vote_type==vote_dir, Post.author_id==id).group_by(Vote.user_id).order_by(func.count(Vote.user_id).desc()).all()
+		votes = g.db.query(Vote.user_id, func.count(Vote.user_id)).join(Post).filter(Post.private == False, Post.ghost == False, Post.is_banned == False, Post.deleted_utc == 0, Vote.vote_type==vote_dir, Post.author_id==id).group_by(Vote.user_id).order_by(func.count(Vote.user_id).desc()).all()
 		votes2 = g.db.query(CommentVote.user_id, func.count(CommentVote.user_id)).join(Comment).filter(Comment.ghost == False, Comment.is_banned == False, Comment.deleted_utc == 0, CommentVote.vote_type==vote_dir, Comment.author_id==id).group_by(CommentVote.user_id).order_by(func.count(CommentVote.user_id).desc()).all()
 	votes = Counter(dict(votes)) + Counter(dict(votes2))
 	total_items = sum(votes.values())
