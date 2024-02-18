@@ -1071,7 +1071,7 @@ def change_hole(pid, v):
 	hole_to = hole_to.name if hole_to else None
 
 	if not post.hole_changable(v):
-		return False
+		abort(403, "You can't change the hole of this post!")
 
 	if hole_to == None:
 		if HOLE_REQUIRED:
