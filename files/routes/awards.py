@@ -170,6 +170,9 @@ def award_thing(v, thing_type, id):
 
 	award_title = AWARDS[kind]['title']
 
+	if obj.is_longpost and kind in {"ectoplasm", "candycorn", "candycane", "stab", "tilt", "queen", "chud", "marsify", "Furry", "Edgy", "Femboy", "Furry Founder", "Edgy Founder", "Femboy Founder"}:
+		abort(403, f'Long posts are protected from the {award_title} award!')
+
 	award = g.db.query(AwardRelationship).filter(
 		AwardRelationship.kind == kind,
 		AwardRelationship.user_id == v.id,
@@ -263,7 +266,7 @@ def award_thing(v, thing_type, id):
 
 	link = f"[this {thing_type}]({obj.shortlink})"
 
-	can_alter_body = not obj.is_longpost and (not obj.author.deflector or v == obj.author)
+	can_alter_body = not obj.author.deflector or v == obj.author
 
 	if kind == "ban":
 		link = f"/{thing_type}/{obj.id}"
@@ -560,9 +563,6 @@ def award_thing(v, thing_type, id):
 		author.grinch = True
 		if v.id == author.id:
 			session['event_music'] = False
-	elif kind in {"ectoplasm", "candycorn", "candycane", "stab", "tilt"}:
-		if obj.is_longpost:
-			abort(403, f'Long posts are protected from the {award_title} award!')
 	elif kind == "gold":
 		if obj.award_count('glowie', v):
 			abort(409, f"This {thing_type} is under the effect of a conflicting award: Glowie award!")
