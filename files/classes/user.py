@@ -1344,7 +1344,7 @@ class User(Base):
 	def ordered_badges(self, v):
 		badges = self.badges
 
-		if not self.lifetimedonated_visible and not (v.id == self.id or v.admin_level >= PERMS['VIEW_PATRONS']):
+		if not self.lifetimedonated_visible and not (v and (v.id == self.id or v.admin_level >= PERMS['VIEW_PATRONS'])):
 			badges = [x for x in badges if x.badge_id not in {22, 23, 24, 25, 26, 27, 28, 257, 258, 259, 260, 261}]
 
 		return sorted(badges, key=badge_ordering_func)
