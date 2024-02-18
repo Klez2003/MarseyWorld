@@ -314,20 +314,16 @@ def group_usurp(v, group_name):
 	if not v.is_member_of_group(group):
 		abort(403, "Only members of groups can usurp them!")
 
-	one_month_ago = time.time() - 2592000
-
-	less_than_month_old_memberships = g.db.query(GroupMembership.user_id).filter(
-		GroupMembership.group_name == group.name,
-		GroupMembership.approved_utc > one_month_ago,
+	search_html = f'''%</a> has % your application to <a href="/!{group.name}" rel="nofollow">!{group.name}</a></p>'''
+	one_month_ago = time.time() - 2629800
+	is_active = g.db.query(Notification.created_utc).join(Notification.comment).filter(
+		Notification.created_utc > one_month_ago,
+		Comment.author_id == AUTOJANNY_ID,
+		Comment.parent_post == None,
+		Comment.body_html.like(search_html),
 	).first()
 
-	month_old_applications = g.db.query(GroupMembership.user_id).filter(
-		GroupMembership.group_name == group.name,
-		GroupMembership.approved_utc == None,
-		GroupMembership.created_utc < one_month_ago,
-	).first()
-
-	if less_than_month_old_memberships or not month_old_applications:
+	if is_active:
 		abort(403, "The current regime has reviewed a membership application in the past month, so you can't usurp them!")
 
 	send_repeatable_notification(group.owner_id, f"@{v.username} has usurped control of !{group.name} from you. This was possible because you (and your mods) have spent more than a month not reviewing membership applications. Be active next time sweaty :!marseycheeky:")
