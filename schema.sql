@@ -1702,17 +1702,17 @@ CREATE INDEX comment_parent_index ON public.comments USING btree (parent_comment
 
 
 --
+-- Name: comment_pinned_utc_idex; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX comment_pinned_utc_idex ON public.comments USING btree (pinned_utc);
+
+
+--
 -- Name: comment_post_id_index; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX comment_post_id_index ON public.comments USING btree (parent_post);
-
-
---
--- Name: comment_pinned_utc_idx; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX comment_pinned_utc_idx ON public.comments USING btree (pinned_utc);
 
 
 --
@@ -2094,13 +2094,6 @@ CREATE INDEX post_deleted_utc_idx ON public.posts USING btree (deleted_utc);
 
 
 --
--- Name: post_profile_pinned_idx; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX post_profile_pinned_idx ON public.posts USING btree (profile_pinned);
-
-
---
 -- Name: post_new_sort_idx; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2115,10 +2108,24 @@ CREATE INDEX post_nsfw_idx ON public.posts USING btree (nsfw);
 
 
 --
--- Name: post_pinned_utc_idx; Type: INDEX; Schema: public; Owner: -
+-- Name: post_pinned_idex; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX post_pinned_utc_idx ON public.posts USING btree (pinned_utc);
+CREATE INDEX post_pinned_idex ON public.posts USING btree (pinned);
+
+
+--
+-- Name: post_pinned_utc_idex; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX post_pinned_utc_idex ON public.posts USING btree (pinned_utc);
+
+
+--
+-- Name: post_profile_pinned_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX post_profile_pinned_idx ON public.posts USING btree (profile_pinned);
 
 
 --
@@ -2126,13 +2133,6 @@ CREATE INDEX post_pinned_utc_idx ON public.posts USING btree (pinned_utc);
 --
 
 CREATE INDEX posts_bump_utc_idx ON public.posts USING btree (bump_utc);
-
-
---
--- Name: posts_pinned_idx; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX posts_pinned_idx ON public.posts USING btree (pinned);
 
 
 --
@@ -3073,3 +3073,4 @@ ALTER TABLE ONLY public.comments
 --
 -- PostgreSQL database dump complete
 --
+
