@@ -205,6 +205,8 @@
 
 							{% if c.ghost %}
 								<span {% if c.distinguished %}class="mod {% if SITE_NAME == 'rDrama' %}mod-rdrama{% endif %}"{% endif %}>👻</span>
+							{% elif not FEATURES['ADMIN_TRANSPARENCY'] and c.sentto == 2 and c.author.admin_level %}
+								<b class="mod">Site admins</b>
 							{% else %}
 								{% if FEATURES['PATRON_ICONS'] and c.author.patron > 1 %}
 									<img loading="lazy" src="{{SITE_FULL_IMAGES}}/i/{{SITE_NAME}}/badges/2{{c.author.patron}}.webp?b=11" class="patron-img" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{c.author.patron_tooltip}}" alt="{{c.author.patron_tooltip}}">
