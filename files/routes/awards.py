@@ -562,7 +562,7 @@ def award_thing(v, thing_type, id):
 			session['event_music'] = False
 	elif kind in {"ectoplasm", "candycorn", "candycane", "stab", "tilt"}:
 		if obj.is_longpost:
-			abort(403, f'Effortposts are protected from the {award_title} award!')
+			abort(403, f'Long posts are protected from the {award_title} award!')
 	elif kind == "gold":
 		if obj.award_count('glowie', v):
 			abort(409, f"This {thing_type} is under the effect of a conflicting award: Glowie award!")
