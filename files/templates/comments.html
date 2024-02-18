@@ -205,7 +205,7 @@
 
 							{% if c.ghost %}
 								<span {% if c.distinguished %}class="mod {% if SITE_NAME == 'rDrama' %}mod-rdrama{% endif %}"{% endif %}>👻</span>
-							{% elif not FEATURES['ADMIN_TRANSPARENCY'] and c.sentto == 2 and c.author.admin_level %}
+							{% elif not FEATURES['ADMIN_TRANSPARENCY'] and not (v and v.admin_level) and c.sentto == 2 and c.author.admin_level %}
 								<b class="mod">Site Admins</b>
 							{% else %}
 								{% if FEATURES['PATRON_ICONS'] and c.author.patron > 1 %}
