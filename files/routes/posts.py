@@ -924,7 +924,7 @@ def unsave_post(pid, v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def pin_post(post_id, v):
+def profile_pin(post_id, v):
 	p = get_post(post_id)
 	if p:
 		if v.id != p.author_id: abort(403, "Only the post author can do that!")
