@@ -166,7 +166,6 @@ def upvoters_downvoters(v, username, username2, cls, vote_cls, vote_dir, templat
 	page = get_page()
 
 	listing = g.db.query(cls).options(load_only(cls.id)).join(vote_cls).filter(
-			cls.draft == False,
 			cls.ghost == False,
 			cls.is_banned == False,
 			cls.deleted_utc == 0,
@@ -174,6 +173,9 @@ def upvoters_downvoters(v, username, username2, cls, vote_cls, vote_dir, templat
 			cls.author_id == id,
 			vote_cls.user_id == uid,
 		)
+	
+	if cls == Post:
+		listing = listing.filter_by(private=False)
 
 	total = listing.count()
 
@@ -230,7 +232,6 @@ def upvoting_downvoting(v, username, username2, cls, vote_cls, vote_dir, templat
 	page = get_page()
 
 	listing = g.db.query(cls).options(load_only(cls.id)).join(vote_cls).filter(
-			cls.draft == False,
 			cls.ghost == False,
 			cls.is_banned == False,
 			cls.deleted_utc == 0,
@@ -238,6 +239,9 @@ def upvoting_downvoting(v, username, username2, cls, vote_cls, vote_dir, templat
 			vote_cls.user_id == id,
 			cls.author_id == uid,
 		)
+
+	if cls == Post:
+		listing = listing.filter_by(private=False)
 
 	total = listing.count()
 
