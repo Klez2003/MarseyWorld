@@ -1165,10 +1165,8 @@ INSERT INTO public.hat_defs VALUES (1418, 'Camo Cap', 'Today we be hunting salt 
 INSERT INTO public.hat_defs VALUES (1387, 'Stupid Sexy Flanders', 'It''s like you''re wearing nothing at all. Nothing at all. Nothing at all.', 2, 1000, NULL, 1701104112);
 INSERT INTO public.hat_defs VALUES (1419, 'Cowboy Hat (pink)', 'This user is a cowgirl, or a gay cowboy.', 2, 500, NULL, 1705794752);
 INSERT INTO public.hat_defs VALUES (1420, 'CuddlyBear2', 'Grab the lashes and face slashes.', 2, 500, NULL, 1705794785);
-
 INSERT INTO public.hat_defs VALUES (1421, 'Fancy Cowboy Hat (blue)', 'It''s a boy!', 2, 500, NULL, 1705794807);
 INSERT INTO public.hat_defs VALUES (1407, 'typingfast', 'typing but faster', 2, 1000, NULL, 1705612574);
-
 INSERT INTO public.hat_defs VALUES (170, 'Kenny', 'User''s life insurance claim was rejected', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (1422, 'Star Cowboy Hat', 'This star represents texas!', 2, 500, NULL, 1705794832);
 INSERT INTO public.hat_defs VALUES (1423, 'CuddlyBear3', 'Bear hugs are welcome.', 2, 500, NULL, 1705794874);
