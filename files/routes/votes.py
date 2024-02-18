@@ -181,7 +181,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 	elif SITE == 'rdrama.net' and cls == Comment and 6 <= datetime.fromtimestamp(target.created_utc).hour <= 10:
 		mul = 2
 
-	if cls == Post and target.effortpost:
+	if cls == Post and (target.effortpost or target.hole == 'countryclub'):
 		mul *= 2
 
 	target.realupvotes = floor(target.realupvotes * mul)
