@@ -23,8 +23,8 @@
 			{% set audio = p.realurl(v) if p.is_audio %}
 		{% endif %}
 
-		{% if comment_info and not comment_info.is_banned and not comment_info.deleted_utc %}
-			{% set p, title = comment_info, ['@', comment_info.author_name, "'s comment on ",
+		{% if focused_comment and not focused_comment.is_banned and not focused_comment.deleted_utc %}
+			{% set p, title = focused_comment, ['@', focused_comment.author_name, "'s comment on ",
 			'"', title, '"'] | join %}
 		{% endif %}
 
@@ -76,7 +76,7 @@
 	<meta property="og:author" name="author" content="{{author | default(SITE_FULL, true)}}">
 	<meta property="og:description" name="description" content="{{description | default(SITE_NAME ~ ' - ' ~ DESCRIPTION)}}">
 
-	{% if not comment_info %}
+	{% if not focused_comment %}
 		<meta property="og:image" content="{{image | default('site_preview.webp' | asset_siteimg)}}">
 		{% if video %}<meta property="og:video" content="{{video}}">{% endif %}
 		{% if audio %}<meta property="og:audio" content="{{audio}}">{% endif %}

@@ -3,7 +3,7 @@
 	<div class="userpage-wall">
 		{{macros.comment_reply_box(u.fullname, 'replying-to-' + u.fullname, '', 'mb-3 mt-4', '', enable_cancel_button=false)}}
 
-		{% if comment_info %}
+		{% if focused_comment %}
 			<div class="total mt-1"><a href="/@{{u.username}}">View entire wall <i class="fas fa-long-arrow-right ml-1"></i></a></div>
 		{% endif %}
 

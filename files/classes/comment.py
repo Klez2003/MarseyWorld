@@ -449,12 +449,12 @@ class Comment(Base):
 		return body
 
 	@lazy
-	def collapse_for_user(self, v, comment_info, path=''):
+	def collapse_for_user(self, v, focused_comment, path=''):
 		if v and self.author_id == v.id: return False
 
 		if path == '/admin/removed/comments': return False
 
-		if comment_info: return False
+		if focused_comment: return False
 
 		if self.nsfw and not (any(path.startswith(x) for x in ('/post/','/comment/','/h/')) and self.post.nsfw) and not g.show_nsfw:
 			return True

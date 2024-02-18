@@ -65,7 +65,7 @@ def post_pid_comment_cid(cid, v, pid=None, anything=None, hole=None):
 
 	try: context = min(int(request.values.get("context", 8)), 8)
 	except: context = 8
-	comment_info = comment
+	focused_comment = comment
 	c = comment
 
 	if post.new: defaultsortingcomments = 'new'
@@ -95,7 +95,7 @@ def post_pid_comment_cid(cid, v, pid=None, anything=None, hole=None):
 	else:
 		if post.is_banned and not (v and (v.admin_level >= PERMS['POST_COMMENT_MODERATION'] or post.author_id == v.id)): template = "post_banned.html"
 		else: template = "post.html"
-		return render_template(template, v=v, p=post, sort=sort, comment_info=comment_info, render_replies=True, hole=post.hole_obj)
+		return render_template(template, v=v, p=post, sort=sort, focused_comment=focused_comment, render_replies=True, hole=post.hole_obj)
 
 @app.post("/comment")
 @limiter.limit('1/second', scope=rpath)

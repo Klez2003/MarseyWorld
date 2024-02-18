@@ -908,7 +908,7 @@ def u_username_wall_comment(v, username, cid):
 
 	try: context = min(int(request.values.get("context", 8)), 8)
 	except: context = 8
-	comment_info = comment
+	focused_comment = comment
 	c = comment
 	while context and c.level > 1:
 		c = c.parent_comment
@@ -922,7 +922,7 @@ def u_username_wall_comment(v, username, cid):
 
 	if v and v.client: return top_comment.json
 
-	return render_template("userpage/wall.html", u=u, v=v, listing=[top_comment], page=1, is_following=is_following, standalone=True, render_replies=True, wall=True, comment_info=comment_info, total=1)
+	return render_template("userpage/wall.html", u=u, v=v, listing=[top_comment], page=1, is_following=is_following, standalone=True, render_replies=True, wall=True, focused_comment=focused_comment, total=1)
 
 @app.get("/@<username>/posts")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
