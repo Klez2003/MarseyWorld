@@ -1,4 +1,4 @@
-{% if v and v.id == p.author_id and p.private %}
+{% if v and v.id == p.author_id and p.draft %}
 	<button type="button" class="list-inline-item" data-areyousure="postToastReload(this,'/publish/{{p.id}}')" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)"><i class="fas fa-globe"></i>Publish</button>
 {% endif %}
 
@@ -29,8 +29,8 @@
 
 {% if v and v.id == p.author_id %}
 	{% if request.path.startswith('/@') %}
-		<button type="button" id="pin-profile-{{p.id}}" class="{% if p.is_pinned %}d-none{% endif %} list-inline-item" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/pin/{{p.id}}','unpin-profile-{{p.id}}','pin-profile-{{p.id}}','d-none')"><i class="fas fa-thumbtack fa-rotate--45"></i>Pin to profile</button>
-		<button type="button" id="unpin-profile-{{p.id}}" class="{% if not p.is_pinned %}d-none{% endif %} list-inline-item" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/pin/{{p.id}}','unpin-profile-{{p.id}}','pin-profile-{{p.id}}','d-none')"><i class="fas fa-thumbtack fa-rotate--45"></i>Unpin from profile</button>
+		<button type="button" id="pin-profile-{{p.id}}" class="{% if p.profile_pinned %}d-none{% endif %} list-inline-item" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/profile_pin/{{p.id}}','unpin-profile-{{p.id}}','pin-profile-{{p.id}}','d-none')"><i class="fas fa-thumbtack fa-rotate--45"></i>Pin to profile</button>
+		<button type="button" id="unpin-profile-{{p.id}}" class="{% if not p.profile_pinned %}d-none{% endif %} list-inline-item" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/profile_pin/{{p.id}}','unpin-profile-{{p.id}}','pin-profile-{{p.id}}','d-none')"><i class="fas fa-thumbtack fa-rotate--45"></i>Unpin from profile</button>
 	{% endif %}
 
 	<button type="button" id="delete2-{{p.id}}" class="{% if p.deleted_utc %}d-none{% endif %} list-inline-item" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#deletePostModal" data-nonce="{{g.nonce}}" data-onclick="delete_postModal('{{p.id}}')"><i class="fas fa-trash-alt"></i>Delete</button>
@@ -64,8 +64,8 @@
 		{% endif %}
 
 		{% if v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
-			<button type="button" id="pin-{{p.id}}" class="dropdown-item {% if p.stickied and not p.stickied_utc %}d-none{% endif %} list-inline-item text-info" data-nonce="{{g.nonce}}" data-onclick="pinPost(this, '{{p.id}}')"><i class="fas fa-thumbtack fa-rotate--45"></i>Pin {% if p.stickied_utc %}permanently{% else %}for 1 hour{% endif %}</button>
-			<button type="button" id="unpin-{{p.id}}" class="dropdown-item {% if not p.stickied %}d-none{% endif %} list-inline-item text-info" data-nonce="{{g.nonce}}" data-onclick="unpinPost(this, '{{p.id}}')"><i class="fas fa-thumbtack fa-rotate--45"></i>Unpin</button>
+			<button type="button" id="pin-{{p.id}}" class="dropdown-item {% if p.pinned and not p.pinned_utc %}d-none{% endif %} list-inline-item text-info" data-nonce="{{g.nonce}}" data-onclick="pinPost(this, '{{p.id}}')"><i class="fas fa-thumbtack fa-rotate--45"></i>Pin {% if p.pinned_utc %}permanently{% else %}for 1 hour{% endif %}</button>
+			<button type="button" id="unpin-{{p.id}}" class="dropdown-item {% if not p.pinned %}d-none{% endif %} list-inline-item text-info" data-nonce="{{g.nonce}}" data-onclick="unpinPost(this, '{{p.id}}')"><i class="fas fa-thumbtack fa-rotate--45"></i>Unpin</button>
 		{% endif %}
 
 		{% if v.mods_hole(p.hole) %}

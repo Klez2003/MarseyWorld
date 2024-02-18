@@ -847,7 +847,7 @@ class User(Base):
 			Post.created_utc > self.last_viewed_post_notifs,
 			Post.deleted_utc == 0,
 			Post.is_banned == False,
-			Post.private == False,
+			Post.draft == False,
 			Post.author_id != self.id,
 			Post.author_id.notin_(self.userblocks),
 			or_(Post.hole == None, Post.hole.notin_(self.hole_blocks)),

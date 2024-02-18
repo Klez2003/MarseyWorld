@@ -67,7 +67,7 @@ def searchposts(v):
 		posts = posts.filter(
 			Post.deleted_utc == 0,
 			Post.is_banned == False,
-			Post.private == False)
+			Post.draft == False)
 
 	if 'author' in criteria:
 		author = get_user(criteria['author'], v=v)
@@ -245,7 +245,7 @@ def searchcomments(v):
 	comments = apply_time_filter(t, comments, Comment)
 
 	if v.admin_level < PERMS['POST_COMMENT_MODERATION']:
-		private = [x[0] for x in g.db.query(Post.id).filter(Post.private == True)]
+		private = [x[0] for x in g.db.query(Post.id).filter(Post.draft == True)]
 
 		comments = comments.filter(
 			Comment.is_banned==False,

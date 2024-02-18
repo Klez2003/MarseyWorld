@@ -54,11 +54,12 @@ def _add_post_view(pid):
 def publish(pid, v):
 	p = get_post(pid)
 
-	if not p.private: return {"message": "Post published!"}
+	if not p.draft:
+		return {"message": "Post published!"}
 
 	if p.author_id != v.id: abort(403)
 
-	p.private = False
+	p.draft = False
 	p.created_utc = int(time.time())
 	g.db.add(p)
 
@@ -70,7 +71,7 @@ def publish(pid, v):
 	p.title_html = filter_emojis_only(p.title, golden=False, obj=p, author=p.author)
 	p.body_html = sanitize(p.body, golden=False, limit_pings=100, obj=p, author=p.author)
 
-	if p.private or not complies_with_chud(p):
+	if p.draft or not complies_with_chud(p):
 		abort(403, f'You have to include "{p.author.chud_phrase}" in your post!')
 
 	notify_users = NOTIFY_USERS(f'{p.title} {p.body}', v, ghost=p.ghost, obj=p, followers_ping=False)
@@ -138,8 +139,8 @@ def post_id(pid, v, anything=None, hole=None):
 		comments, output = get_comments_v_properties(v, None, Comment.parent_post == p.id, Comment.level < 10)
 
 		if sort == "hot":
-			pinned = [c[0] for c in comments.filter(Comment.stickied != None).order_by(Comment.created_utc.desc())]
-			comments = comments.filter(Comment.stickied == None)
+			pinned = [c[0] for c in comments.filter(Comment.pinned != None).order_by(Comment.created_utc.desc())]
+			comments = comments.filter(Comment.pinned == None)
 
 		comments = comments.filter(Comment.level == 1)
 		comments = sort_objects(sort, comments, Comment)
@@ -148,8 +149,8 @@ def post_id(pid, v, anything=None, hole=None):
 		comments = g.db.query(Comment).filter(Comment.parent_post == p.id)
 
 		if sort == "hot":
-			pinned = comments.filter(Comment.stickied != None).order_by(Comment.created_utc.desc()).all()
-			comments = comments.filter(Comment.stickied == None)
+			pinned = comments.filter(Comment.pinned != None).order_by(Comment.created_utc.desc()).all()
+			comments = comments.filter(Comment.pinned == None)
 
 		comments = comments.filter(Comment.level == 1)
 		comments = sort_objects(sort, comments, Comment)
@@ -224,7 +225,7 @@ def view_more(v, pid, sort, offset):
 		comments, output = get_comments_v_properties(v, None, Comment.parent_post == pid, Comment.id.notin_(ids), Comment.level < 10)
 
 		if sort == "hot":
-			comments = comments.filter(Comment.stickied == None)
+			comments = comments.filter(Comment.pinned == None)
 
 		comments = comments.filter(Comment.level == 1)
 		comments = sort_objects(sort, comments, Comment)
@@ -238,7 +239,7 @@ def view_more(v, pid, sort, offset):
 			)
 
 		if sort == "hot":
-			comments = comments.filter(Comment.stickied == None)
+			comments = comments.filter(Comment.pinned == None)
 
 		comments = sort_objects(sort, comments, Comment)
 
@@ -321,7 +322,7 @@ def postprocess_post(post_url, post_body, post_body_html, pid, generate_thumb, e
 		p.body_html = post_body_html
 		g.db.add(p)
 
-		if not p.private and not edit:
+		if not p.draft and not edit:
 			execute_snappy(p, p.author)
 
 		g.db.commit()
@@ -591,7 +592,7 @@ def submit_post(v, hole=None):
 	if SITE_NAME == 'WPD':
 		p.cw = request.values.get("cw", False, bool)
 
-	if not p.private:
+	if not p.draft:
 		p.chudded = v.chud and hole != 'chudrama' and not (p.is_longpost and not v.chudded_by)
 		p.queened = v.queen and not p.is_longpost
 		p.sharpened = v.sharpen and not p.is_longpost
@@ -660,7 +661,7 @@ def submit_post(v, hole=None):
 		else:
 			abort(415)
 
-	if not p.private and not complies_with_chud(p):
+	if not p.draft and not complies_with_chud(p):
 		p.is_banned = True
 		p.ban_reason = "AutoJanny"
 
@@ -695,7 +696,7 @@ def submit_post(v, hole=None):
 		autojanny.comment_count += 1
 		g.db.add(autojanny)
 
-	if not p.private:
+	if not p.draft:
 		notify_users = NOTIFY_USERS(f'{title} {body}', v, ghost=p.ghost, obj=p, followers_ping=False)
 
 		if notify_users:
@@ -710,8 +711,8 @@ def submit_post(v, hole=None):
 	g.db.add(v)
 
 	if v.id in PINNED_POSTS_IDS and not p.ghost and not (p.hole and p.hole_obj.stealth):
-		p.stickied_utc = time.time() + PINNED_POSTS_IDS[v.id] * 3600
-		p.stickied = "AutoJanny"
+		p.pinned_utc = time.time() + PINNED_POSTS_IDS[v.id] * 3600
+		p.pinned = "AutoJanny"
 
 	cache.delete_memoized(frontlist)
 	cache.delete_memoized(userpagelisting)
@@ -756,9 +757,9 @@ def delete_post_pid(pid, v):
 
 	if not p.deleted_utc:
 		p.deleted_utc = int(time.time())
-		p.is_pinned = False
-		p.stickied = None
-		p.stickied_utc = None
+		p.profile_pinned = False
+		p.pinned = None
+		p.pinned_utc = None
 
 		g.db.add(p)
 
@@ -917,7 +918,7 @@ def unsave_post(pid, v):
 
 	return {"message": "Post unsaved!"}
 
-@app.post("/pin/<int:post_id>")
+@app.post("/profile_pin/<int:post_id>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
@@ -927,10 +928,10 @@ def pin_post(post_id, v):
 	p = get_post(post_id)
 	if p:
 		if v.id != p.author_id: abort(403, "Only the post author can do that!")
-		p.is_pinned = not p.is_pinned
+		p.profile_pinned = not p.profile_pinned
 		g.db.add(p)
 		cache.delete_memoized(userpagelisting)
-		if p.is_pinned: return {"message": "Post pinned!"}
+		if p.profile_pinned: return {"message": "Post pinned!"}
 		else: return {"message": "Post unpinned!"}
 	return abort(404, "Post not found!")
 
@@ -1023,7 +1024,7 @@ def edit_post(pid, v):
 	if not v.can_edit(p): abort(403)
 
 	# Disable edits on things older than 1wk unless it's a draft or editor is a jannie
-	if time.time() - p.created_utc > 31*24*60*60 and not p.private \
+	if time.time() - p.created_utc > 31*24*60*60 and not p.draft \
 	and v.admin_level < PERMS["IGNORE_1MONTH_EDITING_LIMIT"] and v.id not in EXEMPT_FROM_1MONTH_EDITING_LIMIT:
 		abort(403, "You can't edit posts older than 1 month!")
 
@@ -1044,7 +1045,7 @@ def edit_post(pid, v):
 		abort(400, "Please enter a better title!")
 
 
-	if not p.private:
+	if not p.draft:
 		notify_users = NOTIFY_USERS(f'{title} {body}', v, oldtext=f'{p.title} {p.body}', ghost=p.ghost, obj=p, followers_ping=False)
 		if notify_users:
 			cid, text = notif_comment_mention(p)
@@ -1093,7 +1094,7 @@ def edit_post(pid, v):
 		gevent.spawn(postprocess_post, p.url, p.body, p.body_html, p.id, False, True)
 
 
-	if not p.private and not complies_with_chud(p):
+	if not p.draft and not complies_with_chud(p):
 		abort(403, f'You have to include "{p.author.chud_phrase}" in your post!')
 
 

@@ -438,13 +438,13 @@ CREATE TABLE public.comments (
     app_id integer,
     sentto integer,
     bannedfor character varying(313),
-    stickied character varying(40),
+    pinned character varying(40),
     body character varying(10000),
     body_html character varying(40000),
     ban_reason character varying(25),
     realupvotes integer DEFAULT 1 NOT NULL,
     top_comment_id integer,
-    stickied_utc integer,
+    pinned_utc integer,
     ghost boolean DEFAULT false NOT NULL,
     slots_result character varying(36),
     blackjack_result character varying(860),
@@ -837,17 +837,17 @@ CREATE TABLE public.posts (
     deleted_utc integer DEFAULT 0 NOT NULL,
     is_approved integer,
     edited_utc integer DEFAULT 0 NOT NULL,
-    is_pinned boolean DEFAULT false NOT NULL,
+    profile_pinned boolean DEFAULT false NOT NULL,
     upvotes integer DEFAULT 1 NOT NULL,
     downvotes integer DEFAULT 0 NOT NULL,
     app_id integer,
     thumburl character varying(200),
-    private boolean DEFAULT false NOT NULL,
+    draft boolean DEFAULT false NOT NULL,
     views integer DEFAULT 0 NOT NULL,
     is_bot boolean DEFAULT false NOT NULL,
     bannedfor character varying(313),
     comment_count integer DEFAULT 0 NOT NULL,
-    stickied character varying(40),
+    pinned character varying(40),
     title character varying(500) NOT NULL,
     url character varying(2083),
     body character varying(100000),
@@ -857,7 +857,7 @@ CREATE TABLE public.posts (
     title_html character varying(1500) NOT NULL,
     realupvotes integer,
     flair character varying(350),
-    stickied_utc integer,
+    pinned_utc integer,
     ghost boolean DEFAULT false NOT NULL,
     hole character varying(25),
     new boolean,
@@ -1709,10 +1709,10 @@ CREATE INDEX comment_post_id_index ON public.comments USING btree (parent_post);
 
 
 --
--- Name: comment_sticked_utc_idx; Type: INDEX; Schema: public; Owner: -
+-- Name: comment_pinned_utc_idx; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX comment_sticked_utc_idx ON public.comments USING btree (stickied_utc);
+CREATE INDEX comment_pinned_utc_idx ON public.comments USING btree (pinned_utc);
 
 
 --
@@ -2094,10 +2094,10 @@ CREATE INDEX post_deleted_utc_idx ON public.posts USING btree (deleted_utc);
 
 
 --
--- Name: post_is_pinned_idx; Type: INDEX; Schema: public; Owner: -
+-- Name: post_profile_pinned_idx; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX post_is_pinned_idx ON public.posts USING btree (is_pinned);
+CREATE INDEX post_profile_pinned_idx ON public.posts USING btree (profile_pinned);
 
 
 --
@@ -2115,10 +2115,10 @@ CREATE INDEX post_nsfw_idx ON public.posts USING btree (nsfw);
 
 
 --
--- Name: post_sticked_utc_idx; Type: INDEX; Schema: public; Owner: -
+-- Name: post_pinned_utc_idx; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX post_sticked_utc_idx ON public.posts USING btree (stickied_utc);
+CREATE INDEX post_pinned_utc_idx ON public.posts USING btree (pinned_utc);
 
 
 --
@@ -2129,10 +2129,10 @@ CREATE INDEX posts_bump_utc_idx ON public.posts USING btree (bump_utc);
 
 
 --
--- Name: posts_stickied_idx; Type: INDEX; Schema: public; Owner: -
+-- Name: posts_pinned_idx; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX posts_stickied_idx ON public.posts USING btree (stickied);
+CREATE INDEX posts_pinned_idx ON public.posts USING btree (pinned);
 
 
 --
@@ -3073,4 +3073,3 @@ ALTER TABLE ONLY public.comments
 --
 -- PostgreSQL database dump complete
 --
-

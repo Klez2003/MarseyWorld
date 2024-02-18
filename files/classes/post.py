@@ -39,12 +39,12 @@ class Post(Base):
 	views = Column(Integer, default=0)
 	deleted_utc = Column(Integer, default=0)
 	distinguished = Column(Boolean, default=False)
-	stickied = Column(String)
-	stickied_utc = Column(Integer)
+	pinned = Column(String)
+	pinned_utc = Column(Integer)
+	profile_pinned = Column(Boolean, default=False)
 	hole_pinned = Column(String)
 	hole = Column(String, ForeignKey("holes.name"))
-	is_pinned = Column(Boolean, default=False)
-	private = Column(Boolean, default=False)
+	draft = Column(Boolean, default=False)
 	comment_count = Column(Integer, default=0)
 	is_approved = Column(Integer, ForeignKey("users.id"))
 	is_bot = Column(Boolean, default=False)
@@ -252,8 +252,8 @@ class Post(Base):
 				'score': self.score,
 				'upvotes': self.upvotes,
 				'downvotes': self.downvotes,
-				'stickied': self.stickied,
-				'private' : self.private,
+				'pinned': self.pinned,
+				'draft' : self.draft,
 				'distinguished': self.distinguished,
 				'voted': self.voted if hasattr(self, 'voted') else 0,
 				'reports': reports,

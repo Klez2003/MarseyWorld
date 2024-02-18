@@ -1,4 +1,4 @@
-{% if v.id == p.author_id and p.private %}
+{% if v.id == p.author_id and p.draft %}
 	<button type="button" class="nobackground btn btn-link btn-block btn-lg text-left text-muted" data-areyousure="postToastReload(this,'/publish/{{p.id}}')" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)" data-dismiss="modal">
 		<i class="fas fa-globe text-center text-muted mr-2"></i>Publish
 	</button>
@@ -31,8 +31,8 @@
 <button type="button" id="unsave2-{{p.id}}" class="{% if not p.id in v.saved_idlist %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-left text-muted" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unsave_post/{{p.id}}','save2-{{p.id}}','unsave2-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-save text-center text-muted mr-2"></i>Unsave {% if p.num_savers %}<span data-bs-toggle="tooltip" data-bs-placement="bottom" title="Number of users who saved this post">[{{p.num_savers}}]</span>{% endif %}</button>
 
 {% if v.id == p.author_id and request.path.startswith('/@') %}
-	<button type="button" id="pin-profile2-{{p.id}}" class="{% if p.is_pinned %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-muted text-left" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/pin/{{p.id}}','pin-profile2-{{p.id}}','unpin-profile2-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-thumbtack fa-rotate--45 text-center mr-2"></i>Pin to profile</button>
-	<button type="button" id="unpin-profile2-{{p.id}}" class="{% if not p.is_pinned %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-muted text-left" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/pin/{{p.id}}','pin-profile2-{{p.id}}','unpin-profile2-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-thumbtack fa-rotate--45 text-center mr-2"></i>Unpin from profile</button>
+	<button type="button" id="pin-profile2-{{p.id}}" class="{% if p.profile_pinned %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-muted text-left" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/profile_pin/{{p.id}}','pin-profile2-{{p.id}}','unpin-profile2-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-thumbtack fa-rotate--45 text-center mr-2"></i>Pin to profile</button>
+	<button type="button" id="unpin-profile2-{{p.id}}" class="{% if not p.profile_pinned %}d-none{% endif %} nobackground btn btn-link btn-block btn-lg text-muted text-left" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/profile_pin/{{p.id}}','pin-profile2-{{p.id}}','unpin-profile2-{{p.id}}','d-none')" data-bs-dismiss="modal"><i class="fas fa-thumbtack fa-rotate--45 text-center mr-2"></i>Unpin from profile</button>
 {% endif %}
 
 {% if v.id == p.author_id %}

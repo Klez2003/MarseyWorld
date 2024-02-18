@@ -189,8 +189,8 @@ class Comment(Base):
 	parent_comment_id = Column(Integer, ForeignKey("comments.id"))
 	top_comment_id = Column(Integer)
 	is_bot = Column(Boolean, default=False)
-	stickied = Column(String)
-	stickied_utc = Column(Integer)
+	pinned = Column(String)
+	pinned_utc = Column(Integer)
 	num_of_pinned_children = Column(Integer, default=0)
 	sentto = Column(Integer, ForeignKey("users.id"))
 	app_id = Column(Integer, ForeignKey("oauth_apps.id"))
@@ -288,7 +288,7 @@ class Comment(Base):
 		if self.replies2 != None:
 			return self.replies2
 
-		replies = g.db.query(Comment).filter_by(parent_comment_id=self.id).order_by(Comment.stickied, Comment.num_of_pinned_children.desc())
+		replies = g.db.query(Comment).filter_by(parent_comment_id=self.id).order_by(Comment.pinned, Comment.num_of_pinned_children.desc())
 		if not self.parent_post: sort='old'
 		return sort_objects(sort, replies, Comment).all()
 
@@ -382,7 +382,7 @@ class Comment(Base):
 				'deleted_utc': self.deleted_utc,
 				'is_nsfw': self.nsfw,
 				'permalink': f'/comment/{self.id}#context',
-				'stickied': self.stickied,
+				'pinned': self.pinned,
 				'distinguished': self.distinguished,
 				'post_id': self.post.id if self.post else 0,
 				'score': self.score,

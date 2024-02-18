@@ -1386,11 +1386,11 @@ def remove_post(post_id, v):
 	post.is_banned = True
 	post.is_approved = None
 
-	if not FEATURES['AWARDS'] or not post.stickied or not post.stickied.endswith(PIN_AWARD_TEXT):
-		post.stickied = None
-		post.stickied_utc = None
+	if not FEATURES['AWARDS'] or not post.pinned or not post.pinned.endswith(PIN_AWARD_TEXT):
+		post.pinned = None
+		post.pinned_utc = None
 
-	post.is_pinned = False
+	post.profile_pinned = False
 	post.ban_reason = v.username
 	g.db.add(post)
 
@@ -1443,26 +1443,26 @@ def approve_post(post_id, v):
 	return {"message": "Post approved!"}
 
 
-@app.post("/sticky/<int:post_id>")
+@app.post("/pin_post/<int:post_id>")
 @feature_required('PINS')
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
-def sticky_post(post_id, v):
+def pin_post(post_id, v):
 	post = get_post(post_id)
 
 	if post.is_banned:
-		abort(403, "Can't sticky removed posts!")
+		abort(403, "Can't pin removed posts!")
 
-	if FEATURES['AWARDS'] and post.stickied and post.stickied.endswith(PIN_AWARD_TEXT) and v.admin_level < PERMS["UNDO_AWARD_PINS"]:
+	if FEATURES['AWARDS'] and post.pinned and post.pinned.endswith(PIN_AWARD_TEXT) and v.admin_level < PERMS["UNDO_AWARD_PINS"]:
 		abort(403, "Can't pin award pins!")
 
-	pins = g.db.query(Post).filter(Post.stickied != None, Post.is_banned == False).count()
+	pins = g.db.query(Post).filter(Post.pinned != None, Post.is_banned == False).count()
 
-	if not post.stickied_utc:
-		post.stickied_utc = int(time.time()) + 3600
+	if not post.pinned_utc:
+		post.pinned_utc = int(time.time()) + 3600
 		pin_time = 'for 1 hour'
 		code = 200
 		if v.id != post.author_id:
@@ -1470,11 +1470,11 @@ def sticky_post(post_id, v):
 	else:
 		if pins >= PIN_LIMIT + 1:
 			abort(403, f"Can't exceed {PIN_LIMIT} pinned posts limit!")
-		post.stickied_utc = None
+		post.pinned_utc = None
 		pin_time = 'permanently'
 		code = 201
 
-	post.stickied = v.username
+	post.pinned = v.username
 
 	g.db.add(post)
 
@@ -1491,20 +1491,20 @@ def sticky_post(post_id, v):
 	return {"message": f"Post pinned {pin_time}!"}, code
 
 
-@app.post("/unsticky/<int:post_id>")
+@app.post("/unpin_post/<int:post_id>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
-def unsticky_post(post_id, v):
+def unpin_post(post_id, v):
 	post = get_post(post_id)
-	if post.stickied:
-		if FEATURES['AWARDS'] and post.stickied.endswith(PIN_AWARD_TEXT) and v.admin_level < PERMS["UNDO_AWARD_PINS"]:
+	if post.pinned:
+		if FEATURES['AWARDS'] and post.pinned.endswith(PIN_AWARD_TEXT) and v.admin_level < PERMS["UNDO_AWARD_PINS"]:
 			abort(403, "Can't unpin award pins!")
 
-		post.stickied = None
-		post.stickied_utc = None
+		post.pinned = None
+		post.pinned_utc = None
 		g.db.add(post)
 
 		ma = ModAction(
@@ -1520,23 +1520,23 @@ def unsticky_post(post_id, v):
 		cache.delete_memoized(frontlist)
 	return {"message": "Post unpinned!"}
 
-@app.post("/sticky_comment/<int:cid>")
+@app.post("/pin_comment/<int:cid>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
-def sticky_comment(cid, v):
+def pin_comment(cid, v):
 	comment = get_comment(cid, v=v)
 
 	if comment.is_banned:
-		abort(403, "Can't sticky removed comments!")
+		abort(403, "Can't pin removed comments!")
 
-	if FEATURES['AWARDS'] and comment.stickied and comment.stickied.endswith(PIN_AWARD_TEXT) and v.admin_level < PERMS["UNDO_AWARD_PINS"]:
+	if FEATURES['AWARDS'] and comment.pinned and comment.pinned.endswith(PIN_AWARD_TEXT) and v.admin_level < PERMS["UNDO_AWARD_PINS"]:
 		abort(403, "Can't pin award pins!")
 
-	if not comment.stickied:
-		comment.stickied = v.username
+	if not comment.pinned:
+		comment.pinned = v.username
 		g.db.add(comment)
 
 		ma = ModAction(
@@ -1555,21 +1555,21 @@ def sticky_comment(cid, v):
 	return {"message": "Comment pinned!"}
 
 
-@app.post("/unsticky_comment/<int:cid>")
+@app.post("/unpin_comment/<int:cid>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
-def unsticky_comment(cid, v):
+def unpin_comment(cid, v):
 	comment = get_comment(cid, v=v)
 
-	if comment.stickied:
-		if FEATURES['AWARDS'] and comment.stickied.endswith(PIN_AWARD_TEXT) and v.admin_level < PERMS["UNDO_AWARD_PINS"]:
+	if comment.pinned:
+		if FEATURES['AWARDS'] and comment.pinned.endswith(PIN_AWARD_TEXT) and v.admin_level < PERMS["UNDO_AWARD_PINS"]:
 			abort(403, "Can't unpin award pins!")
 
-		comment.stickied = None
-		comment.stickied_utc = None
+		comment.pinned = None
+		comment.pinned_utc = None
 		g.db.add(comment)
 
 		ma = ModAction(

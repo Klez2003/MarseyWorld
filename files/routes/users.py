@@ -404,10 +404,10 @@ def all_upvoters_downvoters(v, username, vote_dir, is_who_simps_hates):
 	votes = []
 	votes2 = []
 	if is_who_simps_hates:
-		votes = g.db.query(Post.author_id, func.count(Post.author_id)).join(Vote).filter(Post.private == False, Post.ghost == False, Post.is_banned == False, Post.deleted_utc == 0, Vote.vote_type==vote_dir, Vote.user_id==id).group_by(Post.author_id).order_by(func.count(Post.author_id).desc()).all()
+		votes = g.db.query(Post.author_id, func.count(Post.author_id)).join(Vote).filter(Post.draft == False, Post.ghost == False, Post.is_banned == False, Post.deleted_utc == 0, Vote.vote_type==vote_dir, Vote.user_id==id).group_by(Post.author_id).order_by(func.count(Post.author_id).desc()).all()
 		votes2 = g.db.query(Comment.author_id, func.count(Comment.author_id)).join(CommentVote).filter(Comment.ghost == False, Comment.is_banned == False, Comment.deleted_utc == 0, CommentVote.vote_type==vote_dir, CommentVote.user_id==id).group_by(Comment.author_id).order_by(func.count(Comment.author_id).desc()).all()
 	else:
-		votes = g.db.query(Vote.user_id, func.count(Vote.user_id)).join(Post).filter(Post.private == False, Post.ghost == False, Post.is_banned == False, Post.deleted_utc == 0, Vote.vote_type==vote_dir, Post.author_id==id).group_by(Vote.user_id).order_by(func.count(Vote.user_id).desc()).all()
+		votes = g.db.query(Vote.user_id, func.count(Vote.user_id)).join(Post).filter(Post.draft == False, Post.ghost == False, Post.is_banned == False, Post.deleted_utc == 0, Vote.vote_type==vote_dir, Post.author_id==id).group_by(Vote.user_id).order_by(func.count(Vote.user_id).desc()).all()
 		votes2 = g.db.query(CommentVote.user_id, func.count(CommentVote.user_id)).join(Comment).filter(Comment.ghost == False, Comment.is_banned == False, Comment.deleted_utc == 0, CommentVote.vote_type==vote_dir, Comment.author_id==id).group_by(CommentVote.user_id).order_by(func.count(CommentVote.user_id).desc()).all()
 	votes = Counter(dict(votes)) + Counter(dict(votes2))
 	total_items = sum(votes.values())
@@ -954,11 +954,10 @@ def u_username(v, username):
 	ids, total = userpagelisting(u, v=v, page=page, sort=sort, t=t)
 
 	if page == 1 and sort == 'new':
-		sticky = []
-		sticky = g.db.query(Post).filter_by(is_pinned=True, author_id=u.id, is_banned=False).all()
-		if sticky:
-			for p in sticky:
-				ids = [p.id] + ids
+		pinned = []
+		pinned = g.db.query(Post).filter_by(profile_pinned=True, author_id=u.id, is_banned=False).all()
+		for p in pinned:
+			ids = [p.id] + ids
 
 	listing = get_posts(ids, v=v)
 
@@ -992,7 +991,7 @@ def u_username(v, username):
 
 @cache.memoize()
 def userpagelisting(u, v=None, page=1, sort="new", t="all"):
-	posts = g.db.query(Post).filter_by(author_id=u.id, is_pinned=False).options(load_only(Post.id))
+	posts = g.db.query(Post).filter_by(author_id=u.id, profile_pinned=False).options(load_only(Post.id))
 
 	if v.id != u.id and v.admin_level < PERMS['POST_COMMENT_MODERATION']:
 		posts = posts.filter_by(is_banned=False, private=False, ghost=False)

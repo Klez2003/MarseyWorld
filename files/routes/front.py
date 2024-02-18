@@ -134,7 +134,7 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 
 	posts = posts.filter(
 		Post.is_banned == False,
-		Post.private == False,
+		Post.draft == False,
 		Post.deleted_utc == 0,
 	)
 
@@ -148,7 +148,7 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 
 	if pins and not gt and not lt:
 		if hole: posts = posts.filter(Post.hole_pinned == None)
-		else: posts = posts.filter(Post.stickied == None)
+		else: posts = posts.filter(Post.pinned == None)
 
 	if v:
 		posts = posts.filter(Post.author_id.notin_(v.userblocks))
@@ -193,7 +193,7 @@ def frontlist(v=None, sort="hot", page=1, t="all", ids_only=True, filter_words='
 		if hole:
 			pins = g.db.query(Post).options(load_only(Post.id)).filter(Post.hole == hole.name, Post.hole_pinned != None)
 		else:
-			pins = g.db.query(Post).options(load_only(Post.id)).filter(Post.stickied != None, Post.is_banned == False)
+			pins = g.db.query(Post).options(load_only(Post.id)).filter(Post.pinned != None, Post.is_banned == False)
 
 			if v:
 				pins = pins.filter(or_(Post.hole == None, Post.hole.notin_(v.hole_blocks)))
@@ -216,7 +216,7 @@ def random_post(v):
 	p = g.db.query(Post.id).filter(
 			Post.deleted_utc == 0,
 			Post.is_banned == False,
-			Post.private == False,
+			Post.draft == False,
 			or_(Post.hole == None, Post.hole.notin_(v.hole_blocks)),
 		).order_by(func.random()).first()
 
@@ -255,7 +255,7 @@ def comment_idlist(v=None, page=1, sort="new", t="day", gt=0, lt=0):
 			Comment.is_banned == False,
 			Comment.deleted_utc == 0,
 			Comment.author_id.notin_(v.userblocks),
-			or_(Comment.parent_post == None, Post.private == False),
+			or_(Comment.parent_post == None, Post.draft == False),
 		)
 
 	if gt: comments = comments.filter(Comment.created_utc > gt)

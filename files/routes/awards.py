@@ -311,39 +311,39 @@ def award_thing(v, thing_type, id):
 		if not FEATURES['PINS']: abort(403)
 		if obj.is_banned: abort(403)
 
-		if obj.stickied and not obj.stickied_utc:
+		if obj.pinned and not obj.pinned_utc:
 			abort(400, f"This {thing_type} is already pinned permanently!")
 
 		if isinstance(obj, Comment): add = 3600*6
 		else: add = 3600
 
-		if obj.stickied_utc:
-			obj.stickied_utc += add
+		if obj.pinned_utc:
+			obj.pinned_utc += add
 		else:
-			obj.stickied_utc = int(time.time()) + add
+			obj.pinned_utc = int(time.time()) + add
 			if isinstance(obj, Comment):
 				obj.pin_parents()
 
-		obj.stickied = f'{v.username}{PIN_AWARD_TEXT}'
+		obj.pinned = f'{v.username}{PIN_AWARD_TEXT}'
 
 		if isinstance(obj, Post):
 			cache.delete_memoized(frontlist)
 	elif kind == "unpin":
-		if not obj.stickied_utc: abort(400)
+		if not obj.pinned_utc: abort(400)
 		if not obj.author.deflector or v == obj.author:
 			if isinstance(obj, Comment):
-				t = obj.stickied_utc - 3600*6
+				t = obj.pinned_utc - 3600*6
 			else:
-				t = obj.stickied_utc - 3600
+				t = obj.pinned_utc - 3600
 
 			if time.time() > t:
-				obj.stickied = None
-				obj.stickied_utc = None
+				obj.pinned = None
+				obj.pinned_utc = None
 				if isinstance(obj, Post):
 					cache.delete_memoized(frontlist)
 				else:
 					obj.unpin_parents()	
-			else: obj.stickied_utc = t
+			else: obj.pinned_utc = t
 	elif kind == "queen":
 		if not author.queen:
 			characters = list(filter(str.isalpha, author.username))

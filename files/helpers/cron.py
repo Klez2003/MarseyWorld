@@ -156,7 +156,7 @@ def _hole_inactive_purge_task():
 	one_week_ago = time.time() - 604800
 	active_holes = [x[0] for x in g.db.query(Post.hole).distinct() \
 		.filter(Post.hole != None, Post.created_utc > one_week_ago,
-			Post.private == False, Post.is_banned == False,
+			Post.draft == False, Post.is_banned == False,
 			Post.deleted_utc == 0)]
 	active_holes.extend(['changelog','countryclub','museumofrdrama','highrollerclub','test']) # holes immune from deletion
 
@@ -330,11 +330,11 @@ def _unpin_expired():
 	pins = []
 
 	for cls in (Post, Comment):
-		pins += g.db.query(cls).options(load_only(cls.id)).filter(cls.stickied_utc < t)
+		pins += g.db.query(cls).options(load_only(cls.id)).filter(cls.pinned_utc < t)
 
 	for pin in pins:
-		pin.stickied = None
-		pin.stickied_utc = None
+		pin.pinned = None
+		pin.pinned_utc = None
 		g.db.add(pin)
 		if isinstance(pin, Comment):
 			pin.unpin_parents()	

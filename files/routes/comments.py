@@ -439,9 +439,9 @@ def delete_comment(cid, v):
 		c.deleted_utc = int(time.time())
 		g.db.add(c)
 
-		if c.stickied:
-			c.stickied = None
-			c.stickied_utc = None
+		if c.pinned:
+			c.pinned = None
+			c.pinned_utc = None
 			c.unpin_parents()
 
 		if not (c.parent_post in ADMIGGER_THREADS and c.level == 1):
@@ -498,11 +498,11 @@ def pin_comment(cid, v):
 
 	comment = get_comment(cid, v=v)
 
-	if not comment.stickied:
+	if not comment.pinned:
 		if v.id != comment.post.author_id: abort(403)
 
-		if comment.post.ghost: comment.stickied = "(OP)"
-		else: comment.stickied = v.username + " (OP)"
+		if comment.post.ghost: comment.pinned = "(OP)"
+		else: comment.pinned = v.username + " (OP)"
 
 		g.db.add(comment)
 
@@ -526,14 +526,14 @@ def unpin_comment(cid, v):
 
 	comment = get_comment(cid, v=v)
 
-	if comment.stickied:
+	if comment.pinned:
 		if v.id != comment.post.author_id: abort(403)
 
-		if not comment.stickied.endswith(" (OP)"):
+		if not comment.pinned.endswith(" (OP)"):
 			abort(403, "You can only unpin comments you have pinned!")
 
-		comment.stickied = None
-		comment.stickied_utc = None
+		comment.pinned = None
+		comment.pinned_utc = None
 		g.db.add(comment)
 
 		comment.unpin_parents()
@@ -646,7 +646,7 @@ def toggle_comment_nsfw(cid, v):
 def edit_comment(cid, v):
 	c = get_comment(cid, v=v)
 
-	if time.time() - c.created_utc > 31*24*60*60 and not (c.post and c.post.private) \
+	if time.time() - c.created_utc > 31*24*60*60 and not (c.post and c.post.draft) \
 	and v.admin_level < PERMS["IGNORE_1MONTH_EDITING_LIMIT"] and v.id not in EXEMPT_FROM_1MONTH_EDITING_LIMIT:
 		abort(403, "You can't edit comments older than 1 month!")
 

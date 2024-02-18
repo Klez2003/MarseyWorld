@@ -188,7 +188,7 @@ def notifications_posts(v):
 	listing = g.db.query(Post).filter(
 		Post.deleted_utc == 0,
 		Post.is_banned == False,
-		Post.private == False,
+		Post.draft == False,
 		Post.author_id != v.id,
 		Post.author_id.notin_(v.userblocks),
 		or_(Post.hole == None, Post.hole.notin_(v.hole_blocks)),

@@ -262,8 +262,8 @@ def execute_snappy(post, v):
 		g.db.add(snappy)
 
 		if FEATURES['PINS'] and (body.startswith(':#marseypin:') or body.startswith(':#marseypin2:')):
-			post.stickied = "Snappy"
-			post.stickied_utc = int(time.time()) + 3600
+			post.pinned = "Snappy"
+			post.pinned_utc = int(time.time()) + 3600
 
 		elif SITE_NAME == 'rDrama' and body.startswith(':#marseyban:'):
 			days = 0.01
@@ -463,7 +463,7 @@ def execute_antispam_post_check(title, v, url):
 
 		for post in similar_posts + similar_urls:
 			post.is_banned = True
-			post.is_pinned = False
+			post.profile_pinned = False
 			post.ban_reason = "AutoJanny"
 			g.db.add(post)
 			ma = ModAction(

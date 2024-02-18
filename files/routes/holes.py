@@ -900,10 +900,10 @@ def pin_comment_mod(cid, v):
 
 	comment = get_comment(cid, v=v)
 
-	if not comment.stickied:
+	if not comment.pinned:
 		if not v.mods_hole(comment.post.hole): abort(403)
 
-		comment.stickied = v.username + " (Mod)"
+		comment.pinned = v.username + " (Mod)"
 
 		g.db.add(comment)
 
@@ -933,11 +933,11 @@ def unpin_comment_mod(cid, v):
 
 	comment = get_comment(cid, v=v)
 
-	if comment.stickied:
+	if comment.pinned:
 		if not v.mods_hole(comment.post.hole): abort(403)
 
-		comment.stickied = None
-		comment.stickied_utc = None
+		comment.pinned = None
+		comment.pinned_utc = None
 		g.db.add(comment)
 
 		comment.unpin_parents()
