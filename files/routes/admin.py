@@ -2127,6 +2127,13 @@ def mark_effortpost(pid, v):
 	p.effortpost = True
 	g.db.add(p)
 
+	if v.effortposts_made >= 99:
+		badge_grant(badge_id=330, user=v)
+	elif v.effortposts_made >= 9:
+		badge_grant(badge_id=329, user=v)
+	else:
+		badge_grant(badge_id=328, user=v)
+
 	ma = ModAction(
 		kind = "mark_effortpost",
 		user_id = v.id,
