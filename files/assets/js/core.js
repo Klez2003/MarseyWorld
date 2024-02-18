@@ -186,31 +186,6 @@ function formkey() {
 	else return null;
 }
 
-const expandImageModal = document.getElementById('expandImageModal')
-
-function expandImage(url) {
-	document.getElementById('imgnav-next').classList.add('d-none')
-	document.getElementById('imgnav-prev').classList.add('d-none')
-
-	const e = this.event
-	if (e.ctrlKey || e.metaKey || e.shiftKey || e.altKey)
-		return;
-	e.preventDefault();
-
-	document.getElementById("expanded-image").src = '';
-	document.getElementById("expanded-image-wrap-link").href = '';
-
-	if (!url)
-	{
-		url = e.target.dataset.src
-		if (!url) url = e.target.src
-	}
-	document.getElementById("expanded-image").src = url.replace("200w.webp", "giphy.webp");
-	document.getElementById("expanded-image-wrap-link").href = url.replace("200w.webp", "giphy.webp");
-
-	bootstrap.Modal.getOrCreateInstance(expandImageModal).show();
-};
-
 function bs_trigger(e) {
 	let tooltipTriggerList = [].slice.call(e.querySelectorAll('[data-bs-toggle="tooltip"]'));
 	tooltipTriggerList.map(function(element){
@@ -685,8 +660,12 @@ function handleUploadProgress(e, upload_prog) {
 
 if (screen_width < 768) {
 	let object
+
+	const expandImageModal = document.getElementById('expandImageModal')
+
 	if (gbrowser == 'iphone' && expandImageModal)
 		object = expandImageModal
+
 	if (gbrowser != 'iphone')
 		object = document
 
