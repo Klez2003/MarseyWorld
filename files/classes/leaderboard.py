@@ -192,11 +192,18 @@ class Leaderboard:
 		else:
 			minimum = 100
 
-		sq = g.db.query(lb_criteria.author_id, cls.avg_and_label(lb_criteria.upvotes, lb_criteria.author_id)).filter_by(draft=False, deleted_utc=0).group_by(lb_criteria.author_id).having(func.count(lb_criteria.author_id) >= minimum).subquery()
+		sq = g.db.query(lb_criteria.author_id, cls.avg_and_label(lb_criteria.upvotes, lb_criteria.author_id)).filter_by(deleted_utc=0)
+		if cls == Post:
+			sq = sq.filter_by(draft=False)
+		sq = sq.group_by(lb_criteria.author_id).having(func.count(lb_criteria.author_id) >= minimum).subquery()
 		leaderboard = g.db.query(User, sq.c.avg).join(User, User.id == sq.c.author_id).order_by(sq.c.avg.desc())
 
-		sq = g.db.query(lb_criteria.author_id, cls.avg_and_label(lb_criteria.upvotes, lb_criteria.author_id), cls.rank_filtered_rank_label_by_desc_avg(lb_criteria.upvotes, lb_criteria.author_id)).filter_by(draft=False, deleted_utc=0).group_by(lb_criteria.author_id).having(func.count(lb_criteria.author_id) >= minimum).subquery()
+		sq = g.db.query(lb_criteria.author_id, cls.avg_and_label(lb_criteria.upvotes, lb_criteria.author_id), cls.rank_filtered_rank_label_by_desc_avg(lb_criteria.upvotes, lb_criteria.author_id)).filter_by(deleted_utc=0)
+		if cls == Post:
+			sq = sq.filter_by(draft=False)
+		sq = sq.group_by(lb_criteria.author_id).having(func.count(lb_criteria.author_id) >= minimum).subquery()
 		position = g.db.query(sq.c.rank, sq.c.avg).join(User, User.id == sq.c.author_id).filter(sq.c.author_id == v.id).limit(1).one_or_none()
+
 		if not position: position = (leaderboard.count() + 1, 0)
 		leaderboard = leaderboard.limit(limit).all()
 		return (leaderboard, position[0], position[1])
