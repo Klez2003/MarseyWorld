@@ -533,14 +533,14 @@ def award_thing(v, thing_type, id):
 		if author.earlylife: author.earlylife += 86400
 		else: author.earlylife = int(time.time()) + 86400
 		badge_grant(user=author, badge_id=169)
-	elif ("Furry" in kind and kind == v.house) or kind == 'owoify':
+	elif ("Furry" in kind and kind == v.house):
 		if author.owoify: author.owoify += 21600
 		else: author.owoify = int(time.time()) + 21600
 		badge_grant(user=author, badge_id=167)
 
 		if can_alter_body:
 			alter_body(obj)
-	elif ("Edgy" in kind and kind == v.house) or kind == 'sharpen':
+	elif ("Edgy" in kind and kind == v.house):
 		if author.sharpen: author.sharpen += 86400
 		else: author.sharpen = int(time.time()) + 86400
 		badge_grant(user=author, badge_id=289)
@@ -548,7 +548,7 @@ def award_thing(v, thing_type, id):
 		if can_alter_body:
 			obj.sharpened = True
 			alter_body(obj)
-	elif ("Femboy" in kind and kind == v.house) or kind == 'rainbow':
+	elif ("Femboy" in kind and kind == v.house):
 		if author.rainbow: author.rainbow += 86400
 		else: author.rainbow = int(time.time()) + 86400
 		badge_grant(user=author, badge_id=171)
