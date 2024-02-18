@@ -93,14 +93,14 @@ if (screen_width < 768) {
 					imgnav_prev.click()
 					setTimeout(() => {
 						active = true;
-					}, 500);
+					}, 100);
 				}
 				if (f < -0.2) {
 					active = false;
 					imgnav_next.click()
 					setTimeout(() => {
 						active = true;
-					}, 500);
+					}, 100);
 				}
 			}
 		}
