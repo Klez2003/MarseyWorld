@@ -252,6 +252,7 @@ FEATURES = {
 	'BOTS': True,
 	'IP_LOGGING': False,
 	'BLOCK_MUTE_EXILE_EXPIRY': False,
+	'ADMIN_TRANSPARENCY': True,
 }
 
 if SITE_NAME == 'rDrama':
@@ -768,6 +769,8 @@ elif SITE == 'watchpeopledie.tv':
 	FEATURES['BOTS'] = False
 	FEATURES['HAT_SUBMISSIONS'] = False
 	FEATURES['IP_LOGGING'] = True
+	FEATURES['ADMIN_TRANSPARENCY'] = False
+
 	HOUSES = ["Furry","Femboy","Vampire","Edgy"]
 
 	PERMS['POST_COMMENT_EDITING'] = 3
@@ -1175,3 +1178,8 @@ if not IS_LOCALHOST:
 
 with open("includes/content-security-policy", "w") as f:
 	f.write(f'add_header Content-Security-Policy "{csp}";')
+
+def admin_str(v):
+	if FEATURES['ADMIN_TRANSPARENCY']:
+		return f'@{v.username} (a site admin)'
+	return 'Site admins'

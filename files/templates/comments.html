@@ -30,8 +30,32 @@
 					<div id="comment-{{c.id}}-only" class="comment-{{c.id}}-only">
 						<div class="user-info">
 							<span class="comment-collapse-icon" data-nonce="{{g.nonce}}" data-onclick="collapse_comment('{{c.id}}')"></span>
-							{% if standalone and c.nsfw %}<span class="badge badge-danger">NSFW</span> {% endif %}
-							{% if c.is_banned %}Removed by @{{c.ban_reason}} (site admin){% elif c.deleted_utc %}Deleted by author{% endif %}
+							{% if standalone and c.nsfw %}
+								<span class="badge badge-danger">NSFW</span>
+							{% endif %}
+							
+							{% if c.deleted_utc %}
+								<span class="text-yellow mb-0 mt-3">
+									Deleted by author
+								</span>
+							{% endif %}
+
+							{% if c.deleted_utc and c.is_banned %}
+								<span class="mx-1">
+									-
+								</span>
+							{% endif %}
+
+							{% if c.is_banned %}
+								<span class="text-removed mb-0 mt-2">
+									Removed by
+									{% if FEATURES['ADMIN_TRANSPARENCY'] %}
+										@{{c.ban_reason}} (site admin)
+									{% else %}
+										site admins
+									{% endif %}
+								</span>
+							{% endif %}
 						</div>
 					</div>
 					{% if render_replies %}
@@ -273,7 +297,13 @@
 						{{macros.reports(c, 'comment')}}
 
 						{% if c.is_banned %}
-							<div id="comment-banned-warning" class="comment-text text-removed mb-0">Removed by @{{c.ban_reason}} (site admin)</div>
+							<div id="comment-banned-warning" class="comment-text text-removed mb-0">Removed by 
+								{% if FEATURES['ADMIN_TRANSPARENCY'] %}
+									@{{c.ban_reason}} (site admin)
+								{% else %}
+									site admins
+								{% endif %}
+							</div>
 						{% endif %}
 
 						{% set realbody = c.realbody(v) %}

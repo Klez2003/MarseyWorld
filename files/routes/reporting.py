@@ -42,7 +42,7 @@ def report_post(pid, v):
 				_note=f'"{post.flair}"'
 			)
 			g.db.add(ma)
-			position = 'a site admin'
+			actor_str = admin_str(v)
 		else:
 			ma = HoleAction(
 				hole=post.hole,
@@ -52,10 +52,10 @@ def report_post(pid, v):
 				_note=f'"{post.flair}"'
 			)
 			g.db.add(ma)
-			position = f'a /h/{post.hole} mod'
+			actor_str = f'@{v.username} (a /h/{hole_from} mod)'
 
 		if v.id != post.author_id:
-			message = f'@{v.username} ({position}) has flaired [{post.title}]({post.shortlink}) with the flair: `"{og_flair}"`'
+			message = f'{actor_str} flaired [{post.title}]({post.shortlink}) with the flair: `"{og_flair}"`'
 			send_repeatable_notification(post.author_id, message)
 
 		return {"message": "Post flaired successfully!"}

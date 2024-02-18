@@ -176,6 +176,7 @@ def patrons(v):
 	return render_template("admin/patrons.html", v=v, users=users, benefactor_def=AWARDS['benefactor'])
 
 @app.get("/admins")
+@feature_required('ADMIN_TRANSPARENCY')
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
@@ -185,6 +186,7 @@ def admins(v):
 
 @app.get("/log")
 @app.get("/modlog")
+@feature_required('ADMIN_TRANSPARENCY')
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required

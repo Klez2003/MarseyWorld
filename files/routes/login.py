@@ -105,9 +105,12 @@ def login_post(v):
 	return redirect('/')
 
 def log_failed_admin_login_attempt(account, type):
-	if not account or account.admin_level < PERMS['WARN_ON_FAILED_LOGIN']: return
+	if not account or account.admin_level < PERMS['WARN_ON_FAILED_LOGIN']:
+		return
+
 	ip = get_IP()
-	print(f"A site admin from {ip} failed to login to account @{account.user_name} (invalid {type})")
+	print(f"{ip} failed to login to account @{account.user_name} (invalid {type})")
+
 	t = time.strftime("%d/%B/%Y %H:%M:%S UTC", time.gmtime(time.time()))
 	log_file(f"{t}, {ip}, {account.username}, {type}", "admin_failed_logins.log")
 
