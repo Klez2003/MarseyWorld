@@ -90,8 +90,8 @@
 								{% endif %}
 
 								<div class="custom-control custom-checkbox">
-									<input autocomplete="off" type="checkbox" class="custom-control-input" id="post-private" name="private" data-nonce="{{g.nonce}}" data-onchange="savetext()">
-									<label class="custom-control-label" for="post-private">Draft</label>
+									<input autocomplete="off" type="checkbox" class="custom-control-input" id="post-draft" name="draft" data-nonce="{{g.nonce}}" data-onchange="savetext()">
+									<label class="custom-control-label" for="post-draft">Draft</label>
 								</div>
 
 								{% if not (SITE_NAME == 'WPD' and v.truescore < 500) %}

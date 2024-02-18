@@ -994,7 +994,7 @@ def userpagelisting(u, v=None, page=1, sort="new", t="all"):
 	posts = g.db.query(Post).filter_by(author_id=u.id, profile_pinned=False).options(load_only(Post.id))
 
 	if v.id != u.id and v.admin_level < PERMS['POST_COMMENT_MODERATION']:
-		posts = posts.filter_by(is_banned=False, private=False, ghost=False)
+		posts = posts.filter_by(is_banned=False, draft=False, ghost=False)
 
 	if v.admin_level < PERMS['POST_COMMENT_MODERATION'] and not (SITE_NAME == 'rDrama' and v.id == u.id):
 		posts = posts.filter_by(deleted_utc=0)

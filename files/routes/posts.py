@@ -451,8 +451,9 @@ def is_repost(v):
 @limiter.limit('20/day', deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def submit_post(v, hole=None):
-	flag_private = request.values.get("private", False, bool)
-	if v.is_permabanned or (v.is_banned and not flag_private):
+	flag_draft = request.values.get("draft", False, bool)
+
+	if v.is_permabanned or (v.is_banned and not flag_draft):
 		abort(403, "You can't perform this action while banned!")
 
 	url = request.values.get("url", "").strip()
@@ -574,7 +575,7 @@ def submit_post(v, hole=None):
 	if url == '': url = None
 
 	p = Post(
-		private=flag_private,
+		draft=flag_draft,
 		notify=flag_notify,
 		author_id=v.id,
 		nsfw=flag_nsfw,
