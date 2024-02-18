@@ -60,14 +60,30 @@
 		{%- endif -%}
 		, speaking officially"></i>
 	{% endif %}
+
 	{% if p.profile_pinned and request.path != '/' %}
 		<i class="fas fa-thumbtack fa-rotate--45 pr-1 ml-1 mt-3 text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Pinned to profile"></i>
 	{% endif %}
-	{% if p.nsfw %}<span class="badge badge-danger text-small-extra mr-1">NSFW</span>{% endif %}
-	{% if p.is_bot %} <i class="fas fa-robot text-info" data-bs-toggle="tooltip" data-bs-placement="bottom"	title="Bot"></i>{% endif %}
-	{% if p.is_blocking and not p.ghost %}<i class="fas fa-user-minus text-warning" data-bs-toggle="tooltip" data-bs-placement="bottom" title="You're blocking this user."></i>{% endif %}
-	{% if p.is_blocked and not p.ghost %}<i class="fas fa-user-minus text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="This user is blocking you."></i>{% endif %}
-	{% if p.draft %}<span class="mr-2 badge border-warning border-1 text-small-extra">Draft</span>{% endif %}
+
+	{% if p.nsfw %}
+		<span class="badge badge-danger text-small-extra mr-1">NSFW</span>
+	{% endif %}
+
+	{% if p.is_bot %}
+		 <i class="fas fa-robot text-info" data-bs-toggle="tooltip" data-bs-placement="bottom"	title="Bot"></i>
+	{% endif %}
+
+	{% if p.is_blocking and not p.ghost %}
+		<i class="fas fa-user-minus text-warning" data-bs-toggle="tooltip" data-bs-placement="bottom" title="You're blocking this user."></i>
+	{% endif %}
+
+	{% if p.is_blocked and not p.ghost %}
+		<i class="fas fa-user-minus text-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="This user is blocking you."></i>
+	{% endif %}
+
+	{% if p.draft %}
+		<span class="mr-2 badge border-warning border-1 text-small-extra">Draft</span>
+	{% endif %}
 
 	{% if p.active_reports(v) %}
 		<button type="button" class="btn btn-primary mx-1" style="padding:1px 5px; font-size:10px" data-nonce="{{g.nonce}}" data-toggleelement="#reports-{{p.id}}" data-toggleattr="d-none">{{p.active_reports(v)}} Report{{plural(p.active_reports(v))}}</button>
