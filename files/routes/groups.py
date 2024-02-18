@@ -323,7 +323,13 @@ def group_usurp(v, group_name):
 		Comment.body_html.like(search_html),
 	).first()
 
-	if is_active:
+	month_old_applications = g.db.query(GroupMembership.user_id).filter(
+		GroupMembership.group_name == group.name,
+		GroupMembership.approved_utc == None,
+		GroupMembership.created_utc < one_month_ago,
+	).first()
+
+	if is_active or not month_old_applications:
 		abort(403, "The current regime has reviewed a membership application in the past month, so you can't usurp them!")
 
 	send_repeatable_notification(group.owner_id, f"@{v.username} has usurped control of !{group.name} from you. This was possible because you (and your mods) have spent more than a month not reviewing membership applications. Be active next time sweaty :!marseycheeky:")
