@@ -175,7 +175,7 @@ def upvoters_downvoters(v, username, username2, cls, vote_cls, vote_dir, templat
 		)
 	
 	if cls == Post:
-		listing = listing.filter_by(private=False)
+		listing = listing.filter_by(draft=False)
 
 	total = listing.count()
 
@@ -241,7 +241,7 @@ def upvoting_downvoting(v, username, username2, cls, vote_cls, vote_dir, templat
 		)
 
 	if cls == Post:
-		listing = listing.filter_by(private=False)
+		listing = listing.filter_by(draft=False)
 
 	total = listing.count()
 
