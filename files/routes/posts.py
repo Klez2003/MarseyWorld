@@ -832,7 +832,7 @@ def mark_post_nsfw(pid, v):
 					target_post_id = p.id,
 				)
 			g.db.add(ma)
-			position = f'a /h/{post.hole} mod'
+			position = f'a /h/{p.hole} mod'
 
 		send_repeatable_notification(p.author_id, f"@{v.username} ({position}) has marked [{p.title}](/post/{p.id}) as NSFW")
 
@@ -874,7 +874,7 @@ def unmark_post_nsfw(pid, v):
 					target_post_id = p.id,
 				)
 			g.db.add(ma)
-			position = f'a /h/{post.hole} mod'
+			position = f'a /h/{p.hole} mod'
 
 		send_repeatable_notification(p.author_id, f"@{v.username} ({position}) has unmarked [{p.title}](/post/{p.id}) as NSFW")
 
