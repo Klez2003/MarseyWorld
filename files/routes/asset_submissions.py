@@ -229,7 +229,7 @@ def approve_emoji(v, name):
 	g.db.add(author)
 
 	if v.id != author.id:
-		msg = f"{admin_str(v)} approved an emoji you made: :{emoji.name}:\n\nYou have received {amount} coins as a reward!"
+		msg = f"@{v.username} (a site admin) has approved an emoji you made: :{emoji.name}:\n\nYou have received {amount} coins as a reward!"
 
 		comment = request.values.get("comment")
 		if comment:
@@ -238,7 +238,7 @@ def approve_emoji(v, name):
 		send_repeatable_notification(author.id, msg)
 
 	if v.id != emoji.submitter_id and author.id != emoji.submitter_id:
-		msg = f"{admin_str(v)} approved an emoji you submitted: :{emoji.name}:"
+		msg = f"@{v.username} (a site admin) has approved an emoji you submitted: :{emoji.name}:"
 		
 		comment = request.values.get("comment")
 		if comment:
@@ -438,7 +438,7 @@ def approve_hat(v, name):
 
 
 	if v.id != author.id:
-		msg = f"{admin_str(v)} approved a hat you made: `'{hat.name}'`"
+		msg = f"@{v.username} (a site admin) has approved a hat you made: `'{hat.name}'`"
 
 		comment = request.values.get("comment")
 		if comment:
@@ -447,7 +447,7 @@ def approve_hat(v, name):
 		send_repeatable_notification(author.id, msg)
 
 	if v.id != hat.submitter_id and author.id != hat.submitter_id:
-		msg = f"{admin_str(v)} approved a hat you submitted: `'{hat.name}'`"
+		msg = f"@{v.username} (a site admin) has approved a hat you submitted: `'{hat.name}'`"
 
 		comment = request.values.get("comment")
 		if comment:

@@ -117,7 +117,7 @@ def make_admin(v, username):
 	)
 	g.db.add(ma)
 
-	send_repeatable_notification(user.id, f"{admin_str(v)} added you as an admin!")
+	send_repeatable_notification(user.id, f"@{v.username} (a site admin) added you as an admin!")
 
 	return {"message": f"@{user.username} has been made admin!"}
 
@@ -148,7 +148,7 @@ def remove_admin(v, username):
 		)
 		g.db.add(ma)
 
-		send_repeatable_notification(user.id, f"{admin_str(v)} removed you as an admin!")
+		send_repeatable_notification(user.id, f"@{v.username} (a site admin) removed you as an admin!")
 
 	return {"message": f"@{user.username} has been removed as admin!"}
 
@@ -260,7 +260,7 @@ def revert_actions(v, username):
 		user.shadowban_reason = None
 		if user.is_banned:
 			user.is_banned = None
-			send_repeatable_notification(user.id, f"{admin_str(v)} unbanned you!")
+			send_repeatable_notification(user.id, f"@{v.username} (a site admin) has unbanned you!")
 		g.db.add(user)
 
 		for u in get_alt_graph(user.id):
@@ -270,7 +270,7 @@ def revert_actions(v, username):
 			u.shadowban_reason = None
 			if u.is_banned:
 				u.is_banned = None
-				send_repeatable_notification(u.id, f"{admin_str(v)} unbanned you!")
+				send_repeatable_notification(u.id, f"@{v.username} (a site admin) has unbanned you!")
 			g.db.add(u)
 
 	return {"message": f"@{revertee.username}'s admin actions have been reverted!"}
@@ -523,7 +523,7 @@ def badge_grant_post(v):
 		g.db.flush()
 
 		if v.id != user.id:
-			text = f"{admin_str(v)} given you the following profile badge:\n\n{new_badge.path}\n\n**{new_badge.name}**\n\n{new_badge.badge.description}"
+			text = f"@{v.username} (a site admin) has given you the following profile badge:\n\n{new_badge.path}\n\n**{new_badge.name}**\n\n{new_badge.badge.description}"
 			if new_badge.description:
 				text += f'\n\n> {new_badge.description}'
 			if new_badge.url:
@@ -573,7 +573,7 @@ def badge_remove_post(v):
 		if not badge: continue
 
 		if v.id != user.id:
-			text = f"{admin_str(v)} removed the following profile badge from you:\n\n{badge.path}\n\n**{badge.name}**\n\n{badge.badge.description}"
+			text = f"@{v.username} (a site admin) has removed the following profile badge from you:\n\n{badge.path}\n\n**{badge.name}**\n\n{badge.badge.description}"
 			send_repeatable_notification(user.id, text)
 
 		ma = ModAction(
@@ -856,7 +856,7 @@ def unchud(fullname, v):
 	badge = user.has_badge(58)
 	if badge: g.db.delete(badge)
 
-	send_repeatable_notification(user.id, f"{admin_str(v)} unchudded you.")
+	send_repeatable_notification(user.id, f"@{v.username} (a site admin) has unchudded you.")
 
 	return {"message": f"@{user.username} has been unchudded!"}
 
@@ -973,9 +973,9 @@ def admin_change_flair(user_id, v):
 	g.db.add(ma)
 
 	if user.flairchanged:
-		message = f"{admin_str(v)} locked your flair to `{user.flair}`."
+		message = f"@{v.username} (a site admin) has locked your flair to `{user.flair}`."
 	else:
-		message = f"{admin_str(v)} changed your flair to `{user.flair}`. You can change it back in the settings."
+		message = f"@{v.username} (a site admin) has changed your flair to `{user.flair}`. You can change it back in the settings."
 
 	send_repeatable_notification(user.id, message)
 
@@ -1037,11 +1037,11 @@ def ban_user(fullname, v):
 		if days_txt.endswith('.0'): days_txt = days_txt[:-2]
 		duration = f"for {days_txt} day"
 		if days != 1: duration += "s"
-		if reason: text = f"{admin_str(v)} banned you for **{days_txt}** days for the following reason:\n\n> {reason}"
-		else: text = f"{admin_str(v)} banned you for **{days_txt}** days."
+		if reason: text = f"@{v.username} (a site admin) has banned you for **{days_txt}** days for the following reason:\n\n> {reason}"
+		else: text = f"@{v.username} (a site admin) has banned you for **{days_txt}** days."
 	else:
-		if reason: text = f"{admin_str(v)} banned you permanently for the following reason:\n\n> {reason}"
-		else: text = f"{admin_str(v)} banned you permanently."
+		if reason: text = f"@{v.username} (a site admin) has banned you permanently for the following reason:\n\n> {reason}"
+		else: text = f"@{v.username} (a site admin) has banned you permanently."
 
 
 	user.ban(admin=v, reason=reason, days=days)
@@ -1147,7 +1147,7 @@ def chud(fullname, v):
 
 	user.chud_phrase = request.values.get("chud_phrase").strip().lower()
 
-	text = f"{admin_str(v)} chudded you **{duration}**"
+	text = f"@{v.username} (a site admin) has chudded you **{duration}**"
 	if reason: text += f" for the following reason:\n\n> {reason}"
 	text += f"\n\n**You now have to say this phrase in all posts and comments you make {duration}:**\n\n> {user.chud_phrase}"
 
@@ -1219,11 +1219,11 @@ def unban_user(fullname, v):
 	user.is_banned = None
 	user.unban_utc = None
 	user.ban_reason = None
-	send_repeatable_notification(user.id, f"{admin_str(v)} unbanned you!")
+	send_repeatable_notification(user.id, f"@{v.username} (a site admin) has unbanned you!")
 	g.db.add(user)
 
 	for x in get_alt_graph(user.id):
-		if x.is_banned: send_repeatable_notification(x.id, f"{admin_str(v)} unbanned you!")
+		if x.is_banned: send_repeatable_notification(x.id, f"@{v.username} (a site admin) has unbanned you!")
 		x.is_banned = None
 		x.unban_utc = None
 		x.ban_reason = None
@@ -1258,7 +1258,7 @@ def mute_user(v, user_id):
 		g.db.add(ma)
 		check_for_alts(user)
 
-		send_repeatable_notification(user.id, f"{admin_str(v)} muted you!")
+		send_repeatable_notification(user.id, f"@{v.username} (a site admin) has muted you!")
 
 	return {"message": f"@{user.username} has been muted!"}
 
@@ -1287,7 +1287,7 @@ def unmute_user(v, user_id):
 				x.is_muted = False
 				g.db.add(x)
 
-		send_repeatable_notification(user.id, f"{admin_str(v)} unmuted you!")
+		send_repeatable_notification(user.id, f"@{v.username} (a site admin) has unmuted you!")
 
 	return {"message": f"@{user.username} has been unmuted!"}
 
@@ -1466,7 +1466,7 @@ def pin_post(post_id, v):
 		pin_time = 'for 1 hour'
 		code = 200
 		if v.id != post.author_id:
-			send_repeatable_notification(post.author_id, f"{admin_str(v)} pinned [{post.title}]({post.shortlink})")
+			send_repeatable_notification(post.author_id, f"@{v.username} (a site admin) has pinned [{post.title}]({post.shortlink})")
 	else:
 		if pins >= PIN_LIMIT + 1:
 			abort(403, f"Can't exceed {PIN_LIMIT} pinned posts limit!")
@@ -1515,7 +1515,7 @@ def unpin_post(post_id, v):
 		g.db.add(ma)
 
 		if v.id != post.author_id:
-			send_repeatable_notification(post.author_id, f"{admin_str(v)} unpinned [{post.title}]({post.shortlink})")
+			send_repeatable_notification(post.author_id, f"@{v.username} (a site admin) has unpinned [{post.title}]({post.shortlink})")
 
 		cache.delete_memoized(frontlist)
 	return {"message": "Post unpinned!"}
@@ -1547,7 +1547,7 @@ def pin_comment_admin(cid, v):
 		g.db.add(ma)
 
 		if v.id != comment.author_id:
-			message = f"{admin_str(v)} pinned your [comment]({comment.shortlink})"
+			message = f"@{v.username} (a site admin) has pinned your [comment]({comment.shortlink})"
 			send_repeatable_notification(comment.author_id, message)
 
 		comment.pin_parents()
@@ -1580,7 +1580,7 @@ def unpin_comment_admin(cid, v):
 		g.db.add(ma)
 
 		if v.id != comment.author_id:
-			message = f"{admin_str(v)} unpinned your [comment]({comment.shortlink})"
+			message = f"@{v.username} (a site admin) has unpinned your [comment]({comment.shortlink})"
 			send_repeatable_notification(comment.author_id, message)
 
 		comment.unpin_parents()
@@ -1900,7 +1900,7 @@ def admin_reset_password(user_id, v):
 	)
 	g.db.add(ma)
 
-	text = f"At your request, {admin_str(v)} reset your password to `{new_password}`, please change this to something else for personal security reasons. And be sure to save it this time, retard."
+	text = f"At your request, @{v.username} (a site admin) has reset your password to `{new_password}`, please change this to something else for personal security reasons. And be sure to save it this time, retard."
 	send_repeatable_notification(user.id, text)
 
 	text = f"@{user.username}'s new password is `{new_password}`"
@@ -2144,7 +2144,7 @@ def mark_effortpost(pid, v):
 	p.author.pay_account('coins', coins)
 
 	if v.id != p.author_id:
-		send_repeatable_notification(p.author_id, f":marseyclapping: {admin_str(v)} marked [{p.title}](/post/{p.id}) as an effortpost, it now gets x{mul} coins from votes. You have received {coins} coins retroactively, thanks! :!marseyclapping:")
+		send_repeatable_notification(p.author_id, f":marseyclapping: @{v.username} (a site admin) has marked [{p.title}](/post/{p.id}) as an effortpost, it now gets x{mul} coins from votes. You have received {coins} coins retroactively, thanks! :!marseyclapping:")
 
 	return {"message": "Post has been marked as an effortpost!"}
 
@@ -2181,6 +2181,6 @@ def unmark_effortpost(pid, v):
 	p.author.charge_account('coins', coins)
 
 	if v.id != p.author_id:
-		send_repeatable_notification(p.author_id, f":marseyitsover: {admin_str(v)} unmarked [{p.title}](/post/{p.id}) as an effortpost. {coins} coins have been deducted from you. :!marseyitsover:")
+		send_repeatable_notification(p.author_id, f":marseyitsover: @{v.username} (a site admin) has unmarked [{p.title}](/post/{p.id}) as an effortpost. {coins} coins have been deducted from you. :!marseyitsover:")
 
 	return {"message": "Post has been unmarked as an effortpost!"}

@@ -1122,7 +1122,7 @@ def change_hole(pid, v):
 				_note=f'{hole_from_str} → {hole_to_str}',
 			)
 			g.db.add(ma)
-			actor_str = admin_str(v)
+			position = 'a site admin'
 		else:
 			ma = HoleAction(
 				hole=hole_from,
@@ -1132,14 +1132,14 @@ def change_hole(pid, v):
 				_note=f'{hole_from_str} → {hole_to_str}',
 			)
 			g.db.add(ma)
-			actor_str = f'@{v.username} (a /h/{hole_from} mod)'
+			position = f'a /h/{hole_from} mod'
 
 		if hole_from == None:
 			hole_from_in_notif = 'the main feed'
 		else:
 			hole_from_in_notif = f'/h/{hole_from}'
 
-		message = f"{actor_str} moved [{post.title}]({post.shortlink}) from {hole_from_in_notif} to {hole_to_in_notif}"
+		message = f"@{v.username} ({position}) has moved [{post.title}]({post.shortlink}) from {hole_from_in_notif} to {hole_to_in_notif}"
 		send_repeatable_notification(post.author_id, message)
 
 	cache.delete_memoized(frontlist)

@@ -825,7 +825,7 @@ def mark_post_nsfw(pid, v):
 					target_post_id = p.id,
 				)
 			g.db.add(ma)
-			actor_str = admin_str(v)
+			position = 'a site admin'
 		else:
 			ma = HoleAction(
 					hole = p.hole,
@@ -834,9 +834,9 @@ def mark_post_nsfw(pid, v):
 					target_post_id = p.id,
 				)
 			g.db.add(ma)
-			actor_str = f'@{v.username} (a /h/{hole_from} mod)'
+			position = f'a /h/{p.hole} mod'
 
-		send_repeatable_notification(p.author_id, f"{actor_str} marked [{p.title}](/post/{p.id}) as NSFW")
+		send_repeatable_notification(p.author_id, f"@{v.username} ({position}) has marked [{p.title}](/post/{p.id}) as NSFW")
 
 	return {"message": "Post has been marked as NSFW!"}
 
@@ -867,7 +867,7 @@ def unmark_post_nsfw(pid, v):
 					target_post_id = p.id,
 				)
 			g.db.add(ma)
-			actor_str = admin_str(v)
+			position = 'a site admin'
 		else:
 			ma = HoleAction(
 					hole = p.hole,
@@ -876,9 +876,9 @@ def unmark_post_nsfw(pid, v):
 					target_post_id = p.id,
 				)
 			g.db.add(ma)
-			actor_str = f'@{v.username} (a /h/{hole_from} mod)'
+			position = f'a /h/{p.hole} mod'
 
-		send_repeatable_notification(p.author_id, f"{actor_str} unmarked [{p.title}](/post/{p.id}) as NSFW")
+		send_repeatable_notification(p.author_id, f"@{v.username} ({position}) has unmarked [{p.title}](/post/{p.id}) as NSFW")
 
 	return {"message": "Post has been unmarked as NSFW!"}
 
@@ -953,7 +953,7 @@ def set_new_sort(post_id, v):
 				target_post_id = p.id,
 			)
 		g.db.add(ma)
-		send_repeatable_notification(p.author_id, f"{admin_str(v)} changed the the default sorting of comments on [{p.title}](/post/{p.id}) to `new`")
+		send_repeatable_notification(p.author_id, f"@{v.username} (a site admin) has changed the the default sorting of comments on [{p.title}](/post/{p.id}) to `new`")
 
 	return {"message": "Changed the the default sorting of comments on this post to 'new'"}
 
@@ -975,7 +975,7 @@ def unset_new_sort(post_id, v):
 				target_post_id = p.id,
 			)
 		g.db.add(ma)
-		send_repeatable_notification(p.author_id, f"{admin_str(v)} changed the the default sorting of comments on [{p.title}](/post/{p.id}) to `hot`")
+		send_repeatable_notification(p.author_id, f"@{v.username} (a site admin) has changed the the default sorting of comments on [{p.title}](/post/{p.id}) to `hot`")
 
 	return {"message": "Changed the the default sorting of comments on this post to 'hot'"}
 
@@ -1135,7 +1135,7 @@ if SITE_NAME == 'WPD':
 					target_post_id = p.id,
 				)
 			g.db.add(ma)
-			send_repeatable_notification(p.author_id, f"{admin_str(v)} added a child warning to [{p.title}](/post/{p.id})")
+			send_repeatable_notification(p.author_id, f"@{v.username} (a site admin) has add a child warning to [{p.title}](/post/{p.id})")
 
 		return {"message": "A child warning has been added to the post!"}
 
@@ -1161,7 +1161,7 @@ if SITE_NAME == 'WPD':
 					target_post_id = p.id,
 				)
 			g.db.add(ma)
-			send_repeatable_notification(p.author_id, f"{admin_str(v)} removed the child warning from [{p.title}](/post/{p.id})")
+			send_repeatable_notification(p.author_id, f"@{v.username} (a site admin) has removed the child warning from [{p.title}](/post/{p.id})")
 
 		return {"message": "The child warning has been removed from the post!"}
 
