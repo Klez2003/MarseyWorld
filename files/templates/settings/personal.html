@@ -7,9 +7,6 @@
 				<section id="site-settings-experience-section" class="settings-section-section">
 					<h5>Site Experience</h5>
 					<div class="settings-section rounded" id="site-settings-experience">
-						{% if IS_EVENT() %}
-							{{common.toggle_section('Event Music', 'event_music_switch', 'event_music', v.event_music, 'Toggle event music.', false)}}
-						{% endif %}
 						<div class="d-lg-flex border-bottom">
 							<div class="title w-lg-25">
 								<label for="patron-status">{{patron}} Status</label>
@@ -254,9 +251,6 @@
 						{{common.toggle_section('Private Mode', 'privateswitch', 'private', v.is_private, 'This will hide your profile page from other users.', false)}}
 
 						{{common.toggle_section('Donation Visiblity', 'lifetimedonated_visibleswitch', 'lifetimedonated_visible', v.lifetimedonated_visible, 'Make your donation badges, your lifetime-donated amount, and your total award discount visible to everyone instead of just you.', false)}}
-
-						{{common.toggle_section('Cursor Marsey', 'cursormarseyswitch', 'cursormarsey', v.cursormarsey, 'Have a cute
-						marsey accompany you during your journey on the site.', false)}}
 
 						{{common.toggle_section('Spider', 'spiderswitch', 'spider', v.spider, 'Have a spider friend accompany you during your journey on the site.', v.spider > 1)}}
 

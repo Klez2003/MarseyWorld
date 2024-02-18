@@ -5,8 +5,12 @@
 		<div class="col col-lg-8">
 			<div class="settings">
 				<section id="site-settings-poor-mode-section" class="settings-section-section"> {# note: not using the thing from common just because of how much stuff there is in here #}
-					<h5>Poor Mode</h5>
+					<h5>Device-specific Settings</h5>
 					<div class="settings-section rounded">
+						{% if IS_EVENT() %}
+							{{common.toggle_section('Event Music', 'event_music_switch', 'event_music', v.event_music, 'Toggle event music.', false)}}
+						{% endif %}
+
 						<div class="d-lg-flex border-bottom">
 							<div class="title w-lg-25">
 								<label for="poor">Poor Mode</label>
@@ -25,8 +29,17 @@
 								</ul>
 							</div>
 						</div>
+
+						{% if FEATURES['NSFW_MARKING'] %}
+							{{common.toggle_section('NSFW Warnings', 'nsfw_warnings', 'nsfw_warnings', v.nsfw_warnings, "Show a warning when viewing NSFW posts and collapse NSFW comments.", false)}}
+						{% endif %}
+
+						{{common.toggle_section('Cursor Marsey', 'cursormarseyswitch', 'cursormarsey', v.cursormarsey, 'Have a cute
+						marsey accompany you during your journey on the site.', false)}}
 					</div>
 				</section>
+
+
 				<section id="site-settings-sort-time-filter-section" class="settings-section-section">
 					<h5>Sorting and Filtering</h5>
 					<div class="settings-section rounded">
@@ -130,9 +143,6 @@
 					<h5>Content Filters</h5>
 					<div class="settings-section rounded">
 						{{common.toggle_section('User Signatures', 'show_sigs', 'show_sigs', v.show_sigs, 'Show user signatures.', false)}}
-						{% if FEATURES['NSFW_MARKING'] %}
-							{{common.toggle_section('NSFW Warnings', 'nsfw_warnings', 'nsfw_warnings', v.nsfw_warnings, "Show a warning when viewing NSFW posts and collapse NSFW comments.", false)}}
-						{% endif %}
 						{% if SITE_NAME == 'WPD' %}
 							{{common.toggle_section('Hide Posts Voted On', 'hidevotedon', 'hidevotedon', v.hidevotedon, 'Enable if you would like to automatically hide posts you have voted on from your frontpage.', false)}}
 							{{common.toggle_section('Hide Posts with Child Warning', 'hide_cw', 'hide_cw', v.hide_cw, 'Enable if you would like to automatically hide posts that have a child warning.', false)}}
