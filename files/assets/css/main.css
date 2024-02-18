@@ -661,8 +661,8 @@ table {
 }
 table th, table td {
 	padding: 0.75rem;
-	vertical-align: top;
-	border-top: 1px solid var(--gray-400);
+	vertical-align: middle;
+	border-bottom: 1px solid var(--gray-400);
 }
 table thead th {
 	vertical-align: bottom;
@@ -6717,9 +6717,6 @@ div.markdown {
 	#sidebar-btn {
 		display: none !important;
 	}
-}
-table th, table td {
-	vertical-align: middle;
 }
 
 .directory--link:focus, .directory--link:active, .directory--link:hover {
