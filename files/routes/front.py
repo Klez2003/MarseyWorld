@@ -59,8 +59,10 @@ def front_all(v, hole=None):
 	if effortposts_only:
 		pins = False
 	else:
-		if sort == 'hot': default = True
-		else: default = False
+		if sort == 'hot' or (hole and sort == 'new'):
+			default = True
+		else:
+			default = False
 		pins = session.get(f'{hole}_{sort}', default)
 
 	if not v:
