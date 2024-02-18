@@ -876,7 +876,6 @@ elif SITE == 'devrama.net':
 else: # localhost or testing environment implied
 	FEATURES['PRONOUNS'] = True
 	FEATURES['USERS_PERMANENT_WORD_FILTERS'] = True
-	FEATURES['IP_LOGGING'] = True
 	HOLE_BANNER_LIMIT = 69420
 
 BOT_IDs = {AUTOJANNY_ID, SNAPPY_ID, LONGPOSTBOT_ID, ZOZBOT_ID}
