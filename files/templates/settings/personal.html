@@ -252,11 +252,14 @@
 						{{common.text_area_section('profile-signature', '/settings/personal', 'sig', 'Signature', v.sig, 'Limit of 200 characters', 'Enter a signature...', true, 200)}}
 
 						{{common.toggle_section('Private Mode', 'privateswitch', 'private', v.is_private, 'This will hide your profile page from other users.', false)}}
-						{{common.toggle_section('Lifetime Donated and Total Award Discount Visiblity', 'lifetimedonated_visibleswitch', 'lifetimedonated_visible', v.lifetimedonated_visible, 'Make the "lifetime donated" field and the "total award discount" field in your profile visible to everyone instead of just you.', false)}}
+
+						{{common.toggle_section('Donation Visiblity', 'lifetimedonated_visibleswitch', 'lifetimedonated_visible', v.lifetimedonated_visible, 'Make your donation badges, your lifetime-donated amount, and your total award discount visible to everyone instead of just you.', false)}}
 
 						{{common.toggle_section('Cursor Marsey', 'cursormarseyswitch', 'cursormarsey', v.cursormarsey, 'Have a cute
 						marsey accompany you during your journey on the site.', false)}}
+
 						{{common.toggle_section('Spider', 'spiderswitch', 'spider', v.spider, 'Have a spider friend accompany you during your journey on the site.', v.spider > 1)}}
+
 						{{common.toggle_section('Marsify', 'marsifyswitch', 'marsify', v.marsify, 'Automatically insert relevant
 						marseys into your future comments.', v.marsify > 1)}}
 					</div>

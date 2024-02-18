@@ -1025,7 +1025,7 @@ class User(Base):
 				'marseybux': self.marseybux,
 				'post_count': self.real_post_count(v),
 				'comment_count': self.real_comment_count(v),
-				'badges': [[x.path, x.text, x.until] for x in self.ordered_badges],
+				'badges': [[x.path, x.text, x.until] for x in self.ordered_badges(v)],
 				'created_date': self.created_date,
 				'original_usernames': self.original_usernames_popover,
 				}
@@ -1060,7 +1060,6 @@ class User(Base):
 				'bio_html': self.bio_html_eager,
 				'flair': self.flair,
 				'flair_html': self.flair_html,
-				'badges': [x.json for x in self.ordered_badges],
 				'coins': self.coins,
 				'post_count': self.real_post_count(g.v),
 				'comment_count': self.real_comment_count(g.v),
@@ -1341,10 +1340,14 @@ class User(Base):
 
 		return output
 
-	@property
 	@lazy
-	def ordered_badges(self):
-		return sorted(self.badges, key=badge_ordering_func)
+	def ordered_badges(self, v):
+		badges = self.badges
+
+		if not self.lifetimedonated_visible and not (v.id == self.id or v.admin_level >= PERMS['VIEW_PATRONS']):
+			badges = [x for x in badges if badge.id not in {22, 23, 24, 25, 26, 27, 28, 257, 258, 259, 260, 261}]
+
+		return sorted(badges, key=badge_ordering_func)
 
 	@lazy
 	def rendered_sig(self, v):
