@@ -2016,7 +2016,7 @@ def insert_transaction_post(v):
 	amount = request.values.get("amount", "").strip()
 	username = request.values.get("username", "").strip()
 
-	if type not in {'BMAC', 'BTC', 'ETH', 'XMR'}:
+	if type not in {'BMAC', 'BTC', 'ETH', 'XMR', 'SOL', 'DOGE', 'LTC'}:
 		abort(400, "Invalid transaction currency!")
 
 	if type == 'BMAC':
