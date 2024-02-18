@@ -170,9 +170,9 @@ def upvoters_downvoters(v, username, username2, cls, vote_cls, vote_dir, templat
 			cls.ghost == False,
 			cls.is_banned == False,
 			cls.deleted_utc == 0,
-			vote_cls.vote_type==vote_dir,
-			cls.author_id==id,
-			vote_cls.user_id==uid,
+			vote_cls.vote_type == vote_dir,
+			cls.author_id == id,
+			vote_cls.user_id == uid,
 		)
 
 	total = listing.count()
@@ -234,9 +234,9 @@ def upvoting_downvoting(v, username, username2, cls, vote_cls, vote_dir, templat
 			cls.ghost == False,
 			cls.is_banned == False,
 			cls.deleted_utc == 0,
-			vote_cls.vote_type==vote_dir,
-			vote_cls.user_id==id,
-			cls.author_id==uid,
+			vote_cls.vote_type == vote_dir,
+			vote_cls.user_id == id,
+			cls.author_id == uid,
 		)
 
 	total = listing.count()
