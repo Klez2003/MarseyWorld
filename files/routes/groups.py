@@ -98,7 +98,7 @@ def join_group(v, group_name):
 		for uid in notified_ids:
 			send_notification(uid, f"@{v.username} has applied to join !{group}. You can approve or reject the application [here](/!{group}).")
 
-	return {"message": f"Application submitted to !{group}'s owner (@{group.owner.username}) successfully!"}
+	return {"message": f"Application to !{group} submitted successfully!"}
 
 @app.post("/!<group_name>/leave")
 @limiter.limit('1/second', scope=rpath)
@@ -180,7 +180,7 @@ def group_approve(v, group_name, user_id):
 		application.approved_utc = time.time()
 		g.db.add(application)
 		if v.id != application.user_id:
-			send_repeatable_notification(application.user_id, f"@{v.username} (!{group}'s owner) has approved your application!")
+			send_repeatable_notification(application.user_id, f"@{v.username} has approved your application to !{group}")
 
 	return {"message": f'You have approved @{application.user.username} successfully!'}
 
@@ -226,10 +226,10 @@ def group_reject(v, group_name, user_id):
 				g.db.add(group)
 	else:
 		if membership.approved_utc:
-			text = f"@{v.username} (!{group}'s owner) has kicked you from the group!"
+			text = f"@{v.username} has kicked you from !{group}"
 			msg = f"You have kicked @{membership.user.username} successfully!"
 		else:
-			text = f"@{v.username} (!{group}'s owner) has rejected your application!"
+			text = f"@{v.username} has rejected your application to !{group}"
 			msg = f"You have rejected @{membership.user.username} successfully!"
 		send_repeatable_notification(membership.user_id, text)
 
