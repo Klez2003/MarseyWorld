@@ -32,6 +32,7 @@ INSERT INTO public.badge_defs VALUES (320, 'Best Marsey 2023', 'The creator of t
 INSERT INTO public.badge_defs VALUES (325, 'Best rdrama activist 2023', 'Went out there and touched grass for the sake of drama, and was voted the best rdrama activist of 2023.', 1705459943);
 INSERT INTO public.badge_defs VALUES (326, 'Chud Hunter', 'Successfully reported wrongthink and got paid 🤑', 1707748016);
 INSERT INTO public.badge_defs VALUES (327, 'Top Poster of the Day', 'Has been Top Poster of the Day at least once', 1708092535);
+INSERT INTO public.badge_defs VALUES (328, 'WORDS WORDS WORDS', 'Wrote an effortpost 📃', 1708278966);
 INSERT INTO public.badge_defs VALUES (296, 'SEX!', 'This user verifiably had sex with another dramatard.', 1692195588);
 INSERT INTO public.badge_defs VALUES (297, 'Weather Balloon', 'This user was shot down over the territory of /r/UFOs.', 1694716945);
 INSERT INTO public.badge_defs VALUES (180, 'Marsey Consoomer', 'Conned rDrama out of sick merch in exchange for a donation to Redbubble.', 1664417205);
@@ -55,6 +56,7 @@ INSERT INTO public.badge_defs VALUES (137, 'Lottershe Winner', 'This user won th
 INSERT INTO public.badge_defs VALUES (140, 'Y''all Seein'' Eye', 'Gets notified when other sites talk about us', 0);
 INSERT INTO public.badge_defs VALUES (141, 'Marsey Typographer', 'For substantial and exceptional contributions to Marsey Alphabet.', 0);
 INSERT INTO public.badge_defs VALUES (321, 'Master Baiter 2023', 'The cunning mastermind behind the ruse which was voted best rdrama bait of 2023.', 1705457673);
+INSERT INTO public.badge_defs VALUES (329, 'WORDS WORDS WORDS WORDS', 'Wrote 10 (or more!!!!) effortposts 📃', 1708279122);
 INSERT INTO public.badge_defs VALUES (298, 'Gray Alien', 'This user probed /r/UFOs and left the next morning.', 1694717005);
 INSERT INTO public.badge_defs VALUES (213, 'Best Marsey 2022', 'The creator of the best Marsey emoji of 2022, as voted by rDrama users.', 1670719193);
 INSERT INTO public.badge_defs VALUES (215, 'Own Goal', 'Don''t take this user''s advice on sportsball betting.', 1671150354);
@@ -117,6 +119,7 @@ INSERT INTO public.badge_defs VALUES (277, 'Soul Stone', 'In order to take the s
 INSERT INTO public.badge_defs VALUES (278, 'Space Stone', 'A lifetime ago, I too sought the stones. I even held one in my hand.', 1683850346);
 INSERT INTO public.badge_defs VALUES (279, 'Time Stone', 'Our oath to protect the Time Stone cannot change. And this stone may be the best chance we have against Spezos.', 1683850381);
 INSERT INTO public.badge_defs VALUES (280, 'Infinity Gauntlet', 'And so the sun rises on a grateful gay cartoon cat website.', 1683850413);
+INSERT INTO public.badge_defs VALUES (330, 'WORDS WORDS WORDS WORDS WORDS', 'Wrote 100 (or more!!!!) effortposts 📃🤓', 1708279153);
 INSERT INTO public.badge_defs VALUES (281, 'Namelock', 'This user has been forcibly renamed', 1684120696);
 INSERT INTO public.badge_defs VALUES (245, 'Kongmaxxer: N', 'Contributed a KONGMAXXED Marsey or emoji during Donkey Kong December', 1679419208);
 INSERT INTO public.badge_defs VALUES (282, 'Rehab Counselor', 'Awarded for participating in the Marsey''s Methlab Event', 1685121792);
@@ -290,7 +293,7 @@ INSERT INTO public.badge_defs VALUES (87, 'Unblockable', 'This user is unblockab
 -- Name: badge_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.badge_defs_id_seq', 327, true);
+SELECT pg_catalog.setval('public.badge_defs_id_seq', 330, true);
 
 
 --
