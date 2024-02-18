@@ -166,6 +166,7 @@ def upvoters_downvoters(v, username, username2, cls, vote_cls, vote_dir, templat
 	page = get_page()
 
 	listing = g.db.query(cls).options(load_only(cls.id)).join(vote_cls).filter(
+			cls.draft == False,
 			cls.ghost == False,
 			cls.is_banned == False,
 			cls.deleted_utc == 0,
