@@ -450,9 +450,14 @@ def notification(v, cid):
 
 	gevent.spawn(_mark_comment_as_read, comment.id, v.id)
 
+	if comment.level > 1:
+		shown_comment = comment.top_comment
+	else:
+		shown_comment = comment
+
 	return render_template("notifications.html",
 							v=v,
-							notifications=[comment],
+							notifications=[shown_comment],
 							total=1,
 							page=1,
 							standalone=True,
