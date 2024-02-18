@@ -590,7 +590,7 @@ def submit_post(v, hole=None):
 		ghost=flag_ghost,
 	)
 
-	if SITE_NAME == 'WPD':
+	if SITE == 'watchpeopledie.tv':
 		p.cw = request.values.get("cw", False, bool)
 
 	if not p.draft:

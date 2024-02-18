@@ -74,7 +74,7 @@ class Post(Base):
 	else:
 		nsfw = False
 
-	if SITE_NAME == 'WPD':
+	if SITE == 'watchpeopledie.tv':
 		cw = Column(Boolean, default=False)
 
 	author = relationship("User", primaryjoin="Post.author_id==User.id")
