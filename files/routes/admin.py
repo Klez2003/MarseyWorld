@@ -1520,13 +1520,13 @@ def unpin_post(post_id, v):
 		cache.delete_memoized(frontlist)
 	return {"message": "Post unpinned!"}
 
-@app.post("/pin_comment/<int:cid>")
+@app.post("/pin_comment_admin/<int:cid>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
-def pin_comment(cid, v):
+def pin_comment_admin(cid, v):
 	comment = get_comment(cid, v=v)
 
 	if comment.is_banned:
@@ -1555,13 +1555,13 @@ def pin_comment(cid, v):
 	return {"message": "Comment pinned!"}
 
 
-@app.post("/unpin_comment/<int:cid>")
+@app.post("/unpin_comment_admin/<int:cid>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
-def unpin_comment(cid, v):
+def unpin_comment_admin(cid, v):
 	comment = get_comment(cid, v=v)
 
 	if comment.pinned:

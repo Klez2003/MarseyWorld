@@ -487,14 +487,14 @@ def undelete_comment(cid, v):
 
 	return {"message": "Comment undeleted!"}
 
-@app.post("/pin_comment/<int:cid>")
+@app.post("/pin_comment_op/<int:cid>")
 @feature_required('PINS')
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def pin_comment(cid, v):
+def pin_comment_op(cid, v):
 
 	comment = get_comment(cid, v=v)
 
@@ -516,13 +516,13 @@ def pin_comment(cid, v):
 	return {"message": "Comment pinned!"}
 
 
-@app.post("/unpin_comment/<int:cid>")
+@app.post("/unpin_comment_op/<int:cid>")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def unpin_comment(cid, v):
+def unpin_comment_op(cid, v):
 
 	comment = get_comment(cid, v=v)
 
