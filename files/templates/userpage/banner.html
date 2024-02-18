@@ -272,6 +272,10 @@
 							<p id="profile--info--spent">Coins spent on awards: {{u.coins_spent}}</p>
 							<p id="profile--info--spent">Coins spent on hats: {{u.coins_spent_on_hats}}</p>
 
+							<p id="profile--info--effortposts">
+								Effortposts made: <a href='/search/posts?q=author:{{u.username}}+effortpost:true'><b>{{u.effortposts_made}}</b></a>
+							</p>
+
 							{% if u.lifetimedonated_visible %}
 								<p id="profile--info--lifetime-donated">Lifetime donated: ${{u.lifetimedonated}} (shown to everyone)</p>
 								<p id="profile--info--discount">Total award discount: {{u.formatted_award_discount}} (shown to everyone)</p>
@@ -279,10 +283,6 @@
 								<p id="profile--info--lifetime-donated">Lifetime donated: ${{u.lifetimedonated}} (shown to you only)</p>
 								<p id="profile--info--discount">Total award discount: {{u.formatted_award_discount}} (shown to you only)</p>
 							{% endif %}
-
-							<p id="profile--info--effortposts">
-								Effortposts made: <a href='/search/posts?q=author:{{u.username}}+effortpost:true'><b>{{u.effortposts_made}}</b></a>
-							</p>
 
 							{% if u.is_private %}
 								<p id="profile--info--private">User has private mode enabled</p>
@@ -585,6 +585,10 @@
 						<p id="profile-mobile--info--spent">Coins spent on awards: {{u.coins_spent}}</p>
 						<p id="profile-mobile--info--spent">Coins spent on hats: {{u.coins_spent_on_hats}}</p>
 
+						<p id="profile-mobile--info--effortposts">
+							Effortposts made: <a href='/search/posts?q=author:{{u.username}}+effortpost:true'><b>{{u.effortposts_made}}</b></a>
+						</p>
+
 						{% if u.lifetimedonated_visible %}
 							<p id="profile-mobile--info--lifetime-donated">Lifetime donated: ${{u.lifetimedonated}} (shown to everyone)</p>
 							<p id="profile-mobile--info--discount">Total award discount: {{u.formatted_award_discount}} (shown to everyone)</p>
@@ -592,10 +596,6 @@
 							<p id="profile-mobile--info--lifetime-donated">Lifetime donated: ${{u.lifetimedonated}} (shown to you only)</p>
 							<p id="profile-mobile--info--discount">Total award discount: {{u.formatted_award_discount}} (shown to you only)</p>
 						{% endif %}
-
-						<p id="profile-mobile--info--effortposts">
-							Effortposts made: <a href='/search/posts?q=author:{{u.username}}+effortpost:true'><b>{{u.effortposts_made}}</b></a>
-						</p>
 
 						{% if u.is_private %}
 							<p id="profile-mobile--info--private">User has private mode enabled</p>
