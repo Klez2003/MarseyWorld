@@ -765,7 +765,6 @@ elif SITE == 'watchpeopledie.tv':
 
 	FEATURES['PATRON_ICONS'] = True
 	FEATURES['NSFW_MARKING'] = False
-	FEATURES['BOTS'] = False
 	FEATURES['HAT_SUBMISSIONS'] = False
 	FEATURES['IP_LOGGING'] = True
 	HOUSES = ["Furry","Femboy","Vampire","Edgy"]
