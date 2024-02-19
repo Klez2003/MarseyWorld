@@ -5385,10 +5385,6 @@ img[alt^=":"][alt*="!"] {
 	transform: scaleX(-1);
 }
 
-span[alt^=":"][alt*="!"] > img[alt^=":"][alt*="!"] {
-	transform: scaleX(1);
-}
-
 span[alt^=":"][alt*="!!"] > img[alt^=":"][alt*="!"] {
 	transform: scaleX(-1);
 }

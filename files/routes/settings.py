@@ -332,7 +332,6 @@ def settings_personal_post(v):
 		bio = process_files(request.files, v, bio)
 		if len(bio) > BIO_FRIENDS_ENEMIES_LENGTH_LIMIT:
 			abort(400, f'Your bio is too long (max {BIO_FRIENDS_ENEMIES_LENGTH_LIMIT} characters)')
-
 		bio_html = sanitize(bio, blackjack="bio")
 		if len(bio_html) > BIO_FRIENDS_ENEMIES_HTML_LENGTH_LIMIT:
 			abort(400, "Your rendered bio is too long!")

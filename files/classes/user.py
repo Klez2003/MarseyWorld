@@ -1046,7 +1046,6 @@ class User(Base):
 					'id': self.id
 					}
 
-
 		return {'username': self.username,
 				'original_username': self.original_username,
 				'url': self.url,
