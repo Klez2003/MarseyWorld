@@ -147,6 +147,7 @@ def poster_of_the_day_id():
 	user = user[0]
 
 	t = datetime.datetime.now()
+	db.flush()
 	send_notification(user.id, f":marseyjam: You're the Top Poster of the Day for the day of {t.year}-{t.month}-{t.day} :marseyjam:")
 	badge_grant(badge_id=327, user=user)
 	uid = user.id
