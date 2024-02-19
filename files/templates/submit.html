@@ -9,7 +9,7 @@
 {% block content %}
 	{% block form %}
 		<div class="submit-grid-view">
-			<form id="submitform" action="{% if SITE == 'watchpeopledie.tv' %}https://videos.watchpeopledie.tv{% elif hole %}/h/{{hole}}{% endif %}/submit" method="post" enctype="multipart/form-data" style="grid-column: 2" data-nonce="{{g.nonce}}" data-onsubmit="submit(this)">
+			<form id="submitform" action="{% if SITE == 'watchpeopledie.tv' %}https://submit.watchpeopledie.tv{% elif hole %}/h/{{hole}}{% endif %}/submit" method="post" enctype="multipart/form-data" style="grid-column: 2" data-nonce="{{g.nonce}}" data-onsubmit="submit(this)">
 				<div class="container pb-0">
 					<div class="row justify-content-center">
 						<div class="col px-3 py-0">

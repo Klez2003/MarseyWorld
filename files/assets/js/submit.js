@@ -166,7 +166,7 @@ function submit(form) {
 
 	const xhr = new XMLHttpRequest();
 
-	//needed for uploading to videos.watchpeopledie.tv
+	//needed for uploading to submit.watchpeopledie.tv
 	xhr.withCredentials = true;
 
 	formData = new FormData(form);
