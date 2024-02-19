@@ -21,6 +21,17 @@ const favorite_emojis = JSON.parse(localStorage.getItem("favorite_emojis")) || {
 /** Associative array of all the emojis' DOM */
 let emojiDOMs = {};
 
+function intersect(...sets) {
+    if (!sets.length) return new Set();
+    const i = sets.reduce((m, s, i) => s.size < sets[m].size ? i : m, 0);
+    const [smallest] = sets.splice(i, 1);
+    const res = new Set();
+    for (let val of smallest)
+        if (sets.every(s => s.has(val)))
+            res.add(val);
+    return res;
+}
+
 const EMOIJ_SEARCH_ENGINE_MIN_INTERVAL = 350;
 let emojiSearcher = {
 	working: false,
@@ -53,8 +64,23 @@ let emojiSearcher = {
 			}
 
 			// Search
-			const resultSet = emojisSearchDictionary.completeSearch(query);
+			let resultSet
 
+			if (query.includes(' ')) {
+				for (const part of query.split(' ')) {
+					const result = emojisSearchDictionary.completeSearch(part);
+					if (resultSet) {
+						resultSet = intersect(resultSet, result)
+					}
+					else
+						resultSet = result
+				}
+				resultSet = new Set(resultSet)
+			}
+			else {
+				resultSet = emojisSearchDictionary.completeSearch(query);
+			}
+	
 			// update stuff
 			for(const [emojiName, emojiDOM] of Object.entries(emojiDOMs))
 				emojiDOM.hidden = !resultSet.has(emojiName);
