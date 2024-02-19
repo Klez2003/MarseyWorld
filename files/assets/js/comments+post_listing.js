@@ -136,6 +136,7 @@ document.addEventListener("click", function(e) {
 		pop_instance = bootstrap.Popover.getOrCreateInstance(active, {
 			content: popover.innerHTML,
 			html: true,
+			sanitize: false, // already done on the back end, fixes complex emotes
 		});
 		pop_instance.show()
 		is_popover_visible = true

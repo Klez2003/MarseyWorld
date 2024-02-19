@@ -222,7 +222,7 @@ function markdown(t) {
 				const loveHtml = modifiers.has(MODIFIERS.LOVE) ? `<img loading="lazy" class="${emojiClass}" src="${SITE_FULL_IMAGES}/i/love-foreground.webp"><img loading="lazy" class="${emojiClass}" src="${SITE_FULL_IMAGES}/i/love-background.webp">` : '';
 				const url = modifiers.has(MODIFIERS.USER) ? `/@${emoji}/pic` : `${SITE_FULL_IMAGES}/e/${emoji}.webp`;
 				const modifierHtml = isTalkingFirst ? `${talkingHtml}${patHtml}${loveHtml}${typingHtml}` : `${patHtml}${talkingHtml}${loveHtml}${typingHtml}`;
-				input = input.replace(old, `<span class="${patClass} ${spanClass} ${genocideClass}" data-bs-toggle="tooltip">${modifierHtml}<img loading="lazy" class="${emojiClass} ${imgClass} ${lovedClass}" src="${url}"></span>`);
+				input = input.replace(old, `<span class="${patClass} ${spanClass} ${genocideClass}" data-bs-toggle="tooltip">${modifierHtml}<img loading="lazy" class="${emojiClass} ${imgClass} ${lovedClass} ${modifiers.has(MODIFIERS.REVERSED) ? mirroredClass : ''}" src="${url}"></span>`);
 			} else {
 				input = input.replace(old, `<img loading="lazy" class="${emojiClass} ${modifiers.has(MODIFIERS.REVERSED) ? mirroredClass : ''}" src="${SITE_FULL_IMAGES}/e/${emoji}.webp">`);
 			}
