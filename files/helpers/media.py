@@ -19,6 +19,9 @@ from files.helpers.settings import get_setting
 
 from .config.const import *
 
+if SITE == 'watchpeopledie.tv':
+	from rclone_python import rclone
+
 def remove_media_using_link(path):
 	if SITE in path:
 		path = path.split(SITE, 1)[1]
@@ -193,6 +196,7 @@ def process_video(file, v):
 		gevent.spawn(delete_file, new, f'https://videos.{SITE}' + new.split('/videos')[1])
 
 	if SITE == 'watchpeopledie.tv':
+		rclone.copy(new, 'ssh:/videos', ignore_existing=True)
 		return f'https://videos.{SITE}' + new.split('/videos')[1]
 	else:
 		return f"{SITE_FULL}{new}"
