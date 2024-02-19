@@ -150,7 +150,7 @@ class User(Base):
 	group_creation_notifs = Column(Boolean, default=False)
 	effortpost_notifs = Column(Boolean, default=False)
 
-	if SITE == 'watchpeopledie.tv':
+	if SITE_NAME == 'WPD' and not IS_LOCALHOST:
 		nitter = False
 		imgsed = False
 		controversial = False

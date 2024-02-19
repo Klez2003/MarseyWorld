@@ -74,7 +74,7 @@ class Post(Base):
 	else:
 		nsfw = False
 
-	if SITE == 'watchpeopledie.tv':
+	if SITE_NAME == 'WPD' and not IS_LOCALHOST:
 		cw = Column(Boolean, default=False)
 
 	author = relationship("User", primaryjoin="Post.author_id==User.id")
@@ -152,6 +152,11 @@ class Post(Base):
 	@lazy
 	def permalink(self):
 		return SITE_FULL + self.shortlink
+
+	@property
+	@lazy
+	def text_permalink(self):
+		return f"[{self.title}]({self.shortlink})"
 
 	@property
 	@lazy
