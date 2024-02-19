@@ -280,7 +280,7 @@
 }
 
 .zozbot, [pride_username], :not(td) > a[href="/h/countryclub"]:not(.hole-flair) {
-	color: red;
+	color: red !important;
 	animation: lgbt 3s linear infinite;
 }
 

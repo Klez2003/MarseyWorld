@@ -183,9 +183,7 @@ CREATE TABLE public.users (
     hole_creation_notifs boolean NOT NULL,
     group_creation_notifs boolean NOT NULL,
     effortpost_notifs boolean NOT NULL,
-    shadowban_reason character varying(256),
-    hidevotedon boolean,
-    hide_cw boolean
+    shadowban_reason character varying(256)
 );
 
 
@@ -874,8 +872,7 @@ CREATE TABLE public.posts (
     queened boolean NOT NULL,
     sharpened boolean NOT NULL,
     effortpost boolean NOT NULL,
-    distinguished boolean NOT NULL,
-    cw boolean
+    distinguished boolean NOT NULL
 );
 
 

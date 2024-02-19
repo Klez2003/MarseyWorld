@@ -311,7 +311,7 @@ def execute_zozbot(c, level, post, v):
 		level=level+1,
 		is_bot=True,
 		body="zoz",
-		body_html='<p class="zozbot">zoz</p>',
+		body_html='<p>zoz</p>',
 		top_comment_id=c.top_comment_id,
 		ghost=c.ghost,
 		distinguished=True
@@ -329,7 +329,7 @@ def execute_zozbot(c, level, post, v):
 		level=level+2,
 		is_bot=True,
 		body="zle",
-		body_html='<p class="zozbot">zle</p>',
+		body_html='<p>zle</p>',
 		top_comment_id=c.top_comment_id,
 		ghost=c.ghost,
 		distinguished=True
@@ -346,7 +346,7 @@ def execute_zozbot(c, level, post, v):
 		level=level+3,
 		is_bot=True,
 		body="zozzle",
-		body_html='<p class="zozbot">zozzle</p>',
+		body_html='<p>zozzle</p>',
 		top_comment_id=c.top_comment_id,
 		ghost=c.ghost,
 		distinguished=True
