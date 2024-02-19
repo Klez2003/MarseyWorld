@@ -700,8 +700,6 @@ document.addEventListener('hide.bs.modal', () => {
 	if (typeof close_inline_emoji_modal === "function") {
 		close_inline_emoji_modal();
 	}
-	document.getElementById('imgnav-next').classList.add('d-none')
-	document.getElementById('imgnav-prev').classList.add('d-none')
 });
 
 document.querySelectorAll('form').forEach(form => {

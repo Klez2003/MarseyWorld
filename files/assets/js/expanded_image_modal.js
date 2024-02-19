@@ -4,6 +4,7 @@ let last_img_index
 
 const imgnav_next = document.getElementById('imgnav-next')
 const imgnav_prev = document.getElementById('imgnav-prev')
+const expandImageModal = document.getElementById('expandImageModal')
 
 document.addEventListener('keydown', (e) => {
 	if (['ArrowRight', 'd'].includes(e.key)  && imgnav_next && !imgnav_next.classList.contains('d-none')) {
@@ -13,6 +14,11 @@ document.addEventListener('keydown', (e) => {
 		imgnav_prev.click()
 	}
 })
+
+expandImageModal.addEventListener('hide.bs.modal', () => {
+	imgnav_next.classList.add('d-none')
+	imgnav_prev.classList.add('d-none')
+});
 
 function handle_navigation(delta) {
 	position += delta
@@ -25,8 +31,6 @@ function handle_navigation(delta) {
 		imgnav_prev.dataset.href = all_images[position-1].dataset.src
 	}
 }
-
-const expandImageModal = document.getElementById('expandImageModal')
 
 function expandImage(url) {
 	document.getElementById('imgnav-next').classList.add('d-none')
