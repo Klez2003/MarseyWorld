@@ -7715,3 +7715,7 @@ thead {
 		max-width: 50%
 	}
 }
+
+input[type="search"]::-webkit-search-cancel-button {
+	display: none;
+}
