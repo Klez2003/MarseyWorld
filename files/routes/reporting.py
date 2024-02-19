@@ -55,7 +55,7 @@ def report_post(pid, v):
 			position = f'a /h/{post.hole} mod'
 
 		if v.id != post.author_id:
-			message = f'@{v.username} ({position}) has flaired [{post.title}]({post.shortlink}) with the flair: `"{og_flair}"`'
+			message = f'@{v.username} ({position}) has flaired {post.text_permalink} with the flair: `"{og_flair}"`'
 			send_repeatable_notification(post.author_id, message)
 
 		return {"message": "Post flaired successfully!"}
@@ -68,7 +68,7 @@ def report_post(pid, v):
 	g.db.add(report)
 
 	if v.id != post.author_id and not post.author.has_blocked(v) and not post.author.has_muted(v):
-		message = f'@{v.username} reported [{post.title}]({post.shortlink})\n\n> {reason}'
+		message = f'@{v.username} reported {post.text_permalink}\n\n> {reason}'
 		send_repeatable_notification(post.author_id, message)
 
 	return {"message": "Post reported!"}
@@ -103,7 +103,7 @@ def report_comment(cid, v):
 	g.db.add(report)
 
 	if v.id != comment.author_id and not comment.author.has_blocked(v) and not comment.author.has_muted(v):
-		message = f'@{v.username} reported your [comment]({comment.shortlink})\n\n> {reason}'
+		message = f'@{v.username} reported {comment.text_permalink}\n\n> {reason}'
 		send_repeatable_notification(comment.author_id, message)
 
 	return {"message": "Comment reported!"}

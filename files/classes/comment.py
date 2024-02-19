@@ -317,6 +317,11 @@ class Comment(Base):
 
 	@property
 	@lazy
+	def text_permalink(self):
+		return f"[your comment]({self.shortlink})"
+
+	@property
+	@lazy
 	def log_link(self):
 		return f"{SITE_FULL}/transfers/{self.id}"
 

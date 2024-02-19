@@ -509,8 +509,8 @@ def pin_comment_op(cid, v):
 		comment.pin_parents()
 
 		if v.id != comment.author_id:
-			if comment.post.ghost: message = f"OP has pinned your [comment]({comment.shortlink})"
-			else: message = f"@{v.username} (OP) has pinned your [comment]({comment.shortlink})"
+			if comment.post.ghost: message = f"OP has pinned {comment.text_permalink}"
+			else: message = f"@{v.username} (OP) has pinned {comment.text_permalink}"
 			send_repeatable_notification(comment.author_id, message)
 
 	return {"message": "Comment pinned!"}
@@ -539,7 +539,7 @@ def unpin_comment_op(cid, v):
 		comment.unpin_parents()
 
 		if v.id != comment.author_id:
-			message = f"@{v.username} (OP) has unpinned your [comment]({comment.shortlink})"
+			message = f"@{v.username} (OP) has unpinned {comment.text_permalink}"
 			send_repeatable_notification(comment.author_id, message)
 	return {"message": "Comment unpinned!"}
 

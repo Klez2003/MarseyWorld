@@ -34,7 +34,7 @@ def exile_post(v, pid):
 		exile = Exile(user_id=u.id, hole=hole, exiler_id=v.id)
 		g.db.add(exile)
 
-		send_notification(u.id, f"@{v.username} has exiled you from /h/{hole} for [{p.title}]({p.shortlink})")
+		send_notification(u.id, f"@{v.username} has exiled you from /h/{hole} for {p.text_permalink}")
 
 		ma = HoleAction(
 			hole=hole,
@@ -73,7 +73,7 @@ def exile_comment(v, cid):
 		exile = Exile(user_id=u.id, hole=hole, exiler_id=v.id)
 		g.db.add(exile)
 
-		send_notification(u.id, f"@{v.username} has exiled you from /h/{hole} for [{c.permalink}]({c.shortlink})")
+		send_notification(u.id, f"@{v.username} has exiled you from /h/{hole} for {c.text_permalink}")
 
 		ma = HoleAction(
 			hole=hole,
@@ -435,7 +435,7 @@ def kick(v, pid):
 	g.db.add(ma)
 
 	if v.id != post.author_id:
-		message = f"@{v.username} (a /h/{old} mod) has moved [{post.title}]({post.shortlink}) from /h/{old} to the main feed!"
+		message = f"@{v.username} (a /h/{old} mod) has moved {post.text_permalink} from /h/{old} to the main feed!"
 		send_repeatable_notification(post.author_id, message)
 
 	g.db.add(post)
@@ -771,7 +771,7 @@ def hole_pin(v, pid):
 	g.db.add(p)
 
 	if v.id != p.author_id:
-		message = f"@{v.username} (a /h/{p.hole} mod) has pinned [{p.title}]({p.shortlink}) in /h/{p.hole}"
+		message = f"@{v.username} (a /h/{p.hole} mod) has pinned {p.text_permalink} in /h/{p.hole}"
 		send_repeatable_notification(p.author_id, message)
 
 	ma = HoleAction(
@@ -803,7 +803,7 @@ def hole_unpin(v, pid):
 	g.db.add(p)
 
 	if v.id != p.author_id:
-		message = f"@{v.username} (a /h/{p.hole} mod) has unpinned [{p.title}]({p.shortlink}) in /h/{p.hole}"
+		message = f"@{v.username} (a /h/{p.hole} mod) has unpinned {p.text_permalink} in /h/{p.hole}"
 		send_repeatable_notification(p.author_id, message)
 
 	ma = HoleAction(
@@ -918,7 +918,7 @@ def pin_comment_mod(cid, v):
 		g.db.add(ma)
 
 		if v.id != comment.author_id:
-			message = f"@{v.username} (a /h/{comment.post.hole} mod) has pinned your [comment]({comment.shortlink})"
+			message = f"@{v.username} (a /h/{comment.post.hole} mod) has pinned {comment.text_permalink}"
 			send_repeatable_notification(comment.author_id, message)
 
 	return {"message": "Comment pinned!"}
@@ -951,7 +951,7 @@ def unpin_comment_mod(cid, v):
 		g.db.add(ma)
 
 		if v.id != comment.author_id:
-			message = f"@{v.username} (a /h/{comment.post.hole} mod) has unpinned your [comment]({comment.shortlink})"
+			message = f"@{v.username} (a /h/{comment.post.hole} mod) has unpinned {comment.text_permalink}"
 			send_repeatable_notification(comment.author_id, message)
 	return {"message": "Comment unpinned!"}
 
@@ -1139,7 +1139,7 @@ def change_hole(pid, v):
 		else:
 			hole_from_in_notif = f'/h/{hole_from}'
 
-		message = f"@{v.username} ({position}) has moved [{post.title}]({post.shortlink}) from {hole_from_in_notif} to {hole_to_in_notif}"
+		message = f"@{v.username} ({position}) has moved {post.text_permalink} from {hole_from_in_notif} to {hole_to_in_notif}"
 		send_repeatable_notification(post.author_id, message)
 
 	cache.delete_memoized(frontlist)

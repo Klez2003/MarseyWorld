@@ -222,7 +222,7 @@ def award_thing(v, thing_type, id):
 
 	if v.id != author.id:
 		if author.deflector and v.deflector and AWARDS[kind]['deflectable']:
-			msg = f"@{v.username} has tried to give your [{thing_type}]({obj.shortlink}) the {award_title} Award but it was deflected on them, they also had a deflector up, so it bounced back and forth until it vaporized!"
+			msg = f"@{v.username} has tried to give {obj.text_permalink} the {award_title} Award but it was deflected on them, they also had a deflector up, so it bounced back and forth until it vaporized!"
 			send_repeatable_notification(author.id, msg)
 
 			msg = f"{safe_username} under the effect of a deflector award; your {award_title} Award has been deflected back to you but your deflector protected you, the award bounced back and forth until it vaporized!"
@@ -253,37 +253,28 @@ def award_thing(v, thing_type, id):
 				else:
 					author.pay_account('coins', awarded_coins)
 
-			if isinstance(obj, Comment):
-				link_text_in_notif = "your comment"
-			else:
-				link_text_in_notif = obj.title
-
 	if kind == 'marsify' and author.marsify == 1:
 		abort(409, f"{safe_username} already permanently marsified!")
 
 	if kind == 'spider' and author.spider == 1:
 		abort(409, f"{safe_username} already best friends with a spider!")
 
-	link = f"[this {thing_type}]({obj.shortlink})"
-
 	can_alter_body = not obj.author.deflector or v == obj.author
 
-	if kind == "ban":
-		link = f"/{thing_type}/{obj.id}"
+	if kind in {"ban", "grass"}:
+		ban_reason_link = f"/{thing_type}/{obj.id}"
 		if isinstance(obj, Comment):
-			link += '#context'
-			link_text_in_notif = link
-		else:
-			link_text_in_notif = obj.title
+			ban_reason_link += '#context'
+		author.ban_reason = f'{award_title} award used by @{v.username} on <a href="{ban_reason_link}">{ban_reason_link}</a>'
 
-		ban_reason = f'1-Day ban award used by <a href="/@{v.username}">@{v.username}</a> on <a href="{link}">{link}</a>'
+
+	if kind == "ban":
 		if not author.is_suspended:
 			author.ban(reason=ban_reason, days=1)
-			send_repeatable_notification(author.id, f"Your account has been banned for **a day** for [{link_text_in_notif}]({link}). It sucked and you should feel bad.")
+			send_repeatable_notification(author.id, f"Your account has been banned for **a day** for {obj.text_permalink}. It sucked and you should feel bad.")
 		elif author.unban_utc:
 			author.unban_utc += 86400
-			author.ban_reason = ban_reason
-			send_repeatable_notification(author.id, f"Your account has been banned for **yet another day** for [{link_text_in_notif}]({link}). Seriously man?")
+			send_repeatable_notification(author.id, f"Your account has been banned for **yet another day** for {obj.text_permalink}. Seriously man?")
 	elif kind == "unban":
 		if not author.is_suspended or not author.unban_utc:
 			abort(403)
@@ -300,16 +291,9 @@ def award_thing(v, thing_type, id):
 			author.ban_reason = None
 			send_repeatable_notification(author.id, "You have been unbanned!")
 	elif kind == "grass":
-		link3 = f"/{thing_type}/{obj.id}"
-		if isinstance(obj, Comment):
-			link3 = f'<a href="{link3}#context">{link3}</a>'
-		else:
-			link3 = f'<a href="{link3}">{link3}</a>'
-
 		author.is_banned = AUTOJANNY_ID
-		author.ban_reason = f"grass award used by @{v.username} on {link3}"
 		author.unban_utc = int(time.time()) + 30 * 86400
-		send_repeatable_notification(author.id, f"@{v.username} gave you the grass award on {link} and as a result you have been banned! You must [send the admins](/contact) a timestamped picture of you touching grass/snow/sand/ass to get unbanned!")
+		send_repeatable_notification(author.id, f"@{v.username} gave you the grass award on {obj.text_permalink} and as a result you have been banned! You must [send the admins](/contact) a timestamped picture of you touching grass/snow/sand/ass to get unbanned!")
 	elif kind == "pin":
 		if not FEATURES['PINS']: abort(403)
 		if obj.is_banned: abort(403)
@@ -613,7 +597,7 @@ def award_thing(v, thing_type, id):
 	author = obj.author
 	if v.id != author.id:
 		if author.deflector and AWARDS[kind]['deflectable']:
-			msg = f"@{v.username} has tried to give your [{thing_type}]({obj.shortlink}) the {award_title} Award but it was deflected and applied to them :marseytroll:"
+			msg = f"@{v.username} has tried to give {obj.text_permalink} the {award_title} Award but it was deflected and applied to them :marseytroll:"
 			n = send_repeatable_notification(author.id, msg)
 			if n: n.created_utc -= 2
 
@@ -621,7 +605,7 @@ def award_thing(v, thing_type, id):
 			n = send_repeatable_notification(v.id, msg)
 			if n: n.created_utc -= 2
 		elif kind not in {'spider', 'jumpscare'}:
-			msg = f"@{v.username} has given [{link_text_in_notif}]({obj.shortlink}) the {award_title} Award"
+			msg = f"@{v.username} has given {obj.text_permalink} the {award_title} Award"
 
 			if kind == 'shit':
 				msg += f" and has stolen from you {awarded_coins} coins as a result"
