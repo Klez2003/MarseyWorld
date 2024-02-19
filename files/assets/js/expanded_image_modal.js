@@ -18,11 +18,11 @@ function handle_navigation(delta) {
 	position += delta
 	if (position < last_img_index) {
 		imgnav_next.classList.remove('d-none')
-		imgnav_next.href = all_images[position+1].dataset.src
+		imgnav_next.dataset.href = all_images[position+1].dataset.src
 	}
 	if (position > 0) {
 		imgnav_prev.classList.remove('d-none')
-		imgnav_prev.href = all_images[position-1].dataset.src
+		imgnav_prev.dataset.href = all_images[position-1].dataset.src
 	}
 }
 
@@ -53,12 +53,12 @@ function expandImage(url) {
 
 
 imgnav_next.onclick = () => {
-	expandImage(imgnav_next.href)
+	expandImage(imgnav_next.dataset.href)
 	handle_navigation(1)
 }
 
 imgnav_prev.onclick = () => {
-	expandImage(imgnav_prev.href)
+	expandImage(imgnav_prev.dataset.href)
 	handle_navigation(-1)
 }
 
