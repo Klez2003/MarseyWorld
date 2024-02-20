@@ -293,7 +293,7 @@ def shadowbanned(v):
 	elif sort == "truescore":
 		key = User.truescore.desc()
 	elif sort == "shadowban_reason":
-		key = User.ban_reason
+		key = User.shadowban_reason
 	elif sort == "shadowbanned_by":
 		key = User.shadowbanned
 	else:
