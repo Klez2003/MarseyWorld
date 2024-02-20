@@ -836,6 +836,7 @@ elif SITE == 'watchpeopledie.tv':
 	GTIX_ID = 77694
 
 	CURRENCY_TRANSFER_ID = 48
+	ANTISPAM_BYPASS_IDS = {1718156}
 
 	NOTIFIED_USERS = {
 		'aevan': AEVANN_ID,
