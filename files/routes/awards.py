@@ -265,8 +265,8 @@ def award_thing(v, thing_type, id):
 		ban_reason_link = f"/{thing_type}/{obj.id}"
 		if isinstance(obj, Comment):
 			ban_reason_link += '#context'
-		author.ban_reason = f'{award_title} award used by @{v.username} on <a href="{ban_reason_link}">{ban_reason_link}</a>'
-
+		ban_reason = f'{award_title} award used by @{v.username} on <a href="{ban_reason_link}">{ban_reason_link}</a>'
+		author.ban_reason = ban_reason
 
 	if kind == "ban":
 		if not author.is_suspended:
