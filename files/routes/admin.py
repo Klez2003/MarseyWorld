@@ -289,18 +289,18 @@ def shadowbanned(v):
 	total = users.count()
 
 	if sort == "name":
-		key = User.username
+		users = users.order_by(User.username)
 	elif sort == "truescore":
-		key = User.truescore.desc()
+		users = users.order_by(User.truescore.desc())
 	elif sort == "shadowban_reason":
-		key = User.shadowban_reason
+		users = users.order_by(User.shadowban_reason == 'Under Siege', User.shadowban_reason)
 	elif sort == "shadowbanned_by":
-		key = User.shadowbanned
+		users = users.order_by(User.shadowbanned)
 	else:
 		sort = "last_active"
-		key = User.last_active.desc()
+		users = users.order_by(User.last_active.desc())
 
-	users = users.order_by(key).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE)
+	users = users.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE)
 
 	return render_template("admin/shadowbanned.html", v=v, users=users, sort=sort, total=total, page=page)
 
