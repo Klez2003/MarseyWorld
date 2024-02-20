@@ -1074,10 +1074,9 @@ INSERT INTO public.hat_defs VALUES (1322, 'Butthead', '"Eh, this website sucks, 
 INSERT INTO public.hat_defs VALUES (1321, 'Beavis', '"GIVE ME TP FOR MY BUNGHOLE!"', 2, 500, NULL, 1692085009);
 INSERT INTO public.hat_defs VALUES (1320, 'The Master', '"So what shall it be? Do you join the Unity, or do you die here? Join! Die! Join! Die!"', 2, 500, NULL, 1691983112);
 INSERT INTO public.hat_defs VALUES (1319, 'Crown of thorns', 'King of the Jews', 2, 500, NULL, 1691981795);
-
 INSERT INTO public.hat_defs VALUES (1318, 'Football Helmet II', 'Touchdown!', 2, 500, NULL, 1691981743);
-
 INSERT INTO public.hat_defs VALUES (1317, 'Top Hat (Tiny)', 'A tiny top hat for a tiny man', 2, 500, NULL, 1691981612);
+INSERT INTO public.hat_defs VALUES (1448, 'Dharmachakra Wheel', 'With this sacred treasure I summon...', 2, 500, NULL, 1708366908);
 INSERT INTO public.hat_defs VALUES (1315, 'Pink Devil Wings', 'Succubus???', 2, 500, NULL, 1691908707);
 INSERT INTO public.hat_defs VALUES (1314, 'Scouter Red', 'My stragdar is picking up something powerful...', 2, 1000, NULL, 1691470486);
 INSERT INTO public.hat_defs VALUES (1313, 'Scouter Green', 'My stragdar is picking up something powerful...', 2, 1000, NULL, 1691470421);
@@ -1086,6 +1085,7 @@ INSERT INTO public.hat_defs VALUES (1312, 'Hollywood Hogan', 'Poop brother HH', 
 INSERT INTO public.hat_defs VALUES (1326, 'Leather Cap', 'Yeah I''m Irish? What about it.', 2, 500, NULL, 1692294580);
 INSERT INTO public.hat_defs VALUES (1311, 'Hulk Hogan', 'POOP BROTHER HH', 2, 500, NULL, 1691376726);
 INSERT INTO public.hat_defs VALUES (1256, 'dawnfag', 'I’m too tired to write a description I’m sorry here’s your hat toats', 2, 500, NULL, 1687739873);
+INSERT INTO public.hat_defs VALUES (1452, 'I Eat Drywall Hat', 'Yeah I eat drywall? Got a problem with it?', 2, 500, NULL, 1708367714);
 INSERT INTO public.hat_defs VALUES (1309, 'Vault-Tec', 'When the bombs drop I''ll be the safest.', 2, 500, NULL, 1691293282);
 INSERT INTO public.hat_defs VALUES (1308, 'NukaCola', 'Soda and radiation? Sign me up!', 2, 500, NULL, 1691293260);
 INSERT INTO public.hat_defs VALUES (1289, 'Energy Dome', 'Collects latent Orgone energy and recirculates it into the Medulla Oblongata.', 2, 500, NULL, 1689298931);
@@ -1135,12 +1135,11 @@ INSERT INTO public.hat_defs VALUES (1360, 'Fire', 'Nothing quite like burning al
 INSERT INTO public.hat_defs VALUES (1361, 'Jackpot', 'You’re gonna win big next round', 2, 500, NULL, 1698478525);
 INSERT INTO public.hat_defs VALUES (1364, 'Magikarps_Revenge', 'In case it wasn''t clear, what''s going on here is that this blasted carp tried to consume my flesh, and ended up killing himself in the process. Now the wretched thing''s corpse is stuck on my head.', 2, 500, NULL, 1698655386);
 INSERT INTO public.hat_defs VALUES (1406, 'typing', 'typing', 2, 1000, NULL, 1705612539);
-
-
 INSERT INTO public.hat_defs VALUES (1375, 'pkmn0110', 'Weezing loves the gases given off by rotted kitchen garbage. This Pokémon will find a dirty, unkempt house and make it its home. At night, when the people in the house are asleep, it will go through the trash.', 2, 500, NULL, 1698658478);
 INSERT INTO public.hat_defs VALUES (1372, 'pkmn0151', 'Mew. So rare that it is still said to be a mirage by many experts. Only a few people have seen it worldwide.', 2, 500, NULL, 1698657875);
 INSERT INTO public.hat_defs VALUES (1371, 'pkmn0054', 'Psyduck, the Platy Pokémon. A Water type. Psyduck is constantly bothered by headaches. The more its head hurts, the stronger its Psychic power.', 2, 500, NULL, 1698657676);
-
+INSERT INTO public.hat_defs VALUES (1449, 'Zero Two Horns', 'Hi, darling!', 2, 500, NULL, 1708367087);
+INSERT INTO public.hat_defs VALUES (1450, 'Red Eminent Horns', 'Queen of the devils, leader of the chuds.', 2, 500, NULL, 1708367282);
 INSERT INTO public.hat_defs VALUES (1377, 'pkmn0094', 'Gengar, the Shadow Pokémon. A Ghost and Poison type. Gengar can pass through dimensions and appear almost anywhere. Since Gengar absorbs any warmth around it, the temperature suddenly drops wherever it appears.', 2, 500, NULL, 1698658745);
 INSERT INTO public.hat_defs VALUES (1376, 'pkmn0039', 'Jigglypuff, a Balloon Pokémon. It has large friendly eyes and it sings a pleasant song.', 2, 500, NULL, 1698658603);
 INSERT INTO public.hat_defs VALUES (1374, 'pkmn0143', 'Snorlax, the Sleeping Pokémon. Snorlax becomes much too lazy to lift even a finger when it has a full belly.', 2, 500, NULL, 1698658340);
