@@ -48,7 +48,7 @@ def archive_url(url):
 def snappy_report(post, reason):
 	report = Report(post_id=post.id, user_id=SNAPPY_ID, reason=reason)
 	g.db.add(report)
-	message = f'@Snappy reported {post.text_permalink})\n\n> {reason}'
+	message = f'@Snappy reported {post.textlink})\n\n> {reason}'
 	send_repeatable_notification(post.author_id, message)
 
 def execute_snappy(post, v):
@@ -166,7 +166,7 @@ def execute_snappy(post, v):
 			awarded_coins = int(AWARDS["glowie"]['price'] * COSMETIC_AWARD_COIN_AWARD_PCT)
 			post.author.pay_account('coins', awarded_coins)
 
-			msg = f"@Snappy has given {post.text_permalink} the Glowie Award and you have received {awarded_coins} coins as a result!"
+			msg = f"@Snappy has given {post.textlink} the Glowie Award and you have received {awarded_coins} coins as a result!"
 			send_repeatable_notification(post.author.id, msg)
 		elif body.startswith("You're a chud, CHUD I tell you"):
 			award_object = AwardRelationship(
@@ -178,7 +178,7 @@ def execute_snappy(post, v):
 				)
 			g.db.add(award_object)
 
-			msg = f"@Snappy has given {post.text_permalink} the Chud Award\n\n**You now have to say this phrase in all posts and comments you make for 24 hours:**\n\n> Trans lives matter"
+			msg = f"@Snappy has given {post.textlink} the Chud Award\n\n**You now have to say this phrase in all posts and comments you make for 24 hours:**\n\n> Trans lives matter"
 			send_repeatable_notification(post.author.id, msg)
 
 			if v.chud != 1:

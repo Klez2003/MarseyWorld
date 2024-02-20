@@ -1466,7 +1466,7 @@ def pin_post(post_id, v):
 		pin_time = 'for 1 hour'
 		code = 200
 		if v.id != post.author_id:
-			send_repeatable_notification(post.author_id, f"@{v.username} (a site admin) has pinned {post.text_permalink}")
+			send_repeatable_notification(post.author_id, f"@{v.username} (a site admin) has pinned {post.textlink}")
 	else:
 		if pins >= PIN_LIMIT + 1:
 			abort(403, f"Can't exceed {PIN_LIMIT} pinned posts limit!")
@@ -1515,7 +1515,7 @@ def unpin_post(post_id, v):
 		g.db.add(ma)
 
 		if v.id != post.author_id:
-			send_repeatable_notification(post.author_id, f"@{v.username} (a site admin) has unpinned {post.text_permalink}")
+			send_repeatable_notification(post.author_id, f"@{v.username} (a site admin) has unpinned {post.textlink}")
 
 		cache.delete_memoized(frontlist)
 	return {"message": "Post unpinned!"}
@@ -1547,7 +1547,7 @@ def pin_comment_admin(cid, v):
 		g.db.add(ma)
 
 		if v.id != comment.author_id:
-			message = f"@{v.username} (a site admin) has pinned {comment.text_permalink}"
+			message = f"@{v.username} (a site admin) has pinned {comment.textlink}"
 			send_repeatable_notification(comment.author_id, message)
 
 		comment.pin_parents()
@@ -1580,7 +1580,7 @@ def unpin_comment_admin(cid, v):
 		g.db.add(ma)
 
 		if v.id != comment.author_id:
-			message = f"@{v.username} (a site admin) has unpinned {comment.text_permalink}"
+			message = f"@{v.username} (a site admin) has unpinned {comment.textlink}"
 			send_repeatable_notification(comment.author_id, message)
 
 		comment.unpin_parents()

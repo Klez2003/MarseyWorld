@@ -155,7 +155,7 @@ class Post(Base):
 
 	@property
 	@lazy
-	def text_permalink(self):
+	def textlink(self):
 		return f"[{self.title}]({self.shortlink})"
 
 	@property
