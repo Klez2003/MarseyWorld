@@ -196,7 +196,7 @@ def process_video(file, v):
 		gevent.spawn(delete_file, new, f'https://videos.{SITE}' + new.split('/videos')[1])
 
 	if SITE == 'watchpeopledie.tv':
-		# rclone.copy(new, 'no:/videos', ignore_existing=True)
+		rclone.copy(new, 'no:/videos', ignore_existing=True)
 		return f'https://videos.{SITE}' + new.split('/videos')[1]
 	else:
 		return f"{SITE_FULL}{new}"
