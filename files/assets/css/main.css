@@ -7724,3 +7724,7 @@ thead {
 input[type="search"]::-webkit-search-cancel-button {
 	display: none;
 }
+
+details > *:first-child {
+	margin-top: 1rem;
+}
