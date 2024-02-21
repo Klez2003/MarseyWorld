@@ -751,7 +751,7 @@ if SITE in {'rdrama.net', 'staging.rdrama.net'}:
 		'clitpeeler': CARP_ID,
 		'the_homocracy': 147,
 	}
-elif SITE == 'watchpeopledie.tv':
+elif SITE in {'watchpeopledie.tv', 'marsey.world'}:
 	NOTIFICATION_SPAM_AGE_THRESHOLD = 0.5 * 86400
 	TRUESCORE_MINIMUM = 100
 
