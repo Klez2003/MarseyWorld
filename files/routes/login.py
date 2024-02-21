@@ -121,7 +121,6 @@ def on_login(account, redir=None):
 
 
 @app.get("/me")
-@app.get("/@me")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
