@@ -113,6 +113,7 @@ CHUD_REPLACEMENTS = {
 }
 
 GIRL_PHRASES = [
+	"I just think it's funny that $",
 	"ok so $",
 	"um $",
 	"also like $",
