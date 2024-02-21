@@ -8,7 +8,7 @@
 	{% if request.path.startswith('/post/') and p %}
 		{{- SITE_FULL_IMAGES ~ "/" ~ path ~ "/" ~ listdir('files/' ~ path)|seeded_random(p.id) ~ '?x=7' -}}
 	{% else %}
-		{{- SITE_FULL_IMAGES ~ "/" ~ path ~ "/" ~ listdir('files/' ~ path)|random() ~ '?x=7' -}}
+		{{- SITE_FULL_IMAGES ~ "/" ~ path ~ "/" ~ listdir('files/' ~ path)|random ~ '?x=7' -}}
 	{% endif %}
 {%- endmacro -%}
 

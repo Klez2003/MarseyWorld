@@ -1,5 +1,5 @@
 {% set sidebar_path = "assets/events/homoween/images/sidebar" %}
-{% set selected_image = listdir('files/'~sidebar_path)|random() %}
+{% set selected_image = listdir('files/'~sidebar_path)|random %}
 {% set image = "/" ~sidebar_path~ "/" ~selected_image~'?v=45' %}
 
 <a href="{{image}}" style="text-decoration:none">
