@@ -313,7 +313,6 @@ def submit_contact(v):
 
 	return {"message": "Your message has been sent to the admins!"}
 
-@cache.memoize(timeout=3600)
 def badge_list(site, can_view_patron_badges):
 
 	badges = g.db.query(BadgeDef)
