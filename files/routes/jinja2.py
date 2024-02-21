@@ -89,9 +89,8 @@ def selected_tab(request):
 	return 'home'
 
 @app.template_filter("seeded_random")
-def seeded_random(choices, url):
-	if url.startswith('/post/'):
-		random.seed(url)
+def seeded_random(choices, seed):
+	random.seed(seed)
 	return random.choice(choices)
 
 
