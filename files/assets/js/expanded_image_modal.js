@@ -67,7 +67,7 @@ imgnav_prev.onclick = () => {
 }
 
 //swiping
-if (screen_width < 768) {
+if (screen_width < 768 && false) {
 	let active = true
 	const _C = document.querySelector('#expandImageModal')
 	const N = _C.children.length
