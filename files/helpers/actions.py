@@ -295,7 +295,7 @@ def execute_snappy(post, v):
 		post.replies = [c]
 
 def execute_zozbot(c, level, post, v):
-	if SITE_NAME != 'rDrama': return
+	if not ZOZBOT_ID: return
 
 	if random.random() >= 0.001: return
 
