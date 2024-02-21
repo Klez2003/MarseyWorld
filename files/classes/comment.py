@@ -457,7 +457,7 @@ class Comment(Base):
 	def collapse_for_user(self, v, focused_comment, path=''):
 		if v and self.author_id == v.id: return False
 
-		if path == '/admin/removed/comments': return False
+		if path.endswith('/comments'): return False
 
 		if focused_comment: return False
 
