@@ -5386,7 +5386,7 @@ img[alt^=":"][alt*="!"] {
 	transform: scaleX(-1);
 }
 
-span[alt^=":"][alt*="!"] > img[alt^=":"][alt*="!"][alt*="love"] {
+span[alt^=":"][alt*="!"] > img[alt^=":"][alt*="!"]:not([alt*="genocide"]) {
 	transform: scaleX(1);
 }
 
