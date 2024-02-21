@@ -2,7 +2,7 @@ import time
 from math import floor
 import os
 import ffmpeg
-from random import randint
+import random
 
 from sqlalchemy.orm import load_only
 
@@ -1894,7 +1894,7 @@ def delete_media_post(v):
 @admin_level_required(PERMS['USER_RESET_PASSWORD'])
 def admin_reset_password(user_id, v):
 	user = get_account(user_id)
-	new_password = secrets.token_urlsafe(randint(27, 33))
+	new_password = secrets.token_urlsafe(random.randint(27, 33))
 	user.passhash = hash_password(new_password)
 	g.db.add(user)
 

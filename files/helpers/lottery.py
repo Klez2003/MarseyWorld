@@ -1,5 +1,5 @@
 import time
-from random import choice
+import random
 
 from flask import g
 from files.classes.lottery import Lottery
@@ -44,7 +44,7 @@ def end_lottery_session():
 		active_lottery.is_active = False
 		return True, "Lottery ended with no participants!"
 
-	winner = choice(raffle)
+	winner = random.choice(raffle)
 	active_lottery.winner_id = winner
 	winning_user = next(filter(lambda x: x.id == winner, participating_users))
 	winning_user.pay_account('coins', active_lottery.prize)

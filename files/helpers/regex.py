@@ -1,6 +1,5 @@
 import random
 import re
-from random import choice, choices, randint
 
 from .config.const import *
 
@@ -159,11 +158,11 @@ def command_regex_matcher(match, upper=False):
 	else:
 		if match.group(2).startswith('roll'):
 			max_num = int(match.group(3))
-			result = randint(1, max_num)
-			color = tuple(choices(range(256), k=3))
+			result = random.randint(1, max_num)
+			color = tuple(random.choices(range(256), k=3))
 			result = f'<b style="color:rgb{color}">Your roll (1-{max_num}): {result}</b>'
 		else:
-			result = str(choice(commands[match.group(2).lower()]))
+			result = str(random.choice(commands[match.group(2).lower()]))
 	return match.group(1) + result
 
 reason_regex_post = re.compile('(/post/[0-9]+)', flags=re.A)

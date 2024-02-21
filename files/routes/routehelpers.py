@@ -1,7 +1,7 @@
 import time
 import uuid
+import random
 
-from random import randint
 from sqlalchemy.orm import aliased, deferred
 from sqlalchemy.sql import case, literal
 from sqlalchemy.sql.expression import or_
@@ -143,12 +143,12 @@ def execute_shadowban_viewers_and_voters(v, target):
 
 	ti = max(int((time.time() - target.created_utc)/60), 3)
 	max_upvotes = min(ti, 13)
-	rand = randint(0, max_upvotes)
+	rand = random.randint(0, max_upvotes)
 	if target.upvotes >= rand: return
 
-	amount = randint(0, 3)
+	amount = random.randint(0, 3)
 
 	target.upvotes += amount
 	if isinstance(target, Post):
-		target.views += amount*randint(3, 5)
+		target.views += amount*random.randint(3, 5)
 	g.db.add(target)

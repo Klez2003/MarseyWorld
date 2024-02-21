@@ -1,6 +1,6 @@
 import json
 from enum import Enum
-from random import randint
+import random
 import time
 
 from flask import g
@@ -166,7 +166,7 @@ def spin_roulette_wheel():
 	participants, bets, active_games = get_roulette_bets_and_betters()
 
 	if len(participants) > 0:
-		number = randint(0, 37)  # 37 is 00
+		number = random.randint(0, 37)  # 37 is 00
 
 		winners, payouts, rewards_by_game_id = determine_roulette_winners(number, bets)
 

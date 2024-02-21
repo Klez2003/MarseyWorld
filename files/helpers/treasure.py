@@ -1,5 +1,5 @@
 from math import floor
-from random import randint
+import random
 
 from files.helpers.config.const import *
 from files.helpers.lottery import *
@@ -15,23 +15,23 @@ def check_for_treasure(from_comment, in_text):
 
 	if not FEATURES['GAMBLING']: return
 
-	seed = randint(1, 1000)
+	seed = random.randint(1, 1000)
 	is_special = seed == 1000
 	is_standard = seed >= 990
 	amount = 0
 
 	if is_special:
-		amount = randint(special_min, special_max)
+		amount = random.randint(special_min, special_max)
 	elif is_standard:
-		amount = randint(standard_min, standard_max)
-		if randint(1, 100) > 90:
+		amount = random.randint(standard_min, standard_max)
+		if random.randint(1, 100) > 90:
 			amount = -amount
 
 
 	if amount != 0:
 		if amount > 0:
 			active_lottery = get_active_lottery()
-			lottery_tickets_seed = randint(1, 100)
+			lottery_tickets_seed = random.randint(1, 100)
 			lottery_tickets_instead = lottery_tickets_seed <= lotterizer_rate
 
 			if active_lottery and lottery_tickets_instead:
