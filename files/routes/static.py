@@ -313,11 +313,15 @@ def submit_contact(v):
 
 	return {"message": "Your message has been sent to the admins!"}
 
-def badge_list(site, can_view_patron_badges):
-
+@app.get("/badges")
+@feature_required('BADGES')
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@auth_required
+def badges(v):
 	badges = g.db.query(BadgeDef)
 
-	if not can_view_patron_badges:
+	if v.admin_level < PERMS['VIEW_PATRONS']:
 		badges = badges.filter(BadgeDef.id.notin_(PATRON_BADGES))
 
 	badges = badges.order_by(BadgeDef.id).all()
@@ -329,15 +333,6 @@ def badge_list(site, can_view_patron_badges):
 	for c in counts_raw:
 		counts[c[0]] = (c[1], float(c[1]) * 100 / max(users, 1))
 
-	return badges, counts
-
-@app.get("/badges")
-@feature_required('BADGES')
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
-@auth_required
-def badges(v):
-	badges, counts = badge_list(SITE, v.admin_level >= PERMS['VIEW_PATRONS'])
 	return render_template("badges.html", v=v, badges=badges, counts=counts)
 
 @app.get("/blocks")

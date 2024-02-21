@@ -19,7 +19,6 @@ from files.helpers.can_see import *
 from files.routes.front import comment_idlist
 from files.routes.routehelpers import execute_shadowban_viewers_and_voters
 from files.routes.wrappers import *
-from files.routes.static import badge_list
 from files.__main__ import app, cache, limiter
 
 def _mark_comment_as_read(cid, vid):
