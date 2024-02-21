@@ -962,9 +962,11 @@ class User(Base):
 	@lazy
 	def profile_url(self):
 		if IS_HOMOWEEN() and self.zombie < 0:
+			random.seed(self.id)
 			return f"{SITE_FULL_IMAGES}/assets/events/homoween/images/zombies/{random.randint(1, 10)}.webp?x=1"
 		if self.chud:
 			if IS_HOMOWEEN():
+				random.seed(self.id)
 				return f"{SITE_FULL}/assets/events/homoween/images/chud/{random.randint(1, 19)}.webp?x=1"
 			return f"{SITE_FULL_IMAGES}/e/chudsey.webp"
 		if self.rainbow:
