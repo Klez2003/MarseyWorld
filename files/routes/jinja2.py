@@ -1,6 +1,7 @@
 import time
 import math
 import datetime
+import random
 
 from os import environ, listdir, path
 
@@ -86,6 +87,12 @@ def selected_tab(request):
 		return 'shop'
 
 	return 'home'
+
+@app.template_filter("seeded_random")
+def seeded_random(choices, url):
+	if url.startswith('/post/'):
+		random.seed(url)
+	return random.choice(choices)
 
 
 def current_registered_users():
