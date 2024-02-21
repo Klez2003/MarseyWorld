@@ -1,6 +1,5 @@
 import os
 from collections import Counter
-from json import loads
 from shutil import copyfile
 import random
 
@@ -182,69 +181,14 @@ def comment(v):
 	if parent_user.has_blocked(v) or parent_user.has_muted(v):
 		notify_op = False
 
-	if request.files.get("file") and not g.is_tor:
-		files = request.files.getlist('file')[:20]
+	if posting_to_post and v.admin_level >= PERMS['USE_ADMIGGER_THREADS'] and post_target.id in {SIDEBAR_THREAD, BANNER_THREAD, BADGE_THREAD}:
+		admigger_thread = post_target.id
+		comment_body = body
+	else:
+		admigger_thread = None
+		comment_body = None
 
-		if files:
-			media_ratelimit(v)
-
-		for file in files:
-			if f'[{file.filename}]' not in body:
-				continue
-
-			if file.content_type.startswith('image/'):
-				oldname = f'/images/{time.time()}'.replace('.','') + '.webp'
-				file.save(oldname)
-				image = process_image(oldname, v)
-				if image == "": abort(400, "Image upload failed")
-				if posting_to_post and v.admin_level >= PERMS['USE_ADMIGGER_THREADS']:
-					def process_sidebar_or_banner(type, resize=0):
-						li = sorted(os.listdir(f'files/assets/images/{SITE_NAME}/{type}'),
-							key=lambda e: int(e.split('.webp')[0]))[-1]
-						num = int(li.split('.webp')[0]) + 1
-						filename = f'files/assets/images/{SITE_NAME}/{type}/{num}.webp'
-						copyfile(oldname, filename)
-						process_image(filename, v, resize=resize)
-
-					if post_target.id == SIDEBAR_THREAD:
-						process_sidebar_or_banner('sidebar', 600)
-					elif post_target.id == BANNER_THREAD:
-						banner_width = 1600
-						process_sidebar_or_banner('banners', banner_width)
-					elif post_target.id == BADGE_THREAD:
-						try:
-							json_body = '{' + body.split('{')[1].split('}')[0] + '}'
-							badge_def = loads(json_body)
-							name = badge_def["name"]
-
-							if len(name) > 50:
-								abort(400, "Badge name is too long (max 50 characters)")
-
-							if not badge_name_regex.fullmatch(name):
-								abort(400, "Invalid badge name!")
-
-							existing = g.db.query(BadgeDef).filter_by(name=name).one_or_none()
-							if existing: abort(409, "A badge with this name already exists!")
-
-							badge = BadgeDef(name=name, description=badge_def["description"])
-							g.db.add(badge)
-							g.db.flush()
-							filename = f'files/assets/images/{SITE_NAME}/badges/{badge.id}.webp'
-							copyfile(oldname, filename)
-							process_image(filename, v, resize=300, trim=True)
-							purge_files_in_cloudflare_cache(f"{SITE_FULL_IMAGES}/i/{SITE_NAME}/badges/{badge.id}.webp")
-							cache.delete_memoized(badge_list)
-						except Exception as e:
-							abort(400, str(e))
-				body = body.replace(f'[{file.filename}]', f' {image} ', 1)
-			elif file.content_type.startswith('video/'):
-				body = body.replace(f'[{file.filename}]', f' {process_video(file, v)} ', 1)
-			elif file.content_type.startswith('audio/'):
-				body = body.replace(f'[{file.filename}]', f' {SITE_FULL}{process_audio(file, v)} ', 1)
-			else:
-				abort(415)
-
-	body = body.strip()
+	body = process_files(request.files, v, body, admigger_thread=admigger_thread, comment_body=comment_body)
 	if len(body) > COMMENT_BODY_LENGTH_LIMIT:
 		abort(400, f'Comment body is too long (max {COMMENT_BODY_LENGTH_LIMIT} characters)')
 
