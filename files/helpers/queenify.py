@@ -28,7 +28,9 @@ def queenify_tag_string(string):
 	if string[-5:] == ', and':
 		string = string[:-5]
 
+	random.seed(string)
 	if random.random() < 0.5:
+		random.seed(string)
 		girl_phrase = random.choice(GIRL_PHRASES)
 		string = girl_phrase.replace("$", string)
 	
