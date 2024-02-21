@@ -366,7 +366,7 @@ def execute_zozbot(c, level, post, v):
 	push_notif({v.id}, f'New reply by @{c2.author_name}', "zoz", c2)
 
 def execute_longpostbot(c, level, body, body_html, post, v):
-	if SITE_NAME != 'rDrama': return
+	if not LONGPOSTBOT_ID: return
 
 	if not len(c.body.split()) >= 200: return
 
