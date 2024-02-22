@@ -5082,6 +5082,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('ninja', 'Classic', 2, 'animated emoticon japan', false, 0),
 ('nod', 'Classic', 2, 'animated emoticon agree yes', false, 0),
 ('nono', 'Classic', 2, 'animated emoticon disagree finger wag', false, 0),
+('notbad', 'Rage', 2, 'obama president neutral frown suit tuxedo bowtie', false, 1708549117),
 ('nothingtodohere', 'Rage', 2, 'rage', false, 1690501053),
 ('notmyproblem', 'Misc', 2, 'oil rentoid', false, 1701740438),
 ('npc', 'Wojak', 2, 'normie', false, 0),
