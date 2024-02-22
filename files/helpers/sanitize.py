@@ -757,8 +757,12 @@ def normalize_url(url):
 		domain = tldextract.extract(netloc).registered_domain
 		filtered |= {k: val for k, val in qd.items() if not val[0] or is_whitelisted(domain, k)}
 
-		if netloc == 'old.reddit.com' and reddit_comment_link_regex.fullmatch(url):
-			filtered['context'] = 8
+		hash = ''
+		if netloc == 'old.reddit.com':
+			x = reddit_comment_link_regex.search(url)
+			if x:
+				filtered['context'] = 8
+				hash = x.group(1).replace('/', '#thing_t1_')
 
 		new_url = ParseResult(scheme="https",
 							netloc=netloc,
@@ -766,7 +770,7 @@ def normalize_url(url):
 							params=parsed_url.params,
 							query=urlencode(filtered, doseq=True),
 							fragment=parsed_url.fragment)
-		url = urlunparse(new_url)
+		url = urlunparse(new_url) + hash
 
 	domain = tldextract.extract(url).registered_domain
 
