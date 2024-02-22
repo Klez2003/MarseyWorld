@@ -303,7 +303,7 @@ def delete_file(filename, url):
 	purge_files_in_cloudflare_cache(url)
 
 def send_file(filename):
-	rclone.copy(filename, 'no:/videos', ignore_existing=True)
+	rclone.copy(filename, 'no:/videos', ignore_existing=True, show_progress=False)
 
 
 def process_sidebar_or_banner(oldname, v, type, resize):
