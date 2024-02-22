@@ -84,6 +84,9 @@ def publish(pid, v):
 			for x in notify_users:
 				add_notif(cid, x, text, pushnotif_url=p.permalink)
 
+	if v.id in PINNED_POSTS_IDS and not p.ghost and not (p.hole and p.hole_obj.stealth):
+		p.pinned_utc = time.time() + PINNED_POSTS_IDS[v.id] * 3600
+		p.pinned = "AutoJanny"
 
 	cache.delete_memoized(frontlist)
 	cache.delete_memoized(userpagelisting)
