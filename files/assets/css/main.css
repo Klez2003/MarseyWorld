@@ -7694,6 +7694,7 @@ thead {
 	margin-left: -5px;
 	cursor: pointer;
 	text-decoration: none !important;
+    z-index: -1;
 }
 
 #imgnav-next:hover, #imgnav-prev:hover {
@@ -7711,7 +7712,7 @@ thead {
 		left: 50%;
 	}
 	#imgnav-prev {
-		left: calc(50% - 122px);
+		left: calc(50% - 145px);
 	}
 }
 
