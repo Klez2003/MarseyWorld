@@ -711,7 +711,7 @@ def submit_post(v, hole=None):
 	v.post_count += 1
 	g.db.add(v)
 
-	if v.id in PINNED_POSTS_IDS and not p.ghost and not (p.hole and p.hole_obj.stealth):
+	if v.id in PINNED_POSTS_IDS and not p.ghost and not p.draft and not (p.hole and p.hole_obj.stealth):
 		p.pinned_utc = time.time() + PINNED_POSTS_IDS[v.id] * 3600
 		p.pinned = "AutoJanny"
 
