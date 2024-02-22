@@ -990,6 +990,7 @@ INSERT INTO public.hat_defs VALUES (1153, 'Hope Eradicated', 'Who needs friends 
 INSERT INTO public.hat_defs VALUES (1150, 'Power In Misery', 'Stop wasting company resources by getting killed...', 2, 500, NULL, 1679343066);
 INSERT INTO public.hat_defs VALUES (514, 'Glowing', 'Hit me with your car', 2, 1000, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (1157, 'Divine Light', 'Who has time to enjoy life when you''re making MONEY?!', 2, 500, NULL, 1679347512);
+
 INSERT INTO public.hat_defs VALUES (1155, 'Flesh Automaton', 'You are a flesh automaton powered by neurotransmiters', 2, 500, NULL, 1679347040);
 INSERT INTO public.hat_defs VALUES (1169, 'Mimic', 'That is NOT a health pack!', 2, 500, NULL, 1679359754);
 INSERT INTO public.hat_defs VALUES (1167, 'Tattered Rain Hat', 'Old and worn. You''ve never seen it before but it feels nostalgic.', 2, 500, NULL, 1679359347);
@@ -1190,7 +1191,7 @@ INSERT INTO public.hat_defs VALUES (1443, 'Sheen', 'Sparkling and pretty.', 2, 5
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1453, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1455, true);
 
 
 --
