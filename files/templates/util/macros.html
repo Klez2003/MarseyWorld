@@ -5,11 +5,7 @@
 {%- endmacro -%}
 
 {%- macro random_image(path) -%}
-	{% if request.path.startswith('/post/') and p %}
-		{{- SITE_FULL_IMAGES ~ "/" ~ path ~ "/" ~ listdir('files/' ~ path)|seeded_random(p.id) ~ '?x=7' -}}
-	{% else %}
-		{{- SITE_FULL_IMAGES ~ "/" ~ path ~ "/" ~ listdir('files/' ~ path)|random ~ '?x=7' -}}
-	{% endif %}
+	{{- SITE_FULL_IMAGES ~ "/" ~ path ~ "/" ~ listdir('files/' ~ path)|seeded_random(p) ~ '?x=7' -}}
 {%- endmacro -%}
 
 {% macro post_meta(p) %}
