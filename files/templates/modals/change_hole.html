@@ -8,7 +8,7 @@
 				</button>
 			</div>
 			<div class="modal-body">
-				<label class='mt-2' for="title">Hole</label>
+				<label class='mt-2' for="hole_to">Hole</label>
 				<div class="input-group">
 					{%- set hole_placeholder = 'Required' if HOLE_REQUIRED else 'Optional' -%}
 					<input list="holes" autocomplete="off" id="hole_to" class="form-control" placeholder="{{hole_placeholder}}" {% if HOLE_REQUIRED %}required{% endif %}>

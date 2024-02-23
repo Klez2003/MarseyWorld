@@ -9,8 +9,8 @@
 					<h3 class=" d-md-none">Create a hole</h3>
 					<div class="body">
 						<input hidden name="formkey" value="{{v|formkey}}">
-						<label for="title">Hole Name</label>
-						<input minlength="3" maxlength="25" pattern='[a-zA-Z0-9_\-]*' class="form-control" id="title-register" type="text" name="name" required>
+						<label for="hole-name">Hole Name</label>
+						<input minlength="3" maxlength="25" pattern='[a-zA-Z0-9_\-]*' class="form-control" id="hole-name" type="text" name="name" required>
 						<small class="form-text text-muted">3-25 characters, including letters, numbers, _ , and -</small>
 						{% if HOLE_INACTIVITY_DELETION %}
 							<p class="text-danger mt-2">Warning: holes get automatically deleted if they spend 7 days with no new posts.</p>
