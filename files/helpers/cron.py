@@ -26,8 +26,8 @@ from files.helpers.lottery import check_if_end_lottery_task
 from files.helpers.roulette import spin_roulette_wheel
 from files.helpers.sanitize import filter_emojis_only, sanitize
 from files.helpers.useractions import *
-from files.helpers.reddit_mentions import *
-from files.helpers.lemmy_mentions import *
+from files.helpers.offsite_mentions.reddit import *
+from files.helpers.offsite_mentions.lemmy import *
 
 from files.cli import app, db_session, g
 
@@ -59,7 +59,7 @@ def cron_fn(every_5m, every_1d, every_1mo):
 				_grant_two_year_badges()
 				g.db.commit()
 
-				if not IS_LOCALHOST:
+				if not IS_LOCALHOST or True:
 					reddit_mentions_task()
 					g.db.commit()
 
