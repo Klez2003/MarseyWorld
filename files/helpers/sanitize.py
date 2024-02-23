@@ -722,6 +722,7 @@ domain_replacements = {
 	'https://lmgtfy.app/?q=': 'https://google.com/search?q=',
 	DONATE_LINK: f'{SITE_FULL}/donate',
 	'https://boards.4chan.org/': 'https://archived.moe/',
+	'https://boards.4channel.org/': 'https://archived.moe/',
 	'https://desuarchive.org/': 'https://archived.moe/',
 	'https://archive.4plebs.org/': 'https://archived.moe/',
 	'https://arch.b4k.co/': 'https://archived.moe/',
