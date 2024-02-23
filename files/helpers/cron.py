@@ -27,8 +27,7 @@ from files.helpers.roulette import spin_roulette_wheel
 from files.helpers.sanitize import filter_emojis_only, sanitize
 from files.helpers.useractions import *
 from files.helpers.offsite_mentions.reddit import *
-from files.helpers.offsite_mentions.lemmy import *
-from files.helpers.offsite_mentions.fourchan import *
+from files.helpers.offsite_mentions.other import *
 
 from files.cli import app, db_session, g
 
@@ -68,6 +67,9 @@ def cron_fn(every_5m, every_1d, every_1mo):
 					g.db.commit()
 
 					fourchan_mentions_task()
+					g.db.commit()
+
+					soyjak_mentions_task()
 					g.db.commit()
 
 			if every_1d or (not cache.get('stats') and not IS_LOCALHOST):

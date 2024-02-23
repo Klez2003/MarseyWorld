@@ -278,7 +278,7 @@ def notifications_offsite(v):
 	if not v.can_view_offsite_mentions: abort(403)
 
 	listing = g.db.query(Comment).filter(
-		Comment.body_html.like('<p>New site mention by%'),
+		Comment.body_html.like('<p>New site mention%'),
 		Comment.parent_post == None,
 		Comment.author_id == AUTOJANNY_ID
 	)
