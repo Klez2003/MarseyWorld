@@ -44,15 +44,15 @@
 			<thead>
 				<tr>
 					<th class="disable-sort-click">Hat</th>
-					<th>Name</th>
-					<th>Description</th>
+					<th class="disable-sort-click">>Name</th>
+					<th class="disable-sort-click">>Description</th>
 					{% if SITE == 'rdrama.net' %}
-						<th>Author</a></th>
+						<th class="disable-sort-click">>Author</a></th>
 					{% endif %}
-					<th>Owners</th>
-					<th>Price</th>
+					<th class="disable-sort-click">>Owners</th>
+					<th class="disable-sort-click">>Price</th>
 					<th class="disable-sort-click">Actions</th>
-					<th>Added on</th>
+					<th class="disable-sort-click">>Added on</th>
 				</tr>
 			</thead>
 
@@ -86,7 +86,7 @@
 							</div>
 						</td>
 
-						<td data-time="{{hat.created_utc}}"></td>
+						<td data-sort="{{hat.created_utc}}" data-time="{{hat.created_utc}}"></td>
 					</tr>
 				{% endfor %}
 			</tbody>

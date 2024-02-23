@@ -5570,7 +5570,7 @@ code {
 	cursor: pointer !important;
 }
 
-.disable-sort-click {
+.disable-sort-click:not(.sorting) {
 	cursor: default !important;
 }
 
