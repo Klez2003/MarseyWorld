@@ -101,6 +101,9 @@ def cron_fn(every_5m, every_1d, every_1mo):
 					_expire_blocks_mutes_exiles()
 					g.db.commit()
 
+				_set_top_poster_of_the_day_id()
+				g.db.commit()
+
 			if every_1mo:
 				_give_marseybux_salary()
 				g.db.commit()
@@ -376,3 +379,25 @@ def _expire_blocks_mutes_exiles():
 	for holeblock in holeblocks:
 		send_repeatable_notification(holeblock.user_id, f"Your block of /h/{holeblock.hole} has passed 1 month and expired!")
 		g.db.delete(holeblock)
+
+
+def _set_top_poster_of_the_day_id():
+	t = int(time.time()) - 86400
+
+	db = db_session()
+
+	user = db.query(User, func.sum(Post.upvotes)).join(Post, Post.author_id == User.id).filter(
+		Post.created_utc > t,
+		User.admin_level == 0,
+	).group_by(User).order_by(func.sum(Post.upvotes).desc()).first()
+
+	if not user: return SNAPPY_ID
+
+	user = user[0]
+
+	t = datetime.datetime.now()
+	db.flush()
+	send_notification(user.id, f":marseyjam: You're the Top Poster of the Day for the day of {t.year}-{t.month}-{t.day} :marseyjam:")
+	badge_grant(badge_id=327, user=user)
+
+	cache.set("top_poster_of_the_day". user.id)

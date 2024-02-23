@@ -137,34 +137,8 @@ def bar_position():
 def emoji_count():
 	return g.db.query(Emoji).filter_by(submitter_id=None).count()
 
-@cache.memoize(timeout=86400)
-def top_poster_of_the_day_id():
-	t = int(time.time()) - 86400
-
-	db = db_session()
-
-	user = db.query(User, func.sum(Post.upvotes)).join(Post, Post.author_id == User.id).filter(
-		Post.created_utc > t,
-		User.admin_level == 0,
-	).group_by(User).order_by(func.sum(Post.upvotes).desc()).first()
-
-	if not user: return SNAPPY_ID
-
-	user = user[0]
-
-	t = datetime.datetime.now()
-	db.flush()
-	send_notification(user.id, f":marseyjam: You're the Top Poster of the Day for the day of {t.year}-{t.month}-{t.day} :marseyjam:")
-	badge_grant(badge_id=327, user=user)
-	uid = user.id
-
-	db.commit()
-	db.close()
-
-	return uid
-
 def top_poster_of_the_day():
-	uid = top_poster_of_the_day_id()
+	uid = cache.get("top_poster_of_the_day") or SNAPPY_ID
 	user = g.db.query(User).filter_by(id=uid).one()
 	return user
 
