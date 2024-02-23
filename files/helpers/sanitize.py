@@ -724,6 +724,7 @@ domain_replacements = {
 	'https://boards.4chan.org/': 'https://archived.moe/',
 	'https://desuarchive.org/': 'https://archived.moe/',
 	'https://archive.4plebs.org/': 'https://archived.moe/',
+	'https://arch.b4k.co/': 'https://archived.moe/',
 }
 
 def normalize_url(url):
