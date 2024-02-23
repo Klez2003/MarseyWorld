@@ -172,14 +172,14 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 			mul = 2
 		elif target.hole in BOOSTED_HOLES:
 			mul = 1.25
-
-		if target.body_html and target.author.id != 8768:
-			x = target.body_html.count('" target="_blank" rel="nofollow noopener">')
-			x += target.body_html.count('" rel="nofollow noopener" target="_blank">')
-			target.realupvotes += min(x*2, 20)
-			mul += min(x/10, 1)
 	elif SITE == 'rdrama.net' and cls == Comment and 6 <= datetime.fromtimestamp(target.created_utc).hour <= 10:
 		mul = 2
+
+	if target.body_html and target.author.id != 8768:
+		x = target.body_html.count('" target="_blank" rel="nofollow noopener">')
+		x += target.body_html.count('" rel="nofollow noopener" target="_blank">')
+		target.realupvotes += min(x*2, 20)
+		mul += min(x/10, 1)
 
 	if cls == Post and (target.effortpost or target.hole == 'countryclub'):
 		mul *= 2
