@@ -59,7 +59,7 @@ def cron_fn(every_5m, every_1d, every_1mo):
 				_grant_two_year_badges()
 				g.db.commit()
 
-				if not IS_LOCALHOST or True:
+				if not IS_LOCALHOST:
 					reddit_mentions_task()
 					g.db.commit()
 
