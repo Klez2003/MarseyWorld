@@ -721,6 +721,9 @@ domain_replacements = {
 	'https://letmegooglethat.com/?q=': 'https://google.com/search?q=',
 	'https://lmgtfy.app/?q=': 'https://google.com/search?q=',
 	DONATE_LINK: f'{SITE_FULL}/donate',
+	'https://boards.4chan.org/': 'https://archived.moe/',
+	'https://desuarchive.org/': 'https://archived.moe/',
+	'https://archive.4plebs.org/': 'https://archived.moe/',
 }
 
 def normalize_url(url):
