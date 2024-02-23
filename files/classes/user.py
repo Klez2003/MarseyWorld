@@ -891,7 +891,7 @@ class User(Base):
 		return g.db.query(Comment).filter(
 			Comment.created_utc > self.last_viewed_offsite_notifs,
 			Comment.is_banned == False, Comment.deleted_utc == 0,
-			Comment.body_html.like('%<p>New site mention by <a href=%'),
+			Comment.body_html.like('<p>New site mention by%'),
 			Comment.parent_post == None, Comment.author_id == AUTOJANNY_ID).count()
 
 	@property
