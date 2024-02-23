@@ -159,6 +159,8 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 		send_notification(AEVANN_ID, target.permalink)
 	elif SITE == 'rdrama.net' and target.author_id == 29:
 		mul = 4
+	elif cls == Post and (target.effortpost or target.hole == 'countryclub'):
+		mul = 4
 	elif target.author.progressivestack or (IS_HOMOWEEN() and target.author.zombie < 0) or target.author.admin_level >= PERMS['IS_PERMA_PROGSTACKED']:
 		mul = 2
 	elif SITE == 'rdrama.net' and target.author.new_user and not target.author.alts:
@@ -170,7 +172,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 		or any(i in target.domain for i in ('forum','community','chan','lemmy','mastodon')) \
 		or (target.domain in BOOSTED_SITES and not target.url.startswith('/')):
 			mul = 2
-		elif target.hole in STEALTH_HOLES or target.hole in {'countryclub', 'highrollerclub'}:
+		elif target.hole in STEALTH_HOLES | {'highrollerclub'}:
 			mul = 2
 		elif target.hole in BOOSTED_HOLES:
 			mul = 1.25
@@ -180,9 +182,6 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 		x += target.body_html.count('" rel="nofollow noopener" target="_blank">')
 		target.realupvotes += min(x*2, 20)
 		mul += min(x/10, 1)
-
-	if cls == Post and (target.effortpost or target.hole == 'countryclub'):
-		mul *= 2
 
 	target.realupvotes = floor(target.realupvotes * mul)
 
