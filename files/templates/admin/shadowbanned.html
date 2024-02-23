@@ -25,7 +25,7 @@
 			</thead>
 			{% for user in users %}
 				<tr>
-					<td data-sort-key="{{user.username.lower() if user else ''}}">{%- include 'user_in_table.html' -%}</td>
+					<td data-sort="{{user.username.lower() if user else ''}}">{%- include 'user_in_table.html' -%}</td>
 					<td>{{user.truescore}}</td>
 					<td>{{user.shadowban_reason | safe}}</td>
 					<td><a href="/{{user.shadowbanned_by}}">{{user.shadowbanned_by}}</a></td>

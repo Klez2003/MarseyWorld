@@ -349,12 +349,12 @@ function sort_table(t) {
 	for (let i = 1; i < rows.length; i++) {
 		const ele = rows[i];
 		let x = rows[i].getElementsByTagName("TD")[n];
-		if (!('sortKey' in x.dataset)) {
+		if (!x.dataset.sort) {
 			x = x.getElementsByTagName('a')[0] || x;
 		}
 		let attr;
-		if ('sortKey' in x.dataset) {
-			attr = x.dataset.sortKey;
+		if (x.dataset.sort) {
+			attr = x.dataset.sort;
 			if (/^[\d-,]+$/.test(attr)) {
 				attr = parseInt(attr.replace(/,/g, ''))
 			}
