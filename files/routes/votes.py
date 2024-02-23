@@ -163,6 +163,8 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 		mul = 2
 	elif SITE == 'rdrama.net' and target.author.new_user and not target.author.alts:
 		mul = 2
+	elif SITE == 'rdrama.net' and 6 <= datetime.fromtimestamp(target.created_utc).hour <= 10:
+		mul = 2
 	elif SITE == 'rdrama.net' and cls == Post:
 		if target.domain.endswith('.win') \
 		or any(i in target.domain for i in ('forum','community','chan','lemmy','mastodon')) \
@@ -170,12 +172,8 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 			mul = 2
 		elif target.hole in STEALTH_HOLES or target.hole in {'countryclub', 'highrollerclub'}:
 			mul = 2
-		elif 6 <= datetime.fromtimestamp(target.created_utc).hour <= 10:
-			mul = 2
 		elif target.hole in BOOSTED_HOLES:
 			mul = 1.25
-	elif SITE == 'rdrama.net' and cls == Comment and 6 <= datetime.fromtimestamp(target.created_utc).hour <= 10:
-		mul = 2
 
 	if target.body_html and target.author.id != 8768:
 		x = target.body_html.count('" target="_blank" rel="nofollow noopener">')
