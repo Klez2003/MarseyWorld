@@ -18,7 +18,7 @@
 		{{post_permalinks.append(p.permalink)}}
 	</div>
 
-	<input hidden class="twoattrs" value="{{p.id}},{{p.comment_count}}">
+	<input hidden id="twoattrs-{{p.id}}" class="twoattrs" value="{{p.id}},{{p.comment_count}}">
 
 	{% set ups=p.upvotes %}
 	{% set downs=p.downvotes %}
