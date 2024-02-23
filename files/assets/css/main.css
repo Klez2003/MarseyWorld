@@ -3800,7 +3800,7 @@ label.color-radio span {
 }
 label {
 	font-weight: 600;
-	font-size: 12px;
+	font-size: 1rem;
 	letter-spacing: 0.025rem;
 	color: var(--black);
 }
