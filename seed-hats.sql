@@ -588,7 +588,6 @@ INSERT INTO public.hat_defs VALUES (541, 'Morshu', 'Lamp Oil, Rope, Bombs! You w
 INSERT INTO public.hat_defs VALUES (542, 'Link (Faces of Evil)', 'Could you eat an octorok?', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (406, 'Amogus', 'I saw you vent', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (415, 'WANTED', 'Dangerous thought criminal. Wanted DEAD ONLY.', 2, 500, NULL, 1662167687);
-
 INSERT INTO public.hat_defs VALUES (421, 'Emperor Hat', 'Made in China', 2, 500, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (1081, 'Happy Plumbob', '5th gen Sims 4 plumbob', 2, 1000, NULL, 1668758641);
 INSERT INTO public.hat_defs VALUES (877, 'Reaper Hood I', 'Spooooooky!', 2, 500, NULL, 1665314511);
@@ -991,7 +990,6 @@ INSERT INTO public.hat_defs VALUES (1153, 'Hope Eradicated', 'Who needs friends 
 INSERT INTO public.hat_defs VALUES (1150, 'Power In Misery', 'Stop wasting company resources by getting killed...', 2, 500, NULL, 1679343066);
 INSERT INTO public.hat_defs VALUES (514, 'Glowing', 'Hit me with your car', 2, 1000, NULL, 1662167687);
 INSERT INTO public.hat_defs VALUES (1157, 'Divine Light', 'Who has time to enjoy life when you''re making MONEY?!', 2, 500, NULL, 1679347512);
-
 INSERT INTO public.hat_defs VALUES (1155, 'Flesh Automaton', 'You are a flesh automaton powered by neurotransmiters', 2, 500, NULL, 1679347040);
 INSERT INTO public.hat_defs VALUES (1169, 'Mimic', 'That is NOT a health pack!', 2, 500, NULL, 1679359754);
 INSERT INTO public.hat_defs VALUES (1167, 'Tattered Rain Hat', 'Old and worn. You''ve never seen it before but it feels nostalgic.', 2, 500, NULL, 1679359347);
@@ -1015,7 +1013,6 @@ INSERT INTO public.hat_defs VALUES (1183, 'Blossom', 'And she looks like Blossom
 INSERT INTO public.hat_defs VALUES (1182, 'Friends Frame', 'Could I *be* more of a hat?', 2, 500, NULL, 1682251449);
 INSERT INTO public.hat_defs VALUES (1198, 'Cumjar filled', 'After months of work, the magnum opus is completed', 2, 500, NULL, 1682742950);
 INSERT INTO public.hat_defs VALUES (1200, 'Swagger', 'You will never be this cool', 2, 500, NULL, 1683449976);
-
 INSERT INTO public.hat_defs VALUES (1239, 'Vaporeon Hat', 'Hey guys, did you know in terms of male human and female Pokemon breeding...', 2, 500, NULL, 1687286731);
 INSERT INTO public.hat_defs VALUES (1238, 'Gemmed', 'Who gave you glue?', 2, 500, NULL, 1687286254);
 INSERT INTO public.hat_defs VALUES (1220, 'Chained Border', '?????', 2, 500, NULL, 1686289778);
@@ -1092,16 +1089,12 @@ INSERT INTO public.hat_defs VALUES (1452, 'I Eat Drywall Hat', 'Yeah I eat drywa
 INSERT INTO public.hat_defs VALUES (1309, 'Vault-Tec', 'When the bombs drop I''ll be the safest.', 2, 500, NULL, 1691293282);
 INSERT INTO public.hat_defs VALUES (1308, 'NukaCola', 'Soda and radiation? Sign me up!', 2, 500, NULL, 1691293260);
 INSERT INTO public.hat_defs VALUES (1289, 'Energy Dome', 'Collects latent Orgone energy and recirculates it into the Medulla Oblongata.', 2, 500, NULL, 1689298931);
-
 INSERT INTO public.hat_defs VALUES (1307, 'Puppet', 'Am I really in control?', 2, 500, NULL, 1691293222);
 INSERT INTO public.hat_defs VALUES (1306, 'Neon Green Halo', 'So toxic that even my halo changed color.', 2, 500, NULL, 1691293205);
 INSERT INTO public.hat_defs VALUES (1303, 'SCP999', 'Cute and cuddly maybe people will finally like me!', 2, 500, NULL, 1691293125);
 INSERT INTO public.hat_defs VALUES (1324, 'Prayer', 'Praying to god so the demons stay away.', 2, 1000, NULL, 1692293691);
 INSERT INTO public.hat_defs VALUES (1302, 'SCP173', 'Stop watching me for a second, and I''ll snap your neck!', 2, 500, NULL, 1691293099);
-
 INSERT INTO public.hat_defs VALUES (1301, 'DBZ Cell', 'Oh how cute, he named it, "Oh shit!"', 2, 500, NULL, 1691282440);
-
-
 INSERT INTO public.hat_defs VALUES (1300, 'Gongzilla Hat', 'Welcome to Jamrock, camp where the thugs dem camp at, two pound ah weed inna van back.', 2, 500, NULL, 1691114503);
 INSERT INTO public.hat_defs VALUES (1299, 'DEATHBLOW', '"This is no place for the weak, or the foolhardy." - Narrator', 2, 500, NULL, 1691091987);
 INSERT INTO public.hat_defs VALUES (1297, 'Futurama Jar', 'Good news everyone! I''ve invented a device that makes you read this in your head, with my voice!', 2, 500, NULL, 1690935048);
@@ -1116,6 +1109,8 @@ INSERT INTO public.hat_defs VALUES (1277, 'Fuck off', 'FUCK OFFFFFF', 2, 1000, N
 INSERT INTO public.hat_defs VALUES (1271, 'Fire Aura', 'RELEASE YOUR INNER RAGE!', 2, 500, NULL, 1687832669);
 INSERT INTO public.hat_defs VALUES (1270, 'Dark Aura', 'Let your inner troll OUT!', 2, 500, NULL, 1687832646);
 INSERT INTO public.hat_defs VALUES (1269, 'Rainbowfriends Hat', 'This user is special needs. No ands ifs or buts about it.', 2, 500, NULL, 1687832169);
+INSERT INTO public.hat_defs VALUES (1462, 'Bandage', 'Ouch, I got hurt.', 2, 500, NULL, 1708647923);
+INSERT INTO public.hat_defs VALUES (1467, 'Bow (yellow)', 'I am fancy and ready to piss!', 2, 500, NULL, 1708648145);
 INSERT INTO public.hat_defs VALUES (1336, 'TripleAntichrist', 'There once was a man feeling blue, who stacked helmets: not one but two. He added a third, which seemed quite absurd. His cat said "This headache''s for you!"', 2, 500, NULL, 1694405435);
 INSERT INTO public.hat_defs VALUES (1341, 'Notification', 'Groomercord and it''s consequences, have been a disaster for the human race.', 2, 500, NULL, 1696247923);
 INSERT INTO public.hat_defs VALUES (1350, 'Krazy Krown', 'WWKKD? 👑👑👑', 2, 1000, NULL, 1696404292);
@@ -1146,37 +1141,38 @@ INSERT INTO public.hat_defs VALUES (1375, 'pkmn0110', 'Weezing loves the gases g
 INSERT INTO public.hat_defs VALUES (1372, 'pkmn0151', 'Mew. So rare that it is still said to be a mirage by many experts. Only a few people have seen it worldwide.', 2, 500, NULL, 1698657875);
 INSERT INTO public.hat_defs VALUES (1371, 'pkmn0054', 'Psyduck, the Platy Pokémon. A Water type. Psyduck is constantly bothered by headaches. The more its head hurts, the stronger its Psychic power.', 2, 500, NULL, 1698657676);
 INSERT INTO public.hat_defs VALUES (1449, 'Zero Two Horns', 'Hi, darling!', 2, 500, NULL, 1708367087);
-
-
-
-
-
-
-
-
-
-
-
-
-
+INSERT INTO public.hat_defs VALUES (1456, 'Spiked Emo Beanie', 'Touch the ear buttons, I dare you.', 2, 500, NULL, 1708647722);
+INSERT INTO public.hat_defs VALUES (1457, 'Scarlet Shine', 'I shimmer bitch.', 2, 500, NULL, 1708647756);
+INSERT INTO public.hat_defs VALUES (1463, 'Colombian Fedora', 'Mi Señora!', 2, 500, NULL, 1708647999);
+INSERT INTO public.hat_defs VALUES (1466, 'Cat Ears (brown)', 'Meow meow, feed me.', 2, 500, NULL, 1708648117);
+INSERT INTO public.hat_defs VALUES (1470, 'Sharp Smile', 'I won''t bite! Probably...', 2, 500, NULL, 1708648235);
+INSERT INTO public.hat_defs VALUES (1473, 'Bandage (pink)', 'Ouchie, I got a booboo.', 2, 500, NULL, 1708648336);
+INSERT INTO public.hat_defs VALUES (1476, 'Teal Hair', 'I just got my hair done.', 2, 500, NULL, 1708648428);
+INSERT INTO public.hat_defs VALUES (1482, 'Stares', 'Always watching', 2, 500, NULL, 1708648590);
+INSERT INTO public.hat_defs VALUES (1483, 'Japanese Text', '私は強いです', 2, 500, NULL, 1708648705);
+INSERT INTO public.hat_defs VALUES (1484, 'Rainbow Spiked Hair', 'If I color myself enough they''ll love me.', 2, 500, NULL, 1708648741);
+INSERT INTO public.hat_defs VALUES (1487, 'Purple Hearts', 'I''m lusting for you.', 2, 500, NULL, 1708648873);
+INSERT INTO public.hat_defs VALUES (1492, 'HP Bar', 'I''m feeling healthy and refreshed.', 2, 500, NULL, 1708649015);
+INSERT INTO public.hat_defs VALUES (1498, 'Anime Smile', 'Power of friendship!', 2, 500, NULL, 1708649155);
+INSERT INTO public.hat_defs VALUES (1499, 'Pigtail Bows', 'Twice the bow, twice the cute!', 2, 500, NULL, 1708649179);
 INSERT INTO public.hat_defs VALUES (1450, 'Red Eminent Horns', 'Queen of the devils, leader of the chuds.', 2, 500, NULL, 1708367282);
-
-
 INSERT INTO public.hat_defs VALUES (1377, 'pkmn0094', 'Gengar, the Shadow Pokémon. A Ghost and Poison type. Gengar can pass through dimensions and appear almost anywhere. Since Gengar absorbs any warmth around it, the temperature suddenly drops wherever it appears.', 2, 500, NULL, 1698658745);
 INSERT INTO public.hat_defs VALUES (1376, 'pkmn0039', 'Jigglypuff, a Balloon Pokémon. It has large friendly eyes and it sings a pleasant song.', 2, 500, NULL, 1698658603);
 INSERT INTO public.hat_defs VALUES (1374, 'pkmn0143', 'Snorlax, the Sleeping Pokémon. Snorlax becomes much too lazy to lift even a finger when it has a full belly.', 2, 500, NULL, 1698658340);
 INSERT INTO public.hat_defs VALUES (1373, 'SlowCrown', 'Slowking, the Royal Pokémon. A Water and Psychic type. If a Shellder bites a Slowpoke''s tail, Slowpoke evolves into Slowbro. But if a Shellder bites a Slowpoke''s head, the Slowpoke evolves into Slowking with the intelligence of a genius.', 2, 500, NULL, 1698658076);
-
-
-
-
-
-
-
-
-
-
-
+INSERT INTO public.hat_defs VALUES (1458, 'Anime Eyes (red)', 'I am tired of all of this.', 2, 500, NULL, 1708647781);
+INSERT INTO public.hat_defs VALUES (1460, 'Dismantle', 'i haven''t used this since the heian era.', 2, 500, NULL, 1708647852);
+INSERT INTO public.hat_defs VALUES (1464, 'Digital Cry', 'Stop, you''re hurting my feelings.', 2, 500, NULL, 1708648022);
+INSERT INTO public.hat_defs VALUES (1468, 'Blonde Bone Hair', 'I''m a Karen... But deadlier.', 2, 500, NULL, 1708648181);
+INSERT INTO public.hat_defs VALUES (1471, 'Black Hair', 'I''m as basic as it gets.', 2, 500, NULL, 1708648266);
+INSERT INTO public.hat_defs VALUES (1474, 'Bowtie (red)', 'Dressed to impress the femboys!', 2, 500, NULL, 1708648360);
+INSERT INTO public.hat_defs VALUES (1477, 'Zombie Hand', 'Even in death it won''t let go of me.', 2, 500, NULL, 1708648456);
+INSERT INTO public.hat_defs VALUES (1478, 'Cone', 'Watch out, this user is a hazard.', 2, 500, NULL, 1708648482);
+INSERT INTO public.hat_defs VALUES (1485, 'Cute Army Cap', 'You''ll address me as Weeb Sergeant.', 2, 500, NULL, 1708648770);
+INSERT INTO public.hat_defs VALUES (1490, 'Red Hearts', 'I love you all!', 2, 500, NULL, 1708648948);
+INSERT INTO public.hat_defs VALUES (1495, 'Hi', 'Hello! How are you?', 2, 500, NULL, 1708649083);
+INSERT INTO public.hat_defs VALUES (1496, 'Pink Heart Halo', 'I''m falling for you my dear.', 2, 500, NULL, 1708649109);
+INSERT INTO public.hat_defs VALUES (1500, 'Exclamation', 'WHAT?!', 2, 500, NULL, 1708649201);
 INSERT INTO public.hat_defs VALUES (1396, 'Click Me', 'Come on, you know you want to see my profile.', 2, 500, NULL, 1704921421);
 INSERT INTO public.hat_defs VALUES (1408, 'Kadio Stance', '*thwack* YEEEEEEEEOUCHHHHHHHHHH', 2, 500, NULL, 1705616850);
 INSERT INTO public.hat_defs VALUES (1381, 'Griffith Helmet', 'The Falcon has fallen. Billions must die.', 2, 500, NULL, 1698690002);
@@ -1217,19 +1213,21 @@ INSERT INTO public.hat_defs VALUES (1433, 'Pride Horned Beanie', 'I have two tum
 INSERT INTO public.hat_defs VALUES (1434, 'UwU Face Mask', 'Staying safe and cute.', 2, 500, NULL, 1705887060);
 INSERT INTO public.hat_defs VALUES (1445, 'Cubchoo', 'This user is chill as Cubchoo.', 2, 500, NULL, 1706959635);
 INSERT INTO public.hat_defs VALUES (1443, 'Sheen', 'Sparkling and pretty.', 2, 500, NULL, 1706217519);
-
-
-
-
-
-
-
-
-
-
-
-
-
+INSERT INTO public.hat_defs VALUES (1455, 'Baby Hat', 'This user sometimes acts like a baby.', 2, 500, NULL, 1708631050);
+INSERT INTO public.hat_defs VALUES (1459, 'White Stars', 'Twink Twink I''m a star', 2, 500, NULL, 1708647804);
+INSERT INTO public.hat_defs VALUES (1461, 'Bear Mask', 'I''m scary, rawr.', 2, 500, NULL, 1708647897);
+INSERT INTO public.hat_defs VALUES (1465, 'Heart Knit Beanie', 'Made with 99% love 1% cotton.', 2, 500, NULL, 1708648086);
+INSERT INTO public.hat_defs VALUES (1469, 'Hungry Mouth', 'Get too close and I will bite you.', 2, 500, NULL, 1708648202);
+INSERT INTO public.hat_defs VALUES (1472, 'Angry Exclamation', 'You''re pissing me off!', 2, 500, NULL, 1708648310);
+INSERT INTO public.hat_defs VALUES (1475, 'Full Battery', 'This user keeps their battery at 100%', 2, 500, NULL, 1708648382);
+INSERT INTO public.hat_defs VALUES (1479, 'UwU Headband', 'I am ready to fight da haters, UwU', 2, 500, NULL, 1708648512);
+INSERT INTO public.hat_defs VALUES (1480, 'Id Lose', 'This user WILL NOT WIN.', 2, 500, NULL, 1708648542);
+INSERT INTO public.hat_defs VALUES (1481, 'Unicorn', 'This user is a pretty unicorn. NOT A HORSE.', 2, 500, NULL, 1708648570);
+INSERT INTO public.hat_defs VALUES (1486, 'Stuffie Hat', 'Oh by the way, all my stuffies wanna know if you''re ok.', 2, 500, NULL, 1708648847);
+INSERT INTO public.hat_defs VALUES (1488, 'Santa Hat (pink)', 'I''m Mrs. Claus this year!', 2, 500, NULL, 1708648904);
+INSERT INTO public.hat_defs VALUES (1489, 'Max HP', 'I''M FULL POWER!', 2, 500, NULL, 1708648923);
+INSERT INTO public.hat_defs VALUES (1493, 'Im You', 'Where you go I go, what you see I see.', 2, 500, NULL, 1708649038);
+INSERT INTO public.hat_defs VALUES (1497, 'Rubber Chicken', 'HOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOONK', 2, 500, NULL, 1708649127);
 
 
 --
