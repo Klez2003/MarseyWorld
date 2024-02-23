@@ -13,7 +13,6 @@ import click
 import requests
 import ffmpeg
 
-
 import files.helpers.stats as stats
 import files.routes.static as route_static
 from files.routes.front import frontlist
@@ -26,8 +25,7 @@ from files.helpers.lottery import check_if_end_lottery_task
 from files.helpers.roulette import spin_roulette_wheel
 from files.helpers.sanitize import filter_emojis_only, sanitize
 from files.helpers.useractions import *
-from files.helpers.offsite_mentions.reddit import *
-from files.helpers.offsite_mentions.other import *
+from files.helpers.offsite_mentions import *
 
 from files.cli import app, db_session, g
 

@@ -31,10 +31,45 @@ def notify(text, created_utc):
 	new_comment.top_comment_id = new_comment.id
 
 
+def reddit_mentions_task():
+	for kind in ("submission", "comment"):
+		q = " or ".join(OFFSITE_NOTIF_QUERIES)
+		url = f'https://api.pullpush.io/reddit/search/{kind}?q={q}'
+		try: data = requests.get(url, headers=HEADERS, timeout=20).json()['data']
+		except: return []
+
+		for thing in data:
+			if not thing.get('permalink'): continue
+			if thing.get('subreddit_subscribers') and thing['subreddit_subscribers'] < 2:continue
+			if thing.get('subreddit_type') == 'user': continue
+			if thing['subreddit'] in {'IAmA', 'PokemonGoRaids', 'SubSimulatorGPT2', 'SubSimGPT2Interactive'}: continue
+			if 'bot' in thing['author'].lower(): continue
+			if thing['author'] == 'AutoModerator': continue
+
+			if kind == 'comment':
+				body = thing["body"].replace('>', '> ')
+				text = f'<blockquote><p>{body}</p></blockquote>'
+			else:
+				title = thing["title"].replace('>', '> ')
+
+				if 'Kathrine Mclaurin' in title: continue
+				text = f'<blockquote><p>{title}</p></blockquote>'
+
+				if thing["selftext"]:
+					selftext = thing["selftext"].replace('>', '> ')[:5000]
+					text += f'<br><blockquote><p>{selftext}</p></blockquote>'
+
+			author_string = f"/u/{thing['author']}"
+			permalink = thing['permalink']
+			text =  f'New site mention by {author_string}\n\n{permalink}\n\n{text}'
+			created_utc = thing['created_utc']
+			if notify(text, created_utc) == 1: break
+
+
 def lemmy_mentions_task():
 	for q in OFFSITE_NOTIF_QUERIES:
 		url = f'https://lemm.ee/api/v3/search?q={q}'
-		data = requests.get(url, headers=HEADERS, timeout=5).json()
+		data = requests.get(url, headers=HEADERS, timeout=20, proxies=proxies).json()
 
 		for kind in ("post", "comment"):
 			for thing in data[f'{kind}s']:
@@ -65,7 +100,7 @@ def fourchan_mentions_task():
 	queries = OFFSITE_NOTIF_QUERIES - {'r/drama'}
 	for q in queries:
 		url = f'https://archived.moe/_/api/chan/search?text={q}'
-		data = requests.get(url, headers=HEADERS).json()['0']['posts']
+		data = requests.get(url, headers=HEADERS, timeout=20, proxies=proxies).json()['0']['posts']
 
 		for thing in data:
 			board = thing['board']['shortname']
@@ -88,7 +123,7 @@ def fourchan_mentions_task():
 def soyjak_mentions_task():
 	for q in OFFSITE_NOTIF_QUERIES:
 		url = f'https://api.marge.moe/search?q={q}'
-		data = requests.get(url, headers={"User-Agent": "MarseyFromWPD"}, proxies=proxies).json()['results']
+		data = requests.get(url, headers={"User-Agent": "MarseyFromWPD"}, timeout=20, proxies=proxies).json()['results']
 
 		for thing in data:
 			text = f'<blockquote><p>{thing["comment"]}</p></blockquote>'
