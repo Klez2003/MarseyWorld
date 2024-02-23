@@ -91,7 +91,7 @@ def bleach_body_html(body_html, runtime=False):
 		filters=[
 				partial(
 					LinkifyFilter,
-					skip_tags=["pre"],
+					skip_tags=["pre","code"],
 					parse_email=False, 
 					url_re=sanitize_url_regex
 				)

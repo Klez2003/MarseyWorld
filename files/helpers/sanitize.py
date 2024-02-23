@@ -658,7 +658,7 @@ def filter_emojis_only(title, golden=True, count_emojis=False, obj=None, author=
 			filters=[
 					partial(
 						LinkifyFilter,
-						skip_tags=["pre"],
+						skip_tags=["pre","code"],
 						parse_email=False, 
 						url_re=sanitize_url_regex
 					)
