@@ -138,7 +138,7 @@ def emoji_count():
 	return g.db.query(Emoji).filter_by(submitter_id=None).count()
 
 def top_poster_of_the_day():
-	uid = cache.get("top_poster_of_the_day") or SNAPPY_ID
+	uid = cache.get("top_poster_of_the_day_id") or SNAPPY_ID
 	user = g.db.query(User).filter_by(id=uid).one()
 	return user
 
