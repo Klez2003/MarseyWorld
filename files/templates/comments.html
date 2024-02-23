@@ -465,8 +465,8 @@
 
 
 											{% if v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
-												<button type="button" id="approve-{{c.id}}" class="dropdown-item list-inline-item d-none {% if c.is_banned or request.path == '/admin/reported/comments' %}d-md-block{% endif %} text-success" data-nonce="{{g.nonce}}" data-onclick="approveComment(this,'{{c.id}}','approve-{{c.id}}','remove-{{c.id}}','d-md-block')"><i class="fas fa-check text-success fa-fw"></i>Approve</button>
 												<button type="button" id="remove-{{c.id}}" class="dropdown-item list-inline-item d-none {% if not c.is_banned %}d-md-block{% endif %} text-danger" data-nonce="{{g.nonce}}" data-onclick="removeComment(this,'{{c.id}}','approve-{{c.id}}','remove-{{c.id}}','d-md-block')"><i class="fas fa-ban text-danger fa-fw"></i>Remove</button>
+												<button type="button" id="approve-{{c.id}}" class="dropdown-item list-inline-item d-none {% if c.is_banned or request.path == '/admin/reported/comments' %}d-md-block{% endif %} text-success" data-nonce="{{g.nonce}}" data-onclick="approveComment(this,'{{c.id}}','approve-{{c.id}}','remove-{{c.id}}','d-md-block')"><i class="fas fa-check text-success fa-fw"></i>Approve</button>
 											{% endif %}
 
 											{% if c.parent_post %}
