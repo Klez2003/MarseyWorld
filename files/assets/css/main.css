@@ -5362,37 +5362,6 @@ textarea {
 .text-removed {
 	color: #ffabab !important;
 }
-.mirrored {
-	transform: scaleX(-1);
-}
-
-span[alt^=":"][alt*="!"] {
-	transform: scaleX(-1);
-}
-
-span[alt^=":"][alt*="!!"] {
-	transform: scaleX(1);
-}
-
-span[alt^=":"][alt*="!!"][alt*="pat"] {
-	transform: scaleX(-1);
-}
-
-img[alt^=":"][alt*="!!"] {
-	transform: scaleX(-1);
-}
-
-img[alt^=":"][alt*="!"] {
-	transform: scaleX(-1);
-}
-
-span[alt^=":"][alt*="!"] > img[alt^=":"][alt*="!"]:not([alt*="genocide"]) {
-	transform: scaleX(1);
-}
-
-span[alt^=":"][alt*="!!"] > img[alt^=":"][alt*="!"] {
-	transform: scaleX(-1);
-}
 
 @media (max-width: 768px) {
 	.popover-bio * {
@@ -7728,4 +7697,17 @@ input[type="search"]::-webkit-search-cancel-button {
 
 details > *:first-child {
 	margin-top: 1rem;
+}
+
+.mirrored {
+	transform: scaleX(-1);
+}
+:not(span) > img[alt^=":"][alt*="!"] {
+	transform: scaleX(-1);
+}
+span[alt^=":"][alt*="!"]:not([alt*="genocide"]) {
+	transform: scaleX(-1);
+}
+img[alt^=":"][alt*="!"][alt*="genocide"] {
+	transform: scaleX(-1);
 }
