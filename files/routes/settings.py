@@ -787,7 +787,7 @@ def settings_name_change(v):
 	if new_name == v.username:
 		abort(400, "You didn't change anything")
 
-	if v.patron:
+	if v.patron >= 4:
 		used_regex = valid_username_patron_regex
 	else:
 		used_regex = valid_username_regex
