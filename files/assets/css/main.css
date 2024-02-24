@@ -7716,6 +7716,6 @@ td li {
 	font-weight: 400;
 }
 
-li {
+li:not(:first-child) {
 	margin-top: 0.3rem !important;
 }
