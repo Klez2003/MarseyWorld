@@ -1167,14 +1167,14 @@ class User(Base):
 	@property
 	@lazy
 	def filter_words(self):
-		l = [i.strip() for i in self.custom_filter_list.split('\n')] if self.custom_filter_list else []
+		l = [i.strip() for i in self.custom_filter_list.lower().split('\n')] if self.custom_filter_list else []
 		l = [i for i in l if i]
 		return l
 
 	@property
 	@lazy
 	def notif_words(self):
-		l = self.keyword_notifs.split('\n')
+		l = self.keyword_notifs.lower().split('\n')
 		l = [i for i in l if i]
 		return l
 
