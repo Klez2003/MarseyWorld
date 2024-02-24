@@ -159,7 +159,7 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 		send_notification(AEVANN_ID, target.permalink)
 	elif SITE == 'rdrama.net' and target.author_id == 29:
 		mul = 4
-	elif cls == Post and (target.effortpost or target.hole == 'countryclub'):
+	elif cls == Post and (target.effortpost or target.hole in GIGABOOSTED_HOLES):
 		mul = 4
 	elif target.author.progressivestack or (IS_HOMOWEEN() and target.author.zombie < 0) or target.author.admin_level >= PERMS['IS_PERMA_PROGSTACKED']:
 		mul = 2
@@ -171,8 +171,6 @@ def vote_post_comment(target_id, new, v, cls, vote_cls):
 		if target.domain.endswith('.win') \
 		or any(i in target.domain for i in ('forum','community','chan','lemmy','mastodon')) \
 		or (target.domain in BOOSTED_SITES and not target.url.startswith('/')):
-			mul = 2
-		elif target.hole in STEALTH_HOLES + ['highrollerclub']:
 			mul = 2
 		elif target.hole in BOOSTED_HOLES:
 			mul = 1.25
