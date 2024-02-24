@@ -71,7 +71,7 @@ def claim_rewards_all_users():
 		if marseybux:
 			marseybux = int(marseybux)
 
-			if SITE_NAME = 'WPD' and time.time() < 1709251200 and marseybux >= 10000:
+			if SITE_NAME == 'WPD' and time.time() < 1709251200 and marseybux >= 10000:
 				marseybux *= 1.5
 
 			user.pay_account('marseybux', marseybux)
