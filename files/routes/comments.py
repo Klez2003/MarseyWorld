@@ -167,6 +167,7 @@ def comment(v):
 	if len(body) > COMMENT_BODY_LENGTH_LIMIT:
 		abort(400, f'Comment body is too long (max {COMMENT_BODY_LENGTH_LIMIT} characters)')
 
+	body = body.replace('@jannies', '!jannies')
 
 	if not posting_to_post or post_target.id not in ADMIGGER_THREADS:
 		if v.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
@@ -605,6 +606,8 @@ def edit_comment(cid, v):
 
 	if len(body) < 1 and not (request.files.get("file") and not g.is_tor):
 		abort(400, "You have to actually type something!")
+
+	body = body.replace('@jannies', '!jannies')
 
 	if body != c.body or request.files.get("file") and not g.is_tor:
 		if c.author.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):

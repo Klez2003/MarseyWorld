@@ -471,6 +471,8 @@ def submit_post(v, hole=None):
 	if len(body) > POST_BODY_LENGTH_LIMIT(g.v):
 		abort(400, f'Post body is too long (max {POST_BODY_LENGTH_LIMIT(g.v)} characters)')
 
+	body = body.replace('@jannies', '!jannies')
+
 	if not title:
 		abort(400, "Please enter a better title!")
 
@@ -1039,6 +1041,8 @@ def edit_post(pid, v):
 	body = request.values.get("body", "").strip()
 	if len(body) > POST_BODY_LENGTH_LIMIT(g.v):
 		abort(400, f'Post body is too long (max {POST_BODY_LENGTH_LIMIT(g.v)} characters)')
+
+	body = body.replace('@jannies', '!jannies')
 
 	if p.author.longpost and (len(body) < 280 or ' [](' in body or body.startswith('[](')):
 		abort(403, "You have to type more than 280 characters!")
