@@ -147,7 +147,7 @@
 							{{common.toggle_section('Hide Posts Voted On', 'hidevotedon', 'hidevotedon', v.hidevotedon, 'Enable if you would like to automatically hide posts you have voted on from your frontpage.', false)}}
 							{{common.toggle_section('Hide Posts with Child Warning', 'hide_cw', 'hide_cw', v.hide_cw, 'Enable if you would like to automatically hide posts that have a child warning.', false)}}
 						{% endif %}
-						<div class="d-lg-flex border-bottom">
+						<div id="custom-filter-section" class="d-lg-flex border-bottom">
 							<div class="title w-lg-25">
 								<label for="custom-filter">Custom Filters</label>
 							</div>
@@ -175,7 +175,7 @@
 							{{common.toggle_section('Hole Creation and Deletion Notifications', 'hole_creation_notifs', 'hole_creation_notifs', v.hole_creation_notifs, 'Get a notification when a hole is made or deleted.', false)}}
 						{% endif %}
 						{{common.toggle_section('Ping Group Creation Notifications', 'group_creation_notifs', 'group_creation_notifs', v.group_creation_notifs, 'Get a notification when a new ping group is made.', false)}}
-						<div class="d-lg-flex border-bottom">
+						<div id="keyword-notifs-section" class="d-lg-flex border-bottom">
 							<div class="title w-lg-25">
 								<label for="keyword-notifs">Keyword Notifications</label>
 							</div>
