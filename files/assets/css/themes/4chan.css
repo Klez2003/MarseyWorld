@@ -168,7 +168,7 @@ blockquote a {
 	);
 }
 
-#header--icon {
+#header--icon:not([alt^="/h/"]) {
 	content: url(/i/4chan_icon.webp);
 	height: 40px;
 	-webkit-filter: drop-shadow(1px 1px 0 black)
