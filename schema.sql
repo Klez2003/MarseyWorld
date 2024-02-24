@@ -183,7 +183,8 @@ CREATE TABLE public.users (
     hole_creation_notifs boolean NOT NULL,
     group_creation_notifs boolean NOT NULL,
     effortpost_notifs boolean NOT NULL,
-    shadowban_reason character varying(256)
+    shadowban_reason character varying(256),
+    keyword_notifs character varying(1000)
 );
 
 
