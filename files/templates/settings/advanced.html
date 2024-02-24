@@ -154,13 +154,12 @@
 							<div class="body w-lg-100">
 								<form id="custom-filter" action="/settings/filters" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHR(this)">
 									<input hidden name="formkey" value="{{v|formkey}}">
-										<small>Hides matching posts from the frontpage and collapses matching comments.</small>
-									<textarea autocomplete="off" class="form-control rounded" id="filters-text"
-									placeholder="Add your own custom content filters."
+									<span>Hides matching posts from the frontpage and collapses matching comments.</span>
+									<textarea autocomplete="off" class="form-control rounded my-2" placeholder="Add your own custom content filters."
 									rows="3" name="filters" form="custom-filter" maxlength="1000">{% if v.custom_filter_list %}{{v.custom_filter_list}}{% endif %}</textarea>
-									<small>Use a new line for each filter entry. Limit of 1000 characters.</small>
+									<span>Use a new line for each entry. Limit of 1000 characters.</span>
 									<div class="d-flex">
-										<input autocomplete="off" class="btn btn-primary ml-auto" id="bioSave" type="submit" value="Save Changes">
+										<input autocomplete="off" class="btn btn-primary ml-auto" type="submit" value="Save Changes">
 									</div>
 								</form>
 							</div>
