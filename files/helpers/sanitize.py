@@ -683,10 +683,15 @@ def filter_emojis_only(title, golden=True, count_emojis=False, obj=None, author=
 	return title
 
 def is_whitelisted(domain, k):
+	if k.lower.startswith('utm_'):
+		return False
+
 	if domain not in {'youtube.com','reddit.com','twitter.com','msn.com','wsj.com','tiktok.com','forbes.com','dailymail.co.uk','facebook.com','spotify.com','nytimes.com','businessinsider.com','instagram.com','yahoo.com','thedailybeast.com','nypost.com','newsweek.com','bloomberg.com','quora.com','nbcnews.com','reuters.com','tmz.com','cnbc.com','marketwatch.com','thetimes.co.uk','sfchronicle.com','washingtonpost.com','cbsnews.com','foxnews.com','bbc.com','bbc.co.uk','ifunny.co','independent.co.uk'}:
 		return True
+
 	if 'sort' in k.lower() or 'query' in k.lower():
 		return True
+
 	if k in {
 		'q', #generic
 		'after','context','page','token','url', #reddit.com
@@ -696,8 +701,10 @@ def is_whitelisted(domain, k):
 		'v','lb','list','time_continue', #youtube.com
 	}:
 		return True
+
 	if k == 't' and domain != 'twitter.com':
 		return True
+
 	return False
 
 domain_replacements = {
