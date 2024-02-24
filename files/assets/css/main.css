@@ -7714,5 +7714,8 @@ img[alt^=":"][alt*="!"][alt*="genocide"] {
 
 td li {
 	font-weight: 400;
-	margin-top: 5px;
+}
+
+li {
+	margin-top: 5px !important;
 }
