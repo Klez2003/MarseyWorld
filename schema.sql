@@ -92,6 +92,7 @@ CREATE TABLE public.users (
     is_private boolean DEFAULT false NOT NULL,
     unban_utc integer DEFAULT 0,
     custom_filter_list character varying(1000) DEFAULT ''::character varying,
+    keyword_notifs character varying(1000),
     stored_subscriber_count integer DEFAULT 0 NOT NULL,
     original_username character varying(30),
     flair_html character varying(1000),
@@ -3074,4 +3075,3 @@ ALTER TABLE ONLY public.comments
 --
 -- PostgreSQL database dump complete
 --
-

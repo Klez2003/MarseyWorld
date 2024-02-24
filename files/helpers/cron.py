@@ -324,6 +324,7 @@ def _award_timers_task():
 	_process_timer(User.patron_utc, [22,23,24,25,26,27,28], f"Your {patron} status has expired!", {
 		User.patron: 0,
 		User.extra_username: None,
+		User.keyword_notifs: None,
 	})
 	_process_timer(User.chud, [58], "Your temporary chud status has expired!", {
 		User.chud_phrase: None,

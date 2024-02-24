@@ -126,6 +126,7 @@ class User(Base):
 	defaultsorting = Column(String, default="hot")
 	defaulttime = Column(String, default=DEFAULT_TIME_FILTER)
 	custom_filter_list = Column(String)
+	keyword_notifs = Column(String)
 	original_username = Column(String)
 	extra_username = Column(String)
 	prelock_username = Column(String)
@@ -189,6 +190,7 @@ class User(Base):
 	owned_hats = relationship("Hat", back_populates="owners")
 	hats_equipped = relationship("Hat", lazy="raise", viewonly=True)
 	hole_mods = relationship("Mod", primaryjoin="User.id == Mod.user_id", lazy="raise")
+	notifications = relationship("Notification", back_populates="user")
 
 	def __init__(self, **kwargs):
 
@@ -1166,6 +1168,13 @@ class User(Base):
 	@lazy
 	def filter_words(self):
 		l = [i.strip() for i in self.custom_filter_list.split('\n')] if self.custom_filter_list else []
+		l = [i for i in l if i]
+		return l
+
+	@property
+	@lazy
+	def notif_words(self):
+		l = self.keyword_notifs.split('\n')
 		l = [i for i in l if i]
 		return l
 

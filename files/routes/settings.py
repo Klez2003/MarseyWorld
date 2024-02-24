@@ -408,9 +408,31 @@ def filters(v):
 	if len(filters) > 1000:
 		abort(400, "Filters are too long (max 1000 characters)")
 
-	v.custom_filter_list=filters
+	v.custom_filter_list = filters
 	g.db.add(v)
 	return {"message": "Your custom filters have been updated!"}
+
+@app.post("/settings/keyword_notifs")
+@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@auth_required
+def keyword_notifs(v):
+	if v.patron < 5:
+		abort(403, f"Keyword notifications are only available to {patron}s donating $50/month or higher!")
+
+	keyword_notifs = request.values.get("keyword_notifs", "").replace('\r','').strip('\n')
+
+	if keyword_notifs == v.keyword_notifs:
+		abort(400, "You didn't change anything!")
+
+	if len(keyword_notifs) > 1000:
+		abort(400, "Keywords are too long (max 1000 characters)")
+
+	v.keyword_notifs = keyword_notifs
+	g.db.add(v)
+	return {"message": "Your keyword notifications have been updated!"}
 
 
 def set_color(v, attr):
