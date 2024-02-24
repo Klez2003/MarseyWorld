@@ -15,7 +15,7 @@
 		flex-flow: column wrap;
 	}
 	#chat-window {
-		max-height: 38vh !important;
+		max-height: 36vh !important;
 	}
 }
 
