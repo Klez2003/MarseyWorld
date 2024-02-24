@@ -699,7 +699,6 @@ if SITE in {'rdrama.net', 'staging.rdrama.net'}:
 		864: 1, #RitalinRx
 		1096: 1, #xa15428
 		1357: 1, #_______________
-		1378: 1, #ticktockgone
 		2008: 1, #transgirltradwife
 		4999: 1, #justcool393
 		8491: 1, #TrappySaruh
