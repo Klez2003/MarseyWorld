@@ -710,8 +710,8 @@ def delete_all_hole_banners(v, hole):
 @app.post("/h/<hole>/marsey_image")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit("10/minute;50/day", deduct_when=lambda response: response.status_code < 400)
-@limiter.limit("10/minute;50/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@limiter.limit("5/minute;50/day", deduct_when=lambda response: response.status_code < 400)
+@limiter.limit("5/minute;50/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def hole_marsey(v, hole):
 	if g.is_tor: abort(403, "Image uploads are not allowed through TOR!")
