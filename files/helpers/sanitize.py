@@ -843,7 +843,7 @@ def complies_with_chud(obj):
 
 	#check for chud_phrase in body_html
 	if old_body_html:
-		excluded_tags = {'del','sub','sup','marquee','spoiler','lite-youtube','video','source','audio'}
+		excluded_tags = {'del','sub','sup','marquee','spoiler','lite-youtube','video','audio'}
 		soup = BeautifulSoup(old_body_html, 'lxml')
 		tags = soup.html.body.find_all(lambda tag: tag.name not in excluded_tags and not tag.attrs, recursive=False)
 		for tag in tags:
