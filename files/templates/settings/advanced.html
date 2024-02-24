@@ -154,10 +154,10 @@
 							<div class="body w-lg-100">
 								<form id="custom-filter" action="/settings/filters" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHR(this)">
 									<input hidden name="formkey" value="{{v|formkey}}">
-									<span>Hides matching posts from the frontpage and collapses matching comments.</span>
+									<small>Hides matching posts from the frontpage and collapses matching comments.</small>
 									<textarea autocomplete="off" class="form-control rounded my-2" placeholder="Add your own custom content filters."
 									rows="3" name="filters" form="custom-filter" maxlength="1000">{% if v.custom_filter_list %}{{v.custom_filter_list}}{% endif %}</textarea>
-									<span>Use a new line for each entry. Limit of 1000 characters.</span>
+									<small>Use a new line for each entry. Limit of 1000 characters.</small>
 									<div class="d-flex">
 										<input autocomplete="off" class="btn btn-primary ml-auto" type="submit" value="Save Changes">
 									</div>
@@ -182,11 +182,11 @@
 							<div class="body w-lg-100">
 								<form id="keyword-notifs" action="/settings/keyword_notifs" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHR(this)">
 									<input hidden name="formkey" value="{{v|formkey}}">
-									<span>Notifies you when specific words or phrases are mentioned.</span>
+									<small>Notifies you when specific words or phrases are mentioned.</small>
 									<textarea autocomplete="off" class="form-control rounded my-2" placeholder="Add your own keyword notifications."
 									rows="3" name="keyword_notifs" form="keyword-notifs" maxlength="1000">{% if v.keyword_notifs %}{{v.keyword_notifs}}{% endif %}</textarea>
-									<span>Use a new line for each entry. Limit of 1000 characters.</span>
-									<p>Will stop taking effect if you reach 100 unread red notifications.</p>
+									<small>Use a new line for each entry. Limit of 1000 characters.</small>
+									<p class="text-small">Will stop taking effect if you reach 100 unread red notifications.</p>
 									<div class="d-flex">
 										<input autocomplete="off" class="btn btn-primary ml-auto" type="submit" value="Save Changes">
 									</div>
