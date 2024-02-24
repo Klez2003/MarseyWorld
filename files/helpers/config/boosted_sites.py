@@ -25,14 +25,10 @@ BOOSTED_SITES = {
 	'bsky.app',
 	##fediverse
 	#'all sites with the word "mastodon" in the domain',
-	'kiwifarms.cc',
-	'freespeechextremist.com'
 	'mstdn.social',
 	'poa.st',
 	'shitposter.club',
-	'sneed.social',
 	'seal.cafe',
-	'marsey.moe',
 	'shitpost.cloud',
 
 	#forums
