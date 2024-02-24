@@ -636,7 +636,7 @@ AWARDS = {
 	"offsitementions": {
 		"kind": "offsitementions",
 		"title": "Y'all Seein' Eye",
-		"description": "Gives the recipient notifications when redditors talk about us.",
+		"description": "Gives the recipient notifications when people on other sites talk about us.",
 		"icon": "fas fa-eyes",
 		"color": "text-orange",
 		"price": 1000,
