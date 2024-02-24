@@ -137,13 +137,14 @@
 						{% set width = 45 %}
 					{% endif %}
 				{% endif %}
-				<img loading="lazy" id="header--icon" alt="/h/{{hole}} icon"
+				<img loading="lazy" id="header--icon"
 					{%- if hole and hole.marseyurl -%}
-						src="{{hole.marseyurl}}"
+						alt="/h/{{hole}} icon" src="{{hole.marseyurl}}"
 					{%- else -%}
-						{% if icons %}
-							{% set icon_url = "/e/" ~icons|random~ ".webp" %}
-						{% endif %}
+						alt="header icon"
+						{%- if icons -%}
+							{%- set icon_url = "/e/" ~icons|random~ ".webp" -%}
+						{%- endif -%}
 						src="{{icon_url}}"
 						{%- if width -%}
 							width="{{width}}"
