@@ -70,13 +70,15 @@ def claim_rewards_all_users():
 
 		if marseybux:
 			marseybux = int(marseybux)
+			text = f"You have received {marseybux} Marseybux! You can use them to buy awards or hats in the [shop](/shop/awards) or gamble them in the [casino](/casino)."
 
 			if SITE_NAME == 'WPD' and time.time() < 1709251200 and marseybux >= 10000:
+				text = f"You have received ~~{marseybux}~~ {marseybux*1.5} Marseybux! You can use them to buy awards or hats in the [shop](/shop/awards) or gamble them in the [casino](/casino)."
 				marseybux *= 1.5
 
 			user.pay_account('marseybux', marseybux)
 
-			send_repeatable_notification(user.id, f"You have received {marseybux} Marseybux! You can use them to buy awards or hats in the [shop](/shop/awards) or gamble them in the [casino](/casino).")
+			send_repeatable_notification(user.id, text)
 			g.db.add(user)
 
 			user.patron_utc = int(time.time()) + 2937600
