@@ -10,9 +10,15 @@
 				<tbody>
 					{% if can_see %}
 						<tr>
-							<td>{{DONATE_SERVICE}}</td>
+							<td>{{DONATE_SERVICE}} {% if SITE == 'rdrama.net' %}Monthly{% endif %}</td>
 							<td><a rel="noopener" href="{{DONATE_LINK}}">{{DONATE_LINK}}</a></td>
 						</tr>
+						{% if SITE == 'rdrama.net' %}
+							<tr>
+								<td>{{DONATE_SERVICE}} One-Time</td>
+								<td><a rel="noopener" href="{{DONATE_LINK[:-6] + 'onetime'}}">{{DONATE_LINK[:-6] + 'onetime'}}</a></td>
+							</tr>
+						{% endif %}
 					{% elif SITE == 'rdrama.net' %}
 						<tr>
 							<td>Buymeacoffee</td>
