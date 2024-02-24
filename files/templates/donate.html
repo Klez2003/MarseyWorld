@@ -49,38 +49,12 @@
 
 		{% if can_see %}
 			<li class="pl-2 mt-2">
-				If you donate via {{DONATE_SERVICE}}, please first make sure your email on {{SITE}} and your email on {{DONATE_SERVICE}} are the same, then click "Claim {{patron}} Rewards" <a href="/settings/security#site-settings-email-section">here</a>
-			</li>
+				If you donate via {{DONATE_SERVICE}}, please first make sure your email on {{SITE}} and your email on {{DONATE_SERVICE}} are the same, then click "Claim {{patron}} Rewards" <a href="/settings/security#site-settings-email-section">here</a></li>
 		{% endif %}
 		<li class="pl-2 mt-2">
-			If you donate{% if can_see %} crypto{% endif %}, please let us know by <a href="/contact">sending us the transaction id via modmail</a> so we can give you your {{patron}} rewards manually!
-		</li>
+			If you donate{% if can_see %} crypto{% endif %}, please let us know by <a href="/contact">sending us the transaction id via modmail</a> so we can give you your {{patron}} rewards manually!</li>
 
-		<h3 class="mt-5 mt-md-6 text-success">Base patron rewards for all tiers</h1>
-
-		<table>
-			<tbody>
-				<tr><td>Username background</td><tr>
-				<tr><td>Exclusive badges</td><tr>
-				<tr><td>Ability to add a signature in the settings</td><tr>
-				<tr><td>Ability to upload a custom site background in the settings</td><tr>
-				<tr><td>Ability to change your username to a 1-letter or 2-letter username in the settings</td><tr>
-				<tr><td>Ability to have 2 previous usernames reserved for you instead of 1</td><tr>
-				<tr><td>Ability to perma-marsify yourself in the settings</td><tr>
-				<tr><td>Exclusive hole that only {{patron}}s can see (<a href="/h/highrollerclub">/h/highrollerclub</a>)</td><tr>
-				<tr><td>Exclusive ping group that only {{patron}}s can join or mention (<a href="!verifiedrich">!verifiedrich</a>)</td><tr>
-				<tr><td>Exemption from coin/marseybux gifting tax (3%)</td><tr>
-				<tr><td>Ability to upload more files</td><tr>
-				<tr><td>16MB image size limit (instead of 8MB)</td><tr>
-				<tr><td>16MB audio size limit (instead of 8MB)</td><tr>
-				{% if SITE_NAME != 'WPD' %}
-					<tr><td>100MB video size limit (instead of 32MB)</td><tr>
-				{% endif %}
-				<tr><td>100k character limit for posts (instead of 50k)</td><tr>
-			</tbody>
-		</table>
-
-		<h3 class="mt-5 mt-md-6 text-success">Tier-specific patron rewards</h1>
+		<h3 class="mt-5 mt-md-6 text-success">{{patron.title()}} Rewards</h1>
 
 		<div class="overflow-x-auto mt-4">
 			<table>
@@ -91,23 +65,113 @@
 					</tr>
 				</thead>
 				<tbody>
-					{% for tier in range(2,9) %}
-						<tr>
-							<td>
-								{{TIER_TO_NAME[tier]}} - ${{TIER_TO_MONEY[tier]}}/month
-							</td>
-							<td>
-								<ul>
-									<li>
-										{{tier*5}}% discount when buying awards
-									</li>
-									<li>
-										{{TIER_TO_MONEY[tier]*500}} marseybux monthly (can be used in the shop, casino, and other places)
-									</li>
-								</ul>
-							</td>
-						</tr>
-					{% endfor %}
+					<tr>
+						<td>
+							Paypig - $5/month
+						</td>
+						<td>
+							<ul>
+								<li>Username background</li>
+								<li>Exclusive badges</li>
+								<li>Ability to upload a custom site background in the settings</li>
+								<li>Ability to perma-marsify yourself in the settings</li>
+								<li>Exclusive hole that only {{patron}}s can see (<a href="/h/highrollerclub">/h/highrollerclub</a>)</li>
+								<li>Exclusive ping group that only {{patron}}s can join or mention (<a href="!verifiedrich">!verifiedrich</a>)</li>
+								<li>Exemption from coin/marseybux gifting tax (3%)</li>
+								<li>Ability to upload more files</li>
+								<li>16MB image size limit (instead of 8MB)</li>
+								<li>16MB audio size limit (instead of 8MB)</li>
+								{% if SITE_NAME != 'WPD' %}
+									<li>100MB video size limit (instead of 32MB)</li>
+								{% endif %}
+								<li>100k character limit for posts (instead of 50k)</li>					
+								<li>10% discount when buying awards</li>
+								<li>2,500 marseybux monthly (can be used in the shop, casino, and other places)</li>
+							</ul>
+						</td>
+					</tr>
+				
+					<tr>
+						<td>
+							Renthog - $10/month
+						</td>
+						<td>
+							<ul>
+								<li>Everything from previous tiers</li>
+								<li>Ability to add a signature in the settings</li>
+								<li>15% discount when buying awards</li>
+								<li><del>5,000</del> 5,500 marseybux monthly (can be used in the shop, casino, and other places)</li>
+							</ul>
+						</td>
+					</tr>
+				
+					<tr>
+						<td>
+							Landchad - $20/month
+						</td>
+						<td>
+							<ul>
+								<li>Everything from previous tiers</li>
+								<li>Ability to change your username to a 1-letter or 2-letter username in the settings</li>
+								<li>Ability to have 2 previous usernames reserved for you instead of 1</li>					
+								<li>20% discount when buying awards</li>
+								<li><del>10,000</del> 12,000 marseybux monthly (can be used in the shop, casino, and other places)</li>
+							</ul>
+						</td>
+					</tr>
+				
+					<tr>
+						<td>
+							Terminally online turboautist - $50/month
+						</td>
+						<td>
+							<ul>
+								<li>Everything from previous tiers</li>
+								<li>Keyword notifications</li>
+								<li>25% discount when buying awards</li>
+								<li><del>25,000</del> 32,500 marseybux monthly (can be used in the shop, casino, and other places)</li>
+							</ul>
+						</td>
+					</tr>
+				
+					<tr>
+						<td>
+							Marsey's Sugar Daddy - $100/month
+						</td>
+						<td>
+							<ul>
+								<li>Everything from previous tiers</li>
+								<li>30% discount when buying awards</li>
+								<li><del>50,000</del> 70,000 marseybux monthly (can be used in the shop, casino, and other places)</li>
+							</ul>
+						</td>
+					</tr>
+				
+					<tr>
+						<td>
+							JIDF Bankroller - $200/month
+						</td>
+						<td>
+							<ul>
+								<li>Everything from previous tiers</li>
+								<li>35% discount when buying awards</li>
+								<li><del>100,000</del> 150,000 marseybux monthly (can be used in the shop, casino, and other places)</li>
+							</ul>
+						</td>
+					</tr>
+				
+					<tr>
+						<td>
+							Rich Bich - $500/month
+						</td>
+						<td>
+							<ul>
+								<li>Everything from previous tiers</li>
+								<li>40% discount when buying awards</li>
+								<li><del>250,000</del> 400,000 marseybux monthly (can be used in the shop, casino, and other places)</li>
+							</ul>
+						</td>
+					</tr>
 				</tbody>
 			</table>
 		</div>
