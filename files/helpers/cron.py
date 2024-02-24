@@ -67,8 +67,8 @@ def cron_fn(every_5m, every_1d, every_1mo):
 					fourchan_mentions_task()
 					g.db.commit()
 
-					soyjak_mentions_task()
-					g.db.commit()
+					# soyjak_mentions_task()
+					# g.db.commit()
 
 			if every_1d or (not cache.get('stats') and not IS_LOCALHOST):
 				if IS_HOMOWEEN():
