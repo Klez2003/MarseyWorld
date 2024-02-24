@@ -70,6 +70,10 @@ def claim_rewards_all_users():
 
 		if marseybux:
 			marseybux = int(marseybux)
+
+			if SITE_NAME = 'WPD' and time.time() < 1709251200 and marseybux >= 10000:
+				marseybux *= 1.5
+
 			user.pay_account('marseybux', marseybux)
 
 			send_repeatable_notification(user.id, f"You have received {marseybux} Marseybux! You can use them to buy awards or hats in the [shop](/shop/awards) or gamble them in the [casino](/casino).")
