@@ -242,8 +242,8 @@ def settings_personal_post(v):
 		return {"message": "Your enemies list has been updated."}
 
 	elif not updated and request.values.get("sig"):
-		if not v.patron:
-			abort(403, f"Signatures are only available to {patron}s!")
+		if not self.patron or (self.patron < 3 and time.time() > 1711304245):
+			abort(403, f"Signatures are only available to {patron}s donating $10/month or higher!")
 
 		sig = request.values.get("sig").replace('\n','').replace('\r','').strip()
 		sig = process_files(request.files, v, sig)

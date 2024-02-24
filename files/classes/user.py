@@ -1352,7 +1352,7 @@ class User(Base):
 
 	@lazy
 	def rendered_sig(self, v):
-		if not self.sig_html or not self.patron:
+		if not self.sig_html or not self.patron or (self.patron < 3 and time.time() > 1711304245):
 			return ''
 
 		if v and not v.show_sigs:
