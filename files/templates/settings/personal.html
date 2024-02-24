@@ -250,7 +250,13 @@
 
 						{{common.toggle_section('Private Mode', 'privateswitch', 'private', v.is_private, 'This will hide your profile page from other users.', false)}}
 
-						{{common.toggle_section('Donation Visiblity', 'lifetimedonated_visibleswitch', 'lifetimedonated_visible', v.lifetimedonated_visible, 'Make your donation badges, your lifetime-donated amount, and your total award discount visible to everyone instead of just you.', false)}}
+						{% if FEATURES['PATRON_ICONS'] %}
+							{% set desc = 'Make your donation badges, your lifetime-donated amount, your total award discount, and your patron icon visible to everyone instead of just you.' %}
+						{% else %}
+							{% set desc = 'Make your donation badges, your lifetime-donated amount, and your total award discount visible to everyone instead of just you.' %}
+						{% endif %}
+
+						{{common.toggle_section('Donation Visiblity', 'lifetimedonated_visibleswitch', 'lifetimedonated_visible', v.lifetimedonated_visible, desc, false)}}
 
 						{{common.toggle_section('Spider', 'spiderswitch', 'spider', v.spider, 'Have a spider friend accompany you during your journey on the site.', v.spider > 1)}}
 

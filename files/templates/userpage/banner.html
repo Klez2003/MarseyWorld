@@ -52,7 +52,7 @@
 										{% endif %}
 									{% endif %}
 
-									{% if FEATURES['PATRON_ICONS'] and u.patron > 1 %}
+									{% if FEATURES['PATRON_ICONS'] and u.patron > 1 and u.lifetimedonated_visible %}
 										<img loading="lazy" src="{{SITE_FULL_IMAGES}}/i/{{SITE_NAME}}/badges/2{{u.patron}}.webp?b=11" class="ml-3 patron-img" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{u.patron_tooltip}}" alt="{{u.patron_tooltip}}">
 									{% endif %}
 
@@ -357,7 +357,7 @@
 						</span>
 					{% endif %}
 
-					{% if FEATURES['PATRON_ICONS'] and u.patron > 1 %}
+					{% if FEATURES['PATRON_ICONS'] and u.patron > 1 and u.lifetimedonated_visible %}
 						<img loading="lazy" src="{{SITE_FULL_IMAGES}}/i/{{SITE_NAME}}/badges/2{{u.patron}}.webp?b=11" class="ml-2 patron-img" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{u.patron_tooltip}}" alt="{{u.patron_tooltip}}">
 					{% endif %}
 
