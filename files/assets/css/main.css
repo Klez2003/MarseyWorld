@@ -7711,3 +7711,7 @@ span[alt^=":"][alt*="!"]:not([alt*="genocide"]) {
 img[alt^=":"][alt*="!"][alt*="genocide"] {
 	transform: scaleX(-1);
 }
+
+td li {
+    font-weight: normal;
+}
