@@ -860,7 +860,7 @@ def u_username_wall(v, username):
 	if username != u.username:
 		return redirect(f"/@{u.username}" + request.full_path.split(request.path)[1])
 
-	if v and hasattr(u, 'is_blocking') and u.is_blocking:
+	if v and v.has_blocked(u):
 		if g.is_api_or_xhr:
 			abort(403, f"You are blocking @{u.username}.")
 		return render_template("userpage/blocked.html", u=u, v=v), 403
@@ -910,7 +910,7 @@ def u_username_wall_comment(v, username, cid):
 
 	u = comment.wall_user
 
-	if v and hasattr(u, 'is_blocking') and u.is_blocking:
+	if v and v.has_blocked(u):
 		if g.is_api_or_xhr:
 			abort(403, f"You are blocking @{u.username}.")
 		return render_template("userpage/blocked.html", u=u, v=v), 403
@@ -949,7 +949,7 @@ def u_username(v, username):
 	if username != u.username:
 		return redirect(f"/@{u.username}/posts" + request.full_path.split(request.path)[1])
 
-	if v and hasattr(u, 'is_blocking') and u.is_blocking:
+	if v and v.has_blocked(u):
 		if g.is_api_or_xhr:
 			abort(403, f"You are blocking @{u.username}.")
 		return render_template("userpage/blocked.html", u=u, v=v), 403
@@ -1030,7 +1030,7 @@ def u_username_comments(username, v):
 	if username != u.username:
 		return redirect(f"/@{u.username}/comments" + request.full_path.split(request.path)[1])
 
-	if v and hasattr(u, 'is_blocking') and u.is_blocking:
+	if v and v.has_blocked(u):
 		if g.is_api_or_xhr:
 			abort(403, f"You are blocking @{u.username}.")
 		return render_template("userpage/blocked.html", u=u, v=v), 403
