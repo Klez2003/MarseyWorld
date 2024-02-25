@@ -787,6 +787,7 @@ elif SITE in {'watchpeopledie.tv', 'marsey.world'}:
 
 	AUTOJANNY_ID = 1
 	SNAPPY_ID = 3
+	LONGPOSTBOT_ID = 0
 	ZOZBOT_ID = 5
 
 	AEVANN_ID = 9
