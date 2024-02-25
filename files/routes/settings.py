@@ -242,7 +242,7 @@ def settings_personal_post(v):
 		return {"message": "Your enemies list has been updated."}
 
 	elif not updated and request.values.get("sig"):
-		if not self.patron or (self.patron < 3 and time.time() > 1711304245):
+		if not v.patron or (v.patron < 3 and time.time() > 1711304245):
 			abort(403, f"Signatures are only available to {patron}s donating $10/month or higher!")
 
 		sig = request.values.get("sig").replace('\n','').replace('\r','').strip()
