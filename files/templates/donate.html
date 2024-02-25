@@ -2,7 +2,7 @@
 {% block pagetitle %}Donate{% endblock %}
 {% block content %}
 	<div class="px-2">
-		{% set can_see = (not v and time.time() < 1709251200) or (v and v.can_see_donate_service) %}
+		{% set can_see = v and v.can_see_donate_service %}
 		<h3 class="mt-5 text-success">Donation Methods</h1>
 
 		<div class="overflow-x-auto">
