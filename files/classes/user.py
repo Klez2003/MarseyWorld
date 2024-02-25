@@ -1245,6 +1245,23 @@ class User(Base):
 
 	@property
 	@lazy
+	def can_see_donate_service(self):
+		if DONATE_LINK == DEFAULT_CONFIG_VALUE:
+			return False
+
+		if self.can_see_restricted_holes != None:
+			return self.can_see_restricted_holes
+
+		if self.chud == 1: return False
+
+		if self.truescore >= TRUESCORE_DONATE_MINIMUM: return True
+
+		if self.patron: return True
+
+		return False
+
+	@property
+	@lazy
 	def can_post_in_ghost_threads(self):
 		if SITE_NAME == 'WPD': return False
 		if not TRUESCORE_MINIMUM: return True

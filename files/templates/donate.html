@@ -2,7 +2,7 @@
 {% block pagetitle %}Donate{% endblock %}
 {% block content %}
 	<div class="px-2">
-		{% set can_see = DONATE_LINK != DEFAULT_CONFIG_VALUE and v and v.can_see_countryclub and v.chud != 1 %}
+		{% set can_see = v and v.can_see_donate_service %}
 		<h3 class="mt-5 text-success">Donation Methods</h1>
 
 		<div class="overflow-x-auto">
