@@ -1231,11 +1231,12 @@ INSERT INTO public.hat_defs VALUES (1497, 'Rubber Chicken', 'HOOOOOOOOOOOOOOOOOO
 INSERT INTO public.hat_defs VALUES (1501, 'Pizza Hat', 'Don''t ask why there''s a pizza. Embrace that there is one.', 2, 500, NULL, 1708780629);
 
 
+
 --
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1501, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1502, true);
 
 
 --
