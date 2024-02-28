@@ -209,6 +209,8 @@ function markdown(t) {
 		// patted emojis cannot be flipped back easily so they don't support double flipping
 		const lovedClass = modifiers.has(MODIFIERS.LOVE) ? 'love-preview' : '';
 
+		const alt = old.replace(/\w/g,'');
+		
 		if ([MODIFIERS.TALKING, MODIFIERS.GENOCIDE, MODIFIERS.PAT, MODIFIERS.LOVE, MODIFIERS.TYPING].some((modifer) =>  modifiers.has(modifer))) {
 			const typingHtml = modifiers.has(MODIFIERS.TYPING) ? `<img loading="lazy" class="typing-hands-preview" src="${SITE_FULL_IMAGES}/i/typing-hands.webp">` : '';
 			const talkingHtml = modifiers.has(MODIFIERS.TALKING) ? `<img loading="lazy" src="${SITE_FULL_IMAGES}/i/talking.webp">` : '';
@@ -216,9 +218,9 @@ function markdown(t) {
 			const loveHtml = modifiers.has(MODIFIERS.LOVE) ? `<img loading="lazy" class="${emojiClass}" src="${SITE_FULL_IMAGES}/i/love-foreground.webp"><img loading="lazy" class="${emojiClass}" src="${SITE_FULL_IMAGES}/i/love-background.webp">` : '';
 			const url = modifiers.has(MODIFIERS.USER) ? `/@${emoji}/pic` : `${SITE_FULL_IMAGES}/e/${emoji}.webp`;
 			const modifierHtml = isTalkingFirst ? `${talkingHtml}${patHtml}${loveHtml}${typingHtml}` : `${patHtml}${talkingHtml}${loveHtml}${typingHtml}`;
-			input = input.replace(old, `<span alt="${old}" class="${patClass} ${genocideClass}" data-bs-toggle="tooltip">${modifierHtml}<img alt="${old}" loading="lazy" class="${emojiClass} ${lovedClass}" src="${url}"></span>`);
+			input = input.replace(old, `<span alt="${alt}" class="${patClass} ${genocideClass}" data-bs-toggle="tooltip">${modifierHtml}<img alt="${alt}" loading="lazy" class="${emojiClass} ${lovedClass}" src="${url}"></span>`);
 		} else {
-			input = input.replace(old, `<img alt="${old}" loading="lazy" class="${emojiClass}}" src="${SITE_FULL_IMAGES}/e/${emoji}.webp">`);
+			input = input.replace(old, `<img alt="${alt}" loading="lazy" class="${emojiClass}}" src="${SITE_FULL_IMAGES}/e/${emoji}.webp">`);
 		}
 	}
 
