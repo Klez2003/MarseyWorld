@@ -5208,7 +5208,6 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('pepereegun', 'Misc', 2, 'pepethefrog frog shoot shooting incel kill killing shot rifle ak ak47 reeeeee sperg spergout angry anger betauprising beta uprising terrorist terrorism terrorists', false, 1686802035),
 ('peperun', 'Misc', 2, 'pepethefrog frog running pack packed muscle muscular schwarzenegger arnold arnoldschwarzenegger peperunning', false, 1686800552),
 ('pepesimp', 'Misc', 2, 'peepo cuck', false, 1682879557),
-('pepesinga', 'Misc', 2, 'frog dance', false, 1680132908),
 ('pepesmile', 'Misc', 2, 'frog', false, 1681353205),
 ('pepewtf', 'Misc', 2, 'peepo cringe grimace nope why cheif bad', false, 1701545210),
 ('pepeyikes', 'Misc', 2, 'cringe', false, 1682813410),
