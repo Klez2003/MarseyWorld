@@ -891,7 +891,7 @@ class User(Base):
 	@property
 	@lazy
 	def offsite_notifications_count(self):
-		if not self.can_view_offsite_mentions or (SITE == "watchpeopledie.tv" and self.id == AEVANN_ID):
+		if not self.can_view_offsite_mentions:
 			return 0
 		return g.db.query(Comment).filter(
 			Comment.created_utc > self.last_viewed_offsite_notifs,
