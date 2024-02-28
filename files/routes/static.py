@@ -47,7 +47,7 @@ def reddit_post(subreddit, v, path):
 def marseys_redirect():
 	return redirect("/emojis/marsey")
 
-@cache.cached(make_cache_key=lambda kind, nsfw:f"emoji_list_{kind}_{nsfw}")
+@cache.cached(make_cache_key=lambda kind, nsfw:f"emoji_list_{kind}_{nsfw}", timeout=86400)
 def get_emoji_list(kind, nsfw):
 	emojis = g.db.query(Emoji).filter(Emoji.submitter_id == None, Emoji.kind == kind)
 
@@ -85,7 +85,7 @@ def emoji_list(v, kind):
 
 
 
-@cache.cached(make_cache_key=lambda nsfw:f"emojis_{nsfw}")
+@cache.cached(make_cache_key=lambda nsfw:f"emojis_{nsfw}", timeout=86400)
 def get_emojis(nsfw):
 	emojis = g.db.query(Emoji, User).join(User, Emoji.author_id == User.id).options(load_only(
 		User.id,

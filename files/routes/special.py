@@ -76,7 +76,7 @@
 # ORDER BY payout DESC, bets_won DESC, bets_total ASC;
 # """)
 
-# @cache.memoize()
+# @cache.memoize(timeout=86400)
 # def _special_leaderboard_get():
 #	result = g.db.execute(_special_leaderboard_query).all()
 #	return result

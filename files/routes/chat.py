@@ -35,7 +35,7 @@ messages = cache.get(f'messages') or {}
 online = {}
 typing = []
 
-cache.set('loggedin_chat', len(online), timeout=0)
+cache.set('loggedin_chat', len(online), timeout=86400)
 
 def auth_required_socketio(f):
 	def wrapper(*args, **kwargs):
@@ -179,7 +179,7 @@ def refresh_online():
 
 	data = [list(online.values()), muted]
 	emit("online", data, room="chat", broadcast=True)
-	cache.set('loggedin_chat', len(online), timeout=0)
+	cache.set('loggedin_chat', len(online), timeout=86400)
 
 @socketio.on('connect')
 @auth_required_socketio
@@ -244,8 +244,8 @@ def delete(id, v):
 
 
 def close_running_threads():
-	cache.set('messages', messages)
-	cache.set('muted', muted)
+	cache.set('messages', messages, timeout=86400)
+	cache.set('muted', muted, timeout=86400)
 atexit.register(close_running_threads)
 
 

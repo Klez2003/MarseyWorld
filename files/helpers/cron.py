@@ -401,4 +401,4 @@ def _set_top_poster_of_the_day_id():
 	send_notification(user.id, f":marseyjam: You're the Top Poster of the Day for the day of {t.year}-{t.month}-{t.day} :marseyjam:")
 	badge_grant(badge_id=327, user=user)
 
-	cache.set("top_poster_of_the_day_id", user.id)
+	cache.set("top_poster_of_the_day_id", user.id, timeout=86400)

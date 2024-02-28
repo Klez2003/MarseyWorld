@@ -138,7 +138,7 @@ def me(v):
 def logout(v):
 	loggedin = cache.get('loggedin') or {}
 	if session.get("lo_user") in loggedin: del loggedin[session["lo_user"]]
-	cache.set('loggedin', loggedin)
+	cache.set('loggedin', loggedin, timeout=86400)
 	session.pop("lo_user", None)
 	return {"message": "Logout successful!"}
 

@@ -1006,7 +1006,7 @@ def u_username(v, username):
 									total=total,
 									is_following=is_following)
 
-@cache.memoize()
+@cache.memoize(timeout=86400)
 def userpagelisting(u, v=None, page=1, sort="new", t="all"):
 	posts = g.db.query(Post).filter_by(author_id=u.id, profile_pinned=False).options(load_only(Post.id))
 

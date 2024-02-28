@@ -51,8 +51,8 @@ def calc_users():
 
 		loggedin = {k: v for k, v in loggedin.items() if (timestamp - v) < LOGGEDIN_ACTIVE_TIME}
 		loggedout = {k: v for k, v in loggedout.items() if (timestamp - v[0]) < LOGGEDIN_ACTIVE_TIME}
-		cache.set(LOGGED_IN_CACHE_KEY, loggedin)
-		cache.set(LOGGED_OUT_CACHE_KEY, loggedout)
+		cache.set(LOGGED_IN_CACHE_KEY, loggedin, timeout=86400)
+		cache.set(LOGGED_OUT_CACHE_KEY, loggedout, timeout=86400)
 		g.loggedin_counter = len(loggedin)
 		g.loggedout_counter = len(loggedout)
 

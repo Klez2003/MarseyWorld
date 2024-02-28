@@ -134,7 +134,7 @@ def bar_position():
 
 	return [int((vaxxed * 100) / total), int((zombie * 100) / total), vaxxed, zombie]
 
-@cache.cached(make_cache_key=lambda:"emoji_count")
+@cache.cached(make_cache_key=lambda:"emoji_count", timeout=86400)
 def emoji_count():
 	return g.db.query(Emoji).filter_by(submitter_id=None).count()
 
