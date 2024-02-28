@@ -559,11 +559,6 @@ class User(Base):
 		discount = 100 - int(self.award_discount * 100)
 		return f'{discount}%'
 
-	@property
-	@lazy
-	def can_view_offsite_mentions(self):
-		return self.offsite_mentions or self.admin_level >= PERMS['NOTIFICATIONS_OFFSITE']
-
 	@lazy
 	def can_edit(self, target):
 		if isinstance(target, Comment) and not target.post: return False
@@ -891,7 +886,7 @@ class User(Base):
 	@property
 	@lazy
 	def offsite_notifications_count(self):
-		if not self.can_view_offsite_mentions:
+		if not self.offsite_mentions:
 			return 0
 		return g.db.query(Comment).filter(
 			Comment.created_utc > self.last_viewed_offsite_notifs,
