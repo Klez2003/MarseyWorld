@@ -1,0 +1,16 @@
+.tooltip-inner {
+	color: #d8d8d8 !important;
+	background-color: #313131 !important;
+}
+
+lite-youtube, iframe {
+	color-scheme: light !important;
+}
+
+code {
+    color: #f679b2;
+}
+
+.dataTables_wrapper .dataTables_length select {
+    background-color: black !important;
+}

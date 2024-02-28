@@ -79,6 +79,7 @@ blockquote {
 .unread {
 	background: #dddddd !important;
 }
+
 *:target {
 	background: rgba(var(--primary_rgb), 0.2) !important;
 }
@@ -89,13 +90,4 @@ blockquote {
 
 .award-name {
 	color: var(--black);
-}
-
-.gold-text:not(a), h1.gold-text.post-title a, :not(td) > a[href="/h/highrollerclub"]:not(.hole-flair) {
-	background: repeating-linear-gradient(
-		45deg,
-		#9e8600,
-		#887400 20px,
-		#6d5d00 60px
-	);
 }

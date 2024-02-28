@@ -118,6 +118,10 @@
 
 		<link rel="stylesheet" href="{{('css/themes/'~v.theme~'.css') | asset}}">
 
+		{% if v.theme in DARK_THEMES %}
+			<link rel="stylesheet" href="{{('css/dark_themes.css') | asset}}">
+		{% endif %}
+
 		{% if v.themecolor == '30409f' %}
 			<link rel="stylesheet" href="{{('css/30409f.css') | asset}}">
 		{% endif %}

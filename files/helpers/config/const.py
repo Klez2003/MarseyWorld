@@ -398,8 +398,9 @@ CHUD_MSGS = (
 
 PIN_AWARD_TEXT = " (pin award)"
 
+LIGHT_THEMES = {"4chan","classic","coffee","light","win98"}
+DARK_THEMES = {"classic_dark","dark","dramblr","midnight","tron"}
 THEMES = ["4chan","classic","classic_dark","coffee","dark","dramblr","light","midnight","tron","win98"]
-LIGHT_THEMES = ["4chan","classic","coffee","light","win98"]
 BACKGROUND_CATEGORIES = ["glitter", "anime", "fantasy", "solarpunk", "pixelart"]
 PAGE_SIZES = (10, 25, 50, 100)
 

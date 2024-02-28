@@ -16,25 +16,3 @@
 .unread {
 	background-color: #3d3d3d !important;
 }
-
-lite-youtube, iframe {
-	color-scheme: light !important;
-}
-
-.gold-text:not(a), h1.gold-text.post-title a, :not(td) > a[href="/h/highrollerclub"]:not(.hole-flair) {
-	background: repeating-linear-gradient(
-		45deg,
-		gold,
-		#debd00 20px,
-		#cdae00 60px
-	);
-}
-
-
-code {
-    color: #f679b2;
-}
-
-.dataTables_wrapper .dataTables_length select {
-    background-color: black !important;
-}

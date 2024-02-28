@@ -51,11 +51,6 @@ table tbody tr:nth-of-type(odd) {
 	background-color: rgba(0, 0, 0, 0.3);
 }
 
-.tooltip-inner {
-	color: #d8d8d8 !important;
-	background-color: #313131 !important;
-}
-
 .visited, h5.post-title a:not(.effortpost-flair):visited, a[href^="https://"]:not([href^="https://rdrama.net" i], [href^="https://watchpeopledie.tv" i], .dropdown-item, .nav-link, .novisited):visited {
 	color: #6e6e6e !important;
 }
@@ -71,16 +66,4 @@ table tbody tr:nth-of-type(odd) {
 /* repeated here to override an earlier rule in this file */
 .unread {
 	background: #ffffff22 !important;
-}
-
-lite-youtube, iframe {
-	color-scheme: light !important;
-}
-
-code {
-    color: #f679b2;
-}
-
-.dataTables_wrapper .dataTables_length select {
-    background-color: black !important;
 }
