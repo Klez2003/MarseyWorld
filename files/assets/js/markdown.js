@@ -165,62 +165,60 @@ function markdown(t) {
 	input = input.replace(/((\s|^)[0-9]+)\. /g, '$1\\. ')
 
 	const emojis = Array.from(input.matchAll(/:([a-z0-9_\-!#@]{1,72}):(?![^`]*`)/gi))
-	if (emojis != null){
-		for(i = 0; i < emojis.length; i++){
-			const old = emojis[i][0];
-			if (old.includes('marseyrandom')) continue;
+	for (i = 0; i < emojis.length; i++){
+		const old = emojis[i][0];
+		if (old.includes('marseyrandom')) continue;
 
-			let emoji = old.replace(/[:]/g,'').toLowerCase();
+		let emoji = old.replace(/[:]/g,'').toLowerCase();
 
-			const modifiers = new Set();
+		const modifiers = new Set();
 
-			let length = emoji.length;
-			emoji = emoji.replaceAll('!', '');
-			if (length !== emoji.length) {
-				modifiers.add(MODIFIERS.REVERSED);
-				length = emoji.length;
+		let length = emoji.length;
+		emoji = emoji.replaceAll('!', '');
+		if (length !== emoji.length) {
+			modifiers.add(MODIFIERS.REVERSED);
+			length = emoji.length;
+		}
+		emoji = emoji.replaceAll('#', '');
+		if (length !== emoji.length) {
+			modifiers.add(MODIFIERS.LARGE);
+		}
+		let endingModifiers;
+		[endingModifiers, emoji] = findAllEmojiEndings(emoji);
+		const isTalkingFirst = endingModifiers.indexOf(MODIFIERS.PAT) > endingModifiers.indexOf(MODIFIERS.TALKING);
+
+		endingModifiers.forEach(modifiers.add, modifiers)
+
+		if (emoji.startsWith('@')) {
+			emoji = emoji.slice(1);
+			modifiers.add(MODIFIERS.USER);
+		}
+
+
+		if (emoji === 'marseyunpettable') {
+			modifiers.delete(MODIFIERS.PAT);
+			if (!isTalkingFirst) {
+				modifiers.delete(MODIFIERS.TALKING);
 			}
-			emoji = emoji.replaceAll('#', '');
-			if (length !== emoji.length) {
-				modifiers.add(MODIFIERS.LARGE);
-			}
-			let endingModifiers;
-			[endingModifiers, emoji] = findAllEmojiEndings(emoji);
-			const isTalkingFirst = endingModifiers.indexOf(MODIFIERS.PAT) > endingModifiers.indexOf(MODIFIERS.TALKING);
+		}
 
-			endingModifiers.forEach(modifiers.add, modifiers)
+		const genocideClass = modifiers.has(MODIFIERS.GENOCIDE) ? 'cide' : '';
+		const emojiClass = modifiers.has(MODIFIERS.LARGE) ? 'emoji-lg' : 'emoji';
+		const patClass = modifiers.has(MODIFIERS.PAT) ? 'pat-preview' : '';
 
-			if (emoji.startsWith('@')) {
-				emoji = emoji.slice(1);
-				modifiers.add(MODIFIERS.USER);
-			}
+		// patted emojis cannot be flipped back easily so they don't support double flipping
+		const lovedClass = modifiers.has(MODIFIERS.LOVE) ? 'love-preview' : '';
 
-
-			if (emoji === 'marseyunpettable') {
-				modifiers.delete(MODIFIERS.PAT);
-				if (!isTalkingFirst) {
-					modifiers.delete(MODIFIERS.TALKING);
-				}
-			}
-
-			const genocideClass = modifiers.has(MODIFIERS.GENOCIDE) ? 'cide' : '';
-			const emojiClass = modifiers.has(MODIFIERS.LARGE) ? 'emoji-lg' : 'emoji';
-			const patClass = modifiers.has(MODIFIERS.PAT) ? 'pat-preview' : '';
-
-			// patted emojis cannot be flipped back easily so they don't support double flipping
-			const lovedClass = modifiers.has(MODIFIERS.LOVE) ? 'love-preview' : '';
-
-			if ([MODIFIERS.TALKING, MODIFIERS.GENOCIDE, MODIFIERS.PAT, MODIFIERS.LOVE, MODIFIERS.TYPING].some((modifer) =>  modifiers.has(modifer))) {
-				const typingHtml = modifiers.has(MODIFIERS.TYPING) ? `<img loading="lazy" class="typing-hands-preview" src="${SITE_FULL_IMAGES}/i/typing-hands.webp">` : '';
-				const talkingHtml = modifiers.has(MODIFIERS.TALKING) ? `<img loading="lazy" src="${SITE_FULL_IMAGES}/i/talking.webp">` : '';
-				const patHtml = modifiers.has(MODIFIERS.PAT) ? `<img loading="lazy" src="${SITE_FULL_IMAGES}/i/hand.webp">` : '';
-				const loveHtml = modifiers.has(MODIFIERS.LOVE) ? `<img loading="lazy" class="${emojiClass}" src="${SITE_FULL_IMAGES}/i/love-foreground.webp"><img loading="lazy" class="${emojiClass}" src="${SITE_FULL_IMAGES}/i/love-background.webp">` : '';
-				const url = modifiers.has(MODIFIERS.USER) ? `/@${emoji}/pic` : `${SITE_FULL_IMAGES}/e/${emoji}.webp`;
-				const modifierHtml = isTalkingFirst ? `${talkingHtml}${patHtml}${loveHtml}${typingHtml}` : `${patHtml}${talkingHtml}${loveHtml}${typingHtml}`;
-				input = input.replace(old, `<span alt="${old}" class="${patClass} ${genocideClass}" data-bs-toggle="tooltip">${modifierHtml}<img alt="${old}" loading="lazy" class="${emojiClass} ${lovedClass}" src="${url}"></span>`);
-			} else {
-				input = input.replace(old, `<img alt="${old}" loading="lazy" class="${emojiClass}}" src="${SITE_FULL_IMAGES}/e/${emoji}.webp">`);
-			}
+		if ([MODIFIERS.TALKING, MODIFIERS.GENOCIDE, MODIFIERS.PAT, MODIFIERS.LOVE, MODIFIERS.TYPING].some((modifer) =>  modifiers.has(modifer))) {
+			const typingHtml = modifiers.has(MODIFIERS.TYPING) ? `<img loading="lazy" class="typing-hands-preview" src="${SITE_FULL_IMAGES}/i/typing-hands.webp">` : '';
+			const talkingHtml = modifiers.has(MODIFIERS.TALKING) ? `<img loading="lazy" src="${SITE_FULL_IMAGES}/i/talking.webp">` : '';
+			const patHtml = modifiers.has(MODIFIERS.PAT) ? `<img loading="lazy" src="${SITE_FULL_IMAGES}/i/hand.webp">` : '';
+			const loveHtml = modifiers.has(MODIFIERS.LOVE) ? `<img loading="lazy" class="${emojiClass}" src="${SITE_FULL_IMAGES}/i/love-foreground.webp"><img loading="lazy" class="${emojiClass}" src="${SITE_FULL_IMAGES}/i/love-background.webp">` : '';
+			const url = modifiers.has(MODIFIERS.USER) ? `/@${emoji}/pic` : `${SITE_FULL_IMAGES}/e/${emoji}.webp`;
+			const modifierHtml = isTalkingFirst ? `${talkingHtml}${patHtml}${loveHtml}${typingHtml}` : `${patHtml}${talkingHtml}${loveHtml}${typingHtml}`;
+			input = input.replace(old, `<span alt="${old}" class="${patClass} ${genocideClass}" data-bs-toggle="tooltip">${modifierHtml}<img alt="${old}" loading="lazy" class="${emojiClass} ${lovedClass}" src="${url}"></span>`);
+		} else {
+			input = input.replace(old, `<img alt="${old}" loading="lazy" class="${emojiClass}}" src="${SITE_FULL_IMAGES}/e/${emoji}.webp">`);
 		}
 	}
 
