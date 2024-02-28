@@ -732,7 +732,7 @@ def submit_post(v, hole=None):
 	gevent.spawn(postprocess_post, p.url, p.body, p.body_html, p.id, generate_thumb, False)
 
 	if flag_effortpost and not (SITE_NAME == 'WPD' and v.truescore < 500):
-		body = f"@{v.username} has requested that [{p.title}](/post/{p.id}) be marked as an effortpost!"
+		body = f"@{v.username} has requested that {p.textlink} be marked as an effortpost!"
 		if SITE == 'rdrama.net':
 			send_repeatable_notification(AEVANN_ID, body)
 		else:
@@ -844,7 +844,7 @@ def mark_post_nsfw(pid, v):
 			g.db.add(ma)
 			position = f'a /h/{p.hole} mod'
 
-		send_repeatable_notification(p.author_id, f"@{v.username} ({position}) has marked [{p.title}](/post/{p.id}) as NSFW")
+		send_repeatable_notification(p.author_id, f"@{v.username} ({position}) has marked {p.textlink} as NSFW")
 
 	return {"message": "Post has been marked as NSFW!"}
 
@@ -886,7 +886,7 @@ def unmark_post_nsfw(pid, v):
 			g.db.add(ma)
 			position = f'a /h/{p.hole} mod'
 
-		send_repeatable_notification(p.author_id, f"@{v.username} ({position}) has unmarked [{p.title}](/post/{p.id}) as NSFW")
+		send_repeatable_notification(p.author_id, f"@{v.username} ({position}) has unmarked {p.textlink} as NSFW")
 
 	return {"message": "Post has been unmarked as NSFW!"}
 
@@ -961,7 +961,7 @@ def set_new_sort(post_id, v):
 				target_post_id = p.id,
 			)
 		g.db.add(ma)
-		send_repeatable_notification(p.author_id, f"@{v.username} (a site admin) has changed the the default sorting of comments on [{p.title}](/post/{p.id}) to `new`")
+		send_repeatable_notification(p.author_id, f"@{v.username} (a site admin) has changed the the default sorting of comments on {p.textlink} to `new`")
 
 	return {"message": "Changed the the default sorting of comments on this post to 'new'"}
 
@@ -983,7 +983,7 @@ def unset_new_sort(post_id, v):
 				target_post_id = p.id,
 			)
 		g.db.add(ma)
-		send_repeatable_notification(p.author_id, f"@{v.username} (a site admin) has changed the the default sorting of comments on [{p.title}](/post/{p.id}) to `hot`")
+		send_repeatable_notification(p.author_id, f"@{v.username} (a site admin) has changed the the default sorting of comments on {p.textlink} to `hot`")
 
 	return {"message": "Changed the the default sorting of comments on this post to 'hot'"}
 
@@ -1144,7 +1144,7 @@ if SITE_NAME == 'WPD':
 					target_post_id = p.id,
 				)
 			g.db.add(ma)
-			send_repeatable_notification(p.author_id, f"@{v.username} (a site admin) has add a child warning to [{p.title}](/post/{p.id})")
+			send_repeatable_notification(p.author_id, f"@{v.username} (a site admin) has add a child warning to {p.textlink}")
 
 		return {"message": "A child warning has been added to the post!"}
 
@@ -1170,7 +1170,7 @@ if SITE_NAME == 'WPD':
 					target_post_id = p.id,
 				)
 			g.db.add(ma)
-			send_repeatable_notification(p.author_id, f"@{v.username} (a site admin) has removed the child warning from [{p.title}](/post/{p.id})")
+			send_repeatable_notification(p.author_id, f"@{v.username} (a site admin) has removed the child warning from {p.textlink}")
 
 		return {"message": "The child warning has been removed from the post!"}
 
