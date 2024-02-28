@@ -90,14 +90,7 @@ def searchposts(v):
 								), 403
 		posts = posts.filter(Post.author_id == author.id)
 
-	if 'exact' in criteria and 'full_text' in criteria:
-		regex_str = '[[:<:]]'+criteria['full_text']+'[[:>:]]' # https://docs.oracle.com/cd/E17952_01/mysql-5.5-en/regexp.html "word boundaries"
-		if 'title' in criteria:
-			words = [Post.title.regexp_match(regex_str)]
-		else:
-			words = [or_(Post.title.regexp_match(regex_str), Post.body.regexp_match(regex_str))]
-		posts = posts.filter(*words)
-	elif 'q' in criteria:
+	if 'q' in criteria:
 		if 'title' in criteria:
 			words = [or_(Post.title.ilike('%'+x+'%')) \
 					for x in criteria['q']]
