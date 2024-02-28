@@ -774,7 +774,7 @@ def normalize_url(url):
 		if netloc == 'old.reddit.com':
 			x = reddit_comment_link_regex.search(url)
 			if x:
-				filtered['context'] = 8
+				filtered['context'] = 69
 				hash = x.group(1).replace('/', '#thing_t1_')
 
 		new_url = ParseResult(scheme="https",
