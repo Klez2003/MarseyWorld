@@ -275,7 +275,8 @@ def notifications_modactions(v):
 def notifications_offsite(v):
 	page = get_page()
 
-	if not v.can_view_offsite_mentions: abort(403)
+	if v.offsite_mentions == None:
+		abort(403)
 
 	listing = g.db.query(Comment).filter(
 		Comment.body_html.like('<p>New site mention%'),
