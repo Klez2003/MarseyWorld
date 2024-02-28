@@ -60,7 +60,7 @@ def remove_background(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def upload_custom_background(v):
-	if g.is_tor: abort(403, "Image uploads are not allowed through TOR!")
+	if g.is_tor: abort(403, "File uploads are not allowed through TOR!")
 
 	if not v.patron:
 		abort(403, f"Custom site backgrounds are only available to {patron}s!")
@@ -586,7 +586,7 @@ def settings_log_out_others(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def settings_images_profile(v):
-	if g.is_tor: abort(403, "Image uploads are not allowed through TOR!")
+	if g.is_tor: abort(403, "File uploads are not allowed through TOR!")
 
 	file = request.files["profile"]
 
@@ -629,7 +629,7 @@ def settings_images_profile(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def settings_images_banner(v):
-	if g.is_tor: abort(403, "Image uploads are not allowed through TOR!")
+	if g.is_tor: abort(403, "File uploads are not allowed through TOR!")
 
 	file = request.files["banner"]
 
@@ -653,7 +653,7 @@ def settings_images_banner(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def settings_images_profile_background(v):
-	if g.is_tor: abort(403, "Image uploads are not allowed through TOR!")
+	if g.is_tor: abort(403, "File uploads are not allowed through TOR!")
 
 	file = request.files["profile_background"]
 

@@ -87,7 +87,7 @@ def submit_emoji(v):
 		abort(400, 'The name of this emoji should start with the word "marseyflag"')
 
 	if g.is_tor:
-		abort(400, "Image uploads are not allowed through TOR!")
+		abort(400, "File uploads are not allowed through TOR!")
 
 	if not file or not file.content_type.startswith('image/'):
 		abort(400, "You need to submit an image!")
@@ -348,7 +348,7 @@ def submit_hat(v):
 	username = request.values.get('author', '').strip()
 
 	if g.is_tor:
-		abort(400, "Image uploads are not allowed through TOR!")
+		abort(400, "File uploads are not allowed through TOR!")
 
 	file = request.files["image"]
 	if not file or not file.content_type.startswith('image/'):
@@ -536,7 +536,7 @@ def update_emoji(v):
 
 	if file:
 		if g.is_tor:
-			abort(400, "Image uploads are not allowed through TOR!")
+			abort(400, "File uploads are not allowed through TOR!")
 		if not file.content_type.startswith('image/'):
 			abort(400, "You need to submit an image!")
 
@@ -647,7 +647,7 @@ def update_hat(v):
 	
 	if file:
 		if g.is_tor:
-			abort(400, "Image uploads are not allowed through TOR!")
+			abort(400, "File uploads are not allowed through TOR!")
 		if not file.content_type.startswith('image/'):
 			abort(400, "You need to submit an image!")
 

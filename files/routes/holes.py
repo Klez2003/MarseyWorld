@@ -543,7 +543,7 @@ def get_hole_css(hole):
 @limiter.limit("50/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def upload_hole_sidebar(v, hole):
-	if g.is_tor: abort(403, "Image uploads are not allowed through Tor")
+	if g.is_tor: abort(403, "File uploads are not allowed through TOR")
 
 	hole = get_hole(hole)
 	if not v.mods_hole(hole.name): abort(403)
@@ -631,7 +631,7 @@ def delete_all_hole_sidebars(v, hole):
 @limiter.limit("50/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def upload_hole_banner(v, hole):
-	if g.is_tor: abort(403, "Image uploads are not allowed through Tor")
+	if g.is_tor: abort(403, "File uploads are not allowed through TOR")
 
 	hole = get_hole(hole)
 	if not v.mods_hole(hole.name): abort(403)
@@ -719,7 +719,7 @@ def delete_all_hole_banners(v, hole):
 @limiter.limit("5/minute;50/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def hole_marsey(v, hole):
-	if g.is_tor: abort(403, "Image uploads are not allowed through TOR!")
+	if g.is_tor: abort(403, "File uploads are not allowed through TOR!")
 
 	hole = get_hole(hole)
 	if not v.mods_hole(hole.name): abort(403)
