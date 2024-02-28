@@ -226,7 +226,7 @@ def searchcomments(v):
 		text = criteria['full_text']
 		comments = comments.filter(
 			Comment.body_ts.bool_op("@@")(
-				func.websearch_to_tsquery("english", text)
+				func.websearch_to_tsquery("simple", text)
 			)
 		)
 
@@ -325,7 +325,7 @@ def searchmessages(v):
 		text = criteria['full_text']
 		comments = comments.filter(
 			Comment.body_ts.bool_op("@@")(
-				func.websearch_to_tsquery("english", text)
+				func.websearch_to_tsquery("simple", text)
 			)
 		)
 
