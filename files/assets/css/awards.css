@@ -292,3 +292,7 @@
 .zozbot {
 	color: red !important;
 }
+
+.sharpen img[alt^=":"] {
+	filter: invert(30%) brightness(60%) sepia(100%) hue-rotate(-50deg) contrast(2) saturate(150%);
+}
