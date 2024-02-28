@@ -459,7 +459,7 @@ CREATE TABLE public.comments (
     queened boolean NOT NULL,
     sharpened boolean NOT NULL,
     num_of_pinned_children integer NOT NULL,
-    body_ts tsvector GENERATED ALWAYS AS (to_tsvector('english'::regconfig, (body)::text)) STORED,
+    body_ts tsvector GENERATED ALWAYS AS (to_tsvector('simple'::regconfig, (body)::text)) STORED,
     distinguished boolean NOT NULL
 );
 
@@ -3074,4 +3074,3 @@ ALTER TABLE ONLY public.comments
 --
 -- PostgreSQL database dump complete
 --
-

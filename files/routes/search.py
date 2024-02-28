@@ -229,9 +229,11 @@ def searchcomments(v):
 
 	if 'q' in criteria:
 		text = criteria['full_text']
+		if '"' in text: regconfig = "simple"
+		else: regconfig = "english"
 		comments = comments.filter(
 			Comment.body_ts.bool_op("@@")(
-				func.websearch_to_tsquery("english", text)
+				func.websearch_to_tsquery(regconfig, text)
 			)
 		)
 
@@ -328,9 +330,11 @@ def searchmessages(v):
 
 	if 'q' in criteria:
 		text = criteria['full_text']
+		if '"' in text: regconfig = "simple"
+		else: regconfig = "english"
 		comments = comments.filter(
 			Comment.body_ts.bool_op("@@")(
-				func.websearch_to_tsquery("english", text)
+				func.websearch_to_tsquery(regconfig, text)
 			)
 		)
 
