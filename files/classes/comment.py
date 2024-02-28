@@ -38,6 +38,8 @@ def get_award_classes(obj, v, title=False):
 		if not title: classes.append(f"chud-img sharpen-{obj.id_last_num}")
 
 	if not (v and v.poor):
+		if obj.author.bite:
+			classes.append('author-bitten')
 		if obj.award_count('glowie', v):
 			classes.append("glow")
 		if obj.award_count('gold', v):
