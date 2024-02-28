@@ -767,3 +767,10 @@ function delReport(t, url) {
 for (const el of document.getElementsByClassName('autofocus')) {
 	el.focus()
 }
+
+for (const el of document.getElementsByClassName('tor-disabled')) {
+	el.onclick = (e) => {
+		e.preventDefault();
+		window.alert("File uploads are not allowed through TOR!")
+	};
+}
