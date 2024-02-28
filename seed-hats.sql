@@ -1229,7 +1229,7 @@ INSERT INTO public.hat_defs VALUES (1489, 'Max HP', 'I''M FULL POWER!', 2, 500, 
 INSERT INTO public.hat_defs VALUES (1493, 'Im You', 'Where you go I go, what you see I see.', 2, 500, NULL, 1708649038);
 INSERT INTO public.hat_defs VALUES (1497, 'Rubber Chicken', 'HOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOONK', 2, 500, NULL, 1708649127);
 INSERT INTO public.hat_defs VALUES (1501, 'Pizza Hat', 'Don''t ask why there''s a pizza. Embrace that there is one.', 2, 500, NULL, 1708780629);
-
+INSERT INTO public.hat_defs VALUES (1502, 'Xoxo', 'Hugs and kisses!', 2, 500, NULL, 1709029514);
 
 
 --

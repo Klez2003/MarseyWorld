@@ -459,8 +459,8 @@ CREATE TABLE public.comments (
     queened boolean NOT NULL,
     sharpened boolean NOT NULL,
     num_of_pinned_children integer NOT NULL,
-    body_ts tsvector GENERATED ALWAYS AS (to_tsvector('simple'::regconfig, (body)::text)) STORED,
-    distinguished boolean NOT NULL
+    distinguished boolean NOT NULL,
+    body_ts tsvector GENERATED ALWAYS AS (to_tsvector('simple'::regconfig, (body)::text)) STORED
 );
 
 
@@ -1728,13 +1728,6 @@ CREATE INDEX comments_author_id_created_utc_idx ON public.comments USING btree (
 --
 
 CREATE INDEX comments_author_id_id_idx ON public.comments USING btree (author_id, id);
-
-
---
--- Name: comments_body_ts_idx; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX comments_body_ts_idx ON public.comments USING gin (body_ts);
 
 
 --
@@ -3074,3 +3067,4 @@ ALTER TABLE ONLY public.comments
 --
 -- PostgreSQL database dump complete
 --
+
