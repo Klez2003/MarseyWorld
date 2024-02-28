@@ -209,7 +209,9 @@ function markdown(t) {
 		// patted emojis cannot be flipped back easily so they don't support double flipping
 		const lovedClass = modifiers.has(MODIFIERS.LOVE) ? 'love-preview' : '';
 
-		const alt = old.replace(/\w/g,'');
+		let alt = old.replace(/\w/g,'');
+		if (old.endsWith('genocide:'))
+			alt = alt.slice(0, -1) + 'genocide:'
 		
 		if ([MODIFIERS.TALKING, MODIFIERS.GENOCIDE, MODIFIERS.PAT, MODIFIERS.LOVE, MODIFIERS.TYPING].some((modifer) =>  modifiers.has(modifer))) {
 			const typingHtml = modifiers.has(MODIFIERS.TYPING) ? `<img loading="lazy" class="typing-hands-preview" src="${SITE_FULL_IMAGES}/i/typing-hands.webp">` : '';
