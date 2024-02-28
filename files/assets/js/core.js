@@ -523,9 +523,13 @@ function handle_files(input, newfiles) {
 		oldfiles[ta.id] = new DataTransfer();
 	}
 
-	const oldtext = ta.value;
-
 	for (let file of newfiles) {
+		if (oldfiles[ta.id].items.length == 20)
+		{
+			window.alert("You can't upload more than 20 files at one time!")
+			break
+		}
+	
 		if (file.name == 'image.png') {
 			const blob = file.slice(0, file.size, 'image/png');
 			const new_name = Math.random().toString(32).substring(2,10) + '.png'
@@ -536,15 +540,6 @@ function handle_files(input, newfiles) {
 	}
 
 	input.files = oldfiles[ta.id].files;
-
-	if (input.files.length > 20)
-	{
-		window.alert("You can't upload more than 20 files at one time!")
-		input.value = null
-		ta.value = oldtext
-		oldfiles[ta.id] = new DataTransfer();
-		return
-	}
 
 	markdown(ta)
 
