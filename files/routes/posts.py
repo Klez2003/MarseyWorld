@@ -1033,8 +1033,8 @@ def edit_post(pid, v):
 	if not v.can_edit(p): abort(403)
 
 	# Disable edits on things older than 1wk unless it's a draft or editor is a jannie
-	if time.time() - p.created_utc > 31*24*60*60 and not p.draft and v.admin_level < PERMS["IGNORE_EDITING_LIMIT"] and v.id not in EXEMPT_FROM_EDITING_LIMIT:
-		abort(403, "You can't edit posts older than 1 month!")
+	if time.time() - p.created_utc > 7*24*60*60 and not p.draft and v.admin_level < PERMS["IGNORE_EDITING_LIMIT"] and v.id not in EXEMPT_FROM_EDITING_LIMIT:
+		abort(403, "You can't edit posts older than 7 days!")
 
 	title = request.values.get("title", "").strip()
 	if len(title) > POST_TITLE_LENGTH_LIMIT:
