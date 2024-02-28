@@ -180,6 +180,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('bs', 'Classic', 2, 'emoticon animated bull shit bullshit disbelief flag', false, 0),
 ('buckchecker', 'Misc', 2, 'tariqnasheed factchecked', false, 1697739396),
 ('buenpost', 'Classic', 2, 'spanish good approving great', false, 1679234271),
+('bushnelltantrum', 'Misc', 2, 'aaron burn fire seethe immolation', false, 1709020761),
 ('bussyboy', 'Misc', 2, 'boypussy dudebussylmao rdrama dramanaut dramatard dramautist dramacel dude lmao femboy', false, 1686184856),
 ('c', 'Marsey Alphabet', 2, 'letter', false, 0),
 ('candykongblowkiss', 'Donkey Kong', 2, 'love heart ape dk donkeykong kandykong', false, 1679871041),
