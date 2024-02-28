@@ -30,6 +30,13 @@ def get_emoji_awards_emojis(obj, v, kind, NSFW_EMOJIS):
 def get_award_classes(obj, v, title=False):
 	classes = []
 
+	if obj.chudded:
+		classes.append("text-uppercase")
+		if not title: classes.append(f"chud-img chud-{obj.id_last_num}")
+
+	if obj.sharpened:
+		if not title: classes.append(f"chud-img sharpen-{obj.id_last_num}")
+
 	if not (v and v.poor):
 		if obj.award_count('glowie', v):
 			classes.append("glow")
@@ -41,23 +48,18 @@ def get_award_classes(obj, v, title=False):
 			classes.append("queen")
 		if obj.sharpened:
 			classes.append(f"sharpen")
-			if not title: classes.append(f"chud-img sharpen-{obj.id_last_num}")
 
-	if obj.chudded:
-		classes.append("text-uppercase")
-		if not title: classes.append(f"chud-img chud-{obj.id_last_num}")
+		if IS_HOMOWEEN():
+			if obj.award_count('ectoplasm', v):
+				classes.append("ectoplasm")
+			if obj.award_count('candycorn', v):
+				classes.append("candycorn")
+			if obj.award_count('stab', v) and isinstance(obj, Comment):
+				classes.append("blood")
 
-	if IS_HOMOWEEN():
-		if obj.award_count('ectoplasm', v):
-			classes.append("ectoplasm")
-		if obj.award_count('candycorn', v):
-			classes.append("candycorn")
-		if obj.award_count('stab', v) and isinstance(obj, Comment):
-			classes.append("blood")
-
-	if IS_FISTMAS():
-		if obj.award_count('candycane', v):
-			classes.append("candycane")
+		if IS_FISTMAS():
+			if obj.award_count('candycane', v):
+				classes.append("candycane")
 
 	return ' '.join(classes)
 
