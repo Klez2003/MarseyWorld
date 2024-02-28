@@ -250,11 +250,16 @@ def hole_exilees(v, hole):
 @auth_required
 def hole_blockers(v, hole):
 	hole = get_hole(hole)
+
 	if not can_see(v, hole):
 		abort(403)
-	users = g.db.query(User, HoleBlock).join(HoleBlock) \
-				.filter_by(hole=hole.name) \
-				.order_by(HoleBlock.created_utc.desc(), User.username).all()
+
+	if hole.public_use:
+		users = []
+	else:
+		users = g.db.query(User, HoleBlock).join(HoleBlock) \
+					.filter_by(hole=hole.name) \
+					.order_by(HoleBlock.created_utc.desc(), User.username).all()
 
 	return render_template("hole/blockers.html",
 		v=v, hole=hole, users=users, verb="blocking")

@@ -476,6 +476,8 @@ class User(Base):
 
 	@lazy
 	def blocks(self, hole):
+		is_public_use = g.db.query(Hole.public_use).filter_by(name=hole).one()[0]
+		if is_public_use: return False
 		return g.db.query(HoleBlock).filter_by(user_id=self.id, hole=hole).one_or_none()
 
 	@lazy
