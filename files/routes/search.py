@@ -226,6 +226,8 @@ def searchcomments(v):
 			return render_template("search_comments.html", v=v, query=query, total=0, page=page, comments=[], sort=sort, t=t, error=f"@{author.username}'s profile is private; You can't use the 'author' syntax on them!"), 403
 
 		else: comments = comments.filter(Comment.author_id == author.id)
+	else:
+		comments = comments.filter(Comment.author_id != SNAPPY_ID)
 
 	if 'q' in criteria:
 		text = criteria['full_text']
