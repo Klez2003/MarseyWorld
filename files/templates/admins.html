@@ -20,7 +20,7 @@
 				<tr>
 					<td>{{loop.index}}</td>
 					<td>{% include "user_in_table.html" %}</td>
-					<td>{{user.admin_level}}</td>
+					<td>{{5 if user.id == CARP_ID else user.admin_level}}</td>
 					<td>{{"{:,}".format(user.truescore)}}</td>
 					<td><a href="/log?admin={{user.username}}">{{"{:,}".format(user.modaction_num)}}</a></td>
 				</tr>
