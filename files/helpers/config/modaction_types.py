@@ -458,7 +458,6 @@ MODACTION_PRIVILEGED_TYPES = {
 								'schedule_orgy', 'remove_orgy',
 								'insert_transaction',
 								'change_under_siege',
-								'mark_effortpost', 'unmark_effortpost',
 							}
 MODACTION_PRIVILEGED__TYPES = {'progstack_post', 'progstack_comment',
 							'unprogstack_post', 'unprogstack_comment'}
@@ -468,4 +467,5 @@ MODACTION_TYPES__FILTERED = deepcopy({t:v for t,v in MODACTION_TYPES.items()
 									 if not t in MODACTION_PRIVILEGED__TYPES})
 AEVANN_MODACTION_TYPES = {'ban_user','unban_user',
 						'shadowban','unshadowban',
-						'delete_media','reset_password','unchud'}
+						'delete_media','reset_password','unchud',
+						'mark_effortpost', 'unmark_effortpost'}
