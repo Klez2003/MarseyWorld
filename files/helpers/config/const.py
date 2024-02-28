@@ -201,6 +201,7 @@ PERMS = { # Minimum admin_level to perform action.
 	'UPDATE_ASSETS': 3,
 	'CHANGE_UNDER_SIEGE': 3,
 	'VIEW_IPS': 3,
+	'MARK_EFFORTPOST': 3,
 
 	'PROGSTACK': 4,
 	'UNDO_AWARD_PINS': 4,
@@ -219,7 +220,6 @@ PERMS = { # Minimum admin_level to perform action.
 	'IGNORE_AWARD_IMMUNITY': 4,
 	'INSERT_TRANSACTION': 4,
 	'APPS_MODERATION': 4,
-	'MARK_EFFORTPOST': 4,
 
 	'MODS_EVERY_HOLE': 5,
 	'MODS_EVERY_GROUP': 5,
@@ -731,7 +731,6 @@ elif SITE in {'watchpeopledie.tv', 'marsey.world'}:
 
 	PERMS['POST_COMMENT_EDITING'] = 3
 	PERMS['MODS_EVERY_HOLE'] = 3
-	PERMS['MARK_EFFORTPOST'] = 3
 	PERMS['IS_PERMA_PROGSTACKED'] = 4
 
 	HOLE_BANNER_LIMIT = 69420

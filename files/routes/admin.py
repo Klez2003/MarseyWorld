@@ -2129,6 +2129,9 @@ def mark_effortpost(pid, v):
 	if p.effortpost:
 		abort(400, "Post is already marked as an effortpost!")
 
+	if len(p.body) < 3000:
+		abort(403, "Effortposts need to be 3000+ characters!")
+
 	p.effortpost = True
 	g.db.add(p)
 
