@@ -170,6 +170,9 @@
 				<section id="site-settings-notifications" class="settings-section-section">
 					<h5>Notifications</h5>
 					<div class="settings-section rounded">
+						{% if v.offsite_mentions != None %}
+							{{common.toggle_section('Site Mention Notifications', 'offsite_mentions', 'offsite_mentions', v.offsite_mentions, 'Get a notification when people on other sites talk about us', false)}}
+						{% endif %}
 						{{common.toggle_section('Effortpost Notifications', 'effortpost_notifs', 'effortpost_notifs', v.effortpost_notifs, 'Get a notification when a new effortpost is made.', false)}}
 						{% if SITE_NAME != 'WPD' %}
 							{{common.toggle_section('Hole Creation and Deletion Notifications', 'hole_creation_notifs', 'hole_creation_notifs', v.hole_creation_notifs, 'Get a notification when a hole is made or deleted.', false)}}

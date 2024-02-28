@@ -150,6 +150,7 @@ class User(Base):
 	grinch = Column(Boolean, default=SITE_NAME != 'rDrama') #don't put in an if condition, it will cause an error bc it has a not-null constraint
 	group_creation_notifs = Column(Boolean, default=False)
 	effortpost_notifs = Column(Boolean, default=False)
+	offsite_mentions = Column(Boolean)
 
 	if SITE_NAME == 'WPD' and not IS_LOCALHOST:
 		nitter = False
@@ -561,7 +562,7 @@ class User(Base):
 	@property
 	@lazy
 	def can_view_offsite_mentions(self):
-		return self.has_badge(140) or self.admin_level >= PERMS['NOTIFICATIONS_OFFSITE']
+		return self.offsite_mentions or self.admin_level >= PERMS['NOTIFICATIONS_OFFSITE']
 
 	@lazy
 	def can_edit(self, target):

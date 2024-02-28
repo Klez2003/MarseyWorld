@@ -452,6 +452,7 @@ def award_thing(v, thing_type, id):
 	elif kind == "eye":
 		badge_grant(badge_id=83, user=author)
 	elif kind == "offsitementions":
+		author.offsite_mentions = True
 		badge_grant(user=author, badge_id=140)
 	elif kind == "alt":
 		badge_grant(badge_id=84, user=author)

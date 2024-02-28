@@ -268,7 +268,7 @@ def notifications_modactions(v):
 
 
 
-@app.get("/notifications/offsite")
+@app.get("/notifications/site_mentions")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required

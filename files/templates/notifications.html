@@ -40,8 +40,8 @@
 		{% endif %}
 		{% if v.can_view_offsite_mentions %}
 			<li class="nav-item">
-				<a class="nav-link py-3{% if request.path == '/notifications/offsite' %} active{% endif %}" href="/notifications/offsite">
-				Offsite {% if v.offsite_notifications_count %}<span class="font-weight-bold" style="color:#805ad5">({{v.offsite_notifications_count}})</span>{% endif %}
+				<a class="nav-link py-3{% if request.path == '/notifications/site_mentions' %} active{% endif %}" href="/notifications/site_mentions">
+				Site Mentions {% if v.offsite_notifications_count %}<span class="font-weight-bold" style="color:#805ad5">({{v.offsite_notifications_count}})</span>{% endif %}
 				</a>
 			</li>
 		{% endif %}

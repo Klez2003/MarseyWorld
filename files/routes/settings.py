@@ -186,8 +186,15 @@ def settings_personal_post(v):
 		if v.spider: badge_grant(user=v, badge_id=179)
 		else:
 			badge = v.has_badge(179)
-			if badge:
-				g.db.delete(badge)
+			if badge: g.db.delete(badge)
+
+	elif not updated and request.values.get("offsite_mentions", v.offsite_mentions) != v.offsite_mentions:
+		updated = True
+		v.offsite_mentions = int(request.values.get("offsite_mentions") == 'true')
+		if v.offsite_mentions: badge_grant(user=v, badge_id=140)
+		else:
+			badge = v.has_badge(140)
+			if badge: g.db.delete(badge)
 
 	elif not updated and request.values.get("cursormarsey", v.cursormarsey) != v.cursormarsey:
 		updated = True
