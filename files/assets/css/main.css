@@ -3726,6 +3726,7 @@ label.color-radio {
 	height: 25px;
 	margin: 0.5rem 1rem 0.5rem 0;
 	cursor: pointer;
+	font-size: 12px;
 }
 label.color-radio span {
 	display: block;
