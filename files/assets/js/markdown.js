@@ -209,8 +209,8 @@ function markdown(t) {
 		// patted emojis cannot be flipped back easily so they don't support double flipping
 		const lovedClass = modifiers.has(MODIFIERS.LOVE) ? 'love-preview' : '';
 
-		let alt = old.replace(/\w/g,'');
-		if (old.endsWith('genocide:'))
+		let alt = old.replace(/\w/g,''); //necessary to prevent duplicate emojis getting fucked
+		if (old.endsWith('genocide:')) //necessary to make the preview of mirrored genocide like the backend
 			alt = alt.slice(0, -1) + 'genocide:'
 		
 		if ([MODIFIERS.TALKING, MODIFIERS.GENOCIDE, MODIFIERS.PAT, MODIFIERS.LOVE, MODIFIERS.TYPING].some((modifer) =>  modifiers.has(modifer))) {
