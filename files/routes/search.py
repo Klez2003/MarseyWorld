@@ -224,17 +224,11 @@ def searchcomments(v):
 
 	if 'q' in criteria:
 		text = criteria['full_text']
-		if text.startswith('"') and text.endswith('"'):
-			search_text = escape_for_search(text[1:-1])
-			comments = comments.filter(
-				Comment.body.ilike(f'%{search_text}%')
+		comments = comments.filter(
+			Comment.body_ts.bool_op("@@")(
+				func.websearch_to_tsquery("english", text)
 			)
-		else:
-			comments = comments.filter(
-				Comment.body_ts.bool_op("@@")(
-					func.websearch_to_tsquery("english", text)
-				)
-			)
+		)
 
 	if 'nsfw' in criteria:
 		nsfw = criteria['nsfw'].lower().strip() == 'true'
@@ -329,17 +323,11 @@ def searchmessages(v):
 
 	if 'q' in criteria:
 		text = criteria['full_text']
-		if text.startswith('"') and text.endswith('"'):
-			search_text = escape_for_search(text[1:-1])
-			comments = comments.filter(
-				Comment.body.ilike(f'%{search_text}%')
+		comments = comments.filter(
+			Comment.body_ts.bool_op("@@")(
+				func.websearch_to_tsquery("english", text)
 			)
-		else:
-			comments = comments.filter(
-				Comment.body_ts.bool_op("@@")(
-					func.websearch_to_tsquery("english", text)
-				)
-			)
+		)
 
 	comments = apply_time_filter(t, comments, Comment)
 
