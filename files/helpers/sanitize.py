@@ -184,12 +184,11 @@ def render_emoji(html, regexp, golden, emojis_used, b=False, is_title=False):
 
 		old = emoji
 		emoji = emoji.replace('!','').replace('#','')
-
-		if b and emoji not in ALPHABET_MARSEYS:
-			attrs += ' b'
 		
 		if emoji in ALPHABET_MARSEYS:
 			attrs += ' alpha'
+		elif b:
+			attrs += ' b'
 
 		emoji_partial_pat = '<img alt=":{0}:" loading="lazy" src="{1}"{2}>'
 		emoji_partial = '<img alt=":{0}:" data-bs-toggle="tooltip" loading="lazy" src="{1}" title=":{0}:"{2}>'
