@@ -298,5 +298,5 @@
 }
 
 .author-bitten {
-	filter: grayscale(100%);
+	filter: grayscale(100%) brightness(80%);
 }
