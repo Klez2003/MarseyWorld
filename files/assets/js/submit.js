@@ -284,6 +284,7 @@ function submit_restore_files(kind, id) {
 				for (const file of files) {
 					oldfiles["post-text"].items.add(file);
 				}
+				markdown(document.getElementById("post-text"))
 			}
 		};
 	}

@@ -138,6 +138,15 @@ const findAllEmojiEndings = (word) => {
 	return [currEndings, currWord];
 }
 
+function showPreview(t, input) {
+	const preview = document.getElementById(t.dataset.preview)
+	preview.innerHTML = input
+	const expandable = preview.querySelectorAll('img[alt]');
+	for (const element of expandable) {
+		element.onclick = () => {expandImage()};
+	}
+}
+
 function markdown(t) {
 	let input = t.value;
 
@@ -248,13 +257,26 @@ function markdown(t) {
 
 	input = marked(input)
 
-	const preview = document.getElementById(t.dataset.preview)
-
-	preview.innerHTML = input
-
-	const expandable = preview.querySelectorAll('img[alt]');
-	for (const element of expandable) {
-		element.onclick = () => {expandImage()};
+	if (oldfiles[t.id]) {
+		const files = oldfiles[t.id].files
+		let counter = 0
+		for (const file of files) {
+			if (!file.type.startsWith('image/')) {
+				counter += 1
+				continue
+			}
+			const fileReader = new FileReader();
+			fileReader.readAsDataURL(file);
+			fileReader.onload = function () {
+				input = input.replace(`[${file.name}]`, `<img class="img" loading="lazy" src="${this.result}">`)
+				counter += 1
+				if (counter == files.length)
+					showPreview(t, input)
+			};
+		}
+	}
+	else {
+		showPreview(t, input)
 	}
 }
 
