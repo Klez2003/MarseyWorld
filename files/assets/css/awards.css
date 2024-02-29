@@ -293,7 +293,7 @@
 	color: red !important;
 }
 
-.sharpen img {
+.sharpen img, .sharpen:after {
 	filter: invert(30%) brightness(60%) sepia(100%) hue-rotate(-50deg) contrast(2) saturate(150%);
 }
 
