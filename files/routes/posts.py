@@ -628,7 +628,7 @@ def submit_post(v, hole=None):
 	g.db.flush()
 
 	if SITE == 'watchpeopledie.tv' and p.cw and p.hole == 'selfharm':
-		text = f"ALERT: @{v.username} has added a Child Warning to {p.textlink} despite the post being in /h/selfharm"
+		text = f"ALERT: @{v.username} has added a child warning to {p.textlink} despite the post being in /h/selfharm"
 		alert_admins(text)
 
 	execute_under_siege(v, p, p.body, 'post')
