@@ -7,7 +7,6 @@ from shutil import copyfile
 from sys import stdout
 from urllib.parse import urlparse
 import random
-import subprocess
 
 import gevent
 import requests
@@ -660,7 +659,7 @@ def submit_post(v, hole=None):
 			p.url = process_video(file, v)
 			name = f'/images/{time.time()}'.replace('.','') + '.webp'
 			try:
-				subprocess.run(["ffmpeg", "-loglevel", "quiet", "-y", "-i", p.url, "-vf", "scale='iw':-2", "-q:v", "3", "-frames:v", "1", name], check=True, timeout=30)
+				x = ffmpeg.input(p.url).output(name, loglevel="quiet", map_metadata=-1, **{"vf":"scale='iw':-2", 'q:v':3, 'frames:v':1}).run()
 			except:
 				if os.path.isfile(name):
 					os.remove(name)
