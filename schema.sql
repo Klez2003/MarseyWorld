@@ -184,7 +184,8 @@ CREATE TABLE public.users (
     group_creation_notifs boolean NOT NULL,
     effortpost_notifs boolean NOT NULL,
     shadowban_reason character varying(256),
-    keyword_notifs character varying(1000)
+    keyword_notifs character varying(1000),
+    offsite_mentions boolean
 );
 
 
@@ -459,8 +460,8 @@ CREATE TABLE public.comments (
     queened boolean NOT NULL,
     sharpened boolean NOT NULL,
     num_of_pinned_children integer NOT NULL,
-    body_ts tsvector GENERATED ALWAYS AS (to_tsvector('english'::regconfig, (body)::text)) STORED,
-    distinguished boolean NOT NULL
+    distinguished boolean NOT NULL,
+    body_ts tsvector GENERATED ALWAYS AS (to_tsvector('simple'::regconfig, (body)::text)) STORED
 );
 
 
@@ -3067,3 +3068,4 @@ ALTER TABLE ONLY public.comments
 --
 -- PostgreSQL database dump complete
 --
+
