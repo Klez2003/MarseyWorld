@@ -601,8 +601,8 @@ def submit_post(v, hole=None):
 	if SITE == 'watchpeopledie.tv':
 		p.cw = request.values.get("cw", False, bool)
 		if p.hole == 'selfharm':
-			body = f"ALERT: @{v.username} has added a Child Warning to {p.textlink} despite the post being in /h/selfharm"
-			alert_admins(body)
+			text = f"ALERT: @{v.username} has added a Child Warning to {p.textlink} despite the post being in /h/selfharm"
+			alert_admins(text)
 
 	if not p.draft:
 		p.chudded = v.chud and hole != 'chudrama' and not (p.is_longpost and not v.chudded_by)
