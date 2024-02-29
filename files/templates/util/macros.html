@@ -382,8 +382,18 @@
 
 {% macro chat_users_list() %}
 	<div class="col text-left d-none d-lg-block pt-3 pb-5" style="max-width:300px">
+		{% if SITE_NAME == 'WPD' %}
+			<h5>Chat Rules</h5>
+			<ul class="mt-2 mb-4">
+				<li>Follow the rules mentioned on <a href="/sidebar">the sidebar</a>.</li>
+				<li>Do not try to crash the chatroom with malicious code (CSS).</li>					
+				<li>Do not send porn in chat.</li>
+				<li>Do not spam.</li>
+			</ul>
+		{% endif %}
+
 		<h5>Users Online</h5>
-		<div id="online" class="mt-3"></div>
+		<div id="online" class="mt-2"></div>
 	</div>
 {% endmacro %}
 
