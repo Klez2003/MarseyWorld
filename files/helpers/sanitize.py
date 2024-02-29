@@ -863,6 +863,10 @@ def complies_with_chud(obj):
 		excluded_tags = {'del','sub','sup','marquee','spoiler','lite-youtube','video','audio'}
 		soup = BeautifulSoup(old_body_html, 'lxml')
 		tags = soup.html.body.find_all(lambda tag: tag.name not in excluded_tags and not tag.attrs, recursive=False)
+
+		if soup.html.body.d:
+			tags += soup.html.body.d.find_all(lambda tag: tag.name not in excluded_tags and not tag.attrs, recursive=False)
+
 		for tag in tags:
 			for text in tag.find_all(text=True, recursive=False):
 				if not obj.author.chud or obj.author.chud_phrase in text.lower():
