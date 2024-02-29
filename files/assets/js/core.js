@@ -11,7 +11,7 @@ function getMessageFromJsonData(success, json) {
 	return message;
 }
 
-function showToast(success, message) {
+function actuallyShowToast(success, message) {
 	const oldToast = bootstrap.Toast.getOrCreateInstance(document.getElementById('toast-post-' + (success ? 'error': 'success'))); // intentionally reversed here: this is the old toast
 	oldToast.hide();
 	let element = success ? "toast-post-success" : "toast-post-error";
@@ -21,6 +21,15 @@ function showToast(success, message) {
 	}
 	document.getElementById(textElement).textContent = message;
 	bootstrap.Toast.getOrCreateInstance(document.getElementById(element)).show();
+}
+
+function showToast(success, message) {
+	if (document.hasFocus())
+		actuallyShowToast(success, message)
+	else
+		document.addEventListener('visibilitychange', () => {
+			actuallyShowToast(success, message)
+		}, {once : true})
 }
 
 function createXhrWithFormKey(url, form=new FormData(), method='POST') {
