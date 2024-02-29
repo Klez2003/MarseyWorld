@@ -200,9 +200,8 @@ def sign_up_post(v):
 	form_timestamp = request.values.get("now", '0')
 	form_formkey = request.values.get("formkey", "none")
 
-	username = request.values.get("username")
+	username = request.values.get("username", "").strip()
 	if not username: abort(400)
-	username = username.strip()
 
 	email = request.values.get("email", "").strip().lower()
 
@@ -239,6 +238,9 @@ def sign_up_post(v):
 							username=username,
 							email=email,
 							), 400
+
+	if username.title() in GIRL_NAMES_TOTAL:
+		return signup_error("An account with that username already exists!")
 
 	submitted_token = session.get("signup_token", "")
 	if not submitted_token:

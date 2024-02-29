@@ -695,6 +695,9 @@ def is_available(name):
 
 	name = name.strip()
 
+	if name.title() in GIRL_NAMES_TOTAL:
+		return {name: False}
+
 	if len(name) < 3 or len(name) > 25:
 		return {name: False}
 
