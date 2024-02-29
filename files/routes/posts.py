@@ -600,6 +600,9 @@ def submit_post(v, hole=None):
 
 	if SITE == 'watchpeopledie.tv':
 		p.cw = request.values.get("cw", False, bool)
+		if p.hole == 'selfharm':
+			body = f"ALERT: @{v.username} has added a Child Warning to {p.textlink} despite the post being in /h/selfharm"
+			alert_admins(body)
 
 	if not p.draft:
 		p.chudded = v.chud and hole != 'chudrama' and not (p.is_longpost and not v.chudded_by)
@@ -733,21 +736,7 @@ def submit_post(v, hole=None):
 
 	if flag_effortpost and not (SITE_NAME == 'WPD' and v.truescore < 500):
 		body = f"@{v.username} has requested that {p.textlink} be marked as an effortpost!"
-		if SITE == 'rdrama.net':
-			send_repeatable_notification(AEVANN_ID, body)
-		else:
-			body_html = sanitize(body, blackjack="admin alert")
-			new_comment = Comment(author_id=AUTOJANNY_ID,
-								parent_post=None,
-								level=1,
-								body_html=body_html,
-								sentto=MODMAIL_ID,
-								distinguished=True,
-								is_bot=True
-								)
-			g.db.add(new_comment)
-			g.db.flush()
-			new_comment.top_comment_id = new_comment.id
+		alert_admins(body)
 
 	if v.client: return p.json
 	else:
