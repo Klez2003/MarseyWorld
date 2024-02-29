@@ -600,10 +600,6 @@ def submit_post(v, hole=None):
 
 	if SITE == 'watchpeopledie.tv':
 		p.cw = request.values.get("cw", False, bool)
-		if p.hole == 'selfharm':
-			g.db.flush()
-			text = f"ALERT: @{v.username} has added a Child Warning to {p.textlink} despite the post being in /h/selfharm"
-			alert_admins(text)
 
 	if not p.draft:
 		p.chudded = v.chud and hole != 'chudrama' and not (p.is_longpost and not v.chudded_by)
@@ -630,6 +626,10 @@ def submit_post(v, hole=None):
 
 	g.db.add(p)
 	g.db.flush()
+
+	if SITE == 'watchpeopledie.tv' and p.cw and p.hole == 'selfharm':
+		text = f"ALERT: @{v.username} has added a Child Warning to {p.textlink} despite the post being in /h/selfharm"
+		alert_admins(text)
 
 	execute_under_siege(v, p, p.body, 'post')
 
