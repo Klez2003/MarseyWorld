@@ -2129,8 +2129,11 @@ def mark_effortpost(pid, v):
 	if p.effortpost:
 		abort(400, "Post is already marked as an effortpost!")
 
-	if len(p.body) < 3000:
-		abort(403, "Effortposts need to be 3000+ characters!")
+	if SITE_NAME == 'WPD': min_chars = 2000
+	else: min_chars = 3000
+
+	if len(p.body) < min_chars:
+		abort(403, f"Effortposts need to be {min_chars}+ characters!")
 
 	p.effortpost = True
 	g.db.add(p)
