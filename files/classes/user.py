@@ -909,7 +909,7 @@ class User(Base):
 		elif self.modaction_notifications_count > 0:
 			return 'modactions'
 		elif self.offsite_notifications_count > 0:
-			return 'site_mentions'
+			return 'offsite'
 		return ''
 
 	@property
@@ -921,7 +921,7 @@ class User(Base):
 			'modmail': '#f15387',
 			'posts': '#0000ff',
 			'modactions': '#1ad80d',
-			'site_mentions': '#805ad5',
+			'offsite': '#805ad5',
 		}
 		return colors[self.notifications_do] if self.notifications_do \
 			else colors['']
