@@ -171,7 +171,7 @@
 					<h5>Notifications</h5>
 					<div class="settings-section rounded">
 						{% if v.offsite_mentions != None %}
-							{{common.toggle_section('Site Mention Notifications', 'offsite_mentions', 'offsite_mentions', v.offsite_mentions, 'Get a notification when people on other sites talk about us', false)}}
+							{{common.toggle_section('Site Mention Notifications', 'offsite_mentions', 'offsite_mentions', v.offsite_mentions, 'Get a notification when people on other sites talk about us.', false)}}
 						{% endif %}
 						{{common.toggle_section('Effortpost Notifications', 'effortpost_notifs', 'effortpost_notifs', v.effortpost_notifs, 'Get a notification when a new effortpost is made.', false)}}
 						{% if SITE_NAME != 'WPD' %}
