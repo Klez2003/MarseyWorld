@@ -39,7 +39,7 @@ def get_award_classes(obj, v, title=False):
 
 	if not (v and v.poor):
 		if obj.author.bite:
-			classes.append('author-bitten')
+			classes.append('grayscale')
 		if obj.award_count('glowie', v):
 			classes.append("glow")
 		if obj.award_count('gold', v):
