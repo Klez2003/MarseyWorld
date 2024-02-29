@@ -1,8 +1,6 @@
 {% extends "default.html" %}
 {% block pagetitle %}/h/{{hole}} Mods{% endblock %}
 {% block content %}
-	<script defer src="{{'js/remove_mod.js' | asset}}"></script>
-
 	<h5 class="mt-2">/h/{{hole}} Mods</h5>
 
 	<div class="overflow-x-auto mt-1">
@@ -41,4 +39,6 @@
 			<input autocomplete="off" class="btn btn-primary ml-auto" type="submit" value="Add Mod" style="margin-bottom: 5px">
 		</form>
 	{% endif %}
+
+	<script defer src="{{'js/remove_mod.js' | asset}}"></script>
 {% endblock %}
