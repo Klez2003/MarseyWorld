@@ -7719,6 +7719,5 @@ td li {
 }
 
 img[alpha]:not([alt*="#"]) {
-	height: 20px !important;
 	width: 20px !important;
 }
