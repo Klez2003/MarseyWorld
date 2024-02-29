@@ -1,6 +1,6 @@
 import time
 from math import floor
-from urllib.parse import parse_qs, urlencode, urlparse
+from urllib.parse import parse_qs, urlencode, urlparse, urlunparse, ParseResult
 from flask import g
 
 from sqlalchemy import Column, ForeignKey
@@ -65,6 +65,22 @@ def get_award_classes(obj, v, title=False):
 
 	return ' '.join(classes)
 
+def controversial_link_matcher(match):
+	url = match.group(0)
+	parsed_url = urlparse(url)
+	netloc = parsed_url.netloc
+	path = parsed_url.path
+	qd = parse_qs(parsed_url.query, keep_blank_values=True)
+	if 'sort' not in qd:
+		qd['sort'] = ['controversial']
+	new_url = ParseResult(scheme="https",
+						netloc=netloc,
+						path=path,
+						params=parsed_url.params,
+						query=urlencode(qd, doseq=True),
+						fragment=parsed_url.fragment)
+	return urlunparse(new_url)
+
 def normalize_urls_runtime(body, v):
 	if v and v.reddit != 'old.reddit.com':
 		body = reddit_to_vreddit_regex.sub(rf'\1https://{v.reddit}/\2/', body)
@@ -76,20 +92,7 @@ def normalize_urls_runtime(body, v):
 		body = instagram_to_imgsed_regex.sub(r'\1https://imgsed.com/', body)
 
 	if not v or v.controversial:
-		captured = []
-		for i in controversial_regex.finditer(body):
-			if i.group(0) in captured: continue
-			captured.append(i.group(0))
-
-			url = i.group(0)
-			p = urlparse(url).query
-			p = parse_qs(p, keep_blank_values=True)
-
-			if 'sort' not in p:
-				p['sort'] = ['controversial']
-
-			url_noquery = url.split('?')[0]
-			body = body.replace(f'{url}"', f'{url_noquery}?{urlencode(p, True)}"')
+		body = controversial_regex.sub(controversial_link_matcher, body)
 
 	return body
 
