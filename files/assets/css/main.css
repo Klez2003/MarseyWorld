@@ -7717,3 +7717,8 @@ td li {
 	font-weight: 400;
 	margin-top: 0.3rem;
 }
+
+img[alpha]:not([alt*="#"]) {
+	height: 20px !important;
+	width: 20px !important;
+}

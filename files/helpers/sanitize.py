@@ -174,14 +174,22 @@ def render_emoji(html, regexp, golden, emojis_used, b=False, is_title=False):
 
 		emoji = i.group(1).lower()
 		attrs = ''
-		if b: attrs += ' b'
-		if is_title: emoji = emoji.replace('#','')
+
+		if is_title:
+			emoji = emoji.replace('#','')
+
 		if golden and len(emojis) <= 20 and ('marsey' in emoji or emoji in MARSEYS_CONST2):
 			if random.random() < 0.005:
 				attrs += ' ' + random.choice(('g', 'glow', 'party'))
 
 		old = emoji
 		emoji = emoji.replace('!','').replace('#','')
+
+		if b and emoji not in ALPHABET_MARSEYS:
+			attrs += ' b'
+		
+		if emoji in ALPHABET_MARSEYS:
+			attrs += ' alpha'
 
 		emoji_partial_pat = '<img alt=":{0}:" loading="lazy" src="{1}"{2}>'
 		emoji_partial = '<img alt=":{0}:" data-bs-toggle="tooltip" loading="lazy" src="{1}" title=":{0}:"{2}>'

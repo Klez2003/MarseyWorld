@@ -13,14 +13,16 @@ SNAPPY_QUOTES_FISTMAS = []
 SNAPPY_QUOTES_HOMOWEEN = []
 GIGABOOSTED_HOLES = []
 NSFW_EMOJIS = []
+ALPHABET_MARSEYS = []
 
 def const_initialize():
-	global MARSEYS_CONST, MARSEYS_CONST2, MARSEY_MAPPINGS, SNAPPY_KONGS, SNAPPY_MARSEYS, SNAPPY_QUOTES, SNAPPY_QUOTES_FISTMAS, SNAPPY_QUOTES_HOMOWEEN, GIGABOOSTED_HOLES, NSFW_EMOJIS
+	global MARSEYS_CONST, MARSEYS_CONST2, MARSEY_MAPPINGS, SNAPPY_KONGS, SNAPPY_MARSEYS, SNAPPY_QUOTES, SNAPPY_QUOTES_FISTMAS, SNAPPY_QUOTES_HOMOWEEN, GIGABOOSTED_HOLES, NSFW_EMOJIS, ALPHABET_MARSEYS
 
 	db = db_session()
 
 	MARSEYS_CONST = [x[0] for x in db.query(Emoji.name).filter(Emoji.kind == "Marsey", Emoji.submitter_id == None, Emoji.name != 'chudsey', Emoji.nsfw == False)]
-	MARSEYS_CONST2 = MARSEYS_CONST + ['chudsey','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','0','1','2','3','4','5','6','7','8','9','exclamationpoint','period','questionmark']
+	ALPHABET_MARSEYS = [x[0] for x in db.query(Emoji.name).filter_by(kind='Marsey Alphabet')]
+	MARSEYS_CONST2 = MARSEYS_CONST + ALPHABET_MARSEYS
 
 	marseys = db.query(Emoji).filter(Emoji.kind=="Marsey", Emoji.submitter_id == None, Emoji.nsfw == False).all()
 	for marsey in marseys:
