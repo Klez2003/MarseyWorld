@@ -89,7 +89,7 @@ def normalize_urls_runtime(body, v):
 				p['sort'] = ['controversial']
 
 			url_noquery = url.split('?')[0]
-			body = body.replace(f'{url}', f'{url_noquery}?{urlencode(p, True)}')
+			body = body.replace(f'{url}"', f'{url_noquery}?{urlencode(p, True)}"')
 
 	return body
 
