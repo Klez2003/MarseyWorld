@@ -743,6 +743,13 @@ domain_replacements = {
 	'https://lmgtfy.app/?q=': 'https://google.com/search?q=',
 	DONATE_LINK: f'{SITE_FULL}/donate',
 	'https://boards.4channel.org/': 'https://boards.4chan.org/',
+	'https://communities.win/': 'https://scored.co/',
+	'https://m.communities.win/': 'https://scored.co/',
+	'https://patriots.win/': 'https://scored.co/',
+	'https://greatawakening.win/': 'https://scored.co/',
+	'https://conspiracies.win/': 'https://scored.co/',
+	'https://kotakuinaction2.win/': 'https://scored.co/',
+	'https://omegacanada.win/': 'https://scored.co/',
 }
 
 def normalize_url(url):
