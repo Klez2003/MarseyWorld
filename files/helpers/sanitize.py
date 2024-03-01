@@ -316,6 +316,12 @@ def handle_youtube_links(url):
 		html += '"></lite-youtube>'
 	return html
 
+def reddit_mention_replacer(match):
+	m1 = match.group(1)
+	m2 = match.group(2).lower()
+	m3 = match.group(3)
+	return f'{m1}<a href="https://old.reddit.com/{m2}{m3}" rel="nofollow noopener" target="_blank">/{m2}{m3}</a>'
+
 @with_sigalrm_timeout(10)
 def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis=False, snappy=False, chat=False, blackjack=None, commenters_ping_post_id=None, obj=None, author=None):
 	def error(error):
@@ -367,7 +373,7 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 
 	sanitized = sanitized.replace('<a href="/%21', '<a href="/!')
 
-	sanitized = reddit_mention_regex.sub(r'\1<a href="https://old.reddit.com/\2" rel="nofollow noopener" target="_blank">/\2</a>', sanitized)
+	sanitized = reddit_mention_regex.sub(reddit_mention_replacer, sanitized)
 	sanitized = hole_mention_regex.sub(r'<a href="/\1">/\1</a>', sanitized)
 
 	names = set(m.group(1) for m in mention_regex.finditer(sanitized))
