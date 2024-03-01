@@ -393,7 +393,7 @@
 		{% endif %}
 
 		<h5>Users Online</h5>
-		<div id="online" class="mt-2"></div>
+		<div id="online" class="mt-2 {% if SITE_NAME == 'WPD' %}online-wpd{% endif %}"></div>
 	</div>
 {% endmacro %}
 
