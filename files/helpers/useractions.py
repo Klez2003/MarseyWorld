@@ -29,4 +29,4 @@ def badge_grant(user, badge_id, description=None, url=None, notify=True):
 			"@AutoJanny has given you the following profile badge:\n\n" +
 			f"{badge.path}\n\n**{badge.name}**\n\n{badge.badge.description}")
 		if notif:
-			notif.created_utc -= 1
+			notif.created_utc += 1
