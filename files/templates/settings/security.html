@@ -9,7 +9,7 @@
 				<h5>Email</h5>
 				<div class="settings-section rounded">
 					<form action="/settings/security" method="post">
-						<input hidden name="formkey" value="{{v|formkey}}">
+						<input hidden name="formkey" value="{{v|formkey}}" class="notranslate" translate="no">
 						<input hidden name="now" value="{{now}}">
 						<div class="body">
 							<div class="d-lg-flex">
@@ -75,7 +75,7 @@
 							</div>
 						</div>
 						<div class="footer">
-							<input hidden name="formkey" value="{{v|formkey}}">
+							<input hidden name="formkey" value="{{v|formkey}}" class="notranslate" translate="no">
 							<input hidden name="now" value="{{now}}">
 							<div class="d-flex">
 								<input autocomplete="off" class="btn btn-primary ml-auto" type="submit" value="Change Password">
@@ -104,7 +104,7 @@
 			<section id="site-settings-logout-everywhere-section" class="settings-section-section">
 				<h5>Log Out Everywhere</h5>
 				<form action="/settings/log_out_all_others" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHR(this)">
-					<input hidden name="formkey" value="{{v|formkey}}">
+					<input hidden name="formkey" value="{{v|formkey}}" class="notranslate" translate="no">
 					<div class="body">
 						<div class="d-lg-flex">
 							<label for="forcelog-password" class="w-lg-25" id="email-password-label">Password</label>
@@ -143,7 +143,7 @@
 					</button>
 				</div>
 				<form action="/settings/security" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHRReload(this)">
-					<input hidden name="formkey" value="{{v|formkey}}">
+					<input hidden name="formkey" value="{{v|formkey}}" class="notranslate" translate="no">
 					<input hidden name="2fa_secret" value="{{mfa_secret}}">
 					<div class="modal-body">
 						{% if mfa_secret %}

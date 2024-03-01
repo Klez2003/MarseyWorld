@@ -23,7 +23,7 @@
 					<div class="row">
 						<div class="col col-md-6 px-0 py-3 py-md-0">
 							<div class="body">
-								<input hidden name="formkey" value="{{v|formkey}}">
+								<input hidden name="formkey" value="{{v|formkey}}" class="notranslate" translate="no">
 								<input id="edit-group-description" maxlength="100" class="form-control allow-emojis" type="text" name="description" {% if group.description %}value="{{group.description}}"{% endif %}>
 								{{macros.emoji_btn('edit-group-description')}}
 								<div class="footer">

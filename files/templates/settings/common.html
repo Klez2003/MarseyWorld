@@ -25,7 +25,7 @@
 		<div class="body w-lg-100 d-lg-flex">
 			<div class="d-flex">
 				<form action="{{form_action}}" id="{{id}}-form" method="post" class="color-picker" style="line-height: 0">
-					<input hidden name="formkey" value="{{v|formkey}}">
+					<input hidden name="formkey" value="{{v|formkey}}" class="notranslate" translate="no">
 					{% for themecolor in COLORS %}
 						<input autocomplete="off" type="radio" name="{{form_name}}" id="{{id}}-{{themecolor}}" value="{{themecolor}}" {% if current_color == themecolor %}checked{% endif %} data-nonce="{{g.nonce}}" onclick_submit>
 						<label class="color-radio" for="{{id}}-{{themecolor}}">
@@ -43,7 +43,7 @@
 			<p class="text-small mb-2">Or type a color hex code:</p>
 			<div class="d-flex">
 				<form action="{{form_action}}" id="{{id}}-color-code-form" method="post">
-					<input hidden name="formkey" value="{{v|formkey}}">
+					<input hidden name="formkey" value="{{v|formkey}}" class="notranslate" translate="no">
 					<input autocomplete="off" class="form-control" type="text" name="{{form_name}}" id="{{id}}-color-code" minlength="6" maxlength="6" value="{% if current_color %}{{current_color}}{% endif %}">
 					<label class="btn btn-secondary text-capitalize mr-2 mt-2 mb-0">Update<input type="submit" for="{{id}}-color-code" hidden></label>
 				</form>
@@ -57,7 +57,7 @@
 		<label class="text-black w-lg-25">{{section_title}}</label>
 		<div class="w-lg-100">
 			<form id="{{id}}-form" action="{{form_action}}" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHR(this)">
-				<input hidden name="formkey" value="{{v|formkey}}">
+				<input hidden name="formkey" value="{{v|formkey}}" class="notranslate" translate="no">
 				<input minlength={{minlength}} maxlength={{maxlength}} pattern="{{pattern}}" autocomplete="off" id="{{id}}-body" type="text" name="{{form_name}}" class="form-control {% if show_emojis %}allow-emojis{% endif %}" placeholder='{{placeholder_text}}' value="{% if contents %}{{contents}}{% endif %}" {% if disabled %}disabled{% endif %}>
 				<div class="d-flex mt-2">
 					{% if show_emojis %}
@@ -76,7 +76,7 @@
 		<label class="text-black w-lg-25">{{section_title}}</label>
 		<div class="w-lg-100">
 			<form id="{{id}}-form" action="{{form_action}}" method="post" enctype="multipart/form-data" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHR(this)">
-				<input hidden name="formkey" value="{{v|formkey}}">
+				<input hidden name="formkey" value="{{v|formkey}}" class="notranslate" translate="no">
 				<textarea autocomplete="off" id="{{id}}-text" class="file-ta form-control rounded" placeholder="{{placeholder_text}}" rows="3" name="{{form_name}}" form="{{id}}-form" maxlength="{{maxlength}}">{% if contents %}{{contents}}{% endif %}</textarea>
 
 				{% if show_extras %}

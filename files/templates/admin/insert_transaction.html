@@ -10,7 +10,7 @@
 				<div class="body d-lg-flex">
 					<div class="w-lg-100">
 						<form action="/admin/insert_transaction" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHR(this)">
-							<input hidden name="formkey" value="{{v|formkey}}">
+							<input hidden name="formkey" value="{{v|formkey}}" class="notranslate" translate="no">
 
 							<label class="mt-3" for="type">Transaction Currency</label>
 							<div class="input-group">

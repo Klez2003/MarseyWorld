@@ -6,7 +6,7 @@
 		<p class="mb-md-5">wants to access your @{{v.username}} account.</p>
 		<p class="mb-md-5">It will not be able to see your password, or change your account settings.</p>
 		<form action="/authorize" method="post" class="mt-md-3" id="login">
-			<input hidden name="formkey" value="{{v|formkey}}">
+			<input hidden name="formkey" value="{{v|formkey}}" class="notranslate" translate="no">
 			<input hidden name="scopes" value="{{scopes_txt}}">
 			<input hidden name="redirect_uri" value="{{redirect_uri}}">
 			<input hidden name="permanent" value="{{permanent}}">

@@ -7,7 +7,7 @@
 	{% set form_action = "/admin/badge_grant" if grant else "/admin/badge_remove" %}
 
 	<form action="{{form_action}}" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHR(this)">
-		<input hidden name="formkey" value="{{v|formkey}}">
+		<input hidden name="formkey" value="{{v|formkey}}" class="notranslate" translate="no">
 
 		<div class="overflow-x-auto mt-4">
 			<table>
