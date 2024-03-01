@@ -2,166 +2,153 @@
 {% block pagetitle %}/h/{{hole}} Settings{% endblock %}
 
 {% block content %}
-	<div class="title mt-5">
-		<label class="text-lg" for="stealth">Stealth Mode</label>
-	</div>
-	<div class="d-inline-block w-lg-100 pt-1 pt-lg-3">
-		<div class="custom-control custom-switch">
-			<input autocomplete="off" type="checkbox" class="custom-control-input" id="stealth" name="stealth" {% if hole.stealth %}checked{% endif %} data-nonce="{{g.nonce}}" data-onchange="postToastSwitch(this,'/h/{{hole}}/stealth')">
-			<label class="custom-control-label" for="stealth"></label>
-		</div>
-		<span class="text-small text-muted">
-			Make this hole blocked by default (users can visit it to unblock it).
-		</span>
-	</div>
+	<div class="px-2 px-md-0">
+		<h1 class="mt-4 pt-2 mb-5 d-mob-none">/h/{{hole}} Settings</h1>
+		<h2 class="mt-4 pb-2 mb-4 d-md-none">/h/{{hole}} Settings</h2>
 
-	<div class="title mt-5">
-		<label class="text-lg" for="public_use">Public Use Mode</label>
-	</div>
-	<div class="d-inline-block w-lg-100 pt-1 pt-lg-3">
-		<div class="custom-control custom-switch">
-			<input autocomplete="off" type="checkbox" class="custom-control-input" id="public_use" name="public_use" {% if hole.public_use %}checked{% endif %} data-nonce="{{g.nonce}}" data-onchange="postToastSwitch(this,'/h/{{hole}}/public_use')">
-			<label class="custom-control-label" for="public_use"></label>
-		</div>
-		<span class="text-small text-muted">
-			Make this hole unblockable and can't be exiled from.
-		</span>
-	</div>
-
-	<h5 class="mt-5 pt-5">Marsey</h5>
-	<div class="settings-section rounded">
-		<img loading="lazy" alt="sub marsey picture" src="{{hole.marsey_url}}" style="max-width:100px">
-		<form class="d-inline-block" action="/h/{{hole}}/marsey_image" method="post" enctype="multipart/form-data">
-			<input hidden name="formkey" value="{{v|formkey}}" class="notranslate" translate="no">
-			<label class="btn btn-secondary text-capitalize mr-2 mb-0">
-				Upload<input autocomplete="off" type="file" accept="image/*" {% if g.is_tor %}disabled{% endif %} hidden name="marsey" data-nonce="{{g.nonce}}" onchange_submit>
-			</label>
-		</form>
-		<div class="text-small text-muted mt-3">
-			All image files are supported. Max file size is {% if v and v.patron %}16{% else %}8{% endif %} MB.
-		</div>
-	</div>
-
-	<h5 class="mt-5 pt-5">Sidebar Images</h5>
-	<div class="settings-section rounded hole-sidebar-update-section">
-		{% for sidebar in hole.sidebarurls %}
-			<section id="hole-sidebar-update-{{loop.index - 1}}" class="mt-5 d-block hole-settings-subsection" style="max-width:min(300px,100%)">
-				<img class="mr-3" loading="lazy" alt="/h/{{hole.name}} sidebar" src="{{sidebar}}" style="max-height:300px;max-width:100%">
-				<button class="btn btn-danger hole-sidebar-delete-button mt-2" id="hole-sidebar-delete-{{loop.index}}" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)" data-areyousure="postToastReload(this, '/h/{{hole.name}}/settings/sidebars/delete/{{loop.index - 1}}')">Delete</button>
-			</section>
-		{% else %}
-			<section id="hole-sidebar-no-sidebars" class="d-block hole-settings-subsection" style="max-width:min(300px,100%)">
-				{{macros.ghost_box("No sidebar images uploaded", "", 2, "flex:1")}}
-			</section>
-		{% endfor %}
-		{% if not g.is_tor %}
-			<section id="hole-sidebar-upload-new" class="mt-5 hole-settings-subsection">
-				<form class="d-inline-block" action="/h/{{hole.name}}/settings/sidebars/" method="post" enctype="multipart/form-data">
-					<input hidden name="formkey" value="{{v|formkey}}" class="notranslate" translate="no">
-					<label class="btn btn-secondary text-capitalize mr-2 mb-0">
-						Upload New Sidebar Image<input autocomplete="off" type="file" accept="image/*" hidden name="sidebar" data-nonce="{{g.nonce}}" onchange_submit>
-					</label>
-				</form>
-				<button type="button" class="btn btn-danger hole-sidebar-delete-button" id="hole-sidebar-delete-all" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)" data-areyousure="postToastReload(this, '/h/{{hole.name}}/settings/sidebars/delete_all')">Delete All Sidebar Images</button>
-				<div class="text-small text-muted mt-3">
-					All image files are supported. Max file size is {% if v and v.patron %}16{% else %}8{% endif %} MB.
+		<div class="hole-settings-section">
+			<h4>Stealth Mode</h4>
+			<div class="d-inline-block w-lg-100 pt-1 pt-lg-3">
+				<div class="custom-control custom-switch">
+					<input autocomplete="off" type="checkbox" class="custom-control-input" id="stealth" name="stealth" {% if hole.stealth %}checked{% endif %} data-nonce="{{g.nonce}}" data-onchange="postToastSwitch(this,'/h/{{hole}}/stealth')">
+					<label class="custom-control-label" for="stealth"></label>
 				</div>
-			</section>
-		{% endif %}
-	</div>
+				<span class="text-small text-muted">
+					Make this hole blocked by default (users can visit it to unblock it).
+				</span>
+			</div>
+		</div>
 
-	<h5 class="mt-5 pt-5">Banners</h5>
-	<div class="settings-section rounded hole-banner-update-section">
-		{% for banner in hole.bannerurls %}
-			<section id="hole-banner-update-{{loop.index - 1}}" class="mt-5 d-block hole-settings-subsection">
-				<img class="mr-3" loading="lazy" alt="/h/{{hole.name}} banner" src="{{banner}}" style="max-height:300px;max-width:100%">
-				<button class="btn btn-danger hole-banner-delete-button mt-2" id="hole-banner-delete-{{loop.index}}" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)" data-areyousure="postToastReload(this, '/h/{{hole.name}}/settings/banners/delete/{{loop.index - 1}}')">Delete</button>
-			</section>
-		{% else %}
-			<section id="hole-banner-no-banners" class="d-block hole-settings-subsection">
-				{{macros.ghost_box("No banners uploaded", "", 2, "flex:1")}}
-			</section>
-		{% endfor %}
-		{% if not g.is_tor %}
-			<section id="hole-banner-upload-new" class="mt-5 hole-settings-subsection">
-				<form class="d-inline-block" action="/h/{{hole.name}}/settings/banners/" method="post" enctype="multipart/form-data">
-					<input hidden name="formkey" value="{{v|formkey}}" class="notranslate" translate="no">
-					<label class="btn btn-secondary text-capitalize mr-2 mb-0">
-						Upload New Banner<input autocomplete="off" type="file" accept="image/*" hidden name="banner" data-nonce="{{g.nonce}}" onchange_submit>
-					</label>
-				</form>
-				<button type="button" class="btn btn-danger hole-banner-delete-button" id="hole-banner-delete-all" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)" data-areyousure="postToastReload(this, '/h/{{hole.name}}/settings/banners/delete_all')">Delete All Banners</button>
-				<div class="text-small text-muted mt-3">
-					All image files are supported. Max file size is {% if v and v.patron %}16{% else %}8{% endif %} MB.
+		<div class="hole-settings-section">
+			<h4>Public Use Mode</h4>
+			<div class="d-inline-block w-lg-100 pt-1 pt-lg-3">
+				<div class="custom-control custom-switch">
+					<input autocomplete="off" type="checkbox" class="custom-control-input" id="public_use" name="public_use" {% if hole.public_use %}checked{% endif %} data-nonce="{{g.nonce}}" data-onchange="postToastSwitch(this,'/h/{{hole}}/public_use')">
+					<label class="custom-control-label" for="public_use"></label>
 				</div>
-			</section>
-		{% endif %}
-	</div>
+				<span class="text-small text-muted">
+					Make this hole unblockable and can't be exiled from.
+				</span>
+			</div>
+		</div>
 
-	<div class="row mt-5">
-		<div class="col col-md-8">
-			<div class="settings">
-				<div id="description">
-					<h2>Edit Sidebar</h2><br>
-				</div>
-				<div class="body d-lg-flex">
-					<div class="w-lg-100">
-						<form id="sidebar" action="/h/{{hole}}/sidebar" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHR(this)">
-							<input hidden name="formkey" value="{{v|formkey}}" class="notranslate" translate="no">
-							<textarea autocomplete="off" maxlength="10000" class="form-control rounded" id="bio-text" placeholder="Enter sidebar here..." rows="10" name="sidebar" form="sidebar">{% if hole.sidebar %}{{hole.sidebar}}{% endif %}</textarea>
-							<small>Limit of {{HOLE_SIDEBAR_COLUMN_LENGTH}} characters</small>
-							<div class="d-flex mt-2">
-								<input autocomplete="off" class="btn btn-primary ml-auto" type="submit" value="Save">
-							</div>
-						</form>
-					</div>
+		<div class="hole-settings-section">
+			<h4>Marsey</h4>
+			<img loading="lazy" alt="sub marsey picture" src="{{hole.marsey_url}}" style="max-width:100px">
+			<form class="d-inline-block" action="/h/{{hole}}/marsey_image" method="post" enctype="multipart/form-data">
+				<input hidden name="formkey" value="{{v|formkey}}" class="notranslate" translate="no">
+				<label class="btn btn-secondary text-capitalize mr-2 mb-0">
+					Upload<input autocomplete="off" type="file" accept="image/*" {% if g.is_tor %}disabled{% endif %} hidden name="marsey" data-nonce="{{g.nonce}}" onchange_submit>
+				</label>
+			</form>
+			<div class="text-small text-muted mt-3">
+				All image files are supported. Max file size is {% if v and v.patron %}16{% else %}8{% endif %} MB.
+			</div>
+		</div>
+
+		<div class="hole-settings-section">
+			<h4 class="mb-4">Sidebar</h4>
+			<div class="body d-lg-flex">
+				<div class="w-lg-100">
+					<form id="sidebar" action="/h/{{hole}}/sidebar" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHR(this)">
+						<input hidden name="formkey" value="{{v|formkey}}" class="notranslate" translate="no">
+						<textarea autocomplete="off" maxlength="10000" class="form-control rounded dont-resize" id="hole-sidebar" placeholder="Enter sidebar here..." rows="10" name="sidebar" form="sidebar">{% if hole.sidebar %}{{hole.sidebar}}{% endif %}</textarea>
+						<small>Limit of {{HOLE_SIDEBAR_COLUMN_LENGTH}} characters</small>
+						<div class="d-flex mt-2">
+							<input autocomplete="off" class="btn btn-primary ml-auto" type="submit" value="Save">
+						</div>
+					</form>
 				</div>
 			</div>
 		</div>
-	</div>
 
-	<div class="row mt-5">
-		<div class="col col-md-8">
-			<div class="settings">
-				<div id="description">
-					<h2>Edit CSS</h2><br>
-				</div>
-				<div class="body d-lg-flex">
-					<div class="w-lg-100">
-						<form id="css" action="/h/{{hole}}/css" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHR(this)">
-							<input hidden name="formkey" value="{{v|formkey}}" class="notranslate" translate="no">
-							<textarea autocomplete="off" maxlength="{{CSS_LENGTH_LIMIT}}" class="form-control rounded" id="bio-text" placeholder="Enter css here..." rows="10" name="css" form="css">{% if css %}{{css}}{% endif %}</textarea>
-							<small>Limit of {{CSS_LENGTH_LIMIT}} characters</small>
-							<div class="d-flex mt-2">
-								<input autocomplete="off" class="btn btn-primary ml-auto" type="submit" value="Save">
-							</div>
-						</form>
-					</div>
+		<div class="hole-settings-section">
+			<h4 class="mb-4">CSS</h4>
+			<div class="body d-lg-flex">
+				<div class="w-lg-100">
+					<form id="css" action="/h/{{hole}}/css" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHR(this)">
+						<input hidden name="formkey" value="{{v|formkey}}" class="notranslate" translate="no">
+						<textarea autocomplete="off" maxlength="{{CSS_LENGTH_LIMIT}}" class="form-control rounded dont-resize" id="hole-css" placeholder="Enter css here..." rows="10" name="css" form="css">{% if css %}{{css}}{% endif %}</textarea>
+						<small>Limit of {{CSS_LENGTH_LIMIT}} characters</small>
+						<div class="d-flex">
+							<input autocomplete="off" class="btn btn-primary ml-auto" type="submit" value="Save">
+						</div>
+					</form>
 				</div>
 			</div>
 		</div>
-	</div>
 
-	<div class="row mt-5">
-		<div class="col col-md-8">
-			<div class="settings">
-				<div id="description">
-					<h2>Edit Snappy Quotes</h2><br>
-				</div>
-				<div class="body d-lg-flex">
-					<div class="w-lg-100">
-						<form id="snappy_quotes" action="/h/{{hole}}/snappy_quotes" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHR(this)">
-							<input hidden name="formkey" value="{{v|formkey}}" class="notranslate" translate="no">
-							<textarea autocomplete="off" maxlength="{{HOLE_SNAPPY_QUOTES_LENGTH}}" class="form-control rounded" id="bio-text" placeholder="Enter Snappy Quotes here..." rows="10" name="snappy_quotes" form="snappy_quotes">{% if snappy_quotes %}{{snappy_quotes}}{% endif %}</textarea>
-							<small>Separate Quotes with <code>[para]</code></small>
-							<p><small>Limit of {{HOLE_SNAPPY_QUOTES_LENGTH}} characters</small></p>
-							<div class="d-flex mt-2">
-								<input autocomplete="off" class="btn btn-primary ml-auto" type="submit" value="Save">
-							</div>
-						</form>
-					</div>
+		<div class="hole-settings-section">
+			<h4 class="mb-4">Snappy Quotes</h4>
+			<div class="body d-lg-flex">
+				<div class="w-lg-100">
+					<form id="snappy_quotes" action="/h/{{hole}}/snappy_quotes" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHR(this)">
+						<input hidden name="formkey" value="{{v|formkey}}" class="notranslate" translate="no">
+						<textarea autocomplete="off" maxlength="{{HOLE_SNAPPY_QUOTES_LENGTH}}" class="form-control rounded dont-resize" id="hole-snappy" placeholder="Enter Snappy Quotes here..." rows="10" name="snappy_quotes" form="snappy_quotes">{% if snappy_quotes %}{{snappy_quotes}}{% endif %}</textarea>
+						<small>Separate quotes with <code>[para]</code></small>
+						<p><small>Limit of {{HOLE_SNAPPY_QUOTES_LENGTH}} characters</small></p>
+						<div class="d-flex mt-2">
+							<input autocomplete="off" class="btn btn-primary ml-auto" type="submit" value="Save">
+						</div>
+					</form>
 				</div>
 			</div>
 		</div>
-	</div>	
+
+		<div class="hole-settings-section hole-banner-update-section">
+			<h4 class="mb-4 pb-2">Banners</h4>
+			{% if not g.is_tor %}
+				<section id="hole-banner-upload-new" class="mb-5 hole-settings-subsection">
+					<form class="d-inline-block" action="/h/{{hole.name}}/settings/banners/" method="post" enctype="multipart/form-data">
+						<input hidden name="formkey" value="{{v|formkey}}" class="notranslate" translate="no">
+						<label class="btn btn-secondary text-capitalize mr-2 mb-0">
+							Upload New Banner<input autocomplete="off" type="file" accept="image/*" hidden name="banner" data-nonce="{{g.nonce}}" onchange_submit>
+						</label>
+					</form>
+					<button type="button" class="btn btn-danger hole-banner-delete-button" id="hole-banner-delete-all" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)" data-areyousure="postToastReload(this, '/h/{{hole.name}}/settings/banners/delete_all')">Delete All Banners</button>
+					<div class="text-small text-muted mt-3">
+						All image files are supported. Max file size is {% if v and v.patron %}16{% else %}8{% endif %} MB.
+					</div>
+				</section>
+			{% endif %}
+			{% for banner in hole.bannerurls %}
+				<section id="hole-banner-update-{{loop.index - 1}}" class="mt-5 d-block hole-settings-subsection">
+					<img class="mr-3" loading="lazy" alt="/h/{{hole.name}} banner" src="{{banner}}">
+					<button class="btn btn-danger hole-banner-delete-button mt-2" id="hole-banner-delete-{{loop.index}}" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)" data-areyousure="postToastReload(this, '/h/{{hole.name}}/settings/banners/delete/{{loop.index - 1}}')">Delete</button>
+				</section>
+			{% else %}
+				<section id="hole-banner-no-banners" class="d-block hole-settings-subsection">
+					{{macros.ghost_box("No banners uploaded", "", 2, "flex:1")}}
+				</section>
+			{% endfor %}
+		</div>
+
+		<div class="hole-settings-section hole-sidebar-update-section">
+			<h4 class="mb-4 pb-2">Sidebar Images</h4>
+			{% if not g.is_tor %}
+				<section id="hole-sidebar-upload-new" class="mb-5 hole-settings-subsection">
+					<form class="d-inline-block" action="/h/{{hole.name}}/settings/sidebars/" method="post" enctype="multipart/form-data">
+						<input hidden name="formkey" value="{{v|formkey}}" class="notranslate" translate="no">
+						<label class="btn btn-secondary text-capitalize mr-2 mb-0">
+							Upload New Sidebar Image<input autocomplete="off" type="file" accept="image/*" hidden name="sidebar" data-nonce="{{g.nonce}}" onchange_submit>
+						</label>
+					</form>
+					<button type="button" class="btn btn-danger hole-sidebar-delete-button" id="hole-sidebar-delete-all" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)" data-areyousure="postToastReload(this, '/h/{{hole.name}}/settings/sidebars/delete_all')">Delete All Sidebar Images</button>
+					<div class="text-small text-muted mt-3">
+						All image files are supported. Max file size is {% if v and v.patron %}16{% else %}8{% endif %} MB.
+					</div>
+				</section>
+			{% endif %}
+			{% for sidebar in hole.sidebarurls %}
+				<section id="hole-sidebar-update-{{loop.index - 1}}" class="mt-5 d-block hole-settings-subsection">
+					<img class="mr-3" loading="lazy" alt="/h/{{hole.name}} sidebar" src="{{sidebar}}">
+					<button class="btn btn-danger hole-sidebar-delete-button mt-2" id="hole-sidebar-delete-{{loop.index}}" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)" data-areyousure="postToastReload(this, '/h/{{hole.name}}/settings/sidebars/delete/{{loop.index - 1}}')">Delete</button>
+				</section>
+			{% else %}
+				<section id="hole-sidebar-no-sidebars" class="d-block hole-settings-subsection">
+					{{macros.ghost_box("No sidebar images uploaded", "", 2, "flex:1")}}
+				</section>
+			{% endfor %}
+		</div>
+	</div>
 {% endblock %}

@@ -7721,3 +7721,30 @@ td li {
 img[alpha]:not([alt*="#"]) {
 	width: 20px !important;
 }
+
+.hole-settings-section {
+	margin-bottom: 4rem;
+	border: 0.1px solid var(--gray-400);
+	border-radius: 0.35rem;
+    overflow-y: scroll;
+	padding: 1rem;
+}
+
+.hole-settings-section textarea {
+	height: 500px;
+    width: 100%;
+	resize: vertical !important;
+}
+
+.hole-banner-update-section img {
+	max-height: 300px;
+	max-width: 90%;
+}
+
+.hole-sidebar-update-section img {
+	max-width: 300px;
+}
+
+.hole-settings-section h4 {
+    margin-top: 0.25rem;
+}

@@ -149,6 +149,8 @@ function register_new_elements(e) {
 
 	const textareas = e.getElementsByTagName('textarea')
 	for (const element of textareas) {
+		if (element.classList.contains('dont-resize'))
+			continue
 		autoExpand(element)
 		element.addEventListener('input', () => {
 			autoExpand(element)
