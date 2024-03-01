@@ -9,7 +9,7 @@
 	overflow-y: auto;
 	background-color: var(--background) !important;
 }
-.online-wpd {
+#online.online-wpd {
 	max-height: calc(100vh - 365px);
 }
 
