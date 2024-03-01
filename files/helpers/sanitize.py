@@ -743,6 +743,7 @@ domain_replacements = {
 	'https://lmgtfy.app/?q=': 'https://google.com/search?q=',
 	DONATE_LINK: f'{SITE_FULL}/donate',
 	'https://boards.4channel.org/': 'https://boards.4chan.org/',
+	'https://scrd.app/': 'https://scored.co/p/',
 	'https://communities.win/': 'https://scored.co/',
 	'https://m.communities.win/': 'https://scored.co/',
 	'https://patriots.win/': 'https://scored.co/',
