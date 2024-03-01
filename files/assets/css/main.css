@@ -7724,7 +7724,7 @@ img[alpha]:not([alt*="#"]) {
 
 .hole-settings-section {
 	margin-bottom: 4rem;
-	border: 0.1px solid var(--gray-400);
+	border: 2px solid var(--gray-400);
 	border-radius: 0.35rem;
     overflow-y: scroll;
 	padding: 1rem;
