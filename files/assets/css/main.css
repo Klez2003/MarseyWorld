@@ -7730,6 +7730,12 @@ img[alpha]:not([alt*="#"]) {
 	padding: 1rem;
 }
 
+@media (max-width: 768px) {
+	.hole-settings-section {
+		margin-bottom: 2rem;
+	}
+}
+
 .hole-settings-section textarea {
 	height: 500px;
     width: 100%;
