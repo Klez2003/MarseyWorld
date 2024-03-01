@@ -51,6 +51,23 @@ def snappy_report(post, reason):
 	message = f'@Snappy reported {post.textlink})\n\n> {reason}'
 	send_repeatable_notification(post.author_id, message)
 
+def get_archival_urls(href):
+	addition = ''
+	if href.startswith('https://old.reddit.com/r/'):
+		rev = href.replace('https://old.reddit.com/', '')
+		addition += f'* [undelete.pullpush.io](https://undelete.pullpush.io/{rev})\n\n'
+	elif href.startswith('https://old.reddit.com/user/'):
+		rev = href.replace('https://old.reddit.com/user/', '')
+		addition += f"* [search-new.pullpush.io](https://search-new.pullpush.io/?author={rev}&type=submission)\n\n"
+	elif href.startswith('https://boards.4chan.org/'):
+		rev = href.replace('https://boards.4chan.org/', '')
+		addition += f'* [archived.moe](https://archived.moe/{rev})\n\n'
+
+	addition += f'* [ghostarchive.org](https://ghostarchive.org/search?term={quote(href)})\n\n'
+	addition += f'* [archive.org](https://web.archive.org/{href})\n\n'
+	addition += f'* [archive.ph](https://archive.ph/?url={quote(href)}&run=1) (click to archive)\n\n'
+	return addition
+
 def execute_snappy(post, v):
 	if post.hole and g.db.query(Exile.user_id).filter_by(user_id=SNAPPY_ID, hole=post.hole).one_or_none():
 		return
@@ -194,15 +211,7 @@ def execute_snappy(post, v):
 	body += "\n\n"
 
 	if post.url and not post.url.startswith('/') and not post.url.startswith(f'{SITE_FULL}/') and not post.url.startswith(SITE_FULL_IMAGES):
-		if post.url.startswith('https://old.reddit.com/r/'):
-			rev = post.url.replace('https://old.reddit.com/', '')
-			rev = f"* [undelete.pullpush.io](https://undelete.pullpush.io/{rev})\n\n"
-		elif post.url.startswith("https://old.reddit.com/user/"):
-			rev = post.url.replace('https://old.reddit.com/user/', '')
-			rev = f"* [search-new.pullpush.io](https://search-new.pullpush.io/?author={rev}&type=submission)\n\n"
-		else: rev = ''
-
-		body += f"Snapshots:\n\n{rev}* [ghostarchive.org](https://ghostarchive.org/search?term={quote(post.url)})\n\n* [archive.org](https://web.archive.org/{post.url})\n\n* [archive.ph](https://archive.ph/?url={quote(post.url)}&run=1) (click to archive)\n\n"
+		body += f"Snapshots:\n\n{get_archival_urls(post.url)}"
 		archive_url(post.url)
 
 	captured = []
@@ -222,15 +231,7 @@ def execute_snappy(post, v):
 		if "Snapshots:\n\n" not in body: body += "Snapshots:\n\n"
 		if f'**[{title}]({href})**:\n\n' not in body:
 			addition = f'**[{title}]({href})**:\n\n'
-			if href.startswith('https://old.reddit.com/r/'):
-				rev = href.replace('https://old.reddit.com/', '')
-				addition += f'* [undelete.pullpush.io](https://undelete.pullpush.io/{rev})\n\n'
-			elif href.startswith('https://old.reddit.com/user/'):
-				rev = href.replace('https://old.reddit.com/user/', '')
-				addition += f"* [search-new.pullpush.io](https://search-new.pullpush.io/?author={rev}&type=submission)\n\n"
-			addition += f'* [ghostarchive.org](https://ghostarchive.org/search?term={quote(href)})\n\n'
-			addition += f'* [archive.org](https://web.archive.org/{href})\n\n'
-			addition += f'* [archive.ph](https://archive.ph/?url={quote(href)}&run=1) (click to archive)\n\n'
+			addition += get_archival_urls(href)
 			if len(f'{body}{addition}') > COMMENT_BODY_LENGTH_LIMIT: break
 			body += addition
 			archive_url(href)

@@ -7,6 +7,9 @@ BOOSTED_SITES = {
 	#4chan-like
 	#'all sites with the word "chan" in the domain',
 	'archived.moe',
+	'desuarchive.org',
+	'archive.4plebs.org',
+	'arch.b4k.co',
 	'lolcow.farm',
 	'8kun.top',
 	'soyjak.party',
