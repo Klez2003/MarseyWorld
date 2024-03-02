@@ -89,6 +89,9 @@
 						<a class="mx-1" href="/@{{u.username}}/upvoting">Simps For</a> |
 						<a class="mx-1" href="/@{{u.username}}/downvoting">Hates</a> |
 						<a class="mx-1" href="/@{{u.username}}/voted/posts">Voted</a>
+						{% if v.id == u.id %}
+							| <a class="mx-1" href="/bank_statement">Bank Statement</a>
+						{% endif %}
 
 					<div class="font-weight-bolder mb-1">
 						<div class="my-2">
@@ -393,6 +396,9 @@
 						<a class="mx-1" href="/@{{u.username}}/upvoting">Simps For</a> |
 						<a class="mx-1" href="/@{{u.username}}/downvoting">Hates</a> |
 						<a class="mx-1" href="/@{{u.username}}/voted/posts">Voted</a>
+						{% if v.id == u.id %}
+							| <a class="mx-1" href="/bank_statement">Bank Statement</a>
+						{% endif %}
 					</div>
 
 					<div class="font-weight-bolder">
