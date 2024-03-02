@@ -2,9 +2,11 @@
 
 	<h5 class="text-center mt-0 mt-md-2 mb-2">
 		Top Poster of the Day:
-		{% with user=top_poster_of_the_day() %}
-			{% include "user_in_table.html" %}
-		{% endwith %}
+		<span class="d-md-block mt-md-1">
+			{% with user=top_poster_of_the_day() %}
+				{% include "user_in_table.html" %}
+			{% endwith %}
+		</span>
 	</h5>
 
 	<h5 class="text-center mt-0 mt-md-2 mb-2 pb-1">
