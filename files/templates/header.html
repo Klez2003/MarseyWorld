@@ -346,22 +346,27 @@
 								</a>
 								<div class="dropdown-menu dropdown-menu-right dropdown-menu-lg-left shadow fade px-0" id="header--dropdown-menu">
 									<div class="px-2">
-										<a class="dropdown-item" href="{{v.url}}"><i class="fas fa-user-circle fa-fw mr-3"></i>My profile</a>
+										<a class="dropdown-item" href="{{v.url}}"><i class="fas fa-user-circle fa-fw mr-3"></i>My Wall</a>
+
+										<a class="dropdown-item" href="{{v.url}}/posts"><i class="fas fa-user-circle fa-fw mr-3"></i>My Posts</a>
+
+										<a class="dropdown-item" href="{{v.url}}/comments"><i class="fas fa-user-circle fa-fw mr-3"></i>My Comments</a>
+
 										<a class="dropdown-item" href="/settings/personal"><i class="fas fa-cog fa-fw mr-3"></i>Settings</a>
 
 										<input hidden id="VAPID_PUBLIC_KEY" value="{{VAPID_PUBLIC_KEY}}">
 
-										<button id="enable-push-nav-item" type="button" class="dropdown-item" data-nonce="{{g.nonce}}"  data-onclick="enablePushNotifications()"><i class="fas fa-bell fa-fw mr-3"></i>Enable push notifications</button>
+										<button id="enable-push-nav-item" type="button" class="dropdown-item" data-nonce="{{g.nonce}}"  data-onclick="enablePushNotifications()"><i class="fas fa-bell fa-fw mr-3"></i>Enable Push Notifications</button>
 
 										{% if g.browser != 'webview' %}
-											<a class="dropdown-item" href="/app"><i class="fas fa-mobile fa-fw mr-3"></i>Mobile app</a>
+											<a class="dropdown-item" href="/app"><i class="fas fa-mobile fa-fw mr-3"></i>Mobile App</a>
 										{% endif %}
 
 										<a class="dropdown-item donate-link" rel="noopener" href="/donate"><i class="fas fa-dollar-sign fa-fw mr-3"></i>Donate</a>
 
 										<a class="dropdown-item" href="/post/{{CHANGELOG_THREAD}}"><i class="fas fa-clipboard fa-fw mr-3"></i>Changelog</a>
 
-										<a class="dropdown-item" rel="noopener" href="https://fsdfsd.net/rDrama/rDrama"><i class="fab fa-git-alt fa-fw mr-3"></i>Source code</a>
+										<a class="dropdown-item" rel="noopener" href="https://fsdfsd.net/rDrama/rDrama"><i class="fab fa-git-alt fa-fw mr-3"></i>Source Code</a>
 
 										<a class="dropdown-item" rel="noopener" href="/post/{{BUG_THREAD}}"><i class="fas fa-bug fa-fw mr-3"></i>Bugs/Suggestions</a>
 
@@ -376,8 +381,10 @@
 										{% if SITE_NAME == 'rDrama' %}
 											<a class="dropdown-item" href="/archives"><i class="fas fa-book fa-fw mr-3"></i>Archives</a>
 										{% endif %}
-										<a class="dropdown-item" href="/contact"><i class="fas fa-file-signature fa-fw mr-3"></i>Contact us</a>
-										<button type="button" class="dropdown-item" data-nonce="{{g.nonce}}" data-onclick="postToastReload(this, '/logout')"><i class="fas fa-sign-out fa-fw mr-3"></i>Log out</button>
+
+										<a class="dropdown-item" href="/contact"><i class="fas fa-file-signature fa-fw mr-3"></i>Contact Us</a>
+
+										<button type="button" class="dropdown-item" data-nonce="{{g.nonce}}" data-onclick="postToastReload(this, '/logout')"><i class="fas fa-sign-out fa-fw mr-3"></i>Log Out</button>
 									</div>
 								</div>
 							</li>
@@ -407,39 +414,53 @@
 						</li>
 						{% if v %}
 							<li class="nav-item">
-								<a class="nav-link" href="{{v.url}}"><i class="fas fa-user-circle fa-fw mr-3"></i>@{{v.username}}
-									<div class="header--currency ml-2">
-										<img loading="lazy" alt="coins" class="ml-2" data-bs-toggle="tooltip" data-bs-placement="bottom" src="{{'coins.webp' | asset_siteimg}}" title="Coins">
-										<span id="user-coins-amount-mobile">{{v.coins}}</span>
+								<div class="header--currency ml-2 pl-1 my-2">
+									<img loading="lazy" alt="coins" data-bs-toggle="tooltip" data-bs-placement="bottom" src="{{'coins.webp' | asset_siteimg}}" title="Coins">
+									<span id="user-coins-amount-mobile">{{v.coins}}</span>
+								</div>
+								{% if FEATURES['MARSEYBUX'] %}
+									<div class="header--currency">
+										<img loading="lazy" alt="marseybux" class="ml-3" data-bs-toggle="tooltip" data-bs-placement="bottom" src="{{SITE_FULL_IMAGES}}/i/marseybux.webp?x=7" title="Marseybux">
+										<span id="user-bux-amount-mobile">{{v.marseybux}}</span>
 									</div>
-									{% if FEATURES['MARSEYBUX'] %}
-										<div class="header--currency">
-											<img loading="lazy" alt="marseybux" class="ml-3" data-bs-toggle="tooltip" data-bs-placement="bottom" src="{{SITE_FULL_IMAGES}}/i/marseybux.webp?x=7" title="Marseybux">
-											<span id="user-bux-amount-mobile">{{v.marseybux}}</span>
-										</div>
-									{% endif %}	
+								{% endif %}	
+							</li>
+
+							<li class="nav-item">
+								<a class="nav-link" href="{{v.url}}"><i class="fas fa-user-circle fa-fw mr-3"></i>My Wall
 								</a>
 							</li>
+
+							<li class="nav-item">
+								<a class="nav-link" href="{{v.url}}/posts"><i class="fas fa-user-circle fa-fw mr-3"></i>My Posts
+								</a>
+							</li>
+
+							<li class="nav-item">
+								<a class="nav-link" href="{{v.url}}/comments"><i class="fas fa-user-circle fa-fw mr-3"></i>My Comments
+								</a>
+							</li>
+
 							<li class="nav-item">
 								<a class="nav-link" href="/settings/personal"><i class="fas fa-cog fa-fw mr-3"></i>Settings</a>
 							</li>
 
 
 							{% if g.browser != 'webview' %}
-								<a class="nav-item nav-link" href="/app" id="mobile-app-nav-item"><i class="fas fa-mobile fa-fw mr-3"></i>Mobile app</a>
+								<a class="nav-item nav-link" href="/app" id="mobile-app-nav-item"><i class="fas fa-mobile fa-fw mr-3"></i>Mobile App</a>
 							{% endif %}
 
 							{% if g.browser == 'iphone' %}
-								<a id="enable-push-nav-item-iphone" class="nav-item nav-link d-none" href="/app"><i class="fas fa-bell fa-fw mr-3"></i>Enable push notifications</a>
+								<a id="enable-push-nav-item-iphone" class="nav-item nav-link d-none" href="/app"><i class="fas fa-bell fa-fw mr-3"></i>Enable Push Notifications</a>
 							{% endif %}
 
-							<button id="enable-push-nav-item-mobile" type="button" class="nav-item nav-link" data-nonce="{{g.nonce}}" data-onclick="enablePushNotifications()"><i class="fas fa-bell fa-fw mr-3"></i>Enable push notifications</button>
+							<button id="enable-push-nav-item-mobile" type="button" class="nav-item nav-link" data-nonce="{{g.nonce}}" data-onclick="enablePushNotifications()"><i class="fas fa-bell fa-fw mr-3"></i>Enable Push Notifications</button>
 
 							<a class="nav-item nav-link donate-link" rel="noopener" href="/donate"><i class="fas fa-dollar-sign fa-fw mr-3"></i>Donate</a>
 
 							<a class="nav-item nav-link" href="/post/{{CHANGELOG_THREAD}}"><i class="fas fa-clipboard fa-fw mr-3"></i>Changelog</a>
 
-							<a class="nav-item nav-link" rel="noopener" href="https://fsdfsd.net/rDrama/rDrama"><i class="fab fa-git-alt fa-fw mr-3"></i>Source code</a>
+							<a class="nav-item nav-link" rel="noopener" href="https://fsdfsd.net/rDrama/rDrama"><i class="fab fa-git-alt fa-fw mr-3"></i>Source Code</a>
 
 							<a class="nav-item nav-link" rel="noopener" href="/post/{{BUG_THREAD}}"><i class="fas fa-bug fa-fw mr-3"></i>Bugs/Suggestions</a>
 
@@ -455,18 +476,18 @@
 								<a class="nav-item nav-link" href="/archives"><i class="fas fa-book fa-fw mr-3"></i>Archives</a>
 							{% endif %}
 
-							<a class="nav-item nav-link" href="/contact"><i class="fas fa-file-signature fa-fw mr-3"></i>Contact us</a>
+							<a class="nav-item nav-link" href="/contact"><i class="fas fa-file-signature fa-fw mr-3"></i>Contact Us</a>
 
-							<button type="button" class="nav-item border-top border-bottom mt-2 pt-2 nav-link" data-nonce="{{g.nonce}}" data-onclick="postToastReload(this, '/logout')"><i class="fas fa-sign-out fa-fw mr-3 text-danger"></i>Log out</button>
+							<button type="button" class="nav-item border-top border-bottom mt-2 pt-2 nav-link" data-nonce="{{g.nonce}}" data-onclick="postToastReload(this, '/logout')"><i class="fas fa-sign-out fa-fw mr-3 text-danger"></i>Log Out</button>
 						{% else %}
 							<li class="nav-item d-flex align-items-center justify-content-center pb-3">
-								<a class="btn btn-primary btn-block" href="/contact">Contact us</a>
+								<a class="btn btn-primary btn-block" href="/contact">Contact Us</a>
 							</li>
 							<li class="nav-item d-flex align-items-center justify-content-center pb-3">
-								<a class="btn btn-primary btn-block" href="/login?redirect={{request.full_path | urlencode}}">Sign in</a>
+								<a class="btn btn-primary btn-block" href="/login?redirect={{request.full_path | urlencode}}">Sign In</a>
 							</li>
 							<li class="nav-item d-flex align-items-center justify-content-center">
-								<a class="btn btn-primary btn-block" href="/signup?redirect={{request.full_path | urlencode}}">Sign up</a>
+								<a class="btn btn-primary btn-block" href="/signup?redirect={{request.full_path | urlencode}}">Sign Up</a>
 							</li>
 						{% endif %}
 						<li class="mt-3">
