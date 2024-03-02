@@ -221,7 +221,7 @@ function buildRouletteBets(bets) {
 	const normalizedBets = formatNormalizedBets(bets);
 	const coinImgHtml = `
 		<img
-			src="${SITE_FULL_IMAGES}/i/rDrama/coins.webp?x=7"
+			src="${SITE_FULL_IMAGES}/i/coins.webp?x=7"
 			alt="coin"
 			width="32"
 			data-bs-toggle="tooltip"
