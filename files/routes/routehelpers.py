@@ -57,9 +57,10 @@ def add_alt(user1, user2):
 	if session.get("GLOBAL"):
 		return
 
-	if AEVANN_ID in (user1, user2):
-		return
 	li = [user1, user2]
+
+	if AEVANN_ID in li:
+		return
 
 	g.db.flush()
 	existing = g.db.query(Alt).filter(Alt.user1.in_(li), Alt.user2.in_(li)).one_or_none()
