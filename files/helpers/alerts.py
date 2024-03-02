@@ -177,6 +177,7 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, obj=None, followers_ping=Tr
 
 	if FEATURES['PING_GROUPS']:
 		cost = 0
+		cost_groups = []
 		coin_receivers = set()
 
 		for i in group_mention_regex.finditer(text):
@@ -194,8 +195,11 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, obj=None, followers_ping=Tr
 					cost = g.db.query(User).count() * 5
 					if cost > v.coins + v.marseybux:
 						abort(403, f"You need {cost} currency to mention these ping groups!")
-
-					v.charge_account('coins/marseybux', cost)
+					
+					reason = f"group pinging cost (<code>!everyone</code>)"
+					if obj:
+						reason += f" on {obj.textlink}"
+					v.charge_account('coins/marseybux', cost, reason)
 					if obj:
 						obj.ping_cost += cost
 				return 'everyone'
@@ -231,6 +235,7 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, obj=None, followers_ping=Tr
 				if group and group.name == 'verifiedrich':
 					abort(403, f"Only !verifiedrich members can mention it!")
 				cost += len(members) * 5
+				cost_groups.append(group.name)
 				if cost > v.coins + v.marseybux:
 					abort(403, f"You need {cost} currency to mention these ping groups!")
 
@@ -239,7 +244,10 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, obj=None, followers_ping=Tr
 
 		if charge:
 			if cost:
-				v.charge_account('coins/marseybux', cost)
+				reason = f"group pinging cost (<code>!" + "</code>, <code>!".join(cost_groups) + "</code>)"
+				if obj:
+					reason += f" on {obj.textlink}"
+				v.charge_account('coins/marseybux', cost, reason)
 				if obj:
 					obj.ping_cost += cost
 

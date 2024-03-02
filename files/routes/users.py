@@ -78,7 +78,7 @@ def claim_rewards_all_users():
 			marseybux = int(marseybux)
 			text = f"You have received {marseybux} Marseybux! You can use them to buy awards or hats in the [shop](/shop/awards) or gamble them in the [casino](/casino)."
 
-			user.pay_account('marseybux', marseybux)
+			user.pay_account('marseybux', marseybux, f"{patron.lower()} reward")
 
 			send_repeatable_notification(user.id, text)
 			g.db.add(user)
@@ -147,13 +147,13 @@ def transfer_currency(v, username, currency_name, apply_tax):
 		notif_text += f"\n\n> {reason}"
 		log_message += f"\n\n> {reason}"
 
-	if not v.charge_account(currency_name, amount)[0]:
+	if not v.charge_account(currency_name, amount, f"gift to @{username}")[0]:
 		abort(400, f"You don't have enough {currency_name}")
 
 	if currency_name == 'marseybux':
-		receiver.pay_account('marseybux', amount - tax)
+		receiver.pay_account('marseybux', amount - tax, f"gift from @{v.username}")
 	elif currency_name == 'coins':
-		receiver.pay_account('coins', amount - tax)
+		receiver.pay_account('coins', amount - tax, f"gift from @{v.username}")
 	else:
 		raise ValueError(f"Invalid currency '{currency_name}' got when transferring {amount} from {v.id} to {receiver.id}")
 
@@ -1549,3 +1549,18 @@ def usersong(username):
 @auth_required
 def user_effortposts(v, username):
 	return redirect(f'/search/posts?q=author:{username}+effortpost:true')
+
+@app.get("/bank_statement")
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@auth_required
+def currency_log(v):
+	page = get_page()
+
+	logs = g.db.query(CurrencyLog).filter_by(user_id=v.id)
+
+	total = logs.count()
+
+	logs = logs.order_by(CurrencyLog.created_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
+
+	return render_template("bank_statement.html", v=v, logs=logs, page=page, total=total)

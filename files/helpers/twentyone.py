@@ -317,8 +317,20 @@ def handle_payout(gambler, state, game):
 	elif split_status == BlackjackStatus.PUSHED:
 		payout += game.wager
 
-
 	gambler.pay_account(game.currency, payout)
+
+	if game.winnings:
+		currency_log = CurrencyLog(
+			user_id=gambler.id,
+			currency=game.currency,
+			amount=-game.winnings,
+			reason="blackjack bet",
+		)
+		g.db.add(currency_log)
+		if currency == 'coins':
+			currency_log.balance = gambler.coins
+		else:
+			currency_log.balance = gambler.marseybux
 
 	if status in {BlackjackStatus.BLACKJACK, BlackjackStatus.WON} or split_status in {BlackjackStatus.WON}:
 		distribute_wager_badges(gambler, game.wager, won=True)

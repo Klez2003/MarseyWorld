@@ -7758,3 +7758,11 @@ img[alpha]:not([alt*="#"]) {
 td[data-time] {
 	white-space: pre;
 }
+
+.bg-green {
+	background-color: #0a6936 !important;
+}
+
+.bg-red {
+	background-color: #71000b !important;
+}

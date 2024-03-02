@@ -324,7 +324,7 @@ class Comment(Base):
 	@property
 	@lazy
 	def textlink(self):
-		return f"[this comment]({self.shortlink})"
+		return f'<a href="{self.shortlink}">this comment</a>'
 
 	@property
 	@lazy

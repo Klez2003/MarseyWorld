@@ -51,6 +51,19 @@ def casino_slot_pull(gambler, wager_value, currency):
 		g.db.add(casino_game)
 		g.db.flush()
 
+		if casino_game.winnings:
+			currency_log = CurrencyLog(
+				user_id=gambler.id,
+				currency=currency,
+				amount=-casino_game.winnings,
+				reason="slots bet",
+			)
+			g.db.add(currency_log)
+			if currency == 'coins':
+				currency_log.balance = gambler.coins
+			else:
+				currency_log.balance = gambler.marseybux
+
 		return casino_game.id, casino_game.game_state
 	else:
 		return None, "{}",

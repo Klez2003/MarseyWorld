@@ -14,6 +14,7 @@ from files.classes import Base
 from files.classes.casino_game import CasinoGame
 from files.classes.group import *
 from files.classes.hole import Hole
+from files.classes.currency_logs import CurrencyLog
 from files.helpers.config.const import *
 from files.helpers.config.modaction_types import *
 from files.helpers.config.awards import AWARDS_ENABLED, HOUSE_AWARDS
@@ -213,7 +214,7 @@ class User(Base):
 	def __repr__(self):
 		return f"<{self.__class__.__name__}(id={self.id}, username={self.username})>"
 
-	def pay_account(self, currency, amount):
+	def pay_account(self, currency, amount, reason=None):
 		if self.id in {AUTOJANNY_ID, LONGPOSTBOT_ID, ZOZBOT_ID}:
 			return
 
@@ -238,7 +239,20 @@ class User(Base):
 		else:
 			user_query.update({ User.marseybux: User.marseybux + amount })
 
-	def charge_account(self, currency, amount, **kwargs):
+		if reason and amount:
+			currency_log = CurrencyLog(
+				user_id=self.id,
+				currency=currency,
+				amount=amount,
+				reason=reason,
+			)
+			g.db.add(currency_log)
+			if currency == 'coins':
+				currency_log.balance = self.coins
+			else:
+				currency_log.balance = self.marseybux
+
+	def charge_account(self, currency, amount, reason=None, **kwargs):
 		if self.admin_level >= PERMS['INFINITE_CURRENCY']:
 			return (True, amount)
 
@@ -256,12 +270,14 @@ class User(Base):
 				user_query.update({ User.coins: User.coins - amount })
 				succeeded = True
 				charged_coins = amount
+				logs = ('coins', amount)
 		elif currency == 'marseybux':
 			account_balance = self.marseybux
 
 			if not should_check_balance or account_balance >= amount:
 				user_query.update({ User.marseybux: User.marseybux - amount })
 				succeeded = True
+				logs = ('marseybux', amount)
 		elif currency == 'coins/marseybux':
 			if self.marseybux >= amount:
 				subtracted_mbux = amount
@@ -278,9 +294,24 @@ class User(Base):
 			})
 			succeeded = True
 			charged_coins = subtracted_coins
+			logs = (('coins', subtracted_coins), ('marseybux', subtracted_mbux))
 
 		if succeeded:
 			g.db.add(self)
+			if reason:
+				for currency, amount in logs:
+					if not amount: continue
+					currency_log = CurrencyLog(
+						user_id=self.id,
+						currency=currency,
+						amount=-amount,
+						reason=reason,
+					)
+					g.db.add(currency_log)
+					if currency == 'coins':
+						currency_log.balance = self.coins
+					else:
+						currency_log.balance = self.marseybux
 
 		return (succeeded, charged_coins)
 

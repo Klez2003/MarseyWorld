@@ -156,7 +156,7 @@ class Post(Base):
 	@property
 	@lazy
 	def textlink(self):
-		return f"[{self.title}]({self.shortlink})"
+		return f'<a href="{self.shortlink}">{self.title}</a>'
 
 	@property
 	@lazy

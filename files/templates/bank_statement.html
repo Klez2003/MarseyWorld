@@ -1,0 +1,38 @@
+{% extends "default.html" %}
+{% block pagetitle %}Bank Statement{% endblock %}
+{% block content %}
+	<div class="row justify-content-around">
+		<div class="col h-100">
+			<div class="justify-content-between">
+				<h2 class="font-weight-bolder text-center pt-2 pb-3">Bank Statement</h2>
+			</div>
+			<h5 class="font-weight-bolder text-right pb-0 mr-4">Balance</h2>
+
+			<div class="rounded border mx-auto">
+				{% for log in logs %}
+					<div class="modlog-action {% if log.amount > 0 %}bg-green{% else %}bg-red{% endif %} ">
+						<div class="d-flex flex-grow-1 align-items-center">
+							<div class="d-flex align-items-center justify-content-center mr-3 rounded-lg flex-shrink-0" style="width: 32px;height: 32px">
+								<img width="50" alt="{{log.currency}}" class="pl-2" data-bs-toggle="tooltip" data-bs-placement="bottom" src="{{SITE_FULL_IMAGES}}/i/{{log.currency}}.webp?x=7" title="{{log.currency.title()}}">
+							</div>
+							<div class="d-flex align-items-center">
+								<div class="text-muted pl-3">
+									<div>
+										<span><b>{{log.amount}} {{log.currency}}</b> &nbsp; {{log.reason | safe}}</span>
+									</div>
+									<div class="text-gray-500">
+										<span class="log--item-age" data-bs-toggle="tooltip" data-bs-placement="bottom" data-nonce="{{g.nonce}}" data-onmouseover="timestamp(this, '{{log.created_utc}}')">{{log.age_string}}</span>
+									</div>
+								</div>
+							</div>
+							<span class="ml-auto">{{log.balance}} {{log.currency}}</span>
+						</div>
+					</div>
+				{% else %}
+					<div class="p-3">There's nothing here right now.</div>
+				{% endfor %}
+			</div>
+			{% include "pagination.html" %}
+		</div>
+	</div>
+{% endblock %}
