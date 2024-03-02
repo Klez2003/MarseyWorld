@@ -82,6 +82,7 @@ function toggleReplyBox(t, id) {
 	t.innerHTML = newHTML
 }
 
+let old_text
 function toggleEdit(id){
 	const comment = document.getElementById("comment-text-"+id);
 	const form = document.getElementById("comment-edit-"+id);
@@ -93,10 +94,14 @@ function toggleEdit(id){
 	actions.classList.toggle("d-none");
 
 	if (comment.classList.contains('d-none')) {
+		old_text = box.value;
 		autoExpand(box);
 		markdown(box);
 		charLimit(box.id, 'charcount-edit-' + id)
 	}
+	else {
+		box.value = old_text;
+	}		
 
 	close_inline_emoji_modal();
 };
