@@ -55,7 +55,7 @@ HOLEACTION_TYPES = {
 		"color": 'bg-primary'
 	},
 	'delete_banner': {
-		"str": 'deleted banner',
+		"str": 'deleted a banner',
 		"icon": 'fa-image-slash',
 		"color": 'bg-danger',
 	},
