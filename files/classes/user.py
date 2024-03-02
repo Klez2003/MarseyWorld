@@ -263,7 +263,7 @@ class User(Base):
 
 		user_query = g.db.query(User).options(load_only(User.id)).filter_by(id=self.id)
 
-		logs = ()
+		logs = []
 		if currency == 'coins':
 			account_balance = self.coins
 
@@ -271,14 +271,14 @@ class User(Base):
 				user_query.update({ User.coins: User.coins - amount })
 				succeeded = True
 				charged_coins = amount
-				logs = (('coins', amount))
+				logs = [['coins', amount]]
 		elif currency == 'marseybux':
 			account_balance = self.marseybux
 
 			if not should_check_balance or account_balance >= amount:
 				user_query.update({ User.marseybux: User.marseybux - amount })
 				succeeded = True
-				logs = (('marseybux', amount))
+				logs = [['marseybux', amount]]
 		elif currency == 'coins/marseybux':
 			if self.marseybux >= amount:
 				subtracted_mbux = amount
@@ -295,11 +295,11 @@ class User(Base):
 			})
 			succeeded = True
 			charged_coins = subtracted_coins
-			logs = (('coins', subtracted_coins), ('marseybux', subtracted_mbux))
+			logs = [['coins', subtracted_coins], ['marseybux', subtracted_mbux]]
 
 		if succeeded:
 			g.db.add(self)
-			if reason and logs:
+			if reason:
 				for currency, amount in logs:
 					if not amount: continue
 					currency_log = CurrencyLog(
