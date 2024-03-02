@@ -79,9 +79,6 @@
 
 
 @keyframes emoji-hz {
-	0% {
-		transform: translateX(-10vw);
-	}
 	100% {
 		transform: translateX(110vw);
 	}
@@ -89,6 +86,7 @@
 
 .emoji-hz-award {
 	animation: emoji-hz 12s;
+	left: -4%
 }
 
 @media (max-width: 768px) {
