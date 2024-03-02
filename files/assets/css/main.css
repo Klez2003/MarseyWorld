@@ -4806,7 +4806,7 @@ table .thead-dark th {
 	transform: translateX(1.25rem);
 }
 pre code {
-	white-space: pre;
+	white-space: break-spaces;
 	color: var(--primary);
 }
 pre ol > li {
