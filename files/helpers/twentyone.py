@@ -328,7 +328,7 @@ def handle_payout(gambler, state, game):
 			reason="Blackjack bet",
 		)
 		g.db.add(currency_log)
-		if currency == 'coins':
+		if game.currency == 'coins':
 			currency_log.balance = gambler.coins
 		else:
 			currency_log.balance = gambler.marseybux
