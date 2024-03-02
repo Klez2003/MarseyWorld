@@ -16,9 +16,7 @@
 							</div>
 							<div class="d-flex align-items-center">
 								<div class="text-muted pl-3">
-									<div>
-										<span><b>{{log.amount}} {{log.currency}}</b> &nbsp;&nbsp; {{log.reason | safe}}</span>
-									</div>
+									<span><b class="bank-statement-amount">{{log.amount}} {{log.currency}}</b> &nbsp;&nbsp; {{log.reason | safe}}</span>
 									<div class="text-gray-500">
 										<span class="log--item-age" data-bs-toggle="tooltip" data-bs-placement="bottom" data-nonce="{{g.nonce}}" data-onmouseover="timestamp(this, '{{log.created_utc}}')">{{log.age_string}}</span>
 									</div>

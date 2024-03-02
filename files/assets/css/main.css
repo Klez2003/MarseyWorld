@@ -7763,3 +7763,8 @@ td[data-time] {
 .bg-red {
 	background-color: #71000b !important;
 }
+
+.bank-statement-amount {
+	width: 75px;
+    display: inline-block;
+}
