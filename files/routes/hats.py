@@ -44,12 +44,12 @@ def buy_hat(v, hat_id):
 	if not hat.is_purchasable:
 		abort(403, "This hat is not for sale!")
 
-	charged = v.charge_account('coins/marseybux', hat.price, f"{hat.name} hat cost")
+	charged = v.charge_account('coins/marseybux', hat.price, f"<code>{hat.name}</code> hat cost")
 	if not charged[0]:
 		abort(400, "Not enough coins/marseybux!")
 
 	v.coins_spent_on_hats += charged[1]
-	hat.author.pay_account('coins', hat.price * 0.1, f"royalties for `{hat.name}`")
+	hat.author.pay_account('coins', hat.price * 0.1, f"Royalties for <code>{hat.name}</code> hat")
 
 	new_hat = Hat(user_id=v.id, hat_id=hat.id)
 	g.db.add(new_hat)

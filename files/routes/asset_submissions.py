@@ -225,7 +225,7 @@ def approve_emoji(v, name):
 	if 'pkmn' in emoji.tags: amount = 500
 	else: amount = 250
 
-	author.pay_account('coins', amount, f"reward for making :{emoji.name}:")
+	author.pay_account('coins', amount, f"Reward for making <code>:{emoji.name}:</code>")
 	g.db.add(author)
 
 	if v.id != author.id:

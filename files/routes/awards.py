@@ -64,7 +64,7 @@ def buy_award(v, kind, AWARDS):
 	else:
 		currency = 'coins/marseybux'
 
-	charged = v.charge_account(currency, price, f"{kind} award cost")
+	charged = v.charge_account(currency, price, f"{AWARDS[kind]['title']} award cost")
 	if not charged[0]:
 		abort(400, f"Not enough {currency}!")
 
@@ -238,8 +238,8 @@ def award_thing(v, thing_type, id):
 
 			if kind == 'shit':
 				awarded_coins = int(AWARDS[kind]['price'] * COSMETIC_AWARD_COIN_AWARD_PCT)
-				v.charge_account('coins', awarded_coins, f"shit award deflected theft on {obj.textlink}", should_check_balance=False)
-				obj.author.pay_account('coins', awarded_coins, f"shit award deflected theft on {obj.textlink}")
+				v.charge_account('coins', awarded_coins, f"Deflected shit award on {obj.textlink}", should_check_balance=False)
+				obj.author.pay_account('coins', awarded_coins, f"Deflected shit award on {obj.textlink}")
 		elif kind != 'spider':
 			if AWARDS[kind]['cosmetic'] and not AWARDS[kind]['included_in_lootbox']:
 				awarded_coins = int(AWARDS[kind]['price'] * COSMETIC_AWARD_COIN_AWARD_PCT)
@@ -248,10 +248,10 @@ def award_thing(v, thing_type, id):
 
 			if awarded_coins:
 				if kind == 'shit':
-					author.charge_account('coins', awarded_coins, f"shit award theft on {obj.textlink}", should_check_balance=False)
-					v.pay_account('coins', awarded_coins, f"shit award theft on {obj.textlink}")
+					author.charge_account('coins', awarded_coins, f"Shit award on {obj.textlink}", should_check_balance=False)
+					v.pay_account('coins', awarded_coins, f"Shit award on {obj.textlink}")
 				else:
-					author.pay_account('coins', awarded_coins)
+					author.pay_account('coins', awarded_coins, f"{award_title} award on {obj.textlink}")
 
 	if kind == 'marsify' and author.marsify == 1:
 		abort(409, f"{safe_username} already permanently marsified!")
@@ -479,7 +479,7 @@ def award_thing(v, thing_type, id):
 			author.patron = 1
 		if author.patron_utc: author.patron_utc += 2629746
 		else: author.patron_utc = int(time.time()) + 2629746
-		author.pay_account('marseybux', 1250, f"benefactor award on {obj.textlink}")
+		author.pay_account('marseybux', 1250, f"Benefactor award on {obj.textlink}")
 		badge_grant(user=v, badge_id=103)
 	elif kind == "rehab":
 		if author.rehab: author.rehab += 86400

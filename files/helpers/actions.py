@@ -166,7 +166,7 @@ def execute_snappy(post, v):
 			g.db.add(award_object)
 
 			awarded_coins = int(AWARDS["glowie"]['price'] * COSMETIC_AWARD_COIN_AWARD_PCT)
-			post.author.pay_account('coins', awarded_coins, f"glowie award on {post.textlink}")
+			post.author.pay_account('coins', awarded_coins, f"Glowie award on {post.textlink}")
 
 			msg = f"@Snappy has given {post.textlink} the Glowie Award and you have received {awarded_coins} coins as a result!"
 			send_repeatable_notification(post.author.id, msg)

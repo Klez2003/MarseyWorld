@@ -35,7 +35,7 @@ def create_group(v):
 	if name in {'everyone', 'jannies', 'holejannies', 'followers', 'commenters'} or g.db.get(Group, name):
 		abort(400, "This group already exists!")
 
-	if not v.charge_account('coins/marseybux', GROUP_COST, f"cost of creating !{name}")[0]:
+	if not v.charge_account('coins/marseybux', GROUP_COST, f"Cost of creating !{name}")[0]:
 		abort(403, "You don't have enough coins or marseybux!")
 
 	g.db.add(v)

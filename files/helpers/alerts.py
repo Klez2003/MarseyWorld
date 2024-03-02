@@ -196,7 +196,7 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, obj=None, followers_ping=Tr
 					if cost > v.coins + v.marseybux:
 						abort(403, f"You need {cost} currency to mention these ping groups!")
 					
-					reason = f"group pinging cost (<code>!everyone</code>)"
+					reason = f"Group pinging cost (<code>!everyone</code>)"
 					if obj:
 						reason += f" on {obj.textlink}"
 					v.charge_account('coins/marseybux', cost, reason)
@@ -244,7 +244,7 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, obj=None, followers_ping=Tr
 
 		if charge:
 			if cost:
-				reason = f"group pinging cost (<code>!" + "</code>, <code>!".join(cost_groups) + "</code>)"
+				reason = f"Group pinging cost (<code>!" + "</code>, <code>!".join(cost_groups) + "</code>)"
 				if obj:
 					reason += f" on {obj.textlink}"
 				v.charge_account('coins/marseybux', cost, reason)

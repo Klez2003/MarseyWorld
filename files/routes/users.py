@@ -78,7 +78,7 @@ def claim_rewards_all_users():
 			marseybux = int(marseybux)
 			text = f"You have received {marseybux} Marseybux! You can use them to buy awards or hats in the [shop](/shop/awards) or gamble them in the [casino](/casino)."
 
-			user.pay_account('marseybux', marseybux, f"{patron.lower()} reward")
+			user.pay_account('marseybux', marseybux, f"{patron} reward")
 
 			send_repeatable_notification(user.id, text)
 			g.db.add(user)
@@ -147,13 +147,13 @@ def transfer_currency(v, username, currency_name, apply_tax):
 		notif_text += f"\n\n> {reason}"
 		log_message += f"\n\n> {reason}"
 
-	if not v.charge_account(currency_name, amount, f"gift to @{username}")[0]:
+	if not v.charge_account(currency_name, amount, f"Gift to @{username}")[0]:
 		abort(400, f"You don't have enough {currency_name}")
 
 	if currency_name == 'marseybux':
-		receiver.pay_account('marseybux', amount - tax, f"gift from @{v.username}")
+		receiver.pay_account('marseybux', amount - tax, f"Gift from @{v.username}")
 	elif currency_name == 'coins':
-		receiver.pay_account('coins', amount - tax, f"gift from @{v.username}")
+		receiver.pay_account('coins', amount - tax, f"Gift from @{v.username}")
 	else:
 		raise ValueError(f"Invalid currency '{currency_name}' got when transferring {amount} from {v.id} to {receiver.id}")
 

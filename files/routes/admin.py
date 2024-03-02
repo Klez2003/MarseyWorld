@@ -188,7 +188,7 @@ def distribute(v, kind, option_id):
 	cid = notif_comment(text)
 	for vote in votes:
 		u = vote.user
-		u.pay_account('coins', coinsperperson, f"bet winnings on {parent.textlink}")
+		u.pay_account('coins', coinsperperson, f"Bet winnings on {parent.textlink}")
 		add_notif(cid, u.id, text, pushnotif_url=parent.permalink)
 
 	text = f"You lost the {POLL_BET_COINS} coins you bet on {parent.textlink} :marseylaugh:"
@@ -2163,7 +2163,7 @@ def mark_effortpost(pid, v):
 
 	coins = (p.upvotes + p.downvotes) * mul
 
-	p.author.pay_account('coins', coins, f"retroactive efortpost gains of {post.textlink}")
+	p.author.pay_account('coins', coins, f"Retroactive efortpost gains of {post.textlink}")
 
 	if v.id != p.author_id:
 		send_repeatable_notification(p.author_id, f":marseyclapping: @{v.username} (a site admin) has marked {p.textlink} as an effortpost, it now gets x{mul} coins from votes. You have received {coins} coins retroactively, thanks! :!marseyclapping:")
@@ -2200,7 +2200,7 @@ def unmark_effortpost(pid, v):
 
 	coins = (p.upvotes + p.downvotes) * mul
 
-	p.author.charge_account('coins', coins, f"revocation of efortpost gains of {post.textlink}")
+	p.author.charge_account('coins', coins, f"Revocation of efortpost gains of {post.textlink}")
 
 	if v.id != p.author_id:
 		send_repeatable_notification(p.author_id, f":marseyitsover: @{v.username} (a site admin) has unmarked {p.textlink} as an effortpost. {coins} coins have been deducted from you. :!marseyitsover:")
