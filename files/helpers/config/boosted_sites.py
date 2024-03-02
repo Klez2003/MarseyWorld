@@ -134,6 +134,7 @@ BOOSTED_SITES = {
 	'sift.quest',
 	'limereader.com',
 	'disqus.com',
+	'disq.us',
 	##lemmy
 	'beehaw.org',
 	'sh.itjust.works',
