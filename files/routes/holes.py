@@ -562,6 +562,7 @@ def upload_hole_sidebar(v, hole):
 	ma = HoleAction(
 		hole=hole.name,
 		kind='upload_sidebar_image',
+		_note=sidebarurl,
 		user_id=v.id
 	)
 	g.db.add(ma)
@@ -591,7 +592,7 @@ def delete_hole_sidebar(v, hole, index):
 	ma = HoleAction(
 		hole=hole.name,
 		kind='delete_sidebar_image',
-		_note=index,
+		_note=sidebar,
 		user_id=v.id
 	)
 	g.db.add(ma)
@@ -650,6 +651,7 @@ def upload_hole_banner(v, hole):
 	ma = HoleAction(
 		hole=hole.name,
 		kind='upload_banner',
+		_note=bannerurl,
 		user_id=v.id
 	)
 	g.db.add(ma)
@@ -679,7 +681,7 @@ def delete_hole_banner(v, hole, index):
 	ma = HoleAction(
 		hole=hole.name,
 		kind='delete_banner',
-		_note=index,
+		_note=banner,
 		user_id=v.id
 	)
 	g.db.add(ma)
@@ -739,6 +741,7 @@ def hole_marsey(v, hole):
 	ma = HoleAction(
 		hole=hole.name,
 		kind='change_marsey',
+		_note=hole.marseyurl,
 		user_id=v.id
 	)
 	g.db.add(ma)
