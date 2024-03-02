@@ -7,6 +7,7 @@ from flask import abort, g
 from files.classes.casino_game import CasinoGame
 from files.classes.comment import Comment
 from files.classes.user import User
+from files.classes.currency_logs import CurrencyLog
 from files.helpers.casino import distribute_wager_badges
 
 from .config.const import *

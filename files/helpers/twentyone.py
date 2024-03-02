@@ -6,6 +6,7 @@ from math import floor
 from flask import g
 
 from files.classes.casino_game import CasinoGame
+from files.classes.currency_logs import CurrencyLog
 from files.helpers.casino import distribute_wager_badges
 
 from sqlalchemy.orm.exc import MultipleResultsFound
