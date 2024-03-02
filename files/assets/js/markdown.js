@@ -203,7 +203,6 @@ function markdown(t) {
 			modifiers.add(MODIFIERS.USER);
 		}
 
-
 		if (emoji === 'marseyunpettable') {
 			modifiers.delete(MODIFIERS.PAT);
 			if (!isTalkingFirst) {
@@ -255,7 +254,9 @@ function markdown(t) {
 
 	input = input.replace(compiled_regex, replace_image)
 
+	input = input.replaceAll('_', '▔')
 	input = marked(input)
+	input = input.replaceAll('▔', '_')
 
 	if (oldfiles[t.id]) {
 		const files = oldfiles[t.id].files
