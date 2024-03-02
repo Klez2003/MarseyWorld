@@ -36,7 +36,7 @@ def reddit_mentions_task():
 		q = " or ".join(OFFSITE_NOTIF_QUERIES)
 		url = f'https://api.pullpush.io/reddit/search/{kind}?q={q}'
 		try: data = requests.get(url, headers=HEADERS, timeout=20).json()['data']
-		except: return []
+		except: return
 
 		for thing in data:
 			if not thing.get('permalink'): continue
@@ -101,7 +101,8 @@ def fourchan_mentions_task():
 	queries = OFFSITE_NOTIF_QUERIES - {'r/drama'}
 	for q in queries:
 		url = f'https://archived.moe/_/api/chan/search?text={q}'
-		data = requests.get(url, headers=HEADERS, timeout=20, proxies=proxies).json()['0']['posts']
+		try: data = requests.get(url, headers=HEADERS, timeout=20, proxies=proxies).json()['0']['posts']
+		except: return
 
 		for thing in data:
 			board = thing['board']['shortname']
