@@ -6,9 +6,8 @@
 			<div class="justify-content-between">
 				<h2 class="font-weight-bolder text-center pt-2 pb-3">Bank Statement</h2>
 			</div>
-			<h5 class="font-weight-bolder text-right pb-0 mr-4">Balance</h2>
-
-			<div class="rounded border mx-auto">
+			<div class="rounded border mx-auto" style="max-width:500px">
+				<h5 class="font-weight-bolder text-right pb-0 mr-4">Balance</h2>
 				{% for log in logs %}
 					<div class="modlog-action {% if log.amount > 0 %}bg-green{% else %}bg-red{% endif %} ">
 						<div class="d-flex flex-grow-1 align-items-center">
