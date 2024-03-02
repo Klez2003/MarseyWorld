@@ -324,7 +324,7 @@ def handle_payout(gambler, state, game):
 		currency_log = CurrencyLog(
 			user_id=gambler.id,
 			currency=game.currency,
-			amount=-game.winnings,
+			amount=game.winnings,
 			reason="Blackjack bet",
 		)
 		g.db.add(currency_log)

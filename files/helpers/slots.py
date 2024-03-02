@@ -56,7 +56,7 @@ def casino_slot_pull(gambler, wager_value, currency):
 			currency_log = CurrencyLog(
 				user_id=gambler.id,
 				currency=currency,
-				amount=-casino_game.winnings,
+				amount=casino_game.winnings,
 				reason="Slots bet",
 			)
 			g.db.add(currency_log)
