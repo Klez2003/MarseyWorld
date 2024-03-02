@@ -475,7 +475,6 @@ def execute_antispam_post_check(title, v, url):
 	return True
 
 def execute_antispam_duplicate_comment_check(v, body_html):
-	return
 	if v.admin_level >= PERMS['BYPASS_ANTISPAM_CHECKS']:
 		return
 	if v.id in ANTISPAM_BYPASS_IDS:
@@ -497,7 +496,6 @@ def execute_antispam_duplicate_comment_check(v, body_html):
 	abort(403, "Too much spam!")
 
 def execute_antispam_comment_check(body, v):
-	return
 	if v.admin_level >= PERMS['BYPASS_ANTISPAM_CHECKS']:
 		return
 
