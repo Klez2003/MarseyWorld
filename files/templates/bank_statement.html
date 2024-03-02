@@ -22,7 +22,7 @@
 									</div>
 								</div>
 							</div>
-							<span class="ml-auto unbreakable">{{log.balance}} {{log.currency}}</span>
+							<span class="ml-auto unbreakable">{% if log.amount > 0 %}+{% endif %}{{log.balance}} {{log.currency}}</span>
 						</div>
 					</div>
 				{% else %}
