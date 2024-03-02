@@ -1554,7 +1554,7 @@ def user_effortposts(v, username):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def currency_log(v, uid):
+def bank_statement(v, uid):
 	page = get_page()
 
 	logs = g.db.query(CurrencyLog).filter_by(user_id=uid)
