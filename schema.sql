@@ -500,6 +500,41 @@ CREATE TABLE public.commentvotes (
 
 
 --
+-- Name: currency_logs; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.currency_logs (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    created_utc integer NOT NULL,
+    currency character varying(9) NOT NULL,
+    amount integer NOT NULL,
+    reason character varying(1000) NOT NULL,
+    balance integer NOT NULL
+);
+
+
+--
+-- Name: currency_logs_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.currency_logs_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: currency_logs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.currency_logs_id_seq OWNED BY public.currency_logs.id;
+
+
+--
 -- Name: emojis; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1123,6 +1158,13 @@ ALTER TABLE ONLY public.comments ALTER COLUMN id SET DEFAULT nextval('public.com
 
 
 --
+-- Name: currency_logs id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.currency_logs ALTER COLUMN id SET DEFAULT nextval('public.currency_logs_id_seq'::regclass);
+
+
+--
 -- Name: hat_defs id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1281,6 +1323,14 @@ ALTER TABLE ONLY public.comments
 
 ALTER TABLE ONLY public.commentvotes
     ADD CONSTRAINT commentvotes_pkey PRIMARY KEY (comment_id, user_id);
+
+
+--
+-- Name: currency_logs currency_logs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.currency_logs
+    ADD CONSTRAINT currency_logs_pkey PRIMARY KEY (id);
 
 
 --
@@ -1778,6 +1828,13 @@ CREATE INDEX commentvotes_user_id_vote_type_idx ON public.commentvotes USING btr
 --
 
 CREATE INDEX creport_user_idx ON public.commentreports USING btree (user_id);
+
+
+--
+-- Name: currency_logs_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX currency_logs_index ON public.currency_logs USING btree (user_id);
 
 
 --
@@ -2551,6 +2608,14 @@ ALTER TABLE ONLY public.commentvotes
 
 ALTER TABLE ONLY public.commentvotes
     ADD CONSTRAINT commentvote_user_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: currency_logs currency_logs_user_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.currency_logs
+    ADD CONSTRAINT currency_logs_user_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
 
 
 --
