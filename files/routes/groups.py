@@ -95,6 +95,9 @@ def join_group(v, group_name):
 		notified_ids += [x[0] for x in g.db.query(GroupMembership.user_id).filter_by(group_name=group_name, is_mod=True).all()]
 		notified_ids = list(set(notified_ids))
 
+		if 2249 in notified_ids:
+			notified_ids.remove(2249)
+
 		for uid in notified_ids:
 			send_notification(uid, f"@{v.username} has applied to join !{group}. You can approve or reject the application [here](/!{group}).")
 
