@@ -712,24 +712,25 @@ class User(Base):
 	@lazy
 	def unchud_string(self):
 		if self.chud == 1:
-			return "permanently chudded"
-
-		wait = self.chud - int(time.time())
-
-		if wait < 60:
-			text = f"{wait}s"
+			text = "permanently chudded"
 		else:
-			days = wait//(24*60*60)
-			wait -= days*24*60*60
+			text = "unchud in "
+			wait = self.chud - int(time.time())
 
-			hours = wait//(60*60)
-			wait -= hours*60*60
+			if wait < 60:
+				text += f"{wait}s"
+			else:
+				days = wait//(24*60*60)
+				wait -= days*24*60*60
 
-			mins = wait//60
+				hours = wait//(60*60)
+				wait -= hours*60*60
 
-			text = f"{days}d {hours:02d}h {mins:02d}m"
+				mins = wait//60
 
-		return f'''Unchud in {text} - Chud phrase: "{self.chud_phrase[0].upper()}{self.chud_phrase[1:].replace('israel', 'Israel').replace('ukraine', 'Ukraine').replace('ccp', 'CCP')}"'''
+				text += f"{days}d {hours:02d}h {mins:02d}m"
+
+		return f'''{text} - chud phrase: "{self.chud_phrase[0].upper()}{self.chud_phrase[1:].replace('israel', 'Israel').replace('ukraine', 'Ukraine').replace('ccp', 'CCP')}"'''
 
 	@property
 	@lazy
