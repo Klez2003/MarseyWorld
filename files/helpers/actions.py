@@ -200,6 +200,7 @@ def execute_snappy(post, v):
 
 	for i in list(snappy_url_regex.finditer(post.body_html.replace(' data-src="', ' src="'))):
 		href = i.group(1)
+		if href.startswith(f'{SITE_FULL}/') or href.startswith(SITE_FULL_IMAGES): continue
 		if href in [x[0] for x in captured]: continue
 		title = i.group(2)
 		captured.append((href, title))
@@ -208,7 +209,6 @@ def execute_snappy(post, v):
 		body += "**Snapshots:**\n\n"
 
 	for href, title in captured:
-		if href.startswith(f'{SITE_FULL}/') or href.startswith(SITE_FULL_IMAGES): continue
 		if f'**[{title}]({href})**:\n\n' not in body:
 			addition = f'**[{title}]({href})**:\n\n'
 			if href.startswith('https://old.reddit.com/r/'):
