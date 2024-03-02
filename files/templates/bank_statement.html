@@ -7,7 +7,7 @@
 				<h2 class="font-weight-bolder text-center pt-2 pb-3">Bank Statement</h2>
 			</div>
 			<div class="rounded border mx-auto" style="max-width:800px">
-				<h5 class="font-weight-bolder text-right pb-0 mr-4">Balance</h2>
+				<h5 class="font-weight-bolder text-right pb-0 mr-3">Balance</h2>
 				{% for log in logs %}
 					<div class="modlog-action {% if log.amount > 0 %}bg-green{% else %}bg-red{% endif %} ">
 						<div class="d-flex flex-grow-1 align-items-center">
