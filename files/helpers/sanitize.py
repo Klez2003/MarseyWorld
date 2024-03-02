@@ -632,7 +632,7 @@ def allowed_attributes_emojis(tag, name, value):
 
 
 @with_sigalrm_timeout(2)
-def filter_emojis_only(title, golden=True, count_emojis=False, obj=None, author=None):
+def filter_emojis_only(title, golden=True, count_emojis=False, obj=None, author=None, link=True):
 
 	title = title.replace("\n", "").replace("\r", "").replace("\t", "").replace('<','&lt;').replace('>','&gt;')
 
