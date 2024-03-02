@@ -129,6 +129,7 @@ def soyjak_mentions_task():
 
 		for thing in data:
 			text = f'<blockquote><p>{thing["comment"]}</p></blockquote>'
+			if 'erdrama' in text: continue
 			permalink = thing['url']
 			text =  f'New site mention\n\n{permalink}\n\n{text}'
 			created_utc = int(time.mktime(time.strptime(thing['date'].split('.')[0], "%Y-%m-%dT%H:%M:%S")))
