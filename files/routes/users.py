@@ -1550,14 +1550,14 @@ def usersong(username):
 def user_effortposts(v, username):
 	return redirect(f'/search/posts?q=author:{username}+effortpost:true')
 
-@app.get("/bank_statement")
+@app.get("/bank_statement/<int:uid>")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def currency_log(v):
+def currency_log(v, uid):
 	page = get_page()
 
-	logs = g.db.query(CurrencyLog).filter_by(user_id=v.id)
+	logs = g.db.query(CurrencyLog).filter_by(user_id=uid)
 
 	total = logs.count()
 
