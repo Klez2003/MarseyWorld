@@ -86,12 +86,12 @@
 
 .emoji-hz-award {
 	animation: emoji-hz 12s;
-	left: -4%
 }
 
 @media (max-width: 768px) {
 	.emoji-hz-award {
 		animation: emoji-hz 6s;
+		left: -4%
 	}
 }
 
