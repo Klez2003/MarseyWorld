@@ -102,6 +102,9 @@
 					<div id="desktop-sidebar">
 						{% include sidebar %}
 					</div>
+					{% if SITE_NAME == 'WPD' %}
+						<script src="{{'js/deaths_today.js' | asset}}"></script>
+					{% endif %}
 				{% endif %}
 			{% endblock %}
 		</div>

@@ -1,12 +1,14 @@
 <div class="col sidebar text-left {% if not request.path.startswith('/sidebar') %}d-none d-lg-block{% endif %} pt-2" {% if request.path != '/sidebar' %}id="sidebar-content"{% endif %}>
 
-	<h5 class="text-center mt-0 mt-md-2 mb-4">
+	<h5 class="text-center mt-0 mt-md-2 mb-2">
 		Top Poster of the Day:
-		<p>
-			{% with user=top_poster_of_the_day() %}
-				{% include "user_in_table.html" %}
-			{% endwith %}
-		</p>
+		{% with user=top_poster_of_the_day() %}
+			{% include "user_in_table.html" %}
+		{% endwith %}
+	</h5>
+
+	<h5 class="text-center mt-0 mt-md-2 mb-2 pb-1">
+		Deaths Today: <span class="deaths-today">0</span>
 	</h5>
 
 	<a href="/users">
