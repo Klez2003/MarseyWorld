@@ -41,7 +41,7 @@ def exile_post(v, pid):
 			kind='exile_user',
 			user_id=v.id,
 			target_user_id=u.id,
-			_note=filter_emojis_only(f'for <a href="{p.permalink}">{p.title_html}</a>'),
+			_note=f'for <a href="{p.permalink}">{p.title_html}</a>'
 		)
 		g.db.add(ma)
 
@@ -80,7 +80,7 @@ def exile_comment(v, cid):
 			kind='exile_user',
 			user_id=v.id,
 			target_user_id=u.id,
-			_note=filter_emojis_only(f'for <a href="/comment/{c.id}#context">comment</a>'),
+			_note=f'for <a href="/comment/{c.id}#context">comment</a>'
 		)
 		g.db.add(ma)
 
@@ -562,7 +562,7 @@ def upload_hole_sidebar(v, hole):
 	ma = HoleAction(
 		hole=hole.name,
 		kind='upload_sidebar_image',
-		_note=filter_emojis_only(sidebarurl),
+		_note=sidebarurl,
 		user_id=v.id
 	)
 	g.db.add(ma)
@@ -592,7 +592,7 @@ def delete_hole_sidebar(v, hole, index):
 	ma = HoleAction(
 		hole=hole.name,
 		kind='delete_sidebar_image',
-		_note=filter_emojis_only(sidebar),
+		_note=sidebar,
 		user_id=v.id
 	)
 	g.db.add(ma)
@@ -651,7 +651,7 @@ def upload_hole_banner(v, hole):
 	ma = HoleAction(
 		hole=hole.name,
 		kind='upload_banner',
-		_note=filter_emojis_only(bannerurl),
+		_note=bannerurl,
 		user_id=v.id
 	)
 	g.db.add(ma)
@@ -681,7 +681,7 @@ def delete_hole_banner(v, hole, index):
 	ma = HoleAction(
 		hole=hole.name,
 		kind='delete_banner',
-		_note=filter_emojis_only(banner),
+		_note=banner,
 		user_id=v.id
 	)
 	g.db.add(ma)
@@ -741,7 +741,7 @@ def hole_marsey(v, hole):
 	ma = HoleAction(
 		hole=hole.name,
 		kind='change_marsey',
-		_note=filter_emojis_only(hole.marseyurl),
+		_note=hole.marseyurl,
 		user_id=v.id
 	)
 	g.db.add(ma)
@@ -1127,7 +1127,7 @@ def change_hole(pid, v):
 				kind='change_hole',
 				user_id=v.id,
 				target_post_id=post.id,
-				_note=filter_emojis_only(f'{hole_from_str} → {hole_to_str}'),
+				_note=f'{hole_from_str} → {hole_to_str}',
 			)
 			g.db.add(ma)
 			position = 'a site admin'
@@ -1137,7 +1137,7 @@ def change_hole(pid, v):
 				kind='change_hole',
 				user_id=v.id,
 				target_post_id=post.id,
-				_note=filter_emojis_only(f'{hole_from_str} → {hole_to_str}'),
+				_note=f'{hole_from_str} → {hole_to_str}',
 			)
 			g.db.add(ma)
 			position = f'a /h/{hole_from} mod'

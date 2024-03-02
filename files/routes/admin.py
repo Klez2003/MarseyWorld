@@ -546,7 +546,7 @@ def badge_grant_post(v):
 			kind="badge_grant",
 			user_id=v.id,
 			target_user_id=user.id,
-			_note=filter_emojis_only(note),
+			_note=note,
 		)
 		g.db.add(ma)
 
@@ -586,7 +586,7 @@ def badge_remove_post(v):
 			kind="badge_remove",
 			user_id=v.id,
 			target_user_id=user.id,
-			_note=filter_emojis_only(badge.name),
+			_note=badge.name
 		)
 		g.db.add(ma)
 		g.db.delete(badge)
@@ -740,7 +740,7 @@ def admin_add_alt(v, username):
 		kind=f"link_accounts",
 		user_id=v.id,
 		target_user_id=user1.id,
-		_note=filter_emojis_only(f'with @{user2.username}'),
+		_note=f'with @{user2.username}'
 	)
 	g.db.add(ma)
 	return {"message": f"Linked @{user1.username} and @{user2.username} successfully!"}
@@ -769,7 +769,7 @@ def admin_delink_relink_alt(v, username, other):
 		kind=f"delink_accounts",
 		user_id=v.id,
 		target_user_id=user1.id,
-		_note=filter_emojis_only(f'from @{user2.username}'),
+		_note=f'from @{user2.username}'
 	)
 	g.db.add(ma)
 
@@ -899,7 +899,7 @@ def shadowban(user_id, v):
 		kind="shadowban",
 		user_id=v.id,
 		target_user_id=user.id,
-		_note=filter_emojis_only(f'reason: "{reason}"'),
+		_note=f'reason: "{reason}"'
 	)
 	g.db.add(ma)
 
@@ -952,7 +952,7 @@ def admin_change_flair(user_id, v):
 		abort(400, "New flair is too long (max 256 characters)")
 
 	user.flair = new_flair
-	new_flair = filter_emojis_only(new_flair)
+	new_flair = filter_emojis_only(new_flair, link=True)
 	new_flair = censor_slurs_profanities(new_flair, None)
 
 	user = get_account(user.id)
@@ -974,7 +974,7 @@ def admin_change_flair(user_id, v):
 		kind=kind,
 		user_id=v.id,
 		target_user_id=user.id,
-		_note=filter_emojis_only(f'"{new_flair}"'),
+		_note=f'"{new_flair}"'
 		)
 	g.db.add(ma)
 
@@ -1065,7 +1065,7 @@ def ban_user(fullname, v):
 		kind="ban_user",
 		user_id=v.id,
 		target_user_id=user.id,
-		_note=filter_emojis_only(note),
+		_note=note
 		)
 	g.db.add(ma)
 
@@ -1169,7 +1169,7 @@ def chud(fullname, v):
 		kind="chud",
 		user_id=v.id,
 		target_user_id=user.id,
-		_note=filter_emojis_only(note),
+		_note=note
 		)
 	g.db.add(ma)
 
@@ -1488,7 +1488,7 @@ def pin_post(post_id, v):
 		kind="pin_post",
 		user_id=v.id,
 		target_post_id=post.id,
-		_note=filter_emojis_only(pin_time),
+		_note=pin_time
 	)
 	g.db.add(ma)
 
@@ -1686,7 +1686,7 @@ def ban_domain(v):
 		ma = ModAction(
 			kind="ban_domain",
 			user_id=v.id,
-			_note=filter_emojis_only(f'{domain}, reason: {reason}'),
+			_note=filter_emojis_only(f'{domain}, reason: {reason}')
 		)
 		g.db.add(ma)
 
@@ -1707,7 +1707,7 @@ def unban_domain(v, domain):
 	ma = ModAction(
 		kind="unban_domain",
 		user_id=v.id,
-		_note=filter_emojis_only(domain),
+		_note=filter_emojis_only(domain)
 	)
 	g.db.add(ma)
 
@@ -1880,7 +1880,7 @@ def delete_media_post(v):
 	ma = ModAction(
 		kind="delete_media",
 		user_id=v.id,
-		_note=filter_emojis_only(url),
+		_note=url,
 		)
 	g.db.add(ma)
 
@@ -1983,7 +1983,7 @@ def schedule_orgy(v):
 	ma = ModAction(
 		kind="schedule_orgy",
 		user_id=v.id,
-		_note=filter_emojis_only(data),
+		_note=data,
 	)
 	g.db.add(ma)
 
@@ -1997,7 +1997,7 @@ def remove_orgy(v, created_utc):
 	ma = ModAction(
 		kind="remove_orgy",
 		user_id=v.id,
-		_note=filter_emojis_only(orgy.data),
+		_note=orgy.data,
 	)
 	g.db.add(ma)
 
@@ -2067,7 +2067,7 @@ def insert_transaction_post(v):
 		kind="insert_transaction",
 		user_id=v.id,
 		target_user_id=user.id,
-		_note=filter_emojis_only(f'Transaction ID: {id}'),
+		_note=f'Transaction ID: {id}',
 	)
 	g.db.add(ma)
 

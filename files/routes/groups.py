@@ -364,7 +364,7 @@ def group_change_description(v, group_name):
 		if len(description) > 100:
 			abort(400, "New description is too long (max 100 characters)")
 
-		description_html = filter_emojis_only(description)
+		description_html = filter_emojis_only(description, link=True)
 		if len(description_html) > 1000:
 			abort(400, "Rendered description is too long!")
 	else:

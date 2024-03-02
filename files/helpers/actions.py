@@ -274,7 +274,7 @@ def execute_snappy(post, v):
 				kind="ban_user",
 				user_id=snappy.id,
 				target_user_id=v.id,
-				_note=filter_emojis_only(f'duration: {duration}, reason: "{reason}"'),
+				_note=f'duration: {duration}, reason: "{reason}"'
 				)
 			g.db.add(ma)
 			post.bannedfor = f'{duration} by @Snappy'
@@ -426,7 +426,7 @@ def tempban_for_spam(v):
 		kind="ban_user",
 		user_id=AUTOJANNY_ID,
 		target_user_id=v.id,
-		_note=filter_emojis_only(f'duration: for 1 day, reason: "Spam"'),
+		_note=f'duration: for 1 day, reason: "Spam"'
 		)
 	g.db.add(ma)
 
@@ -468,7 +468,7 @@ def execute_antispam_post_check(title, v, url):
 					user_id=AUTOJANNY_ID,
 					target_post_id=post.id,
 					kind="ban_post",
-					_note="Spam",
+					_note="Spam"
 					)
 			g.db.add(ma)
 		return False
@@ -528,7 +528,7 @@ def execute_antispam_comment_check(body, v):
 			user_id=AUTOJANNY_ID,
 			target_comment_id=comment.id,
 			kind="ban_comment",
-			_note="Spam",
+			_note="Spam"
 		)
 		g.db.add(ma)
 	g.db.commit()
@@ -576,7 +576,7 @@ def execute_under_siege(v, target, body, kind):
 		kind="shadowban",
 		user_id=AUTOJANNY_ID,
 		target_user_id=v.id,
-		_note=filter_emojis_only(f'reason: "Under Siege ({reason}, {time_taken})"'),
+		_note=f'reason: "Under Siege ({reason}, {time_taken})"'
 	)
 	g.db.add(ma)
 
