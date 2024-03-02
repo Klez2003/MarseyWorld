@@ -48,6 +48,30 @@ marked.use({
 				return `<a href="/${g}">${g}</a>`;
 			}
 		},
+		{
+			name: 'underscore',
+			level: 'inline',
+			start: function(src){
+				const match = src.match(/_/);
+				return match != null ? match.index : -1;
+			},
+			tokenizer: function(src) {
+				const rule = /^_/;
+				const match = rule.exec(src);
+				if (match){
+					return {
+						type: 'underscore',
+						raw: match[0],
+						text: match[0].trim().slice(1),
+						tokens: []
+					};
+				}
+			},
+			renderer(token) {
+				const g = token.raw;
+				return `▔`;
+			}
+		},
 	]
 });
 
@@ -254,7 +278,6 @@ function markdown(t) {
 
 	input = input.replace(compiled_regex, replace_image)
 
-	input = input.replaceAll('_', '▔')
 	input = marked(input)
 	input = input.replaceAll('▔', '_')
 
