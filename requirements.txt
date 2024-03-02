@@ -15,6 +15,7 @@ greenlet
 gunicorn
 imagehash
 inotify
+isodate
 lxml
 mistletoe
 matplotlib

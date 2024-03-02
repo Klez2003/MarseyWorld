@@ -3,6 +3,7 @@ from math import floor
 import os
 import ffmpeg
 import random
+import isodate
 
 from sqlalchemy.orm import load_only
 
@@ -1946,6 +1947,12 @@ def schedule_orgy(v):
 	if bare_youtube_regex.match(normalized_link):
 		orgy_type = 'youtube'
 		data, _ = get_youtube_id_and_t(normalized_link)
+		if YOUTUBE_KEY != DEFAULT_CONFIG_VALUE:
+			req = requests.get(f"https://www.googleapis.com/youtube/v3/videos?id={data}&key={YOUTUBE_KEY}&part=contentDetails", headers=HEADERS, timeout=5).json()
+			duration = req['items'][0]['contentDetails']['duration']
+			if duration != 'P0D':
+				duration = isodate.parse_duration(duration).total_seconds()
+				end_utc = int(start_utc + duration)
 	elif rumble_regex.match(normalized_link):
 		orgy_type = 'rumble'
 		data = normalized_link
