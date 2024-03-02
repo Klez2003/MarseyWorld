@@ -7756,15 +7756,14 @@ td[data-time] {
 	white-space: pre;
 }
 
-.bg-green {
+.bg-green, .bg-green * {
 	background-color: #0a6936 !important;
 }
 
-.bg-red {
+.bg-red, .bg-red * {
 	background-color: #71000b !important;
 }
 
-.bank-statement-amount {
-	width: 140px;
-    display: inline-block;
+table.border-0 * {
+	border: none !important;
 }

@@ -7,28 +7,37 @@
 				<h2 class="font-weight-bolder text-center pt-2 pb-3 d-mob-none">@{{user.username}}'s Bank Statement</h2>
 				<h4 class="font-weight-bolder text-center pt-2 pb-3 d-md-none">@{{user.username}}'s Bank Statement</h4>
 			</div>
-			<div class="rounded border mx-auto" style="max-width:800px">
-				<h5 class="font-weight-bolder text-right pb-0 mr-3">Balance</h2>
-				{% for log in logs %}
-					<div class="modlog-action {% if log.amount > 0 %}bg-green{% else %}bg-red{% endif %} ">
-						<div class="d-flex flex-grow-1 align-items-center">
-							<div class="d-flex align-items-center justify-content-center mr-3 rounded-lg flex-shrink-0" style="width: 32px;height: 32px">
-								<img width="{% if log.currency == 'coins' %}40{% else %}53{% endif %}" alt="{{log.currency}}" class="pl-2" data-bs-toggle="tooltip" data-bs-placement="bottom" src="{{SITE_FULL_IMAGES}}/i/{{log.currency}}.webp?x=7" title="{{log.currency.title()}}">
-							</div>
-							<div class="d-flex align-items-center">
-								<div class="text-muted pl-3">
-									<span><b class="bank-statement-amount">{% if log.amount > 0 %}+{% endif %}{{log.amount}} {{log.currency}}</b> &nbsp;&nbsp; {{log.reason | safe}}</span>
+
+			<div class="rounded border overflow-x-auto">
+				<table class="border-0">
+					<thead class="bg-transparent">
+						<tr>
+							<th></th>
+							<th></th>
+							<th></th>
+							<th>Balance</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for log in logs %}
+							<tr class="{% if log.amount > 0 %}bg-green{% else %}bg-red{% endif %}">
+								<td class="p-0 text-center pl-1">
+									<img width="{% if log.currency == 'coins' %}30{% else %}40{% endif %}" alt="{{log.currency}}" data-bs-toggle="tooltip" data-bs-placement="bottom" src="{{SITE_FULL_IMAGES}}/i/{{log.currency}}.webp?x=7" title="{{log.currency.title()}}">
+								</td>
+								<td class="unbreakable">
+									<b class="bank-statement-amount">{% if log.amount > 0 %}+{% endif %}{{log.amount}}</b>
 									<div class="text-gray-500">
-										<span class="log--item-age" data-bs-toggle="tooltip" data-bs-placement="bottom" data-nonce="{{g.nonce}}" data-onmouseover="timestamp(this, '{{log.created_utc}}')">{{log.age_string}}</span>
+										<span class="font-weight-normal" data-bs-toggle="tooltip" data-bs-placement="bottom" data-nonce="{{g.nonce}}" data-onmouseover="timestamp(this, '{{log.created_utc}}')">
+											{{log.age_string}}
+										</span>
 									</div>
-								</div>
-							</div>
-							<span class="ml-auto unbreakable">{{log.balance}} {{log.currency}}</span>
-						</div>
-					</div>
-				{% else %}
-					<div class="p-3">There's nothing here right now.</div>
-				{% endfor %}
+								</td>
+								<td class="font-weight-normal">{{log.reason | safe}}</td>
+								<td class="unbreakable font-weight-bold">{{log.balance}}</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
 				{% include "pagination.html" %}
 			</div>
 		</div>
