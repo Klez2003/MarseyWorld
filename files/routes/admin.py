@@ -1880,7 +1880,7 @@ def delete_media_post(v):
 	ma = ModAction(
 		kind="delete_media",
 		user_id=v.id,
-		_note=url,
+		_note=f'<a href="{url}">{url}</a>',
 		)
 	g.db.add(ma)
 
