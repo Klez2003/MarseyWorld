@@ -157,7 +157,6 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, obj=None, followers_ping=Tr
 
 	for uid, keyword_notifs in keyword_users:
 		for word in keyword_notifs.lower().split('\n'):
-			if not word: continue
 			if word in text:
 				notify_users.add(uid)
 
