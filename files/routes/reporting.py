@@ -27,7 +27,7 @@ def report_post(pid, v):
 		abort(400, "Report reason is too long (max 100 characters)")
 
 	og_flair = reason[1:]
-	reason_html = filter_emojis_only(reason, link=True)
+	reason_html = filter_emojis_only(reason)
 	if len(reason_html) > 350:
 		abort(400, "Rendered report reason is too long!")
 
@@ -39,7 +39,7 @@ def report_post(pid, v):
 				kind="flair_post",
 				user_id=v.id,
 				target_post_id=post.id,
-				_note=f'"{post.flair}"'
+				_note=filter_emojis_only(f'"{post.flair}"'),
 			)
 			g.db.add(ma)
 			position = 'a site admin'
@@ -49,7 +49,7 @@ def report_post(pid, v):
 				kind="flair_post",
 				user_id=v.id,
 				target_post_id=post.id,
-				_note=f'"{post.flair}"'
+				_note=filter_emojis_only(f'"{post.flair}"'),
 			)
 			g.db.add(ma)
 			position = f'a /h/{post.hole} mod'
@@ -95,7 +95,7 @@ def report_comment(cid, v):
 	if len(reason) > 100:
 		abort(400, "Report reason is too long (max 100 characters)")
 
-	reason_html = filter_emojis_only(reason, link=True)
+	reason_html = filter_emojis_only(reason)
 	if len(reason_html) > 350:
 		abort(400, "Rendered report reason is too long!")
 

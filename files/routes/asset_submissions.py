@@ -251,7 +251,7 @@ def approve_emoji(v, name):
 	ma = ModAction(
 		kind="approve_emoji",
 		user_id=v.id,
-		_note=f'<img loading="lazy" data-bs-toggle="tooltip" alt=":{emoji.name}:" title=":{emoji.name}:" src="{SITE_FULL_IMAGES}/e/{emoji.name}.webp">'
+		_note=filter_emojis_only(f'<img loading="lazy" data-bs-toggle="tooltip" alt=":{emoji.name}:" title=":{emoji.name}:" src="{SITE_FULL_IMAGES}/e/{emoji.name}.webp">'),
 	)
 	g.db.add(ma)
 
@@ -303,7 +303,7 @@ def remove_asset(cls, type_name, v, name):
 		ma = ModAction(
 			kind=f"reject_{type_name}",
 			user_id=v.id,
-			_note=name
+			_note=filter_emojis_only(name),
 		)
 		g.db.add(ma)
 
@@ -467,7 +467,7 @@ def approve_hat(v, name):
 	ma = ModAction(
 		kind="approve_hat",
 		user_id=v.id,
-		_note=f'<a href="{SITE_FULL_IMAGES}/i/hats/{hat.name}.webp">{hat.name}</a>'
+		_note=filter_emojis_only(f'<a href="{SITE_FULL_IMAGES}/i/hats/{hat.name}.webp">{hat.name}</a>'),
 	)
 	g.db.add(ma)
 
@@ -585,7 +585,7 @@ def update_emoji(v):
 	ma = ModAction(
 		kind="update_emoji",
 		user_id=v.id,
-		_note=f'<img loading="lazy" data-bs-toggle="tooltip" alt=":{name}:" title=":{name}:" src="{SITE_FULL_IMAGES}/e/{name}.webp">'
+		_note=filter_emojis_only(f'<img loading="lazy" data-bs-toggle="tooltip" alt=":{name}:" title=":{name}:" src="{SITE_FULL_IMAGES}/e/{name}.webp">'),
 	)
 	g.db.add(ma)
 
@@ -684,7 +684,7 @@ def update_hat(v):
 	ma = ModAction(
 		kind="update_hat",
 		user_id=v.id,
-		_note=f'<a href="{SITE_FULL_IMAGES}/i/hats/{name}.webp">{name}</a>'
+		_note=filter_emojis_only(f'<a href="{SITE_FULL_IMAGES}/i/hats/{name}.webp">{name}</a>'),
 	)
 	g.db.add(ma)
 

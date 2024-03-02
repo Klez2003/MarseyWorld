@@ -141,7 +141,7 @@ def buy(v, kind):
 def alter_body(obj):
 	obj.body_html = sanitize(obj.body, limit_pings=5, showmore=True, obj=obj, author=obj.author)
 	if isinstance(obj, Post):
-		obj.title_html = filter_emojis_only(obj.title, golden=False, obj=obj, author=obj.author)
+		obj.title_html = filter_emojis_only(obj.title, golden=False, obj=obj, author=obj.author, link=False)
 
 @app.post("/award/<thing_type>/<int:id>")
 @limiter.limit('1/second', scope=rpath)
@@ -399,7 +399,7 @@ def award_thing(v, thing_type, id):
 			author.flairchanged += 86400
 		else:
 			author.flair = new_flair
-			new_flair = filter_emojis_only(new_flair, link=True)
+			new_flair = filter_emojis_only(new_flair)
 			new_flair = censor_slurs_profanities(new_flair, None)
 			if len(new_flair) > 1000: abort(403)
 			author.flair_html = new_flair

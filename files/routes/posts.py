@@ -67,7 +67,7 @@ def publish(pid, v):
 	p.sharpened = v.sharpen and not p.is_longpost
 	p.rainbowed = v.rainbow and not p.is_longpost
 
-	p.title_html = filter_emojis_only(p.title, golden=False, obj=p, author=p.author)
+	p.title_html = filter_emojis_only(p.title, golden=False, obj=p, author=p.author, link=False)
 	p.body_html = sanitize(p.body, golden=False, limit_pings=100, obj=p, author=p.author)
 
 	if p.draft or not complies_with_chud(p):
@@ -606,7 +606,7 @@ def submit_post(v, hole=None):
 		p.sharpened = v.sharpen and not p.is_longpost
 		p.rainbowed = v.rainbow and not p.is_longpost
 
-	title_html = filter_emojis_only(title, count_emojis=True, obj=p, author=v)
+	title_html = filter_emojis_only(title, count_emojis=True, obj=p, author=v, link=False)
 
 	if v.hieroglyphs and not marseyaward_title_regex.fullmatch(title_html):
 		abort(400, "You can only type marseys!")
@@ -1056,7 +1056,7 @@ def edit_post(pid, v):
 
 
 	if title != p.title:
-		title_html = filter_emojis_only(title, golden=False, obj=p, author=p.author)
+		title_html = filter_emojis_only(title, golden=False, obj=p, author=p.author, link=False)
 
 		if p.author.hieroglyphs and not marseyaward_title_regex.fullmatch(title_html):
 			abort(403, "You can only type marseys!")
