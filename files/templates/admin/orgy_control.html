@@ -55,9 +55,9 @@
 					<th>Type</th>
 					<th>Title</th>
 					<th>Link</th>
+					<th class="disable-sort-click"></th>
 					<th>Starts on</th>
 					<th>Ends on</th>
-					<th class="disable-sort-click"></th>
 				</tr>
 			</thead>
 
@@ -66,15 +66,15 @@
 					<td>{{orgy.type}}</td>
 					<td>{{orgy.title}}</td>
 					<td>{{orgy.data}}</td>
+					<td>
+						<button type="button" class="btn btn-danger btn-block" data-nonce="{{g.nonce}}" data-areyousure="remove_orgy(this, {{orgy.created_utc}})" data-onclick="areyousure(this)">Remove</button>
+					</td>
 					{% if orgy.started %}
 						<td>Started</td>
 					{% else %}
 						<td data-time="{{orgy.start_utc}}"></td>
 					{% endif %}
 					<td {% if orgy.end_utc %}data-time="{{orgy.end_utc}}"{% endif %}></td>
-					<td>
-						<button type="button" class="btn btn-danger btn-block" data-nonce="{{g.nonce}}" data-areyousure="remove_orgy(this, {{orgy.created_utc}})" data-onclick="areyousure(this)">Remove</button>
-					</td>				
 				</tr>
 			{% endfor %}
 		</table>

@@ -7754,3 +7754,7 @@ img[alpha]:not([alt*="#"]) {
 .hole-settings-section h4 {
     margin-top: 0.25rem;
 }
+
+td[data-time] {
+	white-space: pre;
+}

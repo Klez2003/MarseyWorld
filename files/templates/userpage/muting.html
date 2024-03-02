@@ -7,22 +7,22 @@
 			<thead>
 				<tr>
 					<th>Name</th>
-					<th class="disable-sort-click">Muting notifications since</th>
 					{% if v.id == u.id %}
 						<th class="disable-sort-click"></th>
 					{% endif %}
+					<th class="disable-sort-click">Muting notifications since</th>
 				</tr>
 			</thead>
 			<tbody id="muters-table">
 			{% for mute, user in users %}
 				<tr>
 					<td>{% include "user_in_table.html" %}</td>
-					<td data-time="{{mute.created_utc}}"></td>
 					{% if v.id == u.id %}
 						<td>
 							<button type="button" class="btn btn-primary" data-nonce="{{g.nonce}}" data-onclick="unmute_notifs(this, '/unmute_notifs/{{user.id}}')">Unmute</button>
 						</td>
 					{% endif %}
+					<td data-time="{{mute.created_utc}}"></td>
 				</tr>
 			{% endfor %}
 			</tbody>

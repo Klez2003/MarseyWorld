@@ -9,15 +9,14 @@
 				<tr>
 					<th>#</th>
 					<th>Name</th>
-					<th>Mod since</th>
 					<th class="disable-sort-click"></th>
+					<th>Mod since</th>
 				</tr>
 			</thead>
 			{% for user, mod in users %}
 				<tr>
 					<td>{{loop.index}}</td>
 					<td>{% include "user_in_table.html" %}</td>
-					<td data-time="{{mod.created_utc}}"></td>
 					<td>
 						{% if v.id == user.id or v.mod_date(hole.name) and v.mod_date(hole.name) < mod.created_utc %}
 							<form action="/h/{{hole}}/remove_mod" method="post" data-nonce="{{g.nonce}}" data-onsubmit="removeMod(this)">
@@ -27,6 +26,7 @@
 							</form>
 						{% endif %}
 					</td>
+					<td data-time="{{mod.created_utc}}"></td>
 				</tr>
 			{% endfor %}
 		</table>
