@@ -155,10 +155,10 @@ def NOTIFY_USERS(text, v, oldtext=None, ghost=False, obj=None, followers_ping=Tr
 
 	keyword_users = g.db.query(User.id, User.keyword_notifs).outerjoin(Notification, and_(*criteria)).group_by(User.id, User.keyword_notifs).having(func.count(Notification.user_id) < 100).filter(User.keyword_notifs != None)
 
-	for id, keyword_notifs in keyword_users:
+	for uid, keyword_notifs in keyword_users:
 		for word in keyword_notifs.lower().split('\n'):
 			if word in text:
-				notify_users.add(id)
+				notify_users.add(uid)
 
 
 	names = set(m.group(1) for m in mention_regex.finditer(text))
