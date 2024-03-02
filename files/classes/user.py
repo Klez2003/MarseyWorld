@@ -1171,13 +1171,6 @@ class User(Base):
 
 	@property
 	@lazy
-	def notif_words(self):
-		l = self.keyword_notifs.lower().split('\n')
-		l = [i for i in l if i]
-		return l
-
-	@property
-	@lazy
 	def lottery_stats(self):
 		return { "winnings": self.total_lottery_winnings, "ticketsHeld": { "current": self.currently_held_lottery_tickets , "total": self.total_held_lottery_tickets } }
 
