@@ -820,9 +820,6 @@ class User(Base):
 		if self.admin_level < PERMS['NOTIFICATIONS_MODMAIL']:
 			return 0
 		
-		if self.id == AEVANN_ID:
-			return 0
-
 		return g.db.query(Comment).distinct(Comment.top_comment_id).filter(
 				Comment.author_id != self.id,
 				Comment.sentto == MODMAIL_ID,
