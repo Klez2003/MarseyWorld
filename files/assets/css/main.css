@@ -2154,9 +2154,6 @@ a.bg-light:hover, a.bg-light:focus, button.bg-light:hover, button.bg-light:focus
 .border-left {
 	border-left: 1px solid var(--gray-400) !important;
 }
-.border-0 {
-	border: 0 !important;
-}
 .border-bottom-0 {
 	border-bottom: 0 !important;
 }
