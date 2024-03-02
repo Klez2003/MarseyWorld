@@ -1,10 +1,11 @@
 {% extends "default.html" %}
-{% block pagetitle %}Bank Statement{% endblock %}
+{% block pagetitle %}@{{user.username}}'s Bank Statement{% endblock %}
 {% block content %}
 	<div class="row justify-content-around">
 		<div class="col h-100">
 			<div class="justify-content-between">
-				<h2 class="font-weight-bolder text-center pt-2 pb-3">Bank Statement</h2>
+				<h2 class="font-weight-bolder text-center pt-2 pb-3 d-mob-none">@{{user.username}}'s Bank Statement</h2>
+				<h4 class="font-weight-bolder text-center pt-2 pb-3 d-md-none">@{{user.username}}'s Bank Statement</h4>
 			</div>
 			<div class="rounded border mx-auto" style="max-width:800px">
 				<h5 class="font-weight-bolder text-right pb-0 mr-3">Balance</h2>

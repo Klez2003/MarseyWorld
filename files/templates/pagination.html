@@ -1,6 +1,6 @@
 
 <nav>
-	<ul class="pagination pagination-sm mb-0 mt-4 {% if request.path.startswith('/bank_statement') %}pb-0{% else %}pl-1{% endif %}">
+	<ul class="pagination pagination-sm mb-0 mt-4 {% if request.path.endswith('/bank_statement') %}pb-0{% else %}pl-1{% endif %}">
 		{% if not size %}
 			{% set size = PAGE_SIZE %}
 		{% endif %}

@@ -1550,32 +1550,19 @@ def usersong(username):
 def user_effortposts(v, username):
 	return redirect(f'/search/posts?q=author:{username}+effortpost:true')
 
-@app.get("/bank_statement/<int:uid>")
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
-@admin_level_required(5)
-def bank_statement_uid(v, uid):
-	page = get_page()
-
-	logs = g.db.query(CurrencyLog).filter_by(user_id=uid)
-
-	total = logs.count()
-
-	logs = logs.order_by(CurrencyLog.created_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
-
-	return render_template("bank_statement.html", v=v, logs=logs, page=page, total=total)
-
-@app.get("/bank_statement")
+@app.get("/@<username>//bank_statement")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def bank_statement(v):
+def bank_statement(v, username):
+	user = get_user(username, attributes=[User.id, User.username])
+
 	page = get_page()
 
-	logs = g.db.query(CurrencyLog).filter_by(user_id=v.id)
+	logs = g.db.query(CurrencyLog).filter_by(user_id=user.id)
 
 	total = logs.count()
 
 	logs = logs.order_by(CurrencyLog.created_utc.desc()).offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
 
-	return render_template("bank_statement.html", v=v, logs=logs, page=page, total=total)
+	return render_template("bank_statement.html", v=v, user=user, logs=logs, page=page, total=total)
