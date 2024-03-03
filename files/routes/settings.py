@@ -210,7 +210,7 @@ def settings_personal_post(v):
 		session['event_music'] = request.values.get("event_music", v.event_music) == 'true'
 
 	elif not updated and request.values.get("marsify", v.marsify) != v.marsify and v.marsify <= 1:
-		if not v.patron:
+		if not v.patron and v.marsify != 1:
 			abort(403, f"Perma-marsify is only available to {patron}s!")
 		updated = True
 		v.marsify = int(request.values.get("marsify") == 'true')
