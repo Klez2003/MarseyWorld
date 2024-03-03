@@ -969,8 +969,8 @@ def process_settings_plaintext(value, current, length, default_value):
 	if not value:
 		return default_value
 
-	if len(value) > 100:
-		abort(400, "The value you entered exceeds the character limit (100 characters)")
+	if len(value) > length:
+		abort(400, f"The value you entered exceeds the character limit ({length} characters)")
 
 	if value == current:
 		abort(400, "You didn't change anything!")
