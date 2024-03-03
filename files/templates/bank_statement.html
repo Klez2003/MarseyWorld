@@ -4,41 +4,45 @@
 	<div class="row justify-content-around">
 		<div class="col h-100">
 			<div class="justify-content-between">
-				<h2 class="font-weight-bolder text-center pt-2 pb-3 d-mob-none">@{{user.username}}'s Bank Statement</h2>
+				<h2 class="font-weight-bolder text-center pt-4 pb-3 d-mob-none">@{{user.username}}'s Bank Statement</h2>
 				<h5 class="font-weight-bolder text-center pt-2 pb-3 d-md-none">@{{user.username}}'s Bank Statement</h5>
 			</div>
 
 			<div class="rounded border overflow-x-auto">
-				<table class="border-0">
-					<thead class="bg-transparent">
-						<tr>
-							<th></th>
-							<th></th>
-							<th></th>
-							<th>Balance</th>
-						</tr>
-					</thead>
-					<tbody>
-						{% for log in logs %}
-							<tr class="{% if log.amount > 0 %}bg-green{% else %}bg-red{% endif %}">
-								<td class="p-0 text-center pl-2" style="width:40px">
-									<img width="{% if log.currency == 'coins' %}30{% else %}40{% endif %}" alt="{{log.currency}}" data-bs-toggle="tooltip" data-bs-placement="bottom" src="{{SITE_FULL_IMAGES}}/i/{{log.currency}}.webp?x=7" title="{{log.currency.title()}}">
-								</td>
-								<td class="unbreakable">
-									<b class="bank-statement-amount">{% if log.amount > 0 %}+{% endif %}{{log.amount}}</b>
-									<div class="text-gray-500">
-										<span class="font-weight-normal" data-bs-toggle="tooltip" data-bs-placement="bottom" data-nonce="{{g.nonce}}" data-onmouseover="timestamp(this, '{{log.created_utc}}')">
-											{{log.age_string}}
-										</span>
-									</div>
-								</td>
-								<td class="font-weight-normal">{{log.reason | safe}}</td>
-								<td class="unbreakable font-weight-bold">{{log.balance}}</td>
+				{% if logs %}
+					<table class="border-0">
+						<thead class="bg-transparent">
+							<tr>
+								<th></th>
+								<th></th>
+								<th></th>
+								<th>Balance</th>
 							</tr>
-						{% endfor %}
-					</tbody>
-				</table>
-				{{macros.pagination("pb-0 pl-0 pt-1")}}
+						</thead>
+						<tbody>
+							{% for log in logs %}
+								<tr class="{% if log.amount > 0 %}bg-green{% else %}bg-red{% endif %}">
+									<td class="p-0 text-center pl-2" style="width:40px">
+										<img width="{% if log.currency == 'coins' %}30{% else %}40{% endif %}" alt="{{log.currency}}" data-bs-toggle="tooltip" data-bs-placement="bottom" src="{{SITE_FULL_IMAGES}}/i/{{log.currency}}.webp?x=7" title="{{log.currency.title()}}">
+									</td>
+									<td class="unbreakable">
+										<b class="bank-statement-amount">{% if log.amount > 0 %}+{% endif %}{{log.amount}}</b>
+										<div class="text-gray-500">
+											<span class="font-weight-normal" data-bs-toggle="tooltip" data-bs-placement="bottom" data-nonce="{{g.nonce}}" data-onmouseover="timestamp(this, '{{log.created_utc}}')">
+												{{log.age_string}}
+											</span>
+										</div>
+									</td>
+									<td class="font-weight-normal">{{log.reason | safe}}</td>
+									<td class="unbreakable font-weight-bold">{{log.balance}}</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+					{{macros.pagination("pb-0 pl-0 pt-1")}}
+				{% else %}
+					<div class="p-3">There's nothing here right now.</div>
+				{% endif %}
 			</div>
 		</div>
 	</div>
