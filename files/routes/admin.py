@@ -2207,7 +2207,7 @@ def unmark_effortpost(pid, v):
 
 	coins = (p.upvotes + p.downvotes) * mul
 
-	p.author.charge_account('coins', coins, f"Revocation of efortpost gains of {post.textlink}")
+	p.author.charge_account('coins', coins, f"Revocation of efortpost gains of {p.textlink}")
 
 	if v.id != p.author_id:
 		send_repeatable_notification(p.author_id, f":marseyitsover: @{v.username} (a site admin) has unmarked {p.textlink} as an effortpost. {coins} coins have been deducted from you. :!marseyitsover:")
