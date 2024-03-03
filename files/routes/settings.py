@@ -1037,6 +1037,7 @@ def settings_pronouns_change(v):
 def settings_twitter(v):
 	twitter = process_settings_plaintext("twitter", v.twitter, 50, "twitter.com")
 
+	twitter = twitter.replace('https://', '').rstrip('/')
 	v.twitter = twitter
 	g.db.add(v)
 
