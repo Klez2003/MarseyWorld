@@ -101,7 +101,7 @@
 {% block PseudoSubmitForm %}{% endblock %}
 
 {% block content %}
-	{% if (SITE_NAME == 'WPD' and listing) or True %}
+	{% if SITE_NAME == 'WPD' and listing %}
 		{{macros.pagination("pl-1 py-0")}}
 	{% endif %}
 
