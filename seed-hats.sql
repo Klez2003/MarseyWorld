@@ -1225,6 +1225,7 @@ INSERT INTO public.hat_defs VALUES (1480, 'Id Lose', 'This user WILL NOT WIN.', 
 INSERT INTO public.hat_defs VALUES (1481, 'Unicorn', 'This user is a pretty unicorn. NOT A HORSE.', 2, 500, NULL, 1708648570);
 
 INSERT INTO public.hat_defs VALUES (1486, 'Stuffie Hat', 'Oh by the way, all my stuffies wanna know if you''re ok.', 2, 500, NULL, 1708648847);
+
 INSERT INTO public.hat_defs VALUES (1488, 'Santa Hat (pink)', 'I''m Mrs. Claus this year!', 2, 500, NULL, 1708648904);
 INSERT INTO public.hat_defs VALUES (1489, 'Max HP', 'I''M FULL POWER!', 2, 500, NULL, 1708648923);
 INSERT INTO public.hat_defs VALUES (1493, 'Im You', 'Where you go I go, what you see I see.', 2, 500, NULL, 1708649038);
@@ -1237,7 +1238,7 @@ INSERT INTO public.hat_defs VALUES (1502, 'Xoxo', 'Hugs and kisses!', 2, 500, NU
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1503, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1504, true);
 
 
 --
