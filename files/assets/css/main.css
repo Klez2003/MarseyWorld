@@ -1584,7 +1584,7 @@ nav
 	border-bottom-right-radius: 0.2rem;
 }
 .pagination-smaller .page-link {
-	font-size: min(18px, 5.8vw);
+	font-size: min(18.5px, 5.8vw);
 }
 .badge {
 	display: inline-block;
