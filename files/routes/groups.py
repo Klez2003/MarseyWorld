@@ -101,7 +101,7 @@ def join_group(v, group_name):
 		text = f"@{v.username} has applied to join !{group}. You can approve or reject the application [here](/!{group})."
 		cid = notif_comment(text)
 		for uid in notified_ids:
-			add_notif(cid, uid, text)
+			add_notif(cid, uid, text, pushnotif_url=f'{SITE_FULL}/!{group}')
 
 	return {"message": f"Application to !{group} submitted successfully!"}
 
