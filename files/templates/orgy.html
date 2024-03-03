@@ -16,7 +16,7 @@
 			<div>
 				<p id="orgy-file-container" class="resizable">
 					{% if orgy.type == 'youtube' %}
-						<iframe style="border: none" sandbox="allow-scripts allow-same-origin allow-popups allow-presentation allow-popups-to-escape-sandbox" title="Play" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen src="https://yewtu.be/embed/{{orgy.data}}?autoplay=1{% if orgy.end_utc %}&t={{orgy.seconds_since_starts}}{% endif %}"></iframe>
+						<iframe style="border: none" sandbox="allow-scripts allow-same-origin allow-popups allow-presentation allow-popups-to-escape-sandbox" title="Play" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen src="https://vid.puffyan.us/embed/{{orgy.data}}?autoplay=1{% if orgy.end_utc %}&t={{orgy.seconds_since_starts}}{% endif %}"></iframe>
 					{% elif orgy.type == 'rumble' %}
 						<iframe src="{{orgy.data}}" frameborder="0" allowfullscreen></iframe>
 					{% elif orgy.type == 'twitch' %}
