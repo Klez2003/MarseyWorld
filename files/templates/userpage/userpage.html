@@ -40,7 +40,7 @@
 
 {% block pagenav %}
 	{% if listing %}
-		{% include "pagination.html" %}
+		{{macros.pagination()}}
 	{% endif %}
 
 	{% if request.path.endswith('/posts') %}

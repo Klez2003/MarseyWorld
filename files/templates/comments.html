@@ -1,4 +1,3 @@
-{%- import 'util/macros.html' as macros with context -%}
 {% if not request.headers.get("xhr") %}
 	{% if focused_comment %}
 		<script defer src="{{'js/focused_comment.js' | asset}}"></script>

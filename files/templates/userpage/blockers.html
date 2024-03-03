@@ -23,7 +23,7 @@
 {% endblock %}
 
 {% block pagenav %}
-	{% include "pagination.html" %}
+	{{macros.pagination()}}
 {% endblock %}
 
 ({{total}} user{{macros.plural(total)}})

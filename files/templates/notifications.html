@@ -130,7 +130,7 @@
 
 {% block pagenav %}
 	{% if notifications %}
-		{% include "pagination.html" %}
+		{{macros.pagination()}}
 	{% endif %}
 
 	<link rel="stylesheet" href="{{('css/notifications.css') | asset}}">

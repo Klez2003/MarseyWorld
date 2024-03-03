@@ -89,8 +89,7 @@
 							<button type="submit" class="btn btn-{{pcolor}} text-{{pcolor}} mx-2"><i type="submit" class="fas fas fa-thumbtack fa-rotate--45 mr-2"></i>Pins</button>
 						</form>
 
-						{%- import 'util/macros.html' as macros with context -%}
-						{{- macros.time_filter_buttons() -}}
+												{{- macros.time_filter_buttons() -}}
 						{{- macros.sorting_buttons(POST_SORTS, True) -}}
 					</div>
 				{% endblock %}
@@ -102,8 +101,8 @@
 {% block PseudoSubmitForm %}{% endblock %}
 
 {% block content %}
-	{% if SITE_NAME == 'WPD' and listing %}
-		{% include "pagination.html" %}
+	{% if (SITE_NAME == 'WPD' and listing) or True %}
+		{{macros.pagination("pl-1 py-0")}}
 	{% endif %}
 
 	<div class="row no-gutters {% if listing %}mt-md-3{% elif not listing %}my-md-3{% endif %}">
@@ -117,7 +116,7 @@
 
 {% block pagenav %}
 	{% if listing %}
-		{% include "pagination.html" %}
+		{{macros.pagination()}}
 	{% endif %}
 
 	{% if request.path == '/' and v %}

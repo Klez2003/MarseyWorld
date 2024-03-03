@@ -31,8 +31,7 @@
 	<div class="d-flex justify-content-between align-items-center" style="padding-top:10px">
 
 		<div class="d-flex align-items-center">
-			{%- import 'util/macros.html' as macros with context -%}
-			{{- macros.time_filter_buttons() -}}
+						{{- macros.time_filter_buttons() -}}
 			{% if "/posts" in request.path %}
 				{{- macros.sorting_buttons(POST_SORTS) -}}
 			{% else %}
