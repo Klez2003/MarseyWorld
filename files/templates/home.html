@@ -81,7 +81,6 @@
 			{% endif %}
 
 			<div class="d-flex justify-content-between align-items-center pt-3 pb-2 sorting fl-r">
-
 				{% block navbar %}
 					<div class="d-flex align-items-center">
 						{% set pcolor = "primary" if pins else "secondary" %}
@@ -94,6 +93,11 @@
 					</div>
 				{% endblock %}
 			</div>
+			{% if SITE_NAME == 'WPD' and listing %}
+				<div class="d-inline-block">
+					{{macros.pagination("pl-1 pt-3 pb-3")}}
+				</div>
+			{% endif %}
 		</div>
 	</div>
 {% endblock %}
@@ -101,10 +105,6 @@
 {% block PseudoSubmitForm %}{% endblock %}
 
 {% block content %}
-	{% if SITE_NAME == 'WPD' and listing %}
-		{{macros.pagination("pl-1 py-0")}}
-	{% endif %}
-
 	<div class="row no-gutters {% if listing %}mt-md-3{% elif not listing %}my-md-3{% endif %}">
 		<div class="col-12">
 			<div class="posts">
