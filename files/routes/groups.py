@@ -98,8 +98,10 @@ def join_group(v, group_name):
 		if 2249 in notified_ids:
 			notified_ids.remove(2249)
 
+		text = f"@{v.username} has applied to join !{group}. You can approve or reject the application [here](/!{group})."
+		cid = notif_comment(text)
 		for uid in notified_ids:
-			send_notification(uid, f"@{v.username} has applied to join !{group}. You can approve or reject the application [here](/!{group}).")
+			add_notif(cid, uid, text)
 
 	return {"message": f"Application to !{group} submitted successfully!"}
 
