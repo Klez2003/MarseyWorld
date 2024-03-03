@@ -57,9 +57,17 @@ def claim_rewards_all_users():
 		highest_tier = 0
 		marseybux = 0
 
+		has_yearly = False
+
 		for transaction in transactions:
+			tx_amount_for_tier = transaction.amount
+
+			if transaction.type == 'yearly':
+				tx_amount_for_tier /= 10
+				has_yearly = True
+
 			for t, money in TIER_TO_MONEY.items():
-				if transaction.amount < money: break
+				if tx_amount_for_tier < money: break
 				tier = t
 
 			marseybux += transaction.amount * 500
@@ -83,7 +91,10 @@ def claim_rewards_all_users():
 			send_repeatable_notification(user.id, text)
 			g.db.add(user)
 
-			user.patron_utc = int(time.time()) + 2937600
+			if has_yearly:
+				user.patron_utc = int(time.time()) + 31560000
+			else:
+				user.patron_utc = int(time.time()) + 2937600
 
 			if highest_tier > user.patron:
 				user.patron = highest_tier
@@ -1367,7 +1378,7 @@ def gumroad():
 	created_utc = int(time.mktime(time.strptime(data['sale_timestamp'].split('.')[0], "%Y-%m-%dT%H:%M:%SZ")))
 
 	if data.get('recurrence'):
-		type = "monthly"
+		type = data['recurrence']
 	else:
 		type = "one-time"
 
