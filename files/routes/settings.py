@@ -170,7 +170,6 @@ def settings_personal_post(v):
 	updated = updated or update_flag("hide_cw", "hide_cw")
 	updated = updated or update_flag("newtab", "newtab")
 	updated = updated or update_flag("newtabexternal", "newtabexternal")
-	updated = updated or update_flag("nitter", "nitter")
 	updated = updated or update_flag("imgsed", "imgsed")
 	updated = updated or update_flag("controversial", "controversial")
 	updated = updated or update_flag("show_sigs", "show_sigs")
@@ -1028,6 +1027,20 @@ def settings_pronouns_change(v):
 	g.db.add(v)
 
 	return {"message": "Pronouns successfully updated!"}
+
+@app.post("/settings/twitter")
+@limiter.limit('1/second', scope=rpath)
+@limiter.limit('1/second', scope=rpath, key_func=get_ID)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@auth_required
+def settings_twitter(v):
+	twitter = process_settings_plaintext("twitter", v.twitter, 50, "twitter.com")
+
+	v.twitter = twitter
+	g.db.add(v)
+
+	return {"message": "Twitter domain successfully updated!"}
 
 
 @app.post("/settings/checkmark_text")

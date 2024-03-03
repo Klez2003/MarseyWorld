@@ -154,7 +154,7 @@ class User(Base):
 	offsite_mentions = Column(Boolean)
 
 	if SITE_NAME == 'WPD' and not IS_LOCALHOST:
-		nitter = False
+		twitter = 'twitter.com'
 		imgsed = False
 		controversial = False
 		reddit = 'old.reddit.com'
@@ -164,7 +164,7 @@ class User(Base):
 		hidevotedon = Column(Boolean, default=False)
 		hide_cw = Column(Boolean, default=False)
 	else:
-		nitter = Column(Boolean, default=False)
+		twitter = Column(String, default='twitter.com')
 		imgsed = Column(Boolean, default=False)
 		controversial = Column(Boolean, default=False)
 		reddit = Column(String, default='old.reddit.com')

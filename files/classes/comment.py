@@ -85,8 +85,8 @@ def normalize_urls_runtime(body, v):
 	if v and v.reddit != 'old.reddit.com':
 		body = reddit_to_vreddit_regex.sub(rf'\1https://{v.reddit}/\2/', body)
 
-	if v and v.nitter:
-		body = twitter_to_nitter_regex.sub(r'\1https://nitter.unixfox.eu/', body)
+	if v and v.twitter != 'twitter.com':
+		body = twitter_domain_regex.sub(rf'\1https://{v.twitter}/', body)
 
 	if v and v.imgsed:
 		body = instagram_to_imgsed_regex.sub(r'\1https://imgsed.com/', body)

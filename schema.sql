@@ -179,7 +179,6 @@ CREATE TABLE public.users (
     extra_username character varying(30),
     grinch boolean NOT NULL,
     last_viewed_modmail_notifs integer NOT NULL,
-    nitter boolean DEFAULT false NOT NULL,
     hole_creation_notifs boolean NOT NULL,
     group_creation_notifs boolean NOT NULL,
     effortpost_notifs boolean NOT NULL,
@@ -3133,4 +3132,3 @@ ALTER TABLE ONLY public.comments
 --
 -- PostgreSQL database dump complete
 --
-

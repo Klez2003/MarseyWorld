@@ -52,10 +52,13 @@
 	</div>
 {% endmacro %}
 
-{% macro line_text_section(id, form_action, form_name, section_title, contents, below_text, placeholder_text, button_text, show_emojis, minlength, maxlength, pattern, disabled) %}
-	<div class="body d-lg-flex border-bottom">
-		<label class="text-black w-lg-25">{{section_title}}</label>
-		<div class="w-lg-100">
+{% macro line_text_section(id, form_action, form_name, section_title, contents, below_text, placeholder_text, button_text, show_emojis, minlength, maxlength, pattern, disabled, extra_title) %}
+	<div class="d-lg-flex border-bottom">
+		<label class="title text-black w-lg-25">{{section_title}}</label>
+		<div class="body w-lg-100">
+			{% if extra_title %}
+				<p>{{extra_title}}</p>
+			{% endif %}
 			<form id="{{id}}-form" action="{{form_action}}" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHR(this)">
 				<input hidden name="formkey" value="{{v|formkey}}" class="notranslate" translate="no">
 				<input minlength={{minlength}} maxlength={{maxlength}} pattern="{{pattern}}" autocomplete="off" id="{{id}}-body" type="text" name="{{form_name}}" class="form-control {% if show_emojis %}allow-emojis{% endif %}" placeholder='{{placeholder_text}}' value="{% if contents %}{{contents}}{% endif %}" {% if disabled %}disabled{% endif %}>

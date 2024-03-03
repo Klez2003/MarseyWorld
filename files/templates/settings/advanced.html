@@ -117,8 +117,10 @@
 					<section id="site-settings-external-services-section" class="settings-section-section">
 						<h5>External Services</h5>
 						<div class="settings-section rounded">
-							{{common.toggle_section("Use Nitter for Twitter Links", "nitter", "nitter", v.nitter, "Enable if you would like to automatically convert twitter.com links to nitter.unixfox.eu links.", false)}}
 							{{common.toggle_section("Use imgsed for Instagram Links", "imgsed", "imgsed", v.imgsed, "Enable if you would like to automatically convert instagram.com links to imgsed.com links.", false)}}
+
+							{{common.line_text_section('twitter', '/settings/twitter', 'twitter', 'Twitter Domain', v.twitter, 'Limit of 50 characters', 'Change the domain you would like to view twitter posts in.', 'Save', false, 5, 50, '[A-Za-z0-9.-]+', false, 'Change the domain you would like to view twitter posts in.')}}
+
 							<div class="d-lg-flex border-bottom">
 								<div class="title w-lg-25">
 									<label for="reddit">Reddit Domain</label>
