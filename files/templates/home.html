@@ -93,9 +93,9 @@
 					</div>
 				{% endblock %}
 			</div>
-			{% if (SITE_NAME == 'WPD' or SITE == 'devrama.net') and listing %}
+			{% if SITE_NAME == 'WPD' and listing %}
 				<div class="d-inline-block">
-					{{macros.pagination("pl-1 pt-3 pb-3")}}
+					{{macros.pagination("pagination-smaller pl-1 pt-3 pb-3")}}
 				</div>
 			{% endif %}
 		</div>

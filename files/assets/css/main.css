@@ -1583,6 +1583,9 @@ nav
 	border-top-right-radius: 0.2rem;
 	border-bottom-right-radius: 0.2rem;
 }
+.pagination-smaller .page-link {
+	font-size: min(18px, 5.8vw);
+}
 .badge {
 	display: inline-block;
 	padding: 0.25em 0.4em;
