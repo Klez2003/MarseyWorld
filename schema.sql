@@ -184,7 +184,8 @@ CREATE TABLE public.users (
     effortpost_notifs boolean NOT NULL,
     shadowban_reason character varying(256),
     keyword_notifs character varying(1000),
-    offsite_mentions boolean
+    offsite_mentions boolean,
+    twitter character varying(50) DEFAULT 'twitter.com'::character varying NOT NULL
 );
 
 
@@ -3132,3 +3133,4 @@ ALTER TABLE ONLY public.comments
 --
 -- PostgreSQL database dump complete
 --
+
