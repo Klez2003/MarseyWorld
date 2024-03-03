@@ -53,7 +53,7 @@
 {% endmacro %}
 
 {% macro line_text_section(id, form_action, form_name, section_title, contents, below_text, placeholder_text, button_text, show_emojis, minlength, maxlength, pattern, disabled, extra_title) %}
-	<div class="d-lg-flex border-bottom">
+	<div id="{{id}}-section" class="d-lg-flex border-bottom">
 		<label class="title text-black w-lg-25">{{section_title}}</label>
 		<div class="body w-lg-100">
 			{% if extra_title %}
