@@ -1953,6 +1953,10 @@ def schedule_orgy(v):
 			if duration != 'P0D':
 				duration = isodate.parse_duration(duration).total_seconds()
 				end_utc = int(start_utc + duration)
+				orgy_type = 'file'
+				params = ["yt-dlp", "--get-url", f"https://www.youtube.com/watch?v={data}", "-f", "b", "--proxy", PROXY_URL]
+				data = subprocess.check_output(params, timeout=30)
+				data = data.decode("utf-8")
 	elif rumble_regex.match(normalized_link):
 		orgy_type = 'rumble'
 		data = normalized_link
