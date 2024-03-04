@@ -1021,7 +1021,6 @@ def edit_post(pid, v):
 	p = get_post(pid)
 	if not v.can_edit(p): abort(403)
 
-	# Disable edits on things older than 1wk unless it's a draft or editor is a jannie
 	if SITE_NAME == 'rDrama': days = 7
 	else: days = 30
 	if time.time() - p.created_utc > days*24*60*60 and not p.draft and v.admin_level < PERMS["IGNORE_EDITING_LIMIT"] and v.id not in EXEMPT_FROM_EDITING_LIMIT:
