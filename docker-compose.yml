@@ -38,7 +38,7 @@ services:
         image: postgres
         command: ["postgres", "-c", "log_statement=all"]
         volumes:
-            - "/bin/sh:/bin/bash"
+            - "/bin/bash:/bin/sh"
             - "./schema.sql:/docker-entrypoint-initdb.d/00-schema.sql"
             - "./seed-users.sql:/docker-entrypoint-initdb.d/01-seed-users.sql"
             - "./seed-badges.sql:/docker-entrypoint-initdb.d/02-seed-badges.sql"
