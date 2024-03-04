@@ -3,103 +3,98 @@
 {% block pagetype %}directory{% endblock %}
 
 {%- set DIRECTORY = [
-		(
-			'Donate',
-			'',
-			'fa-dollar-sign', 'green',
-			'/donate',
-		),
-		(
-			'Bugs / Suggestions',
-			'Something broken? Improvements?',
-			'fa-bug', '#6b8e23',
-			'/post/' ~ BUG_THREAD,
-		),
-		(
-			'Changelog',
-			'Log of all site changes.',
-			'fa-clipboard', '#ffffff',
-			'/post/' ~ CHANGELOG_THREAD,
-		),
-		(
-			'Submit Emojis',
-			'Submit new emojis for the site.',
-			'fa-smile-beam', '#fec83c',
-			'/submit/emojis',
-		),
-		(
-			'Submit Sidebar Art',
-			'Original ' ~ SITE_NAME ~ '-themed works.',
-			'fa-sidebar', '#f5fffa',
-			'/post/' ~ SIDEBAR_REQUEST_THREAD,
-		),
-		(
-			'Submit Banner Art',
-			'Original ' ~ SITE_NAME ~ '-themed works.',
-			'fa-landscape', '#87cefa',
-			'/post/' ~ BANNER_REQUEST_THREAD,
-		),
-		(
-			'View All Emojis',
-			'',
-			'fa-smile-beam', '#fec83c',
-			'/emojis/marsey',
-		),
-		(
-			'View All Sidebar Pictures',
-			'',
-			'fa-sidebar', '#f5fffa',
-			'/post/' ~ SIDEBAR_THREAD,
-			),
-		(
-			'View All Banner Pictures',
-			'',
-			'fa-landscape', '#87cefa',
-			'/post/' ~ BANNER_THREAD,
-			),
-		(
-			'View All Snappy Quotes',
-			'',
-			'fa-robot', '#adff2f',
-			'/post/' ~ SNAPPY_THREAD,
-		),
-	] -%}
-
-
-{%- if SITE_NAME == 'rDrama' -%}
-	{%- do DIRECTORY.extend([
-		(
-			'Submit Hats',
-			'Submit a Hat to be added.',
-			'fa-hat-cowboy', '#7c603e',
-			'/submit/hats',
-		),
-		(
-			'Update Emojis or Hats',
-			'Ask for an emoji or a hat to be updated with a better version or for emoji tags to be changed.',
-			'fa-smile-beam', '#fec83c',
-			'/post/103085',
-		),
-		(
-			'Submit Snappy Quotes',
-			'Sentient.',
-			'fa-robot', '#adff2f',
-			'/post/33652',
-		),
-		(
-			'Emoji Commissions',
-			'Request an Emoji to be made.',
-			'fa-coins', '#ffd700',
-			'/post/37677',
-		),
-		(
-			'Reportmaxxxing Bounties',
-			'Request a redditor be banned.',
-			'fa-gavel', '#dc3545',
-			'/post/215970',
-		),
-	])-%}
-{%- endif -%}
+	(
+		'Donate',
+		'',
+		'fa-dollar-sign', 'green',
+		'/donate',
+		True,
+	),
+	(
+		'Bugs / Suggestions',
+		'Something broken? Improvements?',
+		'fa-bug', '#6b8e23',
+		'/post/' ~ BUG_THREAD,
+		BUG_THREAD,
+	),
+	(
+		'Changelog',
+		'Log of all site changes.',
+		'fa-clipboard', '#ffffff',
+		'/post/' ~ CHANGELOG_THREAD,
+		CHANGELOG_THREAD,
+	),
+	(
+		'Submit Sidebar Art',
+		'Original ' ~ SITE_NAME ~ '-themed works.',
+		'fa-sidebar-flip', '#f5fffa',
+		'/submit/sidebar',
+		FEATURES['ART_SUBMISSIONS'],
+	),
+	(
+		'Submit Banner Art',
+		'Original ' ~ SITE_NAME ~ '-themed works.',
+		'fa-landscape', '#87cefa',
+		'/submit/banners',
+		FEATURES['ART_SUBMISSIONS'],
+	),
+	(
+		'Submit Emojis',
+		'Submit new emojis for the site.',
+		'fa-smile-beam', '#fec83c',
+		'/submit/emojis',
+		FEATURES['EMOJI_SUBMISSIONS'],
+	),
+	(
+		'Submit Hats',
+		'Submit a Hat to be added.',
+		'fa-hat-cowboy', '#7c603e',
+		'/submit/hats',
+		FEATURES['HAT_SUBMISSIONS'],
+	),
+	(
+		'Submit Snappy Quotes',
+		'Sentient.',
+		'fa-robot', '#adff2f',
+		'/post/33652',
+		SITE == 'rdrama.net',
+	),
+	(
+		'Update Emojis or Hats',
+		'Ask for an emoji or a hat to be updated with a better version or for emoji tags to be changed.',
+		'fa-smile-beam', '#fec83c',
+		'/post/103085',
+		SITE == 'rdrama.net',
+	),
+	(
+		'View All Emojis',
+		'',
+		'fa-smile-beam', '#fec83c',
+		'/emojis/marsey',
+		True,
+	),
+	(
+		'View All Snappy Quotes',
+		'',
+		'fa-robot', '#adff2f',
+		'/post/' ~ SNAPPY_THREAD,
+		SNAPPY_THREAD,
+	),
+	(
+		'Emoji Commissions',
+		'Request an Emoji to be made.',
+		'fa-coins', '#ffd700',
+		'/post/37677',
+		SITE == 'rdrama.net',
+	),
+	(
+		'Reportmaxxxing Bounties',
+		'Request a redditor be banned.',
+		'fa-gavel', '#dc3545',
+		'/post/215970',
+		SITE == 'rdrama.net',
+	),
+] -%}
 
 {% block content %}
 	<div id="directory--wrapper">

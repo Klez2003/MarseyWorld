@@ -1,0 +1,95 @@
+{%- extends 'root.html' -%}
+{% block pagetitle %}User List{% endblock %}
+{% block pagetype %}meta_navbar{% endblock %}
+{% block body_attributes %}class="has_header"{% endblock %}
+{% block body %}
+	{% include "header.html" %}
+	{% block subNav %}
+		<div class="container-fluid bg-white sticky ml-2 d-mob-none" style="padding-top: 50px; padding-bottom: 0 !important">
+			<div class="row box-shadow-bottom">
+				<div class="col">
+					<div class="container" style="padding-bottom: 0">
+						<div class="row box-shadow-bottom bg-white">
+							<div class="col">
+								<div class="d-flex flex-row-reverse justify-content-end">
+									<ul class="nav settings-nav" style="margin-left: -15px">
+										{% if FEATURES['ART_SUBMISSIONS'] %}
+											<li class="nav-item">
+												<a class="nav-link{% if request.path == '/submit/sidebar' %} active{% endif %}" href="/submit/sidebar">
+													<i class="fas fa-sidebar-flip pr-2"></i>Sidebar Images
+												</a>
+											</li>
+											<li class="nav-item">
+												<a class="nav-link{% if request.path == '/submit/banners' %} active{% endif %}" href="/submit/banners">
+													<i class="fas fa-landscape pr-2"></i>Banners
+												</a>
+											</li>
+										{% endif %}
+										{% if FEATURES['EMOJI_SUBMISSIONS'] %}
+											<li class="nav-item">
+												<a class="nav-link{% if request.path == '/submit/emojis' %} active{% endif %}" href="/submit/emojis">
+													<i class="fas fa-smile-beam pr-2"></i>Emojis
+												</a>
+											</li>
+										{% endif %}
+										{% if FEATURES['HAT_SUBMISSIONS'] %}
+											<li class="nav-item">
+												<a class="nav-link{% if request.path == '/submit/hats' %} active{% endif %}" href="/submit/hats">
+													<i class="fas fa-hat-cowboy pr-2"></i>Hats
+												</a>
+											</li>
+										{% endif %}
+										{% if SITE == 'rdrama.net' %}
+											<li class="nav-item">
+												<a class="nav-link" href="/post/33652">
+													<i class="fas fa-robot pr-2"></i>Snappy Quotes
+												</a>
+											</li>
+										{% endif %}
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="container-fluid bg-white sticky d-md-none" style="padding-top: 20px; padding-bottom: 0">
+			<div class="row box-shadow-bottom">
+				<div class="col px-0">
+					<div class="d-flex flex-row-reverse justify-content-center">
+						<ul class="nav settings-nav">
+							{% if FEATURES['ART_SUBMISSIONS'] %}
+								<li class="nav-item">
+									<a style="padding: 0.75rem 1.5rem" class="nav-link{% if request.path == '/submit/sidebar' %} active{% endif %}" href="/submit/sidebar"><i class="fas fa-sidebar-flip text-lg mr-0"></i></a>
+								</li>
+								<li class="nav-item">
+									<a style="padding: 0.75rem 1.5rem" class="nav-link{% if request.path == '/submit/banners' %} active{% endif %}" href="/submit/banners"><i class="fas fa-landscape text-lg mr-0"></i></a>
+								</li>
+							{% endif %}
+							{% if FEATURES['EMOJI_SUBMISSIONS'] %}
+								<li class="nav-item">
+									<a style="padding: 0.75rem 1.5rem" class="nav-link{% if request.path == '/submit/emojis' %} active{% endif %}" href="/submit/emojis"><i class="fas fa-smile-beam text-lg mr-0"></i></a>
+								</li>
+							{% endif %}
+							{% if FEATURES['HAT_SUBMISSIONS'] %}
+								<li class="nav-item">
+									<a style="padding: 0.75rem 1.5rem" class="nav-link{% if request.path == '/submit/hats' %} active{% endif %}" href="/submit/hats"><i class="fas fa-hat-cowboy text-lg mr-0"></i></a>
+								</li>
+							{% endif %}
+							{% if SITE == 'rdrama.net' %}
+								<li class="nav-item">
+									<a style="padding: 0.75rem 1.5rem" class="nav-link{% if request.path == '/post/33652' %} active{% endif %}" href="/post/33652"><i class="fas fa-robot text-lg mr-0"></i></a>
+								</li>
+							{% endif %}
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	{% endblock %}
+
+	<div class="pt-3 container">
+		{% block content %}{% endblock %}
+	</div>
+{% endblock %}

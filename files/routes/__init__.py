@@ -47,6 +47,8 @@ if FEATURES['HATS']:
 	from .hats import *
 if FEATURES['EMOJI_SUBMISSIONS'] or FEATURES['HAT_SUBMISSIONS']:
 	from .asset_submissions import *
+if FEATURES['ART_SUBMISSIONS']:
+	from .art_submissions import *
 from .special import *
 from .push_notifs import *
 if FEATURES['PING_GROUPS']:

@@ -173,7 +173,7 @@
 .fa-bell-slash:before{content:"\f1f6"}
 .fa-chart-network:before{content:"\f78a"}
 .fa-square-share-nodes:before{content:"\f1e1"}
-.fa-sidebar:before{content:"\e24e"}
+.fa-sidebar-flip:before{content:"\e24f"}
 .fa-landscape:before{content:"\e1b5"}
 .fa-external-link:before{content:"\f08e"}
 .fa-circle-info:before{content:"\f05a"}
@@ -3690,7 +3690,7 @@ ol > li::before {
 }
 .settings-nav > .nav-item > .nav-link.active, .settings-nav > .nav-item > .nav-link:focus, .settings-nav > .nav-item > .nav-link:hover {
 	color: var(--primary);
-	box-shadow: inset 0 -2px 0 var(--primary);
+	border-bottom: 3px solid var(--primary);
 }
 .post-nav .nav-link:hover, .post-nav .nav-link:focus, .settings-nav .nav-link:hover, .settings-nav .nav-link:focus {
 	color: var(--primary);
@@ -3708,7 +3708,7 @@ ol > li::before {
 }
 .settings-nav > .nav-item > .nav-link.active {
 	color: var(--primary);
-	box-shadow: inset 0 -2px 0 var(--primary);
+	border-bottom: 3px solid var(--primary);
 }
 .settings-nav > .nav-item > .nav-link.active .fa, .settings-nav > .nav-item > .nav-link.active .fas, .settings-nav > .nav-item > .nav-link.active .far, .settings-nav > .nav-item > .nav-link.active .fab {
 	color: var(--primary);

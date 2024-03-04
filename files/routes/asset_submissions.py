@@ -248,10 +248,16 @@ def approve_emoji(v, name):
 
 	emoji.submitter_id = None
 
+
+	note = f':{emoji.name}:'
+	if comment:
+		note += f' - Comment: "{comment}"'
+
 	ma = ModAction(
 		kind="approve_emoji",
 		user_id=v.id,
-		_note=f'<img loading="lazy" data-bs-toggle="tooltip" alt=":{emoji.name}:" title=":{emoji.name}:" src="{SITE_FULL_IMAGES}/e/{emoji.name}.webp">'
+		target_user_id=emoji.author_id,
+		_note=filter_emojis_only(note, link=True),
 	)
 	g.db.add(ma)
 
@@ -300,10 +306,15 @@ def remove_asset(cls, type_name, v, name):
 
 		send_repeatable_notification(asset.submitter_id, msg)
 
+		note = name
+		if comment:
+			note += f' - Comment: "{comment}"'
+
 		ma = ModAction(
 			kind=f"reject_{type_name}",
 			user_id=v.id,
-			_note=name
+			target_user_id=asset.author_id,
+			_note=filter_emojis_only(note, link=True),
 		)
 		g.db.add(ma)
 
@@ -464,10 +475,15 @@ def approve_hat(v, name):
 		new_path = f'/asset_submissions/hats/original/{hat.name}.{i.format.lower()}'
 	rename(highquality, new_path)
 
+	note = f'[{hat.name}]({SITE_FULL_IMAGES}/i/hats/{hat.name}.webp)'
+	if comment:
+		note += f' - Comment: "{comment}"'
+
 	ma = ModAction(
 		kind="approve_hat",
 		user_id=v.id,
-		_note=f'<a href="{SITE_FULL_IMAGES}/i/hats/{hat.name}.webp">{hat.name}</a>'
+		target_user_id=hat.author_id,
+		_note=filter_emojis_only(note, link=True),
 	)
 	g.db.add(ma)
 

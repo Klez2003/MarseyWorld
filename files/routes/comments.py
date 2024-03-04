@@ -181,14 +181,14 @@ def comment(v):
 	if parent_user.has_blocked(v) or parent_user.has_muted(v):
 		notify_op = False
 
-	if posting_to_post and v.admin_level >= PERMS['USE_ADMIGGER_THREADS'] and post_target.id in {SIDEBAR_THREAD, BANNER_THREAD, BADGE_THREAD}:
-		admigger_thread = post_target.id
+	if posting_to_post and v.admin_level >= PERMS['USE_ADMIGGER_THREADS'] and post_target.id == BADGE_THREAD:
+		is_badge_thread = True
 		comment_body = body
 	else:
-		admigger_thread = None
+		is_badge_thread = False
 		comment_body = None
 
-	body = process_files(request.files, v, body, admigger_thread=admigger_thread, comment_body=comment_body)
+	body = process_files(request.files, v, body, is_badge_thread=is_badge_thread, comment_body=comment_body)
 	if len(body) > COMMENT_BODY_LENGTH_LIMIT:
 		abort(400, f'Comment body is too long (max {COMMENT_BODY_LENGTH_LIMIT} characters)')
 

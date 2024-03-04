@@ -7,7 +7,6 @@ import json
 import requests
 import ffmpeg
 import gevent
-import imagehash
 from flask import abort, g, has_request_context, request
 from mimetypes import guess_extension
 from PIL import Image
@@ -47,7 +46,7 @@ def media_ratelimit(v):
 		print(STARS, flush=True)
 		abort(500)
 
-def process_files(files, v, body, is_dm=False, dm_user=None, admigger_thread=None, comment_body=None):
+def process_files(files, v, body, is_dm=False, dm_user=None, is_badge_thread=False, comment_body=None):
 	if g.is_tor or not files.get("file"): return body
 	files = files.getlist('file')[:20]
 
@@ -63,8 +62,8 @@ def process_files(files, v, body, is_dm=False, dm_user=None, admigger_thread=Non
 			name = f'/images/{time.time()}'.replace('.','') + '.webp'
 			file.save(name)
 			url = process_image(name, v)
-			if admigger_thread:
-				process_admigger_entry(name, v, admigger_thread, comment_body)
+			if is_badge_thread:
+				process_badge_entry(name, v, comment_body)
 		elif file.content_type.startswith('video/'):
 			url = process_video(file, v)
 		elif file.content_type.startswith('audio/'):
@@ -257,30 +256,6 @@ def process_image(filename, v, resize=0, trim=False, uploader_id=None):
 				abort(413, f"Max size for site assets is {MAX_IMAGE_SIZE_BANNER_RESIZED_MB} MB")
 			return None
 
-		if filename.startswith('files/assets/images/'):
-			path = filename.rsplit('/', 1)[0]
-			kind = path.split('/')[-1]
-
-			if kind in {'banners','sidebar'}:
-				hashes = {}
-
-				for img in os.listdir(path):
-					img_path = f'{path}/{img}'
-					if img_path == filename: continue
-
-					with Image.open(img_path) as i:
-						i_hash = str(imagehash.phash(i))
-
-					if i_hash not in hashes.keys():
-						hashes[i_hash] = img_path
-
-				with Image.open(filename) as i:
-					i_hash = str(imagehash.phash(i))
-
-				if i_hash in hashes.keys():
-					os.remove(filename)
-					return None
-
 	media = g.db.query(Media).filter_by(filename=filename, kind='image').one_or_none()
 	if media: g.db.delete(media)
 
@@ -306,41 +281,27 @@ def send_file(filename):
 	rclone.copy(filename, 'no:/videos', ignore_existing=True, show_progress=False)
 
 
-def process_sidebar_or_banner(oldname, v, type, resize):
-	li = sorted(os.listdir(f'files/assets/images/{SITE_NAME}/{type}'),
-		key=lambda e: int(e.split('.webp')[0]))[-1]
-	num = int(li.split('.webp')[0]) + 1
-	filename = f'files/assets/images/{SITE_NAME}/{type}/{num}.webp'
-	copyfile(oldname, filename)
-	process_image(filename, v, resize=resize)
+def process_badge_entry(oldname, v, comment_body):
+	try:
+		json_body = '{' + comment_body.split('{')[1].split('}')[0] + '}'
+		badge_def = json.loads(json_body)
+		name = badge_def["name"]
 
-def process_admigger_entry(oldname, v, admigger_thread, comment_body):
-	if admigger_thread == SIDEBAR_THREAD:
-		process_sidebar_or_banner(oldname, v, 'sidebar', 600)
-	elif admigger_thread == BANNER_THREAD:
-		banner_width = 1600
-		process_sidebar_or_banner(oldname, v, 'banners', banner_width)
-	elif admigger_thread == BADGE_THREAD:
-		try:
-			json_body = '{' + comment_body.split('{')[1].split('}')[0] + '}'
-			badge_def = json.loads(json_body)
-			name = badge_def["name"]
+		if len(name) > 50:
+			abort(400, "Badge name is too long (max 50 characters)")
 
-			if len(name) > 50:
-				abort(400, "Badge name is too long (max 50 characters)")
+		if not badge_name_regex.fullmatch(name):
+			abort(400, "Invalid badge name!")
 
-			if not badge_name_regex.fullmatch(name):
-				abort(400, "Invalid badge name!")
+		existing = g.db.query(BadgeDef).filter_by(name=name).one_or_none()
+		if existing: abort(409, "A badge with this name already exists!")
 
-			existing = g.db.query(BadgeDef).filter_by(name=name).one_or_none()
-			if existing: abort(409, "A badge with this name already exists!")
-
-			badge = BadgeDef(name=name, description=badge_def["description"])
-			g.db.add(badge)
-			g.db.flush()
-			filename = f'files/assets/images/{SITE_NAME}/badges/{badge.id}.webp'
-			copyfile(oldname, filename)
-			process_image(filename, v, resize=300, trim=True)
-			purge_files_in_cloudflare_cache(f"{SITE_FULL_IMAGES}/i/{SITE_NAME}/badges/{badge.id}.webp")
-		except Exception as e:
-			abort(400, str(e))
+		badge = BadgeDef(name=name, description=badge_def["description"])
+		g.db.add(badge)
+		g.db.flush()
+		filename = f'files/assets/images/{SITE_NAME}/badges/{badge.id}.webp'
+		copyfile(oldname, filename)
+		process_image(filename, v, resize=300, trim=True)
+		purge_files_in_cloudflare_cache(f"{SITE_FULL_IMAGES}/i/{SITE_NAME}/badges/{badge.id}.webp")
+	except Exception as e:
+		abort(400, str(e))

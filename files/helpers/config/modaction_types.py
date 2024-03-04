@@ -416,24 +416,44 @@ MODACTION_TYPES = {
 		"icon": 'fa-cat',
 		"color": 'bg-success'
 	},
-	'approve_hat': {
-		"str": 'approved hat',
-		"icon": 'fa-hat-cowboy',
+	'approve_sidebar': {
+		"str": 'approved a sidebar image made by {self.target_link}',
+		"icon": 'fa-sidebar-flip',
 		"color": 'bg-success'
 	},
-	'reject_hat': {
-		"str": 'rejected hat',
-		"icon": 'fa-hat-cowboy',
+	'reject_sidebar': {
+		"str": 'rejected a sidebar image made by {self.target_link}',
+		"icon": 'fa-sidebar-flip',
+		"color": 'bg-danger'
+	},
+	'approve_banner': {
+		"str": 'approved a banner made by {self.target_link}',
+		"icon": 'fa-landscape',
+		"color": 'bg-success'
+	},
+	'reject_banner': {
+		"str": 'rejected a banner made by {self.target_link}',
+		"icon": 'fa-landscape',
 		"color": 'bg-danger'
 	},
 	'approve_emoji': {
-		"str": 'approved emoji',
+		"str": 'approved an emoji made by {self.target_link}',
 		"icon": 'fa-cat',
 		"color": 'bg-success'
 	},
 	'reject_emoji': {
-		"str": 'rejected emoji',
+		"str": 'rejected an emoji made by {self.target_link}',
 		"icon": 'fa-cat',
+		"color": 'bg-danger'
+	},
+	'approve_hat': {
+		"str": 'approved hat made by {self.target_link}',
+		"icon": 'fa-hat-cowboy',
+		"color": 'bg-success'
+	},
+	'reject_hat': {
+		"str": 'rejected hat made by {self.target_link}',
+		"icon": 'fa-hat-cowboy',
 		"color": 'bg-danger'
 	},
 	'reset_password': {
