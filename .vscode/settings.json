@@ -1,5 +1,5 @@
 {
 	"editor.insertSpaces": false,
-	"editor.autoIndent": "none",
+	"editor.autoIndent": "advanced",
 	"files.eol": "\n"
 }
