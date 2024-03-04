@@ -24,7 +24,7 @@ from .reporting import *
 from .front import *
 from .login import *
 from .mail import *
-if FEATURES['BOTS']:
+if get_setting('bots') :
 	from .oauth import *
 from .posts import *
 from .search import *

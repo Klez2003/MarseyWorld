@@ -248,7 +248,6 @@ FEATURES = {
 	'HAT_SUBMISSIONS': True,
 	'NSFW_MARKING': True,
 	'PING_GROUPS': True,
-	'BOTS': True,
 	'IP_LOGGING': False,
 	'BLOCK_MUTE_EXILE_EXPIRY': False,
 }
