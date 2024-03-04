@@ -309,11 +309,11 @@ def handle_youtube_links(url):
 				if split[1]: seconds = int(split[1])
 				else: seconds = 0
 				t = minutes*60 + seconds
-		html = f'<lite-youtube videoid="{id}" params="&modestbranding=1'
+		html = f'<lite-youtube videoid="{id}"'
 		if t:
-			try: html += f'&start={int(t)}'
+			try: html += f' params="&start={int(t)}"'
 			except: abort(400, f"Something is wrong with the url you submitted ({url}) and it couldn't be parsed.")
-		html += '"></lite-youtube>'
+		html += '></lite-youtube>'
 	return html
 
 def reddit_mention_replacer(match):
