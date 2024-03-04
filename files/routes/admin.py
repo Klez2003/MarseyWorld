@@ -1937,10 +1937,12 @@ def schedule_orgy(v):
 
 	if start_utc:
 		start_utc = int(start_utc)
-		redir = '/admin/orgies'
 	else:
-		start_utc = int(time.time())
-		redir = '/chat'
+		last_orgy = g.db.query(Orgy).order_by(Orgy.start_utc.desc()).first()
+		if last_orgy and last_orgy.end_utc:
+			start_utc = last_orgy.end_utc
+		else:
+			start_utc = int(time.time())
 
 	end_utc = None
 
@@ -1991,7 +1993,7 @@ def schedule_orgy(v):
 	)
 	g.db.add(ma)
 
-	return redirect(redir)
+	return redirect('/admin/orgies')
 
 @app.post("/admin/remove_orgy/<int:created_utc>")
 @admin_level_required(PERMS['ORGIES'])
