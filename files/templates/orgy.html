@@ -33,6 +33,28 @@
 						<script defer src="{{'js/orgy_file.js' | asset}}"></script>
 					{% endif %}
 				</p>
+				{% if (orgies)|length > 1 %}
+					<table class="mt-2 d-mob-none">
+						<thead>
+							<tr>
+								<th>Title</th>
+								<th>Starts on</th>
+								<th>Ends on</th>
+							</tr>
+						</thead>
+						{% for orgy in orgies %}
+							<tr>
+								<td>{{orgy.title}}</td>
+								{% if orgy.started %}
+									<td>Started</td>
+								{% else %}
+									<td data-time="{{orgy.start_utc}}"></td>
+								{% endif %}
+								<td {% if orgy.end_utc %}data-time="{{orgy.end_utc}}"{% endif %}></td>
+							</tr>
+						{% endfor %}
+					</table>
+				{% endif %}
 			</div>
 		</div>
 

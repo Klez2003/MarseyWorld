@@ -75,7 +75,8 @@ def chat(v):
 	orgy = get_running_orgy(v)
 	if orgy:
 		x = secrets.token_urlsafe(8)
-		return render_template("orgy.html", v=v, messages=displayed_messages, orgy=orgy, x=x)
+		orgies = g.db.query(Orgy).order_by(Orgy.start_utc).all()
+		return render_template("orgy.html", v=v, messages=displayed_messages, orgy=orgy, x=x, orgies=orgies)
 
 	return render_template("chat.html", v=v, messages=displayed_messages)
 
