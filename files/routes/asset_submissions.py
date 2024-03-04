@@ -292,7 +292,7 @@ def remove_asset(cls, type_name, v, name):
 	name = asset.name
 
 	if v.id != asset.submitter_id:
-		msg = f"@{v.username} has rejected a {type_name} you submitted: `'{name}'`"
+		msg = f"@{v.username} (a site admin) has rejected a {type_name} you submitted: `'{name}'`"
 
 		comment = request.values.get("comment")
 		if comment:
