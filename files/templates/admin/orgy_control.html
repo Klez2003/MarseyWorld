@@ -65,7 +65,7 @@
 				<tr>
 					<td>{{orgy.type}}</td>
 					<td>{{orgy.title}}</td>
-					<td>{{orgy.data}}</td>
+					<td>{{orgy.data[:100]}}</td>
 					<td>
 						<button type="button" class="btn btn-danger btn-block" data-nonce="{{g.nonce}}" data-areyousure="remove_orgy(this, {{orgy.created_utc}})" data-onclick="areyousure(this)">Remove</button>
 					</td>
