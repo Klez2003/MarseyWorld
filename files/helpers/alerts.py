@@ -116,15 +116,21 @@ def notif_comment_mention(p):
 		return create_comment(text_html), text
 
 
-def add_notif(cid, uid, text, pushnotif_url='', check_existing=True):
+def add_notif(cid, uid, text, pushnotif_url='', check_existing=True, wtf=False):
 	if uid in BOT_IDs: return
 
 	if hasattr(g, 'v') and g.v and g.v.shadowbanned and g.db.query(User.admin_level).filter_by(id=uid).one()[0] < PERMS['USER_SHADOWBAN']:
 		return
 
+	if wtf:
+		print('1', flush=True)
+	
 	if check_existing:
 		existing = g.db.query(Notification.user_id).filter_by(comment_id=cid, user_id=uid).one_or_none()
+		print('2', existing, flush=True)
 		if existing: return
+
+	print('3', flush=True)
 
 	notif = Notification(comment_id=cid, user_id=uid)
 	g.db.add(notif)
