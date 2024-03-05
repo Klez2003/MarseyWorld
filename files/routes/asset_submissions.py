@@ -147,6 +147,8 @@ def verify_permissions_and_get_asset(cls, asset_type, v, name, make_lower=False)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @admin_level_required(PERMS['MODERATE_PENDING_SUBMITTED_ASSETS'])
 def approve_emoji(v, name):
+	comment = request.values.get("comment", "").strip()
+
 	emoji = verify_permissions_and_get_asset(Emoji, "emoji", v, name, True)
 	tags = request.values.get('tags').lower().strip().replace('  ', ' ')
 	if not tags:
@@ -231,7 +233,6 @@ def approve_emoji(v, name):
 	if v.id != author.id:
 		msg = f"@{v.username} (a site admin) has approved an emoji you made: :{emoji.name}:\n\nYou have received {amount} coins as a reward!"
 
-		comment = request.values.get("comment")
 		if comment:
 			msg += f"\nComment: `{comment}`"
 
@@ -240,7 +241,6 @@ def approve_emoji(v, name):
 	if v.id != emoji.submitter_id and author.id != emoji.submitter_id:
 		msg = f"@{v.username} (a site admin) has approved an emoji you submitted: :{emoji.name}:"
 		
-		comment = request.values.get("comment")
 		if comment:
 			msg += f"\nComment: `{comment}`"
 
@@ -280,6 +280,8 @@ def approve_emoji(v, name):
 	return {"message": f"'{emoji.name}' approved!"}
 
 def remove_asset(cls, type_name, v, name):
+	comment = request.values.get("comment", "").strip()
+
 	if cls not in ASSET_TYPES: raise Exception("not a valid asset type")
 	should_make_lower = cls == Emoji
 	if should_make_lower: name = name.lower()
@@ -300,7 +302,6 @@ def remove_asset(cls, type_name, v, name):
 	if v.id != asset.submitter_id:
 		msg = f"@{v.username} (a site admin) has rejected a {type_name} you submitted: `'{name}'`"
 
-		comment = request.values.get("comment")
 		if comment:
 			msg += f"\nComment: `{comment}`"
 
@@ -407,6 +408,8 @@ def submit_hat(v):
 @limiter.limit("120/minute;200/hour;1000/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @admin_level_required(PERMS['MODERATE_PENDING_SUBMITTED_ASSETS'])
 def approve_hat(v, name):
+	comment = request.values.get("comment", "").strip()
+
 	hat = verify_permissions_and_get_asset(HatDef, "hat", v, name, False)
 	description = request.values.get('description').strip()
 	if not description: abort(400, "You need to include a description!")
@@ -451,7 +454,6 @@ def approve_hat(v, name):
 	if v.id != author.id:
 		msg = f"@{v.username} (a site admin) has approved a hat you made: `'{hat.name}'`"
 
-		comment = request.values.get("comment")
 		if comment:
 			msg += f"\nComment: `{comment}`"
 
@@ -460,7 +462,6 @@ def approve_hat(v, name):
 	if v.id != hat.submitter_id and author.id != hat.submitter_id:
 		msg = f"@{v.username} (a site admin) has approved a hat you submitted: `'{hat.name}'`"
 
-		comment = request.values.get("comment")
 		if comment:
 			msg += f"\nComment: `{comment}`"
 

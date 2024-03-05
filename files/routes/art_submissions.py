@@ -91,6 +91,8 @@ def submit_art_post(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @admin_level_required(PERMS['MODERATE_PENDING_SUBMITTED_ASSETS'])
 def approve_art(v, id):
+	comment = request.values.get("comment", "").strip()
+
 	entry = g.db.get(ArtSubmission, id)
 	if not entry:
 		abort(404, "Art submission not found!")
@@ -113,7 +115,6 @@ def approve_art(v, id):
 	if v.id != author.id:
 		msg = f"@{v.username} (a site admin) has approved a {entry.formatted_kind} you made:\n{entry_url}" 
 
-		comment = request.values.get("comment")
 		if comment:
 			msg += f"\nComment: `{comment}`"
 
@@ -122,7 +123,6 @@ def approve_art(v, id):
 	if v.id != entry.submitter_id and author.id != entry.submitter_id:
 		msg = f"@{v.username} (a site admin) has approved a {entry.formatted_kind} you submitted:\n{entry_url}" 
 		
-		comment = request.values.get("comment")
 		if comment:
 			msg += f"\nComment: `{comment}`"
 
@@ -152,6 +152,8 @@ def approve_art(v, id):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def remove_art(v, id):
+	comment = request.values.get("comment", "").strip()
+
 	entry = g.db.get(ArtSubmission, id)
 	if not entry:
 		abort(404, "Art submission not found!")
@@ -163,7 +165,6 @@ def remove_art(v, id):
 		entry_url = f'{SITE_FULL_IMAGES}/asset_submissions/art/{entry.id}.webp'
 		msg = f"@{v.username} (a site admin) has rejected a {entry.formatted_kind} you submitted:\n{entry_url}" 
 		
-		comment = request.values.get("comment")
 		if comment:
 			msg += f"\nComment: `{comment}`"
 
