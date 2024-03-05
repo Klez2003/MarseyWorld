@@ -2,8 +2,12 @@
 {% block pagetitle %}Donate{% endblock %}
 {% block content %}
 	<div class="px-2">
+		<h5 class="mt-4">
+			{{SITE_NAME}} is funded entirely through the support of users like you. Please consider donating to help the site survive and help us cover its monthly costs. There's even some pretty cool site rewards in it for you <img alt=":marseyheart:" data-bs-toggle="tooltip" src="{{SITE_FULL_IMAGES}}/e/marseyheart.webp" title=":marseyheart:">
+		</h5>
+
 		{% set can_see = v and v.can_see_donate_service %}
-		<h3 class="mt-5 text-success">Donation Methods</h1>
+		<h3 class="mt-4 text-success">Donation Methods</h1>
 
 		<div class="overflow-x-auto">
 			<table>
