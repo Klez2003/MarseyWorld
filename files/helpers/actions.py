@@ -192,15 +192,18 @@ def execute_snappy(post, v):
 
 	captured = []
 
-	if post.url and not post.url.startswith('/'):
+	if post.url:
 		captured.append((post.url, post.url))
 
 	for i in list(snappy_url_regex.finditer(post.body_html.replace(' data-src="', ' src="'))):
 		href = i.group(1)
-		if href.startswith(f'{SITE_FULL}/') or href.startswith(SITE_FULL_IMAGES): continue
 		if href in [x[0] for x in captured]: continue
 		title = i.group(2)
 		captured.append((href, title))
+
+	for href, title in captured:
+		if href.startswith('/') or href.startswith(f'{SITE_FULL}/') or href.startswith(f'{SITE_FULL_IMAGES}/'):
+			captured.remove((href, title))
 
 	if captured: 
 		body += "**Snapshots:**\n\n"
