@@ -376,11 +376,6 @@ def _expire_blocks_mutes_exiles():
 		send_repeatable_notification(exile.user_id, f"Your exile from /h/{exile.hole} has passed 1 month and expired!")
 		g.db.delete(exile)
 
-	holeblocks = g.db.query(HoleBlock).filter(HoleBlock.created_utc < one_month_ago)
-	for holeblock in holeblocks:
-		send_repeatable_notification(holeblock.user_id, f"Your block of /h/{holeblock.hole} has passed 1 month and expired!")
-		g.db.delete(holeblock)
-
 
 def _set_top_poster_of_the_day_id():
 	t = int(time.time()) - 86400
