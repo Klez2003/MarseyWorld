@@ -76,17 +76,15 @@ def notif_comment(text):
 	).order_by(Comment.id).all()
 
 	if len(existing) > 1:
-		replace_with = existing[0][0]
-		replaced = [x[0] for x in existing[1:]]
+		to_delete = [x[0] for x in existing[1:]]
 
-		for n in g.db.query(Notification).filter(Notification.comment_id.in_(replaced)):
-			n.comment_id = replace_with
-			g.db.add(n)
+		for n in g.db.query(Notification).filter(Notification.comment_id.in_(to_delete)):
+			g.db.delete(n)
 
-		for c in g.db.query(Comment).filter(Comment.id.in_(replaced)):
+		for c in g.db.query(Comment).filter(Comment.id.in_(to_delete)):
 			g.db.delete(c)
 
-		return replace_with
+		return existing[0][0]
 	elif existing:
 		return existing[0][0]
 	else:
