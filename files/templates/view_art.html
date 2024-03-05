@@ -3,6 +3,6 @@
 {% block content %}
 	<h2 class="mt-4">{{title}}</h2>
 	{% for url in urls %}
-		<img class="mt-4 mr-3" style="max-width:80vw" src="{{url}}" loading="lazy">
+		<img class="mt-4 mr-3" style="max-width:80vw" src="{{url}}" loading="lazy" data-nonce="{{g.nonce}}" data-onclick="expandImage()">
 	{% endfor %}
 {% endblock %}
