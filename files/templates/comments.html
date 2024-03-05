@@ -199,7 +199,7 @@
 									<div class="profile-pic-30-wrapper">
 										<img loading="lazy" alt="@{{c.author.username}}'s profile picture" src="{{c.author.profile_url}}" class="profile-pic-30 mr-2">
 										{% if c.author.hat_active(v)[0] -%}
-											<img class="profile-pic-30-hat hat" loading="lazy" src="{{c.author.hat_active(v)[0]}}?x=7" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{c.author.hat_active(v)[1]}}" alt="@{{c.author.username}}'s hat">
+											<img class="profile-pic-30-hat hat" loading="lazy" src="{{c.author.hat_active(v)[0]}}?x=8" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{c.author.hat_active(v)[1]}}" alt="@{{c.author.username}}'s hat">
 										{%- endif %}
 									</div>
 									<span {% if c.author.patron and not c.distinguished %}class="patron" style="background-color:#{{c.author.name_color}}"{% elif c.distinguished %}class="mod {% if SITE_NAME == 'rDrama' %}mod-rdrama{% endif %}"{% endif %} {% if c.author.pride_username(v) %}pride_username{% endif %}>{{c.author_name}}</span>

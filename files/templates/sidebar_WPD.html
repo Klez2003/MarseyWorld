@@ -20,7 +20,7 @@
 	</a>
 
 	{% if not v %}
-		{% set image = SITE_FULL_IMAGES + "/i/WPD/sidebar/1.webp?x=7" %}
+		{% set image = SITE_FULL_IMAGES + "/i/WPD/sidebar/1.webp?x=8" %}
 	{% elif IS_FISTMAS() %}
 		{% set image = macros.random_image("assets/events/" ~ IS_EVENT() ~ "/images/sidebar/" ~ SITE_NAME ) %}
 	{% elif IS_EVENT() %}
@@ -28,7 +28,7 @@
 	{%- elif v -%}
 		{%- set image = macros.random_image("assets/images/" ~ SITE_NAME ~ "/sidebar") -%}
 	{%- else -%}
-		{%- set image = SITE_FULL_IMAGES ~ '/i/' ~ SITE_NAME ~ '/sidebar.webp?x=7' -%}
+		{%- set image = SITE_FULL_IMAGES ~ '/i/' ~ SITE_NAME ~ '/sidebar.webp?x=8' -%}
 	{%- endif -%}
 
 	{% if request.path != '/sidebar' %}
