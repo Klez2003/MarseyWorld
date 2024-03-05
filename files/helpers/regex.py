@@ -238,11 +238,11 @@ sanitize_url_regex = re.compile(
 
 #sanitizing
 reddit_mention_regex = re.compile('([>\s])\/?(r|u)(\/[\w-]{2,25})' + NOT_IN_CODE_OR_LINKS, flags=re.I|re.A)
-reddit_domain_regex = re.compile("(^|\s|\()https?:\/\/(redd.it\/|((www\.|new\.)?reddit\.com|teddit\.net|libreddit\.hu|redd\.it)\/(u\/|user\/|(r\/\w{2,25}\/)?comments\/|r\/\w{2,25}\/?$))", flags=re.A)
+reddit_domain_regex = re.compile("(^|\s|\()https?:\/\/(redd.it\/|((www\.|new\.)?reddit\.com|teddit\.net|libreddit\.hu|redd\.it)\/(u\/(?![\w-]{2,25}\/s\/)|user\/|(r\/\w{2,25}\/)?comments\/|r\/\w{2,25}\/?$))", flags=re.A)
 reddit_comment_link_regex = re.compile("https:\/\/old.reddit.com\/r\/\w{2,25}\/comments(\/\w+){3}\/?.*", flags=re.A)
 
 #gevent
-reddit_s_url_regex = re.compile("https:\/\/(www\.)?reddit.com\/(r|u|user)\/\w{2,25}\/s\/\w{10}\/?", flags=re.A)
+reddit_s_url_regex = re.compile("https:\/\/(www\.)?reddit.com\/(r|u|user)\/[\w-]{2,25}\/s\/\w{10}\/?", flags=re.A)
 tiktok_t_url_regex = re.compile("https:\/\/(www\.|vm\.)?tiktok.com(\/t)?\/\w{9}\/?", flags=re.A)
 
 #run-time
