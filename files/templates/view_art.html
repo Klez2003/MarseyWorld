@@ -1,10 +1,12 @@
 {% extends "default.html" %}
 {% block pagetitle %}{{title}}{% endblock %}
 {% block content %}
-	<h2 class="mt-4">{{title}}</h2>
-	{% for url in urls %}
-		<a href="{{url}}">
-			<img class="mt-4 mr-3" style="max-width:80vw" src="{{url}}" loading="lazy" data-nonce="{{g.nonce}}" data-onclick="expandImage()">
-		</a>
-	{% endfor %}
+	<div class="text-center">
+		<h2 class="mt-4">{{title}}</h2>
+		{% for url in urls %}
+			<a href="{{url}}">
+				<img class="mt-4 mr-3" style="max-width:80vw" src="{{url}}" loading="lazy" data-nonce="{{g.nonce}}" data-onclick="expandImage()">
+			</a>
+		{% endfor %}
+	</div>
 {% endblock %}
