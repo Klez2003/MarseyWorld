@@ -10,7 +10,7 @@
 
 {% include "popover.html" %}
 
-{% set disable_votes = request.path.startswith('/@') and v and v.admin_level < PERMS['ENABLE_VOTE_BUTTONS_ON_USER_PAGE'] %}
+{% set disable_votes = request.path.startswith('/@' and u != v) and v and v.admin_level < PERMS['ENABLE_VOTE_BUTTONS_ON_USER_PAGE'] %}
 
 {% set post_permalinks = [] %}
 {% for p in listing if can_see(v, p) %}

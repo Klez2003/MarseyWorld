@@ -11,7 +11,7 @@
 	{% include "popover.html" %}
 {% endif %}
 
-{% set disable_votes = (request.path.startswith('/@') and not wall) and v and v.admin_level < PERMS['ENABLE_VOTE_BUTTONS_ON_USER_PAGE'] %}
+{% set disable_votes = (request.path.startswith('/@') and not wall and u != v) and v and v.admin_level < PERMS['ENABLE_VOTE_BUTTONS_ON_USER_PAGE'] %}
 
 {% macro single_comment(c, level=1, collapse=False) %}
 	{% if can_see(v, c) %}
