@@ -193,3 +193,7 @@ button.close i {
 table {
 	color: black;
 }
+
+.header--currency {
+	color: black !important;
+}
