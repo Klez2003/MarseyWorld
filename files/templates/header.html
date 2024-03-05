@@ -533,6 +533,9 @@
 								<br><br><br><br><br><br><br><br>
 							{% elif has_sidebar %}
 								{% include "sidebar_" ~ SITE_NAME ~ ".html" %}
+								{% if SITE_NAME == 'WPD' %}
+									<script src="{{'js/deaths_today.js' | asset}}"></script>
+								{% endif %}
 							{% endif %}
 						</li>
 					</ul>
