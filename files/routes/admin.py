@@ -1977,6 +1977,8 @@ def schedule_orgy(v):
 	else:
 		abort(400)
 
+	data = data.strip()
+
 	orgy = Orgy(
 			title=title,
 			type=orgy_type,
@@ -1989,7 +1991,7 @@ def schedule_orgy(v):
 	ma = ModAction(
 		kind="schedule_orgy",
 		user_id=v.id,
-		_note=filter_emojis_only(data, link=True),
+		_note=f'<a href="{data}" rel="nofollow noopener">{title}</a>',
 	)
 	g.db.add(ma)
 
