@@ -102,15 +102,13 @@ def approve_art(v, id):
 	move(old, filename)
 	process_image(filename, v, resize=entry.resize, trim=True)
 
-	entry_url = filename.replace('files', SITE_FULL_IMAGES)
-
-
 	author = request.values.get('author').strip()
 	author = get_user(author)
 	entry.author_id = author.id
 	g.db.add(entry)
 	badge_grant(author, entry.badge_id)
 
+	entry_url = f"{SITE_FULL_IMAGES}/i/{SITE_NAME}/{entry.location_kind}/{entry.id}.webp"
 
 	if v.id != author.id:
 		msg = f"@{v.username} (a site admin) has approved a {entry.formatted_kind} you made:\n{entry_url}" 
