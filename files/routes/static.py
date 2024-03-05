@@ -443,3 +443,22 @@ def donate(v):
 @auth_required
 def orgy(v):
 	return redirect("/chat")
+
+@app.get("/sidebar_images")
+@app.get("/banners")
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@auth_required
+def view_art(v):
+	if request.path == '/sidebar_images':
+		location_kind = 'sidebar'
+		title = "Sidebar Images"
+	else:
+		location_kind = 'banners'
+		title = "Banners"
+
+	
+	urls = os.listdir(f'files/assets/images/{SITE_NAME}/{location_kind}')
+	urls = reversed([f"{SITE_FULL_IMAGES}/i/{SITE_NAME}/{location_kind}/{x}" for x in urls])
+
+	return render_template(f'view_art.html', v=v, urls=urls, title=title)
