@@ -311,7 +311,7 @@ def handle_youtube_links(url):
 				t = minutes*60 + seconds
 		html = f'<lite-youtube videoid="{id}"'
 		if t:
-			try: html += f' params="&start={int(t)}"'
+			try: html += f' params="start={int(t)}"'
 			except: abort(400, f"Something is wrong with the url you submitted ({url}) and it couldn't be parsed.")
 		html += '></lite-youtube>'
 	return html
