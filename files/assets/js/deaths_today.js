@@ -1,11 +1,11 @@
 const dt = new Date();
-const secs = dt.getSeconds() + (60 * dt.getMinutes()) + (60 * 60 * dt.getHours());
-for (const el of document.getElementsByClassName('deaths-today'))
-	el.innerHTML = secs;
+let secs = dt.getSeconds() + (60 * dt.getMinutes()) + (60 * 60 * dt.getHours());
 
 function update_death_counter() {
+	secs += 1
 	for (const el of document.getElementsByClassName('deaths-today'))
-		el.innerHTML = parseInt(el.innerHTML) + 1;
+		el.innerHTML = secs.toLocaleString()
 }
 
+update_death_counter()
 setInterval(update_death_counter, 518);
