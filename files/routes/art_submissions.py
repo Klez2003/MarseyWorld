@@ -141,6 +141,7 @@ def approve_art(v, id):
 	)
 	g.db.add(ma)
 
+	entry.approved = True
 
 	return {"message": f"{entry.msg_kind} approved!"}
 
