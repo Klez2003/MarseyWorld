@@ -216,6 +216,40 @@ CREATE TABLE public.alts (
 
 
 --
+-- Name: art_submissions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.art_submissions (
+    id integer NOT NULL,
+    kind character varying(7) NOT NULL,
+    author_id integer NOT NULL,
+    submitter_id integer NOT NULL,
+    created_utc integer NOT NULL,
+    approved boolean NOT NULL
+);
+
+
+--
+-- Name: art_submissions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.art_submissions_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: art_submissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.art_submissions_id_seq OWNED BY public.art_submissions.id;
+
+
+--
 -- Name: award_relationships; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1130,6 +1164,13 @@ CREATE TABLE public.votes (
 
 
 --
+-- Name: art_submissions id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.art_submissions ALTER COLUMN id SET DEFAULT nextval('public.art_submissions_id_seq'::regclass);
+
+
+--
 -- Name: award_relationships id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1219,6 +1260,14 @@ ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_
 
 ALTER TABLE ONLY public.alts
     ADD CONSTRAINT alts_pkey PRIMARY KEY (user1, user2);
+
+
+--
+-- Name: art_submissions art_submissions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.art_submissions
+    ADD CONSTRAINT art_submissions_pkey PRIMARY KEY (id);
 
 
 --
@@ -2440,6 +2489,22 @@ ALTER TABLE ONLY public.alts
 
 ALTER TABLE ONLY public.oauth_apps
     ADD CONSTRAINT app_author_id_fkey FOREIGN KEY (author_id) REFERENCES public.users(id);
+
+
+--
+-- Name: art_submissions art_submissions_author_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.art_submissions
+    ADD CONSTRAINT art_submissions_author_fkey FOREIGN KEY (author_id) REFERENCES public.users(id);
+
+
+--
+-- Name: art_submissions art_submissions_submitter_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.art_submissions
+    ADD CONSTRAINT art_submissions_submitter_fkey FOREIGN KEY (submitter_id) REFERENCES public.users(id);
 
 
 --
