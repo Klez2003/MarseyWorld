@@ -219,7 +219,7 @@
 									{%- else -%}
 										#comment-{{c.parent_comment_id}}-only
 									{%- endif -%}
-								" class="ml-2 {% if not c.author.earlylife %}unbreakable{% endif %}">
+								" class="ml-2 {% if not c.parent_comment.author.earlylife %}unbreakable{% endif %}">
 									<i class="fas fa-reply fa-sm fa-fw fa-flip-horizontal"></i>
 									{{c.parent_comment.author_name}}
 								</a>
