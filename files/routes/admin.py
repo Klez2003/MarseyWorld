@@ -1989,7 +1989,7 @@ def schedule_orgy(v):
 	ma = ModAction(
 		kind="schedule_orgy",
 		user_id=v.id,
-		_note=data,
+		_note=filter_emojis_only(data, link=True),
 	)
 	g.db.add(ma)
 
@@ -2003,7 +2003,7 @@ def remove_orgy(v, created_utc):
 	ma = ModAction(
 		kind="remove_orgy",
 		user_id=v.id,
-		_note=orgy.data,
+		_note=filter_emojis_only(orgy.data, link=True),
 	)
 	g.db.add(ma)
 
