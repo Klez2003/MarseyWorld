@@ -436,6 +436,9 @@ def keyword_notifs(v):
 	if len(keyword_notifs) > 1000:
 		abort(400, "Keywords are too long (max 1000 characters)")
 
+	if not keyword_notifs:
+		keywords_notifs = None
+
 	v.keyword_notifs = keyword_notifs
 	g.db.add(v)
 	return {"message": "Your keyword notifications have been updated!"}
