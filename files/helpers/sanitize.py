@@ -670,7 +670,7 @@ def filter_emojis_only(title, golden=True, count_emojis=False, obj=None, author=
 			attributes=allowed_attributes_emojis,
 			protocols=['http','https'],
 			filters=[
-					partial(
+					functools.partial(
 						LinkifyFilter,
 						skip_tags=["pre","code"],
 						parse_email=False, 

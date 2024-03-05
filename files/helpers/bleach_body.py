@@ -1,7 +1,7 @@
 import bleach
 from bleach.css_sanitizer import CSSSanitizer
 from bleach.linkifier import LinkifyFilter
-from functools import partial
+import functools
 
 from files.helpers.regex import sanitize_url_regex
 from files.helpers.config.const import *
@@ -86,7 +86,7 @@ def bleach_body_html(body_html, runtime=False):
 		protocols=['http', 'https'],
 		css_sanitizer=css_sanitizer,
 		filters=[
-				partial(
+				functools.partial(
 					LinkifyFilter,
 					skip_tags=["pre","code"],
 					parse_email=False, 
