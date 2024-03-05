@@ -201,14 +201,15 @@ def execute_snappy(post, v):
 		title = i.group(2)
 		captured.append((href, title))
 
+	captured2 = []
 	for href, title in captured:
-		if href.startswith('/') or href.startswith(f'{SITE_FULL}/') or href.startswith(f'{SITE_FULL_IMAGES}/'):
-			captured.remove((href, title))
+		if not (href.startswith('/') or href.startswith(f'{SITE_FULL}/') or href.startswith(f'{SITE_FULL_IMAGES}/')):
+			captured2.append((href, title))
 
-	if captured: 
+	if captured2: 
 		body += "**Snapshots:**\n\n"
 
-	for href, title in captured:
+	for href, title in captured2:
 		if f'**[{title}]({href})**:\n\n' not in body:
 			addition = f'**[{title}]({href})**:\n\n'
 			if href.startswith('https://old.reddit.com/r/'):
