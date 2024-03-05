@@ -54,7 +54,6 @@
 				<tr>
 					<th>Type</th>
 					<th>Title</th>
-					<th>Link</th>
 					<th class="disable-sort-click"></th>
 					<th>Starts on</th>
 					<th>Ends on</th>
@@ -64,8 +63,9 @@
 			{% for orgy in orgies %}
 				<tr>
 					<td>{{orgy.type}}</td>
-					<td>{{orgy.title}}</td>
-					<td>{{orgy.data[:100]}}</td>
+					<td>
+						<a href="{{orgy.data}}" rel="nofollow noopener">{{orgy.title}}</a>
+					</td>
 					<td>
 						<button type="button" class="btn btn-danger btn-block" data-nonce="{{g.nonce}}" data-areyousure="remove_orgy(this, {{orgy.created_utc}})" data-onclick="areyousure(this)">Remove</button>
 					</td>
