@@ -18,7 +18,9 @@
 					<td>
 						{% set url=item[0] %}
 						{% if url.endswith('.webp') %}
-							<img alt="{{url}}" src="{{url}}" loading="lazy" class="dm_img" data-nonce="{{g.nonce}}" data-onclick="expandImage()">
+							<a href="{{url}}">
+								<img alt="{{url}}" src="{{url}}" loading="lazy" class="dm_img" data-nonce="{{g.nonce}}" data-onclick="expandImage()">
+							</a>
 						{% elif url.endswith('.mp4') %}
 							<p class="resizable">
 								<video controls preload="none" src="{{url}}"></video>
