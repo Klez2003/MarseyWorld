@@ -6,6 +6,8 @@ from sqlalchemy.sql.sqltypes import *
 from flask import g
 
 from files.classes import Base
+from files.classes.mod_logs import bleach_log_note
+
 from files.helpers.config.const import *
 from files.helpers.lazy import lazy
 from files.helpers.slurs_and_profanities import censor_slurs_profanities
@@ -29,7 +31,12 @@ class HoleAction(Base):
 	target_comment = relationship("Comment")
 
 	def __init__(self, *args, **kwargs):
-		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
+		if "created_utc" not in kwargs:
+			kwargs["created_utc"] = int(time.time())
+
+		if "_note" in kwargs:
+			kwargs["_note"] = bleach_log_note(kwargs["_note"])
+
 		super().__init__(*args, **kwargs)
 
 	def __repr__(self):

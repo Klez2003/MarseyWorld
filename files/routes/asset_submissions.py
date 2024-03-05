@@ -248,8 +248,7 @@ def approve_emoji(v, name):
 
 	emoji.submitter_id = None
 
-
-	note = f':{emoji.name}:'
+	note = f'<img loading="lazy" data-bs-toggle="tooltip" alt=":{emoji.name}:" title=":{emoji.name}:" src="{SITE_FULL_IMAGES}/e/{emoji.name}.webp">'
 	if comment:
 		note += f' - Comment: "{comment}"'
 
@@ -257,7 +256,7 @@ def approve_emoji(v, name):
 		kind="approve_emoji",
 		user_id=v.id,
 		target_user_id=emoji.author_id,
-		_note=filter_emojis_only(note, link=True),
+		_note=note
 	)
 	g.db.add(ma)
 
@@ -315,7 +314,7 @@ def remove_asset(cls, type_name, v, name):
 			kind=f"reject_{type_name}",
 			user_id=v.id,
 			target_user_id=asset.author_id,
-			_note=filter_emojis_only(note, link=True),
+			_note=note
 		)
 		g.db.add(ma)
 
@@ -476,7 +475,7 @@ def approve_hat(v, name):
 		new_path = f'/asset_submissions/hats/original/{hat.name}.{i.format.lower()}'
 	rename(highquality, new_path)
 
-	note = f'[{hat.name}]({SITE_FULL_IMAGES}/i/hats/{hat.name}.webp)'
+	note = f'<a href="{SITE_FULL_IMAGES}/i/hats/{hat.name}.webp">{hat.name}</a>'
 	if comment:
 		note += f' - Comment: "{comment}"'
 
@@ -484,7 +483,7 @@ def approve_hat(v, name):
 		kind="approve_hat",
 		user_id=v.id,
 		target_user_id=hat.author_id,
-		_note=filter_emojis_only(note, link=True),
+		_note=note
 	)
 	g.db.add(ma)
 

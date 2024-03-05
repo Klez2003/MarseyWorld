@@ -137,7 +137,7 @@ def approve_art(v, id):
 		kind=f"approve_{entry.kind}",
 		user_id=v.id,
 		target_user_id=entry.author_id,
-		_note=filter_emojis_only(note, link=True),
+		_note=note
 	)
 	g.db.add(ma)
 
@@ -178,7 +178,7 @@ def remove_art(v, id):
 			kind=f"reject_{entry.kind}",
 			user_id=v.id,
 			target_user_id=entry.author_id,
-			_note=filter_emojis_only(note, link=True),
+			_note=note
 		)
 		g.db.add(ma)
 

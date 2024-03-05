@@ -1687,7 +1687,7 @@ def ban_domain(v):
 		ma = ModAction(
 			kind="ban_domain",
 			user_id=v.id,
-			_note=filter_emojis_only(f'{domain}, reason: {reason}')
+			_note=f'{domain}, reason: {reason}'
 		)
 		g.db.add(ma)
 
@@ -1708,7 +1708,7 @@ def unban_domain(v, domain):
 	ma = ModAction(
 		kind="unban_domain",
 		user_id=v.id,
-		_note=filter_emojis_only(domain)
+		_note=domain
 	)
 	g.db.add(ma)
 
@@ -2015,7 +2015,7 @@ def remove_orgy(v, created_utc):
 	ma = ModAction(
 		kind="remove_orgy",
 		user_id=v.id,
-		_note=filter_emojis_only(orgy.data, link=True),
+		_note=f'<a href="{orgy.data}" rel="nofollow noopener">{orgy.title}</a>',
 	)
 	g.db.add(ma)
 
