@@ -171,6 +171,13 @@
 				{{file_btn('file-upload-reply-' ~ target_fullname)}}
 			</div>
 
+			{% if v.admin_level >= PERMS['ADMIN_NOTES'] and target_fullname.startswith('u_') %}
+				<div class="custom-control custom-checkbox mt-3 d-inline-block">
+					<input data-nonce="{{g.nonce}}" autocomplete="off" type="checkbox" class="custom-control-input" id="admin-note-{{target_fullname}}">
+					<label class="custom-control-label" for="admin-note-{{target_fullname}}">Admin Note</label>
+				</div>
+			{% endif %}
+
 			<button type="button" id="save-reply-to-{{target_fullname}}" class="btn btn-primary text-whitebtn ml-auto fl-r handle_disabled disabled" disabled data-nonce="{{g.nonce}}" data-onclick="post_comment('{{target_fullname}}', '{{hide}}')">Comment</button>
 
 			{% if enable_cancel_button %}

@@ -249,6 +249,12 @@ def comment(v):
 	g.db.add(c)
 	g.db.flush()
 
+	if not posting_to_post and request.values.get('admin_note') and v.admin_level >= PERMS['ADMIN_NOTES']:
+		c.pinned = "Admin Note"
+
+	if c.parent_comment_id and c.parent_comment.pinned == "Admin Note":
+		c.pinned = "Admin Note"
+
 	process_options(v, c)
 
 	execute_blackjack(v, c, c.body, "comment")
@@ -297,39 +303,40 @@ def comment(v):
 	execute_longpostbot(c, level, body, body_html, post_target, v)
 	execute_zozbot(c, level, post_target, v)
 
-	notify_users = NOTIFY_USERS(body, v, ghost=c.ghost, obj=c, commenters_ping_post_id=commenters_ping_post_id)
+	if c.pinned != "Admin Note":
+		notify_users = NOTIFY_USERS(body, v, ghost=c.ghost, obj=c, commenters_ping_post_id=commenters_ping_post_id)
 
-	if notify_users == 'everyone':
-		alert_everyone(c.id)
-	else:
-		push_notif(notify_users, f'New mention of you by @{c.author_name}', c.body, c)
+		if notify_users == 'everyone':
+			alert_everyone(c.id)
+		else:
+			push_notif(notify_users, f'New mention of you by @{c.author_name}', c.body, c)
 
-		if c.level == 1 and posting_to_post:
-			subscriber_ids = [x[0] for x in g.db.query(Subscription.user_id).filter(Subscription.post_id == post_target.id, Subscription.user_id != v.id)]
+			if c.level == 1 and posting_to_post:
+				subscriber_ids = [x[0] for x in g.db.query(Subscription.user_id).filter(Subscription.post_id == post_target.id, Subscription.user_id != v.id)]
 
-			notify_users.update(subscriber_ids)
+				notify_users.update(subscriber_ids)
 
-			push_notif(subscriber_ids, f'New comment in subscribed thread by @{c.author_name}', c.body, c)
+				push_notif(subscriber_ids, f'New comment in subscribed thread by @{c.author_name}', c.body, c)
 
-		if parent_user.id != v.id and notify_op:
-			notify_users.add(parent_user.id)
+			if parent_user.id != v.id and notify_op:
+				notify_users.add(parent_user.id)
 
-		notify_users -= BOT_IDs
+			notify_users -= BOT_IDs
 
-		if v.shadowbanned or c.is_banned:
-			notify_users = [x[0] for x in g.db.query(User.id).filter(User.id.in_(notify_users), User.admin_level >= PERMS['USER_SHADOWBAN']).all()]
+			if v.shadowbanned or c.is_banned:
+				notify_users = [x[0] for x in g.db.query(User.id).filter(User.id.in_(notify_users), User.admin_level >= PERMS['USER_SHADOWBAN']).all()]
 
-		for x in notify_users:
-			n = Notification(comment_id=c.id, user_id=x)
-			g.db.add(n)
+			for x in notify_users:
+				n = Notification(comment_id=c.id, user_id=x)
+				g.db.add(n)
 
-		if parent_user.id != v.id and notify_op:
-			if isinstance(parent, User):
-				title = f"New comment on your wall by @{c.author_name}"
-			else:
-				title = f'New reply by @{c.author_name}'
+			if parent_user.id != v.id and notify_op:
+				if isinstance(parent, User):
+					title = f"New comment on your wall by @{c.author_name}"
+				else:
+					title = f'New reply by @{c.author_name}'
 
-			push_notif({parent_user.id}, title, c.body, c)
+				push_notif({parent_user.id}, title, c.body, c)
 
 	vote = CommentVote(user_id=v.id,
 						 comment_id=c.id,

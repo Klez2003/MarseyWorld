@@ -899,15 +899,19 @@ def u_username_wall(v, username):
 		comments = comments.join(Comment.author).filter(or_(User.id == v.id, User.shadowbanned == None))
 
 	total = comments.count()
-	comments = comments.order_by(Comment.created_utc.desc()) \
-		.offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
-	if v:
-		comments = [c[0] for c in comments]
 
-	if v and v.client:
+	if v.admin_level >= PERMS['ADMIN_NOTES']:
+		pinned = [c[0] for c in comments.filter(Comment.pinned != None).order_by(Comment.created_utc.desc())]
+	else:
+		pinned = []
+
+	comments = comments.filter(Comment.pinned == None).order_by(Comment.created_utc.desc()) .offset(PAGE_SIZE * (page - 1)).limit(PAGE_SIZE).all()
+	comments = [c[0] for c in comments]
+
+	if v.client:
 		return {"data": [c.json for c in comments]}
 
-	return render_template("userpage/wall.html", u=u, v=v, listing=comments, page=page, total=total, is_following=is_following, standalone=True, render_replies=True, wall=True)
+	return render_template("userpage/wall.html", u=u, v=v, pinned=pinned, listing=comments, page=page, total=total, is_following=is_following, standalone=True, render_replies=True, wall=True)
 
 
 @app.get("/@<username>/wall/comment/<int:cid>")

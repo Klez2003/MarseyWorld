@@ -149,8 +149,10 @@
 								{%- include 'admin/shadowbanned_tooltip.html' -%}
 							{% endwith %}
 
-							{% if c.pinned %}
-								<i id='pinned-{{c.id}}'class="fas fa-thumbtack fa-rotate--45 pr-1 text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Pinned by @{{c.pinned}}" {% if c.pinned_utc %}data-onmouseover="pinned_timestamp('pinned-{{c.id}}')" data-timestamp={{c.pinned_utc}} data-nonce="{{g.nonce}}"{% endif %}></i>
+							{% if c.pinned == 'Admin Note' %}
+								<i id='pinned-{{c.id}}' class="fas fa-file-pen pr-1 text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{c.pinned}}"></i>
+							{% elif c.pinned %}
+								<i id='pinned-{{c.id}}' class="fas fa-thumbtack fa-rotate--45 pr-1 text-admin" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Pinned by @{{c.pinned}}" {% if c.pinned_utc %}data-onmouseover="pinned_timestamp('pinned-{{c.id}}')" data-timestamp={{c.pinned_utc}} data-nonce="{{g.nonce}}"{% endif %}></i>
 							{% endif %}
 
 							{% if c.distinguished and not c.ghost %}

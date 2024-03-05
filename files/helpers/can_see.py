@@ -29,6 +29,8 @@ def can_see(user, obj):
 				if SITE == 'watchpeopledie.tv' and obj.id in {5, 17212, 22653, 23814}:
 					return False
 		else:
+			if obj.pinned == "Admin Note":
+				return user.admin_level >= PERMS['ADMIN_NOTES']
 			if hasattr(obj, 'is_blocking') and obj.is_blocking and not request.path.endswith(f'/{obj.id}'):
 				return False
 			if obj.parent_post:

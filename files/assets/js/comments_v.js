@@ -281,6 +281,10 @@ function post_comment(fullname, hide){
 	}
 	catch(e) {}
 
+	const admin_note_el = document.getElementById('admin-note-'+fullname)
+	if (admin_note_el)
+		form.append('admin_note', admin_note_el.checked);
+
 	const xhr = new XMLHttpRequest();
 	url = '/comment';
 	xhr.open("POST", url);

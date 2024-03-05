@@ -175,6 +175,7 @@ PERMS = { # Minimum admin_level to perform action.
 	'NOTIFICATIONS_MODERATOR_ACTIONS': 1,
 	'EXEMPT_FROM_IP_LOGGING': 1,
 	'USER_BADGES': 1,
+	'ADMIN_NOTES': 1,
 
 	'IS_PERMA_PROGSTACKED': 2,
 	'USER_LINK': 2,
