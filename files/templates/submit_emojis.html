@@ -6,7 +6,7 @@
 	<div class="settings-section rounded">
 		<div class="d-lg-flex">
 			<div class="body w-lg-100">
-				<form action="/submit/emojis" method="post" enctype="multipart/form-data" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHR(this)">
+				<form action="/submit/emojis" method="post" enctype="multipart/form-data" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHRReload(this)">
 					<input hidden name="formkey" value="{{v|formkey}}" class="notranslate" translate="no">
 
 					<div id="image-upload-block">
