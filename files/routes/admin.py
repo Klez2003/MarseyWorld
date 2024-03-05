@@ -4,6 +4,7 @@ import os
 import ffmpeg
 import random
 import isodate
+import yt_dlp
 
 from sqlalchemy.orm import load_only
 
@@ -1956,9 +1957,18 @@ def schedule_orgy(v):
 				duration = isodate.parse_duration(duration).total_seconds()
 				end_utc = int(start_utc + duration)
 				orgy_type = 'file'
-				params = ["yt-dlp", "--get-url", f"https://www.youtube.com/watch?v={data}", "-f", "b", "--proxy", PROXY_URL]
-				data = subprocess.check_output(params, timeout=30)
-				data = data.decode("utf-8")
+
+				ydl_opts = {
+					"quiet":    True,
+					"simulate": True,
+					"forceurl": True,
+					'format': 'b',
+					'proxy': PROXY_URL
+				}
+
+				with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+					info = ydl.extract_info(f"https://www.youtube.com/watch?v={data}")
+				data = info["url"]
 	elif rumble_regex.match(normalized_link):
 		orgy_type = 'rumble'
 		data = normalized_link
