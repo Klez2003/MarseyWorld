@@ -47,7 +47,7 @@ def login_post(v):
 
 	if "@" in username:
 		try: account = g.db.query(User).filter(User.email.ilike(username)).one_or_none()
-		except: abort(400, "Multiple usernames have this email attached;<br>Please specify the username you want to login to!")
+		except: abort(400, "Multiple accounts have this email attached.<br>Please login using a username instead of an email!")
 	else: account = get_user(username, graceful=True)
 
 	redir = request.values.get("redirect", "").strip().rstrip('?').lower()
