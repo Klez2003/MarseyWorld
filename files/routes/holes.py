@@ -393,7 +393,8 @@ def create_sub2(v):
 	if not hole_group_name_regex.fullmatch(name):
 		abort(400, "Name does not match the required format!")
 
-	if not v.charge_account('coins/marseybux', HOLE_COST, f"Cost of creating /h/{name}")[0]:
+	charge_reason = f'Cost of creating <a href="/h/{name}">/h/{name}</a>'
+	if not v.charge_account('coins/marseybux', HOLE_COST, charge_reason)[0]:
 		abort(400, "You don't have enough coins or marseybux!")
 
 	hole = get_hole(name, graceful=True)

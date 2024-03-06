@@ -158,13 +158,13 @@ def transfer_currency(v, username, currency_name, apply_tax):
 		notif_text += f"\n\n> {reason}"
 		log_message += f"\n\n> {reason}"
 
-	if not v.charge_account(currency_name, amount, f"Gift to @{username}")[0]:
+	charge_reason = f'Gift to <a href="/@{username}">@{username}</a>'
+	if not v.charge_account(currency_name, amount, charge_reason)[0]:
 		abort(400, f"You don't have enough {currency_name}")
 
-	if currency_name == 'marseybux':
-		receiver.pay_account('marseybux', amount - tax, f"Gift from @{v.username}")
-	elif currency_name == 'coins':
-		receiver.pay_account('coins', amount - tax, f"Gift from @{v.username}")
+	if currency_name in {'marseybux', 'coins'}:
+		pay_reason = f'Gift from <a href="/@{v.username}">@{v.username}</a>'
+		receiver.pay_account(currency_name, amount - tax, pay_reason)
 	else:
 		raise ValueError(f"Invalid currency '{currency_name}' got when transferring {amount} from {v.id} to {receiver.id}")
 
