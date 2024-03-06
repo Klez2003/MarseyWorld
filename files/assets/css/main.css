@@ -7788,6 +7788,10 @@ table.border-0 * {
 	}
 }
 
-#bank-statement tbody * {
+#bank-statement tbody :not(a) {
 	color: #c9d1d9 !important;
+}
+
+#bank-statement tbody a {
+	color: var(--primary) !important;
 }
