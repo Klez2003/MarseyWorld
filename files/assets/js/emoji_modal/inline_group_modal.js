@@ -24,7 +24,7 @@ const groupsSearchDictionary = {
 		if (this.dict[target] !== undefined && this.dict[target].tag === tag)
 			this.dict[target].emojiNames.push(groupName);
 		else
-			this.dict.splice(target, 0, new EmoijsDictNode(tag, groupName));
+			this.dict.splice(target, 0, new EmojisDictNode(tag, groupName));
 	},
 
 	/**

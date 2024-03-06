@@ -32,7 +32,7 @@ function intersect(...sets) {
     return res;
 }
 
-const EMOIJ_SEARCH_ENGINE_MIN_INTERVAL = 350;
+const EMOJI_SEARCH_ENGINE_MIN_INTERVAL = 350;
 let emojiSearcher = {
 	working: false,
 	queries: [],
@@ -87,7 +87,7 @@ let emojiSearcher = {
 
 			emojiNotFoundDOM.hidden = resultSet.size !== 0;
 
-			let sleepTime = EMOIJ_SEARCH_ENGINE_MIN_INTERVAL - (Date.now() - startTime);
+			let sleepTime = EMOJI_SEARCH_ENGINE_MIN_INTERVAL - (Date.now() - startTime);
 			if (sleepTime > 0)
 				await new Promise(r => setTimeout(r, sleepTime));
 		}
