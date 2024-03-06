@@ -60,6 +60,8 @@ def create_group(v):
 	text = f":!marseyparty: !{group} has been created by @{v.username} :marseyparty:"
 	alert_active_users(text, v.id, User.group_creation_notifs == True)
 
+	cache.delete("group_count")
+
 	return {"message": f"!{group} created successfully!"}
 
 @app.post("/!<group_name>/apply")

@@ -13,6 +13,7 @@ from sqlalchemy import text, func
 from files.classes.user import User
 from files.classes.orgy import get_running_orgy
 from files.classes.emoji import Emoji
+from files.classes.group import Group
 from files.helpers.assetcache import assetcache_path
 from files.helpers.config.const import *
 from files.helpers.const_stateful import NSFW_EMOJIS
@@ -138,6 +139,10 @@ def bar_position():
 def emoji_count():
 	return g.db.query(Emoji).filter_by(submitter_id=None).count()
 
+@cache.cached(make_cache_key=lambda:"group_count", timeout=86400)
+def group_count():
+	return g.db.query(Group).count()
+
 def top_poster_of_the_day():
 	uid = cache.get("top_poster_of_the_day_id") or SNAPPY_ID
 	user = g.db.query(User).filter_by(id=uid).one()
@@ -183,7 +188,7 @@ def inject_constants():
 			"MAX_IMAGE_AUDIO_SIZE_MB":MAX_IMAGE_AUDIO_SIZE_MB, "MAX_IMAGE_AUDIO_SIZE_MB_PATRON":MAX_IMAGE_AUDIO_SIZE_MB_PATRON,
 			"MAX_VIDEO_SIZE_MB":MAX_VIDEO_SIZE_MB, "MAX_VIDEO_SIZE_MB_PATRON":MAX_VIDEO_SIZE_MB_PATRON,
 			"CURSORMARSEY_DEFAULT":CURSORMARSEY_DEFAULT, "SNAPPY_ID":SNAPPY_ID, "ZOZBOT_ID":ZOZBOT_ID, "get_running_orgy":get_running_orgy,
-			"bar_position":bar_position, "datetime":datetime, "CSS_LENGTH_LIMIT":CSS_LENGTH_LIMIT, "cache":cache, "emoji_count":emoji_count, "HOLE_SIDEBAR_COLUMN_LENGTH":HOLE_SIDEBAR_COLUMN_LENGTH, "HOLE_SNAPPY_QUOTES_LENGTH":HOLE_SNAPPY_QUOTES_LENGTH,
+			"bar_position":bar_position, "datetime":datetime, "CSS_LENGTH_LIMIT":CSS_LENGTH_LIMIT, "cache":cache, "emoji_count":emoji_count, "group_count":group_count, "HOLE_SIDEBAR_COLUMN_LENGTH":HOLE_SIDEBAR_COLUMN_LENGTH, "HOLE_SNAPPY_QUOTES_LENGTH":HOLE_SNAPPY_QUOTES_LENGTH,
 			"top_poster_of_the_day":top_poster_of_the_day,
 
 		}
