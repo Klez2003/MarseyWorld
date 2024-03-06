@@ -730,6 +730,7 @@ domain_replacements = {
 	"https://fxtwitter.com": "https://twitter.com",
 	"https://m.facebook.com": "https://facebook.com",
 	"https://en.m.wikipedia.org": "https://en.wikipedia.org",
+	"https://m.imdb.com": "https://imdb.com",
 	"https://www.instagram.com": "https://instagram.com",
 	"https://www.tiktok.com": "https://tiktok.com",
 	"https://imgur.com/": "https://i.imgur.com/",
