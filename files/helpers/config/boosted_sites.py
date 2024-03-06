@@ -16,6 +16,7 @@ BOOSTED_SITES = {
 	'soyjaks.party',
 	'jakparty.soy',
 	'crystal.cafe',
+	'leftypol.org',
 
 	#twitter-like
 	'threads.net',
@@ -73,7 +74,6 @@ BOOSTED_SITES = {
 	'linustechtips.com',
 	'defense.pk',
 	'smogon.com',
-	'leftypol.org',
 	'redscare.cafe',
 	'chimpout.com',
 
