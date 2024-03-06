@@ -59,7 +59,7 @@ function updateBlackjackActions(state) {
 	actions.forEach(action => action.style.display = 'none');
 
 	if (state) {
-		if(state.actions.some((action) => action === 'HIT_SPLIT')) state.actions.push('SPLIT_ACTIONS');
+		if (state.actions.some((action) => action === 'HIT_SPLIT')) state.actions.push('SPLIT_ACTIONS');
 
 		// Show the correct ones.
 		state.actions.forEach(action => document.getElementById(`twentyone-${action}`).style.display = 'inline-block');
@@ -116,16 +116,16 @@ function updateBlackjackTable(state) {
 
 	const gameCompleted = ['BLACKJACK', 'WON', 'PUSHED', 'LOST'].indexOf(state.status) !== -1 && (!state.has_player_split || ['WON', 'PUSHED', 'LOST'].indexOf(state.status_split) !== -1);
 
-	if(gameCompleted) {
+	if (gameCompleted) {
 		switch (state.status) {
 			case 'BLACKJACK':
 				updateResult(`Blackjack: Received ${state.payout} ${currency}`, "warning");
 				break;
 			case 'WON':
-				if(state.status_split === 'LOST') {
+				if (state.status_split === 'LOST') {
 					updateResult(`Won and Lost: Received 0 ${currency}`, "success");
 				}
-				else if(state.status_split === 'PUSHED') {
+				else if (state.status_split === 'PUSHED') {
 					updateResult(`Won and PUSHED: Received ${state.payout} ${currency}`, "success");
 				}
 				else {
@@ -133,10 +133,10 @@ function updateBlackjackTable(state) {
 				}
 				break;
 			case 'PUSHED':
-				if(state.status_split === 'WON') {
+				if (state.status_split === 'WON') {
 					updateResult(`Won and PUSHED: Received ${state.payout} ${currency}`, "success");
 				}
-				else if(state.status_split === 'LOST') {
+				else if (state.status_split === 'LOST') {
 					updateResult(`Lost and Pushed: Lost ${state.wager.amount} ${currency}`, "danger");
 				}
 				else {
@@ -145,10 +145,10 @@ function updateBlackjackTable(state) {
 
 				break;
 			case 'LOST':
-				if(state.status_split === 'WON') {
+				if (state.status_split === 'WON') {
 					updateResult(`Won and Lost: Received 0 ${currency}`, "success");
 				}
-				else if(state.status_split === 'PUSHED') {
+				else if (state.status_split === 'PUSHED') {
 					updateResult(`Lost and Pushed: Lost ${state.wager.amount} ${currency}`, "danger");
 				}
 				else {
@@ -184,10 +184,10 @@ function updateCardsetBackgrounds(state, complete = false) {
 	for (const cardset of cardsets) {
 		['PLAYING', 'LOST', 'PUSHED', 'WON', 'BLACKJACK'].forEach(status => cardset.classList.remove(`blackjack-cardset__${status}`));
 	}
-	if(complete){
+	if (complete){
 		const wager = state.has_player_split ? state?.wager?.amount * 2 : state?.wager?.amount;
 		let dealerShows = state.payout < wager ? 'WON': 'LOST';
-		if(state.payout === wager || (state.player_doubled_down && state.status === 'PUSHED')) dealerShows = 'PUSHED'
+		if (state.payout === wager || (state.player_doubled_down && state.status === 'PUSHED')) dealerShows = 'PUSHED'
 		cardsets[0]?.classList.add(`blackjack-cardset__${dealerShows}`)
 	}
 	else {

@@ -82,7 +82,7 @@ let emojiSearcher = {
 			}
 	
 			// update stuff
-			for(const [emojiName, emojiDOM] of Object.entries(emojiDOMs))
+			for (const [emojiName, emojiDOM] of Object.entries(emojiDOMs))
 				emojiDOM.hidden = !resultSet.has(emojiName);
 
 			emojiNotFoundDOM.hidden = resultSet.size !== 0;
@@ -112,7 +112,7 @@ function fetchEmojis() {
 
 			const bussyDOM = document.createElement("div");
 
-			for(let i = 0; i < emojis.length; i++)
+			for (let i = 0; i < emojis.length; i++)
 			{
 				const emoji = emojis[i];
 
@@ -143,7 +143,7 @@ function fetchEmojis() {
 			}
 
 			// Create header
-			for(let className of classes)
+			for (let className of classes)
 			{
 				let classSelectorDOM = document.createElement("li");
 				classSelectorDOM.classList.add("nav-item");
@@ -189,7 +189,7 @@ function switchEmojiTab(e)
 	// Special case: favorites
 	if (className === "favorite")
 	{
-		for(const emojiDOM of Object.values(emojiDOMs))
+		for (const emojiDOM of Object.values(emojiDOMs))
 			emojiDOM.hidden = true;
 
 		const favs = Object.keys(Object.fromEntries(
@@ -203,7 +203,7 @@ function switchEmojiTab(e)
 		return;
 	}
 
-	for(const emojiDOM of Object.values(emojiDOMs))
+	for (const emojiDOM of Object.values(emojiDOMs))
 		emojiDOM.hidden = emojiDOM.dataset.className !== className;
 
 	document.getElementById('emoji-container').scrollTop = 0;
@@ -217,7 +217,7 @@ async function start_search() {
 	emojiSearcher.addQuery(emojiSearchBarDOM.value.trim());
 
 	// Remove any selected tab, now it is meaningless
-	for(let i = 0; i < classesSelectorDOM.children.length; i++)
+	for (let i = 0; i < classesSelectorDOM.children.length; i++)
 		classesSelectorDOM.children[i].children[0].classList.remove("active");
 }
 
@@ -233,11 +233,11 @@ function emojiAddToInput(event)
 
 	let strToInsert = event.currentTarget.dataset.emojiName;
 
-	for(let i = 0; i < emojiSelectPostfixDOMs.length; i++)
+	for (let i = 0; i < emojiSelectPostfixDOMs.length; i++)
 		if (emojiSelectPostfixDOMs[i].checked)
 			strToInsert = strToInsert + emojiSelectPostfixDOMs[i].value;
 
-	for(let i = 0; i < emojiSelectSuffixDOMs.length; i++)
+	for (let i = 0; i < emojiSelectSuffixDOMs.length; i++)
 		if (emojiSelectSuffixDOMs[i].checked)
 			strToInsert = emojiSelectSuffixDOMs[i].value + strToInsert;
 

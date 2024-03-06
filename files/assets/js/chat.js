@@ -280,7 +280,7 @@ function del(t) {
 
 socket.on('delete', function(text) {
 	const text_spans = document.getElementsByClassName('text')
-	for(const span of text_spans) {
+	for (const span of text_spans) {
 		if (span.innerHTML == text)
 		{
 			span.parentElement.parentElement.parentElement.parentElement.parentElement.remove()

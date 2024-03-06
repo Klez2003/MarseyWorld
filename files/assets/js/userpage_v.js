@@ -1,5 +1,5 @@
 function toggleElement(id, id2) {
-	for(let el of document.getElementsByClassName('toggleable')) {
+	for (let el of document.getElementsByClassName('toggleable')) {
 		if (el.id != id) {
 			el.classList.add('d-none');
 		}
@@ -26,7 +26,7 @@ function updateBux(mobile=false) {
 function transferCoins(t, mobile=false) {
 	close_inline_emoji_modal();
 
-	for(let el of document.getElementsByClassName('toggleable')) {
+	for (let el of document.getElementsByClassName('toggleable')) {
 		el.classList.add('d-none');
 	}
 
@@ -52,7 +52,7 @@ function transferCoins(t, mobile=false) {
 function transferBux(t, mobile=false) {
 	close_inline_emoji_modal();
 
-	for(let el of document.getElementsByClassName('toggleable')) {
+	for (let el of document.getElementsByClassName('toggleable')) {
 		el.classList.add('d-none');
 	}
 

@@ -105,8 +105,8 @@ const findAllEmojiEndings = (word) => {
 	let currWord = word;
 	const currEndings = [];
 	while(!hasReachedNonModifer) {
-		if(currWord.endsWith('pat')) {
-			if(currEndings.indexOf(MODIFIERS.PAT) !== -1) {
+		if (currWord.endsWith('pat')) {
+			if (currEndings.indexOf(MODIFIERS.PAT) !== -1) {
 				hasReachedNonModifer = true;
 				continue;
 			}
@@ -115,8 +115,8 @@ const findAllEmojiEndings = (word) => {
 			continue;
 		}
 
-		if(currWord.endsWith('talking')) {
-			if(currEndings.indexOf(MODIFIERS.TALKING) !== -1) {
+		if (currWord.endsWith('talking')) {
+			if (currEndings.indexOf(MODIFIERS.TALKING) !== -1) {
 				hasReachedNonModifer = true;
 				continue;
 			}
@@ -125,8 +125,8 @@ const findAllEmojiEndings = (word) => {
 			continue;
 		}
 
-		if(currWord.endsWith('genocide')) {
-			if(currEndings.indexOf(MODIFIERS.GENOCIDE) !== -1) {
+		if (currWord.endsWith('genocide')) {
+			if (currEndings.indexOf(MODIFIERS.GENOCIDE) !== -1) {
 				hasReachedNonModifer = true;
 				continue;
 			}
@@ -135,8 +135,8 @@ const findAllEmojiEndings = (word) => {
 			continue;
 		}
 
-		if(currWord.endsWith('love')) {
-			if(currEndings.indexOf(MODIFIERS.LOVE) !== -1) {
+		if (currWord.endsWith('love')) {
+			if (currEndings.indexOf(MODIFIERS.LOVE) !== -1) {
 				hasReachedNonModifer = true;
 				continue;
 			}
@@ -145,8 +145,8 @@ const findAllEmojiEndings = (word) => {
 			continue;
 		}
 
-		if(currWord.endsWith('typing')) {
-			if(currEndings.indexOf(MODIFIERS.TYPING) !== -1) {
+		if (currWord.endsWith('typing')) {
+			if (currEndings.indexOf(MODIFIERS.TYPING) !== -1) {
 				hasReachedNonModifer = true;
 				continue;
 			}
@@ -260,7 +260,7 @@ function markdown(t) {
 
 	let options = Array.from(input.matchAll(/\$\$([^\$\n]+)\$\$(?![^`]*`)/gi))
 	if (options != null){
-		for(i = 0; i < options.length; i++){
+		for (i = 0; i < options.length; i++){
 			const option = options[i][0];
 			const option2 = option.replace(/\$\$/g, '').replace(/\n/g, '')
 			input = input.replace(option, `<div class="custom-control mb-3"><input type="checkbox" class="custom-control-input" id="option-${i}"><label class="custom-control-label" for="option-${i}">${option2} - <a>0 votes</a></label></div>`);
@@ -269,7 +269,7 @@ function markdown(t) {
 
 	options = Array.from(input.matchAll(/&&([^&\n]+)&&(?![^`]*`)/gi))
 	if (options != null){
-		for(i = 0; i < options.length; i++){
+		for (i = 0; i < options.length; i++){
 			const option = options[i][0];
 			const option2 = option.replace(/&&/g, '').replace(/\n/g, '')
 			input = input.replace(option, `<div class="custom-control mb-3"><input type="radio" name="choice" class="custom-control-input" id="option-${i}"><label class="custom-control-label" for="option-${i}">${option2} - <a>0 votes</a></label></div>`);

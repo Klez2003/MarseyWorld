@@ -51,7 +51,7 @@ function postToast(t, url, data, extraActionsOnSuccess, extraActionsOnFailure) {
 
 	let form = new FormData();
 	if (typeof data === 'object' && data !== null) {
-		for(let k of Object.keys(data)) {
+		for (let k of Object.keys(data)) {
 			form.append(k, data[k]);
 		}
 	}
@@ -448,11 +448,11 @@ function insertText(input, text) {
 	if (window.chrome !== undefined)
 		setTimeout(function(){
 			input.focus();
-			for(let i = 0; i < 2; i++)
+			for (let i = 0; i < 2; i++)
 				input.setSelectionRange(newPos, newPos);
 
 			input.focus();
-			for(let i = 0; i < 2; i++)
+			for (let i = 0; i < 2; i++)
 				input.setSelectionRange(newPos, newPos);
 		}, 1);
 	else

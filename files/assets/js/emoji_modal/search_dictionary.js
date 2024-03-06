@@ -42,15 +42,15 @@ const emojisSearchDictionary = {
 		query = query.toLowerCase()
 		const result = new Set();
 
-		for(let i = 0; i < this.dict.length; i++)
+		for (let i = 0; i < this.dict.length; i++)
 			if (this.dict[i].tag.startsWith('@'))
 			{
 				if (this.dict[i].tag == query)
-					for(let j = 0; j < this.dict[i].emojiNames.length; j++)
+					for (let j = 0; j < this.dict[i].emojiNames.length; j++)
 						result.add(this.dict[i].emojiNames[j])
 			}
-			else if(this.dict[i].tag.includes(query))
-				for(let j = 0; j < this.dict[i].emojiNames.length; j++)
+			else if (this.dict[i].tag.includes(query))
+				for (let j = 0; j < this.dict[i].emojiNames.length; j++)
 					result.add(this.dict[i].emojiNames[j])
 
 		return result;
@@ -85,7 +85,7 @@ function makeEmojisSearchDictionary() {
 				}
 
 				if (emoji.tags instanceof Array)
-					for(let i = 0; i < emoji.tags.length; i++)
+					for (let i = 0; i < emoji.tags.length; i++)
 						emojisSearchDictionary.updateTag(emoji.tags[i], emoji.name);
 			}
 

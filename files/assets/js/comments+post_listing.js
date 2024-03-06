@@ -14,7 +14,7 @@ function post(url) {
 };
 
 function option_vote_0(oid, parentid, kind) {
-	for(let el of document.getElementsByClassName('presult-'+parentid)) {
+	for (let el of document.getElementsByClassName('presult-'+parentid)) {
 		el.classList.remove('d-none');
 	}
 	const full_oid = `option-${kind}-${oid}`
@@ -27,7 +27,7 @@ function option_vote_0(oid, parentid, kind) {
 }
 
 function option_vote_1(oid, parentid, kind) {
-	for(let el of document.getElementsByClassName('presult-'+parentid)) {
+	for (let el of document.getElementsByClassName('presult-'+parentid)) {
 		el.classList.remove('d-none');
 	}
 	const full_oid = `option-${kind}-${oid}`
@@ -56,10 +56,10 @@ function option_vote_2(t, oid, kind) {
 		() => {
 			t.disabled = true;
 			const parent = t.parentElement.parentElement
-			for(let el of parent.getElementsByClassName('bet')) {
+			for (let el of parent.getElementsByClassName('bet')) {
 				el.disabled = true;
 			}
-			for(let el of parent.getElementsByClassName('cost')) {
+			for (let el of parent.getElementsByClassName('cost')) {
 				el.classList.add('d-none')
 			}
 			const scoretext = document.getElementById('option-' + oid);
