@@ -51,7 +51,6 @@ def submit_art_post(v):
 	if kind not in {"sidebar", "banner"}:
 		abort(400, "Invalid kind!")
 
-	print(kind, flush=True)
 	entry = ArtSubmission(
 				kind=kind,
 				author_id=author.id,
