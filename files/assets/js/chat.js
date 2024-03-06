@@ -199,7 +199,7 @@ ta.addEventListener("keydown", function(e) {
 })
 
 socket.on('online', function(data){
-	const online_li =  data[0]
+	const online_li = data[0]
 	const muted_li = Object.keys(data[1])
 
 	document.getElementsByClassName('board-chat-count')[0].innerHTML = online_li.length
