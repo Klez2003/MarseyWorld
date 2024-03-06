@@ -1,5 +1,6 @@
 {% extends "default.html" %}
 {% block pagetitle %}@{{user.username}}'s Bank Statement{% endblock %}
+{% block pagetype %}bank_statement{% endblock %}
 {% block content %}
 	<div class="row justify-content-around">
 		<div class="col h-100">
@@ -8,7 +9,7 @@
 				<h5 class="font-weight-bolder text-center pt-2 pb-3 d-md-none">@{{user.username}}'s Bank Statement</h5>
 			</div>
 
-			<div class="rounded border overflow-x-auto">
+			<div id="bank-statement" class="rounded border overflow-x-auto">
 				{% if logs %}
 					<table class="border-0">
 						<thead class="bg-transparent">
@@ -16,7 +17,7 @@
 								<th></th>
 								<th></th>
 								<th></th>
-								<th>Balance</th>
+								<th class="text-black text-lg">Balance</th>
 							</tr>
 						</thead>
 						<tbody>

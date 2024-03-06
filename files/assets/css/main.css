@@ -7787,3 +7787,7 @@ table.border-0 * {
 		height: 80px;
 	}
 }
+
+#bank-statement tbody * {
+	color: #c9d1d9 !important;
+}

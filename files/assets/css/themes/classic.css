@@ -192,3 +192,7 @@ blockquote a {
 #casino-game-wrapper .row-cols-1, #casino-game-wrapper .row-cols-2 {
 	background-image: none !important;
 }
+
+#bank-statement {
+    border: 1px solid var(--black) !important;
+}
