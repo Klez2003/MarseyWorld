@@ -323,18 +323,18 @@ def get_comments_v_properties(v, should_keep_func=None, *criterion):
 		else: dump.append(comment)
 	return (comments, output)
 
-def get_hole(hole, v=None, graceful=False):
+def get_hole(hole_name, v=None, graceful=False):
+	if not hole_name:
+		if graceful: return None
+		else: abort(404, f"/h/{hole_name} was not found.")
+	hole_name = hole_name.replace('/h/', '').replace('h/', '').strip().lower()
+	if not hole_name:
+		if graceful: return None
+		else: abort(404, f"/h/{hole_name} was not found.")
+	hole = g.db.get(Hole, hole_name)
 	if not hole:
 		if graceful: return None
-		else: abort(404, f"/h/{hole} was not found.")
-	hole = hole.replace('/h/', '').replace('h/', '').strip().lower()
-	if not hole:
-		if graceful: return None
-		else: abort(404, f"/h/{hole} was not found.")
-	hole = g.db.get(Hole, hole)
-	if not hole:
-		if graceful: return None
-		else: abort(404, f"/h/{hole} was not found.")
+		else: abort(404, f"/h/{hole_name} was not found.")
 	return hole
 
 @cache.memoize(timeout=3600)
