@@ -537,7 +537,7 @@ def get_hole_css(hole):
 	resp.headers.add("Content-Type", "text/css")
 	return resp
 
-@app.post("/h/<hole>/settings/sidebars/")
+@app.post("/h/<hole>/settings/sidebars")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit("50/day", deduct_when=lambda response: response.status_code < 400)
@@ -550,7 +550,7 @@ def upload_hole_sidebar(v, hole):
 	if not v.mods_hole(hole.name): abort(403)
 	if v.shadowbanned: abort(500)
 
-	file = request.files["sidebar"]
+	file = request.files["image"]
 
 	name = f'/images/{time.time()}'.replace('.','') + '.webp'
 	file.save(name)
@@ -568,26 +568,28 @@ def upload_hole_sidebar(v, hole):
 	)
 	g.db.add(ma)
 
-	return redirect(f'/h/{hole}/settings')
+	return {"message": "Sidebar image uploaded successfully!", "url": sidebarurl}
 
-@app.post("/h/<hole>/settings/sidebars/delete/<int:index>")
+@app.post("/h/<hole>/settings/sidebars/delete")
 @limiter.limit("1/second", deduct_when=lambda response: response.status_code < 400)
 @limiter.limit("1/second", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def delete_hole_sidebar(v, hole, index):
+def delete_hole_sidebar(v, hole):
 	hole = get_hole(hole)
 	if not v.mods_hole(hole.name): abort(403)
 
 	if not hole.sidebarurls:
 		abort(404, f"Sidebar image not found (/h/{hole.name} has no sidebar images)")
-	if index < 0 or index >= len(hole.sidebarurls):
-		abort(404, f'Sidebar image not found (sidebar index {index} is not between 0 and {len(hole.sidebarurls)})')
-	sidebar = hole.sidebarurls[index]
-	try:
-		remove_media_using_link(sidebar)
-	except FileNotFoundError:
-		pass
-	del hole.sidebarurls[index]
+
+	sidebar = request.values["url"]
+	
+	if sidebar not in hole.sidebarurls:
+		abort(404, "Sidebar image not found!")
+
+	try: remove_media_using_link(sidebar)
+	except FileNotFoundError: pass
+
+	hole.sidebarurls.remove(sidebar)
 	g.db.add(hole)
 
 	ma = HoleAction(
@@ -598,7 +600,7 @@ def delete_hole_sidebar(v, hole, index):
 	)
 	g.db.add(ma)
 
-	return {"message": f"Deleted sidebar {index} from /h/{hole} successfully"}
+	return {"message": "Sidebar image deleted successfully!"}
 
 @app.post("/h/<hole>/settings/sidebars/delete_all")
 @limiter.limit("1/10 second;30/day", deduct_when=lambda response: response.status_code < 400)
@@ -626,7 +628,7 @@ def delete_all_hole_sidebars(v, hole):
 
 	return {"message": f"Deleted all sidebar images from /h/{hole} successfully"}
 
-@app.post("/h/<hole>/settings/banners/")
+@app.post("/h/<hole>/settings/banners")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit("50/day", deduct_when=lambda response: response.status_code < 400)
@@ -639,7 +641,7 @@ def upload_hole_banner(v, hole):
 	if not v.mods_hole(hole.name): abort(403)
 	if v.shadowbanned: abort(500)
 
-	file = request.files["banner"]
+	file = request.files["image"]
 
 	name = f'/images/{time.time()}'.replace('.','') + '.webp'
 	file.save(name)
@@ -657,37 +659,39 @@ def upload_hole_banner(v, hole):
 	)
 	g.db.add(ma)
 
-	return redirect(f'/h/{hole}/settings')
+	return {"message": "Banner uploaded successfully!", "url": bannerurl}
 
-@app.post("/h/<hole>/settings/banners/delete/<int:index>")
+@app.post("/h/<hole>/settings/banners/delete")
 @limiter.limit("1/second", deduct_when=lambda response: response.status_code < 400)
 @limiter.limit("1/second", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def delete_hole_banner(v, hole, index):
+def delete_hole_banner(v, hole):
 	hole = get_hole(hole)
 	if not v.mods_hole(hole.name): abort(403)
 
 	if not hole.bannerurls:
-		abort(404, f"Banner not found (/h/{hole.name} has no banners)")
-	if index < 0 or index >= len(hole.bannerurls):
-		abort(404, f'Banner not found (banner index {index} is not between 0 and {len(hole.bannerurls)})')
-	banner = hole.bannerurls[index]
-	try:
-		remove_media_using_link(banner)
-	except FileNotFoundError:
-		pass
-	del hole.bannerurls[index]
+		abort(404, f"Banner not found (/h/{hole.name} has no banner images)")
+
+	banner = request.values["url"]
+	
+	if banner not in hole.bannerurls:
+		abort(404, "Banner not found!")
+
+	try: remove_media_using_link(banner)
+	except FileNotFoundError: pass
+
+	hole.bannerurls.remove(banner)
 	g.db.add(hole)
 
 	ma = HoleAction(
 		hole=hole.name,
-		kind='delete_banner',
+		kind='delete_banner_image',
 		_note=f'<a href="{banner}">{banner}</a>',
 		user_id=v.id
 	)
 	g.db.add(ma)
 
-	return {"message": f"Deleted banner {index} from /h/{hole} successfully"}
+	return {"message": "Banner deleted successfully!"}
 
 @app.post("/h/<hole>/settings/banners/delete_all")
 @limiter.limit("1/10 second;30/day", deduct_when=lambda response: response.status_code < 400)

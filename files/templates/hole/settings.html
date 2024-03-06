@@ -99,56 +99,58 @@
 			<h4 class="mb-4 pb-2">Banners</h4>
 			{% if not g.is_tor %}
 				<section id="hole-banner-upload-new" class="mb-5 hole-settings-subsection">
-					<form class="d-inline-block" action="/h/{{hole.name}}/settings/banners/" method="post" enctype="multipart/form-data">
-						<input hidden name="formkey" value="{{v|formkey}}" class="notranslate" translate="no">
-						<label class="btn btn-secondary text-capitalize mr-2 mb-0">
-							Upload New Banner<input autocomplete="off" type="file" accept="image/*" hidden name="banner" data-nonce="{{g.nonce}}" onchange_submit>
-						</label>
-					</form>
+					<input hidden name="formkey" value="{{v|formkey}}" class="notranslate" translate="no">
+					<label class="btn btn-secondary text-capitalize mr-2 mb-0">
+						Upload New Banner<input id="upload_banner" autocomplete="off" type="file" accept="image/*" hidden name="banner" data-nonce="{{g.nonce}}" data-onchange="upload_banner(this, '{{hole.name}}')">
+					</label>
 					<button type="button" class="btn btn-danger hole-banner-delete-button" id="hole-banner-delete-all" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)" data-areyousure="postToastReload(this, '/h/{{hole.name}}/settings/banners/delete_all')">Delete All Banners</button>
 					<div class="text-small text-muted mt-3">
 						All image files are supported. Max file size is {% if v and v.patron %}16{% else %}8{% endif %} MB.
 					</div>
 				</section>
 			{% endif %}
-			{% for banner in hole.bannerurls %}
-				<section id="hole-banner-update-{{loop.index - 1}}" class="mt-5 d-block hole-settings-subsection">
-					<img class="mr-3" loading="lazy" alt="/h/{{hole.name}} banner" src="{{banner}}">
-					<button class="btn btn-danger hole-banner-delete-button mt-2" id="hole-banner-delete-{{loop.index}}" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)" data-areyousure="postToastReload(this, '/h/{{hole.name}}/settings/banners/delete/{{loop.index - 1}}')">Delete</button>
-				</section>
-			{% else %}
-				<section id="hole-banner-no-banners" class="d-block hole-settings-subsection">
-					{{macros.ghost_box("No banners uploaded", "", 2, "flex:1")}}
-				</section>
-			{% endfor %}
+			<div id="hole-banners">
+				{% for banner in hole.bannerurls %}
+					<section class="mt-5 d-block hole-settings-subsection">
+						<img class="mr-3" loading="lazy" alt="/h/{{hole.name}} banner" src="{{banner}}">
+						<button class="btn btn-danger hole-banner-delete-button mt-2" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)" data-areyousure="delete_image(this, '/h/{{hole.name}}/settings/banners/delete')">Delete</button>
+					</section>
+				{% else %}
+					<section id="hole-banner-no-banners" class="d-block hole-settings-subsection">
+						{{macros.ghost_box("No banners uploaded", "", 2, "flex:1")}}
+					</section>
+				{% endfor %}
+			</div>
 		</div>
 
 		<div class="hole-settings-section hole-sidebar-update-section">
 			<h4 class="mb-4 pb-2">Sidebar Images</h4>
 			{% if not g.is_tor %}
 				<section id="hole-sidebar-upload-new" class="mb-5 hole-settings-subsection">
-					<form class="d-inline-block" action="/h/{{hole.name}}/settings/sidebars/" method="post" enctype="multipart/form-data">
-						<input hidden name="formkey" value="{{v|formkey}}" class="notranslate" translate="no">
-						<label class="btn btn-secondary text-capitalize mr-2 mb-0">
-							Upload New Sidebar Image<input autocomplete="off" type="file" accept="image/*" hidden name="sidebar" data-nonce="{{g.nonce}}" onchange_submit>
-						</label>
-					</form>
+					<input hidden name="formkey" value="{{v|formkey}}" class="notranslate" translate="no">
+					<label class="btn btn-secondary text-capitalize mr-2 mb-0">
+						Upload New Sidebar Image<input id="upload_sidebar" autocomplete="off" type="file" accept="image/*" hidden name="sidebar" data-nonce="{{g.nonce}}" data-onchange="upload_sidebar(this, '{{hole.name}}')">
+					</label>
 					<button type="button" class="btn btn-danger hole-sidebar-delete-button" id="hole-sidebar-delete-all" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)" data-areyousure="postToastReload(this, '/h/{{hole.name}}/settings/sidebars/delete_all')">Delete All Sidebar Images</button>
 					<div class="text-small text-muted mt-3">
 						All image files are supported. Max file size is {% if v and v.patron %}16{% else %}8{% endif %} MB.
 					</div>
 				</section>
 			{% endif %}
-			{% for sidebar in hole.sidebarurls %}
-				<section id="hole-sidebar-update-{{loop.index - 1}}" class="mt-5 d-block hole-settings-subsection">
-					<img class="mr-3" loading="lazy" alt="/h/{{hole.name}} sidebar" src="{{sidebar}}">
-					<button class="btn btn-danger hole-sidebar-delete-button mt-2" id="hole-sidebar-delete-{{loop.index}}" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)" data-areyousure="postToastReload(this, '/h/{{hole.name}}/settings/sidebars/delete/{{loop.index - 1}}')">Delete</button>
-				</section>
-			{% else %}
-				<section id="hole-sidebar-no-sidebars" class="d-block hole-settings-subsection">
-					{{macros.ghost_box("No sidebar images uploaded", "", 2, "flex:1")}}
-				</section>
-			{% endfor %}
+			<div id="hole-sidebars">
+				{% for sidebar in hole.sidebarurls %}
+					<section class="mt-5 d-block hole-settings-subsection">
+						<img class="mr-3" loading="lazy" alt="/h/{{hole.name}} sidebar" src="{{sidebar}}">
+						<button class="btn btn-danger hole-sidebar-delete-button mt-2" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)" data-areyousure="delete_image(this, '/h/{{hole.name}}/settings/sidebars/delete')">Delete</button>
+					</section>
+				{% else %}
+					<section id="hole-sidebar-no-sidebars" class="d-block hole-settings-subsection">
+						{{macros.ghost_box("No sidebar images uploaded", "", 2, "flex:1")}}
+					</section>
+				{% endfor %}
+			</div>
 		</div>
 	</div>
+
+	<script defer src="{{'js/hole_settings.js' | asset}}"></script>
 {% endblock %}
