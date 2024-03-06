@@ -7774,7 +7774,7 @@ table.border-0 * {
 
 #bank-stamp {
 	position: absolute;
-	right: 10vw;
+	right: 28vw;
 	bottom: 5vh;
 	opacity: 0.7;
 	height: 100px;
@@ -7782,6 +7782,7 @@ table.border-0 * {
 
 @media (max-width: 768px) {
 	#bank-stamp {
+		right: 15vw;
 		bottom: 2vh;
 		height: 80px;
 	}
