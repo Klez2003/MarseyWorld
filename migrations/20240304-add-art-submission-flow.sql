@@ -20,10 +20,10 @@ ALTER SEQUENCE public.art_submissions_id_seq OWNED BY public.art_submissions.id;
 ALTER TABLE ONLY public.art_submissions ALTER COLUMN id SET DEFAULT nextval('public.art_submissions_id_seq'::regclass);
 
 rdrama:
-    SELECT pg_catalog.setval('public.art_submissions_id_seq', 1477, true);
+    SELECT pg_catalog.setval('public.art_submissions_id_seq', 1720, true);
 
 wpd:
-    SELECT pg_catalog.setval('public.art_submissions_id_seq', 157, true);
+    SELECT pg_catalog.setval('public.art_submissions_id_seq', 199, true);
 
 alter table only art_submissions
     add constraint art_submissions_author_fkey foreign key (author_id) references public.users(id);
