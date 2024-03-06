@@ -26,8 +26,18 @@ class ArtSubmission(Base):
 
 	@property
 	@lazy
-	def badge_id(self):
+	def badge_id_1(self):
 		return 99 if self.kind == "sidebar" else 101
+
+	@property
+	@lazy
+	def badge_id_10(self):
+		return 331 if self.kind == "sidebar" else 333
+
+	@property
+	@lazy
+	def badge_id_100(self):
+		return 332 if self.kind == "sidebar" else 334
 
 	@property
 	@lazy

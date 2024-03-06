@@ -107,7 +107,6 @@ def approve_art(v, id):
 	author = get_user(author)
 	entry.author_id = author.id
 	g.db.add(entry)
-	badge_grant(author, entry.badge_id)
 
 	entry_url = f"{SITE_FULL_IMAGES}/i/{SITE_NAME}/{entry.location_kind}/{entry.id}.webp"
 
@@ -141,6 +140,14 @@ def approve_art(v, id):
 	g.db.add(ma)
 
 	entry.approved = True
+
+	all_by_author = g.db.query(ArtSubmission).filter_by(kind=entry.kind, author_id=author.id, approved=True).count()
+	if all_by_author >= 99:
+		badge_grant(badge_id=entry.badge_id_100, user=author)
+	elif all_by_author >= 9:
+		badge_grant(badge_id=entry.badge_id_10, user=author)
+	else:
+		badge_grant(badge_id=entry.badge_id_1, user=author)
 
 	return {"message": f"{entry.msg_kind} approved!"}
 
