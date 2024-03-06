@@ -602,32 +602,6 @@ def delete_hole_sidebar(v, hole):
 
 	return {"message": "Sidebar image deleted successfully!"}
 
-@app.post("/h/<hole>/settings/sidebars/delete_all")
-@limiter.limit("1/10 second;30/day", deduct_when=lambda response: response.status_code < 400)
-@limiter.limit("1/10 second;30/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
-@auth_required
-def delete_all_hole_sidebars(v, hole):
-	hole = get_hole(hole)
-	if not v.mods_hole(hole.name): abort(403)
-
-	for sidebar in hole.sidebarurls:
-		try:
-			remove_media_using_link(sidebar)
-		except FileNotFoundError:
-			pass
-	hole.sidebarurls = []
-	g.db.add(hole)
-
-	ma = HoleAction(
-		hole=hole.name,
-		kind='delete_sidebar_image',
-		_note='all',
-		user_id=v.id
-	)
-	g.db.add(ma)
-
-	return {"message": f"Deleted all sidebar images from /h/{hole} successfully"}
-
 @app.post("/h/<hole>/settings/banners")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
@@ -692,32 +666,6 @@ def delete_hole_banner(v, hole):
 	g.db.add(ma)
 
 	return {"message": "Banner deleted successfully!"}
-
-@app.post("/h/<hole>/settings/banners/delete_all")
-@limiter.limit("1/10 second;30/day", deduct_when=lambda response: response.status_code < 400)
-@limiter.limit("1/10 second;30/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
-@auth_required
-def delete_all_hole_banners(v, hole):
-	hole = get_hole(hole)
-	if not v.mods_hole(hole.name): abort(403)
-
-	for banner in hole.bannerurls:
-		try:
-			remove_media_using_link(banner)
-		except FileNotFoundError:
-			pass
-	hole.bannerurls = []
-	g.db.add(hole)
-
-	ma = HoleAction(
-		hole=hole.name,
-		kind='delete_banner',
-		_note='all',
-		user_id=v.id
-	)
-	g.db.add(ma)
-
-	return {"message": f"Deleted all banners from /h/{hole} successfully"}
 
 @app.post("/h/<hole>/marsey_image")
 @limiter.limit('1/second', scope=rpath)
