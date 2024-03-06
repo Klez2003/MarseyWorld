@@ -124,10 +124,8 @@ function update_inline_emoji_modal(event)
 	switch (event.data)
 	{
 		case ':':
-			emoji_typing_state = true;
 			break;
 		case ' ':
-			emoji_typing_state = false;
 			break;
 		default:
 			break;
@@ -138,8 +136,6 @@ function update_inline_emoji_modal(event)
 	current_word = /(^|\s)([:!][!#a-zA-Z0-9_]+(?=\n|$))/.exec(text.slice(0, coords === -1 ? text.length : coords));
 	if (current_word) current_word = current_word[2].toLowerCase();
 
-	/* We could also check emoji_typing_state here, which is less accurate but more efficient. I've
-		* kept it unless someone wants to provide an option to toggle it for performance */
 	if (current_word && curr_word_is_emoji() && current_word != ":")
 	{
 		openSpeedModal().then( () => {
