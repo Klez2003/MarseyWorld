@@ -30,7 +30,7 @@ const emojisSearchDictionary = {
 		if (this.dict[target] !== undefined && this.dict[target].tag === tag)
 			this.dict[target].emojiNames.push(emojiName);
 		else
-			this.dict.splice(target ,0,new EmojisDictNode(tag, emojiName));
+			this.dict.splice(target, 0, new EmojisDictNode(tag, emojiName));
 	},
 
 	/**
