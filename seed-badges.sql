@@ -33,6 +33,7 @@ INSERT INTO public.badge_defs VALUES (325, 'Best rdrama activist 2023', 'Went ou
 INSERT INTO public.badge_defs VALUES (326, 'Chud Hunter', 'Successfully reported wrongthink and got paid 🤑', 1707748016);
 INSERT INTO public.badge_defs VALUES (327, 'Top Poster of the Day', 'Has been Top Poster of the Day at least once', 1708092535);
 INSERT INTO public.badge_defs VALUES (328, 'WORDS WORDS WORDS', 'Wrote an effortpost 📃', 1708278966);
+INSERT INTO public.badge_defs VALUES (331, 'Sidebar Master', 'Contributed 10 (or more!!!!) sidebar images 🖼', 1709691233);
 INSERT INTO public.badge_defs VALUES (296, 'SEX!', 'This user verifiably had sex with another dramatard.', 1692195588);
 INSERT INTO public.badge_defs VALUES (297, 'Weather Balloon', 'This user was shot down over the territory of /r/UFOs.', 1694716945);
 INSERT INTO public.badge_defs VALUES (180, 'Marsey Consoomer', 'Conned rDrama out of sick merch in exchange for a donation to Redbubble.', 1664417205);
@@ -57,6 +58,7 @@ INSERT INTO public.badge_defs VALUES (140, 'Y''all Seein'' Eye', 'Gets notified 
 INSERT INTO public.badge_defs VALUES (141, 'Marsey Typographer', 'For substantial and exceptional contributions to Marsey Alphabet.', 0);
 INSERT INTO public.badge_defs VALUES (321, 'Master Baiter 2023', 'The cunning mastermind behind the ruse which was voted best rdrama bait of 2023.', 1705457673);
 INSERT INTO public.badge_defs VALUES (329, 'WORDS WORDS WORDS WORDS', 'Wrote 10 (or more!!!!) effortposts 📃', 1708279122);
+INSERT INTO public.badge_defs VALUES (332, 'Sidebar God', 'Contributed 100 (or more!!!!) sidebar images 🖼🎨', 1709691274);
 INSERT INTO public.badge_defs VALUES (298, 'Gray Alien', 'This user probed /r/UFOs and left the next morning.', 1694717005);
 INSERT INTO public.badge_defs VALUES (213, 'Best Marsey 2022', 'The creator of the best Marsey emoji of 2022, as voted by rDrama users.', 1670719193);
 INSERT INTO public.badge_defs VALUES (215, 'Own Goal', 'Don''t take this user''s advice on sportsball betting.', 1671150354);
@@ -120,6 +122,7 @@ INSERT INTO public.badge_defs VALUES (278, 'Space Stone', 'A lifetime ago, I too
 INSERT INTO public.badge_defs VALUES (279, 'Time Stone', 'Our oath to protect the Time Stone cannot change. And this stone may be the best chance we have against Spezos.', 1683850381);
 INSERT INTO public.badge_defs VALUES (280, 'Infinity Gauntlet', 'And so the sun rises on a grateful gay cartoon cat website.', 1683850413);
 INSERT INTO public.badge_defs VALUES (330, 'WORDS WORDS WORDS WORDS WORDS', 'Wrote 100 (or more!!!!) effortposts 📃🤓', 1708279153);
+INSERT INTO public.badge_defs VALUES (333, 'Banner Master', 'Contributed 10 (or more!!!!) banners 🖼', 1709696049);
 INSERT INTO public.badge_defs VALUES (281, 'Namelock', 'This user has been forcibly renamed', 1684120696);
 INSERT INTO public.badge_defs VALUES (245, 'Kongmaxxer: N', 'Contributed a KONGMAXXED Marsey or emoji during Donkey Kong December', 1679419208);
 INSERT INTO public.badge_defs VALUES (282, 'Rehab Counselor', 'Awarded for participating in the Marsey''s Methlab Event', 1685121792);
@@ -210,6 +213,7 @@ INSERT INTO public.badge_defs VALUES (77, 'Middle Roller', 'Bought 50 lootboxes'
 INSERT INTO public.badge_defs VALUES (78, 'High Roller', 'Bought 150 lootboxes', 0);
 INSERT INTO public.badge_defs VALUES (79, 'Merchant', 'Contributed a new line of product to Marsey''s Coin Emporium', 0);
 INSERT INTO public.badge_defs VALUES (80, 'Artist Laureate', '', 0);
+INSERT INTO public.badge_defs VALUES (334, 'Banner God', 'Contributed 100 (or more!!!!) banners 🖼🎨', 1709696097);
 INSERT INTO public.badge_defs VALUES (81, 'Patron of the Arts', 'Sponsored the creation of an approved Marsey', 0);
 INSERT INTO public.badge_defs VALUES (83, 'All-Seeing Eye', 'Can view private profiles', 0);
 INSERT INTO public.badge_defs VALUES (84, 'Alt-Seeing Eye', 'Can see alts', 0);
@@ -293,7 +297,7 @@ INSERT INTO public.badge_defs VALUES (87, 'Unblockable', 'This user is unblockab
 -- Name: badge_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.badge_defs_id_seq', 330, true);
+SELECT pg_catalog.setval('public.badge_defs_id_seq', 334, true);
 
 
 --
