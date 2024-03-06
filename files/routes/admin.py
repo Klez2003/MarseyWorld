@@ -701,8 +701,8 @@ def alt_votes_get(v):
 						data=data
 						)
 
-@app.get("/admin/alts/")
-@app.get("/@<username>/alts/")
+@app.get("/admin/alts")
+@app.get("/@<username>/alts")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @admin_level_required(PERMS['USER_LINK'])
@@ -710,7 +710,7 @@ def admin_view_alts(v, username=None):
 	u = get_user(username or request.values.get('username'), graceful=True)
 	return render_template('admin/alts.html', v=v, u=u, alts=u.alts if u else None)
 
-@app.post('/@<username>/alts/')
+@app.post('/@<username>/alts')
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
@@ -1654,7 +1654,7 @@ def approve_comment(c_id, v):
 
 	return {"message": "Comment approved!"}
 
-@app.get("/admin/banned_domains/")
+@app.get("/admin/banned_domains")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @admin_level_required(PERMS['DOMAINS_BAN'])
@@ -2124,7 +2124,7 @@ def change_under_siege_post(v):
 	return {"message": "Thresholds changed successfully!"}
 
 if FEATURES['IP_LOGGING']:
-	@app.get("/@<username>/ips/")
+	@app.get("/@<username>/ips")
 	@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 	@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 	@admin_level_required(PERMS['VIEW_IPS'])
