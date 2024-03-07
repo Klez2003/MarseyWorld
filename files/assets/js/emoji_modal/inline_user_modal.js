@@ -62,8 +62,7 @@ function makeUsersSearchDictionary() {
 
 function curr_word_is_user()
 {
-	return current_word && current_word.charAt(0) == "@" &&
-		current_word.charAt(current_word.length-1) != "@";
+	return current_word && current_word.charAt(0) == "@" && current_word.charAt(current_word.length-1) != "@";
 }
 
 function openUserSpeedModal()
