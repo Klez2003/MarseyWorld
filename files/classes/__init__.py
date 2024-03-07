@@ -38,3 +38,5 @@ from .currency_logs import *
 
 if FEATURES['IP_LOGGING']:
 	from .ip_logs import *
+
+from .edit_logs import *

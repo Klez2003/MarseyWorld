@@ -232,6 +232,7 @@ class Comment(Base):
 	options = relationship("CommentOption", order_by="CommentOption.id")
 	casino_game = relationship("CasinoGame")
 	wall_user = relationship("User", primaryjoin="User.id==Comment.wall_user_id")
+	edits = relationship("CommentEdit", order_by="CommentEdit.id.desc()")
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs:

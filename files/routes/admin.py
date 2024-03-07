@@ -2231,3 +2231,16 @@ def unmark_effortpost(pid, v):
 		send_repeatable_notification(p.author_id, f":marseyitsover: @{v.username} (a site admin) has unmarked {p.textlink} as an effortpost. {coins} coins have been deducted from you. :!marseyitsover:")
 
 	return {"message": "Post has been unmarked as an effortpost!"}
+
+@app.get("/edits/<link>")
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@admin_level_required(PERMS['VIEW_EDITS'])
+def view_edits(v, link):
+	try:
+		if "p_" in link: obj = get_post(int(link.split("p_")[1]), v=v)
+		elif "c_" in link: obj = get_comment(int(link.split("c_")[1]), v=v)
+		else: abort(400)
+	except: abort(400)
+
+	return render_template("edits.html", v=v, obj=obj)

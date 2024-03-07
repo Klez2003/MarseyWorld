@@ -1,0 +1,26 @@
+{% extends "default.html" %}
+{% block pagetitle %}Edits on {{obj.shortlink}}{% endblock %}
+{% block content %}
+	<h2>Edits on {{obj.textlink | safe}}</h2>
+	<div class="overflow-x-auto">
+		<table>
+			<thead>
+				<tr>
+					{% if obj.fullname.startswith('p_') %}
+						<th>Title</th>
+					{% endif %}
+					<th>Body</th>
+				</tr>
+			</thead>
+
+			{% for edit in obj.edits %}
+				<tr>
+					{% if obj.fullname.startswith('p_') %}
+						<td>{{edit.old_title_html | safe}}</td>
+					{% endif %}
+					<td>{{edit.old_body_html | safe}}</td>
+				</tr>
+			{% endfor %}
+		</table>
+	</div>
+{% endblock %}
