@@ -58,9 +58,7 @@ function makeUsersSearchDictionary() {
 			{
 				const user = users[i];
 				usersSearchDictionary.updateTag(user, user);
-				globalUsers.push({
-					name: user,
-				});
+				globalUsers.push(user);
 			}
 
 			userSearchDictionaryState = "ready";
@@ -105,10 +103,8 @@ function populate_inline_user_modal(results, textbox)
 	const MAXXX = 50;
 	// Not sure why the results is a Set... but oh well
 	let i = 0;
-	for (let user of results)
+	for (let name of results)
 	{
-		let name = user.name
-
 		if (i++ > MAXXX) return i;
 		let user_option = document.createElement("div");
 		user_option.className = "inline-modal-option user-option " + (i === 1 ? "selected" : "");

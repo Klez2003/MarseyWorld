@@ -169,7 +169,7 @@ function update_inline_emoji_modal(event)
 			// Do the search (and do something with it)
 			const resultSet = groupsSearchDictionary.completeSearch(current_word.substring(1));
 
-			const found = globalGroups.filter(i => resultSet.has(i.name));
+			const found = globalGroups.filter(i => resultSet.has(i));
 
 			populate_inline_group_modal(found, event.target);
 		});
@@ -188,7 +188,7 @@ function update_inline_emoji_modal(event)
 			// Do the search (and do something with it)
 			const resultSet = usersSearchDictionary.completeSearch(current_word.substring(1));
 
-			const found = globalUsers.filter(i => resultSet.has(i.name));
+			const found = globalUsers.filter(i => resultSet.has(i));
 
 			populate_inline_user_modal(found, event.target);
 		});

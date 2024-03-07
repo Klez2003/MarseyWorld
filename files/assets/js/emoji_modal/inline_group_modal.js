@@ -58,9 +58,7 @@ function makeGroupsSearchDictionary() {
 			{
 				const group = groups[i];
 				groupsSearchDictionary.updateTag(group, group);
-				globalGroups.push({
-					name: group,
-				});
+				globalGroups.push(group);
 			}
 
 			groupSearchDictionaryState = "ready";
@@ -105,10 +103,8 @@ function populate_inline_group_modal(results, textbox)
 	const MAXXX = 50;
 	// Not sure why the results is a Set... but oh well
 	let i = 0;
-	for (let group of results)
+	for (let name of results)
 	{
-		let name = group.name
-
 		if (i++ > MAXXX) return i;
 		let group_option = document.createElement("div");
 		group_option.className = "inline-modal-option group-option " + (i === 1 ? "selected" : "");
