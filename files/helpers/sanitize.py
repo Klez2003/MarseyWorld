@@ -71,7 +71,7 @@ def execute_blackjack(v, target, body, kind):
 		if all(i in body.lower() for i in x.split()):
 			execute = True
 
-	if SITE_NAME == 'rDrama' and 'discord' in body.lower() and kind == 'message':
+	if SITE_NAME == 'rDrama' and 'cord' in body.lower() and kind == 'message':
 		execute = True
 
 	if not execute: return False
