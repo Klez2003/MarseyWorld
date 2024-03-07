@@ -142,6 +142,10 @@ def users_csv(v):
 	if SITE == 'watchpeopledie.tv':
 		users = users.filter(User.truescore > 10)
 
+	if SITE == 'rdrama.net':
+		t = time.time() - 604800
+		users = users.filter(or_(User.truescore > 10, User.last_active > t))
+
 	return [x[0] for x in users.order_by(User.truescore.desc()).all()]
 
 @app.get('/sidebar')
