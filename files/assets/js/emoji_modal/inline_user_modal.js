@@ -113,6 +113,11 @@ function populate_inline_user_modal(results, textbox)
 		let user_option = document.createElement("div");
 		user_option.className = "inline-modal-option user-option " + (i === 1 ? "selected" : "");
 		user_option.tabIndex = 0;
+		let user_option_img = document.createElement("img");
+		user_option_img.className = "pp20";
+		// This is a bit
+		user_option_img.src = `/@${name}/pic`
+
 		let user_option_text = document.createElement("span");
 
 		user_option_text.textContent = name;
@@ -126,6 +131,7 @@ function populate_inline_user_modal(results, textbox)
 			}
 		});
 		// Pack
+		user_option.appendChild(user_option_img);
 		user_option.appendChild(user_option_text);
 		inline_carot_modal.appendChild(user_option);
 	}

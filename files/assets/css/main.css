@@ -7795,3 +7795,7 @@ table.border-0 * {
 #bank-statement tbody a {
 	color: var(--primary) !important;
 }
+
+.inline-modal-option.user-option span {
+	margin-left: 0 !important;
+}
