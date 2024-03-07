@@ -137,7 +137,7 @@ def groups_csv(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def users_csv(v):
-	return [x[0] for x in g.db.query(User.username).order_by(User.username).all()]
+	return [x[0] for x in g.db.query(User.username).order_by(User.truescore.desc()).all()]
 
 @app.get('/sidebar')
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
