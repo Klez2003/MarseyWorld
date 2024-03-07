@@ -3,43 +3,39 @@ let groupSearchDictionaryState = "inactive";
 let globalGroups = [];
 
 const groupsSearchDictionary = {
-	dict: [],
+	array: [],
 
-	updateTag: function(tag, groupName) {
-		if (tag === undefined || groupName === undefined)
+	updateTag: function(groupName) {
+		if (groupName === undefined)
 			return;
 
 		let low = 0;
-		let high = this.dict.length;
+		let high = this.array.length;
 
 		while (low < high) {
 			let mid = (low + high) >>> 1;
-			if (this.dict[mid].tag < tag)
+			if (this.array[mid] < groupName)
 				low = mid + 1;
 			else
 				high = mid;
 		}
 
 		let target = low;
-		if (this.dict[target] !== undefined && this.dict[target].tag === tag)
-			this.dict[target].emojiNames.push(groupName);
-		else
-			this.dict.splice(target, 0, new EmojisDictNode(tag, groupName));
+		this.array.splice(target, 0, groupName);
 	},
 
 	/**
 	 * We also check for substrings! (sigh)
-	 * @param {String} tag
+	 * @param {String} groupName
 	 * @returns {Set}
 	 */
 	completeSearch: function(query) {
 		query = query.toLowerCase()
 		const result = new Set();
 
-		for (let i = 0; i < this.dict.length; i++)
-			if (this.dict[i].tag.includes(query))
-				for (let j = 0; j < this.dict[i].emojiNames.length; j++)
-					result.add(this.dict[i].emojiNames[j])
+		for (let i = 0; i < this.array.length; i++)
+			if (this.array[i].toLowerCase().includes(query))
+				result.add(this.array[i])
 
 		return result;
 	}
@@ -57,7 +53,7 @@ function makeGroupsSearchDictionary() {
 			for (let i = 0; i < groups.length; i++)
 			{
 				const group = groups[i];
-				groupsSearchDictionary.updateTag(group, group);
+				groupsSearchDictionary.updateTag(group);
 				globalGroups.push(group);
 			}
 

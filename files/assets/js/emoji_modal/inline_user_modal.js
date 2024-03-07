@@ -3,43 +3,39 @@ let userSearchDictionaryState = "inactive";
 let globalUsers = [];
 
 const usersSearchDictionary = {
-	dict: [],
+	array: [],
 
-	updateTag: function(tag, userName) {
-		if (tag === undefined || userName === undefined)
+	updateTag: function(userName) {
+		if (userName === undefined)
 			return;
 
 		let low = 0;
-		let high = this.dict.length;
+		let high = this.array.length;
 
 		while (low < high) {
 			let mid = (low + high) >>> 1;
-			if (this.dict[mid].tag < tag)
+			if (this.array[mid] < userName)
 				low = mid + 1;
 			else
 				high = mid;
 		}
 
 		let target = low;
-		if (this.dict[target] !== undefined && this.dict[target].tag === tag)
-			this.dict[target].emojiNames.push(userName);
-		else
-			this.dict.splice(target, 0, new EmojisDictNode(tag, userName));
+		this.array.splice(target, 0, userName);
 	},
 
 	/**
 	 * We also check for substrings! (sigh)
-	 * @param {String} tag
+	 * @param {String} userName
 	 * @returns {Set}
 	 */
 	completeSearch: function(query) {
 		query = query.toLowerCase()
 		const result = new Set();
 
-		for (let i = 0; i < this.dict.length; i++)
-			if (this.dict[i].tag.toLowerCase().includes(query))
-				for (let j = 0; j < this.dict[i].emojiNames.length; j++)
-					result.add(this.dict[i].emojiNames[j])
+		for (let i = 0; i < this.array.length; i++)
+			if (this.array[i].toLowerCase().includes(query))
+				result.add(this.array[i])
 
 		return result;
 	}
@@ -57,7 +53,7 @@ function makeUsersSearchDictionary() {
 			for (let i = 0; i < users.length; i++)
 			{
 				const user = users[i];
-				usersSearchDictionary.updateTag(user, user);
+				usersSearchDictionary.updateTag(user);
 				globalUsers.push(user);
 			}
 
