@@ -1223,15 +1223,15 @@ INSERT INTO public.hat_defs VALUES (1475, 'Full Battery', 'This user keeps their
 INSERT INTO public.hat_defs VALUES (1479, 'UwU Headband', 'I am ready to fight da haters, UwU', 2, 500, NULL, 1708648512);
 INSERT INTO public.hat_defs VALUES (1480, 'Id Lose', 'This user WILL NOT WIN.', 2, 500, NULL, 1708648542);
 INSERT INTO public.hat_defs VALUES (1481, 'Unicorn', 'This user is a pretty unicorn. NOT A HORSE.', 2, 500, NULL, 1708648570);
-
 INSERT INTO public.hat_defs VALUES (1486, 'Stuffie Hat', 'Oh by the way, all my stuffies wanna know if you''re ok.', 2, 500, NULL, 1708648847);
-
 INSERT INTO public.hat_defs VALUES (1488, 'Santa Hat (pink)', 'I''m Mrs. Claus this year!', 2, 500, NULL, 1708648904);
 INSERT INTO public.hat_defs VALUES (1489, 'Max HP', 'I''M FULL POWER!', 2, 500, NULL, 1708648923);
 INSERT INTO public.hat_defs VALUES (1493, 'Im You', 'Where you go I go, what you see I see.', 2, 500, NULL, 1708649038);
 INSERT INTO public.hat_defs VALUES (1497, 'Rubber Chicken', 'HOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOONK', 2, 500, NULL, 1708649127);
 INSERT INTO public.hat_defs VALUES (1501, 'Pizza Hat', 'Don''t ask why there''s a pizza. Embrace that there is one.', 2, 500, NULL, 1708780629);
 INSERT INTO public.hat_defs VALUES (1502, 'Xoxo', 'Hugs and kisses!', 2, 500, NULL, 1709029514);
+INSERT INTO public.hat_defs VALUES (1503, 'Marsey Cowboy Hat', 'This town ain''t big enough for two Marseys.', 2, 500, NULL, 1709348944);
+INSERT INTO public.hat_defs VALUES (1504, 'Ants', 'There''s ants coming out of your face...', 2, 1000, NULL, 1709488882);
 
 
 --
