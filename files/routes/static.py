@@ -140,7 +140,7 @@ def users_csv(v):
 	users = g.db.query(User.username)
 
 	if SITE == 'watchpeopledie.tv':
-		users = users.filter(User.truescore > 10)
+		users = users.filter(User.truescore > 100)
 
 	if SITE == 'rdrama.net':
 		t = time.time() - 604800
