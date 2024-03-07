@@ -637,12 +637,13 @@ def edit_comment(cid, v):
 		if c.author.hieroglyphs and marseyaward_body_regex.search(body_html):
 			abort(403, "You can only type marseys!")
 
-		edit_log = CommentEdit(
-			comment_id=c.id,
-			old_body=c.body,
-			old_body_html=c.body_html,
-		)
-		g.db.add(edit_log)
+		if int(time.time()) - c.created_utc > 60 * 3:
+			edit_log = CommentEdit(
+				comment_id=c.id,
+				old_body=c.body,
+				old_body_html=c.body_html,
+			)
+			g.db.add(edit_log)
 
 		oldtext = c.body
 

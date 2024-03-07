@@ -1057,14 +1057,15 @@ def edit_post(pid, v):
 
 	changed = False
 
-	edit_log = PostEdit(
-		post_id=p.id,
-		old_title=p.title,
-		old_title_html=p.title_html,
-		old_body=p.body,
-		old_body_html=p.body_html,
-	)
-	g.db.add(edit_log)
+	if int(time.time()) - p.created_utc > 60 * 3:
+		edit_log = PostEdit(
+			post_id=p.id,
+			old_title=p.title,
+			old_title_html=p.title_html,
+			old_body=p.body,
+			old_body_html=p.body_html,
+		)
+		g.db.add(edit_log)
 
 	if title != p.title:
 		title_html = filter_emojis_only(title, golden=False, obj=p, author=p.author)
