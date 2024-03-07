@@ -41,7 +41,6 @@ const usersSearchDictionary = {
 };
 
 function makeUsersSearchDictionary() {
-	// get public users list
 	const headers = new Headers({xhr: "xhr"})
 	const user_params = document.getElementById('user_params').value
 	return fetch(`/users.csv${user_params}`, {
@@ -72,7 +71,6 @@ function openUserSpeedModal()
 			userSearchDictionaryState = "loading"
 			return makeUsersSearchDictionary();
 		case "loading":
-			// this works because once the fetch completes, the first keystroke callback will fire and use the current value
 			return Promise.reject();
 		case "ready":
 			return Promise.resolve();
@@ -94,7 +92,6 @@ function populate_inline_user_modal(results, textbox)
 	user_index = 0;
 	inline_carot_modal.scrollTop = 0;
 	inline_carot_modal.innerHTML = "";
-	// Not sure why the results is a Set... but oh well
 	let i = 0;
 	for (let name of results)
 	{
@@ -104,7 +101,6 @@ function populate_inline_user_modal(results, textbox)
 		user_option.tabIndex = 0;
 		let user_option_img = document.createElement("img");
 		user_option_img.className = "pp20";
-		// This is a bit
 		user_option_img.src = `/@${name}/pic`
 
 		let user_option_text = document.createElement("span");
@@ -119,7 +115,6 @@ function populate_inline_user_modal(results, textbox)
 				markdown(textbox)
 			}
 		});
-		// Pack
 		user_option.appendChild(user_option_img);
 		user_option.appendChild(user_option_text);
 		inline_carot_modal.appendChild(user_option);

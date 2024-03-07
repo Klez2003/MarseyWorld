@@ -41,7 +41,6 @@ const groupsSearchDictionary = {
 };
 
 function makeGroupsSearchDictionary() {
-	// get public groups list
 	const headers = new Headers({xhr: "xhr"})
 	const group_params = document.getElementById('group_params').value
 	return fetch(`/groups.csv${group_params}`, {
@@ -72,7 +71,6 @@ function openGroupSpeedModal()
 			groupSearchDictionaryState = "loading"
 			return makeGroupsSearchDictionary();
 		case "loading":
-			// this works because once the fetch completes, the first keystroke callback will fire and use the current value
 			return Promise.reject();
 		case "ready":
 			return Promise.resolve();
@@ -94,7 +92,6 @@ function populate_inline_group_modal(results, textbox)
 	group_index = 0;
 	inline_carot_modal.scrollTop = 0;
 	inline_carot_modal.innerHTML = "";
-	// Not sure why the results is a Set... but oh well
 	let i = 0;
 	for (let name of results)
 	{
@@ -114,7 +111,6 @@ function populate_inline_group_modal(results, textbox)
 				markdown(textbox)
 			}
 		});
-		// Pack
 		group_option.appendChild(group_option_text);
 		inline_carot_modal.appendChild(group_option);
 	}
