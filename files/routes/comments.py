@@ -683,6 +683,8 @@ def edit_comment(cid, v):
 		g.db.flush()
 
 		gevent.spawn(postprocess_comment, c.body, c.body_html, c.id)
+	else:
+		abort(400, "You need to change something!")
 
 
 	return {

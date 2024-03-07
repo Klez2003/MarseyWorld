@@ -1055,6 +1055,8 @@ def edit_post(pid, v):
 				for x in notify_users:
 					add_notif(cid, x, text, pushnotif_url=p.permalink)
 
+	changed = False
+
 
 	if title != p.title:
 		title_html = filter_emojis_only(title, golden=False, obj=p, author=p.author)
@@ -1067,6 +1069,8 @@ def edit_post(pid, v):
 
 		p.title = title
 		p.title_html = title_html
+
+		changed = True
 
 	body = process_files(request.files, v, body).strip()
 	if len(body) > POST_BODY_LENGTH_LIMIT(g.v):
@@ -1093,6 +1097,10 @@ def edit_post(pid, v):
 
 		gevent.spawn(postprocess_post, p.url, p.body, p.body_html, p.id, False, True)
 
+		changed = True
+
+	if not changed:
+		abort(400, "You need to change something!")
 
 	if not p.draft and not complies_with_chud(p):
 		abort(403, f'You have to include "{p.author.chud_phrase}" in your post!')
