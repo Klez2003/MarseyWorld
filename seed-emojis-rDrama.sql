@@ -4024,6 +4024,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseyquagmireshocked', 'Marsey', 2, 'awe scream suprise wtf eye cartoon', false, 1666414758),
 ('marseyquakeroats', 'Marsey', 2, 'smug hat hair', false, 1690474308),
 ('marseyqueen', 'Marsey', 2, 'england bong english british elizabeth', false, 0),
+('marseyqueencrown', 'Marsey', 2, 'animated cry tissues kleenex sad runny snot sneeze sorry', false, 1709815403),
 ('marseyqueenlizard', 'Marsey', 2, 'england bong english british reptilian elizabeth', false, 0),
 ('marseyquestion', 'Marsey', 2, 'suspicious sussy reaction sarcastic sarcasm think confused wonder', false, 0),
 ('marseyrabbit', 'Marsey', 2, 'bunny', false, 0),
