@@ -79,8 +79,6 @@
 <script defer src="{{'js/emoji_modal/inline_emoji_modal.js' | asset}}"></script>
 <input hidden id="group_params" value="?n={{group_count()}}">
 <script defer src="{{'js/emoji_modal/inline_group_modal.js' | asset}}"></script>
-{% if SITE != 'watchpeopledie.tv' %}
-	<input hidden id="user_params" value="?n={{user_count()}}">
-	<script defer src="{{'js/emoji_modal/inline_user_modal.js' | asset}}"></script>
-{% endif %}
+<input hidden id="user_params" value="?n={{user_count()}}">
+<script defer src="{{'js/emoji_modal/inline_user_modal.js' | asset}}"></script>
 <script defer src="{{'js/emoji_modal/emoji_modal.js' | asset}}"></script>
