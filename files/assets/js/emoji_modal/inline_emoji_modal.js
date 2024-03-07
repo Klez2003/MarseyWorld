@@ -130,6 +130,9 @@ function update_inline_emoji_modal(event)
 			break;
 	}
 
+	text = text.slice(0, event.target.selectionStart)
+	text = text.split('\n').slice(-1)
+
 	// Get current word at string, such as ":marse" or "word"
 	let coords = text.indexOf(' ', box_coords.pos);
 	current_word = /(^|\s)([:!@][!#a-zA-Z0-9_]+(?=\n|$))/.exec(text.slice(0, coords === -1 ? text.length : coords));
