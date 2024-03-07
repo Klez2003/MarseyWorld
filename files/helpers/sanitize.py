@@ -66,9 +66,13 @@ def execute_blackjack(v, target, body, kind):
 	if not blackjack or not body: return False
 
 	execute = False
+
 	for x in blackjack.split(','):
 		if all(i in body.lower() for i in x.split()):
 			execute = True
+
+	if SITE_NAME == 'rDrama' and 'discord' in body.lower() and kind == 'message':
+		execute = True
 
 	if not execute: return False
 
