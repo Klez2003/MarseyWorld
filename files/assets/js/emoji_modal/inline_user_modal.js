@@ -113,7 +113,7 @@ function populate_inline_user_modal(results, textbox)
 
 		user_option.addEventListener('click', () => {
 			close_inline_emoji_modal()
-			textbox.value = textbox.value.replace(new RegExp(current_word+"(?=\\s|$)", "gi"), `@${name}`)
+			textbox.value = textbox.value.replace(new RegExp(current_word+"(?=\\s|$)", "gi"), `@${name} `)
 			textbox.focus()
 			if (typeof markdown === "function" && textbox.dataset.preview) {
 				markdown(textbox)
