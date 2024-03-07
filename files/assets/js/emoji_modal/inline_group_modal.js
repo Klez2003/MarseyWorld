@@ -2,6 +2,8 @@ let groupSearchDictionaryState = "inactive";
 
 let globalGroups = [];
 
+const groupMAXXX = 50;
+
 const groupsSearchDictionary = {
 	array: [],
 
@@ -28,9 +30,11 @@ const groupsSearchDictionary = {
 		query = query.toLowerCase()
 		const result = new Set();
 
-		for (let i = 0; i < this.array.length; i++)
+		for (let i = 0; i < this.array.length; i++) {
+			if (result.size > groupMAXXX) break;
 			if (this.array[i].toLowerCase().includes(query))
 				result.add(this.array[i])
+		}
 
 		return result;
 	}
@@ -85,18 +89,17 @@ function populate_inline_group_modal(results, textbox)
 	if (!results || results.size === 0)
 	{
 		inline_carot_modal.style.display = "none";
-		return -1;
+		return;
 	}
 
 	group_index = 0;
 	inline_carot_modal.scrollTop = 0;
 	inline_carot_modal.innerHTML = "";
-	const MAXXX = 50;
 	// Not sure why the results is a Set... but oh well
 	let i = 0;
 	for (let name of results)
 	{
-		if (i++ > MAXXX) return i;
+		i++;
 		let group_option = document.createElement("div");
 		group_option.className = "inline-modal-option group-option " + (i === 1 ? "selected" : "");
 		group_option.tabIndex = 0;
@@ -118,5 +121,4 @@ function populate_inline_group_modal(results, textbox)
 	}
 	if (i === 0) inline_carot_modal.style.display = "none";
 	else inline_carot_modal.style.display = "initial";
-	return i;
 }
