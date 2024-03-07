@@ -143,6 +143,10 @@ def emoji_count():
 def group_count():
 	return g.db.query(Group).count()
 
+@cache.cached(make_cache_key=lambda:"user_count", timeout=86400)
+def user_count():
+	return g.db.query(User).count()
+
 def top_poster_of_the_day():
 	uid = cache.get("top_poster_of_the_day_id") or SNAPPY_ID
 	user = g.db.query(User).filter_by(id=uid).one()
@@ -188,7 +192,8 @@ def inject_constants():
 			"MAX_IMAGE_AUDIO_SIZE_MB":MAX_IMAGE_AUDIO_SIZE_MB, "MAX_IMAGE_AUDIO_SIZE_MB_PATRON":MAX_IMAGE_AUDIO_SIZE_MB_PATRON,
 			"MAX_VIDEO_SIZE_MB":MAX_VIDEO_SIZE_MB, "MAX_VIDEO_SIZE_MB_PATRON":MAX_VIDEO_SIZE_MB_PATRON,
 			"CURSORMARSEY_DEFAULT":CURSORMARSEY_DEFAULT, "SNAPPY_ID":SNAPPY_ID, "ZOZBOT_ID":ZOZBOT_ID, "get_running_orgy":get_running_orgy,
-			"bar_position":bar_position, "datetime":datetime, "CSS_LENGTH_LIMIT":CSS_LENGTH_LIMIT, "cache":cache, "emoji_count":emoji_count, "group_count":group_count, "HOLE_SIDEBAR_COLUMN_LENGTH":HOLE_SIDEBAR_COLUMN_LENGTH, "HOLE_SNAPPY_QUOTES_LENGTH":HOLE_SNAPPY_QUOTES_LENGTH,
+			"bar_position":bar_position, "datetime":datetime, "CSS_LENGTH_LIMIT":CSS_LENGTH_LIMIT, "cache":cache,
+			"emoji_count":emoji_count, "group_count":group_count, "user_count":user_count,
+			"HOLE_SIDEBAR_COLUMN_LENGTH":HOLE_SIDEBAR_COLUMN_LENGTH, "HOLE_SNAPPY_QUOTES_LENGTH":HOLE_SNAPPY_QUOTES_LENGTH,
 			"top_poster_of_the_day":top_poster_of_the_day,
-
 		}

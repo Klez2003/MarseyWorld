@@ -121,7 +121,7 @@ def get_emojis(nsfw):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def emojis(v):
+def emojis_csv(v):
 	show_nsfw = request.values.get('show_nsfw') == 'True'
 	return get_emojis(show_nsfw)
 
@@ -129,8 +129,15 @@ def emojis(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def groups(v):
+def groups_csv(v):
 	return [x[0] for x in g.db.query(Group.name).order_by(Group.name).all()]
+
+@app.get("/users.csv")
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
+@auth_required
+def users_csv(v):
+	return [x[0] for x in g.db.query(User.username).order_by(User.username).all()]
 
 @app.get('/sidebar')
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)

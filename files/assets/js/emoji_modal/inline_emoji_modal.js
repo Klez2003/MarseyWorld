@@ -133,7 +133,7 @@ function update_inline_emoji_modal(event)
 
 	// Get current word at string, such as ":marse" or "word"
 	let coords = text.indexOf(' ', box_coords.pos);
-	current_word = /(^|\s)([:!][!#a-zA-Z0-9_]+(?=\n|$))/.exec(text.slice(0, coords === -1 ? text.length : coords));
+	current_word = /(^|\s)([:!@][!#a-zA-Z0-9_]+(?=\n|$))/.exec(text.slice(0, coords === -1 ? text.length : coords));
 	if (current_word) current_word = current_word[2].toLowerCase();
 
 	if (current_word && curr_word_is_emoji() && current_word != ":")
@@ -174,6 +174,25 @@ function update_inline_emoji_modal(event)
 			populate_inline_group_modal(found, event.target);
 		});
 	}
+	else if (current_word && curr_word_is_user() && current_word != "@")
+	{
+		openUserSpeedModal().then( () => {
+			let modal_pos = event.target.getBoundingClientRect();
+			modal_pos.x += window.scrollX;
+			modal_pos.y += window.scrollY;
+
+			inline_carot_modal.style.display = "initial";
+			inline_carot_modal.style.left = box_coords.x - 30 + "px";
+			inline_carot_modal.style.top = modal_pos.y + box_coords.y + 14 + "px";
+
+			// Do the search (and do something with it)
+			const resultSet = usersSearchDictionary.completeSearch(current_word.substring(1));
+
+			const found = globalUsers.filter(i => resultSet.has(i.name));
+
+			populate_inline_user_modal(found, event.target);
+		});
+	}
 	else {
 		inline_carot_modal.style.display = "none";
 	}
@@ -184,7 +203,7 @@ function inline_carot_navigate(event)
 	if (!selecting) return;
 
 	let select_items = inline_carot_modal.querySelectorAll(".inline-modal-option");
-	if (!select_items || !(curr_word_is_emoji() || curr_word_is_group())) return;
+	if (!select_items || !(curr_word_is_emoji() || curr_word_is_group() || curr_word_is_user())) return;
 
 	const modal_keybinds = {
 		// go up one, wrapping around to the bottom if pressed at the top

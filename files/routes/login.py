@@ -356,6 +356,8 @@ def sign_up_post(v):
 
 	execute_blackjack(new_user, None, new_user.username, 'username')
 
+	cache.delete("user_count")
+
 	if redir and is_site_url(redir) and redir not in NO_LOGIN_REDIRECT_URLS:
 		return redirect(redir)
 	return redirect('/')
