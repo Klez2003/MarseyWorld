@@ -33,11 +33,6 @@ const emojisSearchDictionary = {
 			this.dict.splice(target, 0, new EmojisDictNode(tag, emojiName));
 	},
 
-	/**
-	 * We also check for substrings! (sigh)
-	 * @param {String} tag
-	 * @returns {Set}
-	 */
 	completeSearch: function(query) {
 		query = query.toLowerCase()
 		const result = new Set();

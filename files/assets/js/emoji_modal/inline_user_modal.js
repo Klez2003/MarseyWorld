@@ -24,11 +24,6 @@ const usersSearchDictionary = {
 		this.array.splice(target, 0, userName);
 	},
 
-	/**
-	 * We also check for substrings! (sigh)
-	 * @param {String} userName
-	 * @returns {Set}
-	 */
 	completeSearch: function(query) {
 		query = query.toLowerCase()
 		const result = new Set();

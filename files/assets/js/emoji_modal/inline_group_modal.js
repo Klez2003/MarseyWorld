@@ -24,11 +24,6 @@ const groupsSearchDictionary = {
 		this.array.splice(target, 0, groupName);
 	},
 
-	/**
-	 * We also check for substrings! (sigh)
-	 * @param {String} groupName
-	 * @returns {Set}
-	 */
 	completeSearch: function(query) {
 		query = query.toLowerCase()
 		const result = new Set();

@@ -174,10 +174,6 @@ function fetchEmojis() {
 		})
 }
 
-/**
-*
-* @param {Event} e
-*/
 function switchEmojiTab(e)
 {
 	const className = e.currentTarget.dataset.className;
@@ -221,10 +217,6 @@ async function start_search() {
 		classesSelectorDOM.children[i].children[0].classList.remove("active");
 }
 
-/**
-* Add the selected emoji to the targeted text area
-* @param {Event} event
-*/
 function emojiAddToInput(event)
 {
 	// This should not happen if used properly but whatever
