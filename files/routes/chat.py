@@ -313,6 +313,7 @@ def messagereply(v):
 							top_comment_id=parent.top_comment_id,
 							level=parent.level + 1,
 							sentto=sentto,
+							group_dm_ids=parent.group_dm_ids,
 							body=body,
 							body_html=body_html,
 							)
@@ -320,6 +321,14 @@ def messagereply(v):
 	g.db.flush()
 	execute_blackjack(v, c, c.body_html, 'chat')
 	execute_under_siege(v, c, c.body_html, 'chat')
+
+	if mention_regex.fullmatch(c.body):
+		uid = get_user(c.body[1:], attributes=[User.id]).id
+		if uid not in parent.group_dm_ids:
+			parent.group_dm_ids.append(uid)
+			g.db.add(parent)
+			for child in parent.child_comments:
+				child.group_dm_ids = parent.group_dm_ids
 
 	if user_id and user_id not in {v.id, MODMAIL_ID} | BOT_IDs:
 		if can_see(user, v):
@@ -340,7 +349,8 @@ def messagereply(v):
 			g.db.add(notif)
 	elif user_id and user_id not in {v.id, MODMAIL_ID} | BOT_IDs:
 		c.unread = True
-		rendered = render_template("comments.html", v=get_account(user_id), comments=[c])
-		emit('insert_reply', [parent.id, rendered], namespace='/', to=user_id)
+		for user_id in c.group_dm_ids[1:]:
+			rendered = render_template("comments.html", v=get_account(user_id), comments=[c])
+			emit('insert_reply', [parent.id, rendered], namespace='/', to=user_id)
 
 	return {"comment": render_template("comments.html", v=v, comments=[c])}

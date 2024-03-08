@@ -68,7 +68,7 @@ def notifications_messages(v):
 	# Notifications & Comments. It's worth it. Save yourself.
 	message_threads = g.db.query(Comment).filter(
 		Comment.sentto != None,
-		or_(Comment.author_id == v.id, Comment.sentto == v.id),
+		Comment.group_dm_ids.any(v.id),
 		Comment.parent_post == None,
 		Comment.level == 1,
 	)
@@ -78,7 +78,7 @@ def notifications_messages(v):
 		.distinct(Comment.top_comment_id) \
 		.filter(
 			Comment.sentto != None,
-			or_(Comment.author_id == v.id, Comment.sentto == v.id),
+			Comment.group_dm_ids.any(v.id),
 		).order_by(
 			Comment.top_comment_id.desc(),
 			Comment.created_utc.desc()
@@ -93,7 +93,8 @@ def notifications_messages(v):
 		notifs_unread_row = g.db.query(Notification.comment_id).join(Comment).filter(
 			Notification.user_id == v.id,
 			Notification.read == False,
-			or_(Comment.author_id == v.id, Comment.sentto == v.id),
+			Comment.sentto != None,
+			Comment.group_dm_ids.any(v.id),
 		).all()
 
 		notifs_unread = [n.comment_id for n in notifs_unread_row]

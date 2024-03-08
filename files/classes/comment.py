@@ -4,10 +4,11 @@ from urllib.parse import parse_qs, urlencode, urlparse, urlunparse, ParseResult
 from flask import g
 
 from sqlalchemy import Column, ForeignKey
-from sqlalchemy.dialects.postgresql import TSVECTOR
+from sqlalchemy.dialects.postgresql import TSVECTOR, ARRAY
 from sqlalchemy.orm import relationship
 from sqlalchemy.schema import FetchedValue
 from sqlalchemy.sql.sqltypes import *
+from sqlalchemy.ext.mutable import MutableList
 
 from files.classes import Base
 from files.helpers.config.const import *
@@ -199,6 +200,7 @@ class Comment(Base):
 	pinned_utc = Column(Integer)
 	num_of_pinned_children = Column(Integer, default=0)
 	sentto = Column(Integer, ForeignKey("users.id"))
+	group_dm_ids = Column(MutableList.as_mutable(ARRAY(Integer)))
 	app_id = Column(Integer, ForeignKey("oauth_apps.id"))
 	upvotes = Column(Integer, default=1)
 	downvotes = Column(Integer, default=0)
@@ -226,7 +228,8 @@ class Comment(Base):
 	post = relationship("Post", back_populates="comments")
 	author = relationship("User", primaryjoin="User.id==Comment.author_id")
 	senttouser = relationship("User", primaryjoin="User.id==Comment.sentto")
-	parent_comment = relationship("Comment", remote_side=[id])
+	parent_comment = relationship("Comment", remote_side=[id], back_populates="child_comments")
+	child_comments = relationship("Comment", remote_side=[parent_comment_id], back_populates="parent_comment")
 	awards = relationship("AwardRelationship", order_by="AwardRelationship.awarded_utc.desc()", back_populates="comment")
 	reports = relationship("CommentReport", order_by="CommentReport.created_utc")
 	options = relationship("CommentOption", order_by="CommentOption.id")
@@ -237,6 +240,10 @@ class Comment(Base):
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs:
 			kwargs["created_utc"] = int(time.time())
+
+		if "sentto" in kwargs and "group_dm_ids" not in kwargs:
+			kwargs["group_dm_ids"] = [kwargs["author_id"], kwargs["sentto"]]
+
 		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
