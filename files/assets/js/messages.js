@@ -5,8 +5,8 @@ socket.on('insert_reply', function(data) {
 	if (replies) {
 		replies.insertAdjacentHTML('beforeend', data[1]);
 
-		register_new_elements(replies);
-		bs_trigger(replies);
+		register_new_elements(replies.lastElementChild);
+		bs_trigger(replies.lastElementChild);
 
 		notifs = notifs + 1;
 		if (notifs == 1) {
