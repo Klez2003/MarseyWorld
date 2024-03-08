@@ -125,8 +125,8 @@
 	{% endif %}
 
 	{% if p.edited_utc %}
-		{% if v and (v.id == p.author_id or v.admin_level >= PERMS['VIEW_EDITS']) %}
-			<a href="/edits/{{p.fullname}}" class="ml-2 d-inline-block">Edited <span data-bs-toggle="tooltip" data-bs-placement="bottom" id="edited_timestamp-{{p.id}}" data-nonce="{{g.nonce}}" data-onmouseover="timestamp(this, '{{p.edited_utc}}')">{{p.edited_string}}</span></a>
+		{% if v and (v.id == p.author_id or v.admin_level >= PERMS['VIEW_OLD_VERSIONS']) %}
+			<a href="/old_versions/{{p.fullname}}" class="ml-2 d-inline-block">Edited <span data-bs-toggle="tooltip" data-bs-placement="bottom" id="edited_timestamp-{{p.id}}" data-nonce="{{g.nonce}}" data-onmouseover="timestamp(this, '{{p.edited_utc}}')">{{p.edited_string}}</span></a>
 		{% else %}
 			<span class="ml-2 d-inline-block">Edited <span data-bs-toggle="tooltip" data-bs-placement="bottom" id="edited_timestamp-{{p.id}}" data-nonce="{{g.nonce}}" data-onmouseover="timestamp(this, '{{p.edited_utc}}')">{{p.edited_string}}</span></span>
 		{% endif %}

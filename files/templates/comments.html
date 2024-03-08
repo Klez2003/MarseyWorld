@@ -233,8 +233,8 @@
 
 							<a class="vertical-align ml-1" href="{{c.permalink}}">#{{c.id}}</a>
 
-							{% if c.edited_utc and v and (v.id == c.author_id or v.admin_level >= PERMS['VIEW_EDITS']) %}
-								<a href="/edits/{{c.fullname}}" class="font-italic" data-nonce="{{g.nonce}}" data-bs-toggle="tooltip" data-bs-placement="bottom" data-onmouseover="timestamp(this, '{{c.edited_utc}}')">
+							{% if c.edited_utc and v and (v.id == c.author_id or v.admin_level >= PERMS['VIEW_OLD_VERSIONS']) %}
+								<a href="/old_versions/{{c.fullname}}" class="font-italic" data-nonce="{{g.nonce}}" data-bs-toggle="tooltip" data-bs-placement="bottom" data-onmouseover="timestamp(this, '{{c.edited_utc}}')">
 									&nbsp; Edited <span id="comment-edited_string-{{c.id}}">{{c.edited_string}}</span>
 								</a>
 							{% else %}
