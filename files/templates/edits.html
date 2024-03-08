@@ -13,6 +13,13 @@
 				</tr>
 			</thead>
 
+			<tr>
+				{% if obj.fullname.startswith('p_') %}
+					<td>{{obj.title_html | safe}}</td>
+				{% endif %}
+				<td>{{obj.body_html | safe}}</td>
+			</tr>
+
 			{% for edit in obj.edits %}
 				<tr>
 					{% if obj.fullname.startswith('p_') %}
