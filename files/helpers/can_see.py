@@ -42,7 +42,7 @@ def can_see(user, obj):
 					if obj.sentto == MODMAIL_ID:
 						if obj.top_comment.author_id == user.id: return True
 						return user.admin_level >= PERMS['VIEW_MODMAIL']
-					if user.id not in obj.group_dm_ids:
+					if obj.group_dm_ids and user.id not in obj.group_dm_ids:
 						return user.admin_level >= PERMS['BLACKJACK_NOTIFICATIONS']
 	elif isinstance(obj, Hole):
 		if obj.name == 'chudrama': return bool(user) and user.can_see_chudrama
