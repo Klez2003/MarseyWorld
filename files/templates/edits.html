@@ -1,7 +1,7 @@
 {% extends "default.html" %}
-{% block pagetitle %}Edits of {{obj.shortlink}}{% endblock %}
+{% block pagetitle %}Versions of /{% if obj.fullname.startswith('p_') %}post{% else %}comment{% endif %}/{{obj.id}}{% endblock %}
 {% block content %}
-	<h2>Edits of {{obj.textlink | safe}}</h2>
+	<h2 class="my-4 py-md-2">Versions of <a href="{{obj.permalink}}">/{% if obj.fullname.startswith('p_') %}post{% else %}comment{% endif %}/{{obj.id}}</h2>
 	<div class="overflow-x-auto">
 		<table>
 			<thead>
