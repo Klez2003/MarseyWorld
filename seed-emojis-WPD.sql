@@ -355,6 +355,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseynice', 'Marsey', 2, 'neat cool hot great ok okay sunglasses thumbsup', false, 1706975869),
 ('marseynickit', 'Marsey', 2, 'pokemon pkmn 827', false, 1699740249),
 ('marseynittanylionmascot', 'Marsey', 2, 'university ncaa sports', false, 1700968351),
+('marseynominers', 'Marsey', 2, 'minor underage tiktok discord', false, 1709849946),
 ('marseynosebleed', 'Marsey', 2, 'injured', false, 1700760832),
 ('marseynosebleed2', 'Marsey', 2, 'injured horny weeb anime', false, 1700760876),
 ('marseynugget', 'Marsey', 2, 'smile happy', false, 1706622239),
