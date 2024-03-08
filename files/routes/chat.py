@@ -322,8 +322,8 @@ def messagereply(v):
 	execute_blackjack(v, c, c.body_html, 'chat')
 	execute_under_siege(v, c, c.body_html, 'chat')
 
-	if mention_regex.fullmatch(c.body):
-		uid = get_user(c.body[1:], attributes=[User.id]).id
+	if dm_adding_regex.fullmatch(c.body):
+		uid = get_user(c.body[2:], attributes=[User.id]).id
 		if uid not in parent.group_dm_ids:
 			parent.group_dm_ids.append(uid)
 			g.db.add(parent)
