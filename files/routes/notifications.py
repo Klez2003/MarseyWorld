@@ -68,7 +68,7 @@ def notifications_messages(v):
 	# Notifications & Comments. It's worth it. Save yourself.
 	message_threads = g.db.query(Comment).filter(
 		Comment.sentto != None,
-		Comment.group_dm_ids.any(v.id),
+		or_(Comment.author_id == v.id, Comment.sentto == v.id),
 		Comment.parent_post == None,
 		Comment.level == 1,
 	)
@@ -78,7 +78,7 @@ def notifications_messages(v):
 		.distinct(Comment.top_comment_id) \
 		.filter(
 			Comment.sentto != None,
-			Comment.group_dm_ids.any(v.id),
+			or_(Comment.author_id == v.id, Comment.sentto == v.id),
 		).order_by(
 			Comment.top_comment_id.desc(),
 			Comment.created_utc.desc()
@@ -93,8 +93,7 @@ def notifications_messages(v):
 		notifs_unread_row = g.db.query(Notification.comment_id).join(Comment).filter(
 			Notification.user_id == v.id,
 			Notification.read == False,
-			Comment.sentto != None,
-			Comment.group_dm_ids.any(v.id),
+			or_(Comment.author_id == v.id, Comment.sentto == v.id),
 		).all()
 
 		notifs_unread = [n.comment_id for n in notifs_unread_row]
@@ -332,7 +331,7 @@ def notifications(v):
 
 	comments = g.db.query(Comment, Notification).options(load_only(Comment.id)).join(Notification.comment).filter(
 		Notification.user_id == v.id,
-		or_(Comment.sentto == None, Comment.sentto == MODMAIL_ID),
+		or_(Comment.sentto == None, Comment.sentto != v.id),
 	)
 
 	if v.admin_level < PERMS['USER_SHADOWBAN']:

@@ -832,7 +832,7 @@ class User(Base):
 					Notification.user_id == self.id,
 					Notification.read == False,
 					Comment.sentto != None,
-					Comment.group_dm_ids.any(self.id),
+					or_(Comment.author_id==self.id, Comment.sentto==self.id),
 					Comment.parent_post == None,
 				)
 

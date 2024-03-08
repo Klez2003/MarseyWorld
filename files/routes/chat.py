@@ -313,7 +313,6 @@ def messagereply(v):
 							top_comment_id=parent.top_comment_id,
 							level=parent.level + 1,
 							sentto=sentto,
-							group_dm_ids=parent.group_dm_ids,
 							body=body,
 							body_html=body_html,
 							)
@@ -322,22 +321,12 @@ def messagereply(v):
 	execute_blackjack(v, c, c.body_html, 'chat')
 	execute_under_siege(v, c, c.body_html, 'chat')
 
-	if dm_adding_regex.fullmatch(c.body):
-		uid = get_user(c.body[2:], attributes=[User.id]).id
-		if uid not in parent.group_dm_ids:
-			parent.group_dm_ids.append(uid)
-			g.db.add(parent)
-			for child in parent.child_comments:
-				child.group_dm_ids = parent.group_dm_ids
-
 	if user_id and user_id not in {v.id, MODMAIL_ID} | BOT_IDs:
 		if can_see(user, v):
-			for user_id in c.group_dm_ids:
-				if user_id == v.id: continue
-				notif = g.db.query(Notification).filter_by(comment_id=c.id, user_id=user_id).one_or_none()
-				if not notif:
-					notif = Notification(comment_id=c.id, user_id=user_id)
-					g.db.add(notif)
+			notif = g.db.query(Notification).filter_by(comment_id=c.id, user_id=user_id).one_or_none()
+			if not notif:
+				notif = Notification(comment_id=c.id, user_id=user_id)
+				g.db.add(notif)
 
 		title = f'New message from @{c.author_name}'
 		url = f'{SITE_FULL}/notifications/messages'
@@ -351,9 +340,7 @@ def messagereply(v):
 			g.db.add(notif)
 	elif user_id and user_id not in {v.id, MODMAIL_ID} | BOT_IDs:
 		c.unread = True
-		for user_id in c.group_dm_ids:
-			if user_id == v.id: continue
-			rendered = render_template("comments.html", v=get_account(user_id), comments=[c])
-			emit('insert_reply', [parent.id, rendered], namespace='/', to=user_id)
+		rendered = render_template("comments.html", v=get_account(user_id), comments=[c])
+		emit('insert_reply', [parent.id, rendered], namespace='/', to=user_id)
 
 	return {"comment": render_template("comments.html", v=v, comments=[c])}
