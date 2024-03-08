@@ -2235,12 +2235,15 @@ def unmark_effortpost(pid, v):
 @app.get("/edits/<link>")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
-@admin_level_required(PERMS['VIEW_EDITS'])
+@auth_required
 def view_edits(v, link):
 	try:
 		if "p_" in link: obj = get_post(int(link.split("p_")[1]), v=v)
 		elif "c_" in link: obj = get_comment(int(link.split("c_")[1]), v=v)
 		else: abort(400)
 	except: abort(400)
+
+	if v.id != obj.author_id and v.admin_level < PERMS['VIEW_EDITS']:
+		abort(403, "You can't view other people's edits!")
 
 	return render_template("edits.html", v=v, obj=obj)
