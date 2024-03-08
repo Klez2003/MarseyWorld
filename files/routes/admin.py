@@ -2246,4 +2246,4 @@ def VIEW_VERSIONs(v, link):
 	if v.id != obj.author_id and v.admin_level < PERMS['VIEW_VERSIONS']:
 		abort(403, "You can't view other people's edits!")
 
-	return render_template("edits.html", v=v, obj=obj)
+	return render_template("versions.html", v=v, obj=obj)
