@@ -332,7 +332,7 @@ def notifications(v):
 
 	comments = g.db.query(Comment, Notification).options(load_only(Comment.id)).join(Notification.comment).filter(
 		Notification.user_id == v.id,
-		or_(Comment.sentto == None, Comment.sentto != v.id),
+		or_(Comment.sentto == None, Comment.sentto == MODMAIL_ID),
 	)
 
 	if v.admin_level < PERMS['USER_SHADOWBAN']:
