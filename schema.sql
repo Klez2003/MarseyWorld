@@ -392,6 +392,39 @@ CREATE TABLE public.client_auths (
 
 
 --
+-- Name: comment_edits; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.comment_edits (
+    id integer NOT NULL,
+    comment_id integer NOT NULL,
+    old_body character varying(100000),
+    old_body_html character varying(200000),
+    created_utc integer NOT NULL
+);
+
+
+--
+-- Name: comment_edits_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.comment_edits_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: comment_edits_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.comment_edits_id_seq OWNED BY public.comment_edits.id;
+
+
+--
 -- Name: comment_option_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -896,6 +929,41 @@ CREATE TABLE public.orgies (
 
 
 --
+-- Name: post_edits; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.post_edits (
+    id integer NOT NULL,
+    post_id integer NOT NULL,
+    old_title character varying(500),
+    old_title_html character varying(1500),
+    old_body character varying(100000),
+    old_body_html character varying(200000),
+    created_utc integer NOT NULL
+);
+
+
+--
+-- Name: post_edits_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.post_edits_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: post_edits_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.post_edits_id_seq OWNED BY public.post_edits.id;
+
+
+--
 -- Name: posts; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1192,6 +1260,13 @@ ALTER TABLE ONLY public.casino_games ALTER COLUMN id SET DEFAULT nextval('public
 
 
 --
+-- Name: comment_edits id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.comment_edits ALTER COLUMN id SET DEFAULT nextval('public.comment_edits_id_seq'::regclass);
+
+
+--
 -- Name: comments id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1238,6 +1313,13 @@ ALTER TABLE ONLY public.modactions ALTER COLUMN id SET DEFAULT nextval('public.m
 --
 
 ALTER TABLE ONLY public.oauth_apps ALTER COLUMN id SET DEFAULT nextval('public.oauth_apps_id_seq'::regclass);
+
+
+--
+-- Name: post_edits id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.post_edits ALTER COLUMN id SET DEFAULT nextval('public.post_edits_id_seq'::regclass);
 
 
 --
@@ -1324,6 +1406,14 @@ ALTER TABLE ONLY public.casino_games
 
 ALTER TABLE ONLY public.client_auths
     ADD CONSTRAINT client_auths_pkey PRIMARY KEY (user_id, oauth_client);
+
+
+--
+-- Name: comment_edits comment_edits_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.comment_edits
+    ADD CONSTRAINT comment_edits_pkey PRIMARY KEY (id);
 
 
 --
@@ -1516,6 +1606,14 @@ ALTER TABLE ONLY public.users
 
 ALTER TABLE ONLY public.orgies
     ADD CONSTRAINT orgies_pkey PRIMARY KEY (created_utc);
+
+
+--
+-- Name: post_edits post_edits_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.post_edits
+    ADD CONSTRAINT post_edits_pkey PRIMARY KEY (id);
 
 
 --
@@ -2596,6 +2694,14 @@ ALTER TABLE ONLY public.comments
 
 
 --
+-- Name: comment_edits comment_edits_comment_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.comment_edits
+    ADD CONSTRAINT comment_edits_comment_fkey FOREIGN KEY (comment_id) REFERENCES public.comments(id);
+
+
+--
 -- Name: comments comment_parent_comment_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2913,6 +3019,14 @@ ALTER TABLE ONLY public.posts
 
 ALTER TABLE ONLY public.posts
     ADD CONSTRAINT post_author_fkey FOREIGN KEY (author_id) REFERENCES public.users(id);
+
+
+--
+-- Name: post_edits post_edits_post_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.post_edits
+    ADD CONSTRAINT post_edits_post_fkey FOREIGN KEY (post_id) REFERENCES public.posts(id);
 
 
 --
