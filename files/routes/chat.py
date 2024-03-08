@@ -332,10 +332,11 @@ def messagereply(v):
 
 	if user_id and user_id not in {v.id, MODMAIL_ID} | BOT_IDs:
 		if can_see(user, v):
-			notif = g.db.query(Notification).filter_by(comment_id=c.id, user_id=user_id).one_or_none()
-			if not notif:
-				notif = Notification(comment_id=c.id, user_id=user_id)
-				g.db.add(notif)
+			for user_id in c.group_dm_ids[1:]:
+				notif = g.db.query(Notification).filter_by(comment_id=c.id, user_id=user_id).one_or_none()
+				if not notif:
+					notif = Notification(comment_id=c.id, user_id=user_id)
+					g.db.add(notif)
 
 		title = f'New message from @{c.author_name}'
 		url = f'{SITE_FULL}/notifications/messages'
