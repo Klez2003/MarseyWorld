@@ -332,7 +332,8 @@ def messagereply(v):
 
 	if user_id and user_id not in {v.id, MODMAIL_ID} | BOT_IDs:
 		if can_see(user, v):
-			for user_id in c.group_dm_ids[1:]:
+			for user_id in c.group_dm_ids:
+				if user_id == v.id: continue
 				notif = g.db.query(Notification).filter_by(comment_id=c.id, user_id=user_id).one_or_none()
 				if not notif:
 					notif = Notification(comment_id=c.id, user_id=user_id)
@@ -350,7 +351,8 @@ def messagereply(v):
 			g.db.add(notif)
 	elif user_id and user_id not in {v.id, MODMAIL_ID} | BOT_IDs:
 		c.unread = True
-		for user_id in c.group_dm_ids[1:]:
+		for user_id in c.group_dm_ids:
+			if user_id == v.id: continue
 			rendered = render_template("comments.html", v=get_account(user_id), comments=[c])
 			emit('insert_reply', [parent.id, rendered], namespace='/', to=user_id)
 
