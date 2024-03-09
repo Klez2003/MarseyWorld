@@ -394,7 +394,7 @@ def create_sub2(v):
 		abort(400, "Name does not match the required format!")
 
 	charge_reason = f'Cost of creating <a href="/h/{name}">/h/{name}</a>'
-	if not v.charge_account('coins/marseybux', HOLE_COST, charge_reason)[0]:
+	if not v.charge_account('coins/marseybux', HOLE_COST, charge_reason):
 		abort(400, "You don't have enough coins or marseybux!")
 
 	hole = get_hole(name, graceful=True)

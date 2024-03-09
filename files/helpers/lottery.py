@@ -113,7 +113,7 @@ def purchase_lottery_tickets(v, quantity=1):
 	if quantity > 1:
 		charge_reason += 's'
 
-	if not v.charge_account('coins', LOTTERY_TICKET_COST * quantity, charge_reason)[0]:
+	if not v.charge_account('coins', LOTTERY_TICKET_COST * quantity, charge_reason):
 		return False, "You don't have enough coins"
 
 	v.currently_held_lottery_tickets += quantity

@@ -36,7 +36,7 @@ def create_group(v):
 		abort(400, "This group already exists!")
 
 	charge_reason = f'Cost of creating <a href="/!{name}">!{name}</a>'
-	if not v.charge_account('coins/marseybux', GROUP_COST, charge_reason)[0]:
+	if not v.charge_account('coins/marseybux', GROUP_COST, charge_reason):
 		abort(403, "You don't have enough coins or marseybux!")
 
 	g.db.add(v)
