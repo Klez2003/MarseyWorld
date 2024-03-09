@@ -329,7 +329,7 @@ a {
 	text-decoration: none;
 	background-color: transparent;
 }
-a:hover, a:hover span {
+a:hover, a:hover .linked_timestamp {
 	color: var(--primary);
 	text-decoration: underline;
 }
