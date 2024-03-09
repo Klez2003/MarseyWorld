@@ -86,8 +86,6 @@ def speak(data, v):
 	if not v.allowed_in_chat:
 		return '', 403
 
-	execute_under_siege(v, None, text, "chat")
-
 	image = None
 	if data['file']:
 		name = f'/chat_images/{time.time()}'.replace('.','') + '.webp'
@@ -104,6 +102,8 @@ def speak(data, v):
 	text_html = sanitize(text, count_emojis=True, chat=True)
 	if isinstance(text_html , tuple):
 		return text_html
+
+	execute_under_siege(v, None, text, "chat")
 
 	quotes = data['quotes']
 	id = secrets.token_urlsafe(5)
