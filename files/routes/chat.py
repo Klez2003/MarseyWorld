@@ -83,15 +83,15 @@ def chat(v):
 @socketio.on('speak')
 @is_not_banned_socketio
 def speak(data, v):
+	if not v.allowed_in_chat:
+		return '', 403
+
 	image = None
 	if data['file']:
 		name = f'/chat_images/{time.time()}'.replace('.','') + '.webp'
 		with open(name, 'wb') as f:
 			f.write(data['file'])
 		image = process_image(name, v)
-
-	if not v.allowed_in_chat:
-		return '', 403
 
 	global messages
 
@@ -188,6 +188,9 @@ def connect(v):
 	if request.referrer == f'{SITE_FULL}/notifications/messages':
 		join_room(v.id)
 		return ''
+	elif request.referrer.startswith(f'{SITE_FULL}/chat/'):
+		join_room(request.referrer)
+		return ''
 
 	join_room("chat")
 
@@ -202,6 +205,9 @@ def connect(v):
 def disconnect(v):
 	if request.referrer == f'{SITE_FULL}/notifications/messages':
 		leave_room(v.id)
+		return ''
+	elif request.referrer.startswith(f'{SITE_FULL}/chat/'):
+		leave_room(request.referrer)
 		return ''
 
 	online.pop(v.id, None)
