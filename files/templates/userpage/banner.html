@@ -584,7 +584,7 @@
 						<p id="profile-mobile--info--casino-winnings">Casino winnings: {{u.winnings|commas}}</p>
 						<p id="profile-mobile--info--lottery-winnings">Lottery winnings: {{u.total_lottery_winnings|commas}}</p>
 						<p id="profile-mobile--info--hats-owned" {% if u.num_of_owned_hats >= hats_total %}class="profile-owned-all-hats"{% endif %}>{{u.num_of_owned_hats}} / {{hats_total}} hats owned ({{hats_owned_percent}})</p>
-						<p id="profile-mobile--info--spent">Currency spent on awards: {{u.currency_spent_on_award|commass}}</p>
+						<p id="profile-mobile--info--spent">Currency spent on awards: {{u.currency_spent_on_award|commas}}</p>
 						<p id="profile-mobile--info--spent">Currency spent on hats: {{u.currency_spent_on_hats|commas}}</p>
 
 						<p id="profile-mobile--info--effortposts">
