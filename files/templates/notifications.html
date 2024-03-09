@@ -8,44 +8,44 @@
 {% block content %}
 	<div class="row border-bottom w-200 pr-0" style="overflow: visible">
 		<div class="col p-0 w-100">
-		<ul class="nav settings-nav" style="padding:0 0 0 20px" id="notifications--nav-list">
-		<li class="nav-item">
-			<a class="nav-link py-3{% if request.path == '/notifications' or request.path.startswith('/notification/') %} active{% endif %}" href="/notifications">
-			All {% if v.normal_notifications_count %}<span class="font-weight-bold" style="color:#dc3545">({{v.normal_notifications_count}})</span>{% endif %}
-			</a>
-		</li>
-		<li class="nav-item">
-			<a class="nav-link py-3{% if request.path == '/notifications/messages' %} active{% endif %}" href="/notifications/messages">
-			Messages {% if v.message_notifications_count %}<span class="font-weight-bold" style="color:#d8910d">({{v.message_notifications_count}})</span>{% endif %}
-			</a>
-		</li>
-		{% if v.admin_level >= PERMS['VIEW_MODMAIL'] %}
-			<li class="nav-item">
-				<a class="nav-link py-3{% if request.path == '/notifications/modmail' %} active{% endif %}" href="/notifications/modmail">
-				Modmail {% if v.modmail_notifications_count %}<span class="font-weight-bold" style="color:#f15387">({{v.modmail_notifications_count}})</span>{% endif %}
-				</a>
-			</li>
-		{% endif %}
-		<li class="nav-item">
-			<a class="nav-link py-3{% if request.path == '/notifications/posts' %} active{% endif %}" href="/notifications/posts">
-			Posts {% if v.post_notifications_count %}<span class="font-weight-bold" style="color:#0000ff">({{v.post_notifications_count}})</span>{% endif %}
-			</a>
-		</li>
-		{% if v.admin_level >= PERMS['NOTIFICATIONS_MODERATOR_ACTIONS'] or v.moderated_holes %}
-			<li class="nav-item">
-				<a class="nav-link py-3{% if request.path == '/notifications/modactions' %} active{% endif %}" href="/notifications/modactions">
-				Modactions {% if v.modaction_notifications_count %}<span class="font-weight-bold" style="color:#1ad80d">({{v.modaction_notifications_count}})</span>{% endif %}
-				</a>
-			</li>
-		{% endif %}
-		{% if v.offsite_mentions != None %}
-			<li class="nav-item">
-				<a class="nav-link py-3{% if request.path == '/notifications/offsite' %} active{% endif %}" href="/notifications/offsite">
-				Offsite {% if v.offsite_notifications_count %}<span class="font-weight-bold" style="color:#805ad5">({{v.offsite_notifications_count}})</span>{% endif %}
-				</a>
-			</li>
-		{% endif %}
-		</ul>
+			<ul class="nav settings-nav" style="padding:0 0 0 20px" id="notifications--nav-list">
+				<li class="nav-item">
+					<a class="nav-link py-3{% if request.path == '/notifications' or request.path.startswith('/notification/') %} active{% endif %}" href="/notifications">
+					All {% if v.normal_notifications_count %}<span class="font-weight-bold" style="color:#dc3545">({{v.normal_notifications_count}})</span>{% endif %}
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link py-3{% if request.path == '/notifications/messages' %} active{% endif %}" href="/notifications/messages">
+					Messages {% if v.message_notifications_count %}<span class="font-weight-bold" style="color:#d8910d">({{v.message_notifications_count}})</span>{% endif %}
+					</a>
+				</li>
+				{% if v.admin_level >= PERMS['VIEW_MODMAIL'] %}
+					<li class="nav-item">
+						<a class="nav-link py-3{% if request.path == '/notifications/modmail' %} active{% endif %}" href="/notifications/modmail">
+						Modmail {% if v.modmail_notifications_count %}<span class="font-weight-bold" style="color:#f15387">({{v.modmail_notifications_count}})</span>{% endif %}
+						</a>
+					</li>
+				{% endif %}
+				<li class="nav-item">
+					<a class="nav-link py-3{% if request.path == '/notifications/posts' %} active{% endif %}" href="/notifications/posts">
+					Posts {% if v.post_notifications_count %}<span class="font-weight-bold" style="color:#0000ff">({{v.post_notifications_count}})</span>{% endif %}
+					</a>
+				</li>
+				{% if v.admin_level >= PERMS['NOTIFICATIONS_MODERATOR_ACTIONS'] or v.moderated_holes %}
+					<li class="nav-item">
+						<a class="nav-link py-3{% if request.path == '/notifications/modactions' %} active{% endif %}" href="/notifications/modactions">
+						Modactions {% if v.modaction_notifications_count %}<span class="font-weight-bold" style="color:#1ad80d">({{v.modaction_notifications_count}})</span>{% endif %}
+						</a>
+					</li>
+				{% endif %}
+				{% if v.offsite_mentions != None %}
+					<li class="nav-item">
+						<a class="nav-link py-3{% if request.path == '/notifications/offsite' %} active{% endif %}" href="/notifications/offsite">
+						Offsite {% if v.offsite_notifications_count %}<span class="font-weight-bold" style="color:#805ad5">({{v.offsite_notifications_count}})</span>{% endif %}
+						</a>
+					</li>
+				{% endif %}
+			</ul>
 		</div>
 	</div>
 
