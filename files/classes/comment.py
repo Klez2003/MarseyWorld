@@ -34,9 +34,6 @@ def get_award_classes(obj, v, title=False):
 		classes.append("text-uppercase")
 		if not title: classes.append(f"chud-img chud-{obj.id_last_num}")
 
-	if obj.sharpened:
-		if not title: classes.append(f"chud-img sharpen-{obj.id_last_num}")
-
 	if not (v and v.poor):
 		if obj.author.bite:
 			classes.append('author-bitten')
@@ -50,6 +47,7 @@ def get_award_classes(obj, v, title=False):
 			classes.append("queen")
 		if obj.sharpened:
 			classes.append(f"sharpen")
+			if not title: classes.append(f"chud-img sharpen-{obj.id_last_num}")
 
 		if IS_HOMOWEEN():
 			if obj.award_count('ectoplasm', v):
