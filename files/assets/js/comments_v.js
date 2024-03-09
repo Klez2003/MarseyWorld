@@ -51,10 +51,12 @@ function getSelectionTextHtml() {
 	return html;
 }
 
+let old_text
 function toggleReplyBox(t, id) {
 	const element = document.getElementById(id);
 	const ta = element.getElementsByTagName('textarea')[0]
 	element.classList.remove('d-none')
+	old_text = ta.value;
 
 	let text = getSelection().toString().trim()
 	if (text)
@@ -82,7 +84,6 @@ function toggleReplyBox(t, id) {
 	t.innerHTML = newHTML
 }
 
-let old_text
 function toggleEdit(id){
 	const comment = document.getElementById("comment-text-"+id);
 	const form = document.getElementById("comment-edit-"+id);
@@ -365,7 +366,11 @@ function restore_reply_buttons(fullname) {
 }
 
 function cancel(fullname) {
-	document.getElementById(`reply-to-${fullname}`).classList.add('d-none')
+	const element = document.getElementById(`reply-to-${fullname}`);
+	const ta = element.getElementsByTagName('textarea')[0]
+	element.classList.add('d-none')
+	ta.value = old_text;
+
 	remove_dialog();
 	restore_reply_buttons(fullname)
 	close_inline_emoji_modal();
