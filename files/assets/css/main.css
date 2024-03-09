@@ -7641,7 +7641,11 @@ blink {
 
 .pinned-to-profile + div + input + :not(.pinned-to-profile) {
 	border-top: 2px solid var(--primary) !important;
-	margin-top: 0.5rem;
+	margin-top: 3rem;
+}
+
+.pinned-to-profile + div + input + :not(.pinned-to-profile) > div.d-flex {
+	margin-top: 3rem;
 }
 
 details {
