@@ -7648,6 +7648,12 @@ blink {
 	margin-top: 3rem;
 }
 
+.admin-note + div + :not(.admin-note) {
+	border-top: 2px solid var(--primary) !important;
+    margin-top: 4rem !important;
+    margin-bottom: 4rem !important;
+}
+
 details {
     margin-bottom: 1rem;
 }

@@ -61,7 +61,7 @@
 			{% endif %}
 
 			{% if standalone and level == 1 %}
-				<div id="post-info-{{c.id}}" class="post-info mb-1 mr-2 {% if request.path.startswith('/notifications') %}mt-5{% elif request.path == '/search/messages' %}mt-6{% else %}mt-3{% endif %}">
+				<div id="post-info-{{c.id}}" class="{% if c.admin_note %}admin-note{% endif %} post-info mb-1 mr-2 {% if request.path.startswith('/notifications') %}mt-5{% elif request.path == '/search/messages' %}mt-6{% else %}mt-3{% endif %}">
 					{% if c.parent_post and c.post.nsfw %}
 						<span class="badge badge-danger text-small-extra mr-1">NSFW</span>
 					{% endif %}
