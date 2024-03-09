@@ -60,14 +60,16 @@
 							</div>
 						</a>
 						<div class="d-flex align-items-center">
-							<span class="rounded">
-								<div class="profile-pic-35-wrapper">
-									<img loading="lazy" src="{{ma.user.profile_url}}" alt="avatar" class="profile-pic-35">
-									{% if ma.user.hat_active(v)[0] -%}
-										<img id="profile-pic-35-hat" class="profile-pic-35-hat hat" loading="lazy" src="{{ma.user.hat_active(v)[0]}}?x=8" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{ma.user.hat_active(v)[1]}}">
-									{%- endif %}
-								</div>
-							</span>
+							<a href="{% if hole %}/h/{{hole}}{% endif %}/log?{{single_user_url}}={{ma.user.username}}{% if type %}&kind={{type}}{% endif %}">
+								<span class="rounded">
+									<div class="profile-pic-35-wrapper">
+										<img loading="lazy" src="{{ma.user.profile_url}}" alt="avatar" class="profile-pic-35">
+										{% if ma.user.hat_active(v)[0] -%}
+											<img id="profile-pic-35-hat" class="profile-pic-35-hat hat" loading="lazy" src="{{ma.user.hat_active(v)[0]}}?x=8" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{ma.user.hat_active(v)[1]}}">
+										{%- endif %}
+									</div>
+								</span>
+							</a>
 							<div class="text-muted pl-3">
 								<div>
 									<a href="{{ma.user.url}}" class="font-weight-bold text-black" target="_self">@{{ma.user.username}}</a>
