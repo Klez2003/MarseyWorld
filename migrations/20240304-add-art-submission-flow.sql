@@ -20,7 +20,7 @@ ALTER SEQUENCE public.art_submissions_id_seq OWNED BY public.art_submissions.id;
 ALTER TABLE ONLY public.art_submissions ALTER COLUMN id SET DEFAULT nextval('public.art_submissions_id_seq'::regclass);
 
 rdrama:
-    SELECT pg_catalog.setval('public.art_submissions_id_seq', 1720, true);
+    SELECT pg_catalog.setval('public.art_submissions_id_seq', 1718, true);
 
 wpd:
     SELECT pg_catalog.setval('public.art_submissions_id_seq', 199, true);
