@@ -329,7 +329,7 @@ a {
 	text-decoration: none;
 	background-color: transparent;
 }
-a:hover {
+a:hover, a:hover span {
 	color: var(--primary);
 	text-decoration: underline;
 }
