@@ -8,3 +8,4 @@ update badge_defs set description='Spent 10,000 currency on awards' where id=69;
 update badge_defs set description='Spent 100,000 currency on awards' where id=70;
 update badge_defs set description='Spent 250,000 currency on awards' where id=71;
 update badge_defs set description='Spent 500,000 currency on awards' where id=72;
+update badge_defs set description='Spent a fucking million currency on awards' where id=73;
