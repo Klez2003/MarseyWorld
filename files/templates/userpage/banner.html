@@ -266,22 +266,22 @@
 
 						<div class="mt-3" id="profile--info">
 							<p id="profile--info--id">User ID: {{u.id}}</p>
-							<p id="profile--info--truescore">True score: {{u.truescore}}</p>
-							<p id="profile--info--casino-winnings">Casino winnings: {{u.winnings}}</p>
-							<p id="profile--info--lottery-winnings">Lottery winnings: {{u.total_lottery_winnings}}</p>
+							<p id="profile--info--truescore">True score: {{u.truescore|commas}}</p>
+							<p id="profile--info--casino-winnings">Casino winnings: {{u.winnings|commas}}</p>
+							<p id="profile--info--lottery-winnings">Lottery winnings: {{u.total_lottery_winnings|commas}}</p>
 							<p id="profile--info--hats-owned" {% if u.num_of_owned_hats >= hats_total %}class="profile-owned-all-hats"{% endif %}>{{u.num_of_owned_hats}} / {{hats_total}} hats owned ({{hats_owned_percent}})</p>
-							<p id="profile--info--spent">Currency spent on awards: {{u.currency_spent_on_awards}}</p>
-							<p id="profile--info--spent">Currency spent on hats: {{u.currency_spent_on_hats}}</p>
+							<p id="profile--info--spent">Currency spent on awards: {{u.currency_spent_on_awards|commas}}</p>
+							<p id="profile--info--spent">Currency spent on hats: {{u.currency_spent_on_hats|commas}}</p>
 
 							<p id="profile--info--effortposts">
 								Effortposts made: <a href='/search/posts?q=author:{{u.username}}+effortpost:true'><b>{{u.effortposts_made}}</b></a>
 							</p>
 
 							{% if u.lifetimedonated_visible %}
-								<p id="profile--info--lifetime-donated">Lifetime donated: ${{u.lifetimedonated}} (shown to everyone)</p>
+								<p id="profile--info--lifetime-donated">Lifetime donated: ${{u.lifetimedonated|commas}} (shown to everyone)</p>
 								<p id="profile--info--discount">Total award discount: {{u.formatted_award_discount}} (shown to everyone)</p>
 							{% elif v.id == u.id or v.admin_level >= PERMS['VIEW_PATRONS'] %}
-								<p id="profile--info--lifetime-donated">Lifetime donated: ${{u.lifetimedonated}} (shown to you only)</p>
+								<p id="profile--info--lifetime-donated">Lifetime donated: ${{u.lifetimedonated|commas}} (shown to you only)</p>
 								<p id="profile--info--discount">Total award discount: {{u.formatted_award_discount}} (shown to you only)</p>
 							{% endif %}
 
@@ -580,12 +580,12 @@
 
 					<div id="profile-mobile--info" {% if v.id == u.id %}class="mt-4"{% endif %}>
 						<p id="profile-mobile--info--id">User ID: {{u.id}}</p>
-						<p id="profile-mobile--info--truescore">True score: {{u.truescore}}</p>
-						<p id="profile-mobile--info--casino-winnings">Casino winnings: {{u.winnings}}</p>
-						<p id="profile-mobile--info--lottery-winnings">Lottery winnings: {{u.total_lottery_winnings}}</p>
+						<p id="profile-mobile--info--truescore">True score: {{u.truescore|commas}}</p>
+						<p id="profile-mobile--info--casino-winnings">Casino winnings: {{u.winnings|commas}}</p>
+						<p id="profile-mobile--info--lottery-winnings">Lottery winnings: {{u.total_lottery_winnings|commas}}</p>
 						<p id="profile-mobile--info--hats-owned" {% if u.num_of_owned_hats >= hats_total %}class="profile-owned-all-hats"{% endif %}>{{u.num_of_owned_hats}} / {{hats_total}} hats owned ({{hats_owned_percent}})</p>
-						<p id="profile-mobile--info--spent">Currency spent on awards: {{u.currency_spent_on_awards}}</p>
-						<p id="profile-mobile--info--spent">Currency spent on hats: {{u.currency_spent_on_hats}}</p>
+						<p id="profile-mobile--info--spent">Currency spent on awards: {{u.currency_spent_on_award|commass}}</p>
+						<p id="profile-mobile--info--spent">Currency spent on hats: {{u.currency_spent_on_hats|commas}}</p>
 
 						<p id="profile-mobile--info--effortposts">
 							Effortposts made: <a href='/search/posts?q=author:{{u.username}}+effortpost:true'><b>{{u.effortposts_made}}</b></a>
@@ -595,8 +595,8 @@
 							<p id="profile-mobile--info--lifetime-donated">Lifetime donated: ${{u.lifetimedonated}} (shown to everyone)</p>
 							<p id="profile-mobile--info--discount">Total award discount: {{u.formatted_award_discount}} (shown to everyone)</p>
 						{% elif v.id == u.id or v.admin_level >= PERMS['VIEW_PATRONS'] %}
-							<p id="profile-mobile--info--lifetime-donated">Lifetime donated: ${{u.lifetimedonated}} (shown to you only)</p>
-							<p id="profile-mobile--info--discount">Total award discount: {{u.formatted_award_discount}} (shown to you only)</p>
+							<p id="profile-mobile--info--lifetime-donated">Lifetime donated: ${{u.lifetimedonated|commas}} (shown to you only)</p>
+							<p id="profile-mobile--info--discount">Total award discount: {{u.formatted_award_discount|commas}} (shown to you only)</p>
 						{% endif %}
 
 						{% if u.is_private %}
