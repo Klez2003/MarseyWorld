@@ -85,7 +85,7 @@ def get_active_roulette_games():
 
 
 def charge_gambler(gambler, amount, currency):
-	charged = gambler.charge_account(currency, amount, "Cost of roulette bet")[0]
+	charged = gambler.charge_account(currency, amount, "Cost of roulette bet")
 
 	if not charged:
 		raise Exception("Gambler cannot afford charge.")

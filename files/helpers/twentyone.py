@@ -101,7 +101,7 @@ def get_active_twentyone_game_state(gambler):
 
 
 def charge_gambler(gambler, amount, currency):
-	charged = gambler.charge_account(currency, amount)[0]
+	charged = gambler.charge_account(currency, amount)
 
 	if not charged:
 		raise Exception("Gambler cannot afford charge.")

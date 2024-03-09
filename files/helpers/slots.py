@@ -25,7 +25,7 @@ payout_to_symbols = {
 def casino_slot_pull(gambler, wager_value, currency):
 	over_min = wager_value >= minimum_bet
 	under_max = wager_value <= maximum_bet
-	charged = gambler.charge_account(currency, wager_value)[0]
+	charged = gambler.charge_account(currency, wager_value)
 
 	if (over_min and under_max and charged):
 		payout = determine_payout()
