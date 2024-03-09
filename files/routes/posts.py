@@ -92,7 +92,7 @@ def publish(pid, v):
 
 	execute_snappy(p, v)
 
-	if flag_effortpost and not (SITE_NAME == 'WPD' and v.truescore < 500):
+	if p.effortpost and not (SITE_NAME == 'WPD' and v.truescore < 500):
 		body = f"@{v.username} has requested that {p.textlink} be marked as an effortpost!"
 		alert_admins(body)
 
