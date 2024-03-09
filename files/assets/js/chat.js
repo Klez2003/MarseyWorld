@@ -192,7 +192,7 @@ function quote(t) {
 }
 
 ta.addEventListener("keydown", function(e) {
-	if (e.key === 'Enter' && !e.shiftKey && !current_word) {
+	if (e.key === 'Enter' && !e.shiftKey && inline_carot_modal.style.display == 'none') {
 		e.preventDefault();
 		send();
 	}
