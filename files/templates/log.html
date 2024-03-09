@@ -27,7 +27,7 @@
 											<a class="dropdown-item" href="/log?{{single_user_url}}=AutoJanny{% if type %}&kind={{type}}{% endif %}"><img loading="lazy" src="/@AutoJanny/pic" alt="avatar" class="profile-pic-20 mr-2">AutoJanny</a>
 										{% endif %}
 										{% for a in admins %}
-											<a class="dropdown-item" href="{% if hole %}/h/{{hole}}{% endif %}/log?{{single_user_url}}={{a}}{% if type %}&kind={{type}}{% endif %}"><img loading="lazy" src="/@{{a}}/pic" alt="avatar" class="profile-pic-20 mr-2">{{a}}</a>
+											<a class="dropdown-item" href="?{{single_user_url}}={{a}}{% if type %}&kind={{type}}{% endif %}"><img loading="lazy" src="/@{{a}}/pic" alt="avatar" class="profile-pic-20 mr-2">{{a}}</a>
 										{% endfor %}
 									</div>
 								</div>
@@ -40,7 +40,7 @@
 									overflow: auto">
 										<a class="dropdown-item" href="{% if hole %}/h/{{hole}}{% endif %}/log{% if admin %}?{{single_user_url}}={{admin}}{% endif %}"><i class="fas fa-broom mr-2"></i>All</a>
 										{% for t, v in types.items() %}
-											<a class="dropdown-item" href="{% if hole %}/h/{{hole}}{% endif %}/log?{% if admin %}{{single_user_url}}={{admin}}&{% endif %}kind={{t}}"><i class="fas {{v['icon']}} mr-2"></i>{{t}}</a>
+											<a class="dropdown-item" href="?{% if admin %}{{single_user_url}}={{admin}}&{% endif %}kind={{t}}"><i class="fas {{v['icon']}} mr-2"></i>{{t}}</a>
 										{% endfor %}
 									</div>
 								</div>
@@ -54,13 +54,13 @@
 				{% for ma in actions %}
 					<div id="action-{{ma.id}}" class="modlog-action{% if ma.unread %} unread{% endif %}">
 					<div class="d-flex flex-grow-1 align-items-center">
-						<a href="{% if hole %}/h/{{hole}}{% endif %}/log?{% if admin %}{{single_user_url}}={{admin}}&{% endif %}kind={{ma.kind}}">
+						<a href="?{% if admin %}{{single_user_url}}={{admin}}&{% endif %}kind={{ma.kind}}">
 							<div class="d-flex align-items-center justify-content-center {{ma.color}} mr-3 rounded-lg flex-shrink-0" style="width: 32px;height: 32px">
 								<i class="fas text-center {{ma.icon}} text-lg text-white fa-fw"></i>
 							</div>
 						</a>
 						<div class="d-flex align-items-center">
-							<a href="{% if hole %}/h/{{hole}}{% endif %}/log?{{single_user_url}}={{ma.user.username}}{% if type %}&kind={{type}}{% endif %}">
+							<a href="?{{single_user_url}}={{ma.user.username}}{% if type %}&kind={{type}}{% endif %}">
 								<span class="rounded">
 									<div class="profile-pic-35-wrapper">
 										<img loading="lazy" src="{{ma.user.profile_url}}" alt="avatar" class="profile-pic-35">
