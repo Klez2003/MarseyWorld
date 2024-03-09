@@ -54,7 +54,7 @@
 				{% for ma in actions %}
 					<div id="action-{{ma.id}}" class="modlog-action{% if ma.unread %} unread{% endif %}">
 					<div class="d-flex flex-grow-1 align-items-center">
-						<a href="?{% if admin %}{{single_user_url}}={{admin}}&{% endif %}kind={{ma.kind}}">
+						<a href="{% if hole %}/h/{{hole}}{% endif %}/log?{% if admin %}{{single_user_url}}={{admin}}&{% endif %}kind={{ma.kind}}">
 							<div class="d-flex align-items-center justify-content-center {{ma.color}} mr-3 rounded-lg flex-shrink-0" style="width: 32px;height: 32px">
 								<i class="fas text-center {{ma.icon}} text-lg text-white fa-fw"></i>
 							</div>
