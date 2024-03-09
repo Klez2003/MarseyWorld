@@ -148,7 +148,7 @@ def speak(data, v):
 		"text_censored": censor_slurs_profanities(text, 'chat', True),
 		"text_html": text_html,
 		"text_html_censored": censor_slurs_profanities(text_html, 'chat'),
-		"time": int(time.time()),
+		"created_utc": int(time.time()),
 	}
 
 
