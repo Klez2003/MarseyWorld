@@ -99,6 +99,10 @@ function populate_inline_user_modal(results, textbox)
 		let user_option = document.createElement("div");
 		user_option.className = "inline-modal-option user-option " + (i === 1 ? "selected" : "");
 		user_option.tabIndex = 0;
+
+		let user_option_link = document.createElement("a");
+		user_option_link.href = `/@${name}`
+
 		let user_option_img = document.createElement("img");
 		user_option_img.className = "pp20";
 		user_option_img.src = `/@${name}/pic`
@@ -107,7 +111,8 @@ function populate_inline_user_modal(results, textbox)
 
 		user_option_text.textContent = name;
 
-		user_option.addEventListener('click', () => {
+		user_option_link.addEventListener('click', (e) => {
+			e.preventDefault();
 			close_inline_emoji_modal()
 			textbox.value = textbox.value.replace(new RegExp(current_word+"(?=\\s|$)", "gi"), `@${name} `)
 			textbox.focus()
@@ -115,8 +120,10 @@ function populate_inline_user_modal(results, textbox)
 				markdown(textbox)
 			}
 		});
-		user_option.appendChild(user_option_img);
-		user_option.appendChild(user_option_text);
+
+		user_option.appendChild(user_option_link);
+		user_option_link.appendChild(user_option_img);
+		user_option_link.appendChild(user_option_text);
 		inline_carot_modal.appendChild(user_option);
 	}
 	if (i === 0) inline_carot_modal.style.display = "none";

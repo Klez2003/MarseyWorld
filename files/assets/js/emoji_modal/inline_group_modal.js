@@ -99,11 +99,15 @@ function populate_inline_group_modal(results, textbox)
 		let group_option = document.createElement("div");
 		group_option.className = "inline-modal-option group-option " + (i === 1 ? "selected" : "");
 		group_option.tabIndex = 0;
-		let group_option_text = document.createElement("span");
 
+		let group_option_link = document.createElement("a");
+		group_option_link.href = `/!${name}`
+
+		let group_option_text = document.createElement("span");
 		group_option_text.textContent = name;
 
-		group_option.addEventListener('click', () => {
+		group_option_link.addEventListener('click', () => {
+			e.preventDefault();
 			close_inline_emoji_modal()
 			textbox.value = textbox.value.replace(new RegExp(current_word+"(?=\\s|$)", "gi"), `!${name} `)
 			textbox.focus()
@@ -111,7 +115,9 @@ function populate_inline_group_modal(results, textbox)
 				markdown(textbox)
 			}
 		});
-		group_option.appendChild(group_option_text);
+
+		group_option.appendChild(group_option_link);
+		group_option_link.appendChild(group_option_text);
 		inline_carot_modal.appendChild(group_option);
 	}
 	if (i === 0) inline_carot_modal.style.display = "none";
