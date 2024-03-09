@@ -1020,9 +1020,6 @@ def post_hole_snappy_quotes(v, hole):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def change_hole(pid, v):
-	if SITE == 'rdrama.net' and v.id in {10947, 4358, 18286}:
-		abort(403, "You're not allowed to change the hole of your posts!")
-
 	post = get_post(pid)
 
 	if post.ghost:
