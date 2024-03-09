@@ -138,7 +138,7 @@ def speak(data, v):
 	data = {
 		"id": id,
 		"quotes": quotes if messages.get(quotes) else '',
-		"hat": v.hat_active(v)[0],
+		"hat": v.hat_active(None)[0],
 		"user_id": v.id,
 		"username": v.username,
 		"namecolor": v.name_color,
