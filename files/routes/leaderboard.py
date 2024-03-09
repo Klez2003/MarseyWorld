@@ -22,12 +22,12 @@ def leaderboard_marseybux(v):
 	leaderboard = Leaderboard("Marseybux", "marseybux", "marseybux", "Marseybux", None, Leaderboard.get_simple_lb, User.marseybux, v, lambda u:u.marseybux, g.db.query(User))
 	return render_template("leaderboard.html", v=v, leaderboard=leaderboard)
 
-@app.get("/leaderboard/spent")
+@app.get("/leaderboard/currency_spent_on_awards")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def leaderboard_spent(v):
-	leaderboard = Leaderboard("Coins spent on awards", "coins spent on awards", "spent", "Coins", None, Leaderboard.get_simple_lb, User.coins_spent, v, lambda u:u.coins_spent, g.db.query(User))
+def leaderboard_currency_spent_on_awards(v):
+	leaderboard = Leaderboard("Currency spent on awards", "currency spent on awards", "currency-spent-on-awards", "Currency", None, Leaderboard.get_simple_lb, User.currency_spent_on_awards, v, lambda u:u.currency_spent_on_awards, g.db.query(User))
 	return render_template("leaderboard.html", v=v, leaderboard=leaderboard)
 
 @app.get("/leaderboard/truescore")

@@ -125,7 +125,7 @@ CREATE TABLE public.users (
     received_award_count integer DEFAULT 0 NOT NULL,
     truescore integer DEFAULT 0 NOT NULL,
     frontsize integer DEFAULT 25 NOT NULL,
-    coins_spent integer DEFAULT 0 NOT NULL,
+    currency_spent_on_awards integer DEFAULT 0 NOT NULL,
     marseybux integer DEFAULT 0 NOT NULL,
     verifiedcolor character varying(6),
     hieroglyphs integer,
@@ -159,7 +159,7 @@ CREATE TABLE public.users (
     owoify integer,
     marsify integer,
     is_muted boolean DEFAULT false NOT NULL,
-    coins_spent_on_hats integer DEFAULT 0 NOT NULL,
+    currency_spent_on_hats integer DEFAULT 0 NOT NULL,
     rainbow integer,
     spider integer,
     profanityreplacer integer DEFAULT 1 NOT NULL,
@@ -2391,12 +2391,6 @@ CREATE INDEX users_bite_idx ON public.users USING btree (bite);
 CREATE INDEX users_chud_idx ON public.users USING btree (chud);
 
 
---
--- Name: users_coins_spent_on_hats_idx; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX users_coins_spent_on_hats_idx ON public.users USING btree (coins_spent_on_hats);
-
 
 --
 -- Name: users_created_utc_index; Type: INDEX; Schema: public; Owner: -
@@ -3313,4 +3307,3 @@ ALTER TABLE ONLY public.comments
 --
 -- PostgreSQL database dump complete
 --
-

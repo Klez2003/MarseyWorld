@@ -25,9 +25,9 @@
 		<ul id="shop-stats" class="my-1 my-md-2">
 			<li class="mt-2">Number of hats you bought: {{v.num_of_owned_hats}}</li>
 			<li>Number of hats you designed: {{v.num_of_designed_hats}}</li>
-			<li>Coins you spent on hats: {{"{:,}".format(v.coins_spent_on_hats)}}</li>
 			<li>Number of hats: {{num_of_hats}}</li>
-			<li>Total hat sales: {{"{:,}".format(sales)}}</li>
+			<li>Currency you spent on hats: {{"{:,}".format(v.currency_spent_on_hats)}}</li>
+			<li>Total currency spent on hats: {{"{:,}".format(sales)}}</li>
 			<li>Your current coins: {{"{:,}".format(v.coins)}}</li>
 			{% if FEATURES['MARSEYBUX'] %}
 				<li>Your current marseybux: {{"{:,}".format(v.marseybux)}}</li>

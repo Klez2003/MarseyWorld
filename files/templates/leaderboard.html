@@ -8,7 +8,7 @@
 	<div class="mt-2" id="leaderboard-contents" style="text-align: center; margin-bottom: 1.5rem; font-size: 1.2rem">
 		<a {% if request.path in ["/leaderboard", "/leaderboard/coins"] %}class="font-weight-bolder"{% endif %} href="/leaderboard/coins">Coins</a> •
 		<a {% if request.path == "/leaderboard/marseybux" %}class="font-weight-bolder"{% endif %} href="/leaderboard/marseybux">Marseybux</a> •
-		<a {% if request.path == "/leaderboard/spent" %}class="font-weight-bolder"{% endif %} href="/leaderboard/spent">Coins spent on awards</a> •
+		<a {% if request.path == "/leaderboard/currency_spent_on_awards" %}class="font-weight-bolder"{% endif %} href="/leaderboard/currency_spent_on_awards">Currency spent on awards</a> •
 		<a {% if request.path == "/leaderboard/truescore" %}class="font-weight-bolder"{% endif %} href="/leaderboard/truescore">Truescore</a> •
 		<a {% if request.path == "/leaderboard/followers" %}class="font-weight-bolder"{% endif %} href="/leaderboard/followers">Followers</a> •
 		<a {% if request.path == "/leaderboard/posts" %}class="font-weight-bolder"{% endif %} href="/leaderboard/posts">Posts</a> •

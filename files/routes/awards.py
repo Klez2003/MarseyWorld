@@ -49,7 +49,7 @@ def shop(v):
 			val["baseprice"] = int(val["baseprice"] / 0.75)
 		val["price"] = int(val["price"] * v.award_discount)
 
-	sales = g.db.query(func.sum(User.coins_spent)).scalar()
+	sales = g.db.query(func.sum(User.currency_spent_on_awards)).scalar()
 	return render_template("shop.html", awards=list(AWARDS.values()), v=v, sales=sales)
 
 
@@ -65,19 +65,19 @@ def buy_award(v, kind, AWARDS):
 		currency = 'coins/marseybux'
 
 	charged = v.charge_account(currency, price, f"{AWARDS[kind]['title']} award cost")
-	if not charged[0]:
+	if not charged:
 		abort(400, f"Not enough {currency}!")
 
-	v.coins_spent += charged[1]
-	if v.coins_spent >= 1000000:
+	v.currency_spent_on_awards += price
+	if v.currency_spent_on_awards >= 1000000:
 		badge_grant(badge_id=73, user=v)
-	elif v.coins_spent >= 500000:
+	elif v.currency_spent_on_awards >= 500000:
 		badge_grant(badge_id=72, user=v)
-	elif v.coins_spent >= 250000:
+	elif v.currency_spent_on_awards >= 250000:
 		badge_grant(badge_id=71, user=v)
-	elif v.coins_spent >= 100000:
+	elif v.currency_spent_on_awards >= 100000:
 		badge_grant(badge_id=70, user=v)
-	elif v.coins_spent >= 10000:
+	elif v.currency_spent_on_awards >= 10000:
 		badge_grant(badge_id=69, user=v)
 	g.db.add(v)
 

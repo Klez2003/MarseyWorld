@@ -84,8 +84,8 @@ class User(Base):
 	created_utc = Column(Integer)
 	admin_level = Column(Integer, default=DEFAULT_ADMIN_LEVEL)
 	last_active = Column(Integer)
-	coins_spent = Column(Integer, default=0)
-	coins_spent_on_hats = Column(Integer, default=0)
+	currency_spent_on_awards = Column(Integer, default=0)
+	currency_spent_on_hats = Column(Integer, default=0)
 	lootboxes_bought = Column(Integer, default=0)
 	chud = Column(Integer, default=0)
 	queen = Column(Integer, default=0)
@@ -251,7 +251,6 @@ class User(Base):
 
 	def charge_account(self, currency, amount, reason=None, **kwargs):
 		succeeded = False
-		charged_coins = 0
 
 		should_check_balance = kwargs.get('should_check_balance', True)
 
@@ -264,7 +263,6 @@ class User(Base):
 			if not should_check_balance or account_balance >= amount:
 				user_query.update({ User.coins: User.coins - amount })
 				succeeded = True
-				charged_coins = amount
 				logs = [['coins', amount]]
 		elif currency == 'marseybux':
 			account_balance = self.marseybux
@@ -281,14 +279,13 @@ class User(Base):
 				subtracted_mbux = self.marseybux
 				subtracted_coins = amount - subtracted_mbux
 				if subtracted_coins > self.coins:
-					return (False, 0)
+					return False
 
 			user_query.update({
 				User.marseybux: User.marseybux - subtracted_mbux,
 				User.coins: User.coins - subtracted_coins,
 			})
 			succeeded = True
-			charged_coins = subtracted_coins
 			logs = [['coins', subtracted_coins], ['marseybux', subtracted_mbux]]
 
 		if succeeded:
@@ -308,7 +305,7 @@ class User(Base):
 					else:
 						currency_log.balance = self.marseybux
 
-		return (succeeded, charged_coins)
+		return succeeded
 
 	@property
 	@lazy

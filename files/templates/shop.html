@@ -26,8 +26,8 @@
 				<li>Number of lootboxes you bought: {{v.lootboxes_bought}}</li>
 			{% endif %}
 			<li>Number of awards you bought: {{v.num_of_bought_awards}}</li>
-			<li>Coins you spent on awards: {{"{:,}".format(v.coins_spent)}}</li>
-			<li>Total award sales: {{"{:,}".format(sales)}}</li>
+			<li>Currency you spent on awards: {{"{:,}".format(v.currency_spent_on_awards)}}</li>
+			<li>Total currency spent on awards: {{"{:,}".format(sales)}}</li>
 			<li>Your current coins: {{"{:,}".format(v.coins)}}</li>
 			{% if FEATURES['MARSEYBUX'] %}
 				<li>Your current marseybux: {{"{:,}".format(v.marseybux)}}</li>

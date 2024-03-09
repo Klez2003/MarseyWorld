@@ -24,7 +24,7 @@ def hats(v):
 	not_owned = g.db.query(HatDef, User).join(HatDef.author).filter(HatDef.submitter_id == None, HatDef.id.notin_(owned_hat_ids)).order_by(HatDef.price == 0, HatDef.price, HatDef.name).all()
 	hats = owned + not_owned
 
-	sales = g.db.query(func.sum(User.coins_spent_on_hats)).scalar()
+	sales = g.db.query(func.sum(User.currency_spent_on_hats)).scalar()
 	num_of_hats = g.db.query(HatDef).filter(HatDef.submitter_id == None).count()
 	return render_template("hats.html", owned_hat_ids=owned_hat_ids, hats=hats, v=v, sales=sales, num_of_hats=num_of_hats)
 
@@ -45,10 +45,10 @@ def buy_hat(v, hat_id):
 		abort(403, "This hat is not for sale!")
 
 	charged = v.charge_account('coins/marseybux', hat.price, f"<code>{hat.name}</code> hat cost")
-	if not charged[0]:
+	if not charged:
 		abort(400, "Not enough coins/marseybux!")
 
-	v.coins_spent_on_hats += charged[1]
+	v.currency_spent_on_hats += hat.price
 	hat.author.pay_account('coins', hat.price * 0.1, f"Royalties for <code>{hat.name}</code> hat")
 
 	new_hat = Hat(user_id=v.id, hat_id=hat.id)
