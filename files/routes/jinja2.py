@@ -101,6 +101,10 @@ def expand_art(url):
 	if id < MIN_ART_ID_FOR_HQ: return url
 	return f"{SITE_FULL_IMAGES}/asset_submissions/art/original/{id}.webp"
 
+@app.template_filter("commas")
+def commas(number):
+	return "{:,}".format(number)
+
 def current_registered_users():
 	return "{:,}".format(g.db.query(User).count())
 

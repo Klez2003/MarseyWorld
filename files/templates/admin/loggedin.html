@@ -14,7 +14,7 @@
 				<tr>
 					<td>{{loop.index}}</td>
 					<td>{% include "user_in_table.html" %}</td>
-					<td>{{"{:,}".format(user.truescore)}}</td>
+					<td>{{user.truescore|commas}}</td>
 				</tr>
 			{% endfor %}
 		</table>
