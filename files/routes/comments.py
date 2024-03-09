@@ -123,9 +123,6 @@ def comment(v):
 		if parent.id in ADMIGGER_THREADS and v.admin_level < PERMS['USE_ADMIGGER_THREADS']:
 			abort(403, "You can't post top-level comments in this thread!")
 
-		if SITE == 'rdrama.net' and parent.id == 33652:
-			notify_op = False
-
 		ghost = parent.ghost
 	elif parent_fullname.startswith("c_"):
 		parent = get_comment(id, v=v)
