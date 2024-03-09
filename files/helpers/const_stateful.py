@@ -3,6 +3,9 @@ from os import path
 from files.classes import Emoji, Hole
 from files.helpers.config.const import *
 
+if FEATURES['ART_SUBMISSIONS']:
+	from files.classes.art_submissions import ArtSubmission
+
 SNAPPY_KONGS = []
 MARSEYS_CONST = []
 MARSEYS_CONST2 = []
@@ -14,9 +17,10 @@ SNAPPY_QUOTES_HOMOWEEN = []
 GIGABOOSTED_HOLES = []
 NSFW_EMOJIS = []
 ALPHABET_MARSEYS = []
+MIN_ART_ID_FOR_HQ = 999999999
 
 def const_initialize():
-	global MARSEYS_CONST, MARSEYS_CONST2, MARSEY_MAPPINGS, SNAPPY_KONGS, SNAPPY_MARSEYS, SNAPPY_QUOTES, SNAPPY_QUOTES_FISTMAS, SNAPPY_QUOTES_HOMOWEEN, GIGABOOSTED_HOLES, NSFW_EMOJIS, ALPHABET_MARSEYS
+	global MARSEYS_CONST, MARSEYS_CONST2, MARSEY_MAPPINGS, SNAPPY_KONGS, SNAPPY_MARSEYS, SNAPPY_QUOTES, SNAPPY_QUOTES_FISTMAS, SNAPPY_QUOTES_HOMOWEEN, GIGABOOSTED_HOLES, NSFW_EMOJIS, ALPHABET_MARSEYS, MIN_ART_ID_FOR_HQ
 
 	db = db_session()
 
@@ -38,6 +42,10 @@ def const_initialize():
 	GIGABOOSTED_HOLES = [x[0] for x in db.query(Hole.name).filter(Hole.stealth == True, Hole.name != 'chudrama')] + ['highrollerclub','countryclub']
 
 	NSFW_EMOJIS = [x[0] for x in db.query(Emoji.name).filter_by(nsfw=True)]
+
+	if FEATURES['ART_SUBMISSIONS']:
+		MIN_ART = db.query(ArtSubmission.id).order_by(ArtSubmission.id).first()
+		if MIN_ART: MIN_ART_ID_FOR_HQ = MIN_ART[0]
 
 	db.commit()
 	db.close()

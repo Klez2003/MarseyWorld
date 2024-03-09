@@ -16,7 +16,7 @@ from files.classes.emoji import Emoji
 from files.classes.group import Group
 from files.helpers.assetcache import assetcache_path
 from files.helpers.config.const import *
-from files.helpers.const_stateful import NSFW_EMOJIS
+from files.helpers.const_stateful import *
 from files.helpers.regex import *
 from files.helpers.settings import *
 from files.helpers.cloudflare import *
@@ -95,6 +95,11 @@ def seeded_random(choices, p):
 		random.seed(p.id)
 	return random.choice(choices)
 
+@app.template_filter("expand_art")
+def expand_art(url):
+	id = int(url.split('?')[0].split('/')[-1].replace('.webp', ''))
+	if id < MIN_ART_ID_FOR_HQ: return url
+	return f"{SITE_FULL_IMAGES}/asset_submissions/art/original/{id}.webp"
 
 def current_registered_users():
 	return "{:,}".format(g.db.query(User).count())

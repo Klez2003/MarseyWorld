@@ -26,6 +26,7 @@
 		{% set image = macros.random_image("assets/events/" ~ IS_EVENT() ~ "/images/sidebar") %}
 	{% else %}
 		{% set image = macros.random_image("assets/images/" ~ SITE_NAME ~ "/sidebar") %}
+		{% set expanded_image = image|expand_art %}
 	{% endif %}
 
 	{% if request.path != '/sidebar' %}
@@ -36,8 +37,11 @@
 				<img class="mb-4 sidebar-img" alt="sidebar image" data-nonce="{{g.nonce}}" data-onclick="expandImage()" loading="lazy" src="{{SITE_FULL_IMAGES}}/i/{{SITE_NAME}}/sidebar2.webp">
 			</a>
 		{% elif not (hole and hole.name == 'chudrama' and v and not v.can_see_chudrama) %}
-			<a href="{{image}}">
-				<img class="mb-4 sidebar-img" alt="sidebar image" data-nonce="{{g.nonce}}" data-onclick="expandImage()" loading="lazy" src="{{image}}">
+			{% if not expanded_image %}
+				{% set expanded_image = image %}
+			{% endif %}
+			<a href="{{expanded_image}}">
+				<img class="mb-4 sidebar-img" alt="sidebar image" data-nonce="{{g.nonce}}" data-onclick="expandImage('{{expanded_image}}')" loading="lazy" src="{{image}}">
 			</a>
 		{% endif %}
 	{% endif %}
