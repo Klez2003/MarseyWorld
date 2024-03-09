@@ -241,8 +241,6 @@ function remove_typing() {
 }
 
 ta.addEventListener("input", function() {
-	clearTimeout(timer_id)
-
 	text = ta.value
 	if (!text && is_typing){
 		is_typing = false;
@@ -251,6 +249,7 @@ ta.addEventListener("input", function() {
 	else if (text && !is_typing) {
 		is_typing = true;
 		socket.emit('typing', true);
+		clearTimeout(timer_id)
 		timer_id = setTimeout(remove_typing, 2000);
 	}
 })
