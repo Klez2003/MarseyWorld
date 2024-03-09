@@ -318,8 +318,8 @@ def messagereply(v):
 							)
 	g.db.add(c)
 	g.db.flush()
-	execute_blackjack(v, c, c.body_html, 'chat')
-	execute_under_siege(v, c, c.body_html, 'chat')
+	execute_blackjack(v, c, c.body_html, 'message')
+	execute_under_siege(v, c, c.body_html, 'message')
 
 	if user_id and user_id not in {v.id, MODMAIL_ID} | BOT_IDs:
 		if can_see(user, v):
