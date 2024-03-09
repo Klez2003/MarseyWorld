@@ -281,7 +281,7 @@ function markdown(t) {
 	input = marked(input)
 	input = input.replaceAll('▔', '_')
 
-	if (oldfiles[t.id]) {
+	if (oldfiles[t.id] && oldfiles[t.id].files.length) {
 		const files = oldfiles[t.id].files
 		let counter = 0
 		for (const file of files) {
