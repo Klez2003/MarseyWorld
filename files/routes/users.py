@@ -159,7 +159,7 @@ def transfer_currency(v, username, currency_name, apply_tax):
 		log_message += f"\n\n> {reason}"
 
 	charge_reason = f'Gift to <a href="/@{username}">@{username}</a>'
-	if not v.charge_account(currency_name, amount, charge_reason)[0]:
+	if not v.charge_account(currency_name, amount, charge_reason):
 		abort(400, f"You don't have enough {currency_name}")
 
 	if currency_name in {'marseybux', 'coins'}:
