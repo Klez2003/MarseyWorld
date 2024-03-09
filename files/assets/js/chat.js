@@ -3,7 +3,7 @@ function formatDate(d) {
 }
 
 for (const e of timestamps) {
-	e.innerHTML = formatDate(new Date(e.dataset.created_utc*1000));
+	e.innerHTML = formatDate(new Date(e.dataset.time*1000));
 };
 
 const ua = window.navigator.userAgent
