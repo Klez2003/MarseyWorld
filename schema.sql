@@ -528,8 +528,7 @@ CREATE TABLE public.comments (
     sharpened boolean NOT NULL,
     num_of_pinned_children integer NOT NULL,
     distinguished boolean NOT NULL,
-    body_ts tsvector GENERATED ALWAYS AS (to_tsvector('simple'::regconfig, (body)::text)) STORED,
-    group_dm_ids integer[]
+    body_ts tsvector GENERATED ALWAYS AS (to_tsvector('simple'::regconfig, (body)::text)) STORED
 );
 
 
