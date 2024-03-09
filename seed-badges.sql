@@ -34,6 +34,7 @@ INSERT INTO public.badge_defs VALUES (326, 'Chud Hunter', 'Successfully reported
 INSERT INTO public.badge_defs VALUES (327, 'Top Poster of the Day', 'Has been Top Poster of the Day at least once', 1708092535);
 INSERT INTO public.badge_defs VALUES (328, 'WORDS WORDS WORDS', 'Wrote an effortpost 📃', 1708278966);
 INSERT INTO public.badge_defs VALUES (331, 'Sidebar Master', 'Contributed 10 (or more!!!!) sidebar images 🖼', 1709691233);
+INSERT INTO public.badge_defs VALUES (69, 'Little Big Spender', 'Spent 10,000 currency on awards', 0);
 INSERT INTO public.badge_defs VALUES (296, 'SEX!', 'This user verifiably had sex with another dramatard.', 1692195588);
 INSERT INTO public.badge_defs VALUES (297, 'Weather Balloon', 'This user was shot down over the territory of /r/UFOs.', 1694716945);
 INSERT INTO public.badge_defs VALUES (180, 'Marsey Consoomer', 'Conned rDrama out of sick merch in exchange for a donation to Redbubble.', 1664417205);
@@ -206,14 +207,13 @@ INSERT INTO public.badge_defs VALUES (68, 'Pause Button', 'Spent 20,000 coins on
 INSERT INTO public.badge_defs VALUES (74, 'Grass Toucher', 'Awarded for molesting plant life', 0);
 INSERT INTO public.badge_defs VALUES (76, 'Low Roller', 'Bought 10 lootboxes', 0);
 INSERT INTO public.badge_defs VALUES (11, 'Silver Recruiter', 'Recruited 10 friends to join the site', 0);
-INSERT INTO public.badge_defs VALUES (69, 'Little Big Spender', 'Dropped 10,000 coins at the award shop', 0);
-INSERT INTO public.badge_defs VALUES (70, 'Big Spender', 'Dropped 100,000 coins at the award shop', 0);
 INSERT INTO public.badge_defs VALUES (7, 'Bug Chaser', 'Found and reported a bug', 0);
 INSERT INTO public.badge_defs VALUES (77, 'Middle Roller', 'Bought 50 lootboxes', 0);
 INSERT INTO public.badge_defs VALUES (78, 'High Roller', 'Bought 150 lootboxes', 0);
 INSERT INTO public.badge_defs VALUES (79, 'Merchant', 'Contributed a new line of product to Marsey''s Coin Emporium', 0);
 INSERT INTO public.badge_defs VALUES (80, 'Artist Laureate', '', 0);
 INSERT INTO public.badge_defs VALUES (334, 'Banner God', 'Contributed 100 (or more!!!!) banners 🖼🎨', 1709696097);
+INSERT INTO public.badge_defs VALUES (70, 'Big Spender', 'Spent 100,000 currency on awards', 0);
 INSERT INTO public.badge_defs VALUES (81, 'Patron of the Arts', 'Sponsored the creation of an approved Marsey', 0);
 INSERT INTO public.badge_defs VALUES (83, 'All-Seeing Eye', 'Can view private profiles', 0);
 INSERT INTO public.badge_defs VALUES (84, 'Alt-Seeing Eye', 'Can see alts', 0);
@@ -224,7 +224,6 @@ INSERT INTO public.badge_defs VALUES (91, 'Grinch', 'This user is a joyless grin
 INSERT INTO public.badge_defs VALUES (92, 'NFT Artist', 'Drew a marsey that was used as an NFT', 0);
 INSERT INTO public.badge_defs VALUES (93, 'NFT Owner', 'Bought a marsey NFT', 0);
 INSERT INTO public.badge_defs VALUES (95, 'Bird Site Award', 'This user is limited to 140 characters', 0);
-INSERT INTO public.badge_defs VALUES (71, 'Big Big Spender', 'Dropped 250,000 coins at the award shop', 0);
 INSERT INTO public.badge_defs VALUES (97, 'Pizzashill Award', 'This user has to make their posts and comments more than 280 characters', 0);
 INSERT INTO public.badge_defs VALUES (99, 'Sidebar Artist', 'Contributed artwork featured on the sidebar', 0);
 INSERT INTO public.badge_defs VALUES (100, 'True Believer', 'This user sees through communist lies', 0);
@@ -267,8 +266,6 @@ INSERT INTO public.badge_defs VALUES (131, '21st Century Hitlerite (TEMPORAL FLU
 INSERT INTO public.badge_defs VALUES (132, 'Duterte''s Most Wanted (TEMPORAL FLUX EDITION)', 'dude weed lmao what year is it', 0);
 INSERT INTO public.badge_defs VALUES (133, 'Rockstar', 'This user submitted an original piece to the song contest', 0);
 INSERT INTO public.badge_defs VALUES (134, '1 Year Old 🥰', 'This user has wasted an ENTIRE YEAR of their life here! Happy birthday!', 0);
-INSERT INTO public.badge_defs VALUES (72, 'Big Big Big Spender', 'Dropped 500,000 coins at the award shop', 0);
-INSERT INTO public.badge_defs VALUES (73, 'Le Rich Gentlesir', 'Spent a fucking million coins at the award shop', 0);
 INSERT INTO public.badge_defs VALUES (102, 'Fistmas 21 Survivor', 'Awarded for surviving Fistmas 2021', 0);
 INSERT INTO public.badge_defs VALUES (156, 'Hole Neglecter', 'Let a hole they owned die', 0);
 INSERT INTO public.badge_defs VALUES (25, 'Terminally online turboautist', 'Donates at least $50/month', 0);
@@ -291,6 +288,9 @@ INSERT INTO public.badge_defs VALUES (162, 'King Goombler', 'Won a 100,000 bet. 
 INSERT INTO public.badge_defs VALUES (161, 'Pro Goombler', 'Won a 10,000 bet. Some would say to quit while you''re ahead, but they didn''t just win 10k - keep at it!', 0);
 INSERT INTO public.badge_defs VALUES (324, 'Best rdrama OC 2023', 'The creator or commissioner of the best rdrama original content of 2023, as voted by rdrama users.', 1705457812);
 INSERT INTO public.badge_defs VALUES (87, 'Unblockable', 'This user is unblockable and can''t block others', 0);
+INSERT INTO public.badge_defs VALUES (71, 'Big Big Spender', 'Spent 250,000 currency on awards', 0);
+INSERT INTO public.badge_defs VALUES (72, 'Big Big Big Spender', 'Spent 500,000 currency on awards', 0);
+INSERT INTO public.badge_defs VALUES (73, 'Le Rich Gentlesir', 'Spent a fucking million currency on awards', 0);
 
 
 --

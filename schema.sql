@@ -2391,12 +2391,18 @@ CREATE INDEX users_bite_idx ON public.users USING btree (bite);
 CREATE INDEX users_chud_idx ON public.users USING btree (chud);
 
 
-
 --
 -- Name: users_created_utc_index; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX users_created_utc_index ON public.users USING btree (created_utc);
+
+
+--
+-- Name: users_currency_spent_on_awards_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX users_currency_spent_on_awards_idx ON public.users USING btree (currency_spent_on_awards DESC);
 
 
 --
@@ -3307,3 +3313,4 @@ ALTER TABLE ONLY public.comments
 --
 -- PostgreSQL database dump complete
 --
+
