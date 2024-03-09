@@ -308,33 +308,33 @@
 				{{- macros.sorting_buttons(COMMENT_SORTS, True) -}}
 			</div>
 
-		{{macros.comment_reply_box(p.fullname, 'comment-reply-' + p.fullname, subwrapper_css_classes='mb-3', enable_cancel_button=false)}}
+			{{macros.comment_reply_box(p.fullname, 'comment-reply-' + p.fullname, subwrapper_css_classes='mb-3', enable_cancel_button=false)}}
 
-	{% if focused_comment %}
-		<div class="total mt-1"><a href="{{p.permalink}}">View entire discussion <i class="fas fa-long-arrow-right ml-1"></i></a></div>
-	{% endif %}
-
-	{% if p.replies %}
-		<div class="comment-section" id="replies-of-{{p.fullname}}">
-			{% with comments=p.replies %}
-				{% include "comments.html" %}
-			{% endwith %}
-		</div>
-
-		{% if offset %}
-			<script defer src="{{'js/view_more.js' | asset}}"></script>
-		{% endif %}
-	{% elif not p.replies and p.deleted_utc == 0 %}
-		<div class="comment-section no-replies" id="replies-of-{{p.fullname}}">
-			{% if v %}
-				{% set ghost_town = 'This comment section is a ghost town...' %}
-			{% else %}
-				{% set ghost_town = 'This comment section is a ghost town... <a href="/login?redirect={{request.full_path | urlencode}}">Sign in</a></p> '%}
+			{% if focused_comment %}
+				<div class="total mt-1"><a href="{{p.permalink}}">View entire discussion <i class="fas fa-long-arrow-right ml-1"></i></a></div>
 			{% endif %}
-			{{macros.ghost_box('Be the first to comment!', ghost_town, 1)}}
+
+			{% if p.replies %}
+				<div class="comment-section" id="replies-of-{{p.fullname}}">
+					{% with comments=p.replies %}
+						{% include "comments.html" %}
+					{% endwith %}
+				</div>
+
+				{% if offset %}
+					<script defer src="{{'js/view_more.js' | asset}}"></script>
+				{% endif %}
+			{% elif not p.replies and p.deleted_utc == 0 %}
+				<div class="comment-section no-replies" id="replies-of-{{p.fullname}}">
+					{% if v %}
+						{% set ghost_town = 'This comment section is a ghost town...' %}
+					{% else %}
+						{% set ghost_town = 'This comment section is a ghost town... <a href="/login?redirect={{request.full_path | urlencode}}">Sign in</a></p> '%}
+					{% endif %}
+					{{macros.ghost_box('Be the first to comment!', ghost_town, 1)}}
+				</div>
+			{% endif %}
 		</div>
-	{% endif %}
-	</div>
 	</div>
 
 	{% if v %}
