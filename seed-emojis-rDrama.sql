@@ -4186,6 +4186,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseyrubyrose', 'Marsey', 2, 'anime red weeb rwby', false, 1707102273),
 ('marseyrudolph', 'Marsey', 2, 'reindeer santa christmas xmas', false, 1670514525),
 ('marseyrudolph2', 'Marsey', 2, 'reindeer christmas santa sleigh xmas', false, 1670514539),
+('marseyrule4', 'Marsey', 2, 'discord groomercord gunpoint threatened aevann hostage coerced obey', false, 1709936382),
 ('marseyrulebritannia', 'Marsey', 2, 'britain british bongistan chips london england lasereyes', false, 1663211275),
 ('marseyruqqie', 'Marsey', 2, 'ruqqus porpl freespeech nazi captainmeta4 kek arkitekt syzitus syzzie', false, 1668462855),
 ('marseyrussel', 'Marsey', 2, 'old pipe history', false, 0),
