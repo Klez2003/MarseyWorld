@@ -383,7 +383,7 @@ def submit_hat(v):
 	process_image(highquality, v) #to ensure not malware
 
 	with Image.open(highquality) as i:
-		if i.width > 100 or i.height > 130:
+		if i.width != 100 or i.height != 130:
 			os.remove(highquality)
 			abort(400, "Images must be 100x130")
 
