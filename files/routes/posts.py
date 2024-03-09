@@ -484,6 +484,9 @@ def submit_post(v, hole=None):
 	if SITE == 'rdrama.net' and (v.chud == 1 or v.id == 253):
 		hole = 'chudrama'
 
+	if SITE == 'rdrama.net' and v.id in {4358, 18286}:
+		hole = 'slavshit'
+
 	if SITE == 'rdrama.net' and v.id == 10947:
 		hole = 'mnn'
 
