@@ -121,13 +121,15 @@ function postToastSwitch(t, url, button1, button2, cls, extraActionsOnSuccess) {
 		});
 }
 
-if (!location.pathname.endsWith('/submit') && !location.pathname.startsWith('/chat'))
+if (!location.pathname.endsWith('/submit') && location.pathname != '/chat')
 {
 	document.addEventListener('keydown', (e) => {
 		if (!((e.ctrlKey || e.metaKey) && e.key === "Enter")) return;
 
 		const targetDOM = document.activeElement;
 		if (!(targetDOM instanceof HTMLTextAreaElement || targetDOM instanceof HTMLInputElement)) return;
+
+		if (targetDOM && targetDOM.id == 'input-text-chat') return;
 
 		const formDOM = targetDOM.parentElement;
 
