@@ -39,10 +39,6 @@ class ChatMembership(Base):
 	def __repr__(self):
 		return f"<{self.__class__.__name__}(user_id={self.user_id}, chat_id={self.chat_id})>"
 
-	@lazy
-	def unread_count(v):
-		return g.db.query(ChatNotification).filter_by(user_id=v.id, read=False, chat_id=self.chat_id).count()
-
 
 class ChatLeave(Base):
 	__tablename__ = "chat_leaves"
@@ -61,18 +57,15 @@ class ChatLeave(Base):
 class ChatNotification(Base):
 	__tablename__ = "chat_notifications"
 	user_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
-	chat_message_id = Column(Integer, ForeignKey("chat_messages.id"), primary_key=True)
-	chat_id = Column(Integer, ForeignKey("chats.id"))
+	chat_id = Column(Integer, ForeignKey("chats.id"), primary_key=True)
 	created_utc = Column(Integer)
-
-	chat_message = relationship("ChatMessage")
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
 		super().__init__(*args, **kwargs)
 
 	def __repr__(self):
-		return f"<{self.__class__.__name__}(user_id={self.user_id}, chat_message_id={self.message_id})>"
+		return f"<{self.__class__.__name__}(user_id={self.user_id}, chat_id={self.chat_id})>"
 
 
 class ChatMessage(Base):

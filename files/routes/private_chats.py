@@ -66,12 +66,8 @@ def private_chat(v, chat_id):
 	displayed_messages = reversed(g.db.query(ChatMessage).filter_by(chat_id=chat.id).order_by(ChatMessage.id.desc()).limit(250).all())
 	displayed_messages = {m.id: m for m in displayed_messages}
 
-	notifs = g.db.query(ChatNotification).filter(
-		ChatNotification.user_id == v.id,
-		ChatNotification.chat_id == chat.id,
-	).all()
-	for n in notifs:
-		g.db.delete(n)
+	notif = g.db.query(ChatNotification).filter_by(user_id=v.id, chat_id=chat_id).one_or_none()
+	if notif: g.db.delete(notif)
 
 	g.db.commit() #to clear notif count
 	return render_template("private_chat.html", v=v, messages=displayed_messages, chat=chat)
@@ -123,8 +119,7 @@ def leave_chat(v, chat_id):
 	)
 	g.db.add(chat_leave)
 
-	chat_notifs = g.db.query(ChatNotification).filter_by(user_id=v.id, chat_id=chat_id)
-	for chat_notif in chat_notifs:
-		g.db.delete(chat_notif)
+	notif = g.db.query(ChatNotification).filter_by(user_id=v.id, chat_id=chat_id).one_or_none()
+	if notif: g.db.delete(notif)
 
 	return {"message": "Chat left successfully!"}

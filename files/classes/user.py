@@ -836,7 +836,7 @@ class User(Base):
 
 	@lazy
 	def chat_notifications_count(self, chat_id):
-		return g.db.query(ChatNotification).filter_by(user_id=self.id, chat_id=chat_id).count()
+		return len(g.db.query(ChatNotification.user_id).filter_by(user_id=self.id, chat_id=chat_id).one_or_none())
 
 	@property
 	@lazy

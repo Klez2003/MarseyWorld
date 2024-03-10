@@ -156,14 +156,15 @@ def speak(data, v):
 						g.db.delete(existing)
 						g.db.flush()
 
+		dont_notify = list(online[request.referrer].keys()) + [x[0] for x in g.db.query(ChatNotification.user_id).filter_by(chat_id=chat_id).all()]
+		dont_notify = set(dont_notify)
 		to_notify = [x[0] for x in g.db.query(ChatMembership.user_id).filter(
 			ChatMembership.chat_id == chat_id,
-			ChatMembership.user_id.notin_(online[request.referrer].keys()),
+			ChatMembership.user_id.notin_(dont_notify),
 		)]
 		for uid in to_notify:
 			n = ChatNotification(
 				user_id=uid,
-				chat_message_id=chat_message.id,
 				chat_id=chat_id,
 			)
 			g.db.add(n)
