@@ -380,6 +380,109 @@ ALTER SEQUENCE public.casino_games_id_seq OWNED BY public.casino_games.id;
 
 
 --
+-- Name: chat_leaves; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.chat_leaves (
+    user_id integer NOT NULL,
+    chat_id integer NOT NULL,
+    created_utc integer NOT NULL
+);
+
+
+--
+-- Name: chat_memberships; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.chat_memberships (
+    user_id integer NOT NULL,
+    chat_id integer NOT NULL,
+    created_utc integer NOT NULL
+);
+
+
+--
+-- Name: chat_messages; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.chat_messages (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    chat_id integer NOT NULL,
+    quotes integer,
+    text character varying(1000) NOT NULL,
+    text_censored character varying(1200) NOT NULL,
+    text_html character varying(5000) NOT NULL,
+    text_html_censored character varying(6000) NOT NULL,
+    created_utc integer NOT NULL
+);
+
+
+--
+-- Name: chat_messages_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.chat_messages_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: chat_messages_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.chat_messages_id_seq OWNED BY public.chat_messages.id;
+
+
+--
+-- Name: chat_notifications; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.chat_notifications (
+    user_id integer NOT NULL,
+    chat_message_id integer NOT NULL,
+    chat_id integer NOT NULL,
+    created_utc integer NOT NULL
+);
+
+
+--
+-- Name: chats; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.chats (
+    id integer NOT NULL,
+    owner_id integer NOT NULL,
+    name character varying(40) NOT NULL,
+    created_utc integer NOT NULL
+);
+
+
+--
+-- Name: chats_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.chats_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: chats_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.chats_id_seq OWNED BY public.chats.id;
+
+
+--
 -- Name: client_auths; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1260,6 +1363,20 @@ ALTER TABLE ONLY public.casino_games ALTER COLUMN id SET DEFAULT nextval('public
 
 
 --
+-- Name: chat_messages id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.chat_messages ALTER COLUMN id SET DEFAULT nextval('public.chat_messages_id_seq'::regclass);
+
+
+--
+-- Name: chats id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.chats ALTER COLUMN id SET DEFAULT nextval('public.chats_id_seq'::regclass);
+
+
+--
 -- Name: comment_edits id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1398,6 +1515,38 @@ ALTER TABLE ONLY public.badges
 
 ALTER TABLE ONLY public.casino_games
     ADD CONSTRAINT casino_games_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: chat_leaves chat_leaves_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.chat_leaves
+    ADD CONSTRAINT chat_leaves_pkey PRIMARY KEY (user_id, chat_id);
+
+
+--
+-- Name: chat_memberships chat_memberships_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.chat_memberships
+    ADD CONSTRAINT chat_memberships_pkey PRIMARY KEY (user_id, chat_id);
+
+
+--
+-- Name: chat_messages chat_messages_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.chat_messages
+    ADD CONSTRAINT chat_messages_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: chats chats_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.chats
+    ADD CONSTRAINT chats_pkey PRIMARY KEY (id);
 
 
 --
@@ -2675,6 +2824,94 @@ ALTER TABLE ONLY public.comments
 
 ALTER TABLE ONLY public.casino_games
     ADD CONSTRAINT casino_games_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: chat_leaves chat_leaves_chat_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.chat_leaves
+    ADD CONSTRAINT chat_leaves_chat_fkey FOREIGN KEY (chat_id) REFERENCES public.chats(id);
+
+
+--
+-- Name: chat_leaves chat_leaves_user_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.chat_leaves
+    ADD CONSTRAINT chat_leaves_user_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: chat_memberships chat_memberships_chat_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.chat_memberships
+    ADD CONSTRAINT chat_memberships_chat_fkey FOREIGN KEY (chat_id) REFERENCES public.chats(id);
+
+
+--
+-- Name: chat_memberships chat_memberships_user_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.chat_memberships
+    ADD CONSTRAINT chat_memberships_user_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: chat_messages chat_messages_chat_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.chat_messages
+    ADD CONSTRAINT chat_messages_chat_fkey FOREIGN KEY (chat_id) REFERENCES public.chats(id);
+
+
+--
+-- Name: chat_messages chat_messages_quotes_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.chat_messages
+    ADD CONSTRAINT chat_messages_quotes_fkey FOREIGN KEY (quotes) REFERENCES public.chat_messages(id);
+
+
+--
+-- Name: chat_messages chat_messages_user_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.chat_messages
+    ADD CONSTRAINT chat_messages_user_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: chat_notifications chat_notifications_chat_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.chat_notifications
+    ADD CONSTRAINT chat_notifications_chat_fkey FOREIGN KEY (chat_id) REFERENCES public.chats(id);
+
+
+--
+-- Name: chat_notifications chat_notifications_message_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.chat_notifications
+    ADD CONSTRAINT chat_notifications_message_fkey FOREIGN KEY (chat_message_id) REFERENCES public.chat_messages(id);
+
+
+--
+-- Name: chat_notifications chat_notifications_user_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.chat_notifications
+    ADD CONSTRAINT chat_notifications_user_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: chats chats_owner_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.chats
+    ADD CONSTRAINT chats_owner_fkey FOREIGN KEY (owner_id) REFERENCES public.users(id);
 
 
 --

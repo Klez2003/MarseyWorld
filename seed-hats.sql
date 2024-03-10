@@ -1234,11 +1234,12 @@ INSERT INTO public.hat_defs VALUES (1503, 'Marsey Cowboy Hat', 'This town ain''t
 INSERT INTO public.hat_defs VALUES (1504, 'Ants', 'There''s ants coming out of your face...', 2, 1000, NULL, 1709488882);
 
 
+
 --
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1504, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1505, true);
 
 
 --
