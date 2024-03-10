@@ -66,13 +66,12 @@ def private_chat(v, chat_id):
 	displayed_messages = reversed(g.db.query(ChatMessage).filter_by(chat_id=chat.id).order_by(ChatMessage.id.desc()).limit(250).all())
 	displayed_messages = {m.id: m for m in displayed_messages}
 
-	notifs_msgs = g.db.query(ChatNotification, ChatMessage).join(ChatNotification.chat_message).filter(
+	notifs = g.db.query(ChatNotification).filter(
 		ChatNotification.user_id == v.id,
 		ChatNotification.chat_id == chat.id,
 	).all()
-	for notif, msg in notifs_msgs:
-		msg.unread = True
-		g.db.delete(notif)
+	for n in notifs:
+		g.db.delete(n)
 
 	g.db.commit() #to clear notif count
 	return render_template("private_chat.html", v=v, messages=displayed_messages, chat=chat)
