@@ -125,7 +125,8 @@ def fourchan_mentions_task():
 def soyjak_mentions_task():
 	for q in OFFSITE_NOTIF_QUERIES:
 		url = f'https://api.marge.moe/search?q={q}'
-		data = requests.get(url, headers={"User-Agent": "MarseyFromWPD"}, timeout=20, proxies=proxies).json()['results']
+		try: data = requests.get(url, headers={"User-Agent": "MarseyFromWPD"}, timeout=20, proxies=proxies).json()['results']
+		except: return
 
 		for thing in data:
 			text = f'<blockquote><p>{thing["comment"]}</p></blockquote>'
