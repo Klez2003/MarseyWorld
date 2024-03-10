@@ -213,8 +213,7 @@ socket.on('online', function(data) {
 		for (const u of online_li) {
 			for (const marker of document.getElementsByClassName(`online-marker-${u[4]}`)) {
 				marker.classList.remove('d-none')
-				marker.parentElement.parentElement.insertAdjacentHTML('afterbegin', marker.parentElement.outerHTML)
-				marker.parentElement.remove()
+				marker.parentElement.parentElement.insertBefore(marker.parentElement, marker.parentElement.parentElement.firstChild);
 			}
 		}
 		return
