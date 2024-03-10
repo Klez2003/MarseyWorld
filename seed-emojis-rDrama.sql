@@ -2079,7 +2079,6 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseychudnotes', 'Marsey', 2, 'write writing manifesto pencil', false, 1664829809),
 ('marseychudrentfree', 'Marsey', 2, 'seethe mask cope smug cry rage', false, 1665938276),
 ('marseychudsmas', 'Marsey', 2, 'santa naughty christmas holiday', false, 1671901395),
-('marseychudsnappyactivated', 'Marsey', 2, 'darksnappy enraged robot nigger slur', false, 1697465743),
 ('marseychudstamp', 'Marsey', 2, 'trans zoom nails paw mark', false, 1677114502),
 ('marseychufly', 'Marsey', 2, 'pokemon pkmn flyingpikachu 25', false, 1705987185),
 ('marseychungus', 'Marsey', 2, 'bugs bunny meme fat chonker big', false, 0),
