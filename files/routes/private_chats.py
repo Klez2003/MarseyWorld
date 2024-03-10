@@ -124,4 +124,8 @@ def leave_chat(v, chat_id):
 	)
 	g.db.add(chat_leave)
 
+	chat_notifs = g.db.query(ChatNotification).filter_by(user_id=v.id, chat_id=chat_id)
+	for chat_notif in chat_notifs:
+		g.db.delete(chat_notif)
+
 	return {"message": "Chat left successfully!"}
