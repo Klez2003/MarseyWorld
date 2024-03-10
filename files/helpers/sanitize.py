@@ -71,9 +71,6 @@ def execute_blackjack(v, target, body, kind):
 		if all(i in body.lower() for i in x.split()):
 			execute = True
 
-	if SITE_NAME == 'rDrama' and kind == 'message' and ('discord' in body.lower() or 'groomercord' in body.lower()):
-		execute = True
-
 	if not execute: return False
 
 	v.shadowbanned = AUTOJANNY_ID
