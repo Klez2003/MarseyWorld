@@ -64,6 +64,7 @@ def private_chat(v, chat_id):
 			abort(403, "You're not a member of this chat!")
 
 	displayed_messages = g.db.query(ChatMessage).filter_by(chat_id=chat.id).limit(250).all()
+	displayed_messages = {m.id: m for m in displayed_messages}
 
 	notifs_msgs = g.db.query(ChatNotification, ChatMessage).join(ChatNotification.chat_message).filter(
 		ChatNotification.user_id == v.id,
