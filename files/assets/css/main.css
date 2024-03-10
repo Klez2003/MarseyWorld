@@ -7806,7 +7806,3 @@ table.border-0 * {
 .inline-modal-option.user-option span {
 	margin-left: 0 !important;
 }
-
-.inline-modal-option a {
-    color: var(--black);
-}
