@@ -91,6 +91,10 @@ def change_chat_name(v, chat_id):
 		abort(403, "Only the chat owner can change its name!")
 
 	new_name = request.values.get("new_name").strip()
+
+	if len(new_name) > 40:
+		abort(400, "New name is too long (max 40 characters)")
+
 	chat.name = new_name
 	g.db.add(chat)
 
