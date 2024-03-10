@@ -224,17 +224,18 @@ class User(Base):
 		if SITE == 'rdrama.net' and self.id == 5237:
 			return
 
-		user_query = g.db.query(User).options(load_only(User.id)).filter_by(id=self.id)
+		if self.admin_level < PERMS['INFINITE_CURRENCY']:
+			user_query = g.db.query(User).options(load_only(User.id)).filter_by(id=self.id)
 
-		if currency == 'coins':
-			try:
-				user_query.update({ User.coins: User.coins + amount })
-			except OperationalError as e:
-				if str(e).startswith('(psycopg2.errors.QueryCanceled) canceling statement due to statement timeout'):
-					abort(409, f"Statement timeout while trying to pay @{self.username} {amount} coins!")
-				raise
-		else:
-			user_query.update({ User.marseybux: User.marseybux + amount })
+			if currency == 'coins':
+				try:
+					user_query.update({ User.coins: User.coins + amount })
+				except OperationalError as e:
+					if str(e).startswith('(psycopg2.errors.QueryCanceled) canceling statement due to statement timeout'):
+						abort(409, f"Statement timeout while trying to pay @{self.username} {amount} coins!")
+					raise
+			else:
+				user_query.update({ User.marseybux: User.marseybux + amount })
 
 		if reason and amount:
 			currency_log = CurrencyLog(
@@ -254,21 +255,24 @@ class User(Base):
 
 		should_check_balance = kwargs.get('should_check_balance', True)
 
-		user_query = g.db.query(User).options(load_only(User.id)).filter_by(id=self.id)
+		if self.admin_level < PERMS['INFINITE_CURRENCY']:
+			user_query = g.db.query(User).options(load_only(User.id)).filter_by(id=self.id)
 
 		logs = []
 		if currency == 'coins':
 			account_balance = self.coins
 
 			if not should_check_balance or account_balance >= amount:
-				user_query.update({ User.coins: User.coins - amount })
+				if self.admin_level < PERMS['INFINITE_CURRENCY']:
+					user_query.update({ User.coins: User.coins - amount })
 				succeeded = True
 				logs = [['coins', amount]]
 		elif currency == 'marseybux':
 			account_balance = self.marseybux
 
 			if not should_check_balance or account_balance >= amount:
-				user_query.update({ User.marseybux: User.marseybux - amount })
+				if self.admin_level < PERMS['INFINITE_CURRENCY']:
+					user_query.update({ User.marseybux: User.marseybux - amount })
 				succeeded = True
 				logs = [['marseybux', amount]]
 		elif currency == 'coins/marseybux':
@@ -281,10 +285,11 @@ class User(Base):
 				if subtracted_coins > self.coins:
 					return False
 
-			user_query.update({
-				User.marseybux: User.marseybux - subtracted_mbux,
-				User.coins: User.coins - subtracted_coins,
-			})
+			if self.admin_level < PERMS['INFINITE_CURRENCY']:
+				user_query.update({
+					User.marseybux: User.marseybux - subtracted_mbux,
+					User.coins: User.coins - subtracted_coins,
+				})
 			succeeded = True
 			logs = [['coins', subtracted_coins], ['marseybux', subtracted_mbux]]
 
