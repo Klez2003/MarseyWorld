@@ -143,7 +143,7 @@ def notifications_chats(v):
 	criteria1 = (Chat.id == ChatMembership.chat_id, ChatMembership.user_id == v.id)
 	criteria2 = (Chat.id == ChatNotification.chat_id, ChatNotification.user_id == v.id)
 	chats = g.db.query(Chat, func.count(ChatNotification.chat_id)).join(ChatMembership, and_(*criteria1)).outerjoin(ChatNotification, and_(*criteria2)).group_by(Chat).order_by(func.count(ChatNotification.chat_id).desc(), Chat.name).all()
-	return render_template("notifications.html", v=v, chats=chats)
+	return render_template("notifications.html", v=v, notifications=chats)
 
 @app.get("/notifications/modmail")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
