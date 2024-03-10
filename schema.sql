@@ -457,7 +457,7 @@ CREATE TABLE public.chat_notifications (
 CREATE TABLE public.chats (
     id integer NOT NULL,
     owner_id integer NOT NULL,
-    name character varying(40) NOT NULL,
+    name character varying(54) NOT NULL,
     created_utc integer NOT NULL
 );
 
@@ -3549,4 +3549,3 @@ ALTER TABLE ONLY public.comments
 --
 -- PostgreSQL database dump complete
 --
-
