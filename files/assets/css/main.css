@@ -7192,6 +7192,10 @@ input::-webkit-inner-spin-button {
 	}
 }
 
+.chat-owner {
+	height: 30px;
+}
+
 #input-message, #input-message-mobile {
 	min-height: 100px;
 }
