@@ -620,7 +620,7 @@ def message(v, username=None, id=None):
 		abort(403, f"@{user.username} is blocking you!")
 
 	if user.has_muted(v):
-			abort(403, f"@{user.username} is muting notifications from you, so messaging them is pointless!")
+		abort(403, f"@{user.username} is muting notifications from you, so messaging them is pointless!")
 
 	body = request.values.get("message", "").strip()
 	if len(body) > COMMENT_BODY_LENGTH_LIMIT:
