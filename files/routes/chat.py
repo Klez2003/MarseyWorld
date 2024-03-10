@@ -190,7 +190,7 @@ def connect(v):
 	if request.referrer == f'{SITE_FULL}/notifications/messages':
 		join_room(v.id)
 		return ''
-	elif request.referrer.startswith(f'{SITE_FULL}/chat/'):
+	elif request.referrer and request.referrer.startswith(f'{SITE_FULL}/chat/'):
 		join_room(request.referrer)
 		return ''
 
@@ -208,7 +208,7 @@ def disconnect(v):
 	if request.referrer == f'{SITE_FULL}/notifications/messages':
 		leave_room(v.id)
 		return ''
-	elif request.referrer.startswith(f'{SITE_FULL}/chat/'):
+	elif request.referrer and request.referrer.startswith(f'{SITE_FULL}/chat/'):
 		leave_room(request.referrer)
 		return ''
 
