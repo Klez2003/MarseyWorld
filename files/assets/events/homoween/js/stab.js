@@ -1,6 +1,6 @@
 /* Copyright (C) 2013 Justin Windle, http://soulwire.co.uk */
 
-(function ( root, factory ) {
+(function( root, factory ) {
 
 	if ( typeof exports === 'object' ) {
 
@@ -18,7 +18,7 @@
 		root.Sketch = factory( root, root.document );
 	}
 
-}( typeof window !== "undefined" ? window : this, function ( window, document ) {
+}( typeof window !== "undefined" ? window : this, function( window, document ) {
 	"use strict";
 
 	/*
@@ -378,7 +378,7 @@
 
 				context.dragging;
 
-			while( min )
+			while (min)
 
 				isString( eventMap[ min ] ) ?
 
@@ -648,16 +648,16 @@ let blood = Sketch.create({autoclear: false, autopause: false}),
 
 blood.update = function() {
 	let d = drops.length;
-	while(d < dropCount && i < maxDrops) {
+	while (d < dropCount && i < maxDrops) {
 		let drop = new Drop();
 		drops.push(drop);
 		d++;
 		i++;
 	}
-	while(d-- && i < maxDrops) {
+	while (d-- && i < maxDrops) {
 		let drop = drops[d];
 		drop.y += drop.vy;
-		if(drop.y - drop.radius > blood.height) {
+		if (drop.y - drop.radius > blood.height) {
 			drops.splice(d,1);
 		}
 	}
@@ -665,7 +665,7 @@ blood.update = function() {
 
 blood.draw = function() {
 	let d = drops.length;
-	while(d-- && i < maxDrops) {
+	while (d-- && i < maxDrops) {
 		let drop = drops[d];
 		blood.beginPath();
 		blood.fillStyle = 'rgba('+drop.r+','+drop.g+','+drop.b+',.8)';

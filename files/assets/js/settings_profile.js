@@ -8,7 +8,7 @@ function post(url) {
 	xhr.send(form);
 };
 
-function updatebgselection(){
+function updatebgselection() {
 	const bgselector = document.getElementById("backgroundSelector");
 	const backgrounds = [
 		{

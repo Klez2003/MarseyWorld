@@ -184,7 +184,7 @@ function updateCardsetBackgrounds(state, complete = false) {
 	for (const cardset of cardsets) {
 		['PLAYING', 'LOST', 'PUSHED', 'WON', 'BLACKJACK'].forEach(status => cardset.classList.remove(`blackjack-cardset__${status}`));
 	}
-	if (complete){
+	if (complete) {
 		const wager = state.has_player_split ? state?.wager?.amount * 2 : state?.wager?.amount;
 		let dealerShows = state.payout < wager ? 'WON': 'LOST';
 		if (state.payout === wager || (state.player_doubled_down && state.status === 'PUSHED')) dealerShows = 'PUSHED'

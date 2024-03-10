@@ -132,7 +132,7 @@ function checkRepost() {
 		form.append("url", url);
 		form.append("formkey", formkey());
 
-		xhr.onload=function(){
+		xhr.onload=function() {
 			try {data = JSON.parse(xhr.response)}
 			catch(e) {console.error(e)}
 

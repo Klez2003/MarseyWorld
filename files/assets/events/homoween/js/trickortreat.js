@@ -17,8 +17,7 @@ function postToastLoadTrickOrTreat(xhr) {
 	success = xhr.status >= 200 && xhr.status < 300;
 	showToast(success, getMessageFromJsonData(success, data));
 
-	if (data["result"] == 0){
+	if (data["result"] == 0) {
 		scare()
 	}
 }
-

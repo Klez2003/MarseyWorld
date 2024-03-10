@@ -30,7 +30,7 @@ function execute_fireworks(firework) {
 
 let counter = 0
 
-for (let firework of document.getElementsByClassName("firework")){
+for (let firework of document.getElementsByClassName("firework")) {
 	const timeout = 2000 * counter
 	counter++
 	setTimeout(() => {

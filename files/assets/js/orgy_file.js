@@ -28,14 +28,14 @@ orgy_file.addEventListener('pause', () => {
 	add_playing_listener()
 })
 
-orgy_file.addEventListener("timeupdate", function(){
+orgy_file.addEventListener("timeupdate", function() {
 	if (break_file.dataset.run == "False" && parseInt(orgy_file.currentTime) == 3000) {
 		break_file.dataset.run = "True"
 		orgy_file.pause();
 		orgy_file.classList.add('d-none');
 		break_file.classList.remove('d-none');
 		break_file.play()
-		setTimeout(function () {
+		setTimeout(function() {
 			break_file.pause()
 			break_file.classList.add('d-none');
 			orgy_file.classList.remove('d-none');
@@ -45,7 +45,7 @@ orgy_file.addEventListener("timeupdate", function(){
 	}
 });
 
-orgy_file.addEventListener("ended", function(){
+orgy_file.addEventListener("ended", function() {
 	location.reload()
 });
 

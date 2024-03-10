@@ -3,14 +3,14 @@ marked.use({
 		{
 			name: 'mention',
 			level: 'inline',
-			start: function(src){
+			start: function(src) {
 				const match = src.match(/@[\w-]{1,30}/);
 				return match != null ? match.index : -1;
 			},
 			tokenizer: function(src) {
 				const rule = /^@[\w-]{1,30}/;
 				const match = rule.exec(src);
-				if (match){
+				if (match) {
 					return {
 						type: 'mention',
 						raw: match[0],
@@ -27,14 +27,14 @@ marked.use({
 		{
 			name: 'group_mention',
 			level: 'inline',
-			start: function(src){
+			start: function(src) {
 				const match = src.match(/![\w-]{3,25}/);
 				return match != null ? match.index : -1;
 			},
 			tokenizer: function(src) {
 				const rule = /^![\w-]{3,25}/;
 				const match = rule.exec(src);
-				if (match){
+				if (match) {
 					return {
 						type: 'group_mention',
 						raw: match[0],
@@ -51,14 +51,14 @@ marked.use({
 		{
 			name: 'underscore',
 			level: 'inline',
-			start: function(src){
+			start: function(src) {
 				const match = src.match(/_/);
 				return match != null ? match.index : -1;
 			},
 			tokenizer: function(src) {
 				const rule = /^_/;
 				const match = rule.exec(src);
-				if (match){
+				if (match) {
 					return {
 						type: 'underscore',
 						raw: match[0],
@@ -104,7 +104,7 @@ const findAllEmojiEndings = (word) => {
 	let hasReachedNonModifer = false;
 	let currWord = word;
 	const currEndings = [];
-	while(!hasReachedNonModifer) {
+	while (!hasReachedNonModifer) {
 		if (currWord.endsWith('pat')) {
 			if (currEndings.indexOf(MODIFIERS.PAT) !== -1) {
 				hasReachedNonModifer = true;
@@ -178,7 +178,7 @@ function markdown(t) {
 	{
 		if (!window.onbeforeunload)
 		{
-			window.onbeforeunload = function (e) {
+			window.onbeforeunload = function(e) {
 				e = e || window.event;
 				if (e) {
 					e.returnValue = 'Any string';
@@ -198,7 +198,7 @@ function markdown(t) {
 	input = input.replace(/((\s|^)[0-9]+)\. /g, '$1\\. ')
 
 	const emojis = Array.from(input.matchAll(/:([a-z0-9_\-!#@]{1,72}):(?![^`]*`)/gi))
-	for (i = 0; i < emojis.length; i++){
+	for (i = 0; i < emojis.length; i++) {
 		const old = emojis[i][0];
 		if (old.includes('marseyrandom')) continue;
 
@@ -259,8 +259,8 @@ function markdown(t) {
 	}
 
 	let options = Array.from(input.matchAll(/\$\$([^\$\n]+)\$\$(?![^`]*`)/gi))
-	if (options != null){
-		for (i = 0; i < options.length; i++){
+	if (options != null) {
+		for (i = 0; i < options.length; i++) {
 			const option = options[i][0];
 			const option2 = option.replace(/\$\$/g, '').replace(/\n/g, '')
 			input = input.replace(option, `<div class="custom-control mb-3"><input type="checkbox" class="custom-control-input" id="option-${i}"><label class="custom-control-label" for="option-${i}">${option2} - <a>0 votes</a></label></div>`);
@@ -268,8 +268,8 @@ function markdown(t) {
 	}
 
 	options = Array.from(input.matchAll(/&&([^&\n]+)&&(?![^`]*`)/gi))
-	if (options != null){
-		for (i = 0; i < options.length; i++){
+	if (options != null) {
+		for (i = 0; i < options.length; i++) {
 			const option = options[i][0];
 			const option2 = option.replace(/&&/g, '').replace(/\n/g, '')
 			input = input.replace(option, `<div class="custom-control mb-3"><input type="radio" name="choice" class="custom-control-input" id="option-${i}"><label class="custom-control-label" for="option-${i}">${option2} - <a>0 votes</a></label></div>`);
@@ -291,7 +291,7 @@ function markdown(t) {
 			}
 			const fileReader = new FileReader();
 			fileReader.readAsDataURL(file);
-			fileReader.onload = function () {
+			fileReader.onload = function() {
 				input = input.replace(`[${file.name}]`, `<img class="img" loading="lazy" src="${this.result}">`)
 				counter += 1
 				if (counter == files.length)
@@ -317,7 +317,7 @@ function charLimit(form, text) {
 	if (length >= maxLength) {
 		text.style.color = "#E53E3E";
 	}
-	else if (length >= maxLength * .72){
+	else if (length >= maxLength * .72) {
 		text.style.color = "#FFC107";
 	}
 	else {

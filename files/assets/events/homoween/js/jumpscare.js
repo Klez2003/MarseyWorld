@@ -7,7 +7,7 @@ function scare() {
 	jumpscare_audio.play();
 
 	// Hide image and reset sound
-	setTimeout(function () {
+	setTimeout(function() {
 		image.style.display = "none";
 		jumpscare_audio.pause()
 		jumpscare_audio.currentTime = 0;
@@ -15,7 +15,7 @@ function scare() {
 }
 
 if (Math.random() <= 0.1) {
-	setTimeout(function () {
+	setTimeout(function() {
 		const xhr = new XMLHttpRequest();
 		xhr.open("POST", "/jumpscare");
 		xhr.setRequestHeader('xhr', 'xhr');

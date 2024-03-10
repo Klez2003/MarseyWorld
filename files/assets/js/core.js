@@ -197,7 +197,7 @@ function formkey() {
 
 function bs_trigger(e) {
 	let tooltipTriggerList = [].slice.call(e.querySelectorAll('[data-bs-toggle="tooltip"]'));
-	tooltipTriggerList.map(function(element){
+	tooltipTriggerList.map(function(element) {
 		return bootstrap.Tooltip.getOrCreateInstance(element);
 	});
 
@@ -446,7 +446,7 @@ function insertText(input, text) {
 	input.setRangeText(text);
 
 	if (window.chrome !== undefined)
-		setTimeout(function(){
+		setTimeout(function() {
 			input.focus();
 			for (let i = 0; i < 2; i++)
 				input.setSelectionRange(newPos, newPos);
@@ -580,7 +580,7 @@ if (file_upload) {
 			if (file.type.startsWith('image/')) {
 				const fileReader = new FileReader();
 				fileReader.readAsDataURL(file_upload.files[0]);
-				fileReader.onload = function () {
+				fileReader.onload = function() {
 					document.getElementById('image-preview').setAttribute('src', this.result);
 					document.getElementById('image-preview').classList.remove('d-none');
 					document.getElementById('image-preview').classList.add('mr-2');
@@ -674,18 +674,18 @@ if (screen_width < 768) {
 		object = document
 
 	if (object) {
-		object.addEventListener('shown.bs.modal', function (e) {
+		object.addEventListener('shown.bs.modal', function(e) {
 			const new_href = `${location.href.split('#')[0]}#m-${e.target.id}`
 			history.pushState({}, '', new_href)
 		});
 
-		object.addEventListener('hide.bs.modal', function (e) {
+		object.addEventListener('hide.bs.modal', function(e) {
 			if (location.hash == `#m-${e.target.id}`) {
 				history.back();
 			}
 		});
 
-		addEventListener('hashchange', function () {
+		addEventListener('hashchange', function() {
 			if (!location.hash.startsWith("#m-")) {
 				const curr_modal = bootstrap.Modal.getInstance(document.getElementsByClassName('show')[0])
 				if (curr_modal) curr_modal.hide()

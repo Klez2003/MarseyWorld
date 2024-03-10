@@ -39,7 +39,7 @@ socket.on('speak', function(json) {
 	}
 
 	chatline.classList.remove('chat-mention');
-	if (text_html.includes(`<a href="/id/${vid}"`)){
+	if (text_html.includes(`<a href="/id/${vid}"`)) {
 		chatline.classList.add('chat-mention');
 	}
 
@@ -95,7 +95,7 @@ socket.on('speak', function(json) {
 		const quoted = document.getElementById(json.quotes)
 		if (quoted) {
 			const quoted_user = quoted.parentElement.querySelector('.user_id').value
-			if (quoted_user == vid){
+			if (quoted_user == vid) {
 				chatline.classList.add('chat-mention');
 			}
 			document.getElementsByClassName('quotes')[0].classList.remove("d-none")
@@ -123,13 +123,13 @@ socket.on('speak', function(json) {
 
 	if (scrolled_down || json.user_id == vid) {
 		box.scrollTo(0, box.scrollHeight)
-		setTimeout(function () {
+		setTimeout(function() {
 			box.scrollTo(0, box.scrollHeight)
 		}, 200);
-		setTimeout(function () {
+		setTimeout(function() {
 			box.scrollTo(0, box.scrollHeight)
 		}, 500);
-		setTimeout(function () {
+		setTimeout(function() {
 			box.scrollTo(0, box.scrollHeight)
 		}, 1000);		
 	}
@@ -168,13 +168,13 @@ function send() {
 		input.previousElementSibling.textContent = "";
 	
 		box.scrollTo(0, box.scrollHeight);
-		setTimeout(function () {
+		setTimeout(function() {
 			box.scrollTo(0, box.scrollHeight)
 		}, 200);
-		setTimeout(function () {
+		setTimeout(function() {
 			box.scrollTo(0, box.scrollHeight)
 		}, 500);
-		setTimeout(function () {
+		setTimeout(function() {
 			box.scrollTo(0, box.scrollHeight)
 		}, 1000);		
 	}
@@ -204,7 +204,7 @@ ta.addEventListener("keydown", function(e) {
 	}
 })
 
-socket.on('online', function(data){
+socket.on('online', function(data) {
 	const online_li = data[0]
 	if (location.pathname.startsWith('/chat/')) {
 		for (const marker of document.getElementsByClassName('online-marker')) {
@@ -260,7 +260,7 @@ function remove_typing() {
 
 ta.addEventListener("input", function() {
 	text = ta.value
-	if (!text && is_typing){
+	if (!text && is_typing) {
 		is_typing = false;
 		socket.emit('typing', false);
 	}
@@ -273,14 +273,14 @@ ta.addEventListener("input", function() {
 })
 
 
-socket.on('typing', function (users){
-	if (users.length==0){
+socket.on('typing', function(users) {
+	if (users.length==0) {
 		document.getElementById('typing-indicator').innerHTML = '';
 	}
-	else if (users.length==1){
+	else if (users.length==1) {
 		document.getElementById('typing-indicator').innerHTML = '<b>'+users[0]+"</b> is typing...";
 	}
-	else if (users.length==2){
+	else if (users.length==2) {
 		document.getElementById('typing-indicator').innerHTML = '<b>'+users[0]+"</b> and <b>"+users[1]+"</b> are typing...";
 	}
 	else {
@@ -309,7 +309,7 @@ socket.on('refresh_chat', () => {
 	location.reload()
 })
 
-document.addEventListener('click', function (e) {
+document.addEventListener('click', function(e) {
 	if (e.target.classList.contains('delconfirm')) {
 		e.target.nextElementSibling.classList.remove('d-none');
 		e.target.classList.add('d-none');
@@ -350,18 +350,18 @@ send_hearbeat()
 setInterval(send_hearbeat, 20000);
 
 box.scrollTo(0, box.scrollHeight)
-setTimeout(function () {
+setTimeout(function() {
 	box.scrollTo(0, box.scrollHeight)
 }, 200);
-setTimeout(function () {
+setTimeout(function() {
 	box.scrollTo(0, box.scrollHeight)
 }, 500);
-setTimeout(function () {
+setTimeout(function() {
 	box.scrollTo(0, box.scrollHeight)
 }, 1000);
-setTimeout(function () {
+setTimeout(function() {
 	box.scrollTo(0, box.scrollHeight)
 }, 1500);
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function() {
 	box.scrollTo(0, box.scrollHeight)
 });

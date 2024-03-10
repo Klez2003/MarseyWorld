@@ -4,14 +4,14 @@ const container = document.getElementById('GIFs');
 
 let commentFormID;
 
-function insertGIF(url) {
+function insertGif (url) {
 	const commentBox = document.getElementById(commentFormID);
 	insertText(commentBox, url)
 }
 
 const gifModal = document.getElementById('gifModal')
 
-gifModal.addEventListener('shown.bs.modal', function () {
+gifModal.addEventListener('shown.bs.modal', function() {
 	focusSearchBar(gifSearchBar);
 	setTimeout(() => {
 		focusSearchBar(gifSearchBar);
@@ -137,7 +137,7 @@ async function searchGifs(searchTerm) {
 
 		const giphy = document.getElementsByClassName('giphy')
 		for (const element of giphy) {
-			element.addEventListener('click', () => {insertGIF(element.src)});
+			element.addEventListener('click', () => {insertGif (element.src)});
 		}
 	}
 	else {

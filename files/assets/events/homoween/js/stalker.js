@@ -80,7 +80,7 @@ function makeCircle() {
 	}
 }
 
-addEventListener("mousemove", function (e) {
+addEventListener("mousemove", function(e) {
 	mouse.x = e.pageX;
 	mouse.y = e.pageY;
 });

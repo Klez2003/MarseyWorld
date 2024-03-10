@@ -6,16 +6,16 @@ let notifs = 0
 let focused = true
 let alert = true;
 
-addEventListener('blur', function(){
+addEventListener('blur', function() {
 	focused = false
 })
-addEventListener('focus', function(){
+addEventListener('focus', function() {
 	focused = true
 })
 
-function flash(){
+function flash() {
 	let title = document.getElementsByTagName('title')[0]
-	if (notifs >= 1 && !focused){
+	if (notifs >= 1 && !focused) {
 		title.innerHTML = `[+${notifs}] ${page_title}`
 		if (alert) {
 			icon.href = `${SITE_FULL_IMAGES}/i/${SITE_NAME}/alert.ico?x=3009`

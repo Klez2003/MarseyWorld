@@ -172,7 +172,7 @@ bs_trigger(document);
 
 const negative_awards = document.querySelectorAll("[data-positive=False]")
 
-document.addEventListener("click", function (e) {
+document.addEventListener("click", function(e) {
 	let element = e.target
 	if (element.tagName == "I")
 		element = element.parentElement

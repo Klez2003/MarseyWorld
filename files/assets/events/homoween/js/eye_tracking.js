@@ -33,7 +33,7 @@ if (innerWidth >= 992)
 				y = point1["y"] - point2["y"],
 				angle = Math.atan(y/x)
 
-			if(point1["x"] < point2["x"]) {
+			if (point1["x"] < point2["x"]) {
 				angle += Math.PI
 			}
 

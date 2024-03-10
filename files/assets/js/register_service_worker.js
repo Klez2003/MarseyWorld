@@ -25,7 +25,7 @@ function subscribeUser(swRegistration, applicationServerPublicKey, apiEndpoint) 
 	});
 }
 
-function registerServiceWorker(serviceWorkerUrl, applicationServerPublicKey, apiEndpoint){
+function registerServiceWorker(serviceWorkerUrl, applicationServerPublicKey, apiEndpoint) {
 	let swRegistration = null;
 	if ('serviceWorker' in navigator && 'PushManager' in window) {
 		navigator.serviceWorker.register(serviceWorkerUrl)

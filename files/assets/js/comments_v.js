@@ -84,7 +84,7 @@ function toggleReplyBox(t, id) {
 	t.innerHTML = newHTML
 }
 
-function toggleEdit(id){
+function toggleEdit(id) {
 	const comment = document.getElementById("comment-text-"+id);
 	const form = document.getElementById("comment-edit-"+id);
 	const box = document.getElementById('comment-edit-body-'+id);
@@ -159,7 +159,7 @@ function post_reply(id) {
 	const upload_prog = document.getElementById(`upload-prog-c_${id}`);
 	xhr[0].upload.onprogress = (e) => {handleUploadProgress(e, upload_prog)};
 
-	xhr[0].onload=function(){
+	xhr[0].onload=function() {
 		upload_prog.classList.add("d-none")
 
 		let data
@@ -197,7 +197,7 @@ function post_reply(id) {
 	xhr[0].send(xhr[1]);
 }
 
-function comment_edit(id){
+function comment_edit(id) {
 	const btn = document.getElementById(`edit-btn-${id}`)
 	btn.disabled = true
 	btn.classList.add('disabled');
@@ -217,7 +217,7 @@ function comment_edit(id){
 	const upload_prog = document.getElementById(`upload-prog-edit-c_${id}`);
 	xhr[0].upload.onprogress = (e) => {handleUploadProgress(e, upload_prog)};
 
-	xhr[0].onload=function(){
+	xhr[0].onload=function() {
 		upload_prog.classList.add("d-none")
 
 		let data
@@ -262,7 +262,7 @@ function comment_edit(id){
 	xhr[0].send(xhr[1]);
 }
 
-function post_comment(fullname, hide){
+function post_comment(fullname, hide) {
 	close_inline_emoji_modal();
 
 	const btn = document.getElementById('save-reply-to-'+fullname)
@@ -294,7 +294,7 @@ function post_comment(fullname, hide){
 	xhr.upload.onprogress = (e) => {handleUploadProgress(e, upload_prog)};
 
 	xhr.setRequestHeader('xhr', 'xhr');
-	xhr.onload=function(){
+	xhr.onload=function() {
 		upload_prog.classList.add("d-none")
 
 		let data

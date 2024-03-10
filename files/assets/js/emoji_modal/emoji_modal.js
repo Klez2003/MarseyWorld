@@ -47,7 +47,7 @@ let emojiSearcher = {
 	work: async function work() {
 		this.working = true;
 
-		while(this.queries.length > 0)
+		while (this.queries.length > 0)
 		{
 			const startTime = Date.now();
 
@@ -289,7 +289,7 @@ function openEmojiModal(t, inputTargetIDName)
 	}
 }
 
-document.getElementById('emojiModal').addEventListener('shown.bs.modal', function () {
+document.getElementById('emojiModal').addEventListener('shown.bs.modal', function() {
 	focusSearchBar(emojiSearchBarDOM);
 	setTimeout(() => {
 		focusSearchBar(emojiSearchBarDOM);
