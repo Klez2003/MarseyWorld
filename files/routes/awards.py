@@ -71,13 +71,13 @@ def buy_award(v, kind, AWARDS):
 	v.currency_spent_on_awards += price
 	if v.currency_spent_on_awards >= 1000000:
 		badge_grant(badge_id=73, user=v)
-	elif v.currency_spent_on_awards >= 500000:
+	if v.currency_spent_on_awards >= 500000:
 		badge_grant(badge_id=72, user=v)
-	elif v.currency_spent_on_awards >= 250000:
+	if v.currency_spent_on_awards >= 250000:
 		badge_grant(badge_id=71, user=v)
-	elif v.currency_spent_on_awards >= 100000:
+	if v.currency_spent_on_awards >= 100000:
 		badge_grant(badge_id=70, user=v)
-	elif v.currency_spent_on_awards >= 10000:
+	if v.currency_spent_on_awards >= 10000:
 		badge_grant(badge_id=69, user=v)
 	g.db.add(v)
 
