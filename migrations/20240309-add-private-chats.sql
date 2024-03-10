@@ -102,3 +102,6 @@ alter table chat_notifications
 
 alter table chat_notifications
     add constraint chat_notifications_chat_fkey foreign key (chat_id) references chats(id);
+
+alter table chat_notifications
+    add constraint chat_notifications_pkey primary key (user_id, chat_message_id);
