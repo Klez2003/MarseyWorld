@@ -1,7 +1,9 @@
 {% extends "default.html" %}
 {% block pagetitle %}Versions of /{% if obj.fullname.startswith('p_') %}post{% else %}comment{% endif %}/{{obj.id}}{% endblock %}
 {% block content %}
-	<h2 class="my-4 py-md-2">Versions of <a href="{{obj.permalink}}">/{% if obj.fullname.startswith('p_') %}post{% else %}comment{% endif %}/{{obj.id}}</a></h2>
+	<h2 class="my-4 py-md-2 d-none d-md-block">Versions of <a href="{{obj.permalink}}">/{% if obj.fullname.startswith('p_') %}post{% else %}comment{% endif %}/{{obj.id}}</a></h2>
+	<h4 class="my-4 py-md-2 d-md-none">Versions of <a href="{{obj.permalink}}">/{% if obj.fullname.startswith('p_') %}post{% else %}comment{% endif %}/{{obj.id}}</a></h4>
+
 	<div class="overflow-x-auto">
 		<table>
 			<thead>
