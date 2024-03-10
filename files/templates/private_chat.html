@@ -1,5 +1,5 @@
 {%- extends 'root.html' -%}
-{% block pagetitle -%}Chat{%- endblock %}
+{% block pagetitle -%}{{chat.name}}{%- endblock %}
 {% block pagetype %}chat{% endblock %}
 {% block body_attributes %}class="has_header"{% endblock %}
 {% block body %}
@@ -12,7 +12,8 @@
 	<div class="container pb-4 pb-md-2">
 		<div class="row justify-content-around" id="main-content-row">
 			<div class="col h-100 {% block customPadding %}custom-gutters{% endblock %}" id="main-content-col">
-				<h5 class="mt-2 mb-1 ml-1 toggleable" style="display:inline-block">{{chat.name}}</h5> 
+				<h5 class="mt-2 mb-1 ml-1 toggleable d-none d-md-block" style="display:inline-block">{{chat.name}}</h5> 
+				<span class="mt-2 ml-1 toggleable d-md-none" style="display:inline-block">{{chat.name}}</span> 
 
 				{% if v.id == chat.owner_id %}
 					<button class="px-2 toggleable" type="button" data-nonce="{{g.nonce}}" data-onclick="toggleElement('chat-name-form', 'chat-name')">
@@ -25,10 +26,10 @@
 						<button type="submit" class="btn btn-primary" style="margin-top:-5px">Save</button>
 					</form>
 				{% else %}
-					<button type="submit" class="btn btn-danger ml-3 px-2 pt-1" style="margin-top:-3px;padding-bottom: 0.3rem" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)" data-areyousure="postToastReload(this, '/chat/{{chat.id}}/leave')">Leave Chat</button>
+					<button type="submit" class="btn btn-danger ml-3 px-2 pt-1" style="margin-top:-3px;padding-bottom: 0.3rem" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)" data-areyousure="postToastReload(this, '/chat/{{chat.id}}/leave')">Leave</button>
 				{% endif %}
 
-				<div class="border-right d-md-none fl-r mt-4 pt-1 mr-3">
+				<div class="border-right d-md-none fl-r pt-1 mr-3">
 					<span data-bs-html="true" data-bs-toggle="tooltip" data-bs-placement="bottom" title="<b>Members</b> {% for membership in chat.memberships %}<br>@{{membership.user.username}}{% endfor %}" class="text-muted">
 						<i class="fas fa-user fa-sm mr-1"></i>
 						<span class="board-chat-count" style="cursor:default">{{chat.memberships|length}}</span>
