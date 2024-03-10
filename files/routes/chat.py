@@ -17,6 +17,7 @@ from files.helpers.alerts import push_notif
 from files.helpers.can_see import *
 from files.routes.wrappers import *
 from files.classes.orgy import *
+from files.classes.private_chats import *
 
 from files.__main__ import app, cache, limiter
 
@@ -32,16 +33,22 @@ socketio = SocketIO(
 muted = cache.get(f'muted') or {}
 
 messages = cache.get(f'messages') or {}
-online = {}
-typing = []
 
-cache.set('loggedin_chat', len(online), timeout=86400)
+online = {
+	"chat": {},
+	"messages": set()
+}
+
+typing = {
+	"chat": []
+}
+
+cache.set('loggedin_chat', len(online["chat"]), timeout=86400)
 
 def auth_required_socketio(f):
 	def wrapper(*args, **kwargs):
 		v = get_logged_in_user()
-		if not v: return '', 401
-		if v.is_permabanned: return '', 403
+		if not v or v.is_permabanned: return ''
 		return make_response(f(*args, v=v, **kwargs))
 	wrapper.__name__ = f.__name__
 	return wrapper
@@ -49,8 +56,7 @@ def auth_required_socketio(f):
 def is_not_banned_socketio(f):
 	def wrapper(*args, **kwargs):
 		v = get_logged_in_user()
-		if not v: return '', 401
-		if v.is_suspended: return '', 403
+		if not v or v.is_suspended: return ''
 		return make_response(f(*args, v=v, **kwargs))
 	wrapper.__name__ = f.__name__
 	return wrapper
@@ -61,6 +67,10 @@ CHAT_ERROR_MESSAGE = f"To prevent spam, you'll need {TRUESCORE_MINIMUM} truescor
 def refresh_chat():
 	emit('refresh_chat', namespace='/', to="chat")
 	return ''
+
+@app.get("/chat/")
+def chat_redirect():
+	return redirect("/chat")
 
 @app.get("/chat")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
@@ -83,8 +93,105 @@ def chat(v):
 @socketio.on('speak')
 @is_not_banned_socketio
 def speak(data, v):
-	if not v.allowed_in_chat:
-		return '', 403
+	if request.referrer.startswith(f'{SITE_FULL}/chat/'):
+		chat_id = int(data['chat_id'])
+
+		chat = g.db.get(Chat, chat_id)
+		if not chat:
+			abort(404, "Chat not found!")
+
+		is_member = g.db.query(ChatMembership.user_id).filter_by(user_id=v.id, chat_id=chat_id).one_or_none()
+		if not is_member: return ''
+
+		image = None
+		if data['file']:
+			name = f'/chat_images/{time.time()}'.replace('.','') + '.webp'
+			with open(name, 'wb') as f:
+				f.write(data['file'])
+			image = process_image(name, v)
+
+		text = data['message'].strip()[:CHAT_LENGTH_LIMIT]
+		if image: text += f'\n\n{image}'
+		if not text: return ''
+
+		text_html = sanitize(text, count_emojis=True, chat=True)
+		if isinstance(text_html , tuple): return ''
+
+		execute_under_siege(v, None, text, "private chat")
+
+		quotes = data['quotes']
+		if quotes: quotes = int(quotes)
+		else: quotes = None
+
+		chat_message = ChatMessage(
+			user_id=v.id,
+			chat_id=chat_id,
+			quotes=quotes,
+			text=text,
+			text_censored=censor_slurs_profanities(text, 'chat', True),
+			text_html=text_html,
+			text_html_censored=censor_slurs_profanities(text_html, 'chat'),
+		)
+		g.db.add(chat_message)
+		g.db.flush()
+
+		if v.id == chat.owner_id and chat_adding_regex.fullmatch(text):
+			user = get_user(text[2:], graceful=True, attributes=[User.id])
+			if user:
+				user_id = user.id
+				existing = g.db.query(ChatMembership.user_id).filter_by(user_id=user_id, chat_id=chat_id).one_or_none()
+				leave = g.db.query(ChatLeave.user_id).filter_by(user_id=user_id, chat_id=chat_id).one_or_none()
+				if not existing and not leave:
+					chat_membership = ChatMembership(
+						user_id=user.id,
+						chat_id=chat_id,
+					)
+					g.db.add(chat_membership)
+					g.db.flush()
+
+		to_notify = [x[0] for x in g.db.query(ChatMembership.user_id).filter(
+			ChatMembership.chat_id == chat_id,
+			ChatMembership.user_id.notin_(online[request.referrer]),
+		)]
+		for uid in to_notify:
+			n = ChatNotification(
+				user_id=uid,
+				chat_message_id=chat_message.id,
+				chat_id=chat_id,
+			)
+			g.db.add(n)
+
+		data = {
+			"id": chat_message.id,
+			"quotes": chat_message.quotes,
+			"hat": chat_message.hat,
+			"user_id": chat_message.user_id,
+			"username": chat_message.username,
+			"namecolor": chat_message.namecolor,
+			"patron": chat_message.patron,
+			"pride_username": chat_message.pride_username,
+			"text": chat_message.text,
+			"text_censored": chat_message.text_censored,
+			"text_html": chat_message.text_html,
+			"text_html_censored": chat_message.text_html_censored,
+			"created_utc": chat_message.created_utc,
+		}
+
+		if v.shadowbanned or execute_blackjack(v, None, text, "chat"):
+			emit('speak', data)
+		else:
+			emit('speak', data, room=request.referrer, broadcast=True)
+
+		try: g.db.commit()
+		except: g.db.rollback()
+		g.db.close()
+		stdout.flush()
+
+		return ''
+
+
+
+	if not v.allowed_in_chat: return ''
 
 	image = None
 	if data['file']:
@@ -95,13 +202,12 @@ def speak(data, v):
 
 	global messages
 
-	text = data['message'][:CHAT_LENGTH_LIMIT]
+	text = data['message'].strip()[:CHAT_LENGTH_LIMIT]
 	if image: text += f'\n\n{image}'
-	if not text: return '', 400
+	if not text: return ''
 
 	text_html = sanitize(text, count_emojis=True, chat=True)
-	if isinstance(text_html , tuple):
-		return text_html
+	if isinstance(text_html , tuple): return ''
 
 	execute_under_siege(v, None, text, "chat")
 
@@ -116,14 +222,14 @@ def speak(data, v):
 			self_only = True
 		else:
 			del muted[vname]
-			refresh_online()
+			refresh_online("chat")
 
 	if SITE == 'rdrama.net' and v.admin_level < PERMS['BYPASS_ANTISPAM_CHECKS']:
 		def shut_up():
 			self_only = True
 			muted_until = int(time.time() + 600)
 			muted[vname] = muted_until
-			refresh_online()
+			refresh_online("chat")
 
 		if not self_only:
 			identical = [x for x in list(messages.values())[-5:] if v.id == x['user_id'] and text == x['text']]
@@ -160,7 +266,7 @@ def speak(data, v):
 			username = i.group(1).lower()
 			muted_until = int(int(i.group(2)) * 60 + time.time())
 			muted[username] = muted_until
-			refresh_online()
+			refresh_online("chat")
 
 	if self_only or v.shadowbanned or execute_blackjack(v, None, text, "chat"):
 		emit('speak', data)
@@ -169,37 +275,43 @@ def speak(data, v):
 		messages[id] = data
 		messages = dict(list(messages.items())[-250:])
 
-	typing = []
+	typing["chat"] = []
 
 	return ''
 
-def refresh_online():
-	for k, val in list(online.items()):
+def refresh_online(room):
+	for k, val in list(online[room].items()):
 		if time.time() > val[0]:
-			del online[k]
-			if val[1] in typing:
-				typing.remove(val[1])
+			del online[room][k]
+			if val[1] in typing[room]:
+				typing[room].remove(val[1])
 
-	data = [list(online.values()), muted]
-	emit("online", data, room="chat", broadcast=True)
-	cache.set('loggedin_chat', len(online), timeout=86400)
+	data = [list(online[room].values()), muted]
+	emit("online", data, room=room, broadcast=True)
+	cache.set('loggedin_chat', len(online[room]), timeout=86400)
 
 @socketio.on('connect')
 @auth_required_socketio
 def connect(v):
 	if request.referrer == f'{SITE_FULL}/notifications/messages':
 		join_room(v.id)
-		return ''
-	elif request.referrer and request.referrer.startswith(f'{SITE_FULL}/chat/'):
-		join_room(request.referrer)
+		online["messages"].add(v.id)
 		return ''
 
-	join_room("chat")
+	if request.referrer and request.referrer.startswith(f'{SITE_FULL}/chat/'):
+		room = request.referrer
+	else:
+		room = "chat"
 
-	if v.username in typing:
-		typing.remove(v.username)
+	join_room(room)
 
-	emit('typing', typing, room="chat")
+	if not typing.get(room):
+		typing[room] = []
+
+	if v.username in typing.get(room):
+		typing[room].remove(v.username)
+
+	emit('typing', typing[room], room=room)
 	return ''
 
 @socketio.on('disconnect')
@@ -207,40 +319,60 @@ def connect(v):
 def disconnect(v):
 	if request.referrer == f'{SITE_FULL}/notifications/messages':
 		leave_room(v.id)
-		return ''
-	elif request.referrer and request.referrer.startswith(f'{SITE_FULL}/chat/'):
-		leave_room(request.referrer)
+		online["messages"].remove(v.id)
 		return ''
 
-	online.pop(v.id, None)
+	if request.referrer and request.referrer.startswith(f'{SITE_FULL}/chat/'):
+		room = request.referrer
+	else:
+		room = "chat"
 
-	if v.username in typing:
-		typing.remove(v.username)
+	online[room].pop(v.id, None)
 
-	leave_room("chat")
-	refresh_online()
+	if v.username in typing[room]:
+		typing[room].remove(v.username)
+
+	leave_room(room)
+	refresh_online(room)
 
 	return ''
 
 @socketio.on('heartbeat')
 @auth_required_socketio
 def heartbeat(v):
+	if request.referrer and request.referrer.startswith(f'{SITE_FULL}/chat/'):
+		room = request.referrer
+	else:
+		room = "chat"
+
+	if not online.get(room):
+		online[room] = {}
+
 	expire_utc = int(time.time()) + 3610
-	already_there = online.get(v.id)
-	online[v.id] = (expire_utc, v.username, v.name_color, v.patron, v.id, bool(v.has_badge(303)))
+	already_there = online[room].get(v.id)
+	online[room][v.id] = (expire_utc, v.username, v.name_color, v.patron, v.id, bool(v.has_badge(303)))
 	if not already_there:
-		refresh_online()
+		refresh_online(room)
+
 	return ''
 
 @socketio.on('typing')
 @is_not_banned_socketio
 def typing_indicator(data, v):
-	if data and v.username not in typing:
-		typing.append(v.username)
-	elif not data and v.username in typing:
-		typing.remove(v.username)
+	if request.referrer and request.referrer.startswith(f'{SITE_FULL}/chat/'):
+		room = request.referrer
+	else:
+		room = "chat"
 
-	emit('typing', typing, room="chat", broadcast=True)
+	if not typing.get(room):
+		typing[room] = []
+
+	if data and v.username not in typing[room]:
+		typing[room].append(v.username)
+	elif not data and v.username in typing[room]:
+		typing[room].remove(v.username)
+
+	emit('typing', typing[room], room=room, broadcast=True)
 	return ''
 
 
@@ -329,7 +461,7 @@ def messagereply(v):
 	execute_blackjack(v, c, c.body_html, 'message')
 	execute_under_siege(v, c, c.body_html, 'message')
 
-	if user_id and user_id not in {v.id, MODMAIL_ID} | BOT_IDs:
+	if user_id and user_id not in {v.id, MODMAIL_ID} | BOT_IDs and user_id not in online["messages"]:
 		if can_see(user, v):
 			notif = g.db.query(Notification).filter_by(comment_id=c.id, user_id=user_id).one_or_none()
 			if not notif:

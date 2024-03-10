@@ -534,6 +534,31 @@
 								</div>
 
 								<br><br><br><br><br><br><br><br>
+							{% elif request.path.startswith('/chat/') %}
+								<div class="mx-2">
+									<h5 class="mt-3">Members</h5>
+									<ul class="col text-left d-lg-none bg-white mb-4 pb-2" style="max-width:300px;list-style-type:none">
+										{% for membership in chat.memberships %}
+											{% set user = membership.user %}
+											{% set patron = '' %}
+											{% if user.patron %}
+												{% set patron = patron + 'class="patron chat-patron" style="background-color:#' ~ user.name_color ~ '"' %}
+											{% endif %}
+											{% if user.pride_username(None) %}
+												{% set patron = patron + ' pride_username' %}
+											{% endif %}
+											<li style="margin-top: 0.35rem">
+												<a class="font-weight-bold" target="_blank" href="/@{{user.username}}" style="color:#{{user.name_color}}">
+													<img loading="lazy" class="mr-1" src="/pp/{{user.id}}">
+													<span {{patron | safe}}>{{user.username}}</span>
+												</a>
+												<i class="d-none ml-1 text-smaller text-success online-marker online-marker-{{user.id}} fas fa-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="Here now"></i>
+											</li>
+										{% endfor %}
+									</ul>
+								</div>
+
+								<br><br><br><br><br><br><br><br>
 							{% elif has_sidebar %}
 								{% include "sidebar_" ~ SITE_NAME ~ ".html" %}
 								{% if SITE_NAME == 'WPD' %}

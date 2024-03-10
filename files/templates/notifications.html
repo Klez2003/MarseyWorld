@@ -15,6 +15,11 @@
 					</a>
 				</li>
 				<li class="nav-item">
+					<a class="nav-link py-3{% if request.path == '/notifications/chats' %} active{% endif %}" href="/notifications/chats">
+					Chats {% if v.chats_notifications_count %}<span class="font-weight-bold" style="color:#008080">({{v.chats_notifications_count}})</span>{% endif %}
+					</a>
+				</li>
+				<li class="nav-item">
 					<a class="nav-link py-3{% if request.path == '/notifications/messages' %} active{% endif %}" href="/notifications/messages">
 					Messages {% if v.message_notifications_count %}<span class="font-weight-bold" style="color:#d8910d">({{v.message_notifications_count}})</span>{% endif %}
 					</a>
@@ -56,7 +61,24 @@
 	{% endif %}
 
 	<div class="notifs px-3 p-md-0">
-		{% if request.path == '/notifications/posts' %}
+		{% if request.path == '/notifications/chats' %}
+			<table class="mt-4 ml-3" style="max-width:300px">
+				<tbody>
+					{% for chat, notif_count in chats %}
+						<tr>
+							<td>
+								<a href="/chat/{{chat.id}}" style="text-decoration:none!important">
+									{{chat.name}}
+									{% if notif_count %}
+										<span class="notif-chats notif-count ml-1" style="padding-left:4.5px;background:#008080">{{notif_count}}</span>
+									{% endif %}
+								</a>
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		{% elif request.path == '/notifications/posts' %}
 			{% with listing=notifications %}
 				<div class="mt-4 posts">
 					{% include "post_listing.html" %}
@@ -129,7 +151,7 @@
 {% endblock %}
 
 {% block pagenav %}
-	{% if notifications %}
+	{% if notifications and request.path != '/notifications/chats' %}
 		{{macros.pagination()}}
 	{% endif %}
 

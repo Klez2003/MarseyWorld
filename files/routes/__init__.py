@@ -53,6 +53,7 @@ from .special import *
 from .push_notifs import *
 if FEATURES['PING_GROUPS']:
 	from .groups import *
+from .private_chats import *
 
 if IS_LOCALHOST:
 	from sys import argv

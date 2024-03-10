@@ -14,6 +14,7 @@ from files.classes import Base
 from files.classes.casino_game import CasinoGame
 from files.classes.group import *
 from files.classes.hole import Hole
+from files.classes.private_chats import ChatNotification
 from files.classes.currency_logs import CurrencyLog
 from files.helpers.config.const import *
 from files.helpers.config.modaction_types import *
@@ -815,17 +816,27 @@ class User(Base):
 				Comment.deleted_utc == 0,
 			)
 
-		return notifs.count() + self.modmail_notifications_count + self.post_notifications_count + self.modaction_notifications_count + self.offsite_notifications_count
+		return notifs.count() + self.chats_notifications_count + self.modmail_notifications_count + self.post_notifications_count + self.modaction_notifications_count + self.offsite_notifications_count
 
 	@property
 	@lazy
 	def normal_notifications_count(self):
 		return self.notifications_count \
+			- self.chats_notifications_count \
 			- self.message_notifications_count \
 			- self.modmail_notifications_count \
 			- self.post_notifications_count \
 			- self.modaction_notifications_count \
 			- self.offsite_notifications_count
+
+	@property
+	@lazy
+	def chats_notifications_count(self):
+		return g.db.query(ChatNotification).filter_by(user_id=self.id).count()
+
+	@lazy
+	def chat_notifications_count(self, chat_id):
+		return g.db.query(ChatNotification).filter_by(user_id=self.id, chat_id=chat_id).count()
 
 	@property
 	@lazy
@@ -929,6 +940,8 @@ class User(Base):
 		# only meaningful when notifications_count > 0; otherwise falsely '' ~ normal
 		if self.normal_notifications_count > 0:
 			return ''
+		elif self.chats_notifications_count > 0:
+			return 'chats'
 		elif self.message_notifications_count > 0:
 			return 'messages'
 		elif self.modmail_notifications_count > 0:
@@ -947,6 +960,7 @@ class User(Base):
 		colors = {
 			'': '#dc3545',
 			'messages': '#d8910d',
+			'chats': '#008080',
 			'modmail': '#f15387',
 			'posts': '#0000ff',
 			'modactions': '#1ad80d',
@@ -1337,7 +1351,7 @@ class User(Base):
 
 	@lazy
 	def pride_username(self, v):
-		return not (v and v.poor) and self.has_badge(303)
+		return bool(not (v and v.poor) and self.has_badge(303))
 
 	@property
 	@lazy

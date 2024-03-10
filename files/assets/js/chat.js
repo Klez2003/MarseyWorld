@@ -135,6 +135,11 @@ socket.on('speak', function(json) {
 	}
 })
 
+let chat_id = 'chat'
+const chat_id_el = document.getElementById('chat_id')
+if (chat_id_el)
+	chat_id = chat_id_el.value
+
 function send() {
 	const text = ta.value.trim();
 	const input = document.getElementById('file');
@@ -148,6 +153,7 @@ function send() {
 			"message": text,
 			"quotes": document.getElementById('quotes_id').value,
 			"file": sending,
+			"chat_id": chat_id,
 		});
 		ta.value = ''
 		is_typing = false
@@ -200,6 +206,18 @@ ta.addEventListener("keydown", function(e) {
 
 socket.on('online', function(data){
 	const online_li = data[0]
+	if (location.pathname.startsWith('/chat/')) {
+		for (const marker of document.getElementsByClassName('online-marker')) {
+			marker.classList.add('d-none')
+		}
+		for (const u of online_li) {
+			for (const marker of document.getElementsByClassName(`online-marker-${u[4]}`)) {
+				marker.classList.remove('d-none')
+			}
+		}
+		return
+	}
+
 	const muted_li = Object.keys(data[1])
 
 	document.getElementsByClassName('board-chat-count')[0].innerHTML = online_li.length

@@ -221,6 +221,7 @@
 .fa-chart-simple:before{content:"\e473"}
 .fa-memo:before{content:"\e1d8"}
 .fa-file-pen:before{content:"\f31c"}
+.fa-pen:before{content:"\f304"}
 
 /* do not remove - fixes hand, talking, marsey-love components
 	from breaking out of the comment box
@@ -3484,7 +3485,9 @@ pre {
 .text-small {
 	font-size: 12px !important;
 }
-
+.text-smaller {
+	font-size: 9px !important;
+}
 @media (max-width: 768px) {
 	.text-small-sm {
 		font-size: 12px !important;

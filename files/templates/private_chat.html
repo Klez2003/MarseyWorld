@@ -1,0 +1,84 @@
+{%- extends 'root.html' -%}
+{% block pagetitle -%}Chat{%- endblock %}
+{% block pagetype %}chat{% endblock %}
+{% block body_attributes %}class="has_header"{% endblock %}
+{% block body %}
+	<link rel="stylesheet" href="{{'css/chat.css' | asset}}">
+	{% include "header.html" %}
+	{% include "modals/expanded_image.html" %}
+	{% include "modals/emoji.html" %}
+	{% include "modals/gif.html" %}
+	{% set vlink = '<a href="/id/' ~ v.id ~ '"' %}
+	<div class="container pb-4 pb-md-2">
+		<div class="row justify-content-around" id="main-content-row">
+			<div class="col h-100 {% block customPadding %}custom-gutters{% endblock %}" id="main-content-col">
+				<h5 class="mt-4 mb-3 ml-1 toggleable" style="display:inline-block">{{chat.name}}</h5> 
+
+				{% if v.id == chat.owner_id %}
+					<button class="px-2 toggleable" type="button" data-nonce="{{g.nonce}}" data-onclick="toggleElement('chat-name-form', 'chat-name')">
+						<i class="fas fa-pen text-small text-muted"></i>
+					</button>
+
+					<form id="chat-name-form" class="d-none mt-4" action="/chat/{{chat.id}}/name" method="post">
+						<input hidden name="formkey" value="{{v|formkey}}" class="notranslate" translate="no">
+						<input id="chat-name" autocomplete="off" class="form-control d-inline-block" name="new_name" value="{{chat.name}}" style="max-width:300px">
+						<button type="submit" class="btn btn-primary" style="margin-top:-5px">Save</button>
+					</form>
+				{% else %}
+					<button type="submit" class="btn btn-danger ml-3 px-2 pt-1" style="margin-top:-3px;padding-bottom: 0.3rem" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)" data-areyousure="postToastReload(this, '/chat/{{chat.id}}/leave')">Leave Chat</button>
+				{% endif %}
+
+				<div class="border-right d-md-none fl-r mt-4 pt-1 mr-3">
+					<span data-bs-html="true" data-bs-toggle="tooltip" data-bs-placement="bottom" title="<b>Members</b> {% for membership in chat.memberships %}<br>@{{membership.user.username}}{% endfor %}" class="text-muted">
+						<i class="fas fa-user fa-sm mr-1"></i>
+						<span class="board-chat-count" style="cursor:default">{{chat.memberships|length}}</span>
+					</span>
+				</div>
+
+				<div id="chat-group-template" class="d-none">
+					{{macros.chat_group_template()}}
+				</div>
+			</div>
+
+			<div id="chat-line-template" class="d-none">
+				{{macros.chat_line_template()}}
+			</div>
+
+			{{macros.chat_window(vlink)}}
+		</div>
+
+		<div class="col text-left d-none d-lg-block pt-3 pb-5" style="max-width:300px">
+			<h5>Members</h5>
+			<div class="mt-2">
+				{% for membership in chat.memberships %}
+					{% set user = membership.user %}
+					{% set patron = '' %}
+					{% if user.patron %}
+						{% set patron = patron + 'class="patron chat-patron" style="background-color:#' ~ user.name_color ~ '"' %}
+					{% endif %}
+					{% if user.pride_username(None) %}
+						{% set patron = patron + ' pride_username' %}
+					{% endif %}
+					<li style="margin-top: 0.35rem">
+						<a class="font-weight-bold" target="_blank" href="/@{{user.username}}" style="color:#{{user.name_color}}">
+							<img loading="lazy" class="mr-1" src="/pp/{{user.id}}">
+							<span {{patron | safe}}>{{user.username}}</span>
+						</a>
+						<i class="d-none ml-1 text-smaller text-success online-marker online-marker-{{user.id}} fas fa-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="Here now"></i>
+					</li>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+
+	<input id="chat_id" hidden value="{{chat.id}}">
+	<input id="vid" hidden value="{{v.id}}">
+	<input id="slurreplacer" hidden value="{{v.slurreplacer}}">
+	<input id="admin_level" hidden value="{{v.admin_level}}">
+	<input id="blocked_user_ids" hidden value="{{(v.userblocks|string)[1:-1]}}">
+	<script defer src="{{'js/vendor/socketio.js' | asset}}"></script>
+	<script defer src="{{'js/flash.js' | asset}}"></script>
+	<script defer src="{{'js/vendor/lozad.js' | asset}}"></script>
+	<script defer src="{{'js/vendor/lite-youtube.js' | asset}}"></script>
+	<script defer src="{{'js/chat.js' | asset}}"></script>
+{% endblock %}

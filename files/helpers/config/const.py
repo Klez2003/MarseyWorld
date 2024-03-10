@@ -225,6 +225,7 @@ PERMS = { # Minimum admin_level to perform action.
 	'MODS_EVERY_HOLE': 5,
 	'MODS_EVERY_GROUP': 5,
 	'VIEW_EMAILS': 5,
+	'VIEW_CHATS': 5,
 	'INFINITE_CURRENCY': 5,
 }
 
@@ -546,6 +547,7 @@ NOTIFICATION_SPAM_AGE_THRESHOLD = 0
 COMMENT_SPAM_LENGTH_THRESHOLD = 0
 
 DEFAULT_UNDER_SIEGE_THRESHOLDS = {
+	"private chat": 0,
 	"chat": 0,
 	"normal comment": 0,
 	"wall comment": 0,
@@ -794,6 +796,7 @@ elif SITE in {'watchpeopledie.tv', 'marsey.world'}:
 	}
 
 	DEFAULT_UNDER_SIEGE_THRESHOLDS = {
+		"private chat": 1440,
 		"chat": 1440,
 		"normal comment": 10,
 		"wall comment": 1440,

@@ -121,7 +121,7 @@ function postToastSwitch(t, url, button1, button2, cls, extraActionsOnSuccess) {
 		});
 }
 
-if (!location.pathname.endsWith('/submit') && !location.pathname.endsWith('/chat'))
+if (!location.pathname.endsWith('/submit') && !location.pathname.startsWith('/chat'))
 {
 	document.addEventListener('keydown', (e) => {
 		if (!((e.ctrlKey || e.metaKey) && e.key === "Enter")) return;
@@ -399,7 +399,7 @@ if (is_pwa) {
 }
 
 const gbrowser = document.getElementById('gbrowser').value
-if (location.pathname != '/chat' && (gbrowser == 'iphone' || gbrowser == 'mac')) {
+if (!location.pathname.startsWith('/chat') && (gbrowser == 'iphone' || gbrowser == 'mac')) {
 	const videos = document.querySelectorAll('video')
 
 	for (const video of videos) {
@@ -782,4 +782,15 @@ for (const el of document.getElementsByClassName('tor-disabled')) {
 		e.preventDefault();
 		window.alert("File uploads are not allowed through TOR!")
 	};
+}
+
+function toggleElement(id, id2) {
+	for (let el of document.getElementsByClassName('toggleable')) {
+		if (el.id != id) {
+			el.classList.add('d-none');
+		}
+	}
+
+	document.getElementById(id).classList.toggle('d-none');
+	document.getElementById(id2).focus()
 }

@@ -4,7 +4,7 @@ function update_ghost_div_textarea(text)
 {
 	let ghostdiv
 
-	if (location.pathname == '/chat') 
+	if (location.pathname.startsWith('/chat') )
 		ghostdiv = document.getElementById("ghostdiv-chat");
 	else
 		ghostdiv = text.parentNode.getElementsByClassName("ghostdiv")[0];

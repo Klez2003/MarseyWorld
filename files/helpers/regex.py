@@ -11,6 +11,8 @@ valid_username_patron_regex = re.compile("^[\w-]{1,25}$", flags=re.A)
 mention_regex = re.compile('(?<![:/\w])@([\w-]{1,30})' + NOT_IN_CODE_OR_LINKS, flags=re.A)
 group_mention_regex = re.compile('(?<![:/\w])!([\w-]{3,25})' + NOT_IN_CODE_OR_LINKS, flags=re.A|re.I)
 
+chat_adding_regex = re.compile('\+@[\w-]{1,30}' + NOT_IN_CODE_OR_LINKS, flags=re.A)
+
 everyone_regex = re.compile('(^|\s|>)!(everyone)' + NOT_IN_CODE_OR_LINKS, flags=re.A)
 
 valid_password_regex = re.compile("^.{8,100}$", flags=re.A)

@@ -1,14 +1,3 @@
-function toggleElement(id, id2) {
-	for (let el of document.getElementsByClassName('toggleable')) {
-		if (el.id != id) {
-			el.classList.add('d-none');
-		}
-	}
-
-	document.getElementById(id).classList.toggle('d-none');
-	document.getElementById(id2).focus()
-}
-
 let TRANSFER_TAX = document.getElementById('tax').innerHTML
 
 function updateTax(mobile=false) {
