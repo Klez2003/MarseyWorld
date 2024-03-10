@@ -246,7 +246,7 @@ def comment(v):
 	g.db.add(c)
 	g.db.flush()
 
-	if not posting_to_post and request.values.get('admin_note') and v.admin_level >= PERMS['ADMIN_NOTES']:
+	if not posting_to_post and v.admin_level >= PERMS['ADMIN_NOTES'] and request.values.get('admin_note') == 'true' :
 		c.pinned = "Admin Note"
 
 	if c.parent_comment_id and c.parent_comment.pinned == "Admin Note":
