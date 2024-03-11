@@ -4342,6 +4342,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseyshortbus', 'Marsey', 2, 'bussy animated mrpenny carpathianflorist schizocel retard special schoolbus classroom teacher wheels window rosa parks mlk', false, 0),
 ('marseyshotgunmakeup', 'Marsey', 2, 'whore tranny pass ugly woman foid', false, 1694257875),
 ('marseyshreddedmanlet', 'Marsey', 2, 'strong mutt mixed race muscular', false, 1697862124),
+('marseyshreddedmanlet2', 'Marsey', 2, 'chinese white supremacy disguise', false, 1710195743),
 ('marseyshreddedmanletrentfree', 'Marsey', 2, 'vegan based aryan', false, 1690562100),
 ('marseyshroom', 'Marsey', 2, 'smug fungus shrigma shroomjak wojak mushroom', false, 0),
 ('marseyshroomish', 'Marsey', 2, 'pkmn pokemon 285', false, 1697845939),
