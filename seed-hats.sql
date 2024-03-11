@@ -1232,7 +1232,7 @@ INSERT INTO public.hat_defs VALUES (1501, 'Pizza Hat', 'Don''t ask why there''s 
 INSERT INTO public.hat_defs VALUES (1502, 'Xoxo', 'Hugs and kisses!', 2, 500, NULL, 1709029514);
 INSERT INTO public.hat_defs VALUES (1503, 'Marsey Cowboy Hat', 'This town ain''t big enough for two Marseys.', 2, 500, NULL, 1709348944);
 INSERT INTO public.hat_defs VALUES (1504, 'Ants', 'There''s ants coming out of your face...', 2, 1000, NULL, 1709488882);
-
+INSERT INTO public.hat_defs VALUES (1505, 'Mimikyu Hat', 'This user is definitely a Pikachu.', 2, 500, NULL, 1710075327);
 
 
 --
