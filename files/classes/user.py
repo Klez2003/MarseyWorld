@@ -283,7 +283,7 @@ class User(Base):
 			else:
 				subtracted_mbux = self.marseybux
 				subtracted_coins = amount - subtracted_mbux
-				if subtracted_coins > self.coins:
+				if subtracted_coins > self.coins and self.admin_level < PERMS['INFINITE_CURRENCY'] and self.id != 48:
 					return False
 
 			if self.admin_level < PERMS['INFINITE_CURRENCY'] and self.id != 48:
