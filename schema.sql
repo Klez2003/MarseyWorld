@@ -444,7 +444,6 @@ ALTER SEQUENCE public.chat_messages_id_seq OWNED BY public.chat_messages.id;
 
 CREATE TABLE public.chat_notifications (
     user_id integer NOT NULL,
-    chat_message_id integer NOT NULL,
     chat_id integer NOT NULL,
     created_utc integer NOT NULL
 );
@@ -1539,6 +1538,14 @@ ALTER TABLE ONLY public.chat_memberships
 
 ALTER TABLE ONLY public.chat_messages
     ADD CONSTRAINT chat_messages_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: chat_notifications chat_notifications_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.chat_notifications
+    ADD CONSTRAINT chat_notifications_pkey PRIMARY KEY (user_id, chat_id);
 
 
 --
@@ -2891,14 +2898,6 @@ ALTER TABLE ONLY public.chat_notifications
 
 
 --
--- Name: chat_notifications chat_notifications_message_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.chat_notifications
-    ADD CONSTRAINT chat_notifications_message_fkey FOREIGN KEY (chat_message_id) REFERENCES public.chat_messages(id);
-
-
---
 -- Name: chat_notifications chat_notifications_user_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3549,3 +3548,4 @@ ALTER TABLE ONLY public.comments
 --
 -- PostgreSQL database dump complete
 --
+
