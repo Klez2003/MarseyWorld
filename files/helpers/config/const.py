@@ -652,6 +652,8 @@ if SITE in {'rdrama.net', 'staging.rdrama.net'}:
 	FEATURES['PRONOUNS'] = True
 	FEATURES['USERS_PERMANENT_WORD_FILTERS'] = True
 
+	PERMS['VIEW_VERSIONS'] = 5
+
 	BUG_THREAD = 18459
 
 	BADGE_THREAD = 37833
