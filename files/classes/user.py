@@ -222,9 +222,6 @@ class User(Base):
 		if SITE == 'watchpeopledie.tv' and self.id == 5222:
 			return
 
-		if SITE == 'rdrama.net' and self.id == 5237:
-			return
-
 		if self.admin_level < PERMS['INFINITE_CURRENCY'] and self.id != 48:
 			user_query = g.db.query(User).options(load_only(User.id)).filter_by(id=self.id)
 
