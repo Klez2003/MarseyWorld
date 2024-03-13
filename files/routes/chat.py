@@ -195,6 +195,8 @@ def speak(data, v):
 		g.db.close()
 		stdout.flush()
 
+		typing[request.referrer] = []
+
 		return ''
 
 
