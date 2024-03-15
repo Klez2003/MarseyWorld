@@ -1431,7 +1431,7 @@ def bm():
 
 	created_utc = data['created']
 
-	if data['description'] == 'One time support for rdrama.net':
+	if data['description'] == 'rdrama.net (@rdrama.net) - Support':
 		type = "one-time"
 	else:
 		type = "monthly"
