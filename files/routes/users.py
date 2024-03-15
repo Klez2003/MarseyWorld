@@ -1335,7 +1335,7 @@ if KOFI_TOKEN:
 		if verification_token != KOFI_TOKEN: abort(400)
 
 		ip = request.headers.get('CF-Connecting-IP')
-		if ip not in {'104.45.229.18', '137.117.16.235'}:
+		if ip not in {'104.45.229.18', '137.117.16.235', '20.245.178.101'}:
 			print(STARS, flush=True)
 			print(f'/kofi fail: {ip}')
 			print(STARS, flush=True)
