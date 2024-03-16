@@ -7646,7 +7646,7 @@ blink {
 }
 
 .pinned-to-profile + div + input + :not(.pinned-to-profile) > div.d-flex {
-	margin-top: 3rem;
+	margin-top: 2rem;
 }
 
 .admin-note + div + :not(.admin-note) {
