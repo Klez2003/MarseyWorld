@@ -112,7 +112,7 @@ def get_logged_in_user():
 		g.username = v.username
 
 	if not v and SITE == 'rdrama.net' and request.headers.get("Cf-Ipcountry") == 'EG':
-		abort(404)
+		abort(403, "rdrama.net is only available to visitors from the United States!")
 
 	g.is_api_or_xhr = bool((v and v.client) or request.headers.get("xhr"))
 
