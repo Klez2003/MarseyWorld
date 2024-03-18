@@ -1155,9 +1155,9 @@ INSERT INTO public.hat_defs VALUES (1487, 'Purple Hearts', 'I''m lusting for you
 INSERT INTO public.hat_defs VALUES (1492, 'HP Bar', 'I''m feeling healthy and refreshed.', 2, 500, NULL, 1708649015);
 INSERT INTO public.hat_defs VALUES (1498, 'Anime Smile', 'Power of friendship!', 2, 500, NULL, 1708649155);
 INSERT INTO public.hat_defs VALUES (1499, 'Pigtail Bows', 'Twice the bow, twice the cute!', 2, 500, NULL, 1708649179);
-
-
-
+INSERT INTO public.hat_defs VALUES (1507, 'pkmn0172 Ears', 'Pichu, the Tiny Mouse Pokémon. A pre-evolved form of Pikachu. Despite their size, Pichu release bursts of electricity that can shock even humans. However, Pichu are unskilled at become the rat, and sometimes release it by accident when surprised, or when laughing, and become the rat become the rat', 2, 500, NULL, 1710736368);
+INSERT INTO public.hat_defs VALUES (1510, 'pkmn0195', 'Quagsire, the Water Fish Pokémon and the evolved form of Wooper. Known as quite dim-witted, it doesn''t care when it crashes its head against rocks or the bottoms of boats.', 2, 500, NULL, 1710737929);
+INSERT INTO public.hat_defs VALUES (1513, 'pkmn0272', 'Ludicolo, the Carefree Pokémon. Ludicolo becomes extremely active whenever it hears a cheery rhythm. This can also lead it to exert extreme power in battle.', 2, 500, NULL, 1710738317);
 INSERT INTO public.hat_defs VALUES (1450, 'Red Eminent Horns', 'Queen of the devils, leader of the chuds.', 2, 500, NULL, 1708367282);
 INSERT INTO public.hat_defs VALUES (1377, 'pkmn0094', 'Gengar, the Shadow Pokémon. A Ghost and Poison type. Gengar can pass through dimensions and appear almost anywhere. Since Gengar absorbs any warmth around it, the temperature suddenly drops wherever it appears.', 2, 500, NULL, 1698658745);
 INSERT INTO public.hat_defs VALUES (1376, 'pkmn0039', 'Jigglypuff, a Balloon Pokémon. It has large friendly eyes and it sings a pleasant song.', 2, 500, NULL, 1698658603);
@@ -1176,8 +1176,8 @@ INSERT INTO public.hat_defs VALUES (1490, 'Red Hearts', 'I love you all!', 2, 50
 INSERT INTO public.hat_defs VALUES (1495, 'Hi', 'Hello! How are you?', 2, 500, NULL, 1708649083);
 INSERT INTO public.hat_defs VALUES (1496, 'Pink Heart Halo', 'I''m falling for you my dear.', 2, 500, NULL, 1708649109);
 INSERT INTO public.hat_defs VALUES (1500, 'Exclamation', 'WHAT?!', 2, 500, NULL, 1708649201);
-
-
+INSERT INTO public.hat_defs VALUES (1508, 'pkmn0088', 'Grimer, the Sludge Pokémon. It was born when sludge in a dirty stream was exposed to X-rays from the moon.', 2, 500, NULL, 1710737819);
+INSERT INTO public.hat_defs VALUES (1511, 'pkmn0195 Ass', 'Quagsire, the Water Fish Pokémon. The Quagsire makes its home in clean freshwater lakes. The Quagsire is covered by a slippery layer of skin, making this Pokémon especially difficult to handle.', 2, 500, NULL, 1710737979);
 INSERT INTO public.hat_defs VALUES (1396, 'Click Me', 'Come on, you know you want to see my profile.', 2, 500, NULL, 1704921421);
 INSERT INTO public.hat_defs VALUES (1408, 'Kadio Stance', '*thwack* YEEEEEEEEOUCHHHHHHHHHH', 2, 500, NULL, 1705616850);
 INSERT INTO public.hat_defs VALUES (1381, 'Griffith Helmet', 'The Falcon has fallen. Billions must die.', 2, 500, NULL, 1698690002);
@@ -1238,9 +1238,8 @@ INSERT INTO public.hat_defs VALUES (1502, 'Xoxo', 'Hugs and kisses!', 2, 500, NU
 INSERT INTO public.hat_defs VALUES (1503, 'Marsey Cowboy Hat', 'This town ain''t big enough for two Marseys.', 2, 500, NULL, 1709348944);
 INSERT INTO public.hat_defs VALUES (1504, 'Ants', 'There''s ants coming out of your face...', 2, 1000, NULL, 1709488882);
 INSERT INTO public.hat_defs VALUES (1505, 'Mimikyu Hat', 'This user is definitely a Pikachu.', 2, 500, NULL, 1710075327);
-
-
-
+INSERT INTO public.hat_defs VALUES (1506, 'pkmn0045', 'Vileplume, the Flower Pokémon. Using the largest flower petals in the world, it spreads large clouds of pollen that cause allergic reactions.', 2, 500, NULL, 1710735699);
+INSERT INTO public.hat_defs VALUES (1512, '2ev4u', 'Espeon, the Sun Pokémon, and Umbreon, the Moonlight Pokémon. Relive the joys of Pokémon Colosseum with these two by your side.', 2, 500, NULL, 1710738138);
 
 
 --
