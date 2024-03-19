@@ -1929,6 +1929,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseycapitalistmanlet', 'Marsey', 2, 'money top hat rich landlord cigar llm tophat', false, 0),
 ('marseycapysmoochtrans', 'Marsey', 2, 'kiss love spit horny', false, 1697152269),
 ('marseycard', 'Marsey', 2, 'gamble queen hearts deck game', false, 0),
+('marseycarlbrutananadilewski', 'Marsey', 2, 'athf aquateenhungerforce adultswim', false, 1710805669),
 ('marseycarpocide', 'Marsey', 2, 'evil capy edgy death kill eat blood', false, 1687895010),
 ('marseycarrots', 'Marsey', 2, 'food vegetables veggies healthy fresh diet', false, 1707605806),
 ('marseycarsuicide', 'Marsey', 2, 'kms kill death vehicle carbon monoxide co muffler suffocation suffocate', false, 0),
