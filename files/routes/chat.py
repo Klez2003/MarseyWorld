@@ -134,6 +134,7 @@ def speak(data, v):
 				"created_utc": int(time.time()),
 			}
 			emit('speak', data)
+			return ''
 
 		execute_under_siege(v, None, text, "private chat")
 
