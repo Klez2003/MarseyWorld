@@ -117,6 +117,24 @@ def speak(data, v):
 		text_html = sanitize(text, count_emojis=True, chat=True)
 		if isinstance(text_html , tuple): return ''
 
+		if v.shadowbanned or execute_blackjack(v, None, text, "chat"):
+			data = {
+				"id": secrets.token_urlsafe(5),
+				"quotes": data['quotes'],
+				"hat": v.hat_active(None)[0],
+				"user_id": v.id,
+				"username": v.username,
+				"namecolor": v.name_color,
+				"patron": v.patron,
+				"pride_username": bool(v.has_badge(303)),
+				"text": text,
+				"text_censored": censor_slurs_profanities(text, 'chat', True),
+				"text_html": text_html,
+				"text_html_censored": censor_slurs_profanities(text_html, 'chat'),
+				"created_utc": int(time.time()),
+			}
+			emit('speak', data)
+
 		execute_under_siege(v, None, text, "private chat")
 
 		quotes = data['quotes']
@@ -185,10 +203,7 @@ def speak(data, v):
 			"created_utc": chat_message.created_utc,
 		}
 
-		if v.shadowbanned or execute_blackjack(v, None, text, "chat"):
-			emit('speak', data)
-		else:
-			emit('speak', data, room=request.referrer, broadcast=True)
+		emit('speak', data, room=request.referrer, broadcast=True)
 
 		try: g.db.commit()
 		except: g.db.rollback()
