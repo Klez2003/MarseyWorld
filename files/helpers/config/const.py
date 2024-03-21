@@ -725,11 +725,6 @@ elif SITE in {'watchpeopledie.tv', 'marsey.world'}:
 	FEATURES['IP_LOGGING'] = True
 	HOUSES = ["Furry","Femboy","Vampire","Edgy"]
 
-	PERMS['POST_COMMENT_EDITING'] = 3
-	PERMS['MODS_EVERY_HOLE'] = 3
-	PERMS['VIEW_EMAILS'] = 3
-	PERMS['IS_PERMA_PROGSTACKED'] = 4
-
 	HOLE_BANNER_LIMIT = 69420
 
 	ERROR_TITLES.update({

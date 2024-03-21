@@ -192,6 +192,8 @@ def daily_chart(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @admin_level_required(PERMS['VIEW_PATRONS'])
 def patrons(v):
+	if AEVANN_ID and v.id != AEVANN_ID:
+		abort(404)
 	ids = [x[0] for x in g.db.query(User.id).filter(User.lifetimedonated > 0).order_by(User.email, User.truescore.desc()).distinct(User.email)]
 	users = g.db.query(User).filter(User.id.in_(ids)).order_by(User.patron.desc(), User.truescore.desc()).all()
 
