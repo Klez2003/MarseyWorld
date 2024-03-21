@@ -48,6 +48,8 @@ def can_see(user, obj):
 		if obj.name == 'chudrama': return bool(user) and user.can_see_chudrama
 		if obj.name == 'countryclub': return bool(user) and user.can_see_countryclub
 		if obj.name == 'highrollerclub': return bool(user) and user.can_see_highrollerclub
+		#DELETE_ME_PLS
+		if obj.name == 'fascism': return bool(user)
 	elif obj.__class__.__name__ == 'User':
 		return not obj.shadowbanned or (user and user.id == obj.id) or (user and user.admin_level >= PERMS['USER_SHADOWBAN'])
 	return True
