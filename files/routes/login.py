@@ -387,7 +387,7 @@ def post_forgot():
 		if not count:
 			return error("No accounts have this email attached.")
 		if count > 1:
-			return error("Multiple accounts have this email attached.<br>Please use a username instead.")
+			return error("Multiple accounts have this email attached. Please use a username instead.")
 
 		user = g.db.query(User).filter_by(email=username_or_email).one()
 	else:
