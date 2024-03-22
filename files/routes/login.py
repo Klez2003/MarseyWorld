@@ -406,7 +406,7 @@ def post_forgot():
 			html=render_template("email/password_reset.html", action_url=url, v=user),
 			)
 
-	return render_template("login/forgot_password.html", msg="An email was sent to you. Check your spam folder if you can't find it.")
+	return render_template("login/forgot_password.html", msg="An email was sent to you. Please check your spam folder if you can't find it.")
 
 
 @app.get("/reset")
@@ -529,7 +529,7 @@ def lost_2fa_post():
 
 	return render_template("message.html",
 						title="Removal request received",
-						message="If the username, password, and email match, we will send you an email. Check your spam folder if you can't find it."), 202
+						message="If the username, password, and email match, we will send you an email. Please check your spam folder if you can't find it."), 202
 
 @app.get("/reset_2fa")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)

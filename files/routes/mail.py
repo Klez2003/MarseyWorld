@@ -20,7 +20,7 @@ def verify_email(v):
 		abort(400, "Email already verified!")
 
 	send_verification_email(v)
-	return {"message": "Email has been sent. Check your spam folder if you can't find it!"}
+	return {"message": "Email has been sent. Please check your spam folder if you can't find it!"}
 
 
 @app.get("/activate")

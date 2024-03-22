@@ -540,7 +540,7 @@ def settings_security_post(v):
 				html=render_template("email/email_change.html", action_url=link, v=v),
 				)
 
-		return render_template("settings/security.html", v=v, msg="We have sent you an email, click the verification link inside it to complete the email change. Check your spam folder if you can't find it!")
+		return render_template("settings/security.html", v=v, msg="We have sent you an email, click the verification link inside it to complete the email change. Please check your spam folder if you can't find it!")
 
 	if request.values.get("2fa_token"):
 		if not v.verifyPass(request.values.get('password')):
