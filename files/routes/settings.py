@@ -537,9 +537,7 @@ def settings_security_post(v):
 
 		send_mail(to_address=new_email,
 				subject="Verify your email address.",
-				html=render_template("email/email_change.html",
-									action_url=link,
-									v=v)
+				html=render_template("email/email_change.html", action_url=link, v=v),
 				)
 
 		return render_template("settings/security.html", v=v, msg="We have sent you an email, click the verification link inside it to complete the email change. Check your spam folder if you can't find it!")
