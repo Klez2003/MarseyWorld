@@ -371,35 +371,42 @@ def get_forgot():
 
 @app.post("/forgot")
 @limiter.limit('1/second', scope=rpath)
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
+@limiter.limit('3/day', deduct_when=lambda response: response.status_code < 400)
 def post_forgot():
+	def error(error):
+		return render_template("login/forgot_password.html", error=error), 400
 
-	username = request.values.get("username")
-	if not username: abort(400)
+	username_or_email = request.values.get("username_or_email", "").strip().lstrip('@')
+	if not username_or_email:
+		return error("You need to enter something.")
 
-	email = request.values.get("email",'').strip().lower()
+	if '@' in username_or_email:
+		if not email_regex.fullmatch(username_or_email):
+			return error("Invalid email.")
+		count = g.db.query(User).filter_by(email=username_or_email).count()
+		if not count:
+			return error("No accounts have this email attached.")
+		if count > 1:
+			return error("Multiple accounts have this email attached.<br>Please use a username instead.")
 
-	if not email_regex.fullmatch(email):
-		return render_template("login/forgot_password.html", error="Invalid email!"), 400
+		user = g.db.query(User).filter_by(email=username_or_email).one()
+	else:
+		user = get_user(username_or_email, graceful=True)
+		if not user:
+			return error("There's no accounts with this username.")
+		if not user.email:
+			return error("This account doesn't have an email attached.")
 
-	user = get_user(username, graceful=True)
+	now = int(time.time())
+	token = generate_hash(f"{user.id}+{now}+forgot+{user.login_nonce}")
+	url = f"{SITE_FULL}/reset?id={user.id}&time={now}&token={token}"
 
-	email = escape_for_search(email)
+	send_mail(to_address=user.email,
+			subject="Password Reset Request",
+			html=render_template("email/password_reset.html", action_url=url, v=user),
+			)
 
-	if user and user.email and user.email.lower() == email.lower():
-		now = int(time.time())
-		token = generate_hash(f"{user.id}+{now}+forgot+{user.login_nonce}")
-		url = f"{SITE_FULL}/reset?id={user.id}&time={now}&token={token}"
-
-		send_mail(to_address=user.email,
-				subject="Password Reset Request",
-				html=render_template("email/password_reset.html",
-									action_url=url,
-									v=user)
-				)
-
-	return render_template("login/forgot_password.html",
-						msg="If the username and email matches an account, you will be sent a password reset email. Check your spam folder if you can't find it."), 202
+	return render_template("login/forgot_password.html", msg="An email was sent to you. Check your spam folder if you can't find it.")
 
 
 @app.get("/reset")
