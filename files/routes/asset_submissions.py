@@ -583,7 +583,7 @@ def update_emoji(v):
 
 	if tags and existing.tags != tags:
 		existing.tags += f" {tags}"
-		existing.tags = delete_unnecessary_tags(existing.tags, new_name)
+		existing.tags = delete_unnecessary_tags(existing.tags, existing.name)
 		if not tags_regex.fullmatch(tags):
 			abort(400, "Invalid tags!")
 		updated = True
