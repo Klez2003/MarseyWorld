@@ -48,7 +48,7 @@ def reddit_mentions_task():
 
 			if kind == 'comment':
 				body = thing["body"].replace('>', '> ')
-				if SITE_NAME == 'rDrama' and 'teenagers' in body: continue
+				if SITE_NAME == 'rDrama' and 'teenager' in body: continue
 				text = f'<blockquote><p>{body}</p></blockquote>'
 			else:
 				title = thing["title"].replace('>', '> ')
