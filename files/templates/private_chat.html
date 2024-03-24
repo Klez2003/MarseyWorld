@@ -20,7 +20,7 @@
 						<i class="fas fa-pen text-small text-muted"></i>
 					</button>
 
-					<form id="chat-name-form" class="d-none mt-4" action="/chat/{{chat.id}}/name" method="post">
+					<form id="chat-name-form" class="d-none mt-2" action="/chat/{{chat.id}}/name" method="post">
 						<input hidden name="formkey" value="{{v|formkey}}" class="notranslate" translate="no">
 						<input id="chat-name" autocomplete="off" class="form-control d-inline-block" name="new_name" value="{{chat.name}}" style="max-width:300px">
 						<button type="submit" class="btn btn-primary" style="margin-top:-5px">Save</button>
