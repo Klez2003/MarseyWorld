@@ -88,7 +88,7 @@ def lemmy_mentions_task():
 						selftext = thing["body"][:5000]
 						text += f'<br><blockquote><p>{selftext}</p></blockquote>'
 
-				if 'erdrama' in text: continue
+				if 'erdrama' in text.lower(): continue
 
 				permalink = thing['ap_id']
 				text =  f'New site mention by {author_string}\n\n{permalink}\n\n{text}'
@@ -130,7 +130,7 @@ def soyjak_mentions_task():
 
 		for thing in data:
 			text = f'<blockquote><p>{thing["comment"]}</p></blockquote>'
-			if 'erdrama' in text: continue
+			if 'erdrama' in text.lower(): continue
 			permalink = thing['url']
 			text =  f'New site mention\n\n{permalink}\n\n{text}'
 			created_utc = int(time.mktime(time.strptime(thing['date'].split('.')[0], "%Y-%m-%dT%H:%M:%S")))
