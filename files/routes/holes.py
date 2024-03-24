@@ -659,7 +659,7 @@ def delete_hole_banner(v, hole):
 
 	ma = HoleAction(
 		hole=hole.name,
-		kind='delete_banner_image',
+		kind='delete_banner',
 		_note=f'<a href="{banner}">{banner}</a>',
 		user_id=v.id
 	)
