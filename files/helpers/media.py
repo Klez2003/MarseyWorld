@@ -200,7 +200,7 @@ def process_video(file, v):
 		gevent.spawn(delete_file, new, f'https://videos.{SITE}' + new.split('/videos')[1])
 
 	if SITE == 'watchpeopledie.tv':
-		gevent.spawn(send_file, new)
+		gevent.spawn(rclone_file, new)
 		return f'https://videos.{SITE}' + new.split('/videos')[1]
 	else:
 		return f"{SITE_FULL}{new}"
@@ -277,7 +277,7 @@ def delete_file(filename, url):
 	os.remove(filename)
 	purge_files_in_cloudflare_cache(url)
 
-def send_file(filename):
+def rclone_file(filename):
 	rclone.copy(filename, 'no:/videos', ignore_existing=True, show_progress=False)
 
 
