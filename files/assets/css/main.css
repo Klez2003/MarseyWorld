@@ -7715,7 +7715,7 @@ details > *:first-child {
 .mirrored {
 	transform: scaleX(-1);
 }
-:not(span) > img[alt^=":"][alt*="!"] {
+:not(span[alt]) > img[alt^=":"][alt*="!"] {
 	transform: scaleX(-1);
 }
 span[alt^=":"][alt*="!"]:not([alt*="genocide"]) {
