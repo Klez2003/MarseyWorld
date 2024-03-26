@@ -183,7 +183,6 @@ def speak(data, v):
 		)
 		for membership in memberships:
 			membership.notification = True
-			membership.last_notified = time.time()
 			g.db.add(membership)
 
 		data = {

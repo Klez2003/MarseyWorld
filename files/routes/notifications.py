@@ -141,7 +141,13 @@ def notifications_messages(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def notifications_chats(v):
-	chats = g.db.query(Chat, ChatMembership.notification).join(ChatMembership, and_(Chat.id == ChatMembership.chat_id, ChatMembership.user_id == v.id)).order_by(ChatMembership.last_notified.desc()).all()
+	sq = g.db.query(ChatMessage.created_utc, ChatMessage.chat_id).distinct(ChatMessage.chat_id).order_by(ChatMessage.chat_id, ChatMessage.created_utc.desc()).subquery()
+
+	chats = g.db.query(Chat, ChatMembership.notification) \
+	.join(ChatMembership, and_(Chat.id == ChatMembership.chat_id, ChatMembership.user_id == v.id)) \
+	.join(sq, Chat.id == sq.c.chat_id) \
+	.order_by(sq.c.created_utc.desc()).all()
+
 	return render_template("notifications.html", v=v, notifications=chats)
 
 @app.get("/notifications/modmail")
