@@ -29,9 +29,10 @@ def clear(v):
 		n.read = True
 		g.db.add(n)
 
-	chat_notifs = g.db.query(ChatNotification).filter_by(user_id=v.id)
-	for chat_notif in chat_notifs:
-		g.db.delete(chat_notif)
+	chat_memberships = g.db.query(ChatMembership).filter_by(user_id=v.id, notification=True)
+	for membership in chat_memberships:
+		membership.notification = False
+		g.db.add(membership)
 
 	v.last_viewed_modmail_notifs = int(time.time())
 	v.last_viewed_post_notifs = int(time.time())
@@ -140,9 +141,7 @@ def notifications_messages(v):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def notifications_chats(v):
-	criteria1 = (Chat.id == ChatMembership.chat_id, ChatMembership.user_id == v.id)
-	criteria2 = (Chat.id == ChatNotification.chat_id, ChatNotification.user_id == v.id)
-	chats = g.db.query(Chat, func.count(ChatNotification.chat_id)).join(ChatMembership, and_(*criteria1)).outerjoin(ChatNotification, and_(*criteria2)).group_by(Chat, ChatMembership.created_utc).order_by(func.count(ChatNotification.chat_id).desc(), ChatMembership.created_utc.desc()).all()
+	chats = g.db.query(Chat, ChatMembership.notification).join(ChatMembership, and_(Chat.id == ChatMembership.chat_id, ChatMembership.user_id == v.id)).order_by(ChatMembership.last_notified.desc()).all()
 	return render_template("notifications.html", v=v, notifications=chats)
 
 @app.get("/notifications/modmail")

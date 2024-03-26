@@ -58,18 +58,19 @@ def private_chat(v, chat_id):
 	if not chat:
 		abort(404, "Chat not found!")
 
-	if v.admin_level < PERMS['VIEW_CHATS']:
-		is_member = g.db.query(ChatMembership.user_id).filter_by(user_id=v.id, chat_id=chat_id).one_or_none()
-		if not is_member:
-			abort(403, "You're not a member of this chat!")
+	membership = g.db.query(ChatMembership).filter_by(user_id=v.id, chat_id=chat_id).one_or_none()
+
+	if v.admin_level < PERMS['VIEW_CHATS'] and not membership:
+		abort(403, "You're not a member of this chat!")
 
 	displayed_messages = reversed(g.db.query(ChatMessage).filter_by(chat_id=chat.id).order_by(ChatMessage.id.desc()).limit(250).all())
 	displayed_messages = {m.id: m for m in displayed_messages}
 
-	notif = g.db.query(ChatNotification).filter_by(user_id=v.id, chat_id=chat_id).one_or_none()
-	if notif: g.db.delete(notif)
+	if not session.get("GLOBAL"):
+		membership.notification = False
+		g.db.add(membership)
+		g.db.commit() #to clear notif count
 
-	g.db.commit() #to clear notif count
 	return render_template("private_chat.html", v=v, messages=displayed_messages, chat=chat)
 
 
@@ -118,8 +119,5 @@ def leave_chat(v, chat_id):
 		chat_id=chat_id,
 	)
 	g.db.add(chat_leave)
-
-	notif = g.db.query(ChatNotification).filter_by(user_id=v.id, chat_id=chat_id).one_or_none()
-	if notif: g.db.delete(notif)
 
 	return {"message": "Chat left successfully!"}
