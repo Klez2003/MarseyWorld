@@ -66,7 +66,7 @@ def private_chat(v, chat_id):
 	displayed_messages = reversed(g.db.query(ChatMessage).filter_by(chat_id=chat.id).order_by(ChatMessage.id.desc()).limit(250).all())
 	displayed_messages = {m.id: m for m in displayed_messages}
 
-	if not session.get("GLOBAL"):
+	if not session.get("GLOBAL") and membership:
 		membership.notification = False
 		g.db.add(membership)
 		g.db.commit() #to clear notif count
