@@ -1242,11 +1242,12 @@ INSERT INTO public.hat_defs VALUES (1506, 'pkmn0045', 'Vileplume, the Flower Pok
 INSERT INTO public.hat_defs VALUES (1512, '2ev4u', 'Espeon, the Sun Pokémon, and Umbreon, the Moonlight Pokémon. Relive the joys of Pokémon Colosseum with these two by your side.', 2, 500, NULL, 1710738138);
 
 
+
 --
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1513, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1514, true);
 
 
 --
