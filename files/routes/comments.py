@@ -387,9 +387,6 @@ def comment(v):
 @limiter.limit(DELETE_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def delete_comment(cid, v):
-	if SITE == 'rdrama.net' and v.id == 253:
-		abort(403)
-
 	c = get_comment(cid, v=v)
 	if not c.deleted_utc:
 		if c.author_id != v.id: abort(403)

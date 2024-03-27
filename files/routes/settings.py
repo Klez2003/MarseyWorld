@@ -93,8 +93,6 @@ def notify_removed_users(removed_users, kind):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
 def settings_personal_post(v):
-	if v.id == 253 and request.values.get("private"):
-		abort(403)
 	updated = False
 
 	# begin common selectors #
