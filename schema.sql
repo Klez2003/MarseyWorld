@@ -397,7 +397,8 @@ CREATE TABLE public.chat_leaves (
 CREATE TABLE public.chat_memberships (
     user_id integer NOT NULL,
     chat_id integer NOT NULL,
-    created_utc integer NOT NULL
+    created_utc integer NOT NULL,
+    notification boolean NOT NULL
 );
 
 
@@ -436,17 +437,6 @@ CREATE SEQUENCE public.chat_messages_id_seq
 --
 
 ALTER SEQUENCE public.chat_messages_id_seq OWNED BY public.chat_messages.id;
-
-
---
--- Name: chat_notifications; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.chat_notifications (
-    user_id integer NOT NULL,
-    chat_id integer NOT NULL,
-    created_utc integer NOT NULL
-);
 
 
 --
@@ -1538,14 +1528,6 @@ ALTER TABLE ONLY public.chat_memberships
 
 ALTER TABLE ONLY public.chat_messages
     ADD CONSTRAINT chat_messages_pkey PRIMARY KEY (id);
-
-
---
--- Name: chat_notifications chat_notifications_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.chat_notifications
-    ADD CONSTRAINT chat_notifications_pkey PRIMARY KEY (user_id, chat_id);
 
 
 --
@@ -2887,22 +2869,6 @@ ALTER TABLE ONLY public.chat_messages
 
 ALTER TABLE ONLY public.chat_messages
     ADD CONSTRAINT chat_messages_user_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
-
-
---
--- Name: chat_notifications chat_notifications_chat_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.chat_notifications
-    ADD CONSTRAINT chat_notifications_chat_fkey FOREIGN KEY (chat_id) REFERENCES public.chats(id);
-
-
---
--- Name: chat_notifications chat_notifications_user_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.chat_notifications
-    ADD CONSTRAINT chat_notifications_user_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
 
 
 --
