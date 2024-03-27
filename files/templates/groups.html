@@ -51,14 +51,14 @@
 							<a href="/!{{group}}">{{group.member_ids | length}}</a>
 							{% if v.id != group.owner_id %}
 								<button id="leave-{{group}}" type="button" class="ml-3 ml-md-5 btn btn-primary {% if v.id not in group.membership_user_ids %}d-none{% endif %}" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/!{{group}}/leave','leave-{{group}}','apply-{{group}}','d-none')">
-									{%- if v.id in group.member_ids or group.name == 'verifiedrich' -%}
+									{%- if v.id in group.member_ids or group.name in ('verifiedrich', 'focusgroup') -%}
 										Leave
 									{%- else -%}
 										Cancel Application
 									{%- endif -%}
 								</button>
 
-								<button id="apply-{{group}}" type="button" class="ml-3 ml-md-5 {% if v.id in group.membership_user_ids %}d-none{% endif %} btn btn-primary" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/!{{group}}/apply','leave-{{group}}','apply-{{group}}','d-none')">{% if group.name != 'verifiedrich' %}Apply to {% endif %}Join</button>
+								<button id="apply-{{group}}" type="button" class="ml-3 ml-md-5 {% if v.id in group.membership_user_ids %}d-none{% endif %} btn btn-primary" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/!{{group}}/apply','leave-{{group}}','apply-{{group}}','d-none')">{% if group.name not in ('verifiedrich', 'focusgroup') %}Apply to {% endif %}Join</button>
 							{% endif %}
 						</td>
 						<td>

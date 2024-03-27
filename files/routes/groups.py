@@ -74,17 +74,17 @@ def create_group(v):
 def join_group(v, group_name):
 	group_name = group_name.strip().lower()
 
-	if group_name == 'verifiedrich':
-		if not v.patron:
-			abort(403, f"Only {patron}s can join !verifiedrich")
+	if group_name == 'verifiedrich' and not v.patron:
+		abort(403, f"Only {patron}s can join !verifiedrich")
 
+	if group_name in {'verifiedrich', 'focusgroup'}:
 		join = GroupMembership(
 				user_id=v.id,
 				group_name=group_name,
 				approved_utc = time.time()
 			)
 		g.db.add(join)
-		return {"message": "You have joined !verifiedrich successfully!"}
+		return {"message": f"You have joined !{group_name} successfully!"}
 
 	group = g.db.get(Group, group_name)
 	if not group: abort(404)
