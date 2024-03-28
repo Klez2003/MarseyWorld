@@ -469,6 +469,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('carpgulpin', 'Carp', 2, 'pkmn pokemon kiss 316', false, 1697760468),
 ('carpgyarados', 'Carp', 2, 'pokemon magikarp 130 pkmn', false, 1689122335),
 ('carphacker', 'Carp', 2, 'computer laptop code', false, 1688988717),
+('carphakumen', 'Carp', 2, 'anime weeb videogame gaming blazblue samurai sword', false, 1711584502),
 ('carphalloweencostume', 'Carp', 2, 'marsey spooky trick treat pumpkin october cute', false, 1696068237),
 ('carphaunter', 'Carp', 2, 'pkmn pokemon 093', false, 1697832433),
 ('carpheadlessfishman', 'Carp', 2, 'halloween axe blood pumpkin jackolantern horseman horror sleepyhollow icabodcrane', false, 1696535523),
