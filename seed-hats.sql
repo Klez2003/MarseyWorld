@@ -1240,8 +1240,8 @@ INSERT INTO public.hat_defs VALUES (1504, 'Ants', 'There''s ants coming out of y
 INSERT INTO public.hat_defs VALUES (1505, 'Mimikyu Hat', 'This user is definitely a Pikachu.', 2, 500, NULL, 1710075327);
 INSERT INTO public.hat_defs VALUES (1506, 'pkmn0045', 'Vileplume, the Flower Pokémon. Using the largest flower petals in the world, it spreads large clouds of pollen that cause allergic reactions.', 2, 500, NULL, 1710735699);
 INSERT INTO public.hat_defs VALUES (1512, '2ev4u', 'Espeon, the Sun Pokémon, and Umbreon, the Moonlight Pokémon. Relive the joys of Pokémon Colosseum with these two by your side.', 2, 500, NULL, 1710738138);
-
-
+INSERT INTO public.hat_defs VALUES (1515, 'The Rizzler', '"Oh, that''s interesting and sexy"', 2, 500, NULL, 1711601213);
+INSERT INTO public.hat_defs VALUES (1514, 'Pacify', '👶🏻 x9', 2, 1000, NULL, 1711470504);
 
 
 --
