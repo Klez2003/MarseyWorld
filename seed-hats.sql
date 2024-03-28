@@ -1243,11 +1243,12 @@ INSERT INTO public.hat_defs VALUES (1512, '2ev4u', 'Espeon, the Sun Pokémon, an
 
 
 
+
 --
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1514, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1515, true);
 
 
 --
