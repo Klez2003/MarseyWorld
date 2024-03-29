@@ -25,6 +25,9 @@ valid_params = [
 	'effortpost',
 ]
 
+if SITE == 'rdrama.net':
+	valid_params.remove('author') #to stop the doxing, if u see this, pls dont tell anyone
+
 def searchparse(text):
 	text = text.lower()
 
