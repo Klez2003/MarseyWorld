@@ -870,15 +870,15 @@ def u_username_wall(v, username):
 	if username != u.username:
 		return redirect(f"/@{u.username}" + request.full_path.split(request.path)[1])
 
+	if v and v.id != u.id and v.admin_level < PERMS['USER_SHADOWBAN'] and not session.get("GLOBAL"):
+		gevent.spawn(_add_profile_view, v.id, u.id)
+
 	if v and v.has_blocked(u):
 		if g.is_api_or_xhr:
 			abort(403, f"You are blocking @{u.username}.")
 		return render_template("userpage/blocked.html", u=u, v=v), 403
 
 	is_following = v and u.has_follower(v)
-
-	if v and v.id != u.id and v.admin_level < PERMS['USER_SHADOWBAN'] and not session.get("GLOBAL"):
-		gevent.spawn(_add_profile_view, v.id, u.id)
 
 	page = get_page()
 
@@ -927,15 +927,15 @@ def u_username_wall_comment(v, username, cid):
 
 	u = comment.wall_user
 
+	if v and v.id != u.id and v.admin_level < PERMS['USER_SHADOWBAN'] and not session.get("GLOBAL"):
+		gevent.spawn(_add_profile_view, v.id, u.id)
+
 	if v and v.has_blocked(u):
 		if g.is_api_or_xhr:
 			abort(403, f"You are blocking @{u.username}.")
 		return render_template("userpage/blocked.html", u=u, v=v), 403
 
 	is_following = v and u.has_follower(v)
-
-	if v and v.id != u.id and v.admin_level < PERMS['USER_SHADOWBAN'] and not session.get("GLOBAL"):
-		gevent.spawn(_add_profile_view, v.id, u.id)
 
 	if v and request.values.get("read"):
 		gevent.spawn(_mark_comment_as_read, comment.id, v.id)
@@ -966,6 +966,9 @@ def u_username(v, username):
 	if username != u.username:
 		return redirect(f"/@{u.username}/posts" + request.full_path.split(request.path)[1])
 
+	if v and v.id != u.id and v.admin_level < PERMS['USER_SHADOWBAN'] and not session.get("GLOBAL"):
+		gevent.spawn(_add_profile_view, v.id, u.id)
+
 	if v and v.has_blocked(u):
 		if g.is_api_or_xhr:
 			abort(403, f"You are blocking @{u.username}.")
@@ -977,9 +980,6 @@ def u_username(v, username):
 		if g.is_api_or_xhr:
 			abort(403, f"@{u.username}'s userpage is private")
 		return render_template("userpage/private.html", u=u, v=v, is_following=is_following), 403
-
-	if v and v.id != u.id and v.admin_level < PERMS['USER_SHADOWBAN'] and not session.get("GLOBAL"):
-		gevent.spawn(_add_profile_view, v.id, u.id)
 
 	sort = request.values.get("sort", "new")
 	t = request.values.get("t", "all")
@@ -1047,6 +1047,9 @@ def u_username_comments(username, v):
 	if username != u.username:
 		return redirect(f"/@{u.username}/comments" + request.full_path.split(request.path)[1])
 
+	if v and v.id != u.id and v.admin_level < PERMS['USER_SHADOWBAN'] and not session.get("GLOBAL"):
+		gevent.spawn(_add_profile_view, v.id, u.id)
+
 	if v and v.has_blocked(u):
 		if g.is_api_or_xhr:
 			abort(403, f"You are blocking @{u.username}.")
@@ -1058,9 +1061,6 @@ def u_username_comments(username, v):
 		if g.is_api_or_xhr:
 			abort(403, f"@{u.username}'s userpage is private")
 		return render_template("userpage/private.html", u=u, v=v, is_following=is_following), 403
-
-	if v and v.id != u.id and v.admin_level < PERMS['USER_SHADOWBAN'] and not session.get("GLOBAL"):
-		gevent.spawn(_add_profile_view, v.id, u.id)
 
 	page = get_page()
 
