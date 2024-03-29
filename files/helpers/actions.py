@@ -203,7 +203,7 @@ def execute_snappy(post, v):
 
 	captured2 = []
 	for href, title in captured:
-		if not (href.startswith('/') or href.startswith(f'{SITE_FULL}/') or href.startswith(f'{SITE_FULL_IMAGES}/')):
+		if not (href.startswith('/') or href.startswith(f'{SITE_FULL}/') or href.startswith(f'{SITE_FULL_IMAGES}/') or href.startswith('https://videos.watchpeopledie.tv/')):
 			captured2.append((href, title))
 
 	if captured2: 
