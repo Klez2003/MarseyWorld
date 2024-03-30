@@ -1,10 +1,10 @@
 import json
 import requests
 
+from files.helpers.config.const import *
+
 if SITE == 'watchpeopledie.tv':
 	from rclone_python import rclone
-
-from files.helpers.config.const import *
 
 CLOUDFLARE_API_URL = "https://api.cloudflare.com/client/v4"
 CLOUDFLARE_REQUEST_TIMEOUT_SECS = 5
