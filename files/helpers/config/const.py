@@ -1061,6 +1061,7 @@ CHUD_PHRASES = ( #if you add a phrase, remove one in turn
 	"I love sucking cock",
 	"This post rests on native land",
 	"Communism will win",
+	"I wanna be a janny",
 )
 
 HEADERS = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36"}
