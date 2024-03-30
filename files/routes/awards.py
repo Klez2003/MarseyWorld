@@ -166,9 +166,13 @@ def award_thing(v, thing_type, id):
 	if v.house:
 		AWARDS[v.house] = HOUSE_AWARDS[v.house]
 
-	if kind not in AWARDS: abort(404, "This award doesn't exist")
+	if kind not in AWARDS:
+		abort(404, "This award doesn't exist")
 
 	award_title = AWARDS[kind]['title']
+
+	if v.shadowbanned:
+		return {"message": f"{award_title} award given to {thing_type} successfully!"}
 
 	if obj.is_longpost and kind in {"ectoplasm", "candycorn", "candycane", "stab", "tilt", "queen", "chud", "marsify", "Furry", "Edgy", "Femboy", "Furry Founder", "Edgy Founder", "Femboy Founder"}:
 		abort(403, f'Long posts are protected from the {award_title} award!')
