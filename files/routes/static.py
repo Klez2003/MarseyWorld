@@ -81,7 +81,7 @@ def emoji_list(v, kind):
 
 	emojis_hash = cache.get('emojis_hash') or ''
 
-	return render_template("emojis.html", v=v, emojis=emojis, kind=kind.lower(), emojis_hash=emojis_hash)
+	return render_template("emojis.html", v=v, emojis=emojis, kind=kind, emojis_hash=emojis_hash)
 
 
 
