@@ -35,7 +35,7 @@ def purge_files_in_cloudflare_cache(files):
 		for file in files:
 			if file.startswith('https://videos.watchpeopledie.tv/'):
 				filename = file.split('https://videos.watchpeopledie.tv/')[1]
-				rclone.delete(f'no:/videos/{filename}')
+				gevent.spawn(rclone.delete, f'no:/videos/{filename}')
 
 	post_data = {"files": files}
 	res = None
