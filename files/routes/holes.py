@@ -825,6 +825,9 @@ def hole_public_use(v, hole):
 
 	if not v.mods_hole(hole.name): abort(403)
 
+	if hole in {'furry','vampire','racist','femboy','edgy'}:
+		abort(400, "House holes can't have Public Use mode enabled")
+
 	hole.public_use = not hole.public_use
 	g.db.add(hole)
 
