@@ -1875,7 +1875,7 @@ def delete_media_post(v):
 	for tup in to_delete:
 		for extra_url in tup:
 			if extra_url:
-				remove_media_using_link(extra_url)
+				remove_image_using_link(extra_url)
 				purge_files_in_cloudflare_cache(extra_url)
 
 	ma = ModAction(

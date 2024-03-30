@@ -24,7 +24,7 @@ from .regex import badge_name_regex
 if SITE == 'watchpeopledie.tv':
 	from rclone_python import rclone
 
-def remove_media_using_link(path):
+def remove_image_using_link(path):
 	if SITE in path:
 		path = path.split(SITE, 1)[1]
 	os.remove(path)

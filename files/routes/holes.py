@@ -586,7 +586,7 @@ def delete_hole_sidebar(v, hole):
 	if sidebar not in hole.sidebarurls:
 		abort(404, "Sidebar image not found!")
 
-	try: remove_media_using_link(sidebar)
+	try: remove_image_using_link(sidebar)
 	except FileNotFoundError: pass
 
 	hole.sidebarurls.remove(sidebar)
@@ -651,7 +651,7 @@ def delete_hole_banner(v, hole):
 	if banner not in hole.bannerurls:
 		abort(404, "Banner not found!")
 
-	try: remove_media_using_link(banner)
+	try: remove_image_using_link(banner)
 	except FileNotFoundError: pass
 
 	hole.bannerurls.remove(banner)
@@ -687,7 +687,7 @@ def hole_marsey(v, hole):
 
 	if marseyurl:
 		if hole.marseyurl:
-			remove_media_using_link(hole.marseyurl)
+			remove_image_using_link(hole.marseyurl)
 		hole.marseyurl = marseyurl
 		g.db.add(hole)
 

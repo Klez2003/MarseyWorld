@@ -48,7 +48,7 @@ def settings_personal(v):
 def remove_background(v):
 	if v.background:
 		if v.background.startswith('/images/'):
-			remove_media_using_link(v.background)
+			remove_image_using_link(v.background)
 		v.background = None
 		g.db.add(v)
 	return {"message": "Background removed!"}
@@ -73,7 +73,7 @@ def upload_custom_background(v):
 
 	if background:
 		if v.background and v.background.startswith('/images/'):
-			remove_media_using_link(v.background)
+			remove_image_using_link(v.background)
 		v.background = background
 		g.db.add(v)
 
@@ -608,10 +608,10 @@ def settings_images_profile(v):
 	if not imageurl: abort(400)
 
 	if v.highres and '/images/' in v.highres and path.isfile(v.highres):
-		remove_media_using_link(v.highres)
+		remove_image_using_link(v.highres)
 
 	if v.profileurl and '/images/' in v.profileurl and path.isfile(v.profileurl):
-		remove_media_using_link(v.profileurl)
+		remove_image_using_link(v.profileurl)
 
 	v.highres = highres
 	v.profileurl = imageurl
@@ -644,7 +644,7 @@ def settings_images_banner(v):
 
 	if bannerurl:
 		if v.bannerurl and '/images/' in v.bannerurl and path.isfile(v.bannerurl):
-			remove_media_using_link(v.bannerurl)
+			remove_image_using_link(v.bannerurl)
 		v.bannerurl = bannerurl
 		g.db.add(v)
 
@@ -668,7 +668,7 @@ def settings_images_profile_background(v):
 
 	if profile_background:
 		if v.profile_background and '/images/' in v.profile_background and path.isfile(v.profile_background):
-			remove_media_using_link(v.profile_background)
+			remove_image_using_link(v.profile_background)
 		v.profile_background = profile_background
 		g.db.add(v)
 		badge_grant(badge_id=193, user=v)
