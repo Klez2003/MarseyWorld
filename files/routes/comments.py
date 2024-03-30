@@ -8,7 +8,6 @@ import gevent
 from files.classes import *
 from files.helpers.actions import *
 from files.helpers.alerts import *
-from files.helpers.cloudflare import purge_files_in_cloudflare_cache
 from files.helpers.config.const import *
 from files.helpers.get import *
 from files.helpers.media import *
