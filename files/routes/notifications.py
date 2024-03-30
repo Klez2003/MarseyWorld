@@ -257,7 +257,7 @@ def notifications_modactions(v):
 	listing = g.db.query(cls).filter(cls.user_id != v.id)
 
 	if v.id == AEVANN_ID:
-		listing = listing.filter(cls.kind.in_(AEVANN_MODACTION_TYPES))
+		listing = listing.filter(cls.kind.notin_(AEVANN_EXCLUDED_MODACTION_TYPES))
 
 	if v.admin_level < PERMS['PROGSTACK']:
 		listing = listing.filter(cls.kind.notin_(MODACTION_PRIVILEGED__TYPES))
