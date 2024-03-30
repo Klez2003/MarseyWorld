@@ -4,6 +4,7 @@ import requests
 from files.helpers.config.const import *
 
 if SITE == 'watchpeopledie.tv':
+	import gevent
 	from rclone_python import rclone
 
 CLOUDFLARE_API_URL = "https://api.cloudflare.com/client/v4"
