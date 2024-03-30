@@ -1012,8 +1012,8 @@ homoween_end = datetime.datetime.strptime(f'1/11/{t.year}', '%d/%m/%Y') + dateti
 def IS_HOMOWEEN():
 	return homoween_begin < datetime.datetime.now() < homoween_end
 
-dkd_begin = datetime.datetime.strptime(f'25/4/{t.year}', '%d/%m/%Y')
-dkd_end = datetime.datetime.strptime(f'2/5/{t.year}', '%d/%m/%Y')
+dkd_begin = datetime.datetime.strptime(f'3/4/{t.year}', '%d/%m/%Y')
+dkd_end = datetime.datetime.strptime(f'10/4/{t.year}', '%d/%m/%Y')
 def IS_DKD():
 	return SITE_NAME == 'rDrama' and dkd_begin < datetime.datetime.now() < dkd_end
 
