@@ -781,8 +781,9 @@ def admin_distinguish_comment(c_id, v):
 		user_id=v.id,
 		target_comment_id=comment.id
 	)
+	if cls == HoleAction:
+		ma.hole = comment.post.hole
 	g.db.add(ma)
-
 
 	if comment.distinguished: return {"message": "Comment distinguished!"}
 	else: return {"message": "Comment undistinguished!"}

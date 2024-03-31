@@ -1215,6 +1215,8 @@ def distinguish_post(post_id, v):
 		user_id=v.id,
 		target_post_id=post.id
 	)
+	if cls == HoleAction:
+		ma.hole = post.hole
 	g.db.add(ma)
 
 
