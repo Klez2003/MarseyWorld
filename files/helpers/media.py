@@ -21,9 +21,6 @@ from files.helpers.settings import get_setting
 from .config.const import *
 from .regex import badge_name_regex
 
-if SITE == 'watchpeopledie.tv':
-	from rclone_python import rclone
-
 def remove_image_using_link(link):
 	if not link or not '/images/' in link:
 		return
@@ -203,7 +200,7 @@ def process_video(file, v):
 		gevent.spawn(delete_file, new, f'https://videos.{SITE}' + new.split('/videos')[1])
 
 	if SITE == 'watchpeopledie.tv':
-		gevent.spawn(rclone_file, new)
+		gevent.spawn(rclone_copy, new)
 		return f'https://videos.{SITE}' + new.split('/videos')[1]
 	else:
 		return f"{SITE_FULL}{new}"
@@ -280,10 +277,6 @@ def delete_file(filename, url):
 	os.remove(filename)
 	purge_files_in_cloudflare_cache(url)
 
-def rclone_file(filename):
-	rclone.copy(filename, 'no:/videos', ignore_existing=True, show_progress=False)
-
-
 def process_badge_entry(oldname, v, comment_body):
 	try:
 		json_body = '{' + comment_body.split('{')[1].split('}')[0] + '}'
@@ -308,3 +301,14 @@ def process_badge_entry(oldname, v, comment_body):
 		purge_files_in_cloudflare_cache(f"{SITE_FULL_IMAGES}/i/{SITE_NAME}/badges/{badge.id}.webp")
 	except Exception as e:
 		abort(400, str(e))
+
+
+if SITE == 'watchpeopledie.tv':
+	from rclone_python import rclone
+
+	def rclone_copy(filename):
+		rclone.copy(filename, 'no:/videos', ignore_existing=True, show_progress=False)
+
+	def rclone_delete(filename):
+		try: rclone.delete(filename)
+		except Exception as e: print(e, flush=True)

@@ -1,11 +1,8 @@
 import json
 import requests
-
+import gevent
 from files.helpers.config.const import *
-
-if SITE == 'watchpeopledie.tv':
-	import gevent
-	from rclone_python import rclone
+from files.helpers.media import *
 
 CLOUDFLARE_API_URL = "https://api.cloudflare.com/client/v4"
 CLOUDFLARE_REQUEST_TIMEOUT_SECS = 5
@@ -36,7 +33,7 @@ def purge_files_in_cloudflare_cache(files):
 		for file in files:
 			if file.startswith('https://videos.watchpeopledie.tv/'):
 				filename = file.split('https://videos.watchpeopledie.tv/')[1]
-				gevent.spawn(rclone.delete, f'no:/videos/{filename}')
+				gevent.spawn(rclone_delete, f'no:/videos/{filename}')
 
 	post_data = {"files": files}
 	res = None
