@@ -1207,7 +1207,10 @@ def distinguish_post(post_id, v):
 
 	g.db.add(post)
 
-	ma = ModAction(
+	if v.mods_hole(post.hole): cls = HoleAction
+	else: cls = ModAction
+
+	ma = cls(
 		kind=kind,
 		user_id=v.id,
 		target_post_id=post.id

@@ -134,6 +134,26 @@ HOLEACTION_TYPES = {
 		"icon": 'fa-eye-evil',
 		"color": 'bg-success'
 	},
+	'distinguish_comment': {
+		"str": 'distinguished {self.target_link}',
+		"icon": 'fa-crown',
+		"color": 'bg-success'
+	},
+	'undistinguish_comment': {
+		"str": 'un-distinguished {self.target_link}',
+		"icon": 'fa-crown',
+		"color": 'bg-muted'
+	},
+	'distinguish_post': {
+		"str": 'distinguished {self.target_link}',
+		"icon": 'fa-crown',
+		"color": 'bg-success'
+	},
+	'undistinguish_post': {
+		"str": 'un-distinguished {self.target_link}',
+		"icon": 'fa-crown',
+		"color": 'bg-muted'
+	},
 }
 
 HOLEACTION_TYPES = dict(sorted(HOLEACTION_TYPES.items()))

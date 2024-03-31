@@ -773,7 +773,10 @@ def admin_distinguish_comment(c_id, v):
 
 	g.db.add(comment)
 
-	ma = ModAction(
+	if v.mods_hole(comment.post.hole): cls = HoleAction
+	else: cls = ModAction
+
+	ma = cls(
 		kind=kind,
 		user_id=v.id,
 		target_comment_id=comment.id
