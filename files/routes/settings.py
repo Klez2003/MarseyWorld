@@ -244,7 +244,7 @@ def settings_personal_post(v):
 		return {"message": "Your enemies list has been updated."}
 
 	elif not updated and request.values.get("sig"):
-		if not v.patron or (v.patron < 3 and time.time() > 1711304245):
+		if v.patron < 3:
 			abort(403, f"Signatures are only available to {patron}s donating $10/month or higher!")
 
 		sig = request.values.get("sig").replace('\n','').replace('\r','').strip()
@@ -381,8 +381,6 @@ def settings_personal_post(v):
 
 		if house == "None":
 			house = ''
-		elif SITE == 'watchpeopledie.tv' and time.time() < 1707343158:
-			house += ' Founder'
 
 		v.house = house
 
