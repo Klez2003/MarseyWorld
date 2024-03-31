@@ -24,9 +24,12 @@ from .regex import badge_name_regex
 if SITE == 'watchpeopledie.tv':
 	from rclone_python import rclone
 
-def remove_image_using_link(path):
-	if SITE in path:
-		path = path.split(SITE, 1)[1]
+def remove_image_using_link(link):
+	if not link or not '/images/' in link:
+		return
+	if SITE in link: path = link.split(SITE, 1)[1]
+	else: path = link
+	if not os.path.isfile(path): return
 	os.remove(path)
 
 def media_ratelimit(v):
