@@ -33,7 +33,8 @@ def queenify_tag_string(string):
 		random.seed(string)
 		girl_phrase = random.choice(GIRL_PHRASES)
 		string = girl_phrase.replace("$", string)
-	
+	random.seed()
+
 	return initial + string
 
 def queenify_html(html):

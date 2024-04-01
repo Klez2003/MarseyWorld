@@ -93,6 +93,9 @@ def selected_tab(request):
 def seeded_random(choices, p):
 	if request.path.startswith('/post/') and p:
 		random.seed(p.id)
+		chosen = random.choice(choices)
+		random.seed()
+		return chosen
 	return random.choice(choices)
 
 @app.template_filter("expand_art")
