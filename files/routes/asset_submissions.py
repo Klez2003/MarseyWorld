@@ -275,7 +275,7 @@ def approve_emoji(v, name):
 
 	cache.delete("emoji_count")
 
-	purge_files_in_cloudflare_cache(f"{SITE_FULL_IMAGES}/e/{emoji.name}/webp")
+	purge_files_in_cloudflare_cache(f"{SITE_FULL_IMAGES}/e/{emoji.name}.webp")
 
 	return {"message": f"'{emoji.name}' approved!"}
 
