@@ -485,5 +485,5 @@ MODACTION_TYPES_FILTERED = deepcopy({t:v for t,v in MODACTION_TYPES.items()
 									 if not t in MODACTION_PRIVILEGED_TYPES})
 MODACTION_TYPES__FILTERED = deepcopy({t:v for t,v in MODACTION_TYPES.items()
 									 if not t in MODACTION_PRIVILEGED__TYPES})
-AEVANN_EXCLUDED_MODACTION_TYPES = {'pin_post', 'unpin_post'
+AEVANN_EXCLUDED_MODACTION_TYPES = {'pin_post', 'unpin_post',
 								'pin_comment', 'unpin_comment'}
