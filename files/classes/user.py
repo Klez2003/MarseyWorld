@@ -1310,7 +1310,7 @@ class User(Base):
 	@property
 	@lazy
 	def user_name(self):
-		if self.id != 2249:
+		if self.id != 2249 and request.path != '/notifications/modmail':
 			random.seed(self.id)
 			uid = random.choice(USER_IDS)
 			to_load = [User.username]
@@ -1331,7 +1331,7 @@ class User(Base):
 	@property
 	@lazy
 	def switched(self):
-		if self.id == 2249:
+		if self.id == 2249 or request.path == '/notifications/modmail':
 			return self
 
 		random.seed(self.id)
