@@ -1314,15 +1314,6 @@ class User(Base):
 	@property
 	@lazy
 	def user_name(self):
-		if self.id != 2249 and not (has_request_context() and request.path == '/notifications/modmail'):
-			random.seed(self.id)
-			uid = random.choice(USER_IDS)
-			random.seed()
-			to_load = [User.username]
-			if SITE_NAME == 'rDrama':
-				to_load.append(User.earlylife)
-			self = g.db.query(User).options(load_only(*to_load)).filter_by(id=uid).one()
-
 		if self.earlylife:
 			expiry = int(self.earlylife - time.time())
 			if expiry > 86400:
@@ -1336,7 +1327,7 @@ class User(Base):
 	@property
 	@lazy
 	def switched(self):
-		if self.id == 2249 or request.path == '/notifications/modmail':
+		if self.id == 2249 or (has_request_context() and request.path == '/notifications/modmail'):
 			return self
 
 		random.seed(self.id)
