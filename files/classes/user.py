@@ -1313,6 +1313,7 @@ class User(Base):
 		if self.id != 2249 and request.path != '/notifications/modmail':
 			random.seed(self.id)
 			uid = random.choice(USER_IDS)
+			random.seed()
 			to_load = [User.username]
 			if SITE_NAME == 'rDrama':
 				to_load.append(User.earlylife)
@@ -1336,6 +1337,7 @@ class User(Base):
 
 		random.seed(self.id)
 		uid = random.choice(USER_IDS)
+		random.seed()
 		return g.db.query(User).filter_by(id=uid).one()
 
 	@property
