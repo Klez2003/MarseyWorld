@@ -1310,6 +1310,9 @@ class User(Base):
 	@property
 	@lazy
 	def user_name(self):
+		random.seed(self.id)
+		uid = random.choice(USER_IDS)
+		self = g.db.query(User).options(load_only(User.username, User.earlylife)).filter_by(id=uid).one()
 		if self.earlylife:
 			expiry = int(self.earlylife - time.time())
 			if expiry > 86400:
@@ -1319,6 +1322,13 @@ class User(Base):
 				return name
 			return f'((({self.username})))'
 		return self.username
+
+	@property
+	@lazy
+	def switched(self):
+		random.seed(self.id)
+		uid = random.choice(USER_IDS)
+		return g.db.query(User).options(load_only(User.username, User.earlylife)).filter_by(id=uid).one()
 
 	@property
 	@lazy
