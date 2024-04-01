@@ -144,6 +144,7 @@ def reencode_video(old, new, check_sizes=False):
 	os.remove(old)
 
 	if SITE == 'watchpeopledie.tv':
+		rclone_copy(new)
 		url = f'https://videos.{SITE}' + new.split('/videos')[1]
 	else:
 		url = f"{SITE_FULL}{new}"
@@ -171,12 +172,15 @@ def process_video(file, v):
 		os.remove(old)
 		abort(400, "Something went wrong processing your video on our end. Please try uploading it to https://pomf2.lain.la and post the link instead.")
 
+	is_reencoding = False
 	if codec != 'h264':
 		copyfile(old, new)
 		gevent.spawn(reencode_video, old, new)
+		is_reencoding = True
 	elif bitrate >= 3000000:
 		copyfile(old, new)
 		gevent.spawn(reencode_video, old, new, True)
+		is_reencoding = True
 	else:
 		try:
 			ffmpeg.input(old).output(new, loglevel="quiet", map_metadata=-1, acodec="copy", vcodec="copy").run()
@@ -198,9 +202,11 @@ def process_video(file, v):
 
 	if SITE == 'watchpeopledie.tv' and v and v.username.lower().startswith("icosaka"):
 		gevent.spawn(delete_file, new, f'https://videos.{SITE}' + new.split('/videos')[1])
+		return f'https://videos.{SITE}' + new.split('/videos')[1]
 
 	if SITE == 'watchpeopledie.tv':
-		gevent.spawn(rclone_copy, new)
+		if not is_reencoding:
+			gevent.spawn(rclone_copy, new)
 		return f'https://videos.{SITE}' + new.split('/videos')[1]
 	else:
 		return f"{SITE_FULL}{new}"

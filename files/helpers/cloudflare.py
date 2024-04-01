@@ -29,12 +29,6 @@ def purge_files_in_cloudflare_cache(files):
 	if isinstance(files, str):
 		files = [files]
 
-	if SITE == 'watchpeopledie.tv':
-		for file in files:
-			if file.startswith('https://videos.watchpeopledie.tv/'):
-				filename = file.split('https://videos.watchpeopledie.tv/')[1]
-				gevent.spawn(rclone_delete, f'no:/videos/{filename}')
-
 	post_data = {"files": files}
 	res = None
 	try:
@@ -42,9 +36,3 @@ def purge_files_in_cloudflare_cache(files):
 	except:
 		return False
 	return res == "<Response [200]>"
-
-if SITE == 'watchpeopledie.tv':
-	from rclone_python import rclone
-	def rclone_delete(filename):
-		try: rclone.delete(filename)
-		except Exception as e: print(e, flush=True)
