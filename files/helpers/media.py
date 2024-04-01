@@ -305,10 +305,5 @@ def process_badge_entry(oldname, v, comment_body):
 
 if SITE == 'watchpeopledie.tv':
 	from rclone_python import rclone
-
 	def rclone_copy(filename):
 		rclone.copy(filename, 'no:/videos', ignore_existing=True, show_progress=False)
-
-	def rclone_delete(filename):
-		try: rclone.delete(filename)
-		except Exception as e: print(e, flush=True)

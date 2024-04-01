@@ -42,3 +42,9 @@ def purge_files_in_cloudflare_cache(files):
 	except:
 		return False
 	return res == "<Response [200]>"
+
+if SITE == 'watchpeopledie.tv':
+	from rclone_python import rclone
+	def rclone_delete(filename):
+		try: rclone.delete(filename)
+		except Exception as e: print(e, flush=True)
