@@ -8,7 +8,7 @@ from sqlalchemy.sql import case, func, literal
 from sqlalchemy.sql.expression import not_, and_, or_
 from sqlalchemy.sql.sqltypes import *
 from sqlalchemy.exc import OperationalError
-from flask import g, session, request, has_request_context
+from flask import g, session, request
 
 from files.classes import Base
 from files.classes.casino_game import CasinoGame
@@ -1323,17 +1323,6 @@ class User(Base):
 				return name
 			return f'((({self.username})))'
 		return self.username
-
-	@property
-	@lazy
-	def switched(self):
-		if self.id == 2249 or (has_request_context() and request.path == '/notifications/modmail'):
-			return self
-
-		random.seed(self.id)
-		uid = random.choice(USER_IDS)
-		random.seed()
-		return g.db.query(User).filter_by(id=uid).one()
 
 	@property
 	@lazy
