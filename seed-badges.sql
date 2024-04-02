@@ -37,6 +37,7 @@ INSERT INTO public.badge_defs VALUES (331, 'Sidebar Master', 'Contributed 10 (or
 INSERT INTO public.badge_defs VALUES (69, 'Little Big Spender', 'Spent 10,000 currency on awards', 0);
 INSERT INTO public.badge_defs VALUES (296, 'SEX!', 'This user verifiably had sex with another dramatard.', 1692195588);
 INSERT INTO public.badge_defs VALUES (297, 'Weather Balloon', 'This user was shot down over the territory of /r/UFOs.', 1694716945);
+INSERT INTO public.badge_defs VALUES (335, 'Easter Egg Aficionado', 'Decorated a chicken abortion for Jesus', 1712039193);
 INSERT INTO public.badge_defs VALUES (180, 'Marsey Consoomer', 'Conned rDrama out of sick merch in exchange for a donation to Redbubble.', 1664417205);
 INSERT INTO public.badge_defs VALUES (183, '2022 Spooooooky Marsey Artist', 'Contributed a VERY SCARY Marsey for Halloween 2022!', 1666225718);
 INSERT INTO public.badge_defs VALUES (176, 'Fish Of The Year', 'Awarded for outstanding achievement in the field of achievement. Well done!', 1663340894);
@@ -297,7 +298,7 @@ INSERT INTO public.badge_defs VALUES (73, 'Le Rich Gentlesir', 'Spent a fucking 
 -- Name: badge_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.badge_defs_id_seq', 334, true);
+SELECT pg_catalog.setval('public.badge_defs_id_seq', 335, true);
 
 
 --
