@@ -1254,11 +1254,12 @@ INSERT INTO public.hat_defs VALUES (1520, 'Smokey', 'Puffff', 2, 1000, NULL, 171
 INSERT INTO public.hat_defs VALUES (1530, 'Purple Aura', 'This person has a purple aura... Whatever that means.', 2, 1000, NULL, 1711680255);
 
 
+
 --
 -- Name: hat_defs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hat_defs_id_seq', 1531, true);
+SELECT pg_catalog.setval('public.hat_defs_id_seq', 1532, true);
 
 
 --
