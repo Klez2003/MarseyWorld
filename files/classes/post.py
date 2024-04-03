@@ -55,7 +55,7 @@ class Post(Base):
 	title = Column(String)
 	title_html = Column(String)
 	url = Column(String)
-	body = Column(String)
+	body = Column(String, default='')
 	body_html = Column(String)
 	flair = Column(String)
 	ban_reason = Column(String)

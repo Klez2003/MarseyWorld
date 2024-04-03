@@ -201,7 +201,7 @@ class Comment(Base):
 	upvotes = Column(Integer, default=1)
 	downvotes = Column(Integer, default=0)
 	realupvotes = Column(Integer, default=1)
-	body = Column(String)
+	body = Column(String, default='')
 	body_html = Column(String)
 	body_ts = Column(TSVECTOR(), server_default=FetchedValue())
 	ban_reason = Column(String)
