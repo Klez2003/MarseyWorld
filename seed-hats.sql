@@ -1252,7 +1252,7 @@ INSERT INTO public.hat_defs VALUES (1519, 'Explosion', 'WTF BOOOOOOOOOOM', 2, 10
 INSERT INTO public.hat_defs VALUES (1531, 'Fire Ring', 'The ring of fire.... The ring of fire...', 2, 1000, NULL, 1711680597);
 INSERT INTO public.hat_defs VALUES (1520, 'Smokey', 'Puffff', 2, 1000, NULL, 1711676713);
 INSERT INTO public.hat_defs VALUES (1530, 'Purple Aura', 'This person has a purple aura... Whatever that means.', 2, 1000, NULL, 1711680255);
-
+INSERT INTO public.hat_defs VALUES (1532, 'Polaroid photo', 'Ahhh I remember when I was young. How the time flies...', 2, 500, NULL, 1712164155);
 
 
 --
