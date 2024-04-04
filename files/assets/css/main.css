@@ -5911,7 +5911,7 @@ a.emojitab {
 
 .notif-count {
 	background: red;
-	border-radius: 20%;
+	border-radius: 6px;
 	color: white;
 	padding: 2px 5px;
 	font-weight: 700;
