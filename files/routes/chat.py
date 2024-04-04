@@ -315,7 +315,8 @@ def refresh_online(room):
 
 	data = [list(online[room].values()), muted]
 	emit("online", data, room=room, broadcast=True)
-	cache.set('loggedin_chat', len(online[room]), timeout=86400)
+	if room == "chat":
+		cache.set('loggedin_chat', len(online[room]), timeout=86400)
 
 @socketio.on('connect')
 @auth_required_socketio
