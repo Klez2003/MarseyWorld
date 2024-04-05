@@ -32,7 +32,7 @@
 				<div class="border-right d-md-none fl-r pt-2 mr-3">
 					<span data-bs-html="true" data-bs-toggle="tooltip" data-bs-placement="bottom" title="<b>Members</b> {% for membership in chat.memberships %}<br>@{{membership.user.username}}{% endfor %}" class="text-muted">
 						<i class="fas fa-user fa-sm mr-1"></i>
-						<span class="board-chat-count" style="cursor:default">{{chat.memberships|length}}</span>
+						<span class="chat-count" style="cursor:default">{{chat.memberships|length}}</span>
 					</span>
 				</div>
 

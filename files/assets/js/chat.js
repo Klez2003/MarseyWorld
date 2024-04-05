@@ -221,7 +221,7 @@ socket.on('online', function(data) {
 
 	const muted_li = Object.keys(data[1])
 
-	document.getElementsByClassName('board-chat-count')[0].innerHTML = online_li.length
+	document.getElementsByClassName('chat-count')[0].innerHTML = online_li.length
 	document.getElementById('chat-count-header-bar').innerHTML = online_li.length
 	const admin_level = parseInt(document.getElementById('admin_level').value)
 	let online = ''
