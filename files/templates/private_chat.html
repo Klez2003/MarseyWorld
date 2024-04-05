@@ -13,7 +13,7 @@
 		<div class="row justify-content-around" id="main-content-row">
 			<div class="col h-100 {% block customPadding %}custom-gutters{% endblock %}" id="main-content-col">
 				<h5 class="mt-2 mb-3 ml-1 toggleable d-mob-none" style="display:inline-block">{{chat.name}}</h5> 
-				<b class="mt-2 ml-1 text-small toggleable d-md-none" style="display:inline-block">{{chat.name}}</b> 
+				<b class="mt-2 mb-1 ml-1 text-small toggleable d-md-none" style="display:inline-block">{{chat.name}}</b> 
 
 				{% if v.id == chat.owner_id %}
 					<button class="px-2 toggleable" type="button" data-nonce="{{g.nonce}}" data-onclick="toggleElement('chat-name-form', 'chat-name')">
