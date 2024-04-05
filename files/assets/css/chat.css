@@ -209,13 +209,14 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #leave-private-chat {
-	margin-top: -3px;
+	margin-top: -6px;
 	padding-top: 0.1rem;
 	padding-bottom: 0.15rem;
 }
 
 @media (max-width: 768px) {
 	#leave-private-chat {
+		margin-top: -3px;
 		padding-bottom: 0.05rem;
 	}
 }
