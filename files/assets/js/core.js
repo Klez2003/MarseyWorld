@@ -279,18 +279,18 @@ function prepare_to_pause(audio) {
 
 function handle_playing_music(audio) {
 	audio.addEventListener('play', () => {
-		localStorage.setItem("playing_music3", Date.now());
+		localStorage.setItem("playing_music", Date.now());
 		addEventListener('pagehide', () => {
-			localStorage.setItem("playing_music3", 0);
+			localStorage.setItem("playing_music", 0);
 		})	
 	})
 	audio.addEventListener('pause', () => {
-		localStorage.setItem("playing_music3", 0);
+		localStorage.setItem("playing_music", 0);
 	})	
 }
 
 function playing_music() {
-	return (Date.now() - localStorage.getItem("playing_music3", 0) < 300000)
+	return (Date.now() - localStorage.getItem("playing_music", 0) < 300000)
 }
 
 function reload() {
