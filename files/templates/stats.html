@@ -4,14 +4,16 @@
 	<header id="shop-header" class="container text-center pb-0">
 		<img class="mt-2 mb-4" width="300" alt="coat of arms" src="{{SITE_FULL_IMAGES}}/i/{{SITE_NAME}}/coat_of_arms.webp?x=8">
 
+		{% set today = datetime.datetime.today().strftime('%Y-%m-%d') %}
+
 		<h3>Weekly Chart</h3>
-		<a href="{{SITE_FULL_IMAGES}}/weekly_chart.png" rel="noopener" target="_blank">
-			<img alt="Weekly Chart" class="img" src="{{SITE_FULL_IMAGES}}/weekly_chart.png">
+		<a href="{{SITE_FULL_IMAGES}}/weekly_chart.png?x={{today}}" rel="noopener" target="_blank">
+			<img alt="Weekly Chart" class="img" src="{{SITE_FULL_IMAGES}}/weekly_chart.png?x={{today}}">
 		</a>
 
 		<h3>Daily Chart</h3>
-		<a href="{{SITE_FULL_IMAGES}}/daily_chart.png" rel="noopener" target="_blank">
-			<img alt="Daily Chart" class="img" src="{{SITE_FULL_IMAGES}}/daily_chart.png">
+		<a href="{{SITE_FULL_IMAGES}}/daily_chart.png?x={{today}}" rel="noopener" target="_blank">
+			<img alt="Daily Chart" class="img" src="{{SITE_FULL_IMAGES}}/daily_chart.png?x={{today}}">
 		</a>
 	</header>
 
