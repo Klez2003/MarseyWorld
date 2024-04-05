@@ -909,7 +909,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('daydream', 'Classic', 2, 'animated emoticon wistful thinking', false, 0),
 ('ddagger', 'Marsey Alphabet', 2, '‡ footnote', false, 0),
 ('ddr', 'Classic', 2, 'animated emoticon dancing dance firework celebration', false, 0),
-('deadhorse', 'Classic', 2, 'beat animal death', false, 1687103742),
+('deadhorse', 'Misc', 2, 'beat animal death', false, 1687103742),
 ('deadpool', 'Classic', 2, 'animated marvel superhero capeshit', false, 0),
 ('debunked', 'Misc', 2, 'deboonked factcheck', false, 1682878063),
 ('defaultdance', 'Misc', 2, 'meme fornite noob', false, 1688063221),
