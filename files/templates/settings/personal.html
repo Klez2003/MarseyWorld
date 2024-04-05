@@ -201,7 +201,7 @@
 						{{common.color_section('namecolor', '/settings/namecolor', 'namecolor', 'Name Color', v.name_color)}}
 
 						{% if FEATURES['PRONOUNS'] %}
-							{{common.line_text_section('pronouns', '/settings/pronouns_change', 'pronouns', 'Pronouns', v.pronouns, 'Limit of 15 characters', 'Enter pronouns here', 'Change Pronouns', false, 3, 15, '([a-zA-Z]{1,7})/[a-zA-Z]{1,7}(/[a-zA-Z]{1,7})?', false)}}
+							{{common.line_text_section('pronouns', '/settings/pronouns_change', 'pronouns', 'Pronouns', v.pronouns, 'Limit of 15 characters', 'Enter pronouns here', 'Change Pronouns', false, 3, 15, '(\w{1,7})/\w{1,7}(/\w{1,7})?', false)}}
 						{% endif %}
 
 						{{common.line_text_section('flair', '/settings/change_flair', 'flair', 'Flair', v.flair, 'Limit of 100 characters', 'Enter a flair here', 'Change Flair', true, 0, 100, '.*', v.flairchanged)}}
