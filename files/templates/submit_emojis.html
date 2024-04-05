@@ -37,7 +37,7 @@
 					<input autocomplete="off" type="text" id="name" class="form-control" name="name" maxlength="30" pattern='[a-zA-Z0-9]{1,30}' placeholder="Required" value="{{name}}" required>
 
 					<label class="mt-3" for="author">Author</label>
-					<input autocomplete="off" type="text" id="author" class="form-control" name="author" maxlength="30" pattern='[a-zA-Z0-9_\-]{1,30}|\?{3}' placeholder="Required" value="{{username}}" required>
+					<input autocomplete="off" type="text" id="author" class="form-control" name="author" maxlength="30" pattern='[a-zA-Z0-9_\- ]{1,30}|\?{3}' placeholder="Required" value="{{username}}" required>
 
 					<label class="mt-3" for="tags">Tags (must be separated by spaces)</label>
 					<input autocomplete="off" type="text" id="tags" class="form-control" name="tags" maxlength="200" pattern='[a-zA-Z0-9: ]{1,200}' placeholder="Required" value="{{tags}}" required>
@@ -87,7 +87,7 @@
 								<input autocomplete="off" type="text" id="{{emoji.name}}-submitter" class="form-control" maxlength="30" value="{{emoji.submitter}}" readonly>
 
 								<label class="mt-3" for="{{emoji.name}}-author">Author</label>
-								<input autocomplete="off" type="text" id="{{emoji.name}}-author" class="form-control" maxlength="30" value="{{emoji.author}}" pattern='[a-zA-Z0-9_\-]{1,30}|\?{3}' placeholder="Required" required {% if v.admin_level < PERMS['MODERATE_PENDING_SUBMITTED_ASSETS'] %}readonly{% endif %}>
+								<input autocomplete="off" type="text" id="{{emoji.name}}-author" class="form-control" maxlength="30" value="{{emoji.author}}" pattern='[a-zA-Z0-9_\- ]{1,30}|\?{3}' placeholder="Required" required {% if v.admin_level < PERMS['MODERATE_PENDING_SUBMITTED_ASSETS'] %}readonly{% endif %}>
 
 								<label class="mt-3" for="{{emoji.name}}-name">Emoji Name</label>
 								<input autocomplete="off" type="text" id="{{emoji.name}}-name" class="form-control" maxlength="30" value="{{emoji.name}}" pattern='emoji[a-z0-9]{1,24}' placeholder="Required" required {% if v.admin_level < PERMS['MODERATE_PENDING_SUBMITTED_ASSETS'] %}readonly{% endif %}>
