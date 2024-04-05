@@ -240,7 +240,7 @@ def sign_up_post(v):
 							), 400
 
 	if username.title() in GIRL_NAMES_TOTAL:
-		return signup_error("An account with that username already exists!")
+		return signup_error("This name is reserved for a site award.")
 
 	submitted_token = session.get("signup_token", "")
 	if not submitted_token:
