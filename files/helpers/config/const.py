@@ -289,6 +289,7 @@ if SITE_NAME == 'rDrama':
 		"managing incontinence",
 		"Quran study group",
 		"Israeli Power Generator",
+		"Bardfinn",
 	)
 
 	BOOSTED_HOLES = {
