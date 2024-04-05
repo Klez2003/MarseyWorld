@@ -41,7 +41,7 @@
 										<label for="file-upload" class="mt-3">Attachment Upload</label>
 									</div>
 									<div style="display:flex;align-items:center">
-										<img loading="lazy" id="image-preview" style="max-width:50%">
+										<img loading="lazy" id="image-preview" style="max-width:50%" data-nonce="{{g.nonce}}" data-onclick="expandImage()">
 										<label class="btn btn-secondary m-0 ml-2 mr-1" for="file-upload">
 											<div>Select File</div>
 											<input autocomplete="off" id="file-upload" accept="image/*, video/*, audio/*" type="file" name="file-url" {% if g.is_tor %}disabled{% endif %} hidden>
@@ -135,4 +135,5 @@
 	<script defer src="{{'js/submit.js' | asset}}"></script>
 	{% include "modals/emoji.html" %}
 	{% include "modals/gif.html" %}
+	{% include "modals/expanded_image.html" %}
 {% endblock %}
