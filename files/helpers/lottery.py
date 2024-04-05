@@ -49,7 +49,6 @@ def end_lottery_session():
 	winning_user = next(filter(lambda x: x.id == winner, participating_users))
 	winning_user.pay_account('coins', active_lottery.prize, "Lottery winnings")
 	winning_user.total_lottery_winnings += active_lottery.prize
-	badge_grant(user=winning_user, badge_id=LOTTERY_WINNER_BADGE_ID)
 
 	for user in participating_users:
 		chance_to_win = user.currently_held_lottery_tickets / len(raffle) * 100
@@ -67,6 +66,9 @@ def end_lottery_session():
 
 	g.db.add(winning_user)
 	g.db.add(active_lottery)
+
+	badge_grant(user=winning_user, badge_id=LOTTERY_WINNER_BADGE_ID)
+
 	g.db.commit() # Intentionally commit early because cron runs with other tasks
 
 	return True, f'{winning_user.username} won {active_lottery.prize} coins!'
