@@ -197,12 +197,12 @@ MODACTION_TYPES = {
 		"color": 'bg-success'
 	},
 	'mute_user': {
-		"str": 'muted reports from {self.target_link}',
+		"str": 'muted modmail and reports from {self.target_link}',
 		"icon": 'fa-file-signature',
 		"color": 'bg-danger'
 	},
 	'unmute_user': {
-		"str": 'unmuted reports from {self.target_link}',
+		"str": 'unmuted modmail and reports from {self.target_link}',
 		"icon": 'fa-file-signature',
 		"color": 'bg-success'
 	},
