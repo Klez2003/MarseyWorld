@@ -167,25 +167,6 @@ def participation_stats(v):
 	if v.client: return stats
 	return render_template("stats.html", v=v, title="Statistics", stats=stats)
 
-@app.get("/chart")
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-def chart():
-	return redirect('/weekly_chart')
-
-@app.get("/weekly_chart.webp")
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
-@auth_required
-def weekly_chart(v):
-	return send_file(statshelper.chart_path(kind="weekly", site=SITE))
-
-@app.get("/daily_chart.webp")
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
-@auth_required
-def daily_chart(v):
-	return send_file(statshelper.chart_path(kind="daily", site=SITE))
-
 @app.get("/admin/patrons")
 @app.get("/admin/paypigs")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
