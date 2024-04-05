@@ -75,14 +75,11 @@ def chart(kind, site):
 	posts_chart.set_xlabel("Posts", labelpad=10.0, size=30)
 	comments_chart.set_xlabel("Comments", labelpad=10.0, size=30)
 
-	file = chart_path(kind, site)
+	file = f'/{site}_{kind}.png'
 
 	plt.savefig(file, bbox_inches='tight')
 	plt.clf()
 	return file
-
-def chart_path(kind, site):
-	return f'/{site}_{kind}.png'
 
 def stats():
 	now = time.time()
