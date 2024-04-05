@@ -68,7 +68,7 @@
 							<tr id="{{membership.user_id}}">
 								<td id="counter-{{membership.user_id}}">{{loop.index}}</td>
 								{% set is_owner = membership.user_id == group.owner_id %}
-								<td {% if is_owner or membership.is_mod %}class="unbreakable"{% endif %}>
+								<td {% if (is_owner or membership.is_mod) and not membership.user.earlylife %}class="unbreakable"{% endif %}>
 									{% with user=membership.user %}
 										{% include "user_in_table.html" %}
 									{% endwith %}
