@@ -167,7 +167,10 @@ def award_thing(v, thing_type, id):
 		AWARDS[v.house] = HOUSE_AWARDS[v.house]
 
 	if kind not in AWARDS:
-		abort(404, "This award doesn't exist")
+		abort(404, "This award doesn't exist.")
+
+	if kind == "grass" and v.id == author.id:
+		abort(403, "You can't grass yourself.")
 
 	award_title = AWARDS[kind]['title']
 
