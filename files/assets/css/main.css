@@ -7810,3 +7810,7 @@ table.border-0 * {
 .inline-modal-option.user-option span {
 	margin-left: 0 !important;
 }
+
+#versions td {
+	border-color: var(--black);
+}

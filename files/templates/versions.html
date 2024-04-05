@@ -5,7 +5,7 @@
 	<h4 class="my-4 py-md-2 d-md-none">Versions of <a href="{{obj.permalink}}">/{% if obj.fullname.startswith('p_') %}post{% else %}comment{% endif %}/{{obj.id}}</a></h4>
 
 	<div class="overflow-x-auto">
-		<table>
+		<table id="versions">
 			<thead>
 				<tr>
 					{% if obj.fullname.startswith('p_') %}
