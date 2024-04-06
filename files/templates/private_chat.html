@@ -43,22 +43,20 @@
 			{{macros.chat_window(vlink)}}
 		</div>
 
-		<div class="col text-left d-none d-lg-block pt-3 pb-5" style="max-width:313px">
+		<div class="col text-left d-none d-lg-block pb-5" style="max-width:313px">
 			{% if chat.id == 1 %}
-				<div class="col text-left d-none d-lg-block pt-3 pb-5" style="max-width:300px">
-					{% if SITE_NAME == 'WPD' %}
-						<h5>Chat Rules</h5>
-						<ul class="mt-2 mb-4">
-							<li>Follow the rules mentioned on <a href="/sidebar">the sidebar</a>.</li>
-							<li>Do not try to crash the chatroom with malicious code (CSS).</li>					
-							<li>Do not send porn in chat.</li>
-							<li>Do not spam.</li>
-						</ul>
-					{% endif %}
+				{% if SITE_NAME == 'WPD' %}
+					<h5>Chat Rules</h5>
+					<ul class="mt-2 mb-4">
+						<li>Follow the rules mentioned on <a href="/sidebar">the sidebar</a>.</li>
+						<li>Do not try to crash the chatroom with malicious code (CSS).</li>					
+						<li>Do not send porn in chat.</li>
+						<li>Do not spam.</li>
+					</ul>
+				{% endif %}
 
-					<h5>Users Online (<span class="chat-count"></span>)</h5>
-					<div id="online" class="mt-2 {% if SITE_NAME == 'WPD' %}online-wpd{% endif %}"></div>
-				</div>
+				<h5>Users Online (<span class="chat-count"></span>)</h5>
+				<div id="online" class="mt-2 {% if SITE_NAME == 'WPD' %}online-wpd{% endif %}"></div>
 			{% else %}
 				<h5>Members ({{sorted_memberships|length}})</h5>
 				<div id="members" class="mt-2">
