@@ -63,22 +63,24 @@ def private_chat(v, chat_id):
 	if not chat:
 		abort(404, "Chat not found!")
 
-	membership = g.db.query(ChatMembership).filter_by(user_id=v.id, chat_id=chat_id).one_or_none()
-
-	if v.admin_level < PERMS['VIEW_CHATS'] and not membership:
-		abort(403, "You're not a member of this chat!")
+	if chat.id == 1:
+		if not v.allowed_in_chat:
+			abort(403, CHAT_ERROR_MESSAGE)
+	else:
+		membership = g.db.query(ChatMembership).filter_by(user_id=v.id, chat_id=chat_id).one_or_none()
+		if v.admin_level < PERMS['VIEW_CHATS'] and not membership:
+			abort(403, "You're not a member of this chat!")
 
 	displayed_messages = reversed(g.db.query(ChatMessage).filter_by(chat_id=chat.id).order_by(ChatMessage.id.desc()).limit(250).all())
 	displayed_messages = {m.id: m for m in displayed_messages}
 
-	if not session.get("GLOBAL") and membership:
-		membership.notification = False
-		g.db.add(membership)
-		g.db.commit() #to clear notif count
-
 	if chat.id == 1:
 		sorted_memberships = None
 	else:
+		if not session.get("GLOBAL") and membership:
+			membership.notification = False
+			g.db.add(membership)
+			g.db.commit() #to clear notif count
 		query = g.db.query(ChatMembership).filter_by(chat_id=chat.id)
 		sorted_memberships = [query.filter_by(user_id=chat.owner_id).one()] + query.filter(ChatMembership.user_id != chat.owner_id).join(ChatMembership.user).order_by(func.lower(User.username)).all()
 
