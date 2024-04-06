@@ -472,7 +472,8 @@ def sanitize(sanitized, golden=True, limit_pings=0, showmore=False, count_emojis
 			captured.append(i.group(0))
 
 			old = i.group(0)
-			if 'marseylong1' in old or 'marseylong2' in old or 'marseylongcockandballs' in old or 'marseyllama1' in old or 'marseyllama2' in old:
+			emojis_with_no_bottom_margin = ('marseylong1', 'marseylong2', 'marseyllama1', 'marseyllama2', 'carplong1', 'carplong2', 'marseylongcockandballs', 'marseylonggigatitty')
+			if any((x in old for x in emojis_with_no_bottom_margin)):
 				new = old.lower().replace(">", " class='mb-0'>")
 			else: new = old.lower()
 
