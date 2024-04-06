@@ -8,6 +8,7 @@ from files.classes.user import User
 from files.classes.post import Post
 from files.classes.comment import Comment
 from files.classes.votes import Vote, CommentVote
+from files.classes.private_chats import ChatMessage
 from files.classes.emoji import *
 from files.classes.award import AwardRelationship
 from files.helpers.config.const import *
@@ -51,25 +52,49 @@ def chart(kind):
 			Comment.author_id != AUTOJANNY_ID).count()
 		for i in range(len(day_cutoffs) - 1)][::-1]
 
+	vote_stats = [
+		g.db.query(Vote).filter(
+			Vote.created_utc < day_cutoffs[i],
+			Vote.created_utc > day_cutoffs[i + 1]
+		).count() +
+		g.db.query(CommentVote).filter(
+			CommentVote.created_utc < day_cutoffs[i],
+			CommentVote.created_utc > day_cutoffs[i + 1]
+		).count()
+		for i in range(len(day_cutoffs) - 1)][::-1]
+
+	chat_stats = [g.db.query(ChatMessage).filter(
+			ChatMessage.created_utc < day_cutoffs[i],
+			ChatMessage.created_utc > day_cutoffs[i + 1]).count()
+		for i in range(len(day_cutoffs) - 1)][::-1]
+
 	plt.rcParams['figure.figsize'] = (chart_width, chart_width)
 
 	signup_chart = plt.subplot2grid((chart_width, chart_width), (0, 0), rowspan=6, colspan=chart_width)
 	posts_chart = plt.subplot2grid((chart_width, chart_width), (10, 0), rowspan=6, colspan=chart_width)
 	comments_chart = plt.subplot2grid((chart_width, chart_width), (20, 0), rowspan=6, colspan=chart_width)
+	votes_chart = plt.subplot2grid((chart_width, chart_width), (30, 0), rowspan=6, colspan=chart_width)
+	chat_chart = plt.subplot2grid((chart_width, chart_width), (40, 0), rowspan=6, colspan=chart_width)
 
 	signup_chart.grid(), posts_chart.grid(), comments_chart.grid()
 
 	signup_chart.plot(daily_times, daily_signups, color='red')
 	posts_chart.plot(daily_times, post_stats, color='blue')
 	comments_chart.plot(daily_times, comment_stats, color='purple')
+	votes_chart.plot(daily_times, vote_stats, color='green')
+	chat_chart.plot(daily_times, chat_stats, color='teal')
 
 	signup_chart.set_ylim(ymin=0)
 	posts_chart.set_ylim(ymin=0)
 	comments_chart.set_ylim(ymin=0)
+	votes_chart.set_ylim(ymin=0)
+	chat_chart.set_ylim(ymin=0)
 
 	signup_chart.set_xlabel("Signups", labelpad=10.0, size=30)
 	posts_chart.set_xlabel("Posts", labelpad=10.0, size=30)
 	comments_chart.set_xlabel("Comments", labelpad=10.0, size=30)
+	votes_chart.set_xlabel("Votes", labelpad=10.0, size=30)
+	chat_chart.set_xlabel("Chat Messages", labelpad=10.0, size=30)
 
 	file = f'/images/{kind}_chart.png'
 
