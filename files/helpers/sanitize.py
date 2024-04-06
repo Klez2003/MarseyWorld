@@ -805,6 +805,7 @@ def normalize_url(url):
 	url = imgur_regex.sub(r'\1_d.webp?maxwidth=9999&fidelity=grand', url)
 
 	if url.startswith('https://twitter.com/'):
+		url = url.split('/mediaviewer')[0]
 		url = url.split('/mediaViewer')[0]
 
 	return url.rstrip('=')
