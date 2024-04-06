@@ -7819,3 +7819,7 @@ table.border-0 * {
 #versions td {
 	border-color: var(--black);
 }
+
+img[src$="/e/speechbubble.webp"] {
+	height: auto !important;
+}
