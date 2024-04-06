@@ -446,12 +446,12 @@
 											{% if c.parent_post %}
 												{% set url = "" %}
 
-												{% if v.id == c.post.author_id %}
+												{% if v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
+													{% set url = "pin_comment_admin" %}
+												{% elif v.id == c.post.author_id %}
 													{% set url = "pin_comment_op" %}
 												{% elif v.mods_hole(c.post.hole) %}
 													{% set url = "pin_comment_mod" %}
-												{% elif v.admin_level >= PERMS['POST_COMMENT_MODERATION'] %}
-													{% set url = "pin_comment_admin" %}
 												{% endif %}
 
 												{% if url != "" %}
