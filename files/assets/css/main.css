@@ -7304,8 +7304,14 @@ button, .btn {
 .chud-6:after {
 	background: url("/i/chud/6.webp?x=8");
 }
-.chud-7:after, .chud-8:after, .chud-9:after {
+.chud-7:after {
 	background: url("/i/chud/7.webp?x=8");
+}
+.chud-8:after {
+	background: url("/i/chud/8.webp?x=8");
+}
+.chud-9:after {
+	background: url("/i/chud/9.webp?x=8");
 }
 
 
