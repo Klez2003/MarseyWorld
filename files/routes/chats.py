@@ -1,5 +1,5 @@
 
-from files.classes.private_chats import *
+from files.classes.chats import *
 from files.routes.wrappers import *
 from files.helpers.config.const import *
 from files.helpers.get import *
@@ -58,7 +58,7 @@ def chat_user(v, username):
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @auth_required
-def private_chat(v, chat_id):
+def chat(v, chat_id):
 	chat = g.db.get(Chat, chat_id)
 	if not chat:
 		abort(404, "Chat not found!")
@@ -84,7 +84,7 @@ def private_chat(v, chat_id):
 		query = g.db.query(ChatMembership).filter_by(chat_id=chat.id)
 		sorted_memberships = [query.filter_by(user_id=chat.owner_id).one()] + query.filter(ChatMembership.user_id != chat.owner_id).join(ChatMembership.user).order_by(func.lower(User.username)).all()
 
-	return render_template("private_chat.html", v=v, messages=displayed_messages, chat=chat, sorted_memberships=sorted_memberships)
+	return render_template("chat.html", v=v, messages=displayed_messages, chat=chat, sorted_memberships=sorted_memberships)
 
 
 @app.post("/chat/<int:chat_id>/name")

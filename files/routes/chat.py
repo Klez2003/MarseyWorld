@@ -16,7 +16,7 @@ from files.helpers.alerts import push_notif
 from files.helpers.can_see import *
 from files.routes.wrappers import *
 from files.classes.orgy import *
-from files.classes.private_chats import *
+from files.classes.chats import *
 
 from files.__main__ import app, cache, limiter
 

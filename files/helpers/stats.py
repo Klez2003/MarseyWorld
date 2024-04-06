@@ -8,7 +8,7 @@ from files.classes.user import User
 from files.classes.post import Post
 from files.classes.comment import Comment
 from files.classes.votes import Vote, CommentVote
-from files.classes.private_chats import ChatMessage
+from files.classes.chats import ChatMessage
 from files.classes.emoji import *
 from files.classes.award import AwardRelationship
 from files.helpers.config.const import *

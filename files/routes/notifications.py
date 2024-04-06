@@ -5,7 +5,7 @@ from sqlalchemy.orm import load_only
 
 from files.classes.mod_logs import ModAction
 from files.classes.hole_logs import HoleAction
-from files.classes.private_chats import *
+from files.classes.chats import *
 from files.helpers.config.const import *
 from files.helpers.config.modaction_types import *
 from files.helpers.get import *

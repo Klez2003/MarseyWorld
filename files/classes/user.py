@@ -14,7 +14,7 @@ from files.classes import Base
 from files.classes.casino_game import CasinoGame
 from files.classes.group import *
 from files.classes.hole import Hole
-from files.classes.private_chats import ChatMembership
+from files.classes.chats import ChatMembership
 from files.classes.currency_logs import CurrencyLog
 from files.helpers.config.const import *
 from files.helpers.config.modaction_types import *

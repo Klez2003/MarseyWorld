@@ -40,4 +40,4 @@ if FEATURES['IP_LOGGING']:
 	from .ip_logs import *
 
 from .edit_logs import *
-from .private_chats import *
+from .chats import *
