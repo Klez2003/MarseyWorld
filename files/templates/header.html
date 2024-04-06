@@ -243,8 +243,7 @@
 
 				<div class="collapse navbar-collapse" id="navbarResponsive">
 					<ul class="navbar-nav ml-auto d-none d-md-flex mr-3">
-
-						{% if not (v and v.patron) %}
+						{% if v and not v.patron %}
 							<li id="header--donate--item" class="nav-item d-flex align-items-center justify-content-center mx-1 mr-2">
 								<a class="btn btn-primary" href="/donate">Donate</a>
 							</li>
@@ -255,6 +254,12 @@
 								<a class="post_navigation d-none nav-link" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Next Post">
 									<i class="fas fa-arrow-right"></i>
 								</a>
+							</li>
+						{% endif %}
+						
+						{% if not v %}
+							<li id="header--donate--item" class="nav-item d-flex align-items-center justify-content-center mx-1 mr-2">
+								<a class="btn btn-primary" href="/donate">Donate</a>
 							</li>
 						{% endif %}
 
