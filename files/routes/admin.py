@@ -1165,6 +1165,7 @@ def chud(fullname, v):
 
 	note = f'duration: {duration}'
 	if reason: note += f', reason: "{reason}"'
+	note += f', chud phrase: "{user.chud_phrase}"'
 
 	ma = ModAction(
 		kind="chud",
