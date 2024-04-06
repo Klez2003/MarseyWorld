@@ -1,5 +1,9 @@
 @charset "UTF-8";
 
+:root {
+	--downvote-color: #38B2AC;
+}
+
 .visited > img {
 	opacity: 0.6;
 }
@@ -3906,7 +3910,7 @@ small, .small {
 }
 
 .active.arrow-down::before {
-	color: #38B2AC;
+	color: var(--downvote-color);
 }
 .arrow-down::before {
 	cursor: pointer;
@@ -3926,7 +3930,7 @@ small, .small {
 	color: var(--primary) !important;
 }
 .downvoted .arrow-mobile-down {
-	color: #38B2AC !important;
+	color: var(--downvote-color) !important;
 }
 .score {
 	color: var(--black);
@@ -3943,7 +3947,7 @@ small, .small {
 	color: var(--primary);
 }
 .score-down {
-	color: #38B2AC !important;
+	color: var(--downvote-color) !important;
 	font-size: 1.1rem;
 }
 
@@ -4981,7 +4985,7 @@ pre .com, code .com {
 		color: var(--primary);
 	}
 	.active.arrow-down::before, .active.arrow-down:hover::before {
-		color: #38B2AC;
+		color: var(--downvote-color);
 	}
 	.dropdown-actions a {
 		font-size: 1rem;

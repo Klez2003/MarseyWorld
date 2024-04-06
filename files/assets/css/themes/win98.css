@@ -112,7 +112,7 @@ blockquote {
 }
 
 .active.arrow-down::before {
-	color: #38B2AC !important;
+	color: var(--downvote-color) !important;
 }
 
 .table {

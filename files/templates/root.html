@@ -19,7 +19,7 @@
 {% set primary_rgb = primary|rgb %}
 
 <!DOCTYPE html>
-<html lang="en" style="--primary:#{{primary}};--primary_rgb:{{primary_rgb}}">
+<html lang="en" style="--primary:#{{primary}};--primary_rgb:{{primary_rgb}}{% if IS_DKD() %};--downvote-color:#f2ca20{% endif %}">
 	<head>
 	{% block head %}
 		<meta charset="utf-8">
