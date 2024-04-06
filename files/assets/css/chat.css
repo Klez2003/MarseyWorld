@@ -4,6 +4,10 @@
 	background-color: transparent !important;
 }
 
+.chat-window-1 {
+	max-height: calc(100vh - 208px);
+}
+
 #online, #members {
 	max-height: calc(100vh - 200px);
 	overflow-y: auto;
@@ -65,7 +69,10 @@ blockquote {
 		font-size: 12px !important;
 	}
 	#chat-window {
-		max-height: 62vh;
+		max-height: calc(100vh - 250px);
+	}
+	.chat-window-1 {
+		max-height: calc(100vh - 208px);
 	}
 }
 
