@@ -7688,6 +7688,7 @@ thead {
 	cursor: pointer;
 	text-decoration: none !important;
     z-index: -1;
+	position: absolute;
 }
 
 #imgnav-next:hover, #imgnav-prev:hover {
@@ -7695,16 +7696,24 @@ thead {
 	border-color: var(--primary) !important;
 }
 
+@media (min-width: 768px) {
+	#imgnav-next {
+		top: 40%;
+		right: 0;
+	}
+	#imgnav-prev {
+		top: 40%;
+		left: 5px;
+	}
+}
 
 @media (max-width: 768px) {
-	#imgnav-next, #imgnav-prev {
-		position: absolute;
-		bottom: 0;
-	}
 	#imgnav-next {
+		bottom: 0;
 		left: 50%;
 	}
 	#imgnav-prev {
+		bottom: 0;
 		left: calc(50% - 145px);
 	}
 }
