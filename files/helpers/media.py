@@ -139,6 +139,7 @@ def reencode_video(old, new, check_sizes=False):
 	if check_sizes:
 		old_size = os.stat(old).st_size
 		new_size = os.stat(tmp).st_size
+		print(old_size, new_size, flush=True)
 		if new_size > old_size:
 			os.remove(tmp)
 			return
@@ -157,6 +158,8 @@ def reencode_video(old, new, check_sizes=False):
 
 
 def process_video(file, v):
+	print('help me', flush=True)
+
 	old = f'/videos/{time.time()}'.replace('.','')
 	file.save(old)
 
@@ -175,12 +178,15 @@ def process_video(file, v):
 		os.remove(old)
 		abort(400, "Something went wrong processing your video on our end. Please try uploading it to https://pomf2.lain.la and post the link instead.")
 
+	print(bitrate, flush=True)
+
 	is_reencoding = False
 	if codec != 'h264':
 		copyfile(old, new)
 		gevent.spawn(reencode_video, old, new)
 		is_reencoding = True
 	elif bitrate >= 3000000:
+		print(bitrate, flush=True)
 		copyfile(old, new)
 		gevent.spawn(reencode_video, old, new, True)
 		is_reencoding = True
