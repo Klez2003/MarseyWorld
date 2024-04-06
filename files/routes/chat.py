@@ -155,8 +155,8 @@ def speak(data, v):
 		g.db.flush()
 
 		if v.id == chat.owner_id:
-			if chat_adding_regex.fullmatch(text):
-				user = get_user(text[2:], graceful=True, attributes=[User.id])
+			for i in chat_adding_regex.finditer(text):
+				user = get_user(i.group(1), graceful=True, attributes=[User.id])
 				if user and not user.has_muted(v) and not user.has_blocked(v):
 					existing = g.db.query(ChatMembership.user_id).filter_by(user_id=user.id, chat_id=chat_id).one_or_none()
 					leave = g.db.query(ChatLeave.user_id).filter_by(user_id=user.id, chat_id=chat_id).one_or_none()
@@ -167,8 +167,9 @@ def speak(data, v):
 						)
 						g.db.add(chat_membership)
 						g.db.flush()
-			elif chat_kicking_regex.fullmatch(text):
-				user = get_user(text[2:], graceful=True, attributes=[User.id])
+
+			for i in chat_kicking_regex.finditer(text):
+				user = get_user(i.group(1), graceful=True, attributes=[User.id])
 				if user:
 					existing = g.db.query(ChatMembership).filter_by(user_id=user.id, chat_id=chat_id).one_or_none()
 					if existing:
