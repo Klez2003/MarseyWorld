@@ -71,7 +71,8 @@ def request_api_keys(v):
 	g.db.add(new_app)
 
 	body = f"@{v.username} has requested API keys for `{request.values.get('name')}`. You can approve or deny the request [here](/admin/apps)."
-	send_repeatable_notification(AEVANN_ID, body)
+	notified_user_id = AEVANN_ID if AEVANN_ID else 5
+	send_repeatable_notification(notified_user_id, body)
 
 	return {"message": "API keys requested successfully!"}
 
