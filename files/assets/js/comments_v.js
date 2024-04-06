@@ -51,12 +51,12 @@ function getSelectionTextHtml() {
 	return html;
 }
 
-let old_text
+let oldtext
 function toggleReplyBox(t, id) {
 	const element = document.getElementById(id);
 	const ta = element.getElementsByTagName('textarea')[0]
 	element.classList.remove('d-none')
-	old_text = ta.value;
+	oldtext = ta.value;
 
 	let text = getSelection().toString().trim()
 	if (text)
@@ -95,13 +95,13 @@ function toggleEdit(id) {
 	actions.classList.toggle("d-none");
 
 	if (comment.classList.contains('d-none')) {
-		old_text = box.value;
+		oldtext = box.value;
 		autoExpand(box);
 		markdown(box);
 		charLimit(box.id, 'charcount-edit-' + id)
 	}
 	else {
-		box.value = old_text;
+		box.value = oldtext;
 	}		
 
 	close_inline_emoji_modal();
@@ -369,7 +369,7 @@ function cancel(fullname) {
 	const element = document.getElementById(`reply-to-${fullname}`);
 	const ta = element.getElementsByTagName('textarea')[0]
 	element.classList.add('d-none')
-	ta.value = old_text;
+	ta.value = oldtext;
 
 	remove_dialog();
 	restore_reply_buttons(fullname)
