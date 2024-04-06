@@ -221,11 +221,12 @@ socket.on('online', function(data) {
 
 	const muted_li = Object.keys(data[1])
 
-	document.getElementsByClassName('chat-count')[0].innerHTML = online_li.length
+	for (const el of document.getElementsByClassName('chat-count')) {
+		el.innerHTML = online_li.length
+	}
 	document.getElementById('chat-count-header-bar').innerHTML = online_li.length
 	const admin_level = parseInt(document.getElementById('admin_level').value)
 	let online = ''
-	let online2 = '<b>Users Online</b>'
 	for (const u of online_li)
 	{
 		let patron = ''
@@ -238,7 +239,6 @@ socket.on('online', function(data) {
 		if (admin_level && muted_li.includes(u[1].toLowerCase()))
 			online += '<b class="text-danger muted" data-bs-toggle="tooltip" title="Muted">X</b> '
 		online += `<a class="font-weight-bold" target="_blank" href="/@${u[1]}" style="color:#${u[2]}"><img loading="lazy" class="mr-1" src="/pp/${u[4]}"><span${patron}>${u[1]}</span></a></li>`
-		online2 += `<br>@${u[1]}`
 	}
 
 	const online_el = document.getElementById('online')
@@ -247,7 +247,6 @@ socket.on('online', function(data) {
 		bs_trigger(online_el)
 	}
 
-	document.getElementById('online2').setAttribute("data-bs-original-title", online2);
 	document.getElementById('online3').innerHTML = online
 	bs_trigger(document.getElementById('online3'))
 })
