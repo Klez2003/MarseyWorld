@@ -68,10 +68,10 @@ blockquote {
 		font-size: 12px !important;
 	}
 	#chat-window {
-		max-height: calc(100vh - 250px);
+		max-height: calc(100vh - 350px);
 	}
 	.chat-window-1 {
-		max-height: calc(100vh - 208px) !important;
+		max-height: calc(100vh - 308px) !important;
 	}
 }
 
