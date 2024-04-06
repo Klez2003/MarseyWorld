@@ -4628,7 +4628,7 @@ INSERT INTO public.emojis (name, kind, author_id, tags, nsfw, created_utc) VALUE
 ('marseysteve', 'Marsey', 2, 'minecraft miner voxel 3d', false, 1710205988),
 ('marseystewie', 'Marsey', 2, 'family guy man griffin', false, 1675723135),
 ('marseystims', 'Marsey', 2, 'drug meth tweak geese_suck ted_simp pat crazy schizophrenia', false, 0),
-('marseysting', 'Marsey', 2, 'drum badumtiss ba dum tiss bad baddumtiss comedy humor punchline animated standup joke', false, 0),
+('marseysting', 'Marsey', 2, 'drum badumtiss ba dum tiss bad baddumtiss comedy humor punchline animated standup joke rim', false, 0),
 ('marseystinky', 'Marsey', 2, 'smelly homeless stank poor ew yuck', false, 0),
 ('marseystitch', 'Marsey', 2, 'yarn pixel sew sewing thread', false, 1694544051),
 ('marseystitchgamer', 'Marsey', 2, 'liloandstitch videogames disney', false, 1702490419),
