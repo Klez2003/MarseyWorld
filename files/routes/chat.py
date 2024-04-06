@@ -57,8 +57,6 @@ def commit_and_close():
 	g.db.close()
 	stdout.flush()
 
-CHAT_ERROR_MESSAGE = f"To prevent spam, you'll need {TRUESCORE_MINIMUM} truescore (this is {TRUESCORE_MINIMUM} votes, either up or down, on any threads or comments you've made) in order to access chat. Sorry! I love you 💖"
-
 @app.post('/refresh_chat')
 def refresh_chat():
 	emit('refresh_chat', namespace='/', to=f'{SITE_FULL}/chat/1')

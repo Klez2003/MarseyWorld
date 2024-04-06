@@ -65,7 +65,7 @@ def chat(v, chat_id):
 
 	if chat.id == 1:
 		if not v.allowed_in_chat:
-			abort(403, CHAT_ERROR_MESSAGE)
+			abort(403, f"To prevent spam, you'll need {TRUESCORE_MINIMUM} truescore (this is {TRUESCORE_MINIMUM} votes, either up or down, on any threads or comments you've made) in order to access chat. Sorry! I love you 💖")
 	else:
 		membership = g.db.query(ChatMembership).filter_by(user_id=v.id, chat_id=chat_id).one_or_none()
 		if v.admin_level < PERMS['VIEW_CHATS'] and not membership:
