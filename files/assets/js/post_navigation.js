@@ -18,6 +18,16 @@ if (post_permalinks) {
 				btn.classList.remove('d-none')
 				btn.href = permalink_after.slice(1, -1)
 			}
+
+			document.addEventListener('keydown', (e) => {
+				if (
+					["d", "ArrowRight"].includes(e.key) &&
+					!["TEXTAREA", "INPUT"].includes(document.activeElement.tagName) &&
+					!(e.ctrlKey || e.metaKey || e.shiftKey || e.altKey)
+				) {
+					location.href = permalink_after.slice(1, -1)
+				}
+			})
 		}
 	}
 }
