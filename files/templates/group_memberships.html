@@ -52,14 +52,14 @@
 							<th>#</th>
 							<th>Name</th>
 
+							{% if v.is_member_of_group(group) or v.mods_group(group) %}
+								<th class="disable-sort-click"></th>
+							{% endif %}
+
 							{% if name == 'members' %}
 								<th>Approved on</th>
 							{% else %}
 								<th>Applied on</th>
-							{% endif %}
-
-							{% if v.is_member_of_group(group) or v.mods_group(group) %}
-								<th class="disable-sort-click"></th>
 							{% endif %}
 						</tr>
 					</thead>
@@ -78,12 +78,6 @@
 										<img class="mx-2 group-mod" data-bs-toggle="tooltip" alt="Mod" title="Mod" src="{{SITE_FULL_IMAGES}}/e/marseyjanny.webp">
 									{% endif %}
 								</td>
-
-								{% if name == 'members' %}
-									<td id="time-{{membership.user_id}}" data-time="{{membership.approved_utc}}"></td>
-								{% else %}
-									<td id="time-{{membership.user_id}}" data-time="{{membership.created_utc}}"></td>
-								{% endif %}
 
 								<td>
 									{% if v.mods_group(group) %}
@@ -110,6 +104,12 @@
 										<button type="button" class="btn btn-danger btn-block" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)" data-areyousure="postToastReload(this,'/!{{group}}/usurp')">Usurp</button>
 									{% endif %}
 								</td>
+
+								{% if name == 'members' %}
+									<td id="time-{{membership.user_id}}" data-time="{{membership.approved_utc}}"></td>
+								{% else %}
+									<td id="time-{{membership.user_id}}" data-time="{{membership.created_utc}}"></td>
+								{% endif %}
 							</tr>
 						{% endfor %}
 					</tbody>
