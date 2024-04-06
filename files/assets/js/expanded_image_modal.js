@@ -24,11 +24,13 @@ function handle_navigation(delta) {
 	position += delta
 	if (position < last_img_index) {
 		imgnav_next.classList.remove('d-none')
-		imgnav_next.dataset.href = all_images[position+1].dataset.src
+		const next_img = all_images[position+1]
+		imgnav_next.dataset.href = next_img.dataset.src ? next_img.dataset.src : next_img.src;
 	}
 	if (position > 0) {
 		imgnav_prev.classList.remove('d-none')
-		imgnav_prev.dataset.href = all_images[position-1].dataset.src
+		const prev_img = all_images[position-1]
+		imgnav_prev.dataset.href = prev_img.dataset.src ? prev_img.dataset.src : prev_img.src;
 	}
 }
 
