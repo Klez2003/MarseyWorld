@@ -166,13 +166,6 @@ img[alt^="![]("], .img {
 	object-position: left;
 }
 
-* {
-	scrollbar-width: none;
-}
-
-*::-webkit-scrollbar {
-	display: none;
-}
 
 .muted {
 	cursor: default;
