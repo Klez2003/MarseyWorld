@@ -290,7 +290,6 @@ function handle_playing_music(audio) {
 }
 
 function playing_music() {
-	return false
 	return (Date.now() - localStorage.getItem("playing_music", 0) < 300000)
 }
 
