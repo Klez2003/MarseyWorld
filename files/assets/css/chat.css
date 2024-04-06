@@ -3,9 +3,8 @@
 	overflow-y: auto;
 	background-color: transparent !important;
 }
-
 .chat-window-1 {
-	max-height: calc(100vh - 208px);
+	max-height: calc(100vh - 208px) !important;
 }
 
 #online, #members {
@@ -72,7 +71,7 @@ blockquote {
 		max-height: calc(100vh - 250px);
 	}
 	.chat-window-1 {
-		max-height: calc(100vh - 208px);
+		max-height: calc(100vh - 208px) !important;
 	}
 }
 
