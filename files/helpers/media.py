@@ -168,9 +168,12 @@ def process_video(file, v):
 	new = f'{old}.mp4'
 
 	try:
-		video_info = ffmpeg.probe(old)['streams'][0]
-		codec = video_info['codec_name']
-		bitrate = int(video_info.get('bit_rate', 3000000))
+		video_info = ffmpeg.probe(old)['streams']
+		for stream in video_info:
+			if stream["codec_type"] == "video":
+				codec = stream['codec_name']
+				bitrate = int(stream.get('bit_rate', 3000000))
+				break
 	except:
 		os.remove(old)
 		abort(400, "Something went wrong processing your video on our end. Please try uploading it to https://pomf2.lain.la and post the link instead.")
