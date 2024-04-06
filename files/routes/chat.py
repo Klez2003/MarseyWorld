@@ -1,4 +1,3 @@
-import atexit
 import time
 import uuid
 from hashlib import md5
@@ -31,19 +30,10 @@ socketio = SocketIO(
 )
 
 muted = cache.get(f'muted') or {}
+online = {"messages": set()}
+typing = {}
 
-messages = cache.get(f'messages') or {}
-
-online = {
-	"chat": {},
-	"messages": set()
-}
-
-typing = {
-	"chat": []
-}
-
-cache.set('loggedin_chat', len(online["chat"]), timeout=86400)
+cache.set('loggedin_chat', 0, timeout=86400)
 
 def auth_required_socketio(f):
 	def wrapper(*args, **kwargs):
@@ -61,161 +51,33 @@ def is_not_banned_socketio(f):
 	wrapper.__name__ = f.__name__
 	return wrapper
 
+def commit_and_close():
+	try: g.db.commit()
+	except: g.db.rollback()
+	g.db.close()
+	stdout.flush()
+
 CHAT_ERROR_MESSAGE = f"To prevent spam, you'll need {TRUESCORE_MINIMUM} truescore (this is {TRUESCORE_MINIMUM} votes, either up or down, on any threads or comments you've made) in order to access chat. Sorry! I love you 💖"
 
 @app.post('/refresh_chat')
 def refresh_chat():
-	emit('refresh_chat', namespace='/', to="chat")
+	emit('refresh_chat', namespace='/', to=f'{SITE_FULL}/chat/1')
 	return ''
-
-@app.get("/chat/")
-def chat_redirect():
-	return redirect("/chat")
-
-@app.get("/chat")
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
-@auth_required
-def chat(v):
-	if not v.allowed_in_chat:
-		abort(403, CHAT_ERROR_MESSAGE)
-
-	displayed_messages = {k: val for k, val in messages.items() if val["user_id"] not in v.userblocks}
-
-	orgy = get_running_orgy(v)
-	if orgy:
-		x = secrets.token_urlsafe(8)
-		orgies = g.db.query(Orgy).order_by(Orgy.start_utc).all()
-		return render_template("orgy.html", v=v, messages=displayed_messages, orgy=orgy, x=x, orgies=orgies)
-
-	return render_template("chat.html", v=v, messages=displayed_messages)
 
 @socketio.on('speak')
 @is_not_banned_socketio
 def speak(data, v):
-	if request.referrer.startswith(f'{SITE_FULL}/chat/'):
-		chat_id = int(data['chat_id'])
+	chat_id = int(data['chat_id'])
 
-		chat = g.db.get(Chat, chat_id)
-		if not chat:
-			abort(404, "Chat not found!")
+	chat = g.db.get(Chat, chat_id)
+	if not chat:
+		abort(404, "Chat not found!")
 
+	if chat.id == 1:
+		if not v.allowed_in_chat: return ''
+	else:
 		is_member = g.db.query(ChatMembership.user_id).filter_by(user_id=v.id, chat_id=chat_id).one_or_none()
 		if not is_member: return ''
-
-		image = None
-		if data['file']:
-			name = f'/chat_images/{time.time()}'.replace('.','') + '.webp'
-			with open(name, 'wb') as f:
-				f.write(data['file'])
-			image = process_image(name, v)
-
-		text = data['message'].strip()[:CHAT_LENGTH_LIMIT]
-		if image: text += f'\n\n{image}'
-		if not text: return ''
-
-		text_html = sanitize(text, count_emojis=True, chat=True)
-		if isinstance(text_html , tuple): return ''
-
-		if v.shadowbanned or execute_blackjack(v, None, text, "chat"):
-			data = {
-				"id": secrets.token_urlsafe(5),
-				"quotes": data['quotes'],
-				"hat": v.hat_active(None)[0],
-				"user_id": v.id,
-				"username": v.username,
-				"namecolor": v.name_color,
-				"patron": v.patron,
-				"pride_username": bool(v.has_badge(303)),
-				"text": text,
-				"text_censored": censor_slurs_profanities(text, 'chat', True),
-				"text_html": text_html,
-				"text_html_censored": censor_slurs_profanities(text_html, 'chat'),
-				"created_utc": int(time.time()),
-			}
-			emit('speak', data)
-			return ''
-
-		execute_under_siege(v, None, text, "private chat")
-
-		quotes = data['quotes']
-		if quotes: quotes = int(quotes)
-		else: quotes = None
-
-		chat_message = ChatMessage(
-			user_id=v.id,
-			chat_id=chat_id,
-			quotes=quotes,
-			text=text,
-			text_censored=censor_slurs_profanities(text, 'chat', True),
-			text_html=text_html,
-			text_html_censored=censor_slurs_profanities(text_html, 'chat'),
-		)
-		g.db.add(chat_message)
-		g.db.flush()
-
-		if v.id == chat.owner_id:
-			for i in chat_adding_regex.finditer(text):
-				user = get_user(i.group(1), graceful=True, attributes=[User.id])
-				if user and not user.has_muted(v) and not user.has_blocked(v):
-					existing = g.db.query(ChatMembership.user_id).filter_by(user_id=user.id, chat_id=chat_id).one_or_none()
-					leave = g.db.query(ChatLeave.user_id).filter_by(user_id=user.id, chat_id=chat_id).one_or_none()
-					if not existing and not leave:
-						chat_membership = ChatMembership(
-							user_id=user.id,
-							chat_id=chat_id,
-						)
-						g.db.add(chat_membership)
-						g.db.flush()
-
-			for i in chat_kicking_regex.finditer(text):
-				user = get_user(i.group(1), graceful=True, attributes=[User.id])
-				if user:
-					existing = g.db.query(ChatMembership).filter_by(user_id=user.id, chat_id=chat_id).one_or_none()
-					if existing:
-						g.db.delete(existing)
-						g.db.flush()
-
-		alrdy_here = list(online[request.referrer].keys())
-		memberships = g.db.query(ChatMembership).filter(
-			ChatMembership.chat_id == chat_id,
-			ChatMembership.user_id.notin_(alrdy_here),
-			ChatMembership.notification == False,
-		)
-		for membership in memberships:
-			membership.notification = True
-			g.db.add(membership)
-
-		data = {
-			"id": chat_message.id,
-			"quotes": chat_message.quotes,
-			"hat": chat_message.hat,
-			"user_id": chat_message.user_id,
-			"username": chat_message.username,
-			"namecolor": chat_message.namecolor,
-			"patron": chat_message.patron,
-			"pride_username": chat_message.pride_username,
-			"text": chat_message.text,
-			"text_censored": chat_message.text_censored,
-			"text_html": chat_message.text_html,
-			"text_html_censored": chat_message.text_html_censored,
-			"created_utc": chat_message.created_utc,
-		}
-
-		emit('speak', data, room=request.referrer, broadcast=True)
-
-		try: g.db.commit()
-		except: g.db.rollback()
-		g.db.close()
-		stdout.flush()
-
-		typing[request.referrer] = []
-
-		return ''
-
-
-
-	if not v.allowed_in_chat: return ''
 
 	image = None
 	if data['file']:
@@ -224,86 +86,123 @@ def speak(data, v):
 			f.write(data['file'])
 		image = process_image(name, v)
 
-	global messages
-
 	text = data['message'].strip()[:CHAT_LENGTH_LIMIT]
 	if image: text += f'\n\n{image}'
 	if not text: return ''
 
+	if chat.id == 1:
+		vname = v.username.lower()
+		if vname in muted:
+			if time.time() < muted[vname]:
+				return ''
+			else:
+				del muted[vname]
+				refresh_online(f'{SITE_FULL}/chat/1')
+		if v.admin_level >= PERMS['USER_BAN']:
+			text = text.lower()
+			for i in mute_regex.finditer(text):
+				username = i.group(1).lower()
+				muted_until = int(int(i.group(2)) * 60 + time.time())
+				muted[username] = muted_until
+				refresh_online(f'{SITE_FULL}/chat/1')
+			for i in unmute_regex.finditer(text):
+				username = i.group(1).lower()
+				muted.pop(username, None)
+				refresh_online(f'{SITE_FULL}/chat/1')
+
 	text_html = sanitize(text, count_emojis=True, chat=True)
 	if isinstance(text_html , tuple): return ''
 
-	execute_under_siege(v, None, text, "chat")
+	if v.shadowbanned or execute_blackjack(v, None, text, "chat"):
+		data = {
+			"id": secrets.token_urlsafe(5),
+			"quotes": data['quotes'],
+			"hat": v.hat_active(None)[0],
+			"user_id": v.id,
+			"username": v.username,
+			"namecolor": v.name_color,
+			"patron": v.patron,
+			"pride_username": bool(v.has_badge(303)),
+			"text": text,
+			"text_censored": censor_slurs_profanities(text, 'chat', True),
+			"text_html": text_html,
+			"text_html_censored": censor_slurs_profanities(text_html, 'chat'),
+			"created_utc": int(time.time()),
+		}
+		emit('speak', data)
+		return ''
+
+	execute_under_siege(v, None, text, "private chat")
 
 	quotes = data['quotes']
-	id = secrets.token_urlsafe(5)
+	if quotes: quotes = int(quotes)
+	else: quotes = None
 
-	self_only = False
+	chat_message = ChatMessage(
+		user_id=v.id,
+		chat_id=chat_id,
+		quotes=quotes,
+		text=text,
+		text_censored=censor_slurs_profanities(text, 'chat', True),
+		text_html=text_html,
+		text_html_censored=censor_slurs_profanities(text_html, 'chat'),
+	)
+	g.db.add(chat_message)
+	g.db.flush()
 
-	vname = v.username.lower()
-	if vname in muted:
-		if time.time() < muted[vname]:
-			self_only = True
-		else:
-			del muted[vname]
-			refresh_online("chat")
+	if v.id == chat.owner_id:
+		for i in chat_adding_regex.finditer(text):
+			user = get_user(i.group(1), graceful=True, attributes=[User.id])
+			if user and not user.has_muted(v) and not user.has_blocked(v):
+				existing = g.db.query(ChatMembership.user_id).filter_by(user_id=user.id, chat_id=chat_id).one_or_none()
+				leave = g.db.query(ChatLeave.user_id).filter_by(user_id=user.id, chat_id=chat_id).one_or_none()
+				if not existing and not leave:
+					chat_membership = ChatMembership(
+						user_id=user.id,
+						chat_id=chat_id,
+					)
+					g.db.add(chat_membership)
+					g.db.flush()
 
-	if SITE == 'rdrama.net' and v.admin_level < PERMS['BYPASS_ANTISPAM_CHECKS']:
-		def shut_up():
-			self_only = True
-			muted_until = int(time.time() + 600)
-			muted[vname] = muted_until
-			refresh_online("chat")
+		for i in chat_kicking_regex.finditer(text):
+			user = get_user(i.group(1), graceful=True, attributes=[User.id])
+			if user:
+				existing = g.db.query(ChatMembership).filter_by(user_id=user.id, chat_id=chat_id).one_or_none()
+				if existing:
+					g.db.delete(existing)
+					g.db.flush()
 
-		if not self_only:
-			identical = [x for x in list(messages.values())[-5:] if v.id == x['user_id'] and text == x['text']]
-			if len(identical) >= 3: shut_up()
-
-		if not self_only:
-			count = len([x for x in list(messages.values())[-12:] if v.id == x['user_id']])
-			if count >= 10: shut_up()
-
-		if not self_only:
-			count = len([x for x in list(messages.values())[-25:] if v.id == x['user_id']])
-			if count >= 20: shut_up()
+	alrdy_here = list(online[request.referrer].keys())
+	memberships = g.db.query(ChatMembership).filter(
+		ChatMembership.chat_id == chat_id,
+		ChatMembership.user_id.notin_(alrdy_here),
+		ChatMembership.notification == False,
+	)
+	for membership in memberships:
+		membership.notification = True
+		g.db.add(membership)
 
 	data = {
-		"id": id,
-		"quotes": quotes if messages.get(quotes) else '',
-		"hat": v.hat_active(None)[0],
-		"user_id": v.id,
-		"username": v.username,
-		"namecolor": v.name_color,
-		"patron": v.patron,
-		"pride_username": bool(v.has_badge(303)),
-		"text": text,
-		"text_censored": censor_slurs_profanities(text, 'chat', True),
-		"text_html": text_html,
-		"text_html_censored": censor_slurs_profanities(text_html, 'chat'),
-		"created_utc": int(time.time()),
+		"id": chat_message.id,
+		"quotes": chat_message.quotes,
+		"hat": chat_message.hat,
+		"user_id": chat_message.user_id,
+		"username": chat_message.username,
+		"namecolor": chat_message.namecolor,
+		"patron": chat_message.patron,
+		"pride_username": chat_message.pride_username,
+		"text": chat_message.text,
+		"text_censored": chat_message.text_censored,
+		"text_html": chat_message.text_html,
+		"text_html_censored": chat_message.text_html_censored,
+		"created_utc": chat_message.created_utc,
 	}
 
+	emit('speak', data, room=request.referrer, broadcast=True)
 
-	if v.admin_level >= PERMS['USER_BAN']:
-		text = text.lower()
-		for i in mute_regex.finditer(text):
-			username = i.group(1).lower()
-			muted_until = int(int(i.group(2)) * 60 + time.time())
-			muted[username] = muted_until
-			refresh_online("chat")
-		for i in unmute_regex.finditer(text):
-			username = i.group(1).lower()
-			muted.pop(username, None)
-			refresh_online("chat")
+	typing[request.referrer] = []
 
-	if self_only or v.shadowbanned or execute_blackjack(v, None, text, "chat"):
-		emit('speak', data)
-	else:
-		emit('speak', data, room="chat", broadcast=True)
-		messages[id] = data
-		messages = dict(list(messages.items())[-250:])
-
-	typing["chat"] = []
+	commit_and_close()
 
 	return ''
 
@@ -316,21 +215,19 @@ def refresh_online(room):
 
 	data = [list(online[room].values()), muted]
 	emit("online", data, room=room, broadcast=True)
-	if room == "chat":
+	if room == f'{SITE_FULL}/chat/1':
 		cache.set('loggedin_chat', len(online[room]), timeout=86400)
 
 @socketio.on('connect')
 @auth_required_socketio
 def connect(v):
-	if request.referrer == f'{SITE_FULL}/notifications/messages':
+	if not request.referrer: return
+	room = request.referrer
+
+	if room == f'{SITE_FULL}/notifications/messages':
 		join_room(v.id)
 		online["messages"].add(v.id)
 		return ''
-
-	if request.referrer and request.referrer.startswith(f'{SITE_FULL}/chat/'):
-		room = request.referrer
-	else:
-		room = "chat"
 
 	join_room(room)
 
@@ -341,20 +238,21 @@ def connect(v):
 		typing[room].remove(v.username)
 
 	emit('typing', typing[room], room=room)
+
+	commit_and_close()
+
 	return ''
 
 @socketio.on('disconnect')
 @auth_required_socketio
 def disconnect(v):
+	if not request.referrer: return
+	room = request.referrer
+
 	if request.referrer == f'{SITE_FULL}/notifications/messages':
 		leave_room(v.id)
 		online["messages"].remove(v.id)
 		return ''
-
-	if request.referrer and request.referrer.startswith(f'{SITE_FULL}/chat/'):
-		room = request.referrer
-	else:
-		room = "chat"
 
 	online[room].pop(v.id, None)
 
@@ -364,15 +262,15 @@ def disconnect(v):
 	leave_room(room)
 	refresh_online(room)
 
+	commit_and_close()
+
 	return ''
 
 @socketio.on('heartbeat')
 @auth_required_socketio
 def heartbeat(v):
-	if request.referrer and request.referrer.startswith(f'{SITE_FULL}/chat/'):
-		room = request.referrer
-	else:
-		room = "chat"
+	if not request.referrer: return
+	room = request.referrer
 
 	if not online.get(room):
 		online[room] = {}
@@ -383,15 +281,15 @@ def heartbeat(v):
 	if not already_there:
 		refresh_online(room)
 
+	commit_and_close()
+
 	return ''
 
 @socketio.on('typing')
 @is_not_banned_socketio
 def typing_indicator(data, v):
-	if request.referrer and request.referrer.startswith(f'{SITE_FULL}/chat/'):
-		room = request.referrer
-	else:
-		room = "chat"
+	if not request.referrer: return
+	room = request.referrer
 
 	if not typing.get(room):
 		typing[room] = []
@@ -402,21 +300,22 @@ def typing_indicator(data, v):
 		typing[room].remove(v.username)
 
 	emit('typing', typing[room], room=room, broadcast=True)
+
+	commit_and_close()
+
 	return ''
 
 
 @socketio.on('delete')
 @admin_level_required(PERMS['POST_COMMENT_MODERATION'])
 def delete(id, v):
-	messages.pop(id, None)
-	emit('delete', id, room="chat", broadcast=True)
+	message = g.db.get(ChatMessage, id)
+	g.db.delete(message)
+	emit('delete', id, room=f'{SITE_FULL}/chat/1', broadcast=True)
+
+	commit_and_close()
+
 	return ''
-
-
-def close_running_threads():
-	cache.set('messages', messages, timeout=86400)
-	cache.set('muted', muted, timeout=86400)
-atexit.register(close_running_threads)
 
 
 @app.post("/reply")

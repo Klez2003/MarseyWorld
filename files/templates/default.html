@@ -24,7 +24,7 @@
 					{% set class = 'site-banner-hole' %}
 				{% elif get_running_orgy(v) and os_path.exists(path ~ "/orgy_banners") %}
 					{% set src = macros.random_image("assets/images/" ~ SITE_NAME ~ "/orgy_banners") %}
-					{% set href = "/chat" %}
+					{% set href = "/chat/1" %}
 					{% set expand = false %}
 				{% elif IS_DKD() or IS_BIRTHGAY() or IS_BIRTHDEAD() %}
 					{% set src = macros.random_image("assets/events/" ~ IS_EVENT() ~ "/images/banners") %}

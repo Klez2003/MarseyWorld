@@ -206,7 +206,7 @@ ta.addEventListener("keydown", function(e) {
 
 socket.on('online', function(data) {
 	const online_li = data[0]
-	if (location.pathname.startsWith('/chat/')) {
+	if (location.pathname != '/chat/1') {
 		for (const marker of document.getElementsByClassName('online-marker')) {
 			marker.classList.add('d-none')
 		}

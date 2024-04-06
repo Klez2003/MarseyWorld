@@ -6,6 +6,11 @@ from files.helpers.get import *
 
 from files.__main__ import app, limiter
 
+@app.get("/chat")
+@app.get("/orgy")
+def chat_redirect():
+	return redirect("/chat/1")
+
 @app.post("/@<username>/chat")
 @limiter.limit('1/second', scope=rpath)
 @limiter.limit('1/second', scope=rpath, key_func=get_ID)

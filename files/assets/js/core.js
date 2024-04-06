@@ -121,7 +121,7 @@ function postToastSwitch(t, url, button1, button2, cls, extraActionsOnSuccess) {
 		});
 }
 
-if (!location.pathname.endsWith('/submit') && location.pathname != '/chat')
+if (!location.pathname.endsWith('/submit') && !location.pathname.startsWith('/chat/'))
 {
 	document.addEventListener('keydown', (e) => {
 		if (!((e.ctrlKey || e.metaKey) && e.key === "Enter")) return;
@@ -401,7 +401,7 @@ if (is_pwa) {
 }
 
 const gbrowser = document.getElementById('gbrowser').value
-if (!location.pathname.startsWith('/chat') && (gbrowser == 'iphone' || gbrowser == 'mac')) {
+if (!location.pathname.startsWith('/chat/') && (gbrowser == 'iphone' || gbrowser == 'mac')) {
 	const videos = document.querySelectorAll('video')
 
 	for (const video of videos) {

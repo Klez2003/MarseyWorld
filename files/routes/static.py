@@ -439,14 +439,6 @@ def transfers(v):
 def donate(v):
 	return render_template(f'donate.html', v=v)
 
-
-@app.get("/orgy")
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
-@auth_required
-def orgy(v):
-	return redirect("/chat")
-
 @app.get("/sidebar_images")
 @app.get("/banners")
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
