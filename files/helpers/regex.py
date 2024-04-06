@@ -1,5 +1,6 @@
 import random
 import re
+from flask import g
 
 from .config.const import *
 
@@ -103,6 +104,13 @@ image_check_regex = re.compile(f'!\[\]\(((?!(https:\/\/({hosts})\/|\/)).*?)\)', 
 
 video_regex_extensions = '|'.join(VIDEO_FORMATS)
 video_sub_regex = re.compile(f'(?<!")(https:\/\/({hosts})\/[\w:~,()\-.#&\/=?@%;+]*?\.({video_regex_extensions}))' + NOT_IN_CODE_OR_LINKS, flags=re.A)
+
+def video_sub_regex_matcher(match):
+	url = match.group(1)
+	posterurl = g.posterurls.get(url)
+	if posterurl:
+		return 	f'<p class="resizable"><video poster="{posterurl}" controls preload="none" src="{url}"></video></p>'
+	return f'<p class="resizable"><video controls preload="none" src="{url}"></video></p>'
 
 audio_regex_extensions = '|'.join(AUDIO_FORMATS)
 audio_sub_regex = re.compile(f'(?<!")(https:\/\/({hosts})\/[\w:~,()\-.#&\/=?@%;+]*?\.({audio_regex_extensions}))' + NOT_IN_CODE_OR_LINKS, flags=re.A)

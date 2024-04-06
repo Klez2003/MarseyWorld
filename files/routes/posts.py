@@ -660,15 +660,8 @@ def submit_post(v, hole=None):
 			copyfile(name, name2)
 			p.thumburl = process_image(name2, v, resize=99)
 		elif file.content_type.startswith('video/'):
-			p.url = process_video(file, v)
-			name = f'/images/{time.time()}'.replace('.','') + '.webp'
-			try:
-				x = ffmpeg.input(p.url).output(name, loglevel="quiet", map_metadata=-1, **{"vf":"scale='iw':-2", 'q:v':3, 'frames:v':1}).run()
-			except:
-				if os.path.isfile(name):
-					os.remove(name)
-			else:
-				p.posterurl = SITE_FULL_IMAGES + name
+			p.url, p.posterurl, name = process_video(file, v)
+			if p.posterurl:
 				name2 = name.replace('.webp', 'r.webp')
 				copyfile(name, name2)
 				p.thumburl = process_image(name2, v, resize=99)

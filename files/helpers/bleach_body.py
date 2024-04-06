@@ -47,6 +47,7 @@ def allowed_attributes(tag, name, value):
 		if name == 'controls' and value == '': return True
 		if name == 'preload' and value == 'none': return True
 		if name == 'src': return is_safe_url(value)
+		if name == 'poster': return is_safe_url(value)
 
 	if tag == 'audio':
 		if name == 'src': return is_safe_url(value)

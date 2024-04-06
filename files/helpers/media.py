@@ -48,6 +48,8 @@ def media_ratelimit(v):
 
 def process_files(files, v, body, is_dm=False, dm_user=None, is_badge_thread=False, comment_body=None):
 	if g.is_tor or not files.get("file"): return body
+	g.posterurls = {}
+
 	files = files.getlist('file')[:20]
 
 	if files:
@@ -65,7 +67,8 @@ def process_files(files, v, body, is_dm=False, dm_user=None, is_badge_thread=Fal
 			if is_badge_thread:
 				process_badge_entry(name, v, comment_body)
 		elif file.content_type.startswith('video/'):
-			url = process_video(file, v)
+			url, posterurl, name = process_video(file, v)
+			g.posterurls[url] = posterurl
 		elif file.content_type.startswith('audio/'):
 			url = f'{SITE_FULL}{process_audio(file, v)}'
 		elif has_request_context():
@@ -202,14 +205,18 @@ def process_video(file, v):
 
 	if SITE == 'watchpeopledie.tv' and v and v.username.lower().startswith("icosaka"):
 		gevent.spawn(delete_file, new, f'https://videos.{SITE}' + new.split('/videos')[1])
-		return f'https://videos.{SITE}' + new.split('/videos')[1]
+		return f'https://videos.{SITE}' + new.split('/videos')[1], None, None
+
+	name = f'/images/{time.time()}'.replace('.','') + '.webp'
+	ffmpeg.input(new).output(name, loglevel="quiet", map_metadata=-1, **{"vf":"scale='iw':-2", 'q:v':3, 'frames:v':1}).run()
+	posterurl = SITE_FULL_IMAGES + name
 
 	if SITE == 'watchpeopledie.tv':
 		if not is_reencoding:
 			gevent.spawn(rclone_copy, new)
-		return f'https://videos.{SITE}' + new.split('/videos')[1]
+		return f'https://videos.{SITE}' + new.split('/videos')[1], posterurl, name
 	else:
-		return f"{SITE_FULL}{new}"
+		return f"{SITE_FULL}{new}", posterurl, name
 
 def process_image(filename, v, resize=0, trim=False, uploader_id=None):
 	# thumbnails are processed in a thread and not in the request context
