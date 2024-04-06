@@ -13,8 +13,7 @@ import click
 import requests
 import ffmpeg
 
-import files.helpers.stats as stats
-import files.routes.static as route_static
+from files.helpers.stats import *
 from files.routes.front import frontlist
 from files.__main__ import cache
 from files.classes import *
@@ -88,10 +87,11 @@ def cron_fn(every_5m, every_1d, every_1mo):
 				_hole_inactive_purge_task()
 				g.db.commit()
 
-				stats.generate_charts_task(SITE)
+				chart(kind='daily')
+				chart(kind='weekly')
 				g.db.commit()
 
-				cache.set('stats', stats.stats(), timeout=CRON_CACHE_TIMEOUT)
+				cache.set('stats', stats(), timeout=CRON_CACHE_TIMEOUT)
 				g.db.commit()
 
 				_leaderboard_task()

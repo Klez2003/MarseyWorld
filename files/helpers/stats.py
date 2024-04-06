@@ -12,11 +12,7 @@ from files.classes.emoji import *
 from files.classes.award import AwardRelationship
 from files.helpers.config.const import *
 
-def generate_charts_task(site):
-	chart(kind='daily', site=site)
-	chart(kind='weekly', site=site)
-
-def chart(kind, site):
+def chart(kind):
 	now = time.gmtime()
 	midnight_this_morning = time.struct_time((
 		now.tm_year, now.tm_mon, now.tm_mday,
@@ -75,7 +71,7 @@ def chart(kind, site):
 	posts_chart.set_xlabel("Posts", labelpad=10.0, size=30)
 	comments_chart.set_xlabel("Comments", labelpad=10.0, size=30)
 
-	file = f'/{site}_{kind}.png'
+	file = f'/images/{kind}_chart.png'
 
 	plt.savefig(file, bbox_inches='tight')
 	plt.clf()
