@@ -42,7 +42,7 @@ class ArtSubmission(Base):
 	@property
 	@lazy
 	def resize(self):
-		return 600 if self.kind == "sidebar" else 1600
+		return 600 if self.kind == "sidebar" else 2000
 
 	@property
 	@lazy
