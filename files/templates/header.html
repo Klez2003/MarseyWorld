@@ -532,9 +532,9 @@
 								<br><br><br><br><br><br><br><br>
 							{% elif request.path.startswith('/chat/') %}
 								<div class="mx-2">
-									<h5 class="mt-2 mb-3">Members ({{chat.memberships|length}})</h5>
+									<h5 class="mt-2 mb-3">Members ({{sorted_memberships|length}})</h5>
 									<ul class="col text-left d-lg-none bg-white mb-4 pb-2" style="max-width:300px;list-style-type:none">
-										{% for membership in chat.memberships %}
+										{% for membership in sorted_memberships %}
 											{% set user = membership.user %}
 											{% set patron = '' %}
 											{% if user.patron %}

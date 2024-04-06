@@ -14,8 +14,6 @@ class Chat(Base):
 	name = Column(String)
 	created_utc = Column(Integer)
 
-	memberships = relationship("ChatMembership")
-
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
 		super().__init__(*args, **kwargs)

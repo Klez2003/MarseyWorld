@@ -42,9 +42,9 @@
 		</div>
 
 		<div class="col text-left d-none d-lg-block pt-3 pb-5" style="max-width:313px">
-			<h5>Members ({{chat.memberships|length}})</h5>
+			<h5>Members ({{sorted_memberships|length}})</h5>
 			<div id="members" class="mt-2">
-				{% for membership in chat.memberships %}
+				{% for membership in sorted_memberships %}
 					{% set user = membership.user %}
 					{% set patron = '' %}
 					{% if user.patron %}
