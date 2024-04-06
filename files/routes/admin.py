@@ -2166,7 +2166,7 @@ def mark_effortpost(pid, v):
 		min_chars = 3000
 		min_lines = 40
 
-	if len(p.body) < min_chars or p.body.count('\n') < min_lines:
+	if len(p.body) < min_chars or p.body_html.count('<p>') < min_lines:
 		abort(403, "Post is too short!")
 
 	p.effortpost = True
