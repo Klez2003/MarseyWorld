@@ -76,8 +76,11 @@ def private_chat(v, chat_id):
 		g.db.add(membership)
 		g.db.commit() #to clear notif count
 
-	query = g.db.query(ChatMembership).filter_by(chat_id=chat.id)
-	sorted_memberships = [query.filter_by(user_id=chat.owner_id).one()] + query.filter(ChatMembership.user_id != chat.owner_id).join(ChatMembership.user).order_by(func.lower(User.username)).all()
+	if chat.id == 1:
+		sorted_memberships = None
+	else:
+		query = g.db.query(ChatMembership).filter_by(chat_id=chat.id)
+		sorted_memberships = [query.filter_by(user_id=chat.owner_id).one()] + query.filter(ChatMembership.user_id != chat.owner_id).join(ChatMembership.user).order_by(func.lower(User.username)).all()
 
 	return render_template("private_chat.html", v=v, messages=displayed_messages, chat=chat, sorted_memberships=sorted_memberships)
 
