@@ -6,15 +6,15 @@
 {%- import 'util/html_head.html' as html_head with context -%}
 
 {%- if IS_HOMOWEEN() -%}
-	{% set primary="f66a3c" %}
+	{% set primary = "f66a3c" %}
 {%- elif IS_FISTMAS() -%}
-	{% set primary="cc4145" %}
+	{% set primary = "cc4145" %}
 {%- elif IS_DKD() -%}
-	{% set primary="2aaa8a" %}
+	{% set primary = "2aaa8a" %}
 {%- elif v -%}
-	{% set primary=v.themecolor %}
+	{% set primary = v.themecolor %}
 {%- else -%}
-	{% set primary=DEFAULT_COLOR %}
+	{% set primary = DEFAULT_COLOR %}
 {%- endif -%}
 {% set primary_rgb = primary|rgb %}
 
