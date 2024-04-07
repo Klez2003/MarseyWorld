@@ -19,11 +19,6 @@ HOLEACTION_TYPES = {
 		"icon": 'fa-user-crown',
 		"color": 'bg-danger'
 	},
-	'kick_post': {
-		"str": 'kicked post {self.target_link}',
-		"icon": 'fa-feather-alt',
-		"color": 'bg-danger'
-	},
 	'change_hole': {
 		"str": 'changed hole of {self.target_link}',
 		"icon": 'fa-manhole',
