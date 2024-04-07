@@ -434,8 +434,12 @@ def award_thing(v, thing_type, id):
 				author.namechanged = int(time.time()) + 86400
 				badge_grant(user=author, badge_id=281)
 	elif kind == "pause":
+		if author.has_badge(68):
+			abort(409, f"{safe_username} already has this profile upgrade!")
 		badge_grant(badge_id=68, user=author)
 	elif kind == "unpausable":
+		if author.has_badge(67):
+			abort(409, f"{safe_username} already has this profile upgrade!")
 		badge_grant(badge_id=67, user=author)
 	elif kind == "hieroglyphs":
 		if author.hieroglyphs: author.hieroglyphs += 86400
@@ -460,13 +464,21 @@ def award_thing(v, thing_type, id):
 			else: author.bird = int(time.time()) + 86400
 			badge_grant(user=author, badge_id=95)
 	elif kind == "eye":
+		if author.has_badge(83):
+			abort(409, f"{safe_username} already has this profile upgrade!")
 		badge_grant(badge_id=83, user=author)
 	elif kind == "offsitementions":
+		if author.has_badge(140):
+			abort(409, f"{safe_username} already has this profile upgrade!")
 		author.offsite_mentions = True
 		badge_grant(user=author, badge_id=140)
 	elif kind == "alt":
+		if author.has_badge(84):
+			abort(409, f"{safe_username} already has this profile upgrade!")
 		badge_grant(badge_id=84, user=author)
 	elif kind == "unblockable":
+		if author.has_badge(87):
+			abort(409, f"{safe_username} already has this profile upgrade!")
 		badge_grant(badge_id=87, user=author)
 		blocks = g.db.query(UserBlock).filter(
 				or_(
@@ -499,11 +511,17 @@ def award_thing(v, thing_type, id):
 		if author.deflector: author.deflector += 36000
 		else: author.deflector = int(time.time()) + 36000
 	elif kind == "beano":
+		if author.has_badge(128):
+			abort(409, f"{safe_username} already has this profile upgrade!")
 		badge_grant(user=author, badge_id=128)
 	elif kind == "checkmark":
+		if author.has_badge(150):
+			abort(409, f"{safe_username} already has this profile upgrade!")
 		author.verified = "Verified"
 		badge_grant(user=author, badge_id=150)
 	elif kind == "pride":
+		if author.has_badge(303):
+			abort(409, f"{safe_username} already has this profile upgrade!")
 		badge_grant(user=author, badge_id=303)
 	elif kind == 'marsify':
 		if not author.marsify or author.marsify != 1:
@@ -555,6 +573,8 @@ def award_thing(v, thing_type, id):
 		if not emoji:
 			abort(404, f'an Emoji with the name "{award.note}" was not found!')
 	elif kind == "grinch":
+		if author.grinch:
+			abort(409, f"{safe_username} already has this profile upgrade!")
 		author.grinch = True
 		if v.id == author.id:
 			session['event_music'] = False
