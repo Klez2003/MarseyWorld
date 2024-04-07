@@ -774,7 +774,8 @@ CREATE TABLE public.media (
     filename character varying(200) NOT NULL,
     user_id integer NOT NULL,
     created_utc integer NOT NULL,
-    size integer NOT NULL
+    size integer NOT NULL,
+    posterurl character varying(65)
 );
 
 
@@ -1682,7 +1683,7 @@ ALTER TABLE ONLY public.lotteries
 --
 
 ALTER TABLE ONLY public.media
-    ADD CONSTRAINT media_pkey PRIMARY KEY (kind, filename);
+    ADD CONSTRAINT media_pkey PRIMARY KEY (filename);
 
 
 --
