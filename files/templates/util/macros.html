@@ -284,8 +284,7 @@
 {% endmacro %}
 
 {% macro chat_line_template(id, m, vlink) %}
-	{% set quote_exists = m and m.quotes and messages.get(m.quotes) %}
-	{% set mentioned = m and vlink in m.text_html or (quote_exists and messages[m.quotes].user_id == v.id) %}
+	{% set mentioned = m and vlink in m.text_html or (m and m.quoted_message and m.quoted_message.user_id == v.id) %}
 	<div class="chat-line {% if mentioned %}chat-mention{% endif %}" {% if m %}id="{{id}}"{% endif %}>
 		<div class="d-flex align-items-center">
 			<div class="text-muted chat-line-content">
@@ -293,16 +292,16 @@
 					<a class="QuotedMessageLink" {% if m and m.quotes %}href="#{{m.quotes}}"{% endif %}>
 						<i class="fas fa-reply"></i>
 						<span class="text-primary">@<span class="QuotedUser">
-							{%- if quote_exists -%}
-								{{messages[m.quotes].username}}
+							{%- if m and m.quoted_message -%}
+								{{m.quoted_message.username}}
 							{%- endif -%}
 						</span></span>:
 						<em class="QuotedMessage">
-							{%- if quote_exists -%}
+							{%- if m and m.quoted_message -%}
 								{%- if v.slurreplacer -%}
-									{{messages[m.quotes].text_censored}}
+									{{m.quoted_message.text_censored}}
 								{%- else -%}
-									{{messages[m.quotes].text}}
+									{{m.quoted_message.text}}
 								{%- endif -%}
 							{%- endif -%}
 						</em>

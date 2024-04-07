@@ -66,6 +66,7 @@ class ChatMessage(Base):
 	created_utc = Column(Integer)
 
 	user = relationship("User")
+	quoted_message = relationship("ChatMessage", remote_side=[id])
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
