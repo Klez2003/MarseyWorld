@@ -155,8 +155,8 @@ def transfer_currency(v, username, currency_name, apply_tax):
 	if reason:
 		if len(reason) > TRANSFER_MESSAGE_LENGTH_LIMIT:
 			abort(400, f"Reason is too long (max {TRANSFER_MESSAGE_LENGTH_LIMIT} characters)")
-		notif_text += f"\n\n> {reason}"
-		log_message += f"\n\n> {reason}"
+		notif_text += '\n\n> ' + '\n\n> '.join(reason.splitlines())
+		log_message += '\n\n> ' + '\n\n> '.join(reason.splitlines())
 
 	charge_reason = f'Gift to <a href="/@{username}">@{username}</a>'
 	if not v.charge_account(currency_name, amount, charge_reason):
