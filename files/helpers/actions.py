@@ -142,6 +142,8 @@ def execute_snappy(post, v):
 			post.upvotes += 1
 		elif ':#marseyghost' in body:
 			ghost = True
+		elif body.startswith(':#marseyreport') or body.startswith(':#marseyreportmaxxer2') or body.startswith(':#marseyreportmaxxer3'):
+			snappy_report(post, 'Retard')
 		elif body == '!slots':
 			body = f'!slots{snappy.coins}'
 		elif body == '!pinggroup':
