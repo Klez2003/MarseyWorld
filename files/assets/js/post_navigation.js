@@ -23,7 +23,8 @@ if (post_permalinks) {
 				if (
 					["d", "ArrowRight"].includes(e.key) &&
 					!["TEXTAREA", "INPUT"].includes(document.activeElement.tagName) &&
-					!(e.ctrlKey || e.metaKey || e.shiftKey || e.altKey)
+					!(e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) &&
+					!expandImageModal.classList.contains('show')
 				) {
 					location.href = permalink_after.slice(1, -1)
 				}
