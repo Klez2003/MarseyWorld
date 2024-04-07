@@ -312,7 +312,6 @@ ALTER SEQUENCE public.chat_messages_id_seq OWNED BY public.chat_messages.id;
 
 CREATE TABLE public.chats (
     id integer NOT NULL,
-    owner_id integer NOT NULL,
     name character varying(54) NOT NULL,
     created_utc integer NOT NULL
 );
@@ -2857,14 +2856,6 @@ ALTER TABLE ONLY public.chat_messages
 
 ALTER TABLE ONLY public.chat_messages
     ADD CONSTRAINT chat_messages_user_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
-
-
---
--- Name: chats chats_owner_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.chats
-    ADD CONSTRAINT chats_owner_fkey FOREIGN KEY (owner_id) REFERENCES public.users(id);
 
 
 --
