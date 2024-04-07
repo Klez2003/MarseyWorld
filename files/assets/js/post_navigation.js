@@ -21,12 +21,14 @@ if (post_permalinks) {
 
 			document.addEventListener('keydown', (e) => {
 				if (
-					["d", "ArrowRight"].includes(e.key) &&
 					!["TEXTAREA", "INPUT"].includes(document.activeElement.tagName) &&
 					!(e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) &&
 					!expandImageModal.classList.contains('show')
 				) {
-					location.href = permalink_after.slice(1, -1)
+					if (["ArrowRight", "d"].includes(e.key))
+						location.href = permalink_after.slice(1, -1)
+					if (["ArrowLeft", "a"].includes(e.key))
+						history.back()
 				}
 			})
 		}
