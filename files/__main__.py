@@ -53,7 +53,7 @@ app.config["CACHE_REDIS_URL"] = environ.get("REDIS_URL").strip()
 app.config["CACHE_DEFAULT_TIMEOUT"] = 0
 app.config["CACHE_SOURCE_CHECK"] = True
 
-#to allow session cookie to work on videos.watchpeopledie.tv
+#to allow session cookie to work on submit.watchpeopledie.tv
 if SITE == 'watchpeopledie.tv':
 	app.config["SESSION_COOKIE_DOMAIN"] = SITE
 
