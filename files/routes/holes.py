@@ -416,40 +416,6 @@ def create_sub2(v):
 
 	return redirect(f"/h/{hole}")
 
-@app.post("/kick/<int:pid>")
-@limiter.limit('1/second', scope=rpath)
-@limiter.limit('1/second', scope=rpath, key_func=get_ID)
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
-@limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
-@auth_required
-def kick(v, pid):
-	post = get_post(pid)
-
-	if not post.hole: abort(403)
-	if not v.mods_hole(post.hole): abort(403)
-
-	old = post.hole
-	post.hole = None
-	post.hole_pinned = None
-
-	ma = HoleAction(
-		hole=old,
-		kind='kick_post',
-		user_id=v.id,
-		target_post_id=post.id
-	)
-	g.db.add(ma)
-
-	if v.id != post.author_id:
-		message = f"@{v.username} (a /h/{old} mod) has moved {post.textlink} from /h/{old} to the main feed!"
-		send_repeatable_notification(post.author_id, message)
-
-	g.db.add(post)
-
-	cache.delete_memoized(frontlist)
-
-	return {"message": f"Post kicked from /h/{old} successfully!"}
-
 @app.get('/h/<hole>/settings')
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400)
 @limiter.limit(DEFAULT_RATELIMIT, deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
