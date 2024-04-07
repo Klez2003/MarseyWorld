@@ -6,6 +6,7 @@ from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
 from files.helpers.lazy import lazy
+from files.helpers.config.const import *
 
 class Chat(Base):
 	__tablename__ = "chats"
@@ -18,6 +19,8 @@ class Chat(Base):
 	@property
 	@lazy
 	def owner_id(self):
+		if not self.memberships:
+			return AUTOJANNY_ID
 		return self.memberships[0].user_id
 
 	def __init__(self, *args, **kwargs):

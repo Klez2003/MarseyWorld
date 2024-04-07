@@ -35,7 +35,7 @@ def chat_user(v, username):
 	if existing:
 		return redirect(f"/chat/{existing.id}")
 
-	chat = Chat(owner_id=v.id, name=f"@{v.username}, @{user.username}")
+	chat = Chat(name=f"@{v.username}, @{user.username}")
 	g.db.add(chat)
 	g.db.flush()
 
