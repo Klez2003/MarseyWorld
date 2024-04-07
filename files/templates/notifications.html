@@ -55,7 +55,7 @@
 	</div>
 
 	{% if request.path.startswith('/notification/') %}
-		<div class="mt-4 mb-5 ml-3 text-lg"><a href="/notifications">View all notifications <i class="fas fa-long-arrow-right ml-1"></i></a></div>
+		<div class="mt-4 mb-4 ml-2"><a href="/notifications">View all notifications <i class="fas fa-long-arrow-right ml-1"></i></a></div>
 	{% else %}
 		<button type="button" class="btn btn-primary btn-rainbow ml-3 mt-4" data-nonce="{{g.nonce}}" data-onclick="postToastReload(this,'/clear')">Mark all notifications as read</button>
 	{% endif %}
