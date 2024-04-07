@@ -134,6 +134,8 @@ def reencode_video(old, new, check_sizes=False):
 		os.remove(old)
 		if os.path.isfile(tmp):
 			os.remove(tmp)
+		if SITE == 'watchpeopledie.tv':
+			rclone_copy(new)
 		return
 
 	if check_sizes:
@@ -141,6 +143,8 @@ def reencode_video(old, new, check_sizes=False):
 		new_size = os.stat(tmp).st_size
 		if new_size > old_size:
 			os.remove(tmp)
+			if SITE == 'watchpeopledie.tv':
+				rclone_copy(new)
 			return
 
 	os.replace(tmp, new)
