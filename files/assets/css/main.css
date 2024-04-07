@@ -3476,6 +3476,9 @@ pre {
 	font-size: 9px !important;
 }
 @media (max-width: 768px) {
+	.text-lg-sm {
+		font-size: 1.25rem !important;
+	}
 	.text-small-sm {
 		font-size: 12px !important;
 	}
