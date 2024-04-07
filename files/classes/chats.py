@@ -10,9 +10,15 @@ from files.helpers.lazy import lazy
 class Chat(Base):
 	__tablename__ = "chats"
 	id = Column(Integer, primary_key=True)
-	owner_id = Column(Integer, ForeignKey("users.id"))
 	name = Column(String)
 	created_utc = Column(Integer)
+
+	memberships = relationship("ChatMembership", order_by="ChatMembership.created_utc")
+
+	@property
+	@lazy
+	def owner_id(self):
+		return self.memberships[0].user_id
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
