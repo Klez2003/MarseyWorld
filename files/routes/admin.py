@@ -1895,7 +1895,7 @@ def delete_media_post(v):
 
 	if SITE == 'watchpeopledie.tv' and url.startswith(SITE_FULL_VIDEOS):
 		filename = url.split(SITE_FULL_VIDEOS)[1]
-		gevent.spawn(rclone.delete, f'no:/videos/{filename}')
+		gevent.spawn(rclone_delete, f'no:/videos/{filename}')
 
 	return {"message": "Media deleted successfully!"}
 
