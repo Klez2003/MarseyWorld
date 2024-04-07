@@ -1851,7 +1851,6 @@ def delete_media_get(v):
 @limiter.limit("50/day", deduct_when=lambda response: response.status_code < 400, key_func=get_ID)
 @admin_level_required(PERMS['DELETE_MEDIA'])
 def delete_media_post(v):
-
 	url = request.values.get("url")
 	if not url:
 		abort(400, "No url provided!")
