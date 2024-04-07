@@ -218,7 +218,7 @@ def refresh_online(room):
 @socketio.on('connect')
 @auth_required_socketio
 def connect(v):
-	if not request.referrer: return
+	if not request.referrer: return ''
 	room = request.referrer
 
 	if room == f'{SITE_FULL}/notifications/messages':
@@ -243,7 +243,7 @@ def connect(v):
 @socketio.on('disconnect')
 @auth_required_socketio
 def disconnect(v):
-	if not request.referrer: return
+	if not request.referrer: return ''
 	room = request.referrer
 
 	if request.referrer == f'{SITE_FULL}/notifications/messages':
@@ -266,7 +266,7 @@ def disconnect(v):
 @socketio.on('heartbeat')
 @auth_required_socketio
 def heartbeat(v):
-	if not request.referrer: return
+	if not request.referrer: return ''
 	room = request.referrer
 
 	if not online.get(room):
@@ -285,7 +285,7 @@ def heartbeat(v):
 @socketio.on('typing')
 @is_not_banned_socketio
 def typing_indicator(data, v):
-	if not request.referrer: return
+	if not request.referrer: return ''
 	room = request.referrer
 
 	if not typing.get(room):
