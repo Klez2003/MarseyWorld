@@ -61,22 +61,27 @@ PUSH_NOTIF_LIMIT = 1000
 
 IS_LOCALHOST = SITE == "localhost" or SITE == "127.0.0.1" or SITE.startswith("192.168.") or SITE.endswith(".local")
 
-if IS_LOCALHOST:
-	SITE_FULL = 'http://' + SITE
-	SITE_IMAGES = SITE
-	SITE_FULL_IMAGES = f'http://{SITE_IMAGES}'
-elif SITE in {'rdrama.net', 'watchpeopledie.tv'}:
-	SITE_FULL = 'https://' + SITE
+if SITE in {'rdrama.net', 'watchpeopledie.tv'}:
 	SITE_IMAGES = 'i.' + SITE
-	SITE_FULL_IMAGES = f'https://{SITE_IMAGES}'
-else:
-	SITE_FULL = 'https://' + SITE
-	SITE_IMAGES = SITE
-	SITE_FULL_IMAGES = SITE_FULL
-
-if SITE == 'staging.rdrama.net':
+elif SITE == 'staging.rdrama.net':
 	SITE_IMAGES = 'i.rdrama.net'
+else:
+	SITE_IMAGES = SITE
+
+if SITE == 'watchpeopledie.tv':
+	SITE_VIDEOS = 'videos.watchpeopledie.tv'
+else:
+	SITE_VIDEOS = f'{SITE}/videos'
+
+if IS_LOCALHOST:
+	SITE_FULL = f'http://{SITE}'
+	SITE_FULL_IMAGES = f'http://{SITE_IMAGES}'
+	SITE_FULL_VIDEOS = f'http://{SITE_VIDEOS}'
+else:
+	SITE_FULL = f'https://{SITE}'
 	SITE_FULL_IMAGES = f'https://{SITE_IMAGES}'
+	SITE_FULL_VIDEOS = f'https://{SITE_VIDEOS}'
+
 
 if SITE == 'rdrama.net':
 	OTHER_SITE_NAME = 'WPD'
@@ -884,8 +889,10 @@ approved_embed_hosts = [
 	### First-Party
 	'rdrama.net',
 	'i.rdrama.net',
-	'staging.rdrama.net',
+	'watchpeopledie.tv',
+	'i.watchpeopledie.tv',
 	'videos.watchpeopledie.tv',
+	'staging.rdrama.net',
 
 	### Third-Party Image Hosts
 	'i.imgur.com',
@@ -930,11 +937,9 @@ approved_embed_hosts = [
 	'i.ytimg.com/vi',
 ]
 
-if SITE_IMAGES not in approved_embed_hosts:
-	approved_embed_hosts = [SITE_IMAGES] + approved_embed_hosts
-
-if SITE not in approved_embed_hosts:
-	approved_embed_hosts = [SITE] + approved_embed_hosts
+for i in (SITE_VIDEOS, SITE_IMAGES, SITE):
+	if i not in approved_embed_hosts:
+		approved_embed_hosts = [i] + approved_embed_hosts
 
 def is_site_url(url):
 	return (url

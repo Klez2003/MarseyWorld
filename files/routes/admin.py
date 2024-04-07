@@ -1888,8 +1888,8 @@ def delete_media_post(v):
 
 	purge_files_in_cloudflare_cache(url)
 
-	if url.startswith('https://videos.watchpeopledie.tv/'):
-		filename = url.split('https://videos.watchpeopledie.tv/')[1]
+	if SITE == 'watchpeopledie.tv' and url.startswith(SITE_FULL_VIDEOS):
+		filename = url.split(SITE_FULL_VIDEOS)[1]
 		gevent.spawn(rclone.delete, f'no:/videos/{filename}')
 
 	return {"message": "Media deleted successfully!"}

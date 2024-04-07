@@ -153,10 +153,8 @@ def reencode_video(old, new, check_sizes=False):
 
 	if SITE == 'watchpeopledie.tv':
 		rclone_copy(new)
-		url = f'https://videos.{SITE}' + new.split('/videos')[1]
-	else:
-		url = f"{SITE_FULL}{new}"
 
+	url = SITE_FULL_VIDEOS + new.split('/videos')[1]
 	purge_files_in_cloudflare_cache(url)
 
 
@@ -211,20 +209,20 @@ def process_video(file, v):
 	)
 	g.db.add(media)
 
+	url = SITE_FULL_VIDEOS + new.split('/videos')[1]
+
 	if SITE == 'watchpeopledie.tv' and v and v.username.lower().startswith("icosaka"):
-		gevent.spawn(delete_file, new, f'https://videos.{SITE}' + new.split('/videos')[1])
-		return f'https://videos.{SITE}' + new.split('/videos')[1], None, None
+		gevent.spawn(delete_file, new, url)
+		return url, None, None
 
 	name = f'/images/{time.time()}'.replace('.','') + '.webp'
 	ffmpeg.input(new).output(name, loglevel="quiet", map_metadata=-1, **{"vf":"scale='iw':-2", 'q:v':3, 'frames:v':1}).run()
 	posterurl = SITE_FULL_IMAGES + name
 
-	if SITE == 'watchpeopledie.tv':
-		if not is_reencoding:
-			gevent.spawn(rclone_copy, new)
-		return f'https://videos.{SITE}' + new.split('/videos')[1], posterurl, name
-	else:
-		return f"{SITE_FULL}{new}", posterurl, name
+	if SITE == 'watchpeopledie.tv' and not is_reencoding:
+		gevent.spawn(rclone_copy, new)
+
+	return url, posterurl, name
 
 def process_image(filename, v, resize=0, trim=False, uploader_id=None):
 	# thumbnails are processed in a thread and not in the request context
