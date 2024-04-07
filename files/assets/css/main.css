@@ -3448,12 +3448,6 @@ pre {
 #thread, #userpage {
 	background-color: rgb(var(--background));
 }
-.article-title {
-	margin-bottom: 3rem;
-	font-weight: 600;
-	line-height: 3rem;
-	margin-top: 2rem;
-}
 #thread .custom-gutters {
 	padding: 0 10px;
 }
