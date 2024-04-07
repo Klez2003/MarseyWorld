@@ -403,17 +403,18 @@ def searchusers(v):
 
 	if 'q' in criteria:
 		term = criteria['q'][0]
-
 		term = sanitize_username(term)
 
-		users = users.filter(
-			or_(
-				User.username.ilike(f'%{term}%'),
-				User.original_username.ilike(f'%{term}%'),
-				User.extra_username.ilike(f'%{term}%'),
-				User.prelock_username.ilike(f'%{term}%'),
-			)
-		).order_by(User.username.ilike(term).desc(), User.stored_subscriber_count.desc())
+		or_criteria = [
+			User.username.ilike(f'%{term}%'),
+			User.original_username.ilike(f'%{term}%'),
+			User.extra_username.ilike(f'%{term}%'),
+			User.prelock_username.ilike(f'%{term}%'),
+		]
+		if v.admin_level >= PERMS['VIEW_EMAILS']:
+			or_criteria.append(User.email.ilike(f'%{term}%'))
+
+		users = users.filter(or_(*or_criteria)).order_by(User.username.ilike(term).desc(), User.stored_subscriber_count.desc())
 
 	total = users.count()
 
