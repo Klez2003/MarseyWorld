@@ -952,7 +952,7 @@ def settings_song_change(v):
 
 	gevent.spawn(_change_song_youtube, v.id, id)
 
-	return redirect("/settings/personal?msg=Profile Anthem successfully updated. Wait 5 minutes for the change to take effect.")
+	return redirect("/settings/personal?msg=Profile Anthem successfully updated. Please wait 5 minutes for the change to take effect.")
 
 
 def process_settings_plaintext(value, current, length, default_value):
