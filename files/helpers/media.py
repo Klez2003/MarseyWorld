@@ -214,7 +214,7 @@ def process_video(file, v):
 		return url, None, None
 
 	name = f'/images/{time.time()}'.replace('.','') + '.webp'
-	ffmpeg.input(new).output(name, loglevel="quiet", map_metadata=-1, **{"vf":"scale='iw':-2", 'q:v':3, 'frames:v':1}).run()
+	ffmpeg.input(new).output(name, loglevel="quiet", map_metadata=-1, **{"vf":"scale='iw':-2", 'frames:v':1}).run()
 	posterurl = SITE_FULL_IMAGES + name
 	media.posterurl = posterurl
 
