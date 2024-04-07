@@ -7494,7 +7494,7 @@ table *, .playing-card_large {
 }
 
 .user-card-bio {
-	max-height: 50px;
+	max-height: 500px;
 	overflow-y: auto;
 }
 
