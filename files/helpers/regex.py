@@ -2,6 +2,7 @@ import random
 import re
 from flask import g
 
+from files.classes.media import Media
 from .config.const import *
 
 NOT_IN_CODE_OR_LINKS = '(?!([^<]*<\/(code|pre|a)>|[^`\n]*`))'
@@ -107,10 +108,12 @@ video_sub_regex = re.compile(f'(?<!")(https:\/\/({hosts})\/[\w:~,()\-.#&\/=?@%;+
 
 def video_sub_regex_matcher(match):
 	url = match.group(1)
-	if hasattr(g, 'posterurls'):
-		posterurl = g.posterurls.get(url)
+	if url.startswith(SITE_FULL_VIDEOS):
+		filename = '/videos/' + url.split(f'{SITE_FULL_VIDEOS}/')[1]
+		g.db.flush()
+		posterurl = g.db.query(Media.posterurl).filter_by(filename=filename).one_or_none()
 		if posterurl:
-			return 	f'<p class="resizable"><video poster="{posterurl}" controls preload="none" src="{url}"></video></p>'
+			return 	f'<p class="resizable"><video poster="{posterurl[0]}" controls preload="none" src="{url}"></video></p>'
 	return f'<p class="resizable"><video controls preload="none" src="{url}"></video></p>'
 
 audio_regex_extensions = '|'.join(AUDIO_FORMATS)

@@ -48,7 +48,6 @@ def media_ratelimit(v):
 
 def process_files(files, v, body, is_dm=False, dm_user=None, is_badge_thread=False, comment_body=None):
 	if g.is_tor or not files.get("file"): return body
-	g.posterurls = {}
 
 	files = files.getlist('file')[:20]
 
@@ -67,8 +66,7 @@ def process_files(files, v, body, is_dm=False, dm_user=None, is_badge_thread=Fal
 			if is_badge_thread:
 				process_badge_entry(name, v, comment_body)
 		elif file.content_type.startswith('video/'):
-			url, posterurl, name = process_video(file, v)
-			g.posterurls[url] = posterurl
+			url, _, _ = process_video(file, v)
 		elif file.content_type.startswith('audio/'):
 			url = f'{SITE_FULL}{process_audio(file, v)}'
 		elif has_request_context():
@@ -218,6 +216,7 @@ def process_video(file, v):
 	name = f'/images/{time.time()}'.replace('.','') + '.webp'
 	ffmpeg.input(new).output(name, loglevel="quiet", map_metadata=-1, **{"vf":"scale='iw':-2", 'q:v':3, 'frames:v':1}).run()
 	posterurl = SITE_FULL_IMAGES + name
+	media.posterurl = posterurl
 
 	if SITE == 'watchpeopledie.tv' and not is_reencoding:
 		gevent.spawn(rclone_copy, new)
