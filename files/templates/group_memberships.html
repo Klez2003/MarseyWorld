@@ -16,7 +16,7 @@
 
 		{% if v.id == group.owner_id %}
 			{% include "modals/emoji.html" %}
-			<h5 class="mt-5">!{{group}} Description</h3>
+			<h5 class="mt-5">!{{group}} description</h3>
 			<form class="mt-3" action="/!{{group.name}}/description" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHR(this)">
 				<div class="container pb-0" style="background-color: transparent !important">
 					<div class="row">
@@ -37,7 +37,7 @@
 				</div>
 			</form>
 		{% elif group.description_html %}
-			<h5 class="mt-5">!{{group}} Description</h3>
+			<h5 class="mt-5">!{{group}} description</h3>
 			<p class="mb-2">{{group.description_html | safe}}</p>
 		{% endif %}
 
