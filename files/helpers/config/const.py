@@ -706,6 +706,7 @@ if SITE in {'rdrama.net', 'staging.rdrama.net'}:
 		13452: 1, #Sammael-Beliol
 		16012: 1, #realspez
 		18308: 1, #gee891
+		24031: 1, #PrettyKitty
 		24456: 1, #PreyingMantits
 		3336: 24, #Snally
 	}
