@@ -49,6 +49,7 @@ def chat_user(v, username):
 		user_id=user.id,
 		chat_id=chat.id,
 	)
+	chat_membership.created_utc += 1
 	g.db.add(chat_membership)
 
 	return redirect(f"/chat/{chat.id}")
