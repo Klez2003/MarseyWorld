@@ -72,7 +72,7 @@ def chat(v, chat_id):
 		if v.admin_level < PERMS['VIEW_CHATS'] and not membership:
 			abort(403, "You're not a member of this chat!")
 
-	displayed_messages = reversed(g.db.query(ChatMessage).options(joinedload(ChatMessage.quoted_message)).filter_by(chat_id=chat.id).order_by(ChatMessage.id.desc()).limit(250).all())
+	displayed_messages = reversed(g.db.query(ChatMessage).join(ChatMessage.user).filter(or_(User.id == v.id, User.shadowbanned == None)).options(joinedload(ChatMessage.quoted_message)).filter(ChatMessage.chat_id == chat.id).order_by(ChatMessage.id.desc()).limit(250).all())
 	displayed_messages = {m.id: m for m in displayed_messages}
 
 	if chat.id == 1:
