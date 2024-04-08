@@ -148,6 +148,11 @@
 									{% endif %}
 								{% endif %}
 
+								{% if p.url.startswith('https://old.reddit.com/r/') %}
+									<iframe id="reddit-embed" class="border-0" src="{{p.url.replace('https://old.reddit.com/', 'https://embed.reddit.com/').split('?')[0]}}?context=1&showtitle=true{% if v.theme in DARK_THEMES %}&theme=dark{% endif %}" height="317px" width="640px"></iframe>
+									<script defer src="{{'js/reddit_embed.js' | asset}}"></script>
+								{% endif %}
+
 								<div id="post-text" class="{{p.award_classes(v)}}">
 									{% if p.is_image %}
 										<div class="row no-gutters mb-4">
