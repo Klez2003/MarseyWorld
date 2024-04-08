@@ -97,7 +97,7 @@ def chat(v, chat_id):
 	orgy = get_running_orgy(v, chat_id)
 	if orgy:
 		orgies = g.db.query(Orgy).filter_by(chat_id=chat_id).order_by(Orgy.start_utc).all()
-		return render_template("orgy.html", v=v, messages=displayed_messages, chat=chat, orgy=orgy, orgies=orgies)
+		return render_template("orgy.html", v=v, messages=displayed_messages, chat=chat, sorted_memberships=sorted_memberships, orgy=orgy, orgies=orgies)
 
 	return render_template("chat.html", v=v, messages=displayed_messages, chat=chat, sorted_memberships=sorted_memberships)
 
