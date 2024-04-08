@@ -4,7 +4,7 @@ addEventListener("message", function(t) {
 		let height = data.data
 		if (data && "type" in data && data.type == "resize.embed")
 			if (screen_width < 768)
-				height += 75
+				height += 40
 			document.getElementById('reddit-embed').height = height
 	}
 })
