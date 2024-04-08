@@ -135,11 +135,6 @@ socket.on('speak', function(json) {
 	}
 })
 
-let chat_id = 'chat'
-const chat_id_el = document.getElementById('chat_id')
-if (chat_id_el)
-	chat_id = chat_id_el.value
-
 function send() {
 	const text = ta.value.trim();
 	const input = document.getElementById('file');
@@ -153,7 +148,7 @@ function send() {
 			"message": text,
 			"quotes": document.getElementById('quotes_id').value,
 			"file": sending,
-			"chat_id": chat_id,
+			"chat_id": document.getElementById('chat_id').value,
 		});
 		ta.value = ''
 		is_typing = false
