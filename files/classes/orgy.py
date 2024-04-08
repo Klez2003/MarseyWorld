@@ -37,6 +37,12 @@ class Orgy(Base):
 			t += 303
 		return t
 
+	@property
+	@lazy
+	def seconds_since_starts(self):
+		return int(time.time() - self.start_utc)
+
+
 def get_running_orgy(v, chat_id):
 	if not (v and v.allowed_in_chat): return None
 
