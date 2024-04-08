@@ -2,6 +2,7 @@ import time
 import uuid
 from hashlib import md5
 
+from sqlalchemy.orm import load_only
 from flask_socketio import SocketIO, emit, join_room, leave_room
 from flask import request
 
@@ -152,7 +153,7 @@ def speak(data, v):
 					g.db.flush()
 
 	alrdy_here = list(online[request.referrer].keys())
-	memberships = g.db.query(ChatMembership).filter(
+	memberships = g.db.query(ChatMembership).options(load_only(ChatMembership.user_id)).filter(
 		ChatMembership.chat_id == chat_id,
 		ChatMembership.user_id.notin_(alrdy_here),
 		ChatMembership.notification == False,
