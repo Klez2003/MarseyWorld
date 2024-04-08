@@ -3,8 +3,6 @@ from math import floor
 import os
 import ffmpeg
 import random
-import isodate
-import yt_dlp
 
 from sqlalchemy.orm import load_only
 

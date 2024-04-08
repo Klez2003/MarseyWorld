@@ -1,3 +1,5 @@
+import isodate
+import yt_dlp
 
 from files.classes.chats import *
 from files.classes.orgy import *
