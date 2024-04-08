@@ -129,7 +129,7 @@ def speak(data, v):
 		emit('speak', data)
 		return ''
 
-	execute_under_siege(v, None, text, "private chat")
+	execute_under_siege(v, None, text, "chat")
 
 	quotes = data['quotes']
 	if quotes: quotes = int(quotes)
