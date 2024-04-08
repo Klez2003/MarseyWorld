@@ -161,6 +161,11 @@ def speak(data, v):
 		membership.notification = True
 		g.db.add(membership)
 
+	uids = set(x.user_id for x in memberships)
+	title = f'New chat messages in "{chat.name}"'
+	url = f'{SITE_FULL}/chat/{chat.id}'
+	push_notif(uids, title, None, url)
+
 	data = {
 		"id": chat_message.id,
 		"quotes": chat_message.quotes,
