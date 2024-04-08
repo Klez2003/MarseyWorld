@@ -100,6 +100,10 @@
 {% macro stylesheets() %}
 	<link rel="stylesheet" href="{{'css/main.css' | asset}}">
 
+	{% if IS_DKD() %}
+		<link rel="stylesheet" href="{{'events/DKD/css/main_DKD.css' | asset}}">
+	{% endif %}
+
 	{% if IS_HOMOWEEN() %}
 		<link rel="stylesheet" href="{{('css/themes/midnight.css') | asset}}">
 		<link rel="stylesheet" href="{{'events/homoween/css/main_homoween.css' | asset}}">
