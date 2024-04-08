@@ -69,7 +69,7 @@
 					<input autocomplete="off" id="user-shadowban-submit-{{deviceType}}" type="submit" class="btn btn-danger" value="Shadowban user" disabled>
 				</form>
 
-				<button type="button" id="unshadowban-{{deviceType}}" class="mt-1 {% if not u.shadowbanned %}d-none{% endif %} btn btn-success" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unshadowban/{{u.id}}','shadowban-{{deviceType}}','unshadowban-{{deviceType}}','d-none')">Unshadowban user</button>
+				<button type="button" id="unshadowban-{{deviceType}}" class="mt-3 {% if not u.shadowbanned %}d-none{% endif %} btn btn-success" style="display:block" data-nonce="{{g.nonce}}" data-onclick="postToastSwitch(this,'/unshadowban/{{u.id}}','shadowban-{{deviceType}}','unshadowban-{{deviceType}}','d-none')">Unshadowban user</button>
 			{% endif %}
 			<pre></pre>
 			{% if v.admin_level >= PERMS['USER_CHUD'] %}
