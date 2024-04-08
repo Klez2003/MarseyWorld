@@ -233,7 +233,7 @@ socket.on('online', function(data) {
 		online += `<li>`
 		if (admin_level && muted_li.includes(u[1].toLowerCase()))
 			online += '<b class="text-danger muted" data-bs-toggle="tooltip" title="Muted">X</b> '
-		online += `<a class="font-weight-bold" target="_blank" href="/@${u[1]}" style="color:#${u[2]}"><img loading="lazy" class="mr-1" src="/pp/${u[4]}"><span${patron}>${u[1]}</span></a></li>`
+		online += `<a class="font-weight-bold" target="_blank" href="/@${u[1]}" style="color:#${u[2]}"><img loading="lazy" class="mr-1" src="/pp/${u[4]}"> <span${patron}>${u[1]}</span></a><i class="ml-2 text-smaller text-success fas fa-circle" data-bs-toggle="tooltip" data-bs-placement="top" title="Here now"></i></li>`
 	}
 
 	const online_el = document.getElementById('online')
