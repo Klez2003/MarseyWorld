@@ -195,7 +195,7 @@ def speak(data, v):
 		"created_utc": chat_message.created_utc,
 	}
 
-	emit('speak', data, room=request.referrer, broadcast=True)
+	emit('speak', data, room=request.referrer)
 
 	typing[request.referrer] = []
 
@@ -211,7 +211,7 @@ def refresh_online(room):
 				typing[room].remove(val[1])
 
 	data = [list(online[room].values()), muted]
-	emit("online", data, room=room, broadcast=True)
+	emit("online", data, room=room)
 	if room == f'{SITE_FULL}/chat/1':
 		cache.set('loggedin_chat', len(online[room]), timeout=86400)
 
@@ -296,7 +296,7 @@ def typing_indicator(data, v):
 	elif not data and v.username in typing[room]:
 		typing[room].remove(v.username)
 
-	emit('typing', typing[room], room=room, broadcast=True)
+	emit('typing', typing[room], room=room)
 
 	commit_and_close()
 
@@ -308,7 +308,7 @@ def typing_indicator(data, v):
 def delete(id, v):
 	message = g.db.get(ChatMessage, id)
 	g.db.delete(message)
-	emit('delete', id, room=f'{SITE_FULL}/chat/1', broadcast=True)
+	emit('delete', id, room=f'{SITE_FULL}/chat/1')
 
 	commit_and_close()
 
