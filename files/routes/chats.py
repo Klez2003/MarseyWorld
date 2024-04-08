@@ -1,5 +1,6 @@
 
 from files.classes.chats import *
+from files.classes.orgy import *
 from files.routes.wrappers import *
 from files.helpers.config.const import *
 from files.helpers.get import *
@@ -91,6 +92,11 @@ def chat(v, chat_id):
 			sorted_memberships = [owner_membership] + sorted_memberships
 
 
+	orgy = get_running_orgy(v, chat_id)
+	if orgy:
+		orgies = g.db.query(Orgy).filter_by(chat_id=chat_id).order_by(Orgy.start_utc).all()
+		return render_template("orgy.html", v=v, messages=displayed_messages, chat=chat, orgy=orgy, orgies=orgies)
+
 	return render_template("chat.html", v=v, messages=displayed_messages, chat=chat, sorted_memberships=sorted_memberships)
 
 
@@ -141,3 +147,149 @@ def leave_chat(v, chat_id):
 	g.db.add(chat_leave)
 
 	return {"message": "Chat left successfully!"}
+
+
+@app.get("/chat/<int:chat_id>/orgies")
+@auth_required
+def orgy_control(v, chat_id):
+	chat = g.db.get(Chat, chat_id)
+	if not chat:
+		abort(404, "Chat not found!")
+
+	if chat.id == 1:
+		if v.admin_level < PERMS["ORGIES"]:
+			abort(403, "Your admin-level is not sufficient enough for this action!")
+	elif v.id != chat.owner_id:
+		abort(403, "Only the chat owner can manage its orgies!")
+
+	orgies = g.db.query(Orgy).filter_by(chat_id=chat_id).order_by(Orgy.start_utc).all()
+	return render_template("orgy_control.html", v=v, orgies=orgies, chat=chat)
+
+@app.post("/chat/<int:chat_id>/schedule_orgy")
+@auth_required
+def schedule_orgy(v, chat_id):
+	chat = g.db.get(Chat, chat_id)
+	if not chat:
+		abort(404, "Chat not found!")
+
+	if chat.id == 1:
+		if v.admin_level < PERMS["ORGIES"]:
+			abort(403, "Your admin-level is not sufficient enough for this action!")
+	elif v.id != chat.owner_id:
+		abort(403, "Only the chat owner can manage its orgies!")
+
+	link = request.values.get("link", "").strip()
+	title = request.values.get("title", "").strip()
+	start_utc = request.values.get("start_utc", "").strip()
+
+	if not link:
+		abort(400, "A link is required!")
+
+	if not title:
+		abort(400, "A title is required!")
+
+	normalized_link = normalize_url(link)
+
+	if start_utc:
+		start_utc = int(start_utc)
+	else:
+		last_orgy = g.db.query(Orgy).order_by(Orgy.start_utc.desc()).first()
+		if last_orgy and last_orgy.end_utc:
+			start_utc = last_orgy.end_utc
+		else:
+			start_utc = int(time.time())
+
+	end_utc = None
+
+	if bare_youtube_regex.match(normalized_link):
+		orgy_type = 'youtube'
+		data, _ = get_youtube_id_and_t(normalized_link)
+		if YOUTUBE_KEY != DEFAULT_CONFIG_VALUE:
+			req = requests.get(f"https://www.googleapis.com/youtube/v3/videos?id={data}&key={YOUTUBE_KEY}&part=contentDetails", headers=HEADERS, timeout=5).json()
+			duration = req['items'][0]['contentDetails']['duration']
+			if duration != 'P0D':
+				duration = isodate.parse_duration(duration).total_seconds()
+				end_utc = int(start_utc + duration)
+				orgy_type = 'file'
+
+				ydl_opts = {
+					"quiet":    True,
+					"simulate": True,
+					"forceurl": True,
+					'format': 'b',
+					'proxy': PROXY_URL
+				}
+
+				with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+					info = ydl.extract_info(f"https://www.youtube.com/watch?v={data}")
+				data = info["url"]
+	elif rumble_regex.match(normalized_link):
+		orgy_type = 'rumble'
+		data = normalized_link
+	elif twitch_regex.match(normalized_link):
+		orgy_type = 'twitch'
+		data = twitch_regex.search(normalized_link).group(3)
+	elif any((normalized_link.lower().endswith(f'.{x}') for x in VIDEO_FORMATS)):
+		orgy_type = 'file'
+		data = normalized_link
+		video_info = ffmpeg.probe(data, headers=f'referer:{SITE_FULL}/chat')
+		duration = float(video_info['streams'][0]['duration'])
+		if duration == 2.0: raise
+		if duration > 3000:
+			duration += 300 #account for break
+		end_utc = int(start_utc + duration)
+	else:
+		abort(400)
+
+	data = data.strip()
+
+	orgy = Orgy(
+			title=title,
+			type=orgy_type,
+			data=data,
+			start_utc=start_utc,
+			end_utc=end_utc,
+			chat_id=chat_id,
+		)
+	g.db.add(orgy)
+
+	if chat.id == 1:
+		ma = ModAction(
+			kind="schedule_orgy",
+			user_id=v.id,
+			_note=f'<a href="{data}" rel="nofollow noopener">{title}</a>',
+		)
+		g.db.add(ma)
+
+	return redirect(f"/chat/{chat_id}/orgies")
+
+@app.post("/chat/<int:chat_id>/remove_orgy/<int:created_utc>")
+@auth_required
+def remove_orgy(v, created_utc, chat_id):
+	chat = g.db.get(Chat, chat_id)
+	if not chat:
+		abort(404, "Chat not found!")
+
+	if chat.id == 1:
+		if v.admin_level < PERMS["ORGIES"]:
+			abort(403, "Your admin-level is not sufficient enough for this action!")
+	elif v.id != chat.owner_id:
+		abort(403, "Only the chat owner can manage its orgies!")
+
+	orgy = g.db.query(Orgy).filter_by(created_utc=created_utc).one()
+
+	if chat.id == 1:
+		ma = ModAction(
+			kind="remove_orgy",
+			user_id=v.id,
+			_note=f'<a href="{orgy.data}" rel="nofollow noopener">{orgy.title}</a>',
+		)
+		g.db.add(ma)
+
+	started = orgy.started
+	g.db.delete(orgy)
+	g.db.commit()
+	if started:
+		requests.post(f'http://localhost:5001/chat/{chat_id}/refresh_chat', headers={"User-Agent": "refreshing_chat", "Host": SITE})
+
+	return {"message": "Orgy stopped successfully!"}

@@ -24,7 +24,7 @@ def before_request():
 		abort(403, "Cloudflare workers are not allowed to access this website!")
 
 	g.agent = request.headers.get("User-Agent", "")
-	if not g.agent and request.path not in {'/kofi', '/bm', '/refresh_chat'}:
+	if not g.agent and request.path not in {'/kofi', '/bm'}:
 		abort(403, 'Please use a "User-Agent" header!')
 
 	if not get_setting('bots') and request.headers.get("Authorization"):

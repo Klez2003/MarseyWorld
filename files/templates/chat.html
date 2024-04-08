@@ -26,6 +26,8 @@
 							<input id="chat-name" autocomplete="off" class="form-control d-inline-block" name="new_name" value="{{chat.name}}" style="max-width:300px">
 							<button type="submit" class="btn btn-primary" style="margin-top:-5px">Save</button>
 						</form>
+
+						<a href="/chat/{{chat.id}}/orgies" class="fas fa-tv text-muted ml-2"></a>
 					{% else %}
 						<button id="leave-private-chat" type="submit" class="btn btn-danger ml-1 ml-md-3 px-2 text-small-sm" data-nonce="{{g.nonce}}" data-onclick="areyousure(this)" data-areyousure="postToastReload(this, '/chat/{{chat.id}}/leave')">Leave</button>
 					{% endif %}

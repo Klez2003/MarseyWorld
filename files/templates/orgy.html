@@ -1,5 +1,5 @@
 {%- extends 'root.html' -%}
-{% block pagetitle -%}Chat{%- endblock %}
+{% block pagetitle -%}{{chat.name}}{%- endblock %}
 {% block pagetype %}chat{% endblock %}
 {% block body_attributes %}class="has_header"{% endblock %}
 {% block body %}
@@ -12,7 +12,8 @@
 	{% set vlink = '<a href="/id/' ~ v.id ~ '"' %}
 	<div class="orgy-top-container">
 		<div id="orgy-col" class="col text-left px-md-2">
-			<h3 id="orgy-title" class="ml-3 mt-3 mb-4">{{orgy.title}}</h1>
+			<h3 id="orgy-title" class="ml-3 mt-3 mb-4 d-inline-block">{{orgy.title}}</h3>
+			<a href="/chat/{{chat.id}}/orgies" class="fas fa-tv text-muted ml-2"></a>
 			<div>
 				<p id="orgy-file-container" class="resizable">
 					{% if orgy.type == 'youtube' %}

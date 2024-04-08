@@ -2,7 +2,7 @@ import time
 from flask import g, abort
 import requests
 
-from sqlalchemy import Column, or_
+from sqlalchemy import Column, or_, ForeignKey
 from sqlalchemy.sql.sqltypes import *
 
 from files.classes import Base
@@ -20,6 +20,7 @@ class Orgy(Base):
 	start_utc = Column(Integer)
 	end_utc = Column(Integer)
 	started = Column(Boolean, default=False)
+	chat_id = Column(Integer, ForeignKey("chats.id"))
 
 	def __init__(self, *args, **kwargs):
 		if "created_utc" not in kwargs: kwargs["created_utc"] = int(time.time())
@@ -36,24 +37,24 @@ class Orgy(Base):
 			t += 303
 		return t
 
-def get_running_orgy(v):
+def get_running_orgy(v, chat_id):
 	if not (v and v.allowed_in_chat): return None
 
 	refresh = False
 
-	ended_orgies = g.db.query(Orgy).filter(Orgy.end_utc != None, Orgy.end_utc < time.time()).all()
+	ended_orgies = g.db.query(Orgy).filter(Orgy.chat_id == chat_id, Orgy.end_utc != None, Orgy.end_utc < time.time()).all()
 	for orgy in ended_orgies:
 		if orgy.started:
 			refresh = True
 		g.db.delete(orgy)
 
-	orgy = g.db.query(Orgy).filter(Orgy.start_utc < time.time()).order_by(Orgy.start_utc).first()
+	orgy = g.db.query(Orgy).filter(Orgy.chat_id == chat_id, Orgy.start_utc < time.time()).order_by(Orgy.start_utc).first()
 	if orgy and not orgy.started:
 		orgy.started = True
 		g.db.add(orgy)
 		refresh = True
 
 	if refresh:
-		requests.post('http://localhost:5001/refresh_chat', headers={"Host": SITE})
+		requests.post(f'http://localhost:5001/chat/{chat_id}/refresh_chat', headers={"User-Agent": "refreshing_chat", "Host": SITE})
 
 	return orgy

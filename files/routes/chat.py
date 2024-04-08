@@ -58,9 +58,9 @@ def commit_and_close():
 	g.db.close()
 	stdout.flush()
 
-@app.post('/refresh_chat')
-def refresh_chat():
-	emit('refresh_chat', namespace='/', to=f'{SITE_FULL}/chat/1')
+@app.post('/chat/<int:chat_id>/refresh_chat')
+def refresh_chat(chat_id):
+	emit('refresh_chat', namespace='/', to=f'{SITE_FULL}/chat/{chat_id}')
 	return ''
 
 @socketio.on('speak')

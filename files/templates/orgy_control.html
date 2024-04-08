@@ -12,7 +12,7 @@
 				</div>
 				<div class="body d-lg-flex">
 					<div class="w-lg-100">
-						<form id="orgy" action="/admin/schedule_orgy" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHRReload(this)">
+						<form id="orgy" action="/chat/{{chat.id}}/schedule_orgy" method="post" data-nonce="{{g.nonce}}" data-onsubmit="sendFormXHRReload(this)">
 							<div class="d-lg-flex border-bottom mt-5">
 								<div class="title w-lg-25">
 									<label for="title">Title</label>
@@ -67,7 +67,7 @@
 						<a href="{{orgy.data}}" rel="nofollow noopener">{{orgy.title}}</a>
 					</td>
 					<td>
-						<button type="button" class="btn btn-danger btn-block" data-nonce="{{g.nonce}}" data-areyousure="remove_orgy(this, {{orgy.created_utc}})" data-onclick="areyousure(this)">Remove</button>
+						<button type="button" class="btn btn-danger btn-block" data-nonce="{{g.nonce}}" data-areyousure="remove_orgy(this, {{chat.id}}, {{orgy.created_utc}})" data-onclick="areyousure(this)">Remove</button>
 					</td>
 					{% if orgy.started %}
 						<td>Started</td>
@@ -80,5 +80,5 @@
 		</table>
 	</div>
 
-	<script defer src="{{'js/admin/orgies.js' | asset}}"></script>
+	<script defer src="{{'js/orgies.js' | asset}}"></script>
 {% endblock %}

@@ -138,7 +138,7 @@ if (!location.pathname.endsWith('/submit') && !location.pathname.startsWith('/ch
 			return
 		}
 
-		if (location.pathname == '/admin/orgies') {
+		if (location.pathname.endsWith('/orgies')) {
 			document.getElementById('start-orgy').click();
 			return
 		}
