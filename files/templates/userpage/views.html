@@ -7,18 +7,18 @@
 		<table>
 			<thead>
 				<tr>
-					<th>Name</th>
 					<th class="disable-sort-click">Last visit</th>
+					<th>Name</th>
 				</tr>
 			</thead>
 			{% for view in views %}
 				<tr>
+					<td>{{view.last_view_string}}</td>
 					<td>
 						{% with user=view.viewer %}
 							{% include "user_in_table.html" %}
 						{% endwith %}
 					</td>
-					<td>{{view.last_view_string}}</td>
 				</tr>
 			{% endfor %}
 		</table>
